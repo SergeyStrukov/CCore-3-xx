@@ -1,0 +1,158 @@
+<!--
+/* page_UIntSlowMulAlgo.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Unsigned multiplication and division</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Unsigned multiplication and division</h2>
+
+<p class="Files">Files <b>CCore/inc/math/UIntSlowMulAlgo.h</b> <b>CCore/src/math/UIntSlowMulAlgo.cpp</b></p>
+
+<p>
+This file contains two <b>Algorithm Package</b>s with unsigned integer algorithms.
+They are parametrized by some unsigned integral type.
+</p>
+
+<pre>
+
+/* struct UIntSlowMulAlgo&lt;UInt&gt; */
+
+template &lt;UIntType UInt&gt;
+struct <span class="Att">UIntSlowMulAlgo</span>
+ {
+  static constexpr unsigned Bits = Meta::UIntBits&lt;UInt&gt; ;
+
+  static constexpr UInt MaxVal = MaxUInt&lt;UInt&gt; ;
+
+  struct DoubleUMul
+   {
+    UInt hi;
+    UInt lo;
+
+    DoubleUMul(UInt a,UInt b);
+   };
+
+  static UInt DoubleUDiv(UInt hi,UInt lo,UInt den); // hi&lt;den
+ };
+
+</pre>
+
+<p>
+<b>Bits</b> is the number of bits of the type.
+</p>
+
+<p>
+<b>MaxVal</b> is the maximum value of the type.
+</p>
+
+<p>
+<b>DoubleUMul</b> is a <b>Class-function</b>, 
+it performs the full multiplication of the arguments <b>a</b> and <b>b</b> 
+and returns the result in the pair <b>hi</b> and <b>lo</b>, where <b>hi</b> is the high part
+of the product and the <b>lo</b> is the lower part of the product.
+</p>
+
+<p>
+<b>DoubleUDiv()</b> performs the division of the double-size value, given by the arguments <b>hi</b> and 
+<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi < den</b>, in such case
+the result is represented by the single-size value. Otherwise the behavior is unspecified.
+</p>
+
+<pre>
+
+/* struct UIntSlowMulFunc&lt;UInt&gt; */
+
+template &lt;UIntType UInt&gt;
+struct <span class="Att">UIntSlowMulFunc</span>
+ {
+  using Algo = UIntSlowMulAlgo&lt;UInt&gt; ;
+
+  using Mul = typename Algo::DoubleUMul ;
+
+  static UInt Div(UInt hi,UInt lo,UInt den);
+
+  static UInt Mod(UInt hi,UInt lo,UInt den);
+
+  static UInt MulDiv(UInt a,UInt b,UInt den);
+
+  struct DivMod
+   {
+    UInt div;
+    UInt mod;
+
+    DivMod(UInt hi,UInt lo,UInt den);
+   };
+
+  static UInt ModMul(UInt a,UInt b,UInt mod);
+
+  static UInt ModMac(UInt s,UInt a,UInt b,UInt mod);
+ };
+
+</pre>
+
+<p>
+<b>Mul()</b> performs the full multiplication of the arguments <b>a</b> and <b>b</b> 
+and returns the result in the pair <b>hi</b> and <b>lo</b>, where <b>hi</b> is the high part
+of the product and the <b>lo</b> is the lower part of the product.
+</p>
+
+<p>
+<b>Div()</b> performs the division of the double-size value, given by the arguments <b>hi</b> and 
+<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi < den</b>, in such case
+the result is represented by the single-size value. Otherwise the behavior is unspecified. 
+</p>
+
+<p>
+<b>Mod()</b> calculates the remainder of the division of the double-size value, given by the arguments <b>hi</b> and 
+<b>lo</b>, by the third argument <b>den</b>. 
+It is assumed, that <b>hi < den</b>, otherwise the behavior is unspecified.
+</p>
+
+<p>
+<b>MulDiv()</b> multiplies <b>a</b> and <b>b</b> and divides the full double-size product by <b>den</b>. 
+The high part of the product must be less than <b>den</b>, otherwise the behavior is unspecified.
+</p>
+
+<p>
+<b>DivMod()</b> performs both operations <b>Div()</b> and <b>Mod()</b> and returns the result
+in the fields <b>div</b> and <b>mod</b>.
+</p>
+
+<p>
+<b>ModMul()</b> calculates the product of the <b>a</b> and <b>b</b> by the module <b>mod</b>.
+It is assumed, that <b>a</b> and <b>b < mod</b>, otherwise the behavior is unspecified. 
+The result is less than <b>mod</b>.
+</p>
+
+<p>
+<b>ModMac()</b> calculates the expression <b>s+a*b</b> by the module <b>mod</b>.
+It is assumed, that <b>a</b>, <b>b</b> and <b>s < mod</b>, otherwise the behavior is unspecified. 
+The result is less than <b>mod</b>.
+</p>
+
+</body>
+
+</html>
+

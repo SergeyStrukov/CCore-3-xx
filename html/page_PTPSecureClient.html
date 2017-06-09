@@ -1,0 +1,271 @@
+<!--
+/* page_PTPSecureClient.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PTPSecureClient</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PTPSecureClient</h2>
+
+<p>
+<b>PTPSecureClient</b> can be used to connect to <a href="page_PTPSecureServer.html"><b>PTPSecureServer</b></a> and execute some commands, in particular, it can be used to download and 
+upload remote files.
+</p>
+
+<pre>
+
+CCore-PTPSecureClient.exe &lt;config.dll&gt;
+
+</pre>
+
+<p>
+To run the <b>PTPSecureClient</b> you must specify a configuration file as the argument. 
+This file uses <a href="page_DDL.html"><b>DDL</b></a> to describe various client parameters. 
+Here is an example:
+</p>
+
+<pre>
+
+PTPSecureConfig config = 
+ {
+  .server_key = { Key#SHA512 , { 000h, 019h, 09Bh, 0FAh, 013h, 064h, 0D0h, 0F4h, 061h, 01Eh, 055h, 050h, 057h, 052h, 0FBh, 00Ch,
+                                 04Ah, 0A0h, 04Ah, 0F2h, 083h, 037h, 06Eh, 001h, 050h, 013h, 06Dh, 0B1h, 004h, 0A7h, 082h, 010h } },
+
+  .name = 'Sergey',
+  .key = { Key#SHA512 , { 032h, 0E3h, 095h, 080h, 0D7h, 029h, 06Ch, 0F5h, 00Fh, 027h } }
+ };
+
+</pre>
+
+<p>
+A configuration file must define a constant of the type <b>PTPSecureConfig</b> with the name <b>config</b>.
+This type is defined as the following:
+</p>
+
+<pre>
+
+struct Key
+ {
+  const uint8 SHA1   = 0 ; 
+  const uint8 SHA224 = 1 ;
+  const uint8 SHA256 = 2 ;
+  const uint8 SHA384 = 3 ;
+  const uint8 SHA512 = 4 ;
+ 
+  uint8 hash_id;
+  
+  uint8[] key;
+ };
+ 
+struct PTPSecureConfig
+ {
+  uint16 server_pke_port  = 52102 ;
+  uint16 server_psec_port = 52103 ;
+  
+  uint16 pke_port  = 52100 ;
+  uint16 psec_port = 52101 ;
+  
+  uint16 keyset_len = 10 ;
+  uint32 ttl        = 3600 ;
+  uint32 utl        = 100000000 ;
+  
+  ip server_ip = 127.0.0.1 ;
+  Key server_key;
+  
+  text name;
+  Key key;
+ };
+
+</pre>
+
+<p>
+<b>server_pke_port</b> is the server <b>UDP</b> port for the <b>PKE</b> communication.
+</p>
+
+<p>
+<b>server_psec_port</b> is the server <b>UDP</b> port for the <b>PSec</b> communication.
+</p>
+
+<p>
+<b>pke_port</b> is the client <b>UDP</b> port for the <b>PKE</b> communication.
+</p>
+
+<p>
+<b>psec_port</b> is the client <b>UDP</b> port for the <b>PSec</b> communication.
+</p>
+
+<p>
+<b>keyset_len</b> is the number of keys in the session keyset.
+</p>
+
+<p>
+<b>ttl</b> is the lifetime limit for the session key.
+</p>
+
+<p>
+<b>utl</b> is the traffic limit for the session key.
+</p>
+
+<p>
+<b>ip</b> is the IP address of the server.
+</p>
+
+<p>
+<b>server_key</b> is the server primary key.
+</p>
+
+<p>
+<b>name</b> is the client name in the server client database.
+</p>
+
+<p>
+<b>key</b> is the client primary key.
+</p>
+
+<p>
+A primary key is described by the structure <b>Key</b> with two fields:
+</p>
+
+<p>
+<b>hash_id</b> determines the hash algorithm. One of the predefined constants can be used: <b>SHA1, SHA224, SHA256, SHA384, SHA512</b>.
+</p>
+
+<p>
+<b>key</b> is a byte sequence key.
+</p>
+
+<p>
+Once client is started, it tries to establish a connection to the server. 
+If it is done it opens a console prompt to enter commands.
+</p>
+
+<pre>
+
+--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---
+
+Server PKE port = 52102
+Server PSec port = 52103
+PKE port = 52100
+PSec port = 52101
+Keyset len = 10
+TTL = 3600 sec
+UTL = 100000000 bytes
+Server IP = 127.0.0.1
+
+Client name = Sergey
+
+/&gt; dir
+-----
+.
+..
+home
+-----
+/&gt; pwd
+/
+/&gt; cd ~
+~&gt; dir
+-----
+.
+..
+temp
+-----
+~&gt; cd temp
+~/temp&gt; dir
+-----
+.
+..
+-----
+~/temp&gt; mkfile temp.txt
+~/temp&gt; dir
+-----
+.
+..
+-----
+temp.txt
+~/temp&gt;
+
+</pre>
+
+<p>
+The following commands are accepted:
+</p>
+
+<p>
+<b>pwd</b> prints the current directory on the server file tree. This directory is also printed in the prompt string.
+</p>
+
+<p>
+<b>dir [&lt;path&gt;]</b> shows the content of the given directory or the current directory if the path is not specified.
+</p>
+
+<p>
+<b>cd &lt;path&gt;</b> changes the current directory.
+</p>
+
+<p>
+<b>mkdir &lt;path&gt;</b> makes the new directory.
+</p>
+
+<p>
+<b>rmdir [-r] &lt;path&gt;</b> removes the existing directory. If the option <b>-r</b> is specified the directory is removed with all its content.
+</p>
+
+<p>
+<b>mkfile &lt;path&gt;</b> makes the empty file.
+</p>
+
+<p>
+<b>del &lt;path&gt;</b> deletes the existing file.
+</p>
+
+<p>
+<b>type &lt;path&gt;</b> types the file content.
+</p>
+
+<p>
+<b>add &lt;path&gt; &lt;line&gt;</b> adds the given line to the file.
+</p>
+
+<p>
+<b>put &lt;local file&gt; &lt;path&gt;</b> uploads the file to the server. 
+The local file is searched with respect to the working directory of the client.
+</p>
+
+<p>
+<b>get &lt;local file&gt; &lt;path&gt;</b> downloads the file from the server.
+The local file is searched with respect to the working directory of the client.
+</p>
+
+<p>
+<b>fileinfo &lt;path&gt;</b> prints the file type and the last modification file time.
+</p>
+
+<p>
+<b>help</b> prints the list of commands.
+</p>
+
+</body>
+
+</html>
+

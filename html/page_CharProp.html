@@ -1,0 +1,302 @@
+<!--
+/* page_CharProp.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Basic character properties</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Basic character properties</h2>
+
+<p class="Files">Files <b>CCore/inc/CharProp.h</b> <b>CCore/src/CharProp.cpp</b></p>
+
+<p>
+This header contains a number of tools to deal with character properties. They are all
+efficient, can be used in any context and non-mutable, i.e. do not depend on any global settings,
+like locale. 
+</p>
+
+<h4>CharCode</h4>
+
+<p>
+<b>CCore</b> assumes the character type is 8-bit and uses ASCII encoding (at least for the first 128 code
+positions). The class <b>ASCIICode</b> represents an ASCII code.
+</p>
+
+<pre>
+
+template &lt;class Char&gt;
+concept bool <span class="Att">CharCodeType</span> = Meta::OneOf&lt;Char,char,signed char,unsigned char&gt; ;
+
+class <span class="Att">ASCIICode</span>
+ {
+  public:
+  
+   using CodeType = uint8 ;
+   
+   static char InverseMap(CodeType code);
+   
+  private:
+ 
+   CodeType code; 
+   
+  public:
+  
+   // constructors
+  
+   ASCIICode();
+   
+   explicit ASCIICode(CharCodeType ch);
+   
+   // properties
+   
+   bool isSpecial() const;
+ 
+   bool isVisible() const;
+   
+   bool isPrintable() const;
+ 
+   bool isSpace() const;
+  
+   bool isPunct() const;
+
+   bool isSpaceOrPunct() const;
+
+   int decValue() const;
+   
+   int hexValue() const;
+
+   char getChar() const;
+   
+   // print object
+   
+   void print(PrinterType &amp;out) const;
+ };
+
+/* type CharCode */
+
+using <span class="Att">CharCode</span> = ASCIICode ;
+
+</pre>
+
+<p>
+<b>ASCIICode</b> default constructor creates a zero ASCII code.
+</p>
+
+<p>
+<b>ASCIICode</b> constructor maps a character (one of type <b>char</b>, <b>signed char</b>, 
+<b>unsigned char</b>) into its ASCII code.
+</p>
+
+<p>
+<b>isSpecial()</b> &mdash; special, i.e. not intended to represent a symbol.
+</p>
+
+<p>
+<b>isVisible()</b> &mdash; visible, i.e. printable and not a space.
+</p>
+
+<p>
+<b>isPrintable()</b> &mdash; printable, i.e. not a special.
+</p>
+
+<p>
+<b>isSpace()</b> &mdash; space and some special "space-like" characters.
+</p>
+
+<p>
+<b>isPunct()</b> &mdash; punctuation characters.
+</p>
+
+<p>
+<b>isSpaceOrPunct()</b> &mdash; equivalent of <b>isSpace() || isPunct()</b>.
+</p>
+
+<p>
+<b>decValue()</b> &mdash; decimal value of the character, or -1 if not a decimal digit.
+</p>
+
+<p>
+<b>hexValue()</b> &mdash; hexadecimal value of the character, or -1 if not a hexadecimal digit.
+</p>
+
+<p>
+<b>getChar()</b> maps the code back to the character type.
+</p>
+
+<p>
+<b>ASCIICode</b> is printable. Special characters are printed using C-slash representation, like <b>"\n"</b>.
+</p>
+
+<p>
+<b>CharCode</b> is a typedef for the <b>ASCIICode</b>, it's an abstraction from an exact type of encoding.
+</p>
+
+<h4>PrintCString</h4>
+
+<p>
+<b>PrintCString</b> is a helper class to print a string. Each special symbol is printed using its 
+C representation, like <b>"\n"</b>.
+</p>
+
+<pre>
+
+class <span class="Att">PrintCString</span>
+ {
+   StrLen str;
+
+  public:
+
+   explicit PrintCString(StrLen str_) : str(str_) {}
+ 
+   using PrintOptType = StrPrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<a name="Prop"><h4>Character properties</h4></a>
+
+<p>
+The following functions return character properties. The type <b>Char</b> is one of traditional
+character types: <b>char</b>, <b>signed char</b>, <b>unsigned char</b>.
+</p>
+
+<pre>
+
+bool <span class="Att">CharIsSpecial</span>(CharCodeType ch) { return CharCode(ch).isSpecial(); }
+ 
+bool <span class="Att">CharIsVisible</span>(CharCodeType ch) { return CharCode(ch).isVisible(); }
+ 
+bool <span class="Att">CharIsPrintable</span>(CharCodeType ch) { return CharCode(ch).isPrintable(); } 
+ 
+bool <span class="Att">CharIsSpace</span>(CharCodeType ch) { return CharCode(ch).isSpace(); }
+  
+bool <span class="Att">CharIsPunct</span>(CharCodeType ch) { return CharCode(ch).isPunct(); }
+
+bool <span class="Att">CharIsSpaceOrPunct</span>(CharCodeType ch) { return CharCode(ch).isSpaceOrPunct(); }
+
+int <span class="Att">CharDecValue</span>(CharCodeType ch) { return CharCode(ch).decValue(); }
+ 
+int <span class="Att">CharHexValue</span>(CharCodeType ch) { return CharCode(ch).hexValue(); }
+
+</pre>
+
+<p>
+<b>CharIsSpecial()</b> &mdash; special, i.e. not intended to represent a symbol.
+</p>
+
+<p>
+<b>CharIsVisible()</b> &mdash; visible, i.e. printable and not a space.
+</p>
+
+<p>
+<b>CharIsPrintable()</b> &mdash; printable, i.e. not a special.
+</p>
+
+<p>
+<b>CharIsSpace()</b> &mdash; space and some special characters. The full list is <b>" \t\f\v\r\n"</b>.
+This list can be obtained by the <b>GetSpaceChars()</b> function.
+</p>
+
+<p>
+<b>CharIsPunct()</b> &mdash; punctuation characters.
+</p>
+
+<p>
+<b>CharIsSpaceOrPunct()</b> &mdash; equivalent of <b>CharIsSpace() || CharIsPunct()</b>.
+</p>
+
+<p>
+<b>CharDecValue()</b> &mdash; decimal value of the character, or <b>-1</b> if not a decimal digit.
+</p>
+
+<p>
+<b>CharHexValue()</b> &mdash; hexadecimal value of the character, or <b>-1</b> if not a hexadecimal digit.
+</p>
+
+<h4>Character sets</h4>
+
+<p>
+The following functions return zero-terminated strings, these strings contain some
+important character sets.
+</p>
+
+<pre>
+
+inline const char * <span class="Att">GetSpaceChars</span>() { return " \t\f\v\r\n"; }
+
+inline const char * <span class="Att">GetPunctChars</span>() { return "!\"#$%&'()*+,-./:;<=>?&#64;[\\]^`{|}~"; } 
+
+inline const char * <span class="Att">GetDigitChars</span>() { return "0123456789"; }
+
+inline const char * <span class="Att">GetHexDigitChars</span>() { return "0123456789abcdefABCDEF"; }
+
+inline const char * <span class="Att">GetCLetterChars</span>() { return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"; }
+
+</pre>
+
+<p>
+<b>GetSpaceChars()</b> &mdash; "traditional" C-space characters.
+</p>
+
+<p>
+<b>GetPunctChars()</b> &mdash; punctuation characters.
+</p>
+
+<p>
+<b>GetDigitChars()</b> &mdash; decimal digits.
+</p>
+
+<p>
+<b>GetHexDigitChars()</b> &mdash; hexadecimal digits.
+</p>
+
+<p>
+<b>GetCLetterChars()</b> &mdash; C-letters, including underscore.
+</p>
+
+<h4>Line parsing</h4>
+
+<p>
+The following function can be used to split the given text into lines:
+</p>
+
+<pre>
+
+StrLen <span class="Att">CutLine</span>(StrLen &text);
+
+</pre>
+
+<p>
+The function performs a text search for the line-end dividers: <b>"\r", "\n", "\r\n"</b>.
+If a divider is found, the part before the divider is returned and <b>text</b> is changed to the part
+after the divider.
+Otherwise, the entire <b>text</b> is returned and <b>text</b> is changed to the null value. 
+</p>
+
+</body>
+
+</html>
+

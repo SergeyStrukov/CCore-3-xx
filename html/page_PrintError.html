@@ -1,0 +1,70 @@
+<!--
+/* page_PrintError.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PrintError</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PrintError</h2>
+
+<p class="Files">Files <b>CCore/inc/PrintError.h</b> <b>CCore/src/PrintError.cpp</b></p>
+
+<p>
+<b>PrintError</b> is a <b>Helper Type</b>, it prints the text description of the system error value.
+</p>
+
+<pre>
+
+class <span class="Att">PrintError</span>
+ {
+   Sys::ErrorType error;
+   
+  public: 
+  
+   explicit PrintError(Sys::ErrorType error_) : error(error_) {}
+   
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+For example, in <b>HCore</b>: 
+</p>
+
+<pre>
+
+Sys::Sem sys_sem;
+
+if( auto error=sys_sem.init() )
+  {
+   Printf(Con,"initialization error = #;\n",PrintError(error));
+  }
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,247 @@
+<!--
+/* page_UtilFunc.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> UtilFunc</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>UtilFunc</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/UtilFunc.h</b> <b>CCore/src/gadget/UtilFunc.cpp</b></p>
+
+<p>
+Here is a collection of some popular functions.
+</p>
+
+<h3>ToConst()</h3>
+
+<p>
+<b>ToConst()</b> makes a constant reference from a reference. Sometimes useful.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+const T &amp; <span class="Att">ToConst</span>(T &amp;obj) { return obj; }
+
+</pre>
+
+<h3>Min()/Max()</h3>
+
+<p>
+<b>Min()/Max()</b> &mdash; these functions are intended to be used with simple types 
+and can be used in constant expressions. They are implemented in a straightforward way.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr T <span class="Att">Min</span>(T a,T b) { return (a&lt;b)?a:b; }
+ 
+template &lt;class T&gt;
+constexpr T <span class="Att">Max</span>(T a,T b) { return (a&lt;b)?b:a; }
+
+</pre>
+
+<p>
+<b>Min_cast()/Max_cast()</b> &mdash; are multi-argument min/max functions, they also cast extra arguments to the type of the first one.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr T <span class="Att">Min_cast</span>(T a,AnyType ... args);
+
+template &lt;class T&gt;
+constexpr T <span class="Att">Max_cast</span>(T a,AnyType ... args);
+
+</pre>
+
+<h3>Cap()</h3>
+
+<p>
+<b>Cap()</b> adjusts the given value <b>x</b> to fit it into the given interval <b>[a,b]</b>.
+To work properly, make sure that <b>a &lt;= b</b>. If <b>x</b> is too low, <b>a</b> is returned, 
+if <b>x</b> is too large, <b>b</b> is returned. Otherwise, <b>x</b> is returned.
+Pay attention, that <b>x</b> is a middle argument!
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr T <span class="Att">Cap</span>(T a,T x,T b) { return (x&lt;a)?a:( (b&lt;x)?b:x ); }
+
+</pre>
+
+<h3>Fit()</h3>
+
+<p>
+<b>Fit()</b> checks that the given value <b>x</b> belongs to the interval <b>[a,b]</b>. 
+To work properly, make sure that <b>a &lt;= b</b>.
+Pay attention, that <b>x</b> is a middle argument!
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr bool <span class="Att">Fit</span>(T a,T x,T b) { return a&lt;=x && x&lt;=b; }
+
+</pre>
+
+<h3>Sq()</h3>
+
+<p>
+<b>Sq()</b> calculates the square of the argument.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr T <span class="Att">Sq</span>(T x) { return x*x; }
+
+</pre>
+
+<h3>Diff()</h3>
+
+<p>
+<b>Diff()</b> performs differentiation, i.e. subtracts a value from the previous one and records
+the new value.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+T <span class="Att">Diff</span>(T &amp;t,T a) { T ret(a-t); t=a; return ret; }
+
+</pre>
+
+<p>
+Consider an example:
+</p>
+
+<pre>
+
+int var=x0;
+
+int d1=Diff(var,x1); // d1 &lt;- x1-x0 , var &lt;- x1
+int d2=Diff(var,x2); // d2 &lt;- x2-x1 , var &lt;- x2
+int d3=Diff(var,x3); // d3 &lt;- x3-x2 , var &lt;- x3
+
+</pre>
+
+<h3>Change()</h3>
+
+<p>
+<b>Change()</b> assigns a new value if it is different than the old value of the object.
+If this happens the return value is <b>true</b>, otherwise &mdash; <b>false</b>. 
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+bool <span class="Att">Change</span>(T &amp;obj,T val)
+ {
+  if( obj!=val )
+    {
+     obj=val;
+    
+     return true;
+    }
+  
+  return false;
+ }
+
+</pre>
+
+<h3>AddToCap()</h3>
+
+<p>
+<b>AddToCap()</b> increases a value up to the cap. It the value is already above the cap, it is not changed.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+T <span class="Att">AddToCap</span>(T val,T delta,T cap)
+ {
+  if( val&lt;cap )
+    {
+     return val+Min_cast(delta,cap-val);
+    }
+  else
+    {
+     return val;
+    }
+ }
+
+</pre>
+
+<h3>CapDown()</h3>
+
+<p>
+<b>CapDown()</b> lowers the given object to the given cap.
+</p>
+
+<pre>
+
+template &lt;class T,class S&gt;
+void <span class="Att">CapDown</span>(T &obj,S cap)
+ {
+  if( obj>cap ) obj=(T)cap;
+ }
+
+</pre>
+
+<h3>Bit...()</h3>
+
+<p>
+<b>Bit...()</b> &mdash; four bit manipulation functions: 
+</p>
+
+<pre>
+
+template &lt;UIntType UInt,class S&gt;
+void <span class="Att">BitSet</span>(UInt &t,S bits); // set bits
+
+template &lt;UIntType UInt,class S&gt;
+void <span class="Att">BitClear</span>(UInt &t,S bits); // clear bits
+ 
+template &lt;UIntType UInt,class S&gt;
+UInt <span class="Att">BitTest</span>(UInt t,S bits); // check if at least one of bits is set
+
+template &lt;UIntType UInt,class S&gt;
+bool <span class="Att">BitTestAll</span>(UInt t,S bits); // check if all bits are set
+
+</pre>
+
+<p>
+These functions make bit manipulation expressions more simple and verbose 
+and resolve the type conversion problem. The second argument is explicitly 
+casted to the type of the first one.
+</p>
+
+</body>
+
+</html>
+

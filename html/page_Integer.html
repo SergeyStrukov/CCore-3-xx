@@ -1,0 +1,1144 @@
+<!--
+/* page_Integer.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Integer</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Integer</h2>
+
+<p class="Files">Files <b>CCore/inc/math/Integer.h</b> <b>CCore/src/math/Integer.cpp</b></p>
+
+<p>
+<b>Integer</b> is a class, which simulates integer numbers. It can represent numbers from a
+huge value range. This range is limited only by the available memory.
+</p>
+
+<p>
+Internally an <b>Integer</b> value is represented using the array of units. 
+A unit has an unsigned integral type &mdash; the unit type.
+The range of units is called the body. 
+Any range of units can be regarded as a number. 
+Let's <b>N</b> be the number of bits of the unit type and <b>B</b> be <b>2<sup>N</sup></b>. 
+Then the range of units <b>(U<sub>0</sub>,...,U<sub>n</sub>)</b> can be regarded
+as an unsigned integer using the base-<b>B</b> positional integer representation, i.e.
+it has the value <b>U<sub>0</sub>+U<sub>1</sub>*B+...+U<sub>n-1</sub>*B<sup>n-1</sup>+U<sub>n</sub>*B<sup>n</sup></b>.
+It also can be regarded as a signed integer, in this case the most significant unit (<b>MSU</b>) is
+treated especially. It regarded as a signed number with the value from the interval <b>[-B/2,B/2)</b>.
+The value of the range then equals <b>U<sub>0</sub>+U<sub>1</sub>*B+...+U<sub>n-1</sub>*B<sup>n-1</sup>+signed(U<sub>n</sub>)*B<sup>n</sup></b>.
+All units except the most significant (which is the last in the range) have values from the interval <b>[0,B)</b>,
+and the <b>MSU</b> is regarded as a value from the interval <b>[-B/2,B/2)</b>.
+The <b>Integer</b> itself uses the signed interpretation. But some low-level algorithms are working with the unsigned
+numbers.
+</p>
+
+<p>
+An <b>Integer</b> value is stored in the normalized form, i.e. you cannot represent it with a less number of units.
+It means that the <b>MSU</b> is not a signed extension of the previous unit. 
+The null value is represented by the empty array.
+</p>
+
+<pre>
+
+template &lt;IntAlgo Algo,
+          template &lt;class T,class A&gt; class ArrayType = RefArray ,
+          template &lt;class T,class F=GetNoThrowFlags&lt;T&gt; &gt; class ArrayAlgoType = ArrayAlgo &gt;
+class <span class="Att">Integer</span>
+ {
+  public:
+   
+   using AlgoType = Algo ; 
+
+   using Unit = typename Algo::Unit ;
+   
+   static constexpr unsigned UnitBits = Algo::UnitBits ;
+   
+   using TempArrayType = <span class="Att">DynArray&lt;Unit,ArrayAlgoType&lt;Unit&gt; &gt;</span> ;
+   
+  private: 
+   
+   <span class="Att">ArrayType&lt;Unit,ArrayAlgoType&lt;Unit&gt; &gt;</span> body;
+
+</pre>
+
+<p>
+<b>Integer</b> is a template. The first and most important template parameter is an <b>Algorithm package</b>.
+This parameter determines the unit type and the set of low-level functions to perform the integer operations. 
+These functions cannot be implemented efficiently in general, so you should use some "fast" implementation
+for your particular target CPU. For example, you can use the <a href="https://gmplib.org">GMP library</a> for that purpose.
+</p>
+
+<p>
+The second and third template parameters define the array to be used to store an integer body. The second
+must be either the <b>RefArray</b>(default) or the <b>AtomicRefArray</b>. The third should almost never be used
+with non-default value. You can use a non-default value for this parameter to employ, for example, custom memory allocation 
+functions. See the <a href="page_Arrays.html">Array page</a> for more information about arrays and array algorithms.
+</p>
+
+<p>
+<b>AlgoType</b> is the inner type, an alias of the first template parameter.
+</p>
+
+<p>
+<b>Unit</b> is the unit type.
+</p>
+
+<p>
+<b>UnitBits</b> is the number of unit bits.
+</p>
+
+<p>
+<b>TempArrayType</b> is a <b>Unit</b> <b>DynArray</b> with the provided array algorithm package. This type
+is intended to be used as the temporary storage type. This type is used to implement some operations
+and can be used for similar purposes.
+</p>
+
+<p>
+The body of the <b>Integer</b> is stored in the private field <b>body</b>. This field has the type <b>RefArray</b>
+or <b>AtomicRefArray</b>. It means it is efficiently copyable and multiple objects can share the same body.
+</p>
+
+<pre>
+
+  public:
+   
+   // generic constructor 
+
+   Integer(DoBuildType,BuilderType&lt;Unit&gt; builder) : body(DoBuild,builder) { normalize(); }
+   
+   // constructors 
+  
+   Integer() noexcept;
+   
+   Integer(StrLen str);
+   
+   template &lt;UIntType UInt&gt;
+   Integer(UInt val);
+   
+   template &lt;SIntType SInt&gt;
+   Integer(SInt val);
+   
+   ~Integer();
+
+</pre>
+
+<p>
+You can create an <b>Integer</b> using the generic constructor or using special constructors.
+The generic constructor uses the provided <a href="page_Arrays.html#Builder">builder</a> to fill the integer body 
+and then performs the normalization. 
+</p>
+
+<p>
+The default constructor creates the null value. It doesn't throw.
+</p>
+
+<p>
+You can create an <b>Integer</b> from a string (the usual decimal representation is assumed) or from
+any "short" integer, signed or unsigned. These constructors are implicit, so you can use them to 
+silently cast operation arguments.
+</p>
+
+<pre>
+
+   // methods
+   
+   CmpResult sign() const;
+   
+   bool operator ! () const;
+   
+   struct BitsOf
+    {
+     ulen units;
+     unsigned msbits;
+     
+     BitsOf(ulen units_,unsigned msbits_) : units(units_),msbits(msbits_) {}
+     
+     template &lt;UIntType UInt&gt;
+     void total(UInt &amp;ret) const;
+     
+     unsigned total() const;
+    };
+   
+   BitsOf bitsOf() const;
+   
+   Integer sq() const;
+   
+   Integer pow(unsigned deg) const;
+   
+   void modify() { body.modify(); }
+   
+   void cloneTo(Integer &amp;ret) const;
+   
+   Integer &amp; set_null();
+   
+   PtrLen&lt;const Unit&gt; getBody() const;
+   
+   PtrLenReverse&lt;const Unit&gt; getBodyReverse() const;
+   
+   bool isOdd() const;
+   
+   bool isEven() const;
+
+</pre>
+
+<p>
+<b>sign()</b> returns the sign of the number as the <a href="page_Cmp.html"><b>CmpResult</b></a>.
+</p>
+
+<p>
+<b>operator !</b> returns <b>true</b>, if the number is zero.
+</p>
+
+<p>
+<b>bitsOf()</b> returns the number of bits of the number. The value is returned as a structure with two fields.
+The fields <b>units</b> is the number of full unit bits. The field <b>msbits</b> is the number of bits of the <b>MSU</b>,
+the total bit count therefore is <b>units*UnitBits + msbits</b>.
+You can convert this result into a usual unsigned value using the method <b>total()</b>.
+The <b>total()</b> without arguments returns the <b>unsigned</b> value. The <b>total()</b> with argument
+returns the value of a desired type in the given argument. An exception is thrown in case of overflow.
+For negative numbers the leading 1 is not counted. I.e. is the number <b>N</b> is non-negative, 
+then <b>NBits</b> is the minimum such that <b>N&lt;2<sup>NBits</sup></b>. But if the <b>N</b> is negative, 
+then <b>NBits</b> is the minimum such that <b>N&gt;=-2<sup>NBits</sup></b>.
+</p>
+
+<p>
+<b>sq()</b> returns the square of the number.
+</p>
+
+<p>
+<b>pow()</b> returns the power of the number.
+</p>
+
+<p>
+<b>modify()</b> "unshares" the body. After this method the number will have the separate body.
+</p>
+
+<p>
+<b>cloneTo()</b> makes clone of the number at the given argument. The argument will have the separate
+body. This method is useful in multi-task situations.
+</p>
+
+<p>
+<b>set_null()</b> sets the number to zero and returns the reference to self.
+</p>
+
+<p>
+<b>getBody()</b> returns the range over the number body.
+</p>
+
+<p>
+<b>getBodyReverse()</b> returns the reverse range over the number body.
+</p>
+
+<p>
+<b>isOdd()</b> returns <b>true</b>, if the number is odd.
+</p>
+
+<p>
+<b>isEven()</b> returns <b>true</b>, if the number is even.
+</p>
+
+<pre>
+
+   // cast
+   
+   template &lt;UIntType UInt&gt;
+   UInt cast() const;
+
+</pre>
+
+<p>
+<b>cast()</b> does the cast to the given unsigned integral type. The reduction by module is performed 
+to get the value. On bit patterns: extra bits are skipped.
+</p>
+
+<pre>
+
+   CmpResult objCmp(const Integer &amp;b) const;
+
+</pre>
+
+<p>
+<b>objCmp()</b> performs <a href="page_Cmp.html">the 3-way comparision</a> with the argument. 
+</p>
+
+<pre>
+
+   // operators
+   
+   static Integer Neg(PtrLen&lt;const Unit&gt; a);
+   
+   static Integer Add(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+   
+   static Integer Sub(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+   
+   static Integer Mul(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+   
+   static Integer Sq(PtrLen&lt;const Unit&gt; a);
+   
+   static Integer Div(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+   
+   static Integer Mod(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+   
+   static Integer LShift(PtrLen&lt;const Unit&gt; a,unsigned shift);
+   
+   static Integer RShift(PtrLen&lt;const Unit&gt; a,unsigned shift);
+   
+   struct DivMod
+    {
+     Integer div;
+     Integer mod;
+     
+     DivMod(PtrLen&lt;const Unit&gt; a,PtrLen&lt;const Unit&gt; b);
+    };
+
+</pre>
+
+<p>
+This set of static functions makes the result of operation on numbers. The argument(s) is given not 
+as an <b>Integer</b> value, but as the range over a number body.
+</p>
+
+<p>
+<b>Neg()</b> calculates <b>-a</b>.
+</p>
+
+<p>
+<b>Add()</b> calculates <b>a+b</b>.
+</p>
+
+<p>
+<b>Sub()</b> calculates <b>a-b</b>.
+</p>
+
+<p>
+<b>Mul()</b> calculates <b>a*b</b>.
+</p>
+
+<p>
+<b>Sq()</b> calculates <b>a<sup>2</sup></b>.
+</p>
+
+<p>
+<b>Div()</b> calculates <b>a/b</b>. More precisely, the result is <b>[a/b]</b>.
+</p>
+
+<p>
+<b>Mod()</b> calculates <b>a%b</b>. Both division operations throw an exception if the divisor is zero.
+The following is true: <b>a == (a/b)*b + (a%b)</b>. If the <b>b</b> is positive, the remainder is non-negative. 
+Otherwise it is non-positive. 
+</p>
+
+<p>
+<b>LShift()</b> calculates <b>a&lt;&lt;shift</b>. In other words, it calculates <b>a*2<sup>shift</sup></b>.
+</p>
+
+<p>
+<b>RShift()</b> calculates the arithmetic <b>a&gt;&gt;shift</b>, i.e. the leading bit is preserved.
+In other words, it calculates <b>a/2<sup>shift</sup></b>.
+</p>
+
+<p>
+<b>DivMod</b> is a <b>Class-function</b>, it calculates the quotient (in the field <b>div</b>) 
+and the remainder (in the field <b>mod</b>) simultaneously.
+</p>                                    
+
+<pre>
+
+   // operators
+   
+   Integer &amp; neg();
+   
+   Integer &amp; revsub(const Integer &amp;b);
+   
+   Integer &amp; operator += (const Integer &amp;b);
+   
+   Integer &amp; operator -= (const Integer &amp;b);
+   
+   Integer &amp; operator *= (const Integer &amp;b);
+   
+   Integer &amp; operator /= (const Integer &amp;b);
+   
+   Integer &amp; operator %= (const Integer &amp;b);
+   
+   Integer &amp; operator &lt;&lt;= (unsigned shift);
+   
+   Integer &amp; operator &gt;&gt;= (unsigned shift);
+
+</pre>
+
+<p>
+This set of methods and operators perform self-modifying operations. They return the reference to self.
+</p>
+
+<p>
+<b>neg()</b> negates the number: <b>obj = - obj</b>.
+</p>
+
+<p>
+<b>revsub()</b> does the "reversed subtraction", i.e. <b>obj = b - obj</b>. 
+</p>
+
+<p>
+<b>operator X=</b> does the usual <b>obj = obj X b</b> operation.
+</p>
+
+<pre>
+
+   // operators
+   
+   Integer operator - () const; 
+   
+   friend Integer operator + (const Integer &amp;a,const Integer &amp;b);
+    
+   friend Integer operator - (const Integer &amp;a,const Integer &amp;b);
+   
+   friend Integer operator * (const Integer &amp;a,const Integer &amp;b);
+   
+   friend Integer operator / (const Integer &amp;a,const Integer &amp;b);
+   
+   friend Integer operator % (const Integer &amp;a,const Integer &amp;b);
+   
+   Integer operator &lt;&lt; (unsigned shift) const;
+   
+   Integer operator &gt;&gt; (unsigned shift) const;
+   
+   DivMod divmod(const Integer &amp;b) const;
+   
+   friend bool operator == (const Integer &amp;a,const Integer &amp;b);
+   
+   friend bool operator != (const Integer &amp;a,const Integer &amp;b);
+   
+   friend bool operator &lt; (const Integer &amp;a,const Integer &amp;b);
+   
+   friend bool operator &gt; (const Integer &amp;a,const Integer &amp;b);
+   
+   friend bool operator &lt;= (const Integer &amp;a,const Integer &amp;b);
+   
+   friend bool operator &gt;= (const Integer &amp;a,const Integer &amp;b);
+
+</pre>
+
+<p>
+The unary <b>operator -</b> returns the negated number: <b>-obj</b>.
+</p>
+
+<p>
+The family of binary operators: <b>+, -, *, /, %</b>, perform the usual integer arithmetic operations. 
+</p>
+
+<p>
+The family of binary comparison operators: <b>==, !=, &lt;, &gt;, &lt;=, &gt;=</b>, perform 
+the usual integer comparison operations.
+</p>
+
+<p>
+<b>operator &lt;&lt;</b> returns the <b>obj &lt;&lt; shift</b>.
+</p>
+
+<p>
+<b>operator &gt;&gt;</b> returns the <b>obj &gt;&gt; shift</b>.
+</p>
+
+<p>
+<b>divmod()</b> returns the the quotient and the remainder using the <b>DivMod</b> structure.
+</p>
+
+<pre>
+
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; revsub(SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; operator += (SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; operator -= (SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; operator *= (SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; operator /= (SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   Integer &amp; operator %= (SUInt val);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator + (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator + (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator - (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator - (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator * (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator * (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator / (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator / (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator % (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend Integer operator % (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   DivMod divmod(SUInt b) const;
+   
+   template &lt;SUIntType SUInt&gt;
+   CmpResult cmp(SUInt b) const;
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator == (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator == (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator != (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator != (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &lt; (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &lt; (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &gt; (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &gt; (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &lt;= (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &lt;= (SUInt a,const Integer &amp;b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &gt;= (const Integer &amp;a,SUInt b);
+   
+   template &lt;SUIntType SUInt&gt;
+   friend bool operator &gt;= (SUInt a,const Integer &amp;b);
+
+</pre>
+
+<p>
+This set of operators and methods handles the mixed-type cases, when one of the argument is a simple 
+signed or unsigned integral type. They are introduced for efficiency reason.
+</p>
+
+<p>
+<b>cmp()</b> performs the comparison with one of simple signed or unsigned integral type.
+</p>
+
+<pre>
+
+   // print object
+
+   using PrintOptType = IntegerPrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+   
+   // swap/move objects
+   
+   void objSwap(Integer &amp;obj); 
+   
+   explicit Integer(ToMoveCtor&lt;Integer&gt; obj);
+ };
+
+</pre>
+
+<p>
+<b>Integer</b> is printable, swappable and movable type. <b>Integer</b> print options are: the output width
+and the show-sign flag. The output is always decimal.
+</p>
+
+<pre>
+
+struct <span class="Att">IntegerPrintOpt</span>
+ {
+  ulen width;
+  IntShowSign show_sign;
+  
+  void setDefault();
+  
+  IntegerPrintOpt() { setDefault(); }
+  
+  IntegerPrintOpt(const char *ptr,const char *lim);
+  
+  //
+  // [+][width=0]
+  //
+ };
+
+</pre>
+
+<h3>RandomInteger</h3>
+
+<p>
+<b>RandomInteger</b> is a random <b>Integer</b>.
+</p>
+
+<pre>
+
+template &lt;class Integer&gt;
+class <span class="Att">RandomInteger</span> : public Integer
+ {
+   ....
+     
+  public:
+  
+   template &lt;RandomType Random&gt;
+   RandomInteger(ulen n,Random &random);
+   
+   ~RandomInteger();
+ };
+
+</pre>
+
+<p>
+Constructor takes two arguments. The first argument is the body length in units. The second is some
+<a href="page_Random.html">Random</a> object. An <b>Integer</b> is created with the given body length and
+randomly filled body units. So the value is uniformly distributed in the range 
+<b>[-B<sup>n</sup>/2,B<sup>n</sup>/2)</b>.
+</p>
+
+<h3>GCDiv and QSym</h3>
+
+<pre>
+
+template &lt;class Integer&gt;
+Integer <span class="Att">GCDiv</span>(const Integer &amp;a,const Integer &amp;b);
+
+template &lt;class Integer&gt;
+int <span class="Att">QSym</span>(const Integer &amp;a,const Integer &amp;b);
+
+</pre>
+
+<p>
+<b>GCDiv()</b> calculates the GCD of the given arguments. The return value is non-negative.
+</p>
+
+<p>
+<b>QSym()</b> calculates the quadratic symbol (aka Jacobi symbol) of the given arguments. 
+<b>a</b> and <b>b</b> must be coprime and <b>b</b> must be odd, otherwise an exception is thrown.
+</p>
+
+<a name="Algo"><h3>Algo</h3></a>
+
+<p>
+The algorithm package <b>Algo</b> must comply with the following pattern. Functions, operating on
+long numbers expects the arguments in the form <b>(const Unit *a,ulen na)</b>, where <b>a</b> is a 
+number body and <b>na</b> is the body length. An argument can be regarded as a signed number or as 
+an unsigned number. In the last case the function name starts from the <b>U</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">Algo</span>
+ {
+  // types and consts
+
+  using Unit = ??? ; // unsigned integral type
+  
+  static constexpr unsigned UnitBits = ??? ; 
+
+  static constexpr Unit MaxUnit = ??? ;
+  
+  static constexpr Unit MSBit = ??? ;
+
+</pre>
+
+<p>
+<b>Unit</b> is a unit type. It must be an unsigned integral type.
+</p>
+
+<p>
+<b>UnitBits</b> is the number of bits of <b>Unit</b>.
+</p>
+
+<p>
+<b>MaxUnit</b> is the maximum unit, all bits are set.
+</p>
+
+<p>
+<b>MSBit</b> is the most significant bit.
+</p>
+
+<pre>
+  
+  // functions
+  
+  static Unit SignExt(const Unit *a,ulen na);
+  
+  static unsigned CountZeroMSB(Unit a);
+
+  static Unit DoubleUDiv(Unit hi,Unit lo,Unit den); // hi&lt;den
+
+</pre>
+
+<p>
+<b>SignExt()</b> returns the sign extension unit for the given argument. I.e. it is the most significant bit
+of the argument, propagated to the unit.
+</p>
+
+<p>
+<b>CountZeroMSB()</b> counts the number of zero most significant bits of the given unit.
+</p>
+
+<p>
+<b>DoubleUDiv()</b> performs the long unsigned division. It divides the double-size number with the
+high part <b>hi</b> and the low part <b>lo</b> by the divisor <b>den</b>. It is assumed, that
+<b>hi &lt; den</b>. The result is returned (it is representable by the unit).
+</p>
+
+<pre>
+  
+  // const operators 
+ 
+  static CmpResult USign(const Unit *a,ulen na);
+  
+  static CmpResult Sign(const Unit *a,ulen na); 
+  
+  static CmpResult UCmp(const Unit *a,const Unit *b,ulen nab);
+  
+  static CmpResult UCmp(const Unit *a,ulen na,const Unit *b,ulen nb);
+  
+  static CmpResult Cmp(const Unit *a,ulen na,const Unit *b,ulen nb);
+
+  static ulen UNormalize(const Unit *a,ulen na);
+  
+  static ulen Normalize(const Unit *a,ulen na);
+
+</pre>
+
+<p>
+<b>USign()</b> returns the sign of the argument. It always >=0.
+</p>
+
+<p>
+<b>Sign()</b> returns the sign of the argument.
+</p>
+
+<p>
+<b>UCmp()</b> compares arguments of the same length.
+</p>
+
+<p>
+<b>UCmp()</b> compares arguments.
+</p>
+
+<p>
+<b>Cmp()</b> compares arguments.
+</p>
+
+<p>
+<b>UNormalize()</b> does normalization of the argument. It returns the normalized length. 
+It drop the most significant units, equals zero.
+</p>
+
+<p>
+<b>Normalize()</b> does normalization of the argument. It returns the normalized length.
+It drop the most significant units, equals propagated <b>MSB</b> of the previous unit.
+</p>
+
+<pre>
+  
+  // additive operators 
+
+  static Unit/* c */ UNeg(Unit *a,ulen na);
+  
+  static Unit/* msu */ Neg(Unit *a,ulen na);
+  
+  static Unit/* c */ UAddUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* c */ USubUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* c */ UAdd(Unit *restrict b,const Unit *a,ulen nab);
+  
+  static Unit/* msu */ Add(Unit *restrict b,ulen nb,const Unit *a,ulen na); // nb>=na
+
+  static Unit/* c */ USub(Unit *restrict b,const Unit *a,ulen nab);
+  
+  static Unit/* msu */ Sub(Unit *restrict b,ulen nb,const Unit *a,ulen na); // nb>=na
+  
+  static Unit/* msu */ RevSub(Unit *restrict b,ulen nb,const Unit *a,ulen na); // nb>=na
+
+</pre>
+
+<p>
+The bit <b>C</b> is a carry from or a borrow to the <b>MSU</b> when doing unsigned operations.
+</p>
+
+<p>
+<b>UNeg()</b> negates the argument in-place. The bit <b>C</b> is returned.
+</p>
+
+<p>
+<b>Neg()</b> negates the argument in-place. 
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>na+1</b> and the resulting <b>MSU</b> is not stored in the original body, 
+but returned by the function.
+</p>
+
+<p>
+<b>UAddUnit()</b> adds the unit <b>b</b> to the <b>a</b> in-place. The bit <b>C</b> is returned.
+If <b>na==0</b>, <b>b</b> is returned.
+</p>
+
+<p>
+<b>USubUnit()</b> subtracts the unit <b>b</b> from the <b>a</b> in-place. The bit <b>C</b> is returned.
+If <b>na==0</b>, <b>b</b> is returned.
+</p>
+
+<p>
+<b>UAdd()</b> adds <b>a</b> to <b>b</b> in-place. The bit <b>C</b> is returned. 
+<b>a</b> and <b>b</b> have the same length <b>nab</b> and do not overlap.
+</p>
+
+<p>
+<b>Add()</b> adds <b>a</b> to <b>b</b> in-place.
+The length of <b>b</b> must be greater or equal than the length of <b>a</b>,
+<b>a</b> and <b>b</b> do not overlap.
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>nb+1</b> and the resulting <b>MSU</b> is not stored in the <b>b</b> body, 
+but returned by the function.
+</p>
+
+<p>
+<b>USub()</b> subtracts <b>a</b> from <b>b</b> in-place. The bit <b>C</b> is returned. 
+<b>a</b> and <b>b</b> have the same length <b>nab</b> and does not overlap.
+</p>
+
+<p>
+<b>Sub()</b> subtracts <b>a</b> from <b>b</b> in-place.
+The length of <b>b</b> must be greater or equal than the length of <b>a</b>,
+<b>a</b> and <b>b</b> do not overlap.
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>nb+1</b> and the resulting <b>MSU</b> is not stored in the <b>b</b> body, 
+but returned by the function.</p>
+
+<p>
+<b>RevSub()</b> subtracts <b>b</b> from <b>a</b> in-place (reversed subtraction).
+The length of <b>b</b> must be greater or equal than the length of <b>a</b>,
+<b>a</b> and <b>b</b> do not overlap.
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>nb+1</b> and the resulting <b>MSU</b> is not stored in the <b>b</b> body, 
+but returned by the function.</p>
+</p>
+
+<pre>
+
+  // shift operators
+  
+  static Unit/* msu */ ULShift(Unit *a,ulen na,unsigned shift); // 0&lt;shift&lt;UnitBits
+  
+  static Unit/* msu */ LShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift); // 0&lt;shift&lt;UnitBits 
+
+  static Unit/* msu */ ShiftUp(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&lt;UnitBits
+  
+  static void RShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift); // 0&lt;shift&lt;UnitBits
+
+  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&ltUnitBits
+
+</pre>
+
+<p>
+In the following shift operations the shift length <b>shift</b> must be greater 0
+and less than <b>UnitBits</b>.
+</p>
+
+<p>
+<b>ULShift()</b> shifts left in-place and returns the <b>MSU</b>.  
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>na+1</b> and the resulting <b>MSU</b> is not stored in the <b>a</b> body, 
+but returned by the function.
+</p>
+
+<p>
+<b>LShift()</b> shifts left out-of-place and returns the <b>MSU</b>. <b>a</b> is the argument and
+<b>b</b> is to store the result.
+<b>a</b> and <b>b</b> do not overlap.
+The result representation requires one additional unit, this unit is returned.
+I.e. the result length is <b>nab+1</b> and the resulting <b>MSU</b> is not stored in the <b>b</b> body, 
+but returned by the function.
+</p>
+
+<p>
+<b>ShiftUp()</b> combines the left shift and the move up. It shifts the <b>na</b> units starting
+from the <b>a</b> and moves the result up by the <b>delta</b> units. The <b>MSU</b> is not placed
+in the buffer but returned.
+</p>
+
+<p>
+<b>RShift()</b> shifts right out-of-place.
+<b>a</b> is the argument and <b>b</b> is to store the result.
+<b>a</b> and <b>b</b> do not overlap.
+</p>
+
+<p>
+<b>ShiftDown()</b> combines the right shift and the move down. It shifts the <b>na</b> units
+starting from the <b>a+delta</b> and moves the result down by the <b>delta</b> units.
+</p>
+
+<pre>
+
+  // multiplicative operators
+
+  static void UMul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb); // nc==na+nb
+  
+  static void UMulLo(Unit *restrict c,ulen nc,const Unit *a,ulen na,const Unit *b,ulen nb); // nc&lt;=na+nb
+  
+  static void Mul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb); // nc==na+nb
+
+  static void Sq(Unit *restrict c,const Unit *a,ulen na); // nc==2*na
+
+</pre>
+
+<p>
+<b>UMul()</b> calculates the product of the arguments and places the result into the <b>c</b>.
+The length of the <b>c</b> must be <b>na+nb</b>. 
+The input and output bodies do not overlap.
+</p>
+
+<p>
+<b>UMulLo()</b> calculates the product of the arguments and places the lower part of the result into the <b>c</b>.
+The length of the <b>c</b> must not exceed <b>na+nb</b>. 
+The input and output bodies do not overlap.
+</p>
+
+<p>
+<b>Mul()</b> calculates the product of the arguments and places the result into the <b>c</b>.
+The length of the <b>c</b> must be <b>na+nb</b>. 
+The input and output bodies do not overlap.
+</p>
+
+<p>
+<b>Sq()</b> calculates the square of the argument <b>a</b> and places the result into the <b>c</b>. 
+The length of the <b>c</b> must be <b>2*na</b>. 
+The input and output bodies do not overlap.
+</p>
+
+<pre>
+
+  // data functions  
+
+  static void Null(Unit *a,ulen na);
+
+  static void MoveUp(Unit *a,ulen na,ulen delta); // a[na+delta]
+
+  static void MoveDown(Unit *a,ulen na,ulen delta); // a[na+delta]
+ };
+
+</pre>
+
+<p>
+<b>Null()</b> nullifies the result. 
+</p>
+
+<p>
+<b>MoveUp()</b> moves up the body inside the larger buffer by the <b>delta</b> units. 
+I.e. <b>a[i+delta] = a[i]</b>.
+</p>
+
+<p>
+<b>MoveDown()</b> moves down the body inside the larger buffer by the <b>delta</b> units. 
+I.e. <b>a[i] = a[i+delta]</b>.
+</p>
+
+<p>
+The following content is not required by the <b>Integer</b>, but should also be included
+in a proper implementation.
+</p>
+
+<pre>
+
+struct <span class="Att">Algo</span>
+ {
+  ....
+
+  // functions
+  
+  static Unit SignExt(Unit a);
+   
+  static CmpResult SignCmp(Unit a,Unit b);
+  
+  static unsigned CountZeroLSB(Unit a);
+
+</pre>
+
+<p>
+<b>SignExt()</b> returns the sign extension of the given unit. I.e. it propagates the sign bit of
+the <b>a</b>.
+</p>
+
+<p>
+<b>SignCmp()</b> performs the signed comparison of the given units.
+</p>
+
+<p>
+<b>CountZeroLSB()</b> counts the number of zero least significant bits of the given unit.
+</p>
+
+<pre>
+   
+  // const operators 
+ 
+  static CmpResult Cmp(const Unit *a,const Unit *b,ulen nab);
+
+</pre>
+
+<p>
+<b>Cmp()</b> compares arguments of the same length.
+</p>
+
+<pre>
+  
+  // additive operators 
+
+  static Unit/* msu */ AddUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* msu */ SubUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* c */ UNegAddUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* msu */ NegAddUnit(Unit *a,ulen na,Unit b);
+  
+  static Unit/* c */ URevSub(Unit *restrict b,const Unit *a,ulen nab);
+
+</pre>
+
+<p>
+<b>AddUnit()</b> adds the unit <b>b</b> (regarded as an unsigned number) to <b>a</b> in-place.
+The result representation requires one additional unit, this unit is returned.
+If <b>na==0</b>, <b>b</b> is returned.
+</p>
+
+<p>
+<b>SubUnit()</b> subtracts the unit <b>b</b> (regarded as an unsigned number) from <b>a</b> in-place.
+The result representation requires one additional unit, this unit is returned.
+If <b>na==0</b>, <b>-b</b> is returned.
+</p>
+
+<p>
+<b>UNegAddUnit()</b> subtracts <b>a</b> from <b>b</b> (regarded as an unsigned number) in-place (reversed subtraction).
+The bit <b>C</b> is returned. 
+If <b>na==0</b>, <b>-b</b> is returned.
+</p>
+
+<p>
+<b>NegAddUnit()</b> subtracts <b>a</b> from <b>b</b> (regarded as an unsigned number) in-place (reversed subtraction).
+The result representation requires one additional unit, this unit is returned.
+If <b>na==0</b>, <b>b</b> is returned.
+</p>
+
+<p>
+<b>URevSub()</b> subtracts <b>b</b> from <b>a</b> in-place (reversed subtraction). 
+The bit <b>C</b> is returned. 
+<b>a</b> and <b>b</b> have the same length <b>nab</b> and does not overlap.
+</p>
+
+<pre>
+  
+  // shift operators
+  
+  static Unit/* msu */ UShiftUp(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&lt;UnitBits
+  
+  static void URShift(Unit *a,ulen na,unsigned shift); // 0&lt;shift&lt;UnitBits
+
+  static void UShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&lt;UnitBits
+
+</pre>
+
+<p>
+<b>UShiftUp()</b> combines the left shift and the move up. It shifts the <b>na</b> units starting
+from the <b>a</b> and moves the result up by the <b>delta</b> units. The <b>MSU</b> is not placed
+in the buffer but returned.
+</p>
+
+<p>
+<b>URShift()</b> shifts right in-place.
+</p>
+
+<p>
+<b>UShiftDown()</b> combines the right shift and the move down. It shifts the <b>na</b> units
+starting from the <b>a+delta</b> and moves the result down by the <b>delta</b> units.
+</p>
+
+<pre>
+  
+  // multiplicative operators
+
+  static Unit/* c */ UMac(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb); // nc==na+nb 
+
+  static void USq(Unit *restrict c,const Unit *a,ulen na); // nc==2*na
+ };
+
+</pre>
+
+<p>
+<b>UMac()</b> performs the "multiplication and addition" operation. 
+I.e. <b>a</b> and <b>b</b> are multiplied and added to <b>c</b>.
+The length of the <b>c</b> must be <b>na+nb</b>. 
+The input and output bodies do not overlap.
+The bit <b>C</b> is returned.
+</p>
+
+<p>
+<b>USq()</b> calculates the square of the argument <b>a</b> and places the result into the <b>c</b>. 
+The length of the <b>c</b> must be <b>2*na</b>. 
+The input and output bodies do not overlap.
+</p>
+
+<p>
+There is a <a href="page_IntegerSlowAlgo.html">default slow implementaton</a> of this algorithm
+package for all unsigned integral units. This implementation is slow, for example, it has quadratic
+complexity of the multiplication operations. But it is generic, it does not require any CPU-specific 
+assembler code. This package can be used as an algorithmic reference and for the comparative testing.
+</p>
+
+<p>
+Any target must provide the <a href="page_IntegerFastAlgo.html">fast implementation</a>.
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,714 @@
+<!--
+/* page_CondLangLR1.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CondLangLR1</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CondLangLR1</h2>
+
+<p>
+This utility generates LR1 parsing state machine for the given LR1 language.
+The language is defined using the <i>conditional recursive grammar</i>.
+</p>
+
+<pre>
+
+CCore-CondLangLR1.exe &lt;file-name&gt;
+
+</pre>
+
+<p>
+The only command-line argument is the language file name. If the file name has no extension, <b>.lang</b> is added.
+</p>
+
+<p>
+On success two files are generated: <b>.txt</b> file and <b>.ddl</b> file.
+They have the same name as the input file and located in the same directory. 
+<b>.txt</b> file contains processing information in a readable form.
+<b>.ddl</b> file contains the state machine description in <b>DDL</b> format.
+The file <b>LangType.ddl</b> in <b>CCORE_ROOT/tools/CondLangLR1</b> contains required <b>DDL</b> type definitions.
+</p>
+
+<p>
+On failure the only <b>.bad.txt</b> file is generated. You can examine this file to understand, why
+the input is not an LR1 language and try to fix it.
+</p>
+
+<h3>AMP</h3>
+
+<p>
+Below is the file <b>AMP.lang</b> with the definition of the <b>AMP</b> language.
+</p>
+
+<pre>
+/* AMP.lang */
+
+! EXPR : A , M , P
+ {
+  x               : opVar  = P
+
+  ( EXPR )        : opBra  = P
+
+  EXPR + EXPR.a   : if( a&gt;=M ) opAdd  = A
+
+  EXPR.a * EXPR.b : if( a&gt;=P & b&gt;=M ) opMul  = M
+ }
+
+</pre>
+
+<p>
+You may see the output for this language in the directory <b>CCORE_ROOT/tools/CondLangLR1/AMP</b>.
+</p>
+
+<h2>Conditional recursive grammar</h2>
+
+<p>
+Conditional recursive grammar is an advanced version of <b>context-free grammer</b>. To define a language by
+a uniquely decoded grammar it is often you have to introduce extra non-terminals. For example, you can
+define <b>AMP</b> language by the following grammar:
+</p>
+
+<pre>
+
+! EXPR
+ {
+  x               : opVar
+
+  ( EXPR )        : opBra
+
+  EXPR + EXPR     : opAdd
+
+  EXPR * EXPR     : opMul
+ }
+
+</pre>
+
+<p>
+but this grammar is not uniquely decoded. To make it such you may introduce extra non-terminals:
+</p>
+
+<pre>
+
+! A
+ {
+  M     : cast_A
+  A + M : opAdd
+ }
+ 
+M
+ {
+  P     : cast_M
+  P * M : opMul
+ }
+ 
+P
+ {
+  x     : opVar
+  ( A ) : opBra 
+ } 
+
+</pre>
+
+<p>
+Conditional grammar is an alternative way. Instead defining of new non-terminals, we introduce
+"kinds". Kind is a property of a non-terminal production. 
+</p>
+
+<pre>
+
+! EXPR : A , M , P
+ {
+  x               : opVar  = P
+
+  ( EXPR )        : opBra  = P
+
+  EXPR + EXPR.a   : if( a&gt;=M ) opAdd  = A
+
+  EXPR.a * EXPR.b : if( a&gt;=P & b&gt;=M ) opMul  = M
+ }
+
+</pre>
+
+<p>
+Here is the non-terminal <b>EXPR</b> with three associated kinds: <b>A</b>, <b>M</b> and <b>P</b>.
+When we produce a word of this non-terminal class, we assign a kind to it, it is designated by the trailing 
+<b>= kind</b> statement. A particular production rule may have an associated condition, 
+this condition must be satisfied to apply this rule. For example, the rule <b>opAdd</b> can only be applied
+if the kind of the second subexpression (<b>.a</b>) is <b>M</b> or <b>P</b>.
+</p>
+
+<p>
+Using conditional grammars you avoid rule redundancy. You don't need "cast" rules.
+The language description becomes also more intuitive.
+</p>
+
+<p>
+You can read more about conditional recursive grammars in <a type="application/pdf" href="../doc/Conditional recursive grammars.pdf">this document</a>.
+</p>
+
+<h2>Grammar description</h2>
+
+<p>
+We use the term "syntax class" or "synt" for non-terminals. The grammar description consists of synt descriptions.
+Each synt has a unique name, it must be a <b>C</b> name. Some synts (usually one) are language synts, the 
+resulting language is a union of these synt's productions. These synts are prefixed with the character <b>!</b>.
+A synt description starts with the synt name, optionally preceded by the character <b>!</b>.
+If the synt has associated kinds, the synt description continues with the sign <b>:</b> and following
+comma separated kind names. Kind names must be <b>C</b> names and must be unique for each synt. At least 
+one kind must be provided.
+Then production rule descriptions follows, enclosed in the figure brackets.
+</p>
+
+<pre>
+
+LANG-DESCRIPTION  <b>=</b>  SYNT-DESCRIPTION<sub>1</sub> SYNT-DESCRIPTION<sub>2</sub> ... SYNT-DESCRIPTION<sub>n</sub>
+
+SYNT-DESCRIPTION  <b>=</b>  !<sup>opt</sup> SyntName KIND-DESCRIPTION<sup>opt</sup> { RULES-DESCRIPTION }
+
+KIND-DESCRIPTION  <b>=</b>  : KindName<sub>1</sub> , KindName<sub>2</sub> , ... , KindName<sub>n</sub>
+
+</pre>
+
+<p>
+Kinds of the same synt are considered as linear ordered. The order is defined by the appearance, i.e. 
+a kind is less than another kind, if it appears earlier in the kinds list.  
+</p>
+
+<pre>
+
+KindName<sub>1</sub> < KindName<sub>2</sub> < ... < KindName<sub>n</sub>
+
+</pre>
+
+<p>
+A kind has an associated numeric value, which is the index in the kinds list.
+</p>
+
+<p>
+Rules description is a sequence of rule descriptions.
+</p>
+
+<pre>
+
+RULES-DESCRIPTION  <b>=</b>  RULE-DESCRIPTION<sub>1</sub> RULE-DESCRIPTION<sub>2</sub> ... RULE-DESCRIPTION<sub>n</sub>
+
+</pre>
+
+<p>
+Each rule description starts from the rule elements sequence. During this part of the input the text is parsed by 
+words, divided by space characters. To terminate it you must enter either <b>:</b> to finish the 
+rule elements sequence or <b>}</b> to close the rule descriptions, surrounded by at least one 
+space character before and after.
+</p>
+
+<pre>
+
+RULE-DESCRIPTION  <b>=</b>  RULE-ELEMENTS : RULE_COND<sup>opt</sup> RuleName RULE_KIND<sup>opt</sup>
+
+RULE_KIND         <b>=</b>  = KindName
+
+</pre>
+
+<p>
+Each rule has a rule name, it must be either a <b>C</b> name or a compound <b>C</b> name, concatenated from several
+<b>C</b> names by the character <b>@</b>, and must be unique for each synt. If the synt has kinds, 
+a rule kind must be given, otherwise it must not present.
+</p>
+
+<pre>
+
+RULE-ELEMENTS <b>=</b> ELEMENT<sub>1</sub> ... ELEMENT<sub>n</sub>
+
+</pre>
+
+<p>
+Rule elements part is parsed on words, separated by space characters. Each word is a 
+sequence of printable non-space characters. The word can be a synt name or an atom name. 
+Synt name may have a dot-suffix with variable name. Everything which is not a synt name 
+is considered as an atom name. Language atom set is defined implicitly by collecting atom names from
+rule definitions.
+</p>
+
+<pre>
+
+ELEMENT-SYNT <b>=</b> SyntName
+               SyntName.VariableName
+
+</pre>
+
+<p>
+Two one-character words <b>}</b> and <b>:</b> cannot be used to define an atom. But you can introduce an atom 
+with such name using the character <b>`</b> as the prefix, i.e. <b>`}</b> and <b>`:</b> 
+are considered as atom names, but modified to the names <b>}</b> and <b>:</b>. 
+Also <b>``}</b> is modified to <b>`}</b>, <b>```}</b> to <b>``}</b> and so on.
+</p>
+
+<p>
+A rule may have an associated rule condition of the form:
+</p>
+
+<pre>
+
+RULE-COND <b>=</b> if ( COND-EXPR )
+
+</pre>
+
+<p>
+A condition expression is an expression, built from prime expressions using the logical operations
+<b>&</b> (logical AND), <b>|</b> (logical OR) and <b>!</b> (logical NOT). <b>&</b> has a higher priority 
+than <b>|</b>. Brackets can be used to specify the order of evaluation.
+</p>
+
+<p>
+Prime expressions are comparison expressions:
+</p>
+
+<pre>
+
+  Name<sub>1</sub> == Name<sub>2</sub>
+  Name<sub>1</sub> != Name<sub>2</sub>
+  Name<sub>1</sub> < Name<sub>2</sub> 
+  Name<sub>1</sub> <= Name<sub>2</sub>
+  Name<sub>1</sub> > Name<sub>2</sub> 
+  Name<sub>1</sub> >= Name<sub>2</sub>
+
+</pre>
+
+<p>
+Each name either a variable name or a kind name. At least one name must be a variable name. 
+Variables are introduced in the rule element list as the dot-suffix of the synt name. For example,
+</p>
+
+<pre>
+
+  EXPR.a * EXPR.b : if( a&gt;=P & b&gt;=M ) opMul  = M
+
+</pre>
+
+<p>
+here two variables were introduced: <b>a</b> and <b>b</b>. Each of them designate the kind of 
+the correspondent synt production. If the name is a kind name, the corespondent kind is looked-up among the
+kinds of the synt, the other name is a variable of. I.e. in the example above <b>P</b> is looked-up among
+the kinds of the synt <b>EXPR</b>. Kinds are compared using they numeric values.
+</p>
+
+<p>
+There is a special kind of synts: <b>noneof</b> synts. They are described as following:
+</p>
+
+<pre>
+
+noneof SyntName 
+ {
+  atom<sub>1</sub> ... atom<sub>n</sub> : RuleName
+ }
+
+</pre>
+
+<p>
+This synt produces all one-atom words from atoms not from the given list. I.e. it is equivalent the
+following description:
+</p>
+
+<pre>
+
+SyntName
+ {
+  atom<sub>n+1</sub> : RuleName@...
+  ...
+  atom<sub>m</sub>   : RuleName@...
+ }
+
+</pre>
+
+<h2>DDL output</h2>
+
+<p>
+<b>DDL</b> output consists of the full description of the language and the LR1 parsing state machine.
+This output is given as a single constant <b>lang</b> of the type <b>Lang</b>. The type definitions can
+be found in the file <b>CCORE_ROOT/tools/CondLangLR1/LangType.ddl</b>. 
+</p>
+
+<pre>
+
+type AtomIndex = uint32 ;
+type SyntIndex = uint32 ;
+type KindIndex = uint32 ;
+type ElementIndex = uint32 ;
+type RuleIndex = uint32 ;
+type StateIndex = uint32 ;
+type FinalIndex = uint32 ;
+
+struct Lang
+ {
+  Atom[] atoms;
+  Synt[] synts;
+  Synt * [] lang;
+  Element[] elements;
+  Rule[] rules;
+  TopRule[] top_rules;
+  State[] states;
+  Final[] finals;
+ };
+
+struct Atom
+ {
+  AtomIndex index;
+  text name;
+  
+  Element *element;
+ };
+
+struct Synt
+ {
+  SyntIndex index;
+  text name;
+  
+  Kind[] kinds;
+  Rule * [] rules;
+ };
+
+struct Kind
+ {
+  KindIndex kindex; // index among all kinds
+  KindIndex index; // index in synt array
+  text name;
+
+  Synt *synt;
+  
+  Element *element;
+  
+  TopRule * [] rules;
+ };
+
+struct Element
+ {
+  ElementIndex index;
+  
+  {Atom,Kind} * elem;
+ };
+
+struct Rule
+ {
+  RuleIndex index;
+  text name;
+
+  Kind *result;
+
+  type Arg = {Atom,Synt} * ;
+
+  Arg[] args;
+ };
+ 
+struct TopRule
+ {
+  RuleIndex index;
+  text name;
+  
+  Rule *bottom;
+
+  Kind *result;
+
+  type Arg = {Atom,Kind} * ;
+
+  Arg[] args;
+ }; 
+
+struct State
+ {
+  StateIndex index;
+  Final *final;
+
+  struct Transition
+   {
+    Element *element;
+    State *state;
+   };
+
+  Transition[] transitions;
+ };
+
+struct Final
+ {
+  FinalIndex index;
+
+  struct Action
+   {
+    Atom *atom; // null for (End)
+    Rule *rule; // null for &lt;- ( STOP if atom is (END) )
+   };
+
+  Action[] actions;
+ };
+
+</pre>
+
+<p>
+There are following description entities: <b>Atom</b>, <b>Synt</b>, <b>Kind</b>, <b>Element</b>, 
+<b>Rule</b>, <b>TopRule</b>, <b>State</b> and <b>Final</b>.
+The structure <b>Lang</b> consists of arrays of these entities. It also has the field <b>lang</b>, 
+which is the array of pointers to <b>Synt</b>, these synts are language synts.
+Each structure has the field <b>index</b>. This field is the index in the correspondent structure array.
+For example, <b>lang.atoms[I].index==I</b>. Also those structures, which has the associated name, have the 
+field <b>name</b> of the type <b>text</b> with this name.
+</p>
+
+<p>
+The structure <b>Atom</b> has fields <b>index</b>, <b>name</b> and <b>element</b>. The last field is a pointer
+to the correspondent <b>Element</b>.
+</p>
+
+<p>
+The structure <b>Synt</b> has fields <b>index</b>, <b>name</b>, <b>kinds</b> and <b>rules</b>.
+<b>kinds</b> is the kinds, associated with this synt. If the synt has no kinds, this array has the length 
+<b>1</b> and contains a single auto-generated kind of this synt. 
+The array <b>rules</b> is the list of rules for this synt.
+</p>
+
+<p>
+The structure <b>Kind</b> has two indexes. First, <b>index</b> is the index in the correspondent <b>Synt</b> array.
+Another, <b>kindex</b> is a global kind index for all kinds of all synts. 
+The name of the auto-generated kind is the empty string.
+The field <b>synt</b> points to the synt this kind belongs to.
+The field <b>element</b> is the correspondent element.
+The array <b>rules</b> is the list of "top" rules for this kind.
+</p>
+
+<p>
+The structure <b>Element</b> describes elements. The element set is a disjoint union of atoms and synt kinds.
+Atoms go first and kinds after. The structure has fields <b>index</b> and <b>elem</b>. <b>elem</b>
+is a polymorphic pointer and points to the correspondent atom or kind.
+</p>
+
+<p>
+The structure <b>Rule</b> describes a rule. The field <b>result</b> is the resulting kind of the resulting synt.
+The field <b>args</b> is the list of rule arguments. It is a sequence of atoms and synts. This description
+has no rule conditions. Instead, we derive a set of "top" rules.
+</p>
+
+<p>
+The structure <b>TopRule</b> describes a top rule. The field <b>name</b> is the name of the top rule.
+This name is a composition of the bottom rule name and dot suffixes with the argument kinds.
+The field <b>bottom</b> is the bottom rule, this top rule has been derived from.
+The field <b>result</b> is the rule result.
+The field <b>args</b> is the list of rule arguments. It is a sequence of atoms and kinds.
+</p>
+
+<p>
+The structure <b>State</b> describes a state of the parsing state machine. It has fields <b>index</b>, <b>final</b>
+and <b>transitions</b>. The first state (with the index <b>0</b>) is the start state. <b>transitions</b>
+is the set of transitions from this state. Each transition is described by an element of the structure
+<b>State#Transition</b> with two fields: <b>element</b> and <b>state</b>. <b>element</b> is the pointer
+to the element, which cause the transition, and <b>state</b> is the pointer to the target state.
+<b>final</b> is the "final", associated with the state. The array <b>transitions</b> is ordered by 
+the <b>element->index</b>.
+</p>
+
+<p>
+The structure <b>Final</b> describes the list of actions. Each action is described by an element of the
+structure <b>Final#Action</b> with two fields: <b>atom</b> and <b>rule</b>. <b>atom</b> is
+a pointer to an atom or null. If this atom (or the end of atom sequence) is seen, then the correspondent
+<b>rule</b> must be applied. <b>rule</b> is the pointer to the action rule or null, if the atom must 
+be shifted to the parsing stack. If the <b>atom</b> is null, then the null value  of the <b>rule</b>
+means the end of the parsing process. The array <b>actions</b> is ordered by the <b>atom->index</b>.
+The action with null <b>atom</b>, if any, goes first.
+</p>
+
+<h2>txt output</h2>
+
+<p>
+A text output has the following sections (all examples are for the <b>AMP</b>). The section <b>Atoms</b>
+with atom descriptions.
+</p>
+
+<pre>
+--- Atoms ----------------------------------------------------------------------
+
+0) A("(")
+1) A(")")
+2) A("*")
+3) A("+")
+4) A("x")
+
+</pre>
+
+<p>
+The section <b>Syntax classes</b> with synt descriptions.
+</p>
+
+<pre>
+--- Syntax classes -------------------------------------------------------------
+
+0) EXPR ! { 0) A 1) M 2) P }
+  Rule(0)
+  Rule(1)
+  Rule(2)
+  Rule(3)
+
+</pre>
+
+<p>
+The section <b>Rules</b> with rule descriptions.
+</p>
+
+<pre>
+--- Rules ----------------------------------------------------------------------
+
+0) EXPR::opVar -> EXPR.P
+  Atom(4,A("x"))
+1) EXPR::opBra -> EXPR.P
+  Atom(0,A("("))  Synt(0,EXPR)  Atom(1,A(")"))
+2) EXPR::opAdd -> EXPR.A if( @2 >= M(1) )
+  Synt(0,EXPR)  Atom(3,A("+"))  Synt(0,EXPR)
+3) EXPR::opMul -> EXPR.M if( ( @0 >= P(2) & @2 >= M(1) ) )
+  Synt(0,EXPR)  Atom(2,A("*"))  Synt(0,EXPR)
+
+</pre>
+
+<p>
+The section <b>States</b> is the state machine description. Each state has an element sequence, 
+leading to this state. It also has an associated final, given by its number.
+</p>
+
+<pre>
+--- States ---------------------------------------------------------------------
+
+( 0 ; NULL ) = 0
+
+  A("(") -> ( 1 ; A("(") )
+
+  A("x") -> ( 17 ; A("x") )
+
+  EXPR.A -> ( 24 ; EXPR.A )
+
+  EXPR.M -> ( 24 ; EXPR.A )
+
+  EXPR.P -> ( 23 ; EXPR.P )
+
+-----
+
+( 1 ; A("(") ) = 0
+
+  A("(") -> ( 4 ; A("(") A("(") )
+
+  A("x") -> ( 7 ; A("(") A("x") )
+
+  EXPR.A -> ( 16 ; A("(") EXPR.A )
+
+  EXPR.M -> ( 16 ; A("(") EXPR.A )
+
+  EXPR.P -> ( 14 ; A("(") EXPR.P )
+
+  ....
+
+</pre>
+
+<p>
+The last section is the final list. Each final is a set of couples: atom, rule.
+</p>
+
+<pre>
+--- Properties -----------------------------------------------------------------
+
+0) 
+
+  A("(") : &lt;-
+
+  A("x") : &lt;-
+
+-----
+
+1) 
+
+  A(")") : @EXPR::opVar
+
+  A("*") : @EXPR::opVar
+
+  A("+") : @EXPR::opVar
+
+  ....
+
+</pre>
+
+<h2>Bad txt output</h2>
+
+<p>
+If the language is not an LR1 language, then the file with the extension <b>.bad.txt</b> is produced.
+This file contains the list of bad states with conflicts. For example, for the language
+</p>
+
+<pre>
+! S
+ {
+  a : op1
+  S S : op2
+ }
+</pre>
+
+<p>
+the output is
+</p>
+
+<pre>
+--- Atoms ----------------------------------------------------------------------
+
+0) A("a")
+
+--- Syntax classes -------------------------------------------------------------
+
+0) S !
+  Rule(0)
+  Rule(1)
+
+--- Rules ----------------------------------------------------------------------
+
+0) S::op1 -> S
+  Atom(0,A("a"))
+1) S::op2 -> S
+  Synt(0,S)  Synt(0,S)
+
+--------------------------------------------------------------------------------
+--- Bad States -----------------------------------------------------------------
+
+( 2 ; S S ) = 2
+
+2) CONFLICT
+
+  (End) : @S::op2
+
+  A("a") : &lt;- @S::op2  CONFLICT
+
+--------------------------------------------------------------------------------
+</pre>
+
+<p>
+Here is a conflict state. In this state if we see the atom <b>a</b> we cannot decide, which rule, 
+<b>shift</b> or <b>op2</b> must be applied.
+</p>
+
+</body>
+
+</html>
+

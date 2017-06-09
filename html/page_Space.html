@@ -1,0 +1,74 @@
+<!--
+/* page_Space.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Space</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Space</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/Space.h</b> <b>CCore/src/gadget/Space.cpp</b></p>
+
+</body>
+
+<p>
+<b>Space</b> is a simple structure, designed to represent a region of the raw memory:
+</p>
+
+<pre>
+
+struct <span class="Att">Space</span>
+ {
+  void *mem;
+  ulen len;
+  
+  Space() noexcept : mem(0),len(0) {}
+  
+  Space(NothingType) : Space() {}
+  
+  Space(void *mem_,ulen len_) : mem(mem_),len(len_) {}
+ };
+
+</pre>
+
+<p>
+<b>DeltaLen</b> is a simple structure, designed to represent the result of a length adjustment:
+</p>
+
+<pre>
+
+struct <span class="Att">DeltaLen</span>
+ {
+  ulen delta;
+  bool ok;
+  
+  DeltaLen(NothingType) : delta(0),ok(false) {}
+    
+  DeltaLen(ulen delta_) : delta(delta_),ok(true) {}
+ };
+
+</pre>
+
+</html>
+

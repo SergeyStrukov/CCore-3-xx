@@ -1,0 +1,206 @@
+<!--
+/* page_PacketSet.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PacketSet</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PacketSet</h2>
+
+<p class="Files">Files <b>CCore/inc/PacketSet.h</b> <b>CCore/src/PacketSet.cpp</b></p>
+
+<p>
+<b>PacketSet</b> is a key class of the packet infra-structure. This class is a logical small pool of packets
+with a packet processing control and packet cancellation features. This class is used by packet originators.
+</p>
+
+<pre>
+
+inline constexpr unsigned <span class="Att">DefaultMaxPackets</span> = 50 ;
+
+template &lt;PODType POD&gt;
+class <span class="Att">PacketSet</span> : public Funchor_nocopy
+ {
+   ....
+
+  public:
+  
+   using ExtTop = PacketSetExt::ExtTop ; 
+
+   // constructors
+  
+   explicit PacketSet(ulen max_packets=DefaultMaxPackets);
+   
+   explicit PacketSet(TextLabel name,ulen max_packets=DefaultMaxPackets);
+   
+   ~PacketSet();
+   
+</pre>
+
+<p>
+The constructor argument <b>name</b> is used to name internal synchronization objects.
+</p>
+
+<p>
+The argument <b>max_packet</b> is the packet limit. You cannot have more than <b>max_packet</b>
+active packets from this packet set ("external" packets are not counted).
+</p>
+
+<p>
+<b>PacketSet</b> destructor performs the <b>cancel_and_wait()</b> operation. It also
+waits until all "external" packets are completed.
+</p>
+
+<pre>
+
+   // own list
+   
+   Packet&lt;POD&gt; try_get(); 
+   
+   Packet&lt;POD&gt; get(); // may return 0
+   
+   Packet&lt;POD&gt; get(TimeScope time_scope); 
+   
+   Packet&lt;POD&gt; get(MSec timeout); 
+   
+   Packet&lt;POD&gt; try_get_short(); 
+   
+   Packet&lt;POD&gt; get_short(); // never return 0 
+   
+   Packet&lt;POD&gt; get_short(TimeScope time_scope); 
+   
+   Packet&lt;POD&gt; get_short(MSec timeout); 
+
+</pre>
+
+<p>
+Packet get methods. They have the same semantic, as the correspondent packet pool methods. Packets are taken
+from the default packet pool. The packet set limits the number of active packets by the <b>max_packet</b>.
+All taken packets are remembered in the internal packet list, so it is possible cancel them
+or wait for completion.
+</p>
+
+<pre>
+   
+   void cancel_and_wait();
+   
+   bool wait(TimeScope time_scope);
+   
+   bool wait(MSec timeout);
+
+</pre>
+
+<p>
+<b>cancel_and_wait()</b> cancels all active packets and then waits indefinitely until they
+are completed ("external" packets are not included). 
+</p>
+
+<p>
+<b>wait()</b> waits until all active packets are completed ("external" packets are not included) 
+or up to timeout expired. 
+The return value is <b>true</b>, if the first case happens. If the timeout expires, then <b>wait()</b>
+performs the <b>cancel_and_wait()</b> operation.
+</p>
+
+<pre>
+   
+   // external list
+   
+   Packet&lt;POD&gt; try_get(ExtTop &amp;ext_list); 
+   
+   Packet&lt;POD&gt; get(ExtTop &amp;ext_list); // may return 0
+   
+   Packet&lt;POD&gt; get(ExtTop &amp;ext_list,TimeScope time_scope); 
+   
+   Packet&lt;POD&gt; get(ExtTop &amp;ext_list,MSec timeout); 
+   
+   Packet&lt;POD&gt; try_get_short(ExtTop &amp;ext_list); 
+   
+   Packet&lt;POD&gt; get_short(ExtTop &amp;ext_list); // never return 0 
+   
+   Packet&lt;POD&gt; get_short(ExtTop &amp;ext_list,TimeScope time_scope); 
+   
+   Packet&lt;POD&gt; get_short(ExtTop &amp;ext_list,MSec timeout); 
+   
+</pre>
+
+<p>
+Packet get method with an external packet list. You may use an additional external packet list, represented
+by an object of type <b>PacketSet::ExtTop</b>, when getting a packet from the packet set.
+You may use this list further to cancel all packets from this list.
+</p>
+
+<pre>
+
+   void cancel(ExtTop &amp;ext_list);
+   
+   class Cancel : NoCopy
+    {
+      PacketSet&lt;POD&gt; &amp;pset;
+      ExtTop cancel_list;
+      
+     public:
+     
+      explicit Cancel(PacketSet&lt;POD&gt; &amp;pset_) : pset(pset_) {}
+      
+      void build(ExtTop &amp;ext_list) { pset.buildCancel(ext_list,cancel_list); }
+      
+      void cancel() { DoCancel(cancel_list); }
+    };
+
+</pre>    
+
+<p>
+<b>cancel(ExtTop &amp;ext_list)</b> cancels all packets from the given external list.
+</p>
+
+<p>
+Using the inner class <b>Cancel</b>, you can cancel packets from the given external list or several
+such lists in two phase.
+The method <b>build()</b> cancels packets from the given external list and collects them into the
+working list. Then the method <b>cancel()</b> calls cancel functions of collected packets.
+</p>
+
+<pre>
+
+   // external packets 
+   
+   Packet&lt;POD&gt; enlist(Packet&lt;POD&gt; packet);
+  
+   Packet&lt;POD&gt; enlist(ExtTop &amp;ext_list,Packet&lt;POD&gt; packet);
+ };
+
+</pre>
+
+<p>
+"External" packets may be included in cancellation operations of the packet set.
+The method <b>enlist()</b> is to do this. You may specify an external packet list also.
+"External" packets are not included in waiting operations. Only the <b>PacketSet</b>
+destructor waits for their completion.
+</p>
+
+</body>
+
+</html>
+

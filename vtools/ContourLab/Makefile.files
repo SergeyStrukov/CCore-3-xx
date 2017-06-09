@@ -1,0 +1,185 @@
+OBJ_LIST = \
+obj/Application.o \
+obj/Client.o \
+obj/Contour.o \
+obj/EditAngleWindow.o \
+obj/EditLengthWindow.o \
+obj/EditRatioWindow.o \
+obj/Editor.o \
+obj/Geometry.o \
+obj/GeometryWindow.o \
+obj/ItemListWindow.o \
+obj/Parser.o \
+obj/ParserData.o \
+obj/main.o \
+
+
+ASM_LIST = \
+obj/Application.s \
+obj/Client.s \
+obj/Contour.s \
+obj/EditAngleWindow.s \
+obj/EditLengthWindow.s \
+obj/EditRatioWindow.s \
+obj/Editor.s \
+obj/Geometry.s \
+obj/GeometryWindow.s \
+obj/ItemListWindow.s \
+obj/Parser.s \
+obj/ParserData.s \
+obj/main.s \
+
+
+DEP_LIST = \
+obj/Application.dep \
+obj/Client.dep \
+obj/Contour.dep \
+obj/EditAngleWindow.dep \
+obj/EditLengthWindow.dep \
+obj/EditRatioWindow.dep \
+obj/Editor.dep \
+obj/Geometry.dep \
+obj/GeometryWindow.dep \
+obj/ItemListWindow.dep \
+obj/Parser.dep \
+obj/ParserData.dep \
+obj/main.dep \
+
+
+ASM_OBJ_LIST = \
+
+
+include $(RULES_FILE)
+
+
+obj/Application.o : ./src/Application.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Client.o : ./src/Client.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Contour.o : ./src/Contour.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/EditAngleWindow.o : ./src/EditAngleWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/EditLengthWindow.o : ./src/EditLengthWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/EditRatioWindow.o : ./src/EditRatioWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Editor.o : ./src/Editor.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Geometry.o : ./src/Geometry.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/GeometryWindow.o : ./src/GeometryWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/ItemListWindow.o : ./src/ItemListWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Parser.o : ./src/Parser.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/ParserData.o : ./src/ParserData.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/main.o : ./src/main.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+
+
+obj/Application.s : ./src/Application.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Client.s : ./src/Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Contour.s : ./src/Contour.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/EditAngleWindow.s : ./src/EditAngleWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/EditLengthWindow.s : ./src/EditLengthWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/EditRatioWindow.s : ./src/EditRatioWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Editor.s : ./src/Editor.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Geometry.s : ./src/Geometry.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/GeometryWindow.s : ./src/GeometryWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/ItemListWindow.s : ./src/ItemListWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Parser.s : ./src/Parser.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/ParserData.s : ./src/ParserData.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/main.s : ./src/main.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+
+
+obj/Application.dep : ./src/Application.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Application.o $< -MF $@
+
+obj/Client.dep : ./src/Client.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Client.o $< -MF $@
+
+obj/Contour.dep : ./src/Contour.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Contour.o $< -MF $@
+
+obj/EditAngleWindow.dep : ./src/EditAngleWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/EditAngleWindow.o $< -MF $@
+
+obj/EditLengthWindow.dep : ./src/EditLengthWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/EditLengthWindow.o $< -MF $@
+
+obj/EditRatioWindow.dep : ./src/EditRatioWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/EditRatioWindow.o $< -MF $@
+
+obj/Editor.dep : ./src/Editor.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Editor.o $< -MF $@
+
+obj/Geometry.dep : ./src/Geometry.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Geometry.o $< -MF $@
+
+obj/GeometryWindow.dep : ./src/GeometryWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/GeometryWindow.o $< -MF $@
+
+obj/ItemListWindow.dep : ./src/ItemListWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ItemListWindow.o $< -MF $@
+
+obj/Parser.dep : ./src/Parser.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Parser.o $< -MF $@
+
+obj/ParserData.dep : ./src/ParserData.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ParserData.o $< -MF $@
+
+obj/main.dep : ./src/main.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+
+
+
+
+
+ifneq ($(MAKECMDGOALS),clean)
+
+include $(DEP_FILE)
+
+endif
+

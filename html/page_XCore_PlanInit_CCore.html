@@ -1,0 +1,91 @@
+<!--
+/* page_XCore_PlanInit_CCore.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore PlanInit_CCore</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore PlanInit_CCore</h2>
+
+<p class="Files">Files <b>CCore/src/PlanInit_CCore.cpp</b></p>
+
+<p>
+This part contains the definition of the <b>CCore</b> <a href="page_PlanInit.html"><b>PlanInit</b></a> node.
+</p>
+
+<p>
+The basic list of requirements is shown here:
+</p>
+
+<pre>
+
+/* PlanInit_CCore.cpp */
+
+#include &lt;CCore/inc/PlanInit.h&gt;
+
+#include &lt;CCore/inc/Task.h&gt;
+#include &lt;CCore/inc/ObjHost.h&gt;
+#include &lt;CCore/inc/Job.h&gt;
+#include &lt;CCore/inc/PerTask.h&gt;
+#include &lt;CCore/inc/TaskMemStack.h&gt;
+#include &lt;CCore/inc/DeferCall.h&gt;
+#include &lt;CCore/inc/PacketPool.h&gt;
+
+#include &lt;CCore/inc/libc/stdioPlanInit.h&gt;
+
+namespace CCore {
+
+/* GetPlanInitNode_...() */
+
+namespace Private_PlanInit {
+
+struct Empty
+ {
+  static const char * GetTag() { return "CCore"; }
+ };
+
+PlanInitObject&lt;Empty,PlanInitReq&lt;GetPlanInitNode_TaskCoreExt&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_stdio&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_ObjHost&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_JobHost&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_PerTask&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_PacketPool&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_TaskMemStack&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_DeferCall&gt;
+                    &gt; Object CCORE_INITPRI_1 ;
+
+} // namespace Private_PlanInit
+
+using namespace Private_PlanInit;
+
+PlanInitNode * <span class="Att">GetPlanInitNode_CCore</span>() { return &Object; }
+
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

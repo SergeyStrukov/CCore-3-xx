@@ -1,0 +1,122 @@
+<!--
+/* page_XCore_stdinit.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore __std_init</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore __std_init</h2>
+
+<p class="Files">Files <b>CCore/src/libc/__std_init.cpp</b></p>
+
+<p>
+Three functions <b>__std_init()</b>, <b>__std_main()</b> and <b>__std_exit()</b> are called by the startup code to drive the application. 
+They are implemented in the target file <b>__std_init.cpp</b>. 
+</p>
+
+<pre>
+
+using namespace CCore;
+
+/* init/exit */
+
+void <span class="Att">__std_init</span>(void)
+ {
+  Dev::Init_CPU();
+
+  Init_SpecialMem();
+
+  // constructors are called here
+
+  __std_init_t *ptr=__std_get_init_base();
+  __std_init_t *lim=__std_get_init_lim();
+
+  for(; ptr&lt;lim ;ptr++)
+    {
+     if( __std_init_t func=*ptr ) func();
+    }
+ }
+
+extern void before_main();
+
+void <span class="Att">__std_main</span>(void)
+ {
+  Task::Internal::Enable();
+
+  try
+    {
+     before_main();
+    }
+  catch(...)
+    {
+     Abort("Fatal error : exception from before_main()");
+    }
+
+  Task::Internal::Disable();
+ }
+
+void <span class="Att">__std_exit</span>(void)
+ {
+  Exit_atexit(); // call atexit functions, destructors are called here
+
+  Exit_SpecialMem();
+
+  Dev::Exit_CPU();
+ }
+
+</pre>
+
+<p>
+<b>__std_init()</b> performs initializations. The first step is the basic CPU initialization, the function <b>Dev::Init_CPU()</b> is responsible for it.
+For example, on <b>BeagleBoneBlack</b> this function setups CPU clock and core clocks, then initialize the memory address translation table
+and setup MMU and some other CPU control registers for proper operation.
+</p>
+
+<p>
+The next urgent step is the special heap initialization by the function <b>Init_SpecialMem()</b>. 
+The interrupt heap must be ready ASAP for the proper C++ code execution.
+</p>
+
+<p>
+Finally, constructors of global objects are called.
+</p>
+
+<p>
+<b>__std_main()</b> is the first main-function. It enables <b>XCore</b> and calls <b>main()</b> or <b>before_main()</b> functions to run the main code.
+You may introduce in your target the function <b>before_main()</b> to do additional HW and SW initialization.
+Between <b>Task::Internal::Enable()</b> and <b>Task::Internal::Disable()</b> <b>XCore</b> is fully operational and console is switched to the packet mode.
+New tasks can be spawned here. <b>Task::Internal::Enable()</b> spawns special tasks and switches the console to the packet mode.
+<b>Task::Internal::Disable()</b> waits for extra task completion and stops the special tasks, console is switched back from the packet mode 
+to the polling mode.
+</p>
+
+<p>
+<b>__std_exit()</b> calls <b>Exit_atexit()</b> first, it calls global object destructors also. 
+Then <b>Exit_SpecialMem()</b> and <b>Dev::Exit_CPU()</b> to shutdown the system.
+</p>
+
+</body>
+
+</html>
+

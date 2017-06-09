@@ -1,0 +1,25 @@
+/* Pad.lang */
+
+! DECL
+ {
+  point Name ( Number , Number ) : point@v1
+
+  Name ( Number , Number ) : point@v2
+
+  len Name = Number : length@v1
+
+  len Name = Length : length@v2
+
+  Name = Length : length@v3
+
+  angle Name = Number : angle@v1
+
+  angle Name = Angle : angle@v2
+
+  Name = Angle : angle@v3
+
+  ratio Name = Number : ratio@v1
+
+  Name = Number : ratio@v2
+ }
+

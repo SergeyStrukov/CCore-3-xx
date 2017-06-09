@@ -1,0 +1,168 @@
+<!--
+/* page_Tuple.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Tuple</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Tuple</h2>
+
+<p class="Files">Files <b>CCore/inc/Tuple.h</b> <b>CCore/src/Tuple.cpp</b></p>
+
+<p>
+Classes <b>Tuple</b> and <b>ForwardTuple</b> have a spartan design in <b>CCore</b>, because they were introduced to solve some particular problems.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+struct <span class="Att">Tuple</span>
+ {
+  ....
+  
+  Tuple() {}
+  
+  explicit Tuple(const TT &amp; ...);
+  
+  template &lt;int I&gt;
+  auto &amp; ref();
+
+  template &lt;int I&gt;
+  auto &amp; ref() const;
+
+  template &lt;int I&gt;
+  auto &amp; ref_const() const;
+
+  template &lt;FuncInitArgType&lt;TT &amp; ...&gt; FuncInit&gt;
+  auto call(FuncInit func_init);
+  
+  template &lt;FuncInitArgType&lt;const TT &amp; ...&gt; FuncInit&gt;
+  auto call(FuncInit func_init) const;
+ };
+
+template &lt;class ... TT&gt;
+struct <span class="Att">ForwardTuple</span>
+ {
+  ....
+  
+  ForwardTuple() {}
+  
+  explicit ForwardTuple(TT &amp;&amp; ...);
+  
+  template &lt;int I&gt;
+  auto &amp;&amp; ref() const;
+
+  template &lt;FuncInitArgType&lt;TT &amp;&amp; ...&gt; FuncInit&gt;
+  void call(FuncInit func_init) const;
+ };
+
+</pre>
+
+<p>
+The main problem is to capture an argument list and use it further in a functor call. The difference between <b>Tuple</b> and 
+<b>ForwardTuple</b> is the first makes copies of the arguments, but the second holds rvalue references. <b>Tuple</b> is
+used when you need to store the arguments. If you have to capture them only temporary then <b>ForwardTuple</b> may be used.
+</p>
+
+<p>
+The method <b>ref()</b> referes to the particular tuple member with the given 1-based index.
+</p>
+
+<p>
+Both classes use the <a href="page_FunctorType.html">Functor Init Pattern</a>.
+</p>
+
+<p>
+The method <b>call()</b> builds and calls a functor with the argument list, captured by the tuple.
+</p>
+
+<pre>
+
+void func(int a,double b);
+
+....
+
+int a;
+double b;
+
+auto tuple = Tuple(a,b) ;
+
+tuple.call(func); // calls func(a,b);
+
+</pre>
+
+<p>
+<b>Tuple</b> is used in the log implementation:
+</p>
+
+<pre>
+
+template &lt;class Cat,class Stamp,class T,class ... TT&gt;
+class LogMsg&lt;Cat,Stamp,T,TT...&gt; : public LogMsgBase&lt;Cat,Stamp&gt;
+ {
+   const char *format;
+   Tuple&lt;T,TT...&gt; data;
+   
+  private: 
+   
+   virtual void printBody(PrintBase &amp;out) const
+    {
+     Printf(out,format,data);
+    }
+   
+  public: 
+  
+   LogMsg(Cat cat,const char *format_,const T &amp;t,const TT &amp; ... tt)
+    : LogMsgBase&lt;Cat,Stamp&gt;(cat),format(format_),data(t,tt...) {}
+ };
+
+</pre>
+
+<p>
+<b>ForwardTuple</b> is used in the array algorithms implementation:
+</p>
+
+<pre>
+
+template &lt;class T,class ... SS&gt;
+struct Creator_fill
+ {
+  enum NoThrowFlagType { NoThrow = false };
+  
+  ForwardTuple&lt;SS...&gt; ss;
+  
+  explicit Creator_fill(SS &amp;&amp; ... ss_) : ss( std::forward&lt;SS&gt;(ss_)... ) {}
+  
+  T * operator () (Place&lt;void&gt; place)
+   {
+    return ss.call( [place] (SS &amp;&amp; ... ss) { return new(place) T( std::forward&lt;SS&gt;(ss)... ); } );
+   }
+ };
+ 
+</pre>
+
+</body>
+
+</html>
+

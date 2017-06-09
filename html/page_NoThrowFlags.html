@@ -1,0 +1,105 @@
+<!--
+/* page_NoThrowFlags.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> NoThrowFlags</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>NoThrowFlags</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/NoThrowFlags.h</b> <b>CCore/src/gadget/NoThrowFlags.cpp</b></p>
+
+<p>
+In <b>CCore</b> we need to determine two type properties: if a type has a <b>nothrow</b> default constructor 
+(or has no the default constructor at all) and if a type has a <b>nothrow</b> copy constructor (or has no the copy constructor at all).
+<b>NoThrowFlags</b> is a tool which declare these type properties of a class. You are responsible that the declaration is correct!
+</p>
+
+<p>
+Th declare class properties the base class <b>SetNoThrowFlags</b> is used:
+</p>
+
+<pre>
+
+class SomeClass : public <span class="Att">SetNoThrowFlags&lt;SomeClass, /* Default_no_throw */ true, /* Copy_no_throw */ true&gt;</span>
+ {
+  ....
+ };
+
+</pre>
+
+OR
+
+<pre>
+
+class SomeClass : public <span class="Att">SetDefaultNoThrowFlag</span>&lt;SomeClass, true/false &gt;
+ {
+  ....
+ };
+
+</pre>
+
+<p>
+If a class has no such base class, the default way to determine these class properties is used. 
+To do it the standard <b>Meta-function</b>s <b>std::is_default_constructible</b> and other are used.
+If a "bad" result is encountered (<b>false</b>) a warning is emitted.
+You can set these properties <b>true</b> by adding the <b>noexcept</b> qualifier to the declaration of the default or copy
+constructor. 
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   SomeClass() noexcept;
+
+   SomeClass(const SomeClass &obj) noexcept;
+ };
+
+</pre>
+
+<p>
+To retrieve <b>NoThrowFlags</b> the following <b>Meta-class</b> is used: 
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">GetNoThrowFlags</span>
+ {
+  enum NoThrowFlagType
+   {
+    Default_no_throw = ....,
+    Copy_no_throw = ....
+   };
+ };
+
+</pre>
+
+</body>
+
+</html>
+

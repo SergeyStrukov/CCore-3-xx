@@ -1,0 +1,187 @@
+<!--
+/* page_TextTools.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Text tools</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Text tools</h2>
+
+<p class="Files">Files <b>CCore/inc/TextTools.h</b> <b>CCore/src/TextTools.cpp</b></p>
+
+<p>
+This header contains several simple tools to work with text and characters.
+</p>
+
+<h4>Character property functions</h4>
+
+<pre>
+
+inline bool <span class="Att">CharIsEOL</span>(char ch) { return ch=='\r' || ch=='\n' ; }
+
+inline bool <span class="Att">CharIsBin</span>(char ch);
+ 
+inline bool <span class="Att">CharIsDec</span>(char ch);
+
+inline bool <span class="Att">CharIsHex</span>(char ch);
+
+inline int <span class="Att">CharBinValue</span>(char ch);
+
+</pre>
+
+<p>
+<b>CharIsEOL()</b> &mdash; end-of-line character, one of '\n' or '\r'.
+</p>
+
+<p>
+<b>CharIsBin()</b> &mdash; char is a binary digit.
+</p>
+
+<p>
+<b>CharIsDec()</b> &mdash; char is a decimal digit.
+</p>
+
+<p>
+<b>CharIsHex()</b> &mdash; char is a hexadecimal digit.
+</p>
+
+<p>
+<b>CharBinValue()</b> &mdash; binary value of the character, or -1 if is not a binary digit.
+</p>
+
+<h4>TextPos</h4>
+
+<p>
+This class represents a text position. It also counts a new text position after some
+text fragment. It is designed to calculate text positions during a text file processing.
+This class counts all cases "\r", "\n", "\r\n" as a line delimiters.
+</p>
+
+<pre>
+
+struct <span class="Att">TextPos</span>
+ {
+  ulen line;
+  ulen col;
+
+  TextPos() : line(1),col(1) {}
+  
+  void nextPos() { col++; }
+ 
+  void nextLine() { col=1; line++; }
+  
+  void update(ulen len) { col+=len; }
+  
+  void update(StrLen text); // must not break "\r\n"
+ 
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor sets the initial text position: <b>line</b> is 1 and <b>col</b> is 1. 
+</p>
+
+<p>
+<b>nextPos()</b> moves to the next position in the same line.
+</p>
+
+<p>
+<b>nextLine()</b> moves to the begin of the next line.
+</p>
+
+<p>
+<b>update()</b> moves on <b>len</b> positions at the same line.
+</p>
+
+<p>
+<b>update()</b> moves by the text fragment. The fragment must not break a sequence "\r\n".
+</p>
+
+<p>
+The class is printable in the form <b>"(line=&lt;line&gt;,col=&lt;col&gt;)"</b>.
+</p>
+
+<h4>CharPropTable</h4>
+
+<p>
+<b>CharPropTable</b> is a <b>Partial class</b>. It is a look-up table, which sets a value (character class)
+to each character. A derived class must initialize the table using protected methods.
+</p>
+
+<pre>
+
+template &lt;class CharClass,CharClass DefaultClass&gt;
+class <span class="Att">CharPropTable</span> : NoCopy
+ {
+   CharClass table[256];
+   
+  protected:
+  
+   void set(char ch,CharClass cc);
+
+   void setSet(const char *zstr,CharClass cc);
+   
+   void setIf(FuncType&lt;bool,char&gt; cond,CharClass cc);
+
+  public:
+
+   CharPropTable();
+
+   CharClass operator [] (char ch) const;
+ };
+
+</pre>
+
+<p>
+<b>CharClass</b> is a value type, <b>enum</b> type is expected. <b>DefaultClass</b> is a default value,
+assigned to each character. Constructor initializes the table assigning the <b>DefaultClass</b>
+to each character.
+</p>
+
+<p>
+<b>operator []</b> returns a value, assigned to the particular character.
+</p>
+
+<p>
+A derived class can use the set of protected members to initialize the table.
+</p>
+
+<p>
+<b>set()</b> sets the given value to the given character.
+</p>
+
+<p>
+<b>setSet()</b> sets the given value to the set of characters from the given zero-terminated string.
+</p>
+
+<p>
+<b>setIf()</b> sets the given value to characters, satisfied the condition, given as a functor-predicate.
+</p>
+
+</body>
+
+</html>
+

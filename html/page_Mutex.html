@@ -1,0 +1,227 @@
+<!--
+/* page_Mutex.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Mutex</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Mutex</h2>
+
+<p class="Files">Files <b>CCore/inc/task/Mutex.h</b> <b>CCore/src/task/Mutex.cpp</b></p>
+
+<p>
+<b>Mutex</b> is a mutex, i.e. a class, used to serialize a group of code blocks, executed by multiple threads.
+</p>
+
+<pre>
+
+class <span class="Att">Mutex</span> : NoCopy
+ {
+   ....
+   
+  public: 
+  
+   Mutex();
+   
+   explicit Mutex(TextLabel name);
+   
+   ~Mutex();
+   
+   void lock();
+  
+   void unlock();
+
+   using Lock = LockObject&lt;Mutex&gt; ;
+ };
+
+</pre>
+
+<p>
+<b>lock()</b> establishes an exclusive ownership on the mutex from the calling thread. A thread can lock the mutex
+multiple times, any extra locks just increases the internal lock counter.
+</p>
+
+<p>
+If the mutex is locked and a different thread is trying to lock it, then this thread will be 
+blocked, until the mutex is released.
+</p>
+
+<p>
+<b>unlock()</b> is a "memory fence" operation, i.e. all variable changes, made before unlock, will be visible
+to other threads, locking the mutex.
+</p>
+
+<p>
+<b>unlock()</b> is used to release a lock. If the mutex was locked several times, it must be unlocked
+the same number of times to be completely released.
+</p>
+
+<p>
+<span class="Alert">It is highly recommended to lock a mutex using the inner class <b>Lock</b></span>:
+</p>
+
+<pre>
+
+Mutex mutex;
+
+ {
+  Mutex::Lock lock(mutex);
+
+  ....
+ }
+
+</pre>
+
+<p>
+A manual calls of the <b>lock()/unlock()</b> must be excluded.
+</p>
+
+<p>
+<b>Mutex</b> operations are efficient, if they don't cause a task block/release.
+</p>
+
+<p>
+The most common <b>Mutex</b> usage is to make a class thread-safe:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+   Mutex mutex;
+
+  public:
+
+   void method()
+    {
+     Mutex::Lock lock(mutex);
+
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+Building a large-scale application, comprised by multiple components, it is easy to create a sadden
+deadlock using mutexing in a non-systematic way. So to avoid it I recommend to follow these simple rules:
+</p>
+
+<p>
+Lock-free context is a part of code which does not hold any mutex. Most of application code must run
+in a lock-free context. If you locked a mutex, don't use any other synchronization methods, both
+blocking and releasing. Make locked sections of code "quick". Avoid nested mutex locks.
+Sometimes you have to nest mutexes, for example, you may call a memory allocation function, which holds
+a heap mutex. But in this case there is no risk to create a deadlock. "Leaf" mutexes, i.e. mutexes whose
+locked code regions do not make another locks, are deadlock safe. So keep mutexes "leaf", restrict
+particular mutex usage by defined code regions, for example, methods of a single class. If you still
+have to nest mutex usage, decide an order of locks: one mutex always must be locked before another.
+</p>
+
+<h4>HCore Mutex</h4>
+
+<pre>
+
+inline unsigned <span class="Att">MutexSpinCount</span>() { return Sys::GetSpinCount(); }
+
+class <span class="Att">Mutex</span> : NoCopy
+ {
+   ....
+
+  public: 
+  
+   explicit Mutex(unsigned spin_count=MutexSpinCount());
+   
+   explicit Mutex(TextLabel name,unsigned spin_count=MutexSpinCount());
+   
+   ~Mutex();
+   
+   void lock();
+  
+   void unlock();
+  
+   unsigned getSemCount();
+   
+   using Lock = LockObject&lt;Mutex&gt; ;
+ };
+</pre>
+
+<p>
+<b>HCore</b> <b>Mutex</b> constructor uses the additional argument: <b>spin_count</b>. It is defaulted
+to the some target-dependent value. Spinning is used on multi-core systems. If the mutex is locked, then
+it is useful not to block the thread immediately, but to "spin" some times, waiting for the mutex release.
+</p>
+
+<p>
+<b>getSemCount()</b> method can be used for a performance investigations. It is the number of times, when
+the mutex called the internal system semaphore.
+</p>
+
+<h4>XCore mutex</h4>
+
+<pre>
+
+class <span class="Att">Mutex</span> : NoCopy
+ {
+   ....
+   
+  public: 
+  
+   Mutex();
+   
+   explicit Mutex(TextLabel name);
+   
+   ~Mutex();
+   
+   TextLabel getName() const;
+
+   void lock();
+  
+   void unlock();
+  
+   using Lock = LockObject&lt;Mutex&gt; ;
+ };
+
+</pre>
+
+<p>
+<b>XCore</b> <b>Mutex</b> implementation has two important properties.
+</p>
+
+<p>
+First, it has a mutex deadlock detection. If such situation has happened, then the <b>Abort()</b> with the 
+proper diagnostic message is called.
+</p>
+
+<p>
+Second, the priority inheritance is used to boost task priorities. Normally, each task runs on the given priority.
+But in some situations the task priority is temporary boosted. Consider the following case. Task A has locked a mutex.
+Task B with higher priority is trying to lock the same mutex. But because it is locked, task B becomes blocked, until
+task A release the mutex. In this case the priority of task A is boosted to the priority of task B.
+</p>
+
+</body>
+
+</html>
+

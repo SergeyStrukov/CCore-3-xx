@@ -1,0 +1,66 @@
+<!--
+/* page_PrintTime.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PrintTime</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PrintTime</h2>
+
+<p class="Files">Files <b>CCore/inc/PrintTime.h</b> <b>CCore/src/PrintTime.cpp</b></p>
+
+<p>
+<b>PrintTime</b> is a <b>Helper Type</b>, it prints a time, represented by an unsigned integral type in seconds.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+class <span class="Att">PrintTime</span>
+ {
+   UInt value;
+   
+  public: 
+  
+   explicit PrintTime(UInt value_) : value(value_) {}
+  
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Time is printed in the form <b>hh:mm:ss</b> or <b>dd:hh:mm:ss</b>.
+</p>
+
+<pre>
+
+Printf(Con,"#;\n",PrintTime(1000u)); // 00:16:40
+
+</pre>
+
+</body>
+
+</html>
+

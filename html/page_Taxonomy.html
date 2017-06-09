@@ -1,0 +1,419 @@
+<!--
+/* page_Taxonomy.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Taxonomy of classes</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Taxonomy of classes</h2>
+
+<p>
+This page provides the list of common terms and the taxonomy of classes. <b>Class</b> in C++ is a very
+generic and powerful entity, so we classify them by their purpose and nature.
+</p>
+
+<h3>Terms</h3>
+
+<p>
+<b>Efficient</b> means <b>O(1)-nothrow</b>. I.e. it is a sequence of operations, which has a definite,
+reasonably small execution time limit and always successful.
+</p>
+
+
+<p>
+<b>Derivability</b> is the ability of some entity to be used as the building block of the whole. See, for example,
+<a href="page_Swap.html"><b>Swap</b></a>.
+</p>
+
+
+<h3><i>Class</i>ification</h3>
+
+<h4>Word</h4>
+
+<p>
+<b>Word</b> is a enumerator, purposed to verbose some generic action. In C++ there are no named constructors.
+But it is possible to add an unused argument of a <b>Word</b> type to clearly distinguish between different
+overloaded constructors. See, for example, <a href="page_Nothing.html"><b>Nothing</b></a>. 
+</p>
+
+<h4>Guard function</h4>
+
+<p>
+<b>Guard function</b> ensures some condition. If the required condition is not true, an exception is thrown.
+See, for example, <a href="page_PtrLen.html"><b>GuardIndex()</b></a>. Usually, we define a guard function by the following pattern:
+</p>
+
+<pre>
+
+void GuardXXXCCC(&lt;arg_list&gt;); // exception throwing function
+
+void GuardXXX(&lt;arg_list&gt;) // guard function 
+ {
+  if( &lt;not condition&gt; ) GuardXXXCCC(&lt;arg_list&gt;);
+ }
+
+</pre>
+
+<p>
+Class methods can also be guard methods.
+</p>
+
+<h4>Abort function</h4>
+
+<p>
+<b>Abort function</b> aborts execution with some diagnostic message. For example, 
+<a href="page_Init.html"><b>NoObjectAbort()</b></a> is called when the requested object has not been initialized.
+</p>
+
+<h4>Creator function</h4>
+
+<p>
+<b>Creator function</b> creates some object. Normally we create an object using its class constructor. But if we are using
+class templates, we have to provide a template argument list. Using <b>Creator function</b> allows infer this list from the
+function argument types. In C++17 <b>Creator function</b>s are obsolete, but still used in some situations.
+</p>
+
+<h4>Partial class</h4>
+
+<p>
+<b>Partial class</b> is a class not intended for a direct usage, but designed to be a building block for a derived class.
+Like a sophisticated machine, built from a machine parts, in C++ a complex class can be constructed from smaller
+and simpler classes. Sometimes such parts are not usable alone. Hence we call them <b>Partial</b>. 
+See, for example, <a href="page_ToMemBase.html"><b>ToMemBase</b></a>. Such classes often have names ending in "Base".
+</p>
+
+<h4>Small Data Type</h4>
+
+<p>
+<b>Small Data Type</b> is a type like basic types with a small state and data semantic. These types
+have <b>efficient</b> copy constructor and assign operator.
+</p>
+
+<pre>
+
+struct Point
+ {
+  int x;
+  int y;
+ };
+
+</pre>
+
+<h4>Data Type</h4>
+
+<p>
+<b>Data Type</b> is a type with data semantic, but with an arbitrary large state. The simplest example is the class 
+<a href="page_String.html"><b>String</b></a>.
+The purpose of such types is to store some piece of data. The data is stored in some owned buffer.
+They may have the copy constructor and the assign operator. These operators can be implemented as <b>efficient</b> 
+operations using reference counting.
+In <b>CCore</b> we don't make a class copyable if there is no way to make it <b>efficient</b>. In such situation the class
+is not copyable, but usually swappable/movable.
+</p>
+
+<h4>Resource Host Type</h4>
+
+<p>
+<b>Resource Host Type</b> is a wrapper over some resource handle, like a file descriptor, a socket descriptor, any other OS
+object descriptor, object pointer, memory block pointer etc. In destructor the handle is released. The purpose of such types
+is to ensure the resource will be eventually released. It also provides some methods to use the resource.
+<b>Resource Host Type</b>s are not copyable, but swappable/movable.
+</p>
+
+<h4>Scope Lock Type</h4>
+
+<p>
+<b>Scope Lock Type</b> objects are used to "lock" something for the duration of a scope. For example, 
+the <b>Mutex::Lock</b> object is used to lock a mutex:
+</p>
+
+<pre>
+
+Mutex mutex;
+
+{
+ Mutex::Lock lock(mutex);
+
+ ....
+}
+
+</pre>
+
+<p>
+<b>Scope Lock Type</b> performs some "entry" operation in its constructor and then when scope is exited by any way 
+some "leave" operation in its destructor. 
+</p>
+
+<h4>Container Type</h4>
+
+<p>
+<b>Container Type</b> is a class, purposed to store another objects. Container not only provides a storage, but also
+controls the life-time of contained objects.
+</p>
+
+<h4>Resource Provider Type</h4>
+
+<p>
+<b>Resource Provider Type</b> is a class, purposed to distribute some resource. For example, the memory. Usually, all
+taken resources must be given back before the provider object is destroyed.
+</p>
+
+<h4>Pointer Type</h4>
+
+<p>
+<b>Pointer Type</b> "points" to another object. It gives access to the object functionality.
+</p>
+
+<h4>Cursor</h4>
+
+<p>
+<b>Cursor</b> can iterate through a set of objects. In <b>CCore</b> the following interface
+is used for cursors:
+</p>
+
+<pre>
+
+class Cursor
+ {
+  public:
+
+   boolable operator + () const; // cursor points to an object
+
+   bool operator ! () const; // cursor is stopped, == !+(*this)
+
+   void operator ++ (); // move to the next object, precondition( +(*this) )
+
+   // reference variant, can be read-only
+
+   T & operator * () const; // the current object, precondition( +(*this) )
+
+   T * operator -> () const; // the current object, precondition( +(*this) )
+
+   // value variant, always read-only 
+
+   T operator * () const; // the current object, precondition( +(*this) )
+ };
+
+</pre>
+
+<p>
+Here is a typical cursor loop:
+</p>
+
+<pre>
+
+R r=....;
+
+for(; +r ;++r) { do_with(*r); }
+
+</pre>
+
+<h4>Range Access Interface</h4>
+
+<p>
+<b>Range Access Interface</b> is the interface, used to present a range of objects:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   T * getPtr();
+   
+   const T * getPtr() const;
+   
+   const T * getPtr_const() const;
+   
+   ulen getLen() const;
+ };
+
+</pre>
+
+<p>
+Usually, this interface is implemented by <b>Container Type</b>s or some <b>Proxy Type</b>s.
+</p>
+
+<a name="ObjectPointerInterface"><h4>Object Pointer Interface</h4></a>
+
+<p>
+<b>Object Pointer Interface</b> is implemented by <b>Pointer Type</b>s to give access to the pointee object:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   boolable operator + () const; // points to an object
+   
+   bool operator ! () const; // no object, == !+(*this)
+  
+   T * getPtr() const; // the current object, precondition( +(*this) )
+   
+   T & operator * () const; // the current object, precondition( +(*this) )
+   
+   T * operator -> () const; // the current object, precondition( +(*this) )
+ };
+
+</pre>
+
+<p>
+This interface can be reduced to
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   T * getPtr() const; // the current object
+   
+   T & operator * () const; // the current object
+   
+   T * operator -> () const; // the current object
+ };
+
+</pre>
+
+<p>
+if the class cannot be in the null state.
+</p>
+
+<h4>Property Type</h4>
+
+<p>
+<b>Property Type</b> is a kind of classes, providing some properties and meant to be used as the base to
+inherit these properties by a derived class. For example, see <a href="page_NoCopy.html"><b>NoCopy</b></a> or
+<a href="page_MemoryManagement.html#MemBase"><b>MemBase</b></a>.
+</p>
+
+<h4>Helper Type</h4>
+
+<p>
+<b>Helper Type</b> is a type, designed to do some job, usually objects of such types are temporary, or local objects.
+See, for example, <a href="page_PrintSet.html"><b>PrintSet</b></a>. <b>Helper Type</b>s are used instead of
+functions, in such cases, where, for instance, the object is required, like in the example above.
+</p>
+
+<h4>Proxy Type</h4>
+
+<p>
+<b>Proxy Type</b> is close to the <b>Helper Type</b>. Objects of such types are used to do some job on behalf
+of another type object.
+</p>
+
+<h4>Device Type</h4>
+
+<p>
+It is not easy to explain the term <b>Device Type</b>. The simplest example is a printing device. It is a class,
+putting characters into some output storage (for example, a file). Or serialization/deserialization devices.
+Another example &mdash; packet processing devices, like <b>PTP</b> protocol device classes. You can image
+some mechanical device, doing some job. If you can think about some class like about such device, it is likely 
+a <b>Device Type</b>.
+</p>
+
+<h4>Algorithm Package</h4>
+
+<p>
+<b>Algorithm Package</b> is a stateless class, containing definitions of constants, types, functions. It is purposed
+to serve as a template argument to provide an implementation of something. It allows to customize
+templated definitions in a very flexible manner. Such class can be huge or small.
+See, for example, <a href="page_OwnPtr.html"><b>OwnAlgo</b></a>. 
+</p>
+
+<h4>Class-function</h4>
+
+<p>
+<b>Class-function</b> is a class, used as a function. Its constructor is a function body. The constructed
+object is a return value. Such classes are useful if you have to return a large or non-copyable object.
+See, for example, <a href="page_MemoryManagement.html#MemStat"><b>MemStat</b></a>.
+</p>
+
+<h4>Meta-class</h4>
+
+<p>
+<b>Meta-class</b> is a class, used to present the result of a meta-calculation. It contains only static members, like
+constants, types or static functions.
+</p>
+
+<h4>Meta-function</h4>
+
+<p>
+<b>Meta-function</b> is a class template, instantiation of meta-function produces a meta-class. Usually,
+<b>Meta-function</b> are defined using partial or complete specialization. 
+Here is the <b>Meta::SelectCtor</b>:
+</p>
+
+<pre>
+
+template &lt;bool Cond,class T1,class T2&gt; struct SelectCtor;
+
+template &lt;class T1,class T2&gt;
+struct SelectCtor&lt;true,T1,T2&gt;
+ {
+  using Ret = T1 ;
+ };
+
+template &lt;class T1,class T2&gt;
+struct SelectCtor&lt;false,T1,T2&gt;
+ {
+  using Ret = T2 ;
+ };
+
+</pre>
+
+<h4>Meta-constant</h4>
+
+<p>
+<b>Meta-constant</b> is a constant template. Here is the <b>MaxUInt</b>.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+inline constexpr UInt MaxUInt = UInt(-1) ;
+
+</pre>
+
+<h4>Meta-type</h4>
+
+<p>
+<b>Meta-type</b> is a type template. Here is the <b>Meta::Select</b>.
+</p>
+
+<pre>
+
+template &lt;bool Cond,class T1,class T2&gt;
+using Select = typename SelectCtor&lt;Cond,T1,T2&gt;::Ret ;
+
+</pre>
+
+</body>
+
+</html>
+

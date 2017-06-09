@@ -1,0 +1,674 @@
+<!--
+/* page_Logging.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Logging</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Logging</h2>
+
+<p class="Files">Files <b>CCore/inc/Log.h</b> <b>CCore/src/Log.cpp</b></p>
+
+<p>
+<b>CCore</b> provides a log implementation, it can be used as a system-wide log in embedded applications
+or as a local log of an application or a system component. The log is <b>efficient</b>, providing
+you use efficient types for log message arguments. To store log messages a fixed memory space is used.
+</p>
+
+<p>
+A log message has an associated category and a time-stamp. You can use filters to control the
+message logging and the message selection from a log. Log also counts messages. 
+Log stores a message as a compact data structure, which includes message category, time-stamp,
+format string and format arguments. Format string must be a persistent string.
+Format arguments are copied, so they must have a value semantic. It is recommended, that format arguments
+should be <b>Small Data Type</b>s.
+</p>
+
+<h4>LogCategory_enum</h4>
+
+<p>
+The class <b>LogCategory_enum</b> implements a log message category type, based on two enums.
+</p>
+
+<pre>
+
+template &lt;class Src,class Type&gt; // Src and Type are uint5 enums
+class <span class="Att">LogCategory_enum</span>
+ {
+   ....
+   
+  public:
+   
+   // constructors
+  
+   LogCategory_enum();
+  
+   LogCategory_enum(Src src,Type type);
+   
+   // methods
+   
+   Src getSource() const;
+  
+   Type getType() const;
+   
+   // print object
+ 
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+It stores internally two enum values: <b>Src</b> and <b>Type</b>. It is assumed that the <b>Src</b> describes
+the message source, and the <b>Type</b> describes the message type. <b>Src</b> and <b>Type</b> must
+be <b>"uint5"</b> enums, i.e. the usable value range should be representable by a 5-bits unsigned.
+</p>
+
+<h4>LogFilter_enum</h4>
+
+<p>
+The class <b>LogFilter_enum</b> implements a log message filter for the category type of the
+<b>LogCategory_enum</b>.
+</p>
+
+<pre>
+
+template &lt;class Src,class Type&gt; // Src and Type are uint5 enums
+class <span class="Att">LogFilter_enum</span>
+ {
+   ....
+
+  public:
+   
+   // constructors
+  
+   LogFilter_enum(); // enable all
+   
+   LogFilter_enum(LogCategory_enum&lt;Src,Type&gt; cat); // filter all other cats
+   
+   // enable/disable
+   
+   void enable(Src src);
+    
+   void enable(Type type);
+    
+   void disable(Src src);
+    
+   void disable(Type type);
+   
+   // filter all cats with disabled src OR disabled type
+   
+   bool operator () (LogCategory_enum&lt;Src,Type&gt; cat) const;
+ };
+ 
+</pre>
+
+<p>
+Default constructor creates a filter, which passes all categories.
+</p>
+
+<p>
+The second constructor creates a filter, which passes only the given category.
+</p>
+
+<p>
+<b>enable()</b> enables the given type or source.
+</p>
+
+<p>
+<b>disable()</b> disables the given type or source.
+</p>
+
+<p>
+The <b>operator ()</b> is a filter function. It is called to filter out the given category.
+If the return value is <b>true</b>, the category must be filtered out.
+This filter filters categories, whose source is disabled OR whose type is disabled.
+</p>
+
+<h4>LogStamp</h4>
+
+<p>
+The class <b>LogStamp</b> is a default log time-stamp class implementation.
+It is a <b>Small Data Type</b>. It holds 3 values: the message number, the message second time-stamp
+and the message differential clock time-stamp (i.e. the clock time since the previous message).
+The inner class <b>Host</b> is responsible for the time-stamp generation. An instance of this class
+is created as the part of a log object.
+</p>
+
+<pre>
+
+class <span class="Att">LogStamp</span>
+ {
+   ulen num;
+   SecTimer::ValueType time_sec;
+   ClockDiffTimer::ValueType time_clock;
+   
+  public: 
+  
+   // constructors
+   
+   LogStamp() : num(0),time_sec(0),time_clock(0) {}
+   
+   // print object
+   
+   void print(PrinterType &amp;out) const
+    {
+     Printf(out,"#;) [#;,#6r;]",num,PrintTime(time_sec),time_clock);
+    }
+   
+   // Host
+    
+   class Host : NoCopy
+    {
+      ulen num;
+      SecTimer sec_timer;
+      ClockDiffTimer clock_timer;
+      
+     public:
+     
+      Host() : num(0) {}
+      
+      void operator () (LogStamp &amp;stamp)
+       {
+        stamp.num=num++;
+        stamp.time_sec=sec_timer.get();
+        stamp.time_clock=clock_timer.get();
+       }
+    };
+ };
+
+</pre>
+
+<p>
+Any other log time-stamp classes must follow this pattern:
+</p>
+
+<pre>
+
+class <span class="Att">SomeLogTimeStamp</span> // Small Data Type
+ {
+   ....
+
+  public:
+
+   // default constructor
+
+   SomeLogTimeStamp();
+
+   // print object
+   
+   void print(PrinterType &amp;out) const;
+
+   // Host -- time-stamp generator
+    
+   class Host : NoCopy
+    {
+      ....
+
+     public:
+     
+      Host();
+      
+      void operator () (SomeLogTimeStamp &amp;stamp)
+    };
+ };
+
+</pre>
+
+<h4>LogCounter</h4>
+
+<p>
+The class <b>LogCounter</b> is to count log messages. It has two counters: the total message count
+and the committed message count. A message can be skipped by different reasons.
+</p>
+
+<pre>
+
+class <span class="Att">LogCounter</span>
+ {
+   ulen total;
+   ulen committed;
+ 
+  public:
+  
+   // constructors
+   
+   LogCounter()
+    {
+     total=0;
+     committed=0;
+    }
+   
+   // count
+   
+   void alloc() { total++; }
+   
+   void commit() { committed++; }
+   
+   // print object
+   
+   void print(PrinterType &amp;out) const
+    {
+     Printf(out,"total = #;",total);
+     
+     if( ulen skipped=total-committed ) Printf(out," skipped = #;",skipped);
+    }
+ };
+
+</pre>
+
+<h4>LogMsgBase</h4>
+
+<p>
+This class serves as the base class for log message object classes.
+</p>
+
+<pre>
+
+template &lt;class Cat,class Stamp&gt;
+class <span class="Att">LogMsgBase</span> : NoCopy
+ {
+   ....
+
+  private: 
+   
+   virtual void printBody(PrintBase &amp;) const {}
+   
+  public:
+  
+   // constructors
+   
+   explicit LogMsgBase(Cat cat_) : cat(cat_) {}
+   
+   virtual ~LogMsgBase() {}
+   
+   // methods
+   
+   Cat getCategory() const { return cat; }
+   
+   // print object
+   
+   void print(PrintBase &amp;out) const;
+ };
+
+</pre>
+
+<h4>LogMsg</h4>
+
+<p>
+This class is an actual log message object type, as it is stored in a log. 
+It is derived from the <b>LogMsgBase</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">LogableType</span> = PrintableType&lt;T&gt; &amp;&amp; NothrowCopyableType&lt;T&gt; ;
+
+template &lt;class Cat,class Stamp,LogableType ... TT&gt;
+class <span class="Att">LogMsg&lt;Cat,Stamp,TT...&gt;</span> : public LogMsgBase&lt;Cat,Stamp&gt;
+ {
+   const char *format;
+   Tuple&lt;TT...&gt; data;
+   
+  private: 
+   
+   virtual void printBody(PrintBase &amp;out) const
+    {
+     Printf(out,format,data);
+    }
+   
+  public: 
+  
+   LogMsg(Cat cat,const char *format_,const TT & ... tt)
+    : LogMsgBase&lt;Cat,Stamp&gt;(cat),format(format_),data(tt...) {}
+ };
+
+</pre>
+
+<h4>LogMem</h4>
+
+<p>
+The class <b>LogMem</b> is a memory distributor for log messages. This class is used by the
+<b>LogStorage</b> to manage the log message memory blocks. You don't need to use it directly.
+</p>
+
+<pre>
+
+class <span class="Att">LogMem</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   // constructors
+   
+   explicit LogMem(ulen mem_len); 
+   
+   explicit LogMem(Space space); // space.mem aligned
+   
+   ~LogMem();
+   
+   // methods
+   
+   void clear();
+   
+   void * alloc(ulen len);
+   
+   void free(void *ret);
+   
+   void del(void *beg);
+ };
+
+</pre>
+
+<h4>LogStorage</h4>
+
+<p>
+This class is a storage for log messages. It is a core class for the log implementation.
+</p>
+
+<pre>
+
+template &lt;class Cat,class Stamp&gt;
+class <span class="Att">LogStorage</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   // constructors
+   
+   explicit LogStorage(ulen mem_len,bool overrun=true);
+   
+   explicit LogStorage(Space space,bool overrun=true); // space.mem aligned
+   
+   ~LogStorage();
+   
+   // methods
+   
+   ulen getCount() const;
+   
+   void getCounter(LogCounter &amp;ret) const;
+   
+   void setOverrun(bool overrun);
+   
+   void delAll();
+   
+   // message
+   
+   void * alloc(ulen msg_len);
+   
+   void free(void *mem);
+   
+   void commit(void *mem,LogMsgBase&lt;Cat,Stamp&gt; *msg);
+   
+   // cursor
+   
+   const LogMsgBase&lt;Cat,Stamp&gt; * startCursor(); 
+   
+   const LogMsgBase&lt;Cat,Stamp&gt; * nextCursor(); 
+    
+   void stopCursor();
+ };
+
+</pre>
+
+<p>
+The first constructor allocates the memory dynamically. The second uses the provided memory space.
+The base address of this space must be aligned.
+</p>
+
+<p>
+<b>getCount()</b> returns the number of messages in the storage.
+</p>
+
+<p>
+<b>getCounter()</b> returns the current message counter.
+</p>
+
+<p>
+<b>setOverrun()</b> sets the overrun flag. If this flag is set and there is no enough memory
+for a new message, the oldest messages are deleted to acquire the memory.
+</p>
+
+<p>
+<b>delAll()</b> deletes all messages.
+</p>
+
+<p>
+To add a new message to the storage, you must allocate the memory for the message using the
+method <b>alloc()</b>. The argument is the required memory length. If there is no enough memory,
+<b>alloc()</b> returns null (but the current message counter is updated). Otherwise, you get the address
+of the memory block. You must create a message at this address, or return this block, using the
+method <b>free()</b>. If you are succeeded in the message creation, you must commit the message
+into the storage using the method <b>commit()</b>. The first argument is the address of the memory block,
+the second is the pointer to the message base class (the message type is derived from the
+<b>LogMsgBase&lt;Cat,Stamp&gt;</b>).
+</p>
+
+<p>
+A storage is responsible for the message counting and the message stamping.
+</p>
+
+<p>
+You can iterate over the storage content using the storage cursor. There can be only one active
+storage cursor at any moment. 
+</p>
+
+<p>
+<b>startCursor()</b> starts the cursor. If the cursor is already active, the null is returned.
+Otherwise, the pointer to the first message is returned, or null if there is no one, 
+in the last case the cursor is not activated. 
+</p>
+
+<p>
+<b>nextCursor()</b> moves to the next message.
+If the return value is null, the cursor is not active anymore.
+</p>
+
+<p>
+<b>stopCursor()</b> deactivates the cursor. You must use this method when you have done with an
+iteration, unless the last call of the <b>nextCursor()</b> has returned null.
+</p>
+
+<p>
+Be advised, while the storage cursor is active, the current cursor message and all following cannot be
+deleted. The method <b>delAll()</b>, in particular, leaves these messages alive.
+It means, you have to finish with the cursor before the storage object destructor call.
+</p>
+
+<h4>UserLog</h4>
+
+<p>
+The class <b>UserLog</b> is a "user" any-purpose log. It is parameterized by four template
+parameter. 
+</p>
+
+<p>
+The first parameter is <b>Cat</b>, it is a log message category type.
+</p>
+
+<p>
+The second is <b>Stamp</b>, it is a log time-stamp class.
+</p>
+
+<p>
+The third is <b>Filter</b>, it is a log message filter class.
+</p>
+
+<p>
+The last is <b>Mutex</b>, it is a mutex class. The object of this type is used
+to protect log operations. It is defaulted to <b>NoMutex</b>. If you need a thread-safe log, 
+use a real <b>Mutex</b> class here.
+</p>
+
+<pre>
+
+template &lt;class Cat,class Stamp,class Filter,class Mutex&gt;
+class <span class="Att">UserLog</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   // constructors
+  
+   UserLog(TextLabel name,ulen mem_len,bool overrun=true);
+   
+   UserLog(TextLabel name,Space space,bool overrun=true) // space.mem aligned
+   
+   ~UserLog();
+   
+   // methods
+   
+   TextLabel getName() const;
+   
+   void getCounter(LogCounter &amp;ret) const; 
+   
+   void setOverrun(bool overrun); 
+    
+   void setFilter(Filter filter);
+   
+   void getFilter(Filter &amp;ret) const;
+   
+   // message
+   
+   template &lt;class ... TT&gt;
+   void operator () (Cat cat,const char *format,const TT &amp; ... tt) requires ( ... &amp;&amp; LogableType&lt;TT&gt; ) ;
+   
+   // cursor
+    
+   class Cursor;
+   
+   // print
+   
+   class PrintFunc;
+   
+   auto getPrint(ulen count,const Filter &amp;filter=Filter());
+ };
+
+</pre>
+
+<p>
+Two constructors are differ only in the way of the memory allocation: the first takes memory from the heap.
+The second uses the provided memory space, the space base address must be aligned.
+The <b>name</b> is used to name the internal mutex object and the log itself.
+The <b>overrun</b> is the overrun flag.
+</p>
+
+<p>
+<b>getName()</b> returns the log name.
+</p>
+
+<p>
+<b>getCounter()</b> returns the log message counter.
+</p>
+
+<p>
+<b>setOverrun()</b> sets the overrun flag. If this flag is set, then new messages will overrun
+oldest messages in the log. Otherwise, log doesn't delete old messages and therefor has a limited capacity.
+</p>
+
+<p>
+<b>setFilter()</b> sets the given message filter to drop incoming messages.
+</p>
+
+<p>
+<b>getFilter()</b> returns the current log filter.
+</p>
+
+<p>
+To add a message to the log the <b>operator ()</b> is used. The first argument is the message category.
+The message can be filtered out based on this value. The second argument is the message format string.
+It must be a persistent string (at least for the log life-time duration), not a temporary life-time value. 
+Usually, it is a string literal. The last arguments are used to format the message pretty the same way 
+as the <b>Printf()</b> function is working.
+</p>
+
+<p>
+<b>getPrint()</b> builds a temporary object to be used for printing. It prints up to the given count of
+log messages from the beginning of the log using the given filter to filter out messages for printing.
+Printing doesn't lock the log: logging may continue during the print operation. That is why 
+we need some message count limit. If you are sure the log is not appending anymore, you may use the
+<b>MaxULen</b> value for the <b>count</b>. <span class="Alert">Be advised, a log can be printed only to printer objects,
+whose type is derived from the <b>PrintBase</b> class</span>.
+</p>
+
+<p>
+The global function <b>PrintLog()</b> can also be used to build a print object:
+</p>
+
+<pre>
+
+template &lt;class Cat,class Stamp,class Filter,class Mutex&gt;
+auto <span class="Att">PrintLog</span>(UserLog&lt;Cat,Stamp,Filter,Mutex&gt; &amp;log,ulen count,const Filter &amp;filter);
+ 
+template &lt;class Cat,class Stamp,class Filter,class Mutex&gt;
+auto <span class="Att">PrintLog</span>(UserLog&lt;Cat,Stamp,Filter,Mutex&gt; &amp;log,ulen count);
+
+</pre>
+
+<p>
+The inner class <b>Cursor</b> can be used to iterate over the log messages. There can be only one 
+active cursor object at the given time.
+</p>
+
+<pre>
+
+class <span class="Att">Cursor</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   // constructors
+  
+   Cursor(UserLog &amp;log,ulen count);
+   
+   ~Cursor();
+   
+   // object ptr
+    
+   bool operator + () const;
+   
+   bool operator ! () const;
+   
+   const LogMsgBase * getPtr() const;
+   
+   const LogMsgBase &amp; operator * () const;
+    
+   const LogMsgBase * operator -> () const;
+   
+   // cursor
+   
+   void operator ++ ();
+ };
+
+</pre>
+
+</body>
+
+</html>
+

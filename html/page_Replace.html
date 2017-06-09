@@ -1,0 +1,94 @@
+<!--
+/* page_Replace.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Replace</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Replace</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/Replace.h</b> <b>CCore/src/gadget/Replace.cpp</b></p>
+
+<p>
+<b>Replace...()</b> is a family of functions, they set the first argument to a new value and return
+the old value.
+</p>
+
+<p>
+The basic of them is the simple <b>Replace()</b>.
+</p>
+
+<pre>
+
+template &lt;class T,class S&gt;
+T <span class="Att">Replace</span>(T &amp;t,S a); // return &lt;- t &lt;- a
+
+</pre>
+
+<p>
+
+There is also a set of variants:
+
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+T <span class="Att">Replace_null</span>(T &amp;t); // return &lt;- t &lt;- T()
+
+template &lt;class T,class S&gt;
+T <span class="Att">Replace_min</span>(T &amp;t,S a); // return &lt;- t &lt;- Min&lt;T&gt;(t,a)
+ 
+template &lt;class T,class S&gt;
+T <span class="Att">Replace_max</span>(T &amp;t,S a); // return &lt;- t &lt;- Max&lt;T&gt;(t,a)
+ 
+template &lt;class T,class S&gt;
+T <span class="Att">Replace_add</span>(T &amp;t,S a); // return &lt;- t &lt;- t+a
+ 
+template &lt;class T,class S&gt;
+T <span class="Att">Replace_sub</span>(T &amp;t,S a); // return &lt;- t &lt;- t-a
+
+</pre>
+
+<p>
+
+The final one is generic, you can use it with lambdas:
+
+</p>
+
+<pre>
+
+template &lt;class Func,class T&gt;
+T <span class="Att">Replace_gen</span>(Func func,T &amp;t) requires ( FuncType&lt;Func,T,T&gt; ) ; // return &lt;- t &lt;- func(t)
+
+</pre>
+
+<p>
+The first argument is a <b>T (T)</b> function, it is used to create a new value from the old.
+</p>
+
+</body>
+
+</html>
+

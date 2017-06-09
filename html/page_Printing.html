@@ -1,0 +1,964 @@
+<!--
+/* page_Printing.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Printing</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Printing</h2>
+
+<p class="Files">Files <b>CCore/inc/Printf.h</b> <b>CCore/src/Printf.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/DetectProxy.h</b> <b>CCore/src/DetectProxy.cpp</b></p>
+
+<p class="Files">Subfolders <b>CCore/inc/printf</b> <b>CCore/src/printf</b></p>
+
+<p>
+<b>CCore</b> provides a printing infrastructure. Printing is a transformation of an object into a sequence of characters.
+There are three actors in a printing process: the object, the output device and printing options. The output device consumes 
+characters, printing options determines how the object is exactly transformed. For example, integer can be represented 
+in the decimal form or in the hexadecimal, with or without sign, with extra zero digits and so on. The type of an object 
+is responsible for the printing implementation. There are default implementations for integral and string-like types.
+</p>
+
+<h3>Printing functions</h3>
+
+<p>
+Printing is performed with the following printing functions:
+</p>
+
+<pre>
+
+template &lt;class P,PrintableType ... TT&gt;
+void <span class="Att">Printf</span>(P &amp;&amp;out,const char *format,const TT &amp; ... tt);
+
+template &lt;class P,PrintableType ... TT&gt;
+void <span class="Att">Putobj</span>(P &amp;&amp;out,const TT &amp; ... tt);
+
+template &lt;class P,class ... CC&gt;
+void <span class="Att">Putch</span>(P &amp;&amp;out,CC ... cc);
+
+</pre>
+
+<p>
+<b>Printf()</b> uses the format string to embed given objects into the string with specified printing options and puts the result into
+the given output device. This function is similar to the classic C <b>printf()</b>, but has the following advantages: type-safe and type-driven,
+easily customizable output devices, extendable to print any desired type.
+</p>
+
+<p>
+<b>Putobj()</b> outs given objects with default printing options.
+</p>
+
+<p>
+<b>Putch()</b> casts given objects to <b>char</b>s and outs them.
+</p>
+
+<p>
+Format string is an ordinary zero-terminated string with embedded format specifiers. Format specifier has a form <b>"#&lt;options&gt;;"</b>,
+where <b>&lt;options&gt;</b> is the option string. It is converted to the correspondent object print options. 
+To print the character <b>'#'</b> use <b>"##"</b> as a format specifier.
+</p>
+
+<p>
+Format string is given as a zero-terminated character string, not as <b>StrLen</b>, due to the <b>printf()</b> tradition.
+</p>
+
+<h3>How to make a type printable</h3>
+
+<p>
+There are three ways to make a type printable.
+</p>
+
+<p>
+The most direct way: define in the class definition the method template <b>print()</b> like this:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   void print(PrinterType &amp;out) const
+    {
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+If you need printing options do like this:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   struct PrintOptType
+    {
+     ....
+
+     PrintOptType(); // default options
+
+     PrintOptType(const char *ptr,const char *lim); 
+
+      // [ptr,lim) -- options from the format string
+      // if the format string has a format specifier #XXX;, 
+      // then [ptr,lim) points to the string XXX
+    };
+
+   void print(PrinterType &amp;out,const PrintOptType &amp;opt) const
+    {
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+The second way is to specify a printing proxy type:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   using PrintProxyType = .... ;
+ };
+
+</pre>
+
+<p>
+In this case the type <b>SomeClass</b> must be castable to the <b>SomeClass::PrintProxyType</b>.
+</p>
+
+<p>
+For a non-class type you can define a function <b>GetTextDesc()</b>:
+</p>
+
+<pre>
+
+enum SomeEnum
+ {
+  SomeEnum1,
+  SomeEnum2,
+  SomeEnum3
+ };
+
+const char * GetTextDesc(SomeEnum e);
+
+</pre>
+
+<p>
+This way is intended mostly to print enumerations. <b>GetTextDesc()</b> is used as a proxy: it must return something printable.
+There is the set of such functions for <b>bool</b> and integral types:
+</p>
+
+<pre>
+
+inline StrLen <span class="Att">GetTextDesc</span>(bool value) { return value?"true"_c:"false"_c; }
+ 
+inline int <span class="Att">GetTextDesc</span>(int value) { return value; }
+ 
+inline unsigned <span class="Att">GetTextDesc</span>(unsigned value) { return value; }
+ 
+inline long <span class="Att">GetTextDesc</span>(long value) { return value; }
+ 
+inline unsigned long <span class="Att">GetTextDesc</span>(unsigned long value) { return value; }
+ 
+inline long long <span class="Att">GetTextDesc</span>(long long value) { return value; }
+ 
+inline unsigned long long <span class="Att">GetTextDesc</span>(unsigned long long value) { return value; }
+
+</pre>
+
+<p>
+It allows to print a non-class type, castable to one of these types.
+</p>
+
+<p>
+You can also specialize the template <b>CCore::PrintProxy&lt;T&gt;</b> to define the print proxy type
+and optionally the print option type.
+</p>
+
+<pre>
+
+namespace App {
+
+struct S
+ {
+  ....
+ };
+
+} // namespace App
+
+namespace CCore {
+
+template &lt;&gt;
+struct PrintProxy&lt;App::S&gt;
+ {
+  using ProxyType = .... ;
+  using OptType = .... ;
+ };
+
+} // namespace CCore
+
+</pre>
+
+<p>
+You can determine the printing option type using the <b>PrintOptAdapter&lt;T&gt;</b>. If the type <b>T</b> has a printing option type
+(even through proxy), then <b>PrintOptAdapter&lt;T&gt;::PrintOptType</b> is that type.
+</p>
+
+<p>
+Sometimes you need to specify printing options using the object, not the format string. In such case use the
+class <b>BindOpt</b>:
+</p>
+
+<pre>
+
+template &lt;class OptType,class T&gt; struct <span class="Att">BindOpt</span>;
+
+T obj;
+Opt opt;
+
+Printf(out,"object options: #;",BindOpt(opt,obj));
+
+</pre>
+
+<h3>Output devices</h3>
+
+<p>
+The type of the output device object must be ether output device class or define a printing adapter type:
+</p>
+
+<pre>
+
+class POut
+ {
+  public:
+
+   using PrintOutType = .... ;
+ };
+
+</pre>
+
+<p>
+Or using specialization:
+</p>
+
+<pre>
+
+class POut;
+
+template &lt;&gt;
+struct <span class="Att">PrintOutAdapter</span>&lt;POut&gt;
+ {
+  using PrintOutType = .... ;
+ };
+
+</pre>
+
+<p>
+A temporary printing adapter type object is created from the first argument of a printing function in such case
+and used to do the printing.
+</p>
+
+<p>
+Output device class must provide the following members:
+</p>
+
+<pre>
+
+class PDev
+ {
+  public:
+
+   using PrintOutType = PDev &amp; ;
+   
+   PrintOutType printRef() { return *this; }
+   
+   void put(char ch); // print one character
+   
+   void put(char ch,ulen len); // print the same character len times
+   
+   void put(const char *str,ulen len); // print the character range
+
+   void flush(); // flush the object
+ };
+
+</pre>
+
+<p>
+The following output types are provided:
+</p>
+
+<pre>
+
+enum <span class="Att">NoPrintType</span> { <span class="Att">NoPrint</span> }; // to print nowhere
+
+</pre>
+
+<p>
+<b>NoPrint</b> is a <b>word</b> to print nowhere:
+</p>
+
+<pre>
+
+Printf(NoPrint,"this string goes nowhere");
+
+</pre>
+
+<p>The next type is <b>PrintBase</b>. It is designed to be a base class for actual output types.
+
+<pre>
+
+class <span class="Att">PrintBase</span> : NoCopy
+ {
+   ....
+
+  private:
+  
+   virtual PtrLen&lt;char&gt; do_provide(ulen hint_len)=0;
+   
+   virtual void do_flush(char *ptr,ulen len)=0; 
+   
+  protected:
+  
+   void clearOverflowFlag();
+   
+  public:
+  
+   // constructors
+   
+   PrintBase();
+   
+   ~PrintBase();
+   
+   // methods
+   
+   bool getOverflowFlag() const;
+   
+   PrintBase &amp; guardOverflow();
+ };
+
+</pre>
+
+<p>
+When you derive a class from <b>PrintBase</b>, you have to implement two virtual functions:
+</p>
+
+<pre>
+
+class PDev : public PrintBase
+ {
+  private:
+
+   virtual PtrLen&lt;char&gt; do_provide(ulen hint_len) // hint_len is a suggested minimum buffer length
+    {
+     ....
+    }
+   
+   virtual void do_flush(char *ptr,ulen len) // character range to be propagated to the final destination
+    {
+     ....
+    }
+
+  public:
+
+   PDev() { .... }
+
+   ~PDev() { flush(); .... }
+ };
+
+</pre>
+
+<p>
+<b>do_provide()</b> is called to setup the printing buffer. This method may either return a buffer for printing, or return
+an empty buffer or throw an exception. If the empty buffer is returned, <b>PrintBase</b> will skip some output characters and
+set the internal overflow flag. Derived class may clear this flag using <b>clearOverflowFlag()</b> method. You can check this 
+flag using <b>getOverflowFlag()</b> method or call the guard method <b>guardOverflow()</b> to throw an exception if 
+the overflow has happened. When <b>PrintBase</b> got a buffer it fills it with output characters and flush sometimes 
+during printing operations. So the method <b>do_flush()</b> is called to propagate the output characters. This method is a 
+paired method for <b>do_provide()</b>: i.e. it is called sometimes after if the <b>do_provide()</b> was called successfully.
+You have to call <b>flush()</b> in the destructor to commit pending characters. For better understanding how to derive 
+from <b>PrintBase</b> see the <b>PrintBuf</b> implementation.
+</p>
+
+<p>
+The next class is <b>PrintBuf</b>. This class prints to the memory buffer.
+</p>
+
+<pre>
+
+class <span class="Att">PrintBuf</span> : public PrintBase
+ {
+   ....
+
+  public:
+  
+   explicit PrintBuf(PtrLen&lt;char&gt; buf=Nothing);
+   
+   ~PrintBuf();
+   
+   void init(PtrLen&lt;char&gt; buf);
+   
+   PrintBuf &amp; guardOverflow() { PrintBase::guardOverflow(); return *this; }
+   
+   StrLen close();
+   
+   const char * closeZStr() { return close().ptr; }
+ };
+
+</pre>
+
+<p>
+Methods <b>close()</b> and <b>closeZStr()</b> both complete printing, append zero character and return the resulting string.
+</p>
+<p>
+Method <b>init()</b> closes the previous buffer and attach the new one. It also clears the overflow flag.
+</p>
+
+<p>
+The last class is <b>PrintCount&lt;P&gt;</b>. This class counts printing characters and passes them to the next printing device.
+If you need only counting, you can use <b>PrintCount&lt;void&gt;</b>
+</p>
+
+<pre>
+
+template &lt;class P&gt;
+class <span class="Att">PrintCount</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   explicit PrintCount(P &amp;out_) : out(out_),count(0) {}
+   
+   ulen getCount() const { return count; }
+ };
+
+</pre>
+
+<h3>Tuple printing</h3>
+
+<p>
+<b>Tuple</b>s are treated especially by print functions: they are printed as if they members was used in the argument list.
+For example:
+</p>
+
+<pre>
+
+int a;
+int b;
+
+Printf(out,"a = #; b = #;\n",MakeTuple(a,b));
+
+</pre>
+
+<p>
+has the same effect as: 
+</p>
+
+<pre>
+
+int a;
+int b;
+
+Printf(out,"a = #; b = #;\n",a,b);
+
+</pre>
+
+<p>This rule is applied recursively.</p>
+
+<h3>String printing</h3>
+
+<p>
+The following types: <b>char *</b>, <b>const char *</b>, <b>char[N]</b>, <b>const char [N]</b>, <b>StrLen</b>, 
+are string-like types and printed as strings of characters using the proxy class <b>StrPrint</b>. This class has a printing options,
+represented by the struct <b>StrPrintOpt</b>:
+</p>
+
+<pre>
+
+enum <span class="Att">StrAlign</span>
+ {
+  StrAlignLeft,
+  StrAlignRight,
+  StrAlignCenter,
+  
+  StrAlignDefault = StrAlignRight
+ };
+ 
+struct <span class="Att">StrPrintOpt</span>
+ {
+  ulen width;
+  StrAlign align;
+  bool quoted;
+  
+  void setDefault()
+   {
+    width=0;
+    align=StrAlignDefault;
+    quoted=false;
+   }
+  
+  StrPrintOpt() { setDefault(); }
+  
+  StrPrintOpt(const char *ptr,const char *lim);
+  
+  //
+  // [width=0][.q|.Q][l|L|r|R|c|C=R]
+  //
+ };
+
+</pre>
+
+<p>
+<b>width</b> is the minimum output length, if the string has less characters, then it is extended to fit it.
+</p>
+<p>
+<b>align</b> determines how the string is placed inside the extension.
+Left alignment means extension by space characters after the string, right &mdash; before,
+center &mdash; both before and after by equal number.  
+</p>
+<p>
+<b>quoted</b> encloses the string in quotes.
+</p>
+
+<p>
+Text representation of options may include width, qouted flag (.q or .Q) and alignment flag. For example, <b>"#20L;"</b> means
+<b>width = 20 ; align = StrAlignLeft ; quoted = false ;</b>, <b>"#20.qC;"</b> means <b>width = 20 ; align = StrAlignCenter ; quoted = true ;</b>.
+</p>
+
+<p>
+To print the same character several times use the helper class <b>RepeatChar</b>:
+</p>
+
+<pre>
+
+class <span class="Att">RepeatChar</span>
+ {
+   ulen count;
+   char ch;
+   
+  public: 
+  
+   RepeatChar(ulen count_,char ch_) : count(count_),ch(ch_) {}
+  
+   void print(PrinterType &amp;out) const
+    {
+     out.put(ch,count);
+    }
+ };
+
+</pre>
+
+
+<a name="Title"><h3>Title printing</h3></a>
+
+<p>
+Title looks like this:
+</p>
+
+<pre>
+--- Title ----------------------------------------------------------------------
+</pre>
+
+<p>
+The <b>Helper Class</b> <b>Title</b> can be used to print a title:
+</p>
+
+<pre>
+
+class <span class="Att">Title</span>
+ {
+   StrLen str;
+   
+  public:
+  
+   explicit Title(StrLen str_) : str(str_) {}
+
+   using PrintOptType = TitlePrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+And here is the <b>Title</b> printing options:
+</p>
+
+<pre>
+
+struct <span class="Att">TitlePrintOpt</span>
+ {
+  static constexpr ulen Default_width  = 80  ;
+  static constexpr ulen Default_off    =  3  ;
+  static constexpr char Default_border = '-' ;
+    
+  ulen width;
+  ulen off;
+  char border;
+     
+  void setDefault()
+   {
+    width=Default_width;
+    off=Default_off;
+    border=Default_border;
+   }
+     
+  TitlePrintOpt() { setDefault(); }
+     
+  TitlePrintOpt(const char *ptr,const char *lim);
+     
+  //
+  // [width=80][.off=3][border=-]
+  //
+ };
+
+</pre>
+
+<p>
+<b>width</b> is the total title length, <b>off</b> is the text offset, <b>border</b> is the border character.
+</p>
+
+<p>
+Text divider looks like this:
+</p>
+
+<pre>
+--------------------------------------------------------------------------------
+</pre>
+
+<p>
+It is printed by the helper class <b>TextDivider</b>:
+</p>
+
+<pre>
+
+class <span class="Att">TextDivider</span>
+ {
+  public:
+  
+   TextDivider() {}
+
+   using PrintOptType = TextDividerPrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+The following printing options can be used:
+</p>
+
+<pre>
+
+struct <span class="Att">TextDividerPrintOpt</span>
+ {
+  static constexpr ulen Default_width  = TitlePrintOpt::Default_width  ;
+  static constexpr char Default_border = TitlePrintOpt::Default_border ;
+    
+  ulen width;
+  char border;
+     
+  void setDefault()
+   {
+    width=Default_width;
+    border=Default_border;
+   }
+     
+  TextDividerPrintOpt() { setDefault(); }
+     
+  TextDividerPrintOpt(const char *ptr,const char *lim);
+     
+  //
+  // [width=80][border=-]
+  //
+ };
+
+</pre>
+
+<p>
+<b>width</b> is the total divider length, <b>border</b> is the border character.
+</p>
+
+<h3>Integer printing</h3>
+
+<p>
+Integral types are printed using proxy classes <b>SIntPrint&lt;SInt&gt;</b> and <b>UIntPrint&lt;UInt&gt;</b>:
+</p>
+
+<pre>
+
+/* class SIntPrint&lt;SInt&gt; */ 
+
+template &lt;SIntType SInt&gt;
+class <span class="Att">SIntPrint</span>
+ {
+   SInt value;
+ 
+  public:
+  
+   explicit SIntPrint(SInt value_) : value(value_) {}
+   
+   using PrintOptType = IntPrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+ 
+/* class UIntPrint&lt;UInt&gt; */  
+
+template &lt;UIntType UInt&gt;
+class <span class="Att">UIntPrint</span>
+ {
+   UInt value;
+ 
+  public:
+  
+   explicit UIntPrint(UInt value_) : value(value_) {}
+   
+   using PrintOptType = IntPrintOpt ;
+   
+   void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+<b>IntPrintOpt</b> represents the printing options:
+</p>
+
+<pre>
+
+enum <span class="Att">IntShowSign</span>
+ {
+  IntShowMinus,
+  IntShowPlus,
+  
+  IntShowSignDefault = IntShowMinus
+ };
+
+enum <span class="Att">IntAlign</span>
+ {
+  IntAlignLeft,
+  IntAlignRight,
+  IntAlignInternal,
+  
+  IntAlignDefault = IntAlignRight
+ };
+ 
+enum <span class="Att">IntShowBase</span>
+ {
+  IntShowNoBase,
+  IntShowBaseSuffix,
+  IntShowBasePrefix,
+  
+  IntShowBaseDefault = IntShowNoBase
+ };
+ 
+struct <span class="Att">IntPrintOpt</span>
+ {
+  ulen width;
+  unsigned base; // 2..16, 0 for c
+  unsigned fract;
+  IntAlign align;
+  IntShowSign show_sign;
+  IntShowBase show_base;
+  
+  void setDefault()
+   {
+    width=0;
+    base=10;
+    fract=0;
+    align=IntAlignDefault;
+    show_sign=IntShowSignDefault;
+    show_base=IntShowBaseDefault;
+   }
+  
+  IntPrintOpt() { setDefault(); }
+  
+  IntPrintOpt(const char *ptr,const char *lim);
+  
+  //
+  // [+][width=0][.base|.b|.h|.x|.c|.f&lt;prec&gt;=.10][l|L|r|R|i|I=R]
+  //
+ };
+ 
+</pre>
+
+<p>
+There are six printing options: 
+</p>
+
+<p>
+<b>width</b> is the minimum output length. If the representation is shorter than this value, then it is extended to fit it. 
+</p>
+
+<p>
+<b>fract</b> defines a fractional part length to print integral value as a decimal fraction. 
+If this option is not zero, then the value is interpreted as a fraction <b>value/10<sup>fract</sup></b> and printed in the form <b>"12345.6789"</b>.
+</p>
+
+<p>
+<b>align</b> is determined how extension is performed. Internal alignment inserts zero digits in the number representation. 
+</p>
+
+<p>
+<b>base</b> is the representation base, it can vary form 2 to 16. It may have the special value 0. In this case the 
+printing number is casted to <b>char</b> and this character goes out. The base is given as a number after dot, or
+as a letter after dot. Letter <b>b</b> means <b>base</b> = 2 and <b>show_base</b> = <b>IntShowBaseSuffix</b>, 
+letter <b>h</b> means <b>base</b> = 16 and <b>show_base</b> = <b>IntShowBaseSuffix</b>,
+letter <b>x</b> means <b>base</b> = 16 and <b>show_base</b> = <b>IntShowBasePrefix</b>.
+Letter <b>c</b> means <b>base</b> = 0.
+</p>
+
+<p>
+<b>show_sign</b> shows sign plus for positive numbers.
+</p>
+
+<p>
+<b>show_base</b> shows representation base as suffix or prefix. Prefix is <b>0x</b> for base 16. 
+Suffixes are <b>h</b> for base 16 and <b>b</b> for base 2.
+</p>
+
+<p>
+Here is some examples:
+</p>
+
+<pre>
+
+Printf(Con,"--- #10l; ---\n",12345);
+Printf(Con,"--- #10i; ---\n",12345);
+Printf(Con,"--- #10r; ---\n",12345);
+Printf(Con,"--- #+10.5l; ---\n",12345);
+Printf(Con,"--- #+10.hi; ---\n",12345);
+Printf(Con,"--- #10.hi; ---\n",-12345);
+
+</pre>
+
+<p>
+prints
+</p>
+
+<pre>
+
+--- 12345      ---
+--- 0000012345 ---
+---      12345 ---
+--- +343340    ---
+--- +00003039h ---
+--- -00003039h ---
+
+</pre>
+
+<h3>Dumps</h3>
+
+<p>
+<b>PrintDump</b> is designed to print hexadecimal dumps of integers. Dumps look like this:
+</p>
+
+<pre>
+
+00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F
+20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F
+30 31
+
+</pre>
+
+<p>
+To create an object of the <b>PrintDump</b> type use the overloaded <b>PrintDump</b> constructors:
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+class <span class="Att">PrintDump</span>
+ {
+  public:
+
+   explicit PrintDump(PtrLen&lt;UInt&gt; data_) : data(data_) {}
+
+   explicit PrintDump(PtrLen&lt;const UInt&gt; data_) : data(data_) {}
+
+   PrintDump(const UInt *ptr,ulen len) : data(ptr,len) {}
+
+   ....
+ };
+
+</pre>
+
+<p>
+And here is the options:
+</p>
+
+<pre>
+
+struct <span class="Att">PrintDumpOptType</span>
+ {
+  static constexpr ulen Default_line_len = 16 ;
+ 
+  ulen width;
+  ulen line_len;
+    
+  void setDefault()
+   {
+    width=0;
+    line_len=Default_line_len;
+   }
+   
+  PrintDumpOptType() { setDefault(); }
+    
+  PrintDumpOptType(const char *ptr,const char *lim);
+  
+  //
+  // [width=0][.line_len=16]
+  //
+ };
+
+</pre>
+
+<p>
+<b>width</b> is the output width of each integer. If it is 0, then the hexadecimal width of the integral type is used 
+(2 for <b>uint8</b>, 4 for <b>uint16</b> and so on).
+</p>
+
+<p>
+<b>line_len</b> determines the number of integers on the one line.
+</p>
+
+</body>
+
+</html>
+

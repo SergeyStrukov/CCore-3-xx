@@ -1,0 +1,54 @@
+<!--
+/* page_ApplyToList.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ApplyToList</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ApplyToList</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/ApplyToList.h</b> <b>CCore/src/algon/ApplyToList.cpp</b></p>
+
+<p>
+<b>ApplyToList()</b> applies a functor to the list of arguments. A result is returned using the <a href="page_ApplyToRange.html"><b>GetResult()</b></a>.
+</p>
+
+<pre>
+
+template &lt;class FuncInit,class ... TT&gt;
+auto <span class="Att">Algon::ApplyToList</span>(FuncInit func_init,TT &amp;&amp; ... tt)
+ {
+  FunctorTypeOf&lt;FuncInit&gt; func(func_init);
+
+  ( (void)func( std::forward&lt;TT&gt;(tt) ) , ... );
+
+  return GetResult(func);
+ }
+
+</pre>
+
+</body>
+
+</html>
+

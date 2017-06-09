@@ -1,0 +1,66 @@
+<!--
+/* page_XCore_BinaryFile.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> (XCore) BinaryFile</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>(XCore) BinaryFile</h2>
+
+<p class="Files">Files <b>CCore/inc/BinaryFile.h</b> <b>CCore/src/BinaryFile.cpp</b></p>
+
+<p>
+<b>XCore</b> <b>BinaryFile</b> is similar to <b>HCore</b> <a href="page_BinaryFile.html">one</a>, 
+but built on the <a href="page_AsyncBinaryFile.html"><b>AsyncBinaryFile</b></a> class.
+</p>
+
+<pre>
+
+class <span class="Att">BinaryFile</span> : public AsyncBinaryFile
+ {
+  public:
+
+   // constructors
+
+   BinaryFile() noexcept;
+
+   explicit BinaryFile(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+
+   ~BinaryFile();
+
+   // methods
+
+   void open(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+ };
+
+</pre>
+
+<p>
+To open a file the <a href="page_DefaultFileDevice.html"><b>DefaultFileDevice</b></a> is used.
+</p>
+
+</body>
+
+</html>
+

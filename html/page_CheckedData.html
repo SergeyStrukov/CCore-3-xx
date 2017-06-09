@@ -1,0 +1,77 @@
+<!--
+/* page_CheckedData.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CheckedData</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CheckedData</h2>
+
+<p class="Files">Files <b>CCore/inc/net/CheckedData.h</b> <b>CCore/src/net/CheckedData.cpp</b></p>
+
+<p>
+The class <b>CheckedData</b> is useful for net testing. You can fill a data payload with checked random data
+and verify its integrity.
+</p>
+
+<pre>
+
+class <span class="Att">CheckedData</span>
+ {
+   PlatformRandom random;
+   uint8 start_sum;
+
+  public:
+  
+   CheckedData();
+    
+   ulen getLen(ulen max_len);
+    
+   bool fill(PtrLen&lt;uint8&gt; data); 
+    
+   bool check(PtrLen&lt;const uint8&gt; data) const; // random is not used
+ };
+
+</pre>
+
+<p>
+The method <b>getLen()</b> selects the random length from <b>2</b> to <b>max_len</b>. 
+<b>max_len</b> should be <b> > 2 </b>. 
+If the <b>max_len</b> <= 2, the <b>max_len</b> is always returned.
+</p>
+
+<p>
+<b>fill()</b> fills the given byte range with checked random data. It is expected, the range lengtn is <b> >= 2 </b>.
+Otherwise, the method does nothing and returns <b>false</b>.
+</p>
+
+<p>
+<b>check()</b> checks the data range and returns <b>true</b>, if it is correct. <b>random</b> is not used
+in this method, so this method is multi-thread safe.
+</p>
+
+</body>
+
+</html>
+

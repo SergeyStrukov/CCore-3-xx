@@ -1,0 +1,103 @@
+<!--
+/* page_XCore_SysPlanInit.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore SysPlanInit</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore SysPlanInit</h2>
+
+<p class="Files">Files <b>CCore/inc/sys/SysPlanInit.h</b> <b>CCore/src/sys/SysPlanInit.cpp</b></p>
+
+<p>
+This part is the <b>Sys</b> <a href="page_PlanInit.html"><b>PlanInit</b></a> node. 
+It must have prerequisite nodes <b>Dev</b>, <b>SysTime</b> and <b>SysCon</b>.
+</p>
+
+<pre>
+
+/* SysPlanInit.h */
+
+#ifndef CCore_inc_sys_SysPlanInit_h
+#define CCore_inc_sys_SysPlanInit_h
+
+#include &lt;CCore/inc/PlanInit.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* GetPlanInitNode_...() */
+
+PlanInitNode * <span class="Att">GetPlanInitNode_Sys</span>();
+
+} // namespace Sys
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<pre>
+
+/* SysPlanInit.cpp */
+
+#include &lt;CCore/inc/sys/SysPlanInit.h&gt;
+
+#include &lt;CCore/inc/sys/SysCon.h&gt;
+#include &lt;CCore/inc/sys/SysTime.h&gt;
+
+#include &lt;CCore/inc/dev/DevPlanInit.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* GetPlanInitNode_...() */
+
+namespace Private_SysPlanInit {
+
+struct Empty
+ {
+  static const char * GetTag() { return "Sys"; }
+ };
+
+PlanInitObject&lt;Empty,PlanInitReq&lt;Dev::GetPlanInitNode_Dev&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_SysTime&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_SysCon&gt;
+                    &gt; Object CCORE_INITPRI_1 ;
+
+} // namespace Private_SysPlanInit
+
+using namespace Private_SysPlanInit;
+
+PlanInitNode * GetPlanInitNode_Sys() { return &amp;Object; }
+
+} // namespace Sys
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

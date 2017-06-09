@@ -1,0 +1,789 @@
+<!--
+/* page_Scanning.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Scanning</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Scanning</h2>
+
+<p class="Files">Files <b>CCore/inc/Scanf.h</b> <b>CCore/src/Scanf.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/DetectProxy.h</b> <b>CCore/src/DetectProxy.cpp</b></p>
+
+<p class="Files">Subfolders <b>CCore/inc/scanf</b> <b>CCore/src/scanf</b></p>
+
+<p>
+Scanning is a process, inverse to the printing. I.e. scanning is a creation of an object state from 
+a sequence of characters. There are three actors in a scanning process: the object, the input device and
+scanning options. The input device provides a character sequence, scanning options determines how 
+the object state is encoded. The type of the object is responsible for the scanning implementation.
+There are default implementations for integral and string types.
+</p>
+
+<h3>Scanning functions</h3>
+
+<p>
+Scanning is performed with the following scanning functions:
+</p>
+
+<pre>
+
+template &lt;class S,ScanableType ... TT&gt;
+void <span class="Att">Scanf</span>(S &amp;&amp;inp,const char *format,TT &amp;&amp; ... tt);
+
+template &lt;class S,ScanableType ... TT&gt;
+void <span class="Att">Scanobj</span>(S &amp;&amp;inp,TT &amp;&amp; ... tt);
+
+</pre>
+
+<p>
+<b>Scanf()</b> uses the given format string to scan. Format string may specify options for 
+each object to scan.
+</p>
+
+<p>
+<b>Scanobj()</b> scans the input to the given set of objects with default scan options.
+</p>
+
+<p>
+Format string contains embedded format specifiers. Each character not in a format specifier
+causes <b>Scanf()</b> to read a single character from the input and match it with the format character. 
+If there is no input characters or characters are different then the scanning is failed. 
+The character <b>' '(space)</b> is treated especially: it extracts from the input device space-like 
+characters up to the end or a non-space character. Format specifier has a form <b>"#&lt;options&gt;;"</b>,
+where <b>&lt;options&gt;</b> is the option string. It is converted to the correspondent object scan options. 
+To scan the character <b>'#'</b> use <b>"##"</b> as a format specifier.
+</p>
+
+<h3>How to make a type scanable</h3>
+
+<p>
+There are three ways to make a type scanable.
+</p>
+
+<p>
+The most direct way: define in the class definition the method template <b>scan()</b> like this:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   void scan(ScannerType &amp;inp)
+    {
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+If you need scanning options do like this:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   struct ScanOptType
+    {
+     ....
+
+     ScanOptType(); // default options
+
+     ScanOptType(const char *ptr,const char *lim); 
+
+      // [ptr,lim) -- options from the format string
+      // if the format string has a format specifier #XXX;, 
+      // then [ptr,lim) points to the string XXX
+    };
+
+   void scan(ScannerType &amp;inp,const ScanOptType &amp;opt)
+    {
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+The second way is to specify a scan proxy type:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   using ScanProxyType = .... ;
+ };
+
+</pre>
+
+<p>
+In this case the <b>SomeClass::ScanProxyType &</b> must be castable from the type <b>SomeClass</b>. For example:
+</p>
+
+<pre>
+
+struct S
+ {
+  int val = 0 ;
+  
+  using SomeClass = int ;
+  
+  operator int & () { return val; }
+ };
+
+</pre>
+
+<p>
+You can also specialize the template <b>CCore::ScanProxy&lt;T&gt;</b> to define the scan proxy type
+and optionally the scan option type.
+</p>
+
+<pre>
+
+namespace App {
+
+struct S
+ {
+  ....
+ };
+
+} // namespace App
+
+namespace CCore {
+
+template &lt;&gt;
+struct ScanProxy&lt;App::S&gt;
+ {
+  using ProxyType = .... ;
+  using OptType = .... ;
+ };
+
+} // namespace CCore
+
+</pre>
+
+<p>
+You can determine the scan option type using the <b>ScanOptAdapter&lt;T&gt;</b>. 
+If the type <b>T</b> has a scan option type
+(even through proxy), then <b>ScanOptAdapter&lt;T&gt;::ScanOptType</b> is that type.
+</p>
+
+<p>
+Sometimes you need to specify scan options using the object, not the format string. In such case use the
+class <b>BindScanOpt()</b>:
+</p>
+
+<pre>
+
+template &lt;class OptType,class T&gt; struct <span class="Att">BindScanOpt</span>;
+
+T obj;
+Opt opt;
+
+Scanf(out,"#;",BindScanOpt(opt,obj));
+
+</pre>
+
+<h3>Input devices</h3>
+
+<p>
+An input device for scanning provides a sequential access to a character sequence.
+An input device type must be either an actual input device type or redirect the input functionality 
+to another type using a specialization of the <b>ScanInpAdapter</b>. By default, the actual input device type
+is declared as the inner type <b>ScanInpType</b>.
+</p>
+
+<pre>
+
+/* struct ScanInpAdapter&lt;S&gt; */
+
+template &lt;class S&gt;
+struct <span class="Att">ScanInpAdapter</span>
+ {
+  using ScanInpType = typename S::ScanInpType ;
+ };
+
+</pre>
+
+<p>
+The input device must provide the following methods:
+</p>
+
+<pre>
+
+class IDev
+ {
+  public:
+
+   using ScanInpType = IDev & ;
+   
+   ScanInpType scanRef() { return *this; }
+   
+   // cursor
+   
+   ulen operator + () const;
+   
+   bool operator ! () const;
+   
+   char operator * () const;
+   
+   void operator ++ (); 
+   
+   // error
+   
+   bool isOk() const;
+   
+   bool isFailed() const;
+   
+   void fail();
+ };
+
+</pre>
+
+<p>
+It behaves like a character cursor plus internal fail flag is implemented to signal about scanning errors
+or input errors.
+</p>
+
+<p>
+The simplest way of the building input object classes is to derive them from the <b>ScanBase</b> class.
+</p>
+
+<pre>
+
+class <span class="Att">ScanBase</span> : NoCopy
+ {
+   ....
+
+  private:
+   
+   virtual PtrLen&lt;const char&gt; underflow()=0;
+  
+  protected:
+  
+   void pump(); // must be called in constructor of derived class
+   
+   void reset(); 
+  
+  public:
+   
+   // constructors
+  
+   ScanBase();
+   
+   ~ScanBase();
+   
+   // cursor
+   
+   ulen operator + () const;
+   
+   bool operator ! () const;
+   
+   char operator * () const;
+   
+   void operator ++ (); 
+   
+   // position
+   
+   TextPos getTextPos() const;
+   
+   // error
+   
+   bool isOk() const;
+   
+   bool isFailed() const;
+   
+   void fail();
+ };
+
+</pre>
+
+<p>
+This class counts the current text position. You can retrieve it
+with the method <b>getTextPos()</b>. A derived class must implement the virtual method 
+<b>underflow()</b>. This method is called when the previous input character frame is consumed.
+It must return a character range. This range can be empty, if the end of input is reached.
+It must remains valid until the next call of <b>underflow()</b>.
+In case of error the method <b>fail()</b> must be called and an exception may be thrown. 
+There are two protected methods to be used in a derived class. <b>pump()</b> performs 
+the character pumping, it must be called in the derived class constructor as the last action.
+<b>reset()</b> resets the base to the initial state. It can be used in such derived class methods 
+like <b>open()</b> or <b>close()</b> when the input is changed.
+</p>
+
+<p>
+To scan a given string the class <b>ScanString</b> exists:
+</p>
+
+<pre>
+
+class <span class="Att">ScanString</span> : public ScanBase
+ {
+   PtrLen&lt;const char&gt; str;
+   
+  private:
+  
+   virtual PtrLen&lt;const char&gt; underflow() { return Replace_null(str); }
+  
+  public: 
+  
+   explicit ScanString(StrLen str_) : str(str_) { pump(); }
+   
+   ~ScanString() {}
+ };
+
+</pre>
+
+<h3>String scanning</h3>
+
+<p>
+There is a default implementation of the string scanning. It is applied to objects of the type <b>String</b>.
+The following scan options are supported:
+</p>
+
+<pre>
+
+/* enum StringScanType */
+
+enum <span class="Att">StringScanType</span>
+ {
+  StringScanQuote,
+  StringScanToSpace,
+  StringScanToPunct,
+  
+  StringScanDefault = StringScanToPunct 
+ };
+
+template &lt;class Dev&gt;
+bool Parse_try(Dev &amp;dev,StringScanType &amp;ret);
+
+/* struct StringScanOpt */
+
+struct <span class="Att">StringScanOpt</span>
+ {
+  StringScanType type;
+  
+  void setDefault()
+   {
+    type=StringScanDefault;
+   }
+  
+  StringScanOpt() { setDefault(); }
+  
+  StringScanOpt(const char *ptr,const char *lim);
+  
+  //
+  // [.q|.Q|.s|.S|.p|.P]
+  //
+ };
+
+</pre>
+
+<p>
+There are three variants of the string scanning, they are selected by options.
+Options <b>".q"</b> and <b>".Q"</b> means scan a quoted string (<b>StringScanQuote</b>),
+<b>".s"</b> and <b>".S"</b> means scan up to a space character (<b>StringScanToSpace</b>),
+and <b>".p"</b> and <b>".P"</b> means scan up to a space or punctuation character (<b>StringScanToPunct</b>). 
+The last mode is default, punctuation characters are: <b>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? &#64; [ \ ] ^ ` { | } ~</b>.
+</p>
+
+<p>
+When scanning a quoted string the input is scanned for a string of characters, enclosed in double quotes.
+Quotes are not included in the result. If the input does not begin with a quoted string, it is failed. 
+</p>
+
+<p>
+When scanning up to a some kind of character the input is scanned 
+for a string of characters up to the first character of that kind.
+</p>
+
+<h3>StringSetScan</h3>
+
+<p>
+The class <b>StringSetScan</b> scans the input for one of the given strings and returns the string index.
+Index is 1-based. If the input does not begin with one of the expected strings, the input is failed and the index
+is set to null.
+</p>
+
+<pre>
+
+class <span class="Att">StringSetScan</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   StringSetScan(std::initializer_list&lt;const char *&gt; zstr_list);
+
+   StringSetScan(std::initializer_list&lt;StrLen&gt; str_list);
+   
+   ~StringSetScan();
+   
+   using PrintProxyType = ulen ;
+   
+   operator ulen() const { return index; }
+   
+   void scan(ScannerType &amp;inp);
+ };
+
+</pre>
+
+<p>
+Constructor takes a braced list of zero-terminated strings. These strings must persist over the object life-time.
+Usually, they are string literals.
+</p>
+
+<p>
+The cast operator returns the 1-based index of the found string or null if the scan has failed.
+</p>
+
+<h3>Integer scanning</h3>
+
+<p>
+There is a default implementation of the integral types scanning.
+It is applied to objects of integral type.
+The following scan options are supported:
+</p>
+
+<pre>
+
+/* enum IntScanBase */
+
+enum <span class="Att">IntScanBase</span>
+ {
+  IntScanNone,
+  
+  IntScanHex,
+  IntScanBin,
+  IntScan0X,
+  
+  IntScanDefault = IntScanNone
+ };
+
+template &lt;class Dev&gt;
+bool Parse_try(Dev &amp;dev,IntScanBase &amp;ret);
+
+/* struct IntScanOpt */
+
+struct <span class="Att">IntScanOpt</span>
+ {
+  unsigned base; // 2..16, 0 for any
+  IntScanBase scan_base; 
+  
+  void setDefault()
+   {
+    base=0;
+    scan_base=IntScanDefault;
+   }
+  
+  IntScanOpt() { setDefault(); }
+  
+  IntScanOpt(const char *ptr,const char *lim);
+  
+  //
+  // [.base|.x|.X|.b|.B|.h|.H]
+  //
+ };
+
+</pre>
+
+<p>
+There are four forms of the integer representation.
+</p>
+
+<p>
+Binary form:
+</p>
+
+<pre>
+
+[+|-]D<sup>1..</sup>(b|B) , where D is a binary digit
+
+</pre>
+
+<p>
+Hex form:
+</p>
+
+<pre>
+
+[+|-]D<sup>1..</sup>(h|H) , where D is a hex digit
+
+</pre>
+
+<p>
+0x form:
+</p>
+
+<pre>
+
+[+|-]0xD<sup>1..</sup> , where D is a hex digit
+
+</pre>
+
+<p>
+And <b>base</b> form, where <b>base</b> is the representation base from 2 to 16:
+</p>
+
+<pre>
+
+[+|-]D<sup>1..</sup> , where D is a <b>base</b> digit
+
+</pre>
+
+<p>
+By default the integer scanner accepts all form of the integer representation, <b>base</b> is assumed 10.
+But using options you may specify a desired form. Use <b>.b</b> or <b>.B</b> 
+to specify the binary form, <b>.h</b> or <b>.H</b> to specify the hex form, <b>.x</b> or <b>.X</b>
+to specify the 0x form and <b>.base</b> to specify the <b>base</b> form.
+</p>
+
+
+<h3>Utilities</h3>
+
+<p>
+There is a family of scan utility functions.
+</p>
+
+<pre>
+
+/* concept CharStreamType&lt;S&gt; */
+
+template &lt;class S&gt;
+concept bool <span class="Att">CharStreamType</span> = requires(S &amp;obj,Meta::ToConst&lt;S&gt; &amp;cobj)
+ {
+  { +cobj } -&gt; bool ;
+
+  { !cobj } -&gt; bool ;
+
+  { *cobj } -&gt; char ;
+
+  ++obj;
+ } ;
+
+/* concept CharFailStreamType&lt;S&gt; */
+
+template &lt;class S&gt;
+concept bool <span class="Att">CharFailStreamType</span> = CharStreamType&lt;S&gt; &amp;&amp; requires(S &amp;obj)
+ {
+  obj.fail();
+ } ;
+
+</pre>
+
+<p>
+<b>CharStreamType</b> is a character stream type, it is a cursor over <b>char</b>.
+</p>
+
+<p>
+<b>CharFailStreamType</b> is a <b>CharStreamType</b> with the method <b>fail()</b>. 
+</p>
+
+<pre>
+
+int <span class="Att">CharBaseValue</span>(char ch,unsigned base);
+
+</pre>
+
+<p>
+This function returns the digit value of the given character or -1, if the character
+is not a digit, where <b>base</b> is a representation base. It must be in the range [2,16].
+</p>
+
+<pre>
+
+void <span class="Att">SkipSpace</span>(CharStreamType &amp;inp);
+
+</pre>
+
+<p>
+This function extracts space-like characters from the input up to the end or a first non-space
+character. Can be applied to any <b>char</b> cursor.
+</p>
+
+<pre>
+
+void <span class="Att">SkipNonSpace</span>(CharStreamType &amp;inp);
+
+</pre>
+
+<p>
+This function extracts non-space characters from the input up to the end or a first space-like
+character. Can be applied to any <b>char</b> cursor.
+</p>
+
+<pre>
+
+bool <span class="Att">ProbeChar</span>(CharStreamType &amp;inp,char ch);
+
+</pre>
+
+<p>
+This function tries to move over the specified <b>char</b>. On success it returns <b>true</b>, 
+otherwise the return value is <b>false</b> and the cursor remains at the current position.
+Can be applied to any <b>char</b> cursor.
+</p>
+
+<pre>
+
+template &lt;CharFailStreamType S,class ... CC&gt;
+void <span class="Att">PassChars</span>(S &amp;inp,CC ... cc);
+
+</pre>
+
+<p>
+This function extracts the given sequence of characters or fail the input. 
+</p>
+
+<pre>
+
+void <span class="Att">PassOneOfChar</span>(CharFailStreamType &amp;inp,FuncType&lt;bool,char&gt; func);
+
+</pre>
+
+<p>
+This function extracts one character, which satisfies the given condition, or fail the input.
+<b>func</b> is a functor with the signature <b>boolable (char ch)</b>. It is used to specify the condition.
+</p>
+
+<pre>
+
+void <span class="Att">SkipAllOfChar</span>(CharStreamType &amp;inp,FuncType&lt;bool,char&gt; func);
+
+</pre>
+
+<p>
+This function extracts characters, which satisfies the given condition, up to the end or a first
+character, which does not satisfy the condition. Can be applied to any <b>char</b> cursor.
+<b>func</b> is a functor with the signature <b>boolable (char ch)</b>. It is used to specify the condition.
+</p>
+
+<pre>
+
+enum EndOfScanType
+ {
+  <span class="Att">EndOfScan</span>
+ };
+
+</pre>
+
+<p>
+This word can be scanned. It fails the scanner if it is not empty.
+</p>
+
+<pre>
+
+template &lt;class T,class ProxySet&gt;
+struct <span class="Att">ScanProxySet</span> : ScanOptAdapter&ltProxySet&gt;
+ {
+  struct ProxyType
+   {
+    T &amp;ret;
+    
+    explicit ProxyType(T &amp;ret_) : ret(ret_) {}
+    
+    template &lt;class S&gt;
+    void scan(S &amp;inp)
+     {
+      ProxySet set;
+      
+      Scanobj(inp,set);
+      
+      set.map(ret);
+     }
+    
+    template &lt;class S,class OptType&gt;
+    void scan(S &amp;inp,const OptType &amp;opt)
+     {
+      ProxySet set;
+      
+      Scanobj(inp,BindScanOpt(opt,set));
+      
+      set.map(ret);
+     }
+   };
+ };
+
+</pre>
+
+<p>
+This class can be used to specialize the template <b>ScanProxy&lt;T&gt;</b> . 
+</p>
+
+<pre>
+
+template &lt;&gt;
+struct ScanProxy&lt;SomeType&gt; : ScanProxySet&lt;SomeType,SetType&gt; {};
+
+</pre>
+
+<p>
+The class <b>SetType</b> will be used to scan instead the type <b>SomeType</b>. 
+Then the result is returned using the method <b>map()</b>.
+</p>
+
+<pre>
+
+class SetType
+ {
+  public:
+
+   SetType();
+
+   void map(SomeType &amp;ret) const;
+
+   void scan(ScannerType &amp;inp);
+ };
+
+OR
+
+class SetType
+ {
+  public:
+
+   SetType();
+
+   void map(SomeType &amp;ret) const;
+
+   using ScanOptType = .... ;
+
+   void scan(ScannerType &amp;inp,ScanOptType opt);
+ };
+
+</pre>
+
+</body>
+
+</html>
+

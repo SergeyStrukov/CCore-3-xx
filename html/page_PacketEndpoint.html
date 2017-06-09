@@ -1,0 +1,309 @@
+<!--
+/* page_PacketEndpoint.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Packet endpoint</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Packet endpoint</h2>
+
+<p class="Files">Files <b>CCore/inc/net/PacketEndpointDevice.h</b> <b>CCore/src/net/PacketEndpointDevice.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/net/XPoint.h</b> <b>CCore/src/net/XPoint.cpp</b></p>
+
+<p>
+Packet endpoints are a base of the <b>CCore</b> networking.
+There are two abstract packet endpoint interface: <b>PacketEndpointDevice</b> and <b>PacketMultipointDevice</b>.
+All network code is enclosed in the <b>Net</b> namespace.
+</p>
+
+<a name="PacketEndpointDevice"><h4>PacketEndpointDevice</h4></a>
+
+<p>
+<b>PacketEndpointDevice</b> is a "client-side" interface. It is a logical packet communication endpoint. 
+It is used in point-to-point communication scenarios.
+</p>
+
+<pre>
+
+struct <span class="Att">PacketEndpointDevice</span>
+ {
+  static const Unid TypeUnid;
+
+  virtual PacketFormat getOutboundFormat() const =0;
+   
+  virtual void outbound(Packet&lt;uint8&gt; packet)=0;
+   
+  virtual ulen getMaxInboundLen() const =0;
+   
+  struct InboundProc : InterfaceHost
+   {
+    static const Unid TypeUnid;
+
+    virtual void inbound(Packet&lt;uint8&gt; packet,PtrLen&lt;const uint8&gt; data)=0;
+     
+    virtual void tick()=0;
+   };
+   
+  struct ConnectionProc // optional for InboundProc
+   {
+    static const Unid TypeUnid;
+
+    virtual void connection_lost()=0;
+    
+    virtual void connection_close()=0;
+   };
+
+  virtual void attach(InboundProc *proc)=0;
+   
+  virtual void detach()=0;
+ };
+
+</pre>
+
+<p>
+<b>getOutboundFormat()</b> returns the outbound packet format.
+</p>
+
+<p>
+<b>outbound()</b> starts the packet outbound. When the packet processing is complete, 
+the packet is completed. There is no error signaling, because the communication is not assumed reliable.
+The fact the packet is processed does not mean the data are received or will be received by the communication peer.
+</p>
+
+<p>
+<b>getMaxInboundLen()</b> is a maximum inbound data length.
+</p>
+
+<p>
+Data income is an asynchronous process. So to receive incoming packets some inbound processor must be attached
+to the endpoint.
+</p>
+          
+<p>
+<b>attach()</b> attaches the given processor to the endpoint. Only one processor can be attached
+at any time. Processor must be detached before endpoint is destroyed.
+Processor methods are called in an unknown task context.
+</p>
+
+<p>
+<b>detach()</b> detaches inbound processor from the endpoint.
+</p>
+
+<p>
+<b>inbound()</b> is called to handle an inbound packet. The first argument is a packet, the second
+is an inbound data, it is a part of the 
+packet data buffer.
+</p>
+
+<p>
+<b>tick()</b> is a "network tick". It happens 10 times per second. It is used for a protocol timeout
+processing.
+</p>
+
+<p>
+<b>InboundProc</b> interface may have the optional co-interface <b>ConnectionProc</b> to handle disconnection events.
+</p>
+
+<p>
+<b>connection_lost()</b> is called in the case of a connection lost situation.
+</p>
+
+<p>
+<b>connection_close()</b> is called if the peer has requested to close the connection. 
+</p>
+
+<a name="PacketMultipointDevice"><h4>PacketMultipointDevice</h4></a>
+
+<p>
+<b>PacketMultipointDevice</b> is a "server-side" interface. It is a logical packet communication endpoint. 
+It is used in point-to-many points communication scenarios. The type <b>XPoint</b> is used to identify a 
+particular target.
+</p>
+
+<pre>
+
+using <span class="Att">XPoint</span> = uint64 ;
+
+</pre>
+
+<p>
+<b>PacketMultipointDevice</b> is similar to the <b>PacketEndpointDevice</b>. The difference is
+the address argument in <b>inbound()</b> and <b>outbound()</b> methods. This argument is the address
+the packet should be sent to or is received from. <b>ConnectionProc</b> methods also have the address argument.
+It also has one additional method: <b>connection_open()</b> is called to signal about connection opening with a
+peer.
+</p>
+
+<pre>
+
+struct <span class="Att">PacketMultipointDevice</span>
+ {
+  static const Unid TypeUnid;
+
+  virtual StrLen toText(XPoint point,PtrLen&lt;char&gt; buf) const =0;
+   
+  virtual PacketFormat getOutboundFormat() const =0;
+   
+  virtual void outbound(<span class="Att">XPoint point</span>,Packet&lt;uint8&gt; packet)=0;
+   
+  virtual ulen getMaxInboundLen() const =0;
+   
+  struct InboundProc : InterfaceHost
+   {
+    static const Unid TypeUnid;
+
+    virtual void inbound(<span class="Att">XPoint point</span>,Packet&lt;uint8&gt; packet,PtrLen&lt;const uint8&gt; data)=0;
+     
+    virtual void tick()=0;
+   };
+   
+  struct ConnectionProc // optional for InboundProc
+   {
+    static const Unid TypeUnid;
+
+    virtual void connection_open(<span class="Att">XPoint point</span>)=0;
+    
+    virtual void connection_lost(<span class="Att">XPoint point</span>)=0;
+    
+    virtual void connection_close(<span class="Att">XPoint point</span>)=0;
+   };
+
+  virtual void attach(InboundProc *proc)=0;
+   
+  virtual void detach()=0;
+ };
+
+</pre>
+
+<p>
+<b>toText()</b> creates a text representation of the target address. A buffer for the operation must be
+given. The resulting text is returned.
+</p>
+
+<p>
+Multipoint device can store a native address in the type <b>XPoint</b>, if it is short enough.
+It also can perform an address mapping from the native address to the type <b>XPoint</b>.
+</p>
+
+<p>
+<b>connection_open()</b> is called to inform that a connection with a particular endpoint is established.
+</p>
+
+<h4>PortManager</h4>
+
+<p>
+This optional co-interface for <b>PacketEndpointDevice</b> and <b>PacketMultipointDevice</b> interfaces implements 
+the "port" abstraction. Some address schemes (like <b>UDP</b>) uses the concept of port.
+Port is a part of the address. 
+</p>
+
+<pre>
+
+struct <span class="Att">PortManager</span>
+ {
+  static const Unid TypeUnid;
+
+  virtual XPoint getDevicePort() const =0;
+  
+  virtual XPoint getPort(XPoint point) const =0;
+  
+  virtual XPoint changePort(XPoint point,XPoint port) const =0;
+ };
+
+</pre>
+
+<p>
+<b>getDevicePort()</b> returns the port of the device object in the form of the <b>XPoint</b> value.
+</p>
+
+<p>
+<b>getPort()</b> extracts the port from the given address. Both port and address are represented by the <b>XPoint</b> value.
+</p>
+
+<p>
+<b>changePort()</b> changes the port of the given address and returns the resulting address.
+</p>
+
+<h4>Utilities</h4>
+
+<pre>
+
+inline constexpr unsigned <span class="Att">InboundTicksPerSec</span> = 10 ;
+
+</pre>
+
+<p>
+This constant is the net tick frequency.
+</p>
+
+<pre>
+
+inline constexpr unsigned <span class="Att">ToTickCount</span>(MSec timeout)
+ {
+  return ((+timeout)*InboundTicksPerSec)/1000+1;
+ }
+
+</pre>
+
+<p>
+This function converts the time, given as <b>MSec</b>, to the net tick count.
+</p>
+
+<pre>
+
+class <span class="Att">PointDesc</span> : NoCopy
+ {
+   char buf[TextBufLen];
+   StrLen str;
+   
+  public:
+  
+   PointDesc(const PacketMultipointDevice *mp,XPoint point)
+    {
+     str=mp->toText(point,Range(buf));
+    }
+    
+   StrLen getStr() const { return str; } 
+   
+   // print object
+    
+   using PrintOptType = StrPrintOpt ; 
+    
+   void print(PrinterType &amp;out,PrintOptType opt) const
+    {
+     Putobj(out,BindOpt(opt,str));
+    }
+ };
+
+</pre>
+
+<p>
+This class helps to convert an <b>XPoint</b> to the text string.
+</p>
+
+</body>
+
+</html>
+

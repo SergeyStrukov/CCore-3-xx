@@ -1,0 +1,415 @@
+<!--
+/* page_XCore_STD.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore target STD implementation</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore target STD implementation</h2>
+
+<h3>Target cross-toolchain</h3>
+
+<p>
+A target cross-toolchain is located outside the target directory. 
+Under Unix (or Unix-emulation) it is placed in some directory like <b>/opt/BeagleBoneBlack/</b>.
+There are 4 main tools: C/C++ compiler, assembler, linker and archiver.
+These tools must be built to be aligned with the <b>XCore</b>. 
+Linker must produce an output, suitable for the target board.
+Usually it means the linker script must be prepared with the target board memory configuration.
+Compiler libraries must be compatible with the <b>XCore</b>.
+I.e. they must use <b>XCore</b> synchronization primitives and memory allocation functions.
+<b>XCore</b> contains the following C standard library files: <b>assert.cpp</b>, <b>stdlib.cpp</b>, <b>stdio.cpp</b> and <b>time.cpp</b>.
+They implements a part of the C standard library and expects the C standard include headers be written in a particular way.
+You may find a correct example in the target <b>Vanilla-X</b> <b>sysroot</b> directory.
+</p>
+
+<h4>assert.cpp</h4>
+
+<p>
+This file implements the function <b>__std_assert_failed</b>. Its prototype in the <b>assert.h</b> is
+</p>
+
+<pre>
+
+/* __std_assert_failed() */ 
+
+extern int <span class ="Att">__std_assert_failed</span>(const char *cond,const char *file_name,int line,const char *func_name);
+
+</pre>
+
+<p>
+It is used to implement the macro <b>assert</b>:
+</p>
+
+<pre>
+
+/* __std_assert_failed() */ 
+
+extern int <span class ="Att">__std_assert_failed</span>(const char *cond,const char *file_name,int line,const char *func_name);
+
+/* assert() */ 
+
+#ifdef NDEBUG
+
+#define <span class ="Att">assert</span>(ignore) ((void)0)
+ 
+#else
+
+#define <span class ="Att">assert</span>(cond) ((void)((cond)?0:__std_assert_failed(#cond,__FILE__,__LINE__,__func__)))
+ 
+#endif
+
+</pre>
+
+<h4>time.cpp</h4>
+
+<p>
+This file implements the functions <b>clock()</b> and <b>time()</b>. These functions are declared in the header <b>time.h</b> as
+</p>
+
+<pre>
+
+/* clock() */  
+ 
+#define <span class ="Att">CLOCKS_PER_SEC</span>     ????
+
+typedef unsigned long long <span class ="Att">clock_t</span>;
+
+extern clock_t <span class ="Att">clock</span>(void); 
+
+/* time() */ 
+
+typedef unsigned <span class ="Att">time_t</span>;
+
+extern time_t <span class ="Att">time</span>(time_t *time_ptr);
+
+</pre>
+
+<p>
+The type <b>clock_t</b> must have the same size as <b>Sys::ClockTimeType</b>.
+</p>
+
+<p>
+The type <b>time_t</b> must have the same size as <b>Sys::SecTimeType</b>.
+</p>
+
+<p>
+The constant <b>CLOCKS_PER_SEC</b> must have the same value as <b>Sys::ClocksPerSec</b>.
+</p>
+
+<h4>stdlib.cpp</h4>
+
+<p>
+This file implements the memory allocation functions with extra functions. 
+They are declared in the header <b>stdlib.h</b> as
+</p>
+
+<pre>
+
+/* malloc() */ 
+
+extern void * <span class ="Att">malloc</span>(size_t size);
+
+extern void * <span class ="Att">calloc</span>(size_t elem_count,size_t elem_size);
+
+extern void * <span class ="Att">realloc</span>(void *mem,size_t size);
+
+extern void <span class ="Att">free</span>(void *mem);
+
+/* malloc_int() */ 
+
+extern void * <span class ="Att">malloc_int</span>(size_t size); /* ext function */ 
+
+extern void <span class ="Att">free_int</span>(void *mem); /* ext function */ 
+
+</pre>
+
+<p>
+Two extra memory allocation functions <b>malloc_int()</b> and <b>free_int()</b> give access to the interrupt heap.
+They may be called in any execution context and must be used in C/C++ language support libraries to allocate/free memory
+for various context data (for example, for exception objects).
+</p>
+
+<h4>stdio.cpp</h4>
+
+<p>
+This is a large file with an stdio library implementation. You may find a proper header <b>stdio.h</b> in the <b>Vanilla-X</b> sysroot directory.
+</p>
+
+<h3>STD implementation</h3>
+
+<p>
+<i>STD implementation</i> is a particular way to implement some very basic target functionality. 
+It uses an extension to the C standard library. 
+The most of these extended functions are declared in the file <b>__std_init.h</b>.
+These functions are implemented mostly using the assembler. They are archived with the standard C library functions in the cross-toolchain.
+This file defines the following entities:
+</p>
+
+<pre>
+
+#ifndef XCore___std_init_h
+#define XCore___std_init_h
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* types */
+
+typedef unsigned <span class ="Att">__std_len_t</span>;
+
+/* init */
+
+extern void <span class ="Att">__std_init</span>(void);
+
+/* main */
+
+extern void <span class ="Att">__std_main</span>(void);
+
+/* exit */
+
+extern void <span class ="Att">__std_exit</span>(void);
+
+/* constructors/destructors */
+
+typedef void (*<span class ="Att">__std_init_t</span>)(void);
+
+extern __std_init_t * <span class ="Att">__std_get_init_base</span>(void);
+
+extern __std_init_t * <span class ="Att">__std_get_init_lim</span>(void);
+
+/* abort */
+
+extern void <span class ="Att">__std_abort</span>(const char *zstr) __attribute__((noreturn)) ;
+
+extern void <span class ="Att">__std_abort2</span>(const char *ptr,__std_len_t len) __attribute__((noreturn)) ;
+
+/* mem */
+
+ /* all MaxAlign-ed */
+
+extern __std_len_t <span class ="Att">__std_get_heap_int_len</span>(void);
+
+extern __std_len_t <span class ="Att">__std_get_heap_len</span>(void);
+
+extern __std_len_t <span class ="Att">__std_get_syslog_len</span>(void);
+
+extern void * <span class ="Att">__std_alloc</span>(__std_len_t len);
+
+/* shared mem */
+
+ /* all MaxAlign-ed */
+
+extern void * <span class ="Att">__std_get_shared_mem</span>(void);
+
+extern __std_len_t <span class ="Att">__std_get_shared_mem_len</span>(void);
+
+/* video mem */
+
+ /* all MaxAlign-ed */
+
+extern void * <span class ="Att">__std_get_video_mem</span>(void);
+
+extern __std_len_t <span class ="Att">__std_get_video_mem_len</span>(void);
+
+/* int */
+
+typedef void (*<span class ="Att">__std_handler_t</span>)(void);
+
+extern void <span class ="Att">__std_intsetup</span>(__std_handler_t handler);
+
+extern void <span class ="Att">__std_intcleanup</span>(void);
+
+/* context */
+
+ /* all MaxAlign-ed */
+
+extern void * <span class ="Att">__std_context</span>;
+
+extern __std_len_t <span class ="Att">__std_context_len</span>(void);
+
+typedef void (*<span class ="Att">__std_entry_t</span>)(void *arg);
+
+extern void <span class ="Att">__std_context_init</span>(void *context,
+                               void *stack,
+                               __std_len_t stack_len,
+                               __std_entry_t entry,
+                               void *arg);
+
+extern void <span class ="Att">__std_switch</span>(void *context); // int disabled
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#endif
+
+</pre>
+
+<h4>type __std_len_t</h4>
+
+<p>
+<b>__std_len_t</b> defines the "size type", i.e. it is a substitute for <b>size_t</b>.
+</p>
+
+<h4>initialization functions</h4>
+
+<p>
+<b>__std_init()</b> this function is called by the startup code to perform initialization actions.
+</p>
+
+<p>
+<b>__std_main()</b> this function is called by the startup code to run the main functionality.
+</p>
+
+<p>
+<b>__std_exit()</b> this function is called by the startup code to perform cleanup actions. These three functions are implemented in the <b>CCore</b> target,
+in the <a href="page_XCore_stdinit.html"><b>__std_init.cpp</b></a> file.
+</p>
+
+<h4>global object's constructors/destructors</h4>
+
+<p>
+These functions supports the global object's constructors call. There are different ways how the compiler may implement initialization of
+global objects. One of them is the following: compiler and linker produces a section with the initialization function pointers.
+These functions must be called in order of appearance. Each constructor register the correspondent destructor to be called using the <b>atexit</b> mechanism.
+So destructors are called during the <b>atexit</b> processing and not required any additional data to be generated.
+</p>
+
+<p>
+<b>__std_init_t</b> is the initialization function type.
+</p>
+
+<p>
+<b>__std_get_init_base()</b> returns the base of the initialization function section.
+</p>
+
+<p>
+<b>__std_get_init_lim()</b> returns the limit of the initialization function section.
+</p>
+
+<h4>abort functions</h4>
+
+<p>
+<b>__std_abort()</b> aborts the execution with the diagnostic message. Message is given as the zero-terminated string. 
+It can be send out to a serial port, for example, or stored in a flash memory for further extraction. 
+Abort means the execution termination and may reset the board or stop it.
+</p>
+
+<p>
+<b>__std_abort2()</b> another abort function, the message is given as the pointer/length couple.
+</p>
+
+<h4>memory regions functions</h4>
+
+<p>
+<b>__std_get_heap_int_len()</b> returns the length of the interrupt heap memory region. This value is aligned.
+This memory region is used to build the interrupt heap.
+</p>
+
+<p>
+<b>__std_get_heap_len()</b> returns the length of the heap memory region. This value is aligned.
+This memory region is used to build the main heap.
+</p>
+
+<p>
+<b>__std_get_syslog_len()</b> returns the length of the region. This value is aligned.
+This memory region is used to build the system log.
+</p>
+
+<p>
+<b>__std_alloc()</b> is used to allocate memory from the available board memory. 
+This function is called once per each memory region to obtain memory for this region.
+</p>
+
+<p>
+<b>__std_get_shared_mem()</b> returns the base address of the shared memory. This value is aligned. 
+Shared memory can be used to exchange data between CPU and peripheral devices, this memory region is not cached.
+This memory region is used to build the shared heap.
+</p>
+
+<p>
+<b>__std_get_shared_mem_len()</b> returns the length of the shared memory. This value is aligned.
+</p>
+
+<p>
+<b>__std_get_video_mem()</b> returns the base address of the video memory. This value is aligned. 
+If the board has no video capabilities this region can be null. Normally this memory region is not cached.
+</p>
+
+<p>
+<b>__std_get_video_mem_len()</b> returns the length of the video memory. This value is aligned.
+</p>
+
+<h4>interrupt functions</h4>
+
+<p>
+<b>__std_handler_t</b> is the interrupt function type.
+</p>
+
+<p>
+<b>__std_intsetup()</b> initializes the interrupt handle subsystem and installs the primary interrupt handler. 
+All interrupts goes to this function. To determine a particular interrupt source the handler must examine the interrupt controller register values.
+On systems with the multiple interrupt vectors it can be simulated using the global status variables instead of registers.
+The primary interupt handler is called in the interrupt context, interrupts are disabled. 
+Interrupts in interrupts are not supported.
+</p>
+
+<p>
+<b>__std_intcleanup()</b> cleans up the interrupt handle subsystem. Both functions must be called with interrupts disabled.
+</p>
+
+<h4>context functions</h4>
+
+<p>
+<b>__std_context</b> is the context of the current task. The task context is region of memory, attached to each task. It is used to preserve
+some per-task data while task is suspended. These data includes, in particular, CPU register values.
+</p>
+
+<p>
+<b>__std_context_len()</b> is the context task length in bytes.
+</p>
+
+<p>
+<b>__std_entry_t</b> is the task entry function type.
+</p>
+
+<p>
+<b>__std_context_init()</b> initializes the new task context. 
+To prepare a new task context you must allocate first a memory for the task stack and the task context. These memory blocked must be aligned.
+The stack length must be aligned too. 
+Then you prepare the task context, providing these blocks and the task entry function pointer with the argument.
+Once you have the context ready, simply switch to this new task using the <b>__std_switch()</b> function.
+</p>
+
+<p>
+<b>__std_switch()</b> performs the task switch. This function must be called with interrupts disabled and only in a task context.
+To switch the current task in the interrupt context you must simply change the variable <b>__std_context</b>.
+</p>
+
+</body>
+
+</html>
+

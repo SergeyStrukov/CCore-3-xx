@@ -1,0 +1,398 @@
+<!--
+/* page_Random.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Random</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Random</h2>
+
+<p class="Files">Files <b>CCore/inc/Random.h</b> <b>CCore/src/Random.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/PlatformRandom.h</b></p>
+
+<p>
+Random numbers have many use in applications. <b>CCore</b> provides a quality random number generator
+implementation, based on the <a href="http://en.wikipedia.org/wiki/Mersenne_twister">Mersenne Twister algorithm</a>.
+</p>
+
+<p>
+There are several reasons why we use our own RNG. First, we need quality. Second, we need some properties
+from RNG: it must be lightweight and generate unique and non-periodical random number sequence.
+Finally, RNG must be an object, not a global function. Because it requires some state to work, using a global function
+introduces a global variable, the access to this variable must be synchronized in multithreaded applications.
+That implies an excessive bottleneck and a performance penalty.
+That is why we abstain from the using the standard C function <b>rand()</b>. 
+</p>
+
+<p>
+The class <b>Random</b> is a random number generator. It contains inside the MT19937 Mersenne Twister state machine.
+To make the random sequence unique and non-periodical, the state is altered by the clock timer at the beginning and
+periodically during the random number generation process.
+</p>
+
+<pre>
+
+class <span class="Att">Random</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   Random();
+   
+   void warp(PtrLen&lt;const uint8&gt; data);
+
+   uint8  next8();
+   
+   uint16 next16();
+   
+   uint32 next32();
+   
+   uint64 next64(); 
+    
+   template &lt;UIntType UInt&gt;
+   UInt next_uint();
+   
+   uint32 select(uint32 lim) { return lim?uint32( next64()%lim ):next32(); }
+   
+   uint32 select(uint32 a,uint32 b) { return a+select(b-a+1); }
+   
+   template &lt;UIntType UInt&gt;
+   UInt select_uint(UInt lim);
+ 
+   template &lt;UIntType UInt&gt;
+   UInt select_uint(UInt a,UInt b);
+
+   template &lt;UIntType UInt&gt;
+   void fill(PtrLen&lt;UInt&gt; r); 
+   
+   template &lt;UIntType UInt&gt;
+   void fill(UInt *ptr,ulen len); 
+ };
+
+</pre>
+
+<p>
+There is not destructor, only default constructor. Multiple <b>Random</b> objects generates different 
+random numbers.
+</p>
+
+<p>
+<b>warp()</b> alters the internal state. You can use this method to improve the random seeding using some
+entropy source to produce a block of bytes and supply it as the argument.
+</p>
+
+<p>
+<b>next8()</b>, <b>next16()</b>, <b>next32()</b> and <b>next64()</b> return a random number of the
+given unsigned integral size defined type. 
+</p>
+
+<p>
+<b>next_uint&lt;UInt&gt;()</b> returns a random unsigned integer, the type is specified as a template
+argument.
+</p>
+
+<p>
+<b>fill()</b> fills the given range of unsigned integers by random values.
+</p>
+
+<p>
+<b>select(uint32 lim)</b> generates a random number in the range <b>[0,lim)</b>, almost uniformly distributed.
+If the <b>lim</b> is zero, then the value range is all <b>uint32</b> values. The non-uniformness is negligible
+for casual applications.
+</p>
+
+<p>
+<b>select(uint32 a,uint32 b)</b> generates a random number in the range <b>[a,b]</b>, almost uniformly distributed.
+<b>a</b> must be less or equal than <b>b</b>.
+</p>
+
+<p>
+<b>select_uint(UInt lim)</b> is similar to <b>select(uint32 lim)</b>, but works for the any unsigned integral type, 
+specified as the template argument.
+</p>
+
+<p>
+<b>select_uint(UInt a,UInt b)</b> is similar to <b>select(uint32 a,uint32 b)</b>, but works for the any unsigned integral type, 
+specified as the template argument.
+</p>
+
+<h4>RandomType</h4>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">RandomType</span> = IsDerivedFrom&lt;T,RandomBase&lt;T&gt; &gt; &amp;&amp; requires(T &amp;obj,PtrLen&lt;const uint8&gt; data)
+ {
+  T();
+
+  obj.warp(data);
+
+  { obj.next8() } -&gt; uint8 ;
+  { obj.next16() } -&gt; uint16 ;
+  { obj.next32() } -&gt; uint32 ;
+  { obj.next64() } -&gt; uint64 ;
+ } ;
+
+</pre>
+
+<p>
+<b>RandomType</b> is a concept for <b>Random</b> kind classes.
+</p>
+
+<h4>RandomBase</h4>
+
+<p>
+<b>Random</b> is implemented with help of the <b>RandomBase</b> class.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">RandomBase</span> : NoCopy
+ {
+  private:
+ 
+   T &amp; getObj() requires ( RandomCoreType&lt;T&gt; ) { return *static_cast&lt;T *&gt;(this); }
+   
+  public:
+ 
+   template &lt;UIntType UInt&gt;
+   UInt next_uint();
+ 
+   uint32 select(uint32 lim);
+ 
+   uint32 select(uint32 a,uint32 b);
+ 
+   template &lt;UIntType UInt&gt;
+   UInt select_uint(UInt lim);
+ 
+   template &lt;UIntType UInt&gt;
+   UInt select_uint(UInt a,UInt b);
+ 
+   template &lt;UIntType UInt&gt;
+   void fill(PtrLen&lt;UInt&gt; r); 
+ 
+   template &lt;UIntType UInt&gt;
+   void fill(UInt *ptr,ulen len) 
+ };
+
+</pre>
+
+<p>
+You may use this class to build you custom random class using the following pattern:
+</p>
+
+<pre>
+
+class <span class="Att">CustomRandom</span> : public RandomBase&lt;CustomRandom&gt;
+ {
+  public:
+
+   ....
+
+   void warp(PtrLen&lt;const uint8&gt; data);
+
+   uint8  next8();
+   
+   uint16 next16();
+   
+   uint32 next32();
+   
+   uint64 next64(); 
+ };
+
+</pre>
+
+<p>
+You have to implement only four base methods and <b>warp()</b>. You may derive them from the one like this:
+</p>
+
+<pre>
+
+class <span class="Att">CustomRandom</span> : public RandomBase&lt;CustomRandom&gt;
+ {
+  public:
+
+   ....
+
+   <span class="Att">using UnitType = uint32;</span>
+
+   <span class="Att">uint32 next();</span>
+
+   void warp(PtrLen&lt;const uint8&gt; data);
+
+   uint8  next8()  { return uint8 (next()); }
+   
+   uint16 next16() { return uint16(next()); }
+   
+   uint32 next32() { return uint32(next()); }
+   
+   uint64 next64() 
+    {
+     UIntSplit&lt;uint64,uint32&gt; split;
+     
+     split[0]=next32();
+     split[1]=next32();
+     
+     return split.get(); 
+    }
+ };
+
+</pre>
+
+<h4>Mersenne Twister</h4>
+
+<p class="Files">Files <b>CCore/inc/MersenneTwister.h</b> <b>CCore/src/MersenneTwister.cpp</b></p>
+
+<p>
+Mersenne Twister is a generic algorithm, MT19937 &mdash; it's particular version.
+Implementation of the Mersenne Twister is enclose in the namespace <b>MersenneTwister</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">MT19937</span>
+ {
+  // unit
+ 
+  using UnitType = uint32 ;
+  
+  static constexpr ulen W = 32 ;
+  
+  // state
+  
+  static constexpr ulen N = 624 ;
+  static constexpr ulen M = 397 ;
+  static constexpr ulen R =  31 ;
+  
+  static constexpr UnitType A = 0x9908B0DF ;
+  
+  // output
+  
+  static constexpr ulen S1 = 11 ;
+  static constexpr ulen S2 =  7 ;
+  static constexpr ulen S3 = 15 ;
+  static constexpr ulen S4 = 18 ;
+  
+  static constexpr UnitType B = 0x9D2C5680 ;
+  static constexpr UnitType C = 0xEFC60000 ;
+  
+  // initialization
+  
+  static constexpr ulen ReMessCount =  100 ;
+  static constexpr ulen MessCount   = 1000 ;
+  
+  static const UnitType HotBits[N];
+ };
+
+</pre>
+
+<p>
+The structure <b>MT19937</b> contains the MT19937 version parameters. It includes initial random state bits
+from <a href="http://www.fourmilab.ch/hotbits/">HotBits</a>.
+</p>
+
+<pre>
+
+template &lt;class P&gt;
+class <span class="Att">Gen</span> : NoCopy
+ {
+  public:
+
+   using UnitType = typename P::UnitType ; 
+   
+  private: 
+  
+   ulen remess_count;
+   ulen ind;
+   UnitType state[P::N];
+   
+  protected: 
+  
+   PtrLen&lt;UnitType&gt; getState() { return Range(state); }
+   
+   void hotbits();
+   
+   void messup();
+   
+   void pure_init();
+   
+   UnitType pure_next();
+   
+  public:
+  
+   UnitType next();
+
+   void warp(PtrLen&lt;const uint8&gt; data);
+ };
+
+</pre>
+
+<p>
+The class <b>Gen</b> is the generator itself. It is a <b>Partial Class</b>, parametrized by a parameter structure.
+</p>
+
+<p>
+The main public method is the <b>next()</b>: it returns a next random number of the <b>UnitType</b>.
+But before using this class, its internal state must be initialized.
+</p>
+
+<p>
+First, the buffer <b>state</b> must be initialized. You can do it in a derived class, <b>getState()</b> 
+gives access to this buffer. The method <b>hotbits()</b> fills this buffer with some predefined random
+bits.
+</p>
+
+<p>
+Second, use <b>messup()</b> method to "mess-up" the state and add to it some clock input. It makes the state
+unprobably repeatable. You may also use the method <b>pure_init()</b> to skip this mess and start
+the generator as the pure Mersenne Twister generator. In such case to continue use the method <b>pure_next()</b>
+for the random number generation. These "pure" methods are included for the testing purpose mostly.
+</p>
+
+<p>
+Finally, the public method <b>warp()</b> can be used to update the state buffer. 
+The provided value is used to XOR the state buffer.
+</p>
+
+<a name="PlatformRandom"><h2>PlatformRandom</h2></a>
+
+<p>
+The header <b>PlatformRandom.h</b> is a stub header. It contains the definition of the type 
+<b>PlatformRandom</b>. The <b>CCore</b> header defines this type as <b>Random</b>.
+But target may define its own header file with the same name and override this stub.
+In such case the defined type must provide the same functionality as the type <b>Random</b>.
+</p>
+
+<p>
+For example, the target <b>WIN64</b> defines the type <b>PlatformRandom</b> as <b>IntelRandom</b> to utilize
+the Intel hardware RNG.
+</p>
+
+</body>
+
+</html>
+

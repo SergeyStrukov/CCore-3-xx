@@ -1,0 +1,128 @@
+<!--
+/* page_Unid.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Unid</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Unid</h2>
+
+<p class="Files">Files <b>CCore/inc/Unid.h</b> <b>CCore/src/Unid.cpp</b></p>
+
+<p>
+<b>Unid</b> is a unique identity. It is represented by the structure <b>Unid</b>. It's a POD type with 8 32-bit values.
+To build a particular <b>Unid</b> the best way is to use a good random number generator like <a href="http://www.fourmilab.ch/hotbits/">HotBits</a>.
+</p>
+
+<pre>
+
+struct <span class="Att">Unid</span>
+ {
+  uint32 id[8];
+
+  friend bool operator &lt; (const Unid &amp;a,const Unid &amp;b);
+
+  friend bool operator &gt; (const Unid &amp;a,const Unid &amp;b);
+
+  friend bool operator &lt;= (const Unid &amp;a,const Unid &amp;b);
+
+  friend bool operator &gt;= (const Unid &amp;a,const Unid &amp;b);
+
+  friend bool operator == (const Unid &amp;a,const Unid &amp;b);
+
+  friend bool operator != (const Unid &amp;a,const Unid &amp;b);
+
+  CmpResult objCmp(const Unid &amp;obj) const;
+ };
+
+</pre>
+
+<p>
+You may assign a <b>Unid</b> to the type like this:
+</p>
+
+<pre>
+
+class SomeClass
+ {
+  public:
+
+   static const Unid TypeUnid;
+ };
+
+const Unid SomeClass::TypeUnid={{ .... }};
+
+</pre>
+
+<p>
+and then get it using the helper <b>UnidOf</b> (beware inheritance!):
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">UnidType</span> = requires()
+ {
+  { T::TypeUnid } -> const Unid &amp; ;
+ } ;
+
+template &lt;UnidType T&gt;
+struct <span class="Att">UnidOf</span>
+ {
+  static const Unid & Get() { return T::TypeUnid; }
+ };
+
+</pre>
+
+<p>
+The special class <b>UnidRegister</b> can be used to build a global mapping from the <b>Unid</b> to number:
+</p>
+
+<pre>
+
+class <span class="Att">UnidRegister</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   UnidRegister();
+
+   ~UnidRegister();
+
+   template &lt;class T&gt;
+   ulen getTypeId() noexcept;
+ };
+
+</pre>
+
+<p>
+The method <b>getTypeId()</b> returns a number, associated with the <b>Unid</b> of the type <b>T</b> (and therefor with the type <b>T</b>).
+Numbers are assigned sequentially from the 0. It calls abort on failure.
+</p>
+
+</body>
+
+</html>
+

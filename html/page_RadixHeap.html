@@ -1,0 +1,219 @@
+<!--
+/* page_RadixHeap.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> RadixHeap</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>RadixHeap</h2>
+
+<p class="Files">Files <b>CCore/inc/RadixHeap.h</b> <b>CCore/src/RadixHeap.cpp</b></p>
+
+<p>
+The class <b>RadixHeap</b> is a heart of <b>CCore</b> heaps. It is a complicated class, built from several
+parts. The primary part is the template argument <b>Mem</b>, which is responsible for the primary memory allocation.
+This class is used to allocated large memory blocks, then <b>RadixHeap</b> splits them into smaller parts 
+(aka blocks) and manages these parts. Each such block starts from the header of the type <b>RadixHeapBlock</b>. 
+The part can be used or free. The space after the header in a free block is used to create a special control
+object, these objects are used to manage the free blocks set by the <b>RadixHeapStore</b>. 
+In used blocks this space is the allocated memory. <span class="Alert">There is no two free consecutive blocks</span>. 
+If such blocks appear during the <b>free()</b> operation, they are immediately merged into the single free block.
+When a block is allocated, it is stamped by the "magic number". This stamp is used to detect incorrect block pointers.
+It makes the heap protected from incorrect operations (not 100%).
+</p>
+
+<img src="RadixHeap.png" />
+
+<p>
+<b>RadixHeapStore</b> manages free heap blocks. The efficiency of this class is a key to the efficiency of the heap
+operations. This class uses the set of lists to store small blocks and the radix tree to store larger blocks.
+That is how we provides constant operation time limits.
+</p>
+
+<pre>
+
+template &lt;HeapMemType Mem&gt;
+class <span class="Att">RadixHeap</span> : NoCopy
+ {
+   Mem large_mem;
+   RadixHeapStore store;
+   ulen count;
+
+  public:
+  
+   template &lt;class ... SS&gt;
+   explicit RadixHeap(SS && ... ss);
+   
+   ~RadixHeap();
+ 
+   bool isEmpty() const { return count==0; }
+  
+   Space alloc(ulen len);               // ret.len!=0 on success (==memlen)
+  
+   ulen getLen(const void *mem);        // mem!=0, return memlen
+   
+   ulen free(void *mem);                // mem!=0, return memlen
+   
+   DeltaLen extend(void *mem,ulen len); // mem!=0
+
+   DeltaLen shrink(void *mem,ulen len); // mem!=0
+ };
+
+</pre>
+
+<p>
+Constructor forwards its arguments to the <b>Mem</b> object (<b>large_mem</b>).
+</p>
+
+<p>
+<b>isEmpty()</b> returns true, if there is no allocated memory blocks from the heap.
+</p>
+
+<p>
+<b>alloc()</b> tries to allocate a memory. On failure it returns a null <a href="page_Space.html"><b>Space</b></a> object. Otherwise
+the resulting <b>Space</b> object contains non-zero memory pointer and non-zero memory length, which is greater 
+or equal than the argument <b>len</b>.
+</p>
+
+<p>
+Other methods require a valid non-null pointer <b>mem</b>.
+</p>
+
+<p>
+<b>getLen()</b> returns the length of the memory block.
+</p>
+
+<p>
+<b>free()</b> releases the memory block, this method returns the length of the memory block.
+</p>
+
+<p>
+<b>extend()</b> extends the memory block up to the given <b>len</b>, if possible. If the <b>len</b> is
+not greater than the length of the memory block, the operation is successful, but change nothing.
+The resulting <a href="page_Space.html"><b>DeltaLen</b></a> object has the field <b>ok</b>, which indicates success of the operation,
+and the field <b>delta</b>, equals the difference between the length of the new block and the old one.
+</p>
+
+<p>
+<b>shrink()</b> shrinks the memory block down to the given <b>len</b>. This operation is successful only if
+the <b>len</b> is not greater than the length of the memory block. The resulting <b>DeltaLen</b> object 
+has the field <b>ok</b>, which indicates success of the operation,
+and the field <b>delta</b>, equals the difference between the length of the old block and the new one.
+</p>
+
+<a name="Primary"><h4>Primary memory provider</h4></a>
+
+<p>
+A primary memory provider is a class with the following "prototype":
+</p>
+
+<pre>
+
+class Mem
+ {
+   const ulen max_store_len; // aligned
+
+  public:
+
+   Mem(....);
+
+   void cleanup(bool clean);
+
+   ulen getMaxStoreLen() const { return max_store_len; }
+
+   RadixHeapBlock * alloc(ulen blen);            // blen aligned 
+                                                 // ( blen<=max_store_len ) => ( ret->len<=max_store_len )
+
+   void free(RadixHeapBlock *block);             // block!=0
+
+   bool extend(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen>block->len
+
+   ulen shrink(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen<=block->len , return delta
+ };
+
+</pre>
+
+<p>
+<b>Mem</b> constructor(s) is custom.
+</p>
+
+<p>
+Instead of destructor, <b>Mem</b> has the method <b>cleanup()</b>. The argument <b>clean</b> is true, if all memory
+blocks have been released, if not the method must fail. If the method is failed, it is recommended to call the 
+<b>Abort()</b>. This is because some memory is still in use, but we are going to destroy the heap. 
+Continuing execution under such circumstances likely leads to the memory destruction.
+</p>
+
+<p>
+<b>max_store_len</b> is a maximum block length, which is allowed to be split and stored. If the block length
+is greater, then such blocks are allocated and released as whole. This value must be large enough, for example,
+in <b>PageMem</b> it is set to <b>16*1024*Sys::MemPageLen</b>, by default.
+</p>
+
+<p>
+The method <b>alloc()</b> is called to allocate a large memory block. The argument <b>blen</b> is 
+the total block length, it is an aligned value. The method must allocate a block of memory at least required length,
+create the <b>RadixHeapBlock</b> object at the beginning of this block, and return the pointer to this object.
+If the memory cannot be allocated, the null pointer is returned. If the <b>blen</b> is not greater, than the
+<b>max_store_len</b>, then the allocated block length also must not exceed this value. <b>RadixHeapBlock</b> must 
+be initialized by the method <b>init(total_block_length)</b>.
+</p>
+
+<p>
+The method <b>free()</b> is called to release a memory block, once it is not in use. The <b>block</b> 
+is always non-null. If you allocate a memory by the <b>RadixHeap</b> and then release it, then the large blocks
+will be freed as well. So, to prevent the last block from fluffing, <b>Mem</b> must implement a caching
+to avoid unnecessary extra expensive allocation/deallocation.
+</p>
+
+<p>
+<b>extend()</b> extends the large block. The <b>block</b> is always non-null and the <b>blen</b> is aligned and 
+greater than the block length. The method returns <b>true</b> on success. It must reinitialize the <b>block</b>.
+</p>
+
+<p>
+<b>shrink()</b> shrinks the large block. The <b>block</b> is always non-null and the <b>blen</b> is aligned and 
+not greater than the block length. The method returns delta length. It must reinitialize the <b>block</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">RadixHeapBlock</span>
+ {
+  ....
+  
+  void init(ulen total_len);
+ };
+
+</pre>
+
+<p>
+This POD structure has number of members, but you need only one: <b>init()</b>.
+The argument is the total length of the memory block, the <b>RadixHeapBlock</b> is created at the beginning of.
+</p>
+
+</body>
+
+</html>
+

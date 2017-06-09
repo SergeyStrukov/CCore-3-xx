@@ -1,0 +1,101 @@
+OBJ_LIST = \
+obj/Application.o \
+obj/Aspect.o \
+obj/AspectData.o \
+obj/Client.o \
+obj/ErrorText.o \
+obj/main.o \
+
+
+ASM_LIST = \
+obj/Application.s \
+obj/Aspect.s \
+obj/AspectData.s \
+obj/Client.s \
+obj/ErrorText.s \
+obj/main.s \
+
+
+DEP_LIST = \
+obj/Application.dep \
+obj/Aspect.dep \
+obj/AspectData.dep \
+obj/Client.dep \
+obj/ErrorText.dep \
+obj/main.dep \
+
+
+ASM_OBJ_LIST = \
+
+
+include $(RULES_FILE)
+
+
+obj/Application.o : ./src/Application.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Aspect.o : ./src/Aspect.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/AspectData.o : ./src/AspectData.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/Client.o : ./src/Client.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/ErrorText.o : ./src/ErrorText.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+obj/main.o : ./src/main.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+
+
+obj/Application.s : ./src/Application.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Aspect.s : ./src/Aspect.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/AspectData.s : ./src/AspectData.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/Client.s : ./src/Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/ErrorText.s : ./src/ErrorText.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+obj/main.s : ./src/main.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+
+
+obj/Application.dep : ./src/Application.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Application.o $< -MF $@
+
+obj/Aspect.dep : ./src/Aspect.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Aspect.o $< -MF $@
+
+obj/AspectData.dep : ./src/AspectData.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/AspectData.o $< -MF $@
+
+obj/Client.dep : ./src/Client.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Client.o $< -MF $@
+
+obj/ErrorText.dep : ./src/ErrorText.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ErrorText.o $< -MF $@
+
+obj/main.dep : ./src/main.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+
+
+
+
+
+ifneq ($(MAKECMDGOALS),clean)
+
+include $(DEP_FILE)
+
+endif
+

@@ -1,0 +1,106 @@
+<!--
+/* page_PTPEchoServer.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PTPEchoServer</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PTPEchoServer</h2>
+
+<p>
+<b>PTPEchoServer</b> is a simple <b>UDP</b> <a href="page_PTPEchoTest.html"><b>PTP</b> echo</a> server. 
+It occupies the <b>UDP</b> port <b>52000</b>.
+It implements the <b>PTP</b> echo service and three functions from the 
+<a href="page_PTPSupport.html"><b>PTP</b> support service</a>: Len, Seed, Session.
+</p>
+
+<p>
+There are no command line arguments. 
+</p>
+
+<pre>
+
+CCore-PTPEchoServer.exe
+
+</pre>
+
+<p>
+You can show the packet statistic using the command <i>stat</i>. 
+</p>
+
+<pre>
+
+--- PTPEchoServer 1.00 ---
+--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---
+
+PTP-Echo&gt; help
+commands: stat clear help exit
+PTP-Echo&gt; stat
+
+
+           Tick = 127
+  Extra timeout = 138
+
+PTP-Echo&gt; stat
+
+
+           Tick = 1791
+  Extra timeout = 2025
+
+PTP-Echo&gt; stat
+
+          Trans = 693520
+     Trans done = 693520
+        &lt;- CALL = 693520
+         &lt;- ACK = 694852
+         -&gt; RET = 693520
+       -&gt; RERET = 1332
+        No slot = 1332
+
+             Rx = 1388372
+             Tx = 694852
+           Tick = 2131
+  Extra timeout = 2292
+
+PTP-Echo&gt; exit
+
+          Trans = 693520
+     Trans done = 693520
+        &lt;- CALL = 693520
+         &lt;- ACK = 694852
+         -&gt; RET = 693520
+       -&gt; RERET = 1332
+        No slot = 1332
+
+             Rx = 1388372
+             Tx = 694852
+           Tick = 2297
+  Extra timeout = 2480
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,86 @@
+<!--
+/* page_ScopeGuard.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ScopeGuard</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ScopeGuard</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/ScopeGuard.h</b> <b>CCore/src/gadget/ScopeGuard.cpp</b></p>
+
+<p>
+This file provides two "scope guard" classes.
+</p>
+
+<pre>
+
+template &lt;class T&gt; requires ( NothrowDefaultCtorType&lt;T&gt; && NothrowCopyableType&lt;T&gt; )
+class <span class="Att">DefaultGuard</span> : NoCopy
+ {
+   T &amp;obj;
+
+  public:
+
+   explicit DefaultGuard(T &amp;obj_) : obj(obj_) {}
+
+   ~DefaultGuard()
+    {
+     obj=T();
+    }
+ };
+
+</pre>
+
+<p>
+<b>DefaultGuard</b> sets the given object to the null state in the destructor.
+</p>
+
+<pre>
+
+template &lt;FuncArgType&lt;&gt; Func&gt;
+class <span class="Att">ScopeGuard</span> : NoCopy
+ {
+   Func func;
+
+  public:
+
+   explicit ScopeGuard(const Func &amp;func_) : func(func_) {}
+
+   ~ScopeGuard()
+    {
+     func();
+    }
+ };
+
+</pre>
+
+<p>
+<b>ScopeGuard</b> calls the given functor in the destructor.
+</p>
+
+</body>
+
+</html>
+

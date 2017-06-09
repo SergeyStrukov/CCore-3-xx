@@ -1,0 +1,55 @@
+<!--
+/* page_PrintAbort.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PrintAbort</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PrintAbort</h2>
+
+<p class="Files">Files <b>CCore/inc/PrintAbort.h</b> <b>CCore/src/PrintAbort.cpp</b></p>
+
+<p>
+<b>PrintAbort()</b> is a simple helper function. It formats a message in a temporary buffer and then calls <b>Abort()</b>.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+void <span class="Att">PrintAbort</span>(const char *format,const TT &amp; ... tt)
+ {
+  char buf[TextBufLen];
+  PrintBuf out(Range(buf));
+  
+  Printf(out,format,tt...);
+  
+  Abort(out.close());
+ }
+
+</pre>
+
+</body>
+
+</html>
+

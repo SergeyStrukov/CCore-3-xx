@@ -1,0 +1,82 @@
+<!--
+/* page_MakeFileName.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MakeFileName</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MakeFileName</h2>
+
+<p class="Files">Files <b>CCore/inc/MakeFileName.h</b> <b>CCore/src/MakeFileName.cpp</b></p>
+
+<p>
+<b>MakeFileName</b> is a simple <b>Helper Type</b>. 
+It is derived from the <a href="page_MakeString.html">MakeString&lt;MaxPathLen&gt;</a> and may contain some file path.
+It should be used to build such path from a directory path and a file name.
+</p>
+
+<pre>
+
+class <span class="Att">MakeFileName</span> : public MakeString&lt;MaxPathLen&gt;
+ {
+  public:
+
+   MakeFileName();
+
+   MakeFileName(StrLen dir_name,StrLen file_name);
+
+   MakeFileName(StrLen dir_name,StrLen file_name,StrLen auto_ext);
+
+   StrLen operator () (StrLen dir_name,StrLen file_name);
+
+   StrLen operator () (StrLen dir_name,StrLen file_name,StrLen auto_ext);
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null object.
+</p>
+
+<p>
+<b>MakeFileName(StrLen dir_name,StrLen file_name)</b> creates the object with the full path, combined from the directory path and the file name.
+<b>dir_name</b> may ends with a slash.
+</p>
+
+<p>
+<b>MakeFileName(StrLen dir_name,StrLen file_name,StrLen auto_ext)</b> adds the given auto-extension, if the file name has no one.
+</p>
+
+<p>
+<b>operator ()</b> resets the object and does the same job as the correspondent constructor. It returns the result as the <b>StrLen</b>.
+</p>
+
+<p>
+An exception is thrown in case of overflow.
+</p>
+
+</body>
+
+</html>
+

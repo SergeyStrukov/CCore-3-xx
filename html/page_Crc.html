@@ -1,0 +1,159 @@
+<!--
+/* page_Crc.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Crc</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Crc</h2>
+
+<p class="Files">Files <b>CCore/inc/Crc.h</b> <b>CCore/src/Crc.cpp</b></p>
+
+<p>
+There are three Crc classes: <b>Crc16</b>, <b>Crc24</b>, <b>Crc32</b> to calculate a CRC value of a byte sequence.
+Technically, CRC is a polynomial division reminder. It is used to control sudden errors in a byte stream.
+There are 3 popular and standard such CRC, widely used in IT. We call them Crc16, Crc24 and Crc32 by the number of output
+bits. In practical applications they are used with some adjustments, i.e. the byte sequence is extended with some start
+sequence in order to calculate its CRC.
+</p>
+
+<p>
+<b>CCore</b> uses a generic implementation of CRC based on lookup tables. So <b>Crc16</b>, <b>Crc24</b>, <b>Crc32</b> are
+instantiations of the generic <b>CrcAccumulator</b> class, parametrized by the <b>Algorithm Package</b>s
+<b>AlgoCrc16, AlgoCrc24, AlgoCrc32</b>:
+</p>
+
+<pre>
+
+/* struct AlgoCrc16 */ 
+
+struct <span class="Att">AlgoCrc16</span>
+ {
+  using ResultType = uint16 ;
+
+  using DataType = uint8 ;
+  
+  static ResultType Add(ResultType crc,DataType data);
+   
+  static ResultType Mask(ResultType crc);
+   
+  static const uint16 Table[256];
+ };
+ 
+/* struct AlgoCrc24 */ 
+
+struct <span class="Att">AlgoCrc24</span>
+ {
+  using ResultType = uint32 ;
+
+  using DataType = uint8 ;
+  
+  static ResultType Add(ResultType crc,DataType data);
+   
+  static const ResultType BitMask = 0xFFFFFF ;
+
+  static ResultType Mask(ResultType crc);
+   
+  static const uint32 Table[256];
+ };
+ 
+/* struct AlgoCrc32 */ 
+
+struct <span class="Att">AlgoCrc32</span>
+ {
+  using ResultType = uint32 ;
+
+  using DataType = uint8 ;
+  
+  static ResultType Add(ResultType crc,DataType data);
+   
+  static ResultType Mask(ResultType crc);
+  
+  static const uint32 Table[256];
+ };
+
+</pre>
+
+<p>
+<b>CrcAccumulator</b> is an "accumulator" class:
+</p>
+
+<pre>
+
+template &lt;CrcAlgo Algo&gt;
+class <span class="Att">CrcAccumulator</span>
+ {
+  public:
+  
+   using ResultType = typename Algo::ResultType ;
+
+   using DataType = typename Algo::DataType ;
+   
+  private:
+  
+   ResultType crc;
+   
+  public:
+  
+   explicit CrcAccumulator(ResultType crc_=1);
+   
+   operator ResultType() const { return crc; }
+   
+   void add(DataType data);
+   
+   void addRange(CursorCastType&lt;DataType&gt; r); 
+ };
+
+/* types */  
+
+using <span class="Att">Crc16</span> = CrcAccumulator&lt;AlgoCrc16&gt; ;
+
+using <span class="Att">Crc24</span> = CrcAccumulator&lt;AlgoCrc24&gt; ;
+
+using <span class="Att">Crc32</span> = CrcAccumulator&lt;AlgoCrc32&gt; ;
+
+</pre>
+
+<p>
+You can built the result by "feeding" the object of this class by pieces of data. You can put bytes one-by-one or
+add by ranges. The type <b>R</b> in the method <b>addRange()</b> must be a <b>Cursor</b> over a piece of data.
+By default, <b>CrcAccumulator</b> starts from the value 1. An example:
+</p>
+
+<pre>
+
+PtrLen&lt;uint8&gt; data=....;
+
+Crc32 crc;
+
+crc.addRange(data);
+
+uint32 result=crc;
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,63 @@
+<!--
+/* page_RefObjectBase.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> RefObjectBase</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>RefObjectBase</h2>
+
+<p class="Files">Files <b>CCore/inc/RefObjectBase.h</b> <b>CCore/src/RefObjectBase.cpp</b></p>
+
+<p>
+The class <b>RefObjectBase</b> appends the atomic reference counter and reference counting methods to the family of types.
+You can use this class with the class <a href="page_RefPtr.html"><b>RefPtr</b></a> to build a reference-counting smart pointer.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+class <span class="Att">RefObjectBase</span> : public NoCopyBase&lt;MemBase,TT...&gt;
+ {
+   Atomic refs;
+
+  public:
+
+   RefObjectBase() { refs=1; }
+
+   virtual ~RefObjectBase() {}
+
+   void incRef() { refs++; }
+
+   bool decRef() { return (refs--)==1; }
+
+   void destroy() { delete this; }
+ };
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,91 @@
+<!--
+/* page_MSec.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MSec</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MSec</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/MSec.h</b> <b>CCore/src/gadget/MSec.cpp</b></p>
+
+<p><b>MSec</b> represents a time in the millisecond units. Usually it is used to represent timeouts or short time intervals.
+To create a <b>MSec</b> you can use the following user-defined literals:
+</p>
+
+<pre>
+
+100_msec // 100 milliseconds
+10_sec   // 10 seconds
+5_min    // 5 minutes
+1_hour   // 1 hour
+
+</pre>
+
+<p>
+You can also sum <b>MSec</b>s or multiply by unsigned: 
+</p>
+
+<pre>
+
+10*1_hour+25_min
+
+</pre>
+
+<p>There are few helper methods of the class:</p>
+
+<pre>
+
+struct <span class="Att">MSec</span>
+ {
+  unsigned time;                                                    // in milliseconds
+  
+  // constructors
+
+  // there is no default constructor -- this is deliberate
+  
+  constexpr <span class="Att">MSec(NothingType)</span> : time(0) {}                          // null value
+  
+  explicit constexpr <span class="Att">MSec(unsigned time_)</span> : time(time_) {}          // given value
+  
+  // methods
+  
+  constexpr unsigned <span class="Att">operator +</span> () const { return time; }           // extract time
+                                                                    // time is not null
+  
+  constexpr bool <span class="Att">operator !</span> () const { return !time; }              // time is null
+  
+  MSec <span class="Att">cap(MSec lim)</span> { Replace_min(time,lim.time); return *this; }  // cap self to the limit
+ };
+
+</pre>
+
+<p>
+<b>MSec</b> methods and functions are <b>constexpr</b> (except <b>cap</b>), so you can use it to create constants.
+</p>
+
+</body>
+
+</html>
+

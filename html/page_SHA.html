@@ -1,0 +1,104 @@
+<!--
+/* page_SHA.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SHA</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SHA</h2>
+
+<p class="Files">Files <b>CCore/inc/crypton/SHA.h</b> <b>CCore/src/crypton/SHA.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/crypton/PlatformSHA.h</b></p>
+
+<h3>Software SHA implementation</h3>
+
+<p>
+The following <a href="page_HashFunction.html">HashFunction&lt;....&gt;</a> classes implement the SHA hash algorithms:
+</p>
+
+<pre>
+
+using <span class="Att">SHA1</span>   = HashFunction&lt;....&gt; ;
+using <span class="Att">SHA224</span> = HashFunction&lt;....&gt; ;
+using <span class="Att">SHA256</span> = HashFunction&lt;....&gt; ;
+using <span class="Att">SHA384</span> = HashFunction&lt;....&gt; ;
+using <span class="Att">SHA512</span> = HashFunction&lt;....&gt; ;
+
+</pre>
+
+<p>
+<b>SHAnnn</b> implements the correspondent SHA-nnn algorithm.
+</p>
+
+<p>
+The following <a href="page_HashFunction.html">KeyedHashFunction&lt;....&gt;</a> classes implement the HMAC hash functions
+based on SHA algorithms:
+</p>
+
+<pre>
+
+using <span class="Att">KeyedSHA1</span>   = KeyedHashFunction&lt;....&gt; ;
+using <span class="Att">KeyedSHA224</span> = KeyedHashFunction&lt;....&gt; ;
+using <span class="Att">KeyedSHA256</span> = KeyedHashFunction&lt;....&gt; ;
+using <span class="Att">KeyedSHA384</span> = KeyedHashFunction&lt;....&gt; ;
+using <span class="Att">KeyedSHA512</span> = KeyedHashFunction&lt;....&gt; ;
+
+</pre>
+
+<p>
+<b>KeyedSHAnnn</b> implements the HMAC based on the correspondent SHA-nnn algorithm.
+</p>
+
+<a name="PlatformSHA"><h3>Platform SHA</h3></a>
+
+<p>
+The file <b>PlatformSHA.h</b> contains stub definitions for the PlatformSHA types.
+</p>
+
+<pre>
+
+using <span class="Att">PlatformSHA1</span> = SHA1 ;
+using <span class="Att">PlatformSHA224</span> = SHA224 ;
+using <span class="Att">PlatformSHA256</span> = SHA256 ;
+using <span class="Att">PlatformSHA384</span> = SHA384 ;
+using <span class="Att">PlatformSHA512</span> = SHA512 ;
+
+using <span class="Att">PlatformKeyedSHA1</span> = KeyedSHA1 ;
+using <span class="Att">PlatformKeyedSHA224</span> = KeyedSHA224 ;
+using <span class="Att">PlatformKeyedSHA256</span> = KeyedSHA256 ;
+using <span class="Att">PlatformKeyedSHA384</span> = KeyedSHA384 ;
+using <span class="Att">PlatformKeyedSHA512</span> = KeyedSHA512 ;
+
+</pre>
+
+<p>
+A target may override this header file and provide its own definitions with efficient platform-dependent
+SHA implementation.
+</p>
+
+</body>
+
+</html>
+

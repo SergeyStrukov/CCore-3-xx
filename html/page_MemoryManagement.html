@@ -1,0 +1,587 @@
+<!--
+/* page_MemoryManagement.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Memory Management</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Memory Management</h2>
+
+<h3>Basic of the memory management in <b>CCore</b></h3>
+
+<p class="Files">Files <b>CCore/inc/MemBase.h</b> <b>CCore/src/MemBase_general.cpp</b> <b>HCore/CCore/src/MemBase.cpp</b> <b>XCore/CCore/src/MemBase.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/RadixHeap.h</b> <b>CCore/src/RadixHeap.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/HeapEngine.h</b> <b>CCore/src/HeapEngine.cpp</b></p>
+
+<p>
+<b>CCore</b> uses its own memory management subsystem. We don't rely on the standard <b>malloc/free</b> or <b>new/delete</b>, 
+provided by the C++ compiler support libraries. In fact, in <b>XCore</b> targets it is recommended to build these libraries 
+based on <b>CCore</b> memory allocation functions. This is because we need much more from the heap, namely:
+</p>
+
+<ul>
+<li>additional memory functions, like <b>MemExtend()</b> or <b>MemShrink()</b>,</li>
+<li>accounting functions to watch the memory usage,</li>
+<li>some protection from invalid arguments,</li>
+<li>speed!, more speed!,</li>
+<li>for <b>XCore</b> we need several heaps for the interrupt context and for special memory regions.</li>
+</ul>
+
+<p>
+The heart of <b>CCore</b> heaps is the class <b>RadixHeap</b>. This class implements a radix-tree based heap atop on
+a primary memory management facility. The heap is maintained in the one or several large blocks of memory, obtained dynamically
+from the OS, or fixed in the memory. <b>RadixHeap</b> is a real-time heap. Its operations has a time execution limit, assuming
+there is no primary memory management functions calls. In practice, the cost of allocation and deallocation memory functions
+is a 100s CPU clocks. This heap is also best-fit and provides a protection from wrong memory block address arguments.
+If you try to free a memory at an arbitrary address, then it's very likely the abort will be called.
+</p>
+
+<p>
+<b>CCore</b> heap is a global object, maintained by the <a href="page_PlanInit.html"><b>PlanInit</b></a> and derived from 
+the <b>HeapEngine</b> class, which implements the top-level logic over the <b>RadixHeap</b> functionality.
+Been a general purpose global object, <b>CCore</b> heap is a <b>mutex</b>-protected. In <b>HCore</b> primary large blocks of memory
+are obtained from the OS. In <b>XCore</b> it is a single fixed block of memory, provided by the target.
+</p>
+
+<p>
+During uninitialization, <b>CCore</b> heap calls abort if not all allocated memory blocks were released.
+</p>
+
+<h3>MemBase</h3>
+
+<p>
+Here is the basic memory function list from <b>MemBase.h</b>:
+</p>
+
+<pre>
+
+/* words */ 
+
+enum <span class="Att">JustTryType</span> { <span class="Att">JustTry</span> };
+ 
+/* functions */ 
+
+void <span class="Att">GuardNoMem</span>(ulen len);
+
+/* Mem...() */  
+ 
+void * <span class="Att">TryMemAlloc</span>(ulen len) noexcept;
+
+void * <span class="Att">MemAlloc</span>(ulen len);
+
+ulen <span class="Att">MemLen</span>(const void *mem);       // mem may == 0
+
+bool <span class="Att">MemExtend</span>(void *mem,ulen len); // mem may == 0
+
+bool <span class="Att">MemShrink</span>(void *mem,ulen len); // mem may == 0
+ 
+void <span class="Att">MemFree</span>(void *mem);            // mem may == 0
+
+void <span class="Att">MemLim</span>(ulen limit);
+
+</pre>
+
+<p>
+<b>MemAlloc()</b> allocates a memory block of required length and returns its address. The block is always <b>MaxAlign</b>ed,
+the actual length can be a slightly greater than the required and always non-null. If the operation is failed, then an exception 
+is thrown. The exception class is derived from the <b>std::bad_alloc</b> as required by the C++ standard, but it is also derived
+from the <b>CatchType</b>, according <b>CCore</b> rules.
+</p>
+
+<p>
+<b>TryMemAlloc()</b> is similar, but in case of failure it just returns null.
+</p>
+
+<p>
+<b>MemLim()</b> setup the global allocation limit. If the argument is zero, then there is no limit. If it is not zero,
+heap will keep the total allocated memory length below this limit (approximately). This feature is useful for testing purpose, 
+it helps reproduce the situation of the memory shortage.
+</p>
+
+<p>
+In the remaining four functions the argument <b>mem</b> must be either an address of the allocated memory block or null.
+Otherwise the memory heap protection abort is called (with high probability, the detection is not 100%).
+</p>
+
+<p>
+<b>MemFree()</b> releases the allocated memory block.
+</p>
+
+<p>
+<b>MemExtend()</b> tries to extend the allocated memory block. If successful, it returns <b>true</b> and the new length 
+of the block is at least <b>len</b>. If the <b>mem</b> is null, the function does nothing and returns <b>false</b>.
+<b>MemExtend()</b> is always successful, if the <b>len</b> is not greater than the length of the memory block, 
+in this case it does nothing. If additional space is required, then <b>MemExtend()</b> is looking for the space
+behind the block. If enough such space is free, it resizes both memory blocks. Otherwise it fails.
+</p>
+
+<p>
+<b>MemShrink()</b> shrinks the allocated memory block. If successful, it returns <b>true</b> and the new length 
+of the block is at least <b>len</b>. If the <b>mem</b> is null, the function does nothing and returns <b>false</b>.
+<b>MemShrink()</b> fails only if the <b>len</b> is greater than the length of the memory block.
+</p>
+
+<p>
+<b>MemLen()</b> returns the actual length of the allocated memory block or 0 for the null <b>mem</b>.
+</p>
+
+<p>
+<b>GuardNoMem()</b> throws an exception, it is used when no memory error happens. 
+</p>
+
+<p>
+<b>JustTry</b> is a <b>word</b>. It is used to distinguish between throwing and non-throwing variants of some operation.
+</p>
+
+<p>
+<b>MemStatData</b> is a simple <b>Small Data Type</b>, used to represent a memory allocation statistics. It has two
+fields: <b>block_count</b> &mdash; the number of allocated blocks, and <b>len_count</b> &mdash; the total length of blocks.
+It has number of methods with obvious meaning. The method <b>setMax()</b> replaces the current object with the given argument,
+if the argument has a greater <b>len_count</b>. It is used to accumulate the "peak" stat value.
+</p>
+
+<pre>
+
+struct <span class="Att">MemStatData</span>
+ {
+  ulen block_count;
+  ulen len_count;
+  
+  MemStatData();
+  
+  // count
+  
+  void add(ulen len) { block_count++; len_count+=len; }
+  
+  void del(ulen len) { block_count--; len_count-=len; }
+  
+  void extend(ulen delta) { len_count+=delta; }
+  
+  void shrink(ulen delta) { len_count-=delta; }
+  
+  // set
+  
+  void set(const MemStatData &amp;obj) { *this=obj; }
+  
+  void setMax(const MemStatData &amp;obj);
+  
+  // compare
+  
+  bool operator == (const MemStatData &amp;obj) const; 
+  
+  bool operator != (const MemStatData &amp;obj) const; 
+  
+  // print object
+   
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+To get a heap statistic information there are two <b>Class-function</b>s:
+</p>
+
+<pre>
+
+<a name="MemStat">/* struct MemStat */</a> 
+
+struct <span class="Att">MemStat</span> : MemStatData
+ {
+  MemStat();
+ };
+ 
+/* struct MemPeak */ 
+
+struct <span class="Att">MemPeak</span> : MemStatData
+ {
+  MemPeak();
+ };
+ 
+</pre>
+
+<p>
+<b>MemStat</b> returns the current heap usage, while <b>MemPeak</b> &mdash; the peak usage.
+</p>
+
+<h3>MemBase utilities</h3>
+
+<p>
+<b>MemScope</b> is a <b>Scope Lock Type</b>, which controls memory release during some scope of execution.
+In constructor it records the current heap statistic, in destructor it retrieves it again and compares. If they doesn't
+match, a error message is printed using <b>Printf(NoException,...)</b>.
+</p>
+
+<pre>
+
+class <span class="Att">MemScope</span> : NoCopy
+ {
+   MemStat on_init;
+   
+  public: 
+  
+   MemScope() {}
+   
+   ~MemScope();
+ };
+
+</pre>
+
+<p>
+This class is useful for the catching memory leaks.
+</p>
+
+<p>
+Another helpful <b>Property Type</b> class is the <b>MemBase</b>:
+</p>
+
+<pre>
+
+struct <a name="MemBase"><span class="Att">MemBase</span></a>
+ {
+  // placement new/delete
+  
+  void * operator new(std::size_t,Place&lt;void&gt; place) { return place; }
+   
+  void operator delete(void *,Place&lt;void&gt;) {}
+  
+  // new/delete
+   
+  void * operator new(std::size_t len) { return MemAlloc(len); }
+  
+  void * operator new(std::size_t len,JustTryType) noexcept { return TryMemAlloc(len); }
+  
+  void operator delete(void *mem) { MemFree(mem); }
+  
+  void operator delete(void *mem,JustTryType) { MemFree(mem); }
+
+  // extra space
+  
+  template &lt;class T&gt;
+  static Place&lt;void&gt; ExtraSpace(T *obj) { return PlaceAt(obj)+Align(sizeof (T)); }
+  
+  void * operator new(std::size_t len,ulen extra,ulen size_of=1) { return MemAlloc(LenOf(extra,size_of,Align(len))); }
+  
+  void operator delete(void *mem,ulen,ulen) { MemFree(mem); }
+ };
+
+</pre>
+
+<p>
+This class redefines the <b>new/delete</b> operators to use the <b>CCore</b> heap. Specify this class as the base class to make sure
+the derived class object been created by the <b>operator new</b> will be placed in the <b>CCore</b> heap. 
+It also defines a non-throwing variant of the <b>operator new</b> with <b>JustTry</b> argument. 
+</p>
+
+<p>
+You may also take some additional space after the object, using the overloaded <b>operator new</b>.
+<b>extra</b> is the number of parts of <b>size_of</b> length. 
+To retrieve this space use the function <b>ExtraSpace</b>. An example:
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct Header : MemBase_nocopy
+ {
+  ulen object_count;
+
+  explicit Header(ulen object_count_) : object_count(object_count_) {}
+
+  Place&lt;void&gt; getSpace() { return ExtraSpace(this); }
+
+  static Header * Create(ulen object_count)
+   {
+    return new(object_count,sizeof (T)) Header(object_count);
+   }
+ };
+
+</pre>
+
+<p>
+<b>MemBase_nocopy</b> is a non-copyable variant of the <b>MemBase</b>.
+</p>
+
+<h3>MemSpaceHeap</h3>
+
+<p class="Files">Files <b>CCore/inc/MemSpaceHeap.h</b> <b>CCore/src/MemSpaceHeap.cpp</b></p>
+
+<p>
+<b>SpaceHeap</b> is a heap class for a stand-alone usage. It provides a heap functionality, the memory blocks comes from
+a single fixed memory buffer. The memory buffer is allocated from the main heap. 
+</p>
+
+<pre>
+
+class <span class="Att">SpaceHeap</span> : NoCopy
+ {
+   ....
+   
+  public: 
+  
+   explicit SpaceHeap(ulen mem_len);
+   
+   ~SpaceHeap();
+   
+   bool isEmpty() const { return heap.isEmpty(); }
+   
+   void * alloc(ulen len);
+  
+   ulen getLen(const void *mem);    // mem!=0
+  
+   void free(void *mem);            // mem!=0
+  
+   bool extend(void *mem,ulen len); // mem!=0
+  
+   bool shrink(void *mem,ulen len); // mem!=0
+ };
+
+</pre>
+
+<p>
+Constructor argument is the length of the memory buffer.
+</p>
+
+<p>
+<b>alloc()</b> returns null on failure.
+</p>
+
+<p>
+The argument <b>mem</b> must not be null.
+</p>
+
+<p>
+Destructor calls abort on memory leak.
+</p>
+
+<p>
+<b>extend()</b> and <b>shrink()</b> work the same way as <b>MemExtend()</b> and <b>MemShrink()</b>,
+except they don't accept the null argument.
+</p>
+
+<p>
+There is no a <b>mutex</b> protection for methods of the <b>SpaceHeap</b>.
+</p>
+
+<p>
+<b>MemSpace</b> class is a <a href="page_RadixHeap.html#Primary">primary memory provider class</a> for the <b>RadixHeap</b>. It is used to build the <b>SpaceHeap</b>.
+</p>
+
+<pre>
+
+class <span class="Att">MemSpace</span> : NoCopy
+ {
+   ulen max_store_len;
+   
+   RadixHeapBlock *cache;
+   
+  public:
+  
+   explicit MemSpace(Space space); // aligned
+   
+   void cleanup(bool clean);
+   
+   ulen getMaxStoreLen() const { return max_store_len; }
+   
+   RadixHeapBlock * alloc(ulen blen);
+   
+   void free(RadixHeapBlock *block);
+   
+   bool extend(RadixHeapBlock *block,ulen blen);
+   
+   ulen shrink(RadixHeapBlock *block,ulen blen);
+ };
+
+</pre>
+
+<p>
+<b>space</b> must be aligned, both the base address and the length.
+</p>
+
+<h3><b>HCore</b> MemPageHeap</h3>
+
+<p class="Files">Files <b>HCore/CCore/inc/MemPageHeap.h</b> <b>HCore/CCore/src/MemPageHeap.cpp</b></p>
+
+<p>
+<b>PageHeap</b> is another <b>HCore</b> heap class for a stand-alone usage. It provides a heap functionality, 
+the memory blocks comes from a set of large memory buffers. These buffers are allocated using memory page functions,
+provided by OS. 
+</p>
+
+<pre>
+
+class <span class="Att">PageHeap</span> : NoCopy
+ {
+   ....
+   
+  public: 
+  
+   PageHeap();
+   
+   explicit PageHeap(ulen min_page_alloc_len);
+   
+   ~PageHeap();
+   
+   bool isEmpty() const { return heap.isEmpty(); }
+   
+   void * alloc(ulen len);
+  
+   ulen getLen(const void *mem);    // mem!=0
+  
+   void free(void *mem);            // mem!=0
+  
+   bool extend(void *mem,ulen len); // mem!=0
+  
+   bool shrink(void *mem,ulen len); // mem!=0
+ };
+
+</pre>
+
+<p>
+The interface of the <b>PageHeap</b> is identical to the <b>SpaceHeap</b> interface.
+</p>
+
+<p>
+<b>PageHeap</b> has two constructors. The argument <b>min_page_alloc_len</b> is the minimum large buffer length.
+Default constructor uses some default value for it.
+</p>
+
+<p>
+The amount of memory, provided by the <b>PageHeap</b>, is limited only by the address space and available
+physical memory.
+</p>
+
+<p>
+<b>MemPage</b> class is a primary memory provider class for the <b>RadixHeap</b>. It is used to build the <b>PageHeap</b>.
+</p>
+
+<pre>
+
+class <span class="Att">MemPage</span> : NoCopy
+ {
+  public:
+  
+   MemPage();
+   
+   explicit MemPage(ulen min_alloc_len);
+   
+   void cleanup(bool clean);
+   
+   ulen getMaxStoreLen() const { return max_store_len; }
+   
+   RadixHeapBlock * alloc(ulen blen);
+   
+   void free(RadixHeapBlock *block);
+   
+   bool extend(RadixHeapBlock *block,ulen blen);
+   
+   ulen shrink(RadixHeapBlock *block,ulen blen);
+ };
+
+</pre>
+
+<p>
+The constructor argument <b>min_alloc_len</b> has the same meaning, as the <b>min_page_alloc_len</b> for
+the <b>PageHeap</b> constructor.
+</p>
+
+<h3><b>XCore</b> SpecialMemBase</h3>
+
+<p class="Files">Files <b>XCore/CCore/inc/SpecialMemBase.h</b> <b>XCore/CCore/src/SpecialMemBase.cpp</b></p>
+
+<p>
+<b>XCore</b> provides additional memory functions. There are 2 additional memory heaps, one to be used in the interrupt context,
+another to distribute shared memory. The main heap is protected by a <b>mutex</b>, so it cannot be used in the interrupt context.
+The interrupt heap is protected by the <b>IntLock</b>. This heap is used in the C++ exception implementation, so exceptions can be used 
+without limitation. Shared memory is a special class of memory, which is not cached by the CPU. This memory is used to exchange 
+data with peripheral devices.
+</p>
+
+<pre>
+
+/* init/exit functions */ 
+
+void Init_SpecialMem();
+
+void Exit_SpecialMem();
+
+</pre>
+
+<p>
+<b>Init_SpecialMem()</b> and <b>Exit_SpecialMem()</b> are initialization functions, they are called 
+<span class="Alert">by the board initialization code and must not be used anywhere else</span>.
+</p>
+
+<pre>
+
+/* Mem..._int() functions */  
+
+void * TryMemAlloc_int(ulen len) noexcept;
+
+void MemFree_int(void *mem);
+
+/* Mem..._shared() functions */ 
+
+void * TryMemAlloc_shared(ulen len) noexcept;
+
+void MemFree_shared(void *mem);
+
+</pre>
+
+<p>
+<b>TryMemAlloc_int()</b> and <b>MemFree_int()</b> are the heap functions of the interrupt heap.
+</p>
+
+<p>
+<b>TryMemAlloc_shared()</b> and <b>MemFree_shared()</b> are the heap functions of the shared heap.
+</p>
+
+<pre>
+
+/* struct MemStat_int */  
+
+struct MemStat_int : MemStatData
+ {
+  MemStat_int();
+ };
+ 
+/* struct MemPeak_int */ 
+
+struct MemPeak_int : MemStatData
+ {
+  MemPeak_int();
+ };
+
+</pre>
+
+<p>
+<b>MemStat_int</b> and <b>MemPeak_int</b> are the statistic heap <b>Class-function</b>s of the interrupt heap.
+</p>
+
+</body>
+
+</html>
+

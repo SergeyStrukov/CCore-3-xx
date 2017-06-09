@@ -1,0 +1,222 @@
+<!--
+/* page_Job.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Job</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Job</h2>
+
+<p class="Files">Files <b>CCore/inc/Job.h</b> <b>CCore/src/Job.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/Starter.h</b> <b>CCore/src/Starter.cpp</b></p>
+
+<p>
+<b>CCore</b> provides a default working thread pool. You can use it on a multi-core CPU to speed-up
+some time-consuming calculations. To get a benefit from extra threads, you have to commit them to the pool,
+using the class <b>Job::Init</b>.
+</p>
+
+<pre>
+
+class <span class="Att">Job::Init</span> : NoCopy
+ {
+  public:
+  
+   static unsigned DefaultTaskCount();
+  
+   explicit Init(unsigned task_count=DefaultTaskCount());
+   
+   ~Init();
+ };
+
+</pre>
+
+<p>
+It's a <b>Scope Lock Type</b>, constructor starts and commits working threads to the pool,
+destructor stops them and waits until completion. So for the scope duration the pool has committed working threads.
+These threads do not consume CPU, unless they are activated to do some job. Only single active <b>Init</b>
+object is allowed, an attempt to create another one will throw an exception. 
+</p>
+
+<p>
+To get the pool service use the class <b>Job</b>.
+</p>
+
+<pre>
+
+using <span class="Att">JobType</span> = Function&lt;void (void)&gt; ;
+
+class <span class="Att">Job</span> : SingleHook&lt;JobStarterType&gt; , CustomJob
+ {
+  public:
+  
+   explicit Job(JobType job); 
+   
+   ~Job();
+   
+   class Init;
+ };
+
+</pre>
+
+<p>
+First, you have to prepare some job to run. A job is represented by the <b>JobType</b>, which is the
+<b>Function&lt;void (void)&gt;</b>. Second, run the job, by creating an object of the type <b>Job</b>: 
+</p>
+
+<pre>
+
+{
+ JobType job=....;
+
+ Job run_job(job);
+}
+
+</pre>
+
+<p>
+In its constructor the <b>Job</b> object activates some working threads. The given <b>job()</b> is called
+in the context of each activated thread. It's also called in the current thread.
+Then destructor waits until all activated threads complete the call. 
+</p>
+
+<p>
+Sharing the job among several threads is a responsibility of the function <b>job</b>.
+</p>
+
+<p>
+Only one <b>JobType</b> job can be boosted at the same time. If another <b>Job</b> object is created, while
+there is an active one, then the second will not take additional working threads.
+</p>
+
+<h3>Starter</h3>
+
+<p>
+The <b>Job</b> is implemented using the class <b>Starter</b>.
+</p>
+
+<pre>
+
+template &lt;StarterFuncType T&gt;
+class <span class="Att">Starter</span> : public Funchor_nocopy
+ {
+   ....
+      
+  public:
+  
+   Starter();
+   
+   ~Starter();
+   
+   // control classes
+   
+   class Start;
+    
+   class Run;
+ };
+
+</pre>
+
+<p>
+This class is a generic implementation of the working thread pool. The type <b>T</b> must be a lightweight functor type.
+It must have <b>efficient</b> default constructor, copy constructor and assign operator.
+<b>Job</b> uses the type <b>JobType</b> as the <b>T</b>.
+</p>
+
+<p>
+There are two control classes for the <b>Starter</b>: <b>Run</b> to commit working threads to the pool and 
+<b>Start</b> to use them.
+</p>
+
+<pre>
+
+template &lt;StarterFuncType T&gt;   
+class <span class="Att">Starter&lt;T&gt;::Run</span> : NoCopy
+ {
+   ....
+      
+  public:
+     
+   explicit Run(Starter&lt;T&gt; &starter); 
+      
+   ~Run();
+      
+   unsigned getTaskCount() const;
+ 
+   unsigned run(unsigned cnt);
+ };
+
+</pre>
+
+<p>
+<b>Run</b> is bound to the given <b>Starter</b>.
+</p>
+
+<p>
+<b>getTaskCount()</b> returns the number of committed to the <b>starter</b> threads.
+</p>
+
+<p>
+<b>run()</b> commits additional <b>cnt</b> threads. It returns <b>getTaskCount()</b>.
+</b>
+
+<p>
+Only single <b>Run</b> per <b>Starter</b> is allowed.
+</p>
+
+<pre>
+
+template &lt;StarterFuncType T&gt;   
+class <span class="Att">Starter&lt;T&gt;::Start</span> : NoCopy
+ {
+   .... 
+      
+  public: 
+     
+   Start(Starter&lt;T&gt; *starter,const T &obj); 
+    
+   ~Start(); 
+   
+   bool operator + () const;
+    
+   bool operator ! () const;
+ };
+
+</pre>
+
+<p>
+<b>Start</b> tries to get the <b>Starter</b> service. If the <b>starter</b> is not null and in the idle state, then
+the constructor commits <b>obj</b> for execution. Available working threads from the pool will call <b>obj()</b>.
+There may be zero such threads. Destructor waits until all activated threads complete the call.
+</p>
+
+<p>
+<b>operator +</b> and <b>operator !</b> can be used to check, if the job was successfully started.
+</p>
+
+</body>
+
+</html>
+

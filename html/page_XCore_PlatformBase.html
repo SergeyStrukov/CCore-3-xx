@@ -1,0 +1,63 @@
+<!--
+/* page_XCore_PlatformBase.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore PlatformBase</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore PlatformBase</h2>
+
+<p class="Files">Files <b>CCore/inc/base/PlatformBase.h</b> <b>CCore/src/base/PlatformBase.cpp</b> <b>CCore/src/base/PlatformBase.s</b></p>
+
+<p>
+<b>XCore</b> <b>PlatformBase</b> is the same as <a href="page_AnyCore_PlatformBase.html"><b>AnyCore</b></a>, 
+except it contains two additional constants:
+</p>
+
+<pre>
+
+/* consts */
+
+inline constexpr ulen <span class="Att">MinStackLen</span>        =  4*1024 ; //  4 KByte
+
+inline constexpr ulen <span class="Att">DefaultStackLen</span>    = 64*1024 ; // 64 KByte
+
+inline constexpr ulen DefaultPacketCount =  10'000 ;
+
+inline constexpr unsigned DefaultEventElementCount = 5'000 ;
+
+</pre>
+
+<p>
+<b>MinStackLen</b> is the minimum task stack length in bytes.
+</p>
+
+<p>
+<b>DefaultStackLen</b> is the default task stack length in bytes
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,126 @@
+<!--
+/* page_XCore_DevPlanInit.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore DevPlanInit</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore DevPlanInit</h2>
+
+<p class="Files">Files <b>CCore/inc/dev/DevPlanInit.h</b> <b>CCore/src/dev/DevPlanInit.cpp</b></p>
+
+<p>
+This part is a <a href="page_PlanInit.html"><b>PlanInit</b></a> node for the <b>Dev</b> subsystem and some extra initialization functions.
+<b>Dev</b> includes initialization the most important peripheral devices on the board, like interrupt controller.
+</p>
+
+<pre>
+
+/* DevPlanInit.h */
+
+#ifndef CCore_inc_dev_DevPlanInit_h
+#define CCore_inc_dev_DevPlanInit_h
+
+#include &lt;CCore/inc/PlanInit.h&gt;
+
+namespace CCore {
+namespace Dev {
+
+/* init/exit functions */
+
+void <span class="Att">Init_CPU</span>();
+
+void <span class="Att">Exit_CPU</span>();
+
+/* GetPlanInitNode_...() */
+
+PlanInitNode * <span class="Att">GetPlanInitNode_Dev</span>();
+
+} // namespace Dev
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+The typical implementation is:
+</p>
+
+<pre>
+
+/* DevPlanInit.cpp */
+
+#include &lt;CCore/inc/dev/DevPlanInit.h&gt;
+
+#include &lt;CCore/inc/dev/DevIntHandle.h&gt;
+
+#include &lt;__std_init.h&gt;
+
+namespace CCore {
+namespace Dev {
+
+/* Init_CPU() */
+
+void <span class="Att">Init_CPU</span>()
+ {
+  // TODO
+ }
+
+void <span class="Att">Exit_CPU</span>()
+ {
+  // TODO
+ }
+
+/* GetPlanInitNode_...() */
+
+namespace Private_DevPlanInit {
+
+struct Empty
+ {
+  static const char * GetTag() { return "Dev"; }
+ };
+
+PlanInitObject&lt;Empty,PlanInitReq&lt;GetPlanInitNode_DevIntHandle&gt; &gt; Object CCORE_INITPRI_1 ;
+
+} // namespace Private_DevPlanInit
+
+using namespace Private_DevPlanInit;
+
+PlanInitNode * <span class="Att">GetPlanInitNode_Dev</span>() { return &Object; }
+
+} // namespace Dev
+} // namespace CCore
+
+</pre>
+
+<p>
+Two special functions <b>Init_CPU()</b> and <b>Exit_CPU()</b> are used by the first stage initialization code to switch 
+CPU into desired mode of operation and turn back.
+</p>
+
+</body>
+
+</html>
+

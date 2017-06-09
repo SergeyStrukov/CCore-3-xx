@@ -1,0 +1,85 @@
+<!--
+/* page_EchoServer.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> EchoServer</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>EchoServer</h2>
+
+<p>
+<b>EchoServer</b> is a simple <b>UDP</b> echo server. 
+It occupied the standard <b>UDP</b> echo port <b>7</b>.
+This server accepts only "short" <b>UDP</b> packets with the payload length not greater <b>1472</b> bytes.
+</p>
+
+<p>
+There are no command line arguments. 
+</p>
+
+<pre>
+
+CCore-EchoServer.exe
+
+</pre>
+
+<p>
+You can show the packet statistic using the command <i>stat</i>. 
+</p>
+
+<pre>
+
+--- EchoServer 1.00 ---
+--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---
+
+ECHO> help
+commands: stat clear help exit
+ECHO> stat
+
+
+        traffic = 0
+
+ECHO> stat
+
+             Rx = 100000
+
+        traffic = 73720662
+
+ECHO> clear
+ECHO> stat
+
+
+        traffic = 0
+
+ECHO> exit
+
+
+        traffic = 0
+
+</pre>
+
+</body>
+
+</html>
+

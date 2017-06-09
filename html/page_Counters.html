@@ -1,0 +1,146 @@
+<!--
+/* page_Counters.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Counters</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Counters</h2>
+
+<p class="Files">Files <b>CCore/inc/Counters.h</b> <b>CCore/src/Counters.cpp</b></p>
+
+<p>
+Counting events is a very useful programming technique for the testing/debugging/monitoring applications.
+It is widely used in <b>CCore</b>. The class <b>Counters</b> is designed to simplify this task.
+</p>
+
+<pre>
+
+template &lt;EnumType Enum,Enum Lim,class CountType=unsigned&gt;
+class <span class="Att">Counters</span> : public PrintOptAdapter&lt;Enum&gt;
+ {
+   CountType counter[Lim];
+   
+  public:
+  
+   Counters();
+   
+   void reset();
+   
+   void count(Enum e) { counter[e]++; }
+   
+   void count(Enum e,CountType cnt) { counter[e]+=cnt; }
+   
+   CountType operator [] (Enum e) const { return counter[e]; }
+   
+   void diff(Counters &amp;next);
+    
+   void operator += (const Counters &amp;obj); 
+
+   void operator -= (const Counters &amp;base); 
+   
+   // print object
+ 
+   void print(PrinterType &amp;out) const;
+    
+   void print(PrinterType &amp;out,const AnyType &amp;opt) const;
+ };
+
+</pre>
+
+<p>
+<b>Counters</b> is a set of counters, indexed by members of some <b>enum</b>:
+</p>
+
+<pre>
+
+enum Enum
+ {
+  E1,
+  E2,
+  E3,
+
+  Lim
+ };
+
+using EnumCounters = Counters&lt;Enum,Lim&gt; ;
+
+</pre>
+
+<p>
+The default constructor and the method <b>reset()</b> set all counters to zero.
+</p>
+
+<p>
+The method <b>count()</b> increments or increments by some value the counter with the given index.
+</p>
+
+<p>
+The overloaded <b>operator []</b> reads the specific counter.
+</p>
+
+<p>
+The overloaded <b>operator +=</b> adds counters from another counter set.
+</p>
+
+<p>
+The overloaded <b>operator -=</b> subtracts counters from another counter set.
+</p>
+
+<p>
+You can use the method <b>diff()</b> to differentiate a sequence of counters:
+</p>
+
+<pre>
+
+Counters&lt;Enum,Lim&gt; cur;
+Counters&lt;Enum,Lim&gt; next;
+
+cur.diff(next);
+
+ //
+ // temp = cur ;
+ // cur = next ;
+ // next = next - temp ;
+ //
+
+</pre>
+
+<p>
+Finally, you can print the counters, to give names to indexes define <b>GetTextDesc(Enum)</b>.
+You may specify print options per <b>enum</b>. Only non-null counters are printed.
+</p>
+
+<pre>
+
+E1 = 5
+E2 = 1
+E3 = 15
+
+</pre>
+
+</body>
+
+</html>
+

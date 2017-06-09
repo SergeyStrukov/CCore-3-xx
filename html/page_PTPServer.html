@@ -1,0 +1,87 @@
+<!--
+/* page_PTPServer.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PTPServer</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PTPServer</h2>
+
+<p>
+<b>PTPServer</b> is a <b>PTP</b> server, it implements <b>HFS</b> and <b>PTPCon</b> protocols over <b>UDP</b> 
+(on default <b>PTP</b> server port <b>52000</b>). 
+Clients may connect to the server and use it to open a console and access the file system.
+Server makes visible the part of the file tree, started from the working directory. You can also
+run applications on the server side from this subtree.
+</p>
+
+<pre>
+
+CCore-PTPServer.exe [c]
+
+</pre>
+
+<p>
+The only argument is a symbol 'c'. If it is given, server will stop execution once a console is closed
+by a client.
+</p>
+
+<p>
+While server is running, you can enter the following commands:
+</p>
+
+<pre>
+
+help
+stat
+clear
+exit
+
+</pre>
+
+<p>
+<b>help</b> prints a brief help.
+</p>
+
+<p>
+<b>stat</b> prints a statistic.
+</p>
+
+<p>
+<b>clear</b> clears statistic counters.
+</p>
+
+<p>
+<b>exit</b> exits the server.
+</p>
+
+<p>
+To work with the server, you may use <a href="page_PTPHFS.html"><b>HFS</b></a>, <a href="page_PTPCon.html"><b>PTPCon</b></a>, 
+<a href="page_PTPSupport.html"><b>PTPSupport</b></a> <a href="page_PTP.html"><b>PTP</b></a> services.
+</p>
+
+</body>
+
+</html>
+

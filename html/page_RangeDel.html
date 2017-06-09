@@ -1,0 +1,86 @@
+<!--
+/* page_RangeDel.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> RangeDel</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>RangeDel</h2>
+
+<p class="Files">Files <b>CCore/inc/RangeDel.h</b> <b>CCore/src/RangeDel.cpp</b></p>
+
+<p>
+This file contains a set of generic functions to perform a deletion of object from the continuous range.
+</p>
+
+<pre>
+
+bool <span class="Att">RangeCopyDel</span>(NothrowCopyableType list[],ulen len,ulen ind);
+
+bool <span class="Att">RangeCopyDel</span>(PtrLen&lt;NothrowCopyableType&gt; range,ulen ind);
+
+</pre>
+
+<p>
+These functions delete the element from the given range with the given index. 
+Range elements must be nothrow-copyable.
+If the index is out of range, <b>false</b> is returned. 
+Otherwise elements are swapped down to fill the hole, <b>true</b> is returned.
+</p>
+
+<pre>
+
+bool <span class="Att">RangeSwapDel</span>(AnyType list[],ulen len,ulen ind);
+
+bool <span class="Att">RangeSwapDel</span>(PtrLen&lt;AnyType&gt; range,ulen ind);
+
+</pre>
+
+<p>
+These functions delete the element from the given range with the given index. 
+Range elements must be <a href="page_Swap.html">swappable</a>.
+If the index is out of range, <b>false</b> is returned. 
+Otherwise elements are copied down to fill the hole, <b>true</b> is returned.
+</p>
+
+<pre>
+
+void <span class="Att">RangeCopyDel_guarded</span>(NothrowCopyableType list[],ulen len,ulen ind);
+
+void <span class="Att">RangeCopyDel_guarded</span>(PtrLen&lt;NothrowCopyableType&gt; range,ulen ind);
+
+void <span class="Att">RangeSwapDel_guarded</span>(AnyType list[],ulen len,ulen ind);
+
+void <span class="Att">RangeSwapDel_guarded</span>(PtrLen&lt;AnyType&gt; range,ulen ind);
+
+</pre>
+
+<p>
+These four functions are guarded variants, they throw an exception if the index is out of range.
+</p>
+
+</body>
+
+</html>
+

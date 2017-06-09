@@ -1,0 +1,80 @@
+<!--
+/* page_DefaultFileDevice.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> (XCore) DefaultFileDevice</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>(XCore) DefaultFileDevice</h2>
+
+<p class="Files">Files <b>CCore/inc/DefaultFileDevice.h</b> <b>CCore/src/DefaultFileDevice.cpp</b></p>
+
+<p>
+<b>XCore</b> has a global default file device name. By default, it is <b>"host"</b>. 
+You can get or set this name by the following functions:
+</p>
+
+<pre>
+
+void <span class="Att">SetDefaultFileDevice</span>(StrLen dev);
+
+ulen <span class="Att">CopyDefaultFileDevice</span>(char buf[MaxPathLen]);
+
+</pre>
+
+<p>
+The first function sets the name. The name length must not exceed <b>MaxPathLen</b>, otherwise an exception is thrown.
+</p>
+
+<p>
+The second function makes a copy of the name in the provided buffer. The buffer length must be <b>MaxPathLen</b>.
+The name length is returned.
+</p>
+
+<p>
+Both functions are thread-safe.
+</p>
+
+<p>
+The following helper can be used to simplify the name extraction. 
+</p>
+
+<pre>
+
+struct <span class="Att">GetDefaultFileDevice</span> : NoCopy
+ {
+  char buf[MaxPathLen];
+  ulen len;
+
+  GetDefaultFileDevice() { len=CopyDefaultFileDevice(buf); }
+
+  operator StrLen() const { return Range(buf,len); }
+ };
+
+</pre>
+
+</body>
+
+</html>
+

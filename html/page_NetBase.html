@@ -1,0 +1,939 @@
+<!--
+/* page_NetBase.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> NetBase</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>NetBase</h2>
+
+<p class="Files">Files <b>CCore/inc/net/NetBase.h</b> <b>CCore/src/net/NetBase.cpp</b></p>
+
+<p>
+The header <b>net/NetBase.h</b> contains a lot of definitions, related with Ethernet and IP protocols.
+</p>
+
+<h4>Types and constants</h4>
+
+<p>
+<b>UDPort</b> is a UDP port type, it is a 16-bit unsigned integral type.
+</p>
+
+<pre>
+
+using <span class="Att">UDPort</span> = uint16 ;
+
+</pre>
+
+<p>
+<b>IPLen</b> represents IP payload length, it is a 16-bit unsigned integral type.
+</p>
+
+<pre>
+
+using <span class="Att">IPLen</span> = uint16 ;
+
+</pre>
+
+<p>
+The following constants represent different protocol lengths.
+</p>
+
+<pre>
+
+inline constexpr ulen <span class="Att">EthHeaderLen</span> = 14 ;
+
+inline constexpr ulen <span class="Att">IPHeaderLen</span>  = 20 ;
+
+inline constexpr ulen <span class="Att">ARPacketLen</span>  = 28 ;
+
+inline constexpr ulen <span class="Att">ICMPEchoLen</span>  =  8 ;
+
+inline constexpr ulen <span class="Att">UDPHeaderLen</span> =  8 ;
+
+inline constexpr ulen <span class="Att">MaxEthFrameLen</span> = 1514 ;
+
+inline constexpr ulen <span class="Att">MaxEthDataLen</span>  = MaxEthFrameLen - EthHeaderLen ; // 1500
+
+inline constexpr ulen <span class="Att">MaxIPDataLen</span>   = MaxEthDataLen - IPHeaderLen ;   // 1480
+
+inline constexpr ulen <span class="Att">MaxUDPDataLen</span>  = MaxIPDataLen - UDPHeaderLen ;   // 1472
+
+</pre>
+
+<h4>struct EthType</h4>
+
+<p>
+<b>EthType</b> represents an Ethernet packet type.
+</p>
+
+<pre>
+
+enum <span class="Att">KnownEthType</span> : uint16
+ {
+  Eth_IP  = 0x800,
+  Eth_ARP = 0x806
+ };
+
+struct <span class="Att">EthType</span>
+ {
+  uint16 type;
+  
+  // constructors
+  
+  EthType() : type() {}
+  
+  EthType(KnownEthType type_) : type(type_) {}
+  
+  // methods
+  
+  uint16 get() const { return type; }
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 2 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null value type.
+</p>
+
+<p>
+The second implicit constructor creates the "known" type from the enumeration. 
+</p>
+
+<p>
+<b>get()</b> returns an <b>uint16</b> representation of the type.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable in the verbose form.
+</p>
+
+<h4>struct IProto</h4>
+
+<p>
+<b>IProto</b> represents an IP protocol number.
+</p>
+
+<pre>
+
+enum <span class="Att">KnownIProto</span> : uint8
+ {
+  IP_ICMP =  1,
+  IP_UDP  = 17
+ };
+
+struct <span class="Att">IProto</span> 
+ {
+  uint8 proto;
+  
+  // constructors
+  
+  IProto() : proto() {}
+  
+  IProto(KnownIProto proto_) : proto(proto_) {}
+  
+  // methods
+  
+  uint8 get() const { return proto; }
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 1 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+   
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null value number.
+</p>
+
+<p>
+The second implicit constructor creates the "known" number from the enumeration. 
+</p>
+
+<p>
+<b>get()</b> returns an <b>uint8</b> representation of the number.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable in the verbose form.
+</p>
+
+<h4>struct ARPType</h4>
+
+<p>
+<b>ARPType</b> represents an ARP packet type.
+</p>
+
+<pre>
+
+enum <span class="Att">KnownARPType</span> : uint16
+ {
+  ARP_Request = 1,
+  ARP_Reply   = 2
+ };
+
+struct <span class="Att">ARPType</span>
+ {
+  uint16 type;
+  
+  // constructors
+  
+  ARPType() : type() {}
+  
+  ARPType(KnownARPType type_) : type(type_) {}
+  
+  // methods
+  
+  uint16 get() const { return type; }
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 2 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+   
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null value type.
+</p>
+
+<p>
+The second implicit constructor creates the "known" type from the enumeration. 
+</p>
+
+<p>
+<b>get()</b> returns an <b>uint16</b> representation of the type.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable in the verbose form.
+</p>
+
+<h4>struct ICMPEchoType</h4>
+
+<p>
+<b>ICMPEchoType</b> represents an ICMP Echo packet type.
+</p>
+
+<pre>
+
+enum <span class="Att">KnownICMPEchoType</span> : uint8
+ {
+  ICMPEcho_Request = 8,
+  ICMPEcho_Reply   = 0
+ };
+
+struct <span class="Att">ICMPEchoType</span>
+ {
+  uint8 type;
+  
+  // constructors
+  
+  ICMPEchoType() : type() {}
+  
+  ICMPEchoType(KnownICMPEchoType type_) : type(type_) {}
+  
+  // methods
+  
+  uint8 get() const { return type; }
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 1 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+   
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null value type.
+</p>
+
+<p>
+The second implicit constructor creates the "known" type from the enumeration. 
+</p>
+
+<p>
+<b>get()</b> returns an <b>uint8</b> representation of the type.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable in the verbose form.
+</p>
+
+<h4>struct MACAddress</h4>
+
+<p>
+<b>MACAddress</b> represents a MAC address (48 bit).
+</p>
+
+<pre>
+
+struct <span class="Att">MACAddress</span>
+ {
+  uint8 address[6];
+  
+  // constructors
+  
+  MACAddress() : address() {}
+  
+  MACAddress(uint8 b0,uint8 b1,uint8 b2,uint8 b3,uint8 b4,uint8 b5);
+  
+  explicit MACAddress(XPoint point);
+  
+  // methods
+   
+  static MACAddress Broadcast() { return MACAddress(0xFF,0xFF,0xFF,0xFF,0xFF,0xFF); }
+  
+  XPoint get() const; 
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 6 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null address.
+</p>
+
+<p>
+The second constructor creates the address from six byte components. 
+</p>
+
+<p>
+<b>Broadcast()</b> returns a broadcast MAC address.
+</p>
+
+<p>
+<b>get()</b> returns an <b>XPoint</b> representation of the address. You may convert it back using the
+constructor with the <b>XPoint</b> argument.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable in the standard MAC address form.
+</p>
+
+<h4>struct IPAddress</h4>
+
+<p>
+<b>IPAddress</b> represents an IPv4 address (32 bit).
+</p>
+
+<pre>
+
+struct <span class="Att">IPAddress</span>
+ {
+  uint32 address;
+  
+  // constructors
+  
+  IPAddress() : address() {}
+   
+  IPAddress(uint8 b0,uint8 b1,uint8 b2,uint8 b3);
+  
+  explicit IPAddress(uint32 address_) { address=address_; }
+  
+  // methods
+   
+  uint32 get() const { return address; } 
+  
+  friend bool operator == (IPAddress a,IPAddress b);
+
+  friend bool operator != (IPAddress a,IPAddress b);
+  
+  IPAddress getNet(IPAddress net_mask) const { return IPAddress(address&net_mask.address); }
+  
+  bool sameNet(IPAddress obj,IPAddress net_mask) const { return getNet(net_mask)==obj.getNet(net_mask); }
+  
+  // save/load object
+   
+  enum { SaveLoadLen = 4 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+
+  // scan object
+
+  void scan(ScannerType &amp;inp);
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null address.
+</p>
+
+<p>
+The second constructor creates the address from four byte components. 
+</p>
+
+<p>
+<b>get()</b> returns an <b>uint32</b> representation of the address. You may convert it back using the
+constructor with the <b>uint32</b> argument.
+</p>
+
+<p>
+You can use <b>operator =</b> and <b>operator !=</b> to compare IP addresses.
+</p>
+
+<p>
+<b>getNet()</b> masks IP address to extract the net address part.
+</p>
+
+<p>
+<b>sameNet()</b> can be used to compare net address parts.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable and scannable in the standard IP address dot form.
+</p>
+
+<pre>
+
+template &lt;CharPeekType Dev&gt;
+void <span class="Att">ParseIPAddress</span>(Dev &dev,IPAddress &ret);
+
+</pre>
+
+<p>
+The function <b>ParseIPAddress()</b> can be used to parse an IP address from a
+<a href="page_StrParse.html">character stream</a>. The expected string looks like <b>192.168.1.1</b> .
+</p>
+
+<h4>struct EthHeader</h4>
+
+<p>
+<b>EthHeader</b> represents Ethernet packet header.
+</p>
+
+<pre>
+
+struct <span class="Att">EthHeader</span>
+ {
+  MACAddress dst;
+  MACAddress src;
+  EthType type;
+  
+  // constructors
+  
+  EthHeader() : dst(),src(),type() {}
+  
+  EthHeader(MACAddress src,MACAddress dst,EthType type);
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 14 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+   
+  struct PrintOptType
+   {
+    static constexpr bool Default_inbound = false ;
+    
+    bool inbound;
+   
+    void setDefault() { inbound=Default_inbound; }
+    
+    PrintOptType() { setDefault(); }
+    
+    PrintOptType(const char *ptr,const char *lim);
+    
+    //
+    // [i|o|I|O]
+    //
+    
+    template &lt;CharPeekType Dev&gt;
+    static void ParseInbound(Dev &dev,bool &amp;inbound);
+   }; 
+   
+  void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+Default constructor sets all fields to null.
+</p>
+
+<p>
+The second constructor creates a header with given source and destination MAC addresses and the Ethernet packet type.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable. It accepts printing options: "i" or "I"
+to use the inbound format, "o" or "O" to use the outbound format.
+</p>
+
+<h4>struct CheckSum</h4>
+
+<p>
+<b>CheckSum</b> is an IP check sum accumulator.
+</p>
+
+<pre>
+
+struct <span class="Att">CheckSum</span> 
+ {
+  ....
+  
+  // constructors
+  
+  CheckSum();
+  
+  // add
+  
+  void add(uint8 b1,uint8 b2);
+   
+  void add(uint16 word); 
+   
+  void add(uint32 dword); 
+   
+  void add(PtrLen&lt;const uint8&gt; data);
+  
+  // (TT)
+   
+  void operator () () {}
+  
+  template &lt;class ... TT&gt;
+  void operator () (uint8 b0,uint8 b1,TT... tt);
+   
+  template &lt;class ... TT&gt;
+  void operator () (uint16 word,TT... tt);
+   
+  template &lt;class ... TT&gt;
+  void operator () (uint32 dword,TT... tt);
+  
+  // complete 
+   
+  uint16 complete() const;
+   
+  bool test() const;
+ };
+
+</pre>
+
+<p>
+The default constructor creates an object in the initial null state. To calculate a check sum it must be fed
+with data elements. Data elements can be a couple of <b>uint8</b>, an <b>uint16</b> or <b>uint32</b> value.
+You may use <b>add()</b> methods of <b>operator ()</b> methods. To accumulate a tail use the <b>add()</b>
+method. The tail range may have odd number of elements.
+</p>
+
+<p>
+<b>complete()</b> completes accumulate and return the check sum.
+</p>
+
+<p>
+<b>test()</b> tests the check sum. For this method the check sum field must be included in the accumulation process.
+</p>
+
+<h4>struct IPHeader</h4>
+
+<p>
+<b>IPHeader</b> represents base IPv4 header (20 bytes). This class is design to support 
+a simplified IP implementation, so some fields are expected to have some default values.
+</p>
+
+<pre>
+
+struct <span class="Att">IPHeader</span>
+ {
+  // consts
+  
+  static constexpr uint8  DefaultVHL         = 0x45 ;
+  static constexpr uint8  DefaultTOS         = 0    ;
+  static constexpr uint16 DefaultFlagsOffset = 0    ;
+  static constexpr uint8  DefaultTTL         = 128  ;
+  
+  static constexpr uint16 Flag_DF    = 1u&lt;&lt;14     ; // don't fragment
+  static constexpr uint16 Flag_MF    = 1u&lt;&lt;13     ; // more fragments
+  static constexpr uint16 OffsetMask = (1u&lt;&lt;13)-1 ;
+  
+  // data
+ 
+  uint8 vhl; // default
+  uint8 tos; // default
+  IPLen len;
+  uint16 id;
+  
+  uint16 flags_offset; // default
+  uint8  ttl;          // default
+  IProto proto;
+  uint16 check_sum;
+  
+  IPAddress src;
+  IPAddress dst;
+  
+  // constructors
+  
+  IPHeader();
+    
+  IPHeader(IPAddress src,IPAddress dst,IProto proto,IPLen len);
+   
+  // methods
+  
+  void setDefault();
+   
+  static uint16 GetId(); 
+   
+  void setId() { id=GetId(); }
+   
+  void setCheckSum(); 
+  
+  bool testCheckSum() const;
+  
+  bool isFragment() const;
+  
+  // save/load object
+ 
+  enum { SaveLoadLen = 20 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+  
+  // print object
+   
+  struct PrintOptType
+   {
+    static constexpr bool Default_inbound = false ;
+    static constexpr bool Default_extra = false ;
+    
+    bool inbound;
+    bool extra;
+   
+    void setDefault() { inbound=Default_inbound; extra=Default_extra; }
+    
+    PrintOptType() { setDefault(); }
+    
+    PrintOptType(const char *ptr,const char *lim);
+    
+    //
+    // [i|o|I|O][x|X]
+    //
+    
+    template &lt;CharPeekType Dev&gt;
+    static void ParseInbound(Dev &amp;dev,bool &amp;inbound);
+     
+    template &lt;CharPeekType Dev&gt;
+    void ParseExtra(Dev &amp;dev,bool &amp;extra);
+   }; 
+   
+  void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+The default constructor sets default fields to its default values and other fields to null.
+</p>
+
+<p>
+The second constructor sets default fields to its default values, but other fields sets to its proper values,
+i.e. this constructor creates a proper IP header with given fields <b>src</b>, <b>dst</b>, <b>len</b> and <b>proto</b>.
+</p>
+
+<p>
+<b>setDefault()</b> sets default fields to its default values.
+</p>
+
+<p>
+<b>GetId()</b> generates a "unique" packet header id.
+</p>
+
+<p>
+<b>setId()</b> sets the packet header id.
+</p>
+
+<p>
+<b>setCheckSum()</b> sets the check sum of the header. The header must have the basic length 20 bytes. 
+</p>
+
+<p>
+<b>testCheckSum()</b> tests the check sum of the header. The header must have the basic length 20 bytes.
+</p>
+
+<p>
+<b>isFragment()</b> returns <b>true</b>, if the packet is a fragment.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable. The two printing options are supported:
+"i","I" or "o","O" controls inbound or outbound formatting of the text. You may also specify "x","X" options
+to print extra information. In the short form only four fields are printed: <b>src</b>, <b>dst</b>, 
+<b>len</b> and <b>proto</b>.
+</p>
+
+<h4>struct ARPacket</h4>
+
+<p>
+<b>ARPacket</b> represents ARP packet. We implement only IP/MAC ARP. It means that some ARP packet fields
+have its defined value for this particular case.
+</p>
+
+<pre>
+
+struct <span class="Att">ARPacket</span>
+ {
+  // consts
+  
+  static constexpr uint16 DefaultMACType = 1                       ;
+  static constexpr uint16 DefaultIPType  = Eth_IP                  ;
+  static constexpr uint8  DefaultMACLen  = MACAddress::SaveLoadLen ;
+  static constexpr uint8  DefaultIPLen   = IPAddress::SaveLoadLen  ;
+  
+  // data
+ 
+  uint16 mac_type; // default
+  uint16 ip_type;  // default
+  uint8  mac_len;  // default
+  uint8  ip_len;   // default
+  
+  ARPType type;
+
+  MACAddress src_mac;
+  IPAddress  src_ip;
+  MACAddress dst_mac;
+  IPAddress  dst_ip;
+  
+  // constructors
+  
+  ARPacket(); 
+  
+  ARPacket(ARPType type,MACAddress src_mac,IPAddress src_ip,MACAddress dst_mac,IPAddress dst_ip);
+  
+  // methods
+  
+  void setDefault();
+  
+  bool testDefault() const;
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 28 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+ };
+
+</pre>
+
+<p>
+Both constructors set "default fields" to default values. Default constructor sets all other fields to null.
+</p>
+
+<p>
+<b>setDefault()</b> sets "default fields" to default values.
+</p>
+
+<p>
+<b>testDefault()</b> checks, if "default fields" have default values.
+</p>
+
+<p>
+The class may participate in save/load operations.
+</p>
+
+<h4>struct ICMPEcho</h4>
+
+<p>
+<b>ICMPEcho</b> represents ICMP Echo packet header.
+</p>
+
+<pre>
+
+struct <span class="Att">ICMPEcho</span> 
+ {
+  ICMPEchoType type;
+  uint8 code;
+  uint16 check_sum;
+  uint16 id;
+  uint16 num;
+  
+  // constructors
+  
+  ICMPEcho();
+  
+  ICMPEcho(ICMPEchoType type,uint16 id,uint16 num);
+  
+  // methods
+  
+  void setCheckSum(PtrLen&lt;const uint8&gt; data);
+  
+  bool testCheckSum(PtrLen&lt;const uint8&gt; data) const;
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 8 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+   
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor sets all fields to null.
+</p>
+
+<p>
+The second constructor sets <b>code</b> and check sum to null.
+</p>
+
+<p>
+<b>setCheckSum()</b> sets the check sum, <b>data</b> is the ICMP data payload.
+</p>
+
+<p>
+<b>testCheckSum()</b> checks the check sum, <b>data</b> is the ICMP data payload.
+</p>
+
+<p>
+The class may participate in save/load operations. It is also printable.
+</p>
+
+<h4>struct UDPHeader</h4>
+
+<p>
+<b>UDPHeader</b> represents a UDP packet header.
+</p>
+
+<pre>
+
+struct <span class="Att">UDPHeader</span> 
+ {
+  UDPort src_port;
+  UDPort dst_port;
+  IPLen len;
+  uint16 check_sum;
+  
+  // constructors
+  
+  UDPHeader();
+   
+  UDPHeader(UDPort src_port,UDPort dst_port,IPLen len);
+  
+  // methods
+  
+  void setCheckSum(IPAddress src,IPAddress dst,IPLen len,PtrLen&lt;const uint8&gt; data);
+  
+  bool testCheckSum(IPAddress src,IPAddress dst,IPLen len,PtrLen&lt;const uint8&gt; data) const;
+  
+  // save/load object
+  
+  enum { SaveLoadLen = 8 };
+ 
+  void save(SaveDevType &amp;dev) const;
+   
+  void load(LoadDevType &amp;dev);
+ };
+
+</pre>
+
+<p>
+Default constructor sets all fields to null.
+</p>
+
+<p>
+The second constructor creates a header with given ports and the IP payload length (which includes UDP header). 
+It sets check sum to zero.
+</p>
+
+<p>
+<b>setCheckSum()</b> sets the check sum. The <b>len</b> is the IP payload length, <b>data</b> is the UDP payload.
+</p>
+
+<p>
+<b>testCheckSum()</b> test the check sum.
+</p>
+
+<p>
+The class may participate in save/load operations.
+</p>
+
+</body>
+
+</html>
+

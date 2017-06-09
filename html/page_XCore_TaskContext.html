@@ -1,0 +1,147 @@
+<!--
+/* page_XCore_TaskContext.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore TaskContext</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore TaskContext</h2>
+
+<p class="Files">Files <b>CCore/src/task/TaskContext.cpp</b></p>
+
+<p>
+This part provides an implementation of the task context functions. These functions are declared in the <b>XCore</b> header <b>TaskCore.h</b>.
+Each task has an associated block of memory, this block is used to preserve the task context during a task switch. 
+Task context includes CPU register values and some global variables values. When a task is detached from the CPU, these values are preserved
+in the task context. When a task is regain the CPU, the task context is used to restore the CPU registers and global variables, included in the task context.
+</p>
+
+<pre>
+
+/* class Task::Internal */
+
+class <span class="Att">Task::Internal</span>
+ {
+   ....
+
+   // context -- implemented in platform
+
+   static void <span class="Att">ContextInit</span>(void *context,void *stack,ulen stack_len,void *task);
+
+   static void * <span class="Att">GetContext</span>();
+
+   static ulen <span class="Att">GetContextLen</span>();
+
+   static void <span class="Att">SwitchContext_int</span>(void *context);
+
+   static void <span class="Att">SwitchContext_task</span>(void *context);
+
+   ....
+ };
+
+</pre>
+
+<p>
+<b>ContextInit()</b> fills the memory to be a valid task context. This function is used to spawn a new task. 
+In order to do so a task context must be allocated, a task stack must be allocated, the allocated task context must be initialized.
+<b>context</b> is the allocated task context, <b>stack</b> is the allocated task stack, <b>stack_len</b> is the task stack length,
+<b>task</b> is a value to be passed to the task entry function. The task execution is started from the function <b>Task::Internal::EntryTask()</b> and
+<b>task</b> is passed to this function.
+</p>
+
+<p>
+<b>GetContext()</b> returns the context of the current task. This function must be used under the <b>IntLock</b> protection to be useful.
+</p>
+
+<p>
+<b>GetContextLen()</b> returns the task context length. This value is constant on the particular platform.
+</p>
+
+<p>
+<b>SwitchContext_int()</b> is called in the interrupt context to switch to the task with the given task context. If this function is called
+in the interrupt context, then after the interrupt processing is finished the correspondent task will regain CPU. 
+This function can be called multiple times during the single interrupt context processing.
+</p>
+
+<p>
+<b>SwitchContext_task()</b> is called in the task context to switch to the task with the given context. 
+It must be called under the <b>IntLock</b> protection. The current task is suspended, its context is updated. When this task is regain CPU, it is continued
+after the call of the <b>SwitchContext_task()</b>. From the current task perspective the task switch is looked as the function call.
+</p>
+
+<p>
+The <b>STD</b> implementation is
+</p>
+
+<pre>
+
+/* TaskContext.cpp */
+
+#include &lt;CCore/inc/task/TaskCore.h&gt;
+
+#include &lt;__std_init.h&gt;
+
+namespace CCore {
+
+/* class Task::Internal */
+
+extern "C"
+void __std_Entry(void *task)
+ {
+  Task::Internal::EntryTask(task);
+ }
+
+void <span class="Att">Task::Internal::ContextInit</span>(void *context,void *stack,ulen stack_len,void *task)
+ {
+  __std_context_init(context,stack,stack_len,__std_Entry,task);
+ }
+
+void * <span class="Att">Task::Internal::GetContext</span>()
+ {
+  return __std_context;
+ }
+
+ulen <span class="Att">Task::Internal::GetContextLen</span>()
+ {
+  return __std_context_len();
+ }
+
+void <span class="Att">Task::Internal::SwitchContext_int</span>(void *context)
+ {
+  __std_context=context;
+ }
+
+void <span class="Att">Task::Internal::SwitchContext_task</span>(void *context)
+ {
+  __std_switch(context);
+ }
+
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,115 @@
+<!--
+/* page_CommonIntAlgo.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CommonIntAlgo</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CommonIntAlgo</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/CommonIntAlgo.h</b> <b>CCore/src/algon/CommonIntAlgo.cpp</b></p>
+
+<p>
+Here is two <b>Algorithm Package</b>s with some useful integer algorithms.
+</p>
+
+<h4>BitIntAlgo</h4>
+
+<p>
+This package is parametrized by an unsigned integral type. It contains three algorithms.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+struct <span class="Att">Algon::BitIntAlgo</span>
+ {
+  static bool IsEven(UInt a);
+  
+  static unsigned BitScan(UInt a); // a!=0
+  
+  static UInt OddPart(UInt a); // a!=0
+ };
+
+</pre>
+
+<p>
+<b>IsEven()</b> returns <b>true</b>, if the argument is even.
+</p>
+
+<p>
+<b>BitScan()</b> returns the number of zero least significant bits of the argument, which must not be zero.
+In other words, it is the maximum exponent of the power of two, which divides the argument.
+</p>
+
+<p>
+<b>OddPart()</b> returns the "odd part" of the argument, which must not be zero.
+"Odd part" is the maximum odd divisor of the number. Each non-zero number is a product of its "odd part" and 
+a power of two.
+</p>
+
+<h4>CommonIntAlgo</h4>
+
+<p>
+This package contains algorithms to calculate GCD (great common divisor) and LCM (least common multiple).  
+The first template parameter is the argument type of algorithms. It must be an unsigned integral type.
+The second is an algorithm package, defaulted to the <b>BitIntAlgo&lt;UInt&gt;</b>.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt,CommonBitIntAlgo&lt;UInt&gt; Algo=Algon::BitIntAlgo&lt;UInt&gt; &gt;
+struct <span class="Att">Algon::CommonIntAlgo</span> : Algo
+ {
+  static UInt GCD(UInt a,UInt b);
+  
+  static UInt LCM(UInt a,UInt b); // no overflow check
+ };
+
+</pre>
+
+<h4>Functions</h4>
+
+<p>
+There are two functions to calculate GCD and LCM for unsigned integral arguments:
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+UInt <span class="Att">Algon::GCD</span>(UInt a,UInt b) { return Algon::CommonIntAlgo&lt;UInt&gt;::GCD(a,b); }
+
+template &lt;UIntType UInt&gt;
+UInt <span class="Att">Algon::LCM</span>(UInt a,UInt b) { return Algon::CommonIntAlgo&lt;UInt&gt;::LCM(a,b); }
+
+</pre>
+
+<p>
+They call the correspondent algorithms from the <b>CommonIntAlgo</b>.
+</p>
+
+</body>
+
+</html>
+

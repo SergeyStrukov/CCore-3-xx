@@ -1,0 +1,161 @@
+OBJ_LIST = \
+../wintest-obj/SpecialDrawArt.o \
+../wintest-obj/main.o \
+../wintest-obj/test7001.DrawAlgo.o \
+../wintest-obj/test7002.DrawAlgo.o \
+../wintest-obj/test7003.DragWindow.o \
+../wintest-obj/test7004.Font.o \
+../wintest-obj/test7005.DragWindow.o \
+../wintest-obj/test7006.Ball.o \
+../wintest-obj/test7007.CommonArt.o \
+../wintest-obj/test7008.Tab.o \
+../wintest-obj/wintest.o \
+
+
+ASM_LIST = \
+../wintest-obj/SpecialDrawArt.s \
+../wintest-obj/main.s \
+../wintest-obj/test7001.DrawAlgo.s \
+../wintest-obj/test7002.DrawAlgo.s \
+../wintest-obj/test7003.DragWindow.s \
+../wintest-obj/test7004.Font.s \
+../wintest-obj/test7005.DragWindow.s \
+../wintest-obj/test7006.Ball.s \
+../wintest-obj/test7007.CommonArt.s \
+../wintest-obj/test7008.Tab.s \
+../wintest-obj/wintest.s \
+
+
+DEP_LIST = \
+../wintest-obj/SpecialDrawArt.dep \
+../wintest-obj/main.dep \
+../wintest-obj/test7001.DrawAlgo.dep \
+../wintest-obj/test7002.DrawAlgo.dep \
+../wintest-obj/test7003.DragWindow.dep \
+../wintest-obj/test7004.Font.dep \
+../wintest-obj/test7005.DragWindow.dep \
+../wintest-obj/test7006.Ball.dep \
+../wintest-obj/test7007.CommonArt.dep \
+../wintest-obj/test7008.Tab.dep \
+../wintest-obj/wintest.dep \
+
+
+ASM_OBJ_LIST = \
+
+
+include $(RULES_FILE)
+
+
+../wintest-obj/SpecialDrawArt.o : ../../../Desktop/CCore/test/SpecialDrawArt.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/main.o : ./main.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7001.DrawAlgo.o : ../../../Desktop/CCore/test/test7001.DrawAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7002.DrawAlgo.o : ../../../Desktop/CCore/test/test7002.DrawAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7003.DragWindow.o : ../../../Desktop/CCore/test/test7003.DragWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7004.Font.o : ../../../Desktop/CCore/test/test7004.Font.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7005.DragWindow.o : ../../../Desktop/CCore/test/test7005.DragWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7006.Ball.o : ../../../Desktop/CCore/test/test7006.Ball.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7007.CommonArt.o : ../../../Desktop/CCore/test/test7007.CommonArt.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/test7008.Tab.o : ../../../Desktop/CCore/test/test7008.Tab.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../wintest-obj/wintest.o : ../../../Desktop/CCore/test/wintest.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+
+
+../wintest-obj/SpecialDrawArt.s : ../../../Desktop/CCore/test/SpecialDrawArt.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/main.s : ./main.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7001.DrawAlgo.s : ../../../Desktop/CCore/test/test7001.DrawAlgo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7002.DrawAlgo.s : ../../../Desktop/CCore/test/test7002.DrawAlgo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7003.DragWindow.s : ../../../Desktop/CCore/test/test7003.DragWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7004.Font.s : ../../../Desktop/CCore/test/test7004.Font.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7005.DragWindow.s : ../../../Desktop/CCore/test/test7005.DragWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7006.Ball.s : ../../../Desktop/CCore/test/test7006.Ball.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7007.CommonArt.s : ../../../Desktop/CCore/test/test7007.CommonArt.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/test7008.Tab.s : ../../../Desktop/CCore/test/test7008.Tab.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../wintest-obj/wintest.s : ../../../Desktop/CCore/test/wintest.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+
+
+../wintest-obj/SpecialDrawArt.dep : ../../../Desktop/CCore/test/SpecialDrawArt.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SpecialDrawArt.o $< -MF $@
+
+../wintest-obj/main.dep : ./main.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+
+../wintest-obj/test7001.DrawAlgo.dep : ../../../Desktop/CCore/test/test7001.DrawAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7001.DrawAlgo.o $< -MF $@
+
+../wintest-obj/test7002.DrawAlgo.dep : ../../../Desktop/CCore/test/test7002.DrawAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7002.DrawAlgo.o $< -MF $@
+
+../wintest-obj/test7003.DragWindow.dep : ../../../Desktop/CCore/test/test7003.DragWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7003.DragWindow.o $< -MF $@
+
+../wintest-obj/test7004.Font.dep : ../../../Desktop/CCore/test/test7004.Font.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7004.Font.o $< -MF $@
+
+../wintest-obj/test7005.DragWindow.dep : ../../../Desktop/CCore/test/test7005.DragWindow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7005.DragWindow.o $< -MF $@
+
+../wintest-obj/test7006.Ball.dep : ../../../Desktop/CCore/test/test7006.Ball.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7006.Ball.o $< -MF $@
+
+../wintest-obj/test7007.CommonArt.dep : ../../../Desktop/CCore/test/test7007.CommonArt.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7007.CommonArt.o $< -MF $@
+
+../wintest-obj/test7008.Tab.dep : ../../../Desktop/CCore/test/test7008.Tab.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test7008.Tab.o $< -MF $@
+
+../wintest-obj/wintest.dep : ../../../Desktop/CCore/test/wintest.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/wintest.o $< -MF $@
+
+
+
+
+
+ifneq ($(MAKECMDGOALS),clean)
+
+-include $(DEP_FILE)
+
+endif
+

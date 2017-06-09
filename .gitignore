@@ -1,7 +1,19 @@
+# My
+
+*.dep
+*.o
+*.a
+*.exe
+PTPServerLog.txt
+PTPSecureServerLog.txt
+ARMLog.txt
+eclipse/*
+vtools/Aspect/docs/*
+
 # Compiled Object files
 *.slo
 *.lo
-*.o
+#*.o
 *.obj
 
 # Precompiled Headers
@@ -19,13 +31,13 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
+#*.a
+#*.lib
 
 # Executables
-*.exe
+#*.exe
 *.out
-*.app
+#*.app
 
 # =========================
 # Operating System Files

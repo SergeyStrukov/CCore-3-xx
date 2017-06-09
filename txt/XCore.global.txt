@@ -1,0 +1,102 @@
+/* XCore.global.txt */
+
+DefaultRefArrayHeader::DefaultObject
+
+DefaultDynArrayHeader::DefaultObject
+
+DefaultCollectorHeader::DefaultObject
+
+DefaultAtomicRefArrayHeader::DefaultObject
+
+AbortMsgFunc
+
+PacketPool_PacketCount
+
+PacketPool_PacketMaxDataLen
+
+SmallPrimes
+
+Dev::Init_CPU();
+
+Init_SpecialMem();
+
+CCORE_INITPRI_0
+ {
+  Sys::Atomic
+  
+  PlanInit list
+  
+  template <AutoTextNameType &Name>
+  AutoTextNumber AutoText<Name>::Next;
+
+  CCORE_INITPRI_1
+   {
+    PlanInit nodes
+    
+    TaskEventHost
+    
+    CCORE_INITPRI_2
+     {
+      PlanInit
+
+       SysLog
+       Tick
+       TlsBuf
+       TaskCore
+       
+       SysCon
+       
+       Sys
+       Exception
+       TaskMemStack
+       DeferCall
+       PerTask
+       MemBase
+       TypeNumber
+       JobHost
+       PacketPool
+       ObjHost
+       
+       StdioReadCon
+       stdio
+       TaskCoreExt
+       CCore
+      
+      CCORE_INITPRI_3
+       {
+        template <class T>
+        typename TypeNumberOf<T>::Init TypeNumberOf<T>::Number;
+       
+        template <class TOC>
+        PerTask::SlotId PerTask::TaskObjectSlotId<TOC>::Id;
+        
+        template <uint8 K>
+        typename ConvolutionMulConst<K>::TableInit ConvolutionMulConst<K>::Table;
+        
+        template <uint8 ... KK>
+        const ConvolutionMul ConvolutionParam<KK...>::Mul[Len];
+
+        DestroyPerTask ForMainTask;
+        
+        DDL::CharProp::Object;
+        
+        GlobalObjects
+         {
+          *
+         
+          Task::Internal::Enable();
+          
+          main
+           {
+           }
+           
+          Task::Internal::Disable(); 
+         }
+       }
+     }
+   }
+ }
+
+Exit_SpecialMem();
+
+Dev::Exit_CPU();

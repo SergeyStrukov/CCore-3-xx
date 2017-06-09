@@ -1,0 +1,306 @@
+<!--
+/* page_CmdInput.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CmdInput</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CmdInput</h2>
+
+<p class="Files">Files <b>CCore/inc/CmdInput.h</b> <b>CCore/src/CmdInput.cpp</b></p>
+
+<h4>CmdInput</h4>
+
+<p>
+<b>CmdInput</b> is a simple character input processing class. It recognizes a given set of commands. 
+It works with some target class. The target builds the command set and provides methods to execute them.
+</p>
+
+<pre>
+
+class <span class="Att">CmdInput</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   struct Target 
+    {
+     virtual void buildCmdList(CmdInput &amp;input)=0;
+     
+     template &lt;class T&gt;
+     void addCommand(CmdInput &amp;input,StrLen cmd,void (T::*method)(StrLen arg)); 
+    };
+   
+   using TargetMethod = void (Target::*)(StrLen arg) ;
+  
+   // constructors
+  
+   explicit CmdInput(Target &amp;target);
+   
+   ~CmdInput();
+   
+   // methods
+   
+   void start();
+  
+   bool put(char ch);
+   
+   void put(StrLen str);
+   
+   bool back();
+   
+   struct CompleteResult
+    {
+     ulen count;
+     StrLen str;
+
+     ....
+    };
+   
+   CompleteResult complete() const;
+   
+   struct FinishResult
+    {
+     ....
+
+     // methods
+     
+     bool operator + () const;
+     
+     bool operator ! () const;
+     
+     void operator () (StrLen arg);
+     
+     template &lt;class Report&gt;
+     void operator () (StrLen arg,Report &amp;report); 
+    };
+   
+   FinishResult finish();
+ };
+
+</pre>
+
+<p>
+<b>CmdInput</b> constructor takes a reference to the target. It calls the target virtual 
+method <b>buildCmdList()</b> to prepare the command set. Target must use the method <b>addCommand()</b>
+to add a command to the set. An example:
+</p>
+
+<pre>
+
+class <span class="Att">Target</span> : public NoCopyBase&lt;CmdInput::Target&gt;
+ {
+  private:
+  
+   void empty(StrLen);
+
+   void help(StrLen arg);
+
+   void stat(StrLen arg);
+
+   void exit(StrLen arg);
+   
+   virtual void buildCmdList(CmdInput &input)
+    {
+     addCommand(input,"",&amp;Target::empty);
+     addCommand(input,"help",&amp;Target::help);
+     addCommand(input,"stat",&amp;Target::stat);
+     addCommand(input,"exit",&amp;Target::exit);
+    }
+ };
+
+</pre>
+
+<p>
+The strings <b>cmd</b> must be persistent (at least for the life-time of the <b>CmdInput</b> object),
+usually they are string literals.
+You should define an empty command to react on the empty command line.
+</p>
+
+<p>
+The following methods are to process a character input:
+</p>
+
+<p>
+<b>start()</b> starts an input command. 
+</p>
+
+<p>
+<b>put(char)</b> adds a character. The return value is true, if the input is valid, i.e. can be 
+completed to a command.
+</p>
+
+<p>
+<b>put(StrLen)</b> adds a string of characters.
+</p>
+
+<p>
+<b>back()</b> backs one character. The return value is false, if the input is empty and 
+cannot be backed.
+</p>
+
+<p>
+Two last methods are to complete the input.
+</p>
+
+<p>
+<b>complete()</b> checks if the input is valid. The return value is a structure with two fields:
+<b>count</b> is the number of commands, which can be received by completing the input, <b>str</b>
+is the completing string, if the <b>count</b> equals 1. This method can be used to implement 
+the auto-completion.
+</p>
+
+<p>
+<b>finish()</b> checks if the input is a command. The return value is non-null in this case and can be used
+to call the correspondent target method to execute the command. There are two variants of the call.
+The first <b>operator () (StrLen arg)</b> is to call the method with the argument.
+The second <b>operator () (StrLen arg,Report &report)</b> does the call inside a try-catch block,
+report is an <a href="page_Exceptions.html"><b>ReportException</b></a> class.
+</p>
+
+<h4>CmdInputCon</h4>
+
+<p>
+<b>CmdInputCon</b> is a complex class, it combines the <b>CmdInput</b> and some console reader class.
+</p>
+
+<pre>
+
+template &lt;ReadConType ReadCon,ulen MaxArgLen=80&gt;
+class <span class="Att">CmdInputCon</span> : NoCopy
+ {
+   ....
+
+  public: 
+  
+   template &lt;class ... SS&gt;
+   CmdInputCon(CmdInput::Target &amp;target,StrLen prompt_str,SS &amp;&amp; ... ss); 
+   
+   ~CmdInputCon();
+   
+   void setBadChar(char bad_char);
+
+   template &lt;class ... SS&gt;
+   void command(SS &amp;&amp; ... ss);
+ };
+
+</pre>
+
+<p>
+The first argument of the constructor is a target, the second is a prompt string. 
+This string must be persistent for the life-time of the object. Other arguments a forwarded
+to the inner console reader object.
+</p>
+
+<p>
+"Bad character" is printed during command input, if the entered string is not correct. For example,
+if the command set is "start", "exit" and the string "s" is entered, then typing any character, other 
+than 't' is echoed using the bad character. By default, the bad character is '?'. The method
+<b>setBadChar()</b> resets it to the given character.
+</p>
+
+<p>
+The main method is the <b>command()</b>. It enters and executes a single command from the console.
+An additional <b>ReportException</b> argument may be provided to execute a command
+in a <b>try-catch</b> block.
+</p>
+
+<p>
+A complete example of using this class.
+</p>
+
+<pre>
+
+class Target : public NoCopyBase&lt;CmdInput::Target&gt;
+ {
+   bool run_flag;
+ 
+  private:
+  
+   void empty(StrLen) {}
+  
+   void help(StrLen arg) { Printf(Con,"help #.q;\n",arg); }
+   
+   void exit(StrLen arg) { Printf(Con,"exit #.q;\n",arg); run_flag=false; }
+   
+   virtual void buildCmdList(CmdInput &amp;input)
+    {
+     addCommand(input,"",&amp;Target::empty);
+     addCommand(input,"help",&amp;Target::help);
+     addCommand(input,"exit",&amp;Target::exit);
+    }
+ 
+  public:
+  
+   Target() : run_flag(true) {}
+   
+   ~Target() {}
+   
+   bool operator + () const { return run_flag; }
+   
+   bool operator ! () const { return !run_flag; }
+ };
+
+class Test : NoCopy
+ {
+   Target target;
+   
+   CmdInputCon&lt;ReadCon&gt; input;
+   
+  public: 
+  
+   Test()
+    : input(target,"test> ")
+    {
+    }
+    
+   ~Test()
+    {
+    } 
+    
+   void run()
+    {
+     while( +target )
+       {
+        input.command();
+       }
+    }  
+ };
+
+int main()
+ {
+  Test test;
+  
+  test.run();
+
+  return 0;
+ }
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,360 @@
+<!--
+/* page_AsyncUDPDevice.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> (HCore) AsyncUDPDevice</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>(HCore) AsyncUDPDevice</h2>
+
+<p class="Files">Files <b>CCore/inc/net/AsyncUDPDevice.h</b> <b>CCore/src/net/AsyncUDPDevice.cpp</b></p>
+
+<p>
+<b>HCore</b> has another two UDP endpoint device classes. They are built on OS asynchronous socket functions.
+These devices implement packet communication using UDP protocol. They are similar in usage to the
+<a href="page_UDPDevice.html">UDPDevice</a> classes.
+</p>
+
+<h4>AsyncUDPEndpointDevice</h4>
+
+<p>
+The class <b>AsyncUDPEndpointDevice</b> implements the <b>PacketEndpointDevice</b> interface and
+the <b>PortManager</b> interface.
+</p>
+
+<pre>
+
+class <span class="Att">AsyncUDPEndpointDevice</span> : public ObjBase , public PacketEndpointDevice , public PortManager
+ {
+   ....
+
+  public:
+   
+   // constructors
+  
+   static constexpr ulen DefaultMaxPackets = 500 ;
+  
+   AsyncUDPEndpointDevice(UDPort udport,UDPoint dst,ulen max_packets=DefaultMaxPackets);
+   
+   virtual ~AsyncUDPEndpointDevice();
+   
+   // methods
+   
+   UDPort getPort() const;
+   
+   UDPoint getDst() const;
+   
+   enum Event
+    {
+     Event_read,
+     Event_sent,
+     Event_tick,
+    
+     Event_extra_timeout,
+    
+     Event_cancel_on_put,
+     Event_cancel_on_get,
+     Event_cancel,
+     Event_nosent,
+     Event_nopacket,
+     Event_noread,
+     Event_nodst,
+    
+     EventLim
+    };
+   
+   friend const char * GetTextDesc(Event ev); 
+  
+   using StatInfo = Counters&lt;Event,EventLim&gt; ;
+
+   void getStat(StatInfo &amp;ret);
+   
+   // PacketEndpointDevice
+   
+   virtual PacketFormat getOutboundFormat();
+   
+   virtual void outbound(Packet&lt;uint8&gt; packet);
+   
+   virtual ulen getMaxInboundLen();
+   
+   virtual void attach(InboundProc *proc);
+   
+   virtual void detach();
+   
+   // PortManager
+   
+   virtual XPoint getDevicePort() const;
+   
+   virtual XPoint getPort(XPoint point) const;
+   
+   virtual XPoint changePort(XPoint point,XPoint port) const;
+   
+   // start/stop
+   
+   class StartStop : NoCopy
+    {
+     public:
+
+      template &lt;class ... TT&gt;
+      StartStop(AsyncUDPEndpointDevice &amp;obj,TT ... tt);
+      
+      ~StartStop();
+    };
+ };
+
+</pre>
+
+<p>
+The first constructor argument is the local UDP port, the second is the UDP address (IP address+UDP port) of the 
+communication peer. <b>max_packets</b> limits the packet usage for the inbound processing.
+</p>
+
+<p>
+<b>getPort()</b> returns the local port.
+</p>
+
+<p>
+<b>getDst()</b> returns the peer UDP address.
+</p>
+
+<p>
+<b>getStat()</b> returns the device statistic.
+</p>
+
+<p>
+Other methods are the <b>PacketEndpointDevice</b> interface implementation and 
+the <b>PortManager</b> interface implementation.
+</p>
+
+<p>
+The inner class <b>StartStop</b> should be used to activate the object of this class.
+You cannot attach an inbound processor (or detach it) to the object while it is running.
+So attach first, then start. Additional constructor arguments are not used.
+</p>
+
+<h4>AsyncUDPMultipointDevice</h4>
+
+<p>
+The class <b>AsyncUDPMultipointDevice</b> implements the <b>PacketMultipointDevice</b> interface and
+the <b>PortManager</b> interface.
+</p>
+
+<pre>
+
+class <span class="Att">AsyncUDPMultipointDevice</span> : public ObjBase , public PacketMultipointDevice , public PortManager
+ {
+   ....
+
+  public: 
+
+   // constructors
+  
+   static constexpr ulen DefaultMaxPackets = 500 ;
+  
+   explicit AsyncUDPMultipointDevice(UDPort udport,ulen max_packets=DefaultMaxPackets);
+   
+   virtual ~AsyncUDPMultipointDevice();
+   
+   // methods
+   
+   UDPort getPort() const;
+   
+   enum Event
+    {
+     Event_read,
+     Event_sent,
+     Event_tick,
+    
+     Event_extra_timeout,
+    
+     Event_cancel_on_put,
+     Event_cancel_on_get,
+     Event_cancel,
+     Event_nosent,
+     Event_nopacket,
+     Event_noread,
+    
+     EventLim
+    };
+   
+   friend const char * GetTextDesc(Event ev); 
+  
+   using StatInfo = Counters&lt;Event,EventLim&gt; ;
+
+   void getStat(StatInfo &amp;ret);
+   
+   // PacketMultipointDevice
+   
+   virtual StrLen toText(XPoint point,PtrLen&lt;char&gt; buf);
+   
+   virtual PacketFormat getOutboundFormat();
+   
+   virtual void outbound(XPoint point,Packet&lt;uint8&gt; packet);
+   
+   virtual ulen getMaxInboundLen();
+   
+   virtual void attach(InboundProc *proc);
+   
+   virtual void detach();
+   
+   // PortManager
+   
+   virtual XPoint getDevicePort() const;
+   
+   virtual XPoint getPort(XPoint point) const;
+   
+   virtual XPoint changePort(XPoint point,XPoint port) const;
+   
+   // start/stop
+   
+   class StartStop : NoCopy
+    {
+     public:
+
+      template &lt;class ... TT&gt;
+      StartStop(AsyncUDPMultipointDevice &amp;obj,TT ... tt);
+      
+      ~StartStop();
+    };
+ };
+
+</pre>
+
+<p>
+The first constructor argument is the local UDP port.
+<b>max_packets</b> limits the packet usage for the inbound processing.
+</p>
+
+<p>
+<b>getPort()</b> returns the local port.
+</p>
+
+<p>
+<b>getStat()</b> returns the device statistic.
+</p>
+
+<p>
+Other methods are the <b>PacketEndpointDevice</b> interface implementation and
+the <b>PortManager</b> interface implementation.
+</p>
+
+<p>
+The inner class <b>StartStop</b> should be used to activate the object of this class.
+Additional constructor arguments are not used.
+</p>
+
+<h4>Sys::AsyncUDPSocket</h4>
+
+<p>
+Both async UDP device classes are implemented using <b>Sys::AsyncUDPSocket</b> and <b>Sys::AsyncUDPSocketWait</b>
+classes, provided by the target. They are declared in the header <b>sys/SysNet.h</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">Sys::AsyncUDPSocket</span>
+ {
+  // private
+
+  ....
+  
+  // public
+  
+  struct AsyncState;
+  
+  using Async = AsyncState * ;
+  
+  struct OutResult
+   {
+    bool pending;
+    Sys::ErrorType error;
+   };
+  
+  struct InResult
+   {
+    Sys::ErrorType error;
+    Net::UDPoint src;
+    ulen len;
+   };
+  
+  struct StartInResult
+   {
+    bool pending;
+    InResult result;
+   };
+  
+  Sys::ErrorType open(Net::UDPort udport) noexcept;
+  
+  Sys::ErrorType close() noexcept;
+  
+  OutResult startOutbound(Async async,Net::UDPoint dst,PtrLen&lt;const uint8&gt; data) noexcept;
+  
+  Sys::ErrorType completeOutbound(Async async) noexcept;
+  
+  StartInResult startInbound(Async async,PtrLen&lt;uint8&gt; buf) noexcept;
+  
+  InResult completeInbound(Async async) noexcept;
+ };
+
+</pre>
+
+<pre>
+
+struct <span class="Att">Sys::AsyncUDPSocketWait</span>
+ {
+  // private
+
+  ....
+  
+  // public
+  
+  static constexpr ulen MaxAsyncs = 50 ;
+  
+  Sys::ErrorType init(ulen async_count) noexcept;
+  
+  void exit() noexcept;
+  
+  AsyncUDPSocket::Async getAsync(ulen index) noexcept;
+  
+  bool addWait(ulen index) noexcept;
+  
+  bool delWait(ulen index) noexcept;
+  
+  Sys::WaitResult wait(MSec timeout) noexcept;
+  
+  Sys::WaitResult wait(TimeScope time_scope) noexcept;
+  
+  void interrupt() noexcept; // async , semaphore
+  
+  Sys::WaitResult waitAll(MSec timeout) noexcept;
+  
+  Sys::WaitResult waitAll(TimeScope time_scope) noexcept;
+ };
+
+</pre>
+
+</body>
+
+</html>
+

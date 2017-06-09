@@ -1,0 +1,299 @@
+<!--
+/* page_XCore_DevIntHandle.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore DevIntHandle</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore DevIntHandle</h2>
+
+<p class="Files">Files <b>CCore/inc/dev/DevIntHandle.h</b> <b>CCore/src/dev/DevIntHandle.cpp</b></p>
+
+<p>
+This part provides an interrupt control. There is no particular way how it should be implemented. This part is used strictly inside Target code,
+<b>XCore</b> code don't use it directly. So target is free to define it as convenient. Yet there is a proposed pattern. 
+All interrupts are handled in a special interrupt context. In this context interrupts are disabled. Each interrupt source may have an associated
+interrupt handler. This handler is called once the source is asserted and interrupts are enabled. CPU stops the current task execution, saves
+the current task context and goes to the interrupt context, where interrupt sources are examined and appropriate interrupt handlers are called.
+During the interrupt processing the current task may be changed. If so a new task is started after the interrupt context is finished.
+The interrupt context has the own stack and the own language support context.
+</p>
+
+<p>
+Here is the proposed interrupt control pattern:
+</p>
+
+<pre>
+
+/* DevIntHandle.h */
+
+#ifndef CCore_inc_dev_DevIntHandle_h
+#define CCore_inc_dev_DevIntHandle_h
+
+#include &lt;CCore/inc/PlanInit.h&gt;
+
+namespace CCore {
+namespace Dev {
+
+/* GetPlanInitNode_...() */
+
+PlanInitNode * <span class="Att">GetPlanInitNode_DevIntHandle</span>();
+
+/* enum IntSource */
+
+enum <span class="Att">IntSource</span>
+ {
+  Int_TINTx    = 92,
+
+  Int_TableLen = 128
+ };
+
+/* functions */
+
+void <span class="Att">SetupIntHandler</span>(IntSource int_source,Function&lt;void (void)&gt; handle_int);
+
+void <span class="Att">CleanupIntHandler</span>(IntSource int_source);
+
+void <span class="Att">EnableInt</span>(IntSource int_source);
+
+void <span class="Att">DisableInt</span>(IntSource int_source);
+
+} // namespace Dev
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+It has the <a href="page_PlanInit.html"><b>PlanInit</b></a> node function <b>GetPlanInitNode_DevIntHandle()</b>.
+The enumeration <b>IntSource</b> defines interrupt sources as numbers. And the following four functions are used to control interrupt processing.
+</p>
+
+<p>
+<b>SetupIntHandler()</b> sets up the given function as the interrupt handler for the given source. Interrupts are enabled.
+</p>
+
+<p>
+<b>CleanupIntHandler()</b> clears the interrupt handler for the given source and disables interrupts.
+</p>
+
+<p>
+<b>EnableInt()</b> enables interrupts from the given source.
+</p>
+
+<p>
+<b>DisableInt()</b> disables interrupts from the given source.
+</p>
+
+<pre>
+
+/* DevIntHandle.cpp */
+
+#include &lt;CCore/inc/dev/DevIntHandle.h&gt;
+
+#include &lt;CCore/inc/dev/DevInt.h&gt;
+
+#include &lt;CCore/inc/task/TaskMonitor.h&gt;
+#include &lt;CCore/inc/task/TaskEvent.h&gt;
+
+#include &lt;__std_init.h&gt;
+
+namespace CCore {
+namespace Dev {
+
+/* GetPlanInitNode_...() */
+
+namespace Private_DevIntHandle {
+
+class IntTable : NoCopy
+ {
+   Function&lt;void (void)&gt; table[Int_TableLen];
+
+  public:
+
+   IntTable()
+    {
+    }
+
+   ~IntTable()
+    {
+    }
+
+   void set(uint32 int_source,Function&lt;void (void)&gt; handle_int)
+    {
+     // TODO
+
+     table[int_source]=handle_int;
+    }
+
+   void clear(uint32 int_source)
+    {
+     table[int_source]=Nothing;
+    }
+
+   void enable(uint32 int_source)
+    {
+     Used(int_source);
+
+     // TODO
+    }
+
+   void disable(uint32 int_source)
+    {
+     Used(int_source);
+
+     // TODO
+    }
+
+   void dispatch(uint32 int_source)
+    {
+     table[int_source]();
+    }
+ };
+
+</pre>
+
+<p>
+This class is a table of interrupt handlers. It is also responsible for the turning on/off interrupts from the particular source.
+Usually it is done by the changing the interrupt controller interrupt enable registers.
+</p>
+
+<pre>
+
+class IntEngine : public IntTable
+ {
+  public:
+
+   IntEngine();
+
+   ~IntEngine();
+
+   static const char * GetTag() { return "DevIntHandle"; }
+ };
+
+PlanInitObject&lt;IntEngine&gt; Object CCORE_INITPRI_1 ;
+
+</pre>
+
+<p>
+This class is responsible for the interrupt controller initialization/deinitialization.
+</p>
+
+<pre>
+
+extern "C" {
+
+void IRQ_main()
+ {
+  TaskEventHost.add&lt;TaskSwitchEvent&gt;(TaskNumber::EnterInt);
+
+  TaskMonitor::Internal::BeginInt();
+
+  // TODO
+
+  uint32 int_source=0;
+
+  Object->dispatch(int_source);
+
+  TaskMonitor::Internal::EndInt();
+
+  TaskEventHost.add&lt;TaskSwitchEvent&gt;(TaskNumber::LeaveInt);
+ }
+
+} // extern "C"
+
+</pre>
+
+<p>
+This function is a main interrupt entry. You must implement it according the provided pattern. It must start from the two defined calls
+and finished with two another calls. In the middle this function determines the interrupt source and dispatches to the correspondent handler.
+It may process only one source each time or several ones as desired.
+</p>
+
+<pre>
+
+IntEngine::IntEngine()
+ {
+  // TODO
+
+  __std_intsetup(IRQ_main);
+ }
+
+IntEngine::~IntEngine()
+ {
+  // TODO
+
+  __std_intcleanup();
+ }
+
+} // namespace Private_DevIntHandle
+
+using namespace Private_DevIntHandle;
+
+PlanInitNode * GetPlanInitNode_DevIntHandle() { return &amp;Object; }
+
+/* functions */
+
+void SetupIntHandler(IntSource int_source,Function&lt;void (void)&gt; handle_int)
+ {
+  IntLock lock;
+
+  Object->set(int_source,handle_int);
+
+  Object->enable(int_source);
+ }
+
+void CleanupIntHandler(IntSource int_source)
+ {
+  IntLock lock;
+
+  Object->disable(int_source);
+
+  Object->clear(int_source);
+ }
+
+void EnableInt(IntSource int_source)
+ {
+  IntLock lock;
+
+  Object->enable(int_source);
+ }
+
+void DisableInt(IntSource int_source)
+ {
+  IntLock lock;
+
+  Object->disable(int_source);
+ }
+
+} // namespace Dev
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

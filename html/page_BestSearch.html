@@ -1,0 +1,85 @@
+<!--
+/* page_BestSearch.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> BestSearch</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>BestSearch</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/BestSearch.h</b> <b>CCore/src/algone/BestSearch.cpp</b></p>
+
+<p>
+<b>BestSearch()</b> runs over a range to find a best range element. To determine which element is better the given functor is used:
+<b>a</b> is better than <b>b</b> iff <b>better(a,b)</b>. 
+The cursor pointing to the best element is returned. 
+It may be null iff the original range is empty.
+</p>
+
+<pre>
+
+template &lt;CursorType R,FuncType&lt;bool,const Meta::PtrObjType&lt;R&gt; &amp;,const Meta::PtrObjType&lt;R&gt; &amp;> Pred>
+R <span class="Att">BestSearch</span>(R r,Pred better)
+ {
+  R best=r;
+
+  if( +r )
+    for(++r; +r ;++r)
+      {
+       if( better(*r,*best) ) best=r;
+      }
+
+  return best;
+ }
+
+</pre>
+
+<p>
+The following two special variants use the given functor to compare elements and find a greatest or least of them.
+</p>
+
+<pre>
+
+template &lt;CursorType R,PtrToOpLessFuncType&lt;R&gt; Func&gt;
+R <span class="Att">BestSearchGreaterBy</span>(R r,Func by)
+ {
+  using T = Meta::PtrObjType&lt;R&gt; ;
+
+  return BestSearch(r, [=] (const T &amp;a,const T &amp;b) -> bool { return by(b) &lt; by(a) ; } );
+ }
+
+template &lt;CursorType R,PtrToOpLessFuncType&lt;R&gt; Func&gt;
+R <span class="Att">BestSearchLessBy</span>(R r,Func by)
+ {
+  using T = Meta::PtrObjType&lt;R&gt; ;
+
+  return BestSearch(r, [=] (const T &amp;a,const T &amp;b) -> bool { return by(a) &lt; by(b) ; } );
+ }
+
+</pre>
+
+</body>
+
+</html>
+

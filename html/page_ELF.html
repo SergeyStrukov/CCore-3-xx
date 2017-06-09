@@ -1,0 +1,256 @@
+<!--
+/* page_ELF.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ELF</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ELF</h2>
+
+<p class="Files">Files <b>CCore/inc/Elf.h</b> <b>CCore/src/Elf.cpp</b></p>
+
+<p>
+<b>CCore</b> has a simple ELF file parser. It is not comprehensive, but sufficient for the current purpose. 
+The parser and related software entities are enclosed in the namespace <b>Elf</b>.
+</p>
+
+<h3>Parse</h3>
+
+<pre>
+
+template &lt;class Custom,ParseDevType Dev&gt;
+void <span class="Att">Elf::Parse</span>(Dev &amp;dev,PtrLen&lt;const uint8&gt; map);
+
+</pre>
+
+<p>
+The main parser function is called <b>Parse</b>. It is a template. The second parameter is a processing device type. 
+Usually it is derived from the first argument type. But the first parameter is a <b>Custom</b>. 
+It must be one of the <b>LeOrder</b> or <b>BeOrder</b>. 
+This parameter specifies the byte-to-integer conversion method to be used by the parser during the ELF image processing.
+The first function argument is a processing device. The object methods are called with various piece of the image data.
+The second argument is a byte range, it is considered as an ELF image. 
+An exception is thrown in case of error.
+</p>
+
+<p>
+The type <b>Dev</b> must comply with the following pattern:
+</p>
+
+<pre>
+
+class Dev
+ {
+  public:
+
+   void operator () (const Elf::Header &amp;header);
+
+   void operator () (ulen index,StrLen name,const Elf::SectHeader &amp;sect);
+
+   void operator () (ulen index,StrLen name,const Elf::SectHeader &amp;sect,PtrLen&lt;const uint8&gt; data);
+
+   void operator () ();
+ };
+
+</pre>
+
+<p>
+The first operator is called first with a reference to the image header. This operator should check the expected image properties
+and throw an exception if they are not such.
+</p>
+
+<p>
+The second and the third operators are called next per each image section.
+The first argument is the section index.
+The second argument is the section name.
+The third is a reference to the section header.
+Finally, if the section must be loaded the range of the section data is provided.
+</p>
+
+<p>
+The last operator is called last to finish the processing.
+</p>
+
+<p>
+Each of operators may throw an exception.
+</p>
+
+<h3>Image description types</h3>
+
+<h4>Header</h4>
+
+<p>
+<b>Header</b> describes various properties of an ELF image.
+</p>
+
+<pre>
+
+enum <span class="Att">BitType</span>
+ {
+  BitType_32 = 1,
+  BitType_64 = 2
+ };
+
+enum <span class="Att">EndianType</span>
+ {
+  EndianType_LE = 1,
+  EndianType_BE = 2
+ };
+
+enum <span class="Att">CPUType</span>
+ {
+  CPUType_ARM = 40
+ };
+
+struct <span class="Att">Header</span>
+ {
+  // +0
+
+  uint8 elf0;
+  uint8 elf1;
+  uint8 elf2;
+  uint8 elf3;
+  uint8 bit_type;
+  uint8 endian_type;
+
+  // +16
+
+  uint16 file_type;
+  uint16 cpu_type;
+  uint32 elf_version;
+  uint32 entry_point;
+  uint32 program_header_off;
+  uint32 section_header_off;
+  uint32 cpu_flags;
+  uint16 header_size;
+  uint16 program_header_size;
+  uint16 program_header_count;
+  uint16 section_header_size;
+  uint16 section_header_count;
+  uint16 section_name_section_index;
+
+  // methods
+
+  bool check_id(uint8 bit_type_,uint8 endian_type_) const;
+
+  bool check_cpu(uint16 cpu_type_) const;
+
+  // print object
+
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+The most interesting properties are:
+</p>
+
+<p>
+<b>bit_type</b> is the image bit type. It must be <b>BitType_32</b> to proceed further.
+</p>
+
+<p>
+<b>endian_type</b> is the image endian type.
+</p>
+
+<p>
+<b>cpu_type</b> is the CPU type.
+</p>
+
+<p>
+<b>entry_point</b> is the image entry point, if the image is executable.
+</p>
+
+<p>
+<b>check_id()</b> can be used to check the expected bit type and the expected endian type.
+</p>
+
+<p>
+<b>check_cpu()</b> can be used to check the expected CPU type.
+</p>
+
+<h4>SectHeader</h4>
+
+<p>
+<b>SectHeader</b> describes various properties of a section.
+</p>
+
+<pre>
+
+enum <span class="Att">SectFlags</span>
+ {
+  SectFlag_write = 1,
+  SectFlag_alloc = 2,
+  SectFlag_code  = 4
+ };
+
+struct <span class="Att">SectHeader</span>
+ {
+  uint32 name_off;
+  uint32 type;
+  uint32 flags;
+  uint32 address;
+  uint32 data_off;
+  uint32 size;
+  uint32 link;
+  uint32 info;
+  uint32 address_align;
+  uint32 entry_size;
+
+  // methods
+
+  bool isLoadable() const;
+
+  // print object
+
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+The most interesting properties are:
+</p>
+
+<p>
+<b>flags</b> is the section flags.
+</p>
+
+<p>
+<b>address</b> is the section load address.
+</p>
+
+<p>
+<b>size</b> is the section size.
+</p>
+
+<p>
+<b>isLoadable()</b> returns <b>true</b> iff the section must be loaded.
+</p>
+
+</body>
+
+</html>
+

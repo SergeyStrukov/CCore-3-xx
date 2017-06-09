@@ -1,0 +1,467 @@
+<!--
+/* page_HCoreTargets.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> HCore Targets</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>HCore Targets</h2>
+
+<p>
+<b>HCore</b> targets are required to build applications, running under governing of some operating system, like
+Windows or Linux. Target itself is a collection of files, located at some directory in the
+<b>CCORE_ROOT/Target</b> directory. The name of the directory is the target name. <b>CCore</b> uses GNU-compatible
+make-based build system. To build an application for the particular target you specify the target name as
+<a href="page_CCoreGeneral.html">one of the build variable in a makefile</a>.
+There is a special target <b>Vanilla-H</b>. This target is a template for any host target. If you want to
+create a new <b>HCore</b> target, you may start from this "vanilla" target.
+</p>
+
+<p>
+Here is the file layout for required <b>HCore</b> target files. You may add additional 
+features to your target by adding extra source files.
+</p>
+
+<pre>
+
+<b>TARGET_ROOT</b>
+
+  Makefile
+  Makefile.tools
+
+  <b>CCore</b>
+    <b>inc</b>
+      <b>base</b>
+        <a href="page_AnyCore_PlatformBase.html">PlatformBase.h</a>
+        <a href="page_AnyCore_Quick.html">Quick.h</a>
+      <b>sys</b>
+        <a href="page_HCore_SysAbort.html">SysAbort.h</a>
+        <a href="page_AnyCore_SysAtomic.html">SysAtomic.h</a>
+        <a href="page_HCore_SysCon.html">SysCon.h</a>
+        <a href="page_HCore_SysError.html">SysError.h</a>
+        <a href="page_HCore_SysFile.html">SysFile.h</a>
+        <a href="page_HCore_SysFileSystem.html">SysFileSystem.h</a>
+        <a href="page_HCore_SysMemPage.html">SysMemPage.h</a>
+        <a href="page_HCore_SysNet.html">SysNet.h</a>
+        <a href="page_HCore_SysPlanInit.html">SysPlanInit.h</a>
+        <a href="page_HCore_SysProp.html">SysProp.h</a>
+        <a href="page_HCore_SysSem.html">SysSem.h</a>
+        <a href="page_HCore_SysTask.html">SysTask.h</a>
+        <a href="page_HCore_SysTime.html">SysTime.h</a>
+        <a href="page_HCore_SysTlsSlot.html">SysTlsSlot.h</a>
+        <a href="page_HCore_SysWait.html">SysWait.h</a>
+    <b>src</b>
+      <b>base</b>
+        PlatformBase.cpp
+        PlatformBase.s
+        Quick.cpp
+        Quick.s
+      <b>sys</b>
+        SysAbort.cpp
+        SysAtomic.cpp
+        SysAtomic.s
+        SysCon.cpp
+        SysError.cpp
+        SysFile.cpp
+        SysFileSystem.cpp
+        SysMemPage.cpp
+        SysNet.cpp
+        SysPlanInit.cpp
+        SysProp.cpp
+        SysSem.cpp
+        SysTask.cpp
+        SysTime.cpp
+        SysTlsSlot.cpp
+        SysWait.cpp
+      <a href="page_HCore_PlanInit_CCore.html">PlanInit_CCore.cpp</a>
+    <b>test</b>
+      test6XXX.NNN.cpp
+  <b>obj</b>
+    empty
+  <b>test</b>
+    Makefile
+    main.cpp
+  <b>test-obj</b>
+    empty
+
+</pre>
+
+<p>
+Target code from the directory <b>sys</b> enclosed in the namespace <b>Sys</b> 
+(inside the namespace <b>CCore</b>).
+</p>
+
+<p>
+Target code from the file <b>Quick.h</b> enclosed in the namespace <b>Quick</b> 
+(inside the namespace <b>CCore</b>).
+</p>
+
+<h4>Makefile</h4>
+
+<p>
+<b>Makefile</b> is used to build the <b>CCore.a</b> library. It's standard and looks like
+</p>
+
+<pre>
+
+CCORE_ROOT = ../..
+
+CCORE_TARGET = <i>TARGET_NAME</i>
+
+SRC_PATH_LIST = $(CCORE_ROOT)/Simple/CCore/src \
+                $(CCORE_ROOT)/Fundamental/CCore/src \
+                $(CCORE_ROOT)/Applied/CCore/src \
+                $(CCORE_ROOT)/HCore/CCore/src \
+                $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore/src \
+
+
+GEN_PATH_LIST =
+
+include $(CCORE_ROOT)/Target/Makefile.core
+
+</pre>
+
+<p>
+To support GUI development add <b>$(CCORE_ROOT)/Desktop/CCore/src</b> in <b>SRC_PATH_LIST</b>.
+</p>
+
+<p>
+<b>Makefile.tools</b> defines toolset to build <b>CCore</b> target applications. 
+It looks like (<b>WIN32</b> example)
+</p>
+
+<pre>
+
+CCOPT_EXTRA ?= 
+
+LDOPT_EXTRA ?=
+
+# tools
+
+ECHO = /usr/bin/echo
+
+FIND = /bin/find
+
+MKDIR = /bin/mkdir
+
+CAT = /usr/bin/cat
+
+TOUCH = /usr/bin/touch
+
+CC_ = /opt/gcc-7.1.0/bin/g++-7.1.0.exe
+
+CC = @$(ECHO) CC $< ; $(CC_)
+
+LD = @$(ECHO) LD $@ ; $(CC_)
+
+AS_ = as
+
+AS = @$(ECHO) AS $< ; $(AS_)
+
+AR_ = ar
+
+AR = @$(ECHO) AR $@ ; $(AR_)
+
+RM_ = rm -f
+
+RM = @$(ECHO) RM ; $(RM_)
+
+# options
+
+NOWARN = -Wno-non-virtual-dtor \
+         -Wno-switch \
+         -Wno-type-limits \
+         -Wno-enum-compare \
+         -Wno-missing-field-initializers \
+         -Wno-delete-non-virtual-dtor \
+         -Wno-misleading-indentation \
+
+
+CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
+        -I$(CCORE_ROOT)/HCore \
+        -I$(CCORE_ROOT)/Simple \
+        -I$(CCORE_ROOT)/Fundamental \
+        -I$(CCORE_ROOT)/Applied \
+        -I$(CCORE_ROOT)/Desktop \
+
+
+CCOPT = -c -std=c++1z -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
+
+ASOPT =
+
+CCORELIB = $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore.a
+
+ifeq ($(TARGET_DESKTOP),yes)
+
+LDOPT_DESKTOP = -Wl,--subsystem,windows 
+
+else
+
+LDOPT_DESKTOP = 
+
+endif
+
+LDOPT = -Wl,-s $(LDOPT_DESKTOP) $(LDOPT_EXTRA) $(CCORELIB) -lws2_32 -lgmp -lgdi32 -lfreetype 
+
+</pre>
+
+<p>
+You define here the following variables:
+</p>
+
+<p>
+<b>ECHO</b> &mdash; the standard Unix <b>echo</b>.
+</p>
+
+<p>
+<b>FIND</b> &mdash; the standard Unix <b>find</b>.
+</p>
+
+<p>
+<b>MKDIR</b> &mdash; the standard Unix <b>mkdir</b>.
+</p>
+
+<p>
+<b>CAT</b> &mdash; the standard Unix <b>cat</b>.
+</p>
+
+<p>
+<b>TOUCH</b> &mdash; the standard Unix <b>touch</b>.
+</p>
+
+<p>
+<b>CC</b> &mdash; C++ compiler.
+</p>
+
+<p>
+<b>LD</b> &mdash; linker.
+</p>
+
+<p>
+<b>AS</b> &mdash; assembler.
+</p>
+
+<p>
+<b>AR</b> &mdash; librarian.
+</p>
+
+<p>
+<b>RM</b> &mdash; file delete command.
+</p>
+
+<p>
+<b>CCOPT</b> &mdash; options for the C++ compiler. Among other they must specify directories to search include files.
+The order of directories is: target include path, <b>HCore</b> include path, <b>CCore</b> include paths.
+To support GUI development add <b>-I$(CCORE_ROOT)/Desktop</b>.
+</p>
+
+<p>
+<b>ASOPT</b> &mdash; options for the assembler.
+</p>
+
+<p>
+<b>LDOPT</b> &mdash; options for the linker. Linker options must specify the <b>CCore.a</b> 
+library to be linked.
+</p>
+
+<p>
+To give a path from the <b>CCore</b> file tree, you should use the variable <b>CCORE_ROOT</b>.
+</p>
+
+<p>
+To compile a <b>.cpp</b> source file the following command is used:
+</p>
+
+<pre>
+$(CC) $(CCOPT) <i>source-file</i> -o <i>object-file</i>
+</pre>
+
+<p>
+To generate a dependency file the following command is used:
+</p>
+
+<pre>
+$(CC) $(CCOPT) -MM -MT <i>object-file</i> <i>source-file</i> -MF <i>dep-file</i>
+</pre>
+
+<p>
+To compile an <b>.asm</b> source file the following command is used:
+</p>
+
+<pre>
+$(AS) $(ASOPT) <i>source-file</i> -o <i>object-file</i>
+</pre>
+
+<p>
+To link an application the following command is used:
+</p>
+
+<pre>
+$(LD) <i>object-file-list</i> $(LDOPT) -o <i>exe-file</i>
+</pre>
+
+<p>
+To build a library the following commands are used:
+</p>
+
+<pre>
+$(RM) <i>lib-file</i>
+$(AR) r <i>lib-file</i> <i>object-file-list</i>
+</pre>
+
+<h4>Test support</h4>
+
+<p>
+<b>CCore/test</b> is the directory for target-specific tests. The file names here must have the following form:
+<b>test6XXX.NNN.cpp</b>. <b>6XXX</b> is a decimal test number, starts from <b>6001</b>. <b>NNN</b>
+is some name of the test.
+</p>
+
+<p>
+<b>Makefile</b> from the <b>test</b> directory is used to build the target test application.
+It has the following standard form
+</p>
+
+<pre>
+
+CCORE_ROOT = ../../..
+
+CCORE_TARGET = <i>TARGET_NAME</i>
+
+SRC_PATH_LIST = . \
+                $(CCORE_ROOT)/Simple/CCore/test \
+                $(CCORE_ROOT)/Fundamental/CCore/test \
+                $(CCORE_ROOT)/Applied/CCore/test \
+                $(CCORE_ROOT)/HCore/CCore/test \
+                $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore/test \
+
+OBJ_PATH = ../test-obj
+
+TARGET = main.exe
+
+include $(CCORE_ROOT)/Target/Makefile.app
+
+run: main.exe
+	./main.exe
+
+</pre>
+
+<p>
+<b>main.cpp</b> from the <b>test</b> directory is the main file of the target test application.
+It looks like
+</p>
+
+<pre>
+
+#include &lt;CCore/test/test.h&gt;
+
+#include &lt;CCore/inc/MemBase.h&gt;
+#include &lt;CCore/inc/PacketPool.h&gt;
+
+namespace App {
+
+/* Testit&lt;0&gt; */ 
+
+template&lt;&gt;
+const char *const Testit&lt;0&gt;::Name="Test0 empty";
+   
+template&lt;&gt;
+bool Testit&lt;0&gt;::Main() { return false; }
+ 
+} // namespace App
+ 
+/* main() */ 
+
+using namespace App;
+
+int main()
+ {
+  MemScope mem_scope;
+  
+  Testit&lt;2999&gt;().run();
+
+  Printf(Con,"\nPeak memory usage #;\n\n",MemPeak());
+  
+  DetachPacketBufs();
+  
+  return 0;
+ }
+ 
+</pre>
+
+<p>
+To run a particular test edit the test number.
+</p>
+
+<h4>Extra features</h4>
+
+<p>
+There are three most desired extra features any well-designed target must provide: 
+the fast and quality random number generator,
+the fast integer arithmetic
+and the fast cryptography.
+The modern CPU and SoC often has a hardware support for these tasks.
+</p>
+
+<pre>
+
+<b>TARGET_ROOT</b>
+
+  <b>CCore</b>
+    <b>inc</b>
+      <a href="page_Random.html#PlatformRandom">PlatformRandom.h</a>
+      <b>math</b>
+        <a href="page_IntegerFastAlgo.html">IntegerFastAlgo.h</a>
+      <b>crypton</b>
+        <a href="page_AES.html#PlatformAES">PlatformAES.h</a>
+        <a href="page_MD5.html#PlatformMD5">PlatformMD5.h</a>
+        <a href="page_SHA.html#PlatformSHA">PlatformSHA.h</a>
+      <b>video</b>
+        Desktop.h
+    <b>src</b>
+      PlatformRandom.cpp
+      PlatformRandom.s
+      <b>math</b>
+        IntegerFastAlgo.cpp
+        IntegerFastAlgo.s
+      <b>crypton</b>
+        PlatformAES.cpp
+        PlatformAES.s
+        PlatformMD5.cpp
+        PlatformMD5.s
+        PlatformSHA.cpp
+        PlatformSHA.s
+      <b>video</b>
+        Desktop.cpp
+
+</pre>
+
+<p>
+If the correspondent files are absent, the default implementation will be used.
+</p>
+
+</body>
+
+</html>
+

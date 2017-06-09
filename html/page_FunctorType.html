@@ -1,0 +1,150 @@
+<!--
+/* page_FunctorType.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> FunctorType</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>FunctorType and Functor Init Pattern</h2>
+
+<p class="Files">Files <b>CCore/inc/FunctorType.h</b> <b>CCore/src/FunctorType.cpp</b></p>
+
+<p>
+<b>Functor Init Pattern</b> is widely used in <b>CCore</b>. In the modern C++ functors are commonly used. 
+In <b>CCore</b> we often do it in the following manner:
+</p>
+
+<pre>
+
+template &lt;class FuncInit&gt;
+void Call(FuncInit func_init)
+ {
+  FunctorTypeOf&lt;FuncInit&gt; func(func_init);
+
+  func(); // call the functor
+ }
+
+</pre>
+
+<p>
+I.e. the argument is not used directly as a functor. Instead we create the functor 
+object inside a function from the provided argument and then call it. <b>FunctorTypeOf&lt;FuncInit&gt;</b> is a template typedef,
+defined in the header <b>FunctorType.h</b>. It defines the exact type of the functor object. The rule is simple: if the type
+<b>FuncInit</b> defines the inner type <b>FunctorType</b>, then this type is a functor type. Otherwise <b>FuncInit</b> itself 
+is a functor type.
+</p>
+
+<pre>
+
+<span class="Att">FunctorTypeOf</span>&lt;FuncInit&gt; == typename FuncInit::FunctorType
+
+OR
+
+<span class="Att">FunctorTypeOf</span>&lt;FuncInit&gt; == FuncInit
+
+</pre>
+ 
+<p> 
+So if the <b>FuncInit</b> is a "usual functor", then <b>Call</b> just call the copy of it. But the more
+complicated scenario is possible:
+</p>
+
+<pre>
+
+struct FuncInit // lightweight initializer
+ {
+  ....
+
+  class FunctorType : NoCopy // heavy functor
+   {
+    public:
+
+     FunctorType(FuncInit func_init);
+
+     ~FunctorType();
+
+     void operator () ();
+   };
+ };
+
+....
+
+FuncInit func_init;
+
+Call(func_init);
+
+</pre>
+
+<p>
+In this example the "heavy" functor is created inside <b>Call()</b> from a lightweight initializer. The functor may be 
+non-copyable and may have a non-trivial destructor (it may allocate and dispose resources temporary).
+</p>
+
+<p>
+The helper class <b>FunctorRef</b> is designed to pass a functor reference:
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">FunctorRef</span>
+ {
+  T *obj;
+  
+  explicit FunctorRef(T &amp;obj_) : obj(&amp;obj_) {}
+  
+  using FunctorType = T &amp; ;
+  
+  operator FunctorType() const { return *obj; }
+ };
+
+</pre>
+
+<p>
+There are two concepts similar to <b>FuncType</b> and <b>FuncArgType</b> to determine, if some type can be used as a <b>Functor Initializer</b> 
+to produce a functor with the given types of arguments (and return value).  
+</p>
+
+<pre>
+
+template &lt;CopyCtorType FuncInit,class ... AA&gt;
+concept bool <span class="Att">FuncInitArgType</span> = requires(FuncInit func_init)
+ {
+  FunctorTypeOf&lt;FuncInit&gt;(func_init);
+
+  requires ( FuncArgType&lt;FunctorTypeOf&lt;FuncInit&gt;,AA...&gt; );
+ } ;
+
+template &lt;class FuncInit,class R,class ... AA&gt;
+concept bool <span class="Att">FuncInitType</span> = FuncInitArgType&lt;FuncInit,AA...&gt; &amp;&amp; requires(FuncInit func_init)
+ {
+  requires ( FuncType&lt;FunctorTypeOf&lt;FuncInit&gt;,R,AA...&gt; );
+ } ;
+
+</pre>
+
+</body>
+
+</html>
+

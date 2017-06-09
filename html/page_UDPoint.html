@@ -1,0 +1,146 @@
+<!--
+/* page_UDPoint.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> UDPoint</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>UDPoint</h2>
+
+<p class="Files">Files <b>CCore/inc/net/UDPoint.h</b> <b>CCore/src/net/UDPoint.cpp</b></p>
+
+<p>
+<b>UDPoint</b> is the UDP address, i.e. IP address + UDP port.
+</p>
+
+<pre>
+
+struct <span class="Att">UDPoint</span>
+ {
+  IPAddress address;
+  UDPort port;
+  
+  // constructors
+  
+  UDPoint() : address(),port() {}
+  
+  UDPoint(IPAddress address_,UDPort port_) : address(address_),port(port_) {}
+  
+  UDPoint(uint8 a1,uint8 a2,uint8 a3,uint8 a4,UDPort port_) : address(a1,a2,a3,a4),port(port_) {}
+  
+  explicit UDPoint(XPoint a);
+  
+  // methods
+  
+  friend bool operator == (UDPoint a,UDPoint b);
+  
+  friend bool operator != (UDPoint a,UDPoint b);
+  
+  XPoint get() const;
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+
+  // scan object
+
+  void scan(ScannerType &amp;inp);
+ };
+
+</pre>
+
+<p>
+The method <b>get()</b> converts <b>UDPoint</b> to <b>XPoint</b>. The original <b>UDPoint</b> can be
+restored by the constructor with the <b>XPoint</b> argument.
+</p>
+
+<p>
+This type is printable and scannable in the text form like <b>192.168.1.1:500</b>.
+</p>
+
+<p>
+There are several UDP port constants, defined in the header <b>net/UDPoint.h</b>.
+</p>
+
+<pre>
+
+inline constexpr UDPort <span class="Att">EchoUDPort</span>       =     7 ;
+
+inline constexpr UDPort <span class="Att">PTPServerUDPort</span>  = 52000 ;
+
+inline constexpr UDPort <span class="Att">PTPClientUDPort</span>  = 52001 ;
+
+inline constexpr UDPort <span class="Att">PKEClientUDPort</span>  = 52100 ;
+
+inline constexpr UDPort <span class="Att">PSecClientUDPort</span> = 52101 ;
+
+inline constexpr UDPort <span class="Att">PKEServerUDPort</span>  = 52102 ;
+
+inline constexpr UDPort <span class="Att">PSecServerUDPort</span> = 52103 ;
+
+</pre>
+
+<p>
+<b>EchoUDPort</b> &mdash; the standard UDP echo port.
+</p>
+
+<p>
+<b>PTPServerUDPort</b> &mdash; PTP over UDP server port. This is not a standard port.
+</p>
+
+<p>
+<b>PTPClientUDPort</b> &mdash; PTP over UDP client port. This is not a standard port.
+</p>
+
+<p>
+<b>PKEClientUDPort</b> &mdash; PKE over UDP client port. This is not a standard port.
+</p>
+
+<p>
+<b>PSecClientUDPort</b> &mdash; PSec over UDP client port. This is not a standard port.
+</p>
+
+<p>
+<b>PKEServerUDPort</b> &mdash; PKE over UDP server port. This is not a standard port.
+</p>
+
+<p>
+<b>PSecServerUDPort</b> &mdash; PSec over UDP server port. This is not a standard port.
+</p>
+
+<pre>
+
+template &lt;CharPeekType Dev&gt;
+void <span class="Att">ParseUDPoint</span>(Dev &amp;dev,UDPoint &amp;ret);
+
+</pre>
+
+<p>
+The function <b>ParseUDPoint()</b> can be used to parse a <b>UDPoint</b> from a <a href="page_StrParse.html">character stream</a>.
+</p>
+
+</body>
+
+</html>
+

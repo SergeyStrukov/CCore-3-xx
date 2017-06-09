@@ -1,0 +1,92 @@
+<!--
+/* page_XCore_sysroot.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore sysroot</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore sysroot</h2>
+
+<p>
+<b>XCore</b> is developed using the <b>gcc</b> family of compilers. Cross-compiler have the <b>sysroot</b> directory. 
+This directory contains the C standard library header files and the C standard library with the startup code. 
+It is used by the compiler to build target applications and it is used during the compiler build process.
+So to make a cross-toolchain you have to prepare this directly first (you need header files), then build the cross-toolchain and finally
+build the libraries and startup code using the built toolchain. <b>sysroot</b> is usually located in the compiler installation place.
+For example, is the compiler is installed in the <b>/opt/BeagleBoneBlack</b> directory, the <b>sysroot</b> is placed as
+<b>/opt/BeagleBoneBlack/sysroot</b>. When you build the cross-toolchain you configure <b>sysroot</b> to this location.
+</p>
+
+<p>
+<b>Vanilla-X</b> contains the minimum required <b>sysroot</b> (but different versions of <b>gcc</b> may have extra requirements).
+</p>
+
+<pre>
+
+<b>sysroot</b>
+
+  <b>lib</b>
+    *
+  <b>obj</b>
+    *
+  <b>src</b>
+    crt0.s
+    string_s.s
+    *   
+  <b>usr</b>
+    <b>include</b>
+      <b>sys</b>
+        types.h
+      __std_init.h
+      assert.h
+      ctype.h
+      errno.h
+      iso646.h
+      limits.h
+      locale.h
+      math.h
+      setjmp.h
+      signal.h
+      stdarg.h
+      stdbool.h
+      stddef.h
+      stdint.h
+      stdio.h
+      stdlib.h
+      string.h
+      time.h
+      unistd.h
+
+</pre>
+
+<p>
+The most important parts here is <b>string</b> functions and <b>std_init</b> functions. 
+<b>string</b> functions like <b>memcpy()</b> or <b>strlen()</b> are implemented using the assembler to be efficient.
+<b>std_init</b> functions is the heart of the system and implemented in the startup code <b>crt0.s</b> using the assembler.
+</p>
+
+</body>
+
+</html>
+

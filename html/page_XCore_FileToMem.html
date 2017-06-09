@@ -1,0 +1,85 @@
+<!--
+/* page_XCore_FileToMem.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> (XCore) FileToMem</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>(XCore) FileToMem</h2>
+
+<p class="Files">Files <b>CCore/inc/FileToMem.h</b> <b>CCore/src/FileToMem.cpp</b></p>
+
+<p>
+<b>XCore</b> <b>FileToMem</b> and <b>PartFileToMem</b> ara similar to <b>HCore</b> <a href="page_FileToMem.html">ones</a>, but built on
+<a href="page_AsyncFileClients.html#AsyncFileToMem"><b>AsyncFileToMem</b></a> and <a href="page_AsyncFileClients.html#PartAsyncFileToMem"><b>PartAsyncFileToMem</b></a> classes.
+</p>
+
+<pre>
+
+/* class FileToMem */
+
+class <span class="Att">FileToMem</span> : public AsyncFileToMem
+ {
+  public:
+
+   FileToMem() noexcept {}
+
+   explicit FileToMem(StrLen file_name,ulen max_len=MaxULen);
+
+   ~FileToMem();
+
+   // std move
+
+   FileToMem(FileToMem &amp;&amp;obj) noexcept = default ;
+
+   FileToMem &amp; operator = (FileToMem &amp;&amp;obj) noexcept = default ;
+
+   // swap/move objects
+
+   void objSwap(FileToMem &amp;obj);
+
+   explicit FileToMem(ToMoveCtor&lt;FileToMem&gt; obj);
+ };
+
+/* class PartFileToMem */
+
+class <span class="Att">PartFileToMem</span> : public PartAsyncFileToMem
+ {
+  public:
+
+   explicit PartFileToMem(StrLen file_name,ulen buf_len=DefaultBufLen);
+
+   ~PartFileToMem();
+ };
+
+</pre>
+
+<p>
+To open a file the <a href="page_DefaultFileDevice.html"><b>DefaultFileDevice</b></a> is used.
+</p>
+
+</body>
+
+</html>
+

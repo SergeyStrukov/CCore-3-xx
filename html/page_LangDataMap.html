@@ -1,0 +1,195 @@
+<!--
+/* page_LangDataMap.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> LangDataMap</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>LangDataMap</h2>
+
+<p class="Files">Files <b>CCore/inc/lang/LangDataMap.h</b> <b>CCore/src/lang/LangDataMap.cpp</b></p>
+
+<p class="Files">Subfolders <b>CCore/inc/lang</b> <b>CCore/src/lang</b></p>
+
+<p>
+<b>Lang::DataMap</b> is a class to load lang data from a ddl file, produced by the utility <a href="page_CondLangLR1.html">CondLangLR1</a>.
+</p>
+
+<pre>
+
+class <span class="Att">Lang::DataMap</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit DataMap(StrLen file_name);
+
+   DataMap(StrLen file_name,PrintBase &amp;eout);
+
+   ~DataMap();
+
+   const TypeDef::Lang &amp; getLang() const { return lang; }
+
+   void sanity();
+
+   // generator support
+
+   void atoms(FuncArgType&lt;ulen,StrLen&gt; func) const; // func(1-based atom index,StrLen name)
+
+   class ArgList
+    {
+      ....
+
+     public:
+
+      ....
+
+      void operator () (FuncArgType&lt;bool,StrLen&gt; func) const; // func(bool is_atom,StrLen name)
+    };
+
+   class RuleList
+    {
+      ....
+
+     public:
+
+      ....
+
+      void operator () (FuncArgType&lt;StrLen,ArgList&gt; func) const; // func(StrLen rule_name,ArgList arg_list)
+    };
+
+   void synts(FuncArgType&lt;StrLen,RuleList&gt; func) const; // func(StrLen name,RuleList rule_list)
+
+   void rules(FuncArgType&lt;ulen,StrLen,StrLen,ulen&gt; func) const; // func(1-based rule index,StrLen synt_name,StrLen rule_name,1-based element index)
+
+   class ActionList
+    {
+      ....
+
+     public:
+
+      ....
+
+      void operator () (FuncArgType&lt;ulen,ulen&gt; func) const; // func(1-based atom index OR 0,1-based rule index OR 0)
+    };
+
+   void finals(FuncArgType&lt;ulen,ActionList&gt; func) const; // func(0-based final index,ActionList action_list)
+
+   class TransList
+    {
+      ....
+
+     public:
+
+      ....
+
+      bool operator + () const { return transitions.len; }
+
+      bool operator ! () const { return !transitions.len; }
+
+      void operator () (FuncArgType&lt;ulen,ulen&gt; func) const // func(1-based element index,0-based state index)
+    };
+
+   ulen getStatesCount() const;
+
+   void states(FuncArgType&lt;ulen,ulen,TransList&gt; func) const; // func(0-based state index,0-based final index,TransList trans_list)
+ };
+
+</pre>
+
+<p>
+Constructor loads data from the given file. An exception is thrown in case of error and message is printed into console (or another printer device if given).
+</p>
+
+<p>
+Once the object is constructed you may acccess the lang data.
+</p>
+
+<p>
+<b>getLang()</b> returns a reference to the data node.
+</p>
+
+<p>
+<b>sanity()</b> performes a sanity check on the data. If the data are inconsistent an exception is thrown.
+</p>
+
+<p>
+Other methods iterate (in ascending order) over various data tables and feed provided functors with data.
+</p>
+
+<p>
+<b>atoms()</b> iterates over the lang atoms, the first argument is the 1-based atom index, the second is the atom name.
+</p>
+
+<p>
+<b>synts()</b> iterates over the lang synts, the first argument is the synt name, the second is the synt rule list.
+</p>
+
+<p>
+<b>RuleList::operator ()</b> iterates over the list, the first argument is the rule name, the second is the rule argument list.
+</p>
+
+<p>
+<b>ArgList::operator ()</b> iterates over the list, the first argument is the atom flag (equals <b>true</b> iff the argument is an atom), 
+the second is the atom/synt name.
+</p>
+
+<p>
+<b>rules()</b> iterates over the rule list, the first argument is the 1-based rule index, the second is the resulting synt name, 
+the third is the rule name, the last is the resulting 1-based element index.
+</p>
+
+<p>
+<b>finals()</b> iterates over the final list, the first argument is the 0-based final index, the second is the action list.
+</p>
+
+<p>
+<b>ActionList::operator ()</b> iterates over the list, the first argument is the 1-based atom index OR 0, the second is the 1-based rule index OR 0.
+</p>
+
+<p>
+<b>getStatesCount()</b> returns the number of the LR1 parser states.
+</p>
+
+<p>
+<b>states()</b> iterates over the LR1 parser states, the first argument is the 0-based state index, the second is the 0-based final index, the third is the transition list.
+</p>
+
+<p>
+<b>TransList::operator +</b> is <b>true</b> iff the list is not empty.
+</p>
+
+<p>
+<b>TransList::operator !</b> is <b>true</b> iff the list is empty.
+</p>
+
+<p>
+<b>TransList::operator ()</b> iterates over the list, the first argument is the 1-based element index, the second is the 0-based state index.
+</p>
+
+</body>
+
+</html>
+

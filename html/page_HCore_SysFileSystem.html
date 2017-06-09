@@ -1,0 +1,253 @@
+<!--
+/* page_HCore_SysFileSystem.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> HCore SysFileSystem</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>HCore SysFileSystem</h2>
+
+<p class="Files">Files <b>CCore/inc/sys/SysFileSystem.h</b> <b>CCore/src/sys/SysFileSystem.cpp</b></p>
+
+<p>
+This part provides OS backed file system operations. These operations comply with 
+the <a href="page_Files.html">general file operation set</a>.
+</p>
+
+<pre>
+
+#ifndef CCore_inc_sys_SysFileSystem_h
+#define CCore_inc_sys_SysFileSystem_h
+ 
+#include &lt;CCore/inc/GenFile.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* classes */ 
+
+struct FileSystem;
+
+/* struct FileSystem */ 
+
+struct <span class="Att">FileSystem</span>
+ {
+  // private
+
+  ....
+
+  // public
+  
+  struct TypeResult
+   {
+    FileType type;
+    FileError error;
+   };
+
+  struct CmpTimeResult
+   {
+    CmpFileTimeType time;
+    FileError error;
+   };
+  
+  struct PathOfResult
+   {
+    StrLen path;
+    FileError error;
+   };
+   
+  struct DirCursor 
+   {
+    // private
+
+    ....
+
+    // public
+   
+    char file_name[MaxPathLen]; // file name only
+    ulen len;
+    FileType type;
+    FileError error;
+    
+    void init(FileSystem *fs,StrLen dir_name) noexcept;
+  
+    void exit() noexcept;
+    
+    bool next() noexcept;
+   };
+ 
+  // public
+  
+  FileError init() noexcept;
+  
+  FileError exit() noexcept;
+  
+  TypeResult getFileType(StrLen path) noexcept;
+
+  CmpTimeResult getFileUpdateTime(StrLen path) noexcept;
+  
+  FileError createFile(StrLen file_name) noexcept;
+  
+  FileError deleteFile(StrLen file_name) noexcept;
+  
+  FileError createDir(StrLen dir_name) noexcept;
+  
+  FileError deleteDir(StrLen dir_name,bool recursive) noexcept;
+  
+  FileError rename(StrLen old_path,StrLen new_path,bool allow_overwrite) noexcept;
+  
+  FileError remove(StrLen path) noexcept;
+  
+  FileError exec(StrLen dir,StrLen program,StrLen arg) noexcept;
+  
+  PathOfResult pathOf(StrLen path,char buf[MaxPathLen+1]) noexcept;
+ };
+ 
+} // namespace Sys
+} // namespace CCore
+ 
+#endif
+
+</pre>
+
+<p>
+To perform a file system operation you create an instance of the structure <b>FileSystem</b>
+and initialize it. Then you use this structure methods to do desired operations. Finally, you 
+uninitialize the instance. 
+Copying of the instances is prohibited. The private content of the structure is target-dependent.
+It's very likely, that the structure has no data fields. In such case
+its methods can be declared static. But you should not use them as such.
+<span class="Alert">This structure uses types and constants from the <b>GenFile.h</b>, this includes error codes.</span>
+</p>
+
+<p>
+<b>init()</b> initializes the instance. The error code is returned.
+If the object is successfully initialized, it must be uninitialized by the method <b>exit()</b>.
+</p>
+
+<p>
+<b>exit()</b> uninitialize the instance.
+</p>
+
+<p>
+<b>getFileType()</b> returns the file type. 
+The argument specifies a file or a directory.
+The return value is represented by the inner structure <b>TypeResult</b>. 
+This structure has two fields:
+<b>type</b> and <b>error</b>. The <b>type</b> is the object type, the <b>error</b> is the error code. 
+</p>
+
+<p>
+<b>getFileUpdateTime()</b> returns the last modification time of the file or directory.
+The argument specifies a file or a directory.
+The return value is represented by the inner structure <b>CmpTimeResult</b>. 
+This structure has two fields:
+<b>time</b> and <b>error</b>. The <b>time</b> is the requested time, the <b>error</b> is the error code. 
+</p>
+
+<p>
+<b>createFile()</b> creates the new empty file with the given name. The error code is returned.
+</p>
+
+<p>
+<b>deleteFile()</b> deletes the file with the given name. The error code is returned.
+</p>
+
+<p>
+<b>createDir()</b> creates the empty directory with the given name. The error code is returned.
+</p>
+
+<p>
+<b>deleteDir()</b> deletes the directory with the given name. The error code is returned.
+The second argument is a recursion flag. If it is <b>false</b>, then the directory must be empty.
+Otherwise the directory is deleted with all its content, including nested subdirectories.
+</p>
+
+<p>
+<b>rename()</b> renames or moves the file of directory. The error code is returned.
+The <b>allow_overwrite</b> flag allows overwriting the existing file. 
+</p>
+
+<p>
+<b>remove()</b> deletes ether the existing file or the existing empty directory. The error code is returned.
+</p>
+
+<p>
+<b>exec()</b> is not a file system operation. It is an extra operation. This methods starts a new process.
+The <b>dir</b> is the working directory of the new process, the <b>program</b> is the executable file name,
+the <b>arg</b> is the command line.
+</p>
+
+<p>
+<b>pathOf()</b> is another extra operation. This method builds a normalized full path of the
+file or directory. The <b>buf</b> is a storage buffer for the result. The resulting string is zero-terminated.
+The return value is represented by the inner structure <b>PathOfResult</b>.
+This structure has two fields: <b>path</b> and <b>error</b>. The <b>path</b> is the resulting path,
+the <b>error</b> is the error code.
+</p>
+
+<p>
+<b>DirCursor</b> is the inner structure. 
+This structure can be used to iterate over the content of a directory.
+Copying of the instances is prohibited. The private content of the structure is target-dependent.
+</p>
+
+<p>
+<b>file_name</b> is the buffer for the file name. The only file part is stored here.
+The name is not zero-terminated.
+</p>
+
+<p>
+<b>len</b> is the length of the file name.
+</p>
+
+<p>
+<b>type</b> is the file type.
+</p>
+
+<p>
+<b>error</b> contains the error code after method calls (except <b>exit()</b>).
+</p>
+
+<p>
+<b>init()</b> initializes the instance. The field <b>error</b> will contain the error code.
+If the object is successfully initialized, it must be uninitialized by the method <b>exit()</b>.
+The iterator is set to the position "before the first".
+</p>
+
+<p>
+<b>exit()</b> uninitializes the instance. No errors are returned.
+</p>
+
+<p>
+<b>next()</b> moves to the next file (or directory) in the directory. The return value is <b>true</b>, 
+if such file is found. The return value is <b>false</b> in case of error or if there is no more files.
+The field <b>error</b> will contain the error code.
+Fields <b>file_name</b>, <b>len</b> and <b>type</b> contain file information, if the file is found.
+</p>
+
+</body>
+
+</html>
+

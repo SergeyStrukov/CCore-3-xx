@@ -1,0 +1,1586 @@
+<!--
+/* page_DDLEngine.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> DDLEngine</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>DDLEngine</h2>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLEngine.h</b> <b>CCore/src/ddl/DDLEngine.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLMap.h</b> <b>CCore/src/ddl/DDLMap.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLTypedMap.h</b> <b>CCore/src/ddl/DDLTypeMap.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLPlatformTypes.h</b> <b>CCore/src/ddl/DDLPlatformTypes.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLMapTypes.h</b> <b>CCore/src/ddl/DDLMapTypes.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/ddl/DDLMapBase.h</b> <b>CCore/src/ddl/DDLMapBase.cpp</b></p>
+
+<p class="Files">Subfolders <b>CCore/inc/ddl</b> <b>CCore/src/ddl</b></p>
+
+<h2>DDL implementation</h2>
+
+<p>
+The directory <b>ddl</b> contains a <b>DDL</b> implementation. It is contained in the namespace <b>DDL</b>.
+To process a <b>DDL</b> source there are two main classes: <b>TextEngine</b> and <b>FileEngine</b>.
+The most of content of this directory is a <b>DDL2</b> parser implementation and not needed to be used directly.
+</p>
+
+<p>
+Engines return the result of processing of the following type:
+</p>
+
+<pre>
+
+struct <span class="Att">EngineResult</span>
+ {
+  EvalResult *eval;
+  BodyNode *body;
+  
+  EngineResult() : eval(0),body(0) {}
+  
+  EngineResult(NothingType) : EngineResult() {}
+  
+  EngineResult(EvalResult *eval_,BodyNode *body_) : eval(eval_),body(body_) {}
+  
+  EvalResult * operator + () const { return eval; }
+  
+  bool operator ! () const { return !eval; }
+ };
+
+</pre>
+
+<p>
+It's a simple lightweight data structure with two fields. <b>eval</b> is a pointer to the <b>EvalResult</b>
+object, this object contains constant value table. <b>body</b> is a pointer to the root body node, this node
+represents the <b>DDL</b> source. Walking from this node you can examine the whole source content.
+If the processing has failed, the result is null.
+</p>
+
+<pre>
+
+class <span class="Att">TextEngine</span> : NoCopy
+ {
+   ....
+
+  public: 
+   
+   TextEngine(PrintBase &msg,StrLen text,StrLen pretext=Empty);
+   
+   ~TextEngine();
+   
+   EngineResult process();
+ };
+
+</pre>
+
+<p>
+The first constructor argument is a stream, where error messages will be printed to.
+The second is a text to be processed. 
+The third is a "pretext". It is included before the <b>text</b>.
+To do the job use the method <b>process()</b>.
+This engine does not support the file inclusion.
+This engine is one-shoot, it should be used to process one input once.
+Result objects life-time is ended with the engine life-time end.
+</p>
+
+<pre>
+
+template &lt;FileNameType FileName,FileTextType FileText&gt;
+class <span class="Att">FileEngine</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   static constexpr ulen DefaultMaxFiles    = 1000 ;
+   static constexpr ulen DefaultMaxIncludes = 100 ;
+   static constexpr ulen DefaultMaxFileLen  = MaxULen ;
+  
+   explicit FileEngine(PrintBase &msg,ulen mem_cap=MaxULen,
+                                      ulen max_files=DefaultMaxFiles,
+                                      ulen max_inc=DefaultMaxIncludes,
+                                      ulen max_file_len=DefaultMaxFileLen);
+   
+   ~FileEngine();
+
+   void reset();
+
+   void purge();
+
+   EngineResult process(StrLen file_name,StrLen pretext);
+
+   EngineResult process(StrLen file_name);
+ };
+
+</pre>
+
+<p>
+<b>FileEngine</b> can process a complex input from a real or a virtual file system.
+Two template parameters controls the file name processing and the file name to the file content mapping.
+The first constructor argument is a error report stream. Others are different engine limits.
+The method <b>process()</b> does the job. The first argument is a file name with a <b>DDL</b> text. 
+Additional files may be opened during include operations.
+The second argument is a "pretext". It is included before the file text.
+The method <b>process()</b> can be called multiple times for different files. Loaded files are cached.
+Result objects life-time is ended with the next call of <b>process()</b>, or with the engine life-time end.
+</p>
+
+<p>
+<b>reset()</b> cleans the engine context. In particular, all result nodes are destroyed.
+</p>
+
+<p>
+<b>purge()</b> purges the file cache.
+</p>
+
+<p>
+The first template parameter <b>FileName</b> is responsible for the file name manipulation.
+There is a <a href="page_FileName.html">default implementation of this class</a>. It is recommended
+to use this implementation. Any other implementation must be interface compatible with this particular one.
+</p>
+
+<p>
+The second template parameter must do the same thing as the <b>FileToMem</b> class, i.e. load
+the file content into the memory.
+</p>
+
+<pre>
+
+class <span class="Att">FileText</span> : NoCopy
+ {
+  public:
+
+   FileText(StrLen file_name,ulen max_len);
+
+   ~FileText();
+
+   const uint8 * getPtr() const;
+
+   ulen getLen() const;
+ };
+
+</pre>
+
+<p>
+On <b>HCore</b> targets you can use the class <a href="page_FileToMem.html"><b>FileToMem</b></a> as the <b>FileText</b> template parameter.
+</p>
+
+<h3>EvalResult</h3>
+
+<pre>
+
+struct <span class="Att">EvalResult</span> : NoCopy
+ {
+  DynArray&lt;ConstResult&gt; const_table;
+  DynArray&lt;LenResult&gt; len_table;
+  
+  EvalResult() {}
+  
+  void erase();
+  
+  ulen_type getLen(const LenNode &amp;node) const;
+ };
+
+</pre>
+
+<p>
+<b>EvalResult</b> contains two tables. Each constant, defined in the <b>DDL2</b> source, 
+has an associated <b>ConstNode</b> object. This object contains the field <b>index</b>.
+The entry in the <b>const_table</b> with this index contains the calculated value of the constant.
+Each array type with an explicit array length has an associated <b>LenNode</b> object. 
+This object contains the field <b>index</b>.
+The entry in the <b>len_table</b> with this index contains the calculated value of the length.
+</p>
+
+<pre>
+
+struct <span class="Att">ConstResult</span>
+ {
+  TypeNode *type;
+  ConstNode *node;
+  Value value;
+  
+  void set(ConstNode *node,const Value &amp;value);
+
+  struct PrintOptType
+   {
+    EvalResult &amp;result;
+    
+    PrintOptType(EvalResult &amp;result_) : result(result_) {}
+   };
+  
+  void print(PrinterType &amp;out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+<b>ConstResult</b> contains three fields. <b>type</b> is a <b>TypeNode</b> pointer,
+<b>node</b> is a <b>ConstNode</b> pointer, <b>value</b> is the calculated constant value.
+This class is printable. To print you must provide the option, bounded to the original 
+<b>EvalResult</b> object. 
+</p>
+
+<pre>
+
+struct <span class="Att">LenResult</span>
+ {
+  LenNode *node;
+  ulen_type value;
+  
+  void set(LenNode *node,ulen_type value);
+ 
+  void print(PrinterType &out) const;
+ };
+
+</pre>
+
+<p>
+<b>LenResult</b> contains two fields. <b>node</b> is a <b>LenNode</b> pointer,
+<b>value</b> is the calculated length value.
+</p>
+
+<pre>
+
+struct <span class="Att">LenNode</span>
+ {
+  ....
+
+  ulen index;
+ };
+
+struct <span class="Att">ConstNode</span>
+ {
+  ....
+
+  ScopeNode *parent;
+  ulen depth;
+
+  NameIdNode name;
+
+  ulen index;
+ };
+
+struct <span class="Att">ScopeNode</span>
+ {
+  ....
+
+  ScopeNode *parent;
+  
+  NameIdNode name;
+ };
+
+struct <span class="Att">NameIdNode</span>
+ {
+  ....
+
+  PosName name;
+  
+  StrLen getStr() const { return name.str; }
+ };
+
+</pre>
+
+<p>
+All <b>LenNode</b>s are zero-based indexed. The correspondent index is assigned to the <b>index</b> field.
+</p>
+
+<p>
+All <b>ConstNode</b>s are zero-based indexed. The correspondent index is assigned to the <b>index</b> field.
+<b>ConstNode</b> contains also the filed <b>name</b> with its name and the field <b>parent</b> with the
+pointer to the <b>ScopeNode</b> which it belongs to. <b>depth</b> is the scope depth. 
+</p>
+
+<p>
+<b>ScopeNode</b> has the field <b>parent</b> with the pointer to the <b>ScopeNode</b> which it belongs to.
+It also has the field <b>name</b> with the scope name.
+</p>
+
+<p>
+<b>NameIdNode</b> has the method <b>getStr()</b>. This method returns the name of the item.
+</p>
+
+<pre>
+
+union <span class="Att">Value</span>
+ {
+  imp_sint8  val_sint8;
+  imp_uint8  val_uint8;
+  imp_sint16 val_sint16;
+  imp_uint16 val_uint16;
+  imp_sint32 val_sint32;
+  imp_uint32 val_uint32;
+  imp_sint64 val_sint64;
+  imp_uint64 val_uint64;
+  
+  imp_sint   val_sint;
+  imp_uint   val_uint;
+  imp_ulen   val_ulen;
+  
+  SLen       val_slen;
+  Text       val_text;
+  IP         val_ip;
+  
+  Block      val_block;
+  Ptr        val_ptr;
+
+  // methods
+  
+  template &lt;class Type&gt;
+  Type get() const;
+  
+  template &lt;class Type&gt;
+  void set(Type val);
+ };
+
+</pre>
+
+<p>
+<b>Value</b> is a union of different types. The actual member depends on the value type.
+You may use <b>get&lt;Type&gt;()</b> and <b>set&lt;Type&gt;()</b> methods to get and set values.
+</p>
+
+<p>
+To represent integral types <b>imp_XXX</b> are used.
+</p>
+
+<pre>
+
+struct imp_XXX
+ {
+  XXX_integral_type value;
+
+  ....
+ };
+ 
+</pre>
+
+<p>
+Integral types are: <b>sint8, uint8, ...</b> and <b>sint_type, uint_type, ulen_type</b>.
+Last three types are platform-dependent.
+</p>
+
+<p>
+<b>Text</b> represents <b>text</b> type.
+</p>
+
+<pre>
+
+struct <span class="Att">Text</span>
+ {
+  StrLen str;
+  
+  // constructors
+  
+  Text() {}
+  
+  Text(StrLen str_) : str(str_) {}
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+<b>IP</b> represents <b>ip</b> type.
+</p>
+
+<pre>
+
+struct <span class="Att">IP</span>
+ {
+  uint8 address[4];
+  
+  // constructors
+  
+  IP() : address{} {}
+  
+  IP(uint8 a1,uint8 a2,uint8 a3,uint8 a4) : address{a1,a2,a3,a4} {}
+  
+  // methods
+  
+  uint32 toInt() const;
+  
+  // print object
+  
+  void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Non-scalar values, like structures and arrays, are represented using the type <b>Block</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">Block</span>
+ {
+  PtrLen&lt;Value&gt; data;
+
+  ....
+ };
+
+</pre>
+
+<p>
+Each member of the range <b>data</b> is the value of the correspondent element of aggregate.
+</p>
+
+<p>
+Pointer values are represented using the type <b>Ptr</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">Ptr</span>
+ {
+  PtrNode *ptr_node;
+  bool null;
+
+  ....
+ };
+
+struct <span class="Att">PtrNode</span>
+ {
+  PtrNode *parent;
+  ulen_type index;
+  TypeNode *type;
+
+  ....
+ };
+
+</pre>
+
+<p>
+The field <b>ptr_node</b> points to the <b>PtrNode</b> object. This object contains three fields.
+<b>type</b> describes the type of the pointee constant or sub-constant. 
+If this constant is a full constant, then <b>parent</b> is null and <b>index</b> is the <b>ConstNode</b> index.
+Otherwise <b>parent</b> represents the aggregate, the sub-constant is an element of, and <b>index</b> 
+is the aggregate element index.
+</p>
+
+<p>
+If the pointer is a null pointer of some type, then the field <b>null</b> is <b>true</b> and <b>ptr_node->type</b> 
+describes the type.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeNode</span>
+ {
+  struct Base
+   {
+    enum Type
+     {
+      Type_none = 0,
+      
+      Type_sint,
+      Type_uint,
+      Type_ulen,
+      
+      Type_sint8,
+      Type_uint8,
+      Type_sint16,
+      Type_uint16,
+      Type_sint32,
+      Type_uint32,
+      Type_sint64,
+      Type_uint64,
+      
+      Type_text,
+      Type_ip,
+      
+      TypeIntMin=Type_sint,
+      TypeIntMax=Type_uint64
+     };
+    
+    Type type;
+    
+    explicit Base(Type type_) : type(type_) {}
+    
+    bool isIntegral() const { return type &amp;&amp; type&lt;Type_text ; }
+    
+    bool isText() const { return type==Type_text; }
+    
+    bool isIP() const { return type==Type_ip; }
+   };
+  
+  struct Ref
+   {
+    AnyPtr&lt;AliasNode,StructNode&gt; ptr;
+
+    ....
+   };
+  
+  struct Ptr
+   {
+    TypeNode *type_node;
+
+    ....
+   };
+  
+  struct PolyPtr
+   {
+    TypeList *type_list;
+    
+    ....
+   };
+  
+  struct Array
+   {
+    TypeNode *type_node;
+
+    ....
+   };
+  
+  struct ArrayLen
+   {
+    TypeNode *type_node;
+    
+    LenNode len_node;
+
+    ....
+   };
+  
+  struct Struct
+   {
+    StructNode *struct_node;
+
+    ....
+   };
+  
+  AnyPtr&lt;Base,Ref,Ptr,PolyPtr,Array,ArrayLen,Struct&gt; ptr;
+
+  .... 
+ };
+
+</pre>
+
+<p>
+<b>TypeNode</b> is used to represent a type. Different type classes are encoded using <b>AnyPtr</b>
+field <b>ptr</b>. For example, to encode the type <b>uint8</b>, <b>ptr</b> is initialized by the
+pointer to the object of type <b>TypeNode::Base</b> and the field <b>type</b> of this object
+has the value <b>TypeNode::Base::Type_uint8</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">AliasNode</span>
+ {
+  ....
+
+  TypeNode *type_node;
+
+  TypeNode *result_type; // don't point to TypeNode Ref with another alias
+ };
+
+</pre>
+
+<p>
+<b>AliasNode</b> repesents a type declaration. The field <b>result_type</b> points to some "resulting" <b>TypeNode</b>,
+this node represents the aliased type and is not a <b>Ref</b> node with another <b>AliasNode</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">StructNode</span>
+ {
+  ....
+
+  ScopeNode scope_node;
+
+  ForwardList&lt;FieldNode&gt; field_list;
+
+  ulen dep_index;
+ };
+
+</pre>
+
+<p>
+<b>StructNode</b> represents a structure declaration. The field <b>scope_node</b> represents the correspondent scope.
+The field <b>field_list</b> is the list of structure fields. <b>dep_index</b> is a zero-based index of the structure.
+These indexes respect structure dependencies: if the structure <b>A</b> has a filed of the structure type 
+<b>B</b> (or <b>B[]</b> or <b>B[Len]</b>), then the <b>dep_index</b>
+of the <b>B</b> is less than the <b>dep_index</b> of the <b>A</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">FieldNode</span>
+ {
+  ....
+
+  FieldNode *next;
+
+  NameIdNode name;
+  TypeNode *type_node;
+
+  ulen index;
+  ulen field_index;
+ };
+
+</pre>
+
+<p>
+<b>FieldNode</b> describes a structure field. <b>index</b> is a zero-based field index among all fields of all structures.
+<b>field_index</b> is a zero-based field index of this particular structure. <b>name</b> describes the field name
+and <b>type_node</b> &mdash; the field type.
+</p>
+
+<pre>
+
+/* struct TypeListNode */
+
+struct <span class="Att">TypeListNode</span>
+ {
+  ....
+
+  TypeListNode *prev;
+
+  TypeNode *type_node;
+ };
+
+/* type TypeList */
+
+using <span class="Att">TypeList</span> = CountList&lt;TypeListNode&gt; ;
+
+</pre>
+
+<p>
+These entities are used to represent a type list.
+</p>
+
+<h2>Map</h2>
+
+<p>
+The best way to deal with a <b>DDL</b> processing result is to map it into a block of memory.
+The class <b>Map</b> is to do it.
+</p>
+
+<pre>
+
+class <span class="Att">Map</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   explicit Map(EngineResult result);
+  
+   ~Map();
+  
+   ulen getLen() const;
+  
+   void operator () (void *mem);
+  
+   bool findStruct(StrLen name,const TypeDesc &desc); 
+  
+   void * findConst(StrLen name,const TypeDesc &desc);
+ };
+
+</pre>
+
+<p>
+You create an object of the type <b>Map</b>, providing the <b>EngineResult</b> as the argument.
+Then you have to allocate an aligned block of memory of the length <b>getLen()</b>.
+Once it's done, use the overloaded <b>operator ()</b> to map data into this memory block.
+You may destroy the <b>Map</b> object and the <b>Engine</b> object at this point and keep the memory block
+as long as required. To find a particular constant you can use the method <b>findConst()</b> with 
+the constant name and type, encoded using the class <b>TypeDesc</b>. If there is no such constant or 
+types mismatch then null is returned. Otherwise the pointer to the mapped value is returned.
+</p>
+
+<p>
+There is a simple helper class <b>MapBase</b> to help with the memory allocation for a <b>Map</b> object 
+(the actual implementation is slightly different):
+</p>
+
+<pre>
+
+class <span class="Att">MapBase</span> : NoCopy
+ {
+   void *mem;
+  
+  public:
+
+   template &lt;class Map&gt;
+   explicit MapBase(Map &map)
+    {
+     mem=MemAlloc(map.getLen());
+     
+     map(mem);
+    }
+   
+   ~MapBase()
+    {
+     MemFree(mem);
+    }
+ };
+
+</pre>
+
+<pre>
+
+/* consts */
+
+enum <span class="Att">TypeTag</span>
+ {
+  // basic
+ 
+  TypeTag_sint,         // sint_type
+  TypeTag_uint,         // uint_type
+  TypeTag_ulen,         // ulen_type
+  
+  TypeTag_sint8,        // sint8
+  TypeTag_uint8,        // uint8
+  TypeTag_sint16,       // sint16
+  TypeTag_uint16,       // uint16
+  TypeTag_sint32,       // sint32
+  TypeTag_uint32,       // uint32
+  TypeTag_sint64,       // sint64
+  TypeTag_uint64,       // uint64
+  
+  TypeTag_text,         // StrLen
+  TypeTag_ip,           // uint32
+  
+  // other
+  
+  TypeTag_ptr,          // DataPtr
+  TypeTag_polyptr,      // TypedDataPtr
+  TypeTag_array,        // ArrayPtr -> elem[len]
+  TypeTag_array_len,    // elem[len]
+  TypeTag_array_getlen, // elem[len]
+  
+  TypeTag_struct,       // {field1,field2,...}
+  
+  // none
+  
+  TypeTag_none,
+  
+  // int
+  
+  TypeTag_int = TypeTag_sint 
+ };
+
+/* struct TypeDesc */
+
+struct <span class="Att">TypeDesc</span>
+ {
+  const TypeTag tag;
+  
+  explicit TypeDesc(const TypeTag tag_) : tag(tag_) {}
+ };
+
+</pre>
+
+<p>
+<b>TypeDesc</b>, in fact, is a base class for the family of derived classes, designed to represent different
+type classes. The field <b>tag</b> has a describing type value, and derived classes has additional fields
+with extra information if required.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeDesc_basic</span> : TypeDesc
+ {
+  explicit TypeDesc_basic(TypeTag tag);
+ };
+
+</pre>
+
+<p>
+This class is to represent basic types. You provide in constructor argument the correspondent type tag.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeDesc_ptr</span> : TypeDesc
+ {
+  const TypeDesc &amp;type;
+  
+  explicit TypeDesc_ptr(const TypeDesc &amp;type);
+ };
+
+</pre>
+
+<p>
+This class represents single type pointers. You provide in constructor argument the type descriptor.
+</p>
+
+<pre>
+
+template &lt;ulen TypeCount&gt;
+struct <span class="Att">TypeDesc_polyptr</span> : TypeDesc_polyptr_base
+ {
+  const Type buf[TypeCount];
+ 
+  template &lt;class ... TT&gt;
+  explicit TypeDesc_polyptr(const TT &amp; ... tt);
+ };
+
+</pre>
+
+<p>
+This class represents polymorphic pointer types. You provide in constructor arguments a list of type 
+descriptors. <b>TypeCount</b> is a number of types.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeDesc_array</span> : TypeDesc
+ {
+  const TypeDesc &amp;type;
+  
+  explicit TypeDesc_array(const TypeDesc &amp;type);
+ };
+
+</pre>
+
+<p>
+This class represents array types without length. You provide in constructor argument the element type descriptor.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeDesc_array_len</span> : TypeDesc
+ {
+  const TypeDesc &amp;type;
+  const ulen_type len;
+  
+  TypeDesc_array_len(const TypeDesc &amp;type,ulen_type len);
+ };
+
+</pre>
+
+<p>
+This class represents array types with a given length. You provide in constructor arguments the element type descriptor
+and the array length.
+</p>
+
+<pre>
+
+struct <span class="Att">TypeDesc_array_getlen</span> : TypeDesc
+ {
+  const TypeDesc &type;
+  mutable ulen_type len; // filled by findConst() method
+  
+  explicit TypeDesc_array_getlen(const TypeDesc &amp;type);
+ };
+
+</pre>
+
+<p>
+This class represents array types with a given length. You provide in constructor argument the element type descriptor.
+But the actual array length is filled by the method <b>findConst()</b>. This descriptor must participate
+in <b>findConst()</b> directly or indirectly to be used later.
+</p>
+
+<pre>
+
+template &lt;ulen FieldCount&gt;
+struct <span class="Att">TypeDesc_struct</span> : TypeDesc_struct_base
+ {
+  const Field buf[FieldCount];
+  
+  template &lt;class ... TT&gt;
+  explicit TypeDesc_struct(const TT &amp; ... tt);
+ };
+
+</pre>
+
+<p>
+This class represents structure types. You provide in constructor arguments a list of field type 
+descriptors. <b>FieldCount</b> is a number of fields. This structure has some internal fields, these fields
+are filled by the method <b>findConst()</b>. This descriptor must participate
+in <b>findConst()</b> directly or indirectly to be used later.
+</p>
+
+<h3>DataPtr</h3>
+
+<p>
+<b>DataPtr</b> is a helper class. It is a "universal pointer" class. You may initialize an object
+of this type by the value, returned by the method <b>findConst()</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">DataPtr</span>
+ {
+  void *ptr;
+  
+  // constructors
+  
+  DataPtr() : ptr(0) {}
+  
+  DataPtr(void *ptr_) : ptr(ptr_) {}
+  
+  // methods
+  
+  void * operator + () const { return ptr; }
+  
+  bool operator ! () const { return !ptr; }
+  
+  struct Proxy
+   {
+    void *ptr;
+    
+    Proxy(void *ptr_) : ptr(ptr_) {}
+    
+    template &lt;class T&gt;
+    operator T() const;
+   };
+  
+  Proxy operator * () const { return ptr; }
+  
+  DataPtr elem(const TypeDesc_struct_base &amp;desc,ulen ind) const;
+  
+  DataPtr select(const TypeDesc_struct_base &amp;desc,ulen ind) const;
+  
+  struct ProxyRange
+   {
+    void *ptr;
+    ulen len;
+    
+    ProxyRange(void *ptr_,ulen len_) : ptr(ptr_),len(len_) {}
+    
+    template &lt;class T&gt;
+    operator PtrLen&lt;T&gt;() const;
+   };
+  
+  ProxyRange range(ulen len) const { return ProxyRange(ptr,len); }
+ };
+
+</pre>
+
+<p>
+Then you may use this object to get the constant value. Use the <b>operator *</b> and assign the result to
+the variable of the proper type. You may find the proper type in the <b>TypeTag</b> definition above.
+</p>
+
+<p>
+You cannot use the <b>operator *</b>, however, if the constant type is a structure or an array with length.
+For structure types you may use the method <b>select()</b> to create a <b>DataPtr</b> to the desired field.
+The first argument is a structure type descriptor, the second is the zero-based field index. The descriptor
+contains inside some internal values, filled by the method <b>findConst()</b> to locate a particular field.
+</p>
+
+<p>
+If the constant type is an array without length, you can cast to the type <b>ArrayPtr</b>, but you can also
+use the type <b>PtrLen&lt;T&gt;</b>, where the type T corresponds to the element type. Again, you cannot do it,
+if the element type is a structure or an array with length.
+</p>
+
+<pre>
+
+struct <span class="Att">ArrayPtr</span>
+ {
+  void *ptr;
+  ulen len;
+
+  ArrayPtr() : ptr(0),len(0) {}
+  
+  ArrayPtr(void *ptr_,ulen len_) : ptr(ptr_),len(len_) {}
+ };
+
+</pre>
+
+<p>
+This structure holds a pointer to the first element of the array and the number of the array elements.
+You may initialize an object of type <b>DataPtr</b> from this pointer.
+</p>
+
+<p>
+If a <b>DataPtr</b> object corresponds to an array with length, you may use the method <b>range()</b>
+to build a <b>PtrLen&lt;T&gt;</b> object to access array elements. Just cast the return value to the
+proper range type. The element type cannot be a structure or array with length in this case.
+</p>
+
+<p>
+To deal with an array of structures, use the method <b>elem()</b>. It returns a pointer to the
+element with the given index. You must provide the structure descriptor.
+</p>
+
+<h3>TypedDataPtr</h3>
+
+<p>
+This class is used to deal with polymorphic pointers. It inherits the type <b>DataPtr</b> and
+has the additional field <b>type</b>. The value of this field is a 1-based index of the pointer type
+from the type list. It is zero if the pointer is a typeless null.
+</p>
+
+<pre>
+
+struct <span class="Att">TypedDataPtr</span> : DataPtr
+ {
+  ulen type; // 1-based type index
+  
+  // constructors
+  
+  TypedDataPtr() : type(0) {}
+  
+  TypedDataPtr(void *ptr,ulen type_) : DataPtr(ptr),type(type_) {}
+ };
+
+</pre>
+
+<a name="TypedMap"><h2>TypedMap</h2></a>
+
+<p>
+The most convenient way to map <b>DDL</b> data is the class <b>TypedMap</b>. But with this class
+you are bounded by the given set of <b>DDL</b> structure types. These type set is represented by 
+the template parameter <b>TypeSet</b>. You should use the utility <a href="page_DDLTypeSet.html">DDLTypeSet</a> 
+to generate the definition of this class from the <b>DDL</b> source.
+</p>
+
+<pre>
+
+template &lt;class TypeSet&gt;
+class <span class="Att">TypedMap</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   explicit TypedMap(EngineResult result);
+   
+   ~TypedMap();
+   
+   ulen getLen() const { return total; }
+   
+   void operator () (void *mem);
+   
+   template &lt;class T&gt;
+   T * findConst(StrLen name);
+   
+   template &lt;class T&gt;
+   T takeConst(StrLen name);
+ };
+
+</pre>
+
+<p>
+<b>TypedMap</b> class usage is the same as for <b>Map</b> class. The difference is you have two methods
+to get a particular constant value.
+</p>
+
+<p>
+<b>findConst()</b> searches for the constant with the given name and with the given type and returns
+a pointer to it. Null is returned if there is no such constant or it has a different type.
+The type is specified as the template parameter.
+</p>
+
+<p>
+<b>takeConst()</b> does the same, but it returns the value and throw an exception on error.
+</p>
+
+<p>
+In this case you always get a value of some C++ type, compatible with the <b>DDL</b> type.
+These types are available from the <b>ddl/DDLMapTypes.h</b> include file.
+</p>
+
+<p>
+For integral types the compatible type is an integral C++ type. I.e. <b>uint8</b> is mapped as <b>uint8</b> etc.
+<b>sint</b> is mapped as <b>sint_type</b>, <b>uint</b> as <b>uint_type</b> and <b>ulen</b> 
+as <b>ulen_type</b>.
+</p>
+
+<p>
+<b>ip</b> is mapped as <b>uint32</b>.
+</p>
+
+<p>
+<b>text</b> is mapped as <b>MapText</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">MapText</span>
+ {
+  // data
+  
+  char *ptr;
+  ulen len;
+  
+  // methods
+  
+  StrLen getStr() const { return StrLen(ptr,len); }
+  
+  // cast
+  
+  operator StrLen() const { return getStr(); }
+ };
+
+</pre>
+
+<p>
+Pointers are mapped as <b>MapPtr</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">MapPtr</span> // layout-compatible with MapPtr&lt;char&gt;
+ {
+  // data
+  
+  void *ptr;
+  
+  // object ptr
+  
+  void * operator + () const { return ptr; }
+  
+  bool operator ! () const { return !ptr; }
+  
+  T * getPtr() const { return static_cast&lt;T *&gt;(ptr); }
+  
+  T &amp; operator * () const { return *getPtr(); }
+  
+  T * operator -> () const { return getPtr(); }
+  
+  // cast
+  
+  operator T * () const { return getPtr(); }
+ };
+
+</pre>
+
+<p>
+Polymorphic pointers are mapped as <b>MapPolyPtr</b>.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+struct <span class="Att">MapPolyPtr</span> // layout-compatible with MapPolyPtr<>
+ {
+  // data
+  
+  void *ptr;
+  ulen type;
+  
+  // methods
+  
+  using AnyPtrType = AnyPtr&lt;TT...&gt; ;
+  
+  AnyPtrType getPtr() const;
+
+  // cast
+  
+  operator AnyPtrType() const { return getPtr(); }
+ };
+
+</pre>
+
+<p>
+Arrays are mapped as <b>MapRange</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">MapRange</span> // layout-compatible with MapRange&lt;char&gt;
+ {
+  // data
+  
+  void *ptr;
+  ulen len;
+  
+  // methods
+  
+  PtrLen&lt;T&gt; getRange() const;
+  
+  // cast
+  
+  operator PtrLen&lt;T&gt; () const { return getRange(); }
+ };
+
+</pre>
+
+<p>
+Finally, structure types are mapped using C++ structure definitions from the <b>TypeSet</b> class.
+</p>
+
+<h3>Example</h3>
+
+<p>
+Here is <b>LangTypes.ddl</b> file.
+</p>
+
+<pre>
+/* LangTypes.ddl */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CondLangLR1 1.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+
+type AtomIndex = uint32 ;
+type SyntIndex = uint32 ;
+type KindIndex = uint32 ;
+type ElementIndex = uint32 ;
+type RuleIndex = uint32 ;
+type StateIndex = uint32 ;
+type FinalIndex = uint32 ;
+
+struct Lang
+ {
+  Atom[] atoms;
+  Synt[] synts;
+  Synt * [] lang;
+  Element[] elements;
+  Rule[] rules;
+  TopRule[] top_rules;
+  State[] states;
+  Final[] finals;
+ };
+
+struct Atom
+ {
+  AtomIndex index;
+  text name;
+  
+  Element *element;
+ };
+
+struct Synt
+ {
+  SyntIndex index;
+  text name;
+  
+  Kind[] kinds;
+  Rule * [] rules;
+ };
+
+struct Kind
+ {
+  KindIndex kindex; // index among all kinds
+  KindIndex index; // index in synt array
+  text name;
+
+  Synt *synt;
+  
+  Element *element;
+  
+  TopRule * [] rules;
+ };
+
+struct Element
+ {
+  ElementIndex index;
+  
+  {Atom,Kind} * elem;
+ };
+
+struct Rule
+ {
+  RuleIndex index;
+  text name;
+
+  Kind *result;
+
+  type Arg = {Atom,Synt} * ;
+
+  Arg[] args;
+ };
+ 
+struct TopRule
+ {
+  RuleIndex index;
+  text name;
+  
+  Rule *bottom;
+
+  Kind *result;
+
+  type Arg = {Atom,Kind} * ;
+
+  Arg[] args;
+ }; 
+
+struct State
+ {
+  StateIndex index;
+  Final *final;
+
+  struct Transition
+   {
+    Element *element;
+    State *state;
+   };
+
+  Transition[] transitions;
+ };
+
+struct Final
+ {
+  FinalIndex index;
+
+  struct Action
+   {
+    Atom *atom; // null for (End)
+    Rule *rule; // null for &lt;- ( STOP if atom is (END) )
+   };
+
+  Action[] actions;
+ };
+
+</pre>
+
+<p>
+<b>DDLTypeSet</b> generates two C++ header files: <b>LanTypeDef.gen.h</b> and <b>LangTypeSet.gen.h</b>.
+</p>
+
+<p>
+The first defines C++ structure types and aliases.
+</p>
+
+<pre>
+/* struct TypeDefCore */
+
+struct TypeDefCore
+ {
+  // types
+
+  struct S1; // #Final#Action
+  struct S2; // #Final
+  struct S3; // #State#Transition
+  struct S4; // #State
+  struct S5; // #TopRule
+  struct S6; // #Rule
+  struct S7; // #Element
+  struct S8; // #Kind
+  struct S9; // #Synt
+  struct S10; // #Atom
+  struct S11; // #Lang
+
+  using A1 = DDL2::MapPolyPtr< S10 , S8 > ; // #TopRule#Arg
+  using A2 = DDL2::MapPolyPtr< S10 , S9 > ; // #Rule#Arg
+  using A3 = uint32 ; // #FinalIndex
+  using A4 = uint32 ; // #StateIndex
+  using A5 = uint32 ; // #RuleIndex
+  using A6 = uint32 ; // #ElementIndex
+  using A7 = uint32 ; // #KindIndex
+  using A8 = uint32 ; // #SyntIndex
+  using A9 = uint32 ; // #AtomIndex
+
+
+  using XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8 = TypeDefCore ;
+
+  // structures
+
+  struct S1
+   {
+    DDL2::MapPtr< S10 > atom;
+    DDL2::MapPtr< S6 > rule;
+
+    struct Ext;
+   };
+
+  struct S2
+   {
+    A3 index;
+    DDL2::MapRange< S1 > actions;
+
+    using Action = XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8::S1 ;
+
+    struct Ext;
+   };
+
+  struct S3
+   {
+    DDL2::MapPtr< S7 > element;
+    DDL2::MapPtr< S4 > state;
+
+    struct Ext;
+   };
+
+  struct S4
+   {
+    A4 index;
+    DDL2::MapPtr< S2 > final;
+    DDL2::MapRange< S3 > transitions;
+
+    using Transition = XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8::S3 ;
+
+    struct Ext;
+   };
+
+  struct S5
+   {
+    A5 index;
+    DDL2::MapText name;
+    DDL2::MapPtr< S6 > bottom;
+    DDL2::MapPtr< S8 > result;
+    DDL2::MapRange< A1 > args;
+
+    using Arg = XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8::A1 ;
+
+    struct Ext;
+   };
+
+  struct S6
+   {
+    A5 index;
+    DDL2::MapText name;
+    DDL2::MapPtr< S8 > result;
+    DDL2::MapRange< A2 > args;
+
+    using Arg = XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8::A2 ;
+
+    struct Ext;
+   };
+
+  struct S7
+   {
+    A6 index;
+    DDL2::MapPolyPtr< S10 , S8 > elem;
+
+    struct Ext;
+   };
+
+  struct S8
+   {
+    A7 kindex;
+    A7 index;
+    DDL2::MapText name;
+    DDL2::MapPtr< S9 > synt;
+    DDL2::MapPtr< S7 > element;
+    DDL2::MapRange< DDL2::MapPtr< S5 > > rules;
+
+    struct Ext;
+   };
+
+  struct S9
+   {
+    A8 index;
+    DDL2::MapText name;
+    DDL2::MapRange< S8 > kinds;
+    DDL2::MapRange< DDL2::MapPtr< S6 > > rules;
+
+    struct Ext;
+   };
+
+  struct S10
+   {
+    A9 index;
+    DDL2::MapText name;
+    DDL2::MapPtr< S7 > element;
+
+    struct Ext;
+   };
+
+  struct S11
+   {
+    DDL2::MapRange< S10 > atoms;
+    DDL2::MapRange< S9 > synts;
+    DDL2::MapRange< DDL2::MapPtr< S9 > > lang;
+    DDL2::MapRange< S7 > elements;
+    DDL2::MapRange< S6 > rules;
+    DDL2::MapRange< S5 > top_rules;
+    DDL2::MapRange< S4 > states;
+    DDL2::MapRange< S2 > finals;
+
+    struct Ext;
+   };
+
+  // extra
+
+ };
+
+using XXX212CD757_09B3_4D89_BE20_65C1E4E5A819 = TypeDefCore ;
+
+namespace TypeDef {
+
+    using StateIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A4 ;
+    using KindIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A7 ;
+    using RuleIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A5 ;
+    using SyntIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A8 ;
+    using AtomIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A9 ;
+    using ElementIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A6 ;
+    using FinalIndex = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A3 ;
+    using Atom = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
+    using Kind = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
+    using Lang = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
+    using Rule = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
+    using Synt = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
+    using Element = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
+    using TopRule = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
+    using Final = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
+    using State = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S4 ;
+
+} // namespace TypeDef
+
+</pre>
+
+<p>
+You should use <b>TypeDef</b> namespace to refer a particular structure or a type alias. Use the same name, 
+as the name of the <b>DDL</b> entity.
+</p>
+
+<p>
+To use this file include it in your C++ source code inside some namespace to isolate it from the other stuff.
+</p>
+
+<p>
+Each structure definition contains the declaration of the inner structure <b>Ext</b>.
+You may provide definitions of these structures to add additional functions to work with these structures.
+</p>
+
+<p>
+The second file contains a definition of the <b>TypeSet</b> class.
+</p>
+
+<pre>
+/* struct TypeSet */
+
+struct TypeSet : TypeDefCore
+ {
+  ....
+ };
+
+....
+
+</pre>
+
+<p>
+Use this class as the template argument for the <b>TypedMap</b> class template.
+</p>
+
+</body>
+
+</html>
+

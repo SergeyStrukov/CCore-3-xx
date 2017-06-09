@@ -1,0 +1,179 @@
+<!--
+/* page_XCore_atexit.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore atexit</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore atexit</h2>
+
+<p class="Files">Files <b>CCore/inc/libc/atexit.h</b> <b>CCore/src/libc/atexit.cpp</b></p>
+
+<p>
+<b>atexit()</b> is a C standard function. It registers a pointer to a function to be executed after the function <b>main()</b>. 
+In C++ it may also be used to register global object destructors. 
+<b>gcc</b> uses the extended variant of this function <b>__cxa_atexit</b>.
+</p>
+
+<pre>
+
+(from stdlib.h)
+
+/* termination */
+
+typedef void (*<span class="Att">__std_atexit_t</span>)(void);
+
+extern int <span class="Att">atexit</span>(__std_atexit_t func);
+
+typedef void (*<span class="Att">__cxa_atexit_t</span>)(void *arg);
+
+extern int <span class="Att">__cxa_atexit</span>(__cxa_atexit_t func,void *arg,void *dso);
+
+</pre>
+
+<p>
+This part provides implementation of these functions and the function <b>Exit_atexit()</b> to call all registered functions.
+</p>
+
+<pre>
+
+#ifndef CCore_inc_libc_atexit_h
+#define CCore_inc_libc_atexit_h
+
+namespace CCore {
+
+/* init/exit functions */
+
+void <span class="Att">Exit_atexit</span>();
+
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+You can reuse the implementation from the <b>Vanilla-X</b> or create your own.
+</p>
+
+<pre>
+
+namespace CCore {
+
+/* init/exit functions */
+
+namespace Private_atexit {
+
+/* struct Func */
+
+struct Func
+ {
+  struct Ext
+   {
+    __cxa_atexit_t func;
+    void *arg;
+    void *dso;
+   };
+
+  __std_atexit_t func;
+  Ext ext;
+
+  static Func Create(__std_atexit_t func);
+
+  static Func Create(__cxa_atexit_t func,void *arg,void *dso);
+
+  void operator () ()
+   {
+    if( func )
+      {
+       func();
+      }
+    else
+      {
+       ext.func(ext.arg);
+      }
+   }
+ };
+
+....
+
+bool FuncBlock::Push(const Func &func);
+
+bool FuncBlock::Pop(Func &ret);
+
+} // namespace Private_atexit
+
+using namespace Private_atexit;
+
+/* init/exit functions */
+
+void <span class="Att">Exit_atexit</span>()
+ {
+  for(Func func; FuncBlock::Pop(func) ;) func();
+ }
+
+} // namespace CCore
+
+using namespace CCore;
+
+/* atexit() */
+
+int <span class="Att">atexit</span>(__std_atexit_t func)
+ {
+  if( !func )
+    {
+     errno=EBADARG;
+
+     return -1;
+    }
+
+  Dev::IntLock lock;
+
+  return FuncBlock::Push(Func::Create(func))?0:1 ;
+ }
+
+int <span class="Att">__cxa_atexit</span>(__cxa_atexit_t func,void *arg,void *dso)
+ {
+  if( !func )
+    {
+     errno=EBADARG;
+
+     return -1;
+    }
+
+  Dev::IntLock lock;
+
+  return FuncBlock::Push(Func::Create(func,arg,dso))?0:1 ;
+ }
+
+</pre>
+
+<p>
+Remember, that registration must be done under the <b>IntLock</b> protection.
+</p>
+
+</body>
+
+</html>
+

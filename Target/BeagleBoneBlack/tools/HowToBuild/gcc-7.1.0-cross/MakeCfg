@@ -1,0 +1,23 @@
+# MakeCfg
+
+CONFIGURE = ../../gcc-7.1.0-cross/configure
+
+OPT = --program-prefix=arm-                                         \
+      --prefix=/opt/BBB-7.1.0                                       \
+      --with-local-prefix=/opt/BBB-7.1.0/arm-eabielf                \
+      --with-sysroot=/opt/BBB-7.1.0/sysroot                         \
+      --with-arch=armv7-a                                           \
+      --with-fpu=vfpv3                                              \
+      --with-float-abi=hard                                         \
+      --enable-languages=c,c++                                      \
+      --enable-c99                                                  \
+      --enable-long-long                                            \
+      --disable-shared                                              \
+      --disable-libssp                                              \
+
+
+TARGET = arm-eabielf
+
+all:
+	$(CONFIGURE) $(OPT) --target=$(TARGET) 
+

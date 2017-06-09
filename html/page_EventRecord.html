@@ -1,0 +1,962 @@
+<!--
+/* page_EventRecord.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Event Recording</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Event Recording</h2>
+
+<p class="Files">Files <b>CCore/inc/EventRecorder.h</b> <b>CCore/src/EventRecorder.cpp</b></p>
+
+<p class="Files">Files <b>CCore/inc/task/TaskEvent.h</b> <b>CCore/src/task/TaskEvent.cpp</b></p>
+
+<p>
+Event recorder is a tool to trace an application execution. It record events: small data structures
+with high-precision time-stamp and event id. An event may also contain some additional descriptive fields.
+</p>
+
+<p>
+Event recorder is efficient, event record operation takes only a small number of CPU clocks.
+On <b>XCore</b> targets recording is permitted in any context, including interrupt context.
+Once recording if finished, you can save recorded data in a binary form and transport it to a host
+machine. Binary representation contains meta-information, which helps display events in a user-friendly
+fashion. The data format is standard. <b>CCore</b> has a prototype tool <b>EventView</b> to display and work
+with event records. You may also create and use your own such tools for your particular purpose.
+</p>
+
+<img src="EventView.png">
+
+<h2>EventRecorder</h2>
+
+<p>
+There are two main event recording classes: <b>EventRecorderHost</b> and <b>EventRecorder</b>. 
+The first serves as a recoding operation class. 
+The second is a recording operation buffer. Normally, you create
+a global object of the first type (or use the default one) and use it for the event recording.
+Events are not recorded, unless some <b>EventRecorder</b> is attached to the <b>EventRecorderHost</b>.
+</p>
+
+<pre>
+
+EventRecorderHost&lt;EventRecorder&lt;EventRecorderAlgo&gt; &gt; Host;
+
+void func()
+ {
+  ....
+
+  Host.add&lt;SomeEvent&gt;();
+
+  ....
+ }
+
+int main()
+ {
+  ....
+
+  EventRecorder&lt;EventRecorderAlgo&gt; recorder(10_MByte);
+
+  ....
+
+  {
+   EventRecorderHost&lt;EventRecorder&lt;EventRecorderAlgo&gt; &gt;::StartStop start_stop(Host,&amp;recorder); 
+
+   ....
+
+  }
+
+  ....
+
+  return 0;
+ }
+
+</pre>
+
+<p>
+Both <b>HCore</b> and <b>XCore</b> provides default event recorders. They are declared in
+the header <b>task/TaskEvent.h</b>, included in the <b>Task.h</b>. To enable event recording,
+you have to uncomment the following line:
+</p>
+
+<pre>
+
+//#define CCORE_TASK_EVENT_ENABLE
+
+</pre>
+
+<p>
+and rebuild <b>CCore</b>. You may also comment or uncomment the lines:
+</p>
+
+<pre>
+
+#define CCORE_TASK_EVENT_ENABLE_SYNC
+#define CCORE_TASK_EVENT_ENABLE_PROTO
+#define CCORE_TASK_EVENT_ENABLE_DEV
+
+</pre>
+
+<p>
+to control the recording of the particular event classes.
+</p>
+
+<p>
+Below is a default recoding object declarations:
+</p>
+
+<pre>
+
+/* struct TaskEventAlgo */
+
+struct <span class="Att">TaskEventAlgo</span>
+ {
+  ....
+ };
+
+/* types */
+
+using <span class="Att">TaskEventRecorder</span> = EventRecorder&lt;TaskEventAlgo&gt; ;
+
+/* class TaskEventHostType */
+
+class <span class="Att">TaskEventHostType</span>
+ {
+  public:
+  
+   class StartStop : NoCopy
+    {
+     public: 
+      
+      StartStop(TaskEventHostType &amp;host,TaskEventRecorder *recorder); 
+
+      ~StartStop();
+    };
+   
+   template &lt;class T,class ... SS&gt;
+   void add(SS &amp;&amp; ...);
+   
+   template &lt;class T,class ... SS&gt;
+   void addSync(SS &amp;&amp; ...);
+ 
+   template &lt;class T,class ... SS&gt;
+   void addProto(SS &amp;&amp; ...);
+ 
+   template &lt;class T,class ... SS&gt;
+   void addDev(SS &amp;&amp; ...);
+ 
+   void tick();
+ };
+
+/* global TaskEventHost */
+
+extern TaskEventHostType <span class="Att">TaskEventHost</span>;
+
+</pre>
+
+<p>
+The class <b>TaskEventAlgo</b> contains some basic algorithms, required by the class <b>EventRecorder</b>.
+It is <b>Core</b>-specific.
+</p>
+
+<p>
+<b>TaskEventRecorder</b> and <b>TaskEventHostType</b> are the default recorder and the recorder host types.
+</p>
+
+<p>
+<b>TaskEventHost</b> is the default event recorder host, it should be used to record events.
+</p>
+
+<p>
+To record an event you have to use one of the methods: <b>add()</b>, <b>addSync()</b>,
+<b>addProto()</b> and <b>addDev()</b>. They do the same thing: record an event. The difference is:
+some of these methods can be defined as NOP operations, by commenting the correspondent macros.
+It allows to filter out events by their sources. <b>Sync</b> events come from synchronization classes,
+<b>Proto</b> events come from protocols and <b>Dev</b> events come from device drivers. Any other
+events come from the application layer.
+</p>
+
+<p>
+<b>tick()</b> is used to add tick events. You done need to call this method directly.
+On <b>XCore</b> it is called from the timer interrupt. On <b>HCore</b> there is a special task 
+to generate this event. You have to start it manually.
+</p>
+
+<p>
+The inner class <b>StartStop</b> starts and stops the event recording. Its constructor starts the process,
+the first argument is a recorder host, the second is a pointer to the recorder buffer. 
+Destructor stops the recording.
+</p>
+
+<h3>EventRecorderHost</h3>
+
+<p>
+This class implements the event recording logic and the recorder attach/detach logic.
+</p>
+
+<pre>
+
+inline constexpr unsigned <span class="Att">DefaultGuardCount</span> = 1'000'000 ;
+
+template &lt;class Recorder,unsigned GuardCount=DefaultGuardCount&gt;
+class <span class="Att">EventRecorderHost</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   EventRecorderHost();
+   
+   class StartStop : NoCopy
+    {
+      ....
+      
+     public: 
+      
+      StartStop(EventRecorderHost &host,Recorder *recorder); 
+      
+      ~StartStop(); 
+    };
+   
+   template &lt;class T,class ... SS&gt;
+   void add(SS &amp;&amp; ... ss) requires ( EventInitArg&lt;T,SS...&gt; ) ;
+   
+   void tick()
+    {
+     add&lt;EventControl&gt;(EventControl::Type_Tick);
+    }
+ };
+
+</pre>
+
+<p>
+<b>StartStop</b> is used to start/stop recording. Constructors starts operations,
+destructor stops them. The <b>recorder</b> must live while the recording is running.
+</p>
+
+<p>
+<b>add()</b> adds an event. The event type must be provided as well as required by this type event arguments.
+The type must follow the event type class rules. 
+</p>
+
+<p>
+<b>tick()</b> adds the tick <b>EventControl</b> event. There is a special event type: <b>EventControl</b>.
+The start event of this types begins the recording, stop event ends it and tick events must be generated periodically.
+</p>
+
+<h3>EventRecorder</h3>
+
+<p>
+The class <b>EventRecorder</b> is a recorder class. It stores recorded events.
+</p>
+
+<pre>
+
+template &lt;class Algo&gt;
+class <span class="Att">EventRecorder</span> : NoCopy
+ {
+   ....
+
+  public: 
+   
+   static constexpr ulen RecordAlign = Algo::RecordAlign ;
+   
+   explicit EventRecorder(ulen buf_len);
+   
+   ~EventRecorder();
+   
+   template &lt;class T,class ... SS&gt;
+   void add(SS &amp;&amp; ... ss) requires ( EventInitArg&lt;T,SS...&gt; ) ;
+   
+   template &lt;FuncInitArgType&lt;const EventRecorder &,const EventDesc &,void *&gt; FuncInit&gt;
+   void parse(FuncInit func_init) const
+   
+   // save/load object
+
+   void save(SaveDevType &amp;dev) const;
+   
+   // print object
+   
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Constructor creates an object with the given event buffer capacity.
+</p>
+
+<p>
+<b>add()</b> adds an event. The first template argument is the event object type and 
+must be provided explicitly. If there is no enough space the event is discarded.
+</p>
+
+<p>
+<b>parse()</b> iterates over the recorder content. For each recorded event the given functor is called
+with three arguments: <b>EventMetaInfo</b> constant reference, the event <b>EventMetaInfo::EventDesc</b> constant reference
+and the pointer to the event record. 
+</p>
+
+<p>
+<b>save()</b> saves the recorder content in a binary form to the given <a href="page_SaveLoad.html">binary output device</a>.
+</p>
+
+<p>
+<b>print()</b> prints the recorder content (can be a large output).
+</p>
+
+<p>
+You may find an example of the event recording in the <b>test3028.PTP.cpp</b>. 
+</p>
+
+<h2>TaskEventAlgo</h2>
+
+<p>
+This is a core-specific structure with some basic algorithms.
+</p>
+
+<pre>
+
+struct <span class="Att">TaskEventAlgo</span>
+ {
+  static constexpr ulen RecordAlign = 4 ;
+  
+  static constexpr uint64 TimeFreq = .... ;
+
+  class AllocPos : NoCopy
+   {
+     ....
+     
+    public:
+    
+     AllocPos();
+     
+     ~AllocPos();
+     
+     operator ulen() const;
+     
+     EventRecordPos alloc(ulen len);
+     
+     void back(ulen len);
+   };
+ };
+
+</pre>
+
+<p>
+<b>RecordAlign</b> is a memory alignment for event types. This value equals 4 both for <b>HCore</b> 
+and <b>XCore</b>. It means any event type must not have stronger alignment requirement than this value. 
+</p>
+
+<p>
+<b>TimeFreq</b> is a time-stamp frequency. This value is 0 for <b>HCore</b> and a real timer interrupt
+frequency on <b>XCore</b>.
+</p>
+
+<p>
+The last member is the class <b>AllocPos</b>. It is used to allocate a space for an event and time-stamp it.
+The implementation is differ on <b>XCore</b> than on <b>HCore</b>.
+</p>
+
+<h2>TickTask</h2>
+
+<p>
+This class is used on <b>HCore</b> to inject tick events with 10 Hz frequency.
+</p>
+
+<pre>
+
+class <span class="Att">TickTask</span> : NoCopy
+ {
+   ....
+
+  public: 
+  
+   TickTask();
+   
+   ~TickTask();
+ };
+
+</pre>
+
+<p>
+Constructor starts the tick task, destructor stops it. You should always use this class on <b>HCore</b>
+targets to properly time events, because the time-stamp frequency is unknown and may vary.
+</p>
+
+<p>
+The class with the same name exists on <b>XCore</b> also, but it is empty.
+</p>
+
+<h2>Event types</h2>
+
+<p>
+Each event type must be a short POD structure with the following starting fields:
+</p>
+
+<pre>
+
+struct SomeEvent
+ {
+  EventTimeType time;
+  EventIdType id;
+
+  ....
+ };
+
+</pre>
+
+<p>
+It must also have two methods: <b>init()</b> to initialize the object and <b>Register()</b> to register 
+a type meta-information. The total structure length must not exceed 256 bytes.
+</p>
+
+<pre>
+
+struct SomeEvent
+ {
+  EventTimeType time;
+  EventIdType id;
+
+  ....
+
+  void init(EventTimeType time_,EventIdType id_,....)
+   {
+    time=time_;
+    id=id_;
+    
+    ....
+   }
+
+  static void Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc);
+ };
+
+</pre>
+
+<p>
+Additional arguments of the method <b>init()</b> must be provided in the method <b>add()</b> 
+during an event recording.
+</p>
+
+<p>
+For example, the type <b>EventControl</b> is implemented as following:
+</p>
+
+<pre>
+
+struct <span class="Att">EventControl</span>
+ {
+  EventTimeType time;
+  EventIdType id;
+  uint8 type;
+  
+  enum Type
+   {
+    Type_Start,
+    Type_Tick,
+    Type_Stop,
+    Type_End
+   };
+  
+  void init(EventTimeType time_,EventIdType id_,Type type_)
+   {
+    time=time_;
+    id=id_;
+    
+    type=type_;
+   }
+  
+  static void * Offset_time(void *ptr) { return &amp;(static_cast&lt;EventControl *&gt;(ptr)->time); }
+  
+  static void * Offset_id(void *ptr) { return &amp;(static_cast&lt;EventControl *&gt;(ptr)->id); }
+  
+  static void * Offset_type(void *ptr) { return &amp;(static_cast&lt;EventControl *&gt;(ptr)->type); }
+  
+  static void Register(EventMetaInfo &amp;info,EventMetaInfo::EventDesc &amp;desc);
+ };
+
+</pre>
+
+<p>
+And here is the method <b>Register()</b>:
+</p>
+
+<pre>
+
+void <span class="Att">EventControl::Register</span>(EventMetaInfo &amp;info,EventMetaInfo::EventDesc &amp;desc)
+ {
+  auto id_Type=info.addEnum_uint8("EventControlType")
+                   .addValueName(Type_Start,"Start",EventMarker_Push)
+                   .addValueName(Type_Tick,"Tick",EventMarker_Tick)
+                   .addValueName(Type_Stop,"Stop",EventMarker_Stop)
+                   .addValueName(Type_End,"End")
+                   .getId();
+  
+  auto id=info.addStruct("EventControl")
+              .addField_uint32("time",Offset_time)
+              .addField_uint16("id",Offset_id)
+              .addField_enum_uint8(id_Type,"type",Offset_type)
+              .getId();
+  
+  desc.setStructId(info,id);
+ }
+
+</pre>
+
+<p>
+To register a type, you have to add a structure description to the given <b>EventMetaInfo</b> object
+and then complete the registration using the method <b>setStructId()</b> of the given 
+<b>EventMetaInfo::EventDesc</b> descriptor object as shown above. To add a structure description
+you do the following chain call:
+</p>
+
+<pre>
+
+  auto id=info.addStruct("Structure Name") // add a structure description
+
+              .addField....(....) // add a field description
+
+              ....
+
+              .getId(); // get the structure description id
+
+</pre>
+
+<p>
+To add a field description you will need the "field cast function". This function takes a pointer to
+the structure and returns the pointer to the correspondent field. In the example above 
+<b>Offset_time()</b>, <b>Offset_id()</b> and <b>Offset_type()</b> are such functions.
+You may use the following methods to add a field description:
+</p>
+
+<pre>
+
+StructDesc & addField_uint8(const String &name,OffsetFunc offset);
+StructDesc & addField_uint16(const String &name,OffsetFunc offset);
+StructDesc & addField_uint32(const String &name,OffsetFunc offset);
+
+StructDesc & addField_enum_uint8(EventIdType id,const String &name,OffsetFunc offset);
+StructDesc & addField_enum_uint16(EventIdType id,const String &name,OffsetFunc offset);
+StructDesc & addField_enum_uint32(EventIdType id,const String &name,OffsetFunc offset);
+      
+StructDesc & addField_struct(EventIdType id,const String &name,OffsetFunc offset);
+
+</pre>
+
+<p>
+The first three methods describe fields of types <b>uint8</b>, <b>uint16</b> and <b>uint32</b>.
+The next three describe "enum" fields. You have to provide an enum id.
+And the last one describes a "structure" field. You have to provide a structure id.
+You may use the <b>const char *</b> type to specify a name.
+</p>
+
+<p>
+"Enum" types are, in fact, the types <b>uint8</b>, <b>uint16</b> and <b>uint32</b>, but supplied
+with names for some values (and optionally event markers). To add an enum description
+you do the following chain call:
+</p>
+
+<pre>
+
+  auto id_Type=info.addEnum_uint8("Enum name") // add an enum description
+
+                   .addValueName(&lt;value&gt;,"name",&lt;event marker&gt;) // add a value description
+
+                   .addValueName(&lt;value&gt;,"name")
+
+                   ....
+
+                   .getId(); // get the enum description id
+
+</pre>
+
+<p>
+You may use the following methods to add an enum description:
+</p>
+
+<pre>
+
+EnumDesc &amp; addEnum_uint8(const String &amp;name);
+EnumDesc &amp; addEnum_uint16(const String &amp;name);
+EnumDesc &amp; addEnum_uint32(const String &amp;name);
+
+</pre>
+
+<p>
+The following method is used to add a value description:
+</p>
+
+<pre>
+
+EnumDesc &amp; addValueName(uint32 value,const String &amp;name,EventMarker marker=EventMarker_None);
+      
+</pre>
+
+<p>
+You may specify an "append" function for enum:
+</p>
+
+<pre>
+
+using AppendFunc = void (*)(EnumDesc &desc);
+
+EnumDesc &amp; setAppendFunc(AppendFunc append_func);
+
+</pre>
+
+<p>
+This function is called for each enum description after the recording process is stopped to update
+value/name couples. There is a helper class <b>EventEnumValue</b>, which 
+implements a run-time enum name allocation.
+</p>
+
+<p>
+In some cases you may want to use the same meta type to define multiple meta types.
+You must use for this the <b>EventTypeId</b> template: 
+</p>
+
+<pre>
+
+      .addField_enum_uint8( EventTypeId&lt;TypeReg&gt;::GetId() ,....)
+
+</pre>
+
+<p>
+The structure <b>TypeReg</b> provides a registration method:
+</p>
+
+<pre>
+
+struct TypeReg
+ {
+  static EventIdType Register(EventMetaInfo &info)
+   {
+    return info.addEnum_uint8("Enum name")
+
+               ....
+
+               .getId();
+   }
+ };
+
+</pre>
+
+<p>
+You may assign a classid to the event, using the method <b>classId()</b>:
+</p>
+
+<pre>
+
+  desc.classId&lt;AnotherEvent&gt;();
+
+  desc.setStructId(info,id);
+
+</pre>
+
+<p>
+An event descriptor is assigned the event classid, equals the event id by default.
+But you may assign a different classid. This value is used to group multiple event types
+into a group to help a visualization of events of related types.
+</p>
+
+<h2>EventMarker</h2>
+
+<p>
+<b>EventMarker</b> may be assigned to an enum value. This marker can be used by event visualization
+tools to show a marker on this event. There is a standard list of marker glyphs.
+</p>
+
+<img src="Markers.png">
+
+<p>
+By convention, the marker from an enum field with a non-null markers is used to mark an event.
+The field with the name <b>type</b> is preferred over others.
+</p>
+
+<pre>
+
+enum <span class="Att">EventMarker</span>
+ {
+  EventMarker_None,
+  
+  EventMarker_Up,
+  EventMarker_Down,
+  
+  EventMarker_UpBlock,
+  EventMarker_DownBlock,
+  
+  EventMarker_UpUp,
+  EventMarker_UpPush,
+  EventMarker_UpUpPush,
+  
+  EventMarker_Push,
+  
+  EventMarker_Inc,
+  EventMarker_Dec,
+  
+  EventMarker_Wait,
+  EventMarker_Pass,
+  
+  EventMarker_Tick,
+  
+  EventMarker_Stop,
+  
+  EventMarker_Error
+ };
+
+</pre>
+
+<h2>EventControl</h2>
+
+<p>
+<b>EventControl</b> is a special control event. It has the field <b>type</b> with possible four 
+enum values:
+</p>
+
+<pre>
+
+enum <span class="Att">EventControl::Type</span>
+ {
+  Type_Start,
+  Type_Tick,
+  Type_Stop,
+  Type_End
+ };
+
+</pre>
+
+<p>
+The event <b>Start</b> is generated as the first event once the recording process is started.
+The correspondent marker is <b>Push</b>.
+</p>
+
+<p>
+The event <b>Tick</b> is generated with some period during the recording process.
+The correspondent marker is <b>Tick</b>.
+</p>
+
+<p>
+The event <b>Stop</b> is generated as the last event once the recording process is stopped.
+The correspondent marker is <b>Stop</b>.
+</p>
+
+<p>
+The event <b>End</b> is not generated, but added during the saving operation as the last event
+to mark the end of the binary stream.
+</p>
+
+<h2>EventEnumValue</h2>
+
+<p>
+The class <b>EventEnumValue</b> can be used to update a value/name couple list of an enum at run-time.
+</p>
+
+<pre>
+
+#if 0
+
+struct T
+ {
+  using ValueType = uint16 ;
+  
+  static constexpr ValueType Base = 10 ;
+  static constexpr ValueType Lim = 100 ;
+  static constexpr EventMarker Marker = EventMarker_None ;
+ };
+
+#endif
+
+template &lt;class T&gt;
+class <span class="Att">EventEnumValue</span>
+ {
+   ....
+
+  public: 
+   
+   explicit EventEnumValue(TextLabel name);
+   
+   operator ValueType() const;
+   
+   template &lt;class Desc&gt;
+   static void Append(Desc &desc);
+ };
+
+</pre>
+
+<p>
+You must declare a structure with some static members first. The members are: <b>ValueType</b>,
+<b>Base</b> and <b>Lim</b>. A value range from <b>Base</b> to <b>Lim</b> can be used to allocate
+a value with an assigned name. To allocate a value simply create an instance of the type
+<b>EventEnumValue&lt;T&gt;</b>. Constructor takes a <b>TextLabel</b> argument to specify the value name.
+The static method <b>Append</b> must be used as the append function when registering the 
+correspondent enum meta-type. <b>T::Marker</b> is used when appending allocated values.
+</p>
+
+<h2>Binary output format</h2>
+
+<p>
+Binary output uses the big-endian byte order to represent base types (<b>uint8, uint16, uint32, uint64</b>).
+The following type representation is used to encode the meta-information. 
+</p>
+
+<pre>
+
+enum Kind : uint8
+ {
+  Uint8,
+  Uint16,
+  Uint32,
+     
+  enum_Uint8,
+  enum_Uint16,
+  enum_Uint32,
+     
+  struct
+ };
+
+enum Marker : uint8
+ {
+  None,
+  
+  Up,
+  Down,
+  
+  UpBlock,
+  DownBlock,
+  
+  UpUp,
+  UpPush,
+  UpUpPush,
+  
+  Push,
+  
+  Inc,
+  Dec,
+  
+  Wait,
+  Pass,
+  
+  Tick,
+  
+  Stop,
+  
+  Error
+ };
+
+type String
+ {
+  uint32 len;
+  uint8 text[len];
+ };
+
+type List&lt;T&gt;
+ {
+  uint32 len;
+  T items[len];
+ };
+
+type Value
+ {
+  uint32 value;
+  String name;
+  Marker marker;
+ };
+
+type Enum
+ {
+  Kind kind;
+  String name;
+  List&lt;Value&gt; values;
+ };
+
+type Field
+ {
+  Kind kind;
+  uint16 id; // id of enum or struct
+  String name;
+ };
+
+type Struct
+ {
+  String name;
+  List&lt;Field&gt; fields;
+ };
+
+type Event
+ {
+  uint32 struct_id;
+  uint32 class_id; // event id 
+  uint32 save_len; // save length of an event record
+ };
+
+type MetaInfo
+ {
+  uint64 time_freq;
+  List&lt;Enum&gt; enums;
+  List&lt;Struct&gt; structs;
+  List&lt;Event&gt; events;
+ };
+
+</pre>
+
+<p>
+An item id is the index in the correspondent item list.
+</p>
+
+<p>
+<b>time_freq</b> may be zero. In this case time-stamp frequency is unknown and should be derived 
+from tick events.
+</p>
+
+<p>
+A binary output starts from the meta-information and followed by event records. The last record
+is the record of the <b>EventControl</b> event with the type equals <b>End</b>.
+Each event record starts from two fields:
+</p>
+
+<pre>
+
+type RecordPrefix
+ {
+  uint32 time;
+  uint16 id;
+ };
+
+</pre>
+
+<p>
+You may parse an event record using the event id. The rest of the event record is the list of fields
+of the correspondent structure (except first two). You may use also the <b>save_len</b> field
+of the event meta-info.
+</p>
+
+<p>
+Time-stamp is represented using the <b>uint32</b>. As long as a periodic tick is present in the record
+with enough frequency you always may restore the extended time-stamp by the differentiation and the
+following reaccumulation of time stamps in a variable with higher value range. 
+</p>
+
+</body>
+
+</html>
+

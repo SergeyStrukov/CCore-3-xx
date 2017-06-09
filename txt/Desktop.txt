@@ -1,0 +1,99 @@
+/* Desktop.txt */
+
+--- Infrastructure -------------------------------------------------------------
+
+ApplicationBase.h    ++ 
+DrawBuf.h            ++            
+FrameWindow.h        ++       
+Keyboard.h           ++    
+Mouse.h              ++         
+SubWindow.h          ++        
+UserAction.h         ++   
+
+--- Drawing --------------------------------------------------------------------
+
+GammaTable.h         ++    
+
+DrawTools.h          ++          
+CurveDriver.h        ++
+DrawAlgo.h           +
+CommonDrawArt.h      +
+
+ColorField.h         ++
+SmoothAlgo.h         ++    
+SmoothDrawArt.h      ++
+            
+--- Font -----------------------------------------------------------------------
+
+Font.h               ++        
+FreeType.h           ++
+FreeTypeFont.h       ++
+
+--- Tools ----------------------------------------------------------------------
+
+ButtonId.h           ++
+DesktopKey.h         ++        
+ProgressScale.h      ++      
+Picture.h            ++
+Info.h               ++
+FileNameCmp.h        ++
+FileBoss.h           ++
+Incremental.h        ++        
+
+--- Tools ----------------------------------------------------------------------
+
+RefVal.h             ++
+MinSizeType.h        ++                     
+Layout.h             ++
+
+FontParam.h          ++          
+ConfigStore.h        ++     
+FontDatabase.h       ++
+
+PrintDDL.h           ++
+InfoSize.h           ++
+
+FrameBase.h          ++
+
+================================================================================
+
+--- Drawing --------------------------------------------------------------------
+
+FigureLib.h          ++           
+
+--- Window ---------------------------------------------------------------------
+
+ShapeLib.h           ++            
+WindowLib.h          ++
+          
+WindowReport.h       ++       
+
+ToolFrame.h          ++    hint?
+Menu.h               ++
+
+MessageFrame.h       ++           
+FileFrame.h          ++
+        
+ConfigBinder.h       ++        
+UserPreference.h     ++
+
+--- Pref -----------------------------------------------------------------------
+
+CoordEdit.h          +
+PointEdit.h          +
+RatioEdit.h          +
+
+MCoordEdit.h         +
+ColorEdit.h          +
+FontEdit.h           +
+
+ConfigEditor.h       +
+
+--------------------------------------------------------------------------------
+
+================================================================================
+
+DDLDisplay           + folding
+
+================================================================================
+ 

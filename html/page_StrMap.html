@@ -1,0 +1,108 @@
+<!--
+/* page_StrMap.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> StrMap</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>StrMap</h2>
+
+<p class="Files">Files <b>CCore/inc/StrMap.h</b> <b>CCore/src/StrMap.cpp</b></p>
+
+<p>
+<b>StrMap</b> is a <b>Partial class</b>. It can be used to build a static string indexed map.
+The type <b>T</b> must have a nothrow destructor and be swappable.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">StrMap</span> : NoCopy
+ {
+   ....
+
+  protected:
+
+   StrMap() {}
+
+   template &lt;class ... SS&gt;
+   void add(StrLen key,SS &amp;&amp; ... ss); // key is persistent
+
+   void complete();
+
+  public:
+
+   ~StrMap() {}
+
+   T * operator [] (StrLen key);
+
+   const T * operator [] (StrLen key) const;
+ };
+
+</pre>
+
+<p>
+<b>operator []</b> returns the pointer to the object with the given key. If there is no such then null is returned. 
+</p>
+
+<p>
+Constructor of a derived class is responsible for the building the map. It may add map elements using the method <b>add()</b>.
+The first argument is the <b>StrLen</b> key, it must be persistent for the map life-time duration. 
+Other arguments are forwarded to the <b>T</b> constructor. To finish the map building the method <b>complete()</b> must be called.
+</p>
+
+<h4>Utilities</h4>
+
+<p>
+There are two common algorithms of incremental search a given string in a sorted range of strings.
+Both operates on a range of objects. 
+It is assumed, that each object contains a <b>StrLen</b> property and the range is sorted in respect to this property.
+To extract this property the functor <b>by</b> is used.
+</p>
+
+<pre>
+
+template &lt;Algon::RangeType R,class Func&gt;
+R <span class="Att">StrNextFrame</span>(R r,ulen ind,char ch,Func by);
+
+template &lt;Algon::RangeType R,class Func&gt;
+R <span class="Att">StrLastFrame</span>(R r,ulen len,Func by);
+
+</pre>
+
+<p>
+<b>StrNextFrame()</b> returns the subrange of objects, which string has the <b>ind</b>-th character equals <b>ch</b>. 
+It is assumed, that <b>ind</b>-length prefix of all strings are the same. The resulting subrange consists of objects with
+<b>ind+1</b>-length prefix of all strings are the same.
+</p>
+
+<p>
+<b>StrLastFrame()</b> returns the subrange of objects, which string has the length <b>len</b>. 
+It is assumed, that <b>len</b>-length prefix of all strings are the same.
+</p>
+
+</body>
+
+</html>
+

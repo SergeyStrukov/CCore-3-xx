@@ -1,0 +1,546 @@
+<!--
+/* page_PKE.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PKE</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PKE</h2>
+
+<p class="Files">Files <b>CCore/inc/net/PSecCore.h</b> <b>CCore/src/net/PSecCore.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/net/PKE.h</b> <b>CCore/src/net/PKE.cpp</b></p>
+
+<p>
+<b>PKE</b> is a key exchange and authentication protocol intended to be used with the <b>PSec</b>. Two peers communicate
+using <b>PKE</b> to confirm peers identity and to generate a session key. This key can be used further to open
+a <b>PSec</b> communication channel. <b>CCore</b> provides an implementation of this protocol enclosed in the namespace <b>PSec</b>.
+</p>
+
+<h3>Utilities</h3>
+
+<h4>PKError</h4>
+
+<p>
+<b>PKError</b> is a error code type. It is used to identify a particular error situation during the <b>PKE</b> negotiation.
+</p>
+
+<pre>
+
+/* enum PKError */
+
+enum <span class="Att">PKError</span> : uint32
+ {
+  PKENoError = 0 ,
+  PKError_NoClientID,
+  PKError_Exhausted,
+  PKError_NoAlgo,
+  PKError_NoAccess,
+  PKError_NoLimit
+ };
+
+const char * GetTextDesc(PKError error);
+
+</pre>
+
+<p>
+<b>PKENoError</b> means no error.
+</p>
+
+<p>
+<b>PKError_NoClientID</b> means the server has not recognized the provided client identity.
+</p>
+
+<p>
+<b>PKError_Exhausted</b> means the server cannot proceed due to a lack of some processing resource.
+</p>
+
+<p>
+<b>PKError_NoAlgo</b> means there is no common algorithm selection between the client and the server.
+</p>
+
+<p>
+<b>PKError_NoAccess</b> means the client access has been denied.
+</p>
+
+<p>
+<b>PKError_NoLimit</b> means there is too many negotiations on the server side.
+</p>
+
+<h4>Prime Key</h4>
+
+<p>
+A <i>prime key</i> is an abstract hash function. This key is used to identify a peer and participates in the session key
+generation process.
+</p>
+
+<pre>
+
+/* type PrimeKeyPtr */
+
+using <span class="Att">PrimeKeyPtr</span> = OwnPtr&lt;AbstractHashFunc&gt; ;
+
+</pre>
+
+<p>
+To carry a prime key an <b>OwnPtr</b> to an abstract hash function is used. This type is not copyable, but movable.
+</p>
+
+<h4>AbstractClientID</h4>
+
+<p>
+<b>AbstractClientID</b> is an abstract class. It is used to present a client identity ("user name").
+A client identity consists of the range of octets. 
+The meaning of these octets is transparent. 
+It can be a plain user name of a hash digest of a plain user name.
+It is transported to the server to start the negotiation process.
+</p>
+
+<pre>
+
+/* struct AbstractClientID */
+
+struct <span class="Att">AbstractClientID</span> : MemBase_nocopy
+ {
+  virtual ~AbstractClientID() {}
+
+  virtual uint8 getLen() const =0;
+
+  virtual void getID(uint8 buf[ /* Len */ ]) const =0;
+ };
+
+/* type ClientIDPtr */
+
+using <span class="Att">ClientIDPtr</span> = OwnPtr&lt;AbstractClientID&gt; ;
+
+</pre>
+
+<p>
+<b>getLen()</b> returns the id length.
+</p>
+
+<p>
+<b>getID()</b> copies the id octets to the provided buffer of the proper length.
+</p>
+
+<h4>SessionKeyParam</h4>
+
+<p>
+<b>SessionKeyParam</b> is a set of session key parameters.
+</p>
+
+<pre>
+
+/* consts */
+
+inline constexpr uint16 <span class="Att">MinKeySetLen</span>     = 5 ;
+inline constexpr uint16 <span class="Att">DefaultKeySetLen</span> = 10 ;
+inline constexpr uint16 <span class="Att">MaxKeySetLen</span>     = 100 ;
+
+inline constexpr uint32 <span class="Att">MinTTL</span>     = 360 ;   // 6 min
+inline constexpr uint32 <span class="Att">DefaultTTL</span> = 3600 ;  // 1 hour
+inline constexpr uint32 <span class="Att">MaxTTL</span>     = 36000 ; // 10 hour
+
+inline constexpr uint32 <span class="Att">MinUTL</span>     = 1'000'000 ;
+inline constexpr uint32 <span class="Att">DefaultUTL</span> = 100'000'000 ;
+inline constexpr uint32 <span class="Att">MaxUTL</span>     = 1'000'000'000 ;
+
+/* struct SessionKeyParam */
+
+struct <span class="Att">SessionKeyParam</span>
+ {
+  uint16 keyset_len = DefaultKeySetLen ;
+  uint32 ttl = DefaultTTL ;
+  uint32 utl = DefaultUTL ;
+
+  // constructors
+
+  SessionKeyParam() noexcept {}
+
+  SessionKeyParam(uint16 keyset_len_,uint32 ttl_,uint32 utl_) : keyset_len(keyset_len_),ttl(ttl_),utl(utl_) {}
+
+  ....
+ };
+
+</pre>
+
+<p>
+<b>keyset_len</b> is the keyset length. It must be in the range <b>[MinKeySetLen,MaxKeySetLen]</b>.
+The default value is <b>DefaultKeySetLen</b>.
+</p>
+
+<p>
+<b>ttl</b> is the time-to-live key parameter. It must be in the range <b>[MinTTL,MaxTTL]</b>. 
+The default value is <b>DefaultTTL</b>.
+</p>
+
+<p>
+<b>utl</b> is the key traffic limit. It must be in the range <b>[MinUTL,MaxUTL]</b>. 
+The default value is <b>DefaultUTL</b>.
+</p>
+
+<h4>CryptAlgoSelect</h4>
+
+<p>
+To generate a session key three cryptography algorithms must be selected. Both server and client propose lists of such triples
+and negotiate selection.
+</p>
+
+<pre>
+
+/* enum CryptID */
+
+enum <span class="Att">CryptID</span> : uint8
+ {
+  CryptID_AES128,
+  CryptID_AES192,
+  CryptID_AES256
+
+  // may be continued
+ };
+
+const char * GetTextDesc(CryptID crypt_id);
+
+class ProxySet_CryptID : public StringSetScan
+ {
+  public:
+
+   ProxySet_CryptID();
+
+   void map(CryptID &ret) const;
+ };
+
+/* enum HashID */
+
+enum <span class="Att">HashID</span> : uint8
+ {
+  HashID_SHA1,
+  HashID_SHA224,
+  HashID_SHA256,
+  HashID_SHA384,
+  HashID_SHA512
+
+  // may be continued
+ };
+
+const char * GetTextDesc(HashID hash_id);
+
+class ProxySet_HashID : public StringSetScan
+ {
+  public:
+
+   ProxySet_HashID();
+
+   void map(HashID &ret) const;
+ };
+
+/* enum DHGroupID */
+
+enum <span class="Att">DHGroupID</span> : uint8
+ {
+  DHGroupID_I,
+  DHGroupID_II
+
+  // may be continued
+ };
+
+const char * GetTextDesc(DHGroupID dhg_id);
+
+class ProxySet_DHGroupID : public StringSetScan
+ {
+  public:
+
+   ProxySet_DHGroupID();
+
+   void map(DHGroupID &ret) const;
+ };
+
+/* struct CryptAlgoSelect */
+
+struct <span class="Att">CryptAlgoSelect</span>
+ {
+  uint8 crypt_id = CryptID_AES256 ;
+  uint8 hash_id = HashID_SHA256 ;
+  uint8 dhg_id = DHGroupID_II ;
+
+  // constructors
+
+  CryptAlgoSelect() noexcept {}
+
+  CryptAlgoSelect(CryptID crypt_id_,HashID hash_id_,DHGroupID dhg_id_) : crypt_id(crypt_id_),hash_id(hash_id_),dhg_id(dhg_id_) {}
+
+  ....
+ };
+
+</pre>
+
+<p>
+<b>crypt_id</b> identifies a block cipher algorithm.
+</p>
+
+<p>
+<b>hash_id</b> identifies a hash algorithm.
+</p>
+
+<p>
+<b>dhg_id</b> identifies a Diffie-Hellman group algorithm.
+</p>
+
+<h4>ClientDatabase</h4>
+
+<p>
+<b>ClientDatabase</b> is an interface to work to a client database.
+</p>
+
+<pre>
+
+struct <span class="Att">ClientDatabase</span>
+ {
+  static const Unid TypeUnid;
+
+  enum FindErrorCode : uint32
+   {
+    Find_Ok = 0,
+
+    FindError_NoMemory,
+    FindError_NoClientID
+   };
+
+  virtual FindErrorCode findClient(PtrLen&lt;const uint8&gt; client_id,PrimeKeyPtr &amp;client_key,ClientProfilePtr &amp;client_profile) const =0;
+ };
+
+</pre>
+
+<p>
+The only method is the <b>findClient()</b>. This method looks up in the client database and returns the client credentials, if any.
+<b>client_id</b> is a client identity. <b>client_key</b> is used to return the prime client key. 
+<b>client_profile</b> is used to return the client profile.
+</p>
+
+<h4>AlgoSet</h4>
+
+<p>
+<b>AlgoSet</b> is an algorithm selection list.
+</p>
+
+<pre>
+
+class <span class="Att">AlgoSet</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   AlgoSet();
+
+   enum DefaultType { DefaultSet };
+
+   explicit AlgoSet(DefaultType) { addDefault(); }
+
+   ~AlgoSet();
+
+   void add(CryptID crypt_id,HashID hash_id,DHGroupID dhg_id);
+
+   void addDefault();
+
+   PtrLen&lt;const CryptAlgoSelect&gt; getAlgoList() const;
+
+   PtrLen&lt;const AlgoLen&gt; getAlgoLens() const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates an empty list. The second constructor with the <b>DefaultType</b> argument
+creates a default algorithm selection list.
+</p>
+
+<p>
+<b>add()</b> adds the algorithm selection with the given <b>crypt_id</b>, <b>hash_id</b> and <b>dhg_id</b>.
+</p>
+
+<p>
+<b>addDefault()</b> adds some default algorithm selection list.
+</p>
+
+<p>
+<b>getAlgoList()</b> returns the range of the algorithm selections.
+</p>
+
+<p>
+<b>getAlgoLens()</b> returns the range of <b>AlgoLen</b>s, correspondent to the algorithm selections.
+</p>
+
+<h3>ClientNegotiant</h3>
+
+<p>
+<b>ClientNegotiant</b> is used by client to start a <b>PKE</b> exchange. When the exchange is finished a signal is asserted
+and the outcome of the negotiation can be retrieved. 
+</p>
+
+<pre>
+
+class <span class="Att">ClientNegotiant</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   enum State
+    {
+     State_Null,
+     State_Ready,
+     State_Started,
+     State_Done,
+     State_ClientError,
+     State_ServerError,
+     State_Timeout
+    };
+
+   friend const char * GetTextDesc(State state);
+
+   ClientNegotiant(StrLen ep_dev_name,Function&lt;void (void)&gt; done_func);
+
+   ~ClientNegotiant();
+
+   State getState() const;
+
+   PKError getError() const;
+
+   void prepare(XPoint psec_port,const AbstractClientID &amp;client_id,PrimeKeyPtr &amp;&amp;client_key,PrimeKeyPtr &amp;&amp;server_key,SessionKeyParam param={});
+
+   void start(PtrLen&lt;const CryptAlgoSelect&gt; algo_list);
+
+   void start(const AlgoSet &amp;algo_set);
+
+   void getSessionKey(MasterKeyPtr &amp;ret);
+ };
+
+</pre>
+
+<p>
+The first constructor argument is the <b>PacketEndpoint</b> device name. This device is used to communicate with the server.
+The second is an alert function. This function is called inside the inbound processing when the negotiation is finished.
+All class methods are thread-safe.
+</p>
+
+<p>
+<b>getState()</b> returns the state of the object. The state is <b>State_Null</b> right after the creation of the object.
+<b>prepare()</b> method turns it into the <b>State_Ready</b>.
+<b>start()</b> method turns it into the <b>State_Started</b>.
+After the negotiation is finished the state is one of the following: <b>State_Done</b> is the negotiation is successful,
+<b>State_ClientError</b> if the client is reported a error, <b>State_ServerError</b> is the server is reported a error,
+<b>State_Timeout</b> is a protocol timeout is expired. If the state is <b>State_Done</b> the session key can be retrieved
+by the method <b>getSessionKey()</b>.
+</p>
+
+<p>
+<b>getError()</b> returns the error code. This method can be called if the negotiation is finished with a error.
+</p>
+
+<p>
+<b>prepare()</b> prepares the object for the negotiation. The following data must be provided:
+<b>psec_port</b> is a local port for the further <b>PSec</b> communication channel. 
+<b>client_id</b> is a client identity. 
+<b>client_key</b> is a primary client key.
+<b>server_key</b> is a primary server key.
+<b>param</b> is a proposed session parameters. The final choice of these parameters is a result of the negotiation with the server.
+</p>
+
+<p>
+<b>start()</b> starts the negotiation process. 
+A list of algorithm selections must be provided, either as a range or as an <b>AlgoSet</b> reference. 
+The algorithm with less index is more preferred. 
+The final choice of algorithms is a result of the negotiation with the server.  
+</p>
+
+<p>
+<b>getSessionKey()</b> returns the session key. This method can be called if the negotiation is finished successfully.
+</p>
+
+<h3>ServerNegotiant</h3>
+
+<p>
+<b>ServerNegotiant</b> is used by client to start a <b>PKE</b> exchange. When the exchange is finished a signal is asserted
+and the outcome of the negotiation can be retrieved. This class serves multiple clients from multiple endpoints.
+</p>
+
+<pre>
+
+class <span class="Att">ServerNegotiant</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   static constexpr ulen DefaultMaxClients = 10'000 ;
+
+   ServerNegotiant(StrLen mp_dev_name,const ClientDatabase &amp;client_db,EndpointManager &amp;epman,ulen max_clients=DefaultMaxClients,MSec final_timeout=5_sec);
+
+    // client_db and epman methods are called under the mutex protection
+
+   ~ServerNegotiant();
+
+   void prepare(PrimeKeyPtr &amp;&amp;server_key,SessionKeyParam param={});
+
+   void start(PtrLen&lt;const CryptAlgoSelect&gt; algo_list);
+
+   void start(const AlgoSet &amp;algo_set);
+ };
+
+</pre>
+
+<p>
+The first argument of the constructor is the <b>EndpointDevice</b> name. This device is used to communicate with clients 
+from multiple endpoints. <b>client_db</b> is a reference to a client database. 
+This object must persist during the negotiant object life-time.
+<b>epman</b> is a reference to a endpoint manager. 
+This object must persist during the negotiant object life-time.
+Once some negotiation is successfully finished the open method of this manager is used to submit the session key and other
+client information to open a communication with the client.
+<b>max_clients</b> is a limit of the simultaneously going negotiations.
+<b>final_timeout</b> is a time to keep the negotiation state alive after the negotiation is finished. During this time
+the client can resend the final packet to get confirmation the negotiation is succeeded.
+</p>
+
+<p>
+<b>prepare()</b> prepares the server for negotiations. The following data must be provided:
+<b>server_key</b> is a primary server key.
+<b>param</b> is a proposed session parameters. A final choice of these parameters is a result of a negotiation with a client.
+</p>
+
+<p>
+<b>start()</b> starts the server. 
+A list of algorithm selections must be provided, either as a range or as an <b>AlgoSet</b> reference. 
+The algorithm selection with less index is more preferred. 
+The final choice of algorithms is a result of the negotiation with the server.
+Server is responding on a client negotiation prompt. Once such prompt is recognized in the inbound stream of packets
+a negotiation with the client is started. The negotiation state is created. During the negotiation this state is updated
+and finally the negotiation is finished with some outcome. If the negotiation is successful, the endpoint manager is used
+to open a communicated with this client.
+</p>
+
+</body>
+
+</html>
+

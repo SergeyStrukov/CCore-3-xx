@@ -1,0 +1,228 @@
+<!--
+/* page_SortUnique.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SortUnique</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SortUnique</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/SortUnique.h</b> <b>CCore/src/algon/SortUnique.cpp</b></p>
+
+<p>
+Here is a set of algorithms to perform operations on unique elements of some range.
+When you have some range of elements, you may group adjacent elements, equals in some sense, in
+groups. Then you may process either first elements of each groups, or the "range" of group subranges.
+Usually, the initial range is sorted first to make equal elements adjacent.
+</p>
+
+<p>
+<b>ApplyUniqueAlgo</b> is an <b>Algorithm Package</b>, parametrized by the generalized range type.
+The second template parameter is a base range algorithm package, 
+defaulted to the <b>BaseRangeAlgo&lt;R&gt;</b>. The <a href="page_FunctorType.html">Functor Init Pattern</a> is used
+to apply functors.
+</p>
+
+<pre>
+
+template &lt;RangeType R,class Algo=Algon::BaseRangeAlgo&lt;R&gt; &gt;
+struct <span class="Att">Algon::ApplyUniqueAlgo</span> : Algo
+ {
+  template &lt;FuncInitArgType&lt;T &amp;&gt; FuncInit&gt;
+  static void ApplyUnique(R r,FuncInit func_init) requires ( OpNotEqualType&lt;T&gt; ) ;
+  
+  template &lt;ToOpNotEqualFuncType&lt;T&gt; Func,FuncInitArgType&lt;T &amp;&gt; FuncInit&gt;
+  static void ApplyUniqueBy(R r,Func by,FuncInit func_init);
+  
+  template &lt;FuncInitArgType&lt;R&gt; FuncInit&gt;
+  static void ApplyUniqueRange(R r,FuncInit func_init) requires ( OpNotEqualType&lt;T&gt; ) ;
+  
+  template &lt;ToOpNotEqualFuncType&lt;T&gt; Func,FuncInitArgType&lt;R&gt; FuncInit&gt;
+  static void ApplyUniqueRangeBy(R r,Func by,FuncInit func_init);
+ };
+
+</pre>
+
+<p>
+<b>ApplyUnique()</b> applies the functor to first elements of unique subranges. To compare elements
+the <b>operator !=</b> is used.
+</p>
+
+<p>
+<b>ApplyUniqueBy()</b> applies the functor to first elements of unique subranges. To compare elements
+the given functor <b>by</b> is used. 
+It is applied to elements and results are compared using the <b>operator !=</b>.
+</p>
+
+<p>
+<b>ApplyUniqueRange()</b> applies the functor to unique subranges. To compare elements
+the <b>operator !=</b> is used.
+</p>
+
+<p>
+<b>ApplyUniqueRangeBy()</b> applies the functor unique subranges. To compare elements
+the given functor <b>by</b> is used. 
+It is applied to elements and results are compared using the <b>operator !=</b>.
+</p>
+
+<p>
+In these algorithms <b>by</b> is a functor, but <b>func_init</b> is a functor initializer.
+In per-element algorithms the functor is called with an element reference argument, but
+in per-range algorithms the functor is called with a range of type <b>R</b> argument.
+</p>
+
+<p>
+There are number of "stand-alone" derived algorithms, including variants, combined with a sorting.
+</p>
+
+<p>
+The first group is sort algorithms with a "by" functor.
+</p>
+
+<pre>
+
+/* ...SortBy() */
+
+template &lt;RanType Ran,ULenType Len,PtrToOpLessFuncType&lt;Ran&gt; Func&gt;
+void <span class="Att">Algon::IncrSortBy</span>(Ran ptr,Len len,Func by);
+
+template &lt;RanType Ran,ULenType Len,PtrToOpLessFuncType&lt;Ran&gt; Func&gt;
+void <span class="Att">Algon::DecrSortBy</span>(Ran ptr,Len len,Func by);
+
+template &lt;class T,ToOpLessFuncType&lt;T&gt; Func&gt;
+void <span class="Att">Algon::IncrSortBy</span>(PtrLen&lt;T&gt; range,Func by);
+
+template &lt;class T,ToOpLessFuncType&lt;T&gt; Func&gt;
+void <span class="Att">Algon::DecrSortBy</span>(PtrLen&lt;T&gt; range,Func by);
+
+template &lt;class T,ToOpLessFuncType&lt;T&gt; Func&gt;
+void <span class="Att">Algon::IncrSortBy</span>(PtrLenReverse&lt;T&gt; range,Func by);
+
+template &lt;class T,ToOpLessFuncType&lt;T&gt; Func&gt;
+void <span class="Att">Algon::DecrSortBy</span>(PtrLenReverse&lt;T&gt; range,Func by);
+
+</pre>
+
+<p>
+Base variants.
+</p>
+
+<pre>
+
+template &lt;RangeType R,class FuncInit&gt;
+void <span class="Att">Algon::ApplyUnique</span>(R r,FuncInit func_init)
+ {
+  ApplyUniqueAlgo&lt;R&gt;::ApplyUnique(r,func_init);
+ }
+
+template &lt;RangeType R,class FuncInit&gt;
+void <span class="Att">Algon::SortThenApplyUnique</span>(R r,FuncInit func_init)
+ {
+  Sort(r);
+  ApplyUnique(r,func_init);
+ }
+
+</pre>
+
+<p>
+"By" variants.
+</p>
+
+<pre>
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::ApplyUniqueBy</span>(R r,Func by,FuncInit func_init)
+ {
+  ApplyUniqueAlgo&lt;R&gt;::ApplyUniqueBy(r,by,func_init);
+ }
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::IncrSortThenApplyUniqueBy</span>(R r,Func by,FuncInit func_init)
+ {
+  IncrSortBy(r,by);
+  ApplyUniqueBy(r,by,func_init);
+ }
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::DecrSortThenApplyUniqueBy</span>(R r,Func by,FuncInit func_init)
+ {
+  DecrSortBy(r,by);
+  ApplyUniqueBy(r,by,func_init);
+ }
+
+</pre>
+
+<p>
+Base range variants.
+</p>
+
+<pre>
+
+template &lt;RangeType R,class FuncInit&gt;
+void <span class="Att">Algon::ApplyUniqueRange</span>(R r,FuncInit func_init)
+ {
+  ApplyUniqueAlgo&lt;R&gt;::ApplyUniqueRange(r,func_init);
+ }
+  
+template &lt;RangeType R,class FuncInit&gt;
+void <span class="Att">Algon::SortThenApplyUniqueRange</span>(R r,FuncInit func_init)
+ {
+  Sort(r);
+  ApplyUniqueRange(r,func_init);
+ }
+
+</pre>
+
+<p>
+"By" range variants.
+</p>
+
+<pre>
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::ApplyUniqueRangeBy</span>(R r,Func by,FuncInit func_init)
+ {
+  ApplyUniqueAlgo&lt;R&gt;::ApplyUniqueRangeBy(r,by,func_init);
+ }
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::IncrSortThenApplyUniqueRangeBy</span>(R r,Func by,FuncInit func_init)
+ {
+  IncrSortBy(r,by);
+  ApplyUniqueRangeBy(r,by,func_init);
+ }
+
+template &lt;RangeType R,class Func,class FuncInit&gt;
+void <span class="Att">Algon::DecrSortThenApplyUniqueRangeBy</span>(R r,Func by,FuncInit func_init)
+ {
+  DecrSortBy(r,by);
+  ApplyUniqueRangeBy(r,by,func_init);
+ }
+
+</pre>
+
+</body>
+
+</html>
+

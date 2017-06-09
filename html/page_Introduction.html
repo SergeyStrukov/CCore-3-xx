@@ -1,0 +1,515 @@
+<!--
+/* page_Introduction.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Introduction</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h1>Introduction</h1>
+
+<h2>Disclaimer</h2>
+
+<p>
+<b>CCore</b> is released without known bugs or defects  (but an intermediate states of the repository between release tags 
+MAY be broken). This code is made "as best as possible" and has 
+a top quality both in design and implementation. It's a reliable piece of software. 
+So if you experience troubles, <b>CCore</b> code is the last place to look for bugs. This does not mean,
+naturally, that I do guarantee the code is completely bug-free and absolutely perfect. That is not
+achievable in the mean time. And, of course, everybody is welcome to contribute in its perfection: report a 
+real problem or suggest a design improvement.
+</p>
+
+<h2>Overview</h2>
+
+<p>
+<b>CCore</b> is a <i>platform</i> mainly for the development of real-time applications. It is distributed under the
+<a href="http://www.boost.org/LICENSE_1_0.txt">Boost Software License</a>.
+You can use <b>CCore</b> to build host applications also, but without any real-time properties. 
+We use the term "host application" to designate an application, running on a host machine.
+"Stand-alone application" means an application, running on a stand-alone device. 
+<b>CCore</b> is a multi-target platform, you can (and, in fact, must!) develop your own target 
+(host or stand-alone) for your specific target device. The installation of <b>CCore</b> provides 
+the following targets:</p>
+<ul>
+<li><b>WIN32</b> &mdash; default host target, based on <b>cygwin</b>,</li>
+<li><b>WIN64</b> &mdash; host target for <b>cygwin64</b>,</li>
+<li><b>LIN64</b> &mdash; host target for 64-bits Linux,</li>
+<li><b>BeagleBoneBlack</b> &mdash; stand-alone target for the <a href="http://beagleboard.org/Products/BeagleBone%20Black">BeagleBone Black</a> device,</li>
+<li><b>Vanilla-H</b> &mdash; host target template,</li>
+<li><b>Vanilla-X</b> &mdash; stand-alone target template.</li>
+</ul>
+<p>
+<b>Target</b> includes compiler and tools, makefile rules and parts of source code, specific for the target. 
+In most cases you are encouraged to develop components of your application using <b>WIN32</b> target (or another host target) and 
+then port it to a stand-alone target when it's ready. <b>CCore</b> is designed in target-independent 
+and platform-independent manner (despite it's a platform itself!). So it's recommended to follow this
+practice. Developing components on a host target is usually simpler and more productive.
+</p>
+<p>
+<b>CCore</b> is implemented using <b>C++17+concepts</b>. It enables the full advantage of this renewed language for the
+embedded and real-time software development. You can also use it to build usual host applications. <b>CCore</b> 
+is well-suited to develop a wide range of applications like servers, mathematical calculations or file-processing utilities.
+The number of them are supplied as supplementary tools.
+<b>CCore</b> is based on the comprehensive, type-rich library, well, <b>CCore</b>. That's the core part
+of the platform. The next part is <b>HCore</b> for host targets and <b>XCore</b> for stand-alone targets.
+On host targets we rely on an operating system to perform some tasks (like primary memory management, 
+task synchronization etc.). So a host target provides a tiny layer between <b>HCore</b> and OS system calls.
+But on a stand-alone target we implements these fundamental functions ourself. <b>XCore</b> is an 
+implementation of this part for <span class="Alert">single-core</span> CPUs. A target provides an implementation of very low-level 
+CPU specific functions <b>XCore</b> is based on. For example, the following 3 functions are required for 
+interrupt lock support:
+</p>
+
+<pre>
+
+/* functions */ 
+
+bool <span class="Alert">IsIntContext()</span> noexcept;
+
+/* classes */ 
+
+class IntLock;
+
+/* class IntLock */ 
+
+class IntLock : NoCopy
+ {
+   bool enable;
+
+  public:
+
+   IntLock() { enable=Internal::Disable(); }
+ 
+   ~IntLock() { if( enable ) Internal::Enable(); }
+   
+   struct Internal
+    {
+     static bool <span class="Alert">Disable()</span> noexcept;
+     
+     static void <span class="Alert">Enable()</span> noexcept;
+    };
+ };
+
+</pre>
+
+<p>
+<b>CCore</b> is designed as a <span class="Alert">compliant</span> <b>C++17+concepts</b> library. There are a few places where we are using non-standard 
+language extensions. In fact, we need only two of them: <b>restrict</b> and initialization priority
+attributes for static objects, supported in <b>gcc</b> family of compilers. As the result, there is no restriction
+on the compiler optimization level, unlike other OS cores. Another advantage is the platform-independence of the code. 
+</p>
+
+<h2>CCore</h2>
+
+<p>
+
+<b>CCore</b> is a language support library. It's created to provide an improved language support 
+for C++ and to replace the error-prone and obsolete "old bad" C RTL and STL. <b>CCore</b> is focused on the
+"everyday programmer's needs", it tries to be small, but powerful.
+
+</p>
+<p>
+
+In particular, it contains:
+
+</p>
+
+<ol>
+<li><b>PtrLen</b> and <b>Range</b> for convenient and efficient ranges and loops,</li>
+<li><b>Printf</b> with class print support, easily customized output devices and options,</li>
+<li><b>Function</b> for efficient callback support,</li>
+<li>Mersenne Twister random number generator,</li>
+<li>Radix-tree based <b>heap</b> with real-time properties,</li>
+<li>Swap-based intro-sort,</li>
+<li><b>Cmp/Move/Swap</b> support,</li>
+<li>Error-handling infrastructure to support multi-error handling,</li>
+<li>Any kind of <b>lists</b>,</li>
+<li>Radix and Red-Black <b>trees</b>,</li>
+<li>Properly implemented dynamic <b>arrays</b> (bye-bye STL),</li>
+<li><b>Packet</b>, an async processing infrastructure, a key foundation for a system layer and server applications,</li>
+<li><b>Integer</b> library, you may even calculate 1000000 digits of &pi;,</li>
+<li><b>Crypton</b> library,</li> 
+<li>Fast log and event recorder,</li>
+<li>New network infrastructure, based on <b>PTP</b> protocol,</li>
+<li><b>DDL(data-definition language)</b> implementation,</li>
+<li>and many other helpful tools.</li>
+</ol>
+
+<h2>XCore</h2>
+
+<p>
+
+<b>XCore</b> is a multi-task core for embedded systems. It is combined with <b>CCore</b> library. 
+The core is designed for single-core CPU systems. 
+
+</p>
+<p>
+
+<b>XCore</b>:
+
+</p>
+
+<ol>
+<li>provides a rich set of synchronization objects and a simple way to construct additional ones,</li> 
+<li>implements priority inheritance and deadlock detection for mutexes,</li> 
+<li>task scheduler switches on high frequency (10 kHz for <b>BeagleBoneBlack</b> platform),
+      that provides fine-grained task execution, ensure the system is highly responsive,</li>
+<li>scheduler supports task priority relaxation, that protects low priority tasks 
+      from complete execution hold-on,</li> 
+<li>full support for C++17,</li>
+<li>no limitation for compiler optimization level,</li> 
+<li>clear target requirements.</li>
+</ol>
+
+<h2>Task synchronization</h2>
+
+<p>
+One of the innovation in <b>CCore</b> is the set of task synchronization objects. <b>Mutex</b>, <b>Event</b> 
+and <b>Sem</b>(aphore) are common.
+But we widely use also: <b>AntiSem</b>, <b>ResSem</b>, <b>MultiSem</b>, <b>MultiEvent</b>.
+</p>
+
+<p>
+<b>AntiSem</b> is useful for the resource control:
+</p>
+
+<pre>
+
+class AntiSem : public Funchor_nocopy
+ {
+   ....
+
+  public:
+   
+   // constructors
+  
+   explicit AntiSem(ulen level=0);
+   
+   explicit AntiSem(TextLabel name,ulen level=0);
+   
+   ~AntiSem();
+   
+   // add/sub
+   
+   void add(ulen dcount);
+   
+   void sub(ulen dcount);
+   
+   // inc/dec
+   
+   void inc() { add(1); }
+   
+   void dec() { sub(1); }
+   
+   // wait
+   
+   bool try_wait();
+   
+   void wait();
+   
+   bool wait(MSec timeout);
+   
+   bool wait(TimeScope time_scope);
+    
+   // functions
+   
+   Function&lt;void (void)&gt; function_inc();
+   
+   Function&lt;void (void)&gt; function_dec();
+ };
+
+</pre>
+
+<p>
+<b>AntiSem</b> waits until "all taken is released". I.e. until the internal counter falls below a given level (usually 0).
+</p>
+
+<p>
+<b>ResSem</b> is used to control a resource allocation. It is combined <b>Sem</b> and <b>AntiSem</b>.
+</p>
+
+<pre>
+
+class ResSem : public Funchor_nocopy
+ {
+  public:
+   
+   // constructors
+  
+   explicit ResSem(ulen max_count);
+   
+   ResSem(TextLabel name,ulen max_count);
+   
+   ~ResSem();
+   
+   // give
+   
+   void give();
+   
+   // take
+  
+   bool try_take();
+  
+   void take();
+  
+   bool take(MSec timeout);
+  
+   bool take(TimeScope time_scope);
+   
+   // wait
+   
+   bool try_wait();
+   
+   void wait();
+  
+   bool wait(MSec timeout);
+   
+   bool wait(TimeScope time_scope);
+   
+   // functions
+   
+   Function&lt;void (void)&gt; function_give();
+ };
+
+</pre>
+
+<p>
+<b>ResSem</b> has the internal counter between 0 and the given <b>max_count</b> (initial value). You can <b>take</b> and <b>give</b> it back. 
+<b>take</b> may wait if the counter is zero. Finally, <b>wait</b> waits until the counter reaches <b>max_count</b>.
+</p>
+
+<p>
+<b>MultiSem</b> and <b>MultiEvent</b> are "multi-channel" versions of the <b>Sem</b> and <b>Event</b>. They can wait for one 
+of the several events. They also ensure the "fairness" in the event reporting.
+</p>
+
+<pre>
+
+template &lt;ulen Len&gt;
+class MultiEvent : public Funchor_nocopy
+ {
+  public:
+
+   // constructors
+  
+   MultiEvent();
+   
+   explicit MultiEvent(TextLabel name);
+   
+   ~MultiEvent();
+
+   // trigger
+  
+   bool trigger(ulen index); // [1,Len]
+   
+   // wait
+   
+   ulen try_wait(); // [0,Len]
+   
+   ulen wait(); // [1,Len]
+   
+   ulen wait(MSec timeout); // [0,Len]
+   
+   ulen wait(TimeScope time_scope); // [0,Len]
+   
+   // functions
+   
+   template &lt;ulen Index&gt;
+   Function&lt;void (void)&gt; function_trigger();
+ };
+ 
+template &lt;ulen Len&gt; 
+class MultiSem : public Funchor_nocopy
+ {
+  public:
+  
+   // constructors
+
+   MultiSem();
+   
+   explicit MultiSem(TextLabel name);
+   
+   ~MultiSem();
+
+   // give
+  
+   void give(ulen index); // [1,Len]
+   
+   // take
+   
+   ulen try_take(); // [0,Len]
+   
+   ulen take(); // [1,Len]
+   
+   ulen take(MSec timeout); // [0,Len]
+   
+   ulen take(TimeScope time_scope); // [0,Len]
+   
+   // functions
+   
+   template &lt;ulen Index&gt;
+   Function&lt;void (void)&gt; function_give();
+ };
+ 
+</pre>
+
+<p>
+All synchronization classes "publish" "giving" functions callbacks.
+</p>
+
+<h2>Packet</h2>
+
+<p>
+<b>Packet</b> is a micro-task. It has the associated small stack to store call parameters and return values. 
+A larger data buffer may be also attached.
+<b>Packet</b>s allow design of a request processing systems as a collection of packet-processing devices. <b>Packet</b>s are initiated 
+by some initiator and passed to the processing device. It may pass a packet further until it's completed or cancelled by 
+the initiator. Initiator assigns a completion function for a packet. So when packet is completed it goes to this function, where
+result can be extracted and packet is disposed. Also a completion signaling is performed there.
+</p>
+
+<h2>Lists, trees, arrays</h2>
+
+<p>
+<b>CCore</b> includes implementations of lists, trees, and arrays. 
+</p>
+
+<p>
+<b>CCore</b> lists and trees are intrusive (non-intrusive containers are also provided). Intrusive linked containers have the following advantages:
+</p>
+
+<ul>
+<li>they are more suitable for applications,</li>
+<li>they efficient, no memory allocation and error conditions for container operations,</li>
+<li>you may include one object in the several containers,</li>
+<li>you may build a non-intrusive container based on intrusive.</li>
+</ul>
+
+<p>
+<b>CCore</b> implements wide range of lists, both single linked and double linked, linear and circular.
+</p>
+
+<p>
+<b>CCore</b> implements radix and red-black trees. 
+</p>
+
+<p>
+<b>CCore</b> provides implementation for dynamic arrays. 
+</p>
+
+<h2>PTP</h2>
+
+<p>
+<b>PTP</b> &mdash; packet transaction protocol. It supersedes TCP as a main network protocol for client-server
+applications. PTP is a packet-based, parallel and transactional protocol. It is simple and convenient
+for the development of "remote call" type interactions. Parallel nature of PTP makes obsolete such tricks
+as multi-thread FTP download. PTP is working atop a packet point-to-point or point-to-multipoint
+service like UDP (or even raw Ethernet). PTP has ability to adapt for smaller MTU lengths, 
+that is important to combine with another network protocols, which can reduce MTU (for example, 
+to implement encapsulation or encryption). 
+</p>
+
+<p>
+There are several typical problems when network interaction is developed based on TCP:
+</p>
+
+<ul>
+<li>you have to parse a continuous byte stream on packets,</li>
+<li>you cannot perform parallel transactions, so if TCP is stalled on a packet loss, 
+then everything is stalled,</li>
+<li>you have to match calls with responses yourself, using sequence numbers, for example.</li>
+
+</ul>
+
+<p><b>PTP</b> resolves all these issues.</p>
+
+<p>
+<b>PTPServer</b> &mdash; a PTP server on a host machine, it provides access to the host file system
+via <b>HFS</b> over <b>PTP</b> protocols.
+</p>
+
+<h2>DDL</h2>
+
+<p>
+<b>DDL</b> &mdash; data definition language. It is designed to represent an abstract 
+linked data in a textual form. <b>DDL</b> has a C-style syntax.
+Here is a short example of a parser state machine representation, expressed in <b>DDL</b>:
+</p>
+
+<pre>
+
+struct State
+ {
+  StateIndex state;
+
+  struct Transition { NTIndex ntt; State *state; } [] transitions;
+
+  struct Final { TIndex t; Rule *rule; } [] finals;
+ };
+
+State[22] StateTable=
+ {
+  { 0 ,
+   {
+    { 1 , StateTable+1 },
+    { 5 , StateTable+2 },
+    { 6 , StateTable+3 },
+    { 7 , StateTable+4 },
+    { 8 , StateTable+16 }
+   },
+   {
+    { 1 , RuleTable+0 },
+    { 5 , RuleTable+0 }
+   }
+  },
+
+....
+
+</pre>
+
+<p>
+<b>DDL</b> can be used for a manually introduced data, like configuration information.
+Or it can be used to store a program-generated data to exchange with different data-processing programs.
+</p>
+
+<h2>LR1 parser generator</h2>
+
+<p>
+<a href="page_CondLangLR1.html"><b>CondLangLR1</b></a> is a tool for generation LR1 parser state machines. It takes a language description and produces
+a <b>.ddl</b> file with a state machine description. You can use this description further to generate code 
+in any suitable for your purpose form. 
+<a type="application/pdf" href="../doc/Conditional recursive grammars.pdf">Conditional recursive grammars</a> are used to describe a language.
+</p>
+
+<h2>Regen</h2>
+
+<p>
+<a href="page_Regen.html"><b>Regen</b></a> is a tool for generating helper classes and constants from a register description.
+It is used to simplify and beautify the low-level register device programming.
+</p>
+
+</body>
+
+</html>
+

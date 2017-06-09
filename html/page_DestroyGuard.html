@@ -1,0 +1,100 @@
+<!--
+/* page_DestroyGuard.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> DestroyGuard</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>DestroyGuard</h2>
+
+<p class="Files">Files <b>CCore/inc/DestroyGuard.h</b> <b>CCore/src/DestroyGuard.cpp</b></p>
+
+<p>
+<b>DestroyGuard</b> is designed to guard the object destruction. It is used in the <a href="page_Signal.html">signal implementation</a>.
+</p>
+
+<pre>
+
+class <span class="Att">DestroyGuard</span> : NoCopy
+ {
+   bool locked = false ;
+
+  public:
+
+   DestroyGuard() {}
+
+   ~DestroyGuard() { guard(); }
+
+   // methods
+
+   void lock() { locked=true; }
+
+   void unlock() { locked=false; }
+
+   void guard() { if( locked ) DestroyGuardAbort(); }
+
+   void guard(StrLen name) { if( locked ) DestroyGuardAbort(name); }
+
+   using Lock = LockObject&lt;DestroyGuard&gt; ;
+ };
+
+</pre>
+
+<p>
+The object has the internal flag <b>locked</b>. It can be set for the duration of some scope using the internal class <b>Lock</b> 
+to protect against some unwanted actions (in particular, from the object destruction while the object is in use). 
+To do it these actions must guard itself using a methods <b>guard()</b>. If the object is locked, then the <b>Abort()</b> is called.
+The <b>DestroyGuard</b> destructor guards itself, so you cannot destroy the object while it is locked.
+</p>
+
+</body>
+
+<pre>
+
+DestroyGuard dg;
+
+void unwanted()
+ {
+  dg.guard();
+
+  ....
+ }
+
+....
+
+{
+ DestroyGuard::Lock lock(dg); 
+
+
+ .... // any call of unwanted() here leads to Abort() 
+}
+
+</pre>
+
+<p>
+You may supply a name of the guard in the method <b>guard()</b> to elaborate the guard in the diagnostic message.
+</p>
+
+</html>
+

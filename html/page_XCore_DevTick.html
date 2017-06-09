@@ -1,0 +1,74 @@
+<!--
+/* page_XCore_DevTick.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore DevTick</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore DevTick</h2>
+
+<p class="Files">Files <b>CCore/inc/dev/DevTick.h</b> <b>CCore/src/DevTick.cpp</b></p>
+
+<p>
+This part defines a constant -- the tick frequency. 
+A <a href ="page_XCore_SysTime.html">timer implementation</a> must ensure the tick processing on this frequency.
+It is recommended to have a high (but not too high) value of this frequency like 10'000 Hz.
+</p>
+
+<pre>
+
+/* DevTick.h */
+
+#ifndef CCore_inc_dev_Tick_h
+#define CCore_inc_dev_Tick_h
+
+namespace CCore {
+
+/* consts */
+
+inline constexpr unsigned <span class="Att">TicksPerSec</span> = 10'000 ;
+
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<pre>
+
+/* DevTick.cpp */
+
+#include &lt;CCore/inc/dev/DevTick.h&gt;
+
+namespace CCore {
+
+
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

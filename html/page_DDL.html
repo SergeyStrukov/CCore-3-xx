@@ -1,0 +1,778 @@
+<!--
+/* page_DDL.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> DDL (v.2)</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>DDL language (v.2)</h2>
+
+<p>
+<b>DDL</b> is the <b>Data Definition Language</b>. This language is to record a general-kind data
+in a textual form similar to the C language. But there are important differences between how 
+<b>DDL</b> and <b>C</b> interprets data and expressions. <b>DDL</b> is a "bye-bye <b>XML</b>" language.
+</p>
+
+<h2>Brief introduction</h2>
+
+<p>
+Here is a brief introduction to the language.
+You can read <a type="application/pdf" href="../doc/DDL.pdf">this document</a> for further details.
+</p>
+
+<p>
+<b>DDL</b> is to define named constants. Each constant has an associated type. Types can be basic or derived.
+The most important derived types are structures.
+</p>
+
+<p>
+Basic types are integral types, <b>text</b> and <b>ip</b>. Integral types are:
+</p>
+
+<pre>
+
+uint8    sint8
+uint16   sint16
+uint32   sint32
+uint64   sint64
+
+(sint,uint) = (sint32,uint32) or (sint64,uint64)
+
+int = sint
+
+ulen = uint32 or uint64 >= uint
+
+</pre>
+
+<p>
+<b>text</b> type represents a character string. 
+</p>
+
+<p>
+<b>ip</b> type represents an IPv4 address.
+</p>
+
+<p>
+<b>int</b>, <b>sint</b>, <b>uint</b> are target-dependent "machine-word-length" types.
+</p>
+
+<p>
+<b>ulen</b> is a target-dependent "machine-address-length" type.
+</p>
+
+<p>
+Derived types are pointers, arrays and structures:
+</p>
+
+<pre>
+
+int a = 10 ;
+
+int * pa = &a ;
+
+text [a] B = { "b1" , "b2" } ;
+
+text [] C = { "c1" , "c2" } ;
+
+struct S
+ {
+  text name = "unnamed" ;
+  int id = 0 ;
+ };
+
+S record = { "" , 10 } ;
+
+</pre>
+
+<p>
+If the array length is not given explicitly, then it is inferred from the initializer.
+Structure members may have default initializers.
+</p>
+
+<p>
+Type aliases and scopes (aka "namespaces") are supported:
+</p>
+
+<pre>
+
+scope Data {
+
+type List = int[] ;
+
+} // scope Data
+
+Data#List list = {1,2,3} ;
+
+</pre>
+
+<p>
+Dots can be used to designate the current scope or parent scopes:
+</p>
+
+<pre>
+
+scope S1 {
+
+int i1 = 1 ;
+
+ scope S2 {
+
+ int i2 = 2 ;
+
+  scope S3 {
+
+  int i3 = 3 ;
+
+   int i = .#i3 + ..#i2 + ...#i1 ; // absolute names
+
+   int j = i3 + i2 + i1 ;          // relative names
+
+   int k = i1 + S2#i2 + S2#S3#i3 ; // more relative names
+
+  }
+
+ }
+
+} 
+
+</pre>
+
+<p>
+The language is commutative, i.e. the order of declarations is not important:
+</p>
+
+<pre>
+
+int a = c + 1 ;
+
+int b = a + 1 ;
+
+int c = 100 ;
+
+</pre>
+
+<p>
+Structures define scopes and may declare types and constants:
+</p>
+
+<pre>
+
+struct S 
+ {
+  type Val = int ;
+
+  const ulen Len = 100 ;
+
+  type List = Val[Len] ;
+ };
+
+scope S
+ {
+  List list = {1,2,3} ;
+ }
+
+</pre>
+
+<p>
+<b>DDL</b> supports file inclusion:
+</p>
+
+<pre>
+
+scope Inc { include &lt;some_file.ddl&gt; }
+
+</pre>
+
+<p>
+But the content of an included file must be a proper <b>DDL</b> text, except names may not be defined
+inside the included file. Binding a file name with a particular file (real or virtual) 
+is implementation-defined. 
+</p>
+
+<h2>DDL elements</h2>
+
+<p>
+<b>DDL</b> elements are: scopes, types, type aliases, constants, literals and expressions.
+<b>DDL</b> text is a sequence of definitions. A definition defines a scope, a structure, 
+a type alias or a constant. Literals and expressions are used to define a constants value.
+</p>
+
+<h3>Comments</h3>
+
+<p>
+<b>DDL</b> accepts long and short comments:
+</p>
+
+<pre>
+
+/* This is a long comment */
+
+// short
+
+</pre>
+
+<h3>Scopes</h3>
+
+<p>
+Scope is a "definition directory". Scopes can be nested or split. Each named language element
+belongs to some scope. The full element name is <b># Scope1Name # Scope2Name # ... # ElementName</b>.
+</p>
+
+<pre>
+
+scope A { // open scope #A
+
+....
+
+} // close scope #A
+
+scope B { // open scope #B
+
+ scope C { // open scope #B#C
+
+ ....
+
+ } // close scope #B#C
+
+....
+
+} // close scope #B
+
+scope A { // open again scope #A 
+
+....
+
+} // close scope #A
+
+</pre>
+
+<p>
+When a name is used to refer to a language element, it may be either relative or absolute.
+A relative name starts from a name, an absolute name starts from the <b>#</b> or one or more dots. 
+One dot means the current scope, 2 dots means the parent scope and so on.
+A relative name is looked in all scopes down from the current.
+</p>
+
+<pre>
+
+scope S1 {
+
+int i = 1 ;
+
+ scope S2 {
+
+ int i = 2 ;
+
+  scope S3 {
+
+  int i = 3 ;
+
+  int j = -3 ;
+
+   scope S4 {
+
+   int i = 4 ;
+
+   int i1 = i ; // 4
+
+   int i2 = j ; // -3
+
+   int i3 = S1#i ; // 1
+
+   int i4 = #S1#i ; // 1
+
+   int i5 = .#i ; // 4
+
+   int i6 = ..#i ; // 3
+
+   int i7 = ...#i ; // 2
+
+   }
+
+  }
+
+ }
+
+}
+
+</pre>
+
+<h3>Types and type aliases</h3>
+
+<p>
+There are basic types and derived types. Basic types are designated by the following keywords:
+</p>
+
+<pre>
+
+sint8  uint8
+sint16 uint16
+sint32 uint32
+sint64 uint64
+
+int sint uint ulen
+
+text ip
+
+</pre>
+
+<p>
+Derived types are pointers, arrays and structures.
+</p>
+
+<p>
+Pointer type is designated by the type and the following asterisk:
+</p>
+
+<pre>
+
+Type * 
+
+</pre>
+
+<p>
+Array type is designated by the type and the following pair of square brackets
+with the optional expression inside:
+</p>
+
+<pre>
+
+Type []
+Type [Expression]
+
+</pre>
+
+<p>
+The expression defines the array length. The resulting type of this expression is <b>ulen</b>.
+</p>
+
+<p>
+Non-pointer and non-array type can be a basic type name, a type alias name, a structure name
+or a structure definition.
+</p>
+
+<pre>
+
+// basic type name
+
+int a = 0 ;
+ulen b = 0 ;
+
+// type alias name
+
+type Int = int ;
+
+Int c = 0 ;
+
+// struct name
+
+struct S {};
+
+S s = {} ;
+
+// struct definition
+
+struct S1 {} s1 = {} ;
+
+</pre>
+
+<p>
+Type alias definition looks like:
+</p>
+
+<pre>
+
+type <i>Name</i> = Type ;
+
+</pre>
+
+<h3>Structures</h3>
+
+<p>
+Structure definition looks like:
+</p>
+
+<pre>
+
+struct <i>Name</i>
+ {
+  Type<sub>1</sub> <i>field_name<sub>1</sub></i> [ = Expression<sub>1</sub> ] ;
+
+  ....
+
+  Type<sub>n</sub> <i>field_name<sub>n</sub></i> [ = Expression<sub>n</sub> ] ;
+ };
+
+</pre>
+
+<p>
+Each structure has a name and a list of fields. Each field has a name, a type and an optional
+default value, determined by an expression. A structure also defines a scope. This scope can be extended.
+A structure definition can also defines a scope type aliases, structures and constants:
+</p>
+
+<pre>
+
+struct S
+ {
+  struct T {};
+
+  const ulen Len = 10 ;
+
+  type List = T[Len] ;
+
+  const List list = {} ;
+ };
+
+</pre>
+
+<p>
+To define a constant inside a structure (not a field) the keyword <b>const</b> must be used.
+</p>
+
+<h3>Constants</h3>
+
+<p>
+Constant definition looks like:
+</p>
+
+<pre>
+
+Type <i>Name</i> = Expression ; 
+
+</pre>
+
+<p>
+This definition defines the constant with the given name in the current scope with the given type
+and value, determined by the expression.
+</p>
+
+<p>
+Constant can be defined inside a structure definition with the keyword <b>const</b>:
+</p>
+
+<pre>
+
+struct S
+ {
+  const Type <i>name</i> = Expression ; 
+ };
+
+</pre>
+
+<p>
+Without <b>const</b> it would be a field definition.
+</p>
+
+<h3>Literals</h3>
+
+<p>Universal null literal:</p>
+
+<pre>
+
+null
+
+</pre>
+
+<p>Decimal literals:</p>
+
+<pre>
+
+1234567890
+
+</pre>
+
+<p>Hexadecimal literals:</p>
+
+<pre>
+
+1234567890h
+0abcdefH
+0ABCDEFh
+
+</pre>
+
+<p>Binary literals:</p>
+
+<pre>
+
+1001B
+1010b
+
+</pre>
+
+<p>Simple string literals:</p>
+
+<pre>
+
+'simple text'
+
+</pre>
+
+<p>Advanced string literals accept usual back-slash special character representations:</p>
+
+<pre>
+
+"advanced text\n"
+"\b\t\n\v\f\r"
+
+</pre>
+
+<p>IP literals:</p>
+
+<pre>
+
+192.168.1.10
+
+</pre>
+
+<h3>Expressions</h3>
+
+<p>
+Expressions are used to assign a value to a constant (including implicitly defined constants, like
+array lengths or default structure member values). Expression can be scalar or compound.
+Scalar expressions can be used to assign a value of a basic type, compound &mdash; for structures
+and arrays. A special class of scalar expressions defines pointer values.
+</p>
+
+<p>
+The most important thing about expressions: they are calculated in the context of the resulting type.
+Resulting type of expression is the type of constant this expression is used to assign a value to.
+</p>
+
+<p>
+Compound expression is a list of expressions, or a list of named expressions:
+</p>
+
+<pre>
+
+struct S
+ {
+  int a;
+  int b;
+  int c = 10 ;
+ };
+
+S s1 = {} ; // empty list, a = 0, b = 0, c = 10
+
+S s2 = { 1 , 2 } ; // partial list, a = 1, b = 2, c = 10
+
+S s3 = { 1 , 2 , 3 } ; // full list, a = 1, b = 2, c = 3
+
+S s4 = { .a = 1 } ; // named list, a = 1, b = 0, c = 10 
+
+</pre>
+
+<p>
+Named lists can be used as value modifiers:
+</p>
+
+<pre>
+
+struct S
+ {
+  int a;
+  int b;
+  int c = 10 ;
+ };
+
+S s = { 1 , 2 , 3 } ;
+
+S s1 = s { .a = -1 } ; // a = -1, b = 2, c = 3 
+
+S s2 = { 1 , 2 } { .a = -1 } ; // a = -1, b = 2, c = 10 
+
+</pre>
+
+<p>
+Usual arithmetic operations <b>+a, -a, a+b, a-b, a*b, a/b, a%b</b> can be used with integral values.
+Operands are evaluated to the resulting integral type and operation is performed with this value types.
+Additive integral operations and multiplication are operations in the correspondent residual ring.
+Division operations follows <b>C</b> convention:
+</p>
+
+<pre>
+
+a == (a/b)*b+(a%b)
+
+sign( a%b ) == sign(a)
+
+abs( a%b ) < abs(b)
+
+</pre>
+
+<p>
+Signed integral types use 2'd complementary representation. Integral literal conversions are performed
+by the module reduction. 
+</p>
+
+<p>
+There is a special integral cast operation:
+</p>
+
+<pre>
+
+int x = uint8( 12345 ) ;
+
+</pre>
+
+<p>
+The expression inside a cast expression is evaluated to the resulting cast type.
+</p>
+
+<p>
+<b>ip</b> constant can be received only from an IP literal.
+</p>
+
+<p>
+<b>text</b> constant can be received from a text literal, an IP literal, an integral literal and from
+a binary plus operator.
+</p>
+
+<pre>
+
+text a = "string" ; // string
+
+text b = 1.2.3.4 ; // 1.2.3.4
+
+text c = 100000000000000000000 ; // 100000000000000000000
+
+text d = "string"+2222222222222222222222 ; // string2222222222222222222222
+
+</pre>
+
+<p>
+Integral literals are converted as is. IP literals are converted to IP address first.
+</p>
+
+<p>
+<b>null</b> is a "universal null".
+</p>
+
+<pre>
+
+int a = null ;
+
+struct S
+ {
+  int a;
+  int b;
+  int c = 10 ; 
+ };
+
+S s = null ; // a = 0, b = 0, c = 0
+
+</pre>
+
+<p>
+Pointers can be used the same way as in <b>C</b>.
+</p>
+
+<pre>
+
+int a = 10 ;
+
+int * pa = &amp;a ;
+
+int b = *pa ; // 10
+
+int[10] c = {0,1,2,3,4,5,6,7,8,9} ;
+
+int * pc = c+5 ;
+
+int d = *pc ; // 5
+int e = pc[2] ; // 7
+
+int l = pc - c ; // 5
+
+</pre>
+
+<pre>
+
+struct S
+ {
+  int a;
+  int b;
+ };
+
+S s = { 1 , 2 } ;
+
+S * ps = &amp;s ;
+
+int a = ps->a ;
+int b = (*ps).b ;
+
+</pre>
+
+<h3>Polymorphic pointers</h3>
+
+<p>
+Polymorphic pointer may point to objects of different types. It looks like:
+</p>
+
+<pre>
+
+type Ptr = {int,uint} * ; 
+
+int a = 1 ;
+
+uint b = 2 ;
+
+Ptr ptr_a = &a ; 
+
+Ptr ptr_b = &b ;
+
+</pre>
+
+<h3>Point of usage name binding</h3>
+
+<p>
+When you define a default value for a structure field, you may use the name with question mark to refer a name,
+which is bounded with the definition at the point of usage.
+</p>
+
+<pre>
+
+struct S
+ {
+  int a = ?A + 10 ;
+ };
+
+int A = 100 ;
+
+S s = {} ; // s.a == 110
+
+scope Inner
+ {
+  int A = 200 ;
+
+  S s = {} ; // s.a == 210
+ }
+
+</pre>
+
+</body>
+
+</html>
+

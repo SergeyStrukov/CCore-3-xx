@@ -1,0 +1,266 @@
+<!--
+/* page_MetaList.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MetaList</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MetaList</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/MetaList.h</b> <b>CCore/src/gadget/MetaList.cpp</b></p>
+
+<p>
+The namespace <b>Meta</b> contains a collection of meta-tools widely-used in <b>CCore</b>. 
+They are enclosed in the namespace <b>Meta</b>. 
+This particular file provides tools to work with type lists.
+</p>
+
+<h3>EraseType</h3>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">EraseType</span> = int ;
+
+</pre>
+
+<p>
+<b>EraseType</b> is a <b>Meta-type</b>. It maps any type to the type <b>int</b>.
+</p>
+
+<h3>IndexListBox</h3>
+
+<pre>
+
+template &lt;int ... IList&gt; struct <span class="Att">IndexListBox</span>;
+
+</pre>
+
+<p>
+<b>IndexListBox</b> is used to "box" a list of integer indexes.
+</p>
+
+<h3>IndexListBox</h3>
+
+<pre>
+
+template &lt;int Base,class ... TT&gt;
+using <span class="Att">IndexList</span> = .... ;
+
+IndexList&lt;Base,T<sub>1</sub>,...,T<sub>n</sub>&gt; == IndexListBox&lt;Base,Base+1,...,Base+n-1&gt;
+
+</pre>
+
+<p>
+<b>IndexListBox</b> is a <b>Meta-type</b>. It creates a box of indexes <b>IndexListBox&lt;i,i+1,...,i+n-1&gt;</b>. 
+The first index is <b>Base</b>, the length of the list is the length of the type list <b>TT</b>.
+</p>
+
+<h3>TypeListBox</h3>
+
+<pre>
+
+template &lt;&gt;
+struct <span class="Att">TypeListBox</span>&lt;&gt;
+ {
+  using Type = TypeListBox&lt;&gt; ;
+
+  template &lt;class ... SS&gt;
+  using Extend = TypeListBox&lt;SS...&gt; ;
+ };
+
+template &lt;class T,class ... TT&gt;
+struct <span class="Att">TypeListBox</span>&lt;T,TT...&gt;
+ {
+  using Type = TypeListBox&lt;T,TT...&gt; ;
+
+  using FirstType = T ;
+
+  template &lt;class ... SS&gt;
+  using Extend = TypeListBox&lt;T,TT...,SS...&gt; ;
+ };
+
+TypeListBox&lt;T<sub>1</sub>,...,T<sub>n</sub>&gt;::Extend&lt;S<sub>1</sub>,...,S<sub>m</sub>&gt; == TypeListBox&lt;T<sub>1</sub>,...,T<sub>n</sub>,S<sub>1</sub>,...,S<sub>m</sub>&gt;
+
+</pre>
+
+<p>
+<b>TypeListBox</b> is another "box" type for a list of types. This box has three inner values:
+</p>
+
+<p>
+<b>Type</b> is the self type.
+</p>
+
+<p>
+<b>FirstType</b> is the first type of the list, if the list is not empty, otherwise it is not defined.
+</p>
+
+<p>
+<b>Extend</b> is a <b>Meta-function</b>. This function extends the box by the provided list of types.
+</p>
+
+<h3>JoinTypeList</h3>
+
+<pre>
+
+template &lt;class Box1,class Box2&gt;
+using <span class="Att">JoinTypeList</span> = .... ;
+
+JoinTypeList&lt; TypeListBox&lt;T<sub>1</sub>,...,T<sub>n</sub>&gt; , TypeListBox&lt;S<sub>1</sub>,...,S<sub>m</sub>&gt; &gt; == TypeListBox&lt;T<sub>1</sub>,...,T<sub>n</sub>,S<sub>1</sub>,...,S<sub>m</sub>&gt;
+
+</pre>
+
+<p>
+<b>JoinTypeList</b> is a <b>Meta-type</b>. It joins two type list boxes.
+</p>
+
+<h3>SplitTypeList</h3>
+
+<pre>
+
+template &lt;unsigned Index,class ... TT&gt; requires ( Index &lt;= sizeof ... (TT) ) 
+struct <span class="Att">SplitTypeList</span> 
+ {
+  using First = .... ;
+
+  using Last = .... ;
+ };
+
+template &lt;unsigned Index,class ... TT&gt;
+struct <span class="Att">SplitTypeListBox</span>&lt;Index,TypeListBox&lt;TT...&gt; &gt; : SplitTypeList&lt;Index,TT...&gt; {};
+
+SplitTypeList&lt;Index,T<sub>0</sub>,...,T<sub>n-1</sub>&gt;::First == TypeListBox&lt;T<sub>0</sub>,...,T<sub>Index-1</sub>&gt;
+
+SplitTypeList&lt;Index,T<sub>0</sub>,...,T<sub>n-1</sub>&gt;::Last == TypeListBox&lt;T<sub>Index</sub>,...,T<sub>n-1</sub>&gt;
+
+</pre>
+
+<p>
+<b>SplitTypeList</b> splits the given type list on two parts.
+<b>SplitTypeListBox</b> uses a type list box as the argument.
+</p>
+
+<h3>PrefixTypeList</h3>
+
+<pre>
+
+template &lt;unsigned Len,class ... TT> requires ( Len &lt;= sizeof ... (TT) )
+using <span class="Att">PrefixTypeList</span> = typename SplitTypeList&lt;Len,TT...&gt;::First ;
+
+PrefixTypeList&lt;Len,T<sub>0</sub>,...,T<sub>n-1</sub>&gt; == TypeListBox&lt;T<sub>0</sub>,...,T<sub>Len-1</sub>&gt;
+
+</pre>
+
+<p>
+<b>PrefixTypeList</b> is a <b>Meta-type</b>. It creates a prefix of the given type list with the given length.
+</p>
+
+<h3>PartTypeList</h3>
+
+<pre>
+
+template &lt;unsigned Off,class ... TT&gt; requires ( Off &lt;= sizeof ... (TT) )
+using <span class="Att">PartTypeList</span> = typename SplitTypeList&lt;Off,TT...&gt;::Last ;
+
+PartTypeList&lt;Off,T<sub>0</sub>,...,T<sub>n-1</sub>&gt; == TypeListBox&lt;T<sub>Off</sub>,...,T<sub>n-1</sub>&gt;
+
+</pre>
+
+<p>
+<b>PartTypeList</b> is a <b>Meta-type</b>. It creates a suffix of the given type list from the given offset.
+</p>
+
+<h3>TypeSubList</h3>
+
+<pre>
+
+template &lt;unsigned Off,unsigned Len,class ... TT&gt; requires ( Off+Len &lt;= sizeof ... (TT) )
+using <span class="Att">TypeSubList</span> = typename SplitTypeListBox&lt;Len,PartTypeList&lt;Off,TT...&gt; &gt;::First ;
+
+PartTypeList&lt;Off,Len,T<sub>0</sub>,...,T<sub>n-1</sub>&gt; == TypeListBox&lt;T<sub>Off</sub>,...,T<sub>Off+Len-1</sub>&gt;
+
+</pre>
+
+<p>
+<b>TypeSubList</b> is a <b>Meta-type</b>. It creates a part of the given type list from the given offset and with the given length.
+</p>
+
+<h3>SelectList</h3>
+
+<pre>
+
+template &lt;unsigned Index,class ... TT&gt; requires ( Index &lt; sizeof ... (TT) )
+using <span class="Att">SelectList</span> = typename SplitTypeList&lt;Index,TT...&gt;::Last::FirstType ;
+
+SelectList&lt;Index,T<sub>0</sub>,...,T<sub>n-1</sub>&gt; == T<sub>Index</sub>
+
+</pre>
+
+<p>
+<b>SelectList</b> is a <b>Meta-type</b>. It selects a type with the given index from the type list.
+</p>
+
+<h3>IndexOf</h3>
+
+<pre>
+
+template &lt;class T,class ... TT&gt;
+inline constexpr unsigned <span class="Att">IndexOf</span> = .... ;
+
+</pre>
+
+<p>
+<b>IndexOf</b> is a <b>Meta-constant</b>. It equals the 1-based index of the type <b>T</b> in the following type list <b>TT</b>.
+</p>
+
+<h3>PopTypeList</h3>
+
+<pre>
+
+template &lt;class ... TT&gt; requires ( sizeof ... (TT) &gt; 0 )
+struct <span class="Att">PopTypeList</span>
+ {
+  using Split = SplitTypeList&lt;( sizeof ... (TT) - 1 ),TT...&gt; ;
+
+  using Start = typename Split::First ;
+
+  using Last = typename Split::Last::FirstType ;
+ };
+
+PopTypeList&lt;T<sub>0</sub>,...,T<sub>n-1</sub>&gt;::Start == TypeListBox&lt;T<sub>0</sub>,...,T<sub>n-2</sub>&gt; 
+
+PopTypeList&lt;T<sub>0</sub>,...,T<sub>n-1</sub>&gt;::Last == T<sub>n-1</sub>
+
+</pre>
+
+<p>
+<b>PopTypeList</b> is a <b>Meta-function</b>. Being applied to a non-empty type list it returns two values: <b>Start</b> is the length minus one  prefix,
+and <b>Last</b> is the last type of the list.
+</p>
+
+</body>
+
+</html>
+

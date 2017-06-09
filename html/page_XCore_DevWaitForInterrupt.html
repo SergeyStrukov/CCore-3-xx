@@ -1,0 +1,84 @@
+<!--
+/* page_XCore_DevWaitForInterrupt.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore DevWaitForInterrupt</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore DevWaitForInterrupt</h2>
+
+<p class="Files">Files <b>CCore/inc/dev/DevWaitForInterrupt.h</b> <b>CCore/src/dev/DevWaitForInterrupt.cpp</b> <b>CCore/src/dev/DevWaitForInterrupt.s</b></p>
+
+<p>
+This part defines the function <b>WaitForInterrupt()</b>. 
+<b>XCore</b> defines the empty variant of this function, but Target may override this definition.
+This function stops CPU until some interrupt is asserted. Usually it is implemented using assembler.
+</p>
+
+<pre>
+
+/* DevWaitForInterrupt.h */
+
+#ifndef CCore_inc_dev_DevWaitForInterrupt_h
+#define CCore_inc_dev_DevWaitForInterrupt_h
+
+namespace CCore {
+namespace Dev {
+
+/* WaitForInterrupt() */
+
+void <span class="Att">WaitForInterrupt</span>();
+
+} // namespace Dev
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+Here is an implementation for ARMv7:
+</p>
+
+<pre>
+
+@ DevWaitForInterrupt.s
+
+        .text
+        .align 2
+
+        .global _ZN5CCore3Dev16WaitForInterruptEv
+
+_ZN5CCore3Dev16WaitForInterruptEv:               @ CCore::Dev::WaitForInterrupt
+
+        wfi
+
+        bx      lr
+
+</pre>
+
+</body>
+
+</html>
+

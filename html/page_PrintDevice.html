@@ -1,0 +1,566 @@
+<!--
+/* page_PrintDevice.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Printing devices</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Printing devices</h2>
+
+<p class="Files">Files <b>CCore/inc/Print.h</b> <b>CCore/src/Print.cpp</b></p>
+
+<p class="Files">Subfolders <b>CCore/inc/print</b> <b>CCore/src/print</b></p>
+
+<p>
+There are several standard "printing device" classes, implemented in <b>CCore</b>.
+Lists are differ in <b>XCore</b> and <b>HCore</b>.
+</p>
+
+<h4>PrintCon (HCore)</h4>
+
+<p>
+<b>PrintCon</b> is the first and the most important class in the list. It is used to print to the console.
+This class is based on the target function <b>ConWrite</b>, declared in the header <b>sys/SysCon.h</b>.
+This function is assumed to call some native OS function to print the text string.
+</p>
+
+<pre>
+
+void <span class="Att">Sys::ConWrite</span>(StrLen str) noexcept;
+
+</pre>
+
+<p>
+The word <b>Con</b> is used to print to the console.
+</p>
+
+<pre>
+
+/* words */ 
+
+enum ConType { <span class="Att">Con</span> };
+ 
+template &lt;&gt; 
+struct PrintOutAdapter&lt;ConType&gt;
+ {
+  using PrintOutType = PrintCon ;
+ };
+
+</pre>
+
+<p>
+The class <b>PrintCon</b> uses a small stack buffer to accumulate the incoming text stream:
+</p>
+
+<pre>
+
+class <span class="Att">PrintCon</span> : public PrintBase
+ {
+   char buf[TextBufLen];
+ 
+  private:
+  
+   virtual PtrLen&lt;char&gt; do_provide(ulen hint_len);
+   
+   virtual void do_flush(char *ptr,ulen len); 
+   
+  public:
+  
+   PrintCon() {}
+
+   explicit PrintCon(ConType) {}
+   
+   ~PrintCon() { flush(); }
+   
+   static void Print(const char *ptr,ulen len) { Print(Range(ptr,len)); }
+   
+   static void Print(StrLen str); // ignore errors
+ };
+
+</pre>
+
+<p>
+The static methods <b>Print()</b> can be used for the direct printing to the console.
+</p>
+
+<h4>PrintCon (XCore)</h4>
+
+<p>
+The <b>XCore</b> variant of the <b>PrintCon</b> is close to the <b>HCore</b>.
+</p>
+
+<pre>
+
+class <span class="Att">PrintCon</span> : public PrintBase
+ {
+   MSec timeout;
+   NanoPacket&lt;char&gt; packet;
+ 
+  private:
+  
+   virtual PtrLen&lt;char&gt; do_provide(ulen hint_len);
+   
+   virtual void do_flush(char *ptr,ulen len); 
+   
+  public:
+
+   explicit PrintCon(MSec timeout_=DefaultTimeout) : timeout(timeout_) {}
+  
+   explicit PrintCon(ConType,MSec timeout_=DefaultTimeout) : timeout(timeout_) {}
+   
+   ~PrintCon() { flush(); }
+   
+   static void Print(const char *ptr,ulen len); // ignore errors
+   
+   static void Print(StrLen str) { Print(str.ptr,str.len); } 
+ };
+
+</pre>
+
+<p>
+The small difference is the constructor takes the additional argument <b>timeout</b>, defaulted to the  
+<b>DefaultTimeout</b>. The main difference, however, is not the interface, but the implementation.
+<b>XCore</b> <b>PrintCon</b> uses <a href="page_NanoPackets.html"><b>NanoPacket</b></a>s. Methods <b>Print()</b> create a temporary <b>PrintCon</b>
+object to print the text. Printing is not permitted in the interrupt context.
+</p>
+
+<p>
+<b>XCore</b> supports the console printing by the following functions, declared in
+the <b>sys/SysCon.h</b> header.
+</p>
+
+<pre>
+
+NanoPacket&lt;char&gt; <span class="Att">Sys::AllocConPacket</span>(MSec timeout);
+
+void <span class="Att">Sys::ConWrite</span>(NanoPacket&lt;char&gt; packet);
+
+</pre>
+
+<p>
+The full implementation of these functions is the target resposibility. For this a derived class from
+the <b>Sys::ConBase</b> class is defined. Usually a target device has a serial port and console packets are delivered
+to the host computer through the port driver.
+</p>
+
+<a name="PrintFile"><h4>PrintFile (HCore)</h4></a>
+
+<p>
+<b>PrintFile</b> class is designed to print to a file. On <b>HCore</b> targets this class is based on
+OS native file input-output functions.
+</p>
+
+<pre>
+
+class <span class="Att">PrintFile</span> : public PrintBase
+ {
+   ....
+   
+  public:
+   
+   // constructors
+  
+   PrintFile() noexcept;
+   
+   explicit PrintFile(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+   
+   ~PrintFile();
+   
+   // methods
+   
+   bool isOpened() const;
+   
+   void open(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+   
+   void disableExceptions(); 
+   
+   void soft_close(FileMultiError &amp;errout);
+   
+   void close();
+   
+   void preserveFile();
+ };
+
+</pre>
+
+<p>
+<b>PrintFile</b> object can be opened or closed. To print to the particular file, the <b>PrintFile</b>
+object must be opened and the file name and <a href="page_Files.html">open flags</a> must be provided.
+It can be done using the constructor or the method <b>open()</b>. Default constructor creates
+an object in the closed state. Non-default opens a file. In case of error an exception is thrown.
+</p>
+
+<p>
+Destructor flushes and closes opened object. Errors are reported.
+</p>
+
+<p>
+<b>isOpened()</b> returns <b>true</b>, if the file is opened, and <b>false</b> otherwise.
+</p>
+
+<p>
+<b>open()</b> opens a closed object with the given file and open flags. 
+In case of error an exception is thrown.
+</p>
+
+<p>
+<b>close()</b> closes an opened object. In case of error and if there is a pending output error
+an exception is thrown.
+</p>
+
+<p>
+<b>soft_close()</b> does not throw, it returns a group of errors using the 
+<a href="page_Files.html"><b>FileMultiError</b></a> object.
+</p>
+
+<p>
+<b>disableExceptions()</b> disables exceptions during print operations. You may call this method after the <b>open()</b>.
+If exceptions are disabled, the special internal error flag is set in case of printing error. This flag
+is added in the error list during a close operation.
+</p>
+
+<p>
+<b>preserveFile()</b> preserves a file, opened with the <b>AutoDelete</b> open flag.
+</p>
+
+<p>
+<b>PrintFile</b> class is constructed from two classes: <a href="page_SafeBuf.html"><b>SafeBuf</b></a> and <b>RawFileToPrint</b>.
+</p>
+
+<p>
+The <b>SafeBuf</b> class is used to allocate a file buffer. <b>PrintFile</b> uses the file buffer
+of size 64 KBytes. But if the required memory is not available, <b>SafeBuf</b> uses an internal
+small safeguard buffer of size 32 bytes. 
+</p>
+
+<pre>
+
+class <span class="Att">RawFileToPrint</span> : NoCopy
+ {
+   Sys::File file;
+   bool opened;
+   bool preserve_file;
+   
+  public:
+   
+   // constructors
+  
+   RawFileToPrint() : opened(false) {}
+   
+    // No destructor ! 
+   
+   // methods
+   
+   bool isOpened() const { return opened; }
+   
+   FileError open(StrLen file_name,FileOpenFlags oflags);
+   
+   void close(FileMultiError &amp;errout);
+   
+   void preserveFile() { preserve_file=true; }
+   
+   FileError write(const uint8 *buf,ulen len);
+ }; 
+
+</pre>
+
+<p>
+The <b>RawFileToPrint</b> class is built on the target class <b>Sys::File</b>,
+declared in the header <b>sys/SysFile.h</b>. It performs open/close
+operations and the raw file output.
+</p>
+
+<p>
+The target <b>Sys::File</b> class implements the classical set of file operations.
+</p>
+
+<pre>
+
+struct <span class="Att">Sys::File</span>
+ {
+  // private
+
+  ....
+
+  // public
+  
+  struct IOResult
+   {
+    ulen len;
+    FileError error;
+   };
+ 
+  struct PosResult
+   {
+    FilePosType pos;
+    FileError error;
+   };
+  
+  FileError open(StrLen file_name,FileOpenFlags oflags) noexcept;
+ 
+  void close(FileMultiError &errout,bool preserve_file=false) noexcept; 
+  
+  void close() noexcept; 
+   
+  IOResult write(const uint8 *buf,ulen len) noexcept;
+  
+  IOResult read(uint8 *buf,ulen len) noexcept;
+  
+  PosResult getLen() noexcept;
+  
+  PosResult getPos() noexcept;
+  
+  FileError setPos(FilePosType pos) noexcept;
+ };
+
+</pre>
+
+<p>
+Methods of this class call directly OS file system interface functions.
+</p>
+
+<h4>PrintFile (XCore)</h4>
+
+<p>
+On <b>XCore</b> targets <b>PrintFile</b> class is derived from the <a href="#PrintAsyncFile"><b>PrintAsyncFile</b></a>.
+</p>
+
+<pre>
+
+class <span class="Att">PrintFile</span> : public PrintAsyncFile
+ {
+  public:
+
+   PrintFile() noexcept;
+
+   explicit PrintFile(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+
+   ~PrintFile();
+
+   void open(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+ };
+
+</pre>
+
+<p>
+To open a file the <a href="page_DefaultFileDevice.html"><b>DefaultFileDevice</b></a> is used.
+</p>
+
+<a name="PrintAsyncFile"><h4>PrintAsyncFile</h4></a>
+
+<p>
+<b>PrintAsyncFile</b> is built using the <a href="page_AsyncFileClients.html"><b>AsyncFile</b></a> class.
+Output stream is buffered using packet data buffers. Once a packet is filled, it is submitted
+to the <b>AsyncFile</b> object, the packet may be sent to the target device asynchronously.
+</p>
+
+<pre>
+
+class <span class="Att">PrintAsyncFile</span> : public PrintBase
+ {
+   AsyncFile file;
+
+   ....
+
+  public:
+   
+   // constructors
+  
+   explicit PrintAsyncFile(MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+   
+   explicit PrintAsyncFile(StrLen file_name,FileOpenFlags oflags=Open_ToWrite,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+   
+   PrintAsyncFile(StrLen dev_name,StrLen dev_file_name,FileOpenFlags oflags=Open_ToWrite,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+
+   ~PrintAsyncFile();
+   
+   // methods
+   
+   bool isOpened() const { return file.isOpened(); }
+   
+   void setFinalTimeout(MSec t) { file.setFinalTimeout(t); }
+
+   void open(StrLen file_name,FileOpenFlags oflags=Open_ToWrite);
+   
+   void open(StrLen dev_name,StrLen dev_file_name,FileOpenFlags oflags=Open_ToWrite);
+
+   void exec2(StrLen dir,StrLen program,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+   
+   void exec2(AsyncFileSystem &fs,StrLen dev_dir,StrLen dev_program);
+   
+   void soft_close(FileMultiError &errout);
+   
+   void close();
+   
+   void preserveFile() { file.preserveFile(); }
+   
+   void setLargeWriteLen(ulen large_write_len) { file.setLargeWriteLen(large_write_len); }
+   
+   void wait() { file.wait(); }
+   
+   void wait_final() { file.wait_final(); }
+   
+   void wait(MSec timeout) { file.wait(timeout); }
+   
+   void cancel_and_wait() { file.cancel_and_wait(); }
+ };
+
+</pre>
+
+<p>
+A file must be opened before a printing. You can do it using the constructor or the method <b>open()</b>.
+Constructors arguments <b>timeout</b> and <b>max_packets</b> are propagated to the inner <b>AsyncFile</b> object.
+<b>file_name</b> and <b>open_flags</b> specifies the file to be opened and the open flags.
+The file may be also specified using the device name and the device file name.
+</p>
+
+<p>
+Destructor completes operations, closes the file and reports errors if any.
+</p>
+
+<p>
+<b>isOpened()</b> returns <b>true</b>, if the file is opened.
+</p>
+
+<p>
+<b>setFinalTimeout()</b> sets the "final timeout".
+</p>
+
+<p>
+<b>open()</b> opens the given file.
+</p>
+
+<p>
+<b>exec2()</b> methods are used to execute a program. Some <a href="page_AsyncFileClients.html#AsyncFileSystem"><b>AsyncFileSystem</b></a> object is involved.
+Once you "open" a file with this method, you may print the program command-line. To run a program,
+you have to call the method <b>preserveFile()</b> and close the file. The first variant creates 
+a temporary <b>AsyncFileSystem</b> object with the device name found in arguments (both device names
+in <b>dir</b> and <b>program</b> must be the same). Additional arguments are applied to this object.
+</p>
+
+<p>
+<b>soft_close()</b> flushes output and closes the file. Errors are reported to the given <b>FileMultiError</b>
+object.
+</p>
+
+<p>
+<b>close()</b> flushes output and closes the file. An exception is thrown in case of errors.
+</p>
+
+<p>
+<b>preserveFile()</b> preserves the file, opened with the <b>Open_AutoDelete</b> open flag.
+</p>
+
+<p>
+Other methods are direct calls of the correspondent <b>AsyncFile</b> methods. Usually they are
+not required.
+</p>
+
+<h4>PrintPTPCon</h4>
+
+<p>
+This class uses the <a href="page_PTPCon.html"><b>PTP Console</b></a> protocol to print over a net.
+</p>
+
+<pre>
+
+class <span class="Att">PrintPTPCon</span> : public PrintBase
+ {
+   ....
+
+  public:
+  
+   explicit PrintPTPCon(StrLen con_dev_name,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets); 
+   
+   ~PrintPTPCon();
+   
+   void enableExceptions() { enable_exceptions=true; }
+   
+   void flush_and_wait();
+ };
+
+</pre>
+
+<p>
+Constructor connects to the <b>PTP Con</b> client device.
+</p>
+
+<p>
+<b>enableExceptions()</b> enables exception generation during printing.
+</p>
+
+<p>
+<b>flush_and_wait()</b> flushes stream and waits until <b>PTP</b> operations are finished (up to timeout). 
+</p>
+
+<p>
+Before printing to the <b>PTP Con</b> device, console must be opened.
+You can do it using the class <b>PTPConOpenClose</b>.
+</p>
+
+<pre>
+
+class <span class="Att">PTPConOpenClose</span> : NoCopy
+ {
+   ....
+
+  public: 
+   
+   // constructors
+  
+   PTPConOpenClose(StrLen con_dev_name,StrLen name,const Net::PTPCon::Cfg &cfg=Net::PTPCon::Cfg());
+   
+   ~PTPConOpenClose();
+   
+   // read
+   
+   using InputProc = Net::PTPCon::ClientDevice::InputProc ;
+  
+   void start_read(InputProc *proc) { con->start_read(proc); }
+   
+   void stop_read() { con->stop_read(); }
+   
+   // write
+   
+   PacketFormat getWriteFormat() const { return format; }
+   
+   void write(Packet&lt;uint8&gt; packet) { con->write(packet); }
+ };
+
+</pre>
+
+<p>
+Constructor opens a console with the given name and configuration properties.
+Destructor closes it.
+</p>
+
+<p>
+This class also can be used to read or write <b>PTP Con</b> device, using "raw" methods.
+But it is better to use classes, intended for printing or <a href="page_ConsoleInput.html#ReadPTPCon">console reading</a>.
+</p>
+
+</body>
+
+</html>
+

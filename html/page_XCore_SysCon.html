@@ -1,0 +1,194 @@
+<!--
+/* page_XCore_SysCon.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore SysCon</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore SysCon</h2>
+
+<p class="Files">Files <b>CCore/src/sys/SysCon.cpp</b></p>
+
+<p>
+This part defines default console object. This object may be connected to the board serial port or another input/output device to be used for the
+console communication.
+</p>
+
+<p>
+Two functions are implemented in this module: <b>GetPlanInitNode_SysCon()</b> and <b>ConBase::GetObject()</b>.
+The first is a <a href="page_PlanInit.html"><b>PlanInit</b></a> node function. 
+The second gives access to the console object through the abstract base <a href="page_XCoreConsole.html"><b>ConBase</b></a>. 
+</p>
+
+<p>
+Here is a pattern to implement <b>SysCon</b>:
+</p>
+
+<pre>
+
+/* SysCon.cpp */
+
+#include &lt;CCore/inc/sys/SysCon.h&gt;
+
+#include &lt;CCore/inc/dev/DevPlanInit.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* GetPlanInitNode_...() */
+
+namespace Private_SysCon {
+
+/* class ImpCon */
+
+class ImpCon : public ConBase
+ {
+  private:
+
+   virtual void attachDefaultInput(ConInputFunction input_any)
+    {
+     Used(input_any);
+
+     // TODO
+    }
+
+   virtual void detachDefaultInput()
+    {
+     // TODO
+    }
+
+   virtual void defaultOutput(NanoPacket&lt;char&gt; packet)
+    {
+     if( !packet ) return;
+
+     // TODO
+
+     packet.free();
+    }
+
+   virtual void enablePacket()
+    {
+     // TODO
+    }
+
+   virtual void disablePacket()
+    {
+     // TODO
+    }
+
+   virtual void showStat()
+    {
+     // TODO
+    }
+
+  public:
+
+   ImpCon(TextLabel name,void *mem,ulen max_data_len,ulen count)
+    : ConBase(name,mem,max_data_len,count)
+    {
+    }
+
+   ~ImpCon()
+    {
+    }
+ };
+
+/* class DefaultCon */
+
+class DefaultCon : NoCopy
+ {
+   static constexpr ulen MaxDataLen = 512 ;
+   static constexpr ulen Count      = 100 ;
+   static constexpr ulen MemLen     = ConBase::MemLen(MaxDataLen,Count) ;
+
+  private:
+
+   InitStorage&lt;MemLen&gt; storage;
+
+   ImpCon dev;
+
+  public:
+
+   DefaultCon() : dev("!SysCon",storage.getMem(),MaxDataLen,Count) {}
+
+   ~DefaultCon() {}
+
+   ConBase * getBase() { return &amp;dev; }
+
+   static const char * GetTag() { return "SysCon"; }
+ };
+
+PlanInitObject&lt;DefaultCon,PlanInitReq&lt;Dev::GetPlanInitNode_Dev&gt;
+                         ,PlanInitReq&lt;GetPlanInitNode_TaskCore&gt; &gt; Object CCORE_INITPRI_1 ;
+
+} // namespace Private_SysCon
+
+using namespace Private_SysCon;
+
+PlanInitNode * <span class="Att">GetPlanInitNode_SysCon</span>() { return &amp;Object; }
+
+/* class ConBase */
+
+ConBase * <span class="Att">ConBase::GetObject</span>() { return Object->getBase(); }
+
+} // namespace Sys
+} // namespace CCore
+
+</pre>
+
+<p>
+The private class <b>ImpCon</b> is responsible for the actual console implementation. 
+The following virtual functions must be implemented to do the real job:
+</p>
+
+<p>
+<b>attachDefaultInput()</b> attaches the given input processing function to handle console from the user.
+</p>
+
+<p>
+<b>detachDefaultInput()</b> detaches the input processing function.
+</p>
+
+<p>
+<b>defaultOutput()</b> must send given data to the output target. If the packet mode is enabled, the implementation may use full power of the 
+<b>XCore</b>, for example, it may store incoming packets in some queue and drive output by an interrupt. If the packet mode is not enabled, implementation
+must not relay on interrupts and task features and perform output directly, using polling, if required.
+</p>
+
+<p>
+<b>enablePacket()</b> is called by <b>XCore</b> when core is fully initialized to enable packet mode output processing.
+</p>
+
+<p>
+<b>disablePacket()</b> is called by <b>XCore</b> right before core is going to be uninitialized to disable packet mode output processing.
+</p>
+
+<p>
+<b>showStat()</b> may print internal statistic counters (or may do nothing). Provided to debug implementation.
+</p>
+
+</body>
+
+</html>
+

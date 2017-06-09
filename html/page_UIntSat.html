@@ -1,0 +1,159 @@
+<!--
+/* page_UIntSat.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> UIntSat</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>UIntSat</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/UIntSat.h</b> <b>CCore/src/gadget/UIntSat.cpp</b></p>
+
+<p>
+These files contain a collection of tools to control an unsigned integer overflow.
+</p>
+
+<h3>UIntSat</h3>
+
+<p>
+<b>UIntSat</b> can be used to perform operations with the overflow control:
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+struct <span class="Att">UIntSat</span>
+ {
+  UInt value;
+  bool overflow;
+  
+  // constructors
+  
+  constexpr UIntSat(); // null value
+  
+  constexpr UIntSat(UIntSat&lt;UInt&gt; a,UIntSat&lt;UInt&gt; b); // add two values
+
+  constexpr UIntSat(UIntType value_); // convert from unsigned integer
+  
+  // methods
+  
+  bool operator ! () const { return overflow; }
+  
+  // operators
+
+  friend constexpr UIntSat&lt;UInt&gt; operator + (UIntSat&lt;UInt&gt; a,UIntSat&lt;UInt&gt; b);
+
+  friend UIntSat&lt;UInt&gt; operator += (UIntSat&lt;UInt&gt; &a,UIntSat&lt;UInt&gt; b);
+    
+  bool operator &lt; (UInt lim) const;
+  
+  bool operator &lt;= (UInt lim) const;
+
+  bool operator &gt; (UInt lim) const;
+  
+  bool operator &gt;= (UInt lim) const;
+ };
+
+</pre>
+
+<p>
+Flag <b>overflow</b> is set if the accumulated value is not representable by the given type.
+You can consider such value as "greater than the maximum UInt value". Further additive operations with such value produces
+only the same kind of value.
+You can sum, add to self and compare with a limit <b>UIntSat</b>s.
+You can also use it in constant expressions. The most common usage is a buffer length calculation:
+</p>
+
+<pre>
+
+UIntSat&lt;ulen&gt; len=len1;
+
+len+=len2;
+len+=len3;
+
+if( len<=max_len )
+  {
+   // ok
+  }
+else
+  {
+   // not fit or even overflowed
+  }
+
+</pre>
+
+<p>
+<b>ULenSat</b> is the typedef with the <b>ulen</b> parameter:
+</p>
+
+<pre>
+
+using <span class="Att">ULenSat</span> = UIntSat&lt;ulen&gt; ;
+
+</pre>
+
+<h3>UIntConstAdd , UIntConstSub , UIntConstMul</h3>
+
+<p>
+<b>UIntConstAdd</b> , <b>UIntConstSub</b> and <b>UIntConstMul</b> are <b>Meta-constant</b>s.
+</p>
+
+<pre>
+
+template &lt;class UInt,UInt ... CC&gt;
+inline constexpr UInt <span class="Att">UIntConstAdd</span> = .... ;
+
+template &lt;class UInt,UInt A,UInt B&gt;
+inline constexpr UInt <span class="Att">UIntConstSub</span> = .... ;
+
+template &lt;class UInt,UInt A,UInt B&gt;
+inline constexpr UInt <span class="Att">UIntConstMul</span> = .... ;
+
+</pre>
+
+<p>
+<b>UIntConstAdd</b> has the value of sum of all <b>CC</b> if there is no overflow, otherwise not defined. 
+</p>
+
+<p>
+<b>UIntConstSub</b> has the value <b>A-B</b> if <b>A >= B</b>, otherwise not defined.
+</p>
+
+<p>
+<b>UIntConstMul</b> has the value <b>A*B</b> if there is no overflow, otherwise not defined. 
+</p>
+
+<pre>
+
+const ulen L1 = .... ;
+const ulen L2 = .... ;
+
+const ulen S = UIntConstAdd&lt;ulen,L1,L2&gt; ; // safe sum of two constants, not compilable in case of overflow
+
+</pre>
+
+</body>
+
+</html>
+

@@ -1,0 +1,102 @@
+<!--
+/* page_ApplyToRange.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ApplyToRange</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ApplyToRange</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/ApplyToRange.h</b> <b>CCore/src/algon/ApplyToRange.cpp</b></p>
+
+<h3>GetResult()</h3>
+
+<p>
+<b>GetResult()</b> can be used to extract a result from the object. 
+If the object has the method <b>getResult()</b> it is used to extract a result. Otherwise <b>void</b> is returned.
+</p>
+
+<pre>
+
+auto <span class="Att">Algon::GetResult</span>(Has_getResult &amp;obj) { return obj.getResult(); }
+
+void <span class="Att">Algon::GetResult</span>(No_getResult &amp;) {}
+
+</pre>
+
+<h3>ApplyToRange()</h3>
+
+<p>
+<b>ApplyToRange()</b> applies a functor to a set of elements.
+This algorithm uses the <a href="page_FunctorType.html">Functor Init Pattern</a>.
+The first argument is a <b>Cursor</b> or <b>Recursor</b>, the second is a functor initializer.
+</p>
+
+<pre>
+
+template &lt;CursorType R,FuncInitArgType&lt;Meta::PtrObjType&lt;R&gt; &amp;&gt; FuncInit&gt;
+auto <span class="Att">Algon::ApplyToRange</span>(R r,FuncInit func_init)
+ {
+  FunctorTypeOf&lt;FuncInit&gt; func(func_init);
+
+  for(; +r ;++r) func(*r);
+
+  return GetResult(func);
+ }
+
+template &lt;CursorType R,FuncInitType&lt;bool,Meta::PtrObjType&lt;R&gt; &amp;&gt; FuncInit>
+auto <span class="Att">Algon::ApplyToRange</span>(R r,FuncInit func_init)
+ {
+  FunctorTypeOf&lt;FuncInit&gt; func(func_init);
+
+  for(; +r ;++r) if( !func(*r) ) break;
+
+  return GetResult(func);
+ }
+
+</pre>
+
+<p>
+A result (or <b>void</b>) is returned from the functor using the function <b>GetResult()</b>.
+If the functor returns a boolable value, it is used to stop the processing if <b>false</b> is obtained.
+</p>
+
+<pre>
+
+template &lt;RecursorType R,FuncInitArgType&lt;Meta::PtrObjType&lt;R&gt; &amp;&gt; FuncInit&gt;
+auto <span class="Att">Algon::ApplyToRange</span>(R r,FuncInit func_init);
+
+template &lt;RecursorType R,FuncInitType&lt;bool,Meta::PtrObjType&lt;R&gt; &amp;&gt; FuncInit>
+auto <span class="Att">Algon::ApplyToRange</span>(R r,FuncInit func_init);
+
+</pre>
+
+<p>
+<b>Recursor</b> variants use recursion to run over the set. 
+</p>
+
+</body>
+
+</html>
+

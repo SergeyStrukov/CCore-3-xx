@@ -1,0 +1,316 @@
+<!--
+/* page_XCoreConsole.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore console</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore console</h2>
+
+<p class="Files">Files <b>CCore/inc/sys/SysCon.h</b> <b>CCore/src/sys/SysCon_general.cpp</b></p>
+
+<p>
+<b>XCore</b> provides a number of tools to work with console input-output. A Target must implement the primary console class to support console.
+</p>
+
+<pre>
+
+/* GetPlanInitNode_...() */
+
+PlanInitNode * <span class="Att">GetPlanInitNode_SysCon</span>();
+
+/* consts */
+
+enum <span class="Att">ConInputResult</span>
+ {
+  Con_Drop = 0,
+  Con_Echo,
+  Con_NoEcho,
+  Con_EOL
+ };
+
+/* types */
+
+using <span class="Att">ConInputFunction</span> = Function&lt;ConInputResult (char)&gt; ;
+
+using <span class="Att">ConOutputFunction</span> = Function&lt;void (NanoPacket&lt;char&gt; packet)&gt; ;
+
+/* functions */
+
+NanoPacket&lt;char&gt; <span class="Att">AllocConPacket</span>(MSec timeout);
+
+void <span class="Att">ConWrite</span>(NanoPacket&lt;char&gt; packet);
+
+void <span class="Att">EnablePacketCon</span>();
+
+void <span class="Att">DisablePacketCon</span>();
+
+void <span class="Att">ShowConStat</span>();
+
+</pre>
+
+<p>
+<b>GetPlanInitNode_SysCon</b> is a <a href="page_PlanInit.html"><b>PlanInit</b></a> node of the primary console object. It is implemented by the Target.
+</p>
+
+<p>
+<b>ConInputResult</b> is en enum. It is used to designate a desired action with the input character.
+</p>
+
+<p>
+<b>ConInputFunction</b> is a <a href="page_Function.html"><b>Function</b></a>. It is used to process an input character.
+</p>
+
+<p>
+<b>ConOutputFunction</b> is a <a href="page_Function.html"><b>Function</b></a>. It is used to process an output character <a href="page_NanoPackets.html"><b>NanoPacket</b></a>.
+</p>
+
+<p>
+<b>AllocConPacket()</b> allocates a <b>NanoPacket</b> to use it for console output. The argument is the timeout for the operation.
+If a packet cannot be allocated withing the given timeout the null is returned.
+</p>
+
+<p>
+<b>ConWrite()</b> writes the <b>NanoPacket</b> to the console. The null value is allowed.
+</p>
+
+<p>
+<b>EnablePacketCon()</b> turns on the packet console mode. You must not use this function directly, it is only for <b>XCore</b>.
+</p>
+
+<p>
+<b>DisablePacketCon()</b> turns off the packet console mode. You must not use this function directly, it is only for <b>XCore</b>.
+</p>
+
+<p>
+<b>ShowConStat()</b> prints console statistics. This function behavior is defined by the Target, it may do nothing.
+</p>
+
+<pre>
+
+/* class OwnConInput */
+
+class <span class="Att">OwnConInput</span> : NoCopy
+ {
+   AntiSem asem;
+
+  public:
+
+   OwnConInput(TextLabel name,ConInputFunction input_any);
+
+   ~OwnConInput();
+ };
+
+</pre>
+
+<p>
+This class is used to install the input processing function. Constructor installs the function and destructor uninstalls it. 
+The argument <b>input_any</b> is some input processing function. It may be called in any context.
+This function receives an input character and must return a value to indicate a desired response:
+<b>Con_Drop</b> to inform that character was discarded, <b>Con_Echo</b> to echo the character back, <b>Con_NoEcho</b>
+to suppress the echo and <b>Con_EOL</b> to echo end-of-line.
+</p>
+
+<pre>
+
+/* class HookConInput */
+
+class <span class="Att">HookConInput</span> : NoCopy
+ {
+   ConInputFunction input_any;
+   AntiSem *asem;
+
+  public:
+
+   HookConInput();
+
+   ~HookConInput();
+
+   ConInputResult operator () (char ch) { return input_any(ch); }
+ };
+
+</pre>
+
+<p>
+This class is used to temporary hook the active console input function. It can be used to send an input character.
+</p>
+
+<pre>
+
+/* class RedirectCon */
+
+class <span class="Att">RedirectCon</span> : NoCopy
+ {
+   AntiSem asem;
+
+  public:
+
+   RedirectCon(TextLabel name,ConOutputFunction output);
+
+   ~RedirectCon();
+ };
+
+</pre>
+
+<p>
+This class is used to install the console output processing function. Constructor installs the function and destructor uninstalls it.
+Being installed this function receives the output packets, instead a default console processing.
+</p>
+
+<pre>
+
+/* class HookConOutput */
+
+class <span class="Att">HookConOutput</span> : NoCopy
+ {
+   ConOutputFunction output;
+   AntiSem *asem;
+
+  public:
+
+   HookConOutput();
+
+   ~HookConOutput();
+
+   void operator () (NanoPacket&lt;char&gt; packet) { output(packet); }
+ };
+
+</pre>
+
+<p>
+This class is used to temporary hook the console output and send the given packet(s) to the console.
+</p>
+
+<pre>
+
+/* class ConBase */
+
+class <span class="Att">ConBase</span> : public Funchor_nocopy
+ {
+   ....
+
+  private:
+
+   // default input/output
+
+   virtual void attachDefaultInput(ConInputFunction input_any)=0;
+
+   virtual void detachDefaultInput()=0;
+
+   virtual void defaultOutput(NanoPacket&lt;char&gt; packet)=0;
+
+  public:
+
+   // constructors
+
+   static constexpr ulen MemLen(ulen max_data_len,ulen count) { return NanoPacket&lt;char&gt;::AllocLen(max_data_len)*count; }
+
+   ConBase(TextLabel name,void *mem,ulen max_data_len,ulen count);
+
+   ~ConBase();
+
+   // methods
+
+   unsigned getNoPacketCount();
+
+   NanoPacket&lt;char&gt; alloc(MSec timeout);
+
+   virtual void enablePacket()=0;
+
+   virtual void disablePacket()=0;
+
+   virtual void showStat()=0;
+
+   // global object, defined in target
+
+   static ConBase * GetObject();
+ };
+
+</pre>
+
+<p>
+This is a base class for the Target-implemented primary console class. Target must define a drived class from <b>ConBase</b> and provide access
+to the global object of such class via the <b>ConBase::GetObject()</b> method. <a href="page_XCore_SysCon.html">Here</a> is a pattern how to do this.
+A derived class must implement the following pure virtual methods:
+</p>
+
+<p>
+<b>attachDefaultInput()</b> attaches the given function to the default console input. 
+Each time the user hit a key the attached function is called with the appropriate character as the argument. 
+The return value is used to do some response.
+</p>
+
+<p>
+<b>detachDefaultInput()</b> detaches the default console input from the input processing function.
+</p>
+
+<p>
+<b>defaultOutput()</b> is the default console output. The argument may be null. 
+This function send the packet payload to the console. 
+It may do it immediately or put the packet into some packet queue for a further processing.
+</p>
+
+<p>
+<b>enablePacket()</b> enables the packet mode of operation. This method is called by <b>XCore</b> after the core is up. After this point
+the console implementation may use the full power of <b>XCore</b>. Before this point only polling methods can be used to operate the console.
+</p>
+
+<p>
+<b>disablePacket()</b> disables the packet mode of operation. This method is called by <b>XCore</b> before the shutdown the core.
+After this point the console implementation may not use tasks, interrupts and other core stuff to do the job.
+</p>
+
+<p>
+<b>showStat()</b> prints the statistic counters. The meaning of the printed information is implementation-defined. This method may do nothing. 
+</p>
+
+<p>
+Other methods of the <b>ConBase</b> are:
+</p>
+
+<p>
+Constructor takes the following arguments: <b>name</b> is the internal sync object name. 
+<b>mem</b> is the address of a block of memory, must be aligned. 
+This block is used to construct the internal packet pool.
+The block length can be calculated using the method <b>MemLen()</b>. 
+<b>max_data_len</b> is the maximum data length of a nano-packet.
+<b>count</b> is the number of nano-packets in the packet pool.
+</p>
+
+<p>
+<b>MemLen()</b> calculates the required length of the memory block.
+</p>
+
+<p>
+<b>getNoPacketCount()</b> returns the number of no-packet events. No-packet event happens when the <b>alloc()</b> method fails.
+</p>
+
+<p>
+<b>alloc()</b> allocates the nano-packet from the internal packet pool.
+</p>
+
+</body>
+
+</html>
+

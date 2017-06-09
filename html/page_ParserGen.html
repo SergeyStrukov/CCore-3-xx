@@ -1,0 +1,319 @@
+<!--
+/* page_ParserGen.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ParserGen</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ParserGen</h2>
+
+<p>
+<b>CCore-ParserGen</b> is a lang parser code generator. It takes a <b>ddl</b> output of the <a href="page_CondLangLR1.html"><b>CondLangLR1</b></a>
+and generates two output files with <b>C++</b> code.
+</p>
+
+<pre>
+
+CCore-ParserGen.exe &lt;Lang.ddl&gt; &lt;ClassName&gt; &lt;Lang.gen.h&gt; &lt;Lang.gen.cpp&gt;
+
+</pre>
+
+<p>
+<b>Lang.ddl</b> is a <b>ddl</b> output.
+</p>
+
+<p>
+<b>ClassName</b> is a name of the class in the output code.
+</p>
+
+<p>
+<b>Lang.gen.h</b> is a name of the output <b>h</b> file.
+</p>
+
+<p>
+<b>Lang.gen.cpp</b> is a name of the output <b>cpp</b> file.
+</p>
+
+<p>
+The folder <b>CCORE_ROOT/tools/CondLangLR1/Gen/sample</b> contains a simple sample. It is used below to describe the output.
+</p>
+
+<p>
+The output <b>h</b> file consists of the following sections.
+</p>
+
+<pre>
+
+/* enum AtomClass */
+
+enum AtomClass
+ {
+  AtomNull = 0,
+
+  Atom_XXX_1 = 1,  /*  (  */
+  Atom_XXX_2 = 2,  /*  )  */
+  Atom_XXX_3 = 3,  /*  *  */
+  Atom_XXX_4 = 4,  /*  +  */
+  Atom_XXX_5 = 5,  /*  ,  */
+  Atom_XXX_6 = 6,  /*  -  */
+  Atom_XXX_7 = 7,  /*  /  */
+  Atom_XXX_8 = 8,  /*  =  */
+  Atom_XXX_9 = 9,  /*  Angle  */
+  Atom_XXX_10 = 10,  /*  Length  */
+  Atom_XXX_11 = 11,  /*  Name  */
+  Atom_XXX_12 = 12,  /*  Number  */
+ };
+
+const char * GetTextDesc(AtomClass ac);
+
+</pre>
+
+<p>
+This is an enum of lang atoms. You have to manually edit enumerator names to make them verbose.
+The implementation of the <b>GetTextDesc()</b> resides in the <b>cpp</b> output file. 
+</p>
+
+<pre>
+
+/* struct FormulaParserData */
+
+struct FormulaParserData
+ {
+  using Rule = int ;
+
+  static const Rule NoRule = -1 ;
+
+  static const Rule ShiftRule = 0 ;
+
+  using ElementIndex = int ;
+
+  using Property = Rule (*)(AtomClass) ;
+
+  struct State;
+
+  using Transition = const State * (*)(ElementIndex) ;
+
+  static ElementIndex RuleOutput(Rule rule);
+
+  static ElementIndex AtomToElement(AtomClass ac) { return ac; }
+
+  struct State
+   {
+    Property prop;
+    Transition trans;
+   };
+
+  static const State *const Start;
+
+  struct Element;
+
+  struct ElementAtom;
+
+  struct Element_FORMULA;
+  struct Element_EXPR;
+  struct Element_EXPR_LIST;
+
+  static auto Apply(Rule rule,auto func);
+ };
+
+</pre>
+
+<p>
+This data structure contains various lang properties including the parsing LR1 state machine description.
+The structure name is the name from the second command line argument. 
+The structure definition is stereotypic, except the list of element structs.
+Each lang synt has the correspondent inner struct with the name <b>Element_&lt;synt name&gt;</b>.
+</p>
+
+<pre>
+
+struct FormulaParserData::Element // TODO
+ {
+  using RetType = void ;
+
+  using ContextType = int ;
+
+ };
+
+struct FormulaParserData::ElementAtom : Element // TODO
+ {
+  // TODO
+ };
+
+</pre>
+
+<p>
+This two structures should be updated according your way to create a lang parser.
+In particular, types <b>RetType</b> and <b>ContextType</b> should be redefined.
+</p>
+
+<pre>
+
+struct FormulaParserData::Element_EXPR : Element
+ {
+  // TODO
+
+  RetType add(ContextType,Element_EXPR *,ElementAtom *,Element_EXPR *);
+
+  RetType sub(ContextType,Element_EXPR *,ElementAtom *,Element_EXPR *);
+
+  RetType mul(ContextType,Element_EXPR *,ElementAtom *,Element_EXPR *);
+
+  RetType div(ContextType,Element_EXPR *,ElementAtom *,Element_EXPR *);
+
+  RetType neg(ContextType,ElementAtom *,Element_EXPR *);
+
+  RetType brace(ContextType,ElementAtom *,Element_EXPR *,ElementAtom *);
+
+  RetType func(ContextType,ElementAtom *,ElementAtom *,Element_EXPR_LIST *,ElementAtom *);
+
+  RetType arg(ContextType,ElementAtom *);
+
+  RetType number(ContextType,ElementAtom *);
+
+  RetType angle(ContextType,ElementAtom *);
+
+  RetType length(ContextType,ElementAtom *);
+
+  RetType point(ContextType,ElementAtom *,ElementAtom *,ElementAtom *,ElementAtom *,ElementAtom *);
+
+ };
+
+</pre>
+
+<p>
+Each synt structure looks like this particular one. They should be updated with a synt value content.
+Each rule has an associated method of the structure initialization. The name of the method is the rule name.
+The first argument is the parser context, others are pointers to already created element structures.
+Each such structue either the atom element structure or a synt element structure.
+</p>
+
+<pre>
+
+auto FormulaParserData::Apply(Rule rule,auto func)
+ {
+  switch( rule )
+    {
+     case 1 : return func(&amp;Element_FORMULA::set,ElementIndex(13));
+     case 2 : return func(&amp;Element_EXPR::add,ElementIndex(14));
+     case 3 : return func(&amp;Element_EXPR::sub,ElementIndex(14));
+     case 4 : return func(&amp;Element_EXPR::mul,ElementIndex(15));
+     case 5 : return func(&amp;Element_EXPR::div,ElementIndex(15));
+     case 6 : return func(&amp;Element_EXPR::neg,ElementIndex(16));
+     case 7 : return func(&amp;Element_EXPR::brace,ElementIndex(17));
+     case 8 : return func(&amp;Element_EXPR::func,ElementIndex(17));
+     case 9 : return func(&amp;Element_EXPR::arg,ElementIndex(17));
+     case 10 : return func(&amp;Element_EXPR::number,ElementIndex(17));
+     case 11 : return func(&amp;Element_EXPR::angle,ElementIndex(17));
+     case 12 : return func(&amp;Element_EXPR::length,ElementIndex(17));
+     case 13 : return func(&amp;Element_EXPR::point,ElementIndex(17));
+     case 14 : return func(&amp;Element_EXPR_LIST::empty,ElementIndex(18));
+     case 15 : return func(&amp;Element_EXPR_LIST::one,ElementIndex(19));
+     case 16 : return func(&amp;Element_EXPR_LIST::ext,ElementIndex(19));
+
+     default: return func();
+    }
+ };
+
+</pre>
+
+<p>
+The last member is a function template. This function calls the specific rule based on its index.
+The first argument is a rule index. The second is a functor. This functor is called with two arguments, 
+the first is the reference to the rule method, the second is the resulting element index.
+If the rule index is out of range, the functor without arguments is called.
+</p>
+
+<p>
+The <b>cpp</b> output file contains the implementation of the method <b>RuleOutput()</b> and the state table.
+</p>
+
+<pre>
+
+struct FormulaParserData
+ {
+  ....
+
+  static ElementIndex RuleOutput(Rule rule);
+
+  static ElementIndex AtomToElement(AtomClass ac) { return ac; }
+
+  ....
+ };
+
+</pre>
+
+<p>
+This method returns the element index of the given rule production. If the rule index is out of scope the return value is 0.
+All elements are 1-based numbered. The first group of elements are atom elements. To convert an atom class into the correspondent element index
+the method <b>AtomToElement()</b> can be used.
+</p>
+
+<pre>
+
+struct FormulaParserData
+ {
+  using Rule = int ;
+
+  static const Rule NoRule = -1 ;
+
+  static const Rule ShiftRule = 0 ;
+
+  ....
+
+  using Property = Rule (*)(AtomClass) ;
+
+  struct State;
+
+  using Transition = const State * (*)(ElementIndex) ;
+
+  struct State
+   {
+    Property prop;
+    Transition trans;
+   };
+
+  static const State *const Start;
+
+  ....
+ };
+
+</pre>
+
+<p>
+Finally, the state table. It is an array of structues <b>State</b>. The first element is pointed by the member <b>Start</b>.
+It is also the initial state of the state machine.
+Each state has two properties: the function <b>prop</b> and the function <b>trans</b>.
+<b>prop</b> is a function, which maps an atom class to the rule index. This rule must be applied if the following atom has the given atom class.
+Two values are reserved: <b>NoRule</b> if there is no rule (which means a error in the input atom sequence) and <b>ShiftRule</b> if the atom must be pushed into the stack.
+The end of the atom sequence is designated with <b>AtomNull</b>. 
+The <b>ShiftRule</b> output on the <b>AtomNull</b> input means the end of the processing.
+<b>trans</b> is a state transition function. It maps an element index into the next state.
+If there is no such transition the null pointer is returned.
+</p>
+
+</body>
+
+</html>
+

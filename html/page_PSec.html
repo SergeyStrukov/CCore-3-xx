@@ -1,0 +1,573 @@
+<!--
+/* page_PSec.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PSec</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PSec</h2>
+
+<p class="Files">Files <b>CCore/inc/net/PSecCore.h</b> <b>CCore/src/net/PSecCore.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/net/PSec.h</b> <b>CCore/src/net/PSec.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/net/PSecKey.h</b> <b>CCore/src/net/PSecKey.cpp</b></p>
+
+<p>
+<b>PSec</b> is a security protocol for point-to-point packet-based communication. <b>CCore</b> provides
+an implementation of this protocol. It's enclosed in the namespace <b>PSec</b>.
+The protocol itself is described in <a type="application/pdf" href="../doc/PSec.pdf">this document</a>.
+</p>
+
+<h3>Utilities</h3>
+
+<p>
+The following utility classes are used in the <b>PSec</b> implementation.
+</p>
+
+<h4>AbstractCryptFunc</h4>
+
+<p>
+<b>AbstractCryptFunc</b> is an abstract block cipher function class.
+</p>
+
+<pre>
+
+struct <span class="Att">AbstractCryptFunc</span> : MemBase_nocopy
+ {
+  virtual ~AbstractCryptFunc() {}
+
+  virtual ulen getBLen() const =0;
+
+  virtual ulen getKLen() const =0;
+
+  virtual void key(const uint8 key[ /* KLen */ ])=0;
+
+  virtual void apply(uint8 block[ /* BLen */ ]) const =0;
+ };
+
+</pre>
+
+<p>
+<b>getBLen()</b> returns the cipher block length.
+</p>
+
+<p>
+<b>getKLen()</b> returns the key length.
+</p>
+
+<p>
+<b>key()</b> activates the given key. The length of the buffer is <b>getKLen()</b>. 
+After this method call the function can process data blocks.
+</p>
+
+<p>
+<b>apply()</b> performs the block cipher in-place. The length of the buffer is <b>getBLen()</b>.
+</p>
+
+<h4>AbstractHashFunc</h4>
+
+<p>
+<b>AbstractHashFunc</b> is an abstract hash function class.
+</p>
+
+<pre>
+
+struct <span class="Att">AbstractHashFunc</span> : MemBase_nocopy
+ {
+  virtual ~AbstractHashFunc() {}
+
+  virtual ulen getHLen() const =0;
+
+  virtual void add(PtrLen&lt;const uint8&gt; data)=0;
+
+  virtual const uint8 * finish()=0; /* [HLen] */
+ };
+
+</pre>
+
+<p>
+<b>getHLen()</b> returns the digest length.
+</p>
+
+<p>
+<b>add()</b> adds a chunk of data in the hash calculation.
+</p>
+
+<p>
+<b>finish()</b> finishes the hash calculation and starts the hash function over. 
+The result is returned in some internal buffer of the length <b>getHLen()</b>.
+</p>
+
+<h4>AbstractKeyGen</h4>
+
+<p>
+<b>AbstractKeyGen</b> is used in the key generation process. It implements the power calculation for some
+finite group. 
+</p>
+
+<pre>
+
+struct <span class="Att">AbstractKeyGen</span> : MemBase_nocopy
+ {
+  virtual ~AbstractKeyGen() {}
+
+  virtual ulen getGLen() const =0;
+
+  virtual ulen getKLen() const =0;
+
+  virtual void pow(const uint8 x[ /* GLen */ ],uint8 gx[ /* GLen */ ])=0;
+
+  virtual void key(const uint8 x[ /* GLen */ ],const uint8 gy[ /* GLen */ ],uint8 key[ /* KLen */ ])=0;
+ };
+
+</pre>
+
+<p>
+<b>getGLen()</b> returns the group element octet representation length.
+</p>
+
+<p>
+<b>getKLen()</b> returns the key length.
+</p>
+
+<p>
+<b>pow()</b> calculates the power of the generator element <b>g<sup>x</sup></b>.
+</p>
+
+<p>
+<b>key()</b> calculates the power <b>gy<sup>x</sup></b> and transforms the result into the key.
+<b>(g<sup>x</sup>)<sup>y</sup></b> and <b>(g<sup>y</sup>)<sup>x</sup></b> renders the same key.
+</p>
+
+<h4>AbstractRandomGen</h4>
+
+<p>
+<b>AbstractRandomGen</b> is an abstract random generator class. It is not required to be a cryptography strong.
+But it should be a quality RNG.
+</p>
+
+<pre>
+
+struct <span class="Att">AbstractRandomGen</span> : MemBase_nocopy
+ {
+  virtual ~AbstractRandomGen() {}
+
+  virtual void fill(PtrLen&lt;uint8&gt; buf)=0;
+ };
+
+</pre>
+
+<p>
+<b>fill()</b> fills the buffer with random bytes.
+</p>
+
+<h4>LifeLim</h4>
+
+<p>
+<b>LifeLim</b> presents key lifetime limits.
+</p>
+
+<pre>
+
+struct <span class="Att">LifeLim</span>
+ {
+  uint32 ttl; // sec
+  uint32 utl;
+
+  LifeLim() : ttl(0),utl(0) {}
+
+  LifeLim(uint32 ttl_,uint32 utl_) : ttl(ttl_),utl(utl_) {}
+
+  ....
+ };
+
+</pre>
+
+<p>
+<b>ttl</b> is the time limit in seconds. A key must be replaced after this time is expired.
+</p>
+
+<p>
+<b>utl</b> is the traffic limit in octets. A key must be replaced after this number of octets has been encrypted using this key.
+</p>
+
+<h4>AlgoLen</h4>
+
+<p>
+<b>AlgoLen</b> presents key algorithms properties.
+</p>
+
+<pre>
+
+struct <span class="Att">AlgoLen</span>
+ {
+  ulen blen;
+  ulen hlen;
+
+  AlgoLen(ulen blen_,ulen hlen_) : blen(blen_),hlen(hlen_) {}
+ };
+
+</pre>
+
+<p>
+<b>blen</b> is the block cipher length.
+</p>
+
+<p>
+<b>hlen</b> is the hash digest length.
+</p>
+
+<h3>EndpointManager</h3>
+
+<p>
+<b>EndpointManager</b> is an interface to manage secure endpoint session.
+</p>
+
+<pre>
+
+/* struct AbstractClientProfile */
+
+struct <span class="Att">AbstractClientProfile</span> : MemBase_nocopy
+ {
+  virtual ~AbstractClientProfile() {}
+ };
+
+/* type ClientProfilePtr */
+
+using <span class="Att">ClientProfilePtr</span> = OwnPtr&lt;AbstractClientProfile&gt; ;
+
+/* struct EndpointManager */
+
+struct <span class="Att">EndpointManager</span>
+ {
+  static const Unid TypeUnid;
+
+  enum OpenErrorCode : uint32
+   {
+    Open_Ok = 0,
+
+    OpenError_NoMemory,
+    OpenError_OpenLimit,
+    OpenError_NoAccess
+   };
+
+  virtual OpenErrorCode open(XPoint point,const MasterKey &amp;skey,ClientProfilePtr &amp;&amp;client_profile)=0;
+
+  virtual bool close(XPoint point)=0;
+
+  virtual ulen closeAll()=0;
+
+  virtual AbstractClientProfile * getClientProfile(XPoint point)=0;
+ };
+
+</pre>
+
+<p>
+<b>open()</b> opens a communication session with the given endpoint. 
+The endpoint is identified by its abstract <b>XPoint</b> address <b>point</b>.
+The second argument is a <b>MasterKey</b> reference. 
+The object is used only inside the method and may be destroyed after the method call.
+The last argument is a client profile pointer. 
+A client profile is an abstract piece of data associated with the client.
+It is provided by the caller of the method <b>open()</b> and can be retrieved by the method <b>getClientProfile()</b>.
+The method returns the status code.
+</p>
+
+<p>
+<b>close()</b> closes the session with the given endpoint. 
+It returns <b>true</b> if such connection exists and <b>false</b> otherwise.
+</p>
+
+<p>
+<b>closeAll()</b> closes all sessions and returns the number of sessions closed.
+</p>
+
+<p>
+<b>getClientProfile()</b> returns the pointer to the client profile, associated with the endpoint. 
+The pointer is null, if there is no session with this endpoint. 
+An implementation should provide a context requirement for the calling this method.
+</p>
+
+<h3>MasterKey</h3>
+
+<p>
+The <b>MasterKey</b> class is used to present a key information for a <b>PSec</b> connection. It is an abstract multi-factory.
+</p>
+
+<pre>
+
+struct <span class="Att">MasterKey</span> : MemBase_nocopy
+ {
+  virtual ~MasterKey() {}
+
+  // factory
+
+  virtual AbstractCryptFunc * createEncrypt() const =0;
+
+  virtual AbstractCryptFunc * createDecrypt() const =0;
+
+  virtual AbstractHashFunc * createHash() const =0;
+
+  virtual AbstractKeyGen * createKeyGen() const =0;
+
+  virtual AbstractRandomGen * createRandom() const =0;
+
+  // keys
+
+  virtual ulen getKLen() const =0;
+
+  virtual LifeLim getLifeLim() const =0;
+
+  virtual void getKey0(uint8 key[ /* KLen */ ]) const =0;
+
+  virtual ulen getKeySetLen() const =0;
+
+  virtual void getKey(ulen index,uint8 key[ /* KLen */ ]) const =0;
+ };
+
+using <span class="Att">MasterKeyPtr</span> = OwnPtr&lt;MasterKey&gt; ;
+
+</pre>
+
+<p>
+The first group of method is used to create various processing objects. They return a pointer to an abstract
+object interface. An exception is thrown in case of error.
+</p>
+
+<p>
+<b>createEncrypt()</b> creates an encryption function.
+</p>
+
+<p>
+<b>createDecrypt()</b> creates a complementary decryption function.
+</p>
+
+<p>
+<b>createHash()</b> creates a hash function.
+</p>
+
+<p>
+<b>createKeyGen()</b> creates a key generator.
+</p>
+
+<p>
+<b>createRandom()</b> creates a random generator.
+</p>
+
+<p>
+The second group of methods present key information.
+</p>
+
+<p>
+<b>getKLen()</b> returns the key length. It is the key length of the encryption and decryption functions.
+</p>
+
+<p>
+<b>getLifeLim()</b> returns the life limit per key.
+</p>
+
+<p>
+<b>getKey0()</b> copies the key-0 into the provided buffer. The buffer length is <b>getKLen()</b>.
+</p>
+
+<p>
+<b>getKeySetLen()</b> returns the number of keys in the keyset.
+</p>
+
+<p>
+<b>getKey()</b> copies the key from the keyset into the provided buffer. The buffer length is <b>getKLen()</b>. 
+The key index is zero-based.
+</p>
+
+<h3>EndpointDevice</h3>
+
+<p>
+<b>EndpointDevice</b> transforms an insecure <b>PacketEndpointDevice</b> into a secure <b>PacketEndpointDevice</b>.
+Usually it is used on the client side.
+</p>
+
+<pre>
+
+class <span class="Att">EndpointDevice</span> : public ObjBase , public PacketEndpointDevice
+ {
+   ....
+
+  public:
+
+   EndpointDevice(StrLen ep_dev_name,const MasterKey &amp;master_key,MSec keep_alive_timeout=Null);
+
+   virtual ~EndpointDevice();
+
+   void close(); // send Close to the peer and assert connection_lost
+
+   // stat
+
+   using StatInfo = ProcessorStatInfo ;
+
+   void getStat(StatInfo &amp;ret) const;
+
+   // InterfaceHost
+
+   virtual void requestInterface(InterfaceCaster &amp;caster);
+
+   // PacketEndpointDevice
+
+   virtual PacketFormat getOutboundFormat() const;
+
+   virtual void outbound(Packet&lt;uint8&gt; packet);
+
+   virtual ulen getMaxInboundLen() const;
+
+   virtual void attach(InboundProc *proc);
+
+   virtual void detach();
+ };
+
+</pre>
+
+<p>
+Constructor takes three arguments. The first argument is the name of an insecure endpoint device.
+The second is the master key for the protected session. 
+The key object may be destroyed after the constructor call. 
+The third is the keep-alive timeout.
+If this argument is not null, then the keep-alive mechanic is activated. 
+If there is no confirmed inbound packets during some period then the connection is closed. 
+Ping packets are sent prior the timeout expiration to make sure the peer is alive.
+</p>
+
+<p>
+The object itself is the secure endpoint device. Outbound packets are encrypted and sent to the insecure device.
+Inbound packets from the insecure device are verified, decrypted and sent to the inbound processor.
+</p>
+
+<p>
+<b>close()</b> can be used to close the connection. The <b>Close</b> packet is sent to the peer and the <b>connection_lost</b> is asserted.
+</p>
+
+<p>
+<b>getStat()</b> returns the connection statistic counters.
+</p>
+
+<h3>MultipointDevice</h3>
+
+<p>
+<b>MultipointDevice</b> transforms insecure <b>PacketMultipointDevice</b> into s secure <b>PacketMultipointDevice</b>.
+Usually it is used on the server side. The communication with a particular network peer is protected using the particular
+master key. This class implements the <b>EndpointManager</b> interface to control opened sessions.
+</p>
+
+<pre>
+
+class <span class="Att">MultipointDevice</span> : public ObjBase , public PacketMultipointDevice , public EndpointManager
+ {
+   ....
+
+  public:
+
+   MultipointDevice(StrLen mp_dev_name,PtrLen&lt;const AlgoLen&gt; algo_lens,ulen max_clients,MSec keep_alive_timeout);
+
+   virtual ~MultipointDevice();
+
+   // stat
+
+   using StatInfo = ProcessorStatInfo ;
+
+   void getStat(StatInfo &amp;ret) const;
+
+   bool getStat(XPoint point,StatInfo &amp;ret) const;
+
+   template &lt;FuncInitArgType&lt;XPoint,StatInfo &amp;&gt; FuncInit&gt;
+   void processStat(FuncInit func_init) const; // func(XPoint point,StatInfo &amp;temp_copy)
+
+   // InterfaceHost
+
+   virtual void requestInterface(InterfaceCaster &amp;caster);
+
+   // PacketMultipointDevice
+
+   virtual StrLen toText(XPoint point,PtrLen&lt;char&gt; buf) const;
+
+   virtual PacketFormat getOutboundFormat() const;
+
+   virtual void outbound(XPoint point,Packet&lt;uint8&gt; packet);
+
+   virtual ulen getMaxInboundLen() const;
+
+   virtual void attach(InboundProc *proc);
+
+   virtual void detach();
+
+   // EndpointManager
+
+   virtual OpenErrorCode open(XPoint point,const MasterKey &skey,ClientProfilePtr &amp;&amp;client_profile);
+
+   virtual bool close(XPoint point);
+
+   virtual ulen closeAll();
+
+   virtual AbstractClientProfile * getClientProfile(XPoint point); // only inside inbound processing or processStat
+ };
+
+</pre>
+
+<p>
+The first argument of the constructor is the name of the insecure <b>PacketMultipointDevice</b>.
+The second is the list of the <b>AlgoLen</b> structures for the expected session keys.
+The <b>max_clients</b> is the maximum client number which can be active simultaneously.
+If last argument is the keep-alive timeout. If it is not null, then the keep-alive is activated.
+</p>
+
+<p>
+To manage client sessions the <b>EndpointManager</b> interface is provided.
+</p>
+
+<p>
+<b>getStat()</b> returns the connection statistic counters. 
+If the <b>XPoint</b> is given it returns the counters for the particular session.
+</p>
+
+<p>
+The method <b>processStat()</b> can be used to iterate over the active sessions. 
+It calls the given functor per each session with two arguments: the first is the peer address, the second is the statistic counters for this session. 
+The method is working under the internal mutex protection.
+</p>
+
+<p>
+Outbound packets are encrypted using the session key of the correspondent session. The peer address determines the particular session. 
+Inbound packets are verified, decrypted and sent to the inbound processor. They are processed in the context of the opened session.
+If there is no such one the packet is discarded.
+</p>
+
+<p>
+The method <b>open()</b> opens or reopens the session. In the last case the session key and the client profile are replaced.
+A session can be closed manually or by the keep-alive processor if there is no response from the peer during the given period.
+</p>
+
+<p>
+The method <b>getClientProfile()</b> can be safely called inside the inbound processing or the method <b>processStat()</b>.
+</p>
+
+</body>
+
+</html>
+

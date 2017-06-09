@@ -1,0 +1,169 @@
+<!--
+/* page_SIntFunc.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SIntFunc</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SIntFunc</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/SIntFunc.h</b> <b>CCore/src/gadget/SIntFunc.cpp</b></p>
+
+<p>
+<b>SIntFunc</b> is an <b>Algorithm Package</b>, parametrized by a signed integral type. 
+<span class="Alert">Currently it is assumed, that the type uses 2's complement representation.</span>
+</p>
+
+<pre>
+
+template &lt;S2sIntType SInt&gt;
+struct <span class="Att">SIntFunc</span>
+ {
+  // types
+
+  using <span class="Att">UInt</span> = .... ; 
+
+  // consts
+  
+  static constexpr UInt <span class="Att">MaxPositiveAbs</span> = .... ;
+  
+  static constexpr UInt <span class="Att">MinNegativeAbs</span> = .... ;
+  
+  static constexpr SInt <span class="Att">MaxPositive</span> = .... ;
+  
+  static constexpr SInt <span class="Att">MinNegative</span> = .... ;
+
+</pre>
+
+<p>
+<b>UInt</b> is the correspondent unsigned integral type.
+</p>
+
+<p>
+<b>MaxPositiveAbs</b> is the absolute value of the maximum (positive) value of the <b>SInt</b>,
+represented as <b>UInt</b> type.
+</p>
+
+<p>
+<b>MinNegativeAbs</b> is the absolute value of the minimum (negative) value of the <b>SInt</b>,
+represented as <b>UInt</b> type.
+</p>
+
+<p>
+<b>MaxPositive</b> is the maximum (positive) value of the <b>SInt</b>.
+</p>
+
+<p>
+<b>MinNegative</b> is the minimum (negative) value of the <b>SInt</b>.
+</p>
+
+<pre>
+
+  // abs
+  
+  static SInt <span class="Att">PosAbs</span>(UInt abs);
+  
+  static SInt <span class="Att">NegAbs</span>(UInt abs);
+
+</pre>
+
+<p>
+<b>PosAbs()</b> returns <b>+abs</b> as <b>SInt</b> value. It is assumed, that <b>abs<=MaxPositiveAbs</b>.
+</p>
+
+<p>
+<b>NegAbs()</b> returns <b>-abs</b> as <b>SInt</b> value. It is assumed, that <b>abs<=MinNegativeAbs</b>.
+</p>
+
+<pre>
+
+  // shift
+
+  static SInt <span class="Att">LShift</span>(SInt a,unsigned shift); // may overflow , UB for some arguments must be removed, operates as ASL
+
+  static SInt <span class="Att">RShift</span>(SInt a,unsigned shift); // US for some arguments must be removed, operates as ASR
+
+  // mask
+
+  static SInt <span class="Att">Mask</span>(SInt a,UInt mask);
+
+</pre>
+
+<p>
+<b>LShift()</b> performs the arithmetic shift left. The result is <b>a*2<sup>shift</sup></b>, if no overflow occurred.
+</p>
+
+<p>
+<b>RShift()</b> performs the arithmetic shift right. The result is <b>a/2<sup>shift</b> rounded down.
+</p>
+
+<p>
+<b>Mask()</b> performs the bitwise AND. The following is true: <b>(UInt)Mask(a,mask) == UInt(a)&amp;mask</b>, if no overflow occurred.
+</p>
+
+<p>
+<span class="Alert">All these functions expect the proper compiler behavior on the target type.</span>
+</p>
+
+<pre>
+  
+  // dist/move
+  
+  static UInt <span class="Att">Dist</span>(SInt a,SInt b); // a <= b 
+
+  static SInt <span class="Att">MovePos</span>(SInt a,UInt delta); 
+  
+  static SInt <span class="Att">MoveNeg</span>(SInt a,UInt delta); 
+  
+  static SInt <span class="Att">Move</span>(SInt a,SInt e,UInt delta); 
+ };
+
+</pre>
+
+<p>
+<b>Dist()</b> returns the distance from <b>a</b> to <b>b</b>, it is assumed, that <b>a <= b</b>. 
+The return value is represented by the <b>UInt</b>.
+</p>
+
+<p>
+<b>MovePos()</b> moves the argument <b>a</b> to the positive direction by the distance <b>delta</b>.
+It is assumed, that the upper <b>SInt</b> value bound is not crossed. I.e. if <b>a <= b</b>, then
+<b>MovePos(a,Dist(a,b)) == b</b>.
+</p>
+
+<p>
+<b>MoveNeg()</b> moves the argument <b>a</b> to the negative direction by the distance <b>delta</b>.
+It is assumed, that the lower <b>SInt</b> value bound is not crossed. I.e. if <b>a <= b</b>, then
+<b>MoveNeg(b,Dist(a,b)) == a</b>.
+</p>
+
+<p>
+<b>Move()</b> moves the argument <b>a</b> to the positive direction by the distance <b>delta</b> if <b>e > 0</b>,
+otherwise it moves <b>a</b> to the negative direction by the distance <b>delta</b>.
+</p>
+
+</body>
+
+</html>
+

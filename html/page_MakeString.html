@@ -1,0 +1,130 @@
+<!--
+/* page_MakeString.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MakeString</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MakeString</h2>
+
+<p class="Files">Files <b>CCore/inc/MakeString.h</b> <b>CCore/src/MakeString.cpp</b></p>
+
+<p>
+<b>MakeString</b> is a simple string-building tool. It has an internal buffer and can append the content of this buffer with the overflow control.
+</p>
+
+<pre>
+
+template &lt;ulen Len&gt;
+class <span class="Att">MakeString</span> : NoCopy
+ {
+   char buf[Len];
+   ulen len = 0 ;
+   bool overflow = false ;
+
+  public:
+
+   MakeString() {}
+
+   bool operator + () const { return !overflow; }
+
+   bool operator ! () const { return overflow; }
+
+   void reset();
+
+   // add()
+
+   MakeString &amp; add(StrLen str);
+
+   MakeString &amp; add(const char *zstr);
+
+   MakeString &amp; add(char ch);
+
+   MakeString &amp; zero();
+
+   // multiadd
+
+   MakeString &amp; add(NothingType) { return zero(); }
+
+   template &lt;class T&gt;
+   MakeString &amp; operator += (T t) { return add(t); }
+
+   template &lt;class ... TT&gt;
+   MakeString & add(TT ... tt);
+
+   // get result
+
+   StrLen get() const { return StrLen(buf,len); }
+
+   const char * getZStr() const { return buf; }
+ };
+
+</pre>
+
+<p>
+The template parameter specifies the buffer capacity.
+</p>
+
+<p>
+<b>operator +</b> returns <b>true</b> iff the buffer is not overflowed.
+</p>
+
+<p>
+<b>operator !</b> returns <b>true</b> iff the buffer is overflowed.
+</p>
+
+<p>
+<b>reset()</b> resets the object into the initial state, i.e. without overflow and with the empty string value.
+</p>
+
+<p>
+<b>add()</b> appends the arguments to the buffer and returns the reference to itself, so you may chain operations. 
+If there is no enough room, the overflow flag is set. 
+In this case the result is implementation-defined and should not be used.
+You may use the argument <a href="page_Nothing.html"><b>Null</b></a> to do the <b>zero()</b> operation.
+</p>
+
+<p>
+To add a single argument the <b>operator +=</b> can be used.
+</p>
+
+<p>
+<b>zero()</b> appends the null character, but not advance the buffer position.
+If there is no enough room, the overflow flag is set. 
+In this case the result is implementation-defined and should not be used.
+</p>
+
+<p>
+<b>get()</b> returns the accumulated string as the <b>StrLen</b> object.
+</p>
+
+<p>
+<b>getZStr()</b> returns the pointer to the buffer. 
+You must use the <b>zero()</b> operation to make the string zero-terminated as the last operation.
+</p>
+
+</body>
+
+</html>
+

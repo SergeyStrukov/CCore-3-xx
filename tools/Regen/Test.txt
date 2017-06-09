@@ -1,0 +1,60 @@
+reg ISR : 8
+ {
+  A : 0
+  B : 1
+  C : 2
+  D : 3
+ }
+
+reg CTRL : 32
+ {
+  RUN : 0
+  STOP : 1
+  COUNT : 2 + 4
+  MODE : 16 + 3
+   {
+    SLOW = 0
+    FAST = 1
+    ACK = 7
+   }
+ }
+
+reg STAT : 16
+ {
+  RUN : 0
+  STOP : 1
+  COUNT : 2 + 4
+  MODE : 6 + 3
+   {
+    SLOW = 0
+    FAST = 1
+    ACK = 4
+   }
+ }
+
+reg SCRAP : 16
+ {
+ }
+
+reg PTR : 32
+ {
+ }
+
+reg TEMP : 32
+ {
+ }
+
+bar Test
+ {
+  ISR = 10 RO
+  ICR = 256 WO as ISR
+  IMR = 257 RW as ISR
+  CTRL [10] = 258 RW
+  STAT = 298 RO
+  SCRAP = 300 RW
+  BSCRAP [10] = 302 RW as SCRAP
+  BIMP [10] = 322 RW as ISR
+  PTR [10] = 332 RW
+  TEMP = 0 hidden
+ }
+

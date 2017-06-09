@@ -1,0 +1,77 @@
+<!--
+/* page_Abort.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Abort</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Abort</h2>
+
+<p class="Files">Files <b>CCore/inc/Abort.h</b> <b>CCore/src/AbortMsgFunc.cpp</b>  <b>HCore/src/Abort.cpp</b> <b>XCore/src/Abort.cpp</b></p>
+
+<p>
+There are two functions to abort a program execution with a diagnostic message:
+</p>
+
+<pre>
+
+void <span class="Att">Abort</span>(StrLen str);
+ 
+void <span class="Att">Abort</span>(const char *zstr);
+
+</pre>
+
+<p>
+First of them accepts a message text as a <b>StrLen</b> argument, second &mdash; as a zero-terminated character string.
+The exact method of the sending a diagnostic message is target-dependent and implemented differently
+for <b>HCore</b> and <b>XCore</b> targets.
+</p>
+
+<p>
+There is also the global constant function pointer, which can be used to alter the <b>Abort()</b> behavior.
+</p>
+
+<pre>
+
+/* types */ 
+
+using <span class="Att">AbortMsgFuncType</span> = void (*)(StrLen str) ;
+
+/* global const AbortMsgFunc */ 
+
+extern const AbortMsgFuncType <span class="Att">AbortMsgFunc</span>;
+
+</pre>
+
+<p>
+You may link an object file in your project with this constant defined to introduce a hook in <b>Abort()</b>.
+Be reasonable with hook actions: on <b>XCore</b> targets it may be called in any context, so you cannot
+do any "heavy" job inside. The same is true on <b>HCore</b> targets: use it just to show or log a message 
+(using <b>MessageBox()</b>, for example).
+</p>
+
+</body>
+
+</html>
+

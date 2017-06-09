@@ -1,0 +1,213 @@
+<!--
+/* page_Installation.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Installation</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h1>CCore installation</h1>
+
+<h2>Cook book (updated according the latest cygwin and CCore-3.00 development)</h2>
+
+<p>
+
+In order to use <b>CCore</b>, you have to "cook" it.
+
+The following ingredients are required:</p>
+
+<ul>
+<li><a href="http://www.cygwin.com">Cygwin</a>,</li>
+<li><a href="http://www.eclipse.org">Eclipse (optional)</a>,</li>
+<li><b>CCore</b> package (or repository).</li>
+</ul>
+
+<p>
+Install <b>cygwin</b> first. Include <b>make</b>, <b>bash</b> and <b>g++</b> in your installation.
+If you are not familiar with this platform, spend some time to learn it.
+To work with the current version of <b>CCore</b> <b>gcc-7.1.0</b> is required.
+</p>
+<p>
+
+Create the directory <b>bin</b> in your <b>cygwin home</b> directory. <b>CCore</b> uses some tools and utilities,
+they are built in and invoked from this directory. Make sure this directory is included into the <b>cygwin path</b>.
+You can also include this directory into the <b>Windows path</b>.
+
+</p>
+<p>
+
+Unpack <b>CCore</b> package (or checkout the source tree from a repository) somewhere under you <b>cygwin home</b> directory. <span class="Hint">Avoid file and directory names with space characters.</span>
+
+</p>
+<p>
+
+Open <b>bash</b> console (or another console you would prefer, just configure it to use <b>cygwin bash</b> as a command processor).<br /><br />
+Go to the <b>CCore root</b> directory. The following commands are used to prepare, clean and build the whole installation:</p>
+
+<ul>
+<li><span class="Cmd">make</span> &mdash; to build all,</li>
+<li><span class="Cmd">make clean</span> &mdash; to clean,</li>
+<li><span class="Cmd">make list</span> &mdash; to build source file lists; you will need this command if you alter source file set,
+<span class="Alert">before using it you have, however, to build <b>CCore</b> tools</span>.</li>
+</ul>
+
+<h2>Post-install notes</h2>
+
+<p>
+You may need to update the file <b>Makefile.tools</b> in your host Target directory to select the proper compiler and other tools.
+</p>
+
+<p>
+Once you install and build <b>CCore</b>, tools are built in the <b>~/bin</b> directory.
+Two of them: <b>CCore-MakeList.exe</b> and <b>CCore-Regen.exe</b>, are the essential part of the build process, <span class="Alert">so keep them in the working condition</span>.
+</p>
+
+<p>
+<b>cygwin</b> terminal has a limitation in its console functions. It cannot be used to run some tools 
+and tests. You can use the following <a href="http://sourceforge.net/projects/conemu/">console program</a> instead to avoid troubles.
+</p>
+
+<p>
+You can use <b>Eclipse</b> as an <b>IDE</b> to work with <b>CCore</b> and <b>CCore</b>-based projects. <b>CCore</b> package includes
+the archive <b>eclipse-Mars.7z</b> with the <b>Eclipse Mars</b> workbench. 
+You will need <a href="http://www.ms-studio.com/FontSales/anonymouspro.html">Anonymouse Pro</a> 
+font for the text editor. Before using this workbench you have to adjust some settings.
+</p>
+
+<p>
+Open menu <b>Window/Preferences...</b> . Then open the <b>C++/Build/Environment</b> tab. 
+Correct variables <b>CYGWIN</b> and <b>CYGWIN64</b> to point to <b>cygwin</b> and <b>cygwin64</b> installation directories.
+</p>
+
+<a name="WIN64"><h2>WIN64</h2></a>
+
+<p>
+<b>CCore</b> supports the 64-bits Windows development using <b>cygwin64</b>. The host target <b>WIN64</b> is provided.
+</p>
+
+<p>
+Place <b>CCore</b> at a desired directory. You need <b>/bin</b> subdirectory 
+in your home directory for tools, it must be included in the <b>cygwin64</b> search path. 
+You have to edit the file <b>Makefile.host</b>:
+change it from 
+</p>
+
+<pre>
+
+CCORE_TARGET = WIN32
+
+</pre>
+
+<p>
+to
+</p>
+
+<pre>
+
+CCORE_TARGET = WIN64
+
+</pre>
+
+<h2>LIN64</h2>
+
+<p>
+<b>CCore</b> supports the 64-bits Linux development. The host target <b>LIN64</b> is provided.
+This target is developed based on <a href="http://www.ubuntu.com/">Ubuntu 13.04</a> (running on the <a href="https://www.virtualbox.org/">VirtualBox</a>),
+but should be fine on others 64-bits Linux platforms.
+</p>
+
+<p>
+To deploy <b>CCore</b> on Linux, you need to install some additional developers components.
+</p>
+
+<p>
+First, you need <b>gcc-7.1.0</b> or later. 
+</p>
+
+<p>
+Second, you need the library <b>libaio</b>. 
+</p>
+
+<p>
+Finally, you need the library <b>libgmp</b>. 
+</p>
+
+<p>
+On <b>Ubuntu</b> you may use the following command to install additional packages:
+</p>
+
+<pre>
+
+sudo apt-get install &lt;package-name&gt;
+
+</pre>
+
+<p>
+The packages you need are: <b>g++</b>, <b>libaio-dev</b>, <b>libgmp-dev</b> (double check with the system support).
+</p>
+
+<p>
+Once you have installed required packages, place <b>CCore</b> at a desired directory. You need <b>/bin</b> subdirectory 
+in your home directory for tools, it must be included in the search path. You have to edit the file <b>Makefile.host</b>:
+change it from 
+</p>
+
+<pre>
+
+CCORE_TARGET = WIN32
+
+</pre>
+
+<p>
+to
+</p>
+
+<pre>
+
+CCORE_TARGET = LIN64
+
+</pre>
+
+<p>
+To run on the <b>VirtualBox</b> hack the source code at the file <b>IntelCPUID.s</b> (<b>Target/LIN64/CCore/src/crypton</b>).
+Uncomment the following line to get the hardware AES support.
+</p>
+
+<pre>
+
+#        orl     $0x42000000, %ecx
+
+</pre>
+
+<h2>BeagleBoneBlack</h2>
+
+<p>
+<b>CCore</b> includes the primary <b>XCore</b> target <b>BeagleBoneBlack</b>. You can use this target
+to build applications running on the popular 
+board <a href="http://beagleboard.org/black">BeagleBone Black</a>.
+Read <a type="application/pdf" href="../doc/BeagleBoneBlack.pdf">this document</a> to learn more about this target.
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!--
+/* page_XCore_SysTime.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore SysTime</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore SysTime</h2>
+
+<p class="Files">Files <b>CCore/inc/sys/SysTime.h</b> <b>CCore/src/sys/SysTime.cpp</b></p>
+
+<p>
+This part provides timer functions and implements the timer interrupt processing.
+</p>
+
+<pre>
+
+/* SysTime.h */
+
+#ifndef CCore_inc_sys_SysTime_h
+#define CCore_inc_sys_SysTime_h
+
+#include &lt;CCore/inc/PlanInit.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* GetPlanInitNode_...() */
+
+PlanInitNode * <span class="Att">GetPlanInitNode_SysTime</span>();
+
+/* types */
+
+using <span class="Att">MSecTimeType</span>  = uint64 ; // unsigned integral type
+
+using <span class="Att">SecTimeType</span>   = uint32 ; // unsigned integral type
+
+using <span class="Att">ClockTimeType</span> = uint64 ; // unsigned integral type
+
+/* consts */
+
+inline constexpr ClockTimeType <span class="Att">ClocksPerSec</span> = 24'000'000 ;
+
+/* functions */
+
+MSecTimeType <span class="Att">GetMSecTime</span>() noexcept;
+
+SecTimeType <span class="Att">GetSecTime</span>() noexcept;
+
+ClockTimeType <span class="Att">GetClockTime</span>() noexcept;
+
+/* delay functions */
+
+void <span class="Att">ClockDelay</span>(ClockTimeType clocks) noexcept;
+
+inline ClockTimeType <span class="Att">USecToClock</span>(unsigned usecs) { return (usecs+1)*(ClocksPerSec/1'000'000); }
+
+inline void <span class="Att">USecDelay</span>(unsigned usecs) { ClockDelay(USecToClock(usecs)); }
+
+} // namespace Sys
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+Three timer functions must be implemented by the target. These timers are started/stopped by the <b>SysTime</b> global object.
+This is object is controlled by the <a href="page_PlanInit.html"><b>PlanInit</b></a>, the correspondent node function is <b>GetPlanInitNode_SysTime()</b>.
+</p>
+
+<p>
+<b>GetMSecTime()</b> is a continuous millisecond timer. The return value is represented by the unsigned integral type <b>MSecTimeType</b>.
+</p>
+
+<p>
+<b>GetSecTime()</b> is a continuous second timer. The return value is represented by the unsigned integral type <b>SecTimeType</b>.
+</p>
+
+<p>
+<b>GetClockTime()</b> is a continuous clock timer. The return value is represented by the unsigned integral type <b>ClockTimeType</b>.
+The constant <b>ClocksPerSec</b> is the clock timer frequency. This timer must be the fastest available timer on the board.
+Its frequency must be a several MHz at least.
+</p>
+
+<p>
+<b>ClockDelay()</b> is a clock delay function. It may be used to delay a task execution on a small time period. 
+The argument is a number of clocks to delay execution. 
+</p>
+
+<p>
+<b>USecToClock()</b> converts microseconds to clock numbers.
+</p>
+
+<p>
+<b>USecDelay()</b> is another delay function, the argument is a number of microseconds to delay execution.
+</p>
+
+<p>
+A typical implementation looks like:
+</p>
+
+<pre>
+
+/* SysTime.cpp */
+
+#include &lt;CCore/inc/sys/SysTime.h&gt;
+
+#include &lt;CCore/inc/Task.h&gt;
+
+#include &lt;CCore/inc/dev/DevPlanInit.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* GetPlanInitNode_...() */
+
+namespace Private_SysTime {
+
+/* class StartStop */
+
+class StartStop : NoCopy
+ {
+   static void Timer_int()
+    {
+     // TODO
+
+     Task::Internal::Tick_int();
+    }
+
+  public:
+
+   StartStop()
+    {
+     // TODO
+    }
+
+   ~StartStop()
+    {
+     // TODO
+    }
+
+   static MSecTimeType GetMSecTime() noexcept
+    {
+     // TODO
+
+     return 0;
+    }
+
+   static SecTimeType GetSecTime() noexcept
+    {
+     // TODO
+
+     return 0;
+    }
+
+   static ClockTimeType GetClockTime() noexcept
+    {
+     // TODO
+
+     return 0;
+    }
+
+   static const char * GetTag() { return "SysTime"; }
+ };
+
+PlanInitObject&lt;StartStop,PlanInitReq&lt;Dev::GetPlanInitNode_Dev&gt; &gt; Object CCORE_INITPRI_1 ;
+
+} // namespace Private_SysTime
+
+using namespace Private_SysTime;
+
+PlanInitNode * GetPlanInitNode_SysTime() { return &amp;Object; }
+
+/* functions */
+
+MSecTimeType GetMSecTime() noexcept
+ {
+  return StartStop::GetMSecTime();
+ }
+
+SecTimeType GetSecTime() noexcept
+ {
+  return StartStop::GetSecTime();
+ }
+
+ClockTimeType GetClockTime() noexcept
+ {
+  return StartStop::GetClockTime();
+ }
+
+void ClockDelay(ClockTimeType clocks) noexcept
+ {
+  for(auto start=GetClockTime(); GetClockTime()-start<=clocks ;);
+ }
+
+} // namespace Sys
+} // namespace CCore
+
+</pre>
+
+<p>
+<b>StartStop</b> constructor starts board timers and connects the timer interrupt function.
+<b>StartStop</b> stops timers.
+</p>
+
+<p>
+<b>StartStop::GetMSecTime()</b> returns the millisecond timer counter.
+</p>
+
+<p>
+<b>StartStop::GetSecTime()</b> returns the second timer counter.
+</p>
+
+<p>
+<b>StartStop::GetMSecTime()</b> returns the clock timer counter.
+</p>
+
+<p>
+<b>Timer_int()</b> is a timer interrupt handler. Among other tasks it must call the internal <b>XCore</b> function <b>Task::Internal::Tick_int()</b>
+with a proper period to drive the tick processing.
+</p>
+
+</body>
+
+</html>
+

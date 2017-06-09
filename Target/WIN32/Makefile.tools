@@ -1,0 +1,86 @@
+# Makefile.tools
+#----------------------------------------------------------------------------------------
+#
+#  Project: CCore 3.00
+#
+#  Tag: Target/WIN32
+#
+#  License: Boost Software License - Version 1.0 - August 17th, 2003 
+#
+#            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+#
+#  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+#
+#----------------------------------------------------------------------------------------
+
+CCOPT_EXTRA ?= 
+
+LDOPT_EXTRA ?=
+
+# tools
+
+ECHO = /usr/bin/echo
+
+FIND = /bin/find
+
+MKDIR = /bin/mkdir
+
+CAT = /usr/bin/cat
+
+TOUCH = /usr/bin/touch
+
+CC_ = /opt/gcc-7.1.0/bin/g++-7.1.0
+
+CC = @$(ECHO) CC $< ; $(CC_)
+
+LD = @$(ECHO) LD $@ ; $(CC_)
+
+AS_ = as
+
+AS = @$(ECHO) AS $< ; $(AS_)
+
+AR_ = ar
+
+AR = @$(ECHO) AR $@ ; $(AR_)
+
+RM_ = rm -f
+
+RM = @$(ECHO) RM ; $(RM_)
+
+# options
+
+NOWARN = -Wno-non-virtual-dtor \
+         -Wno-switch \
+         -Wno-type-limits \
+         -Wno-enum-compare \
+         -Wno-missing-field-initializers \
+         -Wno-delete-non-virtual-dtor \
+         -Wno-misleading-indentation \
+
+
+CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
+        -I$(CCORE_ROOT)/HCore \
+        -I$(CCORE_ROOT)/Simple \
+        -I$(CCORE_ROOT)/Fundamental \
+        -I$(CCORE_ROOT)/Applied \
+        -I$(CCORE_ROOT)/Desktop \
+
+
+CCOPT = -c -std=c++1z -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) # -DCCORE_MINI
+
+ASOPT =
+
+CCORELIB = $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore.a
+
+ifeq ($(TARGET_DESKTOP),yes)
+
+LDOPT_DESKTOP = -Wl,--subsystem,windows 
+
+else
+
+LDOPT_DESKTOP = 
+
+endif
+
+LDOPT = -Wl,-s $(LDOPT_DESKTOP) $(LDOPT_EXTRA) $(CCORELIB) -lws2_32 -lgmp -lgdi32 -lfreetype 
+

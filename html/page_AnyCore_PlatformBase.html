@@ -1,0 +1,545 @@
+<!--
+/* page_AnyCore_PlatformBase.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> AnyCore PlatformBase</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>AnyCore PlatformBase</h2>
+
+<p class="Files">Files <b>CCore/inc/base/PlatformBase.h</b> <b>CCore/src/base/PlatformBase.cpp</b> <b>CCore/src/base/PlatformBase.s</b></p>
+
+<p>
+This part defines some basic types, constants and other entities, related with the target hardware and 
+software platform. 
+</p>
+
+<pre>
+
+#ifndef CCore_inc_base_PlatformBase_h
+#define CCore_inc_base_PlatformBase_h
+
+/* target label */
+
+#define <span class="Att">CCORE_TARGET</span> WIN32
+
+/* init priority */ 
+
+#define <span class="Att">CCORE_INITPRI_0</span> __attribute__((init_priority(101)))
+#define <span class="Att">CCORE_INITPRI_1</span> __attribute__((init_priority(102)))
+#define <span class="Att">CCORE_INITPRI_2</span> __attribute__((init_priority(103)))
+#define <span class="Att">CCORE_INITPRI_3</span> __attribute__((init_priority(104)))
+
+/* inlining disabler */ 
+
+#define <span class="Att">CCORE_NOINLINE</span> __attribute__((noinline))
+
+/* includes */ 
+
+#include &lt;cstddef&gt;
+#include &lt;type_traits&gt;
+#include &lt;initializer_list&gt;
+#include &lt;utility&gt;
+
+/* restrict */ 
+
+#define <span class="Att">restrict</span> __restrict
+
+/* namespace CCore */ 
+
+namespace CCore {
+
+/* consts */ 
+
+inline constexpr bool <span class="Att">IsLEPlatform</span>  = true ;
+
+inline constexpr bool <span class="Att">Is2sComplementArithmetic</span> = true ;
+
+inline constexpr unsigned <span class="Att">MaxBitLen</span> = 64   ;
+
+inline constexpr unsigned <span class="Att">MaxAlign</span>  = 16   ;
+
+/* types */ 
+
+using <span class="Att">ulen</span> = unsigned int ;
+using <span class="Att">uptr</span> = unsigned int ;
+ 
+using <span class="Att">uint8</span>  =      unsigned char ;
+using <span class="Att">uint16</span> =     unsigned short ;
+using <span class="Att">uint32</span> =       unsigned int ;
+using <span class="Att">uint64</span> = unsigned long long ; 
+
+using <span class="Att">sint8</span>  =        signed char ;
+using <span class="Att">sint16</span> =       signed short ; 
+using <span class="Att">sint32</span> =         signed int ; 
+using <span class="Att">sint64</span> =   signed long long ; 
+
+/* consts */ 
+
+inline constexpr ulen <span class="Att">DefaultPacketCount</span> = 50'000 ;
+
+inline constexpr unsigned <span class="Att">DefaultEventElementCount</span> = 10'000 ;
+
+/* namespace Bits */ 
+
+namespace Bits {
+
+inline constexpr unsigned <span class="Att">unsigned_char</span>      =  8 ;
+inline constexpr unsigned <span class="Att">unsigned_short</span>     = 16 ;
+inline constexpr unsigned <span class="Att">unsigned_int</span>       = 32 ;
+inline constexpr unsigned <span class="Att">unsigned_long</span>      = 32 ;
+inline constexpr unsigned <span class="Att">unsigned_long_long</span> = 64 ;
+
+} // namespace Bits
+
+/* namespace ExtraInt */
+
+namespace ExtraInt {
+
+/* classes */
+
+template &lt;class T&gt; struct Prop;
+
+/* struct Prop&lt;T&gt; */
+
+template &lt;class T&gt; 
+struct Prop 
+ {
+  enum 
+   {
+    IsSigned   = false,
+    IsUnsigned = false
+   };
+ };
+
+// 
+// template &lt;&gt; 
+// struct Prop&lt;???&gt; 
+//  {
+//   enum 
+//    {
+//     IsSigned   = true,
+//     IsUnsigned = false,
+//    };
+//   
+//   using SType = ??? ;
+//   using UType = ??? ;
+//   
+//   using PromoteSType = ??? ;
+//   using PromoteUType = ??? ;
+//  };
+// 
+// template &lt;&gt; 
+// struct Prop&lt;???&gt; 
+//  {
+//   enum 
+//    {
+//     IsSigned   = false,
+//     IsUnsigned = true,
+//       
+//     Bits = ???  
+//    };
+//   
+//   using PromoteUType = ??? ;
+//  };
+// 
+
+} // namespace ExtraInt
+
+/* namespace Meta */
+
+namespace Meta {
+
+/* classes */
+
+template &lt;class UInt&gt; struct DoubleUIntCtor;
+
+/* struct DoubleUIntCtor&lt;UInt&gt; */
+
+template &lt;class UInt&gt; 
+struct DoubleUIntCtor
+ {
+  using Ret = void ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint8&gt;
+ {
+  using Ret = uint16 ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint16&gt;
+ {
+  using Ret = uint32 ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint32&gt;
+ {
+  using Ret = uint64 ;
+ };
+
+/* type DoubleUInt&lt;UInt&gt; */
+
+template &lt;class UInt&gt;
+using <span class="Att">DoubleUInt</span> = typename DoubleUIntCtor&lt;UInt&gt;::Ret ;
+
+} // namespace Meta
+
+/* Used() */ 
+
+template &lt;class T&gt; void <span class="Att">Used</span>(T &amp;) {}
+ 
+/* OptimizeBarrier() */
+ 
+void <span class="Att">OptimizeBarrier</span>(void *ptr,ulen len) noexcept;
+
+} // namespace CCore
+ 
+#endif
+
+</pre>
+
+<h4>Defines and includes</h4>
+
+<pre>
+
+/* target label */
+
+#define <span class="Att">CCORE_TARGET</span> WIN32
+
+/* init priority */ 
+
+#define <span class="Att">CCORE_INITPRI_0</span> __attribute__((init_priority(101)))
+#define <span class="Att">CCORE_INITPRI_1</span> __attribute__((init_priority(102)))
+#define <span class="Att">CCORE_INITPRI_2</span> __attribute__((init_priority(103)))
+#define <span class="Att">CCORE_INITPRI_3</span> __attribute__((init_priority(104)))
+
+/* inlining disabler */ 
+
+#define <span class="Att">CCORE_NOINLINE</span> __attribute__((noinline))
+
+/* includes */ 
+
+#include &lt;cstddef&gt;
+#include &lt;type_traits&gt;
+#include &lt;initializer_list&gt;
+#include &lt;utility&gt;
+
+/* restrict */ 
+
+#define <span class="Att">restrict</span> __restrict
+
+</pre>
+
+<p>
+Macro <b>CCORE_TARGET</b> defines the target label, like <b>WIN32</b>, <b>WIN64</b> etc...
+</p>
+
+<p>
+Macros <b>CCORE_INITPRI_0</b>, <b>CCORE_INITPRI_1</b>, <b>CCORE_INITPRI_2</b> and <b>CCORE_INITPRI_3</b> 
+are used to specify
+initialization priorities of global objects. For the <b>gcc</b> family of compilers they have values shown above.
+If the target use another compiler you must provide a proper substitution. This feature is not standard.
+Priority 0 is highest.
+</p>
+
+<p>
+<b>CCORE_NOINLINE</b> is used to disable function inlining. This macro may be leave empty.
+</p>
+
+<p>
+The set of standard include files, shown above, must be included, you may add any other desirable includes here.  
+</p>
+
+<p>
+<b>restrict</b> is a <i>restrict</i> keyword. This feature is still missing in the C++ standard, but major
+compilers support it. You must provide a proper definition of this macro.
+</p>
+
+<h4>Basic types</h4>
+
+<pre>
+
+using <span class="Att">ulen</span> = unsigned int ;
+using <span class="Att">uptr</span> = unsigned int ;
+ 
+using <span class="Att">uint8</span>  =      unsigned char ;
+using <span class="Att">uint16</span> =     unsigned short ;
+using <span class="Att">uint32</span> =       unsigned int ;
+using <span class="Att">uint64</span> = unsigned long long ; 
+
+using <span class="Att">sint8</span>  =        signed char ;
+using <span class="Att">sint16</span> =       signed short ; 
+using <span class="Att">sint32</span> =         signed int ; 
+using <span class="Att">sint64</span> =   signed long long ; 
+
+</pre>
+
+<p>
+This set of type definitions must be provided. 
+</p>
+
+<p>
+<b>uintXXX</b> is an unsigned integral type with the <b>XXX</b> bit length.
+</p>
+
+<p>
+<b>sintXXX</b> is a 2'c signed integral types with the <b>XXX</b> bit length.
+Such types must be available on the target platform. <span class="Alert">For the latest <b>gcc</b> family of compilers
+you should turn on the option <b>-fwrapv</b> to ensure the proper type behavior</span>.
+</p>
+
+<p>
+<b>ulen</b> is the unsigned integral type with the "address length" bit length. You
+can use the standard type <b>size_t</b> for it. This type must have the sufficient value range
+to represent any object range length. 
+</p>
+
+<p>
+<b>uptr</b> is the unsigned integral type. It must be large enough to represent any pointer value.
+I.e. two-cast <b>(T *)(uptr)ptr</b> must restore the original value of any pointer.
+</p>
+
+<h4>Basic constants</h4>
+
+<pre>
+
+/* consts */ 
+
+const bool <span class="Att">IsLEPlatform</span>  = true ;
+
+const bool <span class="Att">Is2sComplementArithmetic</span> = true ;
+
+const unsigned <span class="Att">MaxBitLen</span> = 64   ;
+
+const unsigned <span class="Att">MaxAlign</span>  = 16   ;
+
+/* consts */ 
+
+const ulen <span class="Att">DefaultPacketCount</span> = 50'000 ;
+
+const unsigned <span class="Att">DefaultEventElementCount</span> = 10'000 ;
+
+/* namespace Bits */ 
+
+namespace Bits {
+
+const unsigned <span class="Att">unsigned_char</span>      =  8 ;
+const unsigned <span class="Att">unsigned_short</span>     = 16 ;
+const unsigned <span class="Att">unsigned_int</span>       = 32 ;
+const unsigned <span class="Att">unsigned_long</span>      = 32 ;
+const unsigned <span class="Att">unsigned_long_long</span> = 64 ;
+
+} // namespace Bits
+
+</pre>
+
+<p>
+<b>IsLEPlatform</b> is <b>true</b>, iff the target is little-endian.
+</p>
+
+<p>
+<b>Is2sComplementArithmetic</b> is <b>true</b>, iff the target integral arithmetic is 2's complement.
+Currently it's the only option!
+</p>
+
+<p>
+<b>MaxBitLen</b> is the maximum bit length of the unsigned integral types.
+</p>
+
+<p>
+<b>MaxAlign</b> is the maximum of alignment of the target types.
+</p>
+
+<p>
+<b>DefaultPacketCount</b> is the number of packets in the 
+<a href="page_PacketPool.html">default packet pool by default</a>.
+</p>
+
+<p>
+<b>DefaultEventElementCount</b> this constant is used in the numbering of the event-generating 
+objects. It should have the value like 5000-10000.
+</p>
+
+<p>
+<b>Bits::unsigned_ttt</b> is the bit length of the correspondent unsigned integral type.
+</p>
+
+<h4>Extra integral types</h4>
+
+<pre>
+
+/* namespace ExtraInt */
+
+namespace ExtraInt {
+
+/* classes */
+
+template &lt;class T&gt; struct Prop;
+
+/* struct Prop&lt;T&gt; */
+
+template &lt;class T&gt; 
+struct Prop 
+ {
+  enum 
+   {
+    IsSigned   = false,
+    IsUnsigned = false
+   };
+ };
+
+// 
+// template &lt;&gt; 
+// struct Prop&lt;???&gt; 
+//  {
+//   enum 
+//    {
+//     IsSigned   = true,
+//     IsUnsigned = false,
+//    };
+//   
+//   using SType = ??? ;
+//   using UType = ??? ;
+//   
+//   using PromoteSType = ??? ;
+//   using PromoteUType = ??? ;
+//  };
+// 
+// template &lt;&gt; 
+// struct Prop&lt;???&gt; 
+//  {
+//   enum 
+//    {
+//     IsSigned   = false,
+//     IsUnsigned = true,
+//       
+//     Bits = ???  
+//    };
+//   
+//   using PromoteUType = ??? ;
+//  };
+// 
+
+} // namespace ExtraInt
+
+</pre>
+
+<p>
+The structure <b>ExtraInt::Prop</b> can be used to support extra integral types, i.e. types not
+from the standard list of the integral types, if such types are supported by the compiler.
+If you want to use any of such type with the <b>CCore</b>, you should provide its properties, 
+using a specialization of the structure <b>ExtraInt::Prop</b> as shown above.
+For a signed integral type the specialized structure defines both signed and unsigned types
+and desirable promote types. For an unsigned integral type the specialized structure defines
+bit length and desirable promote type.
+</p>
+
+<h4>Meta tools</h4>
+
+<pre>
+
+/* namespace Meta */
+
+namespace Meta {
+
+/* classes */
+
+template &lt;class UInt&gt; struct DoubleUIntCtor;
+
+/* struct DoubleUIntCtor&lt;UInt&gt; */
+
+template &lt;class UInt&gt; 
+struct DoubleUIntCtor
+ {
+  using Ret = void ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint8&gt;
+ {
+  using Ret = uint16 ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint16&gt;
+ {
+  using Ret = uint32 ;
+ };
+ 
+template &lt;&gt; 
+struct DoubleUIntCtor&lt;uint32&gt;
+ {
+  using Ret = uint64 ;
+ };
+
+/* type DoubleUInt&lt;UInt&gt; */
+
+template &lt;class UInt&gt;
+using <span class="Att">DoubleUInt</span> = typename DoubleUIntCtor&lt;UInt&gt;::Ret ;
+
+} // namespace Meta
+
+</pre>
+
+<p>
+This is a small collection of meta-tools.
+</p>
+
+<p>
+<b>DoubleUInt</b> is a <b>Meta-type</b>. It yields the double bit length type of the given
+unsigned integral type or the <b>void</b>, if such type does not exist.
+</p>
+
+<h4>Special functions</h4>
+
+<pre>
+
+/* Used() */ 
+
+template &lt;class T&gt; void <span class="Att">Used</span>(T &amp;) {}
+ 
+/* OptimizeBarrier() */
+ 
+void <span class="Att">OptimizeBarrier</span>(void *ptr,ulen len) noexcept;
+
+</pre>
+
+<p>
+<b>Used()</b> this function is used to disable the "unused argument" (or local variable) warning.
+</p>
+
+<p>
+<b>OptimizeBarrier()</b> is used to suppress the compiler optimization. It should be implemented
+in such a way, that compiler could not be able to learn its semantic. For example, using assembler.
+This function does nothing. From the compiler perspective, however, this function does something
+unknown with the given memory range.
+</p>
+
+</body>
+
+</html>
+

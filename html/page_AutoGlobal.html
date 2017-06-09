@@ -1,0 +1,107 @@
+<!--
+/* page_AutoGlobal.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> AutoGlobal</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>AutoGlobal</h2>
+
+<p class="Files">Files <b>CCore/inc/AutoGlobal.h</b> <b>CCore/src/AutoGlobal.cpp</b></p>
+
+<p>
+<b>AutoGlobal</b> can be used to create a global variable with auto-initialization.
+</p>
+
+<pre>
+
+template &lt;NothrowDtorType T&gt;
+class <span class="Att">AutoGlobal</span> : NoCopy
+ {
+   ulen refs = 0 ;
+   Mutex mutex;
+   InitExitObject&lt;T&gt; obj;
+
+  public:
+
+   AutoGlobal();
+
+   explicit AutoGlobal(TextLabel name);
+
+   ~AutoGlobal();
+
+   class Lock : NoCopy
+    {
+      AutoGlobal&lt;T&gt; &amp;obj;
+
+     public:
+
+      explicit Lock(AutoGlobal&lt;T&gt; &amp;obj_);
+
+      ~Lock();
+    };
+
+   // object ptr : valid inside Lock scope
+
+   T * getPtr() const { return obj.getPtr(); }
+
+   T &amp; operator * () const { return *getPtr(); }
+
+   T * operator -&gt; () const { return getPtr(); }
+ };
+
+</pre>
+
+<p>
+You may specify a <b>TextLabel</b> in the constructor to name the internal mutex.
+</p>
+
+<p>
+To access the inner object use the <b>Object Pointer Interface</b>  methods. You must do it inside a <b>Lock</b> scope.
+</p>
+
+<pre>
+
+AutoGlobal&lt;SomeClass&gt; theObject;
+
+....
+
+{
+ AutoGlobal&lt;SomeClass&gt;::Lock lock(theObject);
+
+ theObject->method();
+}
+
+</pre>
+
+<p>
+<b>AutoGlobal</b> uses the reference counting to control the life-time of the object. 
+I.e. when the object is accessed the first time, it is created using the default constructor.
+Once the last <b>Lock</b> is released, the object is destroyed.
+</p>
+
+</body>
+
+</html>
+

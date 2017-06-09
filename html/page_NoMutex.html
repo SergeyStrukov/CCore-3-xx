@@ -1,0 +1,67 @@
+<!--
+/* page_NoMutex.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> NoMutex</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>NoMutex</h2>
+
+<p class="Files">Files <b>CCore/inc/task/NoMutex.h</b> <b>CCore/src/task/NoMutex.cpp</b></p>
+
+<p>
+<b>NoMutex</b> is a class with the <b>Mutex</b> interface, but with empty methods.
+It is required sometimes to create a class, which can be used either in a single-threaded context or
+in a multi-threaded. This class can be implemented as a template, parametrized by a mutex type to avoid using 
+a real mutex if it is not required.
+</p>
+
+<pre>
+
+class <span class="Att">NoMutex</span> : NoCopy
+ {
+  public:
+  
+   NoMutex() {}
+   
+   explicit NoMutex(TextLabel) {}
+   
+   ~NoMutex() {}
+   
+   void lock() {}
+  
+   void unlock() {}
+   
+   struct Lock : NoCopy
+    {
+     explicit Lock(NoMutex &) {}
+    };
+ };
+
+</pre>
+
+</body>
+
+</html>
+

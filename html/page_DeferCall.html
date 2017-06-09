@@ -1,0 +1,711 @@
+<!--
+/* page_DeferCall.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 1.04
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2013 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> DeferCalls</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>DeferCalls</h2>
+
+<p class="Files">Files <b>CCore/inc/DeferCall.h</b> <b>CCore/src/DeferCall.cpp</b></p>
+
+<p>
+<b>DeferCall</b> is a defer call engine. It allows record actions and execute them in a defer call loop.
+This technology is similar to the message loop processing, known in the GUI application development, but is not 
+restricted to a predefined set of messages.
+</p>
+
+<p>
+<b>DeferCall</b> is essentially single-threaded. You may run several defer call loops on one per thread basis.
+</p>
+
+<p>
+To run a <b>DeferCall</b> loop, you have to derive a class from the <b>DeferCallQueue</b>.
+</p>
+
+<pre>
+
+class Queue : public DeferCallQueue
+ {
+   ....
+
+  public:
+  
+   Queue() 
+    {
+     activate();
+    }
+   
+   ~Queue() 
+    {
+     deactivate();
+    }
+   
+   void forward(TimeScope time_scope)
+    {
+     ....
+    }
+ };
+
+</pre>
+
+<p>
+<b>forward()</b> is called when the defer call queue is empty. This method must generate new defer calls or sleep
+within the given <b>time_scope</b> period. <b>forward()</b> should be used to generate defer calls 
+to handle external events, like key pressing of mouse movement.
+</p>
+
+<p>
+Next, you have to create a queue object, then prepare other entities and run the loop.
+</p>
+
+<pre>
+
+Queue queue;
+
+....
+
+Queue::Loop();
+
+</pre>
+
+<p>
+To stop the loop use the <b>DeferCallQueue::Stop()</b>. The global methods address the current active <b>DeferCallQueue</b>
+object for the current thread. Objects, involved in the <b>DeferQueue</b> processing on this thread, 
+should live withing the queue object life-time.
+</p>
+
+<p>
+To add a defer call input to some class use the <b>DeferInput</b> class:
+</p>
+
+<pre>
+
+class Window
+ {
+   ....
+
+   DeferTick defer_tick;
+
+  private:
+
+   void put(char ch);
+
+   void tick();
+
+  public:
+
+   class Input : DeferInput&lt;Window&gt;
+    {
+      friend class Window;
+    
+      explicit Input(Window *window) : DeferInput&lt;Window&gt;(window) {} 
+      
+      ~Input() {}
+      
+     public:
+    
+      void put(char ch) { try_post(&Window::put,ch); }
+    };
+   
+   Input input;
+
+   Window() 
+    : input(this)
+    {
+     defer_tick=input.create(&Window::tick);
+
+     defer_tick.start();
+    }
+ };
+
+</pre>
+
+<h4>DeferCall</h4>
+
+<p>
+The class <b>DeferCall</b> serves as the base class of other defer call classes. You don't need to use it directly.
+</p>
+
+<pre>
+
+class <span class="Att">DeferCall</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   DeferCall();
+  
+   ~DeferCall();
+   
+   virtual void call()=0;
+   
+   virtual void destroy(DeferCallQueue *defer_queue)=0;
+   
+   void safeCall();
+   
+   static void * operator new(std::size_t len,DeferCallQueue *defer_queue);
+   
+   static void * operator new(std::size_t len,JustTryType,DeferCallQueue *defer_queue) noexcept;
+   
+   static void operator delete(void *mem,DeferCallQueue *defer_queue);
+   
+   static void operator delete(void *mem,JustTryType,DeferCallQueue *defer_queue);
+ };
+
+</pre>
+
+<p>
+<b>call()</b> is defined in a derived class and is an actual processing method.
+</p>
+
+<p>
+<b>destroy()</b> is defined in a derived class to properly destroy the object.
+</p>
+
+<p>
+<b>safeCall()</b> calls the <b>call()</b> and catches and ignores all exceptions.
+</p>
+
+<p>
+Other methods are used to allocate and free memory for the object from the given <b>DeferCallQueue</b>.
+</p>
+
+<h4>DeferCallHeap</h4>
+
+<p>
+The class <b>DeferCallHeap</b> is used to allocate and free memory for <b>DeferCall</b> objects.
+An object of this class is used by a <b>DeferCallQueue</b> object for the memory management.
+You don't need to use this class directly.
+</p>
+
+<pre>
+
+class <span class="Att">DeferCallHeap</span> : NoCopy
+ {
+   ....
+
+  public:
+  
+   explicit DeferCallHeap(ulen mem_len);
+
+   ~DeferCallHeap();
+   
+   void * alloc(ulen len);
+   
+   void free(void *mem);
+   
+   static ulen GetMaxLen(); // max cached length
+ };
+
+</pre>
+
+<p>
+The memory is taken from a memory block of <b>mem_len</b> length. This block is allocated by the constructor
+and released by the destructor.
+</p>
+
+<p>
+<b>alloc()</b> returns null, if there is no memory available.
+</p>
+
+<p>
+<b>free()</b> argument must not be null.
+</p>
+
+<p>
+<b>GetMaxLen()</b> is used for the memory allocation caching. To speed up memory operations for short objects 
+<b>DeferCallHeap</b> maintains a list of short memory blocks up to some count for such allocations.
+<b>GetMaxLen()</b> determines the maximum short allocation length.
+</p>
+
+<h4>DeferCallQueue</h4>
+
+<p>
+The class <b>DeferCallQueue</b> is a main <b>DeferCall</b> engine class. It maintains the list of <b>DeferCall</b>s
+and executes them in a loop. The object of this type is registered per thread as the current thread
+<b>DeferCall</b> loop object.
+</p>
+
+<pre>
+
+class <span class="Att">DeferCallQueue</span> : NoCopy
+ {
+   ....
+
+  private:
+   
+   virtual void forward(TimeScope time_scope)=0;
+   
+  protected:
+   
+   void activate(); 
+   
+   void deactivate();
+   
+  public:
+   
+   // constructors
+   
+   static constexpr MSec DefaultTickPeriod = 40_msec ; // 25 Hz
+
+   static constexpr unsigned DefaultTicksPerSec = 25 ;
+
+   static constexpr ulen DefaultMemLen = 1_MByte ;
+   
+   explicit DeferCallQueue(MSec tick_period=DefaultTickPeriod,ulen mem_len=DefaultMemLen);
+   
+   ~DeferCallQueue();
+   
+   // heap
+   
+   void * try_alloc(ulen len);
+   
+   void * alloc(ulen len);
+   
+   void free(void *mem); // mem!=0
+   
+   template &lt;class T&gt;
+   void destroy(T *obj);
+   
+   // call
+   
+   void post(DeferCall *defer_call);
+   
+   void post_first(DeferCall *defer_call);
+   
+   void start_tick(DeferCall *defer_call);
+   
+   void stop_tick(DeferCall *defer_call); 
+   
+   // loop
+   
+   void loop();
+   
+   void stop();
+   
+   // per-thread queue
+   
+   static DeferCallQueue * Get();
+   
+   static bool IsActive();
+
+   static void Loop() { Get()->loop(); }
+   
+   static void Stop() { Get()->stop(); }
+ };
+
+</pre>
+
+<p>
+<b>forward()</b> must be defined in a derived class. This method is called when the defer call queue is empty.
+</p>
+
+<p>
+<b>activate()</b> must be called in a derived class constructor to register the object with the current thread. 
+If some object is already registered, an exception is thrown.
+</p>
+
+<p>
+<b>deactivate()</b> must be called in a derived class destructor to unregister the object with the current thread.
+</p>
+
+<p>
+<b>DefaultMemLen</b> is the default heap capacity.
+</p>
+
+<p>
+The argument <b>tick_period</b> is the tick period, defaulted to the <b>DefaultTickPeriod</b>,
+equals 40 milliseconds, that gives 25 Hz tick frequency. The tick period is maintained as accurate, as possible.
+</p>
+
+<p>
+The argument <b>mem_len</b> is a heap capacity. All <b>DeferCall</b> objects for this loop are created in the heap of this capacity.
+</p>
+
+<p>
+The following four methods are heap methods. You don't need to use these methods directly.
+</p>
+
+<p>
+<b>try_alloc()</b> returns null, if there is no memory.
+</p>
+
+<p>
+<b>alloc()</b> throws an exception, if there is no memory. 
+It also <span class="Alert">stops the defer call loop</span> in this case.
+</p>
+
+<p>
+<b>free()</b> releases the memory, the argument must not be null.
+</p>
+
+<p>
+<b>destroy()</b> destroys a <b>DeferCall</b> object.
+</p>
+
+<p>
+The following four methods are queue methods. You don't need to use these methods directly.
+Arguments must not be null.
+</p>
+
+<p>
+<b>post()</b> puts the <b>DeferCall</b> object in the queue. The object is consumed.
+It will be destroyed after processing or during the queue cleanup after stop.
+</p>
+
+<p>
+<b>post_first()</b> puts the <b>DeferCall</b> object in the queue head. The object is consumed.
+It will be destroyed after processing or during the queue cleanup after stop.
+</p>
+
+<p>
+<b>start_tick()</b> starts ticks on the object. The object is not consumed. It retains the owner.
+Defer tick is a periodic event, during this event all specified defer calls are called to do a periodic processing.
+</p>
+
+<p>
+<b>stop_tick()</b> stops ticks on the object. The object can be destroyed now.
+</p>
+
+<p>
+The next two methods are loop methods. You don't need to use these methods directly.
+</p>
+
+<p>
+<b>loop()</b> starts the defer calls loop. 
+</p>
+
+<p>
+<b>stop()</b> stops the loop.
+</p>
+
+<p>
+Finally, four global methods.
+</p>
+
+<p>
+<b>Get()</b> gets the active <b>DeferCallQueue</b> object. An exception is thrown, if there is no one.
+</p>
+
+<p>
+<b>IsActive()</b> is <b>true</b> iff there is an active <b>DeferCallQueue</b> for the current thread.
+</p>
+
+<p>
+<b>Loop()</b> starts the defer call loop.
+</p>
+
+<p>
+<b>Stop()</b> stops the loop.
+</p>
+
+<h4>DeferCouple</h4>
+
+<p>
+The class <b>DeferCouple</b> is a helper class, it stores a pointer to a <b>DeferCallQueue</b> object
+and a pointer to a <b>DeferCall</b> object. You don't need to use this class directly.
+If you desire to do it, think throw how its methods are working, they have been designed to serve a
+particular purpose.
+</p>
+
+<pre>
+
+struct <span class="Att">DeferCouple</span>
+ {
+  DeferCallQueue *defer_queue;
+  DeferCall *defer_call;
+  
+  // constructors
+  
+  DeferCouple();
+  
+  DeferCouple(NothingType) : DeferCouple() {}
+   
+  DeferCouple(DeferCallQueue *defer_queue,DeferCall *defer_call); 
+  
+  // props
+  
+  bool operator ! () const { return !defer_queue; }
+  
+  // cleanup
+  
+  void cleanup() noexcept(EnableNoExcept);
+  
+  // post
+  
+  void post() { defer_queue->post(defer_call); }
+  
+  void post_first() { defer_queue->post_first(defer_call); }
+  
+  void try_post() { if( defer_queue ) defer_queue->post(defer_call); }
+  
+  void try_post_first() { if( defer_queue ) defer_queue->post_first(defer_call); }
+  
+  void start_tick() { defer_queue->start_tick(defer_call); }
+  
+  void stop_tick() { defer_queue->stop_tick(defer_call); }
+ };
+
+</pre>
+
+<p>
+Default constructor and <b>NothingType</b>-constructor creates a null object.
+</p>
+
+<p>
+The second constructor creates an object with given object pointers. If the <b>DeferCall</b> pointer is null, 
+a null object is constructed.
+</p>
+
+<p>
+There is no destructor, so you have to cleanup the object manually by the method <b>cleanup()</b>.
+</p>
+
+<p>
+<b>operator !()</b> returns <b>true</b>, if the object is null.
+</p>
+
+<p>
+<b>cleanup()</b> destroys the <b>DeferCall</b> object and nullifies the object.
+</p>
+
+<p>
+Other methods posts the defer call or starts the defer tick on it.
+</p>
+
+<h4>DeferTick</h4>
+
+<p>
+The class <b>DeferTick</b> is a defer tick controller. It may own some defer call, given as a <b>DeferCouple</b> object.
+If it owns some defer call, the defer tick can be started on this defer call.
+</p>
+
+<pre>
+
+class <span class="Att">DeferTick</span> : NoCopy
+ {
+   ....
+
+  public: 
+   
+   // constructors
+   
+   explicit DeferTick(DeferCouple couple=Nothing);
+   
+   ~DeferTick();
+   
+   // set/reset
+   
+   bool set(DeferCouple couple);
+   
+   bool reset();
+   
+   void operator = (DeferCouple couple);
+   
+   // start/stop
+   
+   bool start();
+   
+   bool stop();
+ };
+
+</pre>
+
+<p>
+Constructor builds the object, owning the given defer call, provided as a <b>DeferCouple</b> object.
+If the <b>DeferCouple</b> object is null, the tick object is null.
+</p>
+
+<p>
+Destructor resets the object. If a defer call object was owned, it is destroyed.
+</p>
+
+<p>
+<b>set()</b> and <b>operator =</b> sets a new defer call object, or null. The previous
+defer call is destroyed, if any. If the defer tick was started, it remains
+started on the new defer call, unless null is provided. In the last case the tick becomes 
+stopped and the return value is <b>true</b>.
+</p>
+
+<p>
+<b>reset()</b> is the same as <b>set(Nothing)</b>. I.e. it destroys the old defer call object and resets
+the tick object to the null state. The defer tick is stopped, if it was running. In the last case the return value is <b>true</b>.
+</p>
+
+<p>
+<b>start()</b> starts the defer tick on the owned defer call, if any. 
+The return value is <b>true</b>, if the defer tick has been successfully started.
+</p>
+
+<p>
+<b>stop()</b> stops the defer tick, if it is running. The return value is <b>true</b>, if the defer tick 
+has been successfully stopped.
+</p>
+
+<p>
+All four methods return <b>true</b>, if the defer tick status (running or stopped) has been changed.
+</p>
+
+<h4>DeferInput</h4>
+
+<p>
+The class <b>DeferInput</b> is the main "input" class. It is used to build and use defer calls, bounded
+with method calls of some object.
+</p>
+
+<pre>
+
+template &lt;class S&gt;
+class <span class="Att">DeferInput</span> : NoCopy
+ {
+   ....
+
+  public:
+   
+   template &lt;class ... TT&gt;
+   static constexpr ulen GetMessageLength();
+ 
+   // constructors
+   
+   explicit DeferInput(S *obj);
+   
+   ~DeferInput();
+   
+   void cancel();
+   
+   // post
+   
+   template &lt;class ... TT&gt;
+   DeferCouple create(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+   
+   template &lt;class ... TT&gt;
+   void post(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+   
+   template &lt;class ... TT&gt;
+   void post_first(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+
+   // try post
+   
+   template &lt;class ... TT&gt;
+   DeferCouple try_create(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+   
+   template &lt;class ... TT&gt;
+   void try_post(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+   
+   template &lt;class ... TT&gt;
+   void try_post_first(void (S::* method)(TT... tt),const TT &amp; ... tt) requires ( ... &amp;&amp; CopyCtorType&lt;TT&gt; ) ; 
+   
+   // post interface
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   DeferCouple create(FuncInit func_init); // func(S &amp;)
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   void post(FuncInit func_init); 
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   void post_first(FuncInit func_init); 
+   
+   // try post interface
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   DeferCouple try_create(FuncInit func_init); // func(S &amp;)
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   void try_post(FuncInit func_init); 
+   
+   template &lt;FuncInitArgType&lt;S &amp;&gt; FuncInit&gt;
+   void try_post_first(FuncInit func_init); 
+ };
+
+</pre>
+
+<p>
+The constructor argument is a pointer to the target object. It should be non-null (otherwise the object is useless). 
+The object life-time must be greater than the <b>DeferInput</b> object life-time.
+Constructor also captures the pointer to the current <b>DeferCallQueue</b> object. So the input object must be used 
+withing the thread has created the input object and after the thread is attached with a <b>DeferCallQueue</b> object.
+</p>
+
+<p>
+<b>cancel()</b> deactivates all pending defer calls. They <b>call()</b> methods become "doing nothing".
+</p>
+
+<p>
+There are four groups of methods for the defer call creation and submission.
+The first method creates a defer call and returns one as a <b>DeferCouple</b> object.
+The second creates and posts the defer call.
+The third creates and posts at the queue head.
+</p>
+
+<p>
+The first group creates a defer call from an object method and a set of arguments. Rememebr, the arguments are copied and stored,
+so you must be caution with arguments of a "pointer type". Also if the method is failed due to the lack
+of memory, the defer call loop will be stopped. The method can also throw an exception from the argument copying. This 
+situation is considered as a bad design, it's better avoid it. Don't use types with not efficient copy constructors!
+</p>
+
+<p>
+<b>create</b> creates a defer call from the given object method and the set of arguments.
+You need this method for the defer tick processing.
+</p>
+
+<p>
+<b>post()</b> creates and post a defer call from the given object method and the set of arguments.
+</p>
+
+<p>
+<b>post_first()</b> creates and post at the head a defer call from the given object method and the set of arguments.
+</p>
+
+<p>
+The second group of methods is try variants.
+</p>
+
+<p>
+<b>try_create()</b> is the same as the <b>create()</b>, but does not throw exception if no memory. In this case
+the method returns a null object.
+</p>
+
+<p>
+<b>try_post()</b> is the same as the <b>post()</b>, but does not throw exception if no memory. In this case
+the method does nothing.
+</p>
+
+<p>
+<b>try_post_first()</b> is the same as the <b>post_first()</b>, but does not throw exception if no memory. In this case
+the method does nothing.
+</p>
+
+<p>
+Last methods are similar, but create defer calls not from object methods, but from functor initialization objects.
+Each time the defer call is called, the functor is created from the initializer and applied to the object.
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,69 @@
+<!--
+/* page_StrKey.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> StrKey</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>StrKey</h2>
+
+<p class="Files">Files <b>CCore/inc/StrKey.h</b> <b>CCore/src/StrKey.cpp</b></p>
+
+<p>
+<b>StrKey</b> is a simple class. It is a combination of the <b>StrLen</b> class and the 32-bit hash code.
+This class can be used as the key type to build maps. It speeds-up string comparison.
+The constructor calculates and stores the hash code of the string. 
+The comparison method compares hash codes first and strings after.
+</p>
+
+<pre>
+
+struct <span class="Att">StrKey</span> : CmpComparable&lt;StrKey&gt;
+ {
+  using HashType = uint32 ;
+
+  static HashType Hash(StrLen str);
+
+  // data
+
+  HashType hash;
+  StrLen str;
+  
+  // constructors
+
+  StrKey() noexcept;
+  
+  explicit StrKey(StrLen str);
+  
+  // cmp objects
+
+  CmpResult objCmp(const StrKey &amp;obj) const;
+ };
+
+</pre>
+
+</body>
+
+</html>
+

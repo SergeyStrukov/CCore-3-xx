@@ -1,0 +1,102 @@
+<!--
+/* page_FileNameMatch.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> FileNameMatch</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>FileNameMatch</h2>
+
+<p class="Files">Files <b>CCore/inc/FileNameMatch.h</b> <b>CCore/src/FileNameMatch.cpp</b></p>
+
+<p>
+<b>FileNameFilter</b> is a class, designed to filter file names according a set of usual meta-templates with wildcards <b>'*'</b> and <b>'?'</b>.
+</p>
+
+<pre>
+
+class <span class="Att">FileNameFilter</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   FileNameFilter() noexcept;
+
+   explicit FileNameFilter(StrLen filter,ulen max_states=MaxULen);
+
+   ~FileNameFilter();
+
+   // props
+
+   bool operator + () const;
+
+   bool operator ! () const;
+
+   // methods
+
+   void reset();
+
+   void reset(StrLen filter,ulen max_states=MaxULen);
+
+   bool operator () (StrLen file) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates an object in null state. You can reset an object to this state using the method <b>reset()</b>.
+Null state object cannot be used to filter file names. You have to initialize it first.
+</p>
+
+<p>
+Non-default constructor creates an initialized object. 
+<b>filter</b> is a file name template with wildcards, <b>max_states</b> is a number of states limit.
+Constructor creates a state machine to examine file names.
+</p>
+
+<p>
+<b>operator + ()</b> is <b>true</b> iff the object is initialized.
+</p>
+
+<p>
+<b>operator ! ()</b> is <b>true</b> iff the object is in null state.
+</p>
+
+<p>
+<b>reset()</b> return the object into the null state.
+</p>
+
+<p>
+<b>reset()</b> with arguments reinitializes the object.
+</p>                  
+
+<p>
+<b>operator ()</b> checks, if the given file name matches the file name templates. If the object is not initialized, <b>false</b> is returned.
+</p>
+
+</body>
+
+</html>
+

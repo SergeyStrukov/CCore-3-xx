@@ -1,0 +1,94 @@
+<!--
+/* page_SingleBridge.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SingleBridge</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SingleBridge</h2>
+
+<p class="Files">Files <b>CCore/inc/net/SingleBridge.h</b> <b>CCore/src/net/SingleBridge.cpp</b></p>
+
+<p>
+This class is similar to the <a href="page_Bridge.html"><b>Bridge</b></a>, but implements point-to-point 
+communication.
+</p>
+
+<pre>
+
+class <span class="Att">SingleBridge</span> : NoCopy 
+ {
+   ....
+
+  public:
+   
+   SingleBridge();
+   
+   SingleBridge(PacketFormat to_server_format,PacketFormat to_client_format);
+   
+   ~SingleBridge();
+   
+   // methods
+   
+   void setDropRate(uint32 drop_rate,uint32 drop_den);
+   
+   static StrLen ServerName();
+   
+   static StrLen ClientName();
+   
+   // start/stop
+   
+   friend class StartStopObject&lt;SingleBridge&gt;;
+   
+   using StartStop = StartStopObject&lt;SingleBridge&gt; ;
+ };
+
+</pre>
+
+<p>
+Once a <b>SingleBridge</b> object is created, it creates and registers a server device and a client device.
+The server device has the name <b>ServerName()</b>. The client device has the name <b>ClientName()</b>.
+Both server and client implement the <b>PacketEndpointDevice</b> interface and the <b>PortManager</b> co-interface.
+The port numbering is trivial: all addresses ports are zero. 
+So you can attach to these devices another protocol devices.
+</p>
+
+<p>
+The second constructor allows you to specify packet formats to and from server. 
+You may also set the packet drop rate to simulate the packet loss. 
+Use the method <b>setDropRate()</b>. The drop probability is <b>drop_rate/drop_den</b>.
+</p>
+
+<p>
+Default constructor sets some predefined packet formats.
+</p>
+
+<p>
+To drive the <b>SingleBridge</b>, you have to start it using the inner class <b>StartStop</b>. 
+</p>
+
+</body>
+
+</html>
+

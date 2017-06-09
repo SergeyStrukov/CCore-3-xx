@@ -1,0 +1,95 @@
+<!--
+/* page_SingleEchoDevice.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SingleEchoDevice</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SingleEchoDevice</h2>
+
+<p class="Files">Files <b>CCore/inc/net/SingleEchoDevice.h</b> <b>CCore/src/net/SingleEchoDevice.cpp</b></p>
+
+<p>
+This class is similar to the <a href="page_EchoDevice.html"><b>EchoDevice</b></a>. But it is working
+with an endpoint device, not multipoint. It also implements the <b>ConnectionProc</b> interface to count connection lost events.
+Been attached this device simply reflects incoming packets. This class is useful in a net testing.
+</p>
+
+<pre>
+
+class <span class="Att">SingleEchoDevice</span> : public NoCopyBase&lt;PacketEndpointDevice::InboundProc,PacketEndpointDevice::ConnectionProc&gt;
+ {
+   ....
+
+  public:
+  
+   enum Event
+    {
+     Event_inbound,
+     
+     Event_nopacket,
+     Event_badformat,
+    
+     Event_lost,
+     Event_close,
+
+     EventLim
+    };
+    
+   friend const char * GetTextDesc(Event ev); 
+   
+   using StatInfo = Counters&lt;Event,EventLim&gt; ;
+    
+  public: 
+  
+   static constexpr ulen DefaultMaxPackets = 200 ;
+  
+   explicit SingleEchoDevice(StrLen ep_dev_name,ulen max_packets=DefaultMaxPackets);
+   
+   ~SingleEchoDevice();
+   
+   void getStat(StatInfo &amp;ret);
+   
+   uint64 getTraffic();
+ };
+
+</pre>
+
+<p>
+Constructor attaches the object to the packet endpoint device, registered under the given name.
+<b>max_packets</b> limits the packet usage.
+</p>
+
+<p>
+<b>getStat()</b> returns the device statistic.
+</p>
+
+<p>
+<b>getTraffic()</b> returns the device traffic counter.
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,143 @@
+<!--
+/* page_PTPEchoTest.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PTP echo test</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PTP echo test</h2>
+
+<p class="Files">Files <b>CCore/inc/net/PTPEchoTest.h</b> <b>CCore/src/net/PTPEchoTest.cpp</b></p>
+
+<p>
+<b>EchoTest</b> class is a simple <b>PTP::ServerDevice</b> processor class.
+It accepts <b>PTP</b> transactions with service id equals <b>10000</b> and function id equals <b>1</b>.
+</p>
+
+<pre>
+
+class <span class="Att">EchoTest</span> : NoCopy
+ {
+   ....
+
+  public: 
+  
+   static constexpr ServiceIdType ServiceId = 10000 ;
+   static constexpr FunctionIdType FunctionId = 1 ;
+   
+   struct Ext;
+  
+   explicit EchoTest(StrLen ptp_server_name);
+   
+   ~EchoTest();
+
+   PacketMultipointDevice * getMPDevice() const;
+ };
+
+</pre>
+
+<p>
+The client info payload must start with the data length, encoded as an <b>uint32</b> value in bigendian 
+byte order and continues with arbitrary data payload of this length.
+<b>EchoTest</b> sends the packet back with the error code equals <b>0</b> and the same data payload. 
+</p>
+
+<p>
+<b>getMPDevice()</b> returns the pointer to the <b>PacketMultipointDevice</b> object the PTP server is attached to.
+</p>
+
+<pre>
+
+struct Input
+ {
+  uint32 service_id;  // 10000
+  uint32 function_id; // 1
+  uint32 len;
+  uint8 data[len];
+ };
+
+struct Output
+ {
+  uint32 service_id;  // 10000
+  uint32 function_id; // 1
+  uint32 error_id;    // 0
+  uint8 data[len];
+ };
+
+</pre>
+
+<p>
+I.e. the output packet content is almost the same as the input, except the <b>len</b> field is erased.
+</p>
+
+<p>
+This class is designed for the testing purpose.
+</p>
+
+<p>
+The inner class <b>EchoTest::Ext</b> can be used to perform transactions from the <b>PTP::ClientDevice</b>, 
+using <a href="page_PTP.html#Ext"><b>Ext</b> extension</a>.
+</p>
+
+<pre>
+
+struct <span class="Att">EchoTest::Ext</span> : ExtBase&lt;EchoTest::ServiceId,EchoTest::FunctionId,MovePacketBuf&gt;
+ {
+  struct InputType // + uint8 info[len];
+   {
+    static constexpr uint32 MaxLen = MaxInfoLen ;
+   
+    uint32 len;
+    
+    explicit InputType(ulen len_) : len(len_) {}
+    
+    // save object
+    
+    enum { SaveLoadLen = SaveLenCounter&lt;uint32&gt;::SaveLoadLen };
+  
+    template &lt;class Dev&gt;
+    void save(Dev &amp;dev) const;
+   };
+   
+  struct OutputType
+   {
+    PtrLen&lt;const uint8&gt; info;
+    
+    // load object
+    
+    template &lt;class Dev&gt;
+    void load(Dev &amp;dev);
+   };
+   
+  PtrLen&lt;const uint8&gt; info; 
+  
+  void done(const OutputType &amp;output);
+ };
+
+</pre>
+
+</body>
+
+</html>
+

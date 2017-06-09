@@ -1,0 +1,43 @@
+/* Formula.lang */
+
+! FORMULA
+ {
+  Name = EXPR : set
+ }
+
+EXPR : A , M , U , P
+ {
+  EXPR + EXPR.a : if( a>=M ) add = A
+
+  EXPR - EXPR.a : if( a>=M ) sub = A
+
+  EXPR.a * EXPR.b : if( a>=M & b>=U ) mul = M
+
+  EXPR.a / EXPR.b : if( a>=M & b>=U ) div = M
+
+  - EXPR.a : if( a>=P ) neg = U
+
+  ( EXPR ) : brace = P
+
+  Name ( EXPR_LIST ) : func = P
+
+  Name : arg = P
+
+  Number : number = P
+
+  Angle : angle = P
+
+  Length : length = P
+
+  ( Number , Number ) : point = P
+ }
+
+EXPR_LIST : E , N
+ {
+   : empty = E
+
+  EXPR : one = N
+
+  EXPR_LIST.a , EXPR : if( a>=N ) ext = N
+ }
+

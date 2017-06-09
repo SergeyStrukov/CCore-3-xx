@@ -1,0 +1,126 @@
+<!--
+/* page_PrintStem.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PrintStem</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PrintStem</h2>
+
+<p class="Files">Files <b>CCore/inc/PrintStem.h</b> <b>CCore/src/PrintStem.cpp</b></p>
+
+<p>
+These files provide two utility classes to help printing a set of objects.
+These classes prints "stems" before an actual object. 
+The stem depends of the object position in the set. 
+</p>
+
+<p>
+Each stem class object can be printed. 
+Each print operation changes the internal state of the object.
+The actual print result depends on this state.
+You may reset the state by the method <b>reset()</b>.
+</p>
+
+<h3>PrintFirst</h3>
+
+<pre>
+
+class <span class="Att">PrintFirst</span> : NoCopy
+ {
+   mutable bool flag = true ;
+
+   StrLen first;
+   StrLen other;
+
+  public:
+
+   PrintFirst(StrLen first_,StrLen other_) : first(first_),other(other_) {}
+
+   void reset() { flag=true; }
+
+   StrLen end(StrLen non_empty,StrLen empty) const { return flag?empty:non_empty; }
+
+   // print object
+
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+This class prints the <b>first</b> string the first time and the <b>other</b> string otherwise.
+In other words, the printout is: <b>first</b> <b>other</b> <b>other</b> ...
+</p>
+
+<p>
+The method <b>end()</b> selects from two string: <b>non_empty</b> and <b>empty</b>. 
+The <b>empty</b> is selected iff the object has not been printed yet.
+</p>
+
+<h3>PrintPeriod</h3>
+
+<pre>
+
+class <span class="Att">PrintPeriod</span> : NoCopy
+ {
+   mutable bool flag = true ;
+   mutable unsigned count = 0 ;
+
+   unsigned period; // &gt; 0
+   StrLen first;
+   StrLen next;
+   StrLen line;
+
+  public:
+
+   PrintPeriod(unsigned period_,StrLen first_,StrLen next_,StrLen line_) : period(period_),first(first_),next(next_),line(line_) {}
+
+   void reset() { flag=true; }
+
+   StrLen end(StrLen non_empty,StrLen empty) const { return flag?empty:non_empty; }
+
+   // print object
+
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+This class has four parameters: <b>period</b>, <b>first</b>, <b>next</b> and <b>line</b>.
+The printout is: <b>first</b> <b>next</b> ... <b>next</b> ( <b>line</b> <b>next</b> ... <b>next</b> ) ...
+The length of the line is <b>period</b>. I.e. from <b>first</b> to <b>line</b> and from <b>line</b> to next <b>line</b> 
+there are exact <b>period-1</b> <b>next</b>s.
+</p>
+
+<p>
+The method <b>end()</b> selects from two string: <b>non_empty</b> and <b>empty</b>. 
+The <b>empty</b> is selected iff the object has not been printed yet.
+</p>
+
+</body>
+
+</html>
+

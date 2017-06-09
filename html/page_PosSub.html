@@ -1,0 +1,125 @@
+<!--
+/* page_PosSub.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PosSub</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PosSub</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/PosSub.h</b> <b>CCore/src/gadget/PosSub.cpp</b></p>
+
+<p>
+<b>PosSub()</b> is a function, performing the positive subtraction: 
+</p>
+
+<pre>
+
+// pseudocode
+
+if( a>=b ) PosSub(a,b) == a-b ; 
+
+if( a&lt;b ) PosSub(a,b) == 0 ; 
+
+</pre>
+
+<pre>
+
+template &lt;UIntType UInt,UIntType ... Args&gt;
+constexpr PosSubResult&lt;UInt&gt; <span class="Att">PosSub</span>(UInt value,Args ... args);
+
+</pre>
+
+<p>
+<b>PosSub()</b> accepts any number of <b>UIntType</b> arguments, value type is determined from the first one.
+Extra arguments are subtracted one by one from the first one.
+</p>
+
+<p>
+The resulting type encodes both the result and the no-underflow flag, it can be implicitly converted to the result.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+struct <span class="Att">PosSubResult</span>
+ {
+  UInt value;
+  bool ok;
+  
+  constexpr operator UInt() const { return value; }
+
+  ....
+ };
+
+</pre>
+
+<p>
+Some examples:
+</p>
+
+<pre>
+
+ulen len=PosSub(total_len,prefix1,prefix2);
+
+</pre>
+
+<pre>
+
+auto len=PosSub(total_len,prefix1,prefix2);
+
+if( len.ok )
+  {
+   // do job
+  }
+else
+  {
+   // handle failure
+  }
+
+</pre>
+
+<p>
+All involved functions and methods are <b>constexpr</b>.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt,UIntType ... Args&gt;
+constexpr bool <span class="Att">Enough</span>(UInt value,Args ... args)
+ {
+  return PosSub(value,args...).ok;
+ }
+
+</pre>
+
+<p>
+The function <b>Enough()</b> can be used to check if the <b>value</b> is greater of equal the sum of the other arguments. 
+It calls <b>PosSub()</b> and skips the result, only the non-overflow flag is returned.
+</p>
+
+</body>
+
+</html>
+

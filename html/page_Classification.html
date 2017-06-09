@@ -1,0 +1,801 @@
+<!--
+/* page_Classification.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Classification</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Classification</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/Classification.h</b> <b>CCore/src/gadget/Classification.cpp</b></p>
+
+<p>
+This file provides a variety of widely-used concepts in <b>CCore</b>.
+</p>
+
+<h3>Simple concepts</h3>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">AnyType</span> = true ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">NoType</span> = false ;
+
+</pre>
+
+<p>
+<b>AnyType</b> covers any type.
+</p>
+
+<p>
+<b>NoType</b> covers no type.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">UIntType</span> = Meta::IsUInt&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">SIntType</span> = Meta::IsSInt&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">S2sIntType</span> = SIntType&lt;T&gt; && Is2sComplementArithmetic ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">SUIntType</span> = SIntType&lt;T&gt; || UIntType&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>UIntType</b> covers unsigned integral types, i.e. types with <b>Meta::IsUInt&lt;T&gt; == true</b>.
+</p>
+
+<p>
+<b>SIntType</b> covers signed integral types, i.e. types with <b>Meta::IsSInt&lt;T&gt; == true</b>.
+</p>
+
+<p>
+<b>S2sIntType</b> is a subset of <b>SIntType</b> with 2s complemet arithmetic.
+</p>
+
+<p>
+<b>SUIntType</b> is the union of the <b>UIntType</b> and <b>SIntType</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">VoidType</span> = Meta::OneOf&lt;T,void,const void&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">ConstCharType</span> = Meta::OneOf&lt;T,const char,const unsigned char&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">CharType</span> = ConstCharType&lt;T&gt; || Meta::OneOf&lt;T,char,unsigned char&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">ULenType</span> = Meta::IsSame&lt;T,ulen&gt; ;
+
+template &lt;class T,class S&gt;
+concept bool <span class="Att">IsType</span> = Meta::IsSame&lt;T,S&gt; ;
+
+template &lt;class T,class ... TT&gt;
+concept bool <span class="Att">OneOfTypes</span> = Meta::OneOf&lt;T,TT...&gt; ;
+
+template &lt;class T,class S&gt;
+concept bool <span class="Att">IsDerivedFrom</span> = Meta::IsBaseOf&lt;S,T&gt; ;
+
+</pre>
+
+<p>
+<b>VoidType</b> covers <b>void</b> and <b>const void</b>.
+</p>
+
+<p>
+<b>ConstCharType</b> covers <b>const char</b> and <b>const unsigned char</b>.
+</p>
+
+<p>
+<b>CharType</b> covers <b>char</b> , <b>unsigned char</b> , <b>const char</b> and <b>const unsigned char</b>. <b>ConstCharType</b> => <b>CharType</b>. 
+</p>
+
+<p>
+<b>ULenType</b> covers the type <b>ulen</b>.
+</p>
+
+<p>
+<b>IsType&lt;S&gt;</b> covers the type <b>S</b>.
+</p>
+
+<p>
+<b>OneOfTypes&lt;T<sub>1</sub>,...,T<sub>n</sub>&gt;</b> covers types <b>T<sub>1</sub>,...,T<sub>n</sub></b>.
+</p>
+
+<p>
+<b>IsDerivedFrom&lt;S&gt;</b> covers types, derived from <b>S</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">EnumType</span> = Meta::IsEnum&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">ClassType</span> = Meta::IsClass&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">PODType</span> = Meta::IsPOD&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>EnumType</b> covers enums.
+</p>
+
+<p>
+<b>ClassType</b> covers classes.
+</p>
+
+<p>
+<b>PODType</b> covers POD types.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">NothrowDtorType</span> = Meta::HasNothrowDtor&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">TrivDtorType</span> = NothrowDtorType&lt;T&gt; && Meta::HasTrivDtor&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>NothrowDtorType</b> covers types with nothrow destructor.
+</p>
+
+<p>
+<b>TrivDtorType</b> covers types with trivial destructor. <b>TrivDtorType</b> => <b>NothrowDtorType</b>
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">DefaultCtorType</span> = Meta::HasDefaultCtor&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">NothrowDefaultCtorType</span> = DefaultCtorType&lt;T&gt; && Meta::HasNothrowDefaultCtor&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">MoveCtorType</span> = Meta::HasMoveCtor&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">CopyCtorType</span> = Meta::HasCopyCtor&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">NothrowCopyCtorType</span> = CopyCtorType&lt;T&gt; && Meta::HasNothrowCopyCtor&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>DefaultCtorType</b> covers types with default constructor.
+</p>
+
+<p>
+<b>NothrowDefaultCtorType</b> covers types with nothrow default constructor. <b>NothrowDefaultCtorType</b> => <b>DefaultCtorType</b>.
+</p>
+
+<p>
+<b>MoveCtorType</b> covers types with move constructor.
+</p>
+
+<p>
+<b>CopyCtorType</b> covers types with copy constructor.
+</p>
+
+<p>
+<b>NothrowCopyCtorType</b> covers types with nothrow copy constructor. <b>NothrowCopyCtorType</b> => <b>CopyCtorType</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+concept bool <span class="Att">MovableType</span> = Meta::IsMovable&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">CopyableType</span> = Meta::IsCopyable&lt;T&gt; ;
+
+template &lt;class T&gt;
+concept bool <span class="Att">NothrowCopyableType</span> = CopyableType&lt;T&gt; && Meta::IsNothrowCopyable&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>MovableType</b> covers movable types.
+</p>
+
+<p>
+<b>CopyableType</b> covers copyable types.
+</p>
+
+<p>
+<b>NothrowCopyableType</b> covers nothrow copyable types. <b>NothrowCopyableType</b> => <b>CopyableType</b>.
+</p>
+
+<h3>Complex concepts</h3>
+
+<pre>
+
+/* concept ConstructibleType&lt;T,SS&gt; */
+
+template &lt;class T,class ... SS&gt;
+concept bool <span class="Att">ConstructibleType</span> = requires(SS &amp;&amp; ... ss) { T( std::forward&lt;SS&gt;(ss)... ); } ;
+
+/* concept FuncArgType&lt;Func,AA&gt; */
+
+template &lt;class Func,class ... AA&gt;
+concept bool <span class="Att">FuncArgType</span> = requires(Func func,AA &amp;&amp; ... aa) { func( std::forward&lt;AA&gt;(aa)... ); } ;
+
+/* concept FuncType&lt;Func,R,AA&gt; */
+
+template &lt;class Func,class R,class ... AA&gt;
+concept bool <span class="Att">FuncType</span> = FuncArgType&lt;Func,AA...&gt; && requires(Func func,AA &amp;&amp; ... aa) { { func( std::forward&lt;AA&gt;(aa)... ) } -&gt; R ; } ;
+
+</pre>
+
+<p>
+<b>ConstructibleType&lt;T,S<sub>1</sub>,...,S<sub>n</sub>&gt;</b> is satisfied for the type <b>T</b>, constructible with the argument list <b>S<sub>1</sub>,...,S<sub>n</sub></b>.
+</p>
+
+<p>
+<b>FuncArgType&lt;Func,A<sub>1</sub>,...,A<sub>n</sub>&gt;</b> is satisfied for the functor type <b>Func</b>, callable with the argument list <b>A<sub>1</sub>,...,A<sub>n</sub></b>.
+</p>
+
+<p>
+<b>FuncType&lt;Func,R,A<sub>1</sub>,...,A<sub>n</sub>&gt;</b> is satisfied for the functor type <b>Func</b>, 
+callable with the argument list <b>A<sub>1</sub>,...,A<sub>n</sub></b> and with the result type, implicitly converted to the <b>R</b>. 
+<b>FuncType&lt;Func,R,A<sub>1</sub>,...,A<sub>n</sub>&gt;</b> => <b>FuncArgType&lt;Func,A<sub>1</sub>,...,A<sub>n</sub>&gt;</b>.
+</p>
+
+<pre>
+
+/* concept OpLessType&lt;T&gt; */
+
+template &lt;class T&gt; // ref extended
+concept bool <span class="Att">OpLessType</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b) { { a &lt; b } -&gt; bool ; } ;
+
+/* concept OpEqualType&lt;T&gt; */
+
+template &lt;class T&gt; // ref extended
+concept bool <span class="Att">OpEqualType</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b) { { a == b } -&gt; bool ; } ;
+
+/* concept OpNotEqualType&lt;T&gt; */
+
+template &lt;class T&gt; // ref extended
+concept bool <span class="Att">OpNotEqualType</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b) { { a != b } -&gt; bool ; } ;
+
+/* concept OpCmpType&lt;T&gt; */
+
+template &lt;class T&gt; // ref extended
+concept bool <span class="Att">OpCmpType</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b)
+ {
+  { a &lt;  b } -&gt; bool ;
+  { a &lt;= b } -&gt; bool ;
+  { a &gt;  b } -&gt; bool ;
+  { a &gt;= b } -&gt; bool ;
+  { a == b } -&gt; bool ;
+  { a != b } -&gt; bool ;
+ } ;
+
+</pre>
+
+<p>
+<b>OpLessType</b> covers types, comparable by the <b><</b>.
+</p>
+
+<p>
+<b>OpEqualType</b> covers types, comparable by the <b>==</b>.
+</p>
+
+<p>
+<b>OpNotEqualType</b> covers types, comparable by the <b>!=</b>.
+</p>
+
+<p>
+<b>OpCmpType</b> covers types, comparable by the all comparison operators.
+</p>
+
+<pre>
+
+/* concept OpLessTypes&lt;T,S&gt; */
+
+template &lt;class T,class S&gt; // ref extended
+concept bool <span class="Att">OpLessTypes</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;S&gt; &amp;b) { { a &lt; b } -&gt; bool ; } ;
+
+/* concept OpLessEqualTypes&lt;T,S&gt; */
+
+template &lt;class T,class S&gt; // ref extended
+concept bool <span class="Att">OpLessEqualTypes</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;S&gt; &amp;b) { { a &lt;= b } -&gt; bool ; } ;
+
+/* concept OpGreaterTypes&lt;T,S&gt; */
+
+template &lt;class T,class S&gt; // ref extended
+concept bool <span class="Att">OpGreaterTypes</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;S&gt; &amp;b) { { a &gt; b } -&gt; bool ; } ;
+
+/* concept OpGreaterEqualTypes&lt;T,S&gt; */
+
+template &lt;class T,class S&gt; // ref extended
+concept bool <span class="Att">OpGreaterEqualTypes</span> = requires(Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;S&gt; &amp;b) { { a &gt;= b } -> bool ; } ;
+
+</pre>
+
+<p>
+<b>OpLessTypes</b> covers couples of types, comparable by the <b><</b>.
+</p>
+
+<p>
+<b>OpLessEqualTypes</b> covers couples of types, comparable by the <b><=</b>.
+</p>
+
+<p>
+<b>OpGreaterTypes</b> covers couples of types, comparable by the <b>></b>.
+</p>
+
+<p>
+<b>OpGreaterEqualTypes</b> covers couples of types, comparable by the <b>>=</b>.
+</p>
+
+<pre>
+
+/* concept NullableType&lt;T&gt; */
+
+template &lt;NothrowDefaultCtorType T&gt; // ref extended
+concept bool <span class="Att">NullableType</span> = requires(Meta::ToConst&lt;T&gt; &amp;cobj)
+ {
+  { +cobj } -&gt; bool ;
+
+  { !cobj } -&gt; bool ;
+ } ;
+
+</pre>
+
+<p>
+<b>NullableType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   C() noexcept;
+
+   boolable operator + () const;
+
+   boolable operator ! () const;
+ };
+
+</pre>
+
+<p>
+<b>NullableType</b> => <b>NothrowDefaultCtorType</b>.
+</p>
+
+<pre>
+
+/* concept IndirectOverType&lt;P,T&gt; */
+
+template &lt;class P,class T&gt; // P ref extended
+concept bool <span class="Att">IndirectOverType</span> = requires(Meta::ToConst&lt;P&gt; &amp;cobj)
+ {
+  { *cobj } -&gt; T ;
+ } ;
+
+/* concept IndirectCastType&lt;P,T&gt; */
+
+template &lt;class P,class T&gt; // P ref extended
+concept bool <span class="Att">IndirectCastType</span> = requires(Meta::ToConst&lt;P&gt; &amp;cobj)
+ {
+  T(*cobj);
+ } ;
+
+</pre>
+
+<p>
+<b>IndirectOverType&lt;T&gt;</b> covers dereferencable types with result, implicitly converted to the type <b>T</b>.
+</p>
+
+<p>
+<b>IndirectCastType&lt;T&gt;</b> covers dereferencable types with result, casted to the type <b>T</b>.
+</p>
+
+<pre>
+
+/* concept RangeAccessType&lt;T&gt; */
+
+template &lt;class T,class T1,class T2&gt; requires ( Meta::IsSame&lt;T1,T2&gt; &amp;&amp; Meta::OneOf&lt;T1,T,const T&gt; )
+void RangeAccessHelper(T *,T1 *,T2 *,ULenType) {}
+
+template &lt;class T&gt; // ref extended
+concept bool <span class="Att">RangeAccessType</span> = requires(T &amp;obj,Meta::ToConst&lt;T&gt; &amp;cobj)
+ {
+  RangeAccessHelper(obj.getPtr(),cobj.getPtr_const(),cobj.getPtr(),cobj.getLen());
+ } ;
+
+</pre>
+
+<p>
+<b>RangeAccessType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   T * getPtr();
+
+   CT * getPtr() const;
+
+   const CT * getPtr_const() const; // CT == T OR const T
+
+   ulen getLen() const;
+ };
+
+</pre>
+
+<pre>
+
+/* concept CursorType&lt;R&gt; */
+
+template &lt;NothrowCopyableType R&gt;
+concept bool <span class="Att">CursorType</span> = NullableType&lt;R&gt; &amp;&amp; requires(R &amp;obj,Meta::ToConst&lt;R&gt; &amp;cobj)
+ {
+  *cobj;
+
+  cobj.operator -&gt; () ;
+
+  ++obj;
+ } ;
+
+/* concept CursorOverType&lt;R,T&gt; */
+
+template &lt;CursorType R,class T&gt;
+concept bool <span class="Att">CursorOverType</span> = IndirectOverType&lt;R,T&gt; ;
+
+/* concept CursorCastType&lt;R,T&gt; */
+
+template &lt;CursorType R,class T&gt;
+concept bool <span class="Att">CursorCastType</span> = IndirectCastType&lt;R,T&gt; ;
+
+</pre>
+
+<p>
+<b>CursorType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   C() noexcept;
+
+   boolable operator + () const;
+
+   boolable operator ! () const;
+
+
+   C(const C &) noexcept;
+
+   ??? operator = (const C &) noexcept;
+
+
+   ??? operator * () const;
+
+   ??? operator -> () const;
+
+   ??? operator ++ ();
+ };
+
+</pre>
+
+<p>
+<b>CursorType</b> => <b>NothrowCopyableType</b> && <b>NullableType</b>.
+</p>
+
+<p>
+<b>CursorOverType&lt;T&gt;</b> is a conjunction of the <b>CursorType</b> and the <b>IndirectOverType&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>CursorCastType&lt;T&gt;</b> is a conjunction of the <b>CursorType</b> and the <b>IndirectCastType&lt;T&gt;</b>.
+</p>
+
+<pre>
+
+/* concept RecursorType&lt;R&gt; */
+
+template &lt;NothrowCopyableType R&gt;
+concept bool <span class="Att">RecursorType</span> = NullableType&lt;R&gt; &amp;&amp; requires(Meta::ToConst&lt;R&gt; &amp;cobj)
+ {
+  *cobj;
+
+  cobj.operator -&gt; () ;
+
+  { cobj.prev() } -&gt; R ;
+
+  { cobj.next() } -&gt; R ;
+ } ;
+
+/* concept RecursorOverType&lt;R,T&gt; */
+
+template &lt;RecursorType R,class T&gt;
+concept bool <span class="Att">RecursorOverType</span> = IndirectOverType&lt;R,T&gt; ;
+
+/* concept RecursorOverType&lt;R,T&gt; */
+
+template &lt;RecursorType R,class T&gt;
+concept bool <span class="Att">RecursorCastType</span> = IndirectCastType&lt;R,T&gt; ;
+
+</pre>
+
+<p>
+<b>RecursorType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   C() noexcept;
+
+   boolable operator + () const;
+
+   boolable operator ! () const;
+
+
+   C(const C &) noexcept;
+
+   ??? operator = (const C &) noexcept;
+
+
+   ??? operator * () const;
+
+   ??? operator -> () const;
+
+   C prev() const;
+
+   C next() const;
+ };
+
+</pre>
+
+<p>
+<b>RecursorOverType&lt;T&gt;</b> is a conjunction of the <b>RecursorType</b> and the <b>IndirectOverType&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>RecursorCastType&lt;T&gt;</b> is a conjunction of the <b>RecursorType</b> and the <b>IndirectCastType&lt;T&gt;</b>.
+</p>
+
+<pre>
+
+/* concept RanType&lt;Ran&gt; */
+
+template &lt;NothrowCopyableType Ran&gt;
+concept bool <span class="Att">RanType</span> = NothrowDefaultCtorType&lt;Ran&gt; &amp;&amp; OpCmpType&lt;Ran&gt; &amp;&amp; requires(Ran ptr,ulen len)
+ {
+  *ptr;
+
+  ptr++;
+  ptr--;
+
+  ++ptr;
+  --ptr;
+
+  { ptr+len } -&gt; Ran ;
+
+  ptr+=len;
+
+  { ptr-len } -&gt; Ran ;
+
+  ptr-=len;
+
+  { ptr-ptr } -&gt; ulen ;
+
+  ptr[len];
+ } ;
+
+</pre>
+
+<p>
+<b>RanType</b> is a "pointer kind" type. It has a bunch of methods to be dealt with.
+</p>
+
+<p>
+<b>RanType</b> => <b>NothrowCopyableType</b>
+</p>
+<p>
+<b>RanType</b> => <b>NothrowDefaultCtorType</b>
+</p>
+<p>
+<b>RanType</b> => <b>OpCmpType</b>
+</p>
+
+<pre>
+
+/* concept ToOpNotEqualFuncType&lt;Func,T&gt; */
+
+template &lt;class Func,class T&gt;
+concept bool <span class="Att">ToOpNotEqualFuncType</span> = requires(Func func,Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b)
+ {
+  { func(a)!=func(b) } -&gt; bool ;
+ } ;
+
+/* concept ToOpLessFuncType&lt;Func,T&gt; */
+
+template &lt;class Func,class T&gt;
+concept bool <span class="Att">ToOpLessFuncType</span> = requires(Func func,Meta::ToConst&lt;T&gt; &amp;a,Meta::ToConst&lt;T&gt; &amp;b)
+ {
+  { func(a)&lt;func(b) } -&gt; bool ;
+ } ;
+
+/* concept PtrToOpLessFuncType&lt;Func,Ptr&gt; */
+
+template &lt;class Func,class Ptr&gt;
+concept bool <span class="Att">PtrToOpLessFuncType</span> = ToOpLessFuncType&lt;Func,Meta::PtrObjType&lt;Ptr&gt; &gt; ;
+
+</pre>
+
+<p>
+<b>ToOpNotEqualFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator !=</b>.
+</p>
+
+<p>
+<b>ToOpLessFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator <</b>.
+</p>
+
+<p>
+<b>PtrToOpLessFuncType&lt;Ptr&gt;</b> covers functors with arguments <b>const T &</b>, where <b>T</b> is <b>*Ptr</b>, and with return value, comparable with the <b>operator <</b>.
+</p>
+
+<pre>
+
+/* concept PrinterType&lt;P&gt; */
+
+template &lt;class P&gt;
+concept bool <span class="Att">PrinterType</span> = requires(P &amp;out,char ch,ulen len,const char *str)
+ {
+  typename P::PrintOutType;
+
+  { out.printRef() } -&gt; typename P::PrintOutType ;
+
+  out.put(ch);
+
+  out.put(ch,len);
+
+  out.put(str,len);
+
+  out.flush();
+ } ;
+
+</pre>
+
+<p>
+<b>PrinterType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   using PrintOutType = ??? ;
+
+   PrintOutType printRef();
+
+   void put(char ch);
+
+   void put(char ch,ulen count);
+
+   void put(const char *str,ulen len);
+
+   void flush();
+ };
+
+</pre>
+
+<pre>
+
+/* concept ScannerType&lt;S&gt; */
+
+template &lt;class S&gt;
+concept bool <span class="Att">ScannerType</span> = requires(S &amp;obj,const S &amp;cobj)
+ {
+  typename S::ScanInpType;
+
+  { obj.scanRef() } -&gt; typename S::ScanInpType ;
+
+  { +cobj } -&gt; bool ;
+
+  { !cobj } -&gt; bool ;
+
+  { *cobj } -&gt; char ;
+
+  ++obj;
+
+  { cobj.isOk() } -&gt; bool ;
+
+  { cobj.isFailed() } -&gt; bool ;
+
+  obj.fail();
+ } ;
+
+</pre>
+
+<p>
+<b>ScannerType</b> has the model
+</p>
+
+<pre>
+
+class C
+ {
+  public:
+
+   using ScanInpType = ??? ;
+
+   ScanInpType scanRef();
+
+   boolable operator + () const;
+
+   boolable operator ! () const;
+
+   char operator * () const;
+
+   void operator ++ ();
+
+   boolable isOk() const;
+
+   boolable isFailed() const;
+
+   void fail();
+ };
+
+</pre>
+
+</body>
+
+</html>
+

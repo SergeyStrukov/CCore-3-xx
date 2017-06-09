@@ -1,0 +1,614 @@
+<!--
+/* page_Meta.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Meta</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Meta</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/Meta.h</b> <b>CCore/src/gadget/Meta.cpp</b></p>
+
+<p>
+The namespace <b>Meta</b> contains a collection of meta-tools widely-used in <b>CCore</b>. 
+They are enclosed in the namespace <b>Meta</b>.
+</p>
+
+<h3>Const</h3>
+
+<pre>
+
+template &lt;class T,T Val&gt; inline constexpr T <span class="Att">Const</span> = Val ;
+
+</pre>
+
+<p>
+This is a general <b>Meta-constant</b> with the given type and value.
+</p>
+
+<h3>Empty</h3>
+
+<pre>
+
+struct <span class="Att">Empty</span>
+ {
+ };
+
+</pre>
+
+<p>
+<b>Empty</b> is an empty <b>Meta-class</b>. It is used to return an empty result from <b>Meta-function</b>s.
+</p>
+
+<h3>EmptyBox</h3>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">EmptyBox</span>
+ {
+ };
+
+</pre>
+
+<p>
+<b>EmptyBox</b> is an utility for meta-calculations. It is empty. 
+</p>
+
+<h3>TypeBox</h3>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">TypeBox</span>
+ {
+  using Type = T ;
+
+  static T Get();
+ };
+
+</pre>
+
+<p>
+<b>TypeBox</b> is used to "box" the given type. It also can be used in meta-calculations to get a value of the type.
+</p>
+
+<h3>DefType</h3>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">DefType</span>
+ {
+  using Ret = T ;
+ };
+
+</pre>
+
+<p>
+<b>DefType</b> is a <b>Meta-function</b>, it returns the given type as the result.
+</p>
+
+<h3>DefConst</h3>
+
+<pre>
+
+template &lt;class T,T Val&gt;
+struct <span class="Att">DefConst</span>
+ {
+  static constexpr T Ret = Val ;
+ };
+
+</pre>
+
+<p>
+<b>DefConst</b> is a <b>Meta-function</b>, it returns the given constant as the result.
+</p>
+
+<h3>ToConst</h3>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">ToConst</span> = .... ;
+
+ToConst&lt;T&gt; == const T
+
+ToConst&lt;T &&gt; == const T &
+
+</pre>
+
+<p>
+<b>ToConst</b> is a <b>Meta-type</b>. It makes the constant type from the given type with respect to references. 
+</p>
+
+<h3>Select</h3>
+
+<pre>
+
+template &lt;bool Cond,class T1,class T2&gt;
+using <span class="Att">Select</span> = .... ;
+
+Select&lt;true,T1,T2&gt; == T1
+
+Select&lt;false,T1,T2&gt; == T2
+
+</pre>
+
+<p>
+<b>Select</b> is a <b>Meta-type</b>. It is used to select a type from two types. 
+If <b>Cond</b> is <b>true</b>, then the first type is selected, otherwise the second.
+</p>
+
+<h3>IsSame</h3>
+
+<pre>
+
+template &lt;class T1,class T2&gt;
+inline constexpr bool <span class="Att">IsSame</span> = .... ;
+
+</pre>
+
+<p>
+<b>IsSame</b> is a <b>Meta-constant</b>. It equals <b>true</b> iff both arguments are the same.
+</p>
+
+<h3>OneOf</h3>
+
+<pre>
+
+template &lt;class T,class ... TT&gt;
+inline constexpr bool <span class="Att">OneOf</span> = .... ;
+
+</pre>
+
+<p>
+<b>OneOf</b> is a <b>Meta-constant</b>. It equals <b>true</b> iff the first argument <b>T</b> 
+belongs to the following type list <b>TT</b>.
+</p>
+
+<h3>IsUInt</h3>
+
+<pre>
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsUInt</span> = .... ;
+
+</pre>
+
+<p>
+<b>IsUInt</b> is a <b>Meta-constant</b>. It equals <b>true</b> iff the argument is an unsigned integral type. The following types
+are unsigned integral types: <b>unsignd char</b>, <b>unsigned short</b>, <b>unsigned int</b>, 
+<b>unsigned long</b>, <b>unsigned long long</b>. The type <b>char</b> is an unsigned integral type iff it is unsigned.
+Some other types can be also considered as unsigned integral types, it is controlled by the target through the target header
+<b>PlatformBase.h</b> (<a href="#Target">see below</a>).
+</p>
+
+<h3>UIntBits</h3>
+
+<pre>
+
+template &lt;class T&gt;
+inline constexpr unsigned <span class="Att">UIntBits</span> = .... ;
+
+</pre>
+
+<p>
+<b>UIntBits</b> is a <b>Meta-constant</b>. It's defined for unsigned integral types (i.e. for types <b>T</b> with <b>IsUInt&lt;T&gt;</b> equals <b>true</b>) 
+and equals the number of bits of the argument.
+</p>
+
+<h3>HexWidth</h3>
+
+<pre>
+
+template &lt;class UInt&gt;
+inline constexpr unsigned <span class="Att">HexWidth</span> = (UIntBits&lt;UInt&gt; +3)/4 ;
+
+</pre>
+
+<p>
+<b>HexWidth</b> is a <b>Meta-constant</b>. It's defined for unsigned integral types (i.e. for types <b>T</b> with <b>IsUInt&lt;T&gt;</b> equals <b>true</b>)
+and equals the number of hex digits required to represent a type value.
+</p>
+
+<h3>IsSInt</h3>
+
+<pre>
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsSInt</span> = .... ;
+
+</pre>
+
+<p>
+<b>IsSInt</b> is a <b>Meta-constant</b>. It equals <b>true</b> iff the argument is an signed integral type. The following types
+are signed integral types: <b>signd char</b>, <b>signed short</b>, <b>signed int</b>, 
+<b>signed long</b>, <b>signed long long</b>. The type <b>char</b> is a signed integral type iff it is signed.
+Some other types can be also considered as signed integral types, it is controlled by the target through the target header
+<b>PlatformBase.h</b> (<a href="#Target">see below</a>).
+</p>
+
+<h3>IsSUInt</h3>
+
+<pre>
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsSUInt</span> = IsSInt&lt;T&gt; || IsUInt&lt;T&gt; ;
+
+</pre>
+
+<p>
+<b>IsSUInt</b> is a <b>Meta-constant</b>. It equals <b>true</b> iff the argument is a signed or an unsigned integral type.
+</p>
+
+<h3>UnRef</h3>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">UnRef</span> = typename std::remove_reference&lt;T&gt;::type ;
+
+</pre>
+
+<p>
+<b>UnRef</b> is a <b>Meta-type</b>. It removes the reference qualifier from the argument type.
+</p>
+
+<h3>UnConst</h3>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">UnConst</span> = typename std::remove_const&lt;T&gt;::type ;
+
+</pre>
+
+<p>
+<b>UnConst</b> is a <b>Meta-type</b>. It removes the constant qualifier from the argument type.
+</p>
+
+<h3>PtrObjType</h3>
+
+<pre>
+
+template &lt;class Ptr&gt;
+using <span class="Att">PtrObjType</span> = .... ;
+
+PtrObjType&lt;T *&gt; == T
+
+PtrObjType&lt;Ptr&gt; == typeof ( *Ptr )
+
+</pre>
+
+<p>
+<b>PtrObjType</b> is a <b>Meta-type</b>. It should be applied to pointer kind types to retrieve the type of pointee objects.
+For example, if <b>R</b> is <b>PtrLen&lt;T&gt;</b>, then <b>PtrObjType&lt;R&gt;</b> is <b>T</b>. 
+</p>
+
+<h3>CommonType</h3>
+
+<pre>
+
+template &lt;class S,class T&gt;
+using <span class="Att">CommonType</span> = .... ;
+
+</pre>
+
+<p>
+<b>CommonType</b> is a <b>Meta-type</b>. It is defined iff <b>T</b> equals <b>S</b> and is <b>T</b> in this case.
+</p>
+
+<h3>AlignedStorage</h3>
+
+<pre>
+
+template &lt;ulen Len&gt;
+using <span class="Att">AlignedStorage</span> = typename std::aligned_storage&lt;Len&gt;::type ;
+
+</pre>
+
+<p>
+<b>AlignedStorage</b> is a <b>Meta-type</b>. It is a POD type. 
+An object of this type can be used as an aligned storage of required length.
+</p>
+
+<h3>SIntToUInt</h3>
+
+<pre>
+
+template &lt;class SInt&gt;
+struct <span class="Att">SIntToUInt</span>
+ {
+  using SType = .... ; // SInt or equivalent signed type
+  using UType = .... ; // unsigned SType
+ };
+
+</pre>
+
+<p>
+<b>SIntToUInt</b> is a <b>Meta-function</b>. It is applied to signed integral types and returns as the result two types:
+<b>SType</b> &mdash; the original type (or equivalent) and <b>UType</b> &mdash; the correspondent unsigned type.
+The implementation is supported by the target (<a href="#Target">see below</a>).
+</p>
+
+<h3>PromoteUInt</h3>
+
+<pre>
+
+template &lt;class UInt&gt;
+struct <span class="Att">PromoteUInt</span>
+ {
+  using Type = .... ; // promoted UInt type
+ };
+
+</pre>
+
+<p>
+<b>PromoteUInt</b> is a <b>Meta-function</b>. It is applied to unsigned integral types and returns as the result a type:
+<b>Type</b> is a "promoted" type for the <b>UInt</b>. I.e. it is the same or greater type and the promoted type is greater or
+equals than <b>unsigned</b>.
+The implementation is supported by the target (<a href="#Target">see below</a>).
+</p>
+
+<h3>PromoteSInt</h3>
+
+<pre>
+
+template &lt;class SInt&gt;
+struct <span class="Att">PromoteSInt</span>
+ {
+  using SType = .... ; // promoted SInt type
+  using UType = .... ; // unsigned SType
+ };
+
+</pre>
+
+<p>
+<b>PromoteSInt</b> is a <b>Meta-function</b>. It is applied to unsigned integral types and returns as the result two types:
+<b>SType</b> is a "promoted" type for the <b>SInt</b>. I.e. it is the same or greater type and the promoted type is greater or
+equals than <b>int</b>. <b>UType</b> is the correspondent unsigned <b>SType</b> type.
+The implementation is supported by the target (<a href="#Target">see below</a>).
+</p>
+
+<h3>Type properties</h3>
+
+<pre>
+
+/* const IsEnum&lt;E&gt; */
+
+template &lt;class E&gt;
+inline constexpr bool <span class="Att">IsEnum</span> = std::is_enum&lt;E&gt;::value ;
+
+/* const IsClass&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsClass</span> = std::is_class&lt;T&gt;::value ;
+
+/* const IsPOD&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsPOD</span> = std::is_pod&lt;T&gt;::value ;
+
+/* const HasNothrowDtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasNothrowDtor</span> = std::is_nothrow_destructible&lt;T&gt;::value ;
+
+/* const HasTrivDtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasTrivDtor</span> = std::is_trivially_destructible&lt;T&gt;::value ;
+
+/* const HasDefaultCtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasDefaultCtor</span> = std::is_default_constructible&lt;T&gt;::value ;
+
+/* const HasNothrowDefaultCtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasNothrowDefaultCtor</span> = std::is_nothrow_default_constructible&lt;T&gt;::value ;
+
+/* const HasCopyCtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasCopyCtor</span> = std::is_copy_constructible&lt;T&gt;::value ;
+
+/* const HasNothrowCopyCtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasNothrowCopyCtor</span> = std::is_nothrow_copy_constructible&lt;T&gt;::value ;
+
+/* const HasMoveCtor&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">HasMoveCtor</span> = std::is_move_constructible&lt;T&gt;::value ;
+
+/* const IsCopyable&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsCopyable</span> = std::is_copy_constructible&lt;T&gt;::value && std::is_copy_assignable&lt;T&gt;::value ;
+
+/* const IsNothrowCopyable&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsNothrowCopyable</span> = std::is_nothrow_copy_constructible&lt;T&gt;::value && std::is_nothrow_copy_assignable&lt;T&gt;::value ;
+
+/* const IsMovable&lt;T&gt; */
+
+template &lt;class T&gt;
+inline constexpr bool <span class="Att">IsMovable</span> = std::is_move_constructible&lt;T&gt;::value && std::is_move_assignable&lt;T&gt;::value ;
+
+/* const IsBaseOf&lt;B,D&gt; */
+
+template &lt;class B,class D&gt;
+inline constexpr bool <span class="Att">IsBaseOf</span> = std::is_base_of&lt;B,D&gt;::value ;
+
+</pre>
+
+<p>
+This is a whole list of <b>Meta-constant</b>s. They can be used to determine different type properties.
+</p>
+
+<p>
+<b>IsEnum</b> equals <b>true</b> iff the type <b>T</b> is an enum type.
+</p>
+
+<p>
+<b>IsClass</b> equals <b>true</b> iff the type <b>T</b> is a class type.
+</p>
+
+<p>
+<b>IsPOD</b> equals <b>true</b> iff the type <b>T</b> is a POD type.
+</p>
+
+<p>
+<b>HasNothrowDtor</b> equals <b>true</b> iff the type <b>T</b> is nothrow destructible.
+</p>
+
+<p>
+<b>HasTrivDtor</b> equals <b>true</b> iff the type <b>T</b> is trivially destructible.
+</p>
+
+<p>
+<b>HasDefaultCtor</b> equals <b>true</b> iff the type <b>T</b> is default constructible.
+</p>
+
+<p>
+<b>HasNothrowDefaultCtor</b> equals <b>true</b> iff the type <b>T</b> is nothrow default constructible.
+</p>
+
+<p>
+<b>HasCopyCtor</b> equals <b>true</b> iff the type <b>T</b> is copy constructible.
+</p>
+
+<p>
+<b>HasNothrowCopyCtor</b> equals <b>true</b> iff the type <b>T</b> is nothrow copy constructible.
+</p>
+
+<p>
+<b>HasMoveCtor</b> equals <b>true</b> iff the type <b>T</b> is move constructible.
+</p>
+
+<p>
+<b>IsCopyable</b> equals <b>true</b> iff the type <b>T</b> is copy constructible and copy assignable.
+</p>
+
+<p>
+<b>IsNothrowCopyable</b> equals <b>true</b> iff the type <b>T</b> is nothrow copy constructible and nothrow copy assignable.
+</p>
+
+<p>
+<b>IsMovable</b> equals <b>true</b> iff the type <b>T</b> is move constructible and move assignable.
+</p>
+
+<p>
+<b>IsBaseOf</b> equals <b>true</b> iff the type <b>B</b> is a base class of the class <b>D</b>.
+</p>
+
+<a name="Target"><h2>Target support for Meta</h2></a>
+
+<p>
+Target must provide the following entities in the its header file <b>PlatformBase.h</b>.
+</p>
+
+<pre>
+
+namespace CCore {
+
+namespace Bits {
+
+const unsigned unsigned_char      = "bit size of type char" ;
+const unsigned unsigned_short     = "bit size of type short" ;
+const unsigned unsigned_int       = "bit size of type int" ;
+const unsigned unsigned_long      = "bit size of type long" ;
+const unsigned unsigned_long_long = "bit size of type long long" ;
+
+} // namespace Bits
+
+} // namespace CCore
+
+</pre>
+
+<p>
+The following structure is used to extend the list of types, recognized as integral types:
+</p>
+
+<pre>
+
+namespace CCore {
+
+namespace ExtraInt {
+
+template &lt;class T&gt;
+struct Prop 
+ {
+  enum 
+   {
+    IsSigned   = false,
+    IsUnsigned = false
+   };
+ };
+
+template &lt;&gt;
+struct Prop&lt;"extra sint type"&gt;
+ {
+  enum 
+   {
+    IsSigned   = true,
+    IsUnsigned = false,
+   };
+  
+  using SType =   "signed type" ;
+  using UType = "unsigned type" ;
+   
+  using PromoteSType =   "signed promote type" ;
+  using PromoteUType = "unsigned promote type" ; 
+ };
+
+template &lt;&gt; 
+struct Prop&lt;"extra uint type"&gt;
+ {
+  enum 
+   {
+    IsSigned   = false,
+    IsUnsigned = true,
+      
+    Bits = "bit size"
+   };
+  
+  using PromoteUType = "promote type" ; 
+ };
+
+} // namespace ExtraInt
+
+} // namespace CCore
+
+</pre>
+
+</body>
+
+</html>
+

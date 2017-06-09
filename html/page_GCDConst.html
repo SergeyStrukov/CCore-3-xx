@@ -1,0 +1,51 @@
+<!--
+/* page_GCDConst.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> GCDConst</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>GCDConst</h2>
+
+<p class="Files">Files <b>CCore/inc/algon/GCDConst.h</b> <b>CCore/src/algon/GCDConst.cpp</b></p>
+
+<p>
+Here is two <b>Meta-constant</b>s to calculate GCD (great common divisor) and LCM (least common multiple) in the compile-time. Arguments are template parameters
+of some unsigned integral type. 
+</p>
+
+<pre>
+
+template &lt;UIntType UInt,UInt A,UInt B&gt;
+inline constexpr UInt <span class="Att">Algon::GCDConst</span> = .... ;
+
+template &lt;UIntType UInt,UInt A,UInt B&gt; requires ( A!=0 || B!=0 )
+inline constexpr UInt <span class="Att">Algon::LCMConst</span> = .... ;
+
+</pre>
+
+</body>
+
+</html>
+

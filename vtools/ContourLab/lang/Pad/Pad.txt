@@ -1,0 +1,400 @@
+--- Atoms ----------------------------------------------------------------------
+
+0) A("(")
+1) A(")")
+2) A(",")
+3) A("=")
+4) A("Angle")
+5) A("Length")
+6) A("Name")
+7) A("Number")
+8) A("angle")
+9) A("len")
+10) A("point")
+11) A("ratio")
+
+--- Syntax classes -------------------------------------------------------------
+
+0) DECL !
+  Rule(0)
+  Rule(1)
+  Rule(2)
+  Rule(3)
+  Rule(4)
+  Rule(5)
+  Rule(6)
+  Rule(7)
+  Rule(8)
+  Rule(9)
+
+--- Rules ----------------------------------------------------------------------
+
+0) DECL::point@v1 -> DECL
+  Atom(10,A("point"))  Atom(6,A("Name"))  Atom(0,A("("))  Atom(7,A("Number"))  Atom(2,A(","))  Atom(7,A("Number"))  Atom(1,A(")"))
+1) DECL::point@v2 -> DECL
+  Atom(6,A("Name"))  Atom(0,A("("))  Atom(7,A("Number"))  Atom(2,A(","))  Atom(7,A("Number"))  Atom(1,A(")"))
+2) DECL::length@v1 -> DECL
+  Atom(9,A("len"))  Atom(6,A("Name"))  Atom(3,A("="))  Atom(7,A("Number"))
+3) DECL::length@v2 -> DECL
+  Atom(9,A("len"))  Atom(6,A("Name"))  Atom(3,A("="))  Atom(5,A("Length"))
+4) DECL::length@v3 -> DECL
+  Atom(6,A("Name"))  Atom(3,A("="))  Atom(5,A("Length"))
+5) DECL::angle@v1 -> DECL
+  Atom(8,A("angle"))  Atom(6,A("Name"))  Atom(3,A("="))  Atom(7,A("Number"))
+6) DECL::angle@v2 -> DECL
+  Atom(8,A("angle"))  Atom(6,A("Name"))  Atom(3,A("="))  Atom(4,A("Angle"))
+7) DECL::angle@v3 -> DECL
+  Atom(6,A("Name"))  Atom(3,A("="))  Atom(4,A("Angle"))
+8) DECL::ratio@v1 -> DECL
+  Atom(11,A("ratio"))  Atom(6,A("Name"))  Atom(3,A("="))  Atom(7,A("Number"))
+9) DECL::ratio@v2 -> DECL
+  Atom(6,A("Name"))  Atom(3,A("="))  Atom(7,A("Number"))
+
+--------------------------------------------------------------------------------
+--- States ---------------------------------------------------------------------
+
+( 0 ; NULL ) = 9
+
+  A("Name") -> ( 1 ; A("Name") )
+
+  A("angle") -> ( 13 ; A("angle") )
+
+  A("len") -> ( 14 ; A("len") )
+
+  A("point") -> ( 12 ; A("point") )
+
+  A("ratio") -> ( 15 ; A("ratio") )
+
+  DECL -> ( 32 ; DECL )
+
+-----
+
+( 1 ; A("Name") ) = 1
+
+  A("(") -> ( 20 ; A("Name") A("(") )
+
+  A("=") -> ( 9 ; A("Name") A("=") )
+
+-----
+
+( 2 ; A("point") A("Name") A("(") A("Number") A(",") A("Number") ) = 2
+
+  A(")") -> ( 22 ; A("point") A("Name") A("(") A("Number") A(",") A("Number") A(")") )
+
+-----
+
+( 3 ; A("Name") A("(") A("Number") A(",") A("Number") ) = 2
+
+  A(")") -> ( 23 ; A("Name") A("(") A("Number") A(",") A("Number") A(")") )
+
+-----
+
+( 4 ; A("point") A("Name") A("(") A("Number") ) = 3
+
+  A(",") -> ( 17 ; A("point") A("Name") A("(") A("Number") A(",") )
+
+-----
+
+( 5 ; A("Name") A("(") A("Number") ) = 3
+
+  A(",") -> ( 18 ; A("Name") A("(") A("Number") A(",") )
+
+-----
+
+( 6 ; A("angle") A("Name") ) = 4
+
+  A("=") -> ( 10 ; A("angle") A("Name") A("=") )
+
+-----
+
+( 7 ; A("len") A("Name") ) = 4
+
+  A("=") -> ( 11 ; A("len") A("Name") A("=") )
+
+-----
+
+( 8 ; A("ratio") A("Name") ) = 4
+
+  A("=") -> ( 21 ; A("ratio") A("Name") A("=") )
+
+-----
+
+( 9 ; A("Name") A("=") ) = 5
+
+  A("Angle") -> ( 29 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 26 ; A("Name") A("=") A("Length") )
+
+  A("Number") -> ( 31 ; A("Name") A("=") A("Number") )
+
+-----
+
+( 10 ; A("angle") A("Name") A("=") ) = 6
+
+  A("Angle") -> ( 28 ; A("angle") A("Name") A("=") A("Angle") )
+
+  A("Number") -> ( 27 ; A("angle") A("Name") A("=") A("Number") )
+
+-----
+
+( 11 ; A("len") A("Name") A("=") ) = 7
+
+  A("Length") -> ( 25 ; A("len") A("Name") A("=") A("Length") )
+
+  A("Number") -> ( 24 ; A("len") A("Name") A("=") A("Number") )
+
+-----
+
+( 12 ; A("point") ) = 8
+
+  A("Name") -> ( 16 ; A("point") A("Name") )
+
+-----
+
+( 13 ; A("angle") ) = 8
+
+  A("Name") -> ( 6 ; A("angle") A("Name") )
+
+-----
+
+( 14 ; A("len") ) = 8
+
+  A("Name") -> ( 7 ; A("len") A("Name") )
+
+-----
+
+( 15 ; A("ratio") ) = 8
+
+  A("Name") -> ( 8 ; A("ratio") A("Name") )
+
+-----
+
+( 16 ; A("point") A("Name") ) = 0
+
+  A("(") -> ( 19 ; A("point") A("Name") A("(") )
+
+-----
+
+( 17 ; A("point") A("Name") A("(") A("Number") A(",") ) = 10
+
+  A("Number") -> ( 2 ; A("point") A("Name") A("(") A("Number") A(",") A("Number") )
+
+-----
+
+( 18 ; A("Name") A("(") A("Number") A(",") ) = 10
+
+  A("Number") -> ( 3 ; A("Name") A("(") A("Number") A(",") A("Number") )
+
+-----
+
+( 19 ; A("point") A("Name") A("(") ) = 10
+
+  A("Number") -> ( 4 ; A("point") A("Name") A("(") A("Number") )
+
+-----
+
+( 20 ; A("Name") A("(") ) = 10
+
+  A("Number") -> ( 5 ; A("Name") A("(") A("Number") )
+
+-----
+
+( 21 ; A("ratio") A("Name") A("=") ) = 10
+
+  A("Number") -> ( 30 ; A("ratio") A("Name") A("=") A("Number") )
+
+-----
+
+( 22 ; A("point") A("Name") A("(") A("Number") A(",") A("Number") A(")") ) = 11
+
+-----
+
+( 23 ; A("Name") A("(") A("Number") A(",") A("Number") A(")") ) = 12
+
+-----
+
+( 24 ; A("len") A("Name") A("=") A("Number") ) = 13
+
+-----
+
+( 25 ; A("len") A("Name") A("=") A("Length") ) = 14
+
+-----
+
+( 26 ; A("Name") A("=") A("Length") ) = 15
+
+-----
+
+( 27 ; A("angle") A("Name") A("=") A("Number") ) = 16
+
+-----
+
+( 28 ; A("angle") A("Name") A("=") A("Angle") ) = 17
+
+-----
+
+( 29 ; A("Name") A("=") A("Angle") ) = 18
+
+-----
+
+( 30 ; A("ratio") A("Name") A("=") A("Number") ) = 19
+
+-----
+
+( 31 ; A("Name") A("=") A("Number") ) = 20
+
+-----
+
+( 32 ; DECL ) = 21
+
+--- Properties -----------------------------------------------------------------
+
+0) 
+
+  A("(") : <-
+
+-----
+
+1) 
+
+  A("(") : <-
+
+  A("=") : <-
+
+-----
+
+2) 
+
+  A(")") : <-
+
+-----
+
+3) 
+
+  A(",") : <-
+
+-----
+
+4) 
+
+  A("=") : <-
+
+-----
+
+5) 
+
+  A("Angle") : <-
+
+  A("Length") : <-
+
+  A("Number") : <-
+
+-----
+
+6) 
+
+  A("Angle") : <-
+
+  A("Number") : <-
+
+-----
+
+7) 
+
+  A("Length") : <-
+
+  A("Number") : <-
+
+-----
+
+8) 
+
+  A("Name") : <-
+
+-----
+
+9) 
+
+  A("Name") : <-
+
+  A("angle") : <-
+
+  A("len") : <-
+
+  A("point") : <-
+
+  A("ratio") : <-
+
+-----
+
+10) 
+
+  A("Number") : <-
+
+-----
+
+11) 
+
+  (End) : @DECL::point@v1
+
+-----
+
+12) 
+
+  (End) : @DECL::point@v2
+
+-----
+
+13) 
+
+  (End) : @DECL::length@v1
+
+-----
+
+14) 
+
+  (End) : @DECL::length@v2
+
+-----
+
+15) 
+
+  (End) : @DECL::length@v3
+
+-----
+
+16) 
+
+  (End) : @DECL::angle@v1
+
+-----
+
+17) 
+
+  (End) : @DECL::angle@v2
+
+-----
+
+18) 
+
+  (End) : @DECL::angle@v3
+
+-----
+
+19) 
+
+  (End) : @DECL::ratio@v1
+
+-----
+
+20) 
+
+  (End) : @DECL::ratio@v2
+
+-----
+
+21) 
+
+  (End) : STOP
+
+--------------------------------------------------------------------------------

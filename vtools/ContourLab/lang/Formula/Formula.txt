@@ -1,0 +1,1738 @@
+--- Atoms ----------------------------------------------------------------------
+
+0) A("(")
+1) A(")")
+2) A("*")
+3) A("+")
+4) A(",")
+5) A("-")
+6) A("/")
+7) A("=")
+8) A("Angle")
+9) A("Length")
+10) A("Name")
+11) A("Number")
+
+--- Syntax classes -------------------------------------------------------------
+
+0) FORMULA !
+  Rule(0)
+1) EXPR { 0) A 1) M 2) U 3) P }
+  Rule(1)
+  Rule(2)
+  Rule(3)
+  Rule(4)
+  Rule(5)
+  Rule(6)
+  Rule(7)
+  Rule(8)
+  Rule(9)
+  Rule(10)
+  Rule(11)
+  Rule(12)
+2) EXPR_LIST { 0) E 1) N }
+  Rule(13)
+  Rule(14)
+  Rule(15)
+
+--- Rules ----------------------------------------------------------------------
+
+0) FORMULA::set -> FORMULA
+  Atom(10,A("Name"))  Atom(7,A("="))  Synt(1,EXPR)
+1) EXPR::add -> EXPR.A if( @2 >= M(1) )
+  Synt(1,EXPR)  Atom(3,A("+"))  Synt(1,EXPR)
+2) EXPR::sub -> EXPR.A if( @2 >= M(1) )
+  Synt(1,EXPR)  Atom(5,A("-"))  Synt(1,EXPR)
+3) EXPR::mul -> EXPR.M if( ( @0 >= M(1) & @2 >= U(2) ) )
+  Synt(1,EXPR)  Atom(2,A("*"))  Synt(1,EXPR)
+4) EXPR::div -> EXPR.M if( ( @0 >= M(1) & @2 >= U(2) ) )
+  Synt(1,EXPR)  Atom(6,A("/"))  Synt(1,EXPR)
+5) EXPR::neg -> EXPR.U if( @1 >= P(3) )
+  Atom(5,A("-"))  Synt(1,EXPR)
+6) EXPR::brace -> EXPR.P
+  Atom(0,A("("))  Synt(1,EXPR)  Atom(1,A(")"))
+7) EXPR::func -> EXPR.P
+  Atom(10,A("Name"))  Atom(0,A("("))  Synt(2,EXPR_LIST)  Atom(1,A(")"))
+8) EXPR::arg -> EXPR.P
+  Atom(10,A("Name"))
+9) EXPR::number -> EXPR.P
+  Atom(11,A("Number"))
+10) EXPR::angle -> EXPR.P
+  Atom(8,A("Angle"))
+11) EXPR::length -> EXPR.P
+  Atom(9,A("Length"))
+12) EXPR::point -> EXPR.P
+  Atom(0,A("("))  Atom(11,A("Number"))  Atom(4,A(","))  Atom(11,A("Number"))  Atom(1,A(")"))
+13) EXPR_LIST::empty -> EXPR_LIST.E
+
+14) EXPR_LIST::one -> EXPR_LIST.N
+  Synt(1,EXPR)
+15) EXPR_LIST::ext -> EXPR_LIST.N if( @0 >= N(1) )
+  Synt(2,EXPR_LIST)  Atom(4,A(","))  Synt(1,EXPR)
+
+--------------------------------------------------------------------------------
+--- States ---------------------------------------------------------------------
+
+( 0 ; NULL ) = 37
+
+  A("Name") -> ( 69 ; A("Name") )
+
+  FORMULA -> ( 88 ; FORMULA )
+
+-----
+
+( 1 ; A("Name") A("=") A("(") A("Name") ) = 1
+
+  A("(") -> ( 3 ; A("Name") A("=") A("(") A("Name") A("(") )
+
+-----
+
+( 2 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") ) = 2
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.A -> ( 51 ; A("Name") A("=") A("Name") A("(") EXPR.A )
+
+  EXPR.M -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.U -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.P -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR_LIST.E -> ( 54 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.E )
+
+  EXPR_LIST.N -> ( 66 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.N )
+
+-----
+
+( 3 ; A("Name") A("=") A("(") A("Name") A("(") ) = 2
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.A -> ( 51 ; A("Name") A("=") A("Name") A("(") EXPR.A )
+
+  EXPR.M -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.U -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.P -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR_LIST.E -> ( 55 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.E )
+
+  EXPR_LIST.N -> ( 67 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.N )
+
+-----
+
+( 4 ; A("Name") A("=") A("Name") A("(") ) = 2
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.A -> ( 51 ; A("Name") A("=") A("Name") A("(") EXPR.A )
+
+  EXPR.M -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.U -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR.P -> ( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M )
+
+  EXPR_LIST.E -> ( 58 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.E )
+
+  EXPR_LIST.N -> ( 68 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N )
+
+-----
+
+( 5 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") ) = 3
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.A -> ( 53 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.A )
+
+  EXPR.M -> ( 52 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.M )
+
+  EXPR.U -> ( 52 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.M )
+
+  EXPR.P -> ( 52 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.M )
+
+-----
+
+( 6 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") ) = 3
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.M -> ( 25 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") EXPR.M )
+
+  EXPR.U -> ( 25 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") EXPR.M )
+
+  EXPR.P -> ( 25 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") EXPR.M )
+
+-----
+
+( 7 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") ) = 3
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.M -> ( 27 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") EXPR.M )
+
+  EXPR.U -> ( 27 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") EXPR.M )
+
+  EXPR.P -> ( 27 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") EXPR.M )
+
+-----
+
+( 8 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") ) = 3
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.U -> ( 29 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") EXPR.U )
+
+  EXPR.P -> ( 29 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") EXPR.U )
+
+-----
+
+( 9 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") ) = 3
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("-") -> ( 22 ; A("Name") A("=") A("Name") A("(") A("-") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.U -> ( 31 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") EXPR.U )
+
+  EXPR.P -> ( 31 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") EXPR.U )
+
+-----
+
+( 10 ; A("Name") A("=") A("Name") A("(") A("(") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 40 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") )
+
+  EXPR.A -> ( 63 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.A )
+
+  EXPR.M -> ( 60 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.M )
+
+  EXPR.U -> ( 60 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.M )
+
+  EXPR.P -> ( 60 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.M )
+
+-----
+
+( 11 ; A("Name") A("=") A("(") A("(") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 41 ; A("Name") A("=") A("(") A("(") A("Number") )
+
+  EXPR.A -> ( 64 ; A("Name") A("=") A("(") A("(") EXPR.A )
+
+  EXPR.M -> ( 61 ; A("Name") A("=") A("(") A("(") EXPR.M )
+
+  EXPR.U -> ( 61 ; A("Name") A("=") A("(") A("(") EXPR.M )
+
+  EXPR.P -> ( 61 ; A("Name") A("=") A("(") A("(") EXPR.M )
+
+-----
+
+( 12 ; A("Name") A("=") A("(") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 42 ; A("Name") A("=") A("(") A("Number") )
+
+  EXPR.A -> ( 65 ; A("Name") A("=") A("(") EXPR.A )
+
+  EXPR.M -> ( 62 ; A("Name") A("=") A("(") EXPR.M )
+
+  EXPR.U -> ( 62 ; A("Name") A("=") A("(") EXPR.M )
+
+  EXPR.P -> ( 62 ; A("Name") A("=") A("(") EXPR.M )
+
+-----
+
+( 13 ; A("Name") A("=") A("(") EXPR.A A("+") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 43 ; A("Name") A("=") A("(") A("-") A("Number") )
+
+  EXPR.M -> ( 26 ; A("Name") A("=") A("(") EXPR.A A("+") EXPR.M )
+
+  EXPR.U -> ( 26 ; A("Name") A("=") A("(") EXPR.A A("+") EXPR.M )
+
+  EXPR.P -> ( 26 ; A("Name") A("=") A("(") EXPR.A A("+") EXPR.M )
+
+-----
+
+( 14 ; A("Name") A("=") A("(") EXPR.A A("-") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 43 ; A("Name") A("=") A("(") A("-") A("Number") )
+
+  EXPR.M -> ( 28 ; A("Name") A("=") A("(") EXPR.A A("-") EXPR.M )
+
+  EXPR.U -> ( 28 ; A("Name") A("=") A("(") EXPR.A A("-") EXPR.M )
+
+  EXPR.P -> ( 28 ; A("Name") A("=") A("(") EXPR.A A("-") EXPR.M )
+
+-----
+
+( 15 ; A("Name") A("=") A("(") EXPR.M A("*") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 43 ; A("Name") A("=") A("(") A("-") A("Number") )
+
+  EXPR.U -> ( 30 ; A("Name") A("=") A("(") EXPR.M A("*") EXPR.U )
+
+  EXPR.P -> ( 30 ; A("Name") A("=") A("(") EXPR.M A("*") EXPR.U )
+
+-----
+
+( 16 ; A("Name") A("=") A("(") EXPR.M A("/") ) = 3
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("-") -> ( 23 ; A("Name") A("=") A("(") A("-") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 43 ; A("Name") A("=") A("(") A("-") A("Number") )
+
+  EXPR.U -> ( 32 ; A("Name") A("=") A("(") EXPR.M A("/") EXPR.U )
+
+  EXPR.P -> ( 32 ; A("Name") A("=") A("(") EXPR.M A("/") EXPR.U )
+
+-----
+
+( 17 ; A("Name") A("=") ) = 3
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("-") -> ( 24 ; A("Name") A("=") A("-") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.A -> ( 75 ; A("Name") A("=") EXPR.A )
+
+  EXPR.M -> ( 74 ; A("Name") A("=") EXPR.M )
+
+  EXPR.U -> ( 74 ; A("Name") A("=") EXPR.M )
+
+  EXPR.P -> ( 74 ; A("Name") A("=") EXPR.M )
+
+-----
+
+( 18 ; A("Name") A("=") EXPR.A A("+") ) = 3
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("-") -> ( 24 ; A("Name") A("=") A("-") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.M -> ( 76 ; A("Name") A("=") EXPR.A A("+") EXPR.M )
+
+  EXPR.U -> ( 76 ; A("Name") A("=") EXPR.A A("+") EXPR.M )
+
+  EXPR.P -> ( 76 ; A("Name") A("=") EXPR.A A("+") EXPR.M )
+
+-----
+
+( 19 ; A("Name") A("=") EXPR.A A("-") ) = 3
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("-") -> ( 24 ; A("Name") A("=") A("-") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.M -> ( 77 ; A("Name") A("=") EXPR.A A("-") EXPR.M )
+
+  EXPR.U -> ( 77 ; A("Name") A("=") EXPR.A A("-") EXPR.M )
+
+  EXPR.P -> ( 77 ; A("Name") A("=") EXPR.A A("-") EXPR.M )
+
+-----
+
+( 20 ; A("Name") A("=") EXPR.M A("*") ) = 3
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("-") -> ( 24 ; A("Name") A("=") A("-") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.U -> ( 78 ; A("Name") A("=") EXPR.M A("*") EXPR.U )
+
+  EXPR.P -> ( 78 ; A("Name") A("=") EXPR.M A("*") EXPR.U )
+
+-----
+
+( 21 ; A("Name") A("=") EXPR.M A("/") ) = 3
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("-") -> ( 24 ; A("Name") A("=") A("-") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.U -> ( 79 ; A("Name") A("=") EXPR.M A("/") EXPR.U )
+
+  EXPR.P -> ( 79 ; A("Name") A("=") EXPR.M A("/") EXPR.U )
+
+-----
+
+( 22 ; A("Name") A("=") A("Name") A("(") A("-") ) = 4
+
+  A("(") -> ( 10 ; A("Name") A("=") A("Name") A("(") A("(") )
+
+  A("Angle") -> ( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") )
+
+  A("Length") -> ( 46 ; A("Name") A("=") A("Name") A("(") A("Length") )
+
+  A("Name") -> ( 70 ; A("Name") A("=") A("Name") A("(") A("Name") )
+
+  A("Number") -> ( 39 ; A("Name") A("=") A("Name") A("(") A("Number") )
+
+  EXPR.P -> ( 33 ; A("Name") A("=") A("Name") A("(") A("-") EXPR.P )
+
+-----
+
+( 23 ; A("Name") A("=") A("(") A("-") ) = 4
+
+  A("(") -> ( 11 ; A("Name") A("=") A("(") A("(") )
+
+  A("Angle") -> ( 45 ; A("Name") A("=") A("(") A("Angle") )
+
+  A("Length") -> ( 47 ; A("Name") A("=") A("(") A("Length") )
+
+  A("Name") -> ( 1 ; A("Name") A("=") A("(") A("Name") )
+
+  A("Number") -> ( 43 ; A("Name") A("=") A("(") A("-") A("Number") )
+
+  EXPR.P -> ( 34 ; A("Name") A("=") A("(") A("-") EXPR.P )
+
+-----
+
+( 24 ; A("Name") A("=") A("-") ) = 4
+
+  A("(") -> ( 12 ; A("Name") A("=") A("(") )
+
+  A("Angle") -> ( 85 ; A("Name") A("=") A("Angle") )
+
+  A("Length") -> ( 86 ; A("Name") A("=") A("Length") )
+
+  A("Name") -> ( 83 ; A("Name") A("=") A("Name") )
+
+  A("Number") -> ( 84 ; A("Name") A("=") A("Number") )
+
+  EXPR.P -> ( 80 ; A("Name") A("=") A("-") EXPR.P )
+
+-----
+
+( 25 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") EXPR.M ) = 5
+
+  A("*") -> ( 8 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") )
+
+  A("/") -> ( 9 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") )
+
+-----
+
+( 26 ; A("Name") A("=") A("(") EXPR.A A("+") EXPR.M ) = 6
+
+  A("*") -> ( 15 ; A("Name") A("=") A("(") EXPR.M A("*") )
+
+  A("/") -> ( 16 ; A("Name") A("=") A("(") EXPR.M A("/") )
+
+-----
+
+( 27 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") EXPR.M ) = 7
+
+  A("*") -> ( 8 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") )
+
+  A("/") -> ( 9 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") )
+
+-----
+
+( 28 ; A("Name") A("=") A("(") EXPR.A A("-") EXPR.M ) = 8
+
+  A("*") -> ( 15 ; A("Name") A("=") A("(") EXPR.M A("*") )
+
+  A("/") -> ( 16 ; A("Name") A("=") A("(") EXPR.M A("/") )
+
+-----
+
+( 29 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") EXPR.U ) = 9
+
+-----
+
+( 30 ; A("Name") A("=") A("(") EXPR.M A("*") EXPR.U ) = 10
+
+-----
+
+( 31 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") EXPR.U ) = 11
+
+-----
+
+( 32 ; A("Name") A("=") A("(") EXPR.M A("/") EXPR.U ) = 12
+
+-----
+
+( 33 ; A("Name") A("=") A("Name") A("(") A("-") EXPR.P ) = 13
+
+-----
+
+( 34 ; A("Name") A("=") A("(") A("-") EXPR.P ) = 14
+
+-----
+
+( 35 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.A A(")") ) = 15
+
+-----
+
+( 36 ; A("Name") A("=") A("(") A("(") EXPR.A A(")") ) = 16
+
+-----
+
+( 37 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.E A(")") ) = 17
+
+-----
+
+( 38 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.E A(")") ) = 18
+
+-----
+
+( 39 ; A("Name") A("=") A("Name") A("(") A("Number") ) = 19
+
+-----
+
+( 40 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") ) = 20
+
+  A(",") -> ( 71 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") )
+
+-----
+
+( 41 ; A("Name") A("=") A("(") A("(") A("Number") ) = 20
+
+  A(",") -> ( 72 ; A("Name") A("=") A("(") A("(") A("Number") A(",") )
+
+-----
+
+( 42 ; A("Name") A("=") A("(") A("Number") ) = 20
+
+  A(",") -> ( 73 ; A("Name") A("=") A("(") A("Number") A(",") )
+
+-----
+
+( 43 ; A("Name") A("=") A("(") A("-") A("Number") ) = 21
+
+-----
+
+( 44 ; A("Name") A("=") A("Name") A("(") A("Angle") ) = 22
+
+-----
+
+( 45 ; A("Name") A("=") A("(") A("Angle") ) = 23
+
+-----
+
+( 46 ; A("Name") A("=") A("Name") A("(") A("Length") ) = 24
+
+-----
+
+( 47 ; A("Name") A("=") A("(") A("Length") ) = 25
+
+-----
+
+( 48 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") A("Number") A(")") ) = 26
+
+-----
+
+( 49 ; A("Name") A("=") A("(") A("(") A("Number") A(",") A("Number") A(")") ) = 27
+
+-----
+
+( 50 ; A("Name") A("=") A("Name") A("(") EXPR.M ) = 28
+
+  A("*") -> ( 8 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") )
+
+  A("+") -> ( 6 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 7 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") )
+
+  A("/") -> ( 9 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") )
+
+-----
+
+( 51 ; A("Name") A("=") A("Name") A("(") EXPR.A ) = 29
+
+  A("+") -> ( 6 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 7 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") )
+
+-----
+
+( 52 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.M ) = 30
+
+  A("*") -> ( 8 ; A("Name") A("=") A("Name") A("(") EXPR.M A("*") )
+
+  A("+") -> ( 6 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 7 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") )
+
+  A("/") -> ( 9 ; A("Name") A("=") A("Name") A("(") EXPR.M A("/") )
+
+-----
+
+( 53 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") EXPR.A ) = 31
+
+  A("+") -> ( 6 ; A("Name") A("=") A("Name") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 7 ; A("Name") A("=") A("Name") A("(") EXPR.A A("-") )
+
+-----
+
+( 54 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.E ) = 32
+
+  A(")") -> ( 37 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.E A(")") )
+
+-----
+
+( 55 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.E ) = 32
+
+  A(")") -> ( 38 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.E A(")") )
+
+-----
+
+( 56 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") A("Number") ) = 32
+
+  A(")") -> ( 48 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") A("Number") A(")") )
+
+-----
+
+( 57 ; A("Name") A("=") A("(") A("(") A("Number") A(",") A("Number") ) = 32
+
+  A(")") -> ( 49 ; A("Name") A("=") A("(") A("(") A("Number") A(",") A("Number") A(")") )
+
+-----
+
+( 58 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.E ) = 32
+
+  A(")") -> ( 82 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.E A(")") )
+
+-----
+
+( 59 ; A("Name") A("=") A("(") A("Number") A(",") A("Number") ) = 32
+
+  A(")") -> ( 87 ; A("Name") A("=") A("(") A("Number") A(",") A("Number") A(")") )
+
+-----
+
+( 60 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.M ) = 33
+
+  A(")") -> ( 35 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.A A(")") )
+
+  A("*") -> ( 15 ; A("Name") A("=") A("(") EXPR.M A("*") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+  A("/") -> ( 16 ; A("Name") A("=") A("(") EXPR.M A("/") )
+
+-----
+
+( 61 ; A("Name") A("=") A("(") A("(") EXPR.M ) = 33
+
+  A(")") -> ( 36 ; A("Name") A("=") A("(") A("(") EXPR.A A(")") )
+
+  A("*") -> ( 15 ; A("Name") A("=") A("(") EXPR.M A("*") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+  A("/") -> ( 16 ; A("Name") A("=") A("(") EXPR.M A("/") )
+
+-----
+
+( 62 ; A("Name") A("=") A("(") EXPR.M ) = 33
+
+  A(")") -> ( 81 ; A("Name") A("=") A("(") EXPR.A A(")") )
+
+  A("*") -> ( 15 ; A("Name") A("=") A("(") EXPR.M A("*") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+  A("/") -> ( 16 ; A("Name") A("=") A("(") EXPR.M A("/") )
+
+-----
+
+( 63 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.A ) = 34
+
+  A(")") -> ( 35 ; A("Name") A("=") A("Name") A("(") A("(") EXPR.A A(")") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+-----
+
+( 64 ; A("Name") A("=") A("(") A("(") EXPR.A ) = 34
+
+  A(")") -> ( 36 ; A("Name") A("=") A("(") A("(") EXPR.A A(")") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+-----
+
+( 65 ; A("Name") A("=") A("(") EXPR.A ) = 34
+
+  A(")") -> ( 81 ; A("Name") A("=") A("(") EXPR.A A(")") )
+
+  A("+") -> ( 13 ; A("Name") A("=") A("(") EXPR.A A("+") )
+
+  A("-") -> ( 14 ; A("Name") A("=") A("(") EXPR.A A("-") )
+
+-----
+
+( 66 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.N ) = 35
+
+  A(")") -> ( 37 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") EXPR_LIST.E A(")") )
+
+  A(",") -> ( 5 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") )
+
+-----
+
+( 67 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.N ) = 35
+
+  A(")") -> ( 38 ; A("Name") A("=") A("(") A("Name") A("(") EXPR_LIST.E A(")") )
+
+  A(",") -> ( 5 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") )
+
+-----
+
+( 68 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N ) = 35
+
+  A(")") -> ( 82 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.E A(")") )
+
+  A(",") -> ( 5 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.N A(",") )
+
+-----
+
+( 69 ; A("Name") ) = 36
+
+  A("=") -> ( 17 ; A("Name") A("=") )
+
+-----
+
+( 70 ; A("Name") A("=") A("Name") A("(") A("Name") ) = 0
+
+  A("(") -> ( 2 ; A("Name") A("=") A("Name") A("(") A("Name") A("(") )
+
+-----
+
+( 71 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") ) = 38
+
+  A("Number") -> ( 56 ; A("Name") A("=") A("Name") A("(") A("(") A("Number") A(",") A("Number") )
+
+-----
+
+( 72 ; A("Name") A("=") A("(") A("(") A("Number") A(",") ) = 38
+
+  A("Number") -> ( 57 ; A("Name") A("=") A("(") A("(") A("Number") A(",") A("Number") )
+
+-----
+
+( 73 ; A("Name") A("=") A("(") A("Number") A(",") ) = 38
+
+  A("Number") -> ( 59 ; A("Name") A("=") A("(") A("Number") A(",") A("Number") )
+
+-----
+
+( 74 ; A("Name") A("=") EXPR.M ) = 39
+
+  A("*") -> ( 20 ; A("Name") A("=") EXPR.M A("*") )
+
+  A("+") -> ( 18 ; A("Name") A("=") EXPR.A A("+") )
+
+  A("-") -> ( 19 ; A("Name") A("=") EXPR.A A("-") )
+
+  A("/") -> ( 21 ; A("Name") A("=") EXPR.M A("/") )
+
+-----
+
+( 75 ; A("Name") A("=") EXPR.A ) = 40
+
+  A("+") -> ( 18 ; A("Name") A("=") EXPR.A A("+") )
+
+  A("-") -> ( 19 ; A("Name") A("=") EXPR.A A("-") )
+
+-----
+
+( 76 ; A("Name") A("=") EXPR.A A("+") EXPR.M ) = 41
+
+  A("*") -> ( 20 ; A("Name") A("=") EXPR.M A("*") )
+
+  A("/") -> ( 21 ; A("Name") A("=") EXPR.M A("/") )
+
+-----
+
+( 77 ; A("Name") A("=") EXPR.A A("-") EXPR.M ) = 42
+
+  A("*") -> ( 20 ; A("Name") A("=") EXPR.M A("*") )
+
+  A("/") -> ( 21 ; A("Name") A("=") EXPR.M A("/") )
+
+-----
+
+( 78 ; A("Name") A("=") EXPR.M A("*") EXPR.U ) = 43
+
+-----
+
+( 79 ; A("Name") A("=") EXPR.M A("/") EXPR.U ) = 44
+
+-----
+
+( 80 ; A("Name") A("=") A("-") EXPR.P ) = 45
+
+-----
+
+( 81 ; A("Name") A("=") A("(") EXPR.A A(")") ) = 46
+
+-----
+
+( 82 ; A("Name") A("=") A("Name") A("(") EXPR_LIST.E A(")") ) = 47
+
+-----
+
+( 83 ; A("Name") A("=") A("Name") ) = 48
+
+  A("(") -> ( 4 ; A("Name") A("=") A("Name") A("(") )
+
+-----
+
+( 84 ; A("Name") A("=") A("Number") ) = 49
+
+-----
+
+( 85 ; A("Name") A("=") A("Angle") ) = 50
+
+-----
+
+( 86 ; A("Name") A("=") A("Length") ) = 51
+
+-----
+
+( 87 ; A("Name") A("=") A("(") A("Number") A(",") A("Number") A(")") ) = 52
+
+-----
+
+( 88 ; FORMULA ) = 53
+
+--- Properties -----------------------------------------------------------------
+
+0) 
+
+  A("(") : <-
+
+  A(")") : @EXPR::arg
+
+  A("*") : @EXPR::arg
+
+  A("+") : @EXPR::arg
+
+  A(",") : @EXPR::arg
+
+  A("-") : @EXPR::arg
+
+  A("/") : @EXPR::arg
+
+-----
+
+1) 
+
+  A("(") : <-
+
+  A(")") : @EXPR::arg
+
+  A("*") : @EXPR::arg
+
+  A("+") : @EXPR::arg
+
+  A("-") : @EXPR::arg
+
+  A("/") : @EXPR::arg
+
+-----
+
+2) 
+
+  A("(") : <-
+
+  A(")") : @EXPR_LIST::empty
+
+  A("-") : <-
+
+  A("Angle") : <-
+
+  A("Length") : <-
+
+  A("Name") : <-
+
+  A("Number") : <-
+
+-----
+
+3) 
+
+  A("(") : <-
+
+  A("-") : <-
+
+  A("Angle") : <-
+
+  A("Length") : <-
+
+  A("Name") : <-
+
+  A("Number") : <-
+
+-----
+
+4) 
+
+  A("(") : <-
+
+  A("Angle") : <-
+
+  A("Length") : <-
+
+  A("Name") : <-
+
+  A("Number") : <-
+
+-----
+
+5) 
+
+  A(")") : @EXPR::add
+
+  A("*") : <-
+
+  A("+") : @EXPR::add
+
+  A(",") : @EXPR::add
+
+  A("-") : @EXPR::add
+
+  A("/") : <-
+
+-----
+
+6) 
+
+  A(")") : @EXPR::add
+
+  A("*") : <-
+
+  A("+") : @EXPR::add
+
+  A("-") : @EXPR::add
+
+  A("/") : <-
+
+-----
+
+7) 
+
+  A(")") : @EXPR::sub
+
+  A("*") : <-
+
+  A("+") : @EXPR::sub
+
+  A(",") : @EXPR::sub
+
+  A("-") : @EXPR::sub
+
+  A("/") : <-
+
+-----
+
+8) 
+
+  A(")") : @EXPR::sub
+
+  A("*") : <-
+
+  A("+") : @EXPR::sub
+
+  A("-") : @EXPR::sub
+
+  A("/") : <-
+
+-----
+
+9) 
+
+  A(")") : @EXPR::mul
+
+  A("*") : @EXPR::mul
+
+  A("+") : @EXPR::mul
+
+  A(",") : @EXPR::mul
+
+  A("-") : @EXPR::mul
+
+  A("/") : @EXPR::mul
+
+-----
+
+10) 
+
+  A(")") : @EXPR::mul
+
+  A("*") : @EXPR::mul
+
+  A("+") : @EXPR::mul
+
+  A("-") : @EXPR::mul
+
+  A("/") : @EXPR::mul
+
+-----
+
+11) 
+
+  A(")") : @EXPR::div
+
+  A("*") : @EXPR::div
+
+  A("+") : @EXPR::div
+
+  A(",") : @EXPR::div
+
+  A("-") : @EXPR::div
+
+  A("/") : @EXPR::div
+
+-----
+
+12) 
+
+  A(")") : @EXPR::div
+
+  A("*") : @EXPR::div
+
+  A("+") : @EXPR::div
+
+  A("-") : @EXPR::div
+
+  A("/") : @EXPR::div
+
+-----
+
+13) 
+
+  A(")") : @EXPR::neg
+
+  A("*") : @EXPR::neg
+
+  A("+") : @EXPR::neg
+
+  A(",") : @EXPR::neg
+
+  A("-") : @EXPR::neg
+
+  A("/") : @EXPR::neg
+
+-----
+
+14) 
+
+  A(")") : @EXPR::neg
+
+  A("*") : @EXPR::neg
+
+  A("+") : @EXPR::neg
+
+  A("-") : @EXPR::neg
+
+  A("/") : @EXPR::neg
+
+-----
+
+15) 
+
+  A(")") : @EXPR::brace
+
+  A("*") : @EXPR::brace
+
+  A("+") : @EXPR::brace
+
+  A(",") : @EXPR::brace
+
+  A("-") : @EXPR::brace
+
+  A("/") : @EXPR::brace
+
+-----
+
+16) 
+
+  A(")") : @EXPR::brace
+
+  A("*") : @EXPR::brace
+
+  A("+") : @EXPR::brace
+
+  A("-") : @EXPR::brace
+
+  A("/") : @EXPR::brace
+
+-----
+
+17) 
+
+  A(")") : @EXPR::func
+
+  A("*") : @EXPR::func
+
+  A("+") : @EXPR::func
+
+  A(",") : @EXPR::func
+
+  A("-") : @EXPR::func
+
+  A("/") : @EXPR::func
+
+-----
+
+18) 
+
+  A(")") : @EXPR::func
+
+  A("*") : @EXPR::func
+
+  A("+") : @EXPR::func
+
+  A("-") : @EXPR::func
+
+  A("/") : @EXPR::func
+
+-----
+
+19) 
+
+  A(")") : @EXPR::number
+
+  A("*") : @EXPR::number
+
+  A("+") : @EXPR::number
+
+  A(",") : @EXPR::number
+
+  A("-") : @EXPR::number
+
+  A("/") : @EXPR::number
+
+-----
+
+20) 
+
+  A(")") : @EXPR::number
+
+  A("*") : @EXPR::number
+
+  A("+") : @EXPR::number
+
+  A(",") : <-
+
+  A("-") : @EXPR::number
+
+  A("/") : @EXPR::number
+
+-----
+
+21) 
+
+  A(")") : @EXPR::number
+
+  A("*") : @EXPR::number
+
+  A("+") : @EXPR::number
+
+  A("-") : @EXPR::number
+
+  A("/") : @EXPR::number
+
+-----
+
+22) 
+
+  A(")") : @EXPR::angle
+
+  A("*") : @EXPR::angle
+
+  A("+") : @EXPR::angle
+
+  A(",") : @EXPR::angle
+
+  A("-") : @EXPR::angle
+
+  A("/") : @EXPR::angle
+
+-----
+
+23) 
+
+  A(")") : @EXPR::angle
+
+  A("*") : @EXPR::angle
+
+  A("+") : @EXPR::angle
+
+  A("-") : @EXPR::angle
+
+  A("/") : @EXPR::angle
+
+-----
+
+24) 
+
+  A(")") : @EXPR::length
+
+  A("*") : @EXPR::length
+
+  A("+") : @EXPR::length
+
+  A(",") : @EXPR::length
+
+  A("-") : @EXPR::length
+
+  A("/") : @EXPR::length
+
+-----
+
+25) 
+
+  A(")") : @EXPR::length
+
+  A("*") : @EXPR::length
+
+  A("+") : @EXPR::length
+
+  A("-") : @EXPR::length
+
+  A("/") : @EXPR::length
+
+-----
+
+26) 
+
+  A(")") : @EXPR::point
+
+  A("*") : @EXPR::point
+
+  A("+") : @EXPR::point
+
+  A(",") : @EXPR::point
+
+  A("-") : @EXPR::point
+
+  A("/") : @EXPR::point
+
+-----
+
+27) 
+
+  A(")") : @EXPR::point
+
+  A("*") : @EXPR::point
+
+  A("+") : @EXPR::point
+
+  A("-") : @EXPR::point
+
+  A("/") : @EXPR::point
+
+-----
+
+28) 
+
+  A(")") : @EXPR_LIST::one
+
+  A("*") : <-
+
+  A("+") : <-
+
+  A(",") : @EXPR_LIST::one
+
+  A("-") : <-
+
+  A("/") : <-
+
+-----
+
+29) 
+
+  A(")") : @EXPR_LIST::one
+
+  A("+") : <-
+
+  A(",") : @EXPR_LIST::one
+
+  A("-") : <-
+
+-----
+
+30) 
+
+  A(")") : @EXPR_LIST::ext
+
+  A("*") : <-
+
+  A("+") : <-
+
+  A(",") : @EXPR_LIST::ext
+
+  A("-") : <-
+
+  A("/") : <-
+
+-----
+
+31) 
+
+  A(")") : @EXPR_LIST::ext
+
+  A("+") : <-
+
+  A(",") : @EXPR_LIST::ext
+
+  A("-") : <-
+
+-----
+
+32) 
+
+  A(")") : <-
+
+-----
+
+33) 
+
+  A(")") : <-
+
+  A("*") : <-
+
+  A("+") : <-
+
+  A("-") : <-
+
+  A("/") : <-
+
+-----
+
+34) 
+
+  A(")") : <-
+
+  A("+") : <-
+
+  A("-") : <-
+
+-----
+
+35) 
+
+  A(")") : <-
+
+  A(",") : <-
+
+-----
+
+36) 
+
+  A("=") : <-
+
+-----
+
+37) 
+
+  A("Name") : <-
+
+-----
+
+38) 
+
+  A("Number") : <-
+
+-----
+
+39) 
+
+  (End) : @FORMULA::set
+
+  A("*") : <-
+
+  A("+") : <-
+
+  A("-") : <-
+
+  A("/") : <-
+
+-----
+
+40) 
+
+  (End) : @FORMULA::set
+
+  A("+") : <-
+
+  A("-") : <-
+
+-----
+
+41) 
+
+  (End) : @EXPR::add
+
+  A("*") : <-
+
+  A("+") : @EXPR::add
+
+  A("-") : @EXPR::add
+
+  A("/") : <-
+
+-----
+
+42) 
+
+  (End) : @EXPR::sub
+
+  A("*") : <-
+
+  A("+") : @EXPR::sub
+
+  A("-") : @EXPR::sub
+
+  A("/") : <-
+
+-----
+
+43) 
+
+  (End) : @EXPR::mul
+
+  A("*") : @EXPR::mul
+
+  A("+") : @EXPR::mul
+
+  A("-") : @EXPR::mul
+
+  A("/") : @EXPR::mul
+
+-----
+
+44) 
+
+  (End) : @EXPR::div
+
+  A("*") : @EXPR::div
+
+  A("+") : @EXPR::div
+
+  A("-") : @EXPR::div
+
+  A("/") : @EXPR::div
+
+-----
+
+45) 
+
+  (End) : @EXPR::neg
+
+  A("*") : @EXPR::neg
+
+  A("+") : @EXPR::neg
+
+  A("-") : @EXPR::neg
+
+  A("/") : @EXPR::neg
+
+-----
+
+46) 
+
+  (End) : @EXPR::brace
+
+  A("*") : @EXPR::brace
+
+  A("+") : @EXPR::brace
+
+  A("-") : @EXPR::brace
+
+  A("/") : @EXPR::brace
+
+-----
+
+47) 
+
+  (End) : @EXPR::func
+
+  A("*") : @EXPR::func
+
+  A("+") : @EXPR::func
+
+  A("-") : @EXPR::func
+
+  A("/") : @EXPR::func
+
+-----
+
+48) 
+
+  (End) : @EXPR::arg
+
+  A("(") : <-
+
+  A("*") : @EXPR::arg
+
+  A("+") : @EXPR::arg
+
+  A("-") : @EXPR::arg
+
+  A("/") : @EXPR::arg
+
+-----
+
+49) 
+
+  (End) : @EXPR::number
+
+  A("*") : @EXPR::number
+
+  A("+") : @EXPR::number
+
+  A("-") : @EXPR::number
+
+  A("/") : @EXPR::number
+
+-----
+
+50) 
+
+  (End) : @EXPR::angle
+
+  A("*") : @EXPR::angle
+
+  A("+") : @EXPR::angle
+
+  A("-") : @EXPR::angle
+
+  A("/") : @EXPR::angle
+
+-----
+
+51) 
+
+  (End) : @EXPR::length
+
+  A("*") : @EXPR::length
+
+  A("+") : @EXPR::length
+
+  A("-") : @EXPR::length
+
+  A("/") : @EXPR::length
+
+-----
+
+52) 
+
+  (End) : @EXPR::point
+
+  A("*") : @EXPR::point
+
+  A("+") : @EXPR::point
+
+  A("-") : @EXPR::point
+
+  A("/") : @EXPR::point
+
+-----
+
+53) 
+
+  (End) : STOP
+
+--------------------------------------------------------------------------------

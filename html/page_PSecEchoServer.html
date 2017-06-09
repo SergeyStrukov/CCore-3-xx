@@ -1,0 +1,156 @@
+<!--
+/* page_PSecEchoServer.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PSecEchoServer</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PSecEchoServer</h2>
+
+<p>
+<b>PSecEchoServer</b> is a simple secure <b>UDP</b> <a href="page_PTPEchoTest.html"><b>PTP</b> echo</a> server. 
+It uses <a href="page_PSec.html"><b>PSec</b></a> and <a href="page_PKE.html"><b>PKE</b></a> 
+protocols to establish the communication with a client and protect traffic.
+It occupies the <b>UDP</b> port <b>52103</b> for the <b>PSec</b> communication and <b>52102</b> for the <b>PKE</b> communication.
+It implements the <b>PTP</b> echo service and three functions from the 
+<a href="page_PTPSupport.html"><b>PTP</b> support service</a>: Len, Seed, Session.
+</p>
+
+<p>
+The following credentials must be used to gain access to the server:
+</p>
+
+<pre>
+
+ClientID: test_client
+
+ClientKey: Keyed SHA256 {1,2,3,4,5}
+
+ServerKey: Keyed SHA256 {6,7,8,9,0}
+
+</pre>
+
+<p>
+There are no command line arguments. 
+</p>
+
+<pre>
+
+CCore-PSecEchoServer.exe
+
+</pre>
+
+<pre>
+
+--- PSecEchoServer 1.00 ---
+--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---
+
+PSecEcho&gt; stat
+
+--- PTP ------------------------------------------------------------------------
+
+
+--- UDP ------------------------------------------------------------------------
+
+                Tick = 135
+       Extra timeout = 133
+
+PSecEcho&gt;
+
+</pre>
+
+<p>
+The following commands are supported: <b>help</b>, <b>exit</b>, <b>stat</b>, <b>clear</b>, <b>psecstat</b>, <b>close</b>. 
+</p>
+
+<p>
+<b>help</b> prints the list of commands.
+</p>
+
+<p>
+<b>exit</b> prints the statistic and exit the server.
+</p>
+
+<p>
+<b>clear</b> clears the <b>PTP</b> and <b>UDP</b> statistic counters.
+</p>
+
+<p>
+<b>stat</b> prints the <b>PTP</b> and <b>UDP</b> statistic counters.
+</p>
+
+<p>
+<b>psecstat</b> without arguments prints the <b>PSec</b> statistic counters for all established connections.
+But you may specify an address to print the <b>PSec</b> statistic of the single connection. 
+</p>
+
+<pre>
+
+PSecEcho&gt; psecstat
+
+--- 127.0.0.1:52101 ------------------------------------------------------------
+
+             PSec Rx = 6
+        PSec Rx Done = 6
+             PSec Tx = 3
+        PSec Tx Done = 3
+
+PSecEcho&gt; psecstat 127.0.0.1:52300
+no such connection
+PSecEcho&gt; psecstat 127.0.0.1:52101
+
+             PSec Rx = 7
+        PSec Rx Done = 7
+             PSec Tx = 4
+        PSec Tx Done = 4
+           PSec Ping = 1
+
+</pre>
+
+<p>
+<b>close</b> without arguments closes all connections. With the given argument it closes a single connection.
+</p>
+
+<pre>
+
+PSecEcho&gt; close
+
+ !lost connection 127.0.0.1:52101
+1 connections are closed
+
+</pre>
+
+<pre>
+
+PSecEcho&gt; close 127.0.0.1:52101
+
+ !lost connection 127.0.0.1:52101
+connecton is closed
+
+</pre>
+
+</body>
+
+</html>
+

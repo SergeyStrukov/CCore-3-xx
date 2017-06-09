@@ -1,0 +1,157 @@
+<!--
+/* page_XCore_DevInt.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore DevInt</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore DevInt</h2>
+
+<p class="Files">Files <b>CCore/inc/dev/DevInt.h</b> <b>CCore/src/dev/DevInt.cpp</b> <b>CCore/src/dev/DevInt.s</b></p>
+
+<p>
+This part implements one of the key class: <b>IntLock</b> class.
+</p>
+
+<pre>
+
+/* DevInt.h */
+
+#ifndef CCore_inc_dev_DevInt_h
+#define CCore_inc_dev_DevInt_h
+
+#include &lt;CCore/inc/Gadget.h&gt;
+
+namespace CCore {
+namespace Dev {
+
+/* functions */
+
+bool <span class="Att">IsIntContext</span>() noexcept;
+
+/* classes */
+
+class IntLock;
+
+/* class IntLock */
+
+class IntLock : NoCopy
+ {
+   bool enable;
+
+  public:
+
+   IntLock() { enable=Internal::Disable(); }
+
+   ~IntLock() { if( enable ) Internal::Enable(); }
+
+   struct Internal
+    {
+     static bool <span class="Att">Disable</span>() noexcept;
+
+     static void <span class="Att">Enable</span>() noexcept;
+    };
+ };
+
+} // namespace Dev
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+<b>IntLock</b> class disables interrupts in its constructor and enables in the destructor. 
+But if interrupts was already disabled it does nothing.
+This class is used to create an interrupt protected scope. All instructions inside such scope are performed without any interventions.
+An <b>IntLock</b> scope must be efficient: i.e. must be quick and cannot perform any blocking calls.
+The interrupt context has already interrupts disabled, so using this class in the interrupt context is safe (but useless).
+</p>
+
+<p>
+<b>IsIntContext()</b> returns <b>true</b> if called in the interrupt context and <b>false</b> otherwise.
+</p>
+
+<p>
+<b>IntLock::Internal::Disable()</b> disables interrupts and return <b>true</b>, if they has been enabled.
+</p>
+
+<p>
+<b>IntLock::Internal::Enable()</b> enables interrupts.
+</p>
+
+<p>
+All these functions are CPU specific and implemented using an assembler.
+For example, here is an implementation for ARMv7:
+</p>
+
+<pre>
+
+@ DevInt.s
+
+        .text
+        .align 2
+
+        .global _ZN5CCore3Dev12IsIntContextEv
+        .global _ZN5CCore3Dev7IntLock8Internal6EnableEv
+        .global _ZN5CCore3Dev7IntLock8Internal7DisableEv
+
+_ZN5CCore3Dev12IsIntContextEv:                   @ CCore::Dev::IsIntContext
+
+        mrs     r0, CPSR          @ r0 &lt;- CPSR
+        and     r0, r0, #31       @ mask CPU mode field
+        cmp     r0, #18           @ compare with IRQ mode value
+
+        movne   r0, #0            @ convert cmp result to bool value
+        moveq   r0, #1
+
+        bx      lr
+
+_ZN5CCore3Dev7IntLock8Internal6EnableEv:         @ CCore::Dev::IntLock::Internal::Enable
+
+        cpsie   i                 @ enable interrupts, changing bit I in CPSR
+
+        bx      lr
+
+_ZN5CCore3Dev7IntLock8Internal7DisableEv:        @ CCore::Dev::IntLock::Internal::Disable
+
+        mrs     r0, CPSR          @ r0 &lt;- CPSR
+        tst     r0, #128          @ mask bit I
+
+        movne   r0, #0            @ if bit I is set, just return false
+
+        bxne    lr
+
+        cpsid   i                 @ disable interrupts, changing bit I in CPSR
+
+        mov     r0, #1            @ return true
+
+        bx      lr
+
+</pre>
+
+</body>
+
+</html>
+

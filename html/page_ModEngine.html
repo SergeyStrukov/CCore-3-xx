@@ -1,0 +1,174 @@
+<!--
+/* page_ModEngine.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ModEngine</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ModEngine</h2>
+
+<p class="Files">Files <b>CCore/inc/math/ModEngine.h</b> <b>CCore/src/math/ModEngine.cpp</b></p>
+
+<p>
+<b>ModEngine</b> and related classes support modular arithmetic.
+</p>
+
+<h4>IntegerBitScanner</h4>
+
+<p>
+<b>IntegerBitScanner</b> performs the bit scanning of the Integer from MSB to LSB. It works the same
+way as the <b>BitScanner</b>. The template parameter is the <a href="page_Integer.html">Integer</a> type.
+</p>
+
+<pre>
+
+template &lt;class Integer&gt;
+class <span class="Att">IntegerBitScanner</span> : NoCopy
+ {
+   ....
+
+  public:
+ 
+   explicit IntegerBitScanner(const Integer &amp;d); // d >= 0
+   
+   ~IntegerBitScanner() {}
+   
+   boolable operator + () const;
+   
+   boolable operator * () const;
+   
+   void operator ++ ();
+ };
+
+</pre>
+
+<p>
+Constructor takes an Integer to be scanned as the argument. The value must be <b>&gt;= 0</b>. Other methods
+works the same way as the corespondent <b>BitScanner</b> methods.
+</p>
+
+<h4>UnitsPowInteger</h4>
+
+<p>
+This class builds an Integer with the unit representation <b>{0,0,...,0,1}</b>. In other words, with the value
+<b>B<sup>n</sup></b>, where <b>B</b> is <b>2<sup>UnitBits</sup></b>.
+</p>
+
+<pre>
+
+template &lt;class Integer&gt;
+class <span class="Att">UnitsPowInteger</span> : public Integer
+ {
+   ....
+
+  public:
+  
+   explicit UnitsPowInteger(ulen n); // creates B^n , B = 2^UnitBits
+
+   ~UnitsPowInteger() {}
+ };
+
+</pre>
+
+<h4>ModEngine</h4>
+
+<p>
+<b>ModEngine</b> performs modular operations by the given module. Operation arguments and results
+lay in the range <b>[0,M)</b>, where <b>M</b> is the module.
+</p>
+
+<pre>
+
+template &lt;class Integer&gt;
+class <span class="Att">ModEngine</span> : NoCopy
+ {
+   ....
+
+  public: 
+   
+   explicit ModEngine(const Integer &amp;M); // M &gt; 0
+   
+   ~ModEngine() {}
+
+   const Integer &amp; getModule() const { return M; }
+   
+   Integer prepare(const Integer &a) const; // a &gt;= 0
+   
+   Integer mod(Integer a) const; // a &gt;= 0 , a &lt; M^2
+
+   Integer mul(const Integer &a,const Integer &b) const; // a,b &gt;= 0 , a,b &lt; M
+   
+   Integer sq(const Integer &a) const; // a &gt;= 0 , a &lt; M
+   
+   Integer mac(const Integer &s,const Integer &a,const Integer &b) const; // s,a,b &gt;= 0 , s,a,b &lt; M
+   
+   Integer squac(const Integer &s,const Integer &a) const; // s,a &gt;= 0 , s,a &lt; M
+   
+   template &lt;UIntType UInt&gt;
+   Integer pow(const Integer &a,UInt d) const; // a &gt;=0 , a &lt; M , M &gt; 1
+   
+   Integer pow(const Integer &a,const Integer &d) const; // a,d &gt;=0 , a &lt; M , M &gt; 1
+ };
+
+</pre>
+
+<p>
+The only constructor argument is the module, which must be positive. 
+The module can be retrieved by the method <b>getModule()</b>.
+</p>
+
+<p>
+<b>prepare()</b> returns the remainder of the division by the module. The argument must be <b>&gt;= 0</b>.
+</p>
+
+<p>
+<b>mod()</b> returns the remainder of the division by the module. The argument must be <b>&gt;= 0</b> 
+and <b>&lt;M<sup>2</sup></b>. This method is more efficient, than <b>prepare()</b>. It is used
+to implement other operations.
+</p>
+
+<p>
+<b>mul()</b> calculates the modular multiplication of the arguments.
+</p>
+
+<p>
+<b>sq()</b> calculates the modular square of the argument (<b>sq(a) == mul(a,a)</b>).
+</p>
+
+<p>
+<b>mac()</b> calculates the MAC, i.e. the expression <b>s+a*b</b>, by the module.
+</p>
+
+<p>
+<b>squac()</b> calculates the "square and accumulate", i.e. the expression <b>s+a*a</b>, by the module.
+</p>
+
+<p>
+<b>pow()</b> calculates the modular power. It is assumed, that the module is <b>&gt;1</b>.
+</p>
+
+</body>
+
+</html>
+

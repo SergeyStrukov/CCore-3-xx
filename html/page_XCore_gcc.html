@@ -1,0 +1,282 @@
+<!--
+/* page_XCore_gcc.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 2.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> XCore gcc</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>XCore binutils and gcc</h2>
+
+<p>
+<b>XCore</b> cross-toolchain is combined from two major parts: <b>binutils</b> and <b>gcc</b>. 
+To build them you have to provide the proper <b>sysroot</b> directory, modify some source code and configure sources. 
+The whole process is tricky.
+</p>
+
+<p>
+First, you have to choose the location to install the cross-toolchain. The usual choice is <b>/opt/TARGET</b>. 
+For example, <b>/opt/BeagleBoneBlack</b>. 
+You have to copy the <b>sysroot</b> directory there (headers only on this stage).
+</p>
+
+<p>
+The you need a directory for the source code, like <b>~/Downloads</b>. 
+When you have downloaded the source code of the <b>binutils</b> and <b>gcc</b>, unpack it here. 
+You got two directories like <b>binutils-2.25.1</b> and <b>gcc-7.1.0-cross</b>.
+Then create a directory <b>Build</b> and inside two directories with the same names. 
+They serve as build locations.
+</p>
+
+<h4>binutils</h4>
+
+<p>
+Building <b>binutils</b> is simple enough. Create the file <b>MakeCfg</b> in the build directory. It should look like this one:
+</p>
+
+<pre>
+
+# MakeCfg
+
+CONFIGURE = ../../binutils-2.25.1/configure
+
+OPT = --program-prefix=arm-                              \
+      --prefix=/opt/BeagleBoneBlack                      \
+      --with-sysroot=/opt/BeagleBoneBlack/sysroot        \
+
+
+TARGET = arm-eabielf
+
+all:
+	$(CONFIGURE) $(OPT) --target=$(TARGET)
+
+</pre>
+
+<p>
+Next you have to modify the source code. 
+The reason is we need a proper linker script to be embedded in the linker during the build process.
+When you invoke a linker to build the image it uses some file called the linker script to do the job.
+You may specify such file from the command line, but the more convenient way is to embed it into the linker.
+The actual changes depend on your target, target memory map and low-level details of the <b>XCore</b> implementation.
+</p>
+
+<p>
+For example, for the <b>BeagleBoneBlack</b> target we uses the following script features.
+The symbol <b>__std_image_base</b> is the text start address, this symbol is defined in the startup code. 
+The symbol <b>__std_start</b> is the entry point.
+The images is started with the section <b>.absstart</b>. 
+Then the section <b>.context_data</b> is used to store some task specific variables. 
+The content of this section is preserved during the task switch process. So the linker script has the part
+</p>
+
+<pre>
+
+  .context_data ALIGN(4) :
+  {
+   . = ALIGN(4) ;
+   __std_context_data = . ;
+   *(.context_data)
+   . = ALIGN(4) ;
+   __std_context_data_lim = . ;
+  }
+
+</pre>
+
+<p>
+This part combines all <b>.context_data</b> into the one and defines two symbols <b>__std_context_data</b> and <b>__std_context_data_lim</b> 
+to designate the section location in the memory.
+</p>
+
+<p>
+Finally, the linker defines two symbols <b>__std_mem</b> and <b>__std_mem_lim</b> for the large unassigned memory after the loaded image in the RAM.
+</p>
+
+<pre>
+
+  .mem ALIGN(16) :
+  {
+   . = ALIGN(16) ;
+   __std_mem = . ;
+
+   . = . + __std_mem_size ;
+
+   . = ALIGN(16) ;
+   __std_mem_lim = . ;
+  }
+
+</pre>
+
+<p>
+The size of this block is defined by the symbol <b>__std_mem_size</b> from the startup code.
+</p>
+
+<p>
+Once you finished with the source code modification issue the following command <b>make -f MakeCfg</b> in the build directory.
+It starts the configuration process. After that use the command <b>make</b> to perform the actual build and <b>make install</b> to install the tools.
+</p>
+
+<h4>gcc</h4>
+
+<p>
+Building <b>gcc</b> is essentially the same. The only difference is the source code modification is more tricky.
+</p>
+
+<p>
+The first step is the configuration. Create the file <b>MakeCfg</b> in the build directory. It should look like this one:
+</p>
+
+<pre>
+
+# MakeCfg
+
+CONFIGURE = ../../gcc-7.1.0-cross/configure
+
+OPT = --program-prefix=arm-                                         \
+      --prefix=/opt/BeagleBoneBlack                                 \
+      --with-local-prefix=/opt/BeagleBoneBlack/arm-eabielf          \
+      --with-sysroot=/opt/BeagleBoneBlack/sysroot                   \
+      --with-arch=armv7-a                                           \
+      --with-fpu=vfpv3                                              \
+      --with-float-abi=hard                                         \
+      --enable-languages=c,c++                                      \
+      --enable-c99                                                  \
+      --enable-long-long                                            \
+      --disable-shared                                              \
+      --disable-libssp                                              \
+
+
+TARGET = arm-eabielf
+
+all:
+	$(CONFIGURE) $(OPT) --target=$(TARGET) 
+
+</pre>
+
+<p>
+Then patch source files. For the target <b>BeagleBoneBlack</b> the following modifications are required. 
+We have to correct four source files and configuration script from the C++ support library.
+</p>
+
+<pre>
+
+libstdc++-v3/config/io/basic_file_stdio.cc
+
+libstdc++-v3/libsupc++/eh_alloc.cc
+
+libstdc++-v3/libsupc++/eh_globals.cc
+
+libstdc++-v3/libsupc++/pure.cc
+
+libstdc++-v3/src/c++11/random.cc
+
+libstdc++-v3/include/std/type_traits
+
+libstdc++-v3/configure
+
+</pre>
+
+<p>
+The file <b>basic_file_stdio.cc</b> contains the basic io class implementation. It must be replaced to use standard stdio functions.
+</p>
+
+<p>
+<b>eh_alloc.cc</b> contains the code for the exception handling. 
+It uses standard memory allocation functions <b>malloc()</b> and <b>free()</b> to allocate a space for exception objects. 
+The code must be changed to use <b>malloc_int()</b> and <b>free_int()</b> instead. And the "emergency buffer" must be removed. 
+</p>
+
+<p>
+<b>eh_globals.cc</b> contains definitions of the global variables for the exception handling subsystem. 
+The problem is these variables must be per-task. But we configure compiler for single-thread support only. 
+So we have to handle this matter ourself. 
+In <b>BeagleBoneBlack</b> global variables, placed in the section <b>.context_data</b>, instead of <b>.data</b>, preserved on a task switch. 
+So these variables are per-task variables. 
+To use it we declare some variables in the <b>eh_globals.cc</b> to be placed in the section <b>.context_data</b>.
+</p>
+
+<pre>
+
+// Single-threaded fallback buffer.
+
+static __cxa_eh_globals eh_globals <b>__attribute__((section(".context_data")))</b> = {} ;
+
+</pre>
+
+<p>
+<b>pure.cc</b> print the message in case of the pure virtual function call. We have to change this file to use stdio print functions.
+</p>
+
+<p>
+In <b>random.cc</b> the following sections must be switched off: 
+</p>
+
+<pre>
+
+#if 0 // def _GLIBCXX_HAVE_UNISTD_H
+
+</pre>
+
+<p>
+In <b>type_traits</b> the following sections must be switched off: 
+</p>
+
+<pre>
+
+# if 0 // defined (__UINT_LEAST16_TYPE__) && defined(__UINT_LEAST32_TYPE__)
+
+</pre>
+
+<p>
+<b>configure</b> script have two problems. It emits error for unknown OS. So we have to disable it.
+</p>
+
+<pre>
+
+    <b>#</b> as_fn_error "No support for this host/target combination." "$LINENO" 5 // line 78196
+
+</pre>
+
+<p>
+The second problem is to disable attempts to link target applications. It can be done by adding the following line at the proper place.
+</p>
+
+<pre>
+
+gcc_no_link=no // line 10556
+
+</pre>
+
+<p>
+Once you finished with the source code modification issue the following command <b>make -f MakeCfg</b> in the build directory.
+It starts the configuration process. After that use the command <b>make</b> to perform the actual build and <b>make install</b> to install the tools.
+</p>
+
+<p>
+You can reuse the approach from the <b>BeagleBoneBlack</b> for your own <b>XCore</b> targets. If the target uses ARM-v7 or later you can also
+reuse major parts of the startup code. 
+</p>
+
+</body>
+
+</html>
+
