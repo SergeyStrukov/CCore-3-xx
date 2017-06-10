@@ -71,7 +71,7 @@ obj/main.dep : ./src/main.cpp
 
 ifneq ($(MAKECMDGOALS),clean)
 
-include $(DEP_FILE)
+-include $(DEP_FILE)
 
 endif
 
