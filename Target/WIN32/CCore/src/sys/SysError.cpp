@@ -1,7 +1,7 @@
 /* SysError.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.00
 //
 //  Tag: Target/WIN32
 //
@@ -43,11 +43,11 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
  {
   switch( error )
     {
-     case Error_SysErrorFault : return set("System failed to report a error");
+     case Error_SysErrorFault : return set("System failed to report a error"_c);
 
-     case Error_Task          : return set("System cannot create a task");
+     case Error_Task          : return set("System cannot create a task"_c);
 
-     case Error_Socket        : return set("System socket failure");
+     case Error_Socket        : return set("System socket failure"_c);
     }
 
   Win32::flags_t flags=Win32::FormatMessageFromSystem
