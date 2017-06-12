@@ -1,7 +1,7 @@
 /* SysFileSystem.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.00
 //
 //  Tag: Target/WIN64
 //
@@ -35,7 +35,7 @@ FileError DeleteDirRecursive(StrLen dir_name);
 
 /* struct NameBuf */
 
-struct NameBuf
+struct NameBuf : NoCopy
  {
   char buf[MaxPathLen+1];
   ulen dir_len;
@@ -75,13 +75,6 @@ struct NameBuf
   StrLen getStr() const { return StrLen(buf,buf_len); }
  };
 
-/* IsSpecial() */
-
-bool IsSpecial(StrLen name)
- {
-  return ( name.len==1 && name[0]=='.' ) || ( name.len==2 && name[0]=='.' && name[1]=='.' ) ;
- }
-
 /* EmptyDirRecursive() */
 
 FileError EmptyDirRecursive(StrLen dir_name)
@@ -100,7 +93,7 @@ FileError EmptyDirRecursive(StrLen dir_name)
     {
      StrLen file_name(data.file_name);
 
-     if( !IsSpecial(file_name) )
+     if( !PathBase::IsSpecial(file_name) )
        {
         FileError fe=FileError_Ok;
 
@@ -151,6 +144,17 @@ FileError DeleteDirRecursive(StrLen dir_name)
   return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryA(dir_name.ptr) );
  }
 
+/* Copyz() */
+
+char * Copyz(char *out,StrLen str)
+ {
+  str.copyTo(out);
+
+  out[str.len]=0;
+
+  return out+(str.len+1);
+ }
+
 /* Execz() */
 
 FileError Execz(char *dir,char *program,char *arg)
@@ -198,7 +202,7 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
        {
         Win64::error_t error_=Win64::GetLastError();
 
-        if( error_!=Win64::ErrorNoMoreFiles )
+        if( error_!=Win64::ErrorFileNotFound )
           {
            error=MakeError(FileError_OpFault,error_);
           }
@@ -464,29 +468,11 @@ FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
 
      char *out=buf.getPtr();
 
-     {
-      dir.copyTo(dirz=out);
+     out=Copyz(dirz=out,dir);
 
-      out[dir.len]=0;
+     out=Copyz(programz=out,program);
 
-      out+=dir.len+1;
-     }
-
-     {
-      program.copyTo(programz=out);
-
-      out[program.len]=0;
-
-      out+=program.len+1;
-     }
-
-     {
-      arg.copyTo(argz=out);
-
-      out[arg.len]=0;
-
-      out+=arg.len+1;
-     }
+     out=Copyz(argz=out,arg);
 
      return Execz(dirz,programz,argz);
     }

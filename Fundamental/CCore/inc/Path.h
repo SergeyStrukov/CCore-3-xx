@@ -65,6 +65,8 @@ struct PathBase
 
   static bool IsDotDot(StrLen name) { return name.len==2 && name[0]=='.' && name[1]=='.' ; }
 
+  static bool IsSpecial(StrLen name) { return IsDot(name) || IsDotDot(name) ; }
+
   static bool IsTilde(StrLen name) { return name.len==1 && name[0]=='~' ; }
 
   static void TurnSlash(PtrLen<char> name);
