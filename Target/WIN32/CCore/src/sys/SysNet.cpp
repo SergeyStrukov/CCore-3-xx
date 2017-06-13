@@ -1,7 +1,7 @@
 /* SysNet.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.00
 //
 //  Tag: Target/WIN32
 //
@@ -63,7 +63,7 @@ ErrorType WSAError()
 
 class Address : NoCopy
  {
-   static const ulen Len = 16 ;
+   static constexpr ulen Len = 16 ;
 
   private:
 
