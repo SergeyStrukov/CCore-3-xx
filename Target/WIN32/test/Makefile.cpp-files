@@ -160,6 +160,7 @@
 ../../../HCore/CCore/test/test4029.PSec.cpp
 ../../../HCore/CCore/test/test4030.PKE.cpp
 ../../../HCore/CCore/test/test4031.PTPSec.cpp
+../../../HCore/CCore/test/test4032.DelDirRecursive.cpp
 ../../../HCore/CCore/test/testPrint.cpp
 ../../../Target/WIN32/CCore/test/test6001.Quick.cpp
 ../../../Target/WIN32/CCore/test/test6002.SysError.cpp
