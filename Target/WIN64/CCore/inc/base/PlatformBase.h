@@ -64,12 +64,12 @@ using uptr = unsigned long ;
 using uint8  =  unsigned char ;
 using uint16 = unsigned short ;
 using uint32 =   unsigned int ;
-using uint64 = unsigned long  ;
+using uint64 =  unsigned long ;
 
 using sint8  =    signed char ;
 using sint16 =   signed short ;
 using sint32 =     signed int ;
-using sint64 =   signed long  ;
+using sint64 =    signed long ;
 
 /* consts */
 
@@ -109,37 +109,37 @@ struct Prop
    };
  };
 
-//
-// template <>
-// struct Prop<???>
-//  {
-//   enum
-//    {
-//     IsSigned   = true,
-//     IsUnsigned = false,
-//    };
-//
-//   using SType = ??? ;
-//   using UType = ??? ;
-//
-//   using PromoteSType = ??? ;
-//   using PromoteUType = ??? ;
-//  };
-//
-// template <>
-// struct Prop<???>
-//  {
-//   enum
-//    {
-//     IsSigned   = false,
-//     IsUnsigned = true,
-//
-//     Bits = ???
-//    };
-//
-//   using PromoteUType = ??? ;
-//  };
-//
+ //
+ // template <>
+ // struct Prop<???>
+ //  {
+ //   enum
+ //    {
+ //     IsSigned   = true,
+ //     IsUnsigned = false,
+ //    };
+ //
+ //   using SType = ??? ;
+ //   using UType = ??? ;
+ //
+ //   using PromoteSType = ??? ;
+ //   using PromoteUType = ??? ;
+ //  };
+ //
+ // template <>
+ // struct Prop<???>
+ //  {
+ //   enum
+ //    {
+ //     IsSigned   = false,
+ //     IsUnsigned = true,
+ //
+ //     Bits = ???
+ //    };
+ //
+ //   using PromoteUType = ??? ;
+ //  };
+ //
 
 } // namespace ExtraInt
 
