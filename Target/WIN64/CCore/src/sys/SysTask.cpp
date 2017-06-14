@@ -1,7 +1,7 @@
 /* SysTask.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.00
 //
 //  Tag: Target/WIN64
 //
@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysTask.h>
+#include <CCore/inc/sys/SysAtomic.h>
 
 #include <CCore/inc/win64/Win64.h>
 
@@ -21,6 +22,10 @@
 
 namespace CCore {
 namespace Sys {
+
+/* assert */
+
+static_assert( MaxUInt<TaskIdType> <= MaxUInt<Atomic::Type> ,"CCore::Sys::TaskIdType : too long type");
 
 /* functions */
 

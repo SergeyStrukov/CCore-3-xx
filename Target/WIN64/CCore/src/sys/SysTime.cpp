@@ -1,7 +1,7 @@
 /* SysTime.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.00
 //
 //  Tag: Target/WIN64
 //
@@ -33,7 +33,7 @@ SecTimeType GetSecTime() noexcept
 
   Win64::GetSystemTimeAsFileTime(&sys_time);
 
-  return SecTimeType( sys_time/10000000-11644473600ul );
+  return SecTimeType( sys_time/10'000'000-11'644'473'600ul );
  }
 
 #if 0
