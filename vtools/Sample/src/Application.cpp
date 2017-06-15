@@ -89,15 +89,15 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
   binder.group("Menu"_def);
 
-    binder.item("File"_def,menu_File);
-    binder.item("Options"_def,menu_Options);
-    binder.item("New"_def,menu_New);
-    binder.item("Open"_def,menu_Open);
-    binder.item("Save"_def,menu_Save);
-    binder.item("SaveAs"_def,menu_SaveAs);
-    binder.item("Exit"_def,menu_Exit);
-    binder.item("Global"_def,menu_Global);
-    binder.item("App"_def,menu_App);
+   binder.item("File"_def,menu_File);
+   binder.item("Options"_def,menu_Options);
+   binder.item("New"_def,menu_New);
+   binder.item("Open"_def,menu_Open);
+   binder.item("Save"_def,menu_Save);
+   binder.item("SaveAs"_def,menu_SaveAs);
+   binder.item("Exit"_def,menu_Exit);
+   binder.item("Global"_def,menu_Global);
+   binder.item("App"_def,menu_App);
  }
 
 void AppPreferenceBag::createFonts()
@@ -144,7 +144,7 @@ struct Param
   Desktop *desktop = DefaultDesktop ;
   MSec tick_period = DeferCallQueue::DefaultTickPeriod ;
 
-  UserPreference pref;
+  UserPreference user_pref;
   AppPreference app_pref;
 
   const WindowReportConfig &report_cfg;
@@ -154,10 +154,10 @@ struct Param
   ClientWindow::ConfigType client_cfg;
 
   Param() noexcept
-   : report_cfg(pref.getSmartConfig()),
-     exception_cfg(pref.getSmartConfig()),
-     frame_cfg(pref.getSmartConfig()),
-     client_cfg(pref,app_pref)
+   : report_cfg(user_pref.getSmartConfig()),
+     exception_cfg(user_pref.getSmartConfig()),
+     frame_cfg(user_pref.getSmartConfig()),
+     client_cfg(user_pref,app_pref)
    {
    }
  };
@@ -186,7 +186,7 @@ class Application : public ApplicationBase
     {
      if( user_frame.isDead() )
        {
-        user_frame.create(main_frame.getFrame(),base,param.pref.get().title_UserPref);
+        user_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_UserPref);
        }
     }
 
@@ -194,7 +194,7 @@ class Application : public ApplicationBase
     {
      if( app_frame.isDead() )
        {
-        app_frame.create(main_frame.getFrame(),base,param.pref.get().title_AppPref);
+        app_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_AppPref);
        }
     }
 
@@ -203,7 +203,7 @@ class Application : public ApplicationBase
 
    void appUpdated()
     {
-     param.pref.updated.assert();
+     param.user_pref.updated.assert();
     }
 
    void appSave()
@@ -216,17 +216,17 @@ class Application : public ApplicationBase
 
    void userUpdate()
     {
-     param.pref.updated.assert();
+     param.user_pref.updated.assert();
     }
 
    void userSave()
     {
-     param.pref.update();
+     param.user_pref.update();
     }
 
    void userSelf()
     {
-     editor_pref.ref()=param.pref.get();
+     editor_pref.ref()=param.user_pref.get();
 
      editor_pref.updated.assert();
     }
@@ -278,11 +278,11 @@ class Application : public ApplicationBase
     : ApplicationBase(param_.desktop,param_.tick_period),
       param(param_),
       cmd_display(cmd_display_),
-      main_frame(param.desktop,param.frame_cfg,param.pref.updated),
+      main_frame(param.desktop,param.frame_cfg,param.user_pref.updated),
       exception_client(main_frame,param.exception_cfg,report),
       client(main_frame,param.client_cfg),
       user_frame(param.desktop,editor_pref.getSmartConfig(),true),
-      app_frame(param.desktop,param.pref.getSmartConfig(),false),
+      app_frame(param.desktop,param.user_pref.getSmartConfig(),false),
 
       connector_userPref(this,&Application::userPref,client.doUserPref),
       connector_appPref(this,&Application::appPref,client.doAppPref),
@@ -295,13 +295,13 @@ class Application : public ApplicationBase
      main_frame.bindAlertClient(exception_client);
      main_frame.bindClient(client);
 
-     editor_pref.ref()=param.pref.get();
+     editor_pref.ref()=param.user_pref.get();
 
-     user_frame.bindConfig(param.pref.ref());
+     user_frame.bindConfig(param.user_pref.ref());
      user_frame.connectUpdate(editor_pref.updated);
 
      app_frame.bindConfig(param.app_pref.ref());
-     app_frame.connectUpdate(param.pref.updated);
+     app_frame.connectUpdate(param.user_pref.updated);
     }
 
    ~Application()
@@ -322,7 +322,7 @@ int Main(CmdDisplay cmd_display)
 
      SetAppIcon(DefaultAppIcon());
 
-     param.pref.sync();
+     param.user_pref.sync();
      param.app_pref.sync();
 
      Application app(report,param,cmd_display);
