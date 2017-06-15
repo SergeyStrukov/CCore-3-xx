@@ -13,8 +13,6 @@
 
 #include <inc/Application.h>
 
-#include <CCore/inc/video/Desktop.h>
-
 #include <CCore/inc/Abort.h>
 
 /* main() */
