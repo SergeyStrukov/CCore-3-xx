@@ -85,19 +85,19 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
  {
   binder.group("Common"_def);
 
-   binder.item("title"_def,title);
+    binder.item("title"_def,title);
 
   binder.group("Menu"_def);
 
-   binder.item("File"_def,menu_File);
-   binder.item("Options"_def,menu_Options);
-   binder.item("New"_def,menu_New);
-   binder.item("Open"_def,menu_Open);
-   binder.item("Save"_def,menu_Save);
-   binder.item("SaveAs"_def,menu_SaveAs);
-   binder.item("Exit"_def,menu_Exit);
-   binder.item("Global"_def,menu_Global);
-   binder.item("App"_def,menu_App);
+    binder.item("File"_def,menu_File);
+    binder.item("Options"_def,menu_Options);
+    binder.item("New"_def,menu_New);
+    binder.item("Open"_def,menu_Open);
+    binder.item("Save"_def,menu_Save);
+    binder.item("SaveAs"_def,menu_SaveAs);
+    binder.item("Exit"_def,menu_Exit);
+    binder.item("Global"_def,menu_Global);
+    binder.item("App"_def,menu_App);
  }
 
 void AppPreferenceBag::createFonts()
