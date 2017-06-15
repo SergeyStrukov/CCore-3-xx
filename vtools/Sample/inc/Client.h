@@ -50,15 +50,15 @@ class ClientWindow : public ComboWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
-      : sample_cfg(pref,app_pref)
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : sample_cfg(user_pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        Used(bag);
 
