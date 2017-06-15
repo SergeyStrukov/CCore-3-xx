@@ -182,7 +182,7 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
 
   FileName path;
 
-  if( path.set(dir_name,"/*") )
+  if( path.set(dir_name,"/*"_c) )
     {
      Win32::FindFileData data;
 

@@ -63,7 +63,7 @@ ErrorType WSAError()
 
 class Address : NoCopy
  {
-   static const Win64::ushortlen_t Len = 16 ;
+   static constexpr Win64::ushortlen_t Len = 16 ;
 
   private:
 
