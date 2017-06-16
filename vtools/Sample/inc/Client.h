@@ -30,6 +30,8 @@ class ClientWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
      CtorRefVal<SimpleCascadeMenu::ConfigType> cascade_menu_cfg;
 
