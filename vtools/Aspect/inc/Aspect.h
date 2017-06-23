@@ -58,6 +58,8 @@ class HideControl : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<Coord> space_dxy = 10 ;
 
      CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
@@ -80,14 +82,14 @@ class HideControl : public ComboWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
 
@@ -187,6 +189,8 @@ class CountControl : public ComboWindow
 
    struct Config
     {
+     // user
+
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
 
      // app
@@ -196,14 +200,14 @@ class CountControl : public ComboWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        Used(bag);
 
@@ -261,6 +265,8 @@ class InnerDataWindow : public SubWindow
 
    struct Config
     {
+     // user
+
      RefVal<MCoord> width = Fraction(6,2) ;
 
      RefVal<VColor> focus = OrangeRed ;
@@ -292,14 +298,14 @@ class InnerDataWindow : public SubWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        width.bind(bag.width);
        focus.bind(bag.focus);
@@ -419,9 +425,9 @@ class InnerDataWindow : public SubWindow
 
    TestResult test(const DrawItem &draw,Point point) const;
 
-   void press(const DrawItem &draw,ulen index,Point point,bool recursive);
-
    void change(ulen index,const ItemData &item,ItemStatus status,bool recursive);
+
+   void press(const DrawItem &draw,ulen index,Point point,bool recursive);
 
    void hilight(const DrawItem &draw,ulen index,Point point);
 
@@ -433,9 +439,9 @@ class InnerDataWindow : public SubWindow
 
    // special methods
 
-   bool shortDX() const;
+   bool shortDX() const { return page_x<total_x; }
 
-   bool shortDY() const;
+   bool shortDY() const { return page_y<total_y; }
 
    template <class W>
    void setScrollXRange(W &window)
@@ -459,7 +465,9 @@ class InnerDataWindow : public SubWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   void update(bool new_data);
+   void update();
+
+   void update(Filter filter);
 
    void filter(Filter filter);
 
@@ -520,6 +528,8 @@ class DataWindow : public ComboWindow
 
    struct Config : InnerDataWindow::Config
     {
+     // user
+
      CtorRefVal<XScrollWindow::ConfigType> x_cfg;
      CtorRefVal<YScrollWindow::ConfigType> y_cfg;
 
@@ -528,15 +538,17 @@ class DataWindow : public ComboWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
-      : InnerDataWindow::Config(pref,app_pref)
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : InnerDataWindow::Config(user_pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
+       Used(bag);
+
        x_cfg.bind(proxy);
        y_cfg.bind(proxy);
       }
@@ -575,7 +587,9 @@ class DataWindow : public ComboWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   void update(bool new_data);
+   void update();
+
+   void update(Filter filter);
 
    void filter(Filter filter);
 
@@ -599,6 +613,8 @@ class AspectWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<VColor> back = Silver ;
 
      RefVal<Coord> space_dxy = 10 ;
@@ -609,6 +625,7 @@ class AspectWindow : public ComboWindow
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<XDoubleLineWindow::ConfigType> line_cfg;
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
 
      // app
 
@@ -616,6 +633,7 @@ class AspectWindow : public ComboWindow
      RefVal<DefString> text_Aspect = "Aspect"_def ;
 
      RefVal<DefString> text_Nothing = "Nothing to save!"_def ;
+     RefVal<DefString> text_Save    = "Save"_def ;
 
      HideControl::ConfigType hide_cfg;
      CountControl::ConfigType count_cfg;
@@ -624,17 +642,17 @@ class AspectWindow : public ComboWindow
      Config() noexcept {}
 
      template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
-      : hide_cfg(pref,app_pref),
-        count_cfg(pref,app_pref),
-        data_cfg(pref,app_pref)
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : hide_cfg(user_pref,app_pref),
+        count_cfg(user_pref,app_pref),
+        data_cfg(user_pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        back.bind(bag.back);
        space_dxy.bind(bag.space_dxy);
@@ -644,6 +662,7 @@ class AspectWindow : public ComboWindow
        text_cfg.bind(proxy);
        msg_cfg.bind(proxy);
        line_cfg.bind(proxy);
+       btn_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -652,6 +671,7 @@ class AspectWindow : public ComboWindow
        text_Path.bind(bag.text_Path);
        text_Aspect.bind(bag.text_Aspect);
        text_Nothing.bind(bag.text_Nothing);
+       text_Save.bind(bag.text_Save);
       }
     };
 
@@ -683,6 +703,8 @@ class AspectWindow : public ComboWindow
    CountControl count_red;
    CountControl count_yellow;
    CountControl count_green;
+
+   RefButtonWindow btn_save;
 
    XDoubleLineWindow line2;
 
@@ -723,6 +745,10 @@ class AspectWindow : public ComboWindow
    void data_manychanged();
 
    SignalConnector<AspectWindow> connector_data_manychanged;
+
+   void btn_save_pressed();
+
+   SignalConnector<AspectWindow> connector_btn_save_pressed;
 
   public:
 

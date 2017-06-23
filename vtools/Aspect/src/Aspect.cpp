@@ -40,7 +40,11 @@ void HideControl::check_changed(bool)
 
 void HideControl::btn_pressed()
  {
-  reset();
+  check_New.check(false);
+  check_Ignore.check(false);
+  check_Red.check(false);
+  check_Yellow.check(false);
+  check_Green.check(false);
 
   changed.assert(getFilter());
  }
@@ -163,7 +167,7 @@ void HideControl::drawBack(DrawBuf buf,bool) const
  {
   SmoothDrawArt art(buf);
 
-  Coord radius=Fraction(place_New.dx/2);
+  Coord radius=Fraction(place_New.dx,1);
 
   art.ball(MCenter(place_New),radius,+cfg.status_New);
   art.ball(MCenter(place_Ignore),radius,+cfg.status_Ignore);
@@ -229,7 +233,7 @@ void CountControl::drawBack(DrawBuf buf,bool) const
  {
   SmoothDrawArt art(buf);
 
-  Coord radius=Fraction(place_status.dx/2);
+  Coord radius=Fraction(place_status.dx,1);
 
   art.ball(MCenter(place_status),radius,color);
  }
@@ -687,6 +691,31 @@ auto InnerDataWindow::test(const DrawItem &draw,Point test_point) const -> TestR
   return {MaxULen};
  }
 
+void InnerDataWindow::change(ulen index,const ItemData &item,ItemStatus status,bool recursive)
+ {
+  if( item.is_dir && recursive )
+    {
+     auto items=data.getItems();
+
+     for(ulen lim=item.next_index; index<lim ;index++) items[index].ptr->status=status;
+
+     updateList();
+
+     manychanged.assert();
+    }
+  else
+    {
+     ItemStatus prev=item.ptr->status;
+
+     if( Change(item.ptr->status,status) )
+       {
+        updateList();
+
+        changed.assert(prev,status);
+       }
+    }
+ }
+
 void InnerDataWindow::press(const DrawItem &draw,ulen index,Point point,bool recursive)
  {
   auto items=data.getItems();
@@ -751,31 +780,6 @@ void InnerDataWindow::press(const DrawItem &draw,ulen index,Point point,bool rec
     }
  }
 
-void InnerDataWindow::change(ulen index,const ItemData &item,ItemStatus status,bool recursive)
- {
-  if( item.is_dir && recursive )
-    {
-     auto items=data.getItems();
-
-     for(ulen lim=item.next_index; index<lim ;index++) items[index].ptr->status=status;
-
-     updateList();
-
-     manychanged.assert();
-    }
-  else
-    {
-     ItemStatus prev=item.ptr->status;
-
-     if( Change(item.ptr->status,status) )
-       {
-        updateList();
-
-        changed.assert(prev,status);
-       }
-    }
- }
-
 void InnerDataWindow::hilight(const DrawItem &draw,ulen index,Point point)
  {
   auto items=data.getItems();
@@ -806,18 +810,6 @@ InnerDataWindow::~InnerDataWindow()
  {
  }
 
- // special methods
-
-bool InnerDataWindow::shortDX() const
- {
-  return page_x<total_x;
- }
-
-bool InnerDataWindow::shortDY() const
- {
-  return page_y<total_y;
- }
-
  // methods
 
 Point InnerDataWindow::getMinSize(Point cap) const
@@ -829,7 +821,7 @@ Point InnerDataWindow::getMinSize(Point cap) const
   return Point(40*dxy,20*dxy);
  }
 
-void InnerDataWindow::update(bool new_data)
+void InnerDataWindow::update()
  {
   auto items=data.getItems();
 
@@ -841,16 +833,18 @@ void InnerDataWindow::update(bool new_data)
     {
      Replace_max(total_x,draw(item));
     }
+ }
 
-  if( new_data )
-    {
-     data_filter={};
+void InnerDataWindow::update(Filter filter)
+ {
+  update();
 
-     updateList();
+  data_filter=filter;
 
-     off_x=0;
-     off_y=0;
-    }
+  updateList();
+
+  off_x=0;
+  off_y=0;
  }
 
 void InnerDataWindow::filter(Filter filter)
@@ -1055,9 +1049,14 @@ Point DataWindow::getMinSize(Point cap) const
   return inner.getMinSize(cap-delta)+delta;
  }
 
-void DataWindow::update(bool new_data)
+void DataWindow::update()
  {
-  inner.update(new_data);
+  inner.update();
+ }
+
+void DataWindow::update(Filter filter)
+ {
+  inner.update(filter);
  }
 
 void DataWindow::filter(Filter filter)
@@ -1167,6 +1166,8 @@ void AspectWindow::setAspect(StrLen file_name)
     text_aspect.setText(aspect_file_name);
 
   has_file=true;
+
+  btn_save.enable();
  }
 
 void AspectWindow::clearAspect()
@@ -1176,6 +1177,8 @@ void AspectWindow::clearAspect()
   text_aspect.setText(""_def);
 
   has_file=false;
+
+  btn_save.disable();
  }
 
 void AspectWindow::errorMsg(StrLen text)
@@ -1223,6 +1226,11 @@ void AspectWindow::data_manychanged()
   setModified();
  }
 
+void AspectWindow::btn_save_pressed()
+ {
+  save();
+ }
+
 AspectWindow::AspectWindow(SubWindowHost &host,const Config &cfg_,const char *open_file_name_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -1242,6 +1250,8 @@ AspectWindow::AspectWindow(SubWindowHost &host,const Config &cfg_,const char *op
    count_yellow(wlist,cfg.count_cfg,+cfg.hide_cfg.status_Yellow),
    count_green(wlist,cfg.count_cfg,+cfg.hide_cfg.status_Green),
 
+   btn_save(wlist,cfg.btn_cfg,cfg.text_Save),
+
    line2(wlist,cfg.line_cfg),
 
    data_window(wlist,cfg.data_cfg,data),
@@ -1251,9 +1261,12 @@ AspectWindow::AspectWindow(SubWindowHost &host,const Config &cfg_,const char *op
    connector_msg_destroyed(this,&AspectWindow::msg_destroyed,msg_frame.destroyed),
    connector_hide_changed(this,&AspectWindow::hide_changed,hide.changed),
    connector_data_changed(this,&AspectWindow::data_changed,data_window.changed),
-   connector_data_manychanged(this,&AspectWindow::data_manychanged,data_window.manychanged)
+   connector_data_manychanged(this,&AspectWindow::data_manychanged,data_window.manychanged),
+   connector_btn_save_pressed(this,&AspectWindow::btn_save_pressed,btn_save.pressed)
  {
-  wlist.insTop(label_path,label_aspect,text_path,text_aspect,line1,hide,count_red,count_yellow,count_green,line2,data_window);
+  wlist.insTop(label_path,label_aspect,text_path,text_aspect,line1,hide,count_red,count_yellow,count_green,btn_save,line2,data_window);
+
+  btn_save.disable();
  }
 
 AspectWindow::~AspectWindow()
@@ -1277,11 +1290,13 @@ Point AspectWindow::getMinSize() const
 
   Point s3=hide.getMinSize();
   Point s4=count_red.getMinSize();
+  Point s5=btn_save.getMinSize();
 
   Coordinate dx2=s3.x;
   Coordinate dx3=s4.x;
+  Coordinate dx4=s5.x;
 
-  return Point( 2*space+Sup(space+dx1,dx2,2*space+3*dx3) , 8*space+2*dy+s3.y+s4.y );
+  return Point( 2*space+Sup(space+dx1,dx2,3*space+3*dx3+dx4) , 8*space+2*dy+s3.y+Max(s4.y,s5.y) );
  }
 
 void AspectWindow::blank(StrLen path)
@@ -1377,11 +1392,16 @@ void AspectWindow::updateCount()
 
 void AspectWindow::update(bool new_data)
  {
-  if( new_data ) updateCount();
+  if( new_data )
+    {
+     updateCount();
 
-  data_window.update(new_data);
-
-  if( new_data ) data_window.filter(hide.getFilter());
+     data_window.update(hide.getFilter());
+    }
+  else
+    {
+     data_window.update();
+    }
 
   layout();
 
@@ -1401,10 +1421,9 @@ void AspectWindow::open()
 
   if( const char *file_name=Replace_null(open_file_name) )
     {
-     FileSystem fs;
-     char buf[MaxPathLen+1];
+     NormalPath temp(file_name);
 
-     load(fs.pathOf(file_name,buf));
+     load(temp.get());
     }
  }
 
@@ -1439,16 +1458,20 @@ void AspectWindow::layout()
 
   pane.place_cutTop(hide);
 
-  // count_red , count_yellow , count_green
+  // count_red , count_yellow , count_green , btn_save
 
   {
    auto count__red=CutPoint(count_red);
+   auto btn__save=CutPoint(btn_save);
 
-   Coord dy=count__red.getMinSize().y;
+   Coord dy=SupDY(count__red,btn__save);
 
    PaneCut p=pane.cutTop(dy);
 
-   p.place_cutLeft(count__red).place_cutLeft(count_yellow).place_cutLeft(count_green);
+   p.place_cutLeftCenter(count__red)
+    .place_cutLeftCenter(count_yellow)
+    .place_cutLeftCenter(count_green)
+    .place_cutLeftCenter(btn__save);
   }
 
   // line2

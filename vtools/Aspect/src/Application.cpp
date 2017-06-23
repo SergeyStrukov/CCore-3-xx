@@ -44,6 +44,7 @@ struct AppPreferenceBag : ConfigItemHost
   DefString text_Aspect = "Aspect"_def ;
 
   DefString text_Nothing = "Nothing to save!"_def ;
+  DefString text_Save    = "Save"_def ;
 
   // menu
 
@@ -118,6 +119,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Aspect"_c,ptr->text_Aspect);
 
   func("text_Nothing"_c,ptr->text_Nothing);
+  func("text_Save"_c,ptr->text_Save);
 
   func("text_SelectPath"_c,ptr->text_SelectPath);
 
@@ -166,6 +168,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("aspect"_def,text_Aspect);
     binder.space();
     binder.item("nothing"_def,text_Nothing);
+    binder.item("save"_def,text_Save);
 
   binder.group("Menu"_def);
 

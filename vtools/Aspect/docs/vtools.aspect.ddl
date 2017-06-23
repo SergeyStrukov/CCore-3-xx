@@ -28,8 +28,7 @@ Dir Dir0=
    {
     &Dir7,
     &Dir8,
-    &Dir9,
-    &Dir10
+    &Dir9
    },
    {
     { 'Makefile' , New },
@@ -44,11 +43,10 @@ Dir Dir1=
    'ContourLab',
    New,
    {
+    &Dir10,
     &Dir11,
     &Dir12,
-    &Dir13,
-    &Dir14,
-    &Dir15
+    &Dir13
    },
    {
     { 'Makefile' , New },
@@ -64,9 +62,8 @@ Dir Dir2=
    'DDLDisplay',
    New,
    {
-    &Dir16,
-    &Dir17,
-    &Dir18
+    &Dir14,
+    &Dir15
    },
    {
     { 'Makefile' , New },
@@ -81,7 +78,7 @@ Dir Dir3=
    'EventView',
    New,
    {
-    &Dir19
+    &Dir16
    },
    {
    }
@@ -92,9 +89,8 @@ Dir Dir4=
    'Sample',
    New,
    {
-    &Dir20,
-    &Dir21,
-    &Dir22
+    &Dir17,
+    &Dir18
    },
    {
     { 'Makefile' , New },
@@ -110,9 +106,8 @@ Dir Dir5=
    'SubLab',
    New,
    {
-    &Dir23,
-    &Dir24,
-    &Dir25
+    &Dir19,
+    &Dir20
    },
    {
     { 'Makefile' , New },
@@ -128,9 +123,8 @@ Dir Dir6=
    'UserPreference',
    New,
    {
-    &Dir26,
-    &Dir27,
-    &Dir28
+    &Dir21,
+    &Dir22
    },
    {
     { 'Makefile' , New },
@@ -169,30 +163,6 @@ Dir Dir8=
 
 Dir Dir9=
   {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'Aspect.dep' , New },
-    { 'AspectData.dep' , New },
-    { 'Client.dep' , New },
-    { 'ErrorText.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'Application.o' , New },
-    { 'Aspect.o' , New },
-    { 'AspectData.o' , New },
-    { 'Client.o' , New },
-    { 'ErrorText.o' , New },
-    { 'main.o' , New }
-   }
-  };
-
-Dir Dir10=
-  {
    'src',
    New,
    {
@@ -210,7 +180,7 @@ Dir Dir10=
    }
   };
 
-Dir Dir11=
+Dir Dir10=
   {
    'docs',
    New,
@@ -227,7 +197,7 @@ Dir Dir11=
    }
   };
 
-Dir Dir12=
+Dir Dir11=
   {
    'inc',
    New,
@@ -248,57 +218,19 @@ Dir Dir12=
    }
   };
 
-Dir Dir13=
+Dir Dir12=
   {
    'lang',
    New,
    {
-    &Dir29,
-    &Dir30
+    &Dir23,
+    &Dir24
    },
    {
    }
   };
 
-Dir Dir14=
-  {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'Client.dep' , New },
-    { 'Contour.dep' , New },
-    { 'EditAngleWindow.dep' , New },
-    { 'EditLengthWindow.dep' , New },
-    { 'Editor.dep' , New },
-    { 'EditRatioWindow.dep' , New },
-    { 'Geometry.dep' , New },
-    { 'GeometryWindow.dep' , New },
-    { 'ItemListWindow.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'Parser.dep' , New },
-    { 'ParserData.dep' , New },
-    { 'Application.o' , New },
-    { 'Client.o' , New },
-    { 'Contour.o' , New },
-    { 'EditAngleWindow.o' , New },
-    { 'EditLengthWindow.o' , New },
-    { 'Editor.o' , New },
-    { 'EditRatioWindow.o' , New },
-    { 'Geometry.o' , New },
-    { 'GeometryWindow.o' , New },
-    { 'ItemListWindow.o' , New },
-    { 'main.o' , New },
-    { 'Parser.o' , New },
-    { 'ParserData.o' , New }
-   }
-  };
-
-Dir Dir15=
+Dir Dir13=
   {
    'src',
    New,
@@ -324,7 +256,7 @@ Dir Dir15=
    }
   };
 
-Dir Dir29=
+Dir Dir23=
   {
    'Formula',
    New,
@@ -340,7 +272,7 @@ Dir Dir29=
    }
   };
 
-Dir Dir30=
+Dir Dir24=
   {
    'Pad',
    New,
@@ -354,7 +286,7 @@ Dir Dir30=
    }
   };
 
-Dir Dir16=
+Dir Dir14=
   {
    'inc',
    New,
@@ -367,27 +299,7 @@ Dir Dir16=
    }
   };
 
-Dir Dir17=
-  {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'Client.dep' , New },
-    { 'Display.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'Application.o' , New },
-    { 'Client.o' , New },
-    { 'Display.o' , New },
-    { 'main.o' , New }
-   }
-  };
-
-Dir Dir18=
+Dir Dir15=
   {
    'src',
    New,
@@ -401,7 +313,7 @@ Dir Dir18=
    }
   };
 
-Dir Dir19=
+Dir Dir16=
   {
    'prototype',
    New,
@@ -413,7 +325,7 @@ Dir Dir19=
    }
   };
 
-Dir Dir20=
+Dir Dir17=
   {
    'inc',
    New,
@@ -426,27 +338,7 @@ Dir Dir20=
    }
   };
 
-Dir Dir21=
-  {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'Client.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'Sample.dep' , New },
-    { 'Application.o' , New },
-    { 'Client.o' , New },
-    { 'main.o' , New },
-    { 'Sample.o' , New }
-   }
-  };
-
-Dir Dir22=
+Dir Dir18=
   {
    'src',
    New,
@@ -460,7 +352,7 @@ Dir Dir22=
    }
   };
 
-Dir Dir23=
+Dir Dir19=
   {
    'inc',
    New,
@@ -472,25 +364,7 @@ Dir Dir23=
    }
   };
 
-Dir Dir24=
-  {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'Client.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'Application.o' , New },
-    { 'Client.o' , New },
-    { 'main.o' , New }
-   }
-  };
-
-Dir Dir25=
+Dir Dir20=
   {
    'src',
    New,
@@ -503,7 +377,7 @@ Dir Dir25=
    }
   };
 
-Dir Dir26=
+Dir Dir21=
   {
    'inc',
    New,
@@ -515,25 +389,7 @@ Dir Dir26=
    }
   };
 
-Dir Dir27=
-  {
-   'obj',
-   New,
-   {
-   },
-   {
-    { 'empty' , New },
-    { 'Application.dep' , New },
-    { 'main.dep' , New },
-    { 'Makefile.dep' , New },
-    { 'TestFrame.dep' , New },
-    { 'Application.o' , New },
-    { 'main.o' , New },
-    { 'TestFrame.o' , New }
-   }
-  };
-
-Dir Dir28=
+Dir Dir22=
   {
    'src',
    New,

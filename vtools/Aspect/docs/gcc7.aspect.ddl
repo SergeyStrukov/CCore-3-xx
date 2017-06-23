@@ -5236,7 +5236,7 @@ Dir Dir277=
    },
    {
     { 'Application.h' , Green },
-    { 'Aspect.h' , Red },
+    { 'Aspect.h' , Yellow },
     { 'AspectData.h' , Green },
     { 'Client.h' , Red },
     { 'ErrorText.h' , Green }
@@ -5251,7 +5251,7 @@ Dir Dir278=
    },
    {
     { 'Application.cpp' , Green },
-    { 'Aspect.cpp' , Red },
+    { 'Aspect.cpp' , Yellow },
     { 'AspectData.cpp' , Green },
     { 'Client.cpp' , Red },
     { 'ErrorText.cpp' , Green },
