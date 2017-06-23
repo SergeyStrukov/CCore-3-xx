@@ -15,9 +15,17 @@
 
 #include <CCore/inc/video/PrintDDL.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace CCore {
 namespace Video {
 
+/* struct DDLPrintableString */
+
+void DDLPrintableString::GuardNotPrintable()
+ {
+  Printf(Exception,"CCore::Video::DDLPrintableString::PrintChar(...) : not printable character");
+ }
 
 } // namespace Video
 } // namespace CCore

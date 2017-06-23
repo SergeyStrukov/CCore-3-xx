@@ -17,7 +17,6 @@
 #include <inc/ErrorText.h>
 
 #include <CCore/inc/Array.h>
-#include <CCore/inc/Swap.h>
 #include <CCore/inc/MakeString.h>
 
 namespace App {
@@ -25,6 +24,8 @@ namespace App {
 /* functions */
 
 bool IsRelPath(StrLen path);
+
+bool SkipDir(StrLen name);
 
 /* classes */
 
@@ -181,7 +182,7 @@ struct ItemData
    : ptr(dir),
      depth(depth_),
      is_dir(true),
-     is_open(true)
+     is_open( (depth>0)?false:true )
    {
    }
 
@@ -213,6 +214,8 @@ class AspectData : NoCopy
 
    DynArray<ItemData> items;
    DynArray<ulen> visible;
+
+   bool ok = false ;
 
   private:
 
@@ -261,7 +264,7 @@ class AspectData : NoCopy
 
    // methods
 
-   bool operator ! () const { return !Range(path); }
+   bool operator ! () const { return !ok; }
 
    const String & getPath() const { return path; }
 
@@ -269,11 +272,11 @@ class AspectData : NoCopy
 
    Counts getCounts() const;
 
-   auto getItems() const { return Range(items); }
+   PtrLen<const ItemData> getItems() const { return Range(items); }
 
-   auto getVisible() const { return Range(visible); }
+   PtrLen<const ulen> getVisible() const { return Range(visible); }
 
-   auto getVisible() { return Range(visible); }
+   PtrLen<ulen> getVisible() { return Range(visible); }
 
    void collect();
 

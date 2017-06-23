@@ -54,6 +54,11 @@ bool IsRelPath(StrLen path)
   return false;
  }
 
+bool SkipDir(StrLen name)
+ {
+  return name.len && name[0]=='.' ;
+ }
+
 /* struct DiffPath */
 
 DiffPath::DiffPath(StrLen a,StrLen b)
@@ -443,6 +448,8 @@ class AspectData::DirProc : NoCopy
 
    DataType * dir(StrLen,StrLen name,DataType *parent_data)
     {
+     if( !parent_data || SkipDir(name) ) return 0;
+
      DirNode *node=create(parent_data->dirs,name);
 
      parent_data->dirs=node;
@@ -452,18 +459,18 @@ class AspectData::DirProc : NoCopy
 
    void file(StrLen,StrLen name,DataType *parent_data)
     {
-     parent_data->files=create(parent_data->files,name);
+     if( parent_data ) parent_data->files=create(parent_data->files,name);
     }
 
    void enddir(StrLen,StrLen,DataType *data)
     {
-     data->finish();
+     if( data ) data->finish();
     }
  };
 
 void AspectData::Build(DirData &root,StrLen path)
  {
-  DirTreeRun run(Range(path));
+  DirTreeRun run(path);
 
   DirProc proc;
 
@@ -608,6 +615,8 @@ bool AspectData::sync()
 
   buildItems();
 
+  ok=true;
+
   return ret;
  }
 
@@ -625,6 +634,7 @@ void AspectData::erase()
   root.erase();
   items.erase();
   visible.erase();
+  ok=false;
  }
 
 Counts AspectData::getCounts() const
@@ -634,7 +644,7 @@ Counts AspectData::getCounts() const
   for(const ItemData &item : items )
     if( !item.is_dir )
       {
-       auto status=item.ptr->status;
+       ItemStatus status=item.ptr->status;
 
        if( status<ItemStatusLim ) ret.count[status]++;
       }
@@ -670,7 +680,7 @@ void AspectData::PrintDir(PrinterType &out,ulen &index,const DirData &dir)
  {
   Printf(out,"  {\n");
 
-  Printf(out,"   #;,\n",DDLString(dir.name));
+  Printf(out,"   #;,\n",DDLPrintableString(dir.name));
 
   Printf(out,"   #;,\n",dir.status);
 
@@ -696,7 +706,7 @@ void AspectData::PrintDir(PrinterType &out,ulen &index,const DirData &dir)
 
    for(const FileData &file : dir.files )
      {
-      Printf(out,"#;    { #; , #; }",stem,DDLString(file.name),file.status);
+      Printf(out,"#;    { #; , #; }",stem,DDLPrintableString(file.name),file.status);
      }
 
    Printf(out,"\n   }\n");
@@ -742,9 +752,9 @@ void AspectData::save(StrLen file_name,ErrorText &etext) const
       RelPath rel(PrefixPath(file_name),abspath);
 
       if( +rel )
-        Printf(out,"  #;,\n",DDLString(rel.get()));
+        Printf(out,"  #;,\n",DDLPrintableString(rel.get()));
       else
-        Printf(out,"  #;,\n",DDLString(abspath));
+        Printf(out,"  #;,\n",DDLPrintableString(abspath));
      }
 
      ulen index=0;
@@ -846,12 +856,9 @@ void AspectData::toAbs(StrLen file_name)
     {
      MakeFileName temp(PrefixPath(file_name),str);
 
-     if( +temp )
-       {
-        NormalPath normal(temp.get());
+     NormalPath normal(temp.get());
 
-        path=String(normal.get());
-       }
+     path=String(normal.get());
     }
  }
 

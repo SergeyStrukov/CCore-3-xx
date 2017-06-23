@@ -29,6 +29,8 @@ inline StrLen DDLBool(bool val) { return val?"True"_c:"False"_c; }
 
 struct DDLString;
 
+struct DDLPrintableString;
+
 /* struct DDLString */
 
 struct DDLString
@@ -75,6 +77,41 @@ struct DDLString
     for(char ch : str ) PrintChar(out,ch);
 
     out.put('"');
+   }
+ };
+
+/* struct DDLPrintableString */
+
+struct DDLPrintableString
+ {
+  StrLen str;
+
+  explicit DDLPrintableString(StrLen str_) : str(str_) {}
+
+  explicit DDLPrintableString(const ConstTypeRangeableType<char> &obj) : str(Range_const(obj)) {}
+
+  // print object
+
+  static void GuardNotPrintable();
+
+  static void PrintChar(PrinterType &out,char ch)
+   {
+    switch( ch )
+      {
+       default:
+        {
+         if( CharIsPrintable(ch) ) out.put(ch); else GuardNotPrintable();
+        }
+      }
+   }
+
+  void print(PrinterType &out) const
+   {
+    out.put('\'');
+
+    for(char ch : str ) PrintChar(out,ch);
+
+    out.put('\'');
    }
  };
 
