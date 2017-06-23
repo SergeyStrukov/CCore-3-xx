@@ -27,6 +27,8 @@ bool IsRelPath(StrLen path);
 
 bool SkipDir(StrLen name);
 
+bool SkipFile(StrLen name);
+
 /* classes */
 
 struct DiffPath;

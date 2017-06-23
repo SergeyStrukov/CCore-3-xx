@@ -19,8 +19,6 @@ LDOPT_EXTRA = ../PTPServerProc/PTPServerProc.a
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 TARGET = $(HOME)/bin/CCore-PTPServer.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app

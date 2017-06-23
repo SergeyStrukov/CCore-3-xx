@@ -21,7 +21,7 @@ SRC_PATH_LIST = . \
                 $(CCORE_ROOT)/Desktop/CCore/test \
 
 
-OBJ_PATH = ../wintest-obj
+OBJ_PATH = ../.wintest-obj
 
 TARGET = main.exe
 

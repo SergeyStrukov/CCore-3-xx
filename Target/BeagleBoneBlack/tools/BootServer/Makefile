@@ -15,8 +15,6 @@ CCORE_ROOT = ../../../..
 
 CCORE_TARGET = BeagleBoneBlack
 
-OBJ_PATH = obj
-
 TARGET = main.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app

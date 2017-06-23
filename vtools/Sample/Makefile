@@ -15,8 +15,6 @@ CCORE_ROOT = ../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 SRC_PATH_LIST = .
 
 TARGET = ./Sample.exe

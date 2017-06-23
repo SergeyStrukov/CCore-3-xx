@@ -1,25 +1,25 @@
 OBJ_LIST = \
-obj/ErrorIds.o \
-obj/HFSProc.o \
-obj/ProcBase.o \
-obj/ServerProc.o \
-obj/SupportProc.o \
+.obj/ErrorIds.o \
+.obj/HFSProc.o \
+.obj/ProcBase.o \
+.obj/ServerProc.o \
+.obj/SupportProc.o \
 
 
 ASM_LIST = \
-obj/ErrorIds.s \
-obj/HFSProc.s \
-obj/ProcBase.s \
-obj/ServerProc.s \
-obj/SupportProc.s \
+.obj/ErrorIds.s \
+.obj/HFSProc.s \
+.obj/ProcBase.s \
+.obj/ServerProc.s \
+.obj/SupportProc.s \
 
 
 DEP_LIST = \
-obj/ErrorIds.dep \
-obj/HFSProc.dep \
-obj/ProcBase.dep \
-obj/ServerProc.dep \
-obj/SupportProc.dep \
+.obj/ErrorIds.dep \
+.obj/HFSProc.dep \
+.obj/ProcBase.dep \
+.obj/ServerProc.dep \
+.obj/SupportProc.dep \
 
 
 ASM_OBJ_LIST = \
@@ -28,53 +28,53 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-obj/ErrorIds.o : ./ErrorIds.cpp
+.obj/ErrorIds.o : ./ErrorIds.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-obj/HFSProc.o : ./HFSProc.cpp
+.obj/HFSProc.o : ./HFSProc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-obj/ProcBase.o : ./ProcBase.cpp
+.obj/ProcBase.o : ./ProcBase.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-obj/ServerProc.o : ./ServerProc.cpp
+.obj/ServerProc.o : ./ServerProc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-obj/SupportProc.o : ./SupportProc.cpp
+.obj/SupportProc.o : ./SupportProc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-obj/ErrorIds.s : ./ErrorIds.cpp
+.obj/ErrorIds.s : ./ErrorIds.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-obj/HFSProc.s : ./HFSProc.cpp
+.obj/HFSProc.s : ./HFSProc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-obj/ProcBase.s : ./ProcBase.cpp
+.obj/ProcBase.s : ./ProcBase.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-obj/ServerProc.s : ./ServerProc.cpp
+.obj/ServerProc.s : ./ServerProc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-obj/SupportProc.s : ./SupportProc.cpp
+.obj/SupportProc.s : ./SupportProc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-obj/ErrorIds.dep : ./ErrorIds.cpp
+.obj/ErrorIds.dep : ./ErrorIds.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ErrorIds.o $< -MF $@
 
-obj/HFSProc.dep : ./HFSProc.cpp
+.obj/HFSProc.dep : ./HFSProc.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/HFSProc.o $< -MF $@
 
-obj/ProcBase.dep : ./ProcBase.cpp
+.obj/ProcBase.dep : ./ProcBase.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ProcBase.o $< -MF $@
 
-obj/ServerProc.dep : ./ServerProc.cpp
+.obj/ServerProc.dep : ./ServerProc.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ServerProc.o $< -MF $@
 
-obj/SupportProc.dep : ./SupportProc.cpp
+.obj/SupportProc.dep : ./SupportProc.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SupportProc.o $< -MF $@
 
 

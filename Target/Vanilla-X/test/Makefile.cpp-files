@@ -32,6 +32,7 @@
 ../../../Simple/CCore/test/test1031.NewDelete.cpp
 ../../../Simple/CCore/test/test1032.DynObject.cpp
 ../../../Simple/CCore/test/test1033.AnyPtr.cpp
+../../../Simple/CCore/test/test1034.PrintStem.cpp
 ../../../Fundamental/CCore/test/test2001.UIntSlowMulAlgo.cpp
 ../../../Fundamental/CCore/test/test2002.Exception.cpp
 ../../../Fundamental/CCore/test/test2003.SpaceHeap.cpp
@@ -85,6 +86,9 @@
 ../../../Fundamental/CCore/test/test2051.DeferCall.cpp
 ../../../Fundamental/CCore/test/test2052.ObjectDomain.cpp
 ../../../Fundamental/CCore/test/test2053.StepEval.cpp
+../../../Fundamental/CCore/test/test2054.ApplyToRange.cpp
+../../../Fundamental/CCore/test/test2055.ArrayInsDel.cpp
+../../../Fundamental/CCore/test/test2056.StrMap.cpp
 ../../../Fundamental/CCore/test/test2500.PrintFile.cpp
 ../../../Fundamental/CCore/test/test2999.Blank.cpp
 ../../../Fundamental/CCore/test/testArray.cpp
@@ -120,6 +124,7 @@
 ../../../Applied/CCore/test/test3029.NetFork.cpp
 ../../../Applied/CCore/test/test3030.PSec.cpp
 ../../../Applied/CCore/test/test3031.PKE.cpp
+../../../Applied/CCore/test/test3032.FileNameMatch.cpp
 ../../../Applied/CCore/test/testInt.cpp
 ../../../Applied/CCore/test/testIntAlgo.cpp
 ../../../Applied/CCore/test/testIntBase.cpp

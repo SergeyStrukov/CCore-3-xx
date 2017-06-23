@@ -17,8 +17,6 @@ DDLTYPESET = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 TARGET = $(HOME)/bin/CCore-PTPSecureClient.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app

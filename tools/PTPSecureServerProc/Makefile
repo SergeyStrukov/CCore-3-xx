@@ -15,8 +15,6 @@ CCORE_ROOT = ../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 TARGET = PTPSecureServerProc.a
 
 include $(CCORE_ROOT)/Target/Makefile.lib

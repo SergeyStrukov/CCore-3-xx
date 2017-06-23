@@ -25,7 +25,7 @@ SRC_PATH_LIST = . \
                 $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore/test \
 
 
-OBJ_PATH = ../test-obj
+OBJ_PATH = ../.test-obj
 
 TARGET = main.exe
 

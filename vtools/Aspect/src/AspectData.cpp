@@ -59,6 +59,11 @@ bool SkipDir(StrLen name)
   return name.len && name[0]=='.' ;
  }
 
+bool SkipFile(StrLen name)
+ {
+  return name.len && name[0]=='.' ;
+ }
+
 /* struct DiffPath */
 
 DiffPath::DiffPath(StrLen a,StrLen b)
@@ -459,7 +464,7 @@ class AspectData::DirProc : NoCopy
 
    void file(StrLen,StrLen name,DataType *parent_data)
     {
-     if( parent_data ) parent_data->files=create(parent_data->files,name);
+     if( parent_data && !SkipFile(name) ) parent_data->files=create(parent_data->files,name);
     }
 
    void enddir(StrLen,StrLen,DataType *data)

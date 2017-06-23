@@ -15,7 +15,7 @@
 
 SRC_PATH_LIST ?= .
 
-OBJ_PATH ?= obj
+OBJ_PATH ?= .obj
 
 TARGET ?= main.exe
 

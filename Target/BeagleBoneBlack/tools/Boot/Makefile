@@ -15,8 +15,6 @@ CCORE_ROOT = ../../../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 TARGET = $(HOME)/bin/CCore-BeagleBoot.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
