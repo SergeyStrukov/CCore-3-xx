@@ -125,10 +125,10 @@ Filter HideControl::getFilter() const
 void HideControl::reset()
  {
   check_New.check(false);
-  check_Ignore.check(false);
+  check_Ignore.check(true);
   check_Red.check(false);
   check_Yellow.check(false);
-  check_Green.check(false);
+  check_Green.check(true);
  }
 
  // drawing
@@ -1380,6 +1380,8 @@ void AspectWindow::update(bool new_data)
   if( new_data ) updateCount();
 
   data_window.update(new_data);
+
+  if( new_data ) data_window.filter(hide.getFilter());
 
   layout();
 

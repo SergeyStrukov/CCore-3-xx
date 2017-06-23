@@ -9131,7 +9131,7 @@ Dir Dir309=
    {
     { 'Application.h' , Green },
     { 'Aspect.h' , Red },
-    { 'AspectData.h' , Red },
+    { 'AspectData.h' , Green },
     { 'Client.h' , Red },
     { 'ErrorText.h' , Green }
    }
@@ -9170,7 +9170,7 @@ Dir Dir311=
    {
     { 'Application.cpp' , Green },
     { 'Aspect.cpp' , Red },
-    { 'AspectData.cpp' , Red },
+    { 'AspectData.cpp' , Green },
     { 'Client.cpp' , Red },
     { 'ErrorText.cpp' , Green },
     { 'main.cpp' , Green },
