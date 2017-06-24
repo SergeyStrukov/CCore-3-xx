@@ -83,6 +83,11 @@ struct AliveControl
     // do nothing
    }
 
+  virtual void dying()
+   {
+    // do nothing
+   }
+
   virtual void dead()
    {
     // do nothing

@@ -32,7 +32,6 @@
 
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
-#include <CCore/inc/FileSystem.h>
 
 namespace App {
 
@@ -747,7 +746,7 @@ void AspectData::save(StrLen file_name,ErrorText &etext) const
     {
      PrintFile out(file_name);
 
-     Printf(out,"//##include <Aspect.ddl>\n\n");
+     Printf(out,"//include <Aspect.ddl>\n\n");
 
      Printf(out,"Aspect Data=\n {\n");
 
@@ -778,8 +777,14 @@ void AspectData::save(StrLen file_name,ErrorText &etext) const
     }
  }
 
+namespace AspectTypes {
+
 #include "Aspect.TypeDef.gen.h"
 #include "Aspect.TypeSet.gen.h"
+
+} // namespace AspectTypes
+
+using namespace AspectTypes;
 
 StrLen AspectData::Pretext()
  {
@@ -898,7 +903,7 @@ bool AspectData::load(StrLen file_name,ErrorText &etext)
 
         // populate
 
-        TypeDef::Aspect data=map.takeConst<TypeDef::Aspect>("Data");
+        TypeDef::Aspect data=map.takeConst<TypeDef::Aspect>("Data"_c);
 
         path=String(data.path.getStr());
 

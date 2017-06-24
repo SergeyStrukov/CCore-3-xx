@@ -15,6 +15,7 @@
 #define Client_h
 
 #include <inc/Aspect.h>
+#include <inc/AppState.h>
 
 namespace App {
 
@@ -236,6 +237,8 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    void update(bool new_data) { aspect.update(new_data); }
 
+   void prepare(const AppState &app_state);
+
    // base
 
    virtual void open();
@@ -257,6 +260,8 @@ class ClientWindow : public ComboWindow , public AliveControl
    void react_other(UserAction action);
 
    // AliveControl
+
+   virtual void dying();
 
    virtual bool askDestroy();
 

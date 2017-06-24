@@ -434,7 +434,7 @@ void ConfigMap::saveDDL(StrLen file_name) const
  {
   PrintFile out(file_name);
 
-  //Printf(out,"include <ConfigTypes.ddl>\n\n");
+  Printf(out,"//include <ConfigTypes.ddl>\n\n");
 
   map.applyIncr( [&out] (const Key &key,const ConfigItem &item)
                         {

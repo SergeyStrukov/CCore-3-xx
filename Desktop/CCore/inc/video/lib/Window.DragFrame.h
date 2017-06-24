@@ -824,6 +824,12 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      getClient().open();
     }
 
+   virtual void dying()
+    {
+     client_ac->dying();
+     alert_client_ac->dying();
+    }
+
    virtual void dead()
     {
      defer_tick.stop();

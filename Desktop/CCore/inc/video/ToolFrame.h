@@ -128,6 +128,8 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    virtual void alive();
 
+   virtual void dying();
+
    virtual void dead();
 
    virtual void askClose();

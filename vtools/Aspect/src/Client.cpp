@@ -367,6 +367,13 @@ ClientWindow::~ClientWindow()
  {
  }
 
+ // methods
+
+void ClientWindow::prepare(const AppState &app_state) // TODO
+ {
+  Used(app_state);
+ }
+
  // base
 
 void ClientWindow::open()
@@ -453,7 +460,16 @@ void ClientWindow::react_other(UserAction action)
   wlist.react(action);
  }
 
-// AliveControl
+ // AliveControl
+
+void ClientWindow::dying() // TODO
+ {
+  AppState app_state;
+
+  app_state.place=getFrameHost()->getPlace();
+
+  app_state.save();
+ }
 
 bool ClientWindow::askDestroy()
  {

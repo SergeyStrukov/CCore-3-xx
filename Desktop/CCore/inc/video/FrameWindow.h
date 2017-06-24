@@ -260,6 +260,8 @@ class FrameWindow : public NoCopyBase<MemBase,UserInput>
 
    void destroy()
     {
+     dying();
+
      host->destroy();
 
      destroyed.assert();
@@ -268,6 +270,11 @@ class FrameWindow : public NoCopyBase<MemBase,UserInput>
    // base
 
    virtual void alive()
+    {
+     // do nothing
+    }
+
+   virtual void dying()
     {
      // do nothing
     }

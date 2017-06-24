@@ -385,7 +385,18 @@ class Application : public ApplicationBase
 
    virtual void prepare()
     {
-     main_frame.createMain(cmd_display,param.app_pref.get().title);
+     AppState app_state;
+
+     if( app_state.load() )
+       {
+        client.prepare(app_state);
+
+        main_frame.createMain(cmd_display,app_state.place,param.app_pref.get().title);
+       }
+     else
+       {
+        main_frame.createMain(cmd_display,param.app_pref.get().title);
+       }
     }
 
    virtual void beforeLoop() noexcept

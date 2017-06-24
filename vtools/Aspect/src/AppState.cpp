@@ -16,6 +16,13 @@
 #include <CCore/inc/video/HomeFile.h>
 
 #include <CCore/inc/Print.h>
+#include <CCore/inc/PrintStem.h>
+
+#include <CCore/inc/ddl/DDLEngine.h>
+#include <CCore/inc/ddl/DDLTypeSet.h>
+
+#include <CCore/inc/FileName.h>
+#include <CCore/inc/FileToMem.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -25,6 +32,27 @@ namespace App {
 
 StrLen AppState::File() { return "/AppState.ddl"_c; }
 
+StrLen AppState::Pretext()
+ {
+  return
+"type Coord = sint16 ;"
+
+"struct Pane"
+" {"
+"  Coord x;"
+"  Coord y;"
+"  Coord dx;"
+"  Coord dy;"
+" };"
+
+"struct AppState"
+" {"
+"  Pane place;"
+
+"  text[] recent_files;"
+" };"_c;
+ }
+
 AppState::AppState()
  {
  }
@@ -33,16 +61,72 @@ AppState::~AppState()
  {
  }
 
+namespace AppStateTypes {
+
+#include "AppState.TypeDef.gen.h"
+#include "AppState.TypeSet.gen.h"
+
+} // namespace AppStateTypes
+
+using namespace AppStateTypes;
+
 bool AppState::load(StrLen file_name)
  {
-  // TODO
+  char buf[TextBufLen];
+  PrintBuf eout(Range(buf));
+
+  DDL::FileEngine<FileName,FileToMem> engine(eout);
+
+  auto result=engine.process(file_name,Pretext());
+
+  if( !result )
+    {
+     return false;
+    }
+  else
+    {
+     DDL::TypedMap<TypeSet> map(result);
+     MemAllocGuard guard(map.getLen());
+
+     map(guard);
+
+     // populate
+
+     TypeDef::AppState data=map.takeConst<TypeDef::AppState>("Data"_c);
+
+     auto p=data.place;
+
+     place=Pane(p.x,p.y,p.dx,p.dy);
+
+     recent_list.erase();
+
+     for(auto f : data.recent_files.getRange() ) recent_list.append_fill(f);
+
+     return true;
+    }
 
   return false;
  }
 
-void AppState::save(StrLen file_name)
+void AppState::save(StrLen file_name) const
  {
-  // TODO
+  PrintFile out(file_name);
+
+  Printf(out,"//include <AppState.ddl>\n\n");
+
+  Printf(out,"AppState Data=\n {\n\n");
+
+  Printf(out,"  { #; , #; , #; , #; },\n\n",place.x,place.y,place.dx,place.dy);
+
+  Printf(out,"  {");
+
+  PrintFirst stem("\n"_c,",\n"_c);
+
+  for(const String &s : recent_list ) Printf(out,"#;   #;",stem,DDLPrintableString(Range(s)));
+
+  Printf(out,"  }\n\n");
+
+  Printf(out," };\n\n");
  }
 
 bool AppState::load() noexcept
@@ -59,7 +143,7 @@ bool AppState::load() noexcept
     }
  }
 
-void AppState::save() noexcept
+void AppState::save() const noexcept
  {
   try
     {

@@ -256,6 +256,11 @@ void ToolFrame::alive()
   getClient().open();
  }
 
+void ToolFrame::dying()
+ {
+  client_ac->dying();
+ }
+
 void ToolFrame::dead()
  {
   getClient().close();

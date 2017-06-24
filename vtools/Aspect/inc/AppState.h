@@ -37,17 +37,19 @@ struct AppState
 
   static StrLen File();
 
+  static StrLen Pretext();
+
   AppState();
 
   ~AppState();
 
   bool load(StrLen file_name);
 
-  void save(StrLen file_name);
+  void save(StrLen file_name) const;
 
   bool load() noexcept;
 
-  void save() noexcept;
+  void save() const noexcept;
  };
 
 } // namespace App
