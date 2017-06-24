@@ -137,6 +137,7 @@ OBJ_LIST = \
 .obj/HashFunction.o \
 .obj/HeapEngine.o \
 .obj/HeapSort.o \
+.obj/HomeFile.o \
 .obj/Incremental.o \
 .obj/Info.o \
 .obj/InfoSize.o \
@@ -554,6 +555,7 @@ ASM_LIST = \
 .obj/HashFunction.s \
 .obj/HeapEngine.s \
 .obj/HeapSort.s \
+.obj/HomeFile.s \
 .obj/Incremental.s \
 .obj/Info.s \
 .obj/InfoSize.s \
@@ -971,6 +973,7 @@ DEP_LIST = \
 .obj/HashFunction.dep \
 .obj/HeapEngine.dep \
 .obj/HeapSort.dep \
+.obj/HomeFile.dep \
 .obj/Incremental.dep \
 .obj/Info.dep \
 .obj/InfoSize.dep \
@@ -1674,6 +1677,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/HeapSort.o : ../../Fundamental/CCore/src/sort/HeapSort.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/HomeFile.o : ../../Desktop/CCore/src/video/HomeFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Incremental.o : ../../Desktop/CCore/src/video/Incremental.cpp
@@ -2920,6 +2926,9 @@ include $(RULES_FILE)
 .obj/HeapSort.s : ../../Fundamental/CCore/src/sort/HeapSort.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/HomeFile.s : ../../Desktop/CCore/src/video/HomeFile.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Incremental.s : ../../Desktop/CCore/src/video/Incremental.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4163,6 +4172,9 @@ include $(RULES_FILE)
 
 .obj/HeapSort.dep : ../../Fundamental/CCore/src/sort/HeapSort.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/HeapSort.o $< -MF $@
+
+.obj/HomeFile.dep : ../../Desktop/CCore/src/video/HomeFile.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/HomeFile.o $< -MF $@
 
 .obj/Incremental.dep : ../../Desktop/CCore/src/video/Incremental.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Incremental.o $< -MF $@

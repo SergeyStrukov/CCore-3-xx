@@ -35,9 +35,15 @@ struct AppState
 
   // methods
 
+  static StrLen File();
+
   AppState();
 
   ~AppState();
+
+  bool load(StrLen file_name);
+
+  void save(StrLen file_name);
 
   bool load() noexcept;
 

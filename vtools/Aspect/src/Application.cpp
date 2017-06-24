@@ -22,6 +22,13 @@
 
 namespace App {
 
+/* AppKey() */
+
+StrLen AppKey()
+ {
+  return "/5399CEC08CD81156F71679107FBC42A596486B06FDE5AAE7C17475ADA6DB9A2C"_c;
+ }
+
 /* classes */
 
 struct AppPreferenceBag;
@@ -227,9 +234,7 @@ void AppPreferenceBag::createFonts()
 
 class AppPreference : public ConfigBinder<AppPreferenceBag>
  {
-   static StrLen Key() { return "/5399CEC08CD81156F71679107FBC42A596486B06FDE5AAE7C17475ADA6DB9A2C"_c;  }
-
-   static StrLen File() { return "/AppPreference.ddl"_c;  }
+   static StrLen File() { return "/AppPreference.ddl"_c; }
 
   public:
 
@@ -247,12 +252,12 @@ class AppPreference : public ConfigBinder<AppPreferenceBag>
 
    void sync() noexcept
     {
-     syncHome(Key(),File());
+     syncHome(AppKey(),File());
     }
 
    void update() noexcept
     {
-     updateHome(Key(),File());
+     updateHome(AppKey(),File());
     }
  };
 

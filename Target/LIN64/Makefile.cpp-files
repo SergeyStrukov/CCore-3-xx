@@ -290,6 +290,7 @@
 ../../Desktop/CCore/src/video/FreeType.cpp
 ../../Desktop/CCore/src/video/FreeTypeFont.cpp
 ../../Desktop/CCore/src/video/GammaTable.cpp
+../../Desktop/CCore/src/video/HomeFile.cpp
 ../../Desktop/CCore/src/video/Incremental.cpp
 ../../Desktop/CCore/src/video/Info.cpp
 ../../Desktop/CCore/src/video/InfoSize.cpp

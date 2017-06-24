@@ -23,6 +23,10 @@ namespace App {
 using namespace CCore;
 using namespace CCore::Video;
 
+/* AppKey() */
+
+StrLen AppKey();
+
 /* Main() */
 
 int Main(CmdDisplay cmd_display,const char *open_file_name=0);

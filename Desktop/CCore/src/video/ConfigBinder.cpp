@@ -15,10 +15,7 @@
 
 #include <CCore/inc/video/ConfigBinder.h>
 
-#include <CCore/inc/MakeString.h>
-#include <CCore/inc/FileSystem.h>
-
-#include <CCore/inc/Exception.h>
+#include <CCore/inc/video/HomeFile.h>
 
 namespace CCore {
 namespace Video {
@@ -29,36 +26,19 @@ void HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
  {
   try
     {
-     HomeDir home;
-
-     MakeString<MaxPathLen> buf;
-
-     buf.add(home.get(),home_dir);
-
-     StrLen dir=buf.get();
-
-     buf.add(cfg_file);
-
-     if( !buf )
-       {
-        Printf(Exception,"CCore::Video::HomeSyncBase::syncHome(...) : too long file name");
-       }
-
-     StrLen file_name=buf.get();
+     HomeFile home_file(home_dir,cfg_file);
 
      ConfigMap map;
 
-     map.loadDDL_safe(file_name);
+     map.loadDDL_safe(home_file.get());
 
      syncMap(map);
 
      if( map.isModified() )
        {
-        FileSystem fs;
+        home_file.createDir();
 
-        if( fs.getFileType(dir)==FileType_none ) fs.createDir(dir);
-
-        map.saveDDL(file_name);
+        map.saveDDL(home_file.get());
        }
     }
   catch(...)
@@ -70,34 +50,17 @@ void HomeSyncBase::updateHome(StrLen home_dir,StrLen cfg_file) noexcept
  {
   try
     {
-     HomeDir home;
-
-     MakeString<MaxPathLen> buf;
-
-     buf.add(home.get(),home_dir);
-
-     StrLen dir=buf.get();
-
-     buf.add(cfg_file);
-
-     if( !buf )
-       {
-        Printf(Exception,"CCore::Video::HomeSyncBase::updateHome(...) : too long file name");
-       }
-
-     StrLen file_name=buf.get();
+     HomeFile home_file(home_dir,cfg_file);
 
      ConfigMap map;
 
-     map.loadDDL_safe(file_name);
+     map.loadDDL_safe(home_file.get());
 
      updateMap(map);
 
-     FileSystem fs;
+     home_file.createDir();
 
-     if( fs.getFileType(dir)==FileType_none ) fs.createDir(dir);
-
-     map.saveDDL(file_name);
+     map.saveDDL(home_file.get());
     }
   catch(...)
     {

@@ -1161,6 +1161,7 @@ Dir Dir79=
     { 'FreeType.h' , Red },
     { 'FreeTypeFont.h' , Red },
     { 'GammaTable.h' , Red },
+    { 'HomeFile.h' , New },
     { 'Incremental.h' , Red },
     { 'Info.h' , Red },
     { 'InfoSize.h' , Red },
@@ -1284,6 +1285,7 @@ Dir Dir80=
     { 'FreeType.cpp' , Red },
     { 'FreeTypeFont.cpp' , Red },
     { 'GammaTable.cpp' , Red },
+    { 'HomeFile.cpp' , New },
     { 'Incremental.cpp' , Red },
     { 'Info.cpp' , Red },
     { 'InfoSize.cpp' , Red },
@@ -5037,6 +5039,7 @@ Dir Dir259=
    },
    {
     { 'Application.h' , Green },
+    { 'AppState.h' , New },
     { 'Aspect.h' , Green },
     { 'AspectData.h' , Green },
     { 'Client.h' , Red },
@@ -5052,13 +5055,17 @@ Dir Dir260=
    },
    {
     { 'Application.cpp' , Green },
+    { 'AppState.cpp' , New },
     { 'Aspect.cpp' , Green },
     { 'AspectData.cpp' , Green },
     { 'Client.cpp' , Red },
     { 'ErrorText.cpp' , Green },
     { 'main.cpp' , Green },
+    { 'AppState.ddl' , New },
     { 'Aspect.ddl' , Green },
+    { 'AppState.TypeDef.gen.h' , New },
     { 'Aspect.TypeDef.gen.h' , Green },
+    { 'AppState.TypeSet.gen.h' , New },
     { 'Aspect.TypeSet.gen.h' , Green }
    }
   };
