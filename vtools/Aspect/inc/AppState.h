@@ -1,4 +1,4 @@
-/* Aspect.ddl */
+/* AppState.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Aspect 1.01
@@ -11,33 +11,41 @@
 //
 //----------------------------------------------------------------------------------------
 
-type Status = uint8 ;
+#ifndef AppState_h
+#define AppState_h
 
-Status New    = 0 ; 
-Status Ignore = 1 ;
-Status Red    = 2 ;
-Status Yellow = 3 ;
-Status Green  = 4 ;
+#include <inc/Application.h>
 
-struct File
+#include <CCore/inc/Array.h>
+#include <CCore/inc/String.h>
+
+namespace App {
+
+/* classes */
+
+struct AppState;
+
+/* struct AppState */
+
+struct AppState
  {
-  text name;
-  Status status;  
+  Pane place;
+
+  DynArray<String> recent_list;
+
+  // methods
+
+  AppState();
+
+  ~AppState();
+
+  bool load() noexcept;
+
+  void save() noexcept;
  };
 
-struct Dir
- {
-  text name;
-  Status status; 
-  
-  Dir * [] dirs;
-  File[] files;
- };
+} // namespace App
 
-struct Aspect
- {
-  text path;
-  
-  Dir root;  
- };
- 
+#endif
+
+

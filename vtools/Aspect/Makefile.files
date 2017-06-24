@@ -1,4 +1,5 @@
 OBJ_LIST = \
+.obj/AppState.o \
 .obj/Application.o \
 .obj/Aspect.o \
 .obj/AspectData.o \
@@ -8,6 +9,7 @@ OBJ_LIST = \
 
 
 ASM_LIST = \
+.obj/AppState.s \
 .obj/Application.s \
 .obj/Aspect.s \
 .obj/AspectData.s \
@@ -17,6 +19,7 @@ ASM_LIST = \
 
 
 DEP_LIST = \
+.obj/AppState.dep \
 .obj/Application.dep \
 .obj/Aspect.dep \
 .obj/AspectData.dep \
@@ -30,6 +33,9 @@ ASM_OBJ_LIST = \
 
 include $(RULES_FILE)
 
+
+.obj/AppState.o : ./src/AppState.cpp
+	$(CC) $(CCOPT) $< -o $@
 
 .obj/Application.o : ./src/Application.cpp
 	$(CC) $(CCOPT) $< -o $@
@@ -51,6 +57,9 @@ include $(RULES_FILE)
 
 
 
+.obj/AppState.s : ./src/AppState.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Application.s : ./src/Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -70,6 +79,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+.obj/AppState.dep : ./src/AppState.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/AppState.o $< -MF $@
 
 .obj/Application.dep : ./src/Application.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Application.o $< -MF $@

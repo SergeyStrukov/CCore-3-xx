@@ -1,4 +1,4 @@
-/* Aspect.ddl */
+/* AppState.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Aspect 1.01
@@ -11,33 +11,31 @@
 //
 //----------------------------------------------------------------------------------------
 
-type Status = uint8 ;
+#include <inc/AppState.h>
 
-Status New    = 0 ; 
-Status Ignore = 1 ;
-Status Red    = 2 ;
-Status Yellow = 3 ;
-Status Green  = 4 ;
+namespace App {
 
-struct File
+/* struct AppState */
+
+AppState::AppState()
  {
-  text name;
-  Status status;  
- };
+ }
 
-struct Dir
+AppState::~AppState()
  {
-  text name;
-  Status status; 
-  
-  Dir * [] dirs;
-  File[] files;
- };
+ }
 
-struct Aspect
+bool AppState::load() noexcept
  {
-  text path;
-  
-  Dir root;  
- };
- 
+  // TODO
+
+  return false;
+ }
+
+void AppState::save() noexcept
+ {
+  // TODO
+ }
+
+} // namespace App
+

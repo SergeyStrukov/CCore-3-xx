@@ -1,7 +1,7 @@
 # Makefile
 #----------------------------------------------------------------------------------------
 #
-#  Project: Aspect 1.00
+#  Project: Aspect 1.01
 #
 #  License: Boost Software License - Version 1.0 - August 17th, 2003 
 #
@@ -32,4 +32,5 @@ TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 ddl:
 	cd src && $(TypeSet) Aspect.ddl Aspect.TypeDef.gen.h Aspect.TypeSet.gen.h
+	cd src && $(TypeSet) AppState.ddl AppState.TypeDef.gen.h AppState.TypeSet.gen.h
 

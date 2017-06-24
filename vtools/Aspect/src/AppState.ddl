@@ -1,4 +1,4 @@
-/* Aspect.ddl */
+/* AppState.ddl */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Aspect 1.01
@@ -11,33 +11,19 @@
 //
 //----------------------------------------------------------------------------------------
 
-type Status = uint8 ;
+type Coord = sint16 ;
 
-Status New    = 0 ; 
-Status Ignore = 1 ;
-Status Red    = 2 ;
-Status Yellow = 3 ;
-Status Green  = 4 ;
-
-struct File
+struct Pane
  {
-  text name;
-  Status status;  
+  Coord x;
+  Coord y;
+  Coord dx;
+  Coord dy;
  };
 
-struct Dir
+struct AppState
  {
-  text name;
-  Status status; 
-  
-  Dir * [] dirs;
-  File[] files;
- };
+  Pane place;
 
-struct Aspect
- {
-  text path;
-  
-  Dir root;  
+  text[] recent_files;
  };
- 
