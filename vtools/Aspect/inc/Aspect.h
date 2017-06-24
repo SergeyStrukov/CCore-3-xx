@@ -405,6 +405,10 @@ class InnerDataWindow : public SubWindow
 
   private:
 
+   static Point BaseX(Point point,ulen off,ulen depth,Coord dxy);
+
+   static Point Base(ulen off,ulen depth,ulen line,Coord dxy);
+
    void setPosX(ulen pos);
 
    void addPosX(ulen delta);

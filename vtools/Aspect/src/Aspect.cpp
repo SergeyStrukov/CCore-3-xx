@@ -612,6 +612,16 @@ void InnerDataWindow::posY(ulen pos)
   redraw();
  }
 
+Point InnerDataWindow::BaseX(Point point,ulen off,ulen depth,Coord dxy)
+ {
+  return ( off<=depth )? point.addX((depth-off)*dxy) : point.subX((off-depth)*dxy) ;
+ }
+
+Point InnerDataWindow::Base(ulen off,ulen depth,ulen line,Coord dxy)
+ {
+  return BaseX(Point(0,line*dxy),off,depth,dxy);
+ }
+
 void InnerDataWindow::setPosX(ulen pos)
  {
   if( Change(off_x,pos) )
@@ -666,23 +676,19 @@ auto InnerDataWindow::test(const DrawItem &draw,Point test_point) const -> TestR
   Coord dxy=+cfg.dxy;
   ulen off=off_x;
 
-  ulen j=test_point.y/dxy;
+  ulen line=test_point.y/dxy;
   ulen lim=Min(total_y,vis.len);
 
-  if( j<page_y && off_y<lim && j<lim-off_y )
+  if( line<page_y && off_y<lim && line<lim-off_y )
     {
-     ulen i=off_y+j;
+     ulen i=off_y+line;
      ulen ind=vis[i];
 
      if( ind<items.len )
        {
         const ItemData &item=items[ind];
 
-        ulen depth=item.depth;
-
-        Point point(0,j*dxy);
-
-        Point p = ( off<=depth )? point.addX((depth-off)*dxy) : point.subX((off-depth)*dxy) ;
+        Point p=Base(off,item.depth,line,dxy);
 
         if( draw(p,test_point) ) return {ind,p};
        }
@@ -886,7 +892,7 @@ void InnerDataWindow::draw(DrawBuf buf,bool) const
   Coord dxy=+cfg.dxy;
   ulen off=off_x;
 
-  for(ulen i=off_y,lim=Min(total_y,vis.len),j=0; i<lim && j<page_y ;i++,j++,point=point.addY(dxy))
+  for(ulen i=off_y,lim=Min(total_y,vis.len),line=0; i<lim && line<page_y ;i++,line++,point=point.addY(dxy))
     {
      ulen ind=vis[i];
 
@@ -894,11 +900,7 @@ void InnerDataWindow::draw(DrawBuf buf,bool) const
        {
         const ItemData &item=items[ind];
 
-        ulen depth=item.depth;
-
-        Point p = ( off<=depth )? point.addX((depth-off)*dxy) : point.subX((off-depth)*dxy) ;
-
-        draw(buf,p,item, (ind==hilight_index)?hilight_type:PressNone );
+        draw(buf,BaseX(point,off,item.depth,dxy),item, (ind==hilight_index)?hilight_type:PressNone );
        }
     }
 
@@ -1062,10 +1064,6 @@ void DataWindow::update(Filter filter)
 void DataWindow::filter(Filter filter)
  {
   inner.filter(filter);
-
-  layout();
-
-  redraw();
  }
 
 void DataWindow::collect()

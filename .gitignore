@@ -7,7 +7,7 @@
 PTPServerLog.txt
 PTPSecureServerLog.txt
 ARMLog.txt
-eclipse/*
+.eclipse/*
 # vtools/Aspect/docs/*
 
 # Compiled Object files
