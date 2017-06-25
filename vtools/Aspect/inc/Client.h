@@ -21,7 +21,33 @@ namespace App {
 
 /* classes */
 
+struct RecentList;
+
 class ClientWindow;
+
+/* struct RecentList */
+
+struct RecentList : MenuData
+ {
+  int first_id;
+  int max_count;
+
+  void setInd(ulen ind);
+
+  RecentList(int first_id,int max_count);
+
+  ~RecentList();
+
+  void erase() { list.erase(); }
+
+  void add(String file_name);
+
+  void del(int id);
+
+  StrLen get(int id) const;
+
+  void save(DynArray<String> &ret) const;
+ };
 
 /* class ClientWindow */
 
@@ -56,6 +82,8 @@ class ClientWindow : public ComboWindow , public AliveControl
      RefVal<DefString> menu_File    = "@File"_def ;
      RefVal<DefString> menu_Actions = "@Actions"_def ;
      RefVal<DefString> menu_Options = "@Options"_def ;
+     RefVal<DefString> menu_Recent  = "@Recent"_def ;
+
      RefVal<DefString> menu_New     = "@New ..."_def ;
      RefVal<DefString> menu_Open    = "@Open ..."_def ;
      RefVal<DefString> menu_Save    = "@Save"_def ;
@@ -105,6 +133,7 @@ class ClientWindow : public ComboWindow , public AliveControl
        menu_File.bind(bag.menu_File);
        menu_Actions.bind(bag.menu_Actions);
        menu_Options.bind(bag.menu_Options);
+       menu_Recent.bind(bag.menu_Recent);
        menu_New.bind(bag.menu_New);
        menu_Open.bind(bag.menu_Open);
        menu_Save.bind(bag.menu_Save);
@@ -129,6 +158,7 @@ class ClientWindow : public ComboWindow , public AliveControl
    MenuData menu_file_data;
    MenuData menu_act_data;
    MenuData menu_opt_data;
+   RecentList menu_recent_data;
 
    SimpleTopMenuWindow menu;
    SimpleCascadeMenu cascade_menu;
@@ -155,11 +185,13 @@ class ClientWindow : public ComboWindow , public AliveControl
      ContinueStartOpen,
      ContinueSave,
      ContinueSaveAs,
-     ContinueExit
+     ContinueExit,
+     ContinueOpenRecent
     };
 
    Continue cont = ContinueNone ;
    Point file_point;
+   int recent_id = 0 ;
 
    Point action_base = Point(10,10) ;
 
@@ -181,6 +213,8 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    void startSave(Point point);
 
+   void openRecent(int id);
+
    enum MenuId
     {
      MenuFile = 1,
@@ -198,7 +232,12 @@ class ClientWindow : public ComboWindow , public AliveControl
      MenuOptions = 3,
 
       MenuOptionsUserPref = 301,
-      MenuOptionsAppPref  = 302
+      MenuOptionsAppPref  = 302,
+
+     MenuRecent = 4,
+
+      MenuRecentFirst = 401,
+      MenuRecentLim   = 421
     };
 
    void menuAction(int id,Point point);
@@ -211,10 +250,13 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    void cascade_menu_selected(int id,Point point);
 
+   void cascade_menu_deleted(int id);
+
    void cascade_menu_pressed(VKey vkey,KeyMod kmod);
 
    SignalConnector<ClientWindow,int,Point> connector_menu_selected;
    SignalConnector<ClientWindow,int,Point> connector_cascade_menu_selected;
+   SignalConnector<ClientWindow,int> connector_cascade_menu_deleted;
    SignalConnector<ClientWindow,VKey,KeyMod> connector_cascade_menu_pressed;
 
    void file_destroyed();

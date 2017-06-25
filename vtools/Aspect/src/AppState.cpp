@@ -98,9 +98,9 @@ bool AppState::load(StrLen file_name)
 
      place=Pane(p.x,p.y,p.dx,p.dy);
 
-     recent_list.erase();
+     recent_files.erase();
 
-     for(auto f : data.recent_files.getRange() ) recent_list.append_fill(f);
+     for(auto f : data.recent_files.getRange() ) recent_files.append_fill(f);
 
      return true;
     }
@@ -122,7 +122,7 @@ void AppState::save(StrLen file_name) const
 
   PrintFirst stem("\n"_c,",\n"_c);
 
-  for(const String &s : recent_list ) Printf(out,"#;   #;",stem,DDLPrintableString(Range(s)));
+  for(const String &s : recent_files ) Printf(out,"#;   #;",stem,DDLPrintableString(Range(s)));
 
   Printf(out,"  }\n\n");
 

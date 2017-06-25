@@ -60,6 +60,8 @@ struct AppPreferenceBag : ConfigItemHost
   DefString menu_File    = "@File"_def ;
   DefString menu_Actions = "@Actions"_def ;
   DefString menu_Options = "@Options"_def ;
+  DefString menu_Recent  = "@Recent"_def ;
+
   DefString menu_New     = "@New ..."_def ;
   DefString menu_Open    = "@Open ..."_def ;
   DefString menu_Save    = "@Save"_def ;
@@ -133,6 +135,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_File"_c,ptr->menu_File);
   func("menu_Actions"_c,ptr->menu_Actions);
   func("menu_Options"_c,ptr->menu_Options);
+  func("menu_Recent"_c,ptr->menu_Recent);
   func("menu_New"_c,ptr->menu_New);
   func("menu_Open"_c,ptr->menu_Open);
   func("menu_Save"_c,ptr->menu_Save);
@@ -184,6 +187,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'File'"_def,menu_File);
     binder.item("'Actions'"_def,menu_Actions);
     binder.item("'Options'"_def,menu_Options);
+    binder.item("'Recent'"_def,menu_Recent);
     binder.item("'New'"_def,menu_New);
     binder.item("'Open'"_def,menu_Open);
     binder.item("'Save'"_def,menu_Save);

@@ -15,6 +15,57 @@
 
 namespace App {
 
+/* struct RecentList */
+
+void RecentList::setInd(ulen ind)
+ {
+  for(ulen lim=list.getLen(); ind<lim ;ind++) list[ind].id=int(first_id+ind);
+ }
+
+RecentList::RecentList(int first_id_,int max_count_)
+ : first_id(first_id_),
+   max_count(max_count_)
+ {
+ }
+
+RecentList::~RecentList()
+ {
+ }
+
+void RecentList::add(String file_name)
+ {
+  if( list.getLen()>=(ulen)max_count ) list.shrink_one();
+
+  if( ArrayCopyIns(list,0,MenuTextNoHot,file_name,first_id) ) setInd(1);
+ }
+
+void RecentList::del(int id)
+ {
+  if( id<first_id ) return;
+
+  ulen ind=id-first_id;
+
+  if( ArrayCopyDel(list,ind) ) setInd(ind);
+ }
+
+StrLen RecentList::get(int id) const
+ {
+  if( id<first_id ) return Null;
+
+  ulen ind=id-first_id;
+
+  if( ind>=list.getLen() ) return Null;
+
+  return list[ind].text.str();
+ }
+
+void RecentList::save(DynArray<String> &ret) const
+ {
+  ret.erase();
+
+  for(const MenuPoint &point : list ) ret.append_copy(point.text.getDynamic());
+ }
+
 /* class ClientWindow */
 
 void ClientWindow::menuOff()
@@ -102,6 +153,16 @@ void ClientWindow::startSave(Point point)
   disableFrameReact();
  }
 
+void ClientWindow::openRecent(int id)
+ {
+  StrLen file_name=menu_recent_data.get(id);
+
+  if( +file_name )
+    {
+     aspect.load(file_name);
+    }
+ }
+
 void ClientWindow::menuAction(int id,Point point)
  {
   switch( id )
@@ -171,6 +232,23 @@ void ClientWindow::menuAction(int id,Point point)
        doAppPref.assert(point);
       }
      break;
+
+     default:
+      {
+       if( id>=MenuRecentFirst && id<MenuRecentLim )
+         {
+          if( aspect.isModified() )
+            {
+             recent_id=id;
+
+             askSave(ContinueOpenRecent);
+            }
+          else
+            {
+             openRecent(id);
+            }
+         }
+      }
     }
  }
 
@@ -202,6 +280,12 @@ void ClientWindow::menu_selected(int id,Point point)
        cascade_menu.create(getFrame(),menu_opt_data,point);
       }
      break;
+
+     case MenuRecent :
+      {
+       cascade_menu.create(getFrame(),menu_recent_data,point);
+      }
+     break;
     }
  }
 
@@ -212,6 +296,16 @@ void ClientWindow::cascade_menu_selected(int id,Point point)
   menuOff();
 
   aspect.setFocus();
+ }
+
+void ClientWindow::cascade_menu_deleted(int id)
+ {
+  if( id>=MenuRecentFirst && id<MenuRecentLim )
+    {
+     menu_recent_data.del(id);
+
+     menu_recent_data.updated.assert();
+    }
  }
 
 void ClientWindow::cascade_menu_pressed(VKey vkey,KeyMod kmod)
@@ -232,6 +326,10 @@ void ClientWindow::file_destroyed()
        if( +file_name )
          {
           aspect.load(file_name);
+
+          menu_recent_data.add(file_name);
+
+          menu_recent_data.updated.assert();
          }
       }
      break;
@@ -243,6 +341,10 @@ void ClientWindow::file_destroyed()
        if( +file_name )
          {
           aspect.save(file_name);
+
+          menu_recent_data.add(file_name);
+
+          menu_recent_data.updated.assert();
          }
       }
      break;
@@ -306,6 +408,12 @@ void ClientWindow::msg_destroyed()
        destroyFrame();
       }
      break;
+
+     case ContinueOpenRecent :
+      {
+       openRecent(recent_id);
+      }
+     break;
     }
  }
 
@@ -313,6 +421,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *op
  : ComboWindow(host),
    cfg(cfg_),
 
+   menu_recent_data(MenuRecentFirst,MenuRecentLim-MenuRecentFirst),
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
    aspect(wlist,cfg.aspect_cfg,open_file_name),
@@ -322,6 +431,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *op
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
+   connector_cascade_menu_deleted(this,&ClientWindow::cascade_menu_deleted,cascade_menu.deleted),
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed),
    connector_file_destroyed(this,&ClientWindow::file_destroyed,file_frame.destroyed),
    connector_dir_destroyed(this,&ClientWindow::dir_destroyed,dir_frame.destroyed),
@@ -335,7 +445,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *op
 
   menu_data(+cfg.menu_File,MenuFile)
            (+cfg.menu_Actions,MenuActions)
-           (+cfg.menu_Options,MenuOptions);
+           (+cfg.menu_Options,MenuOptions)
+           (+cfg.menu_Recent,MenuRecent);
 
   menu_file_data(+cfg.menu_New,MenuFileNew)
                 (+cfg.menu_Open,MenuFileOpen)
@@ -369,9 +480,13 @@ ClientWindow::~ClientWindow()
 
  // methods
 
-void ClientWindow::prepare(const AppState &app_state) // TODO
+void ClientWindow::prepare(const AppState &app_state)
  {
-  Used(app_state);
+  menu_recent_data.erase();
+
+  for(const String &f : app_state.recent_files ) menu_recent_data.add(f);
+
+  menu_recent_data.updated.assert();
  }
 
  // base
@@ -462,11 +577,13 @@ void ClientWindow::react_other(UserAction action)
 
  // AliveControl
 
-void ClientWindow::dying() // TODO
+void ClientWindow::dying()
  {
   AppState app_state;
 
   app_state.place=getFrameHost()->getPlace();
+
+  menu_recent_data.save(app_state.recent_files);
 
   app_state.save();
  }

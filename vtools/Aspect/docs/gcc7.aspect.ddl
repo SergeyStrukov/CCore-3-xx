@@ -4909,7 +4909,7 @@ Dir Dir257=
 Dir Dir45=
   {
    'Aspect',
-   Red,
+   Green,
    {
     &Dir258,
     &Dir259,
@@ -5034,7 +5034,7 @@ Dir Dir258=
 Dir Dir259=
   {
    'inc',
-   Red,
+   Green,
    {
    },
    {
@@ -5042,7 +5042,7 @@ Dir Dir259=
     { 'AppState.h' , Green },
     { 'Aspect.h' , Green },
     { 'AspectData.h' , Green },
-    { 'Client.h' , Red },
+    { 'Client.h' , Green },
     { 'ErrorText.h' , Green }
    }
   };
@@ -5050,7 +5050,7 @@ Dir Dir259=
 Dir Dir260=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
@@ -5058,7 +5058,7 @@ Dir Dir260=
     { 'AppState.cpp' , Green },
     { 'Aspect.cpp' , Green },
     { 'AspectData.cpp' , Green },
-    { 'Client.cpp' , Red },
+    { 'Client.cpp' , Green },
     { 'ErrorText.cpp' , Green },
     { 'main.cpp' , Green },
     { 'AppState.ddl' , Green },

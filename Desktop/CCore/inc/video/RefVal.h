@@ -64,6 +64,8 @@ class DefString
 
    // methods
 
+   const String & getDynamic() const { return dynamic_str; }
+
    StrLen str() const noexcept
     {
      if( +def_const ) return def_const;

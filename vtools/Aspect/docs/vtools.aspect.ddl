@@ -1,4 +1,4 @@
-//#include <Aspect.ddl>
+//include <Aspect.ddl>
 
 Aspect Data=
  {
@@ -154,6 +154,7 @@ Dir Dir8=
    },
    {
     { 'Application.h' , New },
+    { 'AppState.h' , New },
     { 'Aspect.h' , New },
     { 'AspectData.h' , New },
     { 'Client.h' , New },
@@ -169,13 +170,17 @@ Dir Dir9=
    },
    {
     { 'Application.cpp' , New },
+    { 'AppState.cpp' , New },
     { 'Aspect.cpp' , New },
     { 'AspectData.cpp' , New },
     { 'Client.cpp' , New },
     { 'ErrorText.cpp' , New },
     { 'main.cpp' , New },
+    { 'AppState.ddl' , New },
     { 'Aspect.ddl' , New },
+    { 'AppState.TypeDef.gen.h' , New },
     { 'Aspect.TypeDef.gen.h' , New },
+    { 'AppState.TypeSet.gen.h' , New },
     { 'Aspect.TypeSet.gen.h' , New }
    }
   };

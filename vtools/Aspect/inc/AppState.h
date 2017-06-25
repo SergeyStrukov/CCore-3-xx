@@ -31,7 +31,7 @@ struct AppState
  {
   Pane place;
 
-  DynArray<String> recent_list;
+  DynArray<String> recent_files;
 
   // methods
 
