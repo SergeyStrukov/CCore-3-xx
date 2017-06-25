@@ -767,7 +767,7 @@ Dir Dir59=
    },
    {
     { 'APRTest.h' , Red },
-    { 'Integer.h' , Red },
+    { 'Integer.h' , Green },
     { 'IntegerFastAlgo.h' , Green },
     { 'IntegerOctetBuilder.h' , Green },
     { 'IntegerSlowAlgo.h' , Green },
@@ -953,13 +953,13 @@ Dir Dir69=
    },
    {
     { 'APRTest.cpp' , Red },
-    { 'Integer.cpp' , Red },
+    { 'Integer.cpp' , Green },
     { 'IntegerOctetBuilder.cpp' , Green },
     { 'IntegerSlowAlgo.cpp' , Green },
     { 'ModEngine.cpp' , Green },
     { 'NoPrimeTest.cpp' , Green },
     { 'SmallPrimes.cpp' , Green },
-    { 'APRTestData.gen.cpp' , Red }
+    { 'APRTestData.gen.cpp' , Green }
    }
   };
 

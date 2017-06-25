@@ -24,7 +24,7 @@ namespace Math {
 
 void GuardBitsOfOverflow()
  {
-  Printf(Exception,"CCore::Math::Integer<...>::BitsOf::total() : overflow");
+  Printf(Exception,"CCore::Math::Integer<...>::BitsOf::total(...) : overflow");
  }
 
 void GuardIntegerInverseNotNormalized()
