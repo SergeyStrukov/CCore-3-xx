@@ -20,7 +20,7 @@ TARGET = $(HOME)/bin/CCore-MakeList.exe
 include $(CCORE_ROOT)/Target/Makefile.app
 
 run: $(TARGET)
-	$(TARGET) obj Makefile.cpp-files Makefile.s-files
+	$(TARGET) .obj Makefile.cpp-files Makefile.s-files
 
 
 
