@@ -94,6 +94,20 @@ void CapDown(T &obj,S cap)
   if( obj>cap ) obj=(T)cap;
  }
 
+template <SUIntType SUInt>
+SUInt RoundUpCount(SUInt x,SUInt g)
+ {
+  return (x+g-1)/g;
+ }
+
+template <SUIntType SUInt>
+SUInt RoundUp(SUInt x,SUInt g)
+ {
+  SUInt count=(x+g-1)/g;
+
+  return count*g;
+ }
+
 /* functions */
 
 template <UIntType UInt,class S>

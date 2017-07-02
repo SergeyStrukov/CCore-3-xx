@@ -213,6 +213,39 @@ void <span class="Att">CapDown</span>(T &obj,S cap)
 
 </pre>
 
+<h3>RoundUpCount()/RoundUp()</h3>
+
+<p>
+Two functions to round up integral values. It is assumed that arguments are positive.
+</p>
+
+<pre>
+
+template &lt;SUIntType SUInt&gt;
+SUInt <span class="Att">RoundUpCount</span>(SUInt x,SUInt g)
+ {
+  return (x+g-1)/g;
+ }
+
+template &lt;SUIntType SUInt&gt;
+SUInt <span class="Att">RoundUp</span>(SUInt x,SUInt g)
+ {
+  SUInt count=(x+g-1)/g;
+
+  return count*g;
+ }
+
+</pre>
+
+<p>
+The first function returns the result of division of the first argument by the second, rounded up. 
+I.e. it is the minimum value <b>res</b>, such that <b>g*res >= x</b>.
+</p>
+
+<p>
+The second function rounds up the first argument to be divisible by the second.
+</p>
+
 <h3>Bit...()</h3>
 
 <p>
