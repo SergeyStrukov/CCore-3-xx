@@ -47,6 +47,7 @@
 ../../Simple/CCore/src/Move.cpp
 ../../Simple/CCore/src/NewDelete.cpp
 ../../Simple/CCore/src/OwnPtr.cpp
+../../Simple/CCore/src/Pow.cpp
 ../../Simple/CCore/src/PrintAbort.cpp
 ../../Simple/CCore/src/PrintBits.cpp
 ../../Simple/CCore/src/PrintError.cpp

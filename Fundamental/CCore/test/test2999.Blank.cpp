@@ -15,8 +15,6 @@
 
 #include <CCore/test/test.h>
 
-#include <CCore/inc/AutoGlobal.h>
-
 namespace App {
 
 namespace Private_2999 {

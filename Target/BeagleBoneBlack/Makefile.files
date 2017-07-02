@@ -217,6 +217,7 @@ OBJ_LIST = \
 .obj/PlatformBase.o \
 .obj/Point.o \
 .obj/PosSub.o \
+.obj/Pow.o \
 .obj/Print.o \
 .obj/PrintAbort.o \
 .obj/PrintAsyncFile.o \
@@ -569,6 +570,7 @@ ASM_LIST = \
 .obj/PlatformBase.s \
 .obj/Point.s \
 .obj/PosSub.s \
+.obj/Pow.s \
 .obj/Print.s \
 .obj/PrintAbort.s \
 .obj/PrintAsyncFile.s \
@@ -921,6 +923,7 @@ DEP_LIST = \
 .obj/PlatformBase.dep \
 .obj/Point.dep \
 .obj/PosSub.dep \
+.obj/Pow.dep \
 .obj/Print.dep \
 .obj/PrintAbort.dep \
 .obj/PrintAsyncFile.dep \
@@ -1722,6 +1725,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PosSub.o : ../../Simple/CCore/src/gadget/PosSub.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Pow.o : ../../Simple/CCore/src/Pow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Print.o : ../../XCore/CCore/src/Print.cpp
@@ -2773,6 +2779,9 @@ include $(RULES_FILE)
 .obj/PosSub.s : ../../Simple/CCore/src/gadget/PosSub.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Pow.s : ../../Simple/CCore/src/Pow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Print.s : ../../XCore/CCore/src/Print.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3821,6 +3830,9 @@ include $(RULES_FILE)
 
 .obj/PosSub.dep : ../../Simple/CCore/src/gadget/PosSub.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/PosSub.o $< -MF $@
+
+.obj/Pow.dep : ../../Simple/CCore/src/Pow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Pow.o $< -MF $@
 
 .obj/Print.dep : ../../XCore/CCore/src/Print.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Print.o $< -MF $@

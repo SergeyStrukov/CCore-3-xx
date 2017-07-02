@@ -1,37 +1,22 @@
-<!--
-/* page_XXX.html */
+/* Pow.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.01
 //
-//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//  Tag: Simple
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
 //  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
--->
 
-<!DOCTYPE html>
-<html>
+#include <CCore/inc/Pow.h>
 
-<head>
-
- <title>CCore -> XXX</title>
-
- <link href="CCore.css" rel="stylesheet" type="text/css">
-
-</head>
-
-<body>
-
-<h2>XXX</h2>
-
-<p class="Files">Files <b>CCore/inc/XXX.h</b> <b>CCore/src/XXX.cpp</b></p>
+namespace CCore {
 
 
-</body>
-
-</html>
+} // namespace CCore
 

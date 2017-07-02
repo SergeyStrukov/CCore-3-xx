@@ -1,0 +1,57 @@
+<!--
+/* page_Pow.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.01
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Pow</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Pow</h2>
+
+<p class="Files">Files <b>CCore/inc/Pow.h</b> <b>CCore/src/Pow.cpp</b></p>
+
+<p>
+These two functions calculates the power of the first arguments. The second arguments is the power exponent.
+It must be an unsigned integral value. 
+The function <b>Pow_pos()</b> assumes the exponent is positive. Otherwise the first argument is returned.
+The function <b>Pow()</b> assumes that <b>T(1)</b> is the one value for this type.
+</p>
+
+<pre>
+
+/* Pow_pos() */
+
+template &lt;UIntType UInt,class T&gt;
+T <span class="Att">Pow_pos</span>(T a,UInt deg); // deg>0
+
+/* Pow() */
+
+template &lt;UIntType UInt,class T&gt;
+T <span class="Att">Pow</span>(T a,UInt deg);
+
+</pre>
+
+</body>
+
+</html>
+
