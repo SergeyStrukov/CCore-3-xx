@@ -16,6 +16,8 @@
 #ifndef CCore_inc_video_Point_h
 #define CCore_inc_video_Point_h
 
+#include <CCore/inc/algon/ApplyToRange.h>
+
 #include <CCore/inc/video/IntOp.h>
 
 namespace CCore {
@@ -575,6 +577,76 @@ struct Pane
   Pane expand(Coordinate delta_x,Coordinate delta_y) const { return expand(Point(delta_x,delta_y)); }
 
   Pane expand(Coordinate delta_xy) const { return expand(Point(delta_xy,delta_xy)); }
+
+  // apply
+
+  template <FuncInitArgType<Point> FuncInit>
+  auto apply(FuncInit func_init) const
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    Coord sBeg=x;
+    Coord sLim=sBeg+dx;
+
+    for(Coord t=y,tLim=t+dy; t<tLim ;t++)
+      for(Coord s=sBeg; s<sLim ;s++)
+        {
+         func(Point(s,t));
+        }
+
+    return Algon::GetResult(func);
+   }
+
+  template <FuncInitArgType<Coord,Coord> FuncInit>
+  auto apply(FuncInit func_init) const
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    Coord sBeg=x;
+    Coord sLim=sBeg+dx;
+
+    for(Coord t=y,tLim=t+dy; t<tLim ;t++)
+      for(Coord s=sBeg; s<sLim ;s++)
+        {
+         func(s,t);
+        }
+
+    return Algon::GetResult(func);
+   }
+
+  template <FuncInitType<bool,Point> FuncInit>
+  auto apply(FuncInit func_init) const
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    Coord sBeg=x;
+    Coord sLim=sBeg+dx;
+
+    for(Coord t=y,tLim=t+dy; t<tLim ;t++)
+      for(Coord s=sBeg; s<sLim ;s++)
+        {
+         if( !func(Point(s,t)) ) goto stop;
+        }
+
+    stop: return Algon::GetResult(func);
+   }
+
+  template <FuncInitType<bool,Coord,Coord> FuncInit>
+  auto apply(FuncInit func_init) const
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    Coord sBeg=x;
+    Coord sLim=sBeg+dx;
+
+    for(Coord t=y,tLim=t+dy; t<tLim ;t++)
+      for(Coord s=sBeg; s<sLim ;s++)
+        {
+         if( !func(s,t) ) goto stop;
+        }
+
+    stop: return Algon::GetResult(func);
+   }
 
   // print object
 
