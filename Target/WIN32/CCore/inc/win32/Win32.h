@@ -1,7 +1,7 @@
 /* Win32.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/WIN32
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -158,6 +158,7 @@ enum ErrorCodes
   ErrorFileExists       =  80,
   ErrorInvalidParameter =  87,
   ErrorDiskFull         = 112,
+  ErrorSmallBuffer      = 122,
   ErrorInvalidName      = 123,
   ErrorDirNotEmpty      = 145,
   ErrorAlreadyExists    = 183,
@@ -386,6 +387,12 @@ options_t WIN32_API WaitForMultipleObjects(ulen_t hcount,
 /* GetModuleHandleA() */
 
 handle_t WIN32_API GetModuleHandleA(const char *module_name);
+
+/* GetModuleFileName() */
+
+ulen_t WIN32_API GetModuleFileNameA(handle_t h_module,
+                                    char *buf,
+                                    ulen_t len);
 
 /*--------------------------------------------------------------------------------------*/
 /* Process flags                                                                        */
