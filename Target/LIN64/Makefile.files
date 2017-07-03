@@ -157,6 +157,7 @@ OBJ_LIST = \
 .obj/Job.o \
 .obj/Keyboard.o \
 .obj/LangDataMap.o \
+.obj/LaunchPath.o \
 .obj/Layout.o \
 .obj/Len.o \
 .obj/LineInput.o \
@@ -351,6 +352,7 @@ OBJ_LIST = \
 .obj/SysFile.o \
 .obj/SysFileSystem.o \
 .obj/SysInternal.o \
+.obj/SysLaunchPath.o \
 .obj/SysMemPage.o \
 .obj/SysNet.o \
 .obj/SysPlanInit.o \
@@ -575,6 +577,7 @@ ASM_LIST = \
 .obj/Job.s \
 .obj/Keyboard.s \
 .obj/LangDataMap.s \
+.obj/LaunchPath.s \
 .obj/Layout.s \
 .obj/Len.s \
 .obj/LineInput.s \
@@ -769,6 +772,7 @@ ASM_LIST = \
 .obj/SysFile.s \
 .obj/SysFileSystem.s \
 .obj/SysInternal.s \
+.obj/SysLaunchPath.s \
 .obj/SysMemPage.s \
 .obj/SysNet.s \
 .obj/SysPlanInit.s \
@@ -993,6 +997,7 @@ DEP_LIST = \
 .obj/Job.dep \
 .obj/Keyboard.dep \
 .obj/LangDataMap.dep \
+.obj/LaunchPath.dep \
 .obj/Layout.dep \
 .obj/Len.dep \
 .obj/LineInput.dep \
@@ -1187,6 +1192,7 @@ DEP_LIST = \
 .obj/SysFile.dep \
 .obj/SysFileSystem.dep \
 .obj/SysInternal.dep \
+.obj/SysLaunchPath.dep \
 .obj/SysMemPage.dep \
 .obj/SysNet.dep \
 .obj/SysPlanInit.dep \
@@ -1737,6 +1743,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/LangDataMap.o : ../../Applied/CCore/src/lang/LangDataMap.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LaunchPath.o : ../../HCore/CCore/src/LaunchPath.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Layout.o : ../../Desktop/CCore/src/video/Layout.cpp
@@ -2319,6 +2328,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysInternal.o : ../../Target/LIN64/CCore/src/sys/SysInternal.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysLaunchPath.o : ../../Target/LIN64/CCore/src/sys/SysLaunchPath.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysMemPage.o : ../../Target/LIN64/CCore/src/sys/SysMemPage.cpp
@@ -2986,6 +2998,9 @@ include $(RULES_FILE)
 .obj/LangDataMap.s : ../../Applied/CCore/src/lang/LangDataMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/LaunchPath.s : ../../HCore/CCore/src/LaunchPath.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Layout.s : ../../Desktop/CCore/src/video/Layout.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3566,6 +3581,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysInternal.s : ../../Target/LIN64/CCore/src/sys/SysInternal.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SysLaunchPath.s : ../../Target/LIN64/CCore/src/sys/SysLaunchPath.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysMemPage.s : ../../Target/LIN64/CCore/src/sys/SysMemPage.cpp
@@ -4233,6 +4251,9 @@ include $(RULES_FILE)
 .obj/LangDataMap.dep : ../../Applied/CCore/src/lang/LangDataMap.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/LangDataMap.o $< -MF $@
 
+.obj/LaunchPath.dep : ../../HCore/CCore/src/LaunchPath.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/LaunchPath.o $< -MF $@
+
 .obj/Layout.dep : ../../Desktop/CCore/src/video/Layout.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Layout.o $< -MF $@
 
@@ -4814,6 +4835,9 @@ include $(RULES_FILE)
 
 .obj/SysInternal.dep : ../../Target/LIN64/CCore/src/sys/SysInternal.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysInternal.o $< -MF $@
+
+.obj/SysLaunchPath.dep : ../../Target/LIN64/CCore/src/sys/SysLaunchPath.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysLaunchPath.o $< -MF $@
 
 .obj/SysMemPage.dep : ../../Target/LIN64/CCore/src/sys/SysMemPage.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysMemPage.o $< -MF $@

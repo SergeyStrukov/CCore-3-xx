@@ -1,0 +1,80 @@
+<!--
+/* page_HCore_SysLaunchPath.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.01
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> HCore SysLaunchPath</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>HCore SysLaunchPath</h2>
+
+<p class="Files">Files <b>CCore/inc/sys/SysLaunchPath.h</b> <b>CCore/src/sys/SysLaunchPath.cpp</b></p>
+
+<p>
+This <b>Class-function</b> is to obtain the full path of the running executable.
+</p>
+
+<pre>
+
+#ifndef CCore_inc_sys_SysLaunchPath_h
+#define CCore_inc_sys_SysLaunchPath_h
+
+#include &lt;CCore/inc/GenFile.h&gt;
+
+#include &lt;CCore/inc/sys/SysError.h&gt;
+
+namespace CCore {
+namespace Sys {
+
+/* classes */
+
+struct LaunchPath;
+
+/* struct LaunchPath */
+
+struct <span class="Att">LaunchPath</span>
+ {
+  StrLen path;
+  ErrorType error;
+
+  explicit LaunchPath(char buf[MaxPathLen+1]);
+ };
+
+} // namespace Sys
+} // namespace CCore
+
+#endif
+
+</pre>
+
+<p>
+To call the function you must provide a buffer with the proper length.
+The path is copied to this buffer.
+<b>path</b> is the resulting path,
+<b>error</b> is the error code.
+</p>
+
+</body>
+
+</html>
+

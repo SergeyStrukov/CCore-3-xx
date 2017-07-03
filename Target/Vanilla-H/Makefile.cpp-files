@@ -47,6 +47,7 @@
 ../../Simple/CCore/src/Move.cpp
 ../../Simple/CCore/src/NewDelete.cpp
 ../../Simple/CCore/src/OwnPtr.cpp
+../../Simple/CCore/src/Pow.cpp
 ../../Simple/CCore/src/PrintAbort.cpp
 ../../Simple/CCore/src/PrintBits.cpp
 ../../Simple/CCore/src/PrintError.cpp
@@ -271,6 +272,7 @@
 ../../HCore/CCore/src/DirTreeRun.cpp
 ../../HCore/CCore/src/FileSystem.cpp
 ../../HCore/CCore/src/FileToMem.cpp
+../../HCore/CCore/src/LaunchPath.cpp
 ../../HCore/CCore/src/MemBase.cpp
 ../../HCore/CCore/src/MemPageHeap.cpp
 ../../HCore/CCore/src/net/AsyncUDPDevice.cpp
@@ -304,6 +306,7 @@
 ../../Target/Vanilla-H/CCore/src/sys/SysError.cpp
 ../../Target/Vanilla-H/CCore/src/sys/SysFile.cpp
 ../../Target/Vanilla-H/CCore/src/sys/SysFileSystem.cpp
+../../Target/Vanilla-H/CCore/src/sys/SysLaunchPath.cpp
 ../../Target/Vanilla-H/CCore/src/sys/SysMemPage.cpp
 ../../Target/Vanilla-H/CCore/src/sys/SysNet.cpp
 ../../Target/Vanilla-H/CCore/src/sys/SysPlanInit.cpp

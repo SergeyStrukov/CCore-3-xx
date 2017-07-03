@@ -119,6 +119,7 @@ OBJ_LIST = \
 .obj/InterfaceHost.o \
 .obj/Job.o \
 .obj/LangDataMap.o \
+.obj/LaunchPath.o \
 .obj/Len.o \
 .obj/LineInput.o \
 .obj/List.o \
@@ -194,6 +195,7 @@ OBJ_LIST = \
 .obj/PlatformBase.o \
 .obj/Point.o \
 .obj/PosSub.o \
+.obj/Pow.o \
 .obj/Print.o \
 .obj/PrintAbort.o \
 .obj/PrintAsyncFile.o \
@@ -273,6 +275,7 @@ OBJ_LIST = \
 .obj/SysError.o \
 .obj/SysFile.o \
 .obj/SysFileSystem.o \
+.obj/SysLaunchPath.o \
 .obj/SysMemPage.o \
 .obj/SysNet.o \
 .obj/SysPlanInit.o \
@@ -437,6 +440,7 @@ ASM_LIST = \
 .obj/InterfaceHost.s \
 .obj/Job.s \
 .obj/LangDataMap.s \
+.obj/LaunchPath.s \
 .obj/Len.s \
 .obj/LineInput.s \
 .obj/List.s \
@@ -512,6 +516,7 @@ ASM_LIST = \
 .obj/PlatformBase.s \
 .obj/Point.s \
 .obj/PosSub.s \
+.obj/Pow.s \
 .obj/Print.s \
 .obj/PrintAbort.s \
 .obj/PrintAsyncFile.s \
@@ -591,6 +596,7 @@ ASM_LIST = \
 .obj/SysError.s \
 .obj/SysFile.s \
 .obj/SysFileSystem.s \
+.obj/SysLaunchPath.s \
 .obj/SysMemPage.s \
 .obj/SysNet.s \
 .obj/SysPlanInit.s \
@@ -755,6 +761,7 @@ DEP_LIST = \
 .obj/InterfaceHost.dep \
 .obj/Job.dep \
 .obj/LangDataMap.dep \
+.obj/LaunchPath.dep \
 .obj/Len.dep \
 .obj/LineInput.dep \
 .obj/List.dep \
@@ -830,6 +837,7 @@ DEP_LIST = \
 .obj/PlatformBase.dep \
 .obj/Point.dep \
 .obj/PosSub.dep \
+.obj/Pow.dep \
 .obj/Print.dep \
 .obj/PrintAbort.dep \
 .obj/PrintAsyncFile.dep \
@@ -909,6 +917,7 @@ DEP_LIST = \
 .obj/SysError.dep \
 .obj/SysFile.dep \
 .obj/SysFileSystem.dep \
+.obj/SysLaunchPath.dep \
 .obj/SysMemPage.dep \
 .obj/SysNet.dep \
 .obj/SysPlanInit.dep \
@@ -1318,6 +1327,9 @@ include $(RULES_FILE)
 .obj/LangDataMap.o : ../../Applied/CCore/src/lang/LangDataMap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/LaunchPath.o : ../../HCore/CCore/src/LaunchPath.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Len.o : ../../Simple/CCore/src/gadget/Len.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1541,6 +1553,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PosSub.o : ../../Simple/CCore/src/gadget/PosSub.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Pow.o : ../../Simple/CCore/src/Pow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Print.o : ../../HCore/CCore/src/Print.cpp
@@ -1778,6 +1793,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysFileSystem.o : ../../Target/Vanilla-H/CCore/src/sys/SysFileSystem.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysLaunchPath.o : ../../Target/Vanilla-H/CCore/src/sys/SysLaunchPath.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysMemPage.o : ../../Target/Vanilla-H/CCore/src/sys/SysMemPage.cpp
@@ -2265,6 +2283,9 @@ include $(RULES_FILE)
 .obj/LangDataMap.s : ../../Applied/CCore/src/lang/LangDataMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/LaunchPath.s : ../../HCore/CCore/src/LaunchPath.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Len.s : ../../Simple/CCore/src/gadget/Len.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2488,6 +2509,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/PosSub.s : ../../Simple/CCore/src/gadget/PosSub.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Pow.s : ../../Simple/CCore/src/Pow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Print.s : ../../HCore/CCore/src/Print.cpp
@@ -2725,6 +2749,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysFileSystem.s : ../../Target/Vanilla-H/CCore/src/sys/SysFileSystem.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SysLaunchPath.s : ../../Target/Vanilla-H/CCore/src/sys/SysLaunchPath.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysMemPage.s : ../../Target/Vanilla-H/CCore/src/sys/SysMemPage.cpp
@@ -3212,6 +3239,9 @@ include $(RULES_FILE)
 .obj/LangDataMap.dep : ../../Applied/CCore/src/lang/LangDataMap.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/LangDataMap.o $< -MF $@
 
+.obj/LaunchPath.dep : ../../HCore/CCore/src/LaunchPath.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/LaunchPath.o $< -MF $@
+
 .obj/Len.dep : ../../Simple/CCore/src/gadget/Len.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Len.o $< -MF $@
 
@@ -3436,6 +3466,9 @@ include $(RULES_FILE)
 
 .obj/PosSub.dep : ../../Simple/CCore/src/gadget/PosSub.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/PosSub.o $< -MF $@
+
+.obj/Pow.dep : ../../Simple/CCore/src/Pow.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Pow.o $< -MF $@
 
 .obj/Print.dep : ../../HCore/CCore/src/Print.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Print.o $< -MF $@
@@ -3673,6 +3706,9 @@ include $(RULES_FILE)
 
 .obj/SysFileSystem.dep : ../../Target/Vanilla-H/CCore/src/sys/SysFileSystem.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysFileSystem.o $< -MF $@
+
+.obj/SysLaunchPath.dep : ../../Target/Vanilla-H/CCore/src/sys/SysLaunchPath.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysLaunchPath.o $< -MF $@
 
 .obj/SysMemPage.dep : ../../Target/Vanilla-H/CCore/src/sys/SysMemPage.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/SysMemPage.o $< -MF $@

@@ -364,6 +364,7 @@
 ../../HCore/CCore/src/DirTreeRun.cpp
 ../../HCore/CCore/src/FileSystem.cpp
 ../../HCore/CCore/src/FileToMem.cpp
+../../HCore/CCore/src/LaunchPath.cpp
 ../../HCore/CCore/src/MemBase.cpp
 ../../HCore/CCore/src/MemPageHeap.cpp
 ../../HCore/CCore/src/net/AsyncUDPDevice.cpp
@@ -403,6 +404,7 @@
 ../../Target/LIN64/CCore/src/sys/SysFile.cpp
 ../../Target/LIN64/CCore/src/sys/SysFileSystem.cpp
 ../../Target/LIN64/CCore/src/sys/SysInternal.cpp
+../../Target/LIN64/CCore/src/sys/SysLaunchPath.cpp
 ../../Target/LIN64/CCore/src/sys/SysMemPage.cpp
 ../../Target/LIN64/CCore/src/sys/SysNet.cpp
 ../../Target/LIN64/CCore/src/sys/SysPlanInit.cpp

@@ -1,0 +1,86 @@
+<!--
+/* page_LaunchPath.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.01
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> LaunchPath</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>LaunchPath</h2>
+
+<p class="Files">Files <b>CCore/inc/LaunchPath.h</b> <b>CCore/src/LaunchPath.cpp</b></p>
+
+<p>
+This class obtains the full path of the running executable file.
+</p>
+
+<pre>
+
+class <span class="Att">LaunchPath</span> : NoCopy
+ {
+   char buf[MaxPathLen+1];
+   StrLen path;
+
+  public:
+
+   LaunchPath();
+
+   StrLen getPath() const { return path; }
+
+   StrLen getDir() const { return PrefixPath(path); }
+ };
+
+</pre>
+
+<p>
+Constructor obtains the path. An exception is thrown in case of error.
+</p>
+
+<p>
+<b>getPath()</b> returns the full path to the executable file.
+</p>
+
+<p>
+<b>getDir()</b> returns the full path to the executable directory.
+</p>
+
+<p>
+This class is built upon the target class <b>Sys::LaunchPath</b>, declared in the header <b>sys/SysLaunchPath.h</b>.
+</p>
+
+<pre>
+
+struct <span class="Att">LaunchPath</span>
+ {
+  StrLen path;
+  ErrorType error;
+
+  explicit LaunchPath(char buf[MaxPathLen+1]);
+ };
+
+</pre>
+
+</body>
+
+</html>
+
