@@ -1,7 +1,7 @@
 /* Desktop.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/LIN64
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -48,6 +48,45 @@
 
 namespace CCore {
 namespace Video {
+
+/* functions */
+
+CmdDisplay StartDisplay()
+ {
+  return CmdDisplay_Normal;
+ }
+
+char ToLowerCase(char ch)
+ {
+  return std::tolower(ch);
+ }
+
+CmpResult NativeCmp(char a_,char b_)
+ {
+  char a[]={a_,0};
+  char b[]={b_,0};
+
+  int cmp=std::strcoll(a,b);
+
+  return LessCmp(cmp,0);
+ }
+
+void ShellVerb(StrLen verb,StrLen file_name)
+ {
+  if( !verb.equal("open"_c) )
+    {
+     Printf(Exception,"CCore::Video::ShellVerb(#.q;,...) : unknown verb",verb);
+    }
+
+  char buf[MaxPathLen+20];
+  PrintBuf out(Range(buf));
+
+  Printf(out,"xdg-open #;",file_name);
+
+  out.guardOverflow();
+
+  std::system(out.closeZStr());
+ }
 
 /* class CharMapTable */
 
@@ -4126,26 +4165,6 @@ void AbortMsgBox(StrLen text)
 void ErrorMsgBox(StrLen text,StrLen title)
  {
   X11Host::ErrorMsgBox(text,title);
- }
-
-CmdDisplay StartDisplay()
- {
-  return CmdDisplay_Normal;
- }
-
-char ToLowerCase(char ch)
- {
-  return std::tolower(ch);
- }
-
-CmpResult NativeCmp(char a_,char b_)
- {
-  char a[]={a_,0};
-  char b[]={b_,0};
-
-  int cmp=std::strcoll(a,b);
-
-  return LessCmp(cmp,0);
  }
 
 void SetAppIcon(Picture pict)
