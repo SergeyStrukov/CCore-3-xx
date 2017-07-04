@@ -1,7 +1,7 @@
 /* Win32gui.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/WIN32
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -1667,6 +1667,17 @@ bool_t WIN32_API EmptyClipboard(void);
 handle_t WIN32_API SetClipboardData(options_t format, handle_t h_mem);
 
 handle_t /* h_mem */ WIN32_API GetClipboardData(options_t format);
+
+/*--------------------------------------------------------------------------------------*/
+/* Shell functions                                                                      */
+/*--------------------------------------------------------------------------------------*/
+
+handle_t /* h_instance */ WIN32_API ShellExecuteA(HWindow hWnd,
+                                                  const char *operation,
+                                                  const char *file,
+                                                  const char *parameters,
+                                                  const char *dir,
+                                                  options_t show);
 
 } // extern "C"
 

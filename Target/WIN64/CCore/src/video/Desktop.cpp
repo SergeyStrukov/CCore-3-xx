@@ -33,6 +33,65 @@
 namespace CCore {
 namespace Video {
 
+CmdDisplay StartDisplay()
+ {
+  Win64::StartupInfo info;
+
+  info.cb=sizeof (info);
+
+  Win64::GetStartupInfoA(&info);
+
+  if( info.flags&Win64::StartupInfo_show_window )
+    {
+     switch( info.show_window )
+       {
+        case Win64::CmdShow_Hide          : return CmdDisplay_Normal;
+        default:
+        case Win64::CmdShow_Normal        : return CmdDisplay_Normal;
+        case Win64::CmdShow_Minimized     : return CmdDisplay_Minimized;
+        case Win64::CmdShow_Maximized     : return CmdDisplay_Maximized;
+        case Win64::CmdShow_NoActivate    : return CmdDisplay_Normal;
+        case Win64::CmdShow_Show          : return CmdDisplay_Normal;
+        case Win64::CmdShow_Minimize      : return CmdDisplay_Minimized;
+        case Win64::CmdShow_MinNoActive   : return CmdDisplay_Minimized;
+        case Win64::CmdShow_NA            : return CmdDisplay_Normal;
+        case Win64::CmdShow_Restore       : return CmdDisplay_Restore;
+        case Win64::CmdShow_Default       : return CmdDisplay_Normal;
+        case Win64::CmdShow_ForceMinimize : return CmdDisplay_Minimized;
+       }
+    }
+
+  return CmdDisplay_Normal;
+ }
+
+char ToLowerCase(char ch)
+ {
+  return (unsigned char)(unsigned long)Win64::CharLowerA((char *)(unsigned long)(unsigned char)ch);
+ }
+
+CmpResult NativeCmp(char a,char b)
+ {
+  int cmp=Win64::CompareStringA(Win64::LCID_UserDefault,0,&a,1,&b,1);
+
+  return LessCmp(cmp,2);
+ }
+
+void ShellVerb(StrLen verb_,StrLen file_name_)
+ {
+  MakeString<TextBufLen> verb;
+  MakeString<MaxPathLen+1> file_name;
+
+  verb.add(verb_,Null);
+  file_name.add(file_name_,Null);
+
+  if( !verb || !file_name )
+    {
+     Printf(Exception,"CCore::Video::ShellVerb(...) : too long arguments");
+    }
+
+  Win64::ShellExecuteA(0,verb.getZStr(),file_name.getZStr(),0,0,Win64::CmdShow_Show);
+ }
+
 /* class CharMapTable */
 
 CharMapTable::CharMapTable()
@@ -2104,49 +2163,6 @@ void ErrorMsgBox(StrLen text,StrLen title)
 void SetAppIcon(Picture pict)
  {
   WindowsHost::SetAppIcon(pict);
- }
-
-CmdDisplay StartDisplay()
- {
-  Win64::StartupInfo info;
-
-  info.cb=sizeof (info);
-
-  Win64::GetStartupInfoA(&info);
-
-  if( info.flags&Win64::StartupInfo_show_window )
-    {
-     switch( info.show_window )
-       {
-        case Win64::CmdShow_Hide          : return CmdDisplay_Normal;
-        default:
-        case Win64::CmdShow_Normal        : return CmdDisplay_Normal;
-        case Win64::CmdShow_Minimized     : return CmdDisplay_Minimized;
-        case Win64::CmdShow_Maximized     : return CmdDisplay_Maximized;
-        case Win64::CmdShow_NoActivate    : return CmdDisplay_Normal;
-        case Win64::CmdShow_Show          : return CmdDisplay_Normal;
-        case Win64::CmdShow_Minimize      : return CmdDisplay_Minimized;
-        case Win64::CmdShow_MinNoActive   : return CmdDisplay_Minimized;
-        case Win64::CmdShow_NA            : return CmdDisplay_Normal;
-        case Win64::CmdShow_Restore       : return CmdDisplay_Restore;
-        case Win64::CmdShow_Default       : return CmdDisplay_Normal;
-        case Win64::CmdShow_ForceMinimize : return CmdDisplay_Minimized;
-       }
-    }
-
-  return CmdDisplay_Normal;
- }
-
-char ToLowerCase(char ch)
- {
-  return (unsigned char)(unsigned long)Win64::CharLowerA((char *)(unsigned long)(unsigned char)ch);
- }
-
-CmpResult NativeCmp(char a,char b)
- {
-  int cmp=Win64::CompareStringA(Win64::LCID_UserDefault,0,&a,1,&b,1);
-
-  return LessCmp(cmp,2);
  }
 
 /* global DefaultDesktop */

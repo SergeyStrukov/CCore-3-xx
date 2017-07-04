@@ -1,7 +1,7 @@
 /* Desktop.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/WIN32
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -45,6 +45,8 @@ CmdDisplay StartDisplay();
 char ToLowerCase(char ch);
 
 CmpResult NativeCmp(char a,char b);
+
+void ShellVerb(StrLen verb,StrLen file_name);
 
 /* classes */
 

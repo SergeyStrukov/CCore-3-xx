@@ -46,6 +46,8 @@ char ToLowerCase(char ch);
 
 CmpResult NativeCmp(char a,char b);
 
+void ShellVerb(StrLen verb,StrLen file_name);
+
 /* classes */
 
 class CharMapTable;

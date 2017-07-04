@@ -1150,6 +1150,17 @@ handle_t WIN64_API SetClipboardData(options_t format, handle_t h_mem);
 
 handle_t /* h_mem */ WIN64_API GetClipboardData(options_t format);
 
+/*--------------------------------------------------------------------------------------*/
+/* Shell functions                                                                      */
+/*--------------------------------------------------------------------------------------*/
+
+handle_t /* h_instance */ WIN64_API ShellExecuteA(HWindow hWnd,
+                                                  const char *operation,
+                                                  const char *file,
+                                                  const char *parameters,
+                                                  const char *dir,
+                                                  options_t show);
+
 } // extern "C"
 
 } // namespace Win64

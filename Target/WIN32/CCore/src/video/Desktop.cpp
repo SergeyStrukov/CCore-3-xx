@@ -1,7 +1,7 @@
 /* Desktop.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/WIN32
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -32,6 +32,67 @@
 
 namespace CCore {
 namespace Video {
+
+/* functions */
+
+CmdDisplay StartDisplay()
+ {
+  Win32::StartupInfo info;
+
+  info.cb=sizeof (info);
+
+  Win32::GetStartupInfoA(&info);
+
+  if( info.flags&Win32::StartupInfo_show_window )
+    {
+     switch( info.show_window )
+       {
+        case Win32::CmdShow_Hide          : return CmdDisplay_Normal;
+        default:
+        case Win32::CmdShow_Normal        : return CmdDisplay_Normal;
+        case Win32::CmdShow_Minimized     : return CmdDisplay_Minimized;
+        case Win32::CmdShow_Maximized     : return CmdDisplay_Maximized;
+        case Win32::CmdShow_NoActivate    : return CmdDisplay_Normal;
+        case Win32::CmdShow_Show          : return CmdDisplay_Normal;
+        case Win32::CmdShow_Minimize      : return CmdDisplay_Minimized;
+        case Win32::CmdShow_MinNoActive   : return CmdDisplay_Minimized;
+        case Win32::CmdShow_NA            : return CmdDisplay_Normal;
+        case Win32::CmdShow_Restore       : return CmdDisplay_Restore;
+        case Win32::CmdShow_Default       : return CmdDisplay_Normal;
+        case Win32::CmdShow_ForceMinimize : return CmdDisplay_Minimized;
+       }
+    }
+
+  return CmdDisplay_Normal;
+ }
+
+char ToLowerCase(char ch)
+ {
+  return (unsigned char)(unsigned)Win32::CharLowerA((char *)(unsigned)(unsigned char)ch);
+ }
+
+CmpResult NativeCmp(char a,char b)
+ {
+  int cmp=Win32::CompareStringA(Win32::LCID_UserDefault,0,&a,1,&b,1);
+
+  return LessCmp(cmp,2);
+ }
+
+void ShellVerb(StrLen verb_,StrLen file_name_)
+ {
+  MakeString<TextBufLen> verb;
+  MakeString<MaxPathLen+1> file_name;
+
+  verb.add(verb_,Null);
+  file_name.add(file_name_,Null);
+
+  if( !verb || !file_name )
+    {
+     Printf(Exception,"CCore::Video::ShellVerb(...) : too long arguments");
+    }
+
+  Win32::ShellExecuteA(0,verb.getZStr(),file_name.getZStr(),0,0,Win32::CmdShow_Show);
+ }
 
 /* class CharMapTable */
 
@@ -2113,49 +2174,6 @@ void ErrorMsgBox(StrLen text,StrLen title)
 void SetAppIcon(Picture pict)
  {
   WindowsHost::SetAppIcon(pict);
- }
-
-CmdDisplay StartDisplay()
- {
-  Win32::StartupInfo info;
-
-  info.cb=sizeof (info);
-
-  Win32::GetStartupInfoA(&info);
-
-  if( info.flags&Win32::StartupInfo_show_window )
-    {
-     switch( info.show_window )
-       {
-        case Win32::CmdShow_Hide          : return CmdDisplay_Normal;
-        default:
-        case Win32::CmdShow_Normal        : return CmdDisplay_Normal;
-        case Win32::CmdShow_Minimized     : return CmdDisplay_Minimized;
-        case Win32::CmdShow_Maximized     : return CmdDisplay_Maximized;
-        case Win32::CmdShow_NoActivate    : return CmdDisplay_Normal;
-        case Win32::CmdShow_Show          : return CmdDisplay_Normal;
-        case Win32::CmdShow_Minimize      : return CmdDisplay_Minimized;
-        case Win32::CmdShow_MinNoActive   : return CmdDisplay_Minimized;
-        case Win32::CmdShow_NA            : return CmdDisplay_Normal;
-        case Win32::CmdShow_Restore       : return CmdDisplay_Restore;
-        case Win32::CmdShow_Default       : return CmdDisplay_Normal;
-        case Win32::CmdShow_ForceMinimize : return CmdDisplay_Minimized;
-       }
-    }
-
-  return CmdDisplay_Normal;
- }
-
-char ToLowerCase(char ch)
- {
-  return (unsigned char)(unsigned)Win32::CharLowerA((char *)(unsigned)(unsigned char)ch);
- }
-
-CmpResult NativeCmp(char a,char b)
- {
-  int cmp=Win32::CompareStringA(Win32::LCID_UserDefault,0,&a,1,&b,1);
-
-  return LessCmp(cmp,2);
  }
 
 /* global DefaultDesktop */
