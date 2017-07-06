@@ -61,8 +61,6 @@ struct FontInfo
   bool italic = false ;
   bool bold = false ;
 
-  FontSize def_size = {} ;
-
   // check
 
   static bool CheckName(StrLen name);
@@ -73,11 +71,9 @@ struct FontInfo
 
   // constructors
 
-  struct MaxSizeFunction;
-
   FontInfo() noexcept {}
 
-  FontInfo(const String &file_name,bool &is_font);
+  FontInfo(const String &file_name,bool &is_font,bool use_probe=false);
 
   // methods
 
@@ -87,11 +83,8 @@ struct FontInfo
 
   void printDDL(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; , ",
-               DDLString(file_name),DDLString(family),DDLString(style),DDLBool(scalable),DDLBool(monospace),DDLBool(italic),DDLBool(bold));
-
-    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; } }",
-               def_size.min_dx,def_size.max_dx,def_size.dy,def_size.by,def_size.dx0,def_size.dx1,def_size.skew);
+    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; } ",
+               DDLPrintableString(file_name),DDLString(family),DDLString(style),DDLBool(scalable),DDLBool(monospace),DDLBool(italic),DDLBool(bold));
    }
 
   void print(PrinterType &out) const
@@ -105,8 +98,7 @@ struct FontInfo
     if( italic ) Putobj(out," italic");
     if( bold ) Putobj(out," bold");
 
-    Printf(out,"\nDY = #; BY = #; Skew = #; MinDX = #; MaxDX = #; DX0 = #; DX1 = #;\n",
-               def_size.dy,def_size.by,def_size.skew,def_size.min_dx,def_size.max_dx,def_size.dx0,def_size.dx1);
+    Putobj(out,"\n");
    }
  };
 

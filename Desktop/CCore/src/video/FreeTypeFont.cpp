@@ -933,6 +933,84 @@ void FreeTypeFont::getSizeList(Function<void (Coord dx,Coord dy)> func) const
   if( Base *base=getBase() ) base->getSizeList(func);
  }
 
+/* class ProbeFreeTypeFont::Inner */
+
+class ProbeFreeTypeFont::Inner : public MemBase_nocopy , AutoGlobal<FreeTypeFont::Global>::Lock
+ {
+   mutable FreeType::Face face;
+
+  public:
+
+   Inner(StrLen file_name,bool &is_font);
+
+   ~Inner();
+
+   StrLen getFamily() const;
+
+   StrLen getStyle() const;
+
+   FreeTypeFont::StyleFlags getStyleFlags() const;
+ };
+
+ProbeFreeTypeFont::Inner::Inner(StrLen file_name,bool &is_font)
+ : AutoGlobal<FreeTypeFont::Global>::Lock(FreeTypeFont::Inner::Object),
+   face(FreeTypeFont::Inner::Object->lib,FreeTypeFont::Inner::Object->mutex,file_name,is_font)
+ {
+ }
+
+ProbeFreeTypeFont::Inner::~Inner()
+ {
+ }
+
+StrLen ProbeFreeTypeFont::Inner::getFamily() const
+ {
+  return face.getFamily();
+ }
+
+StrLen ProbeFreeTypeFont::Inner::getStyle() const
+ {
+  return face.getStyle();
+ }
+
+FreeTypeFont::StyleFlags ProbeFreeTypeFont::Inner::getStyleFlags() const
+ {
+  FreeTypeFont::StyleFlags ret;
+
+  ret.scalable=face.isScalable();
+  ret.monospace=face.isMonospace();
+  ret.italic=face.isItalic();
+  ret.bold=face.isBold();
+
+  return ret;
+ }
+
+/* class ProbeFreeTypeFont */
+
+ProbeFreeTypeFont::ProbeFreeTypeFont(StrLen file_name,bool &is_font)
+ {
+  ptr=new Inner(file_name,is_font);
+ }
+
+ProbeFreeTypeFont::~ProbeFreeTypeFont()
+ {
+  delete ptr;
+ }
+
+StrLen ProbeFreeTypeFont::getFamily() const
+ {
+  return ptr->getFamily();
+ }
+
+StrLen ProbeFreeTypeFont::getStyle() const
+ {
+  return ptr->getStyle();
+ }
+
+FreeTypeFont::StyleFlags ProbeFreeTypeFont::getStyleFlags() const
+ {
+  return ptr->getStyleFlags();
+ }
+
 } // namespace Video
 } // namespace CCore
 

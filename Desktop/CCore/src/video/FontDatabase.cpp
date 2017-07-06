@@ -52,79 +52,47 @@ bool FontInfo::checkNames() const
   return CheckName(file_name) && CheckName(family) && CheckName(style) ;
  }
 
-struct FontInfo::MaxSizeFunction : public Funchor
- {
-  ulen cur = 0 ;
-
-  ulen index = 0 ;
-  Coord dx = 0 ;
-  Coord dy = 0 ;
-
-  MaxSizeFunction() {}
-
-  void next(Coord dx_,Coord dy_)
-   {
-    if( dy_ > dy )
-      {
-       index=cur;
-       dx=dx_;
-       dy=dy_;
-      }
-
-    cur++;
-   }
-
-  Function<void (Coord dx,Coord dy)> function_next() { return FunctionOf(this,&MaxSizeFunction::next); }
- };
-
-FontInfo::FontInfo(const String &file_name_,bool &is_font)
+FontInfo::FontInfo(const String &file_name_,bool &is_font,bool use_probe)
  {
   file_name=file_name_;
 
-  FreeTypeFont font(Range(file_name),is_font);
-
-  if( is_font )
+  if( use_probe )
     {
-     family=font.getFamily();
-     style=font.getStyle();
+     ProbeFreeTypeFont font(Range(file_name),is_font);
 
-     auto flags=font.getStyleFlags();
-
-     scalable=flags.scalable;
-     monospace=flags.monospace;
-     italic=flags.italic;
-     bold=flags.bold;
-
-     if( scalable )
+     if( is_font )
        {
-        try
-          {
-           font.setSize(32);
-          }
-        catch(...)
-          {
-           Printf(NoException,"CCore::Video::FontInfo::FontInfo(#.q;,...) : cannot set size",file_name);
-          }
+        family=font.getFamily();
+        style=font.getStyle();
+
+        auto flags=font.getStyleFlags();
+
+        scalable=flags.scalable;
+        monospace=flags.monospace;
+        italic=flags.italic;
+        bold=flags.bold;
+
+        if( !checkNames() ) is_font=false;
        }
-     else
+    }
+  else
+    {
+     FreeTypeFont font(Range(file_name),is_font);
+
+     if( is_font )
        {
-        MaxSizeFunction func;
+        family=font.getFamily();
+        style=font.getStyle();
 
-        font.getSizeList(func.function_next());
+        auto flags=font.getStyleFlags();
 
-        try
-          {
-           font.setFixedSize(func.index);
-          }
-        catch(...)
-          {
-           Printf(NoException,"CCore::Video::FontInfo::FontInfo(#.q;,...) : cannot set size",file_name);
-          }
+        scalable=flags.scalable;
+        monospace=flags.monospace;
+        italic=flags.italic;
+        bold=flags.bold;
+
+        if( !checkNames() ) is_font=false;
        }
-
-     def_size=font->getSize();
-
-     if( !checkNames() ) is_font=false;
     }
  }
 
@@ -147,17 +115,6 @@ StrLen FontDatabase::Pretext()
 
 "type Coord = sint16 ;"
 
-"struct FontSize"
-" {"
-"  Coord min_dx;"
-"  Coord max_dx;"
-"  Coord dy;"
-"  Coord by;"
-"  Coord dx0;"
-"  Coord dx1;"
-"  Coord skew;"
-" };"
-
 "struct FontInfo"
 " {"
 "  text file_name;"
@@ -169,8 +126,6 @@ StrLen FontDatabase::Pretext()
 "  Bool monospace;"
 "  Bool italic;"
 "  Bool bold;"
-
-"  FontSize def_size;"
 " };"
 
 "type FontDatabase = FontInfo[] ;"_c;
@@ -195,7 +150,7 @@ void FontDatabase::Append(Collector<FontInfo> &obj,StrLen path,StrLen name)
   String file_name=CatPath(path,name);
 
   bool is_font=false;
-  FontInfo info(file_name,is_font);
+  FontInfo info(file_name,is_font,true);
 
   if( is_font ) obj.append_copy(info);
  }
@@ -328,14 +283,6 @@ void FontDatabase::loadDDL(StrLen file_name)
         obj.italic=info.italic;
         obj.bold=info.bold;
 
-        obj.def_size.min_dx=info.def_size.min_dx;
-        obj.def_size.max_dx=info.def_size.max_dx;
-        obj.def_size.dy=info.def_size.dy;
-        obj.def_size.by=info.def_size.by;
-        obj.def_size.dx0=info.def_size.dx0;
-        obj.def_size.dx1=info.def_size.dx1;
-        obj.def_size.skew=info.def_size.skew;
-
         if( obj.checkNames() ) list.append_copy(obj);
        }
 
@@ -351,7 +298,7 @@ void FontDatabase::saveDDL(StrLen file_name) const
 
   Putobj(out,"/* FontCache.ddl */\n\n");
 
-  //Putobj(out,"include <FontInfo.ddl>\n\n");
+  Putobj(out,"//include <FontInfo.ddl>\n\n");
 
   Putobj(out,"FontDatabase FontCache=\n {");
 
@@ -413,7 +360,7 @@ void FontDatabase::saveCache() const
 
   StrLen dir=buf.get();
 
-  buf.add(CacheFile);
+  buf.add(CacheFile());
 
   if( !buf )
     {

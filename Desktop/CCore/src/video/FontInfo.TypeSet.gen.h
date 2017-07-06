@@ -1,7 +1,7 @@
 /* FontInfo.TypeSet.gen.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@
 
 struct TypeSet : TypeDefCore
  {
-  ulen indexes[2];
+  ulen indexes[1];
   DynArray<ulen> ind_map;
 
   DDL::FindNodeMap map;
@@ -27,8 +27,7 @@ struct TypeSet : TypeDefCore
    {
     Range(indexes).set(ulen(-1));
 
-    map.add(2,"FontInfo");
-    map.add(1,"FontSize");
+    map.add(1,"FontInfo");
 
     map.complete();
    }
@@ -39,26 +38,6 @@ struct TypeSet : TypeDefCore
 
     switch( map.find(struct_node) )
       {
-       case 2 :
-        {
-         indexes[1]=struct_node->index;
-         ind_map[struct_node->index]=2;
-
-         ret.set<S2>();
-
-         DDL::SetFieldOffsets(struct_node,
-                               "file_name",offsetof(S2,file_name),
-                               "family",offsetof(S2,family),
-                               "style",offsetof(S2,style),
-                               "scalable",offsetof(S2,scalable),
-                               "monospace",offsetof(S2,monospace),
-                               "italic",offsetof(S2,italic),
-                               "bold",offsetof(S2,bold),
-                               "def_size",offsetof(S2,def_size)
-                              );
-        }
-       return ret;
-
        case 1 :
         {
          indexes[0]=struct_node->index;
@@ -67,13 +46,13 @@ struct TypeSet : TypeDefCore
          ret.set<S1>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "min_dx",offsetof(S1,min_dx),
-                               "max_dx",offsetof(S1,max_dx),
-                               "dy",offsetof(S1,dy),
-                               "by",offsetof(S1,by),
-                               "dx0",offsetof(S1,dx0),
-                               "dx1",offsetof(S1,dx1),
-                               "skew",offsetof(S1,skew)
+                               "file_name",offsetof(S1,file_name),
+                               "family",offsetof(S1,family),
+                               "style",offsetof(S1,style),
+                               "scalable",offsetof(S1,scalable),
+                               "monospace",offsetof(S1,monospace),
+                               "italic",offsetof(S1,italic),
+                               "bold",offsetof(S1,bold)
                               );
         }
        return ret;
@@ -91,31 +70,16 @@ struct TypeSet : TypeDefCore
    {
     switch( ind_map[struct_node->index] )
       {
-       case 2 :
-        {
-         DDL::GuardFieldTypes<
-                               DDL::MapText,
-                               DDL::MapText,
-                               DDL::MapText,
-                               A3,
-                               A3,
-                               A3,
-                               A3,
-                               S1
-                              >(*this,struct_node);
-        }
-       break;
-
        case 1 :
         {
          DDL::GuardFieldTypes<
-                               A2,
-                               A2,
-                               A2,
-                               A2,
-                               A2,
-                               A2,
-                               A2
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText,
+                               A3,
+                               A3,
+                               A3,
+                               A3
                               >(*this,struct_node);
         }
        break;
@@ -129,12 +93,6 @@ template <class T>
 struct TypeSet::IsStruct
  {
   static bool Do(const ulen *,ulen) { return false; }
- };
-
-template <>
-struct TypeSet::IsStruct<TypeDefCore::S2>
- {
-  static bool Do(const ulen *indexes,ulen index) { return index==indexes[1]; }
  };
 
 template <>

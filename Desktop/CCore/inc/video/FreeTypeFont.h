@@ -30,6 +30,8 @@ namespace Video {
 
 class FreeTypeFont;
 
+class ProbeFreeTypeFont;
+
 /* enum FontHintType */
 
 enum FontHintType
@@ -123,6 +125,27 @@ class FreeTypeFont : public Font
    StrLen getStyle() const;
 
    void getSizeList(Function<void (Coord dx,Coord dy)> func) const;
+ };
+
+/* class ProbeFreeTypeFont */
+
+class ProbeFreeTypeFont : NoCopy
+ {
+   class Inner;
+
+   Inner *ptr;
+
+  public:
+
+   ProbeFreeTypeFont(StrLen file_name,bool &is_font);
+
+   ~ProbeFreeTypeFont();
+
+   StrLen getFamily() const;
+
+   StrLen getStyle() const;
+
+   FreeTypeFont::StyleFlags getStyleFlags() const;
  };
 
 } // namespace Video
