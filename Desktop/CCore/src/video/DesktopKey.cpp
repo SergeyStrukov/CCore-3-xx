@@ -1,7 +1,7 @@
 /* DesktopKey.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace Video {
 
 /* HomeKey() */
 
-StrLen HomeKey() { return "/ABED40C1F3A7CF2B30372A5D3619A8377AC83B89B229D15FB102E60100737DE7"_c; }
+StrLen HomeKey() { return "/CCoreUser-ABED40C1F3A7CF2B30372A5D3619A8377AC83B89B229D15FB102E60100737DE7"_c; }
 
 } // namespace Video
 } // namespace CCore

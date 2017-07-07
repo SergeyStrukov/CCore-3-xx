@@ -22,15 +22,17 @@ namespace Video {
 
 /* struct HomeSyncBase */
 
-void HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
+bool HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
  {
+  bool ret=false;
+
   try
     {
      HomeFile home_file(home_dir,cfg_file);
 
      ConfigMap map;
 
-     map.loadDDL_safe(home_file.get());
+     ret=map.loadDDL_safe(home_file.get());
 
      syncMap(map);
 
@@ -44,6 +46,8 @@ void HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
   catch(...)
     {
     }
+
+  return ret;
  }
 
 void HomeSyncBase::updateHome(StrLen home_dir,StrLen cfg_file) noexcept

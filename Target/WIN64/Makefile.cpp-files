@@ -285,6 +285,7 @@
 ../../Desktop/CCore/src/video/FileNameCmp.cpp
 ../../Desktop/CCore/src/video/Font.cpp
 ../../Desktop/CCore/src/video/FontDatabase.cpp
+../../Desktop/CCore/src/video/FontLookup.cpp
 ../../Desktop/CCore/src/video/FontParam.cpp
 ../../Desktop/CCore/src/video/FrameBase.cpp
 ../../Desktop/CCore/src/video/FrameWindow.cpp

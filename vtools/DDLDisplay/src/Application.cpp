@@ -97,7 +97,7 @@ void AppPreferenceBag::createFonts()
 
 class AppPreference : public ConfigBinder<AppPreferenceBag>
  {
-   static StrLen Key() { return "/F7BEB23B4D025F4D0BB7C3033139083269233409EA11AD076E2B7DDBB90A4CBF"_c;  }
+   static StrLen Key() { return "/DDLDisplay-F7BEB23B4D025F4D0BB7C3033139083269233409EA11AD076E2B7DDBB90A4CBF"_c;  }
 
    static StrLen File() { return "/AppPreference.ddl"_c;  }
 

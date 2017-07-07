@@ -89,7 +89,7 @@ struct HomeSyncBase
 
   virtual void updateMap(ConfigMap &map) const = 0;
 
-  void syncHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
+  bool syncHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
 
   void updateHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
  };

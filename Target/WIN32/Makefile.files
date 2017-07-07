@@ -115,6 +115,7 @@ OBJ_LIST = \
 .obj/Font.o \
 .obj/FontDatabase.o \
 .obj/FontEdit.o \
+.obj/FontLookup.o \
 .obj/FontParam.o \
 .obj/Forget.o \
 .obj/FrameBase.o \
@@ -532,6 +533,7 @@ ASM_LIST = \
 .obj/Font.s \
 .obj/FontDatabase.s \
 .obj/FontEdit.s \
+.obj/FontLookup.s \
 .obj/FontParam.s \
 .obj/Forget.s \
 .obj/FrameBase.s \
@@ -949,6 +951,7 @@ DEP_LIST = \
 .obj/Font.dep \
 .obj/FontDatabase.dep \
 .obj/FontEdit.dep \
+.obj/FontLookup.dep \
 .obj/FontParam.dep \
 .obj/Forget.dep \
 .obj/FrameBase.dep \
@@ -1605,6 +1608,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FontEdit.o : ../../Desktop/CCore/src/video/pref/FontEdit.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FontLookup.o : ../../Desktop/CCore/src/video/FontLookup.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FontParam.o : ../../Desktop/CCore/src/video/FontParam.cpp
@@ -2851,6 +2857,9 @@ include $(RULES_FILE)
 .obj/FontEdit.s : ../../Desktop/CCore/src/video/pref/FontEdit.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FontLookup.s : ../../Desktop/CCore/src/video/FontLookup.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/FontParam.s : ../../Desktop/CCore/src/video/FontParam.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4094,6 +4103,9 @@ include $(RULES_FILE)
 
 .obj/FontEdit.dep : ../../Desktop/CCore/src/video/pref/FontEdit.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/FontEdit.o $< -MF $@
+
+.obj/FontLookup.dep : ../../Desktop/CCore/src/video/FontLookup.cpp
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/FontLookup.o $< -MF $@
 
 .obj/FontParam.dep : ../../Desktop/CCore/src/video/FontParam.cpp
 	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/FontParam.o $< -MF $@

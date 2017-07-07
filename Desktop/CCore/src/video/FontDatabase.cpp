@@ -18,6 +18,8 @@
 #include <CCore/inc/video/DesktopKey.h>
 #include <CCore/inc/video/Desktop.h>
 
+#include <CCore/inc/video/HomeFile.h>
+
 #include <CCore/inc/PrintStem.h>
 #include <CCore/inc/CharProp.h>
 
@@ -336,42 +338,18 @@ void FontDatabase::cache()
 
 void FontDatabase::tryCache()
  {
-  HomeDir home;
+  HomeFile home_file(HomeKey(),CacheFile());
 
-  MakeString<MaxPathLen> buf;
-
-  buf.add(home.get(),HomeKey(),CacheFile());
-
-  if( !buf )
-    {
-     Printf(Exception,"CCore::Video::FontDatabase::tryCache() : too long file name");
-    }
-
-  tryCache(buf.get());
+  tryCache(home_file.get());
  }
 
 void FontDatabase::saveCache() const
  {
-  HomeDir home;
+  HomeFile home_file(HomeKey(),CacheFile());
 
-  MakeString<MaxPathLen> buf;
+  home_file.createDir();
 
-  buf.add(home.get(),HomeKey());
-
-  StrLen dir=buf.get();
-
-  buf.add(CacheFile());
-
-  if( !buf )
-    {
-     Printf(Exception,"CCore::Video::FontDatabase::saveCache() : too long file name");
-    }
-
-  FileSystem fs;
-
-  if( fs.getFileType(dir)==FileType_none ) fs.createDir(dir);
-
-  saveDDL(buf.get());
+  saveDDL(home_file.get());
  }
 
 /* class FontDatabase::Step */

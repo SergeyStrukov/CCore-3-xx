@@ -297,7 +297,7 @@ void AppPreferenceBag::createFonts()
 
 class AppPreference : public ConfigBinder<AppPreferenceBag>
  {
-   static StrLen Key() { return "/5C73F691B5ED963C3580A06131FD2D6EC57ECE3349028B3986554636EC1A70B8"_c;  }
+   static StrLen Key() { return "/ContourLab-5C73F691B5ED963C3580A06131FD2D6EC57ECE3349028B3986554636EC1A70B8"_c;  }
 
    static StrLen File() { return "/AppPreference.ddl"_c;  }
 
