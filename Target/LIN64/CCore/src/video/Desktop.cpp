@@ -96,6 +96,8 @@ CharMapTable::CharMapTable()
 
   table[0]=0;
 
+  bool once=true;
+
   for(unsigned ind=1; ind<256u ;ind++)
     {
      char ch=char(ind);
@@ -108,6 +110,9 @@ CharMapTable::CharMapTable()
      if( len!=1 )
        {
         table[ind]=0;
+
+        if( Replace_null(once) )
+          Printf(NoException,"CCore::Video::CharMapTable::CharMapTable() : not a single character code page");
        }
      else
        {

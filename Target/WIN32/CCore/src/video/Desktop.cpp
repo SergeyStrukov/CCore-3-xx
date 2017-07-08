@@ -98,6 +98,8 @@ void ShellVerb(StrLen verb_,StrLen file_name_)
 
 CharMapTable::CharMapTable()
  {
+  bool once=true;
+
   for(unsigned ind=0; ind<256u ;ind++)
     {
      char ch=char(ind);
@@ -107,10 +109,15 @@ CharMapTable::CharMapTable()
 
      if( len!=1 )
        {
-        Printf(Exception,"CCore::Video::CharMapTable::CharMapTable() : not a single character code page");
-       }
+        table[ind]=0;
 
-     table[ind]=out;
+        if( Replace_null(once) )
+          Printf(NoException,"CCore::Video::CharMapTable::CharMapTable() : not a single character code page");
+       }
+     else
+       {
+        table[ind]=out;
+       }
     }
  }
 
