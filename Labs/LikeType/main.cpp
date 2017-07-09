@@ -20,34 +20,35 @@ namespace App {
 
 using namespace CCore;
 
-/* struct ExtractSingleSignature<T> */
+/* struct GetSig<T> */
 
-template <class T> struct ExtractSingleSignature;
+template <class T> struct GetSig;
 
 template <class S,class T>
-struct ExtractSingleSignature<S T::*>
+struct GetSig<S T::*>
  {
   using Ret = S ;
  };
 
-/* struct ExtractSignature<TT> */
+/* struct SigList<TT> */
 
 template <class ... TT>
-struct ExtractSignature
+struct SigList
  {
-  ExtractSignature(TT ...) {}
+  SigList(TT ...) {}
 
-  using Ret = Meta::TypeListBox< typename ExtractSingleSignature<TT>::Ret ... > ;
- };
-
-/* struct ExtractMethodSignature<auto ... CC> */
-
-template <auto ... CC>
-struct ExtractMethodSignature : ExtractSignature<decltype(CC)...>
- {
+  using Ret = Meta::TypeListBox< typename GetSig<TT>::Ret ... > ;
  };
 
 /* struct Model */
+
+template <class T>
+concept bool ModelFoldType = requires()
+ {
+  &T::add1;
+  &T::add2;
+  &T::add3;
+ } ;
 
 struct Model
  {
@@ -57,8 +58,15 @@ struct Model
 
   int add3(int a,int b,int c) { Used(a); Used(b); Used(c); throw 0; }
 
-  template <class T>
-  struct Fold : ExtractMethodSignature<&T::add1,&T::add2,&T::add3> {};
+  template <template <class ...> class Ret,ModelFoldType T>
+  static auto Fold()
+   {
+    return Ret(
+               &T::add1,
+               &T::add2,
+               &T::add3
+              );
+   }
  };
 
 /* struct Test */
@@ -75,11 +83,8 @@ struct Test
 /* concept LikeType<T,Model> */
 
 template <class T,class Model>
-concept bool LikeType = requires()
- {
-  requires IsType< typename ExtractMethodSignature<&Model::add1,&Model::add2,&Model::add3>::Ret ,
-                   typename ExtractMethodSignature<&T::add1,&T::add2,&T::add3>::Ret >;
- } ;
+concept bool LikeType = IsType< typename decltype(Model::template Fold<SigList,Model>())::Ret ,
+                                typename decltype(Model::template Fold<SigList,T>())::Ret > ;
 
 /* Main() */
 
