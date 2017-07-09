@@ -1,13 +1,13 @@
 /* main.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: MakeList 1.00
+//  Project: MakeList 2.00
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,7 +18,9 @@
 #include <CCore/inc/Sort.h>
 #include <CCore/inc/Path.h>
 #include <CCore/inc/Scanf.h>
+#include <CCore/inc/ElementPool.h>
 
+#include <CCore/inc/DirTreeRun.h>
 #include <CCore/inc/FileToMem.h>
 
 namespace App {
@@ -62,7 +64,13 @@ struct DepRule;
 
 struct AsmObjRule;
 
-class Engine;
+class EngineBase;
+
+class FileEngine;
+
+class FindFiles;
+
+class FindEngine;
 
 /* class Cursor */
 
@@ -144,6 +152,11 @@ class FileList
        }
 
      temp.extractTo(buf);
+    }
+
+   explicit FileList(Collector<FileName> &src)
+    {
+     src.extractTo(buf);
     }
 
    void process()
@@ -325,7 +338,7 @@ struct DepRule : NoCopy
 
   void operator () (FileName file)
    {
-    Printf(out,"#;/#;.dep : #;\n\t$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/#;.o $< -MF $@\n\n",obj_path,file.name,file.path,file.name);
+    Printf(out,"#;/#;.dep : #;\n\t$(CC) $(CCOPT) -MM -MT #;/#;.o $< -MF $@\n\n",obj_path,file.name,file.path,obj_path,file.name);
    }
  };
 
@@ -353,13 +366,10 @@ struct AsmObjRule : NoCopy
    }
  };
 
-/* class Engine */
+/* class EngineBase */
 
-class Engine : NoCopy
+class EngineBase : NoCopy
  {
-   FileToMem cpp_files;
-   FileToMem s_files;
-
    StrLen obj_path;
 
    FileList cpp_list;
@@ -385,19 +395,27 @@ class Engine : NoCopy
 
   public:
 
-   Engine(StrLen obj_path_,StrLen cpp_list_file_name,StrLen s_list_file_name)
-    : cpp_files(cpp_list_file_name),
-      s_files(s_list_file_name),
-      obj_path(obj_path_),
-      cpp_list( Mutate<const char>(Range(cpp_files)) ),
-      s_list( Mutate<const char>(Range(s_files)) ),
+   EngineBase(StrLen obj_path_,PtrLen<const char> cpp_list_text,PtrLen<const char> s_list_text)
+    : obj_path(obj_path_),
+      cpp_list(cpp_list_text),
+      s_list(s_list_text),
       out("Makefile.files")
     {
      cpp_list.process();
      s_list.process();
     }
 
-   ~Engine() {}
+   EngineBase(StrLen obj_path_,Collector<FileName> &cpp_src,Collector<FileName> &s_src)
+    : obj_path(obj_path_),
+      cpp_list(cpp_src),
+      s_list(s_src),
+      out("Makefile.files")
+    {
+     cpp_list.process();
+     s_list.process();
+    }
+
+   ~EngineBase() {}
 
    int run()
     {
@@ -424,11 +442,155 @@ class Engine : NoCopy
     }
  };
 
+/* class FileEngine */
+
+class FileEngine : NoCopy
+ {
+   FileToMem cpp_files;
+   FileToMem s_files;
+
+   EngineBase engine;
+
+  public:
+
+   FileEngine(StrLen obj_path,StrLen cpp_list_file_name,StrLen s_list_file_name)
+    : cpp_files(cpp_list_file_name),
+      s_files(s_list_file_name),
+      engine(obj_path,Mutate<const char>(Range(cpp_files)),Mutate<const char>(Range(s_files)))
+    {
+    }
+
+   ~FileEngine() {}
+
+   int run() { return engine.run(); }
+ };
+
+/* class FindFiles */
+
+class FindFiles : NoCopy
+ {
+   ElementPool pool;
+
+  private:
+
+   class Proc : NoCopy
+    {
+      FindFiles &obj;
+
+     private:
+
+      static bool SkipDir(StrLen name)
+       {
+        return name.len && name[0]=='.' ;
+       }
+
+      static bool SkipFile(StrLen name)
+       {
+        return name.len && name[0]=='.' ;
+       }
+
+     public:
+
+      explicit Proc(FindFiles &obj_) : obj(obj_) {}
+
+      using DataType = void ;
+
+      DataType * dir(StrLen root)
+       {
+        Used(root);
+
+        return this;
+       }
+
+      DataType * dir(StrLen path,StrLen name,DataType *parent_data)
+       {
+        Used(path);
+
+        if( !parent_data || SkipDir(name) ) return 0;
+
+        return this;
+       }
+
+      void file(StrLen path,StrLen name,DataType *parent_data)
+       {
+        if( !parent_data || SkipFile(name) ) return;
+
+        obj.appendFile(path,name);
+       }
+
+      void enddir(StrLen path,StrLen name,DataType *data)
+       {
+        Used(path);
+        Used(name);
+        Used(data);
+       }
+    };
+
+   void appendFile(StrLen path,StrLen name)
+    {
+     if( name.hasSuffix(".cpp"_c) )
+       {
+        cpp_list.append_fill(pool.cat(path,"/"_c,name));
+       }
+     else if( name.hasSuffix(".s"_c) )
+       {
+        s_list.append_fill(pool.cat(path,"/"_c,name));
+       }
+    }
+
+   void append(StrLen dir)
+    {
+     DirTreeRun dev(dir);
+     Proc proc(*this);
+
+     dev.apply(proc);
+    }
+
+  public:
+
+   Collector<FileName> cpp_list;
+   Collector<FileName> s_list;
+
+   explicit FindFiles(PtrLen<const char *const> dir_list)
+    {
+     for(StrLen dir : dir_list ) append(dir);
+    }
+ };
+
+/* class FindEngine */
+
+class FindEngine : NoCopy
+ {
+   FindFiles find;
+
+   EngineBase engine;
+
+  public:
+
+   FindEngine(StrLen obj_path,PtrLen<const char *const> dir_list)
+    : find(dir_list),
+      engine(obj_path,find.cpp_list,find.s_list)
+    {
+    }
+
+   ~FindEngine() {}
+
+   int run() { return engine.run(); }
+ };
+
 } // namespace App
 
 /* main() */
 
 using namespace App;
+
+int usage()
+ {
+  Putobj(Con,"Usage: CCore-MakeList <obj-path> <cpp-list-file-name> <s-list-file-name>\n");
+  Putobj(Con,"OR     CCore-MakeList <obj-path> -s <dir1> <dir2> ...\n");
+
+  return 1;
+ }
 
 int main(int argc,const char *argv[])
  {
@@ -439,18 +601,26 @@ int main(int argc,const char *argv[])
      int ret;
 
      {
-      Putobj(Con,"--- MakeList 1.00 ---\n--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---\n\n");
+      Putobj(Con,"--- MakeList 2.00 ---\n--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---\n\n");
 
-      if( argc!=4 )
+      if( argc<4 ) return usage();
+
+      StrLen arg2(argv[2]);
+
+      if( arg2.equal("-s"_c) )
         {
-         Putobj(Con,"Usage: CCore-MakeList <obj-path> <cpp-list-file-name> <s-list-file-name>\n");
+         FindEngine engine(argv[1],Range(argv+3,argc-3));
 
-         return 1;
+         ret=engine.run();
         }
+      else
+        {
+         if( argc!=4 ) return usage();
 
-      Engine engine(argv[1],argv[2],argv[3]);
+         FileEngine engine(argv[1],argv[2],argv[3]);
 
-      ret=engine.run();
+         ret=engine.run();
+        }
      }
 
      report.guard();

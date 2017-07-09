@@ -19,27 +19,27 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/Config.o : ./Config.cpp
+.obj/Config.o : ././Config.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/main.o : ./main.cpp
+.obj/main.o : ././main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-.obj/Config.s : ./Config.cpp
+.obj/Config.s : ././Config.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/main.s : ./main.cpp
+.obj/main.s : ././main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-.obj/Config.dep : ./Config.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Config.o $< -MF $@
+.obj/Config.dep : ././Config.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Config.o $< -MF $@
 
-.obj/main.dep : ./main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+.obj/main.dep : ././main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
 
 
 

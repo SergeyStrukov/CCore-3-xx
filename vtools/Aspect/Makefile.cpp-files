@@ -1,7 +1,0 @@
-./src/Application.cpp
-./src/AppState.cpp
-./src/Aspect.cpp
-./src/AspectData.cpp
-./src/Client.cpp
-./src/ErrorText.cpp
-./src/main.cpp

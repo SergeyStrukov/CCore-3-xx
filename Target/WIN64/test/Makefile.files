@@ -538,1584 +538,1584 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-../.test-obj/main.o : ./main.cpp
+../.test-obj/main.o : ././main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1001.NoCopy.o : ../../../Simple/CCore/test/test1001.NoCopy.cpp
+../.test-obj/test1001.NoCopy.o : ../../../Simple/CCore/test/./test1001.NoCopy.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1002.CreateAt.o : ../../../Simple/CCore/test/test1002.CreateAt.cpp
+../.test-obj/test1002.CreateAt.o : ../../../Simple/CCore/test/./test1002.CreateAt.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1003.Meta.Detect.o : ../../../Simple/CCore/test/test1003.Meta.Detect.cpp
+../.test-obj/test1003.Meta.Detect.o : ../../../Simple/CCore/test/./test1003.Meta.Detect.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1004.Function.o : ../../../Simple/CCore/test/test1004.Function.cpp
+../.test-obj/test1004.Function.o : ../../../Simple/CCore/test/./test1004.Function.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1005.NoThrowFlags.o : ../../../Simple/CCore/test/test1005.NoThrowFlags.cpp
+../.test-obj/test1005.NoThrowFlags.o : ../../../Simple/CCore/test/./test1005.NoThrowFlags.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1006.Cmp.o : ../../../Simple/CCore/test/test1006.Cmp.cpp
+../.test-obj/test1006.Cmp.o : ../../../Simple/CCore/test/./test1006.Cmp.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1007.FunctorType.o : ../../../Simple/CCore/test/test1007.FunctorType.cpp
+../.test-obj/test1007.FunctorType.o : ../../../Simple/CCore/test/./test1007.FunctorType.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1008.TextLabel.o : ../../../Simple/CCore/test/test1008.TextLabel.cpp
+../.test-obj/test1008.TextLabel.o : ../../../Simple/CCore/test/./test1008.TextLabel.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1009.Quick.o : ../../../Simple/CCore/test/test1009.Quick.cpp
+../.test-obj/test1009.Quick.o : ../../../Simple/CCore/test/./test1009.Quick.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1010.UIntFunc.o : ../../../Simple/CCore/test/test1010.UIntFunc.cpp
+../.test-obj/test1010.UIntFunc.o : ../../../Simple/CCore/test/./test1010.UIntFunc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1011.Swap.o : ../../../Simple/CCore/test/test1011.Swap.cpp
+../.test-obj/test1011.Swap.o : ../../../Simple/CCore/test/./test1011.Swap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1012.Move.o : ../../../Simple/CCore/test/test1012.Move.cpp
+../.test-obj/test1012.Move.o : ../../../Simple/CCore/test/./test1012.Move.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1013.for.o : ../../../Simple/CCore/test/test1013.for.cpp
+../.test-obj/test1013.for.o : ../../../Simple/CCore/test/./test1013.for.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1014.UIntSplit.o : ../../../Simple/CCore/test/test1014.UIntSplit.cpp
+../.test-obj/test1014.UIntSplit.o : ../../../Simple/CCore/test/./test1014.UIntSplit.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1015.OwnPtr.o : ../../../Simple/CCore/test/test1015.OwnPtr.cpp
+../.test-obj/test1015.OwnPtr.o : ../../../Simple/CCore/test/./test1015.OwnPtr.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1016.RefPtr.o : ../../../Simple/CCore/test/test1016.RefPtr.cpp
+../.test-obj/test1016.RefPtr.o : ../../../Simple/CCore/test/./test1016.RefPtr.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1017.Counters.o : ../../../Simple/CCore/test/test1017.Counters.cpp
+../.test-obj/test1017.Counters.o : ../../../Simple/CCore/test/./test1017.Counters.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1018.PrintSet.o : ../../../Simple/CCore/test/test1018.PrintSet.cpp
+../.test-obj/test1018.PrintSet.o : ../../../Simple/CCore/test/./test1018.PrintSet.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1019.PrintTime.o : ../../../Simple/CCore/test/test1019.PrintTime.cpp
+../.test-obj/test1019.PrintTime.o : ../../../Simple/CCore/test/./test1019.PrintTime.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1020.Fifo.o : ../../../Simple/CCore/test/test1020.Fifo.cpp
+../.test-obj/test1020.Fifo.o : ../../../Simple/CCore/test/./test1020.Fifo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1021.Replace.o : ../../../Simple/CCore/test/test1021.Replace.cpp
+../.test-obj/test1021.Replace.o : ../../../Simple/CCore/test/./test1021.Replace.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1022.ScanBit.o : ../../../Simple/CCore/test/test1022.ScanBit.cpp
+../.test-obj/test1022.ScanBit.o : ../../../Simple/CCore/test/./test1022.ScanBit.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1023.Tuple.o : ../../../Simple/CCore/test/test1023.Tuple.cpp
+../.test-obj/test1023.Tuple.o : ../../../Simple/CCore/test/./test1023.Tuple.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1024.PtrLen.o : ../../../Simple/CCore/test/test1024.PtrLen.cpp
+../.test-obj/test1024.PtrLen.o : ../../../Simple/CCore/test/./test1024.PtrLen.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1025.PtrLenReverse.o : ../../../Simple/CCore/test/test1025.PtrLenReverse.cpp
+../.test-obj/test1025.PtrLenReverse.o : ../../../Simple/CCore/test/./test1025.PtrLenReverse.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1026.PtrStepLen.o : ../../../Simple/CCore/test/test1026.PtrStepLen.cpp
+../.test-obj/test1026.PtrStepLen.o : ../../../Simple/CCore/test/./test1026.PtrStepLen.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1027.Timer.o : ../../../Simple/CCore/test/test1027.Timer.cpp
+../.test-obj/test1027.Timer.o : ../../../Simple/CCore/test/./test1027.Timer.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1028.Crc.o : ../../../Simple/CCore/test/test1028.Crc.cpp
+../.test-obj/test1028.Crc.o : ../../../Simple/CCore/test/./test1028.Crc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1029.BlockFifo.o : ../../../Simple/CCore/test/test1029.BlockFifo.cpp
+../.test-obj/test1029.BlockFifo.o : ../../../Simple/CCore/test/./test1029.BlockFifo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1030.TypeSwitch.o : ../../../Simple/CCore/test/test1030.TypeSwitch.cpp
+../.test-obj/test1030.TypeSwitch.o : ../../../Simple/CCore/test/./test1030.TypeSwitch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1031.NewDelete.o : ../../../Simple/CCore/test/test1031.NewDelete.cpp
+../.test-obj/test1031.NewDelete.o : ../../../Simple/CCore/test/./test1031.NewDelete.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1032.DynObject.o : ../../../Simple/CCore/test/test1032.DynObject.cpp
+../.test-obj/test1032.DynObject.o : ../../../Simple/CCore/test/./test1032.DynObject.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1033.AnyPtr.o : ../../../Simple/CCore/test/test1033.AnyPtr.cpp
+../.test-obj/test1033.AnyPtr.o : ../../../Simple/CCore/test/./test1033.AnyPtr.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test1034.PrintStem.o : ../../../Simple/CCore/test/test1034.PrintStem.cpp
+../.test-obj/test1034.PrintStem.o : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2001.UIntSlowMulAlgo.o : ../../../Fundamental/CCore/test/test2001.UIntSlowMulAlgo.cpp
+../.test-obj/test2001.UIntSlowMulAlgo.o : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2002.Exception.o : ../../../Fundamental/CCore/test/test2002.Exception.cpp
+../.test-obj/test2002.Exception.o : ../../../Fundamental/CCore/test/./test2002.Exception.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2003.SpaceHeap.o : ../../../Fundamental/CCore/test/test2003.SpaceHeap.cpp
+../.test-obj/test2003.SpaceHeap.o : ../../../Fundamental/CCore/test/./test2003.SpaceHeap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2004.ShortSort.o : ../../../Fundamental/CCore/test/test2004.ShortSort.cpp
+../.test-obj/test2004.ShortSort.o : ../../../Fundamental/CCore/test/./test2004.ShortSort.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2005.Sort.o : ../../../Fundamental/CCore/test/test2005.Sort.cpp
+../.test-obj/test2005.Sort.o : ../../../Fundamental/CCore/test/./test2005.Sort.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2006.Sort-speed.o : ../../../Fundamental/CCore/test/test2006.Sort-speed.cpp
+../.test-obj/test2006.Sort-speed.o : ../../../Fundamental/CCore/test/./test2006.Sort-speed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2007.CharProp.o : ../../../Fundamental/CCore/test/test2007.CharProp.cpp
+../.test-obj/test2007.CharProp.o : ../../../Fundamental/CCore/test/./test2007.CharProp.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2008.Exception.o : ../../../Fundamental/CCore/test/test2008.Exception.cpp
+../.test-obj/test2008.Exception.o : ../../../Fundamental/CCore/test/./test2008.Exception.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2009.GenFile.o : ../../../Fundamental/CCore/test/test2009.GenFile.cpp
+../.test-obj/test2009.GenFile.o : ../../../Fundamental/CCore/test/./test2009.GenFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2010.MersenneTwister.o : ../../../Fundamental/CCore/test/test2010.MersenneTwister.cpp
+../.test-obj/test2010.MersenneTwister.o : ../../../Fundamental/CCore/test/./test2010.MersenneTwister.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2011.Path.o : ../../../Fundamental/CCore/test/test2011.Path.cpp
+../.test-obj/test2011.Path.o : ../../../Fundamental/CCore/test/./test2011.Path.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2012.PlanInitBuild.o : ../../../Fundamental/CCore/test/test2012.PlanInitBuild.cpp
+../.test-obj/test2012.PlanInitBuild.o : ../../../Fundamental/CCore/test/./test2012.PlanInitBuild.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2013.RandomFill.o : ../../../Fundamental/CCore/test/test2013.RandomFill.cpp
+../.test-obj/test2013.RandomFill.o : ../../../Fundamental/CCore/test/./test2013.RandomFill.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2014.Random-speed.o : ../../../Fundamental/CCore/test/test2014.Random-speed.cpp
+../.test-obj/test2014.Random-speed.o : ../../../Fundamental/CCore/test/./test2014.Random-speed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2015.RandomSelect.o : ../../../Fundamental/CCore/test/test2015.RandomSelect.cpp
+../.test-obj/test2015.RandomSelect.o : ../../../Fundamental/CCore/test/./test2015.RandomSelect.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2016.SaveLoad.o : ../../../Fundamental/CCore/test/test2016.SaveLoad.cpp
+../.test-obj/test2016.SaveLoad.o : ../../../Fundamental/CCore/test/./test2016.SaveLoad.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2017.String.o : ../../../Fundamental/CCore/test/test2017.String.cpp
+../.test-obj/test2017.String.o : ../../../Fundamental/CCore/test/./test2017.String.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2018.StrParse.o : ../../../Fundamental/CCore/test/test2018.StrParse.cpp
+../.test-obj/test2018.StrParse.o : ../../../Fundamental/CCore/test/./test2018.StrParse.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2019.TextTools.o : ../../../Fundamental/CCore/test/test2019.TextTools.cpp
+../.test-obj/test2019.TextTools.o : ../../../Fundamental/CCore/test/./test2019.TextTools.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2020.BinarySearch.o : ../../../Fundamental/CCore/test/test2020.BinarySearch.cpp
+../.test-obj/test2020.BinarySearch.o : ../../../Fundamental/CCore/test/./test2020.BinarySearch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2021.GCD.o : ../../../Fundamental/CCore/test/test2021.GCD.cpp
+../.test-obj/test2021.GCD.o : ../../../Fundamental/CCore/test/./test2021.GCD.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2022.EuclidRotate.o : ../../../Fundamental/CCore/test/test2022.EuclidRotate.cpp
+../.test-obj/test2022.EuclidRotate.o : ../../../Fundamental/CCore/test/./test2022.EuclidRotate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2023.GCDConst.o : ../../../Fundamental/CCore/test/test2023.GCDConst.cpp
+../.test-obj/test2023.GCDConst.o : ../../../Fundamental/CCore/test/./test2023.GCDConst.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2024.SortUnique.o : ../../../Fundamental/CCore/test/test2024.SortUnique.cpp
+../.test-obj/test2024.SortUnique.o : ../../../Fundamental/CCore/test/./test2024.SortUnique.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2025.SimpleRotate.o : ../../../Fundamental/CCore/test/test2025.SimpleRotate.cpp
+../.test-obj/test2025.SimpleRotate.o : ../../../Fundamental/CCore/test/./test2025.SimpleRotate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2026.Partition.o : ../../../Fundamental/CCore/test/test2026.Partition.cpp
+../.test-obj/test2026.Partition.o : ../../../Fundamental/CCore/test/./test2026.Partition.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2027.List.o : ../../../Fundamental/CCore/test/test2027.List.cpp
+../.test-obj/test2027.List.o : ../../../Fundamental/CCore/test/./test2027.List.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2028.Tree.o : ../../../Fundamental/CCore/test/test2028.Tree.cpp
+../.test-obj/test2028.Tree.o : ../../../Fundamental/CCore/test/./test2028.Tree.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2029.TreeUp.o : ../../../Fundamental/CCore/test/test2029.TreeUp.cpp
+../.test-obj/test2029.TreeUp.o : ../../../Fundamental/CCore/test/./test2029.TreeUp.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2030.TreeUpIns.o : ../../../Fundamental/CCore/test/test2030.TreeUpIns.cpp
+../.test-obj/test2030.TreeUpIns.o : ../../../Fundamental/CCore/test/./test2030.TreeUpIns.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2031.Printf.o : ../../../Fundamental/CCore/test/test2031.Printf.cpp
+../.test-obj/test2031.Printf.o : ../../../Fundamental/CCore/test/./test2031.Printf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2032.Scanf.o : ../../../Fundamental/CCore/test/test2032.Scanf.cpp
+../.test-obj/test2032.Scanf.o : ../../../Fundamental/CCore/test/./test2032.Scanf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2033.DynArray.o : ../../../Fundamental/CCore/test/test2033.DynArray.cpp
+../.test-obj/test2033.DynArray.o : ../../../Fundamental/CCore/test/./test2033.DynArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2034.DynArray.o : ../../../Fundamental/CCore/test/test2034.DynArray.cpp
+../.test-obj/test2034.DynArray.o : ../../../Fundamental/CCore/test/./test2034.DynArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2035.RefArray.o : ../../../Fundamental/CCore/test/test2035.RefArray.cpp
+../.test-obj/test2035.RefArray.o : ../../../Fundamental/CCore/test/./test2035.RefArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2036.RefArray.o : ../../../Fundamental/CCore/test/test2036.RefArray.cpp
+../.test-obj/test2036.RefArray.o : ../../../Fundamental/CCore/test/./test2036.RefArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2037.AtomicRefArray.o : ../../../Fundamental/CCore/test/test2037.AtomicRefArray.cpp
+../.test-obj/test2037.AtomicRefArray.o : ../../../Fundamental/CCore/test/./test2037.AtomicRefArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2038.AtomicRefArray.o : ../../../Fundamental/CCore/test/test2038.AtomicRefArray.cpp
+../.test-obj/test2038.AtomicRefArray.o : ../../../Fundamental/CCore/test/./test2038.AtomicRefArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2039.Collector.o : ../../../Fundamental/CCore/test/test2039.Collector.cpp
+../.test-obj/test2039.Collector.o : ../../../Fundamental/CCore/test/./test2039.Collector.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2040.ElementPool.o : ../../../Fundamental/CCore/test/test2040.ElementPool.cpp
+../.test-obj/test2040.ElementPool.o : ../../../Fundamental/CCore/test/./test2040.ElementPool.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2041.ObjHost.o : ../../../Fundamental/CCore/test/test2041.ObjHost.cpp
+../.test-obj/test2041.ObjHost.o : ../../../Fundamental/CCore/test/./test2041.ObjHost.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2042.ContainerList.o : ../../../Fundamental/CCore/test/test2042.ContainerList.cpp
+../.test-obj/test2042.ContainerList.o : ../../../Fundamental/CCore/test/./test2042.ContainerList.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2043.RBTreeMap.o : ../../../Fundamental/CCore/test/test2043.RBTreeMap.cpp
+../.test-obj/test2043.RBTreeMap.o : ../../../Fundamental/CCore/test/./test2043.RBTreeMap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2044.CompactMap.o : ../../../Fundamental/CCore/test/test2044.CompactMap.cpp
+../.test-obj/test2044.CompactMap.o : ../../../Fundamental/CCore/test/./test2044.CompactMap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2045.Unid.o : ../../../Fundamental/CCore/test/test2045.Unid.cpp
+../.test-obj/test2045.Unid.o : ../../../Fundamental/CCore/test/./test2045.Unid.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2046.TypeNumber.o : ../../../Fundamental/CCore/test/test2046.TypeNumber.cpp
+../.test-obj/test2046.TypeNumber.o : ../../../Fundamental/CCore/test/./test2046.TypeNumber.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2047.InterfaceHost.o : ../../../Fundamental/CCore/test/test2047.InterfaceHost.cpp
+../.test-obj/test2047.InterfaceHost.o : ../../../Fundamental/CCore/test/./test2047.InterfaceHost.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2048.Signal.o : ../../../Fundamental/CCore/test/test2048.Signal.cpp
+../.test-obj/test2048.Signal.o : ../../../Fundamental/CCore/test/./test2048.Signal.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2049.Optional.o : ../../../Fundamental/CCore/test/test2049.Optional.cpp
+../.test-obj/test2049.Optional.o : ../../../Fundamental/CCore/test/./test2049.Optional.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2050.MultiSignal.o : ../../../Fundamental/CCore/test/test2050.MultiSignal.cpp
+../.test-obj/test2050.MultiSignal.o : ../../../Fundamental/CCore/test/./test2050.MultiSignal.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2051.DeferCall.o : ../../../Fundamental/CCore/test/test2051.DeferCall.cpp
+../.test-obj/test2051.DeferCall.o : ../../../Fundamental/CCore/test/./test2051.DeferCall.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2052.ObjectDomain.o : ../../../Fundamental/CCore/test/test2052.ObjectDomain.cpp
+../.test-obj/test2052.ObjectDomain.o : ../../../Fundamental/CCore/test/./test2052.ObjectDomain.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2053.StepEval.o : ../../../Fundamental/CCore/test/test2053.StepEval.cpp
+../.test-obj/test2053.StepEval.o : ../../../Fundamental/CCore/test/./test2053.StepEval.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2054.ApplyToRange.o : ../../../Fundamental/CCore/test/test2054.ApplyToRange.cpp
+../.test-obj/test2054.ApplyToRange.o : ../../../Fundamental/CCore/test/./test2054.ApplyToRange.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2055.ArrayInsDel.o : ../../../Fundamental/CCore/test/test2055.ArrayInsDel.cpp
+../.test-obj/test2055.ArrayInsDel.o : ../../../Fundamental/CCore/test/./test2055.ArrayInsDel.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2056.StrMap.o : ../../../Fundamental/CCore/test/test2056.StrMap.cpp
+../.test-obj/test2056.StrMap.o : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2500.PrintFile.o : ../../../Fundamental/CCore/test/test2500.PrintFile.cpp
+../.test-obj/test2500.PrintFile.o : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test2999.Blank.o : ../../../Fundamental/CCore/test/test2999.Blank.cpp
+../.test-obj/test2999.Blank.o : ../../../Fundamental/CCore/test/./test2999.Blank.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3001.Atomic.o : ../../../Applied/CCore/test/test3001.Atomic.cpp
+../.test-obj/test3001.Atomic.o : ../../../Applied/CCore/test/./test3001.Atomic.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3002.EventRecorder.o : ../../../Applied/CCore/test/test3002.EventRecorder.cpp
+../.test-obj/test3002.EventRecorder.o : ../../../Applied/CCore/test/./test3002.EventRecorder.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3003.PerTask.o : ../../../Applied/CCore/test/test3003.PerTask.cpp
+../.test-obj/test3003.PerTask.o : ../../../Applied/CCore/test/./test3003.PerTask.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3004.Log.o : ../../../Applied/CCore/test/test3004.Log.cpp
+../.test-obj/test3004.Log.o : ../../../Applied/CCore/test/./test3004.Log.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3005.LogMem.o : ../../../Applied/CCore/test/test3005.LogMem.cpp
+../.test-obj/test3005.LogMem.o : ../../../Applied/CCore/test/./test3005.LogMem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3006.TaskMemStack.o : ../../../Applied/CCore/test/test3006.TaskMemStack.cpp
+../.test-obj/test3006.TaskMemStack.o : ../../../Applied/CCore/test/./test3006.TaskMemStack.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3007.FileName.o : ../../../Applied/CCore/test/test3007.FileName.cpp
+../.test-obj/test3007.FileName.o : ../../../Applied/CCore/test/./test3007.FileName.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3008.Packet.o : ../../../Applied/CCore/test/test3008.Packet.cpp
+../.test-obj/test3008.Packet.o : ../../../Applied/CCore/test/./test3008.Packet.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3009.PacketSet.o : ../../../Applied/CCore/test/test3009.PacketSet.cpp
+../.test-obj/test3009.PacketSet.o : ../../../Applied/CCore/test/./test3009.PacketSet.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3010.CancelPacketList.o : ../../../Applied/CCore/test/test3010.CancelPacketList.cpp
+../.test-obj/test3010.CancelPacketList.o : ../../../Applied/CCore/test/./test3010.CancelPacketList.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3011.LineInput.o : ../../../Applied/CCore/test/test3011.LineInput.cpp
+../.test-obj/test3011.LineInput.o : ../../../Applied/CCore/test/./test3011.LineInput.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3012.CmdInput.o : ../../../Applied/CCore/test/test3012.CmdInput.cpp
+../.test-obj/test3012.CmdInput.o : ../../../Applied/CCore/test/./test3012.CmdInput.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3013.AES.o : ../../../Applied/CCore/test/test3013.AES.cpp
+../.test-obj/test3013.AES.o : ../../../Applied/CCore/test/./test3013.AES.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3014.AES-speed.o : ../../../Applied/CCore/test/test3014.AES-speed.cpp
+../.test-obj/test3014.AES-speed.o : ../../../Applied/CCore/test/./test3014.AES-speed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3015.SHA.o : ../../../Applied/CCore/test/test3015.SHA.cpp
+../.test-obj/test3015.SHA.o : ../../../Applied/CCore/test/./test3015.SHA.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3016.SHA-speed.o : ../../../Applied/CCore/test/test3016.SHA-speed.cpp
+../.test-obj/test3016.SHA-speed.o : ../../../Applied/CCore/test/./test3016.SHA-speed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3017.MD5.o : ../../../Applied/CCore/test/test3017.MD5.cpp
+../.test-obj/test3017.MD5.o : ../../../Applied/CCore/test/./test3017.MD5.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3018.IntegerSlowAlgo.o : ../../../Applied/CCore/test/test3018.IntegerSlowAlgo.cpp
+../.test-obj/test3018.IntegerSlowAlgo.o : ../../../Applied/CCore/test/./test3018.IntegerSlowAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3019.IntegerSlowMul.o : ../../../Applied/CCore/test/test3019.IntegerSlowMul.cpp
+../.test-obj/test3019.IntegerSlowMul.o : ../../../Applied/CCore/test/./test3019.IntegerSlowMul.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3020.IntegerFastAlgo.o : ../../../Applied/CCore/test/test3020.IntegerFastAlgo.cpp
+../.test-obj/test3020.IntegerFastAlgo.o : ../../../Applied/CCore/test/./test3020.IntegerFastAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3021.IntegerInverse.o : ../../../Applied/CCore/test/test3021.IntegerInverse.cpp
+../.test-obj/test3021.IntegerInverse.o : ../../../Applied/CCore/test/./test3021.IntegerInverse.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3022.Integer.o : ../../../Applied/CCore/test/test3022.Integer.cpp
+../.test-obj/test3022.Integer.o : ../../../Applied/CCore/test/./test3022.Integer.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3023.NoPrimeTest.o : ../../../Applied/CCore/test/test3023.NoPrimeTest.cpp
+../.test-obj/test3023.NoPrimeTest.o : ../../../Applied/CCore/test/./test3023.NoPrimeTest.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3024.APRTest.o : ../../../Applied/CCore/test/test3024.APRTest.cpp
+../.test-obj/test3024.APRTest.o : ../../../Applied/CCore/test/./test3024.APRTest.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3025.DHExp.o : ../../../Applied/CCore/test/test3025.DHExp.cpp
+../.test-obj/test3025.DHExp.o : ../../../Applied/CCore/test/./test3025.DHExp.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3026.Bridge.o : ../../../Applied/CCore/test/test3026.Bridge.cpp
+../.test-obj/test3026.Bridge.o : ../../../Applied/CCore/test/./test3026.Bridge.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3027.SingleBridge.o : ../../../Applied/CCore/test/test3027.SingleBridge.cpp
+../.test-obj/test3027.SingleBridge.o : ../../../Applied/CCore/test/./test3027.SingleBridge.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3028.PTP.o : ../../../Applied/CCore/test/test3028.PTP.cpp
+../.test-obj/test3028.PTP.o : ../../../Applied/CCore/test/./test3028.PTP.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3029.NetFork.o : ../../../Applied/CCore/test/test3029.NetFork.cpp
+../.test-obj/test3029.NetFork.o : ../../../Applied/CCore/test/./test3029.NetFork.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3030.PSec.o : ../../../Applied/CCore/test/test3030.PSec.cpp
+../.test-obj/test3030.PSec.o : ../../../Applied/CCore/test/./test3030.PSec.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3031.PKE.o : ../../../Applied/CCore/test/test3031.PKE.cpp
+../.test-obj/test3031.PKE.o : ../../../Applied/CCore/test/./test3031.PKE.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3032.FileNameMatch.o : ../../../Applied/CCore/test/test3032.FileNameMatch.cpp
+../.test-obj/test3032.FileNameMatch.o : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4001.Mutex.o : ../../../HCore/CCore/test/test4001.Mutex.cpp
+../.test-obj/test4001.Mutex.o : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4002.Sem.o : ../../../HCore/CCore/test/test4002.Sem.cpp
+../.test-obj/test4002.Sem.o : ../../../HCore/CCore/test/./test4002.Sem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4003.Event.o : ../../../HCore/CCore/test/test4003.Event.cpp
+../.test-obj/test4003.Event.o : ../../../HCore/CCore/test/./test4003.Event.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4004.AntiSem.o : ../../../HCore/CCore/test/test4004.AntiSem.cpp
+../.test-obj/test4004.AntiSem.o : ../../../HCore/CCore/test/./test4004.AntiSem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4005.MultiSem.o : ../../../HCore/CCore/test/test4005.MultiSem.cpp
+../.test-obj/test4005.MultiSem.o : ../../../HCore/CCore/test/./test4005.MultiSem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4006.MultiEvent.o : ../../../HCore/CCore/test/test4006.MultiEvent.cpp
+../.test-obj/test4006.MultiEvent.o : ../../../HCore/CCore/test/./test4006.MultiEvent.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4007.Sem-speed.o : ../../../HCore/CCore/test/test4007.Sem-speed.cpp
+../.test-obj/test4007.Sem-speed.o : ../../../HCore/CCore/test/./test4007.Sem-speed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4008.PageHeap.o : ../../../HCore/CCore/test/test4008.PageHeap.cpp
+../.test-obj/test4008.PageHeap.o : ../../../HCore/CCore/test/./test4008.PageHeap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4009.Task.o : ../../../HCore/CCore/test/test4009.Task.cpp
+../.test-obj/test4009.Task.o : ../../../HCore/CCore/test/./test4009.Task.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4010.TaskSleep.o : ../../../HCore/CCore/test/test4010.TaskSleep.cpp
+../.test-obj/test4010.TaskSleep.o : ../../../HCore/CCore/test/./test4010.TaskSleep.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4011.ReadCon.o : ../../../HCore/CCore/test/test4011.ReadCon.cpp
+../.test-obj/test4011.ReadCon.o : ../../../HCore/CCore/test/./test4011.ReadCon.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4012.FileSystem.o : ../../../HCore/CCore/test/test4012.FileSystem.cpp
+../.test-obj/test4012.FileSystem.o : ../../../HCore/CCore/test/./test4012.FileSystem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4013.DirTreeRun.o : ../../../HCore/CCore/test/test4013.DirTreeRun.cpp
+../.test-obj/test4013.DirTreeRun.o : ../../../HCore/CCore/test/./test4013.DirTreeRun.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4014.SysFile.o : ../../../HCore/CCore/test/test4014.SysFile.cpp
+../.test-obj/test4014.SysFile.o : ../../../HCore/CCore/test/./test4014.SysFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4015.SysAltFile.o : ../../../HCore/CCore/test/test4015.SysAltFile.cpp
+../.test-obj/test4015.SysAltFile.o : ../../../HCore/CCore/test/./test4015.SysAltFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4016.PrintFile.o : ../../../HCore/CCore/test/test4016.PrintFile.cpp
+../.test-obj/test4016.PrintFile.o : ../../../HCore/CCore/test/./test4016.PrintFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4017.ScanFile.o : ../../../HCore/CCore/test/test4017.ScanFile.cpp
+../.test-obj/test4017.ScanFile.o : ../../../HCore/CCore/test/./test4017.ScanFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4018.BinaryFile.o : ../../../HCore/CCore/test/test4018.BinaryFile.cpp
+../.test-obj/test4018.BinaryFile.o : ../../../HCore/CCore/test/./test4018.BinaryFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4019.TaskHeap.o : ../../../HCore/CCore/test/test4019.TaskHeap.cpp
+../.test-obj/test4019.TaskHeap.o : ../../../HCore/CCore/test/./test4019.TaskHeap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4020.NamesCrc.o : ../../../HCore/CCore/test/test4020.NamesCrc.cpp
+../.test-obj/test4020.NamesCrc.o : ../../../HCore/CCore/test/./test4020.NamesCrc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4021.AsyncFile.o : ../../../HCore/CCore/test/test4021.AsyncFile.cpp
+../.test-obj/test4021.AsyncFile.o : ../../../HCore/CCore/test/./test4021.AsyncFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4022.ScanAsyncFile.o : ../../../HCore/CCore/test/test4022.ScanAsyncFile.cpp
+../.test-obj/test4022.ScanAsyncFile.o : ../../../HCore/CCore/test/./test4022.ScanAsyncFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4023.UDP.o : ../../../HCore/CCore/test/test4023.UDP.cpp
+../.test-obj/test4023.UDP.o : ../../../HCore/CCore/test/./test4023.UDP.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4024.UDPEcho.o : ../../../HCore/CCore/test/test4024.UDPEcho.cpp
+../.test-obj/test4024.UDPEcho.o : ../../../HCore/CCore/test/./test4024.UDPEcho.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4025.AsyncUDP.o : ../../../HCore/CCore/test/test4025.AsyncUDP.cpp
+../.test-obj/test4025.AsyncUDP.o : ../../../HCore/CCore/test/./test4025.AsyncUDP.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4026.PTPEcho.o : ../../../HCore/CCore/test/test4026.PTPEcho.cpp
+../.test-obj/test4026.PTPEcho.o : ../../../HCore/CCore/test/./test4026.PTPEcho.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4027.PTPServer.o : ../../../HCore/CCore/test/test4027.PTPServer.cpp
+../.test-obj/test4027.PTPServer.o : ../../../HCore/CCore/test/./test4027.PTPServer.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4028.PTPServer.ConWrite.o : ../../../HCore/CCore/test/test4028.PTPServer.ConWrite.cpp
+../.test-obj/test4028.PTPServer.ConWrite.o : ../../../HCore/CCore/test/./test4028.PTPServer.ConWrite.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4029.PSec.o : ../../../HCore/CCore/test/test4029.PSec.cpp
+../.test-obj/test4029.PSec.o : ../../../HCore/CCore/test/./test4029.PSec.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4030.PKE.o : ../../../HCore/CCore/test/test4030.PKE.cpp
+../.test-obj/test4030.PKE.o : ../../../HCore/CCore/test/./test4030.PKE.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4031.PTPSec.o : ../../../HCore/CCore/test/test4031.PTPSec.cpp
+../.test-obj/test4031.PTPSec.o : ../../../HCore/CCore/test/./test4031.PTPSec.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test4032.DelDirRecursive.o : ../../../HCore/CCore/test/test4032.DelDirRecursive.cpp
+../.test-obj/test4032.DelDirRecursive.o : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6001.Atomic.o : ../../../Target/WIN64/CCore/test/test6001.Atomic.cpp
+../.test-obj/test6001.Atomic.o : ../../../Target/WIN64/CCore/test/./test6001.Atomic.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6002.WIN64.o : ../../../Target/WIN64/CCore/test/test6002.WIN64.cpp
+../.test-obj/test6002.WIN64.o : ../../../Target/WIN64/CCore/test/./test6002.WIN64.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6003.Blank.o : ../../../Target/WIN64/CCore/test/test6003.Blank.cpp
+../.test-obj/test6003.Blank.o : ../../../Target/WIN64/CCore/test/./test6003.Blank.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6004.IntegerFastAlgo.o : ../../../Target/WIN64/CCore/test/test6004.IntegerFastAlgo.cpp
+../.test-obj/test6004.IntegerFastAlgo.o : ../../../Target/WIN64/CCore/test/./test6004.IntegerFastAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6005.IntelRandom.o : ../../../Target/WIN64/CCore/test/test6005.IntelRandom.cpp
+../.test-obj/test6005.IntelRandom.o : ../../../Target/WIN64/CCore/test/./test6005.IntelRandom.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6006.IntelAES.o : ../../../Target/WIN64/CCore/test/test6006.IntelAES.cpp
+../.test-obj/test6006.IntelAES.o : ../../../Target/WIN64/CCore/test/./test6006.IntelAES.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6007.MemAlloc.o : ../../../Target/WIN64/CCore/test/test6007.MemAlloc.cpp
+../.test-obj/test6007.MemAlloc.o : ../../../Target/WIN64/CCore/test/./test6007.MemAlloc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6008.Time.o : ../../../Target/WIN64/CCore/test/test6008.Time.cpp
+../.test-obj/test6008.Time.o : ../../../Target/WIN64/CCore/test/./test6008.Time.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6009.SysFile.o : ../../../Target/WIN64/CCore/test/test6009.SysFile.cpp
+../.test-obj/test6009.SysFile.o : ../../../Target/WIN64/CCore/test/./test6009.SysFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6010.Quick.o : ../../../Target/WIN64/CCore/test/test6010.Quick.cpp
+../.test-obj/test6010.Quick.o : ../../../Target/WIN64/CCore/test/./test6010.Quick.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test6011.Char.o : ../../../Target/WIN64/CCore/test/test6011.Char.cpp
+../.test-obj/test6011.Char.o : ../../../Target/WIN64/CCore/test/./test6011.Char.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testArray.o : ../../../Fundamental/CCore/test/testArray.cpp
+../.test-obj/testArray.o : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testInt.o : ../../../Applied/CCore/test/testInt.cpp
+../.test-obj/testInt.o : ../../../Applied/CCore/test/./testInt.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testIntAlgo.o : ../../../Applied/CCore/test/testIntAlgo.cpp
+../.test-obj/testIntAlgo.o : ../../../Applied/CCore/test/./testIntAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testIntBase.o : ../../../Applied/CCore/test/testIntBase.cpp
+../.test-obj/testIntBase.o : ../../../Applied/CCore/test/./testIntBase.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testNet.o : ../../../Applied/CCore/test/testNet.cpp
+../.test-obj/testNet.o : ../../../Applied/CCore/test/./testNet.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testPrint.o : ../../../HCore/CCore/test/testPrint.cpp
+../.test-obj/testPrint.o : ../../../HCore/CCore/test/./testPrint.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/testRun.o : ../../../Fundamental/CCore/test/testRun.cpp
+../.test-obj/testRun.o : ../../../Fundamental/CCore/test/./testRun.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-../.test-obj/main.s : ./main.cpp
+../.test-obj/main.s : ././main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1001.NoCopy.s : ../../../Simple/CCore/test/test1001.NoCopy.cpp
+../.test-obj/test1001.NoCopy.s : ../../../Simple/CCore/test/./test1001.NoCopy.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1002.CreateAt.s : ../../../Simple/CCore/test/test1002.CreateAt.cpp
+../.test-obj/test1002.CreateAt.s : ../../../Simple/CCore/test/./test1002.CreateAt.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1003.Meta.Detect.s : ../../../Simple/CCore/test/test1003.Meta.Detect.cpp
+../.test-obj/test1003.Meta.Detect.s : ../../../Simple/CCore/test/./test1003.Meta.Detect.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1004.Function.s : ../../../Simple/CCore/test/test1004.Function.cpp
+../.test-obj/test1004.Function.s : ../../../Simple/CCore/test/./test1004.Function.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1005.NoThrowFlags.s : ../../../Simple/CCore/test/test1005.NoThrowFlags.cpp
+../.test-obj/test1005.NoThrowFlags.s : ../../../Simple/CCore/test/./test1005.NoThrowFlags.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1006.Cmp.s : ../../../Simple/CCore/test/test1006.Cmp.cpp
+../.test-obj/test1006.Cmp.s : ../../../Simple/CCore/test/./test1006.Cmp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1007.FunctorType.s : ../../../Simple/CCore/test/test1007.FunctorType.cpp
+../.test-obj/test1007.FunctorType.s : ../../../Simple/CCore/test/./test1007.FunctorType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1008.TextLabel.s : ../../../Simple/CCore/test/test1008.TextLabel.cpp
+../.test-obj/test1008.TextLabel.s : ../../../Simple/CCore/test/./test1008.TextLabel.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1009.Quick.s : ../../../Simple/CCore/test/test1009.Quick.cpp
+../.test-obj/test1009.Quick.s : ../../../Simple/CCore/test/./test1009.Quick.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1010.UIntFunc.s : ../../../Simple/CCore/test/test1010.UIntFunc.cpp
+../.test-obj/test1010.UIntFunc.s : ../../../Simple/CCore/test/./test1010.UIntFunc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1011.Swap.s : ../../../Simple/CCore/test/test1011.Swap.cpp
+../.test-obj/test1011.Swap.s : ../../../Simple/CCore/test/./test1011.Swap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1012.Move.s : ../../../Simple/CCore/test/test1012.Move.cpp
+../.test-obj/test1012.Move.s : ../../../Simple/CCore/test/./test1012.Move.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1013.for.s : ../../../Simple/CCore/test/test1013.for.cpp
+../.test-obj/test1013.for.s : ../../../Simple/CCore/test/./test1013.for.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1014.UIntSplit.s : ../../../Simple/CCore/test/test1014.UIntSplit.cpp
+../.test-obj/test1014.UIntSplit.s : ../../../Simple/CCore/test/./test1014.UIntSplit.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1015.OwnPtr.s : ../../../Simple/CCore/test/test1015.OwnPtr.cpp
+../.test-obj/test1015.OwnPtr.s : ../../../Simple/CCore/test/./test1015.OwnPtr.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1016.RefPtr.s : ../../../Simple/CCore/test/test1016.RefPtr.cpp
+../.test-obj/test1016.RefPtr.s : ../../../Simple/CCore/test/./test1016.RefPtr.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1017.Counters.s : ../../../Simple/CCore/test/test1017.Counters.cpp
+../.test-obj/test1017.Counters.s : ../../../Simple/CCore/test/./test1017.Counters.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1018.PrintSet.s : ../../../Simple/CCore/test/test1018.PrintSet.cpp
+../.test-obj/test1018.PrintSet.s : ../../../Simple/CCore/test/./test1018.PrintSet.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1019.PrintTime.s : ../../../Simple/CCore/test/test1019.PrintTime.cpp
+../.test-obj/test1019.PrintTime.s : ../../../Simple/CCore/test/./test1019.PrintTime.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1020.Fifo.s : ../../../Simple/CCore/test/test1020.Fifo.cpp
+../.test-obj/test1020.Fifo.s : ../../../Simple/CCore/test/./test1020.Fifo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1021.Replace.s : ../../../Simple/CCore/test/test1021.Replace.cpp
+../.test-obj/test1021.Replace.s : ../../../Simple/CCore/test/./test1021.Replace.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1022.ScanBit.s : ../../../Simple/CCore/test/test1022.ScanBit.cpp
+../.test-obj/test1022.ScanBit.s : ../../../Simple/CCore/test/./test1022.ScanBit.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1023.Tuple.s : ../../../Simple/CCore/test/test1023.Tuple.cpp
+../.test-obj/test1023.Tuple.s : ../../../Simple/CCore/test/./test1023.Tuple.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1024.PtrLen.s : ../../../Simple/CCore/test/test1024.PtrLen.cpp
+../.test-obj/test1024.PtrLen.s : ../../../Simple/CCore/test/./test1024.PtrLen.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1025.PtrLenReverse.s : ../../../Simple/CCore/test/test1025.PtrLenReverse.cpp
+../.test-obj/test1025.PtrLenReverse.s : ../../../Simple/CCore/test/./test1025.PtrLenReverse.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1026.PtrStepLen.s : ../../../Simple/CCore/test/test1026.PtrStepLen.cpp
+../.test-obj/test1026.PtrStepLen.s : ../../../Simple/CCore/test/./test1026.PtrStepLen.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1027.Timer.s : ../../../Simple/CCore/test/test1027.Timer.cpp
+../.test-obj/test1027.Timer.s : ../../../Simple/CCore/test/./test1027.Timer.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1028.Crc.s : ../../../Simple/CCore/test/test1028.Crc.cpp
+../.test-obj/test1028.Crc.s : ../../../Simple/CCore/test/./test1028.Crc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1029.BlockFifo.s : ../../../Simple/CCore/test/test1029.BlockFifo.cpp
+../.test-obj/test1029.BlockFifo.s : ../../../Simple/CCore/test/./test1029.BlockFifo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1030.TypeSwitch.s : ../../../Simple/CCore/test/test1030.TypeSwitch.cpp
+../.test-obj/test1030.TypeSwitch.s : ../../../Simple/CCore/test/./test1030.TypeSwitch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1031.NewDelete.s : ../../../Simple/CCore/test/test1031.NewDelete.cpp
+../.test-obj/test1031.NewDelete.s : ../../../Simple/CCore/test/./test1031.NewDelete.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1032.DynObject.s : ../../../Simple/CCore/test/test1032.DynObject.cpp
+../.test-obj/test1032.DynObject.s : ../../../Simple/CCore/test/./test1032.DynObject.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1033.AnyPtr.s : ../../../Simple/CCore/test/test1033.AnyPtr.cpp
+../.test-obj/test1033.AnyPtr.s : ../../../Simple/CCore/test/./test1033.AnyPtr.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test1034.PrintStem.s : ../../../Simple/CCore/test/test1034.PrintStem.cpp
+../.test-obj/test1034.PrintStem.s : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2001.UIntSlowMulAlgo.s : ../../../Fundamental/CCore/test/test2001.UIntSlowMulAlgo.cpp
+../.test-obj/test2001.UIntSlowMulAlgo.s : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2002.Exception.s : ../../../Fundamental/CCore/test/test2002.Exception.cpp
+../.test-obj/test2002.Exception.s : ../../../Fundamental/CCore/test/./test2002.Exception.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2003.SpaceHeap.s : ../../../Fundamental/CCore/test/test2003.SpaceHeap.cpp
+../.test-obj/test2003.SpaceHeap.s : ../../../Fundamental/CCore/test/./test2003.SpaceHeap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2004.ShortSort.s : ../../../Fundamental/CCore/test/test2004.ShortSort.cpp
+../.test-obj/test2004.ShortSort.s : ../../../Fundamental/CCore/test/./test2004.ShortSort.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2005.Sort.s : ../../../Fundamental/CCore/test/test2005.Sort.cpp
+../.test-obj/test2005.Sort.s : ../../../Fundamental/CCore/test/./test2005.Sort.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2006.Sort-speed.s : ../../../Fundamental/CCore/test/test2006.Sort-speed.cpp
+../.test-obj/test2006.Sort-speed.s : ../../../Fundamental/CCore/test/./test2006.Sort-speed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2007.CharProp.s : ../../../Fundamental/CCore/test/test2007.CharProp.cpp
+../.test-obj/test2007.CharProp.s : ../../../Fundamental/CCore/test/./test2007.CharProp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2008.Exception.s : ../../../Fundamental/CCore/test/test2008.Exception.cpp
+../.test-obj/test2008.Exception.s : ../../../Fundamental/CCore/test/./test2008.Exception.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2009.GenFile.s : ../../../Fundamental/CCore/test/test2009.GenFile.cpp
+../.test-obj/test2009.GenFile.s : ../../../Fundamental/CCore/test/./test2009.GenFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2010.MersenneTwister.s : ../../../Fundamental/CCore/test/test2010.MersenneTwister.cpp
+../.test-obj/test2010.MersenneTwister.s : ../../../Fundamental/CCore/test/./test2010.MersenneTwister.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2011.Path.s : ../../../Fundamental/CCore/test/test2011.Path.cpp
+../.test-obj/test2011.Path.s : ../../../Fundamental/CCore/test/./test2011.Path.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2012.PlanInitBuild.s : ../../../Fundamental/CCore/test/test2012.PlanInitBuild.cpp
+../.test-obj/test2012.PlanInitBuild.s : ../../../Fundamental/CCore/test/./test2012.PlanInitBuild.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2013.RandomFill.s : ../../../Fundamental/CCore/test/test2013.RandomFill.cpp
+../.test-obj/test2013.RandomFill.s : ../../../Fundamental/CCore/test/./test2013.RandomFill.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2014.Random-speed.s : ../../../Fundamental/CCore/test/test2014.Random-speed.cpp
+../.test-obj/test2014.Random-speed.s : ../../../Fundamental/CCore/test/./test2014.Random-speed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2015.RandomSelect.s : ../../../Fundamental/CCore/test/test2015.RandomSelect.cpp
+../.test-obj/test2015.RandomSelect.s : ../../../Fundamental/CCore/test/./test2015.RandomSelect.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2016.SaveLoad.s : ../../../Fundamental/CCore/test/test2016.SaveLoad.cpp
+../.test-obj/test2016.SaveLoad.s : ../../../Fundamental/CCore/test/./test2016.SaveLoad.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2017.String.s : ../../../Fundamental/CCore/test/test2017.String.cpp
+../.test-obj/test2017.String.s : ../../../Fundamental/CCore/test/./test2017.String.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2018.StrParse.s : ../../../Fundamental/CCore/test/test2018.StrParse.cpp
+../.test-obj/test2018.StrParse.s : ../../../Fundamental/CCore/test/./test2018.StrParse.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2019.TextTools.s : ../../../Fundamental/CCore/test/test2019.TextTools.cpp
+../.test-obj/test2019.TextTools.s : ../../../Fundamental/CCore/test/./test2019.TextTools.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2020.BinarySearch.s : ../../../Fundamental/CCore/test/test2020.BinarySearch.cpp
+../.test-obj/test2020.BinarySearch.s : ../../../Fundamental/CCore/test/./test2020.BinarySearch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2021.GCD.s : ../../../Fundamental/CCore/test/test2021.GCD.cpp
+../.test-obj/test2021.GCD.s : ../../../Fundamental/CCore/test/./test2021.GCD.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2022.EuclidRotate.s : ../../../Fundamental/CCore/test/test2022.EuclidRotate.cpp
+../.test-obj/test2022.EuclidRotate.s : ../../../Fundamental/CCore/test/./test2022.EuclidRotate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2023.GCDConst.s : ../../../Fundamental/CCore/test/test2023.GCDConst.cpp
+../.test-obj/test2023.GCDConst.s : ../../../Fundamental/CCore/test/./test2023.GCDConst.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2024.SortUnique.s : ../../../Fundamental/CCore/test/test2024.SortUnique.cpp
+../.test-obj/test2024.SortUnique.s : ../../../Fundamental/CCore/test/./test2024.SortUnique.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2025.SimpleRotate.s : ../../../Fundamental/CCore/test/test2025.SimpleRotate.cpp
+../.test-obj/test2025.SimpleRotate.s : ../../../Fundamental/CCore/test/./test2025.SimpleRotate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2026.Partition.s : ../../../Fundamental/CCore/test/test2026.Partition.cpp
+../.test-obj/test2026.Partition.s : ../../../Fundamental/CCore/test/./test2026.Partition.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2027.List.s : ../../../Fundamental/CCore/test/test2027.List.cpp
+../.test-obj/test2027.List.s : ../../../Fundamental/CCore/test/./test2027.List.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2028.Tree.s : ../../../Fundamental/CCore/test/test2028.Tree.cpp
+../.test-obj/test2028.Tree.s : ../../../Fundamental/CCore/test/./test2028.Tree.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2029.TreeUp.s : ../../../Fundamental/CCore/test/test2029.TreeUp.cpp
+../.test-obj/test2029.TreeUp.s : ../../../Fundamental/CCore/test/./test2029.TreeUp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2030.TreeUpIns.s : ../../../Fundamental/CCore/test/test2030.TreeUpIns.cpp
+../.test-obj/test2030.TreeUpIns.s : ../../../Fundamental/CCore/test/./test2030.TreeUpIns.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2031.Printf.s : ../../../Fundamental/CCore/test/test2031.Printf.cpp
+../.test-obj/test2031.Printf.s : ../../../Fundamental/CCore/test/./test2031.Printf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2032.Scanf.s : ../../../Fundamental/CCore/test/test2032.Scanf.cpp
+../.test-obj/test2032.Scanf.s : ../../../Fundamental/CCore/test/./test2032.Scanf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2033.DynArray.s : ../../../Fundamental/CCore/test/test2033.DynArray.cpp
+../.test-obj/test2033.DynArray.s : ../../../Fundamental/CCore/test/./test2033.DynArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2034.DynArray.s : ../../../Fundamental/CCore/test/test2034.DynArray.cpp
+../.test-obj/test2034.DynArray.s : ../../../Fundamental/CCore/test/./test2034.DynArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2035.RefArray.s : ../../../Fundamental/CCore/test/test2035.RefArray.cpp
+../.test-obj/test2035.RefArray.s : ../../../Fundamental/CCore/test/./test2035.RefArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2036.RefArray.s : ../../../Fundamental/CCore/test/test2036.RefArray.cpp
+../.test-obj/test2036.RefArray.s : ../../../Fundamental/CCore/test/./test2036.RefArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2037.AtomicRefArray.s : ../../../Fundamental/CCore/test/test2037.AtomicRefArray.cpp
+../.test-obj/test2037.AtomicRefArray.s : ../../../Fundamental/CCore/test/./test2037.AtomicRefArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2038.AtomicRefArray.s : ../../../Fundamental/CCore/test/test2038.AtomicRefArray.cpp
+../.test-obj/test2038.AtomicRefArray.s : ../../../Fundamental/CCore/test/./test2038.AtomicRefArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2039.Collector.s : ../../../Fundamental/CCore/test/test2039.Collector.cpp
+../.test-obj/test2039.Collector.s : ../../../Fundamental/CCore/test/./test2039.Collector.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2040.ElementPool.s : ../../../Fundamental/CCore/test/test2040.ElementPool.cpp
+../.test-obj/test2040.ElementPool.s : ../../../Fundamental/CCore/test/./test2040.ElementPool.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2041.ObjHost.s : ../../../Fundamental/CCore/test/test2041.ObjHost.cpp
+../.test-obj/test2041.ObjHost.s : ../../../Fundamental/CCore/test/./test2041.ObjHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2042.ContainerList.s : ../../../Fundamental/CCore/test/test2042.ContainerList.cpp
+../.test-obj/test2042.ContainerList.s : ../../../Fundamental/CCore/test/./test2042.ContainerList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2043.RBTreeMap.s : ../../../Fundamental/CCore/test/test2043.RBTreeMap.cpp
+../.test-obj/test2043.RBTreeMap.s : ../../../Fundamental/CCore/test/./test2043.RBTreeMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2044.CompactMap.s : ../../../Fundamental/CCore/test/test2044.CompactMap.cpp
+../.test-obj/test2044.CompactMap.s : ../../../Fundamental/CCore/test/./test2044.CompactMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2045.Unid.s : ../../../Fundamental/CCore/test/test2045.Unid.cpp
+../.test-obj/test2045.Unid.s : ../../../Fundamental/CCore/test/./test2045.Unid.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2046.TypeNumber.s : ../../../Fundamental/CCore/test/test2046.TypeNumber.cpp
+../.test-obj/test2046.TypeNumber.s : ../../../Fundamental/CCore/test/./test2046.TypeNumber.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2047.InterfaceHost.s : ../../../Fundamental/CCore/test/test2047.InterfaceHost.cpp
+../.test-obj/test2047.InterfaceHost.s : ../../../Fundamental/CCore/test/./test2047.InterfaceHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2048.Signal.s : ../../../Fundamental/CCore/test/test2048.Signal.cpp
+../.test-obj/test2048.Signal.s : ../../../Fundamental/CCore/test/./test2048.Signal.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2049.Optional.s : ../../../Fundamental/CCore/test/test2049.Optional.cpp
+../.test-obj/test2049.Optional.s : ../../../Fundamental/CCore/test/./test2049.Optional.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2050.MultiSignal.s : ../../../Fundamental/CCore/test/test2050.MultiSignal.cpp
+../.test-obj/test2050.MultiSignal.s : ../../../Fundamental/CCore/test/./test2050.MultiSignal.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2051.DeferCall.s : ../../../Fundamental/CCore/test/test2051.DeferCall.cpp
+../.test-obj/test2051.DeferCall.s : ../../../Fundamental/CCore/test/./test2051.DeferCall.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2052.ObjectDomain.s : ../../../Fundamental/CCore/test/test2052.ObjectDomain.cpp
+../.test-obj/test2052.ObjectDomain.s : ../../../Fundamental/CCore/test/./test2052.ObjectDomain.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2053.StepEval.s : ../../../Fundamental/CCore/test/test2053.StepEval.cpp
+../.test-obj/test2053.StepEval.s : ../../../Fundamental/CCore/test/./test2053.StepEval.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2054.ApplyToRange.s : ../../../Fundamental/CCore/test/test2054.ApplyToRange.cpp
+../.test-obj/test2054.ApplyToRange.s : ../../../Fundamental/CCore/test/./test2054.ApplyToRange.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2055.ArrayInsDel.s : ../../../Fundamental/CCore/test/test2055.ArrayInsDel.cpp
+../.test-obj/test2055.ArrayInsDel.s : ../../../Fundamental/CCore/test/./test2055.ArrayInsDel.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2056.StrMap.s : ../../../Fundamental/CCore/test/test2056.StrMap.cpp
+../.test-obj/test2056.StrMap.s : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2500.PrintFile.s : ../../../Fundamental/CCore/test/test2500.PrintFile.cpp
+../.test-obj/test2500.PrintFile.s : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test2999.Blank.s : ../../../Fundamental/CCore/test/test2999.Blank.cpp
+../.test-obj/test2999.Blank.s : ../../../Fundamental/CCore/test/./test2999.Blank.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3001.Atomic.s : ../../../Applied/CCore/test/test3001.Atomic.cpp
+../.test-obj/test3001.Atomic.s : ../../../Applied/CCore/test/./test3001.Atomic.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3002.EventRecorder.s : ../../../Applied/CCore/test/test3002.EventRecorder.cpp
+../.test-obj/test3002.EventRecorder.s : ../../../Applied/CCore/test/./test3002.EventRecorder.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3003.PerTask.s : ../../../Applied/CCore/test/test3003.PerTask.cpp
+../.test-obj/test3003.PerTask.s : ../../../Applied/CCore/test/./test3003.PerTask.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3004.Log.s : ../../../Applied/CCore/test/test3004.Log.cpp
+../.test-obj/test3004.Log.s : ../../../Applied/CCore/test/./test3004.Log.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3005.LogMem.s : ../../../Applied/CCore/test/test3005.LogMem.cpp
+../.test-obj/test3005.LogMem.s : ../../../Applied/CCore/test/./test3005.LogMem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3006.TaskMemStack.s : ../../../Applied/CCore/test/test3006.TaskMemStack.cpp
+../.test-obj/test3006.TaskMemStack.s : ../../../Applied/CCore/test/./test3006.TaskMemStack.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3007.FileName.s : ../../../Applied/CCore/test/test3007.FileName.cpp
+../.test-obj/test3007.FileName.s : ../../../Applied/CCore/test/./test3007.FileName.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3008.Packet.s : ../../../Applied/CCore/test/test3008.Packet.cpp
+../.test-obj/test3008.Packet.s : ../../../Applied/CCore/test/./test3008.Packet.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3009.PacketSet.s : ../../../Applied/CCore/test/test3009.PacketSet.cpp
+../.test-obj/test3009.PacketSet.s : ../../../Applied/CCore/test/./test3009.PacketSet.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3010.CancelPacketList.s : ../../../Applied/CCore/test/test3010.CancelPacketList.cpp
+../.test-obj/test3010.CancelPacketList.s : ../../../Applied/CCore/test/./test3010.CancelPacketList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3011.LineInput.s : ../../../Applied/CCore/test/test3011.LineInput.cpp
+../.test-obj/test3011.LineInput.s : ../../../Applied/CCore/test/./test3011.LineInput.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3012.CmdInput.s : ../../../Applied/CCore/test/test3012.CmdInput.cpp
+../.test-obj/test3012.CmdInput.s : ../../../Applied/CCore/test/./test3012.CmdInput.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3013.AES.s : ../../../Applied/CCore/test/test3013.AES.cpp
+../.test-obj/test3013.AES.s : ../../../Applied/CCore/test/./test3013.AES.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3014.AES-speed.s : ../../../Applied/CCore/test/test3014.AES-speed.cpp
+../.test-obj/test3014.AES-speed.s : ../../../Applied/CCore/test/./test3014.AES-speed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3015.SHA.s : ../../../Applied/CCore/test/test3015.SHA.cpp
+../.test-obj/test3015.SHA.s : ../../../Applied/CCore/test/./test3015.SHA.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3016.SHA-speed.s : ../../../Applied/CCore/test/test3016.SHA-speed.cpp
+../.test-obj/test3016.SHA-speed.s : ../../../Applied/CCore/test/./test3016.SHA-speed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3017.MD5.s : ../../../Applied/CCore/test/test3017.MD5.cpp
+../.test-obj/test3017.MD5.s : ../../../Applied/CCore/test/./test3017.MD5.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3018.IntegerSlowAlgo.s : ../../../Applied/CCore/test/test3018.IntegerSlowAlgo.cpp
+../.test-obj/test3018.IntegerSlowAlgo.s : ../../../Applied/CCore/test/./test3018.IntegerSlowAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3019.IntegerSlowMul.s : ../../../Applied/CCore/test/test3019.IntegerSlowMul.cpp
+../.test-obj/test3019.IntegerSlowMul.s : ../../../Applied/CCore/test/./test3019.IntegerSlowMul.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3020.IntegerFastAlgo.s : ../../../Applied/CCore/test/test3020.IntegerFastAlgo.cpp
+../.test-obj/test3020.IntegerFastAlgo.s : ../../../Applied/CCore/test/./test3020.IntegerFastAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3021.IntegerInverse.s : ../../../Applied/CCore/test/test3021.IntegerInverse.cpp
+../.test-obj/test3021.IntegerInverse.s : ../../../Applied/CCore/test/./test3021.IntegerInverse.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3022.Integer.s : ../../../Applied/CCore/test/test3022.Integer.cpp
+../.test-obj/test3022.Integer.s : ../../../Applied/CCore/test/./test3022.Integer.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3023.NoPrimeTest.s : ../../../Applied/CCore/test/test3023.NoPrimeTest.cpp
+../.test-obj/test3023.NoPrimeTest.s : ../../../Applied/CCore/test/./test3023.NoPrimeTest.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3024.APRTest.s : ../../../Applied/CCore/test/test3024.APRTest.cpp
+../.test-obj/test3024.APRTest.s : ../../../Applied/CCore/test/./test3024.APRTest.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3025.DHExp.s : ../../../Applied/CCore/test/test3025.DHExp.cpp
+../.test-obj/test3025.DHExp.s : ../../../Applied/CCore/test/./test3025.DHExp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3026.Bridge.s : ../../../Applied/CCore/test/test3026.Bridge.cpp
+../.test-obj/test3026.Bridge.s : ../../../Applied/CCore/test/./test3026.Bridge.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3027.SingleBridge.s : ../../../Applied/CCore/test/test3027.SingleBridge.cpp
+../.test-obj/test3027.SingleBridge.s : ../../../Applied/CCore/test/./test3027.SingleBridge.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3028.PTP.s : ../../../Applied/CCore/test/test3028.PTP.cpp
+../.test-obj/test3028.PTP.s : ../../../Applied/CCore/test/./test3028.PTP.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3029.NetFork.s : ../../../Applied/CCore/test/test3029.NetFork.cpp
+../.test-obj/test3029.NetFork.s : ../../../Applied/CCore/test/./test3029.NetFork.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3030.PSec.s : ../../../Applied/CCore/test/test3030.PSec.cpp
+../.test-obj/test3030.PSec.s : ../../../Applied/CCore/test/./test3030.PSec.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3031.PKE.s : ../../../Applied/CCore/test/test3031.PKE.cpp
+../.test-obj/test3031.PKE.s : ../../../Applied/CCore/test/./test3031.PKE.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3032.FileNameMatch.s : ../../../Applied/CCore/test/test3032.FileNameMatch.cpp
+../.test-obj/test3032.FileNameMatch.s : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4001.Mutex.s : ../../../HCore/CCore/test/test4001.Mutex.cpp
+../.test-obj/test4001.Mutex.s : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4002.Sem.s : ../../../HCore/CCore/test/test4002.Sem.cpp
+../.test-obj/test4002.Sem.s : ../../../HCore/CCore/test/./test4002.Sem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4003.Event.s : ../../../HCore/CCore/test/test4003.Event.cpp
+../.test-obj/test4003.Event.s : ../../../HCore/CCore/test/./test4003.Event.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4004.AntiSem.s : ../../../HCore/CCore/test/test4004.AntiSem.cpp
+../.test-obj/test4004.AntiSem.s : ../../../HCore/CCore/test/./test4004.AntiSem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4005.MultiSem.s : ../../../HCore/CCore/test/test4005.MultiSem.cpp
+../.test-obj/test4005.MultiSem.s : ../../../HCore/CCore/test/./test4005.MultiSem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4006.MultiEvent.s : ../../../HCore/CCore/test/test4006.MultiEvent.cpp
+../.test-obj/test4006.MultiEvent.s : ../../../HCore/CCore/test/./test4006.MultiEvent.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4007.Sem-speed.s : ../../../HCore/CCore/test/test4007.Sem-speed.cpp
+../.test-obj/test4007.Sem-speed.s : ../../../HCore/CCore/test/./test4007.Sem-speed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4008.PageHeap.s : ../../../HCore/CCore/test/test4008.PageHeap.cpp
+../.test-obj/test4008.PageHeap.s : ../../../HCore/CCore/test/./test4008.PageHeap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4009.Task.s : ../../../HCore/CCore/test/test4009.Task.cpp
+../.test-obj/test4009.Task.s : ../../../HCore/CCore/test/./test4009.Task.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4010.TaskSleep.s : ../../../HCore/CCore/test/test4010.TaskSleep.cpp
+../.test-obj/test4010.TaskSleep.s : ../../../HCore/CCore/test/./test4010.TaskSleep.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4011.ReadCon.s : ../../../HCore/CCore/test/test4011.ReadCon.cpp
+../.test-obj/test4011.ReadCon.s : ../../../HCore/CCore/test/./test4011.ReadCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4012.FileSystem.s : ../../../HCore/CCore/test/test4012.FileSystem.cpp
+../.test-obj/test4012.FileSystem.s : ../../../HCore/CCore/test/./test4012.FileSystem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4013.DirTreeRun.s : ../../../HCore/CCore/test/test4013.DirTreeRun.cpp
+../.test-obj/test4013.DirTreeRun.s : ../../../HCore/CCore/test/./test4013.DirTreeRun.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4014.SysFile.s : ../../../HCore/CCore/test/test4014.SysFile.cpp
+../.test-obj/test4014.SysFile.s : ../../../HCore/CCore/test/./test4014.SysFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4015.SysAltFile.s : ../../../HCore/CCore/test/test4015.SysAltFile.cpp
+../.test-obj/test4015.SysAltFile.s : ../../../HCore/CCore/test/./test4015.SysAltFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4016.PrintFile.s : ../../../HCore/CCore/test/test4016.PrintFile.cpp
+../.test-obj/test4016.PrintFile.s : ../../../HCore/CCore/test/./test4016.PrintFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4017.ScanFile.s : ../../../HCore/CCore/test/test4017.ScanFile.cpp
+../.test-obj/test4017.ScanFile.s : ../../../HCore/CCore/test/./test4017.ScanFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4018.BinaryFile.s : ../../../HCore/CCore/test/test4018.BinaryFile.cpp
+../.test-obj/test4018.BinaryFile.s : ../../../HCore/CCore/test/./test4018.BinaryFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4019.TaskHeap.s : ../../../HCore/CCore/test/test4019.TaskHeap.cpp
+../.test-obj/test4019.TaskHeap.s : ../../../HCore/CCore/test/./test4019.TaskHeap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4020.NamesCrc.s : ../../../HCore/CCore/test/test4020.NamesCrc.cpp
+../.test-obj/test4020.NamesCrc.s : ../../../HCore/CCore/test/./test4020.NamesCrc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4021.AsyncFile.s : ../../../HCore/CCore/test/test4021.AsyncFile.cpp
+../.test-obj/test4021.AsyncFile.s : ../../../HCore/CCore/test/./test4021.AsyncFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4022.ScanAsyncFile.s : ../../../HCore/CCore/test/test4022.ScanAsyncFile.cpp
+../.test-obj/test4022.ScanAsyncFile.s : ../../../HCore/CCore/test/./test4022.ScanAsyncFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4023.UDP.s : ../../../HCore/CCore/test/test4023.UDP.cpp
+../.test-obj/test4023.UDP.s : ../../../HCore/CCore/test/./test4023.UDP.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4024.UDPEcho.s : ../../../HCore/CCore/test/test4024.UDPEcho.cpp
+../.test-obj/test4024.UDPEcho.s : ../../../HCore/CCore/test/./test4024.UDPEcho.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4025.AsyncUDP.s : ../../../HCore/CCore/test/test4025.AsyncUDP.cpp
+../.test-obj/test4025.AsyncUDP.s : ../../../HCore/CCore/test/./test4025.AsyncUDP.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4026.PTPEcho.s : ../../../HCore/CCore/test/test4026.PTPEcho.cpp
+../.test-obj/test4026.PTPEcho.s : ../../../HCore/CCore/test/./test4026.PTPEcho.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4027.PTPServer.s : ../../../HCore/CCore/test/test4027.PTPServer.cpp
+../.test-obj/test4027.PTPServer.s : ../../../HCore/CCore/test/./test4027.PTPServer.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4028.PTPServer.ConWrite.s : ../../../HCore/CCore/test/test4028.PTPServer.ConWrite.cpp
+../.test-obj/test4028.PTPServer.ConWrite.s : ../../../HCore/CCore/test/./test4028.PTPServer.ConWrite.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4029.PSec.s : ../../../HCore/CCore/test/test4029.PSec.cpp
+../.test-obj/test4029.PSec.s : ../../../HCore/CCore/test/./test4029.PSec.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4030.PKE.s : ../../../HCore/CCore/test/test4030.PKE.cpp
+../.test-obj/test4030.PKE.s : ../../../HCore/CCore/test/./test4030.PKE.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4031.PTPSec.s : ../../../HCore/CCore/test/test4031.PTPSec.cpp
+../.test-obj/test4031.PTPSec.s : ../../../HCore/CCore/test/./test4031.PTPSec.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test4032.DelDirRecursive.s : ../../../HCore/CCore/test/test4032.DelDirRecursive.cpp
+../.test-obj/test4032.DelDirRecursive.s : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6001.Atomic.s : ../../../Target/WIN64/CCore/test/test6001.Atomic.cpp
+../.test-obj/test6001.Atomic.s : ../../../Target/WIN64/CCore/test/./test6001.Atomic.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6002.WIN64.s : ../../../Target/WIN64/CCore/test/test6002.WIN64.cpp
+../.test-obj/test6002.WIN64.s : ../../../Target/WIN64/CCore/test/./test6002.WIN64.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6003.Blank.s : ../../../Target/WIN64/CCore/test/test6003.Blank.cpp
+../.test-obj/test6003.Blank.s : ../../../Target/WIN64/CCore/test/./test6003.Blank.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6004.IntegerFastAlgo.s : ../../../Target/WIN64/CCore/test/test6004.IntegerFastAlgo.cpp
+../.test-obj/test6004.IntegerFastAlgo.s : ../../../Target/WIN64/CCore/test/./test6004.IntegerFastAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6005.IntelRandom.s : ../../../Target/WIN64/CCore/test/test6005.IntelRandom.cpp
+../.test-obj/test6005.IntelRandom.s : ../../../Target/WIN64/CCore/test/./test6005.IntelRandom.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6006.IntelAES.s : ../../../Target/WIN64/CCore/test/test6006.IntelAES.cpp
+../.test-obj/test6006.IntelAES.s : ../../../Target/WIN64/CCore/test/./test6006.IntelAES.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6007.MemAlloc.s : ../../../Target/WIN64/CCore/test/test6007.MemAlloc.cpp
+../.test-obj/test6007.MemAlloc.s : ../../../Target/WIN64/CCore/test/./test6007.MemAlloc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6008.Time.s : ../../../Target/WIN64/CCore/test/test6008.Time.cpp
+../.test-obj/test6008.Time.s : ../../../Target/WIN64/CCore/test/./test6008.Time.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6009.SysFile.s : ../../../Target/WIN64/CCore/test/test6009.SysFile.cpp
+../.test-obj/test6009.SysFile.s : ../../../Target/WIN64/CCore/test/./test6009.SysFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6010.Quick.s : ../../../Target/WIN64/CCore/test/test6010.Quick.cpp
+../.test-obj/test6010.Quick.s : ../../../Target/WIN64/CCore/test/./test6010.Quick.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test6011.Char.s : ../../../Target/WIN64/CCore/test/test6011.Char.cpp
+../.test-obj/test6011.Char.s : ../../../Target/WIN64/CCore/test/./test6011.Char.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testArray.s : ../../../Fundamental/CCore/test/testArray.cpp
+../.test-obj/testArray.s : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testInt.s : ../../../Applied/CCore/test/testInt.cpp
+../.test-obj/testInt.s : ../../../Applied/CCore/test/./testInt.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testIntAlgo.s : ../../../Applied/CCore/test/testIntAlgo.cpp
+../.test-obj/testIntAlgo.s : ../../../Applied/CCore/test/./testIntAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testIntBase.s : ../../../Applied/CCore/test/testIntBase.cpp
+../.test-obj/testIntBase.s : ../../../Applied/CCore/test/./testIntBase.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testNet.s : ../../../Applied/CCore/test/testNet.cpp
+../.test-obj/testNet.s : ../../../Applied/CCore/test/./testNet.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testPrint.s : ../../../HCore/CCore/test/testPrint.cpp
+../.test-obj/testPrint.s : ../../../HCore/CCore/test/./testPrint.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/testRun.s : ../../../Fundamental/CCore/test/testRun.cpp
+../.test-obj/testRun.s : ../../../Fundamental/CCore/test/./testRun.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-../.test-obj/main.dep : ./main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+../.test-obj/main.dep : ././main.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/main.o $< -MF $@
 
-../.test-obj/test1001.NoCopy.dep : ../../../Simple/CCore/test/test1001.NoCopy.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1001.NoCopy.o $< -MF $@
+../.test-obj/test1001.NoCopy.dep : ../../../Simple/CCore/test/./test1001.NoCopy.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1001.NoCopy.o $< -MF $@
 
-../.test-obj/test1002.CreateAt.dep : ../../../Simple/CCore/test/test1002.CreateAt.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1002.CreateAt.o $< -MF $@
+../.test-obj/test1002.CreateAt.dep : ../../../Simple/CCore/test/./test1002.CreateAt.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1002.CreateAt.o $< -MF $@
 
-../.test-obj/test1003.Meta.Detect.dep : ../../../Simple/CCore/test/test1003.Meta.Detect.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1003.Meta.Detect.o $< -MF $@
+../.test-obj/test1003.Meta.Detect.dep : ../../../Simple/CCore/test/./test1003.Meta.Detect.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1003.Meta.Detect.o $< -MF $@
 
-../.test-obj/test1004.Function.dep : ../../../Simple/CCore/test/test1004.Function.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1004.Function.o $< -MF $@
+../.test-obj/test1004.Function.dep : ../../../Simple/CCore/test/./test1004.Function.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1004.Function.o $< -MF $@
 
-../.test-obj/test1005.NoThrowFlags.dep : ../../../Simple/CCore/test/test1005.NoThrowFlags.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1005.NoThrowFlags.o $< -MF $@
+../.test-obj/test1005.NoThrowFlags.dep : ../../../Simple/CCore/test/./test1005.NoThrowFlags.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1005.NoThrowFlags.o $< -MF $@
 
-../.test-obj/test1006.Cmp.dep : ../../../Simple/CCore/test/test1006.Cmp.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1006.Cmp.o $< -MF $@
+../.test-obj/test1006.Cmp.dep : ../../../Simple/CCore/test/./test1006.Cmp.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1006.Cmp.o $< -MF $@
 
-../.test-obj/test1007.FunctorType.dep : ../../../Simple/CCore/test/test1007.FunctorType.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1007.FunctorType.o $< -MF $@
+../.test-obj/test1007.FunctorType.dep : ../../../Simple/CCore/test/./test1007.FunctorType.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1007.FunctorType.o $< -MF $@
 
-../.test-obj/test1008.TextLabel.dep : ../../../Simple/CCore/test/test1008.TextLabel.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1008.TextLabel.o $< -MF $@
+../.test-obj/test1008.TextLabel.dep : ../../../Simple/CCore/test/./test1008.TextLabel.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1008.TextLabel.o $< -MF $@
 
-../.test-obj/test1009.Quick.dep : ../../../Simple/CCore/test/test1009.Quick.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1009.Quick.o $< -MF $@
+../.test-obj/test1009.Quick.dep : ../../../Simple/CCore/test/./test1009.Quick.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1009.Quick.o $< -MF $@
 
-../.test-obj/test1010.UIntFunc.dep : ../../../Simple/CCore/test/test1010.UIntFunc.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1010.UIntFunc.o $< -MF $@
+../.test-obj/test1010.UIntFunc.dep : ../../../Simple/CCore/test/./test1010.UIntFunc.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1010.UIntFunc.o $< -MF $@
 
-../.test-obj/test1011.Swap.dep : ../../../Simple/CCore/test/test1011.Swap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1011.Swap.o $< -MF $@
+../.test-obj/test1011.Swap.dep : ../../../Simple/CCore/test/./test1011.Swap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1011.Swap.o $< -MF $@
 
-../.test-obj/test1012.Move.dep : ../../../Simple/CCore/test/test1012.Move.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1012.Move.o $< -MF $@
+../.test-obj/test1012.Move.dep : ../../../Simple/CCore/test/./test1012.Move.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1012.Move.o $< -MF $@
 
-../.test-obj/test1013.for.dep : ../../../Simple/CCore/test/test1013.for.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1013.for.o $< -MF $@
+../.test-obj/test1013.for.dep : ../../../Simple/CCore/test/./test1013.for.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1013.for.o $< -MF $@
 
-../.test-obj/test1014.UIntSplit.dep : ../../../Simple/CCore/test/test1014.UIntSplit.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1014.UIntSplit.o $< -MF $@
+../.test-obj/test1014.UIntSplit.dep : ../../../Simple/CCore/test/./test1014.UIntSplit.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1014.UIntSplit.o $< -MF $@
 
-../.test-obj/test1015.OwnPtr.dep : ../../../Simple/CCore/test/test1015.OwnPtr.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1015.OwnPtr.o $< -MF $@
+../.test-obj/test1015.OwnPtr.dep : ../../../Simple/CCore/test/./test1015.OwnPtr.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1015.OwnPtr.o $< -MF $@
 
-../.test-obj/test1016.RefPtr.dep : ../../../Simple/CCore/test/test1016.RefPtr.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1016.RefPtr.o $< -MF $@
+../.test-obj/test1016.RefPtr.dep : ../../../Simple/CCore/test/./test1016.RefPtr.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1016.RefPtr.o $< -MF $@
 
-../.test-obj/test1017.Counters.dep : ../../../Simple/CCore/test/test1017.Counters.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1017.Counters.o $< -MF $@
+../.test-obj/test1017.Counters.dep : ../../../Simple/CCore/test/./test1017.Counters.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1017.Counters.o $< -MF $@
 
-../.test-obj/test1018.PrintSet.dep : ../../../Simple/CCore/test/test1018.PrintSet.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1018.PrintSet.o $< -MF $@
+../.test-obj/test1018.PrintSet.dep : ../../../Simple/CCore/test/./test1018.PrintSet.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1018.PrintSet.o $< -MF $@
 
-../.test-obj/test1019.PrintTime.dep : ../../../Simple/CCore/test/test1019.PrintTime.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1019.PrintTime.o $< -MF $@
+../.test-obj/test1019.PrintTime.dep : ../../../Simple/CCore/test/./test1019.PrintTime.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1019.PrintTime.o $< -MF $@
 
-../.test-obj/test1020.Fifo.dep : ../../../Simple/CCore/test/test1020.Fifo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1020.Fifo.o $< -MF $@
+../.test-obj/test1020.Fifo.dep : ../../../Simple/CCore/test/./test1020.Fifo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1020.Fifo.o $< -MF $@
 
-../.test-obj/test1021.Replace.dep : ../../../Simple/CCore/test/test1021.Replace.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1021.Replace.o $< -MF $@
+../.test-obj/test1021.Replace.dep : ../../../Simple/CCore/test/./test1021.Replace.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1021.Replace.o $< -MF $@
 
-../.test-obj/test1022.ScanBit.dep : ../../../Simple/CCore/test/test1022.ScanBit.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1022.ScanBit.o $< -MF $@
+../.test-obj/test1022.ScanBit.dep : ../../../Simple/CCore/test/./test1022.ScanBit.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1022.ScanBit.o $< -MF $@
 
-../.test-obj/test1023.Tuple.dep : ../../../Simple/CCore/test/test1023.Tuple.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1023.Tuple.o $< -MF $@
+../.test-obj/test1023.Tuple.dep : ../../../Simple/CCore/test/./test1023.Tuple.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1023.Tuple.o $< -MF $@
 
-../.test-obj/test1024.PtrLen.dep : ../../../Simple/CCore/test/test1024.PtrLen.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1024.PtrLen.o $< -MF $@
+../.test-obj/test1024.PtrLen.dep : ../../../Simple/CCore/test/./test1024.PtrLen.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1024.PtrLen.o $< -MF $@
 
-../.test-obj/test1025.PtrLenReverse.dep : ../../../Simple/CCore/test/test1025.PtrLenReverse.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1025.PtrLenReverse.o $< -MF $@
+../.test-obj/test1025.PtrLenReverse.dep : ../../../Simple/CCore/test/./test1025.PtrLenReverse.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1025.PtrLenReverse.o $< -MF $@
 
-../.test-obj/test1026.PtrStepLen.dep : ../../../Simple/CCore/test/test1026.PtrStepLen.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1026.PtrStepLen.o $< -MF $@
+../.test-obj/test1026.PtrStepLen.dep : ../../../Simple/CCore/test/./test1026.PtrStepLen.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1026.PtrStepLen.o $< -MF $@
 
-../.test-obj/test1027.Timer.dep : ../../../Simple/CCore/test/test1027.Timer.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1027.Timer.o $< -MF $@
+../.test-obj/test1027.Timer.dep : ../../../Simple/CCore/test/./test1027.Timer.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1027.Timer.o $< -MF $@
 
-../.test-obj/test1028.Crc.dep : ../../../Simple/CCore/test/test1028.Crc.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1028.Crc.o $< -MF $@
+../.test-obj/test1028.Crc.dep : ../../../Simple/CCore/test/./test1028.Crc.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1028.Crc.o $< -MF $@
 
-../.test-obj/test1029.BlockFifo.dep : ../../../Simple/CCore/test/test1029.BlockFifo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1029.BlockFifo.o $< -MF $@
+../.test-obj/test1029.BlockFifo.dep : ../../../Simple/CCore/test/./test1029.BlockFifo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1029.BlockFifo.o $< -MF $@
 
-../.test-obj/test1030.TypeSwitch.dep : ../../../Simple/CCore/test/test1030.TypeSwitch.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1030.TypeSwitch.o $< -MF $@
+../.test-obj/test1030.TypeSwitch.dep : ../../../Simple/CCore/test/./test1030.TypeSwitch.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1030.TypeSwitch.o $< -MF $@
 
-../.test-obj/test1031.NewDelete.dep : ../../../Simple/CCore/test/test1031.NewDelete.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1031.NewDelete.o $< -MF $@
+../.test-obj/test1031.NewDelete.dep : ../../../Simple/CCore/test/./test1031.NewDelete.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1031.NewDelete.o $< -MF $@
 
-../.test-obj/test1032.DynObject.dep : ../../../Simple/CCore/test/test1032.DynObject.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1032.DynObject.o $< -MF $@
+../.test-obj/test1032.DynObject.dep : ../../../Simple/CCore/test/./test1032.DynObject.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1032.DynObject.o $< -MF $@
 
-../.test-obj/test1033.AnyPtr.dep : ../../../Simple/CCore/test/test1033.AnyPtr.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1033.AnyPtr.o $< -MF $@
+../.test-obj/test1033.AnyPtr.dep : ../../../Simple/CCore/test/./test1033.AnyPtr.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1033.AnyPtr.o $< -MF $@
 
-../.test-obj/test1034.PrintStem.dep : ../../../Simple/CCore/test/test1034.PrintStem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test1034.PrintStem.o $< -MF $@
+../.test-obj/test1034.PrintStem.dep : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1034.PrintStem.o $< -MF $@
 
-../.test-obj/test2001.UIntSlowMulAlgo.dep : ../../../Fundamental/CCore/test/test2001.UIntSlowMulAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2001.UIntSlowMulAlgo.o $< -MF $@
+../.test-obj/test2001.UIntSlowMulAlgo.dep : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2001.UIntSlowMulAlgo.o $< -MF $@
 
-../.test-obj/test2002.Exception.dep : ../../../Fundamental/CCore/test/test2002.Exception.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2002.Exception.o $< -MF $@
+../.test-obj/test2002.Exception.dep : ../../../Fundamental/CCore/test/./test2002.Exception.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2002.Exception.o $< -MF $@
 
-../.test-obj/test2003.SpaceHeap.dep : ../../../Fundamental/CCore/test/test2003.SpaceHeap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2003.SpaceHeap.o $< -MF $@
+../.test-obj/test2003.SpaceHeap.dep : ../../../Fundamental/CCore/test/./test2003.SpaceHeap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2003.SpaceHeap.o $< -MF $@
 
-../.test-obj/test2004.ShortSort.dep : ../../../Fundamental/CCore/test/test2004.ShortSort.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2004.ShortSort.o $< -MF $@
+../.test-obj/test2004.ShortSort.dep : ../../../Fundamental/CCore/test/./test2004.ShortSort.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2004.ShortSort.o $< -MF $@
 
-../.test-obj/test2005.Sort.dep : ../../../Fundamental/CCore/test/test2005.Sort.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2005.Sort.o $< -MF $@
+../.test-obj/test2005.Sort.dep : ../../../Fundamental/CCore/test/./test2005.Sort.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2005.Sort.o $< -MF $@
 
-../.test-obj/test2006.Sort-speed.dep : ../../../Fundamental/CCore/test/test2006.Sort-speed.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2006.Sort-speed.o $< -MF $@
+../.test-obj/test2006.Sort-speed.dep : ../../../Fundamental/CCore/test/./test2006.Sort-speed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2006.Sort-speed.o $< -MF $@
 
-../.test-obj/test2007.CharProp.dep : ../../../Fundamental/CCore/test/test2007.CharProp.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2007.CharProp.o $< -MF $@
+../.test-obj/test2007.CharProp.dep : ../../../Fundamental/CCore/test/./test2007.CharProp.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2007.CharProp.o $< -MF $@
 
-../.test-obj/test2008.Exception.dep : ../../../Fundamental/CCore/test/test2008.Exception.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2008.Exception.o $< -MF $@
+../.test-obj/test2008.Exception.dep : ../../../Fundamental/CCore/test/./test2008.Exception.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2008.Exception.o $< -MF $@
 
-../.test-obj/test2009.GenFile.dep : ../../../Fundamental/CCore/test/test2009.GenFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2009.GenFile.o $< -MF $@
+../.test-obj/test2009.GenFile.dep : ../../../Fundamental/CCore/test/./test2009.GenFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2009.GenFile.o $< -MF $@
 
-../.test-obj/test2010.MersenneTwister.dep : ../../../Fundamental/CCore/test/test2010.MersenneTwister.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2010.MersenneTwister.o $< -MF $@
+../.test-obj/test2010.MersenneTwister.dep : ../../../Fundamental/CCore/test/./test2010.MersenneTwister.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2010.MersenneTwister.o $< -MF $@
 
-../.test-obj/test2011.Path.dep : ../../../Fundamental/CCore/test/test2011.Path.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2011.Path.o $< -MF $@
+../.test-obj/test2011.Path.dep : ../../../Fundamental/CCore/test/./test2011.Path.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2011.Path.o $< -MF $@
 
-../.test-obj/test2012.PlanInitBuild.dep : ../../../Fundamental/CCore/test/test2012.PlanInitBuild.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2012.PlanInitBuild.o $< -MF $@
+../.test-obj/test2012.PlanInitBuild.dep : ../../../Fundamental/CCore/test/./test2012.PlanInitBuild.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2012.PlanInitBuild.o $< -MF $@
 
-../.test-obj/test2013.RandomFill.dep : ../../../Fundamental/CCore/test/test2013.RandomFill.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2013.RandomFill.o $< -MF $@
+../.test-obj/test2013.RandomFill.dep : ../../../Fundamental/CCore/test/./test2013.RandomFill.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2013.RandomFill.o $< -MF $@
 
-../.test-obj/test2014.Random-speed.dep : ../../../Fundamental/CCore/test/test2014.Random-speed.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2014.Random-speed.o $< -MF $@
+../.test-obj/test2014.Random-speed.dep : ../../../Fundamental/CCore/test/./test2014.Random-speed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2014.Random-speed.o $< -MF $@
 
-../.test-obj/test2015.RandomSelect.dep : ../../../Fundamental/CCore/test/test2015.RandomSelect.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2015.RandomSelect.o $< -MF $@
+../.test-obj/test2015.RandomSelect.dep : ../../../Fundamental/CCore/test/./test2015.RandomSelect.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2015.RandomSelect.o $< -MF $@
 
-../.test-obj/test2016.SaveLoad.dep : ../../../Fundamental/CCore/test/test2016.SaveLoad.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2016.SaveLoad.o $< -MF $@
+../.test-obj/test2016.SaveLoad.dep : ../../../Fundamental/CCore/test/./test2016.SaveLoad.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2016.SaveLoad.o $< -MF $@
 
-../.test-obj/test2017.String.dep : ../../../Fundamental/CCore/test/test2017.String.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2017.String.o $< -MF $@
+../.test-obj/test2017.String.dep : ../../../Fundamental/CCore/test/./test2017.String.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2017.String.o $< -MF $@
 
-../.test-obj/test2018.StrParse.dep : ../../../Fundamental/CCore/test/test2018.StrParse.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2018.StrParse.o $< -MF $@
+../.test-obj/test2018.StrParse.dep : ../../../Fundamental/CCore/test/./test2018.StrParse.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2018.StrParse.o $< -MF $@
 
-../.test-obj/test2019.TextTools.dep : ../../../Fundamental/CCore/test/test2019.TextTools.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2019.TextTools.o $< -MF $@
+../.test-obj/test2019.TextTools.dep : ../../../Fundamental/CCore/test/./test2019.TextTools.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2019.TextTools.o $< -MF $@
 
-../.test-obj/test2020.BinarySearch.dep : ../../../Fundamental/CCore/test/test2020.BinarySearch.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2020.BinarySearch.o $< -MF $@
+../.test-obj/test2020.BinarySearch.dep : ../../../Fundamental/CCore/test/./test2020.BinarySearch.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2020.BinarySearch.o $< -MF $@
 
-../.test-obj/test2021.GCD.dep : ../../../Fundamental/CCore/test/test2021.GCD.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2021.GCD.o $< -MF $@
+../.test-obj/test2021.GCD.dep : ../../../Fundamental/CCore/test/./test2021.GCD.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2021.GCD.o $< -MF $@
 
-../.test-obj/test2022.EuclidRotate.dep : ../../../Fundamental/CCore/test/test2022.EuclidRotate.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2022.EuclidRotate.o $< -MF $@
+../.test-obj/test2022.EuclidRotate.dep : ../../../Fundamental/CCore/test/./test2022.EuclidRotate.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2022.EuclidRotate.o $< -MF $@
 
-../.test-obj/test2023.GCDConst.dep : ../../../Fundamental/CCore/test/test2023.GCDConst.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2023.GCDConst.o $< -MF $@
+../.test-obj/test2023.GCDConst.dep : ../../../Fundamental/CCore/test/./test2023.GCDConst.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2023.GCDConst.o $< -MF $@
 
-../.test-obj/test2024.SortUnique.dep : ../../../Fundamental/CCore/test/test2024.SortUnique.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2024.SortUnique.o $< -MF $@
+../.test-obj/test2024.SortUnique.dep : ../../../Fundamental/CCore/test/./test2024.SortUnique.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2024.SortUnique.o $< -MF $@
 
-../.test-obj/test2025.SimpleRotate.dep : ../../../Fundamental/CCore/test/test2025.SimpleRotate.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2025.SimpleRotate.o $< -MF $@
+../.test-obj/test2025.SimpleRotate.dep : ../../../Fundamental/CCore/test/./test2025.SimpleRotate.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2025.SimpleRotate.o $< -MF $@
 
-../.test-obj/test2026.Partition.dep : ../../../Fundamental/CCore/test/test2026.Partition.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2026.Partition.o $< -MF $@
+../.test-obj/test2026.Partition.dep : ../../../Fundamental/CCore/test/./test2026.Partition.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2026.Partition.o $< -MF $@
 
-../.test-obj/test2027.List.dep : ../../../Fundamental/CCore/test/test2027.List.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2027.List.o $< -MF $@
+../.test-obj/test2027.List.dep : ../../../Fundamental/CCore/test/./test2027.List.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2027.List.o $< -MF $@
 
-../.test-obj/test2028.Tree.dep : ../../../Fundamental/CCore/test/test2028.Tree.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2028.Tree.o $< -MF $@
+../.test-obj/test2028.Tree.dep : ../../../Fundamental/CCore/test/./test2028.Tree.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2028.Tree.o $< -MF $@
 
-../.test-obj/test2029.TreeUp.dep : ../../../Fundamental/CCore/test/test2029.TreeUp.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2029.TreeUp.o $< -MF $@
+../.test-obj/test2029.TreeUp.dep : ../../../Fundamental/CCore/test/./test2029.TreeUp.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2029.TreeUp.o $< -MF $@
 
-../.test-obj/test2030.TreeUpIns.dep : ../../../Fundamental/CCore/test/test2030.TreeUpIns.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2030.TreeUpIns.o $< -MF $@
+../.test-obj/test2030.TreeUpIns.dep : ../../../Fundamental/CCore/test/./test2030.TreeUpIns.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2030.TreeUpIns.o $< -MF $@
 
-../.test-obj/test2031.Printf.dep : ../../../Fundamental/CCore/test/test2031.Printf.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2031.Printf.o $< -MF $@
+../.test-obj/test2031.Printf.dep : ../../../Fundamental/CCore/test/./test2031.Printf.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2031.Printf.o $< -MF $@
 
-../.test-obj/test2032.Scanf.dep : ../../../Fundamental/CCore/test/test2032.Scanf.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2032.Scanf.o $< -MF $@
+../.test-obj/test2032.Scanf.dep : ../../../Fundamental/CCore/test/./test2032.Scanf.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2032.Scanf.o $< -MF $@
 
-../.test-obj/test2033.DynArray.dep : ../../../Fundamental/CCore/test/test2033.DynArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2033.DynArray.o $< -MF $@
+../.test-obj/test2033.DynArray.dep : ../../../Fundamental/CCore/test/./test2033.DynArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2033.DynArray.o $< -MF $@
 
-../.test-obj/test2034.DynArray.dep : ../../../Fundamental/CCore/test/test2034.DynArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2034.DynArray.o $< -MF $@
+../.test-obj/test2034.DynArray.dep : ../../../Fundamental/CCore/test/./test2034.DynArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2034.DynArray.o $< -MF $@
 
-../.test-obj/test2035.RefArray.dep : ../../../Fundamental/CCore/test/test2035.RefArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2035.RefArray.o $< -MF $@
+../.test-obj/test2035.RefArray.dep : ../../../Fundamental/CCore/test/./test2035.RefArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2035.RefArray.o $< -MF $@
 
-../.test-obj/test2036.RefArray.dep : ../../../Fundamental/CCore/test/test2036.RefArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2036.RefArray.o $< -MF $@
+../.test-obj/test2036.RefArray.dep : ../../../Fundamental/CCore/test/./test2036.RefArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2036.RefArray.o $< -MF $@
 
-../.test-obj/test2037.AtomicRefArray.dep : ../../../Fundamental/CCore/test/test2037.AtomicRefArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2037.AtomicRefArray.o $< -MF $@
+../.test-obj/test2037.AtomicRefArray.dep : ../../../Fundamental/CCore/test/./test2037.AtomicRefArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2037.AtomicRefArray.o $< -MF $@
 
-../.test-obj/test2038.AtomicRefArray.dep : ../../../Fundamental/CCore/test/test2038.AtomicRefArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2038.AtomicRefArray.o $< -MF $@
+../.test-obj/test2038.AtomicRefArray.dep : ../../../Fundamental/CCore/test/./test2038.AtomicRefArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2038.AtomicRefArray.o $< -MF $@
 
-../.test-obj/test2039.Collector.dep : ../../../Fundamental/CCore/test/test2039.Collector.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2039.Collector.o $< -MF $@
+../.test-obj/test2039.Collector.dep : ../../../Fundamental/CCore/test/./test2039.Collector.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2039.Collector.o $< -MF $@
 
-../.test-obj/test2040.ElementPool.dep : ../../../Fundamental/CCore/test/test2040.ElementPool.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2040.ElementPool.o $< -MF $@
+../.test-obj/test2040.ElementPool.dep : ../../../Fundamental/CCore/test/./test2040.ElementPool.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2040.ElementPool.o $< -MF $@
 
-../.test-obj/test2041.ObjHost.dep : ../../../Fundamental/CCore/test/test2041.ObjHost.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2041.ObjHost.o $< -MF $@
+../.test-obj/test2041.ObjHost.dep : ../../../Fundamental/CCore/test/./test2041.ObjHost.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2041.ObjHost.o $< -MF $@
 
-../.test-obj/test2042.ContainerList.dep : ../../../Fundamental/CCore/test/test2042.ContainerList.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2042.ContainerList.o $< -MF $@
+../.test-obj/test2042.ContainerList.dep : ../../../Fundamental/CCore/test/./test2042.ContainerList.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2042.ContainerList.o $< -MF $@
 
-../.test-obj/test2043.RBTreeMap.dep : ../../../Fundamental/CCore/test/test2043.RBTreeMap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2043.RBTreeMap.o $< -MF $@
+../.test-obj/test2043.RBTreeMap.dep : ../../../Fundamental/CCore/test/./test2043.RBTreeMap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2043.RBTreeMap.o $< -MF $@
 
-../.test-obj/test2044.CompactMap.dep : ../../../Fundamental/CCore/test/test2044.CompactMap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2044.CompactMap.o $< -MF $@
+../.test-obj/test2044.CompactMap.dep : ../../../Fundamental/CCore/test/./test2044.CompactMap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2044.CompactMap.o $< -MF $@
 
-../.test-obj/test2045.Unid.dep : ../../../Fundamental/CCore/test/test2045.Unid.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2045.Unid.o $< -MF $@
+../.test-obj/test2045.Unid.dep : ../../../Fundamental/CCore/test/./test2045.Unid.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2045.Unid.o $< -MF $@
 
-../.test-obj/test2046.TypeNumber.dep : ../../../Fundamental/CCore/test/test2046.TypeNumber.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2046.TypeNumber.o $< -MF $@
+../.test-obj/test2046.TypeNumber.dep : ../../../Fundamental/CCore/test/./test2046.TypeNumber.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2046.TypeNumber.o $< -MF $@
 
-../.test-obj/test2047.InterfaceHost.dep : ../../../Fundamental/CCore/test/test2047.InterfaceHost.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2047.InterfaceHost.o $< -MF $@
+../.test-obj/test2047.InterfaceHost.dep : ../../../Fundamental/CCore/test/./test2047.InterfaceHost.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2047.InterfaceHost.o $< -MF $@
 
-../.test-obj/test2048.Signal.dep : ../../../Fundamental/CCore/test/test2048.Signal.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2048.Signal.o $< -MF $@
+../.test-obj/test2048.Signal.dep : ../../../Fundamental/CCore/test/./test2048.Signal.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2048.Signal.o $< -MF $@
 
-../.test-obj/test2049.Optional.dep : ../../../Fundamental/CCore/test/test2049.Optional.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2049.Optional.o $< -MF $@
+../.test-obj/test2049.Optional.dep : ../../../Fundamental/CCore/test/./test2049.Optional.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2049.Optional.o $< -MF $@
 
-../.test-obj/test2050.MultiSignal.dep : ../../../Fundamental/CCore/test/test2050.MultiSignal.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2050.MultiSignal.o $< -MF $@
+../.test-obj/test2050.MultiSignal.dep : ../../../Fundamental/CCore/test/./test2050.MultiSignal.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2050.MultiSignal.o $< -MF $@
 
-../.test-obj/test2051.DeferCall.dep : ../../../Fundamental/CCore/test/test2051.DeferCall.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2051.DeferCall.o $< -MF $@
+../.test-obj/test2051.DeferCall.dep : ../../../Fundamental/CCore/test/./test2051.DeferCall.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2051.DeferCall.o $< -MF $@
 
-../.test-obj/test2052.ObjectDomain.dep : ../../../Fundamental/CCore/test/test2052.ObjectDomain.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2052.ObjectDomain.o $< -MF $@
+../.test-obj/test2052.ObjectDomain.dep : ../../../Fundamental/CCore/test/./test2052.ObjectDomain.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2052.ObjectDomain.o $< -MF $@
 
-../.test-obj/test2053.StepEval.dep : ../../../Fundamental/CCore/test/test2053.StepEval.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2053.StepEval.o $< -MF $@
+../.test-obj/test2053.StepEval.dep : ../../../Fundamental/CCore/test/./test2053.StepEval.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2053.StepEval.o $< -MF $@
 
-../.test-obj/test2054.ApplyToRange.dep : ../../../Fundamental/CCore/test/test2054.ApplyToRange.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2054.ApplyToRange.o $< -MF $@
+../.test-obj/test2054.ApplyToRange.dep : ../../../Fundamental/CCore/test/./test2054.ApplyToRange.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2054.ApplyToRange.o $< -MF $@
 
-../.test-obj/test2055.ArrayInsDel.dep : ../../../Fundamental/CCore/test/test2055.ArrayInsDel.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2055.ArrayInsDel.o $< -MF $@
+../.test-obj/test2055.ArrayInsDel.dep : ../../../Fundamental/CCore/test/./test2055.ArrayInsDel.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2055.ArrayInsDel.o $< -MF $@
 
-../.test-obj/test2056.StrMap.dep : ../../../Fundamental/CCore/test/test2056.StrMap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2056.StrMap.o $< -MF $@
+../.test-obj/test2056.StrMap.dep : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2056.StrMap.o $< -MF $@
 
-../.test-obj/test2500.PrintFile.dep : ../../../Fundamental/CCore/test/test2500.PrintFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2500.PrintFile.o $< -MF $@
+../.test-obj/test2500.PrintFile.dep : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2500.PrintFile.o $< -MF $@
 
-../.test-obj/test2999.Blank.dep : ../../../Fundamental/CCore/test/test2999.Blank.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test2999.Blank.o $< -MF $@
+../.test-obj/test2999.Blank.dep : ../../../Fundamental/CCore/test/./test2999.Blank.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2999.Blank.o $< -MF $@
 
-../.test-obj/test3001.Atomic.dep : ../../../Applied/CCore/test/test3001.Atomic.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3001.Atomic.o $< -MF $@
+../.test-obj/test3001.Atomic.dep : ../../../Applied/CCore/test/./test3001.Atomic.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3001.Atomic.o $< -MF $@
 
-../.test-obj/test3002.EventRecorder.dep : ../../../Applied/CCore/test/test3002.EventRecorder.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3002.EventRecorder.o $< -MF $@
+../.test-obj/test3002.EventRecorder.dep : ../../../Applied/CCore/test/./test3002.EventRecorder.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3002.EventRecorder.o $< -MF $@
 
-../.test-obj/test3003.PerTask.dep : ../../../Applied/CCore/test/test3003.PerTask.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3003.PerTask.o $< -MF $@
+../.test-obj/test3003.PerTask.dep : ../../../Applied/CCore/test/./test3003.PerTask.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3003.PerTask.o $< -MF $@
 
-../.test-obj/test3004.Log.dep : ../../../Applied/CCore/test/test3004.Log.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3004.Log.o $< -MF $@
+../.test-obj/test3004.Log.dep : ../../../Applied/CCore/test/./test3004.Log.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3004.Log.o $< -MF $@
 
-../.test-obj/test3005.LogMem.dep : ../../../Applied/CCore/test/test3005.LogMem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3005.LogMem.o $< -MF $@
+../.test-obj/test3005.LogMem.dep : ../../../Applied/CCore/test/./test3005.LogMem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3005.LogMem.o $< -MF $@
 
-../.test-obj/test3006.TaskMemStack.dep : ../../../Applied/CCore/test/test3006.TaskMemStack.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3006.TaskMemStack.o $< -MF $@
+../.test-obj/test3006.TaskMemStack.dep : ../../../Applied/CCore/test/./test3006.TaskMemStack.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3006.TaskMemStack.o $< -MF $@
 
-../.test-obj/test3007.FileName.dep : ../../../Applied/CCore/test/test3007.FileName.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3007.FileName.o $< -MF $@
+../.test-obj/test3007.FileName.dep : ../../../Applied/CCore/test/./test3007.FileName.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3007.FileName.o $< -MF $@
 
-../.test-obj/test3008.Packet.dep : ../../../Applied/CCore/test/test3008.Packet.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3008.Packet.o $< -MF $@
+../.test-obj/test3008.Packet.dep : ../../../Applied/CCore/test/./test3008.Packet.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3008.Packet.o $< -MF $@
 
-../.test-obj/test3009.PacketSet.dep : ../../../Applied/CCore/test/test3009.PacketSet.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3009.PacketSet.o $< -MF $@
+../.test-obj/test3009.PacketSet.dep : ../../../Applied/CCore/test/./test3009.PacketSet.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3009.PacketSet.o $< -MF $@
 
-../.test-obj/test3010.CancelPacketList.dep : ../../../Applied/CCore/test/test3010.CancelPacketList.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3010.CancelPacketList.o $< -MF $@
+../.test-obj/test3010.CancelPacketList.dep : ../../../Applied/CCore/test/./test3010.CancelPacketList.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3010.CancelPacketList.o $< -MF $@
 
-../.test-obj/test3011.LineInput.dep : ../../../Applied/CCore/test/test3011.LineInput.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3011.LineInput.o $< -MF $@
+../.test-obj/test3011.LineInput.dep : ../../../Applied/CCore/test/./test3011.LineInput.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3011.LineInput.o $< -MF $@
 
-../.test-obj/test3012.CmdInput.dep : ../../../Applied/CCore/test/test3012.CmdInput.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3012.CmdInput.o $< -MF $@
+../.test-obj/test3012.CmdInput.dep : ../../../Applied/CCore/test/./test3012.CmdInput.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3012.CmdInput.o $< -MF $@
 
-../.test-obj/test3013.AES.dep : ../../../Applied/CCore/test/test3013.AES.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3013.AES.o $< -MF $@
+../.test-obj/test3013.AES.dep : ../../../Applied/CCore/test/./test3013.AES.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3013.AES.o $< -MF $@
 
-../.test-obj/test3014.AES-speed.dep : ../../../Applied/CCore/test/test3014.AES-speed.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3014.AES-speed.o $< -MF $@
+../.test-obj/test3014.AES-speed.dep : ../../../Applied/CCore/test/./test3014.AES-speed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3014.AES-speed.o $< -MF $@
 
-../.test-obj/test3015.SHA.dep : ../../../Applied/CCore/test/test3015.SHA.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3015.SHA.o $< -MF $@
+../.test-obj/test3015.SHA.dep : ../../../Applied/CCore/test/./test3015.SHA.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3015.SHA.o $< -MF $@
 
-../.test-obj/test3016.SHA-speed.dep : ../../../Applied/CCore/test/test3016.SHA-speed.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3016.SHA-speed.o $< -MF $@
+../.test-obj/test3016.SHA-speed.dep : ../../../Applied/CCore/test/./test3016.SHA-speed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3016.SHA-speed.o $< -MF $@
 
-../.test-obj/test3017.MD5.dep : ../../../Applied/CCore/test/test3017.MD5.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3017.MD5.o $< -MF $@
+../.test-obj/test3017.MD5.dep : ../../../Applied/CCore/test/./test3017.MD5.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3017.MD5.o $< -MF $@
 
-../.test-obj/test3018.IntegerSlowAlgo.dep : ../../../Applied/CCore/test/test3018.IntegerSlowAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3018.IntegerSlowAlgo.o $< -MF $@
+../.test-obj/test3018.IntegerSlowAlgo.dep : ../../../Applied/CCore/test/./test3018.IntegerSlowAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3018.IntegerSlowAlgo.o $< -MF $@
 
-../.test-obj/test3019.IntegerSlowMul.dep : ../../../Applied/CCore/test/test3019.IntegerSlowMul.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3019.IntegerSlowMul.o $< -MF $@
+../.test-obj/test3019.IntegerSlowMul.dep : ../../../Applied/CCore/test/./test3019.IntegerSlowMul.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3019.IntegerSlowMul.o $< -MF $@
 
-../.test-obj/test3020.IntegerFastAlgo.dep : ../../../Applied/CCore/test/test3020.IntegerFastAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3020.IntegerFastAlgo.o $< -MF $@
+../.test-obj/test3020.IntegerFastAlgo.dep : ../../../Applied/CCore/test/./test3020.IntegerFastAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3020.IntegerFastAlgo.o $< -MF $@
 
-../.test-obj/test3021.IntegerInverse.dep : ../../../Applied/CCore/test/test3021.IntegerInverse.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3021.IntegerInverse.o $< -MF $@
+../.test-obj/test3021.IntegerInverse.dep : ../../../Applied/CCore/test/./test3021.IntegerInverse.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3021.IntegerInverse.o $< -MF $@
 
-../.test-obj/test3022.Integer.dep : ../../../Applied/CCore/test/test3022.Integer.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3022.Integer.o $< -MF $@
+../.test-obj/test3022.Integer.dep : ../../../Applied/CCore/test/./test3022.Integer.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3022.Integer.o $< -MF $@
 
-../.test-obj/test3023.NoPrimeTest.dep : ../../../Applied/CCore/test/test3023.NoPrimeTest.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3023.NoPrimeTest.o $< -MF $@
+../.test-obj/test3023.NoPrimeTest.dep : ../../../Applied/CCore/test/./test3023.NoPrimeTest.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3023.NoPrimeTest.o $< -MF $@
 
-../.test-obj/test3024.APRTest.dep : ../../../Applied/CCore/test/test3024.APRTest.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3024.APRTest.o $< -MF $@
+../.test-obj/test3024.APRTest.dep : ../../../Applied/CCore/test/./test3024.APRTest.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3024.APRTest.o $< -MF $@
 
-../.test-obj/test3025.DHExp.dep : ../../../Applied/CCore/test/test3025.DHExp.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3025.DHExp.o $< -MF $@
+../.test-obj/test3025.DHExp.dep : ../../../Applied/CCore/test/./test3025.DHExp.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3025.DHExp.o $< -MF $@
 
-../.test-obj/test3026.Bridge.dep : ../../../Applied/CCore/test/test3026.Bridge.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3026.Bridge.o $< -MF $@
+../.test-obj/test3026.Bridge.dep : ../../../Applied/CCore/test/./test3026.Bridge.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3026.Bridge.o $< -MF $@
 
-../.test-obj/test3027.SingleBridge.dep : ../../../Applied/CCore/test/test3027.SingleBridge.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3027.SingleBridge.o $< -MF $@
+../.test-obj/test3027.SingleBridge.dep : ../../../Applied/CCore/test/./test3027.SingleBridge.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3027.SingleBridge.o $< -MF $@
 
-../.test-obj/test3028.PTP.dep : ../../../Applied/CCore/test/test3028.PTP.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3028.PTP.o $< -MF $@
+../.test-obj/test3028.PTP.dep : ../../../Applied/CCore/test/./test3028.PTP.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3028.PTP.o $< -MF $@
 
-../.test-obj/test3029.NetFork.dep : ../../../Applied/CCore/test/test3029.NetFork.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3029.NetFork.o $< -MF $@
+../.test-obj/test3029.NetFork.dep : ../../../Applied/CCore/test/./test3029.NetFork.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3029.NetFork.o $< -MF $@
 
-../.test-obj/test3030.PSec.dep : ../../../Applied/CCore/test/test3030.PSec.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3030.PSec.o $< -MF $@
+../.test-obj/test3030.PSec.dep : ../../../Applied/CCore/test/./test3030.PSec.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3030.PSec.o $< -MF $@
 
-../.test-obj/test3031.PKE.dep : ../../../Applied/CCore/test/test3031.PKE.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3031.PKE.o $< -MF $@
+../.test-obj/test3031.PKE.dep : ../../../Applied/CCore/test/./test3031.PKE.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3031.PKE.o $< -MF $@
 
-../.test-obj/test3032.FileNameMatch.dep : ../../../Applied/CCore/test/test3032.FileNameMatch.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test3032.FileNameMatch.o $< -MF $@
+../.test-obj/test3032.FileNameMatch.dep : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3032.FileNameMatch.o $< -MF $@
 
-../.test-obj/test4001.Mutex.dep : ../../../HCore/CCore/test/test4001.Mutex.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4001.Mutex.o $< -MF $@
+../.test-obj/test4001.Mutex.dep : ../../../HCore/CCore/test/./test4001.Mutex.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4001.Mutex.o $< -MF $@
 
-../.test-obj/test4002.Sem.dep : ../../../HCore/CCore/test/test4002.Sem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4002.Sem.o $< -MF $@
+../.test-obj/test4002.Sem.dep : ../../../HCore/CCore/test/./test4002.Sem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4002.Sem.o $< -MF $@
 
-../.test-obj/test4003.Event.dep : ../../../HCore/CCore/test/test4003.Event.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4003.Event.o $< -MF $@
+../.test-obj/test4003.Event.dep : ../../../HCore/CCore/test/./test4003.Event.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4003.Event.o $< -MF $@
 
-../.test-obj/test4004.AntiSem.dep : ../../../HCore/CCore/test/test4004.AntiSem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4004.AntiSem.o $< -MF $@
+../.test-obj/test4004.AntiSem.dep : ../../../HCore/CCore/test/./test4004.AntiSem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4004.AntiSem.o $< -MF $@
 
-../.test-obj/test4005.MultiSem.dep : ../../../HCore/CCore/test/test4005.MultiSem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4005.MultiSem.o $< -MF $@
+../.test-obj/test4005.MultiSem.dep : ../../../HCore/CCore/test/./test4005.MultiSem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4005.MultiSem.o $< -MF $@
 
-../.test-obj/test4006.MultiEvent.dep : ../../../HCore/CCore/test/test4006.MultiEvent.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4006.MultiEvent.o $< -MF $@
+../.test-obj/test4006.MultiEvent.dep : ../../../HCore/CCore/test/./test4006.MultiEvent.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4006.MultiEvent.o $< -MF $@
 
-../.test-obj/test4007.Sem-speed.dep : ../../../HCore/CCore/test/test4007.Sem-speed.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4007.Sem-speed.o $< -MF $@
+../.test-obj/test4007.Sem-speed.dep : ../../../HCore/CCore/test/./test4007.Sem-speed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4007.Sem-speed.o $< -MF $@
 
-../.test-obj/test4008.PageHeap.dep : ../../../HCore/CCore/test/test4008.PageHeap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4008.PageHeap.o $< -MF $@
+../.test-obj/test4008.PageHeap.dep : ../../../HCore/CCore/test/./test4008.PageHeap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4008.PageHeap.o $< -MF $@
 
-../.test-obj/test4009.Task.dep : ../../../HCore/CCore/test/test4009.Task.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4009.Task.o $< -MF $@
+../.test-obj/test4009.Task.dep : ../../../HCore/CCore/test/./test4009.Task.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4009.Task.o $< -MF $@
 
-../.test-obj/test4010.TaskSleep.dep : ../../../HCore/CCore/test/test4010.TaskSleep.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4010.TaskSleep.o $< -MF $@
+../.test-obj/test4010.TaskSleep.dep : ../../../HCore/CCore/test/./test4010.TaskSleep.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4010.TaskSleep.o $< -MF $@
 
-../.test-obj/test4011.ReadCon.dep : ../../../HCore/CCore/test/test4011.ReadCon.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4011.ReadCon.o $< -MF $@
+../.test-obj/test4011.ReadCon.dep : ../../../HCore/CCore/test/./test4011.ReadCon.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4011.ReadCon.o $< -MF $@
 
-../.test-obj/test4012.FileSystem.dep : ../../../HCore/CCore/test/test4012.FileSystem.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4012.FileSystem.o $< -MF $@
+../.test-obj/test4012.FileSystem.dep : ../../../HCore/CCore/test/./test4012.FileSystem.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4012.FileSystem.o $< -MF $@
 
-../.test-obj/test4013.DirTreeRun.dep : ../../../HCore/CCore/test/test4013.DirTreeRun.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4013.DirTreeRun.o $< -MF $@
+../.test-obj/test4013.DirTreeRun.dep : ../../../HCore/CCore/test/./test4013.DirTreeRun.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4013.DirTreeRun.o $< -MF $@
 
-../.test-obj/test4014.SysFile.dep : ../../../HCore/CCore/test/test4014.SysFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4014.SysFile.o $< -MF $@
+../.test-obj/test4014.SysFile.dep : ../../../HCore/CCore/test/./test4014.SysFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4014.SysFile.o $< -MF $@
 
-../.test-obj/test4015.SysAltFile.dep : ../../../HCore/CCore/test/test4015.SysAltFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4015.SysAltFile.o $< -MF $@
+../.test-obj/test4015.SysAltFile.dep : ../../../HCore/CCore/test/./test4015.SysAltFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4015.SysAltFile.o $< -MF $@
 
-../.test-obj/test4016.PrintFile.dep : ../../../HCore/CCore/test/test4016.PrintFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4016.PrintFile.o $< -MF $@
+../.test-obj/test4016.PrintFile.dep : ../../../HCore/CCore/test/./test4016.PrintFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4016.PrintFile.o $< -MF $@
 
-../.test-obj/test4017.ScanFile.dep : ../../../HCore/CCore/test/test4017.ScanFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4017.ScanFile.o $< -MF $@
+../.test-obj/test4017.ScanFile.dep : ../../../HCore/CCore/test/./test4017.ScanFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4017.ScanFile.o $< -MF $@
 
-../.test-obj/test4018.BinaryFile.dep : ../../../HCore/CCore/test/test4018.BinaryFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4018.BinaryFile.o $< -MF $@
+../.test-obj/test4018.BinaryFile.dep : ../../../HCore/CCore/test/./test4018.BinaryFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4018.BinaryFile.o $< -MF $@
 
-../.test-obj/test4019.TaskHeap.dep : ../../../HCore/CCore/test/test4019.TaskHeap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4019.TaskHeap.o $< -MF $@
+../.test-obj/test4019.TaskHeap.dep : ../../../HCore/CCore/test/./test4019.TaskHeap.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4019.TaskHeap.o $< -MF $@
 
-../.test-obj/test4020.NamesCrc.dep : ../../../HCore/CCore/test/test4020.NamesCrc.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4020.NamesCrc.o $< -MF $@
+../.test-obj/test4020.NamesCrc.dep : ../../../HCore/CCore/test/./test4020.NamesCrc.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4020.NamesCrc.o $< -MF $@
 
-../.test-obj/test4021.AsyncFile.dep : ../../../HCore/CCore/test/test4021.AsyncFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4021.AsyncFile.o $< -MF $@
+../.test-obj/test4021.AsyncFile.dep : ../../../HCore/CCore/test/./test4021.AsyncFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4021.AsyncFile.o $< -MF $@
 
-../.test-obj/test4022.ScanAsyncFile.dep : ../../../HCore/CCore/test/test4022.ScanAsyncFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4022.ScanAsyncFile.o $< -MF $@
+../.test-obj/test4022.ScanAsyncFile.dep : ../../../HCore/CCore/test/./test4022.ScanAsyncFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4022.ScanAsyncFile.o $< -MF $@
 
-../.test-obj/test4023.UDP.dep : ../../../HCore/CCore/test/test4023.UDP.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4023.UDP.o $< -MF $@
+../.test-obj/test4023.UDP.dep : ../../../HCore/CCore/test/./test4023.UDP.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4023.UDP.o $< -MF $@
 
-../.test-obj/test4024.UDPEcho.dep : ../../../HCore/CCore/test/test4024.UDPEcho.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4024.UDPEcho.o $< -MF $@
+../.test-obj/test4024.UDPEcho.dep : ../../../HCore/CCore/test/./test4024.UDPEcho.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4024.UDPEcho.o $< -MF $@
 
-../.test-obj/test4025.AsyncUDP.dep : ../../../HCore/CCore/test/test4025.AsyncUDP.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4025.AsyncUDP.o $< -MF $@
+../.test-obj/test4025.AsyncUDP.dep : ../../../HCore/CCore/test/./test4025.AsyncUDP.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4025.AsyncUDP.o $< -MF $@
 
-../.test-obj/test4026.PTPEcho.dep : ../../../HCore/CCore/test/test4026.PTPEcho.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4026.PTPEcho.o $< -MF $@
+../.test-obj/test4026.PTPEcho.dep : ../../../HCore/CCore/test/./test4026.PTPEcho.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4026.PTPEcho.o $< -MF $@
 
-../.test-obj/test4027.PTPServer.dep : ../../../HCore/CCore/test/test4027.PTPServer.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4027.PTPServer.o $< -MF $@
+../.test-obj/test4027.PTPServer.dep : ../../../HCore/CCore/test/./test4027.PTPServer.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4027.PTPServer.o $< -MF $@
 
-../.test-obj/test4028.PTPServer.ConWrite.dep : ../../../HCore/CCore/test/test4028.PTPServer.ConWrite.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4028.PTPServer.ConWrite.o $< -MF $@
+../.test-obj/test4028.PTPServer.ConWrite.dep : ../../../HCore/CCore/test/./test4028.PTPServer.ConWrite.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4028.PTPServer.ConWrite.o $< -MF $@
 
-../.test-obj/test4029.PSec.dep : ../../../HCore/CCore/test/test4029.PSec.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4029.PSec.o $< -MF $@
+../.test-obj/test4029.PSec.dep : ../../../HCore/CCore/test/./test4029.PSec.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4029.PSec.o $< -MF $@
 
-../.test-obj/test4030.PKE.dep : ../../../HCore/CCore/test/test4030.PKE.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4030.PKE.o $< -MF $@
+../.test-obj/test4030.PKE.dep : ../../../HCore/CCore/test/./test4030.PKE.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4030.PKE.o $< -MF $@
 
-../.test-obj/test4031.PTPSec.dep : ../../../HCore/CCore/test/test4031.PTPSec.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4031.PTPSec.o $< -MF $@
+../.test-obj/test4031.PTPSec.dep : ../../../HCore/CCore/test/./test4031.PTPSec.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4031.PTPSec.o $< -MF $@
 
-../.test-obj/test4032.DelDirRecursive.dep : ../../../HCore/CCore/test/test4032.DelDirRecursive.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test4032.DelDirRecursive.o $< -MF $@
+../.test-obj/test4032.DelDirRecursive.dep : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4032.DelDirRecursive.o $< -MF $@
 
-../.test-obj/test6001.Atomic.dep : ../../../Target/WIN64/CCore/test/test6001.Atomic.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6001.Atomic.o $< -MF $@
+../.test-obj/test6001.Atomic.dep : ../../../Target/WIN64/CCore/test/./test6001.Atomic.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6001.Atomic.o $< -MF $@
 
-../.test-obj/test6002.WIN64.dep : ../../../Target/WIN64/CCore/test/test6002.WIN64.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6002.WIN64.o $< -MF $@
+../.test-obj/test6002.WIN64.dep : ../../../Target/WIN64/CCore/test/./test6002.WIN64.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6002.WIN64.o $< -MF $@
 
-../.test-obj/test6003.Blank.dep : ../../../Target/WIN64/CCore/test/test6003.Blank.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6003.Blank.o $< -MF $@
+../.test-obj/test6003.Blank.dep : ../../../Target/WIN64/CCore/test/./test6003.Blank.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6003.Blank.o $< -MF $@
 
-../.test-obj/test6004.IntegerFastAlgo.dep : ../../../Target/WIN64/CCore/test/test6004.IntegerFastAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6004.IntegerFastAlgo.o $< -MF $@
+../.test-obj/test6004.IntegerFastAlgo.dep : ../../../Target/WIN64/CCore/test/./test6004.IntegerFastAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6004.IntegerFastAlgo.o $< -MF $@
 
-../.test-obj/test6005.IntelRandom.dep : ../../../Target/WIN64/CCore/test/test6005.IntelRandom.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6005.IntelRandom.o $< -MF $@
+../.test-obj/test6005.IntelRandom.dep : ../../../Target/WIN64/CCore/test/./test6005.IntelRandom.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6005.IntelRandom.o $< -MF $@
 
-../.test-obj/test6006.IntelAES.dep : ../../../Target/WIN64/CCore/test/test6006.IntelAES.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6006.IntelAES.o $< -MF $@
+../.test-obj/test6006.IntelAES.dep : ../../../Target/WIN64/CCore/test/./test6006.IntelAES.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6006.IntelAES.o $< -MF $@
 
-../.test-obj/test6007.MemAlloc.dep : ../../../Target/WIN64/CCore/test/test6007.MemAlloc.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6007.MemAlloc.o $< -MF $@
+../.test-obj/test6007.MemAlloc.dep : ../../../Target/WIN64/CCore/test/./test6007.MemAlloc.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6007.MemAlloc.o $< -MF $@
 
-../.test-obj/test6008.Time.dep : ../../../Target/WIN64/CCore/test/test6008.Time.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6008.Time.o $< -MF $@
+../.test-obj/test6008.Time.dep : ../../../Target/WIN64/CCore/test/./test6008.Time.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6008.Time.o $< -MF $@
 
-../.test-obj/test6009.SysFile.dep : ../../../Target/WIN64/CCore/test/test6009.SysFile.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6009.SysFile.o $< -MF $@
+../.test-obj/test6009.SysFile.dep : ../../../Target/WIN64/CCore/test/./test6009.SysFile.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6009.SysFile.o $< -MF $@
 
-../.test-obj/test6010.Quick.dep : ../../../Target/WIN64/CCore/test/test6010.Quick.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6010.Quick.o $< -MF $@
+../.test-obj/test6010.Quick.dep : ../../../Target/WIN64/CCore/test/./test6010.Quick.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6010.Quick.o $< -MF $@
 
-../.test-obj/test6011.Char.dep : ../../../Target/WIN64/CCore/test/test6011.Char.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/test6011.Char.o $< -MF $@
+../.test-obj/test6011.Char.dep : ../../../Target/WIN64/CCore/test/./test6011.Char.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6011.Char.o $< -MF $@
 
-../.test-obj/testArray.dep : ../../../Fundamental/CCore/test/testArray.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testArray.o $< -MF $@
+../.test-obj/testArray.dep : ../../../Fundamental/CCore/test/./testArray.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testArray.o $< -MF $@
 
-../.test-obj/testInt.dep : ../../../Applied/CCore/test/testInt.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testInt.o $< -MF $@
+../.test-obj/testInt.dep : ../../../Applied/CCore/test/./testInt.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testInt.o $< -MF $@
 
-../.test-obj/testIntAlgo.dep : ../../../Applied/CCore/test/testIntAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testIntAlgo.o $< -MF $@
+../.test-obj/testIntAlgo.dep : ../../../Applied/CCore/test/./testIntAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testIntAlgo.o $< -MF $@
 
-../.test-obj/testIntBase.dep : ../../../Applied/CCore/test/testIntBase.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testIntBase.o $< -MF $@
+../.test-obj/testIntBase.dep : ../../../Applied/CCore/test/./testIntBase.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testIntBase.o $< -MF $@
 
-../.test-obj/testNet.dep : ../../../Applied/CCore/test/testNet.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testNet.o $< -MF $@
+../.test-obj/testNet.dep : ../../../Applied/CCore/test/./testNet.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testNet.o $< -MF $@
 
-../.test-obj/testPrint.dep : ../../../HCore/CCore/test/testPrint.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testPrint.o $< -MF $@
+../.test-obj/testPrint.dep : ../../../HCore/CCore/test/./testPrint.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testPrint.o $< -MF $@
 
-../.test-obj/testRun.dep : ../../../Fundamental/CCore/test/testRun.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/testRun.o $< -MF $@
+../.test-obj/testRun.dep : ../../../Fundamental/CCore/test/./testRun.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testRun.o $< -MF $@
 
 
 

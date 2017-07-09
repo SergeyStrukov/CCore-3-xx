@@ -1,13 +1,13 @@
 # Makefile
 #----------------------------------------------------------------------------------------
 #
-#  Project: MakeList 1.00
+#  Project: MakeList 2.00
 #
 #  License: Boost Software License - Version 1.0 - August 17th, 2003 
 #
 #            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 #
-#  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+#  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 #
 #----------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ TARGET = $(HOME)/bin/CCore-MakeList.exe
 include $(CCORE_ROOT)/Target/Makefile.app
 
 run: $(TARGET)
-	$(TARGET) .obj Makefile.cpp-files Makefile.s-files
+	$(TARGET) .obj -s .
 
 
 
