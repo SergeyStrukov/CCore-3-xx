@@ -51,6 +51,23 @@ The second is the name of the file with a <b>.cpp</b> file list.
 The third is the name of the file with a <b>.s</b> file list.
 </p>
 
+<pre>
+
+OR
+
+CCore-MakeList.exe &lt;obj-path&gt; -s &lt;dir<sub>1</sub>&gt; ... &lt;dir<sub>n</sub>&gt;
+
+</pre>
+
+<p>
+The first command line parameter is the <b>obj</b> path.
+</p>
+
+<p>
+After the option <b>-s</b> the directory list of source files follows. 
+These directories are searched recursively to build the source file lists (<b>*.cpp</b> files and <b>*.s</b> files).
+</p>
+
 <p>
 The utility creates the output file <b>Makefile.files</b>. It looks like:
 </p>

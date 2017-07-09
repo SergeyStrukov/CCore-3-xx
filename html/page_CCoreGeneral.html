@@ -55,7 +55,7 @@ So to include a <b>CCore</b> header write
 </pre>
 
 <p>
-Each <b>CCore</b> .h file has a correspondent .cpp file, even if it defines nothing.
+Each <b>CCore</b> <b>.h</b> file has a correspondent <b>.cpp</b> file, even if it defines nothing.
 </p>
 
 <p>
@@ -71,10 +71,10 @@ Each target is either <b>HCore</b> or <b>XCore</b> target, so it includes only o
 <p>
 To create a <b>CCore</b>-based project select a directory for it. Then place in this directory 
 (or in subdirectories) a source code. Two source files must not have the same name, even if they 
-are in different subdirectories. You may use files with extension ".cpp" for C++ source files
-ans ".s" for assembler source files.
+are in different subdirectories. You may use files with extension <b>".cpp"</b> for C++ source files
+ans <b>".s"</b> for assembler source files.
 Create the <b>Makefile</b>. Select and create a subdirectory for 
-object files (and other intermediate files), usually <b>obj</b>. Then issue the command <b>make</b>
+object files (and other intermediate files), usually <b>.obj</b>. Then issue the command <b>make</b>
 from the <b>Cygwin</b> console. If you change the source file set, then issue the command <b>make list</b>.
 </p>
 
@@ -113,12 +113,12 @@ You have to define the following variables.
 
 <p>
 <b>OBJ_PATH</b> is the path to the object file directory. This variable can be omitted, in this case
-the default value ".obj" is used.
+the default value <b>".obj"</b> is used.
 </p>
 
 <p>
 <b>TARGET</b> is the application file name. This variable can be omitted, in this case the default value
-"main.exe" is used.
+<b>"main.exe"</b> is used.
 </p>
 
 <p>
@@ -138,7 +138,7 @@ There are additional optional variables you may define.
 </p>
 
 <p>
-<b>SRC_PATH_LIST</b> &mdash; the list of source file directories. It is "." by default.
+<b>SRC_PATH_LIST</b> &mdash; the list of source file directories. It is <b>"."</b> by default.
 </p>
 
 <p>
