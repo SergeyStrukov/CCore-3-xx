@@ -124,7 +124,7 @@ void AppState::save(StrLen file_name) const
 
   for(const String &s : recent_files ) Printf(out,"#;   #;",stem,DDLPrintableString(Range(s)));
 
-  Printf(out,"  }\n\n");
+  Printf(out,"\n  }\n\n");
 
   Printf(out," };\n\n");
  }
