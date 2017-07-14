@@ -432,9 +432,10 @@ Dir Dir7=
    'Labs',
    Ignore,
    {
+    &Dir20,
+    &Dir21
    },
    {
-    { 'empty' , New }
    }
   };
 
@@ -443,7 +444,7 @@ Dir Dir8=
    'Simple',
    Red,
    {
-    &Dir20
+    &Dir22
    },
    {
    }
@@ -454,8 +455,6 @@ Dir Dir9=
    'tools',
    Red,
    {
-    &Dir21,
-    &Dir22,
     &Dir23,
     &Dir24,
     &Dir25,
@@ -470,7 +469,9 @@ Dir Dir9=
     &Dir34,
     &Dir35,
     &Dir36,
-    &Dir37
+    &Dir37,
+    &Dir38,
+    &Dir39
    },
    {
     { 'Makefile' , Ignore }
@@ -482,7 +483,7 @@ Dir Dir10=
    'txt',
    Ignore,
    {
-    &Dir38
+    &Dir40
    },
    {
     { 'testXXXX.cpp' , Ignore },
@@ -500,12 +501,12 @@ Dir Dir11=
    'Target',
    Red,
    {
-    &Dir39,
-    &Dir40,
     &Dir41,
     &Dir42,
     &Dir43,
-    &Dir44
+    &Dir44,
+    &Dir45,
+    &Dir46
    },
    {
     { 'Makefile.app' , Ignore },
@@ -522,13 +523,13 @@ Dir Dir12=
    'vtools',
    Red,
    {
-    &Dir45,
-    &Dir46,
     &Dir47,
     &Dir48,
     &Dir49,
     &Dir50,
-    &Dir51
+    &Dir51,
+    &Dir52,
+    &Dir53
    },
    {
     { 'Makefile' , Ignore }
@@ -551,7 +552,7 @@ Dir Dir14=
    'XCore',
    Red,
    {
-    &Dir52
+    &Dir54
    },
    {
    }
@@ -562,21 +563,19 @@ Dir Dir15=
    'CCore',
    Red,
    {
-    &Dir53,
-    &Dir54,
-    &Dir55
+    &Dir55,
+    &Dir56,
+    &Dir57
    },
    {
    }
   };
 
-Dir Dir53=
+Dir Dir55=
   {
    'inc',
    Red,
    {
-    &Dir56,
-    &Dir57,
     &Dir58,
     &Dir59,
     &Dir60,
@@ -584,7 +583,9 @@ Dir Dir53=
     &Dir62,
     &Dir63,
     &Dir64,
-    &Dir65
+    &Dir65,
+    &Dir66,
+    &Dir67
    },
    {
     { 'AsyncBinaryFile.h' , Green },
@@ -609,13 +610,11 @@ Dir Dir53=
    }
   };
 
-Dir Dir54=
+Dir Dir56=
   {
    'src',
    Red,
    {
-    &Dir66,
-    &Dir67,
     &Dir68,
     &Dir69,
     &Dir70,
@@ -623,7 +622,9 @@ Dir Dir54=
     &Dir72,
     &Dir73,
     &Dir74,
-    &Dir75
+    &Dir75,
+    &Dir76,
+    &Dir77
    },
    {
     { 'AsyncBinaryFile.cpp' , Green },
@@ -650,7 +651,7 @@ Dir Dir54=
    }
   };
 
-Dir Dir55=
+Dir Dir57=
   {
    'test',
    Ignore,
@@ -700,7 +701,7 @@ Dir Dir55=
    }
   };
 
-Dir Dir56=
+Dir Dir58=
   {
    'crypton',
    Green,
@@ -721,7 +722,7 @@ Dir Dir56=
    }
   };
 
-Dir Dir57=
+Dir Dir59=
   {
    'ddl',
    Red,
@@ -749,7 +750,7 @@ Dir Dir57=
    }
   };
 
-Dir Dir58=
+Dir Dir60=
   {
    'lang',
    Green,
@@ -762,7 +763,7 @@ Dir Dir58=
    }
   };
 
-Dir Dir59=
+Dir Dir61=
   {
    'math',
    Red,
@@ -780,7 +781,7 @@ Dir Dir59=
    }
   };
 
-Dir Dir60=
+Dir Dir62=
   {
    'net',
    Red,
@@ -820,7 +821,7 @@ Dir Dir60=
    }
   };
 
-Dir Dir61=
+Dir Dir63=
   {
    'print',
    Green,
@@ -832,7 +833,7 @@ Dir Dir61=
    }
   };
 
-Dir Dir62=
+Dir Dir64=
   {
    'scan',
    Green,
@@ -843,7 +844,7 @@ Dir Dir62=
    }
   };
 
-Dir Dir63=
+Dir Dir65=
   {
    'sys',
    Green,
@@ -855,7 +856,7 @@ Dir Dir63=
    }
   };
 
-Dir Dir64=
+Dir Dir66=
   {
    'task',
    Green,
@@ -868,7 +869,7 @@ Dir Dir64=
    }
   };
 
-Dir Dir65=
+Dir Dir67=
   {
    'video',
    Red,
@@ -887,7 +888,7 @@ Dir Dir65=
    }
   };
 
-Dir Dir66=
+Dir Dir68=
   {
    'crypton',
    Green,
@@ -905,7 +906,7 @@ Dir Dir66=
    }
   };
 
-Dir Dir67=
+Dir Dir69=
   {
    'ddl',
    Red,
@@ -936,7 +937,7 @@ Dir Dir67=
    }
   };
 
-Dir Dir68=
+Dir Dir70=
   {
    'lang',
    Green,
@@ -948,7 +949,7 @@ Dir Dir68=
    }
   };
 
-Dir Dir69=
+Dir Dir71=
   {
    'math',
    Red,
@@ -966,7 +967,7 @@ Dir Dir69=
    }
   };
 
-Dir Dir70=
+Dir Dir72=
   {
    'net',
    Red,
@@ -1006,7 +1007,7 @@ Dir Dir70=
    }
   };
 
-Dir Dir71=
+Dir Dir73=
   {
    'print',
    Green,
@@ -1018,7 +1019,7 @@ Dir Dir71=
    }
   };
 
-Dir Dir72=
+Dir Dir74=
   {
    'scan',
    Green,
@@ -1029,7 +1030,7 @@ Dir Dir72=
    }
   };
 
-Dir Dir73=
+Dir Dir75=
   {
    'sys',
    Green,
@@ -1041,7 +1042,7 @@ Dir Dir73=
    }
   };
 
-Dir Dir74=
+Dir Dir76=
   {
    'task',
    Green,
@@ -1054,7 +1055,7 @@ Dir Dir74=
    }
   };
 
-Dir Dir75=
+Dir Dir77=
   {
    'video',
    Red,
@@ -1078,30 +1079,8 @@ Dir Dir16=
    'CCore',
    Red,
    {
-    &Dir76,
-    &Dir77,
-    &Dir78
-   },
-   {
-   }
-  };
-
-Dir Dir76=
-  {
-   'inc',
-   Red,
-   {
-    &Dir79
-   },
-   {
-   }
-  };
-
-Dir Dir77=
-  {
-   'src',
-   Red,
-   {
+    &Dir78,
+    &Dir79,
     &Dir80
    },
    {
@@ -1109,6 +1088,28 @@ Dir Dir77=
   };
 
 Dir Dir78=
+  {
+   'inc',
+   Red,
+   {
+    &Dir81
+   },
+   {
+   }
+  };
+
+Dir Dir79=
+  {
+   'src',
+   Red,
+   {
+    &Dir82
+   },
+   {
+   }
+  };
+
+Dir Dir80=
   {
    'test',
    Ignore,
@@ -1130,13 +1131,13 @@ Dir Dir78=
    }
   };
 
-Dir Dir79=
+Dir Dir81=
   {
    'video',
    Red,
    {
-    &Dir81,
-    &Dir82
+    &Dir83,
+    &Dir84
    },
    {
     { 'ApplicationBase.h' , Red },
@@ -1191,7 +1192,7 @@ Dir Dir79=
    }
   };
 
-Dir Dir81=
+Dir Dir83=
   {
    'lib',
    Red,
@@ -1239,7 +1240,7 @@ Dir Dir81=
    }
   };
 
-Dir Dir82=
+Dir Dir84=
   {
    'pref',
    Red,
@@ -1255,13 +1256,13 @@ Dir Dir82=
    }
   };
 
-Dir Dir80=
+Dir Dir82=
   {
    'video',
    Red,
    {
-    &Dir83,
-    &Dir84
+    &Dir85,
+    &Dir86
    },
    {
     { 'ApplicationBase.cpp' , Red },
@@ -1323,7 +1324,7 @@ Dir Dir80=
    }
   };
 
-Dir Dir83=
+Dir Dir85=
   {
    'lib',
    Red,
@@ -1371,7 +1372,7 @@ Dir Dir83=
    }
   };
 
-Dir Dir84=
+Dir Dir86=
   {
    'pref',
    Red,
@@ -1392,26 +1393,26 @@ Dir Dir17=
    'CCore',
    Green,
    {
-    &Dir85,
-    &Dir86,
-    &Dir87
+    &Dir87,
+    &Dir88,
+    &Dir89
    },
    {
    }
   };
 
-Dir Dir85=
+Dir Dir87=
   {
    'inc',
    Green,
    {
-    &Dir88,
-    &Dir89,
     &Dir90,
     &Dir91,
     &Dir92,
     &Dir93,
-    &Dir94
+    &Dir94,
+    &Dir95,
+    &Dir96
    },
    {
     { 'Array.h' , Green },
@@ -1465,18 +1466,18 @@ Dir Dir85=
    }
   };
 
-Dir Dir86=
+Dir Dir88=
   {
    'src',
    Green,
    {
-    &Dir95,
-    &Dir96,
     &Dir97,
     &Dir98,
     &Dir99,
     &Dir100,
-    &Dir101
+    &Dir101,
+    &Dir102,
+    &Dir103
    },
    {
     { 'Array.cpp' , Green },
@@ -1529,7 +1530,7 @@ Dir Dir86=
    }
   };
 
-Dir Dir87=
+Dir Dir89=
   {
    'test',
    Ignore,
@@ -1603,7 +1604,7 @@ Dir Dir87=
    }
   };
 
-Dir Dir88=
+Dir Dir90=
   {
    'algon',
    Green,
@@ -1624,7 +1625,7 @@ Dir Dir88=
    }
   };
 
-Dir Dir89=
+Dir Dir91=
   {
    'array',
    Green,
@@ -1644,7 +1645,7 @@ Dir Dir89=
    }
   };
 
-Dir Dir90=
+Dir Dir92=
   {
    'math',
    Green,
@@ -1655,7 +1656,7 @@ Dir Dir90=
    }
   };
 
-Dir Dir91=
+Dir Dir93=
   {
    'printf',
    Green,
@@ -1669,7 +1670,7 @@ Dir Dir91=
    }
   };
 
-Dir Dir92=
+Dir Dir94=
   {
    'scanf',
    Green,
@@ -1684,7 +1685,7 @@ Dir Dir92=
    }
   };
 
-Dir Dir93=
+Dir Dir95=
   {
    'sort',
    Green,
@@ -1699,7 +1700,7 @@ Dir Dir93=
    }
   };
 
-Dir Dir94=
+Dir Dir96=
   {
    'tree',
    Green,
@@ -1715,7 +1716,7 @@ Dir Dir94=
    }
   };
 
-Dir Dir95=
+Dir Dir97=
   {
    'algon',
    Green,
@@ -1736,7 +1737,7 @@ Dir Dir95=
    }
   };
 
-Dir Dir96=
+Dir Dir98=
   {
    'array',
    Green,
@@ -1756,7 +1757,7 @@ Dir Dir96=
    }
   };
 
-Dir Dir97=
+Dir Dir99=
   {
    'math',
    Green,
@@ -1767,7 +1768,7 @@ Dir Dir97=
    }
   };
 
-Dir Dir98=
+Dir Dir100=
   {
    'printf',
    Green,
@@ -1781,7 +1782,7 @@ Dir Dir98=
    }
   };
 
-Dir Dir99=
+Dir Dir101=
   {
    'scanf',
    Green,
@@ -1796,7 +1797,7 @@ Dir Dir99=
    }
   };
 
-Dir Dir100=
+Dir Dir102=
   {
    'sort',
    Green,
@@ -1811,7 +1812,7 @@ Dir Dir100=
    }
   };
 
-Dir Dir101=
+Dir Dir103=
   {
    'tree',
    Green,
@@ -1832,9 +1833,9 @@ Dir Dir18=
    'CCore',
    Green,
    {
-    &Dir102,
-    &Dir103,
-    &Dir104
+    &Dir104,
+    &Dir105,
+    &Dir106
    },
    {
    }
@@ -1851,15 +1852,15 @@ Dir Dir19=
    }
   };
 
-Dir Dir102=
+Dir Dir104=
   {
    'inc',
    Green,
    {
-    &Dir105,
-    &Dir106,
     &Dir107,
-    &Dir108
+    &Dir108,
+    &Dir109,
+    &Dir110
    },
    {
     { 'AsyncFileDevice.h' , Green },
@@ -1877,15 +1878,15 @@ Dir Dir102=
    }
   };
 
-Dir Dir103=
+Dir Dir105=
   {
    'src',
    Green,
    {
-    &Dir109,
-    &Dir110,
     &Dir111,
-    &Dir112
+    &Dir112,
+    &Dir113,
+    &Dir114
    },
    {
     { 'Abort.cpp' , Green },
@@ -1905,7 +1906,7 @@ Dir Dir103=
    }
   };
 
-Dir Dir104=
+Dir Dir106=
   {
    'test',
    Ignore,
@@ -1949,7 +1950,7 @@ Dir Dir104=
    }
   };
 
-Dir Dir105=
+Dir Dir107=
   {
    'net',
    Green,
@@ -1961,7 +1962,7 @@ Dir Dir105=
    }
   };
 
-Dir Dir106=
+Dir Dir108=
   {
    'print',
    Green,
@@ -1973,7 +1974,7 @@ Dir Dir106=
    }
   };
 
-Dir Dir107=
+Dir Dir109=
   {
    'scan',
    Green,
@@ -1984,7 +1985,7 @@ Dir Dir107=
    }
   };
 
-Dir Dir108=
+Dir Dir110=
   {
    'task',
    Green,
@@ -2006,7 +2007,7 @@ Dir Dir108=
    }
   };
 
-Dir Dir109=
+Dir Dir111=
   {
    'net',
    Green,
@@ -2018,7 +2019,7 @@ Dir Dir109=
    }
   };
 
-Dir Dir110=
+Dir Dir112=
   {
    'print',
    Green,
@@ -2030,7 +2031,7 @@ Dir Dir110=
    }
   };
 
-Dir Dir111=
+Dir Dir113=
   {
    'scan',
    Green,
@@ -2041,7 +2042,7 @@ Dir Dir111=
    }
   };
 
-Dir Dir112=
+Dir Dir114=
   {
    'task',
    Green,
@@ -2065,23 +2066,52 @@ Dir Dir112=
 
 Dir Dir20=
   {
+   'Interface',
+   New,
+   {
+   },
+   {
+    { 'Makefile' , New },
+    { 'main.cpp' , New },
+    { 'main.exe' , New },
+    { 'Makefile.files' , New },
+    { 'ProxyModel.h' , New }
+   }
+  };
+
+Dir Dir21=
+  {
+   'LikeType',
+   New,
+   {
+   },
+   {
+    { 'Makefile' , New },
+    { 'main.cpp' , New },
+    { 'main.exe' , New },
+    { 'Makefile.files' , New }
+   }
+  };
+
+Dir Dir22=
+  {
    'CCore',
    Red,
    {
-    &Dir113,
-    &Dir114,
-    &Dir115
+    &Dir115,
+    &Dir116,
+    &Dir117
    },
    {
    }
   };
 
-Dir Dir113=
+Dir Dir115=
   {
    'inc',
    Red,
    {
-    &Dir116
+    &Dir118
    },
    {
     { 'Abort.h' , Green },
@@ -2129,13 +2159,13 @@ Dir Dir113=
    }
   };
 
-Dir Dir114=
+Dir Dir116=
   {
    'src',
    Green,
    {
-    &Dir117,
-    &Dir118
+    &Dir119,
+    &Dir120
    },
    {
     { 'AbortMsgFunc.cpp' , Green },
@@ -2183,7 +2213,7 @@ Dir Dir114=
    }
   };
 
-Dir Dir115=
+Dir Dir117=
   {
    'test',
    Ignore,
@@ -2227,7 +2257,7 @@ Dir Dir115=
    }
   };
 
-Dir Dir116=
+Dir Dir118=
   {
    'gadget',
    Red,
@@ -2267,7 +2297,7 @@ Dir Dir116=
    }
   };
 
-Dir Dir117=
+Dir Dir119=
   {
    'base',
    Green,
@@ -2278,7 +2308,7 @@ Dir Dir117=
    }
   };
 
-Dir Dir118=
+Dir Dir120=
   {
    'gadget',
    Green,
@@ -2318,17 +2348,17 @@ Dir Dir118=
    }
   };
 
-Dir Dir21=
+Dir Dir23=
   {
    'CondLangLR1',
    Red,
    {
-    &Dir119,
-    &Dir120,
     &Dir121,
     &Dir122,
     &Dir123,
-    &Dir124
+    &Dir124,
+    &Dir125,
+    &Dir126
    },
    {
     { 'LangTypes.ddl' , Ignore },
@@ -2337,23 +2367,21 @@ Dir Dir21=
    }
   };
 
-Dir Dir22=
+Dir Dir24=
   {
    'DDLShow',
    Green,
    {
-    &Dir125
+    &Dir127
    },
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir23=
+Dir Dir25=
   {
    'DDLTypeSet',
    Green,
@@ -2362,15 +2390,13 @@ Dir Dir23=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'TypeDef.gen.h' , Ignore },
-    { 'TypeSet.gen.h' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'TypeSet.gen.h' , Ignore }
    }
   };
 
-Dir Dir24=
+Dir Dir26=
   {
    'exectest',
    Green,
@@ -2379,13 +2405,11 @@ Dir Dir24=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir25=
+Dir Dir27=
   {
    'EchoServer',
    Green,
@@ -2394,13 +2418,11 @@ Dir Dir25=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir26=
+Dir Dir28=
   {
    'EllipticPi',
    Green,
@@ -2410,11 +2432,9 @@ Dir Dir26=
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
     { 'SimpleSpan.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'SimpleSpan.h' , Green },
-    { 'Makefile.s-files' , Ignore },
     { 'pi1000.txt' , Ignore },
     { 'pi10000.txt' , Ignore },
     { 'pi100000.txt' , Ignore },
@@ -2424,7 +2444,7 @@ Dir Dir26=
    }
   };
 
-Dir Dir27=
+Dir Dir29=
   {
    'GammaCorrect',
    Green,
@@ -2433,14 +2453,12 @@ Dir Dir27=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
     { 'test.txt' , Ignore }
    }
   };
 
-Dir Dir28=
+Dir Dir30=
   {
    'Keywords',
    Green,
@@ -2449,14 +2467,12 @@ Dir Dir28=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'keywords.ddl' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir29=
+Dir Dir31=
   {
    'MakeList',
    Green,
@@ -2465,13 +2481,11 @@ Dir Dir29=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir30=
+Dir Dir32=
   {
    'PSecEchoServer',
    Green,
@@ -2480,13 +2494,11 @@ Dir Dir30=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir31=
+Dir Dir33=
   {
    'PTPEchoServer',
    Green,
@@ -2495,13 +2507,11 @@ Dir Dir31=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir32=
+Dir Dir34=
   {
    'PTPSecureClient',
    Red,
@@ -2511,40 +2521,36 @@ Dir Dir32=
     { 'Makefile' , Ignore },
     { 'Config.cpp' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Config.ddl' , Red },
     { 'PTPSecureConfig.types.ddl' , Red },
     { 'Makefile.files' , Ignore },
     { 'Config.h' , Red },
     { 'Config.type.h' , Red },
-    { 'Config.typeset.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'Config.typeset.h' , Red }
    }
   };
 
-Dir Dir33=
+Dir Dir35=
   {
    'PTPSecureServer',
    Red,
    {
-    &Dir126
+    &Dir128
    },
    {
     { 'Makefile' , Ignore },
     { 'Config.cpp' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Config.ddl' , Ignore },
     { 'PTPSecureConfig.types.ddl' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'Config.h' , Red },
     { 'Config.type.h' , Red },
-    { 'Config.typeset.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'Config.typeset.h' , Red }
    }
   };
 
-Dir Dir34=
+Dir Dir36=
   {
    'PTPSecureServerProc',
    Red,
@@ -2558,34 +2564,30 @@ Dir Dir34=
     { 'ProcBase.cpp' , Red },
     { 'ServerProc.cpp' , Red },
     { 'SupportProc.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'ErrorIds.h' , Red },
     { 'HFSProc.h' , Red },
     { 'ProcBase.h' , Red },
     { 'ServerProc.h' , Red },
-    { 'SupportProc.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'SupportProc.h' , Red }
    }
   };
 
-Dir Dir35=
+Dir Dir37=
   {
    'PTPServer',
    Red,
    {
-    &Dir127
+    &Dir129
    },
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir36=
+Dir Dir38=
   {
    'PTPServerProc',
    Red,
@@ -2600,19 +2602,17 @@ Dir Dir36=
     { 'PTPConProc.cpp' , Red },
     { 'ServerProc.cpp' , Red },
     { 'SupportProc.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'ErrorIds.h' , Red },
     { 'HFSProc.h' , Red },
     { 'ProcBase.h' , Red },
     { 'PTPConProc.h' , Red },
     { 'ServerProc.h' , Red },
-    { 'SupportProc.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'SupportProc.h' , Red }
    }
   };
 
-Dir Dir37=
+Dir Dir39=
   {
    'Regen',
    Red,
@@ -2626,7 +2626,6 @@ Dir Dir37=
     { 'Parser.cpp' , Red },
     { 'test.cpp' , Red },
     { 'Token.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Test.desc' , Red },
     { 'Makefile.files' , Ignore },
     { 'Generate.h' , Red },
@@ -2634,12 +2633,11 @@ Dir Dir37=
     { 'Parser.h' , Red },
     { 'Token.h' , Red },
     { 'Test.gen.h' , Red },
-    { 'Makefile.s-files' , Ignore },
     { 'Test.txt' , Ignore }
    }
   };
 
-Dir Dir119=
+Dir Dir121=
   {
    'AMP',
    Ignore,
@@ -2652,12 +2650,12 @@ Dir Dir119=
    }
   };
 
-Dir Dir120=
+Dir Dir122=
   {
    'BFTest',
    Red,
    {
-    &Dir128
+    &Dir130
    },
    {
     { 'Makefile' , Ignore },
@@ -2665,15 +2663,13 @@ Dir Dir120=
     { 'main.cpp' , Red },
     { 'Process.cpp' , Red },
     { 'Sanity.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'DataMap.h' , Red },
-    { 'Process.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'Process.h' , Red }
    }
   };
 
-Dir Dir121=
+Dir Dir123=
   {
    'Cond',
    Ignore,
@@ -2684,7 +2680,7 @@ Dir Dir121=
    }
   };
 
-Dir Dir122=
+Dir Dir124=
   {
    'DDL',
    Ignore,
@@ -2697,31 +2693,29 @@ Dir Dir122=
    }
   };
 
-Dir Dir123=
+Dir Dir125=
   {
    'Gen',
    Red,
    {
-    &Dir129,
-    &Dir130
+    &Dir131,
+    &Dir132
    },
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir124=
+Dir Dir126=
   {
    'Main',
    Red,
    {
-    &Dir131,
-    &Dir132,
-    &Dir133
+    &Dir133,
+    &Dir134,
+    &Dir135
    },
    {
     { 'Makefile' , Ignore },
@@ -2730,17 +2724,15 @@ Dir Dir124=
     { 'Set.cpp' , Red },
     { 'SparseMatrix.cpp' , Red },
     { 'Tools.cpp' , Red },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
     { 'PrintTools.h' , Red },
     { 'Set.h' , Red },
     { 'SparseMatrix.h' , Red },
-    { 'Tools.h' , Red },
-    { 'Makefile.s-files' , Ignore }
+    { 'Tools.h' , Red }
    }
   };
 
-Dir Dir128=
+Dir Dir130=
   {
    'obj',
    Ignore,
@@ -2750,7 +2742,7 @@ Dir Dir128=
    }
   };
 
-Dir Dir129=
+Dir Dir131=
   {
    'obj',
    Ignore,
@@ -2764,7 +2756,7 @@ Dir Dir129=
    }
   };
 
-Dir Dir130=
+Dir Dir132=
   {
    'sample',
    Ignore,
@@ -2775,7 +2767,7 @@ Dir Dir130=
    }
   };
 
-Dir Dir131=
+Dir Dir133=
   {
    'lang',
    Red,
@@ -2794,7 +2786,7 @@ Dir Dir131=
    }
   };
 
-Dir Dir132=
+Dir Dir134=
   {
    'obj',
    Ignore,
@@ -2848,7 +2840,7 @@ Dir Dir132=
    }
   };
 
-Dir Dir133=
+Dir Dir135=
   {
    'process',
    Red,
@@ -2878,12 +2870,12 @@ Dir Dir133=
    }
   };
 
-Dir Dir125=
+Dir Dir127=
   {
    'files',
    Ignore,
    {
-    &Dir134
+    &Dir136
    },
    {
     { 'sample.ddl' , Ignore },
@@ -2891,7 +2883,7 @@ Dir Dir125=
    }
   };
 
-Dir Dir134=
+Dir Dir136=
   {
    'inc',
    Ignore,
@@ -2907,31 +2899,9 @@ Dir Dir134=
    }
   };
 
-Dir Dir126=
+Dir Dir128=
   {
    'root',
-   Ignore,
-   {
-    &Dir135
-   },
-   {
-   }
-  };
-
-Dir Dir135=
-  {
-   'home',
-   Ignore,
-   {
-    &Dir136
-   },
-   {
-   }
-  };
-
-Dir Dir136=
-  {
-   'Sergey',
    Ignore,
    {
     &Dir137
@@ -2942,6 +2912,28 @@ Dir Dir136=
 
 Dir Dir137=
   {
+   'home',
+   Ignore,
+   {
+    &Dir138
+   },
+   {
+   }
+  };
+
+Dir Dir138=
+  {
+   'Sergey',
+   Ignore,
+   {
+    &Dir139
+   },
+   {
+   }
+  };
+
+Dir Dir139=
+  {
    'temp',
    Ignore,
    {
@@ -2950,13 +2942,13 @@ Dir Dir137=
    }
   };
 
-Dir Dir127=
+Dir Dir129=
   {
    'root',
    Ignore,
    {
-    &Dir138,
-    &Dir139
+    &Dir140,
+    &Dir141
    },
    {
     { 'empty' , Ignore },
@@ -2964,7 +2956,7 @@ Dir Dir127=
    }
   };
 
-Dir Dir138=
+Dir Dir140=
   {
    'test-dir',
    Ignore,
@@ -2975,7 +2967,7 @@ Dir Dir138=
    }
   };
 
-Dir Dir139=
+Dir Dir141=
   {
    'test-dir1',
    Ignore,
@@ -2986,7 +2978,7 @@ Dir Dir139=
    }
   };
 
-Dir Dir38=
+Dir Dir40=
   {
    'cpp',
    Ignore,
@@ -3003,187 +2995,173 @@ Dir Dir38=
    }
   };
 
-Dir Dir39=
+Dir Dir41=
   {
    'BeagleBoneBlack',
    Red,
    {
-    &Dir140,
-    &Dir141,
     &Dir142,
-    &Dir143
+    &Dir143,
+    &Dir144,
+    &Dir145
    },
    {
     { 'Makefile' , Ignore },
     { 'CCore.a' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
-    { 'Makefile.tools' , Ignore }
-   }
-  };
-
-Dir Dir40=
-  {
-   'LIN64',
-   Red,
-   {
-    &Dir144,
-    &Dir145,
-    &Dir146
-   },
-   {
-    { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
-    { 'Makefile.tools' , Ignore }
-   }
-  };
-
-Dir Dir41=
-  {
-   'Vanilla-H',
-   Red,
-   {
-    &Dir147,
-    &Dir148
-   },
-   {
-    { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
     { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir42=
   {
-   'Vanilla-X',
+   'LIN64',
    Red,
    {
-    &Dir149,
-    &Dir150,
-    &Dir151
+    &Dir146,
+    &Dir147,
+    &Dir148
    },
    {
     { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
     { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir43=
   {
-   'WIN32',
+   'Vanilla-H',
    Red,
    {
-    &Dir152,
-    &Dir153,
-    &Dir154,
-    &Dir155
+    &Dir149,
+    &Dir150
    },
    {
     { 'Makefile' , Ignore },
-    { 'CCore.a' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
     { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir44=
   {
-   'WIN64',
+   'Vanilla-X',
    Red,
    {
-    &Dir156,
-    &Dir157,
-    &Dir158
+    &Dir151,
+    &Dir152,
+    &Dir153
    },
    {
     { 'Makefile' , Ignore },
-    { 'CCore.a' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore },
     { 'Makefile.tools' , Ignore }
    }
   };
 
-Dir Dir140=
+Dir Dir45=
+  {
+   'WIN32',
+   Red,
+   {
+    &Dir154,
+    &Dir155,
+    &Dir156,
+    &Dir157
+   },
+   {
+    { 'Makefile' , Ignore },
+    { 'CCore.a' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
+   }
+  };
+
+Dir Dir46=
+  {
+   'WIN64',
+   Red,
+   {
+    &Dir158,
+    &Dir159,
+    &Dir160
+   },
+   {
+    { 'Makefile' , Ignore },
+    { 'CCore.a' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
+   }
+  };
+
+Dir Dir142=
   {
    'CCore',
    Red,
    {
-    &Dir159,
-    &Dir160,
-    &Dir161
+    &Dir161,
+    &Dir162,
+    &Dir163
    },
    {
    }
   };
 
-Dir Dir141=
+Dir Dir143=
   {
    'sysroot',
    Red,
    {
-    &Dir162,
-    &Dir163,
     &Dir164,
-    &Dir165
+    &Dir165,
+    &Dir166,
+    &Dir167
    },
    {
     { 'Makefile' , Red }
    }
   };
 
-Dir Dir142=
+Dir Dir144=
   {
    'test',
    Red,
    {
-    &Dir166
+    &Dir168
    },
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
     { 'main.exe' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir143=
+Dir Dir145=
   {
    'tools',
    Red,
    {
-    &Dir167,
-    &Dir168,
     &Dir169,
-    &Dir170
+    &Dir170,
+    &Dir171,
+    &Dir172
    },
    {
    }
   };
 
-Dir Dir159=
+Dir Dir161=
   {
    'inc',
    Red,
    {
-    &Dir171,
-    &Dir172,
     &Dir173,
     &Dir174,
-    &Dir175
+    &Dir175,
+    &Dir176,
+    &Dir177
    },
    {
     { 'Boot.h' , Red },
@@ -3191,18 +3169,18 @@ Dir Dir159=
    }
   };
 
-Dir Dir160=
+Dir Dir162=
   {
    'src',
    Red,
    {
-    &Dir176,
-    &Dir177,
     &Dir178,
     &Dir179,
     &Dir180,
     &Dir181,
-    &Dir182
+    &Dir182,
+    &Dir183,
+    &Dir184
    },
    {
     { 'Boot.cpp' , Red },
@@ -3212,7 +3190,7 @@ Dir Dir160=
    }
   };
 
-Dir Dir161=
+Dir Dir163=
   {
    'test',
    Red,
@@ -3235,7 +3213,7 @@ Dir Dir161=
    }
   };
 
-Dir Dir171=
+Dir Dir173=
   {
    'base',
    Red,
@@ -3247,7 +3225,7 @@ Dir Dir171=
    }
   };
 
-Dir Dir172=
+Dir Dir174=
   {
    'dev',
    Red,
@@ -3305,7 +3283,7 @@ Dir Dir172=
    }
   };
 
-Dir Dir173=
+Dir Dir175=
   {
    'libc',
    Red,
@@ -3317,7 +3295,7 @@ Dir Dir173=
    }
   };
 
-Dir Dir174=
+Dir Dir176=
   {
    'sys',
    Red,
@@ -3333,7 +3311,7 @@ Dir Dir174=
    }
   };
 
-Dir Dir175=
+Dir Dir177=
   {
    'video',
    Red,
@@ -3344,7 +3322,7 @@ Dir Dir175=
    }
   };
 
-Dir Dir176=
+Dir Dir178=
   {
    'base',
    Red,
@@ -3358,7 +3336,7 @@ Dir Dir176=
    }
   };
 
-Dir Dir177=
+Dir Dir179=
   {
    'debug',
    Red,
@@ -3369,7 +3347,7 @@ Dir Dir177=
    }
   };
 
-Dir Dir178=
+Dir Dir180=
   {
    'dev',
    Red,
@@ -3402,7 +3380,7 @@ Dir Dir178=
    }
   };
 
-Dir Dir179=
+Dir Dir181=
   {
    'libc',
    Red,
@@ -3415,7 +3393,7 @@ Dir Dir179=
    }
   };
 
-Dir Dir180=
+Dir Dir182=
   {
    'sys',
    Red,
@@ -3432,7 +3410,7 @@ Dir Dir180=
    }
   };
 
-Dir Dir181=
+Dir Dir183=
   {
    'task',
    Red,
@@ -3443,7 +3421,7 @@ Dir Dir181=
    }
   };
 
-Dir Dir182=
+Dir Dir184=
   {
    'video',
    Red,
@@ -3454,7 +3432,7 @@ Dir Dir182=
    }
   };
 
-Dir Dir162=
+Dir Dir164=
   {
    'lib',
    Red,
@@ -3465,7 +3443,7 @@ Dir Dir162=
    }
   };
 
-Dir Dir163=
+Dir Dir165=
   {
    'obj',
    Red,
@@ -3476,7 +3454,7 @@ Dir Dir163=
    }
   };
 
-Dir Dir164=
+Dir Dir166=
   {
    'src',
    Red,
@@ -3496,23 +3474,23 @@ Dir Dir164=
    }
   };
 
-Dir Dir165=
+Dir Dir167=
   {
    'usr',
    Red,
    {
-    &Dir183
+    &Dir185
    },
    {
    }
   };
 
-Dir Dir183=
+Dir Dir185=
   {
    'include',
    Red,
    {
-    &Dir184
+    &Dir186
    },
    {
     { '__std_init.h' , Red },
@@ -3537,7 +3515,7 @@ Dir Dir183=
    }
   };
 
-Dir Dir184=
+Dir Dir186=
   {
    'sys',
    Red,
@@ -3548,7 +3526,7 @@ Dir Dir184=
    }
   };
 
-Dir Dir166=
+Dir Dir168=
   {
    'root',
    Red,
@@ -3559,7 +3537,7 @@ Dir Dir166=
    }
   };
 
-Dir Dir167=
+Dir Dir169=
   {
    'Boot',
    Red,
@@ -3568,13 +3546,11 @@ Dir Dir167=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir168=
+Dir Dir170=
   {
    'BootServer',
    Red,
@@ -3583,13 +3559,11 @@ Dir Dir168=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir169=
+Dir Dir171=
   {
    'ELFtoUboot',
    Red,
@@ -3598,26 +3572,24 @@ Dir Dir169=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir170=
+Dir Dir172=
   {
    'HowToBuild',
    Red,
    {
-    &Dir185,
-    &Dir186
+    &Dir187,
+    &Dir188
    },
    {
     { 'HowTo.txt' , Red }
    }
   };
 
-Dir Dir185=
+Dir Dir187=
   {
    'gcc-7.1.0-cross',
    New,
@@ -3635,7 +3607,7 @@ Dir Dir185=
    }
   };
 
-Dir Dir186=
+Dir Dir188=
   {
    'binutils-2.25.1',
    Red,
@@ -3649,20 +3621,20 @@ Dir Dir186=
    }
   };
 
-Dir Dir144=
+Dir Dir146=
   {
    'CCore',
    Red,
    {
-    &Dir187,
-    &Dir188,
-    &Dir189
+    &Dir189,
+    &Dir190,
+    &Dir191
    },
    {
    }
   };
 
-Dir Dir145=
+Dir Dir147=
   {
    'test',
    Red,
@@ -3671,56 +3643,54 @@ Dir Dir145=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir146=
+Dir Dir148=
   {
    'tools',
    New,
    {
-    &Dir190
+    &Dir192
    },
    {
    }
   };
 
-Dir Dir187=
+Dir Dir189=
   {
    'inc',
    Red,
    {
-    &Dir191,
-    &Dir192,
     &Dir193,
     &Dir194,
-    &Dir195
+    &Dir195,
+    &Dir196,
+    &Dir197
    },
    {
     { 'PlatformRandom.h' , Red }
    }
   };
 
-Dir Dir188=
+Dir Dir190=
   {
    'src',
    Red,
    {
-    &Dir196,
-    &Dir197,
     &Dir198,
     &Dir199,
-    &Dir200
+    &Dir200,
+    &Dir201,
+    &Dir202
    },
    {
     { 'PlanInit_CCore.cpp' , Red }
    }
   };
 
-Dir Dir189=
+Dir Dir191=
   {
    'test',
    Red,
@@ -3741,7 +3711,7 @@ Dir Dir189=
    }
   };
 
-Dir Dir191=
+Dir Dir193=
   {
    'base',
    Red,
@@ -3753,7 +3723,7 @@ Dir Dir191=
    }
   };
 
-Dir Dir192=
+Dir Dir194=
   {
    'crypton',
    Red,
@@ -3767,7 +3737,7 @@ Dir Dir192=
    }
   };
 
-Dir Dir193=
+Dir Dir195=
   {
    'math',
    Red,
@@ -3778,7 +3748,7 @@ Dir Dir193=
    }
   };
 
-Dir Dir194=
+Dir Dir196=
   {
    'sys',
    Red,
@@ -3806,7 +3776,7 @@ Dir Dir194=
    }
   };
 
-Dir Dir195=
+Dir Dir197=
   {
    'video',
    Red,
@@ -3817,7 +3787,7 @@ Dir Dir195=
    }
   };
 
-Dir Dir196=
+Dir Dir198=
   {
    'base',
    Red,
@@ -3831,7 +3801,7 @@ Dir Dir196=
    }
   };
 
-Dir Dir197=
+Dir Dir199=
   {
    'crypton',
    Red,
@@ -3847,7 +3817,7 @@ Dir Dir197=
    }
   };
 
-Dir Dir198=
+Dir Dir200=
   {
    'math',
    Red,
@@ -3858,7 +3828,7 @@ Dir Dir198=
    }
   };
 
-Dir Dir199=
+Dir Dir201=
   {
    'sys',
    Red,
@@ -3888,7 +3858,7 @@ Dir Dir199=
    }
   };
 
-Dir Dir200=
+Dir Dir202=
   {
    'video',
    Red,
@@ -3899,18 +3869,18 @@ Dir Dir200=
    }
   };
 
-Dir Dir190=
+Dir Dir192=
   {
    'HowToBuild',
    New,
    {
-    &Dir201
+    &Dir203
    },
    {
    }
   };
 
-Dir Dir201=
+Dir Dir203=
   {
    'gcc-7.1.0',
    New,
@@ -3921,20 +3891,20 @@ Dir Dir201=
    }
   };
 
-Dir Dir147=
+Dir Dir149=
   {
    'CCore',
    Red,
    {
-    &Dir202,
-    &Dir203,
-    &Dir204
+    &Dir204,
+    &Dir205,
+    &Dir206
    },
    {
    }
   };
 
-Dir Dir148=
+Dir Dir150=
   {
    'test',
    Red,
@@ -3943,38 +3913,36 @@ Dir Dir148=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir202=
+Dir Dir204=
   {
    'inc',
-   Red,
-   {
-    &Dir205,
-    &Dir206
-   },
-   {
-   }
-  };
-
-Dir Dir203=
-  {
-   'src',
    Red,
    {
     &Dir207,
     &Dir208
    },
    {
+   }
+  };
+
+Dir Dir205=
+  {
+   'src',
+   Red,
+   {
+    &Dir209,
+    &Dir210
+   },
+   {
     { 'PlanInit_CCore.cpp' , Red }
    }
   };
 
-Dir Dir204=
+Dir Dir206=
   {
    'test',
    Red,
@@ -3984,7 +3952,7 @@ Dir Dir204=
    }
   };
 
-Dir Dir205=
+Dir Dir207=
   {
    'base',
    Red,
@@ -3996,7 +3964,7 @@ Dir Dir205=
    }
   };
 
-Dir Dir206=
+Dir Dir208=
   {
    'sys',
    Red,
@@ -4022,7 +3990,7 @@ Dir Dir206=
    }
   };
 
-Dir Dir207=
+Dir Dir209=
   {
    'base',
    Red,
@@ -4034,7 +4002,7 @@ Dir Dir207=
    }
   };
 
-Dir Dir208=
+Dir Dir210=
   {
    'sys',
    Red,
@@ -4060,35 +4028,35 @@ Dir Dir208=
    }
   };
 
-Dir Dir149=
+Dir Dir151=
   {
    'CCore',
    Red,
    {
-    &Dir209,
-    &Dir210,
-    &Dir211
+    &Dir211,
+    &Dir212,
+    &Dir213
    },
    {
    }
   };
 
-Dir Dir150=
+Dir Dir152=
   {
    'sysroot',
    Red,
    {
-    &Dir212,
-    &Dir213,
     &Dir214,
-    &Dir215
+    &Dir215,
+    &Dir216,
+    &Dir217
    },
    {
     { 'Makefile' , Red }
    }
   };
 
-Dir Dir151=
+Dir Dir153=
   {
    'test',
    Red,
@@ -4097,43 +4065,41 @@ Dir Dir151=
    {
     { 'Makefile' , Red },
     { 'main.cpp' , Red },
-    { 'Makefile.cpp-files' , Red },
-    { 'Makefile.files' , Red },
-    { 'Makefile.s-files' , Red }
+    { 'Makefile.files' , Red }
    }
   };
 
-Dir Dir209=
+Dir Dir211=
   {
    'inc',
    Red,
    {
-    &Dir216,
-    &Dir217,
     &Dir218,
-    &Dir219
+    &Dir219,
+    &Dir220,
+    &Dir221
    },
    {
    }
   };
 
-Dir Dir210=
+Dir Dir212=
   {
    'src',
    Red,
    {
-    &Dir220,
-    &Dir221,
     &Dir222,
     &Dir223,
-    &Dir224
+    &Dir224,
+    &Dir225,
+    &Dir226
    },
    {
     { 'PlanInit_CCore.cpp' , Red }
    }
   };
 
-Dir Dir211=
+Dir Dir213=
   {
    'test',
    Red,
@@ -4147,7 +4113,7 @@ Dir Dir211=
    }
   };
 
-Dir Dir216=
+Dir Dir218=
   {
    'base',
    Red,
@@ -4159,7 +4125,7 @@ Dir Dir216=
    }
   };
 
-Dir Dir217=
+Dir Dir219=
   {
    'dev',
    Red,
@@ -4174,7 +4140,7 @@ Dir Dir217=
    }
   };
 
-Dir Dir218=
+Dir Dir220=
   {
    'libc',
    Red,
@@ -4186,7 +4152,7 @@ Dir Dir218=
    }
   };
 
-Dir Dir219=
+Dir Dir221=
   {
    'sys',
    Red,
@@ -4201,7 +4167,7 @@ Dir Dir219=
    }
   };
 
-Dir Dir220=
+Dir Dir222=
   {
    'base',
    Red,
@@ -4213,7 +4179,7 @@ Dir Dir220=
    }
   };
 
-Dir Dir221=
+Dir Dir223=
   {
    'dev',
    Red,
@@ -4228,7 +4194,7 @@ Dir Dir221=
    }
   };
 
-Dir Dir222=
+Dir Dir224=
   {
    'libc',
    Red,
@@ -4241,7 +4207,7 @@ Dir Dir222=
    }
   };
 
-Dir Dir223=
+Dir Dir225=
   {
    'sys',
    Red,
@@ -4257,7 +4223,7 @@ Dir Dir223=
    }
   };
 
-Dir Dir224=
+Dir Dir226=
   {
    'task',
    Red,
@@ -4268,7 +4234,7 @@ Dir Dir224=
    }
   };
 
-Dir Dir212=
+Dir Dir214=
   {
    'lib',
    Red,
@@ -4279,7 +4245,7 @@ Dir Dir212=
    }
   };
 
-Dir Dir213=
+Dir Dir215=
   {
    'obj',
    Red,
@@ -4290,7 +4256,7 @@ Dir Dir213=
    }
   };
 
-Dir Dir214=
+Dir Dir216=
   {
    'src',
    Red,
@@ -4310,23 +4276,23 @@ Dir Dir214=
    }
   };
 
-Dir Dir215=
+Dir Dir217=
   {
    'usr',
    Red,
    {
-    &Dir225
+    &Dir227
    },
    {
    }
   };
 
-Dir Dir225=
+Dir Dir227=
   {
    'include',
    Red,
    {
-    &Dir226
+    &Dir228
    },
    {
     { '__std_init.h' , Red },
@@ -4351,7 +4317,7 @@ Dir Dir225=
    }
   };
 
-Dir Dir226=
+Dir Dir228=
   {
    'sys',
    Red,
@@ -4362,20 +4328,20 @@ Dir Dir226=
    }
   };
 
-Dir Dir152=
+Dir Dir154=
   {
    'CCore',
    Red,
    {
-    &Dir227,
-    &Dir228,
-    &Dir229
+    &Dir229,
+    &Dir230,
+    &Dir231
    },
    {
    }
   };
 
-Dir Dir153=
+Dir Dir155=
   {
    'test',
    Green,
@@ -4384,25 +4350,23 @@ Dir Dir153=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'main.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir154=
+Dir Dir156=
   {
    'tools',
    Green,
    {
-    &Dir230
+    &Dir232
    },
    {
    }
   };
 
-Dir Dir155=
+Dir Dir157=
   {
    'wintest',
    Green,
@@ -4411,44 +4375,42 @@ Dir Dir155=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
-    { 'Makefile.cpp-files' , Ignore },
     { 'main.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir227=
+Dir Dir229=
   {
    'inc',
    Red,
    {
-    &Dir231,
-    &Dir232,
     &Dir233,
     &Dir234,
-    &Dir235
+    &Dir235,
+    &Dir236,
+    &Dir237
    },
    {
    }
   };
 
-Dir Dir228=
+Dir Dir230=
   {
    'src',
    Red,
    {
-    &Dir236,
-    &Dir237,
     &Dir238,
-    &Dir239
+    &Dir239,
+    &Dir240,
+    &Dir241
    },
    {
     { 'PlanInit_CCore.cpp' , Green }
    }
   };
 
-Dir Dir229=
+Dir Dir231=
   {
    'test',
    Ignore,
@@ -4462,7 +4424,7 @@ Dir Dir229=
    }
   };
 
-Dir Dir231=
+Dir Dir233=
   {
    'base',
    Green,
@@ -4474,7 +4436,7 @@ Dir Dir231=
    }
   };
 
-Dir Dir232=
+Dir Dir234=
   {
    'math',
    Green,
@@ -4485,7 +4447,7 @@ Dir Dir232=
    }
   };
 
-Dir Dir233=
+Dir Dir235=
   {
    'sys',
    Green,
@@ -4513,7 +4475,7 @@ Dir Dir233=
    }
   };
 
-Dir Dir234=
+Dir Dir236=
   {
    'video',
    Red,
@@ -4524,7 +4486,7 @@ Dir Dir234=
    }
   };
 
-Dir Dir235=
+Dir Dir237=
   {
    'win32',
    Red,
@@ -4536,7 +4498,7 @@ Dir Dir235=
    }
   };
 
-Dir Dir236=
+Dir Dir238=
   {
    'base',
    Green,
@@ -4550,7 +4512,7 @@ Dir Dir236=
    }
   };
 
-Dir Dir237=
+Dir Dir239=
   {
    'math',
    Green,
@@ -4561,7 +4523,7 @@ Dir Dir237=
    }
   };
 
-Dir Dir238=
+Dir Dir240=
   {
    'sys',
    Green,
@@ -4591,7 +4553,7 @@ Dir Dir238=
    }
   };
 
-Dir Dir239=
+Dir Dir241=
   {
    'video',
    Red,
@@ -4602,18 +4564,18 @@ Dir Dir239=
    }
   };
 
-Dir Dir230=
+Dir Dir232=
   {
    'HowToBuild',
    Green,
    {
-    &Dir240
+    &Dir242
    },
    {
    }
   };
 
-Dir Dir240=
+Dir Dir242=
   {
    'gcc-7.1.0',
    Green,
@@ -4624,20 +4586,20 @@ Dir Dir240=
    }
   };
 
-Dir Dir156=
+Dir Dir158=
   {
    'CCore',
    Red,
    {
-    &Dir241,
-    &Dir242,
-    &Dir243
+    &Dir243,
+    &Dir244,
+    &Dir245
    },
    {
    }
   };
 
-Dir Dir157=
+Dir Dir159=
   {
    'test',
    Ignore,
@@ -4646,59 +4608,57 @@ Dir Dir157=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
     { 'main.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir158=
+Dir Dir160=
   {
    'tools',
    Green,
    {
-    &Dir244
+    &Dir246
    },
    {
    }
   };
 
-Dir Dir241=
+Dir Dir243=
   {
    'inc',
    Red,
    {
-    &Dir245,
-    &Dir246,
     &Dir247,
     &Dir248,
     &Dir249,
-    &Dir250
+    &Dir250,
+    &Dir251,
+    &Dir252
    },
    {
     { 'PlatformRandom.h' , Green }
    }
   };
 
-Dir Dir242=
+Dir Dir244=
   {
    'src',
    Red,
    {
-    &Dir251,
-    &Dir252,
     &Dir253,
     &Dir254,
     &Dir255,
-    &Dir256
+    &Dir256,
+    &Dir257,
+    &Dir258
    },
    {
     { 'PlanInit_CCore.cpp' , Green }
    }
   };
 
-Dir Dir243=
+Dir Dir245=
   {
    'test',
    Ignore,
@@ -4719,7 +4679,7 @@ Dir Dir243=
    }
   };
 
-Dir Dir245=
+Dir Dir247=
   {
    'base',
    Green,
@@ -4731,7 +4691,7 @@ Dir Dir245=
    }
   };
 
-Dir Dir246=
+Dir Dir248=
   {
    'crypton',
    Green,
@@ -4745,7 +4705,7 @@ Dir Dir246=
    }
   };
 
-Dir Dir247=
+Dir Dir249=
   {
    'math',
    Green,
@@ -4756,7 +4716,7 @@ Dir Dir247=
    }
   };
 
-Dir Dir248=
+Dir Dir250=
   {
    'sys',
    Green,
@@ -4784,7 +4744,7 @@ Dir Dir248=
    }
   };
 
-Dir Dir249=
+Dir Dir251=
   {
    'video',
    Red,
@@ -4795,7 +4755,7 @@ Dir Dir249=
    }
   };
 
-Dir Dir250=
+Dir Dir252=
   {
    'win64',
    Red,
@@ -4807,7 +4767,7 @@ Dir Dir250=
    }
   };
 
-Dir Dir251=
+Dir Dir253=
   {
    'base',
    Green,
@@ -4821,7 +4781,7 @@ Dir Dir251=
    }
   };
 
-Dir Dir252=
+Dir Dir254=
   {
    'crypton',
    Green,
@@ -4837,7 +4797,7 @@ Dir Dir252=
    }
   };
 
-Dir Dir253=
+Dir Dir255=
   {
    'math',
    Green,
@@ -4848,7 +4808,7 @@ Dir Dir253=
    }
   };
 
-Dir Dir254=
+Dir Dir256=
   {
    'sys',
    Green,
@@ -4878,7 +4838,7 @@ Dir Dir254=
    }
   };
 
-Dir Dir255=
+Dir Dir257=
   {
    'video',
    Red,
@@ -4889,7 +4849,7 @@ Dir Dir255=
    }
   };
 
-Dir Dir256=
+Dir Dir258=
   {
    'win64',
    Green,
@@ -4900,18 +4860,18 @@ Dir Dir256=
    }
   };
 
-Dir Dir244=
+Dir Dir246=
   {
    'HowToBuild',
    Green,
    {
-    &Dir257
+    &Dir259
    },
    {
    }
   };
 
-Dir Dir257=
+Dir Dir259=
   {
    'gcc-7.1.0',
    Green,
@@ -4922,106 +4882,81 @@ Dir Dir257=
    }
   };
 
-Dir Dir45=
+Dir Dir47=
   {
    'Aspect',
    Green,
    {
-    &Dir258,
-    &Dir259,
-    &Dir260
-   },
-   {
-    { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
-   }
-  };
-
-Dir Dir46=
-  {
-   'ContourLab',
-   Red,
-   {
+    &Dir260,
     &Dir261,
-    &Dir262,
-    &Dir263,
-    &Dir264
+    &Dir262
    },
    {
     { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'ContourLab.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
-   }
-  };
-
-Dir Dir47=
-  {
-   'DDLDisplay',
-   Red,
-   {
-    &Dir265,
-    &Dir266
-   },
-   {
-    { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir48=
   {
-   'EventView',
-   Green,
+   'ContourLab',
+   Red,
    {
-    &Dir267
+    &Dir263,
+    &Dir264,
+    &Dir265,
+    &Dir266
    },
    {
+    { 'Makefile' , Ignore },
+    { 'ContourLab.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir49=
   {
-   'Sample',
-   Green,
+   'DDLDisplay',
+   Red,
    {
-    &Dir268,
-    &Dir269
+    &Dir267,
+    &Dir268
    },
    {
     { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Sample.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir50=
   {
-   'SubLab',
-   Red,
+   'EventView',
+   Green,
+   {
+    &Dir269
+   },
+   {
+   }
+  };
+
+Dir Dir51=
+  {
+   'Sample',
+   Green,
    {
     &Dir270,
     &Dir271
    },
    {
     { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'SubLab.exe' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'Sample.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir51=
+Dir Dir52=
   {
-   'UserPreference',
+   'SubLab',
    Red,
    {
     &Dir272,
@@ -5029,13 +4964,26 @@ Dir Dir51=
    },
    {
     { 'Makefile' , Ignore },
-    { 'Makefile.cpp-files' , Ignore },
-    { 'Makefile.files' , Ignore },
-    { 'Makefile.s-files' , Ignore }
+    { 'SubLab.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
-Dir Dir258=
+Dir Dir53=
+  {
+   'UserPreference',
+   Red,
+   {
+    &Dir274,
+    &Dir275
+   },
+   {
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore }
+   }
+  };
+
+Dir Dir260=
   {
    'docs',
    Ignore,
@@ -5047,7 +4995,7 @@ Dir Dir258=
    }
   };
 
-Dir Dir259=
+Dir Dir261=
   {
    'inc',
    Green,
@@ -5063,7 +5011,7 @@ Dir Dir259=
    }
   };
 
-Dir Dir260=
+Dir Dir262=
   {
    'src',
    Green,
@@ -5086,7 +5034,7 @@ Dir Dir260=
    }
   };
 
-Dir Dir261=
+Dir Dir263=
   {
    'docs',
    Ignore,
@@ -5103,7 +5051,7 @@ Dir Dir261=
    }
   };
 
-Dir Dir262=
+Dir Dir264=
   {
    'inc',
    Red,
@@ -5124,19 +5072,19 @@ Dir Dir262=
    }
   };
 
-Dir Dir263=
+Dir Dir265=
   {
    'lang',
    Red,
    {
-    &Dir274,
-    &Dir275
+    &Dir276,
+    &Dir277
    },
    {
    }
   };
 
-Dir Dir264=
+Dir Dir266=
   {
    'src',
    Red,
@@ -5162,7 +5110,7 @@ Dir Dir264=
    }
   };
 
-Dir Dir274=
+Dir Dir276=
   {
    'Formula',
    Red,
@@ -5178,7 +5126,7 @@ Dir Dir274=
    }
   };
 
-Dir Dir275=
+Dir Dir277=
   {
    'Pad',
    Red,
@@ -5192,7 +5140,7 @@ Dir Dir275=
    }
   };
 
-Dir Dir265=
+Dir Dir267=
   {
    'inc',
    Red,
@@ -5205,7 +5153,7 @@ Dir Dir265=
    }
   };
 
-Dir Dir266=
+Dir Dir268=
   {
    'src',
    Red,
@@ -5219,7 +5167,7 @@ Dir Dir266=
    }
   };
 
-Dir Dir267=
+Dir Dir269=
   {
    'prototype',
    Ignore,
@@ -5231,7 +5179,7 @@ Dir Dir267=
    }
   };
 
-Dir Dir268=
+Dir Dir270=
   {
    'inc',
    Green,
@@ -5244,7 +5192,7 @@ Dir Dir268=
    }
   };
 
-Dir Dir269=
+Dir Dir271=
   {
    'src',
    Green,
@@ -5258,7 +5206,7 @@ Dir Dir269=
    }
   };
 
-Dir Dir270=
+Dir Dir272=
   {
    'inc',
    Red,
@@ -5270,7 +5218,7 @@ Dir Dir270=
    }
   };
 
-Dir Dir271=
+Dir Dir273=
   {
    'src',
    Red,
@@ -5283,7 +5231,7 @@ Dir Dir271=
    }
   };
 
-Dir Dir272=
+Dir Dir274=
   {
    'inc',
    Red,
@@ -5295,7 +5243,7 @@ Dir Dir272=
    }
   };
 
-Dir Dir273=
+Dir Dir275=
   {
    'src',
    Red,
@@ -5308,29 +5256,29 @@ Dir Dir273=
    }
   };
 
-Dir Dir52=
+Dir Dir54=
   {
    'CCore',
    Red,
    {
-    &Dir276,
-    &Dir277,
-    &Dir278
+    &Dir278,
+    &Dir279,
+    &Dir280
    },
    {
    }
   };
 
-Dir Dir276=
+Dir Dir278=
   {
    'inc',
    Red,
    {
-    &Dir279,
-    &Dir280,
     &Dir281,
     &Dir282,
-    &Dir283
+    &Dir283,
+    &Dir284,
+    &Dir285
    },
    {
     { 'BinaryFile.h' , Red },
@@ -5348,15 +5296,15 @@ Dir Dir276=
    }
   };
 
-Dir Dir277=
+Dir Dir279=
   {
    'src',
    Red,
    {
-    &Dir284,
-    &Dir285,
     &Dir286,
-    &Dir287
+    &Dir287,
+    &Dir288,
+    &Dir289
    },
    {
     { 'Abort.cpp' , Red },
@@ -5375,7 +5323,7 @@ Dir Dir277=
    }
   };
 
-Dir Dir278=
+Dir Dir280=
   {
    'test',
    Ignore,
@@ -5403,7 +5351,7 @@ Dir Dir278=
    }
   };
 
-Dir Dir279=
+Dir Dir281=
   {
    'dev',
    Red,
@@ -5414,7 +5362,7 @@ Dir Dir279=
    }
   };
 
-Dir Dir280=
+Dir Dir282=
   {
    'libc',
    Red,
@@ -5430,7 +5378,7 @@ Dir Dir280=
    }
   };
 
-Dir Dir281=
+Dir Dir283=
   {
    'print',
    Red,
@@ -5442,7 +5390,7 @@ Dir Dir281=
    }
   };
 
-Dir Dir282=
+Dir Dir284=
   {
    'sys',
    Red,
@@ -5457,7 +5405,7 @@ Dir Dir282=
    }
   };
 
-Dir Dir283=
+Dir Dir285=
   {
    'task',
    Red,
@@ -5484,7 +5432,7 @@ Dir Dir283=
    }
   };
 
-Dir Dir284=
+Dir Dir286=
   {
    'libc',
    Red,
@@ -5504,7 +5452,7 @@ Dir Dir284=
    }
   };
 
-Dir Dir285=
+Dir Dir287=
   {
    'print',
    Red,
@@ -5516,7 +5464,7 @@ Dir Dir285=
    }
   };
 
-Dir Dir286=
+Dir Dir288=
   {
    'sys',
    Red,
@@ -5531,7 +5479,7 @@ Dir Dir286=
    }
   };
 
-Dir Dir287=
+Dir Dir289=
   {
    'task',
    Red,

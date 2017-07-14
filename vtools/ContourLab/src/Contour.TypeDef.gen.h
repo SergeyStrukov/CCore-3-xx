@@ -1,61 +1,74 @@
+/* Contour.TypeDef.gen.h */
+//----------------------------------------------------------------------------------------
+//
+//  Project: ContourLab 1.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+
 /* struct TypeDefCore */
 
 struct TypeDefCore
  {
   // types
 
-  struct S1; // #Label 
-  struct S2; // #Pad 
-  struct S3; // #Formula 
-  struct S4; // #Contour 
-  struct S5; // #SolidOf 
-  struct S6; // #BLoopOf 
-  struct S7; // #LoopOf 
-  struct S8; // #BPathOf 
-  struct S9; // #PathOf 
-  struct S10; // #StepOf 
-  struct S11; // #Right 
-  struct S12; // #Left 
-  struct S13; // #Down 
-  struct S14; // #Up 
-  struct S15; // #Second 
-  struct S16; // #First 
-  struct S17; // #Mirror 
-  struct S18; // #MoveLen 
-  struct S19; // #Move 
-  struct S20; // #RotateOrt 
-  struct S21; // #Rotate 
-  struct S22; // #MeetCircles 
-  struct S23; // #MeetCircle 
-  struct S24; // #Meet 
-  struct S25; // #AngleC 
-  struct S26; // #Proj 
-  struct S27; // #CircleOuter 
-  struct S28; // #CircleOf 
-  struct S29; // #MidOrt 
-  struct S30; // #Part 
-  struct S31; // #Middle 
-  struct S32; // #LineOf 
-  struct S33; // #AngleOf 
-  struct S34; // #LengthOf 
-  struct S35; // #Div 
-  struct S36; // #Mul 
-  struct S37; // #Sub 
-  struct S38; // #Add 
-  struct S39; // #Neg 
-  struct S40; // #Real 
-  struct S41; // #Point 
-  struct S42; // #Dot 
-  struct S43; // #Solid 
-  struct S44; // #Loop 
-  struct S45; // #Path 
-  struct S46; // #Step 
-  struct S47; // #Couple 
-  struct S48; // #Length 
-  struct S49; // #Circle 
-  struct S50; // #Line 
-  struct S51; // #Angle 
-  struct S52; // #Ratio 
+  struct S1; // #Label
+  struct S2; // #Pad
+  struct S3; // #Formula
+  struct S4; // #Contour
+  struct S5; // #SolidOf
+  struct S6; // #BLoopOf
+  struct S7; // #LoopOf
+  struct S8; // #BPathOf
+  struct S9; // #PathOf
+  struct S10; // #StepOf
+  struct S11; // #Right
+  struct S12; // #Left
+  struct S13; // #Down
+  struct S14; // #Up
+  struct S15; // #Second
+  struct S16; // #First
+  struct S17; // #Mirror
+  struct S18; // #MoveLen
+  struct S19; // #Move
+  struct S20; // #RotateOrt
+  struct S21; // #Rotate
+  struct S22; // #MeetCircles
+  struct S23; // #MeetCircle
+  struct S24; // #Meet
+  struct S25; // #AngleC
+  struct S26; // #Proj
+  struct S27; // #CircleOuter
+  struct S28; // #CircleOf
+  struct S29; // #MidOrt
+  struct S30; // #Part
+  struct S31; // #Middle
+  struct S32; // #LineOf
+  struct S33; // #AngleOf
+  struct S34; // #LengthOf
+  struct S35; // #Div
+  struct S36; // #Mul
+  struct S37; // #Sub
+  struct S38; // #Add
+  struct S39; // #Neg
+  struct S40; // #Real
+  struct S41; // #Point
+  struct S42; // #Dot
+  struct S43; // #Solid
+  struct S44; // #Loop
+  struct S45; // #Path
+  struct S46; // #Step
+  struct S47; // #Couple
+  struct S48; // #Length
+  struct S49; // #Circle
+  struct S50; // #Line
+  struct S51; // #Angle
+  struct S52; // #Ratio
 
   using A1 = DDL::MapPolyPtr< S52 , S48 , S51 , S41 , S2 , S3 , S39 , S38 , S37 , S36 , S35 , S34 , S33 , S32 , S31 , S30 , S29 , S28 , S27 , S26 , S25 , S24 , S23 , S22 , S21 , S20 , S19 , S18 , S17 , S16 , S15 , S14 , S13 , S12 , S11 , S10 , S9 , S8 , S7 , S6 , S5 > ; // #Arg
   using A2 = uint8 ; // #Exception
