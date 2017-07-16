@@ -32,9 +32,15 @@ struct MemberList
   MemberList(MM ... mm) : tuple(mm...) {}
 
   template <class T>
-  void operator () (T *obj)
+  void null(T *obj) const
    {
     tuple.call( [=] (auto ... mm) { ( ... , (obj->*mm=0) ); } );
+   }
+
+  template <class T>
+  T add(const T &a,const T &b) const
+   {
+    return tuple.call( [=] (auto ... mm) -> T { return T( (a.*mm+b.*mm)... ); } );
    }
  };
 
@@ -45,7 +51,12 @@ struct PointBase
  {
   void null()
    {
-    P::template Fold<MemberList,P>()( static_cast<P *>(this) );
+    P::template Fold<MemberList,P>().null( static_cast<P *>(this) );
+   }
+
+  friend P operator + (const P &a,const P &b)
+   {
+    return P::template Fold<MemberList,P>().add(a,b);
    }
  };
 
@@ -56,6 +67,10 @@ struct Point3D : PointBase<Point3D>
   int x;
   int y;
   int z;
+
+  Point3D() { null(); }
+
+  Point3D(int x_,int y_,int z_) : x(x_),y(y_),z(z_) {}
 
   template <template <class ...> class Ret,class T>
   static auto Fold()
@@ -73,6 +88,12 @@ void Main()
   point.null();
 
   Printf(Con,"( #; , #; , #; )\n",point.x,point.y,point.z);
+
+  Point3D A(1,2,3),B(4,5,6);
+
+  Point3D C=A+B;
+
+  Printf(Con,"( #; , #; , #; )\n",C.x,C.y,C.z);
  }
 
 } // namespace App
