@@ -305,6 +305,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("hint_cfg_height"_c,ptr->hint_cfg_height);
   func("hint_cfg_length_enable"_c,ptr->hint_cfg_length_enable);
   func("hint_cfg_length"_c,ptr->hint_cfg_length);
+
+  func("hint_cfg_color"_c,ptr->hint_cfg_color);
  }
 
 void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
@@ -604,6 +606,8 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("?'Font height'"_def,hint_cfg_height);
    binder.item("?'Enable font length'"_def,hint_cfg_length_enable);
    binder.item("?'Font length'"_def,hint_cfg_length);
+   binder.space();
+   binder.item("?'Color hint'"_def,hint_cfg_color);
  }
 
 void UserPreferenceBag::createFonts() // Update fonts here

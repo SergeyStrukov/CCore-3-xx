@@ -52,6 +52,8 @@ class ColorEditWindow : public SubWindow
 
      RefVal<Font> font;
 
+     RefVal<DefString> hint_color = "Left click to select, right click to copy selected to"_def ;
+
      Config() noexcept {}
 
      template <class Bag,class Proxy>
@@ -69,6 +71,7 @@ class ColorEditWindow : public SubWindow
        mix_width.bind(bag.cfg_mix_width);
        white_len.bind(bag.cfg_white_len);
        len.bind(bag.cfg_pal_len);
+       hint_color.bind(bag.hint_cfg_color);
       }
     };
 

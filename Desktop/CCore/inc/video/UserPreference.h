@@ -357,6 +357,8 @@ struct UserPreferenceBag : ConfigItemHost
   DefString hint_cfg_length_enable = "Enable font length"_def ;
   DefString hint_cfg_length        = "Font length"_def ;
 
+  DefString hint_cfg_color = "Left click to select, right click to copy selected to"_def ;
+
   // constructors
 
   UserPreferenceBag() noexcept {}

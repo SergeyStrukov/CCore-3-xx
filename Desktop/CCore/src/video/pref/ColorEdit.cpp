@@ -307,6 +307,7 @@ ColorEditWindow::ColorEditWindow(SubWindowHost &host,const Config &cfg_)
            Ivory,Lavender,LightGray,MediumBlue,OrangeRed,Orchid,SeaGreen,SkyBlue,
            Snow,SteelBlue,Violet,Wheat,RoyalBlue,DeepSkyBlue,Pink,PaleGreen}
  {
+  bindHint(cfg.hint_color);
  }
 
 ColorEditWindow::~ColorEditWindow()
