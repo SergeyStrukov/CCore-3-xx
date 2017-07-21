@@ -139,7 +139,7 @@ class ClientWindow : public ComboWindow
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg);
+   ClientWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~ClientWindow();
 

@@ -89,11 +89,11 @@ void ClientWindow::menu_selected(int id,Point point)
 
 void ClientWindow::cascade_menu_selected(int id,Point point)
  {
-  menuAction(id,point);
-
   menuOff();
 
   sample.setFocus();
+
+  menuAction(id,point);
  }
 
 void ClientWindow::cascade_menu_pressed(VKey vkey,KeyMod kmod)
@@ -101,7 +101,7 @@ void ClientWindow::cascade_menu_pressed(VKey vkey,KeyMod kmod)
   menu.put_Key(vkey,kmod);
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -113,6 +113,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_)
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed)
  {
+  Used(update);
+
   wlist.insTop(menu,sample);
 
   wlist.enableTabFocus(false);
