@@ -48,6 +48,13 @@ struct AppPreferenceBag : ConfigItemHost
   DefString menu_Global  = "@Global"_def ;
   DefString menu_App     = "@Application"_def ;
 
+  // text
+
+  DefString text_Unid = "Unid"_def ;
+  DefString text_Raw  = "Raw"_def ;
+  DefString text_Roll = "Roll"_def ;
+  DefString text_Copy = "Copy"_def ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -71,6 +78,10 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+  func("text_Unid"_c,ptr->text_Unid);
+  func("text_Raw"_c,ptr->text_Raw);
+  func("text_Roll"_c,ptr->text_Roll);
+  func("text_Copy"_c,ptr->text_Copy);
  }
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
@@ -86,6 +97,13 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("Exit"_def,menu_Exit);
     binder.item("Global"_def,menu_Global);
     binder.item("App"_def,menu_App);
+
+  binder.group("Text"_def);
+
+    binder.item("'Unid'"_def,text_Unid);
+    binder.item("'Raw'"_def,text_Raw);
+    binder.item("'Roll'"_def,text_Roll);
+    binder.item("'Copy'"_def,text_Copy);
  }
 
 void AppPreferenceBag::createFonts()

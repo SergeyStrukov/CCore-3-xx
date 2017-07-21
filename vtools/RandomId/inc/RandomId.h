@@ -14,6 +14,8 @@
 #ifndef RandomId_h
 #define RandomId_h
 
+#include <CCore/inc/PlatformRandom.h>
+
 #include <inc/Application.h>
 
 namespace App {
@@ -24,12 +26,32 @@ class RandomIdWindow;
 
 /* class RandomIdWindow */
 
-class RandomIdWindow : public SubWindow
+class RandomIdWindow : public ComboWindow
  {
   public:
 
    struct Config
     {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     RefVal<VColor> back = Silver ;
+
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<RadioWindow::ConfigType> radio_cfg;
+     CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
+     CtorRefVal<ContourWindow::ConfigType> contour_cfg;
+
+     TextLineWindow::ConfigType text_cfg;
+
+     // app
+
+     RefVal<DefString> text_Unid = "Unid"_def ;
+     RefVal<DefString> text_Raw  = "Raw"_def ;
+     RefVal<DefString> text_Roll = "Roll"_def ;
+     RefVal<DefString> text_Copy = "Copy"_def ;
+
      Config() noexcept {}
 
      template <class AppPref>
@@ -42,14 +64,26 @@ class RandomIdWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
-       Used(proxy);
+       space_dxy.bind(bag.space_dxy);
+       back.bind(bag.back);
+
+       btn_cfg.bind(proxy);
+       radio_cfg.bind(proxy);
+       label_cfg.bind(proxy);
+       contour_cfg.bind(proxy);
+
+       text_cfg=proxy;
+
+       text_cfg.font.bind(bag.code_font.font);
       }
 
      template <class Bag>
      void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text_Unid.bind(bag.text_Unid);
+       text_Raw.bind(bag.text_Raw);
+       text_Roll.bind(bag.text_Roll);
+       text_Copy.bind(bag.text_Copy);
       }
     };
 
@@ -58,6 +92,46 @@ class RandomIdWindow : public SubWindow
   private:
 
    const Config &cfg;
+
+   enum RadioId
+    {
+     Radio_Unid = 1,
+     Radio_Raw  = 2
+    };
+
+   RadioGroup group_type;
+
+   RadioWindow radio_Unid;
+   RadioWindow radio_Raw;
+
+   RefLabelWindow label_Unid;
+   RefLabelWindow label_Raw;
+
+   ContourWindow contour;
+
+   RefButtonWindow btn_Roll;
+   RefButtonWindow btn_Copy;
+
+   TextLineWindow text;
+
+   PlatformRandom random;
+
+  private:
+
+   void type_changed(int new_id,int prev_id);
+
+   SignalConnector<RandomIdWindow,int,int> connector_type_changed;
+
+   void rollUnid();
+
+   void rollRaw();
+
+   void roll();
+
+   void copy();
+
+   SignalConnector<RandomIdWindow> connector_btn_Roll_pressed;
+   SignalConnector<RandomIdWindow> connector_btn_Copy_pressed;
 
   public:
 
@@ -68,6 +142,12 @@ class RandomIdWindow : public SubWindow
    // methods
 
    Point getMinSize() const;
+
+   // drawing
+
+   virtual void layout();
+
+   virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };
 
 } // namespace App

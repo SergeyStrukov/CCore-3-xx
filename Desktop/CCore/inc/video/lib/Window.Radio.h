@@ -55,6 +55,8 @@ class RadioItem : NoCopy
    explicit RadioItem(int radio_id);
 
    ~RadioItem();
+
+   int getRadioId() const { return radio_id; }
  };
 
 /* class RadioGroup */
@@ -73,6 +75,8 @@ class RadioGroup : NoCopy
    RadioGroup();
 
    ~RadioGroup();
+
+   int getRadioId() const { return cur?cur->getRadioId():(-1); }
 
    void add(RadioItem *item);
 
