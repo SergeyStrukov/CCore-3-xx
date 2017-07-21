@@ -1,7 +1,7 @@
 /* Client.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Sample 1.00
+//  Project: RandomId 1.00
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -28,26 +28,6 @@ void ClientWindow::menuAction(int id,Point point)
  {
   switch( id )
     {
-     case MenuFileNew :
-      {
-      }
-     break;
-
-     case MenuFileOpen :
-      {
-      }
-     break;
-
-     case MenuFileSave :
-      {
-      }
-     break;
-
-     case MenuFileSaveAs :
-      {
-      }
-     break;
-
      case MenuFileExit :
       {
        askFrameClose();
@@ -92,7 +72,7 @@ void ClientWindow::cascade_menu_selected(int id,Point point)
  {
   menuOff();
 
-  sample.setFocus();
+  sub_win.setFocus();
 
   menuAction(id,point);
  }
@@ -108,7 +88,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
 
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
-   sample(wlist,cfg.sample_cfg),
+   sub_win(wlist,cfg.random_id_cfg),
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
@@ -116,20 +96,14 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
  {
   Used(update);
 
-  wlist.insTop(menu,sample);
+  wlist.insTop(menu,sub_win);
 
   wlist.enableTabFocus(false);
 
   menu_data(+cfg.menu_File,MenuFile)
            (+cfg.menu_Options,MenuOptions);
 
-  menu_file_data(+cfg.menu_New,MenuFileNew)
-                (+cfg.menu_Open,MenuFileOpen)
-                (MenuSeparator)
-                (+cfg.menu_Save,MenuFileSave)
-                (+cfg.menu_SaveAs,MenuFileSaveAs)
-                (MenuSeparator)
-                (+cfg.menu_Exit,MenuFileExit);
+  menu_file_data(+cfg.menu_Exit,MenuFileExit);
 
   menu_opt_data(+cfg.menu_Global,MenuOptionsUserPref)
                (+cfg.menu_App,MenuOptionsAppPref);
@@ -145,7 +119,7 @@ void ClientWindow::open()
  {
   wlist.open();
 
-  sample.setFocus();
+  sub_win.setFocus();
  }
 
  // drawing
@@ -157,7 +131,7 @@ void ClientWindow::layout()
   Pane pane(Null,getSize());
 
   menu.setPlace(SplitY(dy,pane));
-  sample.setPlace(pane);
+  sub_win.setPlace(pane);
  }
 
  // user input
@@ -181,7 +155,7 @@ void ClientWindow::react_Key(VKey vkey,KeyMod kmod)
       {
        menuOff();
 
-       sample.setFocus();
+       sub_win.setFocus();
       }
      break;
 
