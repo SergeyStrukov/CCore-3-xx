@@ -618,7 +618,7 @@ You may specify an "append" function for enum:
 
 <pre>
 
-using AppendFunc = void (*)(EnumDesc &desc);
+using AppendFunc = void (*)(EnumDesc &desc) ;
 
 EnumDesc &amp; setAppendFunc(AppendFunc append_func);
 
@@ -775,7 +775,7 @@ The class <b>EventEnumValue</b> can be used to update a value/name couple list o
 
 #if 0
 
-struct T
+struct Value
  {
   using ValueType = uint16 ;
   
@@ -786,7 +786,7 @@ struct T
 
 #endif
 
-template &lt;class T&gt;
+template &lt;EventValueType T&gt;
 class <span class="Att">EventEnumValue</span>
  {
    ....

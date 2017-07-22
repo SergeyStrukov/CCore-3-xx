@@ -86,6 +86,12 @@ CCORE_INITPRI_0
         
         GlobalObjects
          {
+          template <RegisterEventType T>
+          EventTypeIdNode EventTypeId<T>::Node;
+          
+          template <EventType T>
+          EventIdNode EventId<T>::Node;
+          
           *
           
           main

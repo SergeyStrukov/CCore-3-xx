@@ -1,7 +1,7 @@
 /* EventRecorder.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -101,6 +101,8 @@ concept bool EventValueType = requires()
 
   requires ( EventValueType2<T,typename T::ValueType> );
  } ;
+
+//----------------------------------------------------------------------------------------
 
 /* classes */
 
@@ -859,7 +861,7 @@ class EventMetaInfo : NoCopy
 
    void print(PrinterType &out) const
     {
-     Printf(out,"#;\n\nfreq = #;\n\n",Title("Event record"),time_freq);
+     Printf(out,"#;\n\nfreq = #;\n\n",Title("Event record"_c),time_freq);
 
      for(const auto &desc : enum_list )
        {
@@ -894,7 +896,7 @@ concept bool EventType = requires()
 
   { &T::id } -> EventIdType T::* ;
 
-  { &T::Register } -> void (*)(EventMetaInfo &info,EventMetaInfo::EventDesc &desc);
+  { &T::Register } -> void (*)(EventMetaInfo &info,EventMetaInfo::EventDesc &desc) ;
  } ;
 
 /* concept EventInitArg<T,SS> */
@@ -910,8 +912,10 @@ concept bool EventInitArg = EventType<T> && requires(T &obj,EventTimeType time,E
 template <class T>
 concept bool RegisterEventType = requires(EventMetaInfo &info)
  {
-  { &T::Register } -> EventIdType (*)(EventMetaInfo &info);
+  { &T::Register } -> EventIdType (*)(EventMetaInfo &info) ;
  } ;
+
+//----------------------------------------------------------------------------------------
 
 /* classes */
 

@@ -1,7 +1,7 @@
 /* EventRecorder.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -39,11 +39,11 @@ const char * GetTextDesc(EventMarker marker)
     "Down",      // EventMarker_Down
 
     "UpBlock",   // EventMarker_UpBlock
-    "DownBlock", //  EventMarker_DownBlock
+    "DownBlock", // EventMarker_DownBlock
 
     "UpUp",      // EventMarker_UpUp
     "UpPush",    // EventMarker_UpPush
-    "UpUpPush",  //  EventMarker_UpUpPush
+    "UpUpPush",  // EventMarker_UpUpPush
 
     "Push",      // EventMarker_Push
 
