@@ -87,9 +87,13 @@ inline Pane AlignCenter(Pane pane,Point size) { return AlignCenter(pane,size.x,s
 
 /* Box...() */
 
+inline Coordinate BoxSpace(Coordinate dxy) { return dxy/5; }
+
 inline Coord BoxSpace(Coord dxy) { return dxy/5; }
 
-inline Coord BoxExt(Coord dxy) { return IntAdd(dxy,BoxSpace(dxy)); }
+inline Coordinate BoxExt(Coordinate dxy) { return dxy+BoxSpace(dxy); }
+
+inline Coord BoxExt(Coord dxy) { return +BoxExt(Coordinate(dxy)); }
 
 /* GetMinSize() */
 

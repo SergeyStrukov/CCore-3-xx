@@ -131,6 +131,10 @@ class ClientWindow : public ComboWindow
 
    virtual ~ClientWindow();
 
+   // methods
+
+   Point getMinSize() const;
+
    // base
 
    virtual void open();

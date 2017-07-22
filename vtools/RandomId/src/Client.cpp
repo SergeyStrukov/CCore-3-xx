@@ -113,6 +113,17 @@ ClientWindow::~ClientWindow()
  {
  }
 
+ // methods
+
+Point ClientWindow::getMinSize() const
+ {
+  Coordinate dy=menu.getMinSize().dy;
+
+  Point s=sub_win.getMinSize();
+
+  return Point( s.x , dy+s.y );
+ }
+
  // base
 
 void ClientWindow::open()

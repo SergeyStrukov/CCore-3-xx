@@ -18,6 +18,8 @@
 #include <CCore/inc/video/ConfigEditor.h>
 #include <CCore/inc/video/Picture.h>
 
+#include <CCore/inc/video/Layout.h>
+
 #include <CCore/inc/TaskMemStack.h>
 
 namespace App {
@@ -254,7 +256,22 @@ class Application : public ApplicationBase
 
    virtual void prepare()
     {
+#if 1
+
+     DefString title=param.app_pref.get().title;
+     Ratio frame_pos_ry=param.user_pref.get().frame_pos_ry;
+
+     Point size=main_frame.getMinSize(true,title.str(),client.getMinSize());
+
+     Pane pane=GetWindowPlace(desktop,frame_pos_ry,size);
+
+     main_frame.createMain(cmd_display,pane,title);
+
+#else
+
      main_frame.createMain(cmd_display,param.app_pref.get().title);
+
+#endif
     }
 
    virtual void beforeLoop() noexcept

@@ -93,9 +93,23 @@ RandomIdWindow::~RandomIdWindow()
 
  // methods
 
-Point RandomIdWindow::getMinSize() const // TODO
+Point RandomIdWindow::getMinSize() const
  {
-  return Point(100,100);
+  Coordinate space_dxy=+cfg.space_dxy;
+
+  Coordinate line_dy=SupDY(radio_Unid,label_Unid);
+
+  Coordinate dx=radio_Unid.getMinSize().dxy;
+
+  Point inner_size(BoxExt(dx)+SupDX(label_Unid,label_Raw)+2*space_dxy,line_dy*2+3*space_dxy);
+
+  Point s1=contour.getMinSize(inner_size);
+
+  Point s2=btn_Roll.getMinSize();
+  Point s3=btn_Copy.getMinSize();
+  Point s4=text.getMinSize();
+
+  return Point( 3*space_dxy+s1.x+Max_cast( space_dxy+s2.x+s3.x , s4.x ) , 2*space_dxy+Max_cast( space_dxy+s2.y+s4.y , s1.y ) );
  }
 
  // drawing

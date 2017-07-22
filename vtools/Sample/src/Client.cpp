@@ -92,7 +92,7 @@ void ClientWindow::cascade_menu_selected(int id,Point point)
  {
   menuOff();
 
-  sample.setFocus();
+  sub_win.setFocus();
 
   menuAction(id,point);
  }
@@ -108,7 +108,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
 
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
-   sample(wlist,cfg.sample_cfg),
+   sub_win(wlist,cfg.sub_win_cfg),
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
@@ -116,7 +116,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
  {
   Used(update);
 
-  wlist.insTop(menu,sample);
+  wlist.insTop(menu,sub_win);
 
   wlist.enableTabFocus(false);
 
@@ -139,13 +139,24 @@ ClientWindow::~ClientWindow()
  {
  }
 
+ // methods
+
+Point ClientWindow::getMinSize() const
+ {
+  Coordinate dy=menu.getMinSize().dy;
+
+  Point s=sub_win.getMinSize();
+
+  return Point(s.x,dy+s.y);
+ }
+
  // base
 
 void ClientWindow::open()
  {
   wlist.open();
 
-  sample.setFocus();
+  sub_win.setFocus();
  }
 
  // drawing
@@ -157,7 +168,7 @@ void ClientWindow::layout()
   Pane pane(Null,getSize());
 
   menu.setPlace(SplitY(dy,pane));
-  sample.setPlace(pane);
+  sub_win.setPlace(pane);
  }
 
  // user input
@@ -181,7 +192,7 @@ void ClientWindow::react_Key(VKey vkey,KeyMod kmod)
       {
        menuOff();
 
-       sample.setFocus();
+       sub_win.setFocus();
       }
      break;
 

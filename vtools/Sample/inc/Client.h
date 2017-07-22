@@ -28,6 +28,8 @@ class ClientWindow : public ComboWindow
  {
   public:
 
+   using SubWinType = SampleWindow ;
+
    struct Config
     {
      // user
@@ -47,13 +49,13 @@ class ClientWindow : public ComboWindow
      RefVal<DefString> menu_Global  = "@Global"_def ;
      RefVal<DefString> menu_App     = "@Application"_def ;
 
-     SampleWindow::ConfigType sample_cfg;
+     SubWinType::ConfigType sub_win_cfg;
 
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : sample_cfg(user_pref,app_pref)
+      : sub_win_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -101,7 +103,7 @@ class ClientWindow : public ComboWindow
 
    // inner
 
-   SampleWindow sample;
+   SubWinType sub_win;
 
   private:
 
@@ -142,6 +144,10 @@ class ClientWindow : public ComboWindow
    ClientWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~ClientWindow();
+
+   // methods
+
+   Point getMinSize() const;
 
    // base
 
