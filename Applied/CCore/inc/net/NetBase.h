@@ -1,7 +1,7 @@
 /* NetBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -551,7 +551,7 @@ struct CheckSum
   void operator () () {}
 
   template <class ... TT>
-  void operator () (uint8 b0,uint8 b1,TT... tt)
+  void operator () (uint8 b0,uint8 b1,TT ... tt)
    {
     add(b0,b1);
 
@@ -559,7 +559,7 @@ struct CheckSum
    }
 
   template <class ... TT>
-  void operator () (uint16 word,TT... tt)
+  void operator () (uint16 word,TT ... tt)
    {
     add(word);
 
@@ -567,7 +567,7 @@ struct CheckSum
    }
 
   template <class ... TT>
-  void operator () (uint32 dword,TT... tt)
+  void operator () (uint32 dword,TT ... tt)
    {
     add(dword);
 
@@ -727,7 +727,7 @@ struct IPHeader
      }
 
     template <CharPeekType Dev>
-    void ParseExtra(Dev &dev,bool &extra)
+    static void ParseExtra(Dev &dev,bool &extra)
      {
       typename Dev::Peek peek(dev);
 
