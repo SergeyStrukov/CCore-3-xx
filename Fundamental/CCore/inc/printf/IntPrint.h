@@ -1,7 +1,7 @@
 /* IntPrint.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -227,7 +227,7 @@ class IntToStr : NoCopy
 
      if( value )
        {
-        for(; value ;value/=base) put("0123456789ABCDEF"[value%base]);
+        for(; value ;value/=base) put(UpperHexDigit(value%base));
        }
      else
        {

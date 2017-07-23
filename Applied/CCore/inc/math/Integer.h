@@ -1,7 +1,7 @@
 /* Integer.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -157,8 +157,6 @@ ulen AddLen(UIntType a,ulen b)
  }
 
 ulen AddLen(UIntType a,ulen b,ulen c) { return AddLen(a,AddLen(b,c)); }
-
-char DecDigit(UIntType dig) { return char('0'+dig); }
 
 /* classes */
 
@@ -1546,6 +1544,8 @@ void PrintInteger<Integer>::operator () (PrinterType &out,IntegerPrintOpt opt,In
     }
  }
 
+//----------------------------------------------------------------------------------------
+
 /* class Integer<Algo,ArrayType,ArrayAlgoType> */
 
 template <IntAlgo Algo,template <class T,class A> class ArrayType,template <class T,class F=GetNoThrowFlags<T> > class ArrayAlgoType>
@@ -2402,6 +2402,8 @@ bool operator >= (const Integer<Algo,ArrayType,ArrayAlgoType> &a,SUInt b) { retu
 
 template <IntAlgo Algo,template <class T,class A> class ArrayType,template <class T,class F=GetNoThrowFlags<T> > class ArrayAlgoType,SUIntType SUInt>
 bool operator >= (SUInt a,const Integer<Algo,ArrayType,ArrayAlgoType> &b) { return b.cmp(a)<=0; }
+
+//----------------------------------------------------------------------------------------
 
 /* class RandomInteger<Integer> */
 

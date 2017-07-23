@@ -1,7 +1,7 @@
 /* UtilFunc.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -135,6 +135,14 @@ bool BitTestAll(UInt val,S bits_)
 
   return UInt( val&bits )==bits;
  }
+
+/* functions */
+
+char UpperHexDigit(UIntType digit) { return "0123456789ABCDEF"[digit]; }
+
+char LowerHexDigit(UIntType digit) { return "0123456789abcdef"[digit]; }
+
+char DecDigit(UIntType digit) { return char( '0'+digit ); }
 
 } // namespace CCore
 

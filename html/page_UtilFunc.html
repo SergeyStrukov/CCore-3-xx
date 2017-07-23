@@ -2,7 +2,7 @@
 /* page_UtilFunc.html */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003 
 //
@@ -272,6 +272,34 @@ bool <span class="Att">BitTestAll</span>(UInt t,S bits); // check if all bits ar
 These functions make bit manipulation expressions more simple and verbose 
 and resolve the type conversion problem. The second argument is explicitly 
 casted to the type of the first one.
+</p>
+
+<h3>Digit functions</h3>
+
+<p>
+The following three functions converts an unsigned integer into a digit character.
+</p>
+
+<pre>
+
+char <span class="Att">UpperHexDigit</span>(UIntType digit);
+
+char <span class="Att">LowerHexDigit</span>(UIntType digit);
+
+char <span class="Att">DecDigit</span>(UIntType digit);
+
+</pre>
+
+<p>
+<b>UpperHexDigit()</b> returns the upper hex digit character, the argument must be in the range <b>[0,16)</b>.
+</p>
+
+<p>
+<b>LowerHexDigit()</b> returns the lower hex digit character, the argument must be in the range <b>[0,16)</b>.
+</p>
+
+<p>
+<b>DecDigit()</b> returns the decimal digit character, the argument must be in the range <b>[0,10)</b>.
 </p>
 
 </body>

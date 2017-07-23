@@ -1,7 +1,7 @@
 /* NetFork.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ class EndpointNetFork : public ObjBase , public PacketEndpointDevice
 
    using Queue = NetForkQueue<Item> ;
 
-   class Engine : NoCopy , public InboundProc , public ConnectionProc
+   class Engine : public NoCopyBase<InboundProc,ConnectionProc>
     {
       PacketEndpointDevice *ep;
 
@@ -198,7 +198,7 @@ class MultipointNetFork : public ObjBase , public PacketMultipointDevice
 
    using Queue = NetForkQueue<Item> ;
 
-   class Engine : NoCopy , public InboundProc , public ConnectionProc
+   class Engine : public NoCopyBase<InboundProc,ConnectionProc>
     {
       PacketMultipointDevice *mp;
 
