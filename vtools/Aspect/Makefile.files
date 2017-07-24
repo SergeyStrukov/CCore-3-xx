@@ -34,72 +34,72 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/AppState.o : ./src/AppState.cpp
+.obj/AppState.o : ././src/AppState.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Application.o : ./src/Application.cpp
+.obj/Application.o : ././src/Application.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Aspect.o : ./src/Aspect.cpp
+.obj/Aspect.o : ././src/Aspect.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/AspectData.o : ./src/AspectData.cpp
+.obj/AspectData.o : ././src/AspectData.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Client.o : ./src/Client.cpp
+.obj/Client.o : ././src/Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ErrorText.o : ./src/ErrorText.cpp
+.obj/ErrorText.o : ././src/ErrorText.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/main.o : ./src/main.cpp
+.obj/main.o : ././src/main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-.obj/AppState.s : ./src/AppState.cpp
+.obj/AppState.s : ././src/AppState.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Application.s : ./src/Application.cpp
+.obj/Application.s : ././src/Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Aspect.s : ./src/Aspect.cpp
+.obj/Aspect.s : ././src/Aspect.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/AspectData.s : ./src/AspectData.cpp
+.obj/AspectData.s : ././src/AspectData.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Client.s : ./src/Client.cpp
+.obj/Client.s : ././src/Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ErrorText.s : ./src/ErrorText.cpp
+.obj/ErrorText.s : ././src/ErrorText.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/main.s : ./src/main.cpp
+.obj/main.s : ././src/main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-.obj/AppState.dep : ./src/AppState.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/AppState.o $< -MF $@
+.obj/AppState.dep : ././src/AppState.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/AppState.o $< -MF $@
 
-.obj/Application.dep : ./src/Application.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Application.o $< -MF $@
+.obj/Application.dep : ././src/Application.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
 
-.obj/Aspect.dep : ./src/Aspect.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Aspect.o $< -MF $@
+.obj/Aspect.dep : ././src/Aspect.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Aspect.o $< -MF $@
 
-.obj/AspectData.dep : ./src/AspectData.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/AspectData.o $< -MF $@
+.obj/AspectData.dep : ././src/AspectData.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/AspectData.o $< -MF $@
 
-.obj/Client.dep : ./src/Client.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Client.o $< -MF $@
+.obj/Client.dep : ././src/Client.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
 
-.obj/ErrorText.dep : ./src/ErrorText.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/ErrorText.o $< -MF $@
+.obj/ErrorText.dep : ././src/ErrorText.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ErrorText.o $< -MF $@
 
-.obj/main.dep : ./src/main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+.obj/main.dep : ././src/main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
 
 
 

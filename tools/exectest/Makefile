@@ -22,7 +22,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET) 1 2 3 4 5
+	$(TARGET) 1 2 3 4 5 "text string" text string 'text string'
 
 
 

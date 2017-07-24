@@ -25,45 +25,45 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/Application.o : ./src/Application.cpp
+.obj/Application.o : ././src/Application.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Client.o : ./src/Client.cpp
+.obj/Client.o : ././src/Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Display.o : ./src/Display.cpp
+.obj/Display.o : ././src/Display.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/main.o : ./src/main.cpp
+.obj/main.o : ././src/main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-.obj/Application.s : ./src/Application.cpp
+.obj/Application.s : ././src/Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Client.s : ./src/Client.cpp
+.obj/Client.s : ././src/Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Display.s : ./src/Display.cpp
+.obj/Display.s : ././src/Display.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/main.s : ./src/main.cpp
+.obj/main.s : ././src/main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-.obj/Application.dep : ./src/Application.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Application.o $< -MF $@
+.obj/Application.dep : ././src/Application.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
 
-.obj/Client.dep : ./src/Client.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Client.o $< -MF $@
+.obj/Client.dep : ././src/Client.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
 
-.obj/Display.dep : ./src/Display.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Display.o $< -MF $@
+.obj/Display.dep : ././src/Display.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Display.o $< -MF $@
 
-.obj/main.dep : ./src/main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+.obj/main.dep : ././src/main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
 
 
 

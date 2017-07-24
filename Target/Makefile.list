@@ -1,0 +1,41 @@
+# Makefile.list
+#----------------------------------------------------------------------------------------
+#
+#  Project: CCore 3.01
+#
+#  Tag: General
+#
+#  License: Boost Software License - Version 1.0 - August 17th, 2003 
+#
+#            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+#
+#  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+#
+#----------------------------------------------------------------------------------------
+
+.PHONY : all clean list $(LIST) 
+
+all: $(LIST)
+
+$(LIST):
+	make $(OPT) -C $@
+
+#----------------------------------------------------------------------------------------
+
+CLEAN_LIST = $(addprefix CLEAN/,$(LIST))
+
+clean: $(CLEAN_LIST)
+
+$(CLEAN_LIST):
+	make -C $(patsubst CLEAN/%,%,$@) clean
+
+#----------------------------------------------------------------------------------------
+
+LIST_LIST = $(addprefix LIST/,$(LIST))
+
+list: $(LIST_LIST)
+
+$(LIST_LIST):
+	make -C $(patsubst LIST/%,%,$@) list
+
+#----------------------------------------------------------------------------------------
