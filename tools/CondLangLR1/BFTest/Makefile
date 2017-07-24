@@ -21,6 +21,8 @@ TARGET = ./BFTest.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) ../AMP/AMP.ddl
 	$(TARGET) ../DDL/DDL.ddl

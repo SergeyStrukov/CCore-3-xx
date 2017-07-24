@@ -19,6 +19,8 @@ TARGET = $(HOME)/bin/CCore-Regen.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run txtrun
+
 run: $(TARGET)
 	$(TARGET) Test.desc ./Test.gen.h
 

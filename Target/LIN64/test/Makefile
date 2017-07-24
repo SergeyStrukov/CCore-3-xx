@@ -31,6 +31,8 @@ TARGET = main.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: main.exe
 	./main.exe
 

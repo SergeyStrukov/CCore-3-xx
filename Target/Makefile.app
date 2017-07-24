@@ -23,6 +23,8 @@ RULES_FILE = $(CCORE_ROOT)/Target/Makefile.app.rules
 
 include $(CCORE_ROOT)/Target/$(CCORE_TARGET)/Makefile.tools
 
+.PHONY : all list
+
 all: $(TARGET)
 
 Makefile.files:

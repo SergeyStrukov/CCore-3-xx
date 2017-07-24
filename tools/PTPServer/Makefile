@@ -23,6 +23,8 @@ TARGET = $(HOME)/bin/CCore-PTPServer.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	cd root && $(TARGET)
 

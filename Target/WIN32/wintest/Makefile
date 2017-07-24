@@ -23,14 +23,16 @@ SRC_PATH_LIST = . \
 
 OBJ_PATH = ../.wintest-obj
 
-TARGET = main.exe
+TARGET = ./main.exe
 
 TARGET_DESKTOP = yes
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
-	./$(TARGET)
+	$(TARGET)
 
 
 

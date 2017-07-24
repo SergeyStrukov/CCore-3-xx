@@ -19,6 +19,8 @@ TARGET = $(HOME)/bin/CCore-BeagleBoot.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) r 192.168.99.10 ../../test/main.exe
 

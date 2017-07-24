@@ -31,6 +31,8 @@ TARGET = main.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	~/bin/CCore-BeagleBoot.exe r 192.168.99.10 $(TARGET) && cd root && ~/bin/CCore-PTPServer.exe c
 	

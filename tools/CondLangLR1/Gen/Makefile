@@ -21,6 +21,8 @@ TARGET = $(HOME)/bin/CCore-ParserGen.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) sample/Formula.ddl FormulaParserData sample/Formula.gen.h sample/Formula.gen.cpp
 

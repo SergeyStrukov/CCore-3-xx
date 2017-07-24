@@ -23,6 +23,8 @@ GEN_LIST = $(shell $(FIND) $(GEN_PATH_LIST) -name "*.gen.h")
 
 include $(CCORE_ROOT)/Target/$(CCORE_TARGET)/Makefile.tools
 
+.PHONY : all list
+
 all: $(TARGET)
 
 Makefile.files:

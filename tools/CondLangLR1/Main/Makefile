@@ -23,6 +23,8 @@ CCOPT_EXTRA = -I.
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) ../AMP/AMP
 	$(TARGET) ../DDL/DDL.lang

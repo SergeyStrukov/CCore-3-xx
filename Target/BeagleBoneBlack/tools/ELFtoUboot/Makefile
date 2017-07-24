@@ -19,6 +19,8 @@ TARGET = $(HOME)/bin/CCore-ELFtoUboot.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) ../../test/main.exe test.img
 	

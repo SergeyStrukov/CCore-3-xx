@@ -19,6 +19,8 @@ TARGET = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET) 
 	$(TARGET) ../CondLangLR1/LangTypes.ddl TypeDef.gen.h TypeSet.gen.h
 

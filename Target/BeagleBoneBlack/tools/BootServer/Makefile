@@ -19,6 +19,8 @@ TARGET = main.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	CCore-ELFtoUboot.exe $(TARGET) D:/Tools/TFTPD64/bootfile
 

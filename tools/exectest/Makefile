@@ -19,6 +19,8 @@ TARGET = ../PTPServer/root/exectest.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) 1 2 3 4 5
 

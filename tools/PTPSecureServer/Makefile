@@ -25,6 +25,8 @@ TARGET = $(HOME)/bin/CCore-PTPSecureServer.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run ddl
+
 run: $(TARGET)
 	$(TARGET) Config.ddl
 

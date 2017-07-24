@@ -19,6 +19,8 @@ TARGET = $(HOME)/bin/CCore-Keywords.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
+.PHONY : run
+
 run: $(TARGET)
 	$(TARGET) keywords.ddl keywords.gen.cpp
 

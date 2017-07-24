@@ -1,7 +1,7 @@
 # Makefile.lib.rules
 #----------------------------------------------------------------------------------------
 #
-#  Project: CCore 3.00
+#  Project: CCore 3.01
 #
 #  Tag: General
 #
@@ -18,6 +18,8 @@
 DEP_FILE = $(OBJ_PATH)/Makefile.dep
 
 # rules
+
+.PHONY : asm clean dep
 
 asm: $(ASM_LIST)
 
