@@ -31,7 +31,8 @@ Aspect Data=
     { 'index.html' , Ignore },
     { 'Author.txt' , Ignore },
     { 'FreeType-FTL.txt' , Ignore },
-    { 'License.txt' , Ignore }
+    { 'License.txt' , Ignore },
+    { 'TODO.txt' , Green }
    }
   }
  };
@@ -443,7 +444,7 @@ Dir Dir7=
 Dir Dir8=
   {
    'Simple',
-   Red,
+   Green,
    {
     &Dir23
    },
@@ -513,6 +514,7 @@ Dir Dir11=
     { 'Makefile.app' , Ignore },
     { 'Makefile.core' , Ignore },
     { 'Makefile.lib' , Ignore },
+    { 'Makefile.list' , New },
     { 'Makefile.app.rules' , Ignore },
     { 'Makefile.core.rules' , Ignore },
     { 'Makefile.lib.rules' , Ignore }
@@ -2112,7 +2114,7 @@ Dir Dir22=
 Dir Dir23=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir117,
     &Dir118,
@@ -2125,7 +2127,7 @@ Dir Dir23=
 Dir Dir117=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir120
    },
@@ -2150,7 +2152,7 @@ Dir Dir117=
     { 'OwnPtr.h' , Green },
     { 'Pow.h' , Green },
     { 'PrintAbort.h' , Green },
-    { 'PrintBits.h' , Yellow },
+    { 'PrintBits.h' , Green },
     { 'PrintError.h' , Green },
     { 'PrintSet.h' , Green },
     { 'PrintStem.h' , Green },
@@ -2276,7 +2278,7 @@ Dir Dir119=
 Dir Dir120=
   {
    'gadget',
-   Red,
+   Green,
    {
    },
    {
@@ -2284,7 +2286,7 @@ Dir Dir120=
     { 'CreateAt.h' , Green },
     { 'DefaultTimeout.h' , Green },
     { 'ExceptionType.h' , Green },
-    { 'Function.h' , Yellow },
+    { 'Function.h' , Green },
     { 'Handle.h' , Green },
     { 'Init.h' , Green },
     { 'Len.h' , Green },
