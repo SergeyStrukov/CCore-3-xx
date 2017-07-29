@@ -169,7 +169,7 @@ void Main(StrLen ddl_file_name,StrLen class_name,StrLen h_file_name,StrLen cpp_f
 
    Printf(outc,"\n     default: return \"???\";\n");
    Printf(outc,"    }\n");
-   Printf(outc," };\n\n");
+   Printf(outc," }\n\n");
   }
 
   // 3
