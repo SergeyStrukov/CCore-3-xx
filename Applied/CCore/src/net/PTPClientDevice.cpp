@@ -1,7 +1,7 @@
 /* PTPClientDevice.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -247,7 +247,7 @@ void ClientEngine::Slot::inbound_CANCEL(PacketList &complete_list)
   engine->completeError(complete_list,Replace_null(packet),Trans_Cancelled);
  }
 
-void ClientEngine::Slot::inbound_NOINFO(PacketList &)
+void ClientEngine::Slot::inbound_NOINFO()
  {
   engine->stat.count(client_slot,ClientEvent_NOINFO);
 
@@ -410,7 +410,7 @@ void ClientEngine::inbound_NOINFO(PacketList &complete_list,const TransId &trans
  {
   if( Slot *slot=find(trans_id,client_slot,server_slot) )
     {
-     slot->inbound_NOINFO(complete_list);
+     slot->inbound_NOINFO();
     }
   else
     {
@@ -467,6 +467,54 @@ void ClientEngine::send(PacketList &complete_list,Packet<uint8> data_packet)
   data_packet.pushCompleteFunction(function_send());
 
   complete_list.put(data_packet);
+ }
+
+template <class T>
+void ClientEngine::send(PacketList &complete_list,const T &t,Packet<uint8> data_packet)
+ {
+  if( !data_packet ) return;
+
+  auto len=SaveLen(t);
+
+  if( data_packet.checkDataLen(outbound_format,len) )
+    {
+     BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
+
+     dev(t);
+
+     send(complete_list,data_packet);
+    }
+  else
+    {
+     stat.count(ClientEvent_BadOutbound);
+
+     complete_list.put(data_packet);
+    }
+ }
+
+template <class T1,class T2>
+void ClientEngine::send(PacketList &complete_list,const T1 &t1,const T2 &t2,PtrLen<const uint8> info,Packet<uint8> data_packet)
+ {
+  if( !data_packet ) return;
+
+  auto len=SaveLen(t1,t2)+info.len;
+
+  if( data_packet.checkDataLen(outbound_format,len) )
+    {
+     BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
+
+     dev(t1,t2);
+
+     dev.put(info);
+
+     send(complete_list,data_packet);
+    }
+  else
+    {
+     stat.count(ClientEvent_BadOutbound);
+
+     complete_list.put(data_packet);
+    }
  }
 
 void ClientEngine::abort(PacketHeader *packet_)
