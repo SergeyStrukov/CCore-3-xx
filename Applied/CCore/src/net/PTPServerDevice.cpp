@@ -1,7 +1,7 @@
 /* PTPServerDevice.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -128,7 +128,18 @@ void ServerProtoEvent_slot::Register(EventMetaInfo &info,EventMetaInfo::EventDes
   desc.setStructId(info,id);
  }
 
+/* struct ServerProc */
+
+const Unid ServerProc::TypeUnid={{0x60D1'7480,0xD323'DCC0,0x01AB'1C7C,0x36D5'F6AD,0x9393'B175,0x9D66'258F,0x2DD2'0918,0x30E9'388F}};
+
 /* class ServerEngine::Slot */
+
+void ServerEngine::ProcExt::operator () (Packet<uint8,Hook> packet)
+ {
+  Hook hook(std::move(*packet.getExt()));
+
+  hook->inbound(point,idx,packet.popExt(),client_info);
+ }
 
 void ServerEngine::ProcExt::Complete(PacketHeader *packet_)
  {
@@ -266,18 +277,20 @@ void ServerEngine::Slot::inbound_RECALL_first(PacketList &complete_list,XPoint p
   start(complete_list,point,trans_id,client_slot,packet,client_info,recall_number);
  }
 
-void ServerEngine::Slot::inbound_ACK(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list)
+void ServerEngine::Slot::inbound_ACK(PacketSet<uint8>::Cancel &cancel)
  {
   engine->stat.count(server_slot,ServerEvent_ACK);
 
   switch( state )
     {
      case State_pending   : engine->stat.count(server_slot,ServerEvent_ClientCancel); break;
+
      case State_ready     : engine->stat.count(server_slot,ServerEvent_TransDone);    break;
+
      case State_cancelled : engine->stat.count(server_slot,ServerEvent_Cancel);       break;
     }
 
-  finish(cancel,complete_list);
+  finish(cancel);
  }
 
 void ServerEngine::Slot::inbound_SENDRET(PacketList &complete_list)
@@ -312,7 +325,7 @@ bool ServerEngine::Slot::tick(PacketSet<uint8>::Cancel &cancel,PacketList &compl
           {
            engine->stat.count(server_slot,ServerEvent_Timeout);
 
-           finish(cancel,complete_list);
+           finish(cancel);
 
            return false;
           }
@@ -328,7 +341,7 @@ bool ServerEngine::Slot::tick(PacketSet<uint8>::Cancel &cancel,PacketList &compl
   return true;
  }
 
-void ServerEngine::Slot::finish(PacketSet<uint8>::Cancel &cancel,PacketList &)
+void ServerEngine::Slot::finish(PacketSet<uint8>::Cancel &cancel)
  {
   server_info=Nothing;
 
@@ -336,10 +349,6 @@ void ServerEngine::Slot::finish(PacketSet<uint8>::Cancel &cancel,PacketList &)
 
   cancel.build(plist);
  }
-
-/* struct ServerProc */
-
-const Unid ServerProc::TypeUnid={{0x60D1'7480,0xD323'DCC0,0x01AB'1C7C,0x36D5'F6AD,0x9393'B175,0x9D66'258F,0x2DD2'0918,0x30E9'388F}};
 
 /* class ServerEngine */
 
@@ -448,7 +457,7 @@ void ServerEngine::inbound_ACK(PacketSet<uint8>::Cancel &cancel,PacketList &comp
  {
   if( Slot *slot=find(point,server_slot,trans_id) )
     {
-     slot->inbound_ACK(cancel,complete_list);
+     slot->inbound_ACK(cancel);
 
      deactivate(slot);
     }
@@ -511,6 +520,61 @@ void ServerEngine::send(PacketList &complete_list,XPoint point,Packet<uint8> dat
   data_packet.pushCompleteFunction(function_send());
 
   complete_list.put(data_packet.pushExt<XPoint>(point));
+ }
+
+template <class T>
+void ServerEngine::send(PacketList &complete_list,XPoint point,const T &t,Packet<uint8> data_packet)
+ {
+  if( !data_packet ) return;
+
+  auto len=SaveLen(t);
+
+  if( data_packet.checkDataLen(outbound_format,len) )
+    {
+     BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
+
+     dev(t);
+
+     send(complete_list,point,data_packet);
+    }
+  else
+    {
+     stat.count(ServerEvent_BadOutbound);
+
+     complete_list.put(data_packet);
+    }
+ }
+
+template <class T1,class T2>
+void ServerEngine::send(PacketList &complete_list,XPoint point,const T1 &t1,const T2 &t2,PtrLen<const uint8> info,Packet<uint8> data_packet)
+ {
+  if( !data_packet ) return;
+
+  auto len=SaveLen(t1,t2)+info.len;
+
+  if( data_packet.checkDataLen(outbound_format,len) )
+    {
+     BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
+
+     dev(t1,t2);
+
+     dev.put(info);
+
+     send(complete_list,point,data_packet);
+    }
+  else
+    {
+     stat.count(ServerEvent_BadOutbound);
+
+     complete_list.put(data_packet);
+    }
+ }
+
+void ServerEngine::bad_inbound(PacketList &complete_list,Packet<uint8> packet)
+ {
+  stat.count(ServerEvent_BadInbound);
+
+  complete_list.put(packet);
  }
 
 void ServerEngine::inbound_locked(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list,XPoint point,Packet<uint8> packet,PtrLen<const uint8> data)
@@ -608,7 +672,7 @@ void ServerEngine::tick_locked(PacketSet<uint8>::Cancel &cancel,PacketList &comp
     }
  }
 
-void ServerEngine::cancelAll_locked(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list)
+void ServerEngine::cancelAll_locked(PacketSet<uint8>::Cancel &cancel)
  {
   Mutex::Lock lock(mutex);
 
@@ -616,13 +680,13 @@ void ServerEngine::cancelAll_locked(PacketSet<uint8>::Cancel &cancel,PacketList 
     {
      stat.count(slot->server_slot,ServerEvent_Abort);
 
-     slot->finish(cancel,complete_list);
+     slot->finish(cancel);
 
      deactivate(slot);
     }
  }
 
-void ServerEngine::cancelFrom_locked(XPoint point,PacketSet<uint8>::Cancel &cancel,PacketList &complete_list)
+void ServerEngine::cancelFrom_locked(XPoint point,PacketSet<uint8>::Cancel &cancel)
  {
   Mutex::Lock lock(mutex);
 
@@ -640,7 +704,7 @@ void ServerEngine::cancelFrom_locked(XPoint point,PacketSet<uint8>::Cancel &canc
 
         stat.count(slot->server_slot,ServerEvent_Abort);
 
-        slot->finish(cancel,complete_list);
+        slot->finish(cancel);
 
         deactivate_nodel(slot);
        }
@@ -806,7 +870,7 @@ void ServerEngine::cancelAll()
 
   PacketList complete_list;
 
-  cancelAll_locked(cancel,complete_list);
+  cancelAll_locked(cancel);
 
   complete_list.complete();
 
@@ -819,7 +883,7 @@ void ServerEngine::cancelFrom(XPoint point)
 
   PacketList complete_list;
 
-  cancelFrom_locked(point,cancel,complete_list);
+  cancelFrom_locked(point,cancel);
 
   complete_list.complete();
 

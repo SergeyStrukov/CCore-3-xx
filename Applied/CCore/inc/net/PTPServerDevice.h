@@ -1,7 +1,7 @@
 /* PTPServerDevice.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -221,12 +221,7 @@ class ServerEngine : public Funchor_nocopy , public PacketMultipointDevice::Inbo
 
      ProcExt(XPoint point_,TransIndex idx_,PtrLen<const uint8> client_info_) : point(point_),idx(idx_),client_info(client_info_) {}
 
-     void operator () (Packet<uint8,Hook> packet)
-      {
-       Hook hook(std::move(*packet.getExt()));
-
-       hook->inbound(point,idx,packet.popExt(),client_info);
-      }
+     void operator () (Packet<uint8,Hook> packet);
 
      static void Complete(PacketHeader *packet);
     };
@@ -329,13 +324,13 @@ class ServerEngine : public Funchor_nocopy , public PacketMultipointDevice::Inbo
 
      void inbound_RECALL_first(PacketList &complete_list,XPoint point,const TransId &trans_id,SlotId client_slot,Packet<uint8> packet,PtrLen<const uint8> client_info,RecallNumber recall_number);
 
-     void inbound_ACK(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
+     void inbound_ACK(PacketSet<uint8>::Cancel &cancel);
 
      void inbound_SENDRET(PacketList &complete_list);
 
      bool tick(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
 
-     void finish(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
+     void finish(PacketSet<uint8>::Cancel &cancel);
     };
 
    SimpleArray<Slot> slots;
@@ -386,59 +381,12 @@ class ServerEngine : public Funchor_nocopy , public PacketMultipointDevice::Inbo
    void send(PacketList &complete_list,XPoint point,Packet<uint8> data_packet);
 
    template <class T>
-   void send(PacketList &complete_list,XPoint point,const T &t,Packet<uint8> data_packet)
-    {
-     if( !data_packet ) return;
-
-     auto len=SaveLen(t);
-
-     if( data_packet.checkDataLen(outbound_format,len) )
-       {
-        BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
-
-        dev(t);
-
-        send(complete_list,point,data_packet);
-       }
-     else
-       {
-        stat.count(ServerEvent_BadOutbound);
-
-        complete_list.put(data_packet);
-       }
-    }
+   void send(PacketList &complete_list,XPoint point,const T &t,Packet<uint8> data_packet);
 
    template <class T1,class T2>
-   void send(PacketList &complete_list,XPoint point,const T1 &t1,const T2 &t2,PtrLen<const uint8> info,Packet<uint8> data_packet)
-    {
-     if( !data_packet ) return;
+   void send(PacketList &complete_list,XPoint point,const T1 &t1,const T2 &t2,PtrLen<const uint8> info,Packet<uint8> data_packet);
 
-     auto len=SaveLen(t1,t2)+info.len;
-
-     if( data_packet.checkDataLen(outbound_format,len) )
-       {
-        BufPutDev dev(data_packet.setDataLen(outbound_format,len).ptr);
-
-        dev(t1,t2);
-
-        dev.put(info);
-
-        send(complete_list,point,data_packet);
-       }
-     else
-       {
-        stat.count(ServerEvent_BadOutbound);
-
-        complete_list.put(data_packet);
-       }
-    }
-
-   void bad_inbound(PacketList &complete_list,Packet<uint8> packet)
-    {
-     stat.count(ServerEvent_BadInbound);
-
-     complete_list.put(packet);
-    }
+   void bad_inbound(PacketList &complete_list,Packet<uint8> packet);
 
   private:
 
@@ -446,9 +394,9 @@ class ServerEngine : public Funchor_nocopy , public PacketMultipointDevice::Inbo
 
    void tick_locked(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
 
-   void cancelAll_locked(PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
+   void cancelAll_locked(PacketSet<uint8>::Cancel &cancel);
 
-   void cancelFrom_locked(XPoint point,PacketSet<uint8>::Cancel &cancel,PacketList &complete_list);
+   void cancelFrom_locked(XPoint point,PacketSet<uint8>::Cancel &cancel);
 
    void send_info_locked(PacketList &complete_list,TransIndex idx,Packet<uint8> proc_packet,PtrLen<const uint8> server_info);
 
