@@ -514,7 +514,7 @@ Dir Dir11=
     { 'Makefile.app' , Ignore },
     { 'Makefile.core' , Ignore },
     { 'Makefile.lib' , Ignore },
-    { 'Makefile.list' , New },
+    { 'Makefile.list' , Green },
     { 'Makefile.app.rules' , Ignore },
     { 'Makefile.core.rules' , Ignore },
     { 'Makefile.lib.rules' , Ignore }
@@ -3050,7 +3050,7 @@ Dir Dir43=
 Dir Dir44=
   {
    'Vanilla-H',
-   Red,
+   Green,
    {
     &Dir151,
     &Dir152
@@ -3912,7 +3912,7 @@ Dir Dir205=
 Dir Dir151=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir206,
     &Dir207,
@@ -3925,20 +3925,20 @@ Dir Dir151=
 Dir Dir152=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Green },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir206=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir209,
     &Dir210
@@ -3950,20 +3950,20 @@ Dir Dir206=
 Dir Dir207=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir211,
     &Dir212
    },
    {
-    { 'PlanInit_CCore.cpp' , Red }
+    { 'PlanInit_CCore.cpp' , Green }
    }
   };
 
 Dir Dir208=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
@@ -3973,76 +3973,76 @@ Dir Dir208=
 Dir Dir209=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.h' , Red },
-    { 'Quick.h' , Red }
+    { 'PlatformBase.h' , Green },
+    { 'Quick.h' , Green }
    }
   };
 
 Dir Dir210=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysAbort.h' , Red },
-    { 'SysAtomic.h' , Red },
-    { 'SysCon.h' , Red },
-    { 'SysError.h' , Red },
-    { 'SysFile.h' , Red },
-    { 'SysFileSystem.h' , Red },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , Red },
-    { 'SysNet.h' , Red },
-    { 'SysPlanInit.h' , Red },
-    { 'SysProp.h' , Red },
-    { 'SysSem.h' , Red },
-    { 'SysTask.h' , Red },
-    { 'SysTime.h' , Red },
-    { 'SysTlsSlot.h' , Red },
-    { 'SysWait.h' , Red }
+    { 'SysAbort.h' , Green },
+    { 'SysAtomic.h' , Green },
+    { 'SysCon.h' , Green },
+    { 'SysError.h' , Green },
+    { 'SysFile.h' , Green },
+    { 'SysFileSystem.h' , Green },
+    { 'SysLaunchPath.h' , Green },
+    { 'SysMemPage.h' , Green },
+    { 'SysNet.h' , Green },
+    { 'SysPlanInit.h' , Green },
+    { 'SysProp.h' , Green },
+    { 'SysSem.h' , Green },
+    { 'SysTask.h' , Green },
+    { 'SysTime.h' , Green },
+    { 'SysTlsSlot.h' , Green },
+    { 'SysWait.h' , Green }
    }
   };
 
 Dir Dir211=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.cpp' , Red },
-    { 'Quick.cpp' , Red }
+    { 'PlatformBase.cpp' , Green },
+    { 'Quick.cpp' , Green }
    }
   };
 
 Dir Dir212=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysAbort.cpp' , Red },
-    { 'SysAtomic.cpp' , Red },
-    { 'SysCon.cpp' , Red },
-    { 'SysError.cpp' , Red },
-    { 'SysFile.cpp' , Red },
-    { 'SysFileSystem.cpp' , Red },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , Red },
-    { 'SysNet.cpp' , Red },
-    { 'SysPlanInit.cpp' , Red },
-    { 'SysProp.cpp' , Red },
-    { 'SysSem.cpp' , Red },
-    { 'SysTask.cpp' , Red },
-    { 'SysTime.cpp' , Red },
-    { 'SysTlsSlot.cpp' , Red },
-    { 'SysWait.cpp' , Red }
+    { 'SysAbort.cpp' , Green },
+    { 'SysAtomic.cpp' , Green },
+    { 'SysCon.cpp' , Green },
+    { 'SysError.cpp' , Green },
+    { 'SysFile.cpp' , Green },
+    { 'SysFileSystem.cpp' , Green },
+    { 'SysLaunchPath.cpp' , Green },
+    { 'SysMemPage.cpp' , Green },
+    { 'SysNet.cpp' , Green },
+    { 'SysPlanInit.cpp' , Green },
+    { 'SysProp.cpp' , Green },
+    { 'SysSem.cpp' , Green },
+    { 'SysTask.cpp' , Green },
+    { 'SysTime.cpp' , Green },
+    { 'SysTlsSlot.cpp' , Green },
+    { 'SysWait.cpp' , Green }
    }
   };
 
