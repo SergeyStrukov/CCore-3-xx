@@ -2594,13 +2594,13 @@ Dir Dir37=
 Dir Dir38=
   {
    'PTPServer',
-   Red,
+   Green,
    {
     &Dir131
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , Red },
+    { 'main.cpp' , Green },
     { 'Makefile.files' , Ignore }
    }
   };
