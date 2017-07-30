@@ -1,7 +1,7 @@
 /* PTPBoot.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -588,7 +588,7 @@ BootInfo::Sect::Sect(AddressType address_,AddressType len_)
  {
   if( len_>MaxULen )
     {
-     Printf(Exception,"CCore::Net::PTPBoot::BootInfo::Sect::Sect(,len=#;) : overflow",len_);
+     Printf(Exception,"CCore::Net::PTPBoot::BootInfo::Sect::Sect(...,len=#;) : overflow",len_);
     }
 
   data.extend_default((ulen)len_);

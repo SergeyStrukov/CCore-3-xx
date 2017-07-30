@@ -1,7 +1,7 @@
 /* PTPConBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -108,6 +108,12 @@ struct TriggerMask
  {
   uint32 mask[8];
 
+  static uint32 CharBit(uint8 ch) { return UIntBit<uint32>(ch&31u); }
+
+  uint32 maskOf(uint8 ch) const { return mask[ch>>5]; }
+
+  uint32 & maskOf(uint8 ch) { return mask[ch>>5]; }
+
   // constructors
 
   TriggerMask() : mask() {}
@@ -135,14 +141,14 @@ struct TriggerMask
 
   void setAll() { Range(mask).set(MaxUInt<uint32>); }
 
-  void set(uint8 ch) { mask[ch>>5] |= UIntBit<uint32>(ch&31u) ; }
+  void set(uint8 ch) { maskOf(ch) |= CharBit(ch) ; }
 
   void set(const char *zstr)
    {
     for(; char ch=*zstr ;zstr++) set((uint8)ch);
    }
 
-  uint32 test(uint8 ch) const { return mask[ch>>5] & UIntBit<uint32>(ch&31u) ; }
+  uint32 test(uint8 ch) const { return maskOf(ch) & CharBit(ch) ; }
 
   // save/load object
 

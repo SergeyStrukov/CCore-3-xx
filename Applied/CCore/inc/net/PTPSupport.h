@@ -1,7 +1,7 @@
 /* PTPSupport.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -306,7 +306,7 @@ class Support_ErrorDesc : NoCopy
       {
        if( ok ) return desc;
 
-       return "Unknown error";
+       return "Unknown error"_c;
       }
     };
 
