@@ -20,6 +20,19 @@
 using namespace CCore;
 using namespace CCore::Lang;
 
+/* CutRuleName() */
+
+StrLen CutRuleName(StrLen name)
+ {
+  for(auto t=name; +t ;++t)
+    if( *t=='@' )
+      {
+       return name.prefix(t);
+      }
+
+  return name;
+ }
+
 /* Main() */
 
 void Main(StrLen ddl_file_name,StrLen class_name,StrLen h_file_name,StrLen cpp_file_name)
@@ -113,7 +126,7 @@ void Main(StrLen ddl_file_name,StrLen class_name,StrLen h_file_name,StrLen cpp_f
 
                    rule_list( [&] (StrLen rule_name,auto arg_list)
                                   {
-                                   Printf(outh,"  RetType #;(ContextType",rule_name);
+                                   Printf(outh,"  RetType #;(ContextType",CutRuleName(rule_name));
 
                                    arg_list( [&] (bool is_atom,StrLen name)
                                                  {
@@ -141,14 +154,14 @@ void Main(StrLen ddl_file_name,StrLen class_name,StrLen h_file_name,StrLen cpp_f
 
    map.rules( [&] (auto rule_index,StrLen synt_name,StrLen rule_name,auto element_index)
                   {
-                   Printf(outh,"     case #; : return func(&Element_#;::#;,ElementIndex(#;));\n",rule_index,synt_name,rule_name,element_index);
+                   Printf(outh,"     case #; : return func(&Element_#;::#;,ElementIndex(#;));\n",rule_index,synt_name,CutRuleName(rule_name),element_index);
                   } );
 
    Printf(outh,"\n     default: return func();\n");
 
    Printf(outh,"    }\n");
 
-   Printf(outh," };\n\n");
+   Printf(outh," }\n\n");
   }
 
   // 2

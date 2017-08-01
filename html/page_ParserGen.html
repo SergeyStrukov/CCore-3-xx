@@ -204,7 +204,9 @@ struct FormulaParserData::Element_EXPR : Element
 
 <p>
 Each synt structure looks like this particular one. They should be updated with a synt value content.
-Each rule has an associated method of the structure initialization. The name of the method is the rule name.
+Each rule has an associated method of the structure initialization. 
+The name of the method is the "reduced" rule name. 
+"Reduction" means the following: if the rule name has several C-name components, combined using the character '@', the first component is selected.
 The first argument is the parser context, others are pointers to already created element structures.
 Each such structue either the atom element structure or a synt element structure.
 </p>
