@@ -1,7 +1,7 @@
 /* NanoIPDevice.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ void NetEvent::Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc)
 
 /* class ARPTable */
 
-ARPTable::TickResult ARPTable::TimeGuard::tick(bool noalert)
+auto ARPTable::TimeGuard::tick(bool noalert) -> TickResult
  {
   if( !ticks ) return Kill;
 

@@ -1,7 +1,7 @@
 /* NanoIPDevice.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -146,9 +146,12 @@ class IPStatInfo : public Counters<IPEvent,IPEventLim>
 
    void count(IPEvent ip_event,ulen cnt)
     {
-     if( cnt ) TaskEventHost.addProto<NetEvent>(ip_event);
+     if( cnt )
+       {
+        TaskEventHost.addProto<NetEvent>(ip_event);
 
-     Counters<IPEvent,IPEventLim>::count(ip_event,cnt);
+        Counters<IPEvent,IPEventLim>::count(ip_event,cnt);
+       }
     }
  };
 
@@ -569,13 +572,22 @@ class IPTickList : NoCopy
 
      public:
 
-      explicit Hook(IPTickList &list) { endpoint=list.take(); }
+      explicit Hook(IPTickList &list)
+       {
+        endpoint=list.take();
+       }
+
+      ~Hook()
+       {
+        if( endpoint ) endpoint->asem.dec();
+       }
 
       bool operator ! () const { return !endpoint; }
 
-      ~Hook() { if( endpoint ) endpoint->asem.dec(); }
-
-      void tick() { if( endpoint ) endpoint->tick_function(); }
+      void tick()
+       {
+        if( endpoint ) endpoint->tick_function();
+       }
     };
  };
 
