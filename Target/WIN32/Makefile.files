@@ -153,6 +153,7 @@ OBJ_LIST = \
 .obj/IntegerDivider.o \
 .obj/IntegerFastAlgo.o \
 .obj/IntegerFromString.o \
+.obj/IntegerGCD.o \
 .obj/IntegerOctetBuilder.o \
 .obj/IntegerSlowAlgo.o \
 .obj/InterfaceHost.o \
@@ -576,6 +577,7 @@ ASM_LIST = \
 .obj/IntegerDivider.s \
 .obj/IntegerFastAlgo.s \
 .obj/IntegerFromString.s \
+.obj/IntegerGCD.s \
 .obj/IntegerOctetBuilder.s \
 .obj/IntegerSlowAlgo.s \
 .obj/InterfaceHost.s \
@@ -999,6 +1001,7 @@ DEP_LIST = \
 .obj/IntegerDivider.dep \
 .obj/IntegerFastAlgo.dep \
 .obj/IntegerFromString.dep \
+.obj/IntegerGCD.dep \
 .obj/IntegerOctetBuilder.dep \
 .obj/IntegerSlowAlgo.dep \
 .obj/InterfaceHost.dep \
@@ -1737,6 +1740,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/IntegerFromString.o : ../../Applied/CCore/src/./math/IntegerFromString.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntegerGCD.o : ../../Applied/CCore/src/./math/IntegerGCD.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/IntegerOctetBuilder.o : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
@@ -3001,6 +3007,9 @@ include $(RULES_FILE)
 .obj/IntegerFromString.s : ../../Applied/CCore/src/./math/IntegerFromString.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/IntegerGCD.s : ../../Applied/CCore/src/./math/IntegerGCD.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/IntegerOctetBuilder.s : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4262,6 +4271,9 @@ include $(RULES_FILE)
 
 .obj/IntegerFromString.dep : ../../Applied/CCore/src/./math/IntegerFromString.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/IntegerFromString.o $< -MF $@
+
+.obj/IntegerGCD.dep : ../../Applied/CCore/src/./math/IntegerGCD.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntegerGCD.o $< -MF $@
 
 .obj/IntegerOctetBuilder.dep : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/IntegerOctetBuilder.o $< -MF $@

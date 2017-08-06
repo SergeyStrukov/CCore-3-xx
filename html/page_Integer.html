@@ -28,7 +28,14 @@
 
 <h2>Integer</h2>
 
-<p class="Files">Files <b>CCore/inc/math/Integer.h</b> <b>CCore/src/math/Integer.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/Integer.h</b> <b>CCore/src/math/Integer.cpp</b> master include file</p>
+
+<p class="Files">Files <b>CCore/inc/math/IntegerAlgo.h</b> <b>CCore/src/math/IntegerAlgo.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/IntegerBuilder.h</b> <b>CCore/src/math/IntegerBuilder.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/IntegerDivider.h</b> <b>CCore/src/math/IntegerDivider.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/IntegerPrint.h</b> <b>CCore/src/math/IntegerPrint.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/IntegerFromString.h</b> <b>CCore/src/math/IntegerFromString.cpp</b></p>
+<p class="Files">Files <b>CCore/inc/math/IntegerGCD.h</b> <b>CCore/src/math/IntegerGCD.cpp</b></p>
 
 <p>
 <b>Integer</b> is a class, which simulates integer numbers. It can represent numbers from a
@@ -645,7 +652,12 @@ randomly filled body units. So the value is uniformly distributed in the range
 <pre>
 
 template &lt;class Integer&gt;
-Integer <span class="Att">GCDiv</span>(const Integer &amp;a,const Integer &amp;b);
+class <span class="Att">GCDiv</span> : public Integer
+ {
+  public:
+
+   GCDiv(const Integer &a,const Integer &b);
+ };
 
 template &lt;class Integer&gt;
 int <span class="Att">QSym</span>(const Integer &amp;a,const Integer &amp;b);
@@ -653,7 +665,7 @@ int <span class="Att">QSym</span>(const Integer &amp;a,const Integer &amp;b);
 </pre>
 
 <p>
-<b>GCDiv()</b> calculates the GCD of the given arguments. The return value is non-negative.
+<b>GCDiv()</b> calculates the GCD of the given arguments. The result is non-negative.
 </p>
 
 <p>
