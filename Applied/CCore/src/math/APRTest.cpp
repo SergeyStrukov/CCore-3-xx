@@ -1,7 +1,7 @@
 /* APRTest.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ QType AddGuarded(QType a,QType b)
 
 void GuardNoMemory()
  {
-  Printf(Exception,"CCore::Math::APRTest::ParaTestEngine<...>::operator () : no memory");
+  Printf(Exception,"CCore::Math::APRTest::ParaTestEngine<...>::operator () (...) : no memory");
  }
 
 /* enum TestResult */
