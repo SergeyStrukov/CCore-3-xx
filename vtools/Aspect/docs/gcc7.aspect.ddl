@@ -776,11 +776,16 @@ Dir Dir63=
    {
     { 'APRTest.h' , Red },
     { 'Integer.h' , Yellow },
+    { 'IntegerAlgo.h' , Green },
+    { 'IntegerBuilder.h' , Green },
+    { 'IntegerDivider.h' , Green },
     { 'IntegerFastAlgo.h' , Green },
+    { 'IntegerFromString.h' , Green },
     { 'IntegerOctetBuilder.h' , Green },
     { 'IntegerSlowAlgo.h' , Green },
     { 'ModEngine.h' , Green },
     { 'NoPrimeTest.h' , Green },
+    { 'PrintInteger.h' , Green },
     { 'SmallPrimes.h' , Green }
    }
   };
@@ -799,7 +804,7 @@ Dir Dir64=
     { 'HFSBase.h' , Green },
     { 'HFSClientDevice.h' , Green },
     { 'HFSFileSystemDevice.h' , Green },
-    { 'NanoIPDevice.h' , Yellow },
+    { 'NanoIPDevice.h' , Green },
     { 'NetBase.h' , Green },
     { 'NetFork.h' , Green },
     { 'PacketEndpointDevice.h' , Green },
@@ -962,10 +967,15 @@ Dir Dir73=
    {
     { 'APRTest.cpp' , Red },
     { 'Integer.cpp' , Green },
+    { 'IntegerAlgo.cpp' , Green },
+    { 'IntegerBuilder.cpp' , Green },
+    { 'IntegerDivider.cpp' , Green },
+    { 'IntegerFromString.cpp' , Green },
     { 'IntegerOctetBuilder.cpp' , Green },
     { 'IntegerSlowAlgo.cpp' , Green },
     { 'ModEngine.cpp' , Green },
     { 'NoPrimeTest.cpp' , Green },
+    { 'PrintInteger.cpp' , Green },
     { 'SmallPrimes.cpp' , Green },
     { 'APRTestData.gen.cpp' , Green }
    }
@@ -985,7 +995,7 @@ Dir Dir74=
     { 'HFSBase.cpp' , Green },
     { 'HFSClientDevice.cpp' , Green },
     { 'HFSFileSystemDevice.cpp' , Green },
-    { 'NanoIPDevice.cpp' , Yellow },
+    { 'NanoIPDevice.cpp' , Green },
     { 'NetBase.cpp' , Green },
     { 'NetFork.cpp' , Green },
     { 'PacketEndpointDevice.cpp' , Green },

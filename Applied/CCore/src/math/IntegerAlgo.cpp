@@ -1,7 +1,7 @@
-/* Integer.cpp */
+/* IntegerAlgo.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,11 +9,11 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <CCore/inc/math/Integer.h>
+#include <CCore/inc/math/IntegerAlgo.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -22,22 +22,16 @@ namespace Math {
 
 /* guards */
 
-void GuardBitsOfOverflow()
+void GuardAddLenOverflow_ulen(ulen a,ulen b)
  {
-  Printf(Exception,"CCore::Math::Integer<...>::BitsOf::total(...) : overflow");
+  Printf(Exception,"CCore::Math::AddLen(#;,#;) : overflow",a,b);
  }
 
-void GuardQSymEven()
+void GuardAddLenOverflow_ulen()
  {
-  Printf(Exception,"CCore::Math::GCDAlgo<...>::UnsignedQSym(a,b) : b is even");
- }
-
-void GuardQSymNotCoprime()
- {
-  Printf(Exception,"CCore::Math::GCDAlgo<...>::UnsignedQSym(a,b) : a and b are not coprime");
+  Printf(Exception,"CCore::Math::AddLen(a,...) : a is not in ulen value range");
  }
 
 } // namespace Math
 } // namespace CCore
-
 

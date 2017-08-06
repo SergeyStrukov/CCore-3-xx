@@ -35,5 +35,6 @@ list:
 	make -C Target/BeagleBoneBlack       list
 	make -C Target/BeagleBoneBlack/test  list
 	make -C tools                        list
+	make -C vtools                       list
 
 

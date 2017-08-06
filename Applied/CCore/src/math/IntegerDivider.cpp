@@ -1,7 +1,7 @@
-/* Integer.cpp */
+/* IntegerDivider.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,11 +9,11 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <CCore/inc/math/Integer.h>
+#include <CCore/inc/math/IntegerDivider.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -22,22 +22,21 @@ namespace Math {
 
 /* guards */
 
-void GuardBitsOfOverflow()
+void GuardIntegerInverseNotNormalized()
  {
-  Printf(Exception,"CCore::Math::Integer<...>::BitsOf::total(...) : overflow");
+  Printf(Exception,"CCore::Math::IntegerInverse<...> : not normalized");
  }
 
-void GuardQSymEven()
+void GuardIntegerInverseOverflow()
  {
-  Printf(Exception,"CCore::Math::GCDAlgo<...>::UnsignedQSym(a,b) : b is even");
+  Printf(Exception,"CCore::Math::IntegerInverse<...> : overflow");
  }
 
-void GuardQSymNotCoprime()
+void GuardIntegerZeroDivide()
  {
-  Printf(Exception,"CCore::Math::GCDAlgo<...>::UnsignedQSym(a,b) : a and b are not coprime");
+  Printf(Exception,"CCore::Math::IntegerDivider<...> : zero divide");
  }
 
 } // namespace Math
 } // namespace CCore
-
 

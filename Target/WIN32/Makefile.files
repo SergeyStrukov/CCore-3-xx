@@ -148,7 +148,11 @@ OBJ_LIST = \
 .obj/IntPrint.o \
 .obj/IntScan.o \
 .obj/Integer.o \
+.obj/IntegerAlgo.o \
+.obj/IntegerBuilder.o \
+.obj/IntegerDivider.o \
 .obj/IntegerFastAlgo.o \
+.obj/IntegerFromString.o \
 .obj/IntegerOctetBuilder.o \
 .obj/IntegerSlowAlgo.o \
 .obj/InterfaceHost.o \
@@ -249,6 +253,7 @@ OBJ_LIST = \
 .obj/PrintDDL.o \
 .obj/PrintError.o \
 .obj/PrintFile.o \
+.obj/PrintInteger.o \
 .obj/PrintPTPCon.o \
 .obj/PrintProxy.o \
 .obj/PrintSet.o \
@@ -566,7 +571,11 @@ ASM_LIST = \
 .obj/IntPrint.s \
 .obj/IntScan.s \
 .obj/Integer.s \
+.obj/IntegerAlgo.s \
+.obj/IntegerBuilder.s \
+.obj/IntegerDivider.s \
 .obj/IntegerFastAlgo.s \
+.obj/IntegerFromString.s \
 .obj/IntegerOctetBuilder.s \
 .obj/IntegerSlowAlgo.s \
 .obj/InterfaceHost.s \
@@ -667,6 +676,7 @@ ASM_LIST = \
 .obj/PrintDDL.s \
 .obj/PrintError.s \
 .obj/PrintFile.s \
+.obj/PrintInteger.s \
 .obj/PrintPTPCon.s \
 .obj/PrintProxy.s \
 .obj/PrintSet.s \
@@ -984,7 +994,11 @@ DEP_LIST = \
 .obj/IntPrint.dep \
 .obj/IntScan.dep \
 .obj/Integer.dep \
+.obj/IntegerAlgo.dep \
+.obj/IntegerBuilder.dep \
+.obj/IntegerDivider.dep \
 .obj/IntegerFastAlgo.dep \
+.obj/IntegerFromString.dep \
 .obj/IntegerOctetBuilder.dep \
 .obj/IntegerSlowAlgo.dep \
 .obj/InterfaceHost.dep \
@@ -1085,6 +1099,7 @@ DEP_LIST = \
 .obj/PrintDDL.dep \
 .obj/PrintError.dep \
 .obj/PrintFile.dep \
+.obj/PrintInteger.dep \
 .obj/PrintPTPCon.dep \
 .obj/PrintProxy.dep \
 .obj/PrintSet.dep \
@@ -1709,7 +1724,19 @@ include $(RULES_FILE)
 .obj/Integer.o : ../../Applied/CCore/src/./math/Integer.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/IntegerAlgo.o : ../../Applied/CCore/src/./math/IntegerAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntegerBuilder.o : ../../Applied/CCore/src/./math/IntegerBuilder.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntegerDivider.o : ../../Applied/CCore/src/./math/IntegerDivider.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/IntegerFastAlgo.o : ../../Target/WIN32/CCore/src/./math/IntegerFastAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntegerFromString.o : ../../Applied/CCore/src/./math/IntegerFromString.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/IntegerOctetBuilder.o : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
@@ -2010,6 +2037,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PrintFile.o : ../../HCore/CCore/src/./print/PrintFile.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/PrintInteger.o : ../../Applied/CCore/src/./math/PrintInteger.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PrintPTPCon.o : ../../Applied/CCore/src/./print/PrintPTPCon.cpp
@@ -2956,7 +2986,19 @@ include $(RULES_FILE)
 .obj/Integer.s : ../../Applied/CCore/src/./math/Integer.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/IntegerAlgo.s : ../../Applied/CCore/src/./math/IntegerAlgo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/IntegerBuilder.s : ../../Applied/CCore/src/./math/IntegerBuilder.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/IntegerDivider.s : ../../Applied/CCore/src/./math/IntegerDivider.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/IntegerFastAlgo.s : ../../Target/WIN32/CCore/src/./math/IntegerFastAlgo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/IntegerFromString.s : ../../Applied/CCore/src/./math/IntegerFromString.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/IntegerOctetBuilder.s : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
@@ -3257,6 +3299,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/PrintFile.s : ../../HCore/CCore/src/./print/PrintFile.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/PrintInteger.s : ../../Applied/CCore/src/./math/PrintInteger.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/PrintPTPCon.s : ../../Applied/CCore/src/./print/PrintPTPCon.cpp
@@ -4203,8 +4248,20 @@ include $(RULES_FILE)
 .obj/Integer.dep : ../../Applied/CCore/src/./math/Integer.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Integer.o $< -MF $@
 
+.obj/IntegerAlgo.dep : ../../Applied/CCore/src/./math/IntegerAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntegerAlgo.o $< -MF $@
+
+.obj/IntegerBuilder.dep : ../../Applied/CCore/src/./math/IntegerBuilder.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntegerBuilder.o $< -MF $@
+
+.obj/IntegerDivider.dep : ../../Applied/CCore/src/./math/IntegerDivider.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntegerDivider.o $< -MF $@
+
 .obj/IntegerFastAlgo.dep : ../../Target/WIN32/CCore/src/./math/IntegerFastAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/IntegerFastAlgo.o $< -MF $@
+
+.obj/IntegerFromString.dep : ../../Applied/CCore/src/./math/IntegerFromString.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntegerFromString.o $< -MF $@
 
 .obj/IntegerOctetBuilder.dep : ../../Applied/CCore/src/./math/IntegerOctetBuilder.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/IntegerOctetBuilder.o $< -MF $@
@@ -4505,6 +4562,9 @@ include $(RULES_FILE)
 
 .obj/PrintFile.dep : ../../HCore/CCore/src/./print/PrintFile.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/PrintFile.o $< -MF $@
+
+.obj/PrintInteger.dep : ../../Applied/CCore/src/./math/PrintInteger.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/PrintInteger.o $< -MF $@
 
 .obj/PrintPTPCon.dep : ../../Applied/CCore/src/./print/PrintPTPCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/PrintPTPCon.o $< -MF $@
