@@ -36,6 +36,14 @@ class TopStateMachine;
 
 class BottomStateMachine;
 
+struct RedFinal1;
+
+struct RedFinal2;
+
+struct RedFinal3;
+
+template <class T> class RefFinalList;
+
 /* struct Trans */
 
 struct Trans
@@ -119,7 +127,7 @@ class TopStateMachine : public StateMachine
 
    ~TopStateMachine() {}
 
-   PtrLen<const Lang::TypeDef::Final> getFinal() const { return finals; }
+   PtrLen<const Lang::TypeDef::Final> getFinals() const { return finals; }
 
    ulen getAtomCount() const { return atom_count; }
 
@@ -130,6 +138,10 @@ class TopStateMachine : public StateMachine
 
 class BottomStateMachine : public StateMachine
  {
+   DynArray<ulen> map;
+
+  private:
+
    struct Rec : CmpComparable<Rec>
     {
      const State *states;
@@ -167,6 +179,55 @@ class BottomStateMachine : public StateMachine
        return CmpTrans(groups,getTrans(),obj.getTrans());
       }
     };
+
+  private:
+
+   static void SetIf(ulen &dst,ulen ind)
+    {
+     if( dst==MaxULen ) dst=ind;
+    }
+
+   static void Set(DynArray<Trans> &trans,PtrLen<const Trans> top,const ulen maptop[])
+    {
+     auto tr=trans.extend_copy(top);
+
+     for(auto &t : tr ) t.sindex=maptop[t.sindex];
+    }
+
+   void build(PtrLen<const State> top,PtrLen<const ulen> values,PtrLen<const ulen> groups,ulen group_count)
+    {
+     // map
+
+     map.extend_copy(groups);
+
+     auto st=states.extend_default(group_count);
+
+     // section
+
+     DynArray<ulen> section(DoFill(group_count),MaxULen);
+
+     auto sect=Range(section);
+
+     for(ulen i=0; i<groups.len ;i++)
+       {
+        ulen j=groups[i];
+
+        SetIf(sect[j],i);
+       }
+
+     // states
+
+     for(ulen i=0; i<st.len ;i++)
+       {
+        State &s=st[i];
+        ulen j=sect[i];
+
+        s.sindex=i;
+        s.value=values[j];
+
+        Set(s.trans,Range(top[j].trans),groups.ptr);
+       }
+    }
 
   public:
 
@@ -221,15 +282,219 @@ class BottomStateMachine : public StateMachine
         Swap(groups,next_groups);
        }
 
-     Printf(Con,"final group count = #;\n",group_count);
+     Printf(Con,"final group count = #;\n\n",group_count);
 
      // final
 
+     if( ulen g0=next_groups[0] )
+       {
+        for(ulen &g : next_groups )
+          {
+           if( g==0 ) g=g0;
+           else if( g==g0 ) g=0;
+          }
+       }
 
+     build(states,Range(new_value),next_groups,group_count);
     }
 
    ~BottomStateMachine() {}
+
+   ulen mapTop(ulen top_sindex) const { return map[top_sindex]; }
  };
+
+/* struct RedFinal1 */
+
+struct RedFinal1 : CmpComparable<RedFinal1>
+ {
+  struct RedAction : CmpComparable<RedAction>
+   {
+    ulen a1index;
+    ulen r1index;
+
+    RedAction(ulen a1index_,ulen r1index_) : a1index(a1index_),r1index(r1index_) {}
+
+    // cmp objects
+
+    CmpResult objCmp(const RedAction &obj) const
+     {
+      return AlphaCmp(a1index,obj.a1index,r1index,obj.r1index);
+     }
+   };
+
+  DynArray<RedAction> actions;
+  ulen index = MaxULen ;
+
+  explicit RedFinal1(const Lang::TypeDef::Final &final)
+   {
+    for(auto action : final.actions.getRange() )
+      {
+       if( +action.atom && !action.rule ) continue;
+
+       ulen a1index = +action.atom ? action.atom->index : 0 ;
+       ulen r1index = +action.rule ? action.rule->index : 0 ;
+
+       actions.append_fill(a1index,r1index);
+      }
+
+    Sort(Range(actions));
+   }
+
+  // cmp objects
+
+  CmpResult objCmp(const RedFinal1 &obj) const
+   {
+    return RangeCmp(Range(actions),Range(obj.actions));
+   }
+ };
+
+/* struct RedFinal2 */
+
+struct RedFinal2
+ {
+  DynArray<ulen> actions;
+  ulen index = MaxULen ;
+
+  explicit RedFinal2(const Lang::TypeDef::Final &final)
+   {
+    DynArray<ulen> temp;
+
+    for(auto action : final.actions.getRange() )
+      {
+       if( !action.rule ) continue;
+
+       ulen rindex = action.rule->index ;
+
+       temp.append_fill(rindex);
+      }
+
+    Algon::SortThenApplyUnique(Range(temp), [&] (ulen rindex) { actions.append_copy(rindex); } );
+
+    if( ulen len=actions.getLen() ; len>1 ) Printf(Con,"Multiple #;\n",len);
+   }
+
+  // cmp objects
+
+  CmpResult objCmp(const RedFinal2 &obj) const
+   {
+    return RangeCmp(Range(actions),Range(obj.actions));
+   }
+ };
+
+/* struct RedFinal3 */
+
+struct RedFinal3
+ {
+  bool has_rule = false ;
+  ulen index = MaxULen ;
+
+  explicit RedFinal3(const Lang::TypeDef::Final &final)
+   {
+    for(auto action : final.actions.getRange() )
+      {
+       if( !action.rule ) continue;
+
+       has_rule=true;
+
+       break;
+      }
+   }
+
+  // cmp objects
+
+  CmpResult objCmp(const RedFinal3 &obj) const
+   {
+    return Cmp(has_rule,obj.has_rule);
+   }
+ };
+
+/* class RefFinalList<T> */
+
+template <class T>
+class RefFinalList : NoCopy
+ {
+   DynArray<T> list;
+
+   struct Rec : CmpComparable<Rec>
+    {
+     T *ptr;
+
+     // cmp objects
+
+     CmpResult objCmp(const Rec &obj) const
+      {
+       return Cmp(*ptr,*obj.ptr);
+      }
+    };
+
+  public:
+
+   explicit RefFinalList(PtrLen<const Lang::TypeDef::Final> finals)
+    : list(DoCast(finals.len),finals.ptr)
+    {
+     auto r=Range(list);
+
+     DynArray<Rec> temp(DoRaw(r.len));
+
+     auto dst=temp.getPtr();
+
+     for(; +r ;++r,++dst) dst->ptr=r.ptr;
+
+     ulen index=0;
+
+     Algon::SortThenApplyUniqueRange(Range(temp), [&] (PtrLen<Rec> list) { for(auto rec : list ) rec.ptr->index=index; index++; } );
+
+     Printf(Con,"red final count = #;\n\n",index);
+    }
+
+   ~RefFinalList() {}
+
+   ulen map(ulen findex) const { return list[findex].index; }
+
+ };
+
+/* CheckShift() */
+
+void CheckShift(Lang::TypeDef::Final final,PtrLen<const Trans> trans,ulen atom_count)
+ {
+  for(auto action : final.actions.getRange() )
+    {
+     if( !action.atom || +action.rule ) continue;
+
+     ulen aindex=action.atom->index;
+
+     if( !trans )
+       {
+        Printf(Con,"CheckShift failed #; : #; null trans\n",final.index,aindex);
+
+        return;
+       }
+
+     if( trans->eindex!=aindex )
+       {
+        Printf(Con,"CheckShift failed #; : #; != #;\n",final.index,aindex,trans->eindex);
+
+        return;
+       }
+
+     ++trans;
+    }
+
+  if( +trans && trans->eindex<atom_count )
+    {
+     Printf(Con,"CheckShift failed #; : extra trans\n",final.index);
+    }
+ }
+
+void CheckShift(const TopStateMachine &top,const BottomStateMachine &bottom)
+ {
+  auto states=top.getStates();
+  auto finals=top.getFinals();
+  auto bottom_states=bottom.getStates();
+
+  for(ulen i=0; i<states.len ;i++)
+    CheckShift(finals[states[i].value],Range(bottom_states[bottom.mapTop(i)].trans),top.getAtomCount());
+ }
 
 /* Main() */
 
@@ -239,9 +504,36 @@ void Main(StrLen file_name)
 
   data.sanity();
 
-  TopStateMachine top(data.getLang());
+  auto &lang=data.getLang();
+
+  Printf(Con,"state count = #;\n",lang.states.len);
+  Printf(Con,"final count = #;\n\n",lang.finals.len);
+
+  TopStateMachine top(lang);
+
+  Printf(Con,"--- Bottom ---\n\n");
 
   BottomStateMachine bottom(top, [] (ulen) { return 0; } );
+
+  CheckShift(top,bottom);
+
+  Printf(Con,"--- Bottom1 ---\n\n");
+
+  RefFinalList<RedFinal1> redlist1(top.getFinals());
+
+  BottomStateMachine bottom1(top, [&,states=top.getStates()] (ulen sindex) { return redlist1.map(states[sindex].value); } );
+
+  Printf(Con,"--- Bottom2 ---\n\n");
+
+  RefFinalList<RedFinal2> redlist2(top.getFinals());
+
+  BottomStateMachine bottom2(top, [&,states=top.getStates()] (ulen sindex) { return redlist2.map(states[sindex].value); } );
+
+  Printf(Con,"--- Bottom3 ---\n\n");
+
+  RefFinalList<RedFinal3> redlist3(top.getFinals());
+
+  BottomStateMachine bottom3(top, [&,states=top.getStates()] (ulen sindex) { return redlist3.map(states[sindex].value); } );
  }
 
 } // namespace App
