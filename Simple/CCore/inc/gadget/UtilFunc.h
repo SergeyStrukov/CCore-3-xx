@@ -108,6 +108,20 @@ SUInt RoundUp(SUInt x,SUInt g)
   return count*g;
  }
 
+template <SUIntType SUInt>
+SUInt RoundDownCount(SUInt x,SUInt g)
+ {
+  return x/g;
+ }
+
+template <SUIntType SUInt>
+SUInt RoundDown(SUInt x,SUInt g)
+ {
+  SUInt count=x/g;
+
+  return count*g;
+ }
+
 /* functions */
 
 template <UIntType UInt,class S>

@@ -1,7 +1,7 @@
 /* PSec.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -181,14 +181,6 @@ class PacketProcessor : public MemBase_nocopy
    static constexpr ulen KeyIndexLen = SaveLenCounter<KeyIndex>::SaveLoadLen ;
 
   private:
-
-   static ulen RoundUpCount(ulen len,ulen N) { return (len+N-1)/N; }
-
-   static ulen RoundUp(ulen len,ulen N) { return N*RoundUpCount(len,N); }
-
-   static ulen RoundDownCount(ulen len,ulen N) { return len/N; }
-
-   static ulen RoundDown(ulen len,ulen N) { return N*RoundDownCount(len,N); }
 
    ulen outLen(ulen len) const
     {

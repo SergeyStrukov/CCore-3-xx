@@ -1,7 +1,7 @@
 /* PSecCore.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -964,7 +964,7 @@ class ConvolutionMul
 
    static uint8 MulX(uint8 a)
     {
-     if( a&0x80 )
+     if( a&0x80u )
        return uint8( (a<<1)^PolynomMask );
      else
        return uint8( a<<1 );
@@ -1007,7 +1007,7 @@ class ConvolutionMulConst : public ConvolutionMul
  };
 
 template <uint8 K>
-typename ConvolutionMulConst<K>::TableInit ConvolutionMulConst<K>::Table;
+typename ConvolutionMulConst<K>::TableInit ConvolutionMulConst<K>::Table CCORE_INITPRI_3 ;
 
 /* struct ConvolutionParam<uint8 ... KK> */
 
@@ -1020,7 +1020,7 @@ struct ConvolutionParam
  };
 
 template <uint8 ... KK>
-const ConvolutionMul ConvolutionParam<KK...>::Mul[Len]={ ConvolutionMulConst<KK>() ... };
+const ConvolutionMul ConvolutionParam<KK...>::Mul[Len] CCORE_INITPRI_3 ={ ConvolutionMulConst<KK>() ... };
 
 /* class DirectConvolution */
 

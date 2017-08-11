@@ -246,6 +246,39 @@ I.e. it is the minimum value <b>res</b>, such that <b>g*res >= x</b>.
 The second function rounds up the first argument to be divisible by the second.
 </p>
 
+<h3>RoundDownCount()/RoundDown()</h3>
+
+<p>
+Two functions to round down integral values. It is assumed that arguments are positive.
+</p>
+
+<pre>
+
+template &lt;SUIntType SUInt&gt;
+SUInt <span class="Att">RoundDownCount</span>(SUInt x,SUInt g)
+ {
+  return x/g;
+ }
+
+template &lt;SUIntType SUInt&gt;
+SUInt <span class="Att">RoundDown</span>(SUInt x,SUInt g)
+ {
+  SUInt count=x/g;
+
+  return count*g;
+ }
+
+</pre>
+
+<p>
+The first function returns the result of division of the first argument by the second, rounded down. 
+I.e. it is the maximum value <b>res</b>, such that <b>g*res <= x</b>.
+</p>
+
+<p>
+The second function rounds down the first argument to be divisible by the second.
+</p>
+
 <h3>Bit...()</h3>
 
 <p>

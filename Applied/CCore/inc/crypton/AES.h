@@ -67,7 +67,7 @@ struct AESBase
 
   static uint8 MulX(uint8 a)
    {
-    if( a&0x80 )
+    if( a&0x80u )
       return uint8( (a<<1)^PolynomMask );
     else
       return uint8( a<<1 );
