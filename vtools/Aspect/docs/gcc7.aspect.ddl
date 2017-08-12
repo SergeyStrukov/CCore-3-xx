@@ -734,9 +734,9 @@ Dir Dir62=
    {
    },
    {
-    { 'DDLChar.h' , Red },
+    { 'DDLChar.h' , Green },
     { 'DDLEngine.h' , Red },
-    { 'DDLErrorMsg.h' , Red },
+    { 'DDLErrorMsg.h' , Green },
     { 'DDLEval.h' , Red },
     { 'DDLMap.h' , Red },
     { 'DDLMapBase.h' , Red },
@@ -745,8 +745,8 @@ Dir Dir62=
     { 'DDLParser.h' , Red },
     { 'DDLPlatformTypes.h' , Red },
     { 'DDLSemantic.h' , Red },
-    { 'DDLToken.h' , Red },
-    { 'DDLTools.h' , Red },
+    { 'DDLToken.h' , Green },
+    { 'DDLTools.h' , Green },
     { 'DDLTypedMap.h' , Red },
     { 'DDLTypeDesc.h' , Red },
     { 'DDLTypes.h' , Red },
@@ -924,9 +924,9 @@ Dir Dir72=
    {
    },
    {
-    { 'DDLChar.cpp' , Red },
+    { 'DDLChar.cpp' , Green },
     { 'DDLEngine.cpp' , Red },
-    { 'DDLErrorMsg.cpp' , Red },
+    { 'DDLErrorMsg.cpp' , Green },
     { 'DDLEval.cpp' , Red },
     { 'DDLMap.cpp' , Red },
     { 'DDLMapBase.cpp' , Red },
@@ -934,12 +934,12 @@ Dir Dir72=
     { 'DDLMapTypes.cpp' , Red },
     { 'DDLParser.cpp' , Red },
     { 'DDLParserElements.cpp' , Red },
-    { 'DDLParserRules.cpp' , Red },
-    { 'DDLParserTable.cpp' , Red },
+    { 'DDLParserRules.cpp' , Green },
+    { 'DDLParserTable.cpp' , Green },
     { 'DDLPlatformTypes.cpp' , Red },
     { 'DDLSemantic.cpp' , Red },
-    { 'DDLToken.cpp' , Red },
-    { 'DDLTools.cpp' , Red },
+    { 'DDLToken.cpp' , Green },
+    { 'DDLTools.cpp' , Green },
     { 'DDLTypedMap.cpp' , Red },
     { 'DDLTypeDesc.cpp' , Red },
     { 'DDLTypes.cpp' , Red },
@@ -4932,7 +4932,7 @@ Dir Dir262=
 Dir Dir49=
   {
    'Aspect',
-   Green,
+   Yellow,
    {
     &Dir263,
     &Dir264,
@@ -4978,7 +4978,7 @@ Dir Dir51=
 Dir Dir52=
   {
    'EventView',
-   Green,
+   Yellow,
    {
     &Dir272
    },
@@ -4989,7 +4989,7 @@ Dir Dir52=
 Dir Dir53=
   {
    'RandomId',
-   New,
+   Red,
    {
     &Dir273,
     &Dir274
@@ -5003,7 +5003,7 @@ Dir Dir53=
 Dir Dir54=
   {
    'Sample',
-   Green,
+   Yellow,
    {
     &Dir275,
     &Dir276

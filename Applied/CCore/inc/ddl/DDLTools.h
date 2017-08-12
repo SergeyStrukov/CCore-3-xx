@@ -1,7 +1,7 @@
 /* DDLTools.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -44,6 +44,8 @@ template <class T> struct ForwardList;
 template <class T> struct NoLast;
 
 template <class T> class Enlist;
+
+template <class T> struct CheckLoopState;
 
 /* class AndFlag */
 
@@ -389,6 +391,8 @@ class Enlist : NoCopy
        {
         expand(ptr,Add(this));
        }
+
+     col.shrink_extra();
     }
 
    ~Enlist() {}
@@ -437,6 +441,8 @@ struct CheckLoopState
     Descend descend(obj);
 
     descend( [this,base] (T *ptr) { descendant.append_fill(base+ptr->index); } );
+
+    descendant.shrink_extra();
 
     cur=Range(descendant);
 

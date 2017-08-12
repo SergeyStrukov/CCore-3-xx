@@ -349,6 +349,11 @@ class Collector : NoCopy
      return ret;
     }
 
+   void shrink_extra()
+    {
+     Base::Shrink_extra(cur);
+    }
+
    // extend
 
    PtrLen<T> extend_raw(ulen delta_len)
