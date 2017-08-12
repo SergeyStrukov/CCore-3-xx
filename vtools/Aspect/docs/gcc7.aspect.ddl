@@ -737,21 +737,21 @@ Dir Dir62=
     { 'DDLChar.h' , Green },
     { 'DDLEngine.h' , Red },
     { 'DDLErrorMsg.h' , Green },
-    { 'DDLEval.h' , Red },
+    { 'DDLEval.h' , Yellow },
     { 'DDLMap.h' , Red },
     { 'DDLMapBase.h' , Red },
     { 'DDLMapTools.h' , Red },
     { 'DDLMapTypes.h' , Red },
-    { 'DDLParser.h' , Yellow },
+    { 'DDLParser.h' , Green },
     { 'DDLPlatformTypes.h' , Green },
     { 'DDLSemantic.h' , Yellow },
     { 'DDLToken.h' , Green },
     { 'DDLTools.h' , Green },
     { 'DDLTypedMap.h' , Red },
     { 'DDLTypeDesc.h' , Red },
-    { 'DDLTypes.h' , Red },
+    { 'DDLTypes.h' , Green },
     { 'DDLTypeSet.h' , Red },
-    { 'DDLValue.h' , Red }
+    { 'DDLValue.h' , Green }
    }
   };
 
@@ -927,13 +927,13 @@ Dir Dir72=
     { 'DDLChar.cpp' , Green },
     { 'DDLEngine.cpp' , Red },
     { 'DDLErrorMsg.cpp' , Green },
-    { 'DDLEval.cpp' , Red },
+    { 'DDLEval.cpp' , Yellow },
     { 'DDLMap.cpp' , Red },
     { 'DDLMapBase.cpp' , Red },
     { 'DDLMapTools.cpp' , Red },
     { 'DDLMapTypes.cpp' , Red },
-    { 'DDLParser.cpp' , Yellow },
-    { 'DDLParserElements.cpp' , Yellow },
+    { 'DDLParser.cpp' , Green },
+    { 'DDLParserElements.cpp' , Green },
     { 'DDLParserRules.cpp' , Green },
     { 'DDLParserTable.cpp' , Green },
     { 'DDLPlatformTypes.cpp' , Green },
@@ -944,7 +944,7 @@ Dir Dir72=
     { 'DDLTypeDesc.cpp' , Red },
     { 'DDLTypes.cpp' , Green },
     { 'DDLTypeSet.cpp' , Red },
-    { 'DDLValue.cpp' , Red }
+    { 'DDLValue.cpp' , Green }
    }
   };
 
