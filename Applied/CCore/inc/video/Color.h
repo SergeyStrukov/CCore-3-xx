@@ -1,7 +1,7 @@
 /* Color.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -294,6 +294,14 @@ class RawColor16
 
    // methods
 
+   Clr getR() const { return Clr( (color[0]>>11)<<3 ); }
+
+   Clr getG() const { return Clr( (color[0]>>5)<<2 ); }
+
+   Clr getB() const { return Clr( color[0]<<3 ); }
+
+   VColor get() const { Raw raw=color[0]; return RGBColor(Clr( (raw>>11)<<3 ),Clr( (raw>>5)<<2 ),Clr( raw<<3 )); }
+
    void set(VColor vc) { set(RedOf(vc),GreenOf(vc),BlueOf(vc)); }
 
    void set(Clr r,Clr g,Clr b) { color[0]=Pack565(r>>3,g>>2,b>>3); }
@@ -338,6 +346,14 @@ class RawColor24
 
    // methods
 
+   Clr getR() const { return color[0]; }
+
+   Clr getG() const { return color[1]; }
+
+   Clr getB() const { return color[2]; }
+
+   VColor get() const { return RGBColor(color[0],color[1],color[2]); }
+
    void set(VColor vc) { set(RedOf(vc),GreenOf(vc),BlueOf(vc)); }
 
    void set(Clr r,Clr g,Clr b) { color[0]=r; color[1]=g; color[2]=b; }
@@ -377,6 +393,14 @@ class RawColor24Inv
    RawColor24Inv(VColor vc=Black) { set(vc); }
 
    // methods
+
+   Clr getR() const { return color[2]; }
+
+   Clr getG() const { return color[1]; }
+
+   Clr getB() const { return color[0]; }
+
+   VColor get() const { return RGBColor(color[2],color[1],color[0]); }
 
    void set(VColor vc) { set(RedOf(vc),GreenOf(vc),BlueOf(vc)); }
 
@@ -419,6 +443,14 @@ class RawColor32
    RawColor32(VColor vc=Black) { set(vc); }
 
    // methods
+
+   Clr getR() const { return Clr(color[0]>>16); }
+
+   Clr getG() const { return Clr(color[0]>>8); }
+
+   Clr getB() const { return Clr(color[0]); }
+
+   VColor get() const { Raw raw=color[0]; return RGBColor(Clr(raw>>16),Clr(raw>>8),Clr(raw)); }
 
    void set(VColor vc) { color[0]=vc; }
 
@@ -466,6 +498,14 @@ class RawColor32Inv
 
    // methods
 
+   Clr getR() const { return Clr(color[0]); }
+
+   Clr getG() const { return Clr(color[0]>>8); }
+
+   Clr getB() const { return Clr(color[0]>>16); }
+
+   VColor get() const { Raw raw=color[0]; return RGBColor(Clr(raw),Clr(raw>>8),Clr(raw>>16)); }
+
    void set(VColor vc) { set(RedOf(vc),GreenOf(vc),BlueOf(vc)); }
 
    void set(Clr r,Clr g,Clr b) { color[0]=Pack888(r,g,b); }
@@ -503,7 +543,7 @@ concept bool RawColorType2 = requires(RawColor &obj,const RawColor &cobj,Raw *ds
  } ;
 
 template <NothrowCopyableType RawColor>
-concept bool RawColorType = requires(RawColor &obj,Clr alpha,VColor vc,Clr r,Clr g,Clr b,Blender blender)
+concept bool RawColorType = requires(RawColor &obj,const RawColor &cobj,Clr alpha,VColor vc,Clr r,Clr g,Clr b,Blender blender)
  {
   typename RawColor::Raw;
 
@@ -512,6 +552,14 @@ concept bool RawColorType = requires(RawColor &obj,Clr alpha,VColor vc,Clr r,Clr
   RawColor();
 
   RawColor(vc);
+
+  { cobj.getR() } -> Clr ;
+
+  { cobj.getG() } -> Clr ;
+
+  { cobj.getB() } -> Clr ;
+
+  { cobj.get() } -> VColor ;
 
   obj.set(vc);
 

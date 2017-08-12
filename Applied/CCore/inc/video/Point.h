@@ -1,7 +1,7 @@
 /* Point.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -781,15 +781,15 @@ inline Pane TrySplitY(Pane &pane,Coordinate delta)
 /* Multi Sup() & Inf() */
 
 template <class T,class ... TT>
-T Sup(T a,T b,T c,TT ... tt)
+T Sup(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
  {
-  return Sup(a,Sup(b,c,tt...));
+  return Sup(a,Sup(tt...));
  }
 
 template <class T,class ... TT>
-T Inf(T a,T b,T c,TT ... tt)
+T Inf(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
  {
-  return Inf(a,Inf(b,c,tt...));
+  return Inf(a,Inf(tt...));
  }
 
 /* struct PaneSub */

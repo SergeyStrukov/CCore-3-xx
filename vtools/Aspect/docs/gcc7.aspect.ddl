@@ -795,7 +795,7 @@ Dir Dir64=
 Dir Dir65=
   {
    'net',
-   Red,
+   Green,
    {
    },
    {
@@ -810,10 +810,10 @@ Dir Dir65=
     { 'NetBase.h' , Green },
     { 'NetFork.h' , Green },
     { 'PacketEndpointDevice.h' , Green },
-    { 'PKE.h' , Red },
-    { 'PSec.h' , Red },
+    { 'PKE.h' , Green },
+    { 'PSec.h' , Green },
     { 'PSecCore.h' , Green },
-    { 'PSecKey.h' , Red },
+    { 'PSecKey.h' , Green },
     { 'PTPBase.h' , Green },
     { 'PTPBoot.h' , Green },
     { 'PTPBootBase.h' , Green },
@@ -883,19 +883,19 @@ Dir Dir69=
 Dir Dir70=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Color.h' , Red },
-    { 'EDID.h' , Red },
-    { 'FrameBuf.h' , Red },
-    { 'Gamma.h' , Red },
-    { 'IntOp.h' , Red },
-    { 'Point.h' , Red },
-    { 'SimpleConsole.h' , Red },
-    { 'VideoConsole.h' , Red },
-    { 'VideoDevice.h' , Red }
+    { 'Color.h' , Green },
+    { 'EDID.h' , Green },
+    { 'FrameBuf.h' , Green },
+    { 'Gamma.h' , Green },
+    { 'IntOp.h' , Green },
+    { 'Point.h' , Green },
+    { 'SimpleConsole.h' , Green },
+    { 'VideoConsole.h' , Green },
+    { 'VideoDevice.h' , Green }
    }
   };
 
@@ -987,7 +987,7 @@ Dir Dir74=
 Dir Dir75=
   {
    'net',
-   Red,
+   Green,
    {
    },
    {
@@ -1002,10 +1002,10 @@ Dir Dir75=
     { 'NetBase.cpp' , Green },
     { 'NetFork.cpp' , Green },
     { 'PacketEndpointDevice.cpp' , Green },
-    { 'PKE.cpp' , Red },
-    { 'PSec.cpp' , Red },
+    { 'PKE.cpp' , Green },
+    { 'PSec.cpp' , Green },
     { 'PSecCore.cpp' , Green },
-    { 'PSecKey.cpp' , Red },
+    { 'PSecKey.cpp' , Green },
     { 'PTPBase.cpp' , Green },
     { 'PTPBoot.cpp' , Green },
     { 'PTPBootBase.cpp' , Green },
@@ -1075,19 +1075,19 @@ Dir Dir79=
 Dir Dir80=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Color.cpp' , Red },
-    { 'EDID.cpp' , Red },
-    { 'FrameBuf.cpp' , Red },
-    { 'Gamma.cpp' , Red },
-    { 'IntOp.cpp' , Red },
-    { 'Point.cpp' , Red },
-    { 'SimpleConsole.cpp' , Red },
-    { 'VideoConsole.cpp' , Red },
-    { 'VideoDevice.cpp' , Red }
+    { 'Color.cpp' , Green },
+    { 'EDID.cpp' , Green },
+    { 'FrameBuf.cpp' , Green },
+    { 'Gamma.cpp' , Green },
+    { 'IntOp.cpp' , Green },
+    { 'Point.cpp' , Green },
+    { 'SimpleConsole.cpp' , Green },
+    { 'VideoConsole.cpp' , Green },
+    { 'VideoDevice.cpp' , Green }
    }
   };
 

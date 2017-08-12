@@ -1,7 +1,7 @@
 /* EDID.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace Video {
 
 /* consts */
 
-const ulen EDIDLen = 128 ;
+inline constexpr ulen EDIDLen = 128 ;
 
 /* functions */
 
