@@ -1,7 +1,7 @@
 /* DDLEngine.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -117,10 +117,9 @@ class FileEngine : ParserContext
 
      RBTreeLink<FileRec,StrKey> link;
 
-     FileRec(FileName &file_name_,ulen max_file_len)
-      : file_text(file_name_.getStr(),max_file_len)
+     FileRec(FileName &&file_name_,ulen max_file_len)
+      : file_name(std::move(file_name_)),file_text(file_name.getStr(),max_file_len)
       {
-       Swap(file_name,file_name_);
       }
 
      StrLen getText() const { return Mutate<const char>(Range(file_text)); }
@@ -147,7 +146,7 @@ class FileEngine : ParserContext
 
    static File Make(FileRec *rec);
 
-   File open(FileName &file_name);
+   File open(FileName &&file_name);
 
    virtual File openFile(StrLen file_name);
 
@@ -194,7 +193,7 @@ auto FileEngine<FileName,FileText>::Make(FileRec *rec) -> File
  }
 
 template <FileNameType FileName,FileTextType FileText>
-auto FileEngine<FileName,FileText>::open(FileName &file_name) -> File
+auto FileEngine<FileName,FileText>::open(FileName &&file_name) -> File
  {
   StrKey key(file_name.getStr());
 
@@ -209,7 +208,7 @@ auto FileEngine<FileName,FileText>::open(FileName &file_name) -> File
      return Nothing;
     }
 
-  FileRec *rec=new FileRec(file_name,max_file_len);
+  FileRec *rec=new FileRec(std::move(file_name),max_file_len);
 
   file_count++;
 
@@ -232,7 +231,7 @@ auto FileEngine<FileName,FileText>::openFile(StrLen file_name_) -> File
      return Nothing;
     }
 
-  return open(file_name);
+  return open(std::move(file_name));
  }
 
 template <FileNameType FileName,FileTextType FileText>
@@ -260,7 +259,7 @@ auto FileEngine<FileName,FileText>::openFile(FileId *file_id,const Token &name) 
      return Nothing;
     }
 
-  return open(file_name);
+  return open(std::move(file_name));
  }
 
 template <FileNameType FileName,FileTextType FileText>
