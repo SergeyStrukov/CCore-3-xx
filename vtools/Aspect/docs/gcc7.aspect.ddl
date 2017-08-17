@@ -2119,8 +2119,6 @@ Dir Dir22=
    {
     { 'Makefile' , New },
     { 'main.cpp' , New },
-    { 'Magl.ddl' , New },
-    { 'MaglExpr.ddl' , New },
     { 'main.exe' , New },
     { 'Makefile.files' , New }
    }
