@@ -1,7 +1,7 @@
 /* SysFile.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/LIN64
 //
@@ -9,18 +9,18 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysFile.h>
 #include <CCore/inc/sys/SysInternal.h>
+#include <CCore/inc/sys/SysError.h>
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Fifo.h>
 #include <CCore/inc/Exception.h>
-
-#include <CCore/inc/Print.h>
+#include <CCore/inc/PrintError.h>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -808,9 +808,9 @@ class AsyncFileWait::Engine : public MemBase_nocopy
 
         if( fd==-1 )
           {
-           int error=errno;
+           ErrorType error=NonNullError();
 
-           Printf(Exception,"eventfd() : #;",error);
+           Printf(Exception,"CCore::Sys::AsyncFileWait::Engine::FdSem::FdSem() : #;",PrintError(error));
           }
        }
 

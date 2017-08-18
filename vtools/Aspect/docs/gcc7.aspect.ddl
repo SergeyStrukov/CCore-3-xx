@@ -738,19 +738,19 @@ Dir Dir62=
     { 'DDLEngine.h' , Green },
     { 'DDLErrorMsg.h' , Green },
     { 'DDLEval.h' , Yellow },
-    { 'DDLMap.h' , Red },
+    { 'DDLMap.h' , Yellow },
     { 'DDLMapBase.h' , Green },
-    { 'DDLMapTools.h' , Red },
+    { 'DDLMapTools.h' , Green },
     { 'DDLMapTypes.h' , Green },
     { 'DDLParser.h' , Green },
     { 'DDLPlatformTypes.h' , Green },
     { 'DDLSemantic.h' , Yellow },
     { 'DDLToken.h' , Green },
     { 'DDLTools.h' , Green },
-    { 'DDLTypedMap.h' , Red },
-    { 'DDLTypeDesc.h' , Red },
+    { 'DDLTypedMap.h' , Yellow },
+    { 'DDLTypeDesc.h' , Yellow },
     { 'DDLTypes.h' , Green },
-    { 'DDLTypeSet.h' , Red },
+    { 'DDLTypeSet.h' , Yellow },
     { 'DDLValue.h' , Green }
    }
   };
@@ -928,9 +928,9 @@ Dir Dir72=
     { 'DDLEngine.cpp' , Green },
     { 'DDLErrorMsg.cpp' , Green },
     { 'DDLEval.cpp' , Yellow },
-    { 'DDLMap.cpp' , Red },
+    { 'DDLMap.cpp' , Yellow },
     { 'DDLMapBase.cpp' , Green },
-    { 'DDLMapTools.cpp' , Red },
+    { 'DDLMapTools.cpp' , Green },
     { 'DDLMapTypes.cpp' , Green },
     { 'DDLParser.cpp' , Green },
     { 'DDLParserElements.cpp' , Green },
@@ -940,10 +940,10 @@ Dir Dir72=
     { 'DDLSemantic.cpp' , Yellow },
     { 'DDLToken.cpp' , Green },
     { 'DDLTools.cpp' , Green },
-    { 'DDLTypedMap.cpp' , Red },
+    { 'DDLTypedMap.cpp' , Green },
     { 'DDLTypeDesc.cpp' , Green },
     { 'DDLTypes.cpp' , Green },
-    { 'DDLTypeSet.cpp' , Red },
+    { 'DDLTypeSet.cpp' , Yellow },
     { 'DDLValue.cpp' , Green }
    }
   };
@@ -3682,20 +3682,20 @@ Dir Dir149=
 Dir Dir150=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Green },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Green }
    }
   };
 
 Dir Dir151=
   {
    'tools',
-   New,
+   Green,
    {
     &Dir195
    },
@@ -3715,7 +3715,7 @@ Dir Dir192=
     &Dir200
    },
    {
-    { 'PlatformRandom.h' , Red }
+    { 'PlatformRandom.h' , Green }
    }
   };
 
@@ -3731,65 +3731,65 @@ Dir Dir193=
     &Dir205
    },
    {
-    { 'PlanInit_CCore.cpp' , Red }
+    { 'PlanInit_CCore.cpp' , Green }
    }
   };
 
 Dir Dir194=
   {
    'test',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'test6011.Char.cpp' , Red },
-    { 'test6006.exec.cpp' , Red },
-    { 'test6005.IntegerFastAlgo.cpp' , Red },
-    { 'test6004.IntelAES.cpp' , Red },
-    { 'test6003.IntelRandom.cpp' , Red },
-    { 'test6009.KeySym.cpp' , Red },
-    { 'test6001.LIN64.cpp' , Red },
-    { 'test6010.MsgBox.cpp' , Red },
-    { 'test6007.Quick.cpp' , Red },
-    { 'test6002.SysError.cpp' , Red },
-    { 'test6008.X11.cpp' , Red }
+    { 'test6011.Char.cpp' , Ignore },
+    { 'test6006.exec.cpp' , Ignore },
+    { 'test6005.IntegerFastAlgo.cpp' , Ignore },
+    { 'test6004.IntelAES.cpp' , Ignore },
+    { 'test6003.IntelRandom.cpp' , Ignore },
+    { 'test6009.KeySym.cpp' , Ignore },
+    { 'test6001.LIN64.cpp' , Ignore },
+    { 'test6010.MsgBox.cpp' , Ignore },
+    { 'test6007.Quick.cpp' , Ignore },
+    { 'test6002.SysError.cpp' , Ignore },
+    { 'test6008.X11.cpp' , Ignore }
    }
   };
 
 Dir Dir196=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.h' , Red },
-    { 'Quick.h' , Red }
+    { 'PlatformBase.h' , Green },
+    { 'Quick.h' , Green }
    }
   };
 
 Dir Dir197=
   {
    'crypton',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntelAES.h' , Red },
-    { 'IntelCPUID.h' , Red },
-    { 'IntelRandom.h' , Red },
-    { 'PlatformAES.h' , Red }
+    { 'IntelAES.h' , Green },
+    { 'IntelCPUID.h' , Green },
+    { 'IntelRandom.h' , Green },
+    { 'PlatformAES.h' , Green }
    }
   };
 
 Dir Dir198=
   {
    'math',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntegerFastAlgo.h' , Red }
+    { 'IntegerFastAlgo.h' , Green }
    }
   };
 
@@ -3800,24 +3800,24 @@ Dir Dir199=
    {
    },
    {
-    { 'SysAbort.h' , Red },
-    { 'SysAtomic.h' , Red },
-    { 'SysCon.h' , Red },
-    { 'SysData.h' , Red },
-    { 'SysError.h' , Red },
-    { 'SysFile.h' , Red },
+    { 'SysAbort.h' , Green },
+    { 'SysAtomic.h' , Green },
+    { 'SysCon.h' , Green },
+    { 'SysData.h' , Green },
+    { 'SysError.h' , Green },
+    { 'SysFile.h' , Green },
     { 'SysFileSystem.h' , Red },
-    { 'SysInternal.h' , Red },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , Red },
-    { 'SysNet.h' , Red },
-    { 'SysPlanInit.h' , Red },
-    { 'SysProp.h' , Red },
-    { 'SysSem.h' , Red },
-    { 'SysTask.h' , Red },
-    { 'SysTime.h' , Red },
-    { 'SysTlsSlot.h' , Red },
-    { 'SysWait.h' , Red }
+    { 'SysInternal.h' , Green },
+    { 'SysLaunchPath.h' , Green },
+    { 'SysMemPage.h' , Green },
+    { 'SysNet.h' , Green },
+    { 'SysPlanInit.h' , Green },
+    { 'SysProp.h' , Green },
+    { 'SysSem.h' , Green },
+    { 'SysTask.h' , Green },
+    { 'SysTime.h' , Green },
+    { 'SysTlsSlot.h' , Green },
+    { 'SysWait.h' , Green }
    }
   };
 
@@ -3835,41 +3835,41 @@ Dir Dir200=
 Dir Dir201=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.cpp' , Red },
-    { 'Quick.cpp' , Red },
-    { 'PlatformBase.s' , Red },
-    { 'Quick.s' , Red }
+    { 'PlatformBase.cpp' , Green },
+    { 'Quick.cpp' , Green },
+    { 'PlatformBase.s' , Green },
+    { 'Quick.s' , Green }
    }
   };
 
 Dir Dir202=
   {
    'crypton',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntelAES.cpp' , Red },
-    { 'IntelCPUID.cpp' , Red },
-    { 'IntelRandom.cpp' , Red },
-    { 'IntelAES.s' , Red },
-    { 'IntelCPUID.s' , Red },
-    { 'IntelRandom.s' , Red }
+    { 'IntelAES.cpp' , Green },
+    { 'IntelCPUID.cpp' , Green },
+    { 'IntelRandom.cpp' , Green },
+    { 'IntelAES.s' , Green },
+    { 'IntelCPUID.s' , Green },
+    { 'IntelRandom.s' , Green }
    }
   };
 
 Dir Dir203=
   {
    'math',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntegerFastAlgo.cpp' , Red }
+    { 'IntegerFastAlgo.cpp' , Green }
    }
   };
 
@@ -3880,26 +3880,26 @@ Dir Dir204=
    {
    },
    {
-    { 'SysAbort.cpp' , Red },
-    { 'SysAtomic.cpp' , Red },
-    { 'SysCon.cpp' , Red },
-    { 'SysData.cpp' , Red },
-    { 'SysError.cpp' , Red },
-    { 'SysFile.cpp' , Red },
+    { 'SysAbort.cpp' , Green },
+    { 'SysAtomic.cpp' , Green },
+    { 'SysCon.cpp' , Green },
+    { 'SysData.cpp' , Green },
+    { 'SysError.cpp' , Green },
+    { 'SysFile.cpp' , Green },
     { 'SysFileSystem.cpp' , Red },
-    { 'SysInternal.cpp' , Red },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , Red },
-    { 'SysNet.cpp' , Red },
-    { 'SysPlanInit.cpp' , Red },
-    { 'SysProp.cpp' , Red },
-    { 'SysSem.cpp' , Red },
-    { 'SysTask.cpp' , Red },
-    { 'SysTime.cpp' , Red },
-    { 'SysTlsSlot.cpp' , Red },
-    { 'SysWait.cpp' , Red },
-    { 'SysAtomic.s' , Red },
-    { 'SysTime.s' , Red }
+    { 'SysInternal.cpp' , Green },
+    { 'SysLaunchPath.cpp' , Green },
+    { 'SysMemPage.cpp' , Green },
+    { 'SysNet.cpp' , Green },
+    { 'SysPlanInit.cpp' , Green },
+    { 'SysProp.cpp' , Green },
+    { 'SysSem.cpp' , Green },
+    { 'SysTask.cpp' , Green },
+    { 'SysTime.cpp' , Green },
+    { 'SysTlsSlot.cpp' , Green },
+    { 'SysWait.cpp' , Green },
+    { 'SysAtomic.s' , Green },
+    { 'SysTime.s' , Green }
    }
   };
 
@@ -3917,7 +3917,7 @@ Dir Dir205=
 Dir Dir195=
   {
    'HowToBuild',
-   New,
+   Green,
    {
     &Dir206
    },
@@ -3928,11 +3928,11 @@ Dir Dir195=
 Dir Dir206=
   {
    'gcc-7.1.0',
-   New,
+   Green,
    {
    },
    {
-    { 'MakeCfg' , New }
+    { 'MakeCfg' , Green }
    }
   };
 

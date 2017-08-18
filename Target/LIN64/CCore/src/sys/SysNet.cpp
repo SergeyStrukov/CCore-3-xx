@@ -1,7 +1,7 @@
 /* SysNet.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/LIN64
 //
@@ -9,16 +9,18 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysNet.h>
 #include <CCore/inc/sys/SysAbort.h>
+#include <CCore/inc/sys/SysError.h>
 
 #include <CCore/inc/List.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Exception.h>
+#include <CCore/inc/PrintError.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -412,9 +414,9 @@ class AsyncUDPSocketWait::Engine : public MemBase_nocopy
 
         if( fd==-1 )
           {
-           int error=errno;
+           ErrorType error=NonNullError();
 
-           Printf(Exception,"eventfd() : #;",error);
+           Printf(Exception,"CCore::Sys::AsyncUDPSocketWait::Engine::FdSem::FdSem() : #;",PrintError(error));
           }
        }
 

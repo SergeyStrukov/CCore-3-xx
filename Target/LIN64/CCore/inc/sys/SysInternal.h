@@ -1,7 +1,7 @@
 /* SysInternal.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/LIN64
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -111,9 +111,9 @@ struct TimeSpec : timespec
     unsigned delta_sec=GetSec(time);
     unsigned delta_nsec=GetNanoSec(time);
 
-    if( (tv_nsec+=delta_nsec)>=1'000'000'000 )
+    if( (tv_nsec+=delta_nsec)>=1'000'000'000u )
       {
-       tv_nsec-=1'000'000'000;
+       tv_nsec-=1'000'000'000u;
        delta_sec++;
       }
 
@@ -133,14 +133,14 @@ struct TimeVal : timeval
  {
   static unsigned GetSec(MSec time) { return +time/1000u; }
 
-  static unsigned GetMilliSec(MSec time) { return (+time%1000u)*1000u; }
+  static unsigned GetMicroSec(MSec time) { return (+time%1000u)*1000u; }
 
   TimeVal() {}
 
   explicit TimeVal(MSec time)
    {
     tv_sec=GetSec(time);
-    tv_usec=GetMilliSec(time);
+    tv_usec=GetMicroSec(time);
    }
  };
 

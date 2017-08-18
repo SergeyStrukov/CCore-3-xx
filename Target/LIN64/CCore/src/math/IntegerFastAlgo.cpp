@@ -354,7 +354,7 @@ Unit/* msu */ IntegerFastAlgo::RevSub(Unit *restrict b,ulen nb,const Unit *a,ule
     }
  }
 
-// multiplicative operators
+ // multiplicative operators
 
 void IntegerFastAlgo::Mul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb) noexcept // nc==na+nb
  {
