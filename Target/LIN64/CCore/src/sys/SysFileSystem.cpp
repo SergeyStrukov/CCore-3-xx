@@ -1,7 +1,7 @@
 /* SysFileSystem.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/LIN64
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -21,6 +21,7 @@
 #include <CCore/inc/ElementPool.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/CharProp.h>
+#include <CCore/inc/Path.h>
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -42,124 +43,112 @@ namespace Sys {
 
 namespace Private_SysFileSystem {
 
-/* functions */
+/* class EmptyDirEngine */
 
-FileError EmptyDirRecursive(StrLen dir_name);
-
-FileError DeleteDirRecursive(StrLen dir_name);
-
-/* struct NameBuf */
-
-struct NameBuf
+class EmptyDirEngine : NoCopy
  {
-  char buf[MaxPathLen+1];
-  ulen dir_len;
-  ulen buf_len;
+   char buf[MaxPathLen+1];
 
-  bool init(StrLen dir_name)
-   {
-    if( dir_name.len>MaxPathLen-1 ) return false;
+  private:
 
-    dir_name.copyTo(buf);
-
-    buf[dir_name.len]='/';
-
-    dir_len=dir_name.len+1;
-
-    return true;
-   }
-
-  bool set(StrLen file_name)
-   {
-    if( file_name.len>MaxPathLen-dir_len ) return false;
-
-    file_name.copyTo(buf+dir_len);
-
-    buf[dir_len+file_name.len]=0;
-
-    buf_len=dir_len+file_name.len;
-
-    return true;
-   }
-
-  operator const char * () const { return buf; }
-
-  StrLen getStr() const { return StrLen(buf,buf_len); }
- };
-
-/* IsSpecial() */
-
-bool IsSpecial(StrLen name)
- {
-  return ( name.len==1 && name[0]=='.' ) || ( name.len==2 && name[0]=='.' && name[1]=='.' ) ;
- }
-
-/* EmptyDirRecursive() */
-
-FileError EmptyDirRecursive(StrLen dir_name)
- {
-  NameBuf buf;
-
-  if( !buf.init(dir_name) ) return FileError_TooLongPath;
-
-  DIR *dir=opendir(dir_name.ptr);
-
-  if( !dir ) return MakeError(FileError_OpFault);
-
-  errno=0;
-
-  while( dirent *result=readdir(dir) )
+   FileError deleteDir(ulen dir_len)
     {
-     StrLen file_name(result->d_name);
+     if( FileError fe=emptyDir(dir_len) ) return fe;
 
-     if( !IsSpecial(file_name) )
-       {
-        FileError fe=FileError_Ok;
+     buf[dir_len]=0;
 
-        if( buf.set(file_name) )
-          {
-           if( result->d_type==DT_DIR )
-             {
-              fe=DeleteDirRecursive(buf.getStr());
-             }
-           else
-             {
-              if( unlink(buf)==-1 )
-                {
-                 fe=MakeError(FileError_OpFault);
-                }
-             }
-          }
-        else
-          {
-           fe=FileError_TooLongPath;
-          }
+     if( rmdir(buf)==-1 ) return MakeError(FileError_OpFault);
 
-        if( fe )
-          {
-           closedir(dir);
-
-           return fe;
-          }
-       }
-
-     errno=0;
+     return FileError_Ok;
     }
 
-  int error=errno;
+   bool set(ulen dir_len,StrLen file_name)
+    {
+     if( file_name.len>MaxPathLen-dir_len ) return false;
 
-  closedir(dir);
+     file_name.copyTo(buf+dir_len);
 
-  if( error ) return MakeError(FileError_OpFault);
+     buf[dir_len+file_name.len]=0;
 
-  return FileError_Ok;
- }
+     return true;
+    }
+
+   FileError remove(ulen dir_len,StrLen file_name,bool is_dir)
+    {
+     if( !set(dir_len+1,file_name) ) return FileError_TooLongPath;
+
+     if( is_dir )
+       {
+        return deleteDir(dir_len+1+file_name.len);
+       }
+     else
+       {
+        if( unlink(buf)==-1 ) return MakeError(FileError_OpFault);
+
+        return FileError_Ok;
+       }
+    }
+
+   FileError emptyDir(ulen dir_len)
+    {
+     if( dir_len>MaxPathLen-1 ) return FileError_TooLongPath;
+
+     buf[dir_len]='/';
+     buf[dir_len+1]=0;
+
+     DIR *dir=opendir(buf);
+
+     if( !dir ) return MakeError(FileError_OpFault);
+
+     errno=0;
+
+     while( dirent *result=readdir(dir) )
+       {
+        StrLen file_name(result->d_name);
+
+        if( !PathBase::IsSpecial(file_name) )
+          {
+           if( FileError fe=remove(dir_len,file_name,result->d_type==DT_DIR) )
+             {
+              closedir(dir);
+
+              return fe;
+             }
+          }
+
+        errno=0;
+       }
+
+     int error=errno;
+
+     closedir(dir);
+
+     if( error ) return MakeError(FileError_OpFault,error);
+
+     return FileError_Ok;
+    }
+
+  public:
+
+   EmptyDirEngine() {}
+
+   FileError emptyDir(StrLen dir_name)
+    {
+     if( dir_name.len>MaxPathLen ) return FileError_TooLongPath;
+
+     dir_name.copyTo(buf);
+
+     return emptyDir(dir_name.len);
+    }
+ };
 
 /* DeleteDirRecursive() */
 
 FileError DeleteDirRecursive(StrLen dir_name)
  {
-  if( FileError fe=EmptyDirRecursive(dir_name) ) return fe;
+  EmptyDirEngine engine;
+
+  if( FileError fe=engine.emptyDir(dir_name) ) return fe;
 
   if( rmdir(dir_name.ptr)==-1 ) return MakeError(FileError_OpFault);
 
@@ -597,7 +586,7 @@ FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
 
      envp.prepareEnv(result.path);
 
-     if( posix_spawn(0,path,0,0,argc.complete(),envp.complete())!=0 ) return FileError_OpFault;
+     if( int error=posix_spawn(0,path,0,0,argc.complete(),envp.complete())!=0 ) return MakeError(FileError_OpFault,error);
 
      return FileError_Ok;
     }
