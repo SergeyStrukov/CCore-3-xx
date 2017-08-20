@@ -81,7 +81,7 @@ void BuildPath::back()
 
 void BuildPath::start()
  {
-  add("./");
+  add("./"_c);
  }
 
 void BuildPath::next(StrLen name,StrLen point_name)
@@ -116,7 +116,7 @@ void BuildPath::next(StrLen name,StrLen point_name)
      add(name);
     }
 
-  add(StrLen("/",1));
+  add("/"_c);
 
   level++;
  }
@@ -161,7 +161,7 @@ BuildPath::BuildPath(StrLen path,StrLen point_name)
 
      if( !path )
        {
-        add(".");
+        add("."_c);
 
         return;
        }

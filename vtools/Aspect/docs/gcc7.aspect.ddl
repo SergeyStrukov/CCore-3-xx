@@ -2635,25 +2635,25 @@ Dir Dir39=
 Dir Dir40=
   {
    'PTPServerProc',
-   Red,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
     { 'PTPServerProc.a' , Ignore },
-    { 'ErrorIds.cpp' , Red },
-    { 'HFSProc.cpp' , Red },
-    { 'ProcBase.cpp' , Red },
-    { 'PTPConProc.cpp' , Red },
-    { 'ServerProc.cpp' , Red },
-    { 'SupportProc.cpp' , Red },
+    { 'ErrorIds.cpp' , Green },
+    { 'HFSProc.cpp' , Green },
+    { 'ProcBase.cpp' , Green },
+    { 'PTPConProc.cpp' , Green },
+    { 'ServerProc.cpp' , Green },
+    { 'SupportProc.cpp' , Green },
     { 'Makefile.files' , Ignore },
-    { 'ErrorIds.h' , Red },
-    { 'HFSProc.h' , Red },
-    { 'ProcBase.h' , Red },
-    { 'PTPConProc.h' , Red },
-    { 'ServerProc.h' , Red },
-    { 'SupportProc.h' , Red }
+    { 'ErrorIds.h' , Green },
+    { 'HFSProc.h' , Green },
+    { 'ProcBase.h' , Green },
+    { 'PTPConProc.h' , Green },
+    { 'ServerProc.h' , Green },
+    { 'SupportProc.h' , Green }
    }
   };
 

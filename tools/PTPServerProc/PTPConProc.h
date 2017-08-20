@@ -40,7 +40,7 @@ class PTPConProc;
 
 class PTPConWrite : NoCopy
  {
-   static const ulen BufLen = 128 ; // power of 2
+   static constexpr ulen BufLen = 128 ; // power of 2
 
    uint32 next_number;
    uint32 write_ticks;

@@ -7,7 +7,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -68,9 +68,9 @@ class HFSProc;
 
 /* class BuildPath */
 
-class BuildPath : NoCopy , PathBase
+class BuildPath : NoCopyBase<PathBase>
  {
-   static const ulen BufLen = 2*MaxPathLen ;
+   static constexpr ulen BufLen = 2*MaxPathLen ;
 
    char buf[BufLen];
 
@@ -149,7 +149,7 @@ struct MemNodeExt : MemBase_nocopy
 
 class MemNode : NoCopy
  {
-   static const ulen MaxLen = 1_MByte ;
+   static constexpr ulen MaxLen = 1_MByte ;
 
    DynArray<uint8> data;
    FlagType oflags;
@@ -415,7 +415,7 @@ class FileSet : NoCopy
 
   public:
 
-   static const ulen DefaultMaxFiles = 1000 ;
+   static constexpr ulen DefaultMaxFiles = 1000 ;
 
    explicit FileSet(ulen max_files=DefaultMaxFiles); // assume max_files <= 2^31
 
@@ -438,7 +438,7 @@ class MemSet : NoCopy
 
   public:
 
-   static const ulen DefaultMaxMems = 1000 ;
+   static constexpr ulen DefaultMaxMems = 1000 ;
 
    explicit MemSet(ulen max_mems=DefaultMaxMems); // assume max_mems <= 2^31
 
@@ -517,7 +517,7 @@ class HFSProc : ProcBase
 
   private:
 
-   static const uint32 MemFlag = 0x8000'0000 ;
+   static constexpr uint32 MemFlag = 0x8000'0000u ;
 
    static void SetMemFlag(FileId &file_id) { BitSet(file_id.slot,MemFlag); }
 

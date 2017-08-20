@@ -7,7 +7,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -37,11 +37,11 @@ using Net::HFS::ErrorBase;
 
 /* consts */
 
-const ErrorIdType Error_ConNotOpened      = 1'000 ;
-const ErrorIdType Error_BadConId          = 1'001 ;
-const ErrorIdType Error_CannotOpenMoreCon = 1'002 ;
-const ErrorIdType Error_ReadStarted       = 1'003 ;
-const ErrorIdType Error_WriteFault        = 1'004 ;
+inline constexpr ErrorIdType Error_ConNotOpened      = 1'000 ;
+inline constexpr ErrorIdType Error_BadConId          = 1'001 ;
+inline constexpr ErrorIdType Error_CannotOpenMoreCon = 1'002 ;
+inline constexpr ErrorIdType Error_ReadStarted       = 1'003 ;
+inline constexpr ErrorIdType Error_WriteFault        = 1'004 ;
 
 /* functions */
 
