@@ -913,9 +913,9 @@ class CommandEngine : NoCopy
    CmdInput input;
    ReportException report;
 
-   static const ulen MaxArgLen = 80 ;
+   static constexpr ulen MaxArgLen = 80 ;
 
-   static const char BadChar = '?' ;
+   static constexpr char BadChar = '?' ;
 
    char arg[MaxArgLen];
    ulen arg_len;
@@ -949,7 +949,7 @@ bool CommandEngine::inputArg()
             {
              arg_len--;
 
-             con.put("\b \b",3);
+             con.put("\b \b"_c);
             }
           else
             {
@@ -962,7 +962,7 @@ bool CommandEngine::inputArg()
 
         case '\n' : case '\r' :
          {
-          con.put("\r\n",2);
+          con.put("\r\n"_c);
 
           return true;
          }
@@ -1024,7 +1024,7 @@ void CommandEngine::command()
 
           if( +result )
             {
-             con.put("\r\n",2);
+             con.put("\r\n"_c);
 
              result(StrLen(),report);
 
@@ -1053,7 +1053,7 @@ void CommandEngine::command()
          {
           if( input.back() )
             {
-             con.put("\b \b",3);
+             con.put("\b \b"_c);
             }
          }
         break;

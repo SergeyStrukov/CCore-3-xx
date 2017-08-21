@@ -37,8 +37,8 @@ using Net::HFS::ErrorBase;
 
 /* consts */
 
-const ErrorIdType Error_AccessDenied = 1'000 ;
-const ErrorIdType Error_NoProfile    = 1'001 ;
+inline constexpr ErrorIdType Error_AccessDenied = 1'000 ;
+inline constexpr ErrorIdType Error_NoProfile    = 1'001 ;
 
 /* functions */
 

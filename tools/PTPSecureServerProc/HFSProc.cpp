@@ -80,11 +80,11 @@ void BuildClientPath::next(StrLen name,Home home)
     {
      if( home.has_home )
        {
-        add("home/");
+        add("home/"_c);
 
         add(home.name);
 
-        add(StrLen("/",1));
+        add("/"_c);
 
         level+=2;
        }
@@ -99,7 +99,7 @@ void BuildClientPath::next(StrLen name,Home home)
     {
      add(name);
 
-     add(StrLen("/",1));
+     add("/"_c);
 
      level++;
     }
@@ -127,7 +127,7 @@ void BuildClientPath::stop(StrLen name,Home home)
     {
      if( home.has_home )
        {
-        add("home/");
+        add("home/"_c);
 
         add(home.name);
        }
@@ -155,7 +155,7 @@ void BuildClientPath::start(StrLen root)
 
   add(root);
 
-  if( !IsSlash(root.back(1)) ) add(StrLen("/",1));
+  if( !IsSlash(root.back(1)) ) add("/"_c);
  }
 
 BuildClientPath::BuildClientPath(StrLen root,StrLen path,Home home)

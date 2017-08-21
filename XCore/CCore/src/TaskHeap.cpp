@@ -1,7 +1,7 @@
 /* TaskHeap.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -46,8 +46,8 @@ class TaskHeapControl::ObjectType : public MemBase_nocopy
       }
     };
 
-   static const ulen Delta = Align(sizeof (Prefix)) ;
-   static const ulen MaxAllocLen = MaxULen-Delta ;
+   static constexpr ulen Delta = Align(sizeof (Prefix)) ;
+   static constexpr ulen MaxAllocLen = MaxULen-Delta ;
 
    static Prefix * GetPrefix(void *mem) { return static_cast<Prefix *>(PtrSub(mem,Delta)); }
 

@@ -1,7 +1,7 @@
 /* PrintCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ void PrintCon::do_flush(char *,ulen len)
 
 void PrintCon::Print(const char *ptr,ulen len)
  {
-  PrintCon out(Con);
+  PrintCon out;
 
   out.put(ptr,len);
  }

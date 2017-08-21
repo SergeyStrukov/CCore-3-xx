@@ -31,52 +31,50 @@ namespace App {
 
 #include "Config.typeset.h"
 
-/* Pretext */
-
-static const char * Pretext =
-
-"struct Key"
-" {"
-"  const uint8 SHA1   = 0 ;"
-"  const uint8 SHA224 = 1 ;"
-"  const uint8 SHA256 = 2 ;"
-"  const uint8 SHA384 = 3 ;"
-"  const uint8 SHA512 = 4 ;"
-
-"  uint8 hash_id;"
-
-"  uint8[] key;"
-" };"
-
-"struct PTPSecureConfig"
-" {"
-"  uint16 server_pke_port  = 52102 ;"
-"  uint16 server_psec_port = 52103 ;"
-
-"  uint16 pke_port  = 52100 ;"
-"  uint16 psec_port = 52101 ;"
-
-"  uint16 keyset_len = 10 ;"
-"  uint32 ttl        = 3600 ;"
-"  uint32 utl        = 100000000 ;"
-
-"  ip server_ip = 127.0.0.1 ;"
-"  Key server_key;"
-
-"  text name;"
-"  Key key;"
-" };"
-
-  ;
-
 /* class Config */
+
+StrLen Config::Pretext()
+ {
+  return
+  "struct Key"
+  " {"
+  "  const uint8 SHA1   = 0 ;"
+  "  const uint8 SHA224 = 1 ;"
+  "  const uint8 SHA256 = 2 ;"
+  "  const uint8 SHA384 = 3 ;"
+  "  const uint8 SHA512 = 4 ;"
+
+  "  uint8 hash_id;"
+
+  "  uint8[] key;"
+  " };"
+
+  "struct PTPSecureConfig"
+  " {"
+  "  uint16 server_pke_port  = 52102 ;"
+  "  uint16 server_psec_port = 52103 ;"
+
+  "  uint16 pke_port  = 52100 ;"
+  "  uint16 psec_port = 52101 ;"
+
+  "  uint16 keyset_len = 10 ;"
+  "  uint32 ttl        = 3600 ;"
+  "  uint32 utl        = 100000000 ;"
+
+  "  ip server_ip = 127.0.0.1 ;"
+  "  Key server_key;"
+
+  "  text name;"
+  "  Key key;"
+  " };"_c;
+ }
 
 Config::Config(StrLen file_name)
  {
   PrintCon out;
   DDL::FileEngine<FileName,FileToMem> engine(out);
 
-  auto result=engine.process(file_name,Pretext);
+  auto result=engine.process(file_name,Pretext());
 
   out.flush();
 

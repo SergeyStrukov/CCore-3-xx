@@ -2559,62 +2559,62 @@ Dir Dir35=
 Dir Dir36=
   {
    'PTPSecureClient',
-   Red,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'Config.cpp' , Red },
-    { 'main.cpp' , Red },
-    { 'Config.ddl' , Red },
-    { 'PTPSecureConfig.types.ddl' , Red },
+    { 'Config.cpp' , Green },
+    { 'main.cpp' , Green },
+    { 'Config.ddl' , Green },
+    { 'PTPSecureConfig.types.ddl' , Green },
     { 'Makefile.files' , Ignore },
-    { 'Config.h' , Red },
-    { 'Config.type.h' , Red },
-    { 'Config.typeset.h' , Red }
+    { 'Config.h' , Green },
+    { 'Config.type.h' , Ignore },
+    { 'Config.typeset.h' , Ignore }
    }
   };
 
 Dir Dir37=
   {
    'PTPSecureServer',
-   Red,
+   Green,
    {
     &Dir131
    },
    {
     { 'Makefile' , Ignore },
-    { 'Config.cpp' , Red },
-    { 'main.cpp' , Red },
+    { 'Config.cpp' , Green },
+    { 'main.cpp' , Green },
     { 'Config.ddl' , Ignore },
     { 'PTPSecureConfig.types.ddl' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Config.h' , Red },
-    { 'Config.type.h' , Red },
-    { 'Config.typeset.h' , Red }
+    { 'Config.h' , Green },
+    { 'Config.type.h' , Green },
+    { 'Config.typeset.h' , Green }
    }
   };
 
 Dir Dir38=
   {
    'PTPSecureServerProc',
-   Red,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
     { 'PTPSecureServerProc.a' , Ignore },
-    { 'ErrorIds.cpp' , Red },
-    { 'HFSProc.cpp' , Red },
-    { 'ProcBase.cpp' , Red },
-    { 'ServerProc.cpp' , Red },
-    { 'SupportProc.cpp' , Red },
+    { 'ErrorIds.cpp' , Green },
+    { 'HFSProc.cpp' , Green },
+    { 'ProcBase.cpp' , Green },
+    { 'ServerProc.cpp' , Green },
+    { 'SupportProc.cpp' , Green },
     { 'Makefile.files' , Ignore },
-    { 'ErrorIds.h' , Red },
-    { 'HFSProc.h' , Red },
-    { 'ProcBase.h' , Red },
-    { 'ServerProc.h' , Red },
-    { 'SupportProc.h' , Red }
+    { 'ErrorIds.h' , Green },
+    { 'HFSProc.h' , Green },
+    { 'ProcBase.h' , Green },
+    { 'ServerProc.h' , Green },
+    { 'SupportProc.h' , Green }
    }
   };
 
@@ -5367,18 +5367,18 @@ Dir Dir283=
     &Dir290
    },
    {
-    { 'BinaryFile.h' , Red },
-    { 'CompletePacket.h' , Red },
-    { 'DefaultFileDevice.h' , Red },
-    { 'FileToMem.h' , Red },
-    { 'Print.h' , Red },
-    { 'ReadCon.h' , Red },
-    { 'RedirectPTPCon.h' , Red },
+    { 'BinaryFile.h' , Green },
+    { 'CompletePacket.h' , Green },
+    { 'DefaultFileDevice.h' , Green },
+    { 'FileToMem.h' , Green },
+    { 'Print.h' , Green },
+    { 'ReadCon.h' , Green },
+    { 'RedirectPTPCon.h' , Green },
     { 'Scan.h' , Red },
-    { 'SpecialMemBase.h' , Red },
-    { 'StdioReadCon.h' , Red },
-    { 'Task.h' , Red },
-    { 'TaskHeap.h' , Red }
+    { 'SpecialMemBase.h' , Green },
+    { 'StdioReadCon.h' , Green },
+    { 'Task.h' , Green },
+    { 'TaskHeap.h' , Green }
    }
   };
 
@@ -5393,19 +5393,19 @@ Dir Dir284=
     &Dir294
    },
    {
-    { 'Abort.cpp' , Red },
-    { 'BinaryFile.cpp' , Red },
-    { 'DefaultFileDevice.cpp' , Red },
-    { 'FileToMem.cpp' , Red },
-    { 'MemBase.cpp' , Red },
-    { 'Print.cpp' , Red },
-    { 'ReadCon.cpp' , Red },
-    { 'RedirectPTPCon.cpp' , Red },
+    { 'Abort.cpp' , Green },
+    { 'BinaryFile.cpp' , Green },
+    { 'DefaultFileDevice.cpp' , Green },
+    { 'FileToMem.cpp' , Green },
+    { 'MemBase.cpp' , Green },
+    { 'Print.cpp' , Green },
+    { 'ReadCon.cpp' , Green },
+    { 'RedirectPTPCon.cpp' , Green },
     { 'Scan.cpp' , Red },
-    { 'SpecialMemBase.cpp' , Red },
-    { 'StdioReadCon.cpp' , Red },
-    { 'Task.cpp' , Red },
-    { 'TaskHeap.cpp' , Red }
+    { 'SpecialMemBase.cpp' , Green },
+    { 'StdioReadCon.cpp' , Green },
+    { 'Task.cpp' , Green },
+    { 'TaskHeap.cpp' , Green }
    }
   };
 
@@ -5440,11 +5440,11 @@ Dir Dir285=
 Dir Dir286=
   {
    'dev',
-   Red,
+   Green,
    {
    },
    {
-    { 'DevWaitForInterrupt.h' , Red }
+    { 'DevWaitForInterrupt.h' , Green }
    }
   };
 
@@ -5467,27 +5467,27 @@ Dir Dir287=
 Dir Dir288=
   {
    'print',
-   Red,
+   Green,
    {
    },
    {
-    { 'PrintCon.h' , Red },
-    { 'PrintFile.h' , Red }
+    { 'PrintCon.h' , Green },
+    { 'PrintFile.h' , Green }
    }
   };
 
 Dir Dir289=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysCon.h' , Red },
-    { 'SysError.h' , Red },
-    { 'SysLog.h' , Red },
-    { 'SysProp.h' , Red },
-    { 'SysTlsSlot.h' , Red }
+    { 'SysCon.h' , Green },
+    { 'SysError.h' , Green },
+    { 'SysLog.h' , Green },
+    { 'SysProp.h' , Green },
+    { 'SysTlsSlot.h' , Green }
    }
   };
 
@@ -5541,27 +5541,27 @@ Dir Dir291=
 Dir Dir292=
   {
    'print',
-   Red,
+   Green,
    {
    },
    {
-    { 'PrintCon.cpp' , Red },
-    { 'PrintFile.cpp' , Red }
+    { 'PrintCon.cpp' , Green },
+    { 'PrintFile.cpp' , Green }
    }
   };
 
 Dir Dir293=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysCon_general.cpp' , Red },
-    { 'SysError.cpp' , Red },
-    { 'SysLog.cpp' , Red },
-    { 'SysProp.cpp' , Red },
-    { 'SysTlsSlot.cpp' , Red }
+    { 'SysCon_general.cpp' , Green },
+    { 'SysError.cpp' , Green },
+    { 'SysLog.cpp' , Green },
+    { 'SysProp.cpp' , Green },
+    { 'SysTlsSlot.cpp' , Green }
    }
   };
 

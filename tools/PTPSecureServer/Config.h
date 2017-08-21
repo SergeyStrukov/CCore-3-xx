@@ -35,6 +35,10 @@ class Config : NoCopy
 
    TypeDef::PTPSecureConfig *config;
 
+  private:
+
+   static StrLen Pretext();
+
   public:
 
    explicit Config(StrLen file_name);

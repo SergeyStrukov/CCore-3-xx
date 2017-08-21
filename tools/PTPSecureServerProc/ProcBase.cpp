@@ -13,8 +13,6 @@
 
 #include "ProcBase.h"
 
-#include <CCore/inc/Abort.h>
-
 namespace PTPSecureServerProc {
 
 /* class Log */
