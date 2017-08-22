@@ -1,7 +1,7 @@
 /* CSysCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
             {
              buf[off++]='\n';
 
-             con->put("\r\n",2);
+             con->put("\r\n"_c);
             }
            return off;
 
@@ -80,7 +80,7 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
                {
                 off--;
 
-                con->put("\b \b",3);
+                con->put("\b \b"_c);
                }
             }
            break;

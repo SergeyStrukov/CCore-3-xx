@@ -267,6 +267,7 @@ OBJ_LIST = \
 .obj/ScanAsyncFile.o \
 .obj/ScanBase.o \
 .obj/ScanBit.o \
+.obj/ScanFile.o \
 .obj/ScanProxy.o \
 .obj/ScanTools.o \
 .obj/Scanf.o \
@@ -626,6 +627,7 @@ ASM_LIST = \
 .obj/ScanAsyncFile.s \
 .obj/ScanBase.s \
 .obj/ScanBit.s \
+.obj/ScanFile.s \
 .obj/ScanProxy.s \
 .obj/ScanTools.s \
 .obj/Scanf.s \
@@ -985,6 +987,7 @@ DEP_LIST = \
 .obj/ScanAsyncFile.dep \
 .obj/ScanBase.dep \
 .obj/ScanBit.dep \
+.obj/ScanFile.dep \
 .obj/ScanProxy.dep \
 .obj/ScanTools.dep \
 .obj/Scanf.dep \
@@ -1893,6 +1896,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ScanBit.o : ../../Simple/CCore/src/./ScanBit.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/ScanFile.o : ../../XCore/CCore/src/./scan/ScanFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ScanProxy.o : ../../Fundamental/CCore/src/./scanf/ScanProxy.cpp
@@ -2965,6 +2971,9 @@ include $(RULES_FILE)
 .obj/ScanBit.s : ../../Simple/CCore/src/./ScanBit.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ScanFile.s : ../../XCore/CCore/src/./scan/ScanFile.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ScanProxy.s : ../../Fundamental/CCore/src/./scanf/ScanProxy.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4034,6 +4043,9 @@ include $(RULES_FILE)
 
 .obj/ScanBit.dep : ../../Simple/CCore/src/./ScanBit.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ScanBit.o $< -MF $@
+
+.obj/ScanFile.dep : ../../XCore/CCore/src/./scan/ScanFile.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ScanFile.o $< -MF $@
 
 .obj/ScanProxy.dep : ../../Fundamental/CCore/src/./scanf/ScanProxy.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ScanProxy.o $< -MF $@

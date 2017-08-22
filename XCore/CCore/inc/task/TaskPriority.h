@@ -1,7 +1,7 @@
 /* TaskPriority.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -120,8 +120,7 @@ struct PrintTaskPriority
      }
    };
 
-  template <class P>
-  static void PrintStr(StrLen value,P &out,PrintOptType opt)
+  static void PrintStr(StrLen value,PrinterType &out,PrintOptType opt)
    {
     StrPrintOpt str_opt;
 
@@ -131,8 +130,7 @@ struct PrintTaskPriority
     Putobj(out,BindOpt(str_opt,value));
    }
 
-  template <class P>
-  static void PrintInt(unsigned value,P &out,PrintOptType opt)
+  static void PrintInt(unsigned value,PrinterType &out,PrintOptType opt)
    {
     IntPrintOpt int_opt;
 
@@ -142,8 +140,7 @@ struct PrintTaskPriority
     Putobj(out,BindOpt(int_opt,value));
    }
 
-  template <class P>
-  void print(P &out,PrintOptType opt) const
+  void print(PrinterType &out,PrintOptType opt) const
    {
     switch( priority )
       {

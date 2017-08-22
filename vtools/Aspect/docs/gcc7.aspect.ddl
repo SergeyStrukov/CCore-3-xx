@@ -555,7 +555,7 @@ Dir Dir13=
 Dir Dir14=
   {
    'XCore',
-   Red,
+   Green,
    {
     &Dir57
    },
@@ -2591,7 +2591,8 @@ Dir Dir37=
     { 'Makefile.files' , Ignore },
     { 'Config.h' , Green },
     { 'Config.type.h' , Green },
-    { 'Config.typeset.h' , Green }
+    { 'Config.typeset.h' , Green },
+    { 'PTPSecureServerLog.txt' , New }
    }
   };
 
@@ -5345,7 +5346,7 @@ Dir Dir280=
 Dir Dir57=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir283,
     &Dir284,
@@ -5358,13 +5359,14 @@ Dir Dir57=
 Dir Dir283=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir286,
     &Dir287,
     &Dir288,
     &Dir289,
-    &Dir290
+    &Dir290,
+    &Dir291
    },
    {
     { 'BinaryFile.h' , Green },
@@ -5374,7 +5376,7 @@ Dir Dir283=
     { 'Print.h' , Green },
     { 'ReadCon.h' , Green },
     { 'RedirectPTPCon.h' , Green },
-    { 'Scan.h' , Red },
+    { 'Scan.h' , Green },
     { 'SpecialMemBase.h' , Green },
     { 'StdioReadCon.h' , Green },
     { 'Task.h' , Green },
@@ -5385,12 +5387,13 @@ Dir Dir283=
 Dir Dir284=
   {
    'src',
-   Red,
+   Green,
    {
-    &Dir291,
     &Dir292,
     &Dir293,
-    &Dir294
+    &Dir294,
+    &Dir295,
+    &Dir296
    },
    {
     { 'Abort.cpp' , Green },
@@ -5401,7 +5404,7 @@ Dir Dir284=
     { 'Print.cpp' , Green },
     { 'ReadCon.cpp' , Green },
     { 'RedirectPTPCon.cpp' , Green },
-    { 'Scan.cpp' , Red },
+    { 'Scan.cpp' , Green },
     { 'SpecialMemBase.cpp' , Green },
     { 'StdioReadCon.cpp' , Green },
     { 'Task.cpp' , Green },
@@ -5451,16 +5454,16 @@ Dir Dir286=
 Dir Dir287=
   {
    'libc',
-   Red,
+   Green,
    {
    },
    {
-    { 'CDef.h' , Red },
-    { 'CPrintf.h' , Red },
-    { 'CScanf.h' , Red },
-    { 'CStdFile.h' , Red },
-    { 'CSysFile.h' , Red },
-    { 'stdioPlanInit.h' , Red }
+    { 'CDef.h' , Green },
+    { 'CPrintf.h' , Green },
+    { 'CScanf.h' , Green },
+    { 'CStdFile.h' , Green },
+    { 'CSysFile.h' , Green },
+    { 'stdioPlanInit.h' , Green }
    }
   };
 
@@ -5478,6 +5481,17 @@ Dir Dir288=
 
 Dir Dir289=
   {
+   'scan',
+   Green,
+   {
+   },
+   {
+    { 'ScanFile.h' , Green }
+   }
+  };
+
+Dir Dir290=
+  {
    'sys',
    Green,
    {
@@ -5491,54 +5505,54 @@ Dir Dir289=
    }
   };
 
-Dir Dir290=
-  {
-   'task',
-   Red,
-   {
-   },
-   {
-    { 'AntiSem.h' , Red },
-    { 'AutoText.h' , Red },
-    { 'Event.h' , Red },
-    { 'FastMutex.h' , Red },
-    { 'MultiEvent.h' , Red },
-    { 'MultiSem.h' , Red },
-    { 'Mutex.h' , Red },
-    { 'ResSem.h' , Red },
-    { 'Sem.h' , Red },
-    { 'TaskCore.h' , Red },
-    { 'TaskEvent.h' , Red },
-    { 'TaskList.h' , Red },
-    { 'TaskMonitor.h' , Red },
-    { 'TaskPriority.h' , Red },
-    { 'Tick.h' , Red },
-    { 'Ticker.h' , Red },
-    { 'TlsBuf.h' , Red }
-   }
-  };
-
 Dir Dir291=
   {
-   'libc',
-   Red,
+   'task',
+   Green,
    {
    },
    {
-    { 'assert.cpp' , Red },
-    { 'CDef.cpp' , Red },
-    { 'CPrintf.cpp' , Red },
-    { 'CScanf.cpp' , Red },
-    { 'CStdFile.cpp' , Red },
-    { 'CSysCon.cpp' , Red },
-    { 'CSysFile.cpp' , Red },
-    { 'stdio.cpp' , Red },
-    { 'stdlib.cpp' , Red },
-    { 'time.cpp' , Red }
+    { 'AntiSem.h' , Green },
+    { 'AutoText.h' , Green },
+    { 'Event.h' , Green },
+    { 'FastMutex.h' , Green },
+    { 'MultiEvent.h' , Green },
+    { 'MultiSem.h' , Green },
+    { 'Mutex.h' , Green },
+    { 'ResSem.h' , Green },
+    { 'Sem.h' , Green },
+    { 'TaskCore.h' , Green },
+    { 'TaskEvent.h' , Green },
+    { 'TaskList.h' , Green },
+    { 'TaskMonitor.h' , Green },
+    { 'TaskPriority.h' , Green },
+    { 'Tick.h' , Green },
+    { 'Ticker.h' , Green },
+    { 'TlsBuf.h' , Green }
    }
   };
 
 Dir Dir292=
+  {
+   'libc',
+   Green,
+   {
+   },
+   {
+    { 'assert.cpp' , Green },
+    { 'CDef.cpp' , Green },
+    { 'CPrintf.cpp' , Green },
+    { 'CScanf.cpp' , Green },
+    { 'CStdFile.cpp' , Green },
+    { 'CSysCon.cpp' , Green },
+    { 'CSysFile.cpp' , Green },
+    { 'stdio.cpp' , Green },
+    { 'stdlib.cpp' , Green },
+    { 'time.cpp' , Green }
+   }
+  };
+
+Dir Dir293=
   {
    'print',
    Green,
@@ -5550,7 +5564,18 @@ Dir Dir292=
    }
   };
 
-Dir Dir293=
+Dir Dir294=
+  {
+   'scan',
+   Green,
+   {
+   },
+   {
+    { 'ScanFile.cpp' , Green }
+   }
+  };
+
+Dir Dir295=
   {
    'sys',
    Green,
@@ -5565,31 +5590,31 @@ Dir Dir293=
    }
   };
 
-Dir Dir294=
+Dir Dir296=
   {
    'task',
-   Red,
+   Green,
    {
    },
    {
-    { 'AntiSem.cpp' , Red },
-    { 'AutoText.cpp' , Red },
-    { 'Event.cpp' , Red },
-    { 'FastMutex.cpp' , Red },
-    { 'MultiEvent.cpp' , Red },
-    { 'MultiSem.cpp' , Red },
-    { 'Mutex.cpp' , Red },
-    { 'ResSem.cpp' , Red },
-    { 'Sem.cpp' , Red },
-    { 'TaskCore.cpp' , Red },
-    { 'TaskEvent.cpp' , Red },
-    { 'TaskInternal.cpp' , Red },
-    { 'TaskList.cpp' , Red },
-    { 'TaskMonitor.cpp' , Red },
-    { 'TaskPriority.cpp' , Red },
-    { 'Tick.cpp' , Red },
-    { 'Ticker.cpp' , Red },
-    { 'TlsBuf.cpp' , Red }
+    { 'AntiSem.cpp' , Green },
+    { 'AutoText.cpp' , Green },
+    { 'Event.cpp' , Green },
+    { 'FastMutex.cpp' , Green },
+    { 'MultiEvent.cpp' , Green },
+    { 'MultiSem.cpp' , Green },
+    { 'Mutex.cpp' , Green },
+    { 'ResSem.cpp' , Green },
+    { 'Sem.cpp' , Green },
+    { 'TaskCore.cpp' , Green },
+    { 'TaskEvent.cpp' , Green },
+    { 'TaskInternal.cpp' , Green },
+    { 'TaskList.cpp' , Green },
+    { 'TaskMonitor.cpp' , Green },
+    { 'TaskPriority.cpp' , Green },
+    { 'Tick.cpp' , Green },
+    { 'Ticker.cpp' , Green },
+    { 'TlsBuf.cpp' , Green }
    }
   };
 
