@@ -28,7 +28,7 @@ using namespace CCore;
 
 /* ZeroTo() */
 
-const ulen ZeroToLen = 4_KByte ;
+inline constexpr ulen ZeroToLen = 4_KByte ;
 
 static const uint8 ZeroToBuf[ZeroToLen]={};
 
@@ -95,8 +95,7 @@ struct PrintFlags
 
   explicit PrintFlags(uint32 flags_) : flags(flags_) {}
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     if( flags&Elf::SectFlag_code )
       Putobj(out,"C  ");
@@ -133,9 +132,9 @@ class BuildImage : NoCopy
 
   private:
 
-   static const uint32 MinAddress   = 0x8100'0000 ;
-   static const uint32 LimAddress   = 0x8200'0000 ;
-   static const uint32 AlignAddress =           4 ;
+   static constexpr uint32 MinAddress   = 0x8100'0000 ;
+   static constexpr uint32 LimAddress   = 0x8200'0000 ;
+   static constexpr uint32 AlignAddress =           4 ;
 
    static uint32 Guard(uint32 address,uint32 size);
 

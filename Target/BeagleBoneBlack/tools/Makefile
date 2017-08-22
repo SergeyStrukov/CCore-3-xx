@@ -15,5 +15,5 @@ OPT = -j 8
 
 LIST = Boot BootServer ELFtoUboot 
 
-include ../../Target/Makefile.list
+include ../../Makefile.list
 

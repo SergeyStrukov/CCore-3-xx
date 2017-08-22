@@ -3157,7 +3157,7 @@ Dir Dir145=
 Dir Dir146=
   {
    'sysroot',
-   Red,
+   Green,
    {
     &Dir167,
     &Dir168,
@@ -3165,29 +3165,29 @@ Dir Dir146=
     &Dir170
    },
    {
-    { 'Makefile' , Red }
+    { 'Makefile' , Ignore }
    }
   };
 
 Dir Dir147=
   {
    'test',
-   Red,
+   Green,
    {
     &Dir171
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'main.exe' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Green },
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir148=
   {
    'tools',
-   Red,
+   Green,
    {
     &Dir172,
     &Dir173,
@@ -3195,6 +3195,7 @@ Dir Dir148=
     &Dir175
    },
    {
+    { 'Makefile' , Ignore }
    }
   };
 
@@ -3481,49 +3482,49 @@ Dir Dir187=
 Dir Dir167=
   {
    'lib',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'empty' , Red }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir168=
   {
    'obj',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'empty' , Red }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir169=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
-    { 'ctype.c' , Red },
-    { 'string_c.c' , Red },
-    { 'errno.cpp' , Red },
-    { 'locale.cpp' , Red },
-    { 'stdlib.cpp' , Red },
-    { 'string.cpp' , Red },
-    { 'time.cpp' , Red },
-    { 'consts.s' , Red },
-    { 'crt0.s' , Red },
-    { 'string_s.s' , Red }
+    { 'ctype.c' , Green },
+    { 'string_c.c' , Green },
+    { 'errno.cpp' , Green },
+    { 'locale.cpp' , Green },
+    { 'stdlib.cpp' , Green },
+    { 'string.cpp' , Green },
+    { 'time.cpp' , Green },
+    { 'consts.s' , Green },
+    { 'crt0.s' , Green },
+    { 'string_s.s' , Green }
    }
   };
 
 Dir Dir170=
   {
    'usr',
-   Red,
+   Green,
    {
     &Dir188
    },
@@ -3534,136 +3535,136 @@ Dir Dir170=
 Dir Dir188=
   {
    'include',
-   Red,
+   Green,
    {
     &Dir189
    },
    {
-    { '__std_init.h' , Red },
-    { 'assert.h' , Red },
-    { 'ctype.h' , Red },
-    { 'errno.h' , Red },
-    { 'iso646.h' , Red },
-    { 'limits.h' , Red },
-    { 'locale.h' , Red },
-    { 'math.h' , Red },
-    { 'setjmp.h' , Red },
-    { 'signal.h' , Red },
-    { 'stdarg.h' , Red },
-    { 'stdbool.h' , Red },
-    { 'stddef.h' , Red },
-    { 'stdint.h' , Red },
-    { 'stdio.h' , Red },
-    { 'stdlib.h' , Red },
-    { 'string.h' , Red },
-    { 'time.h' , Red },
-    { 'unistd.h' , Red }
+    { '__std_init.h' , Green },
+    { 'assert.h' , Green },
+    { 'ctype.h' , Green },
+    { 'errno.h' , Green },
+    { 'iso646.h' , Green },
+    { 'limits.h' , Green },
+    { 'locale.h' , Green },
+    { 'math.h' , Green },
+    { 'setjmp.h' , Green },
+    { 'signal.h' , Green },
+    { 'stdarg.h' , Green },
+    { 'stdbool.h' , Green },
+    { 'stddef.h' , Green },
+    { 'stdint.h' , Green },
+    { 'stdio.h' , Green },
+    { 'stdlib.h' , Green },
+    { 'string.h' , Green },
+    { 'time.h' , Green },
+    { 'unistd.h' , Green }
    }
   };
 
 Dir Dir189=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'types.h' , Red }
+    { 'types.h' , Green }
    }
   };
 
 Dir Dir171=
   {
    'root',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'empty' , Red }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir172=
   {
    'Boot',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir173=
   {
    'BootServer',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir174=
   {
    'ELFtoUboot',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir175=
   {
    'HowToBuild',
-   Red,
+   Green,
    {
     &Dir190,
     &Dir191
    },
    {
-    { 'HowTo.txt' , Red }
+    { 'HowTo.txt' , Green }
    }
   };
 
 Dir Dir190=
   {
    'gcc-7.1.0-cross',
-   New,
+   Green,
    {
    },
    {
-    { 'MakeCfg' , New },
-    { 'type_traits' , New },
-    { 'basic_file_stdio.cc' , New },
-    { 'eh_alloc.cc' , New },
-    { 'eh_globals.cc' , New },
-    { 'pure.cc' , New },
-    { 'random.cc' , New },
-    { 'HowTo.txt' , New }
+    { 'MakeCfg' , Green },
+    { 'type_traits' , Green },
+    { 'basic_file_stdio.cc' , Green },
+    { 'eh_alloc.cc' , Green },
+    { 'eh_globals.cc' , Green },
+    { 'pure.cc' , Green },
+    { 'random.cc' , Green },
+    { 'HowTo.txt' , Green }
    }
   };
 
 Dir Dir191=
   {
    'binutils-2.25.1',
-   Red,
+   Green,
    {
    },
    {
-    { 'MakeCfg' , Red },
-    { 'elf.sc' , Red },
-    { 'armelf.sh' , Red },
-    { 'HowTo.txt' , Red }
+    { 'MakeCfg' , Green },
+    { 'elf.sc' , Green },
+    { 'armelf.sh' , Green },
+    { 'HowTo.txt' , Green }
    }
   };
 
