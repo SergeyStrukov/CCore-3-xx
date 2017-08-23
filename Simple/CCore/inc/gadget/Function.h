@@ -31,7 +31,7 @@ template <class FuncType> class Function;
 
 struct Funchor; // Fu(nction) (A)nchor
 
-template <class FuncType,class T> struct ToFunctionProxy;
+template <class FuncType,class T> struct ToFunctionClass;
 
 /* class Function<R,AA> */
 
@@ -144,24 +144,24 @@ struct Funchor
 
 using Funchor_nocopy = NoCopyBase<Funchor> ;
 
-/* struct ToFunctionProxy<FuncType,T> */
+/* struct ToFunctionClass<FuncType,T> */
 
 template <class T,class R,class ... AA>
-struct ToFunctionProxy<R (AA...),T> : Funchor
+struct ToFunctionClass<R (AA...),T> : Funchor
  {
   T obj;
 
-  explicit ToFunctionProxy(const T &obj_) : obj(obj_) {}
+  explicit ToFunctionClass(const T &obj_) : obj(obj_) {}
 
   R proxy(AA ... aa) { return obj(aa...); }
 
-  Function<R (AA...)> function() { return FunctionOf(this,&ToFunctionProxy::proxy); }
+  Function<R (AA...)> function() { return FunctionOf(this,&ToFunctionClass::proxy); }
  };
 
 /* ToFunction() */
 
 template <class FuncType,class T>
-auto ToFunction(const T &obj) { return ToFunctionProxy<FuncType,T>(obj); }
+ToFunctionClass<FuncType,T> ToFunction(const T &obj) { return ToFunctionClass<FuncType,T>(obj); }
 
 } // namespace CCore
 

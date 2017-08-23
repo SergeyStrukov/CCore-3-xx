@@ -17,6 +17,7 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Sort.h>
 #include <CCore/inc/Cmp.h>
+#include <CCore/inc/algon/BinarySearch.h>
 
 namespace App {
 
@@ -24,25 +25,30 @@ namespace App {
 
 using namespace CCore;
 
+/* concept DataType<T> */
+
+template <class T>
+concept bool DataType = NothrowCopyableType<T> && NothrowDefaultCtorType<T> ;
+
 /* classes */
 
 struct HashBase;
 
-template <class T> class HashMap;
+template <DataType T> class HashMap;
 
 /* struct HashBase */
 
 struct HashBase
  {
-  static const ulen KeyLim = ulen(1)<<16 ;
+  static constexpr ulen KeyLim = ulen(1)<<16 ;
 
   static ulen Key(StrLen str);
  };
 
 /* class HashMap<T> */
 
-template <class T>
-class HashMap : NoCopy , HashBase
+template <DataType T>
+class HashMap : NoCopyBase<HashBase>
  {
    struct Data
     {
@@ -55,12 +61,12 @@ class HashMap : NoCopy , HashBase
 
    Collector<Data> data;
 
-   struct Rec : SetNoThrowFlags<Rec,GetNoThrowFlags<T>::Default_no_throw,GetNoThrowFlags<T>::Copy_no_throw>
+   struct Rec
     {
      StrLen str;
      T obj;
 
-     Rec() : str(),obj() {}
+     Rec() noexcept : str(),obj() {}
 
      void set(const Data &d) { str=d.str; obj=d.obj; }
 
@@ -90,8 +96,7 @@ class HashMap : NoCopy , HashBase
        base[off++].set(d);
       }
 
-     template <class Func>
-     bool complete(Rec *base,Func func)
+     bool complete(Rec *base,FuncArgType<StrLen,T &,T &> func)
       {
        if( !count ) return true;
 
@@ -139,8 +144,7 @@ class HashMap : NoCopy , HashBase
      data.append_fill(str,obj);
     }
 
-   template <class Func>
-   bool complete(Func func); // func(str,obj1,obj2);
+   bool complete(FuncArgType<StrLen,T &,T &> func);
 
    // use
 
@@ -156,35 +160,9 @@ class HashMap : NoCopy , HashBase
 
    static Result Find(PtrLen<const Rec> range,StrLen str)
     {
-     while( ulen off=range.len/2 )
-       {
-        switch( StrCmp(str,range[off].str) )
-          {
-           case CmpLess :
-            {
-             range=range.prefix(off);
-            }
-           break;
+     Algon::BinarySearch_if(range, [=] (const Rec &rec) { return StrCmp(rec.str,str)>=0; } );
 
-           case CmpGreater :
-            {
-             range=range.part(off+1);
-            }
-           break;
-
-           default: // case CmpEqual :
-            {
-             return range[off].obj;
-            }
-          }
-       }
-
-     if( range.len==1 )
-       {
-        if( range[0].str.equal(str) ) return range[0].obj;
-
-        return Nothing;
-       }
+     if( +range && range->str.equal(str) ) return range->obj;
 
      return Nothing;
     }
@@ -197,9 +175,8 @@ class HashMap : NoCopy , HashBase
     }
  };
 
-template <class T>
-template <class Func>
-bool HashMap<T>::complete(Func func)
+template <DataType T>
+bool HashMap<T>::complete(FuncArgType<StrLen,T &,T &> func)
  {
   ok=false;
 

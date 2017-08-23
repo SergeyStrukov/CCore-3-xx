@@ -32,24 +32,24 @@
 
 <p>
 <b>PrintBits()</b> is a <b>Creator function</b>, it is used to bind together a printing device and some unsigned integral value
-to build the <b>Helper Type</b> <b>PrintBitsType</b> object.
+to build the <b>Helper Type</b> <b>PrintBitsClass</b> object.
 </p>
 
 <pre>
 
 template &lt;UIntType UInt,PrinterType P&gt;
-PrintBitsType&lt;P,UInt&gt; <span class="Att">PrintBits</span>(P &amp;out,UInt value) { return PrintBitsType&lt;P,UInt&gt;(out,value); }
+PrintBitsClass&lt;P,UInt&gt; <span class="Att">PrintBits</span>(P &amp;out,UInt value) { return PrintBitsClass&lt;P,UInt&gt;(out,value); }
 
 </pre>
 
 <p>
-<b>PrintBitsType</b> prints bits of the given value in a textual form.
+<b>PrintBitsClass</b> prints bits of the given value in a textual form.
 </p>
 
 <pre>
 
 template &lt;PrinterType P,UIntType UInt&gt;
-class <span class="Att">PrintBitsType</span>
+class <span class="Att">PrintBitsClass</span>
  {
    P &amp;out;
    UInt value;
@@ -57,9 +57,9 @@ class <span class="Att">PrintBitsType</span>
    
   public: 
   
-   PrintBitsType(P &amp;out,UInt value);
+   PrintBitsClass(P &amp;out,UInt value);
    
-   PrintBitsType&lt;P,UInt&gt; &amp; operator () (UInt flag,StrLen name);
+   PrintBitsClass&lt;P,UInt&gt; &amp; operator () (UInt flag,StrLen name);
     
    void complete();
  };

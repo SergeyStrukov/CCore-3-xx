@@ -104,8 +104,7 @@ struct Token
 
   Token(TokenClass tc_,TextPos pos_,StrLen str_) : tc(tc_),pos(pos_),str(str_) {}
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"#; #.q;",pos,PrintCString(str));
    }

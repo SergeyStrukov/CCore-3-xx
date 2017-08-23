@@ -2667,18 +2667,18 @@ Dir Dir41=
    {
     { 'Makefile' , Ignore },
     { 'Generate.cpp' , Red },
-    { 'HashMap.cpp' , Red },
-    { 'main.cpp' , Red },
+    { 'HashMap.cpp' , Green },
+    { 'main.cpp' , Green },
     { 'Parser.cpp' , Red },
-    { 'test.cpp' , Red },
-    { 'Token.cpp' , Red },
-    { 'Test.desc' , Red },
+    { 'test.cpp' , Green },
+    { 'Token.cpp' , Green },
+    { 'Test.desc' , Green },
     { 'Makefile.files' , Ignore },
     { 'Generate.h' , Red },
-    { 'HashMap.h' , Red },
+    { 'HashMap.h' , Green },
     { 'Parser.h' , Red },
-    { 'Token.h' , Red },
-    { 'Test.gen.h' , Red },
+    { 'Token.h' , Green },
+    { 'Test.gen.h' , Ignore },
     { 'Test.txt' , Ignore }
    }
   };

@@ -22,12 +22,12 @@ namespace CCore {
 
 /* classes */
 
-template <PrinterType P,UIntType UInt> class PrintBitsType;
+template <PrinterType P,UIntType UInt> class PrintBitsClass;
 
-/* class PrintBitsType<P,UInt> */
+/* class PrintBitsClass<P,UInt> */
 
 template <PrinterType P,UIntType UInt>
-class PrintBitsType
+class PrintBitsClass
  {
    P &out;
    UInt value;
@@ -35,9 +35,9 @@ class PrintBitsType
 
   public:
 
-   PrintBitsType(P &out_,UInt value_) : out(out_),value(value_),empty(true) {}
+   PrintBitsClass(P &out_,UInt value_) : out(out_),value(value_),empty(true) {}
 
-   PrintBitsType<P,UInt> & operator () (UInt flag,StrLen name)
+   PrintBitsClass<P,UInt> & operator () (UInt flag,StrLen name)
     {
      if( value&flag )
        {
@@ -62,7 +62,7 @@ class PrintBitsType
 /* PrintBits() */
 
 template <UIntType UInt,PrinterType P>
-PrintBitsType<P,UInt> PrintBits(P &out,UInt value) { return {out,value}; }
+PrintBitsClass<P,UInt> PrintBits(P &out,UInt value) { return {out,value}; }
 
 } // namespace CCore
 
