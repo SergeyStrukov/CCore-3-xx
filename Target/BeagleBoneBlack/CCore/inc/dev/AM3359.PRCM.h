@@ -1,7 +1,7 @@
 /* AM3359.PRCM.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -35,21 +35,21 @@ namespace PRCM {
 
 struct BarPER : PERBar<CCore::Dev::RegRW>
  {
-  BarPER() : PERBar<CCore::Dev::RegRW>(0x44E0'0000) {}
+  BarPER() : PERBar<CCore::Dev::RegRW>(0x44E0'0000u) {}
  };
 
 /* struct BarDPLL */
 
 struct BarDPLL : DPLLBar<CCore::Dev::RegRW>
  {
-  BarDPLL() : DPLLBar<CCore::Dev::RegRW>(0x44E0'0500) {}
+  BarDPLL() : DPLLBar<CCore::Dev::RegRW>(0x44E0'0500u) {}
  };
 
 /* struct BarWKUP */
 
 struct BarWKUP : WKUPBar<CCore::Dev::RegRW>
  {
-  BarWKUP() : WKUPBar<CCore::Dev::RegRW>(0x44E0'0400) {}
+  BarWKUP() : WKUPBar<CCore::Dev::RegRW>(0x44E0'0400u) {}
  };
 
 } // namespace PRCM

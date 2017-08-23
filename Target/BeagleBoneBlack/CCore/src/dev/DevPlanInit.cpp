@@ -1,7 +1,7 @@
 /* DevPlanInit.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -112,11 +112,11 @@ static void SetupCoreClocks(unsigned freq_MHz)
 
 /* SetupMMUandCache() */
 
-const ulen TTLen = 1<<12 ;
+inline constexpr ulen TTLen = 1<<12 ;
 
-const unsigned TTableBaseBits = 14 ;
+inline constexpr unsigned TTableBaseBits = 14 ;
 
-const unsigned SectionBaseBits = 20 ;
+inline constexpr unsigned SectionBaseBits = 20 ;
 
 extern uint32 TTable[TTLen];
 

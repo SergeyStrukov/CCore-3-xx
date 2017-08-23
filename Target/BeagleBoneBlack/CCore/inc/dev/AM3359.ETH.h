@@ -1,7 +1,7 @@
 /* AM3359.ETH.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -30,91 +30,91 @@ namespace ETH {
 
 struct BarSwitch : SwitchBar<CCore::Dev::RegRW>
  {
-  BarSwitch() : SwitchBar<CCore::Dev::RegRW>(0x4A10'0000) {}
+  BarSwitch() : SwitchBar<CCore::Dev::RegRW>(0x4A10'0000u) {}
  };
 
 /* struct BarPort0 */
 
 struct BarPort0 : Port0Bar<CCore::Dev::RegRW>
  {
-  BarPort0() : Port0Bar<CCore::Dev::RegRW>(0x4A10'0100) {}
+  BarPort0() : Port0Bar<CCore::Dev::RegRW>(0x4A10'0100u) {}
  };
 
 /* struct BarPort1 */
 
 struct BarPort1 : Port1Bar<CCore::Dev::RegRW>
  {
-  BarPort1() : Port1Bar<CCore::Dev::RegRW>(0x4A10'0200) {}
+  BarPort1() : Port1Bar<CCore::Dev::RegRW>(0x4A10'0200u) {}
  };
 
 /* struct BarPort2 */
 
 struct BarPort2 : Port2Bar<CCore::Dev::RegRW>
  {
-  BarPort2() : Port2Bar<CCore::Dev::RegRW>(0x4A10'0300) {}
+  BarPort2() : Port2Bar<CCore::Dev::RegRW>(0x4A10'0300u) {}
  };
 
 /* struct BarDMA */
 
 struct BarDMA : DMABar<CCore::Dev::RegRW>
  {
-  BarDMA() : DMABar<CCore::Dev::RegRW>(0x4A10'0800) {}
+  BarDMA() : DMABar<CCore::Dev::RegRW>(0x4A10'0800u) {}
  };
 
 /* struct BarStat */
 
 struct BarStat : StatBar<CCore::Dev::RegRW>
  {
-  BarStat() : StatBar<CCore::Dev::RegRW>(0x4A10'0900) {}
+  BarStat() : StatBar<CCore::Dev::RegRW>(0x4A10'0900u) {}
  };
 
 /* struct BarDesc */
 
 struct BarDesc : DescBar<CCore::Dev::RegRW>
  {
-  BarDesc() : DescBar<CCore::Dev::RegRW>(0x4A10'0A00) {}
+  BarDesc() : DescBar<CCore::Dev::RegRW>(0x4A10'0A00u) {}
  };
 
 /* struct BarTimeSync */
 
 struct BarTimeSync : TimeSyncBar<CCore::Dev::RegRW>
  {
-  BarTimeSync() : TimeSyncBar<CCore::Dev::RegRW>(0x4A10'0C00) {}
+  BarTimeSync() : TimeSyncBar<CCore::Dev::RegRW>(0x4A10'0C00u) {}
  };
 
 /* struct BarALE */
 
 struct BarALE : ALEBar<CCore::Dev::RegRW>
  {
-  BarALE() : ALEBar<CCore::Dev::RegRW>(0x4A10'0D00) {}
+  BarALE() : ALEBar<CCore::Dev::RegRW>(0x4A10'0D00u) {}
  };
 
 /* struct BarSliver1 */
 
 struct BarSliver1 : SliverBar<CCore::Dev::RegRW>
  {
-  BarSliver1() : SliverBar<CCore::Dev::RegRW>(0x4A10'0D80) {}
+  BarSliver1() : SliverBar<CCore::Dev::RegRW>(0x4A10'0D80u) {}
  };
 
 /* struct BarSliver2 */
 
 struct BarSliver2 : SliverBar<CCore::Dev::RegRW>
  {
-  BarSliver2() : SliverBar<CCore::Dev::RegRW>(0x4A10'0DC0) {}
+  BarSliver2() : SliverBar<CCore::Dev::RegRW>(0x4A10'0DC0u) {}
  };
 
 /* struct BarWR */
 
 struct BarWR : WRBar<CCore::Dev::RegRW>
  {
-  BarWR() : WRBar<CCore::Dev::RegRW>(0x4A10'1200) {}
+  BarWR() : WRBar<CCore::Dev::RegRW>(0x4A10'1200u) {}
  };
 
 /* struct BarMDIO */
 
 struct BarMDIO : MDIOBar<CCore::Dev::RegRW>
  {
-  BarMDIO() : MDIOBar<CCore::Dev::RegRW>(0x4A10'1000) {}
+  BarMDIO() : MDIOBar<CCore::Dev::RegRW>(0x4A10'1000u) {}
  };
 
 } // namespace ETH

@@ -1,7 +1,7 @@
 /* AM3359.TIMER.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -30,9 +30,9 @@ namespace TIMER {
 
 enum Instance : uint32
  {
-  Timer2 = 0x4804'0000, //
-  Timer4 = 0x4804'4000  // Used by timer interrupt and clock
-                        //
+  Timer2 = 0x4804'0000u, //
+  Timer4 = 0x4804'4000u  // Used by timer interrupt and clock
+                         //
  };
 
 /* struct Bar */

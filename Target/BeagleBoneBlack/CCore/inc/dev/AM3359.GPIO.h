@@ -1,7 +1,7 @@
 /* AM3359.GPIO.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -30,11 +30,11 @@ namespace GPIO {
 
 enum Instance : uint32
  {
-  GPIO1 = 0x4804'C000  //
-                       // Out, SetOut and ClearOut are used by DevLight
-                       //
-                       // Level0Detect, IRQ0EnableSet, IRQ0EnableClear and IRQ0Status are used by VideoControl
-                       //
+  GPIO1 = 0x4804'C000u  //
+                        // Out, SetOut and ClearOut are used by DevLight
+                        //
+                        // Level0Detect, IRQ0EnableSet, IRQ0EnableClear and IRQ0Status are used by VideoControl
+                        //
  };
 
 /* struct Bar */

@@ -1,7 +1,7 @@
 /* AM3359.LCD.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace LCD {
 
 struct Bar : LCDBar<CCore::Dev::RegRW>
  {
-  Bar() : LCDBar<CCore::Dev::RegRW>(0x4830'E000) {}
+  Bar() : LCDBar<CCore::Dev::RegRW>(0x4830'E000u) {}
  };
 
 } // namespace LCD

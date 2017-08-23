@@ -1,7 +1,7 @@
 /* DebugCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -125,16 +125,16 @@ namespace Light {
 
 /* base addresses */
 
-const Address GPIO1 = 0x4804C000 ;
+inline constexpr Address GPIO1 = 0x4804C000 ;
 
 /* registers */
 
-const Address OE     = 0x134 ;
-const Address OUT    = 0x13C ;
-const Address CLROUT = 0x190 ;
-const Address SETOUT = 0x194 ;
+inline constexpr Address OE     = 0x134 ;
+inline constexpr Address OUT    = 0x13C ;
+inline constexpr Address CLROUT = 0x190 ;
+inline constexpr Address SETOUT = 0x194 ;
 
-  constexpr BitField LightMask=BitField(24,21);
+  inline constexpr BitField LightMask=BitField(24,21);
 
 /* functions */
 
@@ -197,54 +197,54 @@ namespace PRCM {
 
 /* base addresses */
 
-const Address CM_PERBase  = 0x44E00000 ;
-const Address CM_WKUPBase = 0x44E00400 ;
-const Address CM_DPLLBase = 0x44E00500 ;
+inline constexpr Address CM_PERBase  = 0x44E00000 ;
+inline constexpr Address CM_WKUPBase = 0x44E00400 ;
+inline constexpr Address CM_DPLLBase = 0x44E00500 ;
 
 /* registers */
 
-const Address CM_PER_L4LS_CLKSTCTRL = 0x000 ;
-const Address CM_PER_LCDC_CLKCTRL   = 0x018 ;
-const Address CM_PER_TIMER2_CLKCTRL = 0x080 ;
-const Address CM_PER_TIMER3_CLKCTRL = 0x084 ;
-const Address CM_PER_TIMER4_CLKCTRL = 0x088 ;
-const Address CM_PER_TIMER5_CLKCTRL = 0x0EC ;
-const Address CM_PER_TIMER6_CLKCTRL = 0x0F0 ;
-const Address CM_PER_TIMER7_CLKCTRL = 0x07C ;
+inline constexpr Address CM_PER_L4LS_CLKSTCTRL = 0x000 ;
+inline constexpr Address CM_PER_LCDC_CLKCTRL   = 0x018 ;
+inline constexpr Address CM_PER_TIMER2_CLKCTRL = 0x080 ;
+inline constexpr Address CM_PER_TIMER3_CLKCTRL = 0x084 ;
+inline constexpr Address CM_PER_TIMER4_CLKCTRL = 0x088 ;
+inline constexpr Address CM_PER_TIMER5_CLKCTRL = 0x0EC ;
+inline constexpr Address CM_PER_TIMER6_CLKCTRL = 0x0F0 ;
+inline constexpr Address CM_PER_TIMER7_CLKCTRL = 0x07C ;
 
-   const Register StandbyStatus = Bit(18) ;
-   constexpr BitField IdleStatus = BitField(17,16) ;
-   constexpr BitField Status = BitField(18,16) ;
-   constexpr BitField Mode = BitField(1,0) ;
+   inline constexpr Register StandbyStatus = Bit(18) ;
+   inline constexpr BitField IdleStatus = BitField(17,16) ;
+   inline constexpr BitField Status = BitField(18,16) ;
+   inline constexpr BitField Mode = BitField(1,0) ;
 
-const Address CM_IDLEST_DPLL_DISP = 0x48 ;
+inline constexpr Address CM_IDLEST_DPLL_DISP = 0x48 ;
 
-   const Register ST_DPLL_CLK  = Bit(0) ;
-   const Register ST_MN_BYPASS = Bit(8) ;
+   inline constexpr Register ST_DPLL_CLK  = Bit(0) ;
+   inline constexpr Register ST_MN_BYPASS = Bit(8) ;
 
-const Address CM_CLKSEL_DPLL_DISP = 0x054 ;
+inline constexpr Address CM_CLKSEL_DPLL_DISP = 0x054 ;
 
-   constexpr BitField DPLL_MULT = BitField(18,8) ;
-   constexpr BitField DPLL_DIV = BitField(6,0) ;
+   inline constexpr BitField DPLL_MULT = BitField(18,8) ;
+   inline constexpr BitField DPLL_DIV = BitField(6,0) ;
 
-const Address CM_CLKMODE_DPLL_DISP = 0x098 ;
+inline constexpr Address CM_CLKMODE_DPLL_DISP = 0x098 ;
 
-   constexpr BitField DPLL_EN = BitField(2,0) ;
+   inline constexpr BitField DPLL_EN = BitField(2,0) ;
 
-const Address CM_DIV_M2_DPLL_DISP = 0x0A4 ;
+inline constexpr Address CM_DIV_M2_DPLL_DISP = 0x0A4 ;
 
-   const Register ST_DPLL_CLKOUT = Bit(9) ;
-   constexpr BitField DPLL_CLKOUT_DIV = BitField(4,0) ;
+   inline constexpr Register ST_DPLL_CLKOUT = Bit(9) ;
+   inline constexpr BitField DPLL_CLKOUT_DIV = BitField(4,0) ;
 
-const Address CLKSEL_LCDC_PIXEL_CLK = 0x034 ;
+inline constexpr Address CLKSEL_LCDC_PIXEL_CLK = 0x034 ;
 
-   constexpr BitField LCD_CLKSEL = BitField(1,0) ;
+   inline constexpr BitField LCD_CLKSEL = BitField(1,0) ;
 
-const Address CLKSEL_TIMER2_CLK = 0x008 ;
-const Address CLKSEL_TIMER3_CLK = 0x00C ;
-const Address CLKSEL_TIMER4_CLK = 0x010 ;
+inline constexpr Address CLKSEL_TIMER2_CLK = 0x008 ;
+inline constexpr Address CLKSEL_TIMER3_CLK = 0x00C ;
+inline constexpr Address CLKSEL_TIMER4_CLK = 0x010 ;
 
-   constexpr BitField TIMER_CLKSEL = BitField(1,0) ;
+   inline constexpr BitField TIMER_CLKSEL = BitField(1,0) ;
 
 /* classes */
 
@@ -448,81 +448,81 @@ namespace I2C {
 
 /* instances */
 
-const Address I2C0 = 0x44E0B000 ;
-const Address I2C1 = 0x4802A000 ;
-const Address I2C2 = 0x4819C000 ;
+inline constexpr Address I2C0 = 0x44E0B000 ;
+inline constexpr Address I2C1 = 0x4802A000 ;
+inline constexpr Address I2C2 = 0x4819C000 ;
 
 /* registers */
 
-const Address SYSC          = 0x010 ;
+inline constexpr Address SYSC          = 0x010 ;
 
-   const Register SoftReset = Bit(1) ;
+   inline constexpr Register SoftReset = Bit(1) ;
 
-const Address SYSS          = 0x090 ;
+inline constexpr Address SYSS          = 0x090 ;
 
-   const Register ResetDone = Bit(0) ;
+   inline constexpr Register ResetDone = Bit(0) ;
 
-const Address IRQSTATUS_RAW = 0x024 ;
-const Address IRQSTATUS     = 0x028 ;
-const Address IRQENABLE_SET = 0x02C ;
-const Address IRQENABLE_CLR = 0x030 ;
-const Address WE            = 0x034 ;
+inline constexpr Address IRQSTATUS_RAW = 0x024 ;
+inline constexpr Address IRQSTATUS     = 0x028 ;
+inline constexpr Address IRQENABLE_SET = 0x02C ;
+inline constexpr Address IRQENABLE_CLR = 0x030 ;
+inline constexpr Address WE            = 0x034 ;
 
-   const Register IRQ_BusBusy      = Bit(12) ;
-   const Register IRQ_TXReady      = Bit(4) ;
-   const Register IRQ_TXReadyShort = Bit(14) ;
-   const Register IRQ_RXReady      = Bit(3) ;
-   const Register IRQ_RXReadyShort = Bit(13) ;
-   const Register IRQ_NACK         = Bit(1) ;
-   const Register IRQ_BusLost      = Bit(0) ;
-   const Register IRQ_Complete     = Bit(2) ;
-   constexpr BitField IRQ_ALL      = BitField(14,0);
+   inline constexpr Register IRQ_BusBusy      = Bit(12) ;
+   inline constexpr Register IRQ_TXReady      = Bit(4) ;
+   inline constexpr Register IRQ_TXReadyShort = Bit(14) ;
+   inline constexpr Register IRQ_RXReady      = Bit(3) ;
+   inline constexpr Register IRQ_RXReadyShort = Bit(13) ;
+   inline constexpr Register IRQ_NACK         = Bit(1) ;
+   inline constexpr Register IRQ_BusLost      = Bit(0) ;
+   inline constexpr Register IRQ_Complete     = Bit(2) ;
+   inline constexpr BitField IRQ_ALL      = BitField(14,0);
 
-const Address BUF           = 0x094 ;
+inline constexpr Address BUF           = 0x094 ;
 
-   const Register RXFIFO_clear = Bit(14) ;
-   constexpr BitField RXFIFO_threshold = BitField(13,8) ;
-   const Register TXFIFO_clear = Bit(6) ;
-   constexpr BitField TXFIFO_threshold = BitField(5,0) ;
+   inline constexpr Register RXFIFO_clear = Bit(14) ;
+   inline constexpr BitField RXFIFO_threshold = BitField(13,8) ;
+   inline constexpr Register TXFIFO_clear = Bit(6) ;
+   inline constexpr BitField TXFIFO_threshold = BitField(5,0) ;
 
-const Address CNT           = 0x098 ;
+inline constexpr Address CNT           = 0x098 ;
 
-   constexpr BitField DataCount = BitField(15,0) ;
+   inline constexpr BitField DataCount = BitField(15,0) ;
 
-const Address DATA          = 0x09C ;
+inline constexpr Address DATA          = 0x09C ;
 
-   constexpr BitField Data = BitField(7,0) ;
+   inline constexpr BitField Data = BitField(7,0) ;
 
-const Address CON           = 0x0A4 ;
+inline constexpr Address CON           = 0x0A4 ;
 
-   const Register Enable = Bit(15) ;
-   const Register STT    = Bit(0) ;
-   const Register STP    = Bit(1) ;
-   const Register TXMode = Bit(9) ;
-   const Register Master = Bit(10) ;
+   inline constexpr Register Enable = Bit(15) ;
+   inline constexpr Register STT    = Bit(0) ;
+   inline constexpr Register STP    = Bit(1) ;
+   inline constexpr Register TXMode = Bit(9) ;
+   inline constexpr Register Master = Bit(10) ;
 
-const Address OA            = 0x0A8 ;
-const Address SA            = 0x0AC ;
+inline constexpr Address OA            = 0x0A8 ;
+inline constexpr Address SA            = 0x0AC ;
 
-   constexpr BitField SlaveAddress = BitField(9,0) ;
+   inline constexpr BitField SlaveAddress = BitField(9,0) ;
 
-const Address PSC           = 0x0B0 ;
+inline constexpr Address PSC           = 0x0B0 ;
 
-   constexpr BitField Prescale = BitField(7,0) ;
+   inline constexpr BitField Prescale = BitField(7,0) ;
 
-const Address SCLL          = 0x0B4 ;
+inline constexpr Address SCLL          = 0x0B4 ;
 
-   constexpr BitField LoTime = BitField(7,0) ;
+   inline constexpr BitField LoTime = BitField(7,0) ;
 
-const Address SCLH          = 0x0B8 ;
+inline constexpr Address SCLH          = 0x0B8 ;
 
-   constexpr BitField HiTime = BitField(7,0) ;
+   inline constexpr BitField HiTime = BitField(7,0) ;
 
-const Address BUFSTAT       = 0x0C0 ;
+inline constexpr Address BUFSTAT       = 0x0C0 ;
 
-   constexpr BitField FIFODepth      = BitField(15,14) ;
-   constexpr BitField RXFIFO_ToRead  = BitField(13,8) ;
-   constexpr BitField TXFIFO_ToWrite = BitField(5,0) ;
+   inline constexpr BitField FIFODepth      = BitField(15,14) ;
+   inline constexpr BitField RXFIFO_ToRead  = BitField(13,8) ;
+   inline constexpr BitField TXFIFO_ToWrite = BitField(5,0) ;
 
 /* classes */
 
@@ -541,7 +541,7 @@ enum Error
 
 class Instance
  {
-   static const unsigned Timeout = 1000000 ;
+   static constexpr unsigned Timeout = 1000000 ;
 
    Address address;
 
@@ -846,7 +846,7 @@ namespace EDID {
 
 /* consts */
 
-const ulen Len = 128 ;
+inline constexpr ulen Len = 128 ;
 
 /* classes */
 
@@ -929,244 +929,244 @@ namespace HDMI {
 
 /* CEC registers */
 
-const Address CEC_ENAMODS = 0xFF ;
+inline constexpr Address CEC_ENAMODS = 0xFF ;
 
-   const Register CEC_ENAMODS_EN_CEC    = Bit(0) ;
-   const Register CEC_ENAMODS_EN_HDMI   = Bit(1) ;
-   const Register CEC_ENAMODS_EN_RXSENS = Bit(2) ;
-   const Register CEC_ENAMODS_DIS_CCLK  = Bit(5) ;
-   const Register CEC_ENAMODS_DIS_FRO   = Bit(6) ;
+   inline constexpr Register CEC_ENAMODS_EN_CEC    = Bit(0) ;
+   inline constexpr Register CEC_ENAMODS_EN_HDMI   = Bit(1) ;
+   inline constexpr Register CEC_ENAMODS_EN_RXSENS = Bit(2) ;
+   inline constexpr Register CEC_ENAMODS_DIS_CCLK  = Bit(5) ;
+   inline constexpr Register CEC_ENAMODS_DIS_FRO   = Bit(6) ;
 
-const Address CEC_FRO_IM_CLK_CTRL = 0xFB ;
+inline constexpr Address CEC_FRO_IM_CLK_CTRL = 0xFB ;
 
-   const Register CEC_FRO_IM_CLK_CTRL_FRO_DIV   = Bit(0) ;
-   const Register CEC_FRO_IM_CLK_CTRL_IMCLK_SEL = Bit(1) ;
-   const Register CEC_FRO_IM_CLK_CTRL_ENA_OTP   = Bit(6) ;
-   const Register CEC_FRO_IM_CLK_CTRL_GHOST_DIS = Bit(7) ;
+   inline constexpr Register CEC_FRO_IM_CLK_CTRL_FRO_DIV   = Bit(0) ;
+   inline constexpr Register CEC_FRO_IM_CLK_CTRL_IMCLK_SEL = Bit(1) ;
+   inline constexpr Register CEC_FRO_IM_CLK_CTRL_ENA_OTP   = Bit(6) ;
+   inline constexpr Register CEC_FRO_IM_CLK_CTRL_GHOST_DIS = Bit(7) ;
 
-const Address CEC_RXSHPDLEV = 0xFE ;
+inline constexpr Address CEC_RXSHPDLEV = 0xFE ;
 
-   const Register CEC_RXSHPDLEV_RXSENS = Bit(0) ;
-   const Register CEC_RXSHPDLEV_HPD    = Bit(1) ;
+   inline constexpr Register CEC_RXSHPDLEV_RXSENS = Bit(0) ;
+   inline constexpr Register CEC_RXSHPDLEV_HPD    = Bit(1) ;
 
 /* HDMI page 0 */
 
-const Address VERSION_LSB = 0x00 ;
-const Address VERSION_MSB = 0x02 ;
+inline constexpr Address VERSION_LSB = 0x00 ;
+inline constexpr Address VERSION_MSB = 0x02 ;
 
-const Address MAIN_CNTRL0 = 0x01 ;
+inline constexpr Address MAIN_CNTRL0 = 0x01 ;
 
-   const Register MAIN_CNTRL0_SR     = Bit(0) ;
-   const Register MAIN_CNTRL0_DECS   = Bit(1) ;
-   const Register MAIN_CNTRL0_DEHS   = Bit(2) ;
-   const Register MAIN_CNTRL0_CECS   = Bit(3) ;
-   const Register MAIN_CNTRL0_CEHS   = Bit(4) ;
-   const Register MAIN_CNTRL0_SCALER = Bit(7) ;
+   inline constexpr Register MAIN_CNTRL0_SR     = Bit(0) ;
+   inline constexpr Register MAIN_CNTRL0_DECS   = Bit(1) ;
+   inline constexpr Register MAIN_CNTRL0_DEHS   = Bit(2) ;
+   inline constexpr Register MAIN_CNTRL0_CECS   = Bit(3) ;
+   inline constexpr Register MAIN_CNTRL0_CEHS   = Bit(4) ;
+   inline constexpr Register MAIN_CNTRL0_SCALER = Bit(7) ;
 
-const Address SOFTRESET = 0x0A ;
+inline constexpr Address SOFTRESET = 0x0A ;
 
-   const Register SOFTRESET_AUDIO     = Bit(0) ;
-   const Register SOFTRESET_I2CMASTER = Bit(1) ;
+   inline constexpr Register SOFTRESET_AUDIO     = Bit(0) ;
+   inline constexpr Register SOFTRESET_I2CMASTER = Bit(1) ;
 
-const Address DDC_DISABLE = 0x0B ;
+inline constexpr Address DDC_DISABLE = 0x0B ;
 
-const Address REG_INT_FLAGS_2 = 0x11 ;
+inline constexpr Address REG_INT_FLAGS_2 = 0x11 ;
 
-   const Register INT_FLAGS_2_EDID_BLK_RD = Bit(1) ;
+   inline constexpr Register INT_FLAGS_2_EDID_BLK_RD = Bit(1) ;
 
-const Address ENA_VP_0 = 0x18 ;
-const Address ENA_VP_1 = 0x19 ;
-const Address ENA_VP_2 = 0x1A ;
+inline constexpr Address ENA_VP_0 = 0x18 ;
+inline constexpr Address ENA_VP_1 = 0x19 ;
+inline constexpr Address ENA_VP_2 = 0x1A ;
 
-const Address VIP_CNTRL_0 = 0x20 ;
+inline constexpr Address VIP_CNTRL_0 = 0x20 ;
 
-   const Register VIP_CNTRL_0_MIRR_A     = Bit(7) ;
-   const Register VIP_CNTRL_0_MIRR_B     = Bit(3) ;
-   constexpr BitField VIP_CNTRL_0_SWAP_A = BitField(6,4) ;
-   constexpr BitField VIP_CNTRL_0_SWAP_B = BitField(2,0) ;
+   inline constexpr Register VIP_CNTRL_0_MIRR_A     = Bit(7) ;
+   inline constexpr Register VIP_CNTRL_0_MIRR_B     = Bit(3) ;
+   inline constexpr BitField VIP_CNTRL_0_SWAP_A = BitField(6,4) ;
+   inline constexpr BitField VIP_CNTRL_0_SWAP_B = BitField(2,0) ;
 
-const Address VIP_CNTRL_1 = 0x21 ;
+inline constexpr Address VIP_CNTRL_1 = 0x21 ;
 
-   const Register VIP_CNTRL_1_MIRR_C     = Bit(7) ;
-   const Register VIP_CNTRL_1_MIRR_D     = Bit(3) ;
-   constexpr BitField VIP_CNTRL_1_SWAP_C = BitField(6,4) ;
-   constexpr BitField VIP_CNTRL_1_SWAP_D = BitField(2,0) ;
+   inline constexpr Register VIP_CNTRL_1_MIRR_C     = Bit(7) ;
+   inline constexpr Register VIP_CNTRL_1_MIRR_D     = Bit(3) ;
+   inline constexpr BitField VIP_CNTRL_1_SWAP_C = BitField(6,4) ;
+   inline constexpr BitField VIP_CNTRL_1_SWAP_D = BitField(2,0) ;
 
-const Address VIP_CNTRL_2 = 0x22 ;
+inline constexpr Address VIP_CNTRL_2 = 0x22 ;
 
-   const Register VIP_CNTRL_2_MIRR_E     = Bit(7) ;
-   const Register VIP_CNTRL_2_MIRR_F     = Bit(3) ;
-   constexpr BitField VIP_CNTRL_2_SWAP_E = BitField(6,4) ;
-   constexpr BitField VIP_CNTRL_2_SWAP_F = BitField(2,0) ;
+   inline constexpr Register VIP_CNTRL_2_MIRR_E     = Bit(7) ;
+   inline constexpr Register VIP_CNTRL_2_MIRR_F     = Bit(3) ;
+   inline constexpr BitField VIP_CNTRL_2_SWAP_E = BitField(6,4) ;
+   inline constexpr BitField VIP_CNTRL_2_SWAP_F = BitField(2,0) ;
 
-const Address VIP_CNTRL_3 = 0x23 ;
+inline constexpr Address VIP_CNTRL_3 = 0x23 ;
 
-   const Register VIP_CNTRL_3_X_TGL   = Bit(0) ;
-   const Register VIP_CNTRL_3_H_TGL   = Bit(1) ;
-   const Register VIP_CNTRL_3_V_TGL   = Bit(2) ;
-   const Register VIP_CNTRL_3_EMB     = Bit(3) ;
-   const Register VIP_CNTRL_3_SYNC_DE = Bit(4) ;
-   const Register VIP_CNTRL_3_SYNC_HS = Bit(5) ;
-   const Register VIP_CNTRL_3_DE_INT  = Bit(6) ;
-   const Register VIP_CNTRL_3_EDGE    = Bit(7) ;
+   inline constexpr Register VIP_CNTRL_3_X_TGL   = Bit(0) ;
+   inline constexpr Register VIP_CNTRL_3_H_TGL   = Bit(1) ;
+   inline constexpr Register VIP_CNTRL_3_V_TGL   = Bit(2) ;
+   inline constexpr Register VIP_CNTRL_3_EMB     = Bit(3) ;
+   inline constexpr Register VIP_CNTRL_3_SYNC_DE = Bit(4) ;
+   inline constexpr Register VIP_CNTRL_3_SYNC_HS = Bit(5) ;
+   inline constexpr Register VIP_CNTRL_3_DE_INT  = Bit(6) ;
+   inline constexpr Register VIP_CNTRL_3_EDGE    = Bit(7) ;
 
-const Address VIP_CNTRL_4 = 0x24 ;
+inline constexpr Address VIP_CNTRL_4 = 0x24 ;
 
-   const Register VIP_CNTRL_4_CCIR656     = Bit(4) ;
-   const Register VIP_CNTRL_4_656_ALT     = Bit(5) ;
-   const Register VIP_CNTRL_4_TST_656     = Bit(6) ;
-   const Register VIP_CNTRL_4_TST_PAT     = Bit(7) ;
-   constexpr BitField VIP_CNTRL_4_BLC     = BitField(1,0) ;
-   constexpr BitField VIP_CNTRL_4_BLANKIT = BitField(3,2) ;
+   inline constexpr Register VIP_CNTRL_4_CCIR656     = Bit(4) ;
+   inline constexpr Register VIP_CNTRL_4_656_ALT     = Bit(5) ;
+   inline constexpr Register VIP_CNTRL_4_TST_656     = Bit(6) ;
+   inline constexpr Register VIP_CNTRL_4_TST_PAT     = Bit(7) ;
+   inline constexpr BitField VIP_CNTRL_4_BLC     = BitField(1,0) ;
+   inline constexpr BitField VIP_CNTRL_4_BLANKIT = BitField(3,2) ;
 
-const Address VIP_CNTRL_5 = 0x25 ;
+inline constexpr Address VIP_CNTRL_5 = 0x25 ;
 
-   const Register VIP_CNTRL_5_CKCASE = Bit(0) ;
-   constexpr BitField VIP_CNTRL_5_SP_CNT = BitField(2,1) ;
+   inline constexpr Register VIP_CNTRL_5_CKCASE = Bit(0) ;
+   inline constexpr BitField VIP_CNTRL_5_SP_CNT = BitField(2,1) ;
 
-const Address MUX_VP_VIP_OUT = 0x27 ;
+inline constexpr Address MUX_VP_VIP_OUT = 0x27 ;
 
-const Address MAT_CONTRL = 0x80 ;
+inline constexpr Address MAT_CONTRL = 0x80 ;
 
-  const Register MAT_CONTRL_MAT_BP     = Bit(2) ;
-  constexpr BitField MAT_CONTRL_MAT_SC = BitField(1,0) ;
+  inline constexpr Register MAT_CONTRL_MAT_BP     = Bit(2) ;
+  inline constexpr BitField MAT_CONTRL_MAT_SC = BitField(1,0) ;
 
-const Address VIDFORMAT = 0xA0 ;
+inline constexpr Address VIDFORMAT = 0xA0 ;
 
-const Address REFPIX         = 0xA1 ;
-const Address REFLINE        = 0xA3 ;
-const Address NPIX           = 0xA5 ;
-const Address NLINE          = 0xA7 ;
-const Address VS_LINE_STRT_1 = 0xA9 ;
-const Address VS_PIX_STRT_1  = 0xAB ;
-const Address VS_LINE_END_1  = 0xAD ;
-const Address VS_PIX_END_1   = 0xAF ;
-const Address VS_LINE_STRT_2 = 0xB1 ;
-const Address VS_PIX_STRT_2  = 0xB3 ;
-const Address VS_LINE_END_2  = 0xB5 ;
-const Address VS_PIX_END_2   = 0xB7 ;
-const Address HS_PIX_START   = 0xB9 ;
-const Address HS_PIX_STOP    = 0xBB ;
-const Address VWIN_START_1   = 0xBD ;
-const Address VWIN_END_1     = 0xBF ;
-const Address VWIN_START_2   = 0xC1 ;
-const Address VWIN_END_2     = 0xC3 ;
-const Address DE_START       = 0xC5 ;
-const Address DE_STOP        = 0xC7 ;
+inline constexpr Address REFPIX         = 0xA1 ;
+inline constexpr Address REFLINE        = 0xA3 ;
+inline constexpr Address NPIX           = 0xA5 ;
+inline constexpr Address NLINE          = 0xA7 ;
+inline constexpr Address VS_LINE_STRT_1 = 0xA9 ;
+inline constexpr Address VS_PIX_STRT_1  = 0xAB ;
+inline constexpr Address VS_LINE_END_1  = 0xAD ;
+inline constexpr Address VS_PIX_END_1   = 0xAF ;
+inline constexpr Address VS_LINE_STRT_2 = 0xB1 ;
+inline constexpr Address VS_PIX_STRT_2  = 0xB3 ;
+inline constexpr Address VS_LINE_END_2  = 0xB5 ;
+inline constexpr Address VS_PIX_END_2   = 0xB7 ;
+inline constexpr Address HS_PIX_START   = 0xB9 ;
+inline constexpr Address HS_PIX_STOP    = 0xBB ;
+inline constexpr Address VWIN_START_1   = 0xBD ;
+inline constexpr Address VWIN_END_1     = 0xBF ;
+inline constexpr Address VWIN_START_2   = 0xC1 ;
+inline constexpr Address VWIN_END_2     = 0xC3 ;
+inline constexpr Address DE_START       = 0xC5 ;
+inline constexpr Address DE_STOP        = 0xC7 ;
 
-const Address TBG_CNTRL_0 = 0xCA ;
+inline constexpr Address TBG_CNTRL_0 = 0xCA ;
 
-   const Register TBG_CNTRL_0_TOP_TGL   = Bit(0) ;
-   const Register TBG_CNTRL_0_TOP_SEL   = Bit(1) ;
-   const Register TBG_CNTRL_0_DE_EXT    = Bit(2) ;
-   const Register TBG_CNTRL_0_TOP_EXT   = Bit(3) ;
-   const Register TBG_CNTRL_0_FRAME_DIS = Bit(5) ;
-   const Register TBG_CNTRL_0_SYNC_MTHD = Bit(6) ;
-   const Register TBG_CNTRL_0_SYNC_ONCE = Bit(7) ;
+   inline constexpr Register TBG_CNTRL_0_TOP_TGL   = Bit(0) ;
+   inline constexpr Register TBG_CNTRL_0_TOP_SEL   = Bit(1) ;
+   inline constexpr Register TBG_CNTRL_0_DE_EXT    = Bit(2) ;
+   inline constexpr Register TBG_CNTRL_0_TOP_EXT   = Bit(3) ;
+   inline constexpr Register TBG_CNTRL_0_FRAME_DIS = Bit(5) ;
+   inline constexpr Register TBG_CNTRL_0_SYNC_MTHD = Bit(6) ;
+   inline constexpr Register TBG_CNTRL_0_SYNC_ONCE = Bit(7) ;
 
-const Address TBG_CNTRL_1 = 0xCB ;
+inline constexpr Address TBG_CNTRL_1 = 0xCB ;
 
-   const Register TBG_CNTRL_1_H_TGL    = Bit(0) ;
-   const Register TBG_CNTRL_1_V_TGL    = Bit(1) ;
-   const Register TBG_CNTRL_1_TGL_EN   = Bit(2) ;
-   const Register TBG_CNTRL_1_X_EXT    = Bit(3) ;
-   const Register TBG_CNTRL_1_H_EXT    = Bit(4) ;
-   const Register TBG_CNTRL_1_V_EXT    = Bit(5) ;
-   const Register TBG_CNTRL_1_DWIN_DIS = Bit(6) ;
+   inline constexpr Register TBG_CNTRL_1_H_TGL    = Bit(0) ;
+   inline constexpr Register TBG_CNTRL_1_V_TGL    = Bit(1) ;
+   inline constexpr Register TBG_CNTRL_1_TGL_EN   = Bit(2) ;
+   inline constexpr Register TBG_CNTRL_1_X_EXT    = Bit(3) ;
+   inline constexpr Register TBG_CNTRL_1_H_EXT    = Bit(4) ;
+   inline constexpr Register TBG_CNTRL_1_V_EXT    = Bit(5) ;
+   inline constexpr Register TBG_CNTRL_1_DWIN_DIS = Bit(6) ;
 
-const Address ENABLE_SPACE = 0xD6 ;
+inline constexpr Address ENABLE_SPACE = 0xD6 ;
 
-const Address HVF_CNTRL_0 = 0xE4 ;
+inline constexpr Address HVF_CNTRL_0 = 0xE4 ;
 
-   const Register HVF_CNTRL_0_SM  = Bit(7) ;
-   const Register HVF_CNTRL_0_RWB = Bit(6) ;
-   constexpr BitField HVF_CNTRL_0_PREFIL = BitField(3,2) ;
-   constexpr BitField HVF_CNTRL_0_INTPOL = BitField(1,0) ;
+   inline constexpr Register HVF_CNTRL_0_SM  = Bit(7) ;
+   inline constexpr Register HVF_CNTRL_0_RWB = Bit(6) ;
+   inline constexpr BitField HVF_CNTRL_0_PREFIL = BitField(3,2) ;
+   inline constexpr BitField HVF_CNTRL_0_INTPOL = BitField(1,0) ;
 
-const Address HVF_CNTRL_1 = 0xE5 ;
+inline constexpr Address HVF_CNTRL_1 = 0xE5 ;
 
-   const Register HVF_CNTRL_1_FOR         = Bit(0) ;
-   const Register HVF_CNTRL_1_YUVBLK      = Bit(1) ;
-   const Register HVF_CNTRL_1_SEMI_PLANAR = Bit(6) ;
-   constexpr BitField HVF_CNTRL_1_VQR = BitField(3,2) ;
-   constexpr BitField HVF_CNTRL_1_PAD = BitField(5,4) ;
+   inline constexpr Register HVF_CNTRL_1_FOR         = Bit(0) ;
+   inline constexpr Register HVF_CNTRL_1_YUVBLK      = Bit(1) ;
+   inline constexpr Register HVF_CNTRL_1_SEMI_PLANAR = Bit(6) ;
+   inline constexpr BitField HVF_CNTRL_1_VQR = BitField(3,2) ;
+   inline constexpr BitField HVF_CNTRL_1_PAD = BitField(5,4) ;
 
-const Address RPT_CNTRL = 0xF0 ;
+inline constexpr Address RPT_CNTRL = 0xF0 ;
 
 /* HDMI page 2 */
 
-const Address PLL_SERIAL_1 = 0x00 ;
+inline constexpr Address PLL_SERIAL_1 = 0x00 ;
 
-   const Register PLL_SERIAL_1_SRL_FDN    = Bit(0) ;
-   const Register PLL_SERIAL_1_SRL_MAN_IZ = Bit(6) ;
-   constexpr BitField PLL_SERIAL_1_SRL_IZ = BitField(2,1) ;
+   inline constexpr Register PLL_SERIAL_1_SRL_FDN    = Bit(0) ;
+   inline constexpr Register PLL_SERIAL_1_SRL_MAN_IZ = Bit(6) ;
+   inline constexpr BitField PLL_SERIAL_1_SRL_IZ = BitField(2,1) ;
 
-const Address PLL_SERIAL_2 = 0x01 ;
+inline constexpr Address PLL_SERIAL_2 = 0x01 ;
 
-   constexpr BitField PLL_SERIAL_2_SRL_NOSC = BitField(1,0) ;
-   constexpr BitField PLL_SERIAL_2_SRL_PR   = BitField(7,4) ;
+   inline constexpr BitField PLL_SERIAL_2_SRL_NOSC = BitField(1,0) ;
+   inline constexpr BitField PLL_SERIAL_2_SRL_PR   = BitField(7,4) ;
 
-const Address PLL_SERIAL_3 = 0x02 ;
+inline constexpr Address PLL_SERIAL_3 = 0x02 ;
 
-   const Register PLL_SERIAL_3_SRL_CCIR     = Bit(0) ;
-   const Register PLL_SERIAL_3_SRL_DE       = Bit(2) ;
-   const Register PLL_SERIAL_3_SRL_PXIN_SEL = Bit(4) ;
+   inline constexpr Register PLL_SERIAL_3_SRL_CCIR     = Bit(0) ;
+   inline constexpr Register PLL_SERIAL_3_SRL_DE       = Bit(2) ;
+   inline constexpr Register PLL_SERIAL_3_SRL_PXIN_SEL = Bit(4) ;
 
-const Address SERIALIZER   = 0x03 ;
-const Address BUFFER_OUT   = 0x04 ;
-const Address PLL_SCG1     = 0x05 ;
-const Address PLL_SCG2     = 0x06 ;
-const Address PLL_SCGN1    = 0x07 ;
-const Address PLL_SCGN2    = 0x08 ;
-const Address PLL_SCGR1    = 0x09 ;
-const Address PLL_SCGR2    = 0x0A ;
-const Address AUDIO_DIV    = 0x0E ;
+inline constexpr Address SERIALIZER   = 0x03 ;
+inline constexpr Address BUFFER_OUT   = 0x04 ;
+inline constexpr Address PLL_SCG1     = 0x05 ;
+inline constexpr Address PLL_SCG2     = 0x06 ;
+inline constexpr Address PLL_SCGN1    = 0x07 ;
+inline constexpr Address PLL_SCGN2    = 0x08 ;
+inline constexpr Address PLL_SCGR1    = 0x09 ;
+inline constexpr Address PLL_SCGR2    = 0x0A ;
+inline constexpr Address AUDIO_DIV    = 0x0E ;
 
-const Address SEL_CLK      = 0x11 ;
+inline constexpr Address SEL_CLK      = 0x11 ;
 
-   const Register SEL_CLK_SEL_CLK1        = Bit(0) ;
-   const Register SEL_CLK_ENA_SC_CLK      = Bit(3) ;
-   constexpr BitField SEL_CLK_SEL_VRF_CLK = BitField(2,1) ;
+   inline constexpr Register SEL_CLK_SEL_CLK1        = Bit(0) ;
+   inline constexpr Register SEL_CLK_ENA_SC_CLK      = Bit(3) ;
+   inline constexpr BitField SEL_CLK_SEL_VRF_CLK = BitField(2,1) ;
 
-const Address ANA_GENERAL     = 0x12 ;
+inline constexpr Address ANA_GENERAL     = 0x12 ;
 
 /* HDMI page 0x09 */
 
-const Address REG_EDID_DATA_0 = 0x00 ; // 128 registers -- EDID block
+inline constexpr Address REG_EDID_DATA_0 = 0x00 ; // 128 registers -- EDID block
 
-const Address REG_EDID_CTRL     = 0xFA ;
-const Address REG_DDC_ADDR      = 0xFB ;
-const Address REG_DDC_OFFS      = 0xFC ;
-const Address REG_DDC_SEGM_ADDR = 0xFD ;
-const Address REG_DDC_SEGM      = 0xFE ;
+inline constexpr Address REG_EDID_CTRL     = 0xFA ;
+inline constexpr Address REG_DDC_ADDR      = 0xFB ;
+inline constexpr Address REG_DDC_OFFS      = 0xFC ;
+inline constexpr Address REG_DDC_SEGM_ADDR = 0xFD ;
+inline constexpr Address REG_DDC_SEGM      = 0xFE ;
 
 /* HDMI page 0x11 */
 
-const Address AIP_CNTRL_0 = 0x00 ;
+inline constexpr Address AIP_CNTRL_0 = 0x00 ;
 
-   const Register AIP_CNTRL_0_RST_FIFO = Bit(0) ;
-   const Register AIP_CNTRL_0_SWAP     = Bit(1) ;
-   const Register AIP_CNTRL_0_LAYOUT   = Bit(2) ;
-   const Register AIP_CNTRL_0_ACR_MAN  = Bit(5) ;
-   const Register AIP_CNTRL_0_RST_CTS  = Bit(6) ;
+   inline constexpr Register AIP_CNTRL_0_RST_FIFO = Bit(0) ;
+   inline constexpr Register AIP_CNTRL_0_SWAP     = Bit(1) ;
+   inline constexpr Register AIP_CNTRL_0_LAYOUT   = Bit(2) ;
+   inline constexpr Register AIP_CNTRL_0_ACR_MAN  = Bit(5) ;
+   inline constexpr Register AIP_CNTRL_0_RST_CTS  = Bit(6) ;
 
-const Address ENC_CNTRL = 0x0D ;
+inline constexpr Address ENC_CNTRL = 0x0D ;
 
-   const Register ENC_CNTRL_RST_ENC      = Bit(0) ;
-   const Register ENC_CNTRL_RST_SEL      = Bit(1) ;
-   constexpr BitField ENC_CNTRL_CTL_CODE = BitField(3,2) ;
+   inline constexpr Register ENC_CNTRL_RST_ENC      = Bit(0) ;
+   inline constexpr Register ENC_CNTRL_RST_SEL      = Bit(1) ;
+   inline constexpr BitField ENC_CNTRL_CTL_CODE = BitField(3,2) ;
 
 /* HDMI page 0x12 */
 
-const Address TX3 = 0x9A ;
+inline constexpr Address TX3 = 0x9A ;
 
-const Address TX4 = 0x9B ;
+inline constexpr Address TX4 = 0x9B ;
 
-   const Register TX4_PD_RAM = Bit(1) ;
+   inline constexpr Register TX4_PD_RAM = Bit(1) ;
 
-const Address TX33 = 0xB8 ;
+inline constexpr Address TX33 = 0xB8 ;
 
-   const Register TX33_HDMI = Bit(1) ;
+   inline constexpr Register TX33_HDMI = Bit(1) ;
 
 /* classes */
 
@@ -1316,7 +1316,7 @@ struct ModeDesc
 
 class Instance
  {
-   static const unsigned Timeout = 1000000 ;
+   static constexpr unsigned Timeout = 1000000 ;
 
    I2C::Instance dev;
    octet cec_address;
@@ -1708,8 +1708,8 @@ namespace Font {
 
 /* consts */
 
-const ulen DY = 18 ;
-const ulen DX = 10 ;
+inline constexpr ulen DY = 18 ;
+inline constexpr ulen DX = 10 ;
 
 /* classes */
 
@@ -3847,98 +3847,98 @@ namespace LCD {
 
 /* instances */
 
-const Address LCDBase = 0x4830E000 ;
+inline constexpr Address LCDBase = 0x4830E000 ;
 
 /* registers */
 
-const Address CTRL = 0x004 ;
+inline constexpr Address CTRL = 0x004 ;
 
-   const Register LCD_Raster = Bit(0) ;
-   const Register HWRestart  = Bit(1) ;
-   constexpr BitField CLKDiv = BitField(15,8) ;
+   inline constexpr Register LCD_Raster = Bit(0) ;
+   inline constexpr Register HWRestart  = Bit(1) ;
+   inline constexpr BitField CLKDiv = BitField(15,8) ;
 
-const Address RASTER_CTRL = 0x028 ;
+inline constexpr Address RASTER_CTRL = 0x028 ;
 
-   const Register LCD_Enable   = Bit(0) ;
-   const Register LCF_TFT      = Bit(7) ;
-   const Register STN565       = Bit(24) ;
-   constexpr BitField PalMode  = BitField(21,20) ;
+   inline constexpr Register LCD_Enable   = Bit(0) ;
+   inline constexpr Register LCF_TFT      = Bit(7) ;
+   inline constexpr Register STN565       = Bit(24) ;
+   inline constexpr BitField PalMode  = BitField(21,20) ;
 
-const Address RASTER_TIMING_0  = 0x02C ;
+inline constexpr Address RASTER_TIMING_0  = 0x02C ;
 
-   constexpr BitField HBackLSB  = BitField(31,24) ;
-   constexpr BitField HFrontLSB = BitField(23,16) ;
-   constexpr BitField HSyncLSB  = BitField(15,10) ;
-   constexpr BitField HLenLSB   = BitField(9,4) ;
-   constexpr BitField HLenMSB   = BitField(3,3) ;
+   inline constexpr BitField HBackLSB  = BitField(31,24) ;
+   inline constexpr BitField HFrontLSB = BitField(23,16) ;
+   inline constexpr BitField HSyncLSB  = BitField(15,10) ;
+   inline constexpr BitField HLenLSB   = BitField(9,4) ;
+   inline constexpr BitField HLenMSB   = BitField(3,3) ;
 
-const Address RASTER_TIMING_1  = 0x030 ;
+inline constexpr Address RASTER_TIMING_1  = 0x030 ;
 
-   constexpr BitField VBack   = BitField(31,24) ;
-   constexpr BitField VFront  = BitField(23,16) ;
-   constexpr BitField VSync   = BitField(15,10) ;
-   constexpr BitField VLenLSB = BitField(9,0) ;
+   inline constexpr BitField VBack   = BitField(31,24) ;
+   inline constexpr BitField VFront  = BitField(23,16) ;
+   inline constexpr BitField VSync   = BitField(15,10) ;
+   inline constexpr BitField VLenLSB = BitField(9,0) ;
 
-const Address RASTER_TIMING_2  = 0x034 ;
+inline constexpr Address RASTER_TIMING_2  = 0x034 ;
 
-   const Register SyncControl    = Bit(25) ;
-   const Register SyncOnFalling  = Bit(24) ;
-   const Register OEActiveLow    = Bit(23) ;
-   const Register DataOnFalling  = Bit(22) ;
-   const Register HSyncActiveLow = Bit(21) ;
-   const Register VSyncActiveLow = Bit(20) ;
-   constexpr BitField HSyncMSB   = BitField(30,27) ;
-   constexpr BitField VLenMSB    = BitField(26,26) ;
-   constexpr BitField HBackMSB   = BitField(5,4) ;
-   constexpr BitField HFrontMSB  = BitField(1,0) ;
+   inline constexpr Register SyncControl    = Bit(25) ;
+   inline constexpr Register SyncOnFalling  = Bit(24) ;
+   inline constexpr Register OEActiveLow    = Bit(23) ;
+   inline constexpr Register DataOnFalling  = Bit(22) ;
+   inline constexpr Register HSyncActiveLow = Bit(21) ;
+   inline constexpr Register VSyncActiveLow = Bit(20) ;
+   inline constexpr BitField HSyncMSB   = BitField(30,27) ;
+   inline constexpr BitField VLenMSB    = BitField(26,26) ;
+   inline constexpr BitField HBackMSB   = BitField(5,4) ;
+   inline constexpr BitField HFrontMSB  = BitField(1,0) ;
 
-const Address RASTER_SUBPANEL  = 0x038 ;
+inline constexpr Address RASTER_SUBPANEL  = 0x038 ;
 
-const Address RASTER_SUBPANEL2 = 0x03C ;
+inline constexpr Address RASTER_SUBPANEL2 = 0x03C ;
 
-const Address LCDDMA_CTRL = 0x40 ;
+inline constexpr Address LCDDMA_CTRL = 0x40 ;
 
-   const Register DualFB    = Bit(0) ;
-   const Register BEReorder = Bit(1) ;
-   const Register ByteSwap  = Bit(3) ;
-   constexpr BitField BurstSize = BitField(6,4) ;
-   constexpr BitField FIFOReady = BitField(10,8) ;
-   constexpr BitField DMAPri    = BitField(18,6) ;
+   inline constexpr Register DualFB    = Bit(0) ;
+   inline constexpr Register BEReorder = Bit(1) ;
+   inline constexpr Register ByteSwap  = Bit(3) ;
+   inline constexpr BitField BurstSize = BitField(6,4) ;
+   inline constexpr BitField FIFOReady = BitField(10,8) ;
+   inline constexpr BitField DMAPri    = BitField(18,6) ;
 
-const Address LCDDMA_FB0_BASE = 0x044 ;
+inline constexpr Address LCDDMA_FB0_BASE = 0x044 ;
 
-const Address LCDDMA_FB0_CEILING = 0x048 ;
+inline constexpr Address LCDDMA_FB0_CEILING = 0x048 ;
 
-const Address LCDDMA_FB1_BASE = 0x04C ;
+inline constexpr Address LCDDMA_FB1_BASE = 0x04C ;
 
-const Address LCDDMA_FB1_CEILING = 0x050 ;
+inline constexpr Address LCDDMA_FB1_CEILING = 0x050 ;
 
-const Address SYSCONFIG = 0x054 ;
+inline constexpr Address SYSCONFIG = 0x054 ;
 
-  constexpr BitField IdleMode    = BitField(3,2) ;
-  constexpr BitField StandbyMode = BitField(5,4) ;
+  inline constexpr BitField IdleMode    = BitField(3,2) ;
+  inline constexpr BitField StandbyMode = BitField(5,4) ;
 
-const Address IRQSTATUS_RAW   = 0x058 ;
-const Address IRQSTATUS       = 0x05C ;
-const Address IRQENABLE_SET   = 0x060 ;
-const Address IRQENABLE_CLEAR = 0x064 ;
+inline constexpr Address IRQSTATUS_RAW   = 0x058 ;
+inline constexpr Address IRQSTATUS       = 0x05C ;
+inline constexpr Address IRQENABLE_SET   = 0x060 ;
+inline constexpr Address IRQENABLE_CLEAR = 0x064 ;
 
-   const Register IRQ_EOF0      = Bit(8) ;
-   const Register IRQ_Underflow = Bit(5) ;
-   const Register IRQ_Done      = Bit(0) ;
+   inline constexpr Register IRQ_EOF0      = Bit(8) ;
+   inline constexpr Register IRQ_Underflow = Bit(5) ;
+   inline constexpr Register IRQ_Done      = Bit(0) ;
 
-const Address CLKC_ENABLE = 0x06C ;
+inline constexpr Address CLKC_ENABLE = 0x06C ;
 
-   const Register DMA_Enable  = Bit(2) ;
-   const Register LIDD_Enable = Bit(1) ;
-   const Register Core_Enable = Bit(0) ;
+   inline constexpr Register DMA_Enable  = Bit(2) ;
+   inline constexpr Register LIDD_Enable = Bit(1) ;
+   inline constexpr Register Core_Enable = Bit(0) ;
 
-const Address CLKC_RESET = 0x070 ;
+inline constexpr Address CLKC_RESET = 0x070 ;
 
-   const Register Main_Reset = Bit(3) ;
-   const Register DMA_Reset  = Bit(2) ;
-   const Register LIDD_Reset = Bit(1) ;
-   const Register Core_Reset = Bit(0) ;
+   inline constexpr Register Main_Reset = Bit(3) ;
+   inline constexpr Register DMA_Reset  = Bit(2) ;
+   inline constexpr Register LIDD_Reset = Bit(1) ;
+   inline constexpr Register Core_Reset = Bit(0) ;
 
 /* classes */
 

@@ -1,7 +1,7 @@
 /* AM3359.CP15CNT.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -27,37 +27,37 @@ namespace CP15CNT {
 
 /* functions */
 
-Type_Control GetControl();
+Type_Control GetControl() noexcept;
 
-void SetControl(Type_Control);
+void SetControl(Type_Control) noexcept;
 
-Type_UserCountEnable GetUserCountEnable();
+Type_UserCountEnable GetUserCountEnable() noexcept;
 
-void SetUserCountEnable(Type_UserCountEnable);
+void SetUserCountEnable(Type_UserCountEnable) noexcept;
 
-Type_ClockCount GetClockCount();
+Type_ClockCount GetClockCount() noexcept;
 
-Type_Count GetCount();
+Type_Count GetCount() noexcept;
 
-void SetCount(Type_Count);
+void SetCount(Type_Count) noexcept;
 
-void SetCounterSelect(Type_CounterSelect);
+void SetCounterSelect(Type_CounterSelect) noexcept;
 
-void SetEventSelect(Type_EventSelect);
+void SetEventSelect(Type_EventSelect) noexcept;
 
-void SetCountEnableSet(Type_CounterBits);
+void SetCountEnableSet(Type_CounterBits) noexcept;
 
-void SetCountEnableClear(Type_CounterBits);
+void SetCountEnableClear(Type_CounterBits) noexcept;
 
-Type_CounterBits GetCountOverflowStatus();
+Type_CounterBits GetCountOverflowStatus() noexcept;
 
-void SetCountOverflowStatus(Type_CounterBits);
+void SetCountOverflowStatus(Type_CounterBits) noexcept;
 
-void SetIntEnableSet(Type_CounterBits);
+void SetIntEnableSet(Type_CounterBits) noexcept;
 
-void SetIntEnableClear(Type_CounterBits);
+void SetIntEnableClear(Type_CounterBits) noexcept;
 
-void SetCountInc(Type_CounterBits);
+void SetCountInc(Type_CounterBits) noexcept;
 
 } // namespace CP15CNT
 } // namespace AM3359

@@ -1,7 +1,7 @@
 /* DevRW.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ using AddressType = uint32 ;
 
 /* concept RegType */
 
-template <class UInt>
+template <UIntType UInt>
 concept bool RegisterType = OneOfTypes<UInt,uint8,uint16,uint32> ;
 
 /* functions */

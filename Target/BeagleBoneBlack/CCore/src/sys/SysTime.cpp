@@ -1,7 +1,7 @@
 /* SysTime.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -31,11 +31,11 @@ namespace Private_SysTime {
 
 /* consts */
 
-const unsigned SecCnt = 10'000 ; // timer interrupt frequency 10 kHz
+inline constexpr unsigned SecCnt = 10'000 ; // timer interrupt frequency 10 kHz
 
-const unsigned MSecCnt = SecCnt/1000 ;
+inline constexpr unsigned MSecCnt = SecCnt/1000 ;
 
-const unsigned TickCnt = SecCnt/TicksPerSec ;
+inline constexpr unsigned TickCnt = SecCnt/TicksPerSec ;
 
 static_assert( SecCnt%1000==0        ,"CCore::Sys::SecCnt bad value");
 static_assert( SecCnt%TicksPerSec==0 ,"CCore::TicksPerSec bad value");

@@ -1,7 +1,7 @@
 /* AM3359.I2C.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -30,9 +30,9 @@ namespace I2C {
 
 enum Instance : uint32
  {
-  I2C_0 = 0x44E0'B000,
-  I2C_1 = 0x4802'A000,
-  I2C_2 = 0x4819'C000
+  I2C_0 = 0x44E0'B000u,
+  I2C_1 = 0x4802'A000u,
+  I2C_2 = 0x4819'C000u
  };
 
 /* struct Bar */
