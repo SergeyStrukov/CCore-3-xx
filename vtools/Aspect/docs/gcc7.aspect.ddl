@@ -3093,7 +3093,7 @@ Dir Dir45=
 Dir Dir46=
   {
    'Vanilla-X',
-   Red,
+   Green,
    {
     &Dir154,
     &Dir155,
@@ -4078,7 +4078,7 @@ Dir Dir213=
 Dir Dir154=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir214,
     &Dir215,
@@ -4091,7 +4091,7 @@ Dir Dir154=
 Dir Dir155=
   {
    'sysroot',
-   Red,
+   Green,
    {
     &Dir217,
     &Dir218,
@@ -4099,27 +4099,27 @@ Dir Dir155=
     &Dir220
    },
    {
-    { 'Makefile' , Red }
+    { 'Makefile' , Green }
    }
   };
 
 Dir Dir156=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'main.cpp' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Green },
+    { 'main.cpp' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir214=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir221,
     &Dir222,
@@ -4133,7 +4133,7 @@ Dir Dir214=
 Dir Dir215=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir225,
     &Dir226,
@@ -4142,191 +4142,191 @@ Dir Dir215=
     &Dir229
    },
    {
-    { 'PlanInit_CCore.cpp' , Red }
+    { 'PlanInit_CCore.cpp' , Green }
    }
   };
 
 Dir Dir216=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
-    { 'test6003.Atomic.cpp' , Red },
-    { 'test6002.Exception.cpp' , Red },
-    { 'test6001.gcc.cpp' , Red },
-    { 'test6004.Timer.cpp' , Red }
+    { 'test6003.Atomic.cpp' , Green },
+    { 'test6002.Exception.cpp' , Green },
+    { 'test6001.gcc.cpp' , Green },
+    { 'test6004.Timer.cpp' , Green }
    }
   };
 
 Dir Dir221=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.h' , Red },
-    { 'Quick.h' , Red }
+    { 'PlatformBase.h' , Green },
+    { 'Quick.h' , Green }
    }
   };
 
 Dir Dir222=
   {
    'dev',
-   Red,
+   Green,
    {
    },
    {
-    { 'DevInt.h' , Red },
-    { 'DevIntHandle.h' , Red },
-    { 'DevPlanInit.h' , Red },
-    { 'DevTick.h' , Red },
-    { 'DevWaitForInterrupt.h' , Red }
+    { 'DevInt.h' , Green },
+    { 'DevIntHandle.h' , Green },
+    { 'DevPlanInit.h' , Green },
+    { 'DevTick.h' , Green },
+    { 'DevWaitForInterrupt.h' , Green }
    }
   };
 
 Dir Dir223=
   {
    'libc',
-   Red,
+   Green,
    {
    },
    {
-    { 'atexit.h' , Red },
-    { 'CBase.h' , Red }
+    { 'atexit.h' , Green },
+    { 'CBase.h' , Green }
    }
   };
 
 Dir Dir224=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysAbort.h' , Red },
-    { 'SysAtomic.h' , Red },
-    { 'SysMemSpace.h' , Red },
-    { 'SysPlanInit.h' , Red },
-    { 'SysTime.h' , Red }
+    { 'SysAbort.h' , Green },
+    { 'SysAtomic.h' , Green },
+    { 'SysMemSpace.h' , Green },
+    { 'SysPlanInit.h' , Green },
+    { 'SysTime.h' , Green }
    }
   };
 
 Dir Dir225=
   {
    'base',
-   Red,
+   Green,
    {
    },
    {
-    { 'PlatformBase.cpp' , Red },
-    { 'Quick.cpp' , Red }
+    { 'PlatformBase.cpp' , Green },
+    { 'Quick.cpp' , Green }
    }
   };
 
 Dir Dir226=
   {
    'dev',
-   Red,
+   Green,
    {
    },
    {
-    { 'DevInt.cpp' , Red },
-    { 'DevIntHandle.cpp' , Red },
-    { 'DevPlanInit.cpp' , Red },
-    { 'DevTick.cpp' , Red },
-    { 'DevWaitForInterrupt.cpp' , Red }
+    { 'DevInt.cpp' , Green },
+    { 'DevIntHandle.cpp' , Green },
+    { 'DevPlanInit.cpp' , Green },
+    { 'DevTick.cpp' , Green },
+    { 'DevWaitForInterrupt.cpp' , Green }
    }
   };
 
 Dir Dir227=
   {
    'libc',
-   Red,
+   Green,
    {
    },
    {
-    { '__std_init.cpp' , Red },
-    { 'atexit.cpp' , Red },
-    { 'CBase.cpp' , Red }
+    { '__std_init.cpp' , Green },
+    { 'atexit.cpp' , Green },
+    { 'CBase.cpp' , Green }
    }
   };
 
 Dir Dir228=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysAbort.cpp' , Red },
-    { 'SysAtomic.cpp' , Red },
-    { 'SysCon.cpp' , Red },
-    { 'SysMemSpace.cpp' , Red },
-    { 'SysPlanInit.cpp' , Red },
-    { 'SysTime.cpp' , Red }
+    { 'SysAbort.cpp' , Green },
+    { 'SysAtomic.cpp' , Green },
+    { 'SysCon.cpp' , Green },
+    { 'SysMemSpace.cpp' , Green },
+    { 'SysPlanInit.cpp' , Green },
+    { 'SysTime.cpp' , Green }
    }
   };
 
 Dir Dir229=
   {
    'task',
-   Red,
+   Green,
    {
    },
    {
-    { 'TaskContext.cpp' , Red }
+    { 'TaskContext.cpp' , Green }
    }
   };
 
 Dir Dir217=
   {
    'lib',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'empty' , Red }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir218=
   {
    'obj',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'empty' , Red }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir219=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
-    { 'ctype.c' , Red },
-    { 'string_c.c' , Red },
-    { 'errno.cpp' , Red },
-    { 'locale.cpp' , Red },
-    { 'stdlib.cpp' , Red },
-    { 'string.cpp' , Red },
-    { 'time.cpp' , Red },
-    { 'consts.s' , Red },
-    { 'crt0.s' , Red },
-    { 'string_s.s' , Red }
+    { 'ctype.c' , Green },
+    { 'string_c.c' , Green },
+    { 'errno.cpp' , Green },
+    { 'locale.cpp' , Green },
+    { 'stdlib.cpp' , Green },
+    { 'string.cpp' , Green },
+    { 'time.cpp' , Green },
+    { 'consts.s' , Green },
+    { 'crt0.s' , Green },
+    { 'string_s.s' , Green }
    }
   };
 
 Dir Dir220=
   {
    'usr',
-   Red,
+   Green,
    {
     &Dir230
    },
@@ -4337,41 +4337,41 @@ Dir Dir220=
 Dir Dir230=
   {
    'include',
-   Red,
+   Green,
    {
     &Dir231
    },
    {
-    { '__std_init.h' , Red },
-    { 'assert.h' , Red },
-    { 'ctype.h' , Red },
-    { 'errno.h' , Red },
-    { 'iso646.h' , Red },
-    { 'limits.h' , Red },
-    { 'locale.h' , Red },
-    { 'math.h' , Red },
-    { 'setjmp.h' , Red },
-    { 'signal.h' , Red },
-    { 'stdarg.h' , Red },
-    { 'stdbool.h' , Red },
-    { 'stddef.h' , Red },
-    { 'stdint.h' , Red },
-    { 'stdio.h' , Red },
-    { 'stdlib.h' , Red },
-    { 'string.h' , Red },
-    { 'time.h' , Red },
-    { 'unistd.h' , Red }
+    { '__std_init.h' , Green },
+    { 'assert.h' , Green },
+    { 'ctype.h' , Green },
+    { 'errno.h' , Green },
+    { 'iso646.h' , Green },
+    { 'limits.h' , Green },
+    { 'locale.h' , Green },
+    { 'math.h' , Green },
+    { 'setjmp.h' , Green },
+    { 'signal.h' , Green },
+    { 'stdarg.h' , Green },
+    { 'stdbool.h' , Green },
+    { 'stddef.h' , Green },
+    { 'stdint.h' , Green },
+    { 'stdio.h' , Green },
+    { 'stdlib.h' , Green },
+    { 'string.h' , Green },
+    { 'time.h' , Green },
+    { 'unistd.h' , Green }
    }
   };
 
 Dir Dir231=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'types.h' , Red }
+    { 'types.h' , Green }
    }
   };
 

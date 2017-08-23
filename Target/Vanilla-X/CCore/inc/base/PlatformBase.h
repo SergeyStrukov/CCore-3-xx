@@ -1,7 +1,7 @@
 /* PlatformBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Target/Vanilla-X
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -113,37 +113,37 @@ struct Prop
    };
  };
 
-//
-// template <>
-// struct Prop<???>
-//  {
-//   enum
-//    {
-//     IsSigned   = true,
-//     IsUnsigned = false,
-//    };
-//
-//   using SType = ??? ;
-//   using UType = ??? ;
-//
-//   using PromoteSType = ??? ;
-//   using PromoteUType = ??? ;
-//  };
-//
-// template <>
-// struct Prop<???>
-//  {
-//   enum
-//    {
-//     IsSigned   = false,
-//     IsUnsigned = true,
-//
-//     Bits = ???
-//    };
-//
-//   using PromoteUType = ??? ;
-//  };
-//
+ //
+ // template <>
+ // struct Prop<???>
+ //  {
+ //   enum
+ //    {
+ //     IsSigned   = true,
+ //     IsUnsigned = false,
+ //    };
+ //
+ //   using SType = ??? ;
+ //   using UType = ??? ;
+ //
+ //   using PromoteSType = ??? ;
+ //   using PromoteUType = ??? ;
+ //  };
+ //
+ // template <>
+ // struct Prop<???>
+ //  {
+ //   enum
+ //    {
+ //     IsSigned   = false,
+ //     IsUnsigned = true,
+ //
+ //     Bits = ???
+ //    };
+ //
+ //   using PromoteUType = ??? ;
+ //  };
+ //
 
 } // namespace ExtraInt
 
