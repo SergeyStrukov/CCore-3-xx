@@ -44,8 +44,7 @@ struct Vertex : CmpComparable<Vertex>
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"V(#;)",index);
    }
@@ -71,8 +70,7 @@ struct Arrow
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"#; -> #; ( #; ; #; )",src,dst,alpha,PrintRange(beta));
    }
@@ -110,8 +108,7 @@ class LangDiagram : NoCopy
 
    // print object
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      Printf(out,"#;\n\n",Title("Start"));
 

@@ -68,7 +68,7 @@ struct EmptyContext;
 
 struct BlockPrintOpt;
 
-template <class R> class PrintRangeType;
+template <class R> class PrintRange;
 
 struct PosStr;
 
@@ -100,19 +100,18 @@ struct BlockPrintOpt
   //
  };
 
-/* class PrintRangeType<R> */
+/* class PrintRange<R> */
 
 template <class R>
-class PrintRangeType
+class PrintRange
  {
    R range;
 
   public:
 
-   explicit PrintRangeType(const R &range_) : range(range_) {}
+   explicit PrintRange(const R &range_) : range(range_) {}
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      R p=range;
 
@@ -129,9 +128,6 @@ class PrintRangeType
        }
     }
  };
-
-template <class R>
-PrintRangeType<R> PrintRange(R range) { return PrintRangeType<R>(range); }
 
 /* struct PosStr */
 

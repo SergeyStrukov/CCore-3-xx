@@ -1,22 +1,16 @@
 OBJ_LIST = \
-obj/DataMap.o \
-obj/Process.o \
-obj/Sanity.o \
-obj/main.o \
+.obj/Process.o \
+.obj/main.o \
 
 
 ASM_LIST = \
-obj/DataMap.s \
-obj/Process.s \
-obj/Sanity.s \
-obj/main.s \
+.obj/Process.s \
+.obj/main.s \
 
 
 DEP_LIST = \
-obj/DataMap.dep \
-obj/Process.dep \
-obj/Sanity.dep \
-obj/main.dep \
+.obj/Process.dep \
+.obj/main.dep \
 
 
 ASM_OBJ_LIST = \
@@ -25,45 +19,27 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-obj/DataMap.o : ./DataMap.cpp
+.obj/Process.o : ././Process.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-obj/Process.o : ./Process.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-obj/Sanity.o : ./Sanity.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-obj/main.o : ./main.cpp
+.obj/main.o : ././main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-obj/DataMap.s : ./DataMap.cpp
+.obj/Process.s : ././Process.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-obj/Process.s : ./Process.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-obj/Sanity.s : ./Sanity.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-obj/main.s : ./main.cpp
+.obj/main.s : ././main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-obj/DataMap.dep : ./DataMap.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/DataMap.o $< -MF $@
+.obj/Process.dep : ././Process.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Process.o $< -MF $@
 
-obj/Process.dep : ./Process.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Process.o $< -MF $@
-
-obj/Sanity.dep : ./Sanity.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/Sanity.o $< -MF $@
-
-obj/main.dep : ./main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+.obj/main.dep : ././main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
 
 
 
@@ -71,7 +47,7 @@ obj/main.dep : ./main.cpp
 
 ifneq ($(MAKECMDGOALS),clean)
 
-include $(DEP_FILE)
+-include $(DEP_FILE)
 
 endif
 

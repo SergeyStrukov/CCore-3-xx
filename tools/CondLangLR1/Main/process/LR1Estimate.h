@@ -129,8 +129,7 @@ class LR1Estimate : public CmpComparable<LR1Estimate>
        //
       };
 
-     template <class P>
-     void print(P &out,PrintOptType opt) const
+     void print(PrinterType &out,PrintOptType opt) const
       {
        if( shift )
          {
@@ -331,8 +330,7 @@ class LR1Estimate : public CmpComparable<LR1Estimate>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      if( empty )
        {

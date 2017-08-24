@@ -99,8 +99,7 @@ class SparseVector : CmpComparable<SparseVector<I,T> >
 
    // print object
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      for(auto &cell : Range(cellset) ) Printf(out,"#;\n",cell);
 
@@ -303,8 +302,7 @@ struct MatrixPosition : CmpComparable<MatrixPosition<I,T> >
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"( #; , #; ) #;",i,j,object);
    }
@@ -363,12 +361,15 @@ class SparseMatrix : public CmpComparable<SparseMatrix<I,T> >
      return SparseMatrix<I,T>(DoBuild,MatrixMulBuilder<I,T,Row,Cell>(Range(a.rowset),Range(b.rowset)));
     }
 
-   friend SparseVector<I,T> operator * <> (const SparseMatrix<I,T> &a,const SparseVector<I,T> &b);
+   friend SparseVector<I,T> operator * (const SparseMatrix<I,T> &a,const SparseVector<I,T> &b)
+    {
+     return SparseVector<I,T>(DoBuild,VectorMulBuilder<I,T,typename SparseMatrix<I,T>::Row,
+                                                           typename SparseVector<I,T>::Cell>(Range(a.rowset),Range(b.cellset)));
+    }
 
    // print object
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      for(auto &row : Range(rowset) )
        {
@@ -380,13 +381,6 @@ class SparseMatrix : public CmpComparable<SparseMatrix<I,T> >
      Printf(out,"-----\n");
     }
  };
-
-template <class I,class T>
-SparseVector<I,T> operator * (const SparseMatrix<I,T> &a,const SparseVector<I,T> &b)
- {
-  return SparseVector<I,T>(DoBuild,VectorMulBuilder<I,T,typename SparseMatrix<I,T>::Row,
-                                                        typename SparseVector<I,T>::Cell>(Range(a.rowset),Range(b.cellset)));
- }
 
 /* class SparseMatrix<I,T>::PosFill */
 

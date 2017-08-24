@@ -14,14 +14,19 @@
 #ifndef BFTest_Process_h
 #define BFTest_Process_h
 
-#include "DataMap.h"
+#include <CCore/inc/lang/LangDataMap.h>
 
 #include <CCore/inc/AnyPtr.h>
 #include <CCore/inc/Array.h>
-#include <CCore/inc/Random.h>
+#include <CCore/inc/PlatformRandom.h>
 #include <CCore/inc/Task.h>
 
 namespace App {
+
+/* using */
+
+using namespace CCore;
+using namespace Lang;
 
 /* functions */
 
@@ -91,8 +96,7 @@ class RunTasks : NoCopy
      asem.wait();
     }
 
-   template <class FuncInit>
-   void run(ulen count,const FuncInit &func_init)
+   void run(ulen count,const FuncInitArgType<> &func_init)
     {
      for(; count ;count--)
        {
@@ -107,7 +111,7 @@ class RunTasks : NoCopy
 
 class TopGenerator : NoCopy
  {
-   Random random;
+   PlatformRandom random;
    PtrLen<DDL::MapPtr<TypeDef::Synt> > lang;
 
    DynArray<TypeDef::TopRule *> table;

@@ -63,8 +63,8 @@ static bool RunGoodTest(const Lang &lang)
 
 /* PrintFibres() */
 
-template <class P,class TopCompress>
-void PrintFibre(P &out,const TopCompress &compress,PtrLen<const State> range)
+template <class TopCompress>
+void PrintFibre(PrinterType &out,const TopCompress &compress,PtrLen<const State> range)
  {
   ulen prop=range->getPropIndex();
   bool flag=false;
@@ -101,8 +101,8 @@ void PrintFibre(P &out,const TopCompress &compress,PtrLen<const State> range)
   return false;
  }
 
-template <class P,class TopCompress,class BottomCompress>
-void PrintFibres(P &out,const TopCompress &compress,const BottomCompress &bottom,const StateMap &map)
+template <class TopCompress,class BottomCompress>
+void PrintFibres(PrinterType &out,const TopCompress &compress,const BottomCompress &bottom,const StateMap &map)
  {
   Printf(out,"#;\n",Title("Fibres"));
 
@@ -169,8 +169,7 @@ void PrintFibres(P &out,const TopCompress &compress,const BottomCompress &bottom
 
 /* PrintBad() */
 
-template <class P>
-void PrintBad(P &out,const Lang &lang,const StateCompress<LR1Estimate> &compress)
+void PrintBad(PrinterType &out,const Lang &lang,const StateCompress<LR1Estimate> &compress)
  {
   ExtLangOpt extopt(lang,compress.getAtomCount());
 
@@ -201,8 +200,7 @@ void PrintBad(P &out,const Lang &lang,const StateCompress<LR1Estimate> &compress
 
 /* PrintRules() */
 
-template <class P>
-void PrintRules(P &out,const LangBase::SyntDesc &desc)
+void PrintRules(PrinterType &out,const LangBase::SyntDesc &desc)
  {
   Putobj(out,"{ ");
 
@@ -220,8 +218,7 @@ void PrintRules(P &out,const LangBase::SyntDesc &desc)
 
 /* PrintArgs() */
 
-template <class P>
-void PrintArgs(P &out,const LangBase::RuleDesc &desc)
+void PrintArgs(PrinterType &out,const LangBase::RuleDesc &desc)
  {
   Putobj(out,"{ ");
 
@@ -360,11 +357,11 @@ void Process(StrLen file_name)
 
    // lang
    {
-    ListPrint<decltype(out)> lang_out(out);
+    ListPrint lang_out(out);
 
     // atoms
     {
-     ListPrint<decltype(lang_out)> atom_out(lang_out);
+     ListPrint atom_out(&lang_out);
 
      for(auto &atom : clang.getAtoms() )
        Printf(atom_out,"{ #; , #; , lang.elements+#; }#;",atom.index,StrLen(atom.name.inner(2,1)),atom.index,EndItem());
@@ -376,7 +373,7 @@ void Process(StrLen file_name)
 
     // synts
     {
-     ListPrint<decltype(lang_out)> synt_out(lang_out);
+     ListPrint synt_out(&lang_out);
 
      ulen element=clang.getAtomCount();
      ulen top_index=0;
@@ -395,7 +392,7 @@ void Process(StrLen file_name)
 
            auto &top_synt=top.getSynts()[top_index++];
 
-           ListPrint<decltype(synt_out)> rule_out(synt_out);
+           ListPrint rule_out(&synt_out);
 
            for(auto &top_rule : top_synt.rules )
              Printf(rule_out,"lang.top_rules+#;#;",top_rule.index,EndItem());
@@ -410,7 +407,7 @@ void Process(StrLen file_name)
 
            Putobj(synt_out,indent);
 
-           ListPrint<decltype(synt_out)> kind_out(synt_out);
+           ListPrint kind_out(&synt_out);
 
            for(auto &kind : kinds )
              {
@@ -418,7 +415,7 @@ void Process(StrLen file_name)
 
               auto &top_synt=top.getSynts()[top_index++];
 
-              ListPrint<decltype(kind_out)> rule_out(kind_out);
+              ListPrint rule_out(&kind_out);
 
               for(auto &top_rule : top_synt.rules )
                 Printf(rule_out,"lang.top_rules+#;#;",top_rule.index,EndItem());
@@ -433,7 +430,7 @@ void Process(StrLen file_name)
            Putobj(synt_out," ,",indent);
           }
 
-        ListPrint<decltype(synt_out)> rule_out(synt_out);
+        ListPrint rule_out(&synt_out);
 
         for(auto &rule : synt.rules )
           Printf(rule_out,"lang.rules+#;#;",rule.index,EndItem());
@@ -450,7 +447,7 @@ void Process(StrLen file_name)
 
     // lang
     {
-     ListPrint<decltype(lang_out)> synt_out(lang_out);
+     ListPrint synt_out(&lang_out);
 
      for(auto &synt : clang.getSynts() )
        if( synt.is_lang )
@@ -465,7 +462,7 @@ void Process(StrLen file_name)
 
     // elements
     {
-     ListPrint<decltype(lang_out)> elem_out(lang_out);
+     ListPrint elem_out(&lang_out);
 
      ulen element=0;
 
@@ -491,13 +488,13 @@ void Process(StrLen file_name)
 
     // rules
     {
-     ListPrint<decltype(lang_out)> rule_out(lang_out);
+     ListPrint rule_out(&lang_out);
 
      for(auto &rule : clang.getRules() )
        {
         Printf(rule_out,"{ #; , #.q; , lang.synts[#;].kinds+#; ,#;",rule.index,rule.name,rule.ret->index,rule.getKindIndex(),AutoIndent());
 
-        ListPrint<decltype(rule_out)> arg_out(rule_out);
+        ListPrint arg_out(&rule_out);
 
         for(auto &element : rule.args )
           element.apply( [&] (const CondLangBase::AtomDesc *desc)
@@ -522,14 +519,14 @@ void Process(StrLen file_name)
 
     // top rules
     {
-     ListPrint<decltype(lang_out)> rule_out(lang_out);
+     ListPrint rule_out(&lang_out);
 
      for(auto &rule : top.getRules() )
        {
         Printf(rule_out,"{ #; , #.q; , lang.rules+#; , lang.synts[#;].kinds+#; ,#;",
           rule.index,rule.name,rule.map_index,rule.ret->map_index,rule.ret->kind_index,AutoIndent());
 
-        ListPrint<decltype(rule_out)> arg_out(rule_out);
+        ListPrint arg_out(&rule_out);
 
         for(auto &element : rule.args )
           element.apply( [&] (const LangBase::AtomDesc *desc)
@@ -554,13 +551,13 @@ void Process(StrLen file_name)
 
     // states
     {
-     ListPrint<decltype(lang_out)> state_out(lang_out);
+     ListPrint state_out(&lang_out);
 
      for(auto &state : compress.getStateTable() )
        {
         Printf(state_out,"{ #; , lang.finals+#; ,#;",state.index,state.prop_index,AutoIndent());
 
-        ListPrint<decltype(state_out)> trans_out(state_out);
+        ListPrint trans_out(&state_out);
 
         for(auto &trans : state.transitions )
           Printf(trans_out,"{ lang.elements+#; , lang.states+#; }#;",trans.element,trans.dst->index,EndItem());
@@ -577,7 +574,7 @@ void Process(StrLen file_name)
 
     // finals
     {
-     ListPrint<decltype(lang_out)> final_out(lang_out);
+     ListPrint final_out(&lang_out);
 
      ulen atom_count=clang.getAtomCount();
 
@@ -587,7 +584,7 @@ void Process(StrLen file_name)
        {
         Printf(final_out,"{ #; ,#;",index++,AutoIndent());
 
-        ListPrint<decltype(final_out)> action_out(final_out);
+        ListPrint action_out(&final_out);
 
         if( final.hasNull() )
           {

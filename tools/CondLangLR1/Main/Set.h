@@ -210,7 +210,7 @@ class Set : public CmpComparable<Set<T,J> >
 
    // cmp objects
 
-   CmpResult objCmp(const Set<T,J> &obj) const { return RangeCmp(Range(*this),Range(obj)); }
+   CmpResult objCmp(const Set<T,J> &obj) const { return RangeCmpOf(*this,obj); }
 
    // operators
 
@@ -226,8 +226,7 @@ class Set : public CmpComparable<Set<T,J> >
 
    // print object
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      Putobj(out,PrintRange(Range(*this)));
     }
@@ -322,8 +321,7 @@ struct IndexPair : CmpComparable<IndexPair<I,T> >
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"#; : #;",index,object);
    }

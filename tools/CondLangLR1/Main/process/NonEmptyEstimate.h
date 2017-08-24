@@ -50,17 +50,7 @@ class NonEmptyEstimate : public CmpComparable<NonEmptyEstimate>
 
    bool operator ! () const { return !value; }
 
-   bool setCmp(NonEmptyEstimate obj)
-    {
-     if( value!=obj.value )
-       {
-        value=obj.value;
-
-        return true;
-       }
-
-     return false;
-    }
+   bool setCmp(NonEmptyEstimate obj) { return SetCmp(value,obj.value); }
 
    // cmp objects
 
@@ -80,8 +70,7 @@ class NonEmptyEstimate : public CmpComparable<NonEmptyEstimate>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      if( value )
        Putobj(out,"non-empty");

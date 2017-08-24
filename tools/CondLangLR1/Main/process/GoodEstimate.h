@@ -55,17 +55,7 @@ class GoodEstimate : public CmpComparable<GoodEstimate>
 
    bool operator ! () const { return value==Empty; }
 
-   bool setCmp(GoodEstimate obj)
-    {
-     if( value!=obj.value )
-       {
-        value=obj.value;
-
-        return true;
-       }
-
-     return false;
-    }
+   bool setCmp(GoodEstimate obj) { return SetCmp(value,obj.value); }
 
    // properties
 
@@ -89,8 +79,7 @@ class GoodEstimate : public CmpComparable<GoodEstimate>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      switch( value )
        {

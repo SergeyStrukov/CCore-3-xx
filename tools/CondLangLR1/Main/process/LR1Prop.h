@@ -54,8 +54,7 @@ class LR1PropNonEmpty : public CmpComparable<LR1PropNonEmpty>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      if( non_empty )
        Putobj(out,"non-empty");
@@ -117,8 +116,7 @@ class LR1PropShiftSet : public CmpComparable<LR1PropShiftSet>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      if( end )
        {
@@ -186,8 +184,7 @@ class LR1PropValidSet : public CmpComparable<LR1PropValidSet>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      if( end )
        {
@@ -248,8 +245,7 @@ class LR1PropRuleSet : public CmpComparable<LR1PropRuleSet>
 
    using PrintOptType = BlockPrintOpt ;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const
+   void print(PrinterType &out,PrintOptType opt) const
     {
      Putobj(out,rule_set);
 

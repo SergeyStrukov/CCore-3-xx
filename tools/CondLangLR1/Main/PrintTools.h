@@ -127,8 +127,7 @@ struct Indent
     len=PosSub(len,delta);
    }
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     out.put('\n');
     out.put(' ',len);
@@ -141,8 +140,7 @@ struct AutoIndent
  {
   AutoIndent() {}
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     ulen len=out.getCol();
 
@@ -186,6 +184,8 @@ class ListPrint : NoCopy
   public:
 
    // constructors
+
+   explicit ListPrint(Out *out) : ListPrint(*out) {}
 
    explicit ListPrint(Out &out_)
     : out(out_)
@@ -264,8 +264,7 @@ struct EndItem
  {
   EndItem() {}
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     out.endItem();
    }
@@ -277,8 +276,7 @@ struct EndList
  {
   EndList() {}
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     out.endList();
    }

@@ -92,8 +92,7 @@ struct StateCompressBase : NoCopy
 
     using PrintOptType = ExtLangOpt ;
 
-    template <class P>
-    void print(P &out,ExtLangOpt opt) const
+    void print(PrinterType &out,ExtLangOpt opt) const
      {
       Printf(out,"#;) #;\n",index,prop_index);
 
@@ -154,8 +153,7 @@ struct Trace
 
   using PrintOptType = ExtLangOpt ;
 
-  template <class P>
-  void print(P &out,ExtLangOpt opt) const
+  void print(PrinterType &out,ExtLangOpt opt) const
    {
     if( ok )
       {
@@ -252,8 +250,7 @@ struct PrintState
 
   using PrintOptType = ExtLangOpt ;
 
-  template <class P>
-  void print(P &out,ExtLangOpt opt) const
+  void print(PrinterType &out,ExtLangOpt opt) const
    {
     Printf(out,"( #; ; #; )",index,BindOpt(opt,trace));
    }
@@ -274,8 +271,7 @@ struct PrintCompressCounts
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"State count = #; Prop count = #;",state_count,prop_count);
    }
@@ -364,8 +360,7 @@ class StateCompress : public StateCompressBase
 
    // apply
 
-   template <class FuncInit>
-   void applyForStates(FuncInit func_init) const // func(State)
+   void applyForStates(FuncInitArgType<State> func_init) const
     {
      ApplyToDesc(getStateTable(),func_init);
     }
@@ -380,8 +375,7 @@ class StateCompress : public StateCompressBase
 
    using PrintOptType = LangOpt ;
 
-   template <class P>
-   void print(P &out,LangOpt opt) const
+   void print(PrinterType &out,LangOpt opt) const
     {
      ExtLangOpt extopt(opt.lang,getAtomCount());
 

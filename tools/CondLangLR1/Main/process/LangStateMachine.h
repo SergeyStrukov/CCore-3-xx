@@ -27,7 +27,7 @@ namespace App {
 
 /* consts */
 
-const ulen StateCap = 1'000'000 ;
+inline constexpr ulen StateCap = 1'000'000 ;
 
 /* functions */
 
@@ -66,8 +66,7 @@ struct StateMachineDesc : NoCopy
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     Printf(out,"#;) #;\n",index,est);
 
@@ -253,8 +252,7 @@ class LangStateMachine : NoCopy
 
    using PrintOptType = LangOpt ;
 
-   template <class P>
-   void print(P &out,LangOpt opt) const
+   void print(PrinterType &out,LangOpt opt) const
     {
      Putobj(out,"-----\n");
 

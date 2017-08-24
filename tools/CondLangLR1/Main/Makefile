@@ -15,8 +15,6 @@ CCORE_ROOT = ../../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-OBJ_PATH = obj
-
 TARGET = $(HOME)/bin/CCore-CondLangLR1.exe
 
 CCOPT_EXTRA = -I.
