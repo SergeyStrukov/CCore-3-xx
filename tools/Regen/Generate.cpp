@@ -191,7 +191,7 @@ void GenerateReg(Reg reg,Out &out)
           {
            ulen extra=max_bitname_len-field.getName().getLen();
 
-           Printf(out,"  #;_#;#; = #;",name,field.getName(),RepeatChar(extra,' '),BindOpt(value_opt,UIntBit<uint32>(field.getBit())));
+           Printf(out,"  #;_#;#; = #;u",name,field.getName(),RepeatChar(extra,' '),BindOpt(value_opt,UIntBit<uint32>(field.getBit())));
 
            if( --i )
              Printf(out,",\n");
@@ -236,7 +236,7 @@ void GenerateReg(Reg reg,Out &out)
              {
               ulen extra=max_namelen-fname.getName().getLen();
 
-              Printf(out,"  #;_#;_#;#; = #;",name,field_name,fname.getName(),RepeatChar(extra,' '),BindOpt(field_opt,fname.getValue()));
+              Printf(out,"  #;_#;_#;#; = #;u",name,field_name,fname.getName(),RepeatChar(extra,' '),BindOpt(field_opt,fname.getValue()));
 
               if( --i )
                 Printf(out,",\n");
@@ -260,7 +260,7 @@ void GenerateReg(Reg reg,Out &out)
 
            for(auto fname=field.getFieldNames(); +fname ;++fname)
              {
-              Printf(out,"       case #; : Putobj(out,#.q;); break;\n",BindOpt(field_opt,fname.getValue()),fname.getName());
+              Printf(out,"       case #;u : Putobj(out,#.q;); break;\n",BindOpt(field_opt,fname.getValue()),fname.getName());
              }
 
            Printf(out,"\n       default: Putobj(out,uint#;(field));\n",bitlen);
@@ -338,12 +338,12 @@ void GenerateReg(Reg reg,Out &out)
 
         Printf(out,"  Type get_#;() const\n",field_name);
         Printf(out,"   {\n");
-        Printf(out,"    return (value>>#;)&#.x;;\n",bit,mask);
+        Printf(out,"    return (value>>#;)&#.x;u;\n",bit,mask);
         Printf(out,"   }\n \n");
 
         Printf(out,"  Type_#; & set_#;(Type field)\n",name,field_name);
         Printf(out,"   {\n");
-        Printf(out,"    value=((field&#.x;)<<#;)|(value&#.x;);\n\n",mask,bit,zmask);
+        Printf(out,"    value=((field&#.x;u)<<#;)|(value&#.x;u);\n\n",mask,bit,zmask);
 
         Printf(out,"    return *this;\n");
         Printf(out,"   }\n \n\n");
@@ -352,12 +352,12 @@ void GenerateReg(Reg reg,Out &out)
        {
         Printf(out,"  Field_#;_#; get_#;() const\n",name,field_name,field_name);
         Printf(out,"   {\n");
-        Printf(out,"    return Field_#;_#;((value>>#;)&#.x;);\n",name,field_name,bit,mask);
+        Printf(out,"    return Field_#;_#;((value>>#;)&#.x;u);\n",name,field_name,bit,mask);
         Printf(out,"   }\n \n");
 
         Printf(out,"  Type_#; & set_#;(Field_#;_#; field)\n",name,field_name,name,field_name);
         Printf(out,"   {\n");
-        Printf(out,"    value=((Type(field)&#.x;)<<#;)|(value&#.x;);\n\n",mask,bit,zmask);
+        Printf(out,"    value=((Type(field)&#.x;u)<<#;)|(value&#.x;u);\n\n",mask,bit,zmask);
 
         Printf(out,"    return *this;\n");
         Printf(out,"   }\n \n\n");
@@ -474,20 +474,20 @@ void GenerateBar(Bar bar,Out &out)
        {
         if( isReadable )
           {
-           Printf(out,"  Type_#; get_#;(AddressType ind) { return Type_#;(rw.template get<uint#;>(#.x; +ind*#;)); }\n \n",regname,name,regname,bitlen,address,delta);
+           Printf(out,"  Type_#; get_#;(AddressType ind) { return Type_#;(rw.template get<uint#;>(#.x;u + ind*#;u)); }\n \n",regname,name,regname,bitlen,address,delta);
           }
 
         if( isWriteable )
           {
            if( has_type )
              {
-              Printf(out,"  void set_#;(AddressType ind,Type_#; value) { rw.set(#.x; +ind*#;,value.value); }\n \n",name,regname,address,delta);
+              Printf(out,"  void set_#;(AddressType ind,Type_#; value) { rw.set(#.x;u + ind*#;u,value.value); }\n \n",name,regname,address,delta);
 
-              Printf(out,"  Setter<Type_#;> to_#;(AddressType ind) { return Setter<Type_#;>(rw,#.x; +ind*#;); }\n \n",regname,name,regname,address,delta);
+              Printf(out,"  Setter<Type_#;> to_#;(AddressType ind) { return Setter<Type_#;>(rw,#.x;u + ind*#;u); }\n \n",regname,name,regname,address,delta);
              }
            else
              {
-              Printf(out,"  void set_#;(AddressType ind,Type_#; value) { rw.set(#.x; +ind*#;,value); }\n \n",name,regname,address,delta);
+              Printf(out,"  void set_#;(AddressType ind,Type_#; value) { rw.set(#.x;u + ind*#;u,value); }\n \n",name,regname,address,delta);
              }
           }
        }
@@ -495,20 +495,20 @@ void GenerateBar(Bar bar,Out &out)
        {
         if( isReadable )
           {
-           Printf(out,"  Type_#; get_#;() { return Type_#;(rw.template get<uint#;>(#.x;)); }\n \n",regname,name,regname,bitlen,address);
+           Printf(out,"  Type_#; get_#;() { return Type_#;(rw.template get<uint#;>(#.x;u)); }\n \n",regname,name,regname,bitlen,address);
           }
 
         if( isWriteable )
           {
            if( has_type )
              {
-              Printf(out,"  void set_#;(Type_#; value) { rw.set(#.x;,value.value); }\n \n",name,regname,address);
+              Printf(out,"  void set_#;(Type_#; value) { rw.set(#.x;u,value.value); }\n \n",name,regname,address);
 
-              Printf(out,"  Setter<Type_#;> to_#;() { return Setter<Type_#;>(rw,#.x;); }\n \n",regname,name,regname,address);
+              Printf(out,"  Setter<Type_#;> to_#;() { return Setter<Type_#;>(rw,#.x;u); }\n \n",regname,name,regname,address);
              }
            else
              {
-              Printf(out,"  void set_#;(Type_#; value) { rw.set(#.x;,value); }\n \n",name,regname,address);
+              Printf(out,"  void set_#;(Type_#; value) { rw.set(#.x;u,value); }\n \n",name,regname,address);
              }
           }
        }
@@ -528,15 +528,15 @@ void GenerateBar(Bar bar,Out &out)
           {
            if( is_block )
              {
-              Printf(out,"  void set_#;_null(AddressType ind) { rw.set(#.x; +ind*#;,Type_#;(0)); }\n \n",name,address,delta,regname);
+              Printf(out,"  void set_#;_null(AddressType ind) { rw.set(#.x;u + ind*#;u,Type_#;(0)); }\n \n",name,address,delta,regname);
 
-              Printf(out,"  void set_#;_ones(AddressType ind) { rw.set(#.x; +ind*#;,Type_#;(-1)); }\n \n",name,address,delta,regname);
+              Printf(out,"  void set_#;_ones(AddressType ind) { rw.set(#.x;u + ind*#;u,Type_#;(-1)); }\n \n",name,address,delta,regname);
              }
            else
              {
-              Printf(out,"  void set_#;_null() { rw.set(#.x;,Type_#;(0)); }\n \n",name,address,regname);
+              Printf(out,"  void set_#;_null() { rw.set(#.x;u,Type_#;(0)); }\n \n",name,address,regname);
 
-              Printf(out,"  void set_#;_ones() { rw.set(#.x;,Type_#;(-1)); }\n \n",name,address,regname);
+              Printf(out,"  void set_#;_ones() { rw.set(#.x;u,Type_#;(-1)); }\n \n",name,address,regname);
              }
           }
        }

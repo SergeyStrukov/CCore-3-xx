@@ -4,10 +4,10 @@
 
 enum Bits_ISR : uint8
  {
-  ISR_A = 0x01,
-  ISR_B = 0x02,
-  ISR_C = 0x04,
-  ISR_D = 0x08
+  ISR_A = 0x01u,
+  ISR_B = 0x02u,
+  ISR_C = 0x04u,
+  ISR_D = 0x08u
  };
  
 inline Bits_ISR operator | (Bits_ISR a,Bits_ISR b)
@@ -129,8 +129,8 @@ struct Type_ISR
 
 enum Bits_CTRL : uint32
  {
-  CTRL_RUN  = 0x00000001,
-  CTRL_STOP = 0x00000002
+  CTRL_RUN  = 0x00000001u,
+  CTRL_STOP = 0x00000002u
  };
  
 inline Bits_CTRL operator | (Bits_CTRL a,Bits_CTRL b)
@@ -138,9 +138,9 @@ inline Bits_CTRL operator | (Bits_CTRL a,Bits_CTRL b)
  
 enum Field_CTRL_MODE : uint32
  {
-  CTRL_MODE_SLOW = 0x00,
-  CTRL_MODE_FAST = 0x01,
-  CTRL_MODE_ACK  = 0x07
+  CTRL_MODE_SLOW = 0x00u,
+  CTRL_MODE_FAST = 0x01u,
+  CTRL_MODE_ACK  = 0x07u
  };
  
 struct PrintField_CTRL_MODE
@@ -154,9 +154,9 @@ struct PrintField_CTRL_MODE
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"SLOW"); break;
-       case 0x01 : Putobj(out,"FAST"); break;
-       case 0x07 : Putobj(out,"ACK"); break;
+       case 0x00u : Putobj(out,"SLOW"); break;
+       case 0x01u : Putobj(out,"FAST"); break;
+       case 0x07u : Putobj(out,"ACK"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -209,12 +209,12 @@ struct Type_CTRL
 
   Type get_COUNT() const
    {
-    return (value>>2)&0xF;
+    return (value>>2)&0xFu;
    }
  
   Type_CTRL & set_COUNT(Type field)
    {
-    value=((field&0xF)<<2)|(value&0xFFFFFFC3);
+    value=((field&0xFu)<<2)|(value&0xFFFFFFC3u);
 
     return *this;
    }
@@ -222,12 +222,12 @@ struct Type_CTRL
 
   Field_CTRL_MODE get_MODE() const
    {
-    return Field_CTRL_MODE((value>>16)&0x7);
+    return Field_CTRL_MODE((value>>16)&0x7u);
    }
  
   Type_CTRL & set_MODE(Field_CTRL_MODE field)
    {
-    value=((Type(field)&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((Type(field)&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -304,8 +304,8 @@ struct Type_CTRL
 
 enum Bits_STAT : uint16
  {
-  STAT_RUN  = 0x0001,
-  STAT_STOP = 0x0002
+  STAT_RUN  = 0x0001u,
+  STAT_STOP = 0x0002u
  };
  
 inline Bits_STAT operator | (Bits_STAT a,Bits_STAT b)
@@ -313,9 +313,9 @@ inline Bits_STAT operator | (Bits_STAT a,Bits_STAT b)
  
 enum Field_STAT_MODE : uint16
  {
-  STAT_MODE_SLOW = 0x00,
-  STAT_MODE_FAST = 0x01,
-  STAT_MODE_ACK  = 0x04
+  STAT_MODE_SLOW = 0x00u,
+  STAT_MODE_FAST = 0x01u,
+  STAT_MODE_ACK  = 0x04u
  };
  
 struct PrintField_STAT_MODE
@@ -329,9 +329,9 @@ struct PrintField_STAT_MODE
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"SLOW"); break;
-       case 0x01 : Putobj(out,"FAST"); break;
-       case 0x04 : Putobj(out,"ACK"); break;
+       case 0x00u : Putobj(out,"SLOW"); break;
+       case 0x01u : Putobj(out,"FAST"); break;
+       case 0x04u : Putobj(out,"ACK"); break;
 
        default: Putobj(out,uint16(field));
       }
@@ -384,12 +384,12 @@ struct Type_STAT
 
   Type get_COUNT() const
    {
-    return (value>>2)&0xF;
+    return (value>>2)&0xFu;
    }
  
   Type_STAT & set_COUNT(Type field)
    {
-    value=((field&0xF)<<2)|(value&0xFFFFFFC3);
+    value=((field&0xFu)<<2)|(value&0xFFFFFFC3u);
 
     return *this;
    }
@@ -397,12 +397,12 @@ struct Type_STAT
 
   Field_STAT_MODE get_MODE() const
    {
-    return Field_STAT_MODE((value>>10)&0x7);
+    return Field_STAT_MODE((value>>10)&0x7u);
    }
  
   Type_STAT & set_MODE(Field_STAT_MODE field)
    {
-    value=((Type(field)&0x7)<<10)|(value&0xFFFFE3FF);
+    value=((Type(field)&0x7u)<<10)|(value&0xFFFFE3FFu);
 
     return *this;
    }
@@ -512,7 +512,7 @@ struct Test
 
   //--- ISR
 
-  Type_ISR get_ISR() { return Type_ISR(rw.template get<uint8>(0xA)); }
+  Type_ISR get_ISR() { return Type_ISR(rw.template get<uint8>(0xAu)); }
  
   static Type_ISR null_ISR() { return Type_ISR(0); }
  
@@ -520,25 +520,25 @@ struct Test
  
   //--- ICR
 
-  void set_ICR(Type_ISR value) { rw.set(0x100,value.value); }
+  void set_ICR(Type_ISR value) { rw.set(0x100u,value.value); }
  
-  Setter<Type_ISR> to_ICR() { return Setter<Type_ISR>(rw,0x100); }
+  Setter<Type_ISR> to_ICR() { return Setter<Type_ISR>(rw,0x100u); }
  
   //--- IMR
 
-  Type_ISR get_IMR() { return Type_ISR(rw.template get<uint8>(0x101)); }
+  Type_ISR get_IMR() { return Type_ISR(rw.template get<uint8>(0x101u)); }
  
-  void set_IMR(Type_ISR value) { rw.set(0x101,value.value); }
+  void set_IMR(Type_ISR value) { rw.set(0x101u,value.value); }
  
-  Setter<Type_ISR> to_IMR() { return Setter<Type_ISR>(rw,0x101); }
+  Setter<Type_ISR> to_IMR() { return Setter<Type_ISR>(rw,0x101u); }
  
   //--- CTRL
 
-  Type_CTRL get_CTRL(AddressType ind) { return Type_CTRL(rw.template get<uint32>(0x102 +ind*4)); }
+  Type_CTRL get_CTRL(AddressType ind) { return Type_CTRL(rw.template get<uint32>(0x102u + ind*4u)); }
  
-  void set_CTRL(AddressType ind,Type_CTRL value) { rw.set(0x102 +ind*4,value.value); }
+  void set_CTRL(AddressType ind,Type_CTRL value) { rw.set(0x102u + ind*4u,value.value); }
  
-  Setter<Type_CTRL> to_CTRL(AddressType ind) { return Setter<Type_CTRL>(rw,0x102 +ind*4); }
+  Setter<Type_CTRL> to_CTRL(AddressType ind) { return Setter<Type_CTRL>(rw,0x102u + ind*4u); }
  
   static Type_CTRL null_CTRL() { return Type_CTRL(0); }
  
@@ -546,7 +546,7 @@ struct Test
  
   //--- STAT
 
-  Type_STAT get_STAT() { return Type_STAT(rw.template get<uint16>(0x12A)); }
+  Type_STAT get_STAT() { return Type_STAT(rw.template get<uint16>(0x12Au)); }
  
   static Type_STAT null_STAT() { return Type_STAT(0); }
  
@@ -554,41 +554,41 @@ struct Test
  
   //--- SCRAP
 
-  Type_SCRAP get_SCRAP() { return Type_SCRAP(rw.template get<uint16>(0x12C)); }
+  Type_SCRAP get_SCRAP() { return Type_SCRAP(rw.template get<uint16>(0x12Cu)); }
  
-  void set_SCRAP(Type_SCRAP value) { rw.set(0x12C,value); }
+  void set_SCRAP(Type_SCRAP value) { rw.set(0x12Cu,value); }
  
-  void set_SCRAP_null() { rw.set(0x12C,Type_SCRAP(0)); }
+  void set_SCRAP_null() { rw.set(0x12Cu,Type_SCRAP(0)); }
  
-  void set_SCRAP_ones() { rw.set(0x12C,Type_SCRAP(-1)); }
+  void set_SCRAP_ones() { rw.set(0x12Cu,Type_SCRAP(-1)); }
  
   //--- BSCRAP
 
-  Type_SCRAP get_BSCRAP(AddressType ind) { return Type_SCRAP(rw.template get<uint16>(0x12E +ind*2)); }
+  Type_SCRAP get_BSCRAP(AddressType ind) { return Type_SCRAP(rw.template get<uint16>(0x12Eu + ind*2u)); }
  
-  void set_BSCRAP(AddressType ind,Type_SCRAP value) { rw.set(0x12E +ind*2,value); }
+  void set_BSCRAP(AddressType ind,Type_SCRAP value) { rw.set(0x12Eu + ind*2u,value); }
  
-  void set_BSCRAP_null(AddressType ind) { rw.set(0x12E +ind*2,Type_SCRAP(0)); }
+  void set_BSCRAP_null(AddressType ind) { rw.set(0x12Eu + ind*2u,Type_SCRAP(0)); }
  
-  void set_BSCRAP_ones(AddressType ind) { rw.set(0x12E +ind*2,Type_SCRAP(-1)); }
+  void set_BSCRAP_ones(AddressType ind) { rw.set(0x12Eu + ind*2u,Type_SCRAP(-1)); }
  
   //--- BIMP
 
-  Type_ISR get_BIMP(AddressType ind) { return Type_ISR(rw.template get<uint8>(0x142 +ind*1)); }
+  Type_ISR get_BIMP(AddressType ind) { return Type_ISR(rw.template get<uint8>(0x142u + ind*1u)); }
  
-  void set_BIMP(AddressType ind,Type_ISR value) { rw.set(0x142 +ind*1,value.value); }
+  void set_BIMP(AddressType ind,Type_ISR value) { rw.set(0x142u + ind*1u,value.value); }
  
-  Setter<Type_ISR> to_BIMP(AddressType ind) { return Setter<Type_ISR>(rw,0x142 +ind*1); }
+  Setter<Type_ISR> to_BIMP(AddressType ind) { return Setter<Type_ISR>(rw,0x142u + ind*1u); }
  
   //--- PTR
 
-  Type_PTR get_PTR(AddressType ind) { return Type_PTR(rw.template get<uint32>(0x14C +ind*4)); }
+  Type_PTR get_PTR(AddressType ind) { return Type_PTR(rw.template get<uint32>(0x14Cu + ind*4u)); }
  
-  void set_PTR(AddressType ind,Type_PTR value) { rw.set(0x14C +ind*4,value); }
+  void set_PTR(AddressType ind,Type_PTR value) { rw.set(0x14Cu + ind*4u,value); }
  
-  void set_PTR_null(AddressType ind) { rw.set(0x14C +ind*4,Type_PTR(0)); }
+  void set_PTR_null(AddressType ind) { rw.set(0x14Cu + ind*4u,Type_PTR(0)); }
  
-  void set_PTR_ones(AddressType ind) { rw.set(0x14C +ind*4,Type_PTR(-1)); }
+  void set_PTR_ones(AddressType ind) { rw.set(0x14Cu + ind*4u,Type_PTR(-1)); }
  
   //--- TEMP
 

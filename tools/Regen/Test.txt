@@ -24,7 +24,7 @@ reg STAT : 16
   RUN : 0
   STOP : 1
   COUNT : 2 + 4
-  MODE : 6 + 3
+  MODE : 10 + 3
    {
     SLOW = 0
     FAST = 1

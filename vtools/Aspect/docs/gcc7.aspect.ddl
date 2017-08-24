@@ -2661,22 +2661,22 @@ Dir Dir40=
 Dir Dir41=
   {
    'Regen',
-   Red,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'Generate.cpp' , Red },
+    { 'Generate.cpp' , Green },
     { 'HashMap.cpp' , Green },
     { 'main.cpp' , Green },
-    { 'Parser.cpp' , Red },
+    { 'Parser.cpp' , Green },
     { 'test.cpp' , Green },
     { 'Token.cpp' , Green },
     { 'Test.desc' , Green },
     { 'Makefile.files' , Ignore },
-    { 'Generate.h' , Red },
+    { 'Generate.h' , Green },
     { 'HashMap.h' , Green },
-    { 'Parser.h' , Red },
+    { 'Parser.h' , Green },
     { 'Token.h' , Green },
     { 'Test.gen.h' , Ignore },
     { 'Test.txt' , Ignore }

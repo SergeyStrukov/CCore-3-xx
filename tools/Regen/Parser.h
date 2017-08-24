@@ -509,8 +509,7 @@ class Parser : NoCopy
 
       using PrintOptType = StrPrintOpt ;
 
-      template <class P>
-      void print(P &out,PrintOptType opt) const
+      void print(PrinterType &out,PrintOptType opt) const
        {
         Putobj(out,BindOpt(opt,str));
        }

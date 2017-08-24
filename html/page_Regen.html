@@ -177,8 +177,8 @@ register structure.
 
 enum Bits_CTRL : uint32
  {
-  CTRL_RUN  = 0x00000001,
-  CTRL_STOP = 0x00000002
+  CTRL_RUN  = 0x00000001u,
+  CTRL_STOP = 0x00000002u
  };
  
 inline Bits_CTRL operator | (Bits_CTRL a,Bits_CTRL b)
@@ -186,9 +186,9 @@ inline Bits_CTRL operator | (Bits_CTRL a,Bits_CTRL b)
  
 enum Field_CTRL_MODE : uint32
  {
-  CTRL_MODE_SLOW = 0x00,
-  CTRL_MODE_FAST = 0x01,
-  CTRL_MODE_ACK  = 0x07
+  CTRL_MODE_SLOW = 0x00u,
+  CTRL_MODE_FAST = 0x01u,
+  CTRL_MODE_ACK  = 0x07u
  };
 
 struct PrintField_CTRL_MODE
@@ -202,9 +202,9 @@ struct PrintField_CTRL_MODE
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"SLOW"); break;
-       case 0x01 : Putobj(out,"FAST"); break;
-       case 0x07 : Putobj(out,"ACK"); break;
+       case 0x00u : Putobj(out,"SLOW"); break;
+       case 0x01u : Putobj(out,"FAST"); break;
+       case 0x07u : Putobj(out,"ACK"); break;
 
        default: Putobj(out,uint32(field));
       }
