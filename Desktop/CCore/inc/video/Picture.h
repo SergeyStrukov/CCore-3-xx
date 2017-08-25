@@ -1,7 +1,7 @@
 /* Picture.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -105,11 +105,9 @@ class Picture
 
 class DefaultAppIcon : public Picture
  {
-   class Base;
-
   public:
 
-   DefaultAppIcon();
+   DefaultAppIcon() noexcept;
  };
 
 /* SetAppIcon() */

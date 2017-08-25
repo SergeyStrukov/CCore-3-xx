@@ -1,7 +1,7 @@
 /* StrKey.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Simple Mini
 //
@@ -17,12 +17,15 @@
 #define CCore_inc_StrKey_h
 
 #include <CCore/inc/Cmp.h>
+#include <CCore/inc/String.h>
 
 namespace CCore {
 
 /* classes */
 
 struct StrKey;
+
+struct StringKey;
 
 /* struct StrKey */
 
@@ -39,7 +42,7 @@ struct StrKey : CmpComparable<StrKey>
 
   // constructors
 
-  StrKey() noexcept : hash(0) {}
+  StrKey() noexcept { hash=Hash(Empty); }
 
   explicit StrKey(StrLen str_) : hash(Hash(str_)),str(str_) {}
 
@@ -47,11 +50,39 @@ struct StrKey : CmpComparable<StrKey>
 
   CmpResult objCmp(const StrKey &obj) const
    {
-    if( CmpResult result=LessCmp(hash,obj.hash) ) return result;
+    if( CmpResult ret=LessCmp(hash,obj.hash) ) return ret;
 
     return StrCmp(str,obj.str);
    }
  };
+
+/* struct StringKey */
+
+struct StringKey : CmpComparable<StringKey>
+ {
+  StrKey::HashType hash;
+  String str;
+
+  StringKey() noexcept { hash=StrKey::Hash(Empty); }
+
+  explicit StringKey(StrKey obj) : hash(obj.hash),str(obj.str) {}
+
+  // cmp objects
+
+  CmpResult objCmp(const StringKey &obj) const
+   {
+    if( CmpResult ret=LessCmp(hash,obj.hash) ) return ret;
+
+    return StrCmpOf(str,obj.str);
+   }
+ };
+
+inline CmpResult Cmp(StrKey key,const StringKey &obj)
+ {
+  if( CmpResult ret=LessCmp(key.hash,obj.hash) ) return ret;
+
+  return StrCmp(key.str,Range(obj.str));
+ }
 
 } // namespace CCore
 

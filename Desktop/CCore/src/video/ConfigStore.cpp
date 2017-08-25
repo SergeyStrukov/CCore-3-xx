@@ -1,7 +1,7 @@
 /* ConfigStore.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -113,7 +113,8 @@ StrLen ConfigItem::getDDLTypeName() const
 
 ConfigItem & ConfigMap::find_or_add(StrLen name)
  {
-  auto result=map.find_or_add(name);
+  StrKey key(name);
+  auto result=map.find_or_add(key);
 
   return *result.obj;
  }
@@ -389,7 +390,8 @@ struct ConfigMap::AddItem
 
 void ConfigMap::add(StrLen name,const ConfigType &value)
  {
-  auto result=map.find_or_add(name);
+  StrKey key(name);
+  auto result=map.find_or_add(key);
 
   if( !result.new_flag )
     {
@@ -436,9 +438,9 @@ void ConfigMap::saveDDL(StrLen file_name) const
 
   Printf(out,"//include <ConfigTypes.ddl>\n\n");
 
-  map.applyIncr( [&out] (const Key &key,const ConfigItem &item)
+  map.applyIncr( [&out] (const StringKey &key,const ConfigItem &item)
                         {
-                         Printf(out,"#; #; = #; ;\n",item.getDDLTypeName(),key.name,item);
+                         Printf(out,"#; #; = #; ;\n",item.getDDLTypeName(),key.str,item);
 
                         } );
  }
@@ -448,7 +450,7 @@ void ConfigMap::loadDDL(StrLen file_name)
   modified=false;
   map.erase();
 
-  char temp[512];
+  SimpleArray<char> temp(4_KByte);
   PrintBuf eout(Range(temp));
   DDL::FileEngine<FileName,FileToMem> engine(eout);
 

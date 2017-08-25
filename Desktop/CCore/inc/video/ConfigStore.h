@@ -1,7 +1,7 @@
 /* ConfigStore.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -24,6 +24,7 @@
 
 #include <CCore/inc/TypeSwitch.h>
 #include <CCore/inc/CompactMap.h>
+#include <CCore/inc/StrKey.h>
 
 namespace CCore {
 namespace Video {
@@ -68,7 +69,7 @@ concept bool ConfigType = OneOfTypes<T,unsigned,Coord,MCoord,VColor,Clr,Point,De
 
 class ConfigItem : NoCopy
  {
-   static const ulen Len = Meta::CaseListMaxSizeof<ConfigTypeList> ;
+   static constexpr ulen Len = Meta::CaseListMaxSizeof<ConfigTypeList> ;
 
    InitStorage<Len> storage;
    int id = 0 ;
@@ -112,7 +113,7 @@ class ConfigItem : NoCopy
 
      void print(const FontParam &obj)
       {
-       Printf(out,"{ Font###; , #; , ",obj.engine_type,DDLString(obj.file_name));
+       Printf(out,"{ Font###; , #; , ",obj.engine_type,DDLPrintableString(obj.file_name));
 
        switch( obj.size_type )
          {
@@ -212,26 +213,9 @@ class ConfigItem : NoCopy
 
 class ConfigMap : NoCopy
  {
-   struct Key : CmpComparable<Key>
-    {
-     String name;
-
-     Key() noexcept {}
-
-     explicit Key(StrLen name_) : name(name_) {}
-
-     // cmp objects
-
-     CmpResult objCmp(const Key &obj) const { return StrCmp(Range(name),Range(obj.name)); }
-    };
-
-   friend CmpResult Cmp(StrLen name,const Key &obj) { return StrCmp(name,Range(obj.name)); }
-
-  private:
-
    bool modified = false ;
 
-   CompactRBTreeMap<Key,ConfigItem,StrLen> map;
+   CompactRBTreeMap<StringKey,ConfigItem,StrKey> map;
 
   private:
 

@@ -1,7 +1,7 @@
 /* ColorField.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -26,6 +26,8 @@ namespace Video {
 
 inline Clr Linear(Clr a,Clr b,uint16 c,uint16 d)
  {
+  if( c>=d ) return b;
+
   if( a<b ) return Clr( a+(uint32(b-a)*c)/d );
 
   if( a==b ) return a;

@@ -1,7 +1,7 @@
 /* UserAction.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ class UserAction;
 
 struct UserInput;
 
-template <FuncArgType<UserAction> Func> struct UserInputFuncBind;
+template <FuncArgType<UserAction> Func> struct UserInputFunc;
 
 /* class UserAction */
 
@@ -854,22 +854,17 @@ struct UserInput
 /* struct UserInputFuncBind<Func> */
 
 template <FuncArgType<UserAction> Func>
-struct UserInputFuncBind : UserInput
+struct UserInputFunc : UserInput
  {
   Func func;
 
-  explicit UserInputFuncBind(const Func &func_) : func(func_) {}
+  explicit UserInputFunc(const Func &func_) : func(func_) {}
 
   virtual void react(UserAction action) final
    {
     func(action);
    }
  };
-
-/* UserInputFunc() */
-
-template <FuncArgType<UserAction> Func>
-UserInputFuncBind<Func> UserInputFunc(const Func &func) { return UserInputFuncBind<Func>(func); }
 
 } // namespace Video
 } // namespace CCore

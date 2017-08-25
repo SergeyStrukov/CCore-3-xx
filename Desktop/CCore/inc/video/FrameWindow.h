@@ -1,7 +1,7 @@
 /* FrameWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ struct Desktop
 
   virtual Pane getMaxPane()=0;
 
-  static const unsigned DefaultLim = 100 ;
+  static constexpr unsigned DefaultLim = 100 ;
 
   virtual bool pump(unsigned lim=DefaultLim)=0;
 
@@ -333,7 +333,7 @@ class FrameWindow : public NoCopyBase<MemBase,UserInput>
 
    // signals
 
-   Signal<Point> moved;
+   Signal<Point> moved; // asserted by a derived frame class
 
    Signal<> destroyed;
  };

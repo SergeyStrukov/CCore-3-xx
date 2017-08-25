@@ -1,7 +1,7 @@
 /* Picture.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -21,6 +21,8 @@ namespace CCore {
 namespace Video {
 
 namespace Private_Picture {
+
+/* class EmptyPicture */
 
 class EmptyPicture : public PictureBase
  {
@@ -43,48 +45,23 @@ class EmptyPicture : public PictureBase
 
 EmptyPicture Object CCORE_INITPRI_3 ;
 
-} // namespace Private_Picture
+/* class DefPicture */
 
-using namespace Private_Picture;
-
-/* class Picture */
-
-Picture::Picture() noexcept
- : ptr(&Object)
- {
-  ptr->incRef();
- }
-
-/* class DefaultAppIcon */
-
-class DefaultAppIcon::Base : public PictureBase
+class DefPicture : public PictureBase
  {
   public:
 
-   Base()
-    {
-    }
+   DefPicture() {}
 
-   virtual ~Base()
-    {
-    }
+   virtual ~DefPicture() {}
 
    // AbstractPicture
 
-   virtual ulen getCount() const
-    {
-     return 1;
-    }
+   virtual ulen getCount() const { return 1; }
 
-   virtual Point getSize() const
-    {
-     return {256,256};
-    }
+   virtual Point getSize() const { return {256,256}; }
 
-   virtual VColor defaultGround() const
-    {
-     return White;
-    }
+   virtual VColor defaultGround() const { return White; }
 
    virtual void draw(ulen index,DrawBuf buf,Coord dx,Coord dy) const
     {
@@ -137,7 +114,27 @@ class DefaultAppIcon::Base : public PictureBase
     }
  };
 
-DefaultAppIcon::DefaultAppIcon() : Picture(new Base()) {}
+DefPicture DefObject CCORE_INITPRI_3 ;
+
+} // namespace Private_Picture
+
+using namespace Private_Picture;
+
+/* class Picture */
+
+Picture::Picture() noexcept
+ : ptr(&Object)
+ {
+  ptr->incRef();
+ }
+
+/* class DefaultAppIcon */
+
+DefaultAppIcon::DefaultAppIcon() noexcept
+ : Picture(&DefObject)
+ {
+  DefObject.incRef();
+ }
 
 } // namespace Video
 } // namespace CCore

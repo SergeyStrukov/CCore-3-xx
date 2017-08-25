@@ -63,6 +63,34 @@ struct <span class="Att">StrKey</span> : CmpComparable&lt;StrKey&gt;
 
 </pre>
 
+<p>
+<b>StringKey</b> is a <b>String</b> variant of the <b>StrKey</b>. It holds not a <b>StrLen</b>, but a <b>String</b> value.
+</p>
+
+<pre>
+
+struct <span class="Att">StringKey</span> : CmpComparable&lt;StringKey&gt;
+ {
+  StrKey::HashType hash;
+  String str;
+
+  StringKey() noexcept;
+
+  explicit StringKey(StrKey obj);
+
+  // cmp objects
+
+  CmpResult objCmp(const StringKey &amp;obj) const;
+ };
+
+CmpResult <span class="Att">Cmp</span>(StrKey key,const StringKey &amp;obj);
+
+</pre>
+
+<p>
+You may use both these classes to build a string keyed map.
+</p>
+
 </body>
 
 </html>
