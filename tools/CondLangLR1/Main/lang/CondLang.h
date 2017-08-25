@@ -39,8 +39,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #;",index,name);
      }
@@ -54,8 +53,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #;",index,name);
      }
@@ -75,8 +73,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #;",index,name);
 
@@ -101,7 +98,7 @@ struct CondLangBase : NoCopy
 
     Element() noexcept {}
 
-    template <class AtomFuncInit,class SyntFuncInit>
+    template <FuncInitArgType<const AtomDesc *> AtomFuncInit,FuncInitArgType<const SyntDesc *> SyntFuncInit>
     void apply(AtomFuncInit atom_func_init,SyntFuncInit synt_func_init) const
      {
       struct Func
@@ -129,22 +126,19 @@ struct CondLangBase : NoCopy
       ptr.apply( Func(atom_func_init,synt_func_init) );
      }
 
-    template <class FuncInit>
-    void applyForAtom(FuncInit func_init) const
+    void applyForAtom(FuncInitArgType<const AtomDesc *> func_init) const
      {
       ptr.applyFor<AtomDesc>(func_init);
      }
 
-    template <class FuncInit>
-    void applyForSynt(FuncInit func_init) const
+    void applyForSynt(FuncInitArgType<const SyntDesc *> func_init) const
      {
       ptr.applyFor<SyntDesc>(func_init);
      }
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       apply( [&] (const AtomDesc *atom) { Printf(out,"Atom(#;,#;)",atom->index,atom->name); } ,
              [&] (const SyntDesc *synt) { Printf(out,"Synt(#;,#;)",synt->index,synt->name); } );
@@ -161,8 +155,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"@#;",index);
      }
@@ -176,8 +169,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;(#;)",kind->name,kind->index);
      }
@@ -206,8 +198,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"( #; & #; )",a,b);
      }
@@ -222,8 +213,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"( #; | #; )",a,b);
      }
@@ -237,8 +227,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"! #;",a);
      }
@@ -253,8 +242,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; == #;",a,b);
      }
@@ -269,8 +257,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; != #;",a,b);
      }
@@ -285,8 +272,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; > #;",a,b);
      }
@@ -301,8 +287,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; >= #;",a,b);
      }
@@ -317,8 +302,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; < #;",a,b);
      }
@@ -333,8 +317,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#; <= #;",a,b);
      }
@@ -356,8 +339,7 @@ struct CondLangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       if( kind )
         Printf(out,"#;) #;::#; -> #;.#;",index,ret->name,name,ret->name,kind->name);
@@ -450,8 +432,7 @@ class CondLang : public CondLangBase
 
    // print object
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      Printf(out,"#;\n\n",Title("Atoms"));
 

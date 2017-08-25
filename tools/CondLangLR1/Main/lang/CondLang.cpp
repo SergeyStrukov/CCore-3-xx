@@ -58,7 +58,7 @@ class CondLang::Builder : NoCopy
         return 0;
        }
 
-      template <class FuncInit>
+      template <FuncInitArgType<T &> FuncInit>
       void apply(FuncInit func_init) const
        {
         FunctorTypeOf<FuncInit> func(func_init);
@@ -73,7 +73,7 @@ class CondLang::Builder : NoCopy
           }
        }
 
-      template <class FuncInit,class EndFuncInit>
+      template <FuncInitArgType<T &> FuncInit,FuncInitArgType<T &> EndFuncInit>
       void apply(FuncInit func_init,EndFuncInit end_func_init) const
        {
         FunctorTypeOf<FuncInit> func(func_init);
@@ -111,8 +111,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Putobj(out,str);
       }
@@ -151,8 +150,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"( #; & #; )",a,b);
       }
@@ -167,8 +165,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"( #; | #; )",a,b);
       }
@@ -182,8 +179,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"! #;",a);
       }
@@ -198,8 +194,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; == #;",a,b);
       }
@@ -214,8 +209,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; != #;",a,b);
       }
@@ -230,8 +224,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; > #;",a,b);
       }
@@ -246,8 +239,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; >= #;",a,b);
       }
@@ -262,8 +254,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; < #;",a,b);
       }
@@ -278,8 +269,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"#; <= #;",a,b);
       }
@@ -297,8 +287,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Putobj(out,str);
       }
@@ -318,8 +307,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Putobj(out,str);
       }
@@ -353,8 +341,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Putobj(out,str);
 
@@ -372,7 +359,7 @@ class CondLang::Builder : NoCopy
       }
     };
 
-   struct BuildRule : NoCopy , PosStr
+   struct BuildRule : NoCopyBase<PosStr>
     {
      SLink<BuildRule> link;
 
@@ -386,8 +373,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"rule #; ",str);
 
@@ -422,8 +408,7 @@ class CondLang::Builder : NoCopy
 
      // print object
 
-     template <class P>
-     void print(P &out) const
+     void print(PrinterType &out) const
       {
        Printf(out,"synt #;",str);
 
@@ -593,8 +578,7 @@ class CondLang::Builder : NoCopy
 
    static bool IsExpChar(char ch) { return ch=='\\' || ch=='"' ; }
 
-   template <class R>
-   static ulen ExpCharCount(R r)
+   static ulen ExpCharCount(CursorOverType<char> r)
     {
      ulen ret=0;
 
@@ -630,8 +614,7 @@ class CondLang::Builder : NoCopy
           put(ch);
        }
 
-      template <class R>
-      void transform(R r)
+      void transform(CursorOverType<char> r)
        {
         for(; +r ;++r) transform(*r);
        }
@@ -884,8 +867,7 @@ class CondLang::Builder : NoCopy
 
    ~Builder();
 
-   template <class P>
-   void print(P &out) const
+   void print(PrinterType &out) const
     {
      atom_list.apply( [&] (const BuildAtom &atom) { Printf(out,"#;\n",atom); } );
 

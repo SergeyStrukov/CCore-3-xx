@@ -159,8 +159,7 @@ struct TokenizerBase : NoCopy
 
   static ulen ScanShortComment(StrLen text); // >=2
 
-  template <class Pred>
-  static ulen ScanExtraChars(StrLen text,Pred pred) // >=1
+  static ulen ScanExtraChars(StrLen text,FuncType<bool,char> pred) // >=1
    {
     ulen len=text.len;
 
@@ -428,7 +427,7 @@ class CondParser : CondPaserBase
      PosStr postr;
     };
 
-   static const ulen Len = 100 ;
+   static constexpr ulen Len = 100 ;
 
    Node buf[Len];
    ulen len;

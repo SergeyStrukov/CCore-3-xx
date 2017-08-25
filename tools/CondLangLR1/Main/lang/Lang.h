@@ -20,7 +20,7 @@ namespace App {
 
 /* ApplyToDesc() */
 
-template <class R,class FuncInit>
+template <CursorType R,FuncInitArgType<Meta::PtrObjType<R> *> FuncInit>
 void ApplyToDesc(R range,FuncInit func_init)
  {
   FunctorTypeOf<FuncInit> func(func_init);
@@ -62,8 +62,7 @@ struct LangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #;",index,name);
      }
@@ -85,8 +84,7 @@ struct LangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #;",index,name);
 
@@ -108,8 +106,8 @@ struct LangBase : NoCopy
 
     Element(const SyntDesc *synt) : ptr(synt) {}
 
-    template <class T>
-    Element(const T &obj) requires ( Meta::IsSame<T,Synt> ) : ptr(obj.desc) {}
+    template <IsType<Synt> T>
+    Element(const T &obj) : ptr(obj.desc) {}
 
     // properties
 
@@ -119,8 +117,8 @@ struct LangBase : NoCopy
 
     // atoms and synts
 
-    template <class AtomFuncInit,class SyntFuncInit>
-    void apply(AtomFuncInit atom_func_init,SyntFuncInit synt_func_init) const // atom_func(Atom) synt_func(Synt)
+    template <FuncInitArgType<Atom> AtomFuncInit,FuncInitArgType<Synt> SyntFuncInit>
+    void apply(AtomFuncInit atom_func_init,SyntFuncInit synt_func_init) const
      {
       struct Func
        {
@@ -147,22 +145,19 @@ struct LangBase : NoCopy
       ptr.apply( Func(atom_func_init,synt_func_init) );
      }
 
-    template <class FuncInit>
-    void applyForAtom(FuncInit func_init) const // func(Atom)
+    void applyForAtom(FuncInitArgType<Atom> func_init) const
      {
       ptr.applyFor<AtomDesc>(func_init);
      }
 
-    template <class FuncInit>
-    void applyForSynt(FuncInit func_init) const // func(Synt)
+    void applyForSynt(FuncInitArgType<Synt> func_init) const
      {
       ptr.applyFor<SyntDesc>(func_init);
      }
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       apply( [&] (const AtomDesc *atom) { Putobj(out,atom->name); } ,
              [&] (const SyntDesc *synt) { Putobj(out,synt->name); } );
@@ -182,8 +177,7 @@ struct LangBase : NoCopy
 
     // print object
 
-    template <class P>
-    void print(P &out) const
+    void print(PrinterType &out) const
      {
       Printf(out,"#;) #; -> #;",index,name,ret->name);
      }
@@ -218,8 +212,7 @@ struct Atom : CmpComparable<Atom>
 
   // print object
 
-  template <class P>
-  void print(P &out) const
+  void print(PrinterType &out) const
    {
     if( !desc )
       Putobj(out,"(Null)");
@@ -250,12 +243,16 @@ struct Synt : CmpComparable<Synt>
 
   ulen getIndex() const { return desc->index; }
 
+  ulen getMapIndex() const { return desc->map_index; }
+
+  ulen getKindIndex() const { return desc->kind_index; }
+
   bool isLang() const { return desc->is_lang; }
 
   // rules
 
-  template <class FuncInit>
-  void apply(FuncInit func_init) const // func(Rule)
+  template <FuncInitArgType<Rule> FuncInit>
+  void apply(FuncInit func_init) const
    {
     FunctorTypeOf<FuncInit> func(func_init);
 
@@ -299,16 +296,16 @@ struct Rule : CmpComparable<Rule>
 
   PtrLen<const Element> getArgs() const { return desc->args; }
 
-  template <class FuncInit>
-  void apply(FuncInit func_init) const // func(Element)
+  template <FuncInitArgType<Element> FuncInit>
+  void apply(FuncInit func_init) const
    {
     FunctorTypeOf<FuncInit> func(func_init);
 
     for(auto p=desc->args; +p ;++p) func(*p);
    }
 
-  template <class AtomFuncInit,class SyntFuncInit>
-  void apply(AtomFuncInit atom_func_init,SyntFuncInit synt_func_init) const // atom_func(Atom),synt_func(Synt)
+  template <FuncInitArgType<Atom> AtomFuncInit,FuncInitArgType<Synt> SyntFuncInit>
+  void apply(AtomFuncInit atom_func_init,SyntFuncInit synt_func_init) const
    {
     for(auto p=desc->args; +p ; ++p) p->apply(atom_func_init,synt_func_init);
    }
@@ -390,26 +387,22 @@ class Lang : public LangBase
 
    // apply
 
-   template <class FuncInit>
-   void applyForAtoms(FuncInit func_init) const // func(Atom)
+   void applyForAtoms(FuncInitArgType<Atom> func_init) const
     {
      ApplyToDesc(getAtoms(),func_init);
     }
 
-   template <class FuncInit>
-   void applyForAtoms(ulen atom_count,FuncInit func_init) const // func(Atom)
+   void applyForAtoms(ulen atom_count,FuncInitArgType<Atom> func_init) const
     {
      ApplyToDesc(getAtoms().prefix(atom_count),func_init);
     }
 
-   template <class FuncInit>
-   void applyForSynts(FuncInit func_init) const // func(Synt)
+   void applyForSynts(FuncInitArgType<Synt> func_init) const
     {
      ApplyToDesc(getSynts(),func_init);
     }
 
-   template <class FuncInit>
-   void applyForRules(FuncInit func_init) const // func(Rule)
+   void applyForRules(FuncInitArgType<Rule> func_init) const
     {
      ApplyToDesc(getRules(),func_init);
     }
@@ -418,8 +411,7 @@ class Lang : public LangBase
 
    struct PrintOptType;
 
-   template <class P>
-   void print(P &out,PrintOptType opt) const;
+   void print(PrinterType &out,PrintOptType opt) const;
  };
 
 /* class BottomLang */
@@ -562,14 +554,12 @@ class ExtLang : public Lang
 
    // apply
 
-   template <class FuncInit>
-   void applyForOriginalAtoms(FuncInit func_init) const // func(Atom)
+   void applyForOriginalAtoms(FuncInitArgType<Atom> func_init) const
     {
      ApplyToDesc(getOriginalAtoms(),func_init);
     }
 
-   template <class FuncInit>
-   void applyForRuleAtoms(FuncInit func_init) const // func(Atom)
+   void applyForRuleAtoms(FuncInitArgType<Atom> func_init) const
     {
      ApplyToDesc(getRuleAtoms(),func_init);
     }
@@ -624,8 +614,7 @@ struct Lang::PrintOptType
   PrintOptType(const LangMap &map_) : map(map_) {}
  };
 
-template <class P>
-void Lang::print(P &out,PrintOptType opt) const
+void Lang::print(PrinterType &out,PrintOptType opt) const
  {
   Printf(out,"#;\n\n",Title("Atoms"));
 

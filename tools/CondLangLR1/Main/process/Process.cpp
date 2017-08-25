@@ -529,13 +529,13 @@ void Process(StrLen file_name)
         ListPrint arg_out(&rule_out);
 
         for(auto &element : rule.args )
-          element.apply( [&] (const LangBase::AtomDesc *desc)
+          element.apply( [&] (Atom atom)
                              {
-                              Printf(arg_out,"lang.atoms+#;#;",desc->index,EndItem());
+                              Printf(arg_out,"lang.atoms+#;#;",atom.getIndex(),EndItem());
                              } ,
-                         [&] (const LangBase::SyntDesc *desc)
+                         [&] (Synt synt)
                              {
-                              Printf(arg_out,"lang.synts[#;].kinds+#;#;",desc->map_index,desc->kind_index,EndItem());
+                              Printf(arg_out,"lang.synts[#;].kinds+#;#;",synt.getMapIndex(),synt.getKindIndex(),EndItem());
                              }
                        );
 

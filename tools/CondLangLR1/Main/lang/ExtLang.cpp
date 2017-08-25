@@ -42,7 +42,7 @@ void ExtLang::build(const Lang &lang,ulen map_atom_count)
    for(auto &rule : lang.getRules() )
      {
       atoms->index=index++;
-      atoms->name=pool.cat(StrLen("@",1),rule.ret->name,StrLen("::",2),rule.name);
+      atoms->name=pool.cat("@"_c,rule.ret->name,"::"_c,rule.name);
 
       atoms->map_index=rule.map_index+map_atom_count;
 
@@ -95,8 +95,8 @@ void ExtLang::build(const Lang &lang,ulen map_atom_count)
 
       for(auto element : rule.args )
         {
-         element.apply( [=] (const AtomDesc *atom) { args->ptr=&(atoms[atom->index]); } ,
-                        [=] (const SyntDesc *synt) { args->ptr=&(synts[synt->index]); } );
+         element.apply( [=] (Atom atom) { args->ptr=&(atoms[atom.getIndex()]); } ,
+                        [=] (Synt synt) { args->ptr=&(synts[synt.getIndex()]); } );
 
          ++args;
         }

@@ -273,7 +273,7 @@ TopLang::TopLang(const CondLang &clang)
            synts->rules.len=makeRules(collector,*range,kind.index);
 
            synts->index=index++;
-           synts->name=pool.cat(name,StrLen(".",1),kind.name);
+           synts->name=pool.cat(name,"."_c,kind.name);
 
            synts->is_lang=is_lang;
 
