@@ -182,7 +182,7 @@ struct MapTypeFunc
   template <class S>
   void op()
    {
-    ret=std::is_same<T,typename MapBaseType<S>::Ret>::value;
+    ret=IsType<T,typename MapBaseType<S>::Ret>;
    }
 
   void operator () (TypeNode::Base *type_ptr)

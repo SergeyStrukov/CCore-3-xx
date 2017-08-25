@@ -739,7 +739,7 @@ Dir Dir63=
     { 'DDLEngine.h' , Green },
     { 'DDLErrorMsg.h' , Green },
     { 'DDLEval.h' , Yellow },
-    { 'DDLMap.h' , Yellow },
+    { 'DDLMap.h' , Green },
     { 'DDLMapBase.h' , Green },
     { 'DDLMapTools.h' , Green },
     { 'DDLMapTypes.h' , Green },
@@ -748,10 +748,10 @@ Dir Dir63=
     { 'DDLSemantic.h' , Yellow },
     { 'DDLToken.h' , Green },
     { 'DDLTools.h' , Green },
-    { 'DDLTypedMap.h' , Yellow },
-    { 'DDLTypeDesc.h' , Yellow },
+    { 'DDLTypedMap.h' , Green },
+    { 'DDLTypeDesc.h' , Green },
     { 'DDLTypes.h' , Green },
-    { 'DDLTypeSet.h' , Yellow },
+    { 'DDLTypeSet.h' , Green },
     { 'DDLValue.h' , Green }
    }
   };
@@ -929,7 +929,7 @@ Dir Dir73=
     { 'DDLEngine.cpp' , Green },
     { 'DDLErrorMsg.cpp' , Green },
     { 'DDLEval.cpp' , Yellow },
-    { 'DDLMap.cpp' , Yellow },
+    { 'DDLMap.cpp' , Green },
     { 'DDLMapBase.cpp' , Green },
     { 'DDLMapTools.cpp' , Green },
     { 'DDLMapTypes.cpp' , Green },
@@ -944,7 +944,7 @@ Dir Dir73=
     { 'DDLTypedMap.cpp' , Green },
     { 'DDLTypeDesc.cpp' , Green },
     { 'DDLTypes.cpp' , Green },
-    { 'DDLTypeSet.cpp' , Yellow },
+    { 'DDLTypeSet.cpp' , Green },
     { 'DDLValue.cpp' , Green }
    }
   };

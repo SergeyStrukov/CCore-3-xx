@@ -147,7 +147,7 @@ class FindNodeMap : NoCopy
      void setCrc();
 
      template <class ... TT>
-     explicit Rec(ulen ind_,TT ... tt) : ind(ind_),names({tt...}) { setCrc(); }
+     explicit Rec(ulen ind_,TT ... tt) : ind(ind_),names{tt...} { setCrc(); }
 
      // cmp objects
 
