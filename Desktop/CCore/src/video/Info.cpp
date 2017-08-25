@@ -1,7 +1,7 @@
 /* Info.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ Info::Info() noexcept
 
 /* class InfoFromString */
 
-InfoFromString::StringSet::StringSet(DefString str_)
+InfoFromString::StringSet::StringSet(const DefString &str_)
  : str(str_),
    list(DoReserve,100)
  {
@@ -100,7 +100,7 @@ StrLen InfoFromString::StringSet::getLine(ulen index) const
   return list.at(index);
  }
 
-InfoFromString::InfoFromString(DefString str)
+InfoFromString::InfoFromString(const DefString &str)
  : Info(new StringSet(str))
  {
  }

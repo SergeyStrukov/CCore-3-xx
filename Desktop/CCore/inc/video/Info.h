@@ -1,7 +1,7 @@
 /* Info.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ class InfoFromString : public Info
 
      public:
 
-      explicit StringSet(DefString str);
+      explicit StringSet(const DefString &str);
 
       virtual ~StringSet();
 
@@ -116,7 +116,7 @@ class InfoFromString : public Info
 
   public:
 
-   explicit InfoFromString(DefString str);
+   explicit InfoFromString(const DefString &str);
 
    ~InfoFromString();
  };
@@ -215,7 +215,7 @@ class ComboInfoBuilder : NoCopy
 
         auto temp=r;
 
-        for(; +r && r->type==ComboInfoText ;++r);
+        for(++r; +r && r->type==ComboInfoText ;++r);
 
         IncrSort(temp.prefix(r), [less] (ComboInfoItem a,ComboInfoItem b) { return less(a.text,b.text); } );
        }

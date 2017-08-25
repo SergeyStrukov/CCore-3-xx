@@ -1,7 +1,7 @@
 /* FrameBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ class RedrawSet;
 
 class RedrawSet : NoCopy
  {
-   static const ulen Len = 10 ;
+   static constexpr ulen Len = 10 ;
 
    Pane set[Len];
    ulen count = 0 ;
