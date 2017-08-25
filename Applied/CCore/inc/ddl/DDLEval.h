@@ -347,8 +347,8 @@ struct PrintValue
   PrintValue(EvalResult &result_,TypeNode *type_,const Value &value_,ulen off_=0)
    : result(result_),type(type_),value(value_),off(off_) {}
 
-  template <class T,PrinterType P>
-  void op(P &out,TypeNode::Base::Type type) const
+  template <class T>
+  void op(PrinterType &out,TypeNode::Base::Type type) const
    {
     Printf(out,"#;(#;) #;",RepeatChar(off,' '),type,value.get<T>());
    }
