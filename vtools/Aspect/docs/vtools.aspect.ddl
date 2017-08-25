@@ -13,7 +13,8 @@ Aspect Data=
     &Dir3,
     &Dir4,
     &Dir5,
-    &Dir6
+    &Dir6,
+    &Dir7
    },
    {
     { 'Makefile' , New }
@@ -26,15 +27,13 @@ Dir Dir0=
    'Aspect',
    New,
    {
-    &Dir7,
     &Dir8,
-    &Dir9
+    &Dir9,
+    &Dir10
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'Makefile.files' , New }
    }
   };
 
@@ -43,17 +42,15 @@ Dir Dir1=
    'ContourLab',
    New,
    {
-    &Dir10,
     &Dir11,
     &Dir12,
-    &Dir13
+    &Dir13,
+    &Dir14
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
     { 'ContourLab.exe' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'Makefile.files' , New }
    }
   };
 
@@ -62,14 +59,12 @@ Dir Dir2=
    'DDLDisplay',
    New,
    {
-    &Dir14,
-    &Dir15
+    &Dir15,
+    &Dir16
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'Makefile.files' , New }
    }
   };
 
@@ -78,7 +73,7 @@ Dir Dir3=
    'EventView',
    New,
    {
-    &Dir16
+    &Dir17
    },
    {
    }
@@ -86,55 +81,63 @@ Dir Dir3=
 
 Dir Dir4=
   {
-   'Sample',
+   'RandomId',
    New,
    {
-    &Dir17,
-    &Dir18
+    &Dir18,
+    &Dir19
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
-    { 'Sample.exe' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'Makefile.files' , New }
    }
   };
 
 Dir Dir5=
   {
-   'SubLab',
+   'Sample',
    New,
    {
-    &Dir19,
-    &Dir20
+    &Dir20,
+    &Dir21
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
-    { 'SubLab.exe' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'Sample.exe' , New },
+    { 'Makefile.files' , New }
    }
   };
 
 Dir Dir6=
   {
-   'UserPreference',
+   'SubLab',
    New,
    {
-    &Dir21,
-    &Dir22
+    &Dir22,
+    &Dir23
    },
    {
     { 'Makefile' , New },
-    { 'Makefile.cpp-files' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.s-files' , New }
+    { 'SubLab.exe' , New },
+    { 'Makefile.files' , New }
    }
   };
 
 Dir Dir7=
+  {
+   'UserPreference',
+   New,
+   {
+    &Dir24,
+    &Dir25
+   },
+   {
+    { 'Makefile' , New },
+    { 'Makefile.files' , New }
+   }
+  };
+
+Dir Dir8=
   {
    'docs',
    New,
@@ -146,7 +149,7 @@ Dir Dir7=
    }
   };
 
-Dir Dir8=
+Dir Dir9=
   {
    'inc',
    New,
@@ -162,7 +165,7 @@ Dir Dir8=
    }
   };
 
-Dir Dir9=
+Dir Dir10=
   {
    'src',
    New,
@@ -185,7 +188,7 @@ Dir Dir9=
    }
   };
 
-Dir Dir10=
+Dir Dir11=
   {
    'docs',
    New,
@@ -202,7 +205,7 @@ Dir Dir10=
    }
   };
 
-Dir Dir11=
+Dir Dir12=
   {
    'inc',
    New,
@@ -223,19 +226,19 @@ Dir Dir11=
    }
   };
 
-Dir Dir12=
+Dir Dir13=
   {
    'lang',
    New,
    {
-    &Dir23,
-    &Dir24
+    &Dir26,
+    &Dir27
    },
    {
    }
   };
 
-Dir Dir13=
+Dir Dir14=
   {
    'src',
    New,
@@ -261,7 +264,7 @@ Dir Dir13=
    }
   };
 
-Dir Dir23=
+Dir Dir26=
   {
    'Formula',
    New,
@@ -277,7 +280,7 @@ Dir Dir23=
    }
   };
 
-Dir Dir24=
+Dir Dir27=
   {
    'Pad',
    New,
@@ -291,7 +294,7 @@ Dir Dir24=
    }
   };
 
-Dir Dir14=
+Dir Dir15=
   {
    'inc',
    New,
@@ -304,7 +307,7 @@ Dir Dir14=
    }
   };
 
-Dir Dir15=
+Dir Dir16=
   {
    'src',
    New,
@@ -318,7 +321,7 @@ Dir Dir15=
    }
   };
 
-Dir Dir16=
+Dir Dir17=
   {
    'prototype',
    New,
@@ -330,7 +333,34 @@ Dir Dir16=
    }
   };
 
-Dir Dir17=
+Dir Dir18=
+  {
+   'inc',
+   New,
+   {
+   },
+   {
+    { 'Application.h' , New },
+    { 'Client.h' , New },
+    { 'RandomId.h' , New }
+   }
+  };
+
+Dir Dir19=
+  {
+   'src',
+   New,
+   {
+   },
+   {
+    { 'Application.cpp' , New },
+    { 'Client.cpp' , New },
+    { 'main.cpp' , New },
+    { 'RandomId.cpp' , New }
+   }
+  };
+
+Dir Dir20=
   {
    'inc',
    New,
@@ -343,7 +373,7 @@ Dir Dir17=
    }
   };
 
-Dir Dir18=
+Dir Dir21=
   {
    'src',
    New,
@@ -357,7 +387,7 @@ Dir Dir18=
    }
   };
 
-Dir Dir19=
+Dir Dir22=
   {
    'inc',
    New,
@@ -369,7 +399,7 @@ Dir Dir19=
    }
   };
 
-Dir Dir20=
+Dir Dir23=
   {
    'src',
    New,
@@ -382,7 +412,7 @@ Dir Dir20=
    }
   };
 
-Dir Dir21=
+Dir Dir24=
   {
    'inc',
    New,
@@ -394,7 +424,7 @@ Dir Dir21=
    }
   };
 
-Dir Dir22=
+Dir Dir25=
   {
    'src',
    New,

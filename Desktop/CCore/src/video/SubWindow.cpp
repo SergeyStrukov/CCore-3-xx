@@ -1,7 +1,7 @@
 /* SubWindow.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -428,7 +428,7 @@ void WindowList::releaseMouse(SubWindow *sub_win)
 
  // base
 
-void WindowList::open()
+void WindowList::open() noexcept
  {
   capture=0;
   enter=0;
@@ -438,7 +438,7 @@ void WindowList::open()
   for(auto cur=list.start(); +cur ;++cur) try { cur->open(); } catch(...) {}
  }
 
-void WindowList::close()
+void WindowList::close() noexcept
  {
   is_opened=false;
 
@@ -554,6 +554,131 @@ MouseShape WindowList::getMouseShape(Point point,KeyMod kmod,MouseShape def_shap
 void WindowList::react(UserAction action)
  {
   react(action, [] (UserAction) {} );
+ }
+
+bool WindowList::react_Keyboard(UserAction action)
+ {
+  if( focus )
+    {
+     if( enable_tab )
+       {
+        struct React
+         {
+          WindowList *list;
+          SubWindow *sub_win;
+
+          void react_Key(VKey vkey,KeyMod kmod)
+           {
+            if( vkey==VKey_Tab )
+              {
+               if( kmod&KeyMod_Shift )
+                 {
+                  list->focusPrev();
+                 }
+               else
+                 {
+                  list->focusNext();
+                 }
+              }
+            else
+              {
+               sub_win->put_Key(vkey,kmod);
+              }
+           }
+
+          void react_other(UserAction action)
+           {
+            sub_win->react(action);
+           }
+         };
+
+        React obj{this,focus};
+
+        action.dispatch(obj);
+       }
+     else
+       {
+        focus->react(action);
+       }
+
+     return true;
+    }
+  else
+    {
+     return false;
+    }
+ }
+
+bool WindowList::react_Mouse(UserAction action)
+ {
+  if( enable_click )
+    {
+     struct React
+      {
+       WindowList *list;
+
+       void react_LeftClick(Point point,MouseKey)
+        {
+         list->focusOn(point);
+        }
+
+       void react_RightClick(Point point,MouseKey)
+        {
+         list->focusOn(point);
+        }
+      };
+
+     React obj{this};
+
+     action.dispatch(obj);
+    }
+
+  if( SubWindow *sub_win=pick(action.getPoint()) )
+    {
+     sub_win->forward_react(action);
+
+     return true;
+    }
+  else
+    {
+     return false;
+    }
+ }
+
+bool WindowList::react_Move(Point point,MouseKey mkey)
+ {
+  if( SubWindow *sub_win=find(point) )
+    {
+     if( enter!=sub_win )
+       {
+        if( enter )
+          Replace(enter,sub_win)->put_Leave();
+        else
+          enter=sub_win;
+       }
+
+     if( capture )
+       capture->forward().put_Move(point,mkey);
+     else
+       sub_win->forward().put_Move(point,mkey);
+
+     return true;
+    }
+  else
+    {
+     if( enter ) Replace_null(enter)->put_Leave();
+
+     if( capture )
+       {
+        capture->forward().put_Move(point,mkey);
+
+        return true;
+       }
+     else
+       {
+        return false;
+       }
+    }
  }
 
 } // namespace Video

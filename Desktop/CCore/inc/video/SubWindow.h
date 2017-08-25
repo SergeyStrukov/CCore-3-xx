@@ -1,7 +1,7 @@
 /* SubWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -252,6 +252,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    virtual void topTabFocus()
     {
+     // do nothing
     }
 
    virtual bool nextTabFocus()
@@ -261,6 +262,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    virtual void bottomTabFocus()
     {
+     // do nothing
     }
 
    virtual bool prevTabFocus()
@@ -314,7 +316,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
      explicit Forwarder(SubWindow *obj_) : obj(obj_) {}
 
-     virtual void react(UserAction action)
+     virtual void react(UserAction action) final
       {
        obj->forward_react(action);
       }
@@ -459,19 +461,15 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
    // multiple delete
 
    template <class ... TT>
-   void del(SubWindow *sub_win,TT * ... tt)
+   void del(TT * ... tt) requires( sizeof ... (TT) > 1 )
     {
-     del(sub_win);
-
-     del(tt...);
+     ( del(tt) , ... );
     }
 
    template <class ... TT>
-   void del(SubWindow &sub_win,TT & ... tt)
+   void del(TT & ... tt) requires( sizeof ... (TT) > 1 )
     {
-     del(sub_win);
-
-     del(tt...);
+     ( del(tt) , ... );
     }
 
    // focus
@@ -520,9 +518,9 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
 
    // base
 
-   void open();
+   void open() noexcept;
 
-   void close();
+   void close() noexcept;
 
    // keyboard
 
@@ -550,9 +548,15 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
 
    void react(UserAction action,FuncArgType<UserAction> func);
 
+   bool react_Keyboard(UserAction action);
+
    void react_Keyboard(UserAction action,FuncArgType<UserAction> func);
 
+   bool react_Mouse(UserAction action);
+
    void react_Mouse(UserAction action,FuncArgType<UserAction> func);
+
+   bool react_Move(Point point,MouseKey mkey);
 
    void react_Move(Point point,MouseKey mkey,FuncArgType<UserAction> func);
 
@@ -599,129 +603,17 @@ void WindowList::react(UserAction action,Func func)
 
 void WindowList::react_Keyboard(UserAction action,FuncArgType<UserAction> func)
  {
-  if( focus )
-    {
-     if( enable_tab )
-       {
-        struct React
-         {
-          WindowList *list;
-          SubWindow *sub_win;
-
-          void react_Key(VKey vkey,KeyMod kmod)
-           {
-            if( vkey==VKey_Tab )
-              {
-               if( kmod&KeyMod_Shift )
-                 {
-                  list->focusPrev();
-                 }
-               else
-                 {
-                  list->focusNext();
-                 }
-              }
-            else
-              {
-               sub_win->put_Key(vkey,kmod);
-              }
-           }
-
-          void react_other(UserAction action)
-           {
-            sub_win->react(action);
-           }
-         };
-
-        React obj{this,focus};
-
-        action.dispatch(obj);
-       }
-     else
-       {
-        focus->react(action);
-       }
-    }
-  else
-    {
-     func(action);
-    }
+  if( !react_Keyboard(action) ) func(action);
  }
 
 void WindowList::react_Mouse(UserAction action,FuncArgType<UserAction> func)
  {
-  if( enable_click )
-    {
-     struct React
-      {
-       WindowList *list;
-
-       void react_LeftClick(Point point,MouseKey)
-        {
-         list->focusOn(point);
-        }
-
-       void react_LeftDClick(Point point,MouseKey)
-        {
-         list->focusOn(point);
-        }
-
-       void react_RightClick(Point point,MouseKey)
-        {
-         list->focusOn(point);
-        }
-
-       void react_RightDClick(Point point,MouseKey)
-        {
-         list->focusOn(point);
-        }
-      };
-
-     React obj{this};
-
-     action.dispatch(obj);
-    }
-
-  if( SubWindow *sub_win=pick(action.getPoint()) )
-    {
-     sub_win->forward_react(action);
-    }
-  else
-    {
-     func(action);
-    }
+  if( !react_Mouse(action) ) func(action);
  }
 
 void WindowList::react_Move(Point point,MouseKey mkey,FuncArgType<UserAction> func)
  {
-  if( SubWindow *sub_win=find(point) )
-    {
-     if( enter!=sub_win )
-       {
-        if( enter )
-          Replace(enter,sub_win)->put_Leave();
-        else
-          enter=sub_win;
-       }
-
-     if( capture )
-       capture->forward().put_Move(point,mkey);
-     else
-       sub_win->forward().put_Move(point,mkey);
-    }
-  else
-    {
-     if( enter ) Replace_null(enter)->put_Leave();
-
-     if( capture )
-       {
-        capture->forward().put_Move(point,mkey);
-       }
-     else
-       {
-        UserInputFunc(func).put_Move(point,mkey);
-       }
-    }
+  if( !react_Move(point,mkey) ) UserInputFunc(func).put_Move(point,mkey);
  }
 
 void WindowList::react_Leave(FuncArgType<UserAction> func)
