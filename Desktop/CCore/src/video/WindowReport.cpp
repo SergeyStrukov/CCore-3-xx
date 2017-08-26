@@ -1,7 +1,7 @@
 /* WindowReport.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -441,17 +441,11 @@ void ExceptionWindow::layout()
 
 void ExceptionWindow::draw(DrawBuf buf,bool drag_active) const
  {
-  try
-    {
-     buf.erase(+cfg.back);
+  buf.erase(+cfg.back);
 
-     Coord xoff=Coord(xscroll.getPos());
+  Coord xoff=Coord(xscroll.getPos());
 
-     drawText(buf.cut(ptext),ptext,xoff);
-    }
-  catch(CatchType)
-    {
-    }
+  drawText(buf.cut(ptext),ptext,xoff);
 
   wlist.draw(buf,drag_active);
  }

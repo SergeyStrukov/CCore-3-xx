@@ -1,7 +1,7 @@
 /* FreeType.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ class Face : NoCopy
 
    Face(FT_Library lib,Mutex &mutex,StrLen file_name,FT_Long index=0);
 
-   Face(FT_Library lib,Mutex &mutex,StrLen file_name,bool &is_font,FT_Long index=0);
+   Face(FT_Library lib,Mutex &mutex,StrLen file_name,bool &is_font,FT_Long index=0) noexcept;
 
    Face(FT_Library lib,Mutex &mutex,StrLen dir,StrLen file_name,FT_Long index=0); // dir/file_name
 

@@ -1,7 +1,7 @@
 /* FreeType.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -160,7 +160,7 @@ Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,FT_Long index)
     }
  }
 
-Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,bool &is_font,FT_Long index)
+Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,bool &is_font,FT_Long index) noexcept
  : mutex(mutex_)
  {
   is_font=false;
@@ -169,7 +169,11 @@ Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,bool &is_font,FT_Long i
 
   if( !out.add(file_name,Null) )
     {
-     Printf(Exception,"CCore::Video::FreeType::Face::Face(...,#.q;,...) : too long file name",file_name);
+     Printf(NoException,"CCore::Video::FreeType::Face::Face(...,#.q;,...) : too long file name",file_name);
+
+     face=0;
+
+     return;
     }
 
   FT_Error error;

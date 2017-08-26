@@ -1,7 +1,7 @@
 /* WindowReport.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -43,8 +43,8 @@ class ExceptionClient;
 
 class ExceptionStore : NoCopy
  {
-   static const ulen MaxMsgLen = Align(512) ;
-   static const ulen MaxMsgCount = 100 ;
+   static constexpr ulen MaxMsgLen = Align(512) ;
+   static constexpr ulen MaxMsgCount = 100 ;
 
    struct Header
     {
@@ -55,7 +55,7 @@ class ExceptionStore : NoCopy
      bool divide; // after this message
     };
 
-   static const ulen Delta = Align(sizeof (Header)) ;
+   static constexpr ulen Delta = Align(sizeof (Header)) ;
 
    static StrLen GetStr(Header *ptr) { return StrLen(PlaceAt(ptr)+Delta,ptr->len); }
 

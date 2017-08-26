@@ -1,7 +1,7 @@
 /* DrawAlgo.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -393,7 +393,7 @@ concept bool LineEndFuncType = requires(Func &obj,Point ext,Point first,Plot plo
 
 class LinePlotter
  {
-   static const uMCoord Step = MPoint::One ;
+   static constexpr uMCoord Step = MPoint::One ;
 
    MCoord ex;
    MCoord ey;
@@ -1027,9 +1027,9 @@ class LineAlphaFunc
 
    class Num // [0,2)
     {
-      static const unsigned Precision = 15 ;
+      static constexpr unsigned Precision = 15 ;
 
-      static const uint16 OneValue = uint16(1)<<Precision ;
+      static constexpr uint16 OneValue = uint16(1)<<Precision ;
 
       uint16 value;
 
@@ -1529,9 +1529,9 @@ class LineAlphaFunc2 : LineAlphaFunc<UInt>
 
 class LinePlotter2
  {
-   static const uMCoord Step = MPoint::One ;
+   static constexpr uMCoord Step = MPoint::One ;
 
-   static const MCoord Half = MPoint::Half ;
+   static constexpr MCoord Half = MPoint::Half ;
 
    MCoord ex;
    MCoord ey;

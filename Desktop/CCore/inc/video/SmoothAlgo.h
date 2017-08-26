@@ -1,7 +1,7 @@
 /* SmoothAlgo.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -67,9 +67,9 @@ concept bool PlotType = requires(Plot &obj,MPoint p,unsigned alpha)
 
 /* consts */
 
-const unsigned MaxCapFineness = 1 ;
+inline constexpr unsigned MaxCapFineness = 1 ;
 
-const unsigned MaxFineness = 2 ;
+inline constexpr unsigned MaxFineness = 2 ;
 
 /* functions */
 
@@ -153,9 +153,9 @@ class Rotate
 
 class ArcDriver : NoCopy
  {
-   static const unsigned MaxLevel = 10 ;
+   static constexpr unsigned MaxLevel = 10 ;
 
-   static const unsigned Len = (1u<<MaxLevel) ;
+   static constexpr unsigned Len = (1u<<MaxLevel) ;
 
    static uMCoord Fineness(MPoint a,MPoint b);
 
@@ -468,7 +468,7 @@ class SolidRow : NoCopy
  {
    using Area = uint32 ;
 
-   static const Area FullArea = Area(1)<<(2*MPoint::Precision) ;
+   static constexpr Area FullArea = Area(1)<<(2*MPoint::Precision) ;
 
    static unsigned ToAlpha(Area s)
     {

@@ -1,7 +1,7 @@
 /* FontDatabase.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ String FontDatabase::CatPath(StrLen path,StrLen name)
     }
   else
     {
-     return StringCat(path,"/",name);
+     return StringCat(path,"/"_c,name);
     }
  }
 
@@ -249,7 +249,7 @@ void FontDatabase::loadDDL(StrLen file_name)
  {
   list.erase();
 
-  char temp[512];
+  SimpleArray<char> temp(4_KByte);
   PrintBuf eout(Range(temp));
   DDL::FileEngine<FileName,FileToMem> engine(eout);
 
@@ -518,7 +518,7 @@ const FontInfo * FontBuilder::find(StrLen family,bool bold,bool italic) const
  {
   return index.find( [=] (const FontInfo &obj) { return AlphaCmp(CmpAsStr(obj.family),CmpAsStr(family),
                                                                  obj.bold,bold,
-                                                                 obj.italic,italic); });
+                                                                 obj.italic,italic); } );
  }
 
 FreeTypeFont FontBuilder::build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config) const

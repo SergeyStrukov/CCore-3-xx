@@ -1,7 +1,7 @@
 /* SmoothDrawArt.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -44,6 +44,8 @@ R PrefixPlus(R r,R suffix)
 
 struct Dot;
 
+struct BreakDot;
+
 /* enum DotType */
 
 enum DotType
@@ -67,6 +69,15 @@ struct Dot
   Dot(const MPoint &point_) : point(point_) {}
 
   Dot(const MPoint &point_,DotType type_) : point(point_),type(type_) {}
+ };
+
+/* struct BreakDot */
+
+struct BreakDot : Dot
+ {
+  BreakDot() noexcept { type=DotBreak; }
+
+  BreakDot(const MPoint &point) : Dot(point,DotBreak) {}
  };
 
 /* concept DotRangeType<R> */
@@ -1963,6 +1974,10 @@ class DrawArt : public GenDrawArt
 /* type SmoothDot */
 
 using SmoothDot = Smooth::Dot ;
+
+/* type SmoothBreakDot */
+
+using SmoothBreakDot = Smooth::BreakDot ;
 
 /* type SmoothDrawArt */
 

@@ -1,7 +1,7 @@
 /* FreeTypeFont.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ struct FreeTypeFont::Global
   FreeType::Lib lib;
   CharMapTable map;
 
-  Global() : mutex("FreeTypeFont"),lib(FT_LCD_FILTER_DEFAULT) {}
+  Global() : mutex("!FreeTypeFont"),lib(FT_LCD_FILTER_DEFAULT) {}
  };
 
 /* struct FreeTypeFont::Inner */
@@ -252,7 +252,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
     if( by+ey>dy )
       {
-       font_size.dy=by+ey;
+       font_size.dy=by+ey+1;
        font_size.by=by;
       }
     else
