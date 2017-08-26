@@ -1,7 +1,7 @@
 /* Window.Info.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -205,31 +205,40 @@ class InfoWindowOf : public SubWindow
      action.dispatch(*this);
     }
 
-   void react_Key(VKey vkey,KeyMod,unsigned repeat)
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     {
+     if( vkey==VKey_Tab )
+       {
+        tabbed.assert(kmod&KeyMod_Shift);
+
+        return;
+       }
+
+     if( !shape.enable ) return;
+
      switch( vkey )
        {
         case VKey_Left :
          {
-          addXOff(-CountToCoordinate(repeat));
+          if( shape.enable ) addXOff(-CountToCoordinate(repeat));
          }
         break;
 
         case VKey_Right :
          {
-          addXOff(CountToCoordinate(repeat));
+          if( shape.enable ) addXOff(CountToCoordinate(repeat));
          }
         break;
 
         case VKey_Up :
          {
-          subYOff(repeat);
+          if( shape.enable ) subYOff(repeat);
          }
         break;
 
         case VKey_Down :
          {
-          addYOff(repeat);
+          if( shape.enable ) addYOff(repeat);
          }
         break;
        }
@@ -264,6 +273,8 @@ class InfoWindowOf : public SubWindow
 
    void react_Wheel(Point,MouseKey,Coord delta)
     {
+     if( !shape.enable ) return;
+
      if( delta>0 )
        {
         addYOff(IntAbs(delta));
@@ -273,6 +284,10 @@ class InfoWindowOf : public SubWindow
         subYOff(IntAbs(delta));
        }
     }
+
+   // signals
+
+   Signal<bool> tabbed; // shift
  };
 
 /* type InfoWindow */

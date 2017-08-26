@@ -1,7 +1,7 @@
 /* Window.Progress.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -85,9 +85,8 @@ class ProgressWindowOf : public SubWindow
     {
      shape.total=total;
      shape.pos=0;
-     shape.stopActive();
 
-     redraw();
+     stopPing();
     }
 
    void setPos(unsigned pos)
@@ -108,9 +107,7 @@ class ProgressWindowOf : public SubWindow
 
         shape.resetTime();
 
-        defer_tick.start();
-
-        shape.startActive();
+        if( shape.startActive() ) defer_tick.start();
 
         redraw();
        }
@@ -120,9 +117,12 @@ class ProgressWindowOf : public SubWindow
     {
      shape.resetTime();
 
-     defer_tick.start();
+     if( shape.startActive() )
+       {
+        defer_tick.start();
 
-     if( shape.startActive() ) redraw();
+        redraw();
+       }
     }
 
    void stopPing()
@@ -155,12 +155,16 @@ class ProgressWindowOf : public SubWindow
 
    virtual void open()
     {
-     shape.has_active=false;
+     defer_tick.stop();
+
+     shape.stopActive();
     }
 
    virtual void close()
     {
      defer_tick.stop();
+
+     shape.stopActive();
     }
 
    // keyboard

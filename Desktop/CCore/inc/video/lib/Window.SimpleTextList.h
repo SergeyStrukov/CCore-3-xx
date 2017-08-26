@@ -1,7 +1,7 @@
 /* Window.SimpleTextList.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -258,6 +258,13 @@ class SimpleTextListWindowOf : public SubWindow
 
    void react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     {
+     if( vkey==VKey_Tab )
+       {
+        tabbed.assert(kmod&KeyMod_Shift);
+
+        return;
+       }
+
      if( !shape.enable ) return;
 
      switch( vkey )
@@ -387,6 +394,7 @@ class SimpleTextListWindowOf : public SubWindow
    Signal<> entered;
    Signal<> dclicked;
    Signal<ulen> selected; // select, always valid
+   Signal<bool> tabbed; // shift
  };
 
 /* type SimpleTextListWindow */

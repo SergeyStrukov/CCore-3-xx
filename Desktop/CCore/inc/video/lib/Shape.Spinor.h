@@ -1,7 +1,7 @@
 /* Shape.Spinor.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -87,7 +87,7 @@ class SpinorShape
 
    // parameters
 
-   static const int DeltaCap = 100'000 ;
+   static constexpr int DeltaCap = 100'000 ;
 
    const Config &cfg;
    int min_val = 0 ;
@@ -114,7 +114,7 @@ class SpinorShape
 
    Point getMinSize() const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize() && size.x>=4*size.y ; }
+   bool isGoodSize(Point size) const { return size>=getMinSize() && size.x/4>=size.y ; }
 
    SpinType getZone(Point point) const;
 

@@ -1,7 +1,7 @@
 /* Shape.Spinor.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -43,7 +43,7 @@ Point SpinorShape::getMinSize() const
   Coordinate dy=s.y+2*len;
   Coordinate dx=s.x+4*dy;
 
-  return Point(dx,dy);
+  return Point(Sup(dx,4*dy),dy);
  }
 
 SpinType SpinorShape::getZone(Point point) const

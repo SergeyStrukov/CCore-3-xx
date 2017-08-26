@@ -1,7 +1,7 @@
 /* Window.Spinor.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -40,7 +40,21 @@ class SpinorWindowOf : public SubWindow
 
   private:
 
-   static int MinSub(int delta,int a,int b) { return (int)Min<unsigned>(delta,(unsigned)b-(unsigned)a); }
+   static int MinSub(unsigned delta,unsigned a,unsigned b) { return (int)Min(delta,b-a); }
+
+   void incVal(int delta)
+    {
+     if( delta<=0 ) return;
+
+     shape.val+=MinSub(delta,shape.val,shape.max_val);
+    }
+
+   void decVal(int delta)
+    {
+     if( delta<=0 ) return;
+
+     shape.val-=MinSub(delta,shape.min_val,shape.val);
+    }
 
    void spin()
     {
@@ -50,7 +64,7 @@ class SpinorWindowOf : public SubWindow
          {
           if( shape.val<shape.max_val )
             {
-             shape.val+=MinSub(shape.delta,shape.val,shape.max_val);
+             incVal(shape.delta);
 
              changed.assert(shape.val);
             }
@@ -65,7 +79,7 @@ class SpinorWindowOf : public SubWindow
          {
           if( shape.val>shape.min_val )
             {
-             shape.val-=MinSub(shape.delta,shape.min_val,shape.val);
+             decVal(shape.delta);
 
              changed.assert(shape.val);
             }
@@ -188,6 +202,7 @@ class SpinorWindowOf : public SubWindow
     {
      shape.min_val=min_val;
      shape.max_val=max_val;
+     shape.val=Cap(min_val,shape.val,max_val);
 
      redraw();
     }
@@ -230,6 +245,8 @@ class SpinorWindowOf : public SubWindow
      shape.focus=false;
      shape.mover=SpinType_None;
      shape.down=SpinType_None;
+
+     defer_tick.stop();
     }
 
    virtual void close()
@@ -291,12 +308,21 @@ class SpinorWindowOf : public SubWindow
 
    void react_Key(VKey vkey,KeyMod kmod)
     {
+     if( vkey==VKey_Tab )
+       {
+        tabbed.assert(kmod&KeyMod_Shift);
+
+        return;
+       }
+
+     if( !shape.enable ) return;
+
      switch( vkey )
        {
         case VKey_NumPlus :
         case VKey_Equal :
          {
-          if( shape.enable && !shape.down )
+          if( !shape.down )
             {
              shape.down=SpinType_Plus;
              shape.mouse=false;
@@ -309,7 +335,7 @@ class SpinorWindowOf : public SubWindow
         case VKey_NumMinus :
         case VKey_Minus :
          {
-          if( shape.enable && !shape.down )
+          if( !shape.down )
             {
              shape.down=SpinType_Minus;
              shape.mouse=false;
@@ -334,12 +360,6 @@ class SpinorWindowOf : public SubWindow
         case VKey_Home :
          {
           if( Change(shape.delta,1) ) redraw();
-         }
-        break;
-
-        case VKey_Tab :
-         {
-          tabbed.assert(kmod&KeyMod_Shift);
          }
         break;
        }
@@ -431,7 +451,7 @@ class SpinorWindowOf : public SubWindow
              {
               if( shape.val<shape.max_val )
                 {
-                 shape.val+=MinSub(delta*shape.delta,shape.val,shape.max_val);
+                 incVal(delta*shape.delta);
 
                  redraw();
 
@@ -442,7 +462,7 @@ class SpinorWindowOf : public SubWindow
              {
               if( shape.val>shape.min_val )
                 {
-                 shape.val-=MinSub(-delta*shape.delta,shape.min_val,shape.val);
+                 decVal((-(int)delta)*shape.delta);
 
                  redraw();
 
