@@ -1,7 +1,7 @@
 /* Window.Radio.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -22,6 +22,10 @@
 
 namespace CCore {
 namespace Video {
+
+/* const NoRadioId */
+
+inline constexpr int NoRadioId = -1 ;
 
 /* classes */
 
@@ -76,11 +80,9 @@ class RadioGroup : NoCopy
 
    ~RadioGroup();
 
-   int getRadioId() const { return cur?cur->getRadioId():(-1); }
+   int getRadioId() const { return cur?cur->getRadioId():NoRadioId; }
 
    void add(RadioItem *item);
-
-   void del(RadioItem *item);
 
    void add(RadioItem &item) { add(&item); }
 
@@ -98,6 +100,22 @@ class RadioGroup : NoCopy
      add(item);
 
      add(tt...);
+    }
+
+   void del(RadioItem *item);
+
+   void del(RadioItem &item) { del(&item); }
+
+   template <class ... TT>
+   void del(TT * ... tt) requires( sizeof ... (TT) > 1 )
+    {
+     ( del(tt) , ... );
+    }
+
+   template <class ... TT>
+   void del(TT & ... tt) requires( sizeof ... (TT) > 1 )
+    {
+     ( del(tt) , ... );
     }
 
    // signals
@@ -128,9 +146,9 @@ class RadioWindowOf : public SubWindow , public RadioItem
     {
      if( Change(shape.check,true) )
        {
-        setCheck(signal);
-
         redraw();
+
+        setCheck(signal);
        }
     }
 

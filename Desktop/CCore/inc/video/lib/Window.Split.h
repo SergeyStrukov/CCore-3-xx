@@ -48,6 +48,22 @@ class SplitWindowOf : public SubWindow
      dragged.assert(delta);
     }
 
+   void endDrag()
+    {
+     shape.down=false;
+
+     releaseMouse();
+
+     redraw();
+    }
+
+   void endDrag(Point point)
+    {
+     endDrag();
+
+     dragTo(point);
+    }
+
    void inside()
     {
      if( Change(shape.mover,true) ) redraw();
@@ -160,13 +176,7 @@ class SplitWindowOf : public SubWindow
     {
      if( shape.down )
        {
-        shape.down=false;
-
-        releaseMouse();
-
-        redraw();
-
-        dragTo(point);
+        endDrag(point);
        }
     }
 
@@ -189,7 +199,7 @@ class SplitWindowOf : public SubWindow
           }
         else
           {
-           react_LeftUp(point,mkey);
+           endDrag();
           }
        }
     }

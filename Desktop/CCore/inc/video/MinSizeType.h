@@ -1,7 +1,7 @@
 /* MinSizeType.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -89,6 +89,8 @@ struct SizeXSpace
 
   SizeXSpace(Coord dx_=0,Coord space_=0) : dx(dx_),space(space_) {}
 
+  SizeXSpace(Coordinate dx_=0,Coordinate space_=0) : dx(+dx_),space(+space_) {}
+
   Point toSizePoint() const { return {dx,0}; }
  };
 
@@ -100,6 +102,8 @@ struct SizeYSpace
   Coord space;
 
   SizeYSpace(Coord dy_=0,Coord space_=0) : dy(dy_),space(space_) {}
+
+  SizeYSpace(Coordinate dy_=0,Coordinate space_=0) : dy(+dy_),space(+space_) {}
 
   Point toSizePoint() const { return {0,dy}; }
  };

@@ -1,7 +1,7 @@
 /* Shape.Progress.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ class ProgressShape
 
    // state
 
-   static const unsigned MaxActivePos = 100 ;
+   static constexpr unsigned MaxActivePos = 100 ;
 
    unsigned total      =   100 ;
    unsigned pos        =     0 ;

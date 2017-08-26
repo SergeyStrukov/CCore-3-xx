@@ -1,7 +1,7 @@
 /* Shape.Button.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace Video {
 
 MCoord ButtonShape::FigEX(Coord fdy,MCoord width)
  {
-  return (Fraction(fdy)+2*width)/4;
+  return Max_cast(width, (Fraction(fdy)+2*width)/4 );
  }
 
 Point ButtonShape::getMinSize() const

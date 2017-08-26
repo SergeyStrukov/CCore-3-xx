@@ -1,7 +1,7 @@
 /* Shape.Split.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -24,7 +24,9 @@ namespace Video {
 
 SizeXSpace XSplitShape::getMinSize() const
  {
-  return 2*(+cfg.dxy);
+  Coordinate dxy=+cfg.dxy;
+
+  return 2*dxy;
  }
 
 void XSplitShape::draw(const DrawBuf &buf) const
@@ -50,7 +52,9 @@ void XSplitShape::draw(const DrawBuf &buf) const
 
 SizeYSpace YSplitShape::getMinSize() const
  {
-  return 2*(+cfg.dxy);
+  Coordinate dxy=+cfg.dxy;
+
+  return 2*dxy;
  }
 
 void YSplitShape::draw(const DrawBuf &buf) const
