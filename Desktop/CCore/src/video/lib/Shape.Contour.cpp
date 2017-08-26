@@ -1,7 +1,7 @@
 /* Shape.Contour.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -84,13 +84,13 @@ Point TextContourShape::getMinSize(Point inner_size) const
 
 Pane TextContourShape::getInner() const
  {
-  TextSize ts=cfg.font->text(title.str());
+  FontSize fs=cfg.font->getSize();
 
   Coord dxy=RoundUpLen(+cfg.width);
 
-  if( dxy>=pane.dx-dxy || ts.dy>=pane.dy-dxy ) return Empty;
+  if( dxy>=pane.dx-dxy || fs.dy>=pane.dy-dxy ) return Empty;
 
-  return Pane(pane.x+dxy,pane.y+ts.dy,pane.dx-2*dxy,pane.dy-ts.dy-dxy);
+  return Pane(pane.x+dxy,pane.y+fs.dy,pane.dx-2*dxy,pane.dy-fs.dy-dxy);
  }
 
 void TextContourShape::draw(const DrawBuf &buf) const
