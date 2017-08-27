@@ -4950,13 +4950,13 @@ Dir Dir55=
 Dir Dir56=
   {
    'SubLab',
-   Red,
+   Green,
    {
     &Dir275,
     &Dir276
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'SubLab.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
@@ -4965,7 +4965,7 @@ Dir Dir56=
 Dir Dir57=
   {
    'UserPreference',
-   Red,
+   Green,
    {
     &Dir277,
     &Dir278
@@ -5229,50 +5229,50 @@ Dir Dir274=
 Dir Dir275=
   {
    'inc',
-   Red,
+   Green,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red }
+    { 'Application.h' , Green },
+    { 'Client.h' , Green }
    }
   };
 
 Dir Dir276=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Green },
+    { 'Client.cpp' , Green },
+    { 'main.cpp' , Green }
    }
   };
 
 Dir Dir277=
   {
    'inc',
-   Red,
+   Green,
    {
    },
    {
     { 'Application.h' , Green },
-    { 'TestFrame.h' , Red }
+    { 'TestFrame.h' , Green }
    }
   };
 
 Dir Dir278=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
     { 'Application.cpp' , Green },
     { 'main.cpp' , Green },
-    { 'TestFrame.cpp' , Red }
+    { 'TestFrame.cpp' , Green }
    }
   };
 
