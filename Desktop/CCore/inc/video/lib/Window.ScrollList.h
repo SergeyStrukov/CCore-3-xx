@@ -1,7 +1,7 @@
 /* Window.ScrollList.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -29,6 +29,8 @@ struct ScrollListWindowBase;
 
 template <class Shape> class ScrollListInnerWindowOf;
 
+template <class Window,class XShape,class YShape> class ScrollableWindow;
+
 template <class Shape,class XShape,class YShape> class ScrollListWindowOf;
 
 /* struct ScrollListWindowBase */
@@ -40,6 +42,7 @@ struct ScrollListWindowBase
   Signal<> entered;
   Signal<> dclicked;
   Signal<ulen> selected; // select, always valid
+  Signal<bool> tabbed;   // shift
  };
 
 /* class ScrollListInnerWindowOf<Shape> */
@@ -99,6 +102,8 @@ class ScrollListInnerWindowOf : public SubWindow
     {
      if( shape.setSelectDown(0) )
        {
+        shape.yoff=0;
+
         showSelect();
 
         redraw();
@@ -200,9 +205,9 @@ class ScrollListInnerWindowOf : public SubWindow
    using ConfigType = typename ShapeType::Config ;
 
    template <class ... TT>
-   ScrollListInnerWindowOf(SubWindowHost &host,ScrollListWindowBase *outer_,TT && ... tt)
+   ScrollListInnerWindowOf(SubWindowHost &host,const ConfigType &cfg,ScrollListWindowBase *outer_,TT && ... tt)
     : SubWindow(host),
-      shape( std::forward<TT>(tt)... ),
+      shape(cfg, std::forward<TT>(tt)... ),
       outer(outer_),
       connector_posX(this,&ScrollListInnerWindowOf<Shape>::posX),
       connector_posY(this,&ScrollListInnerWindowOf<Shape>::posY)
@@ -220,13 +225,13 @@ class ScrollListInnerWindowOf : public SubWindow
    bool shortDY() const { return shape.yoffMax>0; }
 
    template <class W>
-   void setScrollXRange(W &window)
+   void setScrollXRange(W &window) const
     {
      window.setRange((ulen)shape.xoffMax+(ulen)shape.dxoff,(ulen)shape.dxoff,(ulen)shape.xoff);
     }
 
    template <class W>
-   void setScrollYRange(W &window)
+   void setScrollYRange(W &window) const
     {
      window.setRange(shape.yoffMax+shape.page,shape.page,shape.yoff);
     }
@@ -239,7 +244,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
+   Point getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -372,6 +377,13 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     {
+     if( vkey==VKey_Tab )
+       {
+        outer->tabbed.assert(kmod&KeyMod_Shift);
+
+        return;
+       }
+
      if( !shape.enable ) return;
 
      switch( vkey )
@@ -502,15 +514,57 @@ class ScrollListInnerWindowOf : public SubWindow
    Signal<ulen> scroll_y;
  };
 
-/* class ScrollListWindowOf<Shape,XShape,YShape> */
+/* class ScrollableWindow<Window,XShape,YShape> */
 
-template <class Shape,class XShape,class YShape>
-class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
+#if 0
+
+class Window
+ {
+   ....
+
+  public:
+
+   using ConfigType = .... ;
+
+   Window(SubWindowHost &host,const ConfigType &cfg, .... );
+
+   ....
+
+   // special methods
+
+   bool shortDX() const;
+
+   bool shortDY() const;
+
+   template <class W>
+   void setScrollXRange(W &window) const;
+
+   template <class W>
+   void setScrollYRange(W &window) const;
+
+   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
+
+   // methods
+
+   Point getMinSize(Point cap=Point::Max()) const;
+
+   // signals
+
+   Signal<ulen> scroll_x;
+   Signal<ulen> scroll_y;
+ };
+
+#endif
+
+template <class Window,class XShape,class YShape>
+class ScrollableWindow : public ComboWindow
  {
   public:
 
-   struct Config : Shape::Config
+   struct Config
     {
+     typename Window::ConfigType window_cfg;
+
      CtorRefVal<typename XShape::Config> x_cfg;
      CtorRefVal<typename YShape::Config> y_cfg;
 
@@ -519,18 +573,18 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
      template <class Bag,class Proxy>
      void bind(const Bag &bag,Proxy proxy)
       {
-       Shape::Config::bind(bag);
+       BindBagProxy(window_cfg,bag,proxy);
 
        x_cfg.bind(proxy);
        y_cfg.bind(proxy);
       }
     };
 
-  private:
+  protected:
 
    const Config &cfg;
 
-   ScrollListInnerWindowOf<Shape> inner;
+   Window window;
    ScrollWindowOf<XShape> scroll_x;
    ScrollWindowOf<YShape> scroll_y;
 
@@ -538,9 +592,9 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
 
    void setScroll()
     {
-     if( scroll_x.isListed() ) inner.setScrollXRange(scroll_x);
+     if( scroll_x.isListed() ) window.setScrollXRange(scroll_x);
 
-     if( scroll_y.isListed() ) inner.setScrollYRange(scroll_y);
+     if( scroll_y.isListed() ) window.setScrollYRange(scroll_y);
     }
 
   private:
@@ -550,66 +604,35 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
 
   public:
 
-   using ShapeType = Shape ;
    using ConfigType = Config ;
 
    template <class ... TT>
-   ScrollListWindowOf(SubWindowHost &host,const Config &cfg_,TT && ... tt)
+   ScrollableWindow(SubWindowHost &host,const Config &cfg_,TT && ... tt)
     : ComboWindow(host),
       cfg(cfg_),
-      inner(wlist,this,cfg_, std::forward<TT>(tt)... ),
+      window(wlist,cfg_.window_cfg, std::forward<TT>(tt)... ),
       scroll_x(wlist,cfg_.x_cfg),
       scroll_y(wlist,cfg_.y_cfg),
-      connector_posx(&scroll_x,&ScrollWindowOf<XShape>::setPos,inner.scroll_x),
-      connector_posy(&scroll_y,&ScrollWindowOf<YShape>::setPos,inner.scroll_y)
+      connector_posx(&scroll_x,&ScrollWindowOf<XShape>::setPos,window.scroll_x),
+      connector_posy(&scroll_y,&ScrollWindowOf<YShape>::setPos,window.scroll_y)
     {
-     wlist.insTop(inner);
+     wlist.insTop(window);
 
-     inner.connect(scroll_x.changed,scroll_y.changed);
+     window.connect(scroll_x.changed,scroll_y.changed);
     }
 
-   virtual ~ScrollListWindowOf()
+   virtual ~ScrollableWindow()
     {
     }
 
    // methods
 
-   auto getMinSize(Point cap=Point::Max()) const
+   Point getMinSize(Point cap=Point::Max()) const
     {
      Point delta(scroll_y.getMinSize().dx,0);
 
-     return inner.getMinSize(cap-delta)+delta;
+     return window.getMinSize(cap-delta)+delta;
     }
-
-   bool isEnabled() const { return inner.isEnabled(); }
-
-   void enable(bool enable=true)
-    {
-     inner.enable(enable);
-     scroll_x.enable(enable);
-     scroll_y.enable(enable);
-    }
-
-   void disable() { enable(false); }
-
-   void setInfo(const ComboInfo &info)
-    {
-     inner.setInfo(info);
-
-     layout();
-
-     redraw();
-    }
-
-   const ComboInfo & getInfo() const { return inner.getInfo(); }
-
-   ulen getSelect() const { return inner.getSelect(); }
-
-   bool select(ulen index) { return inner.select(index); }
-
-   bool reselect() { return inner.reselect(); }
-
-   void ping() { inner.ping(); }
 
    // drawing
 
@@ -621,22 +644,22 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
      Coord delta_x=scroll_y.getMinSize().dx;
      Coord delta_y=scroll_x.getMinSize().dy;
 
-     inner.setPlace(pane);
+     window.setPlace(pane);
 
-     if( inner.shortDY() )
+     if( window.shortDY() )
        {
         Pane py=SplitX(pane,delta_x);
 
-        inner.setPlace(pane);
+        window.setPlace(pane);
         scroll_y.setPlace(py);
 
         wlist.insBottom(scroll_y);
 
-        if( inner.shortDX() )
+        if( window.shortDX() )
           {
            Pane px=SplitY(pane,delta_y);
 
-           inner.setPlace(pane);
+           window.setPlace(pane);
            scroll_x.setPlace(px);
 
            wlist.insBottom(scroll_x);
@@ -648,19 +671,19 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
        }
      else
        {
-        if( inner.shortDX() )
+        if( window.shortDX() )
           {
            Pane px=SplitY(pane,delta_y);
 
-           inner.setPlace(pane);
+           window.setPlace(pane);
 
-           if( inner.shortDY() )
+           if( window.shortDY() )
              {
               pane=all;
               Pane py=SplitX(pane,delta_x);
               Pane px=SplitY(pane,delta_y);
 
-              inner.setPlace(pane);
+              window.setPlace(pane);
               scroll_x.setPlace(px);
               scroll_y.setPlace(py);
 
@@ -687,6 +710,66 @@ class ScrollListWindowOf : public ComboWindow , public ScrollListWindowBase
 
      setScroll();
     }
+ };
+
+/* class ScrollListWindowOf<Shape,XShape,YShape> */
+
+template <class Shape,class XShape,class YShape>
+class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow<ScrollListInnerWindowOf<Shape>,XShape,YShape>
+ {
+   using Base = ScrollableWindow<ScrollListInnerWindowOf<Shape>,XShape,YShape> ;
+
+   using Base::window;
+   using Base::scroll_x;
+   using Base::scroll_y;
+   using Base::layout;
+   using Base::redraw;
+
+  public:
+
+   using ShapeType = Shape ;
+
+   template <class ... TT>
+   ScrollListWindowOf(SubWindowHost &host,const typename Base::ConfigType &cfg,TT && ... tt)
+    : Base(host,cfg,(ScrollListWindowBase *)this, std::forward<TT>(tt)... )
+    {
+    }
+
+   virtual ~ScrollListWindowOf()
+    {
+    }
+
+   // methods
+
+   bool isEnabled() const { return window.isEnabled(); }
+
+   void enable(bool enable=true)
+    {
+     window.enable(enable);
+     scroll_x.enable(enable);
+     scroll_y.enable(enable);
+    }
+
+   void disable() { enable(false); }
+
+   void setInfo(const ComboInfo &info)
+    {
+     window.setInfo(info);
+
+     layout();
+
+     redraw();
+    }
+
+   const ComboInfo & getInfo() const { return window.getInfo(); }
+
+   ulen getSelect() const { return window.getSelect(); }
+
+   bool select(ulen index) { return window.select(index); }
+
+   bool reselect() { return window.reselect(); }
+
+   void ping() { window.ping(); }
  };
 
 /* type ScrollListWindow */

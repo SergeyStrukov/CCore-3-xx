@@ -1,7 +1,7 @@
 /* Shape.Scroll.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -212,9 +212,9 @@ class XScrollShape : public ScrollShape
  {
   public:
 
-   static const VKey DownKey = VKey_Left ;
+   static constexpr VKey DownKey = VKey_Left ;
 
-   static const VKey UpKey = VKey_Right ;
+   static constexpr VKey UpKey = VKey_Right ;
 
    // methods
 
@@ -237,9 +237,9 @@ class YScrollShape : public ScrollShape
  {
   public:
 
-   static const VKey DownKey = VKey_Up ;
+   static constexpr VKey DownKey = VKey_Up ;
 
-   static const VKey UpKey = VKey_Down ;
+   static constexpr VKey UpKey = VKey_Down ;
 
    // methods
 

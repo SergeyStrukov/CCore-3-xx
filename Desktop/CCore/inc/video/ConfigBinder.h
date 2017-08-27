@@ -1,7 +1,7 @@
 /* ConfigBinder.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -114,21 +114,9 @@ class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase
   private:
 
    template <class T>
-   auto bind(T &obj) -> decltype( obj.bind(0) )
-    {
-     return obj.bind(get());
-    }
-
-   template <class T>
-   auto bind(T &obj) -> decltype( obj.bind(0,0) )
-    {
-     return obj.bind(get(),getSmartConfig());
-    }
-
-   template <class T>
    void bind()
     {
-     bind( static_cast<Item<T> &>(pack).obj );
+     BindBagProxy( static_cast<Item<T> &>(pack).obj ,get(),getSmartConfig());
     }
 
   public:

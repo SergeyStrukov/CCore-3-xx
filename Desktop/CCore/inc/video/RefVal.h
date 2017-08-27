@@ -31,6 +31,22 @@ enum SmartBindType { SmartBind };
 
 void GuardCtorRefValLock();
 
+/* BindBagProxy() */
+
+template <class Cfg,class Bag,class Proxy>
+auto BindBagProxy(Cfg &cfg,const Bag &bag,Proxy proxy) -> decltype( cfg.bind(bag,proxy) )
+ {
+  cfg.bind(bag,proxy);
+ }
+
+template <class Cfg,class Bag,class Proxy>
+auto BindBagProxy(Cfg &cfg,const Bag &bag,Proxy proxy) -> decltype( cfg.bind(bag) )
+ {
+  Used(proxy);
+
+  cfg.bind(bag);
+ }
+
 /* classes */
 
 class DefString;
