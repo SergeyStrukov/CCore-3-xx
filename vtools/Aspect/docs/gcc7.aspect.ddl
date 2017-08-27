@@ -5,7 +5,7 @@ Aspect Data=
   '../../..',
   {
    '',
-   New,
+   Red,
    {
     &Dir0,
     &Dir1,
@@ -526,7 +526,7 @@ Dir Dir11=
 Dir Dir12=
   {
    'vtools',
-   New,
+   Red,
    {
     &Dir50,
     &Dir51,
@@ -4864,14 +4864,14 @@ Dir Dir260=
 Dir Dir50=
   {
    'Aspect',
-   New,
+   Green,
    {
     &Dir261,
     &Dir262,
     &Dir263
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -4887,7 +4887,7 @@ Dir Dir51=
     &Dir267
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'ContourLab.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
@@ -4902,7 +4902,7 @@ Dir Dir52=
     &Dir269
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -4979,12 +4979,12 @@ Dir Dir57=
 Dir Dir261=
   {
    'docs',
-   New,
+   Ignore,
    {
    },
    {
     { 'gcc7.aspect.ddl' , Ignore },
-    { 'vtools.aspect.ddl' , New }
+    { 'vtools.aspect.ddl' , Ignore }
    }
   };
 

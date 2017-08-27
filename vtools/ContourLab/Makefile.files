@@ -52,125 +52,125 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/Application.o : ././src/Application.cpp
+.obj/Application.o : src/./Application.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Client.o : ././src/Client.cpp
+.obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Contour.o : ././src/Contour.cpp
+.obj/Contour.o : src/./Contour.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/EditAngleWindow.o : ././src/EditAngleWindow.cpp
+.obj/EditAngleWindow.o : src/./EditAngleWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/EditLengthWindow.o : ././src/EditLengthWindow.cpp
+.obj/EditLengthWindow.o : src/./EditLengthWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/EditRatioWindow.o : ././src/EditRatioWindow.cpp
+.obj/EditRatioWindow.o : src/./EditRatioWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Editor.o : ././src/Editor.cpp
+.obj/Editor.o : src/./Editor.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Geometry.o : ././src/Geometry.cpp
+.obj/Geometry.o : src/./Geometry.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/GeometryWindow.o : ././src/GeometryWindow.cpp
+.obj/GeometryWindow.o : src/./GeometryWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ItemListWindow.o : ././src/ItemListWindow.cpp
+.obj/ItemListWindow.o : src/./ItemListWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Parser.o : ././src/Parser.cpp
+.obj/Parser.o : src/./Parser.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ParserData.o : ././src/ParserData.cpp
+.obj/ParserData.o : src/./ParserData.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/main.o : ././src/main.cpp
+.obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
-.obj/Application.s : ././src/Application.cpp
+.obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Client.s : ././src/Client.cpp
+.obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Contour.s : ././src/Contour.cpp
+.obj/Contour.s : src/./Contour.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/EditAngleWindow.s : ././src/EditAngleWindow.cpp
+.obj/EditAngleWindow.s : src/./EditAngleWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/EditLengthWindow.s : ././src/EditLengthWindow.cpp
+.obj/EditLengthWindow.s : src/./EditLengthWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/EditRatioWindow.s : ././src/EditRatioWindow.cpp
+.obj/EditRatioWindow.s : src/./EditRatioWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Editor.s : ././src/Editor.cpp
+.obj/Editor.s : src/./Editor.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Geometry.s : ././src/Geometry.cpp
+.obj/Geometry.s : src/./Geometry.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/GeometryWindow.s : ././src/GeometryWindow.cpp
+.obj/GeometryWindow.s : src/./GeometryWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ItemListWindow.s : ././src/ItemListWindow.cpp
+.obj/ItemListWindow.s : src/./ItemListWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Parser.s : ././src/Parser.cpp
+.obj/Parser.s : src/./Parser.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ParserData.s : ././src/ParserData.cpp
+.obj/ParserData.s : src/./ParserData.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/main.s : ././src/main.cpp
+.obj/main.s : src/./main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
 
-.obj/Application.dep : ././src/Application.cpp
+.obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
 
-.obj/Client.dep : ././src/Client.cpp
+.obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
 
-.obj/Contour.dep : ././src/Contour.cpp
+.obj/Contour.dep : src/./Contour.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Contour.o $< -MF $@
 
-.obj/EditAngleWindow.dep : ././src/EditAngleWindow.cpp
+.obj/EditAngleWindow.dep : src/./EditAngleWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditAngleWindow.o $< -MF $@
 
-.obj/EditLengthWindow.dep : ././src/EditLengthWindow.cpp
+.obj/EditLengthWindow.dep : src/./EditLengthWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditLengthWindow.o $< -MF $@
 
-.obj/EditRatioWindow.dep : ././src/EditRatioWindow.cpp
+.obj/EditRatioWindow.dep : src/./EditRatioWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditRatioWindow.o $< -MF $@
 
-.obj/Editor.dep : ././src/Editor.cpp
+.obj/Editor.dep : src/./Editor.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Editor.o $< -MF $@
 
-.obj/Geometry.dep : ././src/Geometry.cpp
+.obj/Geometry.dep : src/./Geometry.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Geometry.o $< -MF $@
 
-.obj/GeometryWindow.dep : ././src/GeometryWindow.cpp
+.obj/GeometryWindow.dep : src/./GeometryWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/GeometryWindow.o $< -MF $@
 
-.obj/ItemListWindow.dep : ././src/ItemListWindow.cpp
+.obj/ItemListWindow.dep : src/./ItemListWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ItemListWindow.o $< -MF $@
 
-.obj/Parser.dep : ././src/Parser.cpp
+.obj/Parser.dep : src/./Parser.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Parser.o $< -MF $@
 
-.obj/ParserData.dep : ././src/ParserData.cpp
+.obj/ParserData.dep : src/./ParserData.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ParserData.o $< -MF $@
 
-.obj/main.dep : ././src/main.cpp
+.obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
 
 

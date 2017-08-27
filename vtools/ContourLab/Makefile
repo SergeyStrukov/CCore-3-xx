@@ -15,7 +15,7 @@ CCORE_ROOT = ../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-SRC_PATH_LIST = .
+SRC_PATH_LIST = src
 
 TARGET = ./ContourLab.exe
 
