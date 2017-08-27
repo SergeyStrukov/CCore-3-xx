@@ -1,7 +1,7 @@
 /* Shape.FixedFrame.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -111,10 +111,10 @@ class FixedFrameShape : public FrameShapeBase
 
   public:
 
-   static const bool EnableAlert = true ;
-   static const bool EnableMinimize = true ;
-   static const bool EnableMaximize = false ;
-   static const bool EnableFixed = true ;
+   static constexpr bool EnableAlert = true ;
+   static constexpr bool EnableMinimize = true ;
+   static constexpr bool EnableMaximize = false ;
+   static constexpr bool EnableFixed = true ;
 
    static VKey Filter(VKey vkey,KeyMod kmod)
     {

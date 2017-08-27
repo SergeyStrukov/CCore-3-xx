@@ -81,9 +81,9 @@ class TestWindow : public ComboWindow
 
   private:
 
-   static DefString InfoText;
+   static DefString InfoText();
 
-   static DefString ListText;
+   static DefString ListText();
 
    void changeColor(int new_id,int prev_id);
 

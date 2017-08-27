@@ -1,7 +1,7 @@
 /* Shape.DragFrame.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -161,10 +161,10 @@ class DragFrameShape : public FrameShapeBase
 
   public:
 
-   static const bool EnableAlert = true ;
-   static const bool EnableMinimize = true ;
-   static const bool EnableMaximize = true ;
-   static const bool EnableFixed = false ;
+   static constexpr bool EnableAlert = true ;
+   static constexpr bool EnableMinimize = true ;
+   static constexpr bool EnableMaximize = true ;
+   static constexpr bool EnableFixed = false ;
 
    static VKey Filter(VKey vkey,KeyMod kmod)
     {

@@ -1,7 +1,7 @@
 /* Window.LineEdit.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -427,7 +427,7 @@ class LineEditWindowOf : public SubWindow
    using ShapeType = Shape ;
    using ConfigType = typename Shape::Config ;
 
-   static const ulen DefBufLen = 1_KByte ;
+   static constexpr ulen DefBufLen = 1_KByte ;
 
    template <class ... TT>
    LineEditWindowOf(SubWindowHost &host,TT && ... tt)
@@ -621,6 +621,8 @@ class LineEditWindowOf : public SubWindow
      shape.pos=0;
      shape.select_off=0;
      shape.select_len=0;
+
+     defer_tick.stop();
     }
 
    virtual void close()
@@ -680,197 +682,175 @@ class LineEditWindowOf : public SubWindow
 
    void react_Key(VKey vkey,KeyMod kmod)
     {
-     if( shape.enable )
+     switch( vkey )
        {
-        switch( vkey )
-          {
-           case VKey_Left :
-            {
-             if( kmod&KeyMod_Ctrl )
-               {
-                addXOff(-1);
-               }
-             else
-               {
-                keyLeft(kmod&KeyMod_Shift);
-               }
-            }
-           break;
+        case VKey_Left :
+         {
+          if( kmod&KeyMod_Ctrl ) { addXOff(-1); return; }
+         }
+        break;
 
-           case VKey_Right :
-            {
-             if( kmod&KeyMod_Ctrl )
-               {
-                addXOff(+1);
-               }
-             else
-               {
-                keyRight(kmod&KeyMod_Shift);
-               }
-            }
-           break;
+        case VKey_Right :
+         {
+          if( kmod&KeyMod_Ctrl ) { addXOff(+1); return; }
+         }
+        break;
 
-           case VKey_Delete :
+        case VKey_Tab :
+         {
+          tabbed.assert(kmod&KeyMod_Shift); return;
+         }
+        break;
+       }
+
+     if( !shape.enable ) return;
+
+     switch( vkey )
+       {
+        case VKey_Left :
+         {
+          keyLeft(kmod&KeyMod_Shift);
+         }
+        break;
+
+        case VKey_Right :
+         {
+          keyRight(kmod&KeyMod_Shift);
+         }
+        break;
+
+        case VKey_Delete :
+         {
+          if( shape.select_len )
             {
-             if( shape.select_len )
-               {
-                if( kmod&KeyMod_Shift )
-                  cut();
-                else
-                  delSelection();
-               }
+             if( kmod&KeyMod_Shift )
+               cut();
              else
+               delSelection();
+            }
+          else
+            {
+             if( !(kmod&KeyMod_Shift) )
                {
-                if( !(kmod&KeyMod_Shift) )
+                if( shape.pos<shape.len )
                   {
-                   if( shape.pos<shape.len )
-                     {
-                      delChar();
-                     }
-                  }
-               }
-            }
-           break;
-
-           case VKey_BackSpace :
-            {
-             if( shape.select_len )
-               {
-                delSelection();
-               }
-             else
-               {
-                if( shape.pos )
-                  {
-                   shape.pos--;
-
                    delChar();
                   }
                }
             }
-           break;
+         }
+        break;
 
-           default:
+        case VKey_BackSpace :
+         {
+          if( shape.select_len )
             {
-             keyOther(vkey,kmod);
+             delSelection();
             }
-          }
-       }
-     else
-       {
-        switch( vkey )
-          {
-           case VKey_Left :
+          else
             {
-             if( kmod&KeyMod_Ctrl ) addXOff(-1);
-            }
-           break;
+             if( shape.pos )
+               {
+                shape.pos--;
 
-           case VKey_Right :
-            {
-             if( kmod&KeyMod_Ctrl ) addXOff(+1);
+                delChar();
+               }
             }
-           break;
-          }
+         }
+        break;
+
+        default:
+         {
+          keyOther(vkey,kmod);
+         }
        }
     }
 
    void react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     {
-     if( shape.enable )
+     switch( vkey )
        {
-        switch( vkey )
-          {
-           case VKey_Left :
-            {
-             if( kmod&KeyMod_Ctrl )
-               {
-                addXOff(-CountToCoordinate(repeat));
-               }
-             else
-               {
-                keyLeft(kmod&KeyMod_Shift,repeat);
-               }
-            }
-           break;
+        case VKey_Left :
+         {
+          if( kmod&KeyMod_Ctrl ) { addXOff(-CountToCoordinate(repeat)); return; }
+         }
+        break;
 
-           case VKey_Right :
-            {
-             if( kmod&KeyMod_Ctrl )
-               {
-                addXOff(CountToCoordinate(repeat));
-               }
-             else
-               {
-                keyRight(kmod&KeyMod_Shift,repeat);
-               }
-            }
-           break;
+        case VKey_Right :
+         {
+          if( kmod&KeyMod_Ctrl ) { addXOff(CountToCoordinate(repeat)); return; }
+         }
+        break;
 
-           case VKey_Delete :
+        case VKey_Tab :
+         {
+          tabbed.assert(kmod&KeyMod_Shift); return;
+         }
+        break;
+       }
+
+     if( !shape.enable ) return;
+
+     switch( vkey )
+       {
+        case VKey_Left :
+         {
+          keyLeft(kmod&KeyMod_Shift,repeat);
+         }
+        break;
+
+        case VKey_Right :
+         {
+          keyRight(kmod&KeyMod_Shift,repeat);
+         }
+        break;
+
+        case VKey_Delete :
+         {
+          if( shape.select_len )
             {
-             if( shape.select_len )
-               {
-                if( kmod&KeyMod_Shift )
-                  cut();
-                else
-                  delSelection();
-               }
+             if( kmod&KeyMod_Shift )
+               cut();
              else
+               delSelection();
+            }
+          else
+            {
+             if( !(kmod&KeyMod_Shift) )
                {
-                if( !(kmod&KeyMod_Shift) )
+                if( shape.pos<shape.len )
                   {
-                   if( shape.pos<shape.len )
-                     {
-                      delChar(repeat);
-                     }
-                  }
-               }
-            }
-           break;
-
-           case VKey_BackSpace :
-            {
-             if( shape.select_len )
-               {
-                delSelection();
-               }
-             else
-               {
-                CapDown(repeat,shape.pos);
-
-                if( repeat )
-                  {
-                   shape.pos-=repeat;
-
                    delChar(repeat);
                   }
                }
             }
-           break;
+         }
+        break;
 
-           default:
+        case VKey_BackSpace :
+         {
+          if( shape.select_len )
             {
-             keyOther(vkey,kmod);
+             delSelection();
             }
-          }
-       }
-     else
-       {
-        switch( vkey )
-          {
-           case VKey_Left :
+          else
             {
-             if( kmod&KeyMod_Ctrl ) addXOff(-CountToCoordinate(repeat));
-            }
-           break;
+             CapDown(repeat,shape.pos);
 
-           case VKey_Right :
-            {
-             if( kmod&KeyMod_Ctrl ) addXOff(CountToCoordinate(repeat));
+             if( repeat )
+               {
+                shape.pos-=repeat;
+
+                delChar(repeat);
+               }
             }
-           break;
-          }
+         }
+        break;
+
+        default:
+         {
+          keyOther(vkey,kmod);
+         }
        }
     }
 
@@ -925,13 +905,16 @@ class LineEditWindowOf : public SubWindow
            endDrag();
           }
        }
-     else if( mkey&MouseKey_Left )
-       {
-        if( shape.enable ) posCursor(point); else posCursorEnd();
-       }
      else
        {
-        posCursorEnd();
+        if( shape.enable && (mkey&MouseKey_Left) )
+          {
+           posCursor(point);
+          }
+        else
+          {
+           posCursorEnd();
+          }
        }
     }
 
@@ -963,6 +946,7 @@ class LineEditWindowOf : public SubWindow
 
    Signal<> entered;
    Signal<> changed;
+   Signal<bool> tabbed; // shift
  };
 
 /* type LineEditWindow */

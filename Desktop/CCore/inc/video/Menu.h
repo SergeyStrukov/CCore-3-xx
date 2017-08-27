@@ -1,7 +1,7 @@
 /* Menu.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.01
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ template <class Shape> class SimpleCascadeMenuOf;
 
 struct MenuPoint
  {
-  static const char Hot = '@' ;
+  static constexpr char Hot = '@' ;
 
   MenuType type;
   DefString text;
@@ -1043,11 +1043,9 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
    // signals
 
-   Signal<int,Point> selected; // id , cascade menu point
-
+   Signal<int,Point> selected;  // id , cascade menu point
    Signal<VKey,KeyMod> pressed; // for Left and Right keys
-
-   Signal<int> deleted; // id
+   Signal<int> deleted;         // id
  };
 
 /* type SimpleCascadeMenuWindow */
@@ -1174,11 +1172,8 @@ class SimpleCascadeMenuOf
    // signals
 
    Signal<> &destroyed;
-
-   Signal<int,Point> &selected; // id , cascade menu point
-
-   Signal<int> &deleted; // id
-
+   Signal<int,Point> &selected;  // id , cascade menu point
+   Signal<int> &deleted;         // id
    Signal<VKey,KeyMod> &pressed; // for Left and Right keys
  };
 

@@ -19,12 +19,17 @@ namespace App {
 
 /* class TestWindow */
 
-DefString TestWindow::InfoText=
+DefString TestWindow::InfoText()
+ {
+  return
 "This is a test control panel.\n"
 "You can see user preferences here.\n"
 "Use main window to adjust sizes, colors etc..."_def;
+ }
 
-DefString TestWindow::ListText=
+DefString TestWindow::ListText()
+ {
+  return
 "button\n"
 "check box\n"
 "radio button\n"
@@ -32,6 +37,7 @@ DefString TestWindow::ListText=
 "light\n"
 "scroll\n"
 "line edit"_def;
+ }
 
 void TestWindow::changeColor(int new_id,int)
  {
@@ -123,9 +129,9 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
    rad2(wlist,2,pref.getSmartConfig()),
    rad3(wlist,3,pref.getSmartConfig()),
    xscroll(wlist,pref.getSmartConfig()),
-   info(wlist,pref.getSmartConfig(),InfoFromString(InfoText)),
+   info(wlist,pref.getSmartConfig(),InfoFromString(InfoText())),
    edit(wlist,pref.getSmartConfig()),
-   text_list(wlist,pref.getSmartConfig(),InfoFromString(ListText)),
+   text_list(wlist,pref.getSmartConfig(),InfoFromString(ListText())),
 
    label1(wlist,pref.getSmartConfig(),"Red"_def,AlignX_Left),
    label2(wlist,pref.getSmartConfig(),"Green"_def,AlignX_Left),

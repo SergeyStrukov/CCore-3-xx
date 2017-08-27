@@ -71,7 +71,7 @@ Dir Dir1=
 Dir Dir2=
   {
    'Desktop',
-   Red,
+   Green,
    {
     &Dir16
    },
@@ -538,7 +538,7 @@ Dir Dir12=
     &Dir57
    },
    {
-    { 'Makefile' , Ignore }
+    { 'Makefile' , Green }
    }
   };
 
@@ -1095,7 +1095,7 @@ Dir Dir81=
 Dir Dir16=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir82,
     &Dir83,
@@ -1108,7 +1108,7 @@ Dir Dir16=
 Dir Dir82=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir85
    },
@@ -1119,7 +1119,7 @@ Dir Dir82=
 Dir Dir83=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir86
    },
@@ -1152,7 +1152,7 @@ Dir Dir84=
 Dir Dir85=
   {
    'video',
-   Red,
+   Green,
    {
     &Dir87,
     &Dir88
@@ -1163,17 +1163,17 @@ Dir Dir85=
     { 'ColorField.h' , Green },
     { 'CommonDrawArt.h' , Green },
     { 'ConfigBinder.h' , Green },
-    { 'ConfigEditor.h' , Red },
+    { 'ConfigEditor.h' , Green },
     { 'ConfigStore.h' , Green },
     { 'CurveDriver.h' , Green },
     { 'DesktopKey.h' , Green },
-    { 'DirFrame.h' , Red },
+    { 'DirFrame.h' , Green },
     { 'DrawAlgo.h' , Green },
     { 'DrawBuf.h' , Green },
     { 'DrawTools.h' , Green },
     { 'FigureLib.h' , Green },
     { 'FileBoss.h' , Green },
-    { 'FileFrame.h' , Red },
+    { 'FileFrame.h' , Green },
     { 'FileNameCmp.h' , Green },
     { 'Font.h' , Green },
     { 'FontDatabase.h' , Green },
@@ -1190,8 +1190,8 @@ Dir Dir85=
     { 'InfoSize.h' , Green },
     { 'Keyboard.h' , Green },
     { 'Layout.h' , Green },
-    { 'Menu.h' , Red },
-    { 'MessageFrame.h' , Red },
+    { 'Menu.h' , Green },
+    { 'MessageFrame.h' , Green },
     { 'MinSizeType.h' , Green },
     { 'Mouse.h' , Green },
     { 'Picture.h' , Green },
@@ -1202,7 +1202,7 @@ Dir Dir85=
     { 'SmoothAlgo.h' , Green },
     { 'SmoothDrawArt.h' , Green },
     { 'SubWindow.h' , Green },
-    { 'ToolFrame.h' , Red },
+    { 'ToolFrame.h' , Green },
     { 'UserAction.h' , Green },
     { 'UserPreference.h' , Green },
     { 'WindowLib.h' , Green },
@@ -1213,7 +1213,7 @@ Dir Dir85=
 Dir Dir87=
   {
    'lib',
-   Red,
+   Green,
    {
    },
    {
@@ -1224,18 +1224,18 @@ Dir Dir87=
     { 'Window.Check.h' , Green },
     { 'Shape.Contour.h' , Green },
     { 'Window.Decor.h' , Green },
-    { 'Shape.DragFrame.h' , Red },
-    { 'Window.DragFrame.h' , Red },
-    { 'Shape.FixedFrame.h' , Red },
-    { 'Shape.FrameBase.h' , Red },
+    { 'Shape.DragFrame.h' , Green },
+    { 'Window.DragFrame.h' , Green },
+    { 'Shape.FixedFrame.h' , Green },
+    { 'Shape.FrameBase.h' , Green },
     { 'Shape.Info.h' , Green },
     { 'Window.Info.h' , Green },
     { 'Shape.Label.h' , Green },
     { 'Shape.Light.h' , Green },
     { 'Window.Light.h' , Green },
     { 'Shape.Line.h' , Green },
-    { 'Shape.LineEdit.h' , Red },
-    { 'Window.LineEdit.h' , Red },
+    { 'Shape.LineEdit.h' , Green },
+    { 'Window.LineEdit.h' , Green },
     { 'Shape.Progress.h' , Green },
     { 'Window.Progress.h' , Green },
     { 'Shape.Radio.h' , Green },
@@ -1261,23 +1261,23 @@ Dir Dir87=
 Dir Dir88=
   {
    'pref',
-   Red,
+   Green,
    {
    },
    {
-    { 'ColorEdit.h' , Red },
-    { 'CoordEdit.h' , Red },
-    { 'FontEdit.h' , Red },
-    { 'MCoordEdit.h' , Red },
-    { 'PointEdit.h' , Red },
-    { 'RatioEdit.h' , Red }
+    { 'ColorEdit.h' , Green },
+    { 'CoordEdit.h' , Green },
+    { 'FontEdit.h' , Green },
+    { 'MCoordEdit.h' , Green },
+    { 'PointEdit.h' , Green },
+    { 'RatioEdit.h' , Green }
    }
   };
 
 Dir Dir86=
   {
    'video',
-   Red,
+   Green,
    {
     &Dir89,
     &Dir90
@@ -1288,17 +1288,17 @@ Dir Dir86=
     { 'ColorField.cpp' , Green },
     { 'CommonDrawArt.cpp' , Green },
     { 'ConfigBinder.cpp' , Green },
-    { 'ConfigEditor.cpp' , Red },
+    { 'ConfigEditor.cpp' , Green },
     { 'ConfigStore.cpp' , Green },
     { 'CurveDriver.cpp' , Green },
     { 'DesktopKey.cpp' , Green },
-    { 'DirFrame.cpp' , Red },
+    { 'DirFrame.cpp' , Green },
     { 'DrawAlgo.cpp' , Green },
     { 'DrawBuf.cpp' , Green },
     { 'DrawTools.cpp' , Green },
     { 'FigureLib.cpp' , Green },
     { 'FileBoss.cpp' , Green },
-    { 'FileFrame.cpp' , Red },
+    { 'FileFrame.cpp' , Green },
     { 'FileNameCmp.cpp' , Green },
     { 'Font.cpp' , Green },
     { 'FontDatabase.cpp' , Green },
@@ -1315,8 +1315,8 @@ Dir Dir86=
     { 'InfoSize.cpp' , Green },
     { 'Keyboard.cpp' , Green },
     { 'Layout.cpp' , Green },
-    { 'Menu.cpp' , Red },
-    { 'MessageFrame.cpp' , Red },
+    { 'Menu.cpp' , Green },
+    { 'MessageFrame.cpp' , Green },
     { 'MinSizeType.cpp' , Green },
     { 'Mouse.cpp' , Green },
     { 'Picture.cpp' , Green },
@@ -1327,7 +1327,7 @@ Dir Dir86=
     { 'SmoothAlgo.cpp' , Green },
     { 'SmoothDrawArt.cpp' , Green },
     { 'SubWindow.cpp' , Green },
-    { 'ToolFrame.cpp' , Red },
+    { 'ToolFrame.cpp' , Green },
     { 'UserAction.cpp' , Green },
     { 'UserPreference.cpp' , Green },
     { 'WindowLib.cpp' , Green },
@@ -1345,7 +1345,7 @@ Dir Dir86=
 Dir Dir89=
   {
    'lib',
-   Red,
+   Green,
    {
    },
    {
@@ -1356,18 +1356,18 @@ Dir Dir89=
     { 'Window.Check.cpp' , Green },
     { 'Shape.Contour.cpp' , Green },
     { 'Window.Decor.cpp' , Green },
-    { 'Shape.DragFrame.cpp' , Red },
-    { 'Window.DragFrame.cpp' , Red },
-    { 'Shape.FixedFrame.cpp' , Red },
-    { 'Shape.FrameBase.cpp' , Red },
+    { 'Shape.DragFrame.cpp' , Green },
+    { 'Window.DragFrame.cpp' , Green },
+    { 'Shape.FixedFrame.cpp' , Green },
+    { 'Shape.FrameBase.cpp' , Green },
     { 'Shape.Info.cpp' , Green },
     { 'Window.Info.cpp' , Green },
     { 'Shape.Label.cpp' , Green },
     { 'Shape.Light.cpp' , Green },
     { 'Window.Light.cpp' , Green },
     { 'Shape.Line.cpp' , Green },
-    { 'Shape.LineEdit.cpp' , Red },
-    { 'Window.LineEdit.cpp' , Red },
+    { 'Shape.LineEdit.cpp' , Green },
+    { 'Window.LineEdit.cpp' , Green },
     { 'Shape.Progress.cpp' , Green },
     { 'Window.Progress.cpp' , Green },
     { 'Shape.Radio.cpp' , Green },
@@ -1393,16 +1393,16 @@ Dir Dir89=
 Dir Dir90=
   {
    'pref',
-   Red,
+   Green,
    {
    },
    {
-    { 'ColorEdit.cpp' , Red },
-    { 'CoordEdit.cpp' , Red },
-    { 'FontEdit.cpp' , Red },
-    { 'MCoordEdit.cpp' , Red },
-    { 'PointEdit.cpp' , Red },
-    { 'RatioEdit.cpp' , Red }
+    { 'ColorEdit.cpp' , Green },
+    { 'CoordEdit.cpp' , Green },
+    { 'FontEdit.cpp' , Green },
+    { 'MCoordEdit.cpp' , Green },
+    { 'PointEdit.cpp' , Green },
+    { 'RatioEdit.cpp' , Green }
    }
   };
 
@@ -4921,14 +4921,14 @@ Dir Dir53=
 Dir Dir54=
   {
    'RandomId',
-   New,
+   Green,
    {
     &Dir271,
     &Dir272
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Green },
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -4971,7 +4971,7 @@ Dir Dir57=
     &Dir278
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -5175,27 +5175,27 @@ Dir Dir270=
 Dir Dir271=
   {
    'inc',
-   New,
+   Green,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New },
-    { 'RandomId.h' , New }
+    { 'Application.h' , Green },
+    { 'Client.h' , Green },
+    { 'RandomId.h' , Green }
    }
   };
 
 Dir Dir272=
   {
    'src',
-   New,
+   Green,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'main.cpp' , New },
-    { 'RandomId.cpp' , New }
+    { 'Application.cpp' , Green },
+    { 'Client.cpp' , Green },
+    { 'main.cpp' , Green },
+    { 'RandomId.cpp' , Green }
    }
   };
 
@@ -5258,7 +5258,7 @@ Dir Dir277=
    {
    },
    {
-    { 'Application.h' , Red },
+    { 'Application.h' , Green },
     { 'TestFrame.h' , Red }
    }
   };
@@ -5270,8 +5270,8 @@ Dir Dir278=
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'main.cpp' , Red },
+    { 'Application.cpp' , Green },
+    { 'main.cpp' , Green },
     { 'TestFrame.cpp' , Red }
    }
   };
