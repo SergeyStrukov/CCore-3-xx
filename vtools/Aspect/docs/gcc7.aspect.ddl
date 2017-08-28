@@ -3059,7 +3059,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN64',
-   Red,
+   Green,
    {
     &Dir159,
     &Dir160,
@@ -4574,7 +4574,7 @@ Dir Dir243=
 Dir Dir159=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir244,
     &Dir245,
@@ -4612,7 +4612,7 @@ Dir Dir161=
 Dir Dir244=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir248,
     &Dir249,
@@ -4629,7 +4629,7 @@ Dir Dir244=
 Dir Dir245=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir254,
     &Dir255,
@@ -4732,11 +4732,14 @@ Dir Dir251=
 Dir Dir252=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.h' , Red }
+    { 'Desktop.h' , Green },
+    { 'InternalDesktop.h' , Green },
+    { 'InternalHost.h' , Green },
+    { 'InternalUtils.h' , Green }
    }
   };
 
@@ -4826,11 +4829,14 @@ Dir Dir257=
 Dir Dir258=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.cpp' , Red }
+    { 'Desktop.cpp' , Green },
+    { 'InternalDesktop.cpp' , Green },
+    { 'InternalHost.cpp' , Green },
+    { 'InternalUtils.cpp' , Green }
    }
   };
 
