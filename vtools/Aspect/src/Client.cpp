@@ -291,11 +291,11 @@ void ClientWindow::menu_selected(int id,Point point)
 
 void ClientWindow::cascade_menu_selected(int id,Point point)
  {
-  menuAction(id,point);
-
   menuOff();
 
   aspect.setFocus();
+
+  menuAction(id,point);
  }
 
 void ClientWindow::cascade_menu_deleted(int id)

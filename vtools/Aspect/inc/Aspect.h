@@ -526,24 +526,19 @@ class InnerDataWindow : public SubWindow
 
 /* class DataWindow */
 
-class DataWindow : public ComboWindow
+class DataWindow : public ScrollableWindow<InnerDataWindow>
  {
   public:
 
-   struct Config : InnerDataWindow::Config
+   using Base = ScrollableWindow<InnerDataWindow> ;
+
+   struct Config : Base::Config
     {
-     // user
-
-     CtorRefVal<XScrollWindow::ConfigType> x_cfg;
-     CtorRefVal<YScrollWindow::ConfigType> y_cfg;
-
-     // app
-
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : InnerDataWindow::Config(user_pref,app_pref)
+      : Base::Config(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
       }
@@ -562,21 +557,6 @@ class DataWindow : public ComboWindow
 
   private:
 
-   const Config &cfg;
-
-   InnerDataWindow inner;
-   XScrollWindow scroll_x;
-   YScrollWindow scroll_y;
-
-  private:
-
-   void setScroll();
-
-  private:
-
-   SignalConnector<XScrollWindow,ulen> connector_posx;
-   SignalConnector<YScrollWindow,ulen> connector_posy;
-
    void update_scroll();
 
    SignalConnector<DataWindow> connector_update_scroll;
@@ -589,8 +569,6 @@ class DataWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
-
    void update();
 
    void update(Filter filter);
@@ -598,10 +576,6 @@ class DataWindow : public ComboWindow
    void filter(Filter filter);
 
    void collect();
-
-   // drawing
-
-   virtual void layout();
 
    // signals
 

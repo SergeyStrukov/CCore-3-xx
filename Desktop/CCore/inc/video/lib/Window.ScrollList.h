@@ -29,7 +29,7 @@ struct ScrollListWindowBase;
 
 template <class Shape> class ScrollListInnerWindowOf;
 
-template <class Window,class XShape,class YShape> class ScrollableWindow;
+template <class Window,class XShape=XScrollShape,class YShape=YScrollShape> class ScrollableWindow;
 
 template <class Shape,class XShape,class YShape> class ScrollListWindowOf;
 
@@ -569,6 +569,9 @@ class ScrollableWindow : public ComboWindow
      CtorRefVal<typename YShape::Config> y_cfg;
 
      Config() noexcept {}
+
+     template <class ... TT>
+     explicit Config(TT && ... tt) : window_cfg( std::forward<TT>(tt)... ) {}
 
      template <class Bag,class Proxy>
      void bind(const Bag &bag,Proxy proxy)

@@ -3041,7 +3041,7 @@ Dir Dir47=
 Dir Dir48=
   {
    'WIN32',
-   Red,
+   Green,
    {
     &Dir155,
     &Dir156,
@@ -4310,7 +4310,7 @@ Dir Dir229=
 Dir Dir155=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir230,
     &Dir231,
@@ -4362,7 +4362,7 @@ Dir Dir158=
 Dir Dir230=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir234,
     &Dir235,
@@ -4377,7 +4377,7 @@ Dir Dir230=
 Dir Dir231=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir239,
     &Dir240,
@@ -4457,23 +4457,26 @@ Dir Dir236=
 Dir Dir237=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.h' , Red }
+    { 'Desktop.h' , Green },
+    { 'InternalDesktop.h' , Green },
+    { 'InternalHost.h' , Green },
+    { 'InternalUtils.h' , Green }
    }
   };
 
 Dir Dir238=
   {
    'win32',
-   Red,
+   Green,
    {
    },
    {
     { 'Win32.h' , Green },
-    { 'Win32gui.h' , Red }
+    { 'Win32gui.h' , Green }
    }
   };
 
@@ -4535,11 +4538,14 @@ Dir Dir241=
 Dir Dir242=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.cpp' , Red }
+    { 'Desktop.cpp' , Green },
+    { 'InternalDesktop.cpp' , Green },
+    { 'InternalHost.cpp' , Green },
+    { 'InternalUtils.cpp' , Green }
    }
   };
 
@@ -4737,12 +4743,12 @@ Dir Dir252=
 Dir Dir253=
   {
    'win64',
-   Red,
+   Green,
    {
    },
    {
     { 'Win64.h' , Green },
-    { 'Win64gui.h' , Red }
+    { 'Win64gui.h' , Green }
    }
   };
 
@@ -4896,7 +4902,7 @@ Dir Dir51=
 Dir Dir52=
   {
    'DDLDisplay',
-   Red,
+   Green,
    {
     &Dir268,
     &Dir269
@@ -4941,7 +4947,7 @@ Dir Dir55=
     &Dir274
    },
    {
-    { 'Makefile' , Ignore },
+    { 'Makefile' , Green },
     { 'Sample.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
@@ -5136,27 +5142,27 @@ Dir Dir280=
 Dir Dir268=
   {
    'inc',
-   Red,
+   Green,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red },
-    { 'Display.h' , Red }
+    { 'Application.h' , Green },
+    { 'Client.h' , Green },
+    { 'Display.h' , Green }
    }
   };
 
 Dir Dir269=
   {
    'src',
-   Red,
+   Green,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'Display.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Green },
+    { 'Client.cpp' , Green },
+    { 'Display.cpp' , Green },
+    { 'main.cpp' , Green }
    }
   };
 

@@ -1004,13 +1004,6 @@ void InnerDataWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 /* class DataWindow */
 
-void DataWindow::setScroll()
- {
-  if( scroll_x.isListed() ) inner.setScrollXRange(scroll_x);
-
-  if( scroll_y.isListed() ) inner.setScrollYRange(scroll_y);
- }
-
 void DataWindow::update_scroll()
  {
   layout();
@@ -1018,24 +1011,14 @@ void DataWindow::update_scroll()
   redraw();
  }
 
-DataWindow::DataWindow(SubWindowHost &host,const Config &cfg_,AspectData &data)
- : ComboWindow(host),
-   cfg(cfg_),
+DataWindow::DataWindow(SubWindowHost &host,const ConfigType &cfg,AspectData &data)
+ : Base(host,cfg,data),
 
-   inner(wlist,cfg_,data),
-   scroll_x(wlist,cfg_.x_cfg),
-   scroll_y(wlist,cfg_.y_cfg),
+   connector_update_scroll(this,&DataWindow::update_scroll,window.update_scroll),
 
-   connector_posx(&scroll_x,&XScrollWindow::setPos,inner.scroll_x),
-   connector_posy(&scroll_y,&YScrollWindow::setPos,inner.scroll_y),
-   connector_update_scroll(this,&DataWindow::update_scroll,inner.update_scroll),
-
-   changed(inner.changed),
-   manychanged(inner.manychanged)
+   changed(window.changed),
+   manychanged(window.manychanged)
  {
-  wlist.insTop(inner);
-
-  inner.connect(scroll_x.changed,scroll_y.changed);
  }
 
 DataWindow::~DataWindow()
@@ -1044,108 +1027,24 @@ DataWindow::~DataWindow()
 
  // methods
 
-Point DataWindow::getMinSize(Point cap) const
- {
-  Point delta(scroll_y.getMinSize().dx,0);
-
-  return inner.getMinSize(cap-delta)+delta;
- }
-
 void DataWindow::update()
  {
-  inner.update();
+  window.update();
  }
 
 void DataWindow::update(Filter filter)
  {
-  inner.update(filter);
+  window.update(filter);
  }
 
 void DataWindow::filter(Filter filter)
  {
-  inner.filter(filter);
+  window.filter(filter);
  }
 
 void DataWindow::collect()
  {
-  inner.collect();
- }
-
- // drawing
-
-void DataWindow::layout()
- {
-  Pane all(Null,getSize());
-  Pane pane(all);
-
-  Coord delta_x=scroll_y.getMinSize().dx;
-  Coord delta_y=scroll_x.getMinSize().dy;
-
-  inner.setPlace(pane);
-
-  if( inner.shortDY() )
-    {
-     Pane py=SplitX(pane,delta_x);
-
-     inner.setPlace(pane);
-     scroll_y.setPlace(py);
-
-     wlist.insBottom(scroll_y);
-
-     if( inner.shortDX() )
-       {
-        Pane px=SplitY(pane,delta_y);
-
-        inner.setPlace(pane);
-        scroll_x.setPlace(px);
-
-        wlist.insBottom(scroll_x);
-       }
-     else
-       {
-        wlist.del(scroll_x);
-       }
-    }
-  else
-    {
-     if( inner.shortDX() )
-       {
-        Pane px=SplitY(pane,delta_y);
-
-        inner.setPlace(pane);
-
-        if( inner.shortDY() )
-          {
-           pane=all;
-           Pane py=SplitX(pane,delta_x);
-           Pane px=SplitY(pane,delta_y);
-
-           inner.setPlace(pane);
-           scroll_x.setPlace(px);
-           scroll_y.setPlace(py);
-
-           wlist.insBottom(scroll_x);
-
-           wlist.insBottom(scroll_y);
-          }
-        else
-          {
-           scroll_x.setPlace(px);
-
-           wlist.insBottom(scroll_x);
-
-           wlist.del(scroll_y);
-          }
-       }
-     else
-       {
-        wlist.del(scroll_x);
-
-        wlist.del(scroll_y);
-       }
-    }
-
-  setScroll();
+  window.collect();
  }
 
 /* class AspectWindow */
