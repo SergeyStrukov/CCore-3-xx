@@ -160,6 +160,9 @@ OBJ_LIST = \
 .obj/IntelCPUID.o \
 .obj/IntelRandom.o \
 .obj/InterfaceHost.o \
+.obj/InternalDesktop.o \
+.obj/InternalHost.o \
+.obj/InternalUtils.o \
 .obj/Job.o \
 .obj/Keyboard.o \
 .obj/LangDataMap.o \
@@ -587,6 +590,9 @@ ASM_LIST = \
 .obj/IntelCPUID.s \
 .obj/IntelRandom.s \
 .obj/InterfaceHost.s \
+.obj/InternalDesktop.s \
+.obj/InternalHost.s \
+.obj/InternalUtils.s \
 .obj/Job.s \
 .obj/Keyboard.s \
 .obj/LangDataMap.s \
@@ -1014,6 +1020,9 @@ DEP_LIST = \
 .obj/IntelCPUID.dep \
 .obj/IntelRandom.dep \
 .obj/InterfaceHost.dep \
+.obj/InternalDesktop.dep \
+.obj/InternalHost.dep \
+.obj/InternalUtils.dep \
 .obj/Job.dep \
 .obj/Keyboard.dep \
 .obj/LangDataMap.dep \
@@ -1773,6 +1782,15 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/InterfaceHost.o : ../../Fundamental/CCore/src/./InterfaceHost.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/InternalDesktop.o : ../../Target/LIN64/CCore/src/./video/InternalDesktop.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/InternalHost.o : ../../Target/LIN64/CCore/src/./video/InternalHost.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/InternalUtils.o : ../../Target/LIN64/CCore/src/./video/InternalUtils.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Job.o : ../../Fundamental/CCore/src/./Job.cpp
@@ -3049,6 +3067,15 @@ include $(RULES_FILE)
 .obj/InterfaceHost.s : ../../Fundamental/CCore/src/./InterfaceHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/InternalDesktop.s : ../../Target/LIN64/CCore/src/./video/InternalDesktop.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/InternalHost.s : ../../Target/LIN64/CCore/src/./video/InternalHost.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/InternalUtils.s : ../../Target/LIN64/CCore/src/./video/InternalUtils.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Job.s : ../../Fundamental/CCore/src/./Job.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4322,6 +4349,15 @@ include $(RULES_FILE)
 
 .obj/InterfaceHost.dep : ../../Fundamental/CCore/src/./InterfaceHost.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InterfaceHost.o $< -MF $@
+
+.obj/InternalDesktop.dep : ../../Target/LIN64/CCore/src/./video/InternalDesktop.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/InternalDesktop.o $< -MF $@
+
+.obj/InternalHost.dep : ../../Target/LIN64/CCore/src/./video/InternalHost.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/InternalHost.o $< -MF $@
+
+.obj/InternalUtils.dep : ../../Target/LIN64/CCore/src/./video/InternalUtils.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/InternalUtils.o $< -MF $@
 
 .obj/Job.dep : ../../Fundamental/CCore/src/./Job.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Job.o $< -MF $@

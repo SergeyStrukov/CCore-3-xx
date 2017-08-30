@@ -75,7 +75,7 @@ CharMapTable::CharMapTable()
 
   table[0]=0;
 
-  bool once=true;
+  //bool once=true;
 
   for(unsigned ind=1; ind<256u ;ind++)
     {
