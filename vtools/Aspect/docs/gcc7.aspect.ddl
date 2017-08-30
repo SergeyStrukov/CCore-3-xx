@@ -503,7 +503,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   New,
+   Green,
    {
     &Dir44,
     &Dir45,
@@ -2994,7 +2994,7 @@ Dir Dir44=
 Dir Dir45=
   {
    'LIN64',
-   Red,
+   Green,
    {
     &Dir147,
     &Dir148,
@@ -3603,7 +3603,7 @@ Dir Dir189=
 Dir Dir147=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir190,
     &Dir191,
@@ -3640,7 +3640,7 @@ Dir Dir149=
 Dir Dir190=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir194,
     &Dir195,
@@ -3656,7 +3656,7 @@ Dir Dir190=
 Dir Dir191=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir199,
     &Dir200,
@@ -3758,11 +3758,14 @@ Dir Dir197=
 Dir Dir198=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.h' , Red }
+    { 'Desktop.h' , Green },
+    { 'InternalDesktop.h' , Green },
+    { 'InternalHost.h' , Green },
+    { 'InternalUtils.h' , Green }
    }
   };
 
@@ -3840,11 +3843,14 @@ Dir Dir202=
 Dir Dir203=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.cpp' , Red }
+    { 'Desktop.cpp' , Green },
+    { 'InternalDesktop.cpp' , Green },
+    { 'InternalHost.cpp' , Green },
+    { 'InternalUtils.cpp' , Green }
    }
   };
 
