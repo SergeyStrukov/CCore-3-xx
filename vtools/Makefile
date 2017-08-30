@@ -13,7 +13,7 @@
 
 OPT = -j 8
 
-LIST = UserPreference DDLDisplay SubLab ContourLab Aspect Sample
+LIST = UserPreference DDLDisplay SubLab ContourLab Aspect Sample RandomId
 
 include ../Target/Makefile.list
 
