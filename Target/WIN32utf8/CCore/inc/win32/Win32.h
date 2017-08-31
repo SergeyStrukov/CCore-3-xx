@@ -1,9 +1,9 @@
 /* Win32.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -25,6 +25,10 @@ namespace Win32 {
 /*--------------------------------------------------------------------------------------*/
 /* basic types                                                                          */
 /*--------------------------------------------------------------------------------------*/
+
+/* type wchar */
+
+using wchar = unsigned short ;
 
 /* type bool_t */
 
@@ -188,13 +192,13 @@ enum FormatMessageFlags
 
 error_t WIN32_API GetLastError(void);
 
-/* FormatMessageA() */
+/* FormatMessageW() */
 
-ulen_t WIN32_API FormatMessageA(flags_t format_message_flags,
+ulen_t WIN32_API FormatMessageW(flags_t format_message_flags,
                                 handle_t,
                                 error_t code,
                                 unsigned,
-                                char *buf,
+                                wchar *buf,
                                 ulen_t buf_len,
                                 void_ptr);
 
@@ -384,14 +388,14 @@ options_t WIN32_API WaitForMultipleObjects(ulen_t hcount,
 /* DLL functions                                                                        */
 /*--------------------------------------------------------------------------------------*/
 
-/* GetModuleHandleA() */
+/* GetModuleHandleW() */
 
-handle_t WIN32_API GetModuleHandleA(const char *module_name);
+handle_t WIN32_API GetModuleHandleW(const wchar *module_name);
 
-/* GetModuleFileName() */
+/* GetModuleFileNameW() */
 
-ulen_t WIN32_API GetModuleFileNameA(handle_t h_module,
-                                    char *buf,
+ulen_t WIN32_API GetModuleFileNameW(handle_t h_module,
+                                    wchar *buf,
                                     ulen_t len);
 
 /*--------------------------------------------------------------------------------------*/
@@ -1036,9 +1040,9 @@ negbool_t WIN32_API WSACleanup(void);
 
 error_t WIN32_API WSAGetLastError(void);
 
-/* WSASocket() */
+/* WSASocketW() */
 
-socket_t WIN32_API WSASocketA(options_t address_family,
+socket_t WIN32_API WSASocketW(options_t address_family,
                               options_t type,
                               options_t protocol,
                               WSAProtocolInfo *,
@@ -1169,12 +1173,12 @@ bool_t WIN32_API TlsSetValue(int index, void_ptr value);
 /* Event functions                                                                      */
 /*--------------------------------------------------------------------------------------*/
 
-/* CreateEventA() */
+/* CreateEventW() */
 
-handle_t WIN32_API CreateEventA(SecurityAttributes *,
+handle_t WIN32_API CreateEventW(SecurityAttributes *,
                                 bool_t manual_reset,
                                 bool_t initial_state,
-                                const char *object_name);
+                                const wchar *object_name);
 
 /* SetEvent() */
 
@@ -1192,12 +1196,12 @@ inline constexpr sem_count_t MaxSemaphoreCount = 0x7FFF'FFFF ;
 /* Semaphore functions                                                                  */
 /*--------------------------------------------------------------------------------------*/
 
-/* CreateSemaphoreA() */
+/* CreateSemaphoreW() */
 
-handle_t WIN32_API CreateSemaphoreA(SecurityAttributes *,
+handle_t WIN32_API CreateSemaphoreW(SecurityAttributes *,
                                     sem_count_t initial_count,
                                     sem_count_t max_count,
-                                    const char *object_name);
+                                    const wchar *object_name);
 
 /* ReleaseSemaphore() */
 

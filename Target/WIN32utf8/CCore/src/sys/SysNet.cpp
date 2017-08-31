@@ -166,7 +166,7 @@ auto UDPSocket::Open(Net::UDPort udport) noexcept -> OpenType
  {
   OpenType ret;
 
-  ret.sockid=Win32::WSASocketA(Win32::WSA_IPv4,Win32::WSA_Datagram,Win32::WSA_UDP,0,0,Win32::WSA_AsyncIO);
+  ret.sockid=Win32::WSASocketW(Win32::WSA_IPv4,Win32::WSA_Datagram,Win32::WSA_UDP,0,0,Win32::WSA_AsyncIO);
 
   if( ret.sockid==Win32::InvalidSocket )
     {
@@ -274,7 +274,7 @@ auto AsyncUDPSocket::Open(Net::UDPort udport) noexcept -> OpenType
  {
   OpenType ret;
 
-  ret.sockid=Win32::WSASocketA(Win32::WSA_IPv4,Win32::WSA_Datagram,Win32::WSA_UDP,0,0,Win32::WSA_AsyncIO);
+  ret.sockid=Win32::WSASocketW(Win32::WSA_IPv4,Win32::WSA_Datagram,Win32::WSA_UDP,0,0,Win32::WSA_AsyncIO);
 
   if( ret.sockid==Win32::InvalidSocket )
     {

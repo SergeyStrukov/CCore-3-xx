@@ -257,7 +257,7 @@ struct OpenAltFile : AltFile::OpenType
          }
       }
 
-    h_event=Win32::CreateEventA(0,false,false,0);
+    h_event=Win32::CreateEventW(0,false,false,0);
 
     if( h_event==0 )
       {

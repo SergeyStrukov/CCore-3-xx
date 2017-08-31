@@ -1,4 +1,4 @@
-/* PlatformBase.cpp */
+/* SysUtf8.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.50
@@ -13,20 +13,18 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <CCore/inc/base/PlatformBase.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 namespace CCore {
+namespace Sys {
 
 /* functions */
 
-#if 0
-
-void OptimizeBarrier(void *,ulen) noexcept
+ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
  {
+  // TODO
  }
 
-#endif
-
+} // namespace Sys
 } // namespace CCore
-
 

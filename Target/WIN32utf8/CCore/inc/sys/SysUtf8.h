@@ -1,9 +1,9 @@
-/* SysProp.h */
+/* SysUtf8.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.50
 //
-//  Tag: Target/WIN32utf8
+//  Tag: Target/WIN323utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -13,27 +13,37 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef CCore_inc_sys_SysProp_h
-#define CCore_inc_sys_SysProp_h
+#ifndef CCore_inc_sys_SysUtf8_h
+#define CCore_inc_sys_SysUtf8_h
 
-#include <CCore/inc/PlanInit.h>
+#include <CCore/inc/Gadget.h>
 
 namespace CCore {
 namespace Sys {
 
-/* GetPlanInitNode_...() */
+/* type WChar */
 
-PlanInitNode * GetPlanInitNode_SysProp();
+using WChar = unsigned short ;
 
 /* functions */
 
-unsigned GetCpuCount() noexcept;
+ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out);
 
-unsigned GetSpinCount() noexcept;
+/* classes */
+
+template <ulen Len_>
+struct WCharToUtf8 : NoCopy
+ {
+  static constexpr ulen Len = Len_ ;
+
+  WChar buf[Len];
+  ulen len;
+
+  ulen truncate(PtrLen<char> out) const { return Truncate(Range(buf,len),out); }
+ };
 
 } // namespace Sys
 } // namespace CCore
 
 #endif
-
 

@@ -1,15 +1,15 @@
 /* SysSem.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ auto Sem::Create(ulen count) noexcept -> CreateType
  {
   CreateType ret;
 
-  ret.handle=Win32::CreateSemaphoreA(0,count,Win32::MaxSemaphoreCount,0);
+  ret.handle=Win32::CreateSemaphoreW(0,count,Win32::MaxSemaphoreCount,0);
 
   ret.error=ErrorIf( ret.handle==0 );
 

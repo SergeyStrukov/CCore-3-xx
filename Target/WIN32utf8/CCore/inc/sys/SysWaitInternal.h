@@ -1,15 +1,15 @@
 /* SysWaitInternal.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ struct WaitFile
  {
   static Win32::handle_t CreateEvent()
    {
-    return Win32::CreateEventA(0,true,false,0);
+    return Win32::CreateEventW(0,true,false,0);
    }
 
   static Win32::bool_t DestroyEvent(Win32::handle_t h_event)

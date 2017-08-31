@@ -1,28 +1,23 @@
 /* PlanInit_CCore.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/PlanInit.h>
 
-#ifndef CCORE_MINI
-
 #include <CCore/inc/PacketPool.h>
 #include <CCore/inc/TaskMemStack.h>
 #include <CCore/inc/DeferCall.h>
-
-#endif
-
 #include <CCore/inc/Job.h>
 #include <CCore/inc/ObjHost.h>
 #include <CCore/inc/PerTask.h>
@@ -41,15 +36,9 @@ struct Empty
 PlanInitObject<Empty,PlanInitReq<GetPlanInitNode_JobHost>
                     ,PlanInitReq<GetPlanInitNode_PerTask>
                     ,PlanInitReq<GetPlanInitNode_ObjHost>
-
-#ifndef CCORE_MINI
-
                     ,PlanInitReq<GetPlanInitNode_PacketPool>
                     ,PlanInitReq<GetPlanInitNode_TaskMemStack>
                     ,PlanInitReq<GetPlanInitNode_DeferCall>
-
-#endif
-
                     > Object CCORE_INITPRI_1 ;
 
 } // namespace Private_PlanInit_CCore

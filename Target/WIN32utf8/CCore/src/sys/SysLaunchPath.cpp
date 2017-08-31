@@ -24,7 +24,9 @@ namespace Sys {
 
 LaunchPath::LaunchPath(char buf[MaxPathLen+1])
  {
-  auto ret=Win32::GetModuleFileNameA(0,buf,MaxPathLen+1);
+  Win32::wchar temp[MaxPathLen+1];
+
+  auto ret=Win32::GetModuleFileNameW(0,temp,MaxPathLen+1);
 
   if( !ret )
     {
@@ -38,6 +40,8 @@ LaunchPath::LaunchPath(char buf[MaxPathLen+1])
     }
   else
     {
+     // TODO
+
      path=StrLen(buf,ret);
      error=NoError;
     }

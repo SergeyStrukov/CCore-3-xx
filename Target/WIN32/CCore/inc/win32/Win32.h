@@ -1,7 +1,7 @@
 /* Win32.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Target/WIN32
 //
@@ -388,7 +388,7 @@ options_t WIN32_API WaitForMultipleObjects(ulen_t hcount,
 
 handle_t WIN32_API GetModuleHandleA(const char *module_name);
 
-/* GetModuleFileName() */
+/* GetModuleFileNameA() */
 
 ulen_t WIN32_API GetModuleFileNameA(handle_t h_module,
                                     char *buf,
@@ -1036,7 +1036,7 @@ negbool_t WIN32_API WSACleanup(void);
 
 error_t WIN32_API WSAGetLastError(void);
 
-/* WSASocket() */
+/* WSASocketA() */
 
 socket_t WIN32_API WSASocketA(options_t address_family,
                               options_t type,

@@ -30,7 +30,7 @@ bool WindowsDesktop::TestMsg()
 
 WindowsDesktop::WindowsDesktop()
  {
-  h_event=Win32::CreateEventA(0,false,false,0);
+  h_event=Win32::CreateEventW(0,false,false,0);
  }
 
 WindowsDesktop::~WindowsDesktop()

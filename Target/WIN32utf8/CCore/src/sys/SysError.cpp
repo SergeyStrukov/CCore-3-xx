@@ -1,19 +1,20 @@
 /* SysError.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysError.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/win32/Win32.h>
 
@@ -54,10 +55,13 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
                       |Win32::FormatMessageIgnoreInserts
                       |Win32::FormatMessageMaxWidthMask;
 
-  len=Win32::FormatMessageA(flags,0,error,0,buf.ptr,buf.len,0);
+  WCharToUtf8<TextBufLen> temp;
 
-  if( len )
+  temp.len=Win32::FormatMessageW(flags,0,error,0,temp.buf,temp.Len,0);
+
+  if( temp.len )
     {
+     len=temp.truncate(buf);
      str=buf.ptr;
 
      return true;
@@ -65,6 +69,7 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
   else
     {
      str=0;
+     len=0;
 
      return false;
     }
