@@ -4675,9 +4675,9 @@ Dir Dir250=
    },
    {
     { 'test6003.Char.cpp' , Red },
-    { 'test6001.Quick.cpp' , Red },
-    { 'test6002.SysError.cpp' , Red },
-    { 'TypeName.h' , Red }
+    { 'test6001.Quick.cpp' , Green },
+    { 'test6002.SysError.cpp' , Green },
+    { 'TypeName.h' , Green }
    }
   };
 
@@ -4718,7 +4718,7 @@ Dir Dir253=
     { 'SysFile.h' , Red },
     { 'SysFileInternal.h' , Red },
     { 'SysFileSystem.h' , Red },
-    { 'SysLaunchPath.h' , Red },
+    { 'SysLaunchPath.h' , Green },
     { 'SysMemPage.h' , Green },
     { 'SysNet.h' , Red },
     { 'SysPlanInit.h' , Green },
@@ -4798,7 +4798,7 @@ Dir Dir258=
     { 'SysFile.cpp' , Red },
     { 'SysFileInternal.cpp' , Red },
     { 'SysFileSystem.cpp' , Red },
-    { 'SysLaunchPath.cpp' , Red },
+    { 'SysLaunchPath.cpp' , Green },
     { 'SysMemPage.cpp' , Green },
     { 'SysNet.cpp' , Red },
     { 'SysPlanInit.cpp' , Green },

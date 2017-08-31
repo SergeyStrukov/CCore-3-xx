@@ -16,6 +16,7 @@
 #include <CCore/test/test.h>
 
 #include <CCore/inc/Utf8.h>
+#include <CCore/inc/LaunchPath.h>
 
 namespace App {
 
@@ -34,6 +35,12 @@ const char *const Testit<1035>::Name="Test1035 Utf8";
 template<>
 bool Testit<1035>::Main()
  {
+  Printf(Con,"Русский текст\n");
+
+  LaunchPath path;
+
+  Printf(Con,"#;\n",path.getPath());
+
   return true;
  }
 

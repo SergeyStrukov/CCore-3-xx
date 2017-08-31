@@ -55,6 +55,8 @@ class Utf8Code
 
    unsigned getLen() const { return len; }
 
+   PtrLen<const char> getRange() const { return Range(sym,len); }
+
    uint8 operator [] (unsigned ind) const { return uint8( sym[ind] ); }
 
    static Unicode ToUnicode(uint8 b1)

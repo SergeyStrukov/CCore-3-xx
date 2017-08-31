@@ -22,7 +22,46 @@ namespace Sys {
 
 ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
  {
-  // TODO
+  ulen len=out.len;
+
+  FeedUnicode(text, [&] (Unicode sym)
+                        {
+                         Utf8Code code=ToUtf8(sym);
+
+                         if( code.getLen()>out.len ) return false;
+
+                         code.getRange().copyTo(out.ptr);
+
+                         out+=code.getLen();
+
+                         return true;
+
+                        } );
+
+  return len-out.len;
+ }
+
+ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
+ {
+  ulen len=out.len;
+
+  bool ok=FeedUnicode(text, [&] (Unicode sym)
+                                {
+                                 Utf8Code code=ToUtf8(sym);
+
+                                 if( code.getLen()>out.len ) return false;
+
+                                 code.getRange().copyTo(out.ptr);
+
+                                 out+=code.getLen();
+
+                                 return true;
+
+                                } );
+
+  if( ok ) return len-out.len;
+
+  return MaxULen;
  }
 
 } // namespace Sys

@@ -1,9 +1,9 @@
 /* SysLaunchPath.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysLaunchPath.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/win32/Win32.h>
 
@@ -24,26 +25,35 @@ namespace Sys {
 
 LaunchPath::LaunchPath(char buf[MaxPathLen+1])
  {
-  Win32::wchar temp[MaxPathLen+1];
+  WCharToUtf8<MaxPathLen+1> temp;
 
-  auto ret=Win32::GetModuleFileNameW(0,temp,MaxPathLen+1);
+  temp.len=Win32::GetModuleFileNameW(0,temp.buf,temp.Len);
 
-  if( !ret )
+  if( !temp.len )
     {
      path=Null;
      error=NonNullError();
     }
-  else if( ret>MaxPathLen )
+  else if( temp.len>MaxPathLen )
     {
      path=Null;
      error=(ErrorType)Win32::ErrorSmallBuffer;
     }
   else
     {
-     // TODO
+     ulen len=temp.full(Range(buf,MaxPathLen));
 
-     path=StrLen(buf,ret);
-     error=NoError;
+     if( len==MaxULen )
+       {
+        path=Null;
+        error=(ErrorType)Win32::ErrorSmallBuffer;
+       }
+     else
+       {
+        buf[len]=0;
+        path=StrLen(buf,len);
+        error=NoError;
+       }
     }
  }
 
