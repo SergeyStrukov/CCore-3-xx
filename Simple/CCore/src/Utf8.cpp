@@ -220,7 +220,19 @@ Utf8Code CutUtf8_guarded(StrLen &text)
 
 void TrimUtf8End(StrLen &text)
  {
-  // TODO
+  auto cur=RangeReverse(text);
+  unsigned count=0;
+
+  for(; +cur && count<2 && Utf8Ext(*cur) ;++cur,count++);
+
+  unsigned len;
+
+  if( +cur && (len=Utf8Len(*cur))!=0 && count<len-1 )
+    {
+     // trim
+
+     text.len-=count+1;
+    }
  }
 
 } // namespace CCore

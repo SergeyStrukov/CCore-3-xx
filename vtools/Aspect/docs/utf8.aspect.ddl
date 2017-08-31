@@ -513,13 +513,13 @@ Dir Dir11=
     &Dir49
    },
    {
-    { 'Makefile.app' , New },
-    { 'Makefile.core' , New },
-    { 'Makefile.lib' , New },
-    { 'Makefile.list' , New },
-    { 'Makefile.app.rules' , New },
-    { 'Makefile.core.rules' , New },
-    { 'Makefile.lib.rules' , New }
+    { 'Makefile.app' , Ignore },
+    { 'Makefile.core' , Ignore },
+    { 'Makefile.lib' , Ignore },
+    { 'Makefile.list' , Ignore },
+    { 'Makefile.app.rules' , Ignore },
+    { 'Makefile.core.rules' , Ignore },
+    { 'Makefile.lib.rules' , Ignore }
    }
   };
 
@@ -545,11 +545,11 @@ Dir Dir12=
 Dir Dir13=
   {
    'VideoLabs',
-   New,
+   Green,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
@@ -2177,7 +2177,7 @@ Dir Dir119=
     { 'Abort.h' , Ignore },
     { 'AnyPtr.h' , Ignore },
     { 'BlockFifo.h' , Ignore },
-    { 'CapString.h' , Red },
+    { 'CapString.h' , Yellow },
     { 'Cmp.h' , Green },
     { 'Counters.h' , Ignore },
     { 'Crc.h' , Ignore },
@@ -2216,7 +2216,7 @@ Dir Dir119=
     { 'Tuple.h' , Ignore },
     { 'TypeSwitch.h' , Ignore },
     { 'UIntSplit.h' , Ignore },
-    { 'Utf8.h' , Red }
+    { 'Utf8.h' , Yellow }
    }
   };
 
@@ -2232,7 +2232,7 @@ Dir Dir120=
     { 'AbortMsgFunc.cpp' , Ignore },
     { 'AnyPtr.cpp' , Ignore },
     { 'BlockFifo.cpp' , Ignore },
-    { 'CapString.cpp' , Red },
+    { 'CapString.cpp' , Green },
     { 'Cmp.cpp' , Green },
     { 'Counters.cpp' , Ignore },
     { 'Crc.cpp' , Ignore },
@@ -2271,7 +2271,7 @@ Dir Dir120=
     { 'Tuple.cpp' , Ignore },
     { 'TypeSwitch.cpp' , Ignore },
     { 'UIntSplit.cpp' , Ignore },
-    { 'Utf8.cpp' , Red }
+    { 'Utf8.cpp' , Yellow }
    }
   };
 
@@ -2979,7 +2979,7 @@ Dir Dir43=
 Dir Dir44=
   {
    'BeagleBoneBlack',
-   New,
+   Red,
    {
     &Dir143,
     &Dir144,
@@ -2987,64 +2987,64 @@ Dir Dir44=
     &Dir146
    },
    {
-    { 'Makefile' , New },
-    { 'CCore.a' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'CCore.a' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir45=
   {
    'LIN64',
-   New,
+   Ignore,
    {
     &Dir147,
     &Dir148,
     &Dir149
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir46=
   {
    'Vanilla-H',
-   New,
+   Ignore,
    {
     &Dir150,
     &Dir151
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir47=
   {
    'Vanilla-X',
-   New,
+   Ignore,
    {
     &Dir152,
     &Dir153,
     &Dir154
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir48=
   {
    'WIN32',
-   New,
+   Ignore,
    {
     &Dir155,
     &Dir156,
@@ -3052,27 +3052,27 @@ Dir Dir48=
     &Dir158
    },
    {
-    { 'Makefile' , New },
-    { 'CCore.a' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'CCore.a' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
 Dir Dir49=
   {
    'WIN64',
-   New,
+   Ignore,
    {
     &Dir159,
     &Dir160,
     &Dir161
    },
    {
-    { 'Makefile' , New },
-    { 'CCore.a' , New },
-    { 'Makefile.files' , New },
-    { 'Makefile.tools' , New }
+    { 'Makefile' , Ignore },
+    { 'CCore.a' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'Makefile.tools' , Ignore }
    }
   };
 
@@ -3112,10 +3112,10 @@ Dir Dir145=
     &Dir169
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'main.exe' , New },
-    { 'Makefile.files' , New }
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -3606,7 +3606,7 @@ Dir Dir189=
 Dir Dir147=
   {
    'CCore',
-   New,
+   Ignore,
    {
     &Dir190,
     &Dir191,
@@ -3619,20 +3619,20 @@ Dir Dir147=
 Dir Dir148=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir149=
   {
    'tools',
-   New,
+   Ignore,
    {
     &Dir193
    },
@@ -3643,7 +3643,7 @@ Dir Dir149=
 Dir Dir190=
   {
    'inc',
-   New,
+   Ignore,
    {
     &Dir194,
     &Dir195,
@@ -3652,14 +3652,14 @@ Dir Dir190=
     &Dir198
    },
    {
-    { 'PlatformRandom.h' , New }
+    { 'PlatformRandom.h' , Ignore }
    }
   };
 
 Dir Dir191=
   {
    'src',
-   New,
+   Ignore,
    {
     &Dir199,
     &Dir200,
@@ -3668,199 +3668,199 @@ Dir Dir191=
     &Dir203
    },
    {
-    { 'PlanInit_CCore.cpp' , New }
+    { 'PlanInit_CCore.cpp' , Ignore }
    }
   };
 
 Dir Dir192=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'test6011.Char.cpp' , New },
-    { 'test6006.exec.cpp' , New },
-    { 'test6005.IntegerFastAlgo.cpp' , New },
-    { 'test6004.IntelAES.cpp' , New },
-    { 'test6003.IntelRandom.cpp' , New },
-    { 'test6009.KeySym.cpp' , New },
-    { 'test6001.LIN64.cpp' , New },
-    { 'test6010.MsgBox.cpp' , New },
-    { 'test6007.Quick.cpp' , New },
-    { 'test6002.SysError.cpp' , New },
-    { 'test6008.X11.cpp' , New }
+    { 'test6011.Char.cpp' , Ignore },
+    { 'test6006.exec.cpp' , Ignore },
+    { 'test6005.IntegerFastAlgo.cpp' , Ignore },
+    { 'test6004.IntelAES.cpp' , Ignore },
+    { 'test6003.IntelRandom.cpp' , Ignore },
+    { 'test6009.KeySym.cpp' , Ignore },
+    { 'test6001.LIN64.cpp' , Ignore },
+    { 'test6010.MsgBox.cpp' , Ignore },
+    { 'test6007.Quick.cpp' , Ignore },
+    { 'test6002.SysError.cpp' , Ignore },
+    { 'test6008.X11.cpp' , Ignore }
    }
   };
 
 Dir Dir194=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Ignore },
+    { 'Quick.h' , Ignore }
    }
   };
 
 Dir Dir195=
   {
    'crypton',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntelAES.h' , New },
-    { 'IntelCPUID.h' , New },
-    { 'IntelRandom.h' , New },
-    { 'PlatformAES.h' , New }
+    { 'IntelAES.h' , Ignore },
+    { 'IntelCPUID.h' , Ignore },
+    { 'IntelRandom.h' , Ignore },
+    { 'PlatformAES.h' , Ignore }
    }
   };
 
 Dir Dir196=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.h' , New }
+    { 'IntegerFastAlgo.h' , Ignore }
    }
   };
 
 Dir Dir197=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysCon.h' , New },
-    { 'SysData.h' , New },
-    { 'SysError.h' , New },
-    { 'SysFile.h' , New },
-    { 'SysFileSystem.h' , New },
-    { 'SysInternal.h' , New },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , New },
-    { 'SysNet.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysProp.h' , New },
-    { 'SysSem.h' , New },
-    { 'SysTask.h' , New },
-    { 'SysTime.h' , New },
-    { 'SysTlsSlot.h' , New },
-    { 'SysWait.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysCon.h' , Ignore },
+    { 'SysData.h' , Ignore },
+    { 'SysError.h' , Ignore },
+    { 'SysFile.h' , Ignore },
+    { 'SysFileSystem.h' , Ignore },
+    { 'SysInternal.h' , Ignore },
+    { 'SysLaunchPath.h' , Ignore },
+    { 'SysMemPage.h' , Ignore },
+    { 'SysNet.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysProp.h' , Ignore },
+    { 'SysSem.h' , Ignore },
+    { 'SysTask.h' , Ignore },
+    { 'SysTime.h' , Ignore },
+    { 'SysTlsSlot.h' , Ignore },
+    { 'SysWait.h' , Ignore }
    }
   };
 
 Dir Dir198=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.h' , New },
-    { 'InternalDesktop.h' , New },
-    { 'InternalHost.h' , New },
-    { 'InternalUtils.h' , New }
+    { 'Desktop.h' , Ignore },
+    { 'InternalDesktop.h' , Ignore },
+    { 'InternalHost.h' , Ignore },
+    { 'InternalUtils.h' , Ignore }
    }
   };
 
 Dir Dir199=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New },
-    { 'PlatformBase.s' , New },
-    { 'Quick.s' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore },
+    { 'PlatformBase.s' , Ignore },
+    { 'Quick.s' , Ignore }
    }
   };
 
 Dir Dir200=
   {
    'crypton',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntelAES.cpp' , New },
-    { 'IntelCPUID.cpp' , New },
-    { 'IntelRandom.cpp' , New },
-    { 'IntelAES.s' , New },
-    { 'IntelCPUID.s' , New },
-    { 'IntelRandom.s' , New }
+    { 'IntelAES.cpp' , Ignore },
+    { 'IntelCPUID.cpp' , Ignore },
+    { 'IntelRandom.cpp' , Ignore },
+    { 'IntelAES.s' , Ignore },
+    { 'IntelCPUID.s' , Ignore },
+    { 'IntelRandom.s' , Ignore }
    }
   };
 
 Dir Dir201=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.cpp' , New }
+    { 'IntegerFastAlgo.cpp' , Ignore }
    }
   };
 
 Dir Dir202=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysData.cpp' , New },
-    { 'SysError.cpp' , New },
-    { 'SysFile.cpp' , New },
-    { 'SysFileSystem.cpp' , New },
-    { 'SysInternal.cpp' , New },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , New },
-    { 'SysNet.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysProp.cpp' , New },
-    { 'SysSem.cpp' , New },
-    { 'SysTask.cpp' , New },
-    { 'SysTime.cpp' , New },
-    { 'SysTlsSlot.cpp' , New },
-    { 'SysWait.cpp' , New },
-    { 'SysAtomic.s' , New },
-    { 'SysTime.s' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Ignore },
+    { 'SysData.cpp' , Ignore },
+    { 'SysError.cpp' , Ignore },
+    { 'SysFile.cpp' , Ignore },
+    { 'SysFileSystem.cpp' , Ignore },
+    { 'SysInternal.cpp' , Ignore },
+    { 'SysLaunchPath.cpp' , Ignore },
+    { 'SysMemPage.cpp' , Ignore },
+    { 'SysNet.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysProp.cpp' , Ignore },
+    { 'SysSem.cpp' , Ignore },
+    { 'SysTask.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore },
+    { 'SysTlsSlot.cpp' , Ignore },
+    { 'SysWait.cpp' , Ignore },
+    { 'SysAtomic.s' , Ignore },
+    { 'SysTime.s' , Ignore }
    }
   };
 
 Dir Dir203=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.cpp' , New },
-    { 'InternalDesktop.cpp' , New },
-    { 'InternalHost.cpp' , New },
-    { 'InternalUtils.cpp' , New }
+    { 'Desktop.cpp' , Ignore },
+    { 'InternalDesktop.cpp' , Ignore },
+    { 'InternalHost.cpp' , Ignore },
+    { 'InternalUtils.cpp' , Ignore }
    }
   };
 
 Dir Dir193=
   {
    'HowToBuild',
-   New,
+   Ignore,
    {
     &Dir204
    },
@@ -3871,18 +3871,18 @@ Dir Dir193=
 Dir Dir204=
   {
    'gcc-7.1.0',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New }
+    { 'MakeCfg' , Ignore }
    }
   };
 
 Dir Dir150=
   {
    'CCore',
-   New,
+   Ignore,
    {
     &Dir205,
     &Dir206,
@@ -3895,20 +3895,20 @@ Dir Dir150=
 Dir Dir151=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir205=
   {
    'inc',
-   New,
+   Ignore,
    {
     &Dir208,
     &Dir209
@@ -3920,13 +3920,13 @@ Dir Dir205=
 Dir Dir206=
   {
    'src',
-   New,
+   Ignore,
    {
     &Dir210,
     &Dir211
    },
    {
-    { 'PlanInit_CCore.cpp' , New }
+    { 'PlanInit_CCore.cpp' , Ignore }
    }
   };
 
@@ -3943,83 +3943,83 @@ Dir Dir207=
 Dir Dir208=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Ignore },
+    { 'Quick.h' , Ignore }
    }
   };
 
 Dir Dir209=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysCon.h' , New },
-    { 'SysError.h' , New },
-    { 'SysFile.h' , New },
-    { 'SysFileSystem.h' , New },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , New },
-    { 'SysNet.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysProp.h' , New },
-    { 'SysSem.h' , New },
-    { 'SysTask.h' , New },
-    { 'SysTime.h' , New },
-    { 'SysTlsSlot.h' , New },
-    { 'SysWait.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysCon.h' , Ignore },
+    { 'SysError.h' , Ignore },
+    { 'SysFile.h' , Ignore },
+    { 'SysFileSystem.h' , Ignore },
+    { 'SysLaunchPath.h' , Ignore },
+    { 'SysMemPage.h' , Ignore },
+    { 'SysNet.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysProp.h' , Ignore },
+    { 'SysSem.h' , Ignore },
+    { 'SysTask.h' , Ignore },
+    { 'SysTime.h' , Ignore },
+    { 'SysTlsSlot.h' , Ignore },
+    { 'SysWait.h' , Ignore }
    }
   };
 
 Dir Dir210=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore }
    }
   };
 
 Dir Dir211=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysError.cpp' , New },
-    { 'SysFile.cpp' , New },
-    { 'SysFileSystem.cpp' , New },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , New },
-    { 'SysNet.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysProp.cpp' , New },
-    { 'SysSem.cpp' , New },
-    { 'SysTask.cpp' , New },
-    { 'SysTime.cpp' , New },
-    { 'SysTlsSlot.cpp' , New },
-    { 'SysWait.cpp' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Ignore },
+    { 'SysError.cpp' , Ignore },
+    { 'SysFile.cpp' , Ignore },
+    { 'SysFileSystem.cpp' , Ignore },
+    { 'SysLaunchPath.cpp' , Ignore },
+    { 'SysMemPage.cpp' , Ignore },
+    { 'SysNet.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysProp.cpp' , Ignore },
+    { 'SysSem.cpp' , Ignore },
+    { 'SysTask.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore },
+    { 'SysTlsSlot.cpp' , Ignore },
+    { 'SysWait.cpp' , Ignore }
    }
   };
 
 Dir Dir152=
   {
    'CCore',
-   New,
+   Ignore,
    {
     &Dir212,
     &Dir213,
@@ -4032,7 +4032,7 @@ Dir Dir152=
 Dir Dir153=
   {
    'sysroot',
-   New,
+   Ignore,
    {
     &Dir215,
     &Dir216,
@@ -4040,27 +4040,27 @@ Dir Dir153=
     &Dir218
    },
    {
-    { 'Makefile' , New }
+    { 'Makefile' , Ignore }
    }
   };
 
 Dir Dir154=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir212=
   {
    'inc',
-   New,
+   Ignore,
    {
     &Dir219,
     &Dir220,
@@ -4074,7 +4074,7 @@ Dir Dir212=
 Dir Dir213=
   {
    'src',
-   New,
+   Ignore,
    {
     &Dir223,
     &Dir224,
@@ -4083,191 +4083,191 @@ Dir Dir213=
     &Dir227
    },
    {
-    { 'PlanInit_CCore.cpp' , New }
+    { 'PlanInit_CCore.cpp' , Ignore }
    }
   };
 
 Dir Dir214=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'test6003.Atomic.cpp' , New },
-    { 'test6002.Exception.cpp' , New },
-    { 'test6001.gcc.cpp' , New },
-    { 'test6004.Timer.cpp' , New }
+    { 'test6003.Atomic.cpp' , Ignore },
+    { 'test6002.Exception.cpp' , Ignore },
+    { 'test6001.gcc.cpp' , Ignore },
+    { 'test6004.Timer.cpp' , Ignore }
    }
   };
 
 Dir Dir219=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Ignore },
+    { 'Quick.h' , Ignore }
    }
   };
 
 Dir Dir220=
   {
    'dev',
-   New,
+   Ignore,
    {
    },
    {
-    { 'DevInt.h' , New },
-    { 'DevIntHandle.h' , New },
-    { 'DevPlanInit.h' , New },
-    { 'DevTick.h' , New },
-    { 'DevWaitForInterrupt.h' , New }
+    { 'DevInt.h' , Ignore },
+    { 'DevIntHandle.h' , Ignore },
+    { 'DevPlanInit.h' , Ignore },
+    { 'DevTick.h' , Ignore },
+    { 'DevWaitForInterrupt.h' , Ignore }
    }
   };
 
 Dir Dir221=
   {
    'libc',
-   New,
+   Ignore,
    {
    },
    {
-    { 'atexit.h' , New },
-    { 'CBase.h' , New }
+    { 'atexit.h' , Ignore },
+    { 'CBase.h' , Ignore }
    }
   };
 
 Dir Dir222=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysMemSpace.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysTime.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysMemSpace.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysTime.h' , Ignore }
    }
   };
 
 Dir Dir223=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore }
    }
   };
 
 Dir Dir224=
   {
    'dev',
-   New,
+   Ignore,
    {
    },
    {
-    { 'DevInt.cpp' , New },
-    { 'DevIntHandle.cpp' , New },
-    { 'DevPlanInit.cpp' , New },
-    { 'DevTick.cpp' , New },
-    { 'DevWaitForInterrupt.cpp' , New }
+    { 'DevInt.cpp' , Ignore },
+    { 'DevIntHandle.cpp' , Ignore },
+    { 'DevPlanInit.cpp' , Ignore },
+    { 'DevTick.cpp' , Ignore },
+    { 'DevWaitForInterrupt.cpp' , Ignore }
    }
   };
 
 Dir Dir225=
   {
    'libc',
-   New,
+   Ignore,
    {
    },
    {
-    { '__std_init.cpp' , New },
-    { 'atexit.cpp' , New },
-    { 'CBase.cpp' , New }
+    { '__std_init.cpp' , Ignore },
+    { 'atexit.cpp' , Ignore },
+    { 'CBase.cpp' , Ignore }
    }
   };
 
 Dir Dir226=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysMemSpace.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysTime.cpp' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Ignore },
+    { 'SysMemSpace.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore }
    }
   };
 
 Dir Dir227=
   {
    'task',
-   New,
+   Ignore,
    {
    },
    {
-    { 'TaskContext.cpp' , New }
+    { 'TaskContext.cpp' , Ignore }
    }
   };
 
 Dir Dir215=
   {
    'lib',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir216=
   {
    'obj',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir217=
   {
    'src',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ctype.c' , New },
-    { 'string_c.c' , New },
-    { 'errno.cpp' , New },
-    { 'locale.cpp' , New },
-    { 'stdlib.cpp' , New },
-    { 'string.cpp' , New },
-    { 'time.cpp' , New },
-    { 'consts.s' , New },
-    { 'crt0.s' , New },
-    { 'string_s.s' , New }
+    { 'ctype.c' , Ignore },
+    { 'string_c.c' , Ignore },
+    { 'errno.cpp' , Ignore },
+    { 'locale.cpp' , Ignore },
+    { 'stdlib.cpp' , Ignore },
+    { 'string.cpp' , Ignore },
+    { 'time.cpp' , Ignore },
+    { 'consts.s' , Ignore },
+    { 'crt0.s' , Ignore },
+    { 'string_s.s' , Ignore }
    }
   };
 
 Dir Dir218=
   {
    'usr',
-   New,
+   Ignore,
    {
     &Dir228
    },
@@ -4278,48 +4278,48 @@ Dir Dir218=
 Dir Dir228=
   {
    'include',
-   New,
+   Ignore,
    {
     &Dir229
    },
    {
-    { '__std_init.h' , New },
-    { 'assert.h' , New },
-    { 'ctype.h' , New },
-    { 'errno.h' , New },
-    { 'iso646.h' , New },
-    { 'limits.h' , New },
-    { 'locale.h' , New },
-    { 'math.h' , New },
-    { 'setjmp.h' , New },
-    { 'signal.h' , New },
-    { 'stdarg.h' , New },
-    { 'stdbool.h' , New },
-    { 'stddef.h' , New },
-    { 'stdint.h' , New },
-    { 'stdio.h' , New },
-    { 'stdlib.h' , New },
-    { 'string.h' , New },
-    { 'time.h' , New },
-    { 'unistd.h' , New }
+    { '__std_init.h' , Ignore },
+    { 'assert.h' , Ignore },
+    { 'ctype.h' , Ignore },
+    { 'errno.h' , Ignore },
+    { 'iso646.h' , Ignore },
+    { 'limits.h' , Ignore },
+    { 'locale.h' , Ignore },
+    { 'math.h' , Ignore },
+    { 'setjmp.h' , Ignore },
+    { 'signal.h' , Ignore },
+    { 'stdarg.h' , Ignore },
+    { 'stdbool.h' , Ignore },
+    { 'stddef.h' , Ignore },
+    { 'stdint.h' , Ignore },
+    { 'stdio.h' , Ignore },
+    { 'stdlib.h' , Ignore },
+    { 'string.h' , Ignore },
+    { 'time.h' , Ignore },
+    { 'unistd.h' , Ignore }
    }
   };
 
 Dir Dir229=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'types.h' , New }
+    { 'types.h' , Ignore }
    }
   };
 
 Dir Dir155=
   {
    'CCore',
-   New,
+   Ignore,
    {
     &Dir230,
     &Dir231,
@@ -4332,21 +4332,21 @@ Dir Dir155=
 Dir Dir156=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'main.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir157=
   {
    'tools',
-   New,
+   Ignore,
    {
     &Dir233
    },
@@ -4357,21 +4357,21 @@ Dir Dir157=
 Dir Dir158=
   {
    'wintest',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'main.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir230=
   {
    'inc',
-   New,
+   Ignore,
    {
     &Dir234,
     &Dir235,
@@ -4386,7 +4386,7 @@ Dir Dir230=
 Dir Dir231=
   {
    'src',
-   New,
+   Ignore,
    {
     &Dir239,
     &Dir240,
@@ -4394,174 +4394,174 @@ Dir Dir231=
     &Dir242
    },
    {
-    { 'PlanInit_CCore.cpp' , New }
+    { 'PlanInit_CCore.cpp' , Ignore }
    }
   };
 
 Dir Dir232=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'test6003.Char.cpp' , New },
-    { 'test6001.Quick.cpp' , New },
-    { 'test6002.SysError.cpp' , New },
-    { 'TypeName.h' , New }
+    { 'test6003.Char.cpp' , Ignore },
+    { 'test6001.Quick.cpp' , Ignore },
+    { 'test6002.SysError.cpp' , Ignore },
+    { 'TypeName.h' , Ignore }
    }
   };
 
 Dir Dir234=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Ignore },
+    { 'Quick.h' , Ignore }
    }
   };
 
 Dir Dir235=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.h' , New }
+    { 'IntegerFastAlgo.h' , Ignore }
    }
   };
 
 Dir Dir236=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysCon.h' , New },
-    { 'SysError.h' , New },
-    { 'SysFile.h' , New },
-    { 'SysFileInternal.h' , New },
-    { 'SysFileSystem.h' , New },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , New },
-    { 'SysNet.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysProp.h' , New },
-    { 'SysSem.h' , New },
-    { 'SysTask.h' , New },
-    { 'SysTime.h' , New },
-    { 'SysTlsSlot.h' , New },
-    { 'SysWait.h' , New },
-    { 'SysWaitInternal.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysCon.h' , Ignore },
+    { 'SysError.h' , Ignore },
+    { 'SysFile.h' , Ignore },
+    { 'SysFileInternal.h' , Ignore },
+    { 'SysFileSystem.h' , Ignore },
+    { 'SysLaunchPath.h' , Ignore },
+    { 'SysMemPage.h' , Ignore },
+    { 'SysNet.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysProp.h' , Ignore },
+    { 'SysSem.h' , Ignore },
+    { 'SysTask.h' , Ignore },
+    { 'SysTime.h' , Ignore },
+    { 'SysTlsSlot.h' , Ignore },
+    { 'SysWait.h' , Ignore },
+    { 'SysWaitInternal.h' , Ignore }
    }
   };
 
 Dir Dir237=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.h' , New },
-    { 'InternalDesktop.h' , New },
-    { 'InternalHost.h' , New },
-    { 'InternalUtils.h' , New }
+    { 'Desktop.h' , Ignore },
+    { 'InternalDesktop.h' , Ignore },
+    { 'InternalHost.h' , Ignore },
+    { 'InternalUtils.h' , Ignore }
    }
   };
 
 Dir Dir238=
   {
    'win32',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Win32.h' , New },
-    { 'Win32gui.h' , New }
+    { 'Win32.h' , Ignore },
+    { 'Win32gui.h' , Ignore }
    }
   };
 
 Dir Dir239=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New },
-    { 'PlatformBase.s' , New },
-    { 'Quick.s' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore },
+    { 'PlatformBase.s' , Ignore },
+    { 'Quick.s' , Ignore }
    }
   };
 
 Dir Dir240=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.cpp' , New }
+    { 'IntegerFastAlgo.cpp' , Ignore }
    }
   };
 
 Dir Dir241=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysError.cpp' , New },
-    { 'SysFile.cpp' , New },
-    { 'SysFileInternal.cpp' , New },
-    { 'SysFileSystem.cpp' , New },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , New },
-    { 'SysNet.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysProp.cpp' , New },
-    { 'SysSem.cpp' , New },
-    { 'SysTask.cpp' , New },
-    { 'SysTime.cpp' , New },
-    { 'SysTlsSlot.cpp' , New },
-    { 'SysWait.cpp' , New },
-    { 'SysWaitInternal.cpp' , New },
-    { 'SysAtomic.s' , New },
-    { 'SysTime.s' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Ignore },
+    { 'SysError.cpp' , Ignore },
+    { 'SysFile.cpp' , Ignore },
+    { 'SysFileInternal.cpp' , Ignore },
+    { 'SysFileSystem.cpp' , Ignore },
+    { 'SysLaunchPath.cpp' , Ignore },
+    { 'SysMemPage.cpp' , Ignore },
+    { 'SysNet.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysProp.cpp' , Ignore },
+    { 'SysSem.cpp' , Ignore },
+    { 'SysTask.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore },
+    { 'SysTlsSlot.cpp' , Ignore },
+    { 'SysWait.cpp' , Ignore },
+    { 'SysWaitInternal.cpp' , Ignore },
+    { 'SysAtomic.s' , Ignore },
+    { 'SysTime.s' , Ignore }
    }
   };
 
 Dir Dir242=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.cpp' , New },
-    { 'InternalDesktop.cpp' , New },
-    { 'InternalHost.cpp' , New },
-    { 'InternalUtils.cpp' , New }
+    { 'Desktop.cpp' , Ignore },
+    { 'InternalDesktop.cpp' , Ignore },
+    { 'InternalHost.cpp' , Ignore },
+    { 'InternalUtils.cpp' , Ignore }
    }
   };
 
 Dir Dir233=
   {
    'HowToBuild',
-   New,
+   Ignore,
    {
     &Dir243,
     &Dir244
@@ -4573,29 +4573,29 @@ Dir Dir233=
 Dir Dir243=
   {
    'gcc-7.1.0',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New }
+    { 'MakeCfg' , Ignore }
    }
   };
 
 Dir Dir244=
   {
    'gcc-7.2.0',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New }
+    { 'MakeCfg' , Ignore }
    }
   };
 
 Dir Dir159=
   {
    'CCore',
-   New,
+   Ignore,
    {
     &Dir245,
     &Dir246,
@@ -4608,21 +4608,21 @@ Dir Dir159=
 Dir Dir160=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'main.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir161=
   {
    'tools',
-   New,
+   Ignore,
    {
     &Dir248
    },
@@ -4633,7 +4633,7 @@ Dir Dir161=
 Dir Dir245=
   {
    'inc',
-   New,
+   Ignore,
    {
     &Dir249,
     &Dir250,
@@ -4643,14 +4643,14 @@ Dir Dir245=
     &Dir254
    },
    {
-    { 'PlatformRandom.h' , New }
+    { 'PlatformRandom.h' , Ignore }
    }
   };
 
 Dir Dir246=
   {
    'src',
-   New,
+   Ignore,
    {
     &Dir255,
     &Dir256,
@@ -4660,222 +4660,222 @@ Dir Dir246=
     &Dir260
    },
    {
-    { 'PlanInit_CCore.cpp' , New }
+    { 'PlanInit_CCore.cpp' , Ignore }
    }
   };
 
 Dir Dir247=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'test6001.Atomic.cpp' , New },
-    { 'test6003.Blank.cpp' , New },
-    { 'test6011.Char.cpp' , New },
-    { 'test6004.IntegerFastAlgo.cpp' , New },
-    { 'test6006.IntelAES.cpp' , New },
-    { 'test6005.IntelRandom.cpp' , New },
-    { 'test6007.MemAlloc.cpp' , New },
-    { 'test6010.Quick.cpp' , New },
-    { 'test6009.SysFile.cpp' , New },
-    { 'test6008.Time.cpp' , New },
-    { 'test6002.WIN64.cpp' , New }
+    { 'test6001.Atomic.cpp' , Ignore },
+    { 'test6003.Blank.cpp' , Ignore },
+    { 'test6011.Char.cpp' , Ignore },
+    { 'test6004.IntegerFastAlgo.cpp' , Ignore },
+    { 'test6006.IntelAES.cpp' , Ignore },
+    { 'test6005.IntelRandom.cpp' , Ignore },
+    { 'test6007.MemAlloc.cpp' , Ignore },
+    { 'test6010.Quick.cpp' , Ignore },
+    { 'test6009.SysFile.cpp' , Ignore },
+    { 'test6008.Time.cpp' , Ignore },
+    { 'test6002.WIN64.cpp' , Ignore }
    }
   };
 
 Dir Dir249=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Ignore },
+    { 'Quick.h' , Ignore }
    }
   };
 
 Dir Dir250=
   {
    'crypton',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntelAES.h' , New },
-    { 'IntelCPUID.h' , New },
-    { 'IntelRandom.h' , New },
-    { 'PlatformAES.h' , New }
+    { 'IntelAES.h' , Ignore },
+    { 'IntelCPUID.h' , Ignore },
+    { 'IntelRandom.h' , Ignore },
+    { 'PlatformAES.h' , Ignore }
    }
   };
 
 Dir Dir251=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.h' , New }
+    { 'IntegerFastAlgo.h' , Ignore }
    }
   };
 
 Dir Dir252=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysCon.h' , New },
-    { 'SysError.h' , New },
-    { 'SysFile.h' , New },
-    { 'SysFileInternal.h' , New },
-    { 'SysFileSystem.h' , New },
-    { 'SysLaunchPath.h' , New },
-    { 'SysMemPage.h' , New },
-    { 'SysNet.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysProp.h' , New },
-    { 'SysSem.h' , New },
-    { 'SysTask.h' , New },
-    { 'SysTime.h' , New },
-    { 'SysTlsSlot.h' , New },
-    { 'SysWait.h' , New },
-    { 'SysWaitInternal.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysCon.h' , Ignore },
+    { 'SysError.h' , Ignore },
+    { 'SysFile.h' , Ignore },
+    { 'SysFileInternal.h' , Ignore },
+    { 'SysFileSystem.h' , Ignore },
+    { 'SysLaunchPath.h' , Ignore },
+    { 'SysMemPage.h' , Ignore },
+    { 'SysNet.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysProp.h' , Ignore },
+    { 'SysSem.h' , Ignore },
+    { 'SysTask.h' , Ignore },
+    { 'SysTime.h' , Ignore },
+    { 'SysTlsSlot.h' , Ignore },
+    { 'SysWait.h' , Ignore },
+    { 'SysWaitInternal.h' , Ignore }
    }
   };
 
 Dir Dir253=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.h' , New },
-    { 'InternalDesktop.h' , New },
-    { 'InternalHost.h' , New },
-    { 'InternalUtils.h' , New }
+    { 'Desktop.h' , Ignore },
+    { 'InternalDesktop.h' , Ignore },
+    { 'InternalHost.h' , Ignore },
+    { 'InternalUtils.h' , Ignore }
    }
   };
 
 Dir Dir254=
   {
    'win64',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Win64.h' , New },
-    { 'Win64gui.h' , New }
+    { 'Win64.h' , Ignore },
+    { 'Win64gui.h' , Ignore }
    }
   };
 
 Dir Dir255=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New },
-    { 'PlatformBase.s' , New },
-    { 'Quick.s' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore },
+    { 'PlatformBase.s' , Ignore },
+    { 'Quick.s' , Ignore }
    }
   };
 
 Dir Dir256=
   {
    'crypton',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntelAES.cpp' , New },
-    { 'IntelCPUID.cpp' , New },
-    { 'IntelRandom.cpp' , New },
-    { 'IntelAES.s' , New },
-    { 'IntelCPUID.s' , New },
-    { 'IntelRandom.s' , New }
+    { 'IntelAES.cpp' , Ignore },
+    { 'IntelCPUID.cpp' , Ignore },
+    { 'IntelRandom.cpp' , Ignore },
+    { 'IntelAES.s' , Ignore },
+    { 'IntelCPUID.s' , Ignore },
+    { 'IntelRandom.s' , Ignore }
    }
   };
 
 Dir Dir257=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'IntegerFastAlgo.cpp' , New }
+    { 'IntegerFastAlgo.cpp' , Ignore }
    }
   };
 
 Dir Dir258=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysError.cpp' , New },
-    { 'SysFile.cpp' , New },
-    { 'SysFileInternal.cpp' , New },
-    { 'SysFileSystem.cpp' , New },
-    { 'SysLaunchPath.cpp' , New },
-    { 'SysMemPage.cpp' , New },
-    { 'SysNet.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysProp.cpp' , New },
-    { 'SysSem.cpp' , New },
-    { 'SysTask.cpp' , New },
-    { 'SysTime.cpp' , New },
-    { 'SysTlsSlot.cpp' , New },
-    { 'SysWait.cpp' , New },
-    { 'SysWaitInternal.cpp' , New },
-    { 'SysAtomic.s' , New },
-    { 'SysTime.s' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Ignore },
+    { 'SysError.cpp' , Ignore },
+    { 'SysFile.cpp' , Ignore },
+    { 'SysFileInternal.cpp' , Ignore },
+    { 'SysFileSystem.cpp' , Ignore },
+    { 'SysLaunchPath.cpp' , Ignore },
+    { 'SysMemPage.cpp' , Ignore },
+    { 'SysNet.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysProp.cpp' , Ignore },
+    { 'SysSem.cpp' , Ignore },
+    { 'SysTask.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore },
+    { 'SysTlsSlot.cpp' , Ignore },
+    { 'SysWait.cpp' , Ignore },
+    { 'SysWaitInternal.cpp' , Ignore },
+    { 'SysAtomic.s' , Ignore },
+    { 'SysTime.s' , Ignore }
    }
   };
 
 Dir Dir259=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Desktop.cpp' , New },
-    { 'InternalDesktop.cpp' , New },
-    { 'InternalHost.cpp' , New },
-    { 'InternalUtils.cpp' , New }
+    { 'Desktop.cpp' , Ignore },
+    { 'InternalDesktop.cpp' , Ignore },
+    { 'InternalHost.cpp' , Ignore },
+    { 'InternalUtils.cpp' , Ignore }
    }
   };
 
 Dir Dir260=
   {
    'win64',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Win64.cpp' , New }
+    { 'Win64.cpp' , Ignore }
    }
   };
 
 Dir Dir248=
   {
    'HowToBuild',
-   New,
+   Ignore,
    {
     &Dir261
    },
@@ -4886,11 +4886,11 @@ Dir Dir248=
 Dir Dir261=
   {
    'gcc-7.1.0',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New }
+    { 'MakeCfg' , Ignore }
    }
   };
 
