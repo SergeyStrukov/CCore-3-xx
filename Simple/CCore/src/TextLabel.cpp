@@ -1,7 +1,7 @@
 /* TextLabel.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -35,14 +35,14 @@ StrLen BuildNumTextLabel(const char *text,unsigned num,PtrLen<char> buf)
 
 StrLen TextLabel::EmptyFunc(Handle,PtrLen<char>)
  {
-  return "<?>";
+  return "<?>"_c;
  }
 
 StrLen TextLabel::StringFunc(Handle ctx,PtrLen<char>)
  {
   const char *zstr=static_cast<const char *>(ctx.ptr);
 
-  if( !zstr ) return "<null>";
+  if( !zstr ) return "<null>"_c;
 
   return zstr;
  }

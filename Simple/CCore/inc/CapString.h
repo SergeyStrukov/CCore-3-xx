@@ -18,6 +18,10 @@
 
 #include <CCore/inc/Gadget.h>
 
+#ifdef CCORE_UTF8
+#include <CCore/inc/Utf8.h>
+#endif
+
 namespace CCore {
 
 /* classes */
@@ -36,6 +40,12 @@ class CapString : NoCopy
    explicit CapString(StrLen str)
     {
      Replace_min(str.len,MaxLen); // cap length
+
+#ifdef CCORE_UTF8
+
+     TrimUtf8End(str);
+
+#endif
 
      str.copyTo(buf);
 

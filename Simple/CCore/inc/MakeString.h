@@ -67,6 +67,8 @@ class MakeString : NoCopy
 
    MakeString & add(const char *zstr)
     {
+     ulen prev_len=len;
+
      for(; char ch=*zstr ;zstr++)
        {
         if( len<Len )
@@ -75,6 +77,7 @@ class MakeString : NoCopy
           }
         else
           {
+           len=prev_len;
            overflow=true;
 
            break;

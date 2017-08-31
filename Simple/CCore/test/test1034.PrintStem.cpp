@@ -21,54 +21,6 @@ namespace App {
 
 namespace Private_1034 {
 
-class PrintPeriod : NoCopy
- {
-   mutable bool flag = true ;
-   mutable unsigned count = 0 ;
-
-   unsigned period; // > 0
-   StrLen first;
-   StrLen next;
-   StrLen line;
-
-  public:
-
-   PrintPeriod(unsigned period_,StrLen first_,StrLen next_,StrLen line_) : period(period_),first(first_),next(next_),line(line_) {}
-
-   void reset() { flag=true; }
-
-   StrLen end(StrLen non_empty,StrLen empty) const { return flag?empty:non_empty; }
-
-   // print object
-
-   template <class P>
-   void print(P &out) const
-    {
-     if( flag )
-       {
-        flag=false;
-        count=1;
-
-        Putobj(out,first);
-       }
-     else
-       {
-        if( count<period )
-          {
-           count++;
-
-           Putobj(out,next);
-          }
-        else
-          {
-           count=1;
-
-           Putobj(out,line);
-          }
-       }
-    }
- };
-
 void test1()
  {
   PrintFirst stem(" "," , ");
@@ -86,7 +38,7 @@ void test2(ulen count)
 
   for(ulen i=0; i<count ;i++) Putobj(Con,stem,i);
 
-  Putobj(Con,stem.end("\n }\n\n","}\n\n"));
+  Putobj(Con,stem.end("\n }\n\n"," }\n\n"));
  }
 
 } // namespace Private_1034
