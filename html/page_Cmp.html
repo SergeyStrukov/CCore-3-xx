@@ -202,6 +202,11 @@ bool <span class="Att">StrLessOf</span>(const T &amp;a,const T &amp;b) { return 
 </pre>
 
 <p>
+<span class="Alert">Starting from the version 3.50 comparision is performed using the <b>uint8</b> character code.</span>
+It makes these operations UTF8-compartible.
+</p>
+
+<p>
 The class <b>CmpAsStr</b> is an adapter class to help combine the string comparison with the string extraction:
 </p>
 

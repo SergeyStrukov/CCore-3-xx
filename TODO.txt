@@ -14,12 +14,4 @@ remove Creator-function
 
 PrintBits()
 
---- Cmp.h ---
-
-Compare as uint8 (utf8 compat)
-
-CmpResult StrCmp(StrLen a,StrLen b);
-
-bool StrLess(StrLen a,StrLen b);
-
 ==================================================

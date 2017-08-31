@@ -1,7 +1,7 @@
 /* UIntSplit.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -35,12 +35,12 @@ template <UIntType UIntBig,UIntType UIntSmall> requires UIntSplitEnable<UIntBig,
 template <UIntType UIntBig,UIntType UIntSmall> requires UIntSplitEnable<UIntBig,UIntSmall>
 class UIntSplit
  {
-   static const unsigned BitLen    = Meta::UIntBits<UIntSmall> ;
-   static const unsigned BigBitLen = Meta::UIntBits<UIntBig> ;
+   static constexpr unsigned BitLen    = Meta::UIntBits<UIntSmall> ;
+   static constexpr unsigned BigBitLen = Meta::UIntBits<UIntBig> ;
 
   public:
 
-   static const unsigned Len       = BigBitLen/BitLen ;
+   static constexpr unsigned Len       = BigBitLen/BitLen ;
 
   private:
 

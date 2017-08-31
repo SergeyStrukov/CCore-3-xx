@@ -1,7 +1,7 @@
 /* Cmp.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ CmpResult StrCmp(StrLen a,StrLen b)
     {
      ulen off=a.match(b.ptr);
 
-     if( off<a.len ) return LessCmp(a[off],b[off]);
+     if( off<a.len ) return LessCmp(uint8(a[off]),uint8(b[off]));
 
      return CmpLess;
     }
@@ -47,7 +47,7 @@ CmpResult StrCmp(StrLen a,StrLen b)
     {
      ulen off=b.match(a.ptr);
 
-     if( off<b.len ) return LessCmp(a[off],b[off]);
+     if( off<b.len ) return LessCmp(uint8(a[off]),uint8(b[off]));
 
      return (a.len==b.len)?CmpEqual:CmpGreater;
     }
@@ -59,7 +59,7 @@ bool StrLess(StrLen a,StrLen b)
     {
      ulen off=a.match(b.ptr);
 
-     if( off<a.len ) return a[off]<b[off];
+     if( off<a.len ) return uint8(a[off])<uint8(b[off]);
 
      return true;
     }
@@ -67,7 +67,7 @@ bool StrLess(StrLen a,StrLen b)
     {
      ulen off=b.match(a.ptr);
 
-     if( off<b.len ) return a[off]<b[off];
+     if( off<b.len ) return uint8(a[off])<uint8(b[off]);
 
      return false;
     }

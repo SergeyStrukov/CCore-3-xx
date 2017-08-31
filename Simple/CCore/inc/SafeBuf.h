@@ -1,7 +1,7 @@
 /* SafeBuf.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ class SafeBuf;
 
 class SafeBuf : NoCopy
  {
-   static const ulen SafeLen = 32 ;
+   static constexpr ulen SafeLen = 32 ;
 
    char *ptr;
    ulen len;

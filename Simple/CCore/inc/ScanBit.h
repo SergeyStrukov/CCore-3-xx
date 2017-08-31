@@ -1,7 +1,7 @@
 /* ScanBit.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -36,11 +36,11 @@ struct ScanMSBitAlgo
  {
   using Unit = Quick::ScanUInt ;
 
-  static const ulen UnitBits = Meta::UIntBits<Unit> ; // expect power of 2
+  static constexpr ulen UnitBits = Meta::UIntBits<Unit> ; // expect power of 2
 
-  static const Unit Unit_msb = UIntFunc<Unit>::MSBit ;
+  static constexpr Unit Unit_msb = UIntFunc<Unit>::MSBit ;
 
-  static const Unit Unit_all = UIntFunc<Unit>::MaxUnsigned ;
+  static constexpr Unit Unit_all = UIntFunc<Unit>::MaxUnsigned ;
 
   static Unit BitNum(ulen number) { return Unit_msb>>number; }
 
@@ -59,11 +59,11 @@ struct ScanLSBitAlgo
  {
   using Unit = Quick::ScanUInt ;
 
-  static const ulen UnitBits = Meta::UIntBits<Unit> ; // expect power of 2
+  static constexpr ulen UnitBits = Meta::UIntBits<Unit> ; // expect power of 2
 
-  static const Unit Unit_lsb = 1 ;
+  static constexpr Unit Unit_lsb = 1 ;
 
-  static const Unit Unit_all = UIntFunc<Unit>::MaxUnsigned ;
+  static constexpr Unit Unit_all = UIntFunc<Unit>::MaxUnsigned ;
 
   static Unit BitNum(ulen number) { return Unit_lsb<<number; }
 
@@ -87,7 +87,7 @@ class ScanBit
 
   public:
 
-   static const ulen IndexLim = Len*Algo::UnitBits ;
+   static constexpr ulen IndexLim = Len*Algo::UnitBits ;
 
    ScanBit() noexcept : bits() {}
 

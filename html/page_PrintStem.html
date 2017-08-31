@@ -85,7 +85,6 @@ The <b>empty</b> is selected iff the object has not been printed yet.
 
 class <span class="Att">PrintPeriod</span> : NoCopy
  {
-   mutable bool flag = true ;
    mutable unsigned count = 0 ;
 
    unsigned period; // &gt; 0
@@ -97,9 +96,9 @@ class <span class="Att">PrintPeriod</span> : NoCopy
 
    PrintPeriod(unsigned period_,StrLen first_,StrLen next_,StrLen line_) : period(period_),first(first_),next(next_),line(line_) {}
 
-   void reset() { flag=true; }
+   void reset() { count=0; }
 
-   StrLen end(StrLen non_empty,StrLen empty) const { return flag?empty:non_empty; }
+   StrLen end(StrLen non_empty,StrLen empty) const { return (!count)?empty:non_empty; }
 
    // print object
 

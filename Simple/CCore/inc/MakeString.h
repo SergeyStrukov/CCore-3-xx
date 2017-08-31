@@ -1,7 +1,7 @@
 /* MakeString.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -120,7 +120,7 @@ class MakeString : NoCopy
    MakeString & operator += (T t) { return add(t); }
 
    template <class ... TT>
-   MakeString & add(TT ... tt)
+   MakeString & add(TT ... tt) requires ( sizeof ... (TT) > 1 )
     {
      return ( (*this) += ... += tt );
     }

@@ -1,7 +1,7 @@
 /* PrintSet.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -46,15 +46,15 @@ class PrintSet : public PrintOptAdapter<T>
 
      if( +r )
        {
-        Putobj(out,"{ ",Cast(*r));
+        Putobj(out,"{ "_c,Cast(*r));
 
-        for(++r; +r ;++r) Putobj(out," , ",Cast(*r));
+        for(++r; +r ;++r) Putobj(out," , "_c,Cast(*r));
 
-        Putobj(out," }");
+        Putobj(out," }"_c);
        }
      else
        {
-        Putobj(out,"{ }");
+        Putobj(out,"{ }"_c);
        }
     }
 
@@ -64,15 +64,15 @@ class PrintSet : public PrintOptAdapter<T>
 
      if( +r )
        {
-        Putobj(out,"{ ",BindOpt(opt,Cast(*r)));
+        Putobj(out,"{ "_c,BindOpt(opt,Cast(*r)));
 
-        for(++r; +r ;++r) Putobj(out," , ",BindOpt(opt,Cast(*r)));
+        for(++r; +r ;++r) Putobj(out," , "_c,BindOpt(opt,Cast(*r)));
 
-        Putobj(out," }");
+        Putobj(out," }"_c);
        }
      else
        {
-        Putobj(out,"{ }");
+        Putobj(out,"{ }"_c);
        }
     }
  };

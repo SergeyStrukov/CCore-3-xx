@@ -1,7 +1,7 @@
 /* PrintStem.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -64,7 +64,6 @@ class PrintFirst : NoCopy
 
 class PrintPeriod : NoCopy
  {
-   mutable bool flag = true ;
    mutable unsigned count = 0 ;
 
    unsigned period; // > 0
@@ -76,17 +75,16 @@ class PrintPeriod : NoCopy
 
    PrintPeriod(unsigned period_,StrLen first_,StrLen next_,StrLen line_) : period(period_),first(first_),next(next_),line(line_) {}
 
-   void reset() { flag=true; }
+   void reset() { count=0; }
 
-   StrLen end(StrLen non_empty,StrLen empty) const { return flag?empty:non_empty; }
+   StrLen end(StrLen non_empty,StrLen empty) const { return (!count)?empty:non_empty; }
 
    // print object
 
    void print(PrinterType &out) const
     {
-     if( flag )
+     if( !count )
        {
-        flag=false;
         count=1;
 
         Putobj(out,first);

@@ -48,7 +48,7 @@ class <span class="Att">ScanBit</span>
    
   public:
    
-   static const ulen IndexLim = Len*Algo::UnitBits ;
+   static constexpr ulen IndexLim = Len*Algo::UnitBits ;
    
    ScanBit();
    
@@ -111,11 +111,11 @@ struct <span class="Att">ScanMSBitAlgo</span>
  {
   using Unit = Quick::ScanUInt ;
   
-  static const ulen UnitBits;
+  static constexpr ulen UnitBits;
   
-  static const Unit Unit_msb;
+  static constexpr Unit Unit_msb;
   
-  static const Unit Unit_all;
+  static constexpr Unit Unit_all;
   
   static Unit Bit(ulen number);
   
@@ -136,11 +136,11 @@ struct <span class="Att">ScanLSBitAlgo</span>
  {
   using Unit = Quick::ScanUInt ;
   
-  static const ulen UnitBits;
+  static constexpr ulen UnitBits;
   
-  static const Unit Unit_1;
+  static constexpr Unit Unit_1;
   
-  static const Unit Unit_all;
+  static constexpr Unit Unit_all;
   
   static Unit Bit(ulen number);
   
