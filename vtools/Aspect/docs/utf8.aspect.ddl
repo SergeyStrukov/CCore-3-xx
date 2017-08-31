@@ -446,7 +446,7 @@ Dir Dir7=
 Dir Dir8=
   {
    'Simple',
-   New,
+   Red,
    {
     &Dir25
    },
@@ -2156,7 +2156,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir119,
     &Dir120,
@@ -2169,7 +2169,7 @@ Dir Dir25=
 Dir Dir119=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir122
    },
@@ -2215,14 +2215,15 @@ Dir Dir119=
     { 'ToMoveCtor.h' , Ignore },
     { 'Tuple.h' , Ignore },
     { 'TypeSwitch.h' , Ignore },
-    { 'UIntSplit.h' , Ignore }
+    { 'UIntSplit.h' , Ignore },
+    { 'Utf8.h' , Red }
    }
   };
 
 Dir Dir120=
   {
    'src',
-   New,
+   Red,
    {
     &Dir123,
     &Dir124
@@ -2269,7 +2270,8 @@ Dir Dir120=
     { 'ToMoveCtor.cpp' , Ignore },
     { 'Tuple.cpp' , Ignore },
     { 'TypeSwitch.cpp' , Ignore },
-    { 'UIntSplit.cpp' , Ignore }
+    { 'UIntSplit.cpp' , Ignore },
+    { 'Utf8.cpp' , Red }
    }
   };
 
@@ -2313,7 +2315,8 @@ Dir Dir121=
     { 'test1023.Tuple.cpp' , Ignore },
     { 'test1030.TypeSwitch.cpp' , Ignore },
     { 'test1010.UIntFunc.cpp' , Ignore },
-    { 'test1014.UIntSplit.cpp' , Ignore }
+    { 'test1014.UIntSplit.cpp' , Ignore },
+    { 'test1035.Utf8.cpp' , Ignore }
    }
   };
 
@@ -5014,6 +5017,7 @@ Dir Dir262=
    },
    {
     { 'gcc7.aspect.ddl' , New },
+    { 'utf8.aspect.ddl' , New },
     { 'vtools.aspect.ddl' , New }
    }
   };
