@@ -1,7 +1,7 @@
 /* GenFile.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -148,7 +148,7 @@ const char * GetTextDesc(FileError fe);
 
 class FileMultiError : NoCopy
  {
-   static const ulen Len = 10 ;
+   static constexpr ulen Len = 10 ;
 
    FileError list[Len];
    ulen len;

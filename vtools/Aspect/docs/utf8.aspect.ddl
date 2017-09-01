@@ -95,7 +95,7 @@ Dir Dir3=
 Dir Dir4=
   {
    'Fundamental',
-   New,
+   Red,
    {
     &Dir17
    },
@@ -420,7 +420,7 @@ Dir Dir5=
 Dir Dir6=
   {
    'HCore',
-   New,
+   Red,
    {
     &Dir18,
     &Dir19
@@ -1411,7 +1411,7 @@ Dir Dir91=
 Dir Dir17=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir92,
     &Dir93,
@@ -1424,7 +1424,7 @@ Dir Dir17=
 Dir Dir92=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir95,
     &Dir96,
@@ -1435,61 +1435,61 @@ Dir Dir92=
     &Dir101
    },
    {
-    { 'Array.h' , New },
-    { 'AttachmentHost.h' , New },
-    { 'AutoGlobal.h' , New },
-    { 'CharProp.h' , New },
-    { 'CompactList.h' , New },
-    { 'CompactMap.h' , New },
-    { 'CompactNodeAllocator.h' , New },
-    { 'ContainerList.h' , New },
-    { 'DeferCall.h' , New },
-    { 'DetectProxy.h' , New },
-    { 'ElementPool.h' , New },
-    { 'Exception.h' , New },
-    { 'GenFile.h' , New },
-    { 'HeapEngine.h' , New },
-    { 'InterfaceHost.h' , New },
-    { 'Job.h' , New },
-    { 'List.h' , New },
-    { 'ListCursor.h' , New },
-    { 'MakeFileName.h' , New },
-    { 'MemBase.h' , New },
-    { 'MemSpaceHeap.h' , New },
-    { 'MersenneTwister.h' , New },
-    { 'MultiSignal.h' , New },
-    { 'NodeAllocator.h' , New },
-    { 'ObjectDomain.h' , New },
-    { 'ObjHost.h' , New },
-    { 'Optional.h' , New },
-    { 'Path.h' , New },
-    { 'PlanInit.h' , New },
-    { 'PlatformRandom.h' , New },
-    { 'Printf.h' , New },
-    { 'RadixHeap.h' , New },
-    { 'Random.h' , New },
-    { 'SaveLoad.h' , New },
-    { 'Scanf.h' , New },
-    { 'Signal.h' , New },
-    { 'SingleHost.h' , New },
-    { 'Sort.h' , New },
-    { 'Starter.h' , New },
-    { 'StepEval.h' , New },
-    { 'String.h' , New },
-    { 'StrMap.h' , New },
-    { 'StrParse.h' , New },
-    { 'TextTools.h' , New },
-    { 'Tree.h' , New },
-    { 'TreeMap.h' , New },
-    { 'TypeNumber.h' , New },
-    { 'Unid.h' , New }
+    { 'Array.h' , Ignore },
+    { 'AttachmentHost.h' , Ignore },
+    { 'AutoGlobal.h' , Ignore },
+    { 'CharProp.h' , Red },
+    { 'CompactList.h' , Ignore },
+    { 'CompactMap.h' , Ignore },
+    { 'CompactNodeAllocator.h' , Ignore },
+    { 'ContainerList.h' , Ignore },
+    { 'DeferCall.h' , Ignore },
+    { 'DetectProxy.h' , Ignore },
+    { 'ElementPool.h' , Ignore },
+    { 'Exception.h' , Ignore },
+    { 'GenFile.h' , Ignore },
+    { 'HeapEngine.h' , Ignore },
+    { 'InterfaceHost.h' , Ignore },
+    { 'Job.h' , Ignore },
+    { 'List.h' , Ignore },
+    { 'ListCursor.h' , Ignore },
+    { 'MakeFileName.h' , Red },
+    { 'MemBase.h' , Ignore },
+    { 'MemSpaceHeap.h' , Ignore },
+    { 'MersenneTwister.h' , Ignore },
+    { 'MultiSignal.h' , Ignore },
+    { 'NodeAllocator.h' , Ignore },
+    { 'ObjectDomain.h' , Ignore },
+    { 'ObjHost.h' , Ignore },
+    { 'Optional.h' , Ignore },
+    { 'Path.h' , Red },
+    { 'PlanInit.h' , Ignore },
+    { 'PlatformRandom.h' , Ignore },
+    { 'Printf.h' , Red },
+    { 'RadixHeap.h' , Ignore },
+    { 'Random.h' , Ignore },
+    { 'SaveLoad.h' , Ignore },
+    { 'Scanf.h' , Red },
+    { 'Signal.h' , Ignore },
+    { 'SingleHost.h' , Ignore },
+    { 'Sort.h' , Ignore },
+    { 'Starter.h' , Ignore },
+    { 'StepEval.h' , Ignore },
+    { 'String.h' , Red },
+    { 'StrMap.h' , Red },
+    { 'StrParse.h' , Red },
+    { 'TextTools.h' , Red },
+    { 'Tree.h' , Ignore },
+    { 'TreeMap.h' , Ignore },
+    { 'TypeNumber.h' , Ignore },
+    { 'Unid.h' , Ignore }
    }
   };
 
 Dir Dir93=
   {
    'src',
-   New,
+   Red,
    {
     &Dir102,
     &Dir103,
@@ -1500,358 +1500,358 @@ Dir Dir93=
     &Dir108
    },
    {
-    { 'Array.cpp' , New },
-    { 'AttachmentHost.cpp' , New },
-    { 'AutoGlobal.cpp' , New },
-    { 'CharProp.cpp' , New },
-    { 'CompactList.cpp' , New },
-    { 'CompactMap.cpp' , New },
-    { 'CompactNodeAllocator.cpp' , New },
-    { 'ContainerList.cpp' , New },
-    { 'DeferCall.cpp' , New },
-    { 'DetectProxy.cpp' , New },
-    { 'ElementPool.cpp' , New },
-    { 'Exception.cpp' , New },
-    { 'GenFile.cpp' , New },
-    { 'HeapEngine.cpp' , New },
-    { 'InterfaceHost.cpp' , New },
-    { 'Job.cpp' , New },
-    { 'List.cpp' , New },
-    { 'ListCursor.cpp' , New },
-    { 'MakeFileName.cpp' , New },
-    { 'MemBase_general.cpp' , New },
-    { 'MemSpaceHeap.cpp' , New },
-    { 'MersenneTwister.cpp' , New },
-    { 'MultiSignal.cpp' , New },
-    { 'NodeAllocator.cpp' , New },
-    { 'ObjectDomain.cpp' , New },
-    { 'ObjHost.cpp' , New },
-    { 'Optional.cpp' , New },
-    { 'Path.cpp' , New },
-    { 'PlanInit.cpp' , New },
-    { 'Printf.cpp' , New },
-    { 'RadixHeap.cpp' , New },
-    { 'Random.cpp' , New },
-    { 'SaveLoad.cpp' , New },
-    { 'Scanf.cpp' , New },
-    { 'Signal.cpp' , New },
-    { 'SingleHost.cpp' , New },
-    { 'Sort.cpp' , New },
-    { 'Starter.cpp' , New },
-    { 'StepEval.cpp' , New },
-    { 'String.cpp' , New },
-    { 'StrMap.cpp' , New },
-    { 'StrParse.cpp' , New },
-    { 'TextTools.cpp' , New },
-    { 'Tree.cpp' , New },
-    { 'TreeMap.cpp' , New },
-    { 'TypeNumber.cpp' , New },
-    { 'Unid.cpp' , New }
+    { 'Array.cpp' , Ignore },
+    { 'AttachmentHost.cpp' , Ignore },
+    { 'AutoGlobal.cpp' , Ignore },
+    { 'CharProp.cpp' , Red },
+    { 'CompactList.cpp' , Ignore },
+    { 'CompactMap.cpp' , Ignore },
+    { 'CompactNodeAllocator.cpp' , Ignore },
+    { 'ContainerList.cpp' , Ignore },
+    { 'DeferCall.cpp' , Ignore },
+    { 'DetectProxy.cpp' , Ignore },
+    { 'ElementPool.cpp' , Ignore },
+    { 'Exception.cpp' , Ignore },
+    { 'GenFile.cpp' , Ignore },
+    { 'HeapEngine.cpp' , Ignore },
+    { 'InterfaceHost.cpp' , Ignore },
+    { 'Job.cpp' , Ignore },
+    { 'List.cpp' , Ignore },
+    { 'ListCursor.cpp' , Ignore },
+    { 'MakeFileName.cpp' , Red },
+    { 'MemBase_general.cpp' , Ignore },
+    { 'MemSpaceHeap.cpp' , Ignore },
+    { 'MersenneTwister.cpp' , Ignore },
+    { 'MultiSignal.cpp' , Ignore },
+    { 'NodeAllocator.cpp' , Ignore },
+    { 'ObjectDomain.cpp' , Ignore },
+    { 'ObjHost.cpp' , Ignore },
+    { 'Optional.cpp' , Ignore },
+    { 'Path.cpp' , Red },
+    { 'PlanInit.cpp' , Ignore },
+    { 'Printf.cpp' , Red },
+    { 'RadixHeap.cpp' , Ignore },
+    { 'Random.cpp' , Ignore },
+    { 'SaveLoad.cpp' , Ignore },
+    { 'Scanf.cpp' , Red },
+    { 'Signal.cpp' , Ignore },
+    { 'SingleHost.cpp' , Ignore },
+    { 'Sort.cpp' , Ignore },
+    { 'Starter.cpp' , Ignore },
+    { 'StepEval.cpp' , Ignore },
+    { 'String.cpp' , Red },
+    { 'StrMap.cpp' , Red },
+    { 'StrParse.cpp' , Red },
+    { 'TextTools.cpp' , Red },
+    { 'Tree.cpp' , Ignore },
+    { 'TreeMap.cpp' , Ignore },
+    { 'TypeNumber.cpp' , Ignore },
+    { 'Unid.cpp' , Ignore }
    }
   };
 
 Dir Dir94=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'testArray.cpp' , New },
-    { 'testRun.cpp' , New },
-    { 'test2054.ApplyToRange.cpp' , New },
-    { 'test2055.ArrayInsDel.cpp' , New },
-    { 'test2037.AtomicRefArray.cpp' , New },
-    { 'test2038.AtomicRefArray.cpp' , New },
-    { 'test2020.BinarySearch.cpp' , New },
-    { 'test2999.Blank.cpp' , New },
-    { 'test2007.CharProp.cpp' , New },
-    { 'test2039.Collector.cpp' , New },
-    { 'test2044.CompactMap.cpp' , New },
-    { 'test2042.ContainerList.cpp' , New },
-    { 'test2051.DeferCall.cpp' , New },
-    { 'test2033.DynArray.cpp' , New },
-    { 'test2034.DynArray.cpp' , New },
-    { 'test2040.ElementPool.cpp' , New },
-    { 'test2022.EuclidRotate.cpp' , New },
-    { 'test2002.Exception.cpp' , New },
-    { 'test2008.Exception.cpp' , New },
-    { 'test2021.GCD.cpp' , New },
-    { 'test2023.GCDConst.cpp' , New },
-    { 'test2009.GenFile.cpp' , New },
-    { 'test2047.InterfaceHost.cpp' , New },
-    { 'test2027.List.cpp' , New },
-    { 'test2010.MersenneTwister.cpp' , New },
-    { 'test2050.MultiSignal.cpp' , New },
-    { 'test2052.ObjectDomain.cpp' , New },
-    { 'test2041.ObjHost.cpp' , New },
-    { 'test2049.Optional.cpp' , New },
-    { 'test2026.Partition.cpp' , New },
-    { 'test2011.Path.cpp' , New },
-    { 'test2012.PlanInitBuild.cpp' , New },
-    { 'test2031.Printf.cpp' , New },
-    { 'test2500.PrintFile.cpp' , New },
-    { 'test2014.Random-speed.cpp' , New },
-    { 'test2013.RandomFill.cpp' , New },
-    { 'test2015.RandomSelect.cpp' , New },
-    { 'test2043.RBTreeMap.cpp' , New },
-    { 'test2035.RefArray.cpp' , New },
-    { 'test2036.RefArray.cpp' , New },
-    { 'test2016.SaveLoad.cpp' , New },
-    { 'test2032.Scanf.cpp' , New },
-    { 'test2004.ShortSort.cpp' , New },
-    { 'test2048.Signal.cpp' , New },
-    { 'test2025.SimpleRotate.cpp' , New },
-    { 'test2005.Sort.cpp' , New },
-    { 'test2006.Sort-speed.cpp' , New },
-    { 'test2024.SortUnique.cpp' , New },
-    { 'test2003.SpaceHeap.cpp' , New },
-    { 'test2053.StepEval.cpp' , New },
-    { 'test2017.String.cpp' , New },
-    { 'test2056.StrMap.cpp' , New },
-    { 'test2018.StrParse.cpp' , New },
-    { 'test2019.TextTools.cpp' , New },
-    { 'test2028.Tree.cpp' , New },
-    { 'test2029.TreeUp.cpp' , New },
-    { 'test2030.TreeUpIns.cpp' , New },
-    { 'test2046.TypeNumber.cpp' , New },
-    { 'test2001.UIntSlowMulAlgo.cpp' , New },
-    { 'test2045.Unid.cpp' , New },
-    { 'mt19937.data' , New },
-    { 'test.h' , New },
-    { 'testArray.h' , New },
-    { 'testRun.h' , New }
+    { 'testArray.cpp' , Ignore },
+    { 'testRun.cpp' , Ignore },
+    { 'test2054.ApplyToRange.cpp' , Ignore },
+    { 'test2055.ArrayInsDel.cpp' , Ignore },
+    { 'test2037.AtomicRefArray.cpp' , Ignore },
+    { 'test2038.AtomicRefArray.cpp' , Ignore },
+    { 'test2020.BinarySearch.cpp' , Ignore },
+    { 'test2999.Blank.cpp' , Ignore },
+    { 'test2007.CharProp.cpp' , Ignore },
+    { 'test2039.Collector.cpp' , Ignore },
+    { 'test2044.CompactMap.cpp' , Ignore },
+    { 'test2042.ContainerList.cpp' , Ignore },
+    { 'test2051.DeferCall.cpp' , Ignore },
+    { 'test2033.DynArray.cpp' , Ignore },
+    { 'test2034.DynArray.cpp' , Ignore },
+    { 'test2040.ElementPool.cpp' , Ignore },
+    { 'test2022.EuclidRotate.cpp' , Ignore },
+    { 'test2002.Exception.cpp' , Ignore },
+    { 'test2008.Exception.cpp' , Ignore },
+    { 'test2021.GCD.cpp' , Ignore },
+    { 'test2023.GCDConst.cpp' , Ignore },
+    { 'test2009.GenFile.cpp' , Ignore },
+    { 'test2047.InterfaceHost.cpp' , Ignore },
+    { 'test2027.List.cpp' , Ignore },
+    { 'test2010.MersenneTwister.cpp' , Ignore },
+    { 'test2050.MultiSignal.cpp' , Ignore },
+    { 'test2052.ObjectDomain.cpp' , Ignore },
+    { 'test2041.ObjHost.cpp' , Ignore },
+    { 'test2049.Optional.cpp' , Ignore },
+    { 'test2026.Partition.cpp' , Ignore },
+    { 'test2011.Path.cpp' , Ignore },
+    { 'test2012.PlanInitBuild.cpp' , Ignore },
+    { 'test2031.Printf.cpp' , Ignore },
+    { 'test2500.PrintFile.cpp' , Ignore },
+    { 'test2014.Random-speed.cpp' , Ignore },
+    { 'test2013.RandomFill.cpp' , Ignore },
+    { 'test2015.RandomSelect.cpp' , Ignore },
+    { 'test2043.RBTreeMap.cpp' , Ignore },
+    { 'test2035.RefArray.cpp' , Ignore },
+    { 'test2036.RefArray.cpp' , Ignore },
+    { 'test2016.SaveLoad.cpp' , Ignore },
+    { 'test2032.Scanf.cpp' , Ignore },
+    { 'test2004.ShortSort.cpp' , Ignore },
+    { 'test2048.Signal.cpp' , Ignore },
+    { 'test2025.SimpleRotate.cpp' , Ignore },
+    { 'test2005.Sort.cpp' , Ignore },
+    { 'test2006.Sort-speed.cpp' , Ignore },
+    { 'test2024.SortUnique.cpp' , Ignore },
+    { 'test2003.SpaceHeap.cpp' , Ignore },
+    { 'test2053.StepEval.cpp' , Ignore },
+    { 'test2017.String.cpp' , Ignore },
+    { 'test2056.StrMap.cpp' , Ignore },
+    { 'test2018.StrParse.cpp' , Ignore },
+    { 'test2019.TextTools.cpp' , Ignore },
+    { 'test2028.Tree.cpp' , Ignore },
+    { 'test2029.TreeUp.cpp' , Ignore },
+    { 'test2030.TreeUpIns.cpp' , Ignore },
+    { 'test2046.TypeNumber.cpp' , Ignore },
+    { 'test2001.UIntSlowMulAlgo.cpp' , Ignore },
+    { 'test2045.Unid.cpp' , Ignore },
+    { 'mt19937.data' , Ignore },
+    { 'test.h' , Ignore },
+    { 'testArray.h' , Ignore },
+    { 'testRun.h' , Ignore }
    }
   };
 
 Dir Dir95=
   {
    'algon',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ApplyToList.h' , New },
-    { 'ApplyToRange.h' , New },
-    { 'BaseRangeAlgo.h' , New },
-    { 'BestSearch.h' , New },
-    { 'BinarySearch.h' , New },
-    { 'CommonIntAlgo.h' , New },
-    { 'EuclidRotate.h' , New },
-    { 'GCDConst.h' , New },
-    { 'Partition.h' , New },
-    { 'SimpleRotate.h' , New },
-    { 'SortUnique.h' , New }
+    { 'ApplyToList.h' , Ignore },
+    { 'ApplyToRange.h' , Ignore },
+    { 'BaseRangeAlgo.h' , Ignore },
+    { 'BestSearch.h' , Ignore },
+    { 'BinarySearch.h' , Ignore },
+    { 'CommonIntAlgo.h' , Ignore },
+    { 'EuclidRotate.h' , Ignore },
+    { 'GCDConst.h' , Ignore },
+    { 'Partition.h' , Ignore },
+    { 'SimpleRotate.h' , Ignore },
+    { 'SortUnique.h' , Ignore }
    }
   };
 
 Dir Dir96=
   {
    'array',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ArrayAlgo.h' , New },
-    { 'ArrayBase.h' , New },
-    { 'ArrayInsDel.h' , New },
-    { 'AtomicRefArray.h' , New },
-    { 'Collector.h' , New },
-    { 'Creator.h' , New },
-    { 'DynArray.h' , New },
-    { 'RefArray.h' , New },
-    { 'SimpleArray.h' , New },
-    { 'TempArray.h' , New }
+    { 'ArrayAlgo.h' , Ignore },
+    { 'ArrayBase.h' , Ignore },
+    { 'ArrayInsDel.h' , Ignore },
+    { 'AtomicRefArray.h' , Ignore },
+    { 'Collector.h' , Ignore },
+    { 'Creator.h' , Ignore },
+    { 'DynArray.h' , Ignore },
+    { 'RefArray.h' , Ignore },
+    { 'SimpleArray.h' , Ignore },
+    { 'TempArray.h' , Ignore }
    }
   };
 
 Dir Dir97=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'UIntSlowMulAlgo.h' , New }
+    { 'UIntSlowMulAlgo.h' , Ignore }
    }
   };
 
 Dir Dir98=
   {
    'printf',
-   New,
+   Red,
    {
    },
    {
-    { 'IntPrint.h' , New },
-    { 'PrintBase.h' , New },
-    { 'PrintProxy.h' , New },
-    { 'StrPrint.h' , New }
+    { 'IntPrint.h' , Red },
+    { 'PrintBase.h' , Red },
+    { 'PrintProxy.h' , Red },
+    { 'StrPrint.h' , Red }
    }
   };
 
 Dir Dir99=
   {
    'scanf',
-   New,
+   Red,
    {
    },
    {
-    { 'IntScan.h' , New },
-    { 'ScanBase.h' , New },
-    { 'ScanProxy.h' , New },
-    { 'ScanTools.h' , New },
-    { 'StringScan.h' , New }
+    { 'IntScan.h' , Red },
+    { 'ScanBase.h' , Red },
+    { 'ScanProxy.h' , Red },
+    { 'ScanTools.h' , Red },
+    { 'StringScan.h' , Red }
    }
   };
 
 Dir Dir100=
   {
    'sort',
-   New,
+   Ignore,
    {
    },
    {
-    { 'HeapSort.h' , New },
-    { 'MergeSort.h' , New },
-    { 'ParaQuickSort.h' , New },
-    { 'QuickSort.h' , New },
-    { 'ShortSort.h' , New }
+    { 'HeapSort.h' , Ignore },
+    { 'MergeSort.h' , Ignore },
+    { 'ParaQuickSort.h' , Ignore },
+    { 'QuickSort.h' , Ignore },
+    { 'ShortSort.h' , Ignore }
    }
   };
 
 Dir Dir101=
   {
    'tree',
-   New,
+   Ignore,
    {
    },
    {
-    { 'RBTreeBase.h' , New },
-    { 'RBTreeLink.h' , New },
-    { 'RBTreeUpLink.h' , New },
-    { 'TreeBase.h' , New },
-    { 'TreeLink.h' , New },
-    { 'TreeUpLink.h' , New }
+    { 'RBTreeBase.h' , Ignore },
+    { 'RBTreeLink.h' , Ignore },
+    { 'RBTreeUpLink.h' , Ignore },
+    { 'TreeBase.h' , Ignore },
+    { 'TreeLink.h' , Ignore },
+    { 'TreeUpLink.h' , Ignore }
    }
   };
 
 Dir Dir102=
   {
    'algon',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ApplyToList.cpp' , New },
-    { 'ApplyToRange.cpp' , New },
-    { 'BaseRangeAlgo.cpp' , New },
-    { 'BestSearch.cpp' , New },
-    { 'BinarySearch.cpp' , New },
-    { 'CommonIntAlgo.cpp' , New },
-    { 'EuclidRotate.cpp' , New },
-    { 'GCDConst.cpp' , New },
-    { 'Partition.cpp' , New },
-    { 'SimpleRotate.cpp' , New },
-    { 'SortUnique.cpp' , New }
+    { 'ApplyToList.cpp' , Ignore },
+    { 'ApplyToRange.cpp' , Ignore },
+    { 'BaseRangeAlgo.cpp' , Ignore },
+    { 'BestSearch.cpp' , Ignore },
+    { 'BinarySearch.cpp' , Ignore },
+    { 'CommonIntAlgo.cpp' , Ignore },
+    { 'EuclidRotate.cpp' , Ignore },
+    { 'GCDConst.cpp' , Ignore },
+    { 'Partition.cpp' , Ignore },
+    { 'SimpleRotate.cpp' , Ignore },
+    { 'SortUnique.cpp' , Ignore }
    }
   };
 
 Dir Dir103=
   {
    'array',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ArrayAlgo.cpp' , New },
-    { 'ArrayBase.cpp' , New },
-    { 'ArrayInsDel.cpp' , New },
-    { 'AtomicRefArray.cpp' , New },
-    { 'Collector.cpp' , New },
-    { 'Creator.cpp' , New },
-    { 'DynArray.cpp' , New },
-    { 'RefArray.cpp' , New },
-    { 'SimpleArray.cpp' , New },
-    { 'TempArray.cpp' , New }
+    { 'ArrayAlgo.cpp' , Ignore },
+    { 'ArrayBase.cpp' , Ignore },
+    { 'ArrayInsDel.cpp' , Ignore },
+    { 'AtomicRefArray.cpp' , Ignore },
+    { 'Collector.cpp' , Ignore },
+    { 'Creator.cpp' , Ignore },
+    { 'DynArray.cpp' , Ignore },
+    { 'RefArray.cpp' , Ignore },
+    { 'SimpleArray.cpp' , Ignore },
+    { 'TempArray.cpp' , Ignore }
    }
   };
 
 Dir Dir104=
   {
    'math',
-   New,
+   Ignore,
    {
    },
    {
-    { 'UIntSlowMulAlgo.cpp' , New }
+    { 'UIntSlowMulAlgo.cpp' , Ignore }
    }
   };
 
 Dir Dir105=
   {
    'printf',
-   New,
+   Red,
    {
    },
    {
-    { 'IntPrint.cpp' , New },
-    { 'PrintBase.cpp' , New },
-    { 'PrintProxy.cpp' , New },
-    { 'StrPrint.cpp' , New }
+    { 'IntPrint.cpp' , Red },
+    { 'PrintBase.cpp' , Red },
+    { 'PrintProxy.cpp' , Red },
+    { 'StrPrint.cpp' , Red }
    }
   };
 
 Dir Dir106=
   {
    'scanf',
-   New,
+   Red,
    {
    },
    {
-    { 'IntScan.cpp' , New },
-    { 'ScanBase.cpp' , New },
-    { 'ScanProxy.cpp' , New },
-    { 'ScanTools.cpp' , New },
-    { 'StringScan.cpp' , New }
+    { 'IntScan.cpp' , Red },
+    { 'ScanBase.cpp' , Red },
+    { 'ScanProxy.cpp' , Red },
+    { 'ScanTools.cpp' , Red },
+    { 'StringScan.cpp' , Red }
    }
   };
 
 Dir Dir107=
   {
    'sort',
-   New,
+   Ignore,
    {
    },
    {
-    { 'HeapSort.cpp' , New },
-    { 'MergeSort.cpp' , New },
-    { 'ParaQuickSort.cpp' , New },
-    { 'QuickSort.cpp' , New },
-    { 'ShortSort.cpp' , New }
+    { 'HeapSort.cpp' , Ignore },
+    { 'MergeSort.cpp' , Ignore },
+    { 'ParaQuickSort.cpp' , Ignore },
+    { 'QuickSort.cpp' , Ignore },
+    { 'ShortSort.cpp' , Ignore }
    }
   };
 
 Dir Dir108=
   {
    'tree',
-   New,
+   Ignore,
    {
    },
    {
-    { 'RBTreeBase.cpp' , New },
-    { 'RBTreeLink.cpp' , New },
-    { 'RBTreeUpLink.cpp' , New },
-    { 'TreeBase.cpp' , New },
-    { 'TreeLink.cpp' , New },
-    { 'TreeUpLink.cpp' , New }
+    { 'RBTreeBase.cpp' , Ignore },
+    { 'RBTreeLink.cpp' , Ignore },
+    { 'RBTreeUpLink.cpp' , Ignore },
+    { 'TreeBase.cpp' , Ignore },
+    { 'TreeLink.cpp' , Ignore },
+    { 'TreeUpLink.cpp' , Ignore }
    }
   };
 
 Dir Dir18=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir109,
     &Dir110,
@@ -1864,18 +1864,18 @@ Dir Dir18=
 Dir Dir19=
   {
    'files',
-   New,
+   Ignore,
    {
    },
    {
-    { 'NameList.txt' , New }
+    { 'NameList.txt' , Ignore }
    }
   };
 
 Dir Dir109=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir112,
     &Dir113,
@@ -1883,25 +1883,25 @@ Dir Dir109=
     &Dir115
    },
    {
-    { 'AsyncFileDevice.h' , New },
-    { 'BinaryFile.h' , New },
-    { 'DirTreeRun.h' , New },
-    { 'FileSystem.h' , New },
-    { 'FileToMem.h' , New },
-    { 'LaunchPath.h' , New },
-    { 'MemPageHeap.h' , New },
-    { 'Print.h' , New },
-    { 'ReadCon.h' , New },
-    { 'Scan.h' , New },
-    { 'Task.h' , New },
-    { 'TaskHeap.h' , New }
+    { 'AsyncFileDevice.h' , Ignore },
+    { 'BinaryFile.h' , Ignore },
+    { 'DirTreeRun.h' , Ignore },
+    { 'FileSystem.h' , Ignore },
+    { 'FileToMem.h' , Ignore },
+    { 'LaunchPath.h' , Ignore },
+    { 'MemPageHeap.h' , Ignore },
+    { 'Print.h' , Ignore },
+    { 'ReadCon.h' , Red },
+    { 'Scan.h' , Ignore },
+    { 'Task.h' , Ignore },
+    { 'TaskHeap.h' , Ignore }
    }
   };
 
 Dir Dir110=
   {
    'src',
-   New,
+   Red,
    {
     &Dir116,
     &Dir117,
@@ -1909,178 +1909,178 @@ Dir Dir110=
     &Dir119
    },
    {
-    { 'Abort.cpp' , New },
-    { 'AsyncFileDevice.cpp' , New },
-    { 'BinaryFile.cpp' , New },
-    { 'DirTreeRun.cpp' , New },
-    { 'FileSystem.cpp' , New },
-    { 'FileToMem.cpp' , New },
-    { 'LaunchPath.cpp' , New },
-    { 'MemBase.cpp' , New },
-    { 'MemPageHeap.cpp' , New },
-    { 'Print.cpp' , New },
-    { 'ReadCon.cpp' , New },
-    { 'Scan.cpp' , New },
-    { 'Task.cpp' , New },
-    { 'TaskHeap.cpp' , New }
+    { 'Abort.cpp' , Ignore },
+    { 'AsyncFileDevice.cpp' , Ignore },
+    { 'BinaryFile.cpp' , Ignore },
+    { 'DirTreeRun.cpp' , Ignore },
+    { 'FileSystem.cpp' , Ignore },
+    { 'FileToMem.cpp' , Ignore },
+    { 'LaunchPath.cpp' , Ignore },
+    { 'MemBase.cpp' , Ignore },
+    { 'MemPageHeap.cpp' , Ignore },
+    { 'Print.cpp' , Ignore },
+    { 'ReadCon.cpp' , Red },
+    { 'Scan.cpp' , Ignore },
+    { 'Task.cpp' , Ignore },
+    { 'TaskHeap.cpp' , Ignore }
    }
   };
 
 Dir Dir111=
   {
    'test',
-   New,
+   Red,
    {
    },
    {
-    { 'testPrint.cpp' , New },
-    { 'test4004.AntiSem.cpp' , New },
-    { 'test4021.AsyncFile.cpp' , New },
-    { 'test4025.AsyncUDP.cpp' , New },
-    { 'test4018.BinaryFile.cpp' , New },
-    { 'test4028.PTPServer.ConWrite.cpp' , New },
-    { 'test4032.DelDirRecursive.cpp' , New },
-    { 'test4013.DirTreeRun.cpp' , New },
-    { 'test4003.Event.cpp' , New },
-    { 'test4012.FileSystem.cpp' , New },
-    { 'test4006.MultiEvent.cpp' , New },
-    { 'test4005.MultiSem.cpp' , New },
-    { 'test4001.Mutex.cpp' , New },
-    { 'test4020.NamesCrc.cpp' , New },
-    { 'test4008.PageHeap.cpp' , New },
-    { 'test4030.PKE.cpp' , New },
-    { 'test4016.PrintFile.cpp' , New },
-    { 'test4029.PSec.cpp' , New },
-    { 'test4026.PTPEcho.cpp' , New },
-    { 'test4031.PTPSec.cpp' , New },
-    { 'test4027.PTPServer.cpp' , New },
-    { 'test4011.ReadCon.cpp' , New },
-    { 'test4022.ScanAsyncFile.cpp' , New },
-    { 'test4017.ScanFile.cpp' , New },
-    { 'test4002.Sem.cpp' , New },
-    { 'test4007.Sem-speed.cpp' , New },
-    { 'test4015.SysAltFile.cpp' , New },
-    { 'test4014.SysFile.cpp' , New },
-    { 'test4009.Task.cpp' , New },
-    { 'test4019.TaskHeap.cpp' , New },
-    { 'test4010.TaskSleep.cpp' , New },
-    { 'test4023.UDP.cpp' , New },
-    { 'test4024.UDPEcho.cpp' , New },
-    { 'testPrint.h' , New }
+    { 'testPrint.cpp' , Red },
+    { 'test4004.AntiSem.cpp' , Red },
+    { 'test4021.AsyncFile.cpp' , Red },
+    { 'test4025.AsyncUDP.cpp' , Red },
+    { 'test4018.BinaryFile.cpp' , Red },
+    { 'test4028.PTPServer.ConWrite.cpp' , Red },
+    { 'test4032.DelDirRecursive.cpp' , Red },
+    { 'test4013.DirTreeRun.cpp' , Red },
+    { 'test4003.Event.cpp' , Red },
+    { 'test4012.FileSystem.cpp' , Red },
+    { 'test4006.MultiEvent.cpp' , Red },
+    { 'test4005.MultiSem.cpp' , Red },
+    { 'test4001.Mutex.cpp' , Red },
+    { 'test4020.NamesCrc.cpp' , Red },
+    { 'test4008.PageHeap.cpp' , Red },
+    { 'test4030.PKE.cpp' , Red },
+    { 'test4016.PrintFile.cpp' , Red },
+    { 'test4029.PSec.cpp' , Red },
+    { 'test4026.PTPEcho.cpp' , Red },
+    { 'test4031.PTPSec.cpp' , Red },
+    { 'test4027.PTPServer.cpp' , Red },
+    { 'test4011.ReadCon.cpp' , Red },
+    { 'test4022.ScanAsyncFile.cpp' , Red },
+    { 'test4017.ScanFile.cpp' , Red },
+    { 'test4002.Sem.cpp' , Red },
+    { 'test4007.Sem-speed.cpp' , Red },
+    { 'test4015.SysAltFile.cpp' , Red },
+    { 'test4014.SysFile.cpp' , Red },
+    { 'test4009.Task.cpp' , Red },
+    { 'test4019.TaskHeap.cpp' , Red },
+    { 'test4010.TaskSleep.cpp' , Red },
+    { 'test4023.UDP.cpp' , Red },
+    { 'test4024.UDPEcho.cpp' , Red },
+    { 'testPrint.h' , Red }
    }
   };
 
 Dir Dir112=
   {
    'net',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AsyncUDPDevice.h' , New },
-    { 'UDPDevice.h' , New }
+    { 'AsyncUDPDevice.h' , Ignore },
+    { 'UDPDevice.h' , Ignore }
    }
   };
 
 Dir Dir113=
   {
    'print',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PrintCon.h' , New },
-    { 'PrintFile.h' , New }
+    { 'PrintCon.h' , Ignore },
+    { 'PrintFile.h' , Ignore }
    }
   };
 
 Dir Dir114=
   {
    'scan',
-   New,
+   Red,
    {
    },
    {
-    { 'ScanFile.h' , New }
+    { 'ScanFile.h' , Red }
    }
   };
 
 Dir Dir115=
   {
    'task',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AntiSem.h' , New },
-    { 'Event.h' , New },
-    { 'FastMutex.h' , New },
-    { 'MultiEvent.h' , New },
-    { 'MultiSem.h' , New },
-    { 'Mutex.h' , New },
-    { 'MutexSpinCount.h' , New },
-    { 'ResSem.h' , New },
-    { 'Sem.h' , New },
-    { 'SlowSem.h' , New },
-    { 'TaskCore.h' , New },
-    { 'TaskEvent.h' , New }
+    { 'AntiSem.h' , Ignore },
+    { 'Event.h' , Ignore },
+    { 'FastMutex.h' , Ignore },
+    { 'MultiEvent.h' , Ignore },
+    { 'MultiSem.h' , Ignore },
+    { 'Mutex.h' , Ignore },
+    { 'MutexSpinCount.h' , Ignore },
+    { 'ResSem.h' , Ignore },
+    { 'Sem.h' , Ignore },
+    { 'SlowSem.h' , Ignore },
+    { 'TaskCore.h' , Ignore },
+    { 'TaskEvent.h' , Ignore }
    }
   };
 
 Dir Dir116=
   {
    'net',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AsyncUDPDevice.cpp' , New },
-    { 'UDPDevice.cpp' , New }
+    { 'AsyncUDPDevice.cpp' , Ignore },
+    { 'UDPDevice.cpp' , Ignore }
    }
   };
 
 Dir Dir117=
   {
    'print',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PrintCon.cpp' , New },
-    { 'PrintFile.cpp' , New }
+    { 'PrintCon.cpp' , Ignore },
+    { 'PrintFile.cpp' , Ignore }
    }
   };
 
 Dir Dir118=
   {
    'scan',
-   New,
+   Red,
    {
    },
    {
-    { 'ScanFile.cpp' , New }
+    { 'ScanFile.cpp' , Red }
    }
   };
 
 Dir Dir119=
   {
    'task',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AntiSem.cpp' , New },
-    { 'Event.cpp' , New },
-    { 'FastMutex.cpp' , New },
-    { 'MultiEvent.cpp' , New },
-    { 'MultiSem.cpp' , New },
-    { 'Mutex.cpp' , New },
-    { 'MutexSpinCount.cpp' , New },
-    { 'ResSem.cpp' , New },
-    { 'Sem.cpp' , New },
-    { 'SlowSem.cpp' , New },
-    { 'TaskCore.cpp' , New },
-    { 'TaskEvent.cpp' , New }
+    { 'AntiSem.cpp' , Ignore },
+    { 'Event.cpp' , Ignore },
+    { 'FastMutex.cpp' , Ignore },
+    { 'MultiEvent.cpp' , Ignore },
+    { 'MultiSem.cpp' , Ignore },
+    { 'Mutex.cpp' , Ignore },
+    { 'MutexSpinCount.cpp' , Ignore },
+    { 'ResSem.cpp' , Ignore },
+    { 'Sem.cpp' , Ignore },
+    { 'SlowSem.cpp' , Ignore },
+    { 'TaskCore.cpp' , Ignore },
+    { 'TaskEvent.cpp' , Ignore }
    }
   };
 
