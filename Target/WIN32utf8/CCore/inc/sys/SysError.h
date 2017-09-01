@@ -29,7 +29,8 @@ enum ErrorType : int
 
   Error_SysErrorFault = -1,
   Error_Task          = -2,
-  Error_Socket        = -3
+  Error_Socket        = -3,
+  Error_BrokenUtf8    = -4
  };
 
 /* private functions */

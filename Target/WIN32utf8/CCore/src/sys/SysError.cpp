@@ -49,6 +49,8 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
      case Error_Task          : return set("System cannot create a task"_c);
 
      case Error_Socket        : return set("System socket failure"_c);
+
+     case Error_BrokenUtf8    : return set("Broken UTF8 argument"_c);
     }
 
   Win32::flags_t flags=Win32::FormatMessageFromSystem

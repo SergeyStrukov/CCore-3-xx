@@ -44,25 +44,32 @@ bool FeedUnicode(PtrLen<const WChar> text,FuncType<bool,Unicode> func)
 
      if( IsHiSurrogate(hi) )
        {
-        if( text.len<2 ) break;
-
-        WChar lo=text[1];
-
-        if( IsLoSurrogate(lo) )
-          {
-           sym=Surrogate(hi,lo);
-
-           text+=2;
-          }
-        else
-          {
+        if( text.len<2 )
+          { // single Hi
            sym=hi;
 
            ++text;
           }
+        else
+          {
+           WChar lo=text[1];
+
+           if( IsLoSurrogate(lo) )
+             {
+              sym=Surrogate(hi,lo);
+
+              text+=2;
+             }
+           else
+             { // single Hi
+              sym=hi;
+
+              ++text;
+             }
+          }
        }
      else
-       {
+       { // may be single Lo
         sym=hi;
 
         ++text;

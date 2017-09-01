@@ -765,9 +765,9 @@ struct FileDispositionInfoData
 
 handle_t WIN32_API GetStdHandle(options_t std_handle_options);
 
-/* CreateFileA() */
+/* CreateFileW() */
 
-handle_t WIN32_API CreateFileA(const char *file_name,
+handle_t WIN32_API CreateFileW(const wchar *file_name,
                                flags_t access_flags,
                                flags_t share_flags,
                                SecurityAttributes *,
@@ -862,44 +862,44 @@ bool_t WIN32_API GetFileTime(handle_t h_file, FileTime *creation_time,
                                               FileTime *last_access_time,
                                               FileTime *last_write_time);
 
-/* GetFileAttributesA() */
+/* GetFileAttributesW() */
 
-flags_t WIN32_API GetFileAttributesA(const char *path);
+flags_t WIN32_API GetFileAttributesW(const wchar *path);
 
-/* DeleteFileA() */
+/* DeleteFileW() */
 
-bool_t WIN32_API DeleteFileA(const char *path);
+bool_t WIN32_API DeleteFileW(const wchar *path);
 
-/* CreateDirectoryA() */
+/* CreateDirectoryW() */
 
-bool_t WIN32_API CreateDirectoryA(const char *path, SecurityAttributes *);
+bool_t WIN32_API CreateDirectoryW(const wchar *path, SecurityAttributes *);
 
-/* RemoveDirectoryA() */
+/* RemoveDirectoryW() */
 
-bool_t WIN32_API RemoveDirectoryA(const char *path);
+bool_t WIN32_API RemoveDirectoryW(const wchar *path);
 
-/* MoveFileExA() */
+/* MoveFileExW() */
 
-bool_t WIN32_API MoveFileExA(const char *old_path, const char *new_path, flags_t flags);
+bool_t WIN32_API MoveFileExW(const wchar *old_path, const wchar *new_path, flags_t flags);
 
-/* FindFirstFileA() */
+/* FindFirstFileW() */
 
-handle_t WIN32_API FindFirstFileA(const char *path, FindFileData *find_data);
+handle_t WIN32_API FindFirstFileW(const wchar *path, FindFileData *find_data);
 
-/* FindNextFileA() */
+/* FindNextFileW() */
 
-bool_t WIN32_API FindNextFileA(handle_t h_find, FindFileData *find_data);
+bool_t WIN32_API FindNextFileW(handle_t h_find, FindFileData *find_data);
 
 /* FindClose() */
 
 bool_t WIN32_API FindClose(handle_t h_find);
 
-/* GetFullPathNameA() */
+/* GetFullPathNameW() */
 
-ulen_t WIN32_API GetFullPathNameA(const char *path,
+ulen_t WIN32_API GetFullPathNameW(const wchar *path,
                                   ulen_t buf_len,
-                                  char *buf,
-                                  char **file_part);
+                                  wchar *buf,
+                                  wchar **file_part);
 
 /*--------------------------------------------------------------------------------------*/
 /* Socket flags and options                                                             */

@@ -1,15 +1,15 @@
 /* SysFileSystem.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -26,6 +26,8 @@ namespace Sys {
 /* namespace Private_SysFileSystem */
 
 namespace Private_SysFileSystem {
+
+#if 0
 
 /* class EmptyDirEngine */
 
@@ -134,6 +136,8 @@ FileError DeleteDirRecursive(StrLen dir_name)
   return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryA(dir_name.ptr) );
  }
 
+#endif
+
 /* Copyz() */
 
 char * Copyz(char *out,StrLen str)
@@ -182,11 +186,15 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
 
   FileName path;
 
-  if( path.set(dir_name,"/*"_c) )
+  if( auto fe=path.prepare(dir_name,"/*"_c) )
+    {
+     error=fe;
+    }
+  else
     {
      Win32::FindFileData data;
 
-     handle=Win32::FindFirstFileA(path,&data);
+     handle=Win32::FindFirstFileW(path,&data);
 
      if( handle==Win32::InvalidFileHandle )
        {
@@ -217,10 +225,6 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
         error=FileError_Ok;
        }
     }
-  else
-    {
-     error=FileError_TooLongPath;
-    }
  }
 
 void FileSystem::DirCursor::exit() noexcept
@@ -244,7 +248,7 @@ bool FileSystem::DirCursor::next() noexcept
 
   Win32::FindFileData data;
 
-  if( FindNextFileA(handle,&data) )
+  if( FindNextFileW(handle,&data) )
     {
      StrLen str(data.file_name);
 
@@ -288,9 +292,14 @@ auto FileSystem::getFileType(StrLen path_) noexcept -> TypeResult
   TypeResult ret;
   FileName path;
 
-  if( path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
-     Win32::flags_t attr=Win32::GetFileAttributesA(path);
+     ret.type=FileType_none;
+     ret.error=fe;
+    }
+  else
+    {
+     Win32::flags_t attr=Win32::GetFileAttributesW(path);
 
      if( attr==Win32::InvalidFileAttributes )
        {
@@ -303,11 +312,6 @@ auto FileSystem::getFileType(StrLen path_) noexcept -> TypeResult
         ret.error=FileError_Ok;
        }
     }
-  else
-    {
-     ret.type=FileType_none;
-     ret.error=FileError_TooLongPath;
-    }
 
   return ret;
  }
@@ -317,9 +321,14 @@ auto FileSystem::getFileUpdateTime(StrLen path_) noexcept -> CmpTimeResult
   CmpTimeResult ret;
   FileName path;
 
-  if( path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
-     Win32::handle_t h_file=Win32::CreateFileA(path,Win32::AccessRead,Win32::ShareRead,0,Win32::OpenExisting,Win32::FileBackupSemantic,0);
+     ret.time=0;
+     ret.error=fe;
+    }
+  else
+    {
+     Win32::handle_t h_file=Win32::CreateFileW(path,Win32::AccessRead,Win32::ShareRead,0,Win32::OpenExisting,Win32::FileBackupSemantic,0);
 
      if( h_file==Win32::InvalidFileHandle )
        {
@@ -344,11 +353,6 @@ auto FileSystem::getFileUpdateTime(StrLen path_) noexcept -> CmpTimeResult
         Win32::CloseHandle(h_file);
        }
     }
-  else
-    {
-     ret.time=0;
-     ret.error=FileError_TooLongPath;
-    }
 
   return ret;
  }
@@ -357,7 +361,7 @@ FileError FileSystem::createFile(StrLen file_name) noexcept
  {
   FileName path;
 
-  if( !path.set(file_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(file_name) ) return fe;
 
   Win32::flags_t access_flags = 0 ;
 
@@ -367,7 +371,7 @@ FileError FileSystem::createFile(StrLen file_name) noexcept
 
   Win32::flags_t file_flags = Win32::FileAttributeNormal ;
 
-  Win32::handle_t h_file = Win32::CreateFileA(path,access_flags,share_flags,0,creation_options,file_flags,0) ;
+  Win32::handle_t h_file = Win32::CreateFileW(path,access_flags,share_flags,0,creation_options,file_flags,0) ;
 
   if( h_file==Win32::InvalidFileHandle ) return MakeError(FileError_OpenFault);
 
@@ -380,63 +384,63 @@ FileError FileSystem::deleteFile(StrLen file_name) noexcept
  {
   FileName path;
 
-  if( !path.set(file_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(file_name) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win32::DeleteFileA(path) );
+  return MakeErrorIf(FileError_OpFault, !Win32::DeleteFileW(path) );
  }
 
 FileError FileSystem::createDir(StrLen dir_name) noexcept
  {
   FileName path;
 
-  if( !path.set(dir_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(dir_name) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win32::CreateDirectoryA(path,0) );
+  return MakeErrorIf(FileError_OpFault, !Win32::CreateDirectoryW(path,0) );
  }
 
 FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
  {
   FileName path;
 
-  if( !path.set(dir_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(dir_name) ) return fe;
 
-  if( recursive ) return DeleteDirRecursive(StrLen(path,dir_name.len));
+  //if( recursive ) return DeleteDirRecursive(StrLen(path,dir_name.len));
 
-  return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryA(path) );
+  return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(path) );
  }
 
 FileError FileSystem::rename(StrLen old_path_,StrLen new_path_,bool allow_overwrite) noexcept
  {
   FileName old_path;
 
-  if( !old_path.set(old_path_) ) return FileError_TooLongPath;
+  if( auto fe=old_path.prepare(old_path_) ) return fe;
 
   FileName new_path;
 
-  if( !new_path.set(new_path_) ) return FileError_TooLongPath;
+  if( auto fe=new_path.prepare(new_path_) ) return fe;
 
   Win32::flags_t flags=allow_overwrite?Win32::MoveFileEx_AllowOverwrite:0;
 
-  return MakeErrorIf(FileError_OpFault, !Win32::MoveFileExA(old_path,new_path,flags) );
+  return MakeErrorIf(FileError_OpFault, !Win32::MoveFileExW(old_path,new_path,flags) );
  }
 
 FileError FileSystem::remove(StrLen path_) noexcept
  {
   FileName path;
 
-  if( !path.set(path_) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(path_) ) return fe;
 
-  Win32::flags_t attr=Win32::GetFileAttributesA(path);
+  Win32::flags_t attr=Win32::GetFileAttributesW(path);
 
   if( attr==Win32::InvalidFileAttributes ) return MakeError(FileError_NoPath);
 
   if( attr&Win32::FileAttributes_Directory )
     {
-     return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryA(path) );
+     return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(path) );
     }
   else
     {
-     return MakeErrorIf(FileError_OpFault, !Win32::DeleteFileA(path) );
+     return MakeErrorIf(FileError_OpFault, !Win32::DeleteFileW(path) );
     }
  }
 
@@ -478,29 +482,43 @@ auto FileSystem::pathOf(StrLen path_,char buf[MaxPathLen+1]) noexcept -> PathOfR
 
   FileName path;
 
-  if( !path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
      ret.path=Empty;
-     ret.error=FileError_TooLongPath;
+     ret.error=fe;
 
      return ret;
     }
 
-  ulen len=Win32::GetFullPathNameA(path,MaxPathLen+1,buf,0);
+  WCharToUtf8<MaxPathLen+1> temp;
 
-  if( len )
+  temp.len=Win32::GetFullPathNameW(path,temp.Len,temp.buf,0);
+
+  if( temp.len )
     {
-     if( len>MaxPathLen )
+     if( temp.len>MaxPathLen )
        {
         ret.path=Empty;
         ret.error=FileError_TooLongPath;
        }
      else
        {
-        PathBase::TurnSlash(Range(buf,len));
+        ulen len=temp.full(Range(buf,MaxPathLen));
 
-        ret.path=StrLen(buf,len);
-        ret.error=FileError_Ok;
+        if( len==MaxULen )
+          {
+           ret.path=Empty;
+           ret.error=FileError_TooLongPath;
+          }
+        else
+          {
+           buf[len]=0;
+
+           PathBase::TurnSlash(Range(buf,len));
+
+           ret.path=StrLen(buf,len);
+           ret.error=FileError_Ok;
+          }
        }
     }
   else
