@@ -32,7 +32,7 @@ CmdDisplay StartDisplay()
 
   info.cb=sizeof (info);
 
-  Win32::GetStartupInfoA(&info);
+  Win32::GetStartupInfoW(&info);
 
   if( info.flags&Win32::StartupInfo_show_window )
     {

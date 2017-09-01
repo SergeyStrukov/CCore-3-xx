@@ -106,6 +106,8 @@ auto ConRead::Init() noexcept -> InitType
      return ret;
     }
 
+  ret.cp=Win32::GetConsoleCP();
+
   ModeType new_modes=ret.modes;
 
   BitClear(new_modes,Win32::ConEcho|Win32::ConLineInput);
@@ -117,14 +119,34 @@ auto ConRead::Init() noexcept -> InitType
      return ret;
     }
 
+  if( !Win32::SetConsoleCP(Win32::CodePageUTF8) )
+    {
+     ret.error=NonNullError();
+
+     Win32::SetConsoleMode(ret.handle,ret.modes);
+
+     return ret;
+    }
+
   ret.error=NoError;
 
   return ret;
  }
 
-ErrorType ConRead::Exit(Type handle,ModeType modes) noexcept
+ErrorType ConRead::Exit(Type handle,ModeType modes,CPType cp) noexcept
  {
-  return ErrorIf( !Win32::SetConsoleMode(handle,modes) );
+  if( !Win32::SetConsoleMode(handle,modes) )
+    {
+     ErrorType ret=NonNullError();
+
+     Win32::SetConsoleCP(cp);
+
+     return ret;
+    }
+
+  if( !Win32::SetConsoleCP(cp) ) return NonNullError();
+
+  return NoError;
  }
 
 auto ConRead::Read(Type handle,char *buf,ulen len) noexcept -> IOResult
@@ -167,7 +189,7 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
         Win32::ConInputRecord input;
         Win32::ulen_t ret_len;
 
-        if( !Win32::ReadConsoleInputA(handle,&input,1,&ret_len) )
+        if( !Win32::ReadConsoleInputW(handle,&input,1,&ret_len) )
           {
            ret.error=NonNullError();
            ret.len=0;
@@ -185,9 +207,11 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
 
         if( input.event_type==Win32::ConKeyEvent )
           {
-           if( input.event.key.key_down && input.event.key.ch.ascii )
+           if( input.event.key.key_down && input.event.key.ch.unicode )
              {
-              *buf=input.event.key.ch.ascii;
+              Win32::wchar wch=input.event.key.ch.unicode;
+
+              // TODO
 
               ret.error=NoError;
               ret.len=1;

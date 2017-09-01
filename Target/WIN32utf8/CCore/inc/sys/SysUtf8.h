@@ -23,7 +23,7 @@ namespace Sys {
 
 /* type WChar */
 
-using WChar = unsigned short ;
+using WChar = uint16 ;
 
 /* functions */
 

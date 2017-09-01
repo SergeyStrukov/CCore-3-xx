@@ -85,6 +85,10 @@ inline CmpFileTimeType ToCmpFileTime(Win32::FileTime ft)
   return ret;
  }
 
+/* functions */
+
+FileError MakeZStr(StrLen str,PtrLen<WChar> out);
+
 /* classes */
 
 struct FileName;
@@ -97,8 +101,6 @@ struct FileName : NoCopy
   WChar wbuf[MaxPathLen+1];
 
   operator const WChar * () const { return wbuf; }
-
-  static FileError MakeZStr(StrLen str,PtrLen<WChar> out);
 
   template <class ... TT>
   FileError prepare(TT ... tt)

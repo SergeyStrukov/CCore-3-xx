@@ -16,9 +16,9 @@
 #include <CCore/inc/sys/SysFileSystem.h>
 #include <CCore/inc/sys/SysFileInternal.h>
 
-#include <CCore/inc/Exception.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Path.h>
+#include <CCore/inc/Exception.h>
 
 namespace CCore {
 namespace Sys {
@@ -151,20 +151,9 @@ FileError DeleteDirRecursive(const WChar *dir_name)
   return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(dir_name) );
  }
 
-/* Copyz() */
-
-char * Copyz(char *out,StrLen str)
- {
-  str.copyTo(out);
-
-  out[str.len]=0;
-
-  return out+(str.len+1);
- }
-
 /* Execz() */
 
-FileError Execz(char *dir,char *program,char *arg)
+FileError Execz(const WChar *dir,const WChar *program,WChar *arg)
  {
   Win32::flags_t flags=Win32::CreateNewConsole;
 
@@ -174,7 +163,7 @@ FileError Execz(char *dir,char *program,char *arg)
 
   Win32::ProcessInfo pinfo;
 
-  if( Win32::CreateProcessA(program,arg,0,0,false,flags,0,dir,&info,&pinfo) )
+  if( Win32::CreateProcessW(program,arg,0,0,false,flags,0,dir,&info,&pinfo) )
     {
      Win32::CloseHandle(pinfo.h_process);
      Win32::CloseHandle(pinfo.h_thread);
@@ -477,23 +466,20 @@ FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
 
   try
     {
-     if( dir.len>MaxPathLen || program.len>MaxPathLen ) return FileError_TooLongPath;
+     const ulen Len1=MaxPathLen+1;
+     const ulen Len2=32_KByte;
 
-     if( arg.len>32_KByte ) return FileError_SysOverload;
+     DynArray<WChar> temp(DoRaw(2*Len1+Len2));
 
-     SimpleArray<char> buf(dir.len+program.len+arg.len+3);
+     WChar *dirz=temp.getPtr();
+     WChar *programz=dirz+Len1;
+     WChar *argz=programz+Len1;
 
-     char *dirz;
-     char *programz;
-     char *argz;
+     if( auto fe=MakeZStr(dir,Range(dirz,Len1)) ) return fe;
 
-     char *out=buf.getPtr();
+     if( auto fe=MakeZStr(program,Range(programz,Len1)) ) return fe;
 
-     out=Copyz(dirz=out,dir);
-
-     out=Copyz(programz=out,program);
-
-     out=Copyz(argz=out,arg);
+     if( auto fe=MakeZStr(arg,Range(argz,Len2)) ) return fe;
 
      return Execz(dirz,programz,argz);
     }

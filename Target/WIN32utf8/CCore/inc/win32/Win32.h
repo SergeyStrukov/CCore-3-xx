@@ -426,9 +426,9 @@ struct StartupInfo
  {
   ulen_t cb;
 
-  const char *reserved;
-  const char *desktop;
-  const char *title;
+  const wchar *reserved;
+  const wchar *desktop;
+  const wchar *title;
 
   int x;
   int y;
@@ -465,9 +465,9 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
-/* GetStartupInfoA() */
+/* GetStartupInfoW() */
 
-void WIN32_API GetStartupInfoA(StartupInfo *info);
+void WIN32_API GetStartupInfoW(StartupInfo *info);
 
 /* GetCurrentProcess() */
 
@@ -485,16 +485,16 @@ void WIN32_API Sleep(timeout_t timeout);
 
 numid_t WIN32_API GetCurrentThreadId(void);
 
-/* CreateProcessA() */
+/* CreateProcessW() */
 
-bool_t WIN32_API CreateProcessA(const char *program,
-                                const char *arg,
+bool_t WIN32_API CreateProcessW(const wchar *program,
+                                wchar *arg,
                                 SecurityAttributes *,
                                 SecurityAttributes *,
                                 bool_t inherit_handles,
                                 flags_t process_creation_flags,
                                 void_ptr,
-                                const char *dir,
+                                const wchar *dir,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
 
@@ -641,6 +641,14 @@ bool_t WIN32_API SetConsoleOutputCP(codepage_t code_page);
 
 codepage_t WIN32_API GetConsoleOutputCP(void);
 
+/* SetConsoleCP() */
+
+bool_t WIN32_API SetConsoleCP(codepage_t code_page);
+
+/* GetConsoleCP() */
+
+codepage_t WIN32_API GetConsoleCP(void);
+
 /* SetConsoleMode() */
 
 bool_t WIN32_API SetConsoleMode(handle_t h_con, flags_t modes);
@@ -649,9 +657,9 @@ bool_t WIN32_API SetConsoleMode(handle_t h_con, flags_t modes);
 
 bool_t WIN32_API GetConsoleMode(handle_t h_con, flags_t *modes);
 
-/* ReadConsoleInputA() */
+/* ReadConsoleInputW() */
 
-bool_t WIN32_API ReadConsoleInputA(handle_t h_con,
+bool_t WIN32_API ReadConsoleInputW(handle_t h_con,
                                    ConInputRecord *buf,
                                    ulen_t buf_len,
                                    ulen_t *ret_len);

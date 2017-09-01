@@ -18,9 +18,9 @@
 namespace CCore {
 namespace Sys {
 
-/* struct FileName */
+/* functions */
 
-FileError FileName::MakeZStr(StrLen str,PtrLen<WChar> out)
+FileError MakeZStr(StrLen str,PtrLen<WChar> out)
  {
   while( +str )
     {
