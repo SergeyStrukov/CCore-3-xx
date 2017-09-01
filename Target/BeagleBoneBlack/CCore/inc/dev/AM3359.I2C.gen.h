@@ -4,7 +4,7 @@
 
 enum Bits_SysConfig : uint32
  {
-  SysConfig_SoftReset = 0x00000002
+  SysConfig_SoftReset = 0x00000002u
  };
  
 inline Bits_SysConfig operator | (Bits_SysConfig a,Bits_SysConfig b)
@@ -78,12 +78,12 @@ struct Type_SysConfig
 
 enum Bits_Config : uint32
  {
-  Config_Start  = 0x00000001,
-  Config_Stop   = 0x00000002,
-  Config_A10    = 0x00000100,
-  Config_TXMode = 0x00000200,
-  Config_Master = 0x00000400,
-  Config_Enable = 0x00008000
+  Config_Start  = 0x00000001u,
+  Config_Stop   = 0x00000002u,
+  Config_A10    = 0x00000100u,
+  Config_TXMode = 0x00000200u,
+  Config_Master = 0x00000400u,
+  Config_Enable = 0x00008000u
  };
  
 inline Bits_Config operator | (Bits_Config a,Bits_Config b)
@@ -263,12 +263,12 @@ struct Type_Prescale
 
   Type get_Div() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_Prescale & set_Div(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -326,12 +326,12 @@ struct Type_SCLLoTime
 
   Type get_Time() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_SCLLoTime & set_Time(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -389,12 +389,12 @@ struct Type_SCLHiTime
 
   Type get_Time() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_SCLHiTime & set_Time(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -452,12 +452,12 @@ struct Type_BufStatus
 
   Type get_TXStat() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_BufStatus & set_TXStat(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -465,12 +465,12 @@ struct Type_BufStatus
 
   Type get_RXStat() const
    {
-    return (value>>8)&0x3F;
+    return (value>>8)&0x3Fu;
    }
  
   Type_BufStatus & set_RXStat(Type field)
    {
-    value=((field&0x3F)<<8)|(value&0xFFFFC0FF);
+    value=((field&0x3Fu)<<8)|(value&0xFFFFC0FFu);
 
     return *this;
    }
@@ -478,12 +478,12 @@ struct Type_BufStatus
 
   Type get_FIFODepth() const
    {
-    return (value>>14)&0x3;
+    return (value>>14)&0x3u;
    }
  
   Type_BufStatus & set_FIFODepth(Type field)
    {
-    value=((field&0x3)<<14)|(value&0xFFFF3FFF);
+    value=((field&0x3u)<<14)|(value&0xFFFF3FFFu);
 
     return *this;
    }
@@ -541,8 +541,8 @@ struct Type_BufStatus
 
 enum Bits_BufControl : uint32
  {
-  BufControl_TXFIFOClear = 0x00000040,
-  BufControl_RXFIFOClear = 0x00004000
+  BufControl_TXFIFOClear = 0x00000040u,
+  BufControl_RXFIFOClear = 0x00004000u
  };
  
 inline Bits_BufControl operator | (Bits_BufControl a,Bits_BufControl b)
@@ -589,12 +589,12 @@ struct Type_BufControl
 
   Type get_TXFIFOThreshold() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_BufControl & set_TXFIFOThreshold(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -602,12 +602,12 @@ struct Type_BufControl
 
   Type get_RXFIFOThreshold() const
    {
-    return (value>>8)&0x3F;
+    return (value>>8)&0x3Fu;
    }
  
   Type_BufControl & set_RXFIFOThreshold(Type field)
    {
-    value=((field&0x3F)<<8)|(value&0xFFFFC0FF);
+    value=((field&0x3Fu)<<8)|(value&0xFFFFC0FFu);
 
     return *this;
    }
@@ -710,12 +710,12 @@ struct Type_SlaveAddress
 
   Type get_Address() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_SlaveAddress & set_Address(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -773,12 +773,12 @@ struct Type_Counter
 
   Type get_Count() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_Counter & set_Count(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -836,12 +836,12 @@ struct Type_Data
 
   Type get_Byte() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_Data & set_Byte(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -873,17 +873,17 @@ struct Type_Data
 
 enum Bits_IRQStatus : uint32
  {
-  IRQStatus_BusLost      = 0x00000001,
-  IRQStatus_NACK         = 0x00000002,
-  IRQStatus_Complete     = 0x00000004,
-  IRQStatus_RXReady      = 0x00000008,
-  IRQStatus_TXReady      = 0x00000010,
-  IRQStatus_BusFree      = 0x00000100,
-  IRQStatus_TXUnderflow  = 0x00000400,
-  IRQStatus_RXOverflow   = 0x00000800,
-  IRQStatus_BusBusy      = 0x00001000,
-  IRQStatus_RXReadyShort = 0x00002000,
-  IRQStatus_TXReadyShort = 0x00004000
+  IRQStatus_BusLost      = 0x00000001u,
+  IRQStatus_NACK         = 0x00000002u,
+  IRQStatus_Complete     = 0x00000004u,
+  IRQStatus_RXReady      = 0x00000008u,
+  IRQStatus_TXReady      = 0x00000010u,
+  IRQStatus_BusFree      = 0x00000100u,
+  IRQStatus_TXUnderflow  = 0x00000400u,
+  IRQStatus_RXOverflow   = 0x00000800u,
+  IRQStatus_BusBusy      = 0x00001000u,
+  IRQStatus_RXReadyShort = 0x00002000u,
+  IRQStatus_TXReadyShort = 0x00004000u
  };
  
 inline Bits_IRQStatus operator | (Bits_IRQStatus a,Bits_IRQStatus b)
@@ -1138,11 +1138,11 @@ struct I2CBar
 
   //--- SysConfig
 
-  Type_SysConfig get_SysConfig() { return Type_SysConfig(rw.template get<uint32>(0x10)); }
+  Type_SysConfig get_SysConfig() { return Type_SysConfig(rw.template get<uint32>(0x10u)); }
  
-  void set_SysConfig(Type_SysConfig value) { rw.set(0x10,value.value); }
+  void set_SysConfig(Type_SysConfig value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_SysConfig> to_SysConfig() { return Setter<Type_SysConfig>(rw,0x10); }
+  Setter<Type_SysConfig> to_SysConfig() { return Setter<Type_SysConfig>(rw,0x10u); }
  
   static Type_SysConfig null_SysConfig() { return Type_SysConfig(0); }
  
@@ -1150,11 +1150,11 @@ struct I2CBar
  
   //--- Config
 
-  Type_Config get_Config() { return Type_Config(rw.template get<uint32>(0xA4)); }
+  Type_Config get_Config() { return Type_Config(rw.template get<uint32>(0xA4u)); }
  
-  void set_Config(Type_Config value) { rw.set(0xA4,value.value); }
+  void set_Config(Type_Config value) { rw.set(0xA4u,value.value); }
  
-  Setter<Type_Config> to_Config() { return Setter<Type_Config>(rw,0xA4); }
+  Setter<Type_Config> to_Config() { return Setter<Type_Config>(rw,0xA4u); }
  
   static Type_Config null_Config() { return Type_Config(0); }
  
@@ -1162,11 +1162,11 @@ struct I2CBar
  
   //--- Prescale
 
-  Type_Prescale get_Prescale() { return Type_Prescale(rw.template get<uint32>(0xB0)); }
+  Type_Prescale get_Prescale() { return Type_Prescale(rw.template get<uint32>(0xB0u)); }
  
-  void set_Prescale(Type_Prescale value) { rw.set(0xB0,value.value); }
+  void set_Prescale(Type_Prescale value) { rw.set(0xB0u,value.value); }
  
-  Setter<Type_Prescale> to_Prescale() { return Setter<Type_Prescale>(rw,0xB0); }
+  Setter<Type_Prescale> to_Prescale() { return Setter<Type_Prescale>(rw,0xB0u); }
  
   static Type_Prescale null_Prescale() { return Type_Prescale(0); }
  
@@ -1174,11 +1174,11 @@ struct I2CBar
  
   //--- SCLLoTime
 
-  Type_SCLLoTime get_SCLLoTime() { return Type_SCLLoTime(rw.template get<uint32>(0xB4)); }
+  Type_SCLLoTime get_SCLLoTime() { return Type_SCLLoTime(rw.template get<uint32>(0xB4u)); }
  
-  void set_SCLLoTime(Type_SCLLoTime value) { rw.set(0xB4,value.value); }
+  void set_SCLLoTime(Type_SCLLoTime value) { rw.set(0xB4u,value.value); }
  
-  Setter<Type_SCLLoTime> to_SCLLoTime() { return Setter<Type_SCLLoTime>(rw,0xB4); }
+  Setter<Type_SCLLoTime> to_SCLLoTime() { return Setter<Type_SCLLoTime>(rw,0xB4u); }
  
   static Type_SCLLoTime null_SCLLoTime() { return Type_SCLLoTime(0); }
  
@@ -1186,11 +1186,11 @@ struct I2CBar
  
   //--- SCLHiTime
 
-  Type_SCLHiTime get_SCLHiTime() { return Type_SCLHiTime(rw.template get<uint32>(0xB8)); }
+  Type_SCLHiTime get_SCLHiTime() { return Type_SCLHiTime(rw.template get<uint32>(0xB8u)); }
  
-  void set_SCLHiTime(Type_SCLHiTime value) { rw.set(0xB8,value.value); }
+  void set_SCLHiTime(Type_SCLHiTime value) { rw.set(0xB8u,value.value); }
  
-  Setter<Type_SCLHiTime> to_SCLHiTime() { return Setter<Type_SCLHiTime>(rw,0xB8); }
+  Setter<Type_SCLHiTime> to_SCLHiTime() { return Setter<Type_SCLHiTime>(rw,0xB8u); }
  
   static Type_SCLHiTime null_SCLHiTime() { return Type_SCLHiTime(0); }
  
@@ -1198,11 +1198,11 @@ struct I2CBar
  
   //--- BufStatus
 
-  Type_BufStatus get_BufStatus() { return Type_BufStatus(rw.template get<uint32>(0xC0)); }
+  Type_BufStatus get_BufStatus() { return Type_BufStatus(rw.template get<uint32>(0xC0u)); }
  
-  void set_BufStatus(Type_BufStatus value) { rw.set(0xC0,value.value); }
+  void set_BufStatus(Type_BufStatus value) { rw.set(0xC0u,value.value); }
  
-  Setter<Type_BufStatus> to_BufStatus() { return Setter<Type_BufStatus>(rw,0xC0); }
+  Setter<Type_BufStatus> to_BufStatus() { return Setter<Type_BufStatus>(rw,0xC0u); }
  
   static Type_BufStatus null_BufStatus() { return Type_BufStatus(0); }
  
@@ -1210,11 +1210,11 @@ struct I2CBar
  
   //--- BufControl
 
-  Type_BufControl get_BufControl() { return Type_BufControl(rw.template get<uint32>(0x94)); }
+  Type_BufControl get_BufControl() { return Type_BufControl(rw.template get<uint32>(0x94u)); }
  
-  void set_BufControl(Type_BufControl value) { rw.set(0x94,value.value); }
+  void set_BufControl(Type_BufControl value) { rw.set(0x94u,value.value); }
  
-  Setter<Type_BufControl> to_BufControl() { return Setter<Type_BufControl>(rw,0x94); }
+  Setter<Type_BufControl> to_BufControl() { return Setter<Type_BufControl>(rw,0x94u); }
  
   static Type_BufControl null_BufControl() { return Type_BufControl(0); }
  
@@ -1222,11 +1222,11 @@ struct I2CBar
  
   //--- SlaveAddress
 
-  Type_SlaveAddress get_SlaveAddress() { return Type_SlaveAddress(rw.template get<uint32>(0xAC)); }
+  Type_SlaveAddress get_SlaveAddress() { return Type_SlaveAddress(rw.template get<uint32>(0xACu)); }
  
-  void set_SlaveAddress(Type_SlaveAddress value) { rw.set(0xAC,value.value); }
+  void set_SlaveAddress(Type_SlaveAddress value) { rw.set(0xACu,value.value); }
  
-  Setter<Type_SlaveAddress> to_SlaveAddress() { return Setter<Type_SlaveAddress>(rw,0xAC); }
+  Setter<Type_SlaveAddress> to_SlaveAddress() { return Setter<Type_SlaveAddress>(rw,0xACu); }
  
   static Type_SlaveAddress null_SlaveAddress() { return Type_SlaveAddress(0); }
  
@@ -1234,11 +1234,11 @@ struct I2CBar
  
   //--- Counter
 
-  Type_Counter get_Counter() { return Type_Counter(rw.template get<uint32>(0x98)); }
+  Type_Counter get_Counter() { return Type_Counter(rw.template get<uint32>(0x98u)); }
  
-  void set_Counter(Type_Counter value) { rw.set(0x98,value.value); }
+  void set_Counter(Type_Counter value) { rw.set(0x98u,value.value); }
  
-  Setter<Type_Counter> to_Counter() { return Setter<Type_Counter>(rw,0x98); }
+  Setter<Type_Counter> to_Counter() { return Setter<Type_Counter>(rw,0x98u); }
  
   static Type_Counter null_Counter() { return Type_Counter(0); }
  
@@ -1246,11 +1246,11 @@ struct I2CBar
  
   //--- Data
 
-  Type_Data get_Data() { return Type_Data(rw.template get<uint32>(0x9C)); }
+  Type_Data get_Data() { return Type_Data(rw.template get<uint32>(0x9Cu)); }
  
-  void set_Data(Type_Data value) { rw.set(0x9C,value.value); }
+  void set_Data(Type_Data value) { rw.set(0x9Cu,value.value); }
  
-  Setter<Type_Data> to_Data() { return Setter<Type_Data>(rw,0x9C); }
+  Setter<Type_Data> to_Data() { return Setter<Type_Data>(rw,0x9Cu); }
  
   static Type_Data null_Data() { return Type_Data(0); }
  
@@ -1258,11 +1258,11 @@ struct I2CBar
  
   //--- IRQStatus
 
-  Type_IRQStatus get_IRQStatus() { return Type_IRQStatus(rw.template get<uint32>(0x28)); }
+  Type_IRQStatus get_IRQStatus() { return Type_IRQStatus(rw.template get<uint32>(0x28u)); }
  
-  void set_IRQStatus(Type_IRQStatus value) { rw.set(0x28,value.value); }
+  void set_IRQStatus(Type_IRQStatus value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQStatus() { return Setter<Type_IRQStatus>(rw,0x28); }
+  Setter<Type_IRQStatus> to_IRQStatus() { return Setter<Type_IRQStatus>(rw,0x28u); }
  
   static Type_IRQStatus null_IRQStatus() { return Type_IRQStatus(0); }
  
@@ -1270,27 +1270,27 @@ struct I2CBar
  
   //--- IRQStatusRaw
 
-  Type_IRQStatus get_IRQStatusRaw() { return Type_IRQStatus(rw.template get<uint32>(0x24)); }
+  Type_IRQStatus get_IRQStatusRaw() { return Type_IRQStatus(rw.template get<uint32>(0x24u)); }
  
-  void set_IRQStatusRaw(Type_IRQStatus value) { rw.set(0x24,value.value); }
+  void set_IRQStatusRaw(Type_IRQStatus value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQStatusRaw() { return Setter<Type_IRQStatus>(rw,0x24); }
+  Setter<Type_IRQStatus> to_IRQStatusRaw() { return Setter<Type_IRQStatus>(rw,0x24u); }
  
   //--- IRQEnableSet
 
-  Type_IRQStatus get_IRQEnableSet() { return Type_IRQStatus(rw.template get<uint32>(0x2C)); }
+  Type_IRQStatus get_IRQEnableSet() { return Type_IRQStatus(rw.template get<uint32>(0x2Cu)); }
  
-  void set_IRQEnableSet(Type_IRQStatus value) { rw.set(0x2C,value.value); }
+  void set_IRQEnableSet(Type_IRQStatus value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQEnableSet() { return Setter<Type_IRQStatus>(rw,0x2C); }
+  Setter<Type_IRQStatus> to_IRQEnableSet() { return Setter<Type_IRQStatus>(rw,0x2Cu); }
  
   //--- IRQEnableClear
 
-  Type_IRQStatus get_IRQEnableClear() { return Type_IRQStatus(rw.template get<uint32>(0x30)); }
+  Type_IRQStatus get_IRQEnableClear() { return Type_IRQStatus(rw.template get<uint32>(0x30u)); }
  
-  void set_IRQEnableClear(Type_IRQStatus value) { rw.set(0x30,value.value); }
+  void set_IRQEnableClear(Type_IRQStatus value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQEnableClear() { return Setter<Type_IRQStatus>(rw,0x30); }
+  Setter<Type_IRQStatus> to_IRQEnableClear() { return Setter<Type_IRQStatus>(rw,0x30u); }
  
  };
  

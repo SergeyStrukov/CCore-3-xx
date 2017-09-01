@@ -4713,7 +4713,7 @@ Dir Dir253=
    {
     { 'SysAbort.h' , Green },
     { 'SysAtomic.h' , Green },
-    { 'SysCon.h' , Red },
+    { 'SysCon.h' , Yellow },
     { 'SysError.h' , Green },
     { 'SysFile.h' , Green },
     { 'SysFileInternal.h' , Yellow },
@@ -4793,7 +4793,7 @@ Dir Dir258=
    {
     { 'SysAbort.cpp' , Green },
     { 'SysAtomic.cpp' , Green },
-    { 'SysCon.cpp' , Red },
+    { 'SysCon.cpp' , Yellow },
     { 'SysError.cpp' , Green },
     { 'SysFile.cpp' , Green },
     { 'SysFileInternal.cpp' , Yellow },

@@ -57,7 +57,7 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
                       |Win32::FormatMessageIgnoreInserts
                       |Win32::FormatMessageMaxWidthMask;
 
-  WCharToUtf8<TextBufLen> temp;
+  WCharToUtf8<TextBufLen+1> temp;
 
   temp.len=Win32::FormatMessageW(flags,0,error,0,temp.buf,temp.Len,0);
 

@@ -128,10 +128,8 @@ class EmptyDirEngine : NoCopy
 
    EmptyDirEngine() {}
 
-   FileError emptyDir(const WChar *dir_name)
+   FileError emptyDir(const WChar *dir_name,ulen len)
     {
-     ulen len=ZLen(dir_name);
-
      if( len>MaxPathLen ) return FileError_TooLongPath;
 
      Range(dir_name,len).copyTo(buf);
@@ -142,11 +140,11 @@ class EmptyDirEngine : NoCopy
 
 /* DeleteDirRecursive() */
 
-FileError DeleteDirRecursive(const WChar *dir_name)
+FileError DeleteDirRecursive(const WChar *dir_name,ulen len)
  {
   EmptyDirEngine engine;
 
-  if( FileError fe=engine.emptyDir(dir_name) ) return fe;
+  if( FileError fe=engine.emptyDir(dir_name,len) ) return fe;
 
   return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(dir_name) );
  }
@@ -420,7 +418,7 @@ FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
 
   if( auto fe=path.prepare(dir_name) ) return fe;
 
-  if( recursive ) return DeleteDirRecursive(path);
+  if( recursive ) return DeleteDirRecursive(path,path.len);
 
   return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(path) );
  }
@@ -462,31 +460,24 @@ FileError FileSystem::remove(StrLen path_) noexcept
 
 FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
  {
-  SilentReportException report;
+  const ulen Len1=MaxPathLen+1;
+  const ulen Len2=32_KByte;
 
-  try
-    {
-     const ulen Len1=MaxPathLen+1;
-     const ulen Len2=32_KByte;
+  TempBuf<WChar> temp(2*Len1+Len2);
 
-     DynArray<WChar> temp(DoRaw(2*Len1+Len2));
+  if( !temp ) return FileError_SysOverload;
 
-     WChar *dirz=temp.getPtr();
-     WChar *programz=dirz+Len1;
-     WChar *argz=programz+Len1;
+  WChar *dirz=temp;
+  WChar *programz=dirz+Len1;
+  WChar *argz=programz+Len1;
 
-     if( auto fe=MakeZStr(dir,Range(dirz,Len1)) ) return fe;
+  if( auto fe=MakeZStr(dir,Range(dirz,Len1)).error ) return fe;
 
-     if( auto fe=MakeZStr(program,Range(programz,Len1)) ) return fe;
+  if( auto fe=MakeZStr(program,Range(programz,Len1)).error ) return fe;
 
-     if( auto fe=MakeZStr(arg,Range(argz,Len2)) ) return fe;
+  if( auto fe=MakeZStr(arg,Range(argz,Len2)).error ) return fe;
 
-     return Execz(dirz,programz,argz);
-    }
-  catch(CatchType)
-    {
-     return FileError_SysOverload;
-    }
+  return Execz(dirz,programz,argz);
  }
 
 auto FileSystem::pathOf(StrLen path_,char buf[MaxPathLen+1]) noexcept -> PathOfResult
@@ -527,10 +518,10 @@ auto FileSystem::pathOf(StrLen path_,char buf[MaxPathLen+1]) noexcept -> PathOfR
           {
            buf[len]=0;
 
-           PathBase::TurnSlash(Range(buf,len));
-
            ret.path=StrLen(buf,len);
            ret.error=FileError_Ok;
+
+           PathBase::TurnSlash(Range(buf,len));
           }
        }
     }

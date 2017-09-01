@@ -18,19 +18,21 @@
 namespace CCore {
 namespace Sys {
 
-/* functions */
+/* struct MakeZStr */
 
-FileError MakeZStr(StrLen str,PtrLen<WChar> out)
+MakeZStr::MakeZStr(StrLen str,PtrLen<WChar> out)
  {
+  ulen start_len=out.len;
+
   while( +str )
     {
      Unicode sym=CutUtf8_unicode(str);
 
-     if( sym==Unicode(-1) ) return FileError_BadName;
+     if( sym==Unicode(-1) ) { setError(FileError_BadName); return; }
 
      if( IsSurrogate(sym) )
        {
-        if( out.len<2 ) return FileError_TooLongPath;
+        if( out.len<2 ) { setError(FileError_TooLongPath); return; }
 
         SurrogateCouple couple(sym);
 
@@ -40,8 +42,8 @@ FileError MakeZStr(StrLen str,PtrLen<WChar> out)
         out+=2;
        }
      else
-       { // may insert forbidden symbols
-        if( !out ) return FileError_TooLongPath;
+       { // may insert forbidden symbol
+        if( !out ) { setError(FileError_TooLongPath); return; }
 
         *out=WChar(sym);
 
@@ -49,11 +51,12 @@ FileError MakeZStr(StrLen str,PtrLen<WChar> out)
        }
     }
 
-  if( !out ) return FileError_TooLongPath;
+  if( !out ) { setError(FileError_TooLongPath); return; }
 
    *out=0;
 
-  return FileError_Ok;
+  error=FileError_Ok;
+  len=start_len-out.len;
  }
 
 } // namespace Sys

@@ -4,9 +4,9 @@
 
 enum Bits_ClockEnable : uint32
  {
-  ClockEnable_Core = 0x00000001,
-  ClockEnable_LIDD = 0x00000002,
-  ClockEnable_DMA  = 0x00000004
+  ClockEnable_Core = 0x00000001u,
+  ClockEnable_LIDD = 0x00000002u,
+  ClockEnable_DMA  = 0x00000004u
  };
  
 inline Bits_ClockEnable operator | (Bits_ClockEnable a,Bits_ClockEnable b)
@@ -112,10 +112,10 @@ struct Type_ClockEnable
 
 enum Bits_Reset : uint32
  {
-  Reset_Core = 0x00000001,
-  Reset_LIDD = 0x00000002,
-  Reset_DMA  = 0x00000004,
-  Reset_Main = 0x00000008
+  Reset_Core = 0x00000001u,
+  Reset_LIDD = 0x00000002u,
+  Reset_DMA  = 0x00000004u,
+  Reset_Main = 0x00000008u
  };
  
 inline Bits_Reset operator | (Bits_Reset a,Bits_Reset b)
@@ -237,9 +237,9 @@ struct Type_Reset
 
 enum Field_SysConfig_IdleMode : uint32
  {
-  SysConfig_IdleMode_ForceIdle = 0x00,
-  SysConfig_IdleMode_NoIdle    = 0x01,
-  SysConfig_IdleMode_SmartIdle = 0x02
+  SysConfig_IdleMode_ForceIdle = 0x00u,
+  SysConfig_IdleMode_NoIdle    = 0x01u,
+  SysConfig_IdleMode_SmartIdle = 0x02u
  };
  
 struct PrintField_SysConfig_IdleMode
@@ -253,9 +253,9 @@ struct PrintField_SysConfig_IdleMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"ForceIdle"); break;
-       case 0x01 : Putobj(out,"NoIdle"); break;
-       case 0x02 : Putobj(out,"SmartIdle"); break;
+       case 0x00u : Putobj(out,"ForceIdle"); break;
+       case 0x01u : Putobj(out,"NoIdle"); break;
+       case 0x02u : Putobj(out,"SmartIdle"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -269,9 +269,9 @@ inline PrintField_SysConfig_IdleMode GetTextDesc(Field_SysConfig_IdleMode field)
  
 enum Field_SysConfig_StandbyMode : uint32
  {
-  SysConfig_StandbyMode_ForceStandby = 0x00,
-  SysConfig_StandbyMode_NoStandby    = 0x01,
-  SysConfig_StandbyMode_SmartStandby = 0x02
+  SysConfig_StandbyMode_ForceStandby = 0x00u,
+  SysConfig_StandbyMode_NoStandby    = 0x01u,
+  SysConfig_StandbyMode_SmartStandby = 0x02u
  };
  
 struct PrintField_SysConfig_StandbyMode
@@ -285,9 +285,9 @@ struct PrintField_SysConfig_StandbyMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"ForceStandby"); break;
-       case 0x01 : Putobj(out,"NoStandby"); break;
-       case 0x02 : Putobj(out,"SmartStandby"); break;
+       case 0x00u : Putobj(out,"ForceStandby"); break;
+       case 0x01u : Putobj(out,"NoStandby"); break;
+       case 0x02u : Putobj(out,"SmartStandby"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -327,12 +327,12 @@ struct Type_SysConfig
 
   Field_SysConfig_IdleMode get_IdleMode() const
    {
-    return Field_SysConfig_IdleMode((value>>2)&0x3);
+    return Field_SysConfig_IdleMode((value>>2)&0x3u);
    }
  
   Type_SysConfig & set_IdleMode(Field_SysConfig_IdleMode field)
    {
-    value=((Type(field)&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((Type(field)&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -340,12 +340,12 @@ struct Type_SysConfig
 
   Field_SysConfig_StandbyMode get_StandbyMode() const
    {
-    return Field_SysConfig_StandbyMode((value>>4)&0x3);
+    return Field_SysConfig_StandbyMode((value>>4)&0x3u);
    }
  
   Type_SysConfig & set_StandbyMode(Field_SysConfig_StandbyMode field)
    {
-    value=((Type(field)&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((Type(field)&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -390,8 +390,8 @@ struct Type_SysConfig
 
 enum Bits_Control : uint32
  {
-  Control_Raster           = 0x00000001,
-  Control_UnderflowRestart = 0x00000002
+  Control_Raster           = 0x00000001u,
+  Control_UnderflowRestart = 0x00000002u
  };
  
 inline Bits_Control operator | (Bits_Control a,Bits_Control b)
@@ -438,12 +438,12 @@ struct Type_Control
 
   Type get_PCLKDiv() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_Control & set_PCLKDiv(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -507,7 +507,7 @@ struct Type_Control
 
 enum Bits_LCDDMAControl : uint32
  {
-  LCDDMAControl_TwoFB = 0x00000001
+  LCDDMAControl_TwoFB = 0x00000001u
  };
  
 inline Bits_LCDDMAControl operator | (Bits_LCDDMAControl a,Bits_LCDDMAControl b)
@@ -554,12 +554,12 @@ struct Type_LCDDMAControl
 
   Type get_BurstSize() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_LCDDMAControl & set_BurstSize(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -567,12 +567,12 @@ struct Type_LCDDMAControl
 
   Type get_FIFOReady() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_LCDDMAControl & set_FIFOReady(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -580,12 +580,12 @@ struct Type_LCDDMAControl
 
   Type get_DMAPri() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_LCDDMAControl & set_DMAPri(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -675,7 +675,7 @@ using Type_LCDDMAFB1Lim = uint32 ;
 
 enum Bits_SplitHLen : uint32
  {
-  SplitHLen_msb = 0x00000400
+  SplitHLen_msb = 0x00000400u
  };
  
 inline Bits_SplitHLen operator | (Bits_SplitHLen a,Bits_SplitHLen b)
@@ -722,12 +722,12 @@ struct Type_SplitHLen
 
   Type get_lsb() const
    {
-    return (value>>4)&0x3F;
+    return (value>>4)&0x3Fu;
    }
  
   Type_SplitHLen & set_lsb(Type field)
    {
-    value=((field&0x3F)<<4)|(value&0xFFFFFC0F);
+    value=((field&0x3Fu)<<4)|(value&0xFFFFFC0Fu);
 
     return *this;
    }
@@ -801,12 +801,12 @@ struct Type_SplitHSync
 
   Type get_lsb() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_SplitHSync & set_lsb(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -814,12 +814,12 @@ struct Type_SplitHSync
 
   Type get_msb() const
    {
-    return (value>>6)&0xF;
+    return (value>>6)&0xFu;
    }
  
   Type_SplitHSync & set_msb(Type field)
    {
-    value=((field&0xF)<<6)|(value&0xFFFFFC3F);
+    value=((field&0xFu)<<6)|(value&0xFFFFFC3Fu);
 
     return *this;
    }
@@ -890,12 +890,12 @@ struct Type_SplitHFront
 
   Type get_lsb() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_SplitHFront & set_lsb(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -903,12 +903,12 @@ struct Type_SplitHFront
 
   Type get_msb() const
    {
-    return (value>>8)&0x3;
+    return (value>>8)&0x3u;
    }
  
   Type_SplitHFront & set_msb(Type field)
    {
-    value=((field&0x3)<<8)|(value&0xFFFFFCFF);
+    value=((field&0x3u)<<8)|(value&0xFFFFFCFFu);
 
     return *this;
    }
@@ -979,12 +979,12 @@ struct Type_SplitHBack
 
   Type get_lsb() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_SplitHBack & set_lsb(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -992,12 +992,12 @@ struct Type_SplitHBack
 
   Type get_msb() const
    {
-    return (value>>8)&0x3;
+    return (value>>8)&0x3u;
    }
  
   Type_SplitHBack & set_msb(Type field)
    {
-    value=((field&0x3)<<8)|(value&0xFFFFFCFF);
+    value=((field&0x3u)<<8)|(value&0xFFFFFCFFu);
 
     return *this;
    }
@@ -1042,7 +1042,7 @@ struct Type_SplitHBack
 
 enum Bits_SplitVLen : uint32
  {
-  SplitVLen_msb = 0x00000400
+  SplitVLen_msb = 0x00000400u
  };
  
 inline Bits_SplitVLen operator | (Bits_SplitVLen a,Bits_SplitVLen b)
@@ -1089,12 +1089,12 @@ struct Type_SplitVLen
 
   Type get_lsb() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_SplitVLen & set_lsb(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -1142,7 +1142,7 @@ struct Type_SplitVLen
 
 enum Bits_RasterTiming0 : uint32
  {
-  RasterTiming0_HLen_msb = 0x00000008
+  RasterTiming0_HLen_msb = 0x00000008u
  };
  
 inline Bits_RasterTiming0 operator | (Bits_RasterTiming0 a,Bits_RasterTiming0 b)
@@ -1189,12 +1189,12 @@ struct Type_RasterTiming0
 
   Type get_HLen_lsb() const
    {
-    return (value>>4)&0x3F;
+    return (value>>4)&0x3Fu;
    }
  
   Type_RasterTiming0 & set_HLen_lsb(Type field)
    {
-    value=((field&0x3F)<<4)|(value&0xFFFFFC0F);
+    value=((field&0x3Fu)<<4)|(value&0xFFFFFC0Fu);
 
     return *this;
    }
@@ -1202,12 +1202,12 @@ struct Type_RasterTiming0
 
   Type get_HSync_lsb() const
    {
-    return (value>>10)&0x3F;
+    return (value>>10)&0x3Fu;
    }
  
   Type_RasterTiming0 & set_HSync_lsb(Type field)
    {
-    value=((field&0x3F)<<10)|(value&0xFFFF03FF);
+    value=((field&0x3Fu)<<10)|(value&0xFFFF03FFu);
 
     return *this;
    }
@@ -1215,12 +1215,12 @@ struct Type_RasterTiming0
 
   Type get_HFront_lsb() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_RasterTiming0 & set_HFront_lsb(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -1228,12 +1228,12 @@ struct Type_RasterTiming0
 
   Type get_HBack_lsb() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_RasterTiming0 & set_HBack_lsb(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -1346,12 +1346,12 @@ struct Type_RasterTiming1
 
   Type get_VLen_lsb() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_RasterTiming1 & set_VLen_lsb(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -1359,12 +1359,12 @@ struct Type_RasterTiming1
 
   Type get_VSync() const
    {
-    return (value>>10)&0x3F;
+    return (value>>10)&0x3Fu;
    }
  
   Type_RasterTiming1 & set_VSync(Type field)
    {
-    value=((field&0x3F)<<10)|(value&0xFFFF03FF);
+    value=((field&0x3Fu)<<10)|(value&0xFFFF03FFu);
 
     return *this;
    }
@@ -1372,12 +1372,12 @@ struct Type_RasterTiming1
 
   Type get_VFront() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_RasterTiming1 & set_VFront(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -1385,12 +1385,12 @@ struct Type_RasterTiming1
 
   Type get_VBack() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_RasterTiming1 & set_VBack(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -1461,13 +1461,13 @@ struct Type_RasterTiming1
 
 enum Bits_RasterTiming2 : uint32
  {
-  RasterTiming2_InvVSync = 0x00100000,
-  RasterTiming2_InvHSync = 0x00200000,
-  RasterTiming2_InvPCLK  = 0x00400000,
-  RasterTiming2_InvOE    = 0x00800000,
-  RasterTiming2_FallEdge = 0x01000000,
-  RasterTiming2_SyncEdge = 0x02000000,
-  RasterTiming2_VLen_msb = 0x04000000
+  RasterTiming2_InvVSync = 0x00100000u,
+  RasterTiming2_InvHSync = 0x00200000u,
+  RasterTiming2_InvPCLK  = 0x00400000u,
+  RasterTiming2_InvOE    = 0x00800000u,
+  RasterTiming2_FallEdge = 0x01000000u,
+  RasterTiming2_SyncEdge = 0x02000000u,
+  RasterTiming2_VLen_msb = 0x04000000u
  };
  
 inline Bits_RasterTiming2 operator | (Bits_RasterTiming2 a,Bits_RasterTiming2 b)
@@ -1514,12 +1514,12 @@ struct Type_RasterTiming2
 
   Type get_HFront_msb() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_RasterTiming2 & set_HFront_msb(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -1527,12 +1527,12 @@ struct Type_RasterTiming2
 
   Type get_HBack_msb() const
    {
-    return (value>>4)&0x3;
+    return (value>>4)&0x3u;
    }
  
   Type_RasterTiming2 & set_HBack_msb(Type field)
    {
-    value=((field&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((field&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -1540,12 +1540,12 @@ struct Type_RasterTiming2
 
   Type get_HSync_msb() const
    {
-    return (value>>27)&0xF;
+    return (value>>27)&0xFu;
    }
  
   Type_RasterTiming2 & set_HSync_msb(Type field)
    {
-    value=((field&0xF)<<27)|(value&0x87FFFFFF);
+    value=((field&0xFu)<<27)|(value&0x87FFFFFFu);
 
     return *this;
    }
@@ -1715,11 +1715,11 @@ struct Type_RasterTiming2
 
 enum Bits_RasterControl : uint32
  {
-  RasterControl_LCDEn         = 0x00000001,
-  RasterControl_LCDTFT        = 0x00000080,
-  RasterControl_STN565        = 0x01000000,
-  RasterControl_TFT24         = 0x02000000,
-  RasterControl_TFT24Unpacked = 0x04000000
+  RasterControl_LCDEn         = 0x00000001u,
+  RasterControl_LCDTFT        = 0x00000080u,
+  RasterControl_STN565        = 0x01000000u,
+  RasterControl_TFT24         = 0x02000000u,
+  RasterControl_TFT24Unpacked = 0x04000000u
  };
  
 inline Bits_RasterControl operator | (Bits_RasterControl a,Bits_RasterControl b)
@@ -1727,9 +1727,9 @@ inline Bits_RasterControl operator | (Bits_RasterControl a,Bits_RasterControl b)
  
 enum Field_RasterControl_PalMode : uint32
  {
-  RasterControl_PalMode_Both = 0x00,
-  RasterControl_PalMode_Pal  = 0x01,
-  RasterControl_PalMode_Data = 0x02
+  RasterControl_PalMode_Both = 0x00u,
+  RasterControl_PalMode_Pal  = 0x01u,
+  RasterControl_PalMode_Data = 0x02u
  };
  
 struct PrintField_RasterControl_PalMode
@@ -1743,9 +1743,9 @@ struct PrintField_RasterControl_PalMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Both"); break;
-       case 0x01 : Putobj(out,"Pal"); break;
-       case 0x02 : Putobj(out,"Data"); break;
+       case 0x00u : Putobj(out,"Both"); break;
+       case 0x01u : Putobj(out,"Pal"); break;
+       case 0x02u : Putobj(out,"Data"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1798,12 +1798,12 @@ struct Type_RasterControl
 
   Field_RasterControl_PalMode get_PalMode() const
    {
-    return Field_RasterControl_PalMode((value>>20)&0x3);
+    return Field_RasterControl_PalMode((value>>20)&0x3u);
    }
  
   Type_RasterControl & set_PalMode(Field_RasterControl_PalMode field)
    {
-    value=((Type(field)&0x3)<<20)|(value&0xFFCFFFFF);
+    value=((Type(field)&0x3u)<<20)|(value&0xFFCFFFFFu);
 
     return *this;
    }
@@ -1915,10 +1915,10 @@ struct Type_RasterControl
 
 enum Bits_IRQStatus : uint32
  {
-  IRQStatus_RasterFrameDone = 0x00000002,
-  IRQStatus_Underflow       = 0x00000020,
-  IRQStatus_EOF0            = 0x00000100,
-  IRQStatus_EOF1            = 0x00000200
+  IRQStatus_RasterFrameDone = 0x00000002u,
+  IRQStatus_Underflow       = 0x00000020u,
+  IRQStatus_EOF0            = 0x00000100u,
+  IRQStatus_EOF1            = 0x00000200u
  };
  
 inline Bits_IRQStatus operator | (Bits_IRQStatus a,Bits_IRQStatus b)
@@ -2061,11 +2061,11 @@ struct LCDBar
 
   //--- SysConfig
 
-  Type_SysConfig get_SysConfig() { return Type_SysConfig(rw.template get<uint32>(0x54)); }
+  Type_SysConfig get_SysConfig() { return Type_SysConfig(rw.template get<uint32>(0x54u)); }
  
-  void set_SysConfig(Type_SysConfig value) { rw.set(0x54,value.value); }
+  void set_SysConfig(Type_SysConfig value) { rw.set(0x54u,value.value); }
  
-  Setter<Type_SysConfig> to_SysConfig() { return Setter<Type_SysConfig>(rw,0x54); }
+  Setter<Type_SysConfig> to_SysConfig() { return Setter<Type_SysConfig>(rw,0x54u); }
  
   static Type_SysConfig null_SysConfig() { return Type_SysConfig(0); }
  
@@ -2073,11 +2073,11 @@ struct LCDBar
  
   //--- ClockEnable
 
-  Type_ClockEnable get_ClockEnable() { return Type_ClockEnable(rw.template get<uint32>(0x6C)); }
+  Type_ClockEnable get_ClockEnable() { return Type_ClockEnable(rw.template get<uint32>(0x6Cu)); }
  
-  void set_ClockEnable(Type_ClockEnable value) { rw.set(0x6C,value.value); }
+  void set_ClockEnable(Type_ClockEnable value) { rw.set(0x6Cu,value.value); }
  
-  Setter<Type_ClockEnable> to_ClockEnable() { return Setter<Type_ClockEnable>(rw,0x6C); }
+  Setter<Type_ClockEnable> to_ClockEnable() { return Setter<Type_ClockEnable>(rw,0x6Cu); }
  
   static Type_ClockEnable null_ClockEnable() { return Type_ClockEnable(0); }
  
@@ -2085,11 +2085,11 @@ struct LCDBar
  
   //--- Reset
 
-  Type_Reset get_Reset() { return Type_Reset(rw.template get<uint32>(0x70)); }
+  Type_Reset get_Reset() { return Type_Reset(rw.template get<uint32>(0x70u)); }
  
-  void set_Reset(Type_Reset value) { rw.set(0x70,value.value); }
+  void set_Reset(Type_Reset value) { rw.set(0x70u,value.value); }
  
-  Setter<Type_Reset> to_Reset() { return Setter<Type_Reset>(rw,0x70); }
+  Setter<Type_Reset> to_Reset() { return Setter<Type_Reset>(rw,0x70u); }
  
   static Type_Reset null_Reset() { return Type_Reset(0); }
  
@@ -2097,11 +2097,11 @@ struct LCDBar
  
   //--- Control
 
-  Type_Control get_Control() { return Type_Control(rw.template get<uint32>(0x4)); }
+  Type_Control get_Control() { return Type_Control(rw.template get<uint32>(0x4u)); }
  
-  void set_Control(Type_Control value) { rw.set(0x4,value.value); }
+  void set_Control(Type_Control value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_Control> to_Control() { return Setter<Type_Control>(rw,0x4); }
+  Setter<Type_Control> to_Control() { return Setter<Type_Control>(rw,0x4u); }
  
   static Type_Control null_Control() { return Type_Control(0); }
  
@@ -2109,11 +2109,11 @@ struct LCDBar
  
   //--- LCDDMAControl
 
-  Type_LCDDMAControl get_LCDDMAControl() { return Type_LCDDMAControl(rw.template get<uint32>(0x40)); }
+  Type_LCDDMAControl get_LCDDMAControl() { return Type_LCDDMAControl(rw.template get<uint32>(0x40u)); }
  
-  void set_LCDDMAControl(Type_LCDDMAControl value) { rw.set(0x40,value.value); }
+  void set_LCDDMAControl(Type_LCDDMAControl value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_LCDDMAControl> to_LCDDMAControl() { return Setter<Type_LCDDMAControl>(rw,0x40); }
+  Setter<Type_LCDDMAControl> to_LCDDMAControl() { return Setter<Type_LCDDMAControl>(rw,0x40u); }
  
   static Type_LCDDMAControl null_LCDDMAControl() { return Type_LCDDMAControl(0); }
  
@@ -2121,51 +2121,51 @@ struct LCDBar
  
   //--- LCDDMAFB0Base
 
-  Type_LCDDMAFB0Base get_LCDDMAFB0Base() { return Type_LCDDMAFB0Base(rw.template get<uint32>(0x44)); }
+  Type_LCDDMAFB0Base get_LCDDMAFB0Base() { return Type_LCDDMAFB0Base(rw.template get<uint32>(0x44u)); }
  
-  void set_LCDDMAFB0Base(Type_LCDDMAFB0Base value) { rw.set(0x44,value); }
+  void set_LCDDMAFB0Base(Type_LCDDMAFB0Base value) { rw.set(0x44u,value); }
  
-  void set_LCDDMAFB0Base_null() { rw.set(0x44,Type_LCDDMAFB0Base(0)); }
+  void set_LCDDMAFB0Base_null() { rw.set(0x44u,Type_LCDDMAFB0Base(0)); }
  
-  void set_LCDDMAFB0Base_ones() { rw.set(0x44,Type_LCDDMAFB0Base(-1)); }
+  void set_LCDDMAFB0Base_ones() { rw.set(0x44u,Type_LCDDMAFB0Base(-1)); }
  
   //--- LCDDMAFB0Lim
 
-  Type_LCDDMAFB0Lim get_LCDDMAFB0Lim() { return Type_LCDDMAFB0Lim(rw.template get<uint32>(0x48)); }
+  Type_LCDDMAFB0Lim get_LCDDMAFB0Lim() { return Type_LCDDMAFB0Lim(rw.template get<uint32>(0x48u)); }
  
-  void set_LCDDMAFB0Lim(Type_LCDDMAFB0Lim value) { rw.set(0x48,value); }
+  void set_LCDDMAFB0Lim(Type_LCDDMAFB0Lim value) { rw.set(0x48u,value); }
  
-  void set_LCDDMAFB0Lim_null() { rw.set(0x48,Type_LCDDMAFB0Lim(0)); }
+  void set_LCDDMAFB0Lim_null() { rw.set(0x48u,Type_LCDDMAFB0Lim(0)); }
  
-  void set_LCDDMAFB0Lim_ones() { rw.set(0x48,Type_LCDDMAFB0Lim(-1)); }
+  void set_LCDDMAFB0Lim_ones() { rw.set(0x48u,Type_LCDDMAFB0Lim(-1)); }
  
   //--- LCDDMAFB1Base
 
-  Type_LCDDMAFB1Base get_LCDDMAFB1Base() { return Type_LCDDMAFB1Base(rw.template get<uint32>(0x4C)); }
+  Type_LCDDMAFB1Base get_LCDDMAFB1Base() { return Type_LCDDMAFB1Base(rw.template get<uint32>(0x4Cu)); }
  
-  void set_LCDDMAFB1Base(Type_LCDDMAFB1Base value) { rw.set(0x4C,value); }
+  void set_LCDDMAFB1Base(Type_LCDDMAFB1Base value) { rw.set(0x4Cu,value); }
  
-  void set_LCDDMAFB1Base_null() { rw.set(0x4C,Type_LCDDMAFB1Base(0)); }
+  void set_LCDDMAFB1Base_null() { rw.set(0x4Cu,Type_LCDDMAFB1Base(0)); }
  
-  void set_LCDDMAFB1Base_ones() { rw.set(0x4C,Type_LCDDMAFB1Base(-1)); }
+  void set_LCDDMAFB1Base_ones() { rw.set(0x4Cu,Type_LCDDMAFB1Base(-1)); }
  
   //--- LCDDMAFB1Lim
 
-  Type_LCDDMAFB1Lim get_LCDDMAFB1Lim() { return Type_LCDDMAFB1Lim(rw.template get<uint32>(0x50)); }
+  Type_LCDDMAFB1Lim get_LCDDMAFB1Lim() { return Type_LCDDMAFB1Lim(rw.template get<uint32>(0x50u)); }
  
-  void set_LCDDMAFB1Lim(Type_LCDDMAFB1Lim value) { rw.set(0x50,value); }
+  void set_LCDDMAFB1Lim(Type_LCDDMAFB1Lim value) { rw.set(0x50u,value); }
  
-  void set_LCDDMAFB1Lim_null() { rw.set(0x50,Type_LCDDMAFB1Lim(0)); }
+  void set_LCDDMAFB1Lim_null() { rw.set(0x50u,Type_LCDDMAFB1Lim(0)); }
  
-  void set_LCDDMAFB1Lim_ones() { rw.set(0x50,Type_LCDDMAFB1Lim(-1)); }
+  void set_LCDDMAFB1Lim_ones() { rw.set(0x50u,Type_LCDDMAFB1Lim(-1)); }
  
   //--- RasterTiming0
 
-  Type_RasterTiming0 get_RasterTiming0() { return Type_RasterTiming0(rw.template get<uint32>(0x2C)); }
+  Type_RasterTiming0 get_RasterTiming0() { return Type_RasterTiming0(rw.template get<uint32>(0x2Cu)); }
  
-  void set_RasterTiming0(Type_RasterTiming0 value) { rw.set(0x2C,value.value); }
+  void set_RasterTiming0(Type_RasterTiming0 value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_RasterTiming0> to_RasterTiming0() { return Setter<Type_RasterTiming0>(rw,0x2C); }
+  Setter<Type_RasterTiming0> to_RasterTiming0() { return Setter<Type_RasterTiming0>(rw,0x2Cu); }
  
   static Type_RasterTiming0 null_RasterTiming0() { return Type_RasterTiming0(0); }
  
@@ -2173,11 +2173,11 @@ struct LCDBar
  
   //--- RasterTiming1
 
-  Type_RasterTiming1 get_RasterTiming1() { return Type_RasterTiming1(rw.template get<uint32>(0x30)); }
+  Type_RasterTiming1 get_RasterTiming1() { return Type_RasterTiming1(rw.template get<uint32>(0x30u)); }
  
-  void set_RasterTiming1(Type_RasterTiming1 value) { rw.set(0x30,value.value); }
+  void set_RasterTiming1(Type_RasterTiming1 value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_RasterTiming1> to_RasterTiming1() { return Setter<Type_RasterTiming1>(rw,0x30); }
+  Setter<Type_RasterTiming1> to_RasterTiming1() { return Setter<Type_RasterTiming1>(rw,0x30u); }
  
   static Type_RasterTiming1 null_RasterTiming1() { return Type_RasterTiming1(0); }
  
@@ -2185,11 +2185,11 @@ struct LCDBar
  
   //--- RasterTiming2
 
-  Type_RasterTiming2 get_RasterTiming2() { return Type_RasterTiming2(rw.template get<uint32>(0x34)); }
+  Type_RasterTiming2 get_RasterTiming2() { return Type_RasterTiming2(rw.template get<uint32>(0x34u)); }
  
-  void set_RasterTiming2(Type_RasterTiming2 value) { rw.set(0x34,value.value); }
+  void set_RasterTiming2(Type_RasterTiming2 value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_RasterTiming2> to_RasterTiming2() { return Setter<Type_RasterTiming2>(rw,0x34); }
+  Setter<Type_RasterTiming2> to_RasterTiming2() { return Setter<Type_RasterTiming2>(rw,0x34u); }
  
   static Type_RasterTiming2 null_RasterTiming2() { return Type_RasterTiming2(0); }
  
@@ -2197,11 +2197,11 @@ struct LCDBar
  
   //--- RasterControl
 
-  Type_RasterControl get_RasterControl() { return Type_RasterControl(rw.template get<uint32>(0x28)); }
+  Type_RasterControl get_RasterControl() { return Type_RasterControl(rw.template get<uint32>(0x28u)); }
  
-  void set_RasterControl(Type_RasterControl value) { rw.set(0x28,value.value); }
+  void set_RasterControl(Type_RasterControl value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_RasterControl> to_RasterControl() { return Setter<Type_RasterControl>(rw,0x28); }
+  Setter<Type_RasterControl> to_RasterControl() { return Setter<Type_RasterControl>(rw,0x28u); }
  
   static Type_RasterControl null_RasterControl() { return Type_RasterControl(0); }
  
@@ -2209,11 +2209,11 @@ struct LCDBar
  
   //--- IRQStatus
 
-  Type_IRQStatus get_IRQStatus() { return Type_IRQStatus(rw.template get<uint32>(0x5C)); }
+  Type_IRQStatus get_IRQStatus() { return Type_IRQStatus(rw.template get<uint32>(0x5Cu)); }
  
-  void set_IRQStatus(Type_IRQStatus value) { rw.set(0x5C,value.value); }
+  void set_IRQStatus(Type_IRQStatus value) { rw.set(0x5Cu,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQStatus() { return Setter<Type_IRQStatus>(rw,0x5C); }
+  Setter<Type_IRQStatus> to_IRQStatus() { return Setter<Type_IRQStatus>(rw,0x5Cu); }
  
   static Type_IRQStatus null_IRQStatus() { return Type_IRQStatus(0); }
  
@@ -2221,27 +2221,27 @@ struct LCDBar
  
   //--- IRQStatusRaw
 
-  Type_IRQStatus get_IRQStatusRaw() { return Type_IRQStatus(rw.template get<uint32>(0x58)); }
+  Type_IRQStatus get_IRQStatusRaw() { return Type_IRQStatus(rw.template get<uint32>(0x58u)); }
  
-  void set_IRQStatusRaw(Type_IRQStatus value) { rw.set(0x58,value.value); }
+  void set_IRQStatusRaw(Type_IRQStatus value) { rw.set(0x58u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQStatusRaw() { return Setter<Type_IRQStatus>(rw,0x58); }
+  Setter<Type_IRQStatus> to_IRQStatusRaw() { return Setter<Type_IRQStatus>(rw,0x58u); }
  
   //--- IRQEnableSet
 
-  Type_IRQStatus get_IRQEnableSet() { return Type_IRQStatus(rw.template get<uint32>(0x60)); }
+  Type_IRQStatus get_IRQEnableSet() { return Type_IRQStatus(rw.template get<uint32>(0x60u)); }
  
-  void set_IRQEnableSet(Type_IRQStatus value) { rw.set(0x60,value.value); }
+  void set_IRQEnableSet(Type_IRQStatus value) { rw.set(0x60u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQEnableSet() { return Setter<Type_IRQStatus>(rw,0x60); }
+  Setter<Type_IRQStatus> to_IRQEnableSet() { return Setter<Type_IRQStatus>(rw,0x60u); }
  
   //--- IRQEnableClear
 
-  Type_IRQStatus get_IRQEnableClear() { return Type_IRQStatus(rw.template get<uint32>(0x64)); }
+  Type_IRQStatus get_IRQEnableClear() { return Type_IRQStatus(rw.template get<uint32>(0x64u)); }
  
-  void set_IRQEnableClear(Type_IRQStatus value) { rw.set(0x64,value.value); }
+  void set_IRQEnableClear(Type_IRQStatus value) { rw.set(0x64u,value.value); }
  
-  Setter<Type_IRQStatus> to_IRQEnableClear() { return Setter<Type_IRQStatus>(rw,0x64); }
+  Setter<Type_IRQStatus> to_IRQEnableClear() { return Setter<Type_IRQStatus>(rw,0x64u); }
  
  };
  

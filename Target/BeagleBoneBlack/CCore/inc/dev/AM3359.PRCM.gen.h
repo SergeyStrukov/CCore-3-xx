@@ -4,8 +4,8 @@
 
 enum Field_ClockControl_Mode : uint32
  {
-  ClockControl_Mode_Disable = 0x00,
-  ClockControl_Mode_Enable  = 0x02
+  ClockControl_Mode_Disable = 0x00u,
+  ClockControl_Mode_Enable  = 0x02u
  };
  
 struct PrintField_ClockControl_Mode
@@ -19,8 +19,8 @@ struct PrintField_ClockControl_Mode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Disable"); break;
-       case 0x02 : Putobj(out,"Enable"); break;
+       case 0x00u : Putobj(out,"Disable"); break;
+       case 0x02u : Putobj(out,"Enable"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -34,10 +34,10 @@ inline PrintField_ClockControl_Mode GetTextDesc(Field_ClockControl_Mode field)
  
 enum Field_ClockControl_IdleStatus : uint32
  {
-  ClockControl_IdleStatus_Running    = 0x00,
-  ClockControl_IdleStatus_Transition = 0x01,
-  ClockControl_IdleStatus_Idle       = 0x02,
-  ClockControl_IdleStatus_Disabled   = 0x03
+  ClockControl_IdleStatus_Running    = 0x00u,
+  ClockControl_IdleStatus_Transition = 0x01u,
+  ClockControl_IdleStatus_Idle       = 0x02u,
+  ClockControl_IdleStatus_Disabled   = 0x03u
  };
  
 struct PrintField_ClockControl_IdleStatus
@@ -51,10 +51,10 @@ struct PrintField_ClockControl_IdleStatus
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Running"); break;
-       case 0x01 : Putobj(out,"Transition"); break;
-       case 0x02 : Putobj(out,"Idle"); break;
-       case 0x03 : Putobj(out,"Disabled"); break;
+       case 0x00u : Putobj(out,"Running"); break;
+       case 0x01u : Putobj(out,"Transition"); break;
+       case 0x02u : Putobj(out,"Idle"); break;
+       case 0x03u : Putobj(out,"Disabled"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -94,12 +94,12 @@ struct Type_ClockControl
 
   Field_ClockControl_Mode get_Mode() const
    {
-    return Field_ClockControl_Mode((value>>0)&0x3);
+    return Field_ClockControl_Mode((value>>0)&0x3u);
    }
  
   Type_ClockControl & set_Mode(Field_ClockControl_Mode field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -107,12 +107,12 @@ struct Type_ClockControl
 
   Field_ClockControl_IdleStatus get_IdleStatus() const
    {
-    return Field_ClockControl_IdleStatus((value>>16)&0x3);
+    return Field_ClockControl_IdleStatus((value>>16)&0x3u);
    }
  
   Type_ClockControl & set_IdleStatus(Field_ClockControl_IdleStatus field)
    {
-    value=((Type(field)&0x3)<<16)|(value&0xFFFCFFFF);
+    value=((Type(field)&0x3u)<<16)|(value&0xFFFCFFFFu);
 
     return *this;
    }
@@ -157,7 +157,7 @@ struct Type_ClockControl
 
 enum Bits_ClockStandbyControl : uint32
  {
-  ClockStandbyControl_StandbyStatus = 0x00040000
+  ClockStandbyControl_StandbyStatus = 0x00040000u
  };
  
 inline Bits_ClockStandbyControl operator | (Bits_ClockStandbyControl a,Bits_ClockStandbyControl b)
@@ -165,8 +165,8 @@ inline Bits_ClockStandbyControl operator | (Bits_ClockStandbyControl a,Bits_Cloc
  
 enum Field_ClockStandbyControl_Mode : uint32
  {
-  ClockStandbyControl_Mode_Disable = 0x00,
-  ClockStandbyControl_Mode_Enable  = 0x02
+  ClockStandbyControl_Mode_Disable = 0x00u,
+  ClockStandbyControl_Mode_Enable  = 0x02u
  };
  
 struct PrintField_ClockStandbyControl_Mode
@@ -180,8 +180,8 @@ struct PrintField_ClockStandbyControl_Mode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Disable"); break;
-       case 0x02 : Putobj(out,"Enable"); break;
+       case 0x00u : Putobj(out,"Disable"); break;
+       case 0x02u : Putobj(out,"Enable"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -195,10 +195,10 @@ inline PrintField_ClockStandbyControl_Mode GetTextDesc(Field_ClockStandbyControl
  
 enum Field_ClockStandbyControl_IdleStatus : uint32
  {
-  ClockStandbyControl_IdleStatus_Running    = 0x00,
-  ClockStandbyControl_IdleStatus_Transition = 0x01,
-  ClockStandbyControl_IdleStatus_Idle       = 0x02,
-  ClockStandbyControl_IdleStatus_Disabled   = 0x03
+  ClockStandbyControl_IdleStatus_Running    = 0x00u,
+  ClockStandbyControl_IdleStatus_Transition = 0x01u,
+  ClockStandbyControl_IdleStatus_Idle       = 0x02u,
+  ClockStandbyControl_IdleStatus_Disabled   = 0x03u
  };
  
 struct PrintField_ClockStandbyControl_IdleStatus
@@ -212,10 +212,10 @@ struct PrintField_ClockStandbyControl_IdleStatus
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Running"); break;
-       case 0x01 : Putobj(out,"Transition"); break;
-       case 0x02 : Putobj(out,"Idle"); break;
-       case 0x03 : Putobj(out,"Disabled"); break;
+       case 0x00u : Putobj(out,"Running"); break;
+       case 0x01u : Putobj(out,"Transition"); break;
+       case 0x02u : Putobj(out,"Idle"); break;
+       case 0x03u : Putobj(out,"Disabled"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -268,12 +268,12 @@ struct Type_ClockStandbyControl
 
   Field_ClockStandbyControl_Mode get_Mode() const
    {
-    return Field_ClockStandbyControl_Mode((value>>0)&0x3);
+    return Field_ClockStandbyControl_Mode((value>>0)&0x3u);
    }
  
   Type_ClockStandbyControl & set_Mode(Field_ClockStandbyControl_Mode field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -281,12 +281,12 @@ struct Type_ClockStandbyControl
 
   Field_ClockStandbyControl_IdleStatus get_IdleStatus() const
    {
-    return Field_ClockStandbyControl_IdleStatus((value>>16)&0x3);
+    return Field_ClockStandbyControl_IdleStatus((value>>16)&0x3u);
    }
  
   Type_ClockStandbyControl & set_IdleStatus(Field_ClockStandbyControl_IdleStatus field)
    {
-    value=((Type(field)&0x3)<<16)|(value&0xFFFCFFFF);
+    value=((Type(field)&0x3u)<<16)|(value&0xFFFCFFFFu);
 
     return *this;
    }
@@ -347,7 +347,7 @@ struct Type_ClockStandbyControl
 
 enum Bits_EthClockControl : uint32
  {
-  EthClockControl_Active = 0x00000010
+  EthClockControl_Active = 0x00000010u
  };
  
 inline Bits_EthClockControl operator | (Bits_EthClockControl a,Bits_EthClockControl b)
@@ -355,9 +355,9 @@ inline Bits_EthClockControl operator | (Bits_EthClockControl a,Bits_EthClockCont
  
 enum Field_EthClockControl_Control : uint32
  {
-  EthClockControl_Control_NoSleep     = 0x00,
-  EthClockControl_Control_ForceSleep  = 0x01,
-  EthClockControl_Control_ForceWakeup = 0x02
+  EthClockControl_Control_NoSleep     = 0x00u,
+  EthClockControl_Control_ForceSleep  = 0x01u,
+  EthClockControl_Control_ForceWakeup = 0x02u
  };
  
 struct PrintField_EthClockControl_Control
@@ -371,9 +371,9 @@ struct PrintField_EthClockControl_Control
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoSleep"); break;
-       case 0x01 : Putobj(out,"ForceSleep"); break;
-       case 0x02 : Putobj(out,"ForceWakeup"); break;
+       case 0x00u : Putobj(out,"NoSleep"); break;
+       case 0x01u : Putobj(out,"ForceSleep"); break;
+       case 0x02u : Putobj(out,"ForceWakeup"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -426,12 +426,12 @@ struct Type_EthClockControl
 
   Field_EthClockControl_Control get_Control() const
    {
-    return Field_EthClockControl_Control((value>>0)&0x3);
+    return Field_EthClockControl_Control((value>>0)&0x3u);
    }
  
   Type_EthClockControl & set_Control(Field_EthClockControl_Control field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -479,9 +479,9 @@ struct Type_EthClockControl
 
 enum Field_TimerClockSelect_Source : uint32
  {
-  TimerClockSelect_Source_TCLKIN    = 0x00,
-  TimerClockSelect_Source_CLK_M_OSC = 0x01,
-  TimerClockSelect_Source_CLK_32KHZ = 0x02
+  TimerClockSelect_Source_TCLKIN    = 0x00u,
+  TimerClockSelect_Source_CLK_M_OSC = 0x01u,
+  TimerClockSelect_Source_CLK_32KHZ = 0x02u
  };
  
 struct PrintField_TimerClockSelect_Source
@@ -495,9 +495,9 @@ struct PrintField_TimerClockSelect_Source
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"TCLKIN"); break;
-       case 0x01 : Putobj(out,"CLK_M_OSC"); break;
-       case 0x02 : Putobj(out,"CLK_32KHZ"); break;
+       case 0x00u : Putobj(out,"TCLKIN"); break;
+       case 0x01u : Putobj(out,"CLK_M_OSC"); break;
+       case 0x02u : Putobj(out,"CLK_32KHZ"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -537,12 +537,12 @@ struct Type_TimerClockSelect
 
   Field_TimerClockSelect_Source get_Source() const
    {
-    return Field_TimerClockSelect_Source((value>>0)&0x3);
+    return Field_TimerClockSelect_Source((value>>0)&0x3u);
    }
  
   Type_TimerClockSelect & set_Source(Field_TimerClockSelect_Source field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -574,9 +574,9 @@ struct Type_TimerClockSelect
 
 enum Field_LCDClockSelect_Source : uint32
  {
-  LCDClockSelect_Source_DISP_PLL_CLKOUTM2 = 0x00,
-  LCDClockSelect_Source_CORE_PLL_CLKOUTM5 = 0x01,
-  LCDClockSelect_Source_PER_PLL_CLKOUTM2  = 0x02
+  LCDClockSelect_Source_DISP_PLL_CLKOUTM2 = 0x00u,
+  LCDClockSelect_Source_CORE_PLL_CLKOUTM5 = 0x01u,
+  LCDClockSelect_Source_PER_PLL_CLKOUTM2  = 0x02u
  };
  
 struct PrintField_LCDClockSelect_Source
@@ -590,9 +590,9 @@ struct PrintField_LCDClockSelect_Source
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"DISP_PLL_CLKOUTM2"); break;
-       case 0x01 : Putobj(out,"CORE_PLL_CLKOUTM5"); break;
-       case 0x02 : Putobj(out,"PER_PLL_CLKOUTM2"); break;
+       case 0x00u : Putobj(out,"DISP_PLL_CLKOUTM2"); break;
+       case 0x01u : Putobj(out,"CORE_PLL_CLKOUTM5"); break;
+       case 0x02u : Putobj(out,"PER_PLL_CLKOUTM2"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -632,12 +632,12 @@ struct Type_LCDClockSelect
 
   Field_LCDClockSelect_Source get_Source() const
    {
-    return Field_LCDClockSelect_Source((value>>0)&0x3);
+    return Field_LCDClockSelect_Source((value>>0)&0x3u);
    }
  
   Type_LCDClockSelect & set_Source(Field_LCDClockSelect_Source field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -669,7 +669,7 @@ struct Type_LCDClockSelect
 
 enum Bits_CPTSClockSelect : uint32
  {
-  CPTSClockSelect_M4 = 0x00000001
+  CPTSClockSelect_M4 = 0x00000001u
  };
  
 inline Bits_CPTSClockSelect operator | (Bits_CPTSClockSelect a,Bits_CPTSClockSelect b)
@@ -743,8 +743,8 @@ struct Type_CPTSClockSelect
 
 enum Bits_PLLIdleStatus : uint32
  {
-  PLLIdleStatus_Locked = 0x00000001,
-  PLLIdleStatus_Bypass = 0x00000100
+  PLLIdleStatus_Locked = 0x00000001u,
+  PLLIdleStatus_Bypass = 0x00000100u
  };
  
 inline Bits_PLLIdleStatus operator | (Bits_PLLIdleStatus a,Bits_PLLIdleStatus b)
@@ -834,7 +834,7 @@ struct Type_PLLIdleStatus
 
 enum Bits_PLLClockSelect : uint32
  {
-  PLLClockSelect_BypassSelect = 0x00800000
+  PLLClockSelect_BypassSelect = 0x00800000u
  };
  
 inline Bits_PLLClockSelect operator | (Bits_PLLClockSelect a,Bits_PLLClockSelect b)
@@ -881,12 +881,12 @@ struct Type_PLLClockSelect
 
   Type get_Div() const
    {
-    return (value>>0)&0x7F;
+    return (value>>0)&0x7Fu;
    }
  
   Type_PLLClockSelect & set_Div(Type field)
    {
-    value=((field&0x7F)<<0)|(value&0xFFFFFF80);
+    value=((field&0x7Fu)<<0)|(value&0xFFFFFF80u);
 
     return *this;
    }
@@ -894,12 +894,12 @@ struct Type_PLLClockSelect
 
   Type get_Mul() const
    {
-    return (value>>8)&0x7FF;
+    return (value>>8)&0x7FFu;
    }
  
   Type_PLLClockSelect & set_Mul(Type field)
    {
-    value=((field&0x7FF)<<8)|(value&0xFFF800FF);
+    value=((field&0x7FFu)<<8)|(value&0xFFF800FFu);
 
     return *this;
    }
@@ -960,9 +960,9 @@ struct Type_PLLClockSelect
 
 enum Bits_PLLDivM2 : uint32
  {
-  PLLDivM2_M2Ack      = 0x00000020,
-  PLLDivM2_NoAutoGate = 0x00000100,
-  PLLDivM2_Running    = 0x00000200
+  PLLDivM2_M2Ack      = 0x00000020u,
+  PLLDivM2_NoAutoGate = 0x00000100u,
+  PLLDivM2_Running    = 0x00000200u
  };
  
 inline Bits_PLLDivM2 operator | (Bits_PLLDivM2 a,Bits_PLLDivM2 b)
@@ -1009,12 +1009,12 @@ struct Type_PLLDivM2
 
   Type get_M2() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_PLLDivM2 & set_M2(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -1094,14 +1094,14 @@ struct Type_PLLDivM2
 
 enum Bits_PLLClockMode : uint32
  {
-  PLLClockMode_DriftGuard   = 0x00000100,
-  PLLClockMode_RelockRamp   = 0x00000200,
-  PLLClockMode_LPMode       = 0x00000400,
-  PLLClockMode_REGM4X       = 0x00000800,
-  PLLClockMode_SSC          = 0x00001000,
-  PLLClockMode_SSCAck       = 0x00002000,
-  PLLClockMode_SSCLowSpread = 0x00004000,
-  PLLClockMode_SSCType      = 0x00008000
+  PLLClockMode_DriftGuard   = 0x00000100u,
+  PLLClockMode_RelockRamp   = 0x00000200u,
+  PLLClockMode_LPMode       = 0x00000400u,
+  PLLClockMode_REGM4X       = 0x00000800u,
+  PLLClockMode_SSC          = 0x00001000u,
+  PLLClockMode_SSCAck       = 0x00002000u,
+  PLLClockMode_SSCLowSpread = 0x00004000u,
+  PLLClockMode_SSCType      = 0x00008000u
  };
  
 inline Bits_PLLClockMode operator | (Bits_PLLClockMode a,Bits_PLLClockMode b)
@@ -1109,10 +1109,10 @@ inline Bits_PLLClockMode operator | (Bits_PLLClockMode a,Bits_PLLClockMode b)
  
 enum Field_PLLClockMode_En : uint32
  {
-  PLLClockMode_En_MNBypass = 0x04,
-  PLLClockMode_En_LPBypass = 0x05,
-  PLLClockMode_En_FRBypass = 0x06,
-  PLLClockMode_En_Lock     = 0x07
+  PLLClockMode_En_MNBypass = 0x04u,
+  PLLClockMode_En_LPBypass = 0x05u,
+  PLLClockMode_En_FRBypass = 0x06u,
+  PLLClockMode_En_Lock     = 0x07u
  };
  
 struct PrintField_PLLClockMode_En
@@ -1126,10 +1126,10 @@ struct PrintField_PLLClockMode_En
    {
     switch( field )
       {
-       case 0x04 : Putobj(out,"MNBypass"); break;
-       case 0x05 : Putobj(out,"LPBypass"); break;
-       case 0x06 : Putobj(out,"FRBypass"); break;
-       case 0x07 : Putobj(out,"Lock"); break;
+       case 0x04u : Putobj(out,"MNBypass"); break;
+       case 0x05u : Putobj(out,"LPBypass"); break;
+       case 0x06u : Putobj(out,"FRBypass"); break;
+       case 0x07u : Putobj(out,"Lock"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1143,9 +1143,9 @@ inline PrintField_PLLClockMode_En GetTextDesc(Field_PLLClockMode_En field)
  
 enum Field_PLLClockMode_RampLevel : uint32
  {
-  PLLClockMode_RampLevel_No = 0x00,
-  PLLClockMode_RampLevel_Lo = 0x01,
-  PLLClockMode_RampLevel_Hi = 0x02
+  PLLClockMode_RampLevel_No = 0x00u,
+  PLLClockMode_RampLevel_Lo = 0x01u,
+  PLLClockMode_RampLevel_Hi = 0x02u
  };
  
 struct PrintField_PLLClockMode_RampLevel
@@ -1159,9 +1159,9 @@ struct PrintField_PLLClockMode_RampLevel
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"No"); break;
-       case 0x01 : Putobj(out,"Lo"); break;
-       case 0x02 : Putobj(out,"Hi"); break;
+       case 0x00u : Putobj(out,"No"); break;
+       case 0x01u : Putobj(out,"Lo"); break;
+       case 0x02u : Putobj(out,"Hi"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1214,12 +1214,12 @@ struct Type_PLLClockMode
 
   Field_PLLClockMode_En get_En() const
    {
-    return Field_PLLClockMode_En((value>>0)&0x7);
+    return Field_PLLClockMode_En((value>>0)&0x7u);
    }
  
   Type_PLLClockMode & set_En(Field_PLLClockMode_En field)
    {
-    value=((Type(field)&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((Type(field)&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -1227,12 +1227,12 @@ struct Type_PLLClockMode
 
   Field_PLLClockMode_RampLevel get_RampLevel() const
    {
-    return Field_PLLClockMode_RampLevel((value>>3)&0x3);
+    return Field_PLLClockMode_RampLevel((value>>3)&0x3u);
    }
  
   Type_PLLClockMode & set_RampLevel(Field_PLLClockMode_RampLevel field)
    {
-    value=((Type(field)&0x3)<<3)|(value&0xFFFFFFE7);
+    value=((Type(field)&0x3u)<<3)|(value&0xFFFFFFE7u);
 
     return *this;
    }
@@ -1240,12 +1240,12 @@ struct Type_PLLClockMode
 
   Type get_RampRate() const
    {
-    return (value>>5)&0x7;
+    return (value>>5)&0x7u;
    }
  
   Type_PLLClockMode & set_RampRate(Type field)
    {
-    value=((field&0x7)<<5)|(value&0xFFFFFF1F);
+    value=((field&0x7u)<<5)|(value&0xFFFFFF1Fu);
 
     return *this;
    }
@@ -1431,10 +1431,10 @@ struct Type_PLLClockMode
 
 enum Bits_COREDivControl : uint32
  {
-  COREDivControl_Ack        = 0x00000020,
-  COREDivControl_NoAutoGate = 0x00000100,
-  COREDivControl_Gated      = 0x00000200,
-  COREDivControl_AutoOff    = 0x00001000
+  COREDivControl_Ack        = 0x00000020u,
+  COREDivControl_NoAutoGate = 0x00000100u,
+  COREDivControl_Gated      = 0x00000200u,
+  COREDivControl_AutoOff    = 0x00001000u
  };
  
 inline Bits_COREDivControl operator | (Bits_COREDivControl a,Bits_COREDivControl b)
@@ -1481,12 +1481,12 @@ struct Type_COREDivControl
 
   Type get_Div() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_COREDivControl & set_Div(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -1615,19 +1615,19 @@ struct PERBar
  
   //--- Eth
 
-  Type_ClockStandbyControl get_Eth() { return Type_ClockStandbyControl(rw.template get<uint32>(0x14)); }
+  Type_ClockStandbyControl get_Eth() { return Type_ClockStandbyControl(rw.template get<uint32>(0x14u)); }
  
-  void set_Eth(Type_ClockStandbyControl value) { rw.set(0x14,value.value); }
+  void set_Eth(Type_ClockStandbyControl value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_ClockStandbyControl> to_Eth() { return Setter<Type_ClockStandbyControl>(rw,0x14); }
+  Setter<Type_ClockStandbyControl> to_Eth() { return Setter<Type_ClockStandbyControl>(rw,0x14u); }
  
   //--- EthClockControl
 
-  Type_EthClockControl get_EthClockControl() { return Type_EthClockControl(rw.template get<uint32>(0x144)); }
+  Type_EthClockControl get_EthClockControl() { return Type_EthClockControl(rw.template get<uint32>(0x144u)); }
  
-  void set_EthClockControl(Type_EthClockControl value) { rw.set(0x144,value.value); }
+  void set_EthClockControl(Type_EthClockControl value) { rw.set(0x144u,value.value); }
  
-  Setter<Type_EthClockControl> to_EthClockControl() { return Setter<Type_EthClockControl>(rw,0x144); }
+  Setter<Type_EthClockControl> to_EthClockControl() { return Setter<Type_EthClockControl>(rw,0x144u); }
  
   static Type_EthClockControl null_EthClockControl() { return Type_EthClockControl(0); }
  
@@ -1635,43 +1635,43 @@ struct PERBar
  
   //--- Timer2
 
-  Type_ClockControl get_Timer2() { return Type_ClockControl(rw.template get<uint32>(0x80)); }
+  Type_ClockControl get_Timer2() { return Type_ClockControl(rw.template get<uint32>(0x80u)); }
  
-  void set_Timer2(Type_ClockControl value) { rw.set(0x80,value.value); }
+  void set_Timer2(Type_ClockControl value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_ClockControl> to_Timer2() { return Setter<Type_ClockControl>(rw,0x80); }
+  Setter<Type_ClockControl> to_Timer2() { return Setter<Type_ClockControl>(rw,0x80u); }
  
   //--- Timer4
 
-  Type_ClockControl get_Timer4() { return Type_ClockControl(rw.template get<uint32>(0x88)); }
+  Type_ClockControl get_Timer4() { return Type_ClockControl(rw.template get<uint32>(0x88u)); }
  
-  void set_Timer4(Type_ClockControl value) { rw.set(0x88,value.value); }
+  void set_Timer4(Type_ClockControl value) { rw.set(0x88u,value.value); }
  
-  Setter<Type_ClockControl> to_Timer4() { return Setter<Type_ClockControl>(rw,0x88); }
+  Setter<Type_ClockControl> to_Timer4() { return Setter<Type_ClockControl>(rw,0x88u); }
  
   //--- I2C1
 
-  Type_ClockControl get_I2C1() { return Type_ClockControl(rw.template get<uint32>(0x48)); }
+  Type_ClockControl get_I2C1() { return Type_ClockControl(rw.template get<uint32>(0x48u)); }
  
-  void set_I2C1(Type_ClockControl value) { rw.set(0x48,value.value); }
+  void set_I2C1(Type_ClockControl value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_ClockControl> to_I2C1() { return Setter<Type_ClockControl>(rw,0x48); }
+  Setter<Type_ClockControl> to_I2C1() { return Setter<Type_ClockControl>(rw,0x48u); }
  
   //--- I2C2
 
-  Type_ClockControl get_I2C2() { return Type_ClockControl(rw.template get<uint32>(0x44)); }
+  Type_ClockControl get_I2C2() { return Type_ClockControl(rw.template get<uint32>(0x44u)); }
  
-  void set_I2C2(Type_ClockControl value) { rw.set(0x44,value.value); }
+  void set_I2C2(Type_ClockControl value) { rw.set(0x44u,value.value); }
  
-  Setter<Type_ClockControl> to_I2C2() { return Setter<Type_ClockControl>(rw,0x44); }
+  Setter<Type_ClockControl> to_I2C2() { return Setter<Type_ClockControl>(rw,0x44u); }
  
   //--- LCD
 
-  Type_ClockStandbyControl get_LCD() { return Type_ClockStandbyControl(rw.template get<uint32>(0x18)); }
+  Type_ClockStandbyControl get_LCD() { return Type_ClockStandbyControl(rw.template get<uint32>(0x18u)); }
  
-  void set_LCD(Type_ClockStandbyControl value) { rw.set(0x18,value.value); }
+  void set_LCD(Type_ClockStandbyControl value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_ClockStandbyControl> to_LCD() { return Setter<Type_ClockStandbyControl>(rw,0x18); }
+  Setter<Type_ClockStandbyControl> to_LCD() { return Setter<Type_ClockStandbyControl>(rw,0x18u); }
  
  };
  
@@ -1706,27 +1706,27 @@ struct DPLLBar
  
   //--- Timer2
 
-  Type_TimerClockSelect get_Timer2() { return Type_TimerClockSelect(rw.template get<uint32>(0x8)); }
+  Type_TimerClockSelect get_Timer2() { return Type_TimerClockSelect(rw.template get<uint32>(0x8u)); }
  
-  void set_Timer2(Type_TimerClockSelect value) { rw.set(0x8,value.value); }
+  void set_Timer2(Type_TimerClockSelect value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_TimerClockSelect> to_Timer2() { return Setter<Type_TimerClockSelect>(rw,0x8); }
+  Setter<Type_TimerClockSelect> to_Timer2() { return Setter<Type_TimerClockSelect>(rw,0x8u); }
  
   //--- Timer4
 
-  Type_TimerClockSelect get_Timer4() { return Type_TimerClockSelect(rw.template get<uint32>(0x10)); }
+  Type_TimerClockSelect get_Timer4() { return Type_TimerClockSelect(rw.template get<uint32>(0x10u)); }
  
-  void set_Timer4(Type_TimerClockSelect value) { rw.set(0x10,value.value); }
+  void set_Timer4(Type_TimerClockSelect value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_TimerClockSelect> to_Timer4() { return Setter<Type_TimerClockSelect>(rw,0x10); }
+  Setter<Type_TimerClockSelect> to_Timer4() { return Setter<Type_TimerClockSelect>(rw,0x10u); }
  
   //--- LCDClockSelect
 
-  Type_LCDClockSelect get_LCDClockSelect() { return Type_LCDClockSelect(rw.template get<uint32>(0x34)); }
+  Type_LCDClockSelect get_LCDClockSelect() { return Type_LCDClockSelect(rw.template get<uint32>(0x34u)); }
  
-  void set_LCDClockSelect(Type_LCDClockSelect value) { rw.set(0x34,value.value); }
+  void set_LCDClockSelect(Type_LCDClockSelect value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_LCDClockSelect> to_LCDClockSelect() { return Setter<Type_LCDClockSelect>(rw,0x34); }
+  Setter<Type_LCDClockSelect> to_LCDClockSelect() { return Setter<Type_LCDClockSelect>(rw,0x34u); }
  
   static Type_LCDClockSelect null_LCDClockSelect() { return Type_LCDClockSelect(0); }
  
@@ -1734,11 +1734,11 @@ struct DPLLBar
  
   //--- CPTSClockSelect
 
-  Type_CPTSClockSelect get_CPTSClockSelect() { return Type_CPTSClockSelect(rw.template get<uint32>(0x20)); }
+  Type_CPTSClockSelect get_CPTSClockSelect() { return Type_CPTSClockSelect(rw.template get<uint32>(0x20u)); }
  
-  void set_CPTSClockSelect(Type_CPTSClockSelect value) { rw.set(0x20,value.value); }
+  void set_CPTSClockSelect(Type_CPTSClockSelect value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_CPTSClockSelect> to_CPTSClockSelect() { return Setter<Type_CPTSClockSelect>(rw,0x20); }
+  Setter<Type_CPTSClockSelect> to_CPTSClockSelect() { return Setter<Type_CPTSClockSelect>(rw,0x20u); }
  
   static Type_CPTSClockSelect null_CPTSClockSelect() { return Type_CPTSClockSelect(0); }
  
@@ -1777,11 +1777,11 @@ struct WKUPBar
  
   //--- I2C0
 
-  Type_ClockControl get_I2C0() { return Type_ClockControl(rw.template get<uint32>(0xB8)); }
+  Type_ClockControl get_I2C0() { return Type_ClockControl(rw.template get<uint32>(0xB8u)); }
  
-  void set_I2C0(Type_ClockControl value) { rw.set(0xB8,value.value); }
+  void set_I2C0(Type_ClockControl value) { rw.set(0xB8u,value.value); }
  
-  Setter<Type_ClockControl> to_I2C0() { return Setter<Type_ClockControl>(rw,0xB8); }
+  Setter<Type_ClockControl> to_I2C0() { return Setter<Type_ClockControl>(rw,0xB8u); }
  
   //--- PLLIdleStatus
 
@@ -1815,103 +1815,103 @@ struct WKUPBar
  
   //--- MPUIdleStatus
 
-  Type_PLLIdleStatus get_MPUIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x20)); }
+  Type_PLLIdleStatus get_MPUIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x20u)); }
  
   //--- MPUClockSelect
 
-  Type_PLLClockSelect get_MPUClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x2C)); }
+  Type_PLLClockSelect get_MPUClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x2Cu)); }
  
-  void set_MPUClockSelect(Type_PLLClockSelect value) { rw.set(0x2C,value.value); }
+  void set_MPUClockSelect(Type_PLLClockSelect value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_PLLClockSelect> to_MPUClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x2C); }
+  Setter<Type_PLLClockSelect> to_MPUClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x2Cu); }
  
   //--- MPUDivM2
 
-  Type_PLLDivM2 get_MPUDivM2() { return Type_PLLDivM2(rw.template get<uint32>(0xA8)); }
+  Type_PLLDivM2 get_MPUDivM2() { return Type_PLLDivM2(rw.template get<uint32>(0xA8u)); }
  
-  void set_MPUDivM2(Type_PLLDivM2 value) { rw.set(0xA8,value.value); }
+  void set_MPUDivM2(Type_PLLDivM2 value) { rw.set(0xA8u,value.value); }
  
-  Setter<Type_PLLDivM2> to_MPUDivM2() { return Setter<Type_PLLDivM2>(rw,0xA8); }
+  Setter<Type_PLLDivM2> to_MPUDivM2() { return Setter<Type_PLLDivM2>(rw,0xA8u); }
  
   //--- MPUClockMode
 
-  Type_PLLClockMode get_MPUClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x88)); }
+  Type_PLLClockMode get_MPUClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x88u)); }
  
-  void set_MPUClockMode(Type_PLLClockMode value) { rw.set(0x88,value.value); }
+  void set_MPUClockMode(Type_PLLClockMode value) { rw.set(0x88u,value.value); }
  
-  Setter<Type_PLLClockMode> to_MPUClockMode() { return Setter<Type_PLLClockMode>(rw,0x88); }
+  Setter<Type_PLLClockMode> to_MPUClockMode() { return Setter<Type_PLLClockMode>(rw,0x88u); }
  
   //--- DISPIdleStatus
 
-  Type_PLLIdleStatus get_DISPIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x48)); }
+  Type_PLLIdleStatus get_DISPIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x48u)); }
  
   //--- DISPClockSelect
 
-  Type_PLLClockSelect get_DISPClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x54)); }
+  Type_PLLClockSelect get_DISPClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x54u)); }
  
-  void set_DISPClockSelect(Type_PLLClockSelect value) { rw.set(0x54,value.value); }
+  void set_DISPClockSelect(Type_PLLClockSelect value) { rw.set(0x54u,value.value); }
  
-  Setter<Type_PLLClockSelect> to_DISPClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x54); }
+  Setter<Type_PLLClockSelect> to_DISPClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x54u); }
  
   //--- DISPDivM2
 
-  Type_PLLDivM2 get_DISPDivM2() { return Type_PLLDivM2(rw.template get<uint32>(0xA4)); }
+  Type_PLLDivM2 get_DISPDivM2() { return Type_PLLDivM2(rw.template get<uint32>(0xA4u)); }
  
-  void set_DISPDivM2(Type_PLLDivM2 value) { rw.set(0xA4,value.value); }
+  void set_DISPDivM2(Type_PLLDivM2 value) { rw.set(0xA4u,value.value); }
  
-  Setter<Type_PLLDivM2> to_DISPDivM2() { return Setter<Type_PLLDivM2>(rw,0xA4); }
+  Setter<Type_PLLDivM2> to_DISPDivM2() { return Setter<Type_PLLDivM2>(rw,0xA4u); }
  
   //--- DISPClockMode
 
-  Type_PLLClockMode get_DISPClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x98)); }
+  Type_PLLClockMode get_DISPClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x98u)); }
  
-  void set_DISPClockMode(Type_PLLClockMode value) { rw.set(0x98,value.value); }
+  void set_DISPClockMode(Type_PLLClockMode value) { rw.set(0x98u,value.value); }
  
-  Setter<Type_PLLClockMode> to_DISPClockMode() { return Setter<Type_PLLClockMode>(rw,0x98); }
+  Setter<Type_PLLClockMode> to_DISPClockMode() { return Setter<Type_PLLClockMode>(rw,0x98u); }
  
   //--- COREIdleStatus
 
-  Type_PLLIdleStatus get_COREIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x5C)); }
+  Type_PLLIdleStatus get_COREIdleStatus() { return Type_PLLIdleStatus(rw.template get<uint32>(0x5Cu)); }
  
   //--- COREClockSelect
 
-  Type_PLLClockSelect get_COREClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x68)); }
+  Type_PLLClockSelect get_COREClockSelect() { return Type_PLLClockSelect(rw.template get<uint32>(0x68u)); }
  
-  void set_COREClockSelect(Type_PLLClockSelect value) { rw.set(0x68,value.value); }
+  void set_COREClockSelect(Type_PLLClockSelect value) { rw.set(0x68u,value.value); }
  
-  Setter<Type_PLLClockSelect> to_COREClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x68); }
+  Setter<Type_PLLClockSelect> to_COREClockSelect() { return Setter<Type_PLLClockSelect>(rw,0x68u); }
  
   //--- COREClockMode
 
-  Type_PLLClockMode get_COREClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x90)); }
+  Type_PLLClockMode get_COREClockMode() { return Type_PLLClockMode(rw.template get<uint32>(0x90u)); }
  
-  void set_COREClockMode(Type_PLLClockMode value) { rw.set(0x90,value.value); }
+  void set_COREClockMode(Type_PLLClockMode value) { rw.set(0x90u,value.value); }
  
-  Setter<Type_PLLClockMode> to_COREClockMode() { return Setter<Type_PLLClockMode>(rw,0x90); }
+  Setter<Type_PLLClockMode> to_COREClockMode() { return Setter<Type_PLLClockMode>(rw,0x90u); }
  
   //--- CORE_M4Div
 
-  Type_COREDivControl get_CORE_M4Div() { return Type_COREDivControl(rw.template get<uint32>(0x80)); }
+  Type_COREDivControl get_CORE_M4Div() { return Type_COREDivControl(rw.template get<uint32>(0x80u)); }
  
-  void set_CORE_M4Div(Type_COREDivControl value) { rw.set(0x80,value.value); }
+  void set_CORE_M4Div(Type_COREDivControl value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_COREDivControl> to_CORE_M4Div() { return Setter<Type_COREDivControl>(rw,0x80); }
+  Setter<Type_COREDivControl> to_CORE_M4Div() { return Setter<Type_COREDivControl>(rw,0x80u); }
  
   //--- CORE_M5Div
 
-  Type_COREDivControl get_CORE_M5Div() { return Type_COREDivControl(rw.template get<uint32>(0x84)); }
+  Type_COREDivControl get_CORE_M5Div() { return Type_COREDivControl(rw.template get<uint32>(0x84u)); }
  
-  void set_CORE_M5Div(Type_COREDivControl value) { rw.set(0x84,value.value); }
+  void set_CORE_M5Div(Type_COREDivControl value) { rw.set(0x84u,value.value); }
  
-  Setter<Type_COREDivControl> to_CORE_M5Div() { return Setter<Type_COREDivControl>(rw,0x84); }
+  Setter<Type_COREDivControl> to_CORE_M5Div() { return Setter<Type_COREDivControl>(rw,0x84u); }
  
   //--- CORE_M6Div
 
-  Type_COREDivControl get_CORE_M6Div() { return Type_COREDivControl(rw.template get<uint32>(0xD8)); }
+  Type_COREDivControl get_CORE_M6Div() { return Type_COREDivControl(rw.template get<uint32>(0xD8u)); }
  
-  void set_CORE_M6Div(Type_COREDivControl value) { rw.set(0xD8,value.value); }
+  void set_CORE_M6Div(Type_COREDivControl value) { rw.set(0xD8u,value.value); }
  
-  Setter<Type_COREDivControl> to_CORE_M6Div() { return Setter<Type_COREDivControl>(rw,0xD8); }
+  Setter<Type_COREDivControl> to_CORE_M6Div() { return Setter<Type_COREDivControl>(rw,0xD8u); }
  
  };
  

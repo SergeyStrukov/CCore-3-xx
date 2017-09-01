@@ -4,8 +4,8 @@
 
 enum Bits_OCPConfig : uint32
  {
-  OCPConfig_Reset   = 0x00000001,
-  OCPConfig_EMUFree = 0x00000002
+  OCPConfig_Reset   = 0x00000001u,
+  OCPConfig_EMUFree = 0x00000002u
  };
  
 inline Bits_OCPConfig operator | (Bits_OCPConfig a,Bits_OCPConfig b)
@@ -13,10 +13,10 @@ inline Bits_OCPConfig operator | (Bits_OCPConfig a,Bits_OCPConfig b)
  
 enum Field_OCPConfig_IdleMode : uint32
  {
-  OCPConfig_IdleMode_ForceIdle       = 0x00,
-  OCPConfig_IdleMode_NoIdle          = 0x01,
-  OCPConfig_IdleMode_SmartIdle       = 0x02,
-  OCPConfig_IdleMode_SmartIdleWakeup = 0x03
+  OCPConfig_IdleMode_ForceIdle       = 0x00u,
+  OCPConfig_IdleMode_NoIdle          = 0x01u,
+  OCPConfig_IdleMode_SmartIdle       = 0x02u,
+  OCPConfig_IdleMode_SmartIdleWakeup = 0x03u
  };
  
 struct PrintField_OCPConfig_IdleMode
@@ -30,10 +30,10 @@ struct PrintField_OCPConfig_IdleMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"ForceIdle"); break;
-       case 0x01 : Putobj(out,"NoIdle"); break;
-       case 0x02 : Putobj(out,"SmartIdle"); break;
-       case 0x03 : Putobj(out,"SmartIdleWakeup"); break;
+       case 0x00u : Putobj(out,"ForceIdle"); break;
+       case 0x01u : Putobj(out,"NoIdle"); break;
+       case 0x02u : Putobj(out,"SmartIdle"); break;
+       case 0x03u : Putobj(out,"SmartIdleWakeup"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -86,12 +86,12 @@ struct Type_OCPConfig
 
   Field_OCPConfig_IdleMode get_IdleMode() const
    {
-    return Field_OCPConfig_IdleMode((value>>2)&0x3);
+    return Field_OCPConfig_IdleMode((value>>2)&0x3u);
    }
  
   Type_OCPConfig & set_IdleMode(Field_OCPConfig_IdleMode field)
    {
-    value=((Type(field)&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((Type(field)&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -155,8 +155,8 @@ struct Type_OCPConfig
 
 enum Bits_RegMode : uint32
  {
-  RegMode_NoReset  = 0x00000002,
-  RegMode_PostMode = 0x00000004
+  RegMode_NoReset  = 0x00000002u,
+  RegMode_PostMode = 0x00000004u
  };
  
 inline Bits_RegMode operator | (Bits_RegMode a,Bits_RegMode b)
@@ -254,8 +254,8 @@ using Type_Reload = uint32 ;
 
 enum Bits_Control : uint32
  {
-  Control_Start      = 0x00000001,
-  Control_AutoReload = 0x00000002
+  Control_Start      = 0x00000001u,
+  Control_AutoReload = 0x00000002u
  };
  
 inline Bits_Control operator | (Bits_Control a,Bits_Control b)
@@ -345,9 +345,9 @@ struct Type_Control
 
 enum Bits_RegPost : uint32
  {
-  RegPost_PendingControl = 0x00000001,
-  RegPost_PendingCounter = 0x00000002,
-  RegPost_PendingReload  = 0x00000004
+  RegPost_PendingControl = 0x00000001u,
+  RegPost_PendingCounter = 0x00000002u,
+  RegPost_PendingReload  = 0x00000004u
  };
  
 inline Bits_RegPost operator | (Bits_RegPost a,Bits_RegPost b)
@@ -453,9 +453,9 @@ struct Type_RegPost
 
 enum Bits_IntStatus : uint32
  {
-  IntStatus_Match    = 0x00000001,
-  IntStatus_Overflow = 0x00000002,
-  IntStatus_Capture  = 0x00000004
+  IntStatus_Match    = 0x00000001u,
+  IntStatus_Overflow = 0x00000002u,
+  IntStatus_Capture  = 0x00000004u
  };
  
 inline Bits_IntStatus operator | (Bits_IntStatus a,Bits_IntStatus b)
@@ -582,11 +582,11 @@ struct DMBar
 
   //--- OCPConfig
 
-  Type_OCPConfig get_OCPConfig() { return Type_OCPConfig(rw.template get<uint32>(0x10)); }
+  Type_OCPConfig get_OCPConfig() { return Type_OCPConfig(rw.template get<uint32>(0x10u)); }
  
-  void set_OCPConfig(Type_OCPConfig value) { rw.set(0x10,value.value); }
+  void set_OCPConfig(Type_OCPConfig value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_OCPConfig> to_OCPConfig() { return Setter<Type_OCPConfig>(rw,0x10); }
+  Setter<Type_OCPConfig> to_OCPConfig() { return Setter<Type_OCPConfig>(rw,0x10u); }
  
   static Type_OCPConfig null_OCPConfig() { return Type_OCPConfig(0); }
  
@@ -594,11 +594,11 @@ struct DMBar
  
   //--- RegMode
 
-  Type_RegMode get_RegMode() { return Type_RegMode(rw.template get<uint32>(0x54)); }
+  Type_RegMode get_RegMode() { return Type_RegMode(rw.template get<uint32>(0x54u)); }
  
-  void set_RegMode(Type_RegMode value) { rw.set(0x54,value.value); }
+  void set_RegMode(Type_RegMode value) { rw.set(0x54u,value.value); }
  
-  Setter<Type_RegMode> to_RegMode() { return Setter<Type_RegMode>(rw,0x54); }
+  Setter<Type_RegMode> to_RegMode() { return Setter<Type_RegMode>(rw,0x54u); }
  
   static Type_RegMode null_RegMode() { return Type_RegMode(0); }
  
@@ -606,31 +606,31 @@ struct DMBar
  
   //--- Counter
 
-  Type_Counter get_Counter() { return Type_Counter(rw.template get<uint32>(0x3C)); }
+  Type_Counter get_Counter() { return Type_Counter(rw.template get<uint32>(0x3Cu)); }
  
-  void set_Counter(Type_Counter value) { rw.set(0x3C,value); }
+  void set_Counter(Type_Counter value) { rw.set(0x3Cu,value); }
  
-  void set_Counter_null() { rw.set(0x3C,Type_Counter(0)); }
+  void set_Counter_null() { rw.set(0x3Cu,Type_Counter(0)); }
  
-  void set_Counter_ones() { rw.set(0x3C,Type_Counter(-1)); }
+  void set_Counter_ones() { rw.set(0x3Cu,Type_Counter(-1)); }
  
   //--- Reload
 
-  Type_Reload get_Reload() { return Type_Reload(rw.template get<uint32>(0x40)); }
+  Type_Reload get_Reload() { return Type_Reload(rw.template get<uint32>(0x40u)); }
  
-  void set_Reload(Type_Reload value) { rw.set(0x40,value); }
+  void set_Reload(Type_Reload value) { rw.set(0x40u,value); }
  
-  void set_Reload_null() { rw.set(0x40,Type_Reload(0)); }
+  void set_Reload_null() { rw.set(0x40u,Type_Reload(0)); }
  
-  void set_Reload_ones() { rw.set(0x40,Type_Reload(-1)); }
+  void set_Reload_ones() { rw.set(0x40u,Type_Reload(-1)); }
  
   //--- Control
 
-  Type_Control get_Control() { return Type_Control(rw.template get<uint32>(0x38)); }
+  Type_Control get_Control() { return Type_Control(rw.template get<uint32>(0x38u)); }
  
-  void set_Control(Type_Control value) { rw.set(0x38,value.value); }
+  void set_Control(Type_Control value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_Control> to_Control() { return Setter<Type_Control>(rw,0x38); }
+  Setter<Type_Control> to_Control() { return Setter<Type_Control>(rw,0x38u); }
  
   static Type_Control null_Control() { return Type_Control(0); }
  
@@ -638,11 +638,11 @@ struct DMBar
  
   //--- RegPost
 
-  Type_RegPost get_RegPost() { return Type_RegPost(rw.template get<uint32>(0x48)); }
+  Type_RegPost get_RegPost() { return Type_RegPost(rw.template get<uint32>(0x48u)); }
  
-  void set_RegPost(Type_RegPost value) { rw.set(0x48,value.value); }
+  void set_RegPost(Type_RegPost value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_RegPost> to_RegPost() { return Setter<Type_RegPost>(rw,0x48); }
+  Setter<Type_RegPost> to_RegPost() { return Setter<Type_RegPost>(rw,0x48u); }
  
   static Type_RegPost null_RegPost() { return Type_RegPost(0); }
  
@@ -650,19 +650,19 @@ struct DMBar
  
   //--- IntStatusRaw
 
-  Type_IntStatus get_IntStatusRaw() { return Type_IntStatus(rw.template get<uint32>(0x24)); }
+  Type_IntStatus get_IntStatusRaw() { return Type_IntStatus(rw.template get<uint32>(0x24u)); }
  
-  void set_IntStatusRaw(Type_IntStatus value) { rw.set(0x24,value.value); }
+  void set_IntStatusRaw(Type_IntStatus value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_IntStatus> to_IntStatusRaw() { return Setter<Type_IntStatus>(rw,0x24); }
+  Setter<Type_IntStatus> to_IntStatusRaw() { return Setter<Type_IntStatus>(rw,0x24u); }
  
   //--- IntStatus
 
-  Type_IntStatus get_IntStatus() { return Type_IntStatus(rw.template get<uint32>(0x28)); }
+  Type_IntStatus get_IntStatus() { return Type_IntStatus(rw.template get<uint32>(0x28u)); }
  
-  void set_IntStatus(Type_IntStatus value) { rw.set(0x28,value.value); }
+  void set_IntStatus(Type_IntStatus value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_IntStatus> to_IntStatus() { return Setter<Type_IntStatus>(rw,0x28); }
+  Setter<Type_IntStatus> to_IntStatus() { return Setter<Type_IntStatus>(rw,0x28u); }
  
   static Type_IntStatus null_IntStatus() { return Type_IntStatus(0); }
  
@@ -670,19 +670,19 @@ struct DMBar
  
   //--- IntEnableSet
 
-  Type_IntStatus get_IntEnableSet() { return Type_IntStatus(rw.template get<uint32>(0x2C)); }
+  Type_IntStatus get_IntEnableSet() { return Type_IntStatus(rw.template get<uint32>(0x2Cu)); }
  
-  void set_IntEnableSet(Type_IntStatus value) { rw.set(0x2C,value.value); }
+  void set_IntEnableSet(Type_IntStatus value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_IntStatus> to_IntEnableSet() { return Setter<Type_IntStatus>(rw,0x2C); }
+  Setter<Type_IntStatus> to_IntEnableSet() { return Setter<Type_IntStatus>(rw,0x2Cu); }
  
   //--- IntEnableClear
 
-  Type_IntStatus get_IntEnableClear() { return Type_IntStatus(rw.template get<uint32>(0x30)); }
+  Type_IntStatus get_IntEnableClear() { return Type_IntStatus(rw.template get<uint32>(0x30u)); }
  
-  void set_IntEnableClear(Type_IntStatus value) { rw.set(0x30,value.value); }
+  void set_IntEnableClear(Type_IntStatus value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_IntStatus> to_IntEnableClear() { return Setter<Type_IntStatus>(rw,0x30); }
+  Setter<Type_IntStatus> to_IntEnableClear() { return Setter<Type_IntStatus>(rw,0x30u); }
  
  };
  

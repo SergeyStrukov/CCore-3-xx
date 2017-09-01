@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysCon.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/win32/Win32.h>
 
@@ -76,6 +77,87 @@ void ConWrite(StrLen str) noexcept
 
 /* struct ConRead */
 
+void ConRead::Symbol::put(uint32 sym)
+ {
+  Utf8Code code=ToUtf8(sym);
+
+  code.getRange().copyTo(buf+len);
+
+  len+=code.getLen();
+ }
+
+bool ConRead::Symbol::pushUnicode(uint32 sym)
+ {
+  put(sym);
+
+  return true;
+ }
+
+bool ConRead::Symbol::pushUnicode(uint32 sym1,uint32 sym2)
+ {
+  put(sym1);
+  put(sym2);
+
+  return true;
+ }
+
+bool ConRead::Symbol::push(uint16 wch)
+ {
+  if( hi )
+    {
+     if( IsLoSurrogate(wch) )
+       {
+        return pushUnicode(Surrogate(Replace_null(hi),wch));
+       }
+     else if( IsHiSurrogate(wch) )
+       {
+        return pushUnicode(Replace(hi,wch));
+       }
+     else
+       {
+        return pushUnicode(Replace_null(hi),wch);
+       }
+    }
+  else
+    {
+     if( IsHiSurrogate(wch) )
+       {
+        hi=wch;
+
+        return false;
+       }
+     else
+       {
+        return pushUnicode(wch);
+       }
+    }
+ }
+
+void ConRead::Symbol::shift(ulen delta)
+ {
+  if( delta>=len )
+    {
+     len=0;
+    }
+  else
+    {
+     for(ulen i=0,count=len-delta; i<count ;i++) buf[i]=buf[i+delta];
+    }
+ }
+
+auto ConRead::Symbol::get(char *out,ulen out_len) -> IOResult
+ {
+  Replace_min(out_len,len);
+
+  if( !out_len ) return {0,NoError};
+
+  Range(buf,out_len).copyTo(out);
+
+  shift(out_len);
+
+  return {out_len,NoError};
+ }
+
 auto ConRead::Init() noexcept -> InitType
  {
   InitType ret;
@@ -106,8 +188,6 @@ auto ConRead::Init() noexcept -> InitType
      return ret;
     }
 
-  ret.cp=Win32::GetConsoleCP();
-
   ModeType new_modes=ret.modes;
 
   BitClear(new_modes,Win32::ConEcho|Win32::ConLineInput);
@@ -119,54 +199,17 @@ auto ConRead::Init() noexcept -> InitType
      return ret;
     }
 
-  if( !Win32::SetConsoleCP(Win32::CodePageUTF8) )
-    {
-     ret.error=NonNullError();
-
-     Win32::SetConsoleMode(ret.handle,ret.modes);
-
-     return ret;
-    }
-
   ret.error=NoError;
 
   return ret;
  }
 
-ErrorType ConRead::Exit(Type handle,ModeType modes,CPType cp) noexcept
+ErrorType ConRead::Exit(Type handle,ModeType modes) noexcept
  {
-  if( !Win32::SetConsoleMode(handle,modes) )
-    {
-     ErrorType ret=NonNullError();
-
-     Win32::SetConsoleCP(cp);
-
-     return ret;
-    }
-
-  if( !Win32::SetConsoleCP(cp) ) return NonNullError();
-
-  return NoError;
+  return ErrorIf( !Win32::SetConsoleMode(handle,modes) );
  }
 
-auto ConRead::Read(Type handle,char *buf,ulen len) noexcept -> IOResult
- {
-  IOResult ret;
-
-  if( Win32::ReadFile(handle,buf,len,&ret.len,0) )
-    {
-     ret.error=NoError;
-    }
-  else
-    {
-     ret.len=0;
-     ret.error=NonNullError();
-    }
-
-  return ret;
- }
-
-auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IOResult
+auto ConRead::read(char *buf,ulen len) noexcept -> IOResult
  {
   IOResult ret;
 
@@ -176,6 +219,32 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
      ret.len=0;
 
      return ret;
+    }
+
+  do
+    {
+     ret=read(buf,len,10_sec);
+    }
+  while( !ret.error && ret.len==0 );
+
+  return ret;
+ }
+
+auto ConRead::read(char *buf,ulen len,MSec timeout) noexcept -> IOResult
+ {
+  IOResult ret;
+
+  if( len==0 )
+    {
+     ret.error=NoError;
+     ret.len=0;
+
+     return ret;
+    }
+
+  if( +symbol )
+    {
+     return symbol.get(buf,len);
     }
 
   TimeScope time_scope(timeout);
@@ -207,16 +276,9 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
 
         if( input.event_type==Win32::ConKeyEvent )
           {
-           if( input.event.key.key_down && input.event.key.ch.unicode )
+           if( input.event.key.key_down && input.event.key.ch.unicode && symbol.push(input.event.key.ch.unicode) )
              {
-              Win32::wchar wch=input.event.key.ch.unicode;
-
-              // TODO
-
-              ret.error=NoError;
-              ret.len=1;
-
-              return ret;
+              return symbol.get(buf,len);
              }
           }
        }

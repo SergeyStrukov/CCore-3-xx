@@ -4,12 +4,12 @@
 
 enum Bits_Control : uint32
  {
-  Control_E  = 0x00000001,
-  Control_P  = 0x00000002,
-  Control_C  = 0x00000004,
-  Control_D  = 0x00000008,
-  Control_X  = 0x00000010,
-  Control_DP = 0x00000020
+  Control_E  = 0x00000001u,
+  Control_P  = 0x00000002u,
+  Control_C  = 0x00000004u,
+  Control_D  = 0x00000008u,
+  Control_X  = 0x00000010u,
+  Control_DP = 0x00000020u
  };
  
 inline Bits_Control operator | (Bits_Control a,Bits_Control b)
@@ -56,12 +56,12 @@ struct Type_Control
 
   Type get_N() const
    {
-    return (value>>11)&0x1F;
+    return (value>>11)&0x1Fu;
    }
  
   Type_Control & set_N(Type field)
    {
-    value=((field&0x1F)<<11)|(value&0xFFFF07FF);
+    value=((field&0x1Fu)<<11)|(value&0xFFFF07FFu);
 
     return *this;
    }
@@ -69,12 +69,12 @@ struct Type_Control
 
   Type get_ID() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_Control & set_ID(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -82,12 +82,12 @@ struct Type_Control
 
   Type get_IMP() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_Control & set_IMP(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -241,7 +241,7 @@ struct Type_Control
 
 enum Bits_CounterBits : uint32
  {
-  CounterBits_C = 0x80000000
+  CounterBits_C = 0x80000000u
  };
  
 inline Bits_CounterBits operator | (Bits_CounterBits a,Bits_CounterBits b)
@@ -288,12 +288,12 @@ struct Type_CounterBits
 
   Type get_P() const
    {
-    return (value>>0)&0x7FFFFFFF;
+    return (value>>0)&0x7FFFFFFFu;
    }
  
   Type_CounterBits & set_P(Type field)
    {
-    value=((field&0x7FFFFFFF)<<0)|(value&0x80000000);
+    value=((field&0x7FFFFFFFu)<<0)|(value&0x80000000u);
 
     return *this;
    }
@@ -371,12 +371,12 @@ struct Type_CounterSelect
 
   Type get_SEL() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_CounterSelect & set_SEL(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -434,12 +434,12 @@ struct Type_EventSelect
 
   Type get_SEL() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_EventSelect & set_SEL(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -475,7 +475,7 @@ using Type_Count = uint32 ;
 
 enum Bits_UserCountEnable : uint32
  {
-  UserCountEnable_EN = 0x00000001
+  UserCountEnable_EN = 0x00000001u
  };
  
 inline Bits_UserCountEnable operator | (Bits_UserCountEnable a,Bits_UserCountEnable b)

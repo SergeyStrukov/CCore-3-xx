@@ -15,6 +15,7 @@
 
 #include <CCore/inc/GenFile.h>
 #include <CCore/inc/MakeString.h>
+#include <CCore/inc/MemBase.h>
 
 #include <CCore/inc/sys/SysUtf8.h>
 
@@ -85,29 +86,72 @@ inline CmpFileTimeType ToCmpFileTime(Win32::FileTime ft)
   return ret;
  }
 
-/* functions */
-
-FileError MakeZStr(StrLen str,PtrLen<WChar> out);
-
 /* classes */
 
+template <PODType T> class TempBuf;
+
+struct MakeZStr;
+
 struct FileName;
+
+/* class TempBuf<T> */
+
+template <PODType T>
+class TempBuf : NoCopy
+ {
+   T *ptr;
+
+  public:
+
+   explicit TempBuf(ulen len) { ptr=static_cast<T *>( MemAlloc(LenOf(len,sizeof (T))) ); }
+
+   ~TempBuf() { MemFree(ptr); }
+
+   operator T * () const { return ptr; }
+ };
+
+/* struct MakeZStr */
+
+struct MakeZStr
+ {
+  FileError error;
+  ulen len;
+
+  void setError(FileError error_) { error=error_; len=0; }
+
+  MakeZStr(StrLen str,PtrLen<WChar> out);
+ };
 
 /* struct FileName */
 
 struct FileName : NoCopy
  {
-  MakeString<MaxPathLen> buf;
   WChar wbuf[MaxPathLen+1];
+  ulen len;
 
   operator const WChar * () const { return wbuf; }
 
-  template <class ... TT>
-  FileError prepare(TT ... tt)
+  FileError prepare(StrLen str)
    {
-    if( !buf.add(tt...) ) return FileError_TooLongPath;
+    MakeZStr result(str,Range(wbuf));
 
-    return MakeZStr(buf.get(),Range(wbuf));
+    len=result.len;
+
+    return result.error;
+   }
+
+  FileError prepare(StrLen str1,StrLen str2)
+   {
+    MakeString<MaxPathLen> buf;
+
+    if( !buf.add(str1,str2) )
+      {
+       len=0;
+
+       return FileError_TooLongPath;
+      }
+
+    return prepare(buf.get());
    }
  };
 

@@ -31,7 +31,7 @@ inline bool IsHiSurrogate(WChar wch) { return (wch&0xFC00u)==0xD800u; }
 
 inline bool IsLoSurrogate(WChar wch) { return (wch&0xFC00u)==0xDC00u; }
 
-inline Unicode Surrogate(WChar hi,WChar lo) { return (((hi&0x3FFu)<<10)|(lo&0x3FFu))+0x10000u ; }
+inline Unicode Surrogate(WChar hi,WChar lo) { return ((uint32(hi&0x3FFu)<<10)|(lo&0x3FFu))+0x10000u ; }
 
 inline bool IsSurrogate(Unicode sym) { return sym>=0x10000u; }
 
@@ -119,8 +119,8 @@ struct SurrogateCouple
    {
     sym-=0x10000u;
 
-    hi=0xD800u|((sym>>10)&0x3FFu);
-    lo=0xDC00u|(sym&0x3FFu);
+    hi=WChar( 0xD800u|((sym>>10)&0x3FFu) );
+    lo=WChar( 0xDC00u|(sym&0x3FFu) );
    }
  };
 

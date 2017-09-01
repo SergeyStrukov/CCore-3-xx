@@ -4,17 +4,17 @@
 
 enum Bits_CPSR : uint32
  {
-  CPSR_T = 0x00000020,
-  CPSR_F = 0x00000040,
-  CPSR_I = 0x00000080,
-  CPSR_A = 0x00000100,
-  CPSR_E = 0x00000200,
-  CPSR_J = 0x01000000,
-  CPSR_Q = 0x08000000,
-  CPSR_V = 0x10000000,
-  CPSR_C = 0x20000000,
-  CPSR_N = 0x40000000,
-  CPSR_Z = 0x80000000
+  CPSR_T = 0x00000020u,
+  CPSR_F = 0x00000040u,
+  CPSR_I = 0x00000080u,
+  CPSR_A = 0x00000100u,
+  CPSR_E = 0x00000200u,
+  CPSR_J = 0x01000000u,
+  CPSR_Q = 0x08000000u,
+  CPSR_V = 0x10000000u,
+  CPSR_C = 0x20000000u,
+  CPSR_N = 0x40000000u,
+  CPSR_Z = 0x80000000u
  };
  
 inline Bits_CPSR operator | (Bits_CPSR a,Bits_CPSR b)
@@ -22,15 +22,15 @@ inline Bits_CPSR operator | (Bits_CPSR a,Bits_CPSR b)
  
 enum Field_CPSR_Mode : uint32
  {
-  CPSR_Mode_User       = 0x10,
-  CPSR_Mode_FIQ        = 0x11,
-  CPSR_Mode_IRQ        = 0x12,
-  CPSR_Mode_Supervisor = 0x13,
-  CPSR_Mode_Monitor    = 0x16,
-  CPSR_Mode_Abort      = 0x17,
-  CPSR_Mode_Hypervisor = 0x1A,
-  CPSR_Mode_Undefine   = 0x1B,
-  CPSR_Mode_System     = 0x1F
+  CPSR_Mode_User       = 0x10u,
+  CPSR_Mode_FIQ        = 0x11u,
+  CPSR_Mode_IRQ        = 0x12u,
+  CPSR_Mode_Supervisor = 0x13u,
+  CPSR_Mode_Monitor    = 0x16u,
+  CPSR_Mode_Abort      = 0x17u,
+  CPSR_Mode_Hypervisor = 0x1Au,
+  CPSR_Mode_Undefine   = 0x1Bu,
+  CPSR_Mode_System     = 0x1Fu
  };
  
 struct PrintField_CPSR_Mode
@@ -44,15 +44,15 @@ struct PrintField_CPSR_Mode
    {
     switch( field )
       {
-       case 0x10 : Putobj(out,"User"); break;
-       case 0x11 : Putobj(out,"FIQ"); break;
-       case 0x12 : Putobj(out,"IRQ"); break;
-       case 0x13 : Putobj(out,"Supervisor"); break;
-       case 0x16 : Putobj(out,"Monitor"); break;
-       case 0x17 : Putobj(out,"Abort"); break;
-       case 0x1A : Putobj(out,"Hypervisor"); break;
-       case 0x1B : Putobj(out,"Undefine"); break;
-       case 0x1F : Putobj(out,"System"); break;
+       case 0x10u : Putobj(out,"User"); break;
+       case 0x11u : Putobj(out,"FIQ"); break;
+       case 0x12u : Putobj(out,"IRQ"); break;
+       case 0x13u : Putobj(out,"Supervisor"); break;
+       case 0x16u : Putobj(out,"Monitor"); break;
+       case 0x17u : Putobj(out,"Abort"); break;
+       case 0x1Au : Putobj(out,"Hypervisor"); break;
+       case 0x1Bu : Putobj(out,"Undefine"); break;
+       case 0x1Fu : Putobj(out,"System"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -105,12 +105,12 @@ struct Type_CPSR
 
   Field_CPSR_Mode get_Mode() const
    {
-    return Field_CPSR_Mode((value>>0)&0x1F);
+    return Field_CPSR_Mode((value>>0)&0x1Fu);
    }
  
   Type_CPSR & set_Mode(Field_CPSR_Mode field)
    {
-    value=((Type(field)&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((Type(field)&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -118,12 +118,12 @@ struct Type_CPSR
 
   Type get_IThi() const
    {
-    return (value>>10)&0x3F;
+    return (value>>10)&0x3Fu;
    }
  
   Type_CPSR & set_IThi(Type field)
    {
-    value=((field&0x3F)<<10)|(value&0xFFFF03FF);
+    value=((field&0x3Fu)<<10)|(value&0xFFFF03FFu);
 
     return *this;
    }
@@ -131,12 +131,12 @@ struct Type_CPSR
 
   Type get_GE() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_CPSR & set_GE(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -144,12 +144,12 @@ struct Type_CPSR
 
   Type get_ITlo() const
    {
-    return (value>>25)&0x3;
+    return (value>>25)&0x3u;
    }
  
   Type_CPSR & set_ITlo(Type field)
    {
-    value=((field&0x3)<<25)|(value&0xF9FFFFFF);
+    value=((field&0x3u)<<25)|(value&0xF9FFFFFFu);
 
     return *this;
    }
@@ -422,12 +422,12 @@ struct Type_MainID
 
   Type get_Revision() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_MainID & set_Revision(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -435,12 +435,12 @@ struct Type_MainID
 
   Type get_PartNumber() const
    {
-    return (value>>4)&0xFFF;
+    return (value>>4)&0xFFFu;
    }
  
   Type_MainID & set_PartNumber(Type field)
    {
-    value=((field&0xFFF)<<4)|(value&0xFFFF000F);
+    value=((field&0xFFFu)<<4)|(value&0xFFFF000Fu);
 
     return *this;
    }
@@ -448,12 +448,12 @@ struct Type_MainID
 
   Type get_Arch() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_MainID & set_Arch(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -461,12 +461,12 @@ struct Type_MainID
 
   Type get_Variant() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_MainID & set_Variant(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -474,12 +474,12 @@ struct Type_MainID
 
   Type get_Implementor() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_MainID & set_Implementor(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -589,12 +589,12 @@ struct Type_CacheType
 
   Type get_IMinLine() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_CacheType & set_IMinLine(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -602,12 +602,12 @@ struct Type_CacheType
 
   Type get_L1IPolicy() const
    {
-    return (value>>14)&0x3;
+    return (value>>14)&0x3u;
    }
  
   Type_CacheType & set_L1IPolicy(Type field)
    {
-    value=((field&0x3)<<14)|(value&0xFFFF3FFF);
+    value=((field&0x3u)<<14)|(value&0xFFFF3FFFu);
 
     return *this;
    }
@@ -615,12 +615,12 @@ struct Type_CacheType
 
   Type get_DMinLine() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_CacheType & set_DMinLine(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -628,12 +628,12 @@ struct Type_CacheType
 
   Type get_WBGranule() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_CacheType & set_WBGranule(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -708,7 +708,7 @@ using Type_TCMType = uint32 ;
 
 enum Bits_TLBType : uint32
  {
-  TLBType_U = 0x00000001
+  TLBType_U = 0x00000001u
  };
  
 inline Bits_TLBType operator | (Bits_TLBType a,Bits_TLBType b)
@@ -755,12 +755,12 @@ struct Type_TLBType
 
   Type get_DLSize() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_TLBType & set_DLSize(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -768,12 +768,12 @@ struct Type_TLBType
 
   Type get_ILSize() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_TLBType & set_ILSize(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -864,12 +864,12 @@ struct Type_ProcessorFeature0
 
   Type get_ARM() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_ProcessorFeature0 & set_ARM(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -877,12 +877,12 @@ struct Type_ProcessorFeature0
 
   Type get_Thumb() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_ProcessorFeature0 & set_Thumb(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -890,12 +890,12 @@ struct Type_ProcessorFeature0
 
   Type get_Jazelle() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_ProcessorFeature0 & set_Jazelle(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -903,12 +903,12 @@ struct Type_ProcessorFeature0
 
   Type get_ThumbEE() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_ProcessorFeature0 & set_ThumbEE(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1005,12 +1005,12 @@ struct Type_ProcessorFeature1
 
   Type get_ProgModel() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_ProcessorFeature1 & set_ProgModel(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1018,12 +1018,12 @@ struct Type_ProcessorFeature1
 
   Type get_SecurityExt() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_ProcessorFeature1 & set_SecurityExt(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -1031,12 +1031,12 @@ struct Type_ProcessorFeature1
 
   Type get_MCTLProgModel() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_ProcessorFeature1 & set_MCTLProgModel(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -1120,12 +1120,12 @@ struct Type_DebugFeature
 
   Type get_CoreCopr() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_DebugFeature & set_CoreCopr(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1133,12 +1133,12 @@ struct Type_DebugFeature
 
   Type get_SecureCopr() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_DebugFeature & set_SecureCopr(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -1146,12 +1146,12 @@ struct Type_DebugFeature
 
   Type get_CoreMemMap() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_DebugFeature & set_CoreMemMap(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -1159,12 +1159,12 @@ struct Type_DebugFeature
 
   Type get_TraceCopr() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_DebugFeature & set_TraceCopr(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1172,12 +1172,12 @@ struct Type_DebugFeature
 
   Type get_TraceMemMap() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_DebugFeature & set_TraceMemMap(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -1185,12 +1185,12 @@ struct Type_DebugFeature
 
   Type get_MCTLMemMap() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_DebugFeature & set_MCTLMemMap(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -1317,12 +1317,12 @@ struct Type_MemoryFeature0
 
   Type get_VMSA() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_MemoryFeature0 & set_VMSA(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1330,12 +1330,12 @@ struct Type_MemoryFeature0
 
   Type get_PMSA() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_MemoryFeature0 & set_PMSA(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -1343,12 +1343,12 @@ struct Type_MemoryFeature0
 
   Type get_CacheCoherence() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_MemoryFeature0 & set_CacheCoherence(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -1356,12 +1356,12 @@ struct Type_MemoryFeature0
 
   Type get_OuterShareable() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_MemoryFeature0 & set_OuterShareable(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1369,12 +1369,12 @@ struct Type_MemoryFeature0
 
   Type get_TCM() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_MemoryFeature0 & set_TCM(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -1382,12 +1382,12 @@ struct Type_MemoryFeature0
 
   Type get_AuxControl() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_MemoryFeature0 & set_AuxControl(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -1395,12 +1395,12 @@ struct Type_MemoryFeature0
 
   Type get_FCSE() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_MemoryFeature0 & set_FCSE(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -1536,12 +1536,12 @@ struct Type_MemoryFeature1
 
   Type get_L1HMVA() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1HMVA(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1549,12 +1549,12 @@ struct Type_MemoryFeature1
 
   Type get_L1UMVA() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1UMVA(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -1562,12 +1562,12 @@ struct Type_MemoryFeature1
 
   Type get_L1HSW() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1HSW(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -1575,12 +1575,12 @@ struct Type_MemoryFeature1
 
   Type get_L1USW() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1USW(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1588,12 +1588,12 @@ struct Type_MemoryFeature1
 
   Type get_L1H() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1H(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -1601,12 +1601,12 @@ struct Type_MemoryFeature1
 
   Type get_L1U() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1U(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -1614,12 +1614,12 @@ struct Type_MemoryFeature1
 
   Type get_L1Test() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_MemoryFeature1 & set_L1Test(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -1627,12 +1627,12 @@ struct Type_MemoryFeature1
 
   Type get_BTB() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_MemoryFeature1 & set_BTB(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -1781,12 +1781,12 @@ struct Type_MemoryFeature2
 
   Type get_L1HFP() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_MemoryFeature2 & set_L1HFP(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1794,12 +1794,12 @@ struct Type_MemoryFeature2
 
   Type get_L1HBP() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_MemoryFeature2 & set_L1HBP(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -1807,12 +1807,12 @@ struct Type_MemoryFeature2
 
   Type get_L1H() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_MemoryFeature2 & set_L1H(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -1820,12 +1820,12 @@ struct Type_MemoryFeature2
 
   Type get_TLBH() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_MemoryFeature2 & set_TLBH(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1833,12 +1833,12 @@ struct Type_MemoryFeature2
 
   Type get_TLBU() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_MemoryFeature2 & set_TLBU(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -1846,12 +1846,12 @@ struct Type_MemoryFeature2
 
   Type get_MB() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_MemoryFeature2 & set_MB(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -1859,12 +1859,12 @@ struct Type_MemoryFeature2
 
   Type get_WFI() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_MemoryFeature2 & set_WFI(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -1872,12 +1872,12 @@ struct Type_MemoryFeature2
 
   Type get_HAF() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_MemoryFeature2 & set_HAF(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -2026,12 +2026,12 @@ struct Type_MemoryFeature3
 
   Type get_HCMVA() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_MemoryFeature3 & set_HCMVA(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -2039,12 +2039,12 @@ struct Type_MemoryFeature3
 
   Type get_HCSW() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_MemoryFeature3 & set_HCSW(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -2052,12 +2052,12 @@ struct Type_MemoryFeature3
 
   Type get_BP() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_MemoryFeature3 & set_BP(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -2065,12 +2065,12 @@ struct Type_MemoryFeature3
 
   Type get_SS() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_MemoryFeature3 & set_SS(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -2167,12 +2167,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_Atomic() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_Atomic(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -2180,12 +2180,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_BitCnt() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_BitCnt(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -2193,12 +2193,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_BitField() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_BitField(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -2206,12 +2206,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_CMPB() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_CMPB(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -2219,12 +2219,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_BKPT() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_BKPT(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -2232,12 +2232,12 @@ struct Type_InstructionSetAttributes0
 
   Type get_DIV() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_InstructionSetAttributes0 & set_DIV(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -2360,12 +2360,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_SETEND() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_SETEND(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -2373,12 +2373,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_EXCEPT1() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_EXCEPT1(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -2386,12 +2386,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_EXCEPT2() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_EXCEPT2(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -2399,12 +2399,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_EXTEND() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_EXTEND(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -2412,12 +2412,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_ITE() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_ITE(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -2425,12 +2425,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_IMM() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_IMM(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -2438,12 +2438,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_INW() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_INW(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -2451,12 +2451,12 @@ struct Type_InstructionSetAttributes1
 
   Type get_J() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_InstructionSetAttributes1 & set_J(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -2605,12 +2605,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_LDRD() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_LDRD(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -2618,12 +2618,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_MHINT() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_MHINT(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -2631,12 +2631,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_INTINST() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_INTINST(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -2644,12 +2644,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_MPY() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_MPY(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -2657,12 +2657,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_SMPY() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_SMPY(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -2670,12 +2670,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_UMPY() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_UMPY(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -2683,12 +2683,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_PSR() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_PSR(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -2696,12 +2696,12 @@ struct Type_InstructionSetAttributes2
 
   Type get_REV() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_InstructionSetAttributes2 & set_REV(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -2850,12 +2850,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_SAT() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_SAT(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -2863,12 +2863,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_SIMD() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_SIMD(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -2876,12 +2876,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_SVC() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_SVC(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -2889,12 +2889,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_LSEX() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_LSEX(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -2902,12 +2902,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_TBI() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_TBI(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -2915,12 +2915,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_TCPY() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_TCPY(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -2928,12 +2928,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_NOP() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_NOP(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -2941,12 +2941,12 @@ struct Type_InstructionSetAttributes3
 
   Type get_T2EEE() const
    {
-    return (value>>28)&0xF;
+    return (value>>28)&0xFu;
    }
  
   Type_InstructionSetAttributes3 & set_T2EEE(Type field)
    {
-    value=((field&0xF)<<28)|(value&0xFFFFFFF);
+    value=((field&0xFu)<<28)|(value&0xFFFFFFFu);
 
     return *this;
    }
@@ -3095,12 +3095,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_LDRT() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_LDRT(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -3108,12 +3108,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_SHIFT() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_SHIFT(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -3121,12 +3121,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_WB() const
    {
-    return (value>>8)&0xF;
+    return (value>>8)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_WB(Type field)
    {
-    value=((field&0xF)<<8)|(value&0xFFFFF0FF);
+    value=((field&0xFu)<<8)|(value&0xFFFFF0FFu);
 
     return *this;
    }
@@ -3134,12 +3134,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_SMC() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_SMC(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -3147,12 +3147,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_BARR() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_BARR(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -3160,12 +3160,12 @@ struct Type_InstructionSetAttributes4
 
   Type get_EX() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_InstructionSetAttributes4 & set_EX(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -3288,12 +3288,12 @@ struct Type_CacheLevelID
 
   Type get_CL1() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_CacheLevelID & set_CL1(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3301,12 +3301,12 @@ struct Type_CacheLevelID
 
   Type get_CL2() const
    {
-    return (value>>3)&0x7;
+    return (value>>3)&0x7u;
    }
  
   Type_CacheLevelID & set_CL2(Type field)
    {
-    value=((field&0x7)<<3)|(value&0xFFFFFFC7);
+    value=((field&0x7u)<<3)|(value&0xFFFFFFC7u);
 
     return *this;
    }
@@ -3314,12 +3314,12 @@ struct Type_CacheLevelID
 
   Type get_CL3() const
    {
-    return (value>>6)&0x7;
+    return (value>>6)&0x7u;
    }
  
   Type_CacheLevelID & set_CL3(Type field)
    {
-    value=((field&0x7)<<6)|(value&0xFFFFFE3F);
+    value=((field&0x7u)<<6)|(value&0xFFFFFE3Fu);
 
     return *this;
    }
@@ -3327,12 +3327,12 @@ struct Type_CacheLevelID
 
   Type get_CL4() const
    {
-    return (value>>9)&0x7;
+    return (value>>9)&0x7u;
    }
  
   Type_CacheLevelID & set_CL4(Type field)
    {
-    value=((field&0x7)<<9)|(value&0xFFFFF1FF);
+    value=((field&0x7u)<<9)|(value&0xFFFFF1FFu);
 
     return *this;
    }
@@ -3340,12 +3340,12 @@ struct Type_CacheLevelID
 
   Type get_CL5() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_CacheLevelID & set_CL5(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -3353,12 +3353,12 @@ struct Type_CacheLevelID
 
   Type get_CL6() const
    {
-    return (value>>15)&0x7;
+    return (value>>15)&0x7u;
    }
  
   Type_CacheLevelID & set_CL6(Type field)
    {
-    value=((field&0x7)<<15)|(value&0xFFFC7FFF);
+    value=((field&0x7u)<<15)|(value&0xFFFC7FFFu);
 
     return *this;
    }
@@ -3366,12 +3366,12 @@ struct Type_CacheLevelID
 
   Type get_CL7() const
    {
-    return (value>>18)&0x7;
+    return (value>>18)&0x7u;
    }
  
   Type_CacheLevelID & set_CL7(Type field)
    {
-    value=((field&0x7)<<18)|(value&0xFFE3FFFF);
+    value=((field&0x7u)<<18)|(value&0xFFE3FFFFu);
 
     return *this;
    }
@@ -3379,12 +3379,12 @@ struct Type_CacheLevelID
 
   Type get_CL8() const
    {
-    return (value>>21)&0x7;
+    return (value>>21)&0x7u;
    }
  
   Type_CacheLevelID & set_CL8(Type field)
    {
-    value=((field&0x7)<<21)|(value&0xFF1FFFFF);
+    value=((field&0x7u)<<21)|(value&0xFF1FFFFFu);
 
     return *this;
    }
@@ -3392,12 +3392,12 @@ struct Type_CacheLevelID
 
   Type get_LOC() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_CacheLevelID & set_LOC(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -3405,12 +3405,12 @@ struct Type_CacheLevelID
 
   Type get_LOU() const
    {
-    return (value>>27)&0x7;
+    return (value>>27)&0x7u;
    }
  
   Type_CacheLevelID & set_LOU(Type field)
    {
-    value=((field&0x7)<<27)|(value&0xC7FFFFFF);
+    value=((field&0x7u)<<27)|(value&0xC7FFFFFFu);
 
     return *this;
    }
@@ -3559,10 +3559,10 @@ struct Type_CacheLevelID
 
 enum Bits_CacheSizeID : uint32
  {
-  CacheSizeID_WA = 0x10000000,
-  CacheSizeID_RA = 0x20000000,
-  CacheSizeID_WB = 0x40000000,
-  CacheSizeID_WT = 0x80000000
+  CacheSizeID_WA = 0x10000000u,
+  CacheSizeID_RA = 0x20000000u,
+  CacheSizeID_WB = 0x40000000u,
+  CacheSizeID_WT = 0x80000000u
  };
  
 inline Bits_CacheSizeID operator | (Bits_CacheSizeID a,Bits_CacheSizeID b)
@@ -3609,12 +3609,12 @@ struct Type_CacheSizeID
 
   Type get_LineSize() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_CacheSizeID & set_LineSize(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3622,12 +3622,12 @@ struct Type_CacheSizeID
 
   Type get_Ass() const
    {
-    return (value>>3)&0x3FF;
+    return (value>>3)&0x3FFu;
    }
  
   Type_CacheSizeID & set_Ass(Type field)
    {
-    value=((field&0x3FF)<<3)|(value&0xFFFFE007);
+    value=((field&0x3FFu)<<3)|(value&0xFFFFE007u);
 
     return *this;
    }
@@ -3635,12 +3635,12 @@ struct Type_CacheSizeID
 
   Type get_Sets() const
    {
-    return (value>>13)&0x7FFF;
+    return (value>>13)&0x7FFFu;
    }
  
   Type_CacheSizeID & set_Sets(Type field)
    {
-    value=((field&0x7FFF)<<13)|(value&0xF0001FFF);
+    value=((field&0x7FFFu)<<13)|(value&0xF0001FFFu);
 
     return *this;
    }
@@ -3762,7 +3762,7 @@ struct Type_CacheSizeID
 
 enum Bits_CacheSizeSel : uint32
  {
-  CacheSizeSel_InD = 0x00000001
+  CacheSizeSel_InD = 0x00000001u
  };
  
 inline Bits_CacheSizeSel operator | (Bits_CacheSizeSel a,Bits_CacheSizeSel b)
@@ -3809,12 +3809,12 @@ struct Type_CacheSizeSel
 
   Type get_Level() const
    {
-    return (value>>1)&0x7;
+    return (value>>1)&0x7u;
    }
  
   Type_CacheSizeSel & set_Level(Type field)
    {
-    value=((field&0x7)<<1)|(value&0xFFFFFFF1);
+    value=((field&0x7u)<<1)|(value&0xFFFFFFF1u);
 
     return *this;
    }
@@ -3862,12 +3862,12 @@ struct Type_CacheSizeSel
 
 enum Bits_SecureConfig : uint32
  {
-  SecureConfig_NS  = 0x00000001,
-  SecureConfig_IRQ = 0x00000002,
-  SecureConfig_FIQ = 0x00000004,
-  SecureConfig_EA  = 0x00000008,
-  SecureConfig_FW  = 0x00000010,
-  SecureConfig_AW  = 0x00000020
+  SecureConfig_NS  = 0x00000001u,
+  SecureConfig_IRQ = 0x00000002u,
+  SecureConfig_FIQ = 0x00000004u,
+  SecureConfig_EA  = 0x00000008u,
+  SecureConfig_FW  = 0x00000010u,
+  SecureConfig_AW  = 0x00000020u
  };
  
 inline Bits_SecureConfig operator | (Bits_SecureConfig a,Bits_SecureConfig b)
@@ -4021,23 +4021,23 @@ struct Type_SecureConfig
 
 enum Bits_NonsecureAccessControl : uint32
  {
-  NonsecureAccessControl_CP0  = 0x00000001,
-  NonsecureAccessControl_CP1  = 0x00000002,
-  NonsecureAccessControl_CP2  = 0x00000004,
-  NonsecureAccessControl_CP3  = 0x00000008,
-  NonsecureAccessControl_CP4  = 0x00000010,
-  NonsecureAccessControl_CP5  = 0x00000020,
-  NonsecureAccessControl_CP6  = 0x00000040,
-  NonsecureAccessControl_CP7  = 0x00000080,
-  NonsecureAccessControl_CP8  = 0x00000100,
-  NonsecureAccessControl_CP9  = 0x00000200,
-  NonsecureAccessControl_CP10 = 0x00000400,
-  NonsecureAccessControl_CP11 = 0x00000800,
-  NonsecureAccessControl_CP12 = 0x00001000,
-  NonsecureAccessControl_CP13 = 0x00002000,
-  NonsecureAccessControl_CL   = 0x00010000,
-  NonsecureAccessControl_TL   = 0x00020000,
-  NonsecureAccessControl_PLE  = 0x00040000
+  NonsecureAccessControl_CP0  = 0x00000001u,
+  NonsecureAccessControl_CP1  = 0x00000002u,
+  NonsecureAccessControl_CP2  = 0x00000004u,
+  NonsecureAccessControl_CP3  = 0x00000008u,
+  NonsecureAccessControl_CP4  = 0x00000010u,
+  NonsecureAccessControl_CP5  = 0x00000020u,
+  NonsecureAccessControl_CP6  = 0x00000040u,
+  NonsecureAccessControl_CP7  = 0x00000080u,
+  NonsecureAccessControl_CP8  = 0x00000100u,
+  NonsecureAccessControl_CP9  = 0x00000200u,
+  NonsecureAccessControl_CP10 = 0x00000400u,
+  NonsecureAccessControl_CP11 = 0x00000800u,
+  NonsecureAccessControl_CP12 = 0x00001000u,
+  NonsecureAccessControl_CP13 = 0x00002000u,
+  NonsecureAccessControl_CL   = 0x00010000u,
+  NonsecureAccessControl_TL   = 0x00020000u,
+  NonsecureAccessControl_PLE  = 0x00040000u
  };
  
 inline Bits_NonsecureAccessControl operator | (Bits_NonsecureAccessControl a,Bits_NonsecureAccessControl b)
@@ -4367,9 +4367,9 @@ struct Type_NonsecureAccessControl
 
 enum Bits_DataFaultStatus : uint32
  {
-  DataFaultStatus_S  = 0x00000400,
-  DataFaultStatus_W  = 0x00000800,
-  DataFaultStatus_SD = 0x00001000
+  DataFaultStatus_S  = 0x00000400u,
+  DataFaultStatus_W  = 0x00000800u,
+  DataFaultStatus_SD = 0x00001000u
  };
  
 inline Bits_DataFaultStatus operator | (Bits_DataFaultStatus a,Bits_DataFaultStatus b)
@@ -4416,12 +4416,12 @@ struct Type_DataFaultStatus
 
   Type get_Status() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_DataFaultStatus & set_Status(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -4429,12 +4429,12 @@ struct Type_DataFaultStatus
 
   Type get_Domain() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_DataFaultStatus & set_Domain(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -4527,8 +4527,8 @@ struct Type_DataFaultStatus
 
 enum Bits_InstructionFaultStatus : uint32
  {
-  InstructionFaultStatus_S  = 0x00000400,
-  InstructionFaultStatus_SD = 0x00001000
+  InstructionFaultStatus_S  = 0x00000400u,
+  InstructionFaultStatus_SD = 0x00001000u
  };
  
 inline Bits_InstructionFaultStatus operator | (Bits_InstructionFaultStatus a,Bits_InstructionFaultStatus b)
@@ -4575,12 +4575,12 @@ struct Type_InstructionFaultStatus
 
   Type get_Status() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_InstructionFaultStatus & set_Status(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -4652,17 +4652,17 @@ using Type_InstructionFaultAddress = uint32 ;
 
 enum Bits_Control : uint32
  {
-  Control_M    = 0x00000001,
-  Control_A    = 0x00000002,
-  Control_C    = 0x00000004,
-  Control_Z    = 0x00000800,
-  Control_I    = 0x00001000,
-  Control_V    = 0x00002000,
-  Control_EE   = 0x02000000,
-  Control_NMFI = 0x08000000,
-  Control_TRE  = 0x10000000,
-  Control_AFE  = 0x20000000,
-  Control_TE   = 0x40000000
+  Control_M    = 0x00000001u,
+  Control_A    = 0x00000002u,
+  Control_C    = 0x00000004u,
+  Control_Z    = 0x00000800u,
+  Control_I    = 0x00001000u,
+  Control_V    = 0x00002000u,
+  Control_EE   = 0x02000000u,
+  Control_NMFI = 0x08000000u,
+  Control_TRE  = 0x10000000u,
+  Control_AFE  = 0x20000000u,
+  Control_TE   = 0x40000000u
  };
  
 inline Bits_Control operator | (Bits_Control a,Bits_Control b)
@@ -4670,7 +4670,7 @@ inline Bits_Control operator | (Bits_Control a,Bits_Control b)
  
 enum Field_Control_SBO : uint32
  {
-  Control_SBO_Ones = 0x0F
+  Control_SBO_Ones = 0x0Fu
  };
  
 struct PrintField_Control_SBO
@@ -4684,7 +4684,7 @@ struct PrintField_Control_SBO
    {
     switch( field )
       {
-       case 0x0F : Putobj(out,"Ones"); break;
+       case 0x0Fu : Putobj(out,"Ones"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -4737,12 +4737,12 @@ struct Type_Control
 
   Field_Control_SBO get_SBO() const
    {
-    return Field_Control_SBO((value>>3)&0xF);
+    return Field_Control_SBO((value>>3)&0xFu);
    }
  
   Type_Control & set_SBO(Field_Control_SBO field)
    {
-    value=((Type(field)&0xF)<<3)|(value&0xFFFFFF87);
+    value=((Type(field)&0xFu)<<3)|(value&0xFFFFFF87u);
 
     return *this;
    }
@@ -4950,28 +4950,28 @@ struct Type_Control
 
 enum Bits_AuxControl : uint32
  {
-  AuxControl_L1Alias  = 0x00000001,
-  AuxControl_L2EN     = 0x00000002,
-  AuxControl_L1PE     = 0x00000008,
-  AuxControl_ASA      = 0x00000010,
-  AuxControl_L1NEON   = 0x00000020,
-  AuxControl_IBE      = 0x00000040,
-  AuxControl_DBSM     = 0x00000080,
-  AuxControl_WFINOP   = 0x00000100,
-  AuxControl_PLDNOP   = 0x00000200,
-  AuxControl_FSI      = 0x00000400,
-  AuxControl_FLSSI    = 0x00000800,
-  AuxControl_FNEONSI  = 0x00001000,
-  AuxControl_FMCLK    = 0x00002000,
-  AuxControl_FNEONCLK = 0x00004000,
-  AuxControl_FETMCLK  = 0x00008000,
-  AuxControl_CPPF     = 0x00010000,
-  AuxControl_CPWI     = 0x00020000,
-  AuxControl_CPIS     = 0x00040000,
-  AuxControl_CSRD     = 0x00080000,
-  AuxControl_CMP      = 0x00100000,
-  AuxControl_L1HRD    = 0x40000000,
-  AuxControl_L2HRD    = 0x80000000
+  AuxControl_L1Alias  = 0x00000001u,
+  AuxControl_L2EN     = 0x00000002u,
+  AuxControl_L1PE     = 0x00000008u,
+  AuxControl_ASA      = 0x00000010u,
+  AuxControl_L1NEON   = 0x00000020u,
+  AuxControl_IBE      = 0x00000040u,
+  AuxControl_DBSM     = 0x00000080u,
+  AuxControl_WFINOP   = 0x00000100u,
+  AuxControl_PLDNOP   = 0x00000200u,
+  AuxControl_FSI      = 0x00000400u,
+  AuxControl_FLSSI    = 0x00000800u,
+  AuxControl_FNEONSI  = 0x00001000u,
+  AuxControl_FMCLK    = 0x00002000u,
+  AuxControl_FNEONCLK = 0x00004000u,
+  AuxControl_FETMCLK  = 0x00008000u,
+  AuxControl_CPPF     = 0x00010000u,
+  AuxControl_CPWI     = 0x00020000u,
+  AuxControl_CPIS     = 0x00040000u,
+  AuxControl_CSRD     = 0x00080000u,
+  AuxControl_CMP      = 0x00100000u,
+  AuxControl_L1HRD    = 0x40000000u,
+  AuxControl_L2HRD    = 0x80000000u
  };
  
 inline Bits_AuxControl operator | (Bits_AuxControl a,Bits_AuxControl b)
@@ -5381,9 +5381,9 @@ struct Type_AuxControl
 
 enum Field_DomainAccessControl_D0 : uint32
  {
-  DomainAccessControl_D0_NoAccess = 0x00,
-  DomainAccessControl_D0_Client   = 0x01,
-  DomainAccessControl_D0_Manager  = 0x03
+  DomainAccessControl_D0_NoAccess = 0x00u,
+  DomainAccessControl_D0_Client   = 0x01u,
+  DomainAccessControl_D0_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D0
@@ -5397,9 +5397,9 @@ struct PrintField_DomainAccessControl_D0
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5413,9 +5413,9 @@ inline PrintField_DomainAccessControl_D0 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D1 : uint32
  {
-  DomainAccessControl_D1_NoAccess = 0x00,
-  DomainAccessControl_D1_Client   = 0x01,
-  DomainAccessControl_D1_Manager  = 0x03
+  DomainAccessControl_D1_NoAccess = 0x00u,
+  DomainAccessControl_D1_Client   = 0x01u,
+  DomainAccessControl_D1_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D1
@@ -5429,9 +5429,9 @@ struct PrintField_DomainAccessControl_D1
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5445,9 +5445,9 @@ inline PrintField_DomainAccessControl_D1 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D2 : uint32
  {
-  DomainAccessControl_D2_NoAccess = 0x00,
-  DomainAccessControl_D2_Client   = 0x01,
-  DomainAccessControl_D2_Manager  = 0x03
+  DomainAccessControl_D2_NoAccess = 0x00u,
+  DomainAccessControl_D2_Client   = 0x01u,
+  DomainAccessControl_D2_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D2
@@ -5461,9 +5461,9 @@ struct PrintField_DomainAccessControl_D2
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5477,9 +5477,9 @@ inline PrintField_DomainAccessControl_D2 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D3 : uint32
  {
-  DomainAccessControl_D3_NoAccess = 0x00,
-  DomainAccessControl_D3_Client   = 0x01,
-  DomainAccessControl_D3_Manager  = 0x03
+  DomainAccessControl_D3_NoAccess = 0x00u,
+  DomainAccessControl_D3_Client   = 0x01u,
+  DomainAccessControl_D3_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D3
@@ -5493,9 +5493,9 @@ struct PrintField_DomainAccessControl_D3
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5509,9 +5509,9 @@ inline PrintField_DomainAccessControl_D3 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D4 : uint32
  {
-  DomainAccessControl_D4_NoAccess = 0x00,
-  DomainAccessControl_D4_Client   = 0x01,
-  DomainAccessControl_D4_Manager  = 0x03
+  DomainAccessControl_D4_NoAccess = 0x00u,
+  DomainAccessControl_D4_Client   = 0x01u,
+  DomainAccessControl_D4_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D4
@@ -5525,9 +5525,9 @@ struct PrintField_DomainAccessControl_D4
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5541,9 +5541,9 @@ inline PrintField_DomainAccessControl_D4 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D5 : uint32
  {
-  DomainAccessControl_D5_NoAccess = 0x00,
-  DomainAccessControl_D5_Client   = 0x01,
-  DomainAccessControl_D5_Manager  = 0x03
+  DomainAccessControl_D5_NoAccess = 0x00u,
+  DomainAccessControl_D5_Client   = 0x01u,
+  DomainAccessControl_D5_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D5
@@ -5557,9 +5557,9 @@ struct PrintField_DomainAccessControl_D5
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5573,9 +5573,9 @@ inline PrintField_DomainAccessControl_D5 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D6 : uint32
  {
-  DomainAccessControl_D6_NoAccess = 0x00,
-  DomainAccessControl_D6_Client   = 0x01,
-  DomainAccessControl_D6_Manager  = 0x03
+  DomainAccessControl_D6_NoAccess = 0x00u,
+  DomainAccessControl_D6_Client   = 0x01u,
+  DomainAccessControl_D6_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D6
@@ -5589,9 +5589,9 @@ struct PrintField_DomainAccessControl_D6
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5605,9 +5605,9 @@ inline PrintField_DomainAccessControl_D6 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D7 : uint32
  {
-  DomainAccessControl_D7_NoAccess = 0x00,
-  DomainAccessControl_D7_Client   = 0x01,
-  DomainAccessControl_D7_Manager  = 0x03
+  DomainAccessControl_D7_NoAccess = 0x00u,
+  DomainAccessControl_D7_Client   = 0x01u,
+  DomainAccessControl_D7_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D7
@@ -5621,9 +5621,9 @@ struct PrintField_DomainAccessControl_D7
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5637,9 +5637,9 @@ inline PrintField_DomainAccessControl_D7 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D8 : uint32
  {
-  DomainAccessControl_D8_NoAccess = 0x00,
-  DomainAccessControl_D8_Client   = 0x01,
-  DomainAccessControl_D8_Manager  = 0x03
+  DomainAccessControl_D8_NoAccess = 0x00u,
+  DomainAccessControl_D8_Client   = 0x01u,
+  DomainAccessControl_D8_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D8
@@ -5653,9 +5653,9 @@ struct PrintField_DomainAccessControl_D8
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5669,9 +5669,9 @@ inline PrintField_DomainAccessControl_D8 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D9 : uint32
  {
-  DomainAccessControl_D9_NoAccess = 0x00,
-  DomainAccessControl_D9_Client   = 0x01,
-  DomainAccessControl_D9_Manager  = 0x03
+  DomainAccessControl_D9_NoAccess = 0x00u,
+  DomainAccessControl_D9_Client   = 0x01u,
+  DomainAccessControl_D9_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D9
@@ -5685,9 +5685,9 @@ struct PrintField_DomainAccessControl_D9
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5701,9 +5701,9 @@ inline PrintField_DomainAccessControl_D9 GetTextDesc(Field_DomainAccessControl_D
  
 enum Field_DomainAccessControl_D10 : uint32
  {
-  DomainAccessControl_D10_NoAccess = 0x00,
-  DomainAccessControl_D10_Client   = 0x01,
-  DomainAccessControl_D10_Manager  = 0x03
+  DomainAccessControl_D10_NoAccess = 0x00u,
+  DomainAccessControl_D10_Client   = 0x01u,
+  DomainAccessControl_D10_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D10
@@ -5717,9 +5717,9 @@ struct PrintField_DomainAccessControl_D10
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5733,9 +5733,9 @@ inline PrintField_DomainAccessControl_D10 GetTextDesc(Field_DomainAccessControl_
  
 enum Field_DomainAccessControl_D11 : uint32
  {
-  DomainAccessControl_D11_NoAccess = 0x00,
-  DomainAccessControl_D11_Client   = 0x01,
-  DomainAccessControl_D11_Manager  = 0x03
+  DomainAccessControl_D11_NoAccess = 0x00u,
+  DomainAccessControl_D11_Client   = 0x01u,
+  DomainAccessControl_D11_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D11
@@ -5749,9 +5749,9 @@ struct PrintField_DomainAccessControl_D11
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5765,9 +5765,9 @@ inline PrintField_DomainAccessControl_D11 GetTextDesc(Field_DomainAccessControl_
  
 enum Field_DomainAccessControl_D12 : uint32
  {
-  DomainAccessControl_D12_NoAccess = 0x00,
-  DomainAccessControl_D12_Client   = 0x01,
-  DomainAccessControl_D12_Manager  = 0x03
+  DomainAccessControl_D12_NoAccess = 0x00u,
+  DomainAccessControl_D12_Client   = 0x01u,
+  DomainAccessControl_D12_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D12
@@ -5781,9 +5781,9 @@ struct PrintField_DomainAccessControl_D12
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5797,9 +5797,9 @@ inline PrintField_DomainAccessControl_D12 GetTextDesc(Field_DomainAccessControl_
  
 enum Field_DomainAccessControl_D13 : uint32
  {
-  DomainAccessControl_D13_NoAccess = 0x00,
-  DomainAccessControl_D13_Client   = 0x01,
-  DomainAccessControl_D13_Manager  = 0x03
+  DomainAccessControl_D13_NoAccess = 0x00u,
+  DomainAccessControl_D13_Client   = 0x01u,
+  DomainAccessControl_D13_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D13
@@ -5813,9 +5813,9 @@ struct PrintField_DomainAccessControl_D13
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5829,9 +5829,9 @@ inline PrintField_DomainAccessControl_D13 GetTextDesc(Field_DomainAccessControl_
  
 enum Field_DomainAccessControl_D14 : uint32
  {
-  DomainAccessControl_D14_NoAccess = 0x00,
-  DomainAccessControl_D14_Client   = 0x01,
-  DomainAccessControl_D14_Manager  = 0x03
+  DomainAccessControl_D14_NoAccess = 0x00u,
+  DomainAccessControl_D14_Client   = 0x01u,
+  DomainAccessControl_D14_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D14
@@ -5845,9 +5845,9 @@ struct PrintField_DomainAccessControl_D14
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5861,9 +5861,9 @@ inline PrintField_DomainAccessControl_D14 GetTextDesc(Field_DomainAccessControl_
  
 enum Field_DomainAccessControl_D15 : uint32
  {
-  DomainAccessControl_D15_NoAccess = 0x00,
-  DomainAccessControl_D15_Client   = 0x01,
-  DomainAccessControl_D15_Manager  = 0x03
+  DomainAccessControl_D15_NoAccess = 0x00u,
+  DomainAccessControl_D15_Client   = 0x01u,
+  DomainAccessControl_D15_Manager  = 0x03u
  };
  
 struct PrintField_DomainAccessControl_D15
@@ -5877,9 +5877,9 @@ struct PrintField_DomainAccessControl_D15
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoAccess"); break;
-       case 0x01 : Putobj(out,"Client"); break;
-       case 0x03 : Putobj(out,"Manager"); break;
+       case 0x00u : Putobj(out,"NoAccess"); break;
+       case 0x01u : Putobj(out,"Client"); break;
+       case 0x03u : Putobj(out,"Manager"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5919,12 +5919,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D0 get_D0() const
    {
-    return Field_DomainAccessControl_D0((value>>0)&0x3);
+    return Field_DomainAccessControl_D0((value>>0)&0x3u);
    }
  
   Type_DomainAccessControl & set_D0(Field_DomainAccessControl_D0 field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -5932,12 +5932,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D1 get_D1() const
    {
-    return Field_DomainAccessControl_D1((value>>2)&0x3);
+    return Field_DomainAccessControl_D1((value>>2)&0x3u);
    }
  
   Type_DomainAccessControl & set_D1(Field_DomainAccessControl_D1 field)
    {
-    value=((Type(field)&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((Type(field)&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -5945,12 +5945,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D2 get_D2() const
    {
-    return Field_DomainAccessControl_D2((value>>4)&0x3);
+    return Field_DomainAccessControl_D2((value>>4)&0x3u);
    }
  
   Type_DomainAccessControl & set_D2(Field_DomainAccessControl_D2 field)
    {
-    value=((Type(field)&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((Type(field)&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -5958,12 +5958,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D3 get_D3() const
    {
-    return Field_DomainAccessControl_D3((value>>6)&0x3);
+    return Field_DomainAccessControl_D3((value>>6)&0x3u);
    }
  
   Type_DomainAccessControl & set_D3(Field_DomainAccessControl_D3 field)
    {
-    value=((Type(field)&0x3)<<6)|(value&0xFFFFFF3F);
+    value=((Type(field)&0x3u)<<6)|(value&0xFFFFFF3Fu);
 
     return *this;
    }
@@ -5971,12 +5971,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D4 get_D4() const
    {
-    return Field_DomainAccessControl_D4((value>>8)&0x3);
+    return Field_DomainAccessControl_D4((value>>8)&0x3u);
    }
  
   Type_DomainAccessControl & set_D4(Field_DomainAccessControl_D4 field)
    {
-    value=((Type(field)&0x3)<<8)|(value&0xFFFFFCFF);
+    value=((Type(field)&0x3u)<<8)|(value&0xFFFFFCFFu);
 
     return *this;
    }
@@ -5984,12 +5984,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D5 get_D5() const
    {
-    return Field_DomainAccessControl_D5((value>>10)&0x3);
+    return Field_DomainAccessControl_D5((value>>10)&0x3u);
    }
  
   Type_DomainAccessControl & set_D5(Field_DomainAccessControl_D5 field)
    {
-    value=((Type(field)&0x3)<<10)|(value&0xFFFFF3FF);
+    value=((Type(field)&0x3u)<<10)|(value&0xFFFFF3FFu);
 
     return *this;
    }
@@ -5997,12 +5997,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D6 get_D6() const
    {
-    return Field_DomainAccessControl_D6((value>>12)&0x3);
+    return Field_DomainAccessControl_D6((value>>12)&0x3u);
    }
  
   Type_DomainAccessControl & set_D6(Field_DomainAccessControl_D6 field)
    {
-    value=((Type(field)&0x3)<<12)|(value&0xFFFFCFFF);
+    value=((Type(field)&0x3u)<<12)|(value&0xFFFFCFFFu);
 
     return *this;
    }
@@ -6010,12 +6010,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D7 get_D7() const
    {
-    return Field_DomainAccessControl_D7((value>>14)&0x3);
+    return Field_DomainAccessControl_D7((value>>14)&0x3u);
    }
  
   Type_DomainAccessControl & set_D7(Field_DomainAccessControl_D7 field)
    {
-    value=((Type(field)&0x3)<<14)|(value&0xFFFF3FFF);
+    value=((Type(field)&0x3u)<<14)|(value&0xFFFF3FFFu);
 
     return *this;
    }
@@ -6023,12 +6023,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D8 get_D8() const
    {
-    return Field_DomainAccessControl_D8((value>>16)&0x3);
+    return Field_DomainAccessControl_D8((value>>16)&0x3u);
    }
  
   Type_DomainAccessControl & set_D8(Field_DomainAccessControl_D8 field)
    {
-    value=((Type(field)&0x3)<<16)|(value&0xFFFCFFFF);
+    value=((Type(field)&0x3u)<<16)|(value&0xFFFCFFFFu);
 
     return *this;
    }
@@ -6036,12 +6036,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D9 get_D9() const
    {
-    return Field_DomainAccessControl_D9((value>>18)&0x3);
+    return Field_DomainAccessControl_D9((value>>18)&0x3u);
    }
  
   Type_DomainAccessControl & set_D9(Field_DomainAccessControl_D9 field)
    {
-    value=((Type(field)&0x3)<<18)|(value&0xFFF3FFFF);
+    value=((Type(field)&0x3u)<<18)|(value&0xFFF3FFFFu);
 
     return *this;
    }
@@ -6049,12 +6049,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D10 get_D10() const
    {
-    return Field_DomainAccessControl_D10((value>>20)&0x3);
+    return Field_DomainAccessControl_D10((value>>20)&0x3u);
    }
  
   Type_DomainAccessControl & set_D10(Field_DomainAccessControl_D10 field)
    {
-    value=((Type(field)&0x3)<<20)|(value&0xFFCFFFFF);
+    value=((Type(field)&0x3u)<<20)|(value&0xFFCFFFFFu);
 
     return *this;
    }
@@ -6062,12 +6062,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D11 get_D11() const
    {
-    return Field_DomainAccessControl_D11((value>>22)&0x3);
+    return Field_DomainAccessControl_D11((value>>22)&0x3u);
    }
  
   Type_DomainAccessControl & set_D11(Field_DomainAccessControl_D11 field)
    {
-    value=((Type(field)&0x3)<<22)|(value&0xFF3FFFFF);
+    value=((Type(field)&0x3u)<<22)|(value&0xFF3FFFFFu);
 
     return *this;
    }
@@ -6075,12 +6075,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D12 get_D12() const
    {
-    return Field_DomainAccessControl_D12((value>>24)&0x3);
+    return Field_DomainAccessControl_D12((value>>24)&0x3u);
    }
  
   Type_DomainAccessControl & set_D12(Field_DomainAccessControl_D12 field)
    {
-    value=((Type(field)&0x3)<<24)|(value&0xFCFFFFFF);
+    value=((Type(field)&0x3u)<<24)|(value&0xFCFFFFFFu);
 
     return *this;
    }
@@ -6088,12 +6088,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D13 get_D13() const
    {
-    return Field_DomainAccessControl_D13((value>>26)&0x3);
+    return Field_DomainAccessControl_D13((value>>26)&0x3u);
    }
  
   Type_DomainAccessControl & set_D13(Field_DomainAccessControl_D13 field)
    {
-    value=((Type(field)&0x3)<<26)|(value&0xF3FFFFFF);
+    value=((Type(field)&0x3u)<<26)|(value&0xF3FFFFFFu);
 
     return *this;
    }
@@ -6101,12 +6101,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D14 get_D14() const
    {
-    return Field_DomainAccessControl_D14((value>>28)&0x3);
+    return Field_DomainAccessControl_D14((value>>28)&0x3u);
    }
  
   Type_DomainAccessControl & set_D14(Field_DomainAccessControl_D14 field)
    {
-    value=((Type(field)&0x3)<<28)|(value&0xCFFFFFFF);
+    value=((Type(field)&0x3u)<<28)|(value&0xCFFFFFFFu);
 
     return *this;
    }
@@ -6114,12 +6114,12 @@ struct Type_DomainAccessControl
 
   Field_DomainAccessControl_D15 get_D15() const
    {
-    return Field_DomainAccessControl_D15((value>>30)&0x3);
+    return Field_DomainAccessControl_D15((value>>30)&0x3u);
    }
  
   Type_DomainAccessControl & set_D15(Field_DomainAccessControl_D15 field)
    {
-    value=((Type(field)&0x3)<<30)|(value&0x3FFFFFFF);
+    value=((Type(field)&0x3u)<<30)|(value&0x3FFFFFFFu);
 
     return *this;
    }
@@ -6346,8 +6346,8 @@ struct Type_DomainAccessControl
 
 enum Bits_TTControl : uint32
  {
-  TTControl_PD0 = 0x00000010,
-  TTControl_PD1 = 0x00000020
+  TTControl_PD0 = 0x00000010u,
+  TTControl_PD1 = 0x00000020u
  };
  
 inline Bits_TTControl operator | (Bits_TTControl a,Bits_TTControl b)
@@ -6394,12 +6394,12 @@ struct Type_TTControl
 
   Type get_N() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_TTControl & set_N(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -6463,9 +6463,9 @@ struct Type_TTControl
 
 enum Bits_TTBase0 : uint32
  {
-  TTBase0_C = 0x00000001,
-  TTBase0_S = 0x00000002,
-  TTBase0_P = 0x00000004
+  TTBase0_C = 0x00000001u,
+  TTBase0_S = 0x00000002u,
+  TTBase0_P = 0x00000004u
  };
  
 inline Bits_TTBase0 operator | (Bits_TTBase0 a,Bits_TTBase0 b)
@@ -6512,12 +6512,12 @@ struct Type_TTBase0
 
   Type get_RGN() const
    {
-    return (value>>3)&0x3;
+    return (value>>3)&0x3u;
    }
  
   Type_TTBase0 & set_RGN(Type field)
    {
-    value=((field&0x3)<<3)|(value&0xFFFFFFE7);
+    value=((field&0x3u)<<3)|(value&0xFFFFFFE7u);
 
     return *this;
    }
@@ -6525,12 +6525,12 @@ struct Type_TTBase0
 
   Type get_Base() const
    {
-    return (value>>14)&0x3FFFF;
+    return (value>>14)&0x3FFFFu;
    }
  
   Type_TTBase0 & set_Base(Type field)
    {
-    value=((field&0x3FFFF)<<14)|(value&0x3FFF);
+    value=((field&0x3FFFFu)<<14)|(value&0x3FFFu);
 
     return *this;
    }
@@ -6649,12 +6649,12 @@ struct Type_FCSE
 
   Type get_PID() const
    {
-    return (value>>25)&0x7F;
+    return (value>>25)&0x7Fu;
    }
  
   Type_FCSE & set_PID(Type field)
    {
-    value=((field&0x7F)<<25)|(value&0x1FFFFFF);
+    value=((field&0x7Fu)<<25)|(value&0x1FFFFFFu);
 
     return *this;
    }
@@ -6712,12 +6712,12 @@ struct Type_ContextID
 
   Type get_ASID() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_ContextID & set_ASID(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -6725,12 +6725,12 @@ struct Type_ContextID
 
   Type get_PROCID() const
    {
-    return (value>>8)&0xFFFFFF;
+    return (value>>8)&0xFFFFFFu;
    }
  
   Type_ContextID & set_PROCID(Type field)
    {
-    value=((field&0xFFFFFF)<<8)|(value&0xFF);
+    value=((field&0xFFFFFFu)<<8)|(value&0xFFu);
 
     return *this;
    }
@@ -6775,15 +6775,15 @@ struct Type_ContextID
 
 enum Bits_L2CacheAuxControl : uint32
  {
-  L2CacheAuxControl_L2Inner = 0x00010000,
-  L2CacheAuxControl_ECCEN   = 0x00200000,
-  L2CacheAuxControl_NoWA    = 0x00400000,
-  L2CacheAuxControl_NoWAC   = 0x00800000,
-  L2CacheAuxControl_NoWAD   = 0x01000000,
-  L2CacheAuxControl_NoWC    = 0x02000000,
-  L2CacheAuxControl_NoLDF   = 0x08000000,
-  L2CacheAuxControl_ECC     = 0x10000000,
-  L2CacheAuxControl_MS1     = 0x20000000
+  L2CacheAuxControl_L2Inner = 0x00010000u,
+  L2CacheAuxControl_ECCEN   = 0x00200000u,
+  L2CacheAuxControl_NoWA    = 0x00400000u,
+  L2CacheAuxControl_NoWAC   = 0x00800000u,
+  L2CacheAuxControl_NoWAD   = 0x01000000u,
+  L2CacheAuxControl_NoWC    = 0x02000000u,
+  L2CacheAuxControl_NoLDF   = 0x08000000u,
+  L2CacheAuxControl_ECC     = 0x10000000u,
+  L2CacheAuxControl_MS1     = 0x20000000u
  };
  
 inline Bits_L2CacheAuxControl operator | (Bits_L2CacheAuxControl a,Bits_L2CacheAuxControl b)
@@ -6830,12 +6830,12 @@ struct Type_L2CacheAuxControl
 
   Type get_DLat() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_L2CacheAuxControl & set_DLat(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -6843,12 +6843,12 @@ struct Type_L2CacheAuxControl
 
   Type get_TLat() const
    {
-    return (value>>6)&0x7;
+    return (value>>6)&0x7u;
    }
  
   Type_L2CacheAuxControl & set_TLat(Type field)
    {
-    value=((field&0x7)<<6)|(value&0xFFFFFE3F);
+    value=((field&0x7u)<<6)|(value&0xFFFFFE3Fu);
 
     return *this;
    }
@@ -7037,11 +7037,11 @@ struct Type_L2CacheAuxControl
 
 enum Bits_PAROK : uint32
  {
-  PAROK_NOK = 0x00000001,
-  PAROK_SS  = 0x00000002,
-  PAROK_S   = 0x00000080,
-  PAROK_P   = 0x00000100,
-  PAROK_NS  = 0x00000200
+  PAROK_NOK = 0x00000001u,
+  PAROK_SS  = 0x00000002u,
+  PAROK_S   = 0x00000080u,
+  PAROK_P   = 0x00000100u,
+  PAROK_NS  = 0x00000200u
  };
  
 inline Bits_PAROK operator | (Bits_PAROK a,Bits_PAROK b)
@@ -7049,10 +7049,10 @@ inline Bits_PAROK operator | (Bits_PAROK a,Bits_PAROK b)
  
 enum Field_PAROK_Outer : uint32
  {
-  PAROK_Outer_NC   = 0x00,
-  PAROK_Outer_WBWA = 0x01,
-  PAROK_Outer_WT   = 0x02,
-  PAROK_Outer_WB   = 0x03
+  PAROK_Outer_NC   = 0x00u,
+  PAROK_Outer_WBWA = 0x01u,
+  PAROK_Outer_WT   = 0x02u,
+  PAROK_Outer_WB   = 0x03u
  };
  
 struct PrintField_PAROK_Outer
@@ -7066,10 +7066,10 @@ struct PrintField_PAROK_Outer
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NC"); break;
-       case 0x01 : Putobj(out,"WBWA"); break;
-       case 0x02 : Putobj(out,"WT"); break;
-       case 0x03 : Putobj(out,"WB"); break;
+       case 0x00u : Putobj(out,"NC"); break;
+       case 0x01u : Putobj(out,"WBWA"); break;
+       case 0x02u : Putobj(out,"WT"); break;
+       case 0x03u : Putobj(out,"WB"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -7083,12 +7083,12 @@ inline PrintField_PAROK_Outer GetTextDesc(Field_PAROK_Outer field)
  
 enum Field_PAROK_Inner : uint32
  {
-  PAROK_Inner_NC   = 0x00,
-  PAROK_Inner_SO   = 0x01,
-  PAROK_Inner_DEV  = 0x03,
-  PAROK_Inner_WBWA = 0x05,
-  PAROK_Inner_WT   = 0x06,
-  PAROK_Inner_WB   = 0x07
+  PAROK_Inner_NC   = 0x00u,
+  PAROK_Inner_SO   = 0x01u,
+  PAROK_Inner_DEV  = 0x03u,
+  PAROK_Inner_WBWA = 0x05u,
+  PAROK_Inner_WT   = 0x06u,
+  PAROK_Inner_WB   = 0x07u
  };
  
 struct PrintField_PAROK_Inner
@@ -7102,12 +7102,12 @@ struct PrintField_PAROK_Inner
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NC"); break;
-       case 0x01 : Putobj(out,"SO"); break;
-       case 0x03 : Putobj(out,"DEV"); break;
-       case 0x05 : Putobj(out,"WBWA"); break;
-       case 0x06 : Putobj(out,"WT"); break;
-       case 0x07 : Putobj(out,"WB"); break;
+       case 0x00u : Putobj(out,"NC"); break;
+       case 0x01u : Putobj(out,"SO"); break;
+       case 0x03u : Putobj(out,"DEV"); break;
+       case 0x05u : Putobj(out,"WBWA"); break;
+       case 0x06u : Putobj(out,"WT"); break;
+       case 0x07u : Putobj(out,"WB"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -7160,12 +7160,12 @@ struct Type_PAROK
 
   Field_PAROK_Outer get_Outer() const
    {
-    return Field_PAROK_Outer((value>>2)&0x3);
+    return Field_PAROK_Outer((value>>2)&0x3u);
    }
  
   Type_PAROK & set_Outer(Field_PAROK_Outer field)
    {
-    value=((Type(field)&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((Type(field)&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -7173,12 +7173,12 @@ struct Type_PAROK
 
   Field_PAROK_Inner get_Inner() const
    {
-    return Field_PAROK_Inner((value>>4)&0x7);
+    return Field_PAROK_Inner((value>>4)&0x7u);
    }
  
   Type_PAROK & set_Inner(Field_PAROK_Inner field)
    {
-    value=((Type(field)&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((Type(field)&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -7186,12 +7186,12 @@ struct Type_PAROK
 
   Type get_Address() const
    {
-    return (value>>12)&0xFFFFF;
+    return (value>>12)&0xFFFFFu;
    }
  
   Type_PAROK & set_Address(Type field)
    {
-    value=((field&0xFFFFF)<<12)|(value&0xFFF);
+    value=((field&0xFFFFFu)<<12)|(value&0xFFFu);
 
     return *this;
    }
@@ -7329,7 +7329,7 @@ struct Type_PAROK
 
 enum Bits_PARNOK : uint32
  {
-  PARNOK_NOK = 0x00000001
+  PARNOK_NOK = 0x00000001u
  };
  
 inline Bits_PARNOK operator | (Bits_PARNOK a,Bits_PARNOK b)
@@ -7376,12 +7376,12 @@ struct Type_PARNOK
 
   Type get_FSR() const
    {
-    return (value>>1)&0x3F;
+    return (value>>1)&0x3Fu;
    }
  
   Type_PARNOK & set_FSR(Type field)
    {
-    value=((field&0x3F)<<1)|(value&0xFFFFFF81);
+    value=((field&0x3Fu)<<1)|(value&0xFFFFFF81u);
 
     return *this;
    }
@@ -7429,22 +7429,22 @@ struct Type_PARNOK
 
 enum Bits_SectionDesc : uint32
  {
-  SectionDesc_PXN  = 0x00000001,
-  SectionDesc_SBO  = 0x00000002,
-  SectionDesc_B    = 0x00000004,
-  SectionDesc_C    = 0x00000008,
-  SectionDesc_XN   = 0x00000010,
-  SectionDesc_Imp  = 0x00000200,
-  SectionDesc_AP0  = 0x00000400,
-  SectionDesc_AP1  = 0x00000800,
-  SectionDesc_TEX0 = 0x00001000,
-  SectionDesc_TEX1 = 0x00002000,
-  SectionDesc_TEX2 = 0x00004000,
-  SectionDesc_AP2  = 0x00008000,
-  SectionDesc_S    = 0x00010000,
-  SectionDesc_nG   = 0x00020000,
-  SectionDesc_SBZ  = 0x00040000,
-  SectionDesc_NS   = 0x00080000
+  SectionDesc_PXN  = 0x00000001u,
+  SectionDesc_SBO  = 0x00000002u,
+  SectionDesc_B    = 0x00000004u,
+  SectionDesc_C    = 0x00000008u,
+  SectionDesc_XN   = 0x00000010u,
+  SectionDesc_Imp  = 0x00000200u,
+  SectionDesc_AP0  = 0x00000400u,
+  SectionDesc_AP1  = 0x00000800u,
+  SectionDesc_TEX0 = 0x00001000u,
+  SectionDesc_TEX1 = 0x00002000u,
+  SectionDesc_TEX2 = 0x00004000u,
+  SectionDesc_AP2  = 0x00008000u,
+  SectionDesc_S    = 0x00010000u,
+  SectionDesc_nG   = 0x00020000u,
+  SectionDesc_SBZ  = 0x00040000u,
+  SectionDesc_NS   = 0x00080000u
  };
  
 inline Bits_SectionDesc operator | (Bits_SectionDesc a,Bits_SectionDesc b)
@@ -7491,12 +7491,12 @@ struct Type_SectionDesc
 
   Type get_Domain() const
    {
-    return (value>>5)&0xF;
+    return (value>>5)&0xFu;
    }
  
   Type_SectionDesc & set_Domain(Type field)
    {
-    value=((field&0xF)<<5)|(value&0xFFFFFE1F);
+    value=((field&0xFu)<<5)|(value&0xFFFFFE1Fu);
 
     return *this;
    }
@@ -7504,12 +7504,12 @@ struct Type_SectionDesc
 
   Type get_Base() const
    {
-    return (value>>20)&0xFFF;
+    return (value>>20)&0xFFFu;
    }
  
   Type_SectionDesc & set_Base(Type field)
    {
-    value=((field&0xFFF)<<20)|(value&0xFFFFF);
+    value=((field&0xFFFu)<<20)|(value&0xFFFFFu);
 
     return *this;
    }

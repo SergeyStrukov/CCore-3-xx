@@ -4,10 +4,10 @@
 
 enum Bits_SwitchControl : uint32
  {
-  SwitchControl_FIFOLoopback = 0x00000001,
-  SwitchControl_VLANAware    = 0x00000002,
-  SwitchControl_Port0VLAN    = 0x00000004,
-  SwitchControl_DLREnable    = 0x00000008
+  SwitchControl_FIFOLoopback = 0x00000001u,
+  SwitchControl_VLANAware    = 0x00000002u,
+  SwitchControl_Port0VLAN    = 0x00000004u,
+  SwitchControl_DLREnable    = 0x00000008u
  };
  
 inline Bits_SwitchControl operator | (Bits_SwitchControl a,Bits_SwitchControl b)
@@ -129,7 +129,7 @@ struct Type_SwitchControl
 
 enum Bits_SwitchSoftReset : uint32
  {
-  SwitchSoftReset_Reset = 0x00000001
+  SwitchSoftReset_Reset = 0x00000001u
  };
  
 inline Bits_SwitchSoftReset operator | (Bits_SwitchSoftReset a,Bits_SwitchSoftReset b)
@@ -203,9 +203,9 @@ struct Type_SwitchSoftReset
 
 enum Bits_SwitchStatPort : uint32
  {
-  SwitchStatPort_Port0Enable = 0x00000001,
-  SwitchStatPort_Port1Enable = 0x00000002,
-  SwitchStatPort_Port2Enable = 0x00000004
+  SwitchStatPort_Port0Enable = 0x00000001u,
+  SwitchStatPort_Port1Enable = 0x00000002u,
+  SwitchStatPort_Port2Enable = 0x00000004u
  };
  
 inline Bits_SwitchStatPort operator | (Bits_SwitchStatPort a,Bits_SwitchStatPort b)
@@ -311,15 +311,15 @@ struct Type_SwitchStatPort
 
 enum Bits_SwitchTxPriType : uint32
  {
-  SwitchTxPriType_Port0Escalate  = 0x00000100,
-  SwitchTxPriType_Port1Escalate  = 0x00000200,
-  SwitchTxPriType_Port2Escalate  = 0x00000400,
-  SwitchTxPriType_Port1Pri1Shape = 0x00010000,
-  SwitchTxPriType_Port1Pri2Shape = 0x00020000,
-  SwitchTxPriType_Port1Pri3Shape = 0x00040000,
-  SwitchTxPriType_Port2Pri1Shape = 0x00080000,
-  SwitchTxPriType_Port2Pri2Shape = 0x00100000,
-  SwitchTxPriType_Port2Pri3Shape = 0x00200000
+  SwitchTxPriType_Port0Escalate  = 0x00000100u,
+  SwitchTxPriType_Port1Escalate  = 0x00000200u,
+  SwitchTxPriType_Port2Escalate  = 0x00000400u,
+  SwitchTxPriType_Port1Pri1Shape = 0x00010000u,
+  SwitchTxPriType_Port1Pri2Shape = 0x00020000u,
+  SwitchTxPriType_Port1Pri3Shape = 0x00040000u,
+  SwitchTxPriType_Port2Pri1Shape = 0x00080000u,
+  SwitchTxPriType_Port2Pri2Shape = 0x00100000u,
+  SwitchTxPriType_Port2Pri3Shape = 0x00200000u
  };
  
 inline Bits_SwitchTxPriType operator | (Bits_SwitchTxPriType a,Bits_SwitchTxPriType b)
@@ -366,12 +366,12 @@ struct Type_SwitchTxPriType
 
   Type get_EscalateCount() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_SwitchTxPriType & set_EscalateCount(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -547,7 +547,7 @@ struct Type_SwitchTxPriType
 
 enum Bits_SwitchCmdIdle : uint32
  {
-  SwitchCmdIdle_CmdIdle = 0x00000001
+  SwitchCmdIdle_CmdIdle = 0x00000001u
  };
  
 inline Bits_SwitchCmdIdle operator | (Bits_SwitchCmdIdle a,Bits_SwitchCmdIdle b)
@@ -647,12 +647,12 @@ struct Type_SwitchRate
 
   Type get_Host() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_SwitchRate & set_Host(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -660,12 +660,12 @@ struct Type_SwitchRate
 
   Type get_Sliver() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_SwitchRate & set_Sliver(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -736,12 +736,12 @@ struct Type_SwitchTxShortGap
 
   Type get_Thresh() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_SwitchTxShortGap & set_Thresh(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -799,12 +799,12 @@ struct Type_SwitchTxStart
 
   Type get_Len() const
    {
-    return (value>>0)&0x7FF;
+    return (value>>0)&0x7FFu;
    }
  
   Type_SwitchTxStart & set_Len(Type field)
    {
-    value=((field&0x7FF)<<0)|(value&0xFFFFF800);
+    value=((field&0x7FFu)<<0)|(value&0xFFFFF800u);
 
     return *this;
    }
@@ -836,9 +836,9 @@ struct Type_SwitchTxStart
 
 enum Bits_SwitchRxFlowControl : uint32
  {
-  SwitchRxFlowControl_Port0Enable = 0x00000001,
-  SwitchRxFlowControl_Port1Enable = 0x00000002,
-  SwitchRxFlowControl_Port2Enable = 0x00000004
+  SwitchRxFlowControl_Port0Enable = 0x00000001u,
+  SwitchRxFlowControl_Port1Enable = 0x00000002u,
+  SwitchRxFlowControl_Port2Enable = 0x00000004u
  };
  
 inline Bits_SwitchRxFlowControl operator | (Bits_SwitchRxFlowControl a,Bits_SwitchRxFlowControl b)
@@ -970,12 +970,12 @@ struct Type_SwitchLType
 
   Type get_LType1() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_SwitchLType & set_LType1(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -983,12 +983,12 @@ struct Type_SwitchLType
 
   Type get_LType2() const
    {
-    return (value>>16)&0xFFFF;
+    return (value>>16)&0xFFFFu;
    }
  
   Type_SwitchLType & set_LType2(Type field)
    {
-    value=((field&0xFFFF)<<16)|(value&0xFFFF);
+    value=((field&0xFFFFu)<<16)|(value&0xFFFFu);
 
     return *this;
    }
@@ -1059,12 +1059,12 @@ struct Type_SwitchTSLType
 
   Type get_LType1() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_SwitchTSLType & set_LType1(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -1072,12 +1072,12 @@ struct Type_SwitchTSLType
 
   Type get_LType2() const
    {
-    return (value>>16)&0x3F;
+    return (value>>16)&0x3Fu;
    }
  
   Type_SwitchTSLType & set_LType2(Type field)
    {
-    value=((field&0x3F)<<16)|(value&0xFFC0FFFF);
+    value=((field&0x3Fu)<<16)|(value&0xFFC0FFFFu);
 
     return *this;
    }
@@ -1148,12 +1148,12 @@ struct Type_SwitchDLRLType
 
   Type get_LType() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_SwitchDLRLType & set_LType(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -1185,22 +1185,22 @@ struct Type_SwitchDLRLType
 
 enum Bits_PortControl : uint32
  {
-  PortControl_RxTimeSyncEnable     = 0x00000001,
-  PortControl_TxTimeSyncEnable     = 0x00000002,
-  PortControl_LType1TimeSyncEnable = 0x00000004,
-  PortControl_LType2TimeSyncEnable = 0x00000008,
-  PortControl_AnnexDTimeSyncEnable = 0x00000010,
-  PortControl_TTLTimeSyncEnable    = 0x00000100,
-  PortControl_UDP129TimeSyncEnable = 0x00000200,
-  PortControl_UDP130TimeSyncEnable = 0x00000400,
-  PortControl_UDP131TimeSyncEnable = 0x00000800,
-  PortControl_UDP132TimeSyncEnable = 0x00001000,
-  PortControl_UDP319TimeSyncEnable = 0x00002000,
-  PortControl_UDP320TimeSyncEnable = 0x00004000,
-  PortControl_TOSPriEnable         = 0x00010000,
-  PortControl_VLAN_LType1Enable    = 0x00100000,
-  PortControl_VLAN_LType2Enable    = 0x00200000,
-  PortControl_VLAN_PassPri         = 0x01000000
+  PortControl_RxTimeSyncEnable     = 0x00000001u,
+  PortControl_TxTimeSyncEnable     = 0x00000002u,
+  PortControl_LType1TimeSyncEnable = 0x00000004u,
+  PortControl_LType2TimeSyncEnable = 0x00000008u,
+  PortControl_AnnexDTimeSyncEnable = 0x00000010u,
+  PortControl_TTLTimeSyncEnable    = 0x00000100u,
+  PortControl_UDP129TimeSyncEnable = 0x00000200u,
+  PortControl_UDP130TimeSyncEnable = 0x00000400u,
+  PortControl_UDP131TimeSyncEnable = 0x00000800u,
+  PortControl_UDP132TimeSyncEnable = 0x00001000u,
+  PortControl_UDP319TimeSyncEnable = 0x00002000u,
+  PortControl_UDP320TimeSyncEnable = 0x00004000u,
+  PortControl_TOSPriEnable         = 0x00010000u,
+  PortControl_VLAN_LType1Enable    = 0x00100000u,
+  PortControl_VLAN_LType2Enable    = 0x00200000u,
+  PortControl_VLAN_PassPri         = 0x01000000u
  };
  
 inline Bits_PortControl operator | (Bits_PortControl a,Bits_PortControl b)
@@ -1247,12 +1247,12 @@ struct Type_PortControl
 
   Type get_DLRChan() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortControl & set_DLRChan(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -1540,8 +1540,8 @@ struct Type_PortControl
 
 enum Field_PortFIFOLen_RxLen : uint32
  {
-  PortFIFOLen_RxLen_Default0 = 0x04,
-  PortFIFOLen_RxLen_Default  = 0x03
+  PortFIFOLen_RxLen_Default0 = 0x04u,
+  PortFIFOLen_RxLen_Default  = 0x03u
  };
  
 struct PrintField_PortFIFOLen_RxLen
@@ -1555,8 +1555,8 @@ struct PrintField_PortFIFOLen_RxLen
    {
     switch( field )
       {
-       case 0x04 : Putobj(out,"Default0"); break;
-       case 0x03 : Putobj(out,"Default"); break;
+       case 0x04u : Putobj(out,"Default0"); break;
+       case 0x03u : Putobj(out,"Default"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1570,8 +1570,8 @@ inline PrintField_PortFIFOLen_RxLen GetTextDesc(Field_PortFIFOLen_RxLen field)
  
 enum Field_PortFIFOLen_TxLen : uint32
  {
-  PortFIFOLen_TxLen_Default0 = 0x10,
-  PortFIFOLen_TxLen_Default  = 0x11
+  PortFIFOLen_TxLen_Default0 = 0x10u,
+  PortFIFOLen_TxLen_Default  = 0x11u
  };
  
 struct PrintField_PortFIFOLen_TxLen
@@ -1585,8 +1585,8 @@ struct PrintField_PortFIFOLen_TxLen
    {
     switch( field )
       {
-       case 0x10 : Putobj(out,"Default0"); break;
-       case 0x11 : Putobj(out,"Default"); break;
+       case 0x10u : Putobj(out,"Default0"); break;
+       case 0x11u : Putobj(out,"Default"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1626,12 +1626,12 @@ struct Type_PortFIFOLen
 
   Field_PortFIFOLen_RxLen get_RxLen() const
    {
-    return Field_PortFIFOLen_RxLen((value>>0)&0xF);
+    return Field_PortFIFOLen_RxLen((value>>0)&0xFu);
    }
  
   Type_PortFIFOLen & set_RxLen(Field_PortFIFOLen_RxLen field)
    {
-    value=((Type(field)&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((Type(field)&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1639,12 +1639,12 @@ struct Type_PortFIFOLen
 
   Field_PortFIFOLen_TxLen get_TxLen() const
    {
-    return Field_PortFIFOLen_TxLen((value>>4)&0x1F);
+    return Field_PortFIFOLen_TxLen((value>>4)&0x1Fu);
    }
  
   Type_PortFIFOLen & set_TxLen(Field_PortFIFOLen_TxLen field)
    {
-    value=((Type(field)&0x1F)<<4)|(value&0xFFFFFE0F);
+    value=((Type(field)&0x1Fu)<<4)|(value&0xFFFFFE0Fu);
 
     return *this;
    }
@@ -1715,12 +1715,12 @@ struct Type_PortFIFOUse
 
   Type get_RxUse() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_PortFIFOUse & set_RxUse(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -1728,12 +1728,12 @@ struct Type_PortFIFOUse
 
   Type get_TxUse() const
    {
-    return (value>>4)&0x1F;
+    return (value>>4)&0x1Fu;
    }
  
   Type_PortFIFOUse & set_TxUse(Type field)
    {
-    value=((field&0x1F)<<4)|(value&0xFFFFFE0F);
+    value=((field&0x1Fu)<<4)|(value&0xFFFFFE0Fu);
 
     return *this;
    }
@@ -1778,9 +1778,9 @@ struct Type_PortFIFOUse
 
 enum Field_PortTxFIFOControl_Mode : uint32
  {
-  PortTxFIFOControl_Mode_Normal  = 0x00,
-  PortTxFIFOControl_Mode_DualMAC = 0x01,
-  PortTxFIFOControl_Mode_RateLim = 0x02
+  PortTxFIFOControl_Mode_Normal  = 0x00u,
+  PortTxFIFOControl_Mode_DualMAC = 0x01u,
+  PortTxFIFOControl_Mode_RateLim = 0x02u
  };
  
 struct PrintField_PortTxFIFOControl_Mode
@@ -1794,9 +1794,9 @@ struct PrintField_PortTxFIFOControl_Mode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Normal"); break;
-       case 0x01 : Putobj(out,"DualMAC"); break;
-       case 0x02 : Putobj(out,"RateLim"); break;
+       case 0x00u : Putobj(out,"Normal"); break;
+       case 0x01u : Putobj(out,"DualMAC"); break;
+       case 0x02u : Putobj(out,"RateLim"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -1836,12 +1836,12 @@ struct Type_PortTxFIFOControl
 
   Type get_WordLen() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_PortTxFIFOControl & set_WordLen(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -1849,12 +1849,12 @@ struct Type_PortTxFIFOControl
 
   Type get_Rem() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_PortTxFIFOControl & set_Rem(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -1862,12 +1862,12 @@ struct Type_PortTxFIFOControl
 
   Field_PortTxFIFOControl_Mode get_Mode() const
    {
-    return Field_PortTxFIFOControl_Mode((value>>16)&0x3);
+    return Field_PortTxFIFOControl_Mode((value>>16)&0x3u);
    }
  
   Type_PortTxFIFOControl & set_Mode(Field_PortTxFIFOControl_Mode field)
    {
-    value=((Type(field)&0x3)<<16)|(value&0xFFFCFFFF);
+    value=((Type(field)&0x3u)<<16)|(value&0xFFFCFFFFu);
 
     return *this;
    }
@@ -1875,12 +1875,12 @@ struct Type_PortTxFIFOControl
 
   Type get_Rate() const
    {
-    return (value>>20)&0xF;
+    return (value>>20)&0xFu;
    }
  
   Type_PortTxFIFOControl & set_Rate(Type field)
    {
-    value=((field&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((field&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -1888,12 +1888,12 @@ struct Type_PortTxFIFOControl
 
   Type get_HostRem() const
    {
-    return (value>>24)&0xF;
+    return (value>>24)&0xFu;
    }
  
   Type_PortTxFIFOControl & set_HostRem(Type field)
    {
-    value=((field&0xF)<<24)|(value&0xF0FFFFFF);
+    value=((field&0xFu)<<24)|(value&0xF0FFFFFFu);
 
     return *this;
    }
@@ -1977,7 +1977,7 @@ struct Type_PortTxFIFOControl
 
 enum Bits_PortVLANControl : uint32
  {
-  PortVLANControl_CFI = 0x00001000
+  PortVLANControl_CFI = 0x00001000u
  };
  
 inline Bits_PortVLANControl operator | (Bits_PortVLANControl a,Bits_PortVLANControl b)
@@ -2024,12 +2024,12 @@ struct Type_PortVLANControl
 
   Type get_VID() const
    {
-    return (value>>0)&0xFFF;
+    return (value>>0)&0xFFFu;
    }
  
   Type_PortVLANControl & set_VID(Type field)
    {
-    value=((field&0xFFF)<<0)|(value&0xFFFFF000);
+    value=((field&0xFFFu)<<0)|(value&0xFFFFF000u);
 
     return *this;
    }
@@ -2037,12 +2037,12 @@ struct Type_PortVLANControl
 
   Type get_Pri() const
    {
-    return (value>>13)&0x7;
+    return (value>>13)&0x7u;
    }
  
   Type_PortVLANControl & set_Pri(Type field)
    {
-    value=((field&0x7)<<13)|(value&0xFFFF1FFF);
+    value=((field&0x7u)<<13)|(value&0xFFFF1FFFu);
 
     return *this;
    }
@@ -2129,12 +2129,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri0() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri0(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -2142,12 +2142,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri1() const
    {
-    return (value>>4)&0x3;
+    return (value>>4)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri1(Type field)
    {
-    value=((field&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((field&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -2155,12 +2155,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri2() const
    {
-    return (value>>8)&0x3;
+    return (value>>8)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri2(Type field)
    {
-    value=((field&0x3)<<8)|(value&0xFFFFFCFF);
+    value=((field&0x3u)<<8)|(value&0xFFFFFCFFu);
 
     return *this;
    }
@@ -2168,12 +2168,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri3() const
    {
-    return (value>>12)&0x3;
+    return (value>>12)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri3(Type field)
    {
-    value=((field&0x3)<<12)|(value&0xFFFFCFFF);
+    value=((field&0x3u)<<12)|(value&0xFFFFCFFFu);
 
     return *this;
    }
@@ -2181,12 +2181,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri4() const
    {
-    return (value>>16)&0x3;
+    return (value>>16)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri4(Type field)
    {
-    value=((field&0x3)<<16)|(value&0xFFFCFFFF);
+    value=((field&0x3u)<<16)|(value&0xFFFCFFFFu);
 
     return *this;
    }
@@ -2194,12 +2194,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri5() const
    {
-    return (value>>20)&0x3;
+    return (value>>20)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri5(Type field)
    {
-    value=((field&0x3)<<20)|(value&0xFFCFFFFF);
+    value=((field&0x3u)<<20)|(value&0xFFCFFFFFu);
 
     return *this;
    }
@@ -2207,12 +2207,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri6() const
    {
-    return (value>>24)&0x3;
+    return (value>>24)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri6(Type field)
    {
-    value=((field&0x3)<<24)|(value&0xFCFFFFFF);
+    value=((field&0x3u)<<24)|(value&0xFCFFFFFFu);
 
     return *this;
    }
@@ -2220,12 +2220,12 @@ struct Type_PortTxPriMap
 
   Type get_Pri7() const
    {
-    return (value>>28)&0x3;
+    return (value>>28)&0x3u;
    }
  
   Type_PortTxPriMap & set_Pri7(Type field)
    {
-    value=((field&0x3)<<28)|(value&0xCFFFFFFF);
+    value=((field&0x3u)<<28)|(value&0xCFFFFFFFu);
 
     return *this;
    }
@@ -2374,12 +2374,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri0() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri0(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -2387,12 +2387,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri1() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri1(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -2400,12 +2400,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri2() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri2(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -2413,12 +2413,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri3() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri3(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -2426,12 +2426,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri4() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri4(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -2439,12 +2439,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri5() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri5(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -2452,12 +2452,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri6() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri6(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -2465,12 +2465,12 @@ struct Type_PortTxDMAPriMap
 
   Type get_Pri7() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTxDMAPriMap & set_Pri7(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -2619,12 +2619,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P1Pri0() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P1Pri0(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -2632,12 +2632,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P1Pri1() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P1Pri1(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -2645,12 +2645,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P1Pri2() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P1Pri2(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -2658,12 +2658,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P1Pri3() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P1Pri3(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -2671,12 +2671,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P2Pri0() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P2Pri0(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -2684,12 +2684,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P2Pri1() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P2Pri1(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -2697,12 +2697,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P2Pri2() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P2Pri2(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -2710,12 +2710,12 @@ struct Type_PortRxDMAPriMap
 
   Type get_P2Pri3() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortRxDMAPriMap & set_P2Pri3(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -2864,12 +2864,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri0() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri0(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -2877,12 +2877,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri1() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri1(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -2890,12 +2890,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri2() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri2(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -2903,12 +2903,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri3() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri3(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -2916,12 +2916,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri4() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri4(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -2929,12 +2929,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri5() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri5(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -2942,12 +2942,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri6() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri6(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -2955,12 +2955,12 @@ struct Type_PortTOSPriMap0
 
   Type get_Pri7() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap0 & set_Pri7(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -3109,12 +3109,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri8() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri8(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3122,12 +3122,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri9() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri9(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -3135,12 +3135,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri10() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri10(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -3148,12 +3148,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri11() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri11(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -3161,12 +3161,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri12() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri12(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -3174,12 +3174,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri13() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri13(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -3187,12 +3187,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri14() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri14(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -3200,12 +3200,12 @@ struct Type_PortTOSPriMap1
 
   Type get_Pri15() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap1 & set_Pri15(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -3354,12 +3354,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri16() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri16(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3367,12 +3367,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri17() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri17(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -3380,12 +3380,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri18() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri18(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -3393,12 +3393,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri19() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri19(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -3406,12 +3406,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri20() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri20(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -3419,12 +3419,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri21() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri21(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -3432,12 +3432,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri22() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri22(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -3445,12 +3445,12 @@ struct Type_PortTOSPriMap2
 
   Type get_Pri23() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap2 & set_Pri23(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -3599,12 +3599,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri24() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri24(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3612,12 +3612,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri25() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri25(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -3625,12 +3625,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri26() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri26(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -3638,12 +3638,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri27() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri27(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -3651,12 +3651,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri28() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri28(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -3664,12 +3664,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri29() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri29(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -3677,12 +3677,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri30() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri30(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -3690,12 +3690,12 @@ struct Type_PortTOSPriMap3
 
   Type get_Pri31() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap3 & set_Pri31(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -3844,12 +3844,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri32() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri32(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3857,12 +3857,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri33() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri33(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -3870,12 +3870,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri34() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri34(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -3883,12 +3883,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri35() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri35(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -3896,12 +3896,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri36() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri36(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -3909,12 +3909,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri37() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri37(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -3922,12 +3922,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri38() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri38(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -3935,12 +3935,12 @@ struct Type_PortTOSPriMap4
 
   Type get_Pri39() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap4 & set_Pri39(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -4089,12 +4089,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri40() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri40(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -4102,12 +4102,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri41() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri41(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -4115,12 +4115,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri42() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri42(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -4128,12 +4128,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri43() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri43(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -4141,12 +4141,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri44() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri44(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -4154,12 +4154,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri45() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri45(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -4167,12 +4167,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri46() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri46(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -4180,12 +4180,12 @@ struct Type_PortTOSPriMap5
 
   Type get_Pri47() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap5 & set_Pri47(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -4334,12 +4334,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri48() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri48(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -4347,12 +4347,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri49() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri49(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -4360,12 +4360,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri50() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri50(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -4373,12 +4373,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri51() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri51(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -4386,12 +4386,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri52() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri52(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -4399,12 +4399,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri53() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri53(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -4412,12 +4412,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri54() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri54(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -4425,12 +4425,12 @@ struct Type_PortTOSPriMap6
 
   Type get_Pri55() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap6 & set_Pri55(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -4579,12 +4579,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri56() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri56(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -4592,12 +4592,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri57() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri57(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -4605,12 +4605,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri58() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri58(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -4618,12 +4618,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri59() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri59(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -4631,12 +4631,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri60() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri60(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -4644,12 +4644,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri61() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri61(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -4657,12 +4657,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri62() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri62(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -4670,12 +4670,12 @@ struct Type_PortTOSPriMap7
 
   Type get_Pri63() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_PortTOSPriMap7 & set_Pri63(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -4824,12 +4824,12 @@ struct Type_PortTimeSync
 
   Type get_MsgTypeMask() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_PortTimeSync & set_MsgTypeMask(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -4837,12 +4837,12 @@ struct Type_PortTimeSync
 
   Type get_SyncFieldOffset() const
    {
-    return (value>>16)&0x3F;
+    return (value>>16)&0x3Fu;
    }
  
   Type_PortTimeSync & set_SyncFieldOffset(Type field)
    {
-    value=((field&0x3F)<<16)|(value&0xFFC0FFFF);
+    value=((field&0x3Fu)<<16)|(value&0xFFC0FFFFu);
 
     return *this;
    }
@@ -4913,12 +4913,12 @@ struct Type_PortMACHi
 
   Type get_Byte1() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_PortMACHi & set_Byte1(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -4926,12 +4926,12 @@ struct Type_PortMACHi
 
   Type get_Byte0() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_PortMACHi & set_Byte0(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -5002,12 +5002,12 @@ struct Type_PortMACLo
 
   Type get_Byte5() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_PortMACLo & set_Byte5(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -5015,12 +5015,12 @@ struct Type_PortMACLo
 
   Type get_Byte4() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_PortMACLo & set_Byte4(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -5028,12 +5028,12 @@ struct Type_PortMACLo
 
   Type get_Byte3() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_PortMACLo & set_Byte3(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -5041,12 +5041,12 @@ struct Type_PortMACLo
 
   Type get_Byte2() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_PortMACLo & set_Byte2(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -5143,12 +5143,12 @@ struct Type_PortSendPercent
 
   Type get_Pri1() const
    {
-    return (value>>0)&0x7F;
+    return (value>>0)&0x7Fu;
    }
  
   Type_PortSendPercent & set_Pri1(Type field)
    {
-    value=((field&0x7F)<<0)|(value&0xFFFFFF80);
+    value=((field&0x7Fu)<<0)|(value&0xFFFFFF80u);
 
     return *this;
    }
@@ -5156,12 +5156,12 @@ struct Type_PortSendPercent
 
   Type get_Pri2() const
    {
-    return (value>>8)&0x7F;
+    return (value>>8)&0x7Fu;
    }
  
   Type_PortSendPercent & set_Pri2(Type field)
    {
-    value=((field&0x7F)<<8)|(value&0xFFFF80FF);
+    value=((field&0x7Fu)<<8)|(value&0xFFFF80FFu);
 
     return *this;
    }
@@ -5169,12 +5169,12 @@ struct Type_PortSendPercent
 
   Type get_Pri3() const
    {
-    return (value>>16)&0x7F;
+    return (value>>16)&0x7Fu;
    }
  
   Type_PortSendPercent & set_Pri3(Type field)
    {
-    value=((field&0x7F)<<16)|(value&0xFF80FFFF);
+    value=((field&0x7Fu)<<16)|(value&0xFF80FFFFu);
 
     return *this;
    }
@@ -5232,7 +5232,7 @@ struct Type_PortSendPercent
 
 enum Bits_DMATxControl : uint32
  {
-  DMATxControl_Enable = 0x00000001
+  DMATxControl_Enable = 0x00000001u
  };
  
 inline Bits_DMATxControl operator | (Bits_DMATxControl a,Bits_DMATxControl b)
@@ -5332,12 +5332,12 @@ struct Type_DMATxTeardown
 
   Type get_Chan() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_DMATxTeardown & set_Chan(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -5369,7 +5369,7 @@ struct Type_DMATxTeardown
 
 enum Bits_DMARxControl : uint32
  {
-  DMARxControl_Enable = 0x00000001
+  DMARxControl_Enable = 0x00000001u
  };
  
 inline Bits_DMARxControl operator | (Bits_DMARxControl a,Bits_DMARxControl b)
@@ -5469,12 +5469,12 @@ struct Type_DMARxTeardown
 
   Type get_Chan() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_DMARxTeardown & set_Chan(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -5506,7 +5506,7 @@ struct Type_DMARxTeardown
 
 enum Bits_DMASoftReset : uint32
  {
-  DMASoftReset_Reset = 0x00000001
+  DMASoftReset_Reset = 0x00000001u
  };
  
 inline Bits_DMASoftReset operator | (Bits_DMASoftReset a,Bits_DMASoftReset b)
@@ -5580,19 +5580,19 @@ struct Type_DMASoftReset
 
 enum Bits_DMAControl : uint32
  {
-  DMAControl_UsePri        = 0x00000001,
-  DMAControl_RxSetOwnBit   = 0x00000002,
-  DMAControl_RxOfflenBlock = 0x00000004,
-  DMAControl_CmdIdle       = 0x00000008,
-  DMAControl_RxCopyOverrun = 0x00000010,
-  DMAControl_Tx0RateLim    = 0x00000100,
-  DMAControl_Tx1RateLim    = 0x00000200,
-  DMAControl_Tx2RateLim    = 0x00000400,
-  DMAControl_Tx3RateLim    = 0x00000800,
-  DMAControl_Tx4RateLim    = 0x00001000,
-  DMAControl_Tx5RateLim    = 0x00002000,
-  DMAControl_Tx6RateLim    = 0x00004000,
-  DMAControl_Tx7RateLim    = 0x00008000
+  DMAControl_UsePri        = 0x00000001u,
+  DMAControl_RxSetOwnBit   = 0x00000002u,
+  DMAControl_RxOfflenBlock = 0x00000004u,
+  DMAControl_CmdIdle       = 0x00000008u,
+  DMAControl_RxCopyOverrun = 0x00000010u,
+  DMAControl_Tx0RateLim    = 0x00000100u,
+  DMAControl_Tx1RateLim    = 0x00000200u,
+  DMAControl_Tx2RateLim    = 0x00000400u,
+  DMAControl_Tx3RateLim    = 0x00000800u,
+  DMAControl_Tx4RateLim    = 0x00001000u,
+  DMAControl_Tx5RateLim    = 0x00002000u,
+  DMAControl_Tx6RateLim    = 0x00004000u,
+  DMAControl_Tx7RateLim    = 0x00008000u
  };
  
 inline Bits_DMAControl operator | (Bits_DMAControl a,Bits_DMAControl b)
@@ -5858,7 +5858,7 @@ struct Type_DMAControl
 
 enum Bits_DMAStatus : uint32
  {
-  DMAStatus_Idle = 0x80000000
+  DMAStatus_Idle = 0x80000000u
  };
  
 inline Bits_DMAStatus operator | (Bits_DMAStatus a,Bits_DMAStatus b)
@@ -5866,11 +5866,11 @@ inline Bits_DMAStatus operator | (Bits_DMAStatus a,Bits_DMAStatus b)
  
 enum Field_DMAStatus_RxErrorCode : uint32
  {
-  DMAStatus_RxErrorCode_NoError    = 0x00,
-  DMAStatus_RxErrorCode_NoOwnBit   = 0x02,
-  DMAStatus_RxErrorCode_NullBuf    = 0x04,
-  DMAStatus_RxErrorCode_NullBufLen = 0x05,
-  DMAStatus_RxErrorCode_BadOffset  = 0x06
+  DMAStatus_RxErrorCode_NoError    = 0x00u,
+  DMAStatus_RxErrorCode_NoOwnBit   = 0x02u,
+  DMAStatus_RxErrorCode_NullBuf    = 0x04u,
+  DMAStatus_RxErrorCode_NullBufLen = 0x05u,
+  DMAStatus_RxErrorCode_BadOffset  = 0x06u
  };
  
 struct PrintField_DMAStatus_RxErrorCode
@@ -5884,11 +5884,11 @@ struct PrintField_DMAStatus_RxErrorCode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoError"); break;
-       case 0x02 : Putobj(out,"NoOwnBit"); break;
-       case 0x04 : Putobj(out,"NullBuf"); break;
-       case 0x05 : Putobj(out,"NullBufLen"); break;
-       case 0x06 : Putobj(out,"BadOffset"); break;
+       case 0x00u : Putobj(out,"NoError"); break;
+       case 0x02u : Putobj(out,"NoOwnBit"); break;
+       case 0x04u : Putobj(out,"NullBuf"); break;
+       case 0x05u : Putobj(out,"NullBufLen"); break;
+       case 0x06u : Putobj(out,"BadOffset"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5902,13 +5902,13 @@ inline PrintField_DMAStatus_RxErrorCode GetTextDesc(Field_DMAStatus_RxErrorCode 
  
 enum Field_DMAStatus_TxErrorCode : uint32
  {
-  DMAStatus_TxErrorCode_NoError      = 0x00,
-  DMAStatus_TxErrorCode_SOPError     = 0x01,
-  DMAStatus_TxErrorCode_NoOwnBit     = 0x02,
-  DMAStatus_TxErrorCode_NullNextBuf  = 0x03,
-  DMAStatus_TxErrorCode_NullBuf      = 0x04,
-  DMAStatus_TxErrorCode_NullBufLen   = 0x05,
-  DMAStatus_TxErrorCode_BadPacketLen = 0x06
+  DMAStatus_TxErrorCode_NoError      = 0x00u,
+  DMAStatus_TxErrorCode_SOPError     = 0x01u,
+  DMAStatus_TxErrorCode_NoOwnBit     = 0x02u,
+  DMAStatus_TxErrorCode_NullNextBuf  = 0x03u,
+  DMAStatus_TxErrorCode_NullBuf      = 0x04u,
+  DMAStatus_TxErrorCode_NullBufLen   = 0x05u,
+  DMAStatus_TxErrorCode_BadPacketLen = 0x06u
  };
  
 struct PrintField_DMAStatus_TxErrorCode
@@ -5922,13 +5922,13 @@ struct PrintField_DMAStatus_TxErrorCode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"NoError"); break;
-       case 0x01 : Putobj(out,"SOPError"); break;
-       case 0x02 : Putobj(out,"NoOwnBit"); break;
-       case 0x03 : Putobj(out,"NullNextBuf"); break;
-       case 0x04 : Putobj(out,"NullBuf"); break;
-       case 0x05 : Putobj(out,"NullBufLen"); break;
-       case 0x06 : Putobj(out,"BadPacketLen"); break;
+       case 0x00u : Putobj(out,"NoError"); break;
+       case 0x01u : Putobj(out,"SOPError"); break;
+       case 0x02u : Putobj(out,"NoOwnBit"); break;
+       case 0x03u : Putobj(out,"NullNextBuf"); break;
+       case 0x04u : Putobj(out,"NullBuf"); break;
+       case 0x05u : Putobj(out,"NullBufLen"); break;
+       case 0x06u : Putobj(out,"BadPacketLen"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -5981,12 +5981,12 @@ struct Type_DMAStatus
 
   Type get_RxErrorChan() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_DMAStatus & set_RxErrorChan(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -5994,12 +5994,12 @@ struct Type_DMAStatus
 
   Field_DMAStatus_RxErrorCode get_RxErrorCode() const
    {
-    return Field_DMAStatus_RxErrorCode((value>>12)&0xF);
+    return Field_DMAStatus_RxErrorCode((value>>12)&0xFu);
    }
  
   Type_DMAStatus & set_RxErrorCode(Field_DMAStatus_RxErrorCode field)
    {
-    value=((Type(field)&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((Type(field)&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -6007,12 +6007,12 @@ struct Type_DMAStatus
 
   Type get_TxErrorChan() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_DMAStatus & set_TxErrorChan(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -6020,12 +6020,12 @@ struct Type_DMAStatus
 
   Field_DMAStatus_TxErrorCode get_TxErrorCode() const
    {
-    return Field_DMAStatus_TxErrorCode((value>>20)&0xF);
+    return Field_DMAStatus_TxErrorCode((value>>20)&0xFu);
    }
  
   Type_DMAStatus & set_TxErrorCode(Field_DMAStatus_TxErrorCode field)
    {
-    value=((Type(field)&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((Type(field)&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -6138,12 +6138,12 @@ struct Type_DMARxOffset
 
   Type get_Offset() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_DMARxOffset & set_Offset(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -6175,8 +6175,8 @@ struct Type_DMARxOffset
 
 enum Bits_DMAEMControl : uint32
  {
-  DMAEMControl_Free = 0x00000001,
-  DMAEMControl_Soft = 0x00000002
+  DMAEMControl_Free = 0x00000001u,
+  DMAEMControl_Soft = 0x00000002u
  };
  
 inline Bits_DMAEMControl operator | (Bits_DMAEMControl a,Bits_DMAEMControl b)
@@ -6292,12 +6292,12 @@ struct Type_DMARateControl
 
   Type get_SendCount() const
    {
-    return (value>>0)&0x3FFF;
+    return (value>>0)&0x3FFFu;
    }
  
   Type_DMARateControl & set_SendCount(Type field)
    {
-    value=((field&0x3FFF)<<0)|(value&0xFFFFC000);
+    value=((field&0x3FFFu)<<0)|(value&0xFFFFC000u);
 
     return *this;
    }
@@ -6305,12 +6305,12 @@ struct Type_DMARateControl
 
   Type get_IdleCount() const
    {
-    return (value>>16)&0x3FFF;
+    return (value>>16)&0x3FFFu;
    }
  
   Type_DMARateControl & set_IdleCount(Type field)
    {
-    value=((field&0x3FFF)<<16)|(value&0xC000FFFF);
+    value=((field&0x3FFFu)<<16)|(value&0xC000FFFFu);
 
     return *this;
    }
@@ -6381,12 +6381,12 @@ struct Type_DMATxIntStatus
 
   Type get_TxDone() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_DMATxIntStatus & set_TxDone(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -6452,12 +6452,12 @@ struct Type_DMARxIntStatus
 
   Type get_RxDone() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_DMARxIntStatus & set_RxDone(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -6465,12 +6465,12 @@ struct Type_DMARxIntStatus
 
   Type get_RxThresh() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_DMARxIntStatus & set_RxThresh(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -6515,8 +6515,8 @@ struct Type_DMARxIntStatus
 
 enum Bits_DMAIntStatus : uint32
  {
-  DMAIntStatus_StatCounter = 0x00000001,
-  DMAIntStatus_Host        = 0x00000002
+  DMAIntStatus_StatCounter = 0x00000001u,
+  DMAIntStatus_Host        = 0x00000002u
  };
  
 inline Bits_DMAIntStatus operator | (Bits_DMAIntStatus a,Bits_DMAIntStatus b)
@@ -6632,12 +6632,12 @@ struct Type_DMARxThresh
 
   Type get_Thresh() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_DMARxThresh & set_Thresh(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -6695,12 +6695,12 @@ struct Type_DMARxFree
 
   Type get_Count() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_DMARxFree & set_Count(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -6740,12 +6740,12 @@ using Type_DescPtr = uint32 ;
 
 enum Bits_TimeSyncControl : uint32
  {
-  TimeSyncControl_Enable      = 0x00000001,
-  TimeSyncControl_IntTest     = 0x00000002,
-  TimeSyncControl_Push1Enable = 0x00000100,
-  TimeSyncControl_Push2Enable = 0x00000200,
-  TimeSyncControl_Push3Enable = 0x00000400,
-  TimeSyncControl_Push4Enable = 0x00000800
+  TimeSyncControl_Enable      = 0x00000001u,
+  TimeSyncControl_IntTest     = 0x00000002u,
+  TimeSyncControl_Push1Enable = 0x00000100u,
+  TimeSyncControl_Push2Enable = 0x00000200u,
+  TimeSyncControl_Push3Enable = 0x00000400u,
+  TimeSyncControl_Push4Enable = 0x00000800u
  };
  
 inline Bits_TimeSyncControl operator | (Bits_TimeSyncControl a,Bits_TimeSyncControl b)
@@ -6899,7 +6899,7 @@ struct Type_TimeSyncControl
 
 enum Bits_TimeSyncTSPush : uint32
  {
-  TimeSyncTSPush_CmdPush = 0x00000001
+  TimeSyncTSPush_CmdPush = 0x00000001u
  };
  
 inline Bits_TimeSyncTSPush operator | (Bits_TimeSyncTSPush a,Bits_TimeSyncTSPush b)
@@ -6977,7 +6977,7 @@ using Type_TimeSyncTSValue = uint32 ;
 
 enum Bits_TimeSyncTSLoad : uint32
  {
-  TimeSyncTSLoad_Enable = 0x00000001
+  TimeSyncTSLoad_Enable = 0x00000001u
  };
  
 inline Bits_TimeSyncTSLoad operator | (Bits_TimeSyncTSLoad a,Bits_TimeSyncTSLoad b)
@@ -7051,7 +7051,7 @@ struct Type_TimeSyncTSLoad
 
 enum Bits_TimeSyncIntStatus : uint32
  {
-  TimeSyncIntStatus_Event = 0x00000001
+  TimeSyncIntStatus_Event = 0x00000001u
  };
  
 inline Bits_TimeSyncIntStatus operator | (Bits_TimeSyncIntStatus a,Bits_TimeSyncIntStatus b)
@@ -7125,7 +7125,7 @@ struct Type_TimeSyncIntStatus
 
 enum Bits_TimeSyncEventPop : uint32
  {
-  TimeSyncEventPop_CmdPop = 0x00000001
+  TimeSyncEventPop_CmdPop = 0x00000001u
  };
  
 inline Bits_TimeSyncEventPop operator | (Bits_TimeSyncEventPop a,Bits_TimeSyncEventPop b)
@@ -7203,12 +7203,12 @@ using Type_TimeSyncEventTS = uint32 ;
 
 enum Field_TimeSyncEvent_EventType : uint32
  {
-  TimeSyncEvent_EventType_TSPush         = 0x00,
-  TimeSyncEvent_EventType_TSRollover     = 0x01,
-  TimeSyncEvent_EventType_TSHalfRollover = 0x02,
-  TimeSyncEvent_EventType_HWTSPush       = 0x03,
-  TimeSyncEvent_EventType_EthRx          = 0x04,
-  TimeSyncEvent_EventType_EthTx          = 0x05
+  TimeSyncEvent_EventType_TSPush         = 0x00u,
+  TimeSyncEvent_EventType_TSRollover     = 0x01u,
+  TimeSyncEvent_EventType_TSHalfRollover = 0x02u,
+  TimeSyncEvent_EventType_HWTSPush       = 0x03u,
+  TimeSyncEvent_EventType_EthRx          = 0x04u,
+  TimeSyncEvent_EventType_EthTx          = 0x05u
  };
  
 struct PrintField_TimeSyncEvent_EventType
@@ -7222,12 +7222,12 @@ struct PrintField_TimeSyncEvent_EventType
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"TSPush"); break;
-       case 0x01 : Putobj(out,"TSRollover"); break;
-       case 0x02 : Putobj(out,"TSHalfRollover"); break;
-       case 0x03 : Putobj(out,"HWTSPush"); break;
-       case 0x04 : Putobj(out,"EthRx"); break;
-       case 0x05 : Putobj(out,"EthTx"); break;
+       case 0x00u : Putobj(out,"TSPush"); break;
+       case 0x01u : Putobj(out,"TSRollover"); break;
+       case 0x02u : Putobj(out,"TSHalfRollover"); break;
+       case 0x03u : Putobj(out,"HWTSPush"); break;
+       case 0x04u : Putobj(out,"EthRx"); break;
+       case 0x05u : Putobj(out,"EthTx"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -7267,12 +7267,12 @@ struct Type_TimeSyncEvent
 
   Type get_EthSeq() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_TimeSyncEvent & set_EthSeq(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -7280,12 +7280,12 @@ struct Type_TimeSyncEvent
 
   Type get_MsgType() const
    {
-    return (value>>16)&0xF;
+    return (value>>16)&0xFu;
    }
  
   Type_TimeSyncEvent & set_MsgType(Type field)
    {
-    value=((field&0xF)<<16)|(value&0xFFF0FFFF);
+    value=((field&0xFu)<<16)|(value&0xFFF0FFFFu);
 
     return *this;
    }
@@ -7293,12 +7293,12 @@ struct Type_TimeSyncEvent
 
   Field_TimeSyncEvent_EventType get_EventType() const
    {
-    return Field_TimeSyncEvent_EventType((value>>20)&0xF);
+    return Field_TimeSyncEvent_EventType((value>>20)&0xFu);
    }
  
   Type_TimeSyncEvent & set_EventType(Field_TimeSyncEvent_EventType field)
    {
-    value=((Type(field)&0xF)<<20)|(value&0xFF0FFFFF);
+    value=((Type(field)&0xFu)<<20)|(value&0xFF0FFFFFu);
 
     return *this;
    }
@@ -7306,12 +7306,12 @@ struct Type_TimeSyncEvent
 
   Type get_Port() const
    {
-    return (value>>24)&0x1F;
+    return (value>>24)&0x1Fu;
    }
  
   Type_TimeSyncEvent & set_Port(Type field)
    {
-    value=((field&0x1F)<<24)|(value&0xE0FFFFFF);
+    value=((field&0x1Fu)<<24)|(value&0xE0FFFFFFu);
 
     return *this;
    }
@@ -7382,18 +7382,18 @@ struct Type_TimeSyncEvent
 
 enum Bits_ALEControl : uint32
  {
-  ALEControl_EnableRateLimit        = 0x00000001,
-  ALEControl_EnableAuthMode         = 0x00000002,
-  ALEControl_VLANAware              = 0x00000004,
-  ALEControl_TxRateLimit            = 0x00000008,
-  ALEControl_Bypass                 = 0x00000010,
-  ALEControl_EnableOUIDeny          = 0x00000020,
-  ALEControl_EnableVID0Mode         = 0x00000040,
-  ALEControl_LeanNoVID              = 0x00000080,
-  ALEControl_EnableHostUnicastFlood = 0x00000100,
-  ALEControl_AgeOutNow              = 0x20000000,
-  ALEControl_ClearTable             = 0x40000000,
-  ALEControl_EnableALE              = 0x80000000
+  ALEControl_EnableRateLimit        = 0x00000001u,
+  ALEControl_EnableAuthMode         = 0x00000002u,
+  ALEControl_VLANAware              = 0x00000004u,
+  ALEControl_TxRateLimit            = 0x00000008u,
+  ALEControl_Bypass                 = 0x00000010u,
+  ALEControl_EnableOUIDeny          = 0x00000020u,
+  ALEControl_EnableVID0Mode         = 0x00000040u,
+  ALEControl_LeanNoVID              = 0x00000080u,
+  ALEControl_EnableHostUnicastFlood = 0x00000100u,
+  ALEControl_AgeOutNow              = 0x20000000u,
+  ALEControl_ClearTable             = 0x40000000u,
+  ALEControl_EnableALE              = 0x80000000u
  };
  
 inline Bits_ALEControl operator | (Bits_ALEControl a,Bits_ALEControl b)
@@ -7669,12 +7669,12 @@ struct Type_ALEPrescale
 
   Type get_Div() const
    {
-    return (value>>0)&0xFFFFF;
+    return (value>>0)&0xFFFFFu;
    }
  
   Type_ALEPrescale & set_Div(Type field)
    {
-    value=((field&0xFFFFF)<<0)|(value&0xFFF00000);
+    value=((field&0xFFFFFu)<<0)|(value&0xFFF00000u);
 
     return *this;
    }
@@ -7732,12 +7732,12 @@ struct Type_ALEUnknownVLAN
 
   Type get_MemberList() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_ALEUnknownVLAN & set_MemberList(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -7745,12 +7745,12 @@ struct Type_ALEUnknownVLAN
 
   Type get_MuticastFloodMask() const
    {
-    return (value>>8)&0x3F;
+    return (value>>8)&0x3Fu;
    }
  
   Type_ALEUnknownVLAN & set_MuticastFloodMask(Type field)
    {
-    value=((field&0x3F)<<8)|(value&0xFFFFC0FF);
+    value=((field&0x3Fu)<<8)|(value&0xFFFFC0FFu);
 
     return *this;
    }
@@ -7758,12 +7758,12 @@ struct Type_ALEUnknownVLAN
 
   Type get_RegMuticastFloodMask() const
    {
-    return (value>>16)&0x3F;
+    return (value>>16)&0x3Fu;
    }
  
   Type_ALEUnknownVLAN & set_RegMuticastFloodMask(Type field)
    {
-    value=((field&0x3F)<<16)|(value&0xFFC0FFFF);
+    value=((field&0x3Fu)<<16)|(value&0xFFC0FFFFu);
 
     return *this;
    }
@@ -7771,12 +7771,12 @@ struct Type_ALEUnknownVLAN
 
   Type get_ForceUntaggedEgress() const
    {
-    return (value>>24)&0x3F;
+    return (value>>24)&0x3Fu;
    }
  
   Type_ALEUnknownVLAN & set_ForceUntaggedEgress(Type field)
    {
-    value=((field&0x3F)<<24)|(value&0xC0FFFFFF);
+    value=((field&0x3Fu)<<24)|(value&0xC0FFFFFFu);
 
     return *this;
    }
@@ -7847,7 +7847,7 @@ struct Type_ALEUnknownVLAN
 
 enum Bits_ALETableControl : uint32
  {
-  ALETableControl_Write = 0x80000000
+  ALETableControl_Write = 0x80000000u
  };
  
 inline Bits_ALETableControl operator | (Bits_ALETableControl a,Bits_ALETableControl b)
@@ -7894,12 +7894,12 @@ struct Type_ALETableControl
 
   Type get_Index() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_ALETableControl & set_Index(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -7947,9 +7947,9 @@ struct Type_ALETableControl
 
 enum Bits_ALETableWord0 : uint32
  {
-  ALETableWord0_Secure = 0x00000001,
-  ALETableWord0_Block  = 0x00000002,
-  ALETableWord0_DLR    = 0x00000020
+  ALETableWord0_Secure = 0x00000001u,
+  ALETableWord0_Block  = 0x00000002u,
+  ALETableWord0_DLR    = 0x00000020u
  };
  
 inline Bits_ALETableWord0 operator | (Bits_ALETableWord0 a,Bits_ALETableWord0 b)
@@ -7996,12 +7996,12 @@ struct Type_ALETableWord0
 
   Type get_Port() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_ALETableWord0 & set_Port(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -8081,10 +8081,10 @@ struct Type_ALETableWord0
 
 enum Field_ALETableWord1_EntryType : uint32
  {
-  ALETableWord1_EntryType_Free        = 0x00,
-  ALETableWord1_EntryType_Address     = 0x01,
-  ALETableWord1_EntryType_VLAN        = 0x02,
-  ALETableWord1_EntryType_AddressVLAN = 0x03
+  ALETableWord1_EntryType_Free        = 0x00u,
+  ALETableWord1_EntryType_Address     = 0x01u,
+  ALETableWord1_EntryType_VLAN        = 0x02u,
+  ALETableWord1_EntryType_AddressVLAN = 0x03u
  };
  
 struct PrintField_ALETableWord1_EntryType
@@ -8098,10 +8098,10 @@ struct PrintField_ALETableWord1_EntryType
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Free"); break;
-       case 0x01 : Putobj(out,"Address"); break;
-       case 0x02 : Putobj(out,"VLAN"); break;
-       case 0x03 : Putobj(out,"AddressVLAN"); break;
+       case 0x00u : Putobj(out,"Free"); break;
+       case 0x01u : Putobj(out,"Address"); break;
+       case 0x02u : Putobj(out,"VLAN"); break;
+       case 0x03u : Putobj(out,"AddressVLAN"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -8141,12 +8141,12 @@ struct Type_ALETableWord1
 
   Type get_AddressByte1() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_ALETableWord1 & set_AddressByte1(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -8154,12 +8154,12 @@ struct Type_ALETableWord1
 
   Type get_AddressByte0() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_ALETableWord1 & set_AddressByte0(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -8167,12 +8167,12 @@ struct Type_ALETableWord1
 
   Field_ALETableWord1_EntryType get_EntryType() const
    {
-    return Field_ALETableWord1_EntryType((value>>28)&0x3);
+    return Field_ALETableWord1_EntryType((value>>28)&0x3u);
    }
  
   Type_ALETableWord1 & set_EntryType(Field_ALETableWord1_EntryType field)
    {
-    value=((Type(field)&0x3)<<28)|(value&0xCFFFFFFF);
+    value=((Type(field)&0x3u)<<28)|(value&0xCFFFFFFFu);
 
     return *this;
    }
@@ -8180,12 +8180,12 @@ struct Type_ALETableWord1
 
   Type get_SubType() const
    {
-    return (value>>30)&0x3;
+    return (value>>30)&0x3u;
    }
  
   Type_ALETableWord1 & set_SubType(Type field)
    {
-    value=((field&0x3)<<30)|(value&0x3FFFFFFF);
+    value=((field&0x3u)<<30)|(value&0x3FFFFFFFu);
 
     return *this;
    }
@@ -8282,12 +8282,12 @@ struct Type_ALETableWord2
 
   Type get_AddressByte5() const
    {
-    return (value>>0)&0xFF;
+    return (value>>0)&0xFFu;
    }
  
   Type_ALETableWord2 & set_AddressByte5(Type field)
    {
-    value=((field&0xFF)<<0)|(value&0xFFFFFF00);
+    value=((field&0xFFu)<<0)|(value&0xFFFFFF00u);
 
     return *this;
    }
@@ -8295,12 +8295,12 @@ struct Type_ALETableWord2
 
   Type get_AddressByte4() const
    {
-    return (value>>8)&0xFF;
+    return (value>>8)&0xFFu;
    }
  
   Type_ALETableWord2 & set_AddressByte4(Type field)
    {
-    value=((field&0xFF)<<8)|(value&0xFFFF00FF);
+    value=((field&0xFFu)<<8)|(value&0xFFFF00FFu);
 
     return *this;
    }
@@ -8308,12 +8308,12 @@ struct Type_ALETableWord2
 
   Type get_AddressByte3() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_ALETableWord2 & set_AddressByte3(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -8321,12 +8321,12 @@ struct Type_ALETableWord2
 
   Type get_AddressByte2() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_ALETableWord2 & set_AddressByte2(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -8397,10 +8397,10 @@ struct Type_ALETableWord2
 
 enum Bits_ALEPortControl : uint32
  {
-  ALEPortControl_DropUntagged    = 0x00000004,
-  ALEPortControl_VIDIngressCheck = 0x00000008,
-  ALEPortControl_NoLearn         = 0x00000010,
-  ALEPortControl_NoSAUpdate      = 0x00000020
+  ALEPortControl_DropUntagged    = 0x00000004u,
+  ALEPortControl_VIDIngressCheck = 0x00000008u,
+  ALEPortControl_NoLearn         = 0x00000010u,
+  ALEPortControl_NoSAUpdate      = 0x00000020u
  };
  
 inline Bits_ALEPortControl operator | (Bits_ALEPortControl a,Bits_ALEPortControl b)
@@ -8408,10 +8408,10 @@ inline Bits_ALEPortControl operator | (Bits_ALEPortControl a,Bits_ALEPortControl
  
 enum Field_ALEPortControl_State : uint32
  {
-  ALEPortControl_State_Disabled = 0x00,
-  ALEPortControl_State_Blocked  = 0x01,
-  ALEPortControl_State_Learn    = 0x02,
-  ALEPortControl_State_Forward  = 0x03
+  ALEPortControl_State_Disabled = 0x00u,
+  ALEPortControl_State_Blocked  = 0x01u,
+  ALEPortControl_State_Learn    = 0x02u,
+  ALEPortControl_State_Forward  = 0x03u
  };
  
 struct PrintField_ALEPortControl_State
@@ -8425,10 +8425,10 @@ struct PrintField_ALEPortControl_State
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"Disabled"); break;
-       case 0x01 : Putobj(out,"Blocked"); break;
-       case 0x02 : Putobj(out,"Learn"); break;
-       case 0x03 : Putobj(out,"Forward"); break;
+       case 0x00u : Putobj(out,"Disabled"); break;
+       case 0x01u : Putobj(out,"Blocked"); break;
+       case 0x02u : Putobj(out,"Learn"); break;
+       case 0x03u : Putobj(out,"Forward"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -8481,12 +8481,12 @@ struct Type_ALEPortControl
 
   Field_ALEPortControl_State get_State() const
    {
-    return Field_ALEPortControl_State((value>>0)&0x3);
+    return Field_ALEPortControl_State((value>>0)&0x3u);
    }
  
   Type_ALEPortControl & set_State(Field_ALEPortControl_State field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -8494,12 +8494,12 @@ struct Type_ALEPortControl
 
   Type get_MulticastLimit() const
    {
-    return (value>>16)&0xFF;
+    return (value>>16)&0xFFu;
    }
  
   Type_ALEPortControl & set_MulticastLimit(Type field)
    {
-    value=((field&0xFF)<<16)|(value&0xFF00FFFF);
+    value=((field&0xFFu)<<16)|(value&0xFF00FFFFu);
 
     return *this;
    }
@@ -8507,12 +8507,12 @@ struct Type_ALEPortControl
 
   Type get_BroadcastLimit() const
    {
-    return (value>>24)&0xFF;
+    return (value>>24)&0xFFu;
    }
  
   Type_ALEPortControl & set_BroadcastLimit(Type field)
    {
-    value=((field&0xFF)<<24)|(value&0xFFFFFF);
+    value=((field&0xFFu)<<24)|(value&0xFFFFFFu);
 
     return *this;
    }
@@ -8634,24 +8634,24 @@ struct Type_ALEPortControl
 
 enum Bits_SliverControl : uint32
  {
-  SliverControl_FullDuplex          = 0x00000001,
-  SliverControl_Loopback            = 0x00000002,
-  SliverControl_MTest               = 0x00000004,
-  SliverControl_RxFlowControlEnable = 0x00000008,
-  SliverControl_TxFlowControlEnable = 0x00000010,
-  SliverControl_GMIIEnable          = 0x00000020,
-  SliverControl_TxPaceEnable        = 0x00000040,
-  SliverControl_GigMode             = 0x00000080,
-  SliverControl_TxShortGapEnable    = 0x00000400,
-  SliverControl_CmdIdle             = 0x00000800,
-  SliverControl_CtrlA               = 0x00008000,
-  SliverControl_CtrlB               = 0x00010000,
-  SliverControl_ForceGig            = 0x00020000,
-  SliverControl_ExtEnable           = 0x00040000,
-  SliverControl_LimitTxShortGap     = 0x00200000,
-  SliverControl_RxErrorPassEnable   = 0x00400000,
-  SliverControl_RxShortPassEnable   = 0x00800000,
-  SliverControl_RxCtrlPassEnable    = 0x01000000
+  SliverControl_FullDuplex          = 0x00000001u,
+  SliverControl_Loopback            = 0x00000002u,
+  SliverControl_MTest               = 0x00000004u,
+  SliverControl_RxFlowControlEnable = 0x00000008u,
+  SliverControl_TxFlowControlEnable = 0x00000010u,
+  SliverControl_GMIIEnable          = 0x00000020u,
+  SliverControl_TxPaceEnable        = 0x00000040u,
+  SliverControl_GigMode             = 0x00000080u,
+  SliverControl_TxShortGapEnable    = 0x00000400u,
+  SliverControl_CmdIdle             = 0x00000800u,
+  SliverControl_CtrlA               = 0x00008000u,
+  SliverControl_CtrlB               = 0x00010000u,
+  SliverControl_ForceGig            = 0x00020000u,
+  SliverControl_ExtEnable           = 0x00040000u,
+  SliverControl_LimitTxShortGap     = 0x00200000u,
+  SliverControl_RxErrorPassEnable   = 0x00400000u,
+  SliverControl_RxShortPassEnable   = 0x00800000u,
+  SliverControl_RxCtrlPassEnable    = 0x01000000u
  };
  
 inline Bits_SliverControl operator | (Bits_SliverControl a,Bits_SliverControl b)
@@ -8997,11 +8997,11 @@ struct Type_SliverControl
 
 enum Bits_SliverStatus : uint32
  {
-  SliverStatus_TxFlowControlActive = 0x00000001,
-  SliverStatus_RxFlowControlActive = 0x00000002,
-  SliverStatus_ExtFullDuplex       = 0x00000008,
-  SliverStatus_ExtGig              = 0x00000010,
-  SliverStatus_Idle                = 0x80000000
+  SliverStatus_TxFlowControlActive = 0x00000001u,
+  SliverStatus_RxFlowControlActive = 0x00000002u,
+  SliverStatus_ExtFullDuplex       = 0x00000008u,
+  SliverStatus_ExtGig              = 0x00000010u,
+  SliverStatus_Idle                = 0x80000000u
  };
  
 inline Bits_SliverStatus operator | (Bits_SliverStatus a,Bits_SliverStatus b)
@@ -9139,7 +9139,7 @@ struct Type_SliverStatus
 
 enum Bits_SliverSoftReset : uint32
  {
-  SliverSoftReset_Reset = 0x00000001
+  SliverSoftReset_Reset = 0x00000001u
  };
  
 inline Bits_SliverSoftReset operator | (Bits_SliverSoftReset a,Bits_SliverSoftReset b)
@@ -9239,12 +9239,12 @@ struct Type_SliverRxMaxLen
 
   Type get_Len() const
    {
-    return (value>>0)&0x3FFF;
+    return (value>>0)&0x3FFFu;
    }
  
   Type_SliverRxMaxLen & set_Len(Type field)
    {
-    value=((field&0x3FFF)<<0)|(value&0xFFFFC000);
+    value=((field&0x3FFFu)<<0)|(value&0xFFFFC000u);
 
     return *this;
    }
@@ -9302,12 +9302,12 @@ struct Type_SliverBOFFTest
 
   Type get_Backoff() const
    {
-    return (value>>0)&0x3FF;
+    return (value>>0)&0x3FFu;
    }
  
   Type_SliverBOFFTest & set_Backoff(Type field)
    {
-    value=((field&0x3FF)<<0)|(value&0xFFFFFC00);
+    value=((field&0x3FFu)<<0)|(value&0xFFFFFC00u);
 
     return *this;
    }
@@ -9315,12 +9315,12 @@ struct Type_SliverBOFFTest
 
   Type get_CollisionCount() const
    {
-    return (value>>12)&0xF;
+    return (value>>12)&0xFu;
    }
  
   Type_SliverBOFFTest & set_CollisionCount(Type field)
    {
-    value=((field&0xF)<<12)|(value&0xFFFF0FFF);
+    value=((field&0xFu)<<12)|(value&0xFFFF0FFFu);
 
     return *this;
    }
@@ -9328,12 +9328,12 @@ struct Type_SliverBOFFTest
 
   Type get_Random() const
    {
-    return (value>>16)&0x3FF;
+    return (value>>16)&0x3FFu;
    }
  
   Type_SliverBOFFTest & set_Random(Type field)
    {
-    value=((field&0x3FF)<<16)|(value&0xFC00FFFF);
+    value=((field&0x3FFu)<<16)|(value&0xFC00FFFFu);
 
     return *this;
    }
@@ -9341,12 +9341,12 @@ struct Type_SliverBOFFTest
 
   Type get_Pace() const
    {
-    return (value>>26)&0x1F;
+    return (value>>26)&0x1Fu;
    }
  
   Type_SliverBOFFTest & set_Pace(Type field)
    {
-    value=((field&0x1F)<<26)|(value&0x83FFFFFF);
+    value=((field&0x1Fu)<<26)|(value&0x83FFFFFFu);
 
     return *this;
    }
@@ -9443,12 +9443,12 @@ struct Type_SliverRxPause
 
   Type get_Timer() const
    {
-    return (value>>16)&0xFFFF;
+    return (value>>16)&0xFFFFu;
    }
  
   Type_SliverRxPause & set_Timer(Type field)
    {
-    value=((field&0xFFFF)<<16)|(value&0xFFFF);
+    value=((field&0xFFFFu)<<16)|(value&0xFFFFu);
 
     return *this;
    }
@@ -9506,12 +9506,12 @@ struct Type_SliverTxPause
 
   Type get_Timer() const
    {
-    return (value>>16)&0xFFFF;
+    return (value>>16)&0xFFFFu;
    }
  
   Type_SliverTxPause & set_Timer(Type field)
    {
-    value=((field&0xFFFF)<<16)|(value&0xFFFF);
+    value=((field&0xFFFFu)<<16)|(value&0xFFFFu);
 
     return *this;
    }
@@ -9543,8 +9543,8 @@ struct Type_SliverTxPause
 
 enum Bits_SliverEMControl : uint32
  {
-  SliverEMControl_Free = 0x00000001,
-  SliverEMControl_Soft = 0x00000002
+  SliverEMControl_Free = 0x00000001u,
+  SliverEMControl_Soft = 0x00000002u
  };
  
 inline Bits_SliverEMControl operator | (Bits_SliverEMControl a,Bits_SliverEMControl b)
@@ -9660,12 +9660,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri0() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri0(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -9673,12 +9673,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri1() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri1(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -9686,12 +9686,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri2() const
    {
-    return (value>>8)&0x7;
+    return (value>>8)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri2(Type field)
    {
-    value=((field&0x7)<<8)|(value&0xFFFFF8FF);
+    value=((field&0x7u)<<8)|(value&0xFFFFF8FFu);
 
     return *this;
    }
@@ -9699,12 +9699,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri3() const
    {
-    return (value>>12)&0x7;
+    return (value>>12)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri3(Type field)
    {
-    value=((field&0x7)<<12)|(value&0xFFFF8FFF);
+    value=((field&0x7u)<<12)|(value&0xFFFF8FFFu);
 
     return *this;
    }
@@ -9712,12 +9712,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri4() const
    {
-    return (value>>16)&0x7;
+    return (value>>16)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri4(Type field)
    {
-    value=((field&0x7)<<16)|(value&0xFFF8FFFF);
+    value=((field&0x7u)<<16)|(value&0xFFF8FFFFu);
 
     return *this;
    }
@@ -9725,12 +9725,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri5() const
    {
-    return (value>>20)&0x7;
+    return (value>>20)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri5(Type field)
    {
-    value=((field&0x7)<<20)|(value&0xFF8FFFFF);
+    value=((field&0x7u)<<20)|(value&0xFF8FFFFFu);
 
     return *this;
    }
@@ -9738,12 +9738,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri6() const
    {
-    return (value>>24)&0x7;
+    return (value>>24)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri6(Type field)
    {
-    value=((field&0x7)<<24)|(value&0xF8FFFFFF);
+    value=((field&0x7u)<<24)|(value&0xF8FFFFFFu);
 
     return *this;
    }
@@ -9751,12 +9751,12 @@ struct Type_SliverRxPriMap
 
   Type get_Pri7() const
    {
-    return (value>>28)&0x7;
+    return (value>>28)&0x7u;
    }
  
   Type_SliverRxPriMap & set_Pri7(Type field)
    {
-    value=((field&0x7)<<28)|(value&0x8FFFFFFF);
+    value=((field&0x7u)<<28)|(value&0x8FFFFFFFu);
 
     return *this;
    }
@@ -9905,12 +9905,12 @@ struct Type_SliverTxGap
 
   Type get_Gap() const
    {
-    return (value>>0)&0x1FF;
+    return (value>>0)&0x1FFu;
    }
  
   Type_SliverTxGap & set_Gap(Type field)
    {
-    value=((field&0x1FF)<<0)|(value&0xFFFFFE00);
+    value=((field&0x1FFu)<<0)|(value&0xFFFFFE00u);
 
     return *this;
    }
@@ -9942,7 +9942,7 @@ struct Type_SliverTxGap
 
 enum Bits_WRSoftReset : uint32
  {
-  WRSoftReset_Reset = 0x00000001
+  WRSoftReset_Reset = 0x00000001u
  };
  
 inline Bits_WRSoftReset operator | (Bits_WRSoftReset a,Bits_WRSoftReset b)
@@ -10016,8 +10016,8 @@ struct Type_WRSoftReset
 
 enum Field_WRControl_IdleMode : uint32
  {
-  WRControl_IdleMode_ForceIdle = 0x00,
-  WRControl_IdleMode_NoIdle    = 0x01
+  WRControl_IdleMode_ForceIdle = 0x00u,
+  WRControl_IdleMode_NoIdle    = 0x01u
  };
  
 struct PrintField_WRControl_IdleMode
@@ -10031,8 +10031,8 @@ struct PrintField_WRControl_IdleMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"ForceIdle"); break;
-       case 0x01 : Putobj(out,"NoIdle"); break;
+       case 0x00u : Putobj(out,"ForceIdle"); break;
+       case 0x01u : Putobj(out,"NoIdle"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -10046,8 +10046,8 @@ inline PrintField_WRControl_IdleMode GetTextDesc(Field_WRControl_IdleMode field)
  
 enum Field_WRControl_StandbyMode : uint32
  {
-  WRControl_StandbyMode_ForceStandby = 0x00,
-  WRControl_StandbyMode_NoStandby    = 0x01
+  WRControl_StandbyMode_ForceStandby = 0x00u,
+  WRControl_StandbyMode_NoStandby    = 0x01u
  };
  
 struct PrintField_WRControl_StandbyMode
@@ -10061,8 +10061,8 @@ struct PrintField_WRControl_StandbyMode
    {
     switch( field )
       {
-       case 0x00 : Putobj(out,"ForceStandby"); break;
-       case 0x01 : Putobj(out,"NoStandby"); break;
+       case 0x00u : Putobj(out,"ForceStandby"); break;
+       case 0x01u : Putobj(out,"NoStandby"); break;
 
        default: Putobj(out,uint32(field));
       }
@@ -10102,12 +10102,12 @@ struct Type_WRControl
 
   Field_WRControl_IdleMode get_IdleMode() const
    {
-    return Field_WRControl_IdleMode((value>>0)&0x3);
+    return Field_WRControl_IdleMode((value>>0)&0x3u);
    }
  
   Type_WRControl & set_IdleMode(Field_WRControl_IdleMode field)
    {
-    value=((Type(field)&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((Type(field)&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -10115,12 +10115,12 @@ struct Type_WRControl
 
   Field_WRControl_StandbyMode get_StandbyMode() const
    {
-    return Field_WRControl_StandbyMode((value>>2)&0x3);
+    return Field_WRControl_StandbyMode((value>>2)&0x3u);
    }
  
   Type_WRControl & set_StandbyMode(Field_WRControl_StandbyMode field)
    {
-    value=((Type(field)&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((Type(field)&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -10165,13 +10165,13 @@ struct Type_WRControl
 
 enum Bits_WRIntControl : uint32
  {
-  WRIntControl_C0RxPace = 0x00010000,
-  WRIntControl_C0TxPace = 0x00020000,
-  WRIntControl_C1RxPace = 0x00040000,
-  WRIntControl_C1TxPace = 0x00080000,
-  WRIntControl_C2RxPace = 0x00100000,
-  WRIntControl_C2Txpace = 0x00200000,
-  WRIntControl_IntTest  = 0x80000000
+  WRIntControl_C0RxPace = 0x00010000u,
+  WRIntControl_C0TxPace = 0x00020000u,
+  WRIntControl_C1RxPace = 0x00040000u,
+  WRIntControl_C1TxPace = 0x00080000u,
+  WRIntControl_C2RxPace = 0x00100000u,
+  WRIntControl_C2Txpace = 0x00200000u,
+  WRIntControl_IntTest  = 0x80000000u
  };
  
 inline Bits_WRIntControl operator | (Bits_WRIntControl a,Bits_WRIntControl b)
@@ -10218,12 +10218,12 @@ struct Type_WRIntControl
 
   Type get_Prescale() const
    {
-    return (value>>0)&0xFFF;
+    return (value>>0)&0xFFFu;
    }
  
   Type_WRIntControl & set_Prescale(Type field)
    {
-    value=((field&0xFFF)<<0)|(value&0xFFFFF000);
+    value=((field&0xFFFu)<<0)|(value&0xFFFFF000u);
 
     return *this;
    }
@@ -10425,12 +10425,12 @@ struct Type_WRC0RxIntLim
 
   Type get_Lim() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_WRC0RxIntLim & set_Lim(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -10488,12 +10488,12 @@ struct Type_WRC0TxIntLim
 
   Type get_Lim() const
    {
-    return (value>>0)&0x3F;
+    return (value>>0)&0x3Fu;
    }
  
   Type_WRC0TxIntLim & set_Lim(Type field)
    {
-    value=((field&0x3F)<<0)|(value&0xFFFFFFC0);
+    value=((field&0x3Fu)<<0)|(value&0xFFFFFFC0u);
 
     return *this;
    }
@@ -10525,10 +10525,10 @@ struct Type_WRC0TxIntLim
 
 enum Bits_WRRGMIIStatus : uint32
  {
-  WRRGMIIStatus_Link1       = 0x00000001,
-  WRRGMIIStatus_FullDuplex1 = 0x00000008,
-  WRRGMIIStatus_Link2       = 0x00000010,
-  WRRGMIIStatus_FullDuplex2 = 0x00000080
+  WRRGMIIStatus_Link1       = 0x00000001u,
+  WRRGMIIStatus_FullDuplex1 = 0x00000008u,
+  WRRGMIIStatus_Link2       = 0x00000010u,
+  WRRGMIIStatus_FullDuplex2 = 0x00000080u
  };
  
 inline Bits_WRRGMIIStatus operator | (Bits_WRRGMIIStatus a,Bits_WRRGMIIStatus b)
@@ -10575,12 +10575,12 @@ struct Type_WRRGMIIStatus
 
   Type get_Speed1() const
    {
-    return (value>>1)&0x3;
+    return (value>>1)&0x3u;
    }
  
   Type_WRRGMIIStatus & set_Speed1(Type field)
    {
-    value=((field&0x3)<<1)|(value&0xFFFFFFF9);
+    value=((field&0x3u)<<1)|(value&0xFFFFFFF9u);
 
     return *this;
    }
@@ -10588,12 +10588,12 @@ struct Type_WRRGMIIStatus
 
   Type get_Speed2() const
    {
-    return (value>>5)&0x3;
+    return (value>>5)&0x3u;
    }
  
   Type_WRRGMIIStatus & set_Speed2(Type field)
    {
-    value=((field&0x3)<<5)|(value&0xFFFFFF9F);
+    value=((field&0x3u)<<5)|(value&0xFFFFFF9Fu);
 
     return *this;
    }
@@ -10702,12 +10702,12 @@ struct Type_WRRGMIIStatus
 
 enum Bits_MDIOControl : uint32
  {
-  MDIOControl_IntTestEnable   = 0x00020000,
-  MDIOControl_FaultEnable     = 0x00040000,
-  MDIOControl_FaultState      = 0x00080000,
-  MDIOControl_PreambleDisable = 0x00100000,
-  MDIOControl_Enable          = 0x40000000,
-  MDIOControl_Idle            = 0x80000000
+  MDIOControl_IntTestEnable   = 0x00020000u,
+  MDIOControl_FaultEnable     = 0x00040000u,
+  MDIOControl_FaultState      = 0x00080000u,
+  MDIOControl_PreambleDisable = 0x00100000u,
+  MDIOControl_Enable          = 0x40000000u,
+  MDIOControl_Idle            = 0x80000000u
  };
  
 inline Bits_MDIOControl operator | (Bits_MDIOControl a,Bits_MDIOControl b)
@@ -10754,12 +10754,12 @@ struct Type_MDIOControl
 
   Type get_ClockDiv() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_MDIOControl & set_ClockDiv(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -10767,12 +10767,12 @@ struct Type_MDIOControl
 
   Type get_LastChannel() const
    {
-    return (value>>24)&0x1F;
+    return (value>>24)&0x1Fu;
    }
  
   Type_MDIOControl & set_LastChannel(Type field)
    {
-    value=((field&0x1F)<<24)|(value&0xE0FFFFFF);
+    value=((field&0x1Fu)<<24)|(value&0xE0FFFFFFu);
 
     return *this;
    }
@@ -10929,9 +10929,9 @@ using Type_MDIOUserIntStatus = uint32 ;
 
 enum Bits_MDIOUserAccess : uint32
  {
-  MDIOUserAccess_Ack   = 0x20000000,
-  MDIOUserAccess_Write = 0x40000000,
-  MDIOUserAccess_Go    = 0x80000000
+  MDIOUserAccess_Ack   = 0x20000000u,
+  MDIOUserAccess_Write = 0x40000000u,
+  MDIOUserAccess_Go    = 0x80000000u
  };
  
 inline Bits_MDIOUserAccess operator | (Bits_MDIOUserAccess a,Bits_MDIOUserAccess b)
@@ -10978,12 +10978,12 @@ struct Type_MDIOUserAccess
 
   Type get_Data() const
    {
-    return (value>>0)&0xFFFF;
+    return (value>>0)&0xFFFFu;
    }
  
   Type_MDIOUserAccess & set_Data(Type field)
    {
-    value=((field&0xFFFF)<<0)|(value&0xFFFF0000);
+    value=((field&0xFFFFu)<<0)|(value&0xFFFF0000u);
 
     return *this;
    }
@@ -10991,12 +10991,12 @@ struct Type_MDIOUserAccess
 
   Type get_Phy() const
    {
-    return (value>>16)&0x1F;
+    return (value>>16)&0x1Fu;
    }
  
   Type_MDIOUserAccess & set_Phy(Type field)
    {
-    value=((field&0x1F)<<16)|(value&0xFFE0FFFF);
+    value=((field&0x1Fu)<<16)|(value&0xFFE0FFFFu);
 
     return *this;
    }
@@ -11004,12 +11004,12 @@ struct Type_MDIOUserAccess
 
   Type get_Reg() const
    {
-    return (value>>21)&0x1F;
+    return (value>>21)&0x1Fu;
    }
  
   Type_MDIOUserAccess & set_Reg(Type field)
    {
-    value=((field&0x1F)<<21)|(value&0xFC1FFFFF);
+    value=((field&0x1Fu)<<21)|(value&0xFC1FFFFFu);
 
     return *this;
    }
@@ -11115,8 +11115,8 @@ struct Type_MDIOUserAccess
 
 enum Bits_MDIOUserPhySel : uint32
  {
-  MDIOUserPhySel_IntEnable = 0x00000040,
-  MDIOUserPhySel_ExtSource = 0x00000080
+  MDIOUserPhySel_IntEnable = 0x00000040u,
+  MDIOUserPhySel_ExtSource = 0x00000080u
  };
  
 inline Bits_MDIOUserPhySel operator | (Bits_MDIOUserPhySel a,Bits_MDIOUserPhySel b)
@@ -11163,12 +11163,12 @@ struct Type_MDIOUserPhySel
 
   Type get_Phy() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_MDIOUserPhySel & set_Phy(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -11253,11 +11253,11 @@ struct SwitchBar
 
   //--- SwitchControl
 
-  Type_SwitchControl get_SwitchControl() { return Type_SwitchControl(rw.template get<uint32>(0x4)); }
+  Type_SwitchControl get_SwitchControl() { return Type_SwitchControl(rw.template get<uint32>(0x4u)); }
  
-  void set_SwitchControl(Type_SwitchControl value) { rw.set(0x4,value.value); }
+  void set_SwitchControl(Type_SwitchControl value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_SwitchControl> to_SwitchControl() { return Setter<Type_SwitchControl>(rw,0x4); }
+  Setter<Type_SwitchControl> to_SwitchControl() { return Setter<Type_SwitchControl>(rw,0x4u); }
  
   static Type_SwitchControl null_SwitchControl() { return Type_SwitchControl(0); }
  
@@ -11265,11 +11265,11 @@ struct SwitchBar
  
   //--- SwitchSoftReset
 
-  Type_SwitchSoftReset get_SwitchSoftReset() { return Type_SwitchSoftReset(rw.template get<uint32>(0x8)); }
+  Type_SwitchSoftReset get_SwitchSoftReset() { return Type_SwitchSoftReset(rw.template get<uint32>(0x8u)); }
  
-  void set_SwitchSoftReset(Type_SwitchSoftReset value) { rw.set(0x8,value.value); }
+  void set_SwitchSoftReset(Type_SwitchSoftReset value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_SwitchSoftReset> to_SwitchSoftReset() { return Setter<Type_SwitchSoftReset>(rw,0x8); }
+  Setter<Type_SwitchSoftReset> to_SwitchSoftReset() { return Setter<Type_SwitchSoftReset>(rw,0x8u); }
  
   static Type_SwitchSoftReset null_SwitchSoftReset() { return Type_SwitchSoftReset(0); }
  
@@ -11277,11 +11277,11 @@ struct SwitchBar
  
   //--- SwitchStatPort
 
-  Type_SwitchStatPort get_SwitchStatPort() { return Type_SwitchStatPort(rw.template get<uint32>(0xC)); }
+  Type_SwitchStatPort get_SwitchStatPort() { return Type_SwitchStatPort(rw.template get<uint32>(0xCu)); }
  
-  void set_SwitchStatPort(Type_SwitchStatPort value) { rw.set(0xC,value.value); }
+  void set_SwitchStatPort(Type_SwitchStatPort value) { rw.set(0xCu,value.value); }
  
-  Setter<Type_SwitchStatPort> to_SwitchStatPort() { return Setter<Type_SwitchStatPort>(rw,0xC); }
+  Setter<Type_SwitchStatPort> to_SwitchStatPort() { return Setter<Type_SwitchStatPort>(rw,0xCu); }
  
   static Type_SwitchStatPort null_SwitchStatPort() { return Type_SwitchStatPort(0); }
  
@@ -11289,11 +11289,11 @@ struct SwitchBar
  
   //--- SwitchTxPriType
 
-  Type_SwitchTxPriType get_SwitchTxPriType() { return Type_SwitchTxPriType(rw.template get<uint32>(0x10)); }
+  Type_SwitchTxPriType get_SwitchTxPriType() { return Type_SwitchTxPriType(rw.template get<uint32>(0x10u)); }
  
-  void set_SwitchTxPriType(Type_SwitchTxPriType value) { rw.set(0x10,value.value); }
+  void set_SwitchTxPriType(Type_SwitchTxPriType value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_SwitchTxPriType> to_SwitchTxPriType() { return Setter<Type_SwitchTxPriType>(rw,0x10); }
+  Setter<Type_SwitchTxPriType> to_SwitchTxPriType() { return Setter<Type_SwitchTxPriType>(rw,0x10u); }
  
   static Type_SwitchTxPriType null_SwitchTxPriType() { return Type_SwitchTxPriType(0); }
  
@@ -11301,11 +11301,11 @@ struct SwitchBar
  
   //--- SwitchCmdIdle
 
-  Type_SwitchCmdIdle get_SwitchCmdIdle() { return Type_SwitchCmdIdle(rw.template get<uint32>(0x14)); }
+  Type_SwitchCmdIdle get_SwitchCmdIdle() { return Type_SwitchCmdIdle(rw.template get<uint32>(0x14u)); }
  
-  void set_SwitchCmdIdle(Type_SwitchCmdIdle value) { rw.set(0x14,value.value); }
+  void set_SwitchCmdIdle(Type_SwitchCmdIdle value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_SwitchCmdIdle> to_SwitchCmdIdle() { return Setter<Type_SwitchCmdIdle>(rw,0x14); }
+  Setter<Type_SwitchCmdIdle> to_SwitchCmdIdle() { return Setter<Type_SwitchCmdIdle>(rw,0x14u); }
  
   static Type_SwitchCmdIdle null_SwitchCmdIdle() { return Type_SwitchCmdIdle(0); }
  
@@ -11313,11 +11313,11 @@ struct SwitchBar
  
   //--- SwitchRate
 
-  Type_SwitchRate get_SwitchRate() { return Type_SwitchRate(rw.template get<uint32>(0x18)); }
+  Type_SwitchRate get_SwitchRate() { return Type_SwitchRate(rw.template get<uint32>(0x18u)); }
  
-  void set_SwitchRate(Type_SwitchRate value) { rw.set(0x18,value.value); }
+  void set_SwitchRate(Type_SwitchRate value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_SwitchRate> to_SwitchRate() { return Setter<Type_SwitchRate>(rw,0x18); }
+  Setter<Type_SwitchRate> to_SwitchRate() { return Setter<Type_SwitchRate>(rw,0x18u); }
  
   static Type_SwitchRate null_SwitchRate() { return Type_SwitchRate(0); }
  
@@ -11325,11 +11325,11 @@ struct SwitchBar
  
   //--- SwitchTxShortGap
 
-  Type_SwitchTxShortGap get_SwitchTxShortGap() { return Type_SwitchTxShortGap(rw.template get<uint32>(0x1C)); }
+  Type_SwitchTxShortGap get_SwitchTxShortGap() { return Type_SwitchTxShortGap(rw.template get<uint32>(0x1Cu)); }
  
-  void set_SwitchTxShortGap(Type_SwitchTxShortGap value) { rw.set(0x1C,value.value); }
+  void set_SwitchTxShortGap(Type_SwitchTxShortGap value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_SwitchTxShortGap> to_SwitchTxShortGap() { return Setter<Type_SwitchTxShortGap>(rw,0x1C); }
+  Setter<Type_SwitchTxShortGap> to_SwitchTxShortGap() { return Setter<Type_SwitchTxShortGap>(rw,0x1Cu); }
  
   static Type_SwitchTxShortGap null_SwitchTxShortGap() { return Type_SwitchTxShortGap(0); }
  
@@ -11337,11 +11337,11 @@ struct SwitchBar
  
   //--- SwitchTxStart
 
-  Type_SwitchTxStart get_SwitchTxStart() { return Type_SwitchTxStart(rw.template get<uint32>(0x20)); }
+  Type_SwitchTxStart get_SwitchTxStart() { return Type_SwitchTxStart(rw.template get<uint32>(0x20u)); }
  
-  void set_SwitchTxStart(Type_SwitchTxStart value) { rw.set(0x20,value.value); }
+  void set_SwitchTxStart(Type_SwitchTxStart value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_SwitchTxStart> to_SwitchTxStart() { return Setter<Type_SwitchTxStart>(rw,0x20); }
+  Setter<Type_SwitchTxStart> to_SwitchTxStart() { return Setter<Type_SwitchTxStart>(rw,0x20u); }
  
   static Type_SwitchTxStart null_SwitchTxStart() { return Type_SwitchTxStart(0); }
  
@@ -11349,11 +11349,11 @@ struct SwitchBar
  
   //--- SwitchRxFlowControl
 
-  Type_SwitchRxFlowControl get_SwitchRxFlowControl() { return Type_SwitchRxFlowControl(rw.template get<uint32>(0x24)); }
+  Type_SwitchRxFlowControl get_SwitchRxFlowControl() { return Type_SwitchRxFlowControl(rw.template get<uint32>(0x24u)); }
  
-  void set_SwitchRxFlowControl(Type_SwitchRxFlowControl value) { rw.set(0x24,value.value); }
+  void set_SwitchRxFlowControl(Type_SwitchRxFlowControl value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_SwitchRxFlowControl> to_SwitchRxFlowControl() { return Setter<Type_SwitchRxFlowControl>(rw,0x24); }
+  Setter<Type_SwitchRxFlowControl> to_SwitchRxFlowControl() { return Setter<Type_SwitchRxFlowControl>(rw,0x24u); }
  
   static Type_SwitchRxFlowControl null_SwitchRxFlowControl() { return Type_SwitchRxFlowControl(0); }
  
@@ -11361,11 +11361,11 @@ struct SwitchBar
  
   //--- SwitchLType
 
-  Type_SwitchLType get_SwitchLType() { return Type_SwitchLType(rw.template get<uint32>(0x28)); }
+  Type_SwitchLType get_SwitchLType() { return Type_SwitchLType(rw.template get<uint32>(0x28u)); }
  
-  void set_SwitchLType(Type_SwitchLType value) { rw.set(0x28,value.value); }
+  void set_SwitchLType(Type_SwitchLType value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_SwitchLType> to_SwitchLType() { return Setter<Type_SwitchLType>(rw,0x28); }
+  Setter<Type_SwitchLType> to_SwitchLType() { return Setter<Type_SwitchLType>(rw,0x28u); }
  
   static Type_SwitchLType null_SwitchLType() { return Type_SwitchLType(0); }
  
@@ -11373,11 +11373,11 @@ struct SwitchBar
  
   //--- SwitchTSLType
 
-  Type_SwitchTSLType get_SwitchTSLType() { return Type_SwitchTSLType(rw.template get<uint32>(0x2C)); }
+  Type_SwitchTSLType get_SwitchTSLType() { return Type_SwitchTSLType(rw.template get<uint32>(0x2Cu)); }
  
-  void set_SwitchTSLType(Type_SwitchTSLType value) { rw.set(0x2C,value.value); }
+  void set_SwitchTSLType(Type_SwitchTSLType value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_SwitchTSLType> to_SwitchTSLType() { return Setter<Type_SwitchTSLType>(rw,0x2C); }
+  Setter<Type_SwitchTSLType> to_SwitchTSLType() { return Setter<Type_SwitchTSLType>(rw,0x2Cu); }
  
   static Type_SwitchTSLType null_SwitchTSLType() { return Type_SwitchTSLType(0); }
  
@@ -11385,11 +11385,11 @@ struct SwitchBar
  
   //--- SwitchDLRLType
 
-  Type_SwitchDLRLType get_SwitchDLRLType() { return Type_SwitchDLRLType(rw.template get<uint32>(0x30)); }
+  Type_SwitchDLRLType get_SwitchDLRLType() { return Type_SwitchDLRLType(rw.template get<uint32>(0x30u)); }
  
-  void set_SwitchDLRLType(Type_SwitchDLRLType value) { rw.set(0x30,value.value); }
+  void set_SwitchDLRLType(Type_SwitchDLRLType value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_SwitchDLRLType> to_SwitchDLRLType() { return Setter<Type_SwitchDLRLType>(rw,0x30); }
+  Setter<Type_SwitchDLRLType> to_SwitchDLRLType() { return Setter<Type_SwitchDLRLType>(rw,0x30u); }
  
   static Type_SwitchDLRLType null_SwitchDLRLType() { return Type_SwitchDLRLType(0); }
  
@@ -11422,11 +11422,11 @@ struct Port0Bar
 
   //--- PortControl
 
-  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0)); }
+  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0u)); }
  
-  void set_PortControl(Type_PortControl value) { rw.set(0x0,value.value); }
+  void set_PortControl(Type_PortControl value) { rw.set(0x0u,value.value); }
  
-  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0); }
+  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0u); }
  
   static Type_PortControl null_PortControl() { return Type_PortControl(0); }
  
@@ -11434,11 +11434,11 @@ struct Port0Bar
  
   //--- PortFIFOLen
 
-  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8)); }
+  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8u)); }
  
-  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8,value.value); }
+  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8); }
+  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8u); }
  
   static Type_PortFIFOLen null_PortFIFOLen() { return Type_PortFIFOLen(0); }
  
@@ -11446,7 +11446,7 @@ struct Port0Bar
  
   //--- PortFIFOUse
 
-  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xC)); }
+  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xCu)); }
  
   static Type_PortFIFOUse null_PortFIFOUse() { return Type_PortFIFOUse(0); }
  
@@ -11454,11 +11454,11 @@ struct Port0Bar
  
   //--- PortTxFIFOControl
 
-  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10)); }
+  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10u)); }
  
-  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10,value.value); }
+  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10); }
+  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10u); }
  
   static Type_PortTxFIFOControl null_PortTxFIFOControl() { return Type_PortTxFIFOControl(0); }
  
@@ -11466,11 +11466,11 @@ struct Port0Bar
  
   //--- PortVLANControl
 
-  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14)); }
+  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14u)); }
  
-  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14,value.value); }
+  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14); }
+  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14u); }
  
   static Type_PortVLANControl null_PortVLANControl() { return Type_PortVLANControl(0); }
  
@@ -11478,11 +11478,11 @@ struct Port0Bar
  
   //--- PortTxPriMap
 
-  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18)); }
+  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18u)); }
  
-  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18,value.value); }
+  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18); }
+  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18u); }
  
   static Type_PortTxPriMap null_PortTxPriMap() { return Type_PortTxPriMap(0); }
  
@@ -11490,11 +11490,11 @@ struct Port0Bar
  
   //--- PortTxDMAPriMap
 
-  Type_PortTxDMAPriMap get_PortTxDMAPriMap() { return Type_PortTxDMAPriMap(rw.template get<uint32>(0x1C)); }
+  Type_PortTxDMAPriMap get_PortTxDMAPriMap() { return Type_PortTxDMAPriMap(rw.template get<uint32>(0x1Cu)); }
  
-  void set_PortTxDMAPriMap(Type_PortTxDMAPriMap value) { rw.set(0x1C,value.value); }
+  void set_PortTxDMAPriMap(Type_PortTxDMAPriMap value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_PortTxDMAPriMap> to_PortTxDMAPriMap() { return Setter<Type_PortTxDMAPriMap>(rw,0x1C); }
+  Setter<Type_PortTxDMAPriMap> to_PortTxDMAPriMap() { return Setter<Type_PortTxDMAPriMap>(rw,0x1Cu); }
  
   static Type_PortTxDMAPriMap null_PortTxDMAPriMap() { return Type_PortTxDMAPriMap(0); }
  
@@ -11502,11 +11502,11 @@ struct Port0Bar
  
   //--- PortRxDMAPriMap
 
-  Type_PortRxDMAPriMap get_PortRxDMAPriMap() { return Type_PortRxDMAPriMap(rw.template get<uint32>(0x20)); }
+  Type_PortRxDMAPriMap get_PortRxDMAPriMap() { return Type_PortRxDMAPriMap(rw.template get<uint32>(0x20u)); }
  
-  void set_PortRxDMAPriMap(Type_PortRxDMAPriMap value) { rw.set(0x20,value.value); }
+  void set_PortRxDMAPriMap(Type_PortRxDMAPriMap value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_PortRxDMAPriMap> to_PortRxDMAPriMap() { return Setter<Type_PortRxDMAPriMap>(rw,0x20); }
+  Setter<Type_PortRxDMAPriMap> to_PortRxDMAPriMap() { return Setter<Type_PortRxDMAPriMap>(rw,0x20u); }
  
   static Type_PortRxDMAPriMap null_PortRxDMAPriMap() { return Type_PortRxDMAPriMap(0); }
  
@@ -11514,11 +11514,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap0
 
-  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x24)); }
+  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x24u)); }
  
-  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x24,value.value); }
+  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x24); }
+  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x24u); }
  
   static Type_PortTOSPriMap0 null_PortTOSPriMap0() { return Type_PortTOSPriMap0(0); }
  
@@ -11526,11 +11526,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap1
 
-  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x28)); }
+  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x28u)); }
  
-  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x28,value.value); }
+  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x28); }
+  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x28u); }
  
   static Type_PortTOSPriMap1 null_PortTOSPriMap1() { return Type_PortTOSPriMap1(0); }
  
@@ -11538,11 +11538,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap2
 
-  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x2C)); }
+  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x2Cu)); }
  
-  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x2C,value.value); }
+  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x2C); }
+  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x2Cu); }
  
   static Type_PortTOSPriMap2 null_PortTOSPriMap2() { return Type_PortTOSPriMap2(0); }
  
@@ -11550,11 +11550,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap3
 
-  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x30)); }
+  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x30u)); }
  
-  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x30,value.value); }
+  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x30); }
+  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x30u); }
  
   static Type_PortTOSPriMap3 null_PortTOSPriMap3() { return Type_PortTOSPriMap3(0); }
  
@@ -11562,11 +11562,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap4
 
-  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x34)); }
+  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x34u)); }
  
-  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x34,value.value); }
+  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x34); }
+  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x34u); }
  
   static Type_PortTOSPriMap4 null_PortTOSPriMap4() { return Type_PortTOSPriMap4(0); }
  
@@ -11574,11 +11574,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap5
 
-  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x38)); }
+  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x38u)); }
  
-  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x38,value.value); }
+  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x38); }
+  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x38u); }
  
   static Type_PortTOSPriMap5 null_PortTOSPriMap5() { return Type_PortTOSPriMap5(0); }
  
@@ -11586,11 +11586,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap6
 
-  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x3C)); }
+  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x3Cu)); }
  
-  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x3C,value.value); }
+  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x3Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x3C); }
+  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x3Cu); }
  
   static Type_PortTOSPriMap6 null_PortTOSPriMap6() { return Type_PortTOSPriMap6(0); }
  
@@ -11598,11 +11598,11 @@ struct Port0Bar
  
   //--- PortTOSPriMap7
 
-  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x40)); }
+  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x40u)); }
  
-  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x40,value.value); }
+  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x40); }
+  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x40u); }
  
   static Type_PortTOSPriMap7 null_PortTOSPriMap7() { return Type_PortTOSPriMap7(0); }
  
@@ -11635,11 +11635,11 @@ struct Port1Bar
 
   //--- PortControl
 
-  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0)); }
+  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0u)); }
  
-  void set_PortControl(Type_PortControl value) { rw.set(0x0,value.value); }
+  void set_PortControl(Type_PortControl value) { rw.set(0x0u,value.value); }
  
-  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0); }
+  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0u); }
  
   static Type_PortControl null_PortControl() { return Type_PortControl(0); }
  
@@ -11647,11 +11647,11 @@ struct Port1Bar
  
   //--- PortFIFOLen
 
-  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8)); }
+  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8u)); }
  
-  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8,value.value); }
+  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8); }
+  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8u); }
  
   static Type_PortFIFOLen null_PortFIFOLen() { return Type_PortFIFOLen(0); }
  
@@ -11659,7 +11659,7 @@ struct Port1Bar
  
   //--- PortFIFOUse
 
-  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xC)); }
+  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xCu)); }
  
   static Type_PortFIFOUse null_PortFIFOUse() { return Type_PortFIFOUse(0); }
  
@@ -11667,11 +11667,11 @@ struct Port1Bar
  
   //--- PortTxFIFOControl
 
-  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10)); }
+  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10u)); }
  
-  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10,value.value); }
+  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10); }
+  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10u); }
  
   static Type_PortTxFIFOControl null_PortTxFIFOControl() { return Type_PortTxFIFOControl(0); }
  
@@ -11679,11 +11679,11 @@ struct Port1Bar
  
   //--- PortVLANControl
 
-  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14)); }
+  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14u)); }
  
-  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14,value.value); }
+  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14); }
+  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14u); }
  
   static Type_PortVLANControl null_PortVLANControl() { return Type_PortVLANControl(0); }
  
@@ -11691,11 +11691,11 @@ struct Port1Bar
  
   //--- PortTxPriMap
 
-  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18)); }
+  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18u)); }
  
-  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18,value.value); }
+  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18); }
+  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18u); }
  
   static Type_PortTxPriMap null_PortTxPriMap() { return Type_PortTxPriMap(0); }
  
@@ -11703,11 +11703,11 @@ struct Port1Bar
  
   //--- PortTimeSync
 
-  Type_PortTimeSync get_PortTimeSync() { return Type_PortTimeSync(rw.template get<uint32>(0x1C)); }
+  Type_PortTimeSync get_PortTimeSync() { return Type_PortTimeSync(rw.template get<uint32>(0x1Cu)); }
  
-  void set_PortTimeSync(Type_PortTimeSync value) { rw.set(0x1C,value.value); }
+  void set_PortTimeSync(Type_PortTimeSync value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_PortTimeSync> to_PortTimeSync() { return Setter<Type_PortTimeSync>(rw,0x1C); }
+  Setter<Type_PortTimeSync> to_PortTimeSync() { return Setter<Type_PortTimeSync>(rw,0x1Cu); }
  
   static Type_PortTimeSync null_PortTimeSync() { return Type_PortTimeSync(0); }
  
@@ -11715,11 +11715,11 @@ struct Port1Bar
  
   //--- PortMACHi
 
-  Type_PortMACHi get_PortMACHi() { return Type_PortMACHi(rw.template get<uint32>(0x20)); }
+  Type_PortMACHi get_PortMACHi() { return Type_PortMACHi(rw.template get<uint32>(0x20u)); }
  
-  void set_PortMACHi(Type_PortMACHi value) { rw.set(0x20,value.value); }
+  void set_PortMACHi(Type_PortMACHi value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_PortMACHi> to_PortMACHi() { return Setter<Type_PortMACHi>(rw,0x20); }
+  Setter<Type_PortMACHi> to_PortMACHi() { return Setter<Type_PortMACHi>(rw,0x20u); }
  
   static Type_PortMACHi null_PortMACHi() { return Type_PortMACHi(0); }
  
@@ -11727,11 +11727,11 @@ struct Port1Bar
  
   //--- PortMACLo
 
-  Type_PortMACLo get_PortMACLo() { return Type_PortMACLo(rw.template get<uint32>(0x24)); }
+  Type_PortMACLo get_PortMACLo() { return Type_PortMACLo(rw.template get<uint32>(0x24u)); }
  
-  void set_PortMACLo(Type_PortMACLo value) { rw.set(0x24,value.value); }
+  void set_PortMACLo(Type_PortMACLo value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_PortMACLo> to_PortMACLo() { return Setter<Type_PortMACLo>(rw,0x24); }
+  Setter<Type_PortMACLo> to_PortMACLo() { return Setter<Type_PortMACLo>(rw,0x24u); }
  
   static Type_PortMACLo null_PortMACLo() { return Type_PortMACLo(0); }
  
@@ -11739,11 +11739,11 @@ struct Port1Bar
  
   //--- PortSendPercent
 
-  Type_PortSendPercent get_PortSendPercent() { return Type_PortSendPercent(rw.template get<uint32>(0x28)); }
+  Type_PortSendPercent get_PortSendPercent() { return Type_PortSendPercent(rw.template get<uint32>(0x28u)); }
  
-  void set_PortSendPercent(Type_PortSendPercent value) { rw.set(0x28,value.value); }
+  void set_PortSendPercent(Type_PortSendPercent value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_PortSendPercent> to_PortSendPercent() { return Setter<Type_PortSendPercent>(rw,0x28); }
+  Setter<Type_PortSendPercent> to_PortSendPercent() { return Setter<Type_PortSendPercent>(rw,0x28u); }
  
   static Type_PortSendPercent null_PortSendPercent() { return Type_PortSendPercent(0); }
  
@@ -11751,11 +11751,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap0
 
-  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x2C)); }
+  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x2Cu)); }
  
-  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x2C,value.value); }
+  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x2C); }
+  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x2Cu); }
  
   static Type_PortTOSPriMap0 null_PortTOSPriMap0() { return Type_PortTOSPriMap0(0); }
  
@@ -11763,11 +11763,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap1
 
-  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x30)); }
+  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x30u)); }
  
-  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x30,value.value); }
+  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x30); }
+  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x30u); }
  
   static Type_PortTOSPriMap1 null_PortTOSPriMap1() { return Type_PortTOSPriMap1(0); }
  
@@ -11775,11 +11775,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap2
 
-  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x34)); }
+  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x34u)); }
  
-  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x34,value.value); }
+  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x34); }
+  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x34u); }
  
   static Type_PortTOSPriMap2 null_PortTOSPriMap2() { return Type_PortTOSPriMap2(0); }
  
@@ -11787,11 +11787,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap3
 
-  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x38)); }
+  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x38u)); }
  
-  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x38,value.value); }
+  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x38); }
+  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x38u); }
  
   static Type_PortTOSPriMap3 null_PortTOSPriMap3() { return Type_PortTOSPriMap3(0); }
  
@@ -11799,11 +11799,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap4
 
-  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x3C)); }
+  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x3Cu)); }
  
-  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x3C,value.value); }
+  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x3Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x3C); }
+  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x3Cu); }
  
   static Type_PortTOSPriMap4 null_PortTOSPriMap4() { return Type_PortTOSPriMap4(0); }
  
@@ -11811,11 +11811,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap5
 
-  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x40)); }
+  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x40u)); }
  
-  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x40,value.value); }
+  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x40); }
+  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x40u); }
  
   static Type_PortTOSPriMap5 null_PortTOSPriMap5() { return Type_PortTOSPriMap5(0); }
  
@@ -11823,11 +11823,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap6
 
-  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x44)); }
+  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x44u)); }
  
-  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x44,value.value); }
+  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x44u,value.value); }
  
-  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x44); }
+  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x44u); }
  
   static Type_PortTOSPriMap6 null_PortTOSPriMap6() { return Type_PortTOSPriMap6(0); }
  
@@ -11835,11 +11835,11 @@ struct Port1Bar
  
   //--- PortTOSPriMap7
 
-  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x48)); }
+  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x48u)); }
  
-  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x48,value.value); }
+  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x48); }
+  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x48u); }
  
   static Type_PortTOSPriMap7 null_PortTOSPriMap7() { return Type_PortTOSPriMap7(0); }
  
@@ -11872,11 +11872,11 @@ struct Port2Bar
 
   //--- PortControl
 
-  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0)); }
+  Type_PortControl get_PortControl() { return Type_PortControl(rw.template get<uint32>(0x0u)); }
  
-  void set_PortControl(Type_PortControl value) { rw.set(0x0,value.value); }
+  void set_PortControl(Type_PortControl value) { rw.set(0x0u,value.value); }
  
-  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0); }
+  Setter<Type_PortControl> to_PortControl() { return Setter<Type_PortControl>(rw,0x0u); }
  
   static Type_PortControl null_PortControl() { return Type_PortControl(0); }
  
@@ -11884,11 +11884,11 @@ struct Port2Bar
  
   //--- PortFIFOLen
 
-  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8)); }
+  Type_PortFIFOLen get_PortFIFOLen() { return Type_PortFIFOLen(rw.template get<uint32>(0x8u)); }
  
-  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8,value.value); }
+  void set_PortFIFOLen(Type_PortFIFOLen value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8); }
+  Setter<Type_PortFIFOLen> to_PortFIFOLen() { return Setter<Type_PortFIFOLen>(rw,0x8u); }
  
   static Type_PortFIFOLen null_PortFIFOLen() { return Type_PortFIFOLen(0); }
  
@@ -11896,7 +11896,7 @@ struct Port2Bar
  
   //--- PortFIFOUse
 
-  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xC)); }
+  Type_PortFIFOUse get_PortFIFOUse() { return Type_PortFIFOUse(rw.template get<uint32>(0xCu)); }
  
   static Type_PortFIFOUse null_PortFIFOUse() { return Type_PortFIFOUse(0); }
  
@@ -11904,11 +11904,11 @@ struct Port2Bar
  
   //--- PortTxFIFOControl
 
-  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10)); }
+  Type_PortTxFIFOControl get_PortTxFIFOControl() { return Type_PortTxFIFOControl(rw.template get<uint32>(0x10u)); }
  
-  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10,value.value); }
+  void set_PortTxFIFOControl(Type_PortTxFIFOControl value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10); }
+  Setter<Type_PortTxFIFOControl> to_PortTxFIFOControl() { return Setter<Type_PortTxFIFOControl>(rw,0x10u); }
  
   static Type_PortTxFIFOControl null_PortTxFIFOControl() { return Type_PortTxFIFOControl(0); }
  
@@ -11916,11 +11916,11 @@ struct Port2Bar
  
   //--- PortVLANControl
 
-  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14)); }
+  Type_PortVLANControl get_PortVLANControl() { return Type_PortVLANControl(rw.template get<uint32>(0x14u)); }
  
-  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14,value.value); }
+  void set_PortVLANControl(Type_PortVLANControl value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14); }
+  Setter<Type_PortVLANControl> to_PortVLANControl() { return Setter<Type_PortVLANControl>(rw,0x14u); }
  
   static Type_PortVLANControl null_PortVLANControl() { return Type_PortVLANControl(0); }
  
@@ -11928,11 +11928,11 @@ struct Port2Bar
  
   //--- PortTxPriMap
 
-  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18)); }
+  Type_PortTxPriMap get_PortTxPriMap() { return Type_PortTxPriMap(rw.template get<uint32>(0x18u)); }
  
-  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18,value.value); }
+  void set_PortTxPriMap(Type_PortTxPriMap value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18); }
+  Setter<Type_PortTxPriMap> to_PortTxPriMap() { return Setter<Type_PortTxPriMap>(rw,0x18u); }
  
   static Type_PortTxPriMap null_PortTxPriMap() { return Type_PortTxPriMap(0); }
  
@@ -11940,11 +11940,11 @@ struct Port2Bar
  
   //--- PortTimeSync
 
-  Type_PortTimeSync get_PortTimeSync() { return Type_PortTimeSync(rw.template get<uint32>(0x1C)); }
+  Type_PortTimeSync get_PortTimeSync() { return Type_PortTimeSync(rw.template get<uint32>(0x1Cu)); }
  
-  void set_PortTimeSync(Type_PortTimeSync value) { rw.set(0x1C,value.value); }
+  void set_PortTimeSync(Type_PortTimeSync value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_PortTimeSync> to_PortTimeSync() { return Setter<Type_PortTimeSync>(rw,0x1C); }
+  Setter<Type_PortTimeSync> to_PortTimeSync() { return Setter<Type_PortTimeSync>(rw,0x1Cu); }
  
   static Type_PortTimeSync null_PortTimeSync() { return Type_PortTimeSync(0); }
  
@@ -11952,11 +11952,11 @@ struct Port2Bar
  
   //--- PortMACHi
 
-  Type_PortMACHi get_PortMACHi() { return Type_PortMACHi(rw.template get<uint32>(0x20)); }
+  Type_PortMACHi get_PortMACHi() { return Type_PortMACHi(rw.template get<uint32>(0x20u)); }
  
-  void set_PortMACHi(Type_PortMACHi value) { rw.set(0x20,value.value); }
+  void set_PortMACHi(Type_PortMACHi value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_PortMACHi> to_PortMACHi() { return Setter<Type_PortMACHi>(rw,0x20); }
+  Setter<Type_PortMACHi> to_PortMACHi() { return Setter<Type_PortMACHi>(rw,0x20u); }
  
   static Type_PortMACHi null_PortMACHi() { return Type_PortMACHi(0); }
  
@@ -11964,11 +11964,11 @@ struct Port2Bar
  
   //--- PortMACLo
 
-  Type_PortMACLo get_PortMACLo() { return Type_PortMACLo(rw.template get<uint32>(0x24)); }
+  Type_PortMACLo get_PortMACLo() { return Type_PortMACLo(rw.template get<uint32>(0x24u)); }
  
-  void set_PortMACLo(Type_PortMACLo value) { rw.set(0x24,value.value); }
+  void set_PortMACLo(Type_PortMACLo value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_PortMACLo> to_PortMACLo() { return Setter<Type_PortMACLo>(rw,0x24); }
+  Setter<Type_PortMACLo> to_PortMACLo() { return Setter<Type_PortMACLo>(rw,0x24u); }
  
   static Type_PortMACLo null_PortMACLo() { return Type_PortMACLo(0); }
  
@@ -11976,11 +11976,11 @@ struct Port2Bar
  
   //--- PortSendPercent
 
-  Type_PortSendPercent get_PortSendPercent() { return Type_PortSendPercent(rw.template get<uint32>(0x28)); }
+  Type_PortSendPercent get_PortSendPercent() { return Type_PortSendPercent(rw.template get<uint32>(0x28u)); }
  
-  void set_PortSendPercent(Type_PortSendPercent value) { rw.set(0x28,value.value); }
+  void set_PortSendPercent(Type_PortSendPercent value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_PortSendPercent> to_PortSendPercent() { return Setter<Type_PortSendPercent>(rw,0x28); }
+  Setter<Type_PortSendPercent> to_PortSendPercent() { return Setter<Type_PortSendPercent>(rw,0x28u); }
  
   static Type_PortSendPercent null_PortSendPercent() { return Type_PortSendPercent(0); }
  
@@ -11988,11 +11988,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap0
 
-  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x2C)); }
+  Type_PortTOSPriMap0 get_PortTOSPriMap0() { return Type_PortTOSPriMap0(rw.template get<uint32>(0x2Cu)); }
  
-  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x2C,value.value); }
+  void set_PortTOSPriMap0(Type_PortTOSPriMap0 value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x2C); }
+  Setter<Type_PortTOSPriMap0> to_PortTOSPriMap0() { return Setter<Type_PortTOSPriMap0>(rw,0x2Cu); }
  
   static Type_PortTOSPriMap0 null_PortTOSPriMap0() { return Type_PortTOSPriMap0(0); }
  
@@ -12000,11 +12000,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap1
 
-  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x30)); }
+  Type_PortTOSPriMap1 get_PortTOSPriMap1() { return Type_PortTOSPriMap1(rw.template get<uint32>(0x30u)); }
  
-  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x30,value.value); }
+  void set_PortTOSPriMap1(Type_PortTOSPriMap1 value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x30); }
+  Setter<Type_PortTOSPriMap1> to_PortTOSPriMap1() { return Setter<Type_PortTOSPriMap1>(rw,0x30u); }
  
   static Type_PortTOSPriMap1 null_PortTOSPriMap1() { return Type_PortTOSPriMap1(0); }
  
@@ -12012,11 +12012,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap2
 
-  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x34)); }
+  Type_PortTOSPriMap2 get_PortTOSPriMap2() { return Type_PortTOSPriMap2(rw.template get<uint32>(0x34u)); }
  
-  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x34,value.value); }
+  void set_PortTOSPriMap2(Type_PortTOSPriMap2 value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x34); }
+  Setter<Type_PortTOSPriMap2> to_PortTOSPriMap2() { return Setter<Type_PortTOSPriMap2>(rw,0x34u); }
  
   static Type_PortTOSPriMap2 null_PortTOSPriMap2() { return Type_PortTOSPriMap2(0); }
  
@@ -12024,11 +12024,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap3
 
-  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x38)); }
+  Type_PortTOSPriMap3 get_PortTOSPriMap3() { return Type_PortTOSPriMap3(rw.template get<uint32>(0x38u)); }
  
-  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x38,value.value); }
+  void set_PortTOSPriMap3(Type_PortTOSPriMap3 value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x38); }
+  Setter<Type_PortTOSPriMap3> to_PortTOSPriMap3() { return Setter<Type_PortTOSPriMap3>(rw,0x38u); }
  
   static Type_PortTOSPriMap3 null_PortTOSPriMap3() { return Type_PortTOSPriMap3(0); }
  
@@ -12036,11 +12036,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap4
 
-  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x3C)); }
+  Type_PortTOSPriMap4 get_PortTOSPriMap4() { return Type_PortTOSPriMap4(rw.template get<uint32>(0x3Cu)); }
  
-  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x3C,value.value); }
+  void set_PortTOSPriMap4(Type_PortTOSPriMap4 value) { rw.set(0x3Cu,value.value); }
  
-  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x3C); }
+  Setter<Type_PortTOSPriMap4> to_PortTOSPriMap4() { return Setter<Type_PortTOSPriMap4>(rw,0x3Cu); }
  
   static Type_PortTOSPriMap4 null_PortTOSPriMap4() { return Type_PortTOSPriMap4(0); }
  
@@ -12048,11 +12048,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap5
 
-  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x40)); }
+  Type_PortTOSPriMap5 get_PortTOSPriMap5() { return Type_PortTOSPriMap5(rw.template get<uint32>(0x40u)); }
  
-  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x40,value.value); }
+  void set_PortTOSPriMap5(Type_PortTOSPriMap5 value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x40); }
+  Setter<Type_PortTOSPriMap5> to_PortTOSPriMap5() { return Setter<Type_PortTOSPriMap5>(rw,0x40u); }
  
   static Type_PortTOSPriMap5 null_PortTOSPriMap5() { return Type_PortTOSPriMap5(0); }
  
@@ -12060,11 +12060,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap6
 
-  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x44)); }
+  Type_PortTOSPriMap6 get_PortTOSPriMap6() { return Type_PortTOSPriMap6(rw.template get<uint32>(0x44u)); }
  
-  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x44,value.value); }
+  void set_PortTOSPriMap6(Type_PortTOSPriMap6 value) { rw.set(0x44u,value.value); }
  
-  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x44); }
+  Setter<Type_PortTOSPriMap6> to_PortTOSPriMap6() { return Setter<Type_PortTOSPriMap6>(rw,0x44u); }
  
   static Type_PortTOSPriMap6 null_PortTOSPriMap6() { return Type_PortTOSPriMap6(0); }
  
@@ -12072,11 +12072,11 @@ struct Port2Bar
  
   //--- PortTOSPriMap7
 
-  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x48)); }
+  Type_PortTOSPriMap7 get_PortTOSPriMap7() { return Type_PortTOSPriMap7(rw.template get<uint32>(0x48u)); }
  
-  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x48,value.value); }
+  void set_PortTOSPriMap7(Type_PortTOSPriMap7 value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x48); }
+  Setter<Type_PortTOSPriMap7> to_PortTOSPriMap7() { return Setter<Type_PortTOSPriMap7>(rw,0x48u); }
  
   static Type_PortTOSPriMap7 null_PortTOSPriMap7() { return Type_PortTOSPriMap7(0); }
  
@@ -12109,11 +12109,11 @@ struct DMABar
 
   //--- DMATxControl
 
-  Type_DMATxControl get_DMATxControl() { return Type_DMATxControl(rw.template get<uint32>(0x4)); }
+  Type_DMATxControl get_DMATxControl() { return Type_DMATxControl(rw.template get<uint32>(0x4u)); }
  
-  void set_DMATxControl(Type_DMATxControl value) { rw.set(0x4,value.value); }
+  void set_DMATxControl(Type_DMATxControl value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_DMATxControl> to_DMATxControl() { return Setter<Type_DMATxControl>(rw,0x4); }
+  Setter<Type_DMATxControl> to_DMATxControl() { return Setter<Type_DMATxControl>(rw,0x4u); }
  
   static Type_DMATxControl null_DMATxControl() { return Type_DMATxControl(0); }
  
@@ -12121,11 +12121,11 @@ struct DMABar
  
   //--- DMATxTeardown
 
-  Type_DMATxTeardown get_DMATxTeardown() { return Type_DMATxTeardown(rw.template get<uint32>(0x8)); }
+  Type_DMATxTeardown get_DMATxTeardown() { return Type_DMATxTeardown(rw.template get<uint32>(0x8u)); }
  
-  void set_DMATxTeardown(Type_DMATxTeardown value) { rw.set(0x8,value.value); }
+  void set_DMATxTeardown(Type_DMATxTeardown value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_DMATxTeardown> to_DMATxTeardown() { return Setter<Type_DMATxTeardown>(rw,0x8); }
+  Setter<Type_DMATxTeardown> to_DMATxTeardown() { return Setter<Type_DMATxTeardown>(rw,0x8u); }
  
   static Type_DMATxTeardown null_DMATxTeardown() { return Type_DMATxTeardown(0); }
  
@@ -12133,11 +12133,11 @@ struct DMABar
  
   //--- DMARxControl
 
-  Type_DMARxControl get_DMARxControl() { return Type_DMARxControl(rw.template get<uint32>(0x14)); }
+  Type_DMARxControl get_DMARxControl() { return Type_DMARxControl(rw.template get<uint32>(0x14u)); }
  
-  void set_DMARxControl(Type_DMARxControl value) { rw.set(0x14,value.value); }
+  void set_DMARxControl(Type_DMARxControl value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_DMARxControl> to_DMARxControl() { return Setter<Type_DMARxControl>(rw,0x14); }
+  Setter<Type_DMARxControl> to_DMARxControl() { return Setter<Type_DMARxControl>(rw,0x14u); }
  
   static Type_DMARxControl null_DMARxControl() { return Type_DMARxControl(0); }
  
@@ -12145,11 +12145,11 @@ struct DMABar
  
   //--- DMARxTeardown
 
-  Type_DMARxTeardown get_DMARxTeardown() { return Type_DMARxTeardown(rw.template get<uint32>(0x18)); }
+  Type_DMARxTeardown get_DMARxTeardown() { return Type_DMARxTeardown(rw.template get<uint32>(0x18u)); }
  
-  void set_DMARxTeardown(Type_DMARxTeardown value) { rw.set(0x18,value.value); }
+  void set_DMARxTeardown(Type_DMARxTeardown value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_DMARxTeardown> to_DMARxTeardown() { return Setter<Type_DMARxTeardown>(rw,0x18); }
+  Setter<Type_DMARxTeardown> to_DMARxTeardown() { return Setter<Type_DMARxTeardown>(rw,0x18u); }
  
   static Type_DMARxTeardown null_DMARxTeardown() { return Type_DMARxTeardown(0); }
  
@@ -12157,11 +12157,11 @@ struct DMABar
  
   //--- DMASoftReset
 
-  Type_DMASoftReset get_DMASoftReset() { return Type_DMASoftReset(rw.template get<uint32>(0x1C)); }
+  Type_DMASoftReset get_DMASoftReset() { return Type_DMASoftReset(rw.template get<uint32>(0x1Cu)); }
  
-  void set_DMASoftReset(Type_DMASoftReset value) { rw.set(0x1C,value.value); }
+  void set_DMASoftReset(Type_DMASoftReset value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_DMASoftReset> to_DMASoftReset() { return Setter<Type_DMASoftReset>(rw,0x1C); }
+  Setter<Type_DMASoftReset> to_DMASoftReset() { return Setter<Type_DMASoftReset>(rw,0x1Cu); }
  
   static Type_DMASoftReset null_DMASoftReset() { return Type_DMASoftReset(0); }
  
@@ -12169,11 +12169,11 @@ struct DMABar
  
   //--- DMAControl
 
-  Type_DMAControl get_DMAControl() { return Type_DMAControl(rw.template get<uint32>(0x20)); }
+  Type_DMAControl get_DMAControl() { return Type_DMAControl(rw.template get<uint32>(0x20u)); }
  
-  void set_DMAControl(Type_DMAControl value) { rw.set(0x20,value.value); }
+  void set_DMAControl(Type_DMAControl value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_DMAControl> to_DMAControl() { return Setter<Type_DMAControl>(rw,0x20); }
+  Setter<Type_DMAControl> to_DMAControl() { return Setter<Type_DMAControl>(rw,0x20u); }
  
   static Type_DMAControl null_DMAControl() { return Type_DMAControl(0); }
  
@@ -12181,7 +12181,7 @@ struct DMABar
  
   //--- DMAStatus
 
-  Type_DMAStatus get_DMAStatus() { return Type_DMAStatus(rw.template get<uint32>(0x24)); }
+  Type_DMAStatus get_DMAStatus() { return Type_DMAStatus(rw.template get<uint32>(0x24u)); }
  
   static Type_DMAStatus null_DMAStatus() { return Type_DMAStatus(0); }
  
@@ -12189,11 +12189,11 @@ struct DMABar
  
   //--- DMARxOffset
 
-  Type_DMARxOffset get_DMARxOffset() { return Type_DMARxOffset(rw.template get<uint32>(0x28)); }
+  Type_DMARxOffset get_DMARxOffset() { return Type_DMARxOffset(rw.template get<uint32>(0x28u)); }
  
-  void set_DMARxOffset(Type_DMARxOffset value) { rw.set(0x28,value.value); }
+  void set_DMARxOffset(Type_DMARxOffset value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_DMARxOffset> to_DMARxOffset() { return Setter<Type_DMARxOffset>(rw,0x28); }
+  Setter<Type_DMARxOffset> to_DMARxOffset() { return Setter<Type_DMARxOffset>(rw,0x28u); }
  
   static Type_DMARxOffset null_DMARxOffset() { return Type_DMARxOffset(0); }
  
@@ -12201,11 +12201,11 @@ struct DMABar
  
   //--- DMAEMControl
 
-  Type_DMAEMControl get_DMAEMControl() { return Type_DMAEMControl(rw.template get<uint32>(0x2C)); }
+  Type_DMAEMControl get_DMAEMControl() { return Type_DMAEMControl(rw.template get<uint32>(0x2Cu)); }
  
-  void set_DMAEMControl(Type_DMAEMControl value) { rw.set(0x2C,value.value); }
+  void set_DMAEMControl(Type_DMAEMControl value) { rw.set(0x2Cu,value.value); }
  
-  Setter<Type_DMAEMControl> to_DMAEMControl() { return Setter<Type_DMAEMControl>(rw,0x2C); }
+  Setter<Type_DMAEMControl> to_DMAEMControl() { return Setter<Type_DMAEMControl>(rw,0x2Cu); }
  
   static Type_DMAEMControl null_DMAEMControl() { return Type_DMAEMControl(0); }
  
@@ -12219,83 +12219,83 @@ struct DMABar
  
   //--- DMATx0RateControl
 
-  Type_DMARateControl get_DMATx0RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x30)); }
+  Type_DMARateControl get_DMATx0RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x30u)); }
  
-  void set_DMATx0RateControl(Type_DMARateControl value) { rw.set(0x30,value.value); }
+  void set_DMATx0RateControl(Type_DMARateControl value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx0RateControl() { return Setter<Type_DMARateControl>(rw,0x30); }
+  Setter<Type_DMARateControl> to_DMATx0RateControl() { return Setter<Type_DMARateControl>(rw,0x30u); }
  
   //--- DMATx1RateControl
 
-  Type_DMARateControl get_DMATx1RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x34)); }
+  Type_DMARateControl get_DMATx1RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x34u)); }
  
-  void set_DMATx1RateControl(Type_DMARateControl value) { rw.set(0x34,value.value); }
+  void set_DMATx1RateControl(Type_DMARateControl value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx1RateControl() { return Setter<Type_DMARateControl>(rw,0x34); }
+  Setter<Type_DMARateControl> to_DMATx1RateControl() { return Setter<Type_DMARateControl>(rw,0x34u); }
  
   //--- DMATx2RateControl
 
-  Type_DMARateControl get_DMATx2RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x38)); }
+  Type_DMARateControl get_DMATx2RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x38u)); }
  
-  void set_DMATx2RateControl(Type_DMARateControl value) { rw.set(0x38,value.value); }
+  void set_DMATx2RateControl(Type_DMARateControl value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx2RateControl() { return Setter<Type_DMARateControl>(rw,0x38); }
+  Setter<Type_DMARateControl> to_DMATx2RateControl() { return Setter<Type_DMARateControl>(rw,0x38u); }
  
   //--- DMATx3RateControl
 
-  Type_DMARateControl get_DMATx3RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x3C)); }
+  Type_DMARateControl get_DMATx3RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x3Cu)); }
  
-  void set_DMATx3RateControl(Type_DMARateControl value) { rw.set(0x3C,value.value); }
+  void set_DMATx3RateControl(Type_DMARateControl value) { rw.set(0x3Cu,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx3RateControl() { return Setter<Type_DMARateControl>(rw,0x3C); }
+  Setter<Type_DMARateControl> to_DMATx3RateControl() { return Setter<Type_DMARateControl>(rw,0x3Cu); }
  
   //--- DMATx4RateControl
 
-  Type_DMARateControl get_DMATx4RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x40)); }
+  Type_DMARateControl get_DMATx4RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x40u)); }
  
-  void set_DMATx4RateControl(Type_DMARateControl value) { rw.set(0x40,value.value); }
+  void set_DMATx4RateControl(Type_DMARateControl value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx4RateControl() { return Setter<Type_DMARateControl>(rw,0x40); }
+  Setter<Type_DMARateControl> to_DMATx4RateControl() { return Setter<Type_DMARateControl>(rw,0x40u); }
  
   //--- DMATx5RateControl
 
-  Type_DMARateControl get_DMATx5RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x44)); }
+  Type_DMARateControl get_DMATx5RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x44u)); }
  
-  void set_DMATx5RateControl(Type_DMARateControl value) { rw.set(0x44,value.value); }
+  void set_DMATx5RateControl(Type_DMARateControl value) { rw.set(0x44u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx5RateControl() { return Setter<Type_DMARateControl>(rw,0x44); }
+  Setter<Type_DMARateControl> to_DMATx5RateControl() { return Setter<Type_DMARateControl>(rw,0x44u); }
  
   //--- DMATx6RateControl
 
-  Type_DMARateControl get_DMATx6RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x48)); }
+  Type_DMARateControl get_DMATx6RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x48u)); }
  
-  void set_DMATx6RateControl(Type_DMARateControl value) { rw.set(0x48,value.value); }
+  void set_DMATx6RateControl(Type_DMARateControl value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx6RateControl() { return Setter<Type_DMARateControl>(rw,0x48); }
+  Setter<Type_DMARateControl> to_DMATx6RateControl() { return Setter<Type_DMARateControl>(rw,0x48u); }
  
   //--- DMATx7RateControl
 
-  Type_DMARateControl get_DMATx7RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x4C)); }
+  Type_DMARateControl get_DMATx7RateControl() { return Type_DMARateControl(rw.template get<uint32>(0x4Cu)); }
  
-  void set_DMATx7RateControl(Type_DMARateControl value) { rw.set(0x4C,value.value); }
+  void set_DMATx7RateControl(Type_DMARateControl value) { rw.set(0x4Cu,value.value); }
  
-  Setter<Type_DMARateControl> to_DMATx7RateControl() { return Setter<Type_DMARateControl>(rw,0x4C); }
+  Setter<Type_DMARateControl> to_DMATx7RateControl() { return Setter<Type_DMARateControl>(rw,0x4Cu); }
  
   //--- DMATxIntStatusRaw
 
-  Type_DMATxIntStatus get_DMATxIntStatusRaw() { return Type_DMATxIntStatus(rw.template get<uint32>(0x80)); }
+  Type_DMATxIntStatus get_DMATxIntStatusRaw() { return Type_DMATxIntStatus(rw.template get<uint32>(0x80u)); }
  
-  void set_DMATxIntStatusRaw(Type_DMATxIntStatus value) { rw.set(0x80,value.value); }
+  void set_DMATxIntStatusRaw(Type_DMATxIntStatus value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_DMATxIntStatus> to_DMATxIntStatusRaw() { return Setter<Type_DMATxIntStatus>(rw,0x80); }
+  Setter<Type_DMATxIntStatus> to_DMATxIntStatusRaw() { return Setter<Type_DMATxIntStatus>(rw,0x80u); }
  
   //--- DMATxIntStatus
 
-  Type_DMATxIntStatus get_DMATxIntStatus() { return Type_DMATxIntStatus(rw.template get<uint32>(0x84)); }
+  Type_DMATxIntStatus get_DMATxIntStatus() { return Type_DMATxIntStatus(rw.template get<uint32>(0x84u)); }
  
-  void set_DMATxIntStatus(Type_DMATxIntStatus value) { rw.set(0x84,value.value); }
+  void set_DMATxIntStatus(Type_DMATxIntStatus value) { rw.set(0x84u,value.value); }
  
-  Setter<Type_DMATxIntStatus> to_DMATxIntStatus() { return Setter<Type_DMATxIntStatus>(rw,0x84); }
+  Setter<Type_DMATxIntStatus> to_DMATxIntStatus() { return Setter<Type_DMATxIntStatus>(rw,0x84u); }
  
   static Type_DMATxIntStatus null_DMATxIntStatus() { return Type_DMATxIntStatus(0); }
  
@@ -12303,49 +12303,49 @@ struct DMABar
  
   //--- DMATxIntEnableSet
 
-  Type_DMATxIntStatus get_DMATxIntEnableSet() { return Type_DMATxIntStatus(rw.template get<uint32>(0x88)); }
+  Type_DMATxIntStatus get_DMATxIntEnableSet() { return Type_DMATxIntStatus(rw.template get<uint32>(0x88u)); }
  
-  void set_DMATxIntEnableSet(Type_DMATxIntStatus value) { rw.set(0x88,value.value); }
+  void set_DMATxIntEnableSet(Type_DMATxIntStatus value) { rw.set(0x88u,value.value); }
  
-  Setter<Type_DMATxIntStatus> to_DMATxIntEnableSet() { return Setter<Type_DMATxIntStatus>(rw,0x88); }
+  Setter<Type_DMATxIntStatus> to_DMATxIntEnableSet() { return Setter<Type_DMATxIntStatus>(rw,0x88u); }
  
   //--- DMATxIntEnableClear
 
-  Type_DMATxIntStatus get_DMATxIntEnableClear() { return Type_DMATxIntStatus(rw.template get<uint32>(0x8C)); }
+  Type_DMATxIntStatus get_DMATxIntEnableClear() { return Type_DMATxIntStatus(rw.template get<uint32>(0x8Cu)); }
  
-  void set_DMATxIntEnableClear(Type_DMATxIntStatus value) { rw.set(0x8C,value.value); }
+  void set_DMATxIntEnableClear(Type_DMATxIntStatus value) { rw.set(0x8Cu,value.value); }
  
-  Setter<Type_DMATxIntStatus> to_DMATxIntEnableClear() { return Setter<Type_DMATxIntStatus>(rw,0x8C); }
+  Setter<Type_DMATxIntStatus> to_DMATxIntEnableClear() { return Setter<Type_DMATxIntStatus>(rw,0x8Cu); }
  
   //--- DMAInVector
 
-  Type_DMAInVector get_DMAInVector() { return Type_DMAInVector(rw.template get<uint32>(0x90)); }
+  Type_DMAInVector get_DMAInVector() { return Type_DMAInVector(rw.template get<uint32>(0x90u)); }
  
   //--- DMAEOIVector
 
-  Type_DMAEOIVector get_DMAEOIVector() { return Type_DMAEOIVector(rw.template get<uint32>(0x94)); }
+  Type_DMAEOIVector get_DMAEOIVector() { return Type_DMAEOIVector(rw.template get<uint32>(0x94u)); }
  
-  void set_DMAEOIVector(Type_DMAEOIVector value) { rw.set(0x94,value); }
+  void set_DMAEOIVector(Type_DMAEOIVector value) { rw.set(0x94u,value); }
  
-  void set_DMAEOIVector_null() { rw.set(0x94,Type_DMAEOIVector(0)); }
+  void set_DMAEOIVector_null() { rw.set(0x94u,Type_DMAEOIVector(0)); }
  
-  void set_DMAEOIVector_ones() { rw.set(0x94,Type_DMAEOIVector(-1)); }
+  void set_DMAEOIVector_ones() { rw.set(0x94u,Type_DMAEOIVector(-1)); }
  
   //--- DMARxIntStatusRaw
 
-  Type_DMARxIntStatus get_DMARxIntStatusRaw() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA0)); }
+  Type_DMARxIntStatus get_DMARxIntStatusRaw() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA0u)); }
  
-  void set_DMARxIntStatusRaw(Type_DMARxIntStatus value) { rw.set(0xA0,value.value); }
+  void set_DMARxIntStatusRaw(Type_DMARxIntStatus value) { rw.set(0xA0u,value.value); }
  
-  Setter<Type_DMARxIntStatus> to_DMARxIntStatusRaw() { return Setter<Type_DMARxIntStatus>(rw,0xA0); }
+  Setter<Type_DMARxIntStatus> to_DMARxIntStatusRaw() { return Setter<Type_DMARxIntStatus>(rw,0xA0u); }
  
   //--- DMARxIntStatus
 
-  Type_DMARxIntStatus get_DMARxIntStatus() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA4)); }
+  Type_DMARxIntStatus get_DMARxIntStatus() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA4u)); }
  
-  void set_DMARxIntStatus(Type_DMARxIntStatus value) { rw.set(0xA4,value.value); }
+  void set_DMARxIntStatus(Type_DMARxIntStatus value) { rw.set(0xA4u,value.value); }
  
-  Setter<Type_DMARxIntStatus> to_DMARxIntStatus() { return Setter<Type_DMARxIntStatus>(rw,0xA4); }
+  Setter<Type_DMARxIntStatus> to_DMARxIntStatus() { return Setter<Type_DMARxIntStatus>(rw,0xA4u); }
  
   static Type_DMARxIntStatus null_DMARxIntStatus() { return Type_DMARxIntStatus(0); }
  
@@ -12353,35 +12353,35 @@ struct DMABar
  
   //--- DMARxIntEnableSet
 
-  Type_DMARxIntStatus get_DMARxIntEnableSet() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA8)); }
+  Type_DMARxIntStatus get_DMARxIntEnableSet() { return Type_DMARxIntStatus(rw.template get<uint32>(0xA8u)); }
  
-  void set_DMARxIntEnableSet(Type_DMARxIntStatus value) { rw.set(0xA8,value.value); }
+  void set_DMARxIntEnableSet(Type_DMARxIntStatus value) { rw.set(0xA8u,value.value); }
  
-  Setter<Type_DMARxIntStatus> to_DMARxIntEnableSet() { return Setter<Type_DMARxIntStatus>(rw,0xA8); }
+  Setter<Type_DMARxIntStatus> to_DMARxIntEnableSet() { return Setter<Type_DMARxIntStatus>(rw,0xA8u); }
  
   //--- DMARxIntEnableClear
 
-  Type_DMARxIntStatus get_DMARxIntEnableClear() { return Type_DMARxIntStatus(rw.template get<uint32>(0xAC)); }
+  Type_DMARxIntStatus get_DMARxIntEnableClear() { return Type_DMARxIntStatus(rw.template get<uint32>(0xACu)); }
  
-  void set_DMARxIntEnableClear(Type_DMARxIntStatus value) { rw.set(0xAC,value.value); }
+  void set_DMARxIntEnableClear(Type_DMARxIntStatus value) { rw.set(0xACu,value.value); }
  
-  Setter<Type_DMARxIntStatus> to_DMARxIntEnableClear() { return Setter<Type_DMARxIntStatus>(rw,0xAC); }
+  Setter<Type_DMARxIntStatus> to_DMARxIntEnableClear() { return Setter<Type_DMARxIntStatus>(rw,0xACu); }
  
   //--- DMAIntStatusRaw
 
-  Type_DMAIntStatus get_DMAIntStatusRaw() { return Type_DMAIntStatus(rw.template get<uint32>(0xB0)); }
+  Type_DMAIntStatus get_DMAIntStatusRaw() { return Type_DMAIntStatus(rw.template get<uint32>(0xB0u)); }
  
-  void set_DMAIntStatusRaw(Type_DMAIntStatus value) { rw.set(0xB0,value.value); }
+  void set_DMAIntStatusRaw(Type_DMAIntStatus value) { rw.set(0xB0u,value.value); }
  
-  Setter<Type_DMAIntStatus> to_DMAIntStatusRaw() { return Setter<Type_DMAIntStatus>(rw,0xB0); }
+  Setter<Type_DMAIntStatus> to_DMAIntStatusRaw() { return Setter<Type_DMAIntStatus>(rw,0xB0u); }
  
   //--- DMAIntStatus
 
-  Type_DMAIntStatus get_DMAIntStatus() { return Type_DMAIntStatus(rw.template get<uint32>(0xB4)); }
+  Type_DMAIntStatus get_DMAIntStatus() { return Type_DMAIntStatus(rw.template get<uint32>(0xB4u)); }
  
-  void set_DMAIntStatus(Type_DMAIntStatus value) { rw.set(0xB4,value.value); }
+  void set_DMAIntStatus(Type_DMAIntStatus value) { rw.set(0xB4u,value.value); }
  
-  Setter<Type_DMAIntStatus> to_DMAIntStatus() { return Setter<Type_DMAIntStatus>(rw,0xB4); }
+  Setter<Type_DMAIntStatus> to_DMAIntStatus() { return Setter<Type_DMAIntStatus>(rw,0xB4u); }
  
   static Type_DMAIntStatus null_DMAIntStatus() { return Type_DMAIntStatus(0); }
  
@@ -12389,19 +12389,19 @@ struct DMABar
  
   //--- DMAIntEnableSet
 
-  Type_DMAIntStatus get_DMAIntEnableSet() { return Type_DMAIntStatus(rw.template get<uint32>(0xB8)); }
+  Type_DMAIntStatus get_DMAIntEnableSet() { return Type_DMAIntStatus(rw.template get<uint32>(0xB8u)); }
  
-  void set_DMAIntEnableSet(Type_DMAIntStatus value) { rw.set(0xB8,value.value); }
+  void set_DMAIntEnableSet(Type_DMAIntStatus value) { rw.set(0xB8u,value.value); }
  
-  Setter<Type_DMAIntStatus> to_DMAIntEnableSet() { return Setter<Type_DMAIntStatus>(rw,0xB8); }
+  Setter<Type_DMAIntStatus> to_DMAIntEnableSet() { return Setter<Type_DMAIntStatus>(rw,0xB8u); }
  
   //--- DMAIntEnableClear
 
-  Type_DMAIntStatus get_DMAIntEnableClear() { return Type_DMAIntStatus(rw.template get<uint32>(0xBC)); }
+  Type_DMAIntStatus get_DMAIntEnableClear() { return Type_DMAIntStatus(rw.template get<uint32>(0xBCu)); }
  
-  void set_DMAIntEnableClear(Type_DMAIntStatus value) { rw.set(0xBC,value.value); }
+  void set_DMAIntEnableClear(Type_DMAIntStatus value) { rw.set(0xBCu,value.value); }
  
-  Setter<Type_DMAIntStatus> to_DMAIntEnableClear() { return Setter<Type_DMAIntStatus>(rw,0xBC); }
+  Setter<Type_DMAIntStatus> to_DMAIntEnableClear() { return Setter<Type_DMAIntStatus>(rw,0xBCu); }
  
   //--- DMARxThresh
 
@@ -12411,67 +12411,67 @@ struct DMABar
  
   //--- DMARx0Thresh
 
-  Type_DMARxThresh get_DMARx0Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC0)); }
+  Type_DMARxThresh get_DMARx0Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC0u)); }
  
-  void set_DMARx0Thresh(Type_DMARxThresh value) { rw.set(0xC0,value.value); }
+  void set_DMARx0Thresh(Type_DMARxThresh value) { rw.set(0xC0u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx0Thresh() { return Setter<Type_DMARxThresh>(rw,0xC0); }
+  Setter<Type_DMARxThresh> to_DMARx0Thresh() { return Setter<Type_DMARxThresh>(rw,0xC0u); }
  
   //--- DMARx1Thresh
 
-  Type_DMARxThresh get_DMARx1Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC4)); }
+  Type_DMARxThresh get_DMARx1Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC4u)); }
  
-  void set_DMARx1Thresh(Type_DMARxThresh value) { rw.set(0xC4,value.value); }
+  void set_DMARx1Thresh(Type_DMARxThresh value) { rw.set(0xC4u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx1Thresh() { return Setter<Type_DMARxThresh>(rw,0xC4); }
+  Setter<Type_DMARxThresh> to_DMARx1Thresh() { return Setter<Type_DMARxThresh>(rw,0xC4u); }
  
   //--- DMARx2Thresh
 
-  Type_DMARxThresh get_DMARx2Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC8)); }
+  Type_DMARxThresh get_DMARx2Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xC8u)); }
  
-  void set_DMARx2Thresh(Type_DMARxThresh value) { rw.set(0xC8,value.value); }
+  void set_DMARx2Thresh(Type_DMARxThresh value) { rw.set(0xC8u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx2Thresh() { return Setter<Type_DMARxThresh>(rw,0xC8); }
+  Setter<Type_DMARxThresh> to_DMARx2Thresh() { return Setter<Type_DMARxThresh>(rw,0xC8u); }
  
   //--- DMARx3Thresh
 
-  Type_DMARxThresh get_DMARx3Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xCC)); }
+  Type_DMARxThresh get_DMARx3Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xCCu)); }
  
-  void set_DMARx3Thresh(Type_DMARxThresh value) { rw.set(0xCC,value.value); }
+  void set_DMARx3Thresh(Type_DMARxThresh value) { rw.set(0xCCu,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx3Thresh() { return Setter<Type_DMARxThresh>(rw,0xCC); }
+  Setter<Type_DMARxThresh> to_DMARx3Thresh() { return Setter<Type_DMARxThresh>(rw,0xCCu); }
  
   //--- DMARx4Thresh
 
-  Type_DMARxThresh get_DMARx4Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD0)); }
+  Type_DMARxThresh get_DMARx4Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD0u)); }
  
-  void set_DMARx4Thresh(Type_DMARxThresh value) { rw.set(0xD0,value.value); }
+  void set_DMARx4Thresh(Type_DMARxThresh value) { rw.set(0xD0u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx4Thresh() { return Setter<Type_DMARxThresh>(rw,0xD0); }
+  Setter<Type_DMARxThresh> to_DMARx4Thresh() { return Setter<Type_DMARxThresh>(rw,0xD0u); }
  
   //--- DMARx5Thresh
 
-  Type_DMARxThresh get_DMARx5Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD4)); }
+  Type_DMARxThresh get_DMARx5Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD4u)); }
  
-  void set_DMARx5Thresh(Type_DMARxThresh value) { rw.set(0xD4,value.value); }
+  void set_DMARx5Thresh(Type_DMARxThresh value) { rw.set(0xD4u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx5Thresh() { return Setter<Type_DMARxThresh>(rw,0xD4); }
+  Setter<Type_DMARxThresh> to_DMARx5Thresh() { return Setter<Type_DMARxThresh>(rw,0xD4u); }
  
   //--- DMARx6Thresh
 
-  Type_DMARxThresh get_DMARx6Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD8)); }
+  Type_DMARxThresh get_DMARx6Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xD8u)); }
  
-  void set_DMARx6Thresh(Type_DMARxThresh value) { rw.set(0xD8,value.value); }
+  void set_DMARx6Thresh(Type_DMARxThresh value) { rw.set(0xD8u,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx6Thresh() { return Setter<Type_DMARxThresh>(rw,0xD8); }
+  Setter<Type_DMARxThresh> to_DMARx6Thresh() { return Setter<Type_DMARxThresh>(rw,0xD8u); }
  
   //--- DMARx7Thresh
 
-  Type_DMARxThresh get_DMARx7Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xDC)); }
+  Type_DMARxThresh get_DMARx7Thresh() { return Type_DMARxThresh(rw.template get<uint32>(0xDCu)); }
  
-  void set_DMARx7Thresh(Type_DMARxThresh value) { rw.set(0xDC,value.value); }
+  void set_DMARx7Thresh(Type_DMARxThresh value) { rw.set(0xDCu,value.value); }
  
-  Setter<Type_DMARxThresh> to_DMARx7Thresh() { return Setter<Type_DMARxThresh>(rw,0xDC); }
+  Setter<Type_DMARxThresh> to_DMARx7Thresh() { return Setter<Type_DMARxThresh>(rw,0xDCu); }
  
   //--- DMARxFree
 
@@ -12481,67 +12481,67 @@ struct DMABar
  
   //--- DMARx0Free
 
-  Type_DMARxFree get_DMARx0Free() { return Type_DMARxFree(rw.template get<uint32>(0xE0)); }
+  Type_DMARxFree get_DMARx0Free() { return Type_DMARxFree(rw.template get<uint32>(0xE0u)); }
  
-  void set_DMARx0Free(Type_DMARxFree value) { rw.set(0xE0,value.value); }
+  void set_DMARx0Free(Type_DMARxFree value) { rw.set(0xE0u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx0Free() { return Setter<Type_DMARxFree>(rw,0xE0); }
+  Setter<Type_DMARxFree> to_DMARx0Free() { return Setter<Type_DMARxFree>(rw,0xE0u); }
  
   //--- DMARx1Free
 
-  Type_DMARxFree get_DMARx1Free() { return Type_DMARxFree(rw.template get<uint32>(0xE4)); }
+  Type_DMARxFree get_DMARx1Free() { return Type_DMARxFree(rw.template get<uint32>(0xE4u)); }
  
-  void set_DMARx1Free(Type_DMARxFree value) { rw.set(0xE4,value.value); }
+  void set_DMARx1Free(Type_DMARxFree value) { rw.set(0xE4u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx1Free() { return Setter<Type_DMARxFree>(rw,0xE4); }
+  Setter<Type_DMARxFree> to_DMARx1Free() { return Setter<Type_DMARxFree>(rw,0xE4u); }
  
   //--- DMARx2Free
 
-  Type_DMARxFree get_DMARx2Free() { return Type_DMARxFree(rw.template get<uint32>(0xE8)); }
+  Type_DMARxFree get_DMARx2Free() { return Type_DMARxFree(rw.template get<uint32>(0xE8u)); }
  
-  void set_DMARx2Free(Type_DMARxFree value) { rw.set(0xE8,value.value); }
+  void set_DMARx2Free(Type_DMARxFree value) { rw.set(0xE8u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx2Free() { return Setter<Type_DMARxFree>(rw,0xE8); }
+  Setter<Type_DMARxFree> to_DMARx2Free() { return Setter<Type_DMARxFree>(rw,0xE8u); }
  
   //--- DMARx3Free
 
-  Type_DMARxFree get_DMARx3Free() { return Type_DMARxFree(rw.template get<uint32>(0xEC)); }
+  Type_DMARxFree get_DMARx3Free() { return Type_DMARxFree(rw.template get<uint32>(0xECu)); }
  
-  void set_DMARx3Free(Type_DMARxFree value) { rw.set(0xEC,value.value); }
+  void set_DMARx3Free(Type_DMARxFree value) { rw.set(0xECu,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx3Free() { return Setter<Type_DMARxFree>(rw,0xEC); }
+  Setter<Type_DMARxFree> to_DMARx3Free() { return Setter<Type_DMARxFree>(rw,0xECu); }
  
   //--- DMARx4Free
 
-  Type_DMARxFree get_DMARx4Free() { return Type_DMARxFree(rw.template get<uint32>(0xF0)); }
+  Type_DMARxFree get_DMARx4Free() { return Type_DMARxFree(rw.template get<uint32>(0xF0u)); }
  
-  void set_DMARx4Free(Type_DMARxFree value) { rw.set(0xF0,value.value); }
+  void set_DMARx4Free(Type_DMARxFree value) { rw.set(0xF0u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx4Free() { return Setter<Type_DMARxFree>(rw,0xF0); }
+  Setter<Type_DMARxFree> to_DMARx4Free() { return Setter<Type_DMARxFree>(rw,0xF0u); }
  
   //--- DMARx5Free
 
-  Type_DMARxFree get_DMARx5Free() { return Type_DMARxFree(rw.template get<uint32>(0xF4)); }
+  Type_DMARxFree get_DMARx5Free() { return Type_DMARxFree(rw.template get<uint32>(0xF4u)); }
  
-  void set_DMARx5Free(Type_DMARxFree value) { rw.set(0xF4,value.value); }
+  void set_DMARx5Free(Type_DMARxFree value) { rw.set(0xF4u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx5Free() { return Setter<Type_DMARxFree>(rw,0xF4); }
+  Setter<Type_DMARxFree> to_DMARx5Free() { return Setter<Type_DMARxFree>(rw,0xF4u); }
  
   //--- DMARx6Free
 
-  Type_DMARxFree get_DMARx6Free() { return Type_DMARxFree(rw.template get<uint32>(0xF8)); }
+  Type_DMARxFree get_DMARx6Free() { return Type_DMARxFree(rw.template get<uint32>(0xF8u)); }
  
-  void set_DMARx6Free(Type_DMARxFree value) { rw.set(0xF8,value.value); }
+  void set_DMARx6Free(Type_DMARxFree value) { rw.set(0xF8u,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx6Free() { return Setter<Type_DMARxFree>(rw,0xF8); }
+  Setter<Type_DMARxFree> to_DMARx6Free() { return Setter<Type_DMARxFree>(rw,0xF8u); }
  
   //--- DMARx7Free
 
-  Type_DMARxFree get_DMARx7Free() { return Type_DMARxFree(rw.template get<uint32>(0xFC)); }
+  Type_DMARxFree get_DMARx7Free() { return Type_DMARxFree(rw.template get<uint32>(0xFCu)); }
  
-  void set_DMARx7Free(Type_DMARxFree value) { rw.set(0xFC,value.value); }
+  void set_DMARx7Free(Type_DMARxFree value) { rw.set(0xFCu,value.value); }
  
-  Setter<Type_DMARxFree> to_DMARx7Free() { return Setter<Type_DMARxFree>(rw,0xFC); }
+  Setter<Type_DMARxFree> to_DMARx7Free() { return Setter<Type_DMARxFree>(rw,0xFCu); }
  
  };
  
@@ -12570,333 +12570,333 @@ struct StatBar
 
   //--- GoodRxFrames
 
-  Type_StatCounter get_GoodRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x0)); }
+  Type_StatCounter get_GoodRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x0u)); }
  
-  void set_GoodRxFrames(Type_StatCounter value) { rw.set(0x0,value); }
+  void set_GoodRxFrames(Type_StatCounter value) { rw.set(0x0u,value); }
  
-  void set_GoodRxFrames_null() { rw.set(0x0,Type_StatCounter(0)); }
+  void set_GoodRxFrames_null() { rw.set(0x0u,Type_StatCounter(0)); }
  
-  void set_GoodRxFrames_ones() { rw.set(0x0,Type_StatCounter(-1)); }
+  void set_GoodRxFrames_ones() { rw.set(0x0u,Type_StatCounter(-1)); }
  
   //--- BroadcastRxFrames
 
-  Type_StatCounter get_BroadcastRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x4)); }
+  Type_StatCounter get_BroadcastRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x4u)); }
  
-  void set_BroadcastRxFrames(Type_StatCounter value) { rw.set(0x4,value); }
+  void set_BroadcastRxFrames(Type_StatCounter value) { rw.set(0x4u,value); }
  
-  void set_BroadcastRxFrames_null() { rw.set(0x4,Type_StatCounter(0)); }
+  void set_BroadcastRxFrames_null() { rw.set(0x4u,Type_StatCounter(0)); }
  
-  void set_BroadcastRxFrames_ones() { rw.set(0x4,Type_StatCounter(-1)); }
+  void set_BroadcastRxFrames_ones() { rw.set(0x4u,Type_StatCounter(-1)); }
  
   //--- MulticastRxFrames
 
-  Type_StatCounter get_MulticastRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x8)); }
+  Type_StatCounter get_MulticastRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x8u)); }
  
-  void set_MulticastRxFrames(Type_StatCounter value) { rw.set(0x8,value); }
+  void set_MulticastRxFrames(Type_StatCounter value) { rw.set(0x8u,value); }
  
-  void set_MulticastRxFrames_null() { rw.set(0x8,Type_StatCounter(0)); }
+  void set_MulticastRxFrames_null() { rw.set(0x8u,Type_StatCounter(0)); }
  
-  void set_MulticastRxFrames_ones() { rw.set(0x8,Type_StatCounter(-1)); }
+  void set_MulticastRxFrames_ones() { rw.set(0x8u,Type_StatCounter(-1)); }
  
   //--- PauseRxFrames
 
-  Type_StatCounter get_PauseRxFrames() { return Type_StatCounter(rw.template get<uint32>(0xC)); }
+  Type_StatCounter get_PauseRxFrames() { return Type_StatCounter(rw.template get<uint32>(0xCu)); }
  
-  void set_PauseRxFrames(Type_StatCounter value) { rw.set(0xC,value); }
+  void set_PauseRxFrames(Type_StatCounter value) { rw.set(0xCu,value); }
  
-  void set_PauseRxFrames_null() { rw.set(0xC,Type_StatCounter(0)); }
+  void set_PauseRxFrames_null() { rw.set(0xCu,Type_StatCounter(0)); }
  
-  void set_PauseRxFrames_ones() { rw.set(0xC,Type_StatCounter(-1)); }
+  void set_PauseRxFrames_ones() { rw.set(0xCu,Type_StatCounter(-1)); }
  
   //--- RxCRCErrors
 
-  Type_StatCounter get_RxCRCErrors() { return Type_StatCounter(rw.template get<uint32>(0x10)); }
+  Type_StatCounter get_RxCRCErrors() { return Type_StatCounter(rw.template get<uint32>(0x10u)); }
  
-  void set_RxCRCErrors(Type_StatCounter value) { rw.set(0x10,value); }
+  void set_RxCRCErrors(Type_StatCounter value) { rw.set(0x10u,value); }
  
-  void set_RxCRCErrors_null() { rw.set(0x10,Type_StatCounter(0)); }
+  void set_RxCRCErrors_null() { rw.set(0x10u,Type_StatCounter(0)); }
  
-  void set_RxCRCErrors_ones() { rw.set(0x10,Type_StatCounter(-1)); }
+  void set_RxCRCErrors_ones() { rw.set(0x10u,Type_StatCounter(-1)); }
  
   //--- RxAlignCodeErrors
 
-  Type_StatCounter get_RxAlignCodeErrors() { return Type_StatCounter(rw.template get<uint32>(0x14)); }
+  Type_StatCounter get_RxAlignCodeErrors() { return Type_StatCounter(rw.template get<uint32>(0x14u)); }
  
-  void set_RxAlignCodeErrors(Type_StatCounter value) { rw.set(0x14,value); }
+  void set_RxAlignCodeErrors(Type_StatCounter value) { rw.set(0x14u,value); }
  
-  void set_RxAlignCodeErrors_null() { rw.set(0x14,Type_StatCounter(0)); }
+  void set_RxAlignCodeErrors_null() { rw.set(0x14u,Type_StatCounter(0)); }
  
-  void set_RxAlignCodeErrors_ones() { rw.set(0x14,Type_StatCounter(-1)); }
+  void set_RxAlignCodeErrors_ones() { rw.set(0x14u,Type_StatCounter(-1)); }
  
   //--- OversizeRxFrames
 
-  Type_StatCounter get_OversizeRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x18)); }
+  Type_StatCounter get_OversizeRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x18u)); }
  
-  void set_OversizeRxFrames(Type_StatCounter value) { rw.set(0x18,value); }
+  void set_OversizeRxFrames(Type_StatCounter value) { rw.set(0x18u,value); }
  
-  void set_OversizeRxFrames_null() { rw.set(0x18,Type_StatCounter(0)); }
+  void set_OversizeRxFrames_null() { rw.set(0x18u,Type_StatCounter(0)); }
  
-  void set_OversizeRxFrames_ones() { rw.set(0x18,Type_StatCounter(-1)); }
+  void set_OversizeRxFrames_ones() { rw.set(0x18u,Type_StatCounter(-1)); }
  
   //--- RxJabbers
 
-  Type_StatCounter get_RxJabbers() { return Type_StatCounter(rw.template get<uint32>(0x1C)); }
+  Type_StatCounter get_RxJabbers() { return Type_StatCounter(rw.template get<uint32>(0x1Cu)); }
  
-  void set_RxJabbers(Type_StatCounter value) { rw.set(0x1C,value); }
+  void set_RxJabbers(Type_StatCounter value) { rw.set(0x1Cu,value); }
  
-  void set_RxJabbers_null() { rw.set(0x1C,Type_StatCounter(0)); }
+  void set_RxJabbers_null() { rw.set(0x1Cu,Type_StatCounter(0)); }
  
-  void set_RxJabbers_ones() { rw.set(0x1C,Type_StatCounter(-1)); }
+  void set_RxJabbers_ones() { rw.set(0x1Cu,Type_StatCounter(-1)); }
  
   //--- ShortRxFrames
 
-  Type_StatCounter get_ShortRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x20)); }
+  Type_StatCounter get_ShortRxFrames() { return Type_StatCounter(rw.template get<uint32>(0x20u)); }
  
-  void set_ShortRxFrames(Type_StatCounter value) { rw.set(0x20,value); }
+  void set_ShortRxFrames(Type_StatCounter value) { rw.set(0x20u,value); }
  
-  void set_ShortRxFrames_null() { rw.set(0x20,Type_StatCounter(0)); }
+  void set_ShortRxFrames_null() { rw.set(0x20u,Type_StatCounter(0)); }
  
-  void set_ShortRxFrames_ones() { rw.set(0x20,Type_StatCounter(-1)); }
+  void set_ShortRxFrames_ones() { rw.set(0x20u,Type_StatCounter(-1)); }
  
   //--- RxFragments
 
-  Type_StatCounter get_RxFragments() { return Type_StatCounter(rw.template get<uint32>(0x24)); }
+  Type_StatCounter get_RxFragments() { return Type_StatCounter(rw.template get<uint32>(0x24u)); }
  
-  void set_RxFragments(Type_StatCounter value) { rw.set(0x24,value); }
+  void set_RxFragments(Type_StatCounter value) { rw.set(0x24u,value); }
  
-  void set_RxFragments_null() { rw.set(0x24,Type_StatCounter(0)); }
+  void set_RxFragments_null() { rw.set(0x24u,Type_StatCounter(0)); }
  
-  void set_RxFragments_ones() { rw.set(0x24,Type_StatCounter(-1)); }
+  void set_RxFragments_ones() { rw.set(0x24u,Type_StatCounter(-1)); }
  
   //--- RxOctets
 
-  Type_StatCounter get_RxOctets() { return Type_StatCounter(rw.template get<uint32>(0x28)); }
+  Type_StatCounter get_RxOctets() { return Type_StatCounter(rw.template get<uint32>(0x28u)); }
  
-  void set_RxOctets(Type_StatCounter value) { rw.set(0x28,value); }
+  void set_RxOctets(Type_StatCounter value) { rw.set(0x28u,value); }
  
-  void set_RxOctets_null() { rw.set(0x28,Type_StatCounter(0)); }
+  void set_RxOctets_null() { rw.set(0x28u,Type_StatCounter(0)); }
  
-  void set_RxOctets_ones() { rw.set(0x28,Type_StatCounter(-1)); }
+  void set_RxOctets_ones() { rw.set(0x28u,Type_StatCounter(-1)); }
  
   //--- GoodTxFrames
 
-  Type_StatCounter get_GoodTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x2C)); }
+  Type_StatCounter get_GoodTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x2Cu)); }
  
-  void set_GoodTxFrames(Type_StatCounter value) { rw.set(0x2C,value); }
+  void set_GoodTxFrames(Type_StatCounter value) { rw.set(0x2Cu,value); }
  
-  void set_GoodTxFrames_null() { rw.set(0x2C,Type_StatCounter(0)); }
+  void set_GoodTxFrames_null() { rw.set(0x2Cu,Type_StatCounter(0)); }
  
-  void set_GoodTxFrames_ones() { rw.set(0x2C,Type_StatCounter(-1)); }
+  void set_GoodTxFrames_ones() { rw.set(0x2Cu,Type_StatCounter(-1)); }
  
   //--- BroadcastTxFrames
 
-  Type_StatCounter get_BroadcastTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x30)); }
+  Type_StatCounter get_BroadcastTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x30u)); }
  
-  void set_BroadcastTxFrames(Type_StatCounter value) { rw.set(0x30,value); }
+  void set_BroadcastTxFrames(Type_StatCounter value) { rw.set(0x30u,value); }
  
-  void set_BroadcastTxFrames_null() { rw.set(0x30,Type_StatCounter(0)); }
+  void set_BroadcastTxFrames_null() { rw.set(0x30u,Type_StatCounter(0)); }
  
-  void set_BroadcastTxFrames_ones() { rw.set(0x30,Type_StatCounter(-1)); }
+  void set_BroadcastTxFrames_ones() { rw.set(0x30u,Type_StatCounter(-1)); }
  
   //--- MulticastTxFrames
 
-  Type_StatCounter get_MulticastTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x34)); }
+  Type_StatCounter get_MulticastTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x34u)); }
  
-  void set_MulticastTxFrames(Type_StatCounter value) { rw.set(0x34,value); }
+  void set_MulticastTxFrames(Type_StatCounter value) { rw.set(0x34u,value); }
  
-  void set_MulticastTxFrames_null() { rw.set(0x34,Type_StatCounter(0)); }
+  void set_MulticastTxFrames_null() { rw.set(0x34u,Type_StatCounter(0)); }
  
-  void set_MulticastTxFrames_ones() { rw.set(0x34,Type_StatCounter(-1)); }
+  void set_MulticastTxFrames_ones() { rw.set(0x34u,Type_StatCounter(-1)); }
  
   //--- PauseTxFrames
 
-  Type_StatCounter get_PauseTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x38)); }
+  Type_StatCounter get_PauseTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x38u)); }
  
-  void set_PauseTxFrames(Type_StatCounter value) { rw.set(0x38,value); }
+  void set_PauseTxFrames(Type_StatCounter value) { rw.set(0x38u,value); }
  
-  void set_PauseTxFrames_null() { rw.set(0x38,Type_StatCounter(0)); }
+  void set_PauseTxFrames_null() { rw.set(0x38u,Type_StatCounter(0)); }
  
-  void set_PauseTxFrames_ones() { rw.set(0x38,Type_StatCounter(-1)); }
+  void set_PauseTxFrames_ones() { rw.set(0x38u,Type_StatCounter(-1)); }
  
   //--- DeferredTxFrames
 
-  Type_StatCounter get_DeferredTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x3C)); }
+  Type_StatCounter get_DeferredTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x3Cu)); }
  
-  void set_DeferredTxFrames(Type_StatCounter value) { rw.set(0x3C,value); }
+  void set_DeferredTxFrames(Type_StatCounter value) { rw.set(0x3Cu,value); }
  
-  void set_DeferredTxFrames_null() { rw.set(0x3C,Type_StatCounter(0)); }
+  void set_DeferredTxFrames_null() { rw.set(0x3Cu,Type_StatCounter(0)); }
  
-  void set_DeferredTxFrames_ones() { rw.set(0x3C,Type_StatCounter(-1)); }
+  void set_DeferredTxFrames_ones() { rw.set(0x3Cu,Type_StatCounter(-1)); }
  
   //--- Collisions
 
-  Type_StatCounter get_Collisions() { return Type_StatCounter(rw.template get<uint32>(0x40)); }
+  Type_StatCounter get_Collisions() { return Type_StatCounter(rw.template get<uint32>(0x40u)); }
  
-  void set_Collisions(Type_StatCounter value) { rw.set(0x40,value); }
+  void set_Collisions(Type_StatCounter value) { rw.set(0x40u,value); }
  
-  void set_Collisions_null() { rw.set(0x40,Type_StatCounter(0)); }
+  void set_Collisions_null() { rw.set(0x40u,Type_StatCounter(0)); }
  
-  void set_Collisions_ones() { rw.set(0x40,Type_StatCounter(-1)); }
+  void set_Collisions_ones() { rw.set(0x40u,Type_StatCounter(-1)); }
  
   //--- SingleCollisionTxFrames
 
-  Type_StatCounter get_SingleCollisionTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x44)); }
+  Type_StatCounter get_SingleCollisionTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x44u)); }
  
-  void set_SingleCollisionTxFrames(Type_StatCounter value) { rw.set(0x44,value); }
+  void set_SingleCollisionTxFrames(Type_StatCounter value) { rw.set(0x44u,value); }
  
-  void set_SingleCollisionTxFrames_null() { rw.set(0x44,Type_StatCounter(0)); }
+  void set_SingleCollisionTxFrames_null() { rw.set(0x44u,Type_StatCounter(0)); }
  
-  void set_SingleCollisionTxFrames_ones() { rw.set(0x44,Type_StatCounter(-1)); }
+  void set_SingleCollisionTxFrames_ones() { rw.set(0x44u,Type_StatCounter(-1)); }
  
   //--- MultipleCollisionTxFrames
 
-  Type_StatCounter get_MultipleCollisionTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x48)); }
+  Type_StatCounter get_MultipleCollisionTxFrames() { return Type_StatCounter(rw.template get<uint32>(0x48u)); }
  
-  void set_MultipleCollisionTxFrames(Type_StatCounter value) { rw.set(0x48,value); }
+  void set_MultipleCollisionTxFrames(Type_StatCounter value) { rw.set(0x48u,value); }
  
-  void set_MultipleCollisionTxFrames_null() { rw.set(0x48,Type_StatCounter(0)); }
+  void set_MultipleCollisionTxFrames_null() { rw.set(0x48u,Type_StatCounter(0)); }
  
-  void set_MultipleCollisionTxFrames_ones() { rw.set(0x48,Type_StatCounter(-1)); }
+  void set_MultipleCollisionTxFrames_ones() { rw.set(0x48u,Type_StatCounter(-1)); }
  
   //--- ExcessiveCollisions
 
-  Type_StatCounter get_ExcessiveCollisions() { return Type_StatCounter(rw.template get<uint32>(0x4C)); }
+  Type_StatCounter get_ExcessiveCollisions() { return Type_StatCounter(rw.template get<uint32>(0x4Cu)); }
  
-  void set_ExcessiveCollisions(Type_StatCounter value) { rw.set(0x4C,value); }
+  void set_ExcessiveCollisions(Type_StatCounter value) { rw.set(0x4Cu,value); }
  
-  void set_ExcessiveCollisions_null() { rw.set(0x4C,Type_StatCounter(0)); }
+  void set_ExcessiveCollisions_null() { rw.set(0x4Cu,Type_StatCounter(0)); }
  
-  void set_ExcessiveCollisions_ones() { rw.set(0x4C,Type_StatCounter(-1)); }
+  void set_ExcessiveCollisions_ones() { rw.set(0x4Cu,Type_StatCounter(-1)); }
  
   //--- LateCollisions
 
-  Type_StatCounter get_LateCollisions() { return Type_StatCounter(rw.template get<uint32>(0x50)); }
+  Type_StatCounter get_LateCollisions() { return Type_StatCounter(rw.template get<uint32>(0x50u)); }
  
-  void set_LateCollisions(Type_StatCounter value) { rw.set(0x50,value); }
+  void set_LateCollisions(Type_StatCounter value) { rw.set(0x50u,value); }
  
-  void set_LateCollisions_null() { rw.set(0x50,Type_StatCounter(0)); }
+  void set_LateCollisions_null() { rw.set(0x50u,Type_StatCounter(0)); }
  
-  void set_LateCollisions_ones() { rw.set(0x50,Type_StatCounter(-1)); }
+  void set_LateCollisions_ones() { rw.set(0x50u,Type_StatCounter(-1)); }
  
   //--- TxUnderrun
 
-  Type_StatCounter get_TxUnderrun() { return Type_StatCounter(rw.template get<uint32>(0x54)); }
+  Type_StatCounter get_TxUnderrun() { return Type_StatCounter(rw.template get<uint32>(0x54u)); }
  
-  void set_TxUnderrun(Type_StatCounter value) { rw.set(0x54,value); }
+  void set_TxUnderrun(Type_StatCounter value) { rw.set(0x54u,value); }
  
-  void set_TxUnderrun_null() { rw.set(0x54,Type_StatCounter(0)); }
+  void set_TxUnderrun_null() { rw.set(0x54u,Type_StatCounter(0)); }
  
-  void set_TxUnderrun_ones() { rw.set(0x54,Type_StatCounter(-1)); }
+  void set_TxUnderrun_ones() { rw.set(0x54u,Type_StatCounter(-1)); }
  
   //--- CarrierSenseErrors
 
-  Type_StatCounter get_CarrierSenseErrors() { return Type_StatCounter(rw.template get<uint32>(0x58)); }
+  Type_StatCounter get_CarrierSenseErrors() { return Type_StatCounter(rw.template get<uint32>(0x58u)); }
  
-  void set_CarrierSenseErrors(Type_StatCounter value) { rw.set(0x58,value); }
+  void set_CarrierSenseErrors(Type_StatCounter value) { rw.set(0x58u,value); }
  
-  void set_CarrierSenseErrors_null() { rw.set(0x58,Type_StatCounter(0)); }
+  void set_CarrierSenseErrors_null() { rw.set(0x58u,Type_StatCounter(0)); }
  
-  void set_CarrierSenseErrors_ones() { rw.set(0x58,Type_StatCounter(-1)); }
+  void set_CarrierSenseErrors_ones() { rw.set(0x58u,Type_StatCounter(-1)); }
  
   //--- TxOctets
 
-  Type_StatCounter get_TxOctets() { return Type_StatCounter(rw.template get<uint32>(0x5C)); }
+  Type_StatCounter get_TxOctets() { return Type_StatCounter(rw.template get<uint32>(0x5Cu)); }
  
-  void set_TxOctets(Type_StatCounter value) { rw.set(0x5C,value); }
+  void set_TxOctets(Type_StatCounter value) { rw.set(0x5Cu,value); }
  
-  void set_TxOctets_null() { rw.set(0x5C,Type_StatCounter(0)); }
+  void set_TxOctets_null() { rw.set(0x5Cu,Type_StatCounter(0)); }
  
-  void set_TxOctets_ones() { rw.set(0x5C,Type_StatCounter(-1)); }
+  void set_TxOctets_ones() { rw.set(0x5Cu,Type_StatCounter(-1)); }
  
   //--- Frame64RxTx
 
-  Type_StatCounter get_Frame64RxTx() { return Type_StatCounter(rw.template get<uint32>(0x60)); }
+  Type_StatCounter get_Frame64RxTx() { return Type_StatCounter(rw.template get<uint32>(0x60u)); }
  
-  void set_Frame64RxTx(Type_StatCounter value) { rw.set(0x60,value); }
+  void set_Frame64RxTx(Type_StatCounter value) { rw.set(0x60u,value); }
  
-  void set_Frame64RxTx_null() { rw.set(0x60,Type_StatCounter(0)); }
+  void set_Frame64RxTx_null() { rw.set(0x60u,Type_StatCounter(0)); }
  
-  void set_Frame64RxTx_ones() { rw.set(0x60,Type_StatCounter(-1)); }
+  void set_Frame64RxTx_ones() { rw.set(0x60u,Type_StatCounter(-1)); }
  
   //--- Frame128RxTx
 
-  Type_StatCounter get_Frame128RxTx() { return Type_StatCounter(rw.template get<uint32>(0x64)); }
+  Type_StatCounter get_Frame128RxTx() { return Type_StatCounter(rw.template get<uint32>(0x64u)); }
  
-  void set_Frame128RxTx(Type_StatCounter value) { rw.set(0x64,value); }
+  void set_Frame128RxTx(Type_StatCounter value) { rw.set(0x64u,value); }
  
-  void set_Frame128RxTx_null() { rw.set(0x64,Type_StatCounter(0)); }
+  void set_Frame128RxTx_null() { rw.set(0x64u,Type_StatCounter(0)); }
  
-  void set_Frame128RxTx_ones() { rw.set(0x64,Type_StatCounter(-1)); }
+  void set_Frame128RxTx_ones() { rw.set(0x64u,Type_StatCounter(-1)); }
  
   //--- Frame256RxTx
 
-  Type_StatCounter get_Frame256RxTx() { return Type_StatCounter(rw.template get<uint32>(0x68)); }
+  Type_StatCounter get_Frame256RxTx() { return Type_StatCounter(rw.template get<uint32>(0x68u)); }
  
-  void set_Frame256RxTx(Type_StatCounter value) { rw.set(0x68,value); }
+  void set_Frame256RxTx(Type_StatCounter value) { rw.set(0x68u,value); }
  
-  void set_Frame256RxTx_null() { rw.set(0x68,Type_StatCounter(0)); }
+  void set_Frame256RxTx_null() { rw.set(0x68u,Type_StatCounter(0)); }
  
-  void set_Frame256RxTx_ones() { rw.set(0x68,Type_StatCounter(-1)); }
+  void set_Frame256RxTx_ones() { rw.set(0x68u,Type_StatCounter(-1)); }
  
   //--- Frame512RxTx
 
-  Type_StatCounter get_Frame512RxTx() { return Type_StatCounter(rw.template get<uint32>(0x6C)); }
+  Type_StatCounter get_Frame512RxTx() { return Type_StatCounter(rw.template get<uint32>(0x6Cu)); }
  
-  void set_Frame512RxTx(Type_StatCounter value) { rw.set(0x6C,value); }
+  void set_Frame512RxTx(Type_StatCounter value) { rw.set(0x6Cu,value); }
  
-  void set_Frame512RxTx_null() { rw.set(0x6C,Type_StatCounter(0)); }
+  void set_Frame512RxTx_null() { rw.set(0x6Cu,Type_StatCounter(0)); }
  
-  void set_Frame512RxTx_ones() { rw.set(0x6C,Type_StatCounter(-1)); }
+  void set_Frame512RxTx_ones() { rw.set(0x6Cu,Type_StatCounter(-1)); }
  
   //--- Frame1024RxTx
 
-  Type_StatCounter get_Frame1024RxTx() { return Type_StatCounter(rw.template get<uint32>(0x70)); }
+  Type_StatCounter get_Frame1024RxTx() { return Type_StatCounter(rw.template get<uint32>(0x70u)); }
  
-  void set_Frame1024RxTx(Type_StatCounter value) { rw.set(0x70,value); }
+  void set_Frame1024RxTx(Type_StatCounter value) { rw.set(0x70u,value); }
  
-  void set_Frame1024RxTx_null() { rw.set(0x70,Type_StatCounter(0)); }
+  void set_Frame1024RxTx_null() { rw.set(0x70u,Type_StatCounter(0)); }
  
-  void set_Frame1024RxTx_ones() { rw.set(0x70,Type_StatCounter(-1)); }
+  void set_Frame1024RxTx_ones() { rw.set(0x70u,Type_StatCounter(-1)); }
  
   //--- NetOctets
 
-  Type_StatCounter get_NetOctets() { return Type_StatCounter(rw.template get<uint32>(0x74)); }
+  Type_StatCounter get_NetOctets() { return Type_StatCounter(rw.template get<uint32>(0x74u)); }
  
-  void set_NetOctets(Type_StatCounter value) { rw.set(0x74,value); }
+  void set_NetOctets(Type_StatCounter value) { rw.set(0x74u,value); }
  
-  void set_NetOctets_null() { rw.set(0x74,Type_StatCounter(0)); }
+  void set_NetOctets_null() { rw.set(0x74u,Type_StatCounter(0)); }
  
-  void set_NetOctets_ones() { rw.set(0x74,Type_StatCounter(-1)); }
+  void set_NetOctets_ones() { rw.set(0x74u,Type_StatCounter(-1)); }
  
   //--- RxStartOfFrameOverruns
 
-  Type_StatCounter get_RxStartOfFrameOverruns() { return Type_StatCounter(rw.template get<uint32>(0x78)); }
+  Type_StatCounter get_RxStartOfFrameOverruns() { return Type_StatCounter(rw.template get<uint32>(0x78u)); }
  
-  void set_RxStartOfFrameOverruns(Type_StatCounter value) { rw.set(0x78,value); }
+  void set_RxStartOfFrameOverruns(Type_StatCounter value) { rw.set(0x78u,value); }
  
-  void set_RxStartOfFrameOverruns_null() { rw.set(0x78,Type_StatCounter(0)); }
+  void set_RxStartOfFrameOverruns_null() { rw.set(0x78u,Type_StatCounter(0)); }
  
-  void set_RxStartOfFrameOverruns_ones() { rw.set(0x78,Type_StatCounter(-1)); }
+  void set_RxStartOfFrameOverruns_ones() { rw.set(0x78u,Type_StatCounter(-1)); }
  
   //--- RxMiddleOfFrameOverruns
 
-  Type_StatCounter get_RxMiddleOfFrameOverruns() { return Type_StatCounter(rw.template get<uint32>(0x7C)); }
+  Type_StatCounter get_RxMiddleOfFrameOverruns() { return Type_StatCounter(rw.template get<uint32>(0x7Cu)); }
  
-  void set_RxMiddleOfFrameOverruns(Type_StatCounter value) { rw.set(0x7C,value); }
+  void set_RxMiddleOfFrameOverruns(Type_StatCounter value) { rw.set(0x7Cu,value); }
  
-  void set_RxMiddleOfFrameOverruns_null() { rw.set(0x7C,Type_StatCounter(0)); }
+  void set_RxMiddleOfFrameOverruns_null() { rw.set(0x7Cu,Type_StatCounter(0)); }
  
-  void set_RxMiddleOfFrameOverruns_ones() { rw.set(0x7C,Type_StatCounter(-1)); }
+  void set_RxMiddleOfFrameOverruns_ones() { rw.set(0x7Cu,Type_StatCounter(-1)); }
  
   //--- RxDMAOverruns
 
-  Type_StatCounter get_RxDMAOverruns() { return Type_StatCounter(rw.template get<uint32>(0x80)); }
+  Type_StatCounter get_RxDMAOverruns() { return Type_StatCounter(rw.template get<uint32>(0x80u)); }
  
-  void set_RxDMAOverruns(Type_StatCounter value) { rw.set(0x80,value); }
+  void set_RxDMAOverruns(Type_StatCounter value) { rw.set(0x80u,value); }
  
-  void set_RxDMAOverruns_null() { rw.set(0x80,Type_StatCounter(0)); }
+  void set_RxDMAOverruns_null() { rw.set(0x80u,Type_StatCounter(0)); }
  
-  void set_RxDMAOverruns_ones() { rw.set(0x80,Type_StatCounter(-1)); }
+  void set_RxDMAOverruns_ones() { rw.set(0x80u,Type_StatCounter(-1)); }
  
  };
  
@@ -12925,43 +12925,43 @@ struct DescBar
 
   //--- HeadTx
 
-  Type_DescPtr get_HeadTx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x0 +ind*4)); }
+  Type_DescPtr get_HeadTx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x0u + ind*4u)); }
  
-  void set_HeadTx(AddressType ind,Type_DescPtr value) { rw.set(0x0 +ind*4,value); }
+  void set_HeadTx(AddressType ind,Type_DescPtr value) { rw.set(0x0u + ind*4u,value); }
  
-  void set_HeadTx_null(AddressType ind) { rw.set(0x0 +ind*4,Type_DescPtr(0)); }
+  void set_HeadTx_null(AddressType ind) { rw.set(0x0u + ind*4u,Type_DescPtr(0)); }
  
-  void set_HeadTx_ones(AddressType ind) { rw.set(0x0 +ind*4,Type_DescPtr(-1)); }
+  void set_HeadTx_ones(AddressType ind) { rw.set(0x0u + ind*4u,Type_DescPtr(-1)); }
  
   //--- HeadRx
 
-  Type_DescPtr get_HeadRx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x20 +ind*4)); }
+  Type_DescPtr get_HeadRx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x20u + ind*4u)); }
  
-  void set_HeadRx(AddressType ind,Type_DescPtr value) { rw.set(0x20 +ind*4,value); }
+  void set_HeadRx(AddressType ind,Type_DescPtr value) { rw.set(0x20u + ind*4u,value); }
  
-  void set_HeadRx_null(AddressType ind) { rw.set(0x20 +ind*4,Type_DescPtr(0)); }
+  void set_HeadRx_null(AddressType ind) { rw.set(0x20u + ind*4u,Type_DescPtr(0)); }
  
-  void set_HeadRx_ones(AddressType ind) { rw.set(0x20 +ind*4,Type_DescPtr(-1)); }
+  void set_HeadRx_ones(AddressType ind) { rw.set(0x20u + ind*4u,Type_DescPtr(-1)); }
  
   //--- CompleteTx
 
-  Type_DescPtr get_CompleteTx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x40 +ind*4)); }
+  Type_DescPtr get_CompleteTx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x40u + ind*4u)); }
  
-  void set_CompleteTx(AddressType ind,Type_DescPtr value) { rw.set(0x40 +ind*4,value); }
+  void set_CompleteTx(AddressType ind,Type_DescPtr value) { rw.set(0x40u + ind*4u,value); }
  
-  void set_CompleteTx_null(AddressType ind) { rw.set(0x40 +ind*4,Type_DescPtr(0)); }
+  void set_CompleteTx_null(AddressType ind) { rw.set(0x40u + ind*4u,Type_DescPtr(0)); }
  
-  void set_CompleteTx_ones(AddressType ind) { rw.set(0x40 +ind*4,Type_DescPtr(-1)); }
+  void set_CompleteTx_ones(AddressType ind) { rw.set(0x40u + ind*4u,Type_DescPtr(-1)); }
  
   //--- CompleteRx
 
-  Type_DescPtr get_CompleteRx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x60 +ind*4)); }
+  Type_DescPtr get_CompleteRx(AddressType ind) { return Type_DescPtr(rw.template get<uint32>(0x60u + ind*4u)); }
  
-  void set_CompleteRx(AddressType ind,Type_DescPtr value) { rw.set(0x60 +ind*4,value); }
+  void set_CompleteRx(AddressType ind,Type_DescPtr value) { rw.set(0x60u + ind*4u,value); }
  
-  void set_CompleteRx_null(AddressType ind) { rw.set(0x60 +ind*4,Type_DescPtr(0)); }
+  void set_CompleteRx_null(AddressType ind) { rw.set(0x60u + ind*4u,Type_DescPtr(0)); }
  
-  void set_CompleteRx_ones(AddressType ind) { rw.set(0x60 +ind*4,Type_DescPtr(-1)); }
+  void set_CompleteRx_ones(AddressType ind) { rw.set(0x60u + ind*4u,Type_DescPtr(-1)); }
  
   //--- DescPtr
 
@@ -12992,11 +12992,11 @@ struct TimeSyncBar
 
   //--- TimeSyncControl
 
-  Type_TimeSyncControl get_TimeSyncControl() { return Type_TimeSyncControl(rw.template get<uint32>(0x4)); }
+  Type_TimeSyncControl get_TimeSyncControl() { return Type_TimeSyncControl(rw.template get<uint32>(0x4u)); }
  
-  void set_TimeSyncControl(Type_TimeSyncControl value) { rw.set(0x4,value.value); }
+  void set_TimeSyncControl(Type_TimeSyncControl value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_TimeSyncControl> to_TimeSyncControl() { return Setter<Type_TimeSyncControl>(rw,0x4); }
+  Setter<Type_TimeSyncControl> to_TimeSyncControl() { return Setter<Type_TimeSyncControl>(rw,0x4u); }
  
   static Type_TimeSyncControl null_TimeSyncControl() { return Type_TimeSyncControl(0); }
  
@@ -13004,11 +13004,11 @@ struct TimeSyncBar
  
   //--- TimeSyncTSPush
 
-  Type_TimeSyncTSPush get_TimeSyncTSPush() { return Type_TimeSyncTSPush(rw.template get<uint32>(0xC)); }
+  Type_TimeSyncTSPush get_TimeSyncTSPush() { return Type_TimeSyncTSPush(rw.template get<uint32>(0xCu)); }
  
-  void set_TimeSyncTSPush(Type_TimeSyncTSPush value) { rw.set(0xC,value.value); }
+  void set_TimeSyncTSPush(Type_TimeSyncTSPush value) { rw.set(0xCu,value.value); }
  
-  Setter<Type_TimeSyncTSPush> to_TimeSyncTSPush() { return Setter<Type_TimeSyncTSPush>(rw,0xC); }
+  Setter<Type_TimeSyncTSPush> to_TimeSyncTSPush() { return Setter<Type_TimeSyncTSPush>(rw,0xCu); }
  
   static Type_TimeSyncTSPush null_TimeSyncTSPush() { return Type_TimeSyncTSPush(0); }
  
@@ -13016,21 +13016,21 @@ struct TimeSyncBar
  
   //--- TimeSyncTSValue
 
-  Type_TimeSyncTSValue get_TimeSyncTSValue() { return Type_TimeSyncTSValue(rw.template get<uint32>(0x10)); }
+  Type_TimeSyncTSValue get_TimeSyncTSValue() { return Type_TimeSyncTSValue(rw.template get<uint32>(0x10u)); }
  
-  void set_TimeSyncTSValue(Type_TimeSyncTSValue value) { rw.set(0x10,value); }
+  void set_TimeSyncTSValue(Type_TimeSyncTSValue value) { rw.set(0x10u,value); }
  
-  void set_TimeSyncTSValue_null() { rw.set(0x10,Type_TimeSyncTSValue(0)); }
+  void set_TimeSyncTSValue_null() { rw.set(0x10u,Type_TimeSyncTSValue(0)); }
  
-  void set_TimeSyncTSValue_ones() { rw.set(0x10,Type_TimeSyncTSValue(-1)); }
+  void set_TimeSyncTSValue_ones() { rw.set(0x10u,Type_TimeSyncTSValue(-1)); }
  
   //--- TimeSyncTSLoad
 
-  Type_TimeSyncTSLoad get_TimeSyncTSLoad() { return Type_TimeSyncTSLoad(rw.template get<uint32>(0x14)); }
+  Type_TimeSyncTSLoad get_TimeSyncTSLoad() { return Type_TimeSyncTSLoad(rw.template get<uint32>(0x14u)); }
  
-  void set_TimeSyncTSLoad(Type_TimeSyncTSLoad value) { rw.set(0x14,value.value); }
+  void set_TimeSyncTSLoad(Type_TimeSyncTSLoad value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_TimeSyncTSLoad> to_TimeSyncTSLoad() { return Setter<Type_TimeSyncTSLoad>(rw,0x14); }
+  Setter<Type_TimeSyncTSLoad> to_TimeSyncTSLoad() { return Setter<Type_TimeSyncTSLoad>(rw,0x14u); }
  
   static Type_TimeSyncTSLoad null_TimeSyncTSLoad() { return Type_TimeSyncTSLoad(0); }
  
@@ -13038,15 +13038,15 @@ struct TimeSyncBar
  
   //--- TimeSyncIntStatusRaw
 
-  Type_TimeSyncIntStatus get_TimeSyncIntStatusRaw() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x20)); }
+  Type_TimeSyncIntStatus get_TimeSyncIntStatusRaw() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x20u)); }
  
-  void set_TimeSyncIntStatusRaw(Type_TimeSyncIntStatus value) { rw.set(0x20,value.value); }
+  void set_TimeSyncIntStatusRaw(Type_TimeSyncIntStatus value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_TimeSyncIntStatus> to_TimeSyncIntStatusRaw() { return Setter<Type_TimeSyncIntStatus>(rw,0x20); }
+  Setter<Type_TimeSyncIntStatus> to_TimeSyncIntStatusRaw() { return Setter<Type_TimeSyncIntStatus>(rw,0x20u); }
  
   //--- TimeSyncIntStatus
 
-  Type_TimeSyncIntStatus get_TimeSyncIntStatus() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x24)); }
+  Type_TimeSyncIntStatus get_TimeSyncIntStatus() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x24u)); }
  
   static Type_TimeSyncIntStatus null_TimeSyncIntStatus() { return Type_TimeSyncIntStatus(0); }
  
@@ -13054,19 +13054,19 @@ struct TimeSyncBar
  
   //--- TimeSyncIntEnable
 
-  Type_TimeSyncIntStatus get_TimeSyncIntEnable() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x28)); }
+  Type_TimeSyncIntStatus get_TimeSyncIntEnable() { return Type_TimeSyncIntStatus(rw.template get<uint32>(0x28u)); }
  
-  void set_TimeSyncIntEnable(Type_TimeSyncIntStatus value) { rw.set(0x28,value.value); }
+  void set_TimeSyncIntEnable(Type_TimeSyncIntStatus value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_TimeSyncIntStatus> to_TimeSyncIntEnable() { return Setter<Type_TimeSyncIntStatus>(rw,0x28); }
+  Setter<Type_TimeSyncIntStatus> to_TimeSyncIntEnable() { return Setter<Type_TimeSyncIntStatus>(rw,0x28u); }
  
   //--- TimeSyncEventPop
 
-  Type_TimeSyncEventPop get_TimeSyncEventPop() { return Type_TimeSyncEventPop(rw.template get<uint32>(0x30)); }
+  Type_TimeSyncEventPop get_TimeSyncEventPop() { return Type_TimeSyncEventPop(rw.template get<uint32>(0x30u)); }
  
-  void set_TimeSyncEventPop(Type_TimeSyncEventPop value) { rw.set(0x30,value.value); }
+  void set_TimeSyncEventPop(Type_TimeSyncEventPop value) { rw.set(0x30u,value.value); }
  
-  Setter<Type_TimeSyncEventPop> to_TimeSyncEventPop() { return Setter<Type_TimeSyncEventPop>(rw,0x30); }
+  Setter<Type_TimeSyncEventPop> to_TimeSyncEventPop() { return Setter<Type_TimeSyncEventPop>(rw,0x30u); }
  
   static Type_TimeSyncEventPop null_TimeSyncEventPop() { return Type_TimeSyncEventPop(0); }
  
@@ -13074,11 +13074,11 @@ struct TimeSyncBar
  
   //--- TimeSyncEventTS
 
-  Type_TimeSyncEventTS get_TimeSyncEventTS() { return Type_TimeSyncEventTS(rw.template get<uint32>(0x34)); }
+  Type_TimeSyncEventTS get_TimeSyncEventTS() { return Type_TimeSyncEventTS(rw.template get<uint32>(0x34u)); }
  
   //--- TimeSyncEvent
 
-  Type_TimeSyncEvent get_TimeSyncEvent() { return Type_TimeSyncEvent(rw.template get<uint32>(0x38)); }
+  Type_TimeSyncEvent get_TimeSyncEvent() { return Type_TimeSyncEvent(rw.template get<uint32>(0x38u)); }
  
   static Type_TimeSyncEvent null_TimeSyncEvent() { return Type_TimeSyncEvent(0); }
  
@@ -13111,11 +13111,11 @@ struct ALEBar
 
   //--- ALEControl
 
-  Type_ALEControl get_ALEControl() { return Type_ALEControl(rw.template get<uint32>(0x8)); }
+  Type_ALEControl get_ALEControl() { return Type_ALEControl(rw.template get<uint32>(0x8u)); }
  
-  void set_ALEControl(Type_ALEControl value) { rw.set(0x8,value.value); }
+  void set_ALEControl(Type_ALEControl value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_ALEControl> to_ALEControl() { return Setter<Type_ALEControl>(rw,0x8); }
+  Setter<Type_ALEControl> to_ALEControl() { return Setter<Type_ALEControl>(rw,0x8u); }
  
   static Type_ALEControl null_ALEControl() { return Type_ALEControl(0); }
  
@@ -13123,11 +13123,11 @@ struct ALEBar
  
   //--- ALEPrescale
 
-  Type_ALEPrescale get_ALEPrescale() { return Type_ALEPrescale(rw.template get<uint32>(0x10)); }
+  Type_ALEPrescale get_ALEPrescale() { return Type_ALEPrescale(rw.template get<uint32>(0x10u)); }
  
-  void set_ALEPrescale(Type_ALEPrescale value) { rw.set(0x10,value.value); }
+  void set_ALEPrescale(Type_ALEPrescale value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_ALEPrescale> to_ALEPrescale() { return Setter<Type_ALEPrescale>(rw,0x10); }
+  Setter<Type_ALEPrescale> to_ALEPrescale() { return Setter<Type_ALEPrescale>(rw,0x10u); }
  
   static Type_ALEPrescale null_ALEPrescale() { return Type_ALEPrescale(0); }
  
@@ -13135,11 +13135,11 @@ struct ALEBar
  
   //--- ALEUnknownVLAN
 
-  Type_ALEUnknownVLAN get_ALEUnknownVLAN() { return Type_ALEUnknownVLAN(rw.template get<uint32>(0x18)); }
+  Type_ALEUnknownVLAN get_ALEUnknownVLAN() { return Type_ALEUnknownVLAN(rw.template get<uint32>(0x18u)); }
  
-  void set_ALEUnknownVLAN(Type_ALEUnknownVLAN value) { rw.set(0x18,value.value); }
+  void set_ALEUnknownVLAN(Type_ALEUnknownVLAN value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_ALEUnknownVLAN> to_ALEUnknownVLAN() { return Setter<Type_ALEUnknownVLAN>(rw,0x18); }
+  Setter<Type_ALEUnknownVLAN> to_ALEUnknownVLAN() { return Setter<Type_ALEUnknownVLAN>(rw,0x18u); }
  
   static Type_ALEUnknownVLAN null_ALEUnknownVLAN() { return Type_ALEUnknownVLAN(0); }
  
@@ -13147,11 +13147,11 @@ struct ALEBar
  
   //--- ALETableControl
 
-  Type_ALETableControl get_ALETableControl() { return Type_ALETableControl(rw.template get<uint32>(0x20)); }
+  Type_ALETableControl get_ALETableControl() { return Type_ALETableControl(rw.template get<uint32>(0x20u)); }
  
-  void set_ALETableControl(Type_ALETableControl value) { rw.set(0x20,value.value); }
+  void set_ALETableControl(Type_ALETableControl value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_ALETableControl> to_ALETableControl() { return Setter<Type_ALETableControl>(rw,0x20); }
+  Setter<Type_ALETableControl> to_ALETableControl() { return Setter<Type_ALETableControl>(rw,0x20u); }
  
   static Type_ALETableControl null_ALETableControl() { return Type_ALETableControl(0); }
  
@@ -13159,11 +13159,11 @@ struct ALEBar
  
   //--- ALETableWord2
 
-  Type_ALETableWord2 get_ALETableWord2() { return Type_ALETableWord2(rw.template get<uint32>(0x34)); }
+  Type_ALETableWord2 get_ALETableWord2() { return Type_ALETableWord2(rw.template get<uint32>(0x34u)); }
  
-  void set_ALETableWord2(Type_ALETableWord2 value) { rw.set(0x34,value.value); }
+  void set_ALETableWord2(Type_ALETableWord2 value) { rw.set(0x34u,value.value); }
  
-  Setter<Type_ALETableWord2> to_ALETableWord2() { return Setter<Type_ALETableWord2>(rw,0x34); }
+  Setter<Type_ALETableWord2> to_ALETableWord2() { return Setter<Type_ALETableWord2>(rw,0x34u); }
  
   static Type_ALETableWord2 null_ALETableWord2() { return Type_ALETableWord2(0); }
  
@@ -13171,11 +13171,11 @@ struct ALEBar
  
   //--- ALETableWord1
 
-  Type_ALETableWord1 get_ALETableWord1() { return Type_ALETableWord1(rw.template get<uint32>(0x38)); }
+  Type_ALETableWord1 get_ALETableWord1() { return Type_ALETableWord1(rw.template get<uint32>(0x38u)); }
  
-  void set_ALETableWord1(Type_ALETableWord1 value) { rw.set(0x38,value.value); }
+  void set_ALETableWord1(Type_ALETableWord1 value) { rw.set(0x38u,value.value); }
  
-  Setter<Type_ALETableWord1> to_ALETableWord1() { return Setter<Type_ALETableWord1>(rw,0x38); }
+  Setter<Type_ALETableWord1> to_ALETableWord1() { return Setter<Type_ALETableWord1>(rw,0x38u); }
  
   static Type_ALETableWord1 null_ALETableWord1() { return Type_ALETableWord1(0); }
  
@@ -13183,11 +13183,11 @@ struct ALEBar
  
   //--- ALETableWord0
 
-  Type_ALETableWord0 get_ALETableWord0() { return Type_ALETableWord0(rw.template get<uint32>(0x3C)); }
+  Type_ALETableWord0 get_ALETableWord0() { return Type_ALETableWord0(rw.template get<uint32>(0x3Cu)); }
  
-  void set_ALETableWord0(Type_ALETableWord0 value) { rw.set(0x3C,value.value); }
+  void set_ALETableWord0(Type_ALETableWord0 value) { rw.set(0x3Cu,value.value); }
  
-  Setter<Type_ALETableWord0> to_ALETableWord0() { return Setter<Type_ALETableWord0>(rw,0x3C); }
+  Setter<Type_ALETableWord0> to_ALETableWord0() { return Setter<Type_ALETableWord0>(rw,0x3Cu); }
  
   static Type_ALETableWord0 null_ALETableWord0() { return Type_ALETableWord0(0); }
  
@@ -13201,51 +13201,51 @@ struct ALEBar
  
   //--- ALEPort0Control
 
-  Type_ALEPortControl get_ALEPort0Control() { return Type_ALEPortControl(rw.template get<uint32>(0x40)); }
+  Type_ALEPortControl get_ALEPort0Control() { return Type_ALEPortControl(rw.template get<uint32>(0x40u)); }
  
-  void set_ALEPort0Control(Type_ALEPortControl value) { rw.set(0x40,value.value); }
+  void set_ALEPort0Control(Type_ALEPortControl value) { rw.set(0x40u,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort0Control() { return Setter<Type_ALEPortControl>(rw,0x40); }
+  Setter<Type_ALEPortControl> to_ALEPort0Control() { return Setter<Type_ALEPortControl>(rw,0x40u); }
  
   //--- ALEPort1Control
 
-  Type_ALEPortControl get_ALEPort1Control() { return Type_ALEPortControl(rw.template get<uint32>(0x44)); }
+  Type_ALEPortControl get_ALEPort1Control() { return Type_ALEPortControl(rw.template get<uint32>(0x44u)); }
  
-  void set_ALEPort1Control(Type_ALEPortControl value) { rw.set(0x44,value.value); }
+  void set_ALEPort1Control(Type_ALEPortControl value) { rw.set(0x44u,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort1Control() { return Setter<Type_ALEPortControl>(rw,0x44); }
+  Setter<Type_ALEPortControl> to_ALEPort1Control() { return Setter<Type_ALEPortControl>(rw,0x44u); }
  
   //--- ALEPort2Control
 
-  Type_ALEPortControl get_ALEPort2Control() { return Type_ALEPortControl(rw.template get<uint32>(0x48)); }
+  Type_ALEPortControl get_ALEPort2Control() { return Type_ALEPortControl(rw.template get<uint32>(0x48u)); }
  
-  void set_ALEPort2Control(Type_ALEPortControl value) { rw.set(0x48,value.value); }
+  void set_ALEPort2Control(Type_ALEPortControl value) { rw.set(0x48u,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort2Control() { return Setter<Type_ALEPortControl>(rw,0x48); }
+  Setter<Type_ALEPortControl> to_ALEPort2Control() { return Setter<Type_ALEPortControl>(rw,0x48u); }
  
   //--- ALEPort3Control
 
-  Type_ALEPortControl get_ALEPort3Control() { return Type_ALEPortControl(rw.template get<uint32>(0x4C)); }
+  Type_ALEPortControl get_ALEPort3Control() { return Type_ALEPortControl(rw.template get<uint32>(0x4Cu)); }
  
-  void set_ALEPort3Control(Type_ALEPortControl value) { rw.set(0x4C,value.value); }
+  void set_ALEPort3Control(Type_ALEPortControl value) { rw.set(0x4Cu,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort3Control() { return Setter<Type_ALEPortControl>(rw,0x4C); }
+  Setter<Type_ALEPortControl> to_ALEPort3Control() { return Setter<Type_ALEPortControl>(rw,0x4Cu); }
  
   //--- ALEPort4Control
 
-  Type_ALEPortControl get_ALEPort4Control() { return Type_ALEPortControl(rw.template get<uint32>(0x50)); }
+  Type_ALEPortControl get_ALEPort4Control() { return Type_ALEPortControl(rw.template get<uint32>(0x50u)); }
  
-  void set_ALEPort4Control(Type_ALEPortControl value) { rw.set(0x50,value.value); }
+  void set_ALEPort4Control(Type_ALEPortControl value) { rw.set(0x50u,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort4Control() { return Setter<Type_ALEPortControl>(rw,0x50); }
+  Setter<Type_ALEPortControl> to_ALEPort4Control() { return Setter<Type_ALEPortControl>(rw,0x50u); }
  
   //--- ALEPort5Control
 
-  Type_ALEPortControl get_ALEPort5Control() { return Type_ALEPortControl(rw.template get<uint32>(0x54)); }
+  Type_ALEPortControl get_ALEPort5Control() { return Type_ALEPortControl(rw.template get<uint32>(0x54u)); }
  
-  void set_ALEPort5Control(Type_ALEPortControl value) { rw.set(0x54,value.value); }
+  void set_ALEPort5Control(Type_ALEPortControl value) { rw.set(0x54u,value.value); }
  
-  Setter<Type_ALEPortControl> to_ALEPort5Control() { return Setter<Type_ALEPortControl>(rw,0x54); }
+  Setter<Type_ALEPortControl> to_ALEPort5Control() { return Setter<Type_ALEPortControl>(rw,0x54u); }
  
  };
  
@@ -13274,11 +13274,11 @@ struct SliverBar
 
   //--- SliverControl
 
-  Type_SliverControl get_SliverControl() { return Type_SliverControl(rw.template get<uint32>(0x4)); }
+  Type_SliverControl get_SliverControl() { return Type_SliverControl(rw.template get<uint32>(0x4u)); }
  
-  void set_SliverControl(Type_SliverControl value) { rw.set(0x4,value.value); }
+  void set_SliverControl(Type_SliverControl value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_SliverControl> to_SliverControl() { return Setter<Type_SliverControl>(rw,0x4); }
+  Setter<Type_SliverControl> to_SliverControl() { return Setter<Type_SliverControl>(rw,0x4u); }
  
   static Type_SliverControl null_SliverControl() { return Type_SliverControl(0); }
  
@@ -13286,7 +13286,7 @@ struct SliverBar
  
   //--- SliverStatus
 
-  Type_SliverStatus get_SliverStatus() { return Type_SliverStatus(rw.template get<uint32>(0x8)); }
+  Type_SliverStatus get_SliverStatus() { return Type_SliverStatus(rw.template get<uint32>(0x8u)); }
  
   static Type_SliverStatus null_SliverStatus() { return Type_SliverStatus(0); }
  
@@ -13294,11 +13294,11 @@ struct SliverBar
  
   //--- SliverSoftReset
 
-  Type_SliverSoftReset get_SliverSoftReset() { return Type_SliverSoftReset(rw.template get<uint32>(0xC)); }
+  Type_SliverSoftReset get_SliverSoftReset() { return Type_SliverSoftReset(rw.template get<uint32>(0xCu)); }
  
-  void set_SliverSoftReset(Type_SliverSoftReset value) { rw.set(0xC,value.value); }
+  void set_SliverSoftReset(Type_SliverSoftReset value) { rw.set(0xCu,value.value); }
  
-  Setter<Type_SliverSoftReset> to_SliverSoftReset() { return Setter<Type_SliverSoftReset>(rw,0xC); }
+  Setter<Type_SliverSoftReset> to_SliverSoftReset() { return Setter<Type_SliverSoftReset>(rw,0xCu); }
  
   static Type_SliverSoftReset null_SliverSoftReset() { return Type_SliverSoftReset(0); }
  
@@ -13306,11 +13306,11 @@ struct SliverBar
  
   //--- SliverRxMaxLen
 
-  Type_SliverRxMaxLen get_SliverRxMaxLen() { return Type_SliverRxMaxLen(rw.template get<uint32>(0x10)); }
+  Type_SliverRxMaxLen get_SliverRxMaxLen() { return Type_SliverRxMaxLen(rw.template get<uint32>(0x10u)); }
  
-  void set_SliverRxMaxLen(Type_SliverRxMaxLen value) { rw.set(0x10,value.value); }
+  void set_SliverRxMaxLen(Type_SliverRxMaxLen value) { rw.set(0x10u,value.value); }
  
-  Setter<Type_SliverRxMaxLen> to_SliverRxMaxLen() { return Setter<Type_SliverRxMaxLen>(rw,0x10); }
+  Setter<Type_SliverRxMaxLen> to_SliverRxMaxLen() { return Setter<Type_SliverRxMaxLen>(rw,0x10u); }
  
   static Type_SliverRxMaxLen null_SliverRxMaxLen() { return Type_SliverRxMaxLen(0); }
  
@@ -13318,11 +13318,11 @@ struct SliverBar
  
   //--- SliverBOFFTest
 
-  Type_SliverBOFFTest get_SliverBOFFTest() { return Type_SliverBOFFTest(rw.template get<uint32>(0x14)); }
+  Type_SliverBOFFTest get_SliverBOFFTest() { return Type_SliverBOFFTest(rw.template get<uint32>(0x14u)); }
  
-  void set_SliverBOFFTest(Type_SliverBOFFTest value) { rw.set(0x14,value.value); }
+  void set_SliverBOFFTest(Type_SliverBOFFTest value) { rw.set(0x14u,value.value); }
  
-  Setter<Type_SliverBOFFTest> to_SliverBOFFTest() { return Setter<Type_SliverBOFFTest>(rw,0x14); }
+  Setter<Type_SliverBOFFTest> to_SliverBOFFTest() { return Setter<Type_SliverBOFFTest>(rw,0x14u); }
  
   static Type_SliverBOFFTest null_SliverBOFFTest() { return Type_SliverBOFFTest(0); }
  
@@ -13330,11 +13330,11 @@ struct SliverBar
  
   //--- SliverRxPause
 
-  Type_SliverRxPause get_SliverRxPause() { return Type_SliverRxPause(rw.template get<uint32>(0x18)); }
+  Type_SliverRxPause get_SliverRxPause() { return Type_SliverRxPause(rw.template get<uint32>(0x18u)); }
  
-  void set_SliverRxPause(Type_SliverRxPause value) { rw.set(0x18,value.value); }
+  void set_SliverRxPause(Type_SliverRxPause value) { rw.set(0x18u,value.value); }
  
-  Setter<Type_SliverRxPause> to_SliverRxPause() { return Setter<Type_SliverRxPause>(rw,0x18); }
+  Setter<Type_SliverRxPause> to_SliverRxPause() { return Setter<Type_SliverRxPause>(rw,0x18u); }
  
   static Type_SliverRxPause null_SliverRxPause() { return Type_SliverRxPause(0); }
  
@@ -13342,11 +13342,11 @@ struct SliverBar
  
   //--- SliverTxPause
 
-  Type_SliverTxPause get_SliverTxPause() { return Type_SliverTxPause(rw.template get<uint32>(0x1C)); }
+  Type_SliverTxPause get_SliverTxPause() { return Type_SliverTxPause(rw.template get<uint32>(0x1Cu)); }
  
-  void set_SliverTxPause(Type_SliverTxPause value) { rw.set(0x1C,value.value); }
+  void set_SliverTxPause(Type_SliverTxPause value) { rw.set(0x1Cu,value.value); }
  
-  Setter<Type_SliverTxPause> to_SliverTxPause() { return Setter<Type_SliverTxPause>(rw,0x1C); }
+  Setter<Type_SliverTxPause> to_SliverTxPause() { return Setter<Type_SliverTxPause>(rw,0x1Cu); }
  
   static Type_SliverTxPause null_SliverTxPause() { return Type_SliverTxPause(0); }
  
@@ -13354,11 +13354,11 @@ struct SliverBar
  
   //--- SliverEMControl
 
-  Type_SliverEMControl get_SliverEMControl() { return Type_SliverEMControl(rw.template get<uint32>(0x20)); }
+  Type_SliverEMControl get_SliverEMControl() { return Type_SliverEMControl(rw.template get<uint32>(0x20u)); }
  
-  void set_SliverEMControl(Type_SliverEMControl value) { rw.set(0x20,value.value); }
+  void set_SliverEMControl(Type_SliverEMControl value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_SliverEMControl> to_SliverEMControl() { return Setter<Type_SliverEMControl>(rw,0x20); }
+  Setter<Type_SliverEMControl> to_SliverEMControl() { return Setter<Type_SliverEMControl>(rw,0x20u); }
  
   static Type_SliverEMControl null_SliverEMControl() { return Type_SliverEMControl(0); }
  
@@ -13366,11 +13366,11 @@ struct SliverBar
  
   //--- SliverRxPriMap
 
-  Type_SliverRxPriMap get_SliverRxPriMap() { return Type_SliverRxPriMap(rw.template get<uint32>(0x24)); }
+  Type_SliverRxPriMap get_SliverRxPriMap() { return Type_SliverRxPriMap(rw.template get<uint32>(0x24u)); }
  
-  void set_SliverRxPriMap(Type_SliverRxPriMap value) { rw.set(0x24,value.value); }
+  void set_SliverRxPriMap(Type_SliverRxPriMap value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_SliverRxPriMap> to_SliverRxPriMap() { return Setter<Type_SliverRxPriMap>(rw,0x24); }
+  Setter<Type_SliverRxPriMap> to_SliverRxPriMap() { return Setter<Type_SliverRxPriMap>(rw,0x24u); }
  
   static Type_SliverRxPriMap null_SliverRxPriMap() { return Type_SliverRxPriMap(0); }
  
@@ -13378,11 +13378,11 @@ struct SliverBar
  
   //--- SliverTxGap
 
-  Type_SliverTxGap get_SliverTxGap() { return Type_SliverTxGap(rw.template get<uint32>(0x28)); }
+  Type_SliverTxGap get_SliverTxGap() { return Type_SliverTxGap(rw.template get<uint32>(0x28u)); }
  
-  void set_SliverTxGap(Type_SliverTxGap value) { rw.set(0x28,value.value); }
+  void set_SliverTxGap(Type_SliverTxGap value) { rw.set(0x28u,value.value); }
  
-  Setter<Type_SliverTxGap> to_SliverTxGap() { return Setter<Type_SliverTxGap>(rw,0x28); }
+  Setter<Type_SliverTxGap> to_SliverTxGap() { return Setter<Type_SliverTxGap>(rw,0x28u); }
  
   static Type_SliverTxGap null_SliverTxGap() { return Type_SliverTxGap(0); }
  
@@ -13415,11 +13415,11 @@ struct WRBar
 
   //--- WRSoftReset
 
-  Type_WRSoftReset get_WRSoftReset() { return Type_WRSoftReset(rw.template get<uint32>(0x4)); }
+  Type_WRSoftReset get_WRSoftReset() { return Type_WRSoftReset(rw.template get<uint32>(0x4u)); }
  
-  void set_WRSoftReset(Type_WRSoftReset value) { rw.set(0x4,value.value); }
+  void set_WRSoftReset(Type_WRSoftReset value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_WRSoftReset> to_WRSoftReset() { return Setter<Type_WRSoftReset>(rw,0x4); }
+  Setter<Type_WRSoftReset> to_WRSoftReset() { return Setter<Type_WRSoftReset>(rw,0x4u); }
  
   static Type_WRSoftReset null_WRSoftReset() { return Type_WRSoftReset(0); }
  
@@ -13427,11 +13427,11 @@ struct WRBar
  
   //--- WRControl
 
-  Type_WRControl get_WRControl() { return Type_WRControl(rw.template get<uint32>(0x8)); }
+  Type_WRControl get_WRControl() { return Type_WRControl(rw.template get<uint32>(0x8u)); }
  
-  void set_WRControl(Type_WRControl value) { rw.set(0x8,value.value); }
+  void set_WRControl(Type_WRControl value) { rw.set(0x8u,value.value); }
  
-  Setter<Type_WRControl> to_WRControl() { return Setter<Type_WRControl>(rw,0x8); }
+  Setter<Type_WRControl> to_WRControl() { return Setter<Type_WRControl>(rw,0x8u); }
  
   static Type_WRControl null_WRControl() { return Type_WRControl(0); }
  
@@ -13439,11 +13439,11 @@ struct WRBar
  
   //--- WRIntControl
 
-  Type_WRIntControl get_WRIntControl() { return Type_WRIntControl(rw.template get<uint32>(0xC)); }
+  Type_WRIntControl get_WRIntControl() { return Type_WRIntControl(rw.template get<uint32>(0xCu)); }
  
-  void set_WRIntControl(Type_WRIntControl value) { rw.set(0xC,value.value); }
+  void set_WRIntControl(Type_WRIntControl value) { rw.set(0xCu,value.value); }
  
-  Setter<Type_WRIntControl> to_WRIntControl() { return Setter<Type_WRIntControl>(rw,0xC); }
+  Setter<Type_WRIntControl> to_WRIntControl() { return Setter<Type_WRIntControl>(rw,0xCu); }
  
   static Type_WRIntControl null_WRIntControl() { return Type_WRIntControl(0); }
  
@@ -13451,251 +13451,251 @@ struct WRBar
  
   //--- WRC0RxThreshEnable
 
-  Type_WRC0RxThreshEnable get_WRC0RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x10)); }
+  Type_WRC0RxThreshEnable get_WRC0RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x10u)); }
  
-  void set_WRC0RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x10,value); }
+  void set_WRC0RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x10u,value); }
  
-  void set_WRC0RxThreshEnable_null() { rw.set(0x10,Type_WRC0RxThreshEnable(0)); }
+  void set_WRC0RxThreshEnable_null() { rw.set(0x10u,Type_WRC0RxThreshEnable(0)); }
  
-  void set_WRC0RxThreshEnable_ones() { rw.set(0x10,Type_WRC0RxThreshEnable(-1)); }
+  void set_WRC0RxThreshEnable_ones() { rw.set(0x10u,Type_WRC0RxThreshEnable(-1)); }
  
   //--- WRC0RxEnable
 
-  Type_WRC0RxEnable get_WRC0RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x14)); }
+  Type_WRC0RxEnable get_WRC0RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x14u)); }
  
-  void set_WRC0RxEnable(Type_WRC0RxEnable value) { rw.set(0x14,value); }
+  void set_WRC0RxEnable(Type_WRC0RxEnable value) { rw.set(0x14u,value); }
  
-  void set_WRC0RxEnable_null() { rw.set(0x14,Type_WRC0RxEnable(0)); }
+  void set_WRC0RxEnable_null() { rw.set(0x14u,Type_WRC0RxEnable(0)); }
  
-  void set_WRC0RxEnable_ones() { rw.set(0x14,Type_WRC0RxEnable(-1)); }
+  void set_WRC0RxEnable_ones() { rw.set(0x14u,Type_WRC0RxEnable(-1)); }
  
   //--- WRC0TxEnable
 
-  Type_WRC0TxEnable get_WRC0TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x18)); }
+  Type_WRC0TxEnable get_WRC0TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x18u)); }
  
-  void set_WRC0TxEnable(Type_WRC0TxEnable value) { rw.set(0x18,value); }
+  void set_WRC0TxEnable(Type_WRC0TxEnable value) { rw.set(0x18u,value); }
  
-  void set_WRC0TxEnable_null() { rw.set(0x18,Type_WRC0TxEnable(0)); }
+  void set_WRC0TxEnable_null() { rw.set(0x18u,Type_WRC0TxEnable(0)); }
  
-  void set_WRC0TxEnable_ones() { rw.set(0x18,Type_WRC0TxEnable(-1)); }
+  void set_WRC0TxEnable_ones() { rw.set(0x18u,Type_WRC0TxEnable(-1)); }
  
   //--- WRC0MiscEnable
 
-  Type_WRC0MiscEnable get_WRC0MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x1C)); }
+  Type_WRC0MiscEnable get_WRC0MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x1Cu)); }
  
-  void set_WRC0MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x1C,value); }
+  void set_WRC0MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x1Cu,value); }
  
-  void set_WRC0MiscEnable_null() { rw.set(0x1C,Type_WRC0MiscEnable(0)); }
+  void set_WRC0MiscEnable_null() { rw.set(0x1Cu,Type_WRC0MiscEnable(0)); }
  
-  void set_WRC0MiscEnable_ones() { rw.set(0x1C,Type_WRC0MiscEnable(-1)); }
+  void set_WRC0MiscEnable_ones() { rw.set(0x1Cu,Type_WRC0MiscEnable(-1)); }
  
   //--- WRC1RxThreshEnable
 
-  Type_WRC0RxThreshEnable get_WRC1RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x20)); }
+  Type_WRC0RxThreshEnable get_WRC1RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x20u)); }
  
-  void set_WRC1RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x20,value); }
+  void set_WRC1RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x20u,value); }
  
-  void set_WRC1RxThreshEnable_null() { rw.set(0x20,Type_WRC0RxThreshEnable(0)); }
+  void set_WRC1RxThreshEnable_null() { rw.set(0x20u,Type_WRC0RxThreshEnable(0)); }
  
-  void set_WRC1RxThreshEnable_ones() { rw.set(0x20,Type_WRC0RxThreshEnable(-1)); }
+  void set_WRC1RxThreshEnable_ones() { rw.set(0x20u,Type_WRC0RxThreshEnable(-1)); }
  
   //--- WRC1RxEnable
 
-  Type_WRC0RxEnable get_WRC1RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x24)); }
+  Type_WRC0RxEnable get_WRC1RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x24u)); }
  
-  void set_WRC1RxEnable(Type_WRC0RxEnable value) { rw.set(0x24,value); }
+  void set_WRC1RxEnable(Type_WRC0RxEnable value) { rw.set(0x24u,value); }
  
-  void set_WRC1RxEnable_null() { rw.set(0x24,Type_WRC0RxEnable(0)); }
+  void set_WRC1RxEnable_null() { rw.set(0x24u,Type_WRC0RxEnable(0)); }
  
-  void set_WRC1RxEnable_ones() { rw.set(0x24,Type_WRC0RxEnable(-1)); }
+  void set_WRC1RxEnable_ones() { rw.set(0x24u,Type_WRC0RxEnable(-1)); }
  
   //--- WRC1TxEnable
 
-  Type_WRC0TxEnable get_WRC1TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x28)); }
+  Type_WRC0TxEnable get_WRC1TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x28u)); }
  
-  void set_WRC1TxEnable(Type_WRC0TxEnable value) { rw.set(0x28,value); }
+  void set_WRC1TxEnable(Type_WRC0TxEnable value) { rw.set(0x28u,value); }
  
-  void set_WRC1TxEnable_null() { rw.set(0x28,Type_WRC0TxEnable(0)); }
+  void set_WRC1TxEnable_null() { rw.set(0x28u,Type_WRC0TxEnable(0)); }
  
-  void set_WRC1TxEnable_ones() { rw.set(0x28,Type_WRC0TxEnable(-1)); }
+  void set_WRC1TxEnable_ones() { rw.set(0x28u,Type_WRC0TxEnable(-1)); }
  
   //--- WRC1MiscEnable
 
-  Type_WRC0MiscEnable get_WRC1MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x2C)); }
+  Type_WRC0MiscEnable get_WRC1MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x2Cu)); }
  
-  void set_WRC1MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x2C,value); }
+  void set_WRC1MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x2Cu,value); }
  
-  void set_WRC1MiscEnable_null() { rw.set(0x2C,Type_WRC0MiscEnable(0)); }
+  void set_WRC1MiscEnable_null() { rw.set(0x2Cu,Type_WRC0MiscEnable(0)); }
  
-  void set_WRC1MiscEnable_ones() { rw.set(0x2C,Type_WRC0MiscEnable(-1)); }
+  void set_WRC1MiscEnable_ones() { rw.set(0x2Cu,Type_WRC0MiscEnable(-1)); }
  
   //--- WRC2RxThreshEnable
 
-  Type_WRC0RxThreshEnable get_WRC2RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x30)); }
+  Type_WRC0RxThreshEnable get_WRC2RxThreshEnable() { return Type_WRC0RxThreshEnable(rw.template get<uint32>(0x30u)); }
  
-  void set_WRC2RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x30,value); }
+  void set_WRC2RxThreshEnable(Type_WRC0RxThreshEnable value) { rw.set(0x30u,value); }
  
-  void set_WRC2RxThreshEnable_null() { rw.set(0x30,Type_WRC0RxThreshEnable(0)); }
+  void set_WRC2RxThreshEnable_null() { rw.set(0x30u,Type_WRC0RxThreshEnable(0)); }
  
-  void set_WRC2RxThreshEnable_ones() { rw.set(0x30,Type_WRC0RxThreshEnable(-1)); }
+  void set_WRC2RxThreshEnable_ones() { rw.set(0x30u,Type_WRC0RxThreshEnable(-1)); }
  
   //--- WRC2RxEnable
 
-  Type_WRC0RxEnable get_WRC2RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x34)); }
+  Type_WRC0RxEnable get_WRC2RxEnable() { return Type_WRC0RxEnable(rw.template get<uint32>(0x34u)); }
  
-  void set_WRC2RxEnable(Type_WRC0RxEnable value) { rw.set(0x34,value); }
+  void set_WRC2RxEnable(Type_WRC0RxEnable value) { rw.set(0x34u,value); }
  
-  void set_WRC2RxEnable_null() { rw.set(0x34,Type_WRC0RxEnable(0)); }
+  void set_WRC2RxEnable_null() { rw.set(0x34u,Type_WRC0RxEnable(0)); }
  
-  void set_WRC2RxEnable_ones() { rw.set(0x34,Type_WRC0RxEnable(-1)); }
+  void set_WRC2RxEnable_ones() { rw.set(0x34u,Type_WRC0RxEnable(-1)); }
  
   //--- WRC2TxEnable
 
-  Type_WRC0TxEnable get_WRC2TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x38)); }
+  Type_WRC0TxEnable get_WRC2TxEnable() { return Type_WRC0TxEnable(rw.template get<uint32>(0x38u)); }
  
-  void set_WRC2TxEnable(Type_WRC0TxEnable value) { rw.set(0x38,value); }
+  void set_WRC2TxEnable(Type_WRC0TxEnable value) { rw.set(0x38u,value); }
  
-  void set_WRC2TxEnable_null() { rw.set(0x38,Type_WRC0TxEnable(0)); }
+  void set_WRC2TxEnable_null() { rw.set(0x38u,Type_WRC0TxEnable(0)); }
  
-  void set_WRC2TxEnable_ones() { rw.set(0x38,Type_WRC0TxEnable(-1)); }
+  void set_WRC2TxEnable_ones() { rw.set(0x38u,Type_WRC0TxEnable(-1)); }
  
   //--- WRC2MiscEnable
 
-  Type_WRC0MiscEnable get_WRC2MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x3C)); }
+  Type_WRC0MiscEnable get_WRC2MiscEnable() { return Type_WRC0MiscEnable(rw.template get<uint32>(0x3Cu)); }
  
-  void set_WRC2MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x3C,value); }
+  void set_WRC2MiscEnable(Type_WRC0MiscEnable value) { rw.set(0x3Cu,value); }
  
-  void set_WRC2MiscEnable_null() { rw.set(0x3C,Type_WRC0MiscEnable(0)); }
+  void set_WRC2MiscEnable_null() { rw.set(0x3Cu,Type_WRC0MiscEnable(0)); }
  
-  void set_WRC2MiscEnable_ones() { rw.set(0x3C,Type_WRC0MiscEnable(-1)); }
+  void set_WRC2MiscEnable_ones() { rw.set(0x3Cu,Type_WRC0MiscEnable(-1)); }
  
   //--- WRC0RxThreshStatus
 
-  Type_WRC0RxThreshStatus get_WRC0RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x40)); }
+  Type_WRC0RxThreshStatus get_WRC0RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x40u)); }
  
-  void set_WRC0RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x40,value); }
+  void set_WRC0RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x40u,value); }
  
-  void set_WRC0RxThreshStatus_null() { rw.set(0x40,Type_WRC0RxThreshStatus(0)); }
+  void set_WRC0RxThreshStatus_null() { rw.set(0x40u,Type_WRC0RxThreshStatus(0)); }
  
-  void set_WRC0RxThreshStatus_ones() { rw.set(0x40,Type_WRC0RxThreshStatus(-1)); }
+  void set_WRC0RxThreshStatus_ones() { rw.set(0x40u,Type_WRC0RxThreshStatus(-1)); }
  
   //--- WRC0RxStatus
 
-  Type_WRC0RxStatus get_WRC0RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x44)); }
+  Type_WRC0RxStatus get_WRC0RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x44u)); }
  
-  void set_WRC0RxStatus(Type_WRC0RxStatus value) { rw.set(0x44,value); }
+  void set_WRC0RxStatus(Type_WRC0RxStatus value) { rw.set(0x44u,value); }
  
-  void set_WRC0RxStatus_null() { rw.set(0x44,Type_WRC0RxStatus(0)); }
+  void set_WRC0RxStatus_null() { rw.set(0x44u,Type_WRC0RxStatus(0)); }
  
-  void set_WRC0RxStatus_ones() { rw.set(0x44,Type_WRC0RxStatus(-1)); }
+  void set_WRC0RxStatus_ones() { rw.set(0x44u,Type_WRC0RxStatus(-1)); }
  
   //--- WRC0TxStatus
 
-  Type_WRC0TxStatus get_WRC0TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x48)); }
+  Type_WRC0TxStatus get_WRC0TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x48u)); }
  
-  void set_WRC0TxStatus(Type_WRC0TxStatus value) { rw.set(0x48,value); }
+  void set_WRC0TxStatus(Type_WRC0TxStatus value) { rw.set(0x48u,value); }
  
-  void set_WRC0TxStatus_null() { rw.set(0x48,Type_WRC0TxStatus(0)); }
+  void set_WRC0TxStatus_null() { rw.set(0x48u,Type_WRC0TxStatus(0)); }
  
-  void set_WRC0TxStatus_ones() { rw.set(0x48,Type_WRC0TxStatus(-1)); }
+  void set_WRC0TxStatus_ones() { rw.set(0x48u,Type_WRC0TxStatus(-1)); }
  
   //--- WRC0MiscStatus
 
-  Type_WRC0MiscStatus get_WRC0MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x4C)); }
+  Type_WRC0MiscStatus get_WRC0MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x4Cu)); }
  
-  void set_WRC0MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x4C,value); }
+  void set_WRC0MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x4Cu,value); }
  
-  void set_WRC0MiscStatus_null() { rw.set(0x4C,Type_WRC0MiscStatus(0)); }
+  void set_WRC0MiscStatus_null() { rw.set(0x4Cu,Type_WRC0MiscStatus(0)); }
  
-  void set_WRC0MiscStatus_ones() { rw.set(0x4C,Type_WRC0MiscStatus(-1)); }
+  void set_WRC0MiscStatus_ones() { rw.set(0x4Cu,Type_WRC0MiscStatus(-1)); }
  
   //--- WRC1RxThreshStatus
 
-  Type_WRC0RxThreshStatus get_WRC1RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x50)); }
+  Type_WRC0RxThreshStatus get_WRC1RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x50u)); }
  
-  void set_WRC1RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x50,value); }
+  void set_WRC1RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x50u,value); }
  
-  void set_WRC1RxThreshStatus_null() { rw.set(0x50,Type_WRC0RxThreshStatus(0)); }
+  void set_WRC1RxThreshStatus_null() { rw.set(0x50u,Type_WRC0RxThreshStatus(0)); }
  
-  void set_WRC1RxThreshStatus_ones() { rw.set(0x50,Type_WRC0RxThreshStatus(-1)); }
+  void set_WRC1RxThreshStatus_ones() { rw.set(0x50u,Type_WRC0RxThreshStatus(-1)); }
  
   //--- WRC1RxStatus
 
-  Type_WRC0RxStatus get_WRC1RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x54)); }
+  Type_WRC0RxStatus get_WRC1RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x54u)); }
  
-  void set_WRC1RxStatus(Type_WRC0RxStatus value) { rw.set(0x54,value); }
+  void set_WRC1RxStatus(Type_WRC0RxStatus value) { rw.set(0x54u,value); }
  
-  void set_WRC1RxStatus_null() { rw.set(0x54,Type_WRC0RxStatus(0)); }
+  void set_WRC1RxStatus_null() { rw.set(0x54u,Type_WRC0RxStatus(0)); }
  
-  void set_WRC1RxStatus_ones() { rw.set(0x54,Type_WRC0RxStatus(-1)); }
+  void set_WRC1RxStatus_ones() { rw.set(0x54u,Type_WRC0RxStatus(-1)); }
  
   //--- WRC1TxStatus
 
-  Type_WRC0TxStatus get_WRC1TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x58)); }
+  Type_WRC0TxStatus get_WRC1TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x58u)); }
  
-  void set_WRC1TxStatus(Type_WRC0TxStatus value) { rw.set(0x58,value); }
+  void set_WRC1TxStatus(Type_WRC0TxStatus value) { rw.set(0x58u,value); }
  
-  void set_WRC1TxStatus_null() { rw.set(0x58,Type_WRC0TxStatus(0)); }
+  void set_WRC1TxStatus_null() { rw.set(0x58u,Type_WRC0TxStatus(0)); }
  
-  void set_WRC1TxStatus_ones() { rw.set(0x58,Type_WRC0TxStatus(-1)); }
+  void set_WRC1TxStatus_ones() { rw.set(0x58u,Type_WRC0TxStatus(-1)); }
  
   //--- WRC1MiscStatus
 
-  Type_WRC0MiscStatus get_WRC1MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x5C)); }
+  Type_WRC0MiscStatus get_WRC1MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x5Cu)); }
  
-  void set_WRC1MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x5C,value); }
+  void set_WRC1MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x5Cu,value); }
  
-  void set_WRC1MiscStatus_null() { rw.set(0x5C,Type_WRC0MiscStatus(0)); }
+  void set_WRC1MiscStatus_null() { rw.set(0x5Cu,Type_WRC0MiscStatus(0)); }
  
-  void set_WRC1MiscStatus_ones() { rw.set(0x5C,Type_WRC0MiscStatus(-1)); }
+  void set_WRC1MiscStatus_ones() { rw.set(0x5Cu,Type_WRC0MiscStatus(-1)); }
  
   //--- WRC2RxThreshStatus
 
-  Type_WRC0RxThreshStatus get_WRC2RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x60)); }
+  Type_WRC0RxThreshStatus get_WRC2RxThreshStatus() { return Type_WRC0RxThreshStatus(rw.template get<uint32>(0x60u)); }
  
-  void set_WRC2RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x60,value); }
+  void set_WRC2RxThreshStatus(Type_WRC0RxThreshStatus value) { rw.set(0x60u,value); }
  
-  void set_WRC2RxThreshStatus_null() { rw.set(0x60,Type_WRC0RxThreshStatus(0)); }
+  void set_WRC2RxThreshStatus_null() { rw.set(0x60u,Type_WRC0RxThreshStatus(0)); }
  
-  void set_WRC2RxThreshStatus_ones() { rw.set(0x60,Type_WRC0RxThreshStatus(-1)); }
+  void set_WRC2RxThreshStatus_ones() { rw.set(0x60u,Type_WRC0RxThreshStatus(-1)); }
  
   //--- WRC2RxStatus
 
-  Type_WRC0RxStatus get_WRC2RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x64)); }
+  Type_WRC0RxStatus get_WRC2RxStatus() { return Type_WRC0RxStatus(rw.template get<uint32>(0x64u)); }
  
-  void set_WRC2RxStatus(Type_WRC0RxStatus value) { rw.set(0x64,value); }
+  void set_WRC2RxStatus(Type_WRC0RxStatus value) { rw.set(0x64u,value); }
  
-  void set_WRC2RxStatus_null() { rw.set(0x64,Type_WRC0RxStatus(0)); }
+  void set_WRC2RxStatus_null() { rw.set(0x64u,Type_WRC0RxStatus(0)); }
  
-  void set_WRC2RxStatus_ones() { rw.set(0x64,Type_WRC0RxStatus(-1)); }
+  void set_WRC2RxStatus_ones() { rw.set(0x64u,Type_WRC0RxStatus(-1)); }
  
   //--- WRC2TxStatus
 
-  Type_WRC0TxStatus get_WRC2TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x68)); }
+  Type_WRC0TxStatus get_WRC2TxStatus() { return Type_WRC0TxStatus(rw.template get<uint32>(0x68u)); }
  
-  void set_WRC2TxStatus(Type_WRC0TxStatus value) { rw.set(0x68,value); }
+  void set_WRC2TxStatus(Type_WRC0TxStatus value) { rw.set(0x68u,value); }
  
-  void set_WRC2TxStatus_null() { rw.set(0x68,Type_WRC0TxStatus(0)); }
+  void set_WRC2TxStatus_null() { rw.set(0x68u,Type_WRC0TxStatus(0)); }
  
-  void set_WRC2TxStatus_ones() { rw.set(0x68,Type_WRC0TxStatus(-1)); }
+  void set_WRC2TxStatus_ones() { rw.set(0x68u,Type_WRC0TxStatus(-1)); }
  
   //--- WRC2MiscStatus
 
-  Type_WRC0MiscStatus get_WRC2MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x6C)); }
+  Type_WRC0MiscStatus get_WRC2MiscStatus() { return Type_WRC0MiscStatus(rw.template get<uint32>(0x6Cu)); }
  
-  void set_WRC2MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x6C,value); }
+  void set_WRC2MiscStatus(Type_WRC0MiscStatus value) { rw.set(0x6Cu,value); }
  
-  void set_WRC2MiscStatus_null() { rw.set(0x6C,Type_WRC0MiscStatus(0)); }
+  void set_WRC2MiscStatus_null() { rw.set(0x6Cu,Type_WRC0MiscStatus(0)); }
  
-  void set_WRC2MiscStatus_ones() { rw.set(0x6C,Type_WRC0MiscStatus(-1)); }
+  void set_WRC2MiscStatus_ones() { rw.set(0x6Cu,Type_WRC0MiscStatus(-1)); }
  
   //--- WRC0RxIntLim
 
-  Type_WRC0RxIntLim get_WRC0RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x70)); }
+  Type_WRC0RxIntLim get_WRC0RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x70u)); }
  
-  void set_WRC0RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x70,value.value); }
+  void set_WRC0RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x70u,value.value); }
  
-  Setter<Type_WRC0RxIntLim> to_WRC0RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x70); }
+  Setter<Type_WRC0RxIntLim> to_WRC0RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x70u); }
  
   static Type_WRC0RxIntLim null_WRC0RxIntLim() { return Type_WRC0RxIntLim(0); }
  
@@ -13703,11 +13703,11 @@ struct WRBar
  
   //--- WRC0TxIntLim
 
-  Type_WRC0TxIntLim get_WRC0TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x74)); }
+  Type_WRC0TxIntLim get_WRC0TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x74u)); }
  
-  void set_WRC0TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x74,value.value); }
+  void set_WRC0TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x74u,value.value); }
  
-  Setter<Type_WRC0TxIntLim> to_WRC0TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x74); }
+  Setter<Type_WRC0TxIntLim> to_WRC0TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x74u); }
  
   static Type_WRC0TxIntLim null_WRC0TxIntLim() { return Type_WRC0TxIntLim(0); }
  
@@ -13715,39 +13715,39 @@ struct WRBar
  
   //--- WRC1RxIntLim
 
-  Type_WRC0RxIntLim get_WRC1RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x78)); }
+  Type_WRC0RxIntLim get_WRC1RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x78u)); }
  
-  void set_WRC1RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x78,value.value); }
+  void set_WRC1RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x78u,value.value); }
  
-  Setter<Type_WRC0RxIntLim> to_WRC1RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x78); }
+  Setter<Type_WRC0RxIntLim> to_WRC1RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x78u); }
  
   //--- WRC1TxIntLim
 
-  Type_WRC0TxIntLim get_WRC1TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x7C)); }
+  Type_WRC0TxIntLim get_WRC1TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x7Cu)); }
  
-  void set_WRC1TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x7C,value.value); }
+  void set_WRC1TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x7Cu,value.value); }
  
-  Setter<Type_WRC0TxIntLim> to_WRC1TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x7C); }
+  Setter<Type_WRC0TxIntLim> to_WRC1TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x7Cu); }
  
   //--- WRC2RxIntLim
 
-  Type_WRC0RxIntLim get_WRC2RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x80)); }
+  Type_WRC0RxIntLim get_WRC2RxIntLim() { return Type_WRC0RxIntLim(rw.template get<uint32>(0x80u)); }
  
-  void set_WRC2RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x80,value.value); }
+  void set_WRC2RxIntLim(Type_WRC0RxIntLim value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_WRC0RxIntLim> to_WRC2RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x80); }
+  Setter<Type_WRC0RxIntLim> to_WRC2RxIntLim() { return Setter<Type_WRC0RxIntLim>(rw,0x80u); }
  
   //--- WRC2TxIntLim
 
-  Type_WRC0TxIntLim get_WRC2TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x84)); }
+  Type_WRC0TxIntLim get_WRC2TxIntLim() { return Type_WRC0TxIntLim(rw.template get<uint32>(0x84u)); }
  
-  void set_WRC2TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x84,value.value); }
+  void set_WRC2TxIntLim(Type_WRC0TxIntLim value) { rw.set(0x84u,value.value); }
  
-  Setter<Type_WRC0TxIntLim> to_WRC2TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x84); }
+  Setter<Type_WRC0TxIntLim> to_WRC2TxIntLim() { return Setter<Type_WRC0TxIntLim>(rw,0x84u); }
  
   //--- WRRGMIIStatus
 
-  Type_WRRGMIIStatus get_WRRGMIIStatus() { return Type_WRRGMIIStatus(rw.template get<uint32>(0x88)); }
+  Type_WRRGMIIStatus get_WRRGMIIStatus() { return Type_WRRGMIIStatus(rw.template get<uint32>(0x88u)); }
  
   static Type_WRRGMIIStatus null_WRRGMIIStatus() { return Type_WRRGMIIStatus(0); }
  
@@ -13780,11 +13780,11 @@ struct MDIOBar
 
   //--- MDIOControl
 
-  Type_MDIOControl get_MDIOControl() { return Type_MDIOControl(rw.template get<uint32>(0x4)); }
+  Type_MDIOControl get_MDIOControl() { return Type_MDIOControl(rw.template get<uint32>(0x4u)); }
  
-  void set_MDIOControl(Type_MDIOControl value) { rw.set(0x4,value.value); }
+  void set_MDIOControl(Type_MDIOControl value) { rw.set(0x4u,value.value); }
  
-  Setter<Type_MDIOControl> to_MDIOControl() { return Setter<Type_MDIOControl>(rw,0x4); }
+  Setter<Type_MDIOControl> to_MDIOControl() { return Setter<Type_MDIOControl>(rw,0x4u); }
  
   static Type_MDIOControl null_MDIOControl() { return Type_MDIOControl(0); }
  
@@ -13792,83 +13792,83 @@ struct MDIOBar
  
   //--- MDIOAlive
 
-  Type_MDIOAlive get_MDIOAlive() { return Type_MDIOAlive(rw.template get<uint32>(0x8)); }
+  Type_MDIOAlive get_MDIOAlive() { return Type_MDIOAlive(rw.template get<uint32>(0x8u)); }
  
-  void set_MDIOAlive(Type_MDIOAlive value) { rw.set(0x8,value); }
+  void set_MDIOAlive(Type_MDIOAlive value) { rw.set(0x8u,value); }
  
-  void set_MDIOAlive_null() { rw.set(0x8,Type_MDIOAlive(0)); }
+  void set_MDIOAlive_null() { rw.set(0x8u,Type_MDIOAlive(0)); }
  
-  void set_MDIOAlive_ones() { rw.set(0x8,Type_MDIOAlive(-1)); }
+  void set_MDIOAlive_ones() { rw.set(0x8u,Type_MDIOAlive(-1)); }
  
   //--- MDIOLink
 
-  Type_MDIOLink get_MDIOLink() { return Type_MDIOLink(rw.template get<uint32>(0xC)); }
+  Type_MDIOLink get_MDIOLink() { return Type_MDIOLink(rw.template get<uint32>(0xCu)); }
  
-  void set_MDIOLink(Type_MDIOLink value) { rw.set(0xC,value); }
+  void set_MDIOLink(Type_MDIOLink value) { rw.set(0xCu,value); }
  
-  void set_MDIOLink_null() { rw.set(0xC,Type_MDIOLink(0)); }
+  void set_MDIOLink_null() { rw.set(0xCu,Type_MDIOLink(0)); }
  
-  void set_MDIOLink_ones() { rw.set(0xC,Type_MDIOLink(-1)); }
+  void set_MDIOLink_ones() { rw.set(0xCu,Type_MDIOLink(-1)); }
  
   //--- MDIOLinkIntStatusRaw
 
-  Type_MDIOLinkIntStatus get_MDIOLinkIntStatusRaw() { return Type_MDIOLinkIntStatus(rw.template get<uint32>(0x10)); }
+  Type_MDIOLinkIntStatus get_MDIOLinkIntStatusRaw() { return Type_MDIOLinkIntStatus(rw.template get<uint32>(0x10u)); }
  
-  void set_MDIOLinkIntStatusRaw(Type_MDIOLinkIntStatus value) { rw.set(0x10,value); }
+  void set_MDIOLinkIntStatusRaw(Type_MDIOLinkIntStatus value) { rw.set(0x10u,value); }
  
-  void set_MDIOLinkIntStatusRaw_null() { rw.set(0x10,Type_MDIOLinkIntStatus(0)); }
+  void set_MDIOLinkIntStatusRaw_null() { rw.set(0x10u,Type_MDIOLinkIntStatus(0)); }
  
-  void set_MDIOLinkIntStatusRaw_ones() { rw.set(0x10,Type_MDIOLinkIntStatus(-1)); }
+  void set_MDIOLinkIntStatusRaw_ones() { rw.set(0x10u,Type_MDIOLinkIntStatus(-1)); }
  
   //--- MDIOLinkIntStatus
 
-  Type_MDIOLinkIntStatus get_MDIOLinkIntStatus() { return Type_MDIOLinkIntStatus(rw.template get<uint32>(0x14)); }
+  Type_MDIOLinkIntStatus get_MDIOLinkIntStatus() { return Type_MDIOLinkIntStatus(rw.template get<uint32>(0x14u)); }
  
-  void set_MDIOLinkIntStatus(Type_MDIOLinkIntStatus value) { rw.set(0x14,value); }
+  void set_MDIOLinkIntStatus(Type_MDIOLinkIntStatus value) { rw.set(0x14u,value); }
  
-  void set_MDIOLinkIntStatus_null() { rw.set(0x14,Type_MDIOLinkIntStatus(0)); }
+  void set_MDIOLinkIntStatus_null() { rw.set(0x14u,Type_MDIOLinkIntStatus(0)); }
  
-  void set_MDIOLinkIntStatus_ones() { rw.set(0x14,Type_MDIOLinkIntStatus(-1)); }
+  void set_MDIOLinkIntStatus_ones() { rw.set(0x14u,Type_MDIOLinkIntStatus(-1)); }
  
   //--- MDIOUserIntStatusRaw
 
-  Type_MDIOUserIntStatus get_MDIOUserIntStatusRaw() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x18)); }
+  Type_MDIOUserIntStatus get_MDIOUserIntStatusRaw() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x18u)); }
  
-  void set_MDIOUserIntStatusRaw(Type_MDIOUserIntStatus value) { rw.set(0x18,value); }
+  void set_MDIOUserIntStatusRaw(Type_MDIOUserIntStatus value) { rw.set(0x18u,value); }
  
-  void set_MDIOUserIntStatusRaw_null() { rw.set(0x18,Type_MDIOUserIntStatus(0)); }
+  void set_MDIOUserIntStatusRaw_null() { rw.set(0x18u,Type_MDIOUserIntStatus(0)); }
  
-  void set_MDIOUserIntStatusRaw_ones() { rw.set(0x18,Type_MDIOUserIntStatus(-1)); }
+  void set_MDIOUserIntStatusRaw_ones() { rw.set(0x18u,Type_MDIOUserIntStatus(-1)); }
  
   //--- MDIOUserIntStatus
 
-  Type_MDIOUserIntStatus get_MDIOUserIntStatus() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x1C)); }
+  Type_MDIOUserIntStatus get_MDIOUserIntStatus() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x1Cu)); }
  
-  void set_MDIOUserIntStatus(Type_MDIOUserIntStatus value) { rw.set(0x1C,value); }
+  void set_MDIOUserIntStatus(Type_MDIOUserIntStatus value) { rw.set(0x1Cu,value); }
  
-  void set_MDIOUserIntStatus_null() { rw.set(0x1C,Type_MDIOUserIntStatus(0)); }
+  void set_MDIOUserIntStatus_null() { rw.set(0x1Cu,Type_MDIOUserIntStatus(0)); }
  
-  void set_MDIOUserIntStatus_ones() { rw.set(0x1C,Type_MDIOUserIntStatus(-1)); }
+  void set_MDIOUserIntStatus_ones() { rw.set(0x1Cu,Type_MDIOUserIntStatus(-1)); }
  
   //--- MDIOUserIntEnableSet
 
-  Type_MDIOUserIntStatus get_MDIOUserIntEnableSet() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x20)); }
+  Type_MDIOUserIntStatus get_MDIOUserIntEnableSet() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x20u)); }
  
-  void set_MDIOUserIntEnableSet(Type_MDIOUserIntStatus value) { rw.set(0x20,value); }
+  void set_MDIOUserIntEnableSet(Type_MDIOUserIntStatus value) { rw.set(0x20u,value); }
  
-  void set_MDIOUserIntEnableSet_null() { rw.set(0x20,Type_MDIOUserIntStatus(0)); }
+  void set_MDIOUserIntEnableSet_null() { rw.set(0x20u,Type_MDIOUserIntStatus(0)); }
  
-  void set_MDIOUserIntEnableSet_ones() { rw.set(0x20,Type_MDIOUserIntStatus(-1)); }
+  void set_MDIOUserIntEnableSet_ones() { rw.set(0x20u,Type_MDIOUserIntStatus(-1)); }
  
   //--- MDIOUserIntEnableClear
 
-  Type_MDIOUserIntStatus get_MDIOUserIntEnableClear() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x24)); }
+  Type_MDIOUserIntStatus get_MDIOUserIntEnableClear() { return Type_MDIOUserIntStatus(rw.template get<uint32>(0x24u)); }
  
-  void set_MDIOUserIntEnableClear(Type_MDIOUserIntStatus value) { rw.set(0x24,value); }
+  void set_MDIOUserIntEnableClear(Type_MDIOUserIntStatus value) { rw.set(0x24u,value); }
  
-  void set_MDIOUserIntEnableClear_null() { rw.set(0x24,Type_MDIOUserIntStatus(0)); }
+  void set_MDIOUserIntEnableClear_null() { rw.set(0x24u,Type_MDIOUserIntStatus(0)); }
  
-  void set_MDIOUserIntEnableClear_ones() { rw.set(0x24,Type_MDIOUserIntStatus(-1)); }
+  void set_MDIOUserIntEnableClear_ones() { rw.set(0x24u,Type_MDIOUserIntStatus(-1)); }
  
   //--- MDIOUserAccess
 
@@ -13884,35 +13884,35 @@ struct MDIOBar
  
   //--- MDIOUserAccess0
 
-  Type_MDIOUserAccess get_MDIOUserAccess0() { return Type_MDIOUserAccess(rw.template get<uint32>(0x80)); }
+  Type_MDIOUserAccess get_MDIOUserAccess0() { return Type_MDIOUserAccess(rw.template get<uint32>(0x80u)); }
  
-  void set_MDIOUserAccess0(Type_MDIOUserAccess value) { rw.set(0x80,value.value); }
+  void set_MDIOUserAccess0(Type_MDIOUserAccess value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_MDIOUserAccess> to_MDIOUserAccess0() { return Setter<Type_MDIOUserAccess>(rw,0x80); }
+  Setter<Type_MDIOUserAccess> to_MDIOUserAccess0() { return Setter<Type_MDIOUserAccess>(rw,0x80u); }
  
   //--- MDIOUserPhySel0
 
-  Type_MDIOUserPhySel get_MDIOUserPhySel0() { return Type_MDIOUserPhySel(rw.template get<uint32>(0x84)); }
+  Type_MDIOUserPhySel get_MDIOUserPhySel0() { return Type_MDIOUserPhySel(rw.template get<uint32>(0x84u)); }
  
-  void set_MDIOUserPhySel0(Type_MDIOUserPhySel value) { rw.set(0x84,value.value); }
+  void set_MDIOUserPhySel0(Type_MDIOUserPhySel value) { rw.set(0x84u,value.value); }
  
-  Setter<Type_MDIOUserPhySel> to_MDIOUserPhySel0() { return Setter<Type_MDIOUserPhySel>(rw,0x84); }
+  Setter<Type_MDIOUserPhySel> to_MDIOUserPhySel0() { return Setter<Type_MDIOUserPhySel>(rw,0x84u); }
  
   //--- MDIOUserAccess1
 
-  Type_MDIOUserAccess get_MDIOUserAccess1() { return Type_MDIOUserAccess(rw.template get<uint32>(0x88)); }
+  Type_MDIOUserAccess get_MDIOUserAccess1() { return Type_MDIOUserAccess(rw.template get<uint32>(0x88u)); }
  
-  void set_MDIOUserAccess1(Type_MDIOUserAccess value) { rw.set(0x88,value.value); }
+  void set_MDIOUserAccess1(Type_MDIOUserAccess value) { rw.set(0x88u,value.value); }
  
-  Setter<Type_MDIOUserAccess> to_MDIOUserAccess1() { return Setter<Type_MDIOUserAccess>(rw,0x88); }
+  Setter<Type_MDIOUserAccess> to_MDIOUserAccess1() { return Setter<Type_MDIOUserAccess>(rw,0x88u); }
  
   //--- MDIOUserPhySel1
 
-  Type_MDIOUserPhySel get_MDIOUserPhySel1() { return Type_MDIOUserPhySel(rw.template get<uint32>(0x8C)); }
+  Type_MDIOUserPhySel get_MDIOUserPhySel1() { return Type_MDIOUserPhySel(rw.template get<uint32>(0x8Cu)); }
  
-  void set_MDIOUserPhySel1(Type_MDIOUserPhySel value) { rw.set(0x8C,value.value); }
+  void set_MDIOUserPhySel1(Type_MDIOUserPhySel value) { rw.set(0x8Cu,value.value); }
  
-  Setter<Type_MDIOUserPhySel> to_MDIOUserPhySel1() { return Setter<Type_MDIOUserPhySel>(rw,0x8C); }
+  Setter<Type_MDIOUserPhySel> to_MDIOUserPhySel1() { return Setter<Type_MDIOUserPhySel>(rw,0x8Cu); }
  
  };
  

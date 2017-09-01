@@ -4,11 +4,11 @@
 
 enum Bits_CECEnable : uint8
  {
-  CECEnable_EnCEC     = 0x01,
-  CECEnable_EnHDMI    = 0x02,
-  CECEnable_EnRxSense = 0x04,
-  CECEnable_DisCCLK   = 0x20,
-  CECEnable_DisFRO    = 0x40
+  CECEnable_EnCEC     = 0x01u,
+  CECEnable_EnHDMI    = 0x02u,
+  CECEnable_EnRxSense = 0x04u,
+  CECEnable_DisCCLK   = 0x20u,
+  CECEnable_DisFRO    = 0x40u
  };
  
 inline Bits_CECEnable operator | (Bits_CECEnable a,Bits_CECEnable b)
@@ -146,8 +146,8 @@ struct Type_CECEnable
 
 enum Bits_CECStatus : uint8
  {
-  CECStatus_RxSense = 0x01,
-  CECStatus_Plug    = 0x02
+  CECStatus_RxSense = 0x01u,
+  CECStatus_Plug    = 0x02u
  };
  
 inline Bits_CECStatus operator | (Bits_CECStatus a,Bits_CECStatus b)
@@ -237,8 +237,8 @@ struct Type_CECStatus
 
 enum Bits_CECIntStatus : uint8
  {
-  CECIntStatus_RxSense = 0x01,
-  CECIntStatus_Plug    = 0x02
+  CECIntStatus_RxSense = 0x01u,
+  CECIntStatus_Plug    = 0x02u
  };
  
 inline Bits_CECIntStatus operator | (Bits_CECIntStatus a,Bits_CECIntStatus b)
@@ -328,8 +328,8 @@ struct Type_CECIntStatus
 
 enum Bits_CECIntEnable : uint8
  {
-  CECIntEnable_RxSense = 0x01,
-  CECIntEnable_Plug    = 0x02
+  CECIntEnable_RxSense = 0x01u,
+  CECIntEnable_Plug    = 0x02u
  };
  
 inline Bits_CECIntEnable operator | (Bits_CECIntEnable a,Bits_CECIntEnable b)
@@ -419,8 +419,8 @@ struct Type_CECIntEnable
 
 enum Bits_CECIntSource : uint8
  {
-  CECIntSource_CEC  = 0x01,
-  CECIntSource_HDMI = 0x02
+  CECIntSource_CEC  = 0x01u,
+  CECIntSource_HDMI = 0x02u
  };
  
 inline Bits_CECIntSource operator | (Bits_CECIntSource a,Bits_CECIntSource b)
@@ -510,10 +510,10 @@ struct Type_CECIntSource
 
 enum Bits_CEC_FRO_IMCLK : uint8
  {
-  CEC_FRO_IMCLK_FRODiv   = 0x01,
-  CEC_FRO_IMCLK_IMCLK    = 0x02,
-  CEC_FRO_IMCLK_EnOTP    = 0x40,
-  CEC_FRO_IMCLK_DisGhost = 0x80
+  CEC_FRO_IMCLK_FRODiv   = 0x01u,
+  CEC_FRO_IMCLK_IMCLK    = 0x02u,
+  CEC_FRO_IMCLK_EnOTP    = 0x40u,
+  CEC_FRO_IMCLK_DisGhost = 0x80u
  };
  
 inline Bits_CEC_FRO_IMCLK operator | (Bits_CEC_FRO_IMCLK a,Bits_CEC_FRO_IMCLK b)
@@ -635,8 +635,8 @@ struct Type_CEC_FRO_IMCLK
 
 enum Bits_VersionLSB : uint8
  {
-  VersionLSB_NotS = 0x10,
-  VersionLSB_NotH = 0x20
+  VersionLSB_NotS = 0x10u,
+  VersionLSB_NotH = 0x20u
  };
  
 inline Bits_VersionLSB operator | (Bits_VersionLSB a,Bits_VersionLSB b)
@@ -730,7 +730,7 @@ using Type_VersionMSB = uint8 ;
 
 enum Bits_MainControl0 : uint8
  {
-  MainControl0_SoftReset = 0x01
+  MainControl0_SoftReset = 0x01u
  };
  
 inline Bits_MainControl0 operator | (Bits_MainControl0 a,Bits_MainControl0 b)
@@ -804,8 +804,8 @@ struct Type_MainControl0
 
 enum Bits_SoftReset : uint8
  {
-  SoftReset_Audio = 0x01,
-  SoftReset_I2C   = 0x02
+  SoftReset_Audio = 0x01u,
+  SoftReset_I2C   = 0x02u
  };
  
 inline Bits_SoftReset operator | (Bits_SoftReset a,Bits_SoftReset b)
@@ -895,7 +895,7 @@ struct Type_SoftReset
 
 enum Bits_DDCDisable : uint8
  {
-  DDCDisable_Dis = 0x01
+  DDCDisable_Dis = 0x01u
  };
  
 inline Bits_DDCDisable operator | (Bits_DDCDisable a,Bits_DDCDisable b)
@@ -977,8 +977,8 @@ using Type_IntFlags1 = uint8 ;
 
 enum Bits_IntFlags2 : uint8
  {
-  IntFlags2_RxSense = 0x01,
-  IntFlags2_EDID    = 0x02
+  IntFlags2_RxSense = 0x01u,
+  IntFlags2_EDID    = 0x02u
  };
  
 inline Bits_IntFlags2 operator | (Bits_IntFlags2 a,Bits_IntFlags2 b)
@@ -1080,8 +1080,8 @@ using Type_VP2Enable = uint8 ;
 
 enum Bits_VP0Control : uint8
  {
-  VP0Control_MirrB = 0x08,
-  VP0Control_MirrA = 0x80
+  VP0Control_MirrB = 0x08u,
+  VP0Control_MirrA = 0x80u
  };
  
 inline Bits_VP0Control operator | (Bits_VP0Control a,Bits_VP0Control b)
@@ -1128,12 +1128,12 @@ struct Type_VP0Control
 
   Type get_SwapB() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_VP0Control & set_SwapB(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -1141,12 +1141,12 @@ struct Type_VP0Control
 
   Type get_SwapA() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_VP0Control & set_SwapA(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -1223,8 +1223,8 @@ struct Type_VP0Control
 
 enum Bits_VP1Control : uint8
  {
-  VP1Control_MirrD = 0x08,
-  VP1Control_MirrC = 0x80
+  VP1Control_MirrD = 0x08u,
+  VP1Control_MirrC = 0x80u
  };
  
 inline Bits_VP1Control operator | (Bits_VP1Control a,Bits_VP1Control b)
@@ -1271,12 +1271,12 @@ struct Type_VP1Control
 
   Type get_SwapD() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_VP1Control & set_SwapD(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -1284,12 +1284,12 @@ struct Type_VP1Control
 
   Type get_SwapC() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_VP1Control & set_SwapC(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -1366,8 +1366,8 @@ struct Type_VP1Control
 
 enum Bits_VP2Control : uint8
  {
-  VP2Control_MirrF = 0x08,
-  VP2Control_MirrE = 0x80
+  VP2Control_MirrF = 0x08u,
+  VP2Control_MirrE = 0x80u
  };
  
 inline Bits_VP2Control operator | (Bits_VP2Control a,Bits_VP2Control b)
@@ -1414,12 +1414,12 @@ struct Type_VP2Control
 
   Type get_SwapF() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_VP2Control & set_SwapF(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -1427,12 +1427,12 @@ struct Type_VP2Control
 
   Type get_SwapE() const
    {
-    return (value>>4)&0x7;
+    return (value>>4)&0x7u;
    }
  
   Type_VP2Control & set_SwapE(Type field)
    {
-    value=((field&0x7)<<4)|(value&0xFFFFFF8F);
+    value=((field&0x7u)<<4)|(value&0xFFFFFF8Fu);
 
     return *this;
    }
@@ -1509,12 +1509,12 @@ struct Type_VP2Control
 
 enum Bits_VP3Control : uint8
  {
-  VP3Control_XTgl  = 0x01,
-  VP3Control_HTgl  = 0x02,
-  VP3Control_VTgl  = 0x04,
-  VP3Control_EMB   = 0x08,
-  VP3Control_DEInt = 0x40,
-  VP3Control_Edge  = 0x80
+  VP3Control_XTgl  = 0x01u,
+  VP3Control_HTgl  = 0x02u,
+  VP3Control_VTgl  = 0x04u,
+  VP3Control_EMB   = 0x08u,
+  VP3Control_DEInt = 0x40u,
+  VP3Control_Edge  = 0x80u
  };
  
 inline Bits_VP3Control operator | (Bits_VP3Control a,Bits_VP3Control b)
@@ -1561,12 +1561,12 @@ struct Type_VP3Control
 
   Type get_SpSync() const
    {
-    return (value>>4)&0x3;
+    return (value>>4)&0x3u;
    }
  
   Type_VP3Control & set_SpSync(Type field)
    {
-    value=((field&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((field&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -1694,10 +1694,10 @@ struct Type_VP3Control
 
 enum Bits_VP4Control : uint8
  {
-  VP4Control_CCIR656 = 0x10,
-  VP4Control_Alt656  = 0x20,
-  VP4Control_Tst656  = 0x40,
-  VP4Control_TstPat  = 0x80
+  VP4Control_CCIR656 = 0x10u,
+  VP4Control_Alt656  = 0x20u,
+  VP4Control_Tst656  = 0x40u,
+  VP4Control_TstPat  = 0x80u
  };
  
 inline Bits_VP4Control operator | (Bits_VP4Control a,Bits_VP4Control b)
@@ -1744,12 +1744,12 @@ struct Type_VP4Control
 
   Type get_BLC() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_VP4Control & set_BLC(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -1757,12 +1757,12 @@ struct Type_VP4Control
 
   Type get_BlankIt() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_VP4Control & set_BlankIt(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -1871,7 +1871,7 @@ struct Type_VP4Control
 
 enum Bits_VP5Control : uint8
  {
-  VP5Control_CKCase = 0x01
+  VP5Control_CKCase = 0x01u
  };
  
 inline Bits_VP5Control operator | (Bits_VP5Control a,Bits_VP5Control b)
@@ -1918,12 +1918,12 @@ struct Type_VP5Control
 
   Type get_SPCnt() const
    {
-    return (value>>1)&0x3;
+    return (value>>1)&0x3u;
    }
  
   Type_VP5Control & set_SPCnt(Type field)
    {
-    value=((field&0x3)<<1)|(value&0xFFFFFFF9);
+    value=((field&0x3u)<<1)|(value&0xFFFFFFF9u);
 
     return *this;
    }
@@ -1997,12 +1997,12 @@ struct Type_MuxVPVIPOut
 
   Type get_Blue() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_MuxVPVIPOut & set_Blue(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -2010,12 +2010,12 @@ struct Type_MuxVPVIPOut
 
   Type get_Green() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_MuxVPVIPOut & set_Green(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -2023,12 +2023,12 @@ struct Type_MuxVPVIPOut
 
   Type get_Red() const
    {
-    return (value>>4)&0x3;
+    return (value>>4)&0x3u;
    }
  
   Type_MuxVPVIPOut & set_Red(Type field)
    {
-    value=((field&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((field&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -2086,7 +2086,7 @@ struct Type_MuxVPVIPOut
 
 enum Bits_MatControl : uint8
  {
-  MatControl_BP = 0x04
+  MatControl_BP = 0x04u
  };
  
 inline Bits_MatControl operator | (Bits_MatControl a,Bits_MatControl b)
@@ -2133,12 +2133,12 @@ struct Type_MatControl
 
   Type get_SC() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_MatControl & set_SC(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -2186,8 +2186,8 @@ struct Type_MatControl
 
 enum Bits_VIDFormat : uint8
  {
-  VIDFormat_D3NegVS = 0x40,
-  VIDFormat_D3      = 0x80
+  VIDFormat_D3NegVS = 0x40u,
+  VIDFormat_D3      = 0x80u
  };
  
 inline Bits_VIDFormat operator | (Bits_VIDFormat a,Bits_VIDFormat b)
@@ -2234,12 +2234,12 @@ struct Type_VIDFormat
 
   Type get_Format() const
    {
-    return (value>>0)&0x1F;
+    return (value>>0)&0x1Fu;
    }
  
   Type_VIDFormat & set_Format(Type field)
    {
-    value=((field&0x1F)<<0)|(value&0xFFFFFFE0);
+    value=((field&0x1Fu)<<0)|(value&0xFFFFFFE0u);
 
     return *this;
    }
@@ -2303,9 +2303,9 @@ struct Type_VIDFormat
 
 enum Bits_TBGControl0 : uint8
  {
-  TBGControl0_DisFrame = 0x20,
-  TBGControl0_SyncMeth = 0x40,
-  TBGControl0_SyncOnce = 0x80
+  TBGControl0_DisFrame = 0x20u,
+  TBGControl0_SyncMeth = 0x40u,
+  TBGControl0_SyncOnce = 0x80u
  };
  
 inline Bits_TBGControl0 operator | (Bits_TBGControl0 a,Bits_TBGControl0 b)
@@ -2411,10 +2411,10 @@ struct Type_TBGControl0
 
 enum Bits_TBGControl1 : uint8
  {
-  TBGControl1_HTgl    = 0x01,
-  TBGControl1_VTgl    = 0x02,
-  TBGControl1_EnTgl   = 0x04,
-  TBGControl1_DisDWIN = 0x40
+  TBGControl1_HTgl    = 0x01u,
+  TBGControl1_VTgl    = 0x02u,
+  TBGControl1_EnTgl   = 0x04u,
+  TBGControl1_DisDWIN = 0x40u
  };
  
 inline Bits_TBGControl1 operator | (Bits_TBGControl1 a,Bits_TBGControl1 b)
@@ -2461,12 +2461,12 @@ struct Type_TBGControl1
 
   Type get_VHXExt() const
    {
-    return (value>>3)&0x7;
+    return (value>>3)&0x7u;
    }
  
   Type_TBGControl1 & set_VHXExt(Type field)
    {
-    value=((field&0x7)<<3)|(value&0xFFFFFFC7);
+    value=((field&0x7u)<<3)|(value&0xFFFFFFC7u);
 
     return *this;
    }
@@ -2566,8 +2566,8 @@ using Type_EnSpace = uint8 ;
 
 enum Bits_HVFControl0 : uint8
  {
-  HVFControl0_RWB = 0x40,
-  HVFControl0_SM  = 0x80
+  HVFControl0_RWB = 0x40u,
+  HVFControl0_SM  = 0x80u
  };
  
 inline Bits_HVFControl0 operator | (Bits_HVFControl0 a,Bits_HVFControl0 b)
@@ -2614,12 +2614,12 @@ struct Type_HVFControl0
 
   Type get_IntPol() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_HVFControl0 & set_IntPol(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -2627,12 +2627,12 @@ struct Type_HVFControl0
 
   Type get_Prefil() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_HVFControl0 & set_Prefil(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -2709,9 +2709,9 @@ struct Type_HVFControl0
 
 enum Bits_HVFControl1 : uint8
  {
-  HVFControl1_FOR        = 0x01,
-  HVFControl1_YUV        = 0x02,
-  HVFControl1_SemiPlanar = 0x40
+  HVFControl1_FOR        = 0x01u,
+  HVFControl1_YUV        = 0x02u,
+  HVFControl1_SemiPlanar = 0x40u
  };
  
 inline Bits_HVFControl1 operator | (Bits_HVFControl1 a,Bits_HVFControl1 b)
@@ -2758,12 +2758,12 @@ struct Type_HVFControl1
 
   Type get_VQR() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_HVFControl1 & set_VQR(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -2771,12 +2771,12 @@ struct Type_HVFControl1
 
   Type get_PAD() const
    {
-    return (value>>4)&0x3;
+    return (value>>4)&0x3u;
    }
  
   Type_HVFControl1 & set_PAD(Type field)
    {
-    value=((field&0x3)<<4)|(value&0xFFFFFFCF);
+    value=((field&0x3u)<<4)|(value&0xFFFFFFCFu);
 
     return *this;
    }
@@ -2873,8 +2873,8 @@ using Type_RepControl = uint8 ;
 
 enum Bits_PLLSerial1 : uint8
  {
-  PLLSerial1_FDN   = 0x01,
-  PLLSerial1_ManIZ = 0x40
+  PLLSerial1_FDN   = 0x01u,
+  PLLSerial1_ManIZ = 0x40u
  };
  
 inline Bits_PLLSerial1 operator | (Bits_PLLSerial1 a,Bits_PLLSerial1 b)
@@ -2921,12 +2921,12 @@ struct Type_PLLSerial1
 
   Type get_IZ() const
    {
-    return (value>>1)&0x3;
+    return (value>>1)&0x3u;
    }
  
   Type_PLLSerial1 & set_IZ(Type field)
    {
-    value=((field&0x3)<<1)|(value&0xFFFFFFF9);
+    value=((field&0x3u)<<1)|(value&0xFFFFFFF9u);
 
     return *this;
    }
@@ -3016,12 +3016,12 @@ struct Type_PLLSerial2
 
   Type get_NOSC() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_PLLSerial2 & set_NOSC(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -3029,12 +3029,12 @@ struct Type_PLLSerial2
 
   Type get_PR() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_PLLSerial2 & set_PR(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -3079,9 +3079,9 @@ struct Type_PLLSerial2
 
 enum Bits_PLLSerial3 : uint8
  {
-  PLLSerial3_CCIR     = 0x01,
-  PLLSerial3_DE       = 0x02,
-  PLLSerial3_PXIN_SEL = 0x10
+  PLLSerial3_CCIR     = 0x01u,
+  PLLSerial3_DE       = 0x02u,
+  PLLSerial3_PXIN_SEL = 0x10u
  };
  
 inline Bits_PLLSerial3 operator | (Bits_PLLSerial3 a,Bits_PLLSerial3 b)
@@ -3213,12 +3213,12 @@ struct Type_Serializer
 
   Type get_Phase2() const
    {
-    return (value>>0)&0xF;
+    return (value>>0)&0xFu;
    }
  
   Type_Serializer & set_Phase2(Type field)
    {
-    value=((field&0xF)<<0)|(value&0xFFFFFFF0);
+    value=((field&0xFu)<<0)|(value&0xFFFFFFF0u);
 
     return *this;
    }
@@ -3226,12 +3226,12 @@ struct Type_Serializer
 
   Type get_Phase3() const
    {
-    return (value>>4)&0xF;
+    return (value>>4)&0xFu;
    }
  
   Type_Serializer & set_Phase3(Type field)
    {
-    value=((field&0xF)<<4)|(value&0xFFFFFF0F);
+    value=((field&0xFu)<<4)|(value&0xFFFFFF0Fu);
 
     return *this;
    }
@@ -3302,12 +3302,12 @@ struct Type_BufferOut
 
   Type get_CLK() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_BufferOut & set_CLK(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -3315,12 +3315,12 @@ struct Type_BufferOut
 
   Type get_Force() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_BufferOut & set_Force(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -3365,7 +3365,7 @@ struct Type_BufferOut
 
 enum Bits_PLLSCG1 : uint8
  {
-  PLLSCG1_FDN = 0x01
+  PLLSCG1_FDN = 0x01u
  };
  
 inline Bits_PLLSCG1 operator | (Bits_PLLSCG1 a,Bits_PLLSCG1 b)
@@ -3439,8 +3439,8 @@ struct Type_PLLSCG1
 
 enum Bits_PLLSCG2 : uint8
  {
-  PLLSCG2_SelCLKIN = 0x10,
-  PLLSCG2_Bypass   = 0x80
+  PLLSCG2_SelCLKIN = 0x10u,
+  PLLSCG2_Bypass   = 0x80u
  };
  
 inline Bits_PLLSCG2 operator | (Bits_PLLSCG2 a,Bits_PLLSCG2 b)
@@ -3487,12 +3487,12 @@ struct Type_PLLSCG2
 
   Type get_NOSC() const
    {
-    return (value>>0)&0x3;
+    return (value>>0)&0x3u;
    }
  
   Type_PLLSCG2 & set_NOSC(Type field)
    {
-    value=((field&0x3)<<0)|(value&0xFFFFFFFC);
+    value=((field&0x3u)<<0)|(value&0xFFFFFFFCu);
 
     return *this;
    }
@@ -3598,12 +3598,12 @@ struct Type_AudioDiv
 
   Type get_Div() const
    {
-    return (value>>0)&0x7;
+    return (value>>0)&0x7u;
    }
  
   Type_AudioDiv & set_Div(Type field)
    {
-    value=((field&0x7)<<0)|(value&0xFFFFFFF8);
+    value=((field&0x7u)<<0)|(value&0xFFFFFFF8u);
 
     return *this;
    }
@@ -3635,8 +3635,8 @@ struct Type_AudioDiv
 
 enum Bits_SelectCLK : uint8
  {
-  SelectCLK_CLK1 = 0x01,
-  SelectCLK_EnSC = 0x08
+  SelectCLK_CLK1 = 0x01u,
+  SelectCLK_EnSC = 0x08u
  };
  
 inline Bits_SelectCLK operator | (Bits_SelectCLK a,Bits_SelectCLK b)
@@ -3683,12 +3683,12 @@ struct Type_SelectCLK
 
   Type get_VRFCLK() const
    {
-    return (value>>1)&0x3;
+    return (value>>1)&0x3u;
    }
  
   Type_SelectCLK & set_VRFCLK(Type field)
    {
-    value=((field&0x3)<<1)|(value&0xFFFFFFF9);
+    value=((field&0x3u)<<1)|(value&0xFFFFFFF9u);
 
     return *this;
    }
@@ -3760,7 +3760,7 @@ using Type_EDIDBlock = uint8 ;
 
 enum Bits_DDCControl : uint8
  {
-  DDCControl_Read = 0x01
+  DDCControl_Read = 0x01u
  };
  
 inline Bits_DDCControl operator | (Bits_DDCControl a,Bits_DDCControl b)
@@ -3850,11 +3850,11 @@ using Type_DDCSeg = uint8 ;
 
 enum Bits_AIPControl0 : uint8
  {
-  AIPControl0_ResetFIFO = 0x01,
-  AIPControl0_Swap      = 0x02,
-  AIPControl0_Layout    = 0x04,
-  AIPControl0_AcrMan    = 0x20,
-  AIPControl0_ResetCTS  = 0x40
+  AIPControl0_ResetFIFO = 0x01u,
+  AIPControl0_Swap      = 0x02u,
+  AIPControl0_Layout    = 0x04u,
+  AIPControl0_AcrMan    = 0x20u,
+  AIPControl0_ResetCTS  = 0x40u
  };
  
 inline Bits_AIPControl0 operator | (Bits_AIPControl0 a,Bits_AIPControl0 b)
@@ -3992,8 +3992,8 @@ struct Type_AIPControl0
 
 enum Bits_ENCControl : uint8
  {
-  ENCControl_ResetEnc = 0x01,
-  ENCControl_ResetSel = 0x02
+  ENCControl_ResetEnc = 0x01u,
+  ENCControl_ResetSel = 0x02u
  };
  
 inline Bits_ENCControl operator | (Bits_ENCControl a,Bits_ENCControl b)
@@ -4040,12 +4040,12 @@ struct Type_ENCControl
 
   Type get_Code() const
    {
-    return (value>>2)&0x3;
+    return (value>>2)&0x3u;
    }
  
   Type_ENCControl & set_Code(Type field)
    {
-    value=((field&0x3)<<2)|(value&0xFFFFFFF3);
+    value=((field&0x3u)<<2)|(value&0xFFFFFFF3u);
 
     return *this;
    }
@@ -4113,7 +4113,7 @@ using Type_TX3 = uint8 ;
 
 enum Bits_TX33 : uint8
  {
-  TX33_HDMI = 0x02
+  TX33_HDMI = 0x02u
  };
  
 inline Bits_TX33 operator | (Bits_TX33 a,Bits_TX33 b)
@@ -4187,9 +4187,9 @@ struct Type_TX33
 
 enum Bits_TX4 : uint8
  {
-  TX4_HDCP = 0x01,
-  TX4_RAM  = 0x02,
-  TX4_RG   = 0x04
+  TX4_HDCP = 0x01u,
+  TX4_RAM  = 0x02u,
+  TX4_RG   = 0x04u
  };
  
 inline Bits_TX4 operator | (Bits_TX4 a,Bits_TX4 b)
@@ -4320,11 +4320,11 @@ struct CECBar
 
   //--- CEC_FRO_IMCLK
 
-  Type_CEC_FRO_IMCLK get_CEC_FRO_IMCLK() { return Type_CEC_FRO_IMCLK(rw.template get<uint8>(0xFB)); }
+  Type_CEC_FRO_IMCLK get_CEC_FRO_IMCLK() { return Type_CEC_FRO_IMCLK(rw.template get<uint8>(0xFBu)); }
  
-  void set_CEC_FRO_IMCLK(Type_CEC_FRO_IMCLK value) { rw.set(0xFB,value.value); }
+  void set_CEC_FRO_IMCLK(Type_CEC_FRO_IMCLK value) { rw.set(0xFBu,value.value); }
  
-  Setter<Type_CEC_FRO_IMCLK> to_CEC_FRO_IMCLK() { return Setter<Type_CEC_FRO_IMCLK>(rw,0xFB); }
+  Setter<Type_CEC_FRO_IMCLK> to_CEC_FRO_IMCLK() { return Setter<Type_CEC_FRO_IMCLK>(rw,0xFBu); }
  
   static Type_CEC_FRO_IMCLK null_CEC_FRO_IMCLK() { return Type_CEC_FRO_IMCLK(0); }
  
@@ -4332,7 +4332,7 @@ struct CECBar
  
   //--- CECStatus
 
-  Type_CECStatus get_CECStatus() { return Type_CECStatus(rw.template get<uint8>(0xFE)); }
+  Type_CECStatus get_CECStatus() { return Type_CECStatus(rw.template get<uint8>(0xFEu)); }
  
   static Type_CECStatus null_CECStatus() { return Type_CECStatus(0); }
  
@@ -4340,7 +4340,7 @@ struct CECBar
  
   //--- CECIntStatus
 
-  Type_CECIntStatus get_CECIntStatus() { return Type_CECIntStatus(rw.template get<uint8>(0xFD)); }
+  Type_CECIntStatus get_CECIntStatus() { return Type_CECIntStatus(rw.template get<uint8>(0xFDu)); }
  
   static Type_CECIntStatus null_CECIntStatus() { return Type_CECIntStatus(0); }
  
@@ -4348,11 +4348,11 @@ struct CECBar
  
   //--- CECIntEnable
 
-  Type_CECIntEnable get_CECIntEnable() { return Type_CECIntEnable(rw.template get<uint8>(0xFC)); }
+  Type_CECIntEnable get_CECIntEnable() { return Type_CECIntEnable(rw.template get<uint8>(0xFCu)); }
  
-  void set_CECIntEnable(Type_CECIntEnable value) { rw.set(0xFC,value.value); }
+  void set_CECIntEnable(Type_CECIntEnable value) { rw.set(0xFCu,value.value); }
  
-  Setter<Type_CECIntEnable> to_CECIntEnable() { return Setter<Type_CECIntEnable>(rw,0xFC); }
+  Setter<Type_CECIntEnable> to_CECIntEnable() { return Setter<Type_CECIntEnable>(rw,0xFCu); }
  
   static Type_CECIntEnable null_CECIntEnable() { return Type_CECIntEnable(0); }
  
@@ -4360,11 +4360,11 @@ struct CECBar
  
   //--- CECEnable
 
-  Type_CECEnable get_CECEnable() { return Type_CECEnable(rw.template get<uint8>(0xFF)); }
+  Type_CECEnable get_CECEnable() { return Type_CECEnable(rw.template get<uint8>(0xFFu)); }
  
-  void set_CECEnable(Type_CECEnable value) { rw.set(0xFF,value.value); }
+  void set_CECEnable(Type_CECEnable value) { rw.set(0xFFu,value.value); }
  
-  Setter<Type_CECEnable> to_CECEnable() { return Setter<Type_CECEnable>(rw,0xFF); }
+  Setter<Type_CECEnable> to_CECEnable() { return Setter<Type_CECEnable>(rw,0xFFu); }
  
   static Type_CECEnable null_CECEnable() { return Type_CECEnable(0); }
  
@@ -4372,7 +4372,7 @@ struct CECBar
  
   //--- CECIntSource
 
-  Type_CECIntSource get_CECIntSource() { return Type_CECIntSource(rw.template get<uint8>(0xEE)); }
+  Type_CECIntSource get_CECIntSource() { return Type_CECIntSource(rw.template get<uint8>(0xEEu)); }
  
   static Type_CECIntSource null_CECIntSource() { return Type_CECIntSource(0); }
  
@@ -4405,7 +4405,7 @@ struct HDMIBar
 
   //--- VersionLSB
 
-  Type_VersionLSB get_VersionLSB() { return Type_VersionLSB(rw.template get<uint8>(0x0)); }
+  Type_VersionLSB get_VersionLSB() { return Type_VersionLSB(rw.template get<uint8>(0x0u)); }
  
   static Type_VersionLSB null_VersionLSB() { return Type_VersionLSB(0); }
  
@@ -4413,15 +4413,15 @@ struct HDMIBar
  
   //--- VersionMSB
 
-  Type_VersionMSB get_VersionMSB() { return Type_VersionMSB(rw.template get<uint8>(0x2)); }
+  Type_VersionMSB get_VersionMSB() { return Type_VersionMSB(rw.template get<uint8>(0x2u)); }
  
   //--- MainControl0
 
-  Type_MainControl0 get_MainControl0() { return Type_MainControl0(rw.template get<uint8>(0x1)); }
+  Type_MainControl0 get_MainControl0() { return Type_MainControl0(rw.template get<uint8>(0x1u)); }
  
-  void set_MainControl0(Type_MainControl0 value) { rw.set(0x1,value.value); }
+  void set_MainControl0(Type_MainControl0 value) { rw.set(0x1u,value.value); }
  
-  Setter<Type_MainControl0> to_MainControl0() { return Setter<Type_MainControl0>(rw,0x1); }
+  Setter<Type_MainControl0> to_MainControl0() { return Setter<Type_MainControl0>(rw,0x1u); }
  
   static Type_MainControl0 null_MainControl0() { return Type_MainControl0(0); }
  
@@ -4429,9 +4429,9 @@ struct HDMIBar
  
   //--- SoftReset
 
-  void set_SoftReset(Type_SoftReset value) { rw.set(0xA,value.value); }
+  void set_SoftReset(Type_SoftReset value) { rw.set(0xAu,value.value); }
  
-  Setter<Type_SoftReset> to_SoftReset() { return Setter<Type_SoftReset>(rw,0xA); }
+  Setter<Type_SoftReset> to_SoftReset() { return Setter<Type_SoftReset>(rw,0xAu); }
  
   static Type_SoftReset null_SoftReset() { return Type_SoftReset(0); }
  
@@ -4439,11 +4439,11 @@ struct HDMIBar
  
   //--- DDCDisable
 
-  Type_DDCDisable get_DDCDisable() { return Type_DDCDisable(rw.template get<uint8>(0xB)); }
+  Type_DDCDisable get_DDCDisable() { return Type_DDCDisable(rw.template get<uint8>(0xBu)); }
  
-  void set_DDCDisable(Type_DDCDisable value) { rw.set(0xB,value.value); }
+  void set_DDCDisable(Type_DDCDisable value) { rw.set(0xBu,value.value); }
  
-  Setter<Type_DDCDisable> to_DDCDisable() { return Setter<Type_DDCDisable>(rw,0xB); }
+  Setter<Type_DDCDisable> to_DDCDisable() { return Setter<Type_DDCDisable>(rw,0xBu); }
  
   static Type_DDCDisable null_DDCDisable() { return Type_DDCDisable(0); }
  
@@ -4451,31 +4451,31 @@ struct HDMIBar
  
   //--- IntFlags0
 
-  Type_IntFlags0 get_IntFlags0() { return Type_IntFlags0(rw.template get<uint8>(0xF)); }
+  Type_IntFlags0 get_IntFlags0() { return Type_IntFlags0(rw.template get<uint8>(0xFu)); }
  
-  void set_IntFlags0(Type_IntFlags0 value) { rw.set(0xF,value); }
+  void set_IntFlags0(Type_IntFlags0 value) { rw.set(0xFu,value); }
  
-  void set_IntFlags0_null() { rw.set(0xF,Type_IntFlags0(0)); }
+  void set_IntFlags0_null() { rw.set(0xFu,Type_IntFlags0(0)); }
  
-  void set_IntFlags0_ones() { rw.set(0xF,Type_IntFlags0(-1)); }
+  void set_IntFlags0_ones() { rw.set(0xFu,Type_IntFlags0(-1)); }
  
   //--- IntFlags1
 
-  Type_IntFlags1 get_IntFlags1() { return Type_IntFlags1(rw.template get<uint8>(0x10)); }
+  Type_IntFlags1 get_IntFlags1() { return Type_IntFlags1(rw.template get<uint8>(0x10u)); }
  
-  void set_IntFlags1(Type_IntFlags1 value) { rw.set(0x10,value); }
+  void set_IntFlags1(Type_IntFlags1 value) { rw.set(0x10u,value); }
  
-  void set_IntFlags1_null() { rw.set(0x10,Type_IntFlags1(0)); }
+  void set_IntFlags1_null() { rw.set(0x10u,Type_IntFlags1(0)); }
  
-  void set_IntFlags1_ones() { rw.set(0x10,Type_IntFlags1(-1)); }
+  void set_IntFlags1_ones() { rw.set(0x10u,Type_IntFlags1(-1)); }
  
   //--- IntFlags2
 
-  Type_IntFlags2 get_IntFlags2() { return Type_IntFlags2(rw.template get<uint8>(0x11)); }
+  Type_IntFlags2 get_IntFlags2() { return Type_IntFlags2(rw.template get<uint8>(0x11u)); }
  
-  void set_IntFlags2(Type_IntFlags2 value) { rw.set(0x11,value.value); }
+  void set_IntFlags2(Type_IntFlags2 value) { rw.set(0x11u,value.value); }
  
-  Setter<Type_IntFlags2> to_IntFlags2() { return Setter<Type_IntFlags2>(rw,0x11); }
+  Setter<Type_IntFlags2> to_IntFlags2() { return Setter<Type_IntFlags2>(rw,0x11u); }
  
   static Type_IntFlags2 null_IntFlags2() { return Type_IntFlags2(0); }
  
@@ -4483,39 +4483,39 @@ struct HDMIBar
  
   //--- VP0Enable
 
-  Type_VP0Enable get_VP0Enable() { return Type_VP0Enable(rw.template get<uint8>(0x18)); }
+  Type_VP0Enable get_VP0Enable() { return Type_VP0Enable(rw.template get<uint8>(0x18u)); }
  
-  void set_VP0Enable(Type_VP0Enable value) { rw.set(0x18,value); }
+  void set_VP0Enable(Type_VP0Enable value) { rw.set(0x18u,value); }
  
-  void set_VP0Enable_null() { rw.set(0x18,Type_VP0Enable(0)); }
+  void set_VP0Enable_null() { rw.set(0x18u,Type_VP0Enable(0)); }
  
-  void set_VP0Enable_ones() { rw.set(0x18,Type_VP0Enable(-1)); }
+  void set_VP0Enable_ones() { rw.set(0x18u,Type_VP0Enable(-1)); }
  
   //--- VP1Enable
 
-  Type_VP1Enable get_VP1Enable() { return Type_VP1Enable(rw.template get<uint8>(0x19)); }
+  Type_VP1Enable get_VP1Enable() { return Type_VP1Enable(rw.template get<uint8>(0x19u)); }
  
-  void set_VP1Enable(Type_VP1Enable value) { rw.set(0x19,value); }
+  void set_VP1Enable(Type_VP1Enable value) { rw.set(0x19u,value); }
  
-  void set_VP1Enable_null() { rw.set(0x19,Type_VP1Enable(0)); }
+  void set_VP1Enable_null() { rw.set(0x19u,Type_VP1Enable(0)); }
  
-  void set_VP1Enable_ones() { rw.set(0x19,Type_VP1Enable(-1)); }
+  void set_VP1Enable_ones() { rw.set(0x19u,Type_VP1Enable(-1)); }
  
   //--- VP2Enable
 
-  Type_VP2Enable get_VP2Enable() { return Type_VP2Enable(rw.template get<uint8>(0x1A)); }
+  Type_VP2Enable get_VP2Enable() { return Type_VP2Enable(rw.template get<uint8>(0x1Au)); }
  
-  void set_VP2Enable(Type_VP2Enable value) { rw.set(0x1A,value); }
+  void set_VP2Enable(Type_VP2Enable value) { rw.set(0x1Au,value); }
  
-  void set_VP2Enable_null() { rw.set(0x1A,Type_VP2Enable(0)); }
+  void set_VP2Enable_null() { rw.set(0x1Au,Type_VP2Enable(0)); }
  
-  void set_VP2Enable_ones() { rw.set(0x1A,Type_VP2Enable(-1)); }
+  void set_VP2Enable_ones() { rw.set(0x1Au,Type_VP2Enable(-1)); }
  
   //--- VP0Control
 
-  void set_VP0Control(Type_VP0Control value) { rw.set(0x20,value.value); }
+  void set_VP0Control(Type_VP0Control value) { rw.set(0x20u,value.value); }
  
-  Setter<Type_VP0Control> to_VP0Control() { return Setter<Type_VP0Control>(rw,0x20); }
+  Setter<Type_VP0Control> to_VP0Control() { return Setter<Type_VP0Control>(rw,0x20u); }
  
   static Type_VP0Control null_VP0Control() { return Type_VP0Control(0); }
  
@@ -4523,9 +4523,9 @@ struct HDMIBar
  
   //--- VP1Control
 
-  void set_VP1Control(Type_VP1Control value) { rw.set(0x21,value.value); }
+  void set_VP1Control(Type_VP1Control value) { rw.set(0x21u,value.value); }
  
-  Setter<Type_VP1Control> to_VP1Control() { return Setter<Type_VP1Control>(rw,0x21); }
+  Setter<Type_VP1Control> to_VP1Control() { return Setter<Type_VP1Control>(rw,0x21u); }
  
   static Type_VP1Control null_VP1Control() { return Type_VP1Control(0); }
  
@@ -4533,9 +4533,9 @@ struct HDMIBar
  
   //--- VP2Control
 
-  void set_VP2Control(Type_VP2Control value) { rw.set(0x22,value.value); }
+  void set_VP2Control(Type_VP2Control value) { rw.set(0x22u,value.value); }
  
-  Setter<Type_VP2Control> to_VP2Control() { return Setter<Type_VP2Control>(rw,0x22); }
+  Setter<Type_VP2Control> to_VP2Control() { return Setter<Type_VP2Control>(rw,0x22u); }
  
   static Type_VP2Control null_VP2Control() { return Type_VP2Control(0); }
  
@@ -4543,9 +4543,9 @@ struct HDMIBar
  
   //--- VP3Control
 
-  void set_VP3Control(Type_VP3Control value) { rw.set(0x23,value.value); }
+  void set_VP3Control(Type_VP3Control value) { rw.set(0x23u,value.value); }
  
-  Setter<Type_VP3Control> to_VP3Control() { return Setter<Type_VP3Control>(rw,0x23); }
+  Setter<Type_VP3Control> to_VP3Control() { return Setter<Type_VP3Control>(rw,0x23u); }
  
   static Type_VP3Control null_VP3Control() { return Type_VP3Control(0); }
  
@@ -4553,9 +4553,9 @@ struct HDMIBar
  
   //--- VP4Control
 
-  void set_VP4Control(Type_VP4Control value) { rw.set(0x24,value.value); }
+  void set_VP4Control(Type_VP4Control value) { rw.set(0x24u,value.value); }
  
-  Setter<Type_VP4Control> to_VP4Control() { return Setter<Type_VP4Control>(rw,0x24); }
+  Setter<Type_VP4Control> to_VP4Control() { return Setter<Type_VP4Control>(rw,0x24u); }
  
   static Type_VP4Control null_VP4Control() { return Type_VP4Control(0); }
  
@@ -4563,9 +4563,9 @@ struct HDMIBar
  
   //--- VP5Control
 
-  void set_VP5Control(Type_VP5Control value) { rw.set(0x25,value.value); }
+  void set_VP5Control(Type_VP5Control value) { rw.set(0x25u,value.value); }
  
-  Setter<Type_VP5Control> to_VP5Control() { return Setter<Type_VP5Control>(rw,0x25); }
+  Setter<Type_VP5Control> to_VP5Control() { return Setter<Type_VP5Control>(rw,0x25u); }
  
   static Type_VP5Control null_VP5Control() { return Type_VP5Control(0); }
  
@@ -4573,11 +4573,11 @@ struct HDMIBar
  
   //--- MuxVPVIPOut
 
-  Type_MuxVPVIPOut get_MuxVPVIPOut() { return Type_MuxVPVIPOut(rw.template get<uint8>(0x27)); }
+  Type_MuxVPVIPOut get_MuxVPVIPOut() { return Type_MuxVPVIPOut(rw.template get<uint8>(0x27u)); }
  
-  void set_MuxVPVIPOut(Type_MuxVPVIPOut value) { rw.set(0x27,value.value); }
+  void set_MuxVPVIPOut(Type_MuxVPVIPOut value) { rw.set(0x27u,value.value); }
  
-  Setter<Type_MuxVPVIPOut> to_MuxVPVIPOut() { return Setter<Type_MuxVPVIPOut>(rw,0x27); }
+  Setter<Type_MuxVPVIPOut> to_MuxVPVIPOut() { return Setter<Type_MuxVPVIPOut>(rw,0x27u); }
  
   static Type_MuxVPVIPOut null_MuxVPVIPOut() { return Type_MuxVPVIPOut(0); }
  
@@ -4585,9 +4585,9 @@ struct HDMIBar
  
   //--- MatControl
 
-  void set_MatControl(Type_MatControl value) { rw.set(0x80,value.value); }
+  void set_MatControl(Type_MatControl value) { rw.set(0x80u,value.value); }
  
-  Setter<Type_MatControl> to_MatControl() { return Setter<Type_MatControl>(rw,0x80); }
+  Setter<Type_MatControl> to_MatControl() { return Setter<Type_MatControl>(rw,0x80u); }
  
   static Type_MatControl null_MatControl() { return Type_MatControl(0); }
  
@@ -4595,9 +4595,9 @@ struct HDMIBar
  
   //--- VIDFormat
 
-  void set_VIDFormat(Type_VIDFormat value) { rw.set(0xA0,value.value); }
+  void set_VIDFormat(Type_VIDFormat value) { rw.set(0xA0u,value.value); }
  
-  Setter<Type_VIDFormat> to_VIDFormat() { return Setter<Type_VIDFormat>(rw,0xA0); }
+  Setter<Type_VIDFormat> to_VIDFormat() { return Setter<Type_VIDFormat>(rw,0xA0u); }
  
   static Type_VIDFormat null_VIDFormat() { return Type_VIDFormat(0); }
  
@@ -4605,169 +4605,169 @@ struct HDMIBar
  
   //--- RefPix
 
-  void set_RefPix(Type_Geom value) { rw.set(0xA1,value); }
+  void set_RefPix(Type_Geom value) { rw.set(0xA1u,value); }
  
-  void set_RefPix_null() { rw.set(0xA1,Type_Geom(0)); }
+  void set_RefPix_null() { rw.set(0xA1u,Type_Geom(0)); }
  
-  void set_RefPix_ones() { rw.set(0xA1,Type_Geom(-1)); }
+  void set_RefPix_ones() { rw.set(0xA1u,Type_Geom(-1)); }
  
   //--- RefLine
 
-  void set_RefLine(Type_Geom value) { rw.set(0xA3,value); }
+  void set_RefLine(Type_Geom value) { rw.set(0xA3u,value); }
  
-  void set_RefLine_null() { rw.set(0xA3,Type_Geom(0)); }
+  void set_RefLine_null() { rw.set(0xA3u,Type_Geom(0)); }
  
-  void set_RefLine_ones() { rw.set(0xA3,Type_Geom(-1)); }
+  void set_RefLine_ones() { rw.set(0xA3u,Type_Geom(-1)); }
  
   //--- NumPix
 
-  void set_NumPix(Type_Geom value) { rw.set(0xA5,value); }
+  void set_NumPix(Type_Geom value) { rw.set(0xA5u,value); }
  
-  void set_NumPix_null() { rw.set(0xA5,Type_Geom(0)); }
+  void set_NumPix_null() { rw.set(0xA5u,Type_Geom(0)); }
  
-  void set_NumPix_ones() { rw.set(0xA5,Type_Geom(-1)); }
+  void set_NumPix_ones() { rw.set(0xA5u,Type_Geom(-1)); }
  
   //--- NumLine
 
-  void set_NumLine(Type_Geom value) { rw.set(0xA7,value); }
+  void set_NumLine(Type_Geom value) { rw.set(0xA7u,value); }
  
-  void set_NumLine_null() { rw.set(0xA7,Type_Geom(0)); }
+  void set_NumLine_null() { rw.set(0xA7u,Type_Geom(0)); }
  
-  void set_NumLine_ones() { rw.set(0xA7,Type_Geom(-1)); }
+  void set_NumLine_ones() { rw.set(0xA7u,Type_Geom(-1)); }
  
   //--- VS1LineS
 
-  void set_VS1LineS(Type_Geom value) { rw.set(0xA9,value); }
+  void set_VS1LineS(Type_Geom value) { rw.set(0xA9u,value); }
  
-  void set_VS1LineS_null() { rw.set(0xA9,Type_Geom(0)); }
+  void set_VS1LineS_null() { rw.set(0xA9u,Type_Geom(0)); }
  
-  void set_VS1LineS_ones() { rw.set(0xA9,Type_Geom(-1)); }
+  void set_VS1LineS_ones() { rw.set(0xA9u,Type_Geom(-1)); }
  
   //--- VS1PixS
 
-  void set_VS1PixS(Type_Geom value) { rw.set(0xAB,value); }
+  void set_VS1PixS(Type_Geom value) { rw.set(0xABu,value); }
  
-  void set_VS1PixS_null() { rw.set(0xAB,Type_Geom(0)); }
+  void set_VS1PixS_null() { rw.set(0xABu,Type_Geom(0)); }
  
-  void set_VS1PixS_ones() { rw.set(0xAB,Type_Geom(-1)); }
+  void set_VS1PixS_ones() { rw.set(0xABu,Type_Geom(-1)); }
  
   //--- VS1LineE
 
-  void set_VS1LineE(Type_Geom value) { rw.set(0xAD,value); }
+  void set_VS1LineE(Type_Geom value) { rw.set(0xADu,value); }
  
-  void set_VS1LineE_null() { rw.set(0xAD,Type_Geom(0)); }
+  void set_VS1LineE_null() { rw.set(0xADu,Type_Geom(0)); }
  
-  void set_VS1LineE_ones() { rw.set(0xAD,Type_Geom(-1)); }
+  void set_VS1LineE_ones() { rw.set(0xADu,Type_Geom(-1)); }
  
   //--- VS1PixE
 
-  void set_VS1PixE(Type_Geom value) { rw.set(0xAF,value); }
+  void set_VS1PixE(Type_Geom value) { rw.set(0xAFu,value); }
  
-  void set_VS1PixE_null() { rw.set(0xAF,Type_Geom(0)); }
+  void set_VS1PixE_null() { rw.set(0xAFu,Type_Geom(0)); }
  
-  void set_VS1PixE_ones() { rw.set(0xAF,Type_Geom(-1)); }
+  void set_VS1PixE_ones() { rw.set(0xAFu,Type_Geom(-1)); }
  
   //--- VS2LineS
 
-  void set_VS2LineS(Type_Geom value) { rw.set(0xB1,value); }
+  void set_VS2LineS(Type_Geom value) { rw.set(0xB1u,value); }
  
-  void set_VS2LineS_null() { rw.set(0xB1,Type_Geom(0)); }
+  void set_VS2LineS_null() { rw.set(0xB1u,Type_Geom(0)); }
  
-  void set_VS2LineS_ones() { rw.set(0xB1,Type_Geom(-1)); }
+  void set_VS2LineS_ones() { rw.set(0xB1u,Type_Geom(-1)); }
  
   //--- VS2PixS
 
-  void set_VS2PixS(Type_Geom value) { rw.set(0xB3,value); }
+  void set_VS2PixS(Type_Geom value) { rw.set(0xB3u,value); }
  
-  void set_VS2PixS_null() { rw.set(0xB3,Type_Geom(0)); }
+  void set_VS2PixS_null() { rw.set(0xB3u,Type_Geom(0)); }
  
-  void set_VS2PixS_ones() { rw.set(0xB3,Type_Geom(-1)); }
+  void set_VS2PixS_ones() { rw.set(0xB3u,Type_Geom(-1)); }
  
   //--- VS2LineE
 
-  void set_VS2LineE(Type_Geom value) { rw.set(0xB5,value); }
+  void set_VS2LineE(Type_Geom value) { rw.set(0xB5u,value); }
  
-  void set_VS2LineE_null() { rw.set(0xB5,Type_Geom(0)); }
+  void set_VS2LineE_null() { rw.set(0xB5u,Type_Geom(0)); }
  
-  void set_VS2LineE_ones() { rw.set(0xB5,Type_Geom(-1)); }
+  void set_VS2LineE_ones() { rw.set(0xB5u,Type_Geom(-1)); }
  
   //--- VS2PixE
 
-  void set_VS2PixE(Type_Geom value) { rw.set(0xB7,value); }
+  void set_VS2PixE(Type_Geom value) { rw.set(0xB7u,value); }
  
-  void set_VS2PixE_null() { rw.set(0xB7,Type_Geom(0)); }
+  void set_VS2PixE_null() { rw.set(0xB7u,Type_Geom(0)); }
  
-  void set_VS2PixE_ones() { rw.set(0xB7,Type_Geom(-1)); }
+  void set_VS2PixE_ones() { rw.set(0xB7u,Type_Geom(-1)); }
  
   //--- HSPixS
 
-  void set_HSPixS(Type_Geom value) { rw.set(0xB9,value); }
+  void set_HSPixS(Type_Geom value) { rw.set(0xB9u,value); }
  
-  void set_HSPixS_null() { rw.set(0xB9,Type_Geom(0)); }
+  void set_HSPixS_null() { rw.set(0xB9u,Type_Geom(0)); }
  
-  void set_HSPixS_ones() { rw.set(0xB9,Type_Geom(-1)); }
+  void set_HSPixS_ones() { rw.set(0xB9u,Type_Geom(-1)); }
  
   //--- HSPixE
 
-  void set_HSPixE(Type_Geom value) { rw.set(0xBB,value); }
+  void set_HSPixE(Type_Geom value) { rw.set(0xBBu,value); }
  
-  void set_HSPixE_null() { rw.set(0xBB,Type_Geom(0)); }
+  void set_HSPixE_null() { rw.set(0xBBu,Type_Geom(0)); }
  
-  void set_HSPixE_ones() { rw.set(0xBB,Type_Geom(-1)); }
+  void set_HSPixE_ones() { rw.set(0xBBu,Type_Geom(-1)); }
  
   //--- VWin1LineS
 
-  void set_VWin1LineS(Type_Geom value) { rw.set(0xBD,value); }
+  void set_VWin1LineS(Type_Geom value) { rw.set(0xBDu,value); }
  
-  void set_VWin1LineS_null() { rw.set(0xBD,Type_Geom(0)); }
+  void set_VWin1LineS_null() { rw.set(0xBDu,Type_Geom(0)); }
  
-  void set_VWin1LineS_ones() { rw.set(0xBD,Type_Geom(-1)); }
+  void set_VWin1LineS_ones() { rw.set(0xBDu,Type_Geom(-1)); }
  
   //--- VWin1LineE
 
-  void set_VWin1LineE(Type_Geom value) { rw.set(0xBF,value); }
+  void set_VWin1LineE(Type_Geom value) { rw.set(0xBFu,value); }
  
-  void set_VWin1LineE_null() { rw.set(0xBF,Type_Geom(0)); }
+  void set_VWin1LineE_null() { rw.set(0xBFu,Type_Geom(0)); }
  
-  void set_VWin1LineE_ones() { rw.set(0xBF,Type_Geom(-1)); }
+  void set_VWin1LineE_ones() { rw.set(0xBFu,Type_Geom(-1)); }
  
   //--- VWin2LineS
 
-  void set_VWin2LineS(Type_Geom value) { rw.set(0xC1,value); }
+  void set_VWin2LineS(Type_Geom value) { rw.set(0xC1u,value); }
  
-  void set_VWin2LineS_null() { rw.set(0xC1,Type_Geom(0)); }
+  void set_VWin2LineS_null() { rw.set(0xC1u,Type_Geom(0)); }
  
-  void set_VWin2LineS_ones() { rw.set(0xC1,Type_Geom(-1)); }
+  void set_VWin2LineS_ones() { rw.set(0xC1u,Type_Geom(-1)); }
  
   //--- VWin2LineE
 
-  void set_VWin2LineE(Type_Geom value) { rw.set(0xC3,value); }
+  void set_VWin2LineE(Type_Geom value) { rw.set(0xC3u,value); }
  
-  void set_VWin2LineE_null() { rw.set(0xC3,Type_Geom(0)); }
+  void set_VWin2LineE_null() { rw.set(0xC3u,Type_Geom(0)); }
  
-  void set_VWin2LineE_ones() { rw.set(0xC3,Type_Geom(-1)); }
+  void set_VWin2LineE_ones() { rw.set(0xC3u,Type_Geom(-1)); }
  
   //--- DEPixS
 
-  void set_DEPixS(Type_Geom value) { rw.set(0xC5,value); }
+  void set_DEPixS(Type_Geom value) { rw.set(0xC5u,value); }
  
-  void set_DEPixS_null() { rw.set(0xC5,Type_Geom(0)); }
+  void set_DEPixS_null() { rw.set(0xC5u,Type_Geom(0)); }
  
-  void set_DEPixS_ones() { rw.set(0xC5,Type_Geom(-1)); }
+  void set_DEPixS_ones() { rw.set(0xC5u,Type_Geom(-1)); }
  
   //--- DEPixE
 
-  void set_DEPixE(Type_Geom value) { rw.set(0xC7,value); }
+  void set_DEPixE(Type_Geom value) { rw.set(0xC7u,value); }
  
-  void set_DEPixE_null() { rw.set(0xC7,Type_Geom(0)); }
+  void set_DEPixE_null() { rw.set(0xC7u,Type_Geom(0)); }
  
-  void set_DEPixE_ones() { rw.set(0xC7,Type_Geom(-1)); }
+  void set_DEPixE_ones() { rw.set(0xC7u,Type_Geom(-1)); }
  
   //--- TBGControl0
 
-  void set_TBGControl0(Type_TBGControl0 value) { rw.set(0xCA,value.value); }
+  void set_TBGControl0(Type_TBGControl0 value) { rw.set(0xCAu,value.value); }
  
-  Setter<Type_TBGControl0> to_TBGControl0() { return Setter<Type_TBGControl0>(rw,0xCA); }
+  Setter<Type_TBGControl0> to_TBGControl0() { return Setter<Type_TBGControl0>(rw,0xCAu); }
  
   static Type_TBGControl0 null_TBGControl0() { return Type_TBGControl0(0); }
  
@@ -4775,9 +4775,9 @@ struct HDMIBar
  
   //--- TBGControl1
 
-  void set_TBGControl1(Type_TBGControl1 value) { rw.set(0xCB,value.value); }
+  void set_TBGControl1(Type_TBGControl1 value) { rw.set(0xCBu,value.value); }
  
-  Setter<Type_TBGControl1> to_TBGControl1() { return Setter<Type_TBGControl1>(rw,0xCB); }
+  Setter<Type_TBGControl1> to_TBGControl1() { return Setter<Type_TBGControl1>(rw,0xCBu); }
  
   static Type_TBGControl1 null_TBGControl1() { return Type_TBGControl1(0); }
  
@@ -4785,17 +4785,17 @@ struct HDMIBar
  
   //--- EnSpace
 
-  void set_EnSpace(Type_EnSpace value) { rw.set(0xD6,value); }
+  void set_EnSpace(Type_EnSpace value) { rw.set(0xD6u,value); }
  
-  void set_EnSpace_null() { rw.set(0xD6,Type_EnSpace(0)); }
+  void set_EnSpace_null() { rw.set(0xD6u,Type_EnSpace(0)); }
  
-  void set_EnSpace_ones() { rw.set(0xD6,Type_EnSpace(-1)); }
+  void set_EnSpace_ones() { rw.set(0xD6u,Type_EnSpace(-1)); }
  
   //--- HVFControl0
 
-  void set_HVFControl0(Type_HVFControl0 value) { rw.set(0xE4,value.value); }
+  void set_HVFControl0(Type_HVFControl0 value) { rw.set(0xE4u,value.value); }
  
-  Setter<Type_HVFControl0> to_HVFControl0() { return Setter<Type_HVFControl0>(rw,0xE4); }
+  Setter<Type_HVFControl0> to_HVFControl0() { return Setter<Type_HVFControl0>(rw,0xE4u); }
  
   static Type_HVFControl0 null_HVFControl0() { return Type_HVFControl0(0); }
  
@@ -4803,9 +4803,9 @@ struct HDMIBar
  
   //--- HVFControl1
 
-  void set_HVFControl1(Type_HVFControl1 value) { rw.set(0xE5,value.value); }
+  void set_HVFControl1(Type_HVFControl1 value) { rw.set(0xE5u,value.value); }
  
-  Setter<Type_HVFControl1> to_HVFControl1() { return Setter<Type_HVFControl1>(rw,0xE5); }
+  Setter<Type_HVFControl1> to_HVFControl1() { return Setter<Type_HVFControl1>(rw,0xE5u); }
  
   static Type_HVFControl1 null_HVFControl1() { return Type_HVFControl1(0); }
  
@@ -4813,19 +4813,19 @@ struct HDMIBar
  
   //--- RepControl
 
-  void set_RepControl(Type_RepControl value) { rw.set(0xF0,value); }
+  void set_RepControl(Type_RepControl value) { rw.set(0xF0u,value); }
  
-  void set_RepControl_null() { rw.set(0xF0,Type_RepControl(0)); }
+  void set_RepControl_null() { rw.set(0xF0u,Type_RepControl(0)); }
  
-  void set_RepControl_ones() { rw.set(0xF0,Type_RepControl(-1)); }
+  void set_RepControl_ones() { rw.set(0xF0u,Type_RepControl(-1)); }
  
   //--- PLLSerial1
 
-  Type_PLLSerial1 get_PLLSerial1() { return Type_PLLSerial1(rw.template get<uint8>(0x200)); }
+  Type_PLLSerial1 get_PLLSerial1() { return Type_PLLSerial1(rw.template get<uint8>(0x200u)); }
  
-  void set_PLLSerial1(Type_PLLSerial1 value) { rw.set(0x200,value.value); }
+  void set_PLLSerial1(Type_PLLSerial1 value) { rw.set(0x200u,value.value); }
  
-  Setter<Type_PLLSerial1> to_PLLSerial1() { return Setter<Type_PLLSerial1>(rw,0x200); }
+  Setter<Type_PLLSerial1> to_PLLSerial1() { return Setter<Type_PLLSerial1>(rw,0x200u); }
  
   static Type_PLLSerial1 null_PLLSerial1() { return Type_PLLSerial1(0); }
  
@@ -4833,11 +4833,11 @@ struct HDMIBar
  
   //--- PLLSerial2
 
-  Type_PLLSerial2 get_PLLSerial2() { return Type_PLLSerial2(rw.template get<uint8>(0x201)); }
+  Type_PLLSerial2 get_PLLSerial2() { return Type_PLLSerial2(rw.template get<uint8>(0x201u)); }
  
-  void set_PLLSerial2(Type_PLLSerial2 value) { rw.set(0x201,value.value); }
+  void set_PLLSerial2(Type_PLLSerial2 value) { rw.set(0x201u,value.value); }
  
-  Setter<Type_PLLSerial2> to_PLLSerial2() { return Setter<Type_PLLSerial2>(rw,0x201); }
+  Setter<Type_PLLSerial2> to_PLLSerial2() { return Setter<Type_PLLSerial2>(rw,0x201u); }
  
   static Type_PLLSerial2 null_PLLSerial2() { return Type_PLLSerial2(0); }
  
@@ -4845,11 +4845,11 @@ struct HDMIBar
  
   //--- PLLSerial3
 
-  Type_PLLSerial3 get_PLLSerial3() { return Type_PLLSerial3(rw.template get<uint8>(0x202)); }
+  Type_PLLSerial3 get_PLLSerial3() { return Type_PLLSerial3(rw.template get<uint8>(0x202u)); }
  
-  void set_PLLSerial3(Type_PLLSerial3 value) { rw.set(0x202,value.value); }
+  void set_PLLSerial3(Type_PLLSerial3 value) { rw.set(0x202u,value.value); }
  
-  Setter<Type_PLLSerial3> to_PLLSerial3() { return Setter<Type_PLLSerial3>(rw,0x202); }
+  Setter<Type_PLLSerial3> to_PLLSerial3() { return Setter<Type_PLLSerial3>(rw,0x202u); }
  
   static Type_PLLSerial3 null_PLLSerial3() { return Type_PLLSerial3(0); }
  
@@ -4857,11 +4857,11 @@ struct HDMIBar
  
   //--- Serializer
 
-  Type_Serializer get_Serializer() { return Type_Serializer(rw.template get<uint8>(0x203)); }
+  Type_Serializer get_Serializer() { return Type_Serializer(rw.template get<uint8>(0x203u)); }
  
-  void set_Serializer(Type_Serializer value) { rw.set(0x203,value.value); }
+  void set_Serializer(Type_Serializer value) { rw.set(0x203u,value.value); }
  
-  Setter<Type_Serializer> to_Serializer() { return Setter<Type_Serializer>(rw,0x203); }
+  Setter<Type_Serializer> to_Serializer() { return Setter<Type_Serializer>(rw,0x203u); }
  
   static Type_Serializer null_Serializer() { return Type_Serializer(0); }
  
@@ -4869,11 +4869,11 @@ struct HDMIBar
  
   //--- BufferOut
 
-  Type_BufferOut get_BufferOut() { return Type_BufferOut(rw.template get<uint8>(0x204)); }
+  Type_BufferOut get_BufferOut() { return Type_BufferOut(rw.template get<uint8>(0x204u)); }
  
-  void set_BufferOut(Type_BufferOut value) { rw.set(0x204,value.value); }
+  void set_BufferOut(Type_BufferOut value) { rw.set(0x204u,value.value); }
  
-  Setter<Type_BufferOut> to_BufferOut() { return Setter<Type_BufferOut>(rw,0x204); }
+  Setter<Type_BufferOut> to_BufferOut() { return Setter<Type_BufferOut>(rw,0x204u); }
  
   static Type_BufferOut null_BufferOut() { return Type_BufferOut(0); }
  
@@ -4881,11 +4881,11 @@ struct HDMIBar
  
   //--- PLLSCG1
 
-  Type_PLLSCG1 get_PLLSCG1() { return Type_PLLSCG1(rw.template get<uint8>(0x205)); }
+  Type_PLLSCG1 get_PLLSCG1() { return Type_PLLSCG1(rw.template get<uint8>(0x205u)); }
  
-  void set_PLLSCG1(Type_PLLSCG1 value) { rw.set(0x205,value.value); }
+  void set_PLLSCG1(Type_PLLSCG1 value) { rw.set(0x205u,value.value); }
  
-  Setter<Type_PLLSCG1> to_PLLSCG1() { return Setter<Type_PLLSCG1>(rw,0x205); }
+  Setter<Type_PLLSCG1> to_PLLSCG1() { return Setter<Type_PLLSCG1>(rw,0x205u); }
  
   static Type_PLLSCG1 null_PLLSCG1() { return Type_PLLSCG1(0); }
  
@@ -4893,11 +4893,11 @@ struct HDMIBar
  
   //--- PLLSCG2
 
-  Type_PLLSCG2 get_PLLSCG2() { return Type_PLLSCG2(rw.template get<uint8>(0x206)); }
+  Type_PLLSCG2 get_PLLSCG2() { return Type_PLLSCG2(rw.template get<uint8>(0x206u)); }
  
-  void set_PLLSCG2(Type_PLLSCG2 value) { rw.set(0x206,value.value); }
+  void set_PLLSCG2(Type_PLLSCG2 value) { rw.set(0x206u,value.value); }
  
-  Setter<Type_PLLSCG2> to_PLLSCG2() { return Setter<Type_PLLSCG2>(rw,0x206); }
+  Setter<Type_PLLSCG2> to_PLLSCG2() { return Setter<Type_PLLSCG2>(rw,0x206u); }
  
   static Type_PLLSCG2 null_PLLSCG2() { return Type_PLLSCG2(0); }
  
@@ -4905,51 +4905,51 @@ struct HDMIBar
  
   //--- PLLSCGN1
 
-  Type_PLLSCGN1 get_PLLSCGN1() { return Type_PLLSCGN1(rw.template get<uint8>(0x207)); }
+  Type_PLLSCGN1 get_PLLSCGN1() { return Type_PLLSCGN1(rw.template get<uint8>(0x207u)); }
  
-  void set_PLLSCGN1(Type_PLLSCGN1 value) { rw.set(0x207,value); }
+  void set_PLLSCGN1(Type_PLLSCGN1 value) { rw.set(0x207u,value); }
  
-  void set_PLLSCGN1_null() { rw.set(0x207,Type_PLLSCGN1(0)); }
+  void set_PLLSCGN1_null() { rw.set(0x207u,Type_PLLSCGN1(0)); }
  
-  void set_PLLSCGN1_ones() { rw.set(0x207,Type_PLLSCGN1(-1)); }
+  void set_PLLSCGN1_ones() { rw.set(0x207u,Type_PLLSCGN1(-1)); }
  
   //--- PLLSCGN2
 
-  Type_PLLSCGN2 get_PLLSCGN2() { return Type_PLLSCGN2(rw.template get<uint8>(0x208)); }
+  Type_PLLSCGN2 get_PLLSCGN2() { return Type_PLLSCGN2(rw.template get<uint8>(0x208u)); }
  
-  void set_PLLSCGN2(Type_PLLSCGN2 value) { rw.set(0x208,value); }
+  void set_PLLSCGN2(Type_PLLSCGN2 value) { rw.set(0x208u,value); }
  
-  void set_PLLSCGN2_null() { rw.set(0x208,Type_PLLSCGN2(0)); }
+  void set_PLLSCGN2_null() { rw.set(0x208u,Type_PLLSCGN2(0)); }
  
-  void set_PLLSCGN2_ones() { rw.set(0x208,Type_PLLSCGN2(-1)); }
+  void set_PLLSCGN2_ones() { rw.set(0x208u,Type_PLLSCGN2(-1)); }
  
   //--- PLLSCGR1
 
-  Type_PLLSCGR1 get_PLLSCGR1() { return Type_PLLSCGR1(rw.template get<uint8>(0x209)); }
+  Type_PLLSCGR1 get_PLLSCGR1() { return Type_PLLSCGR1(rw.template get<uint8>(0x209u)); }
  
-  void set_PLLSCGR1(Type_PLLSCGR1 value) { rw.set(0x209,value); }
+  void set_PLLSCGR1(Type_PLLSCGR1 value) { rw.set(0x209u,value); }
  
-  void set_PLLSCGR1_null() { rw.set(0x209,Type_PLLSCGR1(0)); }
+  void set_PLLSCGR1_null() { rw.set(0x209u,Type_PLLSCGR1(0)); }
  
-  void set_PLLSCGR1_ones() { rw.set(0x209,Type_PLLSCGR1(-1)); }
+  void set_PLLSCGR1_ones() { rw.set(0x209u,Type_PLLSCGR1(-1)); }
  
   //--- PLLSCGR2
 
-  Type_PLLSCGR2 get_PLLSCGR2() { return Type_PLLSCGR2(rw.template get<uint8>(0x20A)); }
+  Type_PLLSCGR2 get_PLLSCGR2() { return Type_PLLSCGR2(rw.template get<uint8>(0x20Au)); }
  
-  void set_PLLSCGR2(Type_PLLSCGR2 value) { rw.set(0x20A,value); }
+  void set_PLLSCGR2(Type_PLLSCGR2 value) { rw.set(0x20Au,value); }
  
-  void set_PLLSCGR2_null() { rw.set(0x20A,Type_PLLSCGR2(0)); }
+  void set_PLLSCGR2_null() { rw.set(0x20Au,Type_PLLSCGR2(0)); }
  
-  void set_PLLSCGR2_ones() { rw.set(0x20A,Type_PLLSCGR2(-1)); }
+  void set_PLLSCGR2_ones() { rw.set(0x20Au,Type_PLLSCGR2(-1)); }
  
   //--- AudioDiv
 
-  Type_AudioDiv get_AudioDiv() { return Type_AudioDiv(rw.template get<uint8>(0x20E)); }
+  Type_AudioDiv get_AudioDiv() { return Type_AudioDiv(rw.template get<uint8>(0x20Eu)); }
  
-  void set_AudioDiv(Type_AudioDiv value) { rw.set(0x20E,value.value); }
+  void set_AudioDiv(Type_AudioDiv value) { rw.set(0x20Eu,value.value); }
  
-  Setter<Type_AudioDiv> to_AudioDiv() { return Setter<Type_AudioDiv>(rw,0x20E); }
+  Setter<Type_AudioDiv> to_AudioDiv() { return Setter<Type_AudioDiv>(rw,0x20Eu); }
  
   static Type_AudioDiv null_AudioDiv() { return Type_AudioDiv(0); }
  
@@ -4957,11 +4957,11 @@ struct HDMIBar
  
   //--- SelectCLK
 
-  Type_SelectCLK get_SelectCLK() { return Type_SelectCLK(rw.template get<uint8>(0x211)); }
+  Type_SelectCLK get_SelectCLK() { return Type_SelectCLK(rw.template get<uint8>(0x211u)); }
  
-  void set_SelectCLK(Type_SelectCLK value) { rw.set(0x211,value.value); }
+  void set_SelectCLK(Type_SelectCLK value) { rw.set(0x211u,value.value); }
  
-  Setter<Type_SelectCLK> to_SelectCLK() { return Setter<Type_SelectCLK>(rw,0x211); }
+  Setter<Type_SelectCLK> to_SelectCLK() { return Setter<Type_SelectCLK>(rw,0x211u); }
  
   static Type_SelectCLK null_SelectCLK() { return Type_SelectCLK(0); }
  
@@ -4969,31 +4969,31 @@ struct HDMIBar
  
   //--- ANAGeneral
 
-  Type_ANAGeneral get_ANAGeneral() { return Type_ANAGeneral(rw.template get<uint8>(0x212)); }
+  Type_ANAGeneral get_ANAGeneral() { return Type_ANAGeneral(rw.template get<uint8>(0x212u)); }
  
-  void set_ANAGeneral(Type_ANAGeneral value) { rw.set(0x212,value); }
+  void set_ANAGeneral(Type_ANAGeneral value) { rw.set(0x212u,value); }
  
-  void set_ANAGeneral_null() { rw.set(0x212,Type_ANAGeneral(0)); }
+  void set_ANAGeneral_null() { rw.set(0x212u,Type_ANAGeneral(0)); }
  
-  void set_ANAGeneral_ones() { rw.set(0x212,Type_ANAGeneral(-1)); }
+  void set_ANAGeneral_ones() { rw.set(0x212u,Type_ANAGeneral(-1)); }
  
   //--- EDIDBlock
 
-  Type_EDIDBlock get_EDIDBlock(AddressType ind) { return Type_EDIDBlock(rw.template get<uint8>(0x900 +ind*1)); }
+  Type_EDIDBlock get_EDIDBlock(AddressType ind) { return Type_EDIDBlock(rw.template get<uint8>(0x900u + ind*1u)); }
  
-  void set_EDIDBlock(AddressType ind,Type_EDIDBlock value) { rw.set(0x900 +ind*1,value); }
+  void set_EDIDBlock(AddressType ind,Type_EDIDBlock value) { rw.set(0x900u + ind*1u,value); }
  
-  void set_EDIDBlock_null(AddressType ind) { rw.set(0x900 +ind*1,Type_EDIDBlock(0)); }
+  void set_EDIDBlock_null(AddressType ind) { rw.set(0x900u + ind*1u,Type_EDIDBlock(0)); }
  
-  void set_EDIDBlock_ones(AddressType ind) { rw.set(0x900 +ind*1,Type_EDIDBlock(-1)); }
+  void set_EDIDBlock_ones(AddressType ind) { rw.set(0x900u + ind*1u,Type_EDIDBlock(-1)); }
  
   //--- DDCControl
 
-  Type_DDCControl get_DDCControl() { return Type_DDCControl(rw.template get<uint8>(0x9FA)); }
+  Type_DDCControl get_DDCControl() { return Type_DDCControl(rw.template get<uint8>(0x9FAu)); }
  
-  void set_DDCControl(Type_DDCControl value) { rw.set(0x9FA,value.value); }
+  void set_DDCControl(Type_DDCControl value) { rw.set(0x9FAu,value.value); }
  
-  Setter<Type_DDCControl> to_DDCControl() { return Setter<Type_DDCControl>(rw,0x9FA); }
+  Setter<Type_DDCControl> to_DDCControl() { return Setter<Type_DDCControl>(rw,0x9FAu); }
  
   static Type_DDCControl null_DDCControl() { return Type_DDCControl(0); }
  
@@ -5001,51 +5001,51 @@ struct HDMIBar
  
   //--- DDCAddress
 
-  Type_DDCAddress get_DDCAddress() { return Type_DDCAddress(rw.template get<uint8>(0x9FB)); }
+  Type_DDCAddress get_DDCAddress() { return Type_DDCAddress(rw.template get<uint8>(0x9FBu)); }
  
-  void set_DDCAddress(Type_DDCAddress value) { rw.set(0x9FB,value); }
+  void set_DDCAddress(Type_DDCAddress value) { rw.set(0x9FBu,value); }
  
-  void set_DDCAddress_null() { rw.set(0x9FB,Type_DDCAddress(0)); }
+  void set_DDCAddress_null() { rw.set(0x9FBu,Type_DDCAddress(0)); }
  
-  void set_DDCAddress_ones() { rw.set(0x9FB,Type_DDCAddress(-1)); }
+  void set_DDCAddress_ones() { rw.set(0x9FBu,Type_DDCAddress(-1)); }
  
   //--- DDCOff
 
-  Type_DDCOff get_DDCOff() { return Type_DDCOff(rw.template get<uint8>(0x9FC)); }
+  Type_DDCOff get_DDCOff() { return Type_DDCOff(rw.template get<uint8>(0x9FCu)); }
  
-  void set_DDCOff(Type_DDCOff value) { rw.set(0x9FC,value); }
+  void set_DDCOff(Type_DDCOff value) { rw.set(0x9FCu,value); }
  
-  void set_DDCOff_null() { rw.set(0x9FC,Type_DDCOff(0)); }
+  void set_DDCOff_null() { rw.set(0x9FCu,Type_DDCOff(0)); }
  
-  void set_DDCOff_ones() { rw.set(0x9FC,Type_DDCOff(-1)); }
+  void set_DDCOff_ones() { rw.set(0x9FCu,Type_DDCOff(-1)); }
  
   //--- DDCSegAddr
 
-  Type_DDCSegAddr get_DDCSegAddr() { return Type_DDCSegAddr(rw.template get<uint8>(0x9FD)); }
+  Type_DDCSegAddr get_DDCSegAddr() { return Type_DDCSegAddr(rw.template get<uint8>(0x9FDu)); }
  
-  void set_DDCSegAddr(Type_DDCSegAddr value) { rw.set(0x9FD,value); }
+  void set_DDCSegAddr(Type_DDCSegAddr value) { rw.set(0x9FDu,value); }
  
-  void set_DDCSegAddr_null() { rw.set(0x9FD,Type_DDCSegAddr(0)); }
+  void set_DDCSegAddr_null() { rw.set(0x9FDu,Type_DDCSegAddr(0)); }
  
-  void set_DDCSegAddr_ones() { rw.set(0x9FD,Type_DDCSegAddr(-1)); }
+  void set_DDCSegAddr_ones() { rw.set(0x9FDu,Type_DDCSegAddr(-1)); }
  
   //--- DDCSeg
 
-  Type_DDCSeg get_DDCSeg() { return Type_DDCSeg(rw.template get<uint8>(0x9FE)); }
+  Type_DDCSeg get_DDCSeg() { return Type_DDCSeg(rw.template get<uint8>(0x9FEu)); }
  
-  void set_DDCSeg(Type_DDCSeg value) { rw.set(0x9FE,value); }
+  void set_DDCSeg(Type_DDCSeg value) { rw.set(0x9FEu,value); }
  
-  void set_DDCSeg_null() { rw.set(0x9FE,Type_DDCSeg(0)); }
+  void set_DDCSeg_null() { rw.set(0x9FEu,Type_DDCSeg(0)); }
  
-  void set_DDCSeg_ones() { rw.set(0x9FE,Type_DDCSeg(-1)); }
+  void set_DDCSeg_ones() { rw.set(0x9FEu,Type_DDCSeg(-1)); }
  
   //--- AIPControl0
 
-  Type_AIPControl0 get_AIPControl0() { return Type_AIPControl0(rw.template get<uint8>(0x1100)); }
+  Type_AIPControl0 get_AIPControl0() { return Type_AIPControl0(rw.template get<uint8>(0x1100u)); }
  
-  void set_AIPControl0(Type_AIPControl0 value) { rw.set(0x1100,value.value); }
+  void set_AIPControl0(Type_AIPControl0 value) { rw.set(0x1100u,value.value); }
  
-  Setter<Type_AIPControl0> to_AIPControl0() { return Setter<Type_AIPControl0>(rw,0x1100); }
+  Setter<Type_AIPControl0> to_AIPControl0() { return Setter<Type_AIPControl0>(rw,0x1100u); }
  
   static Type_AIPControl0 null_AIPControl0() { return Type_AIPControl0(0); }
  
@@ -5053,11 +5053,11 @@ struct HDMIBar
  
   //--- ENCControl
 
-  Type_ENCControl get_ENCControl() { return Type_ENCControl(rw.template get<uint8>(0x110D)); }
+  Type_ENCControl get_ENCControl() { return Type_ENCControl(rw.template get<uint8>(0x110Du)); }
  
-  void set_ENCControl(Type_ENCControl value) { rw.set(0x110D,value.value); }
+  void set_ENCControl(Type_ENCControl value) { rw.set(0x110Du,value.value); }
  
-  Setter<Type_ENCControl> to_ENCControl() { return Setter<Type_ENCControl>(rw,0x110D); }
+  Setter<Type_ENCControl> to_ENCControl() { return Setter<Type_ENCControl>(rw,0x110Du); }
  
   static Type_ENCControl null_ENCControl() { return Type_ENCControl(0); }
  
@@ -5065,21 +5065,21 @@ struct HDMIBar
  
   //--- TX3
 
-  Type_TX3 get_TX3() { return Type_TX3(rw.template get<uint8>(0x129A)); }
+  Type_TX3 get_TX3() { return Type_TX3(rw.template get<uint8>(0x129Au)); }
  
-  void set_TX3(Type_TX3 value) { rw.set(0x129A,value); }
+  void set_TX3(Type_TX3 value) { rw.set(0x129Au,value); }
  
-  void set_TX3_null() { rw.set(0x129A,Type_TX3(0)); }
+  void set_TX3_null() { rw.set(0x129Au,Type_TX3(0)); }
  
-  void set_TX3_ones() { rw.set(0x129A,Type_TX3(-1)); }
+  void set_TX3_ones() { rw.set(0x129Au,Type_TX3(-1)); }
  
   //--- TX4
 
-  Type_TX4 get_TX4() { return Type_TX4(rw.template get<uint8>(0x129B)); }
+  Type_TX4 get_TX4() { return Type_TX4(rw.template get<uint8>(0x129Bu)); }
  
-  void set_TX4(Type_TX4 value) { rw.set(0x129B,value.value); }
+  void set_TX4(Type_TX4 value) { rw.set(0x129Bu,value.value); }
  
-  Setter<Type_TX4> to_TX4() { return Setter<Type_TX4>(rw,0x129B); }
+  Setter<Type_TX4> to_TX4() { return Setter<Type_TX4>(rw,0x129Bu); }
  
   static Type_TX4 null_TX4() { return Type_TX4(0); }
  
@@ -5087,11 +5087,11 @@ struct HDMIBar
  
   //--- TX33
 
-  Type_TX33 get_TX33() { return Type_TX33(rw.template get<uint8>(0x12B8)); }
+  Type_TX33 get_TX33() { return Type_TX33(rw.template get<uint8>(0x12B8u)); }
  
-  void set_TX33(Type_TX33 value) { rw.set(0x12B8,value.value); }
+  void set_TX33(Type_TX33 value) { rw.set(0x12B8u,value.value); }
  
-  Setter<Type_TX33> to_TX33() { return Setter<Type_TX33>(rw,0x12B8); }
+  Setter<Type_TX33> to_TX33() { return Setter<Type_TX33>(rw,0x12B8u); }
  
   static Type_TX33 null_TX33() { return Type_TX33(0); }
  
