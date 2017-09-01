@@ -33,6 +33,16 @@ inline bool IsLoSurrogate(WChar wch) { return (wch&0xFC00u)==0xDC00u; }
 
 inline Unicode Surrogate(WChar hi,WChar lo) { return (((hi&0x3FFu)<<10)|(lo&0x3FFu))+0x10000u ; }
 
+inline bool IsSurrogate(Unicode sym) { return sym>=0x10000u; }
+
+/* functions */
+
+const WChar * ZScan(const WChar *ztext);
+
+ulen ZLen(const WChar *ztext);
+
+/* functions */
+
 bool FeedUnicode(PtrLen<const WChar> text,FuncType<bool,Unicode> func)
  {
   bool ret=true;
@@ -90,9 +100,29 @@ ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out);
 
 ulen Full(PtrLen<const WChar> text,PtrLen<char> out); // MaxULen on overflow
 
+ulen Full(const WChar *ztext,PtrLen<char> out); // MaxULen on overflow
+
 /* classes */
 
+struct SurrogateCouple;
+
 template <ulen Len> struct WCharToUtf8;
+
+/* struct SurrogateCouple */
+
+struct SurrogateCouple
+ {
+  WChar hi;
+  WChar lo;
+
+  explicit SurrogateCouple(Unicode sym)
+   {
+    sym-=0x10000u;
+
+    hi=0xD800u|((sym>>10)&0x3FFu);
+    lo=0xDC00u|(sym&0x3FFu);
+   }
+ };
 
 /* struct WCharToUtf8<ulen Len> */
 

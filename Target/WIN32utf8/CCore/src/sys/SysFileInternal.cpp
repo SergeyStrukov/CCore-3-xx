@@ -22,7 +22,38 @@ namespace Sys {
 
 FileError FileName::MakeZStr(StrLen str,PtrLen<WChar> out)
  {
-  // TODO
+  while( +str )
+    {
+     Unicode sym=CutUtf8_unicode(str);
+
+     if( sym==Unicode(-1) ) return FileError_BadName;
+
+     if( IsSurrogate(sym) )
+       {
+        if( out.len<2 ) return FileError_TooLongPath;
+
+        SurrogateCouple couple(sym);
+
+        out[0]=couple.hi;
+        out[1]=couple.lo;
+
+        out+=2;
+       }
+     else
+       { // may insert forbidden symbols
+        if( !out ) return FileError_TooLongPath;
+
+        *out=WChar(sym);
+
+        ++out;
+       }
+    }
+
+  if( !out ) return FileError_TooLongPath;
+
+   *out=0;
+
+  return FileError_Ok;
  }
 
 } // namespace Sys

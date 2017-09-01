@@ -27,13 +27,11 @@ namespace Sys {
 
 namespace Private_SysFileSystem {
 
-#if 0
-
 /* class EmptyDirEngine */
 
 class EmptyDirEngine : NoCopy
  {
-   char buf[MaxPathLen+1];
+   WChar buf[MaxPathLen+1];
    Win32::FindFileData data;
 
   private:
@@ -44,34 +42,49 @@ class EmptyDirEngine : NoCopy
 
      buf[dir_len]=0;
 
-     return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryA(buf) );
+     return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(buf) );
     }
 
-   bool set(ulen dir_len,StrLen file_name)
+   bool set(ulen dir_len,const WChar *file_name,ulen len)
     {
-     if( file_name.len>MaxPathLen-dir_len ) return false;
+     if( len>MaxPathLen-dir_len ) return false;
 
-     file_name.copyTo(buf+dir_len);
+     Range(file_name,len).copyTo(buf+dir_len);
 
-     buf[dir_len+file_name.len]=0;
+     buf[dir_len+len]=0;
 
      return true;
     }
 
-   FileError remove(ulen dir_len,StrLen file_name,bool is_dir)
+   FileError remove(ulen dir_len,const WChar *file_name,ulen len,bool is_dir)
     {
-     if( !set(dir_len+1,file_name) ) return FileError_TooLongPath;
+     if( !set(dir_len+1,file_name,len) ) return FileError_TooLongPath;
 
      if( is_dir )
        {
-        return deleteDir(dir_len+1+file_name.len);
+        return deleteDir(dir_len+1+len);
        }
      else
        {
-        if( !Win32::DeleteFileA(buf) ) return MakeError(FileError_OpFault);
+        if( !Win32::DeleteFileW(buf) ) return MakeError(FileError_OpFault);
 
         return FileError_Ok;
        }
+    }
+
+   static bool IsDot(const WChar *file_name,ulen len)
+    {
+     return len==1 && file_name[0]=='.' ;
+    }
+
+   static bool IsDotDot(const WChar *file_name,ulen len)
+    {
+     return len==2 && file_name[0]=='.' && file_name[1]=='.' ;
+    }
+
+   static bool IsSpecial(const WChar *file_name,ulen len)
+    {
+     return IsDot(file_name,len) || IsDotDot(file_name,len) ;
     }
 
    FileError emptyDir(ulen dir_len)
@@ -82,17 +95,17 @@ class EmptyDirEngine : NoCopy
      buf[dir_len+1]='*';
      buf[dir_len+2]=0;
 
-     Win32::handle_t h_find=Win32::FindFirstFileA(buf,&data);
+     Win32::handle_t h_find=Win32::FindFirstFileW(buf,&data);
 
      if( h_find==Win32::InvalidFileHandle ) return MakeError(FileError_OpFault);
 
      do
        {
-        StrLen file_name(data.file_name);
+        ulen len=ZLen(data.file_name);
 
-        if( !PathBase::IsSpecial(file_name) )
+        if( !IsSpecial(data.file_name,len) )
           {
-           if( FileError fe=remove(dir_len,file_name,data.attr&Win32::FileAttributes_Directory) )
+           if( FileError fe=remove(dir_len,data.file_name,len,data.attr&Win32::FileAttributes_Directory) )
              {
               Win32::FindClose(h_find);
 
@@ -100,7 +113,7 @@ class EmptyDirEngine : NoCopy
              }
           }
        }
-     while( FindNextFileA(h_find,&data) );
+     while( FindNextFileW(h_find,&data) );
 
      Win32::error_t error_=Win32::GetLastError();
 
@@ -115,28 +128,28 @@ class EmptyDirEngine : NoCopy
 
    EmptyDirEngine() {}
 
-   FileError emptyDir(StrLen dir_name)
+   FileError emptyDir(const WChar *dir_name)
     {
-     if( dir_name.len>MaxPathLen ) return FileError_TooLongPath;
+     ulen len=ZLen(dir_name);
 
-     dir_name.copyTo(buf);
+     if( len>MaxPathLen ) return FileError_TooLongPath;
 
-     return emptyDir(dir_name.len);
+     Range(dir_name,len).copyTo(buf);
+
+     return emptyDir(len);
     }
  };
 
 /* DeleteDirRecursive() */
 
-FileError DeleteDirRecursive(StrLen dir_name)
+FileError DeleteDirRecursive(const WChar *dir_name)
  {
   EmptyDirEngine engine;
 
   if( FileError fe=engine.emptyDir(dir_name) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryA(dir_name.ptr) );
+  return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(dir_name) );
  }
-
-#endif
 
 /* Copyz() */
 
@@ -211,18 +224,23 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
        }
      else
        {
-        is_first=true;
-        is_closed=false;
+        len=Full(data.file_name,Range(file_name));
 
-        StrLen str(data.file_name);
+        if( len==MaxULen )
+          {
+           Win32::FindClose(handle);
 
-        str.copyTo(file_name);
+           error=FileError_TooLongPath;
+          }
+        else
+          {
+           is_first=true;
+           is_closed=false;
 
-        len=str.len;
+           type=(data.attr&Win32::FileAttributes_Directory)?FileType_dir:FileType_file;
 
-        type=(data.attr&Win32::FileAttributes_Directory)?FileType_dir:FileType_file;
-
-        error=FileError_Ok;
+           error=FileError_Ok;
+          }
        }
     }
  }
@@ -250,15 +268,24 @@ bool FileSystem::DirCursor::next() noexcept
 
   if( FindNextFileW(handle,&data) )
     {
-     StrLen str(data.file_name);
+     len=Full(data.file_name,Range(file_name));
 
-     str.copyTo(file_name);
+     if( len==MaxULen )
+       {
+        is_closed=true;
 
-     len=str.len;
+        Win32::FindClose(handle);
 
-     type=(data.attr&Win32::FileAttributes_Directory)?FileType_dir:FileType_file;
+        error=FileError_TooLongPath;
 
-     return true;
+        return false;
+       }
+     else
+       {
+        type=(data.attr&Win32::FileAttributes_Directory)?FileType_dir:FileType_file;
+
+        return true;
+       }
     }
 
   Win32::error_t error_=Win32::GetLastError();
@@ -404,7 +431,7 @@ FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
 
   if( auto fe=path.prepare(dir_name) ) return fe;
 
-  //if( recursive ) return DeleteDirRecursive(StrLen(path,dir_name.len));
+  if( recursive ) return DeleteDirRecursive(path);
 
   return MakeErrorIf(FileError_OpFault, !Win32::RemoveDirectoryW(path) );
  }

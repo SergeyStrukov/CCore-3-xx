@@ -34,6 +34,7 @@ OBJ_LIST = \
 ../.test-obj/test1032.DynObject.o \
 ../.test-obj/test1033.AnyPtr.o \
 ../.test-obj/test1034.PrintStem.o \
+../.test-obj/test1035.Utf8.o \
 ../.test-obj/test2001.UIntSlowMulAlgo.o \
 ../.test-obj/test2002.Exception.o \
 ../.test-obj/test2003.SpaceHeap.o \
@@ -198,6 +199,7 @@ ASM_LIST = \
 ../.test-obj/test1032.DynObject.s \
 ../.test-obj/test1033.AnyPtr.s \
 ../.test-obj/test1034.PrintStem.s \
+../.test-obj/test1035.Utf8.s \
 ../.test-obj/test2001.UIntSlowMulAlgo.s \
 ../.test-obj/test2002.Exception.s \
 ../.test-obj/test2003.SpaceHeap.s \
@@ -362,6 +364,7 @@ DEP_LIST = \
 ../.test-obj/test1032.DynObject.dep \
 ../.test-obj/test1033.AnyPtr.dep \
 ../.test-obj/test1034.PrintStem.dep \
+../.test-obj/test1035.Utf8.dep \
 ../.test-obj/test2001.UIntSlowMulAlgo.dep \
 ../.test-obj/test2002.Exception.dep \
 ../.test-obj/test2003.SpaceHeap.dep \
@@ -599,6 +602,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test1034.PrintStem.o : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test1035.Utf8.o : ../../../Simple/CCore/test/./test1035.Utf8.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test2001.UIntSlowMulAlgo.o : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
@@ -1086,6 +1092,9 @@ include $(RULES_FILE)
 ../.test-obj/test1034.PrintStem.s : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test1035.Utf8.s : ../../../Simple/CCore/test/./test1035.Utf8.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test2001.UIntSlowMulAlgo.s : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1570,6 +1579,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test1034.PrintStem.dep : ../../../Simple/CCore/test/./test1034.PrintStem.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1034.PrintStem.o $< -MF $@
+
+../.test-obj/test1035.Utf8.dep : ../../../Simple/CCore/test/./test1035.Utf8.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test1035.Utf8.o $< -MF $@
 
 ../.test-obj/test2001.UIntSlowMulAlgo.dep : ../../../Fundamental/CCore/test/./test2001.UIntSlowMulAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2001.UIntSlowMulAlgo.o $< -MF $@

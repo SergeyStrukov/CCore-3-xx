@@ -345,6 +345,7 @@ OBJ_LIST = \
 .obj/UIntSlowMulAlgo.o \
 .obj/UIntSplit.o \
 .obj/Unid.o \
+.obj/Utf8.o \
 .obj/UtilFunc.o \
 .obj/VideoConsole.o \
 .obj/VideoControl.o \
@@ -705,6 +706,7 @@ ASM_LIST = \
 .obj/UIntSlowMulAlgo.s \
 .obj/UIntSplit.s \
 .obj/Unid.s \
+.obj/Utf8.s \
 .obj/UtilFunc.s \
 .obj/VideoConsole.s \
 .obj/VideoControl.s \
@@ -1065,6 +1067,7 @@ DEP_LIST = \
 .obj/UIntSlowMulAlgo.dep \
 .obj/UIntSplit.dep \
 .obj/Unid.dep \
+.obj/Utf8.dep \
 .obj/UtilFunc.dep \
 .obj/VideoConsole.dep \
 .obj/VideoControl.dep \
@@ -2130,6 +2133,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Unid.o : ../../Fundamental/CCore/src/./Unid.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Utf8.o : ../../Simple/CCore/src/./Utf8.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/UtilFunc.o : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
@@ -3205,6 +3211,9 @@ include $(RULES_FILE)
 .obj/Unid.s : ../../Fundamental/CCore/src/./Unid.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Utf8.s : ../../Simple/CCore/src/./Utf8.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/UtilFunc.s : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4277,6 +4286,9 @@ include $(RULES_FILE)
 
 .obj/Unid.dep : ../../Fundamental/CCore/src/./Unid.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Unid.o $< -MF $@
+
+.obj/Utf8.dep : ../../Simple/CCore/src/./Utf8.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Utf8.o $< -MF $@
 
 .obj/UtilFunc.dep : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/UtilFunc.o $< -MF $@

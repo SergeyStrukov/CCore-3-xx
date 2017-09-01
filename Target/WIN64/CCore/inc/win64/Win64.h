@@ -848,7 +848,7 @@ struct FindFileData
   flags_t reserved1;
 
   char file_name[260];
-  char alt_file_name[16];
+  char alt_file_name[14];
  };
 
 /*--------------------------------------------------------------------------------------*/

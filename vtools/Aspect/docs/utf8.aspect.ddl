@@ -4727,7 +4727,7 @@ Dir Dir253=
     { 'SysTask.h' , Green },
     { 'SysTime.h' , Green },
     { 'SysTlsSlot.h' , Green },
-    { 'SysUtf8.h' , Red },
+    { 'SysUtf8.h' , Yellow },
     { 'SysWait.h' , Green },
     { 'SysWaitInternal.h' , Green }
    }
@@ -4807,7 +4807,7 @@ Dir Dir258=
     { 'SysTask.cpp' , Green },
     { 'SysTime.cpp' , Green },
     { 'SysTlsSlot.cpp' , Green },
-    { 'SysUtf8.cpp' , Red },
+    { 'SysUtf8.cpp' , Yellow },
     { 'SysWait.cpp' , Green },
     { 'SysWaitInternal.cpp' , Green },
     { 'SysAtomic.s' , Green },

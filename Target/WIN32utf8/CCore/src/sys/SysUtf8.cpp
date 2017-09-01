@@ -20,6 +20,20 @@ namespace Sys {
 
 /* functions */
 
+const WChar * ZScan(const WChar *ztext)
+ {
+  for(; *ztext ;ztext++);
+
+  return ztext;
+ }
+
+ulen ZLen(const WChar *ztext)
+ {
+  return Dist(ztext,ZScan(ztext));
+ }
+
+/* functions */
+
 ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
  {
   ulen len=out.len;
@@ -62,6 +76,11 @@ ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
   if( ok ) return len-out.len;
 
   return MaxULen;
+ }
+
+ulen Full(const WChar *ztext,PtrLen<char> out)
+ {
+  return Full(Range(ztext,ZLen(ztext)),out);
  }
 
 } // namespace Sys

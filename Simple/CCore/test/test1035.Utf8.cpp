@@ -16,7 +16,6 @@
 #include <CCore/test/test.h>
 
 #include <CCore/inc/Utf8.h>
-#include <CCore/inc/LaunchPath.h>
 
 namespace App {
 
@@ -37,9 +36,8 @@ bool Testit<1035>::Main()
  {
   Printf(Con,"Русский текст\n");
 
-  LaunchPath path;
-
-  Printf(Con,"#;\n",path.getPath());
+  Printf(Con,"#.c;",0xD1);
+  Printf(Con,"#.c;\n",0x83);
 
   return true;
  }

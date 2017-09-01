@@ -403,6 +403,7 @@ OBJ_LIST = \
 .obj/Unid.o \
 .obj/UserAction.o \
 .obj/UserPreference.o \
+.obj/Utf8.o \
 .obj/UtilFunc.o \
 .obj/VideoConsole.o \
 .obj/VideoDevice.o \
@@ -834,6 +835,7 @@ ASM_LIST = \
 .obj/Unid.s \
 .obj/UserAction.s \
 .obj/UserPreference.s \
+.obj/Utf8.s \
 .obj/UtilFunc.s \
 .obj/VideoConsole.s \
 .obj/VideoDevice.s \
@@ -1265,6 +1267,7 @@ DEP_LIST = \
 .obj/Unid.dep \
 .obj/UserAction.dep \
 .obj/UserPreference.dep \
+.obj/Utf8.dep \
 .obj/UtilFunc.dep \
 .obj/VideoConsole.dep \
 .obj/VideoDevice.dep \
@@ -2514,6 +2517,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/UserPreference.o : ../../Desktop/CCore/src/./video/UserPreference.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Utf8.o : ../../Simple/CCore/src/./Utf8.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/UtilFunc.o : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
@@ -3802,6 +3808,9 @@ include $(RULES_FILE)
 .obj/UserPreference.s : ../../Desktop/CCore/src/./video/UserPreference.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Utf8.s : ../../Simple/CCore/src/./Utf8.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/UtilFunc.s : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5087,6 +5096,9 @@ include $(RULES_FILE)
 
 .obj/UserPreference.dep : ../../Desktop/CCore/src/./video/UserPreference.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/UserPreference.o $< -MF $@
+
+.obj/Utf8.dep : ../../Simple/CCore/src/./Utf8.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Utf8.o $< -MF $@
 
 .obj/UtilFunc.dep : ../../Simple/CCore/src/./gadget/UtilFunc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/UtilFunc.o $< -MF $@
