@@ -1,7 +1,7 @@
 /* PrintBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,6 +17,10 @@
 #define CCore_inc_printf_PrintBase_h
 
 #include <CCore/inc/Gadget.h>
+
+#ifdef CCORE_UTF8
+#include <CCore/inc/Utf8.h>
+#endif
 
 namespace CCore {
 
@@ -31,6 +35,8 @@ template <class P> struct PrintOutAdapter;
 class PrintBase;
 
 class PrintBuf;
+
+class SymCounter;
 
 template <class P> class PrintCount;
 
@@ -143,77 +149,71 @@ class PrintBuf : public PrintBase
    const char * closeZStr() { return close().ptr; }
  };
 
-/* class PrintCount<P> */
+/* class SymCounter */
 
-template <class P>
-class PrintCount : NoCopy
+#ifdef CCORE_UTF8
+
+class SymCounter : NoCopy
  {
-   P &out;
    ulen count;
+   unsigned len;
 
   public:
 
-   using PrintOutType = PrintCount<P> & ;
+   SymCounter() : count(0),len(0) {}
 
-   PrintOutType printRef() { return *this; }
-
-   // constructors
-
-   explicit PrintCount(P &out_) : out(out_),count(0) {}
-
-   ulen getCount() const { return count; }
-
-   // put
+   operator ulen() const { return count; }
 
    void put(char ch)
     {
-     count++;
+     if( len )
+       {
+        len--;
 
-     out.put(ch);
+        if( !len ) count++;
+       }
+     else
+       {
+        if( unsigned l=Utf8Len(ch) )
+          {
+           if( l==1 )
+             {
+              count++;
+             }
+           else
+             {
+              len=l-1;
+             }
+          }
+        else
+          {
+           count++;
+          }
+       }
     }
 
    void put(char ch,ulen len)
     {
-     count+=len;
-
-     out.put(ch,len);
+     for(; len ;len--) put(ch);
     }
 
    void put(const char *str,ulen len)
     {
-     count+=len;
-
-     out.put(str,len);
-    }
-
-   void flush()
-    {
-     out.flush();
+     for(; len ;len--,str++) put(*str);
     }
  };
 
-/* class PrintCount<void> */
+#else
 
-template <>
-class PrintCount<void> : NoCopy
+class SymCounter : NoCopy
  {
    ulen count;
 
   public:
 
-   using PrintOutType = PrintCount<void> & ;
+   SymCounter() : count(0) {}
 
-   PrintOutType printRef() { return *this; }
-
-   // constructors
-
-   PrintCount() : count(0) {}
-
-   // methods
-
-   ulen getCount() const { return count; }
-
-   // put
+   operator ulen() const { return count; }
 
    void put(char)
     {
@@ -228,6 +228,93 @@ class PrintCount<void> : NoCopy
    void put(const char *,ulen len)
     {
      count+=len;
+    }
+ };
+
+#endif
+
+/* class PrintCount<P> */
+
+template <class P>
+class PrintCount : NoCopy
+ {
+   P &out;
+   SymCounter counter;
+
+  public:
+
+   using PrintOutType = PrintCount<P> & ;
+
+   PrintOutType printRef() { return *this; }
+
+   // constructors
+
+   explicit PrintCount(P &out_) : out(out_) {}
+
+   ulen getCount() const { return counter; }
+
+   // put
+
+   void put(char ch)
+    {
+     counter.put(ch);
+     out.put(ch);
+    }
+
+   void put(char ch,ulen len)
+    {
+     counter.put(ch,len);
+     out.put(ch,len);
+    }
+
+   void put(const char *str,ulen len)
+    {
+     counter.put(str,len);
+     out.put(str,len);
+    }
+
+   void flush()
+    {
+     out.flush();
+    }
+ };
+
+/* class PrintCount<void> */
+
+template <>
+class PrintCount<void> : NoCopy
+ {
+   SymCounter counter;
+
+  public:
+
+   using PrintOutType = PrintCount<void> & ;
+
+   PrintOutType printRef() { return *this; }
+
+   // constructors
+
+   PrintCount() {}
+
+   // methods
+
+   ulen getCount() const { return counter; }
+
+   // put
+
+   void put(char ch)
+    {
+     counter.put(ch);
+    }
+
+   void put(char ch,ulen len)
+    {
+     counter.put(ch,len);
+    }
+
+   void put(const char *str,ulen len)
+    {
+     counter.put(str,len);
     }
 
    void flush()

@@ -467,6 +467,10 @@ class <span class="Att">PrintCount</span> : NoCopy
 
 </pre>
 
+<p>
+In UTF8-compatible mode the number of symbols is counted, not the number of characters.
+</p>
+
 <h3>Tuple printing</h3>
 
 <p>
@@ -499,6 +503,20 @@ Printf(out,"a = #; b = #;\n",a,b);
 <p>This rule is applied recursively.</p>
 
 <h3>String printing</h3>
+
+<p>
+The following function is used to determine the string symbol length:
+</p>
+
+<pre>
+
+ulen <span class="Att">SymLen</span>(StrLen text);
+
+</pre>
+
+<p>
+In UTF8-compatible mode the number of symbols is differ than the number of characters.
+</p>
 
 <p>
 The following types: <b>char *</b>, <b>const char *</b>, <b>char[N]</b>, <b>const char [N]</b>, <b>StrLen</b>, 
@@ -542,7 +560,8 @@ struct <span class="Att">StrPrintOpt</span>
 </pre>
 
 <p>
-<b>width</b> is the minimum output length, if the string has less characters, then it is extended to fit it.
+<b>width</b> is the minimum output length, if the string has less characters, then it is extended to fit it. 
+In UTF8-compatible mode the number of symbols is used, not the number of bytes.
 </p>
 <p>
 <b>align</b> determines how the string is placed inside the extension.
@@ -649,6 +668,7 @@ struct <span class="Att">TitlePrintOpt</span>
 
 <p>
 <b>width</b> is the total title length, <b>off</b> is the text offset, <b>border</b> is the border character.
+In UTF8-compatible mode the number of symbols is used, not the number of bytes.
 </p>
 
 <p>

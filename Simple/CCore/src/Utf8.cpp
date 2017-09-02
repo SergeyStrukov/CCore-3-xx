@@ -301,5 +301,23 @@ void TrimUtf8End(StrLen &text)
     }
  }
 
+ulen Utf8Len(StrLen text)
+ {
+  ulen ret=0;
+
+  for(; +text ;CutUtf8(text)) ret++;
+
+  return ret;
+ }
+
+ulen Utf8Len_guarded(StrLen text)
+ {
+  ulen ret=0;
+
+  for(; +text ;CutUtf8_guarded(text)) ret++;
+
+  return ret;
+ }
+
 } // namespace CCore
 

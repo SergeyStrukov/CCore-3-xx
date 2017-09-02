@@ -447,7 +447,7 @@ Dir Dir7=
 Dir Dir8=
   {
    'Simple',
-   Red,
+   Green,
    {
     &Dir25
    },
@@ -1465,7 +1465,7 @@ Dir Dir92=
     { 'Path.h' , Red },
     { 'PlanInit.h' , Ignore },
     { 'PlatformRandom.h' , Ignore },
-    { 'Printf.h' , Red },
+    { 'Printf.h' , Ignore },
     { 'RadixHeap.h' , Ignore },
     { 'Random.h' , Ignore },
     { 'SaveLoad.h' , Ignore },
@@ -1529,7 +1529,7 @@ Dir Dir93=
     { 'Optional.cpp' , Ignore },
     { 'Path.cpp' , Red },
     { 'PlanInit.cpp' , Ignore },
-    { 'Printf.cpp' , Red },
+    { 'Printf.cpp' , Ignore },
     { 'RadixHeap.cpp' , Ignore },
     { 'Random.cpp' , Ignore },
     { 'SaveLoad.cpp' , Ignore },
@@ -1679,14 +1679,14 @@ Dir Dir97=
 Dir Dir98=
   {
    'printf',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntPrint.h' , Red },
-    { 'PrintBase.h' , Red },
-    { 'PrintProxy.h' , Red },
-    { 'StrPrint.h' , Red }
+    { 'IntPrint.h' , Ignore },
+    { 'PrintBase.h' , Green },
+    { 'PrintProxy.h' , Ignore },
+    { 'StrPrint.h' , Green }
    }
   };
 
@@ -1791,14 +1791,14 @@ Dir Dir104=
 Dir Dir105=
   {
    'printf',
-   Red,
+   Green,
    {
    },
    {
-    { 'IntPrint.cpp' , Red },
-    { 'PrintBase.cpp' , Red },
-    { 'PrintProxy.cpp' , Red },
-    { 'StrPrint.cpp' , Red }
+    { 'IntPrint.cpp' , Ignore },
+    { 'PrintBase.cpp' , Green },
+    { 'PrintProxy.cpp' , Ignore },
+    { 'StrPrint.cpp' , Green }
    }
   };
 
@@ -2158,7 +2158,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir120,
     &Dir121,
@@ -2171,7 +2171,7 @@ Dir Dir25=
 Dir Dir120=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir123
    },
@@ -2179,7 +2179,7 @@ Dir Dir120=
     { 'Abort.h' , Ignore },
     { 'AnyPtr.h' , Ignore },
     { 'BlockFifo.h' , Ignore },
-    { 'CapString.h' , Yellow },
+    { 'CapString.h' , Green },
     { 'Cmp.h' , Green },
     { 'Counters.h' , Ignore },
     { 'Crc.h' , Ignore },
@@ -2218,14 +2218,14 @@ Dir Dir120=
     { 'Tuple.h' , Ignore },
     { 'TypeSwitch.h' , Ignore },
     { 'UIntSplit.h' , Ignore },
-    { 'Utf8.h' , Yellow }
+    { 'Utf8.h' , Green }
    }
   };
 
 Dir Dir121=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir124,
     &Dir125
@@ -2273,7 +2273,7 @@ Dir Dir121=
     { 'Tuple.cpp' , Ignore },
     { 'TypeSwitch.cpp' , Ignore },
     { 'UIntSplit.cpp' , Ignore },
-    { 'Utf8.cpp' , Yellow }
+    { 'Utf8.cpp' , Green }
    }
   };
 
@@ -4754,7 +4754,7 @@ Dir Dir255=
    {
    },
    {
-    { 'Win32.h' , Red },
+    { 'Win32.h' , Yellow },
     { 'Win32gui.h' , Red }
    }
   };

@@ -16,7 +16,7 @@
 #ifndef CCore_inc_Utf8_h
 #define CCore_inc_Utf8_h
 
-#include <CCore/inc/CharProp.h>
+#include <CCore/inc/Gadget.h>
 
 namespace CCore {
 
@@ -81,8 +81,6 @@ class Utf8Code
 
    Unicode toUnicode() const;
 
-   bool isPrintable() const { return len>1 || CharIsPrintable(sym[0]) ; }
-
    // print object
 
    void print(PrinterType &out) const
@@ -91,7 +89,7 @@ class Utf8Code
        {
         case 1 :
          {
-          Putobj(out,CharCode(sym[0]));
+          out.put(sym[0]);
          }
         break;
 
@@ -160,6 +158,10 @@ Utf8Code CutUtf8_guarded(StrLen &text); // +text
 Unicode CutUtf8_unicode(StrLen &text); // +text , Unicode(-1) on error
 
 void TrimUtf8End(StrLen &text); // removes non-complete trailing sequence
+
+ulen Utf8Len(StrLen text);
+
+ulen Utf8Len_guarded(StrLen text);
 
 } // namespace CCore
 

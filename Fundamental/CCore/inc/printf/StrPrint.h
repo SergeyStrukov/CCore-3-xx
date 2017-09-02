@@ -1,7 +1,7 @@
 /* StrPrint.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,7 +18,23 @@
 
 #include <CCore/inc/StrParse.h>
 
+#ifdef CCORE_UTF8
+#include <CCore/inc/Utf8.h>
+#endif
+
 namespace CCore {
+
+/* SymLen() */
+
+#ifdef CCORE_UTF8
+
+inline ulen SymLen(StrLen text) { return Utf8Len(text); }
+
+#else
+
+inline ulen SymLen(StrLen text) { return text.len; }
+
+#endif
 
 /* classes */
 
@@ -122,7 +138,7 @@ class StrPrint
 
    ulen getExtra(ulen width,bool quoted) const
     {
-     return quoted?PosSub(width,str.len,2u):PosSub(width,str.len);
+     return quoted?PosSub(width,SymLen(str),2u):PosSub(width,SymLen(str));
     }
 
    template <class P>
@@ -225,7 +241,7 @@ class Title
      out.put(' ');
      out.put(str.ptr,str.len);
      out.put(' ');
-     out.put(opt.border,PosSub(opt.width,opt.off,str.len,2u));
+     out.put(opt.border,PosSub(opt.width,opt.off,SymLen(str),2u));
     }
  };
 

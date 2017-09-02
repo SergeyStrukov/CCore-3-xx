@@ -55,6 +55,10 @@ software platform.
 
 #define <span class="Att">CCORE_NOINLINE</span> __attribute__((noinline))
 
+/* UTF8 claim */
+
+#define CCORE_UTF8
+
 /* includes */ 
 
 #include &lt;cstddef&gt;
@@ -241,6 +245,10 @@ void <span class="Att">OptimizeBarrier</span>(void *ptr,ulen len) noexcept;
 
 #define <span class="Att">CCORE_NOINLINE</span> __attribute__((noinline))
 
+/* UTF8 claim */
+
+#define CCORE_UTF8
+
 /* includes */ 
 
 #include &lt;cstddef&gt;
@@ -267,7 +275,11 @@ Priority 0 is highest.
 </p>
 
 <p>
-<b>CCORE_NOINLINE</b> is used to disable function inlining. This macro may be leave empty.
+<b>CCORE_NOINLINE</b> is used to disable function inlining. This macro may be left empty.
+</p>
+
+<p>
+<b>CCORE_UTF8</b> must be defined, if the target is UTF8-compatible.
 </p>
 
 <p>
