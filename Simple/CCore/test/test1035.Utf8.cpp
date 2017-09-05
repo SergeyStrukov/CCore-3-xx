@@ -17,7 +17,7 @@
 
 #include <CCore/inc/PrintTitle.h>
 #include <CCore/inc/CapString.h>
-
+#include <CCore/inc/Print.h>
 #include <CCore/inc/Utf8.h>
 
 namespace App {
@@ -72,6 +72,24 @@ void test3()
     }
  }
 
+/* test4() */
+
+void test4()
+ {
+  PrintFile out("Юникод символы.txt");
+
+  const unsigned Line = 16 ;
+
+  for(Unicode sym=Bit(8); sym<Bit(21) ;sym++)
+    {
+     if( sym%Line==0 ) Printf(out,"#6.16i;: ",sym);
+
+     Printf(out,"#;",ToUtf8(sym));
+
+     if( (sym+1)%Line==0 ) Printf(out,"\n");
+    }
+ }
+
 } // namespace Private_1035
 
 using namespace Private_1035;
@@ -87,6 +105,7 @@ bool Testit<1035>::Main()
   //test1();
   //test2();
   //test3();
+  //test4();
 
   return true;
  }

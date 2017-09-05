@@ -458,7 +458,7 @@ Dir Dir8=
 Dir Dir9=
   {
    'tools',
-   New,
+   Red,
    {
     &Dir26,
     &Dir27,
@@ -504,7 +504,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   New,
+   Red,
    {
     &Dir44,
     &Dir45,

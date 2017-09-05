@@ -15,10 +15,9 @@
 
 #include <CCore/test/test.h>
 
-#include <CCore/inc/video/Desktop.h>
-
+#include <CCore/inc/Utf8.h>
 #include <CCore/inc/Sort.h>
-#include <CCore/inc/CharProp.h>
+#include <CCore/inc/Array.h>
 
 namespace App {
 
@@ -37,16 +36,18 @@ const char *const Testit<6003>::Name="Test6003 Char";
 template<>
 bool Testit<6003>::Main()
  {
-  char temp[256];
+  StrLen text="абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+              "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"_c;
 
-  for(int i=0; i<256 ;i++) temp[i]=char(i);
+  DynArray<Unicode> buf;
 
-  IncrSort(Range(temp), [] (char a,char b) { return Video::NativeCmp(a,b)<0; } );
+  while( +text ) buf.append_copy(CutUtf8_unicode(text));
 
-  for(int i=0; i<256 ;i++)
-    {
-     Printf(Con,"#;) #; #;\n",i,CharCode(temp[i]),CharCode(Video::ToLowerCase(temp[i])));
-    }
+  Sort(Range(buf));
+
+  for(Unicode sym : buf ) Putobj(Con,ToUtf8(sym));
+
+  Putch(Con,'\n');
 
   return true;
  }
