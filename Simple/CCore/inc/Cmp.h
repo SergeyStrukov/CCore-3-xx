@@ -54,6 +54,10 @@ CmpResult LessCmp(const T &a,const T &b)
 
 /* Str...() */
 
+inline CmpResult CharCmp(char a,char b) { return LessCmp((unsigned char)a,(unsigned char)b); }
+
+inline bool CharLess(char a,char b) { return (unsigned char)a<(unsigned char)b; }
+
 CmpResult StrCmp(StrLen a,StrLen b);
 
 bool StrLess(StrLen a,StrLen b);

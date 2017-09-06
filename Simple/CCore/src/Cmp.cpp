@@ -39,7 +39,7 @@ CmpResult StrCmp(StrLen a,StrLen b)
     {
      ulen off=a.match(b.ptr);
 
-     if( off<a.len ) return LessCmp(uint8(a[off]),uint8(b[off]));
+     if( off<a.len ) return CharCmp(a[off],b[off]);
 
      return CmpLess;
     }
@@ -47,7 +47,7 @@ CmpResult StrCmp(StrLen a,StrLen b)
     {
      ulen off=b.match(a.ptr);
 
-     if( off<b.len ) return LessCmp(uint8(a[off]),uint8(b[off]));
+     if( off<b.len ) return CharCmp(a[off],b[off]);
 
      return (a.len==b.len)?CmpEqual:CmpGreater;
     }
@@ -59,7 +59,7 @@ bool StrLess(StrLen a,StrLen b)
     {
      ulen off=a.match(b.ptr);
 
-     if( off<a.len ) return uint8(a[off])<uint8(b[off]);
+     if( off<a.len ) return CharLess(a[off],b[off]);
 
      return true;
     }
@@ -67,7 +67,7 @@ bool StrLess(StrLen a,StrLen b)
     {
      ulen off=b.match(a.ptr);
 
-     if( off<b.len ) return uint8(a[off])<uint8(b[off]);
+     if( off<b.len ) return CharLess(a[off],b[off]);
 
      return false;
     }

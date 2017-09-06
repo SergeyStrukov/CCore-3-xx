@@ -1469,14 +1469,14 @@ Dir Dir92=
     { 'RadixHeap.h' , Ignore },
     { 'Random.h' , Ignore },
     { 'SaveLoad.h' , Ignore },
-    { 'Scanf.h' , Red },
+    { 'Scanf.h' , Green },
     { 'Signal.h' , Ignore },
     { 'SingleHost.h' , Ignore },
     { 'Sort.h' , Ignore },
     { 'Starter.h' , Ignore },
     { 'StepEval.h' , Ignore },
     { 'String.h' , Green },
-    { 'StrMap.h' , Red },
+    { 'StrMap.h' , Green },
     { 'StrParse.h' , Green },
     { 'TextTools.h' , Red },
     { 'Tree.h' , Ignore },
@@ -1533,14 +1533,14 @@ Dir Dir93=
     { 'RadixHeap.cpp' , Ignore },
     { 'Random.cpp' , Ignore },
     { 'SaveLoad.cpp' , Ignore },
-    { 'Scanf.cpp' , Red },
+    { 'Scanf.cpp' , Green },
     { 'Signal.cpp' , Ignore },
     { 'SingleHost.cpp' , Ignore },
     { 'Sort.cpp' , Ignore },
     { 'Starter.cpp' , Ignore },
     { 'StepEval.cpp' , Ignore },
     { 'String.cpp' , Green },
-    { 'StrMap.cpp' , Red },
+    { 'StrMap.cpp' , Green },
     { 'StrParse.cpp' , Green },
     { 'TextTools.cpp' , Red },
     { 'Tree.cpp' , Ignore },
@@ -1693,7 +1693,7 @@ Dir Dir98=
 Dir Dir99=
   {
    'scanf',
-   Red,
+   Green,
    {
    },
    {
@@ -1701,7 +1701,7 @@ Dir Dir99=
     { 'ScanBase.h' , Green },
     { 'ScanProxy.h' , Green },
     { 'ScanTools.h' , Green },
-    { 'StringScan.h' , Red }
+    { 'StringScan.h' , Green }
    }
   };
 
@@ -1805,7 +1805,7 @@ Dir Dir105=
 Dir Dir106=
   {
    'scanf',
-   Red,
+   Green,
    {
    },
    {
@@ -1813,7 +1813,7 @@ Dir Dir106=
     { 'ScanBase.cpp' , Green },
     { 'ScanProxy.cpp' , Green },
     { 'ScanTools.cpp' , Green },
-    { 'StringScan.cpp' , Red }
+    { 'StringScan.cpp' , Green }
    }
   };
 

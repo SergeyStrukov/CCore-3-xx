@@ -315,11 +315,19 @@ void test6()
 
 void test7()
  {
-  ScanString scan("set setX go help select");
+  ScanString scan("set setX go help select дом машина");
 
-  StringSetScan x{"set","setX","go","help","select"};
+  StringSetScan x{"set","setX","go","help","select","дом","машина"};
 
   Scanf(scan,"#;",x);
+
+  Printf(Con,"#;\n",x);
+
+  Scanf(scan," #;",x);
+
+  Printf(Con,"#;\n",x);
+
+  Scanf(scan," #;",x);
 
   Printf(Con,"#;\n",x);
 
@@ -357,12 +365,12 @@ const char *const Testit<2032>::Name="Test2032 Scanf";
 template<>
 bool Testit<2032>::Main()
  {
-  test1();
-  test2();
-  test3();
-  test4();
-  test5();
-  test6();
+  //test1();
+  //test2();
+  //test3();
+  //test4();
+  //test5();
+  //test6();
   test7();
 
   return true;

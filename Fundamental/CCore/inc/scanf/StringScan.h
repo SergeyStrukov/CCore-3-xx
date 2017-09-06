@@ -1,7 +1,7 @@
 /* StringScan.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -161,13 +161,23 @@ class StringSetScan : NoCopy
  {
    ulen index = 0 ;
 
-   DynArray<StrLen> list;
+   struct Rec
+    {
+     StrLen str;
+     ulen index;
+
+     Rec(StrLen str_) : str(str_),index(0) {}
+    };
+
+   DynArray<Rec> list;
 
   private:
 
-   static PtrLen<StrLen> Select(PtrLen<StrLen> r,char ch,ulen off);
+   static PtrLen<Rec> Select(PtrLen<Rec> r,char ch,ulen off);
 
-   static PtrLen<StrLen> Select(PtrLen<StrLen> r,ulen off);
+   static PtrLen<Rec> Select(PtrLen<Rec> r,ulen off);
+
+   void prepare();
 
   public:
 
@@ -208,7 +218,7 @@ class StringSetScan : NoCopy
        }
      else
        {
-        index=Dist(list.getPtr(),r.ptr)+1;
+        index=r->index;
        }
     }
  };

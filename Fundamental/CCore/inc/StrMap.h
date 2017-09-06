@@ -1,7 +1,7 @@
 /* StrMap.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental
 //
@@ -30,9 +30,9 @@ R StrNextFrame(R r,ulen ind,char ch,Func by)
  {
   using T = Meta::PtrObjType<R> ;
 
-  Algon::BinarySearch_if(r, [=] (const T &obj) { StrLen str=by(obj); return str.len>ind && str[ind]>=ch ; } );
+  Algon::BinarySearch_if(r, [=] (const T &obj) { StrLen str=by(obj); return str.len>ind && !CharLess(str[ind],ch) ; } );
 
-  return Algon::BinarySearch_if(r, [=] (const T &obj) { StrLen str=by(obj); return str[ind]>ch ; } );
+  return Algon::BinarySearch_if(r, [=] (const T &obj) { StrLen str=by(obj); return CharLess(ch,str[ind]) ; } );
  }
 
 template <Algon::RangeType R,class Func>
