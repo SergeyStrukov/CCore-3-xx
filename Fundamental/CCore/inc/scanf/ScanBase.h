@@ -1,7 +1,7 @@
 /* ScanBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -47,23 +47,21 @@ class ScanBase : NoCopy
  {
    PtrLen<const char> buf;
    bool fail_flag = false ;
-   TextPos text_pos;
+   TextPosCounter text_pos;
 
   private:
 
    virtual PtrLen<const char> underflow()=0;
 
-   void updateTextPos(char ch);
-
   protected:
 
-   void pump() { buf=underflow(); } // must be called in constructor of derived class
+   void pump() { buf=underflow(); } // must be called in a constructor of derived class
 
    void reset()
     {
      buf=Nothing;
      fail_flag=false;
-     text_pos={};
+     text_pos.reset();
     }
 
   public:

@@ -1,7 +1,7 @@
 /* ScanBase.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -19,51 +19,15 @@ namespace CCore {
 
 /* class ScanBase */
 
-void ScanBase::updateTextPos(char ch)
- {
-  if( +buf )
-    {
-     if( ( ch=='\r' && *buf!='\n' ) || ch=='\n' )
-       {
-        text_pos.nextLine();
-       }
-     else
-       {
-        text_pos.nextPos();
-       }
-    }
-  else
-    {
-     if( ch=='\r' || ch=='\n' )
-       {
-        text_pos.nextLine();
-       }
-     else
-       {
-        text_pos.nextPos();
-       }
-    }
- }
-
 void ScanBase::operator ++ ()
  {
   char ch=*buf;
 
   ++buf;
 
-  if( !buf )
-    try
-      {
-       pump();
-      }
-    catch(...)
-      {
-       updateTextPos(ch);
+  text_pos.put(ch);
 
-       throw;
-      }
-
-  updateTextPos(ch);
+  if( !buf ) pump();
  }
 
 } // namespace CCore

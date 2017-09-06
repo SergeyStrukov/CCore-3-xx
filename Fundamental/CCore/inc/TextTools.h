@@ -36,6 +36,8 @@ inline int CharBinValue(char ch) { if( ch>='0' && ch<='1' ) return ch-'0'; retur
 
 struct TextPos;
 
+class TextPosCounter;
+
 template <class CharClass,CharClass DefaultClass> class CharPropTable;
 
 /* struct TextPos */
@@ -61,6 +63,36 @@ struct TextPos
    {
     Printf(out,"(line=#;,col=#;)",line,col);
    }
+ };
+
+/* class TextPosCounter */
+
+class TextPosCounter : NoCopy
+ {
+   TextPos pos;
+
+  public:
+
+   TextPosCounter() {}
+
+   operator TextPos() const { return pos; }
+
+   void reset() { pos={}; }
+
+   void put(char ch) // TODO
+    {
+     Used(ch);
+    }
+
+   void put(char ch,ulen len)
+    {
+     for(; len ;len--) put(ch);
+    }
+
+   void put(const char *str,ulen len)
+    {
+     for(; len ;len--,str++) put(*str);
+    }
  };
 
 /* class CharPropTable<CharClass,CharClass DefaultClass> */

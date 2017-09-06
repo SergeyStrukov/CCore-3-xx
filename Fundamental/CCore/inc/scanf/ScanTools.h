@@ -22,7 +22,7 @@ namespace CCore {
 
 /* concept CharStreamType<S> */
 
-template <class S>
+template <class S> // ref extended
 concept bool CharStreamType = requires(S &obj,Meta::ToConst<S> &cobj)
  {
   { +cobj } -> bool ;
@@ -36,7 +36,7 @@ concept bool CharStreamType = requires(S &obj,Meta::ToConst<S> &cobj)
 
 /* concept CharFailStreamType<S> */
 
-template <class S>
+template <class S> // ref extended
 concept bool CharFailStreamType = CharStreamType<S> && requires(S &obj)
  {
   obj.fail();
