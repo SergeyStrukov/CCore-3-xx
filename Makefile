@@ -28,6 +28,8 @@ clean:
 list:
 	make -C Target/WIN32                 list
 	make -C Target/WIN32/test            list
+	make -C Target/WIN32utf8             list
+	make -C Target/WIN32utf8/test        list
 	make -C Target/WIN64                 list
 	make -C Target/WIN64/test            list
 	make -C Target/LIN64                 list

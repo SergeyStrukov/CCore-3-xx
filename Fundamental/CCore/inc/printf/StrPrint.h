@@ -17,24 +17,9 @@
 #define CCore_inc_printf_StrPrint_h
 
 #include <CCore/inc/StrParse.h>
-
-#ifdef CCORE_UTF8
-#include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/SymCount.h>
 
 namespace CCore {
-
-/* SymLen() */
-
-#ifdef CCORE_UTF8
-
-inline ulen SymLen(StrLen text) { return Utf8Len(text); }
-
-#else
-
-inline ulen SymLen(StrLen text) { return text.len; }
-
-#endif
 
 /* classes */
 

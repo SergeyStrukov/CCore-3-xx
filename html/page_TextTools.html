@@ -118,6 +118,7 @@ Default constructor sets the initial text position: <b>line</b> is 1 and <b>col<
 
 <p>
 <b>update()</b> moves by the text fragment. The fragment must not break a sequence "\r\n".
+In UTF8-compatible mode the number of symbols is used to determine the column, not the number of bytes.
 </p>
 
 <p>

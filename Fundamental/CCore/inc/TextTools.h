@@ -17,6 +17,7 @@
 #define CCore_inc_TextTools_h
 
 #include <CCore/inc/CharProp.h>
+#include <CCore/inc/SymCount.h>
 
 namespace CCore {
 
@@ -70,6 +71,8 @@ struct TextPos
 class TextPosCounter : NoCopy
  {
    TextPos pos;
+   SymDetector det;
+   bool flag = false ;
 
   public:
 
@@ -77,12 +80,9 @@ class TextPosCounter : NoCopy
 
    operator TextPos() const { return pos; }
 
-   void reset() { pos={}; }
+   void reset() { pos={}; det.reset(); flag=false; }
 
-   void put(char ch) // TODO
-    {
-     Used(ch);
-    }
+   void put(char ch);
 
    void put(char ch,ulen len)
     {

@@ -16,11 +16,7 @@
 #ifndef CCore_inc_printf_PrintBase_h
 #define CCore_inc_printf_PrintBase_h
 
-#include <CCore/inc/Gadget.h>
-
-#ifdef CCORE_UTF8
-#include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/SymCount.h>
 
 namespace CCore {
 
@@ -35,8 +31,6 @@ template <class P> struct PrintOutAdapter;
 class PrintBase;
 
 class PrintBuf;
-
-class SymCounter;
 
 template <class P> class PrintCount;
 
@@ -148,90 +142,6 @@ class PrintBuf : public PrintBase
 
    const char * closeZStr() { return close().ptr; }
  };
-
-/* class SymCounter */
-
-#ifdef CCORE_UTF8
-
-class SymCounter : NoCopy
- {
-   ulen count;
-   unsigned len;
-
-  public:
-
-   SymCounter() : count(0),len(0) {}
-
-   operator ulen() const { return count; }
-
-   void put(char ch)
-    {
-     if( len )
-       {
-        len--;
-
-        if( !len ) count++;
-       }
-     else
-       {
-        if( unsigned l=Utf8Len(ch) )
-          {
-           if( l==1 )
-             {
-              count++;
-             }
-           else
-             {
-              len=l-1;
-             }
-          }
-        else
-          {
-           count++;
-          }
-       }
-    }
-
-   void put(char ch,ulen len)
-    {
-     for(; len ;len--) put(ch);
-    }
-
-   void put(const char *str,ulen len)
-    {
-     for(; len ;len--,str++) put(*str);
-    }
- };
-
-#else
-
-class SymCounter : NoCopy
- {
-   ulen count;
-
-  public:
-
-   SymCounter() : count(0) {}
-
-   operator ulen() const { return count; }
-
-   void put(char)
-    {
-     count++;
-    }
-
-   void put(char,ulen len)
-    {
-     count+=len;
-    }
-
-   void put(const char *,ulen len)
-    {
-     count+=len;
-    }
- };
-
-#endif
 
 /* class PrintCount<P> */
 

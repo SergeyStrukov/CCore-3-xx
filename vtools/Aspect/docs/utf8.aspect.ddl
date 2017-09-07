@@ -95,7 +95,7 @@ Dir Dir3=
 Dir Dir4=
   {
    'Fundamental',
-   Red,
+   Yellow,
    {
     &Dir17
    },
@@ -106,7 +106,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'html',
-   Ignore,
+   Red,
    {
    },
    {
@@ -346,6 +346,7 @@ Dir Dir5=
     { 'page_StrMap.html' , Ignore },
     { 'page_StrParse.html' , Ignore },
     { 'page_Swap.html' , Ignore },
+    { 'page_SymCount.html' , Red },
     { 'page_Sync.html' , Ignore },
     { 'page_SysLog.html' , Ignore },
     { 'page_Task.html' , Ignore },
@@ -354,7 +355,7 @@ Dir Dir5=
     { 'page_TaskMonitor.html' , Ignore },
     { 'page_Taxonomy.html' , Ignore },
     { 'page_TextLabel.html' , Ignore },
-    { 'page_TextTools.html' , Ignore },
+    { 'page_TextTools.html' , Red },
     { 'page_Tick.html' , Ignore },
     { 'page_Ticker.html' , Ignore },
     { 'page_Timer.html' , Ignore },
@@ -373,7 +374,7 @@ Dir Dir5=
     { 'page_UIntSlowMulAlgo.html' , Ignore },
     { 'page_UIntSplit.html' , Ignore },
     { 'page_Unid.html' , Ignore },
-    { 'page_Utf8.html' , New },
+    { 'page_Utf8.html' , Red },
     { 'page_UtilFunc.html' , Ignore },
     { 'page_XCore_atexit.html' , Ignore },
     { 'page_XCore_BinaryFile.html' , Ignore },
@@ -447,7 +448,7 @@ Dir Dir7=
 Dir Dir8=
   {
    'Simple',
-   Green,
+   Yellow,
    {
     &Dir25
    },
@@ -458,7 +459,7 @@ Dir Dir8=
 Dir Dir9=
   {
    'tools',
-   Red,
+   New,
    {
     &Dir26,
     &Dir27,
@@ -504,7 +505,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   Red,
+   New,
    {
     &Dir44,
     &Dir45,
@@ -547,7 +548,7 @@ Dir Dir12=
 Dir Dir13=
   {
    'VideoLabs',
-   Green,
+   Ignore,
    {
    },
    {
@@ -1411,7 +1412,7 @@ Dir Dir91=
 Dir Dir17=
   {
    'CCore',
-   Red,
+   Yellow,
    {
     &Dir92,
     &Dir93,
@@ -1424,7 +1425,7 @@ Dir Dir17=
 Dir Dir92=
   {
    'inc',
-   Red,
+   Yellow,
    {
     &Dir95,
     &Dir96,
@@ -1478,7 +1479,7 @@ Dir Dir92=
     { 'String.h' , Green },
     { 'StrMap.h' , Green },
     { 'StrParse.h' , Green },
-    { 'TextTools.h' , Red },
+    { 'TextTools.h' , Yellow },
     { 'Tree.h' , Ignore },
     { 'TreeMap.h' , Ignore },
     { 'TypeNumber.h' , Ignore },
@@ -1489,7 +1490,7 @@ Dir Dir92=
 Dir Dir93=
   {
    'src',
-   Red,
+   Yellow,
    {
     &Dir102,
     &Dir103,
@@ -1542,7 +1543,7 @@ Dir Dir93=
     { 'String.cpp' , Green },
     { 'StrMap.cpp' , Green },
     { 'StrParse.cpp' , Green },
-    { 'TextTools.cpp' , Red },
+    { 'TextTools.cpp' , Yellow },
     { 'Tree.cpp' , Ignore },
     { 'TreeMap.cpp' , Ignore },
     { 'TypeNumber.cpp' , Ignore },
@@ -2158,7 +2159,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'CCore',
-   Green,
+   Yellow,
    {
     &Dir120,
     &Dir121,
@@ -2171,7 +2172,7 @@ Dir Dir25=
 Dir Dir120=
   {
    'inc',
-   Green,
+   Yellow,
    {
     &Dir123
    },
@@ -2210,6 +2211,7 @@ Dir Dir120=
     { 'StartStop.h' , Ignore },
     { 'StrKey.h' , Ignore },
     { 'Swap.h' , Ignore },
+    { 'SymCount.h' , Yellow },
     { 'TextLabel.h' , Green },
     { 'Timer.h' , Ignore },
     { 'TimeScope.h' , Ignore },
@@ -2265,6 +2267,7 @@ Dir Dir121=
     { 'StartStop.cpp' , Ignore },
     { 'StrKey.cpp' , Ignore },
     { 'Swap.cpp' , Ignore },
+    { 'SymCount.cpp' , Green },
     { 'TextLabel.cpp' , Green },
     { 'Timer.cpp' , Ignore },
     { 'TimeScope.cpp' , Ignore },
@@ -2981,7 +2984,7 @@ Dir Dir43=
 Dir Dir44=
   {
    'BeagleBoneBlack',
-   Red,
+   New,
    {
     &Dir144,
     &Dir145,
@@ -3064,7 +3067,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   Red,
+   New,
    {
     &Dir160,
     &Dir161
@@ -4626,14 +4629,15 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   Green,
+   New,
    {
    },
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
-    { 'Makefile.files' , Ignore }
+    { 'Makefile.files' , Ignore },
+    { 'Юникод символы.txt' , New }
    }
   };
 
@@ -4707,7 +4711,7 @@ Dir Dir252=
 Dir Dir253=
   {
    'sys',
-   Red,
+   Yellow,
    {
    },
    {
@@ -4787,7 +4791,7 @@ Dir Dir257=
 Dir Dir258=
   {
    'sys',
-   Red,
+   Yellow,
    {
    },
    {

@@ -19,7 +19,7 @@
 #include <CCore/inc/Gadget.h>
 
 #ifdef CCORE_UTF8
-#include <CCore/inc/Utf8.h>
+# include <CCore/inc/Utf8.h>
 #endif
 
 namespace CCore {

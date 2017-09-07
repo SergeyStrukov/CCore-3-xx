@@ -21,45 +21,64 @@ namespace CCore {
 
 void TextPos::update(StrLen text)
  {
-  while( text.len>=2 )
-    {
-     char ch=*text;
+  StrLen line=text;
 
-     if( ch=='\r' )
-       {
-        if( text[1]=='\n' )
-          text+=2;
-        else
-          ++text;
-
-        nextLine();
-       }
-     else if( ch=='\n' )
-       {
-        ++text;
-
-        nextLine();
-       }
-     else
-       {
-        ++text;
-
-        nextPos();
-       }
-    }
-
-  if( +text )
+  while( +text )
     {
      char ch=*text;
 
      if( ch=='\r' || ch=='\n' )
        {
+        ++text;
+
+        if( ch=='\r' && +text && *text=='\n' ) ++text;
+
+        line=text;
+
         nextLine();
        }
      else
        {
-        nextPos();
+        ++text;
        }
+    }
+
+  update(SymLen(line));
+ }
+
+/* class TextPosCounter */
+
+void TextPosCounter::put(char ch)
+ {
+  if( ch=='\r' )
+    {
+     if( flag )
+       {
+        pos.nextLine();
+       }
+     else
+       {
+        flag=true;
+       }
+    }
+  else if( ch=='\n' )
+    {
+     pos.nextLine();
+     det.reset();
+
+     flag=false;
+    }
+  else
+    {
+     if( flag )
+       {
+        pos.nextLine();
+        det.reset();
+
+        flag=false;
+       }
+
+     if( det.put(ch) ) pos.nextPos();
     }
  }
 
