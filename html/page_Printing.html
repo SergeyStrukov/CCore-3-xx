@@ -460,9 +460,9 @@ class <span class="Att">PrintCount</span> : NoCopy
 
   public:
   
-   explicit PrintCount(P &amp;out_) : out(out_),count(0) {}
+   explicit PrintCount(P &amp;out_);
    
-   ulen getCount() const { return count; }
+   ulen getCount() const;
  };
 
 </pre>
@@ -505,7 +505,7 @@ Printf(out,"a = #; b = #;\n",a,b);
 <h3>String printing</h3>
 
 <p>
-The following function is used to determine the string symbol length:
+The following function (defined in the header <b>SymCount.h</b>) is used to determine the string symbol length:
 </p>
 
 <pre>

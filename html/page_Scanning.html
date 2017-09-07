@@ -580,7 +580,7 @@ There is a family of scan utility functions.
 
 /* concept CharStreamType&lt;S&gt; */
 
-template &lt;class S&gt;
+template &lt;class S&gt; // ref extended
 concept bool <span class="Att">CharStreamType</span> = requires(S &amp;obj,Meta::ToConst&lt;S&gt; &amp;cobj)
  {
   { +cobj } -&gt; bool ;
@@ -594,7 +594,7 @@ concept bool <span class="Att">CharStreamType</span> = requires(S &amp;obj,Meta:
 
 /* concept CharFailStreamType&lt;S&gt; */
 
-template &lt;class S&gt;
+template &lt;class S&gt; // ref extended
 concept bool <span class="Att">CharFailStreamType</span> = CharStreamType&lt;S&gt; &amp;&amp; requires(S &amp;obj)
  {
   obj.fail();
