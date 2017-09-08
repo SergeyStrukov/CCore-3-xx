@@ -95,7 +95,7 @@ Dir Dir3=
 Dir Dir4=
   {
    'Fundamental',
-   Yellow,
+   Green,
    {
     &Dir17
    },
@@ -355,7 +355,7 @@ Dir Dir5=
     { 'page_TaskMonitor.html' , Ignore },
     { 'page_Taxonomy.html' , Ignore },
     { 'page_TextLabel.html' , Ignore },
-    { 'page_TextTools.html' , Red },
+    { 'page_TextTools.html' , Green },
     { 'page_Tick.html' , Ignore },
     { 'page_Ticker.html' , Ignore },
     { 'page_Timer.html' , Ignore },
@@ -448,7 +448,7 @@ Dir Dir7=
 Dir Dir8=
   {
    'Simple',
-   Yellow,
+   Green,
    {
     &Dir25
    },
@@ -1412,7 +1412,7 @@ Dir Dir91=
 Dir Dir17=
   {
    'CCore',
-   Yellow,
+   Green,
    {
     &Dir92,
     &Dir93,
@@ -1425,7 +1425,7 @@ Dir Dir17=
 Dir Dir92=
   {
    'inc',
-   Yellow,
+   Green,
    {
     &Dir95,
     &Dir96,
@@ -1479,7 +1479,7 @@ Dir Dir92=
     { 'String.h' , Green },
     { 'StrMap.h' , Green },
     { 'StrParse.h' , Green },
-    { 'TextTools.h' , Yellow },
+    { 'TextTools.h' , Green },
     { 'Tree.h' , Ignore },
     { 'TreeMap.h' , Ignore },
     { 'TypeNumber.h' , Ignore },
@@ -1490,7 +1490,7 @@ Dir Dir92=
 Dir Dir93=
   {
    'src',
-   Yellow,
+   Green,
    {
     &Dir102,
     &Dir103,
@@ -1543,7 +1543,7 @@ Dir Dir93=
     { 'String.cpp' , Green },
     { 'StrMap.cpp' , Green },
     { 'StrParse.cpp' , Green },
-    { 'TextTools.cpp' , Yellow },
+    { 'TextTools.cpp' , Green },
     { 'Tree.cpp' , Ignore },
     { 'TreeMap.cpp' , Ignore },
     { 'TypeNumber.cpp' , Ignore },
@@ -2159,7 +2159,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'CCore',
-   Yellow,
+   Green,
    {
     &Dir120,
     &Dir121,
@@ -2172,7 +2172,7 @@ Dir Dir25=
 Dir Dir120=
   {
    'inc',
-   Yellow,
+   Green,
    {
     &Dir123
    },
@@ -2211,7 +2211,7 @@ Dir Dir120=
     { 'StartStop.h' , Ignore },
     { 'StrKey.h' , Ignore },
     { 'Swap.h' , Ignore },
-    { 'SymCount.h' , Yellow },
+    { 'SymCount.h' , Green },
     { 'TextLabel.h' , Green },
     { 'Timer.h' , Ignore },
     { 'TimeScope.h' , Ignore },

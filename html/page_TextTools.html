@@ -125,6 +125,49 @@ In UTF8-compatible mode the number of symbols is used to determine the column, n
 The class is printable in the form <b>"(line=&lt;line&gt;,col=&lt;col&gt;)"</b>.
 </p>
 
+<h4>TextPosCounter</h4>
+
+<p>
+This class counts the <b>TextPos</b> over a character stream.
+</p>
+
+<pre>
+
+class <span class="Att">TextPosCounter</span> : NoCopy
+ {
+   TextPos pos;
+
+   ....
+
+  public:
+
+   TextPosCounter();
+
+   operator TextPos() const { return pos; }
+
+   void reset();
+
+   void put(char ch);
+
+   void put(char ch,ulen len);
+
+   void put(const char *str,ulen len);
+ };
+
+</pre>
+
+<p>
+<b>reset()</b> resets the class to the initial state.
+</p>
+
+<p>
+Methods <b>put()</b> are used to feed the class by characters.
+</p>
+
+<p>
+You may retrieve the current text position by the casting to the <b>TextPos</b> type.
+</p>
+
 <h4>CharPropTable</h4>
 
 <p>
