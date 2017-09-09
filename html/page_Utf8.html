@@ -34,6 +34,187 @@
 This file contains a set of tools to work with UTF8 encoding.
 </p>
 
+<h4>type Unicode</h4>
+
+<p>
+The type <b>Unicode</b> is an unsigned 32-bit type, it is used to represent a symbol using the Unicode encoding.
+</p>
+
+<pre>
+
+using <span class="Att">Unicode</span> = uint32 ;
+
+</pre>
+
+<h4>Utf8Code</h4>
+
+<p>
+<b>Utf8Code</b> represents a UTF8-encoded symbol. It consists of 1-4 characters.
+</p>
+
+<pre>
+
+class <span class="Att">Utf8Code</span>
+ {
+   char sym[4];
+   unsigned len;
+
+  public:
+
+   Utf8Code() noexcept;
+
+   explicit Utf8Code(char b1);
+
+   Utf8Code(char b1,char b2);
+
+   Utf8Code(char b1,char b2,char b3);
+
+   Utf8Code(char b1,char b2,char b3,char b4);
+
+   // methods
+
+   unsigned getLen() const { return len; }
+
+   PtrLen&lt;const char&gt; getRange() const { return Range(sym,len); }
+
+   uint8 operator [] (unsigned ind) const { return uint8( sym[ind] ); }
+
+   static Unicode ToUnicode(uint8 b1);
+
+   static Unicode ToUnicode(uint8 b1,uint8 b2);
+
+   static Unicode ToUnicode(uint8 b1,uint8 b2,uint8 b3);
+
+   static Unicode ToUnicode(uint8 b1,uint8 b2,uint8 b3,uint8 b4);
+
+   Unicode toUnicode() const;
+
+   // print object
+
+   void print(PrinterType &amp;out) const;
+ };
+
+</pre>
+
+<p>
+Default constructor creates a null symbol. 
+Other constructors create a symbol from the given characters, these characters must comply with UTF8 encoding rules.
+</p>
+
+<p>
+<b>getLen()</b> returns the number of characters.
+</p>
+
+<p>
+<b>getRange()</b> returns the range of characters.
+</p>
+
+<p>
+<b>operator []</b> returns the octet value of the character with the given index.
+</p>
+
+<p>
+<b>toUnicode()</b> returns the Unicode value of the symbol.
+</p>
+
+<p>
+<b>ToUnicode()</b> converts a UTF8 symbol, given as a set of octets, into the Unicode value.
+</p>
+
+<p>
+<b>Utf8Code</b> is printable.
+</p>
+
+<h4>Utilities</h4>
+
+<pre>
+
+Utf8Code <span class="Att">ToUtf8</span>(Unicode unicode);
+
+</pre>
+
+<p>
+This function converts a Unicode value into the UTF8 symbol.
+</p>
+
+<pre>
+
+unsigned <span class="Att">Utf8Len</span>(uint8 b1);
+
+bool <span class="Att">Utf8Ext</span>(uint8 b);
+
+</pre>
+
+<p>
+<b>Utf8Len()</b> returns the UTF8 symbol length from the leading octet. If the given octet is not a UTF8 leading octet, zero is returned.
+</p>
+
+<p>
+<b>Utf8Ext()</b> returns <b>true</b> iff the octet is a UTF8 symbol extension.
+</p>
+
+<pre>
+
+Utf8Code <span class="Att">PeekUtf8</span>(StrLen text); // +text
+
+Utf8Code <span class="Att">CutUtf8</span>(StrLen &text); // +text
+
+Utf8Code <span class="Att">PeekUtf8_guarded</span>(StrLen text); // +text
+
+Utf8Code <span class="Att">CutUtf8_guarded</span>(StrLen &text); // +text
+
+</pre>
+
+<p>
+<b>PeekUtf8()</b> peaks the next UTF8 symbol from the non-empty text. 
+If there is no a valid UTF8 sequence at the begining of the text, some broken UTF8 symbol is returned.
+</p>
+
+<p>
+<b>CutUtf8()</b> extracts the next UTF8 symbol from the non-empty text (argument text is updated).
+If there is no a valid UTF8 sequence at the begining of the text, some broken UTF8 symbol is returned.
+</p>
+
+<p>
+<b>PeekUtf8_guarded()</b> is a gurded variant of the <b>PeekUtf8()</b>, it throws an exception in case of error.
+</p>
+
+<p>
+<b>CutUtf8_guarded()</b> is a guarded variant of the <b>CutUtf8()</b>, it throws an exception in case of error.
+</p>
+
+<pre>
+
+Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
+
+void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete trailing sequence
+
+</pre>
+
+<p>
+<b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument text is updated)
+and converts it to the Unicode value. In case of error the value <b>Unicode(-1)</b> is returned.
+</p>
+
+<p>
+<b>TrimUtf8End()</b> removes the trailing non-complete UTF8 sequence, if any, from the text (argument text is updated).
+</p>
+
+<pre>
+
+ulen <span class="Att">Utf8Len</span>(StrLen text);
+
+ulen <span class="Att">Utf8Len_guarded</span>(StrLen text);
+
+</pre>
+
+<p>
+<b>Utf8Len()</b> is the symbol length of the UTF8 text.
+</p>
+
+<p>
+<b>Utf8Len_guarded</b> is a guarded variant of the <b>Utf8Len()</b>, it throws an exception in case of error.
+</p>
 
 </body>
 

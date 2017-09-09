@@ -34,7 +34,7 @@
 This file provides simple tools to count symbols in a text.
 </p>
 
-<h3>SymCount()</h3>
+<h4>SymCount()</h4>
 
 <p>
 <b>SymCount()</b> counts the number of symbols in a text string. In UTF8-compatible mode it differs than the number of characters.
@@ -46,7 +46,11 @@ ulen <span class="Att">SymLen</span>(StrLen text);
 
 </pre>
 
-<h3>SymDetector</h3>
+<h4>SymDetector</h4>
+
+<p>
+<b>SymDetector</b> detects symbols in a character stream. 
+</p>
 
 <pre>
 
@@ -64,7 +68,19 @@ class <span class="Att">SymDetector</span> : NoCopy
 
 </pre>
 
-<h3>SymCounter</h3>
+<p>
+<b>reset()</b> resets the detector to the initial state.
+</p>
+
+<p>
+<b>put()</b> puts the character into the detector, the return value is <b>true</b> iff the character completes the symbol. 
+</p>
+
+<h4>SymCounter</h4>
+
+<p>
+<b>SymCounter</b> counts the number of symbols over the character stream.
+</p>
 
 <pre>
 
@@ -87,6 +103,14 @@ class <span class="Att">SymCounter</span> : NoCopy
  };
 
 </pre>
+
+<p>
+<b>put()</b> methods feed the counter by characters.
+</p>
+
+<p>
+To get the current number of complete symbols of the stream cast to the type <b>ulen</b>.
+</p>
 
 </body>
 
