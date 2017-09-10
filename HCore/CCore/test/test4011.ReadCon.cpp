@@ -17,7 +17,6 @@
 
 #include <CCore/inc/ReadCon.h>
 #include <CCore/inc/CharProp.h>
-#include <CCore/inc/Utf8.h>
 
 namespace App {
 
@@ -26,18 +25,6 @@ namespace App {
 template<>
 const char *const Testit<4011>::Name="Test4011 ReadCon";
 
-[[maybe_unused]]
-static bool Is(Utf8Code ch,uint8 ch1)
- {
-  return ch.getLen()==1 && ch[0]==ch1 ;
- }
-
-[[maybe_unused]]
-static bool Is(uint8 ch,uint8 ch1)
- {
-  return ch==ch1 ;
- }
-
 template<>
 bool Testit<4011>::Main()
  {
@@ -45,7 +32,7 @@ bool Testit<4011>::Main()
 
   con.put("Type 'x' to stop\n\n");
 
-  for(ReadConCode ch; !Is(ch=con.get(),'x') ;)
+  for(ReadConCode ch; ToChar(ch=con.get())!='x' ;)
     {
      Printf(Con,"#;\n",ExtCharCode(ch));
     }
@@ -61,7 +48,7 @@ bool Testit<4011>::Main()
         continue;
        }
 
-     if( Is(ch,'x') ) break;
+     if( ToChar(ch)=='x' ) break;
 
      Printf(Con,"#;\n",ExtCharCode(ch));
     }

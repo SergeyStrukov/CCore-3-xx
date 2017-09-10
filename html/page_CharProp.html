@@ -266,6 +266,20 @@ This list can be obtained by the <b>GetSpaceChars()</b> function.
 <b>CharHexValue()</b> &mdash; hexadecimal value of the character, or <b>-1</b> if not a hexadecimal digit.
 </p>
 
+<p>
+In UTF8-compatible mode there are extra functions for <b>Utf8Code</b> argument: 
+</p>
+
+<pre>
+
+bool <span class="Att">CharIsSpecial</span>(Utf8Code ch);
+
+bool <span class="Att">CharIsVisible</span>(Utf8Code ch);
+
+bool <span class="Att">CharIsPrintable</span>(Utf8Code ch);
+
+</pre>
+
 <h4>Character sets</h4>
 
 <p>

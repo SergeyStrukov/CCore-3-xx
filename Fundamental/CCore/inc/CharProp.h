@@ -233,6 +233,18 @@ int CharDecValue(CharCodeType ch) { return CharCode(ch).decValue(); }
 
 int CharHexValue(CharCodeType ch) { return CharCode(ch).hexValue(); }
 
+/* ext functions */
+
+#ifdef CCORE_UTF8
+
+inline bool CharIsSpecial(Utf8Code ch) { return (ch.getLen()==1)?CharIsSpecial(ch[0]):false; }
+
+inline bool CharIsVisible(Utf8Code ch) { return (ch.getLen()==1)?CharIsVisible(ch[0]):true; }
+
+inline bool CharIsPrintable(Utf8Code ch) { return (ch.getLen()==1)?CharIsPrintable(ch[0]):true; }
+
+#endif
+
 /* ParseSpace() */
 
 template <CharPeekType Dev>

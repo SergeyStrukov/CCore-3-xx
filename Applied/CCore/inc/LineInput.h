@@ -1,7 +1,7 @@
 /* LineInput.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ class LineInput : NoCopy
 
   private:
 
-   bool process(char ch,PtrLen<const char> &ret);
+   bool process(ReadConCode ch,PtrLen<const char> &ret);
 
   public:
 
@@ -53,18 +53,47 @@ class LineInput : NoCopy
  };
 
 template <ReadConType ReadCon,ulen MaxLen>
-bool LineInput<ReadCon,MaxLen>::process(char ch,PtrLen<const char> &ret)
+bool LineInput<ReadCon,MaxLen>::process(ReadConCode ch,PtrLen<const char> &ret)
  {
-  switch( ch )
+  switch( ToChar(ch) )
     {
      case '\r' :
      case '\n' :
       {
-       con.put("\r\n",2);
+       con.put("\r\n"_c);
 
        ret=Range_const(buf,Replace_null(ind));
       }
      return true;
+
+#ifdef CCORE_UTF8
+
+     case '\b' :
+      {
+       if( ind>0 )
+         {
+          while( ind && Utf8Ext(buf[ind-1]) ) ind--;
+
+          if( ind ) ind--;
+
+          con.put("\b \b"_c);
+         }
+      }
+     break;
+
+     default:
+      {
+       if( ind+ch.getLen()<=MaxLen && CharIsPrintable(ch) )
+         {
+          ch.getRange().copyTo(buf+ind);
+
+          ind+=ch.getLen();
+
+          con.put(ch);
+         }
+      }
+
+#else
 
      case '\b' :
       {
@@ -72,7 +101,7 @@ bool LineInput<ReadCon,MaxLen>::process(char ch,PtrLen<const char> &ret)
          {
           ind--;
 
-          con.put("\b \b",3);
+          con.put("\b \b"_c);
          }
       }
      break;
@@ -86,6 +115,8 @@ bool LineInput<ReadCon,MaxLen>::process(char ch,PtrLen<const char> &ret)
           con.put(ch);
          }
       }
+
+#endif
     }
 
   return false;
@@ -106,7 +137,7 @@ bool LineInput<ReadCon,MaxLen>::get(TimeScope time_scope,PtrLen<const char> &ret
  {
   for(;;)
     {
-     char ch;
+     ReadConCode ch;
 
      if( !con.get(time_scope,ch) ) return false;
 

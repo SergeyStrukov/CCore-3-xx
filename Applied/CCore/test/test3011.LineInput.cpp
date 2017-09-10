@@ -1,7 +1,7 @@
 /* test3011.LineInput.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ bool Testit<3011>::Main()
 
      Printf(Con,"#.q;\n",str);
 
-     if( str.equal(StrLen("exit")) ) break;
+     if( str.equal("exit"_c) ) break;
     }
 
   Putobj(Con,"\ntype exit to exit\n\n");
@@ -55,7 +55,7 @@ bool Testit<3011>::Main()
        {
         Printf(Con,"#.q;\n",str);
 
-        if( str.equal(StrLen("exit")) ) break;
+        if( str.equal("exit"_c) ) break;
 
         Putobj(Con,"test> ");
        }
@@ -75,4 +75,3 @@ bool Testit<3011>::Main()
  }
 
 } // namespace App
-
