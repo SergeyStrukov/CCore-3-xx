@@ -145,12 +145,42 @@ using <span class="Att">CharCode</span> = ASCIICode ;
 </p>
 
 <p>
-<b>ASCIICode</b> is printable. Special characters are printed using C-slash representation, like <b>"\n"</b>.
+<b>ASCIICode</b> is printable. Special characters are printed using C-backslash representation, like <b>"\n"</b>.
 </p>
 
 <p>
 <b>CharCode</b> is a typedef for the <b>ASCIICode</b>, it's an abstraction from an exact type of encoding.
 </p>
+
+<h4>ExtCharCode</h4>
+
+<p>
+<b>ExtCharCode</b> prints a symbol. In UTF8-compatible mode this class holds a <b>UTF8Code</b> value and prints it using C-backslash notation, 
+if the symbol is special. Otherwise this type is <b>CharCode</b> type.
+</p>
+
+<pre>
+
+#ifdef CCORE_UTF8
+
+class <span class="Att">ExtCharCode</span>
+ {
+   Utf8Code code;
+
+  public:
+
+   explicit ExtCharCode(const Utf8Code &code_) : code(code_) {}
+
+   void print(PrinterType &out) const;
+ };
+
+#else
+
+using <span class="Att">ExtCharCode</span> = CharCode ;
+
+#endif
+
+</pre>
 
 <h4>PrintCString</h4>
 

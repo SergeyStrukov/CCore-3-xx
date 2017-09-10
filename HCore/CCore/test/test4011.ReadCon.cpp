@@ -1,7 +1,7 @@
 /* test4011.ReadCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: HCore Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@
 
 #include <CCore/inc/ReadCon.h>
 #include <CCore/inc/CharProp.h>
+#include <CCore/inc/Utf8.h>
 
 namespace App {
 
@@ -25,6 +26,18 @@ namespace App {
 template<>
 const char *const Testit<4011>::Name="Test4011 ReadCon";
 
+[[maybe_unused]]
+static bool Is(Utf8Code ch,uint8 ch1)
+ {
+  return ch.getLen()==1 && ch[0]==ch1 ;
+ }
+
+[[maybe_unused]]
+static bool Is(uint8 ch,uint8 ch1)
+ {
+  return ch==ch1 ;
+ }
+
 template<>
 bool Testit<4011>::Main()
  {
@@ -32,14 +45,14 @@ bool Testit<4011>::Main()
 
   con.put("Type 'x' to stop\n\n");
 
-  for(char ch; (ch=con.get())!='x' ;)
+  for(ReadConCode ch; !Is(ch=con.get(),'x') ;)
     {
-     Printf(Con,"#;\n",CharCode(ch));
+     Printf(Con,"#;\n",ExtCharCode(ch));
     }
 
   con.put("Type 'x' to exit\n\n");
 
-  for(char ch;;)
+  for(ReadConCode ch;;)
     {
      if( !con.get(3_sec,ch) )
        {
@@ -48,13 +61,12 @@ bool Testit<4011>::Main()
         continue;
        }
 
-     if( ch=='x' ) break;
+     if( Is(ch,'x') ) break;
 
-     Printf(Con,"#;\n",CharCode(ch));
+     Printf(Con,"#;\n",ExtCharCode(ch));
     }
 
   return true;
  }
 
 } // namespace App
-

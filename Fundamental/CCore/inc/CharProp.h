@@ -1,7 +1,7 @@
 /* CharProp.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,6 +17,10 @@
 #define CCore_inc_CharProp_h
 
 #include <CCore/inc/Printf.h>
+
+#ifdef CCORE_UTF8
+# include <CCore/inc/Utf8.h>
+#endif
 
 namespace CCore {
 
@@ -159,6 +163,35 @@ class ASCIICode
 /* type CharCode */
 
 using CharCode = ASCIICode ;
+
+/* type ExtCharCode */
+
+#ifdef CCORE_UTF8
+
+class ExtCharCode
+ {
+   Utf8Code code;
+
+  public:
+
+   explicit ExtCharCode(const Utf8Code &code_) : code(code_) {}
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     if( code.getLen()==1 )
+       Putobj(out,CharCode(code[0]));
+     else
+       Putobj(out,code);
+    }
+ };
+
+#else
+
+using ExtCharCode = CharCode ;
+
+#endif
 
 /* class PrintCString */
 

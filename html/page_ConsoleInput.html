@@ -35,10 +35,24 @@
 <p>
 <b>ReadCon</b> is a class that can read a console input. Any class with the following interface
 can be used as a console reader. There is a default console reader, defined in the header <b>CCore/inc/ReadCon.h</b>. 
-Console reader performs the "non-buffered read without echo".
+Console reader performs the "non-buffered read without echo". 
+In UTF8-compatible mode the symbol is represented by the type <b>Utf8Code</b>, otherwise by the type <b>char</b>.
+This type is defined as <b>ReadConCode</b>.
 </p>
 
 <pre>
+
+/* type ReadConCode */
+
+#ifdef CCORE_UTF8
+
+using <span class="Att">ReadConCode</span> = Utf8Code ;
+
+#else
+
+using <span class="Att">ReadConCode</span> = char ;
+
+#endif
 
 template &lt;class ReadCon&gt; 
 concept bool <span class="Att">ReadConType</span> = .... ;
@@ -55,11 +69,11 @@ class <span class="Att">ReadCon</span> : NoCopy
    
    // get
    
-   char get();
+   ReadConCode get();
    
-   bool get(MSec timeout,char &ret);
+   bool get(MSec timeout,ReadConCode &ret);
    
-   bool get(TimeScope time_scope,char &ret);
+   bool get(TimeScope time_scope,ReadConCode &ret);
    
    // put
    
@@ -68,12 +82,14 @@ class <span class="Att">ReadCon</span> : NoCopy
    void put(const char *str,ulen len);
    
    void put(StrLen str);
+
+   void put(ReadConCode code);
  };
 
 </pre>
 
 <p>
-<b>ReadConType</b>
+<b>ReadConType</b> is a concept for console reader classes.
 </p>
 
 <p>
@@ -82,7 +98,7 @@ class <span class="Att">ReadCon</span> : NoCopy
 
 <p>
 <b>get(MSec,char &)</b> returns the next character from the console, but waits up to time-out.
-The return value is true, if the character was received.
+The return value is <b>true</b> iff the character was received.
 </p>
 
 <p>
@@ -99,6 +115,10 @@ The return value is true, if the character was received.
 
 <p>
 <b>put(StrLen)</b> puts the string of characters to the console.
+</p>
+
+<p>
+<b>put(ReadConCode)</b> puts a console input type to the console.
 </p>
 
 <p>

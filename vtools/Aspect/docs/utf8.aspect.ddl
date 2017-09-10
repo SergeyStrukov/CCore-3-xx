@@ -106,7 +106,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'html',
-   Green,
+   Red,
    {
    },
    {
@@ -153,7 +153,7 @@ Dir Dir5=
     { 'page_CompactNodeAllocator.html' , Ignore },
     { 'page_CompletePacket.html' , Ignore },
     { 'page_CondLangLR1.html' , Ignore },
-    { 'page_ConsoleInput.html' , Ignore },
+    { 'page_ConsoleInput.html' , Red },
     { 'page_ContainerLists.html' , Ignore },
     { 'page_Counters.html' , Ignore },
     { 'page_Crc.html' , Ignore },
@@ -421,7 +421,7 @@ Dir Dir5=
 Dir Dir6=
   {
    'HCore',
-   Red,
+   Green,
    {
     &Dir18,
     &Dir19
@@ -1852,7 +1852,7 @@ Dir Dir108=
 Dir Dir18=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir109,
     &Dir110,
@@ -1930,7 +1930,7 @@ Dir Dir110=
 Dir Dir111=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
@@ -1956,7 +1956,7 @@ Dir Dir111=
     { 'test4026.PTPEcho.cpp' , Ignore },
     { 'test4031.PTPSec.cpp' , Ignore },
     { 'test4027.PTPServer.cpp' , Ignore },
-    { 'test4011.ReadCon.cpp' , Red },
+    { 'test4011.ReadCon.cpp' , Green },
     { 'test4022.ScanAsyncFile.cpp' , Ignore },
     { 'test4017.ScanFile.cpp' , Green },
     { 'test4002.Sem.cpp' , Ignore },
@@ -3136,7 +3136,6 @@ Dir Dir146=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
