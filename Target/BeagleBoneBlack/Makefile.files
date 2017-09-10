@@ -1856,7 +1856,7 @@ include $(RULES_FILE)
 .obj/ReadCon.o : ../../XCore/CCore/src/./ReadCon.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ReadConType.o : ../../Applied/CCore/src/./ReadConType.cpp
+.obj/ReadConType.o : ../../Fundamental/CCore/src/./ReadConType.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/RedirectPTPCon.o : ../../XCore/CCore/src/./RedirectPTPCon.cpp
@@ -2935,7 +2935,7 @@ include $(RULES_FILE)
 .obj/ReadCon.s : ../../XCore/CCore/src/./ReadCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ReadConType.s : ../../Applied/CCore/src/./ReadConType.cpp
+.obj/ReadConType.s : ../../Fundamental/CCore/src/./ReadConType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/RedirectPTPCon.s : ../../XCore/CCore/src/./RedirectPTPCon.cpp
@@ -4014,7 +4014,7 @@ include $(RULES_FILE)
 .obj/ReadCon.dep : ../../XCore/CCore/src/./ReadCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ReadCon.o $< -MF $@
 
-.obj/ReadConType.dep : ../../Applied/CCore/src/./ReadConType.cpp
+.obj/ReadConType.dep : ../../Fundamental/CCore/src/./ReadConType.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ReadConType.o $< -MF $@
 
 .obj/RedirectPTPCon.dep : ../../XCore/CCore/src/./RedirectPTPCon.cpp

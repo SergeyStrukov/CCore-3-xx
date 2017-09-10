@@ -613,7 +613,6 @@ Dir Dir60=
     { 'PacketPool.h' , Ignore },
     { 'PacketSet.h' , Ignore },
     { 'PerTask.h' , Ignore },
-    { 'ReadConType.h' , Red },
     { 'TaskMemStack.h' , Ignore },
     { 'ToMemBase.h' , Ignore }
    }
@@ -654,7 +653,6 @@ Dir Dir61=
     { 'PacketPool_PacketMaxDataLen.cpp' , Ignore },
     { 'PacketSet.cpp' , Ignore },
     { 'PerTask.cpp' , Ignore },
-    { 'ReadConType.cpp' , Red },
     { 'TaskMemStack.cpp' , Ignore },
     { 'ToMemBase.cpp' , Ignore }
    }
@@ -1469,6 +1467,7 @@ Dir Dir92=
     { 'Printf.h' , Ignore },
     { 'RadixHeap.h' , Ignore },
     { 'Random.h' , Ignore },
+    { 'ReadConType.h' , Green },
     { 'SaveLoad.h' , Ignore },
     { 'Scanf.h' , Green },
     { 'Signal.h' , Ignore },
@@ -1533,6 +1532,7 @@ Dir Dir93=
     { 'Printf.cpp' , Ignore },
     { 'RadixHeap.cpp' , Ignore },
     { 'Random.cpp' , Ignore },
+    { 'ReadConType.cpp' , Green },
     { 'SaveLoad.cpp' , Ignore },
     { 'Scanf.cpp' , Green },
     { 'Signal.cpp' , Ignore },
@@ -1876,7 +1876,7 @@ Dir Dir19=
 Dir Dir109=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir112,
     &Dir113,
@@ -1892,7 +1892,7 @@ Dir Dir109=
     { 'LaunchPath.h' , Ignore },
     { 'MemPageHeap.h' , Ignore },
     { 'Print.h' , Ignore },
-    { 'ReadCon.h' , Red },
+    { 'ReadCon.h' , Green },
     { 'Scan.h' , Ignore },
     { 'Task.h' , Ignore },
     { 'TaskHeap.h' , Ignore }
@@ -1902,7 +1902,7 @@ Dir Dir109=
 Dir Dir110=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir116,
     &Dir117,
@@ -1920,7 +1920,7 @@ Dir Dir110=
     { 'MemBase.cpp' , Ignore },
     { 'MemPageHeap.cpp' , Ignore },
     { 'Print.cpp' , Ignore },
-    { 'ReadCon.cpp' , Red },
+    { 'ReadCon.cpp' , Green },
     { 'Scan.cpp' , Ignore },
     { 'Task.cpp' , Ignore },
     { 'TaskHeap.cpp' , Ignore }
@@ -4712,13 +4712,13 @@ Dir Dir252=
 Dir Dir253=
   {
    'sys',
-   Yellow,
+   Green,
    {
    },
    {
     { 'SysAbort.h' , Green },
     { 'SysAtomic.h' , Green },
-    { 'SysCon.h' , Yellow },
+    { 'SysCon.h' , Green },
     { 'SysError.h' , Green },
     { 'SysFile.h' , Green },
     { 'SysFileInternal.h' , Green },
@@ -4792,13 +4792,13 @@ Dir Dir257=
 Dir Dir258=
   {
    'sys',
-   Yellow,
+   Green,
    {
    },
    {
     { 'SysAbort.cpp' , Green },
     { 'SysAtomic.cpp' , Green },
-    { 'SysCon.cpp' , Yellow },
+    { 'SysCon.cpp' , Green },
     { 'SysError.cpp' , Green },
     { 'SysFile.cpp' , Green },
     { 'SysFileInternal.cpp' , Green },

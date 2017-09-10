@@ -1,15 +1,15 @@
 /* ReadConType.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Applied
+//  Tag: Fundamental Mini
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,14 +18,30 @@
 
 #include <CCore/inc/TimeScope.h>
 
+#ifdef CCORE_UTF8
+# include <CCore/inc/Utf8.h>
+#endif
+
 namespace CCore {
+
+/* type ReadConCode */
+
+#ifdef CCORE_UTF8
+
+using ReadConCode = Utf8Code ;
+
+#else
+
+using ReadConCode = char ;
+
+#endif
 
 /* concept ReadConType<ReadCon> */
 
 template <class ReadCon>
-concept bool ReadConType = requires(ReadCon &con,MSec timeout,TimeScope time_scope,char &ret,char ch,const char *ptr,ulen len,StrLen str)
+concept bool ReadConType = requires(ReadCon &con,MSec timeout,TimeScope time_scope,ReadConCode &ret,char ch,const char *ptr,ulen len,StrLen str)
  {
-  { con.get() } -> char ;
+  { con.get() } -> ReadConCode ;
 
   { con.get(timeout,ret) } -> bool ;
 
@@ -36,6 +52,8 @@ concept bool ReadConType = requires(ReadCon &con,MSec timeout,TimeScope time_sco
   con.put(ptr,len);
 
   con.put(str);
+
+  con.put(ret);
  } ;
 
 } // namespace CCore

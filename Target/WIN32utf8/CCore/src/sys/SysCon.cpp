@@ -81,6 +81,8 @@ void ConRead::Symbol::put(uint32 sym)
  {
   Utf8Code code=ToUtf8(sym);
 
+  if( code.getLen()>DimOf(buf)-len ) return; // should not happens
+
   code.getRange().copyTo(buf+len);
 
   len+=code.getLen();
@@ -101,7 +103,7 @@ bool ConRead::Symbol::pushUnicode(uint32 sym1,uint32 sym2)
   return true;
  }
 
-bool ConRead::Symbol::push(uint16 wch)
+bool ConRead::Symbol::push(WChar wch)
  {
   if( hi )
     {
@@ -223,7 +225,7 @@ auto ConRead::read(char *buf,ulen len) noexcept -> IOResult
 
   do
     {
-     ret=read(buf,len,10_sec);
+     ret=read(buf,len,DefaultTimeout);
     }
   while( !ret.error && ret.len==0 );
 
