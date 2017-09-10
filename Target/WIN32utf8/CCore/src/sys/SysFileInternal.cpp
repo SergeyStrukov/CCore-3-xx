@@ -53,7 +53,7 @@ MakeZStr::MakeZStr(StrLen str,PtrLen<WChar> out)
 
   if( !out ) { setError(FileError_TooLongPath); return; }
 
-   *out=0;
+  *out=0;
 
   error=FileError_Ok;
   len=start_len-out.len;

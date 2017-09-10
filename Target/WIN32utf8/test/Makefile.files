@@ -157,6 +157,7 @@ OBJ_LIST = \
 ../.test-obj/test4030.PKE.o \
 ../.test-obj/test4031.PTPSec.o \
 ../.test-obj/test4032.DelDirRecursive.o \
+../.test-obj/test4033.exec.o \
 ../.test-obj/test6001.Quick.o \
 ../.test-obj/test6002.SysError.o \
 ../.test-obj/test6003.Char.o \
@@ -328,6 +329,7 @@ ASM_LIST = \
 ../.test-obj/test4030.PKE.s \
 ../.test-obj/test4031.PTPSec.s \
 ../.test-obj/test4032.DelDirRecursive.s \
+../.test-obj/test4033.exec.s \
 ../.test-obj/test6001.Quick.s \
 ../.test-obj/test6002.SysError.s \
 ../.test-obj/test6003.Char.s \
@@ -499,6 +501,7 @@ DEP_LIST = \
 ../.test-obj/test4030.PKE.dep \
 ../.test-obj/test4031.PTPSec.dep \
 ../.test-obj/test4032.DelDirRecursive.dep \
+../.test-obj/test4033.exec.dep \
 ../.test-obj/test6001.Quick.dep \
 ../.test-obj/test6002.SysError.dep \
 ../.test-obj/test6003.Char.dep \
@@ -989,6 +992,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test4032.DelDirRecursive.o : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test4033.exec.o : ../../../HCore/CCore/test/./test4033.exec.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test6001.Quick.o : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
@@ -1497,6 +1503,9 @@ include $(RULES_FILE)
 ../.test-obj/test4032.DelDirRecursive.s : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test4033.exec.s : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test6001.Quick.s : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2002,6 +2011,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test4032.DelDirRecursive.dep : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4032.DelDirRecursive.o $< -MF $@
+
+../.test-obj/test4033.exec.dep : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4033.exec.o $< -MF $@
 
 ../.test-obj/test6001.Quick.dep : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6001.Quick.o $< -MF $@

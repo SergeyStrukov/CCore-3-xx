@@ -76,7 +76,7 @@ void test3()
 
 void test4()
  {
-  PrintFile out("Юникод символы.txt");
+  PrintFile out("Юникод символы 𝕬𝕺𝕾.txt");
 
   const unsigned Line = 16 ;
 
@@ -105,7 +105,7 @@ bool Testit<1035>::Main()
   //test1();
   //test2();
   //test3();
-  //test4();
+  test4();
 
   return true;
  }

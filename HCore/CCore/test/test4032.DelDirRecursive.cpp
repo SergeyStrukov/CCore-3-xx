@@ -38,15 +38,15 @@ bool Testit<4032>::Main()
 
   fs.createDir("dir1");
 
-  fs.createFile("dir1/file1");
-  fs.createFile("dir1/file2");
-  fs.createFile("dir1/file3");
+  fs.createFile("dir1/файл1");
+  fs.createFile("dir1/файл2");
+  fs.createFile("dir1/файл3");
 
-  fs.createDir("dir1/dir2");
+  fs.createDir("dir1/каталог2");
 
-  fs.createFile("dir1/dir2/file1");
-  fs.createFile("dir1/dir2/file2");
-  fs.createFile("dir1/dir2/file3");
+  fs.createFile("dir1/каталог2/file1");
+  fs.createFile("dir1/каталог2/file2");
+  fs.createFile("dir1/каталог2/file3");
 
   fs.createDir("dir1/dir3");
 
@@ -54,11 +54,11 @@ bool Testit<4032>::Main()
   fs.createFile("dir1/dir3/file2");
   fs.createFile("dir1/dir3/file3");
 
-  fs.createDir("dir1/dir2/dir4");
+  fs.createDir("dir1/каталог2/dir4");
 
-  fs.createFile("dir1/dir2/dir4/file1");
-  fs.createFile("dir1/dir2/dir4/file2");
-  fs.createFile("dir1/dir2/dir4/file3");
+  fs.createFile("dir1/каталог2/dir4/file1");
+  fs.createFile("dir1/каталог2/dir4/file2");
+  fs.createFile("dir1/каталог2/dir4/file3");
 
   fs.deleteDir("dir1",true);
 

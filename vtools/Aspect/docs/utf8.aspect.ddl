@@ -1935,38 +1935,39 @@ Dir Dir111=
    },
    {
     { 'testPrint.cpp' , Ignore },
-    { 'test4004.AntiSem.cpp' , Red },
-    { 'test4021.AsyncFile.cpp' , Red },
-    { 'test4025.AsyncUDP.cpp' , Red },
-    { 'test4018.BinaryFile.cpp' , Red },
-    { 'test4028.PTPServer.ConWrite.cpp' , Red },
-    { 'test4032.DelDirRecursive.cpp' , Red },
-    { 'test4013.DirTreeRun.cpp' , Red },
-    { 'test4003.Event.cpp' , Red },
-    { 'test4012.FileSystem.cpp' , Red },
-    { 'test4006.MultiEvent.cpp' , Red },
-    { 'test4005.MultiSem.cpp' , Red },
-    { 'test4001.Mutex.cpp' , Red },
-    { 'test4020.NamesCrc.cpp' , Red },
-    { 'test4008.PageHeap.cpp' , Red },
-    { 'test4030.PKE.cpp' , Red },
-    { 'test4016.PrintFile.cpp' , Red },
-    { 'test4029.PSec.cpp' , Red },
-    { 'test4026.PTPEcho.cpp' , Red },
-    { 'test4031.PTPSec.cpp' , Red },
-    { 'test4027.PTPServer.cpp' , Red },
+    { 'test4004.AntiSem.cpp' , Ignore },
+    { 'test4021.AsyncFile.cpp' , Ignore },
+    { 'test4025.AsyncUDP.cpp' , Ignore },
+    { 'test4018.BinaryFile.cpp' , Ignore },
+    { 'test4028.PTPServer.ConWrite.cpp' , Ignore },
+    { 'test4032.DelDirRecursive.cpp' , Green },
+    { 'test4013.DirTreeRun.cpp' , Green },
+    { 'test4033.exec.cpp' , Green },
+    { 'test4003.Event.cpp' , Ignore },
+    { 'test4012.FileSystem.cpp' , Green },
+    { 'test4006.MultiEvent.cpp' , Ignore },
+    { 'test4005.MultiSem.cpp' , Ignore },
+    { 'test4001.Mutex.cpp' , Ignore },
+    { 'test4020.NamesCrc.cpp' , Ignore },
+    { 'test4008.PageHeap.cpp' , Ignore },
+    { 'test4030.PKE.cpp' , Ignore },
+    { 'test4016.PrintFile.cpp' , Green },
+    { 'test4029.PSec.cpp' , Ignore },
+    { 'test4026.PTPEcho.cpp' , Ignore },
+    { 'test4031.PTPSec.cpp' , Ignore },
+    { 'test4027.PTPServer.cpp' , Ignore },
     { 'test4011.ReadCon.cpp' , Red },
-    { 'test4022.ScanAsyncFile.cpp' , Red },
-    { 'test4017.ScanFile.cpp' , Red },
-    { 'test4002.Sem.cpp' , Red },
-    { 'test4007.Sem-speed.cpp' , Red },
-    { 'test4015.SysAltFile.cpp' , Red },
-    { 'test4014.SysFile.cpp' , Red },
-    { 'test4009.Task.cpp' , Red },
-    { 'test4019.TaskHeap.cpp' , Red },
-    { 'test4010.TaskSleep.cpp' , Red },
-    { 'test4023.UDP.cpp' , Red },
-    { 'test4024.UDPEcho.cpp' , Red },
+    { 'test4022.ScanAsyncFile.cpp' , Ignore },
+    { 'test4017.ScanFile.cpp' , Green },
+    { 'test4002.Sem.cpp' , Ignore },
+    { 'test4007.Sem-speed.cpp' , Ignore },
+    { 'test4015.SysAltFile.cpp' , Green },
+    { 'test4014.SysFile.cpp' , Green },
+    { 'test4009.Task.cpp' , Ignore },
+    { 'test4019.TaskHeap.cpp' , Ignore },
+    { 'test4010.TaskSleep.cpp' , Ignore },
+    { 'test4023.UDP.cpp' , Ignore },
+    { 'test4024.UDPEcho.cpp' , Ignore },
     { 'testPrint.h' , Ignore }
    }
   };
@@ -3067,7 +3068,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   New,
+   Red,
    {
     &Dir160,
     &Dir161
@@ -4629,7 +4630,7 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   Ignore,
+   Green,
    {
    },
    {
@@ -4637,7 +4638,7 @@ Dir Dir161=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Юникод символы.txt' , Ignore }
+    { 'Юникод символы ??????.txt' , Green }
    }
   };
 
@@ -4720,7 +4721,7 @@ Dir Dir253=
     { 'SysCon.h' , Yellow },
     { 'SysError.h' , Green },
     { 'SysFile.h' , Green },
-    { 'SysFileInternal.h' , Yellow },
+    { 'SysFileInternal.h' , Green },
     { 'SysFileSystem.h' , Green },
     { 'SysLaunchPath.h' , Green },
     { 'SysMemPage.h' , Green },
@@ -4731,7 +4732,7 @@ Dir Dir253=
     { 'SysTask.h' , Green },
     { 'SysTime.h' , Green },
     { 'SysTlsSlot.h' , Green },
-    { 'SysUtf8.h' , Yellow },
+    { 'SysUtf8.h' , Green },
     { 'SysWait.h' , Green },
     { 'SysWaitInternal.h' , Green }
    }
@@ -4800,8 +4801,8 @@ Dir Dir258=
     { 'SysCon.cpp' , Yellow },
     { 'SysError.cpp' , Green },
     { 'SysFile.cpp' , Green },
-    { 'SysFileInternal.cpp' , Yellow },
-    { 'SysFileSystem.cpp' , Yellow },
+    { 'SysFileInternal.cpp' , Green },
+    { 'SysFileSystem.cpp' , Green },
     { 'SysLaunchPath.cpp' , Green },
     { 'SysMemPage.cpp' , Green },
     { 'SysNet.cpp' , Green },
@@ -4811,7 +4812,7 @@ Dir Dir258=
     { 'SysTask.cpp' , Green },
     { 'SysTime.cpp' , Green },
     { 'SysTlsSlot.cpp' , Green },
-    { 'SysUtf8.cpp' , Yellow },
+    { 'SysUtf8.cpp' , Green },
     { 'SysWait.cpp' , Green },
     { 'SysWaitInternal.cpp' , Green },
     { 'SysAtomic.s' , Green },

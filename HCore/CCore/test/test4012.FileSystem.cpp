@@ -65,8 +65,13 @@ bool Testit<4012>::Main()
 
   Printf(Con,". is #;\n",fs.getFileType("."));
   Printf(Con,".. is #;\n",fs.getFileType(".."));
-  Printf(Con,"../obj is #;\n",fs.getFileType("../obj"));
+  Printf(Con,"../.obj is #;\n",fs.getFileType("../.obj"));
   Printf(Con,"main.cpp is #;\n",fs.getFileType("main.cpp"));
+
+  char temp[MaxPathLen+1];
+
+  Printf(Con,"main.cpp is #;\n",fs.pathOf("main.cpp"_c,temp));
+
   Printf(Con,"nofile.txt is #;\n",fs.getFileType("nofile.txt"));
 
   // createFile()
@@ -97,7 +102,7 @@ bool Testit<4012>::Main()
   fs.remove("new_file.txt");
   fs.remove("new_dir");
 
-  try { fs.remove("../obj"); } catch(CatchType) {}
+  try { fs.remove("../.obj"); } catch(CatchType) {}
   try { fs.remove("nodir"); } catch(CatchType) {}
 
   // rename()

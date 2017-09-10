@@ -43,57 +43,58 @@ ulen ZLen(const WChar *ztext);
 
 /* functions */
 
-bool FeedUnicode(PtrLen<const WChar> text,FuncType<bool,Unicode> func)
+inline Unicode CutUnicode(PtrLen<const WChar> &text) // +text
  {
-  bool ret=true;
+  Unicode sym;
 
-  while( +text )
+  WChar hi=*text;
+
+  if( IsHiSurrogate(hi) )
     {
-     Unicode sym;
-     WChar hi=*text;
+     if( text.len<2 )
+       { // single Hi
+        sym=hi;
 
-     if( IsHiSurrogate(hi) )
+        ++text;
+       }
+     else
        {
-        if( text.len<2 )
+        WChar lo=text[1];
+
+        if( IsLoSurrogate(lo) )
+          {
+           sym=Surrogate(hi,lo);
+
+           text+=2;
+          }
+        else
           { // single Hi
            sym=hi;
 
            ++text;
           }
-        else
-          {
-           WChar lo=text[1];
-
-           if( IsLoSurrogate(lo) )
-             {
-              sym=Surrogate(hi,lo);
-
-              text+=2;
-             }
-           else
-             { // single Hi
-              sym=hi;
-
-              ++text;
-             }
-          }
-       }
-     else
-       { // may be single Lo
-        sym=hi;
-
-        ++text;
-       }
-
-     if( !func(sym) )
-       {
-        ret=false;
-
-        break;
        }
     }
+  else
+    { // may be single Lo
+     sym=hi;
 
-  return ret;
+     ++text;
+    }
+
+  return sym;
+ }
+
+bool FeedUnicode(PtrLen<const WChar> text,FuncType<bool,Unicode> func)
+ {
+  while( +text )
+    {
+     Unicode sym=CutUnicode(text);
+
+     if( !func(sym) ) return false;
+    }
+
+  return true;
  }
 
 ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out);
@@ -104,9 +105,33 @@ ulen Full(const WChar *ztext,PtrLen<char> out); // MaxULen on overflow
 
 /* classes */
 
+struct CopySym;
+
 struct SurrogateCouple;
 
 template <ulen Len> struct WCharToUtf8;
+
+/* struct CopySym */
+
+struct CopySym
+ {
+  PtrLen<char> &out;
+
+  explicit CopySym(PtrLen<char> &out_) : out(out_) {}
+
+  bool operator () (Unicode sym)
+   {
+    Utf8Code code=ToUtf8(sym);
+
+    if( code.getLen()>out.len ) return false;
+
+    code.getRange().copyTo(out.ptr);
+
+    out+=code.getLen();
+
+    return true;
+   }
+ };
 
 /* struct SurrogateCouple */
 

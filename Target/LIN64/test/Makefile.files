@@ -157,6 +157,7 @@ OBJ_LIST = \
 ../.test-obj/test4030.PKE.o \
 ../.test-obj/test4031.PTPSec.o \
 ../.test-obj/test4032.DelDirRecursive.o \
+../.test-obj/test4033.exec.o \
 ../.test-obj/test6001.LIN64.o \
 ../.test-obj/test6002.SysError.o \
 ../.test-obj/test6003.IntelRandom.o \
@@ -336,6 +337,7 @@ ASM_LIST = \
 ../.test-obj/test4030.PKE.s \
 ../.test-obj/test4031.PTPSec.s \
 ../.test-obj/test4032.DelDirRecursive.s \
+../.test-obj/test4033.exec.s \
 ../.test-obj/test6001.LIN64.s \
 ../.test-obj/test6002.SysError.s \
 ../.test-obj/test6003.IntelRandom.s \
@@ -515,6 +517,7 @@ DEP_LIST = \
 ../.test-obj/test4030.PKE.dep \
 ../.test-obj/test4031.PTPSec.dep \
 ../.test-obj/test4032.DelDirRecursive.dep \
+../.test-obj/test4033.exec.dep \
 ../.test-obj/test6001.LIN64.dep \
 ../.test-obj/test6002.SysError.dep \
 ../.test-obj/test6003.IntelRandom.dep \
@@ -1013,6 +1016,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test4032.DelDirRecursive.o : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test4033.exec.o : ../../../HCore/CCore/test/./test4033.exec.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test6001.LIN64.o : ../../../Target/LIN64/CCore/test/./test6001.LIN64.cpp
@@ -1545,6 +1551,9 @@ include $(RULES_FILE)
 ../.test-obj/test4032.DelDirRecursive.s : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test4033.exec.s : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test6001.LIN64.s : ../../../Target/LIN64/CCore/test/./test6001.LIN64.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2074,6 +2083,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test4032.DelDirRecursive.dep : ../../../HCore/CCore/test/./test4032.DelDirRecursive.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4032.DelDirRecursive.o $< -MF $@
+
+../.test-obj/test4033.exec.dep : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4033.exec.o $< -MF $@
 
 ../.test-obj/test6001.LIN64.dep : ../../../Target/LIN64/CCore/test/./test6001.LIN64.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6001.LIN64.o $< -MF $@

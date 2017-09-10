@@ -103,7 +103,7 @@ class TempBuf : NoCopy
 
   public:
 
-   explicit TempBuf(ulen len) { ptr=static_cast<T *>( MemAlloc(LenOf(len,sizeof (T))) ); }
+   explicit TempBuf(ulen len) noexcept { ptr=static_cast<T *>( TryMemAlloc(LenOf(len,sizeof (T))) ); }
 
    ~TempBuf() { MemFree(ptr); }
 
