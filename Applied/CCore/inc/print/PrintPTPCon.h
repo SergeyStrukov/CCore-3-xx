@@ -18,6 +18,7 @@
 
 #include <CCore/inc/net/PTPConDevice.h>
 
+#include <CCore/inc/ReadConType.h>
 #include <CCore/inc/Fifo.h>
 
 namespace CCore {
