@@ -75,11 +75,26 @@ class CmdInput : NoCopy
    DynArray<Frame> frame_list;
    ulen off;
 
+#ifdef CCORE_UTF8
+
+   DynArray<char> buf;
+   ulen ind;
+
+#endif
+
   private:
 
    void add(StrLen cmd,TargetMethod method);
 
    Frame getCur() const;
+
+#ifdef CCORE_UTF8
+
+   void putBuf(StrLen str);
+
+   ulen popBuf();
+
+#endif
 
   public:
 
@@ -91,11 +106,31 @@ class CmdInput : NoCopy
 
    // methods
 
+#ifdef CCORE_UTF8
+
+   void start() { off=0; ind=0; }
+
+#else
+
    void start() { off=0; }
+
+#endif
 
    bool put(char ch);
 
-   void put(StrLen str) { for(; +str ;++str) put(*str); }
+#ifdef CCORE_UTF8
+
+   bool put(Utf8Code ch) { return put(ch.getRange()); }
+
+#endif
+
+   bool put(StrLen str);
+
+#ifdef CCORE_UTF8
+
+   bool back();
+
+#else
 
    bool back()
     {
@@ -108,6 +143,8 @@ class CmdInput : NoCopy
 
      return false;
     }
+
+#endif
 
    struct CompleteResult
     {
@@ -202,15 +239,30 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
 
   for(;;)
     {
-     switch( char ch=con.get() )
+     ReadConCode ch=con.get();
+
+     switch( ToChar(ch) )
        {
+        case '\n' :
+        case '\r' :
+         {
+          con.put("\r\n"_c);
+
+          return true;
+         }
+        break;
+
+#ifdef CCORE_UTF8
+
         case '\b' :
          {
           if( arg_len>0 )
             {
-             arg_len--;
+             while( arg_len && Utf8Ext(arg[arg_len-1]) ) arg_len--;
 
-             con.put("\b \b",3);
+             if( arg_len ) arg_len--;
+
+             con.put("\b \b"_c);
             }
           else
             {
@@ -221,11 +273,34 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
          }
         break;
 
-        case '\n' : case '\r' :
+        default:
          {
-          con.put("\r\n",2);
+          if( arg_len+ch.getLen()<=MaxArgLen && CharIsPrintable(ch) )
+            {
+             ch.getRange().copyTo(arg+arg_len);
 
-          return true;
+             arg_len+=ch.getLen();
+
+             con.put(ch);
+            }
+         }
+
+#else
+
+        case '\b' :
+         {
+          if( arg_len>0 )
+            {
+             arg_len--;
+
+             con.put("\b \b"_c);
+            }
+          else
+            {
+             con.put('\b');
+
+             return false;
+            }
          }
         break;
 
@@ -238,6 +313,8 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
              con.put(ch);
             }
          }
+
+#endif
        }
     }
  }
@@ -267,7 +344,9 @@ void CmdInputCon<ReadCon,MaxArgLen>::command(SS && ... ss)
 
   for(;;)
     {
-     switch( char ch=con.get() )
+     ReadConCode ch=con.get();
+
+     switch( ToChar(ch) )
        {
         case ' ' :
          {
@@ -301,7 +380,7 @@ void CmdInputCon<ReadCon,MaxArgLen>::command(SS && ... ss)
 
           if( +result )
             {
-             con.put("\r\n",2);
+             con.put("\r\n"_c);
 
              result(StrLen(), std::forward<SS>(ss)... );
 
@@ -330,7 +409,7 @@ void CmdInputCon<ReadCon,MaxArgLen>::command(SS && ... ss)
          {
           if( input.back() )
             {
-             con.put("\b \b",3);
+             con.put("\b \b"_c);
             }
          }
         break;

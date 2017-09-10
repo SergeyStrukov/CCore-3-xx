@@ -601,7 +601,7 @@ Dir Dir60=
     { 'AsyncFile.h' , Ignore },
     { 'AsyncFileToMem.h' , Ignore },
     { 'CancelPacketList.h' , Ignore },
-    { 'CmdInput.h' , Red },
+    { 'CmdInput.h' , Green },
     { 'Elf.h' , Ignore },
     { 'EventRecorder.h' , Ignore },
     { 'FileName.h' , Red },
@@ -639,7 +639,7 @@ Dir Dir61=
     { 'AsyncFile.cpp' , Ignore },
     { 'AsyncFileToMem.cpp' , Ignore },
     { 'CancelPacketList.cpp' , Ignore },
-    { 'CmdInput.cpp' , Red },
+    { 'CmdInput.cpp' , Green },
     { 'Elf.cpp' , Ignore },
     { 'EventRecorder.cpp' , Ignore },
     { 'FileName.cpp' , Red },
@@ -675,7 +675,7 @@ Dir Dir62=
     { 'test3001.Atomic.cpp' , Ignore },
     { 'test3026.Bridge.cpp' , Ignore },
     { 'test3010.CancelPacketList.cpp' , Ignore },
-    { 'test3012.CmdInput.cpp' , Red },
+    { 'test3012.CmdInput.cpp' , Green },
     { 'test3025.DHExp.cpp' , Ignore },
     { 'test3002.EventRecorder.cpp' , Ignore },
     { 'test3007.FileName.cpp' , Red },
@@ -797,7 +797,7 @@ Dir Dir66=
 Dir Dir67=
   {
    'net',
-   Red,
+   Green,
    {
    },
    {
@@ -820,8 +820,8 @@ Dir Dir67=
     { 'PTPBoot.h' , Ignore },
     { 'PTPBootBase.h' , Ignore },
     { 'PTPClientDevice.h' , Ignore },
-    { 'PTPConBase.h' , Red },
-    { 'PTPConDevice.h' , Red },
+    { 'PTPConBase.h' , Green },
+    { 'PTPConDevice.h' , Green },
     { 'PTPEchoTest.h' , Ignore },
     { 'PTPExtra.h' , Ignore },
     { 'PTPServerDevice.h' , Ignore },
@@ -837,12 +837,12 @@ Dir Dir67=
 Dir Dir68=
   {
    'print',
-   Ignore,
+   Red,
    {
    },
    {
     { 'PrintAsyncFile.h' , Ignore },
-    { 'PrintPTPCon.h' , Ignore }
+    { 'PrintPTPCon.h' , Red }
    }
   };
 
@@ -989,7 +989,7 @@ Dir Dir76=
 Dir Dir77=
   {
    'net',
-   Red,
+   Green,
    {
    },
    {
@@ -1012,8 +1012,8 @@ Dir Dir77=
     { 'PTPBoot.cpp' , Ignore },
     { 'PTPBootBase.cpp' , Ignore },
     { 'PTPClientDevice.cpp' , Ignore },
-    { 'PTPConBase.cpp' , Red },
-    { 'PTPConDevice.cpp' , Red },
+    { 'PTPConBase.cpp' , Green },
+    { 'PTPConDevice.cpp' , Green },
     { 'PTPEchoTest.cpp' , Ignore },
     { 'PTPExtra.cpp' , Ignore },
     { 'PTPServerDevice.cpp' , Ignore },
@@ -1029,12 +1029,12 @@ Dir Dir77=
 Dir Dir78=
   {
    'print',
-   Ignore,
+   Red,
    {
    },
    {
     { 'PrintAsyncFile.cpp' , Ignore },
-    { 'PrintPTPCon.cpp' , Ignore }
+    { 'PrintPTPCon.cpp' , Red }
    }
   };
 

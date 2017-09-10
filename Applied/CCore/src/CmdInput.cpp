@@ -44,6 +44,12 @@ auto CmdInput::getCur() const -> Frame
 CmdInput::CmdInput(Target &target_)
  : target(target_),
    list(DoReserve,50)
+
+#ifdef CCORE_UTF8
+
+   ,buf(DoReserve,TextBufLen)
+
+#endif
  {
   locked=false;
 
@@ -83,6 +89,67 @@ bool CmdInput::put(char ch)
 
   return +next;
  }
+
+#ifdef CCORE_UTF8
+
+void CmdInput::putBuf(StrLen str)
+ {
+  ulen len=buf.getLen()-ind;
+
+  if( len<str.len ) buf.extend_raw(str.len-len);
+
+  str.copyTo(buf.getPtr()+ind);
+
+  ind+=str.len;
+ }
+
+ulen CmdInput::popBuf()
+ {
+  char *ptr=buf.getPtr();
+  ulen start_ind=ind;
+
+  while( ind && Utf8Ext(ptr[ind-1]) ) ind--;
+
+  if( ind ) ind--;
+
+  return start_ind-ind;
+ }
+
+bool CmdInput::put(StrLen str)
+ {
+  putBuf(str);
+
+  bool ret=true;
+
+  for(; +str ;++str) if( !put(*str) ) ret=false;
+
+  return ret;
+ }
+
+bool CmdInput::back()
+ {
+  if( off )
+    {
+     off=PosSub(off,popBuf());
+
+     return true;
+    }
+
+  return false;
+ }
+
+#else
+
+bool CmdInput::put(StrLen str)
+ {
+  bool ret=true;
+
+  for(; +str ;++str) if( !put(*str) ) ret=false;
+
+  return ret;
+ }
+
+#endif
 
 auto CmdInput::complete() const -> CompleteResult
  {
