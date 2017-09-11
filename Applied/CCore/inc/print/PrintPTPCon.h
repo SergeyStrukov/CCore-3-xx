@@ -1,7 +1,7 @@
 /* PrintPTPCon.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,8 +18,8 @@
 
 #include <CCore/inc/net/PTPConDevice.h>
 
-#include <CCore/inc/ReadConType.h>
-#include <CCore/inc/Fifo.h>
+#include <CCore/inc/InputUtils.h>
+#include <CCore/inc/BlockFifo.h>
 
 namespace CCore {
 
@@ -68,18 +68,19 @@ class PTPConOpenClose : NoCopy
 
 /* class ReadPTPCon */
 
-class ReadPTPCon : NoCopyBase<PTPConOpenClose::InputProc>
+class ReadPTPCon : PTPConOpenClose::InputProc , public ReadConBase
  {
    static constexpr ulen FifoLen = 128 ;
 
    PTPConOpenClose &con_openclose;
 
    Mutex mutex;
-   Sem sem;
+   Event event;
    PacketSet<uint8> pset;
    MSec timeout;
 
-   FifoBuf<char,FifoLen> fifo;
+   BlockFifoBuf<char,FifoLen> fifo;
+   bool stop_flag = false ;
 
   private:
 
@@ -89,9 +90,19 @@ class ReadPTPCon : NoCopyBase<PTPConOpenClose::InputProc>
 
    virtual void stop();
 
-  private:
+   // ReadConBase
 
-   bool do_get(char &ret);
+   ulen do_read(char *ptr,ulen len);
+
+#ifndef CCORE_UTF8
+
+   virtual ulen read(char *ptr,ulen len);
+
+   virtual ulen read(char *ptr,ulen len,MSec timeout);
+
+#endif
+
+   virtual ulen read(char *ptr,ulen len,TimeScope time_scope);
 
   public:
 
@@ -101,14 +112,6 @@ class ReadPTPCon : NoCopyBase<PTPConOpenClose::InputProc>
 
    ~ReadPTPCon();
 
-   // get
-
-   char get();
-
-   bool get(MSec timeout,char &ret);
-
-   bool get(TimeScope time_scope,char &ret);
-
    // put, ignore errors
 
    void put(char ch) { put(&ch,1); }
@@ -116,6 +119,12 @@ class ReadPTPCon : NoCopyBase<PTPConOpenClose::InputProc>
    void put(const char *str,ulen len);
 
    void put(StrLen str) { put(str.ptr,str.len); }
+
+#ifdef CCORE_UTF8
+
+   void put(Utf8Code code) { put(code.getRange()); }
+
+#endif
  };
 
 /* class PrintPTPCon */

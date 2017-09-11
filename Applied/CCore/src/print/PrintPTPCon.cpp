@@ -1,7 +1,7 @@
 /* PrintPTPCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -37,48 +37,87 @@ PTPConOpenClose::~PTPConOpenClose()
 
 void ReadPTPCon::input(PacketBuf &,PtrLen<const uint8> str)
  {
-  ulen count=0;
+  if( !str ) return;
 
   {
    Mutex::Lock lock(mutex);
 
-   for(; +str ;++str)
-     {
-      char ch=*str;
-
-      if( !fifo.put(ch) ) break;
-
-      count++;
-     }
+   fifo.put(Mutate<const char>(str));
   }
 
-  sem.give_many(count);
+  event.trigger();
  }
 
 void ReadPTPCon::stop()
  {
-  sem.give();
- }
-
-bool ReadPTPCon::do_get(char &ret)
- {
   {
    Mutex::Lock lock(mutex);
 
-   if( fifo.get(ret) ) return true;
+   stop_flag=true;
   }
 
-  sem.give();
+  event.trigger();
+ }
 
-  Printf(Exception,"CCore::ReadPTPCon::get() : console read is stopped");
+ulen ReadPTPCon::do_read(char *ptr,ulen len)
+ {
+  ulen ret;
+  bool flag;
 
-  return false;
+  {
+   Mutex::Lock lock(mutex);
+
+   if( stop_flag )
+     {
+      ret=MaxULen;
+      flag=false;
+     }
+   else
+     {
+      ret=fifo.get(Range(ptr,len));
+      flag=!fifo.isEmpty();
+     }
+  }
+
+  if( ret==MaxULen )
+    {
+     Printf(Exception,"CCore::ReadPTPCon::read(...) : console read is stopped");
+    }
+
+  if( flag ) event.trigger();
+
+  return ret;
+ }
+
+#ifndef CCORE_UTF8
+
+ulen ReadPTPCon::read(char *ptr,ulen len)
+ {
+  event.wait();
+
+  return do_read(ptr,len);
+ }
+
+ulen ReadPTPCon::read(char *ptr,ulen len,MSec timeout)
+ {
+  if( event.wait(timeout) ) return do_read(ptr,len);
+
+  return 0;
+ }
+
+#endif
+
+ulen ReadPTPCon::read(char *ptr,ulen len,TimeScope time_scope)
+ {
+  if( event.wait(time_scope) ) return do_read(ptr,len);
+
+  return 0;
  }
 
 ReadPTPCon::ReadPTPCon(PTPConOpenClose &con_openclose_,MSec timeout_,ulen max_packets)
  : con_openclose(con_openclose_),
    mutex("ReadPTPCon.mutex"),
-   sem("ReadPTPCon.sem"),
+   event("ReadPTPCon.event"),
    pset("ReadPTPCon.pset",max_packets),
    timeout(timeout_)
  {
@@ -90,31 +129,6 @@ ReadPTPCon::~ReadPTPCon()
   pset.wait(timeout);
 
   con_openclose.stop_read();
- }
-
-char ReadPTPCon::get()
- {
-  sem.take();
-
-  char ret;
-
-  if( do_get(ret) ) return ret;
-
-  return 0;
- }
-
-bool ReadPTPCon::get(MSec timeout,char &ret)
- {
-  if( sem.take(timeout) ) return do_get(ret);
-
-  return false;
- }
-
-bool ReadPTPCon::get(TimeScope time_scope,char &ret)
- {
-  if( sem.take(time_scope) ) return do_get(ret);
-
-  return false;
  }
 
 void ReadPTPCon::put(const char *str,ulen len)
