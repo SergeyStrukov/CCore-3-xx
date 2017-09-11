@@ -40,7 +40,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Applied',
-   New,
+   Red,
    {
     &Dir15
    },
@@ -106,7 +106,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'html',
-   New,
+   Red,
    {
    },
    {
@@ -571,7 +571,7 @@ Dir Dir14=
 Dir Dir15=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir60,
     &Dir61,
@@ -584,7 +584,7 @@ Dir Dir15=
 Dir Dir60=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir63,
     &Dir64,
@@ -623,7 +623,7 @@ Dir Dir60=
 Dir Dir61=
   {
    'src',
-   New,
+   Red,
    {
     &Dir73,
     &Dir74,
@@ -840,12 +840,12 @@ Dir Dir67=
 Dir Dir68=
   {
    'print',
-   Red,
+   Green,
    {
    },
    {
     { 'PrintAsyncFile.h' , Ignore },
-    { 'PrintPTPCon.h' , Yellow }
+    { 'PrintPTPCon.h' , Green }
    }
   };
 
@@ -1032,12 +1032,12 @@ Dir Dir77=
 Dir Dir78=
   {
    'print',
-   Red,
+   Green,
    {
    },
    {
     { 'PrintAsyncFile.cpp' , Ignore },
-    { 'PrintPTPCon.cpp' , Yellow }
+    { 'PrintPTPCon.cpp' , Green }
    }
   };
 
