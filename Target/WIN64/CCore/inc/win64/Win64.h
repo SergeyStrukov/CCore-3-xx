@@ -1,7 +1,7 @@
 /* Win64.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Target/WIN64
 //
@@ -391,7 +391,7 @@ options_t WIN64_API WaitForMultipleObjects(ushortlen_t hcount,
 
 handle_t WIN64_API GetModuleHandleA(const char *module_name);
 
-/* GetModuleFileName() */
+/* GetModuleFileNameA() */
 
 ushortlen_t WIN64_API GetModuleFileNameA(handle_t h_module,
                                          char *buf,
@@ -1047,7 +1047,7 @@ negbool_t WIN64_API WSACleanup(void);
 
 error_t WIN64_API WSAGetLastError(void);
 
-/* WSASocket() */
+/* WSASocketA() */
 
 socket_t WIN64_API WSASocketA(options_t address_family,
                               options_t type,
