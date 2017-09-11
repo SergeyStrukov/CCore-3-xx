@@ -70,11 +70,11 @@ class Window : NoCopy
         Putobj(out,PrintLog(log,1000000));
        }
 
-      void put(char ch)
+      void put(ReadConCode ch)
        {
-        log(LogWork|LogEntry,"put('#;')",CharCode(ch));
+        log(LogWork|LogEntry,"put('#;')",ExtCharCode(ch));
 
-        switch( ch )
+        switch( ToChar(ch) )
           {
            case 'x' : case 'X' : DeferCallQueue::Stop(); break;
 
@@ -115,7 +115,7 @@ class Window : NoCopy
 
      public:
 
-      void put(char ch) { try_post(&Work::put,ch); }
+      void put(ReadConCode ch) { try_post(&Work::put,ch); }
     };
 
    Input input;
@@ -134,11 +134,11 @@ class Window : NoCopy
 
   private:
 
-   void put(char ch)
+   void put(ReadConCode ch)
     {
-     log(LogWork|LogEntry,"put('#;')",CharCode(ch));
+     log(LogWork|LogEntry,"put('#;')",ExtCharCode(ch));
 
-     switch( ch )
+     switch( ToChar(ch) )
        {
         case 'x' : case 'X' : DeferCallQueue::Stop(); break;
 
@@ -181,7 +181,7 @@ class Window : NoCopy
 
      public:
 
-      void put(char ch) { try_post(&Window::put,ch); }
+      void put(ReadConCode ch) { try_post(&Window::put,ch); }
     };
 
    Input input;
@@ -212,7 +212,7 @@ class Queue : public DeferCallQueue
 
    void forward(TimeScope time_scope) override
     {
-     char ch;
+     ReadConCode ch;
 
      if( read_con.get(time_scope,ch) )
        {

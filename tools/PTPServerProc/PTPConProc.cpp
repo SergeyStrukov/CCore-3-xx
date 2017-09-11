@@ -206,14 +206,14 @@ void PTPConRead::Buf::fill(PtrLen<uint8> data)
  {
   avail-=data.len;
 
-  for(; +data ;++data)
-    {
-     char ch=0;
+  fifo.get(Mutate<char>(data));
+ }
 
-     fifo.get(ch);
+bool PTPConRead::Buf::Test(const TriggerMask &trigger_mask,StrLen str)
+ {
+  for(char ch : str ) if( trigger_mask.test(ch) ) return true;
 
-     *data=uint8(ch);
-    }
+  return false;
  }
 
 PTPConRead::Buf::Buf()
@@ -239,19 +239,23 @@ void PTPConRead::Buf::close()
   is_opened=false;
  }
 
-bool PTPConRead::Buf::put(char ch)
+bool PTPConRead::Buf::put(ReadConCode ch)
  {
   if( !is_opened ) return false;
 
-  if( fifo.put(ch) )
+  if( SymbolLen(ch)<=fifo.getAvail() )
     {
-     if( trigger_mask.test(ch) )
+     StrLen r=SymbolRange(ch);
+
+     fifo.put(r);
+
+     if( Test(trigger_mask,r) )
        {
         avail=fifo.getCount();
        }
      else
        {
-        if( CharIsPrintable(ch) ) Putch(Con,ch);
+        if( CharIsPrintable(ch) ) Putobj(Con,r);
        }
     }
 
@@ -441,7 +445,7 @@ void PTPConRead::close()
   complete_list.complete();
  }
 
-bool PTPConRead::put(char ch)
+bool PTPConRead::put(ReadConCode ch)
  {
   PacketList complete_list;
 

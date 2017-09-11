@@ -91,7 +91,7 @@ ServerProc::~ServerProc()
   ptp->detach();
  }
 
-char ServerProc::get()
+ReadConCode ServerProc::get()
  {
   for(;;)
     {
@@ -101,13 +101,13 @@ char ServerProc::get()
           {
            ins_text++;
 
-           return ch;
+           return ReadConCode(ch); // assume ins_text is basic ASCII
           }
 
         ins_text=0;
        }
 
-     char ch;
+     ReadConCode ch;
 
      if( con.get(100_msec,ch) )
        {

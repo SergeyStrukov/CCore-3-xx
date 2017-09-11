@@ -27,6 +27,8 @@ namespace CCore {
 
 inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
 
+inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
+
 inline ulen PutSymbol(char *ptr,ulen len,Utf8Code ch)
  {
   ch.getRange().copyTo(ptr+len);
@@ -46,6 +48,8 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
 #else
 
 inline ulen SymbolLen(char ch) { Used(ch); return 1; }
+
+inline StrLen SymbolRange(const char &ch) { return Single(ch); }
 
 inline ulen PutSymbol(char *ptr,ulen len,char ch)
  {

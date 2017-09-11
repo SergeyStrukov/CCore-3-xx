@@ -15,7 +15,7 @@
 #define PTPServer_PTPConProc_h
 
 #include <CCore/inc/Array.h>
-#include <CCore/inc/Fifo.h>
+#include <CCore/inc/BlockFifo.h>
 #include <CCore/inc/CharProp.h>
 
 #include <CCore/inc/net/PTPConBase.h>
@@ -103,7 +103,9 @@ class PTPConRead : public Funchor_nocopy
 
    class Buf : NoCopy
     {
-      FifoBuf<char,1000> fifo;
+      static constexpr ulen Len = 1000 ;
+
+      BlockFifoBuf<char,Len> fifo;
       ulen avail;
       TriggerMask trigger_mask;
       bool is_opened;
@@ -114,6 +116,8 @@ class PTPConRead : public Funchor_nocopy
 
       void fill(PtrLen<uint8> data);
 
+      static bool Test(const TriggerMask &trigger_mask,StrLen str);
+
      public:
 
       Buf();
@@ -122,7 +126,7 @@ class PTPConRead : public Funchor_nocopy
 
       void open(const TriggerMask &trigger_mask);
 
-      bool put(char ch);
+      bool put(ReadConCode ch);
 
       bool pump(PacketList &complete_list,
                 Outbound &outbound,
@@ -170,7 +174,7 @@ class PTPConRead : public Funchor_nocopy
 
    // main task
 
-   bool put(char ch);
+   bool put(ReadConCode ch);
  };
 
 /* class PTPConProc */
@@ -241,7 +245,7 @@ class PTPConProc : ProcBase
 
    // main task
 
-   bool put(char ch) { return reader.put(ch); }
+   bool put(ReadConCode ch) { return reader.put(ch); }
 
    const char * ins();
  };

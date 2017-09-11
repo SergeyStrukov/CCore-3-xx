@@ -1,7 +1,7 @@
 /* Fifo.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -56,6 +56,8 @@ class Fifo : NoCopy
    explicit Fifo(PtrLen<T> buf) : Fifo(buf.ptr,buf.len) {}
 
    ulen getCount() const { return count; }
+
+   ulen getAvail() const { return len-count; }
 
    bool isEmpty() const { return count==0; }
 

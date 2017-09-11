@@ -57,6 +57,8 @@ class <span class="Att">BlockFifo</span> : NoCopy
 
    ulen getCount() const { return count; }
    
+   ulen getAvail() const { return len-count; }
+
    bool isEmpty() const { return count==0; }
    
    bool isFull() const { return count==len; }
@@ -84,6 +86,10 @@ Constructor creates the fifo in the given buffer.
 
 <p>
 <b>getCount()</b> returns the number of objects in the fifo.
+</p>
+
+<p>
+<b>getAvail()</b> returns the number of available positions in the fifo.
 </p>
 
 <p>
