@@ -30,6 +30,92 @@
 
 <p class="Files">Files <b>CCore/inc/InputUtils.h</b> <b>CCore/src/InputUtils.cpp</b></p>
 
+<p>
+This file contains a set of simple tools to work with console input.
+</p>
+
+<h4>Utilities</h4>
+
+<pre>
+
+ulen <span class="Att">SymbolLen</span>(ReadConCode ch);
+
+StrLen <span class="Att">SymbolRange</span>(const ReadConCode &ch);
+
+ulen <span class="Att">PutSymbol</span>(char *ptr,ulen len,ReadConCode ch);
+
+ulen <span class="Att">PopSymbol</span>(const char *ptr,ulen len); // len > 0
+
+</pre>
+
+<p>
+<b>SymbolLen()</b> gets a symbol length in characters.
+</p>
+
+<p>
+<b>SymbolRange()</b> gets a character range from the symbol.
+</p>
+
+<p>
+<b>PutSymbol()</b> puts the symbol at the end of the character range (i.e. starting from the <b>ptr+len</b> position). 
+There must be enough room to store this symbol. The new range length is returned.
+</p>
+
+<p>
+<b>PopSymbol()</b> looks for the last symbol at the end of the non-empty charcter range and "pops" it from the range.
+The new range length is returned.
+</p>
+
+<h4>ReadConBase</h4>
+
+<p>
+The class <b>ReadConBase</b> implements the symbol reading from the character stream.
+It may serve as a base class in a console reader implementation.
+</p>
+
+<pre>
+
+class <span class="Att">ReadConBase</span> : NoCopy
+ {
+   ....
+
+  private:
+
+#ifndef CCORE_UTF8
+
+   virtual ulen read(char *ptr,ulen len)=0;
+
+   virtual ulen read(char *ptr,ulen len,MSec timeout)=0;
+
+#endif
+
+   virtual ulen read(char *ptr,ulen len,TimeScope time_scope)=0;
+
+  public:
+
+   ReadConBase();
+
+   ~ReadConBase();
+
+   // get
+
+   bool try_get(ReadConCode &ret);
+
+   ReadConCode get();
+
+   bool get(MSec timeout,ReadConCode &ret);
+
+   bool get(TimeScope time_scope,ReadConCode &ret);
+ };
+
+</pre>
+
+<p>
+Reading the stream is implemented using pure virtual method(s) <b>read()</b>. 
+This method gets the buffer to read to and returns the number of received characters. 
+If there was no available characters withing given timeout, null is returned.
+An exception may be thrown in case of error.
+</p>
 
 </body>
 

@@ -18,6 +18,10 @@
 
 #include <CCore/inc/video/FrameBuf.h>
 
+#ifdef CCORE_UTF8
+# include <CCore/inc/Utf8.h>
+#endif
+
 namespace CCore {
 namespace Video {
 
@@ -262,6 +266,12 @@ void SimpleConsole<RawColor>::printChar(char ch)
 
      default:
       {
+#ifdef CCORE_UTF8
+
+       if( Utf8Ext(ch) ) return;
+
+#endif
+
        panel(pos,ch);
 
        if( ++pos.x>=panel.dX() ) newLine();

@@ -217,7 +217,7 @@ Dir Dir5=
     { 'page_HCoreTargets.html' , Ignore },
     { 'page_HeapEngine.html' , Ignore },
     { 'page_Init.html' , Ignore },
-    { 'page_InputUtils.html' , Red },
+    { 'page_InputUtils.html' , Green },
     { 'page_Installation.html' , Ignore },
     { 'page_InstanceLock.html' , Ignore },
     { 'page_Integer.html' , Ignore },
@@ -605,9 +605,9 @@ Dir Dir60=
     { 'CmdInput.h' , Green },
     { 'Elf.h' , Ignore },
     { 'EventRecorder.h' , Ignore },
-    { 'FileName.h' , Red },
+    { 'FileName.h' , Green },
     { 'FileNameMatch.h' , Red },
-    { 'InputUtils.h' , Yellow },
+    { 'InputUtils.h' , Green },
     { 'LineInput.h' , Green },
     { 'Log.h' , Ignore },
     { 'NanoPacket.h' , Ignore },
@@ -644,9 +644,9 @@ Dir Dir61=
     { 'CmdInput.cpp' , Green },
     { 'Elf.cpp' , Ignore },
     { 'EventRecorder.cpp' , Ignore },
-    { 'FileName.cpp' , Red },
+    { 'FileName.cpp' , Green },
     { 'FileNameMatch.cpp' , Red },
-    { 'InputUtils.cpp' , Yellow },
+    { 'InputUtils.cpp' , Green },
     { 'LineInput.cpp' , Green },
     { 'Log.cpp' , Ignore },
     { 'NanoPacket.cpp' , Ignore },
@@ -681,7 +681,7 @@ Dir Dir62=
     { 'test3012.CmdInput.cpp' , Green },
     { 'test3025.DHExp.cpp' , Ignore },
     { 'test3002.EventRecorder.cpp' , Ignore },
-    { 'test3007.FileName.cpp' , Red },
+    { 'test3007.FileName.cpp' , Green },
     { 'test3032.FileNameMatch.cpp' , Red },
     { 'test3022.Integer.cpp' , Ignore },
     { 'test3020.IntegerFastAlgo.cpp' , Ignore },
@@ -888,7 +888,7 @@ Dir Dir71=
 Dir Dir72=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
@@ -898,8 +898,8 @@ Dir Dir72=
     { 'Gamma.h' , Ignore },
     { 'IntOp.h' , Ignore },
     { 'Point.h' , Ignore },
-    { 'SimpleConsole.h' , Red },
-    { 'VideoConsole.h' , Red },
+    { 'SimpleConsole.h' , Green },
+    { 'VideoConsole.h' , Green },
     { 'VideoDevice.h' , Ignore }
    }
   };
@@ -1080,7 +1080,7 @@ Dir Dir81=
 Dir Dir82=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
@@ -1090,8 +1090,8 @@ Dir Dir82=
     { 'Gamma.cpp' , Ignore },
     { 'IntOp.cpp' , Ignore },
     { 'Point.cpp' , Ignore },
-    { 'SimpleConsole.cpp' , Red },
-    { 'VideoConsole.cpp' , Red },
+    { 'SimpleConsole.cpp' , Green },
+    { 'VideoConsole.cpp' , Green },
     { 'VideoDevice.cpp' , Ignore }
    }
   };

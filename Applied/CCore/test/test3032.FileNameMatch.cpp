@@ -1,7 +1,7 @@
 /* test3032.FileNameMatch.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -67,12 +67,12 @@ bool Match(StrLen filter,StrLen file)
 
 class Engine : NoCopy
  {
-   static const ulen Len = 100 ;
+   static constexpr ulen Len = 100 ;
 
    Random random;
 
-   StrLen filter_sym = "1234567890?*" ;
-   StrLen file_sym = "1234567890" ;
+   StrLen filter_sym = "1234567890?*"_c ;
+   StrLen file_sym = "1234567890"_c ;
 
    char filter[Len];
    ulen filter_len = 0 ;
