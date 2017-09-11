@@ -143,6 +143,7 @@ OBJ_LIST = \
 .obj/Info.o \
 .obj/InfoSize.o \
 .obj/Init.o \
+.obj/InputUtils.o \
 .obj/InstanceLock.o \
 .obj/IntOp.o \
 .obj/IntPrint.o \
@@ -575,6 +576,7 @@ ASM_LIST = \
 .obj/Info.s \
 .obj/InfoSize.s \
 .obj/Init.s \
+.obj/InputUtils.s \
 .obj/InstanceLock.s \
 .obj/IntOp.s \
 .obj/IntPrint.s \
@@ -1007,6 +1009,7 @@ DEP_LIST = \
 .obj/Info.dep \
 .obj/InfoSize.dep \
 .obj/Init.dep \
+.obj/InputUtils.dep \
 .obj/InstanceLock.dep \
 .obj/IntOp.dep \
 .obj/IntPrint.dep \
@@ -1737,6 +1740,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Init.o : ../../Simple/CCore/src/./gadget/Init.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/InputUtils.o : ../../Applied/CCore/src/./InputUtils.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/InstanceLock.o : ../../Simple/CCore/src/./InstanceLock.cpp
@@ -3028,6 +3034,9 @@ include $(RULES_FILE)
 .obj/Init.s : ../../Simple/CCore/src/./gadget/Init.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/InputUtils.s : ../../Applied/CCore/src/./InputUtils.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/InstanceLock.s : ../../Simple/CCore/src/./InstanceLock.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4316,6 +4325,9 @@ include $(RULES_FILE)
 
 .obj/Init.dep : ../../Simple/CCore/src/./gadget/Init.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Init.o $< -MF $@
+
+.obj/InputUtils.dep : ../../Applied/CCore/src/./InputUtils.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/InputUtils.o $< -MF $@
 
 .obj/InstanceLock.dep : ../../Simple/CCore/src/./InstanceLock.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InstanceLock.o $< -MF $@

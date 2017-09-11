@@ -39,6 +39,22 @@ auto CmdInput::getCur() const -> Frame
   return Range(list);
  }
 
+bool CmdInput::putFrame(char ch)
+ {
+  if( off>=frame_list.getLen() )
+    {
+     off++;
+
+     return false;
+    }
+
+  Frame next=StrNextFrame(getCur(),off,ch, [] (const Rec &rec) { return rec.cmd; } );
+
+  frame_list[off++]=next;
+
+  return +next;
+ }
+
  // constructors
 
 CmdInput::CmdInput(Target &target_)
@@ -74,54 +90,26 @@ CmdInput::~CmdInput()
 
  // methods
 
-bool CmdInput::put(char ch)
- {
-  if( off>=frame_list.getLen() )
-    {
-     off++;
-
-     return false;
-    }
-
-  Frame next=StrNextFrame(getCur(),off,ch, [] (const Rec &rec) { return rec.cmd; } );
-
-  frame_list[off++]=next;
-
-  return +next;
- }
-
 #ifdef CCORE_UTF8
 
 void CmdInput::putBuf(StrLen str)
  {
-  ulen len=buf.getLen()-ind;
+  ulen len=buf.getLen()-off;
 
   if( len<str.len ) buf.extend_raw(str.len-len);
 
-  str.copyTo(buf.getPtr()+ind);
-
-  ind+=str.len;
+  str.copyTo(buf.getPtr()+off);
  }
 
-ulen CmdInput::popBuf()
+bool CmdInput::put(Utf8Code ch)
  {
-  char *ptr=buf.getPtr();
-  ulen start_ind=ind;
+  StrLen str=ch.getRange();
 
-  while( ind && Utf8Ext(ptr[ind-1]) ) ind--;
-
-  if( ind ) ind--;
-
-  return start_ind-ind;
- }
-
-bool CmdInput::put(StrLen str)
- {
   putBuf(str);
 
   bool ret=true;
 
-  for(; +str ;++str) if( !put(*str) ) ret=false;
+  for(; +str ;++str) if( !putFrame(*str) ) ret=false;
 
   return ret;
  }
@@ -130,7 +118,7 @@ bool CmdInput::back()
  {
   if( off )
     {
-     off=PosSub(off,popBuf());
+     off=PopSymbol(buf.getPtr(),off);
 
      return true;
     }
@@ -138,15 +126,18 @@ bool CmdInput::back()
   return false;
  }
 
+void CmdInput::put(StrLen str)
+ {
+  putBuf(str);
+
+  for(; +str ;++str) putFrame(*str);
+ }
+
 #else
 
-bool CmdInput::put(StrLen str)
+void CmdInput::put(StrLen str)
  {
-  bool ret=true;
-
-  for(; +str ;++str) if( !put(*str) ) ret=false;
-
-  return ret;
+  for(; +str ;++str) putFrame(*str);
  }
 
 #endif

@@ -16,8 +16,7 @@
 #ifndef CCore_inc_ReadCon_h
 #define CCore_inc_ReadCon_h
 
-#include <CCore/inc/TimeScope.h>
-#include <CCore/inc/ReadConType.h>
+#include <CCore/inc/InputUtils.h>
 
 #include <CCore/inc/sys/SysCon.h>
 
@@ -29,87 +28,42 @@ class ReadCon;
 
 /* class ReadCon */
 
-#ifdef CCORE_UTF8
-
-class ReadCon : NoCopy
+class ReadCon : public ReadConBase
  {
-   static constexpr ulen Len = 32 ;
-
    Sys::ConRead con;
-
-   char buf[Len];
-   ulen off;
-   ulen len;
 
   private:
 
-   void shift();
+#ifndef CCORE_UTF8
 
-   static Utf8Code GetCode(char ch,const char *ptr,unsigned len);
+   virtual ulen read(char *ptr,ulen len);
 
-  public:
-
-   ReadCon();
-
-   ~ReadCon();
-
-   // get
-
-   bool try_get(Utf8Code &ret);
-
-   Utf8Code get();
-
-   bool get(MSec timeout,Utf8Code &ret);
-
-   bool get(TimeScope time_scope,Utf8Code &ret);
-
-   // put
-
-   void put(char ch) { put(&ch,1); }
-
-   void put(const char *str,ulen len) { put(Range(str,len)); }
-
-   void put(StrLen str) { Sys::ConWrite(str); }
-
-   void put(Utf8Code code) { put(code.getRange()); }
- };
-
-#else
-
-class ReadCon : NoCopy
- {
-   static constexpr ulen Len = 32 ;
-
-   Sys::ConRead con;
-
-   char buf[Len];
-   char *cur;
-   char *lim;
-
-  public:
-
-   ReadCon();
-
-   ~ReadCon();
-
-   // get
-
-   char get();
-
-   bool get(MSec timeout,char &ret);
-
-   bool get(TimeScope time_scope,char &ret);
-
-   // put
-
-   void put(char ch) { put(&ch,1); }
-
-   void put(const char *str,ulen len) { put(Range(str,len)); }
-
-   void put(StrLen str) { Sys::ConWrite(str); }
- };
+   virtual ulen read(char *ptr,ulen len,MSec timeout);
 
 #endif
+
+   virtual ulen read(char *ptr,ulen len,TimeScope time_scope);
+
+  public:
+
+   ReadCon();
+
+   ~ReadCon();
+
+   // put
+
+   void put(char ch) { put(&ch,1); }
+
+   void put(const char *str,ulen len) { put(Range(str,len)); }
+
+   void put(StrLen str) { Sys::ConWrite(str); }
+
+#ifdef CCORE_UTF8
+
+   void put(Utf8Code code) { put(code.getRange()); }
+
+#endif
+ };
 
 } // namespace CCore
 

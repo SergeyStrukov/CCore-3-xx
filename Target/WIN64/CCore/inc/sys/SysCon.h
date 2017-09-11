@@ -50,6 +50,7 @@ struct ConRead
 
   Type handle;
   ModeType modes;
+  unsigned cp;
 
   // private
 
@@ -57,12 +58,13 @@ struct ConRead
    {
     Type handle;
     ModeType modes;
+    unsigned cp;
     ErrorType error;
    };
 
   static InitType Init() noexcept;
 
-  static ErrorType Exit(Type handle,ModeType modes) noexcept;
+  static ErrorType Exit(Type handle,ModeType modes,unsigned cp) noexcept;
 
   static IOResult Read(Type handle,char *buf,ulen len) noexcept;
 
@@ -76,11 +78,12 @@ struct ConRead
 
     handle=result.handle;
     modes=result.modes;
+    cp=result.cp;
 
     return result.error;
    }
 
-  ErrorType exit() { return Exit(handle,modes); }
+  ErrorType exit() { return Exit(handle,modes,cp); }
 
   IOResult read(char *buf,ulen len) { return Read(handle,buf,len); }
 

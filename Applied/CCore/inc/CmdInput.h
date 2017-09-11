@@ -19,7 +19,7 @@
 #include <CCore/inc/Cmp.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/CharProp.h>
-#include <CCore/inc/ReadConType.h>
+#include <CCore/inc/InputUtils.h>
 #include <CCore/inc/StrMap.h>
 
 namespace CCore {
@@ -78,7 +78,6 @@ class CmdInput : NoCopy
 #ifdef CCORE_UTF8
 
    DynArray<char> buf;
-   ulen ind;
 
 #endif
 
@@ -88,11 +87,11 @@ class CmdInput : NoCopy
 
    Frame getCur() const;
 
+   bool putFrame(char ch);
+
 #ifdef CCORE_UTF8
 
    void putBuf(StrLen str);
-
-   ulen popBuf();
 
 #endif
 
@@ -106,31 +105,17 @@ class CmdInput : NoCopy
 
    // methods
 
-#ifdef CCORE_UTF8
-
-   void start() { off=0; ind=0; }
-
-#else
-
    void start() { off=0; }
 
-#endif
-
-   bool put(char ch);
-
 #ifdef CCORE_UTF8
 
-   bool put(Utf8Code ch) { return put(ch.getRange()); }
-
-#endif
-
-   bool put(StrLen str);
-
-#ifdef CCORE_UTF8
+   bool put(Utf8Code ch);
 
    bool back();
 
 #else
+
+   bool put(char ch) { return putFrame(ch); }
 
    bool back()
     {
@@ -145,6 +130,8 @@ class CmdInput : NoCopy
     }
 
 #endif
+
+   void put(StrLen str);
 
    struct CompleteResult
     {
@@ -252,15 +239,11 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
          }
         break;
 
-#ifdef CCORE_UTF8
-
         case '\b' :
          {
           if( arg_len>0 )
             {
-             while( arg_len && Utf8Ext(arg[arg_len-1]) ) arg_len--;
-
-             if( arg_len ) arg_len--;
+             arg_len=PopSymbol(arg,arg_len);
 
              con.put("\b \b"_c);
             }
@@ -275,46 +258,13 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
 
         default:
          {
-          if( arg_len+ch.getLen()<=MaxArgLen && CharIsPrintable(ch) )
+          if( arg_len+SymbolLen(ch)<=MaxArgLen && CharIsPrintable(ch) )
             {
-             ch.getRange().copyTo(arg+arg_len);
-
-             arg_len+=ch.getLen();
+             arg_len=PutSymbol(arg,arg_len,ch);
 
              con.put(ch);
             }
          }
-
-#else
-
-        case '\b' :
-         {
-          if( arg_len>0 )
-            {
-             arg_len--;
-
-             con.put("\b \b"_c);
-            }
-          else
-            {
-             con.put('\b');
-
-             return false;
-            }
-         }
-        break;
-
-        default:
-         {
-          if( CharIsPrintable(ch) && arg_len<MaxArgLen )
-            {
-             arg[arg_len++]=ch;
-
-             con.put(ch);
-            }
-         }
-
-#endif
        }
     }
  }

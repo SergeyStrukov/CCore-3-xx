@@ -48,7 +48,11 @@ class Target : public NoCopyBase<CmdInput::Target>
     {
      addCommand(input,"",&Target::empty);
      addCommand(input,"help",&Target::help);
+#ifdef CCORE_UTF8
+     addCommand(input,"стоп",&Target::stop);
+#else
      addCommand(input,"stop",&Target::stop);
+#endif
      addCommand(input,"stat",&Target::stat);
      addCommand(input,"stat_ip",&Target::stat_ip);
      addCommand(input,"exit",&Target::exit);

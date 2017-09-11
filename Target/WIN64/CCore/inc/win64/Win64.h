@@ -640,6 +640,14 @@ bool_t WIN64_API SetConsoleOutputCP(codepage_t code_page);
 
 codepage_t WIN64_API GetConsoleOutputCP(void);
 
+/* SetConsoleCP() */
+
+bool_t WIN64_API SetConsoleCP(codepage_t code_page);
+
+/* GetConsoleCP() */
+
+codepage_t WIN64_API GetConsoleCP(void);
+
 /* SetConsoleMode() */
 
 bool_t WIN64_API SetConsoleMode(handle_t h_con, flags_t modes);

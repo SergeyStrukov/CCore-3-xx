@@ -637,6 +637,14 @@ bool_t WIN32_API SetConsoleOutputCP(codepage_t code_page);
 
 codepage_t WIN32_API GetConsoleOutputCP(void);
 
+/* SetConsoleCP() */
+
+bool_t WIN32_API SetConsoleCP(codepage_t code_page);
+
+/* GetConsoleCP() */
+
+codepage_t WIN32_API GetConsoleCP(void);
+
 /* SetConsoleMode() */
 
 bool_t WIN32_API SetConsoleMode(handle_t h_con, flags_t modes);

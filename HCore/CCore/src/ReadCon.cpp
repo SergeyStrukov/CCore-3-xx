@@ -22,194 +22,66 @@ namespace CCore {
 
 /* class ReadCon */
 
-#ifdef CCORE_UTF8
+#ifndef CCORE_UTF8
 
-void ReadCon::shift()
+ulen ReadCon::read(char *ptr,ulen len)
  {
-  if( !off ) return;
+  auto result=con.read(ptr,len);
 
-  for(ulen i=0; i<len ;i++) buf[i]=buf[i+off];
-
-  off=0;
- }
-
-Utf8Code ReadCon::GetCode(char ch,const char *ptr,unsigned len)
- {
-  switch( len )
+  if( result.error )
     {
-     default: [[fallthrough]];
-     case 1 : return Utf8Code(ch);
-     case 2 : return Utf8Code(ch,ptr[1]);
-     case 3 : return Utf8Code(ch,ptr[1],ptr[2]);
-     case 4 : return Utf8Code(ch,ptr[1],ptr[2],ptr[3]);
-    }
- }
-
-ReadCon::ReadCon()
- : off(0),
-   len(0)
- {
-  if( auto error=con.init() )
-    {
-     Printf(Exception,"CCore::ReadCon::ReadCon() : #;",PrintError(error));
-    }
- }
-
-ReadCon::~ReadCon()
- {
-  if( auto error=con.exit() )
-    {
-     Printf(NoException,"CCore::ReadCon::~ReadCon() : #;",PrintError(error));
-    }
- }
-
-bool ReadCon::try_get(Utf8Code &ret)
- {
-  if( !len ) return false;
-
-  char ch=buf[off];
-
-  unsigned symlen=Utf8Len(ch);
-
-  if( symlen==0 ) symlen=1;
-
-  if( symlen>len ) return false;
-
-  ret=GetCode(ch,buf+off,symlen);
-
-  off+=symlen;
-  len-=symlen;
-
-  return true;
- }
-
-Utf8Code ReadCon::get()
- {
-  Utf8Code ret;
-
-  while( !get(DefaultTimeout,ret) );
-
-  return ret;
- }
-
-bool ReadCon::get(MSec timeout,Utf8Code &ret)
- {
-  return get(TimeScope(timeout),ret);
- }
-
-bool ReadCon::get(TimeScope time_scope,Utf8Code &ret)
- {
-  if( try_get(ret) ) return true;
-
-  shift();
-
-  while( +time_scope.get() )
-    {
-     auto result=con.read(buf+len,Len-len,time_scope);
-
-     if( result.error )
-       {
-        Printf(Exception,"CCore::ReadCon::get(...) : #;",PrintError(result.error));
-       }
-
-     if( result.len==0 ) continue;
-
-     len+=result.len;
-
-     if( try_get(ret) ) return true;
+     Printf(Exception,"CCore::ReadCon::read(...) : #;",PrintError(result.error));
     }
 
-  return false;
- }
-
-#else
-
-ReadCon::ReadCon()
- : cur(buf),
-   lim(buf)
- {
-  if( auto error=con.init() )
+  if( result.len==0 )
     {
-     Printf(Exception,"CCore::ReadCon::ReadCon() : #;",PrintError(error));
-    }
- }
-
-ReadCon::~ReadCon()
- {
-  if( auto error=con.exit() )
-    {
-     Printf(NoException,"CCore::ReadCon::~ReadCon() : #;",PrintError(error));
-    }
- }
-
-char ReadCon::get()
- {
-  if( cur>=lim )
-    {
-     auto result=con.read(buf,Len);
-
-     if( result.error )
-       {
-        Printf(Exception,"CCore::ReadCon::get() : #;",PrintError(result.error));
-       }
-
-     if( result.len==0 )
-       {
-        Printf(Exception,"CCore::ReadCon::get() : null read");
-       }
-
-     cur=buf;
-     lim=buf+result.len;
+     Printf(Exception,"CCore::ReadCon::read(...) : null read");
     }
 
-  return *(cur++);
+  return result.len;
  }
 
-bool ReadCon::get(MSec timeout,char &ret)
+ulen ReadCon::read(char *ptr,ulen len,MSec timeout)
  {
-  if( cur>=lim )
+  auto result=con.read(ptr,len,timeout);
+
+  if( result.error )
     {
-     auto result=con.read(buf,Len,timeout);
-
-     if( result.error )
-       {
-        Printf(Exception,"CCore::ReadCon::get(...) : #;",PrintError(result.error));
-       }
-
-     if( result.len==0 ) return false;
-
-     cur=buf;
-     lim=buf+result.len;
+     Printf(Exception,"CCore::ReadCon::read(...) : #;",PrintError(result.error));
     }
 
-  ret=*(cur++);
-
-  return true;
- }
-
-bool ReadCon::get(TimeScope time_scope,char &ret)
- {
-  if( cur>=lim )
-    {
-     auto result=con.read(buf,Len,time_scope);
-
-     if( result.error )
-       {
-        Printf(Exception,"CCore::ReadCon::get(...) : #;",PrintError(result.error));
-       }
-
-     if( result.len==0 ) return false;
-
-     cur=buf;
-     lim=buf+result.len;
-    }
-
-  ret=*(cur++);
-
-  return true;
+  return result.len;
  }
 
 #endif
+
+ulen ReadCon::read(char *ptr,ulen len,TimeScope time_scope)
+ {
+  auto result=con.read(ptr,len,time_scope);
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::ReadCon::read(...) : #;",PrintError(result.error));
+    }
+
+  return result.len;
+ }
+
+ReadCon::ReadCon()
+ {
+  if( auto error=con.init() )
+    {
+     Printf(Exception,"CCore::ReadCon::ReadCon() : #;",PrintError(error));
+    }
+ }
+
+ReadCon::~ReadCon()
+ {
+  if( auto error=con.exit() )
+    {
+     Printf(NoException,"CCore::ReadCon::~ReadCon() : #;",PrintError(error));
+    }
+ }
 
 } // namespace CCore
 

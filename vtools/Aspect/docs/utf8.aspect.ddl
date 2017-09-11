@@ -40,7 +40,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Applied',
-   Red,
+   New,
    {
     &Dir15
    },
@@ -106,7 +106,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'html',
-   Red,
+   New,
    {
    },
    {
@@ -217,6 +217,7 @@ Dir Dir5=
     { 'page_HCoreTargets.html' , Ignore },
     { 'page_HeapEngine.html' , Ignore },
     { 'page_Init.html' , Ignore },
+    { 'page_InputUtils.html' , Red },
     { 'page_Installation.html' , Ignore },
     { 'page_InstanceLock.html' , Ignore },
     { 'page_Integer.html' , Ignore },
@@ -570,7 +571,7 @@ Dir Dir14=
 Dir Dir15=
   {
    'CCore',
-   Red,
+   New,
    {
     &Dir60,
     &Dir61,
@@ -583,7 +584,7 @@ Dir Dir15=
 Dir Dir60=
   {
    'inc',
-   Red,
+   New,
    {
     &Dir63,
     &Dir64,
@@ -606,6 +607,7 @@ Dir Dir60=
     { 'EventRecorder.h' , Ignore },
     { 'FileName.h' , Red },
     { 'FileNameMatch.h' , Red },
+    { 'InputUtils.h' , Red },
     { 'LineInput.h' , Green },
     { 'Log.h' , Ignore },
     { 'NanoPacket.h' , Ignore },
@@ -621,7 +623,7 @@ Dir Dir60=
 Dir Dir61=
   {
    'src',
-   Red,
+   New,
    {
     &Dir73,
     &Dir74,
@@ -644,6 +646,7 @@ Dir Dir61=
     { 'EventRecorder.cpp' , Ignore },
     { 'FileName.cpp' , Red },
     { 'FileNameMatch.cpp' , Red },
+    { 'InputUtils.cpp' , Red },
     { 'LineInput.cpp' , Green },
     { 'Log.cpp' , Ignore },
     { 'NanoPacket.cpp' , Ignore },

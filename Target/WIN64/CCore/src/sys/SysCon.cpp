@@ -85,6 +85,7 @@ auto ConRead::Init() noexcept -> InitType
   if( ret.handle==Win64::InvalidFileHandle )
     {
      ret.modes=0;
+     ret.cp=0;
      ret.error=NonNullError();
 
      return ret;
@@ -93,6 +94,7 @@ auto ConRead::Init() noexcept -> InitType
   if( ret.handle==0 )
     {
      ret.modes=0;
+     ret.cp=0;
      ret.error=ErrorType(Win64::ErrorFileNotFound);
 
      return ret;
@@ -101,6 +103,7 @@ auto ConRead::Init() noexcept -> InitType
   if( !Win64::GetConsoleMode(ret.handle,&ret.modes) )
     {
      ret.modes=0;
+     ret.cp=0;
      ret.error=NonNullError();
 
      return ret;
@@ -112,7 +115,19 @@ auto ConRead::Init() noexcept -> InitType
 
   if( !Win64::SetConsoleMode(ret.handle,new_modes) )
     {
+     ret.cp=0;
      ret.error=NonNullError();
+
+     return ret;
+    }
+
+  ret.cp=Win64::GetConsoleCP();
+
+  if( !Win64::SetConsoleCP(Win64::GetACP()) )
+    {
+     ret.error=NonNullError();
+
+     Win64::SetConsoleMode(ret.handle,ret.modes);
 
      return ret;
     }
@@ -122,9 +137,15 @@ auto ConRead::Init() noexcept -> InitType
   return ret;
  }
 
-ErrorType ConRead::Exit(Type handle,ModeType modes) noexcept
+ErrorType ConRead::Exit(Type handle,ModeType modes,unsigned cp) noexcept
  {
-  return ErrorIf( !Win64::SetConsoleMode(handle,modes) );
+  ErrorType ret=NoError;
+
+  if( !Win64::SetConsoleCP(cp) ) ret=NonNullError();
+
+  if( !Win64::SetConsoleMode(handle,modes) && !ret ) ret=NonNullError();
+
+  return ret;
  }
 
 auto ConRead::Read(Type handle,char *buf,ulen len) noexcept -> IOResult

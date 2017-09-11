@@ -18,7 +18,7 @@
 
 #include <CCore/inc/TimeScope.h>
 #include <CCore/inc/CharProp.h>
-#include <CCore/inc/ReadConType.h>
+#include <CCore/inc/InputUtils.h>
 
 namespace CCore {
 
@@ -34,7 +34,7 @@ class LineInput : NoCopy
    ReadCon con;
 
    char buf[MaxLen];
-   ulen ind;
+   ulen len;
 
   private:
 
@@ -43,7 +43,7 @@ class LineInput : NoCopy
   public:
 
    template <class ... SS>
-   explicit LineInput(SS && ... ss) : con( std::forward<SS>(ss)... ),ind(0) {}
+   explicit LineInput(SS && ... ss) : con( std::forward<SS>(ss)... ),len(0) {}
 
    ~LineInput() {}
 
@@ -62,19 +62,15 @@ bool LineInput<ReadCon,MaxLen>::process(ReadConCode ch,PtrLen<const char> &ret)
       {
        con.put("\r\n"_c);
 
-       ret=Range_const(buf,Replace_null(ind));
+       ret=Range_const(buf,Replace_null(len));
       }
      return true;
 
-#ifdef CCORE_UTF8
-
      case '\b' :
       {
-       if( ind>0 )
+       if( len>0 )
          {
-          while( ind && Utf8Ext(buf[ind-1]) ) ind--;
-
-          if( ind ) ind--;
+          len=PopSymbol(buf,len);
 
           con.put("\b \b"_c);
          }
@@ -83,40 +79,13 @@ bool LineInput<ReadCon,MaxLen>::process(ReadConCode ch,PtrLen<const char> &ret)
 
      default:
       {
-       if( ind+ch.getLen()<=MaxLen && CharIsPrintable(ch) )
+       if( len+SymbolLen(ch)<=MaxLen && CharIsPrintable(ch) )
          {
-          ch.getRange().copyTo(buf+ind);
-
-          ind+=ch.getLen();
+          len=PutSymbol(buf,len,ch);
 
           con.put(ch);
          }
       }
-
-#else
-
-     case '\b' :
-      {
-       if( ind>0 )
-         {
-          ind--;
-
-          con.put("\b \b"_c);
-         }
-      }
-     break;
-
-     default:
-      {
-       if( ind<MaxLen && CharIsPrintable(ch) )
-         {
-          buf[ind++]=ch;
-
-          con.put(ch);
-         }
-      }
-
-#endif
     }
 
   return false;
