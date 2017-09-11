@@ -607,7 +607,7 @@ Dir Dir60=
     { 'EventRecorder.h' , Ignore },
     { 'FileName.h' , Red },
     { 'FileNameMatch.h' , Red },
-    { 'InputUtils.h' , Red },
+    { 'InputUtils.h' , Yellow },
     { 'LineInput.h' , Green },
     { 'Log.h' , Ignore },
     { 'NanoPacket.h' , Ignore },
@@ -646,7 +646,7 @@ Dir Dir61=
     { 'EventRecorder.cpp' , Ignore },
     { 'FileName.cpp' , Red },
     { 'FileNameMatch.cpp' , Red },
-    { 'InputUtils.cpp' , Red },
+    { 'InputUtils.cpp' , Yellow },
     { 'LineInput.cpp' , Green },
     { 'Log.cpp' , Ignore },
     { 'NanoPacket.cpp' , Ignore },
@@ -845,7 +845,7 @@ Dir Dir68=
    },
    {
     { 'PrintAsyncFile.h' , Ignore },
-    { 'PrintPTPCon.h' , Red }
+    { 'PrintPTPCon.h' , Yellow }
    }
   };
 
@@ -1037,7 +1037,7 @@ Dir Dir78=
    },
    {
     { 'PrintAsyncFile.cpp' , Ignore },
-    { 'PrintPTPCon.cpp' , Red }
+    { 'PrintPTPCon.cpp' , Yellow }
    }
   };
 

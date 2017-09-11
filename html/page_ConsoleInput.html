@@ -342,11 +342,11 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
    
    // get
   
-   char get();
+   ReadConCode get();
    
-   bool get(MSec timeout,char &ret);
+   bool get(MSec timeout,ReadConCode &ret);
    
-   bool get(TimeScope time_scope,char &ret);
+   bool get(TimeScope time_scope,ReadConCode &ret);
    
    // put, ignore errors
    
@@ -355,6 +355,8 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
    void put(const char *str,ulen len);
    
    void put(StrLen str);
+
+   void put(ReadConCode ch);
  };
 
 </pre>
