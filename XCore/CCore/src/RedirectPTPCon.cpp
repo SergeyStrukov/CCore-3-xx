@@ -19,21 +19,19 @@ namespace CCore {
 
 /* class RedirectPTPCon::Engine */
 
-#if 0
-
-ulen RedirectPTPCon::Engine::proc(PtrLen<const uint8> str,char *out)
+ulen RedirectPTPCon::Engine::proc(StrLen str,char *out)
  {
   ulen ret=0;
 
   Sys::HookConInput hook;
 
-  for(; +str ;++str)
+  while( parser.feed(str) )
     {
-     char ch=*str;
+     ReadConCode ch=parser.get();
 
      switch( hook(ch) )
        {
-        case Sys::Con_Echo : out[ret++]=ch; break;
+        case Sys::Con_Echo : ret=PutSymbol(out,ret,ch); break;
 
         case Sys::Con_EOL : out[ret++]='\n'; break;
 
@@ -43,8 +41,6 @@ ulen RedirectPTPCon::Engine::proc(PtrLen<const uint8> str,char *out)
 
   return ret;
  }
-
-#endif
 
 void RedirectPTPCon::Engine::write(PtrLen<const char> str)
  {
@@ -107,7 +103,7 @@ void RedirectPTPCon::Engine::input(PacketBuf &,PtrLen<const uint8> str)
  {
   const ulen Len = 128 ;
 
-  char temp[Len];
+  char temp[Len+MaxSymbolLen];
 
   for(;;)
     {
@@ -115,7 +111,7 @@ void RedirectPTPCon::Engine::input(PacketBuf &,PtrLen<const uint8> str)
 
      if( !frame ) return;
 
-     ulen len=proc(frame,temp);
+     ulen len=proc(Mutate<const char>(frame),temp);
 
      write_try(Range_const(temp,len));
     }
@@ -123,7 +119,7 @@ void RedirectPTPCon::Engine::input(PacketBuf &,PtrLen<const uint8> str)
 
 void RedirectPTPCon::Engine::stop()
  {
-  if( reading ) write_try(StrLen("\nConsole is lost !\n"));
+  if( reading ) write_try("\nConsole is lost !\n"_c);
  }
 
 RedirectPTPCon::Engine::Engine(StrLen con_device_name,StrLen name,const Net::PTPCon::Cfg &cfg)

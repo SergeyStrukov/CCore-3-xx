@@ -46,11 +46,11 @@ RetFileOp<Size> FileSystem::ConWrite(const void *buf,Size buf_size)
   return buf_size;
  }
 
-#if 0
-
 RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
  {
-  if( buf_size==0 ) return buf_size;
+  if( buf_size==0 ) return 0;
+
+  if( buf_size<MaxSymbolLen ) return FileResult_ReadFault;
 
   char *buf=static_cast<char *>(buf_);
 
@@ -59,13 +59,15 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
   if( !con ) return FileResult_ReadFault;
 
   Size off=0;
-  char ch;
+  ReadConCode ch;
 
   for(;;)
     {
+     if( off+MaxSymbolLen>buf_size ) return off;
+
      if( con->get(DefaultTimeout,ch) )
        {
-        switch( ch )
+        switch( ToChar(ch) )
           {
            case '\r' :
            case '\n' :
@@ -91,11 +93,9 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
             {
              if( CharIsPrintable(ch) )
                {
-                buf[off++]=ch;
+                off=PutSymbol(buf,off,ch);
 
                 con->put(ch);
-
-                if( off>=buf_size ) return off;
                }
             }
           }
@@ -106,8 +106,6 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
        }
     }
  }
-
-#endif
 
 } // namespace LibC_Internal
 

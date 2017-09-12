@@ -190,5 +190,67 @@ bool ReadConBase::get(TimeScope time_scope,char &ret)
 
 #endif
 
+/* class SymbolParser */
+
+#ifdef CCORE_UTF8
+
+bool SymbolParser::feed(StrLen &text)
+ {
+  if( len==0 )
+    {
+     if( !text ) return false;
+
+     char ch=*text;
+
+     buf[len++]=ch;
+
+     ++text;
+
+     symlen=Utf8Len(ch);
+
+     if( !symlen ) symlen=1;
+    }
+
+  while( len<symlen )
+    {
+     if( !text ) return false;
+
+     char ch=*text;
+
+     if( Utf8Ext(ch) )
+       {
+        buf[len++]=ch;
+
+        ++text;
+       }
+     else
+       {
+        return true;
+       }
+    }
+
+  return true;
+ }
+
+#else
+
+bool SymbolParser::feed(StrLen &text)
+ {
+  if( len==0 )
+    {
+     if( !text ) return false;
+
+     buf=*text;
+
+     len++;
+
+     ++text;
+    }
+
+  return true;
+ }
+
+#endif
+
 } // namespace CCore
 

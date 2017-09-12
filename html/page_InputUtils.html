@@ -38,6 +38,8 @@ This file contains a set of simple tools to work with console input.
 
 <pre>
 
+inline constexpr unsigned <span class="Att">MaxSymbolLen</span> = .... ;
+
 ulen <span class="Att">SymbolLen</span>(ReadConCode ch);
 
 StrLen <span class="Att">SymbolRange</span>(const ReadConCode &ch);
@@ -47,6 +49,10 @@ ulen <span class="Att">PutSymbol</span>(char *ptr,ulen len,ReadConCode ch);
 ulen <span class="Att">PopSymbol</span>(const char *ptr,ulen len); // len > 0
 
 </pre>
+
+<p>
+<b>MaxSymbolLen</b> is the maximum symbol length in characters.
+</p>
 
 <p>
 <b>SymbolLen()</b> gets a symbol length in characters.
@@ -115,6 +121,44 @@ Reading the stream is implemented using pure virtual method(s) <b>read()</b>.
 This method gets the buffer to read to and returns the number of received characters. 
 If there was no available characters withing given timeout, null is returned.
 An exception may be thrown in case of error.
+</p>
+
+<h4>SymbolParser</h4>
+
+<p>
+The class <b>SymbolPraser</b> parses the character stream into symbols.
+</p>
+
+<pre>
+
+class <span class="Att">SymbolParser</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   SymbolParser() { reset(); }
+
+   void reset();
+
+   bool feed(StrLen &text);
+
+   ReadConCode get();
+ };
+
+</pre>
+
+<p>
+<b>reset()</b> resets the parser into the initial state.
+</p>
+
+<p>
+<b>feed()</b> feeds the parser by the characters (<b>text</b> is updated). If a symbol is accumulated the return value is <b>true</b>.
+Otherwise <b>text</b> becomes empty.
+</p>
+
+<p>
+<b>get()</b> must be called if the previous <b>feed()</b> returned <b>true</b>. This method returns the accumulated symbol and resets the parser.
 </p>
 
 </body>

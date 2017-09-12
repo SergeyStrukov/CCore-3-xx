@@ -40,9 +40,11 @@ class RedirectPTPCon : NoCopy
 
       Atomic reading;
 
+      SymbolParser parser;
+
      private:
 
-      ulen proc(PtrLen<const uint8> str,char *out);
+      ulen proc(StrLen str,char *out);
 
       void write(PtrLen<const char> str);
 

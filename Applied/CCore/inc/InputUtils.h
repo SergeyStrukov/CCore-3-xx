@@ -25,6 +25,8 @@ namespace CCore {
 
 #ifdef CCORE_UTF8
 
+inline constexpr unsigned MaxSymbolLen = 4 ;
+
 inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
 
 inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
@@ -46,6 +48,8 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
  }
 
 #else
+
+inline constexpr unsigned MaxSymbolLen = 1 ;
 
 inline ulen SymbolLen(char ch) { Used(ch); return 1; }
 
@@ -70,6 +74,8 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
 /* classes */
 
 class ReadConBase;
+
+class SymbolParser;
 
 /* class ReadConBase */
 
@@ -143,6 +149,65 @@ class ReadConBase : NoCopy
    bool get(MSec timeout,char &ret);
 
    bool get(TimeScope time_scope,char &ret);
+ };
+
+#endif
+
+/* class SymbolParser */
+
+#ifdef CCORE_UTF8
+
+class SymbolParser : NoCopy
+ {
+   char buf[4];
+   unsigned len;
+   unsigned symlen;
+
+  public:
+
+   SymbolParser() { reset(); }
+
+   void reset() { len=0; }
+
+   bool feed(StrLen &text);
+
+   Utf8Code get()
+    {
+     len=0;
+
+     switch( symlen )
+       {
+        default: return Utf8Code();
+
+        case 1 : return Utf8Code(buf[0]);
+        case 2 : return Utf8Code(buf[0],buf[1]);
+        case 3 : return Utf8Code(buf[0],buf[1],buf[2]);
+        case 4 : return Utf8Code(buf[0],buf[1],buf[2],buf[3]);
+       }
+    }
+ };
+
+#else
+
+class SymbolParser : NoCopy
+ {
+   char buf;
+   unsigned len;
+
+  public:
+
+   SymbolParser() { reset(); }
+
+   void reset() { len=0; }
+
+   bool feed(StrLen &text);
+
+   char get()
+    {
+     len=0;
+
+     return buf;
+    }
  };
 
 #endif

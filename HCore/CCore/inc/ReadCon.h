@@ -52,7 +52,7 @@ class ReadCon : public ReadConBase
 
    // put
 
-   void put(char ch) { put(&ch,1); }
+   void put(char ch) { put(Single(ch)); }
 
    void put(const char *str,ulen len) { put(Range(str,len)); }
 

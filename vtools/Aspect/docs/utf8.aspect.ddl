@@ -106,7 +106,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'html',
-   Red,
+   Green,
    {
    },
    {
@@ -153,7 +153,7 @@ Dir Dir5=
     { 'page_CompactNodeAllocator.html' , Ignore },
     { 'page_CompletePacket.html' , Ignore },
     { 'page_CondLangLR1.html' , Ignore },
-    { 'page_ConsoleInput.html' , Red },
+    { 'page_ConsoleInput.html' , Green },
     { 'page_ContainerLists.html' , Ignore },
     { 'page_Counters.html' , Ignore },
     { 'page_Crc.html' , Ignore },
@@ -506,7 +506,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   New,
+   Red,
    {
     &Dir44,
     &Dir45,
@@ -2989,7 +2989,7 @@ Dir Dir43=
 Dir Dir44=
   {
    'BeagleBoneBlack',
-   New,
+   Green,
    {
     &Dir144,
     &Dir145,
@@ -3105,7 +3105,7 @@ Dir Dir50=
 Dir Dir144=
   {
    'CCore',
-   New,
+   Green,
    {
     &Dir165,
     &Dir166,
@@ -3133,13 +3133,13 @@ Dir Dir145=
 Dir Dir146=
   {
    'test',
-   New,
+   Ignore,
    {
     &Dir172
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
@@ -3148,7 +3148,7 @@ Dir Dir146=
 Dir Dir147=
   {
    'tools',
-   New,
+   Ignore,
    {
     &Dir173,
     &Dir174,
@@ -3163,7 +3163,7 @@ Dir Dir147=
 Dir Dir165=
   {
    'inc',
-   New,
+   Green,
    {
     &Dir177,
     &Dir178,
@@ -3172,15 +3172,15 @@ Dir Dir165=
     &Dir181
    },
    {
-    { 'Boot.h' , New },
-    { 'I2CDevice.h' , New }
+    { 'Boot.h' , Ignore },
+    { 'I2CDevice.h' , Ignore }
    }
   };
 
 Dir Dir166=
   {
    'src',
-   New,
+   Green,
    {
     &Dir182,
     &Dir183,
@@ -3191,44 +3191,44 @@ Dir Dir166=
     &Dir188
    },
    {
-    { 'Boot.cpp' , New },
-    { 'I2CDevice.cpp' , New },
-    { 'PlanInit_CCore.cpp' , New },
-    { 'Boot.s' , New }
+    { 'Boot.cpp' , Ignore },
+    { 'I2CDevice.cpp' , Ignore },
+    { 'PlanInit_CCore.cpp' , Ignore },
+    { 'Boot.s' , Ignore }
    }
   };
 
 Dir Dir167=
   {
    'test',
-   New,
+   Ignore,
    {
    },
    {
-    { 'test6005.Atomic.cpp' , New },
-    { 'test6006.CPU.cpp' , New },
-    { 'test6012.Eth.cpp' , New },
-    { 'test6004.Exception.cpp' , New },
-    { 'test6007.FPU.cpp' , New },
-    { 'test6003.gcc.cpp' , New },
-    { 'test6010.I2C.cpp' , New },
-    { 'test6011.LCD.cpp' , New },
-    { 'test6002.Light.cpp' , New },
-    { 'test6008.PerfCount.cpp' , New },
-    { 'test6001.RedirectPTPCon.cpp' , New },
-    { 'test6009.Timer.cpp' , New },
-    { 'test6013.Video.cpp' , New }
+    { 'test6005.Atomic.cpp' , Ignore },
+    { 'test6006.CPU.cpp' , Ignore },
+    { 'test6012.Eth.cpp' , Ignore },
+    { 'test6004.Exception.cpp' , Ignore },
+    { 'test6007.FPU.cpp' , Ignore },
+    { 'test6003.gcc.cpp' , Ignore },
+    { 'test6010.I2C.cpp' , Ignore },
+    { 'test6011.LCD.cpp' , Ignore },
+    { 'test6002.Light.cpp' , Ignore },
+    { 'test6008.PerfCount.cpp' , Ignore },
+    { 'test6001.RedirectPTPCon.cpp' , Ignore },
+    { 'test6009.Timer.cpp' , Ignore },
+    { 'test6013.Video.cpp' , Ignore }
    }
   };
 
 Dir Dir177=
   {
    'base',
-   New,
+   Green,
    {
    },
    {
-    { 'PlatformBase.h' , Red },
+    { 'PlatformBase.h' , Green },
     { 'Quick.h' , Ignore }
    }
   };
@@ -3236,207 +3236,207 @@ Dir Dir177=
 Dir Dir178=
   {
    'dev',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AM3359.CONTROL.desc' , New },
-    { 'AM3359.CP15.desc' , New },
-    { 'AM3359.CP15CNT.desc' , New },
-    { 'AM3359.ETH.desc' , New },
-    { 'AM3359.GPIO.desc' , New },
-    { 'NXP.HDMI.desc' , New },
-    { 'AM3359.I2C.desc' , New },
-    { 'AM3359.INTC.desc' , New },
-    { 'AM3359.LCD.desc' , New },
-    { 'AM3359.PRCM.desc' , New },
-    { 'AM3359.TIMER.desc' , New },
-    { 'AM3359.h' , New },
-    { 'DevBit.h' , New },
-    { 'DevControlMutex.h' , New },
-    { 'DevEth.h' , New },
-    { 'DevHDMI.h' , New },
-    { 'DevI2C.h' , New },
-    { 'DevInt.h' , New },
-    { 'DevIntHandle.h' , New },
-    { 'DevLCD.h' , New },
-    { 'DevLight.h' , New },
-    { 'DevPerfCount.h' , New },
-    { 'DevPlanInit.h' , New },
-    { 'DevRW.h' , New },
-    { 'DevTick.h' , New },
-    { 'DevTimer.h' , New },
-    { 'DevWaitForInterrupt.h' , New },
-    { 'AM3359.CONTROL.h' , New },
-    { 'AM3359.CP15CNT.h' , New },
-    { 'AM3359.ETH.h' , New },
-    { 'AM3359.CONTROL.gen.h' , New },
-    { 'AM3359.CP15.gen.h' , New },
-    { 'AM3359.CP15CNT.gen.h' , New },
-    { 'AM3359.ETH.gen.h' , New },
-    { 'AM3359.GPIO.gen.h' , New },
-    { 'NXP.HDMI.gen.h' , New },
-    { 'AM3359.I2C.gen.h' , New },
-    { 'AM3359.INTC.gen.h' , New },
-    { 'AM3359.LCD.gen.h' , New },
-    { 'AM3359.PRCM.gen.h' , New },
-    { 'AM3359.TIMER.gen.h' , New },
-    { 'AM3359.GPIO.h' , New },
-    { 'NXP.HDMI.h' , New },
-    { 'AM3359.I2C.h' , New },
-    { 'AM3359.INTC.h' , New },
-    { 'AM3359.LCD.h' , New },
-    { 'AM3359.PRCM.h' , New },
-    { 'AM3359.TIMER.h' , New }
+    { 'AM3359.CONTROL.desc' , Ignore },
+    { 'AM3359.CP15.desc' , Ignore },
+    { 'AM3359.CP15CNT.desc' , Ignore },
+    { 'AM3359.ETH.desc' , Ignore },
+    { 'AM3359.GPIO.desc' , Ignore },
+    { 'NXP.HDMI.desc' , Ignore },
+    { 'AM3359.I2C.desc' , Ignore },
+    { 'AM3359.INTC.desc' , Ignore },
+    { 'AM3359.LCD.desc' , Ignore },
+    { 'AM3359.PRCM.desc' , Ignore },
+    { 'AM3359.TIMER.desc' , Ignore },
+    { 'AM3359.h' , Ignore },
+    { 'DevBit.h' , Ignore },
+    { 'DevControlMutex.h' , Ignore },
+    { 'DevEth.h' , Ignore },
+    { 'DevHDMI.h' , Ignore },
+    { 'DevI2C.h' , Ignore },
+    { 'DevInt.h' , Ignore },
+    { 'DevIntHandle.h' , Ignore },
+    { 'DevLCD.h' , Ignore },
+    { 'DevLight.h' , Ignore },
+    { 'DevPerfCount.h' , Ignore },
+    { 'DevPlanInit.h' , Ignore },
+    { 'DevRW.h' , Ignore },
+    { 'DevTick.h' , Ignore },
+    { 'DevTimer.h' , Ignore },
+    { 'DevWaitForInterrupt.h' , Ignore },
+    { 'AM3359.CONTROL.h' , Ignore },
+    { 'AM3359.CP15CNT.h' , Ignore },
+    { 'AM3359.ETH.h' , Ignore },
+    { 'AM3359.CONTROL.gen.h' , Ignore },
+    { 'AM3359.CP15.gen.h' , Ignore },
+    { 'AM3359.CP15CNT.gen.h' , Ignore },
+    { 'AM3359.ETH.gen.h' , Ignore },
+    { 'AM3359.GPIO.gen.h' , Ignore },
+    { 'NXP.HDMI.gen.h' , Ignore },
+    { 'AM3359.I2C.gen.h' , Ignore },
+    { 'AM3359.INTC.gen.h' , Ignore },
+    { 'AM3359.LCD.gen.h' , Ignore },
+    { 'AM3359.PRCM.gen.h' , Ignore },
+    { 'AM3359.TIMER.gen.h' , Ignore },
+    { 'AM3359.GPIO.h' , Ignore },
+    { 'NXP.HDMI.h' , Ignore },
+    { 'AM3359.I2C.h' , Ignore },
+    { 'AM3359.INTC.h' , Ignore },
+    { 'AM3359.LCD.h' , Ignore },
+    { 'AM3359.PRCM.h' , Ignore },
+    { 'AM3359.TIMER.h' , Ignore }
    }
   };
 
 Dir Dir179=
   {
    'libc',
-   New,
+   Ignore,
    {
    },
    {
-    { 'atexit.h' , New },
-    { 'CBase.h' , New }
+    { 'atexit.h' , Ignore },
+    { 'CBase.h' , Ignore }
    }
   };
 
 Dir Dir180=
   {
    'sys',
-   New,
+   Green,
    {
    },
    {
-    { 'SysAbort.h' , New },
-    { 'SysAtomic.h' , New },
-    { 'SysConHost.h' , New },
-    { 'SysMemSpace.h' , New },
-    { 'SysPlanInit.h' , New },
-    { 'SysTime.h' , New }
+    { 'SysAbort.h' , Ignore },
+    { 'SysAtomic.h' , Ignore },
+    { 'SysConHost.h' , Green },
+    { 'SysMemSpace.h' , Ignore },
+    { 'SysPlanInit.h' , Ignore },
+    { 'SysTime.h' , Ignore }
    }
   };
 
 Dir Dir181=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'VideoControl.h' , New }
+    { 'VideoControl.h' , Ignore }
    }
   };
 
 Dir Dir182=
   {
    'base',
-   New,
+   Ignore,
    {
    },
    {
-    { 'PlatformBase.cpp' , New },
-    { 'Quick.cpp' , New },
-    { 'PlatformBase.s' , New },
-    { 'Quick.s' , New }
+    { 'PlatformBase.cpp' , Ignore },
+    { 'Quick.cpp' , Ignore },
+    { 'PlatformBase.s' , Ignore },
+    { 'Quick.s' , Ignore }
    }
   };
 
 Dir Dir183=
   {
    'debug',
-   New,
+   Ignore,
    {
    },
    {
-    { 'DebugCon.cpp' , New }
+    { 'DebugCon.cpp' , Ignore }
    }
   };
 
 Dir Dir184=
   {
    'dev',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AM3359.cpp' , New },
-    { 'DevBit.cpp' , New },
-    { 'DevControlMutex.cpp' , New },
-    { 'DevEth.cpp' , New },
-    { 'DevHDMI.cpp' , New },
-    { 'DevI2C.cpp' , New },
-    { 'DevInt.cpp' , New },
-    { 'DevIntHandle.cpp' , New },
-    { 'DevLCD.cpp' , New },
-    { 'DevLight.cpp' , New },
-    { 'DevPerfCount.cpp' , New },
-    { 'DevPlanInit.cpp' , New },
-    { 'DevRW.cpp' , New },
-    { 'DevTick.cpp' , New },
-    { 'DevTimer.cpp' , New },
-    { 'DevWaitForInterrupt.cpp' , New },
-    { 'AM3359.CP15CNT.cpp' , New },
-    { 'AM3359.s' , New },
-    { 'DevInt.s' , New },
-    { 'DevPlanInit.s' , New },
-    { 'DevRW.s' , New },
-    { 'DevWaitForInterrupt.s' , New },
-    { 'AM3359.CP15CNT.s' , New }
+    { 'AM3359.cpp' , Ignore },
+    { 'DevBit.cpp' , Ignore },
+    { 'DevControlMutex.cpp' , Ignore },
+    { 'DevEth.cpp' , Ignore },
+    { 'DevHDMI.cpp' , Ignore },
+    { 'DevI2C.cpp' , Ignore },
+    { 'DevInt.cpp' , Ignore },
+    { 'DevIntHandle.cpp' , Ignore },
+    { 'DevLCD.cpp' , Ignore },
+    { 'DevLight.cpp' , Ignore },
+    { 'DevPerfCount.cpp' , Ignore },
+    { 'DevPlanInit.cpp' , Ignore },
+    { 'DevRW.cpp' , Ignore },
+    { 'DevTick.cpp' , Ignore },
+    { 'DevTimer.cpp' , Ignore },
+    { 'DevWaitForInterrupt.cpp' , Ignore },
+    { 'AM3359.CP15CNT.cpp' , Ignore },
+    { 'AM3359.s' , Ignore },
+    { 'DevInt.s' , Ignore },
+    { 'DevPlanInit.s' , Ignore },
+    { 'DevRW.s' , Ignore },
+    { 'DevWaitForInterrupt.s' , Ignore },
+    { 'AM3359.CP15CNT.s' , Ignore }
    }
   };
 
 Dir Dir185=
   {
    'libc',
-   New,
+   Ignore,
    {
    },
    {
-    { '__std_init.cpp' , New },
-    { 'atexit.cpp' , New },
-    { 'CBase.cpp' , New }
+    { '__std_init.cpp' , Ignore },
+    { 'atexit.cpp' , Ignore },
+    { 'CBase.cpp' , Ignore }
    }
   };
 
 Dir Dir186=
   {
    'sys',
-   New,
+   Green,
    {
    },
    {
-    { 'SysAbort.cpp' , New },
-    { 'SysAtomic.cpp' , New },
-    { 'SysCon.cpp' , New },
-    { 'SysMemSpace.cpp' , New },
-    { 'SysPlanInit.cpp' , New },
-    { 'SysTime.cpp' , New },
-    { 'SysAtomic.s' , New }
+    { 'SysAbort.cpp' , Ignore },
+    { 'SysAtomic.cpp' , Ignore },
+    { 'SysCon.cpp' , Green },
+    { 'SysMemSpace.cpp' , Ignore },
+    { 'SysPlanInit.cpp' , Ignore },
+    { 'SysTime.cpp' , Ignore },
+    { 'SysAtomic.s' , Ignore }
    }
   };
 
 Dir Dir187=
   {
    'task',
-   New,
+   Ignore,
    {
    },
    {
-    { 'TaskContext.cpp' , New }
+    { 'TaskContext.cpp' , Ignore }
    }
   };
 
 Dir Dir188=
   {
    'video',
-   New,
+   Ignore,
    {
    },
    {
-    { 'VideoControl.cpp' , New }
+    { 'VideoControl.cpp' , Ignore }
    }
   };
 
@@ -3548,12 +3548,12 @@ Dir Dir172=
 Dir Dir173=
   {
    'Boot',
-   New,
+   Ignore,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -3561,12 +3561,12 @@ Dir Dir173=
 Dir Dir174=
   {
    'BootServer',
-   New,
+   Ignore,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -3574,12 +3574,12 @@ Dir Dir174=
 Dir Dir175=
   {
    'ELFtoUboot',
-   New,
+   Ignore,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -5588,7 +5588,7 @@ Dir Dir297=
     { 'FileToMem.h' , Ignore },
     { 'Print.h' , Ignore },
     { 'ReadCon.h' , Green },
-    { 'RedirectPTPCon.h' , Red },
+    { 'RedirectPTPCon.h' , Green },
     { 'Scan.h' , Ignore },
     { 'SpecialMemBase.h' , Ignore },
     { 'StdioReadCon.h' , Ignore },
@@ -5616,7 +5616,7 @@ Dir Dir298=
     { 'MemBase.cpp' , Ignore },
     { 'Print.cpp' , Ignore },
     { 'ReadCon.cpp' , Green },
-    { 'RedirectPTPCon.cpp' , Red },
+    { 'RedirectPTPCon.cpp' , Green },
     { 'Scan.cpp' , Ignore },
     { 'SpecialMemBase.cpp' , Ignore },
     { 'StdioReadCon.cpp' , Ignore },
@@ -5757,7 +5757,7 @@ Dir Dir306=
     { 'CPrintf.cpp' , Red },
     { 'CScanf.cpp' , Green },
     { 'CStdFile.cpp' , Green },
-    { 'CSysCon.cpp' , Red },
+    { 'CSysCon.cpp' , Green },
     { 'CSysFile.cpp' , Green },
     { 'stdio.cpp' , Red },
     { 'stdlib.cpp' , Ignore },
