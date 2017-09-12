@@ -1,7 +1,7 @@
 /* test5014.ReadCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -32,14 +32,14 @@ bool Testit<5014>::Main()
 
   con.put("Type 'x' to stop\n\n");
 
-  for(char ch; (ch=con.get())!='x' ;)
+  for(ReadConCode ch; ToChar(ch=con.get())!='x' ;)
     {
-     Printf(Con,"#;\n",CharCode(ch));
+     Printf(Con,"#;\n",ExtCharCode(ch));
     }
 
   con.put("Type 'x' to exit\n\n");
 
-  for(char ch;;)
+  for(ReadConCode ch;;)
     {
      if( !con.get(3_sec,ch) )
        {
@@ -48,9 +48,9 @@ bool Testit<5014>::Main()
         continue;
        }
 
-     if( ch=='x' ) break;
+     if( ToChar(ch)=='x' ) break;
 
-     Printf(Con,"#;\n",CharCode(ch));
+     Printf(Con,"#;\n",ExtCharCode(ch));
     }
 
   return true;

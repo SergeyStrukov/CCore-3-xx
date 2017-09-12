@@ -1,7 +1,7 @@
 /* CSysCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: XCore
 //
@@ -45,6 +45,8 @@ RetFileOp<Size> FileSystem::ConWrite(const void *buf,Size buf_size)
 
   return buf_size;
  }
+
+#if 0
 
 RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
  {
@@ -104,6 +106,8 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
        }
     }
  }
+
+#endif
 
 } // namespace LibC_Internal
 

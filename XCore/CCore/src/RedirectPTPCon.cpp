@@ -1,7 +1,7 @@
 /* RedirectPTPCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,6 +18,8 @@
 namespace CCore {
 
 /* class RedirectPTPCon::Engine */
+
+#if 0
 
 ulen RedirectPTPCon::Engine::proc(PtrLen<const uint8> str,char *out)
  {
@@ -41,6 +43,8 @@ ulen RedirectPTPCon::Engine::proc(PtrLen<const uint8> str,char *out)
 
   return ret;
  }
+
+#endif
 
 void RedirectPTPCon::Engine::write(PtrLen<const char> str)
  {

@@ -1,7 +1,7 @@
 /* PlatformBase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Target/BeagleBoneBlack
 //
@@ -30,6 +30,10 @@
 /* inlining disabler */
 
 #define CCORE_NOINLINE __attribute__((noinline))
+
+/* UTF8 claim */
+
+#define CCORE_UTF8
 
 /* includes */
 

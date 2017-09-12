@@ -1,7 +1,7 @@
 /* ReadCon.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -21,14 +21,14 @@ namespace CCore {
 
 /* class ReadCon */
 
-Sys::ConInputResult ReadCon::input_any(char ch)
+Sys::ConInputResult ReadCon::input_any(ReadConCode ch)
  {
   bool ok;
 
   {
    Lock lock(*this);
 
-   if( ch==3 ) // ^C
+   if( ToChar(ch)==3 ) // ^C
      {
       Abort("--- ^C abort ---");
      }
@@ -46,7 +46,7 @@ Sys::ConInputResult ReadCon::input_any(char ch)
   return Sys::Con_Drop;
  }
 
-bool ReadCon::do_get(char &ret)
+bool ReadCon::do_get(ReadConCode &ret)
  {
   Lock lock(*this);
 
@@ -64,25 +64,25 @@ ReadCon::~ReadCon()
  {
  }
 
-char ReadCon::get()
+ReadConCode ReadCon::get()
  {
   sem.take();
 
-  char ch=0;
+  ReadConCode ch;
 
   do_get(ch);
 
   return ch;
  }
 
-bool ReadCon::get(MSec timeout,char &ret)
+bool ReadCon::get(MSec timeout,ReadConCode &ret)
  {
   if( sem.take(timeout) ) return do_get(ret);
 
   return false;
  }
 
-bool ReadCon::get(TimeScope time_scope,char &ret)
+bool ReadCon::get(TimeScope time_scope,ReadConCode &ret)
  {
   if( sem.take(time_scope) ) return do_get(ret);
 

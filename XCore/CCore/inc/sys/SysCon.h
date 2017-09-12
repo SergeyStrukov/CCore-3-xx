@@ -1,7 +1,7 @@
 /* SysCon.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: XCore
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -19,6 +19,7 @@
 #include <CCore/inc/PlanInit.h>
 #include <CCore/inc/NanoPacket.h>
 #include <CCore/inc/Task.h>
+#include <CCore/inc/InputUtils.h>
 
 namespace CCore {
 namespace Sys {
@@ -39,7 +40,7 @@ enum ConInputResult
 
 /* types */
 
-using ConInputFunction = Function<ConInputResult (char)> ;
+using ConInputFunction = Function<ConInputResult (ReadConCode)> ;
 
 using ConOutputFunction = Function<void (NanoPacket<char> packet)> ;
 
@@ -93,7 +94,7 @@ class HookConInput : NoCopy
 
    ~HookConInput();
 
-   ConInputResult operator () (char ch) { return input_any(ch); }
+   ConInputResult operator () (ReadConCode ch) { return input_any(ch); }
  };
 
 /* class RedirectCon */

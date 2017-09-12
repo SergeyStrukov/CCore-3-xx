@@ -560,7 +560,7 @@ Dir Dir13=
 Dir Dir14=
   {
    'XCore',
-   New,
+   Red,
    {
     &Dir59
    },
@@ -3118,7 +3118,7 @@ Dir Dir144=
 Dir Dir145=
   {
    'sysroot',
-   New,
+   Ignore,
    {
     &Dir168,
     &Dir169,
@@ -3126,7 +3126,7 @@ Dir Dir145=
     &Dir171
    },
    {
-    { 'Makefile' , New }
+    { 'Makefile' , Ignore }
    }
   };
 
@@ -3140,7 +3140,7 @@ Dir Dir146=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'main.exe' , New },
+    { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -3156,7 +3156,7 @@ Dir Dir147=
     &Dir176
    },
    {
-    { 'Makefile' , New }
+    { 'Makefile' , Ignore }
    }
   };
 
@@ -3228,8 +3228,8 @@ Dir Dir177=
    {
    },
    {
-    { 'PlatformBase.h' , New },
-    { 'Quick.h' , New }
+    { 'PlatformBase.h' , Red },
+    { 'Quick.h' , Ignore }
    }
   };
 
@@ -3443,49 +3443,49 @@ Dir Dir188=
 Dir Dir168=
   {
    'lib',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir169=
   {
    'obj',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir170=
   {
    'src',
-   New,
+   Ignore,
    {
    },
    {
-    { 'ctype.c' , New },
-    { 'string_c.c' , New },
-    { 'errno.cpp' , New },
-    { 'locale.cpp' , New },
-    { 'stdlib.cpp' , New },
-    { 'string.cpp' , New },
-    { 'time.cpp' , New },
-    { 'consts.s' , New },
-    { 'crt0.s' , New },
-    { 'string_s.s' , New }
+    { 'ctype.c' , Ignore },
+    { 'string_c.c' , Ignore },
+    { 'errno.cpp' , Ignore },
+    { 'locale.cpp' , Ignore },
+    { 'stdlib.cpp' , Ignore },
+    { 'string.cpp' , Ignore },
+    { 'time.cpp' , Ignore },
+    { 'consts.s' , Ignore },
+    { 'crt0.s' , Ignore },
+    { 'string_s.s' , Ignore }
    }
   };
 
 Dir Dir171=
   {
    'usr',
-   New,
+   Ignore,
    {
     &Dir189
    },
@@ -3496,52 +3496,52 @@ Dir Dir171=
 Dir Dir189=
   {
    'include',
-   New,
+   Ignore,
    {
     &Dir190
    },
    {
-    { '__std_init.h' , New },
-    { 'assert.h' , New },
-    { 'ctype.h' , New },
-    { 'errno.h' , New },
-    { 'iso646.h' , New },
-    { 'limits.h' , New },
-    { 'locale.h' , New },
-    { 'math.h' , New },
-    { 'setjmp.h' , New },
-    { 'signal.h' , New },
-    { 'stdarg.h' , New },
-    { 'stdbool.h' , New },
-    { 'stddef.h' , New },
-    { 'stdint.h' , New },
-    { 'stdio.h' , New },
-    { 'stdlib.h' , New },
-    { 'string.h' , New },
-    { 'time.h' , New },
-    { 'unistd.h' , New }
+    { '__std_init.h' , Ignore },
+    { 'assert.h' , Ignore },
+    { 'ctype.h' , Ignore },
+    { 'errno.h' , Ignore },
+    { 'iso646.h' , Ignore },
+    { 'limits.h' , Ignore },
+    { 'locale.h' , Ignore },
+    { 'math.h' , Ignore },
+    { 'setjmp.h' , Ignore },
+    { 'signal.h' , Ignore },
+    { 'stdarg.h' , Ignore },
+    { 'stdbool.h' , Ignore },
+    { 'stddef.h' , Ignore },
+    { 'stdint.h' , Ignore },
+    { 'stdio.h' , Ignore },
+    { 'stdlib.h' , Ignore },
+    { 'string.h' , Ignore },
+    { 'time.h' , Ignore },
+    { 'unistd.h' , Ignore }
    }
   };
 
 Dir Dir190=
   {
    'sys',
-   New,
+   Ignore,
    {
    },
    {
-    { 'types.h' , New }
+    { 'types.h' , Ignore }
    }
   };
 
 Dir Dir172=
   {
    'root',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
@@ -3552,9 +3552,9 @@ Dir Dir173=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -3565,9 +3565,9 @@ Dir Dir174=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -3578,54 +3578,54 @@ Dir Dir175=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir176=
   {
    'HowToBuild',
-   New,
+   Ignore,
    {
     &Dir191,
     &Dir192
    },
    {
-    { 'HowTo.txt' , New }
+    { 'HowTo.txt' , Ignore }
    }
   };
 
 Dir Dir191=
   {
    'gcc-7.1.0-cross',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New },
-    { 'type_traits' , New },
-    { 'basic_file_stdio.cc' , New },
-    { 'eh_alloc.cc' , New },
-    { 'eh_globals.cc' , New },
-    { 'pure.cc' , New },
-    { 'random.cc' , New },
-    { 'HowTo.txt' , New }
+    { 'MakeCfg' , Ignore },
+    { 'type_traits' , Ignore },
+    { 'basic_file_stdio.cc' , Ignore },
+    { 'eh_alloc.cc' , Ignore },
+    { 'eh_globals.cc' , Ignore },
+    { 'pure.cc' , Ignore },
+    { 'random.cc' , Ignore },
+    { 'HowTo.txt' , Ignore }
    }
   };
 
 Dir Dir192=
   {
    'binutils-2.25.1',
-   New,
+   Ignore,
    {
    },
    {
-    { 'MakeCfg' , New },
-    { 'elf.sc' , New },
-    { 'armelf.sh' , New },
-    { 'HowTo.txt' , New }
+    { 'MakeCfg' , Ignore },
+    { 'elf.sc' , Ignore },
+    { 'armelf.sh' , Ignore },
+    { 'HowTo.txt' , Ignore }
    }
   };
 
@@ -5559,7 +5559,7 @@ Dir Dir294=
 Dir Dir59=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir297,
     &Dir298,
@@ -5572,7 +5572,7 @@ Dir Dir59=
 Dir Dir297=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir300,
     &Dir301,
@@ -5587,8 +5587,8 @@ Dir Dir297=
     { 'DefaultFileDevice.h' , Ignore },
     { 'FileToMem.h' , Ignore },
     { 'Print.h' , Ignore },
-    { 'ReadCon.h' , Red },
-    { 'RedirectPTPCon.h' , Ignore },
+    { 'ReadCon.h' , Green },
+    { 'RedirectPTPCon.h' , Red },
     { 'Scan.h' , Ignore },
     { 'SpecialMemBase.h' , Ignore },
     { 'StdioReadCon.h' , Ignore },
@@ -5600,7 +5600,7 @@ Dir Dir297=
 Dir Dir298=
   {
    'src',
-   New,
+   Red,
    {
     &Dir306,
     &Dir307,
@@ -5615,8 +5615,8 @@ Dir Dir298=
     { 'FileToMem.cpp' , Ignore },
     { 'MemBase.cpp' , Ignore },
     { 'Print.cpp' , Ignore },
-    { 'ReadCon.cpp' , Red },
-    { 'RedirectPTPCon.cpp' , Ignore },
+    { 'ReadCon.cpp' , Green },
+    { 'RedirectPTPCon.cpp' , Red },
     { 'Scan.cpp' , Ignore },
     { 'SpecialMemBase.cpp' , Ignore },
     { 'StdioReadCon.cpp' , Ignore },
@@ -5667,15 +5667,15 @@ Dir Dir300=
 Dir Dir301=
   {
    'libc',
-   New,
+   Red,
    {
    },
    {
     { 'CDef.h' , Green },
-    { 'CPrintf.h' , New },
-    { 'CScanf.h' , New },
-    { 'CStdFile.h' , New },
-    { 'CSysFile.h' , New },
+    { 'CPrintf.h' , Red },
+    { 'CScanf.h' , Red },
+    { 'CStdFile.h' , Green },
+    { 'CSysFile.h' , Green },
     { 'stdioPlanInit.h' , Ignore }
    }
   };
@@ -5706,11 +5706,11 @@ Dir Dir303=
 Dir Dir304=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysCon.h' , Red },
+    { 'SysCon.h' , Green },
     { 'SysError.h' , Ignore },
     { 'SysLog.h' , Ignore },
     { 'SysProp.h' , Ignore },
@@ -5748,18 +5748,18 @@ Dir Dir305=
 Dir Dir306=
   {
    'libc',
-   New,
+   Red,
    {
    },
    {
     { 'assert.cpp' , Ignore },
     { 'CDef.cpp' , Green },
-    { 'CPrintf.cpp' , New },
-    { 'CScanf.cpp' , New },
-    { 'CStdFile.cpp' , New },
-    { 'CSysCon.cpp' , New },
-    { 'CSysFile.cpp' , New },
-    { 'stdio.cpp' , New },
+    { 'CPrintf.cpp' , Red },
+    { 'CScanf.cpp' , Green },
+    { 'CStdFile.cpp' , Green },
+    { 'CSysCon.cpp' , Red },
+    { 'CSysFile.cpp' , Green },
+    { 'stdio.cpp' , Red },
     { 'stdlib.cpp' , Ignore },
     { 'time.cpp' , Ignore }
    }
@@ -5791,11 +5791,11 @@ Dir Dir308=
 Dir Dir309=
   {
    'sys',
-   Red,
+   Green,
    {
    },
    {
-    { 'SysCon_general.cpp' , Red },
+    { 'SysCon_general.cpp' , Green },
     { 'SysError.cpp' , Ignore },
     { 'SysLog.cpp' , Ignore },
     { 'SysProp.cpp' , Ignore },
