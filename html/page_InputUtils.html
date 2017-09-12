@@ -79,6 +79,22 @@ There must be enough room to store this symbol. The new range length is returned
 The new range length is returned.
 </p>
 
+<p>
+There are also <b>char</b> version of these functions:
+</p>
+
+<pre>
+
+int <span class="Att">ToChar</span>(char ch);
+
+ulen <span class="Att">SymbolLen</span>(char ch);
+
+StrLen <span class="Att">SymbolRange</span>(const char &ch);
+
+ulen <span class="Att">PutSymbol</span>(char *ptr,ulen len,char ch);
+
+</pre>
+
 <h4>ReadConBase</h4>
 
 <p>

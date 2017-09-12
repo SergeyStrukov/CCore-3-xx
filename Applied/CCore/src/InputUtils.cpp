@@ -56,15 +56,34 @@ ReadConBase::~ReadConBase()
 
 bool ReadConBase::try_get(Utf8Code &ret)
  {
-  if( !len ) return false;
+  char ch;
+  unsigned symlen;
 
-  char ch=buf[off];
+  start:
 
-  unsigned symlen=Utf8Len(ch);
+  for(;;)
+    {
+     if( !len ) return false;
 
-  if( symlen==0 ) symlen=1;
+     ch=buf[off];
+     symlen=Utf8Len(ch);
+
+     if( symlen!=0 ) break;
+
+     off++;
+     len--;
+    }
 
   if( symlen>len ) return false;
+
+  for(unsigned i=1; i<symlen ;i++)
+    if( !Utf8Ext(buf[off+i]) )
+      {
+       off+=i;
+       len-=i;
+
+       goto start;
+      }
 
   ret=GetCode(ch,buf+off,symlen);
 
@@ -198,17 +217,23 @@ bool SymbolParser::feed(StrLen &text)
  {
   if( len==0 )
     {
-     if( !text ) return false;
+     start:
 
-     char ch=*text;
+     char ch;
+
+     do
+       {
+        if( !text ) return false;
+
+        ch=*text;
+
+        ++text;
+
+        symlen=Utf8Len(ch);
+       }
+     while( symlen==0 );
 
      buf[len++]=ch;
-
-     ++text;
-
-     symlen=Utf8Len(ch);
-
-     if( !symlen ) symlen=1;
     }
 
   while( len<symlen )
@@ -225,9 +250,9 @@ bool SymbolParser::feed(StrLen &text)
        }
      else
        {
-        symlen=len;
+        len=0;
 
-        return true;
+        goto start;
        }
     }
 
