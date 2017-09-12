@@ -65,17 +65,11 @@ class ReadCon : public Funchor_nocopy , FastMutexBase
 
    // put
 
-   void put(char ch) { put(Single(ch)); }
+   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len) { put(Range(str,len)); }
 
    void put(StrLen str);
-
-#ifdef CCORE_UTF8
-
-   void put(ReadConCode ch) { put(SymbolRange(ch)); }
-
-#endif
  };
 
 } // namespace CCore

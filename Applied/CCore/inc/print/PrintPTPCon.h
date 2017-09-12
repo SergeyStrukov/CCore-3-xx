@@ -94,13 +94,9 @@ class ReadPTPCon : PTPConOpenClose::InputProc , public ReadConBase
 
    ulen do_read(char *ptr,ulen len);
 
-#ifndef CCORE_UTF8
-
    virtual ulen read(char *ptr,ulen len);
 
    virtual ulen read(char *ptr,ulen len,MSec timeout);
-
-#endif
 
    virtual ulen read(char *ptr,ulen len,TimeScope time_scope);
 
@@ -114,17 +110,11 @@ class ReadPTPCon : PTPConOpenClose::InputProc , public ReadConBase
 
    // put, ignore errors
 
-   void put(char ch) { put(&ch,1); }
+   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len);
 
    void put(StrLen str) { put(str.ptr,str.len); }
-
-#ifdef CCORE_UTF8
-
-   void put(Utf8Code code) { put(code.getRange()); }
-
-#endif
  };
 
 /* class PrintPTPCon */

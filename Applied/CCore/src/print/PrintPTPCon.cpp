@@ -89,8 +89,6 @@ ulen ReadPTPCon::do_read(char *ptr,ulen len)
   return ret;
  }
 
-#ifndef CCORE_UTF8
-
 ulen ReadPTPCon::read(char *ptr,ulen len)
  {
   event.wait();
@@ -104,8 +102,6 @@ ulen ReadPTPCon::read(char *ptr,ulen len,MSec timeout)
 
   return 0;
  }
-
-#endif
 
 ulen ReadPTPCon::read(char *ptr,ulen len,TimeScope time_scope)
  {

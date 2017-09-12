@@ -22,8 +22,6 @@ namespace CCore {
 
 /* class ReadCon */
 
-#ifndef CCORE_UTF8
-
 ulen ReadCon::read(char *ptr,ulen len)
  {
   auto result=con.read(ptr,len);
@@ -52,8 +50,6 @@ ulen ReadCon::read(char *ptr,ulen len,MSec timeout)
 
   return result.len;
  }
-
-#endif
 
 ulen ReadCon::read(char *ptr,ulen len,TimeScope time_scope)
  {

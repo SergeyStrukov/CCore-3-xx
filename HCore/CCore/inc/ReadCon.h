@@ -34,13 +34,9 @@ class ReadCon : public ReadConBase
 
   private:
 
-#ifndef CCORE_UTF8
-
    virtual ulen read(char *ptr,ulen len);
 
    virtual ulen read(char *ptr,ulen len,MSec timeout);
-
-#endif
 
    virtual ulen read(char *ptr,ulen len,TimeScope time_scope);
 
@@ -52,17 +48,11 @@ class ReadCon : public ReadConBase
 
    // put
 
-   void put(char ch) { put(Single(ch)); }
+   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len) { put(Range(str,len)); }
 
    void put(StrLen str) { Sys::ConWrite(str); }
-
-#ifdef CCORE_UTF8
-
-   void put(Utf8Code code) { put(code.getRange()); }
-
-#endif
  };
 
 } // namespace CCore
