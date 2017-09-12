@@ -2433,114 +2433,114 @@ Dir Dir26=
     &Dir131
    },
    {
-    { 'LangTypes.ddl' , New },
-    { 'LangTypeDef.gen.h' , New },
-    { 'LangTypeSet.gen.h' , New }
+    { 'LangTypes.ddl' , Ignore },
+    { 'LangTypeDef.gen.h' , Ignore },
+    { 'LangTypeSet.gen.h' , Ignore }
    }
   };
 
 Dir Dir27=
   {
    'DDLShow',
-   New,
+   Ignore,
    {
     &Dir132
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir28=
   {
    'DDLTypeSet',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New },
-    { 'TypeDef.gen.h' , New },
-    { 'TypeSet.gen.h' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'TypeDef.gen.h' , Ignore },
+    { 'TypeSet.gen.h' , Ignore }
    }
   };
 
 Dir Dir29=
   {
    'exectest',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir30=
   {
    'EchoServer',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir31=
   {
    'EllipticPi',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'SimpleSpan.cpp' , New },
-    { 'main.exe' , New },
-    { 'Makefile.files' , New },
-    { 'SimpleSpan.h' , New },
-    { 'pi1000.txt' , New },
-    { 'pi10000.txt' , New },
-    { 'pi100000.txt' , New },
-    { 'pi1000000.txt' , New },
-    { 'pi400000.txt' , New },
-    { 'pi4000000.txt' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'SimpleSpan.cpp' , Ignore },
+    { 'main.exe' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'SimpleSpan.h' , Ignore },
+    { 'pi1000.txt' , Ignore },
+    { 'pi10000.txt' , Ignore },
+    { 'pi100000.txt' , Ignore },
+    { 'pi1000000.txt' , Ignore },
+    { 'pi400000.txt' , Ignore },
+    { 'pi4000000.txt' , Ignore }
    }
   };
 
 Dir Dir32=
   {
    'GammaCorrect',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New },
-    { 'test.txt' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore },
+    { 'test.txt' , Ignore }
    }
   };
 
 Dir Dir33=
   {
    'Keywords',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'keywords.ddl' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'keywords.ddl' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -2551,35 +2551,35 @@ Dir Dir34=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir35=
   {
    'PSecEchoServer',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir36=
   {
    'PTPEchoServer',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -2590,12 +2590,12 @@ Dir Dir37=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'Config.cpp' , New },
     { 'main.cpp' , New },
     { 'Config.ddl' , New },
     { 'PTPSecureConfig.types.ddl' , New },
-    { 'Makefile.files' , New },
+    { 'Makefile.files' , Ignore },
     { 'Config.h' , New },
     { 'Config.type.h' , New },
     { 'Config.typeset.h' , New }
@@ -2610,16 +2610,16 @@ Dir Dir38=
     &Dir133
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'Config.cpp' , New },
     { 'main.cpp' , New },
     { 'Config.ddl' , New },
     { 'PTPSecureConfig.types.ddl' , New },
-    { 'Makefile.files' , New },
+    { 'Makefile.files' , Ignore },
     { 'Config.h' , New },
     { 'Config.type.h' , New },
     { 'Config.typeset.h' , New },
-    { 'PTPSecureServerLog.txt' , New }
+    { 'PTPSecureServerLog.txt' , Ignore }
    }
   };
 
@@ -2630,14 +2630,13 @@ Dir Dir39=
    {
    },
    {
-    { 'Makefile' , New },
-    { 'PTPSecureServerProc.a' , New },
+    { 'Makefile' , Ignore },
     { 'ErrorIds.cpp' , New },
     { 'HFSProc.cpp' , New },
     { 'ProcBase.cpp' , New },
     { 'ServerProc.cpp' , New },
     { 'SupportProc.cpp' , New },
-    { 'Makefile.files' , New },
+    { 'Makefile.files' , Ignore },
     { 'ErrorIds.h' , New },
     { 'HFSProc.h' , New },
     { 'ProcBase.h' , New },
@@ -2649,14 +2648,14 @@ Dir Dir39=
 Dir Dir40=
   {
    'PTPServer',
-   New,
+   Ignore,
    {
     &Dir134
    },
    {
-    { 'Makefile' , New },
-    { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -2667,15 +2666,15 @@ Dir Dir41=
    {
    },
    {
-    { 'Makefile' , New },
-    { 'PTPServerProc.a' , New },
+    { 'Makefile' , Ignore },
+    { 'PTPServerProc.a' , Ignore },
     { 'ErrorIds.cpp' , New },
     { 'HFSProc.cpp' , New },
     { 'ProcBase.cpp' , New },
     { 'PTPConProc.cpp' , New },
     { 'ServerProc.cpp' , New },
     { 'SupportProc.cpp' , New },
-    { 'Makefile.files' , New },
+    { 'Makefile.files' , Ignore },
     { 'ErrorIds.h' , New },
     { 'HFSProc.h' , New },
     { 'ProcBase.h' , New },
@@ -2692,34 +2691,34 @@ Dir Dir42=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'Generate.cpp' , New },
     { 'HashMap.cpp' , New },
     { 'main.cpp' , New },
     { 'Parser.cpp' , New },
     { 'test.cpp' , New },
     { 'Token.cpp' , New },
-    { 'Test.desc' , New },
-    { 'Makefile.files' , New },
+    { 'Test.desc' , Ignore },
+    { 'Makefile.files' , Ignore },
     { 'Generate.h' , New },
     { 'HashMap.h' , New },
     { 'Parser.h' , New },
     { 'Token.h' , New },
-    { 'Test.gen.h' , New },
-    { 'Test.txt' , New }
+    { 'Test.gen.h' , Ignore },
+    { 'Test.txt' , Ignore }
    }
   };
 
 Dir Dir126=
   {
    'AMP',
-   New,
+   Ignore,
    {
    },
    {
-    { 'AMP.ddl' , New },
-    { 'AMP.lang' , New },
-    { 'AMP.txt' , New }
+    { 'AMP.ddl' , Ignore },
+    { 'AMP.lang' , Ignore },
+    { 'AMP.txt' , Ignore }
    }
   };
 
@@ -2730,11 +2729,11 @@ Dir Dir127=
    {
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
     { 'Process.cpp' , New },
-    { 'BFTest.exe' , New },
-    { 'Makefile.files' , New },
+    { 'BFTest.exe' , Ignore },
+    { 'Makefile.files' , Ignore },
     { 'Process.h' , New }
    }
   };
@@ -2742,24 +2741,24 @@ Dir Dir127=
 Dir Dir128=
   {
    'Cond',
-   New,
+   Ignore,
    {
    },
    {
-    { 'StateTable.gen.cpp' , New }
+    { 'StateTable.gen.cpp' , Ignore }
    }
   };
 
 Dir Dir129=
   {
    'DDL',
-   New,
+   Ignore,
    {
    },
    {
-    { 'DDL.ddl' , New },
-    { 'DDL.lang' , New },
-    { 'DDL.txt' , New }
+    { 'DDL.ddl' , Ignore },
+    { 'DDL.lang' , Ignore },
+    { 'DDL.txt' , Ignore }
    }
   };
 
@@ -2771,9 +2770,9 @@ Dir Dir130=
     &Dir135
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -2786,13 +2785,13 @@ Dir Dir131=
     &Dir137
    },
    {
-    { 'Makefile' , New },
+    { 'Makefile' , Ignore },
     { 'main.cpp' , New },
     { 'PrintTools.cpp' , New },
     { 'Set.cpp' , New },
     { 'SparseMatrix.cpp' , New },
     { 'Tools.cpp' , New },
-    { 'Makefile.files' , New },
+    { 'Makefile.files' , Ignore },
     { 'PrintTools.h' , New },
     { 'Set.h' , New },
     { 'SparseMatrix.h' , New },
@@ -2803,11 +2802,11 @@ Dir Dir131=
 Dir Dir135=
   {
    'sample',
-   New,
+   Ignore,
    {
    },
    {
-    { 'Formula.ddl' , New }
+    { 'Formula.ddl' , Ignore }
    }
   };
 
@@ -2863,29 +2862,30 @@ Dir Dir137=
 Dir Dir132=
   {
    'files',
-   New,
+   Ignore,
    {
     &Dir138
    },
    {
-    { 'sample.ddl' , New },
-    { 'sample.ddl.txt' , New }
+    { 'sample.ddl' , Ignore },
+    { 'sample.ddl.txt' , Ignore }
    }
   };
 
 Dir Dir138=
   {
    'inc',
-   New,
+   Ignore,
    {
    },
    {
-    { 'basic.ddl' , New },
-    { 'block.ddl' , New },
-    { 'int.ddl' , New },
-    { 'ptr.ddl' , New },
-    { 'scope.ddl' , New },
-    { 'text.ddl' , New }
+    { 'basic.ddl' , Ignore },
+    { 'block.ddl' , Ignore },
+    { 'int.ddl' , Ignore },
+    { 'ptr.ddl' , Ignore },
+    { 'scope.ddl' , Ignore },
+    { 'text.ddl' , Ignore },
+    { '–Æ–Ω–∏–∫–æ–¥.ddl' , New }
    }
   };
 
@@ -2935,37 +2935,36 @@ Dir Dir141=
 Dir Dir134=
   {
    'root',
-   New,
+   Ignore,
    {
     &Dir142,
     &Dir143
    },
    {
-    { 'empty' , New },
-    { 'exectest.exe' , New },
-    { 'PTPServerLog.txt' , New }
+    { 'empty' , Ignore },
+    { 'PTPServerLog.txt' , Ignore }
    }
   };
 
 Dir Dir142=
   {
    'test-dir',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
 Dir Dir143=
   {
    'test-dir1',
-   New,
+   Ignore,
    {
    },
    {
-    { 'empty' , New }
+    { 'empty' , Ignore }
    }
   };
 
@@ -4642,7 +4641,7 @@ Dir Dir161=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'ﬁÌËÍÓ‰ ÒËÏ‚ÓÎ˚ ??????.txt' , Green }
+    { '–Æ–Ω–∏–∫–æ–¥ —Å–∏–º–≤–æ–ª—ã ùï¨ùï∫ùïæ.txt' , New }
    }
   };
 
@@ -5320,7 +5319,7 @@ Dir Dir280=
     { 'test1.cont.ddl' , New },
     { 'test2.cont.ddl' , New },
     { 'triangle.cont.ddl' , New },
-    { 'ƒÂÁ‡„.cont.ddl' , New }
+    { '–î–µ–∑–∞—Ä–≥.cont.ddl' , New }
    }
   };
 

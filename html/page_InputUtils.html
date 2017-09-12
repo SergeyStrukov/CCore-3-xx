@@ -40,6 +40,8 @@ This file contains a set of simple tools to work with console input.
 
 inline constexpr unsigned <span class="Att">MaxSymbolLen</span> = .... ;
 
+int <span class="Att">ToChar</span>(ReadConCode ch);
+
 ulen <span class="Att">SymbolLen</span>(ReadConCode ch);
 
 StrLen <span class="Att">SymbolRange</span>(const ReadConCode &ch);
@@ -52,6 +54,11 @@ ulen <span class="Att">PopSymbol</span>(const char *ptr,ulen len); // len > 0
 
 <p>
 <b>MaxSymbolLen</b> is the maximum symbol length in characters.
+</p>
+
+<p>
+<b>ToChar()</b> converts a <b>ReadConCode</b> value to the <b>char</b> value (represented using <b>int</b> type).
+In UTF8-compatible mode the result is -1, if the symbol is not single character length (i.e. not a basic ASCII symbol). 
 </p>
 
 <p>

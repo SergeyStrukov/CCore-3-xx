@@ -63,6 +63,8 @@ class <span class="Att">Utf8Code</span>
 
    Utf8Code() noexcept;
 
+   Utf8Code(NothingType) : Utf8Code() {}
+
    explicit Utf8Code(char b1);
 
    Utf8Code(char b1,char b2);
@@ -70,6 +72,10 @@ class <span class="Att">Utf8Code</span>
    Utf8Code(char b1,char b2,char b3);
 
    Utf8Code(char b1,char b2,char b3,char b4);
+
+   Utf8Code(const char *ptr,ulen len);
+
+   explicit Utf8Code(StrLen str);
 
    // methods
 

@@ -23,25 +23,7 @@ namespace CCore {
 
 void GuardUtf8Broken()
  {
-  Printf(Exception,"CCore::PeekUtf8_guarded(...) : broken utf8 sequence");
- }
-
-/* class Utf8Code */
-
-Unicode Utf8Code::toUnicode() const
- {
-  switch( len )
-    {
-     case 1 : return ToUnicode(sym[0]);
-
-     case 2 : return ToUnicode(sym[0],sym[1]);
-
-     case 3 : return ToUnicode(sym[0],sym[1],sym[2]);
-
-     case 4 : return ToUnicode(sym[0],sym[1],sym[2],sym[3]);
-
-     default: return 0;
-    }
+  Printf(Exception,"CCore::PeekUtf8_guarded(...) : broken UTF8 sequence");
  }
 
 /* functions */

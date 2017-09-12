@@ -125,19 +125,6 @@ The return value is <b>true</b> iff the character was received.
 All methods <b>put()</b> flushes output.
 </p>
 
-<h4>ToChar()</h4>
-
-<p>
-The utility function <b>ToChar()</b> converts a <b>ReadConCode</b> value to the <b>char</b> value (represented using <b>int</b> type).
-In UTF8-compatible mode the result is -1, if the symbol is not single character length (i.e. not a basic ASCII symbol). 
-</p>
-
-<pre>
-
-int <span class="Att">ToChar</span>(ReadConCode ch);
-
-</pre>
-
 <h4>HCore console reader</h4>
 
 <p>

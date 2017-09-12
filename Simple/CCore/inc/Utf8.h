@@ -43,6 +43,8 @@ class Utf8Code
 
    Utf8Code() noexcept : sym{},len(1) {}
 
+   Utf8Code(NothingType) : Utf8Code() {}
+
    explicit Utf8Code(char b1) : sym{b1},len(1) {}
 
    Utf8Code(char b1,char b2) : sym{b1,b2},len(2) {}
@@ -50,6 +52,21 @@ class Utf8Code
    Utf8Code(char b1,char b2,char b3) : sym{b1,b2,b3},len(3) {}
 
    Utf8Code(char b1,char b2,char b3,char b4) : sym{b1,b2,b3,b4},len(4) {}
+
+   Utf8Code(const char *ptr,ulen len)
+    {
+     switch( len )
+       {
+        case 1 : (*this)=Utf8Code(ptr[0]); break;
+        case 2 : (*this)=Utf8Code(ptr[0],ptr[1]); break;
+        case 3 : (*this)=Utf8Code(ptr[0],ptr[1],ptr[2]); break;
+        case 4 : (*this)=Utf8Code(ptr[0],ptr[1],ptr[2],ptr[3]); break;
+
+        default: (*this)=Utf8Code(); break;
+       }
+    }
+
+   explicit Utf8Code(StrLen str) : Utf8Code(str.ptr,str.len) {}
 
    // methods
 
@@ -79,44 +96,24 @@ class Utf8Code
      return (uint32(b1&0x07u)<<18)|(uint32(b2&0x3Fu)<<12)|(uint32(b3&0x3Fu)<<6)|(b4&0x3Fu);
     }
 
-   Unicode toUnicode() const;
+   Unicode toUnicode() const
+    {
+     switch( len )
+       {
+        case 1 : return ToUnicode(sym[0]);
+        case 2 : return ToUnicode(sym[0],sym[1]);
+        case 3 : return ToUnicode(sym[0],sym[1],sym[2]);
+        case 4 : return ToUnicode(sym[0],sym[1],sym[2],sym[3]);
+
+        default: return 0;
+       }
+    }
 
    // print object
 
    void print(PrinterType &out) const
     {
-     switch( len )
-       {
-        case 1 :
-         {
-          out.put(sym[0]);
-         }
-        break;
-
-        case 2 :
-         {
-          out.put(sym[0]);
-          out.put(sym[1]);
-         }
-        break;
-
-        case 3 :
-         {
-          out.put(sym[0]);
-          out.put(sym[1]);
-          out.put(sym[2]);
-         }
-        break;
-
-        case 4 :
-         {
-          out.put(sym[0]);
-          out.put(sym[1]);
-          out.put(sym[2]);
-          out.put(sym[3]);
-         }
-        break;
-       }
+     out.put(sym,len);
     }
  };
 

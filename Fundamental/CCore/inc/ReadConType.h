@@ -36,18 +36,6 @@ using ReadConCode = char ;
 
 #endif
 
-/* ToChar() */
-
-#ifdef CCORE_UTF8
-
-inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
-
-#else
-
-inline int ToChar(char ch) { return ch; }
-
-#endif
-
 /* concept ReadConType<ReadCon> */
 
 template <class ReadCon>

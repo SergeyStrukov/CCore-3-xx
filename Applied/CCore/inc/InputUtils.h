@@ -16,7 +16,6 @@
 #ifndef CCore_inc_InputUtils_h
 #define CCore_inc_InputUtils_h
 
-#include <CCore/inc/TimeScope.h>
 #include <CCore/inc/ReadConType.h>
 
 namespace CCore {
@@ -26,6 +25,8 @@ namespace CCore {
 #ifdef CCORE_UTF8
 
 inline constexpr unsigned MaxSymbolLen = 4 ;
+
+inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
 
 inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
 
@@ -50,6 +51,8 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
 #else
 
 inline constexpr unsigned MaxSymbolLen = 1 ;
+
+inline int ToChar(char ch) { return ch; }
 
 inline ulen SymbolLen(char ch) { Used(ch); return 1; }
 
@@ -161,7 +164,7 @@ class SymbolParser : NoCopy
  {
    char buf[4];
    unsigned len;
-   unsigned symlen;
+   unsigned symlen = 0 ;
 
   public:
 
@@ -175,15 +178,7 @@ class SymbolParser : NoCopy
     {
      len=0;
 
-     switch( symlen )
-       {
-        default: return Utf8Code();
-
-        case 1 : return Utf8Code(buf[0]);
-        case 2 : return Utf8Code(buf[0],buf[1]);
-        case 3 : return Utf8Code(buf[0],buf[1],buf[2]);
-        case 4 : return Utf8Code(buf[0],buf[1],buf[2],buf[3]);
-       }
+     return Utf8Code(buf,symlen);
     }
  };
 

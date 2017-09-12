@@ -225,6 +225,8 @@ bool SymbolParser::feed(StrLen &text)
        }
      else
        {
+        symlen=len;
+
         return true;
        }
     }
