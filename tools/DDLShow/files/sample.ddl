@@ -1,5 +1,10 @@
 /* sample.ddl */
 
+scope Unicode
+ {
+  include <inc/Юникод.ddl>
+ }
+
 scope Basic 
  {
   include <inc/basic.ddl>

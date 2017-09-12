@@ -1,7 +1,7 @@
 /* DDLToken.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -108,10 +108,9 @@ class Tokenizer : NoCopy
   private:
 
    Token cut(TokenClass tc,ulen len);
-   Token cut_multiline(TokenClass tc,ulen len);
 
    Token next_error(ulen len,const char *error_text);
-   Token next_error_multiline(ulen len,const char *error_text);
+   Token next_error_skip(ulen len,const char *error_text);
    Token next_error(const char *error_text);
 
    Token next_short_comment();

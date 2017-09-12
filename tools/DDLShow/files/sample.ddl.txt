@@ -501,5 +501,7 @@ uint8 #Basic#u8 = (uint8) 2
 
 sint8 #Basic#s8 = (sint8) 1
 
+text #Unicode#t = (text) Русский текст
+
 
 

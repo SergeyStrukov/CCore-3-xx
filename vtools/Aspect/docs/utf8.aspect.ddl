@@ -735,28 +735,28 @@ Dir Dir63=
 Dir Dir64=
   {
    'ddl',
-   Red,
+   Green,
    {
    },
    {
-    { 'DDLChar.h' , Red },
-    { 'DDLEngine.h' , Red },
-    { 'DDLErrorMsg.h' , Red },
-    { 'DDLEval.h' , Red },
-    { 'DDLMap.h' , Red },
-    { 'DDLMapBase.h' , Red },
-    { 'DDLMapTools.h' , Red },
-    { 'DDLMapTypes.h' , Red },
-    { 'DDLParser.h' , Red },
-    { 'DDLPlatformTypes.h' , Red },
-    { 'DDLSemantic.h' , Red },
-    { 'DDLToken.h' , Red },
-    { 'DDLTools.h' , Red },
-    { 'DDLTypedMap.h' , Red },
-    { 'DDLTypeDesc.h' , Red },
-    { 'DDLTypes.h' , Red },
-    { 'DDLTypeSet.h' , Red },
-    { 'DDLValue.h' , Red }
+    { 'DDLChar.h' , Green },
+    { 'DDLEngine.h' , Ignore },
+    { 'DDLErrorMsg.h' , Ignore },
+    { 'DDLEval.h' , Ignore },
+    { 'DDLMap.h' , Ignore },
+    { 'DDLMapBase.h' , Ignore },
+    { 'DDLMapTools.h' , Green },
+    { 'DDLMapTypes.h' , Ignore },
+    { 'DDLParser.h' , Ignore },
+    { 'DDLPlatformTypes.h' , Ignore },
+    { 'DDLSemantic.h' , Ignore },
+    { 'DDLToken.h' , Green },
+    { 'DDLTools.h' , Ignore },
+    { 'DDLTypedMap.h' , Ignore },
+    { 'DDLTypeDesc.h' , Ignore },
+    { 'DDLTypes.h' , Ignore },
+    { 'DDLTypeSet.h' , Ignore },
+    { 'DDLValue.h' , Green }
    }
   };
 
@@ -925,31 +925,31 @@ Dir Dir73=
 Dir Dir74=
   {
    'ddl',
-   Red,
+   Green,
    {
    },
    {
-    { 'DDLChar.cpp' , Red },
-    { 'DDLEngine.cpp' , Red },
-    { 'DDLErrorMsg.cpp' , Red },
-    { 'DDLEval.cpp' , Red },
-    { 'DDLMap.cpp' , Red },
-    { 'DDLMapBase.cpp' , Red },
-    { 'DDLMapTools.cpp' , Red },
-    { 'DDLMapTypes.cpp' , Red },
-    { 'DDLParser.cpp' , Red },
-    { 'DDLParserElements.cpp' , Red },
-    { 'DDLParserRules.cpp' , Red },
-    { 'DDLParserTable.cpp' , Red },
-    { 'DDLPlatformTypes.cpp' , Red },
-    { 'DDLSemantic.cpp' , Red },
-    { 'DDLToken.cpp' , Red },
-    { 'DDLTools.cpp' , Red },
-    { 'DDLTypedMap.cpp' , Red },
-    { 'DDLTypeDesc.cpp' , Red },
-    { 'DDLTypes.cpp' , Red },
-    { 'DDLTypeSet.cpp' , Red },
-    { 'DDLValue.cpp' , Red }
+    { 'DDLChar.cpp' , Green },
+    { 'DDLEngine.cpp' , Ignore },
+    { 'DDLErrorMsg.cpp' , Ignore },
+    { 'DDLEval.cpp' , Ignore },
+    { 'DDLMap.cpp' , Ignore },
+    { 'DDLMapBase.cpp' , Ignore },
+    { 'DDLMapTools.cpp' , Green },
+    { 'DDLMapTypes.cpp' , Ignore },
+    { 'DDLParser.cpp' , Ignore },
+    { 'DDLParserElements.cpp' , Ignore },
+    { 'DDLParserRules.cpp' , Ignore },
+    { 'DDLParserTable.cpp' , Ignore },
+    { 'DDLPlatformTypes.cpp' , Ignore },
+    { 'DDLSemantic.cpp' , Ignore },
+    { 'DDLToken.cpp' , Green },
+    { 'DDLTools.cpp' , Ignore },
+    { 'DDLTypedMap.cpp' , Ignore },
+    { 'DDLTypeDesc.cpp' , Ignore },
+    { 'DDLTypes.cpp' , Ignore },
+    { 'DDLTypeSet.cpp' , Ignore },
+    { 'DDLValue.cpp' , Green }
    }
   };
 
@@ -2942,7 +2942,8 @@ Dir Dir134=
    },
    {
     { 'empty' , New },
-    { 'exectest.exe' , New }
+    { 'exectest.exe' , New },
+    { 'PTPServerLog.txt' , New }
    }
   };
 
@@ -3139,6 +3140,7 @@ Dir Dir146=
    {
     { 'Makefile' , Ignore },
     { 'main.cpp' , New },
+    { 'main.exe' , New },
     { 'Makefile.files' , Ignore }
    }
   };

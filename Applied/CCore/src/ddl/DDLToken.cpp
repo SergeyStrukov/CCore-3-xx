@@ -1,7 +1,7 @@
 /* DDLToken.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -14,6 +14,10 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/ddl/DDLToken.h>
+
+#ifdef CCORE_UTF8
+# include <CCore/inc/Utf8.h>
+#endif
 
 namespace CCore {
 namespace DDL {
@@ -218,15 +222,6 @@ Token Tokenizer::cut(TokenClass tc,ulen len)
  {
   Token ret(tc,pos,text+=len);
 
-  pos.update(len);
-
-  return ret;
- }
-
-Token Tokenizer::cut_multiline(TokenClass tc,ulen len)
- {
-  Token ret(tc,pos,text+=len);
-
   pos.update(ret.str);
 
   return ret;
@@ -241,9 +236,9 @@ Token Tokenizer::next_error(ulen len,const char *error_text)
   return ret;
  }
 
-Token Tokenizer::next_error_multiline(ulen len,const char *error_text)
+Token Tokenizer::next_error_skip(ulen len,const char *error_text)
  {
-  Token ret=cut_multiline(Token_Other,len);
+  Token ret=cut(Token_Other,len);
 
   error("Tokenizer #; : #;",PrintPos(file_id,ret.pos),error_text);
 
@@ -252,11 +247,25 @@ Token Tokenizer::next_error_multiline(ulen len,const char *error_text)
 
 Token Tokenizer::next_error(const char *error_text)
  {
+#ifdef CCORE_UTF8
+
+  Utf8Code ch=PeekUtf8(text);
+
+  Token ret=cut(Token_Other,ch.getLen());
+
+  error("Tokenizer #; \"#;\" : #;",PrintPos(file_id,ret.pos),ExtCharCode(ch),error_text);
+
+  return ret;
+
+#else
+
   Token ret=cut(Token_Other,1);
 
   error("Tokenizer #; \"#;\" : #;",PrintPos(file_id,ret.pos),CharCode(*ret.str),error_text);
 
   return ret;
+
+#endif
  }
 
 Token Tokenizer::next_short_comment()
@@ -268,9 +277,9 @@ Token Tokenizer::next_long_comment()
  {
   auto result=ScanLongComment(text);
 
-  if( result.ok ) return cut_multiline(Token_LongComment,result.len);
+  if( result.ok ) return cut(Token_LongComment,result.len);
 
-  return next_error_multiline(result.len,"long comment is not closed");
+  return next_error_skip(result.len,"long comment is not closed");
  }
 
 Token Tokenizer::next_sstring()
@@ -348,7 +357,7 @@ Token Tokenizer::next_qword()
      return next_error(len+1,"hex word is found");
     }
 
-  return next_error("single ? is found");
+  return next_error(1,"single ? is found");
  }
 
 Token Tokenizer::next_punct()
@@ -371,7 +380,7 @@ Token Tokenizer::next_punct()
 
 Token Tokenizer::next_space()
  {
-  return cut_multiline(Token_Space,ScanSpace(text));
+  return cut(Token_Space,ScanSpace(text));
  }
 
 Token Tokenizer::next_other()
