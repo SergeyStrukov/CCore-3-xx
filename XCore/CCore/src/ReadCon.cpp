@@ -21,7 +21,7 @@ namespace CCore {
 
 /* class ReadCon */
 
-Sys::ConInputResult ReadCon::input_any(ReadConCode ch)
+Sys::ConInputResult ReadCon::input_any(Symbol ch)
  {
   bool ok;
 
@@ -46,7 +46,7 @@ Sys::ConInputResult ReadCon::input_any(ReadConCode ch)
   return Sys::Con_Drop;
  }
 
-bool ReadCon::do_get(ReadConCode &ret)
+bool ReadCon::do_get(Symbol &ret)
  {
   Lock lock(*this);
 
@@ -64,25 +64,25 @@ ReadCon::~ReadCon()
  {
  }
 
-ReadConCode ReadCon::get()
+Symbol ReadCon::get()
  {
   sem.take();
 
-  ReadConCode ch;
+  Symbol ch;
 
   do_get(ch);
 
   return ch;
  }
 
-bool ReadCon::get(MSec timeout,ReadConCode &ret)
+bool ReadCon::get(MSec timeout,Symbol &ret)
  {
   if( sem.take(timeout) ) return do_get(ret);
 
   return false;
  }
 
-bool ReadCon::get(TimeScope time_scope,ReadConCode &ret)
+bool ReadCon::get(TimeScope time_scope,Symbol &ret)
  {
   if( sem.take(time_scope) ) return do_get(ret);
 

@@ -83,11 +83,11 @@ ServerProc::~ServerProc()
   ptp->detach();
  }
 
-ReadConCode ServerProc::get()
+Symbol ServerProc::get()
  {
   for(;;)
     {
-     ReadConCode ch;
+     Symbol ch;
 
      if( con.get(100_msec,ch) ) return ch;
     }

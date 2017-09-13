@@ -239,7 +239,7 @@ void PTPConRead::Buf::close()
   is_opened=false;
  }
 
-bool PTPConRead::Buf::put(ReadConCode ch)
+bool PTPConRead::Buf::put(Symbol ch)
  {
   if( !is_opened ) return false;
 
@@ -445,7 +445,7 @@ void PTPConRead::close()
   complete_list.complete();
  }
 
-bool PTPConRead::put(ReadConCode ch)
+bool PTPConRead::put(Symbol ch)
  {
   PacketList complete_list;
 

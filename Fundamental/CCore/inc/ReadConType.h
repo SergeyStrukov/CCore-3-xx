@@ -17,31 +17,16 @@
 #define CCore_inc_ReadConType_h
 
 #include <CCore/inc/TimeScope.h>
-
-#ifdef CCORE_UTF8
-# include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
-
-/* type ReadConCode */
-
-#ifdef CCORE_UTF8
-
-using ReadConCode = Utf8Code ;
-
-#else
-
-using ReadConCode = char ;
-
-#endif
 
 /* concept ReadConType<ReadCon> */
 
 template <class ReadCon>
-concept bool ReadConType = requires(ReadCon &con,MSec timeout,TimeScope time_scope,ReadConCode &ret,char ch,const char *ptr,ulen len,StrLen str)
+concept bool ReadConType = requires(ReadCon &con,MSec timeout,TimeScope time_scope,Symbol &ret,char ch,const char *ptr,ulen len,StrLen str)
  {
-  { con.get() } -> ReadConCode ;
+  { con.get() } -> Symbol ;
 
   { con.get(timeout,ret) } -> bool ;
 

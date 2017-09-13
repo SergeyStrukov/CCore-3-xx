@@ -1,0 +1,57 @@
+<!--
+/* page_Symbol.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Symbol</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Symbol</h2>
+
+<p class="Files">Files <b>CCore/inc/Symbol.h</b> <b>CCore/src/Symbol.cpp</b></p>
+
+<p>
+In UTF8-compatible mode the type <b>Symbol</b> is defined as the type <b>Utf8Code</b>, otherwise as the type <b>char</b>.
+It represents a single symbol, single-char or multi-char.
+</p>
+
+<pre>
+
+/* type Symbol */
+
+#ifdef CCORE_UTF8
+
+using <span class="Att">Symbol</span> = Utf8Code ;
+
+#else
+
+using <span class="Att">Symbol</span> = char ;
+
+#endif
+
+</pre>
+
+</body>
+
+</html>
+

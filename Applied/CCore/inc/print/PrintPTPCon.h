@@ -110,7 +110,7 @@ class ReadPTPCon : PTPConOpenClose::InputProc , public ReadConBase
 
    // put, ignore errors
 
-   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
+   void put(OneOfTypes<char,Symbol> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len);
 

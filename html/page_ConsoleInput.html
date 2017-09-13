@@ -36,23 +36,9 @@
 <b>ReadCon</b> is a class that can read a console input. Any class with the following interface
 can be used as a console reader. There is a default console reader, defined in the header <b>CCore/inc/ReadCon.h</b>. 
 Console reader performs the "non-buffered read without echo". 
-In UTF8-compatible mode the symbol is represented by the type <b>Utf8Code</b>, otherwise by the type <b>char</b>.
-This type is defined as <b>ReadConCode</b>.
 </p>
 
 <pre>
-
-/* type ReadConCode */
-
-#ifdef CCORE_UTF8
-
-using <span class="Att">ReadConCode</span> = Utf8Code ;
-
-#else
-
-using <span class="Att">ReadConCode</span> = char ;
-
-#endif
 
 template &lt;class ReadCon&gt; 
 concept bool <span class="Att">ReadConType</span> = .... ;
@@ -69,11 +55,11 @@ class <span class="Att">ReadCon</span> : NoCopy
    
    // get
    
-   ReadConCode get();
+   Symbol get();
    
-   bool get(MSec timeout,ReadConCode &ret);
+   bool get(MSec timeout,Symbol &ret);
    
-   bool get(TimeScope time_scope,ReadConCode &ret);
+   bool get(TimeScope time_scope,Symbol &ret);
    
    // put
    
@@ -83,7 +69,7 @@ class <span class="Att">ReadCon</span> : NoCopy
    
    void put(StrLen str);
 
-   void put(ReadConCode code);
+   void put(Symbol code);
  };
 
 </pre>
@@ -93,11 +79,11 @@ class <span class="Att">ReadCon</span> : NoCopy
 </p>
 
 <p>
-<b>get()</b> returns the next character from the console. This function can block indefinitely.
+<b>get()</b> returns the next symbol from the console. This function can block indefinitely.
 </p>
 
 <p>
-<b>get(MSec,char &)</b> returns the next character from the console, but waits up to time-out.
+<b>get(MSec,char &)</b> returns the next symbol from the console, but waits up to time-out.
 The return value is <b>true</b> iff the character was received.
 </p>
 
@@ -118,7 +104,7 @@ The return value is <b>true</b> iff the character was received.
 </p>
 
 <p>
-<b>put(ReadConCode)</b> puts a console input type to the console.
+<b>put(Symbol)</b> puts the symbol to the console.
 </p>
 
 <p>
@@ -199,7 +185,7 @@ enum <span class="Att">ConInputResult</span>
  
 /* types */  
 
-using ConInputFunction = Function&lt;ConInputResult (ReadConCode)&gt; ;
+using ConInputFunction = Function&lt;ConInputResult (Symbol)&gt; ;
 
 /* class OwnConInput */
 
@@ -329,11 +315,11 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
    
    // get
   
-   ReadConCode get();
+   Symbol get();
    
-   bool get(MSec timeout,ReadConCode &ret);
+   bool get(MSec timeout,Symbol &ret);
    
-   bool get(TimeScope time_scope,ReadConCode &ret);
+   bool get(TimeScope time_scope,Symbol &ret);
    
    // put, ignore errors
    
@@ -343,7 +329,7 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
    
    void put(StrLen str);
 
-   void put(ReadConCode ch);
+   void put(Symbol ch);
  };
 
 </pre>

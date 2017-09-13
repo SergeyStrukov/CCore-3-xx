@@ -38,7 +38,7 @@ class LineInput : NoCopy
 
   private:
 
-   bool process(ReadConCode ch,PtrLen<const char> &ret);
+   bool process(Symbol ch,PtrLen<const char> &ret);
 
   public:
 
@@ -53,7 +53,7 @@ class LineInput : NoCopy
  };
 
 template <ReadConType ReadCon,ulen MaxLen>
-bool LineInput<ReadCon,MaxLen>::process(ReadConCode ch,PtrLen<const char> &ret)
+bool LineInput<ReadCon,MaxLen>::process(Symbol ch,PtrLen<const char> &ret)
  {
   switch( ToChar(ch) )
     {
@@ -106,7 +106,7 @@ bool LineInput<ReadCon,MaxLen>::get(TimeScope time_scope,PtrLen<const char> &ret
  {
   for(;;)
     {
-     ReadConCode ch;
+     Symbol ch;
 
      if( !con.get(time_scope,ch) ) return false;
 

@@ -32,14 +32,14 @@ bool Testit<5014>::Main()
 
   con.put("Type 'x' to stop\n\n");
 
-  for(ReadConCode ch; ToChar(ch=con.get())!='x' ;)
+  for(Symbol ch; ToChar(ch=con.get())!='x' ;)
     {
      Printf(Con,"#;\n",ExtCharCode(ch));
     }
 
   con.put("Type 'x' to exit\n\n");
 
-  for(ReadConCode ch;;)
+  for(Symbol ch;;)
     {
      if( !con.get(3_sec,ch) )
        {

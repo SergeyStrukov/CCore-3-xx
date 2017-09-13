@@ -40,7 +40,7 @@ enum ConInputResult
 
 /* types */
 
-using ConInputFunction = Function<ConInputResult (ReadConCode)> ;
+using ConInputFunction = Function<ConInputResult (Symbol)> ;
 
 using ConOutputFunction = Function<void (NanoPacket<char> packet)> ;
 
@@ -94,7 +94,7 @@ class HookConInput : NoCopy
 
    ~HookConInput();
 
-   ConInputResult operator () (ReadConCode ch) { return input_any(ch); }
+   ConInputResult operator () (Symbol ch) { return input_any(ch); }
  };
 
 /* class RedirectCon */

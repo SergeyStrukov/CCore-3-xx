@@ -941,7 +941,7 @@ bool CommandEngine::inputArg()
 
   for(;;)
     {
-     ReadConCode ch=con.get();
+     Symbol ch=con.get();
 
      switch( ToChar(ch) )
        {
@@ -993,7 +993,7 @@ void CommandEngine::command()
 
   for(;;)
     {
-     ReadConCode ch=con.get();
+     Symbol ch=con.get();
 
      switch( ToChar(ch) )
        {

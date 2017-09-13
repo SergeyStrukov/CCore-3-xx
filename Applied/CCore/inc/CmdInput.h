@@ -226,7 +226,7 @@ bool CmdInputCon<ReadCon,MaxArgLen>::inputArg()
 
   for(;;)
     {
-     ReadConCode ch=con.get();
+     Symbol ch=con.get();
 
      switch( ToChar(ch) )
        {
@@ -294,7 +294,7 @@ void CmdInputCon<ReadCon,MaxArgLen>::command(SS && ... ss)
 
   for(;;)
     {
-     ReadConCode ch=con.get();
+     Symbol ch=con.get();
 
      switch( ToChar(ch) )
        {

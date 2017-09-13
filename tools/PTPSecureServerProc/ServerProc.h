@@ -71,13 +71,13 @@ class ServerProc : public Net::PTP::ServerProc , ServerProcBase
 
    // main task
 
-   ReadConCode get();
+   Symbol get();
 
-   bool get(MSec timeout,ReadConCode &ret) { return con.get(timeout,ret); }
+   bool get(MSec timeout,Symbol &ret) { return con.get(timeout,ret); }
 
-   bool get(TimeScope time_scope,ReadConCode &ret) { return con.get(time_scope,ret); }
+   bool get(TimeScope time_scope,Symbol &ret) { return con.get(time_scope,ret); }
 
-   void put(OneOfTypes<char,ReadConCode> ch) { con.put(ch); }
+   void put(OneOfTypes<char,Symbol> ch) { con.put(ch); }
 
    void put(const char *str,ulen len) { con.put(str,len); }
 

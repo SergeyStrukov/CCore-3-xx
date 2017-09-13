@@ -48,7 +48,7 @@ class ReadCon : public ReadConBase
 
    // put
 
-   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
+   void put(OneOfTypes<char,Symbol> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len) { put(Range(str,len)); }
 

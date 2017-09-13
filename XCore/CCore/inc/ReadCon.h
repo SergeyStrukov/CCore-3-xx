@@ -35,7 +35,7 @@ class ReadCon : public Funchor_nocopy , FastMutexBase
 
    MSec timeout;
 
-   FifoBuf<ReadConCode,FifoLen> fifo;
+   FifoBuf<Symbol,FifoLen> fifo;
 
    Sem sem;
 
@@ -43,11 +43,11 @@ class ReadCon : public Funchor_nocopy , FastMutexBase
 
   private:
 
-   Sys::ConInputResult input_any(ReadConCode ch);
+   Sys::ConInputResult input_any(Symbol ch);
 
    Sys::ConInputFunction function_input() { return FunctionOf(this,&ReadCon::input_any); }
 
-   bool do_get(ReadConCode &ret);
+   bool do_get(Symbol &ret);
 
   public:
 
@@ -57,15 +57,15 @@ class ReadCon : public Funchor_nocopy , FastMutexBase
 
    // get
 
-   ReadConCode get();
+   Symbol get();
 
-   bool get(MSec timeout,ReadConCode &ret);
+   bool get(MSec timeout,Symbol &ret);
 
-   bool get(TimeScope time_scope,ReadConCode &ret);
+   bool get(TimeScope time_scope,Symbol &ret);
 
    // put
 
-   void put(OneOfTypes<char,ReadConCode> ch) { put(SymbolRange(ch)); }
+   void put(OneOfTypes<char,Symbol> ch) { put(SymbolRange(ch)); }
 
    void put(const char *str,ulen len) { put(Range(str,len)); }
 

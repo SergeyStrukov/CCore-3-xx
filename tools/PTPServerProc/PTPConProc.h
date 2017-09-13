@@ -126,7 +126,7 @@ class PTPConRead : public Funchor_nocopy
 
       void open(const TriggerMask &trigger_mask);
 
-      bool put(ReadConCode ch);
+      bool put(Symbol ch);
 
       bool pump(PacketList &complete_list,
                 Outbound &outbound,
@@ -174,7 +174,7 @@ class PTPConRead : public Funchor_nocopy
 
    // main task
 
-   bool put(ReadConCode ch);
+   bool put(Symbol ch);
  };
 
 /* class PTPConProc */
@@ -245,7 +245,7 @@ class PTPConProc : ProcBase
 
    // main task
 
-   bool put(ReadConCode ch) { return reader.put(ch); }
+   bool put(Symbol ch) { return reader.put(ch); }
 
    const char * ins();
  };

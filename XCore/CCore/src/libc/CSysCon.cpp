@@ -59,7 +59,7 @@ RetFileOp<Size> FileSystem::ConRead(void *buf_,Size buf_size)
   if( !con ) return FileResult_ReadFault;
 
   Size off=0;
-  ReadConCode ch;
+  Symbol ch;
 
   for(;;)
     {

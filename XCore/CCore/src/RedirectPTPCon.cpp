@@ -27,7 +27,7 @@ ulen RedirectPTPCon::Engine::proc(StrLen str,char *out)
 
   while( parser.feed(str) )
     {
-     ReadConCode ch=parser.get();
+     Symbol ch=parser.get();
 
      switch( hook(ch) )
        {
