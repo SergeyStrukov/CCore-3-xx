@@ -13,9 +13,7 @@
 
 #include "Token.h"
 
-#ifdef CCORE_UTF8
-# include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/Symbol.h>
 
 namespace App {
 
@@ -196,17 +194,9 @@ Token Tokenizer::next_other()
      if( text[1]=='*' ) return next_long_comment();
     }
 
-#ifdef CCORE_UTF8
+  Symbol ch=PeekSymbol(text);
 
-  Utf8Code ch=PeekUtf8(text);
-
-  return cut(Token_Other,ch.getLen());
-
-#else
-
-  return cut(Token_Other,1);
-
-#endif
+  return cut(Token_Other,SymbolLen(ch));
  }
 
 Token Tokenizer::next()

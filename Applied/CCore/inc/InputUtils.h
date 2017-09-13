@@ -24,14 +24,6 @@ namespace CCore {
 
 #ifdef CCORE_UTF8
 
-inline constexpr unsigned MaxSymbolLen = 4 ;
-
-inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
-
-inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
-
-inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
-
 inline ulen PutSymbol(char *ptr,ulen len,Utf8Code ch)
  {
   ch.getRange().copyTo(ptr+len);
@@ -50,7 +42,12 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
 
 #else
 
-inline constexpr unsigned MaxSymbolLen = 1 ;
+inline ulen PutSymbol(char *ptr,ulen len,char ch)
+ {
+  ptr[len]=ch;
+
+  return len+1;
+ }
 
 inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
  {
@@ -60,19 +57,6 @@ inline ulen PopSymbol(const char *ptr,ulen len) // len > 0
  }
 
 #endif
-
-inline int ToChar(char ch) { return ch; }
-
-inline ulen SymbolLen(char ch) { Used(ch); return 1; }
-
-inline StrLen SymbolRange(const char &ch) { return Single(ch); }
-
-inline ulen PutSymbol(char *ptr,ulen len,char ch)
- {
-  ptr[len]=ch;
-
-  return len+1;
- }
 
 /* classes */
 

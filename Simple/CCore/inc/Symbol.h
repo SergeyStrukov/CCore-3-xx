@@ -36,6 +36,48 @@ using Symbol = char ;
 
 #endif
 
+/* const MaxSymbolLen */
+
+#ifdef CCORE_UTF8
+
+inline constexpr unsigned MaxSymbolLen = 4 ;
+
+#else
+
+inline constexpr unsigned MaxSymbolLen = 1 ;
+
+#endif
+
+/* functions */
+
+#ifdef CCORE_UTF8
+
+inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
+
+inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
+
+inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
+
+inline Utf8Code PeekSymbol(StrLen text) // +text
+ {
+  return PeekUtf8(text);
+ }
+
+#else
+
+inline char PeekSymbol(StrLen text) // +text
+ {
+  return *text;
+ }
+
+#endif
+
+inline int ToChar(char ch) { return ch; }
+
+inline ulen SymbolLen(char ch) { Used(ch); return 1; }
+
+inline StrLen SymbolRange(const char &ch) { return Single(ch); }
+
 } // namespace CCore
 
 #endif

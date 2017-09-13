@@ -15,9 +15,7 @@
 
 #include <CCore/inc/ddl/DDLToken.h>
 
-#ifdef CCORE_UTF8
-# include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 namespace DDL {
@@ -247,25 +245,13 @@ Token Tokenizer::next_error_skip(ulen len,const char *error_text)
 
 Token Tokenizer::next_error(const char *error_text)
  {
-#ifdef CCORE_UTF8
+  Symbol ch=PeekSymbol(text);
 
-  Utf8Code ch=PeekUtf8(text);
-
-  Token ret=cut(Token_Other,ch.getLen());
+  Token ret=cut(Token_Other,SymbolLen(ch));
 
   error("Tokenizer #; \"#;\" : #;",PrintPos(file_id,ret.pos),ExtCharCode(ch),error_text);
 
   return ret;
-
-#else
-
-  Token ret=cut(Token_Other,1);
-
-  error("Tokenizer #; \"#;\" : #;",PrintPos(file_id,ret.pos),CharCode(*ret.str),error_text);
-
-  return ret;
-
-#endif
  }
 
 Token Tokenizer::next_short_comment()

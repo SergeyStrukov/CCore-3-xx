@@ -347,6 +347,7 @@ Dir Dir5=
     { 'page_StrMap.html' , Ignore },
     { 'page_StrParse.html' , Ignore },
     { 'page_Swap.html' , Ignore },
+    { 'page_Symbol.html' , Green },
     { 'page_SymCount.html' , Green },
     { 'page_Sync.html' , Ignore },
     { 'page_SysLog.html' , Ignore },
@@ -2215,6 +2216,7 @@ Dir Dir120=
     { 'StartStop.h' , Ignore },
     { 'StrKey.h' , Ignore },
     { 'Swap.h' , Ignore },
+    { 'Symbol.h' , Green },
     { 'SymCount.h' , Green },
     { 'TextLabel.h' , Green },
     { 'Timer.h' , Ignore },
@@ -2271,6 +2273,7 @@ Dir Dir121=
     { 'StartStop.cpp' , Ignore },
     { 'StrKey.cpp' , Ignore },
     { 'Swap.cpp' , Ignore },
+    { 'Symbol.cpp' , Green },
     { 'SymCount.cpp' , Green },
     { 'TextLabel.cpp' , Green },
     { 'Timer.cpp' , Ignore },
@@ -2631,6 +2634,7 @@ Dir Dir39=
    },
    {
     { 'Makefile' , Ignore },
+    { 'PTPSecureServerProc.a' , Ignore },
     { 'ErrorIds.cpp' , Ignore },
     { 'HFSProc.cpp' , Ignore },
     { 'ProcBase.cpp' , Ignore },
@@ -2942,6 +2946,7 @@ Dir Dir134=
    },
    {
     { 'empty' , Ignore },
+    { 'exectest.exe' , Ignore },
     { 'PTPServerLog.txt' , Ignore }
    }
   };

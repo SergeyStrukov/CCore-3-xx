@@ -38,36 +38,11 @@ This file contains a set of simple tools to work with console input.
 
 <pre>
 
-inline constexpr unsigned <span class="Att">MaxSymbolLen</span> = .... ;
-
-int <span class="Att">ToChar</span>(Symbol ch);
-
-ulen <span class="Att">SymbolLen</span>(Symbol ch);
-
-StrLen <span class="Att">SymbolRange</span>(const Symbol &ch);
-
 ulen <span class="Att">PutSymbol</span>(char *ptr,ulen len,Symbol ch);
 
 ulen <span class="Att">PopSymbol</span>(const char *ptr,ulen len); // len > 0
 
 </pre>
-
-<p>
-<b>MaxSymbolLen</b> is the maximum symbol length in characters.
-</p>
-
-<p>
-<b>ToChar()</b> converts a <b>Symbol</b> value to the <b>char</b> value (represented using <b>int</b> type).
-In UTF8-compatible mode the result is -1, if the symbol is not single character length (i.e. not a basic ASCII symbol). 
-</p>
-
-<p>
-<b>SymbolLen()</b> gets a symbol length in characters.
-</p>
-
-<p>
-<b>SymbolRange()</b> gets a character range from the symbol.
-</p>
 
 <p>
 <b>PutSymbol()</b> puts the symbol at the end of the character range (i.e. starting from the <b>ptr+len</b> position). 
@@ -78,22 +53,6 @@ There must be enough room to store this symbol. The new range length is returned
 <b>PopSymbol()</b> looks for the last symbol at the end of the non-empty charcter range and "pops" it from the range.
 The new range length is returned.
 </p>
-
-<p>
-There are also <b>char</b> version of these functions:
-</p>
-
-<pre>
-
-int <span class="Att">ToChar</span>(char ch);
-
-ulen <span class="Att">SymbolLen</span>(char ch);
-
-StrLen <span class="Att">SymbolRange</span>(const char &ch);
-
-ulen <span class="Att">PutSymbol</span>(char *ptr,ulen len,char ch);
-
-</pre>
 
 <h4>ReadConBase</h4>
 

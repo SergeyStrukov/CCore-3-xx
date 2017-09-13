@@ -30,6 +30,8 @@
 
 <p class="Files">Files <b>CCore/inc/Symbol.h</b> <b>CCore/src/Symbol.cpp</b></p>
 
+<h4>Symbol</h4>
+
 <p>
 In UTF8-compatible mode the type <b>Symbol</b> is defined as the type <b>Utf8Code</b>, otherwise as the type <b>char</b>.
 It represents a single symbol, single-char or multi-char.
@@ -48,6 +50,57 @@ using <span class="Att">Symbol</span> = Utf8Code ;
 using <span class="Att">Symbol</span> = char ;
 
 #endif
+
+</pre>
+
+<h4>Utilities</h4>
+
+<pre>
+
+inline constexpr unsigned <span class="Att">MaxSymbolLen</span> = .... ;
+
+int <span class="Att">ToChar</span>(Symbol ch);
+
+ulen <span class="Att">SymbolLen</span>(Symbol ch);
+
+StrLen <span class="Att">SymbolRange</span>(const Symbol &ch);
+
+Symbol <span class="Att">PeekSymbol</span>(StrLen text); // +text
+
+</pre>
+
+<p>
+<b>MaxSymbolLen</b> is the maximum symbol length in characters.
+</p>
+
+<p>
+<b>ToChar()</b> converts a <b>Symbol</b> value to the <b>char</b> value (represented using <b>int</b> type).
+In UTF8-compatible mode the result is -1, if the symbol is not single character length (i.e. not a basic ASCII symbol). 
+</p>
+
+<p>
+<b>SymbolLen()</b> gets a symbol length in characters.
+</p>
+
+<p>
+<b>SymbolRange()</b> gets a character range from the symbol.
+</p>
+
+<p>
+<b>PeekSymbol()</b> peeks the first symbol from the non-empty character range.
+</p>
+
+<p>
+There are also <b>char</b> versions of these functions:
+</p>
+
+<pre>
+
+int <span class="Att">ToChar</span>(char ch);
+
+ulen <span class="Att">SymbolLen</span>(char ch);
+
+StrLen <span class="Att">SymbolRange</span>(const char &ch);
 
 </pre>
 
