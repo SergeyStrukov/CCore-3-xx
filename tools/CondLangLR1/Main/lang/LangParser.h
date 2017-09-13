@@ -16,6 +16,8 @@
 
 #include "Tools.h"
 
+#include <CCore/inc/Symbol.h>
+
 namespace App {
 namespace LangParser {
 
@@ -189,7 +191,6 @@ class Tokenizer : TokenizerBase
   private:
 
    Token cut(TokenClass tc,ulen len);
-   Token cut_multiline(TokenClass tc,ulen len);
 
    Token next_short_comment();
    Token next_long_comment();
@@ -221,16 +222,6 @@ Token Tokenizer<Action>::cut(TokenClass tc,ulen len)
  {
   Token ret(tc,pos,text+=len);
 
-  pos.update(len);
-
-  return ret;
- }
-
-template <class Action>
-Token Tokenizer<Action>::cut_multiline(TokenClass tc,ulen len)
- {
-  Token ret(tc,pos,text+=len);
-
   pos.update(ret.str);
 
   return ret;
@@ -247,11 +238,11 @@ Token Tokenizer<Action>::next_long_comment()
  {
   auto scan=ScanLongComment(text);
 
-  if( scan.ok ) return cut_multiline(Token_LongComment,scan.len);
+  if( scan.ok ) return cut(Token_LongComment,scan.len);
 
   action.error("Tokenizer #; : not closed long comment",pos);
 
-  return cut_multiline(Token_Other,scan.len);
+  return cut(Token_Other,scan.len);
  }
 
 template <class Action>
@@ -300,7 +291,7 @@ Token Tokenizer<Action>::next_comment()
 template <class Action>
 Token Tokenizer<Action>::next_space()
  {
-  return cut_multiline(Token_Space,ScanSpace(text));
+  return cut(Token_Space,ScanSpace(text));
  }
 
 template <class Action>
@@ -314,7 +305,7 @@ Token Tokenizer<Action>::next_other()
  {
   action.error("Tokenizer #; : unexpected character",pos);
 
-  return cut(Token_Other,1);
+  return cut(Token_Other,SymbolLen(PeekSymbol(text)));
  }
 
 template <class Action>

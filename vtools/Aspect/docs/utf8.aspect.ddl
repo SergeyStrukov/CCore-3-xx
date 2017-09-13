@@ -461,7 +461,7 @@ Dir Dir8=
 Dir Dir9=
   {
    'tools',
-   New,
+   Green,
    {
     &Dir26,
     &Dir27,
@@ -2426,7 +2426,7 @@ Dir Dir125=
 Dir Dir26=
   {
    'CondLangLR1',
-   New,
+   Green,
    {
     &Dir126,
     &Dir127,
@@ -2783,23 +2783,23 @@ Dir Dir130=
 Dir Dir131=
   {
    'Main',
-   New,
+   Green,
    {
     &Dir136,
     &Dir137
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
-    { 'PrintTools.cpp' , New },
-    { 'Set.cpp' , New },
-    { 'SparseMatrix.cpp' , New },
-    { 'Tools.cpp' , New },
+    { 'main.cpp' , Ignore },
+    { 'PrintTools.cpp' , Green },
+    { 'Set.cpp' , Ignore },
+    { 'SparseMatrix.cpp' , Ignore },
+    { 'Tools.cpp' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'PrintTools.h' , New },
-    { 'Set.h' , New },
-    { 'SparseMatrix.h' , New },
-    { 'Tools.h' , New }
+    { 'PrintTools.h' , Green },
+    { 'Set.h' , Ignore },
+    { 'SparseMatrix.h' , Ignore },
+    { 'Tools.h' , Ignore }
    }
   };
 
@@ -2817,49 +2817,49 @@ Dir Dir135=
 Dir Dir136=
   {
    'lang',
-   New,
+   Green,
    {
    },
    {
-    { 'BottomLang.cpp' , New },
-    { 'CondLang.cpp' , New },
-    { 'ExtLang.cpp' , New },
-    { 'Lang.cpp' , New },
-    { 'LangParser.cpp' , New },
-    { 'TopLang.cpp' , New },
-    { 'CondLang.h' , New },
-    { 'Lang.h' , New },
-    { 'LangParser.h' , New }
+    { 'BottomLang.cpp' , Ignore },
+    { 'CondLang.cpp' , Ignore },
+    { 'ExtLang.cpp' , Ignore },
+    { 'Lang.cpp' , Ignore },
+    { 'LangParser.cpp' , Green },
+    { 'TopLang.cpp' , Ignore },
+    { 'CondLang.h' , Ignore },
+    { 'Lang.h' , Ignore },
+    { 'LangParser.h' , Green }
    }
   };
 
 Dir Dir137=
   {
    'process',
-   New,
+   Green,
    {
    },
    {
-    { 'GoodEstimate.cpp' , New },
-    { 'LangDiagram.cpp' , New },
-    { 'LangEstimate.cpp' , New },
-    { 'LangStateMachine.cpp' , New },
-    { 'LR1Estimate.cpp' , New },
-    { 'LR1Prop.cpp' , New },
-    { 'NonEmptyEstimate.cpp' , New },
-    { 'Process.cpp' , New },
-    { 'StateCompress.cpp' , New },
-    { 'StateMap.cpp' , New },
-    { 'GoodEstimate.h' , New },
-    { 'LangDiagram.h' , New },
-    { 'LangEstimate.h' , New },
-    { 'LangStateMachine.h' , New },
-    { 'LR1Estimate.h' , New },
-    { 'LR1Prop.h' , New },
-    { 'NonEmptyEstimate.h' , New },
-    { 'Process.h' , New },
-    { 'StateCompress.h' , New },
-    { 'StateMap.h' , New }
+    { 'GoodEstimate.cpp' , Ignore },
+    { 'LangDiagram.cpp' , Ignore },
+    { 'LangEstimate.cpp' , Ignore },
+    { 'LangStateMachine.cpp' , Ignore },
+    { 'LR1Estimate.cpp' , Ignore },
+    { 'LR1Prop.cpp' , Ignore },
+    { 'NonEmptyEstimate.cpp' , Ignore },
+    { 'Process.cpp' , Green },
+    { 'StateCompress.cpp' , Ignore },
+    { 'StateMap.cpp' , Ignore },
+    { 'GoodEstimate.h' , Ignore },
+    { 'LangDiagram.h' , Ignore },
+    { 'LangEstimate.h' , Ignore },
+    { 'LangStateMachine.h' , Ignore },
+    { 'LR1Estimate.h' , Ignore },
+    { 'LR1Prop.h' , Ignore },
+    { 'NonEmptyEstimate.h' , Ignore },
+    { 'Process.h' , Ignore },
+    { 'StateCompress.h' , Ignore },
+    { 'StateMap.h' , Ignore }
    }
   };
 
