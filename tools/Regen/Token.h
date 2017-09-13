@@ -147,7 +147,6 @@ class Tokenizer : NoCopy
    static ulen ScanLongComment(StrLen text); // text.len>=2
 
    Token cut(TokenClass tc,ulen len);
-   Token cut_pos(TokenClass tc,ulen len);
 
    Token next_number();
    Token next_word();

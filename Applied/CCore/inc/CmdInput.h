@@ -324,7 +324,8 @@ void CmdInputCon<ReadCon,MaxArgLen>::command(SS && ... ss)
          }
         break;
 
-        case '\r' : case '\n' :
+        case '\r' :
+        case '\n' :
          {
           auto result=input.finish();
 

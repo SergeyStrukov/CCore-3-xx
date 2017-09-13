@@ -83,11 +83,11 @@ ServerProc::~ServerProc()
   ptp->detach();
  }
 
-char ServerProc::get()
+ReadConCode ServerProc::get()
  {
   for(;;)
     {
-     char ch;
+     ReadConCode ch;
 
      if( con.get(100_msec,ch) ) return ch;
     }

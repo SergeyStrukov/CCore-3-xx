@@ -506,7 +506,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   Red,
+   New,
    {
     &Dir44,
     &Dir45,
@@ -2547,12 +2547,12 @@ Dir Dir33=
 Dir Dir34=
   {
    'MakeList',
-   New,
+   Ignore,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -2586,39 +2586,39 @@ Dir Dir36=
 Dir Dir37=
   {
    'PTPSecureClient',
-   New,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'Config.cpp' , New },
-    { 'main.cpp' , New },
-    { 'Config.ddl' , New },
-    { 'PTPSecureConfig.types.ddl' , New },
+    { 'Config.cpp' , Ignore },
+    { 'main.cpp' , Green },
+    { 'Config.ddl' , Ignore },
+    { 'PTPSecureConfig.types.ddl' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Config.h' , New },
-    { 'Config.type.h' , New },
-    { 'Config.typeset.h' , New }
+    { 'Config.h' , Ignore },
+    { 'Config.type.h' , Ignore },
+    { 'Config.typeset.h' , Ignore }
    }
   };
 
 Dir Dir38=
   {
    'PTPSecureServer',
-   New,
+   Ignore,
    {
     &Dir133
    },
    {
     { 'Makefile' , Ignore },
-    { 'Config.cpp' , New },
-    { 'main.cpp' , New },
-    { 'Config.ddl' , New },
-    { 'PTPSecureConfig.types.ddl' , New },
+    { 'Config.cpp' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Config.ddl' , Ignore },
+    { 'PTPSecureConfig.types.ddl' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Config.h' , New },
-    { 'Config.type.h' , New },
-    { 'Config.typeset.h' , New },
+    { 'Config.h' , Ignore },
+    { 'Config.type.h' , Ignore },
+    { 'Config.typeset.h' , Ignore },
     { 'PTPSecureServerLog.txt' , Ignore }
    }
   };
@@ -2626,22 +2626,22 @@ Dir Dir38=
 Dir Dir39=
   {
    'PTPSecureServerProc',
-   New,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'ErrorIds.cpp' , New },
-    { 'HFSProc.cpp' , New },
-    { 'ProcBase.cpp' , New },
-    { 'ServerProc.cpp' , New },
-    { 'SupportProc.cpp' , New },
+    { 'ErrorIds.cpp' , Ignore },
+    { 'HFSProc.cpp' , Ignore },
+    { 'ProcBase.cpp' , Ignore },
+    { 'ServerProc.cpp' , Green },
+    { 'SupportProc.cpp' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'ErrorIds.h' , New },
-    { 'HFSProc.h' , New },
-    { 'ProcBase.h' , New },
-    { 'ServerProc.h' , New },
-    { 'SupportProc.h' , New }
+    { 'ErrorIds.h' , Ignore },
+    { 'HFSProc.h' , Ignore },
+    { 'ProcBase.h' , Ignore },
+    { 'ServerProc.h' , Green },
+    { 'SupportProc.h' , Ignore }
    }
   };
 
@@ -2662,48 +2662,48 @@ Dir Dir40=
 Dir Dir41=
   {
    'PTPServerProc',
-   New,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
     { 'PTPServerProc.a' , Ignore },
-    { 'ErrorIds.cpp' , New },
-    { 'HFSProc.cpp' , New },
-    { 'ProcBase.cpp' , New },
-    { 'PTPConProc.cpp' , New },
-    { 'ServerProc.cpp' , New },
-    { 'SupportProc.cpp' , New },
+    { 'ErrorIds.cpp' , Ignore },
+    { 'HFSProc.cpp' , Ignore },
+    { 'ProcBase.cpp' , Ignore },
+    { 'PTPConProc.cpp' , Green },
+    { 'ServerProc.cpp' , Green },
+    { 'SupportProc.cpp' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'ErrorIds.h' , New },
-    { 'HFSProc.h' , New },
-    { 'ProcBase.h' , New },
-    { 'PTPConProc.h' , New },
-    { 'ServerProc.h' , New },
-    { 'SupportProc.h' , New }
+    { 'ErrorIds.h' , Ignore },
+    { 'HFSProc.h' , Ignore },
+    { 'ProcBase.h' , Ignore },
+    { 'PTPConProc.h' , Green },
+    { 'ServerProc.h' , Green },
+    { 'SupportProc.h' , Ignore }
    }
   };
 
 Dir Dir42=
   {
    'Regen',
-   New,
+   Green,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'Generate.cpp' , New },
-    { 'HashMap.cpp' , New },
-    { 'main.cpp' , New },
-    { 'Parser.cpp' , New },
-    { 'test.cpp' , New },
-    { 'Token.cpp' , New },
+    { 'Generate.cpp' , Ignore },
+    { 'HashMap.cpp' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Parser.cpp' , Ignore },
+    { 'test.cpp' , Ignore },
+    { 'Token.cpp' , Green },
     { 'Test.desc' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Generate.h' , New },
-    { 'HashMap.h' , New },
-    { 'Parser.h' , New },
-    { 'Token.h' , New },
+    { 'Generate.h' , Ignore },
+    { 'HashMap.h' , Ignore },
+    { 'Parser.h' , Ignore },
+    { 'Token.h' , Green },
     { 'Test.gen.h' , Ignore },
     { 'Test.txt' , Ignore }
    }
@@ -2725,16 +2725,16 @@ Dir Dir126=
 Dir Dir127=
   {
    'BFTest',
-   New,
+   Ignore,
    {
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
-    { 'Process.cpp' , New },
+    { 'main.cpp' , Ignore },
+    { 'Process.cpp' , Ignore },
     { 'BFTest.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Process.h' , New }
+    { 'Process.h' , Ignore }
    }
   };
 
@@ -2765,13 +2765,13 @@ Dir Dir129=
 Dir Dir130=
   {
    'Gen',
-   New,
+   Ignore,
    {
     &Dir135
    },
    {
     { 'Makefile' , Ignore },
-    { 'main.cpp' , New },
+    { 'main.cpp' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -2885,7 +2885,7 @@ Dir Dir138=
     { 'ptr.ddl' , Ignore },
     { 'scope.ddl' , Ignore },
     { 'text.ddl' , Ignore },
-    { 'Юникод.ddl' , New }
+    { 'Юникод.ddl' , Ignore }
    }
   };
 
@@ -3071,7 +3071,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   Red,
+   New,
    {
     &Dir160,
     &Dir161
@@ -4633,7 +4633,7 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   Green,
+   New,
    {
    },
    {

@@ -941,13 +941,24 @@ bool CommandEngine::inputArg()
 
   for(;;)
     {
-     switch( char ch=con.get() )
+     ReadConCode ch=con.get();
+
+     switch( ToChar(ch) )
        {
+        case '\n' :
+        case '\r' :
+         {
+          con.put("\r\n"_c);
+
+          return true;
+         }
+        break;
+
         case '\b' :
          {
           if( arg_len>0 )
             {
-             arg_len--;
+             arg_len=PopSymbol(arg,arg_len);
 
              con.put("\b \b"_c);
             }
@@ -960,19 +971,11 @@ bool CommandEngine::inputArg()
          }
         break;
 
-        case '\n' : case '\r' :
-         {
-          con.put("\r\n"_c);
-
-          return true;
-         }
-        break;
-
         default:
          {
-          if( CharIsPrintable(ch) && arg_len<MaxArgLen )
+          if( arg_len+SymbolLen(ch)<=MaxArgLen && CharIsPrintable(ch) )
             {
-             arg[arg_len++]=ch;
+             arg_len=PutSymbol(arg,arg_len,ch);
 
              con.put(ch);
             }
@@ -990,7 +993,9 @@ void CommandEngine::command()
 
   for(;;)
     {
-     switch( char ch=con.get() )
+     ReadConCode ch=con.get();
+
+     switch( ToChar(ch) )
        {
         case ' ' :
          {
@@ -1018,7 +1023,8 @@ void CommandEngine::command()
          }
         break;
 
-        case '\r' : case '\n' :
+        case '\r' :
+        case '\n' :
          {
           auto result=input.finish();
 

@@ -13,6 +13,10 @@
 
 #include "Token.h"
 
+#ifdef CCORE_UTF8
+# include <CCore/inc/Utf8.h>
+#endif
+
 namespace App {
 
 /* Error */
@@ -149,15 +153,6 @@ Token Tokenizer::cut(TokenClass tc,ulen len)
  {
   Token ret(tc,pos,text+=len);
 
-  pos.update(len);
-
-  return ret;
- }
-
-Token Tokenizer::cut_pos(TokenClass tc,ulen len)
- {
-  Token ret(tc,pos,text+=len);
-
   pos.update(ret.str);
 
   return ret;
@@ -180,7 +175,7 @@ Token Tokenizer::next_punct()
 
 Token Tokenizer::next_space()
  {
-  return cut_pos(Token_Space,ScanSpace(text));
+  return cut(Token_Space,ScanSpace(text));
  }
 
 Token Tokenizer::next_short_comment()
@@ -190,7 +185,7 @@ Token Tokenizer::next_short_comment()
 
 Token Tokenizer::next_long_comment()
  {
-  return cut_pos(Token_LongComment,ScanLongComment(text));
+  return cut(Token_LongComment,ScanLongComment(text));
  }
 
 Token Tokenizer::next_other()
@@ -201,7 +196,17 @@ Token Tokenizer::next_other()
      if( text[1]=='*' ) return next_long_comment();
     }
 
+#ifdef CCORE_UTF8
+
+  Utf8Code ch=PeekUtf8(text);
+
+  return cut(Token_Other,ch.getLen());
+
+#else
+
   return cut(Token_Other,1);
+
+#endif
  }
 
 Token Tokenizer::next()
