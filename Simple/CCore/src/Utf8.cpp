@@ -21,9 +21,9 @@ namespace CCore {
 
 /* guard functions */
 
-void GuardUtf8Broken()
+void GuardUtf8Broken(const char *name)
  {
-  Printf(Exception,"CCore::PeekUtf8_guarded(...) : broken UTF8 sequence");
+  Printf(Exception,"#; : broken UTF8 sequence",name);
  }
 
 /* functions */
@@ -133,58 +133,60 @@ Utf8Code CutUtf8(StrLen &text)
 
 Utf8Code PeekUtf8_guarded(StrLen text)
  {
+  const char *name="CCore::PeekUtf8_guarded(...)";
+
   char b1=*text;
 
   switch( Utf8Len(b1) )
     {
-     case 0 : default: GuardUtf8Broken(); [[fallthrough]];
+     case 0 : default: GuardUtf8Broken(name); [[fallthrough]];
 
      case 1 : return Utf8Code(b1);
 
      case 2 :
       {
-       if( text.len<2 ) GuardUtf8Broken();
+       if( text.len<2 ) GuardUtf8Broken(name);
 
        char b2=text[1];
 
-       if( !Utf8Ext(b2) ) GuardUtf8Broken();
+       if( !Utf8Ext(b2) ) GuardUtf8Broken(name);
 
        Utf8Code ret(b1,b2);
 
-       if( ret.toUnicode()<0x80u ) GuardUtf8Broken();
+       if( ret.toUnicode()<0x80u ) GuardUtf8Broken(name);
 
        return ret;
       }
 
      case 3 :
       {
-       if( text.len<3 ) GuardUtf8Broken();
+       if( text.len<3 ) GuardUtf8Broken(name);
 
        char b2=text[1];
        char b3=text[2];
 
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) GuardUtf8Broken();
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) GuardUtf8Broken(name);
 
        Utf8Code ret(b1,b2,b3);
 
-       if( ret.toUnicode()<0x800u ) GuardUtf8Broken();
+       if( ret.toUnicode()<0x800u ) GuardUtf8Broken(name);
 
        return ret;
       }
 
      case 4 :
       {
-       if( text.len<4 ) GuardUtf8Broken();
+       if( text.len<4 ) GuardUtf8Broken(name);
 
        char b2=text[1];
        char b3=text[2];
        char b4=text[3];
 
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) GuardUtf8Broken();
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) GuardUtf8Broken(name);
 
        Utf8Code ret(b1,b2,b3,b4);
 
-       if( ret.toUnicode()<0x10000u ) GuardUtf8Broken();
+       if( ret.toUnicode()<0x10000u ) GuardUtf8Broken(name);
 
        return ret;
       }

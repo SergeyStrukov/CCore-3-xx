@@ -135,6 +135,16 @@ Other constructors create a symbol from the given characters, these characters m
 
 <pre>
 
+void <span class="Att">GuardUtf8Broken</span>(const char *name);
+
+</pre>
+
+<p>
+This guard function can be used to throw an exception in case of broken UTF8 text. The argument is a function name.
+</p>
+
+<pre>
+
 Utf8Code <span class="Att">ToUtf8</span>(Unicode unicode);
 
 </pre>

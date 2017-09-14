@@ -1,7 +1,7 @@
 /* FileNameMatch.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@
 #define CCore_inc_video_FileNameMatch_h
 
 #include <CCore/inc/Array.h>
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 
@@ -28,6 +29,16 @@ class FileNameFilter;
 
 class FileNameFilter : NoCopy
  {
+#ifdef CCORE_UTF8
+
+   using Char = Unicode ;
+
+#else
+
+   using Char = char ;
+
+#endif
+
    class State;
 
    struct StateArrow;
@@ -42,7 +53,7 @@ class FileNameFilter : NoCopy
     {
       struct Arrow
        {
-        char ch;
+        Char ch;
         ulen index;
 
         Arrow(const StateArrow &obj);
@@ -66,7 +77,7 @@ class FileNameFilter : NoCopy
 
       bool isFinal() const { return is_final; }
 
-      ulen next(char ch) const;
+      ulen next(Char ch) const;
     };
 
    DynArray<IndState> states;

@@ -40,7 +40,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Applied',
-   Red,
+   Green,
    {
     &Dir15
    },
@@ -507,7 +507,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   New,
+   Red,
    {
     &Dir44,
     &Dir45,
@@ -561,7 +561,7 @@ Dir Dir13=
 Dir Dir14=
   {
    'XCore',
-   Red,
+   Green,
    {
     &Dir59
    },
@@ -572,7 +572,7 @@ Dir Dir14=
 Dir Dir15=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir60,
     &Dir61,
@@ -585,7 +585,7 @@ Dir Dir15=
 Dir Dir60=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir63,
     &Dir64,
@@ -607,7 +607,7 @@ Dir Dir60=
     { 'Elf.h' , Ignore },
     { 'EventRecorder.h' , Ignore },
     { 'FileName.h' , Green },
-    { 'FileNameMatch.h' , Red },
+    { 'FileNameMatch.h' , Green },
     { 'InputUtils.h' , Green },
     { 'LineInput.h' , Green },
     { 'Log.h' , Ignore },
@@ -624,7 +624,7 @@ Dir Dir60=
 Dir Dir61=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir73,
     &Dir74,
@@ -646,7 +646,7 @@ Dir Dir61=
     { 'Elf.cpp' , Ignore },
     { 'EventRecorder.cpp' , Ignore },
     { 'FileName.cpp' , Green },
-    { 'FileNameMatch.cpp' , Red },
+    { 'FileNameMatch.cpp' , Green },
     { 'InputUtils.cpp' , Green },
     { 'LineInput.cpp' , Green },
     { 'Log.cpp' , Ignore },
@@ -665,7 +665,7 @@ Dir Dir61=
 Dir Dir62=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
@@ -683,7 +683,7 @@ Dir Dir62=
     { 'test3025.DHExp.cpp' , Ignore },
     { 'test3002.EventRecorder.cpp' , Ignore },
     { 'test3007.FileName.cpp' , Green },
-    { 'test3032.FileNameMatch.cpp' , Red },
+    { 'test3032.FileNameMatch.cpp' , Green },
     { 'test3022.Integer.cpp' , Ignore },
     { 'test3020.IntegerFastAlgo.cpp' , Ignore },
     { 'test3021.IntegerInverse.cpp' , Ignore },
@@ -3076,7 +3076,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   New,
+   Red,
    {
     &Dir160,
     &Dir161
@@ -4638,7 +4638,7 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   New,
+   Green,
    {
    },
    {
@@ -4646,7 +4646,7 @@ Dir Dir161=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Юникод символы 𝕬𝕺𝕾.txt' , New }
+    { 'Юникод символы 𝕬𝕺𝕾.txt' , Ignore }
    }
   };
 
@@ -5563,7 +5563,7 @@ Dir Dir294=
 Dir Dir59=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir297,
     &Dir298,
@@ -5576,7 +5576,7 @@ Dir Dir59=
 Dir Dir297=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir300,
     &Dir301,
@@ -5604,7 +5604,7 @@ Dir Dir297=
 Dir Dir298=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir306,
     &Dir307,
@@ -5671,13 +5671,13 @@ Dir Dir300=
 Dir Dir301=
   {
    'libc',
-   Red,
+   Green,
    {
    },
    {
     { 'CDef.h' , Green },
-    { 'CPrintf.h' , Red },
-    { 'CScanf.h' , Red },
+    { 'CPrintf.h' , Ignore },
+    { 'CScanf.h' , Ignore },
     { 'CStdFile.h' , Green },
     { 'CSysFile.h' , Green },
     { 'stdioPlanInit.h' , Ignore }
@@ -5752,18 +5752,18 @@ Dir Dir305=
 Dir Dir306=
   {
    'libc',
-   Red,
+   Green,
    {
    },
    {
     { 'assert.cpp' , Ignore },
     { 'CDef.cpp' , Green },
-    { 'CPrintf.cpp' , Red },
+    { 'CPrintf.cpp' , Ignore },
     { 'CScanf.cpp' , Green },
     { 'CStdFile.cpp' , Green },
     { 'CSysCon.cpp' , Green },
     { 'CSysFile.cpp' , Green },
-    { 'stdio.cpp' , Red },
+    { 'stdio.cpp' , Ignore },
     { 'stdlib.cpp' , Ignore },
     { 'time.cpp' , Ignore }
    }

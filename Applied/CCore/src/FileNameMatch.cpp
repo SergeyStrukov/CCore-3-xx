@@ -1,7 +1,7 @@
 /* FileNameMatch.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -28,25 +28,27 @@ namespace CCore {
 
 class FileNameFilter::State : public CmpComparable<State>
  {
-   StrLen filter;
+   using Filter = PtrLen<const Char> ;
+
+   Filter filter;
    DynArray<ulen> list;
 
   private:
 
-   static bool IsFinal(StrLen s)
+   static bool IsFinal(Filter s)
     {
-     for(char ch : s ) if( ch!='*' ) return false;
+     for(Char ch : s ) if( ch!='*' ) return false;
 
      return true;
     }
 
    // all suffixes
 
-   void suffixes(FuncArgType<StrLen> func) const
+   void suffixes(FuncArgType<Filter> func) const
     {
-     StrLen f=filter;
+     Filter f=filter;
 
-     list.apply( [f,func] (ulen len) { return func(StrLen(f.suffix(len))); } );
+     list.apply( [f,func] (ulen len) { return func(f.suffix(len)); } );
     }
 
    // follow states
@@ -71,7 +73,7 @@ class FileNameFilter::State : public CmpComparable<State>
      list.shrink_extra();
     }
 
-   void add(StrLen s)
+   void add(Filter s)
     {
      for(; +s ;++s)
        {
@@ -98,16 +100,16 @@ class FileNameFilter::State : public CmpComparable<State>
     : filter(obj->filter),
       list(DoReserve,2*filter.len)
     {
-     obj->suffixes( [this] (StrLen s) { add(s); } );
+     obj->suffixes( [this] (Filter s) { add(s); } );
 
      complete();
     }
 
-   void add(StrLen s,char ch_)
+   void add(Filter s,Char ch_)
     {
      for(; +s ;++s)
        {
-        switch( char ch=*s )
+        switch( Char ch=*s )
           {
            case '*' :
             {
@@ -130,18 +132,18 @@ class FileNameFilter::State : public CmpComparable<State>
        }
     }
 
-   State(const State *obj,char ch)
+   State(const State *obj,Char ch)
     : filter(obj->filter),
       list(DoReserve,2*filter.len)
     {
-     obj->suffixes( [this,ch] (StrLen s) { add(s,ch); } );
+     obj->suffixes( [this,ch] (Filter s) { add(s,ch); } );
 
      complete();
     }
 
   public:
 
-   explicit State(StrLen filter_)
+   explicit State(Filter filter_)
     : filter(filter_),
       list(DoReserve,1)
     {
@@ -164,7 +166,7 @@ class FileNameFilter::State : public CmpComparable<State>
     {
      bool ret=false;
 
-     suffixes( [&ret] (StrLen s) -> bool
+     suffixes( [&ret] (Filter s) -> bool
                       {
                        if( IsFinal(s) )
                          {
@@ -180,17 +182,17 @@ class FileNameFilter::State : public CmpComparable<State>
      return ret;
     }
 
-   void follow(char buf[],FuncArgType<char,State &> char_func,FuncArgType<State &> other_func) const // buf.len == filter.len
+   void follow(Char buf[],FuncArgType<Char,State &> char_func,FuncArgType<State &> other_func) const // buf.len == filter.len
     {
      bool other=false;
 
-     char *temp=buf;
+     Char *temp=buf;
 
-     suffixes( [&other,&temp] (StrLen s)
+     suffixes( [&other,&temp] (Filter s)
                               {
                                if( +s )
                                  {
-                                  char ch=*s;
+                                  Char ch=*s;
 
                                   if( ch=='*' || ch=='?' )
                                     {
@@ -200,7 +202,7 @@ class FileNameFilter::State : public CmpComparable<State>
 
                                         if( +s )
                                           {
-                                           char ch=*s;
+                                           Char ch=*s;
 
                                            if( ch!='?' ) *(temp++)=ch;
                                           }
@@ -216,7 +218,7 @@ class FileNameFilter::State : public CmpComparable<State>
 
                               } );
 
-     Algon::SortThenApplyUnique(Range(buf,temp), [this,char_func] (char ch)
+     Algon::SortThenApplyUnique(Range(buf,temp), [this,char_func] (Char ch)
                                                                   {
                                                                    State state(this,ch);
 
@@ -244,10 +246,10 @@ class FileNameFilter::State : public CmpComparable<State>
 
 struct FileNameFilter::StateArrow
  {
-  char ch;
+  Char ch;
   FullState *state;
 
-  StateArrow(char ch_,FullState *state_) : ch(ch_),state(state_) {}
+  StateArrow(Char ch_,FullState *state_) : ch(ch_),state(state_) {}
  };
 
 /* class FileNameFilter::FullState */
@@ -266,14 +268,9 @@ class FileNameFilter::FullState : NoCopy
 
   public:
 
-   explicit FullState(State &state_)
-    : state(std::move(state_))
-    {
-    }
+   explicit FullState(State &state_) : state(std::move(state_)) {}
 
-   ~FullState()
-    {
-    }
+   ~FullState() {}
 
    // get
 
@@ -291,10 +288,7 @@ class FileNameFilter::FullState : NoCopy
 
    void setOther(FullState *other_) { other=other_; }
 
-   void addArrow(char ch,FullState *state)
-    {
-     arrows.append_fill(ch,state);
-    }
+   void addArrow(Char ch,FullState *state) { arrows.append_fill(ch,state); }
 
    // Cmp()
 
@@ -395,7 +389,7 @@ FileNameFilter::IndState::IndState(const FullState *state)
 
  // methods
 
-ulen FileNameFilter::IndState::next(char ch) const
+ulen FileNameFilter::IndState::next(Char ch) const
  {
   for(Arrow arr : arrows ) if( arr.ch==ch ) return arr.index;
 
@@ -404,10 +398,31 @@ ulen FileNameFilter::IndState::next(char ch) const
 
 /* class FileNameFilter */
 
-void FileNameFilter::build(StrLen filter,ulen max_states)
+void FileNameFilter::build(StrLen filter_,ulen max_states)
  {
   StateMap map(max_states);
   DynArray<FullState *> list;
+
+#ifdef CCORE_UTF8
+
+  DynArray<Char> buf(DoReserve,filter_.len);
+
+  while( +filter_ )
+    {
+     Unicode ch=CutUtf8_unicode(filter_);
+
+     if( ch==Unicode(-1) ) GuardUtf8Broken("CCore::FileNameFilter::build(...)");
+
+     buf.append_copy(ch);
+    }
+
+  auto filter=Range(buf);
+
+#else
+
+  StrLen filter=filter_;
+
+#endif
 
   {
    State first(filter);
@@ -415,7 +430,7 @@ void FileNameFilter::build(StrLen filter,ulen max_states)
    list.append_copy(map.find_or_add(first));
   }
 
-  TempArray<char,1024> temp(filter.len);
+  TempArray<Char,1024> temp(filter.len);
 
   for(ulen index=0; index<list.getLen() ;index++)
     {
@@ -423,7 +438,7 @@ void FileNameFilter::build(StrLen filter,ulen max_states)
 
      state->setIndex(index);
 
-     auto char_func = [&map,&list,state] (char ch,State &next_state)
+     auto char_func = [&map,&list,state] (Char ch,State &next_state)
                                          {
                                           auto result=map.find_or_add(next_state);
 
@@ -480,6 +495,21 @@ bool FileNameFilter::operator () (StrLen file) const
 
   ulen index=0;
 
+#ifdef CCORE_UTF8
+
+  while( +file )
+    {
+     Unicode ch=CutUtf8_unicode(file);
+
+     ulen next=ptr[index].next(ch);
+
+     if( next==MaxULen ) return false;
+
+     index=next;
+    }
+
+#else
+
   for(char ch : file )
     {
      ulen next=ptr[index].next(ch);
@@ -488,6 +518,8 @@ bool FileNameFilter::operator () (StrLen file) const
 
      index=next;
     }
+
+#endif
 
   return ptr[index].isFinal();
  }

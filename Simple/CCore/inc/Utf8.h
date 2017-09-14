@@ -26,7 +26,7 @@ using Unicode = uint32 ;
 
 /* guard functions */
 
-void GuardUtf8Broken();
+void GuardUtf8Broken(const char *name);
 
 /* classes */
 
