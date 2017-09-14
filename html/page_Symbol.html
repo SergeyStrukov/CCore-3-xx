@@ -104,6 +104,38 @@ StrLen <span class="Att">SymbolRange</span>(const char &ch);
 
 </pre>
 
+<h4>Char</h4>
+
+<p>
+In UTF8-compatible mode the type <b>Char</b> is defined as the type <b>Unicode</b>, otherwise as the type <b>char</b>.
+It represents a single symbol as an integral type.
+</p>
+
+<pre>
+
+#ifdef CCORE_UTF8
+
+using <span class="Att">Char</span> = Unicode ;
+
+#else
+
+using <span class="Att">Char</span> = char ;
+
+#endif
+
+</pre>
+
+<pre>
+
+inline Char <span class="Att">CutChar</span>(StrLen &text); // +text
+
+</pre>
+
+<p>
+<b>CutChar()</b> extracts the next <b>Char</b> symbol from the non-empty text (argument <b>text</b> is updated).
+In case of error the value <b>Unicode(-1)</b> is returned (only in UTF8-compatible mode).
+</p>
+
 </body>
 
 </html>

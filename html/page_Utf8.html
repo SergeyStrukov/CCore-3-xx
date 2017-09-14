@@ -187,7 +187,7 @@ If there is no a valid UTF8 sequence at the begining of the text, some broken UT
 </p>
 
 <p>
-<b>CutUtf8()</b> extracts the next UTF8 symbol from the non-empty text (argument text is updated).
+<b>CutUtf8()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated).
 If there is no a valid UTF8 sequence at the begining of the text, some broken UTF8 symbol is returned.
 </p>
 
@@ -208,12 +208,12 @@ void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete
 </pre>
 
 <p>
-<b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument text is updated)
+<b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated)
 and converts it to the Unicode value. In case of error the value <b>Unicode(-1)</b> is returned.
 </p>
 
 <p>
-<b>TrimUtf8End()</b> removes the trailing non-complete UTF8 sequence, if any, from the text (argument text is updated).
+<b>TrimUtf8End()</b> removes the trailing non-complete UTF8 sequence, if any, from the text (argument <b>text</b> is updated).
 </p>
 
 <pre>
