@@ -29,16 +29,6 @@ class FileNameFilter;
 
 class FileNameFilter : NoCopy
  {
-#ifdef CCORE_UTF8
-
-   using Char = Unicode ;
-
-#else
-
-   using Char = char ;
-
-#endif
-
    class State;
 
    struct StateArrow;

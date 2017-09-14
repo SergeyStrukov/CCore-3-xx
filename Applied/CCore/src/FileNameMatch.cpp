@@ -495,11 +495,9 @@ bool FileNameFilter::operator () (StrLen file) const
 
   ulen index=0;
 
-#ifdef CCORE_UTF8
-
   while( +file )
     {
-     Unicode ch=CutUtf8_unicode(file);
+     Char ch=CutChar(file);
 
      ulen next=ptr[index].next(ch);
 
@@ -507,19 +505,6 @@ bool FileNameFilter::operator () (StrLen file) const
 
      index=next;
     }
-
-#else
-
-  for(char ch : file )
-    {
-     ulen next=ptr[index].next(ch);
-
-     if( next==MaxULen ) return false;
-
-     index=next;
-    }
-
-#endif
 
   return ptr[index].isFinal();
  }

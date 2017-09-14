@@ -78,6 +78,41 @@ inline ulen SymbolLen(char ch) { Used(ch); return 1; }
 
 inline StrLen SymbolRange(const char &ch) { return Single(ch); }
 
+/* type Char */
+
+#ifdef CCORE_UTF8
+
+using Char = Unicode ;
+
+#else
+
+using Char = char ;
+
+#endif
+
+/* functions */
+
+#ifdef CCORE_UTF8
+
+inline Char CutChar(StrLen &text) // +text
+ {
+  return CutUtf8_unicode(text);
+ }
+
+#else
+
+inline Char CutChar(StrLen &text) // +text
+ {
+  char ch=*text;
+
+  ++text;
+
+  return ch;
+ }
+
+#endif
+
+
 } // namespace CCore
 
 #endif
