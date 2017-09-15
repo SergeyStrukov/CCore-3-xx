@@ -1209,9 +1209,9 @@ Dir Dir86=
     { 'SubWindow.h' , Ignore },
     { 'ToolFrame.h' , Ignore },
     { 'UserAction.h' , Red },
-    { 'UserPreference.h' , New },
+    { 'UserPreference.h' , Ignore },
     { 'WindowLib.h' , Ignore },
-    { 'WindowReport.h' , New }
+    { 'WindowReport.h' , Green }
    }
   };
 
@@ -1334,9 +1334,9 @@ Dir Dir87=
     { 'SubWindow.cpp' , Ignore },
     { 'ToolFrame.cpp' , Ignore },
     { 'UserAction.cpp' , Red },
-    { 'UserPreference.cpp' , New },
+    { 'UserPreference.cpp' , Yellow },
     { 'WindowLib.cpp' , Ignore },
-    { 'WindowReport.cpp' , New },
+    { 'WindowReport.cpp' , Green },
     { 'ConfigTypes.ddl' , Ignore },
     { 'FontInfo.ddl' , Ignore },
     { 'HitDirs.ddl' , Ignore },

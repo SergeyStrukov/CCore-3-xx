@@ -121,6 +121,16 @@ void ExceptionStore::endMsg(PtrLen<char> rest)
   tail->index=index++;
   tail->len-=rest.len;
   tail->done=true;
+
+#ifdef CCORE_UTF8
+
+  StrLen text=GetStr(tail);
+
+  TrimUtf8End(text);
+
+  tail->len=text.len;
+
+#endif
  }
 
 void ExceptionStore::divide()
