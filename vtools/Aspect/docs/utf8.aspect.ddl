@@ -1168,18 +1168,18 @@ Dir Dir86=
     { 'ColorField.h' , Ignore },
     { 'CommonDrawArt.h' , Ignore },
     { 'ConfigBinder.h' , Ignore },
-    { 'ConfigEditor.h' , New },
+    { 'ConfigEditor.h' , Red },
     { 'ConfigStore.h' , Ignore },
     { 'CurveDriver.h' , Ignore },
     { 'DesktopKey.h' , Ignore },
-    { 'DirFrame.h' , New },
+    { 'DirFrame.h' , Red },
     { 'DrawAlgo.h' , Ignore },
     { 'DrawBuf.h' , Ignore },
     { 'DrawTools.h' , Ignore },
     { 'FigureLib.h' , Ignore },
     { 'FileBoss.h' , Ignore },
-    { 'FileFrame.h' , New },
-    { 'FileNameCmp.h' , New },
+    { 'FileFrame.h' , Red },
+    { 'FileNameCmp.h' , Red },
     { 'Font.h' , Red },
     { 'FontDatabase.h' , Ignore },
     { 'FontLookup.h' , Ignore },
@@ -1195,7 +1195,7 @@ Dir Dir86=
     { 'InfoSize.h' , Ignore },
     { 'Keyboard.h' , Ignore },
     { 'Layout.h' , Ignore },
-    { 'Menu.h' , New },
+    { 'Menu.h' , Red },
     { 'MessageFrame.h' , Ignore },
     { 'MinSizeType.h' , Ignore },
     { 'Mouse.h' , Ignore },
@@ -1270,12 +1270,12 @@ Dir Dir89=
    {
    },
    {
-    { 'ColorEdit.h' , New },
-    { 'CoordEdit.h' , New },
-    { 'FontEdit.h' , New },
-    { 'MCoordEdit.h' , New },
-    { 'PointEdit.h' , New },
-    { 'RatioEdit.h' , New }
+    { 'ColorEdit.h' , Ignore },
+    { 'CoordEdit.h' , Ignore },
+    { 'FontEdit.h' , Red },
+    { 'MCoordEdit.h' , Ignore },
+    { 'PointEdit.h' , Ignore },
+    { 'RatioEdit.h' , Ignore }
    }
   };
 
@@ -1293,18 +1293,18 @@ Dir Dir87=
     { 'ColorField.cpp' , Ignore },
     { 'CommonDrawArt.cpp' , Ignore },
     { 'ConfigBinder.cpp' , Ignore },
-    { 'ConfigEditor.cpp' , New },
+    { 'ConfigEditor.cpp' , Red },
     { 'ConfigStore.cpp' , Ignore },
     { 'CurveDriver.cpp' , Ignore },
     { 'DesktopKey.cpp' , Ignore },
-    { 'DirFrame.cpp' , New },
+    { 'DirFrame.cpp' , Red },
     { 'DrawAlgo.cpp' , Ignore },
     { 'DrawBuf.cpp' , Ignore },
     { 'DrawTools.cpp' , Ignore },
     { 'FigureLib.cpp' , Ignore },
     { 'FileBoss.cpp' , Ignore },
-    { 'FileFrame.cpp' , New },
-    { 'FileNameCmp.cpp' , New },
+    { 'FileFrame.cpp' , Red },
+    { 'FileNameCmp.cpp' , Red },
     { 'Font.cpp' , Red },
     { 'FontDatabase.cpp' , Ignore },
     { 'FontLookup.cpp' , Ignore },
@@ -1320,7 +1320,7 @@ Dir Dir87=
     { 'InfoSize.cpp' , Ignore },
     { 'Keyboard.cpp' , Ignore },
     { 'Layout.cpp' , Ignore },
-    { 'Menu.cpp' , New },
+    { 'Menu.cpp' , Red },
     { 'MessageFrame.cpp' , Ignore },
     { 'MinSizeType.cpp' , Ignore },
     { 'Mouse.cpp' , Ignore },
@@ -1402,12 +1402,12 @@ Dir Dir91=
    {
    },
    {
-    { 'ColorEdit.cpp' , New },
-    { 'CoordEdit.cpp' , New },
-    { 'FontEdit.cpp' , New },
-    { 'MCoordEdit.cpp' , New },
-    { 'PointEdit.cpp' , New },
-    { 'RatioEdit.cpp' , New }
+    { 'ColorEdit.cpp' , Ignore },
+    { 'CoordEdit.cpp' , Ignore },
+    { 'FontEdit.cpp' , Red },
+    { 'MCoordEdit.cpp' , Ignore },
+    { 'PointEdit.cpp' , Ignore },
+    { 'RatioEdit.cpp' , Ignore }
    }
   };
 
