@@ -18,7 +18,7 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/Layout.h>
 
-#include <CCore/inc/Scanf.h>
+#include <CCore/inc/CharUtils.h>
 
 namespace CCore {
 namespace Video {
@@ -242,12 +242,12 @@ void ColorEditWindow::setColor(ItemIndex item,VColor vc)
 
 void ColorEditWindow::copy(VColor vc)
  {
-  char temp[TextBufLen];
-  PrintBuf out(Range(temp));
+  Char temp[TextBufLen];
+  PrintCharBuf out(Range(temp));
 
   Printf(out,"###6.16i;",vc);
 
-  //getFrameHost()->textToClipboard(out.close());
+  getFrameHost()->textToClipboard(out.close());
  }
 
 class ColorEditWindow::TextToColor : public Funchor
@@ -269,15 +269,15 @@ class ColorEditWindow::TextToColor : public Funchor
      return false;
     }
 
-   void text(StrLen str)
+   void text(PtrLen<const Char> str)
     {
-     ScanString inp(str);
+     ScanCharString inp(str);
 
      uint32 val;
 
      Scanf(inp,"###.16;",val);
 
-     if( inp.isOk() && val<=0xFFFFFF )
+     if( inp.isOk() && val<=0xFFFFFFu )
        {
         vc=VColor(val);
 
@@ -285,14 +285,14 @@ class ColorEditWindow::TextToColor : public Funchor
        }
     }
 
-   Function<void (StrLen)> function_text() { return FunctionOf(this,&TextToColor::text); }
+   Function<void (PtrLen<const Char>)> function_text() { return FunctionOf(this,&TextToColor::text); }
  };
 
 bool ColorEditWindow::past(VColor &ret)
  {
   TextToColor temp;
 
-  //getFrameHost()->textFromClipboard(temp.function_text());
+  getFrameHost()->textFromClipboard(temp.function_text());
 
   return temp.get(ret);
  }

@@ -19,9 +19,9 @@
 
 namespace CCore {
 
-#ifdef CCORE_UTF8
-
 /* struct FillCharBuf */
+
+#ifdef CCORE_UTF8
 
 FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
  {
@@ -50,7 +50,31 @@ FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
   len=start-out.len;
  }
 
+#else
+
+FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
+ {
+  if( text.len>out.len )
+    {
+     out.copy(text.ptr);
+
+     overflow=true;
+     len=out.len;
+    }
+  else
+    {
+     text.copyTo(out.ptr);
+
+     overflow=false;
+     len=text.len;
+    }
+ }
+
+#endif
+
 /* class PrintCharBuf */
+
+#ifdef CCORE_UTF8
 
 void PrintCharBuf::shift()
  {
@@ -165,6 +189,80 @@ PtrLen<const Char> PrintCharBuf::close(bool guard_overflow)
     }
 
   return start.prefix(out);
+ }
+
+#else
+
+PtrLen<char> PrintCharBuf::do_provide(ulen)
+ {
+  return out;
+ }
+
+void PrintCharBuf::do_flush(char *,ulen len)
+ {
+  out+=len;
+ }
+
+PrintCharBuf::PrintCharBuf(PtrLen<Char> out_)
+ : start(out_),out(out_)
+ {
+ }
+
+PrintCharBuf::~PrintCharBuf()
+ {
+ }
+
+PtrLen<const Char> PrintCharBuf::close(bool guard_overflow)
+ {
+  flush();
+
+  if( guard_overflow && getOverflowFlag() )
+    {
+     Printf(Exception,"CCore::PrintCharBuf::close(true) : overflow");
+    }
+
+  return start.prefix(out);
+ }
+
+#endif
+
+/* class ScanCharString */
+
+#ifdef CCORE_UTF8
+
+ulen ScanCharString::Put(PtrLen<char> out,PtrLen<const Char> &str)
+ {
+  ulen start=out.len;
+
+  while( +str && out.len>=4 )
+    {
+     Utf8Code code=ToUtf8(*str);
+
+     code.getRange().copyTo(out.ptr);
+
+     out+=code.getLen();
+
+     ++str;
+    }
+
+  return start-out.len;
+ }
+
+PtrLen<const char> ScanCharString::underflow()
+ {
+  ulen len=Put(Range(buf),str);
+
+  return Range(buf,len);
+ }
+
+ScanCharString::ScanCharString(PtrLen<const Char> str_)
+ : str(str_)
+ {
+  pump();
+ }
+
+ScanCharString::~ScanCharString()
+ {
  }
 
 #endif

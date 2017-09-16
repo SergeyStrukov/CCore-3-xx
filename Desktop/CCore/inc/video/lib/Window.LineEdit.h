@@ -1,7 +1,7 @@
 /* Window.LineEdit.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -559,8 +559,6 @@ class LineEditWindowOf : public SubWindow
 
 #endif
 
-#ifdef CCORE_UTF8
-
    template <class ... TT>
    void printf(const char *format,const TT & ... tt)
     {
@@ -570,22 +568,6 @@ class LineEditWindowOf : public SubWindow
 
      setTextLen( out.close().len );
     }
-
-#else
-
-   template <class ... TT>
-   void printf(const char *format,const TT & ... tt)
-    {
-     PrintBuf out(getBuf());
-
-     Printf(out,format,tt...);
-
-     out.guardOverflow();
-
-     setTextLen( out.close().len );
-    }
-
-#endif
 
    bool insText(const Char *ptr,ulen len) // false on truncation
     {

@@ -1,0 +1,112 @@
+<!--
+/* page_CharUtils.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CharUtils</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CharUtils</h2>
+
+<p class="Files">Files <b>CCore/inc/CharUtils.h</b> <b>CCore/src/CharUtils.cpp</b></p>
+
+<p>
+This file contains simple tools to work with text, represented by a <b>Char</b> sequence.
+In UTF8-compatible mode conversion from <b>char</b> text into <b>Char</b> text is performed.
+</p>
+
+<h4>FillCharBuf</h4>
+
+<pre>
+
+/* struct FillCharBuf */
+
+struct <span class="Att">FillCharBuf</span>
+ {
+  ulen len;
+  bool overflow;
+
+  FillCharBuf(PtrLen&lt;Char&gt; out,StrLen text);
+ };
+
+</pre>
+
+<p>
+This <b>Class-function</b> fills a <b>Char</b> buffer with a text. The result fields is the output length and the overflow flag.
+</p>
+
+<h4>PrintCharBuf</h4>
+
+<pre>
+
+/* class PrintCharBuf */
+
+class <span class="Att">PrintCharBuf</span> : public PrintBase
+ {
+   ....
+
+  public:
+
+   explicit PrintCharBuf(PtrLen&lt;Char&gt; out);
+
+   ~PrintCharBuf();
+
+   PtrLen&lt;const Char&gt; close(bool guard_overflow=true);
+ };
+
+</pre>
+
+<p>
+This class prints into a <b>Char</b> buffer.
+</p>
+
+<p>
+<b>close()</b> flushes the stream and returns the output range. 
+If the argument is <b>true</b>, this method throws an exception in case of overflow.
+</p>
+
+<h4>ScanCharString</h4>
+
+<pre>
+
+class <span class="Att">ScanCharString</span> : public ScanBase
+ {
+   ....
+
+  public:
+
+   explicit ScanCharString(PtrLen&lt;const Char&gt; str);
+
+   ~ScanCharString();
+ };
+
+</pre>
+
+<p>
+This class scans from a <b>Char</b> string.
+</p>
+
+</body>
+
+</html>
+
