@@ -167,7 +167,7 @@ class MenuShapeBase
 
      PlaceFunc(VColor vc_,ulen index_) : vc(vc_),index(index_) {}
 
-     VColor place(ulen index,char ch,Point base,Point delta);
+     VColor place(ulen index,Char ch,Point base,Point delta);
 
      CharFunction function_place() { return FunctionOf(this,&PlaceFunc::place); }
     };
@@ -180,7 +180,7 @@ class MenuShapeBase
 
      HotFunc(VColor vc_,ulen index_,VColor hotc_) : vc(vc_),index(index_),hotc(hotc_) {}
 
-     VColor hot(ulen index,char ch,Point base,Point delta);
+     VColor hot(ulen index,Char ch,Point base,Point delta);
 
      CharFunction function_hot() { return FunctionOf(this,&HotFunc::hot); }
     };

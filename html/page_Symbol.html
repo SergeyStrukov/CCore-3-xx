@@ -91,7 +91,7 @@ In UTF8-compatible mode the result is -1, if the symbol is not single character 
 </p>
 
 <p>
-There are also <b>char</b> versions of these functions:
+There are also <b>char</b> variants of these functions:
 </p>
 
 <pre>
@@ -101,6 +101,16 @@ int <span class="Att">ToChar</span>(char ch);
 ulen <span class="Att">SymbolLen</span>(char ch);
 
 StrLen <span class="Att">SymbolRange</span>(const char &ch);
+
+</pre>
+
+<p>
+In UTF8-compatible mode there is a <b>Unicode</b> variant of the <b>ToChar()</b>:
+</p>
+
+<pre>
+
+int <span class="Att">ToChar</span>(Unicode ch);
 
 </pre>
 

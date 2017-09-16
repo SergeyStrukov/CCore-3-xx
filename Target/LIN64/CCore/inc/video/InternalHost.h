@@ -317,9 +317,9 @@ class X11Host : public WindowHost , WindowDispatcher
 
    // clipboard
 
-   virtual void textToClipboard(StrLen text);
+   virtual void textToClipboard(PtrLen<const char> text);
 
-   virtual void textFromClipboard(Function<void (StrLen)> func);
+   virtual void textFromClipboard(Function<void (PtrLen<const char>)> func);
  };
 
 } // namespace Internal

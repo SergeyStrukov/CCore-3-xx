@@ -39,6 +39,8 @@ void RotateCharRange(Char *base,ulen total,ulen pos,ulen len);
 
 template <class Shape> class LineEditWindowOf;
 
+template <class T> class CacheText;
+
 /* class LineEditWindowOf<Shape> */
 
 template <class Shape>
@@ -988,6 +990,65 @@ class LineEditWindowOf : public SubWindow
 /* type LineEditWindow */
 
 using LineEditWindow = LineEditWindowOf<LineEditShape> ;
+
+/* class CacheText<T> */
+
+#ifdef CCORE_UTF8
+
+template <class T>
+class CacheText : NoCopy
+ {
+   T &obj;
+   mutable String str;
+   mutable bool ok = false ;
+
+  public:
+
+   void clear()
+    {
+     ok=false;
+
+     changed.assert();
+    }
+
+   SignalConnector<CacheText> connector;
+
+  public:
+
+   explicit CacheText(T &obj_) : obj(obj_),connector(this,&CacheText::clear,obj.changed) {}
+
+   StrLen getText() const
+    {
+     if( !ok )
+       {
+        str=obj.getString();
+
+        ok=true;
+       }
+
+     return Range(str);
+    }
+
+   Signal<> changed;
+ };
+
+#else
+
+template <class T>
+class CacheText : NoCopy
+ {
+   T &obj;
+
+  public:
+
+   explicit CacheText(T &obj_) : obj(obj_),changed(obj.changed) {}
+
+   StrLen getText() const { return obj.getText(); }
+
+   Signal<> &changed;
+ };
+
+#endif
 
 } // namespace Video
 } // namespace CCore

@@ -56,7 +56,7 @@ void PrintCharBuf::shift()
  {
   if( off==0 ) return;
 
-  for(unsigned i=0; i<len ;i++) buf[i]=buf[i+off];
+  for(ulen i=0; i<len ;i++) buf[i]=buf[i+off];
 
   off=0;
  }
@@ -79,32 +79,56 @@ void PrintCharBuf::push()
  {
   const char *name="CCore::PrintCharBuf::push()";
 
-  StrLen text=Range(buf+off,len);
-
-  while( +text )
+  while( len )
     {
-     char ch=*text;
+     char ch=buf[off];
 
      unsigned delta=Utf8Len(ch);
 
      if( delta==0 ) GuardUtf8Broken(name);
 
-     if( delta>text.len ) break;
-
-     for(unsigned i=1; i<delta ;i++) if( !Utf8Ext(text[i]) ) GuardUtf8Broken(name);
+     if( delta>len ) break;
 
      switch( delta )
        {
         case 1 : push(Utf8Code::ToUnicode(ch)); break;
 
-        case 2 : push(Utf8Code::ToUnicode(ch,text[1])); break;
+        case 2 :
+         {
+          char b2=buf[off+1];
 
-        case 3 : push(Utf8Code::ToUnicode(ch,text[1],text[2])); break;
+          if( !Utf8Ext(b2) ) GuardUtf8Broken(name);
 
-        case 4 : push(Utf8Code::ToUnicode(ch,text[1],text[2],text[3])); break;
+          push(Utf8Code::ToUnicode(ch,b2));
+         }
+        break;
+
+        case 3 :
+         {
+          char b2=buf[off+1];
+          char b3=buf[off+2];
+
+          if( !Utf8Ext(b2) || !Utf8Ext(b3) ) GuardUtf8Broken(name);
+
+          push(Utf8Code::ToUnicode(ch,b2,b3));
+         }
+        break;
+
+        case 4 :
+         {
+          char b2=buf[off+1];
+          char b3=buf[off+2];
+          char b4=buf[off+3];
+
+          if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) GuardUtf8Broken(name);
+
+          push(Utf8Code::ToUnicode(ch,b2,b3,b4));
+         }
+        break;
        }
 
-     text+=delta;
+     off+=delta;
+     len-=delta;
     }
 
   shift();
@@ -137,7 +161,7 @@ PtrLen<const Char> PrintCharBuf::close(bool guard_overflow)
 
   if( guard_overflow && overflow )
     {
-     Printf(Exception,"");
+     Printf(Exception,"CCore::PrintCharBuf::close(true) : overflow");
     }
 
   return start.prefix(out);

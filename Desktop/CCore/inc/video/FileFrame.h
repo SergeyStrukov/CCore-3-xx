@@ -107,7 +107,7 @@ class DirEditShape : public LineEditShape
 
      Func(VColor vc_,VColor accent_) : vc(vc_),accent(accent_) {}
 
-     VColor color(ulen index,char ch,Point base,Point delta);
+     VColor color(ulen index,Char ch,Point base,Point delta);
 
      CharFunction function_color() { return FunctionOf(this,&Func::color); }
     };
@@ -193,6 +193,8 @@ class FileFilterWindow : public ComboWindow
    LineEditWindow edit;
    KnobWindow knob;
 
+   CacheText<LineEditWindow> cache;
+
    mutable FileNameFilter filter;
 
   private:
@@ -219,7 +221,7 @@ class FileFilterWindow : public ComboWindow
 
    bool isChecked() const { return check.isChecked(); }
 
-   StrLen getFilterText() const { return edit.getText(); }
+   StrLen getFilterText() const { return cache.getText(); }
 
    const FileNameFilter & getFilter() const
     {
@@ -511,6 +513,9 @@ class FileWindow : public ComboWindow
    AltWindow alt_new_file;
    RefLabelWindow label_new_file;
    LineEditWindow edit_new_file;
+
+   CacheText<DirEditWindow> cache_dir;
+   CacheText<LineEditWindow> cache_new_file;
 
    // work
 

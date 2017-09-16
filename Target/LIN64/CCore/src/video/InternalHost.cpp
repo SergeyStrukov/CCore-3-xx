@@ -1353,7 +1353,7 @@ void X11Host::setPlace(Pane pane)
 
  // clipboard
 
-void X11Host::textToClipboard(StrLen text)
+void X11Host::textToClipboard(PtrLen<const char> text)
  {
   const char *format="CCore::Video::Private_Desktop::X11Host::textToClipboard(...) : #;";
 
@@ -1371,7 +1371,7 @@ void X11Host::textToClipboard(StrLen text)
     }
  }
 
-void X11Host::textFromClipboard(Function<void (StrLen)> func)
+void X11Host::textFromClipboard(Function<void (PtrLen<const char>)> func)
  {
   const char *format="CCore::Video::Private_Desktop::X11Host::textFromClipboard(...) : #;";
 

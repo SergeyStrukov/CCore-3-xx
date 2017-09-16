@@ -144,7 +144,7 @@ Coordinate MenuShapeBase::GetDX(const MenuPoint &point,Font font,Coordinate spac
   return GetDX(point,font,space);
  }
 
-VColor MenuShapeBase::PlaceFunc::place(ulen index_,char,Point base_,Point delta_)
+VColor MenuShapeBase::PlaceFunc::place(ulen index_,Char,Point base_,Point delta_)
  {
   if( index==index_ )
     {
@@ -155,7 +155,7 @@ VColor MenuShapeBase::PlaceFunc::place(ulen index_,char,Point base_,Point delta_
   return vc;
  }
 
-VColor MenuShapeBase::HotFunc::hot(ulen index_,char,Point,Point)
+VColor MenuShapeBase::HotFunc::hot(ulen index_,Char,Point,Point)
  {
   if( index==index_ ) return hotc;
 

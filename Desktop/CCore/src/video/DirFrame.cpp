@@ -57,7 +57,7 @@ void DirWindow::fillLists()
 
      );
 
-     param.file_boss->enumDir(edit_dir.getText(),obj.function());
+     param.file_boss->enumDir(cache_dir.getText(),obj.function());
 
      dir_builder.sortGroups(ExtNameLess);
 
@@ -100,7 +100,7 @@ void DirWindow::setDir(StrLen dir_name)
 
 void DirWindow::setSubDir(StrLen sub_dir)
  {
-  MakeFileName temp(edit_dir.getText(),sub_dir);
+  MakeFileName temp(cache_dir.getText(),sub_dir);
 
   setDir(temp.get());
  }
@@ -155,7 +155,7 @@ void DirWindow::mkdir(StrLen dir_name)
 
 void DirWindow::rmdir(StrLen sub_dir)
  {
-  MakeFileName temp(edit_dir.getText(),sub_dir);
+  MakeFileName temp(cache_dir.getText(),sub_dir);
 
   param.file_boss->deleteDir(temp.get());
 
@@ -169,7 +169,7 @@ void DirWindow::dir_list_entered()
 
 void DirWindow::dir_entered()
  {
-  setDir(edit_dir.getText());
+  setDir(cache_dir.getText());
  }
 
 void DirWindow::dir_changed()
@@ -180,11 +180,11 @@ void DirWindow::dir_changed()
 
 void DirWindow::btn_Ok_pressed()
  {
-  hit_list.last(edit_dir.getText());
+  hit_list.last(cache_dir.getText());
 
   buf.reset();
 
-  buf.add(edit_dir.getText());
+  buf.add(cache_dir.getText());
 
   if( +buf ) path=buf.get();
 
@@ -212,14 +212,14 @@ void DirWindow::knob_hit_pressed()
 
 void DirWindow::knob_add_pressed()
  {
-  hit_list.add(edit_dir.getText());
+  hit_list.add(cache_dir.getText());
 
   hit_list.prepare(hit_data);
  }
 
 void DirWindow::knob_back_pressed()
  {
-  StrLen dir_name=edit_dir.getText();
+  StrLen dir_name=cache_dir.getText();
 
   if( ulen delta=PrevDir(dir_name) )
     {
@@ -233,7 +233,7 @@ void DirWindow::knob_back_pressed()
 
 void DirWindow::knob_mkdir_pressed()
  {
-  if( !list_dir.isEnabled() ) mkdir(edit_dir.getText());
+  if( !list_dir.isEnabled() ) mkdir(cache_dir.getText());
  }
 
 void DirWindow::knob_rmdir_pressed()
@@ -279,10 +279,12 @@ DirWindow::DirWindow(SubWindowHost &host,const Config &cfg_,const DirWindowParam
 
    hit_menu(host.getFrameDesktop(),cfg.hit_menu_cfg),
 
+   cache_dir(edit_dir),
+
    connector_dir_list_entered(this,&DirWindow::dir_list_entered,list_dir.entered),
    connector_dir_list_dclicked(this,&DirWindow::dir_list_entered,list_dir.dclicked),
    connector_dir_entered(this,&DirWindow::dir_entered,edit_dir.entered),
-   connector_dir_changed(this,&DirWindow::dir_changed,edit_dir.changed),
+   connector_dir_changed(this,&DirWindow::dir_changed,cache_dir.changed),
    connector_btn_Ok_pressed(this,&DirWindow::btn_Ok_pressed,btn_Ok.pressed),
    connector_btn_Cancel_pressed(this,&DirWindow::btn_Cancel_pressed,btn_Cancel.pressed),
    connector_knob_hit_pressed(this,&DirWindow::knob_hit_pressed,knob_hit.pressed),

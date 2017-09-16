@@ -247,9 +247,9 @@ class WindowsHost : public WindowHost
 
    // clipboard
 
-   virtual void textToClipboard(StrLen text);
+   virtual void textToClipboard(PtrLen<const char> text);
 
-   virtual void textFromClipboard(Function<void (StrLen)> func);
+   virtual void textFromClipboard(Function<void (PtrLen<const char>)> func);
  };
 
 } // namespace Internal

@@ -310,8 +310,10 @@ void DirHitList::prepare(MenuData &data)
 
 /* class DirEditShape */
 
-VColor DirEditShape::Func::color(ulen,char ch,Point,Point)
+VColor DirEditShape::Func::color(ulen,Char ch_,Point,Point)
  {
+  char ch=ToChar(ch_);
+
   if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return accent;
 
   return vc;
@@ -357,8 +359,10 @@ FileFilterWindow::FileFilterWindow(SubWindowHost &host,const Config &cfg_,ulen i
    edit(wlist,cfg.edit_cfg),
    knob(wlist,cfg.knob_cfg,KnobShape::FaceCross),
 
+   cache(edit),
+
    connector_check_changed(this,&FileFilterWindow::check_changed,check.changed),
-   connector_edit_changed(this,&FileFilterWindow::edit_changed,edit.changed),
+   connector_edit_changed(this,&FileFilterWindow::edit_changed,cache.changed),
    connector_knob_pressed(this,&FileFilterWindow::knob_pressed,knob.pressed)
  {
   wlist.insTop(check,edit,knob);
@@ -702,7 +706,7 @@ void FileWindow::fillLists()
 
      );
 
-     param.file_boss->enumDir(edit_dir.getText(),obj.function());
+     param.file_boss->enumDir(cache_dir.getText(),obj.function());
 
      dir_builder.sortGroups(ExtNameLess);
 
@@ -751,7 +755,7 @@ void FileWindow::setDir(StrLen dir_name)
 
 void FileWindow::setSubDir(StrLen sub_dir)
  {
-  MakeFileName temp(edit_dir.getText(),sub_dir);
+  MakeFileName temp(cache_dir.getText(),sub_dir);
 
   setDir(temp.get());
  }
@@ -760,7 +764,7 @@ void FileWindow::buildFilePath()
  {
   if( param.new_file && alt_new_file.isChecked() )
     {
-     file_path=file_buf(edit_dir.getText(),edit_new_file.getText(),param.auto_ext.str());
+     file_path=file_buf(cache_dir.getText(),cache_new_file.getText(),param.auto_ext.str());
     }
   else
     {
@@ -773,7 +777,7 @@ void FileWindow::buildFilePath()
 
         if( item.type==ComboInfoText )
           {
-           file_path=file_buf(edit_dir.getText(),item.text);
+           file_path=file_buf(cache_dir.getText(),item.text);
           }
        }
     }
@@ -794,7 +798,7 @@ void FileWindow::enableOk()
 
   if( param.new_file && alt_new_file.isChecked() )
     {
-     en=isGoodFileName(edit_new_file.getText());
+     en=isGoodFileName(cache_new_file.getText());
 
      edit_new_file.alert(!en);
     }
@@ -821,7 +825,7 @@ bool FileWindow::isGoodFileName(StrLen file_name)
  {
   if( !file_name ) return false;
 
-  MakeFileName temp(edit_dir.getText(),file_name,param.auto_ext.str());
+  MakeFileName temp(cache_dir.getText(),file_name,param.auto_ext.str());
 
   return param.file_boss->getFileType(temp.get())==FileType_none;
  }
@@ -871,7 +875,7 @@ void FileWindow::mkdir(StrLen dir_name)
 
 void FileWindow::rmdir(StrLen sub_dir)
  {
-  MakeFileName temp(edit_dir.getText(),sub_dir);
+  MakeFileName temp(cache_dir.getText(),sub_dir);
 
   param.file_boss->deleteDir(temp.get());
 
@@ -905,7 +909,7 @@ void FileWindow::dir_list_entered()
 
 void FileWindow::dir_entered()
  {
-  setDir(edit_dir.getText());
+  setDir(cache_dir.getText());
  }
 
 void FileWindow::dir_changed()
@@ -919,7 +923,7 @@ void FileWindow::dir_changed()
 
 void FileWindow::btn_Ok_pressed()
  {
-  hit_list.last(edit_dir.getText());
+  hit_list.last(cache_dir.getText());
 
   buildFilePath();
 
@@ -947,14 +951,14 @@ void FileWindow::knob_hit_pressed()
 
 void FileWindow::knob_add_pressed()
  {
-  hit_list.add(edit_dir.getText());
+  hit_list.add(cache_dir.getText());
 
   hit_list.prepare(hit_data);
  }
 
 void FileWindow::knob_back_pressed()
  {
-  StrLen dir_name=edit_dir.getText();
+  StrLen dir_name=cache_dir.getText();
 
   if( ulen delta=PrevDir(dir_name) )
     {
@@ -968,7 +972,7 @@ void FileWindow::knob_back_pressed()
 
 void FileWindow::knob_mkdir_pressed()
  {
-  if( !list_dir.isEnabled() ) mkdir(edit_dir.getText());
+  if( !list_dir.isEnabled() ) mkdir(cache_dir.getText());
  }
 
 void FileWindow::knob_rmdir_pressed()
@@ -1008,7 +1012,7 @@ void FileWindow::edit_new_file_changed()
  {
   if( list_dir.isEnabled() )
     {
-     if( isGoodFileName(edit_new_file.getText()) )
+     if( isGoodFileName(cache_new_file.getText()) )
        {
         edit_new_file.alert(false);
 
@@ -1064,13 +1068,16 @@ FileWindow::FileWindow(SubWindowHost &host,const Config &cfg_,const FileWindowPa
    label_new_file(wlist,cfg.label_cfg,cfg.text_New_file),
    edit_new_file(wlist,cfg.edit_cfg),
 
+   cache_dir(edit_dir),
+   cache_new_file(edit_new_file),
+
    connector_file_list_entered(this,&FileWindow::file_list_entered,list_file.entered),
    connector_file_list_dclicked(this,&FileWindow::file_list_entered,list_file.dclicked),
    connector_filter_list_changed(this,&FileWindow::filter_list_changed,filter_list.changed),
    connector_dir_list_entered(this,&FileWindow::dir_list_entered,list_dir.entered),
    connector_dir_list_dclicked(this,&FileWindow::dir_list_entered,list_dir.dclicked),
    connector_dir_entered(this,&FileWindow::dir_entered,edit_dir.entered),
-   connector_dir_changed(this,&FileWindow::dir_changed,edit_dir.changed),
+   connector_dir_changed(this,&FileWindow::dir_changed,cache_dir.changed),
    connector_btn_Ok_pressed(this,&FileWindow::btn_Ok_pressed,btn_Ok.pressed),
    connector_btn_Cancel_pressed(this,&FileWindow::btn_Cancel_pressed,btn_Cancel.pressed),
    connector_knob_hit_pressed(this,&FileWindow::knob_hit_pressed,knob_hit.pressed),
@@ -1082,7 +1089,7 @@ FileWindow::FileWindow(SubWindowHost &host,const Config &cfg_,const FileWindowPa
    connector_hit_menu_selected(this,&FileWindow::hit_menu_selected,hit_menu.selected),
    connector_hit_menu_deleted(this,&FileWindow::hit_menu_deleted,hit_menu.deleted),
    connector_check_new_file_changed(this,&FileWindow::check_new_file_changed,alt_new_file.changed),
-   connector_edit_new_file_changed(this,&FileWindow::edit_new_file_changed,edit_new_file.changed),
+   connector_edit_new_file_changed(this,&FileWindow::edit_new_file_changed,cache_new_file.changed),
    connector_edit_new_file_entered(this,&FileWindow::edit_new_file_entered,edit_new_file.entered),
    connector_split_dragged(this,&FileWindow::split_dragged,split.dragged)
  {

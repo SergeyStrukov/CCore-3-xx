@@ -33,6 +33,7 @@ OBJ_LIST = \
 .obj/CancelPacketList.o \
 .obj/CapString.o \
 .obj/CharProp.o \
+.obj/CharUtils.o \
 .obj/CheckPlatformBase.o \
 .obj/CheckedData.o \
 .obj/Classification.o \
@@ -468,6 +469,7 @@ ASM_LIST = \
 .obj/CancelPacketList.s \
 .obj/CapString.s \
 .obj/CharProp.s \
+.obj/CharUtils.s \
 .obj/CheckPlatformBase.s \
 .obj/CheckedData.s \
 .obj/Classification.s \
@@ -903,6 +905,7 @@ DEP_LIST = \
 .obj/CancelPacketList.dep \
 .obj/CapString.dep \
 .obj/CharProp.dep \
+.obj/CharUtils.dep \
 .obj/CheckPlatformBase.dep \
 .obj/CheckedData.dep \
 .obj/Classification.dep \
@@ -1416,6 +1419,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/CharProp.o : ../../Fundamental/CCore/src/./CharProp.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/CharUtils.o : ../../Fundamental/CCore/src/./CharUtils.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/CheckPlatformBase.o : ../../Simple/CCore/src/./base/CheckPlatformBase.cpp
@@ -2716,6 +2722,9 @@ include $(RULES_FILE)
 .obj/CharProp.s : ../../Fundamental/CCore/src/./CharProp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/CharUtils.s : ../../Fundamental/CCore/src/./CharUtils.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/CheckPlatformBase.s : ../../Simple/CCore/src/./base/CheckPlatformBase.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4013,6 +4022,9 @@ include $(RULES_FILE)
 
 .obj/CharProp.dep : ../../Fundamental/CCore/src/./CharProp.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/CharProp.o $< -MF $@
+
+.obj/CharUtils.dep : ../../Fundamental/CCore/src/./CharUtils.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/CharUtils.o $< -MF $@
 
 .obj/CheckPlatformBase.dep : ../../Simple/CCore/src/./base/CheckPlatformBase.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/CheckPlatformBase.o $< -MF $@

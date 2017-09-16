@@ -649,7 +649,7 @@ void UserPreferenceBag::findFonts() // Update fonts here
   menu_font=dev.build("Georgia"_c,false,true,17);
   spinor_font=dev.build("Anonymous Pro"_c,false,false,22,Bolder(20));
   code_font=dev.build("Anonymous Pro"_c,false,false,20,Bolder(20));
-  title_font=dev.build("Microsoft Sans Serif"_c,false,false,28);
+  title_font=dev.build("Times New Roman"_c,false,false,28);
   hint_font=dev.build("Bookman Old Style"_c,true,true,17);
   file_filter_font=dev.build("Anonymous Pro"_c,false,false,20,Bolder(20));
  }

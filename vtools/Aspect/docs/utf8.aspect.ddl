@@ -71,7 +71,7 @@ Dir Dir1=
 Dir Dir2=
   {
    'Desktop',
-   New,
+   Red,
    {
     &Dir16
    },
@@ -507,7 +507,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   Red,
+   New,
    {
     &Dir44,
     &Dir45,
@@ -1100,7 +1100,7 @@ Dir Dir82=
 Dir Dir16=
   {
    'CCore',
-   New,
+   Red,
    {
     &Dir83,
     &Dir84,
@@ -1113,7 +1113,7 @@ Dir Dir16=
 Dir Dir83=
   {
    'inc',
-   New,
+   Red,
    {
     &Dir86
    },
@@ -1124,7 +1124,7 @@ Dir Dir83=
 Dir Dir84=
   {
    'src',
-   New,
+   Red,
    {
     &Dir87
    },
@@ -1157,7 +1157,7 @@ Dir Dir85=
 Dir Dir86=
   {
    'video',
-   New,
+   Red,
    {
     &Dir88,
     &Dir89
@@ -1218,7 +1218,7 @@ Dir Dir86=
 Dir Dir88=
   {
    'lib',
-   New,
+   Green,
    {
    },
    {
@@ -1240,7 +1240,7 @@ Dir Dir88=
     { 'Window.Light.h' , Ignore },
     { 'Shape.Line.h' , Ignore },
     { 'Shape.LineEdit.h' , Green },
-    { 'Window.LineEdit.h' , Red },
+    { 'Window.LineEdit.h' , Green },
     { 'Shape.Progress.h' , Ignore },
     { 'Window.Progress.h' , Ignore },
     { 'Shape.Radio.h' , Ignore },
@@ -1266,7 +1266,7 @@ Dir Dir88=
 Dir Dir89=
   {
    'pref',
-   New,
+   Red,
    {
    },
    {
@@ -1282,7 +1282,7 @@ Dir Dir89=
 Dir Dir87=
   {
    'video',
-   New,
+   Red,
    {
     &Dir90,
     &Dir91
@@ -1334,7 +1334,7 @@ Dir Dir87=
     { 'SubWindow.cpp' , Ignore },
     { 'ToolFrame.cpp' , Ignore },
     { 'UserAction.cpp' , Green },
-    { 'UserPreference.cpp' , Yellow },
+    { 'UserPreference.cpp' , Green },
     { 'WindowLib.cpp' , Ignore },
     { 'WindowReport.cpp' , Green },
     { 'ConfigTypes.ddl' , Ignore },
@@ -1350,7 +1350,7 @@ Dir Dir87=
 Dir Dir90=
   {
    'lib',
-   New,
+   Green,
    {
    },
    {
@@ -1398,7 +1398,7 @@ Dir Dir90=
 Dir Dir91=
   {
    'pref',
-   New,
+   Red,
    {
    },
    {
@@ -1442,6 +1442,7 @@ Dir Dir92=
     { 'AttachmentHost.h' , Ignore },
     { 'AutoGlobal.h' , Ignore },
     { 'CharProp.h' , Green },
+    { 'CharUtils.h' , Green },
     { 'CompactList.h' , Ignore },
     { 'CompactMap.h' , Ignore },
     { 'CompactNodeAllocator.h' , Ignore },
@@ -1508,6 +1509,7 @@ Dir Dir93=
     { 'AttachmentHost.cpp' , Ignore },
     { 'AutoGlobal.cpp' , Ignore },
     { 'CharProp.cpp' , Green },
+    { 'CharUtils.cpp' , Green },
     { 'CompactList.cpp' , Ignore },
     { 'CompactMap.cpp' , Ignore },
     { 'CompactNodeAllocator.cpp' , Ignore },
@@ -2889,7 +2891,7 @@ Dir Dir138=
     { 'ptr.ddl' , Ignore },
     { 'scope.ddl' , Ignore },
     { 'text.ddl' , Ignore },
-    { '–Æ–Ω–∏–∫–æ–¥.ddl' , Ignore }
+    { 'ﬁÌËÍÓ‰.ddl' , Ignore }
    }
   };
 
@@ -3076,7 +3078,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   Red,
+   New,
    {
     &Dir160,
     &Dir161
@@ -4638,7 +4640,7 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   Green,
+   New,
    {
    },
    {
@@ -4646,7 +4648,7 @@ Dir Dir161=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { '–Æ–Ω–∏–∫–æ–¥ —Å–∏–º–≤–æ–ª—ã ùï¨ùï∫ùïæ.txt' , Ignore }
+    { 'ﬁÌËÍÓ‰ ÒËÏ‚ÓÎ˚ ??????.txt' , New }
    }
   };
 
@@ -5324,7 +5326,7 @@ Dir Dir280=
     { 'test1.cont.ddl' , New },
     { 'test2.cont.ddl' , New },
     { 'triangle.cont.ddl' , New },
-    { '–î–µ–∑–∞—Ä–≥.cont.ddl' , New }
+    { 'ƒÂÁ‡„.cont.ddl' , New }
    }
   };
 

@@ -54,6 +54,8 @@ inline constexpr unsigned MaxSymbolLen = 1 ;
 
 inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
 
+inline int ToChar(Unicode ch) { return (ch<128)?char(ch):(-1); }
+
 inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
 
 inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
