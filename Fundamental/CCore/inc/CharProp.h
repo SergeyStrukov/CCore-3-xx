@@ -176,6 +176,8 @@ class ExtCharCode
 
    explicit ExtCharCode(const Utf8Code &code_) : code(code_) {}
 
+   explicit ExtCharCode(Unicode ch) : code(ToUtf8(ch)) {}
+
    // print object
 
    void print(PrinterType &out) const

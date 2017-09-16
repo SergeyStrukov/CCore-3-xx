@@ -1,7 +1,7 @@
 /* UserAction.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -21,6 +21,7 @@
 #include <CCore/inc/video/Mouse.h>
 
 #include <CCore/inc/CharProp.h>
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 namespace Video {
@@ -102,30 +103,30 @@ class UserAction
 
    struct Body_Char
     {
-     char ch;
+     CCore::Char ch;
 
-     explicit Body_Char(char ch_) : ch(ch_) {}
+     explicit Body_Char(CCore::Char ch_) : ch(ch_) {}
 
      // print object
 
      void print(PrinterType &out) const
       {
-       Printf(out,"(#;)",CharCode(ch));
+       Printf(out,"(#;)",ExtCharCode(ch));
       }
     };
 
    struct Body_RepeatChar
     {
-     char ch;
+     CCore::Char ch;
      unsigned repeat;
 
-     Body_RepeatChar(char ch_,unsigned repeat_) : ch(ch_),repeat(repeat_) {}
+     Body_RepeatChar(CCore::Char ch_,unsigned repeat_) : ch(ch_),repeat(repeat_) {}
 
      // print object
 
      void print(PrinterType &out) const
       {
-       Printf(out,"(#;,#;)",CharCode(ch),repeat);
+       Printf(out,"(#;,#;)",ExtCharCode(ch),repeat);
       }
     };
 
@@ -230,13 +231,13 @@ class UserAction
    static UserAction Create_RepeatKeyUp(VKey vkey,KeyMod kmod,unsigned repeat) { return UserAction(RepeatKeyUp,Body_RepeatKey(vkey,kmod,repeat)); }
 
 
-   static UserAction Create_Char(char ch) { return UserAction(Char,Body_Char(ch)); }
+   static UserAction Create_Char(CCore::Char ch) { return UserAction(Char,Body_Char(ch)); }
 
-   static UserAction Create_RepeatChar(char ch,unsigned repeat) { return UserAction(RepeatChar,Body_RepeatChar(ch,repeat)); }
+   static UserAction Create_RepeatChar(CCore::Char ch,unsigned repeat) { return UserAction(RepeatChar,Body_RepeatChar(ch,repeat)); }
 
-   static UserAction Create_AltChar(char ch) { return UserAction(AltChar,Body_Char(ch)); }
+   static UserAction Create_AltChar(CCore::Char ch) { return UserAction(AltChar,Body_Char(ch)); }
 
-   static UserAction Create_RepeatAltChar(char ch,unsigned repeat) { return UserAction(RepeatAltChar,Body_RepeatChar(ch,repeat)); }
+   static UserAction Create_RepeatAltChar(CCore::Char ch,unsigned repeat) { return UserAction(RepeatAltChar,Body_RepeatChar(ch,repeat)); }
 
 
    static UserAction Create_LeftClick(Point point,MouseKey mkey) { return UserAction(LeftClick,Body_Mouse(point,mkey)); }
@@ -693,23 +694,23 @@ struct SomeClass
    }
 
 
-  void react_Char(char ch)
+  void react_Char(Char ch)
    {
     Used(ch);
    }
 
-  void react_Char(char ch,unsigned repeat)
+  void react_Char(Char ch,unsigned repeat)
    {
     Used(ch);
     Used(repeat);
    }
 
-  void react_AltChar(char ch)
+  void react_AltChar(Char ch)
    {
     Used(ch);
    }
 
-  void react_AltChar(char ch,unsigned repeat)
+  void react_AltChar(Char ch,unsigned repeat)
    {
     Used(ch);
     Used(repeat);
@@ -819,13 +820,13 @@ struct UserInput
   void put_KeyUp(VKey vkey,KeyMod kmod,unsigned repeat) { react(UserAction::Create_RepeatKeyUp(vkey,kmod,repeat)); }
 
 
-  void put_Char(char ch) { react(UserAction::Create_Char(ch)); }
+  void put_Char(Char ch) { react(UserAction::Create_Char(ch)); }
 
-  void put_Char(char ch,unsigned repeat) { react(UserAction::Create_RepeatChar(ch,repeat)); }
+  void put_Char(Char ch,unsigned repeat) { react(UserAction::Create_RepeatChar(ch,repeat)); }
 
-  void put_AltChar(char ch) { react(UserAction::Create_AltChar(ch)); }
+  void put_AltChar(Char ch) { react(UserAction::Create_AltChar(ch)); }
 
-  void put_AltChar(char ch,unsigned repeat) { react(UserAction::Create_RepeatAltChar(ch,repeat)); }
+  void put_AltChar(Char ch,unsigned repeat) { react(UserAction::Create_RepeatAltChar(ch,repeat)); }
 
 
   void put_LeftClick(Point point,MouseKey mkey) { react(UserAction::Create_LeftClick(point,mkey)); }

@@ -1208,7 +1208,7 @@ Dir Dir86=
     { 'SmoothDrawArt.h' , Ignore },
     { 'SubWindow.h' , Ignore },
     { 'ToolFrame.h' , Ignore },
-    { 'UserAction.h' , Red },
+    { 'UserAction.h' , Yellow },
     { 'UserPreference.h' , Ignore },
     { 'WindowLib.h' , Ignore },
     { 'WindowReport.h' , Green }
@@ -1333,7 +1333,7 @@ Dir Dir87=
     { 'SmoothDrawArt.cpp' , Ignore },
     { 'SubWindow.cpp' , Ignore },
     { 'ToolFrame.cpp' , Ignore },
-    { 'UserAction.cpp' , Red },
+    { 'UserAction.cpp' , Green },
     { 'UserPreference.cpp' , Yellow },
     { 'WindowLib.cpp' , Ignore },
     { 'WindowReport.cpp' , Green },
