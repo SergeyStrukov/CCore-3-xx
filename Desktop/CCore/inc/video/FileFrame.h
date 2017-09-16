@@ -131,7 +131,7 @@ class DirEditShape : public LineEditShape
       }
     };
 
-   DirEditShape(PtrLen<char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
+   DirEditShape(PtrLen<Char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
  };
 
 using DirEditWindow = LineEditWindowOf<DirEditShape> ;

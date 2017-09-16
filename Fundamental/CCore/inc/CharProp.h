@@ -245,6 +245,12 @@ inline bool CharIsVisible(Utf8Code ch) { return (ch.getLen()==1)?CharIsVisible(c
 
 inline bool CharIsPrintable(Utf8Code ch) { return (ch.getLen()==1)?CharIsPrintable(ch[0]):true; }
 
+inline bool CharIsSpecial(Unicode ch) { return CharIsSpecial(ToUtf8(ch)); }
+
+inline bool CharIsVisible(Unicode ch) { return CharIsVisible(ToUtf8(ch)); }
+
+inline bool CharIsPrintable(Unicode ch) { return CharIsPrintable(ToUtf8(ch)); }
+
 #endif
 
 /* ParseSpace() */

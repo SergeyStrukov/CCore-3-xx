@@ -1,7 +1,7 @@
 /* FrameWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -56,23 +56,23 @@ const char * GetTextDesc(CmdDisplay cmd_display);
 
 struct CopyFunction : public Funchor
  {
-  PtrLen<char> buf;
+  PtrLen<Char> buf;
 
   // constructors
 
-  explicit CopyFunction(PtrLen<char> buf_) : buf(buf_) {}
+  explicit CopyFunction(PtrLen<Char> buf_) : buf(buf_) {}
 
-  CopyFunction(char *ptr,ulen len) : buf(ptr,len) {}
+  CopyFunction(Char *ptr,ulen len) : buf(ptr,len) {}
 
   // methods
 
-  void copy(StrLen text);
+  void copy(PtrLen<const Char> text);
 
   void cutEOL();
 
   // functions
 
-  Function<void (StrLen)> function_copy() { return FunctionOf(this,&CopyFunction::copy); }
+  Function<void (PtrLen<const Char>)> function_copy() { return FunctionOf(this,&CopyFunction::copy); }
  };
 
 /* struct Desktop */
@@ -202,9 +202,9 @@ class WindowHost : public MemBase_nocopy
 
    // clipboard
 
-   virtual void textToClipboard(StrLen text)=0;
+   virtual void textToClipboard(PtrLen<const Char> text)=0;
 
-   virtual void textFromClipboard(Function<void (StrLen)> func)=0;
+   virtual void textFromClipboard(Function<void (PtrLen<const Char>)> func)=0;
  };
 
 /* class FrameWindow */

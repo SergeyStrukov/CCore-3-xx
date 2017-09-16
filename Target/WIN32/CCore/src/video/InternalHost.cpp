@@ -1269,7 +1269,7 @@ void WindowsHost::setPlace(Pane pane)
 
  // clipboard
 
-void WindowsHost::textToClipboard(StrLen text)
+void WindowsHost::textToClipboard(PtrLen<const Char> text)
  {
   TextToClipboard obj(text);
 
@@ -1284,7 +1284,7 @@ void WindowsHost::textToClipboard(StrLen text)
   put.commit(Win32::ClipboardFormat_Text);
  }
 
-void WindowsHost::textFromClipboard(Function<void (StrLen)> func)
+void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func)
  {
   Clipboard cbd(hWnd);
   GetFromClipboard get(Win32::ClipboardFormat_Text);

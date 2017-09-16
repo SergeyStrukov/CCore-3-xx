@@ -50,6 +50,12 @@ class <span class="Att">String</span>
 
    String(StrLen str) : data(DoCopy(str.len),str.ptr) {}
    
+#ifdef CCORE_UTF8
+
+   String(PtrLen&lt;const Char&gt; str);
+
+#endif
+
    String(DoBuildType,BuilderType&lt;char&gt; builder) : data(DoBuild,builder) {}
    
    ~String() {}

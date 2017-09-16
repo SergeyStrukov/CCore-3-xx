@@ -1,7 +1,7 @@
 /* InternalHost.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Target/WIN32
 //
@@ -1269,8 +1269,10 @@ void WindowsHost::setPlace(Pane pane)
 
  // clipboard
 
-void WindowsHost::textToClipboard(StrLen text)
+void WindowsHost::textToClipboard(PtrLen<const Char> text)
  {
+#if 0
+
   TextToClipboard obj(text);
 
   Clipboard cbd(hWnd);
@@ -1282,10 +1284,14 @@ void WindowsHost::textToClipboard(StrLen text)
   obj.fill(put.getMem());
 
   put.commit(Win32::ClipboardFormat_Text);
+
+#endif
  }
 
-void WindowsHost::textFromClipboard(Function<void (StrLen)> func)
+void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func)
  {
+#if 0
+
   Clipboard cbd(hWnd);
   GetFromClipboard get(Win32::ClipboardFormat_Text);
 
@@ -1305,6 +1311,8 @@ void WindowsHost::textFromClipboard(Function<void (StrLen)> func)
     }
 
   func(text);
+
+#endif
  }
 
 } // namespace Internal

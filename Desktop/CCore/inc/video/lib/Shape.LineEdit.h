@@ -1,7 +1,7 @@
 /* Shape.LineEdit.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ class LineEditShape
     };
 
    const Config &cfg;
-   PtrLen<char> text_buf;
+   PtrLen<Char> text_buf;
    Pane pane;
 
    // state
@@ -116,11 +116,17 @@ class LineEditShape
 
    // methods
 
-   LineEditShape(PtrLen<char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}
+   LineEditShape(PtrLen<Char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}
 
    Point getMinSize() const;
 
    Point getMinSize(StrLen sample_text) const;
+
+#ifdef CCORE_UTF8
+
+   Point getMinSize(PtrLen<const Char> sample_text) const;
+
+#endif
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
@@ -146,7 +152,7 @@ class LineEditShape
 
    ulen getPosition(Point point) const;
 
-   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen off,VColor vc) const;
+   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen off,VColor vc) const;
 
    void draw(const DrawBuf &buf) const;
  };

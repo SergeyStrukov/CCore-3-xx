@@ -19,6 +19,56 @@
 
 namespace CCore {
 
+/* class String */
+
+#ifdef CCORE_UTF8
+
+class String::CharBuilder
+ {
+   PtrLen<const Char> str;
+   ulen len;
+
+  public:
+
+   explicit CharBuilder(PtrLen<const Char> str_)
+    : str(str_)
+    {
+     ulen total=0;
+
+     for(Char ch : str )
+       {
+        Utf8Code sym=ToUtf8(ch);
+
+        total=LenAdd(total,sym.getLen());
+       }
+
+     len=total;
+    }
+
+   ulen getLen() const { return len; }
+
+   PtrLen<char> operator () (Place<void> place) const
+    {
+     char *ptr=place;
+     char *out=ptr;
+
+     for(Char ch : str )
+       {
+        Utf8Code sym=ToUtf8(ch);
+
+        sym.getRange().copyTo(out);
+
+        out+=sym.getLen();
+       }
+
+     return Range(ptr,len);
+    }
+ };
+
+String::String(PtrLen<const Char> str) : data(DoBuild,CharBuilder(str)) {}
+
+#endif
+
 /* class PrintString */
 
 PtrLen<char> PrintString::do_provide(ulen hint_len)

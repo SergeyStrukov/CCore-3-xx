@@ -1,7 +1,7 @@
 /* Shape.LineEdit.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -29,7 +29,7 @@ MCoord LineEditShape::FigEX(Coord fdy,MCoord width,Coord ex)
 
 Point LineEditShape::getMinSize() const
  {
-  return getMinSize("Sample 1234567890");
+  return getMinSize("Sample 1234567890"_c);
  }
 
 Point LineEditShape::getMinSize(StrLen sample_text) const
@@ -51,6 +51,30 @@ Point LineEditShape::getMinSize(StrLen sample_text) const
 
   return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
  }
+
+#ifdef CCORE_UTF8
+
+Point LineEditShape::getMinSize(PtrLen<const Char> sample_text) const
+ {
+  Font font=cfg.font.get();
+
+  MCoord width=+cfg.width;
+
+  FontSize fs=font->getSize();
+
+  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
+
+  Coordinate dx=RoundUpLen(ex+width);
+  Coordinate dy=RoundUpLen(width);
+
+  Coordinate cursor_dx=+cfg.cursor_dx;
+
+  TextSize ts=font->text_guarded(sample_text);
+
+  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
+ }
+
+#endif
 
 void LineEditShape::setMax()
  {
@@ -184,7 +208,7 @@ ulen LineEditShape::getPosition(Point point) const
   return len;
  }
 
-void LineEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen,VColor vc) const
+void LineEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen,VColor vc) const
  {
   font->text(buf,pane,place,text,vc);
  }

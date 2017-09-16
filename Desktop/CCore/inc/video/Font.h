@@ -44,7 +44,7 @@ enum AlignY
 
 /* types */
 
-using CharFunction = Function<VColor (ulen index,char ch,Point base,Point delta)> ; // base relative pane
+using CharFunction = Function<VColor (ulen index,Char ch,Point base,Point delta)> ; // base relative pane
 
 /* classes */
 
@@ -442,6 +442,28 @@ struct AbstractFont
 
     text(buf,pane,place,obj,func);
    }
+
+#ifdef CCORE_UTF8
+
+  // Char
+
+  TextSize text(PtrLen<const Char> str) const;
+
+  TextSize text(PtrLen<const Char> str,ulen len) const;
+
+  TextSize text_guarded(PtrLen<const Char> str) const;
+
+  TextSize text_guarded(PtrLen<const Char> str,ulen len) const;
+
+  ulen fit(PtrLen<const Char> str,Coordinate full_dx) const;
+
+  ulen position(PtrLen<const Char> str,Point point) const;
+
+  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,VColor vc) const;
+
+  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,CharFunction func) const;
+
+#endif
  };
 
 /* type FontBase */

@@ -1,7 +1,7 @@
 /* ColorEdit.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -247,7 +247,7 @@ void ColorEditWindow::copy(VColor vc)
 
   Printf(out,"###6.16i;",vc);
 
-  getFrameHost()->textToClipboard(out.close());
+  //getFrameHost()->textToClipboard(out.close());
  }
 
 class ColorEditWindow::TextToColor : public Funchor
@@ -292,7 +292,7 @@ bool ColorEditWindow::past(VColor &ret)
  {
   TextToColor temp;
 
-  getFrameHost()->textFromClipboard(temp.function_text());
+  //getFrameHost()->textFromClipboard(temp.function_text());
 
   return temp.get(ret);
  }

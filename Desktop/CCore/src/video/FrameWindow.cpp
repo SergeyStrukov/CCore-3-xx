@@ -1,7 +1,7 @@
 /* FrameWindow.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ const char * GetTextDesc(CmdDisplay cmd_display)
 
 /* struct CopyFunction */
 
-void CopyFunction::copy(StrLen text)
+void CopyFunction::copy(PtrLen<const Char> text)
  {
   Replace_min(buf.len,text.len);
 

@@ -18,6 +18,7 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Printf.h>
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 
@@ -39,6 +40,12 @@ class String
 
   private:
 
+#ifdef CCORE_UTF8
+
+   class CharBuilder;
+
+#endif
+
    String(void *mem,ulen maxlen,std::initializer_list<char> il) noexcept : data(mem,maxlen,il) {}
 
     // mem is aligned , maxlen > 0 , il.size() <= maxlen , static object !
@@ -50,6 +57,12 @@ class String
    String(NothingType) noexcept {}
 
    String(StrLen str) : data(DoCopy(str.len),str.ptr) {}
+
+#ifdef CCORE_UTF8
+
+   String(PtrLen<const Char> str);
+
+#endif
 
    String(DoBuildType,BuilderType<char> builder) : data(DoBuild,builder) {}
 

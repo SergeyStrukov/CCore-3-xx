@@ -22,7 +22,7 @@ namespace Video {
 
 /* functions */
 
-void InsChar(char *base,ulen total,ulen pos,char ch)
+void InsChar(Char *base,ulen total,ulen pos,Char ch)
  {
   total++;
 
@@ -33,7 +33,7 @@ void InsChar(char *base,ulen total,ulen pos,char ch)
   r[0]=ch;
  }
 
-ulen DelCharRange(char *base,ulen total,ulen off,ulen len)
+ulen DelCharRange(Char *base,ulen total,ulen off,ulen len)
  {
   if( off>=total || len==0 ) return 0;
 
@@ -50,12 +50,36 @@ ulen DelCharRange(char *base,ulen total,ulen off,ulen len)
   return len;
  }
 
-void RotateCharRange(char *base,ulen total,ulen pos,ulen len)
+void RotateCharRange(Char *base,ulen total,ulen pos,ulen len)
  {
   total+=len;
 
   Algon::EuclidRotate_suffix(Range(base+pos,total-pos),len);
  }
+
+#ifdef CCORE_UTF8
+
+/* struct FillCharBuf */
+
+FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
+ {
+ }
+
+/* class PrintCharBuf */
+
+PrintCharBuf::PrintCharBuf(PtrLen<Char> out)
+ {
+ }
+
+PrintCharBuf::~PrintCharBuf()
+ {
+ }
+
+PtrLen<const Char> PrintCharBuf::close(bool guard_overflow)
+ {
+ }
+
+#endif
 
 } // namespace Video
 } // namespace CCore

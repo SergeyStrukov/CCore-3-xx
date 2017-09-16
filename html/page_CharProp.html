@@ -211,7 +211,7 @@ class <span class="Att">PrintCString</span>
 <a name="Prop"><h4>Character properties</h4></a>
 
 <p>
-The following functions return character properties. The type <b>Char</b> is one of traditional
+The following functions return character properties. The argument type is one of traditional
 character types: <b>char</b>, <b>signed char</b>, <b>unsigned char</b>.
 </p>
 
@@ -269,7 +269,7 @@ This list can be obtained by the <b>GetSpaceChars()</b> function.
 </p>
 
 <p>
-In UTF8-compatible mode there are extra functions for <b>Utf8Code</b> argument: 
+In UTF8-compatible mode there are extra functions for <b>Utf8Code</b> and <b>Unicode</b> argument: 
 </p>
 
 <pre>
@@ -279,6 +279,12 @@ bool <span class="Att">CharIsSpecial</span>(Utf8Code ch);
 bool <span class="Att">CharIsVisible</span>(Utf8Code ch);
 
 bool <span class="Att">CharIsPrintable</span>(Utf8Code ch);
+
+inline bool <span class="Att">CharIsSpecial</span>(Unicode ch) { return CharIsSpecial(ToUtf8(ch)); }
+
+inline bool <span class="Att">CharIsVisible</span>(Unicode ch) { return CharIsVisible(ToUtf8(ch)); }
+
+inline bool <span class="Att">CharIsPrintable</span>(Unicode ch) { return CharIsPrintable(ToUtf8(ch)); }
 
 </pre>
 

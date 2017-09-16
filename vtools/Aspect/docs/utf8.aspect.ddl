@@ -1185,7 +1185,7 @@ Dir Dir86=
     { 'FontLookup.h' , Ignore },
     { 'FontParam.h' , Ignore },
     { 'FrameBase.h' , Ignore },
-    { 'FrameWindow.h' , Red },
+    { 'FrameWindow.h' , Yellow },
     { 'FreeType.h' , Red },
     { 'FreeTypeFont.h' , Red },
     { 'GammaTable.h' , Ignore },
@@ -1239,7 +1239,7 @@ Dir Dir88=
     { 'Shape.Light.h' , Ignore },
     { 'Window.Light.h' , Ignore },
     { 'Shape.Line.h' , Ignore },
-    { 'Shape.LineEdit.h' , Red },
+    { 'Shape.LineEdit.h' , Yellow },
     { 'Window.LineEdit.h' , Red },
     { 'Shape.Progress.h' , Ignore },
     { 'Window.Progress.h' , Ignore },
@@ -1270,7 +1270,7 @@ Dir Dir89=
    {
    },
    {
-    { 'ColorEdit.h' , Ignore },
+    { 'ColorEdit.h' , Green },
     { 'CoordEdit.h' , Ignore },
     { 'FontEdit.h' , Red },
     { 'MCoordEdit.h' , Ignore },
@@ -1310,7 +1310,7 @@ Dir Dir87=
     { 'FontLookup.cpp' , Ignore },
     { 'FontParam.cpp' , Ignore },
     { 'FrameBase.cpp' , Ignore },
-    { 'FrameWindow.cpp' , Red },
+    { 'FrameWindow.cpp' , Yellow },
     { 'FreeType.cpp' , Red },
     { 'FreeTypeFont.cpp' , Red },
     { 'GammaTable.cpp' , Ignore },
@@ -1371,7 +1371,7 @@ Dir Dir90=
     { 'Shape.Light.cpp' , Ignore },
     { 'Window.Light.cpp' , Ignore },
     { 'Shape.Line.cpp' , Ignore },
-    { 'Shape.LineEdit.cpp' , Red },
+    { 'Shape.LineEdit.cpp' , Yellow },
     { 'Window.LineEdit.cpp' , Red },
     { 'Shape.Progress.cpp' , Ignore },
     { 'Window.Progress.cpp' , Ignore },
@@ -1402,7 +1402,7 @@ Dir Dir91=
    {
    },
    {
-    { 'ColorEdit.cpp' , Ignore },
+    { 'ColorEdit.cpp' , Red },
     { 'CoordEdit.cpp' , Ignore },
     { 'FontEdit.cpp' , Red },
     { 'MCoordEdit.cpp' , Ignore },

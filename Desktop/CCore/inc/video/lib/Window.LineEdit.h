@@ -21,28 +21,56 @@
 #include <CCore/inc/video/lib/Shape.LineEdit.h>
 
 #include <CCore/inc/Array.h>
+#include <CCore/inc/String.h>
 
 namespace CCore {
 namespace Video {
 
 /* functions */
 
-void InsChar(char *base,ulen total,ulen pos,char ch);
+void InsChar(Char *base,ulen total,ulen pos,Char ch);
 
-ulen DelCharRange(char *base,ulen total,ulen off,ulen len);
+ulen DelCharRange(Char *base,ulen total,ulen off,ulen len);
 
-void RotateCharRange(char *base,ulen total,ulen pos,ulen len);
+void RotateCharRange(Char *base,ulen total,ulen pos,ulen len);
 
 /* classes */
 
 template <class Shape> class LineEditWindowOf;
+
+#ifdef CCORE_UTF8
+
+/* struct FillCharBuf */
+
+struct FillCharBuf
+ {
+  ulen len;
+  bool overflow;
+
+  FillCharBuf(PtrLen<Char> out,StrLen text);
+ };
+
+/* class PrintCharBuf */
+
+class PrintCharBuf : public PrintBase
+ {
+  public:
+
+   explicit PrintCharBuf(PtrLen<Char> out);
+
+   ~PrintCharBuf();
+
+   PtrLen<const Char> close(bool guard_overflow=true);
+ };
+
+#endif
 
 /* class LineEditWindowOf<Shape> */
 
 template <class Shape>
 class LineEditWindowOf : public SubWindow
  {
-   SimpleArray<char> storage;
+   SimpleArray<Char> storage;
 
    DeferTick defer_tick;
 
@@ -261,7 +289,7 @@ class LineEditWindowOf : public SubWindow
      redraw();
     }
 
-   void insChar(char ch)
+   void insChar(Char ch)
     {
      if( shape.len<shape.text_buf.len )
        {
@@ -335,7 +363,7 @@ class LineEditWindowOf : public SubWindow
     {
      delSelectedRange();
 
-     char *base=shape.text_buf.ptr;
+     Char *base=shape.text_buf.ptr;
 
      CopyFunction func(base+shape.len,shape.text_buf.len-shape.len);
 
@@ -457,7 +485,8 @@ class LineEditWindowOf : public SubWindow
 
    auto getMinSize() const { return shape.getMinSize(); }
 
-   Point getMinSize(StrLen sample_text) const { return shape.getMinSize(sample_text); }
+   template <class T>
+   Point getMinSize(T sample_text) const { return shape.getMinSize(sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -497,9 +526,13 @@ class LineEditWindowOf : public SubWindow
      if( Change(shape.alert,on) ) redraw();
     }
 
-   StrLen getText() const { return Range(shape.text_buf.ptr,shape.len); }
+   // set/get text
 
-   PtrLen<char> getBuf() { return shape.text_buf; }
+   PtrLen<const Char> getText() const { return Range(shape.text_buf.ptr,shape.len); }
+
+   String getString() const { return String(getText()); }
+
+   PtrLen<Char> getBuf() { return shape.text_buf; }
 
    void setTextLen(ulen len)
     {
@@ -518,7 +551,7 @@ class LineEditWindowOf : public SubWindow
      redraw();
     }
 
-   bool setText(StrLen text) // false on truncation
+   bool setText(PtrLen<const Char> text) // false on truncation
     {
      bool ret=true;
 
@@ -537,6 +570,33 @@ class LineEditWindowOf : public SubWindow
      return ret;
     }
 
+#ifdef CCORE_UTF8
+
+   bool setText(StrLen text) // false on truncation
+    {
+     FillCharBuf fill(getBuf(),text);
+
+     setTextLen(fill.len);
+
+     return fill.overflow;
+    }
+
+#endif
+
+#ifdef CCORE_UTF8
+
+   template <class ... TT>
+   void printf(const char *format,const TT & ... tt)
+    {
+     PrintCharBuf out(getBuf());
+
+     Printf(out,format,tt...);
+
+     setTextLen( out.close().len );
+    }
+
+#else
+
    template <class ... TT>
    void printf(const char *format,const TT & ... tt)
     {
@@ -549,7 +609,9 @@ class LineEditWindowOf : public SubWindow
      setTextLen( out.close().len );
     }
 
-   bool insText(const char *ptr,ulen len) // false on truncation
+#endif
+
+   bool insText(const Char *ptr,ulen len) // false on truncation
     {
      delSelectedRange();
 
@@ -584,7 +646,7 @@ class LineEditWindowOf : public SubWindow
      return ret;
     }
 
-   bool insText(StrLen str) // false on truncation
+   bool insText(PtrLen<const Char> str) // false on truncation
     {
      return insText(str.ptr,str.len);
     }
@@ -854,7 +916,7 @@ class LineEditWindowOf : public SubWindow
        }
     }
 
-   void react_Char(char ch)
+   void react_Char(Char ch)
     {
      if( shape.enable && CharIsPrintable(ch) )
        {

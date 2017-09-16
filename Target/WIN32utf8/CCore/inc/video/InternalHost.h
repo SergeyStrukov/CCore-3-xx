@@ -1,7 +1,7 @@
 /* InternalHost.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Target/WIN32
 //
@@ -247,9 +247,9 @@ class WindowsHost : public WindowHost
 
    // clipboard
 
-   virtual void textToClipboard(StrLen text);
+   virtual void textToClipboard(PtrLen<const Char> text);
 
-   virtual void textFromClipboard(Function<void (StrLen)> func);
+   virtual void textFromClipboard(Function<void (PtrLen<const Char>)> func);
  };
 
 } // namespace Internal

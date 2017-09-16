@@ -85,7 +85,6 @@ OBJ_LIST = \
 .obj/DesktopKey.o \
 .obj/DestroyGuard.o \
 .obj/DetectProxy.o \
-.obj/DirFrame.o \
 .obj/DirTreeRun.o \
 .obj/DrawAlgo.o \
 .obj/DrawBuf.o \
@@ -106,7 +105,6 @@ OBJ_LIST = \
 .obj/Fifo.o \
 .obj/FigureLib.o \
 .obj/FileBoss.o \
-.obj/FileFrame.o \
 .obj/FileName.o \
 .obj/FileNameCmp.o \
 .obj/FileNameMatch.o \
@@ -183,7 +181,6 @@ OBJ_LIST = \
 .obj/MemBase_general.o \
 .obj/MemPageHeap.o \
 .obj/MemSpaceHeap.o \
-.obj/Menu.o \
 .obj/MergeSort.o \
 .obj/MersenneTwister.o \
 .obj/MessageFrame.o \
@@ -403,7 +400,6 @@ OBJ_LIST = \
 .obj/UIntSplit.o \
 .obj/Unid.o \
 .obj/UserAction.o \
-.obj/UserPreference.o \
 .obj/Utf8.o \
 .obj/UtilFunc.o \
 .obj/VideoConsole.o \
