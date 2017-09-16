@@ -22,6 +22,7 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/String.h>
+#include <CCore/inc/CharUtils.h>
 
 namespace CCore {
 namespace Video {
@@ -37,33 +38,6 @@ void RotateCharRange(Char *base,ulen total,ulen pos,ulen len);
 /* classes */
 
 template <class Shape> class LineEditWindowOf;
-
-#ifdef CCORE_UTF8
-
-/* struct FillCharBuf */
-
-struct FillCharBuf
- {
-  ulen len;
-  bool overflow;
-
-  FillCharBuf(PtrLen<Char> out,StrLen text);
- };
-
-/* class PrintCharBuf */
-
-class PrintCharBuf : public PrintBase
- {
-  public:
-
-   explicit PrintCharBuf(PtrLen<Char> out);
-
-   ~PrintCharBuf();
-
-   PtrLen<const Char> close(bool guard_overflow=true);
- };
-
-#endif
 
 /* class LineEditWindowOf<Shape> */
 

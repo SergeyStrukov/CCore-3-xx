@@ -1,7 +1,7 @@
 /* Window.LineEdit.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -56,30 +56,6 @@ void RotateCharRange(Char *base,ulen total,ulen pos,ulen len)
 
   Algon::EuclidRotate_suffix(Range(base+pos,total-pos),len);
  }
-
-#ifdef CCORE_UTF8
-
-/* struct FillCharBuf */
-
-FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
- {
- }
-
-/* class PrintCharBuf */
-
-PrintCharBuf::PrintCharBuf(PtrLen<Char> out)
- {
- }
-
-PrintCharBuf::~PrintCharBuf()
- {
- }
-
-PtrLen<const Char> PrintCharBuf::close(bool guard_overflow)
- {
- }
-
-#endif
 
 } // namespace Video
 } // namespace CCore
