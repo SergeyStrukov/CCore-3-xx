@@ -4771,7 +4771,7 @@ Dir Dir255=
    },
    {
     { 'Win32.h' , Yellow },
-    { 'Win32gui.h' , Red }
+    { 'Win32gui.h' , Yellow }
    }
   };
 

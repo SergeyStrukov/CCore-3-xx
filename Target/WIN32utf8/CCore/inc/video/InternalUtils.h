@@ -23,6 +23,8 @@
 
 #include <CCore/inc/task/TaskEvent.h>
 
+#include <CCore/inc/Exception.h>
+
 #include <CCore/inc/win32/Win32gui.h>
 
 namespace CCore {
@@ -72,20 +74,77 @@ class TextToClipboard;
 /* class WCharString<MaxLen> */
 
 template <ulen MaxLen>
-class WCharString
+class WCharString : NoCopy
  {
-   Sys::WChar buf[MaxLen];
+   Sys::WChar buf[MaxLen+1];
    bool overflow = false ;
-   bool broken =false ;
+   bool broken = false ;
 
   public:
 
-   explicit WCharString(StrLen text) // TODO
+   explicit WCharString(StrLen text)
     {
-     Used(text);
+     auto out=Range(buf);
+
+     while( +text )
+       {
+        Unicode ch=CutUtf8_unicode(text);
+
+        if( ch==Unicode(-1) )
+          {
+           broken=true;
+
+           break;
+          }
+        else
+          {
+           if( Sys::IsSurrogate(ch) )
+             {
+              Sys::SurrogateCouple couple(ch);
+
+              if( out.len<=2 )
+                {
+                 overflow=true;
+
+                 break;
+                }
+
+              out[0]=couple.hi;
+              out[1]=couple.lo;
+
+              out+=2;
+             }
+           else
+             {
+              if( out.len<=1 )
+                {
+                 overflow=true;
+
+                 break;
+                }
+
+              *out=Sys::WChar(ch);
+
+              ++out;
+             }
+          }
+       }
+
+     *out=0;
     }
 
-   void guard() const;
+   void guard(const char *name) const
+    {
+     if( broken )
+       {
+        Printf(Exception,"#; : broken UTF8 sequence",name);
+       }
+
+     if( overflow )
+       {
+        Printf(Exception,"#; : too long argument",name);
+       }
+    }
 
    operator const Sys::WChar * () const { return buf; }
  };

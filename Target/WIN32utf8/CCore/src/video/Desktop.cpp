@@ -64,18 +64,13 @@ Char ToLowerCase(Char ch) // TODO
 
 void ShellVerb(StrLen verb_,StrLen file_name_)
  {
-  MakeString<TextBufLen> verb;
-  MakeString<MaxPathLen+1> file_name;
+  Internal::WCharString<> verb(verb_);
+  Internal::WCharString<MaxPathLen> file_name(file_name_);
 
-  verb.add(verb_,Null);
-  file_name.add(file_name_,Null);
+  verb.guard("CCore::Video::ShellVerb(...)");
+  file_name.guard("CCore::Video::ShellVerb(...)");
 
-  if( !verb || !file_name )
-    {
-     Printf(Exception,"CCore::Video::ShellVerb(...) : too long arguments");
-    }
-
-  Win32::ShellExecuteA(0,verb.getZStr(),file_name.getZStr(),0,0,Win32::CmdShow_Show);
+  Win32::ShellExecuteW(0,verb,file_name,0,0,Win32::CmdShow_Show);
  }
 
 /* class CharMapTable */
