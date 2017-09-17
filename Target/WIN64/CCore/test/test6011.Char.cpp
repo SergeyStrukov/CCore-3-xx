@@ -41,8 +41,6 @@ bool Testit<6011>::Main()
 
   for(int i=0; i<256 ;i++) temp[i]=char(i);
 
-  IncrSort(Range(temp), [] (char a,char b) { return Video::NativeCmp(a,b)<0; } );
-
   for(int i=0; i<256 ;i++)
     {
      Printf(Con,"#;) #; #;\n",i,CharCode(temp[i]),CharCode(Video::ToLowerCase(temp[i])));

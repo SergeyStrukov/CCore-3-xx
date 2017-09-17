@@ -201,11 +201,18 @@ If there is no a valid UTF8 sequence at the begining of the text, some broken UT
 
 <pre>
 
+Unicode <span class="Att">PeekUtf8_unicode</span>(StrLen text); // +text , Unicode(-1) on error
+
 Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
 
 void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete trailing sequence
 
 </pre>
+
+<p>
+<b>PeekUtf8_unicode()</b> peeks the next UTF8 symbol from the non-empty text
+and converts it to the Unicode value. In case of error the value <b>Unicode(-1)</b> is returned.
+</p>
 
 <p>
 <b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated)

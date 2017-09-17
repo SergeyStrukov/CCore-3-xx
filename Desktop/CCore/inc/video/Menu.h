@@ -1,7 +1,7 @@
 /* Menu.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -73,7 +73,7 @@ struct MenuPoint
   MenuType type;
   DefString text;
   ulen hotindex;
-  char hotkey;
+  Char hotkey;
   int id;
 
   // internal
@@ -96,7 +96,7 @@ struct MenuPoint
 
   // methods
 
-  bool test(char ch) const { return type==MenuText && hotindex && ToLowerCase(hotkey)==ToLowerCase(ch) ; }
+  bool test(Char ch) const { return type==MenuText && hotindex && ToLowerCase(hotkey)==ToLowerCase(ch) ; }
 
   bool test(Point point) const { return type==MenuText && place.contains(point); }
  };
@@ -132,7 +132,7 @@ struct MenuData : NoCopy
     bool found;
    };
 
-  FindResult find(char ch) const;
+  FindResult find(Char ch) const;
 
   FindResult find(Point point) const;
 
@@ -447,7 +447,7 @@ class SimpleTopMenuWindowOf : public SubWindow
      if( Change<unsigned>(shape.state,MenuNone) ) redraw();
     }
 
-   bool forwardChar(char ch)
+   bool forwardChar(Char ch)
     {
      auto result=shape.data.find(ch);
 
@@ -559,7 +559,7 @@ class SimpleTopMenuWindowOf : public SubWindow
        }
     }
 
-   void react_Char(char ch)
+   void react_Char(Char ch)
     {
      auto result=shape.data.find(ch);
 
@@ -842,7 +842,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      if( Change<unsigned>(shape.state,MenuNone) ) redraw();
     }
 
-   bool forwardChar(char ch)
+   bool forwardChar(Char ch)
     {
      if( !shape.data ) return false;
 
@@ -982,7 +982,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
        }
     }
 
-   void react_Char(char ch)
+   void react_Char(Char ch)
     {
      if( !shape.data ) return;
 

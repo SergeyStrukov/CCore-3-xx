@@ -26,6 +26,12 @@ namespace Video {
 
 CmpResult NativeNameCmp(StrLen a,StrLen b)
  {
+#if 1
+
+  return StrCmp(a,b);
+
+#else
+
   if( a.len<b.len )
     {
      ulen off=a.match(b.ptr);
@@ -42,6 +48,8 @@ CmpResult NativeNameCmp(StrLen a,StrLen b)
 
      return (a.len==b.len)?CmpEqual:CmpGreater;
     }
+
+#endif
  }
 
 CmpResult ExtNameCmp(StrLen a,StrLen b)

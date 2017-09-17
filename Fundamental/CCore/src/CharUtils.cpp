@@ -123,7 +123,11 @@ void PrintCharBuf::push()
 
           if( !Utf8Ext(b2) ) GuardUtf8Broken(name);
 
-          push(Utf8Code::ToUnicode(ch,b2));
+          Unicode uch=Utf8Code::ToUnicode(ch,b2);
+
+          if( uch<0x80u ) GuardUtf8Broken(name);
+
+          push(uch);
          }
         break;
 
@@ -134,7 +138,11 @@ void PrintCharBuf::push()
 
           if( !Utf8Ext(b2) || !Utf8Ext(b3) ) GuardUtf8Broken(name);
 
-          push(Utf8Code::ToUnicode(ch,b2,b3));
+          Unicode uch=Utf8Code::ToUnicode(ch,b2,b3);
+
+          if( uch<0x800u ) GuardUtf8Broken(name);
+
+          push(uch);
          }
         break;
 
@@ -146,7 +154,11 @@ void PrintCharBuf::push()
 
           if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) GuardUtf8Broken(name);
 
-          push(Utf8Code::ToUnicode(ch,b2,b3,b4));
+          Unicode uch=Utf8Code::ToUnicode(ch,b2,b3,b4);
+
+          if( uch<0x10000u ) GuardUtf8Broken(name);
+
+          push(uch);
          }
         break;
        }

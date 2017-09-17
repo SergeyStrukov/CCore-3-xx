@@ -508,7 +508,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'Target',
-   New,
+   Red,
    {
     &Dir44,
     &Dir45,
@@ -1173,13 +1173,13 @@ Dir Dir86=
     { 'ConfigStore.h' , Ignore },
     { 'CurveDriver.h' , Ignore },
     { 'DesktopKey.h' , Ignore },
-    { 'DirFrame.h' , Yellow },
+    { 'DirFrame.h' , Green },
     { 'DrawAlgo.h' , Ignore },
     { 'DrawBuf.h' , Ignore },
     { 'DrawTools.h' , Ignore },
     { 'FigureLib.h' , Ignore },
     { 'FileBoss.h' , Ignore },
-    { 'FileFrame.h' , Yellow },
+    { 'FileFrame.h' , Green },
     { 'FileNameCmp.h' , Green },
     { 'Font.h' , Red },
     { 'FontDatabase.h' , Ignore },
@@ -1196,7 +1196,7 @@ Dir Dir86=
     { 'InfoSize.h' , Ignore },
     { 'Keyboard.h' , Ignore },
     { 'Layout.h' , Ignore },
-    { 'Menu.h' , Red },
+    { 'Menu.h' , Green },
     { 'MessageFrame.h' , Ignore },
     { 'MinSizeType.h' , Ignore },
     { 'Mouse.h' , Ignore },
@@ -1298,14 +1298,14 @@ Dir Dir87=
     { 'ConfigStore.cpp' , Ignore },
     { 'CurveDriver.cpp' , Ignore },
     { 'DesktopKey.cpp' , Ignore },
-    { 'DirFrame.cpp' , Yellow },
+    { 'DirFrame.cpp' , Green },
     { 'DrawAlgo.cpp' , Ignore },
     { 'DrawBuf.cpp' , Ignore },
     { 'DrawTools.cpp' , Ignore },
     { 'FigureLib.cpp' , Ignore },
     { 'FileBoss.cpp' , Ignore },
-    { 'FileFrame.cpp' , Yellow },
-    { 'FileNameCmp.cpp' , Red },
+    { 'FileFrame.cpp' , Green },
+    { 'FileNameCmp.cpp' , Green },
     { 'Font.cpp' , Red },
     { 'FontDatabase.cpp' , Ignore },
     { 'FontLookup.cpp' , Ignore },
@@ -1321,7 +1321,7 @@ Dir Dir87=
     { 'InfoSize.cpp' , Ignore },
     { 'Keyboard.cpp' , Ignore },
     { 'Layout.cpp' , Ignore },
-    { 'Menu.cpp' , Red },
+    { 'Menu.cpp' , Green },
     { 'MessageFrame.cpp' , Ignore },
     { 'MinSizeType.cpp' , Ignore },
     { 'Mouse.cpp' , Ignore },
@@ -3079,7 +3079,7 @@ Dir Dir48=
 Dir Dir49=
   {
    'WIN32utf8',
-   New,
+   Red,
    {
     &Dir160,
     &Dir161
@@ -4641,7 +4641,7 @@ Dir Dir160=
 Dir Dir161=
   {
    'test',
-   New,
+   Green,
    {
    },
    {
@@ -4649,7 +4649,7 @@ Dir Dir161=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Юникод символы ??????.txt' , New }
+    { 'Юникод символы ??????.txt' , Ignore }
    }
   };
 
@@ -4686,11 +4686,11 @@ Dir Dir249=
 Dir Dir250=
   {
    'test',
-   Red,
+   Green,
    {
    },
    {
-    { 'test6003.Char.cpp' , Red },
+    { 'test6003.Char.cpp' , Green },
     { 'test6001.Quick.cpp' , Green },
     { 'test6002.SysError.cpp' , Green },
     { 'TypeName.h' , Green }

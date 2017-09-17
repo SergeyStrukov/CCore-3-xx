@@ -96,12 +96,22 @@ using Char = char ;
 
 #ifdef CCORE_UTF8
 
+inline Char PeekChar(StrLen text) // +text
+ {
+  return PeekUtf8_unicode(text);
+ }
+
 inline Char CutChar(StrLen &text) // +text
  {
   return CutUtf8_unicode(text);
  }
 
 #else
+
+inline Char PeekChar(StrLen text) // +text
+ {
+  return *text;
+ }
 
 inline Char CutChar(StrLen &text) // +text
  {

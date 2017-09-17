@@ -152,6 +152,8 @@ Utf8Code PeekUtf8_guarded(StrLen text); // +text
 
 Utf8Code CutUtf8_guarded(StrLen &text); // +text
 
+Unicode PeekUtf8_unicode(StrLen text); // +text , Unicode(-1) on error
+
 Unicode CutUtf8_unicode(StrLen &text); // +text , Unicode(-1) on error
 
 void TrimUtf8End(StrLen &text); // removes non-complete trailing sequence

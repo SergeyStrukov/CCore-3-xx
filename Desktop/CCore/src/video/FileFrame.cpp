@@ -152,7 +152,7 @@ void DirHitList::saveDDL(StrLen file_name) const
 
   for(auto &obj : Range(hit_list,hit_len) )
     {
-     Printf(out,"#;   #;",stem,DDLString(obj));
+     Printf(out,"#;   #;",stem,DDLPrintableString(obj));
     }
 
   Putobj(out,"\n  },\n  {");
@@ -161,7 +161,7 @@ void DirHitList::saveDDL(StrLen file_name) const
 
   for(auto &obj : Range(last_list,last_len) )
     {
-     Printf(out,"#;   { #; , #; }",stem,DDLString(obj.dir),obj.count);
+     Printf(out,"#;   { #; , #; }",stem,DDLPrintableString(obj.dir),obj.count);
     }
 
   Putobj(out,"\n  }\n };\n\n");

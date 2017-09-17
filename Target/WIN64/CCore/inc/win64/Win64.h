@@ -210,14 +210,6 @@ enum MultiByteFlags
   MultiByteErrorInvalidChars = 0x0008
  };
 
-/* enum LCID */
-
-enum LCID
- {
-  LCID_UserDefault   = 0x0400,
-  LCID_SystemDefault = 0x0800
- };
-
 /*--------------------------------------------------------------------------------------*/
 /* Character functions                                                                  */
 /*--------------------------------------------------------------------------------------*/
@@ -234,13 +226,6 @@ int WIN64_API MultiByteToWideChar(codepage_t codepage,
 /* CharLowerA() */
 
 char * WIN64_API CharLowerA(char *str);
-
-/* CompareStringA() */
-
-int WIN64_API CompareStringA(lcid_t lcid,
-                             flags_t,
-                             const char *a,int a_len,
-                             const char *b,int b_len);
 
 /*--------------------------------------------------------------------------------------*/
 /* Error functions                                                                      */

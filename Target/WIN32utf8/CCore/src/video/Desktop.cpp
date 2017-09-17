@@ -1,9 +1,9 @@
 /* Desktop.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -57,16 +57,9 @@ CmdDisplay StartDisplay()
   return CmdDisplay_Normal;
  }
 
-char ToLowerCase(char ch)
+Char ToLowerCase(Char ch)
  {
   return (unsigned char)(unsigned)Win32::CharLowerA((char *)(unsigned)(unsigned char)ch);
- }
-
-CmpResult NativeCmp(char a,char b)
- {
-  int cmp=Win32::CompareStringA(Win32::LCID_UserDefault,0,&a,1,&b,1);
-
-  return LessCmp(cmp,2);
  }
 
 void ShellVerb(StrLen verb_,StrLen file_name_)

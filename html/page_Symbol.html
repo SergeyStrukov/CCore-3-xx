@@ -137,9 +137,16 @@ using <span class="Att">Char</span> = char ;
 
 <pre>
 
-inline Char <span class="Att">CutChar</span>(StrLen &text); // +text
+Char <span class="Att">PeekChar</span>(StrLen text) // +text
+
+Char <span class="Att">CutChar</span>(StrLen &text); // +text
 
 </pre>
+
+<p>
+<b>PeekChar()</b> peeks the next <b>Char</b> symbol from the non-empty text.
+In case of error the value <b>Unicode(-1)</b> is returned (only in UTF8-compatible mode).
+</p>
 
 <p>
 <b>CutChar()</b> extracts the next <b>Char</b> symbol from the non-empty text (argument <b>text</b> is updated).

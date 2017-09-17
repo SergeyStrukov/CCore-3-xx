@@ -202,6 +202,66 @@ Utf8Code CutUtf8_guarded(StrLen &text)
   return ret;
  }
 
+Unicode PeekUtf8_unicode(StrLen text)
+ {
+  char b1=*text;
+
+  switch( Utf8Len(b1) )
+    {
+     case 0 : default: return Unicode(-1);
+
+     case 1 : return Utf8Code::ToUnicode(b1);
+
+     case 2 :
+      {
+       if( text.len<2 ) return Unicode(-1);
+
+       char b2=text[1];
+
+       if( !Utf8Ext(b2) ) return Unicode(-1);
+
+       Unicode ret=Utf8Code::ToUnicode(b1,b2);
+
+       if( ret<0x80u ) return Unicode(-1);
+
+       return ret;
+      }
+
+     case 3 :
+      {
+       if( text.len<3 ) return Unicode(-1);
+
+       char b2=text[1];
+       char b3=text[2];
+
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) return Unicode(-1);
+
+       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3);
+
+       if( ret<0x800u ) return Unicode(-1);
+
+       return ret;
+      }
+
+     case 4 :
+      {
+       if( text.len<4 ) return Unicode(-1);
+
+       char b2=text[1];
+       char b3=text[2];
+       char b4=text[3];
+
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) return Unicode(-1);
+
+       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3,b4);
+
+       if( ret<0x10000u ) return Unicode(-1);
+
+       return ret;
+      }
+    }
+ }
+
 Unicode CutUtf8_unicode(StrLen &text)
  {
   char b1=*text;

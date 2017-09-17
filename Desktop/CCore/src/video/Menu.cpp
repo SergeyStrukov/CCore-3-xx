@@ -1,7 +1,7 @@
 /* Menu.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,13 +9,16 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/video/Menu.h>
 
 #include <CCore/inc/video/FigureLib.h>
+
+#include <CCore/inc/SymCount.h>
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 namespace Video {
@@ -41,7 +44,8 @@ void MenuPoint::pickhot()
           if( str[i]==Hot )
             {
              hotindex=i+1;
-             hotkey=str[hotindex];
+
+             hotkey=PeekChar(str.part(hotindex));
 
              return;
             }
@@ -54,7 +58,7 @@ void MenuPoint::pickhot()
 
 /* struct MenuData */
 
-auto MenuData::find(char ch) const -> FindResult
+auto MenuData::find(Char ch) const -> FindResult
  {
   auto r=Range(list);
 
@@ -175,13 +179,13 @@ void MenuShapeBase::drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane
        {
         if( +cfg.hotcolor )
           {
-           HotFunc func(vc,str1.len,+cfg.hot);
+           HotFunc func(vc,SymLen(str1),+cfg.hot);
 
            font->text(buf,pane,{align_x,AlignY_Center},str1,str2,func.function_hot());
           }
         else
           {
-           PlaceFunc func(vc,str1.len);
+           PlaceFunc func(vc,SymLen(str1));
 
            font->text(buf,pane,{align_x,AlignY_Center},str1,str2,func.function_place());
 
