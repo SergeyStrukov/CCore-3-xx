@@ -57,7 +57,7 @@ CmdDisplay StartDisplay()
   return CmdDisplay_Normal;
  }
 
-Char ToLowerCase(Char ch)
+Char ToLowerCase(Char ch) // TODO
  {
   return (unsigned char)(unsigned)Win32::CharLowerA((char *)(unsigned)(unsigned char)ch);
  }
@@ -80,7 +80,7 @@ void ShellVerb(StrLen verb_,StrLen file_name_)
 
 /* class CharMapTable */
 
-CharMapTable::CharMapTable()
+CharMapTable::CharMapTable() // TODO
  {
   bool once=true;
 
@@ -107,7 +107,7 @@ CharMapTable::CharMapTable()
 
 /* class SystemFontDirs */
 
-SystemFontDirs::SystemFontDirs()
+SystemFontDirs::SystemFontDirs() // TODO
  {
   if( const char *root=std::getenv("WINDIR") )
     {
@@ -128,7 +128,7 @@ SystemFontDirs::SystemFontDirs()
 
 /* class HomeDir */
 
-HomeDir::HomeDir()
+HomeDir::HomeDir() // TODO
  {
   if( const char *data=std::getenv("LOCALAPPDATA") )
     {

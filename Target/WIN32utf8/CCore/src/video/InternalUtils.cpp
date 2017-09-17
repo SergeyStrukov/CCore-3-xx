@@ -1,9 +1,9 @@
 /* InternalUtils.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -40,7 +40,7 @@ Pane GetWorkPane(Pane pane)
   rect.right=pane.x+pane.dx;
   rect.bottom=pane.y+pane.dy;
 
-  SysGuard("CCore::Video::Private_Desktop::GetWorkPane() : #;", Win32::SystemParametersInfoA(Win32::SPA_getWorkArea,0,&rect,0) );
+  SysGuard("CCore::Video::Private_Desktop::GetWorkPane() : #;", Win32::SystemParametersInfoW(Win32::SPA_getWorkArea,0,&rect,0) );
 
   return ToPane(rect);
  }
@@ -386,6 +386,8 @@ GetFromClipboard::~GetFromClipboard()
 
 /* class TextToClipboard */
 
+#if 0
+
 ulen TextToClipboard::getLen() const
  {
   ULenSat len=1u;
@@ -411,9 +413,9 @@ ulen TextToClipboard::getLen() const
 
 void TextToClipboard::fill(void *mem) const
  {
-  char *dst=static_cast<char *>(mem);
+  Sys::WChar *dst=static_cast<Sys::WChar *>(mem);
 
-  StrLen temp=text;
+  PtrLen<const Char> temp=text;
 
   while( +temp )
     {
@@ -434,6 +436,8 @@ void TextToClipboard::fill(void *mem) const
 
   dst[0]=0;
  }
+
+#endif
 
 } // namespace Internal
 } // namespace Video

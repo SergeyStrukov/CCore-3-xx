@@ -1,9 +1,9 @@
 /* InternalDesktop.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -25,7 +25,7 @@ bool WindowsDesktop::TestMsg()
  {
   Win32::Msg msg;
 
-  return Win32::PeekMessageA(&msg,0,0,0,Win32::PeekMessage_NoRemove);
+  return Win32::PeekMessageW(&msg,0,0,0,Win32::PeekMessage_NoRemove);
  }
 
 WindowsDesktop::WindowsDesktop()
@@ -57,7 +57,7 @@ Pane WindowsDesktop::getMaxPane()
 
 bool WindowsDesktop::pump(unsigned lim)
  {
-  for(Win32::Msg msg; lim && Win32::PeekMessageA(&msg,0,0,0,Win32::PeekMessage_Remove) ;lim--)
+  for(Win32::Msg msg; lim && Win32::PeekMessageW(&msg,0,0,0,Win32::PeekMessage_Remove) ;lim--)
     {
      if( msg.message==Win32::WM_Quit )
        {
@@ -67,7 +67,7 @@ bool WindowsDesktop::pump(unsigned lim)
        }
 
      Win32::TranslateMessage(&msg);
-     Win32::DispatchMessageA(&msg);
+     Win32::DispatchMessageW(&msg);
     }
 
   return true;

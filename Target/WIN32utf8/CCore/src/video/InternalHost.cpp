@@ -53,10 +53,12 @@ void WindowClass::regClass()
   wndcls.hIconSm=hIconSm;
   wndcls.menu_res=0;
 
-  wndcls.class_name="9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost";
+  WCharString<> temp("9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost"_c);
+
+  wndcls.class_name=temp;
   wndcls.wnd_proc=WindowsHost::WndProc;
 
-  atom=Win32::RegisterClassExA(&wndcls);
+  atom=Win32::RegisterClassExW(&wndcls);
 
   if( atom==0 )
     {
@@ -170,20 +172,20 @@ WindowPaint::~WindowPaint()
 Win32::HCursor WindowsHost::CursorTable[]=
  {
   0,
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_Arrow)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_IBeam)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_Wait)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_Cross)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_Hand)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_No)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_Help)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_SizeLeftRight)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpDown)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpLeft)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpRight)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_SizeAll)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_UpArrow)),
-  Win32::LoadCursorA(0,Win32::MakeIntResource(Win32::SysCursor_AppStarting))
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_Arrow)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_IBeam)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_Wait)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_Cross)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_Hand)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_No)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_Help)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_SizeLeftRight)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpDown)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpLeft)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_SizeUpRight)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_SizeAll)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_UpArrow)),
+  Win32::LoadCursorW(0,Win32::MakeIntResource(Win32::SysCursor_AppStarting))
  };
 
 WindowClass WindowsHost::WindowClassObject CCORE_INITPRI_3 ;
@@ -465,7 +467,7 @@ void WindowsHost::mouseShape(VKey vkey,KeyMod kmod)
     }
  }
 
-Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam)
+Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam) // TODO
  {
   switch( message )
     {
@@ -485,7 +487,7 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
 
        if( is_main ) HMainWindow=hWnd_;
 
-       auto ret=Win32::DefWindowProcA(hWnd_,message,wParam,lParam);
+       auto ret=Win32::DefWindowProcW(hWnd_,message,wParam,lParam);
 
        try { frame->alive(); } catch(...) {}
 
@@ -506,7 +508,7 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
           Win32::PostQuitMessage(0);
          }
 
-       return Win32::DefWindowProcA(hWnd_,message,wParam,lParam);
+       return Win32::DefWindowProcW(hWnd_,message,wParam,lParam);
       }
 
      case Win32::WM_Paint :
@@ -779,7 +781,7 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
       {
        //Printf(Con,"msg #;\n",message);
 
-       return Win32::DefWindowProcA(hWnd_,message,wParam,lParam);
+       return Win32::DefWindowProcW(hWnd_,message,wParam,lParam);
       }
     }
  }
@@ -804,10 +806,10 @@ Win32::MsgResult WIN32_CALLTYPE WindowsHost::WndProc(Win32::HWindow hWnd,Win32::
     {
      Win32::CreateData *ctx=(Win32::CreateData *)lParam;
 
-     Win32::SetWindowLongA(hWnd,0,(Win32::UPtrType)(ctx->arg));
+     Win32::SetWindowLongW(hWnd,0,(Win32::UPtrType)(ctx->arg));
     }
 
-  void *arg=(void *)Win32::GetWindowLongA(hWnd,0);
+  void *arg=(void *)Win32::GetWindowLongW(hWnd,0);
 
   Win32::MsgResult ret;
 
@@ -815,7 +817,7 @@ Win32::MsgResult WIN32_CALLTYPE WindowsHost::WndProc(Win32::HWindow hWnd,Win32::
     {
      // WM_GetMinMaxInfo comes before WM_NcCreate
 
-     ret=Win32::DefWindowProcA(hWnd,message,wParam,lParam);
+     ret=Win32::DefWindowProcW(hWnd,message,wParam,lParam);
     }
   else
     {
@@ -865,17 +867,15 @@ WindowsHost::~WindowsHost()
 
 void WindowsHost::AbortMsgBox(StrLen text)
  {
-  CapString<> cap(text);
-
-  Win32::MessageBoxA(HMainWindow,cap,"Abort",Win32::MessageBox_Ok|Win32::MessageBox_IconError);
+  ErrorMsgBox(text,"Abort"_c);
  }
 
 void WindowsHost::ErrorMsgBox(StrLen text,StrLen title)
  {
-  CapString<> cap(text);
-  CapString<> cap_title(title);
+  WCharString<> cap(text);
+  WCharString<> cap_title(title);
 
-  Win32::MessageBoxA(HMainWindow,cap,cap_title,Win32::MessageBox_Ok|Win32::MessageBox_IconError);
+  Win32::MessageBoxW(HMainWindow,cap,cap_title,Win32::MessageBox_Ok|Win32::MessageBox_IconError);
  }
 
  // icons
@@ -927,9 +927,11 @@ void WindowsHost::createMain(Pane pane,Point max_size_)
 
   buf.setSize(max_size_);
 
-  Win32::HWindow hWnd=Win32::CreateWindowExA(0,
+  WCharString<16> temp(""_c);
+
+  Win32::HWindow hWnd=Win32::CreateWindowExW(0,
                                              Win32::MakeIntAtom(WindowClassObject.getAtom(format)),
-                                             "",
+                                             temp,
                                              Win32::WindowStyle_Popup,
                                              pane.x,pane.y,pane.dx,pane.dy,
                                              0,0,0,
@@ -979,9 +981,11 @@ void WindowsHost::create(WindowHost *parent,Pane pane,Point max_size_)
      hParent=HMainWindow;
     }
 
-  Win32::HWindow hWnd=Win32::CreateWindowExA(0,
+  WCharString<16> temp(""_c);
+
+  Win32::HWindow hWnd=Win32::CreateWindowExW(0,
                                              Win32::MakeIntAtom(WindowClassObject.getAtom(format)),
-                                             "",
+                                             temp,
                                              Win32::WindowStyle_Popup,
                                              pane.x,pane.y,pane.dx,pane.dy,
                                              hParent,0,0,
@@ -1003,14 +1007,14 @@ void WindowsHost::destroy()
 
 void WindowsHost::setTitle(StrLen title)
  {
-  CapString<> cap(title);
+  WCharString<> cap(title);
 
   const char *format="CCore::Video::Private_Desktop::WindowsHost::setTitle(...) : #;";
 
   guardAlive(format);
 
   if( is_main )
-    SysGuard(format, Win32::SetWindowTextA(hWnd,cap) );
+    SysGuard(format, Win32::SetWindowTextW(hWnd,cap) );
  }
 
 void WindowsHost::setMaxSize(Point max_size_)
@@ -1271,8 +1275,6 @@ void WindowsHost::setPlace(Pane pane)
 
 void WindowsHost::textToClipboard(PtrLen<const Char> text)
  {
-#if 0
-
   TextToClipboard obj(text);
 
   Clipboard cbd(hWnd);
@@ -1283,12 +1285,10 @@ void WindowsHost::textToClipboard(PtrLen<const Char> text)
 
   obj.fill(put.getMem());
 
-  put.commit(Win32::ClipboardFormat_Text);
-
-#endif
+  put.commit(Win32::ClipboardFormat_UnicodeText);
  }
 
-void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func)
+void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func) // TODO
  {
 #if 0
 

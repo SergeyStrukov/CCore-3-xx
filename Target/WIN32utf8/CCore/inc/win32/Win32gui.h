@@ -1,9 +1,9 @@
 /* Win32gui.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -17,8 +17,6 @@
 #define CCore_inc_win32_Win32gui_h
 
 #include <CCore/inc/win32/Win32.h>
-
-//#define WIN32GUI_EXTRA_CONTENT
 
 namespace Win32 {
 
@@ -155,8 +153,6 @@ using HBitmap = BitmapData * ;
 /*--------------------------------------------------------------------------------------*/
 
 using WindowProc = MsgResult (WIN32_CALLTYPE *)(HWindow,MsgCode,MsgWParam,MsgLParam) ;
-
-using DialogProc = UPtrType (WIN32_CALLTYPE *)(HWindow,MsgCode,MsgWParam,MsgLParam) ;
 
 /*--------------------------------------------------------------------------------------*/
 /* constants                                                                            */
@@ -338,14 +334,6 @@ inline constexpr int HWND_TopMost   = -1 ;
 
 inline constexpr Color32 InvalidColor = 0xFFFF'FFFF ;
 
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* const GDIError */
-
-inline constexpr unsigned GDIError = 0xFFFF'FFFF ;
-
-#endif
-
 /*--------------------------------------------------------------------------------------*/
 /* message constants                                                                    */
 /*--------------------------------------------------------------------------------------*/
@@ -391,137 +379,6 @@ enum HitCode
   HitCode_Close       = 20,
   HitCode_Help        = 21
  };
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* enum ShowReason */
-
-enum ShowReason
- {
-  ShowReason_ShowWindow    = 0,
-  ShowReason_ParentClosing = 1,
-  ShowReason_OtherZoom     = 2,
-  ShowReason_ParentOpening = 3,
-  ShowReason_OtherUnzoom   = 4
- };
-
-/* enum SizeType */
-
-enum SizeType
- {
-  Size_Restored  = 0,
-  Size_Minimized = 1,
-  Size_Maximized = 2,
-  Size_MaxShow   = 3,
-  Size_MaxHide   = 4
- };
-
-/* enum SizingType */
-
-enum SizingType
- {
-  Sizing_Left        = 1,
-  Sizing_Right       = 2,
-  Sizing_Top         = 3,
-  Sizing_TopLeft     = 4,
-  Sizing_TopRight    = 5,
-  Sizing_Bottom      = 6,
-  Sizing_BottomLeft  = 7,
-  Sizing_BottomRight = 8
- };
-
-/* enum ActivityType */
-
-enum ActivityType
- {
-  Activity_Inactive    = 0,
-  Activity_Active      = 1,
-  Activity_ClickActive = 2
- };
-
-/* enum SysCommand */
-
-enum SysCommand
- {
-  SysCommand_Size         = 0xF000,
-  SysCommand_Separator    = 0xF00F,
-  SysCommand_Move         = 0xF010,
-  SysCommand_Minimize     = 0xF020,
-  SysCommand_Maximize     = 0xF030,
-  SysCommand_NextWindow   = 0xF040,
-  SysCommand_PrevWindow   = 0xF050,
-  SysCommand_Close        = 0xF060,
-  SysCommand_VScroll      = 0xF070,
-  SysCommand_HScroll      = 0xF080,
-  SysCommand_MouseMenu    = 0xF090,
-  SysCommand_KeyMenu      = 0xF100,
-  SysCommand_Arrange      = 0xF110,
-  SysCommand_Restore      = 0xF120,
-  SysCommand_TaskList     = 0xF130,
-  SysCommand_ScreenSave   = 0xF140,
-  SysCommand_HotKey       = 0xF150,
-  SysCommand_Default      = 0xF160,
-  SysCommand_MonitorPower = 0xF170,
-  SysCommand_ContextHelp  = 0xF180
- };
-
-/* enum MsgFrom */
-
-enum MsgFrom
- {
-  MsgFrom_DialogBox  =    0,
-  MsgFrom_MessageBox =    1,
-  MsgFrom_Menu       =    2,
-  MsgFrom_ScrollBar  =    5,
-  MsgFrom_NextWindow =    6,
-  MsgFrom_Max        =    8,
-
-  MsgFrom_User       = 4096
- };
-
-/* enum MenuFlags */
-
-enum MenuFlags
- {
-  Menu_Grayed          = 0x0001,
-  Menu_Disabled        = 0x0002,
-  Menu_Bitmap          = 0x0004,
-  Menu_Checked         = 0x0008,
-
-  Menu_Popup           = 0x0010,
-  Menu_BarBreak        = 0x0020,
-  Menu_Break           = 0x0040,
-  Menu_Highlight       = 0x0080,
-
-  Menu_Ownerdraw       = 0x0100,
-  Menu_Separator       = 0x0800,
-
-  Menu_Default         = 0x1000,
-  Menu_Sysmenu         = 0x2000,
-  Menu_Help            = 0x4000,
-  Menu_MouseSelect     = 0x8000,
-
-  Menu_Change          = Menu_Highlight,
-  Menu_End             = Menu_Highlight,
-  Menu_Append          = Menu_Ownerdraw,
-  Menu_Delete          = 0x0200,
-  Menu_Remove          = Menu_Default,
-  Menu_ByPosition      = 0x0400,
-  Menu_UseCheckBitmaps = Menu_Delete,
-  Menu_RightJustify    = Menu_Help
- };
-
-/* enum MouseActivate */
-
-enum MouseActivate
- {
-  Mouse_Activate         = 1,
-  Mouse_ActivateAndEat   = 2,
-  Mouse_NoActivate       = 3,
-  Mouse_NoActivateAndEat = 4
- };
-
-#endif
 
 /* const WheelDelta */
 
@@ -586,8 +443,8 @@ struct CreateData
   int y;
   int x;
   flags_t window_style;
-  const char *window_name;
-  const char *class_name;
+  const wchar *window_name;
+  const wchar *class_name;
   flags_t ex_window_style;
  };
 
@@ -604,23 +461,6 @@ struct MinMaxInfo
   Point max_track_size;
  };
 
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* struct WindowPos */
-
-struct WindowPos
- {
-  HWindow hWnd;
-  HWindow hWndInsertAfter;
-  int x;
-  int y;
-  int dx;
-  int dy;
-  flags_t flags;
- };
-
-#endif
-
 /*--------------------------------------------------------------------------------------*/
 /* helper functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
@@ -633,9 +473,9 @@ inline short SHiWord(unsigned val) { return (short)HiWord(val); }
 
 inline short SLoWord(unsigned val) { return (short)LoWord(val); }
 
-inline const char * MakeIntResource(IntRes res) { return (const char *)(unsigned)res; }
+inline const wchar * MakeIntResource(IntRes res) { return (const wchar *)(unsigned)res; }
 
-inline const char * MakeIntAtom(Atom atom) { return (const char *)(unsigned)atom; }
+inline const wchar * MakeIntAtom(Atom atom) { return (const wchar *)(unsigned)atom; }
 
 inline Color32 MakeColor32(Intensity R,Intensity G,Intensity B) { return R|(Color32(G)<<8)|(Color32(B)<<16); }
 
@@ -752,11 +592,11 @@ unsigned short WIN32_API GetKeyState(unsigned vkey);
 
 HCursor WIN32_API SetCursor(HCursor hCursor);
 
-HCursor WIN32_API LoadCursorA(HModule module, const char *res);
+HCursor WIN32_API LoadCursorW(HModule module, const wchar *res);
 
-HIcon WIN32_API LoadIconA(HModule module, const char *res);
+HIcon WIN32_API LoadIconW(HModule module, const wchar *res);
 
-HAccelerator WIN32_API LoadAcceleratorsA(HModule module, const char *res);
+HAccelerator WIN32_API LoadAcceleratorsW(HModule module, const wchar *res);
 
 /*--------------------------------------------------------------------------------------*/
 /* Message flags                                                                        */
@@ -803,7 +643,7 @@ enum PeekMessageFlags
 /* Message functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
-bool_t WIN32_API PeekMessageA(Msg *msg,
+bool_t WIN32_API PeekMessageW(Msg *msg,
                               HWindow hWnd,
                               MsgCode filter_min,
                               MsgCode filter_max,
@@ -819,7 +659,7 @@ options_t WIN32_API MsgWaitForMultipleObjects(ulen_t hcount,
 
 bool_t WIN32_API TranslateMessage(const Msg *msg);
 
-MsgResult WIN32_API DispatchMessageA(const Msg *msg);
+MsgResult WIN32_API DispatchMessageW(const Msg *msg);
 
 void WIN32_API PostQuitMessage(int exit_code);
 
@@ -985,8 +825,8 @@ struct WindowClass
   HIcon hIcon;
   HCursor hCursor;
   HBrush hBrush;
-  const char *menu_res;
-  const char *class_name;
+  const wchar *menu_res;
+  const wchar *class_name;
   HIcon hIconSm;
  };
 
@@ -1019,11 +859,11 @@ struct TrackMouseDesc
 /* Window functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
-Atom WIN32_API RegisterClassExA(const WindowClass *wclass);
+Atom WIN32_API RegisterClassExW(const WindowClass *wclass);
 
-HWindow WIN32_API CreateWindowExA(flags_t ex_window_style,
-                                  const char *class_name,
-                                  const char *window_name,
+HWindow WIN32_API CreateWindowExW(flags_t ex_window_style,
+                                  const wchar *class_name,
+                                  const wchar *window_name,
                                   flags_t window_style,
                                   int x,int y,int dx,int dy,
                                   HWindow hParent,
@@ -1033,18 +873,18 @@ HWindow WIN32_API CreateWindowExA(flags_t ex_window_style,
 
 bool_t WIN32_API DestroyWindow(HWindow hWnd);
 
-UPtrType WIN32_API GetWindowLongA(HWindow hWnd, int index);
+UPtrType WIN32_API GetWindowLongW(HWindow hWnd, int index);
 
-UPtrType WIN32_API SetWindowLongA(HWindow hWnd, int index, UPtrType value);
+UPtrType WIN32_API SetWindowLongW(HWindow hWnd, int index, UPtrType value);
 
-MsgResult WIN32_API DefWindowProcA(HWindow hWnd,
+MsgResult WIN32_API DefWindowProcW(HWindow hWnd,
                                    MsgCode message,
                                    MsgWParam wParam,
                                    MsgLParam lParam);
 
 bool_t WIN32_API EnableWindow(HWindow hWnd, bool_t en);
 
-bool_t WIN32_API SetWindowTextA(HWindow hWnd, const char *text);
+bool_t WIN32_API SetWindowTextW(HWindow hWnd, const wchar *text);
 
 HGDevice WIN32_API BeginPaint(HWindow hWnd, PaintData *pd);
 
@@ -1078,12 +918,6 @@ bool_t WIN32_API SetWindowPos(HWindow hWnd,
                               flags_t window_pos_flags);
 
 bool_t WIN32_API TrackMouseEvent(TrackMouseDesc *track);
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-bool_t WIN32_API TranslateAcceleratorA(HWindow hWnd, HAccelerator hAccel, Msg *msg);
-
-#endif
 
 /*--------------------------------------------------------------------------------------*/
 /* Dialog flags                                                                         */
@@ -1141,24 +975,10 @@ enum MessageBoxFlags
 /* Dialog functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
-options_t WIN32_API MessageBoxA(HWindow hParent,
-                                const char *text,
-                                const char *caption,
+options_t WIN32_API MessageBoxW(HWindow hParent,
+                                const wchar *text,
+                                const wchar *caption,
                                 flags_t message_box_flags);
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-UPtrType WIN32_API DialogBoxParamA(HModule hModule,
-                                   const char *res,
-                                   HWindow hParent,
-                                   DialogProc dialog_proc,
-                                   MsgLParam lParam);
-
-HWindow WIN32_API GetDlgItem(HWindow hWnd, int dialog_item_id);
-
-bool_t WIN32_API EndDialog(HWindow hWnd, UPtrType result);
-
-#endif
 
 /*--------------------------------------------------------------------------------------*/
 /* Graphics object functions                                                            */
@@ -1171,227 +991,6 @@ bool_t WIN32_API DeleteDC(HGDevice hGD);
 HGDObject WIN32_API SelectObject(HGDevice hGD, HGDObject hObj);
 
 bool_t WIN32_API DeleteObject(HGDObject hObj);
-
-/*--------------------------------------------------------------------------------------*/
-/* Pen options                                                                          */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* enum PenStyleOptions */
-
-enum PenStyleOptions
- {
-  Pen_Solid       = 0,
-  Pen_Dash        = 1,
-  Pen_Dot         = 2,
-  Pen_DashDot     = 3,
-  Pen_DasdDotDot  = 4,
-  Pen_Null        = 5,
-  Pen_InsideFrame = 6
- };
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Pen functions                                                                        */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-HPen WIN32_API CreatePen(options_t pen_style, int width, Color32 color);
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Brush functions                                                                      */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-HBrush WIN32_API GetSysColorBrush(options_t sys_color_index);
-
-HBrush WIN32_API CreateSolidBrush(Color32 color);
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Font flags and options                                                               */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* enum FontWeightOptions */
-
-enum FontWeightOptions
- {
-  FontWeight_DontCare   =   0,
-  FontWeight_Thin       = 100,
-  FontWeight_ExtraLight = 200,
-  FontWeight_Light      = 300,
-  FontWeight_Normal     = 400,
-  FontWeight_Medium     = 500,
-  FontWeight_SemiBold   = 600,
-  FontWeight_Bold       = 700,
-  FontWeight_ExtraBold  = 800,
-  FontWeight_Heavy      = 900
- };
-
-/* enum FontCharsetOptions */
-
-enum FontCharsetOptions // incomplete
- {
-  FontCharset_ANSI    =   0,
-  FontCharset_Default =   1,
-  FontCharset_Symbol  =   2,
-  FontCharset_Russian = 204,
-  FontCharset_OEM     = 255,
- };
-
-/* enum FontOutPrecisionOptions */
-
-enum FontOutPrecisionOptions // incomplete
- {
-  FontOutPrecision_Default = 0
- };
-
-/* enum FontClipPrecisionOptions */
-
-enum FontClipPrecisionOptions // incomplete
- {
-  FontClipPrecision_Default = 0
- };
-
-/* enum FontQualityOptions */
-
-enum FontQualityOptions
- {
-  FontQuality_Default          = 0,
-  FontQuality_Draft            = 1,
-  FontQuality_Proof            = 2,
-  FontQuality_NonAntiAliased   = 3,
-  FontQuality_AntiAliased      = 4,
-  FontQuality_Cleartype        = 5,
-  FontQuality_NaturalCleartype = 6
- };
-
-/* enum FontPitchFlags */
-
-enum FontPitchFlags
- {
-  FontPitch_Default  = 0x0000,
-  FontPitch_Fixed    = 0x0001,
-  FontPitch_Variable = 0x0002
- };
-
-/* enum FontFamilyFlags */
-
-enum FontFamilyFlags
- {
-  FontFamily_DontCare   = 0x0000,
-  FontFamily_Roman      = 0x0010,
-  FontFamily_Swiss      = 0x0020,
-  FontFamily_Modern     = 0x0030,
-  FontFamily_Script     = 0x0040,
-  FontFamily_Decorative = 0x0050
- };
-
-/* enum FontTypeFlags */
-
-enum FontTypeFlags
- {
-  FontType_Raster   = 0x001,
-  FontType_Device   = 0x002,
-  FontType_TrueType = 0x004
- };
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Font structures                                                                      */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* struct LogFont */
-
-struct LogFont
- {
-  int dy;
-  int dx;
-
-  int escapement;
-  int orientation;
-  int weight;
-
-  unsigned char italic;
-  unsigned char underline;
-  unsigned char strikeout;
-
-  unsigned char charset;
-  unsigned char out_precision;
-  unsigned char clip_precision;
-  unsigned char quality;
-  unsigned char pitch_and_family;
-
-  char typeface[32];
- };
-
-/* struct EnumLogFontEx */
-
-struct EnumLogFontEx
- {
-  LogFont logfont;
-  char full_name[64];
-  char style[32];
-  char script[32];
- };
-
-/* struct TextMetrics */
-
-struct TextMetrics;
-
-/* callback */
-
-using FontEnumProc = int (WIN32_CALLTYPE *)(const EnumLogFontEx *logfont,
-                                            const TextMetrics *metrics,
-                                            flags_t font_type,
-                                            MsgLParam lParam) ;
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Font functions                                                                       */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-HFont WIN32_API CreateFontA(int dy,
-                            int dx,
-
-                            int escapement,
-                            int orientation,
-                            options_t font_weight,
-
-                            bool_t italic,
-                            bool_t underline,
-                            bool_t strikeout,
-
-                            options_t font_charset,
-                            options_t font_out_precision,
-                            options_t font_clip_precision,
-                            options_t font_quality,
-                            flags_t font_pitch_and_family_flags,
-
-                            const char *typeface);
-
-int WIN32_API EnumFontFamiliesExA(HGDevice hGD,
-                                  LogFont *logfont,
-                                  FontEnumProc enum_proc,
-                                  MsgLParam lParam,
-                                  flags_t flags);
-
-#endif
 
 /*--------------------------------------------------------------------------------------*/
 /* Bitmap options                                                                       */
@@ -1494,69 +1093,6 @@ enum RasterOptions // incomplete
   RasterOp_Copy = 0x00CC'0020
  };
 
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* enum BkModeOptions */
-
-enum BkModeOptions
- {
-  BkMode_Transparent = 1,
-  BkMode_Opaque      = 2
- };
-
-/* enum TextAlignFlags */
-
-enum TextAlignFlags
- {
-  TextAlign_Left       =   0,
-  TextAlign_Right      =   2,
-  TextAlign_Center     =   6,
-
-  TextAlign_Top        =   0,
-  TextAlign_Bottom     =   8,
-  TextAlign_Baseline   =  24,
-
-  TextAlign_UpdatePos  =   1,
-
-  TextAlign_RTLReading = 256
- };
-
-/* enum PatOptions */
-
-enum PatOptions // incomplete
- {
-  PatOp_Copy = 0x00F0'0021
- };
-
-/* const MaxTextExtOutLen */
-
-inline constexpr int MaxExtTextOutLen = 8192 ;
-
-#endif
-
-/*--------------------------------------------------------------------------------------*/
-/* Draw structures                                                                      */
-/*--------------------------------------------------------------------------------------*/
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-/* struct CharPlacement */
-
-struct CharPlacement
- {
-  ulen_t cb;
-  char *str;
-  unsigned *order;
-  int *dcell;
-  int *caret_pos;
-  char *class_name;
-  wchar_t *glyphs;
-  unsigned glyphs_count;
-  int max_fit;
- };
-
-#endif
-
 /*--------------------------------------------------------------------------------------*/
 /* Draw functions                                                                       */
 /*--------------------------------------------------------------------------------------*/
@@ -1566,62 +1102,6 @@ bool_t WIN32_API BitBlt(HGDevice hdstGD,
                         HGDevice hsrcGD,
                         int x1,int y1,
                         options_t raster_op);
-
-#ifdef WIN32GUI_EXTRA_CONTENT
-
-bool_t WIN32_API GdiFlush(void);
-
-options_t WIN32_API SetBkMode(HGDevice hGD, options_t bk_mode);
-
-flags_t WIN32_API SetTextAlign(HGDevice hGD, flags_t text_align_flags);
-
-Color32 WIN32_API SetTextColor(HGDevice hGD, Color32 color);
-
-bool_t WIN32_API MoveToEx(HGDevice hGD,
-                          int x,int y,
-                          Point *prev);
-
-bool_t WIN32_API LineTo(HGDevice hGD,
-                        int x,int y);
-
-bool_t WIN32_API PatBlt(HGDevice hGD,
-                        int x,int y,int dx,int dy,
-                        options_t pat_op);
-
-bool_t WIN32_API BeginPath(HGDevice hGD);
-
-bool_t WIN32_API EndPath(HGDevice hGD);
-
-bool_t WIN32_API CloseFigure(HGDevice hGD);
-
-bool_t WIN32_API StrokePath(HGDevice hGD);
-
-bool_t WIN32_API FillPath(HGDevice hGD);
-
-bool_t WIN32_API StrokeAndFillPath(HGDevice hGD);
-
-bool_t WIN32_API TextOutA(HGDevice hGD,
-                          int x,int y,
-                          const char *str,int len);
-
-bool_t WIN32_API ExtTextOutA(HGDevice hGD,
-                             int x,int y,
-                             flags_t,
-                             const Rectangle *rect,
-                             const char *str,int len,
-                             const int *dcell);
-
-bool_t WIN32_API GetTextExtentPoint32A(HGDevice hGD,
-                                       const char *str,int len,
-                                       Size *size);
-
-unsigned WIN32_API GetCharacterPlacementA(HGDevice hGD,
-                                          const char *str,int len,
-                                          int max_extent,
-                                          CharPlacement *result,
-                                          flags_t);
-
-#endif
 
 /*--------------------------------------------------------------------------------------*/
 /* System parameters options                                                            */
@@ -1638,7 +1118,7 @@ enum SysParamActionOptions // incomplete
 /* System parameters functions                                                          */
 /*--------------------------------------------------------------------------------------*/
 
-bool_t WIN32_API SystemParametersInfoA(options_t action,
+bool_t WIN32_API SystemParametersInfoW(options_t action,
                                        flags_t param,
                                        void *data,
                                        flags_t winini_flag);
@@ -1651,7 +1131,7 @@ bool_t WIN32_API SystemParametersInfoA(options_t action,
 
 enum ClipboardFormatOptions // incomplete
  {
-  ClipboardFormat_Text = 1
+  ClipboardFormat_UnicodeText = 13
  };
 
 /*--------------------------------------------------------------------------------------*/
@@ -1672,11 +1152,11 @@ handle_t /* h_mem */ WIN32_API GetClipboardData(options_t format);
 /* Shell functions                                                                      */
 /*--------------------------------------------------------------------------------------*/
 
-handle_t /* h_instance */ WIN32_API ShellExecuteA(HWindow hWnd,
-                                                  const char *operation,
-                                                  const char *file,
-                                                  const char *parameters,
-                                                  const char *dir,
+handle_t /* h_instance */ WIN32_API ShellExecuteW(HWindow hWnd,
+                                                  const wchar *operation,
+                                                  const wchar *file,
+                                                  const wchar *parameters,
+                                                  const wchar *dir,
                                                   options_t show);
 
 } // extern "C"

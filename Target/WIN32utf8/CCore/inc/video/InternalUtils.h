@@ -1,9 +1,9 @@
 /* InternalUtils.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -19,6 +19,7 @@
 #include <CCore/inc/video/FrameWindow.h>
 
 #include <CCore/inc/sys/SysError.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/task/TaskEvent.h>
 
@@ -50,6 +51,8 @@ Pane GetWorkPane(Pane pane={});
 
 /* classes */
 
+template <ulen MaxLen=TextBufLen> class WCharString;
+
 struct MsgEvent;
 
 struct TickEvent;
@@ -65,6 +68,27 @@ class PutToClipboard;
 class GetFromClipboard;
 
 class TextToClipboard;
+
+/* class WCharString<MaxLen> */
+
+template <ulen MaxLen>
+class WCharString
+ {
+   Sys::WChar buf[MaxLen];
+   bool overflow = false ;
+   bool broken =false ;
+
+  public:
+
+   explicit WCharString(StrLen text) // TODO
+    {
+     Used(text);
+    }
+
+   void guard() const;
+
+   operator const Sys::WChar * () const { return buf; }
+ };
 
 /* struct MsgEvent */
 
@@ -242,11 +266,11 @@ class GetFromClipboard : NoCopy
 
 class TextToClipboard : NoCopy
  {
-   StrLen text;
+   PtrLen<const Char> text;
 
   public:
 
-   explicit TextToClipboard(StrLen text_) : text(text_) {}
+   explicit TextToClipboard(PtrLen<const Char> text_) : text(text_) {}
 
    ulen getLen() const;
 
