@@ -36,20 +36,20 @@ ulen ZLen(const WChar *ztext)
 
 ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
  {
-  ulen len=out.len;
+  ulen start=out.len;
 
   FeedUnicode(text,CopySym(out));
 
-  return len-out.len;
+  return start-out.len;
  }
 
 ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
  {
-  ulen len=out.len;
+  ulen start=out.len;
 
   bool ok=FeedUnicode(text,CopySym(out));
 
-  if( ok ) return len-out.len;
+  if( ok ) return start-out.len;
 
   return MaxULen;
  }

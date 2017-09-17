@@ -113,11 +113,19 @@ bool ConRead::Symbol::push(WChar wch)
        }
      else if( IsHiSurrogate(wch) )
        {
-        return pushUnicode(Replace(hi,wch));
+        // broken, skip
+
+        hi=wch;
+
+        return false;
        }
      else
        {
-        return pushUnicode(Replace_null(hi),wch);
+        // broken, skip
+
+        hi=0;
+
+        return false;
        }
     }
   else
@@ -125,6 +133,12 @@ bool ConRead::Symbol::push(WChar wch)
      if( IsHiSurrogate(wch) )
        {
         hi=wch;
+
+        return false;
+       }
+     else if( IsLoSurrogate(wch) )
+       {
+        // broken, skip
 
         return false;
        }

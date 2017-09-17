@@ -101,6 +101,9 @@ class WindowsHost : public WindowHost
    Pane restore;
    bool max_flag = false ;
 
+   Sys::WChar hi = 0 ;
+   Sys::WChar syshi = 0 ;
+
   private:
 
    void guardAlive(const char *format);

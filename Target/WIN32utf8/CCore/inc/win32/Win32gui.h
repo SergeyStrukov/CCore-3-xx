@@ -473,9 +473,9 @@ inline short SHiWord(unsigned val) { return (short)HiWord(val); }
 
 inline short SLoWord(unsigned val) { return (short)LoWord(val); }
 
-inline const wchar * MakeIntResource(IntRes res) { return (const wchar *)(unsigned)res; }
+inline const wchar * MakeIntResource(IntRes res) { return (const wchar *)(UPtrType)res; }
 
-inline const wchar * MakeIntAtom(Atom atom) { return (const wchar *)(unsigned)atom; }
+inline const wchar * MakeIntAtom(Atom atom) { return (const wchar *)(UPtrType)atom; }
 
 inline Color32 MakeColor32(Intensity R,Intensity G,Intensity B) { return R|(Color32(G)<<8)|(Color32(B)<<16); }
 

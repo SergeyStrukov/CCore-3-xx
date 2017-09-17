@@ -450,6 +450,12 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
+/* GetEnvironmentVariableW() */
+
+ulen_t WIN32_API GetEnvironmentVariableW(const wchar *name,
+                                         wchar *buf,
+                                         ulen_t len);
+
 /* GetStartupInfoW() */
 
 void WIN32_API GetStartupInfoW(StartupInfo *info);

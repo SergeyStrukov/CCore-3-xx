@@ -467,7 +467,7 @@ void WindowsHost::mouseShape(VKey vkey,KeyMod kmod)
     }
  }
 
-Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam) // TODO
+Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam)
  {
   switch( message )
     {
@@ -627,30 +627,104 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
 
      case Win32::WM_Char :
       {
-       if( wParam<256 )
-         {
-          char ch=(char)wParam;
-          unsigned repeat=lParam&0xFFFFu;
+       Sys::WChar ch=(Sys::WChar)wParam;
 
-          if( repeat>1 )
-            frame->put_Char(ch,repeat);
+       if( hi )
+         {
+          if( IsLoSurrogate(ch) )
+            {
+             Unicode uch=Surrogate(Replace_null(hi),ch);
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_Char(uch,repeat);
+             else
+               frame->put_Char(uch);
+            }
+          else if( IsHiSurrogate(ch) )
+            {
+             // broken, skip
+
+             hi=ch;
+            }
           else
-            frame->put_Char(ch);
+            {
+             // broken, skip
+
+             hi=0;
+            }
+         }
+       else
+         {
+          if( IsHiSurrogate(ch) )
+            {
+             hi=ch;
+            }
+          else if( IsLoSurrogate(ch) )
+            {
+             // broken, skip
+            }
+          else
+            {
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_Char(ch,repeat);
+             else
+               frame->put_Char(ch);
+            }
          }
       }
      return 0;
 
      case Win32::WM_SysChar :
       {
-       if( wParam<256 )
-         {
-          char ch=(char)wParam;
-          unsigned repeat=lParam&0xFFFFu;
+       Sys::WChar ch=(Sys::WChar)wParam;
 
-          if( repeat>1 )
-            frame->put_AltChar(ch,repeat);
+       if( syshi )
+         {
+          if( IsLoSurrogate(ch) )
+            {
+             Unicode uch=Surrogate(Replace_null(syshi),ch);
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_AltChar(uch,repeat);
+             else
+               frame->put_AltChar(uch);
+            }
+          else if( IsHiSurrogate(ch) )
+            {
+             // broken, skip
+
+             syshi=ch;
+            }
           else
-            frame->put_AltChar(ch);
+            {
+             // broken, skip
+
+             syshi=0;
+            }
+         }
+       else
+         {
+          if( IsHiSurrogate(ch) )
+            {
+             syshi=ch;
+            }
+          else if( IsLoSurrogate(ch) )
+            {
+             // broken, skip
+            }
+          else
+            {
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_AltChar(ch,repeat);
+             else
+               frame->put_AltChar(ch);
+            }
          }
       }
      return 0;
@@ -836,6 +910,8 @@ void WindowsHost::reset()
   track_flags=0;
   track_on=false;
   max_flag=false;
+  hi=0;
+  syshi=0;
  }
 
 void WindowsHost::do_move(Pane pane)
