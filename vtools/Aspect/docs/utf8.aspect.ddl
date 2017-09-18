@@ -111,7 +111,7 @@ Dir Dir5=
 Dir Dir6=
   {
    'Target',
-   Red,
+   Green,
    {
     &Dir26,
     &Dir27,
@@ -2512,7 +2512,7 @@ Dir Dir30=
 Dir Dir31=
   {
    'WIN32utf8',
-   Red,
+   Green,
    {
     &Dir142,
     &Dir143
@@ -4061,7 +4061,7 @@ Dir Dir229=
 Dir Dir142=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir230,
     &Dir231,
@@ -4089,7 +4089,7 @@ Dir Dir143=
 Dir Dir230=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir233,
     &Dir234,
@@ -4104,7 +4104,7 @@ Dir Dir230=
 Dir Dir231=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir238,
     &Dir239,
@@ -4185,14 +4185,14 @@ Dir Dir235=
 Dir Dir236=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.h' , Red },
+    { 'Desktop.h' , Green },
     { 'InternalDesktop.h' , Green },
     { 'InternalHost.h' , Green },
-    { 'InternalUtils.h' , Yellow }
+    { 'InternalUtils.h' , Green }
    }
   };
 
@@ -4267,14 +4267,14 @@ Dir Dir240=
 Dir Dir241=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
-    { 'Desktop.cpp' , Red },
+    { 'Desktop.cpp' , Green },
     { 'InternalDesktop.cpp' , Green },
     { 'InternalHost.cpp' , Green },
-    { 'InternalUtils.cpp' , Yellow }
+    { 'InternalUtils.cpp' , Green }
    }
   };
 

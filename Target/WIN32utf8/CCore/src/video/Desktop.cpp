@@ -110,7 +110,7 @@ CharMapTable::CharMapTable()
 
 /* class SystemFontDirs */
 
-SystemFontDirs::SystemFontDirs() // TODO
+SystemFontDirs::SystemFontDirs()
  {
   Internal::GetEnv<32,MaxPathLen> data("WINDIR"_c);
 
@@ -121,16 +121,16 @@ SystemFontDirs::SystemFontDirs() // TODO
      Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
     }
 
-  dir=Range(buf,len);
+  StrLen file="/Fonts"_c;
 
-#if 0
+  if( file.len>DimOf(buf)-len )
+    {
+     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
+    }
 
-     if( +buf.add(root,"/Fonts") )
-       {
-        dir=buf.get();
-       }
+  file.copyTo(buf+len);
 
-#endif
+  dir=Range(buf,len+file.len);
  }
 
 /* class HomeDir */
