@@ -40,7 +40,7 @@ Pane GetWorkPane(Pane pane)
   rect.right=pane.x+pane.dx;
   rect.bottom=pane.y+pane.dy;
 
-  SysGuard("CCore::Video::Private_Desktop::GetWorkPane() : #;", Win32::SystemParametersInfoW(Win32::SPA_getWorkArea,0,&rect,0) );
+  SysGuard("CCore::Video::Internal::GetWorkPane() : #;", Win32::SystemParametersInfoW(Win32::SPA_getWorkArea,0,&rect,0) );
 
   return ToPane(rect);
  }
@@ -168,7 +168,7 @@ void TickEvent::Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc)
 WindowBitmap::WindowBitmap(Point size_)
  : size(size_)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowBitmap::WindowBitmap(...) : #;";
+  const char *format="CCore::Video::Internal::WindowBitmap::WindowBitmap(...) : #;";
 
   if( size<=Null )
     {
@@ -209,7 +209,7 @@ WindowBitmap::~WindowBitmap()
 
 void WindowBuf::setSize(Point new_size,bool first_time)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowBuf::setSize(...) : #;";
+  const char *format="CCore::Video::Internal::WindowBuf::setSize(...) : #;";
 
   if( new_size<=Null )
     {
@@ -260,7 +260,7 @@ void WindowBuf::setSize(Point new_size,bool first_time)
 
 WindowBuf::WindowBuf()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowBuf::WindowBuf(...) : #;";
+  const char *format="CCore::Video::Internal::WindowBuf::WindowBuf(...) : #;";
 
   hGD=Win32::CreateCompatibleDC(0);
 
@@ -293,7 +293,7 @@ void WindowBuf::setSize(Point new_size)
 
 void WindowBuf::draw(Win32::HGDevice dstGD,Pane pane)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowBuf::draw(...) : #;";
+  const char *format="CCore::Video::Internal::WindowBuf::draw(...) : #;";
 
   if( !mem )
     {
@@ -307,7 +307,7 @@ void WindowBuf::draw(Win32::HGDevice dstGD,Pane pane)
 
 Clipboard::Clipboard(Win32::HWindow hWnd)
  {
-  const char *format="CCore::Video::Private_Desktop::Clipboard::Clipboard(...) : #;";
+  const char *format="CCore::Video::Internal::Clipboard::Clipboard(...) : #;";
 
   SysGuard(format, Win32::OpenClipboard(hWnd) );
  }
@@ -321,7 +321,7 @@ Clipboard::~Clipboard()
 
 PutToClipboard::PutToClipboard(ulen len)
  {
-  const char *format="CCore::Video::Private_Desktop::PutToClipboard::PutToClipboard(...) : #;";
+  const char *format="CCore::Video::Internal::PutToClipboard::PutToClipboard(...) : #;";
 
   SysGuard(format, Win32::EmptyClipboard() );
 
@@ -344,7 +344,7 @@ PutToClipboard::~PutToClipboard()
 
 void PutToClipboard::commit(unsigned cbd_format)
  {
-  const char *format="CCore::Video::Private_Desktop::PutToClipboard::commit(...) : #;";
+  const char *format="CCore::Video::Internal::PutToClipboard::commit(...) : #;";
 
   if( h_mem )
     {
@@ -369,7 +369,7 @@ void PutToClipboard::commit(unsigned cbd_format)
 
 GetFromClipboard::GetFromClipboard(unsigned cbd_format)
  {
-  const char *format="CCore::Video::Private_Desktop::GetFromClipboard::GetFromClipboard(...) : #;";
+  const char *format="CCore::Video::Internal::GetFromClipboard::GetFromClipboard(...) : #;";
 
   h_mem=Win32::GetClipboardData(cbd_format);
 
@@ -386,26 +386,59 @@ GetFromClipboard::~GetFromClipboard()
 
 /* class TextToClipboard */
 
-#if 0
+void TextToClipboard::Feed(PtrLen<const Char> text,FuncArgType<Sys::WChar> func)
+ {
+  while( +text )
+    {
+     Char ch=*text;
+
+     if( ch=='\r' || ch=='\n' )
+       {
+        if( text.len>=2 && ch=='\r' && text[1]=='\n' )
+          {
+           text+=2;
+          }
+        else
+          {
+           ++text;
+          }
+
+        if( +text )
+          {
+           func('\r');
+           func('\n');
+          }
+       }
+     else
+       {
+        ++text;
+
+        if( Sys::IsSurrogate(ch) )
+          {
+           Sys::SurrogateCouple couple(ch);
+
+           func(couple.hi);
+           func(couple.lo);
+          }
+        else
+          {
+           func((Sys::WChar)ch);
+          }
+       }
+    }
+
+  func(0);
+ }
 
 ulen TextToClipboard::getLen() const
  {
-  ULenSat len=1u;
+  ULenSat len;
 
-  StrLen temp=text;
-
-  while( +temp )
-    {
-     StrLen line=CutLine(temp);
-
-     len+=line.len;
-
-     if( +temp ) len+=2u;
-    }
+  Feed(text, [&len] (Sys::WChar) { len+=sizeof (Sys::WChar); } );
 
   if( !len )
     {
-     Printf(Exception,"CCore::Video::Private_Desktop::TextToClipboard::getLen() : overflow");
+     Printf(Exception,"CCore::Video::Internal::TextToClipboard::getLen() : overflow");
     }
 
   return len.value;
@@ -415,29 +448,8 @@ void TextToClipboard::fill(void *mem) const
  {
   Sys::WChar *dst=static_cast<Sys::WChar *>(mem);
 
-  PtrLen<const Char> temp=text;
-
-  while( +temp )
-    {
-     StrLen line=CutLine(temp);
-
-     line.copyTo(dst);
-
-     dst+=line.len;
-
-     if( +temp )
-       {
-        dst[0]='\r';
-        dst[1]='\n';
-
-        dst+=2;
-       }
-    }
-
-  dst[0]=0;
+  Feed(text, [&dst] (Sys::WChar ch) { *(dst++)=ch; } );
  }
-
-#endif
 
 } // namespace Internal
 } // namespace Video

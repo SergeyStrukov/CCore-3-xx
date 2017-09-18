@@ -4191,19 +4191,19 @@ Dir Dir236=
    {
     { 'Desktop.h' , Red },
     { 'InternalDesktop.h' , Green },
-    { 'InternalHost.h' , Red },
-    { 'InternalUtils.h' , Red }
+    { 'InternalHost.h' , Green },
+    { 'InternalUtils.h' , Yellow }
    }
   };
 
 Dir Dir237=
   {
    'win32',
-   Red,
+   Green,
    {
    },
    {
-    { 'Win32.h' , Yellow },
+    { 'Win32.h' , Green },
     { 'Win32gui.h' , Green }
    }
   };
@@ -4273,8 +4273,8 @@ Dir Dir241=
    {
     { 'Desktop.cpp' , Red },
     { 'InternalDesktop.cpp' , Green },
-    { 'InternalHost.cpp' , Red },
-    { 'InternalUtils.cpp' , Red }
+    { 'InternalHost.cpp' , Green },
+    { 'InternalUtils.cpp' , Yellow }
    }
   };
 

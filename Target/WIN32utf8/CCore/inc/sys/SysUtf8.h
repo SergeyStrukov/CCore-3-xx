@@ -97,6 +97,16 @@ bool FeedUnicode(PtrLen<const WChar> text,FuncType<bool,Unicode> func)
   return true;
  }
 
+void FeedUnicode(PtrLen<const WChar> text,FuncArgType<Unicode> func)
+ {
+  while( +text )
+    {
+     Unicode sym=CutUnicode(text);
+
+     func(sym);
+    }
+ }
+
 ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out);
 
 ulen Full(PtrLen<const WChar> text,PtrLen<char> out); // MaxULen on overflow

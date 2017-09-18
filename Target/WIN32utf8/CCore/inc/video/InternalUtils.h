@@ -55,6 +55,8 @@ Pane GetWorkPane(Pane pane={});
 
 template <ulen MaxLen=TextBufLen> class WCharString;
 
+template <ulen NameLen,ulen ValueLen> class GetEnv;
+
 struct MsgEvent;
 
 struct TickEvent;
@@ -147,6 +149,37 @@ class WCharString : NoCopy
     }
 
    operator const Sys::WChar * () const { return buf; }
+ };
+
+/* class GetEnv<ulen NameLen,ulen ValueLen> */
+
+template <ulen NameLen,ulen ValueLen>
+class GetEnv : NoCopy
+ {
+   WCharString<NameLen> name;
+   Sys::WChar value[ValueLen+1];
+
+  public:
+
+   explicit GetEnv(StrLen name_)
+    : name(name_)
+    {
+     name.guard("CCore::Video::Internal::GetEnv<...>::GetEnv(...)");
+
+     ulen ret=Win32::GetEnvironmentVariableW(name,value,ValueLen+1);
+
+     if( ret>ValueLen )
+       {
+        Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(...) : too long value");
+       }
+
+     if( ret==0 )
+       {
+        Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(#.q;) : no variable",name_);
+       }
+    }
+
+   operator const Sys::WChar * () const { return value; }
  };
 
 /* struct MsgEvent */
@@ -326,6 +359,10 @@ class GetFromClipboard : NoCopy
 class TextToClipboard : NoCopy
  {
    PtrLen<const Char> text;
+
+  private:
+
+   static void Feed(PtrLen<const Char> text,FuncArgType<Sys::WChar> func);
 
   public:
 

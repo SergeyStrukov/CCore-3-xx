@@ -147,7 +147,7 @@ void X11KeyMap::updateMap(Display *display)
  {
   if( !display )
     {
-     Printf(Exception,"CCore::Video::Private_Desktop::X11KeyMap::updateMap(...) : no display");
+     Printf(Exception,"CCore::Video::Internal::X11KeyMap::updateMap(...) : no display");
     }
 
   int new_page_count;
@@ -158,14 +158,14 @@ void X11KeyMap::updateMap(Display *display)
 
   if( !new_table )
     {
-     Printf(Exception,"CCore::Video::Private_Desktop::X11KeyMap::updateMap(...) : failed to get mapping");
+     Printf(Exception,"CCore::Video::Internal::X11KeyMap::updateMap(...) : failed to get mapping");
     }
 
   if( new_page_count<4 )
     {
      XFree(new_table);
 
-     Printf(Exception,"CCore::Video::Private_Desktop::X11KeyMap::updateMap(...) : failed");
+     Printf(Exception,"CCore::Video::Internal::X11KeyMap::updateMap(...) : failed");
     }
 
   if( table ) XFree(table);
@@ -1160,7 +1160,7 @@ void WindowBuf::setSize(Point new_size)
 
      mem=0;
 
-     Printf(Exception,"CCore::Video::Private_Desktop::WindowBuf::setSize(...) : image init");
+     Printf(Exception,"CCore::Video::Internal::WindowBuf::setSize(...) : image init");
     }
  }
 
@@ -1213,7 +1213,7 @@ WindowDispatcher::~WindowDispatcher()
 
 void WindowDispatcher::AddToMap(Window window,WindowDispatcher *obj)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowDispatcher::AddToMap(...) : #;";
+  const char *format="CCore::Video::Internal::WindowDispatcher::AddToMap(...) : #;";
 
   if( obj->link.key!=None )
     {
@@ -1446,7 +1446,7 @@ HiddenWindowHost::~HiddenWindowHost()
 
 void HiddenWindowHost::create()
  {
-  const char *format="CCore::Video::Private_Desktop::HiddenWindowHost::create() : #;";
+  const char *format="CCore::Video::Internal::HiddenWindowHost::create() : #;";
 
   if( window!=None ) return;
 

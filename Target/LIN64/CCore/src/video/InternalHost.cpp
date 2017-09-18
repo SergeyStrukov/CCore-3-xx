@@ -756,7 +756,7 @@ void X11Host::hideAll()
 
 void X11Host::do_move(Pane pane)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::do_move(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::do_move(...) : #;";
 
   guardAlive(format);
 
@@ -850,7 +850,7 @@ void X11Host::createMain(Point max_size)
 
 void X11Host::createMain(Pane pane,Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::createMain(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::createMain(...) : #;";
 
   guardCreate(format,pane,max_size_);
 
@@ -922,7 +922,7 @@ void X11Host::create(Pane pane,Point max_size_)
 
 void X11Host::create(WindowHost *parent_,Pane pane,Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::create(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::create(...) : #;";
 
   guardCreate(format,pane,max_size_);
 
@@ -1003,7 +1003,7 @@ void X11Host::create(WindowHost *parent_,Pane pane,Point max_size_)
 
 void X11Host::destroy()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::destroy() : #;";
+  const char *format="CCore::Video::Internal::X11Host::destroy() : #;";
 
   guardAlive(format);
 
@@ -1021,7 +1021,7 @@ void X11Host::setTitle(StrLen title)
  {
   CapString<> cap(title);
 
-  const char *format="CCore::Video::Private_Desktop::X11Host::setTitle(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::setTitle(...) : #;";
 
   guardAlive(format);
 
@@ -1030,7 +1030,7 @@ void X11Host::setTitle(StrLen title)
 
 void X11Host::setMaxSize(Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::setMaxSize(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::setMaxSize(...) : #;";
 
   GuardMaxSize(format,max_size_);
 
@@ -1043,7 +1043,7 @@ void X11Host::setMaxSize(Point max_size_)
 
 bool X11Host::enableUserInput(bool en)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::enableUserInput(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::enableUserInput(...) : #;";
 
   guardAlive(format);
 
@@ -1056,7 +1056,7 @@ bool X11Host::enableUserInput(bool en)
 
 void X11Host::display(CmdDisplay cmd_display)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::display(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::display(...) : #;";
 
   guardAlive(format);
 
@@ -1131,7 +1131,7 @@ void X11Host::display(CmdDisplay cmd_display)
 
 void X11Host::show()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::show() : #;";
+  const char *format="CCore::Video::Internal::X11Host::show() : #;";
 
   guardAlive(format);
 
@@ -1140,7 +1140,7 @@ void X11Host::show()
 
 void X11Host::hide()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::hide() : #;";
+  const char *format="CCore::Video::Internal::X11Host::hide() : #;";
 
   guardAlive(format);
 
@@ -1151,7 +1151,7 @@ void X11Host::hide()
 
 void X11Host::update()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::update() : #;";
+  const char *format="CCore::Video::Internal::X11Host::update() : #;";
 
   guardAlive(format);
 
@@ -1164,7 +1164,7 @@ void X11Host::update()
 
 void X11Host::invalidate(Pane pane,unsigned token_)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::invalidate(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::invalidate(...) : #;";
 
   guardAlive(format);
 
@@ -1184,7 +1184,7 @@ void X11Host::invalidate(Pane pane,unsigned token_)
 
 void X11Host::invalidate(unsigned token_)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::invalidate(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::invalidate(...) : #;";
 
   guardAlive(format);
 
@@ -1209,7 +1209,7 @@ ColorPlane X11Host::getDrawPlane()
 
 void X11Host::setFocus()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::setFocus() : #;";
+  const char *format="CCore::Video::Internal::X11Host::setFocus() : #;";
 
   guardAlive(format);
 
@@ -1250,7 +1250,7 @@ Point X11Host::getMousePos()
 
 void X11Host::captureMouse()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::captureMouse() : #;";
+  const char *format="CCore::Video::Internal::X11Host::captureMouse() : #;";
 
   guardAlive(format);
 
@@ -1266,7 +1266,7 @@ void X11Host::captureMouse()
 
 void X11Host::releaseMouse()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::releaseMouse() : #;";
+  const char *format="CCore::Video::Internal::X11Host::releaseMouse() : #;";
 
   guardAlive(format);
 
@@ -1282,7 +1282,7 @@ void X11Host::trackMouseHover()
 
 void X11Host::trackMouseHover(MSec time)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::trackMouseHover(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::trackMouseHover(...) : #;";
 
   guardAlive(format);
 
@@ -1291,7 +1291,7 @@ void X11Host::trackMouseHover(MSec time)
 
 void X11Host::untrackMouseHover()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::untrackMouseHover() : #;";
+  const char *format="CCore::Video::Internal::X11Host::untrackMouseHover() : #;";
 
   guardAlive(format);
 
@@ -1300,7 +1300,7 @@ void X11Host::untrackMouseHover()
 
 void X11Host::trackMouseLeave()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::trackMouseLeave() : #;";
+  const char *format="CCore::Video::Internal::X11Host::trackMouseLeave() : #;";
 
   guardAlive(format);
 
@@ -1309,7 +1309,7 @@ void X11Host::trackMouseLeave()
 
 void X11Host::untrackMouseLeave()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::untrackMouseLeave() : #;";
+  const char *format="CCore::Video::Internal::X11Host::untrackMouseLeave() : #;";
 
   guardAlive(format);
 
@@ -1318,7 +1318,7 @@ void X11Host::untrackMouseLeave()
 
 void X11Host::setMouseShape(MouseShape mshape)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::setMouseShape(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::setMouseShape(...) : #;";
 
   guardAlive(format);
 
@@ -1337,7 +1337,7 @@ void X11Host::setMouseShape(MouseShape mshape)
 
 Pane X11Host::getPlace()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::getPlace() : #;";
+  const char *format="CCore::Video::Internal::X11Host::getPlace() : #;";
 
   guardAlive(format);
 
@@ -1355,7 +1355,7 @@ void X11Host::setPlace(Pane pane)
 
 void X11Host::textToClipboard(PtrLen<const char> text)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::textToClipboard(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::textToClipboard(...) : #;";
 
   guardAlive(format);
 
@@ -1373,7 +1373,7 @@ void X11Host::textToClipboard(PtrLen<const char> text)
 
 void X11Host::textFromClipboard(Function<void (PtrLen<const char>)> func)
  {
-  const char *format="CCore::Video::Private_Desktop::X11Host::textFromClipboard(...) : #;";
+  const char *format="CCore::Video::Internal::X11Host::textFromClipboard(...) : #;";
 
   guardAlive(format);
 

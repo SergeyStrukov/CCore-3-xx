@@ -3,7 +3,7 @@
 //
 //  Project: CCore 3.50
 //
-//  Tag: Target/WIN32
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -15,7 +15,7 @@
 
 #include <CCore/inc/video/InternalHost.h>
 
-#include <CCore/inc/CapString.h>
+#include <CCore/inc/sys/SysFileInternal.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -72,7 +72,7 @@ void WindowClass::regClass()
 
 Win32::HIcon WindowClass::CreateIcon(Picture pict,Coord dx,Coord dy)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::WindowClass::CreateIcon(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::WindowClass::CreateIcon(...) : #;";
 
   Win32::IconInfo info{};
 
@@ -148,7 +148,7 @@ Win32::Atom WindowClass::getAtom(const char *format)
 
 WindowPaint::WindowPaint(Win32::HWindow hWnd_)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::WindowPaint::WindowPaint(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::WindowPaint::WindowPaint(...) : #;";
 
   if( hWnd_==0 )
     {
@@ -447,7 +447,7 @@ Coord WindowsHost::RandomPos(Coord len)
 
 void WindowsHost::setTrack()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::setTrack() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::setTrack() : #;";
 
   Win32::TrackMouseDesc desc;
 
@@ -631,9 +631,9 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
 
        if( hi )
          {
-          if( IsLoSurrogate(ch) )
+          if( Sys::IsLoSurrogate(ch) )
             {
-             Unicode uch=Surrogate(Replace_null(hi),ch);
+             Unicode uch=Sys::Surrogate(Replace_null(hi),ch);
              unsigned repeat=lParam&0xFFFFu;
 
              if( repeat>1 )
@@ -641,7 +641,7 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
              else
                frame->put_Char(uch);
             }
-          else if( IsHiSurrogate(ch) )
+          else if( Sys::IsHiSurrogate(ch) )
             {
              // broken, skip
 
@@ -656,11 +656,11 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
          }
        else
          {
-          if( IsHiSurrogate(ch) )
+          if( Sys::IsHiSurrogate(ch) )
             {
              hi=ch;
             }
-          else if( IsLoSurrogate(ch) )
+          else if( Sys::IsLoSurrogate(ch) )
             {
              // broken, skip
             }
@@ -683,9 +683,9 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
 
        if( syshi )
          {
-          if( IsLoSurrogate(ch) )
+          if( Sys::IsLoSurrogate(ch) )
             {
-             Unicode uch=Surrogate(Replace_null(syshi),ch);
+             Unicode uch=Sys::Surrogate(Replace_null(syshi),ch);
              unsigned repeat=lParam&0xFFFFu;
 
              if( repeat>1 )
@@ -693,7 +693,7 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
              else
                frame->put_AltChar(uch);
             }
-          else if( IsHiSurrogate(ch) )
+          else if( Sys::IsHiSurrogate(ch) )
             {
              // broken, skip
 
@@ -708,11 +708,11 @@ Win32::MsgResult WindowsHost::msgProc(Win32::HWindow hWnd_,Win32::MsgCode messag
          }
        else
          {
-          if( IsHiSurrogate(ch) )
+          if( Sys::IsHiSurrogate(ch) )
             {
              syshi=ch;
             }
-          else if( IsLoSurrogate(ch) )
+          else if( Sys::IsLoSurrogate(ch) )
             {
              // broken, skip
             }
@@ -916,7 +916,7 @@ void WindowsHost::reset()
 
 void WindowsHost::do_move(Pane pane)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::do_move(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::do_move(...) : #;";
 
   guardAlive(format);
 
@@ -987,7 +987,7 @@ void WindowsHost::createMain(Point max_size)
 
 void WindowsHost::createMain(Pane pane,Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::createMain(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::createMain(...) : #;";
 
   guardCreate(format,pane,max_size_);
 
@@ -1023,7 +1023,7 @@ void WindowsHost::create(Pane pane,Point max_size)
 
 void WindowsHost::create(WindowHost *parent,Pane pane,Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::create(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::create(...) : #;";
 
   guardCreate(format,pane,max_size_);
 
@@ -1072,7 +1072,7 @@ void WindowsHost::create(WindowHost *parent,Pane pane,Point max_size_)
 
 void WindowsHost::destroy()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::destroy() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::destroy() : #;";
 
   guardAlive(format);
 
@@ -1085,7 +1085,7 @@ void WindowsHost::setTitle(StrLen title)
  {
   WCharString<> cap(title);
 
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::setTitle(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::setTitle(...) : #;";
 
   guardAlive(format);
 
@@ -1095,7 +1095,7 @@ void WindowsHost::setTitle(StrLen title)
 
 void WindowsHost::setMaxSize(Point max_size_)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::setMaxSize(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::setMaxSize(...) : #;";
 
   GuardMaxSize(format,max_size_);
 
@@ -1108,7 +1108,7 @@ void WindowsHost::setMaxSize(Point max_size_)
 
 bool WindowsHost::enableUserInput(bool en)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::enableUserInput(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::enableUserInput(...) : #;";
 
   guardAlive(format);
 
@@ -1117,7 +1117,7 @@ bool WindowsHost::enableUserInput(bool en)
 
 void WindowsHost::display(CmdDisplay cmd_display)
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::display(...) : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::display(...) : #;";
 
   guardAlive(format);
 
@@ -1178,7 +1178,7 @@ void WindowsHost::display(CmdDisplay cmd_display)
 
 void WindowsHost::show()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::show() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::show() : #;";
 
   guardAlive(format);
 
@@ -1187,7 +1187,7 @@ void WindowsHost::show()
 
 void WindowsHost::hide()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::hide() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::hide() : #;";
 
   guardAlive(format);
 
@@ -1198,7 +1198,7 @@ void WindowsHost::hide()
 
 void WindowsHost::update()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::update() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::update() : #;";
 
   guardAlive(format);
 
@@ -1244,7 +1244,7 @@ ColorPlane WindowsHost::getDrawPlane()
 
 void WindowsHost::setFocus()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::setFocus() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::setFocus() : #;";
 
   guardAlive(format);
 
@@ -1269,7 +1269,7 @@ Point WindowsHost::getMousePos()
 
 void WindowsHost::captureMouse()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::captureMouse() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::captureMouse() : #;";
 
   guardAlive(format);
 
@@ -1278,7 +1278,7 @@ void WindowsHost::captureMouse()
 
 void WindowsHost::releaseMouse()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::releaseMouse() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::releaseMouse() : #;";
 
   guardAlive(format);
 
@@ -1329,7 +1329,7 @@ void WindowsHost::setMouseShape(MouseShape mshape)
 
 Pane WindowsHost::getPlace()
  {
-  const char *format="CCore::Video::Private_Desktop::WindowsHost::getPlace() : #;";
+  const char *format="CCore::Video::Internal::WindowsHost::getPlace() : #;";
 
   guardAlive(format);
 
@@ -1364,15 +1364,13 @@ void WindowsHost::textToClipboard(PtrLen<const Char> text)
   put.commit(Win32::ClipboardFormat_UnicodeText);
  }
 
-void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func) // TODO
+void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func)
  {
-#if 0
-
   Clipboard cbd(hWnd);
-  GetFromClipboard get(Win32::ClipboardFormat_Text);
+  GetFromClipboard get(Win32::ClipboardFormat_UnicodeText);
 
-  const char *ptr=static_cast<const char *>(get.getMem());
-  ulen len=get.getLen();
+  const Sys::WChar *ptr=static_cast<const Sys::WChar *>(get.getMem());
+  ulen len=get.getLen()/sizeof (Sys::WChar);
 
   auto text=Range(ptr,len);
 
@@ -1386,9 +1384,27 @@ void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func) //
        }
     }
 
-  func(text);
+  ULenSat outlen;
 
-#endif
+  Sys::FeedUnicode(text, [&outlen] (Char) { outlen+=1u; } );
+
+  if( !outlen )
+    {
+     Printf(Exception,"CCore::Video::Internal::WindowsHost::textFromClipboard(...) : overflow");
+    }
+
+  Sys::TempBuf<Char> temp(outlen.value);
+
+  Char *dst=temp;
+
+  if( !dst )
+    {
+     Printf(Exception,"CCore::Video::Internal::WindowsHost::textFromClipboard(...) : no memory");
+    }
+
+  Sys::FeedUnicode(text, [&dst] (Char ch) { *(dst++)=ch; } );
+
+  func(Range(+temp,outlen.value));
  }
 
 } // namespace Internal

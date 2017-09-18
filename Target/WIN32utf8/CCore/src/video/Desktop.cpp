@@ -15,11 +15,8 @@
 
 #include <CCore/inc/video/Desktop.h>
 
-#include <CCore/inc/Exception.h>
-
+#include <CCore/inc/video/InternalUtils.h>
 #include <CCore/inc/video/InternalDesktop.h>
-
-#include <cstdlib>
 
 namespace CCore {
 namespace Video {
@@ -57,9 +54,25 @@ CmdDisplay StartDisplay()
   return CmdDisplay_Normal;
  }
 
-Char ToLowerCase(Char ch) // TODO
+Char ToLowerCase(Char ch)
  {
-  return (unsigned char)(unsigned)Win32::CharLowerA((char *)(unsigned)(unsigned char)ch);
+  if( Sys::IsSurrogate(ch) )
+    {
+     Sys::SurrogateCouple couple(ch);
+     Sys::WChar buf[3]={couple.hi,couple.lo,0};
+
+     Win32::CharLowerW(buf);
+
+     return Sys::Surrogate(buf[0],buf[1]);
+    }
+  else
+    {
+     Sys::WChar buf[2]={(Sys::WChar)ch,0};
+
+     Win32::CharLowerW(buf);
+
+     return buf[0];
+    }
  }
 
 void ShellVerb(StrLen verb_,StrLen file_name_)
@@ -75,23 +88,18 @@ void ShellVerb(StrLen verb_,StrLen file_name_)
 
 /* class CharMapTable */
 
-CharMapTable::CharMapTable() // TODO
+CharMapTable::CharMapTable()
  {
-  bool once=true;
-
   for(unsigned ind=0; ind<256u ;ind++)
     {
      char ch=char(ind);
-     Win32::unicode_t out;
+     Win32::wchar out;
 
      int len=Win32::MultiByteToWideChar(Win32::CodePageActive,Win32::MultiBytePrecomposed|Win32::MultiByteUseGlyphChars,&ch,1,&out,1);
 
      if( len!=1 )
        {
         table[ind]=0;
-
-        if( Replace_null(once) )
-          Printf(NoException,"CCore::Video::CharMapTable::CharMapTable() : not a single byte code page");
        }
      else
        {
@@ -104,8 +112,10 @@ CharMapTable::CharMapTable() // TODO
 
 SystemFontDirs::SystemFontDirs() // TODO
  {
-  if( const char *root=std::getenv("WINDIR") )
-    {
+  Internal::GetEnv<32,MaxPathLen> data("WINDIR"_c);
+
+#if 0
+
      if( +buf.add(root,"/Fonts") )
        {
         dir=buf.get();
@@ -114,19 +124,18 @@ SystemFontDirs::SystemFontDirs() // TODO
        {
         Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
        }
-    }
-  else
-    {
-     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : no WINDIR");
-    }
+
+#endif
  }
 
 /* class HomeDir */
 
 HomeDir::HomeDir() // TODO
  {
-  if( const char *data=std::getenv("LOCALAPPDATA") )
-    {
+  Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA"_c);
+
+#if 0
+
      if( +buf.add(data) )
        {
         dir=buf.get();
@@ -135,11 +144,8 @@ HomeDir::HomeDir() // TODO
        {
         Printf(Exception,"CCore::Video::HomeDir::HomeDir() : too long file name");
        }
-    }
-  else
-    {
-     Printf(Exception,"CCore::Video::HomeDir::HomeDir() : no LOCALAPPDATA");
-    }
+
+#endif
  }
 
 /* functions */

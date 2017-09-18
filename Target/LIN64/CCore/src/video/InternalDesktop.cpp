@@ -99,21 +99,21 @@ X11Desktop::~X11Desktop()
 
 WindowHost * X11Desktop::createHost()
  {
-  guardDisplay("CCore::Video::Private_Desktop::X11Desktop::createHost() : #;");
+  guardDisplay("CCore::Video::Internal::X11Desktop::createHost() : #;");
 
   return new X11Host(display,screen);
  }
 
 Point X11Desktop::getScreenSize()
  {
-  guardDisplay("CCore::Video::Private_Desktop::X11Desktop::getScreenSize() : #;");
+  guardDisplay("CCore::Video::Internal::X11Desktop::getScreenSize() : #;");
 
   return Point_cast(DisplayWidth(display,screen),DisplayHeight(display,screen));
  }
 
 Pane X11Desktop::getMaxPane()
  {
-  guardDisplay("CCore::Video::Private_Desktop::X11Desktop::getMaxPane() : #;");
+  guardDisplay("CCore::Video::Internal::X11Desktop::getMaxPane() : #;");
 
   Window root=RootWindow(display,screen);
 
@@ -155,7 +155,7 @@ Pane X11Desktop::getMaxPane()
 
 bool X11Desktop::pump(unsigned lim)
  {
-  guardDisplay("CCore::Video::Private_Desktop::X11Desktop::pump(...) : #;");
+  guardDisplay("CCore::Video::Internal::X11Desktop::pump(...) : #;");
 
   for(XEvent event; lim && XCheckIfEvent(display,&event,MatchAll,0) ;lim--)
     {
@@ -171,7 +171,7 @@ void X11Desktop::wait(TimeScope time_scope)
  {
   if( auto t=+time_scope.get() )
     {
-     const char *format="CCore::Video::Private_Desktop::X11Desktop::wait(...) : #;";
+     const char *format="CCore::Video::Internal::X11Desktop::wait(...) : #;";
 
      guardDisplay(format);
 
@@ -201,7 +201,7 @@ void X11Desktop::wait(TimeScope time_scope)
 
 void X11Desktop::interrupt()
  {
-  const char *format="CCore::Video::Private_Desktop::X11Desktop::interrupt(...) : #;";
+  const char *format="CCore::Video::Internal::X11Desktop::interrupt(...) : #;";
 
   guardDisplay(format);
 

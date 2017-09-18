@@ -107,6 +107,8 @@ class TempBuf : NoCopy
 
    ~TempBuf() { MemFree(ptr); }
 
+   T * operator + () const { return ptr; }
+
    operator T * () const { return ptr; }
  };
 

@@ -102,10 +102,6 @@ using lcid_t = unsigned ;
 
 using sem_count_t = int ;
 
-/* type unicode_t */
-
-using unicode_t = unsigned short ;
-
 /*--------------------------------------------------------------------------------------*/
 /* common structures                                                                    */
 /*--------------------------------------------------------------------------------------*/
@@ -239,12 +235,12 @@ int WIN32_API MultiByteToWideChar(codepage_t codepage,
                                   flags_t flags,
                                   const char *str,
                                   int str_len,
-                                  unicode_t *out,
+                                  wchar *out,
                                   int out_len);
 
-/* CharLowerA() */
+/* CharLowerW() */
 
-char * WIN32_API CharLowerA(char *str);
+wchar * WIN32_API CharLowerW(wchar *str);
 
 /*--------------------------------------------------------------------------------------*/
 /* Time functions                                                                       */
