@@ -157,7 +157,7 @@ template <ulen NameLen,ulen ValueLen>
 class GetEnv : NoCopy
  {
    WCharString<NameLen> name;
-   Sys::WChar value[ValueLen+1];
+   Sys::WCharToUtf8<ValueLen+1> value;
 
   public:
 
@@ -166,20 +166,20 @@ class GetEnv : NoCopy
     {
      name.guard("CCore::Video::Internal::GetEnv<...>::GetEnv(...)");
 
-     ulen ret=Win32::GetEnvironmentVariableW(name,value,ValueLen+1);
+     value.len=Win32::GetEnvironmentVariableW(name,value.buf,ValueLen+1);
 
-     if( ret>ValueLen )
+     if( value.len>ValueLen )
        {
         Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(...) : too long value");
        }
 
-     if( ret==0 )
+     if( value.len==0 )
        {
         Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(#.q;) : no variable",name_);
        }
     }
 
-   operator const Sys::WChar * () const { return value; }
+   ulen full(PtrLen<char> out) const { return value.full(out); }
  };
 
 /* struct MsgEvent */

@@ -114,15 +114,20 @@ SystemFontDirs::SystemFontDirs() // TODO
  {
   Internal::GetEnv<32,MaxPathLen> data("WINDIR"_c);
 
+  ulen len=data.full(Range(buf));
+
+  if( len==MaxULen )
+    {
+     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
+    }
+
+  dir=Range(buf,len);
+
 #if 0
 
      if( +buf.add(root,"/Fonts") )
        {
         dir=buf.get();
-       }
-     else
-       {
-        Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
        }
 
 #endif
@@ -130,22 +135,18 @@ SystemFontDirs::SystemFontDirs() // TODO
 
 /* class HomeDir */
 
-HomeDir::HomeDir() // TODO
+HomeDir::HomeDir()
  {
   Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA"_c);
 
-#if 0
+  ulen len=data.full(Range(buf));
 
-     if( +buf.add(data) )
-       {
-        dir=buf.get();
-       }
-     else
-       {
-        Printf(Exception,"CCore::Video::HomeDir::HomeDir() : too long file name");
-       }
+  if( len==MaxULen )
+    {
+     Printf(Exception,"CCore::Video::HomeDir::HomeDir() : too long file name");
+    }
 
-#endif
+  dir=Range(buf,len);
  }
 
 /* functions */

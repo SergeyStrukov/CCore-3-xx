@@ -72,7 +72,7 @@ class CharMapTable : NoCopy
 
 class SystemFontDirs : NoCopy
  {
-   MakeString<MaxPathLen> buf;
+   char buf[MaxPathLen];
    StrLen dir;
 
   public:
@@ -86,7 +86,7 @@ class SystemFontDirs : NoCopy
 
 class HomeDir : NoCopy
  {
-   MakeString<MaxPathLen> buf;
+   char buf[MaxPathLen];
    StrLen dir;
 
   public:
