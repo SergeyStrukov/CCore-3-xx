@@ -20,6 +20,7 @@
 #include <CCore/inc/GenFile.h>
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Cmp.h>
+#include <CCore/inc/Utf8.h>
 
 namespace CCore {
 namespace Video {
@@ -27,8 +28,6 @@ namespace Video {
 /* types */
 
 using DesktopColor = RawColor32 ;
-
-using unicode = uint32 ;
 
 /* functions */
 
@@ -60,17 +59,17 @@ class DefaultDesktopPtr;
 
 class CharMapTable : NoCopy
  {
-   unicode table[256];
+   Unicode table[256];
 
   public:
 
    CharMapTable();
 
-   unicode operator () (char ch) const { return table[(uint8)ch]; }
+   Unicode operator () (char ch) const { return table[(uint8)ch]; }
 
-   unicode operator () (signed char ch) const { return table[(uint8)ch]; }
+   Unicode operator () (signed char ch) const { return table[(uint8)ch]; }
 
-   unicode operator () (unsigned char ch) const { return table[(uint8)ch]; }
+   Unicode operator () (unsigned char ch) const { return table[(uint8)ch]; }
  };
 
 /* class SystemFontDirs */

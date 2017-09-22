@@ -1,7 +1,7 @@
 /* Font.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -32,7 +32,20 @@ struct DefFontShape
 
   static Coord bY() { return DefaultFont::BY; }
 
-  auto operator () (char ch) const { return DefaultFont(ch); }
+  auto operator () (Char ch) const
+   {
+#ifdef CCORE_UTF8
+
+    if( ch>=128 ) return DefaultFont(0);
+
+    return DefaultFont((char)ch);
+
+#else
+
+    return DefaultFont(ch);
+
+#endif
+   }
  };
 
 using DefFont = DotFontBase<DefFontShape> ;
@@ -43,21 +56,7 @@ DefFont Object CCORE_INITPRI_3 ;
 
 using namespace Private_Font;
 
-/* struct AbstractSparseString */
-
-ULenSat AbstractSparseString::countLen(bool guard_overflow)
- {
-  ULenSat ret;
-
-  apply( [&ret] (StrLen str) { ret+=str.len; } );
-
-  if( guard_overflow && ret.overflow )
-    {
-     Printf(Exception,"CCore::Video::AbstractSparseString::countLen(true) : overflow");
-    }
-
-  return ret;
- }
+#if 0
 
 /* class SingleString */
 
@@ -254,6 +253,116 @@ bool DoubleString::cutCenter(ulen len)
        }
     }
  }
+
+#endif
+
+#ifdef CCORE_UTF8
+
+/* class CharString */
+
+CharString::CharString(PtrLen<const Char> str_)
+ : str(str_),
+   cur(str_)
+ {
+ }
+
+ // props
+
+ulen CharString::getLen() const
+ {
+  return str.len;
+ }
+
+ // cursor
+
+void CharString::restart()
+ {
+  cur=str;
+ }
+
+auto CharString::next() -> Result
+ {
+  if( +cur )
+    {
+     Char ch=*cur;
+
+     ++cur;
+
+     return {ch,true};
+    }
+  else
+    {
+     return {0,false};
+    }
+ }
+
+ulen CharString::getCount() const
+ {
+  return cur.len;
+ }
+
+ // self-modification
+
+void CharString::cutPrefix(ulen len)
+ {
+  GuardLen(len,str.len);
+
+  str=str.prefix(len);
+
+  cur=str;
+ }
+
+void CharString::cutSuffix(ulen len)
+ {
+  GuardLen(len,str.len);
+
+  str=str.suffix(len);
+
+  cur=str;
+ }
+
+void CharString::cutSuffix(ulen len,ulen &index)
+ {
+  GuardLen(len,str.len);
+
+  index=str.len-len;
+
+  str=str.suffix(len);
+
+  cur=str;
+ }
+
+bool CharString::cutCenter(ulen len)
+ {
+  GuardLen(len,str.len);
+
+  ulen extra=str.len-len;
+  ulen delta=extra/2;
+
+  str=str.inner(delta,delta);
+
+  cur=str;
+
+  return extra&1u;
+ }
+
+bool CharString::cutCenter(ulen len,ulen &index)
+ {
+  GuardLen(len,str.len);
+
+  ulen extra=str.len-len;
+  ulen delta=extra/2;
+
+  index=delta;
+
+  str=str.inner(delta,delta);
+
+  cur=str;
+
+  return extra&1u;
+ }
+
+#endif
 
 /* class Font */
 

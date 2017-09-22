@@ -1,7 +1,7 @@
 /* FreeTypeFont.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -101,6 +101,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
   // data
 
   mutable FreeType::Face face;
+  mutable bool use_strength = true ;
   Config cfg;
   GammaTable gamma_table;
 
@@ -156,15 +157,47 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
   using IndexType = FT_UInt ;
 
-  CharX text(char ch)
-   {
-    auto index=face.getGlyphIndex(Object->map(ch));
+#ifdef CCORE_UTF8
 
+  IndexType indexOf(Char ch) const
+   {
+    return face.getGlyphIndex(ch);
+   }
+
+#else
+
+  IndexType indexOf(Char ch) const
+   {
+    return face.getGlyphIndex(Object->map(ch));
+   }
+
+#endif
+
+  Coord kerning(IndexType &prev_index,Char ch) const
+   {
+    Coord ret=0;
+
+    auto index=indexOf(ch);
+
+    if( prev_index && index )
+      {
+       FT_Vector delta=face.getKerning(prev_index,index);
+
+       ret=FreeType::Round(delta.x);
+      }
+
+    prev_index=index;
+
+    return ret;
+   }
+
+  CharX glyph_index(IndexType index) const
+   {
     face.loadGlyph(index,ToFlags(cfg.fht));
 
-    if( cfg.strength )
+    if( use_strength )
       {
-       if( !face.tryEmboldenGlyph(cfg.strength) ) cfg.strength=0;
+       if( !face.tryEmboldenGlyph(cfg.strength) ) use_strength=false;
       }
 
     face.renderGlyph(ToMode(cfg.fsm));
@@ -191,32 +224,25 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     return {placement.getDelta().x,dx0,dx1};
    }
 
-  Coord kerning(IndexType &prev_index,char ch) const
+#ifdef CCORE_UTF8
+
+  CharX glyph(Char ch) const
    {
-    Coord ret=0;
-
-    auto index=face.getGlyphIndex(Object->map(ch));
-
-    if( prev_index && index )
-      {
-       FT_Vector delta=face.getKerning(prev_index,index);
-
-       ret=FreeType::Round(delta.x);
-      }
-
-    prev_index=index;
-
-    return ret;
+    return glyph_index(indexOf(ch));
    }
 
-  CharX table_text(char ch) const
+#else
+
+  CharX glyph(Char ch) const
    {
     return char_x[uint8(ch)];
    }
 
-  CharX table_text(IndexType &prev_index,char ch) const
+#endif
+
+  CharX glyph(IndexType &prev_index,Char ch) const
    {
-    CharX ret=table_text(ch);
+    CharX ret=glyph(ch);
     Coord delta=kerning(prev_index,ch);
 
     ret.dx+=delta;
@@ -226,6 +252,8 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
   void updateFontSize()
    {
+    use_strength = (cfg.strength!=0) ;
+
     if( !face.hasKerning() ) cfg.use_kerning=false;
 
     font_size.min_dx=MaxCoord;
@@ -236,7 +264,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     for(int i=-128; i<128 ;i++)
       {
        char ch=char(i);
-       CharX met=text(ch);
+       CharX met=glyph_index(face.getGlyphIndex(Object->map(ch)));
 
        Replace_min(font_size.min_dx,met.dx);
        Replace_max(font_size.max_dx,met.dx);
@@ -278,9 +306,9 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
       }
    }
 
-  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,char ch,VColor vc) const
+  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,Char ch,VColor vc) const
    {
-    auto index=face.getGlyphIndex(Object->map(ch));
+    auto index=indexOf(ch);
 
     face.loadGlyph(index,ToFlags(cfg.fht));
 
@@ -297,9 +325,9 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     return ret;
    }
 
-  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,IndexType &prev_index,char ch,VColor vc) const
+  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,IndexType &prev_index,Char ch,VColor vc) const
    {
-    auto index=face.getGlyphIndex(Object->map(ch));
+    auto index=indexOf(ch);
 
     if( prev_index && index )
       {
@@ -325,9 +353,9 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     return ret;
    }
 
-  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,char ch,ulen ch_index,PointMap map,CharFunction func) const
+  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,Char ch,ulen ch_index,PointMap map,CharFunction func) const
    {
-    auto index=face.getGlyphIndex(Object->map(ch));
+    auto index=indexOf(ch);
 
     face.loadGlyph(index,ToFlags(cfg.fht));
 
@@ -347,9 +375,9 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     return ret;
    }
 
-  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,IndexType &prev_index,char ch,ulen ch_index,PointMap map,CharFunction func) const
+  bool glyph(FrameBuf<DesktopColor> &buf,Point &base,IndexType &prev_index,Char ch,ulen ch_index,PointMap map,CharFunction func) const
    {
-    auto index=face.getGlyphIndex(Object->map(ch));
+    auto index=indexOf(ch);
 
     if( prev_index && index )
       {
@@ -397,11 +425,11 @@ class FreeTypeFont::Base : public FontBase , Inner
        {
         IndexType index=0;
 
-        str.applyChar( [this,&index,func] (char ch) { func( table_text(index,ch) ); } );
+        str.apply( [this,&index,func] (Char ch) { func( glyph(index,ch) ); } );
        }
      else
        {
-        str.applyChar( [this,func] (char ch) { func( table_text(ch) ); } );
+        str.apply( [this,func] (Char ch) { func( glyph(ch) ); } );
        }
     }
 
@@ -411,11 +439,11 @@ class FreeTypeFont::Base : public FontBase , Inner
        {
         IndexType index=0;
 
-        str.applyChar( [this,&index,func] (char ch) { return func( table_text(index,ch) ); } );
+        str.apply( [this,&index,func] (Char ch) { return func( glyph(index,ch) ); } );
        }
      else
        {
-        str.applyChar( [this,func] (char ch) { return func( table_text(ch) ); } );
+        str.apply( [this,func] (Char ch) { return func( glyph(ch) ); } );
        }
     }
 
@@ -476,77 +504,59 @@ class FreeTypeFont::Base : public FontBase , Inner
 
    ulen skipCount(AbstractSparseString &str,MCoord &x) const // return suffix length
     {
-     ULenSat ret;
+     ulen ret=0;
 
      if( cfg.use_kerning )
        {
         IndexType index=0;
 
-        str.apply( [&] (StrLen str)
+        str.apply( [&] (Char ch)
                        {
-                        if( ret>0 )
+                        Coord delta=kerning(index,ch);
+                        CharX met=glyph(ch);
+
+                        if( x+met.dx+met.dx1<0 )
                           {
-                           ret+=str.len;
+                           x+=delta+met.dx;
+
+                           return true;
                           }
                         else
                           {
-                           for(; +str ;++str)
-                             {
-                              char ch=*str;
-                              Coord delta=kerning(index,ch);
-                              CharX met=table_text(ch);
+                           ret=1;
 
-                              if( x+met.dx+met.dx1<0 )
-                                {
-                                 x+=delta+met.dx;
-                                }
-                              else
-                                {
-                                 ret=str.len;
-
-                                 break;
-                                }
-                             }
+                           return false;
                           }
 
                        } );
+
+        ret+=str.getCount();
        }
      else
        {
-        str.apply( [&] (StrLen str)
+        str.apply( [&] (Char ch)
                        {
-                        if( ret>0 )
+                        CharX met=glyph(ch);
+
+                        if( x+met.dx+met.dx1<0 )
                           {
-                           ret+=str.len;
+                           x+=met.dx;
+
+                           return true;
                           }
                         else
                           {
-                           for(; +str ;++str)
-                             {
-                              CharX met=table_text(*str);
+                           ret=1;
 
-                              if( x+met.dx+met.dx1<0 )
-                                {
-                                 x+=met.dx;
-                                }
-                              else
-                                {
-                                 ret=str.len;
-
-                                 break;
-                                }
-                             }
+                           return false;
                           }
 
                        } );
+
+        ret+=str.getCount();
        }
 
-     if( ret.overflow )
-       {
-        Printf(Exception,"CCore::Video::FreeTypeFont::Base::skipCount(...) : overflow");
-       }
-
-     return ret.value;
+     return ret;
     }
 
    Coord skip(AbstractSparseString &str,MCoord x) const
@@ -574,7 +584,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
      ulen len=skipCount(str,x);
 
-     str.cutSuffix_index(len,index);
+     str.cutSuffix(len,index);
 
      return Coord(x);
     }
@@ -673,11 +683,11 @@ class FreeTypeFont::Base : public FontBase , Inner
        {
         IndexType index=0;
 
-        str.applyChar( [&] (char ch) { return glyph(buf,base,index,ch,vc); } );
+        str.apply( [&] (Char ch) { return glyph(buf,base,index,ch,vc); } );
        }
      else
        {
-        str.applyChar( [&] (char ch) { return glyph(buf,base,ch,vc); } );
+        str.apply( [&] (Char ch) { return glyph(buf,base,ch,vc); } );
        }
     }
 
@@ -689,11 +699,11 @@ class FreeTypeFont::Base : public FontBase , Inner
        {
         IndexType index=0;
 
-        str.applyChar( [&] (char ch) { return glyph(buf,base,index,ch,ch_index++,map,func); } );
+        str.apply( [&] (Char ch) { return glyph(buf,base,index,ch,ch_index++,map,func); } );
        }
      else
        {
-        str.applyChar( [&] (char ch) { return glyph(buf,base,ch,ch_index++,map,func); } );
+        str.apply( [&] (Char ch) { return glyph(buf,base,ch,ch_index++,map,func); } );
        }
     }
 

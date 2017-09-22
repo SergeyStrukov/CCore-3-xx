@@ -1,7 +1,7 @@
 /* Font.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/DrawBuf.h>
 
+#include <CCore/inc/Symbol.h>
 #include <CCore/inc/RefObjectBase.h>
 #include <CCore/inc/algon/ApplyToRange.h>
 
@@ -59,6 +60,12 @@ struct AbstractSparseString;
 class SingleString;
 
 class DoubleString;
+
+#ifdef CCORE_UTF8
+
+class CharString;
+
+#endif
 
 struct AbstractFont;
 
@@ -124,108 +131,72 @@ struct AbstractSparseString
  {
   // abstract
 
+   // props
+
+  virtual ulen getLen() const =0;
+
+   // cursor
+
   virtual void restart()=0;
 
-  virtual StrLen next()=0;
+  struct Result
+   {
+    Char ch;
+    bool ok;
+   };
+
+  virtual Result next()=0;
+
+  virtual ulen getCount() const =0;
+
+   // self-modification
 
   virtual void cutPrefix(ulen len)=0;
 
   virtual void cutSuffix(ulen len)=0;
 
+  virtual void cutSuffix(ulen len,ulen &index)=0;
+
   virtual bool cutCenter(ulen len)=0; // true if extra character is appended, len+1 result is returned
+
+  virtual bool cutCenter(ulen len,ulen &index)=0;
 
   // helper
 
-  template <FuncInitArgType<StrLen> FuncInit>
+  template <FuncInitArgType<Char> FuncInit>
   auto apply(FuncInit func_init)
    {
-    restart();
-
     FunctorTypeOf<FuncInit> func(func_init);
+
+    restart();
 
     for(;;)
       {
-       StrLen r=next();
+       auto result=next();
 
-       if( !r ) break;
+       if( !result.ok ) break;
 
-       func(r);
+       func(result.ch);
       }
 
     return Algon::GetResult(func);
    }
 
-  template <FuncInitArgType<char> FuncInit>
-  auto applyChar(FuncInit func_init)
-   {
-    restart();
-
-    FunctorTypeOf<FuncInit> func(func_init);
-
-    for(;;)
-      {
-       StrLen r=next();
-
-       if( !r ) break;
-
-       for(char ch : r ) func(ch);
-      }
-
-    return Algon::GetResult(func);
-   }
-
-  template <FuncInitType<bool,StrLen> FuncInit>
+  template <FuncInitType<bool,Char> FuncInit>
   auto apply(FuncInit func_init)
    {
-    restart();
-
     FunctorTypeOf<FuncInit> func(func_init);
+
+    restart();
 
     for(;;)
       {
-       StrLen r=next();
+       auto result=next();
 
-       if( !r ) break;
-
-       if( !func(r) ) break;
+       if( !result.ok || !func(result.ch) ) break;
       }
 
     return Algon::GetResult(func);
-   }
-
-  template <FuncInitType<bool,char> FuncInit>
-  auto applyChar(FuncInit func_init)
-   {
-    restart();
-
-    FunctorTypeOf<FuncInit> func(func_init);
-
-    for(;;)
-      {
-       StrLen r=next();
-
-       if( !r ) break;
-
-       for(char ch : r ) if( !func(ch) ) return Algon::GetResult(func);
-      }
-
-    return Algon::GetResult(func);
-   }
-
-  ULenSat countLen(bool guard_overflow=false);
-
-  void cutSuffix_index(ulen len,ulen &index)
-   {
-    index=countLen(true).value-len;
-
-    cutSuffix(len);
-   }
-
-  bool cutCenter_index(ulen len,ulen &index)
-   {
-    index=(countLen(true).value-len)/2;
-
-    return cutCenter(len);
    }
  };
 
@@ -234,25 +205,38 @@ struct AbstractSparseString
 class SingleString : public AbstractSparseString
  {
    StrLen str;
-   bool first = true ;
 
   public:
 
-   explicit SingleString(StrLen str_) : str(str_) {}
+   explicit SingleString(StrLen str);
 
    ~SingleString() {}
 
    // AbstractSparseString
 
+    // props
+
+   virtual ulen getLen() const;
+
+    // cursor
+
    virtual void restart();
 
-   virtual StrLen next();
+   virtual Result next();
+
+   virtual ulen getCount() const;
+
+    // self-modification
 
    virtual void cutPrefix(ulen len);
 
    virtual void cutSuffix(ulen len);
 
-   virtual bool cutCenter(ulen len);
+   virtual void cutSuffix(ulen len,ulen &index);
+
+   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
+
+   virtual bool cutCenter(ulen len,ulen &index);
  };
 
 /* class DoubleString */
@@ -261,26 +245,83 @@ class DoubleString : public AbstractSparseString
  {
    StrLen str1;
    StrLen str2;
-   unsigned ind = 1 ;
 
   public:
 
-   DoubleString(StrLen str1_,StrLen str2_);
+   DoubleString(StrLen str1,StrLen str2);
 
    ~DoubleString() {}
 
    // AbstractSparseString
 
+    // props
+
+   virtual ulen getLen() const;
+
+    // cursor
+
    virtual void restart();
 
-   virtual StrLen next();
+   virtual Result next();
+
+   virtual ulen getCount() const;
+
+    // self-modification
 
    virtual void cutPrefix(ulen len);
 
    virtual void cutSuffix(ulen len);
 
-   virtual bool cutCenter(ulen len);
+   virtual void cutSuffix(ulen len,ulen &index);
+
+   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
+
+   virtual bool cutCenter(ulen len,ulen &index);
  };
+
+#ifdef CCORE_UTF8
+
+/* class CharString */
+
+class CharString : public AbstractSparseString
+ {
+   PtrLen<const Char> str;
+   PtrLen<const Char> cur;
+
+  public:
+
+   explicit CharString(PtrLen<const Char> str);
+
+   ~CharString() {}
+
+   // AbstractSparseString
+
+    // props
+
+   virtual ulen getLen() const;
+
+    // cursor
+
+   virtual void restart();
+
+   virtual Result next();
+
+   virtual ulen getCount() const;
+
+    // self-modification
+
+   virtual void cutPrefix(ulen len);
+
+   virtual void cutSuffix(ulen len);
+
+   virtual void cutSuffix(ulen len,ulen &index);
+
+   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
+
+   virtual bool cutCenter(ulen len,ulen &index);
+ };
+
+#endif
 
 /* struct AbstractFont */
 
@@ -447,21 +488,61 @@ struct AbstractFont
 
   // Char
 
-  TextSize text(PtrLen<const Char> str) const;
+  TextSize text(PtrLen<const Char> str) const
+   {
+    CharString obj(str);
 
-  TextSize text(PtrLen<const Char> str,ulen len) const;
+    return text(obj);
+   }
 
-  TextSize text_guarded(PtrLen<const Char> str) const;
+  TextSize text(PtrLen<const Char> str,ulen len) const
+   {
+    CharString obj(str);
 
-  TextSize text_guarded(PtrLen<const Char> str,ulen len) const;
+    return text(obj,len);
+   }
 
-  ulen fit(PtrLen<const Char> str,Coordinate full_dx) const;
+  TextSize text_guarded(PtrLen<const Char> str) const
+   {
+    CharString obj(str);
 
-  ulen position(PtrLen<const Char> str,Point point) const;
+    return text_guarded(obj);
+   }
 
-  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,VColor vc) const;
+  TextSize text_guarded(PtrLen<const Char> str,ulen len) const
+   {
+    CharString obj(str);
 
-  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,CharFunction func) const;
+    return text_guarded(obj,len);
+   }
+
+  ulen fit(PtrLen<const Char> str,Coordinate full_dx) const
+   {
+    CharString obj(str);
+
+    return fit(obj,+full_dx);
+   }
+
+  ulen position(PtrLen<const Char> str,Point point) const
+   {
+    CharString obj(str);
+
+    return position(obj,point);
+   }
+
+  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,VColor vc) const
+   {
+    CharString obj(str);
+
+    text(buf,pane,place,obj,vc);
+   }
+
+  void text(DrawBuf buf,Pane pane,TextPlace place,PtrLen<const Char> str,CharFunction func) const
+   {
+    CharString obj(str);
+
+    text(buf,pane,place,obj,func);
+   }
 
 #endif
  };
@@ -511,7 +592,7 @@ class Font
  //
  //    Coord bY() const; // > 0
  //
- //    BoolGlyph operator () (char ch) const;
+ //    BoolGlyph operator () (Char ch) const;
  //  };
  //
 
@@ -560,7 +641,7 @@ class DotFontBase : public FontBase
 
       // char
 
-      void text(Coord x,Coord y,char ch,DesktopColor color)
+      void text(Coord x,Coord y,Char ch,DesktopColor color)
        {
         buf.glyph_safe(Point(x,y),shape(ch),color);
        }
@@ -594,13 +675,12 @@ class DotFontBase : public FontBase
 
            case AlignX_Right :
             {
-             ULenSat len=str.countLen();
-
+             ulen len=str.getLen();
              ulen cap=ulen(px/fdx)+1;
 
              if( len<=cap )
                {
-                x=Coord( px-MCoord(len.value)*fdx );
+                x=Coord( px-MCoord(len)*fdx );
                }
              else
                {
@@ -613,13 +693,12 @@ class DotFontBase : public FontBase
 
            case AlignX_Center :
             {
-             ULenSat len=str.countLen();
-
+             ulen len=str.getLen();
              ulen cap=ulen(px/fdx)+1;
 
              if( len<=cap )
                {
-                x=Coord( (px-MCoord(len.value)*fdx)/2 );
+                x=Coord( (px-MCoord(len)*fdx)/2 );
                }
              else
                {
@@ -663,19 +742,18 @@ class DotFontBase : public FontBase
 
            case AlignX_Right :
             {
-             ULenSat len=str.countLen();
-
+             ulen len=str.getLen();
              ulen cap=ulen(px/fdx)+1;
 
              if( len<=cap )
                {
                 index=0;
 
-                x=Coord( px-MCoord(len.value)*fdx );
+                x=Coord( px-MCoord(len)*fdx );
                }
              else
                {
-                str.cutSuffix_index(cap,index);
+                str.cutSuffix(cap,index);
 
                 x=Coord( px-MCoord(cap)*fdx );
                }
@@ -684,19 +762,18 @@ class DotFontBase : public FontBase
 
            case AlignX_Center :
             {
-             ULenSat len=str.countLen();
-
+             ulen len=str.getLen();
              ulen cap=ulen(px/fdx)+1;
 
              if( len<=cap )
                {
                 index=0;
 
-                x=Coord( (px-MCoord(len.value)*fdx)/2 );
+                x=Coord( (px-MCoord(len)*fdx)/2 );
                }
              else
                {
-                ulen new_len=cap+str.cutCenter_index(cap,index);
+                ulen new_len=cap+str.cutCenter(cap,index);
 
                 x=Coord( (px-MCoord(new_len)*fdx)/2 );
                }
@@ -724,17 +801,17 @@ class DotFontBase : public FontBase
 
         if( y>=dy || y<=-fdy ) return;
 
-        str.applyChar( [&] (char ch)
-                           {
-                            if( x>=dx ) return false;
+        str.apply( [&] (Char ch)
+                       {
+                        if( x>=dx ) return false;
 
-                            text((Coord)x,y,ch,color);
+                        text((Coord)x,y,ch,color);
 
-                            x+=fdx;
+                        x+=fdx;
 
-                            return true;
+                        return true;
 
-                           } );
+                       } );
        }
 
       void text(Point point,AbstractSparseString &str,ulen index,CharFunction func)
@@ -755,21 +832,21 @@ class DotFontBase : public FontBase
 
         point=point.addY(fby);
 
-        str.applyChar( [&] (char ch)
-                           {
-                            if( x>=dx ) return false;
+        str.apply( [&] (Char ch)
+                       {
+                        if( x>=dx ) return false;
 
-                            VColor vc=func(index++,ch,point,Point(fdx,0));
+                        VColor vc=func(index++,ch,point,Point(fdx,0));
 
-                            text((Coord)x,y,ch,vc);
+                        text((Coord)x,y,ch,vc);
 
-                            x+=fdx;
+                        x+=fdx;
 
-                            point=point.addX(fdx);
+                        point=point.addX(fdx);
 
-                            return true;
+                        return true;
 
-                           } );
+                       } );
        }
 
       void text(Coord px,Coord py,TextPlace place,AbstractSparseString &str,DesktopColor color)
@@ -822,20 +899,17 @@ class DotFontBase : public FontBase
 
    virtual TextSize text(AbstractSparseString &str) const
     {
-     ULenSat len=str.countLen();
+     ulen len=str.getLen();
 
-     return text(len.value,len>max_len);
+     return text(len,len>max_len);
     }
 
    virtual ulen fit(AbstractSparseString &str,Coord full_dx) const
     {
-     ULenSat len=str.countLen();
-
+     ulen len=str.getLen();
      ulen max_len=full_dx/shape.dX();
 
-     if( len<=max_len ) return len.value;
-
-     return max_len;
+     return Min(len,max_len);
     }
 
    virtual ulen position(AbstractSparseString &,Point point) const
