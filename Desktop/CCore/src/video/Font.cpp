@@ -56,26 +56,54 @@ DefFont Object CCORE_INITPRI_3 ;
 
 using namespace Private_Font;
 
-#if 0
+#ifdef CCORE_UTF8
+
+#else
 
 /* class SingleString */
 
+SingleString::SingleString(StrLen str_)
+ : str(str_),
+   cur(str_)
+ {
+ }
+
+ // props
+
+ulen SingleString::getLen() const
+ {
+  return str.len;
+ }
+
+// cursor
+
 void SingleString::restart()
  {
-  first=true;
+  cur=str;
  }
 
-StrLen SingleString::next()
+auto SingleString::next() -> Result
  {
-  if( first )
+  if( +cur )
     {
-     first=false;
+     Char ch=*cur;
 
-     return str;
+     ++cur;
+
+     return {ch,true};
     }
-
-  return Empty;
+  else
+    {
+     return {0,false};
+    }
  }
+
+ulen SingleString::getCount() const
+ {
+  return cur.len;
+ }
+
+ // self-modification
 
 void SingleString::cutPrefix(ulen len)
  {
@@ -83,7 +111,7 @@ void SingleString::cutPrefix(ulen len)
 
   str=str.prefix(len);
 
-  first=true;
+  cur=str;
  }
 
 void SingleString::cutSuffix(ulen len)
@@ -92,7 +120,18 @@ void SingleString::cutSuffix(ulen len)
 
   str=str.suffix(len);
 
-  first=true;
+  cur=str;
+ }
+
+void SingleString::cutSuffix(ulen len,ulen &index)
+ {
+  GuardLen(len,str.len);
+
+  index=str.len-len;
+
+  str=str.suffix(len);
+
+  cur=str;
  }
 
 bool SingleString::cutCenter(ulen len)
@@ -104,7 +143,23 @@ bool SingleString::cutCenter(ulen len)
 
   str=str.inner(delta,delta);
 
-  first=true;
+  cur=str;
+
+  return extra&1u;
+ }
+
+bool SingleString::cutCenter(ulen len,ulen &index)
+ {
+  GuardLen(len,str.len);
+
+  ulen extra=str.len-len;
+  ulen delta=extra/2;
+
+  index=delta;
+
+  str=str.inner(delta,delta);
+
+  cur=str;
 
   return extra&1u;
  }
@@ -113,30 +168,60 @@ bool SingleString::cutCenter(ulen len)
 
 DoubleString::DoubleString(StrLen str1_,StrLen str2_)
  : str1(str1_),
-   str2(str2_)
+   str2(str2_),
+   cur(str1_)
  {
-  if( !str1 )
-    {
-     str1=str2;
-     str2=Empty;
-    }
+  total=LenAdd(str1.len,str2.len);
  }
+
+ // props
+
+ulen DoubleString::getLen() const
+ {
+  return total;
+ }
+
+ // cursor
 
 void DoubleString::restart()
  {
-  ind=1;
+  cur=str1;
+  first=true;
  }
 
-StrLen DoubleString::next()
+auto DoubleString::next() -> Result
  {
-  switch( ind )
+  if( !cur )
     {
-     case 1 : ind++; return str1;
-     case 2 : ind++; return str2;
+     if( first )
+       {
+        cur=str2;
+        first=false;
 
-     default: return Empty;
+        if( !cur ) return {0,false};
+       }
+     else
+       {
+        return {0,false};
+       }
     }
+
+  Char ch=*cur;
+
+  ++cur;
+
+  return {ch,true};
  }
+
+ulen DoubleString::getCount() const
+ {
+  if( first )
+    return cur.len+str2.len;
+  else
+    return cur.len;
+ }
+
+ // self-modification
 
 void DoubleString::cutPrefix(ulen len)
  {
@@ -154,7 +239,8 @@ void DoubleString::cutPrefix(ulen len)
      str2=Empty;
     }
 
-  ind=1;
+  cur=str1;
+  first=true;
  }
 
 void DoubleString::cutSuffix(ulen len)
@@ -173,7 +259,15 @@ void DoubleString::cutSuffix(ulen len)
      str2=Empty;
     }
 
-  ind=1;
+  cur=str1;
+  first=true;
+ }
+
+void DoubleString::cutSuffix(ulen len,ulen &index)
+ {
+  index=total-len;
+
+  cutSuffix(len);
  }
 
 bool DoubleString::cutCenter(ulen len)
@@ -192,7 +286,8 @@ bool DoubleString::cutCenter(ulen len)
         str1=s.inner(delta,delta);
         str2=Empty;
 
-        ind=1;
+        cur=str1;
+        first=true;
 
         return extra&1u;
        }
@@ -210,7 +305,8 @@ bool DoubleString::cutCenter(ulen len)
         str1=str1.suffix(len1);
         str2=str2.prefix(len2);
 
-        ind=1;
+        cur=str1;
+        first=true;
 
         return ret;
        }
@@ -229,7 +325,8 @@ bool DoubleString::cutCenter(ulen len)
         str1=s.inner(delta,delta);
         str2=Empty;
 
-        ind=1;
+        cur=str1;
+        first=true;
 
         return extra&1u;
        }
@@ -247,11 +344,19 @@ bool DoubleString::cutCenter(ulen len)
         str1=str1.suffix(len1);
         str2=str2.prefix(len2);
 
-        ind=1;
+        cur=str1;
+        first=true;
 
         return ret;
        }
     }
+ }
+
+bool DoubleString::cutCenter(ulen len,ulen &index)
+ {
+  index=(total-len)/2;
+
+  return cutCenter(len);
  }
 
 #endif

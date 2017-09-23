@@ -205,6 +205,7 @@ struct AbstractSparseString
 class SingleString : public AbstractSparseString
  {
    StrLen str;
+   StrLen cur;
 
   public:
 
@@ -245,6 +246,9 @@ class DoubleString : public AbstractSparseString
  {
    StrLen str1;
    StrLen str2;
+   ulen total;
+   StrLen cur;
+   bool first = true ;
 
   public:
 
