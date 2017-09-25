@@ -207,6 +207,13 @@ class SingleString : public AbstractSparseString
    StrLen str;
    StrLen cur;
 
+#ifdef CCORE_UTF8
+
+   ulen total;
+   ulen count;
+
+#endif
+
   public:
 
    explicit SingleString(StrLen str);
@@ -246,7 +253,19 @@ class DoubleString : public AbstractSparseString
  {
    StrLen str1;
    StrLen str2;
+
+#ifdef CCORE_UTF8
+
+   ulen total1;
+   ulen total2;
+   ulen count;
+
+#else
+
    ulen total;
+
+#endif
+
    StrLen cur;
    bool first = true ;
 

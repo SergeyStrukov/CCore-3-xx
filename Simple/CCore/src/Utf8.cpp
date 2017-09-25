@@ -250,5 +250,35 @@ ulen Utf8Len_guarded(StrLen text)
   return ret;
  }
 
+StrLen Utf8Move(StrLen text,ulen count)
+ {
+  while( +text && count )
+    {
+     struct Ret
+      {
+       unsigned len;
+
+       Ret(char) : len(1) {}
+
+       Ret(char,Unicode) : len(1) {}
+
+       Ret(char,char,Unicode) : len(2) {}
+
+       Ret(char,char,char,Unicode) : len(3) {}
+
+       Ret(char,char,char,char,Unicode) : len(4) {}
+
+       operator unsigned() const { return len; }
+      };
+
+     unsigned len=PeekUtf8_gen<Ret>(text);
+
+     text+=len;
+     count--;
+    }
+
+  return text;
+ }
+
 } // namespace CCore
 

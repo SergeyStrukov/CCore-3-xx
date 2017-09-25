@@ -58,6 +58,249 @@ using namespace Private_Font;
 
 #ifdef CCORE_UTF8
 
+/* class SingleString */
+
+SingleString::SingleString(StrLen str_)
+ : str(str_),
+   cur(str_)
+ {
+  total=Utf8Len(str);
+  count=total;
+ }
+
+ // props
+
+ulen SingleString::getLen() const
+ {
+  return total;
+ }
+
+// cursor
+
+void SingleString::restart()
+ {
+  cur=str;
+  count=total;
+ }
+
+auto SingleString::next() -> Result
+ {
+  if( +cur )
+    {
+     Char ch=CutUtf8_unicode(cur);
+
+     count--;
+
+     return {ch,true};
+    }
+  else
+    {
+     return {0,false};
+    }
+ }
+
+ulen SingleString::getCount() const
+ {
+  return count;
+ }
+
+ // self-modification
+
+void SingleString::cutPrefix(ulen len)
+ {
+  GuardLen(len,total);
+
+  StrLen suffix=Utf8Move(str,len);
+  str=str.prefix(suffix);
+  total=len;
+
+  cur=str;
+  count=total;
+ }
+
+void SingleString::cutSuffix(ulen len)
+ {
+  GuardLen(len,total);
+
+  str=Utf8Move(str,total-len);
+  total=len;
+
+  cur=str;
+  count=total;
+ }
+
+void SingleString::cutSuffix(ulen len,ulen &index)
+ {
+  index=total-len;
+
+  cutSuffix(len);
+ }
+
+bool SingleString::cutCenter(ulen len)
+ {
+  GuardLen(len,total);
+
+  ulen extra=total-len;
+  ulen delta=extra/2;
+
+  str=Utf8Move(str,delta);
+  total-=2*delta;
+  StrLen suffix=Utf8Move(str,total);
+  str=str.prefix(suffix);
+
+  cur=str;
+  count=total;
+
+  return extra&1u;
+ }
+
+bool SingleString::cutCenter(ulen len,ulen &index)
+ {
+  index=(total-len)/2;
+
+  return cutCenter(len);
+ }
+
+/* class DoubleString */
+
+DoubleString::DoubleString(StrLen str1_,StrLen str2_)
+ : str1(str1_),
+   str2(str2_),
+   cur(str1_)
+ {
+  total1=Utf8Len(str1);
+  total2=Utf8Len(str2);
+  count=total1+total2;
+ }
+
+ // props
+
+ulen DoubleString::getLen() const
+ {
+  return total1+total2;
+ }
+
+ // cursor
+
+void DoubleString::restart()
+ {
+  cur=str1;
+  first=true;
+  count=total1+total2;
+ }
+
+auto DoubleString::next() -> Result
+ {
+  if( !cur )
+    {
+     if( first )
+       {
+        cur=str2;
+        first=false;
+
+        if( !cur ) return {0,false};
+       }
+     else
+       {
+        return {0,false};
+       }
+    }
+
+  Char ch=CutUtf8_unicode(cur);
+
+  count--;
+
+  return {ch,true};
+ }
+
+ulen DoubleString::getCount() const
+ {
+  return count;
+ }
+
+ // self-modification
+
+void DoubleString::cutPrefix(ulen len)
+ {
+  if( len>total1 )
+    {
+     len-=total1;
+
+     GuardLen(len,total2);
+
+     StrLen suffix=Utf8Move(str2,len);
+     str2=str2.prefix(suffix);
+     total2=len;
+    }
+  else
+    {
+     StrLen suffix=Utf8Move(str1,len);
+     str1=str1.prefix(suffix);
+     total1=len;
+
+     str2=Empty;
+     total2=0;
+    }
+
+  cur=str1;
+  first=true;
+  count=total1+total2;
+ }
+
+void DoubleString::cutSuffix(ulen len)
+ {
+  if( len>total2 )
+    {
+     len-=total2;
+
+     GuardLen(len,total1);
+
+     str1=Utf8Move(str1,total1-len);
+     total1=len;
+    }
+  else
+    {
+     str1=Utf8Move(str2,total2-len);
+     total1=len;
+
+     str2=Empty;
+     total2=0;
+    }
+
+  cur=str1;
+  first=true;
+  count=total1+total2;
+ }
+
+void DoubleString::cutSuffix(ulen len,ulen &index)
+ {
+  index=total1+total2-len;
+
+  cutSuffix(len);
+ }
+
+bool DoubleString::cutCenter(ulen len)
+ {
+  ulen total=total1+total2;
+
+  GuardLen(len,total);
+
+  ulen extra=total-len;
+  ulen delta=extra/2;
+
+  cutPrefix(total-=delta);
+  cutSuffix(total-=delta);
+
+  return extra&1u;
+ }
+
+bool DoubleString::cutCenter(ulen len,ulen &index)
+ {
+  index=(total1+total2-len)/2;
+
+  return cutCenter(len);
+ }
+
 #else
 
 /* class SingleString */

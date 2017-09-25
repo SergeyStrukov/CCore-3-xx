@@ -554,7 +554,7 @@ class LineEditWindowOf : public SubWindow
 
      setTextLen(fill.len);
 
-     return fill.overflow;
+     return !fill.overflow;
     }
 
 #endif

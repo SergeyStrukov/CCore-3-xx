@@ -227,6 +227,8 @@ ulen Utf8Len(StrLen text);
 
 ulen Utf8Len_guarded(StrLen text);
 
+StrLen Utf8Move(StrLen text,ulen count);
+
 } // namespace CCore
 
 #endif
