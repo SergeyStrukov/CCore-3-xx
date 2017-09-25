@@ -28,7 +28,7 @@ class HomeFile;
 
 /* class HomeFile */
 
-class HomeFile
+class HomeFile : NoCopy
  {
    MakeString<MaxPathLen> buf;
    StrLen dir;

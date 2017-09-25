@@ -15,12 +15,9 @@
 
 #include <CCore/test/test.h>
 
-#include <CCore/inc/video/InternalUtils.h>
-
 namespace App {
 
 namespace Private_2999 {
-
 
 } // namespace Private_2999
 
@@ -34,8 +31,6 @@ const char *const Testit<2999>::Name="Test2999 Blank";
 template<>
 bool Testit<2999>::Main()
  {
-  Video::Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA"_c);
-
   return true;
  }
 

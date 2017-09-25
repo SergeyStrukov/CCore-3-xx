@@ -1181,7 +1181,7 @@ Dir Dir86=
     { 'FileBoss.h' , Ignore },
     { 'FileFrame.h' , Green },
     { 'FileNameCmp.h' , Green },
-    { 'Font.h' , Yellow },
+    { 'Font.h' , Green },
     { 'FontDatabase.h' , Ignore },
     { 'FontLookup.h' , Ignore },
     { 'FontParam.h' , Ignore },
@@ -1306,7 +1306,7 @@ Dir Dir87=
     { 'FileBoss.cpp' , Ignore },
     { 'FileFrame.cpp' , Green },
     { 'FileNameCmp.cpp' , Green },
-    { 'Font.cpp' , Yellow },
+    { 'Font.cpp' , Green },
     { 'FontDatabase.cpp' , Ignore },
     { 'FontLookup.cpp' , Ignore },
     { 'FontParam.cpp' , Ignore },
@@ -4082,7 +4082,7 @@ Dir Dir143=
     { 'main.cpp' , Green },
     { 'main.exe' , Ignore },
     { 'Makefile.files' , Ignore },
-    { 'Юникод символы ??????.txt' , Ignore }
+    { 'Р®РЅРёРєРѕРґ СЃРёРјРІРѕР»С‹ рќ•¬рќ•єрќ•ѕ.txt' , Ignore }
    }
   };
 
@@ -5321,7 +5321,7 @@ Dir Dir285=
     { 'ptr.ddl' , Ignore },
     { 'scope.ddl' , Ignore },
     { 'text.ddl' , Ignore },
-    { 'Юникод.ddl' , Ignore }
+    { 'Р®РЅРёРєРѕРґ.ddl' , Ignore }
    }
   };
 
@@ -5602,7 +5602,7 @@ Dir Dir294=
     { 'test1.cont.ddl' , New },
     { 'test2.cont.ddl' , New },
     { 'triangle.cont.ddl' , New },
-    { 'Дезарг.cont.ddl' , New }
+    { 'Р”РµР·Р°СЂРі.cont.ddl' , New }
    }
   };
 
