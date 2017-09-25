@@ -162,7 +162,7 @@ bool <span class="Att">Utf8Ext</span>(uint8 b);
 </pre>
 
 <p>
-<b>Utf8Len()</b> returns the UTF8 symbol length from the leading octet. If the given octet is not a UTF8 leading octet, zero is returned.
+<b>Utf8Len()</b> returns the UTF8 symbol length from the leading octet. If the given octet is not a UTF8 leading octet, null is returned.
 </p>
 
 <p>
@@ -179,16 +179,21 @@ Utf8Code <span class="Att">PeekUtf8_guarded</span>(StrLen text); // +text
 
 Utf8Code <span class="Att">CutUtf8_guarded</span>(StrLen &text); // +text
 
+Unicode <span class="Att">PeekUtf8_unicode</span>(StrLen text); // +text , Unicode(-1) on error
+
+Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
+
 </pre>
 
 <p>
 <b>PeekUtf8()</b> peaks the next UTF8 symbol from the non-empty text. 
-If there is no a valid UTF8 sequence at the begining of the text, some broken UTF8 symbol is returned.
+If there is no a valid UTF8 sequence at the begining of the text, the null UTF8 symbol is returned.
 </p>
 
 <p>
 <b>CutUtf8()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated).
-If there is no a valid UTF8 sequence at the begining of the text, some broken UTF8 symbol is returned.
+If there is no a valid UTF8 sequence at the begining of the text, the null UTF8 symbol is returned 
+and <b>text</b> is moved by 1 character.
 </p>
 
 <p>
@@ -199,16 +204,6 @@ If there is no a valid UTF8 sequence at the begining of the text, some broken UT
 <b>CutUtf8_guarded()</b> is a guarded variant of the <b>CutUtf8()</b>, it throws an exception in case of error.
 </p>
 
-<pre>
-
-Unicode <span class="Att">PeekUtf8_unicode</span>(StrLen text); // +text , Unicode(-1) on error
-
-Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
-
-void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete trailing sequence
-
-</pre>
-
 <p>
 <b>PeekUtf8_unicode()</b> peeks the next UTF8 symbol from the non-empty text
 and converts it to the Unicode value. In case of error the value <b>Unicode(-1)</b> is returned.
@@ -216,8 +211,15 @@ and converts it to the Unicode value. In case of error the value <b>Unicode(-1)<
 
 <p>
 <b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated)
-and converts it to the Unicode value. In case of error the value <b>Unicode(-1)</b> is returned and <span class="Alert"><b>text</b> is not updated</span>.
+and converts it to the Unicode value. 
+In case of error the value <b>Unicode(-1)</b> is returned and <b>text</b> is moved by 1 character.
 </p>
+
+<pre>
+
+void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete trailing sequence
+
+</pre>
 
 <p>
 <b>TrimUtf8End()</b> removes the trailing non-complete UTF8 sequence, if any, from the text (argument <b>text</b> is updated).

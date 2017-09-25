@@ -144,6 +144,69 @@ inline bool Utf8Ext(uint8 b)
   return (b&0b1100'0000u)==0b1000'0000u;
  }
 
+/* parse functions */
+
+template <class Ret>
+Ret PeekUtf8_gen(StrLen text) // +text
+ {
+  char b1=*text;
+
+  switch( Utf8Len(b1) )
+    {
+     case 0 : default: return Ret(b1);
+
+     case 1 : return Ret(b1,Utf8Code::ToUnicode(b1));
+
+     case 2 :
+      {
+       if( text.len<2 ) return Ret(b1);
+
+       char b2=text[1];
+
+       if( !Utf8Ext(b2) ) return Ret(b1);
+
+       Unicode ch=Utf8Code::ToUnicode(b1,b2);
+
+       if( ch<0x80u ) return Ret(b1);
+
+       return Ret(b1,b2,ch);
+      }
+
+     case 3 :
+      {
+       if( text.len<3 ) return Ret(b1);
+
+       char b2=text[1];
+       char b3=text[2];
+
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) return Ret(b1);
+
+       Unicode ch=Utf8Code::ToUnicode(b1,b2,b3);
+
+       if( ch<0x800u ) return Ret(b1);
+
+       return Ret(b1,b2,b3,ch);
+      }
+
+     case 4 :
+      {
+       if( text.len<4 ) return Ret(b1);
+
+       char b2=text[1];
+       char b3=text[2];
+       char b4=text[3];
+
+       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) return Ret(b1);
+
+       Unicode ch=Utf8Code::ToUnicode(b1,b2,b3,b4);
+
+       if( ch<0x10000u ) return Ret(b1);
+
+       return Ret(b1,b2,b3,b4,ch);
+      }
+    }
+ }
+
 Utf8Code PeekUtf8(StrLen text); // +text
 
 Utf8Code CutUtf8(StrLen &text); // +text
@@ -155,6 +218,8 @@ Utf8Code CutUtf8_guarded(StrLen &text); // +text
 Unicode PeekUtf8_unicode(StrLen text); // +text , Unicode(-1) on error
 
 Unicode CutUtf8_unicode(StrLen &text); // +text , Unicode(-1) on error
+
+/* functions */
 
 void TrimUtf8End(StrLen &text); // removes non-complete trailing sequence
 

@@ -62,64 +62,24 @@ Utf8Code ToUtf8(Unicode unicode)
   return Utf8Code(b1,b2,b3,b4);
  }
 
+/* parse functions */
+
 Utf8Code PeekUtf8(StrLen text)
  {
-  char b1=*text;
+  struct Ret : Utf8Code
+   {
+    Ret(char) : Utf8Code() {}
 
-  switch( Utf8Len(b1) )
-    {
-     case 0 : default: [[fallthrough]];
+    Ret(char b1,Unicode) : Utf8Code(b1) {}
 
-     case 1 : return Utf8Code(b1);
+    Ret(char b1,char b2,Unicode) : Utf8Code(b1,b2) {}
 
-     case 2 :
-      {
-       if( text.len<2 ) return Utf8Code(b1);
+    Ret(char b1,char b2,char b3,Unicode) : Utf8Code(b1,b2,b3) {}
 
-       char b2=text[1];
+    Ret(char b1,char b2,char b3,char b4,Unicode) : Utf8Code(b1,b2,b3,b4) {}
+   };
 
-       if( !Utf8Ext(b2) ) return Utf8Code(b1);
-
-       Utf8Code ret(b1,b2);
-
-       if( ret.toUnicode()<0x80u ) return Utf8Code(b1);
-
-       return ret;
-      }
-
-     case 3 :
-      {
-       if( text.len<3 ) return Utf8Code(b1);
-
-       char b2=text[1];
-       char b3=text[2];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) return Utf8Code(b1);
-
-       Utf8Code ret(b1,b2,b3);
-
-       if( ret.toUnicode()<0x800u ) return Utf8Code(b1);
-
-       return ret;
-      }
-
-     case 4 :
-      {
-       if( text.len<4 ) return Utf8Code(b1);
-
-       char b2=text[1];
-       char b3=text[2];
-       char b4=text[3];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) return Utf8Code(b1);
-
-       Utf8Code ret(b1,b2,b3,b4);
-
-       if( ret.toUnicode()<0x10000u ) return Utf8Code(b1);
-
-       return ret;
-      }
-    }
+  return PeekUtf8_gen<Ret>(text);
  }
 
 Utf8Code CutUtf8(StrLen &text)
@@ -133,64 +93,20 @@ Utf8Code CutUtf8(StrLen &text)
 
 Utf8Code PeekUtf8_guarded(StrLen text)
  {
-  const char *name="CCore::PeekUtf8_guarded(...)";
+  struct Ret : Utf8Code
+   {
+    Ret(char) : Utf8Code() { GuardUtf8Broken("CCore::PeekUtf8_guarded(...)"); }
 
-  char b1=*text;
+    Ret(char b1,Unicode) : Utf8Code(b1) {}
 
-  switch( Utf8Len(b1) )
-    {
-     case 0 : default: GuardUtf8Broken(name); [[fallthrough]];
+    Ret(char b1,char b2,Unicode) : Utf8Code(b1,b2) {}
 
-     case 1 : return Utf8Code(b1);
+    Ret(char b1,char b2,char b3,Unicode) : Utf8Code(b1,b2,b3) {}
 
-     case 2 :
-      {
-       if( text.len<2 ) GuardUtf8Broken(name);
+    Ret(char b1,char b2,char b3,char b4,Unicode) : Utf8Code(b1,b2,b3,b4) {}
+   };
 
-       char b2=text[1];
-
-       if( !Utf8Ext(b2) ) GuardUtf8Broken(name);
-
-       Utf8Code ret(b1,b2);
-
-       if( ret.toUnicode()<0x80u ) GuardUtf8Broken(name);
-
-       return ret;
-      }
-
-     case 3 :
-      {
-       if( text.len<3 ) GuardUtf8Broken(name);
-
-       char b2=text[1];
-       char b3=text[2];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) GuardUtf8Broken(name);
-
-       Utf8Code ret(b1,b2,b3);
-
-       if( ret.toUnicode()<0x800u ) GuardUtf8Broken(name);
-
-       return ret;
-      }
-
-     case 4 :
-      {
-       if( text.len<4 ) GuardUtf8Broken(name);
-
-       char b2=text[1];
-       char b3=text[2];
-       char b4=text[3];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) GuardUtf8Broken(name);
-
-       Utf8Code ret(b1,b2,b3,b4);
-
-       if( ret.toUnicode()<0x10000u ) GuardUtf8Broken(name);
-
-       return ret;
-      }
-    }
+  return PeekUtf8_gen<Ret>(text);
  }
 
 Utf8Code CutUtf8_guarded(StrLen &text)
@@ -204,129 +120,52 @@ Utf8Code CutUtf8_guarded(StrLen &text)
 
 Unicode PeekUtf8_unicode(StrLen text)
  {
-  char b1=*text;
+  struct Ret
+   {
+    Unicode ch;
 
-  switch( Utf8Len(b1) )
-    {
-     case 0 : default: return Unicode(-1);
+    Ret(char) : ch(-1) {}
 
-     case 1 : return Utf8Code::ToUnicode(b1);
+    Ret(char,Unicode ch_) : ch(ch_) {}
 
-     case 2 :
-      {
-       if( text.len<2 ) return Unicode(-1);
+    Ret(char,char,Unicode ch_) : ch(ch_) {}
 
-       char b2=text[1];
+    Ret(char,char,char,Unicode ch_) : ch(ch_) {}
 
-       if( !Utf8Ext(b2) ) return Unicode(-1);
+    Ret(char,char,char,char,Unicode ch_) : ch(ch_) {}
 
-       Unicode ret=Utf8Code::ToUnicode(b1,b2);
+    operator Unicode() const { return ch; }
+   };
 
-       if( ret<0x80u ) return Unicode(-1);
-
-       return ret;
-      }
-
-     case 3 :
-      {
-       if( text.len<3 ) return Unicode(-1);
-
-       char b2=text[1];
-       char b3=text[2];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) return Unicode(-1);
-
-       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3);
-
-       if( ret<0x800u ) return Unicode(-1);
-
-       return ret;
-      }
-
-     case 4 :
-      {
-       if( text.len<4 ) return Unicode(-1);
-
-       char b2=text[1];
-       char b3=text[2];
-       char b4=text[3];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) return Unicode(-1);
-
-       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3,b4);
-
-       if( ret<0x10000u ) return Unicode(-1);
-
-       return ret;
-      }
-    }
+  return PeekUtf8_gen<Ret>(text);
  }
 
 Unicode CutUtf8_unicode(StrLen &text)
  {
-  char b1=*text;
+  struct Ret
+   {
+    Unicode ch;
+    unsigned len;
 
-  switch( Utf8Len(b1) )
-    {
-     case 0 : default: return Unicode(-1);
+    Ret(char) : ch(-1),len(1) {}
 
-     case 1 : ++text; return Utf8Code::ToUnicode(b1);
+    Ret(char,Unicode ch_) : ch(ch_),len(1) {}
 
-     case 2 :
-      {
-       if( text.len<2 ) return Unicode(-1);
+    Ret(char,char,Unicode ch_) : ch(ch_),len(2) {}
 
-       char b2=text[1];
+    Ret(char,char,char,Unicode ch_) : ch(ch_),len(3) {}
 
-       if( !Utf8Ext(b2) ) return Unicode(-1);
+    Ret(char,char,char,char,Unicode ch_) : ch(ch_),len(4) {}
+   };
 
-       Unicode ret=Utf8Code::ToUnicode(b1,b2);
+  Ret ret=PeekUtf8_gen<Ret>(text);
 
-       if( ret<0x80u ) return Unicode(-1);
+  text+=ret.len;
 
-       text+=2;
-
-       return ret;
-      }
-
-     case 3 :
-      {
-       if( text.len<3 ) return Unicode(-1);
-
-       char b2=text[1];
-       char b3=text[2];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) ) return Unicode(-1);
-
-       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3);
-
-       if( ret<0x800u ) return Unicode(-1);
-
-       text+=3;
-
-       return ret;
-      }
-
-     case 4 :
-      {
-       if( text.len<4 ) return Unicode(-1);
-
-       char b2=text[1];
-       char b3=text[2];
-       char b4=text[3];
-
-       if( !Utf8Ext(b2) || !Utf8Ext(b3) || !Utf8Ext(b4) ) return Unicode(-1);
-
-       Unicode ret=Utf8Code::ToUnicode(b1,b2,b3,b4);
-
-       if( ret<0x10000u ) return Unicode(-1);
-
-       text+=4;
-
-       return ret;
-      }
-    }
+  return ret.ch;
  }
+
+/* functions */
 
 void TrimUtf8End(StrLen &text)
  {
@@ -349,7 +188,31 @@ ulen Utf8Len(StrLen text)
  {
   ulen ret=0;
 
-  for(; +text ;CutUtf8(text)) ret++;
+  while( +text )
+    {
+     struct Ret
+      {
+       unsigned len;
+
+       Ret(char) : len(1) {}
+
+       Ret(char,Unicode) : len(1) {}
+
+       Ret(char,char,Unicode) : len(2) {}
+
+       Ret(char,char,char,Unicode) : len(3) {}
+
+       Ret(char,char,char,char,Unicode) : len(4) {}
+
+       operator unsigned() const { return len; }
+      };
+
+     unsigned len=PeekUtf8_gen<Ret>(text);
+
+     text+=len;
+
+     ret++;
+    }
 
   return ret;
  }
@@ -358,7 +221,31 @@ ulen Utf8Len_guarded(StrLen text)
  {
   ulen ret=0;
 
-  for(; +text ;CutUtf8_guarded(text)) ret++;
+  while( +text )
+    {
+     struct Ret
+      {
+       unsigned len;
+
+       Ret(char) : len(1) { GuardUtf8Broken("CCore::Utf8Len_guarded(...)"); }
+
+       Ret(char,Unicode) : len(1) {}
+
+       Ret(char,char,Unicode) : len(2) {}
+
+       Ret(char,char,char,Unicode) : len(3) {}
+
+       Ret(char,char,char,char,Unicode) : len(4) {}
+
+       operator unsigned() const { return len; }
+      };
+
+     unsigned len=PeekUtf8_gen<Ret>(text);
+
+     text+=len;
+
+     ret++;
+    }
 
   return ret;
  }
