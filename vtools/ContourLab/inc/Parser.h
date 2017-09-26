@@ -73,11 +73,25 @@ class CharProp : public CharPropTable<CharClass,Char_Other>
 
 /* char functions */
 
-inline CharClass GetCharClass(char ch) { return CharProp::Object[ch]; }
+#ifdef CCORE_UTF8
 
-inline bool CharIsLetterDigit(char ch) { return IsLetterDigit(GetCharClass(ch)); }
+inline CharClass GetCharClass(Char ch) { return (ch<128)?CharProp::Object[(char)ch]:Char_Letter; }
 
-inline bool CharIsLetterDigitDot(char ch) { return IsLetterDigitDot(GetCharClass(ch)); }
+#else
+
+inline CharClass GetCharClass(Char ch) { return CharProp::Object[ch]; }
+
+#endif
+
+inline bool CharIsLetterDigit(Char ch) { return IsLetterDigit(GetCharClass(ch)); }
+
+inline bool CharIsLetterDigitDot(Char ch) { return IsLetterDigitDot(GetCharClass(ch)); }
+
+#ifdef CCORE_UTF8
+
+inline bool CharIsSpace(Char ch) { return ch<128 && CharIsSpace((char)ch) ; }
+
+#endif
 
 //---------------------------------
 //
@@ -110,13 +124,13 @@ struct Token
  {
   TokenClass tc;
   ulen pos;
-  StrLen str;
+  PtrLen<const Char> str;
 
   Token() : tc(Token_Other),pos(0) {}
 
-  Token(TokenClass tc_,ulen pos_,StrLen str_) : tc(tc_),pos(pos_),str(str_) {}
+  Token(TokenClass tc_,ulen pos_,PtrLen<const Char> str_) : tc(tc_),pos(pos_),str(str_) {}
 
-  StrLen getNumber() const;
+  PtrLen<const Char> getNumber() const;
 
   bool isName() const
    {
@@ -138,17 +152,17 @@ struct Token
 class Tokenizer : NoCopy
  {
    ulen pos = 0 ;
-   StrLen text;
+   PtrLen<const Char> text;
 
   private:
 
-   static ulen ScanLetterDigit(StrLen text); // >=1
+   static ulen ScanLetterDigit(PtrLen<const Char> text); // >=1
 
-   static ulen ScanLetterDigitDot(StrLen text); // >=1
+   static ulen ScanLetterDigitDot(PtrLen<const Char> text); // >=1
 
-   static ulen ScanSpace(StrLen text); // >=1
+   static ulen ScanSpace(PtrLen<const Char> text); // >=1
 
-   static TokenClass IsNumber(StrLen text); // >=1
+   static TokenClass IsNumber(PtrLen<const Char> text); // >=1
 
   private:
 
@@ -166,7 +180,7 @@ class Tokenizer : NoCopy
 
   public:
 
-   explicit Tokenizer(StrLen text_) : text(text_) {}
+   explicit Tokenizer(PtrLen<const Char> text_) : text(text_) {}
 
    ulen operator + () const { return text.len; }
 
@@ -198,7 +212,7 @@ class ParserBase : NoCopy
 
   public:
 
-   ParserBase(PtrLen<const Char> text,CharAccent *accent_); // : tok(text),accent(accent_) {}
+   ParserBase(PtrLen<const Char> text,CharAccent *accent_) : tok(text),accent(accent_) {}
 
    void run();
  };
@@ -228,13 +242,13 @@ class PadTextParser : public ParserBase
 
   protected:
 
-   virtual bool point(StrLen name,StrLen x,StrLen y);
+   virtual bool point(PtrLen<const Char> name,PtrLen<const Char> x,PtrLen<const Char> y);
 
-   virtual bool length(StrLen name,StrLen x);
+   virtual bool length(PtrLen<const Char> name,PtrLen<const Char> x);
 
-   virtual bool angle(StrLen name,StrLen x);
+   virtual bool angle(PtrLen<const Char> name,PtrLen<const Char> x);
 
-   virtual bool ratio(StrLen name,StrLen x);
+   virtual bool ratio(PtrLen<const Char> name,PtrLen<const Char> x);
 
   public:
 

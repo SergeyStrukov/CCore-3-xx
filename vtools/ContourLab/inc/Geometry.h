@@ -837,7 +837,7 @@ inline Geometry::Angle GradToRadian(Geometry::Real val) { return Geometry::Angle
 
 inline Geometry::Point GPoint(Point point) { return Geometry::Point(point.x,point.y); }
 
-Geometry::Real StrToReal(StrLen str);
+Geometry::Real StrToReal(PtrLen<const Char> str);
 
 } // namespace App
 

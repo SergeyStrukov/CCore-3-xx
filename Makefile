@@ -39,17 +39,4 @@ list:
 	make -C tools                        list
 	make -C vtools                       list
 
-dep:
-	make -C Target/WIN32                 dep
-	make -C Target/WIN32/test            dep
-	make -C Target/WIN32utf8             dep
-	make -C Target/WIN32utf8/test        dep
-	make -C Target/WIN64                 dep
-	make -C Target/WIN64/test            dep
-	make -C Target/LIN64                 dep
-	make -C Target/LIN64/test            dep
-	make -C Target/BeagleBoneBlack       dep
-	make -C Target/BeagleBoneBlack/test  dep
-	make -C tools                        dep
-	make -C vtools                       dep
 

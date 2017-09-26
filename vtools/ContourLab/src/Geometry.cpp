@@ -435,7 +435,13 @@ Geometry::Point Geometry::Mirror(Line a,Point p)
 
 /* functions */
 
-Geometry::Real StrToReal(StrLen str)
+#ifdef CCORE_UTF8
+
+inline bool CharDecValue(Char ch) { return (ch<128)?CharDecValue((char)ch):(-1); }
+
+#endif
+
+Geometry::Real StrToReal(PtrLen<const Char> str)
  {
   Geometry::Real ret(0);
 

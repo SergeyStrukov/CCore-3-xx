@@ -56,6 +56,37 @@ DefFont Object CCORE_INITPRI_3 ;
 
 using namespace Private_Font;
 
+/* struct AbstractSparseString */
+
+void AbstractSparseString::cutSuffix(ulen len,ulen &index)
+ {
+  index=getLen()-len;
+
+  cutSuffix(len);
+ }
+
+bool AbstractSparseString::cutCenter(ulen len)
+ {
+  ulen total=getLen();
+
+  GuardLen(len,total);
+
+  ulen extra=total-len;
+  ulen delta=extra/2;
+
+  cutPrefix(total-=delta);
+  cutSuffix(total-=delta);
+
+  return extra&1u;
+ }
+
+bool AbstractSparseString::cutCenter(ulen len,ulen &index)
+ {
+  index=(getLen()-len)/2;
+
+  return cutCenter(len);
+ }
+
 #ifdef CCORE_UTF8
 
 /* class SingleString */
@@ -129,38 +160,6 @@ void SingleString::cutSuffix(ulen len)
   count=total;
  }
 
-void SingleString::cutSuffix(ulen len,ulen &index)
- {
-  index=total-len;
-
-  cutSuffix(len);
- }
-
-bool SingleString::cutCenter(ulen len)
- {
-  GuardLen(len,total);
-
-  ulen extra=total-len;
-  ulen delta=extra/2;
-
-  str=Utf8Move(str,delta);
-  total-=2*delta;
-  StrLen suffix=Utf8Move(str,total);
-  str=str.prefix(suffix);
-
-  cur=str;
-  count=total;
-
-  return extra&1u;
- }
-
-bool SingleString::cutCenter(ulen len,ulen &index)
- {
-  index=(total-len)/2;
-
-  return cutCenter(len);
- }
-
 /* class DoubleString */
 
 DoubleString::DoubleString(StrLen str1_,StrLen str2_)
@@ -170,7 +169,7 @@ DoubleString::DoubleString(StrLen str1_,StrLen str2_)
  {
   total1=Utf8Len(str1);
   total2=Utf8Len(str2);
-  count=total1+total2;
+  count=LenAdd(total1,total2);
  }
 
  // props
@@ -272,35 +271,6 @@ void DoubleString::cutSuffix(ulen len)
   count=total1+total2;
  }
 
-void DoubleString::cutSuffix(ulen len,ulen &index)
- {
-  index=total1+total2-len;
-
-  cutSuffix(len);
- }
-
-bool DoubleString::cutCenter(ulen len)
- {
-  ulen total=total1+total2;
-
-  GuardLen(len,total);
-
-  ulen extra=total-len;
-  ulen delta=extra/2;
-
-  cutPrefix(total-=delta);
-  cutSuffix(total-=delta);
-
-  return extra&1u;
- }
-
-bool DoubleString::cutCenter(ulen len,ulen &index)
- {
-  index=(total1+total2-len)/2;
-
-  return cutCenter(len);
- }
-
 #else
 
 /* class SingleString */
@@ -364,47 +334,6 @@ void SingleString::cutSuffix(ulen len)
   str=str.suffix(len);
 
   cur=str;
- }
-
-void SingleString::cutSuffix(ulen len,ulen &index)
- {
-  GuardLen(len,str.len);
-
-  index=str.len-len;
-
-  str=str.suffix(len);
-
-  cur=str;
- }
-
-bool SingleString::cutCenter(ulen len)
- {
-  GuardLen(len,str.len);
-
-  ulen extra=str.len-len;
-  ulen delta=extra/2;
-
-  str=str.inner(delta,delta);
-
-  cur=str;
-
-  return extra&1u;
- }
-
-bool SingleString::cutCenter(ulen len,ulen &index)
- {
-  GuardLen(len,str.len);
-
-  ulen extra=str.len-len;
-  ulen delta=extra/2;
-
-  index=delta;
-
-  str=str.inner(delta,delta);
-
-  cur=str;
-
-  return extra&1u;
  }
 
 /* class DoubleString */
@@ -506,102 +435,6 @@ void DoubleString::cutSuffix(ulen len)
   first=true;
  }
 
-void DoubleString::cutSuffix(ulen len,ulen &index)
- {
-  index=total-len;
-
-  cutSuffix(len);
- }
-
-bool DoubleString::cutCenter(ulen len)
- {
-  if( str1.len>str2.len )
-    {
-     ulen d=str1.len-str2.len;
-
-     if( d>=len )
-       {
-        auto s=str1.suffix(d);
-
-        ulen extra=d-len;
-        ulen delta=extra/2;
-
-        str1=s.inner(delta,delta);
-        str2=Empty;
-
-        cur=str1;
-        first=true;
-
-        return extra&1u;
-       }
-     else
-       {
-        ulen s=len-d;
-
-        bool ret = s&1u ;
-
-        ulen len2=s/2+ret;
-        ulen len1=d+len2;
-
-        GuardLen(len2,str2.len);
-
-        str1=str1.suffix(len1);
-        str2=str2.prefix(len2);
-
-        cur=str1;
-        first=true;
-
-        return ret;
-       }
-    }
-  else
-    {
-     ulen d=str2.len-str1.len;
-
-     if( d>=len )
-       {
-        auto s=str2.prefix(d);
-
-        ulen extra=d-len;
-        ulen delta=extra/2;
-
-        str1=s.inner(delta,delta);
-        str2=Empty;
-
-        cur=str1;
-        first=true;
-
-        return extra&1u;
-       }
-     else
-       {
-        ulen s=len-d;
-
-        bool ret = s&1u ;
-
-        ulen len1=s/2+ret;
-        ulen len2=d+len1;
-
-        GuardLen(len1,str1.len);
-
-        str1=str1.suffix(len1);
-        str2=str2.prefix(len2);
-
-        cur=str1;
-        first=true;
-
-        return ret;
-       }
-    }
- }
-
-bool DoubleString::cutCenter(ulen len,ulen &index)
- {
-  index=(total-len)/2;
-
-  return cutCenter(len);
- }
-
 #endif
 
 #ifdef CCORE_UTF8
@@ -667,47 +500,6 @@ void CharString::cutSuffix(ulen len)
   str=str.suffix(len);
 
   cur=str;
- }
-
-void CharString::cutSuffix(ulen len,ulen &index)
- {
-  GuardLen(len,str.len);
-
-  index=str.len-len;
-
-  str=str.suffix(len);
-
-  cur=str;
- }
-
-bool CharString::cutCenter(ulen len)
- {
-  GuardLen(len,str.len);
-
-  ulen extra=str.len-len;
-  ulen delta=extra/2;
-
-  str=str.inner(delta,delta);
-
-  cur=str;
-
-  return extra&1u;
- }
-
-bool CharString::cutCenter(ulen len,ulen &index)
- {
-  GuardLen(len,str.len);
-
-  ulen extra=str.len-len;
-  ulen delta=extra/2;
-
-  index=delta;
-
-  str=str.inner(delta,delta);
-
-  cur=str;
-
-  return extra&1u;
  }
 
 #endif

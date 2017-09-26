@@ -22,6 +22,7 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/CompactMap.h>
 #include <CCore/inc/StrKey.h>
+#include <CCore/inc/StrToChar.h>
 
 #include <CCore/inc/video/PrintDDL.h>
 
@@ -532,6 +533,34 @@ class Contour : public NoCopyBase<Formular>
      return StrCmp(a.str,Range(b.name));
     }
 
+#ifdef CCORE_UTF8
+
+   class NameKey : NoCopy
+    {
+      CharToStr str;
+      StrKey key;
+
+     public:
+
+      explicit NameKey(PtrLen<const Char> name)
+       : str(name),
+         key(str)
+       {
+       }
+
+      ~NameKey() {}
+
+      operator StrKey() const { return key; }
+
+      operator StrLen() const { return key.str; }
+    };
+
+#else
+
+   using NameKey = StrKey ;
+
+#endif
+
    DynArray<Item> pads;
    DynArray<Item> formulas;
 
@@ -559,20 +588,32 @@ class Contour : public NoCopyBase<Formular>
   private:
 
    template <class S>
-   bool addPad(ulen index,StrLen name,S s)
+   bool addPad(ulen index,PtrLen<const Char> name,S s)
     {
      Object obj=Pad<S>::Create(s);
 
      return addPad(index,name,obj);
     }
 
+   bool addPad(ulen index,PtrLen<const Char> name,Object obj);
+
+#ifdef CCORE_UTF8
+
    bool addPad(ulen index,StrLen name,Object obj);
 
-   bool addFormula(ulen index,StrLen name,Object obj);
+#endif
+
+   bool addFormula(ulen index,PtrLen<const Char> name,Object obj);
+
+   bool setFormula(ulen index,PtrLen<const Char> name,Object obj);
+
+#ifdef CCORE_UTF8
 
    bool setFormula(ulen index,StrLen name,Object obj);
 
-   bool testName(StrLen name) const;
+#endif
+
+   bool testName(PtrLen<const Char> name) const;
 
    bool delItem(DynArray<Item> &a,ulen index);
 

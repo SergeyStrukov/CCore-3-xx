@@ -32,9 +32,9 @@ const CharProp CharProp::Object;
 
 /* struct Token */
 
-StrLen Token::getNumber() const
+PtrLen<const Char> Token::getNumber() const
  {
-  char ch=str.back(1);
+  Char ch=str.back(1);
 
   if( ch=='p' || ch=='g' ) return str.inner(0,1);
 
@@ -43,7 +43,7 @@ StrLen Token::getNumber() const
 
 /* class Tokenizer */
 
-ulen Tokenizer::ScanLetterDigit(StrLen text)
+ulen Tokenizer::ScanLetterDigit(PtrLen<const Char> text)
  {
   ulen len=text.len;
 
@@ -52,7 +52,7 @@ ulen Tokenizer::ScanLetterDigit(StrLen text)
   return len-text.len;
  }
 
-ulen Tokenizer::ScanLetterDigitDot(StrLen text)
+ulen Tokenizer::ScanLetterDigitDot(PtrLen<const Char> text)
  {
   ulen len=text.len;
 
@@ -61,7 +61,7 @@ ulen Tokenizer::ScanLetterDigitDot(StrLen text)
   return len-text.len;
  }
 
-ulen Tokenizer::ScanSpace(StrLen text)
+ulen Tokenizer::ScanSpace(PtrLen<const Char> text)
  {
   ulen len=text.len;
 
@@ -70,7 +70,7 @@ ulen Tokenizer::ScanSpace(StrLen text)
   return len-text.len;
  }
 
-TokenClass Tokenizer::IsNumber(StrLen text)
+TokenClass Tokenizer::IsNumber(PtrLen<const Char> text)
  {
   TokenClass ret;
 
@@ -462,13 +462,13 @@ void PadTextParser::stop()
     }
  }
 
-bool PadTextParser::point(StrLen,StrLen,StrLen) { return true; }
+bool PadTextParser::point(PtrLen<const Char>,PtrLen<const Char>,PtrLen<const Char>) { return true; }
 
-bool PadTextParser::length(StrLen,StrLen) { return true; }
+bool PadTextParser::length(PtrLen<const Char>,PtrLen<const Char>) { return true; }
 
-bool PadTextParser::angle(StrLen,StrLen) { return true; }
+bool PadTextParser::angle(PtrLen<const Char>,PtrLen<const Char>) { return true; }
 
-bool PadTextParser::ratio(StrLen,StrLen) { return true; }
+bool PadTextParser::ratio(PtrLen<const Char>,PtrLen<const Char>) { return true; }
 
 /* class Atom */
 
@@ -519,7 +519,7 @@ struct Context
  {
   using ExprType = int ;
 
-  bool set(StrLen name,ExprType value);
+  bool set(PtrLen<const Char> name,ExprType value);
 
   bool add(ExprType &ret,ExprType a,ExprType b);
 
@@ -531,24 +531,24 @@ struct Context
 
   bool neg(ExprType &ret,ExprType a);
 
-  bool func(ExprType &ret,StrLen name,PtrLen<const ExprType> list);
+  bool func(ExprType &ret,PtrLen<const Char> name,PtrLen<const ExprType> list);
 
-  bool arg(ExprType &ret,StrLen name);
+  bool arg(ExprType &ret,PtrLen<const Char> name);
 
-  bool number(ExprType &ret,StrLen number);
+  bool number(ExprType &ret,PtrLen<const Char> number);
 
-  bool angle(ExprType &ret,StrLen number);
+  bool angle(ExprType &ret,PtrLen<const Char> number);
 
-  bool length(ExprType &ret,StrLen number);
+  bool length(ExprType &ret,PtrLen<const Char> number);
 
-  bool point(ExprType &ret,StrLen number_x,StrLen number_y);
+  bool point(ExprType &ret,PtrLen<const Char> number_x,PtrLen<const Char> number_y);
  };
 
 bool inner_test()
  {
   Context ctx;
 
-  FormulaTextParser<Context> parser(ctx,""_c);
+  FormulaTextParser<Context> parser(ctx,{});
 
   parser.run();
 

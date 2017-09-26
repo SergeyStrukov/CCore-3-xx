@@ -155,11 +155,11 @@ struct AbstractSparseString
 
   virtual void cutSuffix(ulen len)=0;
 
-  virtual void cutSuffix(ulen len,ulen &index)=0;
+  virtual void cutSuffix(ulen len,ulen &index);
 
-  virtual bool cutCenter(ulen len)=0; // true if extra character is appended, len+1 result is returned
+  virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
 
-  virtual bool cutCenter(ulen len,ulen &index)=0;
+  virtual bool cutCenter(ulen len,ulen &index);
 
   // helper
 
@@ -239,12 +239,6 @@ class SingleString : public AbstractSparseString
    virtual void cutPrefix(ulen len);
 
    virtual void cutSuffix(ulen len);
-
-   virtual void cutSuffix(ulen len,ulen &index);
-
-   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
-
-   virtual bool cutCenter(ulen len,ulen &index);
  };
 
 /* class DoubleString */
@@ -294,12 +288,6 @@ class DoubleString : public AbstractSparseString
    virtual void cutPrefix(ulen len);
 
    virtual void cutSuffix(ulen len);
-
-   virtual void cutSuffix(ulen len,ulen &index);
-
-   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
-
-   virtual bool cutCenter(ulen len,ulen &index);
  };
 
 #ifdef CCORE_UTF8
@@ -336,12 +324,6 @@ class CharString : public AbstractSparseString
    virtual void cutPrefix(ulen len);
 
    virtual void cutSuffix(ulen len);
-
-   virtual void cutSuffix(ulen len,ulen &index);
-
-   virtual bool cutCenter(ulen len); // true if extra character is appended, len+1 result is returned
-
-   virtual bool cutCenter(ulen len,ulen &index);
  };
 
 #endif

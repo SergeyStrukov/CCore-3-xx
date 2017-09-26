@@ -114,6 +114,36 @@ void Contour::UpdateIndexes(DynArray<Item> &a,ulen index)
   for(ulen i=index,len=a.getLen(); i<len ;i++) a[i].obj.updateIndex(i);
  }
 
+bool Contour::addPad(ulen index,PtrLen<const Char> name,Object obj)
+ {
+  if( index>pads.getLen() )
+    {
+     Printf(Exception,"App::Contour::addPad(#;,...) : out of range",index);
+    }
+
+  pads.reserve(1);
+
+  NameKey k(name);
+
+  auto result=map.find_or_add(k,obj);
+
+  if( !result.new_flag ) return false;
+
+  Label label(result.key->name);
+
+  Item item{label,obj};
+
+  ArrayCopyIns(pads,index,item);
+
+  obj.setIndex({IndexPad,index});
+
+  UpdateIndexes(pads,index+1);
+
+  return true;
+ }
+
+#ifdef CCORE_UTF8
+
 bool Contour::addPad(ulen index,StrLen name,Object obj)
  {
   if( index>pads.getLen() )
@@ -142,7 +172,9 @@ bool Contour::addPad(ulen index,StrLen name,Object obj)
   return true;
  }
 
-bool Contour::addFormula(ulen index,StrLen name,Object obj)
+#endif
+
+bool Contour::addFormula(ulen index,PtrLen<const Char> name,Object obj)
  {
   if( index>formulas.getLen() )
     {
@@ -151,7 +183,7 @@ bool Contour::addFormula(ulen index,StrLen name,Object obj)
 
   formulas.reserve(1);
 
-  StrKey k(name);
+  NameKey k(name);
 
   auto result=map.find_or_add(k,obj);
 
@@ -169,6 +201,27 @@ bool Contour::addFormula(ulen index,StrLen name,Object obj)
 
   return true;
  }
+
+bool Contour::setFormula(ulen index,PtrLen<const Char> name,Object obj)
+ {
+  NameKey k(name);
+
+  auto result=map.find_or_add(k,obj);
+
+  if( !result.new_flag ) return false;
+
+  Label label(result.key->name);
+
+  Item item{label,obj};
+
+  formulas[index]=item;
+
+  obj.setIndex({IndexFormula,index});
+
+  return true;
+ }
+
+#ifdef CCORE_UTF8
 
 bool Contour::setFormula(ulen index,StrLen name,Object obj)
  {
@@ -189,9 +242,11 @@ bool Contour::setFormula(ulen index,StrLen name,Object obj)
   return true;
  }
 
-bool Contour::testName(StrLen name) const
+#endif
+
+bool Contour::testName(PtrLen<const Char> name) const
  {
-  StrKey k(name);
+  NameKey k(name);
 
   return !map.find(k);
  }
@@ -252,13 +307,13 @@ class Contour::PadTestParser : public PadTextParser
 
   private:
 
-   virtual bool point(StrLen name,StrLen,StrLen) { return obj->testName(name); }
+   virtual bool point(PtrLen<const Char> name,PtrLen<const Char>,PtrLen<const Char>) { return obj->testName(name); }
 
-   virtual bool length(StrLen name,StrLen) { return obj->testName(name); }
+   virtual bool length(PtrLen<const Char> name,StrLen) { return obj->testName(name); }
 
-   virtual bool angle(StrLen name,StrLen) { return obj->testName(name); }
+   virtual bool angle(PtrLen<const Char> name,StrLen) { return obj->testName(name); }
 
-   virtual bool ratio(StrLen name,StrLen) { return obj->testName(name); }
+   virtual bool ratio(PtrLen<const Char> name,StrLen) { return obj->testName(name); }
 
   public:
 
@@ -281,22 +336,22 @@ class Contour::PadAddParser : public PadTextParser
 
   private:
 
-   virtual bool point(StrLen name,StrLen x,StrLen y)
+   virtual bool point(PtrLen<const Char> name,PtrLen<const Char> x,PtrLen<const Char> y)
     {
      return obj->addPad<Point>(index,name,{StrToReal(x),StrToReal(y)});
     }
 
-   virtual bool length(StrLen name,StrLen x)
+   virtual bool length(PtrLen<const Char> name,PtrLen<const Char> x)
     {
      return obj->addPad<Length>(index,name,StrToReal(x));
     }
 
-   virtual bool angle(StrLen name,StrLen x)
+   virtual bool angle(PtrLen<const Char> name,PtrLen<const Char> x)
     {
      return obj->addPad<Angle>(index,name,GradToRadian(StrToReal(x)));
     }
 
-   virtual bool ratio(StrLen name,StrLen x)
+   virtual bool ratio(PtrLen<const Char> name,PtrLen<const Char> x)
     {
      return obj->addPad<Ratio>(index,name,StrToReal(x));
     }
@@ -538,7 +593,7 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
 
    explicit FormulaTestContext(const Contour *obj_) : obj(obj_) {}
 
-   bool set(StrLen name,ExprType value)
+   bool set(PtrLen<const Char> name,ExprType value)
     {
      if( value.getIndex().type!=IndexNone ) return false;
 
@@ -547,18 +602,20 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
 
    // functions
 
-   bool func(ExprType &ret,StrLen name,PtrLen<const ExprType> list)
+   bool func(ExprType &ret,PtrLen<const Char> name,PtrLen<const ExprType> list)
     {
-     if( auto *obj=map[name] ) return obj->create(ret,list);
+     NameKey key(name);
+
+     if( auto *obj=map[key] ) return obj->create(ret,list);
 
      return false;
     }
 
    // args
 
-   bool arg(ExprType &ret,StrLen name)
+   bool arg(ExprType &ret,PtrLen<const Char> name)
     {
-     StrKey key(name);
+     NameKey key(name);
 
      if( const Object *res=obj->map.find(key) )
        {
@@ -570,28 +627,28 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
      return false;
     }
 
-   bool number(ExprType &ret,StrLen number)
+   bool number(ExprType &ret,PtrLen<const Char> number)
     {
      ret=Pad<Ratio>::Create(StrToReal(number));
 
      return true;
     }
 
-   bool angle(ExprType &ret,StrLen number)
+   bool angle(ExprType &ret,PtrLen<const Char> number)
     {
      ret=Pad<Angle>::Create(StrToReal(number));
 
      return true;
     }
 
-   bool length(ExprType &ret,StrLen number)
+   bool length(ExprType &ret,PtrLen<const Char> number)
     {
      ret=Pad<Length>::Create(StrToReal(number));
 
      return true;
     }
 
-   bool point(ExprType &ret,StrLen number_x,StrLen number_y)
+   bool point(ExprType &ret,PtrLen<const Char> number_x,PtrLen<const Char> number_y)
     {
      ret=Pad<Point>::Create({StrToReal(number_x),StrToReal(number_y)});
 
@@ -617,7 +674,7 @@ class Contour::FormulaAddContext : public FormulaTestContext
 
    FormulaAddContext(Contour *obj,ulen index_) : FormulaTestContext(obj),index(index_) {}
 
-   bool set(StrLen name,ExprType value)
+   bool set(PtrLen<const Char> name,ExprType value)
     {
      if( value.getIndex().type!=IndexNone ) return false;
 
