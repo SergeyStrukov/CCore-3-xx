@@ -642,9 +642,9 @@ class Contour : public NoCopyBase<Formular>
 
    bool padDel(ulen index);
 
-   bool padAddTest(StrLen text,CharAccent *accent) const;
+   bool padAddTest(PtrLen<const Char> text,CharAccent *accent) const;
 
-   bool padAdd(ulen index,StrLen text);
+   bool padAdd(ulen index,PtrLen<const Char> text);
 
    // formula list
 
@@ -656,9 +656,9 @@ class Contour : public NoCopyBase<Formular>
 
    bool formulaDel(ulen index);
 
-   bool formulaAddTest(StrLen text,CharAccent *accent) const;
+   bool formulaAddTest(PtrLen<const Char> text,CharAccent *accent) const;
 
-   bool formulaAdd(ulen index,StrLen text);
+   bool formulaAdd(ulen index,PtrLen<const Char> text);
 
    // elements
 

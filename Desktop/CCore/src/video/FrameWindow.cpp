@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/FrameWindow.h>
 
+#include <CCore/inc/StrToChar.h>
+
 namespace CCore {
 namespace Video {
 
@@ -70,6 +72,27 @@ void InterruptFunction::Call(Handle handle)
 
   desktop->interrupt();
  }
+
+/* class WindowHost */
+
+#ifdef CCORE_UTF8
+
+void WindowHost::textToClipboard(StrLen text_)
+ {
+  StrToChar text(text_);
+
+  textToClipboard(text);
+ }
+
+void WindowHost::textFromClipboard(Function<void (StrLen)> func)
+ {
+  auto proxy=ToFunction<void (PtrLen<const Char>)>( [func] (PtrLen<const Char> text_) { CharToStr text(text_); func(text); } );
+
+  textFromClipboard( proxy.function() );
+ }
+
+#endif
+
 
 } // namespace Video
 } // namespace CCore

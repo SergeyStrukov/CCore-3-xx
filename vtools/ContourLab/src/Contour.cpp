@@ -262,10 +262,10 @@ class Contour::PadTestParser : public PadTextParser
 
   public:
 
-   PadTestParser(const Contour *obj_,StrLen text,CharAccent *accent) : PadTextParser(text,accent),obj(obj_) {}
+   PadTestParser(const Contour *obj_,PtrLen<const Char> text,CharAccent *accent) : PadTextParser(text,accent),obj(obj_) {}
  };
 
-bool Contour::padAddTest(StrLen text,CharAccent *accent) const
+bool Contour::padAddTest(PtrLen<const Char> text,CharAccent *accent) const
  {
   PadTestParser parser(this,text,accent);
 
@@ -303,10 +303,10 @@ class Contour::PadAddParser : public PadTextParser
 
   public:
 
-   PadAddParser(Contour *obj_,ulen index_,StrLen text) : PadTextParser(text),obj(obj_),index(index_) {}
+   PadAddParser(Contour *obj_,ulen index_,PtrLen<const Char> text) : PadTextParser(text),obj(obj_),index(index_) {}
  };
 
-bool Contour::padAdd(ulen index,StrLen text)
+bool Contour::padAdd(ulen index,PtrLen<const Char> text)
  {
   PadAddParser parser(this,index,text);
 
@@ -599,7 +599,7 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
     }
  };
 
-bool Contour::formulaAddTest(StrLen text,CharAccent *accent) const
+bool Contour::formulaAddTest(PtrLen<const Char> text,CharAccent *accent) const
  {
   FormulaTestContext ctx(this);
   FormulaTextParser<FormulaTestContext> parser(ctx,text,accent);
@@ -625,7 +625,7 @@ class Contour::FormulaAddContext : public FormulaTestContext
     }
  };
 
-bool Contour::formulaAdd(ulen index,StrLen text)
+bool Contour::formulaAdd(ulen index,PtrLen<const Char> text)
  {
   FormulaAddContext ctx(this,index);
   FormulaTextParser<FormulaAddContext> parser(ctx,text);

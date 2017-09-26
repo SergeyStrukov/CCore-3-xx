@@ -19,6 +19,7 @@
 #include <CCore/inc/Tree.h>
 #include <CCore/inc/NodeAllocator.h>
 #include <CCore/inc/algon/SortUnique.h>
+#include <CCore/inc/StrToChar.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -403,26 +404,7 @@ void FileNameFilter::build(StrLen filter_,ulen max_states)
   StateMap map(max_states);
   DynArray<FullState *> list;
 
-#ifdef CCORE_UTF8
-
-  DynArray<Char> buf(DoReserve,filter_.len);
-
-  while( +filter_ )
-    {
-     Unicode ch=CutUtf8_unicode(filter_);
-
-     if( ch==Unicode(-1) ) GuardUtf8Broken("CCore::FileNameFilter::build(...)");
-
-     buf.append_copy(ch);
-    }
-
-  auto filter=Range(buf);
-
-#else
-
-  StrLen filter=filter_;
-
-#endif
+  StrToChar filter(filter_);
 
   {
    State first(filter);
@@ -430,7 +412,7 @@ void FileNameFilter::build(StrLen filter_,ulen max_states)
    list.append_copy(map.find_or_add(first));
   }
 
-  TempArray<Char,1024> temp(filter.len);
+  TempArray<Char,1024> temp((+filter).len);
 
   for(ulen index=0; index<list.getLen() ;index++)
     {

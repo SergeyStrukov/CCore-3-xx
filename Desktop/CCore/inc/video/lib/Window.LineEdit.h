@@ -23,6 +23,7 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/CharUtils.h>
+#include <CCore/inc/StrToChar.h>
 
 namespace CCore {
 namespace Video {
@@ -569,7 +570,7 @@ class LineEditWindowOf : public SubWindow
      setTextLen( out.close().len );
     }
 
-   bool insText(const Char *ptr,ulen len) // false on truncation
+   bool insText(ulen len,FuncArgType<PtrLen<Char> > fill) // false on truncation
     {
      delSelectedRange();
 
@@ -582,9 +583,9 @@ class LineEditWindowOf : public SubWindow
         ret=false;
        }
 
-     char *base=shape.text_buf.ptr;
+     Char *base=shape.text_buf.ptr;
 
-     Range(ptr,len).copyTo(base+shape.len);
+     fill(Range(base+shape.len,len));
 
      RotateCharRange(base,shape.len,shape.pos,len);
 
@@ -604,10 +605,31 @@ class LineEditWindowOf : public SubWindow
      return ret;
     }
 
+   bool insText(const Char *ptr,ulen len) // false on truncation
+    {
+     return insText(len, [ptr] (PtrLen<Char> buf) { buf.copy(ptr); } );
+    }
+
    bool insText(PtrLen<const Char> str) // false on truncation
     {
      return insText(str.ptr,str.len);
     }
+
+#ifdef CCORE_UTF8
+
+   bool insText(const char *ptr,ulen len) // false on truncation
+    {
+     return insText(Range(ptr,len));
+    }
+
+   bool insText(StrLen text) // false on truncation
+    {
+     ulen len=Utf8Len_guarded(text);
+
+     return insText(len, [text] (PtrLen<Char> buf) { FillCharBuf(buf,text); } );
+    }
+
+#endif
 
    // drawing
 

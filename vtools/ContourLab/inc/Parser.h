@@ -198,7 +198,7 @@ class ParserBase : NoCopy
 
   public:
 
-   ParserBase(StrLen text,CharAccent *accent_) : tok(text),accent(accent_) {}
+   ParserBase(PtrLen<const Char> text,CharAccent *accent_); // : tok(text),accent(accent_) {}
 
    void run();
  };
@@ -238,7 +238,7 @@ class PadTextParser : public ParserBase
 
   public:
 
-   explicit PadTextParser(StrLen text,CharAccent *accent=0) : ParserBase(text,accent) {}
+   explicit PadTextParser(PtrLen<const Char> text,CharAccent *accent=0) : ParserBase(text,accent) {}
 
    operator bool() const { return state!=-1; }
  };
@@ -571,7 +571,7 @@ class FormulaTextParser : public ParserBase , FormulaParserData
 
   public:
 
-   FormulaTextParser(Context &ctx_,StrLen text,CharAccent *accent=0)
+   FormulaTextParser(Context &ctx_,PtrLen<const Char> text,CharAccent *accent=0)
     : ParserBase(text,accent),
       ctx(ctx_)
     {

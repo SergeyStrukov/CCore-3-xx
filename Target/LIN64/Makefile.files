@@ -350,6 +350,7 @@ OBJ_LIST = \
 .obj/StrMap.o \
 .obj/StrParse.o \
 .obj/StrPrint.o \
+.obj/StrToChar.o \
 .obj/String.o \
 .obj/StringScan.o \
 .obj/SubWindow.o \
@@ -785,6 +786,7 @@ ASM_LIST = \
 .obj/StrMap.s \
 .obj/StrParse.s \
 .obj/StrPrint.s \
+.obj/StrToChar.s \
 .obj/String.s \
 .obj/StringScan.s \
 .obj/SubWindow.s \
@@ -1220,6 +1222,7 @@ DEP_LIST = \
 .obj/StrMap.dep \
 .obj/StrParse.dep \
 .obj/StrPrint.dep \
+.obj/StrToChar.dep \
 .obj/String.dep \
 .obj/StringScan.dep \
 .obj/SubWindow.dep \
@@ -2367,6 +2370,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/StrPrint.o : ../../Fundamental/CCore/src/./printf/StrPrint.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/StrToChar.o : ../../Applied/CCore/src/./StrToChar.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/String.o : ../../Fundamental/CCore/src/./String.cpp
@@ -3667,6 +3673,9 @@ include $(RULES_FILE)
 .obj/StrPrint.s : ../../Fundamental/CCore/src/./printf/StrPrint.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/StrToChar.s : ../../Applied/CCore/src/./StrToChar.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/String.s : ../../Fundamental/CCore/src/./String.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4964,6 +4973,9 @@ include $(RULES_FILE)
 
 .obj/StrPrint.dep : ../../Fundamental/CCore/src/./printf/StrPrint.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/StrPrint.o $< -MF $@
+
+.obj/StrToChar.dep : ../../Applied/CCore/src/./StrToChar.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/StrToChar.o $< -MF $@
 
 .obj/String.dep : ../../Fundamental/CCore/src/./String.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/String.o $< -MF $@

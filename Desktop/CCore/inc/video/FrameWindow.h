@@ -205,6 +205,14 @@ class WindowHost : public MemBase_nocopy
    virtual void textToClipboard(PtrLen<const Char> text)=0;
 
    virtual void textFromClipboard(Function<void (PtrLen<const Char>)> func)=0;
+
+#ifdef CCORE_UTF8
+
+   void textToClipboard(StrLen text);
+
+   void textFromClipboard(Function<void (StrLen)> func);
+
+#endif
  };
 
 /* class FrameWindow */

@@ -280,7 +280,7 @@ class EditFormulaShape : public LineEditShape
 
    virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen off,VColor vc) const;
 
-   EditFormulaShape(PtrLen<char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
+   EditFormulaShape(PtrLen<Char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
  };
 
 /* class EditFormulaWindow */
@@ -512,7 +512,7 @@ class ItemListWindow : public ComboWindow
 
    void noItem();
 
-   StrLen getText() const { return edit.getText(); }
+   PtrLen<const Char> getText() const { return edit.getText(); }
 
    CharAccent * getAccentBuf() { return edit.getAccentBuf(); }
 

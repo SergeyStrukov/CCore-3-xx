@@ -146,9 +146,9 @@ void EditFormulaShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace
 
   CharAccent *accent=this->accent;
 
-  auto func = [=] (ulen index,char,Point,Point) -> VColor { return map(accent[off+index]); } ;
+  auto func = [=] (ulen index,Char,Point,Point) -> VColor { return map(accent[off+index]); } ;
 
-  auto proxy=ToFunction<VColor (ulen index,char ch,Point base,Point delta)>(func);
+  auto proxy=ToFunction<VColor (ulen index,Char ch,Point base,Point delta)>(func);
 
   font->text(buf,pane,place,text,proxy.function());
  }

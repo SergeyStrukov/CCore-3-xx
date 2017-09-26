@@ -171,6 +171,9 @@ bool <span class="Att">Utf8Ext</span>(uint8 b);
 
 <pre>
 
+template &lt;class Ret&gt;
+Ret <span class="Att">PeekUtf8_gen</span>(StrLen text); // +text
+
 Utf8Code <span class="Att">PeekUtf8</span>(StrLen text); // +text
 
 Utf8Code <span class="Att">CutUtf8</span>(StrLen &text); // +text
@@ -186,7 +189,31 @@ Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unico
 </pre>
 
 <p>
-<b>PeekUtf8()</b> peaks the next UTF8 symbol from the non-empty text. 
+<b>PeekUtf8_gen()</b> is a generic peek function. It peeks the next UTF8 symbol from the non-empty text.
+And returns the object <b>Ret</b>, created with one of the following constructors:
+</p>
+
+<pre>
+
+class Ret
+ {
+  public:
+
+   Ret(char b1); // broken UTF8 symbol
+
+   Ret(char b1,Unicode ch); // 1-char UTF8 symbol
+
+   Ret(char b1,char b2,Unicode ch); // 2-char UTF8 symbol
+
+   Ret(char b1,char b2,char b3,Unicode ch); // 3-char UTF8 symbol
+
+   Ret(char b1,char b2,char b3,char b4,Unicode ch); // 4-char UTF8 symbol
+ };
+
+</pre>
+
+<p>
+<b>PeekUtf8()</b> peeks the next UTF8 symbol from the non-empty text. 
 If there is no a valid UTF8 sequence at the begining of the text, the null UTF8 symbol is returned.
 </p>
 
@@ -231,6 +258,8 @@ ulen <span class="Att">Utf8Len</span>(StrLen text);
 
 ulen <span class="Att">Utf8Len_guarded</span>(StrLen text);
 
+StrLen <span class="Att">Utf8Move</span>(StrLen text,ulen count);
+
 </pre>
 
 <p>
@@ -239,6 +268,10 @@ ulen <span class="Att">Utf8Len_guarded</span>(StrLen text);
 
 <p>
 <b>Utf8Len_guarded</b> is a guarded variant of the <b>Utf8Len()</b>, it throws an exception in case of error.
+</p>
+
+<p>
+<b>Utf8Move()</b> moves a text cursor by the given number of the UTF8 symbols. The result is returned.
 </p>
 
 </body>
