@@ -5,7 +5,7 @@ Aspect Data=
   '../../..',
   {
    '',
-   New,
+   Red,
    {
     &Dir0,
     &Dir1,
@@ -40,7 +40,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Applied',
-   Green,
+   Yellow,
    {
     &Dir15
    },
@@ -51,7 +51,7 @@ Dir Dir0=
 Dir Dir1=
   {
    'Desktop',
-   Red,
+   Yellow,
    {
     &Dir16
    },
@@ -554,7 +554,7 @@ Dir Dir13=
 Dir Dir14=
   {
    'vtools',
-   New,
+   Red,
    {
     &Dir52,
     &Dir53,
@@ -566,14 +566,14 @@ Dir Dir14=
     &Dir59
    },
    {
-    { 'Makefile' , Ignore }
+    { 'Makefile' , Red }
    }
   };
 
 Dir Dir15=
   {
    'CCore',
-   Green,
+   Yellow,
    {
     &Dir60,
     &Dir61,
@@ -586,7 +586,7 @@ Dir Dir15=
 Dir Dir60=
   {
    'inc',
-   Green,
+   Yellow,
    {
     &Dir63,
     &Dir64,
@@ -617,6 +617,7 @@ Dir Dir60=
     { 'PacketPool.h' , Ignore },
     { 'PacketSet.h' , Ignore },
     { 'PerTask.h' , Ignore },
+    { 'StrToChar.h' , Yellow },
     { 'TaskMemStack.h' , Ignore },
     { 'ToMemBase.h' , Ignore }
    }
@@ -625,7 +626,7 @@ Dir Dir60=
 Dir Dir61=
   {
    'src',
-   Green,
+   Yellow,
    {
     &Dir73,
     &Dir74,
@@ -658,6 +659,7 @@ Dir Dir61=
     { 'PacketPool_PacketMaxDataLen.cpp' , Ignore },
     { 'PacketSet.cpp' , Ignore },
     { 'PerTask.cpp' , Ignore },
+    { 'StrToChar.cpp' , Yellow },
     { 'TaskMemStack.cpp' , Ignore },
     { 'ToMemBase.cpp' , Ignore }
    }
@@ -1101,7 +1103,7 @@ Dir Dir82=
 Dir Dir16=
   {
    'CCore',
-   Red,
+   Yellow,
    {
     &Dir83,
     &Dir84,
@@ -1114,7 +1116,7 @@ Dir Dir16=
 Dir Dir83=
   {
    'inc',
-   Red,
+   Yellow,
    {
     &Dir86
    },
@@ -1125,7 +1127,7 @@ Dir Dir83=
 Dir Dir84=
   {
    'src',
-   Red,
+   Yellow,
    {
     &Dir87
    },
@@ -1158,7 +1160,7 @@ Dir Dir85=
 Dir Dir86=
   {
    'video',
-   Red,
+   Yellow,
    {
     &Dir88,
     &Dir89
@@ -1267,13 +1269,13 @@ Dir Dir88=
 Dir Dir89=
   {
    'pref',
-   Red,
+   Yellow,
    {
    },
    {
     { 'ColorEdit.h' , Green },
     { 'CoordEdit.h' , Ignore },
-    { 'FontEdit.h' , Red },
+    { 'FontEdit.h' , Yellow },
     { 'MCoordEdit.h' , Ignore },
     { 'PointEdit.h' , Ignore },
     { 'RatioEdit.h' , Ignore }
@@ -1283,7 +1285,7 @@ Dir Dir89=
 Dir Dir87=
   {
    'video',
-   Red,
+   Yellow,
    {
     &Dir90,
     &Dir91
@@ -1399,13 +1401,13 @@ Dir Dir90=
 Dir Dir91=
   {
    'pref',
-   Red,
+   Yellow,
    {
    },
    {
     { 'ColorEdit.cpp' , Green },
     { 'CoordEdit.cpp' , Ignore },
-    { 'FontEdit.cpp' , Red },
+    { 'FontEdit.cpp' , Yellow },
     { 'MCoordEdit.cpp' , Ignore },
     { 'PointEdit.cpp' , Ignore },
     { 'RatioEdit.cpp' , Ignore }
@@ -5425,22 +5427,22 @@ Dir Dir51=
 Dir Dir52=
   {
    'Aspect',
-   New,
+   Red,
    {
     &Dir291,
     &Dir292,
     &Dir293
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir53=
   {
    'ContourLab',
-   New,
+   Red,
    {
     &Dir294,
     &Dir295,
@@ -5448,30 +5450,30 @@ Dir Dir53=
     &Dir297
    },
    {
-    { 'Makefile' , New },
-    { 'ContourLab.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'ContourLab.exe' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir54=
   {
    'DDLDisplay',
-   New,
+   Red,
    {
     &Dir298,
     &Dir299
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir55=
   {
    'EventView',
-   New,
+   Red,
    {
     &Dir300
    },
@@ -5482,155 +5484,155 @@ Dir Dir55=
 Dir Dir56=
   {
    'RandomId',
-   New,
+   Red,
    {
     &Dir301,
     &Dir302
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir57=
   {
    'Sample',
-   New,
+   Red,
    {
     &Dir303,
     &Dir304
    },
    {
-    { 'Makefile' , New },
-    { 'Sample.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'Sample.exe' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir58=
   {
    'SubLab',
-   New,
+   Red,
    {
     &Dir305,
     &Dir306
    },
    {
-    { 'Makefile' , New },
-    { 'SubLab.exe' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'SubLab.exe' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir59=
   {
    'UserPreference',
-   New,
+   Red,
    {
     &Dir307,
     &Dir308
    },
    {
-    { 'Makefile' , New },
-    { 'Makefile.files' , New }
+    { 'Makefile' , Red },
+    { 'Makefile.files' , Red }
    }
   };
 
 Dir Dir291=
   {
    'docs',
-   New,
+   Red,
    {
    },
    {
-    { 'gcc7.aspect.ddl' , New },
-    { 'utf8.aspect.ddl' , New },
-    { 'vtools.aspect.ddl' , New }
+    { 'gcc7.aspect.ddl' , Red },
+    { 'utf8.aspect.ddl' , Red },
+    { 'vtools.aspect.ddl' , Red }
    }
   };
 
 Dir Dir292=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'AppState.h' , New },
-    { 'Application.h' , New },
-    { 'Aspect.h' , New },
-    { 'AspectData.h' , New },
-    { 'Client.h' , New },
-    { 'ErrorText.h' , New }
+    { 'AppState.h' , Red },
+    { 'Application.h' , Red },
+    { 'Aspect.h' , Red },
+    { 'AspectData.h' , Red },
+    { 'Client.h' , Red },
+    { 'ErrorText.h' , Red }
    }
   };
 
 Dir Dir293=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'AppState.cpp' , New },
-    { 'Application.cpp' , New },
-    { 'Aspect.cpp' , New },
-    { 'AspectData.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'ErrorText.cpp' , New },
-    { 'main.cpp' , New },
-    { 'AppState.ddl' , New },
-    { 'Aspect.ddl' , New },
-    { 'AppState.TypeDef.gen.h' , New },
-    { 'Aspect.TypeDef.gen.h' , New },
-    { 'AppState.TypeSet.gen.h' , New },
-    { 'Aspect.TypeSet.gen.h' , New }
+    { 'AppState.cpp' , Red },
+    { 'Application.cpp' , Red },
+    { 'Aspect.cpp' , Red },
+    { 'AspectData.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'ErrorText.cpp' , Red },
+    { 'main.cpp' , Red },
+    { 'AppState.ddl' , Red },
+    { 'Aspect.ddl' , Red },
+    { 'AppState.TypeDef.gen.h' , Red },
+    { 'Aspect.TypeDef.gen.h' , Red },
+    { 'AppState.TypeSet.gen.h' , Red },
+    { 'Aspect.TypeSet.gen.h' , Red }
    }
   };
 
 Dir Dir294=
   {
    'docs',
-   New,
+   Red,
    {
    },
    {
-    { 'loop.cont.ddl' , New },
-    { 'question.cont.ddl' , New },
-    { 'test.cont.ddl' , New },
-    { 'test1.cont.ddl' , New },
-    { 'test2.cont.ddl' , New },
-    { 'triangle.cont.ddl' , New },
-    { 'Дезарг.cont.ddl' , New }
+    { 'loop.cont.ddl' , Red },
+    { 'question.cont.ddl' , Red },
+    { 'test.cont.ddl' , Red },
+    { 'test1.cont.ddl' , Red },
+    { 'test2.cont.ddl' , Red },
+    { 'triangle.cont.ddl' , Red },
+    { 'Дезарг.cont.ddl' , Red }
    }
   };
 
 Dir Dir295=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New },
-    { 'Contour.h' , New },
-    { 'EditAngleWindow.h' , New },
-    { 'EditLengthWindow.h' , New },
-    { 'EditRatioWindow.h' , New },
-    { 'Editor.h' , New },
-    { 'Geometry.h' , New },
-    { 'GeometryWindow.h' , New },
-    { 'ItemListWindow.h' , New },
-    { 'Parser.h' , New }
+    { 'Application.h' , Red },
+    { 'Client.h' , Red },
+    { 'Contour.h' , Red },
+    { 'EditAngleWindow.h' , Red },
+    { 'EditLengthWindow.h' , Red },
+    { 'EditRatioWindow.h' , Red },
+    { 'Editor.h' , Red },
+    { 'Geometry.h' , Red },
+    { 'GeometryWindow.h' , Red },
+    { 'ItemListWindow.h' , Red },
+    { 'Parser.h' , Red }
    }
   };
 
 Dir Dir296=
   {
    'lang',
-   New,
+   Red,
    {
     &Dir309,
     &Dir310
@@ -5642,199 +5644,199 @@ Dir Dir296=
 Dir Dir297=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'Contour.cpp' , New },
-    { 'EditAngleWindow.cpp' , New },
-    { 'EditLengthWindow.cpp' , New },
-    { 'EditRatioWindow.cpp' , New },
-    { 'Editor.cpp' , New },
-    { 'Geometry.cpp' , New },
-    { 'GeometryWindow.cpp' , New },
-    { 'ItemListWindow.cpp' , New },
-    { 'Parser.cpp' , New },
-    { 'ParserData.cpp' , New },
-    { 'main.cpp' , New },
-    { 'Contour.ddl' , New },
-    { 'Contour.TypeDef.gen.h' , New },
-    { 'Contour.TypeSet.gen.h' , New }
+    { 'Application.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'Contour.cpp' , Red },
+    { 'EditAngleWindow.cpp' , Red },
+    { 'EditLengthWindow.cpp' , Red },
+    { 'EditRatioWindow.cpp' , Red },
+    { 'Editor.cpp' , Red },
+    { 'Geometry.cpp' , Red },
+    { 'GeometryWindow.cpp' , Red },
+    { 'ItemListWindow.cpp' , Red },
+    { 'Parser.cpp' , Red },
+    { 'ParserData.cpp' , Red },
+    { 'main.cpp' , Red },
+    { 'Contour.ddl' , Red },
+    { 'Contour.TypeDef.gen.h' , Red },
+    { 'Contour.TypeSet.gen.h' , Red }
    }
   };
 
 Dir Dir309=
   {
    'Formula',
-   New,
+   Red,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'Formula.gen.cpp_' , New },
-    { 'Formula.ddl' , New },
-    { 'Formula.gen.h_' , New },
-    { 'Formula.lang' , New },
-    { 'Formula.txt' , New }
+    { 'Makefile' , Red },
+    { 'Formula.gen.cpp_' , Red },
+    { 'Formula.ddl' , Red },
+    { 'Formula.gen.h_' , Red },
+    { 'Formula.lang' , Red },
+    { 'Formula.txt' , Red }
    }
   };
 
 Dir Dir310=
   {
    'Pad',
-   New,
+   Red,
    {
    },
    {
-    { 'Makefile' , New },
-    { 'Pad.ddl' , New },
-    { 'Pad.lang' , New },
-    { 'Pad.txt' , New }
+    { 'Makefile' , Red },
+    { 'Pad.ddl' , Red },
+    { 'Pad.lang' , Red },
+    { 'Pad.txt' , Red }
    }
   };
 
 Dir Dir298=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New },
-    { 'Display.h' , New }
+    { 'Application.h' , Red },
+    { 'Client.h' , Red },
+    { 'Display.h' , Red }
    }
   };
 
 Dir Dir299=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'Display.cpp' , New },
-    { 'main.cpp' , New }
+    { 'Application.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'Display.cpp' , Red },
+    { 'main.cpp' , Red }
    }
   };
 
 Dir Dir300=
   {
    'prototype',
-   New,
+   Red,
    {
    },
    {
-    { 'EventView.exe.config' , New },
-    { 'EventView.exe' , New }
+    { 'EventView.exe.config' , Red },
+    { 'EventView.exe' , Red }
    }
   };
 
 Dir Dir301=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New },
-    { 'RandomId.h' , New }
+    { 'Application.h' , Red },
+    { 'Client.h' , Red },
+    { 'RandomId.h' , Red }
    }
   };
 
 Dir Dir302=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'RandomId.cpp' , New },
-    { 'main.cpp' , New }
+    { 'Application.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'RandomId.cpp' , Red },
+    { 'main.cpp' , Red }
    }
   };
 
 Dir Dir303=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New },
-    { 'Sample.h' , New }
+    { 'Application.h' , Red },
+    { 'Client.h' , Red },
+    { 'Sample.h' , Red }
    }
   };
 
 Dir Dir304=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'Sample.cpp' , New },
-    { 'main.cpp' , New }
+    { 'Application.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'Sample.cpp' , Red },
+    { 'main.cpp' , Red }
    }
   };
 
 Dir Dir305=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'Client.h' , New }
+    { 'Application.h' , Red },
+    { 'Client.h' , Red }
    }
   };
 
 Dir Dir306=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'Client.cpp' , New },
-    { 'main.cpp' , New }
+    { 'Application.cpp' , Red },
+    { 'Client.cpp' , Red },
+    { 'main.cpp' , Red }
    }
   };
 
 Dir Dir307=
   {
    'inc',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.h' , New },
-    { 'TestFrame.h' , New }
+    { 'Application.h' , Red },
+    { 'TestFrame.h' , Red }
    }
   };
 
 Dir Dir308=
   {
    'src',
-   New,
+   Red,
    {
    },
    {
-    { 'Application.cpp' , New },
-    { 'TestFrame.cpp' , New },
-    { 'main.cpp' , New }
+    { 'Application.cpp' , Red },
+    { 'TestFrame.cpp' , Red },
+    { 'main.cpp' , Red }
    }
   };
 

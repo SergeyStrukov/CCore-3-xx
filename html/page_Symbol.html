@@ -67,6 +67,8 @@ StrLen <span class="Att">SymbolRange</span>(const Symbol &ch);
 
 Symbol <span class="Att">PeekSymbol</span>(StrLen text); // +text
 
+Symbol <span class="Att">PeekSymbol_guarded</span>(StrLen text); // +text
+
 </pre>
 
 <p>
@@ -91,6 +93,11 @@ In UTF8-compatible mode the result is -1, if the symbol is not single character 
 </p>
 
 <p>
+<b>PeekSymbol_guarded()</b> peeks the first symbol from the non-empty character range.
+It throws an exception in case of error.
+</p>
+
+<p>
 There are also <b>char</b> variants of these functions:
 </p>
 
@@ -101,16 +108,6 @@ int <span class="Att">ToChar</span>(char ch);
 ulen <span class="Att">SymbolLen</span>(char ch);
 
 StrLen <span class="Att">SymbolRange</span>(const char &ch);
-
-</pre>
-
-<p>
-In UTF8-compatible mode there is a <b>Unicode</b> variant of the <b>ToChar()</b>:
-</p>
-
-<pre>
-
-int <span class="Att">ToChar</span>(Unicode ch);
 
 </pre>
 
@@ -137,11 +134,22 @@ using <span class="Att">Char</span> = char ;
 
 <pre>
 
+int <span class="Att">ToChar</span>(Char ch);
+
 Char <span class="Att">PeekChar</span>(StrLen text) // +text
 
 Char <span class="Att">CutChar</span>(StrLen &text); // +text
 
+Char <span class="Att">PeekChar_guarded</span>(StrLen text); // +text
+
+Char <span class="Att">CutChar_guarded</span>(StrLen &text); // +text
+
 </pre>
+
+<p>
+<b>ToChar()</b> converts a <b>Char</b> value to the <b>char</b> value (represented using <b>int</b> type).
+In UTF8-compatible mode the result is -1, if the symbol is not single character length (i.e. not a basic ASCII symbol). 
+</p>
 
 <p>
 <b>PeekChar()</b> peeks the next <b>Char</b> symbol from the non-empty text.
@@ -151,6 +159,16 @@ In case of error the value <b>Unicode(-1)</b> is returned (only in UTF8-compatib
 <p>
 <b>CutChar()</b> extracts the next <b>Char</b> symbol from the non-empty text (argument <b>text</b> is updated).
 In case of error the value <b>Unicode(-1)</b> is returned (only in UTF8-compatible mode) and <b>text</b> is moved by 1 character.
+</p>
+
+<p>
+<b>PeekChar_guarded()</b> peeks the next <b>Char</b> symbol from the non-empty text.
+It throws an exception in case of error.
+</p>
+
+<p>
+<b>CutChar_guarded()</b> extracts the next <b>Char</b> symbol from the non-empty text (argument <b>text</b> is updated).
+It throws an exception in case of error.
 </p>
 
 </body>

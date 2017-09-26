@@ -219,6 +219,10 @@ Unicode PeekUtf8_unicode(StrLen text); // +text , Unicode(-1) on error
 
 Unicode CutUtf8_unicode(StrLen &text); // +text , Unicode(-1) on error
 
+Unicode PeekUtf8_unicode_guarded(StrLen text); // +text
+
+Unicode CutUtf8_unicode_guarded(StrLen &text); // +text
+
 /* functions */
 
 void TrimUtf8End(StrLen &text); // removes non-complete trailing sequence

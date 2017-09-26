@@ -54,8 +54,6 @@ inline constexpr unsigned MaxSymbolLen = 1 ;
 
 inline int ToChar(Utf8Code ch) { return (ch.getLen()==1)?ch[0]:(-1); }
 
-inline int ToChar(Unicode ch) { return (ch<128)?char(ch):(-1); }
-
 inline ulen SymbolLen(Utf8Code ch) { return ch.getLen(); }
 
 inline StrLen SymbolRange(const Utf8Code &ch) { return ch.getRange(); }
@@ -65,9 +63,19 @@ inline Utf8Code PeekSymbol(StrLen text) // +text
   return PeekUtf8(text);
  }
 
+inline Utf8Code PeekSymbol_guarded(StrLen text) // +text
+ {
+  return PeekUtf8_guarded(text);
+ }
+
 #else
 
 inline char PeekSymbol(StrLen text) // +text
+ {
+  return *text;
+ }
+
+inline char PeekSymbol_guarded(StrLen text) // +text
  {
   return *text;
  }
@@ -96,6 +104,8 @@ using Char = char ;
 
 #ifdef CCORE_UTF8
 
+inline int ToChar(Unicode ch) { return (ch<128)?char(ch):(-1); }
+
 inline Char PeekChar(StrLen text) // +text
  {
   return PeekUtf8_unicode(text);
@@ -106,6 +116,16 @@ inline Char CutChar(StrLen &text) // +text
   return CutUtf8_unicode(text);
  }
 
+inline Char PeekChar_guarded(StrLen text) // +text
+ {
+  return PeekUtf8_unicode_guarded(text);
+ }
+
+inline Char CutChar_guarded(StrLen &text) // +text
+ {
+  return CutUtf8_unicode_guarded(text);
+ }
+
 #else
 
 inline Char PeekChar(StrLen text) // +text
@@ -114,6 +134,20 @@ inline Char PeekChar(StrLen text) // +text
  }
 
 inline Char CutChar(StrLen &text) // +text
+ {
+  char ch=*text;
+
+  ++text;
+
+  return ch;
+ }
+
+inline Char PeekChar_guarded(StrLen text) // +text
+ {
+  return *text;
+ }
+
+inline Char CutChar_guarded(StrLen &text) // +text
  {
   char ch=*text;
 

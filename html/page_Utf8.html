@@ -186,6 +186,10 @@ Unicode <span class="Att">PeekUtf8_unicode</span>(StrLen text); // +text , Unico
 
 Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
 
+Unicode <span class="Att">PeekUtf8_unicode_guarded</span>(StrLen text); // +text
+
+Unicode <span class="Att">CutUtf8_unicode_guarded</span>(StrLen &text); // +text
+
 </pre>
 
 <p>
@@ -240,6 +244,18 @@ and converts it to the Unicode value. In case of error the value <b>Unicode(-1)<
 <b>CutUtf8_unicode()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated)
 and converts it to the Unicode value. 
 In case of error the value <b>Unicode(-1)</b> is returned and <b>text</b> is moved by 1 character.
+</p>
+
+<p>
+<b>PeekUtf8_unicode_guarded()</b> peeks the next UTF8 symbol from the non-empty text
+and converts it to the Unicode value. 
+It throws an exception in case of error.
+</p>
+
+<p>
+<b>CutUtf8_unicode_guarded()</b> extracts the next UTF8 symbol from the non-empty text (argument <b>text</b> is updated)
+and converts it to the Unicode value. 
+It throws an exception in case of error.
 </p>
 
 <pre>

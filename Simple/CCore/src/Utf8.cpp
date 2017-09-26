@@ -165,6 +165,53 @@ Unicode CutUtf8_unicode(StrLen &text)
   return ret.ch;
  }
 
+Unicode PeekUtf8_unicode_guarded(StrLen text)
+ {
+  struct Ret
+   {
+    Unicode ch;
+
+    Ret(char) : ch(-1) { GuardUtf8Broken("CCore::PeekUtf8_unicode_guarded(...)"); }
+
+    Ret(char,Unicode ch_) : ch(ch_) {}
+
+    Ret(char,char,Unicode ch_) : ch(ch_) {}
+
+    Ret(char,char,char,Unicode ch_) : ch(ch_) {}
+
+    Ret(char,char,char,char,Unicode ch_) : ch(ch_) {}
+
+    operator Unicode() const { return ch; }
+   };
+
+  return PeekUtf8_gen<Ret>(text);
+ }
+
+Unicode CutUtf8_unicode_guarded(StrLen &text)
+ {
+  struct Ret
+   {
+    Unicode ch;
+    unsigned len;
+
+    Ret(char) : ch(-1),len(1) { GuardUtf8Broken("CCore::CutUtf8_unicode_guarded(...)"); }
+
+    Ret(char,Unicode ch_) : ch(ch_),len(1) {}
+
+    Ret(char,char,Unicode ch_) : ch(ch_),len(2) {}
+
+    Ret(char,char,char,Unicode ch_) : ch(ch_),len(3) {}
+
+    Ret(char,char,char,char,Unicode ch_) : ch(ch_),len(4) {}
+   };
+
+  Ret ret=PeekUtf8_gen<Ret>(text);
+
+  text+=ret.len;
+
+  return ret.ch;
+ }
+
 /* functions */
 
 void TrimUtf8End(StrLen &text)
