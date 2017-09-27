@@ -87,19 +87,13 @@ inline bool CharIsLetterDigit(Char ch) { return IsLetterDigit(GetCharClass(ch));
 
 inline bool CharIsLetterDigitDot(Char ch) { return IsLetterDigitDot(GetCharClass(ch)); }
 
-#ifdef CCORE_UTF8
-
-inline bool CharIsSpace(Char ch) { return ch<128 && CharIsSpace((char)ch) ; }
-
-#endif
-
 //---------------------------------
 //
 // From CharProp.h and TextTools.h
 //
 //---------------------------------
 //
-// bool CharIsSpace(char ch);
+// bool CharIsSpace(Char ch);
 //
 //---------------------------------
 

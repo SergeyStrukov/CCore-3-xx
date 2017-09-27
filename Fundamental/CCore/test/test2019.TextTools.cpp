@@ -30,7 +30,7 @@ class Test : public CharPropTable<bool,false>
 
    Test()
     {
-     setIf(CharIsHex,true);
+     setIf(CharIsHex<char>,true);
     }
  };
 

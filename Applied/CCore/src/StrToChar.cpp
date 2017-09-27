@@ -26,9 +26,7 @@ StrToChar::StrToChar(StrLen text)
  {
   while( +text )
     {
-     Unicode ch=CutUtf8_unicode(text);
-
-     if( ch==Unicode(-1) ) GuardUtf8Broken("CCore::StrToChar::StrToChar(...)");
+     Unicode ch=CutUtf8_unicode_guarded(text);
 
      buf.append_copy(ch);
     }

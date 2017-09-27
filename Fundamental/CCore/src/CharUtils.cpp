@@ -29,9 +29,7 @@ FillCharBuf::FillCharBuf(PtrLen<Char> out,StrLen text)
 
   while( +text )
     {
-     Unicode ch=CutUtf8_unicode(text);
-
-     if( ch==Unicode(-1) ) GuardUtf8Broken("CCore::FillCharBuf::FillCharBuf(...)");
+     Unicode ch=CutUtf8_unicode_guarded(text);
 
      if( !out )
        {

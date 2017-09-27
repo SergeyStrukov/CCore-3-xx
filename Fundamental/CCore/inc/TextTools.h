@@ -18,20 +18,33 @@
 
 #include <CCore/inc/CharProp.h>
 #include <CCore/inc/SymCount.h>
+#include <CCore/inc/Symbol.h>
 
 namespace CCore {
 
 /* functions */
 
-inline bool CharIsEOL(char ch) { return ch=='\r' || ch=='\n' ; }
+bool CharIsEOL(OneOfTypes<char,Char> ch) { return ch=='\r' || ch=='\n' ; }
 
-inline bool CharIsBin(char ch) { return ch=='0' || ch=='1' ; }
+bool CharIsBin(OneOfTypes<char,Char> ch) { return ch=='0' || ch=='1' ; }
 
-inline bool CharIsDec(char ch) { return ch>='0' && ch<='9' ; }
+bool CharIsDec(OneOfTypes<char,Char> ch) { return ch>='0' && ch<='9' ; }
 
-inline bool CharIsHex(char ch) { return CharHexValue(ch)>=0; }
+bool CharIsHex(OneOfTypes<char,Char> ch) { return CharHexValue(ch)>=0; }
 
-inline int CharBinValue(char ch) { if( ch>='0' && ch<='1' ) return ch-'0'; return -1; }
+int CharBinValue(OneOfTypes<char,Char> ch) { if( ch>='0' && ch<='1' ) return ch-'0'; return -1; }
+
+/* AllChars() */
+
+void AllChars(FuncArgType<char> func)
+ {
+  for(int i=-128; i<128 ;i++)
+    {
+     char ch=char(i);
+
+     func(ch);
+    }
+ }
 
 /* classes */
 
@@ -120,12 +133,7 @@ class CharPropTable : NoCopy
 
    void setIf(FuncType<bool,char> cond,CharClass cc)
     {
-     for(int i=-128; i<128 ;i++)
-       {
-        char ch=char(i);
-
-        if( cond(ch) ) set(ch,cc);
-       }
+     AllChars( [this,cond,cc] (char ch) { if( cond(ch) ) set(ch,cc); } );
     }
 
   public:

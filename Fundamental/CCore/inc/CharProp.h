@@ -239,17 +239,29 @@ int CharHexValue(CharCodeType ch) { return CharCode(ch).hexValue(); }
 
 #ifdef CCORE_UTF8
 
-inline bool CharIsSpecial(Utf8Code ch) { return (ch.getLen()==1)?CharIsSpecial(ch[0]):false; }
+inline bool CharIsSpecial(Utf8Code code) { return (code.getLen()==1)?CharIsSpecial(code[0]):false; }
 
-inline bool CharIsVisible(Utf8Code ch) { return (ch.getLen()==1)?CharIsVisible(ch[0]):true; }
+inline bool CharIsVisible(Utf8Code code) { return (code.getLen()==1)?CharIsVisible(code[0]):true; }
 
-inline bool CharIsPrintable(Utf8Code ch) { return (ch.getLen()==1)?CharIsPrintable(ch[0]):true; }
+inline bool CharIsPrintable(Utf8Code code) { return (code.getLen()==1)?CharIsPrintable(code[0]):true; }
 
-inline bool CharIsSpecial(Unicode ch) { return CharIsSpecial(ToUtf8(ch)); }
+inline bool CharIsSpace(Utf8Code code) { return (code.getLen()==1)?CharIsSpace(code[0]):false; }
 
-inline bool CharIsVisible(Unicode ch) { return CharIsVisible(ToUtf8(ch)); }
+inline int CharDecValue(Utf8Code code) { return (code.getLen()==1)?CharDecValue(code[0]):(-1); }
 
-inline bool CharIsPrintable(Unicode ch) { return CharIsPrintable(ToUtf8(ch)); }
+inline int CharHexValue(Utf8Code code) { return (code.getLen()==1)?CharHexValue(code[0]):(-1); }
+
+inline bool CharIsSpecial(Unicode ch) { return (ch<128)?CharIsSpecial((char)ch):false; }
+
+inline bool CharIsVisible(Unicode ch) { return (ch<128)?CharIsVisible((char)ch):true; }
+
+inline bool CharIsPrintable(Unicode ch) { return (ch<128)?CharIsPrintable((char)ch):true; }
+
+inline bool CharIsSpace(Unicode ch) { return (ch<128)?CharIsSpace((char)ch):false; }
+
+inline int CharDecValue(Unicode ch) { return (ch<128)?CharDecValue((char)ch):(-1); }
+
+inline int CharHexValue(Unicode ch) { return (ch<128)?CharHexValue((char)ch):(-1); }
 
 #endif
 

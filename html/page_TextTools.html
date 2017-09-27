@@ -38,15 +38,15 @@ This header contains several simple tools to work with text and characters.
 
 <pre>
 
-inline bool <span class="Att">CharIsEOL</span>(char ch) { return ch=='\r' || ch=='\n' ; }
+bool <span class="Att">CharIsEOL</span>(OneOfTypes&lt;char,Char&gt; ch) { return ch=='\r' || ch=='\n' ; }
 
-inline bool <span class="Att">CharIsBin</span>(char ch);
+bool <span class="Att">CharIsBin</span>(OneOfTypes&lt;char,Char&gt; ch);
  
-inline bool <span class="Att">CharIsDec</span>(char ch);
+bool <span class="Att">CharIsDec</span>(OneOfTypes&lt;char,Char&gt; ch);
 
-inline bool <span class="Att">CharIsHex</span>(char ch);
+bool <span class="Att">CharIsHex</span>(OneOfTypes&lt;char,Char&gt; ch);
 
-inline int <span class="Att">CharBinValue</span>(char ch);
+int <span class="Att">CharBinValue</span>(OneOfTypes&lt;char,Char&gt; ch);
 
 </pre>
 
@@ -68,6 +68,18 @@ inline int <span class="Att">CharBinValue</span>(char ch);
 
 <p>
 <b>CharBinValue()</b> &mdash; binary value of the character, or -1 if is not a binary digit.
+</p>
+
+<h4>AllChars()</h4>
+
+<pre>
+
+void <span class="Att">AllChars</span>(FuncArgType&lt;char&gt; func);
+
+</pre>
+
+<p>
+<b>AllChars()</b> calls the given functor for all 256 values of <b>char</b>.
 </p>
 
 <h4>TextPos</h4>

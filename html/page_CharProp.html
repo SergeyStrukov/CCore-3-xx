@@ -274,17 +274,33 @@ In UTF8-compatible mode there are extra functions for <b>Utf8Code</b> and <b>Uni
 
 <pre>
 
-bool <span class="Att">CharIsSpecial</span>(Utf8Code ch);
+bool <span class="Att">CharIsSpecial</span>(Utf8Code code);
 
-bool <span class="Att">CharIsVisible</span>(Utf8Code ch);
+bool <span class="Att">CharIsVisible</span>(Utf8Code code);
 
-bool <span class="Att">CharIsPrintable</span>(Utf8Code ch);
+bool <span class="Att">CharIsPrintable</span>(Utf8Code code);
 
-inline bool <span class="Att">CharIsSpecial</span>(Unicode ch) { return CharIsSpecial(ToUtf8(ch)); }
+bool <span class="Att">CharIsSpace</span>(Utf8Code code);
 
-inline bool <span class="Att">CharIsVisible</span>(Unicode ch) { return CharIsVisible(ToUtf8(ch)); }
+int <span class="Att">CharDecValue</span>(Utf8Code code);
 
-inline bool <span class="Att">CharIsPrintable</span>(Unicode ch) { return CharIsPrintable(ToUtf8(ch)); }
+int <span class="Att">CharHexValue</span>(Utf8Code code);
+
+</pre>
+
+<pre>
+
+bool <span class="Att">CharIsSpecial</span>(Unicode ch);
+
+bool <span class="Att">CharIsVisible</span>(Unicode ch);
+
+bool <span class="Att">CharIsPrintable</span>(Unicode ch);
+
+bool <span class="Att">CharIsSpace</span>(Unicode ch);
+
+int <span class="Att">CharDecValue</span>(Unicode ch);
+
+int <span class="Att">CharHexValue</span>(Unicode ch);
 
 </pre>
 
