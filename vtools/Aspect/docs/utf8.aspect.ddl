@@ -40,7 +40,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Applied',
-   Yellow,
+   Green,
    {
     &Dir15
    },
@@ -573,7 +573,7 @@ Dir Dir14=
 Dir Dir15=
   {
    'CCore',
-   Yellow,
+   Green,
    {
     &Dir60,
     &Dir61,
@@ -586,7 +586,7 @@ Dir Dir15=
 Dir Dir60=
   {
    'inc',
-   Yellow,
+   Green,
    {
     &Dir63,
     &Dir64,
@@ -617,7 +617,7 @@ Dir Dir60=
     { 'PacketPool.h' , Ignore },
     { 'PacketSet.h' , Ignore },
     { 'PerTask.h' , Ignore },
-    { 'StrToChar.h' , Yellow },
+    { 'StrToChar.h' , Green },
     { 'TaskMemStack.h' , Ignore },
     { 'ToMemBase.h' , Ignore }
    }
@@ -626,7 +626,7 @@ Dir Dir60=
 Dir Dir61=
   {
    'src',
-   Yellow,
+   Green,
    {
     &Dir73,
     &Dir74,
@@ -659,7 +659,7 @@ Dir Dir61=
     { 'PacketPool_PacketMaxDataLen.cpp' , Ignore },
     { 'PacketSet.cpp' , Ignore },
     { 'PerTask.cpp' , Ignore },
-    { 'StrToChar.cpp' , Yellow },
+    { 'StrToChar.cpp' , Green },
     { 'TaskMemStack.cpp' , Ignore },
     { 'ToMemBase.cpp' , Ignore }
    }

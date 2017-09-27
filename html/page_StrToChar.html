@@ -1,0 +1,87 @@
+<!--
+/* page_StrToChar.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> StrToChar</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>StrToChar</h2>
+
+<p class="Files">Files <b>CCore/inc/StrToChar.h</b> <b>CCore/src/StrToChar.cpp</b></p>
+
+<p>
+This file contains two classes to convert <b>Char</b> text into <b>char</b> text and vise versa.
+</p>
+
+<pre>
+
+/* class StrToChar */
+
+class <span class="Att">StrToChar</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit StrToChar(StrLen text);
+
+   ~StrToChar();
+
+   PtrLen&lt;const Char&gt; operator + () const;
+
+   operator PtrLen&lt;const Char&gt;() const;
+ };
+
+/* class CharToStr */
+
+class <span class="Att">CharToStr</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit CharToStr(PtrLen&lt;const Char&gt; text);
+
+   ~CharToStr();
+
+   StrLen operator + () const;
+
+   operator StrLen() const;
+ };
+
+</pre>
+
+<p>
+In UTF8-compatible mode these classes allocates a memory and performes the required conversion between Unicode and UTF8 representations. 
+An exception is throwns in case of broken UTF8 sequence.
+</p>
+
+<p>
+In ASCII mode these classes are trivial.
+</p>
+
+</body>
+
+</html>
+

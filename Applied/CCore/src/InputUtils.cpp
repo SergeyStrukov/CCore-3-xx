@@ -122,6 +122,8 @@ bool ReadConBase::get(TimeScope time_scope,Utf8Code &ret)
      len+=delta;
 
      if( try_get(ret) ) return true;
+
+     shift();
     }
 
   return false;
