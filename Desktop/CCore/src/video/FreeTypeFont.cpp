@@ -18,6 +18,11 @@
 #include <CCore/inc/video/FreeType.h>
 
 #include <CCore/inc/AutoGlobal.h>
+#include <CCore/inc/TextTools.h>
+
+#ifdef CCORE_UTF8
+# include <CCore/inc/CompactMap.h>
+#endif
 
 #include <CCore/inc/Exception.h>
 
@@ -114,7 +119,17 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     Coord dx1;
    };
 
-  CharX char_x[256];
+  using IndexType = FT_UInt ;
+
+#ifdef CCORE_UTF8
+
+  mutable CompactRBTreeMap<IndexType,CharX> map;
+
+#else
+
+  CharX map[256];
+
+#endif
 
   // constructors
 
@@ -154,8 +169,6 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
   ~Inner() {}
 
   // methods
-
-  using IndexType = FT_UInt ;
 
 #ifdef CCORE_UTF8
 
@@ -228,14 +241,49 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
   CharX glyph(Char ch) const
    {
-    return glyph_index(indexOf(ch));
+    IndexType index=indexOf(ch);
+
+    auto result=map.find_or_add(index);
+
+    if( result.new_flag )
+      {
+       CharX ret=glyph_index(index);
+
+       *result.obj=ret;
+
+       return ret;
+      }
+    else
+      {
+       return *result.obj;
+      }
+   }
+
+  void setCharX(char,IndexType index,CharX met)
+   {
+    Replace_min(font_size.min_dx,met.dx);
+    Replace_max(font_size.max_dx,met.dx);
+    Replace_max(font_size.dx0,met.dx0);
+    Replace_max(font_size.dx1,met.dx1);
+
+    map.find_or_add(index,met);
    }
 
 #else
 
   CharX glyph(Char ch) const
    {
-    return char_x[uint8(ch)];
+    return map[uint8(ch)];
+   }
+
+  void setCharX(char ch,IndexType,CharX met)
+   {
+    Replace_min(font_size.min_dx,met.dx);
+    Replace_max(font_size.max_dx,met.dx);
+    Replace_max(font_size.dx0,met.dx0);
+    Replace_max(font_size.dx1,met.dx1);
+
+    map[uint8(ch)]=met;
    }
 
 #endif
@@ -261,18 +309,21 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
     font_size.dx0=0;
     font_size.dx1=0;
 
-    for(int i=-128; i<128 ;i++)
-      {
-       char ch=char(i);
-       CharX met=glyph_index(face.getGlyphIndex(Object->map(ch)));
+#ifdef CCORE_UTF8
 
-       Replace_min(font_size.min_dx,met.dx);
-       Replace_max(font_size.max_dx,met.dx);
-       Replace_max(font_size.dx0,met.dx0);
-       Replace_max(font_size.dx1,met.dx1);
+    map.erase();
 
-       char_x[uint8(ch)]=met;
-      }
+#endif
+
+    AllChars( [this] (char ch)
+                     {
+                      IndexType index=face.getGlyphIndex(Object->map(ch));
+
+                      CharX met=glyph_index(index);
+
+                      setCharX(ch,index,met);
+
+                     } );
 
     Coord dy=FreeType::RoundUp(face.getMetrics().height);
     Coord by=FreeType::RoundUp(face.getMetrics().ascender);
