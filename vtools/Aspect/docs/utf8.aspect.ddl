@@ -5436,7 +5436,7 @@ Dir Dir52=
    },
    {
     { 'Makefile' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile.files' , Ignore }
    }
   };
 
@@ -5452,29 +5452,29 @@ Dir Dir53=
    },
    {
     { 'Makefile' , Red },
-    { 'ContourLab.exe' , Red },
-    { 'Makefile.files' , Red }
+    { 'ContourLab.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir54=
   {
    'DDLDisplay',
-   Red,
+   Ignore,
    {
     &Dir298,
     &Dir299
    },
    {
-    { 'Makefile' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir55=
   {
    'EventView',
-   Red,
+   Ignore,
    {
     &Dir300
    },
@@ -5485,71 +5485,71 @@ Dir Dir55=
 Dir Dir56=
   {
    'RandomId',
-   Red,
+   Ignore,
    {
     &Dir301,
     &Dir302
    },
    {
-    { 'Makefile' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir57=
   {
    'Sample',
-   Red,
+   Ignore,
    {
     &Dir303,
     &Dir304
    },
    {
-    { 'Makefile' , Red },
-    { 'Sample.exe' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'Sample.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir58=
   {
    'SubLab',
-   Red,
+   Ignore,
    {
     &Dir305,
     &Dir306
    },
    {
-    { 'Makefile' , Red },
-    { 'SubLab.exe' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'SubLab.exe' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir59=
   {
    'UserPreference',
-   Red,
+   Ignore,
    {
     &Dir307,
     &Dir308
    },
    {
-    { 'Makefile' , Red },
-    { 'Makefile.files' , Red }
+    { 'Makefile' , Ignore },
+    { 'Makefile.files' , Ignore }
    }
   };
 
 Dir Dir291=
   {
    'docs',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'gcc7.aspect.ddl' , Red },
-    { 'utf8.aspect.ddl' , Red },
-    { 'vtools.aspect.ddl' , Red }
+    { 'gcc7.aspect.ddl' , Ignore },
+    { 'utf8.aspect.ddl' , Ignore },
+    { 'vtools.aspect.ddl' , Ignore }
    }
   };
 
@@ -5701,143 +5701,143 @@ Dir Dir310=
 Dir Dir298=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red },
-    { 'Display.h' , Red }
+    { 'Application.h' , Ignore },
+    { 'Client.h' , Ignore },
+    { 'Display.h' , Ignore }
    }
   };
 
 Dir Dir299=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'Display.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Ignore },
+    { 'Client.cpp' , Ignore },
+    { 'Display.cpp' , Ignore },
+    { 'main.cpp' , Ignore }
    }
   };
 
 Dir Dir300=
   {
    'prototype',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'EventView.exe.config' , Red },
-    { 'EventView.exe' , Red }
+    { 'EventView.exe.config' , Ignore },
+    { 'EventView.exe' , Ignore }
    }
   };
 
 Dir Dir301=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red },
-    { 'RandomId.h' , Red }
+    { 'Application.h' , Ignore },
+    { 'Client.h' , Ignore },
+    { 'RandomId.h' , Ignore }
    }
   };
 
 Dir Dir302=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'RandomId.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Ignore },
+    { 'Client.cpp' , Ignore },
+    { 'RandomId.cpp' , Ignore },
+    { 'main.cpp' , Ignore }
    }
   };
 
 Dir Dir303=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red },
-    { 'Sample.h' , Red }
+    { 'Application.h' , Ignore },
+    { 'Client.h' , Ignore },
+    { 'Sample.h' , Ignore }
    }
   };
 
 Dir Dir304=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'Sample.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Ignore },
+    { 'Client.cpp' , Ignore },
+    { 'Sample.cpp' , Ignore },
+    { 'main.cpp' , Ignore }
    }
   };
 
 Dir Dir305=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red }
+    { 'Application.h' , Ignore },
+    { 'Client.h' , Ignore }
    }
   };
 
 Dir Dir306=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Ignore },
+    { 'Client.cpp' , Ignore },
+    { 'main.cpp' , Ignore }
    }
   };
 
 Dir Dir307=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'TestFrame.h' , Red }
+    { 'Application.h' , Ignore },
+    { 'TestFrame.h' , Ignore }
    }
   };
 
 Dir Dir308=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'TestFrame.cpp' , Red },
-    { 'main.cpp' , Red }
+    { 'Application.cpp' , Ignore },
+    { 'TestFrame.cpp' , Ignore },
+    { 'main.cpp' , Ignore }
    }
   };
 
