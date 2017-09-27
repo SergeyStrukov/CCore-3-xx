@@ -526,6 +526,8 @@ class LineEditWindowOf : public SubWindow
      shape.setMax();
 
      redraw();
+
+     assigned.assert();
     }
 
    bool setText(PtrLen<const Char> text) // false on truncation
@@ -601,6 +603,8 @@ class LineEditWindowOf : public SubWindow
      shape.showCursor();
 
      redraw();
+
+     assigned.assert();
 
      return ret;
     }
@@ -988,6 +992,7 @@ class LineEditWindowOf : public SubWindow
 
    Signal<> entered;
    Signal<> changed;
+   Signal<> assigned;
    Signal<bool> tabbed; // shift
  };
 
@@ -1015,11 +1020,19 @@ class CacheText : NoCopy
      changed.assert();
     }
 
-   SignalConnector<CacheText> connector;
+   SignalConnector<CacheText> connector_changed;
+   SignalConnector<CacheText> connector_assigned;
 
   public:
 
-   explicit CacheText(T &obj_) : obj(obj_),connector(this,&CacheText::clear,obj.changed) {}
+   explicit CacheText(T &obj_)
+    : obj(obj_),
+      connector_changed(this,&CacheText::clear,obj.changed),
+      connector_assigned(this,&CacheText::invalidate,obj.assigned)
+    {
+    }
+
+   void invalidate() { ok=false; }
 
    StrLen getText() const
     {
@@ -1046,6 +1059,8 @@ class CacheText : NoCopy
   public:
 
    explicit CacheText(T &obj_) : obj(obj_),changed(obj.changed) {}
+
+   void invalidate() {}
 
    StrLen getText() const { return obj.getText(); }
 

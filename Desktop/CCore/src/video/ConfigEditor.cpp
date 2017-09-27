@@ -812,7 +812,7 @@ void ConfigEditorWindow::changed()
 
 void ConfigEditorWindow::string_edit_changed()
  {
-  if( string_pad.update(String(string_edit.getText())) ) changed();
+  if( string_pad.update(string_edit.getString()) ) changed();
  }
 
 void ConfigEditorWindow::coord_edit_changed(Coord value)

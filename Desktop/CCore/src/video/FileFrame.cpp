@@ -964,8 +964,6 @@ void FileWindow::knob_back_pressed()
     {
      dir_name.len-=delta;
 
-     edit_dir.setTextLen(dir_name.len);
-
      setDir(dir_name);
     }
  }

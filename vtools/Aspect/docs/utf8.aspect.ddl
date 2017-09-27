@@ -429,6 +429,7 @@ Dir Dir11=
     { 'page_StrKey.html' , Ignore },
     { 'page_StrMap.html' , Ignore },
     { 'page_StrParse.html' , Ignore },
+    { 'page_StrToChar.html' , New },
     { 'page_String.html' , Ignore },
     { 'page_Swap.html' , Ignore },
     { 'page_SymCount.html' , Green },
@@ -566,7 +567,7 @@ Dir Dir14=
     &Dir59
    },
    {
-    { 'Makefile' , Red }
+    { 'Makefile' , Ignore }
    }
   };
 
@@ -1315,7 +1316,7 @@ Dir Dir87=
     { 'FrameBase.cpp' , Ignore },
     { 'FrameWindow.cpp' , Green },
     { 'FreeType.cpp' , Green },
-    { 'FreeTypeFont.cpp' , Green },
+    { 'FreeTypeFont.cpp' , Yellow },
     { 'GammaTable.cpp' , Ignore },
     { 'HomeFile.cpp' , Ignore },
     { 'Incremental.cpp' , Ignore },
@@ -1365,7 +1366,7 @@ Dir Dir90=
     { 'Shape.Contour.cpp' , Ignore },
     { 'Window.Decor.cpp' , Ignore },
     { 'Shape.DragFrame.cpp' , Ignore },
-    { 'Window.DragFrame.cpp' , Green },
+    { 'Window.DragFrame.cpp' , Ignore },
     { 'Shape.FixedFrame.cpp' , Ignore },
     { 'Shape.FrameBase.cpp' , Ignore },
     { 'Shape.Info.cpp' , Ignore },
