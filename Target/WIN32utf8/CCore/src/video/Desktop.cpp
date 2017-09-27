@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/Desktop.h>
 
+#include <CCore/inc/TextTools.h>
+
 #include <CCore/inc/video/InternalUtils.h>
 #include <CCore/inc/video/InternalDesktop.h>
 
@@ -90,22 +92,22 @@ void ShellVerb(StrLen verb_,StrLen file_name_)
 
 CharMapTable::CharMapTable()
  {
-  for(unsigned ind=0; ind<256u ;ind++)
-    {
-     char ch=char(ind);
-     Win32::wchar out;
+  AllChars( [this] (char ch)
+                   {
+                    Win32::wchar out;
 
-     int len=Win32::MultiByteToWideChar(Win32::CodePageActive,Win32::MultiBytePrecomposed|Win32::MultiByteUseGlyphChars,&ch,1,&out,1);
+                    int len=Win32::MultiByteToWideChar(Win32::CodePageActive,Win32::MultiBytePrecomposed|Win32::MultiByteUseGlyphChars,&ch,1,&out,1);
 
-     if( len!=1 )
-       {
-        table[ind]=0;
-       }
-     else
-       {
-        table[ind]=out;
-       }
-    }
+                    if( len!=1 )
+                      {
+                       table[Index(ch)]=0;
+                      }
+                    else
+                      {
+                       table[Index(ch)]=out;
+                      }
+
+                   } );
  }
 
 /* class SystemFontDirs */

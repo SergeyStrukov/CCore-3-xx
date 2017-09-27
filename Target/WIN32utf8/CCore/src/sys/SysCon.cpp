@@ -95,14 +95,6 @@ bool ConRead::Symbol::pushUnicode(uint32 sym)
   return true;
  }
 
-bool ConRead::Symbol::pushUnicode(uint32 sym1,uint32 sym2)
- {
-  put(sym1);
-  put(sym2);
-
-  return true;
- }
-
 bool ConRead::Symbol::push(WChar wch)
  {
   if( hi )
@@ -246,7 +238,7 @@ auto ConRead::read(char *buf,ulen len) noexcept -> IOResult
   return ret;
  }
 
-auto ConRead::read(char *buf,ulen len,MSec timeout) noexcept -> IOResult
+auto ConRead::read(char *buf,ulen len,TimeScope time_scope) noexcept -> IOResult
  {
   IOResult ret;
 
@@ -262,8 +254,6 @@ auto ConRead::read(char *buf,ulen len,MSec timeout) noexcept -> IOResult
     {
      return symbol.get(buf,len);
     }
-
-  TimeScope time_scope(timeout);
 
   for(unsigned to_msec; (to_msec=+time_scope.get())!=0 ;)
     {

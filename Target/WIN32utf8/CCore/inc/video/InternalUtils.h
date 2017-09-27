@@ -166,7 +166,7 @@ class GetEnv : NoCopy
     {
      name.guard("CCore::Video::Internal::GetEnv<...>::GetEnv(...)");
 
-     value.len=Win32::GetEnvironmentVariableW(name,value.buf,ValueLen+1);
+     value.len=Win32::GetEnvironmentVariableW(name,value.buf,value.Len);
 
      if( value.len>ValueLen )
        {

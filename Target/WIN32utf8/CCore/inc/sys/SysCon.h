@@ -66,8 +66,6 @@ struct ConRead
 
     bool pushUnicode(uint32 sym);
 
-    bool pushUnicode(uint32 sym1,uint32 sym2);
-
     bool push(uint16 wch);
 
     void shift(ulen delta);
@@ -108,16 +106,12 @@ struct ConRead
 
   IOResult read(char *buf,ulen len) noexcept;
 
-  IOResult read(char *buf,ulen len,MSec timeout) noexcept;
-
-  IOResult read(char *buf,ulen len,TimeScope time_scope)
+  IOResult read(char *buf,ulen len,MSec timeout)
    {
-    auto timeout=time_scope.get();
-
-    if( !timeout ) return {0,NoError};
-
-    return read(buf,len,timeout);
+    return read(buf,len,TimeScope(timeout));
    }
+
+  IOResult read(char *buf,ulen len,TimeScope time_scope) noexcept;
  };
 
 } // namespace Sys

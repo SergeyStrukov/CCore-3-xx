@@ -16,9 +16,7 @@
 #include <CCore/inc/sys/SysFileSystem.h>
 #include <CCore/inc/sys/SysFileInternal.h>
 
-#include <CCore/inc/Array.h>
 #include <CCore/inc/Path.h>
-#include <CCore/inc/Exception.h>
 
 namespace CCore {
 namespace Sys {

@@ -61,11 +61,15 @@ class CharMapTable : NoCopy
  {
    Unicode table[256];
 
+  private:
+
+   static uint8 Index(CharCodeType ch) { return uint8(ch); }
+
   public:
 
    CharMapTable();
 
-   Unicode operator () (CharCodeType ch) const { return table[(uint8)ch]; }
+   Unicode operator () (CharCodeType ch) const { return table[Index(ch)]; }
  };
 
 /* class SystemFontDirs */
