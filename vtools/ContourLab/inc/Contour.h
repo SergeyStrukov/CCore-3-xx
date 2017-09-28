@@ -551,8 +551,6 @@ class Contour : public NoCopyBase<Formular>
       ~NameKey() {}
 
       operator StrKey() const { return key; }
-
-      operator StrLen() const { return key.str; }
     };
 
 #else
@@ -595,6 +593,8 @@ class Contour : public NoCopyBase<Formular>
      return addPad(index,name,obj);
     }
 
+   bool addPad(ulen index,StrKey key,Object obj);
+
    bool addPad(ulen index,PtrLen<const Char> name,Object obj);
 
 #ifdef CCORE_UTF8
@@ -604,6 +604,8 @@ class Contour : public NoCopyBase<Formular>
 #endif
 
    bool addFormula(ulen index,PtrLen<const Char> name,Object obj);
+
+   bool setFormula(ulen index,StrKey key,Object obj);
 
    bool setFormula(ulen index,PtrLen<const Char> name,Object obj);
 

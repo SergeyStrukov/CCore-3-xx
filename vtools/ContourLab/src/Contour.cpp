@@ -114,7 +114,7 @@ void Contour::UpdateIndexes(DynArray<Item> &a,ulen index)
   for(ulen i=index,len=a.getLen(); i<len ;i++) a[i].obj.updateIndex(i);
  }
 
-bool Contour::addPad(ulen index,PtrLen<const Char> name,Object obj)
+bool Contour::addPad(ulen index,StrKey key,Object obj)
  {
   if( index>pads.getLen() )
     {
@@ -123,9 +123,7 @@ bool Contour::addPad(ulen index,PtrLen<const Char> name,Object obj)
 
   pads.reserve(1);
 
-  NameKey k(name);
-
-  auto result=map.find_or_add(k,obj);
+  auto result=map.find_or_add(key,obj);
 
   if( !result.new_flag ) return false;
 
@@ -142,34 +140,20 @@ bool Contour::addPad(ulen index,PtrLen<const Char> name,Object obj)
   return true;
  }
 
+bool Contour::addPad(ulen index,PtrLen<const Char> name,Object obj)
+ {
+  NameKey key(name);
+
+  return addPad(index,key,obj);
+ }
+
 #ifdef CCORE_UTF8
 
 bool Contour::addPad(ulen index,StrLen name,Object obj)
  {
-  if( index>pads.getLen() )
-    {
-     Printf(Exception,"App::Contour::addPad(#;,...) : out of range",index);
-    }
+  StrKey key(name);
 
-  pads.reserve(1);
-
-  StrKey k(name);
-
-  auto result=map.find_or_add(k,obj);
-
-  if( !result.new_flag ) return false;
-
-  Label label(result.key->name);
-
-  Item item{label,obj};
-
-  ArrayCopyIns(pads,index,item);
-
-  obj.setIndex({IndexPad,index});
-
-  UpdateIndexes(pads,index+1);
-
-  return true;
+  return addPad(index,key,obj);
  }
 
 #endif
@@ -202,11 +186,9 @@ bool Contour::addFormula(ulen index,PtrLen<const Char> name,Object obj)
   return true;
  }
 
-bool Contour::setFormula(ulen index,PtrLen<const Char> name,Object obj)
+bool Contour::setFormula(ulen index,StrKey key,Object obj)
  {
-  NameKey k(name);
-
-  auto result=map.find_or_add(k,obj);
+  auto result=map.find_or_add(key,obj);
 
   if( !result.new_flag ) return false;
 
@@ -219,36 +201,31 @@ bool Contour::setFormula(ulen index,PtrLen<const Char> name,Object obj)
   obj.setIndex({IndexFormula,index});
 
   return true;
+ }
+
+bool Contour::setFormula(ulen index,PtrLen<const Char> name,Object obj)
+ {
+  NameKey key(name);
+
+  return setFormula(index,key,obj);
  }
 
 #ifdef CCORE_UTF8
 
 bool Contour::setFormula(ulen index,StrLen name,Object obj)
  {
-  StrKey k(name);
+  StrKey key(name);
 
-  auto result=map.find_or_add(k,obj);
-
-  if( !result.new_flag ) return false;
-
-  Label label(result.key->name);
-
-  Item item{label,obj};
-
-  formulas[index]=item;
-
-  obj.setIndex({IndexFormula,index});
-
-  return true;
+  return setFormula(index,key,obj);
  }
 
 #endif
 
 bool Contour::testName(PtrLen<const Char> name) const
  {
-  NameKey k(name);
+  NameKey key(name);
 
-  return !map.find(k);
+  return !map.find(key);
  }
 
 bool Contour::delItem(DynArray<Item> &a,ulen index)
@@ -604,9 +581,9 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
 
    bool func(ExprType &ret,PtrLen<const Char> name,PtrLen<const ExprType> list)
     {
-     NameKey key(name);
+     CharToStr str(name);
 
-     if( auto *obj=map[key] ) return obj->create(ret,list);
+     if( auto *obj=map[str] ) return obj->create(ret,list);
 
      return false;
     }

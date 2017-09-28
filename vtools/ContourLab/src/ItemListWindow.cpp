@@ -112,7 +112,7 @@ Pane InsFrame::getPane(StrLen title,Point base) const
 
 /* class EditFormulaShape */
 
-void EditFormulaShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen off,VColor) const
+void EditFormulaShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen off,VColor) const
  {
   const Config &cfg=getCfg();
 

@@ -278,7 +278,7 @@ class EditFormulaShape : public LineEditShape
 
    const Config & getCfg() const { return static_cast<const Config &>(cfg); }
 
-   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen off,VColor vc) const;
+   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen off,VColor vc) const;
 
    EditFormulaShape(PtrLen<Char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
  };

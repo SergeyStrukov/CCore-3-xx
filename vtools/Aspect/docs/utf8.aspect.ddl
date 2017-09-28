@@ -5428,7 +5428,7 @@ Dir Dir51=
 Dir Dir52=
   {
    'Aspect',
-   Red,
+   Ignore,
    {
     &Dir291,
     &Dir292,
@@ -5451,7 +5451,7 @@ Dir Dir53=
     &Dir297
    },
    {
-    { 'Makefile' , Red },
+    { 'Makefile' , Ignore },
     { 'ContourLab.exe' , Ignore },
     { 'Makefile.files' , Ignore }
    }
@@ -5556,14 +5556,14 @@ Dir Dir291=
 Dir Dir292=
   {
    'inc',
-   Red,
+   Ignore,
    {
    },
    {
     { 'AppState.h' , Ignore },
     { 'Application.h' , Ignore },
     { 'Aspect.h' , Ignore },
-    { 'AspectData.h' , Red },
+    { 'AspectData.h' , Ignore },
     { 'Client.h' , Ignore },
     { 'ErrorText.h' , Ignore }
    }
@@ -5572,14 +5572,14 @@ Dir Dir292=
 Dir Dir293=
   {
    'src',
-   Red,
+   Ignore,
    {
    },
    {
     { 'AppState.cpp' , Ignore },
     { 'Application.cpp' , Ignore },
     { 'Aspect.cpp' , Ignore },
-    { 'AspectData.cpp' , Red },
+    { 'AspectData.cpp' , Ignore },
     { 'Client.cpp' , Ignore },
     { 'ErrorText.cpp' , Ignore },
     { 'main.cpp' , Ignore },
@@ -5595,17 +5595,17 @@ Dir Dir293=
 Dir Dir294=
   {
    'docs',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'loop.cont.ddl' , Red },
-    { 'question.cont.ddl' , Red },
-    { 'test.cont.ddl' , Red },
-    { 'test1.cont.ddl' , Red },
-    { 'test2.cont.ddl' , Red },
-    { 'triangle.cont.ddl' , Red },
-    { 'Дезарг.cont.ddl' , Red }
+    { 'loop.cont.ddl' , Ignore },
+    { 'question.cont.ddl' , Ignore },
+    { 'test.cont.ddl' , Ignore },
+    { 'test1.cont.ddl' , Ignore },
+    { 'test2.cont.ddl' , Ignore },
+    { 'triangle.cont.ddl' , Ignore },
+    { 'Дезарг.cont.ddl' , Ignore }
    }
   };
 
@@ -5616,16 +5616,16 @@ Dir Dir295=
    {
    },
    {
-    { 'Application.h' , Red },
-    { 'Client.h' , Red },
-    { 'Contour.h' , Red },
-    { 'EditAngleWindow.h' , Red },
-    { 'EditLengthWindow.h' , Red },
-    { 'EditRatioWindow.h' , Red },
-    { 'Editor.h' , Red },
-    { 'Geometry.h' , Red },
-    { 'GeometryWindow.h' , Red },
-    { 'ItemListWindow.h' , Red },
+    { 'Application.h' , Ignore },
+    { 'Client.h' , Ignore },
+    { 'Contour.h' , Green },
+    { 'EditAngleWindow.h' , Ignore },
+    { 'EditLengthWindow.h' , Ignore },
+    { 'EditRatioWindow.h' , Ignore },
+    { 'Editor.h' , Ignore },
+    { 'Geometry.h' , Green },
+    { 'GeometryWindow.h' , Ignore },
+    { 'ItemListWindow.h' , Green },
     { 'Parser.h' , Red }
    }
   };
@@ -5633,7 +5633,7 @@ Dir Dir295=
 Dir Dir296=
   {
    'lang',
-   Red,
+   Ignore,
    {
     &Dir309,
     &Dir310
@@ -5649,52 +5649,52 @@ Dir Dir297=
    {
    },
    {
-    { 'Application.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'Contour.cpp' , Red },
-    { 'EditAngleWindow.cpp' , Red },
-    { 'EditLengthWindow.cpp' , Red },
-    { 'EditRatioWindow.cpp' , Red },
-    { 'Editor.cpp' , Red },
-    { 'Geometry.cpp' , Red },
-    { 'GeometryWindow.cpp' , Red },
-    { 'ItemListWindow.cpp' , Red },
+    { 'Application.cpp' , Ignore },
+    { 'Client.cpp' , Ignore },
+    { 'Contour.cpp' , Green },
+    { 'EditAngleWindow.cpp' , Ignore },
+    { 'EditLengthWindow.cpp' , Ignore },
+    { 'EditRatioWindow.cpp' , Ignore },
+    { 'Editor.cpp' , Ignore },
+    { 'Geometry.cpp' , Ignore },
+    { 'GeometryWindow.cpp' , Ignore },
+    { 'ItemListWindow.cpp' , Green },
     { 'Parser.cpp' , Red },
-    { 'ParserData.cpp' , Red },
-    { 'main.cpp' , Red },
-    { 'Contour.ddl' , Red },
-    { 'Contour.TypeDef.gen.h' , Red },
-    { 'Contour.TypeSet.gen.h' , Red }
+    { 'ParserData.cpp' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'Contour.ddl' , Ignore },
+    { 'Contour.TypeDef.gen.h' , Ignore },
+    { 'Contour.TypeSet.gen.h' , Ignore }
    }
   };
 
 Dir Dir309=
   {
    'Formula',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'Formula.gen.cpp_' , Red },
-    { 'Formula.ddl' , Red },
-    { 'Formula.gen.h_' , Red },
-    { 'Formula.lang' , Red },
-    { 'Formula.txt' , Red }
+    { 'Makefile' , Ignore },
+    { 'Formula.gen.cpp_' , Ignore },
+    { 'Formula.ddl' , Ignore },
+    { 'Formula.gen.h_' , Ignore },
+    { 'Formula.lang' , Ignore },
+    { 'Formula.txt' , Ignore }
    }
   };
 
 Dir Dir310=
   {
    'Pad',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'Makefile' , Red },
-    { 'Pad.ddl' , Red },
-    { 'Pad.lang' , Red },
-    { 'Pad.txt' , Red }
+    { 'Makefile' , Ignore },
+    { 'Pad.ddl' , Ignore },
+    { 'Pad.lang' , Ignore },
+    { 'Pad.txt' , Ignore }
    }
   };
 
