@@ -20,6 +20,7 @@
 #include <CCore/inc/GenFile.h>
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Cmp.h>
+#include <CCore/inc/CharProp.h>
 #include <CCore/inc/Utf8.h>
 
 namespace CCore {
@@ -65,11 +66,7 @@ class CharMapTable : NoCopy
 
    CharMapTable();
 
-   Unicode operator () (char ch) const { return table[(uint8)ch]; }
-
-   Unicode operator () (signed char ch) const { return table[(uint8)ch]; }
-
-   Unicode operator () (unsigned char ch) const { return table[(uint8)ch]; }
+   Unicode operator () (CharCodeType ch) const { return table[(uint8)ch]; }
  };
 
 /* class SystemFontDirs */

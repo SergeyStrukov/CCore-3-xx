@@ -51,7 +51,7 @@ Dir Dir0=
 Dir Dir1=
   {
    'Desktop',
-   Yellow,
+   Green,
    {
     &Dir16
    },
@@ -1104,7 +1104,7 @@ Dir Dir82=
 Dir Dir16=
   {
    'CCore',
-   Yellow,
+   Green,
    {
     &Dir83,
     &Dir84,
@@ -1117,7 +1117,7 @@ Dir Dir16=
 Dir Dir83=
   {
    'inc',
-   Yellow,
+   Green,
    {
     &Dir86
    },
@@ -1128,7 +1128,7 @@ Dir Dir83=
 Dir Dir84=
   {
    'src',
-   Yellow,
+   Green,
    {
     &Dir87
    },
@@ -1161,7 +1161,7 @@ Dir Dir85=
 Dir Dir86=
   {
    'video',
-   Yellow,
+   Green,
    {
     &Dir88,
     &Dir89
@@ -1270,13 +1270,13 @@ Dir Dir88=
 Dir Dir89=
   {
    'pref',
-   Yellow,
+   Green,
    {
    },
    {
     { 'ColorEdit.h' , Green },
     { 'CoordEdit.h' , Ignore },
-    { 'FontEdit.h' , Yellow },
+    { 'FontEdit.h' , Green },
     { 'MCoordEdit.h' , Ignore },
     { 'PointEdit.h' , Ignore },
     { 'RatioEdit.h' , Ignore }
@@ -1286,7 +1286,7 @@ Dir Dir89=
 Dir Dir87=
   {
    'video',
-   Yellow,
+   Green,
    {
     &Dir90,
     &Dir91
@@ -1402,13 +1402,13 @@ Dir Dir90=
 Dir Dir91=
   {
    'pref',
-   Yellow,
+   Green,
    {
    },
    {
     { 'ColorEdit.cpp' , Green },
     { 'CoordEdit.cpp' , Ignore },
-    { 'FontEdit.cpp' , Yellow },
+    { 'FontEdit.cpp' , Green },
     { 'MCoordEdit.cpp' , Ignore },
     { 'PointEdit.cpp' , Ignore },
     { 'RatioEdit.cpp' , Ignore }
@@ -5435,7 +5435,7 @@ Dir Dir52=
     &Dir293
    },
    {
-    { 'Makefile' , Red },
+    { 'Makefile' , Ignore },
     { 'Makefile.files' , Ignore }
    }
   };
@@ -5560,12 +5560,12 @@ Dir Dir292=
    {
    },
    {
-    { 'AppState.h' , Red },
-    { 'Application.h' , Red },
-    { 'Aspect.h' , Red },
+    { 'AppState.h' , Ignore },
+    { 'Application.h' , Ignore },
+    { 'Aspect.h' , Ignore },
     { 'AspectData.h' , Red },
-    { 'Client.h' , Red },
-    { 'ErrorText.h' , Red }
+    { 'Client.h' , Ignore },
+    { 'ErrorText.h' , Ignore }
    }
   };
 
@@ -5576,19 +5576,19 @@ Dir Dir293=
    {
    },
    {
-    { 'AppState.cpp' , Red },
-    { 'Application.cpp' , Red },
-    { 'Aspect.cpp' , Red },
+    { 'AppState.cpp' , Ignore },
+    { 'Application.cpp' , Ignore },
+    { 'Aspect.cpp' , Ignore },
     { 'AspectData.cpp' , Red },
-    { 'Client.cpp' , Red },
-    { 'ErrorText.cpp' , Red },
-    { 'main.cpp' , Red },
-    { 'AppState.ddl' , Red },
-    { 'Aspect.ddl' , Red },
-    { 'AppState.TypeDef.gen.h' , Red },
-    { 'Aspect.TypeDef.gen.h' , Red },
-    { 'AppState.TypeSet.gen.h' , Red },
-    { 'Aspect.TypeSet.gen.h' , Red }
+    { 'Client.cpp' , Ignore },
+    { 'ErrorText.cpp' , Ignore },
+    { 'main.cpp' , Ignore },
+    { 'AppState.ddl' , Ignore },
+    { 'Aspect.ddl' , Ignore },
+    { 'AppState.TypeDef.gen.h' , Ignore },
+    { 'Aspect.TypeDef.gen.h' , Ignore },
+    { 'AppState.TypeSet.gen.h' , Ignore },
+    { 'Aspect.TypeSet.gen.h' , Ignore }
    }
   };
 

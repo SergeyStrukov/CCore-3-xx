@@ -159,7 +159,17 @@ void CharTableWindow::draw(DrawBuf buf,bool) const
 
       for(unsigned cnt_x=16; cnt_x ;cnt_x--,x+=cell_dxy,ch++)
         {
+#ifdef CCORE_UTF8
+
+         Unicode uch=map.toUnicode(ch);
+
+         font->text(buf,Pane(x,y,cell_dxy,cell_dxy),TextPlace(AlignX_Center,AlignY_Center),Single(uch),text);
+
+#else
+
          font->text(buf,Pane(x,y,cell_dxy,cell_dxy),TextPlace(AlignX_Center,AlignY_Center),Single(ch),text);
+
+#endif
         }
      }
   }

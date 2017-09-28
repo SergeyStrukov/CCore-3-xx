@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/GammaTable.h>
+#include <CCore/inc/AutoGlobal.h>
 
 namespace CCore {
 namespace Video {
@@ -27,6 +28,8 @@ namespace Video {
 //enum FontHintType;
 
 //enum FontSmoothType;
+
+class CharMapHook;
 
 class FreeTypeFont;
 
@@ -54,6 +57,21 @@ enum FontSmoothType
  };
 
 const char * GetTextDesc(FontSmoothType fsm);
+
+/* class CharMapHook */
+
+class CharMapHook : AutoGlobal<CharMapTable>::Lock
+ {
+   static AutoGlobal<CharMapTable> Object;
+
+  public:
+
+   CharMapHook() : AutoGlobal<CharMapTable>::Lock(Object) {}
+
+   ~CharMapHook() {}
+
+   Unicode toUnicode(CharCodeType ch) const { return (*Object)(ch); }
+ };
 
 /* class FreeTypeFont */
 

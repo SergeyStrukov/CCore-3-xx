@@ -20,6 +20,7 @@
 
 #include <CCore/inc/video/FontParam.h>
 #include <CCore/inc/video/FontDatabase.h>
+#include <CCore/inc/video/FreeTypeFont.h>
 
 #include <CCore/inc/video/ConfigBinder.h>
 
@@ -67,6 +68,12 @@ class CharTableWindow : public SubWindow
 
    Point off;
    Point max_off;
+
+#ifdef CCORE_UTF8
+
+   CharMapHook map;
+
+#endif
 
   private:
 

@@ -17,7 +17,6 @@
 
 #include <CCore/inc/video/FreeType.h>
 
-#include <CCore/inc/AutoGlobal.h>
 #include <CCore/inc/TextTools.h>
 
 #ifdef CCORE_UTF8
@@ -88,20 +87,23 @@ inline FT_Render_Mode ToMode(FontSmoothType fsm)
     }
  }
 
+/* class CharMapHook */
+
+AutoGlobal<CharMapTable> CharMapHook::Object CCORE_INITPRI_3 ;
+
 /* struct FreeTypeFont::Global */
 
 struct FreeTypeFont::Global
  {
   Mutex mutex;
   FreeType::Lib lib;
-  CharMapTable map;
 
   Global() : mutex("!FreeTypeFont"),lib(FT_LCD_FILTER_DEFAULT) {}
  };
 
 /* struct FreeTypeFont::Inner */
 
-struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
+struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
  {
   // data
 
@@ -181,7 +183,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
   IndexType indexOf(Char ch) const
    {
-    return face.getGlyphIndex(Object->map(ch));
+    return face.getGlyphIndex(toUnicode(ch));
    }
 
 #endif
@@ -317,7 +319,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock
 
     AllChars( [this] (char ch)
                      {
-                      IndexType index=face.getGlyphIndex(Object->map(ch));
+                      IndexType index=face.getGlyphIndex(toUnicode(ch));
 
                       CharX met=glyph_index(index);
 
