@@ -19,7 +19,7 @@ SRC_PATH_LIST = src
 
 TARGET = ./ContourLab.exe
 
-CCOPT_EXTRA = -I.
+CCOPT_EXTRA = -I. -Wno-sign-compare
 
 TARGET_DESKTOP = yes
 

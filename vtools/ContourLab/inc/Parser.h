@@ -137,7 +137,7 @@ struct Token
 
   bool is(char ch) const { return tc==Token_Punct && ch==str[0] ; }
 
-  template <class ... TT>
+  template <class ... TT> requires ( sizeof ... (TT) > 1 )
   bool is(TT ... tt) const { return ( ... || is(tt) ); }
  };
 
