@@ -1301,6 +1301,7 @@ DEP_LIST = \
 
 
 ASM_OBJ_LIST = \
+.obj/IntegerFastAlgo.s.o \
 .obj/PlatformBase.s.o \
 .obj/Quick.s.o \
 .obj/SysAtomic.s.o \
@@ -5194,6 +5195,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) -MM -MT .obj/XPoint.o $< -MF $@
 
 
+
+.obj/IntegerFastAlgo.s.o : ../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.s
+	$(AS) $(ASOPT) $< -o $@
 
 .obj/PlatformBase.s.o : ../../Target/WIN32utf8/CCore/src/./base/PlatformBase.s
 	$(AS) $(ASOPT) $< -o $@

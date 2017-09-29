@@ -126,11 +126,11 @@ int main()
      {
       Putobj(Con,"--- EllipticPi 1.00 ---\n--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---\n\n");
 
-      Run(1000);
+      //Run(1000);
       //Run(10000);
       //Run(100000);
       //Run(400000);
-      //Run(1000000);
+      Run(1000000);
       //Run(4000000);
      }
 

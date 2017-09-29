@@ -35,9 +35,9 @@ struct IntegerFastAlgo
  {
   // types and consts
 
-  using Unit = mp_limb_t ;
+  using Unit = unsigned ;
 
-  using SUnit = mp_limb_signed_t ;
+  using SUnit = int ;
 
   static constexpr unsigned UnitBits = Meta::UIntBits<Unit> ;
 
@@ -71,6 +71,10 @@ struct IntegerFastAlgo
 
   static Unit SignExtNot(Unit a) { return SignExt(~a); }
 
+  static Unit/* c */ UInc(Unit *a,ulen na) noexcept;
+
+  static Unit/* c */ UDec(Unit *a,ulen na) noexcept;
+
   // functions
 
   static Unit SignExt(Unit a) { return SUnit(a)>>(UnitBits-1); }
@@ -78,6 +82,8 @@ struct IntegerFastAlgo
   static Unit SignExt(const Unit *a,ulen na) { return na?SignExt(a[na-1]):0; }
 
   static CmpResult SignCmp(Unit a,Unit b) { return LessCmp(SUnit(a),SUnit(b)); }
+
+#if 0
 
   static unsigned CountZeroMSB(Unit a) noexcept
    {
@@ -98,6 +104,16 @@ struct IntegerFastAlgo
     return Quick::UIntMulFunc<uint32>::Div(hi,lo,den);
    }
 
+#else
+
+  static unsigned CountZeroMSB(Unit a) noexcept;
+
+  static unsigned CountZeroLSB(Unit a) noexcept;
+
+  static Unit DoubleUDiv(Unit hi,Unit lo,Unit den) noexcept; // hi<den
+
+#endif
+
   // const operators
 
   static CmpResult USign(const Unit *a,ulen na) noexcept;
@@ -117,6 +133,8 @@ struct IntegerFastAlgo
   static ulen Normalize(const Unit *a,ulen na) noexcept;
 
   // additive operators
+
+#if 0
 
   static Unit/* c */ UNeg(Unit *a,ulen na)
    {
@@ -160,6 +178,22 @@ struct IntegerFastAlgo
     return mpn_sub_n(b,a,b,nab);
    }
 
+#else
+
+  static Unit/* c */ UNeg(Unit *a,ulen na) noexcept;
+
+  static Unit/* c */ UAddUnit(Unit *a,ulen na,Unit b) noexcept;
+
+  static Unit/* c */ USubUnit(Unit *a,ulen na,Unit b) noexcept;
+
+  static Unit/* c */ UAdd(Unit *restrict b,const Unit *a,ulen nab) noexcept;
+
+  static Unit/* c */ USub(Unit *restrict b,const Unit *a,ulen nab) noexcept;
+
+  static Unit/* c */ URevSub(Unit *restrict b,const Unit *a,ulen nab) noexcept;
+
+#endif
+
   static Unit/* msu */ Neg(Unit *a,ulen na) noexcept;
 
   static Unit/* msu */ AddUnit(Unit *a,ulen na,Unit b) noexcept;
@@ -177,6 +211,8 @@ struct IntegerFastAlgo
   static Unit/* msu */ RevSub(Unit *restrict b,ulen nb,const Unit *a,ulen na) noexcept; // nb>=na
 
   // shift operators
+
+#if 0
 
   static Unit/* msu */ ULShift(Unit *a,ulen na,unsigned shift) noexcept // 0<shift<UnitBits
    {
@@ -243,6 +279,26 @@ struct IntegerFastAlgo
       }
    }
 
+#else
+
+  static Unit/* msu */ ULShift(Unit *a,ulen na,unsigned shift) noexcept; // 0<shift<UnitBits
+
+  static Unit/* msu */ LShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept; // 0<shift<UnitBits
+
+  static Unit/* msu */ UShiftUp(Unit *a,ulen na,ulen delta,unsigned shift) noexcept; // a[na+delta] , 0<shift<UnitBits
+
+  static Unit/* msu */ ShiftUp(Unit *a,ulen na,ulen delta,unsigned shift) noexcept; // a[na+delta] , 0<shift<UnitBits
+
+  static void URShift(Unit *a,ulen na,unsigned shift) noexcept; // 0<shift<UnitBits
+
+  static void RShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept; // 0<shift<UnitBits
+
+  static void UShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept; // a[na+delta] , 0<shift<UnitBits
+
+  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept;
+
+#endif
+
   // multiplicative operators
 
   static void UMul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb) // nc==na+nb
@@ -260,14 +316,14 @@ struct IntegerFastAlgo
        return;
       }
 
-    mpn_mul(c,a,na,b,nb);
+    mpn_mul((mp_limb_t *)c,(const mp_limb_t *)a,na,(const mp_limb_t *)b,nb);
    }
 
   static void USq(Unit *restrict c,const Unit *a,ulen na) // nc==2*na
    {
     if( na==0 ) return;
 
-    mpn_sqr(c,a,na);
+    mpn_sqr((mp_limb_t *)c,(const mp_limb_t *)a,na);
    }
 
   static void Mul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb) noexcept; // nc==na+nb
@@ -280,19 +336,27 @@ struct IntegerFastAlgo
 
   // data functions
 
+#if 0
+
   static void Null(Unit *a,ulen na) noexcept
    {
     if( na!=0 ) mpn_zero(a,na);
    }
 
+#else
+
+  static void Null(Unit *a,ulen na) noexcept;
+
+#endif
+
   static void MoveUp(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
    {
-    if( na!=0 ) mpn_copyd(a+delta,a,na);
+    if( na!=0 ) mpn_copyd((mp_limb_t *)a+delta,(mp_limb_t *)a,na);
    }
 
   static void MoveDown(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
    {
-    if( na!=0 ) mpn_copyi(a,a+delta,na);
+    if( na!=0 ) mpn_copyi((mp_limb_t *)a,(mp_limb_t *)a+delta,na);
    }
  };
 

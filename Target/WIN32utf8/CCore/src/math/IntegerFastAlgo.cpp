@@ -125,6 +125,20 @@ CmpResult IntegerFastAlgo::Cmp_(const Unit *a,ulen na,const Unit *b,ulen nb) noe
   return Sign(a,na);
  }
 
+Unit/* c */ IntegerFastAlgo::UInc(Unit *a,ulen na) noexcept
+ {
+  for(; na ;na--,a++) if( ++(*a) ) return 0;
+
+  return 1;
+ }
+
+Unit/* c */ IntegerFastAlgo::UDec(Unit *a,ulen na) noexcept
+ {
+  for(; na ;na--,a++) if( (*a)-- ) return 0;
+
+  return 1;
+ }
+
  // const operators
 
 CmpResult IntegerFastAlgo::USign(const Unit *a,ulen na) noexcept
@@ -188,6 +202,49 @@ ulen IntegerFastAlgo::Normalize(const Unit *a,ulen na) noexcept
  }
 
  // additive operators
+
+Unit/* c */ IntegerFastAlgo::UNeg(Unit *a,ulen na) noexcept
+ {
+  for(; na ;na--,a++)
+    if( Unit x=(*a) )
+      {
+       (*a)=-x;
+
+       Not_(a+1,na-1);
+
+       return 1;
+      }
+
+  return 0;
+ }
+
+Unit/* c */ IntegerFastAlgo::UAddUnit(Unit *a,ulen na,Unit b) noexcept
+ {
+  if( !na ) return b;
+
+  Unit a0=(*a);
+
+  a0+=b;
+
+  (*a)=a0;
+
+  if( a0>=b ) return 0;
+
+  return UInc(a+1,na-1);
+ }
+
+Unit/* c */ IntegerFastAlgo::USubUnit(Unit *a,ulen na,Unit b) noexcept
+ {
+  if( !na ) return b;
+
+  Unit a0=(*a);
+
+  (*a)=a0-b;
+
+  if( a0>=b ) return 0;
+
+  return UDec(a+1,na-1);
+ }
 
 Unit/* msu */ IntegerFastAlgo::Neg(Unit *a,ulen na) noexcept
  {
