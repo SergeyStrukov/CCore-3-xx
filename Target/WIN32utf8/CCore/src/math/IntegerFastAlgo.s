@@ -234,33 +234,7 @@ __ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjj:           #  Unit CCore::Math::Int
         movl    16(%ebp), %ecx      # nab
 
         shrl    $1, %ecx
-        jnc     2f
-
-        shrl    $1, %ecx
         jnc     1f
-
-        # 3
-
-        movl     (%edi), %eax
-        movl    4(%edi), %ebx
-
-        subl     (%edi,%edx), %eax
-        sbbl    4(%edi,%edx), %ebx
-
-        movl    %eax,  (%edi)
-        movl    %ebx, 4(%edi)
-
-        movl    8(%edi), %eax
-
-        sbbl    8(%edi,%edx), %eax
-
-        movl    %eax, 8(%edi)
-
-        leal    12(%edi), %edi
-
-        jmp     4f
-1:
-        # 1
 
         movl    (%edi), %eax
 
@@ -269,27 +243,28 @@ __ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjj:           #  Unit CCore::Math::Int
         movl    %eax,  (%edi)
 
         leal    4(%edi), %edi
-
-        jmp     4f
-2:
+1:
+        setc    %al
         shrl    $1, %ecx
-        jnc     4f
-
-        # 2
+        jnc     2f
+        shrb    $1, %al
 
         movl     (%edi), %eax
         movl    4(%edi), %ebx
 
-        subl     (%edi,%edx), %eax
+        sbbl     (%edi,%edx), %eax
         sbbl    4(%edi,%edx), %ebx
 
         movl    %eax,  (%edi)
         movl    %ebx, 4(%edi)
 
         leal    8(%edi), %edi
-4:
-        jecxz   6f
-5:
+        setc    %al
+2:
+        shrl    $1, %ecx
+        jnc     3f
+        shrb    $1, %al
+
         movl     (%edi), %eax
         movl    4(%edi), %ebx
 
@@ -309,9 +284,51 @@ __ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjj:           #  Unit CCore::Math::Int
         movl    %ebx, 12(%edi)
 
         leal    16(%edi), %edi
+        setc    %al
+3:
+        shrb    $1, %al
+        jecxz   5f
+4:
+        movl     (%edi), %eax
+        movl    4(%edi), %ebx
 
-        loop    5b
-6:
+        sbbl     (%edi,%edx), %eax
+        sbbl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi), %eax
+        movl    12(%edi), %ebx
+
+        sbbl     8(%edi,%edx), %eax
+        sbbl    12(%edi,%edx), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        movl    16(%edi), %eax
+        movl    20(%edi), %ebx
+
+        sbbl    16(%edi,%edx), %eax
+        sbbl    20(%edi,%edx), %ebx
+
+        movl    %eax, 16(%edi)
+        movl    %ebx, 20(%edi)
+
+        movl    24(%edi), %eax
+        movl    28(%edi), %ebx
+
+        sbbl    24(%edi,%edx), %eax
+        sbbl    28(%edi,%edx), %ebx
+
+        movl    %eax, 24(%edi)
+        movl    %ebx, 28(%edi)
+
+        leal    32(%edi), %edi
+
+        loop    4b
+5:
         sbbl    %eax, %eax
         negl    %eax
 
@@ -341,33 +358,7 @@ __ZN5CCore4Math15IntegerFastAlgo7URevSubEPjPKjj:        #  Unit CCore::Math::Int
         movl    16(%ebp), %ecx      # nab
 
         shrl    $1, %ecx
-        jnc     2f
-
-        shrl    $1, %ecx
         jnc     1f
-
-        # 3
-
-        movl     (%edi,%edx), %eax
-        movl    4(%edi,%edx), %ebx
-
-        subl     (%edi), %eax
-        sbbl    4(%edi), %ebx
-
-        movl    %eax,  (%edi)
-        movl    %ebx, 4(%edi)
-
-        movl    8(%edi,%edx), %eax
-
-        sbbl    8(%edi), %eax
-
-        movl    %eax, 8(%edi)
-
-        leal    12(%edi), %edi
-
-        jmp     4f
-1:
-        # 1
 
         movl    (%edi,%edx), %eax
 
@@ -376,27 +367,28 @@ __ZN5CCore4Math15IntegerFastAlgo7URevSubEPjPKjj:        #  Unit CCore::Math::Int
         movl    %eax,  (%edi)
 
         leal    4(%edi), %edi
-
-        jmp     4f
-2:
+1:
+        setc    %al
         shrl    $1, %ecx
-        jnc     4f
-
-        # 2
+        jnc     2f
+        shrb    $1, %al
 
         movl     (%edi,%edx), %eax
         movl    4(%edi,%edx), %ebx
 
-        subl     (%edi), %eax
+        sbbl     (%edi), %eax
         sbbl    4(%edi), %ebx
 
         movl    %eax,  (%edi)
         movl    %ebx, 4(%edi)
 
         leal    8(%edi), %edi
-4:
-        jecxz   6f
-5:
+        setc    %al
+2:
+        shrl    $1, %ecx
+        jnc     3f
+        shrb    $1, %al
+
         movl     (%edi,%edx), %eax
         movl    4(%edi,%edx), %ebx
 
@@ -416,9 +408,51 @@ __ZN5CCore4Math15IntegerFastAlgo7URevSubEPjPKjj:        #  Unit CCore::Math::Int
         movl    %ebx, 12(%edi)
 
         leal    16(%edi), %edi
+        setc    %al
+3:
+        shrb    $1, %al
+        jecxz   5f
+4:
+        movl     (%edi,%edx), %eax
+        movl    4(%edi,%edx), %ebx
 
-        loop    5b
-6:
+        sbbl     (%edi), %eax
+        sbbl    4(%edi), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi,%edx), %eax
+        movl    12(%edi,%edx), %ebx
+
+        sbbl     8(%edi), %eax
+        sbbl    12(%edi), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        movl    16(%edi,%edx), %eax
+        movl    20(%edi,%edx), %ebx
+
+        sbbl    16(%edi), %eax
+        sbbl    20(%edi), %ebx
+
+        movl    %eax, 16(%edi)
+        movl    %ebx, 20(%edi)
+
+        movl    24(%edi,%edx), %eax
+        movl    28(%edi,%edx), %ebx
+
+        sbbl    24(%edi), %eax
+        sbbl    28(%edi), %ebx
+
+        movl    %eax, 24(%edi)
+        movl    %ebx, 28(%edi)
+
+        leal    32(%edi), %edi
+
+        loop    4b
+5:
         sbbl    %eax, %eax
         negl    %eax
 

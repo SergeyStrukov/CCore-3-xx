@@ -41,8 +41,6 @@ struct IntegerFastAlgo
 
   static constexpr unsigned UnitBits = Meta::UIntBits<Unit> ;
 
-  static_assert( UnitBits==32 ,"CCore::IntegerFastAlgo : bad gmp limb size");
-
   static constexpr Unit MaxUnit = Unit(-1) ;
 
   static constexpr Unit MSBit = Unit( MaxUnit^(MaxUnit>>1) );
@@ -83,36 +81,11 @@ struct IntegerFastAlgo
 
   static CmpResult SignCmp(Unit a,Unit b) { return LessCmp(SUnit(a),SUnit(b)); }
 
-#if 0
-
-  static unsigned CountZeroMSB(Unit a) noexcept
-   {
-    if( !a ) return UnitBits;
-
-    return UnitBits-1-Quick::ScanMSBit(a);
-   }
-
-  static unsigned CountZeroLSB(Unit a) noexcept
-   {
-    if( !a ) return UnitBits;
-
-    return Quick::ScanLSBit(a);
-   }
-
-  static Unit DoubleUDiv(Unit hi,Unit lo,Unit den) noexcept // hi<den
-   {
-    return Quick::UIntMulFunc<uint32>::Div(hi,lo,den);
-   }
-
-#else
-
   static unsigned CountZeroMSB(Unit a) noexcept;
 
   static unsigned CountZeroLSB(Unit a) noexcept;
 
   static Unit DoubleUDiv(Unit hi,Unit lo,Unit den) noexcept; // hi<den
-
-#endif
 
   // const operators
 
@@ -134,52 +107,6 @@ struct IntegerFastAlgo
 
   // additive operators
 
-#if 0
-
-  static Unit/* c */ UNeg(Unit *a,ulen na)
-   {
-    if( na==0 ) return 0;
-
-    return mpn_neg(a,a,na);
-   }
-
-  static Unit/* c */ UAddUnit(Unit *a,ulen na,Unit b)
-   {
-    if( na==0 ) return b;
-
-    return mpn_add_1(a,a,na,b);
-   }
-
-  static Unit/* c */ USubUnit(Unit *a,ulen na,Unit b)
-   {
-    if( na==0 ) return b;
-
-    return mpn_sub_1(a,a,na,b);
-   }
-
-  static Unit/* c */ UAdd(Unit *restrict b,const Unit *a,ulen nab)
-   {
-    if( nab==0 ) return 0;
-
-    return mpn_add_n(b,b,a,nab);
-   }
-
-  static Unit/* c */ USub(Unit *restrict b,const Unit *a,ulen nab)
-   {
-    if( nab==0 ) return 0;
-
-    return mpn_sub_n(b,b,a,nab);
-   }
-
-  static Unit/* c */ URevSub(Unit *restrict b,const Unit *a,ulen nab)
-   {
-    if( nab==0 ) return 0;
-
-    return mpn_sub_n(b,a,b,nab);
-   }
-
-#else
-
   static Unit/* c */ UNeg(Unit *a,ulen na) noexcept;
 
   static Unit/* c */ UAddUnit(Unit *a,ulen na,Unit b) noexcept;
@@ -191,8 +118,6 @@ struct IntegerFastAlgo
   static Unit/* c */ USub(Unit *restrict b,const Unit *a,ulen nab) noexcept;
 
   static Unit/* c */ URevSub(Unit *restrict b,const Unit *a,ulen nab) noexcept;
-
-#endif
 
   static Unit/* msu */ Neg(Unit *a,ulen na) noexcept;
 
@@ -336,18 +261,7 @@ struct IntegerFastAlgo
 
   // data functions
 
-#if 0
-
-  static void Null(Unit *a,ulen na) noexcept
-   {
-    if( na!=0 ) mpn_zero(a,na);
-   }
-
-#else
-
   static void Null(Unit *a,ulen na) noexcept;
-
-#endif
 
   static void MoveUp(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
    {
