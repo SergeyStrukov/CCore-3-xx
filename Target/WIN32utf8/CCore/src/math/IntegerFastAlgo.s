@@ -476,62 +476,84 @@ __ZN5CCore4Math15IntegerFastAlgo7ULShiftEPjjj:          #  Unit CCore::Math::Int
         movl    12(%ebp), %edx      # na
 
         testl   %edx, %edx
-        je      4f
+        je      9f
 
         pushl   %ebx
         pushl   %esi
-        pushl   %edi
 
         movl     8(%ebp), %ebx      # a
         movl    16(%ebp), %ecx      # shift
 
-        movl    (%ebx), %esi
-        movl    %esi, %eax
-        shll    %cl, %esi
-        movl    %esi, (%ebx)
-
-        subl    $1, %edx
-        je      3f
-
+        xorl    %esi, %esi
         shrl    $1, %edx
         jnc     1f
 
-        movl    4(%ebx), %esi
-        movl    %esi, %edi
-        shld    %cl, %eax, %esi
-        movl    %esi, 4(%ebx)
+        movl    (%ebx), %eax
+        movl    %eax, %esi
+        shll    %cl, %eax
+        movl    %eax, (%ebx)
 
-        movl    %edi, %eax
         leal    4(%ebx), %ebx
 1:
-        test    %edx, %edx
-        je      3f
-2:
-        movl    4(%ebx), %esi
-        movl    %esi, %edi
-        shld    %cl, %eax, %esi
-        movl    %esi, 4(%ebx)
+        testl   %edx, %edx
+        je      8f
 
-        movl    8(%ebx), %esi
-        movl    %esi, %eax
-        shld    %cl, %edi, %esi
-        movl    %esi, 8(%ebx)
+        movd    %esi, %mm0
+        psllq   $32, %mm0
+        movd    %ecx, %mm6
+        movl    $64, %eax
+        subl    %ecx, %eax
+        movd    %eax, %mm7
+
+        shrl    $1, %edx
+        jnc     2f
+
+        movq    (%ebx), %mm1
+        movq    %mm1, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm0
+        por     %mm0, %mm2
+        movq    %mm2, (%ebx)
+        movq    %mm1, %mm0
 
         leal    8(%ebx), %ebx
+2:
+        testl   %edx, %edx
+        je      4f
+3:
+        movq    (%ebx), %mm1
+        movq    8(%ebx), %mm3
+        movq    %mm1, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm0
+        por     %mm0, %mm2
+        movq    %mm2, (%ebx)
+
+        movq    %mm3, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm1
+        por     %mm1, %mm2
+        movq    %mm2, 8(%ebx)
+        movq    %mm3, %mm0
+
+        leal    16(%ebx), %ebx
 
         subl    $1, %edx
-        jne     2b
-3:
-        shld    %cl, %eax, %edx
+        jne     3b
+4:
+        psrlq   $32, %mm0
+        movd    %mm0, %esi
+        emms
+8:
+        shld    %cl, %esi, %edx
         movl    %edx, %eax
 
-        popl    %edi
         popl    %esi
         popl    %ebx
 
         popl    %ebp
         ret
-4:
+9:
         xorl    %eax, %eax
 
         popl    %ebp
