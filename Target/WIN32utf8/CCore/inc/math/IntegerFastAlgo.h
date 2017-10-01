@@ -139,32 +139,6 @@ struct IntegerFastAlgo
 
 #if 0
 
-  static Unit/* msu */ LShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept // 0<shift<UnitBits
-   {
-    if( nab==0 ) return 0;
-
-    Unit out=mpn_lshift(b,a,nab,shift);
-
-    return Unit( out|(SignExt(a[nab-1])<<shift) );
-   }
-
-  static Unit/* msu */ UShiftUp(Unit *a,ulen na,ulen delta,unsigned shift) noexcept // a[na+delta] , 0<shift<UnitBits
-   {
-    if( na==0 ) return 0;
-
-    return mpn_lshift(a+delta,a,na,shift);
-   }
-
-  static Unit/* msu */ ShiftUp(Unit *a,ulen na,ulen delta,unsigned shift) noexcept // a[na+delta] , 0<shift<UnitBits
-   {
-    if( na==0 ) return 0;
-
-    Unit aext=SignExt(a[na-1]);
-    Unit out=mpn_lshift(a+delta,a,na,shift);
-
-    return Unit( out|(aext<<shift) );
-   }
-
   static void URShift(Unit *a,ulen na,unsigned shift) noexcept // 0<shift<UnitBits
    {
     if( na!=0 ) mpn_rshift(a,a,na,shift);
