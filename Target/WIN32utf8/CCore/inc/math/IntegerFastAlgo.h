@@ -139,11 +139,6 @@ struct IntegerFastAlgo
 
 #if 0
 
-  static void URShift(Unit *a,ulen na,unsigned shift) noexcept // 0<shift<UnitBits
-   {
-    if( na!=0 ) mpn_rshift(a,a,na,shift);
-   }
-
   static void RShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept // 0<shift<UnitBits
    {
     if( nab!=0 )
