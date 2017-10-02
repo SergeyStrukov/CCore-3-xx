@@ -750,8 +750,8 @@ ShiftUp:
         subl    $4, %edx
         jb      2f
 1:
-        movq    -12(%ebx), %mm1
         movq    -20(%ebx), %mm2
+        movq    -12(%ebx), %mm1
 
         movq    %mm1, %mm3
         psllq   %mm6, %mm0
@@ -799,9 +799,9 @@ ShiftUp:
         popl    %ebp
         ret
 5:
-        movl   (%ebx), %esi
-        shll   %cl, %esi
-        movl   %esi, (%ebx,%edi)
+        movl    (%ebx), %esi
+        shll    %cl, %esi
+        movl    %esi, (%ebx,%edi)
 
         popl    %edi
         popl    %esi
@@ -823,7 +823,7 @@ __ZN5CCore4Math15IntegerFastAlgo7URShiftEPjjj:          #  void CCore::Math::Int
 
         movl    12(%ebp), %edx      # na
         testl   %edx, %edx
-        je      9f
+        je      6f
 
         pushl   %ebx
 
@@ -831,7 +831,7 @@ __ZN5CCore4Math15IntegerFastAlgo7URShiftEPjjj:          #  void CCore::Math::Int
         movl    16(%ebp), %ecx      # shift
 
         subl    $2, %edx
-        jb      8f
+        jb      5f
 
         movq    (%ebx), %mm0
         movd    %ecx, %mm6
@@ -883,13 +883,13 @@ __ZN5CCore4Math15IntegerFastAlgo7URShiftEPjjj:          #  void CCore::Math::Int
 
         popl    %ebp
         ret
-8:
-        movl   (%ebx), %eax
-        shrl   %cl, %eax
-        movl   %eax, (%ebx)
+5:
+        movl    (%ebx), %eax
+        shrl    %cl, %eax
+        movl    %eax, (%ebx)
 
         popl    %ebx
-9:
+6:
         popl    %ebp
         ret
 
@@ -907,58 +907,82 @@ __ZN5CCore4Math15IntegerFastAlgo6RShiftEPjPKjjj:        #  void CCore::Math::Int
         movl    16(%ebp), %edx      # nab
 
         testl   %edx, %edx
-        je      4f
+        je      6f
 
         pushl   %ebx
-        pushl   %esi
         pushl   %edi
 
-        movl     8(%ebp), %ebx      # b
-        movl    12(%ebp), %edi      # a
+        movl     8(%ebp), %edi      # b
+        movl    12(%ebp), %ebx      # a
         subl    %ebx, %edi
         movl    20(%ebp), %ecx      # shift
-RShift:
-        movl    (%ebx,%edi), %eax
 
-        subl    $1, %edx
-        je      3f
+        subl    $2, %edx
+        jb      5f
 
-        shrl    $1, %edx
-        jnc     1f
+        movq    (%ebx), %mm0
+        movd    %ecx, %mm6
+        movl    $64, %eax
+        subl    %ecx, %eax
+        movd    %eax, %mm7
 
-        movl    4(%ebx,%edi), %esi
-        shrd    %cl, %esi, %eax
-        movl    %eax, (%ebx)
-        movl    %esi, %eax
-
-        leal    4(%ebx), %ebx
+        subl    $4, %edx
+        jb      2f
 1:
-        testl   %edx, %edx
-        je      3f
+        movq     8(%ebx), %mm1
+        movq    16(%ebx), %mm2
+
+        movq    %mm1, %mm3
+        psrlq   %mm6, %mm0
+        psllq   %mm7, %mm1
+        por     %mm1, %mm0
+        movq    %mm0, (%ebx,%edi)
+
+        movq    %mm2, %mm0
+        psrlq   %mm6, %mm3
+        psllq   %mm7, %mm2
+        por     %mm2, %mm3
+        movq    %mm3, 8(%ebx,%edi)
+
+        leal    16(%ebx), %ebx
+
+        subl    $4, %edx
+        jnb     1b
 2:
-        movl    4(%ebx,%edi), %esi
-        shrd    %cl, %esi, %eax
-        movl    %eax, (%ebx)
-
-        movl    8(%ebx,%edi), %eax
-        shrd    %cl, %eax, %esi
-        movl    %esi, 4(%ebx)
-
-        leal    8(%ebx), %ebx
-
-        subl    $1, %edx
-        jne     2b
+        addl    $4, %edx
 3:
-        sarl    %cl, %eax
-        movl    %eax, (%ebx)
+        testl   %edx, %edx
+        je      4f
+
+        psrlq   %mm6, %mm0
+        movd    %mm0, (%ebx,%edi)
+        movq    4(%ebx), %mm0
+        leal    4(%ebx), %ebx
+        decl    %edx
+
+        jmp     3b
+4:
+        movq    %mm0, %mm1
+        psrad   %mm6, %mm1
+        psrlq   %mm6, %mm0
+        psrlq   $32, %mm1
+        movd    %mm0, (%ebx,%edi)
+        movd    %mm1, 4(%ebx,%edi)
+        emms
 
         popl    %edi
-        popl    %esi
         popl    %ebx
 
         popl    %ebp
         ret
-4:
+5:
+        movl    (%ebx), %eax
+        sarl    %cl, %eax
+        movl    %eax, (%ebx,%edi)
+
+        popl    %edi
+        popl    %ebx
+6:
         popl    %ebp
         ret
 
@@ -976,10 +1000,9 @@ __ZN5CCore4Math15IntegerFastAlgo10UShiftDownEPjjjj:     #  void CCore::Math::Int
         movl    12(%ebp), %edx      # na
 
         testl   %edx, %edx
-        je      4f
+        je      6f
 
         pushl   %ebx
-        pushl   %esi
         pushl   %edi
 
         movl     8(%ebp), %ebx      # a
@@ -987,47 +1010,71 @@ __ZN5CCore4Math15IntegerFastAlgo10UShiftDownEPjjjj:     #  void CCore::Math::Int
         movl    20(%ebp), %ecx      # shift
         shll    $2, %edi
 
-        movl    (%ebx,%edi), %eax
+        subl    $2, %edx
+        jb      5f
 
-        subl    $1, %edx
-        je      3f
+        movq    (%ebx,%edi), %mm0
+        movd    %ecx, %mm6
+        movl    $64, %eax
+        subl    %ecx, %eax
+        movd    %eax, %mm7
 
-        shrl    $1, %edx
-        jnc     1f
-
-        movl    4(%ebx,%edi), %esi
-        shrd    %cl, %esi, %eax
-        movl    %eax, (%ebx)
-        movl    %esi, %eax
-
-        leal    4(%ebx), %ebx
+        subl    $4, %edx
+        jb      2f
 1:
-        testl   %edx, %edx
-        je      3f
+        movq     8(%ebx,%edi), %mm1
+        movq    16(%ebx,%edi), %mm2
+
+        movq    %mm1, %mm3
+        psrlq   %mm6, %mm0
+        psllq   %mm7, %mm1
+        por     %mm1, %mm0
+        movq    %mm0, (%ebx)
+
+        movq    %mm2, %mm0
+        psrlq   %mm6, %mm3
+        psllq   %mm7, %mm2
+        por     %mm2, %mm3
+        movq    %mm3, 8(%ebx)
+
+        leal    16(%ebx), %ebx
+
+        subl    $4, %edx
+        jnb     1b
 2:
-        movl    4(%ebx,%edi), %esi
-        shrd    %cl, %esi, %eax
-        movl    %eax, (%ebx)
-
-        movl    8(%ebx,%edi), %eax
-        shrd    %cl, %eax, %esi
-        movl    %esi, 4(%ebx)
-
-        leal    8(%ebx), %ebx
-
-        subl    $1, %edx
-        jne     2b
+        addl    $4, %edx
 3:
-        shrl    %cl, %eax
-        movl    %eax, (%ebx)
+        psrlq   %mm6, %mm0
+
+        testl   %edx, %edx
+        je      4f
+
+        movd    %mm0, (%ebx)
+        movq    4(%ebx,%edi), %mm0
+        leal    4(%ebx), %ebx
+        decl    %edx
+
+        jmp     3b
+4:
+        movq    %mm0, (%ebx)
+        emms
 
         popl    %edi
-        popl    %esi
         popl    %ebx
 
         popl    %ebp
         ret
-4:
+5:
+        movl    (%ebx,%edi), %eax
+        shrl    %cl, %eax
+        movl    %eax, (%ebx)
+
+        popl    %edi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+6:
         popl    %ebp
         ret
 
@@ -1045,10 +1092,9 @@ __ZN5CCore4Math15IntegerFastAlgo9ShiftDownEPjjjj:       #  void CCore::Math::Int
         movl    12(%ebp), %edx      # na
 
         testl   %edx, %edx
-        je      4f
+        je      6f
 
         pushl   %ebx
-        pushl   %esi
         pushl   %edi
 
         movl     8(%ebp), %ebx      # a
@@ -1056,8 +1102,75 @@ __ZN5CCore4Math15IntegerFastAlgo9ShiftDownEPjjjj:       #  void CCore::Math::Int
         movl    20(%ebp), %ecx      # shift
         shll    $2, %edi
 
-        jmp     RShift
+        subl    $2, %edx
+        jb      5f
+
+        movq    (%ebx,%edi), %mm0
+        movd    %ecx, %mm6
+        movl    $64, %eax
+        subl    %ecx, %eax
+        movd    %eax, %mm7
+
+        subl    $4, %edx
+        jb      2f
+1:
+        movq     8(%ebx,%edi), %mm1
+        movq    16(%ebx,%edi), %mm2
+
+        movq    %mm1, %mm3
+        psrlq   %mm6, %mm0
+        psllq   %mm7, %mm1
+        por     %mm1, %mm0
+        movq    %mm0, (%ebx)
+
+        movq    %mm2, %mm0
+        psrlq   %mm6, %mm3
+        psllq   %mm7, %mm2
+        por     %mm2, %mm3
+        movq    %mm3, 8(%ebx)
+
+        leal    16(%ebx), %ebx
+
+        subl    $4, %edx
+        jnb     1b
+2:
+        addl    $4, %edx
+3:
+        testl   %edx, %edx
+        je      4f
+
+        psrlq   %mm6, %mm0
+        movd    %mm0, (%ebx)
+        movq    4(%ebx,%edi), %mm0
+        leal    4(%ebx), %ebx
+        decl    %edx
+
+        jmp     3b
 4:
+        movq    %mm0, %mm1
+        psrad   %mm6, %mm1
+        psrlq   %mm6, %mm0
+        psrlq   $32, %mm1
+        movd    %mm0, (%ebx)
+        movd    %mm1, 4(%ebx)
+        emms
+
+        popl    %edi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+5:
+        movl    (%ebx,%edi), %eax
+        sarl    %cl, %eax
+        movl    %eax, (%ebx)
+
+        popl    %edi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+6:
         popl    %ebp
         ret
 
@@ -2093,6 +2206,104 @@ __ZN5CCore4Math15IntegerFastAlgo4NullEPjj:              #  void CCore::Math::Int
         leal    32(%edx), %edx
 
         loop    4b
+5:
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
+        .global __ZN5CCore4Math15IntegerFastAlgo6MoveUpEPjjj
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo6MoveUpEPjjj:           # void CCore::Math::IntegerFastAlgo::MoveUp(Unit *a,ulen na,ulen delta)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        movl    12(%ebp), %edx      # na
+        testl   %edx, %edx
+        je      5f
+
+        pushl   %ebx
+
+        movl     8(%ebp), %ebx      # a
+        movl    16(%ebp), %ecx      # delta
+        shll    $2, %ecx
+
+        leal    -4(%ebx,%edx,4), %ebx
+
+        subl    $4, %edx
+        jb      2f
+1:
+        movups  -12(%ebx), %xmm0
+        movups  %xmm0, -12(%ebx,%ecx)
+
+        leal    -16(%ebx), %ebx
+
+        subl    $4, %edx
+        jnb     1b
+2:
+        addl    $4, %edx
+        je      4f
+3:
+        movl    (%ebx), %eax
+        movl    %eax, (%ebx,%ecx)
+
+        leal    -4(%ebx), %ebx
+
+        decl    %edx
+        jne     3b
+4:
+        popl    %ebx
+5:
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
+        .global __ZN5CCore4Math15IntegerFastAlgo8MoveDownEPjjj
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo8MoveDownEPjjj:         # void CCore::Math::IntegerFastAlgo::MoveDown(Unit *a,ulen na,ulen delta)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        movl    12(%ebp), %edx      # na
+        testl   %edx, %edx
+        je      5f
+
+        pushl   %ebx
+
+        movl     8(%ebp), %ebx      # a
+        movl    16(%ebp), %ecx      # delta
+        shll    $2, %ecx
+
+        subl    $4, %edx
+        jb      2f
+1:
+        movups  (%ebx,%ecx), %xmm0
+        movups  %xmm0, (%ebx)
+
+        leal    16(%ebx), %ebx
+
+        subl    $4, %edx
+        jnb     1b
+2:
+        addl    $4, %edx
+        je      4f
+3:
+        movl    (%ebx,%ecx), %eax
+        movl    %eax, (%ebx)
+
+        leal    4(%ebx), %ebx
+
+        decl    %edx
+        jne     3b
+4:
+        popl    %ebx
 5:
         popl    %ebp
         ret

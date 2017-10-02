@@ -137,37 +137,6 @@ struct IntegerFastAlgo
 
   // shift operators
 
-#if 0
-
-  static void RShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept // 0<shift<UnitBits
-   {
-    if( nab!=0 )
-      {
-       mpn_rshift(b,a,nab,shift);
-
-       b[nab-1]|=Unit(SignExt(a[nab-1])<<(UnitBits-shift));
-      }
-   }
-
-  static void UShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept // a[na+delta] , 0<shift<UnitBits
-   {
-    if( na!=0 ) mpn_rshift(a,a+delta,na,shift);
-   }
-
-  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept // a[na+delta] , 0<shift<UnitBits
-   {
-    if( na!=0 )
-      {
-       Unit aext=SignExt(a[na+delta-1]);
-
-       mpn_rshift(a,a+delta,na,shift);
-
-       a[na-1]|=Unit(aext<<(UnitBits-shift));
-      }
-   }
-
-#else
-
   static Unit/* msu */ ULShift(Unit *a,ulen na,unsigned shift) noexcept; // 0<shift<UnitBits
 
   static Unit/* msu */ LShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept; // 0<shift<UnitBits
@@ -183,8 +152,6 @@ struct IntegerFastAlgo
   static void UShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept; // a[na+delta] , 0<shift<UnitBits
 
   static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift) noexcept;
-
-#endif
 
   // multiplicative operators
 
@@ -225,15 +192,9 @@ struct IntegerFastAlgo
 
   static void Null(Unit *a,ulen na) noexcept;
 
-  static void MoveUp(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
-   {
-    if( na!=0 ) mpn_copyd((mp_limb_t *)a+delta,(mp_limb_t *)a,na);
-   }
+  static void MoveUp(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
 
-  static void MoveDown(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
-   {
-    if( na!=0 ) mpn_copyi((mp_limb_t *)a,(mp_limb_t *)a+delta,na);
-   }
+  static void MoveDown(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
  };
 
 } // namespace Math
