@@ -126,6 +126,8 @@ OBJ_LIST = \
 ../.test-obj/test3031.PKE.o \
 ../.test-obj/test3032.FileNameMatch.o \
 ../.test-obj/test3033.IntegerSpeed.o \
+../.test-obj/test3034.IntegerMulAlgo1.o \
+../.test-obj/test3035.IntegerMulAlgo2.o \
 ../.test-obj/test4001.Mutex.o \
 ../.test-obj/test4002.Sem.o \
 ../.test-obj/test4003.Event.o \
@@ -300,6 +302,8 @@ ASM_LIST = \
 ../.test-obj/test3031.PKE.s \
 ../.test-obj/test3032.FileNameMatch.s \
 ../.test-obj/test3033.IntegerSpeed.s \
+../.test-obj/test3034.IntegerMulAlgo1.s \
+../.test-obj/test3035.IntegerMulAlgo2.s \
 ../.test-obj/test4001.Mutex.s \
 ../.test-obj/test4002.Sem.s \
 ../.test-obj/test4003.Event.s \
@@ -474,6 +478,8 @@ DEP_LIST = \
 ../.test-obj/test3031.PKE.dep \
 ../.test-obj/test3032.FileNameMatch.dep \
 ../.test-obj/test3033.IntegerSpeed.dep \
+../.test-obj/test3034.IntegerMulAlgo1.dep \
+../.test-obj/test3035.IntegerMulAlgo2.dep \
 ../.test-obj/test4001.Mutex.dep \
 ../.test-obj/test4002.Sem.dep \
 ../.test-obj/test4003.Event.dep \
@@ -905,6 +911,12 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test3033.IntegerSpeed.o : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test3034.IntegerMulAlgo1.o : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test3035.IntegerMulAlgo2.o : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test4001.Mutex.o : ../../../HCore/CCore/test/./test4001.Mutex.cpp
@@ -1422,6 +1434,12 @@ include $(RULES_FILE)
 ../.test-obj/test3033.IntegerSpeed.s : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test3034.IntegerMulAlgo1.s : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/test3035.IntegerMulAlgo2.s : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test4001.Mutex.s : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1936,6 +1954,12 @@ include $(RULES_FILE)
 
 ../.test-obj/test3033.IntegerSpeed.dep : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3033.IntegerSpeed.o $< -MF $@
+
+../.test-obj/test3034.IntegerMulAlgo1.dep : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3034.IntegerMulAlgo1.o $< -MF $@
+
+../.test-obj/test3035.IntegerMulAlgo2.dep : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3035.IntegerMulAlgo2.o $< -MF $@
 
 ../.test-obj/test4001.Mutex.dep : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4001.Mutex.o $< -MF $@
