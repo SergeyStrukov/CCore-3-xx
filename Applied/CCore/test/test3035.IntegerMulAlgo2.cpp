@@ -19,8 +19,14 @@
 #include <CCore/inc/Timer.h>
 #include <CCore/inc/String.h>
 
+#include <CCore/inc/math/IntegerMulAlgo.h>
+#include <CCore/inc/math/IntegerFastAlgo.h>
+
 #include <math.h>
 #include <gmp.h>
+
+#define mpn_mul_basecase __MPN(mul_basecase)
+extern "C" __GMP_DECLSPEC void mpn_mul_basecase (mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
 namespace App {
 
@@ -37,7 +43,7 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 1000 ;
+   static constexpr ulen Len = 200 ;
    static constexpr unsigned Rep = 100 ;
    static constexpr unsigned Rep2 = 10 ;
 
@@ -61,6 +67,11 @@ class TestIntegerSpeed
 
   private:
 
+   void funcUMul(ulen n,ulen m) CCORE_NOINLINE
+    {
+     Algo::UMul(c,a,n,b,m);
+    }
+
    Stat testUMul(ulen n,ulen m)
     {
      Stat stat;
@@ -72,7 +83,7 @@ class TestIntegerSpeed
 
         ClockTimer timer;
 
-        for(unsigned cnt=Rep2; cnt ;cnt--) Algo::UMul(c,a,n,b,m);
+        for(unsigned cnt=Rep2; cnt ;cnt--) funcUMul(n,m);
 
         stat.add(timer.get());
        }
@@ -159,6 +170,29 @@ struct GMPAlgo
    }
  };
 
+/* struct Base */
+
+struct Base : Math::IntegerFastAlgo
+ {
+  static constexpr ulen Toom22Min = 28 ;
+  static constexpr ulen Toom33Min = 10000 ;
+  static constexpr ulen Toom44Min = 10000 ;
+  static constexpr ulen Toom55Min = 10000 ;
+  static constexpr ulen Toom66Min = 10000 ;
+  static constexpr ulen Toom77Min = 10000 ;
+  static constexpr ulen Toom88Min = 10000 ;
+  static constexpr ulen FFTMin    = 10000 ;
+
+  static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
+   {
+    if( nab==0 ) return;
+
+    mpn_mul_basecase((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
+   }
+ };
+
+using FastAlgo = Math::FastMulAlgo<Base> ;
+
 } // namespace Private_3035
 
 using namespace Private_3035;
@@ -171,9 +205,12 @@ const char *const Testit<3035>::Name="Test3035 IntegerMulAlgo2";
 template<>
 bool Testit<3035>::Main()
  {
+  TaskMemStack tms(64_KByte);
+
   PrintFile out("test3035.txt");
 
-  TestIntegerSpeed<GMPAlgo>::Run(out,"GMP");
+  TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
+  TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
 
   return true;
  }

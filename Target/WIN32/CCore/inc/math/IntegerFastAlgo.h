@@ -285,6 +285,8 @@ struct IntegerFastAlgo
     if( na!=0 ) mpn_zero(a,na);
    }
 
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab) { Range(b,nab).copy(a); }
+
   static void MoveUp(Unit *a,ulen na,ulen delta) noexcept // a[na+delta]
    {
     if( na!=0 ) mpn_copyd(a+delta,a,na);
