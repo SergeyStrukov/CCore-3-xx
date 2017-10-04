@@ -125,6 +125,9 @@ OBJ_LIST = \
 ../.test-obj/test3030.PSec.o \
 ../.test-obj/test3031.PKE.o \
 ../.test-obj/test3032.FileNameMatch.o \
+../.test-obj/test3033.IntegerSpeed.o \
+../.test-obj/test3034.IntegerMulAlgo1.o \
+../.test-obj/test3035.IntegerMulAlgo2.o \
 ../.test-obj/test4001.Mutex.o \
 ../.test-obj/test4002.Sem.o \
 ../.test-obj/test4003.Event.o \
@@ -173,6 +176,7 @@ OBJ_LIST = \
 ../.test-obj/testInt.o \
 ../.test-obj/testIntAlgo.o \
 ../.test-obj/testIntBase.o \
+../.test-obj/testIntSpeed.o \
 ../.test-obj/testNet.o \
 ../.test-obj/testPrint.o \
 ../.test-obj/testRun.o \
@@ -305,6 +309,9 @@ ASM_LIST = \
 ../.test-obj/test3030.PSec.s \
 ../.test-obj/test3031.PKE.s \
 ../.test-obj/test3032.FileNameMatch.s \
+../.test-obj/test3033.IntegerSpeed.s \
+../.test-obj/test3034.IntegerMulAlgo1.s \
+../.test-obj/test3035.IntegerMulAlgo2.s \
 ../.test-obj/test4001.Mutex.s \
 ../.test-obj/test4002.Sem.s \
 ../.test-obj/test4003.Event.s \
@@ -353,6 +360,7 @@ ASM_LIST = \
 ../.test-obj/testInt.s \
 ../.test-obj/testIntAlgo.s \
 ../.test-obj/testIntBase.s \
+../.test-obj/testIntSpeed.s \
 ../.test-obj/testNet.s \
 ../.test-obj/testPrint.s \
 ../.test-obj/testRun.s \
@@ -485,6 +493,9 @@ DEP_LIST = \
 ../.test-obj/test3030.PSec.dep \
 ../.test-obj/test3031.PKE.dep \
 ../.test-obj/test3032.FileNameMatch.dep \
+../.test-obj/test3033.IntegerSpeed.dep \
+../.test-obj/test3034.IntegerMulAlgo1.dep \
+../.test-obj/test3035.IntegerMulAlgo2.dep \
 ../.test-obj/test4001.Mutex.dep \
 ../.test-obj/test4002.Sem.dep \
 ../.test-obj/test4003.Event.dep \
@@ -533,6 +544,7 @@ DEP_LIST = \
 ../.test-obj/testInt.dep \
 ../.test-obj/testIntAlgo.dep \
 ../.test-obj/testIntBase.dep \
+../.test-obj/testIntSpeed.dep \
 ../.test-obj/testNet.dep \
 ../.test-obj/testPrint.dep \
 ../.test-obj/testRun.dep \
@@ -922,6 +934,15 @@ include $(RULES_FILE)
 ../.test-obj/test3032.FileNameMatch.o : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+../.test-obj/test3033.IntegerSpeed.o : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test3034.IntegerMulAlgo1.o : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test3035.IntegerMulAlgo2.o : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 ../.test-obj/test4001.Mutex.o : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1064,6 +1085,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/testIntBase.o : ../../../Applied/CCore/test/./testIntBase.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/testIntSpeed.o : ../../../Applied/CCore/test/./testIntSpeed.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/testNet.o : ../../../Applied/CCore/test/./testNet.cpp
@@ -1455,6 +1479,15 @@ include $(RULES_FILE)
 ../.test-obj/test3032.FileNameMatch.s : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test3033.IntegerSpeed.s : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/test3034.IntegerMulAlgo1.s : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/test3035.IntegerMulAlgo2.s : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test4001.Mutex.s : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1597,6 +1630,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 ../.test-obj/testIntBase.s : ../../../Applied/CCore/test/./testIntBase.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/testIntSpeed.s : ../../../Applied/CCore/test/./testIntSpeed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 ../.test-obj/testNet.s : ../../../Applied/CCore/test/./testNet.cpp
@@ -1988,6 +2024,15 @@ include $(RULES_FILE)
 ../.test-obj/test3032.FileNameMatch.dep : ../../../Applied/CCore/test/./test3032.FileNameMatch.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3032.FileNameMatch.o $< -MF $@
 
+../.test-obj/test3033.IntegerSpeed.dep : ../../../Applied/CCore/test/./test3033.IntegerSpeed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3033.IntegerSpeed.o $< -MF $@
+
+../.test-obj/test3034.IntegerMulAlgo1.dep : ../../../Applied/CCore/test/./test3034.IntegerMulAlgo1.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3034.IntegerMulAlgo1.o $< -MF $@
+
+../.test-obj/test3035.IntegerMulAlgo2.dep : ../../../Applied/CCore/test/./test3035.IntegerMulAlgo2.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3035.IntegerMulAlgo2.o $< -MF $@
+
 ../.test-obj/test4001.Mutex.dep : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4001.Mutex.o $< -MF $@
 
@@ -2131,6 +2176,9 @@ include $(RULES_FILE)
 
 ../.test-obj/testIntBase.dep : ../../../Applied/CCore/test/./testIntBase.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/testIntBase.o $< -MF $@
+
+../.test-obj/testIntSpeed.dep : ../../../Applied/CCore/test/./testIntSpeed.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/testIntSpeed.o $< -MF $@
 
 ../.test-obj/testNet.dep : ../../../Applied/CCore/test/./testNet.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/testNet.o $< -MF $@

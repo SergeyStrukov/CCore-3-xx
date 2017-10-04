@@ -2212,6 +2212,60 @@ __ZN5CCore4Math15IntegerFastAlgo4NullEPjj:              #  void CCore::Math::Int
 
 #-----------------------------------------------------------------------------------------
 
+        .global __ZN5CCore4Math15IntegerFastAlgo4CopyEPjPKjj
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo4CopyEPjPKjj:           # void CCore::Math::IntegerFastAlgo::Copy(Unit *restrict b,const Unit *a,ulen nab)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        movl    16(%ebp), %ecx      # nab
+        testl   %ecx, %ecx
+        je      5f
+
+        pushl   %ebx
+
+        movl     8(%ebp), %edx      # b
+        movl    12(%ebp), %eax      # a
+        subl    %eax, %edx
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        movl    (%eax), %ebx
+        movl    %ebx, (%eax,%edx)
+
+        leal    4(%eax), %eax
+1:
+        shrl    $1, %ecx
+        jnc     2f
+
+        movl    (%eax), %ebx
+        movl    %ebx, (%eax,%edx)
+
+        movl    4(%eax), %ebx
+        movl    %ebx, 4(%eax,%edx)
+
+        leal    8(%eax), %eax
+2:
+        jecxz   4f
+3:
+        movups  (%eax), %xmm0
+        movups  %xmm0, (%eax,%edx)
+
+        leal    16(%eax), %eax
+
+        loop    3b
+4:
+        popl    %ebx
+5:
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
         .global __ZN5CCore4Math15IntegerFastAlgo6MoveUpEPjjj
 
         .p2align 4,,15

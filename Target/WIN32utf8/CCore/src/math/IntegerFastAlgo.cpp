@@ -477,11 +477,6 @@ void IntegerFastAlgo::UMulLo(Unit *restrict c,ulen nc,const Unit *a,ulen na,cons
   Range(c,nc).copy(temp.getPtr());
  }
 
-void IntegerFastAlgo::Copy(Unit *restrict b,const Unit *a,ulen nab)
- {
-  Range(b,nab).copy(a);
- }
-
 } // namespace Math
 } // namespace CCore
 
