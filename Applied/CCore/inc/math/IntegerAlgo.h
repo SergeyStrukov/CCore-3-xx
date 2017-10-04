@@ -104,6 +104,8 @@ concept bool IntAlgo2 = requires(Unit *c,const Unit *a,const Unit *b,ulen n,ulen
 
   Algo::Null(c,n);
 
+  Algo::Copy(c,a,n);
+
   Algo::MoveUp(c,n,m);
 
   Algo::MoveDown(c,n,m);
@@ -230,6 +232,8 @@ struct Algo
   // data functions
 
 ! static void Null(Unit *a,ulen na);
+
+! static void Copy(Unit *restrict b,const Unit *a,ulen nab);
 
 ! static void MoveUp(Unit *a,ulen na,ulen delta); // a[na+delta]
 

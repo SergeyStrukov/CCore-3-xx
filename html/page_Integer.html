@@ -974,6 +974,8 @@ The input and output bodies do not overlap.
 
   static void Null(Unit *a,ulen na);
 
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab);
+
   static void MoveUp(Unit *a,ulen na,ulen delta); // a[na+delta]
 
   static void MoveDown(Unit *a,ulen na,ulen delta); // a[na+delta]
@@ -983,6 +985,10 @@ The input and output bodies do not overlap.
 
 <p>
 <b>Null()</b> nullifies the result. 
+</p>
+
+<p>
+<b>Copy()</b> copies data from one range to another disjoint range.
 </p>
 
 <p>

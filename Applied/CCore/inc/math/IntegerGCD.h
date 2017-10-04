@@ -1,7 +1,7 @@
 /* IntegerGCD.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -33,7 +33,7 @@ void GuardQSymNotCoprime();
 
 template <IntAlgo Algo> struct GCDAlgo;
 
-template <UIntType Unit,class TempArrayType> class TempInteger2;
+template <IntAlgo Algo,class TempArrayType> class TempInteger2;
 
 template <IntAlgo Algo,class TempArrayType> class GCDivBuilder;
 
@@ -156,7 +156,7 @@ struct GCDAlgo
 
     ulen copyTo(Unit *buf) const // [result.len+2]
      {
-      result.copyTo(buf);
+      Algo::Copy(buf,result.ptr,result.len);
 
       buf[result.len]=msu;
       buf[result.len+1]=0;
@@ -312,11 +312,13 @@ struct GCDAlgo
    }
  };
 
-/* class TempInteger2<Unit,TempArrayType> */
+/* class TempInteger2<Algo,TempArrayType> */
 
-template <UIntType Unit,class TempArrayType>
+template <IntAlgo Algo,class TempArrayType>
 class TempInteger2
  {
+   using Unit = typename Algo::Unit ;
+
    TempArrayType buf;
    PtrLen<Unit> a;
    PtrLen<Unit> b;
@@ -329,8 +331,8 @@ class TempInteger2
      Unit *a1=buf.getPtr();
      Unit *b1=a1+a_.len;
 
-     a_.copyTo(a1);
-     b_.copyTo(b1);
+     Algo::Copy(a1,a_.ptr,a_.len);
+     Algo::Copy(b1,b_.ptr,b_.len);
 
      a=Range(a1,a_.len);
      b=Range(b1,b_.len);
@@ -363,7 +365,7 @@ class GCDivBuilder
 
    PtrLen<Unit> operator () (Place<void> place) const
     {
-     TempInteger2<Unit,TempArrayType> temp(a,b);
+     TempInteger2<Algo,TempArrayType> temp(a,b);
 
      auto result=GCDAlgo<Algo>::SignedGCD(temp.getA(),temp.getB());
 
@@ -392,7 +394,7 @@ class GCDiv : public Integer
 template <class Integer>
 int QSym(const Integer &a,const Integer &b)
  {
-  TempInteger2<typename Integer::Unit,typename Integer::TempArrayType> temp(a.getBody(),b.getBody());
+  TempInteger2<typename Integer::AlgoType,typename Integer::TempArrayType> temp(a.getBody(),b.getBody());
 
   return GCDAlgo<typename Integer::AlgoType>::SignedQSym(temp.getA(),temp.getB());
  }

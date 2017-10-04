@@ -1,7 +1,7 @@
 /* IntegerSlowAlgo.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -233,6 +233,8 @@ struct IntegerSlowAlgo : IntegerSlowMulAlgo<UInt>
   // data functions
 
   static void Null(Unit *a,ulen na);
+
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab);
 
   static void MoveUp(Unit *a,ulen na,ulen delta); // a[na+delta]
 
@@ -1236,6 +1238,12 @@ template <UIntType UInt>
 void IntegerSlowAlgo<UInt>::Null(Unit *a,ulen na)
  {
   Range(a,na).set_null();
+ }
+
+template <UIntType UInt>
+void IntegerSlowAlgo<UInt>::Copy(Unit *restrict b,const Unit *a,ulen nab)
+ {
+  Range(b,nab).copy(a);
  }
 
 template <UIntType UInt>

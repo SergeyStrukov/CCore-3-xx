@@ -192,6 +192,8 @@ struct IntegerFastAlgo
 
   static void Null(Unit *a,ulen na) noexcept;
 
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab);
+
   static void MoveUp(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
 
   static void MoveDown(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]

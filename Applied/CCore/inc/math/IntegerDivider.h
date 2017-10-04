@@ -1,7 +1,7 @@
 /* IntegerDivider.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -130,7 +130,7 @@ IntegerInverse<Algo,TempArray>::IntegerInverse(const Unit *a,ulen na,ulen K)
 
      Algo::UMul(P,x,k+1,d,na);
 
-     Range(y,k).copy(P+na);
+     Algo::Copy(y,P+na,k);
 
      Algo::UMulLo(P,na+1,a,na,y,k);
 
@@ -147,7 +147,7 @@ IntegerInverse<Algo,TempArray>::IntegerInverse(const Unit *a,ulen na,ulen K)
         Algo::USub(P,a,na);
        }
 
-     Range(d,na).copy(P);
+     Algo::Copy(d,P,na);
 
      k*=2;
      x=y;
@@ -161,7 +161,7 @@ IntegerInverse<Algo,TempArray>::IntegerInverse(const Unit *a,ulen na,ulen K)
 
      Algo::UMul(P,x,k+1,d,na);
 
-     Range(X,l).copy(P+na+(k-l));
+     Algo::Copy(X,P+na+(k-l),l);
 
      Algo::UMulLo(P,na+1,a,na,X,l);
 
@@ -217,7 +217,7 @@ struct IntegerDivider<Algo,TempArray>::Normalize
 
   void doB(const Unit *b,ulen nb,Unit *c) // [nb+1]
    {
-    Range(c,nb).copy(b);
+    Algo::Copy(c,b,nb);
 
     switch( Algo::Sign(c,nb) )
      {
@@ -256,7 +256,7 @@ struct IntegerDivider<Algo,TempArray>::Normalize
       }
     else
       {
-       Range(d,na).copy(a);
+       Algo::Copy(d,a,na);
 
        d[na]=Algo::SignExt(d,na);
       }

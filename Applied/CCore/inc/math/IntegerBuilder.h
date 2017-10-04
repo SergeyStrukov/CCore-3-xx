@@ -1,7 +1,7 @@
 /* IntegerBuilder.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -297,7 +297,7 @@ class IntegerNegBuilder
      Unit *b=place;
      ulen n=a.len;
 
-     Range(b,n).copy(a.ptr);
+     Algo::Copy(b,a.ptr,n);
 
      b[n]=Algo::Neg(b,n);
 
@@ -340,7 +340,7 @@ class IntegerAddBuilder
      Unit *c=place;
      ulen n=b.len;
 
-     Range(c,n).copy(b.ptr);
+     Algo::Copy(c,b.ptr,n);
 
      c[n]=Algo::Add(c,n,a.ptr,a.len);
 
@@ -386,7 +386,7 @@ class IntegerSubBuilder
      Unit *c=place;
      ulen n=b.len;
 
-     Range(c,n).copy(b.ptr);
+     Algo::Copy(c,b.ptr,n);
 
      if( rev_flag )
        {
@@ -498,7 +498,7 @@ class IntegerLShiftBuilder
        }
      else
        {
-        Range(b+full,a.len).copy(a.ptr);
+        Algo::Copy(b+full,a.ptr,a.len);
        }
 
      return Range(b,n);
@@ -541,7 +541,7 @@ class IntegerRShiftBuilder
         if( shift )
           Algo::RShift(b,a.ptr+full,n,shift);
         else
-          Range(b,n).copy(a.ptr+full);
+          Algo::Copy(b,a.ptr+full,n);
        }
      else
        {

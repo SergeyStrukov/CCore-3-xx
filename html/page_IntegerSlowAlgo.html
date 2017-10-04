@@ -194,6 +194,8 @@ struct <span class="Att">IntegerSlowAlgo</span>
 
   static void Null(Unit *a,ulen na);
 
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab);
+
   static void MoveUp(Unit *a,ulen na,ulen delta); // a[na+delta]
   
   static void MoveDown(Unit *a,ulen na,ulen delta); // a[na+delta]

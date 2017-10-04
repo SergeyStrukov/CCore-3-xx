@@ -1821,6 +1821,16 @@ class TestIntegerAlgo2 : TestIntBase
      if( u!=u1 ) Error("Algo::CountZeroLSB");
     }
 
+   void test46()
+    {
+     fill_ac();
+
+     Algo::Copy(c,a,na);
+     Alt::Copy(d,a,na);
+
+     guard("Algo::Copy");
+    }
+
   public:
 
    TestIntegerAlgo2() {}
@@ -1890,6 +1900,7 @@ class TestIntegerAlgo2 : TestIntBase
         test44();
 
         test45();
+        test46();
        }
     }
  };
