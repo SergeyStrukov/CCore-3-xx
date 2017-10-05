@@ -16,7 +16,7 @@
 #ifndef CCore_test_testIntBase_h
 #define CCore_test_testIntBase_h
 
-#include <CCore/inc/Random.h>
+#include <CCore/inc/PlatformRandom.h>
 
 namespace App {
 
@@ -32,7 +32,7 @@ class TestIntBase;
 
 class TestIntBase : NoCopy
  {
-   Random gen;
+   PlatformRandom gen;
 
   public:
 
@@ -100,6 +100,12 @@ class TestIntBase : NoCopy
        fill_masked(r);
      else
        gen.fill(r);
+    }
+
+   template <class Unit>
+   void fillbit(PtrLen<Unit> r)
+    {
+     for(Unit &u : r ) u=Unit( gen.next()&1u );
     }
 
    static void Error(const char *msg);

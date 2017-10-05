@@ -43,7 +43,7 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 200 ;
+   static constexpr ulen Len = 300 ;
    static constexpr unsigned Rep = 100 ;
    static constexpr unsigned Rep2 = 10 ;
 
@@ -175,7 +175,7 @@ struct GMPAlgo
 struct Base : Math::IntegerFastAlgo
  {
   static constexpr ulen Toom22Min = 28 ;
-  static constexpr ulen Toom33Min = 10000 ;
+  static constexpr ulen Toom33Min = 200 ;
   static constexpr ulen Toom44Min = 10000 ;
   static constexpr ulen Toom55Min = 10000 ;
   static constexpr ulen Toom66Min = 10000 ;
@@ -188,6 +188,61 @@ struct Base : Math::IntegerFastAlgo
     if( nab==0 ) return;
 
     mpn_mul_basecase((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
+   }
+
+  struct DivMod3
+   {
+    Unit div;
+    Unit mod;
+
+    DivMod3(Unit hi,Unit lo)
+     {
+      div=lo/3;
+      mod=lo%3;
+
+      switch( hi )
+        {
+         case 0 : return;
+
+         case 1 :
+          {
+           div+=0x5555'5555;
+
+           mod+=1;
+          }
+         break;
+
+         case 2 :
+          {
+           div+=0xAAAA'AAAA;
+
+           mod+=2;
+          }
+         break;
+        }
+
+      if( mod>=3 )
+        {
+         mod-=3;
+         div++;
+        }
+     }
+   };
+
+  static void UDiv3(Unit *a,ulen na)
+   {
+    Unit hi=0;
+
+    for(; na ;na--)
+      {
+       Unit lo=a[na-1];
+
+       DivMod3 result(hi,lo);
+
+       a[na-1]=result.div;
+
+       hi=result.mod;
+      }
    }
  };
 

@@ -33,7 +33,7 @@ using Alt = Math::IntegerSlowAlgo<uint8> ;
 struct Base : Alt
  {
   static constexpr ulen Toom22Min = 2 ;
-  static constexpr ulen Toom33Min = 10000 ;
+  static constexpr ulen Toom33Min = 5 ;
   static constexpr ulen Toom44Min = 10000 ;
   static constexpr ulen Toom55Min = 10000 ;
   static constexpr ulen Toom66Min = 10000 ;
@@ -44,6 +44,27 @@ struct Base : Alt
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {
     UMul(c,a,nab,b,nab);
+   }
+
+  struct DivMod3 : UIntFunc<Unit>::DivMod
+   {
+    DivMod3(Unit hi,Unit lo) : UIntFunc<Unit>::DivMod(hi,lo,3) {}
+   };
+
+  static void UDiv3(Unit *a,ulen na)
+   {
+    Unit hi=0;
+
+    for(; na ;na--)
+      {
+       Unit lo=a[na-1];
+
+       DivMod3 result(hi,lo);
+
+       a[na-1]=result.div;
+
+       hi=result.mod;
+      }
    }
  };
 

@@ -94,6 +94,27 @@ struct FastMulAlgo
     return Algo::UAddUnit(c+nb,nac-nb,carry);
    }
 
+  static Unit UAdd(Unit *restrict b,ulen nb,const Unit *a,ulen na) // nb>=na
+   {
+    Unit carry=Algo::UAdd(b,a,na);
+
+    return Algo::UAddUnit(b+na,nb-na,carry);
+   }
+
+  static Unit USub(Unit *restrict b,ulen nb,const Unit *a,ulen na) // nb>=na
+   {
+    Unit borrow=Algo::USub(b,a,na);
+
+    return Algo::USubUnit(b+na,nb-na,borrow);
+   }
+
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
+   {
+    Algo::Copy(b,a,nab);
+
+    return Algo::ULShift(b,nab,shift);
+   }
+
   static bool ModSub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc) // return a<b
    {
     for(; nabc>0 ;nabc--)
@@ -123,7 +144,7 @@ struct FastMulAlgo
     return false;
    }
 
-  static bool ModSub1(Unit *restrict c,const Unit *a,const Unit *b,ulen nac) // return a<b
+  static bool ModSub1(Unit *restrict c,const Unit *a,const Unit *b,ulen nac) // nb == nac-1 , return a<b
    {
     if( nac>0 )
       {
@@ -168,6 +189,49 @@ struct FastMulAlgo
     return false;
    }
 
+  static bool ModSub1(Unit *restrict b,const Unit *a,ulen nb) // na == nb-1 , return b<a
+   {
+    if( nb>0 )
+      {
+       Unit B=b[nb-1];
+
+       if( B>0 )
+         {
+          b[nb-1]=B-Algo::USub(b,a,nb-1);
+
+          return false;
+         }
+
+       nb--;
+      }
+
+    for(; nb>0 ;nb--)
+      {
+       Unit B=b[nb-1];
+       Unit A=a[nb-1];
+
+       if( B!=A )
+         {
+          if( B<A )
+            {
+             Algo::URevSub(b,a,nb);
+
+             return true;
+            }
+          else
+            {
+             Algo::USub(b,a,nb);
+
+             return false;
+            }
+         }
+
+       b[nb-1]=0;
+      }
+
+    return false;
+   }
+
   // Toom functions
 
   static ulen Toom22MulTempLen(ulen nab) // nab >= 2
@@ -189,22 +253,24 @@ struct FastMulAlgo
    {
     // inf, 0, -1
 
-    ulen n1=nab/2;
-    ulen n0=nab-n1;
+    ulen m=nab/2;
+    ulen n=nab-m;
 
-    UMul(c,a,b,n0,temp);
-    UMul(c+2*n0,a+n0,b+n0,n1,temp);
+    const Unit *a1=a+n;
+    const Unit *b1=b+n;
 
-    if( n0==n1 )
+    UMul(c,a,b,n,temp);
+    UMul(c+2*n,a1,b1,m,temp);
+
+    if( n==m )
       {
-       bool fa=ModSub(temp,a,a+n0,n0);
-       bool fb=ModSub(temp+n0,b,b+n0,n0);
+       bool neg = ( ModSub(temp,a,a1,n) == ModSub(temp+n,b,b1,n) );
 
-       UMul(temp+nab,temp,temp+n0,n0,temp+2*nab);
+       UMul(temp+nab,temp,temp+n,n,temp+2*nab);
 
        Unit carry=UAdd(temp,c,c+nab,nab);
 
-       if( fa==fb )
+       if( neg )
          {
           carry-=Algo::USub(temp,temp+nab,nab);
          }
@@ -213,31 +279,30 @@ struct FastMulAlgo
           carry+=Algo::UAdd(temp,temp+nab,nab);
          }
 
-       carry+=Algo::UAdd(c+n0,temp,nab);
+       carry+=Algo::UAdd(c+n,temp,nab);
 
-       Algo::UAddUnit(c+nab+n0,n0,carry);
+       Algo::UAddUnit(c+nab+n,n,carry);
       }
     else
       {
-       bool fa=ModSub1(temp,a,a+n0,n0);
-       bool fb=ModSub1(temp+n0,b,b+n0,n0);
+       bool neg = ( ModSub1(temp,a,a1,n) == ModSub1(temp+n,b,b1,n) );
 
-       UMul(temp+2*n0,temp,temp+n0,n0,temp+4*n0);
+       UMul(temp+2*n,temp,temp+n,n,temp+4*n);
 
-       UAdd(temp,c,2*n0,c+2*n0,2*n1);
+       UAdd(temp,c,2*n,c+2*n,2*m);
 
-       if( fa==fb )
+       if( neg )
          {
-          Algo::USub(temp,temp+2*n0,2*n0);
+          Algo::USub(temp,temp+2*n,2*n);
          }
        else
          {
-          Algo::UAdd(temp,temp+2*n0,2*n0);
+          Algo::UAdd(temp,temp+2*n,2*n);
          }
 
-       Unit carry=Algo::UAdd(c+n0,temp,2*n0);
+       Unit carry=Algo::UAdd(c+n,temp,2*n);
 
-       Algo::UAddUnit(c+3*n0,n0-2,carry);
+       Algo::UAddUnit(c+3*n,n-2,carry);
       }
    }
 
@@ -249,25 +314,190 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom33MulTempLen(ulen nab) // nab >= 3 TODO
+  static ulen Toom33MulTempLen(ulen nab) // nab >= 5
    {
-    Used(nab);
+    ulen n=(nab+2)/3;
+    ulen m=nab-2*n;
 
-    return 0;
+    ulen k=2*n+2;
+
+    return 2*n+2*m+3*k+Max_cast(k,UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 3 TODO
+  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 5
    {
     // inf, 0, +1, -1, +2
 
-    Used(c);
-    Used(a);
-    Used(b);
-    Used(nab);
-    Used(temp);
+    ulen n=(nab+2)/3;
+    ulen m=nab-2*n;
+
+    ulen k=2*n+2;
+
+    const Unit *a1=a+n;
+    const Unit *b1=b+n;
+
+    const Unit *a2=a1+n;
+    const Unit *b2=b1+n;
+
+    Unit *A=temp;
+    Unit *E=A+2*n;
+    Unit *B=E+2*m;
+    Unit *C=B+k;
+    Unit *D=C+k;
+    Unit *t=D+k;
+
+    // A , E
+
+    UMul(A,a,b,n,t);
+    UMul(E,a2,b2,m,t);
+
+    // B
+
+    {
+     {
+      Unit u=UAdd(c,a,a1,n);
+
+      u+=UAdd(c,n,a2,m);
+
+      c[n]=u;
+     }
+
+     Unit *c1=c+n+1;
+
+     {
+      Unit u=UAdd(c1,b,b1,n);
+
+      u+=UAdd(c1,n,b2,m);
+
+      c1[n]=u;
+     }
+
+     UMul(B,c,c1,n+1,t);
+    }
+
+    // D
+
+    {
+     Unit *s=c+k;
+
+     {
+      Unit u=ULShift(s,a1,n,1);
+
+      u+=UAdd(c,a,s,n);
+
+      if( n==m )
+        {
+         u+=ULShift(s,a2,m,2);
+
+         u+=Algo::UAdd(c,s,n);
+        }
+      else
+        {
+         s[m]=ULShift(s,a2,m,2);
+
+         u+=UAdd(c,n,s,m+1);
+        }
+
+      c[n]=u;
+     }
+
+     Unit *c1=c+n+1;
+
+     {
+      Unit u=ULShift(s,b1,n,1);
+
+      u+=UAdd(c1,b,s,n);
+
+      if( n==m )
+        {
+         u+=ULShift(s,b2,m,2);
+
+         u+=Algo::UAdd(c1,s,n);
+        }
+      else
+        {
+         s[m]=ULShift(s,b2,m,2);
+
+         u+=UAdd(c1,n,s,m+1);
+        }
+
+      c1[n]=u;
+     }
+
+     UMul(D,c,c1,n+1,t);
+    }
+
+    // C
+
+    bool pos;
+
+    {
+     c[n]=UAdd(c,a,n,a2,m);
+
+     bool fa=ModSub1(c,a1,n+1);
+
+     Unit *c1=c+n+1;
+
+     c1[n]=UAdd(c1,b,n,b2,m);
+
+     pos = ( fa == ModSub1(c1,b1,n+1) );
+
+     UMul(C,c,c1,n+1,t);
+    }
+
+    Unit *P=t; // k
+
+    {
+     // P
+
+     if( pos )
+       USub(P,B,C,k);
+     else
+       UAdd(P,B,C,k);
+
+     Algo::URShift(P,k,1);
+
+     // B
+
+     Algo::USub(B,P,k);
+
+     USub(B,k,A,2*n);
+     USub(B,k,E,2*m);
+
+     // D
+
+     USub(D,k,A,2*n);
+
+     Algo::URShift(D,k,1);
+
+     Algo::USub(D,P,k);
+
+     ULShift(c,B,k,1);
+
+     Algo::USub(D,c,k);
+
+     c[2*m]=ULShift(c,E,2*m,3);
+
+     USub(D,k,c,2*m+1);
+
+     Algo::UDiv3(D,k);
+
+     // P
+
+     USub(P,k,D,n+m+1);
+    }
+
+    Algo::Copy(c,A,2*n);
+    Algo::Copy(c+4*n,E,2*m);
+
+    Algo::Copy(c+2*n,B,2*n);
+    Algo::UAddUnit(c+4*n,2*m,B[2*n]);
+
+    UAdd(c+n,2*nab-n,P,k-1);
+    UAdd(c+3*n,2*nab-3*n,D,n+m+1);
    }
 
-  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 3
+  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 5
    {
     Temp temp(Toom33MulTempLen(nab));
 
@@ -432,7 +662,7 @@ struct FastMulAlgo
   // functions
 
   static_assert( 2 <= Algo::Toom22Min &&
-                 3 <= Algo::Toom33Min &&
+                 5 <= Algo::Toom33Min &&
                  4 <= Algo::Toom44Min &&
                  5 <= Algo::Toom55Min &&
                  6 <= Algo::Toom66Min &&
