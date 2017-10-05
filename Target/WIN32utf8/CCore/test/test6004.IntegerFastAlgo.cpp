@@ -126,7 +126,7 @@ class TestEngine : TestIntBase
 
    void test1()
     {
-     fill_abn();
+     fill_abn(2);
 
      Algo::RawUMul(c,a,b,na);
      Alt::UMul(d,a,na,b,nb);

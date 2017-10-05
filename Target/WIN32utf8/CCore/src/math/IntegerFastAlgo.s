@@ -1176,1074 +1176,6 @@ __ZN5CCore4Math15IntegerFastAlgo9ShiftDownEPjjjj:       #  void CCore::Math::Int
 
 #-----------------------------------------------------------------------------------------
 
-        .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::IntegerFastAlgo::RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        movl    20(%ebp), %ecx  # nab
-        testl   %ecx, %ecx
-        jne     1f
-
-        popl    %ebp
-        ret
-1:
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl     8(%ebp), %edx  # c
-        movl    12(%ebp), %eax  # a
-        subl    %eax, %edx
-        movl    16(%ebp), %ebx  # b
-
-        movd    (%ebx), %mm0
-        movl    %ecx, %esi
-        movl    %ecx, %edi
-        pxor    %mm2, %mm2
-2:
-        movd    (%eax), %mm1
-        pmuludq %mm0, %mm1
-        paddq   %mm2, %mm1
-        movd    %mm1, (%eax,%edx)
-        psrlq   $32, %mm1
-        movq    %mm1, %mm2
-        leal    4(%eax), %eax
-
-        loop    2b
-
-        movd    %mm2, (%eax,%edx)
-3:
-        dec     %esi
-        jz      5f
-
-        movl    12(%ebp), %eax
-        leal    4(%edx), %edx
-        leal    4(%ebx), %ebx
-        movl    %edi, %ecx
-
-        movd    (%ebx), %mm0
-        pxor    %mm2, %mm2
-        pxor    %mm5, %mm5
-4:
-        movd    (%eax), %mm1
-        movd    (%eax,%edx), %mm3
-        pmuludq %mm0, %mm1
-        paddq   %mm2, %mm1
-        movq    %mm1, %mm4
-        psrlq   $32, %mm1
-        movq    %mm1, %mm2
-
-        psllq   $32, %mm4
-        psrlq   $32, %mm4
-
-        paddq   %mm4, %mm3
-        paddq   %mm5, %mm3
-        movd    %mm3, (%eax,%edx)
-        psrlq   $32, %mm3
-        movq    %mm3, %mm5
-
-        leal    4(%eax), %eax
-
-        loop 4b
-
-        paddq   %mm5, %mm2
-        movd    %mm2, (%eax,%edx)
-
-        jmp     3b
-5:
-        emms
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjjS4_j
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjjS4_j:    #  void CCore::Math::IntegerFastAlgo::RawUMul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        #
-        #   8(%ebp)  c
-        #  12(%ebp)  a
-        #  16(%ebp)  na
-        #  20(%ebp)  b
-        #  24(%ebp)  nb
-        #
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        subl    $20, %esp
-
-        #
-        #  -16(%ebp) acc2
-        #  -20(%ebp) acc1
-        #  -24(%ebp) acc0
-        #  -28(%ebp) k
-        #  -32(%ebp) na-1
-        #
-
-        movl     8(%ebp), %ebx
-
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        movl    (%esi), %eax
-        mull    (%edi)
-
-        movl    %eax, (%ebx)
-        leal    4(%ebx), %ebx
-
-        movl    %edx, -24(%ebp)
-        movl    $0, -20(%ebp)
-        movl    $0, -16(%ebp)
-
-        movl    $1, %ecx
-1:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 16(%ebp)
-        jne     1b
-
-        cmpl    %ecx, 24(%ebp)
-        je      3f
-2:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        movl    16(%ebp), %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 24(%ebp)
-        jne     2b
-3:
-        movl    20(%ebp), %edi
-        leal    -4(%edi,%ecx,4), %edi
-        movl    %edi, 20(%ebp)
-
-        movl    16(%ebp), %eax
-        subl    $1, %eax
-        movl    %eax, -32(%ebp)
-        movl    $1, %ecx
-
-        cmpl    %ecx, %eax
-        je      5f
-4:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%esi,%ecx,4), %esi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        subl    $1, %ecx
-        subl    16(%ebp), %ecx
-        neg     %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, -32(%ebp)
-        jne     4b
-5:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        movl    (%edi), %eax
-        leal    (%esi,%ecx,4), %esi
-        mull    (%esi)
-        addl    -24(%ebp), %eax
-        adcl    -20(%ebp), %edx
-
-        movl    %eax,  (%ebx)
-        movl    %edx, 4(%ebx)
-
-        addl    $20, %esp
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo8RawUMul1EPjjPKjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo8RawUMul1EPjjPKjj:      #  void CCore::Math::IntegerFastAlgo::RawUMul1(Unit *restrict c,Unit a,const Unit *b,ulen nb)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl     8(%ebp), %ebx      # c
-        movl    12(%ebp), %edi      # a
-        movl    16(%ebp), %esi      # b
-        movl    20(%ebp), %ecx      # nb
-
-UMul1:
-        movl    %edi, %ebp
-
-        movl    (%esi), %eax
-        mull    %ebp
-        movl    %eax, (%ebx)
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-        subl    $1, %ecx
-1:
-        movl    4(%esi), %eax
-        leal    4(%esi), %esi
-        mull    %ebp
-        add     %edi, %eax
-        adc     $0, %edx
-        movl    %eax, (%ebx)
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-
-        loop    1b
-
-        movl    %edi, (%ebx)
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo9RawUMul11EPjjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo9RawUMul11EPjjj:        #  void CCore::Math::IntegerFastAlgo::RawUMul11(Unit *c,Unit a,Unit b)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        movl     8(%ebp), %ecx      # c
-        movl    12(%ebp), %eax      # a
-        mull    16(%ebp)            # b
-
-        movl    %eax,  (%ecx)
-        movl    %edx, 4(%ecx)
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo7RawUMacEPjPKjjS4_jj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo7RawUMacEPjPKjjS4_jj:   #  Unit CCore::Math::IntegerFastAlgo::RawUMac(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb,Unit carry)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        #
-        #   8(%ebp)  c
-        #  12(%ebp)  a
-        #  16(%ebp)  na
-        #  20(%ebp)  b
-        #  24(%ebp)  nb
-        #  28(%ebp)  carry
-        #
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        subl    $20, %esp
-
-        #
-        #  -16(%ebp) acc2
-        #  -20(%ebp) acc1
-        #  -24(%ebp) acc0
-        #  -28(%ebp) k
-        #  -32(%ebp) na-1
-        #
-
-        movl     8(%ebp), %ebx
-
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        movl    (%esi), %eax
-        mull    (%edi)
-
-        btl     $0, 28(%ebp)
-        adcl    %eax, (%ebx)
-        setc    28(%ebp)
-
-        leal    4(%ebx), %ebx
-
-        movl    %edx, -24(%ebp)
-        movl    $0, -20(%ebp)
-        movl    $0, -16(%ebp)
-
-        movl    $1, %ecx
-1:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-
-        btl     $0, 28(%ebp)
-        adcl    %eax, (%ebx)
-        setc    28(%ebp)
-
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 16(%ebp)
-        jne     1b
-
-        cmpl    %ecx, 24(%ebp)
-        je      3f
-2:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        movl    16(%ebp), %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-
-        btl     $0, 28(%ebp)
-        adcl    %eax, (%ebx)
-        setc    28(%ebp)
-
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 24(%ebp)
-        jne     2b
-3:
-        movl    20(%ebp), %edi
-        leal    -4(%edi,%ecx,4), %edi
-        movl    %edi, 20(%ebp)
-
-        movl    16(%ebp), %eax
-        subl    $1, %eax
-        movl    %eax, -32(%ebp)
-        movl    $1, %ecx
-
-        cmpl    %ecx, %eax
-        je      5f
-4:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        leal    (%esi,%ecx,4), %esi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        subl    $1, %ecx
-        subl    16(%ebp), %ecx
-        neg     %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-
-        btl     $0, 28(%ebp)
-        adcl    %eax, (%ebx)
-        setc    28(%ebp)
-
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, -32(%ebp)
-        jne     4b
-5:
-        movl    12(%ebp), %esi
-        movl    20(%ebp), %edi
-
-        movl    (%edi), %eax
-        leal    (%esi,%ecx,4), %esi
-        mull    (%esi)
-        addl    -24(%ebp), %eax
-        adcl    -20(%ebp), %edx
-
-        btl     $0, 28(%ebp)
-        adcl    %eax, (%ebx)
-        adcl    %edx, 4(%ebx)
-        sbbl    %eax, %eax
-        negl    %eax
-
-        addl    $20, %esp
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo8RawUMac1EPjjPKjjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo8RawUMac1EPjjPKjjj:     #  Unit CCore::Math::IntegerFastAlgo::RawUMac1(Unit *restrict c,Unit a,const Unit *b,ulen nb,Unit carry)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl     8(%ebp), %ebx      # c
-        movl    12(%ebp), %edi      # a
-        movl    16(%ebp), %esi      # b
-        movl    20(%ebp), %ecx      # nb
-
-        #
-        #  36(%esp) carry
-        #
-
-        movl    %edi, %ebp
-
-        movl    (%esi), %eax
-        mull    %ebp
-
-        btl     $0, 36(%esp)
-        adcl    %eax, (%ebx)
-        setc    36(%esp)
-
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-        subl    $1, %ecx
-1:
-        movl    4(%esi), %eax
-        leal    4(%esi), %esi
-        mull    %ebp
-        add     %edi, %eax
-        adc     $0, %edx
-
-        btl     $0, 36(%esp)
-        adcl    %eax, (%ebx)
-        setc    36(%esp)
-
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-
-        loop    1b
-
-        btl     $0, 36(%esp)
-        adcl    %edi, (%ebx)
-        sbbl    %eax, %eax
-        negl    %eax
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo9RawUMac11EPjjjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo9RawUMac11EPjjjj:       #  Unit CCore::Math::IntegerFastAlgo::RawUMac11(Unit *c,Unit a,Unit b,Unit carry)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        movl     8(%ebp), %ecx      # c
-        movl    12(%ebp), %eax      # a
-        mull    16(%ebp)            # b
-
-        btl     $0, 20(%ebp)
-        adcl    %eax,  (%ecx)
-        adcl    %edx, 4(%ecx)
-
-        sbbl    %eax, %eax
-        negl    %eax
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo9RawUMulLoEPjjPKjjS4_j
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo9RawUMulLoEPjjPKjjS4_j: #  void CCore::Math::IntegerFastAlgo::RawUMulLo(Unit *restrict c,ulen nc,const Unit *a,ulen na,const Unit *b,ulen nb)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-
-        #
-        #   8(%ebp)  c
-        #  12(%ebp)  nc
-        #  16(%ebp)  a
-        #  20(%ebp)  na
-        #  24(%ebp)  b
-        #  28(%ebp)  nb
-        #
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        subl    $20, %esp
-
-        #
-        #  -16(%ebp) acc2
-        #  -20(%ebp) acc1
-        #  -24(%ebp) acc0
-        #  -28(%ebp) k
-        #  -32(%ebp) na-1
-        #
-
-        movl     8(%ebp), %ebx
-
-        movl    16(%ebp), %esi
-        movl    24(%ebp), %edi
-
-        movl    (%esi), %eax
-        mull    (%edi)
-
-        movl    %eax, (%ebx)
-        subl    $1, 12(%ebp)
-        je      6f
-        leal    4(%ebx), %ebx
-
-        movl    %edx, -24(%ebp)
-        movl    $0, -20(%ebp)
-        movl    $0, -16(%ebp)
-
-        movl    $1, %ecx
-1:
-        movl    16(%ebp), %esi
-        movl    24(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        subl    $1, 12(%ebp)
-        je      6f
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 20(%ebp)
-        jne     1b
-
-        cmpl    %ecx, 28(%ebp)
-        je      3f
-2:
-        movl    16(%ebp), %esi
-        movl    24(%ebp), %edi
-
-        leal    (%edi,%ecx,4), %edi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        movl    20(%ebp), %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        subl    $1, 12(%ebp)
-        je      6f
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, 28(%ebp)
-        jne     2b
-3:
-        movl    24(%ebp), %edi
-        leal    -4(%edi,%ecx,4), %edi
-        movl    %edi, 24(%ebp)
-
-        movl    20(%ebp), %eax
-        subl    $1, %eax
-        movl    %eax, -32(%ebp)
-        movl    $1, %ecx
-
-        cmpl    %ecx, %eax
-        je      5f
-4:
-        movl    16(%ebp), %esi
-        movl    24(%ebp), %edi
-
-        leal    (%esi,%ecx,4), %esi
-        addl    $1, %ecx
-        movl    %ecx, -28(%ebp)
-        subl    $1, %ecx
-        subl    20(%ebp), %ecx
-        neg     %ecx
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-        addl    %eax, -24(%ebp)
-        adcl    %edx, -20(%ebp)
-        adcl    $0,   -16(%ebp)
-
-        loop    9b
-
-        movl    -24(%ebp), %eax
-        movl    -20(%ebp), %edx
-        movl    -16(%ebp), %ecx
-        movl    %eax, (%ebx)
-        subl    $1, 12(%ebp)
-        je      6f
-        leal    4(%ebx), %ebx
-        movl    %edx, -24(%ebp)
-        movl    %ecx, -20(%ebp)
-        movl    $0,   -16(%ebp)
-
-        movl    -28(%ebp), %ecx
-        cmpl    %ecx, -32(%ebp)
-        jne     4b
-5:
-        movl    16(%ebp), %esi
-        movl    24(%ebp), %edi
-
-        movl    (%edi), %eax
-        leal    (%esi,%ecx,4), %esi
-        mull    (%esi)
-        addl    -24(%ebp), %eax
-        adcl    -20(%ebp), %edx
-
-        movl    %eax,  (%ebx)
-        subl    $1, 12(%ebp)
-        je      6f
-        movl    %edx, 4(%ebx)
-6:
-        addl    $20, %esp
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo10RawUMulLo1EPjjjPKjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo10RawUMulLo1EPjjjPKjj:  #  void CCore::Math::IntegerFastAlgo::RawUMulLo1(Unit *restrict c,ulen nc,Unit a,const Unit *b,ulen nb)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl     8(%ebp), %ebx      # c
-        movl    12(%ebp), %ecx      # nc
-        movl    16(%ebp), %edi      # a
-        movl    20(%ebp), %esi      # b
-
-        subl    $1, %ecx
-        cmpl    %ecx, 24(%ebp)      # nb
-        je      UMul1
-
-        movl    %edi, %ebp
-
-        movl    (%esi), %eax
-        mull    %ebp
-        movl    %eax, (%ebx)
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-        jecxz   2f
-1:
-        movl    4(%esi), %eax
-        leal    4(%esi), %esi
-        mull    %ebp
-        add     %edi, %eax
-        adc     $0, %edx
-        movl    %eax, (%ebx)
-        movl    %edx, %edi
-        leal    4(%ebx), %ebx
-
-        loop    1b
-2:
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo11RawUMulLo11EPjjjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo11RawUMulLo11EPjjjj:    #  void CCore::Math::IntegerFastAlgo::RawUMulLo11(Unit *c,ulen nc,Unit a,Unit b)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        movl     8(%ebp), %ecx      # c
-        movl    16(%ebp), %eax      # a
-        mull    20(%ebp)            # b
-
-        movl    %eax,  (%ecx)
-
-        cmpl    $1, 12(%ebp)
-        je      1f
-
-        movl    %edx, 4(%ecx)
-1:
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo6RawUSqEPjPKjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo6RawUSqEPjPKjj:         #  void CCore::Math::IntegerFastAlgo::RawUSq(Unit *restrict c,const Unit *a,ulen na)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl    12(%ebp), %eax      # a
-        leal    4(%eax), %ebx
-
-        pushl   %ebx
-
-        movl    16(%ebp), %ebx      # na
-        leal    -4(%eax,%ebx,4), %ebx
-
-        pushl   %ebx
-
-        #
-        # 28(%esp)  c
-        # 32(%esp)  a
-        # 36(%esp)  na
-        #  4(%esp)  p
-        #   (%esp)  end
-        #
-
-        movl    (%eax), %eax
-        movl    28(%esp), %esi
-        mull    %eax
-        movl    %eax, (%esi)
-        leal    4(%esi), %esi
-        movl    %esi, 28(%esp)
-        movl    %edx, %ecx
-        xorl    %ebx, %ebx
-        xorl    %ebp, %ebp
-
-        movl    32(%esp), %esi
-        movl     4(%esp), %edi
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-
-        shld    $1, %eax, %edx
-        adcl    $0, %ebp
-        shll    $1, %eax
-
-        addl    %eax, %ecx
-        adcl    %edx, %ebx
-        adcl    $0, %ebp
-
-        cmpl    %esi, %edi
-        ja      9b
-        jb      8f
-
-        movl    (%esi), %eax
-        mull    %eax
-
-        addl    %eax, %ecx
-        adcl    %edx, %ebx
-        adcl    $0, %ebp
-8:
-        movl    28(%esp), %eax
-        movl    %ecx, (%eax)
-        leal    4(%eax), %eax
-        movl    %eax, 28(%esp)
-        movl    %ebx, %ecx
-        movl    %ebp, %ebx
-        xorl    %ebp, %ebp
-
-        movl    32(%esp), %esi
-        movl     4(%esp), %edi
-        cmpl    %edi, (%esp)
-        je      1f
-
-        leal    4(%edi), %edi
-        movl    %edi, 4(%esp)
-
-        jmp     9b
-1:
-        movl    32(%esp), %esi
-2:
-        leal     4(%esi), %esi
-        movl     %esi, 4(%esp)
-        movl    (%esp), %edi
-        cmpl    %esi, %edi
-        je      3f
-9:
-        movl    (%esi), %eax
-        leal     4(%esi), %esi
-        mull    (%edi)
-        leal    -4(%edi), %edi
-
-        shld    $1, %eax, %edx
-        adcl    $0, %ebp
-        shll    $1, %eax
-
-        addl    %eax, %ecx
-        adcl    %edx, %ebx
-        adcl    $0, %ebp
-
-        cmpl    %esi, %edi
-        ja      9b
-        jb      8f
-
-        movl    (%esi), %eax
-        mull    %eax
-
-        addl    %eax, %ecx
-        adcl    %edx, %ebx
-        adcl    $0, %ebp
-8:
-        movl    28(%esp), %eax
-        movl    %ecx, (%eax)
-        leal    4(%eax), %eax
-        movl    %eax, 28(%esp)
-        movl    %ebx, %ecx
-        movl    %ebp, %ebx
-        xorl    %ebp, %ebp
-
-        movl    4(%esp), %esi
-        jmp     2b
-3:
-        movl    (%esi), %eax
-        movl    28(%esp), %edi
-        mull    %eax
-
-        addl    %eax, %ecx
-        adcl    %edx, %ebx
-
-        movl    %ecx, (%edi)
-        movl    %ebx, 4(%edi)
-
-        add     $8, %esp
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
-        .global __ZN5CCore4Math15IntegerFastAlgo7RawUSq1EPjj
-
-        .p2align 4,,15
-
-__ZN5CCore4Math15IntegerFastAlgo7RawUSq1EPjj:           #  void CCore::Math::IntegerFastAlgo::RawUSq1(Unit *c,Unit a)
-
-        pushl   %ebp
-        movl    %esp, %ebp
-
-        movl     8(%ebp), %ecx      # c
-        movl    12(%ebp), %eax      # a
-        mull    %eax
-
-        movl    %eax,  (%ecx)
-        movl    %edx, 4(%ecx)
-
-        popl    %ebp
-        ret
-
-#-----------------------------------------------------------------------------------------
-
         .global __ZN5CCore4Math15IntegerFastAlgo4NullEPjj
 
         .p2align 4,,15
@@ -2449,6 +1381,155 @@ __ZN5CCore4Math15IntegerFastAlgo8MoveDownEPjjj:         # void CCore::Math::Inte
 4:
         popl    %ebx
 5:
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
+        .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::IntegerFastAlgo::RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        movl    20(%ebp), %ecx  # nab
+        testl   %ecx, %ecx
+        jne     1f
+
+        popl    %ebp
+        ret
+1:
+        pushl   %ebx
+
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ebx  # b
+
+        cmpl    $2, %ecx
+        jnc     1f
+
+        movd    (%eax), %mm0
+        movd    (%ebx), %mm1
+        pmuludq %mm0, %mm1
+        movq    %mm1, (%edx)
+
+        emms
+        popl    %ebx
+        popl    %ebp
+        ret
+1:
+        cmpl    $4, %ecx
+        jnc     2f
+
+        cmpl    $2, %ecx
+        jne     1f
+
+        movq    (%eax), %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        movq    (%ebx), %xmm1
+        shufps  $0xD8, %xmm1, %xmm1
+        movaps  %xmm1, %xmm2
+        shufpd  $1, %xmm2, %xmm2
+        pmuludq %xmm0, %xmm1
+        pmuludq %xmm0, %xmm2
+        movaps  %xmm1, %xmm3
+        movaps  %xmm2, %xmm4
+        movaps  %xmm2, %xmm5
+        shufps  $0xB4, %xmm3, %xmm3
+        shufps  $0x40, %xmm4, %xmm4
+        shufps  $0xC8, %xmm5, %xmm5
+        psrlq   $32, %xmm3
+        psrlq   $32, %xmm4
+        psrlq   $32, %xmm5
+        paddq   %xmm5, %xmm3
+        paddq   %xmm4, %xmm3
+        shufps  $0xD8, %xmm3, %xmm3
+        shufps  $0x6C, %xmm1, %xmm1
+        shufpd  $0, %xmm3, %xmm1
+        shufps  $0x78, %xmm1, %xmm1
+        movq    %xmm1, (%edx)
+        paddq   %xmm3, %xmm1
+        shufpd  $3, %xmm1, %xmm1
+        movq    %xmm1, 8(%edx)
+
+        popl    %ebx
+        popl    %ebp
+        ret
+1: # 3
+
+
+#        emms
+#        popl    %ebx
+#        popl    %ebp
+#        ret
+2:
+        pushl   %esi
+        pushl   %edi
+        subl    %eax, %edx
+
+        movd    (%ebx), %mm0
+        movl    %ecx, %esi
+        movl    %ecx, %edi
+        pxor    %mm2, %mm2
+2:
+        movd    (%eax), %mm1
+        pmuludq %mm0, %mm1
+        paddq   %mm2, %mm1
+        movd    %mm1, (%eax,%edx)
+        psrlq   $32, %mm1
+        movq    %mm1, %mm2
+        leal    4(%eax), %eax
+
+        loop    2b
+
+        movd    %mm2, (%eax,%edx)
+3:
+        dec     %esi
+        jz      5f
+
+        movl    12(%ebp), %eax
+        leal    4(%edx), %edx
+        leal    4(%ebx), %ebx
+        movl    %edi, %ecx
+
+        movd    (%ebx), %mm0
+        pxor    %mm2, %mm2
+        pxor    %mm5, %mm5
+4:
+        movd    (%eax), %mm1
+        movd    (%eax,%edx), %mm3
+        pmuludq %mm0, %mm1
+        paddq   %mm2, %mm1
+        movq    %mm1, %mm4
+        psrlq   $32, %mm1
+        movq    %mm1, %mm2
+
+        psllq   $32, %mm4
+        psrlq   $32, %mm4
+
+        paddq   %mm4, %mm3
+        paddq   %mm5, %mm3
+        movd    %mm3, (%eax,%edx)
+        psrlq   $32, %mm3
+        movq    %mm3, %mm5
+
+        leal    4(%eax), %eax
+
+        loop 4b
+
+        paddq   %mm5, %mm2
+        movd    %mm2, (%eax,%edx)
+
+        jmp     3b
+5:
+        emms
+        popl    %edi
+        popl    %esi
+        popl    %ebx
+
         popl    %ebp
         ret
 
