@@ -192,11 +192,17 @@ struct IntegerFastAlgo
 
   static void Null(Unit *a,ulen na) noexcept;
 
-  static void Copy(Unit *restrict b,const Unit *a,ulen nab);
+  static void Copy(Unit *restrict b,const Unit *a,ulen nab) noexcept;
 
   static void MoveUp(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
 
   static void MoveDown(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
+
+  // primal mul functions
+
+  static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) noexcept;
+
+  static Unit UDiv3(Unit *a,ulen na) noexcept;
  };
 
 } // namespace Math

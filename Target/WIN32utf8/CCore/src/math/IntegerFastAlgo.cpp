@@ -477,6 +477,65 @@ void IntegerFastAlgo::UMulLo(Unit *restrict c,ulen nc,const Unit *a,ulen na,cons
   Range(c,nc).copy(temp.getPtr());
  }
 
+ // primal mul functions
+
+Unit IntegerFastAlgo::UDiv3(Unit *a,ulen na) noexcept
+ {
+  struct DivMod3
+   {
+    Unit div;
+    Unit mod;
+
+    DivMod3(Unit hi,Unit lo)
+     {
+      div=lo/3;
+      mod=lo%3;
+
+      switch( hi )
+        {
+         case 0 : return;
+
+         case 1 :
+          {
+           div+=0x5555'5555u;
+
+           mod+=1;
+          }
+         break;
+
+         case 2 :
+          {
+           div+=0xAAAA'AAAAu;
+
+           mod+=2;
+          }
+         break;
+        }
+
+      if( mod>=3 )
+        {
+         mod-=3;
+         div++;
+        }
+     }
+   };
+
+  Unit hi=0;
+
+  for(; na ;na--)
+    {
+     Unit lo=a[na-1];
+
+     DivMod3 result(hi,lo);
+
+     a[na-1]=result.div;
+
+     hi=result.mod;
+    }
+
+  return hi;
+ }
+
 } // namespace Math
 } // namespace CCore
 

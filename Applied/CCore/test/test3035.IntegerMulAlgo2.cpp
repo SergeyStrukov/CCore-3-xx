@@ -15,18 +15,14 @@
 
 #include <CCore/test/test.h>
 
+#include <CCore/inc/Array.h>
 #include <CCore/inc/PlatformRandom.h>
 #include <CCore/inc/Timer.h>
-#include <CCore/inc/String.h>
 
 #include <CCore/inc/math/IntegerMulAlgo.h>
 #include <CCore/inc/math/IntegerFastAlgo.h>
 
 #include <math.h>
-#include <gmp.h>
-
-#define mpn_mul_basecase __MPN(mul_basecase)
-extern "C" __GMP_DECLSPEC void mpn_mul_basecase (mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
 namespace App {
 
@@ -43,7 +39,7 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 300 ;
+   static constexpr ulen Len = 30 ;
    static constexpr unsigned Rep = 100 ;
    static constexpr unsigned Rep2 = 10 ;
 
@@ -53,15 +49,24 @@ class TestIntegerSpeed
 
    PlatformRandom gen;
 
-   Unit a[Len];
-   Unit b[Len];
-   Unit c[2*Len];
+   SimpleArray<Unit> buf;
 
-   Stat table[Len+1];
+   Unit *a; // Len
+   Unit *b; // Len
+   Unit *c; // 2*Len
+
+   SimpleArray<Stat> table;
 
   private:
 
-   TestIntegerSpeed() {}
+   TestIntegerSpeed()
+    : buf(4*Len),
+      table(Len+1)
+    {
+     a=buf.getPtr();
+     b=a+Len;
+     c=b+Len;
+    }
 
    void fill(PtrLen<Unit> r) { gen.fill(r); }
 
@@ -182,68 +187,6 @@ struct Base : Math::IntegerFastAlgo
   static constexpr ulen Toom77Min = 10000 ;
   static constexpr ulen Toom88Min = 10000 ;
   static constexpr ulen FFTMin    = 10000 ;
-
-  static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
-   {
-    if( nab==0 ) return;
-
-    mpn_mul_basecase((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
-   }
-
-  struct DivMod3
-   {
-    Unit div;
-    Unit mod;
-
-    DivMod3(Unit hi,Unit lo)
-     {
-      div=lo/3;
-      mod=lo%3;
-
-      switch( hi )
-        {
-         case 0 : return;
-
-         case 1 :
-          {
-           div+=0x5555'5555;
-
-           mod+=1;
-          }
-         break;
-
-         case 2 :
-          {
-           div+=0xAAAA'AAAA;
-
-           mod+=2;
-          }
-         break;
-        }
-
-      if( mod>=3 )
-        {
-         mod-=3;
-         div++;
-        }
-     }
-   };
-
-  static void UDiv3(Unit *a,ulen na)
-   {
-    Unit hi=0;
-
-    for(; na ;na--)
-      {
-       Unit lo=a[na-1];
-
-       DivMod3 result(hi,lo);
-
-       a[na-1]=result.div;
-
-       hi=result.mod;
-      }
-   }
  };
 
 using FastAlgo = Math::FastMulAlgo<Base> ;

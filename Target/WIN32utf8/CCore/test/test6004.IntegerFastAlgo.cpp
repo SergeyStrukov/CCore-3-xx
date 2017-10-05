@@ -1,9 +1,9 @@
-/* test3034.IntegerMulAlgo1.cpp */
+/* test6004.IntegerFastAlgo.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.50
 //
-//  Tag: Applied
+//  Tag: Target/WIN32utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -15,62 +15,23 @@
 
 #include <CCore/test/test.h>
 
+#include <CCore/inc/TaskMemStack.h>
 #include <CCore/inc/Array.h>
+
+#include <CCore/inc/math/IntegerSlowAlgo.h>
+#include <CCore/inc/math/IntegerFastAlgo.h>
 
 #include <CCore/test/testIntBase.h>
 
-#include <CCore/inc/math/IntegerSlowAlgo.h>
-#include <CCore/inc/math/IntegerMulAlgo.h>
-
 namespace App {
 
-namespace Private_3034 {
+namespace Private_6004 {
 
-/* type Alt */
+/* types */
 
-using Alt = Math::IntegerSlowAlgo<uint8> ;
+using Algo = Math::IntegerFastAlgo ;
 
-/* struct Base */
-
-struct Base : Alt
- {
-  static constexpr ulen Toom22Min = 2 ;
-  static constexpr ulen Toom33Min = 5 ;
-  static constexpr ulen Toom44Min = 10000 ;
-  static constexpr ulen Toom55Min = 10000 ;
-  static constexpr ulen Toom66Min = 10000 ;
-  static constexpr ulen Toom77Min = 10000 ;
-  static constexpr ulen Toom88Min = 10000 ;
-  static constexpr ulen FFTMin    = 10000 ;
-
-  static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
-   {
-    UMul(c,a,nab,b,nab);
-   }
-
-  struct DivMod3 : UIntFunc<Unit>::DivMod
-   {
-    DivMod3(Unit hi,Unit lo) : UIntFunc<Unit>::DivMod(hi,lo,3) {}
-   };
-
-  static void UDiv3(Unit *a,ulen na)
-   {
-    Unit hi=0;
-
-    for(; na ;na--)
-      {
-       Unit lo=a[na-1];
-
-       DivMod3 result(hi,lo);
-
-       a[na-1]=result.div;
-
-       hi=result.mod;
-      }
-   }
- };
-
-using Algo = Math::FastMulAlgo<Base> ;
+using Alt = Math::IntegerSlowAlgo<Algo::Unit> ;
 
 /* class TestEngine<Algo,Alt> */
 
@@ -106,36 +67,48 @@ class TestEngine : TestIntBase
      Range(c,nc+GLen).copyTo(d);
     }
 
-   void fill_abc()
+   void fill_a(ulen n)
     {
-     na=select(0,Len);
-     nb=select(0,Len);
+     na=n;
 
      fill(Range(a,na));
-     fill(Range(b,nb));
+    }
 
+   void fill_a()
+    {
+     fill_a(select(0,Len));
+    }
+
+   void fill_b(ulen n)
+    {
+     nb=n;
+
+     fill(Range(b,nb));
+    }
+
+   void fill_b()
+    {
+     fill_b(select(0,Len));
+    }
+
+   void fill_abn(ulen n)
+    {
+     fill_a(n);
+     fill_b(n);
+     fill_c(na+nb);
+    }
+
+   void fill_abc()
+    {
+     fill_a();
+     fill_b();
      fill_c(na+nb);
     }
 
    void fill_abn()
     {
-     na=select(0,Len);
-     nb=na;
-
-     fill(Range(a,na));
-     fill(Range(b,nb));
-
-     fill_c(na+nb);
-    }
-
-   void fill_abn(ulen n)
-    {
-     na=n;
-     nb=na;
-
-     fill(Range(a,na));
-     fill(Range(b,nb));
-
+     fill_a();
+     fill_b(na);
      fill_c(na+nb);
     }
 
@@ -155,10 +128,30 @@ class TestEngine : TestIntBase
     {
      fill_abn();
 
-     Algo::UMul(c,a,b,na);
+     Algo::RawUMul(c,a,b,na);
      Alt::UMul(d,a,na,b,nb);
 
-     guard("Algo::UMul");
+     guard("RawUMul");
+    }
+
+   void test2()
+    {
+     fill_a(1);
+
+     Algo::Copy(b,a,na);
+
+     Unit m=Algo::UDiv3(a,na);
+
+     Unit d[1]={3};
+
+     Algo::UMul(c,a,na,d,1);
+
+     Unit u=Algo::UAddUnit(c,na+1,m);
+
+     if( u || c[na] || Algo::UCmp(c,b,na) )
+       {
+        Printf(Exception,"UDiv3 failed");
+       }
     }
 
   public:
@@ -179,21 +172,22 @@ class TestEngine : TestIntBase
      for(; rep ;rep--)
        {
         test1();
+        test2();
        }
     }
  };
 
-} // namespace Private_3034
+} // namespace Private_6004
 
-using namespace Private_3034;
+using namespace Private_6004;
 
-/* Testit<3034> */
-
-template<>
-const char *const Testit<3034>::Name="Test3034 IntegerMulAlgo1";
+/* Testit<6004> */
 
 template<>
-bool Testit<3034>::Main()
+const char *const Testit<6004>::Name="Test6004 IntegerFastAlgo";
+
+template<>
+bool Testit<6004>::Main()
  {
   TaskMemStack tms(64_KByte);
 

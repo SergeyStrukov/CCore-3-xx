@@ -505,14 +505,14 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom44MulTempLen(ulen nab) // nab >= 4 TODO
+  static ulen Toom44MulTempLen(ulen nab) // nab >= 10 TODO
    {
     Used(nab);
 
     return 0;
    }
 
-  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 4 TODO
+  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 10 TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2
 
@@ -523,7 +523,7 @@ struct FastMulAlgo
     Used(temp);
    }
 
-  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 4
+  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 10
    {
     Temp temp(Toom44MulTempLen(nab));
 
@@ -531,14 +531,14 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom55MulTempLen(ulen nab) // nab >= 5 TODO
+  static ulen Toom55MulTempLen(ulen nab) // nab >= 17 TODO
    {
     Used(nab);
 
     return 0;
    }
 
-  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 5 TODO
+  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 17 TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4
 
@@ -549,7 +549,7 @@ struct FastMulAlgo
     Used(temp);
    }
 
-  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 5
+  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 17
    {
     Temp temp(Toom55MulTempLen(nab));
 
@@ -557,14 +557,14 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom66MulTempLen(ulen nab) // nab >= 6 TODO
+  static ulen Toom66MulTempLen(ulen nab) // nab >= 26 TODO
    {
     Used(nab);
 
     return 0;
    }
 
-  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 6 TODO
+  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 26 TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4
 
@@ -575,7 +575,7 @@ struct FastMulAlgo
     Used(temp);
    }
 
-  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 6
+  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 26
    {
     Temp temp(Toom66MulTempLen(nab));
 
@@ -583,14 +583,14 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom77MulTempLen(ulen nab) // nab >= 7 TODO
+  static ulen Toom77MulTempLen(ulen nab) // nab >= 37 TODO
    {
     Used(nab);
 
     return 0;
    }
 
-  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 7 TODO
+  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 37 TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4, -1/4, +8
 
@@ -601,7 +601,7 @@ struct FastMulAlgo
     Used(temp);
    }
 
-  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 7
+  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 37
    {
     Temp temp(Toom77MulTempLen(nab));
 
@@ -609,14 +609,14 @@ struct FastMulAlgo
    }
 
 
-  static ulen Toom88MulTempLen(ulen nab) // nab >= 8 TODO
+  static ulen Toom88MulTempLen(ulen nab) // nab >= 50 TODO
    {
     Used(nab);
 
     return 0;
    }
 
-  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 8 TODO
+  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 50 TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4, -1/4, +8, -8, +1/8
 
@@ -627,7 +627,7 @@ struct FastMulAlgo
     Used(temp);
    }
 
-  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 8
+  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 50
    {
     Temp temp(Toom88MulTempLen(nab));
 
@@ -663,11 +663,11 @@ struct FastMulAlgo
 
   static_assert( 2 <= Algo::Toom22Min &&
                  5 <= Algo::Toom33Min &&
-                 4 <= Algo::Toom44Min &&
-                 5 <= Algo::Toom55Min &&
-                 6 <= Algo::Toom66Min &&
-                 7 <= Algo::Toom77Min &&
-                 8 <= Algo::Toom88Min &&
+                 10 <= Algo::Toom44Min &&
+                 17 <= Algo::Toom55Min &&
+                 26 <= Algo::Toom66Min &&
+                 37 <= Algo::Toom77Min &&
+                 50 <= Algo::Toom88Min &&
                  Algo::Toom22Min <= Algo::Toom33Min &&
                  Algo::Toom33Min <= Algo::Toom44Min &&
                  Algo::Toom44Min <= Algo::Toom55Min &&

@@ -38,7 +38,7 @@ class TestIntBase : NoCopy
 
    TestIntBase() {}
 
-   Random & getRandom() { return gen; }
+   PlatformRandom & getRandom() { return gen; }
 
    unsigned select(unsigned a,unsigned b) { return gen.select(a,b); }
 
@@ -49,7 +49,7 @@ class TestIntBase : NoCopy
 
      Unit a=gen.next_uint<Unit>();
 
-     switch( gen.select(5) )
+     switch( gen.select(4) )
        {
         case 0 :
          {
@@ -88,9 +88,15 @@ class TestIntBase : NoCopy
     }
 
    template <class Unit>
+   void fill_bit(PtrLen<Unit> r)
+    {
+     for(Unit &u : r ) u=Unit( gen.next()&1u );
+    }
+
+   template <class Unit>
    void fill_masked(PtrLen<Unit> r)
     {
-     for(; +r ;++r) fill_unit(*r);
+     for(Unit &u : r ) fill_unit(u);
     }
 
    template <class Unit>
@@ -100,12 +106,6 @@ class TestIntBase : NoCopy
        fill_masked(r);
      else
        gen.fill(r);
-    }
-
-   template <class Unit>
-   void fillbit(PtrLen<Unit> r)
-    {
-     for(Unit &u : r ) u=Unit( gen.next()&1u );
     }
 
    static void Error(const char *msg);

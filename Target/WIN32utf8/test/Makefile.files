@@ -164,6 +164,7 @@ OBJ_LIST = \
 ../.test-obj/test6001.Quick.o \
 ../.test-obj/test6002.SysError.o \
 ../.test-obj/test6003.Char.o \
+../.test-obj/test6004.IntegerFastAlgo.o \
 ../.test-obj/testArray.o \
 ../.test-obj/testInt.o \
 ../.test-obj/testIntAlgo.o \
@@ -340,6 +341,7 @@ ASM_LIST = \
 ../.test-obj/test6001.Quick.s \
 ../.test-obj/test6002.SysError.s \
 ../.test-obj/test6003.Char.s \
+../.test-obj/test6004.IntegerFastAlgo.s \
 ../.test-obj/testArray.s \
 ../.test-obj/testInt.s \
 ../.test-obj/testIntAlgo.s \
@@ -516,6 +518,7 @@ DEP_LIST = \
 ../.test-obj/test6001.Quick.dep \
 ../.test-obj/test6002.SysError.dep \
 ../.test-obj/test6003.Char.dep \
+../.test-obj/test6004.IntegerFastAlgo.dep \
 ../.test-obj/testArray.dep \
 ../.test-obj/testInt.dep \
 ../.test-obj/testIntAlgo.dep \
@@ -1025,6 +1028,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test6003.Char.o : ../../../Target/WIN32utf8/CCore/test/./test6003.Char.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test6004.IntegerFastAlgo.o : ../../../Target/WIN32utf8/CCore/test/./test6004.IntegerFastAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/testArray.o : ../../../Fundamental/CCore/test/./testArray.cpp
@@ -1548,6 +1554,9 @@ include $(RULES_FILE)
 ../.test-obj/test6003.Char.s : ../../../Target/WIN32utf8/CCore/test/./test6003.Char.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test6004.IntegerFastAlgo.s : ../../../Target/WIN32utf8/CCore/test/./test6004.IntegerFastAlgo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/testArray.s : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2068,6 +2077,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test6003.Char.dep : ../../../Target/WIN32utf8/CCore/test/./test6003.Char.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6003.Char.o $< -MF $@
+
+../.test-obj/test6004.IntegerFastAlgo.dep : ../../../Target/WIN32utf8/CCore/test/./test6004.IntegerFastAlgo.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6004.IntegerFastAlgo.o $< -MF $@
 
 ../.test-obj/testArray.dep : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/testArray.o $< -MF $@

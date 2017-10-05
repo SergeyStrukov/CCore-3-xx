@@ -109,7 +109,7 @@ class TimeStat
 
   public:
 
-   TimeStat() { reset(); }
+   TimeStat() noexcept { reset(); }
 
    // methods
 

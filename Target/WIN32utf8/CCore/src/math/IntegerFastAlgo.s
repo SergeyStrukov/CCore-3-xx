@@ -1176,6 +1176,96 @@ __ZN5CCore4Math15IntegerFastAlgo9ShiftDownEPjjjj:       #  void CCore::Math::Int
 
 #-----------------------------------------------------------------------------------------
 
+        .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::IntegerFastAlgo::RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        movl    20(%ebp), %ecx  # nab
+        testl   %ecx, %ecx
+        jne     1f
+
+        popl    %ebp
+        ret
+1:
+        pushl   %ebx
+        pushl   %esi
+        pushl   %edi
+
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        subl    %eax, %edx
+        movl    16(%ebp), %ebx  # b
+
+        movd    (%ebx), %mm0
+        movl    %ecx, %esi
+        movl    %ecx, %edi
+        pxor    %mm2, %mm2
+2:
+        movd    (%eax), %mm1
+        pmuludq %mm0, %mm1
+        paddq   %mm2, %mm1
+        movd    %mm1, (%eax,%edx)
+        psrlq   $32, %mm1
+        movq    %mm1, %mm2
+        leal    4(%eax), %eax
+
+        loop    2b
+
+        movd    %mm2, (%eax,%edx)
+3:
+        dec     %esi
+        jz      5f
+
+        movl    12(%ebp), %eax
+        leal    4(%edx), %edx
+        leal    4(%ebx), %ebx
+        movl    %edi, %ecx
+
+        movd    (%ebx), %mm0
+        pxor    %mm2, %mm2
+        pxor    %mm5, %mm5
+4:
+        movd    (%eax), %mm1
+        movd    (%eax,%edx), %mm3
+        pmuludq %mm0, %mm1
+        paddq   %mm2, %mm1
+        movq    %mm1, %mm4
+        psrlq   $32, %mm1
+        movq    %mm1, %mm2
+
+        psllq   $32, %mm4
+        psrlq   $32, %mm4
+
+        paddq   %mm4, %mm3
+        paddq   %mm5, %mm3
+        movd    %mm3, (%eax,%edx)
+        psrlq   $32, %mm3
+        movq    %mm3, %mm5
+
+        leal    4(%eax), %eax
+
+        loop 4b
+
+        paddq   %mm5, %mm2
+        movd    %mm2, (%eax,%edx)
+
+        jmp     3b
+5:
+        emms
+        popl    %edi
+        popl    %esi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
         .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjjS4_j
 
         .p2align 4,,15

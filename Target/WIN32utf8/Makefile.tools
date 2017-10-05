@@ -66,7 +66,7 @@ CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
         -I$(CCORE_ROOT)/Desktop \
 
 
-CCOPT = -c -std=c++1z -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
+CCOPT = -c -std=c++1z -fconcepts -fwrapv -O3 -march=ivybridge -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
 
 ASOPT =
 
