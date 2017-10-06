@@ -39,6 +39,7 @@ int main()
   MemScope mem_scope;
 
   Testit<6004>().run();
+  Testit<3035>().run();
 
   Printf(Con,"\nPeak memory usage #;\n\n",MemPeak());
 

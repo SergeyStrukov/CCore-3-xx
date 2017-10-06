@@ -1403,22 +1403,12 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         ret
 1:
         cmpl    $2, %ecx
-        jnc     1f
+        jnc     2f
 
         movl     8(%ebp), %edx  # c
         movl    12(%ebp), %eax  # a
         movl    16(%ebp), %ecx  # b
 
-        movq    (%eax), %xmm0
-        movq    (%ecx), %xmm1
-        paddq   %xmm0, %xmm1
-        pcmpgtq %xmm1, %xmm0
-        movq    %xmm0, (%edx)
-
-        popl    %ebp
-        ret
-
-Corect:
         movd    (%eax), %xmm0
         movd    (%ecx), %xmm1
         pmuludq %xmm0, %xmm1
@@ -1426,12 +1416,12 @@ Corect:
 
         popl    %ebp
         ret
-1:
+2:
         cmpl    $4, %ecx
-        jnc     2f
+        jnc     4f
 
         cmpl    $2, %ecx
-        jne     1f
+        jne     3f
 
         movl     8(%ebp), %edx  # c
         movl    12(%ebp), %eax  # a
@@ -1467,10 +1457,151 @@ Corect:
 
         popl    %ebp
         ret
-1: # 3
 
+3: # 3
 
-2: # >= 4
+        pushl   %ebx
+
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ebx  # b
+
+        movd    (%eax), %xmm2
+        movd    (%ebx), %xmm1
+        pmuludq %xmm1, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        # 2
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+        psrlq   $32, %xmm2
+
+        leal    8(%ebx), %ebx
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        # 3
+
+        movl    12(%ebp), %eax
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+        psrlq   $32, %xmm2
+
+        leal    12(%ebx), %ebx
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        # 2
+
+        movl    12(%ebp), %eax
+
+        leal    4(%eax), %eax
+        leal    4(%ebx), %ebx
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+        psrlq   $32, %xmm2
+
+        leal    8(%ebx), %ebx
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufpd  $3, %xmm2, %xmm2
+
+        movd    -4(%eax), %xmm0
+        movd     4(%ebx), %xmm1
+
+        pmuludq %xmm1, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movq    %xmm2, (%edx)
+
+        popl    %ebx
+
+        popl    %ebp
+        ret
+
+4: # >= 4
 
         pushl   %ebx
         pushl   %esi
@@ -1485,13 +1616,13 @@ Corect:
         movd    (%eax), %xmm2
         movd    (%ebx), %xmm1
         pmuludq %xmm1, %xmm2
-        pxor    %xmm3, %xmm3
+        shufps  $0xD8, %xmm2, %xmm2
 
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
 
         movl    $1, %esi
-2:
+5:
         incl    %esi
         movl    12(%ebp), %eax
 
@@ -1499,32 +1630,95 @@ Corect:
 
         movl    %esi, %ecx
 
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
         psrlq   $32, %xmm2
-        shufpd  $0, %xmm3, %xmm2
-        pxor    %xmm3, %xmm3
-        shufps  $0x08, %xmm2, %xmm2
 
         leal    (%ebx,%ecx,4), %ebx
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+1:
+        shrl    $1, %ecx
+        jnc     2f
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+2:
+        jecxz   4f
 3:
         movd      (%eax), %xmm0
         movd    -4(%ebx), %xmm1
         leal     4(%eax), %eax
         leal    -4(%ebx), %ebx
+
         pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
         paddq   %xmm0, %xmm2
-        pcmpgtq %xmm2, %xmm0
-        psubq   %xmm0, %xmm3
 
-        loop    3b
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
 
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        loop 3b
+4:
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
 
         cmpl    %esi, %edi
-        jne     2b
+        jne     5b
 
         movl    12(%ebp), %edi
-2:
+7:
         decl    %esi
         leal    4(%edi), %edi
         movl    %edi, %eax
@@ -1534,36 +1728,101 @@ Corect:
 
         movl    %esi, %ecx
 
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
         psrlq   $32, %xmm2
-        shufpd  $0, %xmm3, %xmm2
-        pxor    %xmm3, %xmm3
-        shufps  $0x08, %xmm2, %xmm2
 
         leal   (%ebx,%ecx,4), %ebx
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+1:
+        shrl    $1, %ecx
+        jnc     2f
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+2:
+        jecxz   4f
 3:
         movd      (%eax), %xmm0
         movd    -4(%ebx), %xmm1
         leal     4(%eax), %eax
         leal    -4(%ebx), %ebx
+
         pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
         paddq   %xmm0, %xmm2
-        pcmpgtq %xmm2, %xmm0
-        psubq   %xmm0, %xmm3
 
-        loop    3b
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
 
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        loop 3b
+4:
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
 
         cmpl    $2, %esi
-        jne     2b
+        jne     7b
 
-        psrlq   $32, %xmm2
-        shufpd  $0, %xmm3, %xmm2
-        shufps  $0x08, %xmm2, %xmm2
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufpd  $3, %xmm2, %xmm2
 
         movd    -4(%eax), %xmm0
         movd     4(%ebx), %xmm1
+
         pmuludq %xmm1, %xmm0
         paddq   %xmm0, %xmm2
 
