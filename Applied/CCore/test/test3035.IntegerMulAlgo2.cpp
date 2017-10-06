@@ -39,7 +39,7 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 30 ;
+   static constexpr ulen Len = 25 ;
    static constexpr unsigned Rep = 100 ;
    static constexpr unsigned Rep2 = 10 ;
 
@@ -179,7 +179,7 @@ struct GMPAlgo
 
 struct Base : Math::IntegerFastAlgo
  {
-  static constexpr ulen Toom22Min = 28 ;
+  static constexpr ulen Toom22Min = 100 ;
   static constexpr ulen Toom33Min = 200 ;
   static constexpr ulen Toom44Min = 10000 ;
   static constexpr ulen Toom55Min = 10000 ;

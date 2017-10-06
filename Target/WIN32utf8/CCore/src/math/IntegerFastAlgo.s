@@ -1386,6 +1386,125 @@ __ZN5CCore4Math15IntegerFastAlgo8MoveDownEPjjj:         # void CCore::Math::Inte
 
 #-----------------------------------------------------------------------------------------
 
+        .macro MulStepFirst
+
+        movd    (%eax), %xmm2
+        movd    (%ebx), %xmm1
+        pmuludq %xmm1, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        .endm
+
+        .macro MulShift1
+
+        .endm
+
+        .macro MulShift
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufps  $0xD8, %xmm2, %xmm2
+        psrlq   $32, %xmm2
+
+        .endm
+
+        .macro MulStepLast
+
+        shufps  $0x40, %xmm2, %xmm3
+        psrlq   $32, %xmm3
+        paddq   %xmm3, %xmm2
+        shufpd  $3, %xmm2, %xmm2
+
+        movd    -4(%eax), %xmm0
+        movd     4(%ebx), %xmm1
+
+        pmuludq %xmm1, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movq    %xmm2, (%edx)
+
+        .endm
+
+        .macro MulStep1
+
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+
+        pmuludq %xmm1, %xmm0
+        shufps  $0xD8, %xmm0, %xmm0
+        paddq   %xmm0, %xmm2
+
+        .endm
+
+        .macro MulStep2
+
+        movq    -8(%ebx), %xmm1
+        leal    -8(%ebx), %ebx
+        movq      (%eax), %xmm0
+        leal     8(%eax), %eax
+
+        shufps  $0xC9, %xmm1, %xmm1
+        shufps  $0xD8, %xmm0, %xmm0
+
+        pmuludq %xmm1, %xmm0
+
+        pxor    %xmm3, %xmm3
+        shufpd  $0, %xmm0, %xmm3
+        shufps  $0x72, %xmm3, %xmm3
+        paddq   %xmm3, %xmm2
+
+        pxor    %xmm4, %xmm4
+        shufpd  $2, %xmm0, %xmm4
+        shufps  $0x72, %xmm4, %xmm4
+        paddq   %xmm4, %xmm2
+
+        .endm
+
+        .macro MulStep4
+
+        MulStep2
+        MulStep2
+
+        .endm
+
+        .macro MulInnerLoop1
+
+        leal   (%eax,%ecx,4), %eax
+
+        .endm
+
+        .macro MulInnerLoop
+
+        leal   (%ebx,%ecx,4), %ebx
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        MulStep1
+1:
+        shrl    $1, %ecx
+        jnc     2f
+
+        MulStep2
+2:
+        je      4f
+3:
+        MulStep4
+
+        loop    3b
+4:
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        .endm
+
         .global __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j
 
         .p2align 4,,15
@@ -1458,7 +1577,7 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         popl    %ebp
         ret
 
-3: # 3
+3:
 
         pushl   %ebx
 
@@ -1466,41 +1585,15 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         movl    12(%ebp), %eax  # a
         movl    16(%ebp), %ebx  # b
 
-        movd    (%eax), %xmm2
-        movd    (%ebx), %xmm1
-        pmuludq %xmm1, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-
-        movd    %xmm2, (%edx)
-        leal    4(%edx), %edx
+        MulStepFirst
 
         # 2
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-        psrlq   $32, %xmm2
+        MulShift
 
         leal    8(%ebx), %ebx
 
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
+        MulStep2
 
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
@@ -1509,40 +1602,12 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
 
         movl    12(%ebp), %eax
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-        psrlq   $32, %xmm2
+        MulShift
 
         leal    12(%ebx), %ebx
 
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
+        MulStep1
+        MulStep2
 
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
@@ -1554,54 +1619,23 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         leal    4(%eax), %eax
         leal    4(%ebx), %ebx
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-        psrlq   $32, %xmm2
+        MulShift
 
         leal    8(%ebx), %ebx
 
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
+        MulStep2
 
         movd    %xmm2, (%edx)
         leal    4(%edx), %edx
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufpd  $3, %xmm2, %xmm2
-
-        movd    -4(%eax), %xmm0
-        movd     4(%ebx), %xmm1
-
-        pmuludq %xmm1, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movq    %xmm2, (%edx)
+        MulStepLast
 
         popl    %ebx
 
         popl    %ebp
         ret
 
-4: # >= 4
+4:
 
         pushl   %ebx
         pushl   %esi
@@ -1613,109 +1647,20 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
 
         movl    %ecx, %edi
 
-        movd    (%eax), %xmm2
-        movd    (%ebx), %xmm1
-        pmuludq %xmm1, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-
-        movd    %xmm2, (%edx)
-        leal    4(%edx), %edx
+        MulStepFirst
 
         movl    $1, %esi
-5:
+6:
         incl    %esi
         movl    12(%ebp), %eax
-
-        # %eax, %ebx, %esi
-
         movl    %esi, %ecx
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-        psrlq   $32, %xmm2
+        MulShift
 
-        leal    (%ebx,%ecx,4), %ebx
-
-        shrl    $1, %ecx
-        jnc     1f
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-1:
-        shrl    $1, %ecx
-        jnc     2f
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-2:
-        jecxz   4f
-3:
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        loop 3b
-4:
-        movd    %xmm2, (%edx)
-        leal    4(%edx), %edx
+        MulInnerLoop
 
         cmpl    %esi, %edi
-        jne     5b
+        jne     6b
 
         movl    12(%ebp), %edi
 7:
@@ -1723,185 +1668,17 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         leal    4(%edi), %edi
         movl    %edi, %eax
         leal    4(%ebx), %ebx
-
-        # %eax, %ebx, %esi
-
         movl    %esi, %ecx
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufps  $0xD8, %xmm2, %xmm2
-        psrlq   $32, %xmm2
+        MulShift
 
-        leal   (%ebx,%ecx,4), %ebx
-
-        shrl    $1, %ecx
-        jnc     1f
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-1:
-        shrl    $1, %ecx
-        jnc     2f
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-2:
-        jecxz   4f
-3:
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movd      (%eax), %xmm0
-        movd    -4(%ebx), %xmm1
-        leal     4(%eax), %eax
-        leal    -4(%ebx), %ebx
-
-        pmuludq %xmm1, %xmm0
-        shufps  $0xD8, %xmm0, %xmm0
-        paddq   %xmm0, %xmm2
-
-        loop 3b
-4:
-        movd    %xmm2, (%edx)
-        leal    4(%edx), %edx
+        MulInnerLoop
 
         cmpl    $2, %esi
         jne     7b
 
-        shufps  $0x40, %xmm2, %xmm3
-        psrlq   $32, %xmm3
-        paddq   %xmm3, %xmm2
-        shufpd  $3, %xmm2, %xmm2
+        MulStepLast
 
-        movd    -4(%eax), %xmm0
-        movd     4(%ebx), %xmm1
-
-        pmuludq %xmm1, %xmm0
-        paddq   %xmm0, %xmm2
-
-        movq    %xmm2, (%edx)
-
-        popl    %edi
-        popl    %esi
-        popl    %ebx
-
-        popl    %ebp
-        ret
-
-
-Old:
-        pushl   %ebx
-        pushl   %esi
-        pushl   %edi
-
-        movl     8(%ebp), %edx  # c
-        movl    12(%ebp), %eax  # a
-        movl    16(%ebp), %ebx  # b
-        subl    %eax, %edx
-
-        movd    (%ebx), %mm0
-        movl    %ecx, %esi
-        movl    %ecx, %edi
-        pxor    %mm2, %mm2
-2:
-        movd    (%eax), %mm1
-        pmuludq %mm0, %mm1
-        paddq   %mm2, %mm1
-        movd    %mm1, (%eax,%edx)
-        psrlq   $32, %mm1
-        movq    %mm1, %mm2
-        leal    4(%eax), %eax
-
-        loop    2b
-
-        movd    %mm2, (%eax,%edx)
-3:
-        dec     %esi
-        jz      5f
-
-        movl    12(%ebp), %eax
-        leal    4(%edx), %edx
-        leal    4(%ebx), %ebx
-        movl    %edi, %ecx
-
-        movd    (%ebx), %mm0
-        pxor    %mm2, %mm2
-        pxor    %mm5, %mm5
-4:
-        movd    (%eax), %mm1
-        movd    (%eax,%edx), %mm3
-        pmuludq %mm0, %mm1
-        paddq   %mm2, %mm1
-        movq    %mm1, %mm4
-        psrlq   $32, %mm1
-        movq    %mm1, %mm2
-
-        psllq   $32, %mm4
-        psrlq   $32, %mm4
-
-        paddq   %mm4, %mm3
-        paddq   %mm5, %mm3
-        movd    %mm3, (%eax,%edx)
-        psrlq   $32, %mm3
-        movq    %mm3, %mm5
-
-        leal    4(%eax), %eax
-
-        loop 4b
-
-        paddq   %mm5, %mm2
-        movd    %mm2, (%eax,%edx)
-
-        jmp     3b
-5:
-        emms
         popl    %edi
         popl    %esi
         popl    %ebx
