@@ -536,6 +536,77 @@ Unit IntegerFastAlgo::UDiv3(Unit *a,ulen na) noexcept
   return hi;
  }
 
+static Unit UMul(Unit *restrict c,Unit top,Unit a,Unit b)
+ {
+  using DUnit = uint64 ;
+
+  DUnit prod=DUnit(a)*b+top;
+
+  *c=Unit(prod);
+
+  return Unit(prod>>32);
+ }
+
+static Unit UMac(Unit *restrict c,Unit top,Unit a,Unit b)
+ {
+  using DUnit = uint64 ;
+
+  DUnit prod=DUnit(a)*b+top+(*c);
+
+  *c=Unit(prod);
+
+  return Unit(prod>>32);
+ }
+
+static void UMulUnit(Unit *restrict c,const Unit *a,ulen na,Unit b)
+ {
+  Unit top=0;
+
+  top=UMul(c,top,*a,b);
+
+  for(ulen cnt=na-1; cnt ;cnt--)
+    {
+     c++;
+     a++;
+
+     top=UMul(c,top,*a,b);
+    }
+
+  c[1]=top;
+ }
+
+static void UMacUnit(Unit *restrict c,const Unit *a,ulen na,Unit b)
+ {
+  Unit top=0;
+
+  top=UMac(c,top,*a,b);
+
+  for(ulen cnt=na-1; cnt ;cnt--)
+    {
+     c++;
+     a++;
+
+     top=UMac(c,top,*a,b);
+    }
+
+  c[1]=top;
+ }
+
+void SimpleRawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) noexcept
+ {
+  if( !nab ) return;
+
+  UMulUnit(c,a,nab,*b);
+
+  for(ulen cnt=nab-1; cnt ;cnt--)
+    {
+     c++;
+     b++;
+
+     UMacUnit(c,a,nab,*b);
+    }
+ }
+
 } // namespace Math
 } // namespace CCore
 

@@ -1,62 +1,62 @@
 --- FastAlgo -------------------------------------------------------------------
 
 --- UMul -----------------------------------------------------------------------
-n = 1 count = 100 minval = 18 maxval = 78 average = 19
-n = 2 count = 100 minval = 22 maxval = 45 average = 25
-n = 3 count = 100 minval = 49 maxval = 60 average = 52
-n = 4 count = 100 minval = 84 maxval = 146 average = 86 best/(n*log(n)*log(log(n))) = 10
-n = 5 count = 100 minval = 123 maxval = 159 average = 124 best/(n*log(n)*log(log(n))) = 8
-n = 6 count = 100 minval = 167 maxval = 211 average = 170 best/(n*log(n)*log(log(n))) = 7
-n = 7 count = 100 minval = 213 maxval = 3200 average = 309 best/(n*log(n)*log(log(n))) = 7
-n = 8 count = 100 minval = 269 maxval = 306 average = 272 best/(n*log(n)*log(log(n))) = 7
-n = 9 count = 100 minval = 335 maxval = 374 average = 337 best/(n*log(n)*log(log(n))) = 7
-n = 10 count = 100 minval = 405 maxval = 442 average = 407 best/(n*log(n)*log(log(n))) = 7
-n = 11 count = 100 minval = 482 maxval = 3430 average = 519 best/(n*log(n)*log(log(n))) = 7
-n = 12 count = 100 minval = 566 maxval = 3553 average = 639 best/(n*log(n)*log(log(n))) = 7
-n = 13 count = 100 minval = 674 maxval = 725 average = 678 best/(n*log(n)*log(log(n))) = 7
-n = 14 count = 100 minval = 776 maxval = 817 average = 778 best/(n*log(n)*log(log(n))) = 7
-n = 15 count = 100 minval = 880 maxval = 929 average = 884 best/(n*log(n)*log(log(n))) = 7
-n = 16 count = 100 minval = 995 maxval = 1047 average = 998 best/(n*log(n)*log(log(n))) = 7
-n = 17 count = 100 minval = 1117 maxval = 1155 average = 1120 best/(n*log(n)*log(log(n))) = 7
-n = 18 count = 100 minval = 1244 maxval = 1277 average = 1247 best/(n*log(n)*log(log(n))) = 8
-n = 19 count = 100 minval = 1378 maxval = 1412 average = 1380 best/(n*log(n)*log(log(n))) = 8
-n = 20 count = 100 minval = 1519 maxval = 1548 average = 1522 best/(n*log(n)*log(log(n))) = 8
-n = 21 count = 100 minval = 1669 maxval = 1702 average = 1672 best/(n*log(n)*log(log(n))) = 8
-n = 22 count = 100 minval = 1777 maxval = 4736 average = 1832 best/(n*log(n)*log(log(n))) = 8
-n = 23 count = 100 minval = 1934 maxval = 1963 average = 1936 best/(n*log(n)*log(log(n))) = 8
-n = 24 count = 100 minval = 2098 maxval = 2129 average = 2100 best/(n*log(n)*log(log(n))) = 8
-n = 25 count = 100 minval = 2271 maxval = 2299 average = 2273 best/(n*log(n)*log(log(n))) = 8
+n = 1 count = 100 minval = 17 maxval = 81 average = 20
+n = 2 count = 100 minval = 22 maxval = 40 average = 25
+n = 3 count = 100 minval = 70 maxval = 100 average = 72
+n = 4 count = 100 minval = 98 maxval = 129 average = 100 best/(n*log(n)*log(log(n))) = 12
+n = 5 count = 100 minval = 127 maxval = 154 average = 130 best/(n*log(n)*log(log(n))) = 9
+n = 6 count = 100 minval = 169 maxval = 197 average = 172 best/(n*log(n)*log(log(n))) = 7
+n = 7 count = 100 minval = 211 maxval = 235 average = 214 best/(n*log(n)*log(log(n))) = 7
+n = 8 count = 100 minval = 262 maxval = 287 average = 264 best/(n*log(n)*log(log(n))) = 6
+n = 9 count = 100 minval = 316 maxval = 347 average = 318 best/(n*log(n)*log(log(n))) = 6
+n = 10 count = 100 minval = 374 maxval = 396 average = 376 best/(n*log(n)*log(log(n))) = 6
+n = 11 count = 100 minval = 438 maxval = 462 average = 439 best/(n*log(n)*log(log(n))) = 6
+n = 12 count = 100 minval = 532 maxval = 564 average = 540 best/(n*log(n)*log(log(n))) = 6
+n = 13 count = 100 minval = 605 maxval = 637 average = 617 best/(n*log(n)*log(log(n))) = 6
+n = 14 count = 100 minval = 687 maxval = 713 average = 694 best/(n*log(n)*log(log(n))) = 6
+n = 15 count = 100 minval = 783 maxval = 801 average = 790 best/(n*log(n)*log(log(n))) = 6
+n = 16 count = 100 minval = 885 maxval = 903 average = 889 best/(n*log(n)*log(log(n))) = 6
+n = 17 count = 100 minval = 986 maxval = 1010 average = 990 best/(n*log(n)*log(log(n))) = 6
+n = 18 count = 100 minval = 1091 maxval = 1104 average = 1094 best/(n*log(n)*log(log(n))) = 7
+n = 19 count = 100 minval = 1201 maxval = 1218 average = 1205 best/(n*log(n)*log(log(n))) = 7
+n = 20 count = 100 minval = 1282 maxval = 4282 average = 1331 best/(n*log(n)*log(log(n))) = 7
+n = 21 count = 100 minval = 1404 maxval = 4404 average = 1529 best/(n*log(n)*log(log(n))) = 7
+n = 22 count = 100 minval = 1569 maxval = 2174 average = 1580 best/(n*log(n)*log(log(n))) = 7
+n = 23 count = 100 minval = 1660 maxval = 4692 average = 1749 best/(n*log(n)*log(log(n))) = 7
+n = 24 count = 100 minval = 1792 maxval = 4818 average = 2099 best/(n*log(n)*log(log(n))) = 7
+n = 25 count = 100 minval = 1922 maxval = 4941 average = 2078 best/(n*log(n)*log(log(n))) = 7
 
 --------------------------------------------------------------------------------
 
 --- GMPAlgo --------------------------------------------------------------------
 
 --- UMul -----------------------------------------------------------------------
-n = 1 count = 100 minval = 47 maxval = 164 average = 49
-n = 2 count = 100 minval = 58 maxval = 66 average = 60
-n = 3 count = 100 minval = 72 maxval = 84 average = 75
-n = 4 count = 100 minval = 98 maxval = 119 average = 100 best/(n*log(n)*log(log(n))) = 12
-n = 5 count = 100 minval = 119 maxval = 138 average = 121 best/(n*log(n)*log(log(n))) = 8
-n = 6 count = 100 minval = 141 maxval = 163 average = 144 best/(n*log(n)*log(log(n))) = 6
-n = 7 count = 100 minval = 168 maxval = 199 average = 170 best/(n*log(n)*log(log(n))) = 5
-n = 8 count = 100 minval = 204 maxval = 235 average = 206 best/(n*log(n)*log(log(n))) = 5
-n = 9 count = 100 minval = 241 maxval = 271 average = 245 best/(n*log(n)*log(log(n))) = 5
-n = 10 count = 100 minval = 281 maxval = 306 average = 284 best/(n*log(n)*log(log(n))) = 4
-n = 11 count = 100 minval = 326 maxval = 343 average = 329 best/(n*log(n)*log(log(n))) = 4
-n = 12 count = 100 minval = 376 maxval = 399 average = 379 best/(n*log(n)*log(log(n))) = 4
-n = 13 count = 100 minval = 429 maxval = 448 average = 433 best/(n*log(n)*log(log(n))) = 4
-n = 14 count = 100 minval = 488 maxval = 518 average = 492 best/(n*log(n)*log(log(n))) = 4
-n = 15 count = 100 minval = 552 maxval = 570 average = 554 best/(n*log(n)*log(log(n))) = 4
-n = 16 count = 100 minval = 615 maxval = 631 average = 620 best/(n*log(n)*log(log(n))) = 4
-n = 17 count = 100 minval = 686 maxval = 706 average = 689 best/(n*log(n)*log(log(n))) = 4
-n = 18 count = 100 minval = 742 maxval = 3705 average = 847 best/(n*log(n)*log(log(n))) = 4
-n = 19 count = 100 minval = 812 maxval = 3767 average = 864 best/(n*log(n)*log(log(n))) = 4
-n = 20 count = 100 minval = 934 maxval = 953 average = 939 best/(n*log(n)*log(log(n))) = 5
-n = 21 count = 100 minval = 1032 maxval = 14368 average = 1330 best/(n*log(n)*log(log(n))) = 5
-n = 22 count = 100 minval = 1113 maxval = 4114 average = 1398 best/(n*log(n)*log(log(n))) = 5
-n = 23 count = 100 minval = 1210 maxval = 7136 average = 1387 best/(n*log(n)*log(log(n))) = 5
-n = 24 count = 100 minval = 1301 maxval = 7219 average = 1719 best/(n*log(n)*log(log(n))) = 5
-n = 25 count = 100 minval = 1435 maxval = 1469 average = 1452 best/(n*log(n)*log(log(n))) = 5
+n = 1 count = 100 minval = 46 maxval = 1889 average = 70
+n = 2 count = 100 minval = 59 maxval = 68 average = 61
+n = 3 count = 100 minval = 74 maxval = 419 average = 81
+n = 4 count = 100 minval = 100 maxval = 166 average = 103 best/(n*log(n)*log(log(n))) = 12
+n = 5 count = 100 minval = 122 maxval = 443 average = 129 best/(n*log(n)*log(log(n))) = 8
+n = 6 count = 100 minval = 145 maxval = 166 average = 148 best/(n*log(n)*log(log(n))) = 6
+n = 7 count = 100 minval = 171 maxval = 519 average = 180 best/(n*log(n)*log(log(n))) = 5
+n = 8 count = 100 minval = 209 maxval = 402 average = 215 best/(n*log(n)*log(log(n))) = 5
+n = 9 count = 100 minval = 248 maxval = 581 average = 254 best/(n*log(n)*log(log(n))) = 5
+n = 10 count = 100 minval = 289 maxval = 619 average = 296 best/(n*log(n)*log(log(n))) = 5
+n = 11 count = 100 minval = 333 maxval = 714 average = 347 best/(n*log(n)*log(log(n))) = 4
+n = 12 count = 100 minval = 386 maxval = 744 average = 396 best/(n*log(n)*log(log(n))) = 4
+n = 13 count = 100 minval = 442 maxval = 816 average = 458 best/(n*log(n)*log(log(n))) = 4
+n = 14 count = 100 minval = 502 maxval = 857 average = 512 best/(n*log(n)*log(log(n))) = 4
+n = 15 count = 100 minval = 565 maxval = 904 average = 582 best/(n*log(n)*log(log(n))) = 4
+n = 16 count = 100 minval = 632 maxval = 992 average = 651 best/(n*log(n)*log(log(n))) = 4
+n = 17 count = 100 minval = 702 maxval = 1045 average = 722 best/(n*log(n)*log(log(n))) = 4
+n = 18 count = 100 minval = 781 maxval = 1130 average = 795 best/(n*log(n)*log(log(n))) = 5
+n = 19 count = 100 minval = 853 maxval = 926 average = 864 best/(n*log(n)*log(log(n))) = 5
+n = 20 count = 100 minval = 960 maxval = 1002 average = 967 best/(n*log(n)*log(log(n))) = 5
+n = 21 count = 100 minval = 1062 maxval = 1113 average = 1069 best/(n*log(n)*log(log(n))) = 5
+n = 22 count = 100 minval = 1137 maxval = 1440 average = 1148 best/(n*log(n)*log(log(n))) = 5
+n = 23 count = 100 minval = 1227 maxval = 1390 average = 1237 best/(n*log(n)*log(log(n))) = 5
+n = 24 count = 100 minval = 1340 maxval = 1415 average = 1352 best/(n*log(n)*log(log(n))) = 5
+n = 25 count = 100 minval = 1441 maxval = 1500 average = 1448 best/(n*log(n)*log(log(n))) = 5
 
 --------------------------------------------------------------------------------
 
