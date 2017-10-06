@@ -126,10 +126,13 @@ class TestEngine : TestIntBase
 
    void test1()
     {
-     fill_abn(2);
+     fill_abn(3);
 
      Algo::RawUMul(c,a,b,na);
      Alt::UMul(d,a,na,b,nb);
+
+     Printf(Con,"#8.16; #8.16; #8.16; #8.16; #8.16; #8.16;\n",c[0],c[1],c[2],c[3],c[4],c[5]);
+     Printf(Con,"#8.16; #8.16; #8.16; #8.16; #8.16; #8.16;\n",d[0],d[1],d[2],d[3],d[4],d[5]);
 
      guard("RawUMul");
     }
@@ -154,6 +157,18 @@ class TestEngine : TestIntBase
        }
     }
 
+   void test3()
+    {
+     a[0]=0;
+     a[1]=0x8101'0101;
+     b[0]=0;
+     b[1]=0x0010'1010;
+
+     Algo::RawUMul(c,a,b,1);
+
+     Printf(Con,"#8.16; #8.16;\n",c[0],c[1]);
+    }
+
   public:
 
    TestEngine()
@@ -167,6 +182,8 @@ class TestEngine : TestIntBase
 
    void run(ulen rep)
     {
+     return test3();
+
      static_assert( Meta::IsSame<typename Algo::Unit,typename Alt::Unit> ,"Algo::Unit");
 
      for(; rep ;rep--)

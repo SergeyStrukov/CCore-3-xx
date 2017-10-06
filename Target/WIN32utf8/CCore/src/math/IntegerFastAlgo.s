@@ -1402,22 +1402,28 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         popl    %ebp
         ret
 1:
-        pushl   %ebx
-
-        movl     8(%ebp), %edx  # c
-        movl    12(%ebp), %eax  # a
-        movl    16(%ebp), %ebx  # b
-
         cmpl    $2, %ecx
         jnc     1f
 
-        movd    (%eax), %mm0
-        movd    (%ebx), %mm1
-        pmuludq %mm0, %mm1
-        movq    %mm1, (%edx)
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ecx  # b
 
-        emms
-        popl    %ebx
+        movq    (%eax), %xmm0
+        movq    (%ecx), %xmm1
+        paddq   %xmm0, %xmm1
+        pcmpgtq %xmm1, %xmm0
+        movq    %xmm0, (%edx)
+
+        popl    %ebp
+        ret
+
+Corect:
+        movd    (%eax), %xmm0
+        movd    (%ecx), %xmm1
+        pmuludq %xmm0, %xmm1
+        movq    %xmm1, (%edx)
+
         popl    %ebp
         ret
 1:
@@ -1427,9 +1433,13 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         cmpl    $2, %ecx
         jne     1f
 
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ecx  # b
+
         movq    (%eax), %xmm0
         shufps  $0xD8, %xmm0, %xmm0
-        movq    (%ebx), %xmm1
+        movq    (%ecx), %xmm1
         shufps  $0xD8, %xmm1, %xmm1
         movaps  %xmm1, %xmm2
         shufpd  $1, %xmm2, %xmm2
@@ -1455,19 +1465,126 @@ __ZN5CCore4Math15IntegerFastAlgo7RawUMulEPjPKjS4_j:     # void CCore::Math::Inte
         shufpd  $3, %xmm1, %xmm1
         movq    %xmm1, 8(%edx)
 
-        popl    %ebx
         popl    %ebp
         ret
 1: # 3
 
 
-#        emms
-#        popl    %ebx
-#        popl    %ebp
-#        ret
-2:
+2: # >= 4
+
+        pushl   %ebx
         pushl   %esi
         pushl   %edi
+
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ebx  # b
+
+        movl    %ecx, %edi
+
+        movd    (%eax), %xmm2
+        movd    (%ebx), %xmm1
+        pmuludq %xmm1, %xmm2
+        pxor    %xmm3, %xmm3
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        movl    $1, %esi
+2:
+        incl    %esi
+        movl    12(%ebp), %eax
+
+        # %eax, %ebx, %esi
+
+        movl    %esi, %ecx
+
+        psrlq   $32, %xmm2
+        shufpd  $0, %xmm3, %xmm2
+        pxor    %xmm3, %xmm3
+        shufps  $0x08, %xmm2, %xmm2
+
+        leal    (%ebx,%ecx,4), %ebx
+3:
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+        pmuludq %xmm1, %xmm0
+        paddq   %xmm0, %xmm2
+        pcmpgtq %xmm2, %xmm0
+        psubq   %xmm0, %xmm3
+
+        loop    3b
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        cmpl    %esi, %edi
+        jne     2b
+
+        movl    12(%ebp), %edi
+2:
+        decl    %esi
+        leal    4(%edi), %edi
+        movl    %edi, %eax
+        leal    4(%ebx), %ebx
+
+        # %eax, %ebx, %esi
+
+        movl    %esi, %ecx
+
+        psrlq   $32, %xmm2
+        shufpd  $0, %xmm3, %xmm2
+        pxor    %xmm3, %xmm3
+        shufps  $0x08, %xmm2, %xmm2
+
+        leal   (%ebx,%ecx,4), %ebx
+3:
+        movd      (%eax), %xmm0
+        movd    -4(%ebx), %xmm1
+        leal     4(%eax), %eax
+        leal    -4(%ebx), %ebx
+        pmuludq %xmm1, %xmm0
+        paddq   %xmm0, %xmm2
+        pcmpgtq %xmm2, %xmm0
+        psubq   %xmm0, %xmm3
+
+        loop    3b
+
+        movd    %xmm2, (%edx)
+        leal    4(%edx), %edx
+
+        cmpl    $2, %esi
+        jne     2b
+
+        psrlq   $32, %xmm2
+        shufpd  $0, %xmm3, %xmm2
+        shufps  $0x08, %xmm2, %xmm2
+
+        movd    -4(%eax), %xmm0
+        movd     4(%ebx), %xmm1
+        pmuludq %xmm1, %xmm0
+        paddq   %xmm0, %xmm2
+
+        movq    %xmm2, (%edx)
+
+        popl    %edi
+        popl    %esi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+
+
+Old:
+        pushl   %ebx
+        pushl   %esi
+        pushl   %edi
+
+        movl     8(%ebp), %edx  # c
+        movl    12(%ebp), %eax  # a
+        movl    16(%ebp), %ebx  # b
         subl    %eax, %edx
 
         movd    (%ebx), %mm0
