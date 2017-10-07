@@ -23,6 +23,7 @@
 #include <CCore/inc/math/IntegerFastAlgo.h>
 
 #include <math.h>
+#include <gmp.h>
 
 namespace App {
 
