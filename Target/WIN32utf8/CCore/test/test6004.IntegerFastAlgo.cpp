@@ -189,7 +189,7 @@ class TestSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 30 ;
+   static constexpr ulen Len = 32 ;
    static constexpr unsigned Rep = 400 ;
    static constexpr unsigned Rep2 =  5 ;
 
