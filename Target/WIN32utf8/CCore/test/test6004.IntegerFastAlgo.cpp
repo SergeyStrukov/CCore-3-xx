@@ -190,7 +190,7 @@ class TestSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len = 30 ;
-   static constexpr unsigned Rep = 100 ;
+   static constexpr unsigned Rep = 200 ;
    static constexpr unsigned Rep2 = 10 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
