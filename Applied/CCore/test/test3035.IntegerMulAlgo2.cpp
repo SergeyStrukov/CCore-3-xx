@@ -40,7 +40,10 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 300 ;
+   static constexpr ulen Len = 5'000'000 ;
+   static constexpr ulen Len1 = 300 ;
+   static constexpr ulen Len2 = 4'000 ;
+
    static constexpr unsigned Rep = 100 ;
    static constexpr unsigned Rep2 = 10 ;
 
@@ -78,18 +81,18 @@ class TestIntegerSpeed
      Algo::UMul(c,a,n,b,m);
     }
 
-   Stat testUMul(ulen n,ulen m)
+   Stat testUMul(ulen n,ulen m,unsigned rep=Rep,unsigned rep2=Rep2)
     {
      Stat stat;
 
-     for(unsigned cnt=Rep; cnt ;cnt--)
+     for(unsigned cnt=rep; cnt ;cnt--)
        {
         fill(Range(a,n));
         fill(Range(b,m));
 
         ClockTimer timer;
 
-        for(unsigned cnt=Rep2; cnt ;cnt--) funcUMul(n,m);
+        for(unsigned cnt=rep2; cnt ;cnt--) funcUMul(n,m);
 
         stat.add(timer.get());
        }
@@ -100,27 +103,52 @@ class TestIntegerSpeed
   private:
 
    template <class P>
-   void showStat(P &&out)
+   void test1(P &&out)
     {
-     for(ulen n=1; n<=Len ;n++)
+     for(ulen n=1; n<=Len1 ;n++)
+       {
+        table[n]=testUMul(n,n);
+       }
+
+     for(ulen n=1; n<=Len1 ;n++)
        {
         Stat stat=table[n];
 
         stat.div(Rep2);
 
+        auto t=stat.getMin();
+
         if( n>=4 )
-          Printf(out,"n = #; #; best/(n*log(n)*log(log(n))) = #;\n",n,stat,int( stat.getMin()/(n*log2(n)*log2(log2(n))) ));
+          Printf(out,"n = #; #; best/(n*log(n)*log(log(n))) = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
         else
-          Printf(out,"n = #; #;\n",n,stat);
+          Printf(out,"n = #; #;\n",n,t);
        }
+
+     Printf(Con,"test1 done\n");
     }
 
    template <class P>
-   void show(P &&out,StrLen title)
+   void test2(P &&out)
     {
-     Printf(out,"#;\n",Title(title));
+     ulen N=Len2;
 
-     showStat(out);
+     for(ulen n=1; N<=Len ;n++,N*=2)
+       {
+        table[n]=testUMul(N,N,10,1);
+       }
+
+     N=Len2;
+
+     for(ulen n=1; N<=Len ;n++,N*=2)
+       {
+        Stat stat=table[n];
+
+        auto t=stat.getMin();
+
+        Printf(out,"n = #; best = #; best/(n*log(n)*log(log(n))) = #;\n",N,t,int( t/(N*log2(N)*log2(log2(N))) ));
+       }
+
+     Printf(Con,"test2 done\n");
     }
 
    template <class P>
@@ -128,12 +156,8 @@ class TestIntegerSpeed
     {
      Printf(out,"#;\n\n",Title(title));
 
-     for(ulen n=1; n<=Len ;n++)
-       {
-        table[n]=testUMul(n,n);
-       }
-
-     show(out,"UMul");
+     //test1(out);
+     test2(out);
 
      Printf(out,"\n#;\n\n",TextDivider());
     }
@@ -182,12 +206,12 @@ struct Base : Math::IntegerFastAlgo
  {
   static constexpr ulen Toom22Min =    30 ;
   static constexpr ulen Toom33Min =   170 ;
-  static constexpr ulen Toom44Min = 10000 ;
-  static constexpr ulen Toom55Min = 10000 ;
-  static constexpr ulen Toom66Min = 10000 ;
-  static constexpr ulen Toom77Min = 10000 ;
-  static constexpr ulen Toom88Min = 10000 ;
-  static constexpr ulen FFTMin    = 10000 ;
+  static constexpr ulen Toom44Min = 10'000'000 ;
+  static constexpr ulen Toom55Min = 10'000'000 ;
+  static constexpr ulen Toom66Min = 10'000'000 ;
+  static constexpr ulen Toom77Min = 10'000'000 ;
+  static constexpr ulen Toom88Min = 10'000'000 ;
+  static constexpr ulen FFTMin    = 10'000'000 ;
  };
 
 using FastAlgo = Math::FastMulAlgo<Base> ;
@@ -208,7 +232,7 @@ bool Testit<3035>::Main()
 
   PrintFile out("test3035.txt");
 
-  TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
+  //TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
   TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
 
   return true;
