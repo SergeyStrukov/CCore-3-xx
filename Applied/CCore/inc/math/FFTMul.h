@@ -68,6 +68,17 @@ struct FFTMul
         return BitLen(len-obj.len-1,UnitBits+bits-obj.bits);
      }
 
+    BitLen operator + (BitLen obj) const
+     {
+      ulen l=len+obj.len;
+      unsigned b=bits+obj.bits;
+
+      if( b<UnitBits )
+        return BitLen(l,b);
+      else
+        return BitLen(l+1,b-UnitBits);
+     }
+
     static BitLen OfBits(ulen blen)
      {
       return BitLen(blen/UnitBits,blen%UnitBits);
@@ -92,7 +103,7 @@ struct FFTMul
         return BitPtr(p+1,o-UnitBits);
      }
 
-    static Unit MaskBit(Unit a,unsigned bits)
+    static Unit MaskBits(Unit a,unsigned bits)
      {
       return a&Mask(bits);
      }
@@ -149,7 +160,7 @@ struct FFTMul
    // T = ceil( (N+1)/UnitBits ) , T*UnitBits >= N+1
    //
 
-  static ulen GetT(ulen N)
+  static constexpr ulen GetT(ulen N)
    {
     return N/UnitBits+1;
    }
@@ -191,13 +202,13 @@ struct FFTMul
       }
    }
 
-  static void Mod(ulen N,ulen T,Unit *A,const Unit *P) // TODO
+  static void Mod(ulen N,ulen T,Unit *A,const Unit *P)
    {
     if( unsigned s=unsigned( N%UnitBits ) )
       {
        // never happens in practise, cannot be tested
 
-       // TODO
+       static_assert( (UnitBits&(UnitBits-1))==0 ,"CCore::Math::FFTMul<Algo> : unsupported UnitBits");
       }
     else
       {
@@ -250,6 +261,8 @@ struct FFTMul
       {
        if( Unit u=A[T-1] )
          {
+          A[T-1]=0;
+
           Algo::UAddUnit(A,T,UIntNeg<Unit>(u));
          }
        else
@@ -350,7 +363,7 @@ struct FFTMul
     Norm(N,T,A);
    }
 
-  static void DirectFFT(unsigned d,ulen N,ulen T,Unit *A,Unit *temp) // A half filled
+  static void DirectFFT(ulen N,ulen T,Unit *A,Unit *temp) // A half filled
    {
     Unit *Lim=A+2*N*T;
     ulen ds=1;
@@ -366,7 +379,7 @@ struct FFTMul
      for(Unit *lim=A+delta; p<lim ;p+=T,s++) ModLShift(N,T,p,s,temp);
     }
 
-    for(delta/=2,ds*=2; delta>=T ;)
+    for(delta/=2,ds*=2; delta>=T ;delta/=2,ds*=2)
       {
        for(Unit *p=A; p<Lim ;)
          {
@@ -379,7 +392,7 @@ struct FFTMul
       }
    }
 
-  static void InverseFFT(unsigned d,ulen N,ulen T,Unit *A,Unit *temp)
+  static void InverseFFT(ulen N,ulen T,Unit *A,Unit *temp)
    {
     Unit *Lim=A+2*N*T;
     ulen ds=N;
@@ -403,6 +416,8 @@ struct FFTMul
     BitLen delta=BitLen::OfBits(K);
     BitLen len(na);
 
+    ulen L=N*T;
+
     while( +len )
       {
        if( len>delta )
@@ -410,7 +425,7 @@ struct FFTMul
           ptr.fill(A,T,delta);
 
           A+=T;
-          N--;
+          L-=T;
 
           ptr=ptr+delta;
           len=len-delta;
@@ -420,13 +435,13 @@ struct FFTMul
           ptr.fill(A,T,len);
 
           A+=T;
-          N--;
+          L-=T;
 
           break;
          }
       }
 
-    Algo::Null(A,T*N);
+    Algo::Null(A,L);
    }
 
   static void Sum(Unit *c,ulen nc,Unit *C,ulen T,BitLen off)
@@ -476,20 +491,21 @@ struct FFTMul
       }
    }
 
-  // functions
+  // private mul functions
 
-
-  static ulen UMulTempLen(unsigned d,ulen N) // TODO
+  static ulen InternalUMulTempLen(ulen N) // TODO overflow
    {
-    return 0;
+    ulen T=GetT(N);
+
+    return LenAdd( 2*(2*N+1)*T , Algo::UMulTempLen(T) );
    }
 
    //
    // nab*UnitBits <= K*N
    //
 
-  static void UMul(unsigned d,ulen N,ulen K,Unit *temp,
-                   Unit *c,const Unit *a,const Unit *b,ulen nab) // nc==2*nab
+  static void InternalUMul(unsigned d,ulen N,ulen K,
+                           Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nc==2*nab
    {
     ulen T=GetT(N);
     ulen L=2*N*T;
@@ -501,16 +517,51 @@ struct FFTMul
     Fill(N,K,T,A,a,nab);
     Fill(N,K,T,B,b,nab);
 
-    DirectFFT(d,N,T,A,t);
-    DirectFFT(d,N,T,B,t);
+    DirectFFT(N,T,A,t);
+    DirectFFT(N,T,B,t);
 
     for(ulen off=0; off<L ;off+=T) ModMul(N,T,A+off,B+off,t);
 
-    InverseFFT(d,N,T,A,t);
+    InverseFFT(N,T,A,t);
 
     for(ulen off=0; off<L ;off+=T) DivNorm(N,T,A+off,d+1,t);
 
     Sum(N,K,T,c,2*nab,A);
+   }
+
+
+  // mul functions
+
+  static unsigned FindD(ulen nab) // TODO
+   {
+    unsigned d=2;
+    ulen N;
+    ulen K;
+
+    for(;;d++)
+      {
+       N=1<<d;
+       K=(N-d)/2;
+
+       if( N>UnitBits && (K*N)/UnitBits>=nab ) return d;
+      }
+   }
+
+  static ulen UMulTempLen(ulen nab)
+   {
+    unsigned d=FindD(nab);
+    ulen N=1<<d;
+
+    return InternalUMulTempLen(N);
+   }
+
+  static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nc==2*nab
+   {
+    unsigned d=FindD(nab);
+    ulen N=1<<d;
+    ulen K=(N-d)/2;
+
+    InternalUMul(d,N,K,c,a,b,nab,temp);
    }
  };
 
