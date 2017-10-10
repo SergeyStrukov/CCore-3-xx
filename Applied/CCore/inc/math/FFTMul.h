@@ -493,11 +493,11 @@ struct FFTMul
 
   // private mul functions
 
-  static ulen InternalUMulTempLen(ulen N) // TODO overflow
+  static ulen InternalUMulTempLen(ulen N)
    {
     ulen T=GetT(N);
 
-    return LenAdd( 2*(2*N+1)*T , Algo::UMulTempLen(T) );
+    return LenOf( 2*T, 2*N+1 , Algo::UMulTempLen(T) );
    }
 
    //
@@ -534,23 +534,23 @@ struct FFTMul
 
   static unsigned FindD(ulen nab) // TODO
    {
-    unsigned d=2;
-    ulen N;
-    ulen K;
+    unsigned d0=2;
 
-    for(;;d++)
+    for(unsigned d=d0;;d++)
       {
-       N=1<<d;
-       K=(N-d)/2;
+       ulen N=ulen(1)<<d;
+       ulen K=(N-d)/2;
 
        if( N>UnitBits && (K*N)/UnitBits>=nab ) return d;
       }
+
+    // d+1 < Meta::UIntBits<ulen>
    }
 
   static ulen UMulTempLen(ulen nab)
    {
     unsigned d=FindD(nab);
-    ulen N=1<<d;
+    ulen N=ulen(1)<<d;
 
     return InternalUMulTempLen(N);
    }
@@ -558,7 +558,7 @@ struct FFTMul
   static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nc==2*nab
    {
     unsigned d=FindD(nab);
-    ulen N=1<<d;
+    ulen N=ulen(1)<<d;
     ulen K=(N-d)/2;
 
     InternalUMul(d,N,K,c,a,b,nab,temp);
