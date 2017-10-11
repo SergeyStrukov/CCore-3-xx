@@ -17,8 +17,9 @@
 #define CCore_inc_math_IntegerMulAlgo_h
 
 #include <CCore/inc/Swap.h>
-
 #include <CCore/inc/TaskMemStack.h>
+
+#include <CCore/inc/math/FFTMul.h>
 
 namespace CCore {
 namespace Math {
@@ -636,50 +637,58 @@ struct FastMulAlgo
 
   // FFT functions
 
-  static ulen FFTMulTempLen(ulen nab) // nab >= 8 TODO
+  struct FFTAlgo : Algo
    {
-    Used(nab);
+    static ulen UMulTempLen(ulen nab)
+     {
+      return FastMulAlgo::UMulTempLen(nab);
+     }
 
-    return 0;
+    static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+     {
+      FastMulAlgo::UMul(c,a,b,nab,temp);
+     }
+   };
+
+  static ulen TopMulTempLen(ulen nab) // nab >= 8
+   {
+    return FFTMul<FFTAlgo>::UMulTempLen(nab);
    }
 
-  static void FFTMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 8 TODO
+  static void TopMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 8
    {
-    Used(c);
-    Used(a);
-    Used(b);
-    Used(nab);
-    Used(temp);
+    return FFTMul<FFTAlgo>::UMul(c,a,b,nab,temp);
    }
 
-  static void FFTMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 8
+  static void TopMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) // nab >= 8
    {
-    Temp temp(FFTMulTempLen(nab));
+    Temp temp(TopMulTempLen(nab));
 
-    FFTMul(c,a,b,nab,temp);
+    TopMul(c,a,b,nab,temp);
    }
 
   // functions
 
-  static_assert( 2 <= Algo::Toom22Min &&
-                 5 <= Algo::Toom33Min &&
-                 10 <= Algo::Toom44Min &&
-                 17 <= Algo::Toom55Min &&
-                 26 <= Algo::Toom66Min &&
-                 37 <= Algo::Toom77Min &&
-                 50 <= Algo::Toom88Min &&
-                 Algo::Toom22Min <= Algo::Toom33Min &&
-                 Algo::Toom33Min <= Algo::Toom44Min &&
-                 Algo::Toom44Min <= Algo::Toom55Min &&
-                 Algo::Toom55Min <= Algo::Toom66Min &&
-                 Algo::Toom66Min <= Algo::Toom77Min &&
-                 Algo::Toom77Min <= Algo::Toom88Min &&
-                 Algo::Toom88Min <= Algo::FFTMin
-
-               ,"CCore::Math::FastMulAlgo<Algo> : bad Algo tunning");
-
   static ulen UMulTempLen(ulen nab)
    {
+    static_assert( 2 <= Algo::Toom22Min &&
+                   5 <= Algo::Toom33Min &&
+                   10 <= Algo::Toom44Min &&
+                   17 <= Algo::Toom55Min &&
+                   26 <= Algo::Toom66Min &&
+                   37 <= Algo::Toom77Min &&
+                   50 <= Algo::Toom88Min &&
+                   FFTMul<FFTAlgo>::MinNAB <= Algo::TopMin &&
+                   Algo::Toom22Min <= Algo::Toom33Min &&
+                   Algo::Toom33Min <= Algo::Toom44Min &&
+                   Algo::Toom44Min <= Algo::Toom55Min &&
+                   Algo::Toom55Min <= Algo::Toom66Min &&
+                   Algo::Toom66Min <= Algo::Toom77Min &&
+                   Algo::Toom77Min <= Algo::Toom88Min &&
+                   Algo::Toom88Min <= Algo::TopMin
+
+                 ,"CCore::Math::FastMulAlgo<Algo> : bad Algo tunning");
+
     if( nab<Algo::Toom22Min )
       {
        return 0;
@@ -708,13 +717,13 @@ struct FastMulAlgo
       {
        return Toom77MulTempLen(nab);
       }
-    else if( nab<Algo::FFTMin )
+    else if( nab<Algo::TopMin )
       {
        return Toom88MulTempLen(nab);
       }
     else
       {
-       return FFTMulTempLen(nab);
+       return TopMulTempLen(nab);
       }
    }
 
@@ -748,13 +757,13 @@ struct FastMulAlgo
       {
        Toom77Mul(c,a,b,nab,temp);
       }
-    else if( nab<Algo::FFTMin )
+    else if( nab<Algo::TopMin )
       {
        Toom88Mul(c,a,b,nab,temp);
       }
     else
       {
-       FFTMul(c,a,b,nab,temp);
+       TopMul(c,a,b,nab,temp);
       }
    }
 
@@ -788,13 +797,13 @@ struct FastMulAlgo
       {
        Toom77Mul(c,a,b,nab);
       }
-    else if( nab<Algo::FFTMin )
+    else if( nab<Algo::TopMin )
       {
        Toom88Mul(c,a,b,nab);
       }
     else
       {
-       FFTMul(c,a,b,nab);
+       TopMul(c,a,b,nab);
       }
    }
 

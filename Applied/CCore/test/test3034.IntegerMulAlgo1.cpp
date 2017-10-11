@@ -34,14 +34,16 @@ using Alt = Math::IntegerSlowAlgo<uint8> ;
 
 struct Base : Alt
  {
+  static constexpr unsigned LogUnitBits = 3 ;
+
   static constexpr ulen Toom22Min = 2 ;
   static constexpr ulen Toom33Min = 5 ;
-  static constexpr ulen Toom44Min = 10000 ;
-  static constexpr ulen Toom55Min = 10000 ;
-  static constexpr ulen Toom66Min = 10000 ;
-  static constexpr ulen Toom77Min = 10000 ;
-  static constexpr ulen Toom88Min = 10000 ;
-  static constexpr ulen FFTMin    = 10000 ;
+  static constexpr ulen Toom44Min = 50 ;
+  static constexpr ulen Toom55Min = 50 ;
+  static constexpr ulen Toom66Min = 50 ;
+  static constexpr ulen Toom77Min = 50 ;
+  static constexpr ulen Toom88Min = 50 ;
+  static constexpr ulen TopMin    = 50 ;
 
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {

@@ -41,11 +41,12 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len = 5'000'000 ;
-   static constexpr ulen Len1 = 300 ;
-   static constexpr ulen Len2 = 4'000 ;
+   static constexpr ulen Len1 =      100 ;
+   static constexpr ulen Len2 =     1000 ;
+   static constexpr ulen Len3 =     4000 ;
 
-   static constexpr unsigned Rep = 100 ;
-   static constexpr unsigned Rep2 = 10 ;
+   static constexpr unsigned Rep  = 100 ;
+   static constexpr unsigned Rep2 =  10 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
 
@@ -102,11 +103,22 @@ class TestIntegerSpeed
 
   private:
 
+   template <class P,class T>
+   void show(P &&out,ulen n,T t)
+    {
+     if( n>=4 )
+       Printf(out,"n = #; #; best/(n*log(n)*log(log(n))) = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
+     else
+       Printf(out,"n = #; #;\n",n,t);
+    }
+
    template <class P>
    void test1(P &&out)
     {
      for(ulen n=1; n<=Len1 ;n++)
        {
+        Printf(Con,"n = #;\n",n);
+
         table[n]=testUMul(n,n);
        }
 
@@ -116,12 +128,7 @@ class TestIntegerSpeed
 
         stat.div(Rep2);
 
-        auto t=stat.getMin();
-
-        if( n>=4 )
-          Printf(out,"n = #; #; best/(n*log(n)*log(log(n))) = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
-        else
-          Printf(out,"n = #; #;\n",n,t);
+        show(out,n,stat.getMin());
        }
 
      Printf(Con,"test1 done\n");
@@ -132,23 +139,47 @@ class TestIntegerSpeed
     {
      ulen N=Len2;
 
-     for(ulen n=1; N<=Len ;n++,N*=2)
+     for(ulen n=1; N<Len3 ;n++,N+=N/10)
        {
+        Printf(Con,"n = #;\n",N);
+
         table[n]=testUMul(N,N,10,1);
        }
 
      N=Len2;
 
+     for(ulen n=1; N<Len3 ;n++,N+=N/10)
+       {
+        Stat stat=table[n];
+
+        show(out,N,stat.getMin());
+       }
+
+     Printf(Con,"test2 done\n");
+    }
+
+   template <class P>
+   void test3(P &&out)
+    {
+     ulen N=Len3;
+
+     for(ulen n=1; N<=Len ;n++,N*=2)
+       {
+        Printf(Con,"N = #;\n",N);
+
+        table[n]=testUMul(N,N,10,1);
+       }
+
+     N=Len3;
+
      for(ulen n=1; N<=Len ;n++,N*=2)
        {
         Stat stat=table[n];
 
-        auto t=stat.getMin();
-
-        Printf(out,"n = #; best = #; best/(n*log(n)*log(log(n))) = #;\n",N,t,int( t/(N*log2(N)*log2(log2(N))) ));
+        show(out,N,stat.getMin());
        }
 
-     Printf(Con,"test2 done\n");
+     Printf(Con,"test3 done\n");
     }
 
    template <class P>
@@ -156,8 +187,9 @@ class TestIntegerSpeed
     {
      Printf(out,"#;\n\n",Title(title));
 
-     //test1(out);
+     test1(out);
      test2(out);
+     test3(out);
 
      Printf(out,"\n#;\n\n",TextDivider());
     }
@@ -204,14 +236,15 @@ struct GMPAlgo
 
 struct Base : Math::IntegerFastAlgo
  {
-  static constexpr ulen Toom22Min =    30 ;
-  static constexpr ulen Toom33Min =   170 ;
-  static constexpr ulen Toom44Min = 10'000'000 ;
-  static constexpr ulen Toom55Min = 10'000'000 ;
-  static constexpr ulen Toom66Min = 10'000'000 ;
-  static constexpr ulen Toom77Min = 10'000'000 ;
-  static constexpr ulen Toom88Min = 10'000'000 ;
-  static constexpr ulen FFTMin    = 10'000'000 ;
+  static constexpr ulen Toom22Min =     30 ;
+  static constexpr ulen Toom33Min =    170 ;
+  static constexpr ulen TopMin    =  4'000 ;
+
+  static constexpr ulen Toom44Min = TopMin ;
+  static constexpr ulen Toom55Min = TopMin ;
+  static constexpr ulen Toom66Min = TopMin ;
+  static constexpr ulen Toom77Min = TopMin ;
+  static constexpr ulen Toom88Min = TopMin ;
  };
 
 using FastAlgo = Math::FastMulAlgo<Base> ;
@@ -232,8 +265,21 @@ bool Testit<3035>::Main()
 
   PrintFile out("test3035.txt");
 
-  //TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
   TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
+  TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
+
+  using A = Math::FFTMul<FastAlgo::FFTAlgo> ;
+
+  for(unsigned d=A::LogUnitBits+1,dmax=A::FindD(MaxULen); d<=dmax ;d++)
+    {
+     ulen N=ulen(1)<<d;
+     ulen K=(N-d)/2;
+     ulen n=K*(ulen(1)<<(d-A::LogUnitBits));
+
+     unsigned d1=A::FindD(n);
+
+     Printf(out,"d = #; n = #; d1 = #;\n",d,n,d1);
+    }
 
   return true;
  }

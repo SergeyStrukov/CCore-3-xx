@@ -1,16 +1,277 @@
 --- GMPAlgo --------------------------------------------------------------------
 
-n = 4000 best = 3651134 best/(n*log(n)*log(log(n))) = 21
-n = 8000 best = 7945413 best/(n*log(n)*log(log(n))) = 20
-n = 16000 best = 18245047 best/(n*log(n)*log(log(n))) = 21
-n = 32000 best = 35898996 best/(n*log(n)*log(log(n))) = 19
-n = 64000 best = 75033597 best/(n*log(n)*log(log(n))) = 18
-n = 128000 best = 190703330 best/(n*log(n)*log(log(n))) = 21
-n = 256000 best = 399031410 best/(n*log(n)*log(log(n))) = 20
-n = 512000 best = 887977707 best/(n*log(n)*log(log(n))) = 21
-n = 1024000 best = 1955714716 best/(n*log(n)*log(log(n))) = 22
-n = 2048000 best = 4304757263 best/(n*log(n)*log(log(n))) = 22
-n = 4096000 best = 9683172180 best/(n*log(n)*log(log(n))) = 24
+n = 1 45
+n = 2 58
+n = 3 71
+n = 4 89 best/(n*log(n)*log(log(n))) = 11
+n = 5 111 best/(n*log(n)*log(log(n))) = 7
+n = 6 138 best/(n*log(n)*log(log(n))) = 6
+n = 7 165 best/(n*log(n)*log(log(n))) = 5
+n = 8 200 best/(n*log(n)*log(log(n))) = 5
+n = 9 240 best/(n*log(n)*log(log(n))) = 5
+n = 10 281 best/(n*log(n)*log(log(n))) = 4
+n = 11 329 best/(n*log(n)*log(log(n))) = 4
+n = 12 380 best/(n*log(n)*log(log(n))) = 4
+n = 13 435 best/(n*log(n)*log(log(n))) = 4
+n = 14 492 best/(n*log(n)*log(log(n))) = 4
+n = 15 558 best/(n*log(n)*log(log(n))) = 4
+n = 16 625 best/(n*log(n)*log(log(n))) = 4
+n = 17 694 best/(n*log(n)*log(log(n))) = 4
+n = 18 771 best/(n*log(n)*log(log(n))) = 4
+n = 19 846 best/(n*log(n)*log(log(n))) = 5
+n = 20 954 best/(n*log(n)*log(log(n))) = 5
+n = 21 1050 best/(n*log(n)*log(log(n))) = 5
+n = 22 1135 best/(n*log(n)*log(log(n))) = 5
+n = 23 1219 best/(n*log(n)*log(log(n))) = 5
+n = 24 1329 best/(n*log(n)*log(log(n))) = 5
+n = 25 1424 best/(n*log(n)*log(log(n))) = 5
+n = 26 1530 best/(n*log(n)*log(log(n))) = 5
+n = 27 1605 best/(n*log(n)*log(log(n))) = 5
+n = 28 1670 best/(n*log(n)*log(log(n))) = 5
+n = 29 1793 best/(n*log(n)*log(log(n))) = 5
+n = 30 1849 best/(n*log(n)*log(log(n))) = 5
+n = 31 2010 best/(n*log(n)*log(log(n))) = 5
+n = 32 2081 best/(n*log(n)*log(log(n))) = 5
+n = 33 2228 best/(n*log(n)*log(log(n))) = 5
+n = 34 2306 best/(n*log(n)*log(log(n))) = 5
+n = 35 2444 best/(n*log(n)*log(log(n))) = 5
+n = 36 2504 best/(n*log(n)*log(log(n))) = 5
+n = 37 2685 best/(n*log(n)*log(log(n))) = 5
+n = 38 2789 best/(n*log(n)*log(log(n))) = 5
+n = 39 3060 best/(n*log(n)*log(log(n))) = 6
+n = 40 3170 best/(n*log(n)*log(log(n))) = 6
+n = 41 3344 best/(n*log(n)*log(log(n))) = 6
+n = 42 3415 best/(n*log(n)*log(log(n))) = 6
+n = 43 3534 best/(n*log(n)*log(log(n))) = 6
+n = 44 3638 best/(n*log(n)*log(log(n))) = 6
+n = 45 3823 best/(n*log(n)*log(log(n))) = 6
+n = 46 3922 best/(n*log(n)*log(log(n))) = 6
+n = 47 4130 best/(n*log(n)*log(log(n))) = 6
+n = 48 4222 best/(n*log(n)*log(log(n))) = 6
+n = 49 4435 best/(n*log(n)*log(log(n))) = 6
+n = 50 4428 best/(n*log(n)*log(log(n))) = 6
+n = 51 4888 best/(n*log(n)*log(log(n))) = 6
+n = 52 5011 best/(n*log(n)*log(log(n))) = 6
+n = 53 5132 best/(n*log(n)*log(log(n))) = 6
+n = 54 5112 best/(n*log(n)*log(log(n))) = 6
+n = 55 5415 best/(n*log(n)*log(log(n))) = 6
+n = 56 5490 best/(n*log(n)*log(log(n))) = 6
+n = 57 5833 best/(n*log(n)*log(log(n))) = 6
+n = 58 5661 best/(n*log(n)*log(log(n))) = 6
+n = 59 6257 best/(n*log(n)*log(log(n))) = 7
+n = 60 6120 best/(n*log(n)*log(log(n))) = 6
+n = 61 6581 best/(n*log(n)*log(log(n))) = 7
+n = 62 6527 best/(n*log(n)*log(log(n))) = 6
+n = 63 6580 best/(n*log(n)*log(log(n))) = 6
+n = 64 6568 best/(n*log(n)*log(log(n))) = 6
+n = 65 6900 best/(n*log(n)*log(log(n))) = 6
+n = 66 7424 best/(n*log(n)*log(log(n))) = 7
+n = 67 7714 best/(n*log(n)*log(log(n))) = 7
+n = 68 7483 best/(n*log(n)*log(log(n))) = 6
+n = 69 7934 best/(n*log(n)*log(log(n))) = 7
+n = 70 7701 best/(n*log(n)*log(log(n))) = 6
+n = 71 8152 best/(n*log(n)*log(log(n))) = 7
+n = 72 8371 best/(n*log(n)*log(log(n))) = 7
+n = 73 8991 best/(n*log(n)*log(log(n))) = 7
+n = 74 8700 best/(n*log(n)*log(log(n))) = 7
+n = 75 9242 best/(n*log(n)*log(log(n))) = 7
+n = 76 8718 best/(n*log(n)*log(log(n))) = 6
+n = 77 9860 best/(n*log(n)*log(log(n))) = 7
+n = 78 9314 best/(n*log(n)*log(log(n))) = 7
+n = 79 10151 best/(n*log(n)*log(log(n))) = 7
+n = 80 9928 best/(n*log(n)*log(log(n))) = 7
+n = 81 10424 best/(n*log(n)*log(log(n))) = 7
+n = 82 10105 best/(n*log(n)*log(log(n))) = 7
+n = 83 10442 best/(n*log(n)*log(log(n))) = 7
+n = 84 10412 best/(n*log(n)*log(log(n))) = 7
+n = 85 11283 best/(n*log(n)*log(log(n))) = 7
+n = 86 11271 best/(n*log(n)*log(log(n))) = 7
+n = 87 11568 best/(n*log(n)*log(log(n))) = 7
+n = 88 11410 best/(n*log(n)*log(log(n))) = 7
+n = 89 11917 best/(n*log(n)*log(log(n))) = 7
+n = 90 12135 best/(n*log(n)*log(log(n))) = 7
+n = 91 12217 best/(n*log(n)*log(log(n))) = 7
+n = 92 12217 best/(n*log(n)*log(log(n))) = 7
+n = 93 13157 best/(n*log(n)*log(log(n))) = 7
+n = 94 29256 best/(n*log(n)*log(log(n))) = 17
+n = 95 30048 best/(n*log(n)*log(log(n))) = 17
+n = 96 15238 best/(n*log(n)*log(log(n))) = 8
+n = 97 15489 best/(n*log(n)*log(log(n))) = 8
+n = 98 15718 best/(n*log(n)*log(log(n))) = 8
+n = 99 15772 best/(n*log(n)*log(log(n))) = 8
+n = 100 16366 best/(n*log(n)*log(log(n))) = 9
+n = 1000 484764 best/(n*log(n)*log(log(n))) = 14
+n = 1100 560992 best/(n*log(n)*log(log(n))) = 15
+n = 1210 636704 best/(n*log(n)*log(log(n))) = 15
+n = 1331 744404 best/(n*log(n)*log(log(n))) = 15
+n = 1464 865148 best/(n*log(n)*log(log(n))) = 16
+n = 1610 969192 best/(n*log(n)*log(log(n))) = 16
+n = 1771 1092884 best/(n*log(n)*log(log(n))) = 16
+n = 1948 1263648 best/(n*log(n)*log(log(n))) = 17
+n = 2142 1809084 best/(n*log(n)*log(log(n))) = 22
+n = 2356 2009212 best/(n*log(n)*log(log(n))) = 21
+n = 2591 2296780 best/(n*log(n)*log(log(n))) = 22
+n = 2850 2497376 best/(n*log(n)*log(log(n))) = 21
+n = 3135 2832704 best/(n*log(n)*log(log(n))) = 21
+n = 3448 2702305 best/(n*log(n)*log(log(n))) = 18
+n = 3792 2907843 best/(n*log(n)*log(log(n))) = 18
+n = 4000 3683840 best/(n*log(n)*log(log(n))) = 21
+n = 8000 8180285 best/(n*log(n)*log(log(n))) = 21
+n = 16000 17620934 best/(n*log(n)*log(log(n))) = 20
+n = 32000 34255421 best/(n*log(n)*log(log(n))) = 18
+n = 64000 73008159 best/(n*log(n)*log(log(n))) = 17
+n = 128000 188212689 best/(n*log(n)*log(log(n))) = 21
+n = 256000 392080187 best/(n*log(n)*log(log(n))) = 20
+n = 512000 878045756 best/(n*log(n)*log(log(n))) = 21
+n = 1024000 1988909737 best/(n*log(n)*log(log(n))) = 22
+n = 2048000 4371405706 best/(n*log(n)*log(log(n))) = 23
+n = 4096000 9845989091 best/(n*log(n)*log(log(n))) = 24
 
 --------------------------------------------------------------------------------
 
+--- FastAlgo -------------------------------------------------------------------
+
+n = 1 17
+n = 2 23
+n = 3 60
+n = 4 90 best/(n*log(n)*log(log(n))) = 11
+n = 5 124 best/(n*log(n)*log(log(n))) = 8
+n = 6 159 best/(n*log(n)*log(log(n))) = 7
+n = 7 183 best/(n*log(n)*log(log(n))) = 6
+n = 8 219 best/(n*log(n)*log(log(n))) = 5
+n = 9 250 best/(n*log(n)*log(log(n))) = 5
+n = 10 290 best/(n*log(n)*log(log(n))) = 5
+n = 11 335 best/(n*log(n)*log(log(n))) = 4
+n = 12 387 best/(n*log(n)*log(log(n))) = 4
+n = 13 443 best/(n*log(n)*log(log(n))) = 4
+n = 14 499 best/(n*log(n)*log(log(n))) = 4
+n = 15 578 best/(n*log(n)*log(log(n))) = 5
+n = 16 636 best/(n*log(n)*log(log(n))) = 4
+n = 17 717 best/(n*log(n)*log(log(n))) = 5
+n = 18 786 best/(n*log(n)*log(log(n))) = 5
+n = 19 884 best/(n*log(n)*log(log(n))) = 5
+n = 20 960 best/(n*log(n)*log(log(n))) = 5
+n = 21 1057 best/(n*log(n)*log(log(n))) = 5
+n = 22 1114 best/(n*log(n)*log(log(n))) = 5
+n = 23 1246 best/(n*log(n)*log(log(n))) = 5
+n = 24 1310 best/(n*log(n)*log(log(n))) = 5
+n = 25 1430 best/(n*log(n)*log(log(n))) = 5
+n = 26 1526 best/(n*log(n)*log(log(n))) = 5
+n = 27 1685 best/(n*log(n)*log(log(n))) = 5
+n = 28 1751 best/(n*log(n)*log(log(n))) = 5
+n = 29 1956 best/(n*log(n)*log(log(n))) = 6
+n = 30 2032 best/(n*log(n)*log(log(n))) = 6
+n = 31 2193 best/(n*log(n)*log(log(n))) = 6
+n = 32 2242 best/(n*log(n)*log(log(n))) = 6
+n = 33 2406 best/(n*log(n)*log(log(n))) = 6
+n = 34 2481 best/(n*log(n)*log(log(n))) = 6
+n = 35 2606 best/(n*log(n)*log(log(n))) = 6
+n = 36 2666 best/(n*log(n)*log(log(n))) = 6
+n = 37 2908 best/(n*log(n)*log(log(n))) = 6
+n = 38 2995 best/(n*log(n)*log(log(n))) = 6
+n = 39 3238 best/(n*log(n)*log(log(n))) = 6
+n = 40 3390 best/(n*log(n)*log(log(n))) = 6
+n = 41 3568 best/(n*log(n)*log(log(n))) = 6
+n = 42 3674 best/(n*log(n)*log(log(n))) = 6
+n = 43 3912 best/(n*log(n)*log(log(n))) = 6
+n = 44 3996 best/(n*log(n)*log(log(n))) = 6
+n = 45 4216 best/(n*log(n)*log(log(n))) = 6
+n = 46 4324 best/(n*log(n)*log(log(n))) = 6
+n = 47 4372 best/(n*log(n)*log(log(n))) = 6
+n = 48 4400 best/(n*log(n)*log(log(n))) = 6
+n = 49 4633 best/(n*log(n)*log(log(n))) = 6
+n = 50 4850 best/(n*log(n)*log(log(n))) = 6
+n = 51 5037 best/(n*log(n)*log(log(n))) = 6
+n = 52 5074 best/(n*log(n)*log(log(n))) = 6
+n = 53 5364 best/(n*log(n)*log(log(n))) = 7
+n = 54 5618 best/(n*log(n)*log(log(n))) = 7
+n = 55 6035 best/(n*log(n)*log(log(n))) = 7
+n = 56 6107 best/(n*log(n)*log(log(n))) = 7
+n = 57 6359 best/(n*log(n)*log(log(n))) = 7
+n = 58 6515 best/(n*log(n)*log(log(n))) = 7
+n = 59 6586 best/(n*log(n)*log(log(n))) = 7
+n = 60 6673 best/(n*log(n)*log(log(n))) = 7
+n = 61 7156 best/(n*log(n)*log(log(n))) = 7
+n = 62 7364 best/(n*log(n)*log(log(n))) = 7
+n = 63 7139 best/(n*log(n)*log(log(n))) = 7
+n = 64 7347 best/(n*log(n)*log(log(n))) = 7
+n = 65 7650 best/(n*log(n)*log(log(n))) = 7
+n = 66 7776 best/(n*log(n)*log(log(n))) = 7
+n = 67 8236 best/(n*log(n)*log(log(n))) = 7
+n = 68 8277 best/(n*log(n)*log(log(n))) = 7
+n = 69 8681 best/(n*log(n)*log(log(n))) = 7
+n = 70 8427 best/(n*log(n)*log(log(n))) = 7
+n = 71 8838 best/(n*log(n)*log(log(n))) = 7
+n = 72 8918 best/(n*log(n)*log(log(n))) = 7
+n = 73 8970 best/(n*log(n)*log(log(n))) = 7
+n = 74 9079 best/(n*log(n)*log(log(n))) = 7
+n = 75 9332 best/(n*log(n)*log(log(n))) = 7
+n = 76 9465 best/(n*log(n)*log(log(n))) = 7
+n = 77 9935 best/(n*log(n)*log(log(n))) = 7
+n = 78 10139 best/(n*log(n)*log(log(n))) = 7
+n = 79 10372 best/(n*log(n)*log(log(n))) = 7
+n = 80 10409 best/(n*log(n)*log(log(n))) = 7
+n = 81 10720 best/(n*log(n)*log(log(n))) = 7
+n = 82 11114 best/(n*log(n)*log(log(n))) = 7
+n = 83 11454 best/(n*log(n)*log(log(n))) = 8
+n = 84 11259 best/(n*log(n)*log(log(n))) = 7
+n = 85 11946 best/(n*log(n)*log(log(n))) = 8
+n = 86 12462 best/(n*log(n)*log(log(n))) = 8
+n = 87 11992 best/(n*log(n)*log(log(n))) = 7
+n = 88 12019 best/(n*log(n)*log(log(n))) = 7
+n = 89 12948 best/(n*log(n)*log(log(n))) = 8
+n = 90 13148 best/(n*log(n)*log(log(n))) = 8
+n = 91 13083 best/(n*log(n)*log(log(n))) = 8
+n = 92 13179 best/(n*log(n)*log(log(n))) = 8
+n = 93 13955 best/(n*log(n)*log(log(n))) = 8
+n = 94 13814 best/(n*log(n)*log(log(n))) = 8
+n = 95 13922 best/(n*log(n)*log(log(n))) = 8
+n = 96 14006 best/(n*log(n)*log(log(n))) = 8
+n = 97 14511 best/(n*log(n)*log(log(n))) = 8
+n = 98 14737 best/(n*log(n)*log(log(n))) = 8
+n = 99 15057 best/(n*log(n)*log(log(n))) = 8
+n = 100 15517 best/(n*log(n)*log(log(n))) = 8
+n = 1000 568534 best/(n*log(n)*log(log(n))) = 17
+n = 1100 656397 best/(n*log(n)*log(log(n))) = 17
+n = 1210 750753 best/(n*log(n)*log(log(n))) = 18
+n = 1331 926553 best/(n*log(n)*log(log(n))) = 19
+n = 1464 1061020 best/(n*log(n)*log(log(n))) = 20
+n = 1610 1226490 best/(n*log(n)*log(log(n))) = 20
+n = 1771 1400886 best/(n*log(n)*log(log(n))) = 21
+n = 1948 1635273 best/(n*log(n)*log(log(n))) = 22
+n = 2142 1800238 best/(n*log(n)*log(log(n))) = 21
+n = 2356 2052101 best/(n*log(n)*log(log(n))) = 22
+n = 2591 2420757 best/(n*log(n)*log(log(n))) = 23
+n = 2850 2847147 best/(n*log(n)*log(log(n))) = 24
+n = 3135 3188109 best/(n*log(n)*log(log(n))) = 24
+n = 3448 3722158 best/(n*log(n)*log(log(n))) = 25
+n = 3792 4195561 best/(n*log(n)*log(log(n))) = 26
+n = 4000 4690289 best/(n*log(n)*log(log(n))) = 27
+n = 8000 17144271 best/(n*log(n)*log(log(n))) = 44
+n = 16000 17287452 best/(n*log(n)*log(log(n))) = 20
+n = 32000 75834437 best/(n*log(n)*log(log(n))) = 40
+n = 64000 77440375 best/(n*log(n)*log(log(n))) = 18
+n = 128000 372788180 best/(n*log(n)*log(log(n))) = 42
+n = 256000 376327124 best/(n*log(n)*log(log(n))) = 19
+n = 512000 1988701990 best/(n*log(n)*log(log(n))) = 48
+n = 1024000 1994354021 best/(n*log(n)*log(log(n))) = 22
+n = 2048000 11074061456 best/(n*log(n)*log(log(n))) = 58
+n = 4096000 11136999647 best/(n*log(n)*log(log(n))) = 27
+
+--------------------------------------------------------------------------------
+
+d = 6 n = 58 d1 = 6
+d = 7 n = 240 d1 = 7
+d = 8 n = 992 d1 = 8
+d = 9 n = 4016 d1 = 9
+d = 10 n = 16224 d1 = 10
+d = 11 n = 65152 d1 = 11
+d = 12 n = 261376 d1 = 12
+d = 13 n = 1046784 d1 = 13
+d = 14 n = 4190720 d1 = 14
+d = 15 n = 16769024 d1 = 15
+d = 16 n = 67092480 d1 = 16
+d = 17 n = 268398592 d1 = 17
+d = 18 n = 1073668096 d1 = 18
+d = 19 n = 4294803456 d1 = 19
+d = 20 n = 4294639616 d1 = 19

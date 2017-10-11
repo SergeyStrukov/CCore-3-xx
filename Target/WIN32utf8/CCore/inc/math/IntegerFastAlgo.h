@@ -41,8 +41,6 @@ struct IntegerFastAlgo
 
   static constexpr unsigned UnitBits = 32 ;
 
-  static constexpr unsigned LogUnitBits = 5 ;
-
   static constexpr Unit MaxUnit = Unit(-1) ;
 
   static constexpr Unit MSBit = Unit( MaxUnit^(MaxUnit>>1) );
@@ -201,6 +199,8 @@ struct IntegerFastAlgo
   static void MoveDown(Unit *a,ulen na,ulen delta) noexcept; // a[na+delta]
 
   // primal mul functions
+
+  static constexpr unsigned LogUnitBits = 5 ;
 
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) noexcept;
 
