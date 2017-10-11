@@ -41,7 +41,7 @@ struct FastMulAlgo
 
   class Temp : NoCopy
    {
-     static constexpr ulen Len = 256 ; // TODO 256
+     static constexpr ulen Len = 256 ;
 
      Unit buf[Len];
      Unit *ptr;

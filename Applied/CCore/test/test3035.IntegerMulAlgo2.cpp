@@ -41,8 +41,8 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len = 5'000'000 ;
-   static constexpr ulen Len1 =      100 ;
-   static constexpr ulen Len2 =     1000 ;
+   static constexpr ulen Len1 =      199 ;
+   static constexpr ulen Len2 =      200 ;
    static constexpr ulen Len3 =     4000 ;
 
    static constexpr unsigned Rep  = 100 ;
@@ -189,7 +189,7 @@ class TestIntegerSpeed
 
      test1(out);
      test2(out);
-     test3(out);
+     //test3(out);
 
      Printf(out,"\n#;\n\n",TextDivider());
     }
