@@ -41,8 +41,6 @@ struct IntegerFastAlgo
 
   static constexpr unsigned UnitBits = Meta::UIntBits<Unit> ;
 
-  static_assert( UnitBits==32 ,"CCore::IntegerFastAlgo : bad gmp limb size");
-
   static constexpr Unit MaxUnit = Unit(-1) ;
 
   static constexpr Unit MSBit = Unit( MaxUnit^(MaxUnit>>1) );

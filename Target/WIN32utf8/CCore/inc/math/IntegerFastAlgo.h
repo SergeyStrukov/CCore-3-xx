@@ -39,7 +39,9 @@ struct IntegerFastAlgo
 
   using SUnit = int ;
 
-  static constexpr unsigned UnitBits = Meta::UIntBits<Unit> ;
+  static constexpr unsigned UnitBits = 32 ;
+
+  static constexpr unsigned LogUnitBits = 5 ;
 
   static constexpr Unit MaxUnit = Unit(-1) ;
 

@@ -162,8 +162,10 @@ class TestEngine : TestIntBase
 void ShowD(ulen n)
  {
   unsigned d=Algo::FindD(n);
+  ulen N=ulen(1)<<d;
+  ulen T=Algo::GetT(N);
 
-  Printf(Con,"n = #; d = #;\n",n,d);
+  Printf(Con,"n = #; d = #; T = #;\n",n,d,T);
  }
 
 } // namespace Private_3036
@@ -180,18 +182,9 @@ bool Testit<3036>::Main()
  {
   TaskMemStack tms(64_KByte);
 
-  ShowD(1);
-  ShowD(10);
-  ShowD(100);
-  ShowD(1000);
-  ShowD(10000);
-  ShowD(100000);
-  ShowD(1000000);
-  ShowD(MaxULen/4);
-  ShowD(MaxULen/2);
-  ShowD(MaxULen);
+  for(ulen n=1; n ;n*=2) ShowD(n);
 
-  //TestEngine<Algo,Math::IntegerFastAlgo>().run(100'000);
+  TestEngine<Algo,Math::IntegerFastAlgo>().run(100'000);
 
   return true;
  }

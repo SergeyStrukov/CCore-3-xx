@@ -112,6 +112,7 @@ OBJ_LIST = \
 .obj/EventRecorder.o \
 .obj/Exception.o \
 .obj/ExceptionType.o \
+.obj/FFTMul.o \
 .obj/FastMutex.o \
 .obj/Fifo.o \
 .obj/FileName.o \
@@ -479,6 +480,7 @@ ASM_LIST = \
 .obj/EventRecorder.s \
 .obj/Exception.s \
 .obj/ExceptionType.s \
+.obj/FFTMul.s \
 .obj/FastMutex.s \
 .obj/Fifo.s \
 .obj/FileName.s \
@@ -846,6 +848,7 @@ DEP_LIST = \
 .obj/EventRecorder.dep \
 .obj/Exception.dep \
 .obj/ExceptionType.dep \
+.obj/FFTMul.dep \
 .obj/FastMutex.dep \
 .obj/Fifo.dep \
 .obj/FileName.dep \
@@ -1452,6 +1455,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ExceptionType.o : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FFTMul.o : ../../Applied/CCore/src/./math/FFTMul.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FastMutex.o : ../../XCore/CCore/src/./task/FastMutex.cpp
@@ -2548,6 +2554,9 @@ include $(RULES_FILE)
 .obj/ExceptionType.s : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FFTMul.s : ../../Applied/CCore/src/./math/FFTMul.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/FastMutex.s : ../../XCore/CCore/src/./task/FastMutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3641,6 +3650,9 @@ include $(RULES_FILE)
 
 .obj/ExceptionType.dep : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ExceptionType.o $< -MF $@
+
+.obj/FFTMul.dep : ../../Applied/CCore/src/./math/FFTMul.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FFTMul.o $< -MF $@
 
 .obj/FastMutex.dep : ../../XCore/CCore/src/./task/FastMutex.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FastMutex.o $< -MF $@

@@ -543,8 +543,9 @@ struct FFTMul
     Sum(N,K,T,c,2*nab,A);
    }
 
-
   // mul functions
+
+  static constexpr ulen MinNAB = ulen(1)<<(LogUnitBits-1) ;
 
   static unsigned FindD(ulen nab)
    {
@@ -563,6 +564,16 @@ struct FFTMul
       }
 
     // d+1 < Meta::UIntBits<ulen>
+
+    static_assert( Meta::UIntBits<ulen> >= LogUnitBits+7 ,"CCore::Math::FFTMul<Algo> : bad length");
+   }
+
+  static bool TestD(unsigned d,ulen nab)
+   {
+    ulen N=ulen(1)<<d;
+    ulen T=GetT(N);
+
+    return T<nab;
    }
 
   static ulen UMulTempLen(ulen nab)
