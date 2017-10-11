@@ -36,6 +36,10 @@ struct FFTMul
 
   static constexpr unsigned UnitBits = Algo::UnitBits ;
 
+  static constexpr unsigned LogUnitBits = Algo::LogUnitBits ;
+
+  static_assert( (1u<<LogUnitBits)==UnitBits ,"CCore::Math::FFTMul<Algo> : bad UnitBits OR LogUnitBits");
+
   // Unit functions
 
   static Unit Bit(unsigned s) { return Unit(1)<<s; }
@@ -182,10 +186,10 @@ struct FFTMul
 
   static void Norm(ulen N,ulen T,Unit *A)
    {
+#if 0
+
     if( unsigned s=unsigned( N%UnitBits ) )
       {
-       // never happens in practise, cannot be tested
-
        Unit b=(A[T-1]>>s);
 
        A[T-1]&=Mask(s);
@@ -193,6 +197,8 @@ struct FFTMul
        if( Algo::USubUnit(A,T,b) ) SubC(N,T,A);
       }
     else
+
+#endif
       {
        Unit b=A[T-1];
 
@@ -204,13 +210,15 @@ struct FFTMul
 
   static void Mod(ulen N,ulen T,Unit *A,const Unit *P)
    {
+#if 0
+
     if( unsigned s=unsigned( N%UnitBits ) )
       {
-       // never happens in practise, cannot be tested
-
-       static_assert( (UnitBits&(UnitBits-1))==0 ,"CCore::Math::FFTMul<Algo> : unsupported UnitBits");
+       // TODO
       }
     else
+
+#endif
       {
        Algo::Copy(A,P,T-1);
 
@@ -225,10 +233,10 @@ struct FFTMul
 
   static void AddC(ulen N,ulen T,Unit *A)
    {
+#if 0
+
     if( unsigned s=unsigned( N%UnitBits ) )
       {
-       // never happens in practise, cannot be tested
-
        Unit b=(A[T-1]>>s)|Bit(UnitBits-s);
 
        A[T-1]&=Mask(s);
@@ -236,6 +244,8 @@ struct FFTMul
        if( Algo::USubUnit(A,T,b) ) SubC(N,T,A);
       }
     else
+
+#endif
       {
        Unit b[2]={A[T-1],1};
 
@@ -247,10 +257,12 @@ struct FFTMul
 
   static void SubC(ulen N,ulen T,Unit *A)
    {
+    Used(N);
+
+#if 0
+
     if( unsigned s=unsigned( N%UnitBits ) )
       {
-       // never happens in practise, cannot be tested
-
        Unit b=Bit(UnitBits-s)-(A[T-1]>>s);
 
        A[T-1]&=Mask(s);
@@ -258,6 +270,8 @@ struct FFTMul
        Algo::UAddUnit(A,T,b);
       }
     else
+
+#endif
       {
        if( Unit u=A[T-1] )
          {
@@ -532,16 +546,20 @@ struct FFTMul
 
   // mul functions
 
-  static unsigned FindD(ulen nab) // TODO
+  static unsigned FindD(ulen nab)
    {
-    unsigned d0=2;
+    unsigned k=Max(LogUnitBits,UIntBitsOf(nab));
+    unsigned d0=(k+LogUnitBits)/2+1;
 
     for(unsigned d=d0;;d++)
       {
        ulen N=ulen(1)<<d;
        ulen K=(N-d)/2;
 
-       if( N>UnitBits && (K*N)/UnitBits>=nab ) return d;
+       unsigned s=d-LogUnitBits;
+       ulen m=(ulen(1)<<s)-1;
+
+       if( K >= ( nab>>s )+( (nab&m)!=0 ) ) return d;
       }
 
     // d+1 < Meta::UIntBits<ulen>

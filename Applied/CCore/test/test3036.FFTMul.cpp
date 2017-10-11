@@ -28,8 +28,15 @@ namespace Private_3036 {
 
 /* struct BaseAlgo */
 
+constexpr unsigned Log(unsigned n)
+ {
+  return (n>1)?Log(n/2)+1:0;
+ }
+
 struct BaseAlgo : Math::IntegerFastAlgo
  {
+  static constexpr unsigned LogUnitBits = Log(UnitBits) ;
+
   static ulen UMulTempLen(ulen) { return 0; }
 
   static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *) // nc==2*nab
@@ -150,6 +157,15 @@ class TestEngine : TestIntBase
     }
  };
 
+/* ShowD() */
+
+void ShowD(ulen n)
+ {
+  unsigned d=Algo::FindD(n);
+
+  Printf(Con,"n = #; d = #;\n",n,d);
+ }
+
 } // namespace Private_3036
 
 using namespace Private_3036;
@@ -164,7 +180,18 @@ bool Testit<3036>::Main()
  {
   TaskMemStack tms(64_KByte);
 
-  TestEngine<Algo,Math::IntegerFastAlgo>().run(100'000);
+  ShowD(1);
+  ShowD(10);
+  ShowD(100);
+  ShowD(1000);
+  ShowD(10000);
+  ShowD(100000);
+  ShowD(1000000);
+  ShowD(MaxULen/4);
+  ShowD(MaxULen/2);
+  ShowD(MaxULen);
+
+  //TestEngine<Algo,Math::IntegerFastAlgo>().run(100'000);
 
   return true;
  }
