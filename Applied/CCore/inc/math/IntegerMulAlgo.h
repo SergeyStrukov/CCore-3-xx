@@ -532,6 +532,7 @@ struct FastMulAlgo
     ulen m=nab-3*n;
 
     ulen k=2*n+2;
+    ulen l=k-1;
 
     const Unit *a1=a+n;
     const Unit *a2=a1+n;
@@ -549,13 +550,13 @@ struct FastMulAlgo
     Unit *F=E+k;
     Unit *G=F+k;
     Unit *q1=G+(2*m);
-    Unit *p2=q1+(2*n+1);
+    Unit *p2=q1+l;
     Unit *q2=p2+(n+1);
     Unit *t=q2+(n+1);
 
     Unit *p=c;
-    Unit *q=c+(2*n+1);
-    Unit *p1=q+(2*n+1);
+    Unit *q=c+l;
+    Unit *p1=q+l;
 
     // A , G
 
@@ -617,6 +618,52 @@ struct FastMulAlgo
      ToomAcc(n,q,b3,m)(1,b2)(2,b1)(3,b)();
 
      UMul(F,p,q,n+1,t);
+    }
+
+    {
+     if( posC )
+       UAdd(p,B,C,l);
+     else
+       USub(p,B,C,l);
+
+     Algo::URShift(p,l,1);
+
+     if( posC )
+       Algo::USub(B,C,l);
+     else
+       Algo::UAdd(B,C,l);
+
+     Algo::URShift(B,l,1);
+
+     if( posE )
+       UAdd(q,D,E,l);
+     else
+       USub(q,D,E,l);
+
+     Algo::URShift(q,l,1);
+
+     if( posE )
+       Algo::USub(D,E,l);
+     else
+       Algo::UAdd(D,E,l);
+
+     Algo::URShift(D,l,2);
+
+     USub(p,l,A,2*n);
+     USub(p,l,G,2*m);
+
+     USub(q,l,A,2*n);
+
+     Algo::Copy(C,G,2*m);
+     C[2*m]=Algo::ULShift(C,2*m,6);
+
+     USub(q,l,C,2*m+1);
+
+     Algo::URShift(q,l,2);
+
+     Algo::USub(q,p,l);
+     Algo::UDiv3(q,l);
+     Algo::USub(p,q,l);
     }
 
     Used(c);
