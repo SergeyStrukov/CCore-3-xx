@@ -108,17 +108,6 @@ class TestEngine : TestIntBase
      Range(c,nc+GLen).copyTo(d);
     }
 
-   void fill_abc()
-    {
-     na=select(0,Len);
-     nb=select(0,Len);
-
-     fill(Range(a,na));
-     fill(Range(b,nb));
-
-     fill_c(na+nb);
-    }
-
    void fill_abn()
     {
      na=select(0,Len);
@@ -144,11 +133,6 @@ class TestEngine : TestIntBase
    void guard(const char *msg)
     {
      if( !Range(c,nc+GLen).equal(d) ) Error(msg);
-    }
-
-   void guard(Unit u,Unit u1,const char *msg)
-    {
-     if( u!=u1 || !Range(c,nc+GLen).equal(d) ) Error(msg);
     }
 
   private:

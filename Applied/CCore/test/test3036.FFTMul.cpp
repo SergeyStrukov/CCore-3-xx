@@ -118,11 +118,6 @@ class TestEngine : TestIntBase
      if( !Range(c,nc+GLen).equal(d) ) Error(msg);
     }
 
-   void guard(Unit u,Unit u1,const char *msg)
-    {
-     if( u!=u1 || !Range(c,nc+GLen).equal(d) ) Error(msg);
-    }
-
   private:
 
    void test1()
