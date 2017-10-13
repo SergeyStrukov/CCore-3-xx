@@ -37,6 +37,10 @@ struct FastMulAlgo
 
   using Unit = typename Algo::Unit ;
 
+  static constexpr unsigned UnitBits = Algo::UnitBits ;
+
+  static_assert( UnitBits>=16 ,"CCore::Math::FastMulAlgo<Algo> : bad UnitBits");
+
   // memory
 
   class Temp : NoCopy
@@ -626,31 +630,31 @@ struct FastMulAlgo
      else
        USub(p,B,C,l);
 
-     Algo::URShift(p,l,1);
+     Algo::URShift(p,l,1); // p : A+C+E+G
 
      if( posC )
        Algo::USub(B,C,l);
      else
        Algo::UAdd(B,C,l);
 
-     Algo::URShift(B,l,1);
+     Algo::URShift(B,l,1); // B : B+D+F
 
      if( posE )
        UAdd(q,D,E,l);
      else
        USub(q,D,E,l);
 
-     Algo::URShift(q,l,1);
+     Algo::URShift(q,l,1); // q : A+4C+16E+64G
 
      if( posE )
        Algo::USub(D,E,l);
      else
        Algo::UAdd(D,E,l);
 
-     Algo::URShift(D,l,2);
+     Algo::URShift(D,l,2); // D : B+4D+16F
 
      USub(p,l,A,2*n);
-     USub(p,l,G,2*m);
+     USub(p,l,G,2*m);      // p : C+E
 
      USub(q,l,A,2*n);
 
@@ -659,11 +663,11 @@ struct FastMulAlgo
 
      USub(q,l,C,2*m+1);
 
-     Algo::URShift(q,l,2);
+     Algo::URShift(q,l,2); // q : C+4E
 
      Algo::USub(q,p,l);
-     Algo::UDiv3(q,l);
-     Algo::USub(p,q,l);
+     Algo::UDiv3(q,l);     // q : E
+     Algo::USub(p,q,l);    // p : C
 
      USub(F,l,G,2*m);
 
@@ -682,13 +686,13 @@ struct FastMulAlgo
 
      Algo::USub(F,C,l);
 
-     Algo::URShift(F,l,1);
+     Algo::URShift(F,l,1); // F : 16B+4D+F
 
      Algo::USub(D,B,l);
-     Algo::UDiv3(D,l);
+     Algo::UDiv3(D,l);     // D : D+5F
 
      Algo::USub(F,B,l);
-     Algo::UDiv3(F,l);
+     Algo::UDiv3(F,l);     // F : 5B+D
 
      Algo::UAdd(F,D,l);
 
@@ -696,13 +700,12 @@ struct FastMulAlgo
      Algo::ULShift(C,l,1);
 
      Algo::USub(F,C,l);
-     Algo::UDiv3(F,l);
+     Algo::UDiv3(F,l);     // F : B+F
 
-     Algo::USub(B,F,l);
+     Algo::USub(B,F,l);    // B : D
      Algo::USub(D,B,l);
-
-     Algo::UDiv5(D,l);
-     Algo::USub(F,D,l);
+     Algo::UDiv5(D,l);     // D : F
+     Algo::USub(F,D,l);    // F : B
     }
 
     Used(c);

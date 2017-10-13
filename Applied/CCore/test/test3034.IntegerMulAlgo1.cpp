@@ -28,13 +28,13 @@ namespace Private_3034 {
 
 /* type Alt */
 
-using Alt = Math::IntegerSlowAlgo<uint8> ;
+using Alt = Math::IntegerSlowAlgo<uint16> ;
 
 /* struct Base */
 
 struct Base : Alt
  {
-  static constexpr unsigned LogUnitBits = 3 ;
+  static constexpr unsigned LogUnitBits = 4 ;
 
   static constexpr ulen Toom22Min = 2 ;
   static constexpr ulen Toom33Min = 5 ;
