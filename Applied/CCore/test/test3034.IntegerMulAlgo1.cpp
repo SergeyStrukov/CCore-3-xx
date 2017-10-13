@@ -21,6 +21,7 @@
 
 #include <CCore/inc/math/IntegerSlowAlgo.h>
 #include <CCore/inc/math/IntegerMulAlgo.h>
+#include <CCore/inc/math/Integer.h>
 
 namespace App {
 
@@ -34,11 +35,30 @@ using Alt = Math::IntegerSlowAlgo<uint16> ;
 
 struct Base : Alt
  {
+#if 0
+
+  class Int : public Math::Integer<Alt>
+   {
+    public:
+
+     explicit Int(PtrLen<const Unit> data) : Math::Integer<Alt>(data) {}
+
+     Int(const Unit *data,ulen len) : Int(Range(data,len)) {}
+   };
+
+  template <class I>
+  static void GuardNull(I x,const char *text)
+   {
+    if( x.sign() ) Printf(Exception,"GuardNull() : #;",text);
+   }
+
+#endif
+
   static constexpr unsigned LogUnitBits = 4 ;
 
   static constexpr ulen Toom22Min = 2 ;
   static constexpr ulen Toom33Min = 5 ;
-  static constexpr ulen Toom44Min = 50 ;
+  static constexpr ulen Toom44Min = 14 ;
   static constexpr ulen Toom55Min = 50 ;
   static constexpr ulen Toom66Min = 50 ;
   static constexpr ulen Toom77Min = 50 ;

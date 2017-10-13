@@ -528,7 +528,7 @@ struct FastMulAlgo
     return 2*n+2*m+(7*k-1)+Max_cast(k,UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // TODO
+  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
    {
     // inf, 0, +1, -1, +2, -2, +1/2
 
@@ -624,13 +624,16 @@ struct FastMulAlgo
      UMul(F,p,q,n+1,t);
     }
 
+    Unit *P=q1;
+    Unit *Q=p2;
+
     {
      if( posC )
-       UAdd(p,B,C,l);
+       UAdd(P,B,C,l);
      else
-       USub(p,B,C,l);
+       USub(P,B,C,l);
 
-     Algo::URShift(p,l,1); // p : A+C+E+G
+     Algo::URShift(P,l,1); // P : A+C+E+G
 
      if( posC )
        Algo::USub(B,C,l);
@@ -640,11 +643,11 @@ struct FastMulAlgo
      Algo::URShift(B,l,1); // B : B+D+F
 
      if( posE )
-       UAdd(q,D,E,l);
+       UAdd(Q,D,E,l);
      else
-       USub(q,D,E,l);
+       USub(Q,D,E,l);
 
-     Algo::URShift(q,l,1); // q : A+4C+16E+64G
+     Algo::URShift(Q,l,1); // Q : A+4C+16E+64G
 
      if( posE )
        Algo::USub(D,E,l);
@@ -653,30 +656,30 @@ struct FastMulAlgo
 
      Algo::URShift(D,l,2); // D : B+4D+16F
 
-     USub(p,l,A,2*n);
-     USub(p,l,G,2*m);      // p : C+E
+     USub(P,l,A,2*n);
+     USub(P,l,G,2*m);      // P : C+E
 
-     USub(q,l,A,2*n);
+     USub(Q,l,A,2*n);
 
      Algo::Copy(C,G,2*m);
      C[2*m]=Algo::ULShift(C,2*m,6);
 
-     USub(q,l,C,2*m+1);
+     USub(Q,l,C,2*m+1);
 
-     Algo::URShift(q,l,2); // q : C+4E
+     Algo::URShift(Q,l,2); // Q : C+4E
 
-     Algo::USub(q,p,l);
-     Algo::UDiv3(q,l);     // q : E
-     Algo::USub(p,q,l);    // p : C
+     Algo::USub(Q,P,l);
+     Algo::UDiv3(Q,l);     // Q : E
+     Algo::USub(P,Q,l);    // P : C
 
      USub(F,l,G,2*m);
 
-     Algo::Copy(C,q,l);
+     Algo::Copy(C,Q,l);
      Algo::ULShift(C,l,2);
 
      Algo::USub(F,C,l);
 
-     Algo::Copy(C,p,l);
+     Algo::Copy(C,P,l);
      Algo::ULShift(C,l,4);
 
      Algo::USub(F,C,l);
@@ -708,7 +711,18 @@ struct FastMulAlgo
      Algo::USub(F,D,l);    // F : B
     }
 
-    Used(c);
+    Algo::Copy(c,A,2*n);
+    Algo::Copy(c+2*n,P,l);
+    Algo::Copy(c+6*n,G,2*m);
+    Algo::Null(c+4*n+1,2*n-1);
+
+    UAdd(c+n,5*n+2*m,F,l);
+    UAdd(c+3*n,3*n+2*m,B,l);
+    UAdd(c+4*n,2*n+2*m,Q,l);
+
+    ulen s=n+2*m;
+
+    UAdd(c+5*n,s,D,Min(l,s));
    }
 
   static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)

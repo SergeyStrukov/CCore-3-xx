@@ -130,6 +130,8 @@ class Integer
 
    Integer(DoBuildType,BuilderType<Unit> builder) : body(DoBuild,builder) { normalize(); }
 
+   explicit Integer(PtrLen<const Unit> data) : body(DoCopy(data.len,data.len+1),data.ptr) { body.append_copy(0); normalize(); }
+
    // constructors
 
    Integer() noexcept {}

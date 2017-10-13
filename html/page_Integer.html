@@ -134,6 +134,8 @@ or <b>AtomicRefArray</b>. It means it is efficiently copyable and multiple objec
 
    Integer(DoBuildType,BuilderType&lt;Unit&gt; builder) : body(DoBuild,builder) { normalize(); }
    
+   explicit Integer(PtrLen&lt;const Unit&gt; data) : body(DoCopy(data.len),data.ptr) { normalize(); }
+
    // constructors 
   
    Integer() noexcept;
@@ -154,6 +156,7 @@ or <b>AtomicRefArray</b>. It means it is efficiently copyable and multiple objec
 You can create an <b>Integer</b> using the generic constructor or using special constructors.
 The generic constructor uses the provided <a href="page_Arrays.html#Builder">builder</a> to fill the integer body 
 and then performs the normalization. 
+You can also create an <b>Integer</b> from a range of units.
 </p>
 
 <p>

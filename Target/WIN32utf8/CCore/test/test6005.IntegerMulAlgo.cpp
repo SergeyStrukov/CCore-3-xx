@@ -41,9 +41,9 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len = 5'000'000 ;
-   static constexpr ulen Len1 =      199 ;
-   static constexpr ulen Len2 =      200 ;
-   static constexpr ulen Len3 =     4000 ;
+   static constexpr ulen Len1 =      200 ;
+   static constexpr ulen Len2 =      800 ;
+   static constexpr ulen Len3 =     8000 ;
 
    static constexpr unsigned Rep  = 100 ;
    static constexpr unsigned Rep2 =  10 ;
@@ -236,11 +236,39 @@ struct GMPAlgo
 
 struct Base : Math::IntegerFastAlgo
  {
+#if 0
+
+  class Int
+   {
+    public:
+
+     Int() {}
+
+     explicit Int(PtrLen<const Unit>) {}
+
+     Int(const Unit *data,ulen len) : Int(Range(data,len)) {}
+
+     friend Int operator + (Int,Int) { return Int(); }
+
+     friend Int operator * (Int,Int) { return Int(); }
+
+     friend Int operator - (Int,Int) { return Int(); }
+
+     friend Int operator << (Int,ulen) { return Int(); }
+   };
+
+  template <class I>
+  static void GuardNull(I,const char *)
+   {
+   }
+
+#endif
+
   static constexpr ulen Toom22Min =     30 ;
   static constexpr ulen Toom33Min =    170 ;
   static constexpr ulen TopMin    =  4'000 ;
 
-  static constexpr ulen Toom44Min = TopMin ;
+  static constexpr ulen Toom44Min =    800 ;
   static constexpr ulen Toom55Min = TopMin ;
   static constexpr ulen Toom66Min = TopMin ;
   static constexpr ulen Toom77Min = TopMin ;
