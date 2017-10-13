@@ -664,6 +664,45 @@ struct FastMulAlgo
      Algo::USub(q,p,l);
      Algo::UDiv3(q,l);
      Algo::USub(p,q,l);
+
+     USub(F,l,G,2*m);
+
+     Algo::Copy(C,q,l);
+     Algo::ULShift(C,l,2);
+
+     Algo::USub(F,C,l);
+
+     Algo::Copy(C,p,l);
+     Algo::ULShift(C,l,4);
+
+     Algo::USub(F,C,l);
+
+     Algo::Copy(C,A,2*n);
+     C[2*n]=Algo::ULShift(C,2*n,6);
+
+     Algo::USub(F,C,l);
+
+     Algo::URShift(F,l,1);
+
+     Algo::USub(D,B,l);
+     Algo::UDiv3(D,l);
+
+     Algo::USub(F,B,l);
+     Algo::UDiv3(F,l);
+
+     Algo::UAdd(F,D,l);
+
+     Algo::Copy(C,B,l);
+     Algo::ULShift(C,l,1);
+
+     Algo::USub(F,C,l);
+     Algo::UDiv3(F,l);
+
+     Algo::USub(B,F,l);
+     Algo::USub(D,B,l);
+
+     Algo::UDiv5(D,l);
+     Algo::USub(F,D,l);
     }
 
     Used(c);

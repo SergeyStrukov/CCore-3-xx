@@ -205,6 +205,8 @@ struct IntegerFastAlgo
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab) noexcept;
 
   static Unit UDiv3(Unit *a,ulen na) noexcept;
+
+  static Unit UDiv5(Unit *a,ulen na) noexcept;
  };
 
 } // namespace Math

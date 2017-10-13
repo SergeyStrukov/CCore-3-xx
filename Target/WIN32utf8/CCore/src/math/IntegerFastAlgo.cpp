@@ -536,6 +536,79 @@ Unit IntegerFastAlgo::UDiv3(Unit *a,ulen na) noexcept
   return hi;
  }
 
+Unit IntegerFastAlgo::UDiv5(Unit *a,ulen na) noexcept
+ {
+  struct DivMod5
+   {
+    Unit div;
+    Unit mod;
+
+    DivMod5(Unit hi,Unit lo)
+     {
+      div=lo/5;
+      mod=lo%5;
+
+      switch( hi )
+        {
+         case 0 : return;
+
+         case 1 :
+          {
+           div+=0x3333'3333u;
+
+           mod+=1;
+          }
+         break;
+
+         case 2 :
+          {
+           div+=0x6666'6666u;
+
+           mod+=2;
+          }
+         break;
+
+         case 3 :
+          {
+           div+=0x9999'9999u;
+
+           mod+=3;
+          }
+         break;
+
+         case 4 :
+          {
+           div+=0xCCCC'CCCCu;
+
+           mod+=4;
+          }
+         break;
+        }
+
+      if( mod>=5 )
+        {
+         mod-=5;
+         div++;
+        }
+     }
+   };
+
+  Unit hi=0;
+
+  for(; na ;na--)
+    {
+     Unit lo=a[na-1];
+
+     DivMod5 result(hi,lo);
+
+     a[na-1]=result.div;
+
+     hi=result.mod;
+    }
+
+  return hi;
+ }
+
 static Unit UMul(Unit *restrict c,Unit top,Unit a,Unit b)
  {
   using DUnit = uint64 ;

@@ -70,6 +70,27 @@ struct Base : Alt
        hi=result.mod;
       }
    }
+
+  struct DivMod5 : UIntFunc<Unit>::DivMod
+   {
+    DivMod5(Unit hi,Unit lo) : UIntFunc<Unit>::DivMod(hi,lo,5) {}
+   };
+
+  static void UDiv5(Unit *a,ulen na)
+   {
+    Unit hi=0;
+
+    for(; na ;na--)
+      {
+       Unit lo=a[na-1];
+
+       DivMod5 result(hi,lo);
+
+       a[na-1]=result.div;
+
+       hi=result.mod;
+      }
+   }
  };
 
 using Algo = Math::FastMulAlgo<Base> ;
