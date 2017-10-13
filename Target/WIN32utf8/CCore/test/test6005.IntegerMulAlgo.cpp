@@ -40,10 +40,10 @@ class TestIntegerSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 5'000'000 ;
-   static constexpr ulen Len1 =      200 ;
-   static constexpr ulen Len2 =      800 ;
-   static constexpr ulen Len3 =     8000 ;
+   static constexpr ulen Len  = 5'000'000 ;
+   static constexpr ulen Len1 =        32 ;
+   static constexpr ulen Len2 =       800 ;
+   static constexpr ulen Len3 =      8000 ;
 
    static constexpr unsigned Rep  = 100 ;
    static constexpr unsigned Rep2 =  10 ;
@@ -188,7 +188,7 @@ class TestIntegerSpeed
      Printf(out,"#;\n\n",Title(title));
 
      test1(out);
-     test2(out);
+     //test2(out);
      //test3(out);
 
      Printf(out,"\n#;\n\n",TextDivider());
@@ -264,8 +264,8 @@ struct Base : Math::IntegerFastAlgo
 
 #endif
 
-  static constexpr ulen Toom22Min =     30 ;
-  static constexpr ulen Toom33Min =    170 ;
+  static constexpr ulen Toom22Min =     32 ;
+  static constexpr ulen Toom33Min =    300 ; // 170
   static constexpr ulen TopMin    =  4'000 ;
 
   static constexpr ulen Toom44Min =    800 ;
@@ -273,6 +273,45 @@ struct Base : Math::IntegerFastAlgo
   static constexpr ulen Toom66Min = TopMin ;
   static constexpr ulen Toom77Min = TopMin ;
   static constexpr ulen Toom88Min = TopMin ;
+
+  using Math::IntegerFastAlgo::UAdd;
+  using Math::IntegerFastAlgo::USub;
+  using Math::IntegerFastAlgo::ULShift;
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    Copy(c,a,nabc);
+
+    return UAdd(c,b,nabc);
+   }
+
+  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    Copy(c,a,nabc);
+
+    return USub(c,b,nabc);
+   }
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
+   {
+    Copy(c,a,nac);
+
+    Unit carry=UAdd(c,b,nb);
+
+    return UAddUnit(c+nb,nac-nb,carry);
+   }
+
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
+   {
+    Copy(b,a,nab);
+
+    return ULShift(b,nab,shift);
+   }
+
+  static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
+   {
+    mpn_mul((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
+   }
  };
 
 using FastAlgo = Math::FastMulAlgo<Base> ;
@@ -293,8 +332,11 @@ bool Testit<6005>::Main()
 
   PrintFile out("test6005.txt");
 
-  TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
+  //TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
+
   TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
+
+  return true;
 
   using A = Math::FFTMul<FastAlgo::FFTAlgo> ;
 

@@ -65,6 +65,40 @@ struct Base : Alt
   static constexpr ulen Toom88Min = 50 ;
   static constexpr ulen TopMin    = 50 ;
 
+  using Alt::UAdd;
+  using Alt::USub;
+  using Alt::ULShift;
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    Copy(c,a,nabc);
+
+    return UAdd(c,b,nabc);
+   }
+
+  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    Copy(c,a,nabc);
+
+    return USub(c,b,nabc);
+   }
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
+   {
+    Copy(c,a,nac);
+
+    Unit carry=UAdd(c,b,nb);
+
+    return UAddUnit(c+nb,nac-nb,carry);
+   }
+
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
+   {
+    Copy(b,a,nab);
+
+    return ULShift(b,nab,shift);
+   }
+
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {
     UMul(c,a,nab,b,nab);

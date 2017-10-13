@@ -76,29 +76,6 @@ struct FastMulAlgo
 
   // aux functions
 
-  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
-   {
-    Algo::Copy(c,a,nabc);
-
-    return Algo::UAdd(c,b,nabc);
-   }
-
-  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
-   {
-    Algo::Copy(c,a,nabc);
-
-    return Algo::USub(c,b,nabc);
-   }
-
-  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
-   {
-    Algo::Copy(c,a,nac);
-
-    Unit carry=Algo::UAdd(c,b,nb);
-
-    return Algo::UAddUnit(c+nb,nac-nb,carry);
-   }
-
   static Unit UAdd(Unit *restrict b,ulen nb,const Unit *a,ulen na) // nb>=na
    {
     Unit carry=Algo::UAdd(b,a,na);
@@ -113,13 +90,6 @@ struct FastMulAlgo
     return Algo::USubUnit(b+na,nb-na,borrow);
    }
 
-  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
-   {
-    Algo::Copy(b,a,nab);
-
-    return Algo::ULShift(b,nab,shift);
-   }
-
   static bool ModSub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc) // return a<b
    {
     for(; nabc>0 ;nabc--)
@@ -131,13 +101,13 @@ struct FastMulAlgo
          {
           if( A<B )
             {
-             USub(c,b,a,nabc);
+             Algo::USub(c,b,a,nabc);
 
              return true;
             }
           else
             {
-             USub(c,a,b,nabc);
+             Algo::USub(c,a,b,nabc);
 
              return false;
             }
@@ -157,7 +127,7 @@ struct FastMulAlgo
 
        if( A>0 )
          {
-          c[nac-1]=A-USub(c,a,b,nac-1);
+          c[nac-1]=A-Algo::USub(c,a,b,nac-1);
 
           return false;
          }
@@ -176,13 +146,13 @@ struct FastMulAlgo
          {
           if( A<B )
             {
-             USub(c,b,a,nac);
+             Algo::USub(c,b,a,nac);
 
              return true;
             }
           else
             {
-             USub(c,a,b,nac);
+             Algo::USub(c,a,b,nac);
 
              return false;
             }
@@ -245,7 +215,7 @@ struct FastMulAlgo
 
     ToomAcc(ulen n_,Unit *c_,const Unit *a) : n(n_),u(0),c(c_) { Algo::Copy(c,a,n); }
 
-    ToomAcc(ulen n_,Unit *c_,unsigned shift,const Unit *a) : n(n_),c(c_) { u=ULShift(c,a,n,shift); }
+    ToomAcc(ulen n_,Unit *c_,unsigned shift,const Unit *a) : n(n_),c(c_) { u=Algo::ULShift(c,a,n,shift); }
 
     ToomAcc(ulen n_,Unit *c_,const Unit *a,ulen m) : n(n_),u(0),c(c_) { Algo::Copy(c,a,m); Algo::Null(c+m,n-m); }
 
@@ -274,7 +244,7 @@ struct FastMulAlgo
      {
       Unit *d=c+n+1;
 
-      u+=ULShift(d,a,n,shift);
+      u+=Algo::ULShift(d,a,n,shift);
 
       return (*this)(d);
      }
@@ -285,7 +255,7 @@ struct FastMulAlgo
         {
          Unit *d=c+n+1;
 
-         d[m]=ULShift(d,a,m,shift);
+         d[m]=Algo::ULShift(d,a,m,shift);
 
          return (*this)(d,m+1);
         }
@@ -336,7 +306,7 @@ struct FastMulAlgo
 
        UMul(temp+nab,temp,temp+n,n,temp+2*nab);
 
-       Unit carry=UAdd(temp,c,c+nab,nab);
+       Unit carry=Algo::UAdd(temp,c,c+nab,nab);
 
        if( neg )
          {
@@ -357,7 +327,7 @@ struct FastMulAlgo
 
        UMul(temp+2*n,temp,temp+n,n,temp+4*n);
 
-       UAdd(temp,c,2*n,c+2*n,2*m);
+       Algo::UAdd(temp,c,2*n,c+2*n,2*m);
 
        if( neg )
          {
@@ -433,13 +403,13 @@ struct FastMulAlgo
     {
      ToomAcc(n,p,a)(a2,m)();
 
-     p1[n]=p[n]+UAdd(p1,p,a1,n);
+     p1[n]=p[n]+Algo::UAdd(p1,p,a1,n);
 
      bool fa=ModSub1(p,a1,n+1);
 
      ToomAcc(n,q,b)(b2,m)();
 
-     q1[n]=q[n]+UAdd(q1,q,b1,n);
+     q1[n]=q[n]+Algo::UAdd(q1,q,b1,n);
 
      pos = ( fa == ModSub1(q,b1,n+1) );
 
@@ -462,9 +432,9 @@ struct FastMulAlgo
      // P
 
      if( pos )
-       USub(P,B,C,k);
+       Algo::USub(P,B,C,k);
      else
-       UAdd(P,B,C,k);
+       Algo::UAdd(P,B,C,k);
 
      Algo::URShift(P,k,1);
 
@@ -483,11 +453,11 @@ struct FastMulAlgo
 
      Algo::USub(D,P,k);
 
-     ULShift(c,B,k,1);
+     Algo::ULShift(c,B,k,1);
 
      Algo::USub(D,c,k);
 
-     c[2*m]=ULShift(c,E,2*m,3);
+     c[2*m]=Algo::ULShift(c,E,2*m,3);
 
      USub(D,k,c,2*m+1);
 
@@ -629,9 +599,9 @@ struct FastMulAlgo
 
     {
      if( posC )
-       UAdd(P,B,C,l);
+       Algo::UAdd(P,B,C,l);
      else
-       USub(P,B,C,l);
+      Algo::USub(P,B,C,l);
 
      Algo::URShift(P,l,1); // P : A+C+E+G
 
@@ -643,9 +613,9 @@ struct FastMulAlgo
      Algo::URShift(B,l,1); // B : B+D+F
 
      if( posE )
-       UAdd(Q,D,E,l);
+       Algo::UAdd(Q,D,E,l);
      else
-       USub(Q,D,E,l);
+       Algo::USub(Q,D,E,l);
 
      Algo::URShift(Q,l,1); // Q : A+4C+16E+64G
 
