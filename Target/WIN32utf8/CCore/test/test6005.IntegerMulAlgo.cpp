@@ -41,7 +41,7 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len  = 5'000'000 ;
-   static constexpr ulen Len1 =        32 ;
+   static constexpr ulen Len1 =       400 ;
    static constexpr ulen Len2 =       800 ;
    static constexpr ulen Len3 =      8000 ;
 
@@ -264,49 +264,16 @@ struct Base : Math::IntegerFastAlgo
 
 #endif
 
-  static constexpr ulen Toom22Min =     32 ;
-  static constexpr ulen Toom33Min =    300 ; // 170
+  static constexpr ulen Toom22Min =     30 ;
+  static constexpr ulen Toom33Min =    142 ;
+  static constexpr ulen Toom44Min =    300 ;
+
   static constexpr ulen TopMin    =  4'000 ;
 
-  static constexpr ulen Toom44Min =    800 ;
   static constexpr ulen Toom55Min = TopMin ;
   static constexpr ulen Toom66Min = TopMin ;
   static constexpr ulen Toom77Min = TopMin ;
   static constexpr ulen Toom88Min = TopMin ;
-
-  using Math::IntegerFastAlgo::UAdd;
-  using Math::IntegerFastAlgo::USub;
-  using Math::IntegerFastAlgo::ULShift;
-
-  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
-   {
-    Copy(c,a,nabc);
-
-    return UAdd(c,b,nabc);
-   }
-
-  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
-   {
-    Copy(c,a,nabc);
-
-    return USub(c,b,nabc);
-   }
-
-  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
-   {
-    Copy(c,a,nac);
-
-    Unit carry=UAdd(c,b,nb);
-
-    return UAddUnit(c+nb,nac-nb,carry);
-   }
-
-  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
-   {
-    Copy(b,a,nab);
-
-    return ULShift(b,nab,shift);
-   }
 
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {

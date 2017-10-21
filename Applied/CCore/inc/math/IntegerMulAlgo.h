@@ -215,9 +215,15 @@ struct FastMulAlgo
 
     ToomAcc(ulen n_,Unit *c_,const Unit *a) : n(n_),u(0),c(c_) { Algo::Copy(c,a,n); }
 
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,ulen m) : n(n_),u(0),c(c_) { Algo::Copy(c,a,m); Algo::Null(c+m,n-m); }
+
     ToomAcc(ulen n_,Unit *c_,unsigned shift,const Unit *a) : n(n_),c(c_) { u=Algo::ULShift(c,a,n,shift); }
 
-    ToomAcc(ulen n_,Unit *c_,const Unit *a,ulen m) : n(n_),u(0),c(c_) { Algo::Copy(c,a,m); Algo::Null(c+m,n-m); }
+
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b) : n(n_),c(c_) { u=Algo::UAdd(c,a,b,n); }
+
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b,ulen m) : n(n_),c(c_) { u=Algo::UAdd(c,a,n,b,m); }
+
 
     ToomAcc & operator () (const Unit *a)
      {
@@ -401,7 +407,7 @@ struct FastMulAlgo
     bool pos;
 
     {
-     ToomAcc(n,p,a)(a2,m)();
+     ToomAcc(n,p,a,a2,m)();
 
      p1[n]=p[n]+Algo::UAdd(p1,p,a1,n);
 
@@ -544,15 +550,15 @@ struct FastMulAlgo
     bool posC;
 
     {
-     ToomAcc(n,p,a)(a2)();
-     ToomAcc(n,p1,a1)(a3,m)();
+     ToomAcc(n,p,a,a2)();
+     ToomAcc(n,p1,a1,a3,m)();
 
      bool f=ModSub(p2,p,p1,n+1);
 
      Algo::UAdd(p,p1,n+1);
 
-     ToomAcc(n,q,b)(b2)();
-     ToomAcc(n,q1,b1)(b3,m)();
+     ToomAcc(n,q,b,b2)();
+     ToomAcc(n,q1,b1,b3,m)();
 
      posC=( f == ModSub(q2,q,q1,n+1) );
 

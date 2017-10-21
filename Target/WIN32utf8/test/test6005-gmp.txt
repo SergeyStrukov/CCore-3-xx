@@ -144,6 +144,7 @@ n = 138 24143 best/(n*log(n)*log(log(n))) = 8
 n = 139 24539 best/(n*log(n)*log(log(n))) = 8
 n = 140 24019 best/(n*log(n)*log(log(n))) = 8
 n = 141 24070 best/(n*log(n)*log(log(n))) = 8
+
 n = 142 25384 best/(n*log(n)*log(log(n))) = 8
 n = 143 24981 best/(n*log(n)*log(log(n))) = 8
 n = 144 25092 best/(n*log(n)*log(log(n))) = 8
@@ -223,6 +224,7 @@ n = 216 47240 best/(n*log(n)*log(log(n))) = 9
 n = 217 47805 best/(n*log(n)*log(log(n))) = 9
 n = 218 49343 best/(n*log(n)*log(log(n))) = 9
 n = 219 48273 best/(n*log(n)*log(log(n))) = 9
+
 n = 220 50302 best/(n*log(n)*log(log(n))) = 9
 n = 221 49090 best/(n*log(n)*log(log(n))) = 9
 n = 222 49008 best/(n*log(n)*log(log(n))) = 9
@@ -233,6 +235,7 @@ n = 226 52696 best/(n*log(n)*log(log(n))) = 10
 n = 227 52943 best/(n*log(n)*log(log(n))) = 10
 n = 228 51437 best/(n*log(n)*log(log(n))) = 9
 n = 229 52189 best/(n*log(n)*log(log(n))) = 9
+
 n = 230 52245 best/(n*log(n)*log(log(n))) = 9
 n = 231 52861 best/(n*log(n)*log(log(n))) = 9
 n = 232 53845 best/(n*log(n)*log(log(n))) = 9
@@ -263,6 +266,7 @@ n = 256 62672 best/(n*log(n)*log(log(n))) = 10
 n = 257 62852 best/(n*log(n)*log(log(n))) = 10
 n = 258 62833 best/(n*log(n)*log(log(n))) = 10
 n = 259 63246 best/(n*log(n)*log(log(n))) = 10
+
 n = 260 63531 best/(n*log(n)*log(log(n))) = 10
 n = 261 63644 best/(n*log(n)*log(log(n))) = 10
 n = 262 65511 best/(n*log(n)*log(log(n))) = 10
@@ -271,7 +275,6 @@ n = 264 65506 best/(n*log(n)*log(log(n))) = 10
 n = 265 67289 best/(n*log(n)*log(log(n))) = 10
 n = 266 65643 best/(n*log(n)*log(log(n))) = 10
 n = 267 66252 best/(n*log(n)*log(log(n))) = 10
-
 n = 268 67609 best/(n*log(n)*log(log(n))) = 10
 n = 269 67478 best/(n*log(n)*log(log(n))) = 10
 n = 270 67401 best/(n*log(n)*log(log(n))) = 10
@@ -304,6 +307,7 @@ n = 296 78840 best/(n*log(n)*log(log(n))) = 10
 n = 297 79619 best/(n*log(n)*log(log(n))) = 10
 n = 298 80101 best/(n*log(n)*log(log(n))) = 10
 n = 299 82440 best/(n*log(n)*log(log(n))) = 11
+
 n = 300 78356 best/(n*log(n)*log(log(n))) = 10
 n = 301 79463 best/(n*log(n)*log(log(n))) = 10
 n = 302 79579 best/(n*log(n)*log(log(n))) = 10

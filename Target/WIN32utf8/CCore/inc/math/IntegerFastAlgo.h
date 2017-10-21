@@ -207,6 +207,30 @@ struct IntegerFastAlgo
   static Unit UDiv3(Unit *a,ulen na) noexcept;
 
   static Unit UDiv5(Unit *a,ulen na) noexcept;
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc);
+
+  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc);
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
+   {
+    Unit carry=UAdd(c,a,b,nb);
+
+    if( nb<nac )
+      {
+       ulen top=nac-nb;
+
+       Copy(c+nb,a+nb,top);
+
+       return UAddUnit(c+nb,top,carry);
+      }
+    else
+      {
+       return carry;
+      }
+   }
+
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift);
  };
 
 } // namespace Math

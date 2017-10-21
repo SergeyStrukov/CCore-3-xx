@@ -350,6 +350,272 @@ __ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjj:           #  Unit CCore::Math::Int
 
 #-----------------------------------------------------------------------------------------
 
+        .global __ZN5CCore4Math15IntegerFastAlgo4UAddEPjPKjS4_j
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo4UAddEPjPKjS4_j:        #  Unit CCore::Math::IntegerFastAlgo::UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        pushl   %ebx
+        pushl   %esi
+        pushl   %edi
+
+        movl     8(%ebp), %edi      # c
+        movl    12(%ebp), %esi      # a
+        movl    16(%ebp), %edx      # b
+        subl        %edi, %edx
+        subl        %edi, %esi
+        movl    20(%ebp), %ecx      # nabc
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        movl    (%edi,%esi), %eax
+
+        addl    (%edi,%edx), %eax
+
+        movl    %eax,  (%edi)
+
+        leal    4(%edi), %edi
+1:
+        setc    %al
+        shrl    $1, %ecx
+        jnc     2f
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        adcl     (%edi,%edx), %eax
+        adcl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        leal    8(%edi), %edi
+        setc    %al
+2:
+        shrl    $1, %ecx
+        jnc     3f
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        adcl     (%edi,%edx), %eax
+        adcl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi,%esi), %eax
+        movl    12(%edi,%esi), %ebx
+
+        adcl     8(%edi,%edx), %eax
+        adcl    12(%edi,%edx), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        leal    16(%edi), %edi
+        setc    %al
+3:
+        testl   %ecx, %ecx
+        je      5f
+4:
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        adcl     (%edi,%edx), %eax
+        adcl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi,%esi), %eax
+        movl    12(%edi,%esi), %ebx
+
+        adcl     8(%edi,%edx), %eax
+        adcl    12(%edi,%edx), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        movl    16(%edi,%esi), %eax
+        movl    20(%edi,%esi), %ebx
+
+        adcl    16(%edi,%edx), %eax
+        adcl    20(%edi,%edx), %ebx
+
+        movl    %eax, 16(%edi)
+        movl    %ebx, 20(%edi)
+
+        movl    24(%edi,%esi), %eax
+        movl    28(%edi,%esi), %ebx
+
+        adcl    24(%edi,%edx), %eax
+        adcl    28(%edi,%edx), %ebx
+
+        movl    %eax, 24(%edi)
+        movl    %ebx, 28(%edi)
+
+        leal    32(%edi), %edi
+        setc    %al
+
+        decl    %ecx
+        jne     4b
+5:
+        shrb    $1, %al
+        sbbl    %eax, %eax
+        negl    %eax
+
+        popl    %edi
+        popl    %esi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
+        .global __ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjS4_j
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo4USubEPjPKjS4_j:        #  Unit CCore::Math::IntegerFastAlgo::USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        pushl   %ebx
+        pushl   %esi
+        pushl   %edi
+
+        movl     8(%ebp), %edi      # c
+        movl    12(%ebp), %esi      # a
+        movl    16(%ebp), %edx      # b
+        subl        %edi, %edx
+        subl        %edi, %esi
+        movl    20(%ebp), %ecx      # nabc
+
+        shrl    $1, %ecx
+        jnc     1f
+
+        movl    (%edi,%esi), %eax
+
+        subl    (%edi,%edx), %eax
+
+        movl    %eax,  (%edi)
+
+        leal    4(%edi), %edi
+1:
+        setc    %al
+        shrl    $1, %ecx
+        jnc     2f
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        sbbl     (%edi,%edx), %eax
+        sbbl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        leal    8(%edi), %edi
+        setc    %al
+2:
+        shrl    $1, %ecx
+        jnc     3f
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        sbbl     (%edi,%edx), %eax
+        sbbl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi,%esi), %eax
+        movl    12(%edi,%esi), %ebx
+
+        sbbl     8(%edi,%edx), %eax
+        sbbl    12(%edi,%edx), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        leal    16(%edi), %edi
+        setc    %al
+3:
+        testl   %ecx, %ecx
+        je      5f
+4:
+        shrb    $1, %al
+
+        movl     (%edi,%esi), %eax
+        movl    4(%edi,%esi), %ebx
+
+        sbbl     (%edi,%edx), %eax
+        sbbl    4(%edi,%edx), %ebx
+
+        movl    %eax,  (%edi)
+        movl    %ebx, 4(%edi)
+
+        movl     8(%edi,%esi), %eax
+        movl    12(%edi,%esi), %ebx
+
+        sbbl     8(%edi,%edx), %eax
+        sbbl    12(%edi,%edx), %ebx
+
+        movl    %eax,  8(%edi)
+        movl    %ebx, 12(%edi)
+
+        movl    16(%edi,%esi), %eax
+        movl    20(%edi,%esi), %ebx
+
+        sbbl    16(%edi,%edx), %eax
+        sbbl    20(%edi,%edx), %ebx
+
+        movl    %eax, 16(%edi)
+        movl    %ebx, 20(%edi)
+
+        movl    24(%edi,%esi), %eax
+        movl    28(%edi,%esi), %ebx
+
+        sbbl    24(%edi,%edx), %eax
+        sbbl    28(%edi,%edx), %ebx
+
+        movl    %eax, 24(%edi)
+        movl    %ebx, 28(%edi)
+
+        leal    32(%edi), %edi
+        setc    %al
+
+        decl    %ecx
+        jne     4b
+5:
+        shrb    $1, %al
+        sbbl    %eax, %eax
+        negl    %eax
+
+        popl    %edi
+        popl    %esi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
         .global __ZN5CCore4Math15IntegerFastAlgo7URevSubEPjPKjj
 
         .p2align 4,,15
@@ -563,6 +829,114 @@ __ZN5CCore4Math15IntegerFastAlgo7ULShiftEPjjj:          #  Unit CCore::Math::Int
         shld    %cl, %esi, %edx
         movl    %edx, %eax
 
+        popl    %esi
+        popl    %ebx
+
+        popl    %ebp
+        ret
+6:
+        xorl    %eax, %eax
+
+        popl    %ebp
+        ret
+
+#-----------------------------------------------------------------------------------------
+
+        .global __ZN5CCore4Math15IntegerFastAlgo7ULShiftEPjPKjjj
+
+        .p2align 4,,15
+
+__ZN5CCore4Math15IntegerFastAlgo7ULShiftEPjPKjjj:       #  Unit CCore::Math::IntegerFastAlgo::ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
+
+        pushl   %ebp
+        movl    %esp, %ebp
+
+        #
+        #  8(%ebp)  b
+        # 12(%ebp)  a
+        # 16(%ebp)  nab
+        # 20(%ebp)  shift
+        #
+
+        movl    16(%ebp), %edx      # nab
+
+        testl   %edx, %edx
+        je      6f
+
+        pushl   %ebx
+        pushl   %esi
+        pushl   %edi
+
+        movl     8(%ebp), %ebx      # b
+        movl    12(%ebp), %edi      # a
+        subl        %ebx, %edi
+        movl    20(%ebp), %ecx      # shift
+
+        xorl    %esi, %esi
+        shrl    $1, %edx
+        jnc     1f
+
+        movl    (%ebx,%edi), %eax
+        movl    %eax, %esi
+        shll    %cl, %eax
+        movl    %eax, (%ebx)
+
+        leal    4(%ebx), %ebx
+1:
+        testl   %edx, %edx
+        je      5f
+
+        movd    %esi, %mm0
+        psllq   $32, %mm0
+        movd    %ecx, %mm6
+        movl    $64, %eax
+        subl    %ecx, %eax
+        movd    %eax, %mm7
+
+        shrl    $1, %edx
+        jnc     2f
+
+        movq    (%ebx,%edi), %mm1
+        movq    %mm1, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm0
+        por     %mm0, %mm2
+        movq    %mm2, (%ebx)
+        movq    %mm1, %mm0
+
+        leal    8(%ebx), %ebx
+2:
+        testl   %edx, %edx
+        je      4f
+3:
+        movq     (%ebx,%edi), %mm1
+        movq    8(%ebx,%edi), %mm3
+        movq    %mm1, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm0
+        por     %mm0, %mm2
+        movq    %mm2, (%ebx)
+
+        movq    %mm3, %mm2
+        psllq   %mm6, %mm2
+        psrlq   %mm7, %mm1
+        por     %mm1, %mm2
+        movq    %mm2, 8(%ebx)
+        movq    %mm3, %mm0
+
+        leal    16(%ebx), %ebx
+
+        subl    $1, %edx
+        jne     3b
+4:
+        psrlq   $32, %mm0
+        movd    %mm0, %esi
+        emms
+5:
+        shld    %cl, %esi, %edx
+        movl    %edx, %eax
+
+        popl    %edi
         popl    %esi
         popl    %ebx
 
