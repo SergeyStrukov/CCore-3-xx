@@ -265,7 +265,7 @@ struct Base : Math::IntegerFastAlgo
 #endif
 
   static constexpr ulen Toom22Min =     30 ; // +
-  static constexpr ulen Toom33Min =    161 ; // +
+  static constexpr ulen Toom33Min =    140 ; // +
   static constexpr ulen Toom44Min =    700 ;
 
   static constexpr ulen TopMin    =  4'000 ;
@@ -297,7 +297,7 @@ bool Testit<6005>::Main()
  {
   TaskMemStack tms(64_KByte);
 
-  PrintFile out("test6005-3.txt");
+  PrintFile out("test6005.txt");
 
   //TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
 

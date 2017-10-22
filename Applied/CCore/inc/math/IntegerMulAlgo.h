@@ -377,7 +377,7 @@ struct FastMulAlgo
 
     ulen k=2*n+2;
 
-    return 2*n+2*m+4*k+Max_cast(k,UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
+    return (6*k-2)+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
   static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
@@ -395,17 +395,17 @@ struct FastMulAlgo
     const Unit *a2=a1+n;
     const Unit *b2=b1+n;
 
-    Unit *A=temp;      // 2*n
-    Unit *E=A+2*n;     // 2*m
-    Unit *B=E+2*m;     // k
-    Unit *C=B+k;       // k
-    Unit *D=C+k;       // k
-    Unit *p1=D+k;      // n+1
-    Unit *q1=p1+(n+1); // n+1
-    Unit *t=q1+(n+1);
+    Unit *A=c;          // 2*n
+    Unit *E=c+4*n;      // 2*m
 
-    Unit *p=c;         // 2*n+1
-    Unit *q=c+(2*n+1); // 2*n+1
+    Unit *B=temp;       // k
+    Unit *C=B+k;        // k
+    Unit *D=C+k;        // k
+    Unit *p=D+k;        // 2*n+1
+    Unit *q=p+(2*n+1);  // 2*n+1
+    Unit *p1=q+(2*n+1); // n+1
+    Unit *q1=p1+(n+1);  // n+1
+    Unit *t=q1+(n+1);
 
     // A , E
 
@@ -442,7 +442,7 @@ struct FastMulAlgo
      UMul(D,p,q,n+1,t);
     }
 
-    Unit *P=t; // k
+    Unit *P=p1; // k
 
     {
      // P
@@ -469,13 +469,13 @@ struct FastMulAlgo
 
      Algo::USub(D,P,k);
 
-     Algo::ULShift(c,B,k,1);
+     Algo::ULShift(p,B,k,1);
 
-     Algo::USub(D,c,k);
+     Algo::USub(D,p,k);
 
-     c[2*m]=Algo::ULShift(c,E,2*m,3);
+     p[2*m]=Algo::ULShift(p,E,2*m,3);
 
-     USub(D,k,c,2*m+1);
+     USub(D,k,p,2*m+1);
 
      Algo::UDiv3(D,k);
 
@@ -483,9 +483,6 @@ struct FastMulAlgo
 
      USub(P,k,D,n+m+1);
     }
-
-    Algo::Copy(c,A,2*n);
-    Algo::Copy(c+4*n,E,2*m);
 
     Algo::Copy(c+2*n,B,2*n);
     Algo::UAddUnit(c+4*n,2*m,B[2*n]);

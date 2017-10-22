@@ -148,9 +148,9 @@ n = 136 23782 best/(n*log(n)*log(log(n))) = 8
 n = 137 24088 best/(n*log(n)*log(log(n))) = 8
 n = 138 24143 best/(n*log(n)*log(log(n))) = 8
 n = 139 24539 best/(n*log(n)*log(log(n))) = 8
+
 n = 140 24019 best/(n*log(n)*log(log(n))) = 8
 n = 141 24070 best/(n*log(n)*log(log(n))) = 8
-
 n = 142 25384 best/(n*log(n)*log(log(n))) = 8
 n = 143 24981 best/(n*log(n)*log(log(n))) = 8
 n = 144 25092 best/(n*log(n)*log(log(n))) = 8
@@ -159,6 +159,7 @@ n = 146 26370 best/(n*log(n)*log(log(n))) = 8
 n = 147 26390 best/(n*log(n)*log(log(n))) = 8
 n = 148 27095 best/(n*log(n)*log(log(n))) = 8
 n = 149 26860 best/(n*log(n)*log(log(n))) = 8
+
 n = 150 27580 best/(n*log(n)*log(log(n))) = 8
 n = 151 28120 best/(n*log(n)*log(log(n))) = 9
 n = 152 27389 best/(n*log(n)*log(log(n))) = 8
@@ -180,6 +181,7 @@ n = 166 32327 best/(n*log(n)*log(log(n))) = 9
 n = 167 33410 best/(n*log(n)*log(log(n))) = 9
 n = 168 33535 best/(n*log(n)*log(log(n))) = 9
 n = 169 32659 best/(n*log(n)*log(log(n))) = 9
+
 n = 170 32948 best/(n*log(n)*log(log(n))) = 9
 n = 171 33775 best/(n*log(n)*log(log(n))) = 9
 n = 172 34380 best/(n*log(n)*log(log(n))) = 9
@@ -615,8 +617,8 @@ n = 596 203932 best/(n*log(n)*log(log(n))) = 11
 n = 597 204187 best/(n*log(n)*log(log(n))) = 11
 n = 598 204081 best/(n*log(n)*log(log(n))) = 11
 n = 599 204230 best/(n*log(n)*log(log(n))) = 11
-n = 600 204201 best/(n*log(n)*log(log(n))) = 11
 
+n = 600 204201 best/(n*log(n)*log(log(n))) = 11
 n = 601 212206 best/(n*log(n)*log(log(n))) = 11
 n = 602 212488 best/(n*log(n)*log(log(n))) = 11
 n = 603 212393 best/(n*log(n)*log(log(n))) = 11
