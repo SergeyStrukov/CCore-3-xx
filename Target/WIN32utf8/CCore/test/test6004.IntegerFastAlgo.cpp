@@ -141,7 +141,7 @@ class TestEngine : TestIntBase
 
    void test2()
     {
-     fill_a(1);
+     fill_a();
 
      Algo::Copy(b,a,na);
 
@@ -157,6 +157,69 @@ class TestEngine : TestIntBase
        {
         Printf(Exception,"UDiv3 failed");
        }
+    }
+
+   void test3()
+    {
+     fill_a();
+
+     Algo::Copy(b,a,na);
+
+     Unit m=Algo::UDiv5(a,na);
+
+     Unit d[1]={5};
+
+     Algo::UMul(c,a,na,d,1);
+
+     Unit u=Algo::UAddUnit(c,na+1,m);
+
+     if( u || c[na] || Algo::UCmp(c,b,na) )
+       {
+        Printf(Exception,"UDiv5 failed");
+       }
+    }
+
+   void test4()
+    {
+     fill_a();
+     fill_b(na);
+     fill_c(na);
+
+     Unit u=Algo::UAdd(c,a,b,na);
+
+     Algo::Copy(d,a,na);
+     Unit u1=Alt::UAdd(d,b,na);
+
+     guard(u,u1,"UAdd");
+    }
+
+   void test5()
+    {
+     fill_a();
+     fill_b(na);
+     fill_c(na);
+
+     Unit u=Algo::USub(c,a,b,na);
+
+     Algo::Copy(d,a,na);
+     Unit u1=Alt::USub(d,b,na);
+
+     guard(u,u1,"USub");
+    }
+
+   void test6()
+    {
+     fill_a();
+     fill_c(na);
+
+     unsigned shift=select(1,Algo::UnitBits-1);
+
+     Unit u=Algo::ULShift(c,a,na,shift);
+
+     Algo::Copy(d,a,na);
+     Unit u1=Alt::ULShift(d,na,shift);
+
+     guard(u,u1,"ULShift");
     }
 
   public:
@@ -178,6 +241,10 @@ class TestEngine : TestIntBase
        {
         test1();
         test2();
+        test3();
+        test4();
+        test5();
+        test6();
        }
     }
  };

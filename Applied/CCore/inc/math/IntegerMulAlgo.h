@@ -45,7 +45,7 @@ struct FastMulAlgo
 
   class Temp : NoCopy
    {
-     static constexpr ulen Len = 8 ; // TODO 256
+     static constexpr ulen Len = 256 ;
 
      Unit buf[Len];
      Unit *ptr;
@@ -224,6 +224,16 @@ struct FastMulAlgo
 
     ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b,ulen m) : n(n_),c(c_) { u=Algo::UAdd(c,a,n,b,m); }
 
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,unsigned shift,const Unit *b)
+     : n(n_),c(c_)
+     {
+      Unit *d=c+n+1;
+
+      u=Algo::ULShift(d,b,n,shift);
+
+      u+=Algo::UAdd(c,a,d,n);
+     }
+
 
     ToomAcc & operator () (const Unit *a)
      {
@@ -385,17 +395,17 @@ struct FastMulAlgo
     const Unit *a2=a1+n;
     const Unit *b2=b1+n;
 
-    Unit *A=temp;
-    Unit *E=A+2*n;
-    Unit *B=E+2*m;
-    Unit *C=B+k;
-    Unit *D=C+k;
-    Unit *p1=D+k;
-    Unit *q1=p1+(n+1);
+    Unit *A=temp;      // 2*n
+    Unit *E=A+2*n;     // 2*m
+    Unit *B=E+2*m;     // k
+    Unit *C=B+k;       // k
+    Unit *D=C+k;       // k
+    Unit *p1=D+k;      // n+1
+    Unit *q1=p1+(n+1); // n+1
     Unit *t=q1+(n+1);
 
-    Unit *p=c;
-    Unit *q=c+(2*n+1);
+    Unit *p=c;         // 2*n+1
+    Unit *q=c+(2*n+1); // 2*n+1
 
     // A , E
 
@@ -413,7 +423,7 @@ struct FastMulAlgo
 
      bool fa=ModSub1(p,a1,n+1);
 
-     ToomAcc(n,q,b)(b2,m)();
+     ToomAcc(n,q,b,b2,m)();
 
      q1[n]=q[n]+Algo::UAdd(q1,q,b1,n);
 
@@ -426,8 +436,8 @@ struct FastMulAlgo
     // D
 
     {
-     ToomAcc(n,p,a)(1,a1)(2,a2,m)();
-     ToomAcc(n,q,b)(1,b1)(2,b2,m)();
+     ToomAcc(n,p,a,1,a1)(2,a2,m)();
+     ToomAcc(n,q,b,1,b1)(2,b2,m)();
 
      UMul(D,p,q,n+1,t);
     }

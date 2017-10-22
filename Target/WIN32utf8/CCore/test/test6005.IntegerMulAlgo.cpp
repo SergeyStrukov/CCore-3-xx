@@ -41,7 +41,7 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len  = 5'000'000 ;
-   static constexpr ulen Len1 =       400 ;
+   static constexpr ulen Len1 =       600 ;
    static constexpr ulen Len2 =       800 ;
    static constexpr ulen Len3 =      8000 ;
 
@@ -264,9 +264,9 @@ struct Base : Math::IntegerFastAlgo
 
 #endif
 
-  static constexpr ulen Toom22Min =     30 ;
-  static constexpr ulen Toom33Min =    142 ;
-  static constexpr ulen Toom44Min =    300 ;
+  static constexpr ulen Toom22Min =     30 ; // +
+  static constexpr ulen Toom33Min =    161 ; // +
+  static constexpr ulen Toom44Min =    700 ;
 
   static constexpr ulen TopMin    =  4'000 ;
 
@@ -297,7 +297,7 @@ bool Testit<6005>::Main()
  {
   TaskMemStack tms(64_KByte);
 
-  PrintFile out("test6005.txt");
+  PrintFile out("test6005-3.txt");
 
   //TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
 

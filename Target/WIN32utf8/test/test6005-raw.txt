@@ -33,6 +33,7 @@ n = 28 1748 best/(n*log(n)*log(log(n))) = 5
 n = 29 1912 best/(n*log(n)*log(log(n))) = 5
 n = 30 1999 best/(n*log(n)*log(log(n))) = 5
 n = 31 2268 best/(n*log(n)*log(log(n))) = 6
+
 n = 32 2372 best/(n*log(n)*log(log(n))) = 6
 n = 33 2544 best/(n*log(n)*log(log(n))) = 6
 n = 34 2665 best/(n*log(n)*log(log(n))) = 6
