@@ -37,10 +37,32 @@ struct BaseAlgo : Math::IntegerFastAlgo
  {
   static constexpr unsigned LogUnitBits = Log(UnitBits) ;
 
+  class Work
+   {
+     PtrLen<Unit> space;
+
+    public:
+
+     Work(PtrLen<Unit> space_) : space(space_) {}
+
+     operator Unit * () const { return space.ptr; }
+
+     Unit * operator () (ulen len)
+      {
+       GuardLen(len,space.len);
+
+       auto buf = (space+=len) ;
+
+       return buf.ptr;
+      }
+   };
+
   static ulen UMulTempLen(ulen) { return 0; }
 
-  static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *) // nc==2*nab
+  static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Work temp) // nc==2*nab
    {
+    Used(temp);
+
     Math::IntegerFastAlgo::UMul(c,a,nab,b,nab);
    }
  };
@@ -53,7 +75,7 @@ struct Algo : Math::FFTMul<BaseAlgo>
    {
     StackArray<Unit> buf(UMulTempLen(nab));
 
-    Math::FFTMul<BaseAlgo>::UMul(c,a,b,nab,buf.getPtr());
+    Math::FFTMul<BaseAlgo>::UMul(c,a,b,nab,Range(buf));
    }
  };
 

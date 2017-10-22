@@ -26,11 +26,11 @@ namespace Math {
 
 /* classes */
 
-template <class Algo> struct FastMulAlgo;
+template <class Algo,bool UseSafeWork=false> struct FastMulAlgo;
 
-/* struct FastMulAlgo<Algo> */
+/* struct FastMulAlgo<Algo,bool UseSafeWork> */
 
-template <class Algo>
+template <class Algo,bool UseSafeWork>
 struct FastMulAlgo
  {
   // types and consts
@@ -43,24 +43,64 @@ struct FastMulAlgo
 
   // memory
 
+  class SafeWork
+   {
+     PtrLen<Unit> space;
+
+    public:
+
+     SafeWork(Unit *ptr,ulen len) : space(ptr,len) {}
+
+     operator Unit * () const { return space.ptr; }
+
+     Unit * operator () (ulen len)
+      {
+       GuardLen(len,space.len);
+
+       auto buf = (space+=len) ;
+
+       return buf.ptr;
+      }
+   };
+
+  class UnsafeWork
+   {
+     Unit *space;
+
+    public:
+
+     UnsafeWork(Unit *ptr,ulen /* len */) : space(ptr) {}
+
+     operator Unit * () const { return space; }
+
+     Unit * operator () (ulen len)
+      {
+       return Replace_add(space,len);
+      }
+   };
+
+  using Work = Meta::Select<UseSafeWork,SafeWork,UnsafeWork> ;
+
   class Temp : NoCopy
    {
      static constexpr ulen Len = 256 ;
 
      Unit buf[Len];
      Unit *ptr;
+     ulen len;
 
     public:
 
-     explicit Temp(ulen len)
+     explicit Temp(ulen len_)
+      : len(len_)
       {
-       if( len<=Len )
+       if( len_<=Len )
          {
           ptr=buf;
          }
        else
          {
-          ptr=static_cast<Unit *>(TaskMemStackAlloc(LenOf(len,sizeof (Unit))));
+          ptr=static_cast<Unit *>(TaskMemStackAlloc(LenOf(len_,sizeof (Unit))));
          }
       }
 
@@ -69,9 +109,7 @@ struct FastMulAlgo
        if( ptr!=buf ) TaskMemStackFree(ptr);
       }
 
-     Unit * operator + () { return ptr; }
-
-     operator Unit * () { return ptr; }
+     operator Work() { return Work(ptr,len); }
    };
 
   // aux functions
@@ -290,20 +328,20 @@ struct FastMulAlgo
 
   static ulen Toom22MulTempLen(ulen nab)
    {
-    ulen n1=nab/2;
-    ulen n0=nab-n1;
+    ulen m=nab/2;
+    ulen n=nab-m;
 
-    if( n0==n1 || n0<Algo::Toom33Min )
+    if( n==m || n<Algo::Toom33Min )
       {
-       return UMulTempLen(n0)+4*n0;
+       return UMulTempLen(n)+4*n;
       }
     else
       {
-       return Max_cast(UMulTempLen(n1),UMulTempLen(n0)+4*n0);
+       return Max_cast(UMulTempLen(m),UMulTempLen(n)+4*n);
       }
    }
 
-  static void Toom22Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+  static void Toom22Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
    {
     // inf, 0, -1
 
@@ -318,43 +356,51 @@ struct FastMulAlgo
 
     if( n==m )
       {
-       bool neg = ( ModSub(temp,a,a1,n) == ModSub(temp+n,b,b1,n) );
+       Unit *p=temp(n);
+       Unit *q=temp(n);
+       Unit *P=temp(nab);
 
-       UMul(temp+nab,temp,temp+n,n,temp+2*nab);
+       bool neg = ( ModSub(p,a,a1,n) == ModSub(q,b,b1,n) );
 
-       Unit carry=Algo::UAdd(temp,c,c+nab,nab);
+       UMul(P,p,q,n,temp);
+
+       Unit carry=Algo::UAdd(p,c,c+nab,nab);
 
        if( neg )
          {
-          carry-=Algo::USub(temp,temp+nab,nab);
+          carry-=Algo::USub(p,P,nab);
          }
        else
          {
-          carry+=Algo::UAdd(temp,temp+nab,nab);
+          carry+=Algo::UAdd(p,P,nab);
          }
 
-       carry+=Algo::UAdd(c+n,temp,nab);
+       carry+=Algo::UAdd(c+n,p,nab);
 
        Algo::UAddUnit(c+nab+n,n,carry);
       }
     else
       {
-       bool neg = ( ModSub1(temp,a,a1,n) == ModSub1(temp+n,b,b1,n) );
+       Unit *p=temp(n);
+       Unit *q=temp(n);
+       Unit *P=temp(2*n);
 
-       UMul(temp+2*n,temp,temp+n,n,temp+4*n);
+       bool neg = ( ModSub1(p,a,a1,n) == ModSub1(q,b,b1,n) );
 
-       Algo::UAdd(temp,c,2*n,c+2*n,2*m);
+       UMul(P,p,q,n,temp);
+
+       Algo::UAdd(p,c,2*n,c+2*n,2*m);
 
        if( neg )
          {
-          Algo::USub(temp,temp+2*n,2*n);
+          Algo::USub(p,P,2*n);
          }
        else
          {
-          Algo::UAdd(temp,temp+2*n,2*n);
+          Algo::UAdd(p,P,2*n);
          }
 
-       Unit carry=Algo::UAdd(c+n,temp,2*n);
+       Unit carry=Algo::UAdd(c+n,p,2*n);
 
        Algo::UAddUnit(c+3*n,n-2,carry);
       }
@@ -380,7 +426,7 @@ struct FastMulAlgo
     return (6*k-2)+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
    {
     // inf, 0, +1, -1, +2
 
@@ -388,6 +434,7 @@ struct FastMulAlgo
     ulen m=nab-2*n;
 
     ulen k=2*n+2;
+    ulen l=k-1;
 
     const Unit *a1=a+n;
     const Unit *b1=b+n;
@@ -398,19 +445,18 @@ struct FastMulAlgo
     Unit *A=c;          // 2*n
     Unit *E=c+4*n;      // 2*m
 
-    Unit *B=temp;       // k
-    Unit *C=B+k;        // k
-    Unit *D=C+k;        // k
-    Unit *p=D+k;        // 2*n+1
-    Unit *q=p+(2*n+1);  // 2*n+1
-    Unit *p1=q+(2*n+1); // n+1
-    Unit *q1=p1+(n+1);  // n+1
-    Unit *t=q1+(n+1);
+    Unit *B=temp(k);
+    Unit *C=temp(k);
+    Unit *D=temp(k);
+    Unit *p=temp(l);
+    Unit *q=temp(l);
+    Unit *p1=temp(n+1);
+    Unit *q1=temp(n+1);
 
     // A , E
 
-    UMul(A,a,b,n,t);
-    UMul(E,a2,b2,m,t);
+    UMul(A,a,b,n,temp);
+    UMul(E,a2,b2,m,temp);
 
     // B , C
 
@@ -429,8 +475,8 @@ struct FastMulAlgo
 
      pos = ( fa == ModSub1(q,b1,n+1) );
 
-     UMul(C,p,q,n+1,t);
-     UMul(B,p1,q1,n+1,t);
+     UMul(C,p,q,n+1,temp);
+     UMul(B,p1,q1,n+1,temp);
     }
 
     // D
@@ -439,7 +485,7 @@ struct FastMulAlgo
      ToomAcc(n,p,a,1,a1)(2,a2,m)();
      ToomAcc(n,q,b,1,b1)(2,b2,m)();
 
-     UMul(D,p,q,n+1,t);
+     UMul(D,p,q,n+1,temp);
     }
 
     Unit *P=p1; // k
@@ -487,7 +533,7 @@ struct FastMulAlgo
     Algo::Copy(c+2*n,B,2*n);
     Algo::UAddUnit(c+4*n,2*m,B[2*n]);
 
-    UAdd(c+n,2*nab-n,P,k-1);
+    UAdd(c+n,2*nab-n,P,l);
     UAdd(c+3*n,2*nab-3*n,D,n+m+1);
    }
 
@@ -511,7 +557,7 @@ struct FastMulAlgo
     return 2*n+2*m+(7*k-1)+Max_cast(k,UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
    {
     // inf, 0, +1, -1, +2, -2, +1/2
 
@@ -529,17 +575,16 @@ struct FastMulAlgo
     const Unit *b2=b1+n;
     const Unit *b3=b2+n;
 
-    Unit *A=temp;
-    Unit *B=A+(2*n);
-    Unit *C=B+k;
-    Unit *D=C+k;
-    Unit *E=D+k;
-    Unit *F=E+k;
-    Unit *G=F+k;
-    Unit *q1=G+(2*m);
-    Unit *p2=q1+l;
-    Unit *q2=p2+(n+1);
-    Unit *t=q2+(n+1);
+    Unit *A=temp(2*n);
+    Unit *B=temp(k);
+    Unit *C=temp(k);
+    Unit *D=temp(k);
+    Unit *E=temp(k);
+    Unit *F=temp(k);
+    Unit *G=temp(2*m);
+    Unit *q1=temp(l);
+    Unit *p2=temp(n+1);
+    Unit *q2=temp(n+1);
 
     Unit *p=c;
     Unit *q=c+l;
@@ -548,8 +593,8 @@ struct FastMulAlgo
     // A , G
 
     {
-     UMul(A,a,b,n,t);
-     UMul(G,a3,b3,m,t);
+     UMul(A,a,b,n,temp);
+     UMul(G,a3,b3,m,temp);
     }
 
     // B , C
@@ -571,8 +616,8 @@ struct FastMulAlgo
 
      Algo::UAdd(q,q1,n+1);
 
-     UMul(C,p2,q2,n+1,t);
-     UMul(B,p,q,n+1,t);
+     UMul(C,p2,q2,n+1,temp);
+     UMul(B,p,q,n+1,temp);
     }
 
     // D , E
@@ -594,8 +639,8 @@ struct FastMulAlgo
 
      Algo::UAdd(q,q1,n+1);
 
-     UMul(E,p2,q2,n+1,t);
-     UMul(D,p,q,n+1,t);
+     UMul(E,p2,q2,n+1,temp);
+     UMul(D,p,q,n+1,temp);
     }
 
     // F
@@ -604,7 +649,7 @@ struct FastMulAlgo
      ToomAcc(n,p,a3,m)(1,a2)(2,a1)(3,a)();
      ToomAcc(n,q,b3,m)(1,b2)(2,b1)(3,b)();
 
-     UMul(F,p,q,n+1,t);
+     UMul(F,p,q,n+1,temp);
     }
 
     Unit *P=q1;
@@ -725,7 +770,7 @@ struct FastMulAlgo
     return 0;
    }
 
-  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // TODO
+  static void Toom55Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) // TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4
 
@@ -753,7 +798,7 @@ struct FastMulAlgo
     return 0;
    }
 
-  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // TODO
+  static void Toom66Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) // TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4
 
@@ -781,7 +826,7 @@ struct FastMulAlgo
     return 0;
    }
 
-  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // TODO
+  static void Toom77Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) // TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4, -1/4, +8
 
@@ -809,7 +854,7 @@ struct FastMulAlgo
     return 0;
    }
 
-  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // TODO
+  static void Toom88Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) // TODO
    {
     // inf, 0, +1, -1, +2, -2, +1/2, -1/2, +4, -4, +1/4, -1/4, +8, -8, +1/8
 
@@ -831,12 +876,14 @@ struct FastMulAlgo
 
   struct FFTAlgo : Algo
    {
+    using Work = typename FastMulAlgo::Work ;
+
     static ulen UMulTempLen(ulen nab)
      {
       return FastMulAlgo::UMulTempLen(nab);
      }
 
-    static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+    static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
      {
       FastMulAlgo::UMul(c,a,b,nab,temp);
      }
@@ -847,7 +894,7 @@ struct FastMulAlgo
     return FFTMul<FFTAlgo>::UMulTempLen(nab);
    }
 
-  static void TopMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nab >= 8
+  static void TopMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) // nab >= 8
    {
     return FFTMul<FFTAlgo>::UMul(c,a,b,nab,temp);
    }
@@ -919,7 +966,7 @@ struct FastMulAlgo
       }
    }
 
-  static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Unit *temp)
+  static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
    {
     if( nab<Algo::Toom22Min )
       {
@@ -1009,7 +1056,7 @@ struct FastMulAlgo
     return 0;
    }
 
-  static void UMul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb,Unit *temp) // na > nb > 0 TODO
+  static void UMul(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb,Work temp) // na > nb > 0 TODO
    {
     Used(c);
     Used(a);
@@ -1045,7 +1092,7 @@ struct FastMulAlgo
     return LenAdd(UMulTempLen(na,nb),nc);
    }
 
-  static Unit/* c */ UMac(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb,Unit *temp) // na >= nb > 0
+  static Unit/* c */ UMac(Unit *restrict c,const Unit *a,ulen na,const Unit *b,ulen nb,Work temp) // na >= nb > 0
    {
     ulen nc=na+nb;
     Unit *d=temp;

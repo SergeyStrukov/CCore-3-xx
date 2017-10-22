@@ -40,6 +40,8 @@ struct FFTMul
 
   static_assert( (1u<<LogUnitBits)==UnitBits ,"CCore::Math::FFTMul<Algo> : bad UnitBits OR LogUnitBits");
 
+  using Work = typename Algo::Work ;
+
   // Unit functions
 
   static Unit Bit(unsigned s) { return Unit(1)<<s; }
@@ -287,17 +289,16 @@ struct FFTMul
    }
 
 
-  static void ModMul(ulen N,ulen T,Unit *A,const Unit *B,Unit *temp)
+  static void ModMul(ulen N,ulen T,Unit *A,const Unit *B,Work temp)
    {
-    Unit *P=temp;
-    Unit *t=P+2*T;
+    Unit *P=temp(2*T);
 
-    Algo::UMul(P,A,B,T,t);
+    Algo::UMul(P,A,B,T,temp);
 
     Mod(N,T,A,P);
    }
 
-  static void ModLShift(ulen N,ulen T,Unit *A,ulen s,Unit *temp) // s<N
+  static void ModLShift(ulen N,ulen T,Unit *A,ulen s,Work temp) // s<N
    {
     if( s==0 ) return;
 
@@ -326,7 +327,7 @@ struct FFTMul
     Mod(N,T,A,P);
    }
 
-  static void ModRShift(ulen N,ulen T,Unit *A,ulen s,Unit *temp) // s<N
+  static void ModRShift(ulen N,ulen T,Unit *A,ulen s,Work temp) // s<N
    {
     if( s==0 ) return;
 
@@ -350,7 +351,7 @@ struct FFTMul
    }
 
 
-  static void AddSubMul(ulen N,ulen T,Unit *A,Unit *B,ulen s,Unit *temp) // A <- (A-B)*(2^s) , B <- A+B , s<N
+  static void AddSubMul(ulen N,ulen T,Unit *A,Unit *B,ulen s,Work temp) // A <- (A-B)*(2^s) , B <- A+B , s<N
    {
     Algo::Copy(temp,B,T);
 
@@ -360,7 +361,7 @@ struct FFTMul
     ModLShift(N,T,A,s,temp);
    }
 
-  static void InvAddSubMul(ulen N,ulen T,Unit *A,Unit *B,ulen s,Unit *temp)
+  static void InvAddSubMul(ulen N,ulen T,Unit *A,Unit *B,ulen s,Work temp)
    {
     ModRShift(N,T,A,s,temp);
 
@@ -370,14 +371,14 @@ struct FFTMul
     ModAdd(N,T,A,temp);
    }
 
-  static void DivNorm(ulen N,ulen T,Unit *A,ulen s,Unit *temp) // s<N
+  static void DivNorm(ulen N,ulen T,Unit *A,ulen s,Work temp) // s<N
    {
     ModRShift(N,T,A,s,temp);
 
     Norm(N,T,A);
    }
 
-  static void DirectFFT(ulen N,ulen T,Unit *A,Unit *temp) // A half filled
+  static void DirectFFT(ulen N,ulen T,Unit *A,Work temp) // A half filled
    {
     Unit *Lim=A+2*N*T;
     ulen ds=1;
@@ -406,7 +407,7 @@ struct FFTMul
       }
    }
 
-  static void InverseFFT(ulen N,ulen T,Unit *A,Unit *temp)
+  static void InverseFFT(ulen N,ulen T,Unit *A,Work temp)
    {
     Unit *Lim=A+2*N*T;
     ulen ds=N;
@@ -519,26 +520,25 @@ struct FFTMul
    //
 
   static void InternalUMul(unsigned d,ulen N,ulen K,
-                           Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nc==2*nab
+                           Unit *c,const Unit *a,const Unit *b,ulen nab,Work temp) // nc==2*nab
    {
     ulen T=GetT(N);
     ulen L=2*N*T;
 
-    Unit *A=temp;
-    Unit *B=A+L;
-    Unit *t=B+L;
+    Unit *A=temp(L);
+    Unit *B=temp(L);
 
     Fill(N,K,T,A,a,nab);
     Fill(N,K,T,B,b,nab);
 
-    DirectFFT(N,T,A,t);
-    DirectFFT(N,T,B,t);
+    DirectFFT(N,T,A,temp);
+    DirectFFT(N,T,B,temp);
 
-    for(ulen off=0; off<L ;off+=T) ModMul(N,T,A+off,B+off,t);
+    for(ulen off=0; off<L ;off+=T) ModMul(N,T,A+off,B+off,temp);
 
-    InverseFFT(N,T,A,t);
+    InverseFFT(N,T,A,temp);
 
-    for(ulen off=0; off<L ;off+=T) DivNorm(N,T,A+off,d+1,t);
+    for(ulen off=0; off<L ;off+=T) DivNorm(N,T,A+off,d+1,temp);
 
     Sum(N,K,T,c,2*nab,A);
    }
@@ -584,7 +584,7 @@ struct FFTMul
     return InternalUMulTempLen(N);
    }
 
-  static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Unit *temp) // nc==2*nab
+  static void UMul(Unit *c,const Unit *a,const Unit *b,ulen nab,Work temp) // nc==2*nab
    {
     unsigned d=FindD(nab);
     ulen N=ulen(1)<<d;

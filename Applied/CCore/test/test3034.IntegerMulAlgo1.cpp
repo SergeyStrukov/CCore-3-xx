@@ -147,7 +147,7 @@ struct Base : Alt
    }
  };
 
-using Algo = Math::FastMulAlgo<Base> ;
+using Algo = Math::FastMulAlgo<Base,true> ;
 
 /* class TestEngine<Algo,Alt> */
 
@@ -174,6 +174,20 @@ class TestEngine : TestIntBase
 
   private:
 
+   void fill_a(ulen n)
+    {
+     na=n;
+
+     fill(Range(a,na));
+    }
+
+   void fill_b(ulen n)
+    {
+     nb=n;
+
+     fill(Range(b,nb));
+    }
+
    void fill_c(ulen n)
     {
      nc=n;
@@ -183,26 +197,17 @@ class TestEngine : TestIntBase
      Range(c,nc+GLen).copyTo(d);
     }
 
-   void fill_abn()
+   void fill_abn(ulen n)
     {
-     na=select(0,Len);
-     nb=na;
-
-     fill(Range(a,na));
-     fill(Range(b,nb));
+     fill_a(n);
+     fill_b(n);
 
      fill_c(na+nb);
     }
 
-   void fill_abn(ulen n)
+   void fill_abn()
     {
-     na=n;
-     nb=na;
-
-     fill(Range(a,na));
-     fill(Range(b,nb));
-
-     fill_c(na+nb);
+     fill_abn(select(0,Len));
     }
 
    void guard(const char *msg)
@@ -219,7 +224,7 @@ class TestEngine : TestIntBase
      Algo::UMul(c,a,b,na);
      Alt::UMul(d,a,na,b,nb);
 
-     guard("Algo::UMul");
+     guard("UMul");
     }
 
   public:
