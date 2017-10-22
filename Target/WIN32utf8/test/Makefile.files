@@ -167,6 +167,8 @@ OBJ_LIST = \
 ../.test-obj/test6003.Char.o \
 ../.test-obj/test6004.IntegerFastAlgo.o \
 ../.test-obj/test6005.IntegerMulAlgo.o \
+../.test-obj/test6006.IntelRandom.o \
+../.test-obj/test6007.IntelAES.o \
 ../.test-obj/testArray.o \
 ../.test-obj/testInt.o \
 ../.test-obj/testIntAlgo.o \
@@ -346,6 +348,8 @@ ASM_LIST = \
 ../.test-obj/test6003.Char.s \
 ../.test-obj/test6004.IntegerFastAlgo.s \
 ../.test-obj/test6005.IntegerMulAlgo.s \
+../.test-obj/test6006.IntelRandom.s \
+../.test-obj/test6007.IntelAES.s \
 ../.test-obj/testArray.s \
 ../.test-obj/testInt.s \
 ../.test-obj/testIntAlgo.s \
@@ -525,6 +529,8 @@ DEP_LIST = \
 ../.test-obj/test6003.Char.dep \
 ../.test-obj/test6004.IntegerFastAlgo.dep \
 ../.test-obj/test6005.IntegerMulAlgo.dep \
+../.test-obj/test6006.IntelRandom.dep \
+../.test-obj/test6007.IntelAES.dep \
 ../.test-obj/testArray.dep \
 ../.test-obj/testInt.dep \
 ../.test-obj/testIntAlgo.dep \
@@ -1043,6 +1049,12 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test6005.IntegerMulAlgo.o : ../../../Target/WIN32utf8/CCore/test/./test6005.IntegerMulAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test6006.IntelRandom.o : ../../../Target/WIN32utf8/CCore/test/./test6006.IntelRandom.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test6007.IntelAES.o : ../../../Target/WIN32utf8/CCore/test/./test6007.IntelAES.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/testArray.o : ../../../Fundamental/CCore/test/./testArray.cpp
@@ -1575,6 +1587,12 @@ include $(RULES_FILE)
 ../.test-obj/test6005.IntegerMulAlgo.s : ../../../Target/WIN32utf8/CCore/test/./test6005.IntegerMulAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test6006.IntelRandom.s : ../../../Target/WIN32utf8/CCore/test/./test6006.IntelRandom.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/test6007.IntelAES.s : ../../../Target/WIN32utf8/CCore/test/./test6007.IntelAES.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/testArray.s : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2104,6 +2122,12 @@ include $(RULES_FILE)
 
 ../.test-obj/test6005.IntegerMulAlgo.dep : ../../../Target/WIN32utf8/CCore/test/./test6005.IntegerMulAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6005.IntegerMulAlgo.o $< -MF $@
+
+../.test-obj/test6006.IntelRandom.dep : ../../../Target/WIN32utf8/CCore/test/./test6006.IntelRandom.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6006.IntelRandom.o $< -MF $@
+
+../.test-obj/test6007.IntelAES.dep : ../../../Target/WIN32utf8/CCore/test/./test6007.IntelAES.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6007.IntelAES.o $< -MF $@
 
 ../.test-obj/testArray.dep : ../../../Fundamental/CCore/test/./testArray.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/testArray.o $< -MF $@

@@ -160,6 +160,9 @@ OBJ_LIST = \
 .obj/IntegerMulAlgo.o \
 .obj/IntegerOctetBuilder.o \
 .obj/IntegerSlowAlgo.o \
+.obj/IntelAES.o \
+.obj/IntelCPUID.o \
+.obj/IntelRandom.o \
 .obj/InterfaceHost.o \
 .obj/InternalDesktop.o \
 .obj/InternalHost.o \
@@ -596,6 +599,9 @@ ASM_LIST = \
 .obj/IntegerMulAlgo.s \
 .obj/IntegerOctetBuilder.s \
 .obj/IntegerSlowAlgo.s \
+.obj/IntelAES.s \
+.obj/IntelCPUID.s \
+.obj/IntelRandom.s \
 .obj/InterfaceHost.s \
 .obj/InternalDesktop.s \
 .obj/InternalHost.s \
@@ -1032,6 +1038,9 @@ DEP_LIST = \
 .obj/IntegerMulAlgo.dep \
 .obj/IntegerOctetBuilder.dep \
 .obj/IntegerSlowAlgo.dep \
+.obj/IntelAES.dep \
+.obj/IntelCPUID.dep \
+.obj/IntelRandom.dep \
 .obj/InterfaceHost.dep \
 .obj/InternalDesktop.dep \
 .obj/InternalHost.dep \
@@ -1308,6 +1317,9 @@ DEP_LIST = \
 
 ASM_OBJ_LIST = \
 .obj/IntegerFastAlgo.s.o \
+.obj/IntelAES.s.o \
+.obj/IntelCPUID.s.o \
+.obj/IntelRandom.s.o \
 .obj/PlatformBase.s.o \
 .obj/Quick.s.o \
 .obj/SysAtomic.s.o \
@@ -1798,6 +1810,15 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/IntegerSlowAlgo.o : ../../Applied/CCore/src/./math/IntegerSlowAlgo.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntelAES.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntelCPUID.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntelRandom.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/InterfaceHost.o : ../../Fundamental/CCore/src/./InterfaceHost.cpp
@@ -3101,6 +3122,15 @@ include $(RULES_FILE)
 .obj/IntegerSlowAlgo.s : ../../Applied/CCore/src/./math/IntegerSlowAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/IntelAES.s : ../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/IntelCPUID.s : ../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/IntelRandom.s : ../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/InterfaceHost.s : ../../Fundamental/CCore/src/./InterfaceHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4402,6 +4432,15 @@ include $(RULES_FILE)
 .obj/IntegerSlowAlgo.dep : ../../Applied/CCore/src/./math/IntegerSlowAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/IntegerSlowAlgo.o $< -MF $@
 
+.obj/IntelAES.dep : ../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntelAES.o $< -MF $@
+
+.obj/IntelCPUID.dep : ../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntelCPUID.o $< -MF $@
+
+.obj/IntelRandom.dep : ../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntelRandom.o $< -MF $@
+
 .obj/InterfaceHost.dep : ../../Fundamental/CCore/src/./InterfaceHost.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InterfaceHost.o $< -MF $@
 
@@ -5221,6 +5260,15 @@ include $(RULES_FILE)
 
 
 .obj/IntegerFastAlgo.s.o : ../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.s
+	$(AS) $(ASOPT) $< -o $@
+
+.obj/IntelAES.s.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.s
+	$(AS) $(ASOPT) $< -o $@
+
+.obj/IntelCPUID.s.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.s
+	$(AS) $(ASOPT) $< -o $@
+
+.obj/IntelRandom.s.o : ../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.s
 	$(AS) $(ASOPT) $< -o $@
 
 .obj/PlatformBase.s.o : ../../Target/WIN32utf8/CCore/src/./base/PlatformBase.s
