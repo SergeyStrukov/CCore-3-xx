@@ -248,59 +248,65 @@ struct FastMulAlgo
   struct ToomAcc
    {
     ulen n;
-    Unit u;
     Unit *c; // 2*n+1
 
-    ToomAcc(ulen n_,Unit *c_,const Unit *a) : n(n_),u(0),c(c_) { Algo::Copy(c,a,n); }
-
-    ToomAcc(ulen n_,Unit *c_,const Unit *a,ulen m) : n(n_),u(0),c(c_) { Algo::Copy(c,a,m); Algo::Null(c+m,n-m); }
-
-    ToomAcc(ulen n_,Unit *c_,unsigned shift,const Unit *a) : n(n_),c(c_) { u=Algo::ULShift(c,a,n,shift); }
+    ToomAcc(ulen n_,Unit *c_,unsigned shift,const Unit *a) : n(n_),c(c_) { c[n]=Algo::ULShift(c,a,n,shift); }
 
 
-    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b) : n(n_),c(c_) { u=Algo::UAdd(c,a,b,n); }
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b)
+     : n(n_),c(c_)
+     {
+      c[n]=Algo::UAdd(c,a,b,n);
+     }
 
-    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b,ulen m) : n(n_),c(c_) { u=Algo::UAdd(c,a,n,b,m); }
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,const Unit *b,ulen m)
+     : n(n_),c(c_)
+     {
+      c[n]=Algo::UAdd(c,a,n,b,m);
+     }
 
     ToomAcc(ulen n_,Unit *c_,const Unit *a,unsigned shift,const Unit *b)
      : n(n_),c(c_)
      {
       Unit *d=c+n+1;
 
-      u=Algo::ULShift(d,b,n,shift);
+      Unit u=Algo::ULShift(d,b,n,shift);
 
-      u+=Algo::UAdd(c,a,d,n);
+      c[n]=u+Algo::UAdd(c,a,d,n);
+     }
+
+    ToomAcc(ulen n_,Unit *c_,const Unit *a,ulen m,unsigned shift,const Unit *b)
+     : n(n_),c(c_)
+     {
+      c[n]=Algo::ULShift(c,b,n,shift);
+
+      UAdd(c,n+1,a,m);
      }
 
 
     ToomAcc & operator () (const Unit *a)
      {
-      u+=Algo::UAdd(c,a,n);
+      c[n]+=Algo::UAdd(c,a,n);
 
       return *this;
      }
 
     ToomAcc & operator () (const Unit *a,ulen m)
      {
-      if( m<n )
-        {
-         u+=UAdd(c,n,a,m);
+      UAdd(c,n+1,a,m);
 
-         return *this;
-        }
-      else
-        {
-         return (*this)(a);
-        }
+      return *this;
      }
 
     ToomAcc & operator () (unsigned shift,const Unit *a)
      {
       Unit *d=c+n+1;
 
-      u+=Algo::ULShift(d,a,n,shift);
+      Unit u=Algo::ULShift(d,a,n,shift);
 
-      return (*this)(d);
+      c[n]+=Algo::UAdd(c,d,n)+u;
+
+      return *this;
      }
 
     ToomAcc & operator () (unsigned shift,const Unit *a,ulen m)
@@ -318,8 +324,6 @@ struct FastMulAlgo
          return (*this)(shift,a);
         }
      }
-
-    void operator () () { c[n]=u; }
    };
 
   // Toom functions
@@ -448,6 +452,7 @@ struct FastMulAlgo
     Unit *B=temp(k);
     Unit *C=temp(k);
     Unit *D=temp(k);
+
     Unit *p=temp(l);
     Unit *q=temp(l);
     Unit *p1=temp(n+1);
@@ -463,13 +468,13 @@ struct FastMulAlgo
     bool pos;
 
     {
-     ToomAcc(n,p,a,a2,m)();
+     ToomAcc(n,p,a,a2,m);
 
      p1[n]=p[n]+Algo::UAdd(p1,p,a1,n);
 
      bool fa=ModSub1(p,a1,n+1);
 
-     ToomAcc(n,q,b,b2,m)();
+     ToomAcc(n,q,b,b2,m);
 
      q1[n]=q[n]+Algo::UAdd(q1,q,b1,n);
 
@@ -482,8 +487,8 @@ struct FastMulAlgo
     // D
 
     {
-     ToomAcc(n,p,a,1,a1)(2,a2,m)();
-     ToomAcc(n,q,b,1,b1)(2,b2,m)();
+     ToomAcc(n,p,a,1,a1)(2,a2,m);
+     ToomAcc(n,q,b,1,b1)(2,b2,m);
 
      UMul(D,p,q,n+1,temp);
     }
@@ -602,15 +607,15 @@ struct FastMulAlgo
     bool posC;
 
     {
-     ToomAcc(n,p,a,a2)();
-     ToomAcc(n,p1,a1,a3,m)();
+     ToomAcc(n,p,a,a2);
+     ToomAcc(n,p1,a1,a3,m);
 
      bool f=ModSub(p2,p,p1,n+1);
 
      Algo::UAdd(p,p1,n+1);
 
-     ToomAcc(n,q,b,b2)();
-     ToomAcc(n,q1,b1,b3,m)();
+     ToomAcc(n,q,b,b2);
+     ToomAcc(n,q1,b1,b3,m);
 
      posC=( f == ModSub(q2,q,q1,n+1) );
 
@@ -625,15 +630,15 @@ struct FastMulAlgo
     bool posE;
 
     {
-     ToomAcc(n,p,a)(2,a2)();
-     ToomAcc(n,p1,1,a1)(3,a3,m)();
+     ToomAcc(n,p,a,2,a2);
+     ToomAcc(n,p1,1,a1)(3,a3,m);
 
      bool f=ModSub(p2,p,p1,n+1);
 
      Algo::UAdd(p,p1,n+1);
 
-     ToomAcc(n,q,b)(2,b2)();
-     ToomAcc(n,q1,1,b1)(3,b3,m)();
+     ToomAcc(n,q,b,2,b2);
+     ToomAcc(n,q1,1,b1)(3,b3,m);
 
      posE=( f == ModSub(q2,q,q1,n+1) );
 
@@ -646,8 +651,8 @@ struct FastMulAlgo
     // F
 
     {
-     ToomAcc(n,p,a3,m)(1,a2)(2,a1)(3,a)();
-     ToomAcc(n,q,b3,m)(1,b2)(2,b1)(3,b)();
+     ToomAcc(n,p,a3,m,1,a2)(2,a1)(3,a);
+     ToomAcc(n,q,b3,m,1,b2)(2,b1)(3,b);
 
      UMul(F,p,q,n+1,temp);
     }
