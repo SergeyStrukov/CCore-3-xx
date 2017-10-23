@@ -41,7 +41,7 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len  = 5'000'000 ;
-   static constexpr ulen Len1 =      1000 ;
+   static constexpr ulen Len1 =       500 ;
    static constexpr ulen Len2 =       800 ;
    static constexpr ulen Len3 =      8000 ;
 
@@ -266,9 +266,9 @@ struct Base : Math::IntegerFastAlgo
 
 #endif
 
-  static constexpr ulen Toom22Min =     26 ; // 26
-  static constexpr ulen Toom33Min =    170 ; // 170
-  static constexpr ulen Toom44Min =    235 ; // 235
+  static constexpr ulen Toom22Min =     30 ; // 30
+  static constexpr ulen Toom33Min =    100 ; // 100
+  static constexpr ulen Toom44Min =    170 ; // 170
 
   static constexpr ulen TopMin    =  4'000 ;
 

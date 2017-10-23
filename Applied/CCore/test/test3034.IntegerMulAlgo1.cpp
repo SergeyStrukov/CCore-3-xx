@@ -59,11 +59,13 @@ struct Base : Alt
   static constexpr ulen Toom22Min = 2 ;
   static constexpr ulen Toom33Min = 5 ;
   static constexpr ulen Toom44Min = 14 ;
-  static constexpr ulen Toom55Min = 50 ;
-  static constexpr ulen Toom66Min = 50 ;
-  static constexpr ulen Toom77Min = 50 ;
-  static constexpr ulen Toom88Min = 50 ;
+
   static constexpr ulen TopMin    = 50 ;
+
+  static constexpr ulen Toom55Min = TopMin ;
+  static constexpr ulen Toom66Min = TopMin ;
+  static constexpr ulen Toom77Min = TopMin ;
+  static constexpr ulen Toom88Min = TopMin ;
 
   using Alt::UAdd;
   using Alt::USub;

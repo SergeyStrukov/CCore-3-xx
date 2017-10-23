@@ -83,7 +83,7 @@ struct FastMulAlgo
 
   class Temp : NoCopy
    {
-     static constexpr ulen Len = 256 ;
+     static constexpr ulen Len = 512 ;
 
      Unit buf[Len];
      Unit *ptr;
@@ -345,7 +345,7 @@ struct FastMulAlgo
       }
    }
 
-  static void Toom22Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+  static void Toom22Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) CCORE_NOINLINE
    {
     // inf, 0, -1
 
@@ -430,7 +430,7 @@ struct FastMulAlgo
     return 5*k+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+  static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) CCORE_NOINLINE
    {
     // inf, 0, +1, -1, +2
 
@@ -555,15 +555,15 @@ struct FastMulAlgo
 
   static ulen Toom44MulTempLen(ulen nab)
    {
-    ulen n=(nab+2)/3;
-    ulen m=nab-2*n;
+    ulen n=(nab+3)/4;
+    ulen m=nab-3*n;
 
     ulen k=2*n+2;
 
-    return 2*n+2*m+(7*k-1)+Max_cast(k,UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
+    return (9*k-2)+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
-  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+  static void Toom44Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) CCORE_NOINLINE
    {
     // inf, 0, +1, -1, +2, -2, +1/2
 
@@ -581,20 +581,22 @@ struct FastMulAlgo
     const Unit *b2=b1+n;
     const Unit *b3=b2+n;
 
-    Unit *A=temp(2*n);
+    Unit *A=c;
+    Unit *G=c+6*n;
+
     Unit *B=temp(k);
     Unit *C=temp(k);
     Unit *D=temp(k);
     Unit *E=temp(k);
     Unit *F=temp(k);
-    Unit *G=temp(2*m);
-    Unit *q1=temp(l);
-    Unit *p2=temp(n+1);
-    Unit *q2=temp(n+1);
 
-    Unit *p=c;
-    Unit *q=c+l;
-    Unit *p1=q+l;
+    Unit *p=temp(k);
+    Unit *p1=temp(l);
+    Unit *p2=p+(n+1);
+
+    Unit *q=temp(k);
+    Unit *q1=temp(l);
+    Unit *q2=q+(n+1);
 
     // A , G
 
@@ -658,14 +660,14 @@ struct FastMulAlgo
      UMul(F,p,q,n+1,temp);
     }
 
-    Unit *P=q1;
-    Unit *Q=p2;
+    Unit *P=c+2*n; // l
+    Unit *Q=p1;    // l
 
     {
      if( posC )
        Algo::UAdd(P,B,C,l);
      else
-      Algo::USub(P,B,C,l);
+       Algo::USub(P,B,C,l);
 
      Algo::URShift(P,l,1); // P : A+C+E+G
 
@@ -695,8 +697,7 @@ struct FastMulAlgo
 
      USub(Q,l,A,2*n);
 
-     Algo::Copy(C,G,2*m);
-     C[2*m]=Algo::ULShift(C,2*m,6);
+     C[2*m]=Algo::ULShift(C,G,2*m,6);
 
      USub(Q,l,C,2*m+1);
 
@@ -708,18 +709,15 @@ struct FastMulAlgo
 
      USub(F,l,G,2*m);
 
-     Algo::Copy(C,Q,l);
-     Algo::ULShift(C,l,2);
+     Algo::ULShift(C,Q,l,2);
 
      Algo::USub(F,C,l);
 
-     Algo::Copy(C,P,l);
-     Algo::ULShift(C,l,4);
+     Algo::ULShift(C,P,l,4);
 
      Algo::USub(F,C,l);
 
-     Algo::Copy(C,A,2*n);
-     C[2*n]=Algo::ULShift(C,2*n,6);
+     C[2*n]=Algo::ULShift(C,A,2*n,6);
 
      Algo::USub(F,C,l);
 
@@ -733,8 +731,7 @@ struct FastMulAlgo
 
      Algo::UAdd(F,D,l);
 
-     Algo::Copy(C,B,l);
-     Algo::ULShift(C,l,1);
+     Algo::ULShift(C,B,l,1);
 
      Algo::USub(F,C,l);
      Algo::UDiv3(F,l);     // F : B+F
@@ -745,9 +742,6 @@ struct FastMulAlgo
      Algo::USub(F,D,l);    // F : B
     }
 
-    Algo::Copy(c,A,2*n);
-    Algo::Copy(c+2*n,P,l);
-    Algo::Copy(c+6*n,G,2*m);
     Algo::Null(c+4*n+1,2*n-1);
 
     UAdd(c+n,5*n+2*m,F,l);
