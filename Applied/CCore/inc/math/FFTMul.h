@@ -512,7 +512,7 @@ struct FFTMul
    {
     ulen T=GetT(N);
 
-    return LenOf( 2*T, 2*N+1 , Algo::UMulTempLen(T) );
+    return LenOf( 2*T , 2*N+1 , Algo::UMulTempLen(T) );
    }
 
    //
