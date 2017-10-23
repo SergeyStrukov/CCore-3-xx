@@ -32,6 +32,17 @@ bool Testit<6006>::Main()
 
   Printf(Con,"EAX=#.h; EBX=#.h; ECX=#.h; EDX=#.h;\n",cpuid.EAX,cpuid.EBX,cpuid.ECX,cpuid.EDX);
 
+  Printf(Con,"TIMESTAMP = #;\n",(bool)cpuid.capableTIMESTAMP());
+  Printf(Con,"MMX = #;\n",(bool)cpuid.capableMMX());
+  Printf(Con,"SSE = #;\n",(bool)cpuid.capableSSE());
+  Printf(Con,"SSE2 = #;\n",(bool)cpuid.capableSSE2());
+  Printf(Con,"SSE3 = #;\n",(bool)cpuid.capableSSE3());
+  Printf(Con,"PCLMULQDQ = #;\n",(bool)cpuid.capablePCLMULQDQ());
+  Printf(Con,"SSSE3 = #;\n",(bool)cpuid.capableSSSE3());
+  Printf(Con,"SSE4_1 = #;\n",(bool)cpuid.capableSSE4_1());
+  Printf(Con,"SSE4_2 = #;\n",(bool)cpuid.capableSSE4_2());
+  Printf(Con,"AVX = #;\n",(bool)cpuid.capableAVX());
+
   Crypton::IntelRandom random;
 
   for(unsigned cnt=10; cnt ;cnt--) Printf(Con,"#.h;\n",random.next());

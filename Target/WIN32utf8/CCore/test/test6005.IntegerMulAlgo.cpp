@@ -41,12 +41,12 @@ class TestIntegerSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len  = 5'000'000 ;
-   static constexpr ulen Len1 =       600 ;
+   static constexpr ulen Len1 =      1000 ;
    static constexpr ulen Len2 =       800 ;
    static constexpr ulen Len3 =      8000 ;
 
-   static constexpr unsigned Rep  = 100 ;
-   static constexpr unsigned Rep2 =  10 ;
+   static constexpr unsigned Rep  =    10 ;
+   static constexpr unsigned Rep2 =    32 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
 
@@ -106,10 +106,12 @@ class TestIntegerSpeed
    template <class P,class T>
    void show(P &&out,ulen n,T t)
     {
+     if( (n%10)==0 ) Putch(out,'\n');
+
      if( n>=4 )
-       Printf(out,"n = #; #; best/(n*log(n)*log(log(n))) = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
+       Printf(out,"n = #; best = #; O = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
      else
-       Printf(out,"n = #; #;\n",n,t);
+       Printf(out,"n = #; best = #;\n",n,t);
     }
 
    template <class P>
@@ -264,9 +266,9 @@ struct Base : Math::IntegerFastAlgo
 
 #endif
 
-  static constexpr ulen Toom22Min =     30 ; // +
-  static constexpr ulen Toom33Min =    140 ; // +
-  static constexpr ulen Toom44Min =    700 ;
+  static constexpr ulen Toom22Min =     26 ; // 26
+  static constexpr ulen Toom33Min =    170 ; // 170
+  static constexpr ulen Toom44Min =    235 ; // 235
 
   static constexpr ulen TopMin    =  4'000 ;
 
@@ -275,10 +277,14 @@ struct Base : Math::IntegerFastAlgo
   static constexpr ulen Toom77Min = TopMin ;
   static constexpr ulen Toom88Min = TopMin ;
 
+#if 1
+
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {
     mpn_mul((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
    }
+
+#endif
  };
 
 using FastAlgo = Math::FastMulAlgo<Base> ;

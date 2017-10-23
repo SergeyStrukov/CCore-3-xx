@@ -427,7 +427,7 @@ struct FastMulAlgo
 
     ulen k=2*n+2;
 
-    return (6*k-2)+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
+    return 5*k+Max_cast(UMulTempLen(m),UMulTempLen(n),UMulTempLen(n+1));
    }
 
   static void Toom33Mul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
@@ -438,7 +438,7 @@ struct FastMulAlgo
     ulen m=nab-2*n;
 
     ulen k=2*n+2;
-    ulen l=k-1;
+    ulen l=n+1;
 
     const Unit *a1=a+n;
     const Unit *b1=b+n;
@@ -453,10 +453,11 @@ struct FastMulAlgo
     Unit *C=temp(k);
     Unit *D=temp(k);
 
-    Unit *p=temp(l);
-    Unit *q=temp(l);
-    Unit *p1=temp(n+1);
-    Unit *q1=temp(n+1);
+    Unit *p=temp(k);
+    Unit *q=temp(k);
+
+    Unit *p1=p+l;
+    Unit *q1=q+l;
 
     // A , E
 
@@ -472,16 +473,16 @@ struct FastMulAlgo
 
      p1[n]=p[n]+Algo::UAdd(p1,p,a1,n);
 
-     bool fa=ModSub1(p,a1,n+1);
+     bool fa=ModSub1(p,a1,l);
 
      ToomAcc(n,q,b,b2,m);
 
      q1[n]=q[n]+Algo::UAdd(q1,q,b1,n);
 
-     pos = ( fa == ModSub1(q,b1,n+1) );
+     pos = ( fa == ModSub1(q,b1,l) );
 
-     UMul(C,p,q,n+1,temp);
-     UMul(B,p1,q1,n+1,temp);
+     UMul(C,p,q,l,temp);
+     UMul(B,p1,q1,l,temp);
     }
 
     // D
@@ -490,10 +491,10 @@ struct FastMulAlgo
      ToomAcc(n,p,a,1,a1)(2,a2,m);
      ToomAcc(n,q,b,1,b1)(2,b2,m);
 
-     UMul(D,p,q,n+1,temp);
+     UMul(D,p,q,l,temp);
     }
 
-    Unit *P=p1; // k
+    Unit *P=q; // k
 
     {
      // P
@@ -538,7 +539,7 @@ struct FastMulAlgo
     Algo::Copy(c+2*n,B,2*n);
     Algo::UAddUnit(c+4*n,2*m,B[2*n]);
 
-    UAdd(c+n,2*nab-n,P,l);
+    UAdd(c+n,2*nab-n,P,k-1);
     UAdd(c+3*n,2*nab-3*n,D,n+m+1);
    }
 

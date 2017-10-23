@@ -1,620 +1,1105 @@
 --- FastAlgo -------------------------------------------------------------------
 
-n = 1 46
-n = 2 58
-n = 3 72
-n = 4 91 best/(n*log(n)*log(log(n))) = 11
-n = 5 113 best/(n*log(n)*log(log(n))) = 8
-n = 6 138 best/(n*log(n)*log(log(n))) = 6
-n = 7 165 best/(n*log(n)*log(log(n))) = 5
-n = 8 199 best/(n*log(n)*log(log(n))) = 5
-n = 9 239 best/(n*log(n)*log(log(n))) = 5
-n = 10 282 best/(n*log(n)*log(log(n))) = 4
-n = 11 328 best/(n*log(n)*log(log(n))) = 4
-n = 12 380 best/(n*log(n)*log(log(n))) = 4
-n = 13 436 best/(n*log(n)*log(log(n))) = 4
-n = 14 494 best/(n*log(n)*log(log(n))) = 4
-n = 15 559 best/(n*log(n)*log(log(n))) = 4
-n = 16 621 best/(n*log(n)*log(log(n))) = 4
-n = 17 693 best/(n*log(n)*log(log(n))) = 4
-n = 18 774 best/(n*log(n)*log(log(n))) = 5
-n = 19 846 best/(n*log(n)*log(log(n))) = 5
-n = 20 945 best/(n*log(n)*log(log(n))) = 5
-n = 21 1041 best/(n*log(n)*log(log(n))) = 5
-n = 22 1096 best/(n*log(n)*log(log(n))) = 5
-n = 23 1182 best/(n*log(n)*log(log(n))) = 5
-n = 24 1287 best/(n*log(n)*log(log(n))) = 5
-n = 25 1388 best/(n*log(n)*log(log(n))) = 5
-n = 26 1484 best/(n*log(n)*log(log(n))) = 5
-n = 27 1599 best/(n*log(n)*log(log(n))) = 5
-n = 28 1670 best/(n*log(n)*log(log(n))) = 5
-n = 29 1799 best/(n*log(n)*log(log(n))) = 5
+n = 1 best = 38
+n = 2 best = 44
+n = 3 best = 89
+n = 4 best = 139 O = 17
+n = 5 best = 178 O = 12
+n = 6 best = 243 O = 11
+n = 7 best = 269 O = 9
+n = 8 best = 320 O = 8
+n = 9 best = 246 O = 5
 
-n = 30 1908 best/(n*log(n)*log(log(n))) = 5
-n = 31 2062 best/(n*log(n)*log(log(n))) = 5
-n = 32 2111 best/(n*log(n)*log(log(n))) = 5
-n = 33 2273 best/(n*log(n)*log(log(n))) = 5
-n = 34 2334 best/(n*log(n)*log(log(n))) = 5
-n = 35 2511 best/(n*log(n)*log(log(n))) = 5
-n = 36 2645 best/(n*log(n)*log(log(n))) = 5
-n = 37 2811 best/(n*log(n)*log(log(n))) = 6
-n = 38 2867 best/(n*log(n)*log(log(n))) = 6
-n = 39 3114 best/(n*log(n)*log(log(n))) = 6
+n = 10 best = 288 O = 5
+n = 11 best = 333 O = 4
+n = 12 best = 379 O = 4
+n = 13 best = 437 O = 4
+n = 14 best = 497 O = 4
+n = 15 best = 577 O = 5
+n = 16 best = 646 O = 5
+n = 17 best = 715 O = 5
+n = 18 best = 781 O = 5
+n = 19 best = 881 O = 5
 
-n = 40 3199 best/(n*log(n)*log(log(n))) = 6
-n = 41 3334 best/(n*log(n)*log(log(n))) = 6
-n = 42 3398 best/(n*log(n)*log(log(n))) = 6
-n = 43 3589 best/(n*log(n)*log(log(n))) = 6
-n = 44 3669 best/(n*log(n)*log(log(n))) = 6
-n = 45 3871 best/(n*log(n)*log(log(n))) = 6
-n = 46 3942 best/(n*log(n)*log(log(n))) = 6
-n = 47 4165 best/(n*log(n)*log(log(n))) = 6
-n = 48 4255 best/(n*log(n)*log(log(n))) = 6
-n = 49 4502 best/(n*log(n)*log(log(n))) = 6
+n = 20 best = 975 O = 5
+n = 21 best = 1064 O = 5
+n = 22 best = 1150 O = 5
+n = 23 best = 1286 O = 5
+n = 24 best = 1347 O = 5
+n = 25 best = 1465 O = 5
+n = 26 best = 1564 O = 5
+n = 27 best = 1688 O = 5
+n = 28 best = 1735 O = 5
+n = 29 best = 1938 O = 6
 
-n = 50 4705 best/(n*log(n)*log(log(n))) = 6
-n = 51 4805 best/(n*log(n)*log(log(n))) = 6
-n = 52 4881 best/(n*log(n)*log(log(n))) = 6
-n = 53 5151 best/(n*log(n)*log(log(n))) = 6
-n = 54 5244 best/(n*log(n)*log(log(n))) = 6
-n = 55 5281 best/(n*log(n)*log(log(n))) = 6
-n = 56 5476 best/(n*log(n)*log(log(n))) = 6
-n = 57 5775 best/(n*log(n)*log(log(n))) = 6
-n = 58 6013 best/(n*log(n)*log(log(n))) = 6
-n = 59 6283 best/(n*log(n)*log(log(n))) = 7
+n = 30 best = 1986 O = 5
+n = 31 best = 2138 O = 6
+n = 32 best = 2161 O = 5
+n = 33 best = 2390 O = 6
+n = 34 best = 2447 O = 6
+n = 35 best = 2581 O = 6
+n = 36 best = 2699 O = 6
+n = 37 best = 2909 O = 6
+n = 38 best = 2996 O = 6
+n = 39 best = 3119 O = 6
 
-n = 60 7138 best/(n*log(n)*log(log(n))) = 7
-n = 61 7685 best/(n*log(n)*log(log(n))) = 8
-n = 62 7623 best/(n*log(n)*log(log(n))) = 8
-n = 63 7700 best/(n*log(n)*log(log(n))) = 7
-n = 64 8069 best/(n*log(n)*log(log(n))) = 8
-n = 65 8342 best/(n*log(n)*log(log(n))) = 8
-n = 66 8183 best/(n*log(n)*log(log(n))) = 7
-n = 67 8596 best/(n*log(n)*log(log(n))) = 8
-n = 68 8493 best/(n*log(n)*log(log(n))) = 7
-n = 69 8557 best/(n*log(n)*log(log(n))) = 7
+n = 40 best = 3184 O = 6
+n = 41 best = 3477 O = 6
+n = 42 best = 3559 O = 6
+n = 43 best = 3703 O = 6
+n = 44 best = 3767 O = 6
+n = 45 best = 4110 O = 6
+n = 46 best = 4188 O = 6
+n = 47 best = 4365 O = 6
+n = 48 best = 4412 O = 6
+n = 49 best = 4712 O = 6
 
-n = 70 9484 best/(n*log(n)*log(log(n))) = 8
-n = 71 9093 best/(n*log(n)*log(log(n))) = 7
-n = 72 9158 best/(n*log(n)*log(log(n))) = 7
-n = 73 9768 best/(n*log(n)*log(log(n))) = 8
-n = 74 9904 best/(n*log(n)*log(log(n))) = 8
-n = 75 10304 best/(n*log(n)*log(log(n))) = 8
-n = 76 10181 best/(n*log(n)*log(log(n))) = 8
-n = 77 10258 best/(n*log(n)*log(log(n))) = 8
-n = 78 10311 best/(n*log(n)*log(log(n))) = 7
-n = 79 10914 best/(n*log(n)*log(log(n))) = 8
+n = 50 best = 4797 O = 6
+n = 51 best = 5082 O = 7
+n = 52 best = 5159 O = 6
+n = 53 best = 5387 O = 7
+n = 54 best = 5504 O = 7
+n = 55 best = 5626 O = 6
+n = 56 best = 5668 O = 6
+n = 57 best = 6115 O = 7
+n = 58 best = 6275 O = 7
+n = 59 best = 6415 O = 7
 
-n = 80 10985 best/(n*log(n)*log(log(n))) = 8
-n = 81 10804 best/(n*log(n)*log(log(n))) = 7
-n = 82 11296 best/(n*log(n)*log(log(n))) = 8
-n = 83 11426 best/(n*log(n)*log(log(n))) = 8
-n = 84 11772 best/(n*log(n)*log(log(n))) = 8
-n = 85 11851 best/(n*log(n)*log(log(n))) = 8
-n = 86 12004 best/(n*log(n)*log(log(n))) = 8
-n = 87 12058 best/(n*log(n)*log(log(n))) = 8
-n = 88 12912 best/(n*log(n)*log(log(n))) = 8
-n = 89 12676 best/(n*log(n)*log(log(n))) = 8
+n = 60 best = 6485 O = 7
+n = 61 best = 6751 O = 7
+n = 62 best = 7220 O = 7
+n = 63 best = 7341 O = 7
+n = 64 best = 7181 O = 7
+n = 65 best = 7705 O = 7
+n = 66 best = 7870 O = 7
+n = 67 best = 7856 O = 7
+n = 68 best = 8105 O = 7
+n = 69 best = 8389 O = 7
 
-n = 90 12730 best/(n*log(n)*log(log(n))) = 8
-n = 91 13066 best/(n*log(n)*log(log(n))) = 8
-n = 92 13515 best/(n*log(n)*log(log(n))) = 8
-n = 93 13316 best/(n*log(n)*log(log(n))) = 8
-n = 94 13810 best/(n*log(n)*log(log(n))) = 8
-n = 95 14716 best/(n*log(n)*log(log(n))) = 8
-n = 96 14320 best/(n*log(n)*log(log(n))) = 8
-n = 97 14330 best/(n*log(n)*log(log(n))) = 8
-n = 98 14852 best/(n*log(n)*log(log(n))) = 8
-n = 99 14516 best/(n*log(n)*log(log(n))) = 8
+n = 70 best = 8488 O = 7
+n = 71 best = 8410 O = 7
+n = 72 best = 8455 O = 7
+n = 73 best = 9076 O = 7
+n = 74 best = 9263 O = 7
+n = 75 best = 9468 O = 7
+n = 76 best = 9534 O = 7
+n = 77 best = 10329 O = 8
+n = 78 best = 10508 O = 8
+n = 79 best = 10444 O = 7
 
-n = 100 15008 best/(n*log(n)*log(log(n))) = 8
-n = 101 15204 best/(n*log(n)*log(log(n))) = 8
-n = 102 15274 best/(n*log(n)*log(log(n))) = 8
-n = 103 15570 best/(n*log(n)*log(log(n))) = 8
-n = 104 15653 best/(n*log(n)*log(log(n))) = 8
-n = 105 16265 best/(n*log(n)*log(log(n))) = 8
-n = 106 16294 best/(n*log(n)*log(log(n))) = 8
-n = 107 16459 best/(n*log(n)*log(log(n))) = 8
-n = 108 16556 best/(n*log(n)*log(log(n))) = 8
-n = 109 16806 best/(n*log(n)*log(log(n))) = 8
+n = 80 best = 11518 O = 8
+n = 81 best = 11619 O = 8
+n = 82 best = 12210 O = 8
+n = 83 best = 11779 O = 8
+n = 84 best = 12048 O = 8
+n = 85 best = 12476 O = 8
+n = 86 best = 12203 O = 8
+n = 87 best = 12389 O = 8
+n = 88 best = 13310 O = 8
+n = 89 best = 13892 O = 8
 
-n = 110 16913 best/(n*log(n)*log(log(n))) = 8
-n = 111 17025 best/(n*log(n)*log(log(n))) = 8
-n = 112 17683 best/(n*log(n)*log(log(n))) = 8
-n = 113 18317 best/(n*log(n)*log(log(n))) = 8
-n = 114 17883 best/(n*log(n)*log(log(n))) = 8
-n = 115 18886 best/(n*log(n)*log(log(n))) = 8
-n = 116 19019 best/(n*log(n)*log(log(n))) = 8
-n = 117 18686 best/(n*log(n)*log(log(n))) = 8
-n = 118 19752 best/(n*log(n)*log(log(n))) = 8
-n = 119 19468 best/(n*log(n)*log(log(n))) = 8
+n = 90 best = 13663 O = 8
+n = 91 best = 13959 O = 8
+n = 92 best = 14021 O = 8
+n = 93 best = 14184 O = 8
+n = 94 best = 14429 O = 8
+n = 95 best = 14568 O = 8
+n = 96 best = 14994 O = 8
+n = 97 best = 15401 O = 8
+n = 98 best = 15899 O = 8
+n = 99 best = 15635 O = 8
 
-n = 120 19538 best/(n*log(n)*log(log(n))) = 8
-n = 121 20022 best/(n*log(n)*log(log(n))) = 8
-n = 122 20087 best/(n*log(n)*log(log(n))) = 8
-n = 123 20410 best/(n*log(n)*log(log(n))) = 8
-n = 124 20753 best/(n*log(n)*log(log(n))) = 8
-n = 125 21093 best/(n*log(n)*log(log(n))) = 8
-n = 126 21074 best/(n*log(n)*log(log(n))) = 8
-n = 127 21452 best/(n*log(n)*log(log(n))) = 8
-n = 128 21564 best/(n*log(n)*log(log(n))) = 8
-n = 129 21674 best/(n*log(n)*log(log(n))) = 8
+n = 100 best = 15611 O = 8
+n = 101 best = 15888 O = 8
+n = 102 best = 16363 O = 8
+n = 103 best = 16191 O = 8
+n = 104 best = 16322 O = 8
+n = 105 best = 16441 O = 8
+n = 106 best = 18057 O = 9
+n = 107 best = 17867 O = 8
+n = 108 best = 17337 O = 8
+n = 109 best = 18265 O = 8
 
-n = 130 22879 best/(n*log(n)*log(log(n))) = 8
-n = 131 22460 best/(n*log(n)*log(log(n))) = 8
-n = 132 23072 best/(n*log(n)*log(log(n))) = 8
-n = 133 22914 best/(n*log(n)*log(log(n))) = 8
-n = 134 22968 best/(n*log(n)*log(log(n))) = 8
-n = 135 23110 best/(n*log(n)*log(log(n))) = 8
-n = 136 24415 best/(n*log(n)*log(log(n))) = 8
-n = 137 24710 best/(n*log(n)*log(log(n))) = 8
-n = 138 24734 best/(n*log(n)*log(log(n))) = 8
-n = 139 24566 best/(n*log(n)*log(log(n))) = 8
+n = 110 best = 17881 O = 8
+n = 111 best = 17624 O = 8
+n = 112 best = 18123 O = 8
+n = 113 best = 19433 O = 9
+n = 114 best = 19535 O = 9
+n = 115 best = 19782 O = 9
+n = 116 best = 19455 O = 8
+n = 117 best = 19034 O = 8
+n = 118 best = 20185 O = 8
+n = 119 best = 19939 O = 8
 
-n = 140 24753 best/(n*log(n)*log(log(n))) = 8
-n = 141 24881 best/(n*log(n)*log(log(n))) = 8
-n = 142 26180 best/(n*log(n)*log(log(n))) = 9
-n = 143 25736 best/(n*log(n)*log(log(n))) = 8
-n = 144 26450 best/(n*log(n)*log(log(n))) = 9
-n = 145 26243 best/(n*log(n)*log(log(n))) = 8
-n = 146 26378 best/(n*log(n)*log(log(n))) = 8
-n = 147 26498 best/(n*log(n)*log(log(n))) = 8
-n = 148 27127 best/(n*log(n)*log(log(n))) = 8
-n = 149 27504 best/(n*log(n)*log(log(n))) = 8
+n = 120 best = 21648 O = 9
+n = 121 best = 21640 O = 9
+n = 122 best = 21111 O = 8
+n = 123 best = 21308 O = 8
+n = 124 best = 21258 O = 8
+n = 125 best = 22100 O = 9
+n = 126 best = 21591 O = 8
+n = 127 best = 23785 O = 9
+n = 128 best = 23155 O = 9
+n = 129 best = 22121 O = 8
 
-n = 150 27456 best/(n*log(n)*log(log(n))) = 8
-n = 151 27967 best/(n*log(n)*log(log(n))) = 8
-n = 152 28049 best/(n*log(n)*log(log(n))) = 8
-n = 153 29033 best/(n*log(n)*log(log(n))) = 9
-n = 154 29004 best/(n*log(n)*log(log(n))) = 9
-n = 155 29129 best/(n*log(n)*log(log(n))) = 9
-n = 156 29253 best/(n*log(n)*log(log(n))) = 8
-n = 157 29726 best/(n*log(n)*log(log(n))) = 9
-n = 158 29770 best/(n*log(n)*log(log(n))) = 8
-n = 159 30009 best/(n*log(n)*log(log(n))) = 8
+n = 130 best = 23009 O = 8
+n = 131 best = 23210 O = 8
+n = 132 best = 23797 O = 9
+n = 133 best = 25870 O = 9
+n = 134 best = 24573 O = 9
+n = 135 best = 24282 O = 9
+n = 136 best = 24410 O = 8
+n = 137 best = 24689 O = 8
+n = 138 best = 25481 O = 9
+n = 139 best = 27368 O = 9
 
-n = 160 30601 best/(n*log(n)*log(log(n))) = 9
-n = 161 30835 best/(n*log(n)*log(log(n))) = 9
-n = 162 30982 best/(n*log(n)*log(log(n))) = 9
-n = 163 31228 best/(n*log(n)*log(log(n))) = 9
-n = 164 31314 best/(n*log(n)*log(log(n))) = 9
-n = 165 32375 best/(n*log(n)*log(log(n))) = 9
-n = 166 32534 best/(n*log(n)*log(log(n))) = 9
-n = 167 32722 best/(n*log(n)*log(log(n))) = 9
-n = 168 32861 best/(n*log(n)*log(log(n))) = 9
-n = 169 33197 best/(n*log(n)*log(log(n))) = 9
+n = 140 best = 26746 O = 9
+n = 141 best = 26194 O = 9
+n = 142 best = 26397 O = 9
+n = 143 best = 26675 O = 9
+n = 144 best = 27512 O = 9
+n = 145 best = 27862 O = 9
+n = 146 best = 27894 O = 9
+n = 147 best = 27431 O = 9
+n = 148 best = 28123 O = 9
+n = 149 best = 28628 O = 9
 
-n = 170 33181 best/(n*log(n)*log(log(n))) = 9
-n = 171 34302 best/(n*log(n)*log(log(n))) = 9
-n = 172 34138 best/(n*log(n)*log(log(n))) = 9
-n = 173 34320 best/(n*log(n)*log(log(n))) = 9
-n = 174 34455 best/(n*log(n)*log(log(n))) = 9
-n = 175 37676 best/(n*log(n)*log(log(n))) = 9
-n = 176 37886 best/(n*log(n)*log(log(n))) = 9
-n = 177 38002 best/(n*log(n)*log(log(n))) = 9
-n = 178 39776 best/(n*log(n)*log(log(n))) = 10
-n = 179 40012 best/(n*log(n)*log(log(n))) = 10
-n = 180 41196 best/(n*log(n)*log(log(n))) = 10
-n = 181 40955 best/(n*log(n)*log(log(n))) = 10
-n = 182 41992 best/(n*log(n)*log(log(n))) = 10
-n = 183 42377 best/(n*log(n)*log(log(n))) = 10
-n = 184 42564 best/(n*log(n)*log(log(n))) = 10
-n = 185 43827 best/(n*log(n)*log(log(n))) = 10
-n = 186 43957 best/(n*log(n)*log(log(n))) = 10
-n = 187 43921 best/(n*log(n)*log(log(n))) = 10
-n = 188 44022 best/(n*log(n)*log(log(n))) = 10
-n = 189 43970 best/(n*log(n)*log(log(n))) = 10
-n = 190 44682 best/(n*log(n)*log(log(n))) = 10
-n = 191 44680 best/(n*log(n)*log(log(n))) = 10
-n = 192 45347 best/(n*log(n)*log(log(n))) = 10
-n = 193 45702 best/(n*log(n)*log(log(n))) = 10
-n = 194 45554 best/(n*log(n)*log(log(n))) = 10
-n = 195 45568 best/(n*log(n)*log(log(n))) = 10
-n = 196 46822 best/(n*log(n)*log(log(n))) = 10
-n = 197 46950 best/(n*log(n)*log(log(n))) = 10
-n = 198 46934 best/(n*log(n)*log(log(n))) = 10
-n = 199 47797 best/(n*log(n)*log(log(n))) = 10
-n = 200 47791 best/(n*log(n)*log(log(n))) = 10
-n = 201 48155 best/(n*log(n)*log(log(n))) = 10
-n = 202 48125 best/(n*log(n)*log(log(n))) = 10
-n = 203 48543 best/(n*log(n)*log(log(n))) = 10
-n = 204 48408 best/(n*log(n)*log(log(n))) = 10
-n = 205 49724 best/(n*log(n)*log(log(n))) = 10
-n = 206 49883 best/(n*log(n)*log(log(n))) = 10
-n = 207 49862 best/(n*log(n)*log(log(n))) = 10
-n = 208 50712 best/(n*log(n)*log(log(n))) = 10
-n = 209 50778 best/(n*log(n)*log(log(n))) = 10
-n = 210 51295 best/(n*log(n)*log(log(n))) = 10
-n = 211 51085 best/(n*log(n)*log(log(n))) = 10
-n = 212 51522 best/(n*log(n)*log(log(n))) = 10
-n = 213 51615 best/(n*log(n)*log(log(n))) = 10
-n = 214 52933 best/(n*log(n)*log(log(n))) = 10
-n = 215 53294 best/(n*log(n)*log(log(n))) = 10
-n = 216 52991 best/(n*log(n)*log(log(n))) = 10
-n = 217 54334 best/(n*log(n)*log(log(n))) = 10
-n = 218 54325 best/(n*log(n)*log(log(n))) = 10
-n = 219 54809 best/(n*log(n)*log(log(n))) = 10
-n = 220 54546 best/(n*log(n)*log(log(n))) = 10
-n = 221 55088 best/(n*log(n)*log(log(n))) = 10
-n = 222 55223 best/(n*log(n)*log(log(n))) = 10
-n = 223 56177 best/(n*log(n)*log(log(n))) = 10
-n = 224 56190 best/(n*log(n)*log(log(n))) = 10
-n = 225 56318 best/(n*log(n)*log(log(n))) = 10
-n = 226 57262 best/(n*log(n)*log(log(n))) = 10
-n = 227 57382 best/(n*log(n)*log(log(n))) = 10
-n = 228 57907 best/(n*log(n)*log(log(n))) = 10
-n = 229 59504 best/(n*log(n)*log(log(n))) = 11
-n = 230 58716 best/(n*log(n)*log(log(n))) = 10
-n = 231 58717 best/(n*log(n)*log(log(n))) = 10
-n = 232 59351 best/(n*log(n)*log(log(n))) = 10
-n = 233 59360 best/(n*log(n)*log(log(n))) = 10
-n = 234 59467 best/(n*log(n)*log(log(n))) = 10
-n = 235 60226 best/(n*log(n)*log(log(n))) = 10
-n = 236 60257 best/(n*log(n)*log(log(n))) = 10
-n = 237 60746 best/(n*log(n)*log(log(n))) = 10
-n = 238 60585 best/(n*log(n)*log(log(n))) = 10
-n = 239 60922 best/(n*log(n)*log(log(n))) = 10
-n = 240 60992 best/(n*log(n)*log(log(n))) = 10
-n = 241 63139 best/(n*log(n)*log(log(n))) = 11
-n = 242 63084 best/(n*log(n)*log(log(n))) = 11
-n = 243 64941 best/(n*log(n)*log(log(n))) = 11
-n = 244 75197 best/(n*log(n)*log(log(n))) = 13
-n = 245 63997 best/(n*log(n)*log(log(n))) = 11
-n = 246 64391 best/(n*log(n)*log(log(n))) = 11
-n = 247 64101 best/(n*log(n)*log(log(n))) = 10
-n = 248 64431 best/(n*log(n)*log(log(n))) = 10
-n = 249 64367 best/(n*log(n)*log(log(n))) = 10
-n = 250 65606 best/(n*log(n)*log(log(n))) = 11
-n = 251 65959 best/(n*log(n)*log(log(n))) = 11
-n = 252 65723 best/(n*log(n)*log(log(n))) = 10
-n = 253 67030 best/(n*log(n)*log(log(n))) = 11
-n = 254 66864 best/(n*log(n)*log(log(n))) = 10
-n = 255 67209 best/(n*log(n)*log(log(n))) = 10
-n = 256 67261 best/(n*log(n)*log(log(n))) = 10
-n = 257 94121 best/(n*log(n)*log(log(n))) = 15
-n = 258 67562 best/(n*log(n)*log(log(n))) = 10
-n = 259 69015 best/(n*log(n)*log(log(n))) = 11
-n = 260 69520 best/(n*log(n)*log(log(n))) = 11
-n = 261 69185 best/(n*log(n)*log(log(n))) = 10
-n = 262 70332 best/(n*log(n)*log(log(n))) = 11
-n = 263 70303 best/(n*log(n)*log(log(n))) = 11
-n = 264 70900 best/(n*log(n)*log(log(n))) = 11
-n = 265 70795 best/(n*log(n)*log(log(n))) = 11
-n = 266 71562 best/(n*log(n)*log(log(n))) = 11
-n = 267 71503 best/(n*log(n)*log(log(n))) = 11
-n = 268 72424 best/(n*log(n)*log(log(n))) = 11
-n = 269 72445 best/(n*log(n)*log(log(n))) = 11
-n = 270 72558 best/(n*log(n)*log(log(n))) = 11
-n = 271 73392 best/(n*log(n)*log(log(n))) = 11
-n = 272 73201 best/(n*log(n)*log(log(n))) = 11
-n = 273 73617 best/(n*log(n)*log(log(n))) = 11
-n = 274 73824 best/(n*log(n)*log(log(n))) = 11
-n = 275 74266 best/(n*log(n)*log(log(n))) = 11
-n = 276 74265 best/(n*log(n)*log(log(n))) = 10
-n = 277 76123 best/(n*log(n)*log(log(n))) = 11
-n = 278 76275 best/(n*log(n)*log(log(n))) = 11
-n = 279 76289 best/(n*log(n)*log(log(n))) = 11
-n = 280 77253 best/(n*log(n)*log(log(n))) = 11
-n = 281 77348 best/(n*log(n)*log(log(n))) = 11
-n = 282 77769 best/(n*log(n)*log(log(n))) = 11
-n = 283 77935 best/(n*log(n)*log(log(n))) = 11
-n = 284 78535 best/(n*log(n)*log(log(n))) = 11
-n = 285 78411 best/(n*log(n)*log(log(n))) = 11
-n = 286 79672 best/(n*log(n)*log(log(n))) = 11
-n = 287 79615 best/(n*log(n)*log(log(n))) = 11
-n = 288 79689 best/(n*log(n)*log(log(n))) = 11
-n = 289 80267 best/(n*log(n)*log(log(n))) = 11
-n = 290 80228 best/(n*log(n)*log(log(n))) = 11
-n = 291 80654 best/(n*log(n)*log(log(n))) = 11
-n = 292 80759 best/(n*log(n)*log(log(n))) = 11
-n = 293 81135 best/(n*log(n)*log(log(n))) = 11
-n = 294 80938 best/(n*log(n)*log(log(n))) = 11
-n = 295 82654 best/(n*log(n)*log(log(n))) = 11
-n = 296 82887 best/(n*log(n)*log(log(n))) = 11
-n = 297 83139 best/(n*log(n)*log(log(n))) = 11
-n = 298 83953 best/(n*log(n)*log(log(n))) = 11
-n = 299 83683 best/(n*log(n)*log(log(n))) = 11
-n = 300 84529 best/(n*log(n)*log(log(n))) = 11
-n = 301 84849 best/(n*log(n)*log(log(n))) = 11
-n = 302 84971 best/(n*log(n)*log(log(n))) = 11
-n = 303 85347 best/(n*log(n)*log(log(n))) = 11
-n = 304 86385 best/(n*log(n)*log(log(n))) = 11
-n = 305 86256 best/(n*log(n)*log(log(n))) = 11
-n = 306 86474 best/(n*log(n)*log(log(n))) = 11
-n = 307 86890 best/(n*log(n)*log(log(n))) = 11
-n = 308 86732 best/(n*log(n)*log(log(n))) = 11
-n = 309 87311 best/(n*log(n)*log(log(n))) = 11
-n = 310 87856 best/(n*log(n)*log(log(n))) = 11
-n = 311 88218 best/(n*log(n)*log(log(n))) = 11
-n = 312 88284 best/(n*log(n)*log(log(n))) = 11
-n = 313 89763 best/(n*log(n)*log(log(n))) = 11
-n = 314 90013 best/(n*log(n)*log(log(n))) = 11
-n = 315 89973 best/(n*log(n)*log(log(n))) = 11
-n = 316 90787 best/(n*log(n)*log(log(n))) = 11
-n = 317 90973 best/(n*log(n)*log(log(n))) = 11
-n = 318 91582 best/(n*log(n)*log(log(n))) = 11
-n = 319 91384 best/(n*log(n)*log(log(n))) = 11
-n = 320 91567 best/(n*log(n)*log(log(n))) = 11
-n = 321 91806 best/(n*log(n)*log(log(n))) = 11
-n = 322 92760 best/(n*log(n)*log(log(n))) = 11
-n = 323 93166 best/(n*log(n)*log(log(n))) = 11
-n = 324 93098 best/(n*log(n)*log(log(n))) = 11
-n = 325 93922 best/(n*log(n)*log(log(n))) = 11
-n = 326 93746 best/(n*log(n)*log(log(n))) = 11
-n = 327 94087 best/(n*log(n)*log(log(n))) = 11
-n = 328 94279 best/(n*log(n)*log(log(n))) = 11
-n = 329 94583 best/(n*log(n)*log(log(n))) = 11
-n = 330 94469 best/(n*log(n)*log(log(n))) = 11
-n = 331 97169 best/(n*log(n)*log(log(n))) = 11
-n = 332 97282 best/(n*log(n)*log(log(n))) = 11
-n = 333 97187 best/(n*log(n)*log(log(n))) = 11
-n = 334 98564 best/(n*log(n)*log(log(n))) = 11
-n = 335 98762 best/(n*log(n)*log(log(n))) = 11
-n = 336 99371 best/(n*log(n)*log(log(n))) = 11
-n = 337 99215 best/(n*log(n)*log(log(n))) = 11
-n = 338 99540 best/(n*log(n)*log(log(n))) = 11
-n = 339 99702 best/(n*log(n)*log(log(n))) = 11
-n = 340 101385 best/(n*log(n)*log(log(n))) = 11
-n = 341 101453 best/(n*log(n)*log(log(n))) = 11
-n = 342 101579 best/(n*log(n)*log(log(n))) = 11
-n = 343 102509 best/(n*log(n)*log(log(n))) = 11
-n = 344 102202 best/(n*log(n)*log(log(n))) = 11
-n = 345 102640 best/(n*log(n)*log(log(n))) = 11
-n = 346 103183 best/(n*log(n)*log(log(n))) = 11
-n = 347 117839 best/(n*log(n)*log(log(n))) = 13
-n = 348 119196 best/(n*log(n)*log(log(n))) = 13
-n = 349 121544 best/(n*log(n)*log(log(n))) = 13
-n = 350 121459 best/(n*log(n)*log(log(n))) = 13
-n = 351 105976 best/(n*log(n)*log(log(n))) = 11
-n = 352 107256 best/(n*log(n)*log(log(n))) = 11
-n = 353 107139 best/(n*log(n)*log(log(n))) = 11
-n = 354 107709 best/(n*log(n)*log(log(n))) = 11
-n = 355 107679 best/(n*log(n)*log(log(n))) = 11
-n = 356 108267 best/(n*log(n)*log(log(n))) = 11
-n = 357 108510 best/(n*log(n)*log(log(n))) = 11
-n = 358 111486 best/(n*log(n)*log(log(n))) = 11
-n = 359 111705 best/(n*log(n)*log(log(n))) = 11
-n = 360 111707 best/(n*log(n)*log(log(n))) = 11
-n = 361 111498 best/(n*log(n)*log(log(n))) = 11
-n = 362 111640 best/(n*log(n)*log(log(n))) = 11
-n = 363 111577 best/(n*log(n)*log(log(n))) = 11
-n = 364 111314 best/(n*log(n)*log(log(n))) = 11
-n = 365 112151 best/(n*log(n)*log(log(n))) = 11
-n = 366 112277 best/(n*log(n)*log(log(n))) = 11
-n = 367 114042 best/(n*log(n)*log(log(n))) = 11
-n = 368 113883 best/(n*log(n)*log(log(n))) = 11
-n = 369 114148 best/(n*log(n)*log(log(n))) = 11
-n = 370 115117 best/(n*log(n)*log(log(n))) = 11
-n = 371 115696 best/(n*log(n)*log(log(n))) = 11
-n = 372 115939 best/(n*log(n)*log(log(n))) = 11
-n = 373 116180 best/(n*log(n)*log(log(n))) = 11
-n = 374 116397 best/(n*log(n)*log(log(n))) = 11
-n = 375 116858 best/(n*log(n)*log(log(n))) = 11
-n = 376 117869 best/(n*log(n)*log(log(n))) = 11
-n = 377 118339 best/(n*log(n)*log(log(n))) = 11
-n = 378 118153 best/(n*log(n)*log(log(n))) = 11
-n = 379 135511 best/(n*log(n)*log(log(n))) = 13
-n = 380 133886 best/(n*log(n)*log(log(n))) = 13
-n = 381 135917 best/(n*log(n)*log(log(n))) = 13
-n = 382 119546 best/(n*log(n)*log(log(n))) = 11
-n = 383 120155 best/(n*log(n)*log(log(n))) = 11
-n = 384 119991 best/(n*log(n)*log(log(n))) = 11
-n = 385 122079 best/(n*log(n)*log(log(n))) = 11
-n = 386 121990 best/(n*log(n)*log(log(n))) = 11
-n = 387 121791 best/(n*log(n)*log(log(n))) = 11
-n = 388 122766 best/(n*log(n)*log(log(n))) = 11
-n = 389 123653 best/(n*log(n)*log(log(n))) = 11
-n = 390 124136 best/(n*log(n)*log(log(n))) = 11
-n = 391 123666 best/(n*log(n)*log(log(n))) = 11
-n = 392 124368 best/(n*log(n)*log(log(n))) = 11
-n = 393 124780 best/(n*log(n)*log(log(n))) = 11
-n = 394 125913 best/(n*log(n)*log(log(n))) = 11
-n = 395 126028 best/(n*log(n)*log(log(n))) = 11
-n = 396 126335 best/(n*log(n)*log(log(n))) = 11
-n = 397 126850 best/(n*log(n)*log(log(n))) = 11
-n = 398 126925 best/(n*log(n)*log(log(n))) = 11
-n = 399 127284 best/(n*log(n)*log(log(n))) = 11
-n = 400 127649 best/(n*log(n)*log(log(n))) = 11
-n = 401 127934 best/(n*log(n)*log(log(n))) = 11
-n = 402 128151 best/(n*log(n)*log(log(n))) = 11
-n = 403 130356 best/(n*log(n)*log(log(n))) = 12
-n = 404 130477 best/(n*log(n)*log(log(n))) = 11
-n = 405 130729 best/(n*log(n)*log(log(n))) = 11
-n = 406 131993 best/(n*log(n)*log(log(n))) = 12
-n = 407 133106 best/(n*log(n)*log(log(n))) = 12
-n = 408 149440 best/(n*log(n)*log(log(n))) = 13
-n = 409 151272 best/(n*log(n)*log(log(n))) = 13
-n = 410 132748 best/(n*log(n)*log(log(n))) = 11
-n = 411 133234 best/(n*log(n)*log(log(n))) = 11
-n = 412 134925 best/(n*log(n)*log(log(n))) = 12
-n = 413 134727 best/(n*log(n)*log(log(n))) = 12
-n = 414 134868 best/(n*log(n)*log(log(n))) = 12
-n = 415 135450 best/(n*log(n)*log(log(n))) = 12
-n = 416 135648 best/(n*log(n)*log(log(n))) = 12
-n = 417 136128 best/(n*log(n)*log(log(n))) = 12
-n = 418 136680 best/(n*log(n)*log(log(n))) = 12
-n = 419 136879 best/(n*log(n)*log(log(n))) = 12
-n = 420 137137 best/(n*log(n)*log(log(n))) = 11
-n = 421 139356 best/(n*log(n)*log(log(n))) = 12
-n = 422 139455 best/(n*log(n)*log(log(n))) = 12
-n = 423 139748 best/(n*log(n)*log(log(n))) = 12
-n = 424 140753 best/(n*log(n)*log(log(n))) = 12
-n = 425 141306 best/(n*log(n)*log(log(n))) = 12
-n = 426 141583 best/(n*log(n)*log(log(n))) = 12
-n = 427 141627 best/(n*log(n)*log(log(n))) = 12
-n = 428 141893 best/(n*log(n)*log(log(n))) = 12
-n = 429 142193 best/(n*log(n)*log(log(n))) = 12
-n = 430 143855 best/(n*log(n)*log(log(n))) = 12
-n = 431 144335 best/(n*log(n)*log(log(n))) = 12
-n = 432 144168 best/(n*log(n)*log(log(n))) = 12
-n = 433 144907 best/(n*log(n)*log(log(n))) = 12
-n = 434 165144 best/(n*log(n)*log(log(n))) = 13
-n = 435 165495 best/(n*log(n)*log(log(n))) = 13
-n = 436 146367 best/(n*log(n)*log(log(n))) = 12
-n = 437 145994 best/(n*log(n)*log(log(n))) = 12
-n = 438 146085 best/(n*log(n)*log(log(n))) = 12
-n = 439 148725 best/(n*log(n)*log(log(n))) = 12
-n = 440 148876 best/(n*log(n)*log(log(n))) = 12
-n = 441 148747 best/(n*log(n)*log(log(n))) = 12
-n = 442 149735 best/(n*log(n)*log(log(n))) = 12
-n = 443 150509 best/(n*log(n)*log(log(n))) = 12
-n = 444 150746 best/(n*log(n)*log(log(n))) = 12
-n = 445 150429 best/(n*log(n)*log(log(n))) = 12
-n = 446 151316 best/(n*log(n)*log(log(n))) = 12
-n = 447 150723 best/(n*log(n)*log(log(n))) = 12
-n = 448 152701 best/(n*log(n)*log(log(n))) = 12
-n = 449 152695 best/(n*log(n)*log(log(n))) = 12
-n = 450 152968 best/(n*log(n)*log(log(n))) = 12
-n = 451 154117 best/(n*log(n)*log(log(n))) = 12
-n = 452 154033 best/(n*log(n)*log(log(n))) = 12
-n = 453 154720 best/(n*log(n)*log(log(n))) = 12
-n = 454 155116 best/(n*log(n)*log(log(n))) = 12
-n = 455 155525 best/(n*log(n)*log(log(n))) = 12
-n = 456 155598 best/(n*log(n)*log(log(n))) = 12
-n = 457 157746 best/(n*log(n)*log(log(n))) = 12
-n = 458 178924 best/(n*log(n)*log(log(n))) = 14
-n = 459 179339 best/(n*log(n)*log(log(n))) = 14
-n = 460 159696 best/(n*log(n)*log(log(n))) = 12
-n = 461 159651 best/(n*log(n)*log(log(n))) = 12
-n = 462 159967 best/(n*log(n)*log(log(n))) = 12
-n = 463 160121 best/(n*log(n)*log(log(n))) = 12
-n = 464 160903 best/(n*log(n)*log(log(n))) = 12
-n = 465 161536 best/(n*log(n)*log(log(n))) = 12
-n = 466 162649 best/(n*log(n)*log(log(n))) = 12
-n = 467 163083 best/(n*log(n)*log(log(n))) = 12
-n = 468 163166 best/(n*log(n)*log(log(n))) = 12
-n = 469 163348 best/(n*log(n)*log(log(n))) = 12
-n = 470 163339 best/(n*log(n)*log(log(n))) = 12
-n = 471 163976 best/(n*log(n)*log(log(n))) = 12
-n = 472 164158 best/(n*log(n)*log(log(n))) = 12
-n = 473 164850 best/(n*log(n)*log(log(n))) = 12
-n = 474 165072 best/(n*log(n)*log(log(n))) = 12
-n = 475 167703 best/(n*log(n)*log(log(n))) = 12
-n = 476 167920 best/(n*log(n)*log(log(n))) = 12
-n = 477 168015 best/(n*log(n)*log(log(n))) = 12
-n = 478 169886 best/(n*log(n)*log(log(n))) = 12
-n = 479 170122 best/(n*log(n)*log(log(n))) = 12
-n = 480 170533 best/(n*log(n)*log(log(n))) = 12
-n = 481 169906 best/(n*log(n)*log(log(n))) = 12
-n = 482 170954 best/(n*log(n)*log(log(n))) = 12
-n = 483 170875 best/(n*log(n)*log(log(n))) = 12
-n = 484 171850 best/(n*log(n)*log(log(n))) = 12
-n = 485 171715 best/(n*log(n)*log(log(n))) = 12
-n = 486 172540 best/(n*log(n)*log(log(n))) = 12
-n = 487 172389 best/(n*log(n)*log(log(n))) = 12
-n = 488 172818 best/(n*log(n)*log(log(n))) = 12
-n = 489 173182 best/(n*log(n)*log(log(n))) = 12
-n = 490 173887 best/(n*log(n)*log(log(n))) = 12
-n = 491 174336 best/(n*log(n)*log(log(n))) = 12
-n = 492 174267 best/(n*log(n)*log(log(n))) = 12
-n = 493 177532 best/(n*log(n)*log(log(n))) = 12
-n = 494 177627 best/(n*log(n)*log(log(n))) = 12
-n = 495 178056 best/(n*log(n)*log(log(n))) = 12
-n = 496 178694 best/(n*log(n)*log(log(n))) = 12
-n = 497 179134 best/(n*log(n)*log(log(n))) = 12
-n = 498 180028 best/(n*log(n)*log(log(n))) = 12
-n = 499 179756 best/(n*log(n)*log(log(n))) = 12
-n = 500 180263 best/(n*log(n)*log(log(n))) = 12
-n = 501 180697 best/(n*log(n)*log(log(n))) = 12
-n = 502 181701 best/(n*log(n)*log(log(n))) = 12
-n = 503 181659 best/(n*log(n)*log(log(n))) = 12
-n = 504 181739 best/(n*log(n)*log(log(n))) = 12
-n = 505 183065 best/(n*log(n)*log(log(n))) = 12
-n = 506 183490 best/(n*log(n)*log(log(n))) = 12
-n = 507 183306 best/(n*log(n)*log(log(n))) = 12
-n = 508 184138 best/(n*log(n)*log(log(n))) = 12
-n = 509 183826 best/(n*log(n)*log(log(n))) = 12
-n = 510 183992 best/(n*log(n)*log(log(n))) = 12
-n = 511 186284 best/(n*log(n)*log(log(n))) = 12
-n = 512 187326 best/(n*log(n)*log(log(n))) = 12
-n = 513 187149 best/(n*log(n)*log(log(n))) = 12
-n = 514 188001 best/(n*log(n)*log(log(n))) = 12
-n = 515 188305 best/(n*log(n)*log(log(n))) = 12
-n = 516 188464 best/(n*log(n)*log(log(n))) = 12
-n = 517 188994 best/(n*log(n)*log(log(n))) = 12
-n = 518 189065 best/(n*log(n)*log(log(n))) = 12
-n = 519 189829 best/(n*log(n)*log(log(n))) = 12
-n = 520 201894 best/(n*log(n)*log(log(n))) = 13
-n = 521 201542 best/(n*log(n)*log(log(n))) = 13
-n = 522 201995 best/(n*log(n)*log(log(n))) = 13
-n = 523 206483 best/(n*log(n)*log(log(n))) = 13
-n = 524 206247 best/(n*log(n)*log(log(n))) = 13
-n = 525 210812 best/(n*log(n)*log(log(n))) = 13
-n = 526 207555 best/(n*log(n)*log(log(n))) = 13
-n = 527 212327 best/(n*log(n)*log(log(n))) = 14
-n = 528 212136 best/(n*log(n)*log(log(n))) = 13
-n = 529 218921 best/(n*log(n)*log(log(n))) = 14
-n = 530 219066 best/(n*log(n)*log(log(n))) = 14
-n = 531 218765 best/(n*log(n)*log(log(n))) = 14
-n = 532 222609 best/(n*log(n)*log(log(n))) = 14
-n = 533 223247 best/(n*log(n)*log(log(n))) = 14
-n = 534 224206 best/(n*log(n)*log(log(n))) = 14
-n = 535 227128 best/(n*log(n)*log(log(n))) = 14
-n = 536 228372 best/(n*log(n)*log(log(n))) = 14
-n = 537 229085 best/(n*log(n)*log(log(n))) = 14
-n = 538 231237 best/(n*log(n)*log(log(n))) = 14
-n = 539 231662 best/(n*log(n)*log(log(n))) = 14
-n = 540 232037 best/(n*log(n)*log(log(n))) = 14
-n = 541 235497 best/(n*log(n)*log(log(n))) = 15
-n = 542 236206 best/(n*log(n)*log(log(n))) = 15
-n = 543 235024 best/(n*log(n)*log(log(n))) = 14
-n = 544 238079 best/(n*log(n)*log(log(n))) = 15
-n = 545 236800 best/(n*log(n)*log(log(n))) = 15
-n = 546 238202 best/(n*log(n)*log(log(n))) = 15
-n = 547 239294 best/(n*log(n)*log(log(n))) = 15
-n = 548 241126 best/(n*log(n)*log(log(n))) = 15
-n = 549 241263 best/(n*log(n)*log(log(n))) = 15
-n = 550 240871 best/(n*log(n)*log(log(n))) = 15
-n = 551 242184 best/(n*log(n)*log(log(n))) = 15
-n = 552 241105 best/(n*log(n)*log(log(n))) = 15
-n = 553 241455 best/(n*log(n)*log(log(n))) = 15
-n = 554 241181 best/(n*log(n)*log(log(n))) = 14
-n = 555 241345 best/(n*log(n)*log(log(n))) = 14
-n = 556 246179 best/(n*log(n)*log(log(n))) = 15
-n = 557 247393 best/(n*log(n)*log(log(n))) = 15
-n = 558 246935 best/(n*log(n)*log(log(n))) = 15
-n = 559 247425 best/(n*log(n)*log(log(n))) = 15
-n = 560 248071 best/(n*log(n)*log(log(n))) = 15
-n = 561 247819 best/(n*log(n)*log(log(n))) = 15
-n = 562 246856 best/(n*log(n)*log(log(n))) = 15
-n = 563 248455 best/(n*log(n)*log(log(n))) = 15
-n = 564 248499 best/(n*log(n)*log(log(n))) = 15
-n = 565 251444 best/(n*log(n)*log(log(n))) = 15
-n = 566 251168 best/(n*log(n)*log(log(n))) = 15
-n = 567 251087 best/(n*log(n)*log(log(n))) = 15
-n = 568 251373 best/(n*log(n)*log(log(n))) = 15
-n = 569 252342 best/(n*log(n)*log(log(n))) = 15
-n = 570 251237 best/(n*log(n)*log(log(n))) = 15
-n = 571 254077 best/(n*log(n)*log(log(n))) = 15
-n = 572 254588 best/(n*log(n)*log(log(n))) = 15
-n = 573 253443 best/(n*log(n)*log(log(n))) = 15
-n = 574 254284 best/(n*log(n)*log(log(n))) = 15
-n = 575 254286 best/(n*log(n)*log(log(n))) = 15
-n = 576 254336 best/(n*log(n)*log(log(n))) = 15
-n = 577 255808 best/(n*log(n)*log(log(n))) = 15
-n = 578 255870 best/(n*log(n)*log(log(n))) = 15
-n = 579 255897 best/(n*log(n)*log(log(n))) = 15
-n = 580 256962 best/(n*log(n)*log(log(n))) = 15
-n = 581 256934 best/(n*log(n)*log(log(n))) = 15
-n = 582 257149 best/(n*log(n)*log(log(n))) = 15
-n = 583 260521 best/(n*log(n)*log(log(n))) = 15
-n = 584 260644 best/(n*log(n)*log(log(n))) = 15
-n = 585 260842 best/(n*log(n)*log(log(n))) = 15
-n = 586 262962 best/(n*log(n)*log(log(n))) = 15
-n = 587 262680 best/(n*log(n)*log(log(n))) = 15
-n = 588 263445 best/(n*log(n)*log(log(n))) = 15
-n = 589 261794 best/(n*log(n)*log(log(n))) = 15
-n = 590 263408 best/(n*log(n)*log(log(n))) = 15
-n = 591 263897 best/(n*log(n)*log(log(n))) = 15
-n = 592 267194 best/(n*log(n)*log(log(n))) = 15
-n = 593 266690 best/(n*log(n)*log(log(n))) = 15
-n = 594 267152 best/(n*log(n)*log(log(n))) = 15
-n = 595 267964 best/(n*log(n)*log(log(n))) = 15
-n = 596 268268 best/(n*log(n)*log(log(n))) = 15
-n = 597 267890 best/(n*log(n)*log(log(n))) = 15
-n = 598 269723 best/(n*log(n)*log(log(n))) = 15
-n = 599 269320 best/(n*log(n)*log(log(n))) = 15
-n = 600 269357 best/(n*log(n)*log(log(n))) = 15
+n = 150 best = 30179 O = 9
+n = 151 best = 30226 O = 9
+n = 152 best = 28870 O = 9
+n = 153 best = 29079 O = 9
+n = 154 best = 30063 O = 9
+n = 155 best = 31657 O = 9
+n = 156 best = 30038 O = 9
+n = 157 best = 30768 O = 9
+n = 158 best = 30853 O = 9
+n = 159 best = 33816 O = 10
+
+n = 160 best = 33191 O = 9
+n = 161 best = 32566 O = 9
+n = 162 best = 31894 O = 9
+n = 163 best = 32045 O = 9
+n = 164 best = 34000 O = 9
+n = 165 best = 33087 O = 9
+n = 166 best = 34265 O = 9
+n = 167 best = 33618 O = 9
+n = 168 best = 36305 O = 10
+n = 169 best = 35219 O = 9
+
+n = 170 best = 35311 O = 9
+n = 171 best = 34779 O = 9
+n = 172 best = 37978 O = 10
+n = 173 best = 37938 O = 10
+n = 174 best = 37971 O = 10
+n = 175 best = 37841 O = 10
+n = 176 best = 38509 O = 10
+n = 177 best = 38205 O = 9
+n = 178 best = 38974 O = 10
+n = 179 best = 38308 O = 9
+
+n = 180 best = 39449 O = 10
+n = 181 best = 40047 O = 10
+n = 182 best = 40086 O = 10
+n = 183 best = 39385 O = 9
+n = 184 best = 39879 O = 9
+n = 185 best = 41144 O = 10
+n = 186 best = 41352 O = 10
+n = 187 best = 41606 O = 10
+n = 188 best = 41406 O = 9
+n = 189 best = 40561 O = 9
+
+n = 190 best = 43430 O = 10
+n = 191 best = 43155 O = 10
+n = 192 best = 43217 O = 10
+n = 193 best = 44006 O = 10
+n = 194 best = 44246 O = 10
+n = 195 best = 44577 O = 10
+n = 196 best = 45373 O = 10
+n = 197 best = 46171 O = 10
+n = 198 best = 46111 O = 10
+n = 199 best = 45928 O = 10
+
+n = 200 best = 45632 O = 10
+n = 201 best = 45267 O = 10
+n = 202 best = 46529 O = 10
+n = 203 best = 47404 O = 10
+n = 204 best = 47442 O = 10
+n = 205 best = 48056 O = 10
+n = 206 best = 48199 O = 10
+n = 207 best = 48584 O = 10
+n = 208 best = 47769 O = 10
+n = 209 best = 49254 O = 10
+
+n = 210 best = 49472 O = 10
+n = 211 best = 48457 O = 10
+n = 212 best = 48571 O = 10
+n = 213 best = 50007 O = 10
+n = 214 best = 51970 O = 10
+n = 215 best = 52239 O = 10
+n = 216 best = 50908 O = 10
+n = 217 best = 51083 O = 10
+n = 218 best = 51373 O = 10
+n = 219 best = 51540 O = 10
+
+n = 220 best = 51661 O = 10
+n = 221 best = 55036 O = 10
+n = 222 best = 52309 O = 10
+n = 223 best = 51997 O = 10
+n = 224 best = 54926 O = 10
+n = 225 best = 52092 O = 9
+n = 226 best = 53165 O = 10
+n = 227 best = 54995 O = 10
+n = 228 best = 53225 O = 10
+n = 229 best = 57626 O = 10
+
+n = 230 best = 56473 O = 10
+n = 231 best = 56405 O = 10
+n = 232 best = 57551 O = 10
+n = 233 best = 58840 O = 10
+n = 234 best = 57495 O = 10
+n = 235 best = 60759 O = 11
+n = 236 best = 63045 O = 11
+n = 237 best = 60007 O = 10
+n = 238 best = 62692 O = 11
+n = 239 best = 61336 O = 10
+
+n = 240 best = 63663 O = 11
+n = 241 best = 64392 O = 11
+n = 242 best = 64445 O = 11
+n = 243 best = 67398 O = 11
+n = 244 best = 65998 O = 11
+n = 245 best = 64652 O = 11
+n = 246 best = 64733 O = 11
+n = 247 best = 65410 O = 11
+n = 248 best = 66520 O = 11
+n = 249 best = 66136 O = 11
+
+n = 250 best = 67051 O = 11
+n = 251 best = 67368 O = 11
+n = 252 best = 70959 O = 11
+n = 253 best = 67668 O = 11
+n = 254 best = 69500 O = 11
+n = 255 best = 68251 O = 11
+n = 256 best = 72513 O = 11
+n = 257 best = 69930 O = 11
+n = 258 best = 69579 O = 11
+n = 259 best = 70163 O = 11
+
+n = 260 best = 71040 O = 11
+n = 261 best = 70818 O = 11
+n = 262 best = 71787 O = 11
+n = 263 best = 72365 O = 11
+n = 264 best = 73795 O = 11
+n = 265 best = 71867 O = 11
+n = 266 best = 73211 O = 11
+n = 267 best = 74605 O = 11
+n = 268 best = 75271 O = 11
+n = 269 best = 73356 O = 11
+
+n = 270 best = 75081 O = 11
+n = 271 best = 74148 O = 11
+n = 272 best = 76228 O = 11
+n = 273 best = 74346 O = 11
+n = 274 best = 76914 O = 11
+n = 275 best = 75471 O = 11
+n = 276 best = 75506 O = 11
+n = 277 best = 76977 O = 11
+n = 278 best = 79071 O = 11
+n = 279 best = 76731 O = 11
+
+n = 280 best = 82474 O = 11
+n = 281 best = 80739 O = 11
+n = 282 best = 80964 O = 11
+n = 283 best = 80294 O = 11
+n = 284 best = 81030 O = 11
+n = 285 best = 81945 O = 11
+n = 286 best = 82281 O = 11
+n = 287 best = 80354 O = 11
+n = 288 best = 82239 O = 11
+n = 289 best = 82893 O = 11
+
+n = 290 best = 82683 O = 11
+n = 291 best = 84932 O = 11
+n = 292 best = 83415 O = 11
+n = 293 best = 86185 O = 11
+n = 294 best = 83968 O = 11
+n = 295 best = 83980 O = 11
+n = 296 best = 84534 O = 11
+n = 297 best = 84119 O = 11
+n = 298 best = 88655 O = 11
+n = 299 best = 87830 O = 11
+
+n = 300 best = 85807 O = 11
+n = 301 best = 87651 O = 11
+n = 302 best = 84776 O = 11
+n = 303 best = 87171 O = 11
+n = 304 best = 85776 O = 11
+n = 305 best = 85681 O = 11
+n = 306 best = 88915 O = 11
+n = 307 best = 86798 O = 11
+n = 308 best = 89020 O = 11
+n = 309 best = 88973 O = 11
+
+n = 310 best = 88321 O = 11
+n = 311 best = 89632 O = 11
+n = 312 best = 89087 O = 11
+n = 313 best = 96782 O = 12
+n = 314 best = 96122 O = 12
+n = 315 best = 97814 O = 12
+n = 316 best = 95957 O = 11
+n = 317 best = 97992 O = 12
+n = 318 best = 96850 O = 11
+n = 319 best = 97872 O = 12
+
+n = 320 best = 99224 O = 12
+n = 321 best = 100682 O = 12
+n = 322 best = 100252 O = 12
+n = 323 best = 101839 O = 12
+n = 324 best = 101582 O = 12
+n = 325 best = 101590 O = 12
+n = 326 best = 103339 O = 12
+n = 327 best = 104706 O = 12
+n = 328 best = 102402 O = 12
+n = 329 best = 103058 O = 12
+
+n = 330 best = 103664 O = 12
+n = 331 best = 104300 O = 12
+n = 332 best = 104830 O = 12
+n = 333 best = 105960 O = 12
+n = 334 best = 106263 O = 12
+n = 335 best = 109283 O = 12
+n = 336 best = 108496 O = 12
+n = 337 best = 107475 O = 12
+n = 338 best = 107904 O = 12
+n = 339 best = 109745 O = 12
+
+n = 340 best = 108511 O = 12
+n = 341 best = 109924 O = 12
+n = 342 best = 107503 O = 12
+n = 343 best = 109221 O = 12
+n = 344 best = 108927 O = 12
+n = 345 best = 111639 O = 12
+n = 346 best = 111625 O = 12
+n = 347 best = 111652 O = 12
+n = 348 best = 111204 O = 12
+n = 349 best = 112606 O = 12
+
+n = 350 best = 113705 O = 12
+n = 351 best = 114422 O = 12
+n = 352 best = 118851 O = 12
+n = 353 best = 117519 O = 12
+n = 354 best = 120238 O = 13
+n = 355 best = 118434 O = 12
+n = 356 best = 118384 O = 12
+n = 357 best = 115576 O = 12
+n = 358 best = 116526 O = 12
+n = 359 best = 116967 O = 12
+
+n = 360 best = 125804 O = 13
+n = 361 best = 132287 O = 13
+n = 362 best = 130303 O = 13
+n = 363 best = 119690 O = 12
+n = 364 best = 119157 O = 12
+n = 365 best = 276236 O = 28
+n = 366 best = 120011 O = 12
+n = 367 best = 120096 O = 12
+n = 368 best = 119184 O = 12
+n = 369 best = 123741 O = 12
+
+n = 370 best = 122669 O = 12
+n = 371 best = 122476 O = 12
+n = 372 best = 122225 O = 12
+n = 373 best = 123653 O = 12
+n = 374 best = 123112 O = 12
+n = 375 best = 123810 O = 12
+n = 376 best = 128035 O = 12
+n = 377 best = 127919 O = 12
+n = 378 best = 127317 O = 12
+n = 379 best = 127283 O = 12
+
+n = 380 best = 128120 O = 12
+n = 381 best = 132923 O = 13
+n = 382 best = 135505 O = 13
+n = 383 best = 133212 O = 13
+n = 384 best = 136978 O = 13
+n = 385 best = 128226 O = 12
+n = 386 best = 127946 O = 12
+n = 387 best = 127351 O = 12
+n = 388 best = 127648 O = 12
+n = 389 best = 210022 O = 20
+
+n = 390 best = 295763 O = 28
+n = 391 best = 130438 O = 12
+n = 392 best = 133078 O = 12
+n = 393 best = 133377 O = 12
+n = 394 best = 133101 O = 12
+n = 395 best = 134418 O = 12
+n = 396 best = 133458 O = 12
+n = 397 best = 137132 O = 12
+n = 398 best = 140857 O = 13
+n = 399 best = 136114 O = 12
+
+n = 400 best = 135600 O = 12
+n = 401 best = 136457 O = 12
+n = 402 best = 134431 O = 12
+n = 403 best = 137021 O = 12
+n = 404 best = 139919 O = 12
+n = 405 best = 140289 O = 12
+n = 406 best = 140455 O = 12
+n = 407 best = 140669 O = 12
+n = 408 best = 139642 O = 12
+n = 409 best = 141052 O = 12
+
+n = 410 best = 140801 O = 12
+n = 411 best = 140031 O = 12
+n = 412 best = 141828 O = 12
+n = 413 best = 144220 O = 12
+n = 414 best = 141394 O = 12
+n = 415 best = 145490 O = 12
+n = 416 best = 144367 O = 12
+n = 417 best = 143153 O = 12
+n = 418 best = 206168 O = 18
+n = 419 best = 170392 O = 14
+
+n = 420 best = 169405 O = 14
+n = 421 best = 334571 O = 29
+n = 422 best = 207729 O = 18
+n = 423 best = 205165 O = 17
+n = 424 best = 146582 O = 12
+n = 425 best = 147492 O = 12
+n = 426 best = 149726 O = 12
+n = 427 best = 147899 O = 12
+n = 428 best = 148006 O = 12
+n = 429 best = 150188 O = 12
+
+n = 430 best = 150450 O = 12
+n = 431 best = 150901 O = 12
+n = 432 best = 149864 O = 12
+n = 433 best = 150850 O = 12
+n = 434 best = 151278 O = 12
+n = 435 best = 150460 O = 12
+n = 436 best = 152177 O = 12
+n = 437 best = 151412 O = 12
+n = 438 best = 152149 O = 12
+n = 439 best = 157568 O = 13
+
+n = 440 best = 151701 O = 12
+n = 441 best = 156079 O = 12
+n = 442 best = 155590 O = 12
+n = 443 best = 158091 O = 12
+n = 444 best = 156438 O = 12
+n = 445 best = 158761 O = 12
+n = 446 best = 158611 O = 12
+n = 447 best = 159039 O = 12
+n = 448 best = 159507 O = 12
+n = 449 best = 162694 O = 13
+
+n = 450 best = 160843 O = 12
+n = 451 best = 164213 O = 13
+n = 452 best = 162824 O = 13
+n = 453 best = 161580 O = 12
+n = 454 best = 162270 O = 12
+n = 455 best = 166638 O = 13
+n = 456 best = 242299 O = 19
+n = 457 best = 246860 O = 19
+n = 458 best = 402815 O = 31
+n = 459 best = 229468 O = 17
+
+n = 460 best = 227936 O = 17
+n = 461 best = 168006 O = 13
+n = 462 best = 165174 O = 12
+n = 463 best = 168028 O = 13
+n = 464 best = 165343 O = 12
+n = 465 best = 167828 O = 12
+n = 466 best = 176737 O = 13
+n = 467 best = 389820 O = 29
+n = 468 best = 180076 O = 13
+n = 469 best = 172642 O = 13
+
+n = 470 best = 173675 O = 13
+n = 471 best = 175671 O = 13
+n = 472 best = 171747 O = 13
+n = 473 best = 171048 O = 12
+n = 474 best = 172395 O = 12
+n = 475 best = 173234 O = 13
+n = 476 best = 172781 O = 12
+n = 477 best = 407961 O = 30
+n = 478 best = 201667 O = 15
+n = 479 best = 175408 O = 13
+
+n = 480 best = 175292 O = 12
+n = 481 best = 176082 O = 13
+n = 482 best = 177752 O = 13
+n = 483 best = 177349 O = 13
+n = 484 best = 177829 O = 13
+n = 485 best = 407014 O = 29
+n = 486 best = 180560 O = 13
+n = 487 best = 179363 O = 13
+n = 488 best = 178274 O = 12
+n = 489 best = 181566 O = 13
+
+n = 490 best = 181509 O = 13
+n = 491 best = 183975 O = 13
+n = 492 best = 182019 O = 13
+n = 493 best = 187949 O = 13
+n = 494 best = 213854 O = 15
+n = 495 best = 212103 O = 15
+n = 496 best = 211730 O = 15
+n = 497 best = 211765 O = 15
+n = 498 best = 212063 O = 15
+n = 499 best = 426751 O = 30
+
+n = 500 best = 433687 O = 30
+n = 501 best = 455944 O = 32
+n = 502 best = 245806 O = 17
+n = 503 best = 245673 O = 17
+n = 504 best = 237634 O = 16
+n = 505 best = 226156 O = 15
+n = 506 best = 194688 O = 13
+n = 507 best = 193287 O = 13
+n = 508 best = 191042 O = 13
+n = 509 best = 192335 O = 13
+
+n = 510 best = 191833 O = 13
+n = 511 best = 191788 O = 13
+n = 512 best = 194036 O = 13
+n = 513 best = 197803 O = 13
+n = 514 best = 194762 O = 13
+n = 515 best = 202493 O = 13
+n = 516 best = 195493 O = 13
+n = 517 best = 197767 O = 13
+n = 518 best = 198693 O = 13
+n = 519 best = 198639 O = 13
+
+n = 520 best = 197867 O = 13
+n = 521 best = 197451 O = 13
+n = 522 best = 200032 O = 13
+n = 523 best = 251059 O = 16
+n = 524 best = 222304 O = 14
+n = 525 best = 201566 O = 13
+n = 526 best = 204217 O = 13
+n = 527 best = 204210 O = 13
+n = 528 best = 203883 O = 13
+n = 529 best = 204989 O = 13
+
+n = 530 best = 204738 O = 13
+n = 531 best = 203303 O = 13
+n = 532 best = 204852 O = 13
+n = 533 best = 211721 O = 13
+n = 534 best = 210976 O = 13
+n = 535 best = 206335 O = 13
+n = 536 best = 206015 O = 13
+n = 537 best = 483126 O = 31
+n = 538 best = 222763 O = 14
+n = 539 best = 213193 O = 13
+
+n = 540 best = 214641 O = 13
+n = 541 best = 220070 O = 14
+n = 542 best = 219037 O = 13
+n = 543 best = 218073 O = 13
+n = 544 best = 222619 O = 14
+n = 545 best = 214468 O = 13
+n = 546 best = 213717 O = 13
+n = 547 best = 216360 O = 13
+n = 548 best = 213452 O = 13
+n = 549 best = 229983 O = 14
+
+n = 550 best = 229944 O = 14
+n = 551 best = 231557 O = 14
+n = 552 best = 231286 O = 14
+n = 553 best = 235235 O = 14
+n = 554 best = 236756 O = 14
+n = 555 best = 221962 O = 13
+n = 556 best = 224927 O = 13
+n = 557 best = 226987 O = 14
+n = 558 best = 304641 O = 18
+n = 559 best = 313510 O = 19
+
+n = 560 best = 337406 O = 20
+n = 561 best = 230439 O = 14
+n = 562 best = 226029 O = 13
+n = 563 best = 223906 O = 13
+n = 564 best = 227232 O = 13
+n = 565 best = 230939 O = 14
+n = 566 best = 227121 O = 13
+n = 567 best = 229744 O = 13
+n = 568 best = 227851 O = 13
+n = 569 best = 226774 O = 13
+
+n = 570 best = 228794 O = 13
+n = 571 best = 229454 O = 13
+n = 572 best = 231776 O = 13
+n = 573 best = 240612 O = 14
+n = 574 best = 235225 O = 13
+n = 575 best = 241646 O = 14
+n = 576 best = 235603 O = 13
+n = 577 best = 304759 O = 18
+n = 578 best = 304688 O = 17
+n = 579 best = 241642 O = 14
+
+n = 580 best = 232483 O = 13
+n = 581 best = 234672 O = 13
+n = 582 best = 240223 O = 14
+n = 583 best = 236246 O = 13
+n = 584 best = 234943 O = 13
+n = 585 best = 241395 O = 14
+n = 586 best = 242121 O = 14
+n = 587 best = 243961 O = 14
+n = 588 best = 242198 O = 13
+n = 589 best = 249167 O = 14
+
+n = 590 best = 247418 O = 14
+n = 591 best = 241576 O = 13
+n = 592 best = 241810 O = 13
+n = 593 best = 243985 O = 13
+n = 594 best = 241614 O = 13
+n = 595 best = 250809 O = 14
+n = 596 best = 249239 O = 14
+n = 597 best = 309946 O = 17
+n = 598 best = 290574 O = 16
+n = 599 best = 294104 O = 16
+
+n = 600 best = 291282 O = 16
+n = 601 best = 256768 O = 14
+n = 602 best = 254540 O = 14
+n = 603 best = 570458 O = 31
+n = 604 best = 248484 O = 13
+n = 605 best = 253580 O = 14
+n = 606 best = 252735 O = 14
+n = 607 best = 250272 O = 13
+n = 608 best = 533494 O = 29
+n = 609 best = 301272 O = 16
+
+n = 610 best = 303343 O = 16
+n = 611 best = 623971 O = 34
+n = 612 best = 301971 O = 16
+n = 613 best = 257643 O = 14
+n = 614 best = 257725 O = 14
+n = 615 best = 259012 O = 14
+n = 616 best = 261479 O = 14
+n = 617 best = 258835 O = 14
+n = 618 best = 257732 O = 14
+n = 619 best = 267379 O = 14
+
+n = 620 best = 259173 O = 14
+n = 621 best = 263348 O = 14
+n = 622 best = 266585 O = 14
+n = 623 best = 605319 O = 32
+n = 624 best = 600727 O = 32
+n = 625 best = 368655 O = 19
+n = 626 best = 265821 O = 14
+n = 627 best = 265751 O = 14
+n = 628 best = 265317 O = 14
+n = 629 best = 272509 O = 14
+
+n = 630 best = 653163 O = 34
+n = 631 best = 291731 O = 15
+n = 632 best = 266999 O = 14
+n = 633 best = 270609 O = 14
+n = 634 best = 273205 O = 14
+n = 635 best = 270822 O = 14
+n = 636 best = 271059 O = 14
+n = 637 best = 275454 O = 14
+n = 638 best = 278859 O = 14
+n = 639 best = 272612 O = 14
+
+n = 640 best = 276182 O = 14
+n = 641 best = 277788 O = 14
+n = 642 best = 274394 O = 14
+n = 643 best = 275551 O = 14
+n = 644 best = 274135 O = 14
+n = 645 best = 327238 O = 16
+n = 646 best = 328829 O = 16
+n = 647 best = 279192 O = 14
+n = 648 best = 279403 O = 14
+n = 649 best = 653310 O = 33
+
+n = 650 best = 407239 O = 20
+n = 651 best = 278702 O = 14
+n = 652 best = 301285 O = 15
+n = 653 best = 286387 O = 14
+n = 654 best = 279145 O = 14
+n = 655 best = 683241 O = 34
+n = 656 best = 390127 O = 19
+n = 657 best = 287832 O = 14
+n = 658 best = 291260 O = 14
+n = 659 best = 286720 O = 14
+
+n = 660 best = 284534 O = 14
+n = 661 best = 287005 O = 14
+n = 662 best = 295500 O = 14
+n = 663 best = 400301 O = 19
+n = 664 best = 289253 O = 14
+n = 665 best = 291038 O = 14
+n = 666 best = 293653 O = 14
+n = 667 best = 288905 O = 14
+n = 668 best = 291469 O = 14
+n = 669 best = 293005 O = 14
+
+n = 670 best = 293738 O = 14
+n = 671 best = 714645 O = 35
+n = 672 best = 406463 O = 19
+n = 673 best = 407106 O = 19
+n = 674 best = 295572 O = 14
+n = 675 best = 293422 O = 14
+n = 676 best = 293308 O = 14
+n = 677 best = 299893 O = 14
+n = 678 best = 298159 O = 14
+n = 679 best = 691643 O = 33
+
+n = 680 best = 411655 O = 19
+n = 681 best = 416604 O = 20
+n = 682 best = 306493 O = 14
+n = 683 best = 303748 O = 14
+n = 684 best = 300315 O = 14
+n = 685 best = 301679 O = 14
+n = 686 best = 302452 O = 14
+n = 687 best = 306176 O = 14
+n = 688 best = 303040 O = 14
+n = 689 best = 307439 O = 14
+
+n = 690 best = 310586 O = 14
+n = 691 best = 429198 O = 20
+n = 692 best = 305468 O = 14
+n = 693 best = 306398 O = 14
+n = 694 best = 305979 O = 14
+n = 695 best = 308515 O = 14
+n = 696 best = 305863 O = 14
+n = 697 best = 307269 O = 14
+n = 698 best = 310170 O = 14
+n = 699 best = 311898 O = 14
+
+n = 700 best = 307872 O = 14
+n = 701 best = 312252 O = 14
+n = 702 best = 311970 O = 14
+n = 703 best = 309231 O = 14
+n = 704 best = 308023 O = 14
+n = 705 best = 317251 O = 14
+n = 706 best = 315511 O = 14
+n = 707 best = 333364 O = 15
+n = 708 best = 312136 O = 14
+n = 709 best = 317424 O = 14
+
+n = 710 best = 355099 O = 16
+n = 711 best = 321671 O = 14
+n = 712 best = 317021 O = 14
+n = 713 best = 320887 O = 14
+n = 714 best = 318061 O = 14
+n = 715 best = 321792 O = 14
+n = 716 best = 735819 O = 33
+n = 717 best = 328397 O = 14
+n = 718 best = 322087 O = 14
+n = 719 best = 322691 O = 14
+
+n = 720 best = 320879 O = 14
+n = 721 best = 353267 O = 15
+n = 722 best = 347559 O = 15
+n = 723 best = 335702 O = 15
+n = 724 best = 340113 O = 15
+n = 725 best = 330379 O = 14
+n = 726 best = 334075 O = 14
+n = 727 best = 331619 O = 14
+n = 728 best = 460867 O = 20
+n = 729 best = 335328 O = 14
+
+n = 730 best = 338573 O = 15
+n = 731 best = 335268 O = 14
+n = 732 best = 340745 O = 15
+n = 733 best = 336003 O = 14
+n = 734 best = 335213 O = 14
+n = 735 best = 333824 O = 14
+n = 736 best = 340083 O = 14
+n = 737 best = 343374 O = 15
+n = 738 best = 404693 O = 17
+n = 739 best = 406104 O = 17
+
+n = 740 best = 342510 O = 14
+n = 741 best = 351661 O = 15
+n = 742 best = 442573 O = 19
+n = 743 best = 355985 O = 15
+n = 744 best = 474182 O = 20
+n = 745 best = 381871 O = 16
+n = 746 best = 387675 O = 16
+n = 747 best = 361025 O = 15
+n = 748 best = 344034 O = 14
+n = 749 best = 344581 O = 14
+
+n = 750 best = 346952 O = 14
+n = 751 best = 341662 O = 14
+n = 752 best = 339992 O = 14
+n = 753 best = 348942 O = 14
+n = 754 best = 345573 O = 14
+n = 755 best = 408711 O = 17
+n = 756 best = 408167 O = 17
+n = 757 best = 349001 O = 14
+n = 758 best = 485392 O = 20
+n = 759 best = 353023 O = 14
+
+n = 760 best = 352235 O = 14
+n = 761 best = 349200 O = 14
+n = 762 best = 351288 O = 14
+n = 763 best = 348877 O = 14
+n = 764 best = 350879 O = 14
+n = 765 best = 359853 O = 15
+n = 766 best = 354361 O = 14
+n = 767 best = 353698 O = 14
+n = 768 best = 357121 O = 14
+n = 769 best = 354288 O = 14
+
+n = 770 best = 867349 O = 36
+n = 771 best = 496993 O = 20
+n = 772 best = 356802 O = 14
+n = 773 best = 366074 O = 15
+n = 774 best = 359393 O = 14
+n = 775 best = 361616 O = 14
+n = 776 best = 361870 O = 14
+n = 777 best = 363162 O = 14
+n = 778 best = 366269 O = 15
+n = 779 best = 372476 O = 15
+
+n = 780 best = 364565 O = 14
+n = 781 best = 434958 O = 17
+n = 782 best = 371024 O = 15
+n = 783 best = 372090 O = 15
+n = 784 best = 376941 O = 15
+n = 785 best = 366040 O = 14
+n = 786 best = 374093 O = 15
+n = 787 best = 370033 O = 14
+n = 788 best = 371968 O = 15
+n = 789 best = 434643 O = 17
+
+n = 790 best = 368974 O = 14
+n = 791 best = 374302 O = 15
+n = 792 best = 379600 O = 15
+n = 793 best = 377215 O = 15
+n = 794 best = 377051 O = 15
+n = 795 best = 380444 O = 15
+n = 796 best = 370540 O = 14
+n = 797 best = 387020 O = 15
+n = 798 best = 375069 O = 14
+n = 799 best = 376037 O = 14
+
+n = 800 best = 373092 O = 14
+n = 801 best = 475756 O = 18
+n = 802 best = 384226 O = 15
+n = 803 best = 391867 O = 15
+n = 804 best = 383245 O = 15
+n = 805 best = 382180 O = 15
+n = 806 best = 385377 O = 15
+n = 807 best = 577192 O = 22
+n = 808 best = 383348 O = 15
+n = 809 best = 382545 O = 14
+
+n = 810 best = 382248 O = 14
+n = 811 best = 413408 O = 16
+n = 812 best = 385614 O = 15
+n = 813 best = 393654 O = 15
+n = 814 best = 392437 O = 15
+n = 815 best = 394502 O = 15
+n = 816 best = 952209 O = 36
+n = 817 best = 390468 O = 15
+n = 818 best = 393557 O = 15
+n = 819 best = 392207 O = 15
+
+n = 820 best = 388638 O = 14
+n = 821 best = 460967 O = 17
+n = 822 best = 546305 O = 20
+n = 823 best = 392292 O = 15
+n = 824 best = 392761 O = 15
+n = 825 best = 402853 O = 15
+n = 826 best = 505150 O = 19
+n = 827 best = 395935 O = 15
+n = 828 best = 396615 O = 15
+n = 829 best = 408636 O = 15
+
+n = 830 best = 408239 O = 15
+n = 831 best = 400735 O = 15
+n = 832 best = 396906 O = 15
+n = 833 best = 404111 O = 15
+n = 834 best = 871987 O = 32
+n = 835 best = 472930 O = 17
+n = 836 best = 537961 O = 20
+n = 837 best = 546728 O = 20
+n = 838 best = 409836 O = 15
+n = 839 best = 651246 O = 24
+
+n = 840 best = 411034 O = 15
+n = 841 best = 419559 O = 15
+n = 842 best = 995218 O = 37
+n = 843 best = 991098 O = 36
+n = 844 best = 407872 O = 15
+n = 845 best = 413739 O = 15
+n = 846 best = 989347 O = 36
+n = 847 best = 987079 O = 36
+n = 848 best = 475555 O = 17
+n = 849 best = 417640 O = 15
+
+n = 850 best = 424227 O = 15
+n = 851 best = 575187 O = 21
+n = 852 best = 571277 O = 20
+n = 853 best = 590677 O = 21
+n = 854 best = 491833 O = 18
+n = 855 best = 489387 O = 17
+n = 856 best = 413489 O = 15
+n = 857 best = 416903 O = 15
+n = 858 best = 415866 O = 15
+n = 859 best = 414568 O = 15
+
+n = 860 best = 422710 O = 15
+n = 861 best = 421302 O = 15
+n = 862 best = 421644 O = 15
+n = 863 best = 422780 O = 15
+n = 864 best = 422798 O = 15
+n = 865 best = 424922 O = 15
+n = 866 best = 451642 O = 16
+n = 867 best = 430091 O = 15
+n = 868 best = 422060 O = 15
+n = 869 best = 422841 O = 15
+
+n = 870 best = 426910 O = 15
+n = 871 best = 634015 O = 22
+n = 872 best = 422392 O = 15
+n = 873 best = 459353 O = 16
+n = 874 best = 430338 O = 15
+n = 875 best = 439351 O = 15
+n = 876 best = 432609 O = 15
+n = 877 best = 434225 O = 15
+n = 878 best = 434601 O = 15
+n = 879 best = 439922 O = 15
+
+n = 880 best = 436597 O = 15
+n = 881 best = 432267 O = 15
+n = 882 best = 438155 O = 15
+n = 883 best = 563474 O = 19
+n = 884 best = 715200 O = 25
+n = 885 best = 442227 O = 15
+n = 886 best = 440693 O = 15
+n = 887 best = 438997 O = 15
+n = 888 best = 437921 O = 15
+n = 889 best = 439216 O = 15
+
+n = 890 best = 438342 O = 15
+n = 891 best = 618460 O = 21
+n = 892 best = 447194 O = 15
+n = 893 best = 439943 O = 15
+n = 894 best = 439879 O = 15
+n = 895 best = 462993 O = 16
+n = 896 best = 443672 O = 15
+n = 897 best = 585627 O = 20
+n = 898 best = 452211 O = 15
+n = 899 best = 450524 O = 15
+
+n = 900 best = 455169 O = 15
+n = 901 best = 450154 O = 15
+n = 902 best = 458837 O = 15
+n = 903 best = 460162 O = 15
+n = 904 best = 450353 O = 15
+n = 905 best = 452656 O = 15
+n = 906 best = 575852 O = 19
+n = 907 best = 463271 O = 15
+n = 908 best = 481180 O = 16
+n = 909 best = 463322 O = 15
+
+n = 910 best = 463261 O = 15
+n = 911 best = 471797 O = 15
+n = 912 best = 488169 O = 16
+n = 913 best = 464082 O = 15
+n = 914 best = 538950 O = 18
+n = 915 best = 469927 O = 15
+n = 916 best = 468033 O = 15
+n = 917 best = 464446 O = 15
+n = 918 best = 471719 O = 15
+n = 919 best = 465382 O = 15
+
+n = 920 best = 468121 O = 15
+n = 921 best = 471265 O = 15
+n = 922 best = 1144998 O = 38
+n = 923 best = 706008 O = 23
+n = 924 best = 472613 O = 15
+n = 925 best = 479469 O = 15
+n = 926 best = 484427 O = 16
+n = 927 best = 478650 O = 15
+n = 928 best = 486130 O = 16
+n = 929 best = 486846 O = 16
+
+n = 930 best = 484315 O = 15
+n = 931 best = 480022 O = 15
+n = 932 best = 484813 O = 15
+n = 933 best = 509340 O = 16
+n = 934 best = 529099 O = 17
+n = 935 best = 520973 O = 17
+n = 936 best = 523454 O = 17
+n = 937 best = 540518 O = 17
+n = 938 best = 541441 O = 17
+n = 939 best = 520795 O = 17
+
+n = 940 best = 516165 O = 16
+n = 941 best = 514165 O = 16
+n = 942 best = 518500 O = 16
+n = 943 best = 522888 O = 16
+n = 944 best = 590772 O = 19
+n = 945 best = 531086 O = 17
+n = 946 best = 531177 O = 17
+n = 947 best = 529746 O = 17
+n = 948 best = 527976 O = 17
+n = 949 best = 540940 O = 17
+
+n = 950 best = 531143 O = 17
+n = 951 best = 536421 O = 17
+n = 952 best = 532053 O = 17
+n = 953 best = 546642 O = 17
+n = 954 best = 541518 O = 17
+n = 955 best = 570668 O = 18
+n = 956 best = 555321 O = 17
+n = 957 best = 542618 O = 17
+n = 958 best = 552947 O = 17
+n = 959 best = 551943 O = 17
+
+n = 960 best = 553906 O = 17
+n = 961 best = 556491 O = 17
+n = 962 best = 555890 O = 17
+n = 963 best = 555803 O = 17
+n = 964 best = 557255 O = 17
+n = 965 best = 557756 O = 17
+n = 966 best = 576259 O = 18
+n = 967 best = 564932 O = 17
+n = 968 best = 565734 O = 17
+n = 969 best = 568568 O = 17
+
+n = 970 best = 576396 O = 18
+n = 971 best = 574836 O = 18
+n = 972 best = 568923 O = 17
+n = 973 best = 572288 O = 17
+n = 974 best = 579587 O = 18
+n = 975 best = 570767 O = 17
+n = 976 best = 573392 O = 17
+n = 977 best = 570869 O = 17
+n = 978 best = 566516 O = 17
+n = 979 best = 583175 O = 18
+
+n = 980 best = 574379 O = 17
+n = 981 best = 569102 O = 17
+n = 982 best = 571380 O = 17
+n = 983 best = 574830 O = 17
+n = 984 best = 796176 O = 24
+n = 985 best = 580058 O = 17
+n = 986 best = 581099 O = 17
+n = 987 best = 586543 O = 18
+n = 988 best = 585977 O = 17
+n = 989 best = 586063 O = 17
+
+n = 990 best = 585059 O = 17
+n = 991 best = 586086 O = 17
+n = 992 best = 585529 O = 17
+n = 993 best = 588441 O = 17
+n = 994 best = 630675 O = 19
+n = 995 best = 579365 O = 17
+n = 996 best = 602645 O = 18
+n = 997 best = 597838 O = 18
+n = 998 best = 584731 O = 17
+n = 999 best = 583355 O = 17
+
+n = 1000 best = 594082 O = 17
 
 --------------------------------------------------------------------------------
 
