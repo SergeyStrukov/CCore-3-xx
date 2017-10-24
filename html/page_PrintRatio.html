@@ -30,6 +30,76 @@
 
 <p class="Files">Files <b>CCore/inc/PrintRatio.h</b> <b>CCore/src/PrintRatio.cpp</b></p>
 
+<p>
+The <b>PrintRatio</b> class prints the ratio of two unsigned integral values in the decimal dot-notation.
+</p>
+
+<pre>
+
+ //
+ // prints a/b like 3.14159... 
+ //
+
+template &lt;UIntType A,UIntType B&gt;
+class <span class="Att">PrintRatio</span>
+ {
+   A a;
+   B b;
+
+  public:
+
+   PrintRatio(A a_,B b_) : a(a_),b(b_) {}
+
+   // print object
+
+   using PrintOptType = RatioPrintOpt ;
+
+   void print(PrinterType &out,PrintOptType opt) const;
+ };
+
+</pre>
+
+<p>
+The following options can be applied:
+</p>
+
+<pre>
+
+/* consts */
+
+inline constexpr unsigned <span class="Att">DefaultRatioFract</span> = 5 ;
+
+/* struct RatioPrintOpt */
+
+struct <span class="Att">RatioPrintOpt</span>
+ {
+  ulen width;
+  unsigned fract;
+  IntAlign align;
+  IntShowSign show_sign;
+
+  void setDefault()
+   {
+    width=0;
+    fract=DefaultRatioFract;
+    align=IntAlignDefault;
+    show_sign=IntShowSignDefault;
+   }
+
+  RatioPrintOpt() { setDefault(); }
+
+  RatioPrintOpt(const char *ptr,const char *lim);
+
+  //
+  // [+][width=0][.&lt;fract&gt;=.5][l|L|r|R|i|I=R]
+  //
+ };
+
+</pre>
+
+<p>
+It includes output width, fraction part length, alignment and show sign flag.
+</p>
 
 </body>
 
