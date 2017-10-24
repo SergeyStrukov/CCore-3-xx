@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/test/test.h>
+#include <CCore/test/PriorityBoost.h>
 
 #include <CCore/inc/TaskMemStack.h>
 #include <CCore/inc/Array.h>
@@ -343,7 +344,7 @@ class TestSpeed
    template <class P>
    void show(P &&out,StrLen title)
     {
-     Printf(out,"#;\n",Title(title));
+     Printf(out,"#;\n\n",Title(title));
 
      showStat(out);
     }
@@ -409,6 +410,8 @@ bool Testit<6004>::Main()
   //TestEngine<Algo,Alt>().run(100'000);
 
   PrintFile out("test6004.txt");
+
+  PriorityBoost();
 
   TestSpeed<GMPAlgo>::Run(out,"GMPAlgo");
   TestSpeed<Algo>::Run(out,"FastAlgo");

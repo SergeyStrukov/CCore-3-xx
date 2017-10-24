@@ -18,11 +18,11 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/PlatformRandom.h>
 #include <CCore/inc/Timer.h>
+#include <CCore/inc/PrintRatio.h>
 
 #include <CCore/inc/math/IntegerMulAlgo.h>
 #include <CCore/inc/math/IntegerFastAlgo.h>
 
-#include <math.h>
 #include <gmp.h>
 
 namespace App {
@@ -77,6 +77,8 @@ class TestIntegerSpeed
 
   private:
 
+   static unsigned Log(UIntType x) { return UIntBitsOf(x); }
+
    void funcUMul(ulen n,ulen m) CCORE_NOINLINE
     {
      Algo::UMul(c,a,n,b,m);
@@ -108,10 +110,17 @@ class TestIntegerSpeed
     {
      if( (n%10)==0 ) Putch(out,'\n');
 
-     if( n>=4 )
-       Printf(out,"n = #; best = #; O = #;\n",n,t,int( t/(n*log2(n)*log2(log2(n))) ));
+     auto l=Log(n);
+     auto b=n*l*Log(l);
+
+     if( b )
+       {
+        Printf(out,"n = #; best = #; O = #;\n",n,t,PrintRatio(t,b));
+       }
      else
-       Printf(out,"n = #; best = #;\n",n,t);
+       {
+        Printf(out,"n = #; best = #;\n",n,t);
+       }
     }
 
    template <class P>
@@ -267,7 +276,7 @@ struct Base : Math::IntegerFastAlgo
 #endif
 
   static constexpr ulen Toom22Min =     30 ; // 30
-  static constexpr ulen Toom33Min =    100 ; // 100
+  static constexpr ulen Toom33Min =    110 ; // 100
   static constexpr ulen Toom44Min =    170 ; // 170
 
   static constexpr ulen TopMin    =  4'000 ;

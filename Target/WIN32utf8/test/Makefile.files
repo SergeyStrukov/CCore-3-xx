@@ -1,4 +1,5 @@
 OBJ_LIST = \
+../.test-obj/PriorityBoost.o \
 ../.test-obj/main.o \
 ../.test-obj/test1001.NoCopy.o \
 ../.test-obj/test1002.CreateAt.o \
@@ -181,6 +182,7 @@ OBJ_LIST = \
 
 
 ASM_LIST = \
+../.test-obj/PriorityBoost.s \
 ../.test-obj/main.s \
 ../.test-obj/test1001.NoCopy.s \
 ../.test-obj/test1002.CreateAt.s \
@@ -363,6 +365,7 @@ ASM_LIST = \
 
 
 DEP_LIST = \
+../.test-obj/PriorityBoost.dep \
 ../.test-obj/main.dep \
 ../.test-obj/test1001.NoCopy.dep \
 ../.test-obj/test1002.CreateAt.dep \
@@ -549,6 +552,9 @@ ASM_OBJ_LIST = \
 
 include $(RULES_FILE)
 
+
+../.test-obj/PriorityBoost.o : ../../../Target/WIN32utf8/CCore/test/./PriorityBoost.cpp
+	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/main.o : ././main.cpp
 	$(CC) $(CCOPT) $< -o $@
@@ -1089,6 +1095,9 @@ include $(RULES_FILE)
 
 
 
+../.test-obj/PriorityBoost.s : ../../../Target/WIN32utf8/CCore/test/./PriorityBoost.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/main.s : ././main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1627,6 +1636,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+../.test-obj/PriorityBoost.dep : ../../../Target/WIN32utf8/CCore/test/./PriorityBoost.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/PriorityBoost.o $< -MF $@
 
 ../.test-obj/main.dep : ././main.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/main.o $< -MF $@
