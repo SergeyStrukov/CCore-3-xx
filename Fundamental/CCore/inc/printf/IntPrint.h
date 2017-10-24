@@ -188,7 +188,7 @@ struct IntPrintOpt
   IntPrintOpt(const char *ptr,const char *lim);
 
   //
-  // [+][width=0][.base|.b|.h|.x|.c|.f<prec>=.10][l|L|r|R|i|I=R]
+  // [+][width=0][.<base>|.b|.h|.x|.c|.f<fract>=.10][l|L|r|R|i|I=R]
   //
  };
 

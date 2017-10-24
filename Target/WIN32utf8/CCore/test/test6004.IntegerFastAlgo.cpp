@@ -17,6 +17,7 @@
 
 #include <CCore/inc/TaskMemStack.h>
 #include <CCore/inc/Array.h>
+#include <CCore/inc/PrintRatio.h>
 
 #include <CCore/inc/math/IntegerSlowAlgo.h>
 #include <CCore/inc/math/IntegerFastAlgo.h>
@@ -31,48 +32,6 @@ extern "C" __GMP_DECLSPEC void mpn_mul_basecase (mp_ptr, mp_srcptr, mp_size_t, m
 namespace App {
 
 namespace Private_6004 {
-
-/* PrintRatio */
-
-template <UIntType A,UIntType B>
-class PrintRatio
- {
-   A a;
-   B b;
-
-  private:
-
-   static A Split(A &a,B b)
-    {
-     A t=a/b;
-
-     a%=b;
-
-     return t;
-    }
-
-  public:
-
-   PrintRatio(A a_,B b_) : a(a_),b(b_) {}
-
-   // print object
-
-   void print(PrinterType &out) const
-    {
-     A x=a;
-
-     Printf(out,"#;.",Split(x,b));
-
-     for(unsigned prec=5; a && prec ;prec--)
-       {
-        x*=10;
-
-        Printf(out,"#;",Split(x,b));
-       }
-
-     if( x ) Putobj(out,"..."_c);
-    }
- };
 
 /* types */
 
@@ -299,8 +258,8 @@ class TestSpeed
    using Unit = typename Algo::Unit ;
 
    static constexpr ulen Len = 64 ;
-   static constexpr unsigned Rep  = 1000 ;
-   static constexpr unsigned Rep2 =   32 ;
+   static constexpr unsigned Rep  = 100 ;
+   static constexpr unsigned Rep2 =  32 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
 

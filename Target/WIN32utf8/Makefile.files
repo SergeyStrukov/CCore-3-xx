@@ -267,6 +267,7 @@ OBJ_LIST = \
 .obj/PrintInteger.o \
 .obj/PrintPTPCon.o \
 .obj/PrintProxy.o \
+.obj/PrintRatio.o \
 .obj/PrintSet.o \
 .obj/PrintStem.o \
 .obj/PrintTime.o \
@@ -706,6 +707,7 @@ ASM_LIST = \
 .obj/PrintInteger.s \
 .obj/PrintPTPCon.s \
 .obj/PrintProxy.s \
+.obj/PrintRatio.s \
 .obj/PrintSet.s \
 .obj/PrintStem.s \
 .obj/PrintTime.s \
@@ -1145,6 +1147,7 @@ DEP_LIST = \
 .obj/PrintInteger.dep \
 .obj/PrintPTPCon.dep \
 .obj/PrintProxy.dep \
+.obj/PrintRatio.dep \
 .obj/PrintSet.dep \
 .obj/PrintStem.dep \
 .obj/PrintTime.dep \
@@ -2131,6 +2134,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PrintProxy.o : ../../Fundamental/CCore/src/./printf/PrintProxy.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/PrintRatio.o : ../../Simple/CCore/src/./PrintRatio.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PrintSet.o : ../../Simple/CCore/src/./PrintSet.cpp
@@ -3443,6 +3449,9 @@ include $(RULES_FILE)
 .obj/PrintProxy.s : ../../Fundamental/CCore/src/./printf/PrintProxy.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/PrintRatio.s : ../../Simple/CCore/src/./PrintRatio.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/PrintSet.s : ../../Simple/CCore/src/./PrintSet.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4752,6 +4761,9 @@ include $(RULES_FILE)
 
 .obj/PrintProxy.dep : ../../Fundamental/CCore/src/./printf/PrintProxy.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/PrintProxy.o $< -MF $@
+
+.obj/PrintRatio.dep : ../../Simple/CCore/src/./PrintRatio.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/PrintRatio.o $< -MF $@
 
 .obj/PrintSet.dep : ../../Simple/CCore/src/./PrintSet.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/PrintSet.o $< -MF $@
