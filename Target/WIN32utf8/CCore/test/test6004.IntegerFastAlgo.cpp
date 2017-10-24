@@ -32,6 +32,48 @@ namespace App {
 
 namespace Private_6004 {
 
+/* PrintRatio */
+
+template <UIntType A,UIntType B>
+class PrintRatio
+ {
+   A a;
+   B b;
+
+  private:
+
+   static A Split(A &a,B b)
+    {
+     A t=a/b;
+
+     a%=b;
+
+     return t;
+    }
+
+  public:
+
+   PrintRatio(A a_,B b_) : a(a_),b(b_) {}
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     A x=a;
+
+     Printf(out,"#;.",Split(x,b));
+
+     for(unsigned prec=5; a && prec ;prec--)
+       {
+        x*=10;
+
+        Printf(out,"#;",Split(x,b));
+       }
+
+     if( x ) Putobj(out,"..."_c);
+    }
+ };
+
 /* types */
 
 using Algo = Math::IntegerFastAlgo ;
@@ -256,9 +298,9 @@ class TestSpeed
  {
    using Unit = typename Algo::Unit ;
 
-   static constexpr ulen Len = 32 ;
-   static constexpr unsigned Rep = 400 ;
-   static constexpr unsigned Rep2 =  5 ;
+   static constexpr ulen Len = 64 ;
+   static constexpr unsigned Rep  = 1000 ;
+   static constexpr unsigned Rep2 =   32 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
 
@@ -324,7 +366,18 @@ class TestSpeed
 
         stat.div(Rep2);
 
-        Printf(out,"n = #; #;\n",n,stat.getMin());
+        auto t=stat.getMin();
+
+        if( n>=4 )
+          {
+           auto b=n*(n/4);
+
+           Printf(out,"n = #; #; #;\n",n,t,PrintRatio(t,b));
+          }
+        else
+          {
+           Printf(out,"n = #; #;\n",n,t);
+          }
        }
     }
 
@@ -394,12 +447,12 @@ bool Testit<6004>::Main()
  {
   TaskMemStack tms(64_KByte);
 
-  TestEngine<Algo,Alt>().run(100'000);
+  //TestEngine<Algo,Alt>().run(100'000);
 
   PrintFile out("test6004.txt");
 
-  TestSpeed<Algo>::Run(out,"FastAlgo");
   TestSpeed<GMPAlgo>::Run(out,"GMPAlgo");
+  TestSpeed<Algo>::Run(out,"FastAlgo");
 
   return true;
  }
