@@ -35,11 +35,6 @@ class GammaTable : NoCopy
    SimpleArray<uint8> inverse;
    double order = 0 ;
 
-  private:
-
-   template <UIntType UInt>
-   static void Fill(PtrLen<UInt> table,double order);
-
   public:
 
    // constructors
