@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/test/test.h>
+#include <CCore/test/PriorityBoost.h>
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/PlatformRandom.h>
@@ -45,7 +46,7 @@ class TestIntegerSpeed
    static constexpr ulen Len2 =       800 ;
    static constexpr ulen Len3 =      8000 ;
 
-   static constexpr unsigned Rep  =    10 ;
+   static constexpr unsigned Rep  =   100 ;
    static constexpr unsigned Rep2 =    32 ;
 
    using Stat = TimeStat<ClockTimer::ValueType> ;
@@ -286,10 +287,111 @@ struct Base : Math::IntegerFastAlgo
   static constexpr ulen Toom77Min = TopMin ;
   static constexpr ulen Toom88Min = TopMin ;
 
+#if 0
+
+  static Unit/* c */ UNeg(Unit *a,ulen na)
+   {
+    if( na==0 ) return 0;
+
+    return mpn_neg((mp_limb_t *)a,(mp_limb_t *)a,na);
+   }
+
+  static Unit/* c */ UAddUnit(Unit *a,ulen na,Unit b)
+   {
+    if( na==0 ) return b;
+
+    return mpn_add_1((mp_limb_t *)a,(mp_limb_t *)a,na,b);
+   }
+
+  static Unit/* c */ USubUnit(Unit *a,ulen na,Unit b)
+   {
+    if( na==0 ) return b;
+
+    return mpn_sub_1((mp_limb_t *)a,(mp_limb_t *)a,na,b);
+   }
+
+  static Unit/* c */ UAdd(Unit *restrict b,const Unit *a,ulen nab)
+   {
+    if( nab==0 ) return 0;
+
+    return mpn_add_n((mp_limb_t *)b,(mp_limb_t *)b,(const mp_limb_t *)a,nab);
+   }
+
+  static Unit/* c */ USub(Unit *restrict b,const Unit *a,ulen nab)
+   {
+    if( nab==0 ) return 0;
+
+    return mpn_sub_n((mp_limb_t *)b,(mp_limb_t *)b,(const mp_limb_t *)a,nab);
+   }
+
+  static Unit/* c */ URevSub(Unit *restrict b,const Unit *a,ulen nab)
+   {
+    if( nab==0 ) return 0;
+
+    return mpn_sub_n((mp_limb_t *)b,(const mp_limb_t *)a,(mp_limb_t *)b,nab);
+   }
+
+  static Unit/* msu */ ULShift(Unit *a,ulen na,unsigned shift) noexcept // 0<shift<UnitBits
+   {
+    if( na==0 ) return 0;
+
+    return mpn_lshift((mp_limb_t *)a,(mp_limb_t *)a,na,shift);
+   }
+
+  static void URShift(Unit *a,ulen na,unsigned shift) noexcept // 0<shift<UnitBits
+   {
+    if( na==0 ) return;
+
+    mpn_rshift((mp_limb_t *)a,(mp_limb_t *)a,na,shift);
+   }
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    if( nabc==0 ) return 0;
+
+    return mpn_add_n((mp_limb_t *)c,(const mp_limb_t *)a,(const mp_limb_t *)b,nabc);
+   }
+
+  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc)
+   {
+    if( nabc==0 ) return 0;
+
+    return mpn_sub_n((mp_limb_t *)c,(const mp_limb_t *)a,(const mp_limb_t *)b,nabc);
+   }
+
+  static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
+   {
+    Unit carry=UAdd(c,a,b,nb);
+
+    if( nb<nac )
+      {
+       ulen top=nac-nb;
+
+       Copy(c+nb,a+nb,top);
+
+       return UAddUnit(c+nb,top,carry);
+      }
+    else
+      {
+       return carry;
+      }
+   }
+
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift)
+   {
+    if( nab==0 ) return 0;
+
+    return mpn_lshift((mp_limb_t *)b,(const mp_limb_t *)a,nab,shift);
+   }
+
+#endif
+
 #if 1
 
   static void RawUMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab)
    {
+    if( nab==0 ) return;
+
     mpn_mul((mp_limb_t *)c,(const mp_limb_t *)a,nab,(const mp_limb_t *)b,nab);
    }
 
@@ -314,9 +416,20 @@ bool Testit<6005>::Main()
 
   PrintFile out("test6005.txt");
 
+  PriorityBoost();
+
   //TestIntegerSpeed<GMPAlgo>::Run(out,"GMPAlgo");
 
   TestIntegerSpeed<FastAlgo>::Run(out,"FastAlgo");
+
+  return true;
+
+  for(ulen n=20; n<=200 ;n++)
+    {
+     ulen len=FastAlgo::UMulTempLen(n);
+
+     Printf(Con,"n = #; len = #; mul = #;\n",n,len,RoundUpCount(len,n));
+    }
 
   return true;
 

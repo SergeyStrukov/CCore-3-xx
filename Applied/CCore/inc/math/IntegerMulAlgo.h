@@ -83,7 +83,7 @@ struct FastMulAlgo
 
   class Temp : NoCopy
    {
-     static constexpr ulen Len = 512 ;
+     static constexpr ulen Len = 1024 ;
 
      Unit buf[Len];
      Unit *ptr;
@@ -328,7 +328,7 @@ struct FastMulAlgo
 
   // Toom functions
 
-  static constexpr ulen Toom22MinLen = 2 ;
+  static constexpr ulen Toom22MinLen = 4 ;
 
   static ulen Toom22MulTempLen(ulen nab)
    {
@@ -337,11 +337,11 @@ struct FastMulAlgo
 
     if( n==m || n<Algo::Toom33Min )
       {
-       return UMulTempLen(n)+4*n;
+       return UMulTempLen(n)+2*n;
       }
     else
       {
-       return Max_cast(UMulTempLen(m),UMulTempLen(n)+4*n);
+       return Max_cast(UMulTempLen(m),UMulTempLen(n)+2*n);
       }
    }
 
@@ -355,58 +355,72 @@ struct FastMulAlgo
     const Unit *a1=a+n;
     const Unit *b1=b+n;
 
-    UMul(c,a,b,n,temp);
-    UMul(c+2*n,a1,b1,m,temp);
-
     if( n==m )
       {
-       Unit *p=temp(n);
-       Unit *q=temp(n);
+       ulen k=nab+n;
+
+       Unit *p=c;
+       Unit *q=c+n;
        Unit *P=temp(nab);
 
        bool neg = ( ModSub(p,a,a1,n) == ModSub(q,b,b1,n) );
 
        UMul(P,p,q,n,temp);
+       UMul(c,a,b,n,temp);
+       UMul(c+nab,a1,b1,n,temp);
 
-       Unit carry=Algo::UAdd(p,c,c+nab,nab);
+       Unit carry1=Algo::UAdd(c+nab,c+n,n);
+
+       Unit carry2=Algo::UAdd(c+n,c+nab,c,n)+carry1;
+
+       Unit carry=Algo::UAdd(c+nab,c+k,n)+carry1;
+
+       carry+=Algo::UAddUnit(c+nab,n,carry2);
 
        if( neg )
          {
-          carry-=Algo::USub(p,P,nab);
+          carry-=Algo::USub(c+n,P,nab);
          }
        else
          {
-          carry+=Algo::UAdd(p,P,nab);
+          carry+=Algo::UAdd(c+n,P,nab);
          }
 
-       carry+=Algo::UAdd(c+n,p,nab);
-
-       Algo::UAddUnit(c+nab+n,n,carry);
+       Algo::UAddUnit(c+k,n,carry);
       }
     else
       {
-       Unit *p=temp(n);
-       Unit *q=temp(n);
-       Unit *P=temp(2*n);
+       ulen k=3*n;
+       ulen l=2*n;
+
+       Unit *p=c;
+       Unit *q=c+n;
+       Unit *P=temp(l);
 
        bool neg = ( ModSub1(p,a,a1,n) == ModSub1(q,b,b1,n) );
 
        UMul(P,p,q,n,temp);
+       UMul(c,a,b,n,temp);
+       UMul(c+l,a1,b1,m,temp);
 
-       Algo::UAdd(p,c,2*n,c+2*n,2*m);
+       Unit carry1=Algo::UAdd(c+l,c+n,n);
+
+       Unit carry2=Algo::UAdd(c+n,c+l,c,n)+carry1;
+
+       Unit carry=UAdd(c+l,n,c+k,n-2)+carry1;
+
+       carry+=Algo::UAddUnit(c+l,n,carry2);
 
        if( neg )
          {
-          Algo::USub(p,P,2*n);
+          carry-=Algo::USub(c+n,P,l);
          }
        else
          {
-          Algo::UAdd(p,P,2*n);
+          carry+=Algo::UAdd(c+n,P,l);
          }
 
-       Unit carry=Algo::UAdd(c+n,p,2*n);
-
-       Algo::UAddUnit(c+3*n,n-2,carry);
+       Algo::UAddUnit(c+k,n-2,carry);
       }
    }
 

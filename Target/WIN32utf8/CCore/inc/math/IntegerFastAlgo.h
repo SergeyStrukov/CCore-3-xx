@@ -208,9 +208,9 @@ struct IntegerFastAlgo
 
   static Unit UDiv5(Unit *a,ulen na) noexcept;
 
-  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc);
+  static Unit UAdd(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc) noexcept;
 
-  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc);
+  static Unit USub(Unit *restrict c,const Unit *a,const Unit *b,ulen nabc) noexcept;
 
   static Unit UAdd(Unit *restrict c,const Unit *a,ulen nac,const Unit *b,ulen nb) // nac>=nb
    {
@@ -230,7 +230,7 @@ struct IntegerFastAlgo
       }
    }
 
-  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift);
+  static Unit ULShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift) noexcept;
  };
 
 } // namespace Math

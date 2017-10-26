@@ -56,9 +56,9 @@ struct Base : Alt
 
   static constexpr unsigned LogUnitBits = 4 ;
 
-  static constexpr ulen Toom22Min = 2 ;
-  static constexpr ulen Toom33Min = 5 ;
-  static constexpr ulen Toom44Min = 14 ;
+  static constexpr ulen Toom22Min = 4 ;
+  static constexpr ulen Toom33Min = 10 ;
+  static constexpr ulen Toom44Min = 20 ;
 
   static constexpr ulen TopMin    = 50 ;
 
