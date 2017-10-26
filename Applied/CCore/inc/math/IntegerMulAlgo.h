@@ -83,7 +83,7 @@ struct FastMulAlgo
 
   class Temp : NoCopy
    {
-     static constexpr ulen Len = 1024 ;
+     static constexpr ulen Len = 256 ;
 
      Unit buf[Len];
      Unit *ptr;
@@ -91,7 +91,7 @@ struct FastMulAlgo
 
     public:
 
-     explicit Temp(ulen len_)
+     explicit Temp(ulen len_) CCORE_NOINLINE
       : len(len_)
       {
        if( len_<=Len )
@@ -330,18 +330,26 @@ struct FastMulAlgo
 
   static constexpr ulen Toom22MinLen = 4 ;
 
-  static ulen Toom22MulTempLen(ulen nab)
+  static ulen Toom22MulTempLen(ulen nab) CCORE_NOINLINE
    {
     ulen m=nab/2;
     ulen n=nab-m;
 
-    if( n==m || n<Algo::Toom33Min )
+    if( n<Algo::Toom22Min )
+      return 2*n;
+    else
+      return Toom22MulTempLen(n)+2*n;
+   }
+
+  static void UMulInner22(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+   {
+    if( nab<Algo::Toom22Min )
       {
-       return UMulTempLen(n)+2*n;
+       Algo::RawUMul(c,a,b,nab);
       }
     else
       {
-       return Max_cast(UMulTempLen(m),UMulTempLen(n)+2*n);
+       Toom22Mul(c,a,b,nab,temp);
       }
    }
 
@@ -365,9 +373,9 @@ struct FastMulAlgo
 
        bool neg = ( ModSub(p,a,a1,n) == ModSub(q,b,b1,n) );
 
-       UMul(P,p,q,n,temp);
-       UMul(c,a,b,n,temp);
-       UMul(c+nab,a1,b1,n,temp);
+       UMulInner22(P,p,q,n,temp);
+       UMulInner22(c,a,b,n,temp);
+       UMulInner22(c+nab,a1,b1,n,temp);
 
        Unit carry1=Algo::UAdd(c+nab,c+n,n);
 
@@ -399,9 +407,9 @@ struct FastMulAlgo
 
        bool neg = ( ModSub1(p,a,a1,n) == ModSub1(q,b,b1,n) );
 
-       UMul(P,p,q,n,temp);
-       UMul(c,a,b,n,temp);
-       UMul(c+l,a1,b1,m,temp);
+       UMulInner22(P,p,q,n,temp);
+       UMulInner22(c,a,b,n,temp);
+       UMulInner22(c+l,a1,b1,m,temp);
 
        Unit carry1=Algo::UAdd(c+l,c+n,n);
 
@@ -434,7 +442,7 @@ struct FastMulAlgo
 
   static constexpr ulen Toom33MinLen = 5 ;
 
-  static ulen Toom33MulTempLen(ulen nab)
+  static ulen Toom33MulTempLen(ulen nab) CCORE_NOINLINE
    {
     ulen n=(nab+2)/3;
     ulen m=nab-2*n;
@@ -567,7 +575,7 @@ struct FastMulAlgo
 
   static constexpr ulen Toom44MinLen = 14 ;
 
-  static ulen Toom44MulTempLen(ulen nab)
+  static ulen Toom44MulTempLen(ulen nab) CCORE_NOINLINE
    {
     ulen n=(nab+3)/4;
     ulen m=nab-3*n;
@@ -892,12 +900,12 @@ struct FastMulAlgo
    {
     using Work = typename FastMulAlgo::Work ;
 
-    static ulen UMulTempLen(ulen nab)
+    static ulen UMulTempLen(ulen nab) CCORE_NOINLINE
      {
       return FastMulAlgo::UMulTempLen(nab);
      }
 
-    static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+    static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) CCORE_NOINLINE
      {
       FastMulAlgo::UMul(c,a,b,nab,temp);
      }
@@ -922,7 +930,7 @@ struct FastMulAlgo
 
   // functions
 
-  static ulen UMulTempLen(ulen nab)
+  static ulen UMulTempLen(ulen nab) CCORE_NOINLINE
    {
     static_assert( Toom22MinLen <= Algo::Toom22Min &&
                    Toom33MinLen <= Algo::Toom33Min &&
@@ -980,7 +988,7 @@ struct FastMulAlgo
       }
    }
 
-  static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp)
+  static void UMul(Unit *restrict c,const Unit *a,const Unit *b,ulen nab,Work temp) CCORE_NOINLINE
    {
     if( nab<Algo::Toom22Min )
       {
