@@ -143,11 +143,13 @@ struct UserPreferenceBag : ConfigItemHost
   unsigned progress_time   = 3_sectick ;
   unsigned progress_period =    2_tick ;
 
-  VColor progress_border   =     Black ;
-  VColor progress_grayUp   = DarkGreen ;
-  VColor progress_snowUp   =     Green ;
-  VColor progress_grayPing =     Black ;
-  VColor progress_snowPing =      Snow ;
+  VColor progress_border    =     Black ;
+  VColor progress_grayUp    = DarkGreen ;
+  VColor progress_snowUp    =     Green ;
+  VColor progress_grayPing  =     Black ;
+  VColor progress_snowPing  =      Snow ;
+  VColor progress_grayArrow =      Blue ;
+  VColor progress_snowArrow =   SkyBlue ;
 
   // scroll
 
@@ -391,6 +393,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            XDoubleLineWindow::ConfigType,
                                            LineEditWindow::ConfigType,
                                            ProgressWindow::ConfigType,
+                                           ArrowProgressWindow::ConfigType,
                                            RadioWindow::ConfigType,
                                            XScrollWindow::ConfigType,
                                            SimpleTextListWindow::ConfigType,

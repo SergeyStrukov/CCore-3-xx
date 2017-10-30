@@ -126,6 +126,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("progress_snowUp"_c,ptr->progress_snowUp);
   func("progress_grayPing"_c,ptr->progress_grayPing);
   func("progress_snowPing"_c,ptr->progress_snowPing);
+  func("progress_grayArrow"_c,ptr->progress_grayArrow);
+  func("progress_snowArrow"_c,ptr->progress_snowArrow);
 
   func("scroll_speedUpPeriod"_c,ptr->scroll_speedUpPeriod);
 
@@ -410,6 +412,8 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("snowUp"_def,progress_snowUp);
    binder.item("grayPing"_def,progress_grayPing);
    binder.item("snowPing"_def,progress_snowPing);
+   binder.item("grayArrow"_def,progress_grayArrow);
+   binder.item("snowArrow"_def,progress_snowArrow);
 
   binder.group("Scroll"_def);
 

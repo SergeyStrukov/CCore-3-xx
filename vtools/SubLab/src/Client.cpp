@@ -333,6 +333,16 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
      return new W(host,pref.getSmartConfig());
     }
 
+   template <class W>
+   static SubWindow * Create_def(SubWindowHost &host,const UserPreference &)
+    {
+     static typename W::ConfigType cfg;
+
+     cfg.width=Fraction(6);
+
+     return new W(host,cfg);
+    }
+
    class TextContourWindow_Left : public TextContourWindow
     {
      public:
@@ -522,6 +532,56 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
          input(this)
        {
         defer_tick=input.create(&ProgressWindow_Sample::tick);
+
+        setTotal(100);
+       }
+
+      // base
+
+      virtual void open()
+       {
+        defer_tick.start();
+       }
+
+      virtual void close()
+       {
+        defer_tick.stop();
+       }
+    };
+
+   class ArrowProgressWindow_Sample : public ArrowProgressWindow
+    {
+      DeferInput<ArrowProgressWindow_Sample> input;
+
+      DeferTick defer_tick;
+
+      unsigned pos = 0 ;
+      unsigned count = 0 ;
+
+     private:
+
+      void tick()
+       {
+        if( !count )
+          {
+           count=2_sectick;
+
+           if( pos<=getTotal() )
+             setPosPing(pos++);
+           else
+             defer_tick.stop();
+          }
+
+        count--;
+       }
+
+     public:
+
+      ArrowProgressWindow_Sample(SubWindowHost &host,const ConfigType &cfg)
+       : ArrowProgressWindow(host,cfg),
+         input(this)
+       {
+        defer_tick=input.create(&ArrowProgressWindow_Sample::tick);
 
         setTotal(100);
        }
@@ -1003,6 +1063,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("Text align"_def,CreateCombo<AlignWindow<TextWindow_SampleText> >);
        add("TextLine"_def,Create<TextLineWindow_SampleText>);
        add("Progress"_def,Create<ProgressWindow_Sample>);
+       add("ArrowProgress"_def,Create_def<ArrowProgressWindow_Sample>);
        add("LineEdit"_def,Create<LineEditWindow>);
        add("ScrollX"_def,Create<XScrollWindow_Sample>);
        add("ScrollY"_def,Create<YScrollWindow_Sample>);

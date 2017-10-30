@@ -179,6 +179,10 @@ class ProgressWindowOf : public SubWindow
 
 using ProgressWindow = ProgressWindowOf<ProgressShape> ;
 
+/* type ArrowProgressWindow */
+
+using ArrowProgressWindow = ProgressWindowOf<ArrowProgressShape> ;
+
 } // namespace Video
 } // namespace CCore
 

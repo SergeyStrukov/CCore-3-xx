@@ -30,6 +30,8 @@ namespace Video {
 
 class ProgressShape;
 
+class ArrowProgressShape;
+
 /* class ProgressShape */
 
 class ProgressShape
@@ -93,6 +95,143 @@ class ProgressShape
    // methods
 
    explicit ProgressShape(const Config &cfg_) : cfg(cfg_) {}
+
+   SizeY getMinSize() const;
+
+   bool isGoodSize(Point size) const
+    {
+     Coord dy=getMinSize().dy;
+
+     return size.y >= dy && size.x/8 >= size.y ;
+    }
+
+   void adjustPos()
+    {
+     Replace_min(pos,total);
+    }
+
+   void resetTime() { time=+cfg.time; }
+
+   bool checkTime()
+    {
+     if( time )
+       {
+        time--;
+
+        return true;
+       }
+     else
+       {
+        return false;
+       }
+    }
+
+   bool tick()
+    {
+     if( count )
+       {
+        count--;
+
+        return false;
+       }
+     else
+       {
+        count=PosSub(+cfg.period,1u);
+
+        return true;
+       }
+    }
+
+   bool startActive()
+    {
+     if( !has_active )
+       {
+        has_active=true;
+        active_pos=0;
+        count=0;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   void nextActive()
+    {
+     if( (active_pos+=MaxActivePos/10)>MaxActivePos ) active_pos=0;
+    }
+
+   void stopActive()
+    {
+     has_active=false;
+    }
+
+   void draw(const DrawBuf &buf) const;
+ };
+
+/* class ArrowProgressShape */
+
+class ArrowProgressShape
+ {
+  public:
+
+   struct Config
+    {
+     RefVal<MCoord> width = Fraction(6,2) ;
+
+     RefVal<VColor> border =     Black ;
+     RefVal<VColor> gray   =      Gray ;
+     RefVal<VColor> snow   =      Snow ;
+
+     RefVal<VColor> grayUp = DarkGreen ;
+     RefVal<VColor> snowUp =     Green ;
+
+     RefVal<VColor> grayArrow =    Blue ;
+     RefVal<VColor> snowArrow = SkyBlue ;
+
+     RefVal<Coord> dy = 24 ;
+
+     RefVal<unsigned> time   = 3_sectick ;
+     RefVal<unsigned> period =    2_tick ;
+
+     Config() noexcept {}
+
+     template <class Bag>
+     void bind(const Bag &bag)
+      {
+       width.bind(bag.width);
+       gray.bind(bag.gray);
+       snow.bind(bag.snow);
+
+       border.bind(bag.progress_border);
+       grayUp.bind(bag.progress_grayUp);
+       snowUp.bind(bag.progress_snowUp);
+       grayArrow.bind(bag.progress_grayArrow);
+       snowArrow.bind(bag.progress_snowArrow);
+       dy.bind(bag.progress_dy);
+       time.bind(bag.progress_time);
+       period.bind(bag.progress_period);
+      }
+    };
+
+   const Config &cfg;
+   Pane pane;
+
+   // state
+
+   static constexpr unsigned MaxActivePos = 100 ;
+
+   unsigned total      =   100 ;
+   unsigned pos        =     0 ;
+   unsigned active_pos =     0 ;
+   bool has_active     = false ;
+
+   unsigned time  = 0 ;
+   unsigned count = 0 ;
+
+   // methods
+
+   explicit ArrowProgressShape(const Config &cfg_) : cfg(cfg_) {}
 
    SizeY getMinSize() const;
 

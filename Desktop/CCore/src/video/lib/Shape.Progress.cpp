@@ -88,6 +88,77 @@ void ProgressShape::draw(const DrawBuf &buf) const
     }
  }
 
+/* class ArrowProgressShape */
+
+SizeY ArrowProgressShape::getMinSize() const
+ {
+  return +cfg.dy;
+ }
+
+void ArrowProgressShape::draw(const DrawBuf &buf) const
+ {
+  MPane p(pane);
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  MCoord t=Position(pos,total,p.x,p.ex);
+
+  MCoord width=+cfg.width;
+
+  VColor border=+cfg.border;
+
+  // body
+
+  {
+   FigureBox fig(p.cutLeft(t));
+
+   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snowUp,p.getBottomLeft(),+cfg.grayUp));
+  }
+  {
+   FigureBox fig(p.cutRight(t));
+
+   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snow,p.getBottomLeft(),+cfg.gray));
+  }
+  {
+   FigureBox fig(p);
+
+   fig.loop(art,HalfPos,width,border);
+  }
+
+  // active
+
+  if( has_active )
+    {
+     MCoord y=p.y+Div(1,10)*p.dy;
+     MCoord dy=Div(8,10)*p.dy;
+     MCoord ey=y+dy;
+
+     YField field(y,+cfg.snowArrow,ey,+cfg.grayArrow);
+
+     MCoord x=p.x+width;
+     MCoord dx=ey-y;
+
+     MCoord shift=Div(active_pos,MaxActivePos)*dx;
+
+     x+=shift/4;
+
+     for(unsigned count=5; count ;count--,x+=shift)
+       {
+        MPane outer(x,x+dx,y,ey);
+
+        FigureRightArrow fig1(outer);
+
+        fig1.curveSolid(art,border);
+
+        FigureRightArrow fig2(outer.shrink(width));
+
+        fig2.curveSolid(art,field);
+       }
+    }
+ }
+
 } // namespace Video
 } // namespace CCore
 
