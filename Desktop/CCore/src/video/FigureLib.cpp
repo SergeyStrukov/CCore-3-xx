@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/FigureLib.h>
 
+#include <CCore/inc/video/DrawTools.h>
+
 namespace CCore {
 namespace Video {
 
@@ -375,6 +377,64 @@ FigureRightArrow::FigureRightArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   buf[1]={{x2,y1},Smooth::DotBreak};
   buf[2]={{x0,y0},Smooth::DotBreak};
   buf[3]={{x1,y1}};
+ }
+
+FigureRightArrow FigureRightArrow::shrink(MCoord width) const
+ {
+  FigureRightArrow ret(*this);
+
+  MCoord h=(buf[0].point.y-buf[2].point.y)/2;
+  MCoord l=buf[1].point.x-buf[0].point.x;
+  DCoord L=Length(h,l);
+
+  MCoord a;
+  MCoord b;
+  MCoord c;
+
+  if( h>0 && l>0 )
+    {
+     a=MulDiv(L,width,h);
+     b=MulDiv(h+l/2,width,h);
+     c=h-MulDiv(l-a-b,h,l);
+    }
+  else
+    {
+     a=0;
+     b=0;
+     c=0;
+    }
+
+  ret[1].point.x-=a;
+  ret[3].point.x+=width;
+
+  ret[0].point.x+=b;
+  ret[2].point.x+=b;
+
+  ret[0].point.y-=c;
+  ret[2].point.y+=c;
+
+  return ret;
+ }
+
+FigureDots<10> FigureRightArrow::border(MCoord width) const
+ {
+  FigureRightArrow inner=shrink(width);
+
+  FigureDots<10> ret;
+
+  ret[0]=buf[1];
+  ret[1]=buf[2];
+  ret[2]=buf[3];
+  ret[3]=buf[0];
+  ret[4]=buf[1];
+
+  ret[5]=inner[1];
+  ret[6]=inner[0];
+  ret[7]=inner[3];
+  ret[8]=inner[2];
+  ret[9]=inner[1];
+
+  return ret;
  }
 
 /* struct FigureUpArrow */

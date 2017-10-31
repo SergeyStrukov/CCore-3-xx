@@ -24,6 +24,25 @@
 
 namespace App {
 
+/* class DrawShape */
+
+void DrawShape::draw(const DrawBuf &buf) const
+ {
+  MPane p(pane);
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  FigureRightArrow fig1(p);
+
+  fig1.curveSolid(art,+cfg.body);
+
+  auto fig2=fig1.border(+cfg.width);
+
+  fig2.curveSolid(art,+cfg.border);
+ }
+
 /* class AltShape */
 
 Point AltShape::getMinSize() const
@@ -337,8 +356,6 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
    static SubWindow * Create_def(SubWindowHost &host,const UserPreference &)
     {
      static typename W::ConfigType cfg;
-
-     cfg.width=Fraction(6);
 
      return new W(host,cfg);
     }
@@ -1041,6 +1058,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("TextContour left"_def,Create<TextContourWindow_Left>);
        add("TextContour right"_def,Create<TextContourWindow_Right>);
        add("TextContour center"_def,Create<TextContourWindow_Center>);
+       add("Draw"_def,Create_def<DrawWindow>);
 
      add("Button"_def);
 
@@ -1063,7 +1081,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("Text align"_def,CreateCombo<AlignWindow<TextWindow_SampleText> >);
        add("TextLine"_def,Create<TextLineWindow_SampleText>);
        add("Progress"_def,Create<ProgressWindow_Sample>);
-       add("ArrowProgress"_def,Create_def<ArrowProgressWindow_Sample>);
+       add("ArrowProgress"_def,Create<ArrowProgressWindow_Sample>);
        add("LineEdit"_def,Create<LineEditWindow>);
        add("ScrollX"_def,Create<XScrollWindow_Sample>);
        add("ScrollY"_def,Create<YScrollWindow_Sample>);

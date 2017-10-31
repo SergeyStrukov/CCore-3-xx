@@ -631,6 +631,10 @@ struct FigureRightArrow : FigureDots<4>
   explicit FigureRightArrow(const MPane &p) : FigureRightArrow(p.x,p.ex,p.y,p.ey) {}
 
   MPoint getPoint() const { return buf[1].point; }
+
+  FigureRightArrow shrink(MCoord width) const;
+
+  FigureDots<10> border(MCoord width) const;
  };
 
 /* struct FigureUpArrow */

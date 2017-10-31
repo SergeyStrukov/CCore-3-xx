@@ -15,7 +15,7 @@
 
 #include <CCore/inc/video/ColorField.h>
 
-#include <CCore/inc/video/SmoothAlgo.h>
+#include <CCore/inc/video/DrawTools.h>
 
 namespace CCore {
 namespace Video {
@@ -61,7 +61,7 @@ RadioField::RadioField(MPoint center_,MCoord radius_,VColor vc_,VColor va_)
 
 VColor RadioField::operator () (MPoint point) const
  {
-  DCoord len=Smooth::Length(center-point);
+  DCoord len=Length(center-point);
 
   if( len>=radius ) return va;
 

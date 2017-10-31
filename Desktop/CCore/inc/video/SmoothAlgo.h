@@ -73,10 +73,6 @@ inline constexpr unsigned MaxFineness = 2 ;
 
 /* functions */
 
-DCoord Length(MCoord a,MCoord b);
-
-inline DCoord Length(MPoint a) { return Length(a.x,a.y); }
-
 inline MPoint Rotate90(MPoint point) { return MPoint(-point.y,point.x); } // clockwise
 
 /* classes */

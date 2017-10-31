@@ -19,20 +19,6 @@ namespace CCore {
 namespace Video {
 namespace Smooth {
 
-/* functions */
-
-DCoord Length(MCoord a,MCoord b)
- {
-  uMCoord A=IntAbs(a);
-  uMCoord B=IntAbs(b);
-
-  uMCoord x=Max(A,B);
-
-  if( x==0 ) return 0;
-
-  return UIntFunc<uDCoord>::SqRoot(uDCoord(A)*A+uDCoord(B)*B,x);
- }
-
 /* class ArcDriver */
 
 uMCoord ArcDriver::Fineness(MPoint a,MPoint b)

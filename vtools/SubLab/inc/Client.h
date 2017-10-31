@@ -22,11 +22,47 @@ namespace App {
 
 /* classes */
 
+class DrawShape;
+
 class AltShape;
 
 class SpaceWindow;
 
 class ClientWindow;
+
+/* class DrawShape */
+
+class DrawShape
+ {
+  public:
+
+   struct Config
+    {
+     RefVal<MCoord> width = Fraction(10) ;
+
+     RefVal<VColor> border = Black ;
+     RefVal<VColor> body   =  Blue ;
+
+     Config() noexcept {}
+    };
+
+   const Config &cfg;
+   Pane pane;
+
+   // methods
+
+   explicit DrawShape(const Config &cfg_) : cfg(cfg_) {}
+
+   Point getMinSize() const { return Point::Diag(10); }
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf) const;
+ };
+
+/* type DrawWindow */
+
+using DrawWindow = DecorWindowOf<DrawShape> ;
 
 /* class AltShape */
 

@@ -150,11 +150,11 @@ void ArrowProgressShape::draw(const DrawBuf &buf) const
 
         FigureRightArrow fig1(outer);
 
-        fig1.curveSolid(art,border);
+        fig1.curveSolid(art,field);
 
-        FigureRightArrow fig2(outer.shrink(width));
+        auto fig2=fig1.border(width);
 
-        fig2.curveSolid(art,field);
+        fig2.curveSolid(art,border);
        }
     }
  }
