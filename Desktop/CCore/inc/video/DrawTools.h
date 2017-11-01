@@ -85,7 +85,7 @@ DCoord Length(MCoord a,MCoord b);
 
 inline DCoord Length(MPoint a) { return Length(a.x,a.y); }
 
-inline MCoord MulDiv(MCoord a,MCoord b,MCoord c) { IntGuard( c!=0 ); return MCoord( (DCoord(a)*b)/c ); }
+inline MCoord MulDiv(DCoord a,MCoord b,MCoord c) { IntGuard( c!=0 ); return MCoord( (a*b)/c ); }
 
 /* classes */
 

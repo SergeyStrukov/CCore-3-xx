@@ -353,6 +353,26 @@ FigureAsterisk::FigureAsterisk(MPoint center,MCoord radius)
   for(unsigned i=0; i<30 ;i++) buf[i]+=center;
  }
 
+/* struct ShrinkArrowDelta */
+
+ShrinkArrowDelta::ShrinkArrowDelta(MCoord h,MCoord l,MCoord width)
+ {
+  DCoord L=Length(h,l);
+
+  if( h>0 && l>0 )
+    {
+     a=MulDiv(L,width,h);
+     b=MulDiv(h+l/2,width,h);
+     c=h-MulDiv(l-a-b,h,l);
+    }
+  else
+    {
+     a=0;
+     b=0;
+     c=0;
+    }
+ }
+
 /* struct FigureLeftArrow */
 
 FigureLeftArrow::FigureLeftArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
@@ -364,6 +384,48 @@ FigureLeftArrow::FigureLeftArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   buf[1]={{x0,y1},Smooth::DotBreak};
   buf[2]={{x2,y2},Smooth::DotBreak};
   buf[3]={{x1,y1}};
+ }
+
+FigureLeftArrow FigureLeftArrow::shrink(MCoord width) const
+ {
+  FigureLeftArrow ret(*this);
+
+  MCoord h=(buf[2].point.y-buf[0].point.y)/2;
+  MCoord l=buf[0].point.x-buf[1].point.x;
+
+  ShrinkArrowDelta delta(h,l,width);
+
+  ret[1].point.x+=delta.a;
+  ret[3].point.x-=width;
+
+  ret[0].point.x-=delta.b;
+  ret[2].point.x-=delta.b;
+
+  ret[0].point.y+=delta.c;
+  ret[2].point.y-=delta.c;
+
+  return ret;
+ }
+
+FigureDots<10> FigureLeftArrow::border(MCoord width) const
+ {
+  FigureLeftArrow inner=shrink(width);
+
+  FigureDots<10> ret;
+
+  ret[0]=buf[1];
+  ret[1]=buf[2];
+  ret[2]=buf[3];
+  ret[3]=buf[0];
+  ret[4]=buf[1];
+
+  ret[5]=inner[1];
+  ret[6]=inner[0];
+  ret[7]=inner[3];
+  ret[8]=inner[2];
+  ret[9]=inner[1];
+
+  return ret;
  }
 
 /* struct FigureRightArrow */
@@ -385,33 +447,17 @@ FigureRightArrow FigureRightArrow::shrink(MCoord width) const
 
   MCoord h=(buf[0].point.y-buf[2].point.y)/2;
   MCoord l=buf[1].point.x-buf[0].point.x;
-  DCoord L=Length(h,l);
 
-  MCoord a;
-  MCoord b;
-  MCoord c;
+  ShrinkArrowDelta delta(h,l,width);
 
-  if( h>0 && l>0 )
-    {
-     a=MulDiv(L,width,h);
-     b=MulDiv(h+l/2,width,h);
-     c=h-MulDiv(l-a-b,h,l);
-    }
-  else
-    {
-     a=0;
-     b=0;
-     c=0;
-    }
-
-  ret[1].point.x-=a;
+  ret[1].point.x-=delta.a;
   ret[3].point.x+=width;
 
-  ret[0].point.x+=b;
-  ret[2].point.x+=b;
+  ret[0].point.x+=delta.b;
+  ret[2].point.x+=delta.b;
 
-  ret[0].point.y-=c;
-  ret[2].point.y+=c;
+  ret[0].point.y-=delta.c;
+  ret[2].point.y+=delta.c;
 
   return ret;
  }
@@ -450,6 +496,48 @@ FigureUpArrow::FigureUpArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   buf[3]={{x1,y1}};
  }
 
+FigureUpArrow FigureUpArrow::shrink(MCoord width) const
+ {
+  FigureUpArrow ret(*this);
+
+  MCoord h=(buf[0].point.x-buf[2].point.x)/2;
+  MCoord l=buf[0].point.y-buf[1].point.y;
+
+  ShrinkArrowDelta delta(h,l,width);
+
+  ret[1].point.y+=delta.a;
+  ret[3].point.y-=width;
+
+  ret[0].point.y-=delta.b;
+  ret[2].point.y-=delta.b;
+
+  ret[0].point.x-=delta.c;
+  ret[2].point.x+=delta.c;
+
+  return ret;
+ }
+
+FigureDots<10> FigureUpArrow::border(MCoord width) const
+ {
+  FigureUpArrow inner=shrink(width);
+
+  FigureDots<10> ret;
+
+  ret[0]=buf[1];
+  ret[1]=buf[2];
+  ret[2]=buf[3];
+  ret[3]=buf[0];
+  ret[4]=buf[1];
+
+  ret[5]=inner[1];
+  ret[6]=inner[0];
+  ret[7]=inner[3];
+  ret[8]=inner[2];
+  ret[9]=inner[1];
+
+  return ret;
+ }
+
 /* struct FigureDownArrow */
 
 FigureDownArrow::FigureDownArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
@@ -461,6 +549,48 @@ FigureDownArrow::FigureDownArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   buf[1]={{x1,y2},Smooth::DotBreak};
   buf[2]={{x2,y0},Smooth::DotBreak};
   buf[3]={{x1,y1}};
+ }
+
+FigureDownArrow FigureDownArrow::shrink(MCoord width) const
+ {
+  FigureDownArrow ret(*this);
+
+  MCoord h=(buf[2].point.x-buf[0].point.x)/2;
+  MCoord l=buf[1].point.y-buf[0].point.y;
+
+  ShrinkArrowDelta delta(h,l,width);
+
+  ret[1].point.y-=delta.a;
+  ret[3].point.y+=width;
+
+  ret[0].point.y+=delta.b;
+  ret[2].point.y+=delta.b;
+
+  ret[0].point.x+=delta.c;
+  ret[2].point.x-=delta.c;
+
+  return ret;
+ }
+
+FigureDots<10> FigureDownArrow::border(MCoord width) const
+ {
+  FigureDownArrow inner=shrink(width);
+
+  FigureDots<10> ret;
+
+  ret[0]=buf[1];
+  ret[1]=buf[2];
+  ret[2]=buf[3];
+  ret[3]=buf[0];
+  ret[4]=buf[1];
+
+  ret[5]=inner[1];
+  ret[6]=inner[0];
+  ret[7]=inner[3];
+  ret[8]=inner[2];
+  ret[9]=inner[1];
+
+  return ret;
  }
 
 /* struct FigureLeftMark */

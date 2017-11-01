@@ -34,7 +34,7 @@ void DrawShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  FigureRightArrow fig1(p);
+  FigureDownArrow fig1(p);
 
   fig1.curveSolid(art,+cfg.body);
 

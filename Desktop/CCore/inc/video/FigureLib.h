@@ -55,6 +55,8 @@ struct FigureButton;
 
 struct FigureAsterisk;
 
+struct ShrinkArrowDelta;
+
 struct FigureLeftArrow;
 
 struct FigureRightArrow;
@@ -611,6 +613,17 @@ struct FigureAsterisk : FigurePoints<30>
   FigureAsterisk(MPoint center,MCoord radius);
  };
 
+/* struct ShrinkArrowDelta */
+
+struct ShrinkArrowDelta
+ {
+  MCoord a;
+  MCoord b;
+  MCoord c;
+
+  ShrinkArrowDelta(MCoord h,MCoord l,MCoord width);
+ };
+
 /* struct FigureLeftArrow */
 
 struct FigureLeftArrow : FigureDots<4>
@@ -620,6 +633,10 @@ struct FigureLeftArrow : FigureDots<4>
   explicit FigureLeftArrow(const MPane &p) : FigureLeftArrow(p.x,p.ex,p.y,p.ey) {}
 
   MPoint getPoint() const { return buf[1].point; }
+
+  FigureLeftArrow shrink(MCoord width) const;
+
+  FigureDots<10> border(MCoord width) const;
  };
 
 /* struct FigureRightArrow */
@@ -646,6 +663,10 @@ struct FigureUpArrow : FigureDots<4>
   explicit FigureUpArrow(const MPane &p) : FigureUpArrow(p.x,p.ex,p.y,p.ey) {}
 
   MPoint getPoint() const { return buf[1].point; }
+
+  FigureUpArrow shrink(MCoord width) const;
+
+  FigureDots<10> border(MCoord width) const;
  };
 
 /* struct FigureDownArrow */
@@ -657,6 +678,10 @@ struct FigureDownArrow : FigureDots<4>
   explicit FigureDownArrow(const MPane &p) : FigureDownArrow(p.x,p.ex,p.y,p.ey) {}
 
   MPoint getPoint() const { return buf[1].point; }
+
+  FigureDownArrow shrink(MCoord width) const;
+
+  FigureDots<10> border(MCoord width) const;
  };
 
 /* struct FigureLeftMark */
