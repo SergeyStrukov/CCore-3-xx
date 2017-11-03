@@ -1,7 +1,7 @@
 /* ColorField.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -24,15 +24,17 @@ namespace Video {
 
 /* functions */
 
+inline uint16 MulDiv16(uint32 a,uint16 b,uint16 c) { return uint16( (a*b)/c ); }
+
 inline Clr Linear(Clr a,Clr b,uint16 c,uint16 d)
  {
   if( c>=d ) return b;
 
-  if( a<b ) return Clr( a+(uint32(b-a)*c)/d );
+  if( a<b ) return Clr( a+MulDiv16(b-a,c,d) );
 
   if( a==b ) return a;
 
-  return Clr( a-(uint32(a-b)*c)/d );
+  return Clr( a-MulDiv16(a-b,c,d) );
  }
 
 inline VColor Linear(VColor a,VColor b,uint16 c,uint16 d)
