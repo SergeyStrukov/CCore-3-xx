@@ -1,7 +1,7 @@
 /* FileBoss.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -35,9 +35,15 @@ class DefBoss : public FileBossBase
 
    // AbstractFileBoss
 
-   virtual FileType getFileType(StrLen path) { return fs.getFileType(path); }
+   virtual FileType getFileType(StrLen path)
+    {
+     return fs.getFileType(path);
+    }
 
-   virtual StrLen pathOf(StrLen path,char buf[MaxPathLen+1]) { return fs.pathOf(path,buf); }
+   virtual StrLen pathOf(StrLen path,char buf[MaxPathLen+1])
+    {
+     return fs.pathOf(path,buf);
+    }
 
    virtual void enumDir(StrLen dir_name,Function<void (StrLen name,FileType type)> func)
     {
