@@ -280,12 +280,14 @@ inline constexpr UInt <span class="Att">MaxUInt</span> = UInt(-1) ;
 <h3>Bit() and UIntBit()</h3>
 
 <p>
-These two functions make a one-bit value of an unsigned integral type. 
+These functions make a one-bit value of an unsigned integral type. 
 </p>
 
 <pre>
 
 inline constexpr unsigned <span class="Att">Bit</span>(unsigned num) { return 1u&lt;&lt;num; }
+
+inline constexpr unsigned <span class="Att">Pow2</span>(unsigned d) { return 1u&lt;&lt;d; }
 
 template &lt;UIntType UInt&gt;
 constexpr UInt <span class="Att">UIntBit</span>(unsigned num) { return UInt(1)&lt;&lt;num; }

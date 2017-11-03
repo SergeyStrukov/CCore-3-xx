@@ -1,7 +1,7 @@
 /* Keyboard.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -174,6 +174,8 @@ class PrintKeyMod
   public:
 
    explicit PrintKeyMod(KeyMod kmod_) : kmod(kmod_) {}
+
+   // print object
 
    void print(PrinterType &out) const
     {

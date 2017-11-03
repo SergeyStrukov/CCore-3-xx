@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -24,9 +24,9 @@ namespace Private_GammaTable {
 
 /* consts */
 
-inline constexpr ulen DirectLen = ulen(1)<<8 ;
+inline constexpr ulen DirectLen = Pow2(8) ;
 
-inline constexpr ulen InverseLen = ulen(1)<<16 ;
+inline constexpr ulen InverseLen = Pow2(16) ;
 
 /* type Fixed */
 
@@ -4828,7 +4828,7 @@ UInt ExpNeg(Fixed x)
 
 Fixed Mul(Fixed x,double order)
  {
-  return Fixed( Min_cast( x*order+0.5 , Fixed(-1) ) );
+  return Fixed( Min_cast( x*order+0.5 , MaxUInt<Fixed> ) );
  }
 
 /* Fill() */

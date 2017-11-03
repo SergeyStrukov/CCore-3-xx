@@ -1,7 +1,7 @@
 /* CurveDriver.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -32,7 +32,7 @@ class CurveDriver : NoCopy
  {
    static constexpr unsigned MaxLevel = 10 ;
 
-   static constexpr unsigned Len = (1u<<MaxLevel) ;
+   static constexpr unsigned Len = Pow2(MaxLevel) ;
 
    static uMCoord PointDist(MPoint a,MPoint b);
 
@@ -69,7 +69,7 @@ class CurveDriver : NoCopy
 
    void shift();
 
-   PtrStepLen<const MPoint> getCurve() const { return {buf+Len,1u<<(MaxLevel-level),(1u<<level)+1}; }
+   PtrStepLen<const MPoint> getCurve() const { return {buf+Len,Pow2(MaxLevel-level),Pow2(level)+1}; }
  };
 
 } // namespace DrawAlgo

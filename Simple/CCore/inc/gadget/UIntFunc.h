@@ -1,7 +1,7 @@
 /* UIntFunc.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Simple Mini
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -31,6 +31,8 @@ inline constexpr UInt MaxUInt = UInt(-1) ;
 /* functions */
 
 inline constexpr unsigned Bit(unsigned num) { return 1u<<num; }
+
+inline constexpr unsigned Pow2(unsigned d) { return 1u<<d; }
 
 template <UIntType UInt>
 constexpr UInt UIntBit(unsigned num) { return UInt(1)<<num; }
