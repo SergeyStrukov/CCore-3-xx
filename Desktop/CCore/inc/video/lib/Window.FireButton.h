@@ -242,7 +242,7 @@ class FireButtonWindowOf : public SubWindow
        }
     }
 
-   void react_LeftUp(Point point,MouseKey)
+   void react_LeftUp(Point,MouseKey)
     {
      if( shape.down && shape.mouse )
        {

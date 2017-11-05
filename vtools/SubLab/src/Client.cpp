@@ -1044,6 +1044,49 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        }
     };
 
+   class FireButtonWindow_Sample : public ComboWindow
+    {
+      LightWindow light;
+      FireButtonWindow btn;
+
+     private:
+
+      void fire(bool on)
+       {
+        light.turn(on);
+       }
+
+      SignalConnector<FireButtonWindow_Sample,bool> connector_fire;
+
+     public:
+
+      FireButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+       : ComboWindow(host),
+
+         light(wlist,pref.getSmartConfig(),Red,false),
+         btn(wlist,pref.getSmartConfig(),"Fire"_def),
+
+         connector_fire(this,&FireButtonWindow_Sample::fire,btn.fire)
+       {
+        wlist.insTop(light,btn);
+       }
+
+      // drawing
+
+      virtual void layout()
+       {
+        Pane pane(Null,getSize());
+
+        Coord dy=light.getMinSize().dxy;
+
+        light.setPlace( TrySplitY(dy,pane) );
+
+        TrySplitY(dy,pane);
+
+        btn.setPlace(pane);
+       }
+    };
+
   public:
 
    Base() // Update here
@@ -1065,6 +1108,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("Button"_def,Create<ButtonWindow_Button>);
        add("Knob"_def,Create<KnobWindow_Asterisk>);
        add("Knob auto"_def,Create<KnobWindow_auto>);
+       add("FireButton"_def,CreateCombo<FireButtonWindow_Sample>);
 
      add("Box"_def);
 
