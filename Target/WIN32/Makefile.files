@@ -417,6 +417,7 @@ OBJ_LIST = \
 .obj/Window.Check.o \
 .obj/Window.Decor.o \
 .obj/Window.DragFrame.o \
+.obj/Window.FireButton.o \
 .obj/Window.Info.o \
 .obj/Window.Light.o \
 .obj/Window.LineEdit.o \
@@ -853,6 +854,7 @@ ASM_LIST = \
 .obj/Window.Check.s \
 .obj/Window.Decor.s \
 .obj/Window.DragFrame.s \
+.obj/Window.FireButton.s \
 .obj/Window.Info.s \
 .obj/Window.Light.s \
 .obj/Window.LineEdit.s \
@@ -1289,6 +1291,7 @@ DEP_LIST = \
 .obj/Window.Check.dep \
 .obj/Window.Decor.dep \
 .obj/Window.DragFrame.dep \
+.obj/Window.FireButton.dep \
 .obj/Window.Info.dep \
 .obj/Window.Light.dep \
 .obj/Window.LineEdit.dep \
@@ -2568,6 +2571,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.DragFrame.o : ../../Desktop/CCore/src/./video/lib/Window.DragFrame.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Window.FireButton.o : ../../Desktop/CCore/src/./video/lib/Window.FireButton.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.Info.o : ../../Desktop/CCore/src/./video/lib/Window.Info.cpp
@@ -3871,6 +3877,9 @@ include $(RULES_FILE)
 .obj/Window.DragFrame.s : ../../Desktop/CCore/src/./video/lib/Window.DragFrame.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Window.FireButton.s : ../../Desktop/CCore/src/./video/lib/Window.FireButton.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Window.Info.s : ../../Desktop/CCore/src/./video/lib/Window.Info.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5171,6 +5180,9 @@ include $(RULES_FILE)
 
 .obj/Window.DragFrame.dep : ../../Desktop/CCore/src/./video/lib/Window.DragFrame.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.DragFrame.o $< -MF $@
+
+.obj/Window.FireButton.dep : ../../Desktop/CCore/src/./video/lib/Window.FireButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Window.FireButton.o $< -MF $@
 
 .obj/Window.Info.dep : ../../Desktop/CCore/src/./video/lib/Window.Info.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.Info.o $< -MF $@

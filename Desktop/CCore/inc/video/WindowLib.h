@@ -19,6 +19,7 @@
 #include <CCore/inc/video/ShapeLib.h>
 
 #include <CCore/inc/video/lib/Window.Button.h>
+#include <CCore/inc/video/lib/Window.FireButton.h>
 #include <CCore/inc/video/lib/Window.Check.h>
 #include <CCore/inc/video/lib/Window.Radio.h>
 #include <CCore/inc/video/lib/Window.Light.h>
