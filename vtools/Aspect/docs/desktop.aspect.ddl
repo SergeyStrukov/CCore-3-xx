@@ -21,7 +21,7 @@ Aspect Data=
 Dir Dir0=
   {
    'Core',
-   Red,
+   Green,
    {
     &Dir5
    },
@@ -76,7 +76,7 @@ Dir Dir4=
 Dir Dir5=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir10,
     &Dir11
@@ -88,7 +88,7 @@ Dir Dir5=
 Dir Dir10=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir12
    },
@@ -99,7 +99,7 @@ Dir Dir10=
 Dir Dir11=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir13
    },
@@ -110,12 +110,12 @@ Dir Dir11=
 Dir Dir12=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
     { 'DrawBuf.h' , Green },
-    { 'FrameWindow.h' , Red },
+    { 'FrameWindow.h' , Green },
     { 'Keyboard.h' , Green },
     { 'Mouse.h' , Green },
     { 'RefVal.h' , Green },
@@ -127,12 +127,12 @@ Dir Dir12=
 Dir Dir13=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
     { 'DrawBuf.cpp' , Green },
-    { 'FrameWindow.cpp' , Red },
+    { 'FrameWindow.cpp' , Green },
     { 'Keyboard.cpp' , Green },
     { 'Mouse.cpp' , Green },
     { 'RefVal.cpp' , Green },
@@ -561,9 +561,9 @@ Dir Dir33=
    {
    },
    {
-    { 'ButtonId.h' , Red },
-    { 'DesktopKey.h' , Red },
-    { 'FileBoss.h' , Red },
+    { 'ButtonId.h' , Green },
+    { 'DesktopKey.h' , Green },
+    { 'FileBoss.h' , Green },
     { 'FileNameCmp.h' , Red },
     { 'FontDatabase.h' , Red },
     { 'FontLookup.h' , Red },
@@ -572,9 +572,9 @@ Dir Dir33=
     { 'Incremental.h' , Red },
     { 'Info.h' , Red },
     { 'InfoSize.h' , Red },
-    { 'Picture.h' , Red },
-    { 'PrintDDL.h' , Red },
-    { 'ProgressScale.h' , Red }
+    { 'Picture.h' , Green },
+    { 'PrintDDL.h' , Green },
+    { 'ProgressScale.h' , Green }
    }
   };
 
@@ -585,9 +585,9 @@ Dir Dir34=
    {
    },
    {
-    { 'ButtonId.cpp' , Red },
-    { 'DesktopKey.cpp' , Red },
-    { 'FileBoss.cpp' , Red },
+    { 'ButtonId.cpp' , Green },
+    { 'DesktopKey.cpp' , Green },
+    { 'FileBoss.cpp' , Green },
     { 'FileNameCmp.cpp' , Red },
     { 'FontDatabase.cpp' , Red },
     { 'FontLookup.cpp' , Red },
@@ -596,9 +596,9 @@ Dir Dir34=
     { 'Incremental.cpp' , Red },
     { 'Info.cpp' , Red },
     { 'InfoSize.cpp' , Red },
-    { 'Picture.cpp' , Red },
-    { 'PrintDDL.cpp' , Red },
-    { 'ProgressScale.cpp' , Red },
+    { 'Picture.cpp' , Green },
+    { 'PrintDDL.cpp' , Green },
+    { 'ProgressScale.cpp' , Green },
     { 'FontInfo.ddl' , Red },
     { 'FontInfo.TypeDef.gen.h' , Red },
     { 'FontInfo.TypeSet.gen.h' , Red }

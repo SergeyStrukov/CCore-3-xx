@@ -93,7 +93,6 @@ void WindowHost::textFromClipboard(Function<void (StrLen)> func)
 
 #endif
 
-
 } // namespace Video
 } // namespace CCore
 
