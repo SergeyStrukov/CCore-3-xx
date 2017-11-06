@@ -197,48 +197,46 @@ void ToolFrame::create(FrameWindow *parent,Pane pane)
 
  // SubWindowHost
 
-FrameWindow * ToolFrame::getFrame()
+FrameWindow * ToolFrame::getFrame() noexcept
  {
   return this;
  }
 
-Point ToolFrame::getScreenOrigin()
+Point ToolFrame::getScreenOrigin() noexcept
  {
-  Pane pane=host->getPlace();
-
-  return pane.getBase();
+  try { return host->getPlace().getBase(); } catch(...) { return Null; }
  }
 
-void ToolFrame::redraw(Pane pane)
+void ToolFrame::redraw(Pane pane) noexcept
  {
-  if( redraw_set.add(pane) ) input.redrawSet();
+  try { if( redraw_set.add(pane) ) input.redrawSet(); } catch(...) {}
  }
 
-void ToolFrame::setFocus(SubWindow *)
+void ToolFrame::setFocus(SubWindow *) noexcept
  {
   if( has_focus )
     {
-     getClient().gainFocus();
+     try { getClient().gainFocus(); } catch(...) {}
     }
  }
 
-void ToolFrame::captureMouse(SubWindow *)
+void ToolFrame::captureMouse(SubWindow *) noexcept
  {
   if( !client_capture )
     {
      client_capture=true;
 
-     host->captureMouse();
+     try { host->captureMouse(); } catch(...) {}
     }
  }
 
-void ToolFrame::releaseMouse(SubWindow *)
+void ToolFrame::releaseMouse(SubWindow *) noexcept
  {
   if( client_capture )
     {
      client_capture=false;
 
-     host->releaseMouse();
+     try { host->releaseMouse(); } catch(...) {}
     }
  }
 

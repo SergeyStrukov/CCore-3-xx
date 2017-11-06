@@ -764,48 +764,46 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
    // SubWindowHost
 
-   virtual FrameWindow * getFrame()
+   virtual FrameWindow * getFrame() noexcept
     {
      return this;
     }
 
-   virtual Point getScreenOrigin()
+   virtual Point getScreenOrigin() noexcept
     {
-     Pane pane=host->getPlace();
-
-     return pane.getBase();
+     try { return host->getPlace().getBase(); } catch(...) { return Null; }
     }
 
-   virtual void redraw(Pane pane)
+   virtual void redraw(Pane pane)  noexcept
     {
-     if( redraw_set.add(pane) ) input.redrawSet();
+     try { if( redraw_set.add(pane) ) input.redrawSet(); } catch(...) {}
     }
 
-   virtual void setFocus(SubWindow *)
+   virtual void setFocus(SubWindow *) noexcept
     {
      if( shape.has_focus )
        {
-        getClient().gainFocus();
+        try { getClient().gainFocus(); } catch(...) {}
        }
     }
 
-   virtual void captureMouse(SubWindow *)
+   virtual void captureMouse(SubWindow *) noexcept
     {
      if( !client_capture )
        {
         client_capture=true;
 
-        if( !shape.drag_type ) host->captureMouse();
+        if( !shape.drag_type ) try { host->captureMouse(); } catch(...) {}
        }
     }
 
-   virtual void releaseMouse(SubWindow *)
+   virtual void releaseMouse(SubWindow *) noexcept
     {
      if( client_capture )
        {
         client_capture=false;
 
-        if( !shape.drag_type ) host->releaseMouse();
+        if( !shape.drag_type ) try { host->releaseMouse(); } catch(...) {}
        }
     }
 

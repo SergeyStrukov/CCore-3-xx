@@ -1,7 +1,7 @@
 /* SubWindow.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -367,31 +367,33 @@ void WindowList::draw(const DrawBuf &buf,Pane pane,bool drag_active) const
 
  // SubWindowHost
 
-FrameWindow * WindowList::getFrame()
+FrameWindow * WindowList::getFrame() noexcept
  {
   return parent.getFrame();
  }
 
-Point WindowList::getScreenOrigin()
+Point WindowList::getScreenOrigin() noexcept
  {
-  return parent.getScreenOrigin();
+  try { return parent.getScreenOrigin(); } catch(...) { return Null; }
  }
 
-void WindowList::redraw(Pane pane)
+void WindowList::redraw(Pane pane) noexcept
  {
   parent.redraw(pane);
  }
 
-void WindowList::setFocus(SubWindow *sub_win)
+void WindowList::setFocus(SubWindow *sub_win) noexcept
  {
   if( sub_win->list!=this )
     {
-     Printf(Exception,"CCore::Video::WindowList::setFocus(...) : sub-window from another list");
+     Printf(NoException,"CCore::Video::WindowList::setFocus(...) : sub-window from another list");
+
+     return;
     }
 
   if( focus!=sub_win )
     {
-     if( focus && has_focus ) focus->looseFocus();
+     if( focus && has_focus ) try { focus->looseFocus(); } catch(...) {}
 
      focus=sub_win;
     }
@@ -399,11 +401,13 @@ void WindowList::setFocus(SubWindow *sub_win)
   parent.setFocus();
  }
 
-void WindowList::captureMouse(SubWindow *sub_win)
+void WindowList::captureMouse(SubWindow *sub_win) noexcept
  {
   if( sub_win->list!=this )
     {
-     Printf(Exception,"CCore::Video::WindowList::captureMouse(...) : sub-window from another list");
+     Printf(NoException,"CCore::Video::WindowList::captureMouse(...) : sub-window from another list");
+
+     return;
     }
 
   capture=sub_win;
@@ -411,11 +415,13 @@ void WindowList::captureMouse(SubWindow *sub_win)
   parent.captureMouse();
  }
 
-void WindowList::releaseMouse(SubWindow *sub_win)
+void WindowList::releaseMouse(SubWindow *sub_win) noexcept
  {
   if( sub_win->list!=this )
     {
-     Printf(Exception,"CCore::Video::WindowList::releaseMouse(...) : sub-window from another list");
+     Printf(NoException,"CCore::Video::WindowList::releaseMouse(...) : sub-window from another list");
+
+     return;
     }
 
   if( sub_win==capture )

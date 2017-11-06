@@ -1,7 +1,7 @@
 /* SubWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -53,17 +53,17 @@ struct SubWindowHost
  {
   // abstract
 
-  virtual FrameWindow * getFrame()=0;
+  virtual FrameWindow * getFrame() noexcept =0;
 
-  virtual Point getScreenOrigin()=0;
+  virtual Point getScreenOrigin() noexcept =0;
 
-  virtual void redraw(Pane pane)=0; // relative host coords
+  virtual void redraw(Pane pane) noexcept =0; // relative host coords
 
-  virtual void setFocus(SubWindow *sub_win)=0;
+  virtual void setFocus(SubWindow *sub_win) noexcept =0;
 
-  virtual void captureMouse(SubWindow *sub_win)=0;
+  virtual void captureMouse(SubWindow *sub_win) noexcept =0;
 
-  virtual void releaseMouse(SubWindow *sub_win)=0;
+  virtual void releaseMouse(SubWindow *sub_win) noexcept =0;
 
   // helpers
 
@@ -155,6 +155,8 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
      layout();
     }
+
+   // host methods
 
    void redraw() { host.redraw(place); }
 
@@ -504,17 +506,17 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
 
    // SubWindowHost
 
-   virtual FrameWindow * getFrame();
+   virtual FrameWindow * getFrame() noexcept ;
 
-   virtual Point getScreenOrigin();
+   virtual Point getScreenOrigin() noexcept ;
 
-   virtual void redraw(Pane pane);
+   virtual void redraw(Pane pane) noexcept ;
 
-   virtual void setFocus(SubWindow *sub_win);
+   virtual void setFocus(SubWindow *sub_win) noexcept ;
 
-   virtual void captureMouse(SubWindow *sub_win);
+   virtual void captureMouse(SubWindow *sub_win) noexcept ;
 
-   virtual void releaseMouse(SubWindow *sub_win);
+   virtual void releaseMouse(SubWindow *sub_win) noexcept ;
 
    // base
 

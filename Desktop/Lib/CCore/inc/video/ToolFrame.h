@@ -112,17 +112,17 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    // SubWindowHost
 
-   virtual FrameWindow * getFrame();
+   virtual FrameWindow * getFrame() noexcept;
 
-   virtual Point getScreenOrigin();
+   virtual Point getScreenOrigin() noexcept;
 
-   virtual void redraw(Pane pane);
+   virtual void redraw(Pane pane) noexcept;
 
-   virtual void setFocus(SubWindow *);
+   virtual void setFocus(SubWindow *) noexcept;
 
-   virtual void captureMouse(SubWindow *);
+   virtual void captureMouse(SubWindow *) noexcept;
 
-   virtual void releaseMouse(SubWindow *);
+   virtual void releaseMouse(SubWindow *) noexcept;
 
    // base
 
