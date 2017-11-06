@@ -20,7 +20,11 @@ CCORE_TARGET = WIN32utf8
 SRC_PATH_LIST = $(CCORE_ROOT)/Simple/CCore/src \
                 $(CCORE_ROOT)/Fundamental/CCore/src \
                 $(CCORE_ROOT)/Applied/CCore/src \
-                $(CCORE_ROOT)/Desktop/CCore/src \
+                $(CCORE_ROOT)/Desktop/Core/CCore/src \
+                $(CCORE_ROOT)/Desktop/Draw/CCore/src \
+                $(CCORE_ROOT)/Desktop/Font/CCore/src \
+                $(CCORE_ROOT)/Desktop/Lib/CCore/src \
+                $(CCORE_ROOT)/Desktop/Tools/CCore/src \
                 $(CCORE_ROOT)/HCore/CCore/src \
                 $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore/src \
 
