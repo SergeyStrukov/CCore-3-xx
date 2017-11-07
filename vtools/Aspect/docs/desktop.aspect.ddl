@@ -65,7 +65,7 @@ Dir Dir3=
 Dir Dir4=
   {
    'Tools',
-   Red,
+   Green,
    {
     &Dir9
    },
@@ -309,22 +309,22 @@ Dir Dir23=
 Dir Dir24=
   {
    'test',
-   Red,
+   Ignore,
    {
    },
    {
-    { 'SpecialDrawArt.cpp' , Red },
-    { 'wintest.cpp' , Red },
-    { 'test7006.Ball.cpp' , Red },
-    { 'test7007.CommonArt.cpp' , Red },
-    { 'test7003.DragWindow.cpp' , Red },
-    { 'test7005.DragWindow.cpp' , Red },
-    { 'test7001.DrawAlgo.cpp' , Red },
-    { 'test7002.DrawAlgo.cpp' , Red },
-    { 'test7004.Font.cpp' , Red },
-    { 'test7008.Tab.cpp' , Red },
-    { 'SpecialDrawArt.h' , Red },
-    { 'wintest.h' , Red }
+    { 'SpecialDrawArt.cpp' , Ignore },
+    { 'wintest.cpp' , Ignore },
+    { 'test7006.Ball.cpp' , Ignore },
+    { 'test7007.CommonArt.cpp' , Ignore },
+    { 'test7003.DragWindow.cpp' , Ignore },
+    { 'test7005.DragWindow.cpp' , Ignore },
+    { 'test7001.DrawAlgo.cpp' , Ignore },
+    { 'test7002.DrawAlgo.cpp' , Ignore },
+    { 'test7004.Font.cpp' , Ignore },
+    { 'test7008.Tab.cpp' , Ignore },
+    { 'SpecialDrawArt.h' , Ignore },
+    { 'wintest.h' , Ignore }
    }
   };
 
@@ -523,7 +523,7 @@ Dir Dir30=
 Dir Dir9=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir31,
     &Dir32
@@ -535,7 +535,7 @@ Dir Dir9=
 Dir Dir31=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir33
    },
@@ -546,7 +546,7 @@ Dir Dir31=
 Dir Dir32=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir34
    },
@@ -557,7 +557,7 @@ Dir Dir32=
 Dir Dir33=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
@@ -569,7 +569,7 @@ Dir Dir33=
     { 'FontLookup.h' , Green },
     { 'FontParam.h' , Green },
     { 'HomeFile.h' , Green },
-    { 'Incremental.h' , Red },
+    { 'Incremental.h' , Green },
     { 'Info.h' , Green },
     { 'InfoSize.h' , Green },
     { 'Picture.h' , Green },
@@ -581,7 +581,7 @@ Dir Dir33=
 Dir Dir34=
   {
    'video',
-   Red,
+   Green,
    {
    },
    {
@@ -593,7 +593,7 @@ Dir Dir34=
     { 'FontLookup.cpp' , Green },
     { 'FontParam.cpp' , Green },
     { 'HomeFile.cpp' , Green },
-    { 'Incremental.cpp' , Red },
+    { 'Incremental.cpp' , Green },
     { 'Info.cpp' , Green },
     { 'InfoSize.cpp' , Green },
     { 'Picture.cpp' , Green },

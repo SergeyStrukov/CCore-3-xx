@@ -41,15 +41,27 @@ using AreaType = uint32 ;
 
 /* consts */
 
-const Coord MaxCoord = 32'767 ;
+inline constexpr Coord MaxCoord = 32'767 ;
 
-const Coord MinCoord = -32'768 ;
+inline constexpr Coord MinCoord = -32'768 ;
 
-const MCoord MaxMCoord = 2'147'483'647 ;
+inline constexpr MCoord MaxMCoord = 2'147'483'647 ;
 
 /* functions */
 
+template <OneOfTypes<Coord,MCoord> T>
+T Sup(T a,T b) { return Max(a,b); }
+
+template <OneOfTypes<Coord,MCoord> T>
+T Inf(T a,T b) { return Min(a,b); }
+
 inline constexpr AreaType Area(Coord dx,Coord dy) { return AreaType(dx)*AreaType(dy); }
+
+DCoord Length(MCoord a,MCoord b);
+
+inline MCoord MulDiv(DCoord a,MCoord b,MCoord c) { IntGuard( c!=0 ); return MCoord( (a*b)/c ); }
+
+inline uMCoord UMulDiv(uDCoord a,uMCoord b,uMCoord c) { IntGuard( c!=0 ); return uMCoord( (a*b)/c ); }
 
 template <UIntType UInt>
 MCoord Position(UInt P,UInt Q,MCoord a,MCoord b)
@@ -61,16 +73,10 @@ MCoord Position(UInt P,UInt Q,MCoord a,MCoord b)
   uMCoord p=q(P);
 
   if( a<b )
-    return IntMovePos(a,uMCoord( (uDCoord(p)*IntDist(a,b))/q ));
+    return IntMovePos(a,UMulDiv(p,IntDist(a,b),q));
   else
-    return IntMoveNeg(a,uMCoord( (uDCoord(p)*IntDist(b,a))/q ));
+    return IntMoveNeg(a,UMulDiv(p,IntDist(b,a),q));
  }
-
-template <OneOfTypes<Coord,MCoord> T>
-T Sup(T a,T b) { return Max(a,b); }
-
-template <OneOfTypes<Coord,MCoord> T>
-T Inf(T a,T b) { return Min(a,b); }
 
 /* classes */
 
@@ -309,11 +315,13 @@ struct Point : BasePoint<Point,Coord>
 
 struct MPoint : BasePoint<MPoint,MCoord>
  {
-  static const unsigned Precision = 10 ;
+  // consts
 
-  static const MCoord One = MCoord(1)<<Precision ;
+  static constexpr unsigned Precision = 10 ;
 
-  static const MCoord Half = MCoord(1)<<(Precision-1) ;
+  static constexpr MCoord One = MCoord(1)<<Precision ;
+
+  static constexpr MCoord Half = MCoord(1)<<(Precision-1) ;
 
   // LShift
 
@@ -329,7 +337,7 @@ struct MPoint : BasePoint<MPoint,MCoord>
 
   // Round
 
-  static const uMCoord RoundMask = uMCoord(-1)<<Precision ;
+  static constexpr uMCoord RoundMask = uMCoord(-1)<<Precision ;
 
   static MCoord Round(MCoord a) { return IntMask(IntAdd(a,Half),RoundMask); }
 
@@ -362,6 +370,8 @@ inline Coord RoundUpLen(MCoord dx)
 
 /* Prod() */
 
+inline DCoord Length(MPoint a) { return Length(a.x,a.y); }
+
 inline DCoord Prod(MCoord a,MCoord b,MCoord x,MCoord y) { return DCoord(a)*x+DCoord(b)*y; }
 
 inline DCoord Prod(MCoord a,MCoord b,MPoint point) { return Prod(a,b,point.x,point.y); }
@@ -372,7 +382,11 @@ inline DCoord Prod(MPoint a,MPoint b) { return Prod(a.x,a.y,b.x,b.y); }
 
 struct Ratio
  {
-  static const unsigned Precision = 16 ;
+  // consts
+
+  static constexpr unsigned Precision = 16 ;
+
+  // data
 
   MCoord value;
 
