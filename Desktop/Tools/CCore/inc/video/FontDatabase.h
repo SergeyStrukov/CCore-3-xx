@@ -1,7 +1,7 @@
 /* FontDatabase.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -69,6 +69,9 @@ struct FontInfo
 
   bool checkNames() const;
 
+  template <class Font>
+  void fill(Font &font,bool &is_font);
+
   // constructors
 
   FontInfo() noexcept {}
@@ -83,13 +86,19 @@ struct FontInfo
 
   void printDDL(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; } ",
-               DDLPrintableString(file_name),DDLString(family),DDLString(style),DDLBool(scalable),DDLBool(monospace),DDLBool(italic),DDLBool(bold));
+    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; }",
+                  DDLPrintableString(file_name),
+                  DDLString(family),
+                  DDLString(style),
+                  DDLBool(scalable),
+                  DDLBool(monospace),
+                  DDLBool(italic),
+                  DDLBool(bold));
    }
 
   void print(PrinterType &out) const
    {
-    Printf(out,"File #;\n",file_name);
+    Printf(out,"File #.q;\n",file_name);
     Printf(out,"Font #; #;\n",family,style);
     Putobj(out,"Flags");
 
@@ -98,7 +107,7 @@ struct FontInfo
     if( italic ) Putobj(out," italic");
     if( bold ) Putobj(out," bold");
 
-    Putobj(out,"\n");
+    out.put('\n');
    }
  };
 

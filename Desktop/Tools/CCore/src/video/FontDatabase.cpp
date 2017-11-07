@@ -1,7 +1,7 @@
 /* FontDatabase.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -54,6 +54,25 @@ bool FontInfo::checkNames() const
   return CheckName(file_name) && CheckName(family) && CheckName(style) ;
  }
 
+template <class Font>
+void FontInfo::fill(Font &font,bool &is_font)
+ {
+  if( is_font )
+    {
+     family=font.getFamily();
+     style=font.getStyle();
+
+     auto flags=font.getStyleFlags();
+
+     scalable=flags.scalable;
+     monospace=flags.monospace;
+     italic=flags.italic;
+     bold=flags.bold;
+
+     if( !checkNames() ) is_font=false;
+    }
+ }
+
 FontInfo::FontInfo(const String &file_name_,bool &is_font,bool use_probe)
  {
   file_name=file_name_;
@@ -62,39 +81,13 @@ FontInfo::FontInfo(const String &file_name_,bool &is_font,bool use_probe)
     {
      ProbeFreeTypeFont font(Range(file_name),is_font);
 
-     if( is_font )
-       {
-        family=font.getFamily();
-        style=font.getStyle();
-
-        auto flags=font.getStyleFlags();
-
-        scalable=flags.scalable;
-        monospace=flags.monospace;
-        italic=flags.italic;
-        bold=flags.bold;
-
-        if( !checkNames() ) is_font=false;
-       }
+     fill(font,is_font);
     }
   else
     {
      FreeTypeFont font(Range(file_name),is_font);
 
-     if( is_font )
-       {
-        family=font.getFamily();
-        style=font.getStyle();
-
-        auto flags=font.getStyleFlags();
-
-        scalable=flags.scalable;
-        monospace=flags.monospace;
-        italic=flags.italic;
-        bold=flags.bold;
-
-        if( !checkNames() ) is_font=false;
-       }
+     fill(font,is_font);
     }
  }
 

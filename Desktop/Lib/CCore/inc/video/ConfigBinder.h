@@ -1,7 +1,7 @@
 /* ConfigBinder.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -23,8 +23,6 @@ namespace Video {
 
 /* classes */
 
-struct FontCouple;
-
 struct ConfigItemBind;
 
 struct ConfigItemHost;
@@ -32,18 +30,6 @@ struct ConfigItemHost;
 struct HomeSyncBase;
 
 template <class Bag,class ... TT> class ConfigBinder;
-
-/* struct FontCouple */
-
-struct FontCouple
- {
-  Font font;
-  FontParam param;
-
-  FontCouple() noexcept {}
-
-  void create() { font=param.create(); }
- };
 
 /* struct ConfigItemBind */
 

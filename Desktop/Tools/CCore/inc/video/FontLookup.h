@@ -1,7 +1,7 @@
 /* FontLookup.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -17,7 +17,7 @@
 #define CCore_inc_video_FontLookup_h
 
 #include <CCore/inc/video/FontDatabase.h>
-#include <CCore/inc/video/ConfigBinder.h>
+#include <CCore/inc/video/FontParam.h>
 
 namespace CCore {
 namespace Video {
