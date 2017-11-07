@@ -338,6 +338,7 @@ Dir Dir25=
    },
    {
     { 'ApplicationBase.h' , Red },
+    { 'BindBagProxy.h' , Green },
     { 'ConfigBinder.h' , Red },
     { 'ConfigEditor.h' , Red },
     { 'ConfigStore.h' , Red },
@@ -432,6 +433,7 @@ Dir Dir26=
    },
    {
     { 'ApplicationBase.cpp' , Red },
+    { 'BindBagProxy.cpp' , Green },
     { 'ConfigBinder.cpp' , Red },
     { 'ConfigEditor.cpp' , Red },
     { 'ConfigStore.cpp' , Red },

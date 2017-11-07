@@ -20,6 +20,7 @@
 #include <CCore/inc/video/Color.h>
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/RefVal.h>
+#include <CCore/inc/video/SubWindow.h>
 
 #include <CCore/inc/DeferCall.h>
 

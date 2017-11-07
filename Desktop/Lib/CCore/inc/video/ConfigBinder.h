@@ -16,6 +16,7 @@
 #ifndef CCore_inc_video_ConfigBinder_h
 #define CCore_inc_video_ConfigBinder_h
 
+#include <CCore/inc/video/BindBagProxy.h>
 #include <CCore/inc/video/ConfigStore.h>
 
 namespace CCore {

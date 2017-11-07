@@ -16,6 +16,8 @@
 #ifndef CCore_inc_video_lib_Window_ScrollList_h
 #define CCore_inc_video_lib_Window_ScrollList_h
 
+#include <CCore/inc/video/BindBagProxy.h>
+
 #include <CCore/inc/video/lib/Window.Scroll.h>
 
 #include <CCore/inc/video/lib/Shape.ScrollList.h>

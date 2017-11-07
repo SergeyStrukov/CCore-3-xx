@@ -41,6 +41,8 @@ struct SubWindowHost;
 
 struct AliveControl;
 
+struct Hint;
+
 class SubWindow;
 
 class WindowList;
@@ -99,6 +101,24 @@ struct AliveControl
    }
 
   static AliveControl Default;
+ };
+
+/* struct Hint */
+
+struct Hint
+ {
+  Pane pane;
+  DefString text;
+
+  Hint() noexcept {}
+
+  Hint(NothingType) noexcept {}
+
+  Hint(const Pane &pane_,const DefString &text_) : pane(pane_),text(text_) {}
+
+  bool operator + () const { return +pane; }
+
+  bool operator ! () const { return !pane; }
  };
 
 /* class SubWindow */

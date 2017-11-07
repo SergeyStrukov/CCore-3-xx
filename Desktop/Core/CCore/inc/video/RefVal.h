@@ -31,27 +31,9 @@ enum SmartBindType { SmartBind };
 
 void GuardCtorRefValLock();
 
-/* BindBagProxy() */
-
-template <class Cfg,class Bag,class Proxy>
-auto BindBagProxy(Cfg &cfg,const Bag &bag,Proxy proxy) -> decltype( cfg.bind(bag,proxy) )
- {
-  cfg.bind(bag,proxy);
- }
-
-template <class Cfg,class Bag,class Proxy>
-auto BindBagProxy(Cfg &cfg,const Bag &bag,Proxy proxy) -> decltype( cfg.bind(bag) )
- {
-  Used(proxy);
-
-  cfg.bind(bag);
- }
-
 /* classes */
 
 class DefString;
-
-struct Hint;
 
 template <class T> class RefVal;
 
@@ -108,24 +90,6 @@ inline DefString operator "" _def (const char *str,ulen len) { return DefString(
 DefString SafeString(StrLen str,DefString out_of_memory);
 
 DefString SafeString(StrLen str);
-
-/* struct Hint */
-
-struct Hint
- {
-  Pane pane;
-  DefString text;
-
-  Hint() noexcept {}
-
-  Hint(NothingType) noexcept {}
-
-  Hint(const Pane &pane_,const DefString &text_) : pane(pane_),text(text_) {}
-
-  bool operator + () const { return +pane; }
-
-  bool operator ! () const { return !pane; }
- };
 
 /* class RefVal<T> */
 
