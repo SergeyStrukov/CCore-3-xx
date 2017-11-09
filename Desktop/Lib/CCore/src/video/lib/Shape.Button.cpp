@@ -49,7 +49,7 @@ void ButtonShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   // figure
 
@@ -80,7 +80,7 @@ void ButtonShape::draw(const DrawBuf &buf) const
     {
      VColor top = ( mover && enable )? +cfg.snowUp : +cfg.snow ;
 
-     fig.curveSolid(art,TwoField(p.getTopLeft(),top,p.getBottomLeft(),gray));
+     fig.curveSolid(art,YField(p.y,top,p.ey,gray));
     }
 
   // text
@@ -177,7 +177,7 @@ void KnobShape::draw(const DrawBuf &buf) const
     {
      VColor top = ( mover && enable )? +cfg.snowUp : +cfg.snow ;
 
-     art.ball(center,radius,TwoField(p.getTopLeft(),top,p.getBottomLeft(),gray));
+     art.ball(center,radius,YField(p.y,top,p.ey,gray));
     }
 
   // face
