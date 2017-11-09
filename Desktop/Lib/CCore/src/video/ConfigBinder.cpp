@@ -50,7 +50,7 @@ bool HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
   return ret;
  }
 
-void HomeSyncBase::updateHome(StrLen home_dir,StrLen cfg_file) noexcept
+void HomeSyncBase::updateHome(StrLen home_dir,StrLen cfg_file) const noexcept
  {
   try
     {

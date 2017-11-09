@@ -78,7 +78,7 @@ struct HomeSyncBase
 
   bool syncHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
 
-  void updateHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
+  void updateHome(StrLen home_dir,StrLen cfg_file) const noexcept; // "/dir" "/file"
  };
 
 /* class ConfigBinder<Bag,TT> */

@@ -26,15 +26,31 @@ namespace Video {
 
 /* classes */
 
+struct ButtonState;
+
 class ButtonShape;
 
 class RefButtonShape;
 
 class KnobShape;
 
+/* struct ButtonState */
+
+struct ButtonState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  bool mover  = false ;
+  bool down   = false ;
+
+  bool mouse  = false ;
+
+  ButtonState() {}
+ };
+
 /* class ButtonShape */
 
-class ButtonShape
+class ButtonShape : public ButtonState
  {
    static MCoord FigEX(Coord fdy,MCoord width);
 
@@ -81,15 +97,6 @@ class ButtonShape
    FaceType face;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool down   = false ;
-
-   bool mouse  = false ;
-
    // methods
 
    ButtonShape(const Config &cfg_,const FaceType &face_) : cfg(cfg_),face(face_) {}
@@ -103,7 +110,7 @@ class ButtonShape
 
 /* class RefButtonShape */
 
-class RefButtonShape
+class RefButtonShape : public ButtonState
  {
   public:
 
@@ -116,15 +123,6 @@ class RefButtonShape
    const Config &cfg;
    FaceType face;
    Pane pane;
-
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool down   = false ;
-
-   bool mouse  = false ;
 
    // methods
 
@@ -139,7 +137,7 @@ class RefButtonShape
 
 /* class KnobShape */
 
-class KnobShape
+class KnobShape : public ButtonState
  {
   public:
 
@@ -199,15 +197,6 @@ class KnobShape
    const Config &cfg;
    FaceType face;
    Pane pane;
-
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool down   = false ;
-
-   bool mouse  = false ;
 
    // methods
 
