@@ -1,7 +1,7 @@
 /* ConfigStore.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -35,7 +35,7 @@ void GuardItemTypeMismatch(const char *name);
 
 /* Gamma <-> Int */
 
-inline int GammaToInt(double g) { return int(g*1024); }
+inline int GammaToInt(double g) { return int(g*1024+0.5); }
 
 inline double IntToGamma(int g) { return g/1024.; }
 
@@ -123,7 +123,11 @@ class ConfigItem : NoCopy
          }
 
        Printf(out," { Font##Config###; , Font##Config###; , #; , #; , #; } }",
-                  obj.cfg.fht,obj.cfg.fsm,DDLBool(obj.cfg.use_kerning),obj.cfg.strength,GammaToInt(obj.cfg.gamma_order));
+                      obj.cfg.fht,
+                      obj.cfg.fsm,
+                      DDLBool(obj.cfg.use_kerning),
+                      obj.cfg.strength,
+                      GammaToInt(obj.cfg.gamma_order));
       }
 
      void print(bool obj)
@@ -169,10 +173,7 @@ class ConfigItem : NoCopy
        }
      else
        {
-        if( id!=Meta::CaseVal<ConfigTypeList,T> )
-          {
-           GuardItemTypeMismatch("sync");
-          }
+        if( id!=Meta::CaseVal<ConfigTypeList,T> ) GuardItemTypeMismatch("sync");
 
         ret=*(T *)storage.getPlace();
 
@@ -191,10 +192,7 @@ class ConfigItem : NoCopy
        }
      else
        {
-        if( id!=Meta::CaseVal<ConfigTypeList,T> )
-          {
-           GuardItemTypeMismatch("update");
-          }
+        if( id!=Meta::CaseVal<ConfigTypeList,T> ) GuardItemTypeMismatch("update");
 
         *(T *)storage.getPlace()=value;
        }

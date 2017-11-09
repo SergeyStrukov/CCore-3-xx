@@ -182,12 +182,12 @@ Dir Dir16=
    {
    },
    {
-    { 'ColorField.h' , Red },
+    { 'ColorField.h' , Green },
     { 'CommonDrawArt.h' , Red },
-    { 'CurveDriver.h' , Red },
+    { 'CurveDriver.h' , Green },
     { 'DrawAlgo.h' , Red },
-    { 'DrawTools.h' , Red },
-    { 'GammaTable.h' , Red },
+    { 'DrawTools.h' , Green },
+    { 'GammaTable.h' , Green },
     { 'SmoothAlgo.h' , Red },
     { 'SmoothDrawArt.h' , Red }
    }
@@ -200,12 +200,12 @@ Dir Dir17=
    {
    },
    {
-    { 'ColorField.cpp' , Red },
+    { 'ColorField.cpp' , Green },
     { 'CommonDrawArt.cpp' , Red },
-    { 'CurveDriver.cpp' , Red },
+    { 'CurveDriver.cpp' , Green },
     { 'DrawAlgo.cpp' , Red },
-    { 'DrawTools.cpp' , Red },
-    { 'GammaTable.cpp' , Red },
+    { 'DrawTools.cpp' , Green },
+    { 'GammaTable.cpp' , Green },
     { 'SmoothAlgo.cpp' , Red },
     { 'SmoothDrawArt.cpp' , Red }
    }
@@ -337,11 +337,11 @@ Dir Dir25=
     &Dir28
    },
    {
-    { 'ApplicationBase.h' , Red },
+    { 'ApplicationBase.h' , Green },
     { 'BindBagProxy.h' , Green },
     { 'ConfigBinder.h' , Red },
     { 'ConfigEditor.h' , Red },
-    { 'ConfigStore.h' , Red },
+    { 'ConfigStore.h' , Green },
     { 'DirFrame.h' , Red },
     { 'FigureLib.h' , Red },
     { 'FileFrame.h' , Red },
@@ -349,11 +349,11 @@ Dir Dir25=
     { 'Layout.h' , Red },
     { 'Menu.h' , Red },
     { 'MessageFrame.h' , Red },
-    { 'MinSizeType.h' , Red },
-    { 'ShapeLib.h' , Red },
+    { 'MinSizeType.h' , Green },
+    { 'ShapeLib.h' , Green },
     { 'ToolFrame.h' , Red },
     { 'UserPreference.h' , Red },
-    { 'WindowLib.h' , Red },
+    { 'WindowLib.h' , Green },
     { 'WindowReport.h' , Red }
    }
   };
@@ -432,11 +432,11 @@ Dir Dir26=
     &Dir30
    },
    {
-    { 'ApplicationBase.cpp' , Red },
+    { 'ApplicationBase.cpp' , Green },
     { 'BindBagProxy.cpp' , Green },
     { 'ConfigBinder.cpp' , Red },
     { 'ConfigEditor.cpp' , Red },
-    { 'ConfigStore.cpp' , Red },
+    { 'ConfigStore.cpp' , Green },
     { 'DirFrame.cpp' , Red },
     { 'FigureLib.cpp' , Red },
     { 'FileFrame.cpp' , Red },
@@ -444,13 +444,13 @@ Dir Dir26=
     { 'Layout.cpp' , Red },
     { 'Menu.cpp' , Red },
     { 'MessageFrame.cpp' , Red },
-    { 'MinSizeType.cpp' , Red },
-    { 'ShapeLib.cpp' , Red },
+    { 'MinSizeType.cpp' , Green },
+    { 'ShapeLib.cpp' , Green },
     { 'ToolFrame.cpp' , Red },
     { 'UserPreference.cpp' , Red },
-    { 'WindowLib.cpp' , Red },
+    { 'WindowLib.cpp' , Green },
     { 'WindowReport.cpp' , Red },
-    { 'ConfigTypes.ddl' , Red },
+    { 'ConfigTypes.ddl' , Green },
     { 'HitDirs.ddl' , Red },
     { 'HitDirs.TypeDef.gen.h' , Red },
     { 'HitDirs.TypeSet.gen.h' , Red }

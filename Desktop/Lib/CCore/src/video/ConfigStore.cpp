@@ -1,7 +1,7 @@
 /* ConfigStore.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -290,7 +290,7 @@ struct ConfigMap::AddItem
   StrLen name;
   DDL::Value value;
 
-  // Get... ()
+  // Get...()
 
   static int Get_int(DDL::Value value) { return value.get<DDL::imp_sint>().value; }
 

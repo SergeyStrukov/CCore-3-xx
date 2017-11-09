@@ -1,7 +1,7 @@
 /* WindowLib.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -18,24 +18,23 @@
 
 #include <CCore/inc/video/ShapeLib.h>
 
+#include <CCore/inc/video/lib/Window.Blank.h>
 #include <CCore/inc/video/lib/Window.Button.h>
-#include <CCore/inc/video/lib/Window.FireButton.h>
 #include <CCore/inc/video/lib/Window.Check.h>
-#include <CCore/inc/video/lib/Window.Radio.h>
-#include <CCore/inc/video/lib/Window.Light.h>
-#include <CCore/inc/video/lib/Window.Text.h>
-#include <CCore/inc/video/lib/Window.TextLine.h>
 #include <CCore/inc/video/lib/Window.Decor.h>
-#include <CCore/inc/video/lib/Window.Progress.h>
+#include <CCore/inc/video/lib/Window.FireButton.h>
 #include <CCore/inc/video/lib/Window.Info.h>
-#include <CCore/inc/video/lib/Window.SimpleTextList.h>
+#include <CCore/inc/video/lib/Window.Light.h>
 #include <CCore/inc/video/lib/Window.LineEdit.h>
+#include <CCore/inc/video/lib/Window.Progress.h>
+#include <CCore/inc/video/lib/Window.Radio.h>
 #include <CCore/inc/video/lib/Window.Scroll.h>
 #include <CCore/inc/video/lib/Window.ScrollList.h>
-#include <CCore/inc/video/lib/Window.Split.h>
+#include <CCore/inc/video/lib/Window.SimpleTextList.h>
 #include <CCore/inc/video/lib/Window.Spinor.h>
-
-#include <CCore/inc/video/lib/Window.Blank.h>
+#include <CCore/inc/video/lib/Window.Split.h>
+#include <CCore/inc/video/lib/Window.Text.h>
+#include <CCore/inc/video/lib/Window.TextLine.h>
 
 #include <CCore/inc/video/lib/Window.DragFrame.h>
 
