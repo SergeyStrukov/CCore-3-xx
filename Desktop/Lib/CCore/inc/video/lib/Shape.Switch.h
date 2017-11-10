@@ -16,10 +16,7 @@
 #ifndef CCore_inc_video_lib_Shape_Switch_h
 #define CCore_inc_video_lib_Shape_Switch_h
 
-#include <CCore/inc/video/MinSizeType.h>
-#include <CCore/inc/video/Color.h>
-#include <CCore/inc/video/Font.h>
-#include <CCore/inc/video/RefVal.h>
+#include <CCore/inc/video/lib/Shape.Check.h>
 
 namespace CCore {
 namespace Video {
@@ -30,7 +27,7 @@ class SwitchShape;
 
 /* class SwitchShape */
 
-class SwitchShape
+class SwitchShape : public CheckState
  {
   public:
 
@@ -69,16 +66,9 @@ class SwitchShape
    const Config &cfg;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool check  = false ;
-
    // methods
 
-   explicit SwitchShape(const Config &cfg_,bool check_=false) : cfg(cfg_),check(check_) {}
+   explicit SwitchShape(const Config &cfg_,bool check_=false) : cfg(cfg_) { check=check_; }
 
    SizeBox getMinSize() const;
 

@@ -1,7 +1,7 @@
 /* Shape.Contour.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -26,7 +26,7 @@ Point ContourShape::getMinSize() const
  {
   Coordinate dxy=RoundUpLen(+cfg.width);
 
-  return Point::Diag(2*dxy+1);
+  return Point::Diag(2*dxy+10);
  }
 
 Point ContourShape::getMinSize(Point inner_size) const
@@ -101,12 +101,12 @@ void TextContourShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   TextSize ts=font->text(title.str());
 
   Coord ty=Min(ts.dy,pane.dy);
-  Coord tx=Min<Coord>(ty,pane.dx/2);
+  Coord tx=Min_cast(ty,pane.dx/2);
 
   Coord len=pane.dx-2*tx;
   Coord free;

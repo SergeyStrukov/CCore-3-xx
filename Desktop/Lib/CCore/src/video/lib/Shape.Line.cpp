@@ -84,8 +84,11 @@ void XDoubleLineShape::draw(const DrawBuf &buf) const
   MCoord width=+cfg.width;
   MCoord d=width/2;
 
-  art.path(width,+cfg.snow,p.getLeftMid().subY(d),p.getRightMid().subY(d));
-  art.path(width,+cfg.gray,p.getLeftMid().addY(d),p.getRightMid().addY(d));
+  MPoint A=p.getLeftMid();
+  MPoint B=p.getRightMid();
+
+  art.path(width,+cfg.snow,A.subY(d),B.subY(d));
+  art.path(width,+cfg.gray,A.addY(d),B.addY(d));
  }
 
 /* class YDoubleLineShape */
@@ -108,8 +111,11 @@ void YDoubleLineShape::draw(const DrawBuf &buf) const
   MCoord width=+cfg.width;
   MCoord d=width/2;
 
-  art.path(width,+cfg.snow,p.getTopMid().subX(d),p.getBottomMid().subX(d));
-  art.path(width,+cfg.gray,p.getTopMid().addX(d),p.getBottomMid().addX(d));
+  MPoint A=p.getTopMid();
+  MPoint B=p.getBottomMid();
+
+  art.path(width,+cfg.snow,A.subX(d),B.subX(d));
+  art.path(width,+cfg.gray,A.addX(d),B.addX(d));
  }
 
 } // namespace Video

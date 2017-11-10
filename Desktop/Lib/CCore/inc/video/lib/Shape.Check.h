@@ -26,11 +26,25 @@ namespace Video {
 
 /* classes */
 
+struct CheckState;
+
 class CheckShape;
+
+/* struct CheckState */
+
+struct CheckState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  bool mover  = false ;
+  bool check  = false ;
+
+  CheckState() {}
+ };
 
 /* class CheckShape */
 
-class CheckShape
+class CheckShape : public CheckState
  {
   public:
 
@@ -64,16 +78,9 @@ class CheckShape
    const Config &cfg;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool check  = false ;
-
    // methods
 
-   explicit CheckShape(const Config &cfg_,bool check_=false) : cfg(cfg_),check(check_) {}
+   explicit CheckShape(const Config &cfg_,bool check_=false) : cfg(cfg_) { check=check_; }
 
    SizeBox getMinSize() const;
 

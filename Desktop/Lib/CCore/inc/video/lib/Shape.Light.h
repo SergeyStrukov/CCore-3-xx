@@ -26,11 +26,22 @@ namespace Video {
 
 /* classes */
 
+struct LightState;
+
 class LightShape;
+
+/* struct LightState */
+
+struct LightState
+ {
+  bool on = false ;
+
+  LightState() {}
+ };
 
 /* class LightShape */
 
-class LightShape
+class LightShape : public LightState
  {
   public:
 
@@ -59,13 +70,9 @@ class LightShape
    VColor face = Green ;
    Pane pane;
 
-   // state
-
-   bool on;
-
    // methods
 
-   LightShape(const Config &cfg_,VColor face_,bool on_=false) : cfg(cfg_),face(face_),on(on_) {}
+   LightShape(const Config &cfg_,VColor face_,bool on_=false) : cfg(cfg_),face(face_) { on=on_; }
 
    SizeBox getMinSize() const;
 
