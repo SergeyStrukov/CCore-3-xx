@@ -28,13 +28,96 @@ namespace Video {
 
 /* classes */
 
+struct ProgressState;
+
 class ProgressShape;
 
 class ArrowProgressShape;
 
+/* struct ProgressState */
+
+struct ProgressState
+ {
+  static constexpr unsigned MaxActivePos = 100 ;
+
+  unsigned total      =   100 ;
+  unsigned pos        =     0 ;
+  unsigned active_pos =     0 ;
+  bool has_active     = false ;
+
+  unsigned time  = 0 ;
+  unsigned count = 0 ;
+
+  ProgressState() {}
+
+  void adjustPos()
+   {
+    Replace_min(pos,total);
+   }
+
+  void resetTime(unsigned time_)
+   {
+    time=time_;
+   }
+
+  bool checkTime()
+   {
+    if( time )
+      {
+       time--;
+
+       return true;
+      }
+    else
+      {
+       return false;
+      }
+   }
+
+  bool tick(unsigned period_)
+   {
+    if( count )
+      {
+       count--;
+
+       return false;
+      }
+    else
+      {
+       count=PosSub(period_,1u);
+
+       return true;
+      }
+   }
+
+  bool startActive()
+   {
+    if( !has_active )
+      {
+       has_active=true;
+       active_pos=0;
+       count=0;
+
+       return true;
+      }
+
+    return false;
+   }
+
+  void nextActive()
+   {
+    if( (active_pos+=MaxActivePos/10)>MaxActivePos ) active_pos=0;
+   }
+
+  void stopActive()
+   {
+    has_active=false;
+   }
+ };
+
 /* class ProgressShape */
 
-class ProgressShape
+class ProgressShape : public ProgressState
  {
   public:
 
@@ -80,18 +163,6 @@ class ProgressShape
    const Config &cfg;
    Pane pane;
 
-   // state
-
-   static constexpr unsigned MaxActivePos = 100 ;
-
-   unsigned total      =   100 ;
-   unsigned pos        =     0 ;
-   unsigned active_pos =     0 ;
-   bool has_active     = false ;
-
-   unsigned time  = 0 ;
-   unsigned count = 0 ;
-
    // methods
 
    explicit ProgressShape(const Config &cfg_) : cfg(cfg_) {}
@@ -105,73 +176,16 @@ class ProgressShape
      return size.y >= dy && size.x/8 >= size.y ;
     }
 
-   void adjustPos()
-    {
-     Replace_min(pos,total);
-    }
+   void resetTime() { ProgressState::resetTime(+cfg.time); }
 
-   void resetTime() { time=+cfg.time; }
-
-   bool checkTime()
-    {
-     if( time )
-       {
-        time--;
-
-        return true;
-       }
-     else
-       {
-        return false;
-       }
-    }
-
-   bool tick()
-    {
-     if( count )
-       {
-        count--;
-
-        return false;
-       }
-     else
-       {
-        count=PosSub(+cfg.period,1u);
-
-        return true;
-       }
-    }
-
-   bool startActive()
-    {
-     if( !has_active )
-       {
-        has_active=true;
-        active_pos=0;
-        count=0;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   void nextActive()
-    {
-     if( (active_pos+=MaxActivePos/10)>MaxActivePos ) active_pos=0;
-    }
-
-   void stopActive()
-    {
-     has_active=false;
-    }
+   bool tick() { return ProgressState::tick(+cfg.period); }
 
    void draw(const DrawBuf &buf) const;
  };
 
 /* class ArrowProgressShape */
 
-class ArrowProgressShape
+class ArrowProgressShape : public ProgressState
  {
   public:
 
@@ -217,18 +231,6 @@ class ArrowProgressShape
    const Config &cfg;
    Pane pane;
 
-   // state
-
-   static constexpr unsigned MaxActivePos = 100 ;
-
-   unsigned total      =   100 ;
-   unsigned pos        =     0 ;
-   unsigned active_pos =     0 ;
-   bool has_active     = false ;
-
-   unsigned time  = 0 ;
-   unsigned count = 0 ;
-
    // methods
 
    explicit ArrowProgressShape(const Config &cfg_) : cfg(cfg_) {}
@@ -242,66 +244,9 @@ class ArrowProgressShape
      return size.y >= dy && size.x/8 >= size.y ;
     }
 
-   void adjustPos()
-    {
-     Replace_min(pos,total);
-    }
+   void resetTime() { ProgressState::resetTime(+cfg.time); }
 
-   void resetTime() { time=+cfg.time; }
-
-   bool checkTime()
-    {
-     if( time )
-       {
-        time--;
-
-        return true;
-       }
-     else
-       {
-        return false;
-       }
-    }
-
-   bool tick()
-    {
-     if( count )
-       {
-        count--;
-
-        return false;
-       }
-     else
-       {
-        count=PosSub(+cfg.period,1u);
-
-        return true;
-       }
-    }
-
-   bool startActive()
-    {
-     if( !has_active )
-       {
-        has_active=true;
-        active_pos=0;
-        count=0;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   void nextActive()
-    {
-     if( (active_pos+=MaxActivePos/10)>MaxActivePos ) active_pos=0;
-    }
-
-   void stopActive()
-    {
-     has_active=false;
-    }
+   bool tick() { return ProgressState::tick(+cfg.period); }
 
    void draw(const DrawBuf &buf) const;
  };

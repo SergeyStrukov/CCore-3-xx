@@ -46,12 +46,12 @@ void ProgressShape::draw(const DrawBuf &buf) const
   {
    FigureBox fig(p.cutLeft(t));
 
-   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snowUp,p.getBottomLeft(),+cfg.grayUp));
+   fig.solid(art,YField(p.y,+cfg.snowUp,p.ey,+cfg.grayUp));
   }
   {
    FigureBox fig(p.cutRight(t));
 
-   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snow,p.getBottomLeft(),+cfg.gray));
+   fig.solid(art,YField(p.y,+cfg.snow,p.ey,+cfg.gray));
   }
   {
    FigureBox fig(p);
@@ -114,12 +114,12 @@ void ArrowProgressShape::draw(const DrawBuf &buf) const
   {
    FigureBox fig(p.cutLeft(t));
 
-   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snowUp,p.getBottomLeft(),+cfg.grayUp));
+   fig.solid(art,YField(p.y,+cfg.snowUp,p.ey,+cfg.grayUp));
   }
   {
    FigureBox fig(p.cutRight(t));
 
-   fig.solid(art,TwoField(p.getTopLeft(),+cfg.snow,p.getBottomLeft(),+cfg.gray));
+   fig.solid(art,YField(p.y,+cfg.snow,p.ey,+cfg.gray));
   }
   {
    FigureBox fig(p);
