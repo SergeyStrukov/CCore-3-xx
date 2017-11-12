@@ -48,7 +48,7 @@ Point TextLineShape::getMinSize(StrLen text) const
 
 void TextLineShape::setMax()
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   MCoord width=+cfg.width;
 
@@ -89,7 +89,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   // figure
 

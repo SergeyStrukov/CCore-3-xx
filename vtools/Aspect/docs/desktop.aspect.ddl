@@ -402,8 +402,8 @@ Dir Dir27=
     { 'Shape.Switch.h' , Green },
     { 'Shape.Text.h' , Green },
     { 'Window.Text.h' , Green },
-    { 'Shape.TextLine.h' , Red },
-    { 'Window.TextLine.h' , Red }
+    { 'Shape.TextLine.h' , Green },
+    { 'Window.TextLine.h' , Green }
    }
   };
 
@@ -495,14 +495,14 @@ Dir Dir29=
     { 'Shape.SimpleTextList.cpp' , Red },
     { 'Window.SimpleTextList.cpp' , Red },
     { 'Shape.Spinor.cpp' , Red },
-    { 'Window.Spinor.cpp' , Red },
+    { 'Window.Spinor.cpp' , Green },
     { 'Shape.Split.cpp' , Red },
-    { 'Window.Split.cpp' , Red },
+    { 'Window.Split.cpp' , Green },
     { 'Shape.Switch.cpp' , Green },
     { 'Shape.Text.cpp' , Green },
     { 'Window.Text.cpp' , Green },
-    { 'Shape.TextLine.cpp' , Red },
-    { 'Window.TextLine.cpp' , Red }
+    { 'Shape.TextLine.cpp' , Green },
+    { 'Window.TextLine.cpp' , Green }
    }
   };
 

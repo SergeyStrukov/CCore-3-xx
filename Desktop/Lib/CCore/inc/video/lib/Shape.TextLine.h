@@ -26,11 +26,32 @@ namespace Video {
 
 /* classes */
 
+struct TextLineState;
+
 class TextLineShape;
+
+/* struct TextLineState */
+
+struct TextLineState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  bool alert  = false ;
+  Coord xoff  =     0 ;
+
+  Coord xoffMax = 0 ;
+  Coord dxoff   = 0 ;
+
+  bool drag = false ;
+  Point drag_base;
+  Coord xoff_base = 0 ;
+
+  TextLineState() {}
+ };
 
 /* class TextLineShape */
 
-class TextLineShape
+class TextLineShape : public TextLineState
  {
    static MCoord FigEX(Coord fdy,MCoord width);
 
@@ -74,20 +95,6 @@ class TextLineShape
    const Config &cfg;
    DefString text;
    Pane pane;
-
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool alert  = false ;
-   Coord xoff  =     0 ;
-
-   Coord xoffMax = 0 ;
-   Coord dxoff   = 0 ;
-
-   bool drag = false ;
-   Point drag_base;
-   Coord xoff_base = 0 ;
 
    // methods
 
