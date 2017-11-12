@@ -44,8 +44,11 @@ void XSplitShape::draw(const DrawBuf &buf) const
 
   VColor top = enable? ( down? +cfg.active : ( mover? +cfg.hilight : +cfg.snow ) ) : bottom ;
 
-  art.path(width,top,p.getTopMid().subX(d),p.getBottomMid().subX(d));
-  art.path(width,bottom,p.getTopMid().addX(d),p.getBottomMid().addX(d));
+  MPoint A=p.getTopMid();
+  MPoint B=p.getBottomMid();
+
+  art.path(width,top,A.subX(d),B.subX(d));
+  art.path(width,bottom,A.addX(d),B.addX(d));
  }
 
 /* class YSplitShape */
@@ -72,8 +75,11 @@ void YSplitShape::draw(const DrawBuf &buf) const
 
   VColor top = enable? ( down? +cfg.active : ( mover? +cfg.hilight : +cfg.snow ) ) : bottom ;
 
-  art.path(width,top,p.getLeftMid().subY(d),p.getRightMid().subY(d));
-  art.path(width,bottom,p.getLeftMid().addY(d),p.getRightMid().addY(d));
+  MPoint A=p.getLeftMid();
+  MPoint B=p.getRightMid();
+
+  art.path(width,top,A.subY(d),B.subY(d));
+  art.path(width,bottom,A.addY(d),B.addY(d));
  }
 
 } // namespace Video

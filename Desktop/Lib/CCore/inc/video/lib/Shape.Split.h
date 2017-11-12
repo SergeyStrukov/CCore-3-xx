@@ -26,15 +26,30 @@ namespace Video {
 
 /* classes */
 
+struct SplitState;
+
 class SplitShape;
 
 class XSplitShape;
 
 class YSplitShape;
 
+/* struct SplitState */
+
+struct SplitState
+ {
+  bool enable =  true ;
+  bool mover  = false ;
+  bool down   = false ;
+
+  Point drag_base;
+
+  SplitState() {}
+ };
+
 /* class SplitShape */
 
-class SplitShape
+class SplitShape : public SplitState
  {
   public:
 
@@ -67,14 +82,6 @@ class SplitShape
 
    const Config &cfg;
    Pane pane;
-
-   // state
-
-   bool enable =  true ;
-   bool mover  = false ;
-   bool down   = false ;
-
-   Point drag_base;
 
    // methods
 
