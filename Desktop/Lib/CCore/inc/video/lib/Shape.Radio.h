@@ -26,11 +26,25 @@ namespace Video {
 
 /* classes */
 
+struct RadioState;
+
 class RadioShape;
+
+/* struct RadioState */
+
+struct RadioState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  bool mover  = false ;
+  bool check  = false ;
+
+  RadioState() {}
+ };
 
 /* class RadioShape */
 
-class RadioShape
+class RadioShape : public RadioState
  {
   public:
 
@@ -64,16 +78,9 @@ class RadioShape
    const Config &cfg;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   bool mover  = false ;
-   bool check  = false ;
-
    // methods
 
-   explicit RadioShape(const Config &cfg_,bool check_=false) : cfg(cfg_),check(check_) {}
+   explicit RadioShape(const Config &cfg_,bool check_=false) : cfg(cfg_) { check=check_; }
 
    SizeBox getMinSize() const;
 

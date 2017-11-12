@@ -156,14 +156,12 @@ class RadioWindowOf : public SubWindow , public RadioItem
 
    virtual void check(bool check)
     {
-     shape.check=check;
+     if( Change(shape.check,check) ) redraw();
     }
 
    virtual void uncheck()
     {
-     shape.check=false;
-
-     redraw();
+     if( Change(shape.check,false) ) redraw();
     }
 
   public:
