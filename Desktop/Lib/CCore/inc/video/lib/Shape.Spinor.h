@@ -38,11 +38,49 @@ enum SpinType
 
 /* classes */
 
+struct SpinorState;
+
 class SpinorShape;
+
+/* struct SpinorState */
+
+struct SpinorState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  SpinType mover = SpinType_None ;
+  SpinType down  = SpinType_None ;
+  unsigned time   = 0 ;
+  unsigned period = 0 ;
+
+  bool mouse = false ;
+
+  SpinorState() {}
+
+  void tickStart(unsigned period_)
+   {
+    time=0;
+    period=period_;
+   }
+
+  bool tick()
+   {
+    if( (++time)>=period )
+      {
+       time=0;
+
+       if( period>1 ) period--;
+
+       return true;
+      }
+
+    return false;
+   }
+ };
 
 /* class SpinorShape */
 
-class SpinorShape
+class SpinorShape : public SpinorState
  {
    Point getInnerSize(int val) const;
 
@@ -97,17 +135,6 @@ class SpinorShape
    IntPrintOpt opt;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   SpinType mover = SpinType_None ;
-   SpinType down  = SpinType_None ;
-   unsigned time   = 0 ;
-   unsigned period = 0 ;
-
-   bool mouse = false ;
-
    // methods
 
    explicit SpinorShape(const Config &cfg_) : cfg(cfg_) {}
@@ -118,25 +145,7 @@ class SpinorShape
 
    SpinType getZone(Point point) const;
 
-   void tickStart()
-    {
-     time=0;
-     period=+cfg.period;
-    }
-
-   bool tick()
-    {
-     if( (++time)>=period )
-       {
-        time=0;
-
-        if( period>1 ) period--;
-
-        return true;
-       }
-
-     return false;
-    }
+   void tickStart() { SpinorState::tickStart(+cfg.period); }
 
    void draw(const DrawBuf &buf) const;
  };
