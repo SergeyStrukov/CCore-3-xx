@@ -18,6 +18,35 @@
 namespace CCore {
 namespace Video {
 
+/* class XSliderShape */
+
+SizeY XSliderShape::getMinSize() const
+ {
+  return +cfg.dxy;
+ }
+
+unsigned XSliderShape::getPos(Point point) const // TODO
+ {
+ }
+
+void XSliderShape::draw(const DrawBuf &buf) const // TODO
+ {
+ }
+
+/* class YSliderShape */
+
+SizeX YSliderShape::getMinSize() const
+ {
+  return +cfg.dxy;
+ }
+
+unsigned YSliderShape::getPos(Point point) const // TODO
+ {
+ }
+
+void YSliderShape::draw(const DrawBuf &buf) const // TODO
+ {
+ }
 
 } // namespace Video
 } // namespace CCore

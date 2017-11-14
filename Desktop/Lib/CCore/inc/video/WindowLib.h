@@ -31,6 +31,7 @@
 #include <CCore/inc/video/lib/Window.Scroll.h>
 #include <CCore/inc/video/lib/Window.ScrollList.h>
 #include <CCore/inc/video/lib/Window.SimpleTextList.h>
+#include <CCore/inc/video/lib/Window.Slider.h>
 #include <CCore/inc/video/lib/Window.Spinor.h>
 #include <CCore/inc/video/lib/Window.Split.h>
 #include <CCore/inc/video/lib/Window.Text.h>

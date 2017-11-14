@@ -42,12 +42,10 @@ struct SliderState
   bool focus  = false ;
   bool mover  = false ;
 
-  unsigned pos   = 0 ;
-  unsigned total = 0 ;
+  unsigned pos = 0 ;
+  unsigned cap = 0 ;
 
   bool drag = false ;
-  Point drag_base;
-  unsigned pos_base = 0 ;
 
   SliderState() {}
  };
@@ -68,6 +66,8 @@ class SliderShape : public SliderState
      RefVal<VColor> snow   =      Snow ;
      RefVal<VColor> snowUp = PaleGreen ;
 
+     RefVal<Coord> dxy = 20 ;
+
      Config() noexcept {}
 
      template <class Bag>
@@ -79,6 +79,8 @@ class SliderShape : public SliderState
        gray.bind(bag.gray);
        snow.bind(bag.snow);
        snowUp.bind(bag.snowUp);
+
+       dxy.bind(bag.slider_dxy);
       }
     };
 
@@ -98,11 +100,21 @@ class XSliderShape : public SliderShape
  {
   public:
 
+   static constexpr VKey KeyDown = VKey_Left ;
+   static constexpr VKey KeyUp   = VKey_Right ;
+
    explicit XSliderShape(const Config &cfg) : SliderShape(cfg) {}
 
-   Point getMinSize() const;
+   SizeY getMinSize() const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   bool isGoodSize(Point size) const
+    {
+     Coord dy=getMinSize().dy;
+
+     return size.y >= dy && size.x/8 >= size.y ;
+    }
+
+   unsigned getPos(Point point) const;
 
    void draw(const DrawBuf &buf) const;
  };
@@ -113,11 +125,21 @@ class YSliderShape : public SliderShape
  {
   public:
 
+   static constexpr VKey KeyDown = VKey_Down ;
+   static constexpr VKey KeyUp   = VKey_Up ;
+
    explicit YSliderShape(const Config &cfg) : SliderShape(cfg) {}
 
-   Point getMinSize() const;
+   SizeX getMinSize() const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   bool isGoodSize(Point size) const
+    {
+     Coord dx=getMinSize().dx;
+
+     return size.x >= dx && size.y/8 >= size.x ;
+    }
+
+   unsigned getPos(Point point) const;
 
    void draw(const DrawBuf &buf) const;
  };

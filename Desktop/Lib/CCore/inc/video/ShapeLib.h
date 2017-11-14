@@ -29,6 +29,7 @@
 #include <CCore/inc/video/lib/Shape.Scroll.h>
 #include <CCore/inc/video/lib/Shape.ScrollList.h>
 #include <CCore/inc/video/lib/Shape.SimpleTextList.h>
+#include <CCore/inc/video/lib/Shape.Slider.h>
 #include <CCore/inc/video/lib/Shape.Spinor.h>
 #include <CCore/inc/video/lib/Shape.Split.h>
 #include <CCore/inc/video/lib/Shape.Switch.h>

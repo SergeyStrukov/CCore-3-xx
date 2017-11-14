@@ -40,7 +40,9 @@ class HomeFile : NoCopy
 
    StrLen get() const { return file; }
 
-   void createDir();
+   bool exist() const;
+
+   void createDir() const;
  };
 
 } // namespace Video

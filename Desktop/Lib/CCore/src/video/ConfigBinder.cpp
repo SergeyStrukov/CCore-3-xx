@@ -30,14 +30,25 @@ bool HomeSyncBase::syncHome(StrLen home_dir,StrLen cfg_file) noexcept
     {
      HomeFile home_file(home_dir,cfg_file);
 
-     ConfigMap map;
-
-     ret=map.loadDDL_safe(home_file.get());
-
-     syncMap(map);
-
-     if( map.isModified() )
+     if( home_file.exist() )
        {
+        ConfigMap map;
+
+        ret=map.loadDDL_safe(home_file.get());
+
+        syncMap(map);
+
+        if( map.isModified() )
+          {
+           map.saveDDL(home_file.get());
+          }
+       }
+     else
+       {
+        ConfigMap map;
+
+        updateMap(map);
+
         home_file.createDir();
 
         map.saveDDL(home_file.get());
@@ -58,7 +69,7 @@ void HomeSyncBase::updateHome(StrLen home_dir,StrLen cfg_file) const noexcept
 
      ConfigMap map;
 
-     map.loadDDL_safe(home_file.get());
+     if( home_file.exist() ) map.loadDDL_safe(home_file.get());
 
      updateMap(map);
 

@@ -44,7 +44,14 @@ HomeFile::HomeFile(StrLen home_dir,StrLen cfg_file)
   file=buf.get();
  }
 
-void HomeFile::createDir()
+bool HomeFile::exist() const
+ {
+  FileSystem fs;
+
+  return fs.getFileType(file)==FileType_file ;
+ }
+
+void HomeFile::createDir() const
  {
   FileSystem fs;
 

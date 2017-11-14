@@ -167,6 +167,10 @@ struct UserPreferenceBag : ConfigItemHost
   VColor scroll_list_titleTop    = Aqua ;
   VColor scroll_list_titleBottom = Gray ;
 
+  // slider
+
+  Coord slider_dxy = 20 ;
+
   // spinor
 
   unsigned spinor_period = 1_sectick/2 ;
@@ -402,6 +406,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            TextLineWindow::ConfigType,
                                            ScrollListWindow::ConfigType,
                                            XSplitWindow::ConfigType,
+                                           XSliderWindow::ConfigType,
                                            SpinorWindow::ConfigType,
 
                                            DragFrame::ConfigType,

@@ -497,7 +497,7 @@ Dir Dir29=
     { 'Shape.SimpleTextList.cpp' , Red },
     { 'Window.SimpleTextList.cpp' , Red },
     { 'Shape.Slider.cpp' , Yellow },
-    { 'Window.Slider.cpp' , Yellow },
+    { 'Window.Slider.cpp' , Green },
     { 'Shape.Spinor.cpp' , Green },
     { 'Window.Spinor.cpp' , Green },
     { 'Shape.Split.cpp' , Green },
