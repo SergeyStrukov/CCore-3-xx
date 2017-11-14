@@ -28,11 +28,34 @@ namespace Video {
 
 /* classes */
 
+struct InfoState;
+
 class InfoShape;
+
+/* struct InfoState */
+
+struct InfoState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+
+  ulen yoff    = 0 ;
+  ulen yoffMax = 0 ;
+
+  Coord xoff    = 0 ;
+  Coord xoffMax = 0 ;
+  Coord dxoff   = 0 ;
+
+  bool drag = false ;
+  Point drag_base;
+  Coord xoff_base = 0 ;
+
+  InfoState() {}
+ };
 
 /* class InfoShape */
 
-class InfoShape
+class InfoShape : public InfoState
  {
   public:
 
@@ -68,22 +91,6 @@ class InfoShape
    const Config &cfg;
    Info info;
    Pane pane;
-
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-
-   ulen yoff  = 0 ;
-   Coord xoff = 0 ;
-
-   ulen yoffMax  = 0 ;
-   Coord xoffMax = 0 ;
-   Coord dxoff   = 0 ;
-
-   bool drag = false ;
-   Point drag_base;
-   Coord xoff_base = 0 ;
 
    // methods
 

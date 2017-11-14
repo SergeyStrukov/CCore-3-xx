@@ -26,6 +26,7 @@ OBJ_LIST = \
 .obj/BestSearch.o \
 .obj/BinaryFile.o \
 .obj/BinarySearch.o \
+.obj/BindBagProxy.o \
 .obj/BlockCipher.o \
 .obj/BlockFifo.o \
 .obj/Bridge.o \
@@ -325,6 +326,7 @@ OBJ_LIST = \
 .obj/Shape.Scroll.o \
 .obj/Shape.ScrollList.o \
 .obj/Shape.SimpleTextList.o \
+.obj/Shape.Slider.o \
 .obj/Shape.Spinor.o \
 .obj/Shape.Split.o \
 .obj/Shape.Switch.o \
@@ -430,6 +432,7 @@ OBJ_LIST = \
 .obj/Window.Scroll.o \
 .obj/Window.ScrollList.o \
 .obj/Window.SimpleTextList.o \
+.obj/Window.Slider.o \
 .obj/Window.Spinor.o \
 .obj/Window.Split.o \
 .obj/Window.Text.o \
@@ -467,6 +470,7 @@ ASM_LIST = \
 .obj/BestSearch.s \
 .obj/BinaryFile.s \
 .obj/BinarySearch.s \
+.obj/BindBagProxy.s \
 .obj/BlockCipher.s \
 .obj/BlockFifo.s \
 .obj/Bridge.s \
@@ -766,6 +770,7 @@ ASM_LIST = \
 .obj/Shape.Scroll.s \
 .obj/Shape.ScrollList.s \
 .obj/Shape.SimpleTextList.s \
+.obj/Shape.Slider.s \
 .obj/Shape.Spinor.s \
 .obj/Shape.Split.s \
 .obj/Shape.Switch.s \
@@ -871,6 +876,7 @@ ASM_LIST = \
 .obj/Window.Scroll.s \
 .obj/Window.ScrollList.s \
 .obj/Window.SimpleTextList.s \
+.obj/Window.Slider.s \
 .obj/Window.Spinor.s \
 .obj/Window.Split.s \
 .obj/Window.Text.s \
@@ -908,6 +914,7 @@ DEP_LIST = \
 .obj/BestSearch.dep \
 .obj/BinaryFile.dep \
 .obj/BinarySearch.dep \
+.obj/BindBagProxy.dep \
 .obj/BlockCipher.dep \
 .obj/BlockFifo.dep \
 .obj/Bridge.dep \
@@ -1207,6 +1214,7 @@ DEP_LIST = \
 .obj/Shape.Scroll.dep \
 .obj/Shape.ScrollList.dep \
 .obj/Shape.SimpleTextList.dep \
+.obj/Shape.Slider.dep \
 .obj/Shape.Spinor.dep \
 .obj/Shape.Split.dep \
 .obj/Shape.Switch.dep \
@@ -1312,6 +1320,7 @@ DEP_LIST = \
 .obj/Window.Scroll.dep \
 .obj/Window.ScrollList.dep \
 .obj/Window.SimpleTextList.dep \
+.obj/Window.Slider.dep \
 .obj/Window.Spinor.dep \
 .obj/Window.Split.dep \
 .obj/Window.Text.dep \
@@ -1414,6 +1423,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BinarySearch.o : ../../Fundamental/CCore/src/./algon/BinarySearch.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BindBagProxy.o : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BlockCipher.o : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
@@ -2313,6 +2325,9 @@ include $(RULES_FILE)
 .obj/Shape.SimpleTextList.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Shape.Slider.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Slider.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Shape.Spinor.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Spinor.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2628,6 +2643,9 @@ include $(RULES_FILE)
 .obj/Window.SimpleTextList.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Window.Slider.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.Slider.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Window.Spinor.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.Spinor.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2730,6 +2748,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/BinarySearch.s : ../../Fundamental/CCore/src/./algon/BinarySearch.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/BindBagProxy.s : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/BlockCipher.s : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
@@ -3629,6 +3650,9 @@ include $(RULES_FILE)
 .obj/Shape.SimpleTextList.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Shape.Slider.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Slider.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.Spinor.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Spinor.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3944,6 +3968,9 @@ include $(RULES_FILE)
 .obj/Window.SimpleTextList.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Window.Slider.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.Slider.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Window.Spinor.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.Spinor.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4047,6 +4074,9 @@ include $(RULES_FILE)
 
 .obj/BinarySearch.dep : ../../Fundamental/CCore/src/./algon/BinarySearch.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BinarySearch.o $< -MF $@
+
+.obj/BindBagProxy.dep : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BindBagProxy.o $< -MF $@
 
 .obj/BlockCipher.dep : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BlockCipher.o $< -MF $@
@@ -4945,6 +4975,9 @@ include $(RULES_FILE)
 .obj/Shape.SimpleTextList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.SimpleTextList.o $< -MF $@
 
+.obj/Shape.Slider.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Slider.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.Slider.o $< -MF $@
+
 .obj/Shape.Spinor.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Spinor.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Spinor.o $< -MF $@
 
@@ -5259,6 +5292,9 @@ include $(RULES_FILE)
 
 .obj/Window.SimpleTextList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.SimpleTextList.o $< -MF $@
+
+.obj/Window.Slider.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.Slider.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Window.Slider.o $< -MF $@
 
 .obj/Window.Spinor.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.Spinor.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.Spinor.o $< -MF $@

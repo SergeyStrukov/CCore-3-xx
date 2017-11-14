@@ -26,7 +26,7 @@ namespace Video {
 
 Point InfoShape::getMinSize(Point cap) const
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
 
@@ -41,7 +41,7 @@ void InfoShape::setMax()
     {
      ulen count=info->getLineCount();
 
-     Font font=cfg.font.get();
+     const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
 
@@ -144,7 +144,7 @@ void InfoShape::draw(const DrawBuf &buf) const
    ulen count=info->getLineCount();
    ulen index=yoff;
 
-   Font font=cfg.font.get();
+   const Font &font=cfg.font.get();
 
    FontSize fs=font->getSize();
 
@@ -152,13 +152,14 @@ void InfoShape::draw(const DrawBuf &buf) const
 
    Pane row=inner;
 
+   if( fs.dy>inner.dy ) return;
+
    row.dy=fs.dy;
 
    Coord pos_x=fs.dx0-xoff;
+   Coord lim=inner.y+(inner.dy-row.dy);
 
-   Coord lim=inner.y+inner.dy;
-
-   for(; index<count && IntAdd(row.y,row.dy)<=lim ;index++,row.y+=row.dy)
+   for(; index<count && row.dy<=lim ;index++,row.y+=row.dy)
      {
       font->text(tbuf,row,TextPlace(pos_x,AlignY_Top),info->getLine(index),text);
      }

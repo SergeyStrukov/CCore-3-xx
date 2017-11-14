@@ -135,6 +135,16 @@ class InfoWindowOf : public SubWindow
      redraw();
     }
 
+   void update()
+    {
+     shape.yoff=0;
+     shape.xoff=0;
+
+     shape.setMax();
+
+     redraw();
+    }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const
