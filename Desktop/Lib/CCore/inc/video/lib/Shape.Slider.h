@@ -38,6 +38,17 @@ class YSliderShape;
 
 struct SliderState
  {
+  bool enable =  true ;
+  bool focus  = false ;
+  bool mover  = false ;
+
+  unsigned pos   = 0 ;
+  unsigned total = 0 ;
+
+  bool drag = false ;
+  Point drag_base;
+  unsigned pos_base = 0 ;
+
   SliderState() {}
  };
 
@@ -47,19 +58,68 @@ class SliderShape : public SliderState
  {
   public:
 
+   struct Config
+    {
+     RefVal<MCoord> width = Fraction(6,2) ;
 
+     RefVal<VColor> border =      Blue ;
+     RefVal<VColor> focus  = OrangeRed ;
+     RefVal<VColor> gray   =      Gray ;
+     RefVal<VColor> snow   =      Snow ;
+     RefVal<VColor> snowUp = PaleGreen ;
+
+     Config() noexcept {}
+
+     template <class Bag>
+     void bind(const Bag &bag)
+      {
+       width.bind(bag.width);
+       border.bind(bag.border);
+       focus.bind(bag.focus);
+       gray.bind(bag.gray);
+       snow.bind(bag.snow);
+       snowUp.bind(bag.snowUp);
+      }
+    };
+
+   // parameters
+
+   const Config &cfg;
+   Pane pane;
+
+   // methods
+
+   explicit SliderShape(const Config &cfg_) : cfg(cfg_) {}
  };
 
-/* class SliderShape */
+/* class XSliderShape */
 
-class SliderShape
+class XSliderShape : public SliderShape
  {
+  public:
+
+   explicit XSliderShape(const Config &cfg) : SliderShape(cfg) {}
+
+   Point getMinSize() const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf) const;
  };
 
-/* class SliderShape */
+/* class YSliderShape */
 
-class SliderShape
+class YSliderShape : public SliderShape
  {
+  public:
+
+   explicit YSliderShape(const Config &cfg) : SliderShape(cfg) {}
+
+   Point getMinSize() const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf) const;
  };
 
 } // namespace Video
