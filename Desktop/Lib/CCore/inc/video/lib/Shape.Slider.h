@@ -65,8 +65,9 @@ class SliderShape : public SliderState
      RefVal<VColor> gray   =      Gray ;
      RefVal<VColor> snow   =      Snow ;
      RefVal<VColor> snowUp = PaleGreen ;
+     RefVal<VColor> mark   =     Black ;
 
-     RefVal<Coord> dxy = 20 ;
+     RefVal<Coord> dxy = 32 ;
 
      Config() noexcept {}
 
@@ -79,6 +80,7 @@ class SliderShape : public SliderState
        gray.bind(bag.gray);
        snow.bind(bag.snow);
        snowUp.bind(bag.snowUp);
+       mark.bind(bag.mark);
 
        dxy.bind(bag.slider_dxy);
       }

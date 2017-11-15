@@ -169,7 +169,7 @@ struct UserPreferenceBag : ConfigItemHost
 
   // slider
 
-  Coord slider_dxy = 20 ;
+  Coord slider_dxy = 32 ;
 
   // spinor
 

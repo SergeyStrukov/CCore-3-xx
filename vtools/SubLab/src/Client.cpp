@@ -1087,6 +1087,51 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        }
     };
 
+   class XSliderWindow_Sample : public ComboWindow
+    {
+      TextWindow text;
+      XSliderWindow slider;
+
+     private:
+
+      void changed(unsigned pos)
+       {
+        text.printf("#;",pos);
+       }
+
+      SignalConnector<XSliderWindow_Sample,unsigned> connector_changed;
+
+     public:
+
+      XSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+       : ComboWindow(host),
+
+         text(wlist,pref.getSmartConfig()),
+         slider(wlist,pref.getSmartConfig()),
+
+         connector_changed(this,&XSliderWindow_Sample::changed,slider.changed)
+       {
+        wlist.insTop(text,slider);
+
+        slider.setCap(1000);
+       }
+
+      // drawing
+
+      virtual void layout()
+       {
+        Pane pane(Null,getSize());
+
+        Coord dy=text.getMinSize().y;
+
+        text.setPlace( TrySplitY(dy,pane) );
+
+        TrySplitY(dy,pane);
+
+        slider.setPlace(pane);
+       }
+    };
+
   public:
 
    Base() // Update here
@@ -1127,9 +1172,10 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("Progress"_def,Create<ProgressWindow_Sample>);
        add("ArrowProgress"_def,Create<ArrowProgressWindow_Sample>);
        add("LineEdit"_def,Create<LineEditWindow>);
-       add("ScrollX"_def,Create<XScrollWindow_Sample>);
-       add("ScrollY"_def,Create<YScrollWindow_Sample>);
+       add("XScroll"_def,Create<XScrollWindow_Sample>);
+       add("YScroll"_def,Create<YScrollWindow_Sample>);
        add("Spinor"_def,Create<SpinorWindow_Sample>);
+       add("XSlider"_def,CreateCombo<XSliderWindow_Sample>);
 
      add("Pane"_def);
 

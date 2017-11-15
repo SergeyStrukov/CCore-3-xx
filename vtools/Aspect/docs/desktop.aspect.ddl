@@ -396,7 +396,7 @@ Dir Dir27=
     { 'Shape.SimpleTextList.h' , Red },
     { 'Window.SimpleTextList.h' , Red },
     { 'Shape.Slider.h' , Yellow },
-    { 'Window.Slider.h' , Yellow },
+    { 'Window.Slider.h' , Green },
     { 'Shape.Spinor.h' , Green },
     { 'Window.Spinor.h' , Green },
     { 'Shape.Split.h' , Green },

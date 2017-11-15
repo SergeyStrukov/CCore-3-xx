@@ -139,6 +139,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("scroll_list_titleTop"_c,ptr->scroll_list_titleTop);
   func("scroll_list_titleBottom"_c,ptr->scroll_list_titleBottom);
 
+  func("slider_dxy"_c,ptr->slider_dxy);
+
   func("spinor_period"_c,ptr->spinor_period);
 
   func("menu_back"_c,ptr->menu_back);
@@ -430,6 +432,10 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("title"_def,scroll_list_title);
    binder.item("title top"_def,scroll_list_titleTop);
    binder.item("title bottom"_def,scroll_list_titleBottom);
+
+  binder.group("Slider"_def);
+
+   binder.item("slider width"_def,slider_dxy);
 
   binder.group("Spinor"_def);
 

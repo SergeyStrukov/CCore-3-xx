@@ -85,6 +85,16 @@ class SliderWindowOf : public SubWindow
      dragTo(point);
     }
 
+   void inside()
+    {
+     if( Change(shape.mover,true) ) redraw();
+    }
+
+   void outside()
+    {
+     if( Change(shape.mover,false) ) redraw();
+    }
+
   public:
 
    using ShapeType = Shape ;
@@ -180,6 +190,8 @@ class SliderWindowOf : public SubWindow
    virtual void looseCapture()
     {
      shape.drag=false;
+
+     outside();
     }
 
    virtual MouseShape getMouseShape(Point,KeyMod) const
@@ -259,6 +271,15 @@ class SliderWindowOf : public SubWindow
 
    void react_Move(Point point,MouseKey mkey)
     {
+     if( shape.pane.contains(point) )
+       {
+        inside();
+       }
+     else
+       {
+        outside();
+       }
+
      if( shape.drag )
        {
         if( mkey&MouseKey_Left )
@@ -270,6 +291,11 @@ class SliderWindowOf : public SubWindow
            endDrag();
           }
        }
+    }
+
+   void react_Leave()
+    {
+     outside();
     }
 
    void react_Wheel(Point,MouseKey,Coord delta)
