@@ -49,7 +49,7 @@ unsigned XSliderShape::getPos(Point point) const
   return UIntMulDiv<unsigned>(X-A,cap,B-A);
  }
 
-void XSliderShape::draw(const DrawBuf &buf) const // TODO
+void XSliderShape::draw(const DrawBuf &buf) const
  {
   MPane p(pane);
 
@@ -82,15 +82,15 @@ void XSliderShape::draw(const DrawBuf &buf) const // TODO
   MPoint B=p.getRightMid().subX(delta);
 
   {
-   MPoint buf[2]={A,B};
-
    MCoord y1=A.y-wline/2;
    MCoord y2=A.y+wline/2;
 
    MCoord y0=y1-wline;
    MCoord y3=y2+wline;
 
-   art.path_gen(Range(buf),wline,YField(y1,gray,y2,top));
+   FigureBox fig(A.x,B.x,y1,y2);
+
+   fig.solid(art,YField(y1,gray,y2,top));
 
    for(unsigned i=0,m=10; i<=m ;i++)
      {
@@ -109,22 +109,22 @@ void XSliderShape::draw(const DrawBuf &buf) const // TODO
 
    art.ball({x,A.y},wline/2,mark);
 
-   MPoint buf[4];
+   FigurePoints<4> fig;
 
-   buf[0]={x,p.y+d};
-   buf[1]={x,p.ey-d};
+   fig[0]={x,p.y+d};
+   fig[1]={x,p.ey-d};
 
    MCoord w=delta/4;
 
-   buf[2]=buf[1].subXY(w);
-   buf[3]=buf[0].subXaddY(w);
+   fig[2]=fig[1].subXY(w);
+   fig[3]=fig[0].subXaddY(w);
 
-   art.solid(Range(buf),SolidAll,top);
+   fig.solid(art,top);
 
-   buf[2]=buf[1].addXsubY(w);
-   buf[3]=buf[0].addXY(w);
+   fig[2]=fig[1].addXsubY(w);
+   fig[3]=fig[0].addXY(w);
 
-   art.solid(Range(buf),SolidAll,gray);
+   fig.solid(art,gray);
   }
 
   // border
