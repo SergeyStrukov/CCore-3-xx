@@ -30,7 +30,7 @@ Point InfoShape::getMinSize(Point cap) const
 
   Point space=+cfg.space;
 
-  return 2*space+Inf(InfoSize(font,info),cap-2*space);
+  return 3*space+Inf(InfoSize(font,info),cap-2*space);
  }
 
 void InfoShape::setMax()
@@ -150,16 +150,16 @@ void InfoShape::draw(const DrawBuf &buf) const
 
    DrawBuf tbuf=buf.cut(inner);
 
-   Pane row=inner;
-
    if( fs.dy>inner.dy ) return;
+
+   Pane row=inner;
 
    row.dy=fs.dy;
 
    Coord pos_x=fs.dx0-xoff;
    Coord lim=inner.y+(inner.dy-row.dy);
 
-   for(; index<count && row.dy<=lim ;index++,row.y+=row.dy)
+   for(; index<count && row.y<=lim ;index++,row.y+=row.dy)
      {
       font->text(tbuf,row,TextPlace(pos_x,AlignY_Top),info->getLine(index),text);
      }

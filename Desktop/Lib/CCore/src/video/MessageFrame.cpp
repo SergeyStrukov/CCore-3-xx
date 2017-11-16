@@ -31,8 +31,10 @@ void MessageWindow::Btn::assertOwner()
 
 MessageWindow::Btn::Btn(SubWindowHost &host,const ButtonWindow::ConfigType &cfg,const DefString &name,int btn_id_,MessageWindow *owner_)
  : ButtonWindow(host,cfg,name),
+
    btn_id(btn_id_),
    owner(owner_),
+
    connector_pressed(this,&Btn::assertOwner,pressed)
  {
  }
@@ -42,6 +44,15 @@ MessageWindow::Btn::~Btn()
  }
 
 /* class MessageWindow */
+
+Point MessageWindow::BtnSize(AnyType list)
+ {
+  Point ret;
+
+  for(const OwnPtr<Btn> &obj : list ) ret=Sup(ret,obj->getMinSize());
+
+  return ret;
+ }
 
 void MessageWindow::knob_pressed()
  {
@@ -99,7 +110,7 @@ Point MessageWindow::getMinSize(Point cap) const
 
   Point delta(0,bottom.y+line_dy);
 
-  Point top=info.getMinSize(cap-delta).addXY(+space2);
+  Point top=info.getMinSize( (cap-delta).subXY(+space2) ).addXY(+space2);
 
   return Point( Max(bottom.x,top.x) , delta.y+top.y );
  }
@@ -181,7 +192,7 @@ void MessageWindow::open()
 
   if( btn_count )
     {
-     btn_list.apply( [this] (OwnPtr<Btn> &obj) { wlist.insBottom(obj.getPtr()); } );
+     btn_list.apply( [this] (OwnPtr<Btn> &obj) { wlist.insBottom(*obj); } );
 
      wlist.insBottom(info);
     }
@@ -210,11 +221,11 @@ MessageFrame::MessageFrame(Desktop *desktop,const Config &cfg_)
  : FixedFrame(desktop,cfg_.frame_cfg),
    cfg(cfg_),
 
-   sub_win(*this,cfg.msg_cfg),
+   client(*this,cfg.msg_cfg),
 
-   connector_pressed(this,&MessageFrame::pressed,sub_win.pressed)
+   connector_pressed(this,&MessageFrame::pressed,client.pressed)
  {
-  bindClient(sub_win);
+  bindClient(client);
  }
 
 MessageFrame::MessageFrame(Desktop *desktop,const Config &cfg,Signal<> &update)
@@ -240,7 +251,7 @@ Pane MessageFrame::getPane(bool is_main,StrLen title) const
 
   Point cap=Div(9,10)*screen_size-getDeltaSize();
 
-  Point size=getMinSize(is_main,title,sub_win.getMinSize(cap));
+  Point size=getMinSize(is_main,title,client.getMinSize(cap));
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
@@ -254,7 +265,7 @@ void MessageFrame::erase()
      Printf(Exception,"CCore::Video::MessageFrame::erase() : is alive");
     }
 
-  sub_win.erase();
+  client.erase();
  }
 
 } // namespace Video

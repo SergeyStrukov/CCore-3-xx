@@ -121,14 +121,7 @@ class MessageWindow : public ComboWindow
 
   private:
 
-   static Point BtnSize(AnyType list)
-    {
-     Point ret;
-
-     for(const OwnPtr<Btn> &obj : list ) ret=Sup(ret,obj->getMinSize());
-
-     return ret;
-    }
+   static Point BtnSize(AnyType list);
 
    void knob_pressed();
 
@@ -148,7 +141,7 @@ class MessageWindow : public ComboWindow
 
    MessageWindow & setInfo(const Info &info);
 
-   MessageWindow & setInfo(DefString str) { return setInfo(InfoFromString(str)); }
+   MessageWindow & setInfo(const DefString &str) { return setInfo(InfoFromString(str)); }
 
    MessageWindow & add(const DefString &name,int btn_id);
 
@@ -201,10 +194,10 @@ class MessageFrame : public FixedFrame
      template <class Bag,class Proxy>
      void bind(const Bag &bag,Proxy proxy)
       {
+       pos_ry.bind(bag.frame_pos_ry);
+
        frame_cfg.bind(proxy);
        msg_cfg.bind((const MessageWindow::AlertConfigType &)proxy);
-
-       pos_ry.bind(bag.frame_pos_ry);
       }
     };
 
@@ -212,7 +205,7 @@ class MessageFrame : public FixedFrame
 
    const Config &cfg;
 
-   MessageWindow sub_win;
+   MessageWindow client;
 
    int btn_id = Button_Cancel ;
 
@@ -234,11 +227,11 @@ class MessageFrame : public FixedFrame
 
    void erase(); // for dead windows!
 
-   MessageFrame & setInfo(const Info &info) { sub_win.setInfo(info); return *this; }
+   MessageFrame & setInfo(const Info &info) { client.setInfo(info); return *this; }
 
-   MessageFrame & setInfo(DefString str) { return setInfo(InfoFromString(str)); }
+   MessageFrame & setInfo(const DefString &str) { return setInfo(InfoFromString(str)); }
 
-   MessageFrame & add(const DefString &name,int btn_id) { sub_win.add(name,btn_id); return *this; }
+   MessageFrame & add(const DefString &name,int btn_id) { client.add(name,btn_id); return *this; }
 
    int getButtonId() const { return btn_id; } // available after the signal "destroyed"
 
@@ -250,22 +243,19 @@ class MessageFrame : public FixedFrame
 
    Pane getPane(bool is_main,StrLen title) const;
 
-   using FixedFrame::createMain;
-   using FixedFrame::create;
-
    void createMain(const DefString &title)
     {
-     createMain(getPane(true,title.str()),title);
+     FixedFrame::createMain(getPane(true,title.str()),title);
     }
 
    void create(const DefString &title)
     {
-     create(getPane(false,title.str()),title);
+     FixedFrame::create(getPane(false,title.str()),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     create(parent,getPane(false,title.str()),title);
+     FixedFrame::create(parent,getPane(false,title.str()),title);
     }
  };
 

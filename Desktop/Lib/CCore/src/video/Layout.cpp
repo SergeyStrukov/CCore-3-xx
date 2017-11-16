@@ -59,11 +59,11 @@ Pane GetWindowPlace(Pane outer,Ratio ry,Point size)
  {
   Point s=outer.getSize();
 
-  size=Inf(size,s-s/4);
+  size=Inf(size,Div(5,6)*s);
 
   Point p=s-size;
 
-  Point pos( p.x/2 , ry*p.y );
+  Point pos(p.x/2,ry*p.y);
 
   return Pane(outer.getBase()+pos,size);
  }
