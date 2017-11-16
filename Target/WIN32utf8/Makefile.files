@@ -323,6 +323,7 @@ OBJ_LIST = \
 .obj/Shape.LineEdit.o \
 .obj/Shape.Progress.o \
 .obj/Shape.Radio.o \
+.obj/Shape.RunButton.o \
 .obj/Shape.Scroll.o \
 .obj/Shape.ScrollList.o \
 .obj/Shape.SimpleTextList.o \
@@ -429,6 +430,7 @@ OBJ_LIST = \
 .obj/Window.LineEdit.o \
 .obj/Window.Progress.o \
 .obj/Window.Radio.o \
+.obj/Window.RunButton.o \
 .obj/Window.Scroll.o \
 .obj/Window.ScrollList.o \
 .obj/Window.SimpleTextList.o \
@@ -767,6 +769,7 @@ ASM_LIST = \
 .obj/Shape.LineEdit.s \
 .obj/Shape.Progress.s \
 .obj/Shape.Radio.s \
+.obj/Shape.RunButton.s \
 .obj/Shape.Scroll.s \
 .obj/Shape.ScrollList.s \
 .obj/Shape.SimpleTextList.s \
@@ -873,6 +876,7 @@ ASM_LIST = \
 .obj/Window.LineEdit.s \
 .obj/Window.Progress.s \
 .obj/Window.Radio.s \
+.obj/Window.RunButton.s \
 .obj/Window.Scroll.s \
 .obj/Window.ScrollList.s \
 .obj/Window.SimpleTextList.s \
@@ -1211,6 +1215,7 @@ DEP_LIST = \
 .obj/Shape.LineEdit.dep \
 .obj/Shape.Progress.dep \
 .obj/Shape.Radio.dep \
+.obj/Shape.RunButton.dep \
 .obj/Shape.Scroll.dep \
 .obj/Shape.ScrollList.dep \
 .obj/Shape.SimpleTextList.dep \
@@ -1317,6 +1322,7 @@ DEP_LIST = \
 .obj/Window.LineEdit.dep \
 .obj/Window.Progress.dep \
 .obj/Window.Radio.dep \
+.obj/Window.RunButton.dep \
 .obj/Window.Scroll.dep \
 .obj/Window.ScrollList.dep \
 .obj/Window.SimpleTextList.dep \
@@ -2316,6 +2322,9 @@ include $(RULES_FILE)
 .obj/Shape.Radio.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Radio.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Shape.RunButton.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.RunButton.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Shape.Scroll.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Scroll.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2632,6 +2641,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.Radio.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.Radio.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Window.RunButton.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.RunButton.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.Scroll.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scroll.cpp
@@ -3641,6 +3653,9 @@ include $(RULES_FILE)
 .obj/Shape.Radio.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Radio.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Shape.RunButton.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.RunButton.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.Scroll.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Scroll.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3957,6 +3972,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Window.Radio.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.Radio.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Window.RunButton.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.RunButton.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Window.Scroll.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scroll.cpp
@@ -4966,6 +4984,9 @@ include $(RULES_FILE)
 .obj/Shape.Radio.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Radio.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Radio.o $< -MF $@
 
+.obj/Shape.RunButton.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.RunButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.RunButton.o $< -MF $@
+
 .obj/Shape.Scroll.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.Scroll.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Scroll.o $< -MF $@
 
@@ -5283,6 +5304,9 @@ include $(RULES_FILE)
 
 .obj/Window.Radio.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.Radio.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.Radio.o $< -MF $@
+
+.obj/Window.RunButton.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.RunButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Window.RunButton.o $< -MF $@
 
 .obj/Window.Scroll.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scroll.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.Scroll.o $< -MF $@
