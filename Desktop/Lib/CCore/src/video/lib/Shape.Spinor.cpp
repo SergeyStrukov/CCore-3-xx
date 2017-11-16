@@ -71,7 +71,7 @@ void SpinorShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  if( pane.dx<4*pane.dy )
+  if( pane.dx/4<pane.dy )
     {
      art.block(pane,gray);
 

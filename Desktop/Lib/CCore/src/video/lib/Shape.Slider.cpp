@@ -33,7 +33,7 @@ unsigned XSliderShape::getPos(Point point) const
 
   if( !p ) return 0;
 
-  if( pane.dx<8*pane.dy ) return 0;
+  if( pane.dx/4<pane.dy ) return 0;
 
   MCoord delta=p.dy/4;
 
@@ -66,7 +66,7 @@ void XSliderShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  if( pane.dx<8*pane.dy )
+  if( pane.dx/4<pane.dy )
     {
      art.block(pane,gray);
 
@@ -145,12 +145,115 @@ SizeX YSliderShape::getMinSize() const
   return +cfg.dxy;
  }
 
-unsigned YSliderShape::getPos(Point point) const // TODO
+unsigned YSliderShape::getPos(Point point) const
  {
+  MPane p(pane);
+
+  if( !p ) return 0;
+
+  if( pane.dy/4<pane.dx ) return 0;
+
+  MCoord delta=p.dx/4;
+
+  MCoord A=p.ey-delta;
+  MCoord B=p.y+delta;
+
+  MCoord Y=Fraction(point.y);
+
+  if( Y<=B ) return cap;
+
+  if( Y>=A ) return 0;
+
+  return UIntMulDiv<unsigned>(A-Y,cap,A-B);
  }
 
-void YSliderShape::draw(const DrawBuf &buf) const // TODO
+void YSliderShape::draw(const DrawBuf &buf) const
  {
+  MPane p(pane);
+
+  if( !p ) return;
+
+  MCoord width=+cfg.width;
+
+  VColor snow=+cfg.snow;
+  VColor snowUp=+cfg.snowUp;
+  VColor gray=+cfg.gray;
+  VColor mark=+cfg.mark;
+
+  VColor top = enable? ( mover? snowUp : snow ) : gray ;
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  if( pane.dy/4<pane.dx )
+    {
+     art.block(pane,gray);
+
+     return;
+    }
+
+  // line
+
+  MCoord delta=p.dx/4;
+  MCoord wline=p.dx/5;
+
+  MPoint A=p.getBottomMid().subY(delta);
+  MPoint B=p.getTopMid().addY(delta);
+
+  {
+   MCoord x1=A.x-wline/2;
+   MCoord x2=A.x+wline/2;
+
+   MCoord x0=x1-wline;
+   MCoord x3=x2+wline;
+
+   FigureBox fig(x1,x2,B.y,A.y);
+
+   fig.solid(art,XField(x1,gray,x2,top));
+
+   for(unsigned i=0,m=10; i<=m ;i++)
+     {
+      MCoord y=Position(i,m,A.y,B.y);
+
+      art.path(width,mark,MPoint(x0,y),MPoint(x1,y));
+      art.path(width,mark,MPoint(x2,y),MPoint(x3,y));
+     }
+  }
+
+  // slider
+
+  {
+   MCoord y=Position(pos,cap,A.y,B.y);
+   MCoord d=delta/2;
+
+   art.ball({A.x,y},wline/2,mark);
+
+   FigurePoints<4> fig;
+
+   fig[0]={p.x+d,y};
+   fig[1]={p.ex-d,y};
+
+   MCoord w=delta/4;
+
+   fig[2]=fig[1].subXY(w);
+   fig[3]=fig[0].addXsubY(w);
+
+   fig.solid(art,top);
+
+   fig[2]=fig[1].subXaddY(w);
+   fig[3]=fig[0].addXY(w);
+
+   fig.solid(art,gray);
+  }
+
+  // border
+
+  {
+   FigureBox fig(p);
+
+   VColor border = focus? +cfg.focus : ( enable? +cfg.border : gray ) ;
+
+   fig.loop(art,HalfPos,width,border);
+  }
  }
 
 } // namespace Video

@@ -173,7 +173,7 @@ class ProgressShape : public ProgressState
     {
      Coord dy=getMinSize().dy;
 
-     return size.y >= dy && size.x/8 >= size.y ;
+     return size.y >= dy && size.x/4 >= size.y ;
     }
 
    void resetTime() { ProgressState::resetTime(+cfg.time); }
@@ -241,7 +241,7 @@ class ArrowProgressShape : public ProgressState
     {
      Coord dy=getMinSize().dy;
 
-     return size.y >= dy && size.x/8 >= size.y ;
+     return size.y >= dy && size.x/4 >= size.y ;
     }
 
    void resetTime() { ProgressState::resetTime(+cfg.time); }

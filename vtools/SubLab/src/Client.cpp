@@ -1132,6 +1132,53 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        }
     };
 
+   class YSliderWindow_Sample : public ComboWindow
+    {
+      TextWindow text;
+      YSliderWindow slider;
+
+     private:
+
+      void changed(unsigned pos)
+       {
+        text.printf("#;",pos);
+       }
+
+      SignalConnector<YSliderWindow_Sample,unsigned> connector_changed;
+
+     public:
+
+      YSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+       : ComboWindow(host),
+
+         text(wlist,pref.getSmartConfig()),
+         slider(wlist,pref.getSmartConfig()),
+
+         connector_changed(this,&YSliderWindow_Sample::changed,slider.changed)
+       {
+        wlist.insTop(text,slider);
+
+        slider.setCap(1000);
+       }
+
+      // drawing
+
+      virtual void layout()
+       {
+        Pane pane(Null,getSize());
+
+        Point s=text.getMinSize("12345"_c);
+
+        Pane left=TrySplitX(s.x,pane);
+
+        text.setPlace( TrySplitY(s.y,left) );
+
+        TrySplitX(s.y,pane);
+
+        slider.setPlace(pane);
+       }
+    };
+
   public:
 
    Base() // Update here
@@ -1176,6 +1223,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("YScroll"_def,Create<YScrollWindow_Sample>);
        add("Spinor"_def,Create<SpinorWindow_Sample>);
        add("XSlider"_def,CreateCombo<XSliderWindow_Sample>);
+       add("YSlider"_def,CreateCombo<YSliderWindow_Sample>);
 
      add("Pane"_def);
 

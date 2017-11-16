@@ -113,7 +113,7 @@ class XSliderShape : public SliderShape
     {
      Coord dy=getMinSize().dy;
 
-     return size.y >= dy && size.x/8 >= size.y ;
+     return size.y >= dy && size.x/4 >= size.y ;
     }
 
    unsigned getPos(Point point) const;
@@ -138,7 +138,7 @@ class YSliderShape : public SliderShape
     {
      Coord dx=getMinSize().dx;
 
-     return size.x >= dx && size.y/8 >= size.x ;
+     return size.x >= dx && size.y/4 >= size.x ;
     }
 
    unsigned getPos(Point point) const;
