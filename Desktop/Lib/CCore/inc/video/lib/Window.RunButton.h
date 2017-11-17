@@ -50,10 +50,8 @@ class RunButtonWindowOf : public SubWindow
      if( Change(shape.mover,false) ) redraw();
     }
 
-   void change()
+   void commit()
     {
-     shape.on=!shape.on;
-
      if( shape.on )
        {
         defer_tick.start();
@@ -68,6 +66,13 @@ class RunButtonWindowOf : public SubWindow
        }
 
      redraw();
+    }
+
+   void change()
+    {
+     shape.on=!shape.on;
+
+     commit();
 
      changed.assert(shape.on);
     }
@@ -110,6 +115,11 @@ class RunButtonWindowOf : public SubWindow
     }
 
    void disable() { enable(false); }
+
+   void turn(bool on)
+    {
+     if( Change(shape.on,on) ) commit();
+    }
 
    // drawing
 
