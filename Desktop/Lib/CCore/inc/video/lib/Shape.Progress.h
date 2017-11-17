@@ -74,7 +74,7 @@ struct ProgressState
       }
    }
 
-  bool tick(unsigned period_)
+  bool tick(unsigned period)
    {
     if( count )
       {
@@ -84,7 +84,7 @@ struct ProgressState
       }
     else
       {
-       count=PosSub(period_,1u);
+       count=PosSub(period,1u);
 
        return true;
       }

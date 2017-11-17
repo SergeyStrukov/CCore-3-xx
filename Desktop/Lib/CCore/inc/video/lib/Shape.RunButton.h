@@ -21,6 +21,8 @@
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/RefVal.h>
 
+#include <CCore/inc/DeferCall.h>
+
 namespace CCore {
 namespace Video {
 
@@ -29,6 +31,8 @@ namespace Video {
 struct RunButtonState;
 
 class RunButtonShape;
+
+class RefRunButtonShape;
 
 /* struct RunButtonState */
 
@@ -39,13 +43,49 @@ struct RunButtonState
   bool mover  = false ;
   bool on     = false ;
 
+  unsigned count = 0 ;
+  unsigned pos = 0 ;
+
   RunButtonState() {}
+
+  void startRun()
+   {
+    count=0;
+    pos=0;
+   }
+
+  void nextRun(unsigned steps)
+   {
+    if( ++pos >= steps ) pos=0;
+   }
+
+  void stopRun()
+   {
+   }
+
+  bool tick(unsigned period)
+   {
+    if( count )
+      {
+       count--;
+
+       return false;
+      }
+    else
+      {
+       count=PosSub(period,1u);
+
+       return true;
+      }
+   }
  };
 
 /* class RunButtonShape */
 
 class RunButtonShape : public RunButtonState
  {
+   static MCoord FigEX(Coord fdy,MCoord width);
+
   public:
 
    struct Config
@@ -63,6 +103,11 @@ class RunButtonShape : public RunButtonState
 
      RefVal<Font> font;
 
+     RefVal<VColor> run = Red ;
+
+     RefVal<unsigned> period = 2_tick ;
+     RefVal<unsigned> steps  =     10 ;
+
      Config() noexcept {}
 
      template <class Bag>
@@ -78,6 +123,10 @@ class RunButtonShape : public RunButtonState
        text.bind(bag.button_text);
        space.bind(bag.button_space);
        font.bind(bag.button_font.font);
+
+       run.bind(bag.run);
+       period.bind(bag.run_period);
+       steps.bind(bag.run_steps);
       }
     };
 
@@ -86,16 +135,59 @@ class RunButtonShape : public RunButtonState
    using FaceType = DefString ;
 
    const Config &cfg;
-   FaceType face;
+   FaceType face_off;
+   FaceType face_on;
    Pane pane;
 
    // methods
 
-   RunButtonShape(const Config &cfg_,const FaceType &face_) : cfg(cfg_),face(face_) {}
+   RunButtonShape(const Config &cfg_,const FaceType &face_off_,const FaceType &face_on_)
+    : cfg(cfg_),face_off(face_off_),face_on(face_on_)
+    {
+    }
 
    Point getMinSize() const;
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void nextRun() { RunButtonState::nextRun(+cfg.steps); }
+
+   bool tick() { return RunButtonState::tick(+cfg.period); }
+
+   void draw(const DrawBuf &buf) const;
+ };
+
+/* class RefRunButtonShape */
+
+class RefRunButtonShape : public RunButtonState
+ {
+  public:
+
+   using Config = RunButtonShape::Config ;
+
+   // parameters
+
+   using FaceType = const RefVal<DefString> & ;
+
+   const Config &cfg;
+   FaceType face_off;
+   FaceType face_on;
+   Pane pane;
+
+   // methods
+
+   RefRunButtonShape(const Config &cfg_,FaceType face_off_,FaceType face_on_)
+    : cfg(cfg_),face_off(face_off_),face_on(face_on_)
+    {
+    }
+
+   Point getMinSize() const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void nextRun() { RunButtonState::nextRun(+cfg.steps); }
+
+   bool tick() { return RunButtonState::tick(+cfg.period); }
 
    void draw(const DrawBuf &buf) const;
  };

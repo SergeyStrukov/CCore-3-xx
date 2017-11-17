@@ -175,6 +175,13 @@ struct UserPreferenceBag : ConfigItemHost
 
   unsigned spinor_period = 1_sectick/2 ;
 
+  // run button
+
+  VColor run = Red ;
+
+  unsigned run_period = 2_tick ;
+  unsigned run_steps  =     10 ;
+
   // menu
 
   VColor menu_back      =    Silver ;
@@ -399,6 +406,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            ProgressWindow::ConfigType,
                                            ArrowProgressWindow::ConfigType,
                                            RadioWindow::ConfigType,
+                                           RunButtonWindow::ConfigType,
                                            XScrollWindow::ConfigType,
                                            SimpleTextListWindow::ConfigType,
                                            SwitchWindow::ConfigType,

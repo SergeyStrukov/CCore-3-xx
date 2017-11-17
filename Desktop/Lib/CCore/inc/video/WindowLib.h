@@ -28,6 +28,7 @@
 #include <CCore/inc/video/lib/Window.LineEdit.h>
 #include <CCore/inc/video/lib/Window.Progress.h>
 #include <CCore/inc/video/lib/Window.Radio.h>
+#include <CCore/inc/video/lib/Window.RunButton.h>
 #include <CCore/inc/video/lib/Window.Scroll.h>
 #include <CCore/inc/video/lib/Window.ScrollList.h>
 #include <CCore/inc/video/lib/Window.SimpleTextList.h>

@@ -1047,7 +1047,10 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
    class FireButtonWindow_Sample : public ComboWindow
     {
       LightWindow light;
-      FireButtonWindow btn;
+
+      RefVal<DefString> name = "Fire"_def ;
+
+      RefFireButtonWindow btn;
 
      private:
 
@@ -1064,7 +1067,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        : ComboWindow(host),
 
          light(wlist,pref.getSmartConfig(),Red,false),
-         btn(wlist,pref.getSmartConfig(),"Fire"_def),
+         btn(wlist,pref.getSmartConfig(),name),
 
          connector_fire(this,&FireButtonWindow_Sample::fire,btn.fire)
        {
@@ -1179,6 +1182,53 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        }
     };
 
+   class RunButtonWindow_Sample : public ComboWindow
+    {
+      LightWindow light;
+
+      RefVal<DefString> name_off =  "Run"_def ;
+      RefVal<DefString> name_on  = "Stop"_def ;
+
+      RefRunButtonWindow btn;
+
+     private:
+
+      void changed(bool on)
+       {
+        light.turn(on);
+       }
+
+      SignalConnector<RunButtonWindow_Sample,bool> connector_changed;
+
+     public:
+
+      RunButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+       : ComboWindow(host),
+
+         light(wlist,pref.getSmartConfig(),Red,false),
+         btn(wlist,pref.getSmartConfig(),name_off,name_on),
+
+         connector_changed(this,&RunButtonWindow_Sample::changed,btn.changed)
+       {
+        wlist.insTop(light,btn);
+       }
+
+      // drawing
+
+      virtual void layout()
+       {
+        Pane pane(Null,getSize());
+
+        Coord dy=light.getMinSize().dxy;
+
+        light.setPlace( TrySplitY(dy,pane) );
+
+        TrySplitY(dy,pane);
+
+        btn.setPlace(pane);
+       }
+    };
+
   public:
 
    Base() // Update here
@@ -1201,6 +1251,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("Knob"_def,Create<KnobWindow_Asterisk>);
        add("Knob auto"_def,Create<KnobWindow_auto>);
        add("FireButton"_def,CreateCombo<FireButtonWindow_Sample>);
+       add("RunButton"_def,CreateCombo<RunButtonWindow_Sample>);
 
      add("Box"_def);
 

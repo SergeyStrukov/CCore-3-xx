@@ -143,6 +143,10 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("spinor_period"_c,ptr->spinor_period);
 
+  func("run"_c,ptr->run);
+  func("run_period"_c,ptr->run_period);
+  func("run_steps"_c,ptr->run_steps);
+
   func("menu_back"_c,ptr->menu_back);
   func("menu_text"_c,ptr->menu_text);
   func("menu_hilight"_c,ptr->menu_hilight);
@@ -435,11 +439,17 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
 
   binder.group("Slider"_def);
 
-   binder.item("slider width"_def,slider_dxy);
+   binder.item("width"_def,slider_dxy);
 
   binder.group("Spinor"_def);
 
-   binder.item("spinor period"_def,spinor_period);
+   binder.item("period"_def,spinor_period);
+
+  binder.group("Run button"_def);
+
+   binder.item("run"_def,run);
+   binder.item("period"_def,run_period);
+   binder.item("steps"_def,run_steps);
 
   binder.group("Menu"_def);
 

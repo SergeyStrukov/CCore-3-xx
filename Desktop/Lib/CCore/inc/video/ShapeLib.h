@@ -26,6 +26,7 @@
 #include <CCore/inc/video/lib/Shape.LineEdit.h>
 #include <CCore/inc/video/lib/Shape.Progress.h>
 #include <CCore/inc/video/lib/Shape.Radio.h>
+#include <CCore/inc/video/lib/Shape.RunButton.h>
 #include <CCore/inc/video/lib/Shape.Scroll.h>
 #include <CCore/inc/video/lib/Shape.ScrollList.h>
 #include <CCore/inc/video/lib/Shape.SimpleTextList.h>
