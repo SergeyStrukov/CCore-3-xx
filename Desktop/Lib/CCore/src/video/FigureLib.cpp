@@ -385,19 +385,9 @@ FigureDots<10> FigureLeftArrow::border(MCoord width) const
  {
   FigureLeftArrow inner=shrink(width);
 
-  FigureDots<10> ret;
+  FigureDots<10> ret(buf,1,2,3,0,1);
 
-  ret[0]=buf[1];
-  ret[1]=buf[2];
-  ret[2]=buf[3];
-  ret[3]=buf[0];
-  ret[4]=buf[1];
-
-  ret[5]=inner[1];
-  ret[6]=inner[0];
-  ret[7]=inner[3];
-  ret[8]=inner[2];
-  ret[9]=inner[1];
+  ret.set(5,inner,1,0,3,2,1);
 
   return ret;
  }
@@ -440,19 +430,9 @@ FigureDots<10> FigureRightArrow::border(MCoord width) const
  {
   FigureRightArrow inner=shrink(width);
 
-  FigureDots<10> ret;
+  FigureDots<10> ret(buf,1,2,3,0,1);
 
-  ret[0]=buf[1];
-  ret[1]=buf[2];
-  ret[2]=buf[3];
-  ret[3]=buf[0];
-  ret[4]=buf[1];
-
-  ret[5]=inner[1];
-  ret[6]=inner[0];
-  ret[7]=inner[3];
-  ret[8]=inner[2];
-  ret[9]=inner[1];
+  ret.set(5,inner,1,0,3,2,1);
 
   return ret;
  }
@@ -495,19 +475,9 @@ FigureDots<10> FigureUpArrow::border(MCoord width) const
  {
   FigureUpArrow inner=shrink(width);
 
-  FigureDots<10> ret;
+  FigureDots<10> ret(buf,1,2,3,0,1);
 
-  ret[0]=buf[1];
-  ret[1]=buf[2];
-  ret[2]=buf[3];
-  ret[3]=buf[0];
-  ret[4]=buf[1];
-
-  ret[5]=inner[1];
-  ret[6]=inner[0];
-  ret[7]=inner[3];
-  ret[8]=inner[2];
-  ret[9]=inner[1];
+  ret.set(5,inner,1,0,3,2,1);
 
   return ret;
  }
@@ -550,19 +520,9 @@ FigureDots<10> FigureDownArrow::border(MCoord width) const
  {
   FigureDownArrow inner=shrink(width);
 
-  FigureDots<10> ret;
+  FigureDots<10> ret(buf,1,2,3,0,1);
 
-  ret[0]=buf[1];
-  ret[1]=buf[2];
-  ret[2]=buf[3];
-  ret[3]=buf[0];
-  ret[4]=buf[1];
-
-  ret[5]=inner[1];
-  ret[6]=inner[0];
-  ret[7]=inner[3];
-  ret[8]=inner[2];
-  ret[9]=inner[1];
+  ret.set(5,inner,1,0,3,2,1);
 
   return ret;
  }
@@ -764,7 +724,7 @@ PolyFigureQuestion::PolyFigureQuestion(MCoord x,MCoord y,MCoord h)
 
   MPoint B=E-A*Contour[0].point;
 
-  for(ulen i=0; i<30 ;i++) fig[i]=Contour[i];
+  fig.copy(Contour);
 
   fig.transform( [=] (MPoint p) -> MPoint { return A*p+B; } );
  }

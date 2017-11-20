@@ -292,6 +292,16 @@ struct FigureBase
     set(0, src[tt]... );
    }
 
+  template <class B,class ... TT>
+  void set(ulen ind,const B &src,TT ... tt)
+   {
+    Set set(buf);
+
+    set(ind, src[tt]... );
+   }
+
+  void copy(const T *src) { Range(buf).copy(src); }
+
   PtrLen<const T> get() const { return Range(buf); }
 
   T & operator [] (ulen ind) { return buf[ind]; }
