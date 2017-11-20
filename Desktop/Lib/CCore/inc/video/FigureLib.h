@@ -263,7 +263,34 @@ struct FigureBase
  {
   T buf[Len];
 
+  struct Set
+   {
+    T *dst;
+
+    explicit Set(T *dst_) : dst(dst_) {}
+
+    void operator () (ulen) const {}
+
+    template <class ... TT>
+    void operator () (ulen ind,const T &t,const TT & ... tt) const
+     {
+      dst[ind]=t;
+
+      (*this)(ind+1,tt...);
+     }
+   };
+
   // methods
+
+  FigureBase() {}
+
+  template <class B,class ... TT>
+  FigureBase(const B &src,TT ... tt)
+   {
+    Set set(buf);
+
+    set(0, src[tt]... );
+   }
 
   PtrLen<const T> get() const { return Range(buf); }
 
@@ -375,6 +402,8 @@ struct DrawPoints
 template <ulen Len>
 struct FigurePoints : FigureBase<MPoint,Len> , DrawPoints
  {
+  using FigureBase<MPoint,Len>::FigureBase;
+
   using FigureBase<MPoint,Len>::buf;
   using FigureBase<MPoint,Len>::get;
 
@@ -386,7 +415,7 @@ struct FigurePoints : FigureBase<MPoint,Len> , DrawPoints
     for(MPoint &p : buf ) p=func(p);
    }
 
-  void shift(MPoint delta) { transform(Smooth::DotShift(delta)); }
+  void shift(MPoint delta) { transform(SmoothDotShift(delta)); }
 
   template <class ... TT>
   void path(SmoothDrawArt &art,TT && ... tt) const
@@ -481,6 +510,8 @@ struct DrawDots
 template <ulen Len>
 struct FigureDots : FigureBase<SmoothDot,Len> , DrawDots
  {
+  using FigureBase<SmoothDot,Len>::FigureBase;
+
   using FigureBase<SmoothDot,Len>::buf;
   using FigureBase<SmoothDot,Len>::get;
 
@@ -492,7 +523,7 @@ struct FigureDots : FigureBase<SmoothDot,Len> , DrawDots
     for(SmoothDot &p : buf ) p.point=func(p.point);
    }
 
-  void shift(MPoint delta) { transform(Smooth::DotShift(delta)); }
+  void shift(MPoint delta) { transform(SmoothDotShift(delta)); }
 
   template <class ... TT>
   void curvePath(SmoothDrawArt &art,TT && ... tt) const

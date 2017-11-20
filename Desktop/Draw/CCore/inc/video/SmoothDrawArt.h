@@ -68,6 +68,8 @@ struct Dot
 
   Dot(const MPoint &point_) : point(point_) {}
 
+  Dot(MCoord x,MCoord y) : point(x,y) {}
+
   Dot(const MPoint &point_,DotType type_) : point(point_),type(type_) {}
  };
 
@@ -78,6 +80,8 @@ struct BreakDot : Dot
   BreakDot() noexcept { type=DotBreak; }
 
   BreakDot(const MPoint &point) : Dot(point,DotBreak) {}
+
+  BreakDot(MCoord x,MCoord y) : BreakDot(MPoint(x,y)) {}
  };
 
 /* concept DotRangeType<R> */
@@ -1978,6 +1982,10 @@ using SmoothDot = Smooth::Dot ;
 /* type SmoothBreakDot */
 
 using SmoothBreakDot = Smooth::BreakDot ;
+
+/* type SmoothDotShift */
+
+using SmoothDotShift = Smooth::DotShift ;
 
 /* type SmoothDrawArt */
 

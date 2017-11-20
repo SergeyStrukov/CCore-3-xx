@@ -229,14 +229,7 @@ FigureTopBorder::FigureTopBorder(MCoord x0,MCoord x1,MCoord y0,MCoord y1,MCoord 
 
 FigurePoints<6> FigureTopBorder::getLeftCut(MCoord t) const
  {
-  FigurePoints<6> ret;
-
-  ret.buf[0]=buf[0];
-  ret.buf[1]=buf[1];
-  ret.buf[2]=buf[2];
-  ret.buf[3]=buf[3];
-  ret.buf[4]=buf[4];
-  ret.buf[5]=buf[5];
+  FigurePoints<6> ret(buf,0,1,2,3,4,5);
 
   ret.buf[4].x=t;
   ret.buf[5].x=t;
@@ -246,12 +239,7 @@ FigurePoints<6> FigureTopBorder::getLeftCut(MCoord t) const
 
 FigurePoints<4> FigureTopBorder::getRightCut(MCoord t) const
  {
-  FigurePoints<4> ret;
-
-  ret.buf[0]=buf[4];
-  ret.buf[1]=buf[5];
-  ret.buf[2]=buf[5];
-  ret.buf[3]=buf[4];
+  FigurePoints<4> ret(buf,4,5,5,4);
 
   ret.buf[2].x=t;
   ret.buf[3].x=t;
@@ -290,43 +278,29 @@ FigureButton::FigureButton(MCoord x0,MCoord x5,MCoord y0,MCoord y4,MCoord ex)
   MCoord x3=x5-ex;
   MCoord x4=x5-fx;
 
-  buf[0]={{x2,y0},Smooth::DotBreak};
-  buf[1]={{x1,y1}};
-  buf[2]={{x0,y2}};
-  buf[3]={{x1,y3}};
-  buf[4]={{x2,y4},Smooth::DotBreak};
+  buf[0]=SmoothBreakDot{x2,y0};
+  buf[1]={x1,y1};
+  buf[2]={x0,y2};
+  buf[3]={x1,y3};
+  buf[4]=SmoothBreakDot{x2,y4};
 
-  buf[5]={{x3,y4},Smooth::DotBreak};
-  buf[6]={{x4,y3}};
-  buf[7]={{x5,y2}};
-  buf[8]={{x4,y1}};
-  buf[9]={{x3,y0},Smooth::DotBreak};
+  buf[5]=SmoothBreakDot{x3,y4};
+  buf[6]={x4,y3};
+  buf[7]={x5,y2};
+  buf[8]={x4,y1};
+  buf[9]=SmoothBreakDot{x3,y0};
  }
 
 FigureDots<6> FigureButton::getTop() const
  {
-  FigureDots<6> ret;
-
-  ret.buf[0]=buf[9];
-  ret.buf[1]=buf[0];
-  ret.buf[2]=buf[1];
-  ret.buf[3]=buf[2];
-  ret.buf[4]=buf[3];
-  ret.buf[5]=buf[4];
+  FigureDots<6> ret(buf,9,0,1,2,3,4);
 
   return ret;
  }
 
 FigureDots<6> FigureButton::getBottom() const
  {
-  FigureDots<6> ret;
-
-  ret.buf[0]=buf[4];
-  ret.buf[1]=buf[5];
-  ret.buf[2]=buf[6];
-  ret.buf[3]=buf[7];
-  ret.buf[4]=buf[8];
-  ret.buf[5]=buf[9];
+  FigureDots<6> ret(buf,4,5,6,7,8,9);
 
   return ret;
  }
@@ -380,10 +354,10 @@ FigureLeftArrow::FigureLeftArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   MCoord x1=x2-(x2-x0)/6;
   MCoord y1=y0+(y2-y0)/2;
 
-  buf[0]={{x2,y0},Smooth::DotBreak};
-  buf[1]={{x0,y1},Smooth::DotBreak};
-  buf[2]={{x2,y2},Smooth::DotBreak};
-  buf[3]={{x1,y1}};
+  buf[0]=SmoothBreakDot{x2,y0};
+  buf[1]=SmoothBreakDot{x0,y1};
+  buf[2]=SmoothBreakDot{x2,y2};
+  buf[3]={x1,y1};
  }
 
 FigureLeftArrow FigureLeftArrow::shrink(MCoord width) const
@@ -435,10 +409,10 @@ FigureRightArrow::FigureRightArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   MCoord x1=x0+(x2-x0)/6;
   MCoord y1=y0+(y2-y0)/2;
 
-  buf[0]={{x0,y2},Smooth::DotBreak};
-  buf[1]={{x2,y1},Smooth::DotBreak};
-  buf[2]={{x0,y0},Smooth::DotBreak};
-  buf[3]={{x1,y1}};
+  buf[0]=SmoothBreakDot{x0,y2};
+  buf[1]=SmoothBreakDot{x2,y1};
+  buf[2]=SmoothBreakDot{x0,y0};
+  buf[3]={x1,y1};
  }
 
 FigureRightArrow FigureRightArrow::shrink(MCoord width) const
@@ -490,10 +464,10 @@ FigureUpArrow::FigureUpArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   MCoord x1=x0+(x2-x0)/2;
   MCoord y1=y2-(y2-y0)/6;
 
-  buf[0]={{x2,y2},Smooth::DotBreak};
-  buf[1]={{x1,y0},Smooth::DotBreak};
-  buf[2]={{x0,y2},Smooth::DotBreak};
-  buf[3]={{x1,y1}};
+  buf[0]=SmoothBreakDot{x2,y2};
+  buf[1]=SmoothBreakDot{x1,y0};
+  buf[2]=SmoothBreakDot{x0,y2};
+  buf[3]={x1,y1};
  }
 
 FigureUpArrow FigureUpArrow::shrink(MCoord width) const
@@ -545,10 +519,10 @@ FigureDownArrow::FigureDownArrow(MCoord x0,MCoord x2,MCoord y0,MCoord y2)
   MCoord x1=x0+(x2-x0)/2;
   MCoord y1=y0+(y2-y0)/6;
 
-  buf[0]={{x0,y0},Smooth::DotBreak};
-  buf[1]={{x1,y2},Smooth::DotBreak};
-  buf[2]={{x2,y0},Smooth::DotBreak};
-  buf[3]={{x1,y1}};
+  buf[0]=SmoothBreakDot{x0,y0};
+  buf[1]=SmoothBreakDot{x1,y2};
+  buf[2]=SmoothBreakDot{x2,y0};
+  buf[3]={x1,y1};
  }
 
 FigureDownArrow FigureDownArrow::shrink(MCoord width) const
@@ -648,53 +622,53 @@ FigureRoundBox::FigureRoundBox(MCoord x0,MCoord x1,MCoord y0,MCoord y1,MCoord r)
   MCoord dx5=dy1;
   MCoord dy5=dx1;
 
-  buf[0]={{x0,y0+r},Smooth::DotBreak};
-  buf[1]={{x0,y1-r},Smooth::DotBreak};
+  buf[0]=SmoothBreakDot{x0,y0+r};
+  buf[1]=SmoothBreakDot{x0,y1-r};
 
   MCoord cx=x0+r;
   MCoord cy=y1-r;
 
-  buf[2]={{cx-dy1,cy+dx1}};
-  buf[3]={{cx-dy2,cy+dx2}};
-  buf[4]={{cx-dy3,cy+dx3}};
-  buf[5]={{cx-dy4,cy+dx4}};
-  buf[6]={{cx-dy5,cy+dx5}};
+  buf[2]={cx-dy1,cy+dx1};
+  buf[3]={cx-dy2,cy+dx2};
+  buf[4]={cx-dy3,cy+dx3};
+  buf[5]={cx-dy4,cy+dx4};
+  buf[6]={cx-dy5,cy+dx5};
 
-  buf[7]={{x0+r,y1},Smooth::DotBreak};
-  buf[8]={{x1-r,y1},Smooth::DotBreak};
+  buf[7]=SmoothBreakDot{x0+r,y1};
+  buf[8]=SmoothBreakDot{x1-r,y1};
 
   cx=x1-r;
   cy=y1-r;
 
-  buf[9]={{cx+dx1,cy+dy1}};
-  buf[10]={{cx+dx2,cy+dy2}};
-  buf[11]={{cx+dx3,cy+dy3}};
-  buf[12]={{cx+dx4,cy+dy4}};
-  buf[13]={{cx+dx5,cy+dy5}};
+  buf[9]={cx+dx1,cy+dy1};
+  buf[10]={cx+dx2,cy+dy2};
+  buf[11]={cx+dx3,cy+dy3};
+  buf[12]={cx+dx4,cy+dy4};
+  buf[13]={cx+dx5,cy+dy5};
 
-  buf[14]={{x1,y1-r},Smooth::DotBreak};
-  buf[15]={{x1,y0+r},Smooth::DotBreak};
+  buf[14]=SmoothBreakDot{x1,y1-r};
+  buf[15]=SmoothBreakDot{x1,y0+r};
 
   cx=x1-r;
   cy=y0+r;
 
-  buf[16]={{cx+dy1,cy-dx1}};
-  buf[17]={{cx+dy2,cy-dx2}};
-  buf[18]={{cx+dy3,cy-dx3}};
-  buf[19]={{cx+dy4,cy-dx4}};
-  buf[20]={{cx+dy5,cy-dx5}};
+  buf[16]={cx+dy1,cy-dx1};
+  buf[17]={cx+dy2,cy-dx2};
+  buf[18]={cx+dy3,cy-dx3};
+  buf[19]={cx+dy4,cy-dx4};
+  buf[20]={cx+dy5,cy-dx5};
 
-  buf[21]={{x1-r,y0},Smooth::DotBreak};
-  buf[22]={{x0+r,y0},Smooth::DotBreak};
+  buf[21]=SmoothBreakDot{x1-r,y0};
+  buf[22]=SmoothBreakDot{x0+r,y0};
 
   cx=x0+r;
   cy=y0+r;
 
-  buf[23]={{cx-dx1,cy-dy1}};
-  buf[24]={{cx-dx2,cy-dy2}};
-  buf[25]={{cx-dx3,cy-dy3}};
-  buf[26]={{cx-dx4,cy-dy4}};
-  buf[27]={{cx-dx5,cy-dy5}};
+  buf[23]={cx-dx1,cy-dy1};
+  buf[24]={cx-dx2,cy-dy2};
+  buf[25]={cx-dx3,cy-dy3};
+  buf[26]={cx-dx4,cy-dy4};
+  buf[27]={cx-dx5,cy-dy5};
  }
 
 /* struct FigureCursor */
@@ -733,10 +707,10 @@ PolyFigureExclamation::PolyFigureExclamation(MCoord x,MCoord y,MCoord h)
 
   o={x,y+b+r};
 
-  fig[0]={{x-c,y+c}};
-  fig[1]={{x,y}};
-  fig[2]={{x+c,y+c}};
-  fig[3]={{x,y+b},Smooth::DotBreak};
+  fig[0]={x-c,y+c};
+  fig[1]={x,y};
+  fig[2]={x+c,y+c};
+  fig[3]=SmoothBreakDot{x,y+b};
  }
 
 /* class PolyFigureQuestion */
