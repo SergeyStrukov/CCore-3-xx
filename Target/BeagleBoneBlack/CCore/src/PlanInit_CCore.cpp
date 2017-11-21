@@ -22,6 +22,7 @@
 #include <CCore/inc/TaskMemStack.h>
 #include <CCore/inc/DeferCall.h>
 #include <CCore/inc/PacketPool.h>
+#include <CCore/inc/Scope.h>
 
 #include <CCore/inc/libc/stdioPlanInit.h>
 
@@ -41,9 +42,10 @@ PlanInitObject<Empty,PlanInitReq<GetPlanInitNode_TaskCoreExt>
                     ,PlanInitReq<GetPlanInitNode_ObjHost>
                     ,PlanInitReq<GetPlanInitNode_JobHost>
                     ,PlanInitReq<GetPlanInitNode_PerTask>
-                    ,PlanInitReq<GetPlanInitNode_PacketPool>
                     ,PlanInitReq<GetPlanInitNode_TaskMemStack>
                     ,PlanInitReq<GetPlanInitNode_DeferCall>
+                    ,PlanInitReq<GetPlanInitNode_PacketPool>
+                    ,PlanInitReq<GetPlanInitNode_Scope>
                     > Object CCORE_INITPRI_1 ;
 
 } // namespace Private_PlanInit

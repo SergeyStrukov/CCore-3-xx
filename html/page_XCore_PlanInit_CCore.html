@@ -51,6 +51,7 @@ The basic list of requirements is shown here:
 #include &lt;CCore/inc/TaskMemStack.h&gt;
 #include &lt;CCore/inc/DeferCall.h&gt;
 #include &lt;CCore/inc/PacketPool.h&gt;
+#include &lt;CCore/inc/Scope.h&gt;
 
 #include &lt;CCore/inc/libc/stdioPlanInit.h&gt;
 
@@ -70,9 +71,10 @@ PlanInitObject&lt;Empty,PlanInitReq&lt;GetPlanInitNode_TaskCoreExt&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_ObjHost&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_JobHost&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_PerTask&gt;
-                    ,PlanInitReq&lt;GetPlanInitNode_PacketPool&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_TaskMemStack&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_DeferCall&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_PacketPool&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_Scope&gt;
                     &gt; Object CCORE_INITPRI_1 ;
 
 } // namespace Private_PlanInit

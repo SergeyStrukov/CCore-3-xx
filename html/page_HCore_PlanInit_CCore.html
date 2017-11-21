@@ -44,6 +44,7 @@ This is the target <a href="page_PlanInit.html">plan initalization</a> node. The
 #include &lt;CCore/inc/Job.h&gt;
 #include &lt;CCore/inc/PerTask.h&gt;
 #include &lt;CCore/inc/DeferCall.h&gt;
+#include &lt;CCore/inc/Scope.h&gt;
 
 namespace CCore {
 
@@ -62,6 +63,7 @@ PlanInitObject&lt;Empty,PlanInitReq&lt;GetPlanInitNode_PacketPool&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_JobHost&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_PerTask&gt;
                     ,PlanInitReq&lt;GetPlanInitNode_DeferCall&gt;
+                    ,PlanInitReq&lt;GetPlanInitNode_Scope&gt;
                     &gt; Object CCORE_INITPRI_1 ;
 
 } // namespace Private_PlanInit

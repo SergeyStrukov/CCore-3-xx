@@ -1,7 +1,7 @@
-/* test2999.Blank.cpp */
+/* test2057.Scope.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Fundamental Mini
 //
@@ -9,29 +9,39 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/test/test.h>
 
+#include <CCore/inc/Scope.h>
+
 namespace App {
 
-namespace Private_2999 {
+namespace Private_2057 {
 
 
-} // namespace Private_2999
+} // namespace Private_2057
 
-using namespace Private_2999;
+using namespace Private_2057;
 
-/* Testit<2999> */
-
-template<>
-const char *const Testit<2999>::Name="Test2999 Blank";
+/* Testit<2057> */
 
 template<>
-bool Testit<2999>::Main()
+const char *const Testit<2057>::Name="Test2057 Scope";
+
+template<>
+bool Testit<2057>::Main()
  {
+  Scope a("outer"_c);
+  Scope b("medium"_c);
+  Scope c("inner"_c);
+
+  Scope::Print(Con);
+
+  Putch(Con,'\n');
+
   return true;
  }
 

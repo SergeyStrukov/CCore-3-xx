@@ -48,6 +48,7 @@ CCORE_INITPRI_0
        
        Sys
        Exception
+       Scope
        TaskMemStack
        DeferCall
        PerTask

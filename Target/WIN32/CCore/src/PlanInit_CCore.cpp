@@ -26,6 +26,7 @@
 #include <CCore/inc/Job.h>
 #include <CCore/inc/ObjHost.h>
 #include <CCore/inc/PerTask.h>
+#include <CCore/inc/Scope.h>
 
 namespace CCore {
 
@@ -41,6 +42,7 @@ struct Empty
 PlanInitObject<Empty,PlanInitReq<GetPlanInitNode_JobHost>
                     ,PlanInitReq<GetPlanInitNode_PerTask>
                     ,PlanInitReq<GetPlanInitNode_ObjHost>
+                    ,PlanInitReq<GetPlanInitNode_Scope>
 
 #ifndef CCORE_MINI
 

@@ -21,6 +21,7 @@
 #include <CCore/inc/Job.h>
 #include <CCore/inc/PerTask.h>
 #include <CCore/inc/DeferCall.h>
+#include <CCore/inc/Scope.h>
 
 namespace CCore {
 
@@ -39,6 +40,7 @@ PlanInitObject<Empty,PlanInitReq<GetPlanInitNode_PacketPool>
                     ,PlanInitReq<GetPlanInitNode_JobHost>
                     ,PlanInitReq<GetPlanInitNode_PerTask>
                     ,PlanInitReq<GetPlanInitNode_DeferCall>
+                    ,PlanInitReq<GetPlanInitNode_Scope>
                     > Object CCORE_INITPRI_1 ;
 
 } // namespace Private_PlanInit_CCore
