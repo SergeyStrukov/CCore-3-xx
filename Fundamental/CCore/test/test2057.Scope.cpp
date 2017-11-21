@@ -38,9 +38,13 @@ bool Testit<2057>::Main()
   Scope b("medium"_c);
   Scope c("inner"_c);
 
-  Scope::Print(Con);
+  try
+    {
+     Printf(Exception,"test exception");
+    }
+  catch(CatchType) {}
 
-  Putch(Con,'\n');
+  ReportException::Clear();
 
   return true;
  }

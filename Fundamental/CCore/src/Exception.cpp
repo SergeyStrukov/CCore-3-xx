@@ -17,6 +17,7 @@
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/TlsSlot.h>
+#include <CCore/inc/Scope.h>
 
 namespace CCore {
 
@@ -49,20 +50,11 @@ void ReportException::SetTop(ReportException *top)
   Object.set(top);
  }
 
-ReportException * ReportException::Start(ExceptionType ex)
+ReportException * ReportException::Start()
  {
   ReportException *report=Top();
 
-  if( report )
-    {
-     report->nok=true;
-
-     report->start(ex);
-    }
-  else
-    {
-     Print(GetTextDesc(ex));
-    }
+  if( report ) report->nok=true;
 
   return report;
  }
@@ -172,18 +164,36 @@ void PrintException::do_flush(char *ptr,ulen len)
   ReportException::Add(report,ptr,len);
  }
 
+void PrintException::start()
+ {
+  report=ReportException::Start();
+
+  if( Scope::Print(*this) ) put('\n');
+
+  flush();
+
+  if( report )
+    {
+     report->start(ex);
+    }
+  else
+    {
+     ReportException::Print(GetTextDesc(ex));
+    }
+ }
+
 PrintException::PrintException()
  : ex(Exception),
    do_throw(false)
  {
-  report=ReportException::Start(ex);
+  start();
  }
 
 PrintException::PrintException(ExceptionType ex_)
  : ex(ex_),
    do_throw(ex_==Exception)
  {
-  report=ReportException::Start(ex_);
+  start();
  }
 
 PrintException::~PrintException() noexcept(false)

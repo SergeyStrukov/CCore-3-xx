@@ -54,7 +54,7 @@ class ReportException : NoCopy
 
    static void SetTop(ReportException *top);
 
-   static ReportException * Start(ExceptionType ex);
+   static ReportException * Start();
 
    static void Add(ReportException *report,const char *ptr,ulen len);
 
@@ -152,6 +152,8 @@ class PrintException : public PrintBase
    virtual PtrLen<char> do_provide(ulen hint_len);
 
    virtual void do_flush(char *ptr,ulen len);
+
+   void start();
 
   protected:
 
