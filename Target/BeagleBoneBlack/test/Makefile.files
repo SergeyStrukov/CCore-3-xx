@@ -92,6 +92,7 @@ OBJ_LIST = \
 ../.test-obj/test2054.ApplyToRange.o \
 ../.test-obj/test2055.ArrayInsDel.o \
 ../.test-obj/test2056.StrMap.o \
+../.test-obj/test2057.Scope.o \
 ../.test-obj/test2500.PrintFile.o \
 ../.test-obj/test2999.Blank.o \
 ../.test-obj/test3001.Atomic.o \
@@ -263,6 +264,7 @@ ASM_LIST = \
 ../.test-obj/test2054.ApplyToRange.s \
 ../.test-obj/test2055.ArrayInsDel.s \
 ../.test-obj/test2056.StrMap.s \
+../.test-obj/test2057.Scope.s \
 ../.test-obj/test2500.PrintFile.s \
 ../.test-obj/test2999.Blank.s \
 ../.test-obj/test3001.Atomic.s \
@@ -434,6 +436,7 @@ DEP_LIST = \
 ../.test-obj/test2054.ApplyToRange.dep \
 ../.test-obj/test2055.ArrayInsDel.dep \
 ../.test-obj/test2056.StrMap.dep \
+../.test-obj/test2057.Scope.dep \
 ../.test-obj/test2500.PrintFile.dep \
 ../.test-obj/test2999.Blank.dep \
 ../.test-obj/test3001.Atomic.dep \
@@ -794,6 +797,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test2056.StrMap.o : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test2057.Scope.o : ../../../Fundamental/CCore/test/./test2057.Scope.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test2500.PrintFile.o : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
@@ -1302,6 +1308,9 @@ include $(RULES_FILE)
 ../.test-obj/test2056.StrMap.s : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test2057.Scope.s : ../../../Fundamental/CCore/test/./test2057.Scope.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test2500.PrintFile.s : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1807,6 +1816,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test2056.StrMap.dep : ../../../Fundamental/CCore/test/./test2056.StrMap.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2056.StrMap.o $< -MF $@
+
+../.test-obj/test2057.Scope.dep : ../../../Fundamental/CCore/test/./test2057.Scope.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2057.Scope.o $< -MF $@
 
 ../.test-obj/test2500.PrintFile.dep : ../../../Fundamental/CCore/test/./test2500.PrintFile.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test2500.PrintFile.o $< -MF $@

@@ -276,6 +276,7 @@ OBJ_LIST = \
 .obj/ScanProxy.o \
 .obj/ScanTools.o \
 .obj/Scanf.o \
+.obj/Scope.o \
 .obj/ScopeGuard.o \
 .obj/Sem.o \
 .obj/ShortSort.o \
@@ -645,6 +646,7 @@ ASM_LIST = \
 .obj/ScanProxy.s \
 .obj/ScanTools.s \
 .obj/Scanf.s \
+.obj/Scope.s \
 .obj/ScopeGuard.s \
 .obj/Sem.s \
 .obj/ShortSort.s \
@@ -1014,6 +1016,7 @@ DEP_LIST = \
 .obj/ScanProxy.dep \
 .obj/ScanTools.dep \
 .obj/Scanf.dep \
+.obj/Scope.dep \
 .obj/ScopeGuard.dep \
 .obj/Sem.dep \
 .obj/ShortSort.dep \
@@ -1950,6 +1953,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Scanf.o : ../../Fundamental/CCore/src/./Scanf.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Scope.o : ../../Fundamental/CCore/src/./Scope.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ScopeGuard.o : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
@@ -3052,6 +3058,9 @@ include $(RULES_FILE)
 .obj/Scanf.s : ../../Fundamental/CCore/src/./Scanf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Scope.s : ../../Fundamental/CCore/src/./Scope.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ScopeGuard.s : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4151,6 +4160,9 @@ include $(RULES_FILE)
 
 .obj/Scanf.dep : ../../Fundamental/CCore/src/./Scanf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Scanf.o $< -MF $@
+
+.obj/Scope.dep : ../../Fundamental/CCore/src/./Scope.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Scope.o $< -MF $@
 
 .obj/ScopeGuard.dep : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ScopeGuard.o $< -MF $@
