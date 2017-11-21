@@ -30,6 +30,33 @@
 
 <p class="Files">Files <b>CCore/inc/Scope.h</b> <b>CCore/src/Scope.cpp</b></p>
 
+<p>
+<b>Scope</b> is a scope-marker. 
+A local variable of this type can be used to assign a name to the current scope.
+</p>
+
+<pre>
+
+class <span class="Att">Scope</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit Scope(StrLen name); // persistent
+
+   ~Scope();
+
+   template &lt;class P&gt;
+   static bool Print(P &&out);
+ };
+
+</pre>
+
+<p>
+<b>Print()</b> prints scope names from the most recent, separated by the space.
+The return value is <b>true</b>, iff at least one scope name is defined.
+</p>
 
 </body>
 
