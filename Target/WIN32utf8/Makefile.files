@@ -173,6 +173,7 @@ OBJ_LIST = \
 .obj/LangDataMap.o \
 .obj/LaunchPath.o \
 .obj/Layout.o \
+.obj/LayoutCombo.o \
 .obj/Len.o \
 .obj/LineInput.o \
 .obj/List.o \
@@ -620,6 +621,7 @@ ASM_LIST = \
 .obj/LangDataMap.s \
 .obj/LaunchPath.s \
 .obj/Layout.s \
+.obj/LayoutCombo.s \
 .obj/Len.s \
 .obj/LineInput.s \
 .obj/List.s \
@@ -1067,6 +1069,7 @@ DEP_LIST = \
 .obj/LangDataMap.dep \
 .obj/LaunchPath.dep \
 .obj/Layout.dep \
+.obj/LayoutCombo.dep \
 .obj/Len.dep \
 .obj/LineInput.dep \
 .obj/List.dep \
@@ -1873,6 +1876,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Layout.o : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LayoutCombo.o : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Len.o : ../../Simple/CCore/src/./gadget/Len.cpp
@@ -3209,6 +3215,9 @@ include $(RULES_FILE)
 .obj/Layout.s : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/LayoutCombo.s : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Len.s : ../../Simple/CCore/src/./gadget/Len.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4542,6 +4551,9 @@ include $(RULES_FILE)
 
 .obj/Layout.dep : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Layout.o $< -MF $@
+
+.obj/LayoutCombo.dep : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/LayoutCombo.o $< -MF $@
 
 .obj/Len.dep : ../../Simple/CCore/src/./gadget/Len.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Len.o $< -MF $@
