@@ -15,7 +15,7 @@
 
 #include <CCore/inc/video/MessageFrame.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -45,14 +45,29 @@ MessageWindow::Btn::~Btn()
 
 /* class MessageWindow */
 
-Point MessageWindow::BtnSize(AnyType list)
+struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
  {
-  Point ret;
+  BtnRange(const OwnPtr<Btn> *ptr,ulen len) : PtrLen<const OwnPtr<Btn> >(ptr,len) {}
 
-  for(const OwnPtr<Btn> &obj : list ) ret=Sup(ret,obj->getMinSize());
+  ulen getLen() const { return len; }
 
-  return ret;
- }
+  struct AdapterType
+   {
+    Btn *ptr;
+
+    explicit AdapterType(const OwnPtr<Btn> &r) : ptr(r.getPtr()) {}
+
+    Point getMinSize(Coord) const
+     {
+      return ptr->getMinSize();
+     }
+
+    void setPlace(Pane pane,Coord) const
+     {
+      ptr->setPlace(pane);
+     }
+   };
+ };
 
 void MessageWindow::knob_pressed()
  {
@@ -80,39 +95,20 @@ MessageWindow::~MessageWindow()
 
 Point MessageWindow::getMinSize(Point cap) const
  {
-  Coordinate space_dxy=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Coordinate space2=2*space_dxy;
-
-  Coordinate line_dy=dline.getMinSize().dy;
-
-  Point btn;
-
-  if( ulen count_=btn_list.getLen() )
+  if( ulen count=btn_count )
     {
-     auto list=Range(btn_list.getPtr(),count_);
+     auto lay=LayToTopExt(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtX(info));
 
-     Point bs=BtnSize(list);
-
-     auto count=CountToCoordinate(count_);
-
-     auto total=count*bs.x+(count-1)*space_dxy;
-
-     btn.x=+total;
-     btn.y=bs.y;
+     return lay.getMinSize(space);
     }
   else
     {
-     btn=Point::Diag(+cfg.knob_dxy);
+     auto lay=LayToTopExt(LayCenterXExt(knob),LayAll(dline),LayExtX(info));
+
+     return lay.getMinSize(space);
     }
-
-  Point bottom=btn.addXY(+space2);
-
-  Point delta(0,bottom.y+line_dy);
-
-  Point top=info.getMinSize( (cap-delta).subXY(+space2) ).addXY(+space2);
-
-  return Point( Max(bottom.x,top.x) , delta.y+top.y );
  }
 
 void MessageWindow::erase()
@@ -142,39 +138,22 @@ MessageWindow & MessageWindow::add(const DefString &name,int btn_id)
 
 void MessageWindow::layout()
  {
-  Coord space_dxy=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),0);
-
-  pane.cutBottom(space_dxy);
+  Pane pane(Null,getSize());
 
   if( ulen count=btn_count )
     {
-     auto list=Range(btn_list.getPtr(),count);
+     auto lay=LayToTopExt(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtX(info));
 
-     Point bs=BtnSize(list);
-
-     PlaceRow row(pane.cutBottom(bs.y),bs,space_dxy,count);
-
-     for(OwnPtr<Btn> &obj : list )
-       {
-        obj->setPlace(*row);
-
-        ++row;
-       }
+     lay.setPlace(pane,space);
     }
   else
     {
-     Coord knob_dxy=+cfg.knob_dxy;
+     auto lay=LayToTopExt(LayCenterXExt(knob),LayAll(dline),LayExtX(info));
 
-     knob.setPlace( pane.cutBottomCenter(knob_dxy,knob_dxy) );
+     lay.setPlace(pane,space);
     }
-
-  pane.cutBottom(space_dxy);
-
-  Pane top=pane.place_cutBottom(dline);
-
-  info.setPlace( top.shrink(space_dxy) );
  }
 
 void MessageWindow::drawBack(DrawBuf buf,bool) const

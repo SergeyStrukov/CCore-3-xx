@@ -121,7 +121,7 @@ class MessageWindow : public ComboWindow
 
   private:
 
-   static Point BtnSize(AnyType list);
+   struct BtnRange;
 
    void knob_pressed();
 
