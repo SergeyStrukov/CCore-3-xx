@@ -99,15 +99,15 @@ Point MessageWindow::getMinSize(Point cap) const
 
   if( ulen count=btn_count )
     {
-     auto lay=LayToTopExt(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtX(info));
+     auto lay=LayToTopExt(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info));
 
-     return lay.getMinSize(space);
+     return lay.getMinSize(space,cap);
     }
   else
     {
-     auto lay=LayToTopExt(LayCenterXExt(knob),LayAll(dline),LayExtX(info));
+     auto lay=LayToTopExt(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info));
 
-     return lay.getMinSize(space);
+     return lay.getMinSize(space,cap);
     }
  }
 

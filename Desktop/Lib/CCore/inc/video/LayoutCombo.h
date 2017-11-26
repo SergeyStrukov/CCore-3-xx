@@ -62,6 +62,8 @@ template <class W> class LayAll;
 
 template <class W> class LayExtX;
 
+template <class W> class LayExtXCap;
+
 template <class W> class LayCenterX;
 
 template <class W> class LayCenterXExt;
@@ -292,6 +294,37 @@ class LayToTopExt : protected LaySet<LL...>
      return {dx,dy};
     }
 
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Coordinate dx;
+     Coordinate dy(space);
+
+     apply( [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dy+=s.y;
+                             dy+=space;
+
+                             dx=Sup(dx,s.x);
+
+                            } ,
+
+            [space,&dx,&dy,cap] (auto &obj)
+                                {
+                                 dy+=space;
+
+                                 Point s=obj.getMinSize(space,cap.subY(+dy));
+
+                                 dy+=s.y;
+
+                                 dx=Sup(dx,s.x);
+
+                                } );
+
+     return {dx,dy};
+    }
+
    void setPlace(Pane pane,Coord space) const
     {
      pane=pane.shrink({0,space});
@@ -464,6 +497,27 @@ class LayExtX
    explicit LayExtX(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
 
    Point getMinSize(Coord space) const { return s+2*Point(space,0); }
+
+   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink({space,0})); }
+ };
+
+/* class LayExtXCap<W> */
+
+template <class W>
+class LayExtXCap
+ {
+   W &obj;
+
+  public:
+
+   explicit LayExtXCap(W &obj_) : obj(obj_) {}
+
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Point delta=2*Point(space,0);
+
+     return obj.getMinSize(cap-delta)+delta;
+    }
 
    void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink({space,0})); }
  };
