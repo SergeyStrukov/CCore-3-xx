@@ -18,20 +18,6 @@
 namespace CCore {
 namespace Video {
 
-/* functions */
-
-Coord PosSubMul(Coord a,ulen count,Coord b)
- {
-  if( a<=0 ) return 0;
-
-  if( b<=0 ) return a;
-
-  Coord m=a/b;
-
-  if( count>ulen(m) ) return 0;
-
-  return a-Coord(count)*b;
- }
 
 } // namespace Video
 } // namespace CCore

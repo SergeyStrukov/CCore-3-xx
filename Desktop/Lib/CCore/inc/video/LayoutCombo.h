@@ -42,10 +42,6 @@ concept bool LayRangeType = requires(R r)
 
  } ;
 
-/* functions */
-
-Coord PosSubMul(Coord a,ulen count,Coord b);
-
 /* classes */
 
 template <class ... LL> class LaySet;

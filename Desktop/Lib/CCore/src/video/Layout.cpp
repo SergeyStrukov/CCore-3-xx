@@ -73,7 +73,7 @@ Pane GetWindowPlace(Desktop *desktop,Ratio ry,Point size)
   return GetWindowPlace(desktop->getMaxPane(),ry,size);
  }
 
-/* FreeCenter() */
+/* FreeCenter...() */
 
 Pane FreeCenter(Pane outer,Point size)
  {
@@ -100,7 +100,22 @@ Pane FreeCenterY(Pane outer,Coordinate dy)
 
 //----------------------------------------------------------------------------------------
 
-/* functions */
+/* PosSubMul() */
+
+Coord PosSubMul(Coord a,ulen count,Coord b)
+ {
+  if( a<=0 ) return 0;
+
+  if( b<=0 ) return a;
+
+  Coord m=a/b;
+
+  if( count>ulen(m) ) return 0;
+
+  return a-Coord(count)*b;
+ }
+
+/* Align...() */
 
 Pane AlignLeft(Pane pane,Coord dx)
  {

@@ -67,6 +67,10 @@ concept bool PlaceOfType = PlaceType<W> && requires(Meta::ToConst<W> &cobj)
   { cobj.getMinSize() } -> T ;
  } ;
 
+/* PosSubMul() */
+
+Coord PosSubMul(Coord a,ulen count,Coord b);
+
 /* Align...() */
 
 Pane AlignLeft(Pane pane,Coord dx);
@@ -134,7 +138,7 @@ void ReplaceToSup(TT & ... tt)
  {
   auto sup=Sup(tt...);
 
-  Algon::ApplyToList( [sup] (AnyType &obj) { obj=sup; } , tt...  );
+  Algon::ApplyToList( [sup] (auto &obj) { obj=sup; } , tt...  );
  }
 
 /* classes */
@@ -143,9 +147,9 @@ template <PlaceType W,Pane Func(Pane pane,Coord dx)> struct AlignXProxy;
 
 template <PlaceType W,Pane Func(Pane pane,Coord dy)> struct AlignYProxy;
 
-template <PlaceOfType<SizeBox> W> struct CutBoxProxy;
+template <PlaceOfType<SizeBox> W> struct CutBox;
 
-template <PlaceType W> struct CutPointProxy;
+template <PlaceType W> struct CutPoint;
 
 class PlaceRow;
 
@@ -205,17 +209,17 @@ auto AlignCenterY(W &window) { return AlignYProxy<W,AlignCenterY>(window); }
 template <PlaceType W>
 auto AlignBottom(W &window) { return AlignYProxy<W,AlignBottom>(window); }
 
-/* struct CutBoxProxy<W> */
+/* struct CutBox<W> */
 
 template <PlaceOfType<SizeBox> W>
-struct CutBoxProxy
+struct CutBox
  {
   W &window;
   Coord dxy;
 
-  explicit CutBoxProxy(W &window_) : window(window_),dxy(window_.getMinSize().dxy) {}
+  explicit CutBox(W &window_) : window(window_),dxy(window_.getMinSize().dxy) {}
 
-  CutBoxProxy(W &window_,Ratio scale) : window(window_),dxy(scale*window_.getMinSize().dxy) {}
+  CutBox(W &window_,Ratio scale) : window(window_),dxy(scale*window_.getMinSize().dxy) {}
 
   SizeXSpace getMinSize() const { return SizeXSpace(dxy,BoxSpace(dxy)); }
 
@@ -224,40 +228,24 @@ struct CutBoxProxy
   Coord getExt() const { return BoxExt(dxy); }
  };
 
-Coord SupDY(const CutBoxProxy<AnyType> &window) { return window.dxy; }
+Coord SupDY(const CutBox<AnyType> &window) { return window.dxy; }
 
-/* CutBox() */
-
-template <PlaceOfType<SizeBox> W>
-auto CutBox(W &window) { return CutBoxProxy<W>(window); }
-
-template <PlaceOfType<SizeBox> W>
-auto CutBox(W &window,Ratio scale) { return CutBoxProxy<W>(window,scale); }
-
-/* struct CutPointProxy<W> */
+/* struct CutPoint<W> */
 
 template <PlaceType W>
-struct CutPointProxy
+struct CutPoint
  {
   W &window;
   Point size;
 
-  explicit CutPointProxy(W &window_) : window(window_),size(GetMinSize(window_)) {}
+  explicit CutPoint(W &window_) : window(window_),size(GetMinSize(window_)) {}
 
-  CutPointProxy(W &window_,Ratio scale) : window(window_),size(scale*GetMinSize(window_)) {}
+  CutPoint(W &window_,Ratio scale) : window(window_),size(scale*GetMinSize(window_)) {}
 
   Point getMinSize() const { return size; }
 
   void setPlace(Pane pane) { window.setPlace(pane); }
  };
-
-/* CutPoint() */
-
-template <PlaceType W>
-auto CutPoint(W &window) { return CutPointProxy<W>(window); }
-
-template <PlaceType W>
-auto CutPoint(W &window,Ratio scale) { return CutPointProxy<W>(window,scale); }
 
 /* class PlaceRow */
 
