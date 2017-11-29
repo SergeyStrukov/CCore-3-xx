@@ -1229,6 +1229,50 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        }
     };
 
+   class LayoutWindow : public SubWindow
+    {
+      Pane outer;
+
+      Pane red;
+      Pane green;
+      Pane blue;
+
+     public:
+
+      LayoutWindow(SubWindowHost &host,const UserPreference &)
+       : SubWindow(host)
+       {
+       }
+
+      // drawing
+
+      virtual void layout()
+       {
+        outer=Pane(Null,getSize()).shrink(10);
+
+        PlaceColumn place(outer,{30,20},10,3);
+
+        red=*place; ++place;
+        green=*place; ++place;
+        blue=*place;
+       }
+
+      virtual void draw(DrawBuf buf,bool) const
+       {
+        Coord width=Fraction(6,4);
+
+        SmoothDrawArt art(buf);
+
+        FigureBox fig(outer);
+
+        fig.loop(art,HalfPos,width,Black);
+
+        art.block(red,Red);
+        art.block(green,Green);
+        art.block(blue,Blue);
+       }
+    };
+
   public:
 
    Base() // Update here
@@ -1244,6 +1288,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        add("TextContour right"_def,Create<TextContourWindow_Right>);
        add("TextContour center"_def,Create<TextContourWindow_Center>);
        add("Draw"_def,Create_def<DrawWindow>);
+       add("Layout"_def,CreateCombo<LayoutWindow>);
 
      add("Button"_def);
 
