@@ -253,7 +253,9 @@ class PlaceRow
  {
    Point base;
    Point size;
-   Coord delta_x;
+
+   Coord delta;
+   Coord cap;
 
   public:
 
@@ -261,7 +263,25 @@ class PlaceRow
 
    Pane operator * () const { return Pane(base,size); }
 
-   void operator ++ () { base.x+=delta_x; }
+   void operator ++ ()
+    {
+     if( size.x>0 )
+       {
+        if( cap>delta )
+          {
+           cap-=delta;
+
+           Replace_min(size.x,cap);
+
+           base.x+=delta;
+          }
+        else
+          {
+           cap=0;
+           size.x=0;
+          }
+       }
+    }
 
    template <class ... WW>
    void place(WW && ... ww) requires ( ... && PlaceType<WW> )
@@ -276,7 +296,9 @@ class PlaceColumn
  {
    Point base;
    Point size;
-   Coord delta_y;
+
+   Coord delta;
+   Coord cap;
 
   public:
 
@@ -284,7 +306,25 @@ class PlaceColumn
 
    Pane operator * () const { return Pane(base,size); }
 
-   void operator ++ () { base.y+=delta_y; }
+   void operator ++ ()
+    {
+     if( size.y>0 )
+       {
+        if( cap>delta )
+          {
+           cap-=delta;
+
+           Replace_min(size.y,cap);
+
+           base.y+=delta;
+          }
+        else
+          {
+           cap=0;
+           size.y=0;
+          }
+       }
+    }
 
    template <class ... WW>
    void place(WW && ... ww) requires ( ... && PlaceType<WW> )

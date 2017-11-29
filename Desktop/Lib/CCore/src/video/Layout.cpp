@@ -232,42 +232,48 @@ Pane AlignCenter(Pane pane,Coord dx,Coord dy)
 
 /* class PlaceRow */
 
-PlaceRow::PlaceRow(Pane outer,Point size_,Coord space,ulen count_)
- : size(size_),
-   delta_x(IntAdd(size_.x,space))
+PlaceRow::PlaceRow(Pane outer,Point size_,Coord space,ulen count)
  {
-  auto count=CountToCoordinate(count_);
+  size=Inf(size_,outer.getSize());
 
-  auto total=count*size_.x+(count-1)*space;
+  Coord ext=PosSubMul(outer.dx,count,size.x);
 
-  Point total_size(total,size_.y);
+  if( count>1 ) ext=PosSubMul(ext,count-1,space);
 
-  Pane pane=AlignCenter(outer,total_size);
+  ext/=2;
 
-  if( pane.dx==total )
-    base=pane.getBase();
+  base.x=outer.x+ext;
+  base.y=outer.y+(outer.dy-size.y)/2;
+
+  cap=outer.dx-ext;
+
+  if( space<cap-size.x )
+    delta=size.x+space;
   else
-    size=Null;
+    delta=cap;
  }
 
 /* class PlaceColumn */
 
-PlaceColumn::PlaceColumn(Pane outer,Point size_,Coord space,ulen count_)
- : size(size_),
-   delta_y(IntAdd(size_.y,space))
+PlaceColumn::PlaceColumn(Pane outer,Point size_,Coord space,ulen count)
  {
-  auto count=CountToCoordinate(count_);
+  size=Inf(size_,outer.getSize());
 
-  auto total=count*size_.y+(count-1)*space;
+  Coord ext=PosSubMul(outer.dy,count,size.y);
 
-  Point total_size(size_.x,total);
+  if( count>1 ) ext=PosSubMul(ext,count-1,space);
 
-  Pane pane=AlignCenter(outer,total_size);
+  ext/=2;
 
-  if( pane.dy==total )
-    base=pane.getBase();
+  base.x=outer.x+(outer.dx-size.x)/2;
+  base.y=outer.y+ext;
+
+  cap=outer.dy-ext;
+
+  if( space<cap-size.y )
+    delta=size.y+space;
   else
-    size=Null;
+    delta=cap;
  }
 
 /* class PaneCut */
