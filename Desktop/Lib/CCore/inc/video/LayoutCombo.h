@@ -58,11 +58,27 @@ template <class W> class LayAll;
 
 template <class W> class LayExtX;
 
+template <class W> class LayExtY;
+
 template <class W> class LayExtXCap;
+
+template <class W> class LayExtYCap;
+
+template <class W> class LayLeft;
 
 template <class W> class LayCenterX;
 
+template <class W> class LayRight;
+
+template <class W> class LayTop;
+
+template <class W> class LayCenterY;
+
+template <class W> class LayBottom;
+
 template <class W> class LayCenterXExt;
+
+template <class W> class LayCenterYExt;
 
 /* class LaySet<LL> */
 
@@ -488,13 +504,38 @@ class LayExtX
    W &obj;
    Point s;
 
+  private:
+
+   static Point Ext(Coord space) { return Point(space,0); }
+
   public:
 
    explicit LayExtX(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
 
-   Point getMinSize(Coord space) const { return s+2*Point(space,0); }
+   Point getMinSize(Coord space) const { return s+2*Ext(space); }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink({space,0})); }
+   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+ };
+
+/* class LayExtY<W> */
+
+template <class W>
+class LayExtY
+ {
+   W &obj;
+   Point s;
+
+  private:
+
+   static Point Ext(Coord space) { return Point(0,space); }
+
+  public:
+
+   explicit LayExtY(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord space) const { return s+2*Ext(space); }
+
+   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
  };
 
 /* class LayExtXCap<W> */
@@ -504,18 +545,64 @@ class LayExtXCap
  {
    W &obj;
 
+  private:
+
+   static Point Ext(Coord space) { return Point(space,0); }
+
   public:
 
    explicit LayExtXCap(W &obj_) : obj(obj_) {}
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Point delta=2*Point(space,0);
+     Point delta=2*Ext(space);
 
      return obj.getMinSize(cap-delta)+delta;
     }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink({space,0})); }
+   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+ };
+
+/* class LayExtYCap<W> */
+
+template <class W>
+class LayExtYCap
+ {
+   W &obj;
+
+  private:
+
+   static Point Ext(Coord space) { return Point(0,space); }
+
+  public:
+
+   explicit LayExtYCap(W &obj_) : obj(obj_) {}
+
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Point delta=2*Ext(space);
+
+     return obj.getMinSize(cap-delta)+delta;
+    }
+
+   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+ };
+
+/* class LayLeft<W> */
+
+template <class W>
+class LayLeft
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayLeft(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord) const { return s; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignLeft(pane,s.x)); }
  };
 
 /* class LayCenterX<W> */
@@ -535,6 +622,74 @@ class LayCenterX
    void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterX(pane,s.x)); }
  };
 
+/* class LayRight<W> */
+
+template <class W>
+class LayRight
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayRight(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord) const { return s; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignRight(pane,s.x)); }
+ };
+
+/* class LayTop<W> */
+
+template <class W>
+class LayTop
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayTop(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord) const { return s; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignTop(pane,s.y)); }
+ };
+
+/* class LayCenterY<W> */
+
+template <class W>
+class LayCenterY
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayCenterY(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord) const { return s; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterY(pane,s.y)); }
+ };
+
+/* class LayBottom<W> */
+
+template <class W>
+class LayBottom
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayBottom(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord) const { return s; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignBottom(pane,s.y)); }
+ };
+
 /* class LayCenterXExt<W> */
 
 template <class W>
@@ -550,6 +705,23 @@ class LayCenterXExt
    Point getMinSize(Coord space) const { return s+2*Point(space,0); }
 
    void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterX(pane,s.x)); }
+ };
+
+/* class LayCenterYExt<W> */
+
+template <class W>
+class LayCenterYExt
+ {
+   W &obj;
+   Point s;
+
+  public:
+
+   explicit LayCenterYExt(W &obj_) : obj(obj_) { s=GetMinSize(obj); }
+
+   Point getMinSize(Coord space) const { return s+2*Point(0,space); }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterY(pane,s.y)); }
  };
 
 } // namespace Video
