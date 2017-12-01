@@ -48,9 +48,19 @@ template <class ... LL> class LaySet;
 
 template <class ... LL> class LayToTop;
 
-template <class ... LL> class LayToTopExt;
+template <class ... LL> class LayToBottom;
+
+template <class ... LL> class LayToLeft;
+
+template <class ... LL> class LayToRight;
+
+template <class L> class ExtLayY;
+
+template <class L> class ExtLayX;
 
 template <class ... LL> class LaySupCenterXExt;
+
+template <class ... LL> class LaySupCenterYExt;
 
 class LayNull;
 
@@ -209,6 +219,26 @@ class LayToTop : protected LaySet<LL...>
  {
    using LaySet<LL...>::apply;
 
+  private:
+
+   static Pane Split(Pane &pane,Coord dy,Coord space)
+    {
+     Pane ret;
+
+     if( dy<=pane.dy )
+       {
+        ret=SplitY(pane,dy);
+
+        SplitY(pane,space);
+       }
+     else
+       {
+        ret=Replace_null(pane);
+       }
+
+     return ret;
+    }
+
   public:
 
    using LaySet<LL...>::LaySet;
@@ -242,25 +272,42 @@ class LayToTop : protected LaySet<LL...>
      return {dx,dy};
     }
 
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Coordinate dx;
+     Coordinate dy;
+
+     apply( [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dy+=s.y;
+                             dy+=space;
+
+                             dx=Sup(dx,s.x);
+
+                            } ,
+
+            [space,cap,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space,cap.subY(+dy));
+
+                             dy+=s.y;
+
+                             dx=Sup(dx,s.x);
+
+                            } );
+
+     return {dx,dy};
+    }
+
    void setPlace(Pane pane,Coord space) const
     {
      apply( [&pane,space] (auto &obj)
                           {
                            Coord dy=obj.getMinSize(space).y;
-                           Pane p;
 
-                           if( dy<=pane.dy )
-                             {
-                              p=SplitY(pane,dy);
-
-                              SplitY(pane,space);
-                             }
-                           else
-                             {
-                              p=Replace_null(pane);
-                             }
-
-                           obj.setPlace(p,space);
+                           obj.setPlace(Split(pane,dy,space),space);
                           } ,
 
             [&pane,space] (auto &obj)
@@ -274,12 +321,141 @@ class LayToTop : protected LaySet<LL...>
 template <class ... LL>
 LayToTop(const LL & ...) -> LayToTop<LL...> ;
 
-/* class LayToTopExt<LL> */
+/* class LayToBottom<LL> */
 
 template <class ... LL>
-class LayToTopExt : protected LaySet<LL...>
+class LayToBottom : protected LaySet<LL...>
+ {
+  using LaySet<LL...>::apply;
+
+ private:
+
+  static Pane Split(Pane &pane,Coord dy,Coord space)
+   {
+    Pane ret;
+
+    if( dy<=pane.dy )
+      {
+       ret=SplitY(dy,pane);
+
+       SplitY(space,pane);
+      }
+    else
+      {
+       ret=Replace_null(pane);
+      }
+
+    return ret;
+   }
+
+ public:
+
+  using LaySet<LL...>::LaySet;
+
+  Point getMinSize(Coord space) const
+   {
+    Coordinate dx;
+    Coordinate dy;
+
+    apply( [space,&dx,&dy] (auto &obj)
+                           {
+                            Point s=obj.getMinSize(space);
+
+                            dy+=s.y;
+                            dy+=space;
+
+                            dx=Sup(dx,s.x);
+
+                           } ,
+
+           [space,&dx,&dy] (auto &obj)
+                           {
+                            Point s=obj.getMinSize(space);
+
+                            dy+=s.y;
+
+                            dx=Sup(dx,s.x);
+
+                           } );
+
+    return {dx,dy};
+   }
+
+  Point getMinSize(Coord space,Point cap) const
+   {
+    Coordinate dx;
+    Coordinate dy;
+
+    apply( [space,&dx,&dy] (auto &obj)
+                           {
+                            Point s=obj.getMinSize(space);
+
+                            dy+=s.y;
+                            dy+=space;
+
+                            dx=Sup(dx,s.x);
+
+                           } ,
+
+           [space,cap,&dx,&dy] (auto &obj)
+                           {
+                            Point s=obj.getMinSize(space,cap.subY(+dy));
+
+                            dy+=s.y;
+
+                            dx=Sup(dx,s.x);
+
+                           } );
+
+    return {dx,dy};
+   }
+
+  void setPlace(Pane pane,Coord space) const
+   {
+    apply( [&pane,space] (auto &obj)
+                         {
+                          Coord dy=obj.getMinSize(space).y;
+
+                          obj.setPlace(Split(pane,dy,space),space);
+                         } ,
+
+           [&pane,space] (auto &obj)
+                         {
+                          obj.setPlace(pane,space);
+
+                         } );
+   }
+ };
+
+template <class ... LL>
+LayToBottom(const LL & ...) -> LayToBottom<LL...> ;
+
+/* class LayToLeft<LL> */
+
+template <class ... LL>
+class LayToLeft : protected LaySet<LL...>
  {
    using LaySet<LL...>::apply;
+
+  private:
+
+   static Pane Split(Pane &pane,Coord dx,Coord space)
+    {
+     Pane ret;
+
+     if( dx<=pane.dx )
+       {
+        ret=SplitY(pane,dx);
+
+        SplitY(pane,space);
+       }
+     else
+       {
+        ret=Replace_null(pane);
+       }
+
+     return ret;
+    }
 
   public:
 
@@ -294,14 +470,22 @@ class LayToTopExt : protected LaySet<LL...>
                             {
                              Point s=obj.getMinSize(space);
 
-                             dy+=s.y;
-                             dy+=space;
+                             dx+=s.x;
+                             dx+=space;
 
-                             dx=Sup(dx,s.x);
+                             dy=Sup(dy,s.y);
+
+                            } ,
+
+            [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dx+=s.x;
+
+                             dy=Sup(dy,s.y);
 
                             } );
-
-     dy+=space;
 
      return {dx,dy};
     }
@@ -309,55 +493,39 @@ class LayToTopExt : protected LaySet<LL...>
    Point getMinSize(Coord space,Point cap) const
     {
      Coordinate dx;
-     Coordinate dy(space);
+     Coordinate dy;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
                              Point s=obj.getMinSize(space);
 
-                             dy+=s.y;
-                             dy+=space;
+                             dx+=s.x;
+                             dx+=space;
 
-                             dx=Sup(dx,s.x);
+                             dy=Sup(dy,s.y);
 
                             } ,
 
-            [space,&dx,&dy,cap] (auto &obj)
-                                {
-                                 dy+=space;
+            [space,cap,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space,cap.subX(+dx));
 
-                                 Point s=obj.getMinSize(space,cap.subY(+dy));
+                             dx+=s.x;
 
-                                 dy+=s.y;
+                             dy=Sup(dy,s.y);
 
-                                 dx=Sup(dx,s.x);
-
-                                } );
+                            } );
 
      return {dx,dy};
     }
 
    void setPlace(Pane pane,Coord space) const
     {
-     pane=pane.shrink({0,space});
-
      apply( [&pane,space] (auto &obj)
                           {
-                           Coord dy=obj.getMinSize(space).y;
-                           Pane p;
+                           Coord dx=obj.getMinSize(space).x;
 
-                           if( dy<=pane.dy )
-                             {
-                              p=SplitY(pane,dy);
-
-                              SplitY(pane,space);
-                             }
-                           else
-                             {
-                              p=Replace_null(pane);
-                             }
-
-                           obj.setPlace(p,space);
+                           obj.setPlace(Split(pane,dx,space),space);
                           } ,
 
             [&pane,space] (auto &obj)
@@ -369,7 +537,188 @@ class LayToTopExt : protected LaySet<LL...>
  };
 
 template <class ... LL>
-LayToTopExt(const LL & ...) -> LayToTopExt<LL...> ;
+LayToLeft(const LL & ...) -> LayToLeft<LL...> ;
+
+/* class LayToRight<LL> */
+
+template <class ... LL>
+class LayToRight : protected LaySet<LL...>
+ {
+   using LaySet<LL...>::apply;
+
+  private:
+
+   static Pane Split(Pane &pane,Coord dx,Coord space)
+    {
+     Pane ret;
+
+     if( dx<=pane.dx )
+       {
+        ret=SplitY(dx,pane);
+
+        SplitY(space,pane);
+       }
+     else
+       {
+        ret=Replace_null(pane);
+       }
+
+     return ret;
+    }
+
+  public:
+
+   using LaySet<LL...>::LaySet;
+
+   Point getMinSize(Coord space) const
+    {
+     Coordinate dx;
+     Coordinate dy;
+
+     apply( [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dx+=s.x;
+                             dx+=space;
+
+                             dy=Sup(dy,s.y);
+
+                            } ,
+
+            [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dx+=s.x;
+
+                             dy=Sup(dy,s.y);
+
+                            } );
+
+     return {dx,dy};
+    }
+
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Coordinate dx;
+     Coordinate dy;
+
+     apply( [space,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space);
+
+                             dx+=s.x;
+                             dx+=space;
+
+                             dy=Sup(dy,s.y);
+
+                            } ,
+
+            [space,cap,&dx,&dy] (auto &obj)
+                            {
+                             Point s=obj.getMinSize(space,cap.subX(+dx));
+
+                             dx+=s.x;
+
+                             dy=Sup(dy,s.y);
+
+                            } );
+
+     return {dx,dy};
+    }
+
+   void setPlace(Pane pane,Coord space) const
+    {
+     apply( [&pane,space] (auto &obj)
+                          {
+                           Coord dx=obj.getMinSize(space).x;
+
+                           obj.setPlace(Split(pane,dx,space),space);
+                          } ,
+
+            [&pane,space] (auto &obj)
+                          {
+                           obj.setPlace(pane,space);
+
+                          } );
+    }
+ };
+
+template <class ... LL>
+LayToRight(const LL & ...) -> LayToRight<LL...> ;
+
+/* class ExtLayY<L> */
+
+template <class L>
+class ExtLayY
+ {
+   L lay;
+
+  private:
+
+   static Point Ext(Coord space) { return Point(0,space); }
+
+  public:
+
+   explicit ExtLayY(const L &lay_) : lay(lay_) {}
+
+   Point getMinSize(Coord space) const
+    {
+     Point s=lay.getMinSize(space);
+
+     return s+2*Ext(space);
+    }
+
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Point delta=2*Ext(space);
+     Point s=lay.getMinSize(space,cap-delta);
+
+     return s+delta;
+    }
+
+   void setPlace(Pane pane,Coord space) const
+    {
+     lay.setPlace(pane.shrink(Ext(space)),space);
+    }
+ };
+
+/* class ExtLayX<L> */
+
+template <class L>
+class ExtLayX
+ {
+   L lay;
+
+  private:
+
+   static Point Ext(Coord space) { return Point(space,0); }
+
+  public:
+
+   explicit ExtLayX(const L &lay_) : lay(lay_) {}
+
+   Point getMinSize(Coord space) const
+    {
+     Point s=lay.getMinSize(space);
+
+     return s+2*Ext(space);
+    }
+
+   Point getMinSize(Coord space,Point cap) const
+    {
+     Point delta=2*Ext(space);
+     Point s=lay.getMinSize(space,cap-delta);
+
+     return s+delta;
+    }
+
+   void setPlace(Pane pane,Coord space) const
+    {
+     lay.setPlace(pane.shrink(Ext(space)),space);
+    }
+ };
 
 /* class LaySupCenterXExt<LL> */
 
@@ -379,19 +728,21 @@ class LaySupCenterXExt : protected LaySet<LL...>
    using LaySet<LL...>::apply;
    using LaySet<LL...>::getCount;
 
+   mutable bool has_size = false ;
    mutable Point size;
-   mutable Coord size_space = MinCoord ;
+   mutable Coord size_space;
 
   private:
 
    Point getSize(Coord space) const
     {
-     if( space==size_space ) return size;
+     if( has_size && space==size_space ) return size;
 
      Point s;
 
      apply( [&s,space] (auto &obj) { s=Sup(s,obj.getMinSize(space)); } );
 
+     has_size=true;
      size=s;
      size_space=space;
 
@@ -423,7 +774,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
      Coord off=PosSubMul(pane.dx,count,dx);
 
-     if( count ) off=PosSubMul(off,count-1,space);
+     if( count>1 ) off=PosSubMul(off,count-1,space);
 
      off/=2;
 
@@ -454,6 +805,103 @@ class LaySupCenterXExt : protected LaySet<LL...>
                               if( dx<=pane.dx )
                                 {
                                  p=SplitX(dx,pane);
+                                }
+                              else
+                                {
+                                 p=Replace_null(pane);
+                                }
+
+                              obj.setPlace(p,space);
+
+                             } );
+    }
+ };
+
+/* class LaySupCenterYExt<LL> */
+
+template <class ... LL>
+class LaySupCenterYExt : protected LaySet<LL...>
+ {
+   using LaySet<LL...>::apply;
+   using LaySet<LL...>::getCount;
+
+   mutable bool has_size = false ;
+   mutable Point size;
+   mutable Coord size_space;
+
+  private:
+
+   Point getSize(Coord space) const
+    {
+     if( has_size && space==size_space ) return size;
+
+     Point s;
+
+     apply( [&s,space] (auto &obj) { s=Sup(s,obj.getMinSize(space)); } );
+
+     has_size=true;
+     size=s;
+     size_space=space;
+
+     return s;
+    }
+
+  public:
+
+   explicit LaySupCenterYExt(const LL & ... list)
+    : LaySet<LL...>(list...)
+    {
+    }
+
+   Point getMinSize(Coord space) const
+    {
+     Point size=getSize(space);
+
+     auto count=CountToCoordinate(getCount());
+
+     return {size.x,count*size.y+(count+1)*space};
+    }
+
+   void setPlace(Pane pane,Coord space) const
+    {
+     Point size=getSize(space);
+
+     ulen count=getCount();
+     Coord dy=size.y;
+
+     Coord off=PosSubMul(pane.dy,count,dy);
+
+     if( count>1 ) off=PosSubMul(off,count-1,space);
+
+     off/=2;
+
+     SplitY(off,pane);
+
+     apply( [&pane,space,dy] (auto &obj)
+                             {
+                              Pane p;
+
+                              if( dy<=pane.dy )
+                                {
+                                 p=SplitY(dy,pane);
+
+                                 SplitY(space,pane);
+                                }
+                              else
+                                {
+                                 p=Replace_null(pane);
+                                }
+
+                              obj.setPlace(p,space);
+                             } ,
+
+            [&pane,space,dy] (auto &obj)
+                             {
+                              Pane p;
+
+                              if( dy<=pane.dy )
+                                {
+                                 p=SplitY(dy,pane);
                                 }
                               else
                                 {
