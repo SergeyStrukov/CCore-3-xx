@@ -26,10 +26,10 @@ namespace Video {
 template <class Ptr,class Func>
 void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
  {
+  // common
+
   func("frame_pos_ry"_c,ptr->frame_pos_ry);
-
   func("width"_c,ptr->width);
-
   func("space_dxy"_c,ptr->space_dxy);
 
   func("check_dxy"_c,ptr->check_dxy);
@@ -80,6 +80,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("text_none"_c,ptr->text_none);
 
+  // text
+
   func("text_cursor_dx"_c,ptr->text_cursor_dx);
 
   func("text_select"_c,ptr->text_select);
@@ -115,8 +117,12 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("code_font"_c,ptr->code_font.param);
 
+  // switch
+
   func("switch_on"_c,ptr->switch_on);
   func("switch_off"_c,ptr->switch_off);
+
+  // progress
 
   func("progress_time"_c,ptr->progress_time);
   func("progress_period"_c,ptr->progress_period);
@@ -129,30 +135,47 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("progress_grayArrow"_c,ptr->progress_grayArrow);
   func("progress_snowArrow"_c,ptr->progress_snowArrow);
 
+  // scroll
+
   func("scroll_speedUpPeriod"_c,ptr->scroll_speedUpPeriod);
+
+  // line_edit
 
   func("line_edit_period"_c,ptr->line_edit_period);
 
   func("line_edit_ex"_c,ptr->line_edit_ex);
 
+  // scroll_list
+
   func("scroll_list_title"_c,ptr->scroll_list_title);
   func("scroll_list_titleTop"_c,ptr->scroll_list_titleTop);
   func("scroll_list_titleBottom"_c,ptr->scroll_list_titleBottom);
 
+  // slider
+
   func("slider_dxy"_c,ptr->slider_dxy);
 
+  // spinor
+
   func("spinor_period"_c,ptr->spinor_period);
+
+  // run button
 
   func("run"_c,ptr->run);
   func("run_period"_c,ptr->run_period);
   func("run_steps"_c,ptr->run_steps);
+
+  // menu
 
   func("menu_back"_c,ptr->menu_back);
   func("menu_text"_c,ptr->menu_text);
   func("menu_hilight"_c,ptr->menu_hilight);
   func("menu_select"_c,ptr->menu_select);
   func("menu_hot"_c,ptr->menu_hot);
+
   func("menu_hotcolor"_c,ptr->menu_hotcolor);
+
+  // Frame
 
   func("blinkTime"_c,ptr->blinkTime);
   func("blinkPeriod"_c,ptr->blinkPeriod);
@@ -213,11 +236,17 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("hint_Restore"_c,ptr->hint_Restore);
   func("hint_Close"_c,ptr->hint_Close);
 
+  // Exception
+
   func("exception_back"_c,ptr->exception_back);
   func("exception_text"_c,ptr->exception_text);
   func("exception_divider"_c,ptr->exception_divider);
 
+  // Message
+
   func("message_knob_dxy"_c,ptr->message_knob_dxy);
+
+  // File
 
   func("file_alt_dxy"_c,ptr->file_alt_dxy);
 
@@ -246,6 +275,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("hint_FileFilter"_c,ptr->hint_FileFilter);
 
   func("hint_FileAddFilter"_c,ptr->hint_FileAddFilter);
+
+  // ConfigEditor
 
   func("cfg_edit_width"_c,ptr->cfg_edit_width);
   func("cfg_edit_mark_dy"_c,ptr->cfg_edit_mark_dy);

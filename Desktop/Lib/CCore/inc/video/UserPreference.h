@@ -43,9 +43,7 @@ struct UserPreferenceBag : ConfigItemHost
   // common
 
   Ratio frame_pos_ry = Div(5,12) ;
-
   MCoord width = Fraction(6,2) ;
-
   Coord space_dxy = 10 ;
 
   Coord check_dxy   = 20 ;
@@ -296,20 +294,14 @@ struct UserPreferenceBag : ConfigItemHost
   // ConfigEditor
 
   MCoord cfg_edit_width = Fraction(1) ;
-
   Coord cfg_edit_mark_dy = 3 ;
-
   VColor cfg_edit_line = Black ;
 
   MCoord cfg_width = Fraction(8,2) ;
-
   Coord cfg_radius    =  15 ;
-
   Coord cfg_mix_len   = 350 ;
   Coord cfg_mix_width =  30 ;
-
   Coord cfg_white_len = 250 ;
-
   unsigned cfg_pal_len = 10 ;
 
   DefString text_cfg_all      =         "All"_def ;
@@ -338,7 +330,6 @@ struct UserPreferenceBag : ConfigItemHost
 
   DefString hint_cfg_x = "Select x coordinate"_def ;
   DefString hint_cfg_y = "Select y coordinate"_def ;
-
   DefString hint_cfg_a = "Select divisible"_def ;
   DefString hint_cfg_b = "Select divider"_def ;
 

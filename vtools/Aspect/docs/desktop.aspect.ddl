@@ -353,7 +353,7 @@ Dir Dir25=
     { 'MinSizeType.h' , Green },
     { 'ShapeLib.h' , Green },
     { 'ToolFrame.h' , Red },
-    { 'UserPreference.h' , Red },
+    { 'UserPreference.h' , Green },
     { 'WindowLib.h' , Green },
     { 'WindowReport.h' , Red }
    }
@@ -453,7 +453,7 @@ Dir Dir26=
     { 'MinSizeType.cpp' , Green },
     { 'ShapeLib.cpp' , Green },
     { 'ToolFrame.cpp' , Red },
-    { 'UserPreference.cpp' , Red },
+    { 'UserPreference.cpp' , Green },
     { 'WindowLib.cpp' , Green },
     { 'WindowReport.cpp' , Red },
     { 'ConfigTypes.ddl' , Green },
