@@ -62,18 +62,18 @@ auto MenuData::find(Char ch) const -> FindResult
  {
   auto r=Range(list);
 
-  for(ulen i=0; i<r.len ;i++) if( r[i].test(ch) ) return {i,true};
+  for(ulen i=0; i<r.len ;i++) if( r[i].test(ch) ) return i;
 
-  return {0,false};
+  return Null;
  }
 
 auto MenuData::find(Point point) const -> FindResult
  {
   auto r=Range(list);
 
-  for(ulen i=0; i<r.len ;i++) if( r[i].test(point) ) return {i,true};
+  for(ulen i=0; i<r.len ;i++) if( r[i].test(point) ) return i;
 
-  return {0,false};
+  return Null;
  }
 
 auto MenuData::findDown(ulen index) const -> FindResult
@@ -82,27 +82,27 @@ auto MenuData::findDown(ulen index) const -> FindResult
 
   Replace_min(index,r.len);
 
-  while( index-- ) if( r[index].type==MenuText ) return {index,true};
+  while( index-- ) if( r[index].type==MenuText ) return index;
 
-  return {0,false};
+  return Null;
  }
 
 auto MenuData::findUp(ulen index) const -> FindResult
  {
   auto r=Range(list);
 
-  for(index++; index<r.len ;index++) if( r[index].type==MenuText ) return {index,true};
+  for(index++; index<r.len ;index++) if( r[index].type==MenuText ) return index;
 
-  return {0,false};
+  return Null;
  }
 
 auto MenuData::findFirst() const -> FindResult
  {
   auto r=Range(list);
 
-  for(ulen index=0; index<r.len ;index++) if( r[index].type==MenuText ) return {index,true};
+  for(ulen index=0; index<r.len ;index++) if( r[index].type==MenuText ) return index;
 
-  return {0,false};
+  return Null;
  }
 
 /* class MenuShapeBase */
@@ -217,7 +217,7 @@ void MenuShapeBase::drawX(const DrawBuf &buf,Pane pane) const
 
   MPane p(pane);
 
-  TwoField field(p.getTopLeft(),+cfg.snow,p.getBottomLeft(),+cfg.gray);
+  YField field(p.y,+cfg.snow,p.ey,+cfg.gray);
 
   FigureBox(p).solid(art,field);
  }
@@ -228,7 +228,7 @@ void MenuShapeBase::drawY(const DrawBuf &buf,Pane pane) const
 
   MPane p(pane);
 
-  TwoField field(p.getTopLeft(),+cfg.snow,p.getTopRight(),+cfg.gray);
+  XField field(p.x,+cfg.snow,p.ex,+cfg.gray);
 
   FigureBox(p).solid(art,field);
  }
@@ -246,7 +246,7 @@ SizeY SimpleTopMenuShape::getMinSize() const
 
 bool SimpleTopMenuShape::isGoodSize(Point size) const
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
@@ -265,7 +265,7 @@ bool SimpleTopMenuShape::isGoodSize(Point size) const
 
 void SimpleTopMenuShape::layout()
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
@@ -299,9 +299,11 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
   VColor hilight=+cfg.hilight;
   VColor select=+cfg.select;
 
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
 
-  SmoothDrawArt art(buf);
+  SmoothDrawArt art(buf.cut(pane));
+
+  // back
 
   {
    art.block(pane,+cfg.back);
@@ -310,6 +312,8 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
 
    art.path(HalfPos,width,+cfg.gray,p.getBottomLeft(),p.getBottomRight());
   }
+
+  // text
 
   auto r=Range(data.list);
 
@@ -363,6 +367,8 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
        }
     }
 
+  // markers
+
   if( xoff>0 )
     {
      Coord len=pane.dy/3;
@@ -406,9 +412,11 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
   VColor hilight=+cfg.hilight;
   VColor select=+cfg.select;
 
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
 
   SmoothDrawArt art(buf);
+
+  // text
 
   auto r=Range(data->list);
 
@@ -462,6 +470,8 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
        }
     }
 
+  // markers
+
   if( yoff>0 )
     {
      Coord len=cell_dy/3;
@@ -483,7 +493,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
 
 Point SimpleCascadeMenuShape::getMinSize() const
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
@@ -523,7 +533,7 @@ Point SimpleCascadeMenuShape::getMinSize() const
 
 void SimpleCascadeMenuShape::layout()
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
@@ -585,7 +595,7 @@ void SimpleCascadeMenuShape::layout()
 
 void SimpleCascadeMenuShape::draw(const DrawBuf &buf) const
  {
-  drawFrame(buf);
+  drawFrame(buf.cut(pane));
 
   Coord delta=RoundUpLen(+cfg.width);
 

@@ -86,9 +86,9 @@ struct MenuPoint
 
   MenuPoint() noexcept : type(MenuHidden),text("<not defined>"_def),hotindex(0),hotkey(0),id(-1) {}
 
-  MenuPoint(DefString text_,int id_) noexcept : type(MenuText),text(text_),id(id_) { pickhot(); }
+  MenuPoint(const DefString &text_,int id_) noexcept : type(MenuText),text(text_),id(id_) { pickhot(); }
 
-  MenuPoint(MenuType type_,DefString text_,int id_) noexcept : type(type_),text(text_),id(id_) { pickhot(); }
+  MenuPoint(MenuType type_,const DefString &text_,int id_) noexcept : type(type_),text(text_),id(id_) { pickhot(); }
 
   MenuPoint(MenuType type_) noexcept : MenuPoint() { type=type_; }
 
@@ -130,6 +130,10 @@ struct MenuData : NoCopy
    {
     ulen index;
     bool found;
+
+    FindResult(NothingType) : index(0),found(false) {}
+
+    FindResult(ulen index_) : index(index_),found(true) {}
    };
 
   FindResult find(Char ch) const;
@@ -286,7 +290,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
   private:
 
-   Point shift() const { return Point(shape.xoff,0); }
+   Point shift() const { return {shape.xoff,0}; }
 
    void setXOff(Coord xoff)
     {
@@ -367,9 +371,7 @@ class SimpleTopMenuWindowOf : public SubWindow
     {
      if( !BitTest(shape.state,MenuHilight) )
        {
-        auto result=shape.data.findFirst();
-
-        if( result.found )
+        if( auto result=shape.data.findFirst() ; result.found )
           {
            BitSet(shape.state,MenuHilight);
 
@@ -382,18 +384,14 @@ class SimpleTopMenuWindowOf : public SubWindow
     {
      if( BitTest(shape.state,MenuSelect) )
        {
-        auto result=shape.data.findDown(shape.select_index);
-
-        if( result.found )
+        if( auto result=shape.data.findDown(shape.select_index) ; result.found )
           {
            select(result.index);
           }
        }
      else if( BitTest(shape.state,MenuHilight) )
        {
-        auto result=shape.data.findDown(shape.hilight_index);
-
-        if( result.found )
+        if( auto result=shape.data.findDown(shape.hilight_index) ; result.found )
           {
            hilight(result.index);
           }
@@ -404,18 +402,14 @@ class SimpleTopMenuWindowOf : public SubWindow
     {
      if( BitTest(shape.state,MenuSelect) )
        {
-        auto result=shape.data.findUp(shape.select_index);
-
-        if( result.found )
+        if( auto result=shape.data.findUp(shape.select_index) ; result.found )
           {
            select(result.index);
           }
        }
      else if( BitTest(shape.state,MenuHilight) )
        {
-        auto result=shape.data.findUp(shape.hilight_index);
-
-        if( result.found )
+        if( auto result=shape.data.findUp(shape.hilight_index) ; result.found )
           {
            hilight(result.index);
           }
@@ -449,9 +443,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    bool forwardChar(Char ch)
     {
-     auto result=shape.data.find(ch);
-
-     if( result.found )
+     if( auto result=shape.data.find(ch) ; result.found )
        {
         setFocus();
 
@@ -561,9 +553,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    void react_Char(Char ch)
     {
-     auto result=shape.data.find(ch);
-
-     if( result.found )
+     if( auto result=shape.data.find(ch) ; result.found )
        {
         select(result.index);
        }
@@ -571,9 +561,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    void react_LeftClick(Point point,MouseKey)
     {
-     auto result=shape.data.find(point+shift());
-
-     if( result.found )
+     if( auto result=shape.data.find(point+shift()) ; result.found )
        {
         select(result.index);
        }
@@ -581,9 +569,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    void react_Move(Point point,MouseKey)
     {
-     auto result=shape.data.find(point+shift());
-
-     if( result.found )
+     if( auto result=shape.data.find(point+shift()) ; result.found )
        {
         hilight(result.index);
        }
@@ -756,9 +742,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      if( !BitTest(shape.state,MenuHilight) && shape.data )
        {
-        auto result=shape.data->findFirst();
-
-        if( result.found )
+        if( auto result=shape.data->findFirst() ; result.found )
           {
            BitSet(shape.state,MenuHilight);
 
@@ -773,18 +757,14 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
      if( BitTest(shape.state,MenuSelect) )
        {
-        auto result=shape.data->findDown(shape.select_index);
-
-        if( result.found )
+        if( auto result=shape.data->findDown(shape.select_index) ; result.found )
           {
            select(result.index);
           }
        }
      else if( BitTest(shape.state,MenuHilight) )
        {
-        auto result=shape.data->findDown(shape.hilight_index);
-
-        if( result.found )
+        if( auto result=shape.data->findDown(shape.hilight_index) ; result.found )
           {
            hilight(result.index);
           }
@@ -797,18 +777,14 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
      if( BitTest(shape.state,MenuSelect)  )
        {
-        auto result=shape.data->findUp(shape.select_index);
-
-        if( result.found )
+        if( auto result=shape.data->findUp(shape.select_index) ; result.found )
           {
            select(result.index);
           }
        }
      else if( BitTest(shape.state,MenuHilight) )
        {
-        auto result=shape.data->findUp(shape.hilight_index);
-
-        if( result.found )
+        if( auto result=shape.data->findUp(shape.hilight_index) ; result.found )
           {
            hilight(result.index);
           }
@@ -846,9 +822,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      if( !shape.data ) return false;
 
-     auto result=shape.data->find(ch);
-
-     if( result.found )
+     if( auto result=shape.data->find(ch) ; result.found )
        {
         setFocus();
 
@@ -986,9 +960,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      if( !shape.data ) return;
 
-     auto result=shape.data->find(ch);
-
-     if( result.found )
+     if( auto result=shape.data->find(ch) ; result.found )
        {
         select(result.index);
        }
@@ -998,9 +970,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      if( !shape.data ) return;
 
-     auto result=shape.data->find(point+shift());
-
-     if( result.found )
+     if( auto result=shape.data->find(point+shift()) ; result.found )
        {
         select(result.index);
        }
@@ -1015,9 +985,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      if( !shape.data ) return;
 
-     auto result=shape.data->find(point+shift());
-
-     if( result.found )
+     if( auto result=shape.data->find(point+shift()) ; result.found )
        {
         hilight(result.index);
        }
@@ -1036,7 +1004,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
     {
      setFocus();
 
-     getFrameHost()->setFocus();
+     getFrame()->grabFocus();
 
      addYOff(delta);
     }
