@@ -71,6 +71,8 @@ struct Dot
   Dot(MCoord x,MCoord y) : point(x,y) {}
 
   Dot(const MPoint &point_,DotType type_) : point(point_),type(type_) {}
+
+  Dot operator + (MPoint p) const { return Dot(point+p,type); }
  };
 
 /* struct BreakDot */
@@ -158,7 +160,7 @@ class DotShift
 
    explicit DotShift(const MPoint &shift_) : shift(shift_) {}
 
-   MPoint operator () (Dot dot) const { return dot.point+shift; }
+   Dot operator () (Dot dot) const { return dot+shift; }
 
    MPoint operator () (MPoint point) const { return point+shift; }
  };

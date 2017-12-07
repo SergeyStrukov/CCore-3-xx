@@ -29,6 +29,8 @@ class SwitchShape;
 
 class SwitchShape : public CheckState
  {
+   struct Face;
+
   public:
 
    struct Config

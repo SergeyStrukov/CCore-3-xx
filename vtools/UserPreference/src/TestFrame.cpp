@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/Layout.h>
 
+#include <CCore/inc/Print.h>
+
 namespace App {
 
 /* class TestWindow */
@@ -106,9 +108,9 @@ void TestWindow::push()
 
 void TestWindow::shade()
  {
-  disableFrameReact();
-
   if( enable_frame.isDead() ) enable_frame.create(getFrame(),"TestFrame enable"_def);
+
+  disableFrameReact();
  }
 
 void TestWindow::unshade()
@@ -159,7 +161,8 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
    connector_btn_shade_pressed(this,&TestWindow::shade,btn_shade.pressed),
    connector_enable_frame_destoyed(this,&TestWindow::unshade,enable_frame.destroyed)
  {
-  wlist.insTop(swtch,btn,alt,rad1,rad2,rad3,check,edit,knob,xscroll,info,text_list,
+  wlist.insTop(swtch,btn,alt,rad1,rad2,rad3,check,
+               edit,knob,xscroll,info,text_list,
                label1,label2,label3,label,text,xsingle,ysingle,xdouble,ydouble,
                contour,text_contour,light,progress,btn_shade);
 

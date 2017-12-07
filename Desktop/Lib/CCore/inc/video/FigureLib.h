@@ -307,6 +307,14 @@ struct FigureBase
   T & operator [] (ulen ind) { return buf[ind]; }
 
   const T & operator [] (ulen ind) const { return buf[ind]; }
+
+  template <FuncInitType<T,T> FuncInit>
+  void transform(FuncInit func_init)
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    for(T &p : buf ) p=func(p);
+   }
  };
 
 /* struct DrawPoints */
@@ -414,18 +422,9 @@ struct FigurePoints : FigureBase<MPoint,Len> , DrawPoints
  {
   using FigureBase<MPoint,Len>::FigureBase;
 
-  using FigureBase<MPoint,Len>::buf;
   using FigureBase<MPoint,Len>::get;
 
-  template <FuncInitType<MPoint,MPoint> FuncInit>
-  void transform(FuncInit func_init)
-   {
-    FunctorTypeOf<FuncInit> func(func_init);
-
-    for(MPoint &p : buf ) p=func(p);
-   }
-
-  void shift(MPoint delta) { transform(SmoothDotShift(delta)); }
+  void shift(MPoint delta) { this->transform(SmoothDotShift(delta)); }
 
   template <class ... TT>
   void path(SmoothDrawArt &art,TT && ... tt) const
@@ -522,18 +521,9 @@ struct FigureDots : FigureBase<SmoothDot,Len> , DrawDots
  {
   using FigureBase<SmoothDot,Len>::FigureBase;
 
-  using FigureBase<SmoothDot,Len>::buf;
   using FigureBase<SmoothDot,Len>::get;
 
-  template <FuncInitType<MPoint,MPoint> FuncInit>
-  void transform(FuncInit func_init)
-   {
-    FunctorTypeOf<FuncInit> func(func_init);
-
-    for(SmoothDot &p : buf ) p.point=func(p.point);
-   }
-
-  void shift(MPoint delta) { transform(SmoothDotShift(delta)); }
+  void shift(MPoint delta) { this->transform(SmoothDotShift(delta)); }
 
   template <class ... TT>
   void curvePath(SmoothDrawArt &art,TT && ... tt) const

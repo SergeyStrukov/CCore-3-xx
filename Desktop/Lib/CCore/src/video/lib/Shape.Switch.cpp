@@ -22,6 +22,36 @@ namespace Video {
 
 /* class SwitchShape */
 
+struct SwitchShape::Face : public FigurePoints<6>
+ {
+  Face(MPoint a,MCoord radius,MCoord len,bool check) CCORE_NOINLINE // compiler bug workaround
+   {
+    MCoord d1=len/20;
+    MCoord d2=len/8;
+
+    if( check )
+      {
+       buf[0]={radius+d1,0};
+       buf[1]={radius-d1,0};
+       buf[2]={radius-d2,radius};
+       buf[3]={radius-d1,len};
+       buf[4]={radius+d1,len};
+       buf[5]={radius+d2,radius};
+      }
+    else
+      {
+       buf[0]={0,radius+d1};
+       buf[1]={0,radius-d1};
+       buf[2]={radius,radius-d2};
+       buf[3]={len,radius-d1};
+       buf[4]={len,radius+d1};
+       buf[5]={radius,radius+d2};
+      }
+
+    shift(a);
+   }
+ };
+
 SizeBox SwitchShape::getMinSize() const
  {
   return +cfg.dxy;
@@ -73,31 +103,7 @@ void SwitchShape::draw(const DrawBuf &buf) const
   // face
 
   {
-   MCoord d1=len/20;
-   MCoord d2=len/8;
-
-   FigurePoints<6> fig;
-
-   if( check )
-     {
-      fig[0]={radius+d1,0};
-      fig[1]={radius-d1,0};
-      fig[2]={radius-d2,radius};
-      fig[3]={radius-d1,len};
-      fig[4]={radius+d1,len};
-      fig[5]={radius+d2,radius};
-     }
-   else
-     {
-      fig[0]={0,radius+d1};
-      fig[1]={0,radius-d1};
-      fig[2]={radius,radius-d2};
-      fig[3]={len,radius-d1};
-      fig[4]={len,radius+d1};
-      fig[5]={radius,radius+d2};
-     }
-
-   fig.shift(a);
+   Face fig(a,radius,len,check);
 
    VColor face = enable? ( mover? +cfg.faceUp : +cfg.face ) : gray ;
 
