@@ -118,11 +118,11 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    virtual void redraw(Pane pane) noexcept;
 
-   virtual void setFocus(SubWindow *) noexcept;
+   virtual void setFocus(SubWindow *sub_win) noexcept;
 
-   virtual void captureMouse(SubWindow *) noexcept;
+   virtual void captureMouse(SubWindow *sub_win) noexcept;
 
-   virtual void releaseMouse(SubWindow *) noexcept;
+   virtual void releaseMouse(SubWindow *sub_win) noexcept;
 
    // base
 
@@ -134,9 +134,9 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    virtual void askClose();
 
-   virtual void setSize(Point size_,bool buf_dirty);
+   virtual void setSize(Point size,bool buf_dirty);
 
-   virtual void paintDone(unsigned);
+   virtual void paintDone(unsigned token);
 
    // keyboard
 
@@ -173,8 +173,6 @@ class ToolFrame : public FrameWindow , public SubWindowHost
       explicit Input(ToolFrame *window) : DeferInput<ToolFrame>(window) {}
 
       ~Input() {}
-
-      using DeferInput<ToolFrame>::try_post;
 
      public:
 
