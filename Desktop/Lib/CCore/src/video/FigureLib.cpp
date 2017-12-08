@@ -726,7 +726,7 @@ PolyFigureQuestion::PolyFigureQuestion(MCoord x,MCoord y,MCoord h)
 
   fig.copy(Contour);
 
-  fig.transform( [=] (SmoothDot dot) -> SmoothDot { return SmoothDot(A*dot.point+B,dot.type); } );
+  fig.transformPoint( [A,B] (MPoint point) -> MPoint { return A*point+B; } );
  }
 
 } // namespace Video

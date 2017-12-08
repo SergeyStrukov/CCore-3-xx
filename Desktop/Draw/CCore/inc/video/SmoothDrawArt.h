@@ -72,6 +72,8 @@ struct Dot
 
   Dot(const MPoint &point_,DotType type_) : point(point_),type(type_) {}
 
+  Dot(Dot dot,FuncType<MPoint,MPoint> func) : point(func(dot.point)),type(dot.type) {}
+
   Dot operator + (MPoint p) const { return Dot(point+p,type); }
  };
 

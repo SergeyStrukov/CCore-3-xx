@@ -315,6 +315,14 @@ struct FigureBase
 
     for(T &p : buf ) p=func(p);
    }
+
+  template <FuncInitType<MPoint,MPoint> FuncInit>
+  void transformPoint(FuncInit func_init)
+   {
+    FunctorTypeOf<FuncInit> func(func_init);
+
+    for(T &p : buf ) p=T(p,func);
+   }
  };
 
 /* struct DrawPoints */
