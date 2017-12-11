@@ -41,15 +41,41 @@ enum ScrollType
 
 /* classes */
 
+struct ScrollState;
+
 class ScrollShape;
 
 class XScrollShape;
 
 class YScrollShape;
 
+/* struct ScrollState */
+
+struct ScrollState
+ {
+  ulen total = 0 ;
+  ulen page  = 0 ; // page <= total
+  ulen pos   = 0 ; // pos <= total-page
+
+  bool enable = true ;
+  bool focus  = false ;
+
+  ScrollType down       = ScrollType_None ;
+  ScrollType mover      = ScrollType_None ;
+  ScrollType press_type = ScrollType_None ;
+
+  unsigned change_count = 0 ;
+  bool mouse = false ;
+
+  Point drag_base;
+  ulen drag_pos = 0 ;
+
+  ScrollState() {}
+ };
+
 /* class ScrollShape */
 
-class ScrollShape
+class ScrollShape : public ScrollState
  {
   protected:
 
@@ -98,24 +124,6 @@ class ScrollShape
 
    const Config &cfg;
    Pane pane;
-
-   // state
-
-   ulen total = 0 ;
-   ulen page  = 0 ; // page <= total
-   ulen pos   = 0 ; // pos <= total-page
-
-   bool enable=true;
-   bool focus=false;
-   ScrollType down = ScrollType_None ;
-   ScrollType mover = ScrollType_None ;
-
-   ScrollType press_type = ScrollType_None ;
-   unsigned change_count = 0 ;
-   bool mouse = false ;
-
-   Point drag_base;
-   ulen drag_pos = 0 ;
 
    // methods
 
