@@ -202,6 +202,12 @@ class DragFrameShape : public FrameShapeBase
 
      Replace_min(str.len,10);
 
+#ifdef CCORE_UTF8
+
+     TrimUtf8End(str);
+
+#endif
+
      return getMinSize(is_main,str,size);
     }
 
