@@ -1129,7 +1129,7 @@ class SimpleCascadeMenuOf
 
         frame.resize(new_size);
 
-        frame.input.redrawAll(true);
+        frame.input.redrawAll(LayoutResize|LayoutUpdate);
        }
     }
 

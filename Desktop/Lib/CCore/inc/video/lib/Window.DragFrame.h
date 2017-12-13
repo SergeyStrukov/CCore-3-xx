@@ -419,17 +419,17 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
                                       } );
     }
 
-   void redrawAll(bool do_layout=false)
+   void redrawAll(unsigned flags=NoLayout)
     {
-     if( do_layout )
+     if( flags )
        {
         shape.layout(size);
 
         Pane place=shape.getClient();
 
-        if( client ) client->setPlace(place);
+        if( client ) client->setPlace(place,flags);
 
-        if( alert_client ) alert_client->setPlace(place);
+        if( alert_client ) alert_client->setPlace(place,flags);
        }
 
      auto &client=getClient();
@@ -849,7 +849,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
        {
         size=size_;
 
-        redrawAll(true);
+        redrawAll(LayoutResize);
        }
     }
 
@@ -1110,7 +1110,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
      public:
 
-      void redrawAll(bool do_layout=false) { try_post(&DragFrameOf<Shape>::redrawAll,do_layout); }
+      void redrawAll(unsigned flags=NoLayout) { try_post(&DragFrameOf<Shape>::redrawAll,flags); }
 
       void redrawSet() { try_post(&DragFrameOf<Shape>::redrawSet); }
     };
@@ -1123,7 +1123,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
    void update()
     {
-     input.redrawAll(true);
+     input.redrawAll(LayoutResize|LayoutUpdate);
     }
 
    void alert()

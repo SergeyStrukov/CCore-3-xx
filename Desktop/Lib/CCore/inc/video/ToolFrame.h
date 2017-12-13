@@ -86,7 +86,7 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    void redrawBuf(FuncArgType<FrameBuf<DesktopColor> &> func);
 
-   void redrawAll(bool do_layout=false);
+   void redrawAll(unsigned flags=NoLayout);
 
    void redrawSet();
 
@@ -176,7 +176,7 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
      public:
 
-      void redrawAll(bool do_layout=false) { try_post(&ToolFrame::redrawAll,do_layout); }
+      void redrawAll(unsigned flags=NoLayout) { try_post(&ToolFrame::redrawAll,flags); }
 
       void redrawSet() { try_post(&ToolFrame::redrawSet); }
     };

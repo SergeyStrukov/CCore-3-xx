@@ -83,11 +83,11 @@ void ToolFrame::redrawBuf(FuncArgType<FrameBuf<DesktopColor> &> func)
     }
  }
 
-void ToolFrame::redrawAll(bool do_layout)
+void ToolFrame::redrawAll(unsigned flags)
  {
-  if( do_layout )
+  if( flags )
     {
-     if( client ) client->setPlace(Pane(Null,size));
+     if( client ) client->setPlace(Pane(Null,size),flags);
     }
 
   redraw_set.pop();
@@ -277,7 +277,7 @@ void ToolFrame::setSize(Point size_,bool buf_dirty)
     {
      size=size_;
 
-     redrawAll(true);
+     redrawAll(LayoutResize);
     }
  }
 
@@ -393,7 +393,7 @@ void ToolFrame::react_Leave()
 
 void ToolFrame::update()
  {
-  input.redrawAll(true);
+  input.redrawAll(LayoutResize|LayoutUpdate);
  }
 
 } // namespace Video
