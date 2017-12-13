@@ -587,7 +587,7 @@ void ConfigEditorWindow::newList()
 
   selectVar(item_list.getSelect());
 
-  layout();
+  layout(LayoutResize|LayoutUpdate);
 
   redraw();
  }
@@ -602,7 +602,7 @@ void ConfigEditorWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
     }
@@ -1041,7 +1041,7 @@ void ConfigEditorWindow::bindConfig(ConfigItemHost &host)
 
  // drawing
 
-void ConfigEditorWindow::layout()
+void ConfigEditorWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 

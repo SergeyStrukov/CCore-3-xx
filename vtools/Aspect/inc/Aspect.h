@@ -172,7 +172,7 @@ class HideControl : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
@@ -252,7 +252,7 @@ class CountControl : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };
@@ -481,7 +481,7 @@ class InnerDataWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -760,7 +760,7 @@ class AspectWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };

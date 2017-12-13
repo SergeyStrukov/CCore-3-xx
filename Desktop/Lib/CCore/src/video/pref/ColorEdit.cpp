@@ -341,7 +341,7 @@ bool ColorEditWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void ColorEditWindow::layout()
+void ColorEditWindow::layout(unsigned)
  {
   Coord radius=+cfg.radius;
   Coord space_dxy=+cfg.space_dxy;

@@ -161,7 +161,7 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout()
+void ClientWindow::layout(unsigned)
  {
   Coord dy=menu.getMinSize().dy;
 

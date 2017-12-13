@@ -189,7 +189,7 @@ class SpaceWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
@@ -329,7 +329,7 @@ class ClientWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

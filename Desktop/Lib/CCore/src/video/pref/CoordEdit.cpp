@@ -57,7 +57,7 @@ Point CoordEditWindow::getMinSize() const
 
  // drawing
 
-void CoordEditWindow::layout()
+void CoordEditWindow::layout(unsigned)
  {
   Point size=getSize();
 

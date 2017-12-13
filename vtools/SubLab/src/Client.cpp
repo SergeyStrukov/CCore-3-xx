@@ -199,7 +199,7 @@ bool SpaceWindow::isGoodSize(Point size) const
   return size/2 >= space ;
  }
 
-void SpaceWindow::layout()
+void SpaceWindow::layout(unsigned)
  {
   // do nothing
  }
@@ -871,7 +871,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         Point size=getSize();
 
@@ -1007,7 +1007,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         PaneCut pane(getSize(),+space_dxy);
 
@@ -1076,7 +1076,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         Pane pane(Null,getSize());
 
@@ -1121,7 +1121,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         Pane pane(Null,getSize());
 
@@ -1166,7 +1166,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         Pane pane(Null,getSize());
 
@@ -1215,7 +1215,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         Pane pane(Null,getSize());
 
@@ -1246,7 +1246,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout()
+      virtual void layout(unsigned)
        {
         outer=Pane(Null,getSize()).shrink(10);
 
@@ -1404,7 +1404,7 @@ void ClientWindow::type_selected(ulen index)
 
      list_type.setFocus();
 
-     layout();
+     layout(LayoutResize);
      redraw();
     }
  }
@@ -1463,7 +1463,7 @@ ClientWindow::~ClientWindow()
 
  // drawing
 
-void ClientWindow::layout()
+void ClientWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 

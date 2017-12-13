@@ -181,7 +181,7 @@ TestWindow::~TestWindow()
 
  // drawing
 
-void TestWindow::layout()
+void TestWindow::layout(unsigned)
  {
   Coord space_dxy=pref.get().space_dxy;
 
@@ -464,7 +464,7 @@ void TestClient::open()
 
  // drawing
 
-void TestClient::layout()
+void TestClient::layout(unsigned)
  {
   Coord dy=menu.getMinSize().dy;
 

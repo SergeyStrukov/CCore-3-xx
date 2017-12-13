@@ -399,7 +399,7 @@ Point FileFilterWindow::getMinSize() const
 
  // drawing
 
-void FileFilterWindow::layout()
+void FileFilterWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),0);
 
@@ -441,7 +441,7 @@ void FileFilterListWindow::knob_del_pressed(ulen index)
 
      wlist.del(list[list.len-1].getPtr());
 
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
 
@@ -502,7 +502,7 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
   if( getFrame()->isAlive() )
     {
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
     }
@@ -510,7 +510,7 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
  // drawing
 
-void FileFilterListWindow::layout()
+void FileFilterListWindow::layout(unsigned)
  {
   Point size=getSize();
 
@@ -1034,7 +1034,7 @@ void FileWindow::split_dragged(Point delta)
  {
   if( Change(top_dy, CapTop(top_dy+delta.y,total_dy) ) )
     {
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
     }
@@ -1183,7 +1183,7 @@ void FileWindow::setNewFile(bool on)
 
      enableOk();
 
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
     }
@@ -1191,7 +1191,7 @@ void FileWindow::setNewFile(bool on)
 
  // drawing
 
-void FileWindow::layout()
+void FileWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 

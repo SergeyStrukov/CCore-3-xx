@@ -1,7 +1,7 @@
-/* Sample.cpp */
+/* BookWindow.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Sample 1.00
+//  Project: BookLab 1.00
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,33 +11,36 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Sample.h>
+#include <inc/BookWindow.h>
 
 namespace App {
 
-/* class SampleWindow */
+/* class BookWindow */
 
-SampleWindow::SampleWindow(SubWindowHost &host,const Config &cfg_)
+BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_)
  {
  }
 
-SampleWindow::~SampleWindow()
+BookWindow::~BookWindow()
  {
  }
 
  // methods
 
-Point SampleWindow::getMinSize() const
+Point BookWindow::getMinSize() const
  {
   return Point(100,100);
  }
 
- // drawing
-
-void SampleWindow::layout(unsigned)
+void BookWindow::blank()
  {
+ }
+
+void BookWindow::load(StrLen file_name)
+ {
+  Used(file_name);
  }
 
 } // namespace App

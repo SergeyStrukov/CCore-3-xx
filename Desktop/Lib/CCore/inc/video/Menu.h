@@ -462,7 +462,7 @@ class SimpleTopMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout()
+   virtual void layout(unsigned)
     {
      shape.pane=Pane(Null,getSize());
 
@@ -841,7 +841,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout()
+   virtual void layout(unsigned)
     {
      shape.pane=Pane(Null,getSize());
 

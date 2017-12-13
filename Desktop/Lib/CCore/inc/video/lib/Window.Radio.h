@@ -203,7 +203,7 @@ class RadioWindowOf : public SubWindow , public RadioItem
      return shape.isGoodSize(size);
     }
 
-   virtual void layout()
+   virtual void layout(unsigned)
     {
      shape.pane=Pane(Null,getSize());
     }

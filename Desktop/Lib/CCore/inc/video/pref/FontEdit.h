@@ -101,7 +101,7 @@ class CharTableWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -475,7 +475,7 @@ class FontEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    // base
 

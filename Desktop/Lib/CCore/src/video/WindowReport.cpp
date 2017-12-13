@@ -412,7 +412,7 @@ void ExceptionWindow::reposition() noexcept
 
  // drawing
 
-void ExceptionWindow::layout()
+void ExceptionWindow::layout(unsigned)
  {
   FontSize fs=cfg.font->getSize();
 

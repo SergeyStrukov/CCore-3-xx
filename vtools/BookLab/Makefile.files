@@ -1,5 +1,6 @@
 OBJ_LIST = \
 .obj/Application.o \
+.obj/BookWindow.o \
 .obj/Client.o \
 .obj/Sample.o \
 .obj/main.o \
@@ -7,6 +8,7 @@ OBJ_LIST = \
 
 ASM_LIST = \
 .obj/Application.s \
+.obj/BookWindow.s \
 .obj/Client.s \
 .obj/Sample.s \
 .obj/main.s \
@@ -14,6 +16,7 @@ ASM_LIST = \
 
 DEP_LIST = \
 .obj/Application.dep \
+.obj/BookWindow.dep \
 .obj/Client.dep \
 .obj/Sample.dep \
 .obj/main.dep \
@@ -26,6 +29,9 @@ include $(RULES_FILE)
 
 
 .obj/Application.o : src/./Application.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BookWindow.o : src/./BookWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Client.o : src/./Client.cpp
@@ -42,6 +48,9 @@ include $(RULES_FILE)
 .obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BookWindow.s : src/./BookWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -55,6 +64,9 @@ include $(RULES_FILE)
 
 .obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
+
+.obj/BookWindow.dep : src/./BookWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookWindow.o $< -MF $@
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@

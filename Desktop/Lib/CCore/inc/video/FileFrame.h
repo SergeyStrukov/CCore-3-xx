@@ -237,7 +237,7 @@ class FileFilterWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
  };
 
 /* class FileFilterListWindow */
@@ -315,7 +315,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    // user input
 
@@ -652,7 +652,7 @@ class FileWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

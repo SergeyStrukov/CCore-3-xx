@@ -1,7 +1,7 @@
-/* Sample.h */
+/* BookWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Sample 1.00
+//  Project: BookLab 1.00
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,8 +11,8 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef Sample_h
-#define Sample_h
+#ifndef BookWindow_h
+#define BookWindow_h
 
 #include <inc/Application.h>
 
@@ -20,11 +20,11 @@ namespace App {
 
 /* classes */
 
-class SampleWindow;
+class BookWindow;
 
-/* class SampleWindow */
+/* class BookWindow */
 
-class SampleWindow : public SubWindow
+class BookWindow : public SubWindow
  {
   public:
 
@@ -61,19 +61,20 @@ class SampleWindow : public SubWindow
 
   public:
 
-   SampleWindow(SubWindowHost &host,const Config &cfg);
+   BookWindow(SubWindowHost &host,const Config &cfg);
 
-   virtual ~SampleWindow();
+   virtual ~BookWindow();
 
    // methods
 
    Point getMinSize() const;
 
-   // drawing
+   void blank();
 
-   virtual void layout(unsigned flags);
+   void load(StrLen file_name);
  };
 
 } // namespace App
 
 #endif
+

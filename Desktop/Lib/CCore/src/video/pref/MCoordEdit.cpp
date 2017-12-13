@@ -52,7 +52,7 @@ Point MCoordEditWindow::getMinSize() const
 
  // drawing
 
-void MCoordEditWindow::layout()
+void MCoordEditWindow::layout(unsigned)
  {
   spinor.setPlace(Pane(Null,getSize()));
  }

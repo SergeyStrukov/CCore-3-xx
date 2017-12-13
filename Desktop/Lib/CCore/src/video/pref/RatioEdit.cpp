@@ -131,7 +131,7 @@ void RatioEditWindow::setRatio(Ratio value)
 
  // drawing
 
-void RatioEditWindow::layout()
+void RatioEditWindow::layout(unsigned)
  {
   Point s=spin_a.getMinSize();
 

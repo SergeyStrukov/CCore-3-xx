@@ -91,7 +91,7 @@ bool CharTableWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void CharTableWindow::layout()
+void CharTableWindow::layout(unsigned)
  {
   Font font=+cfg.font;
 
@@ -443,7 +443,7 @@ void FontEditWindow::updateFont()
 
   changed.assert();
 
-  info_test.layout();
+  info_test.layout(LayoutResize|LayoutUpdate);
   info_test.redraw();
  }
 
@@ -599,7 +599,7 @@ void FontEditWindow::setCouple()
 
   setConfig();
 
-  info_test.layout();
+  info_test.layout(LayoutResize|LayoutUpdate);
   info_test.redraw();
  }
 
@@ -611,7 +611,7 @@ void FontEditWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout();
+     layout(LayoutResize|LayoutUpdate);
 
      redraw();
     }
@@ -796,7 +796,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,info_test);
 
-       layout();
+       layout(LayoutResize|LayoutUpdate);
        redraw();
       }
      break;
@@ -807,7 +807,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,table);
 
-       layout();
+       layout(LayoutResize|LayoutUpdate);
        redraw();
       }
      break;
@@ -1078,7 +1078,7 @@ void FontEditWindow::setCouple(const FontCouple &font_)
 
  // drawing
 
-void FontEditWindow::layout()
+void FontEditWindow::layout(unsigned)
  {
   Coord space_dxy=+cfg.space_dxy;
 

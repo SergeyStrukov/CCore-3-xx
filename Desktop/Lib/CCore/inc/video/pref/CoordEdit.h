@@ -94,7 +94,7 @@ class CoordEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

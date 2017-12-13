@@ -137,7 +137,7 @@ void HideControl::reset()
 
  // drawing
 
-void HideControl::layout()
+void HideControl::layout(unsigned)
  {
   Coord status_dxy=+cfg.status_dxy;
   Point s=Point::Diag(status_dxy);
@@ -215,7 +215,7 @@ void CountControl::setCount(ulen count_)
 
  // drawing
 
-void CountControl::layout()
+void CountControl::layout(unsigned)
  {
   Coord dxy=+cfg.status_dxy;
 
@@ -876,7 +876,7 @@ bool InnerDataWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void InnerDataWindow::layout()
+void InnerDataWindow::layout(unsigned)
  {
   setMax();
  }
@@ -1006,7 +1006,7 @@ void InnerDataWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 void DataWindow::update_scroll()
  {
-  layout();
+  layout(LayoutResize|LayoutUpdate);
 
   redraw();
  }
@@ -1300,7 +1300,7 @@ void AspectWindow::update(bool new_data)
      data_window.update();
     }
 
-  layout();
+  layout(LayoutResize|LayoutUpdate);
 
   redraw();
  }
@@ -1326,7 +1326,7 @@ void AspectWindow::open()
 
  // drawing
 
-void AspectWindow::layout()
+void AspectWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 

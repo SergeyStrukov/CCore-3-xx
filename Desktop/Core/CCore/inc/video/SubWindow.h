@@ -35,6 +35,13 @@ enum FocusType
   FocusTab
  };
 
+enum LayoutFlags : unsigned
+ {
+  NoLayout     = 0,
+  LayoutResize = 1,
+  LayoutUpdate = 2
+ };
+
 /* classes */
 
 struct SubWindowHost;
@@ -169,11 +176,11 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
    template <class T>
    T fromScreen(T obj) const { return obj-getScreenOrigin(); }
 
-   void setPlace(Pane place_)
+   void setPlace(Pane place_,unsigned flags=LayoutResize)
     {
      place=place_;
 
-     layout();
+     layout(flags);
     }
 
    // host methods
@@ -224,10 +231,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
      return isGoodSize(getSize());
     }
 
-   virtual void layout()
-    {
-     // do nothing
-    }
+   virtual void layout(unsigned flags)=0;
 
    virtual void draw(DrawBuf buf,bool drag_active) const
     {
@@ -672,7 +676,7 @@ class SomeWindow : public SubWindow
 
    virtual bool hasGoodSize() const;
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
@@ -740,7 +744,7 @@ bool SomeWindow::hasGoodSize() const
   return wlist.hasGoodSize();
  }
 
-void SomeWindow::layout()
+void SomeWindow::layout(unsigned flags)
  {
   // TODO
  }

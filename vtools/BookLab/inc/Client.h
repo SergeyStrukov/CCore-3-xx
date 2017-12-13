@@ -14,7 +14,7 @@
 #ifndef Client_h
 #define Client_h
 
-#include <inc/Sample.h>
+#include <inc/BookWindow.h>
 
 namespace App {
 
@@ -28,12 +28,24 @@ class ClientWindow : public ComboWindow
  {
   public:
 
-   using SubWinType = SampleWindow ;
+   using SubWinType = BookWindow ;
 
    struct Config
     {
      // user
 
+     RefVal<DefString> text_LoadFile = "Select a file to load from"_def ;
+     RefVal<DefString> text_SaveFile = "Select a file to save to"_def ;
+
+     RefVal<DefString> text_Alert   = "Alert"_def ;
+     RefVal<DefString> text_AskSave = "Save modifications?"_def ;
+
+     RefVal<DefString> text_Yes    = "Yes"_def ;
+     RefVal<DefString> text_No     = "No"_def ;
+     RefVal<DefString> text_Cancel = "Cancel"_def ;
+
+     CtorRefVal<FileFrame::ConfigType> file_cfg;
+     CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
      CtorRefVal<SimpleCascadeMenu::ConfigType> cascade_menu_cfg;
 
@@ -64,8 +76,18 @@ class ClientWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
+       text_LoadFile.bind(bag.text_LoadFile);
+       text_SaveFile.bind(bag.text_SaveFile);
 
+       text_Alert.bind(bag.text_Alert);
+       text_AskSave.bind(bag.text_AskSave);
+
+       text_Yes.bind(bag.text_Yes);
+       text_No.bind(bag.text_No);
+       text_Cancel.bind(bag.text_Cancel);
+
+       file_cfg.bind(proxy);
+       msg_cfg.bind(proxy);
        menu_cfg.bind(proxy);
        cascade_menu_cfg.bind(proxy);
       }
@@ -105,9 +127,43 @@ class ClientWindow : public ComboWindow
 
    SubWinType sub_win;
 
+   // frames
+
+   FileFrame file_frame;
+   MessageFrame msg_frame;
+
+   // continuation
+
+   enum Continue
+    {
+     ContinueNone = 0,
+
+     ContinueNew,
+     ContinueOpen,
+     ContinueStartOpen,
+     ContinueSave,
+     ContinueSaveAs,
+     ContinueExit
+    };
+
+   Continue cont = ContinueNone ;
+   Point file_point;
+
+   Point action_base = Point(10,10) ;
+
   private:
 
    void menuOff();
+
+   void fileOff();
+
+   void msgOff();
+
+   void askSave(Continue cont);
+
+   void startOpen(Point point);
+
+   void startSave(Point point);
 
    enum MenuId
     {
@@ -135,9 +191,15 @@ class ClientWindow : public ComboWindow
 
    void cascade_menu_pressed(VKey vkey,KeyMod kmod);
 
+   void file_destroyed();
+
+   void msg_destroyed();
+
    SignalConnector<ClientWindow,int,Point> connector_menu_selected;
    SignalConnector<ClientWindow,int,Point> connector_cascade_menu_selected;
    SignalConnector<ClientWindow,VKey,KeyMod> connector_cascade_menu_pressed;
+   SignalConnector<ClientWindow> connector_file_destroyed;
+   SignalConnector<ClientWindow> connector_msg_destroyed;
 
   public:
 

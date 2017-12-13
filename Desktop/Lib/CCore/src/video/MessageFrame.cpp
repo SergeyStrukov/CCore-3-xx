@@ -136,7 +136,7 @@ MessageWindow & MessageWindow::add(const DefString &name,int btn_id)
 
  // drawing
 
-void MessageWindow::layout()
+void MessageWindow::layout(unsigned flags)
  {
   Coord space=+cfg.space_dxy;
 
@@ -146,13 +146,13 @@ void MessageWindow::layout()
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,space);
+     lay.setPlace(pane,flags,space);
     }
   else
     {
      auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,space);
+     lay.setPlace(pane,flags,space);
     }
  }
 

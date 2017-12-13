@@ -301,20 +301,20 @@ class LayToTop : protected LaySet<LL...>
      return {dx,dy};
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,space] (auto &obj)
-                          {
-                           Coord dy=obj.getMinSize(space).y;
+     apply( [&pane,flags,space] (auto &obj)
+                                {
+                                 Coord dy=obj.getMinSize(space).y;
 
-                           obj.setPlace(Split(pane,dy,space),space);
-                          } ,
+                                 obj.setPlace(Split(pane,dy,space),flags,space);
+                                } ,
 
-            [&pane,space] (auto &obj)
-                          {
-                           obj.setPlace(pane,space);
+            [&pane,flags,space] (auto &obj)
+                                {
+                                 obj.setPlace(pane,flags,space);
 
-                          } );
+                                } );
     }
  };
 
@@ -410,20 +410,20 @@ class LayToBottom : protected LaySet<LL...>
     return {dx,dy};
    }
 
-  void setPlace(Pane pane,Coord space) const
+  void setPlace(Pane pane,unsigned flags,Coord space) const
    {
-    apply( [&pane,space] (auto &obj)
-                         {
-                          Coord dy=obj.getMinSize(space).y;
+    apply( [&pane,flags,space] (auto &obj)
+                               {
+                                Coord dy=obj.getMinSize(space).y;
 
-                          obj.setPlace(Split(pane,dy,space),space);
-                         } ,
+                                obj.setPlace(Split(pane,dy,space),flags,space);
+                               } ,
 
-           [&pane,space] (auto &obj)
-                         {
-                          obj.setPlace(pane,space);
+           [&pane,flags,space] (auto &obj)
+                               {
+                                obj.setPlace(pane,flags,space);
 
-                         } );
+                               } );
    }
  };
 
@@ -519,20 +519,20 @@ class LayToLeft : protected LaySet<LL...>
      return {dx,dy};
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,space] (auto &obj)
-                          {
-                           Coord dx=obj.getMinSize(space).x;
+     apply( [&pane,flags,space] (auto &obj)
+                                {
+                                 Coord dx=obj.getMinSize(space).x;
 
-                           obj.setPlace(Split(pane,dx,space),space);
-                          } ,
+                                 obj.setPlace(Split(pane,dx,space),flags,space);
+                                } ,
 
-            [&pane,space] (auto &obj)
-                          {
-                           obj.setPlace(pane,space);
+            [&pane,flags,space] (auto &obj)
+                                {
+                                 obj.setPlace(pane,flags,space);
 
-                          } );
+                                } );
     }
  };
 
@@ -628,20 +628,20 @@ class LayToRight : protected LaySet<LL...>
      return {dx,dy};
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,space] (auto &obj)
-                          {
-                           Coord dx=obj.getMinSize(space).x;
+     apply( [&pane,flags,space] (auto &obj)
+                                {
+                                 Coord dx=obj.getMinSize(space).x;
 
-                           obj.setPlace(Split(pane,dx,space),space);
-                          } ,
+                                 obj.setPlace(Split(pane,dx,space),flags,space);
+                                } ,
 
-            [&pane,space] (auto &obj)
-                          {
-                           obj.setPlace(pane,space);
+            [&pane,flags,space] (auto &obj)
+                                {
+                                 obj.setPlace(pane,flags,space);
 
-                          } );
+                                } );
     }
  };
 
@@ -678,9 +678,9 @@ class ExtLayY
      return s+delta;
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     lay.setPlace(pane.shrink(Ext(space)),space);
+     lay.setPlace(pane.shrink(Ext(space)),flags,space);
     }
  };
 
@@ -714,9 +714,9 @@ class ExtLayX
      return s+delta;
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     lay.setPlace(pane.shrink(Ext(space)),space);
+     lay.setPlace(pane.shrink(Ext(space)),flags,space);
     }
  };
 
@@ -765,7 +765,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
      return {count*size.x+(count+1)*space,size.y};
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
      Point size=getSize(space);
 
@@ -780,40 +780,40 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
      SplitX(off,pane);
 
-     apply( [&pane,space,dx] (auto &obj)
-                             {
-                              Pane p;
+     apply( [&pane,flags,space,dx] (auto &obj)
+                                   {
+                                    Pane p;
 
-                              if( dx<=pane.dx )
-                                {
-                                 p=SplitX(dx,pane);
+                                    if( dx<=pane.dx )
+                                      {
+                                       p=SplitX(dx,pane);
 
-                                 SplitX(space,pane);
-                                }
-                              else
-                                {
-                                 p=Replace_null(pane);
-                                }
+                                       SplitX(space,pane);
+                                      }
+                                    else
+                                      {
+                                       p=Replace_null(pane);
+                                      }
 
-                              obj.setPlace(p,space);
-                             } ,
+                                    obj.setPlace(p,space);
+                                   } ,
 
-            [&pane,space,dx] (auto &obj)
-                             {
-                              Pane p;
+            [&pane,flags,space,dx] (auto &obj)
+                                   {
+                                    Pane p;
 
-                              if( dx<=pane.dx )
-                                {
-                                 p=SplitX(dx,pane);
-                                }
-                              else
-                                {
-                                 p=Replace_null(pane);
-                                }
+                                    if( dx<=pane.dx )
+                                      {
+                                       p=SplitX(dx,pane);
+                                      }
+                                    else
+                                      {
+                                       p=Replace_null(pane);
+                                      }
 
-                              obj.setPlace(p,space);
+                                    obj.setPlace(p,space);
 
-                             } );
+                                   } );
     }
  };
 
@@ -862,7 +862,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
      return {size.x,count*size.y+(count+1)*space};
     }
 
-   void setPlace(Pane pane,Coord space) const
+   void setPlace(Pane pane,unsigned flags,Coord space) const
     {
      Point size=getSize(space);
 
@@ -877,40 +877,40 @@ class LaySupCenterYExt : protected LaySet<LL...>
 
      SplitY(off,pane);
 
-     apply( [&pane,space,dy] (auto &obj)
-                             {
-                              Pane p;
+     apply( [&pane,flags,space,dy] (auto &obj)
+                                   {
+                                    Pane p;
 
-                              if( dy<=pane.dy )
-                                {
-                                 p=SplitY(dy,pane);
+                                    if( dy<=pane.dy )
+                                      {
+                                       p=SplitY(dy,pane);
 
-                                 SplitY(space,pane);
-                                }
-                              else
-                                {
-                                 p=Replace_null(pane);
-                                }
+                                       SplitY(space,pane);
+                                      }
+                                    else
+                                      {
+                                       p=Replace_null(pane);
+                                      }
 
-                              obj.setPlace(p,space);
-                             } ,
+                                    obj.setPlace(p,flags,space);
+                                   } ,
 
-            [&pane,space,dy] (auto &obj)
-                             {
-                              Pane p;
+            [&pane,flags,space,dy] (auto &obj)
+                                   {
+                                    Pane p;
 
-                              if( dy<=pane.dy )
-                                {
-                                 p=SplitY(dy,pane);
-                                }
-                              else
-                                {
-                                 p=Replace_null(pane);
-                                }
+                                    if( dy<=pane.dy )
+                                      {
+                                       p=SplitY(dy,pane);
+                                      }
+                                    else
+                                      {
+                                       p=Replace_null(pane);
+                                      }
 
-                              obj.setPlace(p,space);
+                                    obj.setPlace(p,flags,space);
 
-                             } );
+                                   } );
     }
  };
 
@@ -924,7 +924,7 @@ class LayNull
 
    Point getMinSize(Coord) const { return Null; }
 
-   void setPlace(Pane,Coord) const {}
+   void setPlace(Pane,unsigned,Coord) const {}
  };
 
 /* class LayAll<W> */
@@ -941,7 +941,7 @@ class LayAll
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(pane); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(pane,flags); }
  };
 
 /* class LayExtX<W> */
@@ -962,7 +962,7 @@ class LayExtX
 
    Point getMinSize(Coord space) const { return s+2*Ext(space); }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayExtY<W> */
@@ -983,7 +983,7 @@ class LayExtY
 
    Point getMinSize(Coord space) const { return s+2*Ext(space); }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayExtXCap<W> */
@@ -1008,7 +1008,7 @@ class LayExtXCap
      return obj.getMinSize(cap-delta)+delta;
     }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayExtYCap<W> */
@@ -1033,7 +1033,7 @@ class LayExtYCap
      return obj.getMinSize(cap-delta)+delta;
     }
 
-   void setPlace(Pane pane,Coord space) const { obj.setPlace(pane.shrink(Ext(space))); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayLeft<W> */
@@ -1050,7 +1050,7 @@ class LayLeft
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignLeft(pane,s.x)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignLeft(pane,s.x),flags); }
  };
 
 /* class LayCenterX<W> */
@@ -1067,7 +1067,7 @@ class LayCenterX
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterX(pane,s.x)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayRight<W> */
@@ -1084,7 +1084,7 @@ class LayRight
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignRight(pane,s.x)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignRight(pane,s.x),flags); }
  };
 
 /* class LayTop<W> */
@@ -1101,7 +1101,7 @@ class LayTop
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignTop(pane,s.y)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignTop(pane,s.y),flags); }
  };
 
 /* class LayCenterY<W> */
@@ -1118,7 +1118,7 @@ class LayCenterY
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterY(pane,s.y)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterY(pane,s.y),flags); }
  };
 
 /* class LayBottom<W> */
@@ -1135,7 +1135,7 @@ class LayBottom
 
    Point getMinSize(Coord) const { return s; }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignBottom(pane,s.y)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignBottom(pane,s.y),flags); }
  };
 
 /* class LayCenterXExt<W> */
@@ -1152,7 +1152,7 @@ class LayCenterXExt
 
    Point getMinSize(Coord space) const { return s+2*Point(space,0); }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterX(pane,s.x)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayCenterYExt<W> */
@@ -1169,7 +1169,7 @@ class LayCenterYExt
 
    Point getMinSize(Coord space) const { return s+2*Point(0,space); }
 
-   void setPlace(Pane pane,Coord) const { obj.setPlace(AlignCenterY(pane,s.y)); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterY(pane,s.y),flags); }
  };
 
 } // namespace Video

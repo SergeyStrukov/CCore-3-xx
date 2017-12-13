@@ -74,7 +74,7 @@ class MCoordEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    // signals
 

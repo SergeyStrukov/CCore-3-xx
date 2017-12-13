@@ -82,7 +82,7 @@ void PointEditWindow::setPoint(Point value)
 
  // drawing
 
-void PointEditWindow::layout()
+void PointEditWindow::layout(unsigned)
  {
   Point s=spin_x.getMinSize();
 
