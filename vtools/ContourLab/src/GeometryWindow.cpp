@@ -659,7 +659,7 @@ bool GeometryWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void GeometryWindow::layout()
+void GeometryWindow::layout(unsigned)
  {
   Coord s=+cfg.shade_dxy;
 

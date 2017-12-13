@@ -1396,7 +1396,7 @@ void DDLInnerWindow::update(DDL::EngineResult result)
 
  // drawing
 
-void DDLInnerWindow::layout()
+void DDLInnerWindow::layout(unsigned)
  {
   Point size=getSize();
 
@@ -1855,7 +1855,7 @@ void DDLWindow::file_updated()
  {
   inner.update(file.getResult());
 
-  layout();
+  layout(LayoutUpdate);
 
   redraw();
  }
@@ -1883,7 +1883,7 @@ DDLWindow::~DDLWindow()
  {
  }
 
-void DDLWindow::layout()
+void DDLWindow::layout(unsigned)
  {
   Pane all(Null,getSize());
   Pane pane(all);
@@ -2051,7 +2051,7 @@ void DisplayWindow::noPretext()
 
  // drawing
 
-void DisplayWindow::layout()
+void DisplayWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 

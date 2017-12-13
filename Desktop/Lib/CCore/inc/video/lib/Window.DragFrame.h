@@ -1123,7 +1123,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
    void update()
     {
-     input.redrawAll(LayoutResize|LayoutUpdate);
+     input.redrawAll(LayoutUpdate);
     }
 
    void alert()

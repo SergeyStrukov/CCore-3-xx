@@ -616,7 +616,7 @@ class DDLInnerWindow : public SubWindow
      return size>=getMinSize();
     }
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -724,7 +724,7 @@ class DDLWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
  };
 
 /* class DisplayWindow */
@@ -829,7 +829,7 @@ class DisplayWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

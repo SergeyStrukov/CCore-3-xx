@@ -443,7 +443,7 @@ void FontEditWindow::updateFont()
 
   changed.assert();
 
-  info_test.layout(LayoutResize|LayoutUpdate);
+  info_test.layout(LayoutUpdate);
   info_test.redraw();
  }
 
@@ -599,7 +599,7 @@ void FontEditWindow::setCouple()
 
   setConfig();
 
-  info_test.layout(LayoutResize|LayoutUpdate);
+  info_test.layout(LayoutUpdate);
   info_test.redraw();
  }
 
@@ -611,7 +611,7 @@ void FontEditWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }
@@ -796,7 +796,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,info_test);
 
-       layout(LayoutResize|LayoutUpdate);
+       layout(LayoutUpdate);
        redraw();
       }
      break;
@@ -807,7 +807,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,table);
 
-       layout(LayoutResize|LayoutUpdate);
+       layout(LayoutUpdate);
        redraw();
       }
      break;

@@ -393,7 +393,7 @@ void ToolFrame::react_Leave()
 
 void ToolFrame::update()
  {
-  input.redrawAll(LayoutResize|LayoutUpdate);
+  input.redrawAll(LayoutUpdate);
  }
 
 } // namespace Video

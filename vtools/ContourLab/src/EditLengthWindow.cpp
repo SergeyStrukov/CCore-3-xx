@@ -64,7 +64,7 @@ bool EditLengthWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void EditLengthWindow::layout()
+void EditLengthWindow::layout(unsigned)
  {
   Coord s=+cfg.shade_dxy;
 

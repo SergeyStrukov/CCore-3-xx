@@ -1006,7 +1006,7 @@ void InnerDataWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 void DataWindow::update_scroll()
  {
-  layout(LayoutResize|LayoutUpdate);
+  layout(LayoutUpdate);
 
   redraw();
  }
@@ -1300,7 +1300,7 @@ void AspectWindow::update(bool new_data)
      data_window.update();
     }
 
-  layout(LayoutResize|LayoutUpdate);
+  layout(LayoutUpdate);
 
   redraw();
  }

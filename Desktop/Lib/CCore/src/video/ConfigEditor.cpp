@@ -587,7 +587,7 @@ void ConfigEditorWindow::newList()
 
   selectVar(item_list.getSelect());
 
-  layout(LayoutResize|LayoutUpdate);
+  layout(LayoutUpdate);
 
   redraw();
  }
@@ -602,7 +602,7 @@ void ConfigEditorWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }

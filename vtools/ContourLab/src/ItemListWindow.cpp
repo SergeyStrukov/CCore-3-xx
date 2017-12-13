@@ -72,7 +72,7 @@ Point InsWindow::getMinSize(Point cap) const
 
  // drawing
 
-void InsWindow::layout()
+void InsWindow::layout(unsigned)
  {
   PaneCut pane(getSize(),+cfg.space_dxy);
 
@@ -383,7 +383,7 @@ void ItemListWindow::noItem()
 
  // drawing
 
-void ItemListWindow::layout()
+void ItemListWindow::layout(unsigned)
  {
   Coord space=+cfg.space_dxy;
 

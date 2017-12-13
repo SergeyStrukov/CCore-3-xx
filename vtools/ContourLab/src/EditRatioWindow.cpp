@@ -121,7 +121,7 @@ bool EditRatioWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
-void EditRatioWindow::layout()
+void EditRatioWindow::layout(unsigned)
  {
   Coord s=+cfg.shade_dxy;
 

@@ -207,7 +207,7 @@ void EditorWindow::adjustSplit(Point point)
  {
   if( adjustSplitX(point.x) | adjustSplitY(point.y) )
     {
-     layout();
+     layout(LayoutResize);
 
      redraw();
     }
@@ -691,7 +691,7 @@ void EditorWindow::save(StrLen file_name_)
 
  // drawing
 
-void EditorWindow::layout()
+void EditorWindow::layout(unsigned)
  {
   Coord space=+cfg.space_dxy;
 

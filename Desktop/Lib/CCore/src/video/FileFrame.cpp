@@ -441,7 +441,7 @@ void FileFilterListWindow::knob_del_pressed(ulen index)
 
      wlist.del(list[list.len-1].getPtr());
 
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
 
@@ -502,7 +502,7 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
   if( getFrame()->isAlive() )
     {
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }
@@ -1034,7 +1034,7 @@ void FileWindow::split_dragged(Point delta)
  {
   if( Change(top_dy, CapTop(top_dy+delta.y,total_dy) ) )
     {
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }
@@ -1183,7 +1183,7 @@ void FileWindow::setNewFile(bool on)
 
      enableOk();
 
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }

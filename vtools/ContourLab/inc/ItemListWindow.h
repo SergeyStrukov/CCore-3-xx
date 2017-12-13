@@ -148,7 +148,7 @@ class InsWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
@@ -501,7 +501,7 @@ class ItemListWindow : public ComboWindow
 
    void updateList()
     {
-     list.layout();
+     list.layout(LayoutUpdate);
 
      list.redraw();
     }
@@ -529,7 +529,7 @@ class ItemListWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    // user input
 

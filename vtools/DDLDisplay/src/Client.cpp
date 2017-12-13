@@ -173,7 +173,7 @@ void ClientWindow::open()
   display.setFocus();
  }
 
-void ClientWindow::layout()
+void ClientWindow::layout(unsigned)
  {
   Coord dy=menu.getMinSize().dy;
 

@@ -761,7 +761,7 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
     {
      window.setInfo(info);
 
-     layout(LayoutResize|LayoutUpdate);
+     layout(LayoutUpdate);
 
      redraw();
     }

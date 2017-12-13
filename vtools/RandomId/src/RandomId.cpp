@@ -114,7 +114,7 @@ Point RandomIdWindow::getMinSize() const
 
  // drawing
 
-void RandomIdWindow::layout()
+void RandomIdWindow::layout(unsigned)
  {
   Coord space_dxy=+cfg.space_dxy;
 
