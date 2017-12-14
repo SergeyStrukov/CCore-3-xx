@@ -181,7 +181,7 @@ TestWindow::~TestWindow()
 
  // drawing
 
-void TestWindow::layout(unsigned)
+void TestWindow::layout(unsigned flags)
  {
   Coord space_dxy=pref.get().space_dxy;
 
@@ -296,7 +296,7 @@ void TestWindow::layout(unsigned)
 
    pane.place_cutTopLeft(contour,size);
 
-   info.setPlace(contour.getInner());
+   info.setPlace(contour.getInner(),flags);
   }
 
   // text_list
@@ -464,14 +464,14 @@ void TestClient::open()
 
  // drawing
 
-void TestClient::layout(unsigned)
+void TestClient::layout(unsigned flags)
  {
   Coord dy=menu.getMinSize().dy;
 
   Pane pane(Null,getSize());
 
-  menu.setPlace(SplitY(dy,pane));
-  test.setPlace(pane);
+  menu.setPlace(SplitY(dy,pane),flags);
+  test.setPlace(pane,flags);
  }
 
  // user input

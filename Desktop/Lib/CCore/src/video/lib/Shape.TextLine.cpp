@@ -22,6 +22,30 @@ namespace Video {
 
 /* class TextLineShape */
 
+void TextLineShape::cache(unsigned update_flag)
+ {
+  if( update_flag || !cache_ok )
+    {
+     const Font &font=cfg.font.get();
+
+     MCoord width=+cfg.width;
+
+     FontSize fs=font->getSize();
+
+     btn_ex=FigEX(fs.dy,width);
+     inner_dx=RoundUpLen(btn_ex+width);
+     inner_dy=RoundUpLen(width);
+
+     TextSize ts=font->text_guarded(text.str());
+
+     text_dx=ts.full_dx;
+     med_dx=fs.medDX();
+     font_dx0=fs.dx0;
+
+     cache_ok=true;
+    }
+ }
+
 MCoord TextLineShape::FigEX(Coord fdy,MCoord width)
  {
   return Max_cast(width, (Fraction(fdy)+2*width)/4 );
@@ -46,33 +70,16 @@ Point TextLineShape::getMinSize(StrLen text) const
   return 2*Point(dx,dy)+Point(ts.full_dx,ts.dy)+(+cfg.space);
  }
 
-void TextLineShape::setMax()
+void TextLineShape::setMax(unsigned update_flag)
  {
-  const Font &font=cfg.font.get();
+  cache(update_flag);
 
-  MCoord width=+cfg.width;
-
-  FontSize fs=font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width);
-
-  Coord dx=RoundUpLen(ex+width);
-  Coord dy=RoundUpLen(width);
-
-  Pane inner=pane.shrink(dx,dy);
+  Pane inner=pane.shrink(inner_dx,inner_dy);
 
   if( +inner )
     {
-     TextSize ts=font->text_guarded(text.str());
-
-     Coord tx=ts.full_dx;
-
-     if( tx>inner.dx )
-       xoffMax=tx-inner.dx;
-     else
-       xoffMax=0;
-
-     dxoff=fs.medDX();
+     xoffMax=PlusSub(text_dx,inner.dx);
+     dxoff=med_dx;
     }
   else
     {
@@ -95,18 +102,14 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
   MCoord width=+cfg.width;
 
-  FontSize fs=font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width);
-
-  if( ex>p.dx/3 )
+  if( !cache_ok || btn_ex>p.dx/3 )
     {
      art.block(pane,+cfg.inactive);
 
      return;
     }
 
-  FigureButton fig(p,ex);
+  FigureButton fig(p,btn_ex);
 
   VColor text=+cfg.text;
 
@@ -117,12 +120,9 @@ void TextLineShape::draw(const DrawBuf &buf) const
   // text
 
   {
-   Coord dx=RoundUpLen(ex+width);
-   Coord dy=RoundUpLen(width);
+   Pane inner=pane.shrink(inner_dx,inner_dy);
 
-   Pane inner=pane.shrink(dx,dy);
-
-   Coord pos_x=fs.dx0-xoff;
+   Coord pos_x=font_dx0-xoff;
 
    font->text(buf,inner,TextPlace(pos_x,AlignY_Center),this->text.str(), enable? text : +cfg.inactive );
   }
@@ -147,7 +147,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
   // arrows
 
   {
-   MCoord len=ex-width;
+   MCoord len=btn_ex-width;
    MCoord y=p.y+p.dy/2;
 
    if( xoff>0 ) // Left

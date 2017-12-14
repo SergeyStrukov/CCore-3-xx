@@ -124,7 +124,7 @@ class TextLineWindowOf : public SubWindow
     {
      shape.text=text;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      shape.xoff=0;
 
@@ -144,11 +144,11 @@ class TextLineWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.setMax();
+     shape.setMax(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const
