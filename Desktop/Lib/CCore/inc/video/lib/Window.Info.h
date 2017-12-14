@@ -130,7 +130,7 @@ class InfoWindowOf : public SubWindow
      shape.yoff=0;
      shape.xoff=0;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      redraw();
     }
@@ -140,7 +140,7 @@ class InfoWindowOf : public SubWindow
      shape.yoff=0;
      shape.xoff=0;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      redraw();
     }
@@ -152,11 +152,11 @@ class InfoWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.setMax();
+     shape.setMax(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const

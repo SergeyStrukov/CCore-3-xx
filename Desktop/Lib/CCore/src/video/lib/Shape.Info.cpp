@@ -24,26 +24,18 @@ namespace Video {
 
 /* class InfoShape */
 
-Point InfoShape::getMinSize(Point cap) const
+void InfoShape::cache(unsigned update_flag)
  {
-  const Font &font=cfg.font.get();
-
-  Point space=+cfg.space;
-
-  return 3*space+Inf(InfoSize(font,info),cap-2*space);
- }
-
-void InfoShape::setMax()
- {
-  Pane inner=pane.shrink(+cfg.space);
-
-  if( +inner )
+  if( update_flag || !cache_ok )
     {
      ulen count=info->getLineCount();
 
      const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
+
+     line_dy=fs.dy;
+     med_dx=fs.medDX();
 
      Coord dx=0;
 
@@ -54,19 +46,36 @@ void InfoShape::setMax()
         Replace_max(dx,ts.full_dx);
        }
 
-     if( dx>inner.dx )
-       xoffMax=dx-inner.dx;
-     else
-       xoffMax=0;
+     info_dx=dx;
 
-     ulen h=ulen(inner.dy/fs.dy);
+     cache_ok=true;
+    }
+ }
 
-     if( count>h )
-       yoffMax=count-h;
-     else
-       yoffMax=0;
+Point InfoShape::getMinSize(Point cap) const
+ {
+  const Font &font=cfg.font.get();
 
-     dxoff=fs.medDX();
+  Point space=+cfg.space;
+
+  return 3*space+Inf(InfoSize(font,info),cap-2*space);
+ }
+
+void InfoShape::setMax(unsigned update_flag)
+ {
+  cache(update_flag);
+
+  Pane inner=pane.shrink(+cfg.space);
+
+  if( +inner )
+    {
+     xoffMax=PlusSub(info_dx,inner.dx);
+
+     ulen h=ulen(inner.dy/line_dy);
+
+     yoffMax=PlusSub(info->getLineCount(),h);
+
+     dxoff=med_dx;
     }
   else
     {

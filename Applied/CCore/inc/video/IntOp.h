@@ -29,6 +29,9 @@ inline void IntGuard(bool cond) { if( !cond ) IntGuardAssert(); }
 
 /* functions */
 
+template <class T>
+T PlusSub(T a,T b) { return (a>b)? a-b : 0 ; }
+
 template <SIntType SInt>
 auto IntDist(SInt a,SInt b) // a <= b
  {

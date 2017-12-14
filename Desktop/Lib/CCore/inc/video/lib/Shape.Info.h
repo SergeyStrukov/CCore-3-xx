@@ -57,6 +57,15 @@ struct InfoState
 
 class InfoShape : public InfoState
  {
+   Coord info_dx = 0 ;
+   Coord line_dy = 0 ;
+   Coord med_dx = 0 ;
+   bool cache_ok = false ;
+
+  private:
+
+   void cache(unsigned update_flag);
+
   public:
 
    struct Config
@@ -102,7 +111,7 @@ class InfoShape : public InfoState
 
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
 
-   void setMax();
+   void setMax(unsigned update_flag);
 
    void draw(const DrawBuf &buf) const;
  };
