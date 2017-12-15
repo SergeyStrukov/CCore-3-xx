@@ -176,7 +176,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
    template <class T>
    T fromScreen(T obj) const { return obj-getScreenOrigin(); }
 
-   void setPlace(Pane place_,unsigned flags=LayoutResize)
+   void setPlace(Pane place_,unsigned flags)
     {
      place=place_;
 

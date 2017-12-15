@@ -137,12 +137,12 @@ void HideControl::reset()
 
  // drawing
 
-void HideControl::layout(unsigned)
+void HideControl::layout(unsigned flags)
  {
   Coord status_dxy=+cfg.status_dxy;
   Point s=Point::Diag(status_dxy);
 
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.place_cutLeft(label_Hide);
 
@@ -156,11 +156,11 @@ void HideControl::layout(unsigned)
 
   Coord dxy=check_New.getMinSize().dxy;
 
-  check_New.setPlace(Inner(place_New,dxy));
-  check_Ignore.setPlace(Inner(place_Ignore,dxy));
-  check_Red.setPlace(Inner(place_Red,dxy));
-  check_Yellow.setPlace(Inner(place_Yellow,dxy));
-  check_Green.setPlace(Inner(place_Green,dxy));
+  check_New.setPlace(Inner(place_New,dxy),flags);
+  check_Ignore.setPlace(Inner(place_Ignore,dxy),flags);
+  check_Red.setPlace(Inner(place_Red,dxy),flags);
+  check_Yellow.setPlace(Inner(place_Yellow,dxy),flags);
+  check_Green.setPlace(Inner(place_Green,dxy),flags);
  }
 
 void HideControl::drawBack(DrawBuf buf,bool) const
@@ -215,11 +215,11 @@ void CountControl::setCount(ulen count_)
 
  // drawing
 
-void CountControl::layout(unsigned)
+void CountControl::layout(unsigned flags)
  {
   Coord dxy=+cfg.status_dxy;
 
-  PaneCut pane(getSize(),0);
+  PaneCut pane(getSize(),0,flags);
 
   Pane left=pane.cutLeftCenter(2*dxy,2*dxy);
   Point s=left.getSize();
@@ -1326,9 +1326,9 @@ void AspectWindow::open()
 
  // drawing
 
-void AspectWindow::layout(unsigned)
+void AspectWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 

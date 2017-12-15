@@ -57,11 +57,11 @@ Point CoordEditWindow::getMinSize() const
 
  // drawing
 
-void CoordEditWindow::layout(unsigned)
+void CoordEditWindow::layout(unsigned flags)
  {
   Point size=getSize();
 
-  spin.setPlace(Pane(Null,size.x,size.y/2));
+  spin.setPlace(Pane(Null,size.x,size.y/2),flags);
 
   pos.x=size.x/2;
   pos.y=Div(3,4)*size.y;

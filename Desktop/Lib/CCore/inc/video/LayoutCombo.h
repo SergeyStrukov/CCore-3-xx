@@ -795,7 +795,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
                                        p=Replace_null(pane);
                                       }
 
-                                    obj.setPlace(p,space);
+                                    obj.setPlace(p,flags,space);
                                    } ,
 
             [&pane,flags,space,dx] (auto &obj)
@@ -811,7 +811,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
                                        p=Replace_null(pane);
                                       }
 
-                                    obj.setPlace(p,space);
+                                    obj.setPlace(p,flags,space);
 
                                    } );
     }

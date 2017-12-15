@@ -72,9 +72,9 @@ Point InsWindow::getMinSize(Point cap) const
 
  // drawing
 
-void InsWindow::layout(unsigned)
+void InsWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 
@@ -383,11 +383,11 @@ void ItemListWindow::noItem()
 
  // drawing
 
-void ItemListWindow::layout(unsigned)
+void ItemListWindow::layout(unsigned flags)
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space);
+  PaneCut pane(getSize(),space,flags);
 
   // knob_down , knob_up , knob_del
 

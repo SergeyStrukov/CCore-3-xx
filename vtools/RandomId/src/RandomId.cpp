@@ -114,11 +114,11 @@ Point RandomIdWindow::getMinSize() const
 
  // drawing
 
-void RandomIdWindow::layout(unsigned)
+void RandomIdWindow::layout(unsigned flags)
  {
   Coord space_dxy=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space_dxy);
+  PaneCut pane(getSize(),space_dxy,flags);
 
   pane.shrink();
 
@@ -139,7 +139,7 @@ void RandomIdWindow::layout(unsigned)
   // radio_Unid , radio_Raw , label_Unid , label_Raw
 
   {
-   PaneCut pane(contour.getInner(),space_dxy);
+   PaneCut pane(contour.getInner(),space_dxy,flags);
 
    pane.shrink();
 

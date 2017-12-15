@@ -1883,21 +1883,21 @@ DDLWindow::~DDLWindow()
  {
  }
 
-void DDLWindow::layout(unsigned)
+void DDLWindow::layout(unsigned flags)
  {
   Pane all(Null,getSize());
   Pane pane(all);
   Coord delta_x=scroll_y.getMinSize().dx;
   Coord delta_y=scroll_x.getMinSize().dy;
 
-  inner.setPlace(pane);
+  inner.setPlace(pane,flags);
 
   if( inner.shortDY() )
     {
      Pane py=SplitX(pane,delta_x);
 
-     inner.setPlace(pane);
-     scroll_y.setPlace(py);
+     inner.setPlace(pane,flags);
+     scroll_y.setPlace(py,flags);
 
      wlist.insBottom(scroll_y);
 
@@ -1905,8 +1905,8 @@ void DDLWindow::layout(unsigned)
        {
         Pane px=SplitY(pane,delta_y);
 
-        inner.setPlace(pane);
-        scroll_x.setPlace(px);
+        inner.setPlace(pane,flags);
+        scroll_x.setPlace(px,flags);
 
         wlist.insBottom(scroll_x);
        }
@@ -1921,7 +1921,7 @@ void DDLWindow::layout(unsigned)
        {
         Pane px=SplitY(pane,delta_y);
 
-        inner.setPlace(pane);
+        inner.setPlace(pane,flags);
 
         if( inner.shortDY() )
           {
@@ -1929,9 +1929,9 @@ void DDLWindow::layout(unsigned)
            Pane py=SplitX(pane,delta_x);
            Pane px=SplitY(pane,delta_y);
 
-           inner.setPlace(pane);
-           scroll_x.setPlace(px);
-           scroll_y.setPlace(py);
+           inner.setPlace(pane,flags);
+           scroll_x.setPlace(px,flags);
+           scroll_y.setPlace(py,flags);
 
            wlist.insBottom(scroll_x);
 
@@ -1939,7 +1939,7 @@ void DDLWindow::layout(unsigned)
           }
         else
           {
-           scroll_x.setPlace(px);
+           scroll_x.setPlace(px,flags);
 
            wlist.insBottom(scroll_x);
 
@@ -2051,9 +2051,9 @@ void DisplayWindow::noPretext()
 
  // drawing
 
-void DisplayWindow::layout(unsigned)
+void DisplayWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 

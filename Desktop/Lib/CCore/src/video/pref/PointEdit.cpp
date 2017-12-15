@@ -82,15 +82,15 @@ void PointEditWindow::setPoint(Point value)
 
  // drawing
 
-void PointEditWindow::layout(unsigned)
+void PointEditWindow::layout(unsigned flags)
  {
   Point s=spin_x.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_x.setPlace(Pane(Null,s));
+  spin_x.setPlace(Pane(Null,s),flags);
 
-  spin_y.setPlace(Pane(Point(s.x+space_dxy,0),s));
+  spin_y.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
 
   Coord dx=s.x+space_dxy/2;
 

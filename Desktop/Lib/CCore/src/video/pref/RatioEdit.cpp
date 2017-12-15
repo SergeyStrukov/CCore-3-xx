@@ -131,15 +131,15 @@ void RatioEditWindow::setRatio(Ratio value)
 
  // drawing
 
-void RatioEditWindow::layout(unsigned)
+void RatioEditWindow::layout(unsigned flags)
  {
   Point s=spin_a.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_a.setPlace(Pane(Null,s));
+  spin_a.setPlace(Pane(Null,s),flags);
 
-  spin_b.setPlace(Pane(Point(s.x+space_dxy,0),s));
+  spin_b.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
 
   Coord dx=s.x+space_dxy/2;
 

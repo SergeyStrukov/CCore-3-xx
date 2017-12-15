@@ -340,9 +340,9 @@ Point DirWindow::getMinSize(StrLen sample_text) const
 
  // drawing
 
-void DirWindow::layout(unsigned)
+void DirWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 

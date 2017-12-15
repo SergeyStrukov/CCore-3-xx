@@ -691,18 +691,18 @@ void EditorWindow::save(StrLen file_name_)
 
  // drawing
 
-void EditorWindow::layout(unsigned)
+void EditorWindow::layout(unsigned flags)
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut right(space);
-  PaneCut top(space);
-  PaneCut bottom(space);
+  PaneCut right(space,flags);
+  PaneCut top(space,flags);
+  PaneCut bottom(space,flags);
 
   // first split
 
   {
-   PaneCut pane(getSize(),space);
+   PaneCut pane(getSize(),space,flags);
 
    pane.shrink();
 
@@ -743,7 +743,7 @@ void EditorWindow::layout(unsigned)
   // right
 
   {
-   PaneCut pane(space);
+   PaneCut pane(space,flags);
 
    right.place_cutBottom(pane,Div(20,100)).place(geom);
 

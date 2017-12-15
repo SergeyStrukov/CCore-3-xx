@@ -62,9 +62,9 @@ struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
       return ptr->getMinSize();
      }
 
-    void setPlace(Pane pane,Coord) const
+    void setPlace(Pane pane,unsigned flags,Coord) const
      {
-      ptr->setPlace(pane);
+      ptr->setPlace(pane,flags);
      }
    };
  };

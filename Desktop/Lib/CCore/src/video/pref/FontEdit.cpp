@@ -1078,11 +1078,11 @@ void FontEditWindow::setCouple(const FontCouple &font_)
 
  // drawing
 
-void FontEditWindow::layout(unsigned)
+void FontEditWindow::layout(unsigned flags)
  {
   Coord space_dxy=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space_dxy);
+  PaneCut pane(getSize(),space_dxy,flags);
 
   // progress
 
@@ -1209,7 +1209,7 @@ void FontEditWindow::layout(unsigned)
    // hint
 
    {
-    PaneCut pane(contour_hint.getInner(),space_dxy);
+    PaneCut pane(contour_hint.getInner(),space_dxy,flags);
 
     pane.shrink();
 
@@ -1221,7 +1221,7 @@ void FontEditWindow::layout(unsigned)
    // smooth
 
    {
-    PaneCut pane(contour_smooth.getInner(),space_dxy);
+    PaneCut pane(contour_smooth.getInner(),space_dxy,flags);
 
     pane.shrink();
 
@@ -1290,9 +1290,9 @@ void FontEditWindow::layout(unsigned)
 
    Pane inner=contour_test.getInner();
 
-   info_test.setPlace(inner);
+   info_test.setPlace(inner,flags);
 
-   table.setPlace(inner);
+   table.setPlace(inner,flags);
   }
  }
 

@@ -656,7 +656,7 @@ class ScrollableWindow : public ComboWindow
         Pane py=SplitX(pane,delta_x);
 
         window.setPlace(pane,flags);
-        scroll_y.setPlace(py);
+        scroll_y.setPlace(py,flags);
 
         wlist.insBottom(scroll_y);
 
@@ -665,7 +665,7 @@ class ScrollableWindow : public ComboWindow
            Pane px=SplitY(pane,delta_y);
 
            window.setPlace(pane,flags);
-           scroll_x.setPlace(px);
+           scroll_x.setPlace(px,flags);
 
            wlist.insBottom(scroll_x);
           }
@@ -689,8 +689,8 @@ class ScrollableWindow : public ComboWindow
               Pane px=SplitY(pane,delta_y);
 
               window.setPlace(pane,flags);
-              scroll_x.setPlace(px);
-              scroll_y.setPlace(py);
+              scroll_x.setPlace(px,flags);
+              scroll_y.setPlace(py,flags);
 
               wlist.insBottom(scroll_x);
 
@@ -698,7 +698,7 @@ class ScrollableWindow : public ComboWindow
              }
            else
              {
-              scroll_x.setPlace(px);
+              scroll_x.setPlace(px,flags);
 
               wlist.insBottom(scroll_x);
 

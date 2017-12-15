@@ -135,14 +135,14 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout(unsigned)
+void ClientWindow::layout(unsigned flags)
  {
   Coord dy=menu.getMinSize().dy;
 
   Pane pane(Null,getSize());
 
-  menu.setPlace(SplitY(dy,pane));
-  sub_win.setPlace(pane);
+  menu.setPlace(SplitY(dy,pane),flags);
+  sub_win.setPlace(pane,flags);
  }
 
  // user input

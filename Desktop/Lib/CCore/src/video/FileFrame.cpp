@@ -399,9 +399,9 @@ Point FileFilterWindow::getMinSize() const
 
  // drawing
 
-void FileFilterWindow::layout(unsigned)
+void FileFilterWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),0);
+  PaneCut pane(getSize(),0,flags);
 
   pane.place_cutLeft(check)
       .place_cutRight(knob)
@@ -510,7 +510,7 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
  // drawing
 
-void FileFilterListWindow::layout(unsigned)
+void FileFilterListWindow::layout(unsigned flags)
  {
   Point size=getSize();
 
@@ -518,7 +518,7 @@ void FileFilterListWindow::layout(unsigned)
     {
      Coord dy=filter_list[0]->getMinSize().y;
 
-     PaneCut pane(size,BoxSpace(dy));
+     PaneCut pane(size,BoxSpace(dy),flags);
 
      for(auto &ptr : getList() ) pane.place_cutTop(*ptr);
 
@@ -526,7 +526,7 @@ void FileFilterListWindow::layout(unsigned)
     }
   else
     {
-     PaneCut pane(size,0);
+     PaneCut pane(size,0,flags);
 
      pane.place_cutTopLeft(knob);
     }
@@ -1191,9 +1191,9 @@ void FileWindow::setNewFile(bool on)
 
  // drawing
 
-void FileWindow::layout(unsigned)
+void FileWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 
@@ -1224,7 +1224,7 @@ void FileWindow::layout(unsigned)
   {
    Coord tdy=pane.getSize().y;
 
-   PaneCut p(0);
+   PaneCut p(0,flags);
 
    if( total_dy==tdy )
      {

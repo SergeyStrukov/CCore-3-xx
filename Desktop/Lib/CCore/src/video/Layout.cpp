@@ -291,7 +291,7 @@ PaneCut PaneCut::cutLeft(Coord dx,Coord space)
  {
   if( dx<=pane.dx )
     {
-     PaneCut ret(SplitX(dx,pane),this->space);
+     PaneCut ret(SplitX(dx,pane),this->space,flags);
 
      SplitX(space,pane);
 
@@ -311,7 +311,7 @@ PaneCut PaneCut::cutRight(Coord dx,Coord space)
  {
   if( dx<=pane.dx )
     {
-     PaneCut ret(SplitX(pane,dx),this->space);
+     PaneCut ret(SplitX(pane,dx),this->space,flags);
 
      SplitX(pane,space);
 
@@ -331,7 +331,7 @@ PaneCut PaneCut::cutTop(Coord dy,Coord space)
  {
   if( dy<=pane.dy )
     {
-     PaneCut ret(SplitY(dy,pane),this->space);
+     PaneCut ret(SplitY(dy,pane),this->space,flags);
 
      SplitY(space,pane);
 
@@ -351,7 +351,7 @@ PaneCut PaneCut::cutBottom(Coord dy,Coord space)
  {
   if( dy<=pane.dy )
     {
-     PaneCut ret(SplitY(pane,dy),this->space);
+     PaneCut ret(SplitY(pane,dy),this->space,flags);
 
      SplitY(pane,space);
 

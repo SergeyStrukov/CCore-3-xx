@@ -52,9 +52,9 @@ Point MCoordEditWindow::getMinSize() const
 
  // drawing
 
-void MCoordEditWindow::layout(unsigned)
+void MCoordEditWindow::layout(unsigned flags)
  {
-  spinor.setPlace(Pane(Null,getSize()));
+  spinor.setPlace(Pane(Null,getSize()),flags);
  }
 
 } // namespace Video

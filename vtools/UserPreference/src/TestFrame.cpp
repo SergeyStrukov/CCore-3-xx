@@ -185,7 +185,7 @@ void TestWindow::layout(unsigned flags)
  {
   Coord space_dxy=pref.get().space_dxy;
 
-  PaneCut pane(getSize(),space_dxy);
+  PaneCut pane(getSize(),space_dxy,flags);
 
   pane.shrink();
 
@@ -231,7 +231,7 @@ void TestWindow::layout(unsigned flags)
    pane.place_cutTopLeft(text_contour,size);
 
    {
-    PaneCut pane(text_contour.getInner(),space_dxy);
+    PaneCut pane(text_contour.getInner(),space_dxy,flags);
 
     pane.shrink();
 

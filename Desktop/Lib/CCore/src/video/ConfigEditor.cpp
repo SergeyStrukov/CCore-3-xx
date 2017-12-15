@@ -1041,9 +1041,9 @@ void ConfigEditorWindow::bindConfig(ConfigItemHost &host)
 
  // drawing
 
-void ConfigEditorWindow::layout(unsigned)
+void ConfigEditorWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy);
+  PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
 
