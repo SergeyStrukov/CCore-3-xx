@@ -387,12 +387,12 @@ FileFilterWindow::~FileFilterWindow()
 
  // methods
 
-Point FileFilterWindow::getMinSize() const
+Point FileFilterWindow::getMinSize(unsigned flags) const
  {
-  Point size=edit.getMinSize();
+  Point size=edit.getMinSize(flags);
 
-  Coord check_dxy=check.getMinSize().dxy;
-  Coord knob_dxy=knob.getMinSize().dxy;
+  Coord check_dxy=check.getMinSize(flags).dxy;
+  Coord knob_dxy=knob.getMinSize(flags).dxy;
 
   return Point( Coordinate(size.x)+BoxExt(check_dxy)+BoxExt(knob_dxy) , Sup(check_dxy,knob_dxy,size.y) );
  }
@@ -470,13 +470,13 @@ FileFilterListWindow::~FileFilterListWindow()
 
  // methods
 
-Point FileFilterListWindow::getMinSize() const
+Point FileFilterListWindow::getMinSize(unsigned flags) const
  {
   if( ulen count=filter_count )
     {
-     Coord knob_dxy=knob.getMinSize().dxy;
+     Coord knob_dxy=knob.getMinSize(flags).dxy;
 
-     Point size=filter_list[0]->getMinSize();
+     Point size=filter_list[0]->getMinSize(flags);
 
      Coord delta=BoxExt(size.y);
 
@@ -484,7 +484,7 @@ Point FileFilterListWindow::getMinSize() const
     }
   else
     {
-     return GetMinSize(knob);
+     return GetMinSize(flags,knob);
     }
  }
 
@@ -516,7 +516,7 @@ void FileFilterListWindow::layout(unsigned flags)
 
   if( filter_count )
     {
-     Coord dy=filter_list[0]->getMinSize().y;
+     Coord dy=filter_list[0]->getMinSize(flags).y;
 
      PaneCut pane(size,BoxSpace(dy),flags);
 
@@ -1126,18 +1126,18 @@ FileWindow::~FileWindow()
 
  // methods
 
-Point FileWindow::getMinSize(StrLen sample_text) const
+Point FileWindow::getMinSize(unsigned flags,StrLen sample_text) const
  {
   Coordinate space=+cfg.space_dxy;
 
-  Coordinate knob_ext=BoxExt(knob_hit.getMinSize().dxy);
+  Coordinate knob_ext=BoxExt(knob_hit.getMinSize(flags).dxy);
 
-  Point dir_size=edit_dir.getMinSize(sample_text);
+  Point dir_size=edit_dir.getMinSize(flags,sample_text);
 
   Coordinate dir_dx=dir_size.x;
   Coordinate dir_dy=dir_size.y;
 
-  Point btn_size=SupMinSize(btn_Ok,btn_Cancel);
+  Point btn_size=SupMinSize(flags,btn_Ok,btn_Cancel);
 
   Coordinate btn_dx=btn_size.x;
   Coordinate btn_dy=btn_size.y;
@@ -1200,10 +1200,10 @@ void FileWindow::layout(unsigned flags)
   // knob_hit , knob_add , dir , knob_back
 
   {
-   auto knob__hit=CutBox(knob_hit);
-   auto edit__dir=CutPoint(edit_dir);
+   auto knob__hit=CutBox(knob_hit,flags);
+   auto edit__dir=CutPoint(edit_dir,flags);
 
-   Coord dy=SupDY(knob__hit,edit__dir);
+   Coord dy=SupDY(flags,knob__hit,edit__dir);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -1252,10 +1252,10 @@ void FileWindow::layout(unsigned flags)
 
    if( param.new_file )
      {
-      auto knob__mkdir=CutBox(knob_mkdir);
+      auto knob__mkdir=CutBox(knob_mkdir,flags);
 
-      p.cutRight(knob__mkdir.getMinSize())
-       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
+      p.cutRight(knob__mkdir.getMinSize(flags))
+       .place_cutTop(CutPoint(knob_mkdir,flags)).place_cutTop(CutPoint(knob_rmdir,flags));
      }
 
    p.place(list_dir);
@@ -1271,11 +1271,11 @@ void FileWindow::layout(unsigned flags)
 
   if( param.new_file )
     {
-     auto alt__new_file=CutPoint(alt_new_file);
-     auto label__new_file=CutPoint(label_new_file);
-     auto edit__new_file=CutPoint(edit_new_file);
+     auto alt__new_file=CutPoint(alt_new_file,flags);
+     auto label__new_file=CutPoint(label_new_file,flags);
+     auto edit__new_file=CutPoint(edit_new_file,flags);
 
-     Coord dy=SupDY(alt__new_file,label__new_file,edit__new_file);
+     Coord dy=SupDY(flags,alt__new_file,label__new_file,edit__new_file);
 
      PaneCut p=pane.cutTop(dy);
 
@@ -1372,7 +1372,7 @@ FileFrame::~FileFrame()
 
 Pane FileFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
 
   Point screen_size=getScreenSize();
 
@@ -1381,7 +1381,7 @@ Pane FileFrame::getPane(StrLen title,Point base) const
 
 Pane FileFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

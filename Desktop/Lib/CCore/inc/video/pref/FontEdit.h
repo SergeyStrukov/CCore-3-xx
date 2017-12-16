@@ -95,7 +95,7 @@ class CharTableWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    // drawing
 
@@ -463,7 +463,7 @@ class FontEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    const FontParam & getParam() const { return font.param; }
 

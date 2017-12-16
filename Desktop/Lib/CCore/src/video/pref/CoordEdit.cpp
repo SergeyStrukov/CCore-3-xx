@@ -48,9 +48,9 @@ CoordEditWindow::~CoordEditWindow()
 
  // methods
 
-Point CoordEditWindow::getMinSize() const
+Point CoordEditWindow::getMinSize(unsigned flags) const
  {
-  Point s=spin.getMinSize();
+  Point s=spin.getMinSize(flags);
 
   return Point(s.x,2*Coordinate(s.y));
  }

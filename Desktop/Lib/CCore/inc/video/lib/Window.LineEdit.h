@@ -460,10 +460,10 @@ class LineEditWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned) const { return shape.getMinSize(); }
 
    template <class T>
-   Point getMinSize(T sample_text) const { return shape.getMinSize(sample_text); }
+   Point getMinSize(unsigned,T sample_text) const { return shape.getMinSize(sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 

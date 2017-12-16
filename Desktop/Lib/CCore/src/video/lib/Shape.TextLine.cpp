@@ -22,27 +22,28 @@ namespace Video {
 
 /* class TextLineShape */
 
-void TextLineShape::cache(unsigned update_flag)
+void TextLineShape::Cache::operator () (unsigned update_flag,const Config &cfg,StrLen text)
  {
-  if( update_flag || !cache_ok )
+  if( update_flag || !ok )
     {
      const Font &font=cfg.font.get();
 
      MCoord width=+cfg.width;
 
-     FontSize fs=font->getSize();
+     TextSize ts=font->text_guarded(text);
 
-     btn_ex=FigEX(fs.dy,width);
+     text_dy=ts.dy;
+     btn_ex=FigEX(ts.dy,width);
      inner_dx=RoundUpLen(btn_ex+width);
      inner_dy=RoundUpLen(width);
 
-     TextSize ts=font->text_guarded(text.str());
+     FontSize fs=font->getSize();
 
      text_dx=ts.full_dx;
      med_dx=fs.medDX();
      font_dx0=fs.dx0;
 
-     cache_ok=true;
+     ok=true;
     }
  }
 
@@ -51,12 +52,14 @@ MCoord TextLineShape::FigEX(Coord fdy,MCoord width)
   return Max_cast(width, (Fraction(fdy)+2*width)/4 );
  }
 
-Point TextLineShape::getMinSize() const
+Point TextLineShape::getMinSize(unsigned update_flag) const
  {
-  return getMinSize(text.str());
+  cache(update_flag,cfg,text.str());
+
+  return 2*Point(cache.inner_dx,cache.inner_dy)+Point(cache.text_dx,cache.text_dy)+(+cfg.space);
  }
 
-Point TextLineShape::getMinSize(StrLen text) const
+Point TextLineShape::getMinSize(unsigned,StrLen text) const
  {
   TextSize ts=cfg.font->text_guarded(text);
 
@@ -72,14 +75,14 @@ Point TextLineShape::getMinSize(StrLen text) const
 
 void TextLineShape::setMax(unsigned update_flag)
  {
-  cache(update_flag);
+  cache(update_flag,cfg,text.str());
 
-  Pane inner=pane.shrink(inner_dx,inner_dy);
+  Pane inner=pane.shrink(cache.inner_dx,cache.inner_dy);
 
   if( +inner )
     {
-     xoffMax=PlusSub(text_dx,inner.dx);
-     dxoff=med_dx;
+     xoffMax=PlusSub(cache.text_dx,inner.dx);
+     dxoff=cache.med_dx;
     }
   else
     {
@@ -102,14 +105,16 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
   MCoord width=+cfg.width;
 
-  if( !cache_ok || btn_ex>p.dx/3 )
+  cache(0,cfg,text.str());
+
+  if( cache.btn_ex>p.dx/3 )
     {
      art.block(pane,+cfg.inactive);
 
      return;
     }
 
-  FigureButton fig(p,btn_ex);
+  FigureButton fig(p,cache.btn_ex);
 
   VColor text=+cfg.text;
 
@@ -120,9 +125,9 @@ void TextLineShape::draw(const DrawBuf &buf) const
   // text
 
   {
-   Pane inner=pane.shrink(inner_dx,inner_dy);
+   Pane inner=pane.shrink(cache.inner_dx,cache.inner_dy);
 
-   Coord pos_x=font_dx0-xoff;
+   Coord pos_x=cache.font_dx0-xoff;
 
    font->text(buf,inner,TextPlace(pos_x,AlignY_Center),this->text.str(), enable? text : +cfg.inactive );
   }
@@ -147,7 +152,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
   // arrows
 
   {
-   MCoord len=btn_ex-width;
+   MCoord len=cache.btn_ex-width;
    MCoord y=p.y+p.dy/2;
 
    if( xoff>0 ) // Left

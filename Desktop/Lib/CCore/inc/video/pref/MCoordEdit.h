@@ -66,7 +66,7 @@ class MCoordEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    MCoord getMCoord() const { return (spinor.getValue()*1024)/100; }
 

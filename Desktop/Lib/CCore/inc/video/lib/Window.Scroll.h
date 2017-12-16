@@ -194,7 +194,7 @@ class ScrollWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned) const { return shape.getMinSize(); }
 
    bool isEnabled() const { return shape.enable; }
 

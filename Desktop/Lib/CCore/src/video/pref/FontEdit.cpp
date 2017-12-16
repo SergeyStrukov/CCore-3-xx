@@ -71,7 +71,7 @@ CharTableWindow::~CharTableWindow()
 
  // methods
 
-Point CharTableWindow::getMinSize() const
+Point CharTableWindow::getMinSize(unsigned) const
  {
   Font font=+cfg.font;
 
@@ -88,7 +88,7 @@ Point CharTableWindow::getMinSize() const
 
 bool CharTableWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize();
+  return size>=getMinSize(0);
  }
 
 void CharTableWindow::layout(unsigned)
@@ -942,7 +942,7 @@ FontEditWindow::~FontEditWindow()
 
  // methods
 
-Point FontEditWindow::getMinSize(Point cap) const
+Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
  {
   Coordinate space=+cfg.space_dxy;
 
@@ -952,16 +952,16 @@ Point FontEditWindow::getMinSize(Point cap) const
    Coordinate dx;
    Coordinate dy;
 
-   dy+=text_file_name.getMinSize().y+space;
-   dy+=text_family.getMinSize().y+space;
+   dy+=text_file_name.getMinSize(flags).y+space;
+   dy+=text_family.getMinSize(flags).y+space;
 
    {
-    Coord dxy=light_scalable.getMinSize().dxy;
+    Coord dxy=light_scalable.getMinSize(flags).dxy;
 
-    Point s1=label_scalable.getMinSize();
-    Point s2=label_monospace.getMinSize();
-    Point s3=label_bold.getMinSize();
-    Point s4=label_italic.getMinSize();
+    Point s1=label_scalable.getMinSize(flags);
+    Point s2=label_monospace.getMinSize(flags);
+    Point s3=label_bold.getMinSize(flags);
+    Point s4=label_italic.getMinSize(flags);
 
     dy+=Sup(s1.y,dxy)+2*space;
 
@@ -971,10 +971,10 @@ Point FontEditWindow::getMinSize(Point cap) const
    }
 
    {
-    Coord dxy=check_fdx.getMinSize().dxy;
+    Coord dxy=check_fdx.getMinSize(flags).dxy;
 
-    Point s1=spin_fdy.getMinSize();
-    Point s2=spin_fdx.getMinSize();
+    Point s1=spin_fdy.getMinSize(flags);
+    Point s2=spin_fdx.getMinSize(flags);
 
     dy+=Sup(s1.y,dxy)+2*space;
 
@@ -986,11 +986,11 @@ Point FontEditWindow::getMinSize(Point cap) const
    Point delta1;
 
    {
-    Coord dxy=radio_no_hint.getMinSize().dxy;
+    Coord dxy=radio_no_hint.getMinSize(flags).dxy;
 
-    Point s1=label_no_hint.getMinSize();
-    Point s2=label_native_hint.getMinSize();
-    Point s3=label_auto_hint.getMinSize();
+    Point s1=label_no_hint.getMinSize(flags);
+    Point s2=label_native_hint.getMinSize(flags);
+    Point s3=label_auto_hint.getMinSize(flags);
 
     Coordinate line_dy=Sup(dxy,s1.y);
 
@@ -998,18 +998,18 @@ Point FontEditWindow::getMinSize(Point cap) const
 
     Point size( BoxExt(dxy)+hint_dx+2*space , 3*line_dy+4*space );
 
-    delta1=contour_hint.getMinSize(size);
+    delta1=contour_hint.getMinSize(flags,size);
    }
 
    Point delta2;
 
    {
-    Coord dxy=radio_no_smooth.getMinSize().dxy;
+    Coord dxy=radio_no_smooth.getMinSize(flags).dxy;
 
-    Point s1=label_no_smooth.getMinSize();
-    Point s2=label_smooth.getMinSize();
-    Point s3=label_RGB.getMinSize();
-    Point s4=label_BGR.getMinSize();
+    Point s1=label_no_smooth.getMinSize(flags);
+    Point s2=label_smooth.getMinSize(flags);
+    Point s3=label_RGB.getMinSize(flags);
+    Point s4=label_BGR.getMinSize(flags);
 
     Coordinate line_dy=Sup(dxy,s1.y);
 
@@ -1017,7 +1017,7 @@ Point FontEditWindow::getMinSize(Point cap) const
 
     Point size( BoxExt(dxy)+smooth_dx+2*space , 4*line_dy+5*space );
 
-    delta2=contour_smooth.getMinSize(size);
+    delta2=contour_smooth.getMinSize(flags,size);
    }
 
    dy+=Sup(delta1.y,delta2.y)+space;
@@ -1025,9 +1025,9 @@ Point FontEditWindow::getMinSize(Point cap) const
    dx=Sup(dx, space+delta1.x+delta2.x );
 
    {
-    Coord dxy=check_kerning.getMinSize().dxy;
+    Coord dxy=check_kerning.getMinSize(flags).dxy;
 
-    Point s=label_kerning.getMinSize();
+    Point s=label_kerning.getMinSize(flags);
 
     dy+=Sup(s.y,dxy)+space;
 
@@ -1037,8 +1037,8 @@ Point FontEditWindow::getMinSize(Point cap) const
    }
 
    {
-    Point s1=spin_strength.getMinSize();
-    Point s2=label_strength.getMinSize();
+    Point s1=spin_strength.getMinSize(flags);
+    Point s2=label_strength.getMinSize(flags);
 
     dy+=Sup(s1.y,s2.y)+space;
 
@@ -1046,10 +1046,10 @@ Point FontEditWindow::getMinSize(Point cap) const
    }
 
    {
-    Coord dxy=radio_sample.getMinSize().dxy;
+    Coord dxy=radio_sample.getMinSize(flags).dxy;
 
-    Point s1=label_sample.getMinSize();
-    Point s2=label_table.getMinSize();
+    Point s1=label_sample.getMinSize(flags);
+    Point s2=label_table.getMinSize(flags);
 
     dy+=Sup(dxy,s1.y,s2.y)+2*space;
 
@@ -1064,7 +1064,7 @@ Point FontEditWindow::getMinSize(Point cap) const
    delta=Point(dx,dy);
   }
 
-  Point s=list.getMinSize( Point(cap.x/3,cap.y) );
+  Point s=list.getMinSize(flags, Point(cap.x/3,cap.y) );
 
   return Point( 3*Sup( s.x , delta.x/2 ) , Sup(s.y,delta.y) );
  }
@@ -1095,9 +1095,9 @@ void FontEditWindow::layout(unsigned flags)
   // list , split
 
   {
-   auto list__=CutPoint(list);
+   auto list__=CutPoint(list,flags);
 
-   Coord len=list__.getMinSize().x;
+   Coord len=list__.getMinSize(flags).x;
 
    min_list_dx=len/4;
    max_list_dx=pane.getSize().x/2;
@@ -1126,8 +1126,8 @@ void FontEditWindow::layout(unsigned flags)
   // lights
 
   {
-   auto light__scalable=CutBox(light_scalable);
-   auto label__scalable=CutPoint(label_scalable);
+   auto light__scalable=CutBox(light_scalable,flags);
+   auto label__scalable=CutPoint(label_scalable,flags);
 
    Coord dy=Sup(label__scalable.size.y,light__scalable.dxy);
 
@@ -1150,8 +1150,8 @@ void FontEditWindow::layout(unsigned flags)
   // size spins
 
   {
-   auto spin__fdy=CutPoint(spin_fdy);
-   auto check__fdx=CutBox(check_fdx);
+   auto spin__fdy=CutPoint(spin_fdy,flags);
+   auto check__fdx=CutBox(check_fdx,flags);
 
    Coord dy=Sup(spin__fdy.size.y,check__fdx.dxy);
 
@@ -1169,13 +1169,13 @@ void FontEditWindow::layout(unsigned flags)
   // hint and smooth
 
   {
-   auto radio__no_hint=CutBox(radio_no_hint);
-   auto radio__native_hint=CutBox(radio_native_hint);
-   auto radio__auto_hint=CutBox(radio_auto_hint);
+   auto radio__no_hint=CutBox(radio_no_hint,flags);
+   auto radio__native_hint=CutBox(radio_native_hint,flags);
+   auto radio__auto_hint=CutBox(radio_auto_hint,flags);
 
-   auto label__no_hint=CutPoint(label_no_hint);
-   auto label__native_hint=CutPoint(label_native_hint);
-   auto label__auto_hint=CutPoint(label_auto_hint);
+   auto label__no_hint=CutPoint(label_no_hint,flags);
+   auto label__native_hint=CutPoint(label_native_hint,flags);
+   auto label__auto_hint=CutPoint(label_auto_hint,flags);
 
    Coordinate line_dy=Sup(radio__no_hint.dxy,label__no_hint.size.y);
 
@@ -1183,23 +1183,23 @@ void FontEditWindow::layout(unsigned flags)
 
    Point hint_inner_size( BoxExt(radio__no_hint.dxy)+hint_dx+2*space_dxy , 3*line_dy+4*space_dxy );
 
-   Point hint_outer_size=contour_hint.getMinSize(hint_inner_size);
+   Point hint_outer_size=contour_hint.getMinSize(flags,hint_inner_size);
 
-   auto radio__no_smooth=CutBox(radio_no_smooth);
-   auto radio__smooth=CutBox(radio_smooth);
-   auto radio__RGB=CutBox(radio_RGB);
-   auto radio__BGR=CutBox(radio_BGR);
+   auto radio__no_smooth=CutBox(radio_no_smooth,flags);
+   auto radio__smooth=CutBox(radio_smooth,flags);
+   auto radio__RGB=CutBox(radio_RGB,flags);
+   auto radio__BGR=CutBox(radio_BGR,flags);
 
-   auto label__no_smooth=CutPoint(label_no_smooth);
-   auto label__smooth=CutPoint(label_smooth);
-   auto label__RGB=CutPoint(label_RGB);
-   auto label__BGR=CutPoint(label_BGR);
+   auto label__no_smooth=CutPoint(label_no_smooth,flags);
+   auto label__smooth=CutPoint(label_smooth,flags);
+   auto label__RGB=CutPoint(label_RGB,flags);
+   auto label__BGR=CutPoint(label_BGR,flags);
 
    Coordinate smooth_dx=Sup(label__no_smooth.size.x,label__smooth.size.x,label__RGB.size.x,label__BGR.size.x);
 
    Point smooth_inner_size( BoxExt(radio__no_smooth.dxy)+smooth_dx+2*space_dxy , 4*line_dy+5*space_dxy );
 
-   Point smooth_outer_size=contour_smooth.getMinSize(smooth_inner_size);
+   Point smooth_outer_size=contour_smooth.getMinSize(flags,smooth_inner_size);
 
    PaneCut p=pane.cutTop(Sup(hint_outer_size.y,smooth_outer_size.y));
 
@@ -1235,8 +1235,8 @@ void FontEditWindow::layout(unsigned flags)
   // kerning
 
   {
-   auto check__kerning=CutBox(check_kerning);
-   auto label__kerning=CutPoint(label_kerning);
+   auto check__kerning=CutBox(check_kerning,flags);
+   auto label__kerning=CutPoint(label_kerning,flags);
 
    Coord dy=Sup(check__kerning.dxy,label__kerning.size.y);
 
@@ -1249,8 +1249,8 @@ void FontEditWindow::layout(unsigned flags)
   // strength
 
   {
-   auto spin__strength=CutPoint(spin_strength);
-   auto label__strength=CutPoint(label_strength);
+   auto spin__strength=CutPoint(spin_strength,flags);
+   auto label__strength=CutPoint(label_strength,flags);
 
    Coord dy=Sup(spin__strength.size.y,label__strength.size.y);
 
@@ -1267,11 +1267,11 @@ void FontEditWindow::layout(unsigned flags)
   // radio_sample , radio_table , label_sample , label_table
 
   {
-   auto radio__sample=CutBox(radio_sample);
-   auto radio__table=CutBox(radio_table);
+   auto radio__sample=CutBox(radio_sample,flags);
+   auto radio__table=CutBox(radio_table,flags);
 
-   auto label__sample=CutPoint(label_sample);
-   auto label__table=CutPoint(label_table);
+   auto label__sample=CutPoint(label_sample,flags);
+   auto label__table=CutPoint(label_table,flags);
 
    Coord dy=Sup(radio__sample.dxy,label__sample.size.y);
 

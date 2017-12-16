@@ -57,15 +57,6 @@ struct InfoState
 
 class InfoShape : public InfoState
  {
-   Coord info_dx = 0 ;
-   Coord line_dy = 0 ;
-   Coord med_dx = 0 ;
-   bool cache_ok = false ;
-
-  private:
-
-   void cache(unsigned update_flag);
-
   public:
 
    struct Config
@@ -107,13 +98,27 @@ class InfoShape : public InfoState
 
    InfoShape(const Config &cfg_,const Info &info_) : cfg(cfg_),info(info_) {}
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
 
-   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
+   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
 
    void setMax(unsigned update_flag);
 
    void draw(const DrawBuf &buf) const;
+
+  private:
+
+   struct Cache
+    {
+     Coord info_dx = 0 ;
+     Coord line_dy = 0 ;
+     Coord med_dx = 0 ;
+     bool ok = false ;
+
+     void operator () (unsigned update_flag,const Config &cfg,const Info &info);
+    };
+
+   mutable Cache cache;
  };
 
 } // namespace Video

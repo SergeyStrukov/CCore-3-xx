@@ -24,9 +24,9 @@ namespace Video {
 
 /* class InfoShape */
 
-void InfoShape::cache(unsigned update_flag)
+void InfoShape::Cache::operator () (unsigned update_flag,const Config &cfg,const Info &info)
  {
-  if( update_flag || !cache_ok )
+  if( update_flag || !ok )
     {
      ulen count=info->getLineCount();
 
@@ -48,11 +48,11 @@ void InfoShape::cache(unsigned update_flag)
 
      info_dx=dx;
 
-     cache_ok=true;
+     ok=true;
     }
  }
 
-Point InfoShape::getMinSize(Point cap) const
+Point InfoShape::getMinSize(unsigned,Point cap) const
  {
   const Font &font=cfg.font.get();
 
@@ -63,19 +63,19 @@ Point InfoShape::getMinSize(Point cap) const
 
 void InfoShape::setMax(unsigned update_flag)
  {
-  cache(update_flag);
+  cache(update_flag,cfg,info);
 
   Pane inner=pane.shrink(+cfg.space);
 
   if( +inner )
     {
-     xoffMax=PlusSub(info_dx,inner.dx);
+     xoffMax=PlusSub(cache.info_dx,inner.dx);
 
-     ulen h=ulen(inner.dy/line_dy);
+     ulen h=ulen(inner.dy/cache.line_dy);
 
      yoffMax=PlusSub(info->getLineCount(),h);
 
-     dxoff=med_dx;
+     dxoff=cache.med_dx;
     }
   else
     {

@@ -98,9 +98,9 @@ class TextLineWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
 
-   Point getMinSize(StrLen sample_text) const { return shape.getMinSize(sample_text); }
+   Point getMinSize(unsigned flags,StrLen sample_text) const { return shape.getMinSize(flags&LayoutUpdate,sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 

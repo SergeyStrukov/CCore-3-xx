@@ -50,7 +50,7 @@ class LightWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned) const { return shape.getMinSize(); }
 
    VColor getFace() const { return shape.face; }
 

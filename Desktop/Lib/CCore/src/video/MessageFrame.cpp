@@ -47,19 +47,22 @@ MessageWindow::Btn::~Btn()
 
 struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
  {
-  BtnRange(const OwnPtr<Btn> *ptr,ulen len) : PtrLen<const OwnPtr<Btn> >(ptr,len) {}
+  unsigned flags;
+
+  BtnRange(const OwnPtr<Btn> *ptr,ulen len,unsigned flags_) : PtrLen<const OwnPtr<Btn> >(ptr,len),flags(flags_) {}
 
   ulen getLen() const { return len; }
 
   struct AdapterType
    {
     Btn *ptr;
+    unsigned flags;
 
-    explicit AdapterType(const OwnPtr<Btn> &r) : ptr(r.getPtr()) {}
+    AdapterType(const OwnPtr<Btn> &r,unsigned flags_) : ptr(r.getPtr()),flags(flags_) {}
 
     Point getMinSize(Coord) const
      {
-      return ptr->getMinSize();
+      return ptr->getMinSize(flags);
      }
 
     void setPlace(Pane pane,unsigned flags,Coord) const
@@ -67,6 +70,8 @@ struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
       ptr->setPlace(pane,flags);
      }
    };
+
+  AdapterType operator * () const { return AdapterType(*ptr,flags); }
  };
 
 void MessageWindow::knob_pressed()
@@ -93,19 +98,19 @@ MessageWindow::~MessageWindow()
 
  // methods
 
-Point MessageWindow::getMinSize(Point cap) const
+Point MessageWindow::getMinSize(unsigned flags,Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
   if( ulen count=btn_count )
     {
-     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info)));
+     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count,flags)),LayAll(dline,flags),LayExtXCap(info,flags)));
 
      return lay.getMinSize(space,cap);
     }
   else
     {
-     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info)));
+     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob,flags),LayAll(dline,flags),LayExtXCap(info,flags)));
 
      return lay.getMinSize(space,cap);
     }
@@ -144,13 +149,13 @@ void MessageWindow::layout(unsigned flags)
 
   if( ulen count=btn_count )
     {
-     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info)));
+     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count,flags)),LayAll(dline,flags),LayExtXCap(info,flags)));
 
      lay.setPlace(pane,flags,space);
     }
   else
     {
-     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info)));
+     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob,flags),LayAll(dline,flags),LayExtXCap(info,flags)));
 
      lay.setPlace(pane,flags,space);
     }
@@ -230,7 +235,7 @@ Pane MessageFrame::getPane(bool is_main,StrLen title) const
 
   Point cap=Div(9,10)*screen_size-getDeltaSize();
 
-  Point size=getMinSize(is_main,title,client.getMinSize(cap));
+  Point size=getMinSize(is_main,title,client.getMinSize(LayoutUpdate,cap));
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

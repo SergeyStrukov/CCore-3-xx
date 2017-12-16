@@ -53,18 +53,6 @@ struct TextLineState
 
 class TextLineShape : public TextLineState
  {
-   Coord btn_ex = 0 ;
-   Coord inner_dx = 0 ;
-   Coord inner_dy = 0 ;
-   Coord text_dx = 0 ;
-   Coord med_dx  = 0 ;
-   Coord font_dx0 = 0 ;
-   bool cache_ok = false ;
-
-  private:
-
-   void cache(unsigned update_flag);
-
    static MCoord FigEX(Coord fdy,MCoord width);
 
   public:
@@ -114,15 +102,33 @@ class TextLineShape : public TextLineState
 
    explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned update_flag) const;
 
-   Point getMinSize(StrLen text) const;
+   Point getMinSize(unsigned update_flag,StrLen text) const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
 
    void setMax(unsigned update_flag);
 
    void draw(const DrawBuf &buf) const;
+
+  private:
+
+   struct Cache
+    {
+     Coord btn_ex = 0 ;
+     Coord inner_dx = 0 ;
+     Coord inner_dy = 0 ;
+     Coord text_dx = 0 ;
+     Coord text_dy = 0 ;
+     Coord med_dx  = 0 ;
+     Coord font_dx0 = 0 ;
+     bool ok = false ;
+
+     void operator () (unsigned update_flag,const Config &cfg,StrLen text);
+    };
+
+   mutable Cache cache;
  };
 
 } // namespace Video

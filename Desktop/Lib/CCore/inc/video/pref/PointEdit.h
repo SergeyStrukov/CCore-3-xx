@@ -85,7 +85,7 @@ class PointEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    Point getPoint() const;
 

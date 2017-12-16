@@ -993,21 +993,21 @@ ConfigEditorWindow::~ConfigEditorWindow()
 
  // methods
 
-Point ConfigEditorWindow::getMinSize(Point cap) const
+Point ConfigEditorWindow::getMinSize(unsigned flags,Point cap) const
  {
   Coordinate space=+cfg.space_dxy;
 
   Point m;
 
   {
-   Coord check_dxy=check_all.getMinSize().dxy;
+   Coord check_dxy=check_all.getMinSize(flags).dxy;
 
    Coordinate ex=BoxExt(check_dxy);
 
-   Point s1=SupMinSize(label_all,label_Coord,label_MCoord,label_VColor,label_Clr,
-                       label_unsigned,label_String,label_Point,label_Font,label_bool,label_Ratio);
+   Point s1=SupMinSize(flags,label_all,label_Coord,label_MCoord,label_VColor,label_Clr,
+                             label_unsigned,label_String,label_Point,label_Font,label_bool,label_Ratio);
 
-   Point s2=SupMinSize(btn_Save,btn_Self,btn_Set,btn_Back);
+   Point s2=SupMinSize(flags,btn_Save,btn_Self,btn_Set,btn_Back);
 
    Coordinate dx=Sup(ex+s1.x,s2.x);
    Coordinate dy=14*space+4*Coordinate(s2.y)+11*Coordinate(Sup(check_dxy,s1.y));
@@ -1015,17 +1015,17 @@ Point ConfigEditorWindow::getMinSize(Point cap) const
    m=Point(dx,dy);
   }
 
-  Point t=SupMinSize(color_edit,string_edit,coord_edit,
-                     mcoord_edit,unsigned_edit,clr_edit,point_edit,
-                     bool_edit,ratio_edit);
+  Point t=SupMinSize(flags,color_edit,string_edit,coord_edit,
+                           mcoord_edit,unsigned_edit,clr_edit,point_edit,
+                           bool_edit,ratio_edit);
 
-  t=Sup(t,font_edit.getMinSize(Point(MaxCoord,cap.y-2*space)));
+  t=Sup(t,font_edit.getMinSize(flags,Point(MaxCoord,cap.y-2*space)));
 
-  Coord ex=split.getMinSize().dx;
+  Coord ex=split.getMinSize(flags).dx;
 
   Point delta(3*space+m.x+t.x+ex,2*space);
 
-  Point s=item_list.getMinSize(cap-delta);
+  Point s=item_list.getMinSize(flags,cap-delta);
 
   return delta+Point( s.x , Sup(s.y,m.y,t.y) );
  }
@@ -1050,9 +1050,9 @@ void ConfigEditorWindow::layout(unsigned flags)
   // item_list
 
   {
-   auto item__list=CutPoint(item_list);
+   auto item__list=CutPoint(item_list,flags);
 
-   Coord len=item__list.getMinSize().x;
+   Coord len=item__list.getMinSize(flags).x;
 
    min_list_dx=len/2;
    max_list_dx=pane.getSize().x/2;
@@ -1072,27 +1072,27 @@ void ConfigEditorWindow::layout(unsigned flags)
   // checks labels buttons
 
   {
-   Coord check_dxy=check_all.getMinSize().dxy;
+   Coord check_dxy=check_all.getMinSize(flags).dxy;
 
-   auto label__all=CutPoint(label_all);
-   auto label__Coord=CutPoint(label_Coord);
-   auto label__MCoord=CutPoint(label_MCoord);
-   auto label__VColor=CutPoint(label_VColor);
-   auto label__Clr=CutPoint(label_Clr);
-   auto label__unsigned=CutPoint(label_unsigned);
-   auto label__String=CutPoint(label_String);
-   auto label__Point=CutPoint(label_Point);
-   auto label__Font=CutPoint(label_Font);
-   auto label__bool=CutPoint(label_bool);
-   auto label__Ratio=CutPoint(label_Ratio);
+   auto label__all=CutPoint(label_all,flags);
+   auto label__Coord=CutPoint(label_Coord,flags);
+   auto label__MCoord=CutPoint(label_MCoord,flags);
+   auto label__VColor=CutPoint(label_VColor,flags);
+   auto label__Clr=CutPoint(label_Clr,flags);
+   auto label__unsigned=CutPoint(label_unsigned,flags);
+   auto label__String=CutPoint(label_String,flags);
+   auto label__Point=CutPoint(label_Point,flags);
+   auto label__Font=CutPoint(label_Font,flags);
+   auto label__bool=CutPoint(label_bool,flags);
+   auto label__Ratio=CutPoint(label_Ratio,flags);
 
-   Point size=SupMinSize(label__all,label__Coord,label__MCoord,label__VColor,label__Clr,
-                         label__unsigned,label__String,label__Point,label__Font,label__bool,label__Ratio);
+   Point size=SupMinSize(flags,label__all,label__Coord,label__MCoord,label__VColor,label__Clr,
+                               label__unsigned,label__String,label__Point,label__Font,label__bool,label__Ratio);
 
-   auto btn__Set=CutPoint(btn_Set);
-   auto btn__Back=CutPoint(btn_Back);
-   auto btn__Save=CutPoint(btn_Save);
-   auto btn__Self=CutPoint(btn_Self);
+   auto btn__Set=CutPoint(btn_Set,flags);
+   auto btn__Back=CutPoint(btn_Back,flags);
+   auto btn__Save=CutPoint(btn_Save,flags);
+   auto btn__Self=CutPoint(btn_Self,flags);
 
    Coord dx=Max_cast(IntAdd(BoxExt(check_dxy),size.x),btn__Save.size.x,btn__Self.size.x,btn__Set.size.x,btn__Back.size.x);
 
@@ -1216,7 +1216,7 @@ Pane ConfigEditorFrame::getPane(StrLen title,Point base) const
 
   Point cap=Div(9,10)*screen_size-getDeltaSize();
 
-  Point size=getMinSize(false,title,client.getMinSize(cap));
+  Point size=getMinSize(false,title,client.getMinSize(LayoutUpdate,cap));
 
   return FitToScreen(base,size,screen_size);
  }
@@ -1227,7 +1227,7 @@ Pane ConfigEditorFrame::getPane(bool is_main,StrLen title) const
 
   Point cap=Div(9,10)*screen_size-getDeltaSize();
 
-  Point size=getMinSize(is_main,title,client.getMinSize(cap));
+  Point size=getMinSize(is_main,title,client.getMinSize(LayoutUpdate,cap));
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

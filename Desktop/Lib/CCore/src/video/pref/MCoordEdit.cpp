@@ -45,9 +45,9 @@ MCoordEditWindow::~MCoordEditWindow()
 
  // methods
 
-Point MCoordEditWindow::getMinSize() const
+Point MCoordEditWindow::getMinSize(unsigned flags) const
  {
-  return spinor.getMinSize();
+  return spinor.getMinSize(flags);
  }
 
  // drawing

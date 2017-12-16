@@ -92,7 +92,7 @@ class RatioEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    Ratio getRatio() const;
 

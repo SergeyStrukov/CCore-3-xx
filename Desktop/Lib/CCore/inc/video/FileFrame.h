@@ -217,7 +217,7 @@ class FileFilterWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    bool isChecked() const { return check.isChecked(); }
 
@@ -301,7 +301,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    void add(StrLen filter,bool check);
 
@@ -640,7 +640,7 @@ class FileWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(StrLen sample_text) const;
+   Point getMinSize(unsigned flags,StrLen sample_text) const;
 
    StrLen getFilePath() const { return file_path; }
 

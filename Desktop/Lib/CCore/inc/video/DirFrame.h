@@ -212,7 +212,7 @@ class DirWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(StrLen sample_text) const;
+   Point getMinSize(unsigned flags,StrLen sample_text) const;
 
    StrLen getPath() const { return path; }
 

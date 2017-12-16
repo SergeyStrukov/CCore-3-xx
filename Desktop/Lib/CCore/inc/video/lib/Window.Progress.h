@@ -75,7 +75,7 @@ class ProgressWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned) const { return shape.getMinSize(); }
 
    unsigned getPos() const { return shape.pos; }
 

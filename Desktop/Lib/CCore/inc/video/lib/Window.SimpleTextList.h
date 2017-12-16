@@ -128,7 +128,7 @@ class SimpleTextListWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
+   auto getMinSize(unsigned,Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
    bool isEnabled() const { return shape.enable; }
 

@@ -51,9 +51,9 @@ class DecorWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned) const { return shape.getMinSize(); }
 
-   Point getMinSize(Point inner_size) const { return shape.getMinSize(inner_size); }
+   Point getMinSize(unsigned,Point inner_size) const { return shape.getMinSize(inner_size); }
 
    Pane getInner() const { return shape.getInner()+getPlace().getBase(); }
 

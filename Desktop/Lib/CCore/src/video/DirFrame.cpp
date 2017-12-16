@@ -315,18 +315,18 @@ DirWindow::~DirWindow()
 
  // methods
 
-Point DirWindow::getMinSize(StrLen sample_text) const
+Point DirWindow::getMinSize(unsigned flags,StrLen sample_text) const
  {
   Coordinate space=+cfg.space_dxy;
 
-  Coordinate knob_ext=BoxExt(knob_hit.getMinSize().dxy);
+  Coordinate knob_ext=BoxExt(knob_hit.getMinSize(flags).dxy);
 
-  Point dir_size=edit_dir.getMinSize(sample_text);
+  Point dir_size=edit_dir.getMinSize(flags,sample_text);
 
   Coordinate dir_dx=dir_size.x;
   Coordinate dir_dy=dir_size.y;
 
-  Point btn_size=SupMinSize(btn_Ok,btn_Cancel);
+  Point btn_size=SupMinSize(flags,btn_Ok,btn_Cancel);
 
   Coordinate btn_dx=btn_size.x;
   Coordinate btn_dy=btn_size.y;
@@ -349,10 +349,10 @@ void DirWindow::layout(unsigned flags)
   // knob_hit , knob_add , dir , knob_back
 
   {
-   auto knob__hit=CutBox(knob_hit);
-   auto edit__dir=CutPoint(edit_dir);
+   auto knob__hit=CutBox(knob_hit,flags);
+   auto edit__dir=CutPoint(edit_dir,flags);
 
-   Coord dy=SupDY(knob__hit,edit__dir);
+   Coord dy=SupDY(flags,knob__hit,edit__dir);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -383,10 +383,10 @@ void DirWindow::layout(unsigned flags)
   // list_dir , knob_mkdir , knob_rmdir
 
   {
-   auto knob__mkdir=CutBox(knob_mkdir);
+   auto knob__mkdir=CutBox(knob_mkdir,flags);
 
-   pane.cutRight(knob__mkdir.getMinSize())
-       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
+   pane.cutRight(knob__mkdir.getMinSize(flags))
+       .place_cutTop(CutPoint(knob_mkdir,flags)).place_cutTop(CutPoint(knob_rmdir,flags));
 
    pane.place(list_dir);
   }
@@ -453,7 +453,7 @@ DirFrame::~DirFrame()
 
 Pane DirFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
 
   Point screen_size=getScreenSize();
 
@@ -462,7 +462,7 @@ Pane DirFrame::getPane(StrLen title,Point base) const
 
 Pane DirFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

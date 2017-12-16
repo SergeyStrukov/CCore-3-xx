@@ -520,7 +520,7 @@ class ConfigEditorWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    void bindConfig(ConfigItemHost &host);
 

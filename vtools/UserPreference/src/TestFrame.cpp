@@ -192,14 +192,14 @@ void TestWindow::layout(unsigned flags)
   // swtch , btn , progress
 
   {
-   auto temp_swtch=CutBox(swtch);
-   auto temp_btn=CutPoint(btn);
-   auto temp_alt=CutPoint(alt);
-   auto temp_progress=CutPoint(progress);
+   auto temp_swtch=CutBox(swtch,flags);
+   auto temp_btn=CutPoint(btn,flags);
+   auto temp_alt=CutPoint(alt,flags);
+   auto temp_progress=CutPoint(progress,flags);
 
    temp_progress.size.x=10*temp_progress.size.y;
 
-   Coord dy=SupDY(temp_swtch,temp_btn,temp_alt,temp_progress);
+   Coord dy=SupDY(flags,temp_swtch,temp_btn,temp_alt,temp_progress);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -212,21 +212,21 @@ void TestWindow::layout(unsigned flags)
   // text_contour , label , rad
 
   {
-   auto temp_rad1=CutBox(rad1);
-   auto temp_rad2=CutBox(rad2);
-   auto temp_rad3=CutBox(rad3);
+   auto temp_rad1=CutBox(rad1,flags);
+   auto temp_rad2=CutBox(rad2,flags);
+   auto temp_rad3=CutBox(rad3,flags);
 
-   auto temp_label1=CutPoint(label1);
-   auto temp_label2=CutPoint(label2);
-   auto temp_label3=CutPoint(label3);
+   auto temp_label1=CutPoint(label1,flags);
+   auto temp_label2=CutPoint(label2,flags);
+   auto temp_label3=CutPoint(label3,flags);
 
-   Coord line_dy=SupDY(temp_rad1,temp_label1);
+   Coord line_dy=SupDY(flags,temp_rad1,temp_label1);
 
-   Coord label_dx=SupDX(temp_label1,temp_label2,temp_label3);
+   Coord label_dx=SupDX(flags,temp_label1,temp_label2,temp_label3);
 
    Point inner_size( temp_rad1.getExt()+label_dx+3*space_dxy , 3*line_dy+4*space_dxy );
 
-   Point size=text_contour.getMinSize(inner_size);
+   Point size=text_contour.getMinSize(flags,inner_size);
 
    pane.place_cutTopLeft(text_contour,size);
 
@@ -242,11 +242,11 @@ void TestWindow::layout(unsigned flags)
   }
 
   {
-   auto temp_check=CutBox(check);
-   auto temp_label=CutPoint(label);
-   auto temp_light=CutBox(light);
+   auto temp_check=CutBox(check,flags);
+   auto temp_label=CutPoint(label,flags);
+   auto temp_light=CutBox(light,flags);
 
-   Coord dy=SupDY(temp_check,temp_label,temp_light);
+   Coord dy=SupDY(flags,temp_check,temp_label,temp_light);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -260,7 +260,7 @@ void TestWindow::layout(unsigned flags)
   {
    pane.place_cutTop(xsingle);
 
-   Point size=edit.getMinSize();
+   Point size=edit.getMinSize(flags);
 
    size.x*=3;
 
@@ -274,12 +274,12 @@ void TestWindow::layout(unsigned flags)
   // ysingle , knob , ydouble , xscroll
 
   {
-   auto temp_knob=CutBox(knob);
-   auto temp_xscroll=CutPoint(xscroll);
+   auto temp_knob=CutBox(knob,flags);
+   auto temp_xscroll=CutPoint(xscroll,flags);
 
    temp_xscroll.size.x=10*temp_xscroll.size.y;
 
-   Coord dy=SupDY(temp_knob,temp_xscroll);
+   Coord dy=SupDY(flags,temp_knob,temp_xscroll);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -292,7 +292,7 @@ void TestWindow::layout(unsigned flags)
   // info
 
   {
-   Point size=contour.getMinSize(info.getMinSize());
+   Point size=contour.getMinSize(flags,info.getMinSize(flags));
 
    pane.place_cutTopLeft(contour,size);
 
