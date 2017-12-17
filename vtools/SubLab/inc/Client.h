@@ -181,7 +181,7 @@ class SpaceWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const { return Null; }
+   Point getMinSize(unsigned) const { return Null; }
 
    Pane getInner() const { return getPlace().shrink(space); }
 

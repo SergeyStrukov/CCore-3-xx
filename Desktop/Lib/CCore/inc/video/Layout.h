@@ -175,13 +175,13 @@ struct AlignXProxy
 /* AlignX() */
 
 template <PlaceType W>
-auto AlignLeft(W &window) { return AlignXProxy<W,AlignLeft>(window); }
+auto AlignLeft(W &window,unsigned flags) { return AlignXProxy<W,AlignLeft>(window,flags); }
 
 template <PlaceType W>
-auto AlignCenterX(W &window) { return AlignXProxy<W,AlignCenterX>(window); }
+auto AlignCenterX(W &window,unsigned flags) { return AlignXProxy<W,AlignCenterX>(window,flags); }
 
 template <PlaceType W>
-auto AlignRight(W &window) { return AlignXProxy<W,AlignRight>(window); }
+auto AlignRight(W &window,unsigned flags) { return AlignXProxy<W,AlignRight>(window,flags); }
 
 /* struct AlignYProxy<W,Pane Func(Pane pane,Coord dy)> */
 
@@ -201,13 +201,13 @@ struct AlignYProxy
 /* AlignY() */
 
 template <PlaceType W>
-auto AlignTop(W &window) { return AlignYProxy<W,AlignTop>(window); }
+auto AlignTop(W &window,unsigned flags) { return AlignYProxy<W,AlignTop>(window,flags); }
 
 template <PlaceType W>
-auto AlignCenterY(W &window) { return AlignYProxy<W,AlignCenterY>(window); }
+auto AlignCenterY(W &window,unsigned flags) { return AlignYProxy<W,AlignCenterY>(window,flags); }
 
 template <PlaceType W>
-auto AlignBottom(W &window) { return AlignYProxy<W,AlignBottom>(window); }
+auto AlignBottom(W &window,unsigned flags) { return AlignYProxy<W,AlignBottom>(window,flags); }
 
 /* struct CutBox<W> */
 

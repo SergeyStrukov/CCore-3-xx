@@ -63,19 +63,6 @@ class SimpleTextListWindowOf : public SubWindow
      setYOff(PosSub(shape.yoff,delta));
     }
 
-   void selectFirst()
-    {
-     setSelect(0);
-    }
-
-   void selectLast()
-    {
-     if( ulen count=shape.info->getLineCount() )
-       {
-        setSelect2(count-1,count);
-       }
-    }
-
    void setSelect2(ulen index,ulen count)
     {
      if( !count ) return;
@@ -95,6 +82,19 @@ class SimpleTextListWindowOf : public SubWindow
    void setSelect(ulen index)
     {
      setSelect2(index,shape.info->getLineCount());
+    }
+
+   void selectFirst()
+    {
+     setSelect(0);
+    }
+
+   void selectLast()
+    {
+     if( ulen count=shape.info->getLineCount() )
+       {
+        setSelect2(count-1,count);
+       }
     }
 
    void addSelect(ulen delta)
@@ -128,7 +128,7 @@ class SimpleTextListWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned,Point cap=Point::Max()) const { return shape.getMinSize(cap); }
+   auto getMinSize(unsigned flags,Point cap=Point::Max()) const { return shape.getMinSize(flags&LayoutUpdate,cap); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -147,7 +147,7 @@ class SimpleTextListWindowOf : public SubWindow
 
      shape.initSelect();
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      redraw();
     }
@@ -201,11 +201,11 @@ class SimpleTextListWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.setMax();
+     shape.setMax(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const

@@ -24,26 +24,18 @@ namespace Video {
 
 /* class SimpleTextListShape */
 
-Point SimpleTextListShape::getMinSize(Point cap) const
+void SimpleTextListShape::Cache::operator () (unsigned update_flag,const Config &cfg,const Info &info)
  {
-  Font font=cfg.font.get();
-
-  Point space=+cfg.space;
-
-  return 2*space+Inf(InfoSize(font,info),cap-2*space);
- }
-
-void SimpleTextListShape::setMax()
- {
-  Pane inner=pane.shrink(+cfg.space);
-
-  if( +inner )
+  if( update_flag || !ok )
     {
      ulen count=info->getLineCount();
 
-     Font font=cfg.font.get();
+     const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
+
+     line_dy=fs.dy;
+     med_dx=fs.medDX();
 
      Coord dx=0;
 
@@ -54,26 +46,43 @@ void SimpleTextListShape::setMax()
         Replace_max(dx,ts.full_dx);
        }
 
-     if( dx>inner.dx )
-       xoffMax=dx-inner.dx;
-     else
-       xoffMax=0;
+     info_dx=dx;
 
-     page=ulen(inner.dy/fs.dy);
+     ok=true;
+    }
+ }
 
-     if( count>page )
-       yoffMax=count-page;
-     else
-       yoffMax=0;
+Point SimpleTextListShape::getMinSize(unsigned,Point cap) const
+ {
+  const Font &font=cfg.font.get();
 
-     dxoff=fs.medDX();
+  Point space=+cfg.space;
+
+  return 2*space+Inf(InfoSize(font,info),cap-2*space);
+ }
+
+void SimpleTextListShape::setMax(unsigned update_flag)
+ {
+  cache(update_flag,cfg,info);
+
+  Pane inner=pane.shrink(+cfg.space);
+
+  if( +inner )
+    {
+     dxoff=cache.med_dx;
+
+     xoffMax=PlusSub(cache.info_dx,inner.dx);
+
+     page=ulen(inner.dy/cache.line_dy);
+
+     yoffMax=PlusSub(info->getLineCount(),page);
     }
   else
     {
-     xoffMax=0;
-     yoffMax=0;
      dxoff=0;
+     xoffMax=0;
      page=0;
+     yoffMax=0;
     }
  }
 
@@ -104,7 +113,7 @@ ulen SimpleTextListShape::getPosition(Point point) const
 
   if( point.y>=inner.y+inner.dy ) return yoff+page;
 
-  FontSize fs=cfg.font.get()->getSize();
+  FontSize fs=cfg.font->getSize();
 
   return yoff+ulen((point.y-inner.y)/fs.dy);
  }
@@ -187,21 +196,22 @@ void SimpleTextListShape::draw(const DrawBuf &buf) const
    ulen count=info->getLineCount();
    ulen index=yoff;
 
-   Font font=cfg.font.get();
+   const Font &font=cfg.font.get();
 
    FontSize fs=font->getSize();
 
    DrawBuf tbuf=buf.cut(inner);
+
+   if( fs.dy>inner.dy ) return;
 
    Pane row=inner;
 
    row.dy=fs.dy;
 
    Coord pos_x=fs.dx0-xoff;
+   Coord lim=inner.y+(inner.dy-row.dy);
 
-   Coord lim=inner.y+inner.dy;
-
-   for(; index<count && IntAdd(row.y,row.dy)<=lim ;index++,row.y+=row.dy)
+   for(; index<count && row.y<=lim ;index++,row.y+=row.dy)
      {
       if( enable && index==select ) tbuf.erase(row,+cfg.select);
 

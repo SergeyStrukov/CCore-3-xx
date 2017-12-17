@@ -1015,15 +1015,15 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
         pane.cutTop(dxy).place_cutLeft(radio_TopLeft)
                         .place_cutRight(radio_TopRight)
-                        .place(AlignCenterX(radio_TopCenter));
+                        .place(AlignCenterX(radio_TopCenter,flags));
 
         pane.cutBottom(dxy).place_cutLeft(radio_BottomLeft)
                            .place_cutRight(radio_BottomRight)
-                           .place(AlignCenterX(radio_BottomCenter));
+                           .place(AlignCenterX(radio_BottomCenter,flags));
 
-        pane.cutLeft(dxy).place(AlignCenterY(radio_LeftCenter));
+        pane.cutLeft(dxy).place(AlignCenterY(radio_LeftCenter,flags));
 
-        pane.cutRight(dxy).place(AlignCenterY(radio_RightCenter));
+        pane.cutRight(dxy).place(AlignCenterY(radio_RightCenter,flags));
 
         pane.place(window);
        }
@@ -1080,7 +1080,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        {
         Pane pane(Null,getSize());
 
-        Coord dy=light.getMinSize().dxy;
+        Coord dy=light.getMinSize(flags).dxy;
 
         light.setPlace( TrySplitY(dy,pane) ,flags);
 
@@ -1125,7 +1125,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        {
         Pane pane(Null,getSize());
 
-        Coord dy=text.getMinSize().y;
+        Coord dy=text.getMinSize(flags).y;
 
         text.setPlace( TrySplitY(dy,pane) ,flags);
 
@@ -1219,7 +1219,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
        {
         Pane pane(Null,getSize());
 
-        Coord dy=light.getMinSize().dxy;
+        Coord dy=light.getMinSize(flags).dxy;
 
         light.setPlace( TrySplitY(dy,pane) ,flags);
 
@@ -1472,17 +1472,17 @@ void ClientWindow::layout(unsigned flags)
   // check_wheat , label_wheat , list_type
 
   {
-   auto check__wheat=CutBox(check_wheat);
-   auto label__wheat=CutPoint(label_wheat);
-   auto list__type=CutPoint(list_type);
+   auto check__wheat=CutBox(check_wheat,flags);
+   auto label__wheat=CutPoint(label_wheat,flags);
+   auto list__type=CutPoint(list_type,flags);
 
-   Coordinate len=Coordinate(check__wheat.getExt())+label__wheat.getMinSize().x;
+   Coordinate len=Coordinate(check__wheat.getExt())+label__wheat.getMinSize(flags).x;
 
-   Coord dx=Sup(list__type.getMinSize().x,+len);
+   Coord dx=Sup(list__type.getMinSize(flags).x,+len);
 
    PaneCut p=pane.cutLeft(dx);
 
-   Coord dy=SupDY(check__wheat,label__wheat);
+   Coord dy=SupDY(flags,check__wheat,label__wheat);
 
    PaneCut q=p.cutTop(dy);
 
