@@ -346,7 +346,7 @@ Dir Dir25=
     { 'FigureLib.h' , Green },
     { 'FileFrame.h' , Red },
     { 'FrameBase.h' , Green },
-    { 'Layout.h' , Green },
+    { 'Layout.h' , Red },
     { 'LayoutCombo.h' , Red },
     { 'Menu.h' , Yellow },
     { 'MessageFrame.h' , Green },
@@ -420,11 +420,11 @@ Dir Dir28=
    },
    {
     { 'ColorEdit.h' , Red },
-    { 'CoordEdit.h' , Red },
+    { 'CoordEdit.h' , Green },
     { 'FontEdit.h' , Red },
-    { 'MCoordEdit.h' , Red },
-    { 'PointEdit.h' , Red },
-    { 'RatioEdit.h' , Red }
+    { 'MCoordEdit.h' , Green },
+    { 'PointEdit.h' , Green },
+    { 'RatioEdit.h' , Green }
    }
   };
 
@@ -446,7 +446,7 @@ Dir Dir26=
     { 'FigureLib.cpp' , Green },
     { 'FileFrame.cpp' , Red },
     { 'FrameBase.cpp' , Green },
-    { 'Layout.cpp' , Green },
+    { 'Layout.cpp' , Red },
     { 'LayoutCombo.cpp' , Red },
     { 'Menu.cpp' , Green },
     { 'MessageFrame.cpp' , Green },
@@ -499,7 +499,7 @@ Dir Dir29=
     { 'Shape.Scroll.cpp' , Green },
     { 'Window.Scroll.cpp' , Green },
     { 'Shape.ScrollList.cpp' , Red },
-    { 'Window.ScrollList.cpp' , Red },
+    { 'Window.ScrollList.cpp' , Green },
     { 'Shape.SimpleTextList.cpp' , Green },
     { 'Window.SimpleTextList.cpp' , Green },
     { 'Shape.Slider.cpp' , Green },
@@ -524,11 +524,11 @@ Dir Dir30=
    },
    {
     { 'ColorEdit.cpp' , Red },
-    { 'CoordEdit.cpp' , Red },
+    { 'CoordEdit.cpp' , Green },
     { 'FontEdit.cpp' , Red },
-    { 'MCoordEdit.cpp' , Red },
-    { 'PointEdit.cpp' , Red },
-    { 'RatioEdit.cpp' , Red }
+    { 'MCoordEdit.cpp' , Green },
+    { 'PointEdit.cpp' , Green },
+    { 'RatioEdit.cpp' , Green }
    }
   };
 
