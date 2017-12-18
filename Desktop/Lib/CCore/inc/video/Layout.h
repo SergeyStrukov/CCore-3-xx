@@ -163,11 +163,17 @@ template <PlaceType W,Pane Func(Pane pane,Coord dx)>
 struct AlignXProxy
  {
   W &window;
-  Point size;
+  mutable unsigned flags = 0 ;
+  mutable Point size;
 
-  explicit AlignXProxy(W &window_,unsigned flags) : window(window_),size(GetMinSize(flags,window_)) {}
+  explicit AlignXProxy(W &window_) : window(window_) {}
 
-  SizeY getMinSize(unsigned) const { return size.y; }
+  SizeY getMinSize(unsigned flags_) const
+   {
+    if( Change(flags,flags_) ) size=GetMinSize(flags_,window);
+
+    return size.y;
+   }
 
   void setPlace(Pane pane,unsigned flags) { window.setPlace(Func(pane,size.x),flags); }
  };
@@ -175,13 +181,13 @@ struct AlignXProxy
 /* AlignX() */
 
 template <PlaceType W>
-auto AlignLeft(W &window,unsigned flags) { return AlignXProxy<W,AlignLeft>(window,flags); }
+auto AlignLeft(W &window) { return AlignXProxy<W,AlignLeft>(window); }
 
 template <PlaceType W>
-auto AlignCenterX(W &window,unsigned flags) { return AlignXProxy<W,AlignCenterX>(window,flags); }
+auto AlignCenterX(W &window) { return AlignXProxy<W,AlignCenterX>(window); }
 
 template <PlaceType W>
-auto AlignRight(W &window,unsigned flags) { return AlignXProxy<W,AlignRight>(window,flags); }
+auto AlignRight(W &window) { return AlignXProxy<W,AlignRight>(window); }
 
 /* struct AlignYProxy<W,Pane Func(Pane pane,Coord dy)> */
 
@@ -189,11 +195,17 @@ template <PlaceType W,Pane Func(Pane pane,Coord dy)>
 struct AlignYProxy
  {
   W &window;
-  Point size;
+  mutable unsigned flags = 0 ;
+  mutable Point size;
 
-  explicit AlignYProxy(W &window_,unsigned flags) : window(window_),size(GetMinSize(flags,window_)) {}
+  explicit AlignYProxy(W &window_) : window(window_) {}
 
-  SizeX getMinSize(unsigned) const { return size.x; }
+  SizeX getMinSize(unsigned flags_) const
+   {
+    if( Change(flags,flags_) ) size=GetMinSize(flags_,window);
+
+    return size.x;
+   }
 
   void setPlace(Pane pane,unsigned flags) { window.setPlace(Func(pane,size.y),flags); }
  };
@@ -201,13 +213,13 @@ struct AlignYProxy
 /* AlignY() */
 
 template <PlaceType W>
-auto AlignTop(W &window,unsigned flags) { return AlignYProxy<W,AlignTop>(window,flags); }
+auto AlignTop(W &window) { return AlignYProxy<W,AlignTop>(window); }
 
 template <PlaceType W>
-auto AlignCenterY(W &window,unsigned flags) { return AlignYProxy<W,AlignCenterY>(window,flags); }
+auto AlignCenterY(W &window) { return AlignYProxy<W,AlignCenterY>(window); }
 
 template <PlaceType W>
-auto AlignBottom(W &window,unsigned flags) { return AlignYProxy<W,AlignBottom>(window,flags); }
+auto AlignBottom(W &window) { return AlignYProxy<W,AlignBottom>(window); }
 
 /* struct CutBox<W> */
 
@@ -215,9 +227,9 @@ template <PlaceOfType<SizeBox> W>
 struct CutBox
  {
   W &window;
-  Coord dxy;
+  Coord dxy = 0 ;
 
-  explicit CutBox(W &window_,unsigned flags) : window(window_),dxy(window_.getMinSize(flags).dxy) {}
+  CutBox(W &window_,unsigned flags) : window(window_),dxy(window_.getMinSize(flags).dxy) {}
 
   CutBox(W &window_,unsigned flags,Ratio scale) : window(window_),dxy(scale*window_.getMinSize(flags).dxy) {}
 
@@ -238,7 +250,7 @@ struct CutPoint
   W &window;
   Point size;
 
-  explicit CutPoint(W &window_,unsigned flags) : window(window_),size(GetMinSize(flags,window_)) {}
+  CutPoint(W &window_,unsigned flags) : window(window_),size(GetMinSize(flags,window_)) {}
 
   CutPoint(W &window_,unsigned flags,Ratio scale) : window(window_),size(scale*GetMinSize(flags,window_)) {}
 
