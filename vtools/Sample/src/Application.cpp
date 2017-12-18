@@ -261,7 +261,7 @@ class Application : public ApplicationBase
      DefString title=param.app_pref.get().title;
      Ratio frame_pos_ry=param.user_pref.get().frame_pos_ry;
 
-     Point size=main_frame.getMinSize(true,title.str(),client.getMinSize());
+     Point size=main_frame.getMinSize(true,title.str(),client.getMinSize(LayoutUpdate));
 
      Pane pane=GetWindowPlace(desktop,frame_pos_ry,size);
 

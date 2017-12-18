@@ -29,7 +29,7 @@ SampleWindow::~SampleWindow()
 
  // methods
 
-Point SampleWindow::getMinSize() const
+Point SampleWindow::getMinSize(unsigned) const
  {
   return Point(100,100);
  }

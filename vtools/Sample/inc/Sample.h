@@ -67,7 +67,7 @@ class SampleWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    // drawing
 

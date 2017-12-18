@@ -107,7 +107,7 @@ auto MenuData::findFirst() const -> FindResult
 
 /* class MenuShapeBase */
 
-Coordinate MenuShapeBase::GetDX(const MenuPoint &point,Font font,Coordinate space)
+Coordinate MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coordinate space)
  {
   switch( point.type )
     {
@@ -141,7 +141,7 @@ Coordinate MenuShapeBase::GetDX(const MenuPoint &point,Font font,Coordinate spac
     }
  }
 
-Coordinate MenuShapeBase::GetDX(const MenuPoint &point,Font font,Coordinate space,Coordinate dy)
+Coordinate MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coordinate space,Coordinate dy)
  {
   if( point.type==MenuSeparator ) return dy/5;
 
@@ -166,7 +166,7 @@ VColor MenuShapeBase::HotFunc::hot(ulen index_,Char,Point,Point)
   return vc;
  }
 
-void MenuShapeBase::drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane,Font font,AlignX align_x,VColor vc,bool showhot) const
+void MenuShapeBase::drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane,const Font &font,AlignX align_x,VColor vc,bool showhot) const
  {
   StrLen str=point.text.str();
 
@@ -235,9 +235,9 @@ void MenuShapeBase::drawY(const DrawBuf &buf,Pane pane) const
 
 /* class SimpleTopMenuShape */
 
-SizeY SimpleTopMenuShape::getMinSize() const
+SizeY SimpleTopMenuShape::getMinSize(unsigned) const
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
@@ -246,48 +246,41 @@ SizeY SimpleTopMenuShape::getMinSize() const
 
 bool SimpleTopMenuShape::isGoodSize(Point size) const
  {
-  const Font &font=cfg.font.get();
-  FontSize fs=font->getSize();
-  Point space=+cfg.space;
-
-  Coordinate dy=fs.dy+2*Coordinate(space.y);
-  Coordinate dx=0;
-
-  for(const MenuPoint &point : data.list )
-    {
-     dx+=GetDX(point,font,space.x,dy);
-    }
-
-  Point min_size(dx,dy);
+  Point min_size(menu_dx,getMinSize(0).dy);
 
   return size>=min_size;
  }
 
-void SimpleTopMenuShape::layout()
+void SimpleTopMenuShape::layout(unsigned update_flag)
  {
-  const Font &font=cfg.font.get();
-  FontSize fs=font->getSize();
-  Point space=+cfg.space;
-
-  Coordinate dy=fs.dy+2*Coordinate(space.y);
-  Coordinate x=0;
-
-  for(MenuPoint &point : data.list )
+  if( update_flag || !ok )
     {
-     Coordinate dx=GetDX(point,font,space.x,dy);
+     const Font &font=cfg.font.get();
+     FontSize fs=font->getSize();
+     Point space=+cfg.space;
 
-     point.place=Pane(x,0,dx,dy)+pane.getBase();
+     Coordinate dy=fs.dy+2*Coordinate(space.y);
+     Coordinate x=0;
 
-     x+=dx;
+     for(MenuPoint &point : data.list )
+       {
+        Coordinate dx=GetDX(point,font,space.x,dy);
+
+        point.place=Pane(x,0,dx,dy)+pane.getBase();
+
+        x+=dx;
+       }
+
+     menu_dx=+x;
+
+     xoffMax=PlusSub(menu_dx,pane.dx);
+
+     Replace_min(xoff,xoffMax);
+
+     dxoff=fs.medDX();
+
+     ok=true;
     }
-
-  xoffMax=+x;
-
-  if( xoffMax>pane.dx ) xoffMax-=pane.dx; else xoffMax=0;
-
-  Replace_min(xoff,xoffMax);
-
-  dxoff=fs.medDX();
  }
 
 void SimpleTopMenuShape::draw(const DrawBuf &buf) const
@@ -491,7 +484,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
     }
  }
 
-Point SimpleCascadeMenuShape::getMinSize() const
+Point SimpleCascadeMenuShape::getMinSize(unsigned) const
  {
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
@@ -531,7 +524,7 @@ Point SimpleCascadeMenuShape::getMinSize() const
   return Point(dx,y)+2*Point::Diag(delta);
  }
 
-void SimpleCascadeMenuShape::layout()
+void SimpleCascadeMenuShape::layout(unsigned)
  {
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
@@ -586,9 +579,7 @@ void SimpleCascadeMenuShape::layout()
         }
       }
 
-  yoffMax=+y;
-
-  if( yoffMax>inner.dy ) yoffMax-=inner.dy; else yoffMax=0;
+  yoffMax=PlusSub(+y,inner.dy);
 
   Replace_min(yoff,yoffMax);
  }

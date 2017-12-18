@@ -158,9 +158,9 @@ class MenuShapeBase
  {
   protected:
 
-   static Coordinate GetDX(const MenuPoint &point,Font font,Coordinate space);
+   static Coordinate GetDX(const MenuPoint &point,const Font &font,Coordinate space);
 
-   static Coordinate GetDX(const MenuPoint &point,Font font,Coordinate space,Coordinate dy);
+   static Coordinate GetDX(const MenuPoint &point,const Font &font,Coordinate space,Coordinate dy);
 
    struct PlaceFunc : Funchor
     {
@@ -189,7 +189,7 @@ class MenuShapeBase
      CharFunction function_hot() { return FunctionOf(this,&HotFunc::hot); }
     };
 
-   void drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane,Font font,AlignX align_x,VColor vc,bool showhot=false) const;
+   void drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane,const Font &font,AlignX align_x,VColor vc,bool showhot=false) const;
 
    void drawX(const DrawBuf &buf,Pane pane) const;
 
@@ -250,6 +250,9 @@ class MenuShapeBase
 
 class SimpleTopMenuShape : public MenuShapeBase
  {
+   Coord menu_dx = 0 ;
+   bool ok = false ;
+
   public:
 
    // parameters
@@ -272,11 +275,11 @@ class SimpleTopMenuShape : public MenuShapeBase
 
    SimpleTopMenuShape(const Config &cfg,MenuData &data_) : MenuShapeBase(cfg),data(data_) {}
 
-   SizeY getMinSize() const;
+   SizeY getMinSize(unsigned update_flag) const;
 
    bool isGoodSize(Point size) const;
 
-   void layout();
+   void layout(unsigned update_flag);
 
    void draw(const DrawBuf &buf) const;
  };
@@ -432,7 +435,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
 
    unsigned getState() const { return shape.state; }
 
@@ -462,11 +465,11 @@ class SimpleTopMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.layout();
+     shape.layout(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -634,11 +637,11 @@ class SimpleCascadeMenuShape : public MenuShapeBase
 
    explicit SimpleCascadeMenuShape(const Config &cfg) : MenuShapeBase(cfg) {}
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned update_flag) const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
 
-   void layout();
+   void layout(unsigned update_flag);
 
    void draw(const DrawBuf &buf) const;
  };
@@ -807,7 +810,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize() const { return shape.getMinSize(); }
+   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
 
    unsigned getState() const { return shape.state; }
 
@@ -841,11 +844,11 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.layout();
+     shape.layout(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -1066,6 +1069,7 @@ class SimpleCascadeMenuOf
 
    SignalConnector<SimpleCascadeMenuOf<Shape>,Point> connector_moved;
 
+   SignalConnector<SimpleCascadeMenuOf<Shape> > connector_data_updated;
    SignalConnector<SimpleCascadeMenuOf<Shape> > connector_updated;
 
   public:
@@ -1077,6 +1081,7 @@ class SimpleCascadeMenuOf
       client(frame,cfg.menu_cfg, std::forward<TT>(tt)... ),
 
       connector_moved(this,&SimpleCascadeMenuOf<Shape>::move),
+      connector_data_updated(this,&SimpleCascadeMenuOf<Shape>::update),
       connector_updated(this,&SimpleCascadeMenuOf<Shape>::update),
 
       destroyed(frame.destroyed),
@@ -1095,11 +1100,16 @@ class SimpleCascadeMenuOf
 
    bool isDead() const { return frame.isDead(); }
 
+   void connectUpdate(Signal<> &update)
+    {
+     connector_updated.connect(update);
+    }
+
    void create(FrameWindow *parent,MenuData &data,Point base)
     {
      client.bind(data);
 
-     Point size=client.getMinSize();
+     Point size=client.getMinSize(LayoutUpdate);
 
      screen_size=frame.getScreenSize();
 
@@ -1111,7 +1121,7 @@ class SimpleCascadeMenuOf
 
      connector_moved.connect(parent->moved);
 
-     connector_updated.connect(data.updated);
+     connector_data_updated.connect(data.updated);
     }
 
    void update()
@@ -1119,7 +1129,7 @@ class SimpleCascadeMenuOf
      if( frame.isAlive() )
        {
         Point base=frame.getScreenOrigin();
-        Point size=client.getMinSize();
+        Point size=client.getMinSize(LayoutUpdate);
 
         Pane pane=FitToScreen(base,size,screen_size);
 
@@ -1129,7 +1139,7 @@ class SimpleCascadeMenuOf
 
         frame.resize(new_size);
 
-        frame.input.redrawAll(LayoutResize|LayoutUpdate);
+        frame.input.redrawAll(LayoutUpdate);
        }
     }
 

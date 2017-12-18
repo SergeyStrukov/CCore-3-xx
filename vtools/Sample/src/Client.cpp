@@ -114,7 +114,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed)
  {
-  Used(update);
+  cascade_menu.connectUpdate(update);
 
   wlist.insTop(menu,sub_win);
 
@@ -141,11 +141,11 @@ ClientWindow::~ClientWindow()
 
  // methods
 
-Point ClientWindow::getMinSize() const
+Point ClientWindow::getMinSize(unsigned flags) const
  {
-  Coordinate dy=menu.getMinSize().dy;
+  Coordinate dy=menu.getMinSize(flags).dy;
 
-  Point s=sub_win.getMinSize();
+  Point s=sub_win.getMinSize(flags);
 
   return Point(s.x,dy+s.y);
  }
@@ -163,7 +163,7 @@ void ClientWindow::open()
 
 void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize().dy;
+  Coord dy=menu.getMinSize(flags).dy;
 
   Pane pane(Null,getSize());
 
