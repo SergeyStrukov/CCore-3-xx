@@ -1,7 +1,7 @@
 /* Shape.ScrollList.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -22,16 +22,36 @@ namespace Video {
 
 /* class ScrollListShape */
 
-Coord ScrollListShape::AddSat(Coord a,Coord b)
+void ScrollListShape::Cache::operator () (unsigned update_flag,const Config &cfg,const ComboInfo &info)
  {
-  MCoord ret=MCoord(a)+b;
+  if( update_flag || !ok )
+    {
+     ulen count=info->getLineCount();
 
-  if( ret>MaxCoord ) return MaxCoord;
+     const Font &font=cfg.font.get();
 
-  return (Coord)ret;
+     FontSize fs=font->getSize();
+
+     med_dx=fs.medDX();
+
+     line_dy=fs.dy;
+
+     Coord off=fs.dy;
+
+     Coord dx=0;
+
+     for(ulen index=0; index<count ;index++)
+       {
+        Replace_max(dx,GetLineDX(font,info->getLine(index),off));
+       }
+
+     info_dx=dx;
+
+     ok=true;
+    }
  }
 
-Coord ScrollListShape::GetLineDX(Font font,ComboInfoItem item,Coord off)
+Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
  {
   switch( item.type )
     {
@@ -58,9 +78,9 @@ Coord ScrollListShape::GetLineDX(Font font,ComboInfoItem item,Coord off)
     }
  }
 
-Point ScrollListShape::getMinSize(Point cap) const
+Point ScrollListShape::getMinSize(unsigned,Point cap) const
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
 
@@ -81,47 +101,28 @@ Point ScrollListShape::getMinSize(Point cap) const
   return 2*space+Inf(Point(dx,dy.value),cap-2*space);
  }
 
-void ScrollListShape::setMax()
+void ScrollListShape::setMax(unsigned update_flag)
  {
+  cache(update_flag,cfg,info);
+
   Pane inner=pane.shrink(+cfg.space);
 
   if( +inner )
     {
-     ulen count=info->getLineCount();
+     xoffMax=PlusSub(cache.info_dx,inner.dx);
 
-     Font font=cfg.font.get();
+     dxoff=cache.med_dx;
 
-     FontSize fs=font->getSize();
+     page=ulen(inner.dy/cache.line_dy);
 
-     Coord off=fs.dy;
-
-     Coord dx=0;
-
-     for(ulen index=0; index<count ;index++)
-       {
-        Replace_max(dx,GetLineDX(font,info->getLine(index),off));
-       }
-
-     if( dx>inner.dx )
-       xoffMax=dx-inner.dx;
-     else
-       xoffMax=0;
-
-     page=ulen(inner.dy/fs.dy);
-
-     if( count>page )
-       yoffMax=count-page;
-     else
-       yoffMax=0;
-
-     dxoff=fs.medDX();
+     yoffMax=PlusSub(info->getLineCount(),page);
     }
   else
     {
      xoffMax=0;
-     yoffMax=0;
      dxoff=0;
      page=0;
+     yoffMax=0;
     }
  }
 
@@ -221,7 +222,7 @@ ulen ScrollListShape::getPosition(Point point) const
 
   if( point.y>=inner.y+inner.dy ) return yoff+page;
 
-  FontSize fs=cfg.font.get()->getSize();
+  FontSize fs=cfg.font->getSize();
 
   return yoff+ulen((point.y-inner.y)/fs.dy);
  }
@@ -307,7 +308,7 @@ void ScrollListShape::draw(const DrawBuf &buf) const
    ulen count=info->getLineCount();
    ulen index=yoff;
 
-   Font font=cfg.font.get();
+   const Font &font=cfg.font.get();
 
    FontSize fs=font->getSize();
 
@@ -315,19 +316,20 @@ void ScrollListShape::draw(const DrawBuf &buf) const
 
    SmoothDrawArt tart(tbuf);
 
+   if( fs.dy>inner.dy ) return;
+
    Pane row=inner;
 
    row.dy=fs.dy;
 
    Coord pos_x=fs.dx0-xoff;
-
-   Coord lim=inner.y+inner.dy;
+   Coord lim=inner.y+(inner.dy-row.dy);
 
    VColor titleTop=+cfg.titleTop;
    VColor titleBottom=+cfg.titleBottom;
    Coord off=fs.dy;
 
-   for(; index<count && IntAdd(row.y,row.dy)<=lim ;index++,row.y+=row.dy)
+   for(; index<count && row.y<=lim ;index++,row.y+=row.dy)
      {
       if( enable && index==select ) tbuf.erase(row,+cfg.select);
 

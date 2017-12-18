@@ -78,6 +78,15 @@ MCoord Position(UInt P,UInt Q,MCoord a,MCoord b)
     return IntMoveNeg(a,UMulDiv(p,IntDist(b,a),q));
  }
 
+inline Coord AddSat(Coord a,Coord b)
+ {
+  MCoord ret=MCoord(a)+b;
+
+  if( ret>MaxCoord ) return MaxCoord;
+
+  return (Coord)ret;
+ }
+
 /* classes */
 
 struct Coordinate;

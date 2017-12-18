@@ -1,7 +1,7 @@
 /* Shape.ScrollList.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -28,15 +28,34 @@ namespace Video {
 
 /* classes */
 
+struct ScrollListState;
+
 class ScrollListShape;
+
+/* struct ScrollListState */
+
+struct ScrollListState
+ {
+  bool enable =  true ;
+  bool focus  = false ;
+  ulen select = MaxULen ;
+
+  ulen yoff     = 0 ;
+  ulen page     = 0 ;
+  ulen yoffMax  = 0 ;
+
+  Coord xoff    = 0 ;
+  Coord xoffMax = 0 ;
+  Coord dxoff   = 0 ;
+
+  ScrollListState() {}
+ };
 
 /* class ScrollListShape */
 
-class ScrollListShape
+class ScrollListShape : public ScrollListState
  {
-   static Coord AddSat(Coord a,Coord b);
-
-   static Coord GetLineDX(Font font,ComboInfoItem item,Coord off);
+   static Coord GetLineDX(const Font &font,ComboInfoItem item,Coord off);
 
   public:
 
@@ -88,31 +107,17 @@ class ScrollListShape
    ComboInfo info;
    Pane pane;
 
-   // state
-
-   bool enable =  true ;
-   bool focus  = false ;
-   ulen select = MaxULen ;
-
-   ulen yoff  = 0 ;
-   Coord xoff = 0 ;
-
-   ulen page     = 0 ;
-   ulen yoffMax  = 0 ;
-   Coord xoffMax = 0 ;
-   Coord dxoff   = 0 ;
-
    // methods
 
    explicit ScrollListShape(const Config &cfg_) : cfg(cfg_) {}
 
    ScrollListShape(const Config &cfg_,const ComboInfo &info_) : cfg(cfg_),info(info_) { setSelectDown(0); }
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
 
-   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
+   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
 
-   void setMax();
+   void setMax(unsigned update_flag);
 
    void initSelect();
 
@@ -125,6 +130,20 @@ class ScrollListShape
    ulen getPosition(Point point) const;
 
    void draw(const DrawBuf &buf) const;
+
+  private:
+
+   struct Cache
+    {
+     Coord info_dx = 0 ;
+     Coord line_dy = 0 ;
+     Coord med_dx = 0 ;
+     bool ok = false ;
+
+     void operator () (unsigned update_flag,const Config &cfg,const ComboInfo &info);
+    };
+
+   mutable Cache cache;
  };
 
 } // namespace Video

@@ -1,7 +1,7 @@
 /* Window.ScrollList.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -246,7 +246,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned,Point cap=Point::Max()) const { return shape.getMinSize(cap); }
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const { return shape.getMinSize(flags&LayoutUpdate,cap); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -265,7 +265,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
      shape.initSelect();
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      redraw();
     }
@@ -322,11 +322,11 @@ class ScrollListInnerWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.setMax();
+     shape.setMax(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -548,7 +548,7 @@ class Window
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    // signals
 
