@@ -27,12 +27,12 @@ MCoord LineEditShape::FigEX(Coord fdy,MCoord width,Coord ex)
   return Max_cast(width, (Fraction(fdy)+2*width)/4+Fraction(ex) );
  }
 
-Point LineEditShape::getMinSize() const
+Point LineEditShape::getMinSize(unsigned update_flag) const
  {
-  return getMinSize("Sample 1234567890"_c);
+  return getMinSize(update_flag,"Sample 1234567890"_c);
  }
 
-Point LineEditShape::getMinSize(StrLen sample_text) const
+Point LineEditShape::getMinSize(unsigned update_flag,StrLen sample_text) const
  {
   Font font=cfg.font.get();
 
@@ -54,7 +54,7 @@ Point LineEditShape::getMinSize(StrLen sample_text) const
 
 #ifdef CCORE_UTF8
 
-Point LineEditShape::getMinSize(PtrLen<const Char> sample_text) const
+Point LineEditShape::getMinSize(unsigned update_flag,PtrLen<const Char> sample_text) const
  {
   Font font=cfg.font.get();
 
@@ -76,7 +76,7 @@ Point LineEditShape::getMinSize(PtrLen<const Char> sample_text) const
 
 #endif
 
-void LineEditShape::setMax()
+void LineEditShape::setMax(unsigned update_flag)
  {
   Font font=cfg.font.get();
 

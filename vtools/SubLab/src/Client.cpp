@@ -1015,15 +1015,15 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
         pane.cutTop(dxy).place_cutLeft(radio_TopLeft)
                         .place_cutRight(radio_TopRight)
-                        .place(AlignCenterX(radio_TopCenter,flags));
+                        .place(AlignCenterX(radio_TopCenter));
 
         pane.cutBottom(dxy).place_cutLeft(radio_BottomLeft)
                            .place_cutRight(radio_BottomRight)
-                           .place(AlignCenterX(radio_BottomCenter,flags));
+                           .place(AlignCenterX(radio_BottomCenter));
 
-        pane.cutLeft(dxy).place(AlignCenterY(radio_LeftCenter,flags));
+        pane.cutLeft(dxy).place(AlignCenterY(radio_LeftCenter));
 
-        pane.cutRight(dxy).place(AlignCenterY(radio_RightCenter,flags));
+        pane.cutRight(dxy).place(AlignCenterY(radio_RightCenter));
 
         pane.place(window);
        }

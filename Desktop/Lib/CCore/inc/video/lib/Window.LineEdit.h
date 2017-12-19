@@ -297,7 +297,7 @@ class LineEditWindowOf : public SubWindow
     {
      shape.cursor=true;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      Replace_min(shape.xoff,shape.xoffMax);
 
@@ -460,10 +460,10 @@ class LineEditWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned) const { return shape.getMinSize(); }
+   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
 
    template <class T>
-   Point getMinSize(unsigned,T sample_text) const { return shape.getMinSize(sample_text); }
+   Point getMinSize(unsigned flags,T sample_text) const { return shape.getMinSize(flags&LayoutUpdate,sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -523,7 +523,7 @@ class LineEditWindowOf : public SubWindow
      shape.select_off=0;
      shape.select_len=0;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      redraw();
 
@@ -596,7 +596,7 @@ class LineEditWindowOf : public SubWindow
 
      shape.cursor=true;
 
-     shape.setMax();
+     shape.setMax(LayoutUpdate);
 
      Replace_min(shape.xoff,shape.xoffMax);
 
@@ -642,11 +642,11 @@ class LineEditWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout(unsigned flags)
     {
      shape.pane=Pane(Null,getSize());
 
-     shape.setMax();
+     shape.setMax(flags&LayoutUpdate);
     }
 
    virtual void draw(DrawBuf buf,bool) const

@@ -28,11 +28,39 @@ namespace Video {
 
 /* classes */
 
+struct LineEditState;
+
 class LineEditShape;
+
+/* struct LineEditState */
+
+struct LineEditState
+ {
+  bool enable      =  true ;
+  bool focus       = false ;
+  bool cursor      = false ;
+  bool hide_cursor = false ;
+  bool alert       = false ;
+  ulen len         = 0 ;
+  ulen pos         = 0 ;
+  ulen select_off  = 0 ;
+  ulen select_len  = 0 ;
+  Coord xoff       = 0 ;
+
+  Coord xoffMax = 0 ;
+  Coord dxoff   = 0 ;
+
+  bool drag = false ;
+  Point drag_base;
+  Coord xoff_base = 0 ;
+  bool mouse_pos = false ;
+
+  LineEditState() {}
+ };
 
 /* class LineEditShape */
 
-class LineEditShape
+class LineEditShape : public LineEditState
  {
    static MCoord FigEX(Coord fdy,MCoord width,Coord ex);
 
@@ -91,58 +119,39 @@ class LineEditShape
    PtrLen<Char> text_buf;
    Pane pane;
 
-   // state
+   // tick count
 
-   bool enable =  true ;
-   bool focus  = false ;
-   bool cursor = false ;
-   bool hide_cursor = false ;
-   bool alert  = false ;
-   ulen len    =     0 ;
-   ulen pos    =     0 ;
-   ulen select_off = 0 ;
-   ulen select_len = 0 ;
-   Coord xoff  =     0 ;
-
-   Coord xoffMax = 0 ;
-   Coord dxoff   = 0 ;
-
-   bool drag = false ;
-   Point drag_base;
-   Coord xoff_base = 0 ;
-   bool mouse_pos = false ;
-
-   unsigned count = 0 ;
+   unsigned tick_count = 0 ;
 
    // methods
 
    LineEditShape(PtrLen<Char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned update_flag) const;
 
-   Point getMinSize(StrLen sample_text) const;
+   Point getMinSize(unsigned update_flag,StrLen sample_text) const;
 
 #ifdef CCORE_UTF8
 
-   Point getMinSize(PtrLen<const Char> sample_text) const;
+   Point getMinSize(unsigned update_flag,PtrLen<const Char> sample_text) const;
 
 #endif
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
 
-   void setMax();
+   void setMax(unsigned update_flag);
 
    bool tick()
     {
-     if( count )
+     if( tick_count )
        {
-        count--;
+        tick_count--;
 
         return false;
        }
      else
        {
-        count=PosSub(+cfg.period,1u);
+        tick_count=PosSub(+cfg.period,1u);
 
         return true;
        }
