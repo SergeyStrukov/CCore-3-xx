@@ -1095,7 +1095,7 @@ void FontEditWindow::layout(unsigned flags)
   // list , split
 
   {
-   auto list__=CutPoint(list,flags);
+   auto list__=CutPoint(list);
 
    Coord len=list__.getMinSize(flags).x;
 
@@ -1126,8 +1126,11 @@ void FontEditWindow::layout(unsigned flags)
   // lights
 
   {
-   auto light__scalable=CutBox(light_scalable,flags);
-   auto label__scalable=CutPoint(label_scalable,flags);
+   auto light__scalable=CutBox(light_scalable);
+   auto label__scalable=CutPoint(label_scalable);
+
+   light__scalable.getMinSize(flags);
+   label__scalable.getMinSize(flags);
 
    Coord dy=Sup(label__scalable.size.y,light__scalable.dxy);
 
@@ -1150,8 +1153,11 @@ void FontEditWindow::layout(unsigned flags)
   // size spins
 
   {
-   auto spin__fdy=CutPoint(spin_fdy,flags);
-   auto check__fdx=CutBox(check_fdx,flags);
+   auto spin__fdy=CutPoint(spin_fdy);
+   auto check__fdx=CutBox(check_fdx);
+
+   spin__fdy.getMinSize(flags);
+   check__fdx.getMinSize(flags);
 
    Coord dy=Sup(spin__fdy.size.y,check__fdx.dxy);
 
@@ -1169,15 +1175,21 @@ void FontEditWindow::layout(unsigned flags)
   // hint and smooth
 
   {
-   auto radio__no_hint=CutBox(radio_no_hint,flags);
-   auto radio__native_hint=CutBox(radio_native_hint,flags);
-   auto radio__auto_hint=CutBox(radio_auto_hint,flags);
+   auto radio__no_hint=CutBox(radio_no_hint);
+   auto radio__native_hint=CutBox(radio_native_hint);
+   auto radio__auto_hint=CutBox(radio_auto_hint);
 
-   auto label__no_hint=CutPoint(label_no_hint,flags);
-   auto label__native_hint=CutPoint(label_native_hint,flags);
-   auto label__auto_hint=CutPoint(label_auto_hint,flags);
+   auto label__no_hint=CutPoint(label_no_hint);
+   auto label__native_hint=CutPoint(label_native_hint);
+   auto label__auto_hint=CutPoint(label_auto_hint);
+
+   radio__no_hint.getMinSize(flags);
+   label__no_hint.getMinSize(flags);
 
    Coordinate line_dy=Sup(radio__no_hint.dxy,label__no_hint.size.y);
+
+   label__native_hint.getMinSize(flags);
+   label__auto_hint.getMinSize(flags);
 
    Coordinate hint_dx=Sup(label__no_hint.size.x,label__native_hint.size.x,label__auto_hint.size.x);
 
@@ -1185,17 +1197,24 @@ void FontEditWindow::layout(unsigned flags)
 
    Point hint_outer_size=contour_hint.getMinSize(flags,hint_inner_size);
 
-   auto radio__no_smooth=CutBox(radio_no_smooth,flags);
-   auto radio__smooth=CutBox(radio_smooth,flags);
-   auto radio__RGB=CutBox(radio_RGB,flags);
-   auto radio__BGR=CutBox(radio_BGR,flags);
+   auto radio__no_smooth=CutBox(radio_no_smooth);
+   auto radio__smooth=CutBox(radio_smooth);
+   auto radio__RGB=CutBox(radio_RGB);
+   auto radio__BGR=CutBox(radio_BGR);
 
-   auto label__no_smooth=CutPoint(label_no_smooth,flags);
-   auto label__smooth=CutPoint(label_smooth,flags);
-   auto label__RGB=CutPoint(label_RGB,flags);
-   auto label__BGR=CutPoint(label_BGR,flags);
+   auto label__no_smooth=CutPoint(label_no_smooth);
+   auto label__smooth=CutPoint(label_smooth);
+   auto label__RGB=CutPoint(label_RGB);
+   auto label__BGR=CutPoint(label_BGR);
+
+   label__no_smooth.getMinSize(flags);
+   label__smooth.getMinSize(flags);
+   label__RGB.getMinSize(flags);
+   label__BGR.getMinSize(flags);
 
    Coordinate smooth_dx=Sup(label__no_smooth.size.x,label__smooth.size.x,label__RGB.size.x,label__BGR.size.x);
+
+   radio__no_smooth.getMinSize(flags);
 
    Point smooth_inner_size( BoxExt(radio__no_smooth.dxy)+smooth_dx+2*space_dxy , 4*line_dy+5*space_dxy );
 
@@ -1235,8 +1254,11 @@ void FontEditWindow::layout(unsigned flags)
   // kerning
 
   {
-   auto check__kerning=CutBox(check_kerning,flags);
-   auto label__kerning=CutPoint(label_kerning,flags);
+   auto check__kerning=CutBox(check_kerning);
+   auto label__kerning=CutPoint(label_kerning);
+
+   check__kerning.getMinSize(flags);
+   label__kerning.getMinSize(flags);
 
    Coord dy=Sup(check__kerning.dxy,label__kerning.size.y);
 
@@ -1249,8 +1271,11 @@ void FontEditWindow::layout(unsigned flags)
   // strength
 
   {
-   auto spin__strength=CutPoint(spin_strength,flags);
-   auto label__strength=CutPoint(label_strength,flags);
+   auto spin__strength=CutPoint(spin_strength);
+   auto label__strength=CutPoint(label_strength);
+
+   spin__strength.getMinSize(flags);
+   label__strength.getMinSize(flags);
 
    Coord dy=Sup(spin__strength.size.y,label__strength.size.y);
 
@@ -1267,11 +1292,14 @@ void FontEditWindow::layout(unsigned flags)
   // radio_sample , radio_table , label_sample , label_table
 
   {
-   auto radio__sample=CutBox(radio_sample,flags);
-   auto radio__table=CutBox(radio_table,flags);
+   auto radio__sample=CutBox(radio_sample);
+   auto radio__table=CutBox(radio_table);
 
-   auto label__sample=CutPoint(label_sample,flags);
-   auto label__table=CutPoint(label_table,flags);
+   auto label__sample=CutPoint(label_sample);
+   auto label__table=CutPoint(label_table);
+
+   radio__sample.getMinSize(flags);
+   label__sample.getMinSize(flags);
 
    Coord dy=Sup(radio__sample.dxy,label__sample.size.y);
 

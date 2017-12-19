@@ -175,7 +175,12 @@ struct AlignXProxy
     return size.y;
    }
 
-  void setPlace(Pane pane,unsigned flags) { window.setPlace(Func(pane,size.x),flags); }
+  void setPlace(Pane pane,unsigned flags)
+   {
+    getMinSize(flags);
+
+    window.setPlace(Func(pane,size.x),flags);
+   }
  };
 
 /* AlignX() */
@@ -207,7 +212,12 @@ struct AlignYProxy
     return size.x;
    }
 
-  void setPlace(Pane pane,unsigned flags) { window.setPlace(Func(pane,size.y),flags); }
+  void setPlace(Pane pane,unsigned flags)
+   {
+    getMinSize(flags);
+
+    window.setPlace(Func(pane,size.y),flags);
+   }
  };
 
 /* AlignY() */
@@ -227,17 +237,31 @@ template <PlaceOfType<SizeBox> W>
 struct CutBox
  {
   W &window;
-  Coord dxy = 0 ;
+  mutable unsigned flags = 0 ;
+  mutable Coord dxy = 0 ;
 
-  CutBox(W &window_,unsigned flags) : window(window_),dxy(window_.getMinSize(flags).dxy) {}
+  explicit CutBox(W &window_) : window(window_) {}
 
-  CutBox(W &window_,unsigned flags,Ratio scale) : window(window_),dxy(scale*window_.getMinSize(flags).dxy) {}
+  SizeXSpace getMinSize(unsigned flags_) const
+   {
+    if( Change(flags,flags_) ) dxy=window.getMinSize(flags_).dxy;
 
-  SizeXSpace getMinSize(unsigned) const { return SizeXSpace(dxy,BoxSpace(dxy)); }
+    return SizeXSpace(dxy,BoxSpace(dxy));
+   }
 
-  void setPlace(Pane pane,unsigned flags) { window.setPlace(AlignCenterY(pane,dxy),flags); }
+  void setPlace(Pane pane,unsigned flags)
+   {
+    getMinSize(flags);
 
-  Coord getExt() const { return BoxExt(dxy); }
+    window.setPlace(AlignCenterY(pane,dxy),flags);
+   }
+
+  Coord getExt(unsigned flags) const
+   {
+    getMinSize(flags);
+
+    return BoxExt(dxy);
+   }
  };
 
 Coord SupDY(const CutBox<AnyType> &window) { return window.dxy; }
@@ -248,15 +272,22 @@ template <PlaceType W>
 struct CutPoint
  {
   W &window;
-  Point size;
+  mutable unsigned flags = 0 ;
+  mutable Point size;
 
-  CutPoint(W &window_,unsigned flags) : window(window_),size(GetMinSize(flags,window_)) {}
+  explicit CutPoint(W &window_) : window(window_) {}
 
-  CutPoint(W &window_,unsigned flags,Ratio scale) : window(window_),size(scale*GetMinSize(flags,window_)) {}
+  Point getMinSize(unsigned flags_) const
+   {
+    if( Change(flags,flags_) ) size=GetMinSize(flags_,window);
 
-  Point getMinSize(unsigned) const { return size; }
+    return size;
+   }
 
-  void setPlace(Pane pane,unsigned flags) { window.setPlace(pane,flags); }
+  void setPlace(Pane pane,unsigned flags)
+   {
+    window.setPlace(pane,flags);
+   }
  };
 
 /* class PlaceRow */
@@ -593,9 +624,9 @@ class PaneCut
 
    // place Box
 
-   PaneCut & place_cutLeft(PlaceOfType<SizeBox> &&window) { place_cutLeft(CutBox(window,flags)); return *this; }
+   PaneCut & place_cutLeft(PlaceOfType<SizeBox> &&window) { place_cutLeft(CutBox(window)); return *this; }
 
-   PaneCut & place_cutRight(PlaceOfType<SizeBox> &&window) { place_cutRight(CutBox(window,flags)); return *this; }
+   PaneCut & place_cutRight(PlaceOfType<SizeBox> &&window) { place_cutRight(CutBox(window)); return *this; }
 
    // placeRow
 

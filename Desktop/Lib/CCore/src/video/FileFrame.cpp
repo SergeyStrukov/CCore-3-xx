@@ -1200,8 +1200,8 @@ void FileWindow::layout(unsigned flags)
   // knob_hit , knob_add , dir , knob_back
 
   {
-   auto knob__hit=CutBox(knob_hit,flags);
-   auto edit__dir=CutPoint(edit_dir,flags);
+   auto knob__hit=CutBox(knob_hit);
+   auto edit__dir=CutPoint(edit_dir);
 
    Coord dy=SupDY(flags,knob__hit,edit__dir);
 
@@ -1252,10 +1252,10 @@ void FileWindow::layout(unsigned flags)
 
    if( param.new_file )
      {
-      auto knob__mkdir=CutBox(knob_mkdir,flags);
+      auto knob__mkdir=CutBox(knob_mkdir);
 
       p.cutRight(knob__mkdir.getMinSize(flags))
-       .place_cutTop(CutPoint(knob_mkdir,flags)).place_cutTop(CutPoint(knob_rmdir,flags));
+       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
      }
 
    p.place(list_dir);
@@ -1271,9 +1271,9 @@ void FileWindow::layout(unsigned flags)
 
   if( param.new_file )
     {
-     auto alt__new_file=CutPoint(alt_new_file,flags);
-     auto label__new_file=CutPoint(label_new_file,flags);
-     auto edit__new_file=CutPoint(edit_new_file,flags);
+     auto alt__new_file=CutPoint(alt_new_file);
+     auto label__new_file=CutPoint(label_new_file);
+     auto edit__new_file=CutPoint(edit_new_file);
 
      Coord dy=SupDY(flags,alt__new_file,label__new_file,edit__new_file);
 

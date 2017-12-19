@@ -349,8 +349,8 @@ void DirWindow::layout(unsigned flags)
   // knob_hit , knob_add , dir , knob_back
 
   {
-   auto knob__hit=CutBox(knob_hit,flags);
-   auto edit__dir=CutPoint(edit_dir,flags);
+   auto knob__hit=CutBox(knob_hit);
+   auto edit__dir=CutPoint(edit_dir);
 
    Coord dy=SupDY(flags,knob__hit,edit__dir);
 
@@ -383,10 +383,10 @@ void DirWindow::layout(unsigned flags)
   // list_dir , knob_mkdir , knob_rmdir
 
   {
-   auto knob__mkdir=CutBox(knob_mkdir,flags);
+   auto knob__mkdir=CutBox(knob_mkdir);
 
    pane.cutRight(knob__mkdir.getMinSize(flags))
-       .place_cutTop(CutPoint(knob_mkdir,flags)).place_cutTop(CutPoint(knob_rmdir,flags));
+       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
 
    pane.place(list_dir);
   }

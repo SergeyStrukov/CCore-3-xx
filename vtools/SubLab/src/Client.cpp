@@ -1472,11 +1472,11 @@ void ClientWindow::layout(unsigned flags)
   // check_wheat , label_wheat , list_type
 
   {
-   auto check__wheat=CutBox(check_wheat,flags);
-   auto label__wheat=CutPoint(label_wheat,flags);
-   auto list__type=CutPoint(list_type,flags);
+   auto check__wheat=CutBox(check_wheat);
+   auto label__wheat=CutPoint(label_wheat);
+   auto list__type=CutPoint(list_type);
 
-   Coordinate len=Coordinate(check__wheat.getExt())+label__wheat.getMinSize(flags).x;
+   Coordinate len=Coordinate(check__wheat.getExt(flags))+label__wheat.getMinSize(flags).x;
 
    Coord dx=Sup(list__type.getMinSize(flags).x,+len);
 

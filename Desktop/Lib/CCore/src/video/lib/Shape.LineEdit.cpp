@@ -27,58 +27,44 @@ MCoord LineEditShape::FigEX(Coord fdy,MCoord width,Coord ex)
   return Max_cast(width, (Fraction(fdy)+2*width)/4+Fraction(ex) );
  }
 
+Point LineEditShape::getMinSize(TextSize ts) const
+ {
+  MCoord width=+cfg.width;
+
+  FontSize fs=cfg.font->getSize();
+
+  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
+
+  Coordinate dx=RoundUpLen(ex+width);
+  Coordinate dy=RoundUpLen(width);
+
+  Coordinate cursor_dx=+cfg.cursor_dx;
+
+  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
+ }
+
 Point LineEditShape::getMinSize(unsigned update_flag) const
  {
   return getMinSize(update_flag,"Sample 1234567890"_c);
  }
 
-Point LineEditShape::getMinSize(unsigned update_flag,StrLen sample_text) const
+Point LineEditShape::getMinSize(unsigned,StrLen sample_text) const
  {
-  Font font=cfg.font.get();
-
-  MCoord width=+cfg.width;
-
-  FontSize fs=font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
-
-  Coordinate dx=RoundUpLen(ex+width);
-  Coordinate dy=RoundUpLen(width);
-
-  Coordinate cursor_dx=+cfg.cursor_dx;
-
-  TextSize ts=font->text_guarded(sample_text);
-
-  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
+  return getMinSize(cfg.font->text_guarded(sample_text));
  }
 
 #ifdef CCORE_UTF8
 
-Point LineEditShape::getMinSize(unsigned update_flag,PtrLen<const Char> sample_text) const
+Point LineEditShape::getMinSize(unsigned,PtrLen<const Char> sample_text) const
  {
-  Font font=cfg.font.get();
-
-  MCoord width=+cfg.width;
-
-  FontSize fs=font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
-
-  Coordinate dx=RoundUpLen(ex+width);
-  Coordinate dy=RoundUpLen(width);
-
-  Coordinate cursor_dx=+cfg.cursor_dx;
-
-  TextSize ts=font->text_guarded(sample_text);
-
-  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
+  return getMinSize(cfg.font->text_guarded(sample_text));
  }
 
 #endif
 
-void LineEditShape::setMax(unsigned update_flag)
+void LineEditShape::setMax(unsigned)
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   MCoord width=+cfg.width;
 
@@ -101,10 +87,7 @@ void LineEditShape::setMax(unsigned update_flag)
 
      Coordinate tx=ts.full_dx+extra;
 
-     if( tx>inner.dx )
-       xoffMax=+tx-inner.dx;
-     else
-       xoffMax=0;
+     xoffMax=PlusSub(+tx,inner.dx);
 
      dxoff=fs.medDX();
     }
@@ -118,7 +101,7 @@ void LineEditShape::setMax(unsigned update_flag)
 
 void LineEditShape::showCursor()
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   MCoord width=+cfg.width;
 
@@ -161,7 +144,7 @@ void LineEditShape::showCursor()
 
 ulen LineEditShape::getPosition(Point point) const
  {
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   MCoord width=+cfg.width;
 
@@ -221,7 +204,7 @@ void LineEditShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   // figure
 

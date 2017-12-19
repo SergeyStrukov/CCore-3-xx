@@ -1050,7 +1050,7 @@ void ConfigEditorWindow::layout(unsigned flags)
   // item_list
 
   {
-   auto item__list=CutPoint(item_list,flags);
+   auto item__list=CutPoint(item_list);
 
    Coord len=item__list.getMinSize(flags).x;
 
@@ -1074,27 +1074,27 @@ void ConfigEditorWindow::layout(unsigned flags)
   {
    Coord check_dxy=check_all.getMinSize(flags).dxy;
 
-   auto label__all=CutPoint(label_all,flags);
-   auto label__Coord=CutPoint(label_Coord,flags);
-   auto label__MCoord=CutPoint(label_MCoord,flags);
-   auto label__VColor=CutPoint(label_VColor,flags);
-   auto label__Clr=CutPoint(label_Clr,flags);
-   auto label__unsigned=CutPoint(label_unsigned,flags);
-   auto label__String=CutPoint(label_String,flags);
-   auto label__Point=CutPoint(label_Point,flags);
-   auto label__Font=CutPoint(label_Font,flags);
-   auto label__bool=CutPoint(label_bool,flags);
-   auto label__Ratio=CutPoint(label_Ratio,flags);
+   auto label__all=CutPoint(label_all);
+   auto label__Coord=CutPoint(label_Coord);
+   auto label__MCoord=CutPoint(label_MCoord);
+   auto label__VColor=CutPoint(label_VColor);
+   auto label__Clr=CutPoint(label_Clr);
+   auto label__unsigned=CutPoint(label_unsigned);
+   auto label__String=CutPoint(label_String);
+   auto label__Point=CutPoint(label_Point);
+   auto label__Font=CutPoint(label_Font);
+   auto label__bool=CutPoint(label_bool);
+   auto label__Ratio=CutPoint(label_Ratio);
 
    Point size=SupMinSize(flags,label__all,label__Coord,label__MCoord,label__VColor,label__Clr,
                                label__unsigned,label__String,label__Point,label__Font,label__bool,label__Ratio);
 
-   auto btn__Set=CutPoint(btn_Set,flags);
-   auto btn__Back=CutPoint(btn_Back,flags);
-   auto btn__Save=CutPoint(btn_Save,flags);
-   auto btn__Self=CutPoint(btn_Self,flags);
+   auto btn__Set=CutPoint(btn_Set);
+   auto btn__Back=CutPoint(btn_Back);
+   auto btn__Save=CutPoint(btn_Save);
+   auto btn__Self=CutPoint(btn_Self);
 
-   Coord dx=Max_cast(IntAdd(BoxExt(check_dxy),size.x),btn__Save.size.x,btn__Self.size.x,btn__Set.size.x,btn__Back.size.x);
+   Coord dx=Max_cast(IntAdd(BoxExt(check_dxy),size.x),SupDX(flags,btn__Save,btn__Self,btn__Set,btn__Back));
 
    PaneCut p=pane.cutLeft(dx);
 

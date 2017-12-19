@@ -64,6 +64,8 @@ class LineEditShape : public LineEditState
  {
    static MCoord FigEX(Coord fdy,MCoord width,Coord ex);
 
+   Point getMinSize(TextSize ts) const;
+
   public:
 
    struct Config

@@ -192,10 +192,10 @@ void TestWindow::layout(unsigned flags)
   // swtch , btn , progress
 
   {
-   auto temp_swtch=CutBox(swtch,flags);
-   auto temp_btn=CutPoint(btn,flags);
-   auto temp_alt=CutPoint(alt,flags);
-   auto temp_progress=CutPoint(progress,flags);
+   auto temp_swtch=CutBox(swtch);
+   auto temp_btn=CutPoint(btn);
+   auto temp_alt=CutPoint(alt);
+   auto temp_progress=CutPoint(progress);
 
    temp_progress.size.x=10*temp_progress.size.y;
 
@@ -212,19 +212,19 @@ void TestWindow::layout(unsigned flags)
   // text_contour , label , rad
 
   {
-   auto temp_rad1=CutBox(rad1,flags);
-   auto temp_rad2=CutBox(rad2,flags);
-   auto temp_rad3=CutBox(rad3,flags);
+   auto temp_rad1=CutBox(rad1);
+   auto temp_rad2=CutBox(rad2);
+   auto temp_rad3=CutBox(rad3);
 
-   auto temp_label1=CutPoint(label1,flags);
-   auto temp_label2=CutPoint(label2,flags);
-   auto temp_label3=CutPoint(label3,flags);
+   auto temp_label1=CutPoint(label1);
+   auto temp_label2=CutPoint(label2);
+   auto temp_label3=CutPoint(label3);
 
    Coord line_dy=SupDY(flags,temp_rad1,temp_label1);
 
    Coord label_dx=SupDX(flags,temp_label1,temp_label2,temp_label3);
 
-   Point inner_size( temp_rad1.getExt()+label_dx+3*space_dxy , 3*line_dy+4*space_dxy );
+   Point inner_size( temp_rad1.getExt(flags)+label_dx+3*space_dxy , 3*line_dy+4*space_dxy );
 
    Point size=text_contour.getMinSize(flags,inner_size);
 
@@ -242,9 +242,9 @@ void TestWindow::layout(unsigned flags)
   }
 
   {
-   auto temp_check=CutBox(check,flags);
-   auto temp_label=CutPoint(label,flags);
-   auto temp_light=CutBox(light,flags);
+   auto temp_check=CutBox(check);
+   auto temp_label=CutPoint(label);
+   auto temp_light=CutBox(light);
 
    Coord dy=SupDY(flags,temp_check,temp_label,temp_light);
 
@@ -274,12 +274,15 @@ void TestWindow::layout(unsigned flags)
   // ysingle , knob , ydouble , xscroll
 
   {
-   auto temp_knob=CutBox(knob,flags);
-   auto temp_xscroll=CutPoint(xscroll,flags);
+   auto temp_knob=CutBox(knob);
+   auto temp_xscroll=CutPoint(xscroll);
+
+   temp_knob.getMinSize(flags);
+   temp_xscroll.getMinSize(flags);
+
+   Coord dy=Sup(temp_xscroll.size.y,temp_knob.dxy);
 
    temp_xscroll.size.x=10*temp_xscroll.size.y;
-
-   Coord dy=SupDY(flags,temp_knob,temp_xscroll);
 
    PaneCut p=pane.cutTop(dy);
 
@@ -403,6 +406,8 @@ TestClient::TestClient(SubWindowHost &host,const UserPreference &pref,Signal<> &
    connector_cascade_menu_pressed(this,&TestClient::cascade_menu_pressed,cascade_menu.pressed),
    connector_updated(this,&TestClient::update,update)
  {
+  cascade_menu.connectUpdate(update);
+
   wlist.insTop(menu,test);
 
   wlist.enableTabFocus(false);
@@ -466,7 +471,7 @@ void TestClient::open()
 
 void TestClient::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize().dy;
+  Coord dy=menu.getMinSize(flags).dy;
 
   Pane pane(Null,getSize());
 
