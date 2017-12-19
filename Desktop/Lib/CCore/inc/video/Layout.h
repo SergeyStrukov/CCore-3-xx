@@ -89,16 +89,6 @@ Pane AlignCenter(Pane pane,Coord dx,Coord dy);
 
 inline Pane AlignCenter(Pane pane,Point size) { return AlignCenter(pane,size.x,size.y); }
 
-/* Box...() */
-
-inline Coordinate BoxSpace(Coordinate dxy) { return dxy/5; }
-
-inline Coord BoxSpace(Coord dxy) { return dxy/5; }
-
-inline Coordinate BoxExt(Coordinate dxy) { return dxy+BoxSpace(dxy); }
-
-inline Coord BoxExt(Coord dxy) { return +BoxExt(Coordinate(dxy)); }
-
 /* GetMinSize() */
 
 Point GetMinSize(unsigned flags,const PlaceType &window) { return ToSizePoint(window.getMinSize(flags)); }
@@ -242,11 +232,11 @@ struct CutBox
 
   explicit CutBox(W &window_) : window(window_) {}
 
-  SizeXSpace getMinSize(unsigned flags_) const
+  SizeBoxSpace getMinSize(unsigned flags_) const
    {
     if( Change(flags,flags_) ) dxy=window.getMinSize(flags_).dxy;
 
-    return SizeXSpace(dxy,BoxSpace(dxy));
+    return SizeBoxSpace(dxy);
    }
 
   void setPlace(Pane pane,unsigned flags)
@@ -424,6 +414,10 @@ class PaneCut
    PaneCut cutBottom(Coord dy) { return cutBottom(dy,space); }
 
 
+   PaneCut cutLeft(SizeBoxSpace size) { return cutLeft(size.dxy,size.space); }
+
+   PaneCut cutRight(SizeBoxSpace size) { return cutRight(size.dxy,size.space); }
+
    PaneCut cutLeft(SizeXSpace size) { return cutLeft(size.dx,size.space); }
 
    PaneCut cutRight(SizeXSpace size) { return cutRight(size.dx,size.space); }
@@ -530,6 +524,10 @@ class PaneCut
    PaneCut & place_cutBottom(PlaceType &&window,OneOfTypes<Coord,Ratio> dy,Coord space) { window.setPlace(cutBottom(dy,space),flags); return *this; }
 
 
+   PaneCut & place_cutLeft(PlaceType &&window,SizeBoxSpace size) { window.setPlace(cutLeft(size),flags); return *this; }
+
+   PaneCut & place_cutRight(PlaceType &&window,SizeBoxSpace size) { window.setPlace(cutRight(size),flags); return *this; }
+
    PaneCut & place_cutLeft(PlaceType &&window,SizeXSpace size) { window.setPlace(cutLeft(size),flags); return *this; }
 
    PaneCut & place_cutRight(PlaceType &&window,SizeXSpace size) { window.setPlace(cutRight(size),flags); return *this; }
@@ -603,6 +601,12 @@ class PaneCut
    PaneCut & place_cutLeft(PlaceOfType<SizeX> &&window) { place_cutLeft(window,window.getMinSize(flags).dx); return *this; }
 
    PaneCut & place_cutRight(PlaceOfType<SizeX> &&window) { place_cutRight(window,window.getMinSize(flags).dx); return *this; }
+
+   // place BoxSpace
+
+   PaneCut & place_cutLeft(PlaceOfType<SizeBoxSpace> &&window) { place_cutLeft(window,window.getMinSize(flags)); return *this; }
+
+   PaneCut & place_cutRight(PlaceOfType<SizeBoxSpace> &&window) { place_cutRight(window,window.getMinSize(flags)); return *this; }
 
    // place XSpace
 
