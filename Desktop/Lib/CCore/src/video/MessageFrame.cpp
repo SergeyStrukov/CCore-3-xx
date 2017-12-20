@@ -47,20 +47,17 @@ MessageWindow::Btn::~Btn()
 
 struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
  {
-  unsigned flags;
-
-  BtnRange(const OwnPtr<Btn> *ptr,ulen len,unsigned flags_) : PtrLen<const OwnPtr<Btn> >(ptr,len),flags(flags_) {}
+  BtnRange(const OwnPtr<Btn> *ptr,ulen len) : PtrLen<const OwnPtr<Btn> >(ptr,len) {}
 
   ulen getLen() const { return len; }
 
   struct AdapterType
    {
     Btn *ptr;
-    unsigned flags;
 
-    AdapterType(const OwnPtr<Btn> &r,unsigned flags_) : ptr(r.getPtr()),flags(flags_) {}
+    AdapterType(const OwnPtr<Btn> &r) : ptr(r.getPtr()) {}
 
-    Point getMinSize(Coord) const
+    Point getMinSize(unsigned flags,Coord) const
      {
       return ptr->getMinSize(flags);
      }
@@ -70,8 +67,6 @@ struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
       ptr->setPlace(pane,flags);
      }
    };
-
-  AdapterType operator * () const { return AdapterType(*ptr,flags); }
  };
 
 void MessageWindow::knob_pressed()
@@ -104,15 +99,15 @@ Point MessageWindow::getMinSize(unsigned flags,Point cap) const
 
   if( ulen count=btn_count )
     {
-     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count,flags)),LayAll(dline,flags),LayExtXCap(info,flags)));
+     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info)));
 
-     return lay.getMinSize(space,cap);
+     return lay.getMinSize(flags,space,cap);
     }
   else
     {
-     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob,flags),LayAll(dline,flags),LayExtXCap(info,flags)));
+     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info)));
 
-     return lay.getMinSize(space,cap);
+     return lay.getMinSize(flags,space,cap);
     }
  }
 
@@ -149,13 +144,13 @@ void MessageWindow::layout(unsigned flags)
 
   if( ulen count=btn_count )
     {
-     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count,flags)),LayAll(dline,flags),LayExtXCap(info,flags)));
+     auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),LayAll(dline),LayExtXCap(info)));
 
      lay.setPlace(pane,flags,space);
     }
   else
     {
-     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob,flags),LayAll(dline,flags),LayExtXCap(info,flags)));
+     auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),LayAll(dline),LayExtXCap(info)));
 
      lay.setPlace(pane,flags,space);
     }

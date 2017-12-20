@@ -64,6 +64,8 @@ template <class ... LL> class LaySupCenterYExt;
 
 class LayNull;
 
+template <class W> class LayBase;
+
 template <class W> class LayAll;
 
 template <class W> class LayExtX;
@@ -243,60 +245,60 @@ class LayToTop : protected LaySet<LL...>
 
    using LaySet<LL...>::LaySet;
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dy+=s.y;
-                             dy+=space;
+                                   dy+=s.y;
+                                   dy+=space;
 
-                             dx=Sup(dx,s.x);
+                                   dx=Sup(dx,s.x);
 
-                            } ,
+                                  } ,
 
-            [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+            [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dy+=s.y;
+                                   dy+=s.y;
 
-                             dx=Sup(dx,s.x);
+                                   dx=Sup(dx,s.x);
 
-                            } );
+                                  } );
 
      return {dx,dy};
     }
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dy+=s.y;
-                             dy+=space;
+                                   dy+=s.y;
+                                   dy+=space;
 
-                             dx=Sup(dx,s.x);
+                                   dx=Sup(dx,s.x);
 
-                            } ,
+                                  } ,
 
-            [space,cap,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space,cap.subY(+dy));
+            [flags,space,cap,&dx,&dy] (auto &obj)
+                                      {
+                                       Point s=obj.getMinSize(flags,space,cap.subY(+dy));
 
-                             dy+=s.y;
+                                       dy+=s.y;
 
-                             dx=Sup(dx,s.x);
+                                       dx=Sup(dx,s.x);
 
-                            } );
+                                      } );
 
      return {dx,dy};
     }
@@ -305,7 +307,7 @@ class LayToTop : protected LaySet<LL...>
     {
      apply( [&pane,flags,space] (auto &obj)
                                 {
-                                 Coord dy=obj.getMinSize(space).y;
+                                 Coord dy=obj.getMinSize(flags,space).y;
 
                                  obj.setPlace(Split(pane,dy,space),flags,space);
                                 } ,
@@ -352,60 +354,60 @@ class LayToBottom : protected LaySet<LL...>
 
   using LaySet<LL...>::LaySet;
 
-  Point getMinSize(Coord space) const
+  Point getMinSize(unsigned flags,Coord space) const
    {
     Coordinate dx;
     Coordinate dy;
 
-    apply( [space,&dx,&dy] (auto &obj)
-                           {
-                            Point s=obj.getMinSize(space);
+    apply( [flags,space,&dx,&dy] (auto &obj)
+                                 {
+                                  Point s=obj.getMinSize(flags,space);
 
-                            dy+=s.y;
-                            dy+=space;
+                                  dy+=s.y;
+                                  dy+=space;
 
-                            dx=Sup(dx,s.x);
+                                  dx=Sup(dx,s.x);
 
-                           } ,
+                                 } ,
 
-           [space,&dx,&dy] (auto &obj)
-                           {
-                            Point s=obj.getMinSize(space);
+           [flags,space,&dx,&dy] (auto &obj)
+                                 {
+                                  Point s=obj.getMinSize(flags,space);
 
-                            dy+=s.y;
+                                  dy+=s.y;
 
-                            dx=Sup(dx,s.x);
+                                  dx=Sup(dx,s.x);
 
-                           } );
+                                 } );
 
     return {dx,dy};
    }
 
-  Point getMinSize(Coord space,Point cap) const
+  Point getMinSize(unsigned flags,Coord space,Point cap) const
    {
     Coordinate dx;
     Coordinate dy;
 
-    apply( [space,&dx,&dy] (auto &obj)
-                           {
-                            Point s=obj.getMinSize(space);
+    apply( [flags,space,&dx,&dy] (auto &obj)
+                                 {
+                                  Point s=obj.getMinSize(flags,space);
 
-                            dy+=s.y;
-                            dy+=space;
+                                  dy+=s.y;
+                                  dy+=space;
 
-                            dx=Sup(dx,s.x);
+                                  dx=Sup(dx,s.x);
 
-                           } ,
+                                 } ,
 
-           [space,cap,&dx,&dy] (auto &obj)
-                           {
-                            Point s=obj.getMinSize(space,cap.subY(+dy));
+           [flags,space,cap,&dx,&dy] (auto &obj)
+                                     {
+                                      Point s=obj.getMinSize(flags,space,cap.subY(+dy));
 
-                            dy+=s.y;
+                                      dy+=s.y;
 
-                            dx=Sup(dx,s.x);
+                                      dx=Sup(dx,s.x);
 
-                           } );
+                                     } );
 
     return {dx,dy};
    }
@@ -414,7 +416,7 @@ class LayToBottom : protected LaySet<LL...>
    {
     apply( [&pane,flags,space] (auto &obj)
                                {
-                                Coord dy=obj.getMinSize(space).y;
+                                Coord dy=obj.getMinSize(flags,space).y;
 
                                 obj.setPlace(Split(pane,dy,space),flags,space);
                                } ,
@@ -461,60 +463,60 @@ class LayToLeft : protected LaySet<LL...>
 
    using LaySet<LL...>::LaySet;
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
-                             dx+=space;
+                                   dx+=s.x;
+                                   dx+=space;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } ,
+                                  } ,
 
-            [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+            [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
+                                   dx+=s.x;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } );
+                                  } );
 
      return {dx,dy};
     }
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
-                             dx+=space;
+                                   dx+=s.x;
+                                   dx+=space;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } ,
+                                  } ,
 
-            [space,cap,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space,cap.subX(+dx));
+            [flags,space,cap,&dx,&dy] (auto &obj)
+                                      {
+                                       Point s=obj.getMinSize(flags,space,cap.subX(+dx));
 
-                             dx+=s.x;
+                                       dx+=s.x;
 
-                             dy=Sup(dy,s.y);
+                                       dy=Sup(dy,s.y);
 
-                            } );
+                                      } );
 
      return {dx,dy};
     }
@@ -523,7 +525,7 @@ class LayToLeft : protected LaySet<LL...>
     {
      apply( [&pane,flags,space] (auto &obj)
                                 {
-                                 Coord dx=obj.getMinSize(space).x;
+                                 Coord dx=obj.getMinSize(flags,space).x;
 
                                  obj.setPlace(Split(pane,dx,space),flags,space);
                                 } ,
@@ -570,60 +572,60 @@ class LayToRight : protected LaySet<LL...>
 
    using LaySet<LL...>::LaySet;
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
-                             dx+=space;
+                                   dx+=s.x;
+                                   dx+=space;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } ,
+                                  } ,
 
-            [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+            [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
+                                   dx+=s.x;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } );
+                                  } );
 
      return {dx,dy};
     }
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Coordinate dx;
      Coordinate dy;
 
-     apply( [space,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space);
+     apply( [flags,space,&dx,&dy] (auto &obj)
+                                  {
+                                   Point s=obj.getMinSize(flags,space);
 
-                             dx+=s.x;
-                             dx+=space;
+                                   dx+=s.x;
+                                   dx+=space;
 
-                             dy=Sup(dy,s.y);
+                                   dy=Sup(dy,s.y);
 
-                            } ,
+                                  } ,
 
-            [space,cap,&dx,&dy] (auto &obj)
-                            {
-                             Point s=obj.getMinSize(space,cap.subX(+dx));
+            [flags,space,cap,&dx,&dy] (auto &obj)
+                                      {
+                                       Point s=obj.getMinSize(flags,space,cap.subX(+dx));
 
-                             dx+=s.x;
+                                       dx+=s.x;
 
-                             dy=Sup(dy,s.y);
+                                       dy=Sup(dy,s.y);
 
-                            } );
+                                      } );
 
      return {dx,dy};
     }
@@ -632,7 +634,7 @@ class LayToRight : protected LaySet<LL...>
     {
      apply( [&pane,flags,space] (auto &obj)
                                 {
-                                 Coord dx=obj.getMinSize(space).x;
+                                 Coord dx=obj.getMinSize(flags,space).x;
 
                                  obj.setPlace(Split(pane,dx,space),flags,space);
                                 } ,
@@ -663,17 +665,17 @@ class ExtLayY
 
    explicit ExtLayY(const L &lay_) : lay(lay_) {}
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
-     Point s=lay.getMinSize(space);
+     Point s=lay.getMinSize(flags,space);
 
      return s+2*Ext(space);
     }
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Point delta=2*Ext(space);
-     Point s=lay.getMinSize(space,cap-delta);
+     Point s=lay.getMinSize(flags,space,cap-delta);
 
      return s+delta;
     }
@@ -699,17 +701,17 @@ class ExtLayX
 
    explicit ExtLayX(const L &lay_) : lay(lay_) {}
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
-     Point s=lay.getMinSize(space);
+     Point s=lay.getMinSize(flags,space);
 
      return s+2*Ext(space);
     }
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Point delta=2*Ext(space);
-     Point s=lay.getMinSize(space,cap-delta);
+     Point s=lay.getMinSize(flags,space,cap-delta);
 
      return s+delta;
     }
@@ -734,13 +736,13 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
   private:
 
-   Point getSize(Coord space) const
+   Point getSize(unsigned flags,Coord space) const
     {
      if( has_size && space==size_space ) return size;
 
      Point s;
 
-     apply( [&s,space] (auto &obj) { s=Sup(s,obj.getMinSize(space)); } );
+     apply( [&s,flags,space] (auto &obj) { s=Sup(s,obj.getMinSize(flags,space)); } );
 
      has_size=true;
      size=s;
@@ -756,9 +758,9 @@ class LaySupCenterXExt : protected LaySet<LL...>
     {
     }
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
-     Point size=getSize(space);
+     Point size=getSize(flags,space);
 
      auto count=CountToCoordinate(getCount());
 
@@ -767,7 +769,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     Point size=getSize(space);
+     Point size=getSize(flags,space);
 
      ulen count=getCount();
      Coord dx=size.x;
@@ -831,13 +833,13 @@ class LaySupCenterYExt : protected LaySet<LL...>
 
   private:
 
-   Point getSize(Coord space) const
+   Point getSize(unsigned flags,Coord space) const
     {
      if( has_size && space==size_space ) return size;
 
      Point s;
 
-     apply( [&s,space] (auto &obj) { s=Sup(s,obj.getMinSize(space)); } );
+     apply( [&s,flags,space] (auto &obj) { s=Sup(s,obj.getMinSize(flags,space)); } );
 
      has_size=true;
      size=s;
@@ -853,9 +855,9 @@ class LaySupCenterYExt : protected LaySet<LL...>
     {
     }
 
-   Point getMinSize(Coord space) const
+   Point getMinSize(unsigned flags,Coord space) const
     {
-     Point size=getSize(space);
+     Point size=getSize(flags,space);
 
      auto count=CountToCoordinate(getCount());
 
@@ -864,7 +866,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     Point size=getSize(space);
+     Point size=getSize(flags,space);
 
      ulen count=getCount();
      Coord dy=size.y;
@@ -922,68 +924,80 @@ class LayNull
 
    LayNull() {}
 
-   Point getMinSize(Coord) const { return Null; }
+   Point getMinSize(unsigned,Coord) const { return Null; }
 
    void setPlace(Pane,unsigned,Coord) const {}
+ };
+
+/* class LayBase<W> */
+
+template <class W>
+class LayBase
+ {
+   W &obj;
+   mutable unsigned flags = 0 ;
+   mutable Point s;
+
+  protected:
+
+   Point get(unsigned flags_) const
+    {
+     if( Change(flags,flags_) ) s=GetMinSize(flags_,obj);
+
+     return s;
+    }
+
+   void set(Pane pane,unsigned flags) const { obj.setPlace(pane,flags); }
+
+  public:
+
+   explicit LayBase(W &obj_) : obj(obj_) {}
  };
 
 /* class LayAll<W> */
 
 template <class W>
-class LayAll
+class LayAll : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayAll(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayAll(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(pane,flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
  };
 
 /* class LayExtX<W> */
 
 template <class W>
-class LayExtX
+class LayExtX : LayBase<W>
  {
-   W &obj;
-   Point s;
-
-  private:
-
    static Point Ext(Coord space) { return Point(space,0); }
 
   public:
 
-   LayExtX(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayExtX(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord space) const { return s+2*Ext(space); }
+   Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Ext(space); }
 
-   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { this->set(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayExtY<W> */
 
 template <class W>
-class LayExtY
+class LayExtY : LayBase<W>
  {
-   W &obj;
-   Point s;
-
-  private:
-
    static Point Ext(Coord space) { return Point(0,space); }
 
   public:
 
-   LayExtY(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayExtY(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord space) const { return s+2*Ext(space); }
+   Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Ext(space); }
 
-   void setPlace(Pane pane,unsigned flags,Coord space) const { obj.setPlace(pane.shrink(Ext(space)),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord space) const { this->set(pane.shrink(Ext(space)),flags); }
  };
 
 /* class LayExtXCap<W> */
@@ -992,7 +1006,6 @@ template <class W>
 class LayExtXCap
  {
    W &obj;
-   unsigned flags;
 
   private:
 
@@ -1000,9 +1013,9 @@ class LayExtXCap
 
   public:
 
-   LayExtXCap(W &obj_,unsigned flags_) : obj(obj_),flags(flags_) {}
+   explicit LayExtXCap(W &obj_) : obj(obj_) {}
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Point delta=2*Ext(space);
 
@@ -1018,7 +1031,6 @@ template <class W>
 class LayExtYCap
  {
    W &obj;
-   unsigned flags;
 
   private:
 
@@ -1026,9 +1038,9 @@ class LayExtYCap
 
   public:
 
-   LayExtYCap(W &obj_,unsigned flags_) : obj(obj_),flags(flags_) {}
+   explicit LayExtYCap(W &obj_) : obj(obj_) {}
 
-   Point getMinSize(Coord space,Point cap) const
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
     {
      Point delta=2*Ext(space);
 
@@ -1041,137 +1053,113 @@ class LayExtYCap
 /* class LayLeft<W> */
 
 template <class W>
-class LayLeft
+class LayLeft : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayLeft(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayLeft(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignLeft(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignLeft(pane,s.x),flags); }
  };
 
 /* class LayCenterX<W> */
 
 template <class W>
-class LayCenterX
+class LayCenterX : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayCenterX(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayCenterX(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterX(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayRight<W> */
 
 template <class W>
-class LayRight
+class LayRight : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayRight(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayRight(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignRight(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignRight(pane,s.x),flags); }
  };
 
 /* class LayTop<W> */
 
 template <class W>
-class LayTop
+class LayTop : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayTop(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayTop(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignTop(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignTop(pane,s.y),flags); }
  };
 
 /* class LayCenterY<W> */
 
 template <class W>
-class LayCenterY
+class LayCenterY : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayCenterY(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayCenterY(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterY(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterY(pane,s.y),flags); }
  };
 
 /* class LayBottom<W> */
 
 template <class W>
-class LayBottom
+class LayBottom : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayBottom(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayBottom(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord) const { return s; }
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignBottom(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignBottom(pane,s.y),flags); }
  };
 
 /* class LayCenterXExt<W> */
 
 template <class W>
-class LayCenterXExt
+class LayCenterXExt : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayCenterXExt(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayCenterXExt(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord space) const { return s+2*Point(space,0); }
+   Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Point(space,0); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterX(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayCenterYExt<W> */
 
 template <class W>
-class LayCenterYExt
+class LayCenterYExt : LayBase<W>
  {
-   W &obj;
-   Point s;
-
   public:
 
-   LayCenterYExt(W &obj_,unsigned flags) : obj(obj_) { s=GetMinSize(flags,obj); }
+   explicit LayCenterYExt(W &obj) : LayBase<W>(obj) {}
 
-   Point getMinSize(Coord space) const { return s+2*Point(0,space); }
+   Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Point(0,space); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(AlignCenterY(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterY(pane,s.y),flags); }
  };
 
 } // namespace Video
