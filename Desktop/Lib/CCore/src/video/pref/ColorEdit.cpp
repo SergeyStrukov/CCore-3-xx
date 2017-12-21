@@ -250,51 +250,30 @@ void ColorEditWindow::copy(VColor vc)
   getFrameHost()->textToClipboard(out.close());
  }
 
-class ColorEditWindow::TextToColor : public Funchor
- {
-   VColor vc = Black ;
-   bool ok = false ;
-
-  public:
-
-   bool get(VColor &ret) const
-    {
-     if( ok )
-       {
-        ret=vc;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   void text(PtrLen<const Char> str)
-    {
-     ScanCharString inp(str);
-
-     uint32 val;
-
-     Scanf(inp,"###.16;",val);
-
-     if( inp.isOk() && val<=0xFFFFFFu )
-       {
-        vc=VColor(val);
-
-        ok=true;
-       }
-    }
-
-   Function<void (PtrLen<const Char>)> function_text() { return FunctionOf(this,&TextToColor::text); }
- };
-
 bool ColorEditWindow::past(VColor &ret)
  {
-  TextToColor temp;
+  bool ok = false ;
 
-  getFrameHost()->textFromClipboard(temp.function_text());
+  auto temp=ToFunction<void (PtrLen<const Char>)>( [&] (PtrLen<const Char> str)
+                                                       {
+                                                        ScanCharString inp(str);
 
-  return temp.get(ret);
+                                                        uint32 val;
+
+                                                        Scanf(inp,"###.16;",val);
+
+                                                        if( inp.isOk() && val<=0xFFFFFFu )
+                                                          {
+                                                           ret=VColor(val);
+
+                                                           ok=true;
+                                                          }
+
+                                                       } );
+
+  getFrameHost()->textFromClipboard(temp.function());
+
+  return ok;
  }
 
 ColorEditWindow::ColorEditWindow(SubWindowHost &host,const Config &cfg_)

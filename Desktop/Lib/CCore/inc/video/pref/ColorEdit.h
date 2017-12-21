@@ -175,8 +175,6 @@ class ColorEditWindow : public SubWindow
 
    void copy(VColor vc);
 
-   class TextToColor;
-
    bool past(VColor &ret);
 
   public:
