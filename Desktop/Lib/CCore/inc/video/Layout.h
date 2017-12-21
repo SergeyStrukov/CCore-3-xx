@@ -394,6 +394,8 @@ class PaneCut
 
    void shrink();
 
+   PaneCut dup() const { return *this; }
+
    // cut
 
    PaneCut cutLeft(Coord dx,Coord space);

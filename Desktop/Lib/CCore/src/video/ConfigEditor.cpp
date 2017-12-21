@@ -602,7 +602,7 @@ void ConfigEditorWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout(LayoutUpdate);
+     layout(LayoutResize);
 
      redraw();
     }
@@ -1043,7 +1043,8 @@ void ConfigEditorWindow::bindConfig(ConfigItemHost &host)
 
 void ConfigEditorWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
+  Coord space=+cfg.space_dxy;
+  PaneCut pane(getSize(),space,flags);
 
   pane.shrink();
 
@@ -1086,19 +1087,19 @@ void ConfigEditorWindow::layout(unsigned flags)
    auto label__bool=CutPoint(label_bool);
    auto label__Ratio=CutPoint(label_Ratio);
 
-   Point size=SupMinSize(flags,label__all,label__Coord,label__MCoord,label__VColor,label__Clr,
-                               label__unsigned,label__String,label__Point,label__Font,label__bool,label__Ratio);
+   Point label_size=SupMinSize(flags,label__all,label__Coord,label__MCoord,label__VColor,label__Clr,
+                                     label__unsigned,label__String,label__Point,label__Font,label__bool,label__Ratio);
 
    auto btn__Set=CutPoint(btn_Set);
    auto btn__Back=CutPoint(btn_Back);
    auto btn__Save=CutPoint(btn_Save);
    auto btn__Self=CutPoint(btn_Self);
 
-   Coord dx=Max_cast(IntAdd(BoxExt(check_dxy),size.x),SupDX(flags,btn__Save,btn__Self,btn__Set,btn__Back));
+   Coord dx=Max(IntAdd(BoxExt(check_dxy),label_size.x),SupDX(flags,btn__Save,btn__Self,btn__Set,btn__Back));
 
    PaneCut p=pane.cutLeft(dx);
 
-   Coord dy=Max(check_dxy,size.y);
+   Coord dy=Max(check_dxy,label_size.y);
 
    p.cutTop(dy).place_cutLeft(check_all).place_cutLeft(label__all);
    p.cutTop(dy).place_cutLeft(check_Coord).place_cutLeft(label__Coord);
@@ -1112,20 +1113,18 @@ void ConfigEditorWindow::layout(unsigned flags)
    p.cutTop(dy).place_cutLeft(check_bool).place_cutLeft(label__bool);
    p.cutTop(dy).place_cutLeft(check_Ratio).place_cutLeft(label__Ratio);
 
-   ReplaceToSup(btn__Set.size.x,btn__Back.size.x,btn__Save.size.x);
+   Point btn_size=SupMinSize(flags,btn__Set,btn__Back,btn__Save);
 
-   p.place_cutTopLeft(btn__Set);
-   p.place_cutTopLeft(btn__Back);
-   p.place_cutTopLeft(btn__Save);
+   p.place_cutTopLeft(btn__Set,btn_size);
+   p.place_cutTopLeft(btn__Back,btn_size);
+   p.place_cutTopLeft(btn__Save,btn_size);
 
    if( use_self ) p.place_cutBottomLeft(btn__Self);
   }
 
   // split
 
-  {
-   pane.place_cutLeft(split);
-  }
+  pane.place_cutLeft(split);
 
   // font_edit
 
@@ -1137,27 +1136,15 @@ void ConfigEditorWindow::layout(unsigned flags)
 
   // string_edit
 
-  {
-   auto p=pane;
-
-   p.place_cutTop(string_edit);
-  }
+  pane.dup().place_cutTop(string_edit);
 
   // coord_edit
 
-  {
-   auto p=pane;
-
-   p.place_cutTop(coord_edit);
-  }
+  pane.dup().place_cutTop(coord_edit);
 
   // mcoord_edit
 
-  {
-   auto p=pane;
-
-   p.place_cutTop(mcoord_edit);
-  }
+  pane.dup().place_cutTop(mcoord_edit);
 
   // unsigned_edit
 
@@ -1177,11 +1164,7 @@ void ConfigEditorWindow::layout(unsigned flags)
 
   // ratio_edit
 
-  {
-   auto p=pane;
-
-   p.place_cutTop(ratio_edit);
-  }
+  pane.dup().place_cutTop(ratio_edit);
  }
 
 void ConfigEditorWindow::drawBack(DrawBuf buf,bool) const

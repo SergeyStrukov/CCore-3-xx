@@ -587,32 +587,29 @@ class ConfigEditorFrame : public DragFrame
 
    Pane getPane(bool is_main,StrLen title) const;
 
-   using DragFrame::create;
-   using DragFrame::createMain;
-
    void create(Point base,const DefString &title)
     {
-     create(getPane(title.str(),base),title);
+     DragFrame::create(getPane(title.str(),base),title);
     }
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     create(parent,getPane(title.str(),base),title);
+     DragFrame::create(parent,getPane(title.str(),base),title);
     }
 
    void create(const DefString &title)
     {
-     create(getPane(false,title.str()),title);
+     DragFrame::create(getPane(false,title.str()),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     create(parent,getPane(false,title.str()),title);
+     DragFrame::create(parent,getPane(false,title.str()),title);
     }
 
    void createMain(const DefString &title)
     {
-     createMain(CmdDisplay_Normal,getPane(true,title.str()),title);
+     DragFrame::createMain(CmdDisplay_Normal,getPane(true,title.str()),title);
     }
 
    // signals
