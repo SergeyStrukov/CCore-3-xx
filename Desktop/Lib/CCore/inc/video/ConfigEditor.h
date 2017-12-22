@@ -612,6 +612,11 @@ class ConfigEditorFrame : public DragFrame
      DragFrame::createMain(CmdDisplay_Normal,getPane(true,title.str()),title);
     }
 
+   void createMain(CmdDisplay cmd_display,Pane pane,const DefString &title)
+    {
+     DragFrame::createMain(cmd_display,pane,title);
+    }
+
    // signals
 
    Signal<> &updated;

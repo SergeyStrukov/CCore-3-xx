@@ -15,7 +15,7 @@
 
 #include <CCore/inc/video/pref/FontEdit.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/SmoothDrawArt.h>
 
 #include <CCore/inc/Sort.h>
@@ -396,26 +396,6 @@ DefString FontEditWindow::TestText()
    "To find our long-forgotten gold.\n"_def;
  }
 
-class FontEditWindow::MaxIndexFunc : public Funchor
- {
-   int count = 0 ;
-
-  private:
-
-   void size(Coord,Coord)
-    {
-     count++;
-    }
-
-  public:
-
-   MaxIndexFunc() {}
-
-   operator int() const { return (count>0)?count-1:0; }
-
-   Function<void (Coord dx,Coord dy)> function_size() { return FunctionOf(this,&MaxIndexFunc::size); }
- };
-
 int FontEditWindow::GetMaxIndex(Font font_)
  {
   try
@@ -424,11 +404,13 @@ int FontEditWindow::GetMaxIndex(Font font_)
 
      (Font &)font=font_;
 
-     MaxIndexFunc func;
+     int count = 0 ;
 
-     font.getSizeList(func.function_size());
+     auto temp=ToFunction<void (Coord dx,Coord dy)>( [&count] (Coord,Coord) { count++; } );
 
-     return func;
+     font.getSizeList(temp.function());
+
+     return (count>0)?count-1:0;
     }
   catch(...)
     {
@@ -436,14 +418,22 @@ int FontEditWindow::GetMaxIndex(Font font_)
     }
  };
 
+void FontEditWindow::updateSample()
+ {
+  info_test.layout(LayoutUpdate);
+  info_test.redraw();
+
+  table.layout(LayoutUpdate);
+  table.redraw();
+ }
+
 void FontEditWindow::updateFont()
  {
   font.create();
 
   changed.assert();
 
-  info_test.layout(LayoutUpdate);
-  info_test.redraw();
+  updateSample();
  }
 
 void FontEditWindow::showFont(ulen select)
@@ -598,8 +588,7 @@ void FontEditWindow::setCouple()
 
   setConfig();
 
-  info_test.layout(LayoutUpdate);
-  info_test.redraw();
+  updateSample();
  }
 
 void FontEditWindow::split_dragged(Point delta)
@@ -610,7 +599,7 @@ void FontEditWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout(LayoutUpdate);
+     layout(LayoutResize);
 
      redraw();
     }
@@ -795,7 +784,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,info_test);
 
-       layout(LayoutUpdate);
+       layout(LayoutResize);
        redraw();
       }
      break;
@@ -806,7 +795,7 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,table);
 
-       layout(LayoutUpdate);
+       layout(LayoutResize);
        redraw();
       }
      break;
@@ -1079,17 +1068,13 @@ void FontEditWindow::setCouple(const FontCouple &font_)
 
 void FontEditWindow::layout(unsigned flags)
  {
-  Coord space_dxy=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space_dxy,flags);
+  PaneCut pane(getSize(),space,flags);
 
   // progress
 
-  {
-   PaneCut p=pane;
-
-   p.place_cutTop(progress,+cfg.progress_dy);
-  }
+  pane.dup().place_cutTop(progress,+cfg.progress_dy);
 
   // list , split
 
@@ -1103,224 +1088,64 @@ void FontEditWindow::layout(unsigned flags)
 
    if( split_on )
      {
-      pane.place_cutLeft(list__,list_split_dx,0)
-          .place_cutLeft(split);
+      pane.place_cutLeft(list__,list_split_dx,0).place_cutLeft(split);
      }
    else
      {
-      pane.place_cutLeft(list__,Div(1,3),0)
-          .place_cutLeft(split);
+      pane.place_cutLeft(list__,Div(1,3),0).place_cutLeft(split);
 
       list_split_dx=list.getSize().x;
      }
   }
 
-  // text_file_name , text_family
-
-  {
-   pane.place_cutTop(text_file_name)
-       .place_cutTop(text_family);
-  }
-
   // lights
 
-  {
-   auto light__scalable=CutBox(light_scalable);
-   auto label__scalable=CutPoint(label_scalable);
-
-   light__scalable.getMinSize(flags);
-   label__scalable.getMinSize(flags);
-
-   Coord dy=Sup(label__scalable.size.y,light__scalable.dxy);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(light__scalable)
-    .place_cutLeft(label__scalable)
-    .place_cutLeft(light_monospace)
-    .place_cutLeft(label_monospace)
-    .place_cutLeft(light_bold)
-    .place_cutLeft(label_bold)
-    .place_cutLeft(light_italic)
-    .place_cutLeft(label_italic);
-  }
-
-  // line1
-
-  pane.place_cutTop(line1);
+  LayToRight lay_lights(LayBox(light_scalable,label_scalable),
+                        LayBox(light_monospace,label_monospace),
+                        LayBox(light_bold,label_bold),
+                        LayBox(light_italic,label_italic));
 
   // size spins
 
-  {
-   auto spin__fdy=CutPoint(spin_fdy);
-   auto check__fdx=CutBox(check_fdx);
+  LayAll lay1(spin_fdy);
 
-   spin__fdy.getMinSize(flags);
-   check__fdx.getMinSize(flags);
-
-   Coord dy=Sup(spin__fdy.size.y,check__fdx.dxy);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeftCenter(spin__fdy)
-    .place_cutLeft(check__fdx)
-    .place_cutLeftCenter(spin_fdx);
-  }
-
-  // line2
-
-  pane.place_cutTop(line2);
+  LayToRightCenter lay_spins(lay1,
+                             LayBox(check_fdx,spin_fdx),
+                             LayNull());
 
   // hint and smooth
 
-  {
-   auto radio__no_hint=CutBox(radio_no_hint);
-   auto radio__native_hint=CutBox(radio_native_hint);
-   auto radio__auto_hint=CutBox(radio_auto_hint);
+  LayToBottomLeft lay_hint(LayBox(radio_no_hint,label_no_hint),
+                           LayBox(radio_native_hint,label_native_hint),
+                           LayBox(radio_auto_hint,label_auto_hint));
 
-   auto label__no_hint=CutPoint(label_no_hint);
-   auto label__native_hint=CutPoint(label_native_hint);
-   auto label__auto_hint=CutPoint(label_auto_hint);
+  LayToBottomLeft lay_smooth(LayBox(radio_no_smooth,label_no_smooth),
+                             LayBox(radio_smooth,label_smooth),
+                             LayBox(radio_RGB,label_RGB),
+                             LayBox(radio_BGR,label_BGR));
 
-   radio__no_hint.getMinSize(flags);
-   label__no_hint.getMinSize(flags);
+  LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
+                                LayInner(contour_smooth,lay_smooth),
+                                LayNull());
 
-   Coordinate line_dy=Sup(radio__no_hint.dxy,label__no_hint.size.y);
+  // text_file_name , text_family
 
-   label__native_hint.getMinSize(flags);
-   label__auto_hint.getMinSize(flags);
+  LayAll lay2(text_file_name);
 
-   Coordinate hint_dx=Sup(label__no_hint.size.x,label__native_hint.size.x,label__auto_hint.size.x);
+  LayToBottom lay(lay2,
+                  LayAll(text_family),
+                  lay_lights,
+                  LayAll(line1),
+                  lay_spins,
+                  LayAll(line2),
+                  lay_hint_smooth,
+                  LayBox(check_kerning,label_kerning),
+                  LayToRightCenter(LayAll(spin_strength),LayAll(label_strength)),
+                  LayAll(line3),
+                  LayToRight(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table)),
+                  LayInner(contour_test,LaySame(LayAll(info_test),LayAll(table))));
 
-   Point hint_inner_size( BoxExt(radio__no_hint.dxy)+hint_dx+2*space_dxy , 3*line_dy+4*space_dxy );
-
-   Point hint_outer_size=contour_hint.getMinSize(flags,hint_inner_size);
-
-   auto radio__no_smooth=CutBox(radio_no_smooth);
-   auto radio__smooth=CutBox(radio_smooth);
-   auto radio__RGB=CutBox(radio_RGB);
-   auto radio__BGR=CutBox(radio_BGR);
-
-   auto label__no_smooth=CutPoint(label_no_smooth);
-   auto label__smooth=CutPoint(label_smooth);
-   auto label__RGB=CutPoint(label_RGB);
-   auto label__BGR=CutPoint(label_BGR);
-
-   label__no_smooth.getMinSize(flags);
-   label__smooth.getMinSize(flags);
-   label__RGB.getMinSize(flags);
-   label__BGR.getMinSize(flags);
-
-   Coordinate smooth_dx=Sup(label__no_smooth.size.x,label__smooth.size.x,label__RGB.size.x,label__BGR.size.x);
-
-   radio__no_smooth.getMinSize(flags);
-
-   Point smooth_inner_size( BoxExt(radio__no_smooth.dxy)+smooth_dx+2*space_dxy , 4*line_dy+5*space_dxy );
-
-   Point smooth_outer_size=contour_smooth.getMinSize(flags,smooth_inner_size);
-
-   PaneCut p=pane.cutTop(Sup(hint_outer_size.y,smooth_outer_size.y));
-
-   p.place_cutLeftTop(contour_hint,hint_outer_size)
-    .place_cutLeftTop(contour_smooth,smooth_outer_size);
-
-   // hint
-
-   {
-    PaneCut pane(contour_hint.getInner(),space_dxy,flags);
-
-    pane.shrink();
-
-    pane.cutTop(+line_dy).place_cutLeft(radio__no_hint).place_cutLeft(label__no_hint);
-    pane.cutTop(+line_dy).place_cutLeft(radio__native_hint).place_cutLeft(label__native_hint);
-    pane.cutTop(+line_dy).place_cutLeft(radio__auto_hint).place_cutLeft(label__auto_hint);
-   }
-
-   // smooth
-
-   {
-    PaneCut pane(contour_smooth.getInner(),space_dxy,flags);
-
-    pane.shrink();
-
-    pane.cutTop(+line_dy).place_cutLeft(radio__no_smooth).place_cutLeft(label__no_smooth);
-    pane.cutTop(+line_dy).place_cutLeft(radio__smooth).place_cutLeft(label__smooth);
-    pane.cutTop(+line_dy).place_cutLeft(radio__RGB).place_cutLeft(label__RGB);
-    pane.cutTop(+line_dy).place_cutLeft(radio__BGR).place_cutLeft(label__BGR);
-   }
-  }
-
-  // kerning
-
-  {
-   auto check__kerning=CutBox(check_kerning);
-   auto label__kerning=CutPoint(label_kerning);
-
-   check__kerning.getMinSize(flags);
-   label__kerning.getMinSize(flags);
-
-   Coord dy=Sup(check__kerning.dxy,label__kerning.size.y);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(check__kerning)
-    .place_cutLeft(label__kerning);
-  }
-
-  // strength
-
-  {
-   auto spin__strength=CutPoint(spin_strength);
-   auto label__strength=CutPoint(label_strength);
-
-   spin__strength.getMinSize(flags);
-   label__strength.getMinSize(flags);
-
-   Coord dy=Sup(spin__strength.size.y,label__strength.size.y);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeftCenter(spin__strength)
-    .place_cutLeft(label__strength);
-  }
-
-  // line3
-
-  pane.place_cutTop(line3);
-
-  // radio_sample , radio_table , label_sample , label_table
-
-  {
-   auto radio__sample=CutBox(radio_sample);
-   auto radio__table=CutBox(radio_table);
-
-   auto label__sample=CutPoint(label_sample);
-   auto label__table=CutPoint(label_table);
-
-   radio__sample.getMinSize(flags);
-   label__sample.getMinSize(flags);
-
-   Coord dy=Sup(radio__sample.dxy,label__sample.size.y);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(radio__sample)
-    .place_cutLeft(label__sample)
-    .place_cutLeft(radio__table)
-    .place_cutLeft(label__table);
-  }
-
-  // sample
-
-  {
-   pane.place(contour_test);
-
-   Pane inner=contour_test.getInner();
-
-   info_test.setPlace(inner,flags);
-
-   table.setPlace(inner,flags);
-  }
+  lay.setPlace(pane,flags,space);
  }
 
  // base

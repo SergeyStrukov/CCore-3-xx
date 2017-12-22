@@ -394,9 +394,9 @@ class FontEditWindow : public ComboWindow
 
   private:
 
-   class MaxIndexFunc;
-
    static int GetMaxIndex(Font font);
+
+   void updateSample();
 
    void updateFont();
 
