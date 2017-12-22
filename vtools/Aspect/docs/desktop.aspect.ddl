@@ -421,7 +421,7 @@ Dir Dir28=
    {
     { 'ColorEdit.h' , Green },
     { 'CoordEdit.h' , Green },
-    { 'FontEdit.h' , Red },
+    { 'FontEdit.h' , Green },
     { 'MCoordEdit.h' , Green },
     { 'PointEdit.h' , Green },
     { 'RatioEdit.h' , Green }
@@ -525,7 +525,7 @@ Dir Dir30=
    {
     { 'ColorEdit.cpp' , Green },
     { 'CoordEdit.cpp' , Green },
-    { 'FontEdit.cpp' , Red },
+    { 'FontEdit.cpp' , Green },
     { 'MCoordEdit.cpp' , Green },
     { 'PointEdit.cpp' , Green },
     { 'RatioEdit.cpp' , Green }

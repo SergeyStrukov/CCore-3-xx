@@ -932,129 +932,67 @@ FontEditWindow::~FontEditWindow()
 
 Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
  {
-  Coordinate space=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Point delta;
+  // lights
 
-  {
-   Coordinate dx;
-   Coordinate dy;
+  LayToRight lay_lights(LayBox(light_scalable,label_scalable),
+                        LayBox(light_monospace,label_monospace),
+                        LayBox(light_bold,label_bold),
+                        LayBox(light_italic,label_italic),
+                        LayNull());
 
-   dy+=text_file_name.getMinSize(flags).y+space;
-   dy+=text_family.getMinSize(flags).y+space;
+  // size spins
 
-   {
-    Coord dxy=light_scalable.getMinSize(flags).dxy;
+  LayToRightCenter lay_spins(Lay(spin_fdy),
+                             LayBox(check_fdx,spin_fdx),
+                             LayNull());
 
-    Point s1=label_scalable.getMinSize(flags);
-    Point s2=label_monospace.getMinSize(flags);
-    Point s3=label_bold.getMinSize(flags);
-    Point s4=label_italic.getMinSize(flags);
+  // hint and smooth
 
-    dy+=Sup(s1.y,dxy)+2*space;
+  LayToBottomLeft lay_hint(LayBox(radio_no_hint,label_no_hint),
+                           LayBox(radio_native_hint,label_native_hint),
+                           LayBox(radio_auto_hint,label_auto_hint),
+                           LayNull());
 
-    Coordinate ex=BoxExt(dxy);
+  LayToBottomLeft lay_smooth(LayBox(radio_no_smooth,label_no_smooth),
+                             LayBox(radio_smooth,label_smooth),
+                             LayBox(radio_RGB,label_RGB),
+                             LayBox(radio_BGR,label_BGR),
+                             LayNull());
 
-    dx=Sup(dx, 3*space+4*ex+s1.x+s2.x+s3.x+s4.x );
-   }
+  LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
+                                LayInner(contour_smooth,lay_smooth),
+                                LayNull());
 
-   {
-    Coord dxy=check_fdx.getMinSize(flags).dxy;
+  // strength
 
-    Point s1=spin_fdy.getMinSize(flags);
-    Point s2=spin_fdx.getMinSize(flags);
+  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength),LayNull());
 
-    dy+=Sup(s1.y,dxy)+2*space;
+  // sample radio
 
-    Coordinate ex=BoxExt(dxy);
+  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table),LayNull());
 
-    dx=Sup(dx, space+ex+s1.x+s2.x );
-   }
+  // text_file_name , text_family
 
-   Point delta1;
+  LayToBottom lay(Lay(text_file_name),
+                  Lay(text_family),
+                  lay_lights,
+                  Lay(line1),
+                  lay_spins,
+                  Lay(line2),
+                  lay_hint_smooth,
+                  LayAlignLeft(LayBox(check_kerning,label_kerning)),
+                  lay_strength,
+                  Lay(line3),
+                  lay_sample,
+                  LayInner(contour_test,LaySame(Lay(info_test),Lay(table))));
 
-   {
-    Coord dxy=radio_no_hint.getMinSize(flags).dxy;
-
-    Point s1=label_no_hint.getMinSize(flags);
-    Point s2=label_native_hint.getMinSize(flags);
-    Point s3=label_auto_hint.getMinSize(flags);
-
-    Coordinate line_dy=Sup(dxy,s1.y);
-
-    Coordinate hint_dx=Sup(s1.x,s2.x,s3.x);
-
-    Point size( BoxExt(dxy)+hint_dx+2*space , 3*line_dy+4*space );
-
-    delta1=contour_hint.getMinSize(flags,size);
-   }
-
-   Point delta2;
-
-   {
-    Coord dxy=radio_no_smooth.getMinSize(flags).dxy;
-
-    Point s1=label_no_smooth.getMinSize(flags);
-    Point s2=label_smooth.getMinSize(flags);
-    Point s3=label_RGB.getMinSize(flags);
-    Point s4=label_BGR.getMinSize(flags);
-
-    Coordinate line_dy=Sup(dxy,s1.y);
-
-    Coordinate smooth_dx=Sup(s1.x,s2.x,s3.x,s4.x);
-
-    Point size( BoxExt(dxy)+smooth_dx+2*space , 4*line_dy+5*space );
-
-    delta2=contour_smooth.getMinSize(flags,size);
-   }
-
-   dy+=Sup(delta1.y,delta2.y)+space;
-
-   dx=Sup(dx, space+delta1.x+delta2.x );
-
-   {
-    Coord dxy=check_kerning.getMinSize(flags).dxy;
-
-    Point s=label_kerning.getMinSize(flags);
-
-    dy+=Sup(s.y,dxy)+space;
-
-    Coordinate ex=BoxExt(dxy);
-
-    dx=Sup(dx, ex+s.x );
-   }
-
-   {
-    Point s1=spin_strength.getMinSize(flags);
-    Point s2=label_strength.getMinSize(flags);
-
-    dy+=Sup(s1.y,s2.y)+space;
-
-    dx=Sup(dx, s1.x+space+s2.x );
-   }
-
-   {
-    Coord dxy=radio_sample.getMinSize(flags).dxy;
-
-    Point s1=label_sample.getMinSize(flags);
-    Point s2=label_table.getMinSize(flags);
-
-    dy+=Sup(dxy,s1.y,s2.y)+2*space;
-
-    Coordinate ex=BoxExt(dxy);
-
-    dx=Sup(dx, s1.x+space+s2.x+2*ex );
-   }
-
-   dx+=2*space;
-   dy+=space;
-
-   delta=Point(dx,dy);
-  }
+  Point delta=Inf( lay.getMinSize(flags,space) , Point(2*(cap.x/3),cap.y) );
 
   Point s=list.getMinSize(flags, Point(cap.x/3,cap.y) );
 
-  return Point( 3*Sup( s.x , delta.x/2 ) , Sup(s.y,delta.y) );
+  return Point( 3*Sup(s.x,delta.x/2) , Sup(s.y,delta.y) );
  }
 
 void FontEditWindow::setCouple(const FontCouple &font_)
