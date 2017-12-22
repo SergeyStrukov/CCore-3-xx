@@ -939,39 +939,34 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
   LayToRight lay_lights(LayBox(light_scalable,label_scalable),
                         LayBox(light_monospace,label_monospace),
                         LayBox(light_bold,label_bold),
-                        LayBox(light_italic,label_italic),
-                        LayNull());
+                        LayBox(light_italic,label_italic));
 
   // size spins
 
   LayToRightCenter lay_spins(Lay(spin_fdy),
-                             LayBox(check_fdx,spin_fdx),
-                             LayNull());
+                             LayAlignLeft(LayBox(check_fdx,spin_fdx)));
 
   // hint and smooth
 
   LayToBottomLeft lay_hint(LayBox(radio_no_hint,label_no_hint),
                            LayBox(radio_native_hint,label_native_hint),
-                           LayBox(radio_auto_hint,label_auto_hint),
-                           LayNull());
+                           LayBox(radio_auto_hint,label_auto_hint));
 
   LayToBottomLeft lay_smooth(LayBox(radio_no_smooth,label_no_smooth),
                              LayBox(radio_smooth,label_smooth),
                              LayBox(radio_RGB,label_RGB),
-                             LayBox(radio_BGR,label_BGR),
-                             LayNull());
+                             LayBox(radio_BGR,label_BGR));
 
   LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
-                                LayInner(contour_smooth,lay_smooth),
-                                LayNull());
+                                LayAlignLeft(LayInner(contour_smooth,lay_smooth)));
 
   // strength
 
-  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength),LayNull());
+  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength));
 
   // sample radio
 
-  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table),LayNull());
+  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table));
 
   // text_file_name , text_family
 
@@ -1041,39 +1036,34 @@ void FontEditWindow::layout(unsigned flags)
   LayToRight lay_lights(LayBox(light_scalable,label_scalable),
                         LayBox(light_monospace,label_monospace),
                         LayBox(light_bold,label_bold),
-                        LayBox(light_italic,label_italic),
-                        LayNull());
+                        LayBox(light_italic,label_italic));
 
   // size spins
 
   LayToRightCenter lay_spins(Lay(spin_fdy),
-                             LayBox(check_fdx,spin_fdx),
-                             LayNull());
+                             LayAlignLeft(LayBox(check_fdx,spin_fdx)));
 
   // hint and smooth
 
   LayToBottomLeft lay_hint(LayBox(radio_no_hint,label_no_hint),
                            LayBox(radio_native_hint,label_native_hint),
-                           LayBox(radio_auto_hint,label_auto_hint),
-                           LayNull());
+                           LayBox(radio_auto_hint,label_auto_hint));
 
   LayToBottomLeft lay_smooth(LayBox(radio_no_smooth,label_no_smooth),
                              LayBox(radio_smooth,label_smooth),
                              LayBox(radio_RGB,label_RGB),
-                             LayBox(radio_BGR,label_BGR),
-                             LayNull());
+                             LayBox(radio_BGR,label_BGR));
 
   LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
-                                LayInner(contour_smooth,lay_smooth),
-                                LayNull());
+                                LayAlignLeft(LayInner(contour_smooth,lay_smooth)));
 
   // strength
 
-  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength),LayNull());
+  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength));
 
   // sample radio
 
-  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table),LayNull());
+  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table));
 
   // text_file_name , text_family
 
