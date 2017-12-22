@@ -73,7 +73,7 @@ CharTableWindow::~CharTableWindow()
 
 Point CharTableWindow::getMinSize(unsigned) const
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
 
   FontSize fs=font->getSize();
 
@@ -93,7 +93,7 @@ bool CharTableWindow::isGoodSize(Point size) const
 
 void CharTableWindow::layout(unsigned)
  {
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
 
   FontSize fs=font->getSize();
 
@@ -103,15 +103,8 @@ void CharTableWindow::layout(unsigned)
 
   Point size=getSize();
 
-  if( len>size.x )
-    max_off.x=len-size.x;
-  else
-    max_off.x=0;
-
-  if( len>size.y )
-    max_off.y=len-size.y;
-  else
-    max_off.y=0;
+  max_off.x=PlusSub(len,size.x);
+  max_off.y=PlusSub(len,size.y);
 
   Replace_min(off.x,max_off.x);
   Replace_min(off.y,max_off.y);
@@ -121,7 +114,7 @@ void CharTableWindow::draw(DrawBuf buf,bool) const
  {
   MCoord width=+cfg.width;
   VColor text=+cfg.text;
-  Font font=+cfg.font;
+  const Font &font=cfg.font.get();
 
   FontSize fs=font->getSize();
 
@@ -219,9 +212,15 @@ void CharTableWindow::react_LeftUp(Point point,MouseKey)
   if( drag ) endDrag(point);
  }
 
-void CharTableWindow::react_Move(Point point,MouseKey)
+void CharTableWindow::react_Move(Point point,MouseKey mkey)
  {
-  if( drag ) dragTo(point);
+  if( drag )
+    {
+     if( mkey&MouseKey_Left )
+       dragTo(point);
+     else
+       endDrag(point);
+    }
  }
 
 /* class FontEditWindow */
