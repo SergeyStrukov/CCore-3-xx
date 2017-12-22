@@ -48,6 +48,10 @@ template <class ... LL> class LaySet;
 
 template <class ... LL> class LaySame;
 
+template <class L,Pane Func(Pane pane,Coord dx)> class LayAlignX;
+
+template <class L,Pane Func(Pane pane,Coord dy)> class LayAlignY;
+
 template <class ... LL> class LayToTop;
 
 template <class ... LL> class LayToTopCenter; // TODO
@@ -58,11 +62,11 @@ template <class ... LL> class LayToTopRight; // TODO
 
 template <class ... LL> class LayToBottom;
 
-template <class ... LL> class LayToBottomCenter; // TODO
+template <class ... LL> class LayToBottomCenter;
 
 template <class ... LL> class LayToBottomLeft;
 
-template <class ... LL> class LayToBottomRight; // TODO
+template <class ... LL> class LayToBottomRight;
 
 template <class ... LL> class LayToLeft;
 
@@ -300,6 +304,72 @@ class LaySame : protected LaySet<LL...>
 template <class ... LL>
 LaySame(const LL & ...) -> LaySame<LL...> ;
 
+/* class LayAlignX<L,Func> */
+
+template <class L,Pane Func(Pane pane,Coord dx)>
+class LayAlignX
+ {
+   L lay;
+
+  public:
+
+   explicit LayAlignX(const L &lay_) : lay(lay_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     return lay.getMinSize(flags,space);
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     Coord dx=lay.getMinSize(flags,space).x;
+
+     lay.setPlace(Func(pane,dx),flags,space);
+    }
+ };
+
+template <class L>
+auto LayAlignLeft(const L &lay) { return LayAlignX<L,AlignLeft>(lay); }
+
+template <class L>
+auto LayAlignCenterX(const L &lay) { return LayAlignX<L,AlignCenterX>(lay); }
+
+template <class L>
+auto LayAlignRight(const L &lay) { return LayAlignX<L,AlignRight>(lay); }
+
+/* class LayAlignY<L,Func> */
+
+template <class L,Pane Func(Pane pane,Coord dy)>
+class LayAlignY
+ {
+   L lay;
+
+  public:
+
+   explicit LayAlignY(const L &lay_) : lay(lay_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     return lay.getMinSize(flags,space);
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     Coord dy=lay.getMinSize(flags,space).y;
+
+     lay.setPlace(Func(pane,dy),flags,space);
+    }
+ };
+
+template <class L>
+auto LayAlignTop(const L &lay) { return LayAlignY<L,AlignTop>(lay); }
+
+template <class L>
+auto LayAlignCenterY(const L &lay) { return LayAlignY<L,AlignCenterY>(lay); }
+
+template <class L>
+auto LayAlignBottom(const L &lay) { return LayAlignY<L,AlignBottom>(lay); }
+
 /* class LayToTop<LL> */
 
 template <class ... LL>
@@ -396,6 +466,7 @@ class LayToTop : protected LaySet<LL...>
                                  Coord dy=obj.getMinSize(flags,space).y;
 
                                  obj.setPlace(Split(pane,dy,space),flags,space);
+
                                 } ,
 
             [&pane,flags,space] (auto &obj)
@@ -505,6 +576,7 @@ class LayToBottom : protected LaySet<LL...>
                                  Coord dy=obj.getMinSize(flags,space).y;
 
                                  obj.setPlace(Split(pane,dy,space),flags,space);
+
                                 } ,
 
             [&pane,flags,space] (auto &obj)
@@ -513,44 +585,84 @@ class LayToBottom : protected LaySet<LL...>
 
                                 } );
     }
- };
 
-template <class ... LL>
-LayToBottom(const LL & ...) -> LayToBottom<LL...> ;
-
-/* class LayToBottomLeft<LL> */
-
-template <class ... LL>
-class LayToBottomLeft : public LayToBottom<LL...>
- {
-   using LayToBottom<LL...>::apply;
-   using LayToBottom<LL...>::Split;
-
-  public:
-
-   using LayToBottom<LL...>::LayToBottom;
-
-   void setPlace(Pane pane,unsigned flags,Coord space) const
+   template <Pane Func(Pane pane,Coord dx)>
+   void alignPlace(Pane pane,unsigned flags,Coord space) const
     {
      apply( [&pane,flags,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(AlignLeft(Split(pane,s.y,space),s.x),flags,space);
+                                 obj.setPlace(Func(Split(pane,s.y,space),s.x),flags,space);
+
                                 } ,
 
             [&pane,flags,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(AlignLeft(pane,s.x),flags,space);
+                                 obj.setPlace(Func(pane,s.x),flags,space);
 
                                 } );
     }
  };
 
 template <class ... LL>
+LayToBottom(const LL & ...) -> LayToBottom<LL...> ;
+
+/* class LayToBottomCenter<LL> */
+
+template <class ... LL>
+class LayToBottomCenter : public LayToBottom<LL...>
+ {
+  public:
+
+   using LayToBottom<LL...>::LayToBottom;
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     this->template alignPlace<AlignCenterX>(pane,flags,space);
+    }
+ };
+
+template <class ... LL>
+LayToBottomCenter(const LL & ...) -> LayToBottomCenter<LL...> ;
+
+/* class LayToBottomLeft<LL> */
+
+template <class ... LL>
+class LayToBottomLeft : public LayToBottom<LL...>
+ {
+  public:
+
+   using LayToBottom<LL...>::LayToBottom;
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     this->template alignPlace<AlignLeft>(pane,flags,space);
+    }
+ };
+
+template <class ... LL>
 LayToBottomLeft(const LL & ...) -> LayToBottomLeft<LL...> ;
+
+/* class LayToBottomRight<LL> */
+
+template <class ... LL>
+class LayToBottomRight : public LayToBottom<LL...>
+ {
+  public:
+
+   using LayToBottom<LL...>::LayToBottom;
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     this->template alignPlace<AlignRight>(pane,flags,space);
+    }
+ };
+
+template <class ... LL>
+LayToBottomRight(const LL & ...) -> LayToBottomRight<LL...> ;
 
 /* class LayToLeft<LL> */
 
@@ -648,6 +760,7 @@ class LayToLeft : protected LaySet<LL...>
                                  Coord dx=obj.getMinSize(flags,space).x;
 
                                  obj.setPlace(Split(pane,dx,space),flags,space);
+
                                 } ,
 
             [&pane,flags,space] (auto &obj)
@@ -757,11 +870,32 @@ class LayToRight : protected LaySet<LL...>
                                  Coord dx=obj.getMinSize(flags,space).x;
 
                                  obj.setPlace(Split(pane,dx,space),flags,space);
+
                                 } ,
 
             [&pane,flags,space] (auto &obj)
                                 {
                                  obj.setPlace(pane,flags,space);
+
+                                } );
+    }
+
+   template <Pane Func(Pane pane,Coord dy)>
+   void alignPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     apply( [&pane,flags,space] (auto &obj)
+                                {
+                                 Point s=obj.getMinSize(flags,space);
+
+                                 obj.setPlace(Func(Split(pane,s.x,space),s.y),flags,space);
+
+                                } ,
+
+            [&pane,flags,space] (auto &obj)
+                                {
+                                 Point s=obj.getMinSize(flags,space);
+
+                                 obj.setPlace(Func(pane,s.y),flags,space);
 
                                 } );
     }
@@ -775,29 +909,13 @@ LayToRight(const LL & ...) -> LayToRight<LL...> ;
 template <class ... LL>
 class LayToRightCenter : public LayToRight<LL...>
  {
-   using LayToRight<LL...>::apply;
-   using LayToRight<LL...>::Split;
-
   public:
 
    using LayToRight<LL...>::LayToRight;
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignCenterY(Split(pane,s.x,space),s.y),flags,space);
-                                } ,
-
-            [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignCenterY(pane,s.y),flags,space);
-
-                                } );
+     this->template alignPlace<AlignCenterY>(pane,flags,space);
     }
  };
 
@@ -809,29 +927,13 @@ LayToRightCenter(const LL & ...) -> LayToRightCenter<LL...> ;
 template <class ... LL>
 class LayToRightTop : public LayToRight<LL...>
  {
-   using LayToRight<LL...>::apply;
-   using LayToRight<LL...>::Split;
-
   public:
 
    using LayToRight<LL...>::LayToRight;
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignTop(Split(pane,s.x,space),s.y),flags,space);
-                                } ,
-
-            [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignTop(pane,s.y),flags,space);
-
-                                } );
+     this->template alignPlace<AlignTop>(pane,flags,space);
     }
  };
 
@@ -843,29 +945,13 @@ LayToRightTop(const LL & ...) -> LayToRightTop<LL...> ;
 template <class ... LL>
 class LayToRightBottom : public LayToRight<LL...>
  {
-   using LayToRight<LL...>::apply;
-   using LayToRight<LL...>::Split;
-
   public:
 
    using LayToRight<LL...>::LayToRight;
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignBottom(Split(pane,s.x,space),s.y),flags,space);
-                                } ,
-
-            [&pane,flags,space] (auto &obj)
-                                {
-                                 Point s=obj.getMinSize(flags,space);
-
-                                 obj.setPlace(AlignBottom(pane,s.y),flags,space);
-
-                                } );
+     this->template alignPlace<AlignBottom>(pane,flags,space);
     }
  };
 
@@ -1189,6 +1275,9 @@ class LayAll : LayBase<W>
 
    void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
  };
+
+template <class W>
+auto Lay(W &obj) { return LayAll(obj); }
 
 /* class LayExtX<W> */
 

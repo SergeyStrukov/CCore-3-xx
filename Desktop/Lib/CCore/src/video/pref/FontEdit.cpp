@@ -1103,13 +1103,12 @@ void FontEditWindow::layout(unsigned flags)
   LayToRight lay_lights(LayBox(light_scalable,label_scalable),
                         LayBox(light_monospace,label_monospace),
                         LayBox(light_bold,label_bold),
-                        LayBox(light_italic,label_italic));
+                        LayBox(light_italic,label_italic),
+                        LayNull());
 
   // size spins
 
-  LayAll lay1(spin_fdy);
-
-  LayToRightCenter lay_spins(lay1,
+  LayToRightCenter lay_spins(Lay(spin_fdy),
                              LayBox(check_fdx,spin_fdx),
                              LayNull());
 
@@ -1117,33 +1116,41 @@ void FontEditWindow::layout(unsigned flags)
 
   LayToBottomLeft lay_hint(LayBox(radio_no_hint,label_no_hint),
                            LayBox(radio_native_hint,label_native_hint),
-                           LayBox(radio_auto_hint,label_auto_hint));
+                           LayBox(radio_auto_hint,label_auto_hint),
+                           LayNull());
 
   LayToBottomLeft lay_smooth(LayBox(radio_no_smooth,label_no_smooth),
                              LayBox(radio_smooth,label_smooth),
                              LayBox(radio_RGB,label_RGB),
-                             LayBox(radio_BGR,label_BGR));
+                             LayBox(radio_BGR,label_BGR),
+                             LayNull());
 
   LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
                                 LayInner(contour_smooth,lay_smooth),
                                 LayNull());
 
+  // strength
+
+  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength),LayNull());
+
+  // sample radio
+
+  LayToRight lay_sample(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table),LayNull());
+
   // text_file_name , text_family
 
-  LayAll lay2(text_file_name);
-
-  LayToBottom lay(lay2,
-                  LayAll(text_family),
+  LayToBottom lay(Lay(text_file_name),
+                  Lay(text_family),
                   lay_lights,
-                  LayAll(line1),
+                  Lay(line1),
                   lay_spins,
-                  LayAll(line2),
+                  Lay(line2),
                   lay_hint_smooth,
-                  LayBox(check_kerning,label_kerning),
-                  LayToRightCenter(LayAll(spin_strength),LayAll(label_strength)),
-                  LayAll(line3),
-                  LayToRight(LayBox(radio_sample,label_sample),LayBox(radio_table,label_table)),
-                  LayInner(contour_test,LaySame(LayAll(info_test),LayAll(table))));
+                  LayAlignLeft(LayBox(check_kerning,label_kerning)),
+                  lay_strength,
+                  Lay(line3),
+                  lay_sample,
+                  LayInner(contour_test,LaySame(Lay(info_test),Lay(table))));
 
   lay.setPlace(pane,flags,space);
  }
