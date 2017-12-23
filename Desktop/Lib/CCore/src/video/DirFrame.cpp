@@ -332,7 +332,7 @@ Point DirWindow::getMinSize(unsigned flags) const
                            Lay(line2),
                            elay2));
 
-  return lay.getMinSize(flags,space);
+  return lay.getMinSize(flags,space)+2*Point(0,space);
  }
 
  // drawing
