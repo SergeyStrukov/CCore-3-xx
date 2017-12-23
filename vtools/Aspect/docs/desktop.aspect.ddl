@@ -342,7 +342,7 @@ Dir Dir25=
     { 'ConfigBinder.h' , Green },
     { 'ConfigEditor.h' , Green },
     { 'ConfigStore.h' , Green },
-    { 'DirFrame.h' , Red },
+    { 'DirFrame.h' , Green },
     { 'FigureLib.h' , Green },
     { 'FileFrame.h' , Red },
     { 'FrameBase.h' , Green },
@@ -415,7 +415,7 @@ Dir Dir27=
 Dir Dir28=
   {
    'pref',
-   Red,
+   Green,
    {
    },
    {
@@ -442,7 +442,7 @@ Dir Dir26=
     { 'ConfigBinder.cpp' , Green },
     { 'ConfigEditor.cpp' , Green },
     { 'ConfigStore.cpp' , Green },
-    { 'DirFrame.cpp' , Red },
+    { 'DirFrame.cpp' , Green },
     { 'FigureLib.cpp' , Green },
     { 'FileFrame.cpp' , Red },
     { 'FrameBase.cpp' , Green },
@@ -519,7 +519,7 @@ Dir Dir29=
 Dir Dir30=
   {
    'pref',
-   Red,
+   Green,
    {
    },
    {

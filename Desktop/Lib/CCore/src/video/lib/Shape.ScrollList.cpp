@@ -51,6 +51,11 @@ void ScrollListShape::Cache::operator () (unsigned update_flag,const Config &cfg
     }
  }
 
+StrLen ScrollListShape::SampleLine()
+ {
+  return "Sample line 12345"_c;
+ }
+
 Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
  {
   switch( item.type )
@@ -99,6 +104,19 @@ Point ScrollListShape::getMinSize(unsigned,Point cap) const
     }
 
   return 2*space+Inf(Point(dx,dy.value),cap-2*space);
+ }
+
+Point ScrollListShape::getMinSize(unsigned,unsigned lines) const
+ {
+  const Font &font=cfg.font.get();
+
+  Point space=+cfg.space;
+
+  FontSize fs=font->getSize();
+
+  Coord dx=font->text(SampleLine()).full_dx;
+
+  return 2*space+Point(dx,CountToCoordinate(lines)*fs.dy);
  }
 
 void ScrollListShape::setMax(unsigned update_flag)

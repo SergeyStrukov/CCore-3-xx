@@ -148,8 +148,6 @@ class DirWindow : public ComboWindow
 
    void enableOk();
 
-   static ulen PrevDir(StrLen dir_name);
-
    void handleDir(FuncArgType<StrLen> func);
 
    void mkdir(StrLen dir_name);
@@ -212,7 +210,7 @@ class DirWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,StrLen sample_text) const;
+   Point getMinSize(unsigned flags) const;
 
    StrLen getPath() const { return path; }
 
@@ -262,8 +260,6 @@ class DirFrame : public DragFrame
 
    DirWindow sub_win;
 
-   static StrLen SampleDir();
-
   public:
 
    DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param={});
@@ -282,26 +278,24 @@ class DirFrame : public DragFrame
 
    Pane getPane(StrLen title) const;
 
-   using DragFrame::create;
-
    void create(Point base,const DefString &title)
     {
-     create(getPane(title.str(),base),title);
+     DragFrame::create(getPane(title.str(),base),title);
     }
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     create(parent,getPane(title.str(),base),title);
+     DragFrame::create(parent,getPane(title.str(),base),title);
     }
 
    void create(const DefString &title)
     {
-     create(getPane(title.str()),title);
+     DragFrame::create(getPane(title.str()),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     create(parent,getPane(title.str()),title);
+     DragFrame::create(parent,getPane(title.str()),title);
     }
  };
 

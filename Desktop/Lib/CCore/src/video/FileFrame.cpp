@@ -44,6 +44,28 @@
 namespace CCore {
 namespace Video {
 
+/* functions */
+
+ulen ParentDir(StrLen dir_name)
+ {
+  SplitPath split1(dir_name);
+
+  SplitName split2(split1.path);
+
+  if( !split2 )
+    {
+     return split2.name.len;
+    }
+  else
+    {
+     ulen delta=split2.name.len+1;
+
+     if( delta==split1.path.len ) delta--;
+
+     return delta;
+    }
+ }
+
 /* class DirHitList */
 
 bool DirHitList::Rec::test_and_inc(StrLen dir_name)
@@ -310,6 +332,11 @@ void DirHitList::prepare(MenuData &data)
 
 /* class DirEditShape */
 
+StrLen DirEditShape::SampleDir()
+ {
+  return "/cygdrive/d/active/home/C++/CCore-2-99/vtools/DDLDisplay"_c;
+ }
+
 VColor DirEditShape::Func::color(ulen,Char ch_,Point,Point)
  {
   char ch=ToChar(ch_);
@@ -326,6 +353,11 @@ void DirEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace pla
   Func func{vc,+ecfg.accent};
 
   font->text(buf,pane,place,text,func.function_color());
+ }
+
+Point DirEditShape::getMinSize(unsigned update_flag) const
+ {
+  return LineEditShape::getMinSize(update_flag,SampleDir());
  }
 
 /* class FileFilterWindow */
@@ -830,26 +862,6 @@ bool FileWindow::isGoodFileName(StrLen file_name)
   return param.file_boss->getFileType(temp.get())==FileType_none;
  }
 
-ulen FileWindow::PrevDir(StrLen dir_name)
- {
-  SplitPath split1(dir_name);
-
-  SplitName split2(split1.path);
-
-  if( !split2 )
-    {
-     return split2.name.len;
-    }
-  else
-    {
-     ulen delta=split2.name.len+1;
-
-     if( delta==split1.path.len ) delta--;
-
-     return delta;
-    }
- }
-
 void FileWindow::handleDir(FuncArgType<StrLen> func)
  {
   const ComboInfo &info=list_dir.getInfo();
@@ -960,7 +972,7 @@ void FileWindow::knob_back_pressed()
  {
   StrLen dir_name=cache_dir.getText();
 
-  if( ulen delta=PrevDir(dir_name) )
+  if( ulen delta=ParentDir(dir_name) )
     {
      dir_name.len-=delta;
 
@@ -1126,13 +1138,13 @@ FileWindow::~FileWindow()
 
  // methods
 
-Point FileWindow::getMinSize(unsigned flags,StrLen sample_text) const
+Point FileWindow::getMinSize(unsigned flags) const
  {
   Coordinate space=+cfg.space_dxy;
 
   Coordinate knob_ext=BoxExt(knob_hit.getMinSize(flags).dxy);
 
-  Point dir_size=edit_dir.getMinSize(flags,sample_text);
+  Point dir_size=edit_dir.getMinSize(flags);
 
   Coordinate dir_dx=dir_size.x;
   Coordinate dir_dy=dir_size.y;
@@ -1345,11 +1357,6 @@ void FileWindow::close()
 
 /* class FileFrame */
 
-StrLen FileFrame::SampleDir()
- {
-  return "/cygdrive/d/active/home/C++/CCore-2-99/vtools/DDLDisplay"_c;
- }
-
 FileFrame::FileFrame(Desktop *desktop,const Config &cfg_,const FileWindowParam &param)
  : DragFrame(desktop,cfg_.frame_cfg),
    cfg(cfg_),
@@ -1372,7 +1379,7 @@ FileFrame::~FileFrame()
 
 Pane FileFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
 
   Point screen_size=getScreenSize();
 
@@ -1381,7 +1388,7 @@ Pane FileFrame::getPane(StrLen title,Point base) const
 
 Pane FileFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

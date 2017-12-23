@@ -426,7 +426,7 @@ class Application : public ApplicationBase
       cmd_display(cmd_display_),
       main_frame(param.desktop,param.frame_cfg,param.user_pref.updated),
       exception_client(main_frame,param.exception_cfg,report),
-      client(main_frame,param.client_cfg,open_file_name),
+      client(main_frame,param.client_cfg,open_file_name,param.user_pref.updated),
       user_frame(param.desktop,editor_pref.getSmartConfig(),true),
       app_frame(param.desktop,param.user_pref.getSmartConfig(),false),
 

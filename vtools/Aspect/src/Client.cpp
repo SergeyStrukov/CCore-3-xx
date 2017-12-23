@@ -417,7 +417,7 @@ void ClientWindow::msg_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *open_file_name)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *open_file_name,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -437,6 +437,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *op
    connector_dir_destroyed(this,&ClientWindow::dir_destroyed,dir_frame.destroyed),
    connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed)
  {
+  cascade_menu.connectUpdate(update);
+
   wlist.insTop(menu,aspect);
 
   wlist.enableTabFocus(false);
@@ -502,7 +504,7 @@ void ClientWindow::open()
 
 void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize().dy;
+  Coord dy=menu.getMinSize(flags).dy;
 
   action_base=Point(dy,dy);
 

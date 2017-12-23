@@ -162,7 +162,7 @@ class HideControl : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    bool operator [] (ItemStatus status) const;
 
@@ -242,7 +242,7 @@ class CountControl : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    void setCount(ulen count);
 
@@ -467,7 +467,7 @@ class InnerDataWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    void update();
 
@@ -736,7 +736,7 @@ class AspectWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    bool isModified() const { return text_aspect.isAlerted(); }
 

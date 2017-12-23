@@ -21,6 +21,8 @@
 
 #include <CCore/inc/video/FileNameCmp.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace CCore {
 namespace Video {
 
@@ -39,7 +41,7 @@ void DirWindow::fillLists()
     {
      ComboInfoBuilder dir_builder;
 
-     auto obj=ToFunction<void (StrLen name,FileType type)>(
+     auto temp=ToFunction<void (StrLen name,FileType type)>(
 
        [&] (StrLen name,FileType type)
            {
@@ -57,7 +59,7 @@ void DirWindow::fillLists()
 
      );
 
-     param.file_boss->enumDir(cache_dir.getText(),obj.function());
+     param.file_boss->enumDir(cache_dir.getText(),temp.function());
 
      dir_builder.sortGroups(ExtNameLess);
 
@@ -108,26 +110,6 @@ void DirWindow::setSubDir(StrLen sub_dir)
 void DirWindow::enableOk()
  {
   btn_Ok.enable( list_dir.isEnabled() );
- }
-
-ulen DirWindow::PrevDir(StrLen dir_name)
- {
-  SplitPath split1(dir_name);
-
-  SplitName split2(split1.path);
-
-  if( !split2 )
-    {
-     return split2.name.len;
-    }
-  else
-    {
-     ulen delta=split2.name.len+1;
-
-     if( delta==split1.path.len ) delta--;
-
-     return delta;
-    }
  }
 
 void DirWindow::handleDir(FuncArgType<StrLen> func)
@@ -221,7 +203,7 @@ void DirWindow::knob_back_pressed()
  {
   StrLen dir_name=cache_dir.getText();
 
-  if( ulen delta=PrevDir(dir_name) )
+  if( ulen delta=ParentDir(dir_name) )
     {
      dir_name.len-=delta;
 
@@ -315,81 +297,70 @@ DirWindow::~DirWindow()
 
  // methods
 
-Point DirWindow::getMinSize(unsigned flags,StrLen sample_text) const
+Point DirWindow::getMinSize(unsigned flags) const
  {
-  Coordinate space=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Coordinate knob_ext=BoxExt(knob_hit.getMinSize(flags).dxy);
+  // knob_add , knob_hit , dir , knob_back
 
-  Point dir_size=edit_dir.getMinSize(flags,sample_text);
+  LayToRightCenter lay1(Lay(knob_add),Lay(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
-  Coordinate dir_dx=dir_size.x;
-  Coordinate dir_dy=dir_size.y;
+  // list_dir , knob_mkdir , knob_rmdir
 
-  Point btn_size=SupMinSize(flags,btn_Ok,btn_Cancel);
+  class LayList
+   {
+     const ScrollListWindow &obj;
 
-  Coordinate btn_dx=btn_size.x;
-  Coordinate btn_dy=btn_size.y;
+    public:
 
-  Coordinate dx = Sup( dir_dx + 3*knob_ext + 2*space , 2*btn_dx + 3*space ) ;
+     explicit LayList(const ScrollListWindow &obj_) : obj(obj_) {}
 
-  Coordinate dy = 7*space + 10*dir_dy + btn_dy ;
+     Point getMinSize(unsigned flags,Coord) const { return obj.getMinSize(flags,12u); }
 
-  return Point(dx,dy);
+   } lay_list(list_dir);
+
+  LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),lay_list);
+
+  // lay
+
+  ExtLayX elay1(lay1);
+  ExtLayX elay2(lay2);
+
+  LayToBottom lay(elay1,
+                  Lay(line1),
+                  LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),
+                           Lay(line2),
+                           elay2));
+
+  return lay.getMinSize(flags,space);
  }
 
  // drawing
 
 void DirWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
+  Coord space=+cfg.space_dxy;
 
-  pane.shrink();
+  // knob_add , knob_hit , dir , knob_back
 
-  // knob_hit , knob_add , dir , knob_back
-
-  {
-   auto knob__hit=CutBox(knob_hit);
-   auto edit__dir=CutPoint(edit_dir);
-
-   Coord dy=SupDY(flags,knob__hit,edit__dir);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(knob_add)
-    .place_cutLeft(knob__hit)
-    .place_cutRight(knob_back)
-    .place(edit__dir);
-  }
-
-  // line1
-
-  {
-   pane.place_cutTop(line1);
-  }
-
-  // btn_Ok , btn_Cancel
-
-  {
-   pane.placeRow_cutBottom(btn_Ok,btn_Cancel);
-  }
-
-  // line2
-
-  {
-   pane.place_cutBottom(line2);
-  }
+  LayToRightCenter lay1(Lay(knob_add),Lay(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
   // list_dir , knob_mkdir , knob_rmdir
 
-  {
-   auto knob__mkdir=CutBox(knob_mkdir);
+  LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),Lay(list_dir));
 
-   pane.cutRight(knob__mkdir.getMinSize(flags))
-       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
+  // lay
 
-   pane.place(list_dir);
-  }
+  ExtLayX elay1(lay1);
+  ExtLayX elay2(lay2);
+
+  LayToBottom lay(elay1,
+                  Lay(line1),
+                  LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),
+                           Lay(line2),
+                           elay2));
+
+  lay.setPlace(Pane(Null,getSize()).shrink(0,space),flags,space);
  }
 
 void DirWindow::drawBack(DrawBuf buf,bool) const
@@ -426,11 +397,6 @@ void DirWindow::close()
 
 /* class DirFrame */
 
-StrLen DirFrame::SampleDir()
- {
-  return "/cygdrive/d/active/home/C++/CCore-2-99/vtools/DDLDisplay"_c;
- }
-
 DirFrame::DirFrame(Desktop *desktop,const Config &cfg_,const DirWindowParam &param)
  : DragFrame(desktop,cfg_.frame_cfg),
    cfg(cfg_),
@@ -453,7 +419,7 @@ DirFrame::~DirFrame()
 
 Pane DirFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
 
   Point screen_size=getScreenSize();
 
@@ -462,7 +428,7 @@ Pane DirFrame::getPane(StrLen title,Point base) const
 
 Pane DirFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate,SampleDir()));
+  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

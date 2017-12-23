@@ -27,6 +27,10 @@
 namespace CCore {
 namespace Video {
 
+/* functions */
+
+ulen ParentDir(StrLen dir_name); // delta len
+
 /* classes */
 
 class DirHitList;
@@ -100,6 +104,8 @@ class DirHitList : NoCopy
 
 class DirEditShape : public LineEditShape
  {
+   static StrLen SampleDir();
+
    struct Func : public Funchor
     {
      VColor vc;
@@ -132,6 +138,8 @@ class DirEditShape : public LineEditShape
     };
 
    DirEditShape(PtrLen<Char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
+
+   Point getMinSize(unsigned update_flag) const;
  };
 
 using DirEditWindow = LineEditWindowOf<DirEditShape> ;
@@ -551,8 +559,6 @@ class FileWindow : public ComboWindow
 
    bool isGoodFileName(StrLen file_name);
 
-   static ulen PrevDir(StrLen dir_name);
-
    void handleDir(FuncArgType<StrLen> func);
 
    void mkdir(StrLen dir_name);
@@ -640,7 +646,7 @@ class FileWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,StrLen sample_text) const;
+   Point getMinSize(unsigned flags) const;
 
    StrLen getFilePath() const { return file_path; }
 
@@ -695,8 +701,6 @@ class FileFrame : public DragFrame
    const Config &cfg;
 
    FileWindow sub_win;
-
-   static StrLen SampleDir();
 
   public:
 

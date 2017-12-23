@@ -55,6 +55,8 @@ struct ScrollListState
 
 class ScrollListShape : public ScrollListState
  {
+   static StrLen SampleLine();
+
    static Coord GetLineDX(const Font &font,ComboInfoItem item,Coord off);
 
   public:
@@ -114,6 +116,8 @@ class ScrollListShape : public ScrollListState
    ScrollListShape(const Config &cfg_,const ComboInfo &info_) : cfg(cfg_),info(info_) { setSelectDown(0); }
 
    Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
+
+   Point getMinSize(unsigned update_flag,unsigned lines) const;
 
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
 

@@ -248,6 +248,8 @@ class ScrollListInnerWindowOf : public SubWindow
 
    Point getMinSize(unsigned flags,Point cap=Point::Max()) const { return shape.getMinSize(flags&LayoutUpdate,cap); }
 
+   Point getMinSize(unsigned flags,unsigned lines) const { return shape.getMinSize(flags&LayoutUpdate,lines); }
+
    bool isEnabled() const { return shape.enable; }
 
    void enable(bool enable=true)
@@ -637,6 +639,13 @@ class ScrollableWindow : public ComboWindow
      Point delta(scroll_y.getMinSize(flags).dx,0);
 
      return window.getMinSize(flags,cap-delta)+delta;
+    }
+
+   Point getMinSize(unsigned flags,unsigned lines) const
+    {
+     Point delta(scroll_y.getMinSize(flags).dx,0);
+
+     return window.getMinSize(flags,lines)+delta;
     }
 
    // drawing

@@ -88,13 +88,13 @@ HideControl::~HideControl()
 
  // methods
 
-Point HideControl::getMinSize() const
+Point HideControl::getMinSize(unsigned flags) const
  {
   Coordinate space_dxy=+cfg.space_dxy;
   Coordinate status_dxy=+cfg.status_dxy;
 
-  Point s1=label_Hide.getMinSize();
-  Point s2=btn_ShowAll.getMinSize();
+  Point s1=label_Hide.getMinSize(flags);
+  Point s2=btn_ShowAll.getMinSize(flags);
 
   return Point( 6*space_dxy+5*status_dxy+s1.x+s2.x , Sup(s1.y,s2.y,+status_dxy) );
  }
@@ -154,7 +154,7 @@ void HideControl::layout(unsigned flags)
 
   pane.place_cutLeftCenter(btn_ShowAll);
 
-  Coord dxy=check_New.getMinSize().dxy;
+  Coord dxy=check_New.getMinSize(flags).dxy;
 
   check_New.setPlace(Inner(place_New,dxy),flags);
   check_Ignore.setPlace(Inner(place_Ignore,dxy),flags);
@@ -197,11 +197,11 @@ CountControl::~CountControl()
 
  // methods
 
-Point CountControl::getMinSize() const
+Point CountControl::getMinSize(unsigned flags) const
  {
   Coordinate dxy=+cfg.status_dxy;
 
-  Point s=text.getMinSize("10000000000"_c);
+  Point s=text.getMinSize(flags,"10000000000"_c);
 
   return Point( 2*dxy+s.x , Sup(2*dxy,s.y) );
  }
@@ -818,7 +818,7 @@ InnerDataWindow::~InnerDataWindow()
 
  // methods
 
-Point InnerDataWindow::getMinSize(Point cap) const
+Point InnerDataWindow::getMinSize(unsigned,Point cap) const
  {
   Used(cap);
 
@@ -873,7 +873,7 @@ void InnerDataWindow::collect()
 
 bool InnerDataWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize();
+  return size>=getMinSize(0);
  }
 
 void InnerDataWindow::layout(unsigned)
@@ -1172,12 +1172,12 @@ AspectWindow::~AspectWindow()
 
  // methods
 
-Point AspectWindow::getMinSize() const
+Point AspectWindow::getMinSize(unsigned flags) const
  {
   Coordinate space=+cfg.space_dxy;
 
-  Point s1=SupMinSize(label_path,label_aspect);
-  Point s2=text_path.getMinSize();
+  Point s1=SupMinSize(flags,label_path,label_aspect);
+  Point s2=text_path.getMinSize(flags);
 
   Coordinate dx1=s1.x;
 
@@ -1185,9 +1185,9 @@ Point AspectWindow::getMinSize() const
 
   Coordinate dy=Max(s1.y,s2.y);
 
-  Point s3=hide.getMinSize();
-  Point s4=count_red.getMinSize();
-  Point s5=btn_save.getMinSize();
+  Point s3=hide.getMinSize(flags);
+  Point s4=count_red.getMinSize(flags);
+  Point s5=btn_save.getMinSize(flags);
 
   Coordinate dx2=s3.x;
   Coordinate dx3=s4.x;
@@ -1340,7 +1340,7 @@ void AspectWindow::layout(unsigned flags)
    auto text__path=CutPoint(text_path);
    auto text__aspect=CutPoint(text_aspect);
 
-   Coord dy=SupDY(label__path,text__path);
+   Coord dy=SupDY(flags,label__path,text__path);
 
    pane.cutTop(dy).place_cutLeft(label__path).place(text__path);
 
@@ -1361,7 +1361,7 @@ void AspectWindow::layout(unsigned flags)
    auto count__red=CutPoint(count_red);
    auto btn__save=CutPoint(btn_save);
 
-   Coord dy=SupDY(count__red,btn__save);
+   Coord dy=SupDY(flags,count__red,btn__save);
 
    PaneCut p=pane.cutTop(dy);
 
