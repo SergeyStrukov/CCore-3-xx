@@ -337,22 +337,23 @@ StrLen DirEditShape::SampleDir()
   return "/cygdrive/d/active/home/C++/CCore-2-99/vtools/DDLDisplay"_c;
  }
 
-VColor DirEditShape::Func::color(ulen,Char ch_,Point,Point)
- {
-  char ch=ToChar(ch_);
-
-  if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return accent;
-
-  return vc;
- }
-
-void DirEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen,VColor vc) const
+void DirEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen,VColor vc) const
  {
   auto &ecfg=static_cast<const Config &>(cfg);
 
-  Func func{vc,+ecfg.accent};
+  auto func = [vc,accent=+ecfg.accent] (ulen,Char ch_,Point,Point) -> VColor
+                                       {
+                                        char ch=ToChar(ch_);
 
-  font->text(buf,pane,place,text,func.function_color());
+                                        if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return accent;
+
+                                        return vc;
+
+                                       } ;
+
+  auto temp=ToFunction<VColor (ulen,Char,Point,Point)>(func);
+
+  font->text(buf,pane,place,text,temp.function());
  }
 
 Point DirEditShape::getMinSize(unsigned update_flag) const

@@ -106,19 +106,7 @@ class DirEditShape : public LineEditShape
  {
    static StrLen SampleDir();
 
-   struct Func : public Funchor
-    {
-     VColor vc;
-     VColor accent;
-
-     Func(VColor vc_,VColor accent_) : vc(vc_),accent(accent_) {}
-
-     VColor color(ulen index,Char ch,Point base,Point delta);
-
-     CharFunction function_color() { return FunctionOf(this,&Func::color); }
-    };
-
-   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,StrLen text,ulen off,VColor vc) const;
+   virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen off,VColor vc) const;
 
   public:
 

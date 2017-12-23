@@ -41,23 +41,22 @@ void DirWindow::fillLists()
     {
      ComboInfoBuilder dir_builder;
 
-     auto temp=ToFunction<void (StrLen name,FileType type)>(
+     auto func = [&] (StrLen name,FileType type)
+                     {
+                      switch( type )
+                        {
+                         case FileType_dir :
+                          {
+                           if( PathBase::IsDot(name) ) break;
 
-       [&] (StrLen name,FileType type)
-           {
-            switch( type )
-              {
-               case FileType_dir :
-                {
-                 if( PathBase::IsDot(name) ) break;
+                           dir_builder.add(name);
+                          }
+                         break;
+                        }
 
-                 dir_builder.add(name);
-                }
-               break;
-              }
-           }
+                     } ;
 
-     );
+     auto temp=ToFunction<void (StrLen name,FileType type)>(func);
 
      param.file_boss->enumDir(cache_dir.getText(),temp.function());
 
