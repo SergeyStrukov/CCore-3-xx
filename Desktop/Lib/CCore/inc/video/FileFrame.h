@@ -720,26 +720,24 @@ class FileFrame : public DragFrame
 
    Pane getPane(StrLen title) const;
 
-   using DragFrame::create;
-
    void create(Point base,const DefString &title)
     {
-     create(getPane(title.str(),base),title);
+     DragFrame::create(getPane(title.str(),base),title);
     }
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     create(parent,getPane(title.str(),base),title);
+     DragFrame::create(parent,getPane(title.str(),base),title);
     }
 
    void create(const DefString &title)
     {
-     create(getPane(title.str()),title);
+     DragFrame::create(getPane(title.str()),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     create(parent,getPane(title.str()),title);
+     DragFrame::create(parent,getPane(title.str()),title);
     }
  };
 

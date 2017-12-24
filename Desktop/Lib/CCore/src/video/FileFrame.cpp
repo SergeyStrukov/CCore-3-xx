@@ -18,10 +18,11 @@
 #include <CCore/inc/video/DesktopKey.h>
 #include <CCore/inc/video/Desktop.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/FileNameCmp.h>
 #include <CCore/inc/video/PrintDDL.h>
+#include <CCore/inc/video/HomeFile.h>
 
 #include <CCore/inc/RangeDel.h>
 #include <CCore/inc/Path.h>

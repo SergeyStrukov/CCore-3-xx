@@ -457,9 +457,9 @@ Dir Dir26=
     { 'WindowLib.cpp' , Green },
     { 'WindowReport.cpp' , Red },
     { 'ConfigTypes.ddl' , Green },
-    { 'HitDirs.ddl' , Red },
-    { 'HitDirs.TypeDef.gen.h' , Red },
-    { 'HitDirs.TypeSet.gen.h' , Red }
+    { 'HitDirs.ddl' , Green },
+    { 'HitDirs.TypeDef.gen.h' , Green },
+    { 'HitDirs.TypeSet.gen.h' , Green }
    }
   };
 
