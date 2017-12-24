@@ -42,6 +42,14 @@ concept bool LayRangeType = requires(R r)
 
  } ;
 
+/* SplitBox() */
+
+Pane SplitBox(Pane &pane,Coord dx);
+
+/* SplitBoxRight() */
+
+Pane SplitBoxRight(Pane &pane,Coord dx);
+
 /* classes */
 
 template <class ... LL> class LaySet;
@@ -123,6 +131,12 @@ template <class W> class LayCenterXExt;
 template <class W> class LayCenterYExt;
 
 template <class WBox,class W> class LayBox;
+
+template <class WBox,class L> class LayBoxLay;
+
+template <class WBox,class W> class LayBoxRight;
+
+template <class WBox,class L> class LayBoxRightLay;
 
 template <class W,class L> class LayInner;
 
@@ -1643,26 +1657,6 @@ class LayBox
        }
     }
 
-   static Pane Split(Pane &pane,Coord dx)
-    {
-     Coord space=BoxSpace(dx);
-
-     Pane ret;
-
-     if( dx<=pane.dx )
-       {
-        ret=SplitX(dx,pane);
-
-        SplitX(space,pane);
-       }
-     else
-       {
-        ret=Replace_null(pane);
-       }
-
-     return ret;
-    }
-
   public:
 
    LayBox(WBox &box_,W &obj_) : box(box_),obj(obj_) {}
@@ -1678,9 +1672,142 @@ class LayBox
     {
      cache(flags);
 
-     box.setPlace(AlignCenterY(Split(pane,+dxy),+dxy),flags);
+     box.setPlace(AlignCenterY(SplitBox(pane,+dxy),+dxy),flags);
 
      obj.setPlace(AlignCenterY(pane,s.y),flags);
+    }
+ };
+
+/* class LayBoxLay<WBox,L> */
+
+template <class WBox,class L>
+class LayBoxLay
+ {
+   WBox &box;
+   L lay;
+   mutable unsigned flags = 0 ;
+   mutable Coordinate dxy;
+
+  private:
+
+   void cache(unsigned flags_) const
+    {
+     if( Change(flags,flags_) )
+       {
+        dxy=box.getMinSize(flags_).dxy;
+       }
+    }
+
+  public:
+
+   LayBoxLay(WBox &box_,const L &lay_) : box(box_),lay(lay_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     cache(flags);
+
+     Point s=lay.getMinSize(flags,space);
+
+     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     cache(flags);
+
+     Point s=lay.getMinSize(flags,space);
+
+     box.setPlace(AlignCenterY(SplitBox(pane,+dxy),+dxy),flags);
+
+     lay.setPlace(AlignCenterY(pane,s.y),flags,space);
+    }
+ };
+
+/* class LayBoxRight<WBox,W> */
+
+template <class WBox,class W>
+class LayBoxRight
+ {
+   WBox &box;
+   W &obj;
+   mutable unsigned flags = 0 ;
+   mutable Coordinate dxy;
+   mutable Point s;
+
+  private:
+
+   void cache(unsigned flags_) const
+    {
+     if( Change(flags,flags_) )
+       {
+        dxy=box.getMinSize(flags_).dxy;
+        s=GetMinSize(flags_,obj);
+       }
+    }
+
+  public:
+
+   LayBoxRight(WBox &box_,W &obj_) : box(box_),obj(obj_) {}
+
+   Point getMinSize(unsigned flags,Coord) const
+    {
+     cache(flags);
+
+     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord) const
+    {
+     cache(flags);
+
+     box.setPlace(AlignCenterY(SplitBoxRight(pane,+dxy),+dxy),flags);
+
+     obj.setPlace(AlignCenterY(pane,s.y),flags);
+    }
+ };
+
+/* class LayBoxRightLay<WBox,L> */
+
+template <class WBox,class L>
+class LayBoxRightLay
+ {
+   WBox &box;
+   L lay;
+   mutable unsigned flags = 0 ;
+   mutable Coordinate dxy;
+
+  private:
+
+   void cache(unsigned flags_) const
+    {
+     if( Change(flags,flags_) )
+       {
+        dxy=box.getMinSize(flags_).dxy;
+       }
+    }
+
+  public:
+
+   LayBoxRightLay(WBox &box_,const L &lay_) : box(box_),lay(lay_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     cache(flags);
+
+     Point s=lay.getMinSize(flags,space);
+
+     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     cache(flags);
+
+     Point s=lay.getMinSize(flags,space);
+
+     box.setPlace(AlignCenterY(SplitBoxRight(pane,+dxy),+dxy),flags);
+
+     lay.setPlace(AlignCenterY(pane,s.y),flags,space);
     }
  };
 

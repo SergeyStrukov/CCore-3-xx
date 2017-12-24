@@ -423,23 +423,18 @@ FileFilterWindow::~FileFilterWindow()
 
 Point FileFilterWindow::getMinSize(unsigned flags) const
  {
-  Point size=edit.getMinSize(flags);
+  LayBoxLay lay(check,LayBoxRight(knob,edit));
 
-  Coord check_dxy=check.getMinSize(flags).dxy;
-  Coord knob_dxy=knob.getMinSize(flags).dxy;
-
-  return Point( Coordinate(size.x)+BoxExt(check_dxy)+BoxExt(knob_dxy) , Sup(check_dxy,knob_dxy,size.y) );
+  return lay.getMinSize(flags,0);
  }
 
  // drawing
 
 void FileFilterWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),0,flags);
+  LayBoxLay lay(check,LayBoxRight(knob,edit));
 
-  pane.place_cutLeft(check)
-      .place_cutRight(knob)
-      .place(edit);
+  lay.setPlace(Pane(Null,getSize()),flags,0);
  }
 
 /* class FileFilterListWindow */
