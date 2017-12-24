@@ -196,20 +196,9 @@ void DirHitList::load(StrLen hit_file)
 
   try
     {
-     HomeDir home;
+     HomeFile file(HomeKey(),hit_file);
 
-     MakeString<MaxPathLen> buf;
-
-     buf.add(home.get(),HomeKey(),'/',hit_file);
-
-     if( !buf )
-       {
-        Printf(Exception,"CCore::Video::DirHitList::load() : too long file name");
-       }
-
-     StrLen file_name=buf.get();
-
-     loadDDL(file_name);
+     loadDDL(file.get());
     }
   catch(...)
     {
@@ -222,28 +211,11 @@ void DirHitList::save(StrLen hit_file) const
 
   try
     {
-     HomeDir home;
+     HomeFile file(HomeKey(),hit_file);
 
-     MakeString<MaxPathLen> buf;
+     file.createDir();
 
-     buf.add(home.get(),HomeKey());
-
-     StrLen dir=buf.get();
-
-     buf.add('/',hit_file);
-
-     if( !buf )
-       {
-        Printf(Exception,"CCore::Video::DirHitList::save() : too long file name");
-       }
-
-     StrLen file_name=buf.get();
-
-     FileSystem fs;
-
-     if( fs.getFileType(dir)==FileType_none ) fs.createDir(dir);
-
-     saveDDL(file_name);
+     saveDDL(file.get());
     }
   catch(...)
     {
@@ -711,31 +683,30 @@ void FileWindow::fillLists()
      ComboInfoBuilder dir_builder;
      InfoBuilder file_builder;
 
-     auto obj=ToFunction<void (StrLen name,FileType type)>(
+     auto func = [&] (StrLen name,FileType type)
+                     {
+                      switch( type )
+                        {
+                         case FileType_dir :
+                          {
+                           if( PathBase::IsDot(name) ) break;
 
-       [&] (StrLen name,FileType type)
-           {
-            switch( type )
-              {
-               case FileType_dir :
-                {
-                 if( PathBase::IsDot(name) ) break;
+                           dir_builder.add(name);
+                          }
+                         break;
 
-                 dir_builder.add(name);
-                }
-               break;
+                         case FileType_file :
+                          {
+                           file_builder.add(name);
+                          }
+                         break;
+                        }
 
-               case FileType_file :
-                {
-                 file_builder.add(name);
-                }
-               break;
-              }
-           }
+                     } ;
 
-     );
+     auto temp=ToFunction<void (StrLen name,FileType type)>(func);
 
-     param.file_boss->enumDir(cache_dir.getText(),obj.function());
+     param.file_boss->enumDir(cache_dir.getText(),temp.function());
 
      dir_builder.sortGroups(ExtNameLess);
 
@@ -1043,7 +1014,7 @@ void FileWindow::split_dragged(Point delta)
  {
   if( Change(top_dy, CapTop(top_dy+delta.y,total_dy) ) )
     {
-     layout(LayoutUpdate);
+     layout(LayoutResize);
 
      redraw();
     }

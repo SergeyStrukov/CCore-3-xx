@@ -42,7 +42,7 @@ struct AbstractFileBoss
 
   virtual void deleteDir(StrLen dir_name)=0;
 
-  virtual StrLen getHitDirFile() const =0;
+  virtual StrLen getHitDirFile() const =0; // Null OR "/file"
  };
 
 /* type FileBossBase */

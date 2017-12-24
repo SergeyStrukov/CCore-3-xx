@@ -75,7 +75,7 @@ class DefBoss : public FileBossBase
 
    virtual StrLen getHitDirFile() const
     {
-     return "HitDirs.ddl"_c;
+     return "/HitDirs.ddl"_c;
     }
  };
 
