@@ -555,6 +555,8 @@ class FileWindow : public ComboWindow
 
    static Coord CapTop(Coord t,Coord total);
 
+   void splitSize(Coord tdy);
+
   private:
 
    void file_list_entered();

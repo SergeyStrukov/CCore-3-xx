@@ -18,7 +18,79 @@
 namespace CCore {
 namespace Video {
 
-/* SplitBox() */
+/* Split...() */
+
+Pane SplitToTop(Pane &pane,Coord dy,Coord space)
+ {
+  Pane ret;
+
+  if( dy<=pane.dy )
+    {
+     ret=SplitY(pane,dy);
+
+     SplitY(pane,space);
+    }
+  else
+    {
+     ret=Replace_null(pane);
+    }
+
+  return ret;
+ }
+
+Pane SplitToBottom(Pane &pane,Coord dy,Coord space)
+ {
+  Pane ret;
+
+  if( dy<=pane.dy )
+    {
+     ret=SplitY(dy,pane);
+
+     SplitY(space,pane);
+    }
+  else
+    {
+     ret=Replace_null(pane);
+    }
+
+  return ret;
+ }
+
+Pane SplitToLeft(Pane &pane,Coord dx,Coord space)
+ {
+  Pane ret;
+
+  if( dx<=pane.dx )
+    {
+     ret=SplitX(pane,dx);
+
+     SplitX(pane,space);
+    }
+  else
+    {
+     ret=Replace_null(pane);
+    }
+
+  return ret;
+ }
+
+Pane SplitToRight(Pane &pane,Coord dx,Coord space)
+ {
+  Pane ret;
+
+  if( dx<=pane.dx )
+    {
+     ret=SplitX(dx,pane);
+
+     SplitX(space,pane);
+    }
+  else
+    {
+     ret=Replace_null(pane);
+    }
+
+  return ret;
+ }
 
 Pane SplitBox(Pane &pane,Coord dx)
  {
@@ -39,8 +111,6 @@ Pane SplitBox(Pane &pane,Coord dx)
 
   return ret;
  }
-
-/* SplitBoxRight() */
 
 Pane SplitBoxRight(Pane &pane,Coord dx)
  {

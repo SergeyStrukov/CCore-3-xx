@@ -870,6 +870,22 @@ Coord FileWindow::CapTop(Coord t,Coord total)
   return Cap<Coord>(a,t,b);
  }
 
+void FileWindow::splitSize(Coord tdy)
+ {
+  if( total_dy!=tdy )
+    {
+     Coord t;
+
+     if( total_dy )
+       t=Div(top_dy,total_dy)*tdy;
+     else
+       t=Div(1,3)*tdy;
+
+     total_dy=tdy;
+     top_dy=CapTop(t,tdy);
+    }
+ }
+
 void FileWindow::file_list_entered()
  {
   buildFilePath();
@@ -1171,117 +1187,156 @@ void FileWindow::setNewFile(bool on)
 
  // drawing
 
+template <class L1,class L2>
+class LayNoSpace
+ {
+   L1 lay1;
+   L2 lay2;
+
+  public:
+
+   LayNoSpace(const L1 &lay1_,const L2 &lay2_) : lay1(lay1_),lay2(lay2_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     Point s1=lay1.getMinSize(flags,space);
+     Point s2=lay2.getMinSize(flags,space);
+
+     return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     Coord dy=lay1.getMinSize(flags,space).y;
+
+     lay1.setPlace(SplitToBottom(pane,dy,0),flags,space);
+
+     lay2.setPlace(pane,flags,space);
+    }
+ };
+
+template <class L1,class L2>
+class LayDiv
+ {
+   L1 lay1;
+   L2 lay2;
+   Ratio div;
+
+  public:
+
+   LayDiv(const L1 &lay1_,const L2 &lay2_,const Ratio &div_) : lay1(lay1_),lay2(lay2_),div(div_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     Point s1=lay1.getMinSize(flags,space);
+     Point s2=lay2.getMinSize(flags,space);
+
+     return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     Coord dx=div*pane.dx;
+
+     lay1.setPlace(SplitToRight(pane,dx,space),flags,space);
+
+     lay2.setPlace(pane,flags,space);
+    }
+ };
+
 void FileWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
-
-  pane.shrink();
-
-  // knob_hit , knob_add , dir , knob_back
-
-  {
-   auto knob__hit=CutBox(knob_hit);
-   auto edit__dir=CutPoint(edit_dir);
-
-   Coord dy=SupDY(flags,knob__hit,edit__dir);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(knob_add)
-    .place_cutLeft(knob__hit)
-    .place_cutRight(knob_back)
-    .place(edit__dir);
-  }
-
-  // line1
-
-  {
-   pane.place_cutTop(line1);
-  }
-
-  // list_dir , knob_mkdir , knob_rmdir
-
-  {
-   Coord tdy=pane.getSize().y;
-
-   PaneCut p(0,flags);
-
-   if( total_dy==tdy )
-     {
-      p=pane.cutTop(top_dy,0);
-     }
-   else
-     {
-      if( total_dy )
-        {
-         Coord t=Div(top_dy,total_dy)*tdy;
-
-         p=pane.cutTop(CapTop(t,tdy),0);
-
-         total_dy=tdy;
-         top_dy=p.getSize().y;
-        }
-      else
-        {
-         p=pane.cutTop(Div(1,3),0);
-
-         total_dy=tdy;
-         top_dy=p.getSize().y;
-        }
-     }
-
-   if( param.new_file )
-     {
-      auto knob__mkdir=CutBox(knob_mkdir);
-
-      p.cutRight(knob__mkdir.getMinSize(flags))
-       .place_cutTop(CutPoint(knob_mkdir)).place_cutTop(CutPoint(knob_rmdir));
-     }
-
-   p.place(list_dir);
-  }
-
-  // split
-
-  {
-   pane.place_cutTop(split);
-  }
-
-  // check_new , label_new_file , new_file
+  Coord space=+cfg.space_dxy;
 
   if( param.new_file )
     {
-     auto alt__new_file=CutPoint(alt_new_file);
-     auto label__new_file=CutPoint(label_new_file);
-     auto edit__new_file=CutPoint(edit_new_file);
+     // knob_add , knob_hit , dir , knob_back
 
-     Coord dy=SupDY(flags,alt__new_file,label__new_file,edit__new_file);
+     LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
 
-     PaneCut p=pane.cutTop(dy);
+     // list_dir , knob_mkdir , knob_rmdir
 
-     p.place_cutLeftCenter(alt__new_file)
-      .place_cutLeft(label__new_file)
-      .place(edit__new_file);
+     LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),Lay(list_dir));
+
+     // check_new , label_new_file , edit_new_file
+
+     LayToRightCenter lay3(Lay(alt_new_file),Lay(label_new_file),Lay(edit_new_file));
+
+     // list_file , filter_list
+
+     LayDiv lay4(Lay(list_file),Lay(filter_list),Div(2,3));
+
+     // btn_Ok , btn_Cancel
+
+     LaySupCenterXExt lay5(Lay(btn_Ok),Lay(btn_Cancel));
+
+     // lay_dir
+
+     ExtLayX elay1(lay1);
+     ExtLayX elay2(lay2);
+
+     LayToBottom lay_dir(elay1,Lay(line1),elay2);
+
+     // lay_file
+
+     ExtLayX elay3(lay3);
+     ExtLayX elay4(lay4);
+
+     LayNoSpace lay_file(Lay(split),LayToBottom(elay3,LayToTop(lay5,Lay(line2),elay4)));
+
+     // lay
+
+     Pane pane=Pane(Null,getSize()).shrink(0,space);
+
+     splitSize(pane.getSize().y);
+
+     Pane top=SplitY(top_dy,pane);
+
+     lay_dir.setPlace(top,flags,space);
+     lay_file.setPlace(pane,flags,space);
     }
+  else
+    {
+     // knob_add , knob_hit , dir , knob_back
 
-  // btn_Ok , btn_Cancel
+     LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
 
-  {
-   pane.placeRow_cutBottom(btn_Ok,btn_Cancel);
-  }
+     // list_dir
 
-  // line2
+     LayAll lay2(list_dir);
 
-  {
-   pane.place_cutBottom(line2);
-  }
+     // list_file , filter_list
 
-  // list_file , filter_list
+     LayDiv lay4(Lay(list_file),Lay(filter_list),Div(2,3));
 
-  {
-   pane.place_cutLeft(list_file,Div(2,3))
-       .place(filter_list);
-  }
+     // btn_Ok , btn_Cancel
+
+     LaySupCenterXExt lay5(Lay(btn_Ok),Lay(btn_Cancel));
+
+     // lay_dir
+
+     ExtLayX elay1(lay1);
+     ExtLayX elay2(lay2);
+
+     LayToBottom lay_dir(elay1,Lay(line1),elay2);
+
+     // lay_file
+
+     ExtLayX elay4(lay4);
+
+     LayNoSpace lay_file(Lay(split),LayToTop(lay5,Lay(line2),elay4));
+
+     // lay
+
+     Pane pane=Pane(Null,getSize()).shrink(0,space);
+
+     splitSize(pane.getSize().y);
+
+     Pane top=SplitY(top_dy,pane);
+
+     lay_dir.setPlace(top,flags,space);
+     lay_file.setPlace(pane,flags,space);
+    }
  }
 
 void FileWindow::drawBack(DrawBuf buf,bool) const

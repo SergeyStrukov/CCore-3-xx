@@ -42,11 +42,17 @@ concept bool LayRangeType = requires(R r)
 
  } ;
 
-/* SplitBox() */
+/* Split...() */
+
+Pane SplitToTop(Pane &pane,Coord dy,Coord space);
+
+Pane SplitToBottom(Pane &pane,Coord dy,Coord space);
+
+Pane SplitToLeft(Pane &pane,Coord dx,Coord space);
+
+Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
 Pane SplitBox(Pane &pane,Coord dx);
-
-/* SplitBoxRight() */
 
 Pane SplitBoxRight(Pane &pane,Coord dx);
 
@@ -391,26 +397,6 @@ class LayToTop : protected LaySet<LL...>
  {
    using LaySet<LL...>::apply;
 
-  private:
-
-   static Pane Split(Pane &pane,Coord dy,Coord space)
-    {
-     Pane ret;
-
-     if( dy<=pane.dy )
-       {
-        ret=SplitY(pane,dy);
-
-        SplitY(pane,space);
-       }
-     else
-       {
-        ret=Replace_null(pane);
-       }
-
-     return ret;
-    }
-
   public:
 
    using LaySet<LL...>::LaySet;
@@ -479,7 +465,7 @@ class LayToTop : protected LaySet<LL...>
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(Split(pane,dy,space),flags,space);
+                                 obj.setPlace(SplitToTop(pane,dy,space),flags,space);
 
                                 } ,
 
@@ -497,7 +483,7 @@ class LayToTop : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(Split(pane,s.y,space),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToTop(pane,s.y,space),s.x),flags,space);
 
                                 } ,
 
@@ -575,26 +561,6 @@ class LayToBottom : protected LaySet<LL...>
  {
    using LaySet<LL...>::apply;
 
-  private:
-
-   static Pane Split(Pane &pane,Coord dy,Coord space)
-    {
-     Pane ret;
-
-     if( dy<=pane.dy )
-       {
-        ret=SplitY(dy,pane);
-
-        SplitY(space,pane);
-       }
-     else
-       {
-        ret=Replace_null(pane);
-       }
-
-     return ret;
-    }
-
   public:
 
    using LaySet<LL...>::LaySet;
@@ -663,7 +629,7 @@ class LayToBottom : protected LaySet<LL...>
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(Split(pane,dy,space),flags,space);
+                                 obj.setPlace(SplitToBottom(pane,dy,space),flags,space);
 
                                 } ,
 
@@ -681,7 +647,7 @@ class LayToBottom : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(Split(pane,s.y,space),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToBottom(pane,s.y,space),s.x),flags,space);
 
                                 } ,
 
@@ -759,26 +725,6 @@ class LayToLeft : protected LaySet<LL...>
  {
    using LaySet<LL...>::apply;
 
-  private:
-
-   static Pane Split(Pane &pane,Coord dx,Coord space)
-    {
-     Pane ret;
-
-     if( dx<=pane.dx )
-       {
-        ret=SplitX(pane,dx);
-
-        SplitX(pane,space);
-       }
-     else
-       {
-        ret=Replace_null(pane);
-       }
-
-     return ret;
-    }
-
   public:
 
    using LaySet<LL...>::LaySet;
@@ -847,7 +793,7 @@ class LayToLeft : protected LaySet<LL...>
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(Split(pane,dx,space),flags,space);
+                                 obj.setPlace(SplitToLeft(pane,dx,space),flags,space);
 
                                 } ,
 
@@ -865,7 +811,7 @@ class LayToLeft : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(Split(pane,s.x,space),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToLeft(pane,s.x,space),s.y),flags,space);
 
                                 } ,
 
@@ -945,24 +891,6 @@ class LayToRight : protected LaySet<LL...>
 
    using LaySet<LL...>::apply;
 
-   static Pane Split(Pane &pane,Coord dx,Coord space)
-    {
-     Pane ret;
-
-     if( dx<=pane.dx )
-       {
-        ret=SplitX(dx,pane);
-
-        SplitX(space,pane);
-       }
-     else
-       {
-        ret=Replace_null(pane);
-       }
-
-     return ret;
-    }
-
   public:
 
    using LaySet<LL...>::LaySet;
@@ -1031,7 +959,7 @@ class LayToRight : protected LaySet<LL...>
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(Split(pane,dx,space),flags,space);
+                                 obj.setPlace(SplitToRight(pane,dx,space),flags,space);
 
                                 } ,
 
@@ -1049,7 +977,7 @@ class LayToRight : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(Split(pane,s.x,space),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToRight(pane,s.x,space),s.y),flags,space);
 
                                 } ,
 
@@ -1202,7 +1130,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
    mutable bool has_size = false ;
    mutable Point size;
-   mutable Coord size_space;
+   mutable Coord size_space = 0 ;
 
   private:
 
@@ -1299,7 +1227,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
 
    mutable bool has_size = false ;
    mutable Point size;
-   mutable Coord size_space;
+   mutable Coord size_space = 0 ;
 
   private:
 
