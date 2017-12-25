@@ -302,9 +302,7 @@ Point DirWindow::getMinSize(unsigned flags) const
 
   // knob_add , knob_hit , dir , knob_back
 
-  LayBox box1(knob_add);
-
-  LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
+  LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
 
   // list_dir , knob_mkdir , knob_rmdir
 
@@ -320,18 +318,11 @@ Point DirWindow::getMinSize(unsigned flags) const
 
    } lay_list(list_dir);
 
-  LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),lay_list);
+  LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , lay_list };
 
   // lay
 
-  ExtLayX elay1(lay1);
-  ExtLayX elay2(lay2);
-
-  LayToBottom lay(elay1,
-                  Lay(line1),
-                  LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),
-                           Lay(line2),
-                           elay2));
+  LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
   return lay.getMinSize(flags,space)+2*Point(0,space);
  }
@@ -344,24 +335,15 @@ void DirWindow::layout(unsigned flags)
 
   // knob_add , knob_hit , dir , knob_back
 
-  LayBox box1(knob_add);
-
-  LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
+  LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
 
   // list_dir , knob_mkdir , knob_rmdir
 
-  LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),Lay(list_dir));
+  LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , Lay(list_dir) };
 
   // lay
 
-  ExtLayX elay1(lay1);
-  ExtLayX elay2(lay2);
-
-  LayToBottom lay(elay1,
-                  Lay(line1),
-                  LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),
-                           Lay(line2),
-                           elay2));
+  LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
   lay.setPlace(Pane(Null,getSize()).shrink(0,space),flags,space);
  }

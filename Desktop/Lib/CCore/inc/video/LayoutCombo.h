@@ -60,10 +60,6 @@ Pane SplitToLeft(Pane &pane,Coord dx,Coord space);
 
 Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
-inline Pane SplitBox(Pane &pane,Coord dx) { return SplitToRight(pane,dx,BoxSpace(dx)); }
-
-inline Pane SplitBoxRight(Pane &pane,Coord dx) { return SplitToLeft(pane,dx,BoxSpace(dx)); }
-
 /* GetLaySpace() */
 
 template <class L>
@@ -1398,6 +1394,8 @@ class LayAll : LayBase<W>
    void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
  };
 
+/* Lay() */
+
 template <class W>
 auto Lay(W &obj) { return LayAll(obj); }
 
@@ -1654,6 +1652,20 @@ class LayBox
 
    void setPlace(Pane pane,unsigned flags,Coord) const { box.setPlace(pane,flags); }
  };
+
+/* ...Boxed...() */
+
+template <class W,class L>
+auto BoxedLay(W &box,const L &lay) { return LayToRightCenter(LayBox(box),lay); }
+
+template <class WBox,class W>
+auto BoxedWindow(WBox &box,W &obj) { return BoxedLay(box,Lay(obj)); }
+
+template <class L,class W>
+auto LayBoxed(const L &lay,W &box) { return LayToLeftCenter(LayBox(box),lay); }
+
+template <class W,class WBox>
+auto WindowBoxed(W &obj,WBox &box) { return LayBoxed(Lay(obj),box); }
 
 /* class LayDivX<L1,L2> */
 

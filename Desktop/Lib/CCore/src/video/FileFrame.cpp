@@ -1201,40 +1201,31 @@ void FileWindow::layout(unsigned flags)
     {
      // knob_add , knob_hit , dir , knob_back
 
-     LayBox box1(knob_add);
-
-     LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
+     LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
 
      // list_dir , knob_mkdir , knob_rmdir
 
-     LayToLeft lay2(LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))),Lay(list_dir));
+     LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , Lay(list_dir) };
 
      // check_new , label_new_file , edit_new_file
 
-     LayToRightCenter lay3(Lay(alt_new_file),Lay(label_new_file),Lay(edit_new_file));
+     LayToRightCenter lay3{ Lay(alt_new_file) , Lay(label_new_file) , Lay(edit_new_file) };
 
      // list_file , filter_list
 
-     LayDivX lay4(Lay(list_file),Lay(filter_list),Div(2,3));
+     LayDivX lay4{ Lay(list_file) , Lay(filter_list) , Div(2,3) };
 
      // btn_Ok , btn_Cancel
 
-     LaySupCenterXExt lay5(Lay(btn_Ok),Lay(btn_Cancel));
+     LaySupCenterXExt lay5{ Lay(btn_Ok) , Lay(btn_Cancel) };
 
      // lay_dir
 
-     ExtLayX elay1(lay1);
-     ExtLayX elay2(lay2);
-
-     LayToBottom lay_dir(elay1,Lay(line1),elay2);
+     LayToBottom lay_dir{ ExtLayX(lay1) , Lay(line1) , ExtLayX(lay2) };
 
      // lay_file
 
-     LayNoSpace lay_split(split);
-     ExtLayX elay3(lay3);
-     ExtLayX elay4(lay4);
-
-     LayToBottom lay_file(lay_split,elay3,LayToTop(lay5,Lay(line2),elay4));
+     LayToBottom lay_file{ LayNoSpace(split) , ExtLayX(lay3) , LayToTop(lay5,Lay(line2),ExtLayX(lay4)) };
 
      // lay
 
@@ -1251,9 +1242,7 @@ void FileWindow::layout(unsigned flags)
     {
      // knob_add , knob_hit , dir , knob_back
 
-     LayBox box1(knob_add);
-
-     LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
+     LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
 
      // list_dir
 
@@ -1261,25 +1250,19 @@ void FileWindow::layout(unsigned flags)
 
      // list_file , filter_list
 
-     LayDivX lay4(Lay(list_file),Lay(filter_list),Div(2,3));
+     LayDivX lay4{ Lay(list_file) , Lay(filter_list) , Div(2,3) };
 
      // btn_Ok , btn_Cancel
 
-     LaySupCenterXExt lay5(Lay(btn_Ok),Lay(btn_Cancel));
+     LaySupCenterXExt lay5{ Lay(btn_Ok) , Lay(btn_Cancel) };
 
      // lay_dir
 
-     ExtLayX elay1(lay1);
-     ExtLayX elay2(lay2);
-
-     LayToBottom lay_dir(elay1,Lay(line1),elay2);
+     LayToBottom lay_dir{ ExtLayX(lay1) , Lay(line1) , ExtLayX(lay2) };
 
      // lay_file
 
-     LayNoSpace lay_split(split);
-     ExtLayX elay4(lay4);
-
-     LayToBottom lay_file(lay_split,LayToTop(lay5,Lay(line2),elay4));
+     LayToBottom lay_file{ LayNoSpace(split) , LayToTop(lay5,Lay(line2),ExtLayX(lay4)) };
 
      // lay
 
