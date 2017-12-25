@@ -306,19 +306,7 @@ Point DirWindow::getMinSize(unsigned flags) const
 
   // list_dir , knob_mkdir , knob_rmdir
 
-  class LayList
-   {
-     const ScrollListWindow &obj;
-
-    public:
-
-     explicit LayList(const ScrollListWindow &obj_) : obj(obj_) {}
-
-     Point getMinSize(unsigned flags,Coord) const { return obj.getMinSize(flags,12u); }
-
-   } lay_list(list_dir);
-
-  LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , lay_list };
+  LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , LaySpecial(list_dir,12u) };
 
   // lay
 

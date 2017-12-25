@@ -60,6 +60,18 @@ Pane SplitToLeft(Pane &pane,Coord dx,Coord space);
 
 Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
+/* Stack...Size() */
+
+inline Point StackXSize(Point s1,Point s2)
+ {
+  return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
+ }
+
+inline Point StackYSize(Point s1,Point s2)
+ {
+  return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
+ }
+
 /* GetLaySpace() */
 
 template <class L>
@@ -131,6 +143,8 @@ template <class W> class LayBase;
 template <class W> class LayAll;
 
 template <class W> class LayNoSpace;
+
+template <class W,class T> class LaySpecial;
 
 template <class W> class LayExtX;
 
@@ -1408,11 +1422,28 @@ class LayNoSpace : LayBase<W>
 
    explicit LayNoSpace(W &obj) : LayBase<W>(obj) {}
 
-   Coord getSpace(Coord) const { return 0; }
+   Coord getSpace(unsigned,Coord) const { return 0; }
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
    void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
+ };
+
+/* class LaySpecial<W,T> */
+
+template <class W,class T>
+class LaySpecial
+ {
+   W &obj;
+   T arg;
+
+  public:
+
+   LaySpecial(W &obj_,T arg_) : obj(obj_),arg(arg_) {}
+
+   Point getMinSize(unsigned flags,Coord) const { return obj.getMinSize(flags,arg); }
+
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(pane,flags); }
  };
 
 /* class LayExtX<W> */
@@ -1685,7 +1716,7 @@ class LayDivX
      Point s1=lay1.getMinSize(flags,space);
      Point s2=lay2.getMinSize(flags,space);
 
-     return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
+     return StackXSize(s1,s2);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
@@ -1716,7 +1747,7 @@ class LayDivY
      Point s1=lay1.getMinSize(flags,space);
      Point s2=lay2.getMinSize(flags,space);
 
-     return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
+     return StackYSize(s1,s2);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const

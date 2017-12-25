@@ -1130,27 +1130,78 @@ FileWindow::~FileWindow()
 
 Point FileWindow::getMinSize(unsigned flags) const
  {
-  Coordinate space=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Coordinate knob_ext=BoxExt(knob_hit.getMinSize(flags).dxy);
+  if( param.new_file )
+    {
+     // knob_add , knob_hit , dir , knob_back
 
-  Point dir_size=edit_dir.getMinSize(flags);
+     LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
 
-  Coordinate dir_dx=dir_size.x;
-  Coordinate dir_dy=dir_size.y;
+     // list_dir , knob_mkdir , knob_rmdir
 
-  Point btn_size=SupMinSize(flags,btn_Ok,btn_Cancel);
+     LayToLeft lay2{ LayToBottom(Lay(knob_mkdir),LayAlignTop(Lay(knob_rmdir))) , LaySpecial(list_dir,6u) };
 
-  Coordinate btn_dx=btn_size.x;
-  Coordinate btn_dy=btn_size.y;
+     // check_new , label_new_file , edit_new_file
 
-  Coordinate dx = Sup( dir_dx + 3*knob_ext + 2*space , 2*btn_dx + 3*space ) ;
+     LayToRightCenter lay3{ Lay(alt_new_file) , Lay(label_new_file) , Lay(edit_new_file) };
 
-  Coordinate dy = 7*space + 20*dir_dy + btn_dy ;
+     // list_file , filter_list
 
-  if( param.new_file ) dy += dir_dy + 2*space ;
+     LayDivX lay4{ LaySpecial(list_file,12u) , Lay(filter_list) , Div(2,3) };
 
-  return Point(dx,dy);
+     // btn_Ok , btn_Cancel
+
+     LaySupCenterXExt lay5{ Lay(btn_Ok) , Lay(btn_Cancel) };
+
+     // lay_dir
+
+     LayToBottom lay_dir{ ExtLayX(lay1) , Lay(line1) , ExtLayX(lay2) };
+
+     // lay_file
+
+     LayToBottom lay_file{ LayNoSpace(split) , ExtLayX(lay3) , LayToTop(lay5,Lay(line2),ExtLayX(lay4)) };
+
+     // lay
+
+     Point s1=lay_dir.getMinSize(flags,space);
+     Point s2=lay_file.getMinSize(flags,space);
+
+     return StackYSize(s1,s2)+2*Point(0,space);
+    }
+  else
+    {
+     // knob_add , knob_hit , dir , knob_back
+
+     LayToRightCenter lay1{ LayBox(knob_add) , LayBox(knob_hit) , LayToLeftCenter(Lay(knob_back),Lay(edit_dir)) };
+
+     // list_dir
+
+     LaySpecial lay2(list_dir,6u);
+
+     // list_file , filter_list
+
+     LayDivX lay4{ LaySpecial(list_file,12u) , Lay(filter_list) , Div(2,3) };
+
+     // btn_Ok , btn_Cancel
+
+     LaySupCenterXExt lay5{ Lay(btn_Ok) , Lay(btn_Cancel) };
+
+     // lay_dir
+
+     LayToBottom lay_dir{ ExtLayX(lay1) , Lay(line1) , ExtLayX(lay2) };
+
+     // lay_file
+
+     LayToBottom lay_file{ LayNoSpace(split) , LayToTop(lay5,Lay(line2),ExtLayX(lay4)) };
+
+     // lay
+
+     Point s1=lay_dir.getMinSize(flags,space);
+     Point s2=lay_file.getMinSize(flags,space);
+
+     return StackYSize(s1,s2)+2*Point(0,space);
+    }
  }
 
 void FileWindow::setNewFile(bool on,DefString auto_ext)

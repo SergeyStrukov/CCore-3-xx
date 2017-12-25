@@ -936,32 +936,25 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
 
   // lights
 
-  LayBox box1(light_scalable);
-
-  LayToRightCenter lay_lights(box1,Lay(label_scalable),
-                              LayBox(light_monospace),Lay(label_monospace),
-                              LayBox(light_bold),Lay(label_bold),
-                              LayBox(light_italic),Lay(label_italic));
+  LayToRightCenter lay_lights(BoxedWindow(light_scalable,label_scalable),
+                              BoxedWindow(light_monospace,label_monospace),
+                              BoxedWindow(light_bold,label_bold),
+                              BoxedWindow(light_italic,label_italic));
 
   // size spins
 
-  LayToRightCenter lay_spins(Lay(spin_fdy),
-                             LayAlignLeft(LayToRightCenter(LayBox(check_fdx),Lay(spin_fdx))));
+  LayToRightCenter lay_spins(Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx)));
 
   // hint and smooth
 
-  LayBox box2(radio_no_hint);
+  LayToBottomLeft lay_hint(BoxedWindow(radio_no_hint,label_no_hint),
+                           BoxedWindow(radio_native_hint,label_native_hint),
+                           BoxedWindow(radio_auto_hint,label_auto_hint));
 
-  LayToBottomLeft lay_hint(LayToRightCenter(box2,Lay(label_no_hint)),
-                           LayToRightCenter(LayBox(radio_native_hint),Lay(label_native_hint)),
-                           LayToRightCenter(LayBox(radio_auto_hint),Lay(label_auto_hint)));
-
-  LayBox box3(radio_no_smooth);
-
-  LayToBottomLeft lay_smooth(LayToRightCenter(box3,Lay(label_no_smooth)),
-                             LayToRightCenter(LayBox(radio_smooth),Lay(label_smooth)),
-                             LayToRightCenter(LayBox(radio_RGB),Lay(label_RGB)),
-                             LayToRightCenter(LayBox(radio_BGR),Lay(label_BGR)));
+  LayToBottomLeft lay_smooth(BoxedWindow(radio_no_smooth,label_no_smooth),
+                             BoxedWindow(radio_smooth,label_smooth),
+                             BoxedWindow(radio_RGB,label_RGB),
+                             BoxedWindow(radio_BGR,label_BGR));
 
   LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
                                 LayAlignLeft(LayInner(contour_smooth,lay_smooth)));
@@ -972,11 +965,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
 
   // sample radio
 
-  LayBox box4(radio_sample);
-
-  LayToRight lay_sample(LayToRightCenter(box4,Lay(label_sample)),
-                        LayToRightCenter(LayBox(radio_table),Lay(label_table)));
-
+  LayToRightCenter lay_sample(BoxedWindow(radio_sample,label_sample),BoxedWindow(radio_table,label_table));
 
   // text_file_name , text_family
 
@@ -987,7 +976,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
                   lay_spins,
                   Lay(line2),
                   lay_hint_smooth,
-                  LayAlignLeft(LayToRightCenter(LayBox(check_kerning),Lay(label_kerning))),
+                  LayAlignLeft(BoxedWindow(check_kerning,label_kerning)),
                   lay_strength,
                   Lay(line3),
                   lay_sample,
@@ -1043,32 +1032,25 @@ void FontEditWindow::layout(unsigned flags)
 
   // lights
 
-  LayBox box1(light_scalable);
-
-  LayToRightCenter lay_lights(box1,Lay(label_scalable),
-                              LayBox(light_monospace),Lay(label_monospace),
-                              LayBox(light_bold),Lay(label_bold),
-                              LayBox(light_italic),Lay(label_italic));
+  LayToRightCenter lay_lights(BoxedWindow(light_scalable,label_scalable),
+                              BoxedWindow(light_monospace,label_monospace),
+                              BoxedWindow(light_bold,label_bold),
+                              BoxedWindow(light_italic,label_italic));
 
   // size spins
 
-  LayToRightCenter lay_spins(Lay(spin_fdy),
-                             LayAlignLeft(LayToRightCenter(LayBox(check_fdx),Lay(spin_fdx))));
+  LayToRightCenter lay_spins(Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx)));
 
   // hint and smooth
 
-  LayBox box2(radio_no_hint);
+  LayToBottomLeft lay_hint(BoxedWindow(radio_no_hint,label_no_hint),
+                           BoxedWindow(radio_native_hint,label_native_hint),
+                           BoxedWindow(radio_auto_hint,label_auto_hint));
 
-  LayToBottomLeft lay_hint(LayToRightCenter(box2,Lay(label_no_hint)),
-                           LayToRightCenter(LayBox(radio_native_hint),Lay(label_native_hint)),
-                           LayToRightCenter(LayBox(radio_auto_hint),Lay(label_auto_hint)));
-
-  LayBox box3(radio_no_smooth);
-
-  LayToBottomLeft lay_smooth(LayToRightCenter(box3,Lay(label_no_smooth)),
-                             LayToRightCenter(LayBox(radio_smooth),Lay(label_smooth)),
-                             LayToRightCenter(LayBox(radio_RGB),Lay(label_RGB)),
-                             LayToRightCenter(LayBox(radio_BGR),Lay(label_BGR)));
+  LayToBottomLeft lay_smooth(BoxedWindow(radio_no_smooth,label_no_smooth),
+                             BoxedWindow(radio_smooth,label_smooth),
+                             BoxedWindow(radio_RGB,label_RGB),
+                             BoxedWindow(radio_BGR,label_BGR));
 
   LayToRightTop lay_hint_smooth(LayInner(contour_hint,lay_hint),
                                 LayAlignLeft(LayInner(contour_smooth,lay_smooth)));
@@ -1079,11 +1061,7 @@ void FontEditWindow::layout(unsigned flags)
 
   // sample radio
 
-  LayBox box4(radio_sample);
-
-  LayToRight lay_sample(LayToRightCenter(box4,Lay(label_sample)),
-                        LayToRightCenter(LayBox(radio_table),Lay(label_table)));
-
+  LayToRightCenter lay_sample(BoxedWindow(radio_sample,label_sample),BoxedWindow(radio_table,label_table));
 
   // text_file_name , text_family
 
@@ -1094,7 +1072,7 @@ void FontEditWindow::layout(unsigned flags)
                   lay_spins,
                   Lay(line2),
                   lay_hint_smooth,
-                  LayAlignLeft(LayToRightCenter(LayBox(check_kerning),Lay(label_kerning))),
+                  LayAlignLeft(BoxedWindow(check_kerning,label_kerning)),
                   lay_strength,
                   Lay(line3),
                   lay_sample,
