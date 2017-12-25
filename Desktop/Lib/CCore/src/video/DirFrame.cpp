@@ -302,7 +302,9 @@ Point DirWindow::getMinSize(unsigned flags) const
 
   // knob_add , knob_hit , dir , knob_back
 
-  LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
+  LayBox box1(knob_add);
+
+  LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
   // list_dir , knob_mkdir , knob_rmdir
 
@@ -342,7 +344,9 @@ void DirWindow::layout(unsigned flags)
 
   // knob_add , knob_hit , dir , knob_back
 
-  LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
+  LayBox box1(knob_add);
+
+  LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
   // list_dir , knob_mkdir , knob_rmdir
 

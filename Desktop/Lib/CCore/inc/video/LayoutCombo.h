@@ -42,6 +42,14 @@ concept bool LayRangeType = requires(R r)
 
  } ;
 
+/* concept LaySpaceType<L> */
+
+template <class L>
+concept bool LaySpaceType = requires(const L &lay,unsigned flags,Coord space)
+ {
+  { lay.getSpace(flags,space) } -> Coord ;
+ } ;
+
 /* Split...() */
 
 Pane SplitToTop(Pane &pane,Coord dy,Coord space);
@@ -52,9 +60,23 @@ Pane SplitToLeft(Pane &pane,Coord dx,Coord space);
 
 Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
-Pane SplitBox(Pane &pane,Coord dx);
+inline Pane SplitBox(Pane &pane,Coord dx) { return SplitToRight(pane,dx,BoxSpace(dx)); }
 
-Pane SplitBoxRight(Pane &pane,Coord dx);
+inline Pane SplitBoxRight(Pane &pane,Coord dx) { return SplitToLeft(pane,dx,BoxSpace(dx)); }
+
+/* GetLaySpace() */
+
+template <class L>
+Coord GetLaySpace(const L &,unsigned,Coord space)
+ {
+  return space;
+ }
+
+template <LaySpaceType L>
+Coord GetLaySpace(const L &lay,unsigned flags,Coord space)
+ {
+  return lay.getSpace(flags,space);
+ }
 
 /* classes */
 
@@ -112,6 +134,8 @@ template <class W> class LayBase;
 
 template <class W> class LayAll;
 
+template <class W> class LayNoSpace;
+
 template <class W> class LayExtX;
 
 template <class W> class LayExtY;
@@ -136,13 +160,11 @@ template <class W> class LayCenterXExt;
 
 template <class W> class LayCenterYExt;
 
-template <class WBox,class W> class LayBox;
+template <class W> class LayBox;
 
-template <class WBox,class L> class LayBoxLay;
+template <class L1,class L2> class LayDivX;
 
-template <class WBox,class W> class LayBoxRight;
-
-template <class WBox,class L> class LayBoxRightLay;
+template <class L1,class L2> class LayDivY;
 
 template <class W,class L> class LayInner;
 
@@ -340,6 +362,11 @@ class LayAlignX
      return lay.getMinSize(flags,space);
     }
 
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
+    {
+     return lay.getMinSize(flags,space,cap);
+    }
+
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
      Coord dx=lay.getMinSize(flags,space).x;
@@ -371,6 +398,11 @@ class LayAlignY
    Point getMinSize(unsigned flags,Coord space) const
     {
      return lay.getMinSize(flags,space);
+    }
+
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
+    {
+     return lay.getMinSize(flags,space,cap);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
@@ -411,7 +443,7 @@ class LayToTop : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dy+=s.y;
-                                   dy+=space;
+                                   dy+=GetLaySpace(obj,flags,space);
 
                                    dx=Sup(dx,s.x);
 
@@ -440,7 +472,7 @@ class LayToTop : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dy+=s.y;
-                                   dy+=space;
+                                   dy+=GetLaySpace(obj,flags,space);
 
                                    dx=Sup(dx,s.x);
 
@@ -465,7 +497,7 @@ class LayToTop : protected LaySet<LL...>
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(SplitToTop(pane,dy,space),flags,space);
+                                 obj.setPlace(SplitToTop(pane,dy,GetLaySpace(obj,flags,space)),flags,space);
 
                                 } ,
 
@@ -483,7 +515,7 @@ class LayToTop : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToTop(pane,s.y,space),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToTop(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags,space);
 
                                 } ,
 
@@ -575,7 +607,7 @@ class LayToBottom : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dy+=s.y;
-                                   dy+=space;
+                                   dy+=GetLaySpace(obj,flags,space);
 
                                    dx=Sup(dx,s.x);
 
@@ -604,7 +636,7 @@ class LayToBottom : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dy+=s.y;
-                                   dy+=space;
+                                   dy+=GetLaySpace(obj,flags,space);
 
                                    dx=Sup(dx,s.x);
 
@@ -629,7 +661,7 @@ class LayToBottom : protected LaySet<LL...>
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(SplitToBottom(pane,dy,space),flags,space);
+                                 obj.setPlace(SplitToBottom(pane,dy,GetLaySpace(obj,flags,space)),flags,space);
 
                                 } ,
 
@@ -647,7 +679,7 @@ class LayToBottom : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToBottom(pane,s.y,space),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToBottom(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags,space);
 
                                 } ,
 
@@ -739,7 +771,7 @@ class LayToLeft : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dx+=s.x;
-                                   dx+=space;
+                                   dx+=GetLaySpace(obj,flags,space);
 
                                    dy=Sup(dy,s.y);
 
@@ -768,7 +800,7 @@ class LayToLeft : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dx+=s.x;
-                                   dx+=space;
+                                   dx+=GetLaySpace(obj,flags,space);
 
                                    dy=Sup(dy,s.y);
 
@@ -793,7 +825,7 @@ class LayToLeft : protected LaySet<LL...>
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(SplitToLeft(pane,dx,space),flags,space);
+                                 obj.setPlace(SplitToLeft(pane,dx,GetLaySpace(obj,flags,space)),flags,space);
 
                                 } ,
 
@@ -811,7 +843,7 @@ class LayToLeft : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToLeft(pane,s.x,space),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToLeft(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags,space);
 
                                 } ,
 
@@ -905,7 +937,7 @@ class LayToRight : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dx+=s.x;
-                                   dx+=space;
+                                   dx+=GetLaySpace(obj,flags,space);
 
                                    dy=Sup(dy,s.y);
 
@@ -934,7 +966,7 @@ class LayToRight : protected LaySet<LL...>
                                    Point s=obj.getMinSize(flags,space);
 
                                    dx+=s.x;
-                                   dx+=space;
+                                   dx+=GetLaySpace(obj,flags,space);
 
                                    dy=Sup(dy,s.y);
 
@@ -959,7 +991,7 @@ class LayToRight : protected LaySet<LL...>
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(SplitToRight(pane,dx,space),flags,space);
+                                 obj.setPlace(SplitToRight(pane,dx,GetLaySpace(obj,flags,space)),flags,space);
 
                                 } ,
 
@@ -977,7 +1009,7 @@ class LayToRight : protected LaySet<LL...>
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToRight(pane,s.x,space),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToRight(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags,space);
 
                                 } ,
 
@@ -1369,11 +1401,29 @@ class LayAll : LayBase<W>
 template <class W>
 auto Lay(W &obj) { return LayAll(obj); }
 
+/* class LayNoSpace<W> */
+
+template <class W>
+class LayNoSpace : LayBase<W>
+ {
+  public:
+
+   explicit LayNoSpace(W &obj) : LayBase<W>(obj) {}
+
+   Coord getSpace(Coord) const { return 0; }
+
+   Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
+
+   void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
+ };
+
 /* class LayExtX<W> */
 
 template <class W>
 class LayExtX : LayBase<W>
  {
+  private:
+
    static Point Ext(Coord space) { return Point(space,0); }
 
   public:
@@ -1390,6 +1440,8 @@ class LayExtX : LayBase<W>
 template <class W>
 class LayExtY : LayBase<W>
  {
+  private:
+
    static Point Ext(Coord space) { return Point(0,space); }
 
   public:
@@ -1563,16 +1615,14 @@ class LayCenterYExt : LayBase<W>
    void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterY(pane,s.y),flags); }
  };
 
-/* class LayBox<WBox,W> */
+/* class LayBox<W> */
 
-template <class WBox,class W>
+template <class W>
 class LayBox
  {
-   WBox &box;
-   W &obj;
+   W &box;
    mutable unsigned flags = 0 ;
-   mutable Coordinate dxy;
-   mutable Point s;
+   mutable Coord dxy = 0 ;
 
   private:
 
@@ -1581,161 +1631,89 @@ class LayBox
      if( Change(flags,flags_) )
        {
         dxy=box.getMinSize(flags_).dxy;
-        s=GetMinSize(flags_,obj);
        }
     }
 
   public:
 
-   LayBox(WBox &box_,W &obj_) : box(box_),obj(obj_) {}
+   explicit LayBox(W &box_) : box(box_) {}
+
+   Coord getSpace(unsigned flags,Coord) const
+    {
+     cache(flags);
+
+     return BoxSpace(dxy);
+    }
 
    Point getMinSize(unsigned flags,Coord) const
     {
      cache(flags);
 
-     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+     return Point::Diag(dxy);
     }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const
-    {
-     cache(flags);
-
-     box.setPlace(AlignCenterY(SplitBox(pane,+dxy),+dxy),flags);
-
-     obj.setPlace(AlignCenterY(pane,s.y),flags);
-    }
+   void setPlace(Pane pane,unsigned flags,Coord) const { box.setPlace(pane,flags); }
  };
 
-/* class LayBoxLay<WBox,L> */
+/* class LayDivX<L1,L2> */
 
-template <class WBox,class L>
-class LayBoxLay
+template <class L1,class L2>
+class LayDivX
  {
-   WBox &box;
-   L lay;
-   mutable unsigned flags = 0 ;
-   mutable Coordinate dxy;
-
-  private:
-
-   void cache(unsigned flags_) const
-    {
-     if( Change(flags,flags_) )
-       {
-        dxy=box.getMinSize(flags_).dxy;
-       }
-    }
+   L1 lay1;
+   L2 lay2;
+   Ratio div;
 
   public:
 
-   LayBoxLay(WBox &box_,const L &lay_) : box(box_),lay(lay_) {}
+   LayDivX(const L1 &lay1_,const L2 &lay2_,const Ratio &div_) : lay1(lay1_),lay2(lay2_),div(div_) {}
 
    Point getMinSize(unsigned flags,Coord space) const
     {
-     cache(flags);
+     Point s1=lay1.getMinSize(flags,space);
+     Point s2=lay2.getMinSize(flags,space);
 
-     Point s=lay.getMinSize(flags,space);
-
-     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+     return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     cache(flags);
+     Coord dx=div*pane.dx;
 
-     Point s=lay.getMinSize(flags,space);
+     lay1.setPlace(SplitToRight(pane,dx,space),flags,space);
 
-     box.setPlace(AlignCenterY(SplitBox(pane,+dxy),+dxy),flags);
-
-     lay.setPlace(AlignCenterY(pane,s.y),flags,space);
+     lay2.setPlace(pane,flags,space);
     }
  };
 
-/* class LayBoxRight<WBox,W> */
+/* class LayDivY<L1,L2> */
 
-template <class WBox,class W>
-class LayBoxRight
+template <class L1,class L2>
+class LayDivY
  {
-   WBox &box;
-   W &obj;
-   mutable unsigned flags = 0 ;
-   mutable Coordinate dxy;
-   mutable Point s;
-
-  private:
-
-   void cache(unsigned flags_) const
-    {
-     if( Change(flags,flags_) )
-       {
-        dxy=box.getMinSize(flags_).dxy;
-        s=GetMinSize(flags_,obj);
-       }
-    }
+   L1 lay1;
+   L2 lay2;
+   Ratio div;
 
   public:
 
-   LayBoxRight(WBox &box_,W &obj_) : box(box_),obj(obj_) {}
-
-   Point getMinSize(unsigned flags,Coord) const
-    {
-     cache(flags);
-
-     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
-    }
-
-   void setPlace(Pane pane,unsigned flags,Coord) const
-    {
-     cache(flags);
-
-     box.setPlace(AlignCenterY(SplitBoxRight(pane,+dxy),+dxy),flags);
-
-     obj.setPlace(AlignCenterY(pane,s.y),flags);
-    }
- };
-
-/* class LayBoxRightLay<WBox,L> */
-
-template <class WBox,class L>
-class LayBoxRightLay
- {
-   WBox &box;
-   L lay;
-   mutable unsigned flags = 0 ;
-   mutable Coordinate dxy;
-
-  private:
-
-   void cache(unsigned flags_) const
-    {
-     if( Change(flags,flags_) )
-       {
-        dxy=box.getMinSize(flags_).dxy;
-       }
-    }
-
-  public:
-
-   LayBoxRightLay(WBox &box_,const L &lay_) : box(box_),lay(lay_) {}
+   LayDivY(const L1 &lay1_,const L2 &lay2_,const Ratio &div_) : lay1(lay1_),lay2(lay2_),div(div_) {}
 
    Point getMinSize(unsigned flags,Coord space) const
     {
-     cache(flags);
+     Point s1=lay1.getMinSize(flags,space);
+     Point s2=lay2.getMinSize(flags,space);
 
-     Point s=lay.getMinSize(flags,space);
-
-     return Point( BoxExt(dxy)+s.x , Sup(dxy,s.y) );
+     return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     cache(flags);
+     Coord dy=div*pane.dy;
 
-     Point s=lay.getMinSize(flags,space);
+     lay1.setPlace(SplitToBottom(pane,dy,space),flags,space);
 
-     box.setPlace(AlignCenterY(SplitBoxRight(pane,+dxy),+dxy),flags);
-
-     lay.setPlace(AlignCenterY(pane,s.y),flags,space);
+     lay2.setPlace(pane,flags,space);
     }
  };
 

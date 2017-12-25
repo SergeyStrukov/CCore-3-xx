@@ -371,7 +371,23 @@ void TestClient::cascade_menu_selected(int id,Point point)
     {
      case 101 :
       {
-       if( !file_window.isAlive() ) file_window.create(point,"Select file"_def);
+       if( !file_window.isAlive() )
+         {
+          file_window.setNewFile(true);
+
+          file_window.create(point,"Select file"_def);
+         }
+      }
+     break;
+
+     case 102 :
+      {
+       if( !file_window.isAlive() )
+         {
+          file_window.setNewFile(false);
+
+          file_window.create(point,"Select file"_def);
+         }
       }
      break;
     }

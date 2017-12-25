@@ -92,46 +92,6 @@ Pane SplitToRight(Pane &pane,Coord dx,Coord space)
   return ret;
  }
 
-Pane SplitBox(Pane &pane,Coord dx)
- {
-  Coord space=BoxSpace(dx);
-
-  Pane ret;
-
-  if( dx<=pane.dx )
-    {
-     ret=SplitX(dx,pane);
-
-     SplitX(space,pane);
-    }
-  else
-    {
-     ret=Replace_null(pane);
-    }
-
-  return ret;
- }
-
-Pane SplitBoxRight(Pane &pane,Coord dx)
- {
-  Coord space=BoxSpace(dx);
-
-  Pane ret;
-
-  if( dx<=pane.dx )
-    {
-     ret=SplitX(pane,dx);
-
-     SplitX(pane,space);
-    }
-  else
-    {
-     ret=Replace_null(pane);
-    }
-
-  return ret;
- }
-
 } // namespace Video
 } // namespace CCore
 

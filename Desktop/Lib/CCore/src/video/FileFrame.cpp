@@ -395,7 +395,10 @@ FileFilterWindow::~FileFilterWindow()
 
 Point FileFilterWindow::getMinSize(unsigned flags) const
  {
-  LayBoxLay lay(check,LayBoxRight(knob,edit));
+  LayBox lay1(check);
+  LayBox lay2(knob);
+
+  LayToRightCenter lay(lay1,LayToLeftCenter(lay2,Lay(edit)));
 
   return lay.getMinSize(flags,0);
  }
@@ -404,7 +407,10 @@ Point FileFilterWindow::getMinSize(unsigned flags) const
 
 void FileFilterWindow::layout(unsigned flags)
  {
-  LayBoxLay lay(check,LayBoxRight(knob,edit));
+  LayBox lay1(check);
+  LayBox lay2(knob);
+
+  LayToRightCenter lay(lay1,LayToLeftCenter(lay2,Lay(edit)));
 
   lay.setPlace(Pane(Null,getSize()),flags,0);
  }
@@ -1187,63 +1193,6 @@ void FileWindow::setNewFile(bool on)
 
  // drawing
 
-template <class L1,class L2>
-class LayNoSpace
- {
-   L1 lay1;
-   L2 lay2;
-
-  public:
-
-   LayNoSpace(const L1 &lay1_,const L2 &lay2_) : lay1(lay1_),lay2(lay2_) {}
-
-   Point getMinSize(unsigned flags,Coord space) const
-    {
-     Point s1=lay1.getMinSize(flags,space);
-     Point s2=lay2.getMinSize(flags,space);
-
-     return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
-    }
-
-   void setPlace(Pane pane,unsigned flags,Coord space) const
-    {
-     Coord dy=lay1.getMinSize(flags,space).y;
-
-     lay1.setPlace(SplitToBottom(pane,dy,0),flags,space);
-
-     lay2.setPlace(pane,flags,space);
-    }
- };
-
-template <class L1,class L2>
-class LayDiv
- {
-   L1 lay1;
-   L2 lay2;
-   Ratio div;
-
-  public:
-
-   LayDiv(const L1 &lay1_,const L2 &lay2_,const Ratio &div_) : lay1(lay1_),lay2(lay2_),div(div_) {}
-
-   Point getMinSize(unsigned flags,Coord space) const
-    {
-     Point s1=lay1.getMinSize(flags,space);
-     Point s2=lay2.getMinSize(flags,space);
-
-     return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
-    }
-
-   void setPlace(Pane pane,unsigned flags,Coord space) const
-    {
-     Coord dx=div*pane.dx;
-
-     lay1.setPlace(SplitToRight(pane,dx,space),flags,space);
-
-     lay2.setPlace(pane,flags,space);
-    }
- };
-
 void FileWindow::layout(unsigned flags)
  {
   Coord space=+cfg.space_dxy;
@@ -1252,7 +1201,9 @@ void FileWindow::layout(unsigned flags)
     {
      // knob_add , knob_hit , dir , knob_back
 
-     LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
+     LayBox box1(knob_add);
+
+     LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
      // list_dir , knob_mkdir , knob_rmdir
 
@@ -1264,7 +1215,7 @@ void FileWindow::layout(unsigned flags)
 
      // list_file , filter_list
 
-     LayDiv lay4(Lay(list_file),Lay(filter_list),Div(2,3));
+     LayDivX lay4(Lay(list_file),Lay(filter_list),Div(2,3));
 
      // btn_Ok , btn_Cancel
 
@@ -1279,10 +1230,11 @@ void FileWindow::layout(unsigned flags)
 
      // lay_file
 
+     LayNoSpace lay_split(split);
      ExtLayX elay3(lay3);
      ExtLayX elay4(lay4);
 
-     LayNoSpace lay_file(Lay(split),LayToBottom(elay3,LayToTop(lay5,Lay(line2),elay4)));
+     LayToBottom lay_file(lay_split,elay3,LayToTop(lay5,Lay(line2),elay4));
 
      // lay
 
@@ -1299,7 +1251,9 @@ void FileWindow::layout(unsigned flags)
     {
      // knob_add , knob_hit , dir , knob_back
 
-     LayBoxLay lay1(knob_add,LayBoxLay(knob_hit,LayToLeftCenter(Lay(knob_back),Lay(edit_dir))));
+     LayBox box1(knob_add);
+
+     LayToRightCenter lay1(box1,LayBox(knob_hit),LayToLeftCenter(Lay(knob_back),Lay(edit_dir)));
 
      // list_dir
 
@@ -1307,7 +1261,7 @@ void FileWindow::layout(unsigned flags)
 
      // list_file , filter_list
 
-     LayDiv lay4(Lay(list_file),Lay(filter_list),Div(2,3));
+     LayDivX lay4(Lay(list_file),Lay(filter_list),Div(2,3));
 
      // btn_Ok , btn_Cancel
 
@@ -1322,9 +1276,10 @@ void FileWindow::layout(unsigned flags)
 
      // lay_file
 
+     LayNoSpace lay_split(split);
      ExtLayX elay4(lay4);
 
-     LayNoSpace lay_file(Lay(split),LayToTop(lay5,Lay(line2),elay4));
+     LayToBottom lay_file(lay_split,LayToTop(lay5,Lay(line2),elay4));
 
      // lay
 
