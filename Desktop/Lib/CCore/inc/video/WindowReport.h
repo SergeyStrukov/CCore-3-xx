@@ -172,7 +172,7 @@ class ExceptionWindow : public SubWindow
 
    static ulen CountLines(StrLen text);
 
-   static Coord TotalDX(Font font,ulen index,StrLen text);
+   static Coord TotalDX(const Font &font,ulen index,StrLen text);
 
    void setScrollPage();
 

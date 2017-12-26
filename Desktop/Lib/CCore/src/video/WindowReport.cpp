@@ -158,7 +158,7 @@ ulen ExceptionWindow::CountLines(StrLen text)
   return ret;
  }
 
-Coord ExceptionWindow::TotalDX(Font font,ulen index,StrLen text)
+Coord ExceptionWindow::TotalDX(const Font &font,ulen index,StrLen text)
  {
   Coord ret=0;
 
@@ -206,7 +206,7 @@ void ExceptionWindow::setLines()
   ulen temp=0;
   Coord temp_dx=0;
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   report.apply( [&] (ulen index,StrLen text,bool)
                     {
@@ -227,7 +227,7 @@ void ExceptionWindow::drawText(DrawBuf buf,Pane pane,Coord xoff) const
  {
   SmoothDrawArt art(buf);
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
   Coord y=text_by;
   ulen ind=0;
   ulen off=yscroll.getPos();
@@ -407,7 +407,7 @@ void ExceptionWindow::reposition() noexcept
 
   yscroll.setPos(off);
 
-  try { redraw(); } catch(...) {}
+  redraw();
  }
 
  // drawing

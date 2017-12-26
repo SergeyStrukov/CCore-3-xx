@@ -54,7 +54,7 @@ Dir Dir2=
 Dir Dir3=
   {
    'Lib',
-   Red,
+   Green,
    {
     &Dir8
    },
@@ -274,7 +274,7 @@ Dir Dir21=
 Dir Dir8=
   {
    'CCore',
-   Red,
+   Green,
    {
     &Dir22,
     &Dir23,
@@ -287,7 +287,7 @@ Dir Dir8=
 Dir Dir22=
   {
    'inc',
-   Red,
+   Green,
    {
     &Dir25
    },
@@ -298,7 +298,7 @@ Dir Dir22=
 Dir Dir23=
   {
    'src',
-   Red,
+   Green,
    {
     &Dir26
    },
@@ -331,7 +331,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'video',
-   Red,
+   Green,
    {
     &Dir27,
     &Dir28
@@ -355,7 +355,7 @@ Dir Dir25=
     { 'ToolFrame.h' , Green },
     { 'UserPreference.h' , Green },
     { 'WindowLib.h' , Green },
-    { 'WindowReport.h' , Red }
+    { 'WindowReport.h' , Green }
    }
   };
 
@@ -431,7 +431,7 @@ Dir Dir28=
 Dir Dir26=
   {
    'video',
-   Red,
+   Green,
    {
     &Dir29,
     &Dir30
@@ -455,7 +455,7 @@ Dir Dir26=
     { 'ToolFrame.cpp' , Green },
     { 'UserPreference.cpp' , Green },
     { 'WindowLib.cpp' , Green },
-    { 'WindowReport.cpp' , Red },
+    { 'WindowReport.cpp' , Green },
     { 'ConfigTypes.ddl' , Green },
     { 'HitDirs.ddl' , Green },
     { 'HitDirs.TypeDef.gen.h' , Green },
