@@ -141,7 +141,7 @@ class RandomIdWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    // drawing
 

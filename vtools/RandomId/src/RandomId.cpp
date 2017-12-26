@@ -13,7 +13,7 @@
 
 #include <CCore/inc/CharProp.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 #include <inc/RandomId.h>
 
@@ -93,74 +93,54 @@ RandomIdWindow::~RandomIdWindow()
 
  // methods
 
-Point RandomIdWindow::getMinSize() const
+Point RandomIdWindow::getMinSize(unsigned flags) const
  {
-  Coordinate space_dxy=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Coordinate line_dy=SupDY(radio_Unid,label_Unid);
+  // radio_Unid , radio_Raw , label_Unid , label_Raw
 
-  Coordinate dx=radio_Unid.getMinSize().dxy;
+  LayToBottomLeft lay1(BoxedWindow(radio_Unid,label_Unid),BoxedWindow(radio_Raw,label_Raw));
 
-  Point inner_size(BoxExt(dx)+SupDX(label_Unid,label_Raw)+2*space_dxy,line_dy*2+3*space_dxy);
+  // contour
 
-  Point s1=contour.getMinSize(inner_size);
+  LayInner lay2(contour,lay1);
 
-  Point s2=btn_Roll.getMinSize();
-  Point s3=btn_Copy.getMinSize();
-  Point s4=text.getMinSize();
+  // btn_Roll , btn_Copy , text
 
-  return Point( 3*space_dxy+s1.x+Max_cast( space_dxy+s2.x+s3.x , s4.x ) , 2*space_dxy+Max_cast( space_dxy+s2.y+s4.y , s1.y ) );
+  StrLen sample="{{0x6D0A4149,0x3A24E175,0x3ACA61C3,0x584F5410,0x06470018,0xAE5EB153,0x6EB7FE0F,0x62C3FEE9}}"_c;
+
+  LayToBottom lay3(LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),LaySpecial(text,sample));
+
+  // lay
+
+  LayToRightTop lay(lay2,lay3);
+
+  return lay.getMinSize(flags,space)+2*Point::Diag(space);
  }
 
  // drawing
 
 void RandomIdWindow::layout(unsigned flags)
  {
-  Coord space_dxy=+cfg.space_dxy;
-
-  PaneCut pane(getSize(),space_dxy,flags);
-
-  pane.shrink();
-
-  // contour
-
-  Coord line_dy=SupDY(radio_Unid,label_Unid);
-
-  {
-   Coord dx=radio_Unid.getMinSize().dxy;
-
-   Point inner_size(BoxExt(dx)+SupDX(label_Unid,label_Raw)+2*space_dxy,line_dy*2+3*space_dxy);
-
-   Point size=contour.getMinSize(inner_size);
-
-   pane.place_cutLeftTop(contour,size);
-  }
+  Coord space=+cfg.space_dxy;
 
   // radio_Unid , radio_Raw , label_Unid , label_Raw
 
-  {
-   PaneCut pane(contour.getInner(),space_dxy,flags);
+  LayToBottomLeft lay1(BoxedWindow(radio_Unid,label_Unid),BoxedWindow(radio_Raw,label_Raw));
 
-   pane.shrink();
+  // contour
 
-   pane.cutTop(line_dy).place_cutLeft(radio_Unid).place_cutLeftCenter(label_Unid);
+  LayInner lay2(contour,lay1);
 
-   pane.cutTop(line_dy).place_cutLeft(radio_Raw).place_cutLeftCenter(label_Raw);
-  }
+  // btn_Roll , btn_Copy , text
 
-  // btn_Roll , btn_Copy
+  LayToBottom lay3(LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),Lay(text));
 
-  {
-   Coord dy=btn_Roll.getMinSize().y;
+  // lay
 
-   pane.cutTop(dy).place_cutLeft(btn_Roll).place_cutLeft(btn_Copy);
-  }
+  LayToRightTop lay(lay2,lay3);
 
-  // text
-
-  {
-   pane.place_cutTop(text);
-  }
+  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
  }
 
 void RandomIdWindow::drawBack(DrawBuf buf,bool) const
