@@ -317,7 +317,7 @@ void ColorEditWindow::setColor(VColor value_)
 
 bool ColorEditWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(0);
+  return size>=getMinSize(LayoutResize);
  }
 
 void ColorEditWindow::layout(unsigned)

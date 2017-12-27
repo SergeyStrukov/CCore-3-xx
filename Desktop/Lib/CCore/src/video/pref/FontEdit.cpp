@@ -88,7 +88,7 @@ Point CharTableWindow::getMinSize(unsigned) const
 
 bool CharTableWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(0);
+  return size>=getMinSize(LayoutResize);
  }
 
 void CharTableWindow::layout(unsigned)

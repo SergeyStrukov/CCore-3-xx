@@ -34,7 +34,7 @@ BlankWindow::~BlankWindow()
 
 bool BlankWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(0);
+  return size>=getMinSize(LayoutResize);
  }
 
 void BlankWindow::layout(unsigned)
