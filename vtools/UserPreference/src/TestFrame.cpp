@@ -13,7 +13,7 @@
 
 #include <inc/TestFrame.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 #include <CCore/inc/Print.h>
 
@@ -183,132 +183,43 @@ TestWindow::~TestWindow()
 
 void TestWindow::layout(unsigned flags)
  {
-  Coord space_dxy=pref.get().space_dxy;
+  Coord space=pref.get().space_dxy;
 
-  PaneCut pane(getSize(),space_dxy,flags);
+  // swtch , btn , alt , progress
 
-  pane.shrink();
-
-  // swtch , btn , progress
-
-  {
-   auto temp_swtch=CutBox(swtch);
-   auto temp_btn=CutPoint(btn);
-   auto temp_alt=CutPoint(alt);
-   auto temp_progress=CutPoint(progress);
-
-   temp_progress.size.x=10*temp_progress.size.y;
-
-   Coord dy=SupDY(flags,temp_swtch,temp_btn,temp_alt,temp_progress);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(temp_swtch)
-    .place_cutLeftCenter(temp_btn)
-    .place_cutLeftCenter(alt)
-    .place_cutLeftCenter(temp_progress);
-  }
+  LayToRightCenter lay1(Lay(swtch),Lay(btn),Lay(alt),Lay(progress));
 
   // text_contour , label , rad
 
-  {
-   auto temp_rad1=CutBox(rad1);
-   auto temp_rad2=CutBox(rad2);
-   auto temp_rad3=CutBox(rad3);
+  LayInner lay2(text_contour,LayToBottomLeft(BoxedWindow(rad1,label1),BoxedWindow(rad2,label2),BoxedWindow(rad3,label3)));
 
-   auto temp_label1=CutPoint(label1);
-   auto temp_label2=CutPoint(label2);
-   auto temp_label3=CutPoint(label3);
+  // check , label , light
 
-   Coord line_dy=SupDY(flags,temp_rad1,temp_label1);
-
-   Coord label_dx=SupDX(flags,temp_label1,temp_label2,temp_label3);
-
-   Point inner_size( temp_rad1.getExt(flags)+label_dx+3*space_dxy , 3*line_dy+4*space_dxy );
-
-   Point size=text_contour.getMinSize(flags,inner_size);
-
-   pane.place_cutTopLeft(text_contour,size);
-
-   {
-    PaneCut pane(text_contour.getInner(),space_dxy,flags);
-
-    pane.shrink();
-
-    pane.cutTop(line_dy).place_cutLeft(temp_rad1).place_cutLeft(temp_label1);
-    pane.cutTop(line_dy).place_cutLeft(temp_rad2).place_cutLeft(temp_label2);
-    pane.cutTop(line_dy).place_cutLeft(temp_rad3).place_cutLeft(temp_label3);
-   }
-  }
-
-  {
-   auto temp_check=CutBox(check);
-   auto temp_label=CutPoint(label);
-   auto temp_light=CutBox(light);
-
-   Coord dy=SupDY(flags,temp_check,temp_label,temp_light);
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(temp_check)
-    .place_cutLeft(temp_label)
-    .place_cutLeft(temp_light);
-  }
-
-  // xsingle , edit , text , xdouble
-
-  {
-   pane.place_cutTop(xsingle);
-
-   Point size=edit.getMinSize(flags);
-
-   size.x*=3;
-
-   pane.place_cutTopLeft(edit,size);
-
-   pane.place_cutTopLeft(text,size);
-
-   pane.place_cutTop(xdouble);
-  }
+  LayToRightCenter lay3(BoxedWindow(check,label),LayLeft(light));
 
   // ysingle , knob , ydouble , xscroll
 
-  {
-   auto temp_knob=CutBox(knob);
-   auto temp_xscroll=CutPoint(xscroll);
+  LayToRight lay4(Lay(ysingle),LayCenterY(knob),Lay(ydouble),LayCenterY(xscroll));
 
-   temp_knob.getMinSize(flags);
-   temp_xscroll.getMinSize(flags);
+  // contour , info
 
-   Coord dy=Sup(temp_xscroll.size.y,temp_knob.dxy);
+  LayInnerSpace lay5(contour,Lay(info),0);
 
-   temp_xscroll.size.x=10*temp_xscroll.size.y;
+  // lay
 
-   PaneCut p=pane.cutTop(dy);
+  LayToBottom lay(lay1,
+                  LayAlignLeft(lay2),
+                  lay3,
+                  Lay(xsingle),
+                  Lay(edit),
+                  Lay(text),
+                  Lay(xdouble),
+                  lay4,
+                  LayAlignLeft(lay5),
+                  LayLeft(text_list),
+                  LayAlignTop(LayLeft(btn_shade)));
 
-   p.place_cutLeft(ysingle)
-    .place_cutLeft(temp_knob)
-    .place_cutLeft(ydouble)
-    .place_cutLeftCenter(temp_xscroll);
-  }
-
-  // info
-
-  {
-   Point size=contour.getMinSize(flags,info.getMinSize(flags));
-
-   pane.place_cutTopLeft(contour,size);
-
-   info.setPlace(contour.getInner(),flags);
-  }
-
-  // text_list
-
-  pane.place_cutTop(text_list);
-
-  // shade_btn
-
-  pane.place_cutTopLeft(btn_shade);
+  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
  }
 
 void TestWindow::drawBack(DrawBuf buf,bool) const
@@ -367,6 +278,10 @@ void TestClient::menu_selected(int id,Point point)
 
 void TestClient::cascade_menu_selected(int id,Point point)
  {
+  menuOff();
+
+  test.setFocus();
+
   switch( id )
     {
      case 101 :
@@ -390,23 +305,18 @@ void TestClient::cascade_menu_selected(int id,Point point)
          }
       }
      break;
+
+     case 105 :
+      {
+       askFrameClose();
+      }
+     break;
     }
-
-  cascade_menu.destroy();
-
-  test.setFocus();
-
-  menu.unselect();
  }
 
 void TestClient::cascade_menu_pressed(VKey vkey,KeyMod kmod)
  {
   menu.put_Key(vkey,kmod);
- }
-
-void TestClient::update()
- {
-  cascade_menu.update();
  }
 
 TestClient::TestClient(SubWindowHost &host,const UserPreference &pref,Signal<> &update)
@@ -419,8 +329,7 @@ TestClient::TestClient(SubWindowHost &host,const UserPreference &pref,Signal<> &
 
    connector_menu_selected(this,&TestClient::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&TestClient::cascade_menu_selected,cascade_menu.selected),
-   connector_cascade_menu_pressed(this,&TestClient::cascade_menu_pressed,cascade_menu.pressed),
-   connector_updated(this,&TestClient::update,update)
+   connector_cascade_menu_pressed(this,&TestClient::cascade_menu_pressed,cascade_menu.pressed)
  {
   cascade_menu.connectUpdate(update);
 
@@ -504,19 +413,26 @@ void TestClient::react(UserAction action)
 
 void TestClient::react_Key(VKey vkey,KeyMod kmod)
  {
-  if( vkey==VKey_F10 )
+  switch( vkey )
     {
-     menu.setFocus();
-    }
-  else if( vkey==VKey_Esc )
-    {
-     menu.unselect();
+     case VKey_F10 :
+      {
+       menu.setFocus();
+      }
+     break;
 
-     if( wlist.getFocus()==&menu ) test.setFocus();
-    }
-  else
-    {
-     wlist.put_Key(vkey,kmod);
+     case VKey_Esc :
+      {
+       menuOff();
+
+       test.setFocus();
+      }
+     break;
+
+     default:
+      {
+       wlist.put_Key(vkey,kmod);
+      }
     }
  }
 

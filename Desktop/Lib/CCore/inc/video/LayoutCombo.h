@@ -178,6 +178,8 @@ template <class L1,class L2> class LayDivY;
 
 template <class W,class L> class LayInner;
 
+template <class W,class L> class LayInnerSpace;
+
 /* class LaySet<LL> */
 
 template <class ... LL>
@@ -1782,6 +1784,34 @@ class LayInner
      obj.setPlace(pane,flags);
 
      lay.setPlace(obj.getInner().shrink(space),flags,space);
+    }
+ };
+
+/* class LayInnerSpace<W,L> */
+
+template <class W,class L>
+class LayInnerSpace
+ {
+   W &obj;
+   L lay;
+   Point inner_space;
+
+  public:
+
+   LayInnerSpace(W &obj_,const L &lay_,Point inner_space_) : obj(obj_),lay(lay_),inner_space(inner_space_) {}
+
+   LayInnerSpace(W &obj_,const L &lay_,Coord inner_space_) : obj(obj_),lay(lay_),inner_space(Point::Diag(inner_space_)) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     return obj.getMinSize(flags,lay.getMinSize(flags,space)+2*inner_space);
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     obj.setPlace(pane,flags);
+
+     lay.setPlace(obj.getInner().shrink(inner_space),flags,space);
     }
  };
 
