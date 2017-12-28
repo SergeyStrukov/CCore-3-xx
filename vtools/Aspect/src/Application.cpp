@@ -363,13 +363,6 @@ class Application : public ApplicationBase
    SignalConnector<Application> connector_user_save;
    SignalConnector<Application> connector_user_self;
 
-   void updated()
-    {
-     client.update(false);
-    }
-
-   SignalConnector<Application> connector_updated;
-
   private:
 
    virtual void clearException() noexcept
@@ -436,8 +429,7 @@ class Application : public ApplicationBase
       connector_app_save(this,&Application::appSave,app_frame.doSave),
       connector_user_updated(this,&Application::userUpdate,user_frame.updated),
       connector_user_save(this,&Application::userSave,user_frame.doSave),
-      connector_user_self(this,&Application::userSelf,user_frame.doSelf),
-      connector_updated(this,&Application::updated,param.user_pref.updated)
+      connector_user_self(this,&Application::userSelf,user_frame.doSelf)
     {
      main_frame.bindAlertClient(exception_client);
      main_frame.bindClient(client);

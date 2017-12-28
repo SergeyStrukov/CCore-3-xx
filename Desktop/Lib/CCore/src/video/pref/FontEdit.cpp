@@ -980,7 +980,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
                   lay_strength,
                   Lay(line3),
                   lay_sample,
-                  LayInner(contour_test,LaySame(Lay(info_test),Lay(table))));
+                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0));
 
   Point delta=Inf( lay.getMinSize(flags,space) , Point(2*(cap.x/3),cap.y) );
 
@@ -1076,7 +1076,7 @@ void FontEditWindow::layout(unsigned flags)
                   lay_strength,
                   Lay(line3),
                   lay_sample,
-                  LayInner(contour_test,LaySame(Lay(info_test),Lay(table))));
+                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0));
 
   lay.setPlace(pane,flags,space);
  }
