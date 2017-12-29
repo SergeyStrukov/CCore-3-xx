@@ -13,7 +13,7 @@
 
 #include <inc/Aspect.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
 
 #include <CCore/inc/FileSystem.h>
@@ -167,7 +167,7 @@ void HideControl::drawBack(DrawBuf buf,bool) const
  {
   SmoothDrawArt art(buf);
 
-  Coord radius=Fraction(place_New.dx,1);
+  MCoord radius=Fraction(place_New.dx,1);
 
   art.ball(MCenter(place_New),radius,+cfg.status_New);
   art.ball(MCenter(place_Ignore),radius,+cfg.status_Ignore);
@@ -233,7 +233,7 @@ void CountControl::drawBack(DrawBuf buf,bool) const
  {
   SmoothDrawArt art(buf);
 
-  Coord radius=Fraction(place_status.dx,1);
+  MCoord radius=Fraction(place_status.dx,1);
 
   art.ball(MCenter(place_status),radius,color);
  }
@@ -873,11 +873,13 @@ void InnerDataWindow::collect()
 
 bool InnerDataWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(0);
+  return size>=getMinSize(LayoutResize);
  }
 
-void InnerDataWindow::layout(unsigned)
+void InnerDataWindow::layout(unsigned flags)
  {
+  if( flags&LayoutUpdate ) update();
+
   setMax();
  }
 
@@ -1174,26 +1176,22 @@ AspectWindow::~AspectWindow()
 
 Point AspectWindow::getMinSize(unsigned flags) const
  {
-  Coordinate space=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
-  Point s1=SupMinSize(flags,label_path,label_aspect);
-  Point s2=text_path.getMinSize(flags);
+  // label_path , label_aspect , text_path , text_aspect
 
-  Coordinate dx1=s1.x;
+  LayToRightCenter lay1{Lay(label_path),Lay(text_path)};
+  LayToRightCenter lay2{Lay(label_aspect),Lay(text_aspect)};
 
-  dx1+=s2.x;
+  // count_red , count_yellow , count_green , btn_save
 
-  Coordinate dy=Max(s1.y,s2.y);
+  LayToRightCenter lay3{Lay(count_red),Lay(count_yellow),Lay(count_green),LayLeft(btn_save)};
 
-  Point s3=hide.getMinSize(flags);
-  Point s4=count_red.getMinSize(flags);
-  Point s5=btn_save.getMinSize(flags);
+  // lay
 
-  Coordinate dx2=s3.x;
-  Coordinate dx3=s4.x;
-  Coordinate dx4=s5.x;
+  LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  return Point( 2*space+Sup(space+dx1,dx2,3*space+3*dx3+dx4) , 8*space+2*dy+s3.y+Max(s4.y,s5.y) );
+  return lay.getMinSize(flags,space);
  }
 
 void AspectWindow::blank(StrLen path)
@@ -1208,7 +1206,7 @@ void AspectWindow::blank(StrLen path)
 
   setModified();
 
-  update(true);
+  update();
  }
 
 void AspectWindow::load(StrLen file_name)
@@ -1239,7 +1237,7 @@ void AspectWindow::load(StrLen file_name)
   else
     clearModified();
 
-  update(true);
+  update();
  }
 
 bool AspectWindow::save()
@@ -1287,18 +1285,11 @@ void AspectWindow::updateCount()
   count_green.setCount(counts.count[Item_Green]);
  }
 
-void AspectWindow::update(bool new_data)
+void AspectWindow::update()
  {
-  if( new_data )
-    {
-     updateCount();
+  updateCount();
 
-     data_window.update(hide.getFilter());
-    }
-  else
-    {
-     data_window.update();
-    }
+  data_window.update(hide.getFilter());
 
   layout(LayoutUpdate);
 
@@ -1328,56 +1319,22 @@ void AspectWindow::open()
 
 void AspectWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
-
-  pane.shrink();
+  Coord space=+cfg.space_dxy;
 
   // label_path , label_aspect , text_path , text_aspect
 
-  {
-   auto label__path=CutPoint(label_path);
-   auto label__aspect=CutPoint(label_aspect);
-   auto text__path=CutPoint(text_path);
-   auto text__aspect=CutPoint(text_aspect);
-
-   Coord dy=SupDY(flags,label__path,text__path);
-
-   pane.cutTop(dy).place_cutLeft(label__path).place(text__path);
-
-   pane.cutTop(dy).place_cutLeft(label__aspect).place(text__aspect);
-  }
-
-  // line1
-
-  pane.place_cutTop(line1);
-
-  // hide
-
-  pane.place_cutTop(hide);
+  LayToRightCenter lay1{Lay(label_path),Lay(text_path)};
+  LayToRightCenter lay2{Lay(label_aspect),Lay(text_aspect)};
 
   // count_red , count_yellow , count_green , btn_save
 
-  {
-   auto count__red=CutPoint(count_red);
-   auto btn__save=CutPoint(btn_save);
+  LayToRightCenter lay3{Lay(count_red),Lay(count_yellow),Lay(count_green),LayLeft(btn_save)};
 
-   Coord dy=SupDY(flags,count__red,btn__save);
+  // lay
 
-   PaneCut p=pane.cutTop(dy);
+  LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-   p.place_cutLeftCenter(count__red)
-    .place_cutLeftCenter(count_yellow)
-    .place_cutLeftCenter(count_green)
-    .place_cutLeftCenter(btn__save);
-  }
-
-  // line2
-
-  pane.place_cutTop(line2);
-
-  // data_window
-
-  pane.place(data_window);
+  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
  }
 
 void AspectWindow::drawBack(DrawBuf buf,bool) const

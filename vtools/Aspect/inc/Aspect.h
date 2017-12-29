@@ -750,7 +750,7 @@ class AspectWindow : public ComboWindow
 
    void updateCount();
 
-   void update(bool new_data);
+   void update();
 
    void collect();
 
