@@ -13,7 +13,7 @@
 
 #include <inc/Display.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/SmoothDrawArt.h>
 
 #include <CCore/inc/Printf.h>
@@ -1345,7 +1345,7 @@ void DDLInnerWindow::moveTo(uPoint pos)
   slide_x.set(pos.x,scroll_x);
   slide_y.set(pos.y,scroll_y);
 
-  //redraw();
+  redraw();
  }
 
 void DDLInnerWindow::select(uPane pane)
@@ -1396,8 +1396,10 @@ void DDLInnerWindow::update(DDL::EngineResult result)
 
  // drawing
 
-void DDLInnerWindow::layout(unsigned)
+void DDLInnerWindow::layout(unsigned flags)
  {
+  if( flags&LayoutUpdate ) updateCfg();
+
   Point size=getSize();
 
   slide_x.setPage(size.x);
@@ -2053,41 +2055,21 @@ void DisplayWindow::noPretext()
 
 void DisplayWindow::layout(unsigned flags)
  {
-  if( flags&LayoutUpdate ) ddl.updateCfg();
-
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
-
-  pane.shrink();
+  Coord space=+cfg.space_dxy;
 
   // label_pretext , text_pretext
 
-  {
-   auto label__pretext=CutPoint(label_pretext);
-   auto text__pretext=CutPoint(text_pretext);
-
-   Coord dy=SupDY(flags,label__pretext,text__pretext);
-
-   pane.cutTop(dy).place_cutLeftCenter(label__pretext).place(AlignCenterY(text__pretext));
-  }
+  LayToRightCenter lay1(Lay(label_pretext),Lay(text_pretext));
 
   // label_file , text_file
 
-  {
-   auto label__file=CutPoint(label_file);
-   auto text__file=CutPoint(text_file);
+  LayToRightCenter lay2(Lay(label_file),Lay(text_file));
 
-   Coord dy=SupDY(flags,label__file,text__file);
+  // lay
 
-   pane.cutTop(dy).place_cutLeftCenter(label__file).place(AlignCenterY(text__file));
-  }
+  LayToBottom lay(lay1,lay2,Lay(dline),Lay(ddl));
 
-  // dline
-
-  pane.place_cutTop(dline);
-
-  // ddl
-
-  pane.place(ddl);
+  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
  }
 
 void DisplayWindow::drawBack(DrawBuf buf,bool) const

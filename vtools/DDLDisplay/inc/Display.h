@@ -549,6 +549,13 @@ class DDLInnerWindow : public SubWindow
 
    void layoutView();
 
+   void updateCfg()
+    {
+     layoutView();
+
+     selection={};
+    }
+
    struct ClipProc;
 
    class DrawProc;
@@ -603,13 +610,6 @@ class DDLInnerWindow : public SubWindow
    Point getMinSize(unsigned) const { return Point(100,100); }
 
    void update(DDL::EngineResult result);
-
-   void updateCfg()
-    {
-     layoutView();
-
-     selection={};
-    }
 
    // drawing
 
@@ -720,11 +720,6 @@ class DDLWindow : public ComboWindow
    // methods
 
    Point getMinSize(unsigned) const { return Point(100,100); }
-
-   void updateCfg()
-    {
-     inner.updateCfg();
-    }
 
    // drawing
 
