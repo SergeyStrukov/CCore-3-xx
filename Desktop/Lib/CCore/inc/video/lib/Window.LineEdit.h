@@ -902,7 +902,7 @@ class LineEditWindowOf : public SubWindow
 
    void react_Char(Char ch)
     {
-     if( shape.enable && CharIsPrintable(ch) )
+     if( shape.enable && SymCharIsPrintable(ch) )
        {
         delSelectedRange();
 

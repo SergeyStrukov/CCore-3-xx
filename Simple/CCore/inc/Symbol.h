@@ -16,11 +16,7 @@
 #ifndef CCore_inc_Symbol_h
 #define CCore_inc_Symbol_h
 
-#include <CCore/inc/Gadget.h>
-
-#ifdef CCORE_UTF8
-# include <CCore/inc/Utf8.h>
-#endif
+#include <CCore/inc/CharProp.h>
 
 namespace CCore {
 
@@ -94,9 +90,33 @@ inline StrLen SymbolRange(const char &ch) { return Single(ch); }
 
 using Char = Unicode ;
 
+inline bool SymCharIsSpecial(Char ch) { return (ch<128)?CharIsSpecial((char)ch):false; }
+
+inline bool SymCharIsVisible(Char ch) { return (ch<128)?CharIsVisible((char)ch):true; }
+
+inline bool SymCharIsPrintable(Char ch) { return (ch<128)?CharIsPrintable((char)ch):true; }
+
+inline bool SymCharIsSpace(Char ch) { return (ch<128)?CharIsSpace((char)ch):false; }
+
+inline int SymCharDecValue(Char ch) { return (ch<128)?CharDecValue((char)ch):(-1); }
+
+inline int SymCharHexValue(Char ch) { return (ch<128)?CharHexValue((char)ch):(-1); }
+
 #else
 
 using Char = char ;
+
+inline bool SymCharIsSpecial(Char ch) { return CharIsSpecial(ch); }
+
+inline bool SymCharIsVisible(Char ch) { return CharIsVisible(ch); }
+
+inline bool SymCharIsPrintable(Char ch) { return CharIsPrintable(ch); }
+
+inline bool SymCharIsSpace(Char ch) { return CharIsSpace(ch); }
+
+inline int SymCharDecValue(Char ch) { return CharDecValue(ch); }
+
+inline int SymCharHexValue(Char ch) { return CharHexValue(ch); }
 
 #endif
 
@@ -157,7 +177,6 @@ inline Char CutChar_guarded(StrLen &text) // +text
  }
 
 #endif
-
 
 } // namespace CCore
 

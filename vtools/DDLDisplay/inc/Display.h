@@ -252,9 +252,9 @@ struct ConstDesc
 
 class DDLView : NoCopy
  {
-   static const ulen TextBufLen = 1_KByte ;
+   static constexpr ulen TextBufLen = 1_KByte ;
 
-   static const ulen MaxNameLen = 8_KByte ;
+   static constexpr ulen MaxNameLen = 8_KByte ;
 
    ElementPool pool;
 

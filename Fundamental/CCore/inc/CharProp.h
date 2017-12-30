@@ -251,18 +251,6 @@ inline int CharDecValue(Utf8Code code) { return (code.getLen()==1)?CharDecValue(
 
 inline int CharHexValue(Utf8Code code) { return (code.getLen()==1)?CharHexValue(code[0]):(-1); }
 
-inline bool CharIsSpecial(Unicode ch) { return (ch<128)?CharIsSpecial((char)ch):false; }
-
-inline bool CharIsVisible(Unicode ch) { return (ch<128)?CharIsVisible((char)ch):true; }
-
-inline bool CharIsPrintable(Unicode ch) { return (ch<128)?CharIsPrintable((char)ch):true; }
-
-inline bool CharIsSpace(Unicode ch) { return (ch<128)?CharIsSpace((char)ch):false; }
-
-inline int CharDecValue(Unicode ch) { return (ch<128)?CharDecValue((char)ch):(-1); }
-
-inline int CharHexValue(Unicode ch) { return (ch<128)?CharHexValue((char)ch):(-1); }
-
 #endif
 
 /* ParseSpace() */

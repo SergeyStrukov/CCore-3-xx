@@ -121,7 +121,7 @@ void ClientWindow::open_pretext_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
    menu(wlist,cfg.menu_cfg,menu_data),
@@ -139,6 +139,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_)
 
    opened(display.opened)
  {
+  cascade_menu.connectUpdate(update);
+
   wlist.insTop(menu,display);
 
   wlist.enableTabFocus(false);

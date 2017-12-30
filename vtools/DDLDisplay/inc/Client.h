@@ -30,6 +30,8 @@ class ClientWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
      CtorRefVal<SimpleCascadeMenu::ConfigType> cascade_menu_cfg;
      CtorRefVal<FileFrame::ConfigType> file_cfg;
@@ -121,16 +123,9 @@ class ClientWindow : public ComboWindow
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg);
+   ClientWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~ClientWindow();
-
-   // methods
-
-   void updateCfg()
-    {
-     display.updateCfg();
-    }
 
    // base
 
