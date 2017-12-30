@@ -1887,8 +1887,8 @@ void DDLWindow::layout(unsigned flags)
  {
   Pane all(Null,getSize());
   Pane pane(all);
-  Coord delta_x=scroll_y.getMinSize().dx;
-  Coord delta_y=scroll_x.getMinSize().dy;
+  Coord delta_x=scroll_y.getMinSize(flags).dx;
+  Coord delta_y=scroll_x.getMinSize(flags).dy;
 
   inner.setPlace(pane,flags);
 
@@ -2063,7 +2063,7 @@ void DisplayWindow::layout(unsigned flags)
    auto label__pretext=CutPoint(label_pretext);
    auto text__pretext=CutPoint(text_pretext);
 
-   Coord dy=SupDY(label__pretext,text__pretext);
+   Coord dy=SupDY(flags,label__pretext,text__pretext);
 
    pane.cutTop(dy).place_cutLeftCenter(label__pretext).place(AlignCenterY(text__pretext));
   }
@@ -2074,7 +2074,7 @@ void DisplayWindow::layout(unsigned flags)
    auto label__file=CutPoint(label_file);
    auto text__file=CutPoint(text_file);
 
-   Coord dy=SupDY(label__file,text__file);
+   Coord dy=SupDY(flags,label__file,text__file);
 
    pane.cutTop(dy).place_cutLeftCenter(label__file).place(AlignCenterY(text__file));
   }

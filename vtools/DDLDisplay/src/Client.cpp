@@ -175,7 +175,7 @@ void ClientWindow::open()
 
 void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize().dy;
+  Coord dy=menu.getMinSize(flags).dy;
 
   Pane pane(Null,getSize());
 

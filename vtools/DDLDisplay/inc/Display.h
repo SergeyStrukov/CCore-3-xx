@@ -715,7 +715,7 @@ class DDLWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const { return Point(100,100); }
+   Point getMinSize(unsigned) const { return Point(100,100); }
 
    void updateCfg()
     {
