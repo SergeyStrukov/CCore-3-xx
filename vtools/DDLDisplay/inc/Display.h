@@ -363,6 +363,8 @@ class DDLInnerWindow : public SubWindow
 
    struct Config
     {
+     // user
+
      RefVal<MCoord> width = Fraction(6,2) ;
 
      RefVal<VColor> back   =    Silver ;
@@ -598,7 +600,7 @@ class DDLInnerWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const { return Point(100,100); }
+   Point getMinSize(unsigned) const { return Point(100,100); }
 
    void update(DDL::EngineResult result);
 
@@ -613,7 +615,7 @@ class DDLInnerWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const
     {
-     return size>=getMinSize();
+     return size>=getMinSize(LayoutResize);
     }
 
    virtual void layout(unsigned flags);
@@ -652,6 +654,8 @@ class DDLWindow : public ComboWindow
 
    struct Config : DDLInnerWindow::ConfigType
     {
+     // user
+
      CtorRefVal<XScrollWindow::ConfigType> x_cfg;
      CtorRefVal<YScrollWindow::ConfigType> y_cfg;
 
@@ -735,6 +739,8 @@ class DisplayWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<Coord> space_dxy = 10 ;
 
      RefVal<VColor> back = Silver ;
@@ -821,11 +827,6 @@ class DisplayWindow : public ComboWindow
    void openPretext(StrLen file_name);
 
    void noPretext();
-
-   void updateCfg()
-    {
-     ddl.updateCfg();
-    }
 
    // drawing
 

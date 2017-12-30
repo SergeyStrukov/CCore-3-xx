@@ -2053,6 +2053,8 @@ void DisplayWindow::noPretext()
 
 void DisplayWindow::layout(unsigned flags)
  {
+  if( flags&LayoutUpdate ) ddl.updateCfg();
+
   PaneCut pane(getSize(),+cfg.space_dxy,flags);
 
   pane.shrink();
