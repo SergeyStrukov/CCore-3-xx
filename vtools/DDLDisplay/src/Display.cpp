@@ -369,7 +369,7 @@ StrLen DDLView::toString(AnyType value)
 
   Putobj(out,value);
 
-  return toString(out.close());
+  return toString(TrimText(out.close()));
  }
 
 struct DDLView::PrintText
@@ -745,7 +745,7 @@ void DDLView::setPtrTarget(PtrDesc *desc)
         Putobj(out,"."_c,field);
      }
 
-   desc->name=toString(out.close());
+   desc->name=toString(TrimText(out.close()));
   }
 
   // build target
@@ -1391,14 +1391,14 @@ void DDLInnerWindow::update(DDL::EngineResult result)
   slide_x.pos=0;
   slide_y.pos=0;
 
-  layoutView();
+  update();
  }
 
  // drawing
 
 void DDLInnerWindow::layout(unsigned flags)
  {
-  if( flags&LayoutUpdate ) updateCfg();
+  if( flags&LayoutUpdate ) update();
 
   Point size=getSize();
 
@@ -1855,108 +1855,23 @@ void DDLInnerWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 void DDLWindow::file_updated()
  {
-  inner.update(file.getResult());
+  window.update(file.getResult());
 
-  layout(LayoutUpdate);
+  layout(LayoutResize);
 
   redraw();
  }
 
-DDLWindow::DDLWindow(SubWindowHost &host,const Config &cfg_,DDLFile &file_)
- : ComboWindow(host),
-   cfg(cfg_),
+DDLWindow::DDLWindow(SubWindowHost &host,const Config &cfg,DDLFile &file_)
+ : ScrollableWindow<DDLInnerWindow>(host,cfg),
    file(file_),
-
-   inner(wlist,cfg),
-   scroll_x(wlist,cfg.x_cfg),
-   scroll_y(wlist,cfg.y_cfg),
-
-   connector_posx(&scroll_x,&XScrollWindow::setPos,inner.scroll_x),
-   connector_posy(&scroll_y,&YScrollWindow::setPos,inner.scroll_y),
 
    connector_file_updated(this,&DDLWindow::file_updated,file_.updated)
  {
-  wlist.insTop(inner);
-
-  inner.bind(scroll_x.changed,scroll_y.changed);
  }
 
 DDLWindow::~DDLWindow()
  {
- }
-
-void DDLWindow::layout(unsigned flags)
- {
-  Pane all(Null,getSize());
-  Pane pane(all);
-  Coord delta_x=scroll_y.getMinSize(flags).dx;
-  Coord delta_y=scroll_x.getMinSize(flags).dy;
-
-  inner.setPlace(pane,flags);
-
-  if( inner.shortDY() )
-    {
-     Pane py=SplitX(pane,delta_x);
-
-     inner.setPlace(pane,flags);
-     scroll_y.setPlace(py,flags);
-
-     wlist.insBottom(scroll_y);
-
-     if( inner.shortDX() )
-       {
-        Pane px=SplitY(pane,delta_y);
-
-        inner.setPlace(pane,flags);
-        scroll_x.setPlace(px,flags);
-
-        wlist.insBottom(scroll_x);
-       }
-     else
-       {
-        wlist.del(scroll_x);
-       }
-    }
-  else
-    {
-     if( inner.shortDX() )
-       {
-        Pane px=SplitY(pane,delta_y);
-
-        inner.setPlace(pane,flags);
-
-        if( inner.shortDY() )
-          {
-           pane=all;
-           Pane py=SplitX(pane,delta_x);
-           Pane px=SplitY(pane,delta_y);
-
-           inner.setPlace(pane,flags);
-           scroll_x.setPlace(px,flags);
-           scroll_y.setPlace(py,flags);
-
-           wlist.insBottom(scroll_x);
-
-           wlist.insBottom(scroll_y);
-          }
-        else
-          {
-           scroll_x.setPlace(px,flags);
-
-           wlist.insBottom(scroll_x);
-
-           wlist.del(scroll_y);
-          }
-       }
-     else
-       {
-        wlist.del(scroll_x);
-
-        wlist.del(scroll_y);
-       }
-    }
-
-  setScroll();
  }
 
 /* class DisplayWindow */

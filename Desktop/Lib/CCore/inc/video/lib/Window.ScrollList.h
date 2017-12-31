@@ -578,6 +578,15 @@ class ScrollableWindow : public ComboWindow
      explicit Config(TT && ... tt) : window_cfg( std::forward<TT>(tt)... ) {}
 
      template <class Bag,class Proxy>
+     void bindScroll(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       x_cfg.bind(proxy);
+       y_cfg.bind(proxy);
+      }
+
+     template <class Bag,class Proxy>
      void bind(const Bag &bag,Proxy proxy)
       {
        BindBagProxy(window_cfg,bag,proxy);
@@ -641,11 +650,12 @@ class ScrollableWindow : public ComboWindow
      return window.getMinSize(flags,cap-delta)+delta;
     }
 
-   Point getMinSize(unsigned flags,unsigned lines) const
+   template <class T>
+   Point getMinSize(unsigned flags,T arg) const
     {
      Point delta(scroll_y.getMinSize(flags).dx,0);
 
-     return window.getMinSize(flags,lines)+delta;
+     return window.getMinSize(flags,arg)+delta;
     }
 
    // drawing

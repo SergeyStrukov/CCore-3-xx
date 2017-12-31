@@ -16,6 +16,8 @@
 
 #include <inc/Application.h>
 
+#include <CCore/inc/video/lib/Window.ScrollList.h>
+
 #include <CCore/inc/video/MessageFrame.h>
 
 #include <CCore/inc/FileName.h>
@@ -549,7 +551,7 @@ class DDLInnerWindow : public SubWindow
 
    void layoutView();
 
-   void updateCfg()
+   void update()
     {
      layoutView();
 
@@ -594,12 +596,12 @@ class DDLInnerWindow : public SubWindow
    bool shortDY() const { return slide_y.isShort(); }
 
    template <class W>
-   void setScrollX(W &window) { slide_x.setScroll(window); }
+   void setScrollXRange(W &window) { slide_x.setScroll(window); }
 
    template <class W>
-   void setScrollY(W &window) { slide_y.setScroll(window); }
+   void setScrollYRange(W &window) { slide_y.setScroll(window); }
 
-   void bind(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
+   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
      connector_posX.connect(scroll_x);
      connector_posY.connect(scroll_y);
@@ -648,37 +650,21 @@ class DDLInnerWindow : public SubWindow
 
 /* class DDLWindow */
 
-class DDLWindow : public ComboWindow
+class DDLWindow : public ScrollableWindow<DDLInnerWindow>
  {
   public:
 
-   struct Config : DDLInnerWindow::ConfigType
+   using BaseConfig = ScrollableWindow<DDLInnerWindow>::ConfigType ;
+
+   struct Config : BaseConfig
     {
-     // user
-
-     CtorRefVal<XScrollWindow::ConfigType> x_cfg;
-     CtorRefVal<YScrollWindow::ConfigType> y_cfg;
-
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &pref,const AppPref &app_pref)
-      : DDLInnerWindow::ConfigType(pref,app_pref)
+      : BaseConfig(pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &,Proxy proxy)
-      {
-       x_cfg.bind(proxy);
-       y_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &)
-      {
+       bindScroll(pref.get(),pref.getSmartConfig());
       }
     };
 
@@ -686,26 +672,9 @@ class DDLWindow : public ComboWindow
 
   private:
 
-   const Config &cfg;
    const DDLFile &file;
 
-   DDLInnerWindow inner;
-   XScrollWindow scroll_x;
-   YScrollWindow scroll_y;
-
   private:
-
-   void setScroll()
-    {
-     if( scroll_x.isListed() ) inner.setScrollX(scroll_x);
-
-     if( scroll_y.isListed() ) inner.setScrollY(scroll_y);
-    }
-
-  private:
-
-   SignalConnector<XScrollWindow,ulen> connector_posx;
-   SignalConnector<YScrollWindow,ulen> connector_posy;
 
    void file_updated();
 
@@ -716,14 +685,6 @@ class DDLWindow : public ComboWindow
    DDLWindow(SubWindowHost &host,const Config &cfg,DDLFile &file);
 
    virtual ~DDLWindow();
-
-   // methods
-
-   Point getMinSize(unsigned) const { return Point(100,100); }
-
-   // drawing
-
-   virtual void layout(unsigned flags);
  };
 
 /* class DisplayWindow */

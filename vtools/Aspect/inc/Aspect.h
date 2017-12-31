@@ -540,16 +540,7 @@ class DataWindow : public ScrollableWindow<InnerDataWindow>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : Base::Config(user_pref,app_pref)
       {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       Used(bag);
-
-       x_cfg.bind(proxy);
-       y_cfg.bind(proxy);
+       bindScroll(user_pref.get(),user_pref.getSmartConfig());
       }
     };
 

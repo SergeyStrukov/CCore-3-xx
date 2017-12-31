@@ -64,6 +64,13 @@ inline Utf8Code PeekSymbol_guarded(StrLen text) // +text
   return PeekUtf8_guarded(text);
  }
 
+inline StrLen TrimText(StrLen text)
+ {
+  TrimUtf8End(text);
+
+  return text;
+ }
+
 #else
 
 inline char PeekSymbol(StrLen text) // +text
@@ -74,6 +81,11 @@ inline char PeekSymbol(StrLen text) // +text
 inline char PeekSymbol_guarded(StrLen text) // +text
  {
   return *text;
+ }
+
+inline StrLen TrimText(StrLen text)
+ {
+  return text;
  }
 
 #endif
