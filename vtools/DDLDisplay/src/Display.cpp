@@ -1974,11 +1974,11 @@ void DisplayWindow::layout(unsigned flags)
 
   // label_pretext , text_pretext
 
-  LayToRightCenter lay1(Lay(label_pretext),Lay(text_pretext));
+  LayToRightCenter lay1{Lay(label_pretext),Lay(text_pretext)};
 
   // label_file , text_file
 
-  LayToRightCenter lay2(Lay(label_file),Lay(text_file));
+  LayToRightCenter lay2{Lay(label_file),Lay(text_file)};
 
   // lay
 

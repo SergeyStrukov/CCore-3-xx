@@ -469,7 +469,7 @@ class Application : public ApplicationBase
       cmd_display(cmd_display_),
       main_frame(param.desktop,param.frame_cfg,param.pref.updated),
       exception_client(main_frame,param.exception_cfg,report),
-      client(main_frame,param.client_cfg),
+      client(main_frame,param.client_cfg,param.pref.updated),
       user_frame(param.desktop,editor_pref.getSmartConfig(),true),
       app_frame(param.desktop,param.pref.getSmartConfig(),false),
 

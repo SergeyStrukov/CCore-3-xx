@@ -85,7 +85,7 @@ EditRatioWindow::~EditRatioWindow()
 
  // methods
 
-Point EditRatioWindow::getMinSize() const
+Point EditRatioWindow::getMinSize(unsigned) const
  {
   return {+cfg.dx,+cfg.dy};
  }
@@ -118,7 +118,7 @@ void EditRatioWindow::setValue(Geometry::Ratio value_)
 
 bool EditRatioWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize();
+  return size>=getMinSize(LayoutResize);
  }
 
 void EditRatioWindow::layout(unsigned)

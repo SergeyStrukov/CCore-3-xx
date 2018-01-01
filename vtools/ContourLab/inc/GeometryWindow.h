@@ -30,6 +30,8 @@ class GeometryWindow : public SubWindow
 
    struct Config
     {
+     // user
+
      RefVal<MCoord> width = Fraction(6,2) ;
 
      // app
@@ -53,12 +55,12 @@ class GeometryWindow : public SubWindow
      template <class AppPref>
      Config(const UserPreference &pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get());
+       bindUser(pref.get());
        bindApp(app_pref.get());
       }
 
      template <class Bag>
-     void bind(const Bag &bag)
+     void bindUser(const Bag &bag)
       {
        width.bind(bag.width);
       }
@@ -121,7 +123,7 @@ class GeometryWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    void selectPoint(const Contour::Object &obj_,Geometry::Point &point_)
     {

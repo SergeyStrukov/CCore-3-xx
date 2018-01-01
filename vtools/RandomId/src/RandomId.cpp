@@ -109,7 +109,7 @@ Point RandomIdWindow::getMinSize(unsigned flags) const
 
   StrLen sample="{{0x6D0A4149,0x3A24E175,0x3ACA61C3,0x584F5410,0x06470018,0xAE5EB153,0x6EB7FE0F,0x62C3FEE9}}"_c;
 
-  LayToBottom lay3(LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),LaySpecial(text,sample));
+  LayToBottom lay3{LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),LaySpecial(text,sample)};
 
   // lay
 
@@ -134,7 +134,7 @@ void RandomIdWindow::layout(unsigned flags)
 
   // btn_Roll , btn_Copy , text
 
-  LayToBottom lay3(LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),Lay(text));
+  LayToBottom lay3{LayToRight(Lay(btn_Roll),LayLeft(btn_Copy)),Lay(text)};
 
   // lay
 

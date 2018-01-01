@@ -38,6 +38,8 @@ class InsWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<Coord> space_dxy = 10 ;
 
      RefVal<VColor> back = Silver ;
@@ -57,12 +59,12 @@ class InsWindow : public ComboWindow
      template <class AppPref>
      Config(const UserPreference &pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(pref.get(),pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
        back.bind(bag.back);
@@ -111,7 +113,7 @@ class InsWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    class Builder : NoCopy
     {
@@ -165,6 +167,8 @@ class InsFrame : public DragFrame
 
    struct Config
     {
+     // user
+
      CtorRefVal<DragFrame::ConfigType> drag_cfg;
 
      // app
@@ -177,12 +181,12 @@ class InsFrame : public DragFrame
      Config(const UserPreference &pref,const AppPref &app_pref) noexcept
       : ins_cfg(pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(pref.get(),pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        Used(bag);
 
@@ -330,6 +334,8 @@ class ItemListWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<Coord> space_dxy = 10 ;
 
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
@@ -369,12 +375,12 @@ class ItemListWindow : public ComboWindow
       : edit_cfg(pref,app_pref),
         ins_cfg(pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(pref.get(),pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
 
@@ -481,7 +487,7 @@ class ItemListWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(Point cap=Point::Max()) const;
+   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
    void setInfo(const ComboInfo &info) { list.setInfo(info); }
 

@@ -143,7 +143,7 @@ struct Geometry
        IntAlign align;
        IntShowSign show_sign;
 
-       static const ulen DefaultPrec = 6 ;
+       static constexpr ulen DefaultPrec = 6 ;
 
        void setDefault()
         {
@@ -260,7 +260,7 @@ struct Geometry
 
   struct Ratio
    {
-    static const int TypeId = 1 ;
+    static constexpr int TypeId = 1 ;
 
     static StrLen TypeName() { return "Ratio"_c ; }
 
@@ -295,7 +295,7 @@ struct Geometry
 
   struct Length
    {
-    static const int TypeId = 2 ;
+    static constexpr int TypeId = 2 ;
 
     static StrLen TypeName() { return "Length"_c ; }
 
@@ -330,7 +330,7 @@ struct Geometry
 
   struct Angle
    {
-    static const int TypeId = 3 ;
+    static constexpr int TypeId = 3 ;
 
     static StrLen TypeName() { return "Angle"_c ; }
 
@@ -394,7 +394,7 @@ struct Geometry
 
   struct Point
    {
-    static const int TypeId = 4 ;
+    static constexpr int TypeId = 4 ;
 
     static StrLen TypeName() { return "Point"_c ; }
 
@@ -452,7 +452,7 @@ struct Geometry
 
   struct Line
    {
-    static const int TypeId = 5 ;
+    static constexpr int TypeId = 5 ;
 
     static StrLen TypeName() { return "Line"_c ; }
 
@@ -469,7 +469,7 @@ struct Geometry
 
   struct Circle
    {
-    static const int TypeId = 6 ;
+    static constexpr int TypeId = 6 ;
 
     static StrLen TypeName() { return "Circle"_c ; }
 
@@ -486,7 +486,7 @@ struct Geometry
 
   struct Couple
    {
-    static const int TypeId = 7 ;
+    static constexpr int TypeId = 7 ;
 
     static StrLen TypeName() { return "Couple"_c ; }
 
@@ -554,7 +554,7 @@ struct Geometry
 
   struct Step
    {
-    static const int TypeId = 8 ;
+    static constexpr int TypeId = 8 ;
 
     static StrLen TypeName() { return "Step"_c ; }
 
@@ -596,7 +596,7 @@ struct Geometry
 
   struct Path
    {
-    static const int TypeId = 9 ;
+    static constexpr int TypeId = 9 ;
 
     static StrLen TypeName() { return "Path"_c ; }
 
@@ -628,7 +628,7 @@ struct Geometry
 
   struct Loop
    {
-    static const int TypeId = 10 ;
+    static constexpr int TypeId = 10 ;
 
     static StrLen TypeName() { return "Loop"_c ; }
 
@@ -660,7 +660,7 @@ struct Geometry
 
   struct Solid
    {
-    static const int TypeId = 11 ;
+    static constexpr int TypeId = 11 ;
 
     static StrLen TypeName() { return "Solid"_c ; }
 

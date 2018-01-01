@@ -65,7 +65,7 @@ ulen Tokenizer::ScanSpace(PtrLen<const Char> text)
  {
   ulen len=text.len;
 
-  for(++text; +text && CharIsSpace(*text) ;++text);
+  for(++text; +text && SymCharIsSpace(*text) ;++text);
 
   return len-text.len;
  }

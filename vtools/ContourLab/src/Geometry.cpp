@@ -39,7 +39,7 @@ const char * GetTextDesc(Geometry::RealException rex)
     }
  }
 
-static const double Cap = 1.e+100 ;
+static constexpr double Cap = 1.e+100 ;
 
 double Geometry::Real::Guard(double x)
  {
@@ -443,7 +443,7 @@ Geometry::Real StrToReal(PtrLen<const Char> str)
 
   for(; +str ;++str)
     {
-     int dig=CharDecValue(*str);
+     int dig=SymCharDecValue(*str);
 
      if( dig<0 )
        {

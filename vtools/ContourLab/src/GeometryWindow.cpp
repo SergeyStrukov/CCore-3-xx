@@ -647,7 +647,7 @@ GeometryWindow::~GeometryWindow()
 
  // methods
 
-Point GeometryWindow::getMinSize() const
+Point GeometryWindow::getMinSize(unsigned) const
  {
   return Point::Diag(+cfg.dxy);
  }
@@ -656,7 +656,7 @@ Point GeometryWindow::getMinSize() const
 
 bool GeometryWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize();
+  return size>=getMinSize(LayoutResize);
  }
 
 void GeometryWindow::layout(unsigned)

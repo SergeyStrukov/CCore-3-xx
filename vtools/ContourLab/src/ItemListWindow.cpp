@@ -13,7 +13,7 @@
 
 #include <inc/ItemListWindow.h>
 
-#include <CCore/inc/video/Layout.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 namespace App {
 
@@ -57,28 +57,28 @@ InsWindow::~InsWindow()
 
  // methods
 
-Point InsWindow::getMinSize(Point cap) const
+Point InsWindow::getMinSize(unsigned flags,Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
-  Point bs=SupMinSize(btn_Insert,btn_Close);
+  LaySupCenterXExt lay1{Lay(btn_Insert),Lay(btn_Close)};
 
-  Point delta( 2*space , 3*space+bs.y );
+  LayToTop lay(lay1,LayCap(list));
 
-  Point s=list.getMinSize(cap-delta);
-
-  return delta+Point( Max_cast(s.x,2*bs.x+space) , s.y );
+  return lay.getMinSize(flags,space,cap);
  }
 
  // drawing
 
 void InsWindow::layout(unsigned flags)
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
+  Coord space=+cfg.space_dxy;
 
-  pane.shrink();
+  LaySupCenterXExt lay1{Lay(btn_Insert),Lay(btn_Close)};
 
-  pane.placeRow_cutBottom(btn_Insert,btn_Close).place(list);
+  LayToTop lay(lay1,Lay(list));
+
+  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
  }
 
 void InsWindow::drawBack(DrawBuf buf,bool) const
@@ -105,7 +105,7 @@ Pane InsFrame::getPane(StrLen title,Point base) const
  {
   Point screen_size=getScreenSize();
 
-  Point size=getMinSize(false,title,client.getMinSize(screen_size));
+  Point size=getMinSize(false,title,client.getMinSize(LayoutUpdate,screen_size));
 
   return FitToScreen(base,size,screen_size);
  }
@@ -342,23 +342,44 @@ ItemListWindow::~ItemListWindow()
 
  // methods
 
-Point ItemListWindow::getMinSize(Point cap) const
+Point ItemListWindow::getMinSize(unsigned flags,Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
-  Coord knob_dxy=knob_down.getMinSize().dxy;
-  Coord kspace=BoxSpace(knob_dxy);
+  // knob_down , knob_up , knob_del
 
-  Coord check_dxy=check_show.getMinSize().dxy;
-  Coord label_dy=label_show.getMinSize().y;
+  LayToRight lay1{LayBox(knob_down),LayBox(knob_up),LayRight(knob_del)};
 
-  Point edit_size=edit.getMinSize();
+  // label... , check...
 
-  Coord dy=3*space+knob_dxy+Max(edit_size.y,knob_dxy)+Max(check_dxy,label_dy);
+  LayToRightCenter lay2{LayBox(check_show),Lay(label_show),
+                        LayBox(check_gray),Lay(label_gray),
+                        LayBox(check_name),LayLeft(label_name)};
 
-  Point list_size=list.getMinSize(Point(cap.x,cap.y-dy));
+  if( ins_set )
+    {
+     // edit , knob_add , knob_ins
 
-  return Point( Max_cast( list_size.x , edit_size.x+knob_dxy+kspace , 3*knob_dxy+2*kspace ) , list_size.y+dy );
+     LayToLeftCenter lay3{LayBox(knob_add),LayToRightCenter(LayBox(knob_ins),Lay(edit))};
+
+     // lay
+
+     LayToBottom lay(lay1,LayToTop(lay3,lay2,LayCap(list)));
+
+     return lay.getMinSize(flags,space,cap);
+    }
+  else
+    {
+     // edit , knob_add
+
+     LayToLeftCenter lay3{LayBox(knob_add),Lay(edit)};
+
+     // lay
+
+     LayToBottom lay(lay1,LayToTop(lay3,lay2,LayCap(list)));
+
+     return lay.getMinSize(flags,space,cap);
+    }
  }
 
 void ItemListWindow::setCheck(bool show,bool gray,bool name)
@@ -387,54 +408,40 @@ void ItemListWindow::layout(unsigned flags)
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space,flags);
-
   // knob_down , knob_up , knob_del
 
-  {
-   Coord dy=knob_down.getMinSize().dxy;
-
-   PaneCut p=pane.cutTop(dy);
-
-   p.place_cutLeft(knob_down).place_cutLeft(knob_up).place_cutRight(knob_del);
-  }
-
-  // edit , knob_add
-
-  {
-   auto knob__add=CutBox(knob_add);
-   auto edit_=CutPoint(edit);
-
-   Coord dy=SupDY(knob__add,edit_);
-
-   PaneCut p=pane.cutBottom(dy);
-
-   if( ins_set )
-     p.place_cutRight(knob__add).place_cutLeft(knob_ins).place(edit_);
-   else
-     p.place_cutRight(knob__add).place(edit_);
-  }
+  LayToRight lay1{LayBox(knob_down),LayBox(knob_up),LayRight(knob_del)};
 
   // label... , check...
 
-  {
-   auto check__show=CutBox(check_show);
-   auto label__show=CutPoint(label_show);
+  LayToRightCenter lay2{LayBox(check_show),Lay(label_show),
+                        LayBox(check_gray),Lay(label_gray),
+                        LayBox(check_name),LayLeft(label_name)};
 
-   Coord dy=SupDY(check__show,label__show);
+  if( ins_set )
+    {
+     // edit , knob_add , knob_ins
 
-   PaneCut p=pane.cutBottom(dy);
+     LayToLeftCenter lay3{LayBox(knob_add),LayToRightCenter(LayBox(knob_ins),Lay(edit))};
 
-   p.place_cutLeft(check__show).place_cutLeft(label__show)
-    .place_cutLeft(check_gray).place_cutLeft(label_gray)
-    .place_cutLeft(check_name).place_cutLeft(label_name);
-  }
+     // lay
 
-  // list
+     LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
 
-  {
-   pane.place(list);
-  }
+     lay.setPlace(Pane(Null,getSize()),flags,space);
+    }
+  else
+    {
+     // edit , knob_add
+
+     LayToLeftCenter lay3{LayBox(knob_add),Lay(edit)};
+
+     // lay
+
+     LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
+
+     lay.setPlace(Pane(Null,getSize()),flags,space);
+    }
  }
 
  // user input

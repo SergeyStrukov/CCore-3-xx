@@ -13,6 +13,8 @@
 
 #include <inc/Editor.h>
 
+#include <CCore/inc/video/Layout.h>
+
 #include <CCore/inc/video/FigureLib.h>
 
 namespace App {
@@ -165,24 +167,24 @@ Coord EditorWindow::getMinDXY() const
   return 2*(+cfg.space_dxy);
  }
 
-Coord EditorWindow::getMaxLeftDX() const
+Coord EditorWindow::getMaxLeftDX(unsigned flags) const
  {
   Coord space=+cfg.space_dxy;
   Coord min_dx=2*space;
 
   Coord total_dx=getSize().x;
-  Coord sx=split1.getMinSize().dx;
+  Coord sx=split1.getMinSize(flags).dx;
 
   return Max_cast(min_dx,total_dx-2*space-min_dx-sx);
  }
 
-Coord EditorWindow::getMaxTopDY() const
+Coord EditorWindow::getMaxTopDY(unsigned flags) const
  {
   Coord space=+cfg.space_dxy;
   Coord min_dy=2*space;
 
   Coord total_dy=getSize().y;
-  Coord sy=split2.getMinSize().dy;
+  Coord sy=split2.getMinSize(flags).dy;
 
   return Max_cast(min_dy,total_dy-2*space-min_dy-sy);
  }
@@ -190,7 +192,7 @@ Coord EditorWindow::getMaxTopDY() const
 bool EditorWindow::adjustSplitX(Coord dx)
  {
   Coord min_dx=getMinDXY();
-  Coord max_dx=getMaxLeftDX();
+  Coord max_dx=getMaxLeftDX(LayoutResize);
 
   return Change(left_dx, Cap<Coord>(min_dx,left_dx+dx,max_dx) );
  }
@@ -198,7 +200,7 @@ bool EditorWindow::adjustSplitX(Coord dx)
 bool EditorWindow::adjustSplitY(Coord dy)
  {
   Coord min_dy=getMinDXY();
-  Coord max_dy=getMaxTopDY();
+  Coord max_dy=getMaxTopDY(LayoutResize);
 
   return Change(top_dy, Cap<Coord>(min_dy,top_dy+dy,max_dy) );
  }
@@ -602,7 +604,7 @@ EditorWindow::~EditorWindow()
 
  // methods
 
-Point EditorWindow::getMinSize() const
+Point EditorWindow::getMinSize(unsigned) const
  {
   return Point(100,100);
  }
@@ -726,9 +728,9 @@ void EditorWindow::layout(unsigned flags)
      {
       Coord min_dxy=getMinDXY();
 
-      left_dx=Cap(min_dxy,left_dx,getMaxLeftDX());
+      left_dx=Cap(min_dxy,left_dx,getMaxLeftDX(flags));
 
-      top_dy=Cap(min_dxy,top_dy,getMaxTopDY());
+      top_dy=Cap(min_dxy,top_dy,getMaxTopDY(flags));
 
       PaneCut p=pane.cutLeft(left_dx,0);
 

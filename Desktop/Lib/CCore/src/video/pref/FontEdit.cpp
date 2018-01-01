@@ -943,7 +943,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
 
   // size spins
 
-  LayToRightCenter lay_spins(Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx)));
+  LayToRightCenter lay_spins{Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx))};
 
   // hint and smooth
 
@@ -961,7 +961,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
 
   // strength
 
-  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength));
+  LayToRightCenter lay_strength{Lay(spin_strength),Lay(label_strength)};
 
   // sample radio
 
@@ -969,7 +969,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
 
   // text_file_name , text_family
 
-  LayToBottom lay(Lay(text_file_name),
+  LayToBottom lay{Lay(text_file_name),
                   Lay(text_family),
                   lay_lights,
                   Lay(line1),
@@ -980,7 +980,7 @@ Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
                   lay_strength,
                   Lay(line3),
                   lay_sample,
-                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0));
+                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0)};
 
   Point delta=Inf( lay.getMinSize(flags,space) , Point(2*(cap.x/3),cap.y) );
 
@@ -1039,7 +1039,7 @@ void FontEditWindow::layout(unsigned flags)
 
   // size spins
 
-  LayToRightCenter lay_spins(Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx)));
+  LayToRightCenter lay_spins{Lay(spin_fdy),LayAlignLeft(BoxedWindow(check_fdx,spin_fdx))};
 
   // hint and smooth
 
@@ -1057,7 +1057,7 @@ void FontEditWindow::layout(unsigned flags)
 
   // strength
 
-  LayToRightCenter lay_strength(Lay(spin_strength),Lay(label_strength));
+  LayToRightCenter lay_strength{Lay(spin_strength),Lay(label_strength)};
 
   // sample radio
 
@@ -1065,7 +1065,7 @@ void FontEditWindow::layout(unsigned flags)
 
   // text_file_name , text_family
 
-  LayToBottom lay(Lay(text_file_name),
+  LayToBottom lay{Lay(text_file_name),
                   Lay(text_family),
                   lay_lights,
                   Lay(line1),
@@ -1076,7 +1076,7 @@ void FontEditWindow::layout(unsigned flags)
                   lay_strength,
                   Lay(line3),
                   lay_sample,
-                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0));
+                  LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0)};
 
   lay.setPlace(pane,flags,space);
  }

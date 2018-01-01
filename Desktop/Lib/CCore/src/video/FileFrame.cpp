@@ -1297,7 +1297,7 @@ void FileWindow::layout(unsigned flags)
 
      // list_dir
 
-     LayAll lay2(list_dir);
+     Lay lay2(list_dir);
 
      // list_file , filter_list
 

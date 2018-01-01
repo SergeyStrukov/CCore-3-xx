@@ -34,6 +34,8 @@ class EditorWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
      RefVal<VColor> back = Silver ;
 
      RefVal<Coord> space_dxy = 10 ;
@@ -68,12 +70,12 @@ class EditorWindow : public ComboWindow
         geom_cfg(pref,app_pref),
         ilist_cfg(pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(pref.get(),pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        back.bind(bag.back);
        space_dxy.bind(bag.space_dxy);
@@ -204,9 +206,9 @@ class EditorWindow : public ComboWindow
 
    Coord getMinDXY() const;
 
-   Coord getMaxLeftDX() const;
+   Coord getMaxLeftDX(unsigned flags) const;
 
-   Coord getMaxTopDY() const;
+   Coord getMaxTopDY(unsigned flags) const;
 
    bool adjustSplitX(Coord dx);
 
@@ -313,7 +315,7 @@ class EditorWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    bool isModified() const { return text_file.isAlerted(); }
 

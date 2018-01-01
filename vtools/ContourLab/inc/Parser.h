@@ -289,9 +289,9 @@ struct FormulaParserData
  {
   using Rule = int ;
 
-  static const Rule NoRule = -1 ;
+  static constexpr Rule NoRule = -1 ;
 
-  static const Rule ShiftRule = 0 ;
+  static constexpr Rule ShiftRule = 0 ;
 
   using ElementIndex = int ;
 

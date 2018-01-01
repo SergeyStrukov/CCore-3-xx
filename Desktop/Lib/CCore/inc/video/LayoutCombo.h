@@ -140,9 +140,11 @@ class LayNull;
 
 template <class W> class LayBase;
 
-template <class W> class LayAll;
+template <class W> class Lay;
 
 template <class W> class LayNoSpace;
+
+template <class W> class LayCap;
 
 template <class W,class T> class LaySpecial;
 
@@ -1396,24 +1398,19 @@ class LayBase
    explicit LayBase(W &obj_) : obj(obj_) {}
  };
 
-/* class LayAll<W> */
+/* class Lay<W> */
 
 template <class W>
-class LayAll : LayBase<W>
+class Lay : LayBase<W>
  {
   public:
 
-   explicit LayAll(W &obj) : LayBase<W>(obj) {}
+   explicit Lay(W &obj) : LayBase<W>(obj) {}
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
    void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
  };
-
-/* Lay() */
-
-template <class W>
-auto Lay(W &obj) { return LayAll(obj); }
 
 /* class LayNoSpace<W> */
 
@@ -1429,6 +1426,22 @@ class LayNoSpace : LayBase<W>
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
    void setPlace(Pane pane,unsigned flags,Coord) const { this->set(pane,flags); }
+ };
+
+/* class LayCap<W> */
+
+template <class W>
+class LayCap
+ {
+   W &obj;
+
+  public:
+
+   explicit LayCap(W &obj_) : obj(obj_) {}
+
+   Point getMinSize(unsigned flags,Coord,Point cap) const { return obj.getMinSize(flags,cap); }
+
+   void setPlace(Pane pane,unsigned flags,Coord) const { obj.setPlace(pane,flags); }
  };
 
 /* class LaySpecial<W,T> */

@@ -30,6 +30,8 @@ class EditAngleWindow : public SubWindow
 
    struct Config
     {
+     // user
+
      RefVal<MCoord> width = Fraction(6,2) ;
 
      // app
@@ -55,12 +57,12 @@ class EditAngleWindow : public SubWindow
      template <class AppPref>
      Config(const UserPreference &pref,const AppPref &app_pref) noexcept
       {
-       bind(pref.get());
+       bindUser(pref.get());
        bindApp(app_pref.get());
       }
 
      template <class Bag>
-     void bind(const Bag &bag)
+     void bindUser(const Bag &bag)
       {
        width.bind(bag.width);
       }
@@ -118,7 +120,7 @@ class EditAngleWindow : public SubWindow
 
    // methods
 
-   SizeBox getMinSize() const;
+   SizeBox getMinSize(unsigned flags) const;
 
    Geometry::Angle getValue() const { return value; }
 

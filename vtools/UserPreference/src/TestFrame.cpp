@@ -187,7 +187,7 @@ void TestWindow::layout(unsigned flags)
 
   // swtch , btn , alt , progress
 
-  LayToRightCenter lay1(Lay(swtch),Lay(btn),Lay(alt),Lay(progress));
+  LayToRightCenter lay1{Lay(swtch),Lay(btn),Lay(alt),Lay(progress)};
 
   // text_contour , label , rad
 
@@ -199,7 +199,7 @@ void TestWindow::layout(unsigned flags)
 
   // ysingle , knob , ydouble , xscroll
 
-  LayToRight lay4(Lay(ysingle),LayCenterY(knob),Lay(ydouble),LayCenterY(xscroll));
+  LayToRight lay4{Lay(ysingle),LayCenterY(knob),Lay(ydouble),LayCenterY(xscroll)};
 
   // contour , info
 

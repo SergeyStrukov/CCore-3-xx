@@ -30,6 +30,8 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    struct Config
     {
+     // user
+
      RefVal<DefString> text_LoadFile = "Select a file to load from"_def ;
      RefVal<DefString> text_SaveFile = "Select a file to save to"_def ;
 
@@ -65,12 +67,12 @@ class ClientWindow : public ComboWindow , public AliveControl
      Config(const UserPreference &pref,const AppPref &app_pref) noexcept
       : editor_cfg(pref,app_pref)
       {
-       bind(pref.get(),pref.getSmartConfig());
+       bindUser(pref.get(),pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        text_LoadFile.bind(bag.text_LoadFile);
        text_SaveFile.bind(bag.text_SaveFile);
@@ -201,7 +203,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg);
+   ClientWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~ClientWindow();
 
