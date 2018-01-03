@@ -68,6 +68,8 @@ class DirWindow : public ComboWindow
 
      CtorRefVal<XDoubleLineWindow::ConfigType> line_cfg;
 
+     CtorRefVal<ExceptionBuf::ConfigType> exbuf_cfg;
+
      Config() noexcept {}
 
      template <class Bag,class Proxy>
@@ -93,6 +95,8 @@ class DirWindow : public ComboWindow
        hit_menu_cfg.bind(proxy);
 
        line_cfg.bind(proxy);
+
+       exbuf_cfg.bind(proxy);
       }
     };
 
@@ -128,6 +132,8 @@ class DirWindow : public ComboWindow
    SimpleCascadeMenu hit_menu;
 
    CacheText<DirEditWindow> cache_dir;
+
+   ExceptionBuf exbuf;
 
    // work
 

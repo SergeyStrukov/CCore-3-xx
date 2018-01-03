@@ -3,7 +3,7 @@
 //
 //  Project: CCore 3.50
 //
-//  Tag: Simple
+//  Tag: Simple Mini
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //

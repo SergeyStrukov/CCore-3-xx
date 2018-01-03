@@ -129,7 +129,11 @@ void DirWindow::handleDir(FuncArgType<StrLen> func)
 
 void DirWindow::mkdir(StrLen dir_name)
  {
-  param.file_boss->createDir(dir_name);
+  {
+   ExceptionFrame frame(exbuf);
+
+   param.file_boss->createDir(dir_name);
+  }
 
   setDir(dir_name);
  }
@@ -138,7 +142,11 @@ void DirWindow::rmdir(StrLen sub_dir)
  {
   MakeFileName temp(cache_dir.getText(),sub_dir);
 
-  param.file_boss->deleteDir(temp.get());
+  {
+   ExceptionFrame frame(exbuf);
+
+   param.file_boss->deleteDir(temp.get());
+  }
 
   fillLists();
  }
@@ -259,6 +267,8 @@ DirWindow::DirWindow(SubWindowHost &host,const Config &cfg_,const DirWindowParam
    hit_menu(host.getFrameDesktop(),cfg.hit_menu_cfg),
 
    cache_dir(edit_dir),
+
+   exbuf(host.getFrame(),cfg.exbuf_cfg),
 
    connector_dir_list_entered(this,&DirWindow::dir_list_entered,list_dir.entered),
    connector_dir_list_dclicked(this,&DirWindow::dir_list_entered,list_dir.dclicked),

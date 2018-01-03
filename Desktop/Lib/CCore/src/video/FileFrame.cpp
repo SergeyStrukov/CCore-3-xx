@@ -854,7 +854,11 @@ void FileWindow::handleDir(FuncArgType<StrLen> func)
 
 void FileWindow::mkdir(StrLen dir_name)
  {
-  param.file_boss->createDir(dir_name);
+  {
+   ExceptionFrame frame(exbuf);
+
+   param.file_boss->createDir(dir_name);
+  }
 
   setDir(dir_name);
  }
@@ -863,7 +867,11 @@ void FileWindow::rmdir(StrLen sub_dir)
  {
   MakeFileName temp(cache_dir.getText(),sub_dir);
 
-  param.file_boss->deleteDir(temp.get());
+  {
+   ExceptionFrame frame(exbuf);
+
+   param.file_boss->deleteDir(temp.get());
+  }
 
   fillLists();
  }
@@ -1070,6 +1078,8 @@ FileWindow::FileWindow(SubWindowHost &host,const Config &cfg_,const FileWindowPa
 
    cache_dir(edit_dir),
    cache_new_file(edit_new_file),
+
+   exbuf(host.getFrame(),cfg.exbuf_cfg),
 
    connector_file_list_entered(this,&FileWindow::file_list_entered,list_file.entered),
    connector_file_list_dclicked(this,&FileWindow::file_list_entered,list_file.dclicked),

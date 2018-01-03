@@ -19,6 +19,7 @@
 #include <CCore/inc/video/WindowLib.h>
 #include <CCore/inc/video/Menu.h>
 #include <CCore/inc/video/FileBoss.h>
+#include <CCore/inc/video/ExceptionFrame.h>
 
 #include <CCore/inc/FunctorType.h>
 #include <CCore/inc/MakeFileName.h>
@@ -434,6 +435,8 @@ class FileWindow : public ComboWindow
      CtorRefVal<XDoubleLineWindow::ConfigType> line_cfg;
      CtorRefVal<YSplitWindow::ConfigType> split_cfg;
 
+     CtorRefVal<ExceptionBuf::ConfigType> exbuf_cfg;
+
      Config() noexcept {}
 
      template <class Bag,class Proxy>
@@ -466,6 +469,8 @@ class FileWindow : public ComboWindow
        alt_cfg.bind(proxy);
        line_cfg.bind(proxy);
        split_cfg.bind(proxy);
+
+       exbuf_cfg.bind(proxy);
       }
     };
 
@@ -512,6 +517,8 @@ class FileWindow : public ComboWindow
 
    CacheText<DirEditWindow> cache_dir;
    CacheText<LineEditWindow> cache_new_file;
+
+   ExceptionBuf exbuf;
 
    // work
 
