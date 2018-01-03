@@ -1,0 +1,77 @@
+<!--
+/* page_FeedBuf.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> FeedBuf</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>FeedBuf</h2>
+
+<p class="Files">Files <b>CCore/inc/FeedBuf.h</b> <b>CCore/src/FeedBuf.cpp</b></p>
+
+<p>
+<b>FeedBuf</b> is a <b>Class-function</b>.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">FeedBuf</span>
+ {
+  ulen delta;
+  bool overflow;
+
+  FeedBuf(PtrLen&lt;T&gt; dst,PtrLen&lt;const T&gt; src);
+ };
+
+</pre>
+
+<p>
+It copies data from one range to another. The result value has two fields: <b>delta</b> and <b>overflow</b>.
+</p>
+
+<p>
+<b>delta</b> is a number of object copied, it equlas the minimum of lengthes of source and destination ranges.
+</p>
+
+<p>
+<b>overflow</b> if <b>true</b> iff the source range has larger length than the destination one.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+bool <span class="Att">Feedup</span>(PtrLen&lt;T&gt; &amp;dst,PtrLen&lt;const T&gt; src);
+
+</pre>
+
+<p>
+This function feeds the destination range from the source and updates <b>dst</b> to the remaining range.
+The overflow flag is returned.
+</p>
+
+</body>
+
+</html>
+
