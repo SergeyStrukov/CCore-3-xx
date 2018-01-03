@@ -114,6 +114,7 @@ OBJ_LIST = \
 .obj/ExceptionType.o \
 .obj/FFTMul.o \
 .obj/FastMutex.o \
+.obj/FeedBuf.o \
 .obj/Fifo.o \
 .obj/FileName.o \
 .obj/FileNameMatch.o \
@@ -484,6 +485,7 @@ ASM_LIST = \
 .obj/ExceptionType.s \
 .obj/FFTMul.s \
 .obj/FastMutex.s \
+.obj/FeedBuf.s \
 .obj/Fifo.s \
 .obj/FileName.s \
 .obj/FileNameMatch.s \
@@ -854,6 +856,7 @@ DEP_LIST = \
 .obj/ExceptionType.dep \
 .obj/FFTMul.dep \
 .obj/FastMutex.dep \
+.obj/FeedBuf.dep \
 .obj/Fifo.dep \
 .obj/FileName.dep \
 .obj/FileNameMatch.dep \
@@ -1467,6 +1470,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FastMutex.o : ../../XCore/CCore/src/./task/FastMutex.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FeedBuf.o : ../../Simple/CCore/src/./FeedBuf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Fifo.o : ../../Simple/CCore/src/./Fifo.cpp
@@ -2572,6 +2578,9 @@ include $(RULES_FILE)
 .obj/FastMutex.s : ../../XCore/CCore/src/./task/FastMutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FeedBuf.s : ../../Simple/CCore/src/./FeedBuf.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Fifo.s : ../../Simple/CCore/src/./Fifo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3674,6 +3683,9 @@ include $(RULES_FILE)
 
 .obj/FastMutex.dep : ../../XCore/CCore/src/./task/FastMutex.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FastMutex.o $< -MF $@
+
+.obj/FeedBuf.dep : ../../Simple/CCore/src/./FeedBuf.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FeedBuf.o $< -MF $@
 
 .obj/Fifo.dep : ../../Simple/CCore/src/./Fifo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Fifo.o $< -MF $@

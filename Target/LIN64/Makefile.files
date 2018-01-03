@@ -103,9 +103,11 @@ OBJ_LIST = \
 .obj/Event.o \
 .obj/EventRecorder.o \
 .obj/Exception.o \
+.obj/ExceptionFrame.o \
 .obj/ExceptionType.o \
 .obj/FFTMul.o \
 .obj/FastMutex.o \
+.obj/FeedBuf.o \
 .obj/Fifo.o \
 .obj/FigureLib.o \
 .obj/FileBoss.o \
@@ -173,6 +175,7 @@ OBJ_LIST = \
 .obj/LangDataMap.o \
 .obj/LaunchPath.o \
 .obj/Layout.o \
+.obj/LayoutCombo.o \
 .obj/Len.o \
 .obj/LineInput.o \
 .obj/List.o \
@@ -549,9 +552,11 @@ ASM_LIST = \
 .obj/Event.s \
 .obj/EventRecorder.s \
 .obj/Exception.s \
+.obj/ExceptionFrame.s \
 .obj/ExceptionType.s \
 .obj/FFTMul.s \
 .obj/FastMutex.s \
+.obj/FeedBuf.s \
 .obj/Fifo.s \
 .obj/FigureLib.s \
 .obj/FileBoss.s \
@@ -619,6 +624,7 @@ ASM_LIST = \
 .obj/LangDataMap.s \
 .obj/LaunchPath.s \
 .obj/Layout.s \
+.obj/LayoutCombo.s \
 .obj/Len.s \
 .obj/LineInput.s \
 .obj/List.s \
@@ -995,9 +1001,11 @@ DEP_LIST = \
 .obj/Event.dep \
 .obj/EventRecorder.dep \
 .obj/Exception.dep \
+.obj/ExceptionFrame.dep \
 .obj/ExceptionType.dep \
 .obj/FFTMul.dep \
 .obj/FastMutex.dep \
+.obj/FeedBuf.dep \
 .obj/Fifo.dep \
 .obj/FigureLib.dep \
 .obj/FileBoss.dep \
@@ -1065,6 +1073,7 @@ DEP_LIST = \
 .obj/LangDataMap.dep \
 .obj/LaunchPath.dep \
 .obj/Layout.dep \
+.obj/LayoutCombo.dep \
 .obj/Len.dep \
 .obj/LineInput.dep \
 .obj/List.dep \
@@ -1661,6 +1670,9 @@ include $(RULES_FILE)
 .obj/Exception.o : ../../Fundamental/CCore/src/./Exception.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/ExceptionFrame.o : ../../Desktop/Lib/CCore/src/./video/ExceptionFrame.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/ExceptionType.o : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1668,6 +1680,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FastMutex.o : ../../HCore/CCore/src/./task/FastMutex.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FeedBuf.o : ../../Simple/CCore/src/./FeedBuf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Fifo.o : ../../Simple/CCore/src/./Fifo.cpp
@@ -1869,6 +1884,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Layout.o : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LayoutCombo.o : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Len.o : ../../Simple/CCore/src/./gadget/Len.cpp
@@ -2992,6 +3010,9 @@ include $(RULES_FILE)
 .obj/Exception.s : ../../Fundamental/CCore/src/./Exception.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ExceptionFrame.s : ../../Desktop/Lib/CCore/src/./video/ExceptionFrame.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ExceptionType.s : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2999,6 +3020,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/FastMutex.s : ../../HCore/CCore/src/./task/FastMutex.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/FeedBuf.s : ../../Simple/CCore/src/./FeedBuf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Fifo.s : ../../Simple/CCore/src/./Fifo.cpp
@@ -3200,6 +3224,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Layout.s : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/LayoutCombo.s : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Len.s : ../../Simple/CCore/src/./gadget/Len.cpp
@@ -4323,6 +4350,9 @@ include $(RULES_FILE)
 .obj/Exception.dep : ../../Fundamental/CCore/src/./Exception.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Exception.o $< -MF $@
 
+.obj/ExceptionFrame.dep : ../../Desktop/Lib/CCore/src/./video/ExceptionFrame.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ExceptionFrame.o $< -MF $@
+
 .obj/ExceptionType.dep : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ExceptionType.o $< -MF $@
 
@@ -4331,6 +4361,9 @@ include $(RULES_FILE)
 
 .obj/FastMutex.dep : ../../HCore/CCore/src/./task/FastMutex.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FastMutex.o $< -MF $@
+
+.obj/FeedBuf.dep : ../../Simple/CCore/src/./FeedBuf.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FeedBuf.o $< -MF $@
 
 .obj/Fifo.dep : ../../Simple/CCore/src/./Fifo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Fifo.o $< -MF $@
@@ -4532,6 +4565,9 @@ include $(RULES_FILE)
 
 .obj/Layout.dep : ../../Desktop/Lib/CCore/src/./video/Layout.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Layout.o $< -MF $@
+
+.obj/LayoutCombo.dep : ../../Desktop/Lib/CCore/src/./video/LayoutCombo.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/LayoutCombo.o $< -MF $@
 
 .obj/Len.dep : ../../Simple/CCore/src/./gadget/Len.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Len.o $< -MF $@

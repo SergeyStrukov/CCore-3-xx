@@ -54,7 +54,7 @@ Dir Dir2=
 Dir Dir3=
   {
    'Lib',
-   Green,
+   Red,
    {
     &Dir8
    },
@@ -274,7 +274,7 @@ Dir Dir21=
 Dir Dir8=
   {
    'CCore',
-   Green,
+   Red,
    {
     &Dir22,
     &Dir23,
@@ -287,7 +287,7 @@ Dir Dir8=
 Dir Dir22=
   {
    'inc',
-   Green,
+   Red,
    {
     &Dir25
    },
@@ -298,7 +298,7 @@ Dir Dir22=
 Dir Dir23=
   {
    'src',
-   Green,
+   Red,
    {
     &Dir26
    },
@@ -331,7 +331,7 @@ Dir Dir24=
 Dir Dir25=
   {
    'video',
-   Green,
+   Red,
    {
     &Dir27,
     &Dir28
@@ -343,6 +343,7 @@ Dir Dir25=
     { 'ConfigEditor.h' , Green },
     { 'ConfigStore.h' , Green },
     { 'DirFrame.h' , Green },
+    { 'ExceptionFrame.h' , Red },
     { 'FigureLib.h' , Green },
     { 'FileFrame.h' , Green },
     { 'FrameBase.h' , Green },
@@ -431,7 +432,7 @@ Dir Dir28=
 Dir Dir26=
   {
    'video',
-   Green,
+   Red,
    {
     &Dir29,
     &Dir30
@@ -443,6 +444,7 @@ Dir Dir26=
     { 'ConfigEditor.cpp' , Green },
     { 'ConfigStore.cpp' , Green },
     { 'DirFrame.cpp' , Green },
+    { 'ExceptionFrame.cpp' , Red },
     { 'FigureLib.cpp' , Green },
     { 'FileFrame.cpp' , Green },
     { 'FrameBase.cpp' , Green },

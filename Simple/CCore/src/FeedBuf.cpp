@@ -1,11 +1,11 @@
-/* XXX.h */ 
+/* FeedBuf.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.50
 //
 //  Tag: Simple Fundamental Applied Desktop HCore XCore Target/
 //
-//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
@@ -13,13 +13,10 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef CCore_inc_XXX_h
-#define CCore_inc_XXX_h
- 
+#include <CCore/inc/FeedBuf.h>
+
 namespace CCore {
 
 
 } // namespace CCore
- 
-#endif
 

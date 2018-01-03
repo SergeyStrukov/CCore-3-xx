@@ -26,6 +26,7 @@
 #include <CCore/inc/video/FileFrame.h>
 #include <CCore/inc/video/DirFrame.h>
 #include <CCore/inc/video/ConfigEditor.h>
+#include <CCore/inc/video/ExceptionFrame.h>
 
 namespace CCore {
 namespace Video {
@@ -439,7 +440,9 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            RatioEditWindow::ConfigType,
                                            CharTableWindow::ConfigType,
                                            ConfigEditorWindow::ConfigType,
-                                           ConfigEditorFrame::ConfigType
+                                           ConfigEditorFrame::ConfigType,
+
+                                           ExceptionBuf::ConfigType
                                           >
  {
    static StrLen PrefFile();

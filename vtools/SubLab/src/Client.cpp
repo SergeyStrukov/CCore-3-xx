@@ -13,6 +13,7 @@
 
 #include <inc/Client.h>
 
+#include <CCore/inc/video/ExceptionFrame.h>
 #include <CCore/inc/video/MessageFrame.h>
 
 #include <CCore/inc/video/Layout.h>
@@ -392,10 +393,26 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
    class ButtonWindow_Button : public ButtonWindow
     {
+      ExceptionBuf exbuf;
+
+     private:
+
+      void testException()
+       {
+        ExceptionFrame frame(exbuf);
+
+        Printf(Exception,"Button pressed");
+       }
+
+      SignalConnector<ButtonWindow_Button> connector_pressed;
+
      public:
 
-      ButtonWindow_Button(SubWindowHost &host,const ConfigType &cfg)
-       : ButtonWindow(host,cfg,"Button"_def)
+      ButtonWindow_Button(SubWindowHost &host,const UserPreference &pref)
+       : ButtonWindow(host,pref.getSmartConfig(),"Button"_def),
+         exbuf(getFrame(),pref.getSmartConfig()),
+
+         connector_pressed(this,&ButtonWindow_Button::testException,pressed)
        {
        }
     };
@@ -1292,7 +1309,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
      add("Button"_def);
 
-       add("Button"_def,Create<ButtonWindow_Button>);
+       add("Button"_def,CreateCombo<ButtonWindow_Button>);
        add("Knob"_def,Create<KnobWindow_Asterisk>);
        add("Knob auto"_def,Create<KnobWindow_auto>);
        add("FireButton"_def,CreateCombo<FireButtonWindow_Sample>);

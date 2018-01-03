@@ -69,6 +69,8 @@ Symbol <span class="Att">PeekSymbol</span>(StrLen text); // +text
 
 Symbol <span class="Att">PeekSymbol_guarded</span>(StrLen text); // +text
 
+StrLen <span class="Att">TrimText</span>(StrLen text);
+
 </pre>
 
 <p>
@@ -95,6 +97,10 @@ In UTF8-compatible mode the result is -1, if the symbol is not single character 
 <p>
 <b>PeekSymbol_guarded()</b> peeks the first symbol from the non-empty character range.
 It throws an exception in case of error.
+</p>
+
+<p>
+<b>TrimText()</b> removes the last incomplete code sequence in UTF8-compatible mode. 
 </p>
 
 <p>
@@ -169,6 +175,26 @@ It throws an exception in case of error.
 <p>
 <b>CutChar_guarded()</b> extracts the next <b>Char</b> symbol from the non-empty text (argument <b>text</b> is updated).
 It throws an exception in case of error.
+</p>
+
+<pre>
+
+bool <span class="Att">SymCharIsSpecial</span>(Char ch);
+
+bool <span class="Att">SymCharIsVisible</span>(Char ch);
+
+bool <span class="Att">SymCharIsPrintable</span>(Char ch);
+
+bool <span class="Att">SymCharIsSpace</span>(Char ch);
+
+int <span class="Att">SymCharDecValue</span>(Char ch);
+
+int <span class="Att">SymCharHexValue</span>(Char ch);
+
+</pre>
+
+<p>
+These functions retrieve various properties of the symbol, given as a <b>Char</b> value.
 </p>
 
 </body>
