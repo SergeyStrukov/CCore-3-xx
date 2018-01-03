@@ -87,23 +87,41 @@ void ClientWindow::menuAction(int id,Point point)
     {
      case MenuFileNew :
       {
-       sub_win.blank();
+       if( sub_win.isModified() )
+         {
+          askSave(ContinueNew);
+         }
+       else
+         {
+          sub_win.blank();
+         }
       }
      break;
 
      case MenuFileOpen :
       {
-       startOpen(point);
+       if( sub_win.isModified() )
+         {
+          file_point=point;
+
+          askSave(ContinueStartOpen);
+         }
+       else
+         {
+          startOpen(point);
+         }
       }
      break;
 
      case MenuFileSave :
       {
+       if( !sub_win.save() ) startSave(point);
       }
      break;
 
      case MenuFileSaveAs :
       {
+       startSave(point);
       }
      break;
 
@@ -125,6 +143,11 @@ void ClientWindow::menuAction(int id,Point point)
       }
      break;
     }
+ }
+
+void ClientWindow::menuAction(int id)
+ {
+  menuAction(id,toScreen(action_base));
  }
 
 void ClientWindow::menu_selected(int id,Point point)
@@ -184,7 +207,7 @@ void ClientWindow::file_destroyed()
 
        if( +file_name )
          {
-          //sub_win.save(file_name);
+          sub_win.save(file_name);
          }
       }
      break;
@@ -199,7 +222,7 @@ void ClientWindow::msg_destroyed()
     {
      case Button_Yes :
       {
-       //sub_win.save();
+       sub_win.save();
       }
      break;
 
@@ -248,7 +271,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
    connector_file_destroyed(this,&ClientWindow::file_destroyed,file_frame.destroyed),
    connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed)
  {
-  Used(update);
+  cascade_menu.connectUpdate(update);
 
   wlist.insTop(menu,sub_win);
 
@@ -287,11 +310,11 @@ ClientWindow::~ClientWindow()
 
  // methods
 
-Point ClientWindow::getMinSize() const
+Point ClientWindow::getMinSize(unsigned flags) const
  {
-  Coordinate dy=menu.getMinSize().dy;
+  Coordinate dy=menu.getMinSize(flags).dy;
 
-  Point s=sub_win.getMinSize();
+  Point s=sub_win.getMinSize(flags);
 
   return Point(s.x,dy+s.y);
  }
@@ -307,14 +330,16 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout()
+void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize().dy;
+  Coord dy=menu.getMinSize(flags).dy;
+
+  action_base=Point(dy,dy);
 
   Pane pane(Null,getSize());
 
-  menu.setPlace(SplitY(dy,pane));
-  sub_win.setPlace(pane);
+  menu.setPlace(SplitY(dy,pane),flags);
+  sub_win.setPlace(pane,flags);
  }
 
  // user input
@@ -328,6 +353,18 @@ void ClientWindow::react_Key(VKey vkey,KeyMod kmod)
  {
   switch( vkey )
     {
+     case VKey_F2 :
+      {
+       menuAction(MenuFileSave);
+      }
+     break;
+
+     case VKey_F3 :
+      {
+       menuAction(MenuFileOpen);
+      }
+     break;
+
      case VKey_F10 :
       {
        menu.setFocus();

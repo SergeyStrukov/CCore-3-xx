@@ -67,11 +67,21 @@ class BookWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
+
+   bool isModified() const;
 
    void blank();
 
    void load(StrLen file_name);
+
+   bool save();
+
+   void save(StrLen file_name);
+
+   // drawing
+
+   virtual void layout(unsigned flags);
  };
 
 } // namespace App

@@ -183,6 +183,8 @@ class ClientWindow : public ComboWindow
 
    void menuAction(int id,Point point);
 
+   void menuAction(int id);
+
   private:
 
    void menu_selected(int id,Point point);
@@ -209,7 +211,7 @@ class ClientWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(unsigned flags) const;
 
    // base
 
@@ -217,7 +219,7 @@ class ClientWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout();
+   virtual void layout(unsigned flags);
 
    // user input
 

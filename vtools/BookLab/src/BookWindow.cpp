@@ -29,9 +29,14 @@ BookWindow::~BookWindow()
 
  // methods
 
-Point BookWindow::getMinSize() const
+Point BookWindow::getMinSize(unsigned) const
  {
   return Point(100,100);
+ }
+
+bool BookWindow::isModified() const
+ {
+  return false;
  }
 
 void BookWindow::blank()
@@ -41,6 +46,23 @@ void BookWindow::blank()
 void BookWindow::load(StrLen file_name)
  {
   Used(file_name);
+ }
+
+bool BookWindow::save()
+ {
+  return true;
+ }
+
+void BookWindow::save(StrLen file_name)
+ {
+  Used(file_name);
+ }
+
+ // drawing
+
+void BookWindow::layout(unsigned flags)
+ {
+  Used(flags);
  }
 
 } // namespace App
