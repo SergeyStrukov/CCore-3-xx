@@ -1792,6 +1792,13 @@ class LayInner
      return obj.getMinSize(flags,lay.getMinSize(flags,space)+2*Point::Diag(space));
     }
 
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
+    {
+     Point delta=obj.getDelta(flags);
+
+     return obj.getMinSize(flags,lay.getMinSize(flags,space,cap-delta)+2*Point::Diag(space));
+    }
+
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
      obj.setPlace(pane,flags);
@@ -1818,6 +1825,13 @@ class LayInnerSpace
    Point getMinSize(unsigned flags,Coord space) const
     {
      return obj.getMinSize(flags,lay.getMinSize(flags,space)+2*inner_space);
+    }
+
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
+    {
+     Point delta=obj.getDelta(flags);
+
+     return obj.getMinSize(flags,lay.getMinSize(flags,space,cap-delta)+2*inner_space);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const

@@ -43,6 +43,13 @@ Pane ContourShape::getInner() const
   return pane.shrink(dxy);
  }
 
+Point ContourShape::getDelta() const
+ {
+  Coord dxy=RoundUpLen(+cfg.width);
+
+  return 2*Point::Diag(dxy);
+ }
+
 void ContourShape::draw(const DrawBuf &buf) const
  {
   MPane p(pane);
@@ -91,6 +98,15 @@ Pane TextContourShape::getInner() const
   if( dxy>=pane.dx-dxy || fs.dy>=pane.dy-dxy ) return Empty;
 
   return Pane(pane.x+dxy,pane.y+fs.dy,pane.dx-2*dxy,pane.dy-fs.dy-dxy);
+ }
+
+Point TextContourShape::getDelta() const
+ {
+  FontSize fs=cfg.font->getSize();
+
+  Coord dxy=RoundUpLen(+cfg.width);
+
+  return Point::Diag(dxy)+Point(dxy,fs.dy);
  }
 
 void TextContourShape::draw(const DrawBuf &buf) const
@@ -205,6 +221,15 @@ Pane RefTextContourShape::getInner() const
   temp.pane=pane;
 
   return temp.getInner();
+ }
+
+Point RefTextContourShape::getDelta() const
+ {
+  TextContourShape temp(cfg,+title,align_x);
+
+  temp.pane=pane;
+
+  return temp.getDelta();
  }
 
 void RefTextContourShape::draw(const DrawBuf &buf) const

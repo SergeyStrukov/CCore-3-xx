@@ -71,6 +71,8 @@ class ContourShape
 
    Pane getInner() const;
 
+   Point getDelta() const;
+
    void draw(const DrawBuf &buf) const;
  };
 
@@ -121,6 +123,8 @@ class TextContourShape
 
    Pane getInner() const;
 
+   Point getDelta() const;
+
    void draw(const DrawBuf &buf) const;
  };
 
@@ -148,6 +152,8 @@ class RefTextContourShape
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
    Pane getInner() const;
+
+   Point getDelta() const;
 
    void draw(const DrawBuf &buf) const;
  };

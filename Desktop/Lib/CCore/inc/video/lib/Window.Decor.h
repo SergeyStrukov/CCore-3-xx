@@ -57,6 +57,8 @@ class DecorWindowOf : public SubWindow
 
    Pane getInner() const { return shape.getInner()+getPlace().getBase(); }
 
+   Point getDelta(unsigned) const { return shape.getDelta(); }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const
