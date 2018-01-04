@@ -24,7 +24,7 @@ class ClientWindow;
 
 /* class ClientWindow */
 
-class ClientWindow : public ComboWindow
+class ClientWindow : public ComboWindow , public AliveControl
  {
   public:
 
@@ -232,6 +232,10 @@ class ClientWindow : public ComboWindow
    void react_RightClick(Point point,MouseKey mkey);
 
    void react_other(UserAction action);
+
+   // AliveControl
+
+   virtual bool askDestroy();
 
    // signals
 

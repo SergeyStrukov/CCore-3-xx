@@ -17,7 +17,7 @@ include $(CCORE_ROOT)/Makefile.host
 
 SRC_PATH_LIST = src
 
-TARGET = $(HOME)/bin/CCore-BookLab.exe
+TARGET = ./CCore-BookLab.exe
 
 CCOPT_EXTRA = -I.
 

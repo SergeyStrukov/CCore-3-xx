@@ -405,5 +405,19 @@ void ClientWindow::react_other(UserAction action)
   wlist.react(action);
  }
 
+ // AliveControl
+
+bool ClientWindow::askDestroy()
+ {
+  if( sub_win.isModified() )
+    {
+     askSave(ContinueExit);
+
+     return false;
+    }
+
+  return true;
+ }
+
 } // namespace App
 
