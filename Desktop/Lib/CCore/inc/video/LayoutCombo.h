@@ -1731,7 +1731,7 @@ class LayDivX
      Point s1=lay1.getMinSize(flags,space);
      Point s2=lay2.getMinSize(flags,space);
 
-     return StackXSize(s1,s2);
+     return StackXSize(s1,s2).addX(space);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
@@ -1762,7 +1762,7 @@ class LayDivY
      Point s1=lay1.getMinSize(flags,space);
      Point s2=lay2.getMinSize(flags,space);
 
-     return StackYSize(s1,s2);
+     return StackYSize(s1,s2).addY(space);
     }
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
