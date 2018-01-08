@@ -322,7 +322,7 @@ Point DirWindow::getMinSize(unsigned flags) const
 
   LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
-  return lay.getMinSize(flags,space)+2*Point(0,space);
+  return ExtLayY(lay).getMinSize(flags,space);
  }
 
  // drawing
@@ -343,7 +343,7 @@ void DirWindow::layout(unsigned flags)
 
   LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
-  lay.setPlace(Pane(Null,getSize()).shrink(0,space),flags,space);
+  ExtLayY(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void DirWindow::drawBack(DrawBuf buf,bool) const

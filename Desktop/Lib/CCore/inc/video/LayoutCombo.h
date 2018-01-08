@@ -132,6 +132,8 @@ template <class L> class ExtLayY;
 
 template <class L> class ExtLayX;
 
+template <class L> class ExtLay;
+
 template <class ... LL> class LaySupCenterXExt;
 
 template <class ... LL> class LaySupCenterYExt;
@@ -1144,6 +1146,42 @@ class ExtLayX
   public:
 
    explicit ExtLayX(const L &lay_) : lay(lay_) {}
+
+   Point getMinSize(unsigned flags,Coord space) const
+    {
+     Point s=lay.getMinSize(flags,space);
+
+     return s+2*Ext(space);
+    }
+
+   Point getMinSize(unsigned flags,Coord space,Point cap) const
+    {
+     Point delta=2*Ext(space);
+     Point s=lay.getMinSize(flags,space,cap-delta);
+
+     return s+delta;
+    }
+
+   void setPlace(Pane pane,unsigned flags,Coord space) const
+    {
+     lay.setPlace(pane.shrink(Ext(space)),flags,space);
+    }
+ };
+
+/* class ExtLay<L> */
+
+template <class L>
+class ExtLay
+ {
+   L lay;
+
+  private:
+
+   static Point Ext(Coord space) { return Point::Diag(space); }
+
+  public:
+
+   explicit ExtLay(const L &lay_) : lay(lay_) {}
 
    Point getMinSize(unsigned flags,Coord space) const
     {

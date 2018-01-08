@@ -30,5 +30,8 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET)
 
+TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
+ddl:
+	cd src && $(TypeSet) Book.ddl ../inc/Book.TypeDef.gen.h Book.TypeSet.gen.h
 

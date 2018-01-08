@@ -14,7 +14,7 @@
 #ifndef BookWindow_h
 #define BookWindow_h
 
-#include <inc/Application.h>
+#include <inc/Book.h>
 
 namespace App {
 
