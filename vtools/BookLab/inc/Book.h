@@ -13,6 +13,8 @@
 
 #include <inc/Application.h>
 
+#include <CCore/inc/ddl/DDLMapTypes.h>
+
 #ifndef Book_h
 #define Book_h
 
