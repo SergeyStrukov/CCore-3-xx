@@ -14,7 +14,7 @@
 #ifndef Client_h
 #define Client_h
 
-#include <inc/BookWindow.h>
+#include <inc/WorkWindow.h>
 
 namespace App {
 
@@ -28,7 +28,7 @@ class ClientWindow : public ComboWindow , public AliveControl
  {
   public:
 
-   using SubWinType = BookWindow ;
+   using SubWinType = WorkWindow ;
 
    struct Config
     {

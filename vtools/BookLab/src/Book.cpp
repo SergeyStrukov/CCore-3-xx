@@ -13,7 +13,7 @@
 
 #include <inc/Book.h>
 
-namespace App {
+namespace App::Book {
 
 
-} // namespace App
+} // namespace App::Book

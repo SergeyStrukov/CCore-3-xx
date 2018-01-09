@@ -1,4 +1,4 @@
-/* BookWindow.h */
+/* WorkWindow.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: BookLab 1.00
@@ -11,29 +11,34 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef BookWindow_h
-#define BookWindow_h
+#ifndef WorkWindow_h
+#define WorkWindow_h
 
-#include <inc/Book.h>
+#include <inc/BookWindow.h>
 
 namespace App {
 
 /* classes */
 
-class BookWindow;
+class WorkWindow;
 
-/* class BookWindow */
+/* class WorkWindow */
 
-class BookWindow : public SubWindow
+class WorkWindow : public ComboWindow
  {
   public:
 
    struct Config
     {
+     // app
+
+     BookWindow::ConfigType book_cfg;
+
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : book_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -59,19 +64,27 @@ class BookWindow : public SubWindow
 
    const Config &cfg;
 
+   BookWindow book;
+
   public:
 
-   BookWindow(SubWindowHost &host,const Config &cfg);
+   WorkWindow(SubWindowHost &host,const Config &cfg);
 
-   virtual ~BookWindow();
+   virtual ~WorkWindow();
 
    // methods
 
    Point getMinSize(unsigned flags) const;
 
+   bool isModified() const;
+
    void blank();
 
    void load(StrLen file_name);
+
+   bool save();
+
+   void save(StrLen file_name);
 
    // drawing
 

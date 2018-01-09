@@ -11,7 +11,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-/* basic types */
+//--- basic types ------------------------------------------------------------------------
 
 type Bool = uint8 ;
 
@@ -19,11 +19,11 @@ Bool True = 1 ;
 
 Bool False = 0 ;
 
-type Coord = sint16 ;
-
 type VColor = uint32 ;
 
 VColor NoColor = 0FFFFFFFFh ;
+
+type Coord = sint16 ;
 
 struct Point
  {
@@ -37,9 +37,7 @@ struct Ratio
   Coord b;
  }; 
 
-//----------------------------------------------------------------------------------------
-
-/* Text */
+//--- Text -------------------------------------------------------------------------------
 
 struct Font
  {
@@ -55,7 +53,7 @@ VColor DefaultFore = NoColor ;
 
 struct Format
  {
-  Font font;
+  Font *font = null ;
   
   VColor back = ?DefaultBack ;
   VColor fore = ?DefaultFore ;
@@ -68,21 +66,22 @@ struct Format
   
   Effect effect = None ;
  };
- 
-struct Placement
+
+struct OneLine
  {
-  Bool one_line = False ;
-  
-  Ratio line_space = {1,1} ;
-  Ratio first_line_space = {2,1} ;
-  
   type Align = uint8 ;
   
   const Align Left   = 0 ;  
   const Align Right  = 1 ;  
   const Align Center = 2 ;
   
-  Align align = Left ;  
+  Align align = Left ;
+ };
+ 
+struct MultiLine
+ {
+  Ratio line_space = {1,1} ;
+  Ratio first_line_space = {2,1} ;
  }; 
 
 struct Span
@@ -91,12 +90,55 @@ struct Span
   Format *fmt = null ;
  };
 
+Format DefaultFormat = {} ;
+
+MultiLine DefaultPlacement = {} ;
+
 struct Text
  {
   Span[] list;
   Format *fmt = & ?DefaultFormat ;
-  Placement *placement = & ?DefaultPlacement ;
+  {OneLine,MultiLine} *placement = & ?DefaultPlacement ;
  };
+
+//--- Bitmap -----------------------------------------------------------------------------
+
+struct Bitmap
+ {
+  VColor[][] map;
+ };
+
+//--- Frame ------------------------------------------------------------------------------
+
+struct Frame
+ {
+  type LineType = uint8 ;
+  
+  const LineType None = 0 ;
+  const LineType Single = 1 ;
+  const LineType Double = 2 ;
+  
+  LineType line_type = None ; 
+ 
+  Point inner = { 0 , 0 } ;
+  Point outer = { 0 , 0 } ;
+  
+  VColor col = NoColor ;
+  
+  {Text,Bitmap} *body;
+ };
+ 
+//--- Book -------------------------------------------------------------------------------
+
+struct Book
+ {
+  VColor back = NoColor ;
+  VColor fore = NoColor ;
+  
+  Frame[] body;
+ };
+
+
 
 
  
