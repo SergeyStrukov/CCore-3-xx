@@ -87,7 +87,10 @@ struct MultiLine
 struct Span
  {
   text[] list;
+  
   Format *fmt = null ;
+  
+  {Link,Page} * ref = null ;
  };
 
 Format DefaultFormat = {} ;
@@ -97,9 +100,31 @@ MultiLine DefaultPlacement = {} ;
 struct Text
  {
   Span[] list;
+  
   Format *fmt = & ?DefaultFormat ;
   {OneLine,MultiLine} *placement = & ?DefaultPlacement ;
  };
+ 
+struct FixedSpan
+ {
+  text body;
+  
+  Format *fmt = null ;
+  
+  {Link,Page} * ref = null ;
+ };
+ 
+struct Line
+ {
+  FixedSpan[] list;
+ }; 
+ 
+struct FixedText
+ {
+  Line[] list;
+ 
+  Format *fmt = & ?DefaultFormat ;
+ }; 
 
 //--- Bitmap -----------------------------------------------------------------------------
 
@@ -112,6 +137,8 @@ struct Bitmap
 
 struct Frame
  {
+  {Text,FixedText,Bitmap} *body;
+  
   type LineType = uint8 ;
   
   const LineType None = 0 ;
@@ -124,21 +151,35 @@ struct Frame
   Point outer = { 0 , 0 } ;
   
   VColor col = NoColor ;
-  
-  {Text,Bitmap} *body;
  };
  
 //--- Book -------------------------------------------------------------------------------
 
-struct Book
+struct Page
  {
+  text name;
+  
+  Frame[] list;
+  
   VColor back = NoColor ;
   VColor fore = NoColor ;
-  
-  Frame[] body;
  };
+ 
+struct Book
+ {
+  text title;
+  
+  Page * [] list;
+  
+  VColor back = NoColor ;
+  VColor fore = NoColor ;
+ }; 
 
-
+struct Link
+ {
+  ulen page_index;
+  ulen frame_index = 0 ;
+ };
 
 
  

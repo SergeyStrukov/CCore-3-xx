@@ -32,6 +32,6 @@ run: $(TARGET)
 
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
-ddl:
-	cd src && $(TypeSet) Book.ddl ../inc/Book.TypeDef.gen.h Book.TypeSet.gen.h
+inc/Book.TypeDef.gen.h : src/Book.ddl
+	$(TypeSet) src/Book.ddl inc/Book.TypeDef.gen.h src/Book.TypeSet.gen.h
 

@@ -18,7 +18,12 @@
 #ifndef Book_h
 #define Book_h
 
-namespace App::Book {
+namespace App {
+namespace Book {
+
+/* consts */
+
+inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
 
 /* namespace TypeDef */
 
@@ -26,8 +31,44 @@ namespace App::Book {
 
 /* classes */
 
+class BookMap;
 
+/* class BookMap */
 
-} // namespace App::Book
+class BookMap : NoCopy
+ {
+   void *mem;
+
+   TypeDef::Book *book;
+
+  private:
+
+   static StrLen Pretext();
+
+  public:
+
+   BookMap();
+
+   ~BookMap();
+
+   void blank();
+
+   struct Result
+    {
+     bool ok;
+     StrLen etext;
+
+     Result() : ok(true) {}
+
+     Result(StrLen etext_) : ok(false),etext(TrimText(etext_)) {}
+    };
+
+   Result load(StrLen file_name,PtrLen<char> ebuf);
+
+   TypeDef::Book * get() const { return book; }
+ };
+
+} // namespace Book
+} // namespace App
 
 #endif
