@@ -79,11 +79,34 @@ class InnerBookWindow : public SubWindow
 
    const Config &cfg;
 
-   Book::TypeDef::Page *page = 0 ;
+   PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
    VColor fore = Book::NoColor ;
 
    bool focus = false ;
+
+   // scroll
+
+   struct Scroll
+    {
+     ulen total = 0 ;
+     ulen page  = 1 ;
+     ulen pos   = 0 ;
+
+     bool tooShort() const { return page<total; }
+    };
+
+   Scroll sx;
+   Scroll sy;
+
+  private:
+
+   void posX(ulen pos);
+
+   void posY(ulen pos);
+
+   SignalConnector<InnerBookWindow,ulen> connector_posX;
+   SignalConnector<InnerBookWindow,ulen> connector_posY;
 
   public:
 
@@ -99,17 +122,21 @@ class InnerBookWindow : public SubWindow
 
    // special methods
 
-   bool shortDX() const;
+   bool shortDX() const { return sx.tooShort(); }
 
-   bool shortDY() const;
-
-   template <class W>
-   void setScrollXRange(W &window) const;
+   bool shortDY() const { return sy.tooShort();  }
 
    template <class W>
-   void setScrollYRange(W &window) const;
+   void setScrollXRange(W &window) const { window.setRange(sx.total,sx.page,sx.pos); }
 
-   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
+   template <class W>
+   void setScrollYRange(W &window) const { window.setRange(sy.total,sy.page,sy.pos); }
+
+   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
+    {
+     connector_posX.connect(scroll_x);
+     connector_posY.connect(scroll_y);
+    }
 
    // drawing
 
