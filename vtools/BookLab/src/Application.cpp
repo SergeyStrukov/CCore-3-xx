@@ -17,6 +17,7 @@
 #include <CCore/inc/video/WindowReport.h>
 #include <CCore/inc/video/ConfigEditor.h>
 #include <CCore/inc/video/Picture.h>
+#include <CCore/inc/video/FontLookup.h>
 
 #include <CCore/inc/video/Layout.h>
 
@@ -54,6 +55,14 @@ struct AppPreferenceBag : ConfigItemHost
   DefString menu_Global  = "@Global"_def ;
   DefString menu_App     = "@Application"_def ;
 
+  // book
+
+  VColor back = Silver ;
+  VColor fore = Black ;
+
+  FontCouple font;
+  FontCouple codefont;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -66,6 +75,8 @@ struct AppPreferenceBag : ConfigItemHost
   virtual void bind(ConfigItemBind &binder);
 
   void createFonts();
+
+  void findFonts();
  };
 
 template <class Ptr,class Func>
@@ -81,6 +92,10 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+  func("back"_c,ptr->back);
+  func("fore"_c,ptr->fore);
+  func("font"_c,ptr->font.param);
+  func("codefont"_c,ptr->codefont.param);
  }
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
@@ -100,10 +115,27 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("Exit"_def,menu_Exit);
     binder.item("Global"_def,menu_Global);
     binder.item("App"_def,menu_App);
+
+  binder.group("Book"_def);
+
+    binder.item("back"_def,back);
+    binder.item("fore"_def,fore);
+    binder.item("font"_def,font);
+    binder.item("codefont"_def,codefont);
  }
 
 void AppPreferenceBag::createFonts()
  {
+  font.create();
+  codefont.create();
+ }
+
+void AppPreferenceBag::findFonts()
+ {
+  FontLookup dev;
+
+  font=dev.build("Times New Roman"_c,false,false,22);
+  codefont=dev.build("Anonymous Pro"_c,false,false,22);
  }
 
 /* class AppPreference */
@@ -130,7 +162,12 @@ class AppPreference : public ConfigBinder<AppPreferenceBag>
 
    void sync() noexcept
     {
-     syncHome(Key(),File());
+     if( !syncHome(Key(),File()) )
+       {
+        ref().findFonts();
+
+        update();
+       }
     }
 
    void update() noexcept

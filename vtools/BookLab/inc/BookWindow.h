@@ -44,11 +44,11 @@ class InnerBookWindow : public SubWindow
 
      // app
 
-     VColor back = Silver ;
-     VColor fore = Black ;
+     RefVal<VColor> back = Silver ;
+     RefVal<VColor> fore = Black ;
 
-     Font font;
-     Font codefont;
+     RefVal<Font> font;
+     RefVal<Font> codefont;
 
      Config() noexcept {}
 
@@ -62,14 +62,21 @@ class InnerBookWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
-       Used(proxy);
+       width.bind(bag.width);
+
+       line.bind(bag.line);
+       gray.bind(bag.gray);
+       snow.bind(bag.snow);
       }
 
      template <class Bag>
      void bindApp(const Bag &bag)
       {
-       Used(bag);
+       back.bind(bag.back);
+       fore.bind(bag.fore);
+
+       font.bind(bag.font);
+       codefont.bind(bag.codefont);
       }
     };
 
@@ -98,6 +105,23 @@ class InnerBookWindow : public SubWindow
 
    Scroll sx;
    Scroll sy;
+
+   // layout
+
+   struct Size
+    {
+     ulen dx = 0 ;
+     ulen dy = 0 ;
+    };
+
+   struct FrameLayout
+    {
+     Size size;
+    };
+
+   mutable DynArray<FrameLayout> layouts;
+
+   mutable bool ok = false ;
 
   private:
 
