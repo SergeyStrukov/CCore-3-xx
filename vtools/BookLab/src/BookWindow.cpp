@@ -13,9 +13,51 @@
 
 #include <inc/BookWindow.h>
 
+#include <CCore/inc/video/FigureLib.h>
+
 namespace App {
 
+/* struct InnerBookWindow::FrameLayout */
+
+void InnerBookWindow::FrameLayout::set(const Book::TypeDef::Frame &frame,Coord dx) // TODO
+ {
+  Used(frame);
+  Used(dx);
+
+  size.dx=1;
+  size.dy=1;
+ }
+
 /* class InnerBookWindow */
+
+void InnerBookWindow::cache(unsigned update_flag) const
+ {
+  if( update_flag || !ok )
+    {
+     Coord dx=getSize().x;
+
+     if( layouts.getLen()!=frames.len )
+       {
+        layouts.erase();
+        layouts.extend_default(frames.len);
+       }
+
+     Size s;
+
+     for(ulen i=0; i<frames.len ;i++)
+       {
+        FrameLayout &fl=layouts[i];
+
+        fl.set(frames[i],dx);
+
+        s=StackY(s,fl.size);
+       }
+
+     size=s;
+
+     ok=true;
+    }
+ }
 
 void InnerBookWindow::posX(ulen pos)
  {
@@ -46,12 +88,14 @@ InnerBookWindow::~InnerBookWindow()
 
  // methods
 
-Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const // TODO
+Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
  {
-  Used(flags);
-  Used(cap);
+  cache(flags&LayoutUpdate);
 
-  return Point(100,100);
+  Coord dx=(Coord)Min(size.dx,(ulen)cap.x);
+  Coord dy=(Coord)Min(size.dy,(ulen)cap.y);
+
+  return Point(dx,dy);
  }
 
 void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
@@ -80,14 +124,54 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore
 
  // drawing
 
-void InnerBookWindow::layout(unsigned flags) // TODO
+void InnerBookWindow::layout(unsigned flags)
  {
-  Used(flags);
+  cache(flags&LayoutUpdate);
+
+  Point s=getSize();
+
+  sx.total=size.dx;
+  sx.page=(ulen)s.x;
+
+  sy.total=size.dy;
+  sy.page=(ulen)s.y;
  }
 
 void InnerBookWindow::draw(DrawBuf buf,bool) const // TODO
  {
-  buf.erase(Gray);
+  cache(0);
+
+  Pane pane(Null,getSize());
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  // back
+
+  VColor back=this->back;
+
+  if( back==Book::NoColor ) back=+cfg.back;
+
+  art.erase(back);
+
+  // focus
+
+  if( focus )
+    {
+     MPane p(pane);
+
+     MCoord width=+cfg.width;
+
+     FigureBox fig(p);
+
+     fig.loop(art,width,+cfg.focus);
+    }
+
+  // frames
+
+  for(ulen i=0; i<frames.len ;i++)
+    {
+     // TODO
+    }
  }
 
  // base
@@ -117,6 +201,31 @@ MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
   Used(kmod);
 
   return Mouse_Arrow;
+ }
+
+/* class DisplayBookWindow */
+
+DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg)
+ : Base(host,cfg),
+
+   link(window.link),
+   hint(window.hint)
+ {
+ }
+
+DisplayBookWindow::~DisplayBookWindow()
+ {
+ }
+
+ // methods
+
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore)
+ {
+  window.setPage(page,back,fore);
+
+  layout(LayoutUpdate);
+
+  redraw();
  }
 
 /* class BookWindow */

@@ -42,6 +42,8 @@ class InnerBookWindow : public SubWindow
      RefVal<VColor> gray = Gray ;
      RefVal<VColor> snow = Snow ;
 
+     RefVal<VColor> focus = OrangeRed ;
+
      // app
 
      RefVal<VColor> back = Silver ;
@@ -67,6 +69,8 @@ class InnerBookWindow : public SubWindow
        line.bind(bag.line);
        gray.bind(bag.gray);
        snow.bind(bag.snow);
+
+       focus.bind(bag.focus);
       }
 
      template <class Bag>
@@ -101,6 +105,8 @@ class InnerBookWindow : public SubWindow
      ulen pos   = 0 ;
 
      bool tooShort() const { return page<total; }
+
+     ulen getPos() const { return Min<ulen>(pos,total-page); }
     };
 
    Scroll sx;
@@ -110,18 +116,34 @@ class InnerBookWindow : public SubWindow
 
    struct Size
     {
-     ulen dx = 0 ;
-     ulen dy = 0 ;
+     ulen dx;
+     ulen dy;
+
+     Size() : dx(0),dy(0) {}
+
+     Size(ulen dx_,ulen dy_) : dx(dx_),dy(dy_) {}
+
+     friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
     };
 
    struct FrameLayout
     {
      Size size;
+
+     FrameLayout() noexcept {}
+
+     void set(const Book::TypeDef::Frame &frame,Coord dx);
     };
 
    mutable DynArray<FrameLayout> layouts;
 
+   mutable Size size;
+
    mutable bool ok = false ;
+
+  private:
+
+   void cache(unsigned update_flag) const;
 
   private:
 
@@ -189,6 +211,44 @@ class InnerBookWindow : public SubWindow
 
    Signal<Book::TypeDef::Link> link;
    Signal<Book::TypeDef::Page *> hint;
+ };
+
+/* class DisplayBookWindow */
+
+class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
+ {
+  public:
+
+   using Base = ScrollableWindow<InnerBookWindow> ;
+
+   struct Config : Base::Config
+    {
+     Config() noexcept {}
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : Base::Config(user_pref,app_pref)
+      {
+       bindScroll(user_pref.get(),user_pref.getSmartConfig());
+      }
+    };
+
+   using ConfigType = Config ;
+
+  public:
+
+   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg);
+
+   virtual ~DisplayBookWindow();
+
+   // methods
+
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+
+   // signals
+
+   Signal<Book::TypeDef::Link> &link;
+   Signal<Book::TypeDef::Page *> &hint;
  };
 
 /* class BookWindow */
