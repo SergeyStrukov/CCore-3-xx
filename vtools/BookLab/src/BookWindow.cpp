@@ -93,10 +93,17 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
  {
   cache(flags&LayoutUpdate);
 
-  Coord dx=(Coord)Min(size.dx,(ulen)cap.x);
-  Coord dy=(Coord)Min(size.dy,(ulen)cap.y);
+  if( frames.len )
+    {
+     Coord dx=(Coord)Min(size.dx,(ulen)cap.x);
+     Coord dy=(Coord)Min(size.dy,(ulen)cap.y);
 
-  return Point(dx,dy);
+     return Point(dx,dy);
+    }
+  else
+    {
+     return Point(100,100);
+    }
  }
 
 void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
@@ -231,11 +238,24 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor for
 
 /* class BookWindow */
 
-void BookWindow::error(StrLen etext) // TODO
+void BookWindow::error(StrLen etext)
  {
+  if( msg.isDead() )
+    {
+     msg.setInfo(DefString(etext));
+
+     msg.create(getFrame(),+cfg.text_Error);
+
+     disableFrameReact();
+    }
  }
 
-BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_)
+void BookWindow::enableFrame()
+ {
+  enableFrameReact();
+ }
+
+BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -245,7 +265,11 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_)
    label_page(wlist,cfg.label_cfg,cfg.text_Page),
    text_page(wlist,cfg.text_cfg),
 
-   book(wlist,cfg.book_cfg)
+   book(wlist,cfg.book_cfg),
+
+   msg(host.getFrameDesktop(),cfg.msg_cfg,update),
+
+   connector_msg_destroyed(this,&BookWindow::enableFrame,msg.destroyed)
  {
   wlist.insTop(label_title,text_title,label_page,text_page,book);
  }

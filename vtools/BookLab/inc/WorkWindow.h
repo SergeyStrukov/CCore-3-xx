@@ -68,7 +68,7 @@ class WorkWindow : public ComboWindow
 
   public:
 
-   WorkWindow(SubWindowHost &host,const Config &cfg);
+   WorkWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~WorkWindow();
 

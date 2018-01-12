@@ -19,11 +19,11 @@ namespace App {
 
 /* class WorkWindow */
 
-WorkWindow::WorkWindow(SubWindowHost &host,const Config &cfg_)
+WorkWindow::WorkWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
-   book(wlist,cfg.book_cfg)
+   book(wlist,cfg.book_cfg,update)
  {
   wlist.insTop(book);
  }

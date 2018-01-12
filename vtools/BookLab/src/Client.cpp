@@ -261,7 +261,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &upda
 
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
-   sub_win(wlist,cfg.sub_win_cfg),
+   sub_win(wlist,cfg.sub_win_cfg,update),
    file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def}),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),
 

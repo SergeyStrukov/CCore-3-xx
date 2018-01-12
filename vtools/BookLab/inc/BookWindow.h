@@ -265,8 +265,11 @@ class BookWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
+     RefVal<DefString> text_Error = "Error"_def ;
+
      CtorRefVal<LabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
+     CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
 
      // app
 
@@ -291,9 +294,11 @@ class BookWindow : public ComboWindow
        space_dxy.bind(bag.space_dxy);
 
        back.bind(bag.back);
+       text_Error.bind(bag.text_Error);
 
        label_cfg.bind(proxy);
        text_cfg.bind(proxy);
+       msg_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -322,13 +327,21 @@ class BookWindow : public ComboWindow
 
    Book::BookMap book_map;
 
+   // frames
+
+   MessageFrame msg;
+
   private:
 
    void error(StrLen etext);
 
+   void enableFrame();
+
+   SignalConnector<BookWindow> connector_msg_destroyed;
+
   public:
 
-   BookWindow(SubWindowHost &host,const Config &cfg);
+   BookWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~BookWindow();
 
