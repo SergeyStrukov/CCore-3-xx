@@ -1,2 +1,0 @@
-/* test.book.ddl */
-

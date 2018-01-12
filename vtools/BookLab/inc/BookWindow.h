@@ -261,6 +261,10 @@ class BookWindow : public ComboWindow
     {
      // user
 
+     RefVal<Coord> space_dxy = 10 ;
+
+     RefVal<VColor> back = Silver ;
+
      CtorRefVal<LabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
 
@@ -284,7 +288,9 @@ class BookWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
+       space_dxy.bind(bag.space_dxy);
+
+       back.bind(bag.back);
 
        label_cfg.bind(proxy);
        text_cfg.bind(proxy);

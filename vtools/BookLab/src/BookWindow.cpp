@@ -14,6 +14,7 @@
 #include <inc/BookWindow.h>
 
 #include <CCore/inc/video/FigureLib.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 namespace App {
 
@@ -255,9 +256,15 @@ BookWindow::~BookWindow()
 
  // methods
 
-Point BookWindow::getMinSize(unsigned) const // TODO
+Point BookWindow::getMinSize(unsigned flags) const
  {
-  return Point(100,100);
+  Coord space=+cfg.space_dxy;
+
+  LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
+
+  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+
+  return lay.getMinSize(flags,space);
  }
 
 void BookWindow::blank()
@@ -266,6 +273,10 @@ void BookWindow::blank()
 
   text_title.setText(""_def);
   text_page.setText(""_def);
+
+  layout(LayoutUpdate);
+
+  redraw();
  }
 
 void BookWindow::load(StrLen file_name)
@@ -276,6 +287,8 @@ void BookWindow::load(StrLen file_name)
 
   if( result.ok )
     {
+     book.setPage(0,Book::NoColor,Book::NoColor);
+
      auto *ptr=book_map.get();
 
      text_title.setText(DefString(ptr->title.getStr()));
@@ -286,16 +299,22 @@ void BookWindow::load(StrLen file_name)
        {
         auto *page=list[0].getPtr();
 
-        book.setPage(page,(VColor)ptr->back,(VColor)ptr->fore);
-
         text_page.setText(DefString(page->name.getStr()));
+
+        layout(LayoutUpdate);
+
+        book.setPage(page,(VColor)ptr->back,(VColor)ptr->fore);
        }
      else
        {
-        book.setPage(0,(VColor)ptr->back,(VColor)ptr->fore);
-
         text_page.setText(""_def);
+
+        layout(LayoutUpdate);
+
+        book.setPage(0,(VColor)ptr->back,(VColor)ptr->fore);
        }
+
+     redraw();
     }
   else
     {
@@ -307,13 +326,27 @@ void BookWindow::load(StrLen file_name)
 
  // drawing
 
-void BookWindow::layout(unsigned flags) // TODO
+void BookWindow::layout(unsigned flags)
  {
-  Used(flags);
+  Coord space=+cfg.space_dxy;
+
+  LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
+
+  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+
+  lay.setPlace(Pane(Null,getSize()),flags,space);
  }
 
-void BookWindow::drawBack(DrawBuf buf,bool) const // TODO
+void BookWindow::drawBack(DrawBuf buf,bool) const
  {
+  Pane pane(Null,getSize());
+
+  PaneSub sub(pane,book.getPlace());
+
+  buf.erase(sub.top,+cfg.back);
+  buf.erase(sub.bottom,+cfg.back);
+  buf.erase(sub.left,+cfg.back);
+  buf.erase(sub.right,+cfg.back);
  }
 
 } // namespace App
