@@ -132,7 +132,9 @@ class InnerBookWindow : public SubWindow
 
      FrameLayout() noexcept {}
 
-     void set(const Book::TypeDef::Frame &frame,Coord dx);
+     void set(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx);
+
+     void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag);
     };
 
    mutable DynArray<FrameLayout> layouts;

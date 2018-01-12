@@ -20,13 +20,24 @@ namespace App {
 
 /* struct InnerBookWindow::FrameLayout */
 
-void InnerBookWindow::FrameLayout::set(const Book::TypeDef::Frame &frame,Coord dx) // TODO
+void InnerBookWindow::FrameLayout::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx) // TODO
  {
+  Used(cfg);
   Used(frame);
   Used(dx);
 
   size.dx=1;
   size.dy=1;
+ }
+
+void InnerBookWindow::FrameLayout::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) // TODO
+ {
+  Used(cfg);
+  Used(buf);
+  Used(frame);
+  Used(pos_x);
+  Used(pos_y);
+  Used(posflag);
  }
 
 /* class InnerBookWindow */
@@ -49,7 +60,7 @@ void InnerBookWindow::cache(unsigned update_flag) const
        {
         FrameLayout &fl=layouts[i];
 
-        fl.set(frames[i],dx);
+        fl.set(cfg,frames[i],dx);
 
         s=StackY(s,fl.size);
        }
@@ -145,13 +156,15 @@ void InnerBookWindow::layout(unsigned flags)
   sy.page=(ulen)s.y;
  }
 
-void InnerBookWindow::draw(DrawBuf buf,bool) const // TODO
+void InnerBookWindow::draw(DrawBuf buf,bool) const
  {
   cache(0);
 
   Pane pane(Null,getSize());
 
-  SmoothDrawArt art(buf.cut(pane));
+  buf=buf.cut(pane);
+
+  SmoothDrawArt art(buf);
 
   // back
 
@@ -176,9 +189,43 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const // TODO
 
   // frames
 
+  Point s=getSize();
+
+  ulen wdy=(ulen)s.y;
+
+  ulen pos_x=sx.getPos();
+  ulen pos_y=sy.getPos();
+  ulen y=0;
+
   for(ulen i=0; i<frames.len ;i++)
     {
-     // TODO
+     auto &f=frames[i];
+     auto &lf=layouts[i];
+
+     if( y>=pos_y )
+       {
+        ulen delta=y-pos_y;
+
+        if( delta<wdy )
+          {
+           if( pos_x<lf.size.dx ) lf.draw(cfg,buf,f,pos_x,delta,false);
+          }
+        else
+          {
+           break;
+          }
+       }
+     else
+       {
+        ulen delta=pos_y-y;
+
+        if( delta<lf.size.dy && pos_x<lf.size.dx )
+          {
+           lf.draw(cfg,buf,f,pos_x,delta,true);
+          }
+       }
+
+     y+=lf.size.dy;
     }
  }
 
