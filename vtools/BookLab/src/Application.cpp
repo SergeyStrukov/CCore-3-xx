@@ -63,6 +63,9 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple font;
   FontCouple codefont;
 
+  DefString text_Title = "Title"_def ;
+  DefString text_Page = "Page"_def ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -96,6 +99,8 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("fore"_c,ptr->fore);
   func("font"_c,ptr->font.param);
   func("codefont"_c,ptr->codefont.param);
+  func("text_Title"_c,ptr->text_Title);
+  func("text_Page"_c,ptr->text_Page);
  }
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
@@ -122,6 +127,8 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("fore"_def,fore);
     binder.item("font"_def,font);
     binder.item("codefont"_def,codefont);
+    binder.item("'Title'"_def,text_Title);
+    binder.item("'Page'"_def,text_Page);
  }
 
 void AppPreferenceBag::createFonts()

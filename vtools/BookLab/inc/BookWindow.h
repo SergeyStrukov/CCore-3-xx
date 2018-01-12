@@ -62,7 +62,7 @@ class InnerBookWindow : public SubWindow
       }
 
      template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy)
       {
        width.bind(bag.width);
 
@@ -79,8 +79,8 @@ class InnerBookWindow : public SubWindow
        back.bind(bag.back);
        fore.bind(bag.fore);
 
-       font.bind(bag.font);
-       codefont.bind(bag.codefont);
+       font.bind(bag.font.font);
+       codefont.bind(bag.codefont.font);
       }
     };
 
@@ -253,16 +253,29 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
 /* class BookWindow */
 
-class BookWindow : public SubWindow
+class BookWindow : public ComboWindow
  {
   public:
 
    struct Config
     {
+     // user
+
+     CtorRefVal<LabelWindow::ConfigType> label_cfg;
+     CtorRefVal<TextLineWindow::ConfigType> text_cfg;
+
+     // app
+
+     RefVal<DefString> text_Title = "Title"_def ;
+     RefVal<DefString> text_Page = "Page"_def ;
+
+     DisplayBookWindow::ConfigType book_cfg;
+
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : book_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -272,13 +285,16 @@ class BookWindow : public SubWindow
      void bindUser(const Bag &bag,Proxy proxy)
       {
        Used(bag);
-       Used(proxy);
+
+       label_cfg.bind(proxy);
+       text_cfg.bind(proxy);
       }
 
      template <class Bag>
      void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text_Title.bind(bag.text_Title);
+       text_Page.bind(bag.text_Page);
       }
     };
 
@@ -287,6 +303,22 @@ class BookWindow : public SubWindow
   private:
 
    const Config &cfg;
+
+   RefLabelWindow label_title;
+   TextLineWindow text_title;
+
+   RefLabelWindow label_page;
+   TextLineWindow text_page;
+
+   DisplayBookWindow book;
+
+   // data
+
+   Book::BookMap book_map;
+
+  private:
+
+   void error(StrLen etext);
 
   public:
 
@@ -305,6 +337,8 @@ class BookWindow : public SubWindow
    // drawing
 
    virtual void layout(unsigned flags);
+
+   virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };
 
 } // namespace App

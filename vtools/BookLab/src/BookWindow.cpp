@@ -230,10 +230,23 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor for
 
 /* class BookWindow */
 
-BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_)
- : SubWindow(host),
-   cfg(cfg_)
+void BookWindow::error(StrLen etext) // TODO
  {
+ }
+
+BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   label_title(wlist,cfg.label_cfg,cfg.text_Title),
+   text_title(wlist,cfg.text_cfg),
+
+   label_page(wlist,cfg.label_cfg,cfg.text_Page),
+   text_page(wlist,cfg.text_cfg),
+
+   book(wlist,cfg.book_cfg)
+ {
+  wlist.insTop(label_title,text_title,label_page,text_page,book);
  }
 
 BookWindow::~BookWindow()
@@ -242,25 +255,65 @@ BookWindow::~BookWindow()
 
  // methods
 
-Point BookWindow::getMinSize(unsigned) const
+Point BookWindow::getMinSize(unsigned) const // TODO
  {
   return Point(100,100);
  }
 
 void BookWindow::blank()
  {
+  book.setPage(0,Book::NoColor,Book::NoColor);
+
+  text_title.setText(""_def);
+  text_page.setText(""_def);
  }
 
 void BookWindow::load(StrLen file_name)
  {
-  Used(file_name);
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book_map.load(file_name,Range(temp));
+
+  if( result.ok )
+    {
+     auto *ptr=book_map.get();
+
+     text_title.setText(DefString(ptr->title.getStr()));
+
+     auto list=ptr->list.getRange();
+
+     if( list.len )
+       {
+        auto *page=list[0].getPtr();
+
+        book.setPage(page,(VColor)ptr->back,(VColor)ptr->fore);
+
+        text_page.setText(DefString(page->name.getStr()));
+       }
+     else
+       {
+        book.setPage(0,(VColor)ptr->back,(VColor)ptr->fore);
+
+        text_page.setText(""_def);
+       }
+    }
+  else
+    {
+     blank();
+
+     error(result.etext);
+    }
  }
 
  // drawing
 
-void BookWindow::layout(unsigned flags)
+void BookWindow::layout(unsigned flags) // TODO
  {
   Used(flags);
+ }
+
+void BookWindow::drawBack(DrawBuf buf,bool) const // TODO
+ {
  }
 
 } // namespace App
