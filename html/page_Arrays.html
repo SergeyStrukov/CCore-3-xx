@@ -1389,6 +1389,17 @@ The following functions: <b>Create_swap()</b>, <b>ProvideLen()</b>, <b>MoveTo()<
 Array, constructed with this algorithm package, cannot be extended beyond the initial memory allocation length.
 </p>
 
+<p>
+To use this package with the <b>DynArray</b> you can use the following type:
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">MiniDynArray</span> = DynArray&lt;T,ArrayAlgo_mini&lt;T&gt; &gt; ;
+
+</pre>
+
 <a name="ArrayAlgoBase"><h4>ArrayAlgoBase</h4></a>
 
 <p>

@@ -95,6 +95,11 @@ struct TaskHeapMemAlgo : Algo
 template <class T,class Flags>
 struct TaskHeapArrayAlgo : TaskHeapMemAlgo<ArrayAlgo<T,Flags> > {};
 
+/* type TaskDynArray<T> */
+
+template <class T>
+using TaskDynArray = DynArray<T,TaskHeapArrayAlgo<T> > ;
+
 } // namespace CCore
 
 #endif

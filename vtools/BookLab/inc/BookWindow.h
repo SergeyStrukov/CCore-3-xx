@@ -123,21 +123,39 @@ class InnerBookWindow : public SubWindow
 
      Size(ulen dx_,ulen dy_) : dx(dx_),dy(dy_) {}
 
+     Size(Point s) : Size((ulen)s.x,(ulen)s.y) {}
+
      friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
     };
 
-   struct FrameLayout
+   class Shape
     {
-     Size size;
+      Point size;
 
-     FrameLayout() noexcept {}
+     public:
 
-     void set(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx);
+      Shape() noexcept {}
 
-     void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag);
+      Size getSize() const { return size; }
+
+      void set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
+
+      void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
+
+     private:
+
+      Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
+
+      void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };
 
-   mutable DynArray<FrameLayout> layouts;
+   mutable DynArray<Shape> shapes;
 
    mutable Size size;
 

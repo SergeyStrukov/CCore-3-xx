@@ -23,6 +23,9 @@ type VColor = uint32 ;
 
 VColor NoColor = 0FFFFFFFFh ;
 
+VColor Gray = 0808080h ;
+VColor Snow = 0FFFAFAh ;
+
 type Coord = sint16 ;
 
 struct Point
@@ -102,6 +105,7 @@ struct Text
   Span[] list;
   
   Format *fmt = & ?DefaultFormat ;
+  
   {OneLine,MultiLine} *placement = & ?DefaultPlacement ;
  };
  
@@ -135,18 +139,29 @@ struct Bitmap
 
 //--- Frame ------------------------------------------------------------------------------
 
+struct SingleLine
+ {
+  Ratio width = {1,1} ; 
+  VColor line = Gray ;
+ };
+ 
+struct DoubleLine
+ {
+  Ratio width = {1,1} ;
+  VColor gray = Gray ;
+  VColor snow = Snow ; 
+ };
+ 
+SingleLine DefaultSingleLine = {} ;
+
+DoubleLine DefaultDoubleLine = {} ;  
+
 struct Frame
  {
   {Text,FixedText,Bitmap} *body;
   
-  type LineType = uint8 ;
+  {SingleLine,DoubleLine} *line = null ;
   
-  const LineType None = 0 ;
-  const LineType Single = 1 ;
-  const LineType Double = 2 ;
-  
-  LineType line_type = None ; 
- 
   Point inner = { 0 , 0 } ;
   Point outer = { 0 , 0 } ;
   

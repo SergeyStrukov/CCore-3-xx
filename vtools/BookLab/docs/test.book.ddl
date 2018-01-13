@@ -1,6 +1,6 @@
 /* test.book.ddl */
 
-//include <Book.ddl>
+include <Book.ddl>
 
 Page page1 = { 'Main page' , {} } ;
 

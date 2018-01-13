@@ -147,6 +147,17 @@ template &lt;class T,class Flags=GetNoThrowFlags&lt;T&gt; &gt; struct <span clas
 
 </pre>
 
+<p>
+To use this package with the <b>DynArray</b> you can use the following type:
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+using <span class="Att">TaskDynArray</span> = DynArray&lt;T,TaskHeapArrayAlgo&lt;T&gt; &gt; ;
+
+</pre>
+
 </body>
 
 </html>

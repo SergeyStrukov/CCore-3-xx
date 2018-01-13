@@ -18,26 +18,65 @@
 
 namespace App {
 
-/* struct InnerBookWindow::FrameLayout */
+/* struct InnerBookWindow::Shape */
 
-void InnerBookWindow::FrameLayout::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx) // TODO
+void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
  {
-  Used(cfg);
-  Used(frame);
-  Used(dx);
+  Point delta=2*( Cast(frame.inner)+Cast(frame.outer) );
 
-  size.dx=1;
-  size.dy=1;
+  size = body(cfg,frame,dx-delta.x) + delta ;
  }
 
-void InnerBookWindow::FrameLayout::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) // TODO
+void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
+ {
+  if( posflag )
+    draw(cfg,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
+  else
+    draw(cfg,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
+ }
+
+Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx) // TODO
+ {
+  Used(cfg);
+  Used(obj);
+  Used(dx);
+
+  return Point(100,100);
+ }
+
+Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx) // TODO
+ {
+  Used(cfg);
+  Used(obj);
+  Used(dx);
+
+  return Point(100,100);
+ }
+
+Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx) // TODO
+ {
+  Used(cfg);
+  Used(obj);
+  Used(dx);
+
+  return Point(100,100);
+ }
+
+Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
+ {
+  Point ret;
+
+  frame.body.getPtr().apply( [&] (auto *ptr) { ret=body(cfg,ptr,dx); } );
+
+  return ret;
+ }
+
+void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const // TODO
  {
   Used(cfg);
   Used(buf);
   Used(frame);
-  Used(pos_x);
-  Used(pos_y);
-  Used(posflag);
+  Used(base);
  }
 
 /* class InnerBookWindow */
@@ -48,21 +87,21 @@ void InnerBookWindow::cache(unsigned update_flag) const
     {
      Coord dx=getSize().x;
 
-     if( layouts.getLen()!=frames.len )
+     if( shapes.getLen()!=frames.len )
        {
-        layouts.erase();
-        layouts.extend_default(frames.len);
+        shapes.erase();
+        shapes.extend_default(frames.len);
        }
 
      Size s;
 
      for(ulen i=0; i<frames.len ;i++)
        {
-        FrameLayout &fl=layouts[i];
+        Shape &shape=shapes[i];
 
-        fl.set(cfg,frames[i],dx);
+        shape.set(cfg,frames[i],dx);
 
-        s=StackY(s,fl.size);
+        s=StackY(s,shape.size);
        }
 
      size=s;
@@ -136,8 +175,6 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore
   sx.pos=0;
   sy.pos=0;
 
-  layouts.erase();
-
   ok=false;
  }
 
@@ -199,8 +236,10 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   for(ulen i=0; i<frames.len ;i++)
     {
-     auto &f=frames[i];
-     auto &lf=layouts[i];
+     auto &frame=frames[i];
+     auto &shape=shapes[i];
+
+     Size size=shape.getSize();
 
      if( y>=pos_y )
        {
@@ -208,7 +247,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<wdy )
           {
-           if( pos_x<lf.size.dx ) lf.draw(cfg,buf,f,pos_x,delta,false);
+           if( pos_x<size.dx ) shape.draw(cfg,buf,frame,pos_x,delta,false);
           }
         else
           {
@@ -219,13 +258,13 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
        {
         ulen delta=pos_y-y;
 
-        if( delta<lf.size.dy && pos_x<lf.size.dx )
+        if( delta<size.dy && pos_x<size.dx )
           {
-           lf.draw(cfg,buf,f,pos_x,delta,true);
+           shape.draw(cfg,buf,frame,pos_x,delta,true);
           }
        }
 
-     y+=lf.size.dy;
+     y+=size.dy;
     }
  }
 

@@ -37,7 +37,7 @@ void test()
   for(ulen count=Rep; count ;count--)
     {
      ulen len=random.select(1000);
-     DynArray<int,TaskHeapArrayAlgo<int> > temp(len);
+     TaskDynArray<int> temp(len);
     }
 
   Printf(Con,"#;\n",timer.get());

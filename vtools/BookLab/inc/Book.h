@@ -29,6 +29,10 @@ inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
 
 #include "Book.TypeDef.gen.h"
 
+/* functions */
+
+inline Point Cast(TypeDef::Point p) { return {p.x,p.y}; }
+
 /* classes */
 
 class BookMap;
