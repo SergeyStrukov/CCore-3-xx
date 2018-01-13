@@ -41,25 +41,32 @@ Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *
   Used(obj);
   Used(dx);
 
-  return Point(100,100);
- }
-
-Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx) // TODO
- {
-  Used(cfg);
-  Used(obj);
-  Used(dx);
+  if( !obj ) return Null;
 
   return Point(100,100);
  }
 
-Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx) // TODO
+Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate) // TODO
  {
   Used(cfg);
   Used(obj);
-  Used(dx);
+
+  if( !obj ) return Null;
 
   return Point(100,100);
+ }
+
+Point InnerBookWindow::Shape::body(const Config &,const Book::TypeDef::Bitmap *obj,Coordinate)
+ {
+  if( !obj ) return Null;
+
+  auto lines=obj->map.getRange();
+
+  if( !lines ) return Null;
+
+  auto line=lines[0].getRange();
+
+  return {CountToCoordinate(line.len),CountToCoordinate(lines.len)};
  }
 
 Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
