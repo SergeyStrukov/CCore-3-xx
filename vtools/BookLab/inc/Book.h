@@ -33,6 +33,8 @@ inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
 
 inline Point Cast(TypeDef::Point p) { return {p.x,p.y}; }
 
+inline Ratio Cast(TypeDef::Ratio r) { return Div(r.a,r.b); }
+
 /* classes */
 
 class BookMap;

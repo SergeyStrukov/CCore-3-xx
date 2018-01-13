@@ -23,9 +23,6 @@ type VColor = uint32 ;
 
 VColor NoColor = 0FFFFFFFFh ;
 
-VColor Gray = 0808080h ;
-VColor Snow = 0FFFAFAh ;
-
 type Coord = sint16 ;
 
 struct Point
@@ -142,19 +139,23 @@ struct Bitmap
 struct SingleLine
  {
   Ratio width = {1,1} ; 
-  VColor line = Gray ;
+  VColor line = NoColor ;
  };
  
 struct DoubleLine
  {
   Ratio width = {1,1} ;
-  VColor gray = Gray ;
-  VColor snow = Snow ; 
+  VColor gray = NoColor ;
+  VColor snow = NoColor ; 
  };
  
 SingleLine DefaultSingleLine = {} ;
 
 DoubleLine DefaultDoubleLine = {} ;  
+
+Point DefaultInner = { 0 , 0 } ;
+
+Point DefaultOuter = { 0 , 0 } ;
 
 struct Frame
  {
@@ -162,8 +163,8 @@ struct Frame
   
   {SingleLine,DoubleLine} *line = null ;
   
-  Point inner = { 0 , 0 } ;
-  Point outer = { 0 , 0 } ;
+  Point inner = ?DefaultInner ;
+  Point outer = ?DefaultOuter ;
   
   VColor col = NoColor ;
  };

@@ -106,7 +106,7 @@ class InnerBookWindow : public SubWindow
 
      bool tooShort() const { return page<total; }
 
-     ulen getPos() const { return Min<ulen>(pos,total-page); }
+     ulen getPos() const { return Min<ulen>(pos,PosSub(total,page)); }
     };
 
    Scroll sx;
@@ -144,6 +144,17 @@ class InnerBookWindow : public SubWindow
 
      private:
 
+      static VColor GetBack(const Book::TypeDef::Format *fmt);
+
+      static VColor GetBack(const Book::TypeDef::Text *obj);
+
+      static VColor GetBack(const Book::TypeDef::FixedText *obj);
+
+      static VColor GetBack(const Book::TypeDef::Bitmap *obj);
+
+      template <class T>
+      static VColor GetAnyBack(T body);
+
       Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
 
       Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
@@ -151,6 +162,22 @@ class InnerBookWindow : public SubWindow
       Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
 
       Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
+
+      void drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane) const;
+
+      void drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane) const;
+
+      template <class T>
+      void drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const;
+
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane) const;
+
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane) const;
+
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane) const;
+
+      template <class T>
+      void drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane) const;
 
       void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };

@@ -16,12 +16,16 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/Scope.h>
+
 namespace App {
 
 /* struct InnerBookWindow::Shape */
 
 void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
  {
+  Scope scope("App::InnerBookWindow::Shape::set"_c);
+
   Point delta=2*( Cast(frame.inner)+Cast(frame.outer) );
 
   size = body(cfg,frame,dx-delta.x) + delta ;
@@ -29,10 +33,48 @@ void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &f
 
 void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
  {
+  Scope scope("App::InnerBookWindow::Shape::draw"_c);
+
   if( posflag )
     draw(cfg,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
     draw(cfg,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
+ {
+  if( fmt ) return (VColor)fmt->back;
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Text *obj)
+ {
+  if( obj ) return GetBack(obj->fmt.getPtr());
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::FixedText *obj)
+ {
+  if( obj ) return GetBack(obj->fmt.getPtr());
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Bitmap *)
+ {
+  return Book::NoColor;
+ }
+
+template <class T>
+VColor InnerBookWindow::Shape::GetAnyBack(T body)
+ {
+  VColor ret=Book::NoColor;
+
+  body.apply( [&] (auto *ptr) { ret=GetBack(ptr); } );
+
+  return ret;
  }
 
 Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx) // TODO
@@ -43,7 +85,7 @@ Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *
 
   if( !obj ) return Null;
 
-  return Point(100,100);
+  return Point(500,300);
  }
 
 Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate) // TODO
@@ -53,7 +95,7 @@ Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedT
 
   if( !obj ) return Null;
 
-  return Point(100,100);
+  return Point(500,300);
  }
 
 Point InnerBookWindow::Shape::body(const Config &,const Book::TypeDef::Bitmap *obj,Coordinate)
@@ -78,12 +120,120 @@ Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Frame 
   return ret;
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const // TODO
+void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane) const
+ {
+  if( !obj ) return;
+
+  MPane p(pane);
+
+  if( !p ) return;
+
+  VColor line=(VColor)obj->line;
+
+  if( line==Book::NoColor ) line=+cfg.line;
+
+  MCoord width=Cast(obj->width)*(+cfg.width);
+
+  SmoothDrawArt art(buf);
+
+  FigureBox fig(p);
+
+  fig.loop(art,width,line);
+ }
+
+void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane) const
+ {
+  if( !obj ) return;
+
+  MPane p(pane);
+
+  if( !p ) return;
+
+  VColor gray=(VColor)obj->gray;
+  VColor snow=(VColor)obj->snow;
+
+  if( gray==Book::NoColor ) gray=+cfg.gray;
+
+  if( snow==Book::NoColor ) snow=+cfg.snow;
+
+  MCoord width=Cast(obj->width)*(+cfg.width);
+
+  SmoothDrawArt art(buf);
+
+  FigureBox fig(p);
+
+  fig.loop(art,HalfPos,width,gray);
+  fig.loop(art,HalfNeg,width,snow);
+ }
+
+template <class T>
+void InnerBookWindow::Shape::drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const
+ {
+  line.apply( [&] (auto *obj) { drawLine(cfg,buf,obj,pane); } );
+ }
+
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane) const // TODO
  {
   Used(cfg);
   Used(buf);
-  Used(frame);
-  Used(base);
+  Used(pane);
+
+  if( !obj ) return;
+
+ }
+
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane) const // TODO
+ {
+  Used(cfg);
+  Used(buf);
+  Used(pane);
+
+  if( !obj ) return;
+
+ }
+
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane) const // TODO
+ {
+  Used(cfg);
+  Used(buf);
+  Used(pane);
+
+  if( !obj ) return;
+
+ }
+
+template <class T>
+void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane) const
+ {
+  body.apply( [&] (auto *obj) { drawBody(cfg,buf,obj,pane); } );
+ }
+
+void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
+ {
+  Pane pane(base,size);
+
+  Pane inner=pane.shrink(Cast(frame.outer));
+
+  Pane body=inner.shrink(Cast(frame.inner));
+
+  if( VColor col=(VColor)frame.col ; col!=Book::NoColor )
+    {
+     PaneSub sub(pane,inner);
+
+     buf.erase(sub.top,col);
+     buf.erase(sub.bottom,col);
+     buf.erase(sub.left,col);
+     buf.erase(sub.right,col);
+    }
+
+  if( VColor back=GetAnyBack(frame.body.getPtr()) ; back!=Book::NoColor )
+    {
+     buf.erase(inner,back);
+    }
+
+  drawAnyLine(cfg,buf,frame.line.getPtr(),inner);
+
+  drawAnyBody(cfg,buf,frame.body.getPtr(),body);
  }
 
 /* class InnerBookWindow */
