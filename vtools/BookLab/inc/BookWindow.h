@@ -16,15 +16,44 @@
 
 #include <inc/Book.h>
 
+#include <CCore/inc/video/FontLookup.h>
+
 namespace App {
 
 /* classes */
+
+class FontMap;
 
 class InnerBookWindow;
 
 class DisplayBookWindow;
 
 class BookWindow;
+
+/* class FontMap */
+
+class FontMap : NoCopy
+ {
+   DynArray<Font> map;
+
+   FontLookup lookup;
+
+  private:
+
+   Font find(StrLen face,Coord size,int strength,bool bold,bool italic);
+
+   Font find(Book::TypeDef::Font *font);
+
+  public:
+
+   FontMap() {}
+
+   ~FontMap() {}
+
+   void erase() { map.erase(); }
+
+   Font operator () (Book::TypeDef::Font *font);
+ };
 
 /* class InnerBookWindow */
 
@@ -90,6 +119,8 @@ class InnerBookWindow : public SubWindow
 
    const Config &cfg;
 
+   FontMap &font_map;
+
    PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
    VColor fore = Book::NoColor ;
@@ -140,7 +171,7 @@ class InnerBookWindow : public SubWindow
 
       void set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
 
-      void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
+      void draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
 
      private:
 
@@ -170,16 +201,16 @@ class InnerBookWindow : public SubWindow
       template <class T>
       void drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const;
+      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const;
+      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const;
+      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const;
 
       template <class T>
-      void drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane,Point space) const;
+      void drawAnyBody(const Config &cfg,FontMap &font_map,DrawBuf buf,T body,Pane pane,Point space) const;
 
-      void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
+      void draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };
 
    mutable DynArray<Shape> shapes;
@@ -203,7 +234,7 @@ class InnerBookWindow : public SubWindow
 
   public:
 
-   InnerBookWindow(SubWindowHost &host,const Config &cfg);
+   InnerBookWindow(SubWindowHost &host,const Config &cfg,FontMap &font_map);
 
    virtual ~InnerBookWindow();
 
@@ -284,7 +315,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
   public:
 
-   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg);
+   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map);
 
    virtual ~DisplayBookWindow();
 
@@ -362,6 +393,13 @@ class BookWindow : public ComboWindow
 
    const Config &cfg;
 
+   // data
+
+   Book::BookMap book_map;
+   FontMap font_map;
+
+   // subwindows
+
    RefLabelWindow label_title;
    TextLineWindow text_title;
 
@@ -369,10 +407,6 @@ class BookWindow : public ComboWindow
    TextLineWindow text_page;
 
    DisplayBookWindow book;
-
-   // data
-
-   Book::BookMap book_map;
 
    // frames
 

@@ -46,6 +46,8 @@ struct Font
   
   Bool bold = False ;
   Bool italic = False ;
+  
+  int strength = 0 ;
  };
 
 VColor DefaultBack = NoColor ;

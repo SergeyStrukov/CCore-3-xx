@@ -271,7 +271,8 @@ struct TypeSet : TypeDefCore
                                "face",offsetof(S18,face),
                                "size",offsetof(S18,size),
                                "bold",offsetof(S18,bold),
-                               "italic",offsetof(S18,italic)
+                               "italic",offsetof(S18,italic),
+                               "strength",offsetof(S18,strength)
                               );
         }
        return ret;
@@ -468,7 +469,8 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                A3,
                                A5,
-                               A5
+                               A5,
+                               DDL::sint_type
                               >(*this,struct_node);
         }
        break;

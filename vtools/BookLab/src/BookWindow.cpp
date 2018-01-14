@@ -20,6 +20,44 @@
 
 namespace App {
 
+/* class FontMap */
+
+Font FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic)
+ {
+  FreeTypeFont::Config cfg{};
+
+  cfg.strength=strength;
+
+  return lookup.build(face,bold,italic,size,cfg).font;
+ }
+
+Font FontMap::find(Book::TypeDef::Font *font)
+ {
+  return find(font->face,font->size,font->strength,font->bold,font->italic);
+ }
+
+Font FontMap::operator () (Book::TypeDef::Font *font)
+ {
+  if( !font ) return Font();
+
+  if( ulen ext=font->ext )
+    {
+     return map[ext-1];
+    }
+  else
+    {
+     ulen ind=map.getLen();
+
+     Font f=find(font);
+
+     map.append_copy(f);
+
+     font->ext=ind+1;
+
+     return f;
+    }
+ }
+
 /* struct InnerBookWindow::Shape */
 
 void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
@@ -31,14 +69,14 @@ void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &f
   size = body(cfg,frame,dx-delta.x) + delta ;
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
  {
   Scope scope("App::InnerBookWindow::Shape::draw"_c);
 
   if( posflag )
-    draw(cfg,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
+    draw(cfg,font_map,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
-    draw(cfg,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
+    draw(cfg,font_map,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
  }
 
 VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
@@ -172,9 +210,10 @@ void InnerBookWindow::Shape::drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pa
   line.apply( [&] (auto *obj) { drawLine(cfg,buf,obj,pane); } );
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
+  Used(font_map);
   Used(buf);
   Used(pane);
   Used(space);
@@ -183,9 +222,10 @@ void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::
 
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
+  Used(font_map);
   Used(buf);
   Used(pane);
   Used(space);
@@ -194,9 +234,10 @@ void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::
 
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
+  Used(font_map);
   Used(buf);
   Used(pane);
   Used(space);
@@ -206,12 +247,12 @@ void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::
  }
 
 template <class T>
-void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane,Point space) const
+void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,FontMap &font_map,DrawBuf buf,T body,Pane pane,Point space) const
  {
-  body.apply( [&] (auto *obj) { drawBody(cfg,buf,obj,pane,space); } );
+  body.apply( [&] (auto *obj) { drawBody(cfg,font_map,buf,obj,pane,space); } );
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
  {
   Pane pane(base,size);
 
@@ -234,7 +275,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::Type
 
   drawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  drawAnyBody(cfg,buf,frame.body.getPtr(),inner,Cast(frame.inner));
+  drawAnyBody(cfg,font_map,buf,frame.body.getPtr(),inner,Cast(frame.inner));
  }
 
 /* class InnerBookWindow */
@@ -282,9 +323,11 @@ void InnerBookWindow::posY(ulen pos)
   redraw();
  }
 
-InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_)
+InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap &font_map_)
  : SubWindow(host),
    cfg(cfg_),
+
+   font_map(font_map_),
 
    connector_posX(this,&InnerBookWindow::posX),
    connector_posY(this,&InnerBookWindow::posY)
@@ -405,7 +448,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<wdy )
           {
-           if( pos_x<size.dx ) shape.draw(cfg,buf,frame,pos_x,delta,false);
+           if( pos_x<size.dx ) shape.draw(cfg,font_map,buf,frame,pos_x,delta,false);
           }
         else
           {
@@ -418,7 +461,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<size.dy && pos_x<size.dx )
           {
-           shape.draw(cfg,buf,frame,pos_x,delta,true);
+           shape.draw(cfg,font_map,buf,frame,pos_x,delta,true);
           }
        }
 
@@ -457,8 +500,8 @@ MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
 
 /* class DisplayBookWindow */
 
-DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg)
- : Base(host,cfg),
+DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map)
+ : Base(host,cfg,font_map),
 
    link(window.link),
    hint(window.hint)
@@ -509,7 +552,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    label_page(wlist,cfg.label_cfg,cfg.text_Page),
    text_page(wlist,cfg.text_cfg),
 
-   book(wlist,cfg.book_cfg),
+   book(wlist,cfg.book_cfg,font_map),
 
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
 
@@ -539,6 +582,8 @@ void BookWindow::blank()
  {
   book.setPage(0,Book::NoColor,Book::NoColor);
 
+  font_map.erase();
+
   text_title.setText(""_def);
   text_page.setText(""_def);
 
@@ -549,14 +594,14 @@ void BookWindow::blank()
 
 void BookWindow::load(StrLen file_name)
  {
+  blank();
+
   SimpleArray<char> temp(64_KByte);
 
   auto result=book_map.load(file_name,Range(temp));
 
   if( result.ok )
     {
-     book.setPage(0,Book::NoColor,Book::NoColor);
-
      auto *ptr=book_map.get();
 
      text_title.setText(DefString(ptr->title.getStr()));
@@ -586,8 +631,6 @@ void BookWindow::load(StrLen file_name)
     }
   else
     {
-     blank();
-
      error(result.etext);
     }
  }

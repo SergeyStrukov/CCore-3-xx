@@ -190,6 +190,7 @@ struct TypeDefCore
     A3 size;
     A5 bold;
     A5 italic;
+    DDL::sint_type strength;
 
     struct Ext;
 
