@@ -21,19 +21,25 @@
 namespace App {
 namespace Book {
 
-/* consts */
-
-inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
-
 /* namespace TypeDef */
 
 #include "Book.TypeDef.gen.h"
 
-/* functions */
+/* consts */
 
-inline Point Cast(TypeDef::Point p) { return {p.x,p.y}; }
+inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
 
-inline Ratio Cast(TypeDef::Ratio r) { return Div(r.a,r.b); }
+inline constexpr TypeDef::Format::Effect NoEffect = 0 ;
+
+inline constexpr TypeDef::Format::Effect Underline = 1 ;
+
+inline constexpr TypeDef::Format::Effect Strikeout = 2 ;
+
+inline constexpr TypeDef::OneLine::Align LineLeft   = 0 ;
+
+inline constexpr TypeDef::OneLine::Align LineRight  = 1 ;
+
+inline constexpr TypeDef::OneLine::Align LineCenter = 2 ;
 
 /* classes */
 

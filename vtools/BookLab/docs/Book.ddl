@@ -50,15 +50,12 @@ struct Font
   int strength = 0 ;
  };
 
-VColor DefaultBack = NoColor ;
-VColor DefaultFore = NoColor ;
-
 struct Format
  {
   Font *font = null ;
   
-  VColor back = ?DefaultBack ;
-  VColor fore = ?DefaultFore ;
+  VColor back = NoColor ;
+  VColor fore = NoColor ;
   
   type Effect = uint8 ;
   
@@ -122,11 +119,13 @@ struct Line
   FixedSpan[] list;
  }; 
  
+Format DefaultFixedFormat = {} ;
+
 struct FixedText
  {
   Line[] list;
  
-  Format *fmt = & ?DefaultFormat ;
+  Format *fmt = & ?DefaultFixedFormat ;
  }; 
 
 //--- Bitmap -----------------------------------------------------------------------------

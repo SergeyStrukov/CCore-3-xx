@@ -20,6 +20,40 @@
 
 namespace App {
 
+/* using */
+
+using Effect = Book::TypeDef::Format::Effect ;
+
+/* Cast() */
+
+inline VColor Cast(Book::TypeDef::VColor vc) { return (VColor)vc; }
+
+inline Point Cast(Book::TypeDef::Point p) { return {p.x,p.y}; }
+
+inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(r.a,r.b); }
+
+/* functions */
+
+inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
+ {
+  VColor vc=Cast(vc_);
+
+  if( vc!=Book::NoColor ) return vc;
+
+  return fallback;
+ }
+
+inline void Combine(VColor &dst,Book::TypeDef::VColor vc_)
+ {
+  VColor vc=Cast(vc_);
+
+  if( vc!=Book::NoColor ) dst=vc;
+ }
+
+void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back);
+
+void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width);
+
 /* classes */
 
 class FontMap;
@@ -40,9 +74,9 @@ class FontMap : NoCopy
 
   private:
 
-   Font find(StrLen face,Coord size,int strength,bool bold,bool italic);
+   Font find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback);
 
-   Font find(Book::TypeDef::Font *font);
+   Font find(Book::TypeDef::Font *font,Font fallback);
 
   public:
 
@@ -52,7 +86,7 @@ class FontMap : NoCopy
 
    void erase() { map.erase(); }
 
-   Font operator () (Book::TypeDef::Font *font);
+   Font operator () (Book::TypeDef::Font *font,Font fallback);
  };
 
 /* class InnerBookWindow */
@@ -159,6 +193,8 @@ class InnerBookWindow : public SubWindow
      friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
     };
 
+   struct DrawContext;
+
    class Shape
     {
       Point size;
@@ -169,11 +205,19 @@ class InnerBookWindow : public SubWindow
 
       Size getSize() const { return size; }
 
-      void set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
+      void set(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Coordinate dx);
 
-      void draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
+      void draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
 
      private:
+
+      Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
+
+      Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
 
       static VColor GetBack(const Book::TypeDef::Format *fmt);
 
@@ -186,31 +230,18 @@ class InnerBookWindow : public SubWindow
       template <class T>
       static VColor GetAnyBack(T body);
 
-      Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
+      static void DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane);
 
-      Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
-
-      Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
-
-      Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
-
-      void drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane) const;
-
-      void drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane) const;
+      static void DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane);
 
       template <class T>
-      void drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const;
+      static void DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane);
 
-      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const;
+      Coord drawSpan(DrawBuf buf,Font font,VColor back,VColor fore,Effect effect,MCoord width,StrLen text,Pane pane,Point base) const;
 
-      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const;
+      void drawLine(FontMap &font_map,Font font,VColor fore,Effect effect,MCoord width,DrawBuf buf,Book::TypeDef::Line line,Pane pane,Point base) const;
 
-      void drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const;
-
-      template <class T>
-      void drawAnyBody(const Config &cfg,FontMap &font_map,DrawBuf buf,T body,Pane pane,Point space) const;
-
-      void draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
+      void draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };
 
    mutable DynArray<Shape> shapes;
@@ -220,6 +251,8 @@ class InnerBookWindow : public SubWindow
    mutable bool ok = false ;
 
   private:
+
+   static Coord CapSize(ulen dx,Coord cap) { return (Coord)Min(dx,(ulen)cap); }
 
    void cache(unsigned update_flag) const;
 

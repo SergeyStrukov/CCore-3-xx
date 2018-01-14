@@ -20,25 +20,63 @@
 
 namespace App {
 
+/* functions */
+
+void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back) // TODO
+ {
+  Used(buf);
+  Used(pane);
+  Used(base);
+  Used(ts);
+  Used(back);
+ }
+
+void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width) // TODO
+ {
+  Used(buf);
+  Used(pane);
+  Used(base);
+  Used(ts);
+  Used(effect);
+  Used(fore);
+  Used(width);
+ }
+
 /* class FontMap */
 
-Font FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic)
+Font FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback)
  {
-  FreeTypeFont::Config cfg{};
+  const FontInfo *info=lookup.find(face,bold,italic);
 
-  cfg.strength=strength;
+  if( !info ) return fallback;
 
-  return lookup.build(face,bold,italic,size,cfg).font;
+  try
+    {
+     FontParam param;
+
+     param.engine_type=FontParam::EngineFreeType;
+     param.file_name=info->file_name;
+     param.size_type=FontParam::SizeXY;
+     param.set_size.size_xy=size;
+
+     param.cfg.strength=strength;
+
+     return param.create();
+    }
+  catch(...)
+    {
+     return fallback;
+    }
  }
 
-Font FontMap::find(Book::TypeDef::Font *font)
+Font FontMap::find(Book::TypeDef::Font *font,Font fallback)
  {
-  return find(font->face,font->size,font->strength,font->bold,font->italic);
+  return find(font->face,font->size,font->strength,font->bold,font->italic,fallback);
  }
 
-Font FontMap::operator () (Book::TypeDef::Font *font)
+Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
  {
-  if( !font ) return Font();
+  if( !font ) return fallback;
 
   if( ulen ext=font->ext )
     {
@@ -48,7 +86,7 @@ Font FontMap::operator () (Book::TypeDef::Font *font)
     {
      ulen ind=map.getLen();
 
-     Font f=find(font);
+     Font f=find(font,fallback);
 
      map.append_copy(f);
 
@@ -58,9 +96,117 @@ Font FontMap::operator () (Book::TypeDef::Font *font)
     }
  }
 
+/* struct InnerBookWindow::DrawContext */
+
+struct InnerBookWindow::DrawContext
+ {
+  const Config &cfg;
+  FontMap &font_map;
+  VColor fore;
+  DrawBuf buf;
+  const Book::TypeDef::Frame &frame;
+  Pane pane;
+  Point base;
+
+  Font font;
+  Effect effect;
+
+  void draw(const Book::TypeDef::Text *obj) const // TODO
+   {
+    if( !obj ) return;
+
+   }
+
+  Coord drawSpan(Font font,VColor back,VColor fore,Effect effect,StrLen text,Point base)
+   {
+    TextSize ts=font->text(text);
+
+    if( back!=Book::NoColor ) FillBack(buf,pane,base,ts,back);
+
+    if( effect ) MakeEffect(buf,pane,base,ts,effect,fore,+cfg.width);
+
+    font->text(buf,pane,base,text,fore);
+
+    return ts.dx;
+   }
+
+  void drawLine(Book::TypeDef::Line line)
+   {
+    Point p=base;
+
+    for(const Book::TypeDef::FixedSpan &span : line.list.getRange() )
+      {
+       Font font;
+       VColor back;
+       VColor fore;
+       Effect effect;
+
+       if( const Book::TypeDef::Format *fmt=span.fmt )
+         {
+          font=font_map(fmt->font,this->font);
+          back=Cast(fmt->back);
+          fore=Combine(fmt->fore,this->fore);
+          effect=fmt->effect;
+         }
+       else
+         {
+          font=this->font;
+          back=Book::NoColor;
+          fore=this->fore;
+          effect=this->effect;
+         }
+
+       p.x+=drawSpan(font,back,fore,effect,span.body,p);
+      }
+   }
+
+  void draw(const Book::TypeDef::FixedText *obj)
+   {
+    if( !obj ) return;
+
+    if( const Book::TypeDef::Format *fmt=obj->fmt )
+      {
+       font=font_map(fmt->font,+cfg.codefont);
+
+       Combine(fore,fmt->fore);
+
+       effect=fmt->effect;
+      }
+    else
+      {
+       font=+cfg.codefont;
+
+       effect=Book::NoEffect;
+      }
+
+    Coord dy=font->getSize().dy;
+
+    for(const Book::TypeDef::Line &line : obj->list.getRange() )
+      {
+       drawLine(line);
+
+       base.y+=dy;
+      }
+   }
+
+  void draw(const Book::TypeDef::Bitmap *obj) // TODO
+   {
+    if( !obj ) return;
+
+    pane=pane.shrink(base);
+
+    // TODO draw obj on buf at pane
+   }
+
+  void draw()
+   {
+    frame.body.getPtr().apply( [&] (auto *obj) { draw(obj); } );
+   }
+ };
+
 /* struct InnerBookWindow::Shape */
 
-void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
+void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Coordinate dx)
  {
   Scope scope("App::InnerBookWindow::Shape::set"_c);
 
@@ -69,50 +215,14 @@ void InnerBookWindow::Shape::set(const Config &cfg,const Book::TypeDef::Frame &f
   size = body(cfg,frame,dx-delta.x) + delta ;
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
  {
   Scope scope("App::InnerBookWindow::Shape::draw"_c);
 
   if( posflag )
-    draw(cfg,font_map,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
+    draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
-    draw(cfg,font_map,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
- }
-
-VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
- {
-  if( fmt ) return (VColor)fmt->back;
-
-  return Book::NoColor;
- }
-
-VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Text *obj)
- {
-  if( obj ) return GetBack(obj->fmt.getPtr());
-
-  return Book::NoColor;
- }
-
-VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::FixedText *obj)
- {
-  if( obj ) return GetBack(obj->fmt.getPtr());
-
-  return Book::NoColor;
- }
-
-VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Bitmap *)
- {
-  return Book::NoColor;
- }
-
-template <class T>
-VColor InnerBookWindow::Shape::GetAnyBack(T body)
- {
-  VColor ret=Book::NoColor;
-
-  body.apply( [&] (auto *ptr) { ret=GetBack(ptr); } );
-
-  return ret;
+    draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
  }
 
 Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx) // TODO
@@ -158,7 +268,43 @@ Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Frame 
   return ret;
  }
 
-void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane) const
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
+ {
+  if( fmt ) return Cast(fmt->back);
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Text *obj)
+ {
+  if( obj ) return GetBack(obj->fmt.getPtr());
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::FixedText *obj)
+ {
+  if( obj ) return GetBack(obj->fmt.getPtr());
+
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Bitmap *)
+ {
+  return Book::NoColor;
+ }
+
+template <class T>
+VColor InnerBookWindow::Shape::GetAnyBack(T body)
+ {
+  VColor ret=Book::NoColor;
+
+  body.apply( [&] (auto *ptr) { ret=GetBack(ptr); } );
+
+  return ret;
+ }
+
+void InnerBookWindow::Shape::DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane)
  {
   if( !obj ) return;
 
@@ -166,9 +312,7 @@ void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::
 
   if( !p ) return;
 
-  VColor line=(VColor)obj->line;
-
-  if( line==Book::NoColor ) line=+cfg.line;
+  VColor line=Combine(obj->line,+cfg.line);
 
   MCoord width=Cast(obj->width)*(+cfg.width);
 
@@ -179,7 +323,7 @@ void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::
   fig.loop(art,width,line);
  }
 
-void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane) const
+void InnerBookWindow::Shape::DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane)
  {
   if( !obj ) return;
 
@@ -187,12 +331,8 @@ void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::
 
   if( !p ) return;
 
-  VColor gray=(VColor)obj->gray;
-  VColor snow=(VColor)obj->snow;
-
-  if( gray==Book::NoColor ) gray=+cfg.gray;
-
-  if( snow==Book::NoColor ) snow=+cfg.snow;
+  VColor gray=Combine(obj->gray,+cfg.gray);
+  VColor snow=Combine(obj->snow,+cfg.snow);
 
   MCoord width=Cast(obj->width)*(+cfg.width);
 
@@ -205,60 +345,18 @@ void InnerBookWindow::Shape::drawLine(const Config &cfg,DrawBuf buf,const Book::
  }
 
 template <class T>
-void InnerBookWindow::Shape::drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const
+void InnerBookWindow::Shape::DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane)
  {
-  line.apply( [&] (auto *obj) { drawLine(cfg,buf,obj,pane); } );
+  line.apply( [&] (auto *obj) { DrawLine(cfg,buf,obj,pane); } );
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const // TODO
- {
-  Used(cfg);
-  Used(font_map);
-  Used(buf);
-  Used(pane);
-  Used(space);
-
-  if( !obj ) return;
-
- }
-
-void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const // TODO
- {
-  Used(cfg);
-  Used(font_map);
-  Used(buf);
-  Used(pane);
-  Used(space);
-
-  if( !obj ) return;
-
- }
-
-void InnerBookWindow::Shape::drawBody(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const // TODO
- {
-  Used(cfg);
-  Used(font_map);
-  Used(buf);
-  Used(pane);
-  Used(space);
-
-  if( !obj ) return;
-
- }
-
-template <class T>
-void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,FontMap &font_map,DrawBuf buf,T body,Pane pane,Point space) const
- {
-  body.apply( [&] (auto *obj) { drawBody(cfg,font_map,buf,obj,pane,space); } );
- }
-
-void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
  {
   Pane pane(base,size);
 
   Pane inner=pane.shrink(Cast(frame.outer));
 
-  if( VColor col=(VColor)frame.col ; col!=Book::NoColor )
+  if( VColor col=Cast(frame.col) ; col!=Book::NoColor )
     {
      PaneSub sub(pane,inner);
 
@@ -273,9 +371,11 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,DrawBuf bu
      buf.erase(inner,back);
     }
 
-  drawAnyLine(cfg,buf,frame.line.getPtr(),inner);
+  DrawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  drawAnyBody(cfg,font_map,buf,frame.body.getPtr(),inner,Cast(frame.inner));
+  DrawContext ctx{cfg,font_map,fore,buf,frame,inner,Cast(frame.inner)};
+
+  ctx.draw();
  }
 
 /* class InnerBookWindow */
@@ -298,7 +398,7 @@ void InnerBookWindow::cache(unsigned update_flag) const
        {
         Shape &shape=shapes[i];
 
-        shape.set(cfg,frames[i],dx);
+        shape.set(cfg,font_map,frames[i],dx);
 
         s=StackY(s,shape.size);
        }
@@ -346,8 +446,8 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
 
   if( frames.len )
     {
-     Coord dx=(Coord)Min(size.dx,(ulen)cap.x);
-     Coord dy=(Coord)Min(size.dy,(ulen)cap.y);
+     Coord dx=CapSize(size.dx,cap.x);
+     Coord dy=CapSize(size.dy,cap.y);
 
      return Point(dx,dy);
     }
@@ -365,12 +465,8 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore
     {
      frames=page->list;
 
-     back=VColor(page->back);
-     fore=VColor(page->fore);
-
-     if( back==Book::NoColor ) back=back_;
-
-     if( fore==Book::NoColor ) fore=fore_;
+     back=Combine(page->back,back_);
+     fore=Combine(page->fore,fore_);
     }
 
   sx.pos=0;
@@ -404,11 +500,14 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   SmoothDrawArt art(buf);
 
-  // back
+  // back , fore
 
   VColor back=this->back;
+  VColor fore=this->fore;
 
   if( back==Book::NoColor ) back=+cfg.back;
+
+  if( fore==Book::NoColor ) fore=+cfg.fore;
 
   art.erase(back);
 
@@ -448,7 +547,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<wdy )
           {
-           if( pos_x<size.dx ) shape.draw(cfg,font_map,buf,frame,pos_x,delta,false);
+           if( pos_x<size.dx ) shape.draw(cfg,font_map,fore,buf,frame,pos_x,delta,false);
           }
         else
           {
@@ -461,7 +560,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<size.dy && pos_x<size.dx )
           {
-           shape.draw(cfg,font_map,buf,frame,pos_x,delta,true);
+           shape.draw(cfg,font_map,fore,buf,frame,pos_x,delta,true);
           }
        }
 
@@ -616,7 +715,7 @@ void BookWindow::load(StrLen file_name)
 
         layout(LayoutUpdate);
 
-        book.setPage(page,(VColor)ptr->back,(VColor)ptr->fore);
+        book.setPage(page,Cast(ptr->back),Cast(ptr->fore));
        }
      else
        {
@@ -624,7 +723,7 @@ void BookWindow::load(StrLen file_name)
 
         layout(LayoutUpdate);
 
-        book.setPage(0,(VColor)ptr->back,(VColor)ptr->fore);
+        book.setPage(0,Cast(ptr->back),Cast(ptr->fore));
        }
 
      redraw();
