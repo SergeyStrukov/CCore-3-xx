@@ -172,40 +172,43 @@ void InnerBookWindow::Shape::drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pa
   line.apply( [&] (auto *obj) { drawLine(cfg,buf,obj,pane); } );
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
   Used(buf);
   Used(pane);
+  Used(space);
 
   if( !obj ) return;
 
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
   Used(buf);
   Used(pane);
+  Used(space);
 
   if( !obj ) return;
 
  }
 
-void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane) const // TODO
+void InnerBookWindow::Shape::drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const // TODO
  {
   Used(cfg);
   Used(buf);
   Used(pane);
+  Used(space);
 
   if( !obj ) return;
 
  }
 
 template <class T>
-void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane) const
+void InnerBookWindow::Shape::drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane,Point space) const
  {
-  body.apply( [&] (auto *obj) { drawBody(cfg,buf,obj,pane); } );
+  body.apply( [&] (auto *obj) { drawBody(cfg,buf,obj,pane,space); } );
  }
 
 void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
@@ -213,8 +216,6 @@ void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::Type
   Pane pane(base,size);
 
   Pane inner=pane.shrink(Cast(frame.outer));
-
-  Pane body=inner.shrink(Cast(frame.inner));
 
   if( VColor col=(VColor)frame.col ; col!=Book::NoColor )
     {
@@ -233,7 +234,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,DrawBuf buf,const Book::Type
 
   drawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  drawAnyBody(cfg,buf,frame.body.getPtr(),body);
+  drawAnyBody(cfg,buf,frame.body.getPtr(),inner,Cast(frame.inner));
  }
 
 /* class InnerBookWindow */

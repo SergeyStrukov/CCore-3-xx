@@ -470,9 +470,25 @@ class NameDirectory : NoCopy
 
 DynArray<StrLen> NameDirectory::Stack(DoReserve,100);
 
+/* IsExtName() */
+
+bool IsExtName(DDL::StructNode *node,StrLen name)
+ {
+  if( node->name.getStr().equal(name) ) return true;
+
+  return false;
+ }
+
+bool IsExtName(DDL::StructNode *node,PtrLen<const char *> ext_list)
+ {
+  for(const char *ext : ext_list ) if( IsExtName(node,ext) ) return true;
+
+  return false;
+ }
+
 /* Process() */
 
-void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file_name)
+void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file_name,PtrLen<const char *> ext_list)
  {
   Data data(input_file_name);
   PrintFile outdef(typedef_file_name);
@@ -492,6 +508,8 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
 
   SimpleArray<DDL::StructNode *> structs(data->struct_list.count);
 
+  SimpleArray<bool> ext_flags(data->struct_list.count);
+
   // 102
   {
    for(auto &node : data->struct_list )
@@ -504,6 +522,8 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
    for(auto *node : structs )
      {
       Printf(outdef,"  struct S#;; // #; #;\n",ind,PrintName(node));
+
+      ext_flags[ind-1]=IsExtName(node,ext_list);
 
       node->index=ind++;
      }
@@ -565,6 +585,10 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
       dir.printStruct(outdef,"XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8::",*node);
 
       Putobj(outdef,"\n    struct Ext;\n");
+
+      if( ext_flags[node->index-1] )
+        Putobj(outdef,"\n    ulen ext;\n");
+
       Putobj(outdef,"   };\n\n");
      }
   }
@@ -718,11 +742,43 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
   }
 
   // 205
+
+  if( +ext_list )
+    {
+     Putch(outset,'\n');
+
+     Putobj(outset,"  void erase(Place<void> place,DDL::StructNode *struct_node) const\n");
+     Putobj(outset,"   {\n");
+     Putobj(outset,"    switch( ind_map[struct_node->index] )\n");
+     Putobj(outset,"      {\n");
+
+     for(auto *node : structs )
+       {
+        ulen ind=node->index;
+
+        if( ext_flags[ind-1] )
+          {
+           Printf(outset,"       case #; :\n",ind);
+           Putobj(outset,"        {\n");
+           Printf(outset,"         S#; *obj=place;\n\n",ind);
+
+           Putobj(outset,"         obj->ext=0;\n");
+           Putobj(outset,"        }\n");
+           Putobj(outset,"       break;\n");
+          }
+       }
+
+     Putobj(outset,"      }\n");
+
+     Putobj(outset,"   }\n");
+    }
+
+  // 206
   {
    Putobj(outset," };\n\n");
   }
 
-  // 206
+  // 207
   {
    Putobj(outset,"template <class T>\n");
    Putobj(outset,"struct TypeSet::IsStruct\n");
@@ -731,7 +787,7 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
    Putobj(outset," };\n\n");
   }
 
-  // 207
+  // 208
   {
    for(auto &node : data->struct_list )
      {
@@ -759,14 +815,14 @@ int main(int argc,const char *argv[])
      {
       Putobj(Con,"--- DDLTypeSet 1.00 ---\n--- Copyright (c) 2015 Sergey Strukov. All rights reserved. ---\n\n");
 
-      if( argc!=4 )
+      if( argc<4 )
         {
-         Putobj(Con,"Usage: CCore-DDLTypeSet <input-file-name> <typedef-output-file-name> <typeset-output-file-name>\n");
+         Putobj(Con,"Usage: CCore-DDLTypeSet <input-file-name> <typedef-output-file-name> <typeset-output-file-name> <ext-list>\n");
 
          return 1;
         }
 
-      Process(argv[1],argv[2],argv[3]);
+      Process(argv[1],argv[2],argv[3],Range(argv+4,argc-4));
      }
 
      report.guard();

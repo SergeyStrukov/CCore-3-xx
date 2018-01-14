@@ -252,6 +252,19 @@ struct MapTypeFunc<MapRange<T>,TypeSet>
    }
  };
 
+/* EraseExtField() */
+
+template <class TypeSet>
+void EraseExtField(TypeSet &,Place<void>,StructNode *,int)
+ {
+ }
+
+template <class TypeSet>
+auto EraseExtField(TypeSet &type_set,Place<void> place,StructNode *struct_node,NothingType) -> decltype( type_set.erase(place,struct_node) )
+ {
+  return type_set.erase(place,struct_node);
+ }
+
 /* class TypedMap<TypeSet> */
 
 //
@@ -890,6 +903,10 @@ struct TypedMap<TypeSet>::MapFunc
     auto cur=begin(struct_node->field_list);
 
     for(; +data ;++data,++elems,++cur) map->map((*cur).type_node,*data,*elems);
+
+    Place<void> place=map->base+rec.off;
+
+    EraseExtField(map->type_set,place,struct_node,Nothing);
    }
  };
 

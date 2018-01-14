@@ -170,14 +170,14 @@ class InnerBookWindow : public SubWindow
       template <class T>
       void drawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane) const;
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Text *obj,Pane pane,Point space) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane) const;
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::FixedText *obj,Pane pane,Point space) const;
 
-      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane) const;
+      void drawBody(const Config &cfg,DrawBuf buf,const Book::TypeDef::Bitmap *obj,Pane pane,Point space) const;
 
       template <class T>
-      void drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane) const;
+      void drawAnyBody(const Config &cfg,DrawBuf buf,T body,Pane pane,Point space) const;
 
       void draw(const Config &cfg,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };

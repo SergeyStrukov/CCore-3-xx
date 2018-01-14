@@ -35,7 +35,7 @@ map <b>DDL</b> data using the <a href="page_DDLEngine.html#TypedMap"><b>DDL::Typ
 
 <pre>
 
-CCore-DDLTypeSet.exe &lt;ddl-file-name&gt; &lt;typdef-file&gt; &lt;typeset-file&gt;
+CCore-DDLTypeSet.exe &lt;ddl-file-name&gt; &lt;typdef-file&gt; &lt;typeset-file&gt; &lt;ext-list&gt;
 
 </pre>
 
@@ -49,6 +49,11 @@ CCore-DDLTypeSet.exe &lt;ddl-file-name&gt; &lt;typdef-file&gt; &lt;typeset-file&
 
 <p>
 <b>typeset-file</b> will contain <b>TypeSet</b> declarations.
+</p>
+
+<p>
+<b>ext-list</b> is a list of names. All structures with these names will have the additional field <b>ext</b> of the type <b>ulen</b>.
+This field is set to <b>zero</b> during the data mapping and can be used by applications for various purposes.
 </p>
 
 <p>

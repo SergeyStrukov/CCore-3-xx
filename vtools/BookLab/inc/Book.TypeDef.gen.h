@@ -192,6 +192,8 @@ struct TypeDefCore
     A5 italic;
 
     struct Ext;
+
+    ulen ext;
    };
 
   // extra

@@ -1561,6 +1561,30 @@ You may provide definitions of these structures to add additional functions to w
 </p>
 
 <p>
+You may assign some structures the extra field <b>ext</b>. To do so use the ext list of arguments of the <b>DDLTypeSet</b>.
+</p>
+
+<pre>
+
+  struct S18
+   {
+    DDL::MapText face;
+    A3 size;
+    A5 bold;
+    A5 italic;
+
+    struct Ext;
+
+    <b>ulen ext;</b>
+   };
+
+</pre>
+
+<p>
+This extra field is set to zero during the data mapping.
+</p>
+
+<p>
 The second file contains a definition of the <b>TypeSet</b> class.
 </p>
 
