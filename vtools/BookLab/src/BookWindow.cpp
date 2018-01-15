@@ -209,7 +209,7 @@ struct InnerBookWindow::SizeContext
    {
     if( !obj ) return Null;
 
-    auto lines=obj->map.getRange();
+    auto lines=obj->getRange();
 
     if( !lines ) return Null;
 
@@ -325,13 +325,47 @@ struct InnerBookWindow::DrawContext
       }
    }
 
-  void draw(const Book::TypeDef::Bitmap *obj) // TODO
+  class Fill
+   {
+     PtrLen<DDL::MapRange<Book::TypeDef::VColor> > map;
+
+    private:
+
+     static void Line(PtrLen<const Book::TypeDef::VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
+      {
+       if( x>=line.len ) return;
+
+       Replace_min<ulen>(dx,line.len-x);
+
+       auto part=line.part(x,dx);
+
+       for(; +part ;++part,ptr+=DesktopColor::RawCount)
+         {
+          DesktopColor col(Cast(*part));
+
+          col.copyTo(ptr);
+         }
+      }
+
+    public:
+
+     explicit Fill(const Book::TypeDef::Bitmap *obj) : map(obj->getRange()) {}
+
+     void operator () (ulen x,ulen y,ulen dx,DesktopColor::Raw *ptr) const
+      {
+       if( y >= map.len ) return;
+
+       Line(map[y].getRange(),x,dx,ptr);
+      }
+   };
+
+  void draw(const Book::TypeDef::Bitmap *obj)
    {
     if( !obj ) return;
 
     pane=pane.shrink(base);
 
-    // TODO draw obj on buf at pane
+    buf.fill(pane,Fill(obj));
    }
 
   void draw()

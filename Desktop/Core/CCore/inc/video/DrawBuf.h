@@ -75,6 +75,8 @@ class DrawBuf
 
    void erase(Pane pane,BlenderType blender) { buf.block_safe(map(pane),blender); }
 
+   void fill(Pane pane,RasterFillType<DesktopColor> fill) { buf.fill_safe(map(pane),fill); }
+
    // map
 
    template <class T>

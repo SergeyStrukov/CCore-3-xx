@@ -48,14 +48,30 @@ FixedText text1 = { {
 
 Text text2 = {} ;
 
-Text text3 = {} ;
+Bitmap pict1 = 
+ {
+  { Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black } ,
+  
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  { Black , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Blue , Black } ,
+  
+  { Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black , Black }
+ };
 
 /* pages */
 
 Page page1 = { 'Main page' , { 
                                { &text1 , &DefaultSingleLine },
                                { &text2 , &DefaultDoubleLine },
-                               { &text3 , null , DefaultInner , DefaultOuter , 0FFh }
+                               { &pict1 , null , DefaultInner , DefaultOuter , 0FFh }
  
                              } } ;
                              

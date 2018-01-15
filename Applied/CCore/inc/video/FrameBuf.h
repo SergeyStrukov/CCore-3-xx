@@ -210,6 +210,14 @@ concept bool BoolGlyphType = requires(Meta::ToConst<Glyph> &cobj,Coord y)
   requires ( BoolPatternType<decltype( cobj[y] )> );
  } ;
 
+/* concept RasterFillType<Fill,RawColor> */
+
+template <class Fill,RawColorType RawColor>
+concept bool RasterFillType = requires(Fill fill,Coord x,Coord y,Coord dx,typename RawColor::Raw *ptr)
+ {
+  fill(x,y,dx,ptr);
+ } ;
+
 /* struct CutExtension */
 
 struct CutExtension
@@ -366,6 +374,8 @@ class FrameBuf : protected ColorPlane
 
    void glyph_bgr_unsafe(Point p,RGBGlyph gly,VColor vc,GammaFunc gamma);
 
+   void fill_unsafe(Pane pane,Point off,RasterFillType<RawColor> fill);
+
    // safe methods
 
    void test();
@@ -391,6 +401,8 @@ class FrameBuf : protected ColorPlane
    void glyph_safe(Point p,GrayGlyph gly,VColor vc,GammaFunc gamma);
 
    void glyph_safe(Point p,RGBGlyph gly,VColor vc,GammaFunc gamma,bool bgr);
+
+   void fill_safe(Pane pane,RasterFillType<RawColor> fill);
  };
 
 template <RawColorType RawColor>
@@ -558,6 +570,8 @@ RawColor FrameBuf<RawColor>::pixel_unsafe(Point p) const
 
   return ret;
  }
+
+ // unsafe methods
 
 template <RawColorType RawColor>
 void FrameBuf<RawColor>::pixel_unsafe(Point p,RawColor color)
@@ -751,6 +765,25 @@ void FrameBuf<RawColor>::glyph_bgr_unsafe(Point p,RGBGlyph gly,VColor vc,GammaFu
  }
 
 template <RawColorType RawColor>
+void FrameBuf<RawColor>::fill_unsafe(Pane pane,Point off,RasterFillType<RawColor> fill)
+ {
+  if( !pane ) return;
+
+  Raw *ptr=place(pane.getBase());
+
+  Coord x=off.x;
+  Coord y=off.y;
+  Coord dx=pane.dx;
+  Coord dy=pane.dy;
+
+  for(; dy>1 ;dy--,y++,ptr=nextY(ptr)) fill(x,y,dx,ptr);
+
+  fill(x,y,dx,ptr);
+ }
+
+ // safe methods
+
+template <RawColorType RawColor>
 void FrameBuf<RawColor>::test()
  {
   if( dx<=0 || dy<=0 ) return;
@@ -898,6 +931,17 @@ void FrameBuf<RawColor>::glyph_safe(Point p,RGBGlyph gly,VColor vc,GammaFunc gam
        glyph_bgr_unsafe(pane.getBase(),gly.cut(pane-p),vc,gamma);
      else
        glyph_rgb_unsafe(pane.getBase(),gly.cut(pane-p),vc,gamma);
+    }
+ }
+
+template <RawColorType RawColor>
+void FrameBuf<RawColor>::fill_safe(Pane pane,RasterFillType<RawColor> fill)
+ {
+  Pane part=Inf(getPane(),pane);
+
+  if( +part )
+    {
+     fill_unsafe(part,part.getBase()-pane.getBase(),fill);
     }
  }
 
