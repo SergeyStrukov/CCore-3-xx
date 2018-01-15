@@ -22,24 +22,56 @@ namespace App {
 
 /* functions */
 
-void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back) // TODO
+void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back)
  {
-  Used(buf);
-  Used(pane);
-  Used(base);
-  Used(ts);
-  Used(back);
+  SmoothDrawArt art(buf.cutRebase(pane));
+
+  MCoord skew=Fraction(ts.skew);
+
+  Pane text(base.x,base.y-ts.by,ts.dx,ts.dy);
+
+  MPane p(text);
+
+  if( skew )
+    {
+     MCoord delta=Div(ts.dy-ts.by,ts.dy)*skew;
+
+     p+=MPoint(-delta,0);
+    }
+
+  FigureSkew fig(p,skew);
+
+  fig.solid(art,back);
  }
 
-void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width) // TODO
+void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width)
  {
-  Used(buf);
-  Used(pane);
-  Used(base);
-  Used(ts);
-  Used(effect);
-  Used(fore);
-  Used(width);
+  switch( effect )
+    {
+     case Book::Underline :
+      {
+       SmoothDrawArt art(buf.cutRebase(pane));
+
+       MPoint a=MPoint(base)-MPoint(MPoint::Half,MPoint::Half);
+       MPoint b=a.addX(Fraction(ts.dx));
+
+       art.path(HalfNeg,width,fore,a,b);
+      }
+     break;
+
+     case Book::Strikeout :
+      {
+       SmoothDrawArt art(buf.cutRebase(pane));
+
+       Coord delta=ts.by-ts.dy/2;
+
+       MPoint a=MPoint(base.subY(delta));
+       MPoint b=a.addX(Fraction(ts.dx));
+
+       art.path(HalfPos,width,fore,a,b);
+      }
+     break;
+    }
  }
 
 /* class FontMap */
@@ -96,6 +128,106 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
     }
  }
 
+/* struct InnerBookWindow::SizeContext */
+
+struct InnerBookWindow::SizeContext
+ {
+  const Config &cfg;
+  FontMap &font_map;
+  const Book::TypeDef::Frame &frame;
+  Coordinate wdx;
+
+  Font font;
+
+  Point size(const Book::TypeDef::Text *obj) // TODO
+   {
+    if( !obj ) return Null;
+
+    return Point(500,300);
+   }
+
+  Coordinate sizeSpan(Font font,StrLen text)
+   {
+    TextSize ts=font->text(text);
+
+    return ts.dx;
+   }
+
+  Coordinate sizeLine(Book::TypeDef::Line line)
+   {
+    Coordinate ret=0;
+
+    for(const Book::TypeDef::FixedSpan &span : line.getRange() )
+      {
+       Font font;
+
+       if( const Book::TypeDef::Format *fmt=span.fmt )
+         {
+          font=font_map(fmt->font,this->font);
+         }
+       else
+         {
+          font=this->font;
+         }
+
+       ret+=sizeSpan(font,span.body);
+      }
+
+    return ret;
+   }
+
+  Point size(const Book::TypeDef::FixedText *obj)
+   {
+    if( !obj ) return Null;
+
+    if( const Book::TypeDef::Format *fmt=obj->fmt )
+      {
+       font=font_map(fmt->font,+cfg.codefont);
+      }
+    else
+      {
+       font=+cfg.codefont;
+      }
+
+    FontSize fs=font->getSize();
+
+    Coord dy=fs.dy;
+
+    auto range=obj->list.getRange();
+
+    Coordinate dx=0;
+
+    for(const Book::TypeDef::Line &line : range )
+      {
+       dx=Max(dx,sizeLine(line));
+      }
+
+    return Point(dx,CountToCoordinate(range.len)*dy);
+   }
+
+  Point size(const Book::TypeDef::Bitmap *obj)
+   {
+    if( !obj ) return Null;
+
+    auto lines=obj->map.getRange();
+
+    if( !lines ) return Null;
+
+    auto line=lines[0].getRange();
+
+    return {CountToCoordinate(line.len),CountToCoordinate(lines.len)};
+   }
+
+  Point size()
+   {
+    Point ret;
+
+    frame.body.getPtr().apply( [&] (auto *ptr) { ret=size(ptr); } );
+
+    return ret;
+   }
+ };
+
 /* struct InnerBookWindow::DrawContext */
 
 struct InnerBookWindow::DrawContext
@@ -134,7 +266,7 @@ struct InnerBookWindow::DrawContext
    {
     Point p=base;
 
-    for(const Book::TypeDef::FixedSpan &span : line.list.getRange() )
+    for(const Book::TypeDef::FixedSpan &span : line.getRange() )
       {
        Font font;
        VColor back;
@@ -179,7 +311,11 @@ struct InnerBookWindow::DrawContext
        effect=Book::NoEffect;
       }
 
-    Coord dy=font->getSize().dy;
+    FontSize fs=font->getSize();
+
+    base.y+=fs.by;
+
+    Coord dy=fs.dy;
 
     for(const Book::TypeDef::Line &line : obj->list.getRange() )
       {
@@ -212,7 +348,9 @@ void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,const Book:
 
   Point delta=2*( Cast(frame.inner)+Cast(frame.outer) );
 
-  size = body(cfg,frame,dx-delta.x) + delta ;
+  SizeContext ctx{cfg,font_map,frame,dx-delta.x};
+
+  size=ctx.size()+delta;
  }
 
 void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
@@ -223,49 +361,6 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor for
     draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
     draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
- }
-
-Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx) // TODO
- {
-  Used(cfg);
-  Used(obj);
-  Used(dx);
-
-  if( !obj ) return Null;
-
-  return Point(500,300);
- }
-
-Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate) // TODO
- {
-  Used(cfg);
-  Used(obj);
-
-  if( !obj ) return Null;
-
-  return Point(500,300);
- }
-
-Point InnerBookWindow::Shape::body(const Config &,const Book::TypeDef::Bitmap *obj,Coordinate)
- {
-  if( !obj ) return Null;
-
-  auto lines=obj->map.getRange();
-
-  if( !lines ) return Null;
-
-  auto line=lines[0].getRange();
-
-  return {CountToCoordinate(line.len),CountToCoordinate(lines.len)};
- }
-
-Point InnerBookWindow::Shape::body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx)
- {
-  Point ret;
-
-  frame.body.getPtr().apply( [&] (auto *ptr) { ret=body(cfg,ptr,dx); } );
-
-  return ret;
  }
 
 VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
@@ -502,12 +597,8 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   // back , fore
 
-  VColor back=this->back;
-  VColor fore=this->fore;
-
-  if( back==Book::NoColor ) back=+cfg.back;
-
-  if( fore==Book::NoColor ) fore=+cfg.fore;
+  VColor back=Combine(this->back,+cfg.back);
+  VColor fore=Combine(this->fore,+cfg.fore);
 
   art.erase(back);
 

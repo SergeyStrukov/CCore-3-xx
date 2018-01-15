@@ -193,6 +193,8 @@ class InnerBookWindow : public SubWindow
      friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
     };
 
+   struct SizeContext;
+
    struct DrawContext;
 
    class Shape

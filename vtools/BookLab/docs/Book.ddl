@@ -114,10 +114,7 @@ struct FixedSpan
   {Link,Page} * ref = null ;
  };
  
-struct Line
- {
-  FixedSpan[] list;
- }; 
+type Line = FixedSpan[] ; 
  
 Format DefaultFixedFormat = {} ;
 
