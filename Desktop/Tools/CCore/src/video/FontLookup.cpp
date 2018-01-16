@@ -18,6 +18,38 @@
 namespace CCore {
 namespace Video {
 
+/* class FontLookup::Step */
+
+StepResult FontLookup::Step::finish(FontLookup &obj,StepResult result)
+ {
+  if( result==StepFinalOk ) obj.buildIndex();
+
+  return result;
+ }
+
+FontLookup::Step::Step()
+ {
+ }
+
+FontLookup::Step::~Step()
+ {
+ }
+
+StepResult FontLookup::Step::start(FontLookup &obj,bool use_cache)
+ {
+  return finish(obj,dbstep.start(obj.fdb,use_cache));
+ }
+
+StepResult FontLookup::Step::operator () (IncrementalProgress &progress,FontLookup &obj)
+ {
+  return finish(obj,dbstep(progress,obj.fdb));
+ }
+
+void FontLookup::Step::erase() noexcept
+ {
+  dbstep.erase();
+ }
+
 /* class FontLookup */
 
 FontCouple FontLookup::Build(const FontInfo *info,Coord font_size,const FreeTypeFont::Config &font_config)
@@ -42,14 +74,32 @@ FontCouple FontLookup::Build(const FontInfo *info,Coord font_size,const FreeType
     }
  }
 
-FontLookup::FontLookup()
+void FontLookup::buildIndex()
  {
-  fdb.populate();
-
   index.build(fdb, [] (const FontInfo &obj) { return obj.scalable; } ,
                    [] (const FontInfo &a,const FontInfo &b) { return AlphaCmp(CmpAsStr(a.family),CmpAsStr(b.family),
                                                                               a.bold,b.bold,
                                                                               a.italic,b.italic); } );
+ }
+
+FontLookup::FontLookup(InitType type)
+ {
+  switch( type )
+    {
+     case Populate :
+      {
+       fdb.populate();
+       buildIndex();
+      }
+     break;
+
+     case Cache :
+      {
+       fdb.cache();
+       buildIndex();
+      }
+     break;
+    }
  }
 
 FontLookup::~FontLookup()

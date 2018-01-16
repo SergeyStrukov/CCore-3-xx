@@ -747,13 +747,46 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor for
   redraw();
  }
 
+/* class BookWindow::ProgressControl */
+
+BookWindow::ProgressControl::ProgressControl(ArrowProgressWindow &window_)
+ : window(window_)
+ {
+ }
+
+BookWindow::ProgressControl::~ProgressControl()
+ {
+ }
+
+ // IncrementalProgress
+
+void BookWindow::ProgressControl::start()
+ {
+ }
+
+void BookWindow::ProgressControl::setTotal(unsigned total)
+ {
+  window.setTotal(total);
+ }
+
+bool BookWindow::ProgressControl::setPos(unsigned pos)
+ {
+  window.setPosPing(pos);
+
+  return true;
+ }
+
+void BookWindow::ProgressControl::stop() noexcept
+ {
+ }
+
 /* class BookWindow */
 
-void BookWindow::error(StrLen etext)
+void BookWindow::error(DefString etext)
  {
   if( msg.isDead() )
     {
-     msg.setInfo(DefString(etext));
+     msg.setInfo(etext);
 
      msg.create(getFrame(),+cfg.text_Error);
 
@@ -764,6 +797,20 @@ void BookWindow::error(StrLen etext)
 void BookWindow::enableFrame()
  {
   enableFrameReact();
+ }
+
+void BookWindow::font_completed(bool ok)
+ {
+  font_flag=false;
+
+  if( ok )
+    {
+     wlist.del(progress);
+
+     wlist.insTop(label_title,text_title,label_page,text_page,book);
+
+     redraw();
+    }
  }
 
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
@@ -777,12 +824,17 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    text_page(wlist,cfg.text_cfg),
 
    book(wlist,cfg.book_cfg,font_map),
+   progress(wlist,cfg.progress_cfg),
 
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
 
-   connector_msg_destroyed(this,&BookWindow::enableFrame,msg.destroyed)
+   progress_control(progress),
+   font_inc(progress_control),
+
+   connector_msg_destroyed(this,&BookWindow::enableFrame,msg.destroyed),
+   connector_font_completed(this,&BookWindow::font_completed,font_inc.completed)
  {
-  wlist.insTop(label_title,text_title,label_page,text_page,book);
+  wlist.insTop(progress);
  }
 
 BookWindow::~BookWindow()
@@ -797,7 +849,9 @@ Point BookWindow::getMinSize(unsigned flags) const
 
   LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
 
-  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
+
+  LaySame lay(lay2,ExtLay{LayTop(progress)});
 
   return lay.getMinSize(flags,space);
  }
@@ -818,6 +872,13 @@ void BookWindow::blank()
 
 void BookWindow::load(StrLen file_name)
  {
+  if( font_flag )
+    {
+     error(+cfg.text_NotReady);
+
+     return;
+    }
+
   blank();
 
   SimpleArray<char> temp(64_KByte);
@@ -855,7 +916,7 @@ void BookWindow::load(StrLen file_name)
     }
   else
     {
-     error(result.etext);
+     error(DefString(result.etext));
     }
  }
 
@@ -867,7 +928,9 @@ void BookWindow::layout(unsigned flags)
 
   LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
 
-  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
+
+  LaySame lay(lay2,ExtLay{LayTop(progress)});
 
   lay.setPlace(Pane(Null,getSize()),flags,space);
  }
@@ -876,12 +939,33 @@ void BookWindow::drawBack(DrawBuf buf,bool) const
  {
   Pane pane(Null,getSize());
 
-  PaneSub sub(pane,book.getPlace());
+  VColor back=+cfg.back;
 
-  buf.erase(sub.top,+cfg.back);
-  buf.erase(sub.bottom,+cfg.back);
-  buf.erase(sub.left,+cfg.back);
-  buf.erase(sub.right,+cfg.back);
+  if( book.isListed() )
+    {
+     PaneSub sub(pane,book.getPlace());
+
+     buf.erase(sub.top,back);
+     buf.erase(sub.bottom,back);
+     buf.erase(sub.left,back);
+     buf.erase(sub.right,back);
+    }
+  else
+    {
+     buf.erase(back);
+    }
+ }
+
+ // base
+
+void BookWindow::open()
+ {
+  ComboWindow::open();
+
+  if( font_flag )
+    {
+     font_map.cache(font_inc);
+    }
  }
 
 } // namespace App

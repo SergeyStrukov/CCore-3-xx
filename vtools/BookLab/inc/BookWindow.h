@@ -80,9 +80,11 @@ class FontMap : NoCopy
 
   public:
 
-   FontMap() {}
+   FontMap() : lookup(FontLookup::None) {}
 
    ~FontMap() {}
+
+   void cache(FontLookup::Incremental &inc,bool use_cache=true) { lookup.cache(inc,use_cache); }
 
    void erase() { map.erase(); }
 
@@ -382,12 +384,14 @@ class BookWindow : public ComboWindow
 
      CtorRefVal<LabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
+     CtorRefVal<ArrowProgressWindow::ConfigType> progress_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
 
      // app
 
      RefVal<DefString> text_Title = "Title"_def ;
      RefVal<DefString> text_Page = "Page"_def ;
+     RefVal<DefString> text_NotReady = "Font database is not ready yet"_def ;
 
      DisplayBookWindow::ConfigType book_cfg;
 
@@ -411,6 +415,7 @@ class BookWindow : public ComboWindow
 
        label_cfg.bind(proxy);
        text_cfg.bind(proxy);
+       progress_cfg.bind(proxy);
        msg_cfg.bind(proxy);
       }
 
@@ -419,6 +424,7 @@ class BookWindow : public ComboWindow
       {
        text_Title.bind(bag.text_Title);
        text_Page.bind(bag.text_Page);
+       text_NotReady.bind(bag.text_NotReady);
       }
     };
 
@@ -443,17 +449,51 @@ class BookWindow : public ComboWindow
 
    DisplayBookWindow book;
 
+   ArrowProgressWindow progress;
+
    // frames
 
    MessageFrame msg;
 
+   // incremental
+
+   class ProgressControl : public IncrementalProgress
+    {
+      ArrowProgressWindow &window;
+
+     public:
+
+      explicit ProgressControl(ArrowProgressWindow &window);
+
+      ~ProgressControl();
+
+      // IncrementalProgress
+
+      virtual void start();
+
+      virtual void setTotal(unsigned total);
+
+      virtual bool setPos(unsigned pos);
+
+      virtual void stop() noexcept;
+    };
+
+   ProgressControl progress_control;
+
+   FontLookup::Incremental font_inc;
+   bool font_flag = true ;
+
   private:
 
-   void error(StrLen etext);
+   void error(DefString etext);
 
    void enableFrame();
 
    SignalConnector<BookWindow> connector_msg_destroyed;
+
+   void font_completed(bool ok);
+
+   SignalConnector<BookWindow,bool> connector_font_completed;
 
   public:
 
@@ -474,6 +514,10 @@ class BookWindow : public ComboWindow
    virtual void layout(unsigned flags);
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
+
+   // base
+
+   virtual void open();
  };
 
 } // namespace App

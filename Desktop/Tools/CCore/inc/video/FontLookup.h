@@ -37,11 +37,49 @@ class FontLookup : NoCopy
 
    static FontCouple Build(const FontInfo *info,Coord font_size,const FreeTypeFont::Config &font_config);
 
+   void buildIndex();
+
   public:
 
-   FontLookup();
+   enum InitType
+    {
+     None,
+     Populate,
+     Cache
+    };
+
+   explicit FontLookup(InitType type=Cache);
 
    ~FontLookup();
+
+   // incremental
+
+   class Step : NoCopy
+    {
+      FontDatabase::Step dbstep;
+
+     private:
+
+      StepResult finish(FontLookup &obj,StepResult result);
+
+     public:
+
+      Step();
+
+      ~Step();
+
+      StepResult start(FontLookup &obj,bool use_cache=true);
+
+      StepResult operator () (IncrementalProgress &progress,FontLookup &obj);
+
+      void erase() noexcept;
+    };
+
+   using Incremental = IncrementalBuilder<FontLookup,Step> ;
+
+   void cache(Incremental &inc,bool use_cache=true) { inc.start(*this,use_cache); }
+
+   // methods
 
    const FontInfo * find(StrLen family,bool bold,bool italic) const;
 

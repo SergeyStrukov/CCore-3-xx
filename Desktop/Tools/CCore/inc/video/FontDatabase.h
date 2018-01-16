@@ -195,7 +195,7 @@ class FontDatabase : NoCopy
 
    using Incremental = IncrementalBuilder<FontDatabase,Step> ;
 
-   void cache(Incremental &incfdb) { incfdb.start(*this); }
+   void cache(Incremental &inc,bool use_cache=true) { inc.start(*this,use_cache); }
  };
 
 /* class FontIndex */
@@ -304,7 +304,7 @@ class FontBuilder : NoCopy
 
    using Incremental = IncrementalBuilder<FontBuilder,Step> ;
 
-   void prepare(Incremental &incfb,bool use_cache=true) { incfb.start(*this,use_cache); }
+   void prepare(Incremental &inc,bool use_cache=true) { inc.start(*this,use_cache); }
 
    // methods
 

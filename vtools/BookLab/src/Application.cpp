@@ -65,6 +65,7 @@ struct AppPreferenceBag : ConfigItemHost
 
   DefString text_Title = "Title"_def ;
   DefString text_Page = "Page"_def ;
+  DefString text_NotReady = "Font database is not ready yet"_def ;
 
   // constructors
 
@@ -101,6 +102,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("codefont"_c,ptr->codefont.param);
   func("text_Title"_c,ptr->text_Title);
   func("text_Page"_c,ptr->text_Page);
+  func("text_NotReady"_c,ptr->text_NotReady);
  }
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
@@ -129,6 +131,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("codefont"_def,codefont);
     binder.item("'Title'"_def,text_Title);
     binder.item("'Page'"_def,text_Page);
+    binder.item("'Not ready'"_def,text_NotReady);
  }
 
 void AppPreferenceBag::createFonts()
