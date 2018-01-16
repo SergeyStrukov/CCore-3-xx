@@ -212,6 +212,7 @@ class InnerBookWindow : public SubWindow
    class Shape
     {
       Point size;
+      Coord offx = 0 ;
 
      public:
 

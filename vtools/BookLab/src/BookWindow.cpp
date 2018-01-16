@@ -137,13 +137,32 @@ struct InnerBookWindow::SizeContext
   const Book::TypeDef::Frame &frame;
   Coordinate wdx;
 
+  Coord &offx;
+
   Font font;
 
-  Point size(const Book::TypeDef::Text *obj) // TODO
+  void use(const Book::TypeDef::Format *fmt)
    {
-    if( !obj ) return Null;
+    if( fmt )
+      {
+       font=font_map(fmt->font,+cfg.codefont);
+      }
+    else
+      {
+       font=+cfg.codefont;
+      }
+   }
 
-    return Point(500,300);
+  Font useSpan(const Book::TypeDef::Format *fmt)
+   {
+    if( fmt )
+      {
+       return font_map(fmt->font,font);
+      }
+    else
+      {
+       return font;
+      }
    }
 
   Coordinate sizeSpan(Font font,StrLen text)
@@ -153,24 +172,120 @@ struct InnerBookWindow::SizeContext
     return ts.dx;
    }
 
+  Coordinate sizeSpace(Font font)
+   {
+    return sizeSpan(font," "_c);
+   }
+
+  Coordinate sizeSpace()
+   {
+    return sizeSpace(font);
+   }
+
+  Coordinate sizeSpan(Font font,StrLen text,bool space)
+   {
+    Coordinate dx=sizeSpan(font,text);
+
+    if( space ) dx+=sizeSpace(font);
+
+    return dx;
+   }
+
+  Coordinate sizeLine(Book::TypeDef::Span span,bool space)
+   {
+    Font font=useSpan(span.fmt);
+    auto line=span.list.getRange();
+
+    Coordinate dx=0;
+
+    for(; +line ;++line)
+      {
+       dx+=sizeSpan(font,*line,line.len>1);
+      }
+
+    if( space ) dx+=sizeSpace();
+
+    return dx;
+   }
+
+  Coordinate sizeLine(PtrLen<const Book::TypeDef::Span> line)
+   {
+    Coordinate dx=0;
+
+    for(; +line ;++line)
+      {
+       dx+=sizeLine(*line,line.len>1);
+      }
+
+    return dx;
+   }
+
+  Point size(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement)
+   {
+    if( !placement ) return Null;
+
+    Coordinate dx=sizeLine(range);
+
+    switch( placement->align )
+      {
+       case Book::LineRight :
+        {
+         Coord extra=+PlusSub(wdx,dx);
+
+         offx=extra;
+        }
+       break;
+
+       case Book::LineCenter :
+        {
+         Coord extra=+PlusSub(wdx,dx);
+
+         offx=extra/2;
+        }
+       break;
+
+       default: // case Book::LineLeft :
+        {
+         offx=0;
+        }
+      }
+
+    FontSize fs=font->getSize();
+
+    return Point(dx,fs.dy);
+   }
+
+  Point size(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement) // TODO
+   {
+    Used(range);
+
+    if( !placement ) return Null;
+
+    return Null;
+   }
+
+  Point size(const Book::TypeDef::Text *obj)
+   {
+    if( !obj ) return Null;
+
+    use(obj->fmt);
+
+    auto range=obj->list.getRange();
+
+    Point ret;
+
+    obj->placement.getPtr().apply( [&] (auto *placement) { ret=size(range,placement); } );
+
+    return ret;
+   }
+
   Coordinate sizeLine(Book::TypeDef::Line line)
    {
     Coordinate ret=0;
 
     for(const Book::TypeDef::FixedSpan &span : line.getRange() )
       {
-       Font font;
-
-       if( const Book::TypeDef::Format *fmt=span.fmt )
-         {
-          font=font_map(fmt->font,this->font);
-         }
-       else
-         {
-          font=this->font;
-         }
-
-       ret+=sizeSpan(font,span.body);
+       ret+=sizeSpan(useSpan(span.fmt),span.body);
       }
 
     return ret;
@@ -180,14 +295,7 @@ struct InnerBookWindow::SizeContext
    {
     if( !obj ) return Null;
 
-    if( const Book::TypeDef::Format *fmt=obj->fmt )
-      {
-       font=font_map(fmt->font,+cfg.codefont);
-      }
-    else
-      {
-       font=+cfg.codefont;
-      }
+    use(obj->fmt);
 
     FontSize fs=font->getSize();
 
@@ -239,64 +347,14 @@ struct InnerBookWindow::DrawContext
   const Book::TypeDef::Frame &frame;
   Pane pane;
   Point base;
+  Coord offx;
 
   Font font;
   Effect effect;
 
-  void draw(const Book::TypeDef::Text *obj) const // TODO
+  void use(const Book::TypeDef::Format *fmt)
    {
-    if( !obj ) return;
-
-   }
-
-  Coord drawSpan(Font font,VColor back,VColor fore,Effect effect,StrLen text,Point base)
-   {
-    TextSize ts=font->text(text);
-
-    if( back!=Book::NoColor ) FillBack(buf,pane,base,ts,back);
-
-    if( effect ) MakeEffect(buf,pane,base,ts,effect,fore,+cfg.width);
-
-    font->text(buf,pane,base,text,fore);
-
-    return ts.dx;
-   }
-
-  void drawLine(Book::TypeDef::Line line)
-   {
-    Point p=base;
-
-    for(const Book::TypeDef::FixedSpan &span : line.getRange() )
-      {
-       Font font;
-       VColor back;
-       VColor fore;
-       Effect effect;
-
-       if( const Book::TypeDef::Format *fmt=span.fmt )
-         {
-          font=font_map(fmt->font,this->font);
-          back=Cast(fmt->back);
-          fore=Combine(fmt->fore,this->fore);
-          effect=fmt->effect;
-         }
-       else
-         {
-          font=this->font;
-          back=Book::NoColor;
-          fore=this->fore;
-          effect=this->effect;
-         }
-
-       p.x+=drawSpan(font,back,fore,effect,span.body,p);
-      }
-   }
-
-  void draw(const Book::TypeDef::FixedText *obj)
-   {
-    if( !obj ) return;
-
-    if( const Book::TypeDef::Format *fmt=obj->fmt )
+    if( fmt )
       {
        font=font_map(fmt->font,+cfg.codefont);
 
@@ -310,6 +368,143 @@ struct InnerBookWindow::DrawContext
 
        effect=Book::NoEffect;
       }
+   }
+
+  struct Format
+   {
+    Font font;
+    VColor back;
+    VColor fore;
+    Effect effect;
+   };
+
+  Format useSpan()
+   {
+    Format ret;
+
+    ret.font=font;
+    ret.back=Book::NoColor;
+    ret.fore=fore;
+    ret.effect=effect;
+
+    return ret;
+   }
+
+  Format useSpan(const Book::TypeDef::Format *fmt)
+   {
+    if( fmt )
+      {
+       Format ret;
+
+       ret.font=font_map(fmt->font,font);
+       ret.back=Cast(fmt->back);
+       ret.fore=Combine(fmt->fore,fore);
+       ret.effect=fmt->effect;
+
+       return ret;
+      }
+    else
+      {
+       return useSpan();
+      }
+   }
+
+  Point drawSpan(Format fmt,StrLen text,Point base)
+   {
+    TextSize ts=fmt.font->text(text);
+
+    if( fmt.back!=Book::NoColor ) FillBack(buf,pane,base,ts,fmt.back);
+
+    if( fmt.effect ) MakeEffect(buf,pane,base,ts,fmt.effect,fmt.fore,+cfg.width);
+
+    fmt.font->text(buf,pane,base,text,fmt.fore);
+
+    base.x+=ts.dx;
+
+    return base;
+   }
+
+  Point drawSpace(Format fmt,Point base)
+   {
+    return drawSpan(fmt," "_c,base);
+   }
+
+  Point drawSpace(Point base)
+   {
+    return drawSpace(useSpan(),base);
+   }
+
+  Point drawSpan(Format fmt,StrLen text,bool space,Point base)
+   {
+    base=drawSpan(fmt,text,base);
+
+    if( space ) base=drawSpace(fmt,base);
+
+    return base;
+   }
+
+  Point drawLine(Book::TypeDef::Span span,bool space,Point base)
+   {
+    Format fmt=useSpan(span.fmt);
+    auto line=span.list.getRange();
+
+    for(; +line ;++line)
+      {
+       base=drawSpan(fmt,*line,line.len>1,base);
+      }
+
+    if( space ) base=drawSpace(base);
+
+    return base;
+   }
+
+  void drawLine(PtrLen<const Book::TypeDef::Span> line,Point base)
+   {
+    for(; +line ;++line)
+      {
+       base=drawLine(*line,line.len>1,base);
+      }
+   }
+
+  void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement)
+   {
+    if( !placement ) return;
+
+    drawLine(range,base.addX(offx));
+   }
+
+  void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement) // TODO
+   {
+    Used(range);
+    Used(placement);
+   }
+
+  void draw(const Book::TypeDef::Text *obj)
+   {
+    if( !obj ) return;
+
+    use(obj->fmt);
+
+    auto range=obj->list.getRange();
+
+    obj->placement.getPtr().apply( [&] (auto *placement) { draw(range,placement); } );
+   }
+
+  void drawLine(PtrLen<const Book::TypeDef::FixedSpan> line)
+   {
+    Point p=base;
+
+    for(const Book::TypeDef::FixedSpan &span : line )
+      {
+       p=drawSpan(useSpan(span.fmt),span.body,p);
+      }
+   }
+
+  void draw(const Book::TypeDef::FixedText *obj)
+   {
+    if( !obj ) return;
+
+    use(obj->fmt);
 
     FontSize fs=font->getSize();
 
@@ -319,7 +514,7 @@ struct InnerBookWindow::DrawContext
 
     for(const Book::TypeDef::Line &line : obj->list.getRange() )
       {
-       drawLine(line);
+       drawLine(line.getRange());
 
        base.y+=dy;
       }
@@ -376,7 +571,7 @@ void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,const Book:
 
   Point delta=2*( Cast(frame.inner)+Cast(frame.outer) );
 
-  SizeContext ctx{cfg,font_map,frame,dx-delta.x};
+  SizeContext ctx{cfg,font_map,frame,dx-delta.x,offx};
 
   size=ctx.size()+delta;
  }
@@ -496,7 +691,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor for
 
   DrawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,fore,buf,frame,inner,Cast(frame.inner)};
+  DrawContext ctx{cfg,font_map,fore,buf,frame,inner,Cast(frame.inner),offx};
 
   ctx.draw();
  }
