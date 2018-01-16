@@ -14,11 +14,15 @@ Point DefaultOuter = { 5 , 5 } ;
 
 /* font */
 
-Font font = { 'Anonymous Pro' , 24 } ;
+Font fixed = { 'Anonymous Pro' , 24 } ;
 
-Font font_bold = { .face = font.face , .size = font.size , .bold = True } ;
+Font fixed_bold = { .face = fixed.face , .size = fixed.size , .bold = True } ;
 
-Font font_italic = { .face = font.face , .size = font.size , .italic = True } ;
+Font fixed_italic = { .face = fixed.face , .size = fixed.size , .italic = True } ;
+
+Font font = { 'Times New Roman' , 28 } ;
+
+Font font_italic = { .face = font.face , .size=font.size , .italic = True } ;
 
 /* formats */
 
@@ -28,13 +32,21 @@ VColor DarkGreen = 08000h ;
 
 VColor Light = 0D0D0D0h ;
 
-Format fmt = {&font,NoColor,Black} ;
+Format fmt = {&fixed,NoColor,Black} ;
 
-Format fmt_keyword = {&font_bold,NoColor,Blue} ;
+Format fmt_keyword = {&fixed_bold,NoColor,Blue} ;
 
 Format fmt_name = {null,Light,DarkGreen,Format#Underline} ;
 
-Format fmt_iname = {&font_italic,Light,DarkGreen,Format#Strikeout} ;
+Format fmt_iname = {&fixed_italic,Light,DarkGreen,Format#Strikeout} ;
+
+Format fmt_H1 = {&font} ;
+
+Format fmt_H1_italic = { .font = &font_italic , .back = Light } ;
+
+/* placement */
+
+OneLine H1 = { OneLine#Center } ;
 
 /* texts */
 
@@ -46,7 +58,13 @@ FixedText text1 = { {
                     &fmt 
                   } ;
 
-Text text2 = {} ;
+
+
+Text text2 = { { 
+                { {'Header','H1','this','is'} } , 
+                { {'a','test','book'} , &fmt_H1_italic } , 
+                { {'with','test','content'} } 
+               } , &fmt_H1 , &H1 } ;
 
 Bitmap pict1 = 
  {

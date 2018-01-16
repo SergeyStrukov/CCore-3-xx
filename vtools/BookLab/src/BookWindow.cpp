@@ -145,6 +145,18 @@ struct InnerBookWindow::SizeContext
    {
     if( fmt )
       {
+       font=font_map(fmt->font,+cfg.font);
+      }
+    else
+      {
+       font=+cfg.font;
+      }
+   }
+
+  void useFixed(const Book::TypeDef::Format *fmt)
+   {
+    if( fmt )
+      {
        font=font_map(fmt->font,+cfg.codefont);
       }
     else
@@ -252,7 +264,7 @@ struct InnerBookWindow::SizeContext
 
     FontSize fs=font->getSize();
 
-    return Point(dx,fs.dy);
+    return Point( Max(dx,wdx) , fs.dy );
    }
 
   Point size(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement) // TODO
@@ -295,7 +307,7 @@ struct InnerBookWindow::SizeContext
    {
     if( !obj ) return Null;
 
-    use(obj->fmt);
+    useFixed(obj->fmt);
 
     FontSize fs=font->getSize();
 
@@ -353,6 +365,24 @@ struct InnerBookWindow::DrawContext
   Effect effect;
 
   void use(const Book::TypeDef::Format *fmt)
+   {
+    if( fmt )
+      {
+       font=font_map(fmt->font,+cfg.font);
+
+       Combine(fore,fmt->fore);
+
+       effect=fmt->effect;
+      }
+    else
+      {
+       font=+cfg.font;
+
+       effect=Book::NoEffect;
+      }
+   }
+
+  void useFixed(const Book::TypeDef::Format *fmt)
    {
     if( fmt )
       {
@@ -485,6 +515,10 @@ struct InnerBookWindow::DrawContext
 
     use(obj->fmt);
 
+    FontSize fs=font->getSize();
+
+    base.y+=fs.by;
+
     auto range=obj->list.getRange();
 
     obj->placement.getPtr().apply( [&] (auto *placement) { draw(range,placement); } );
@@ -504,7 +538,7 @@ struct InnerBookWindow::DrawContext
    {
     if( !obj ) return;
 
-    use(obj->fmt);
+    useFixed(obj->fmt);
 
     FontSize fs=font->getSize();
 
@@ -700,9 +734,11 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor for
 
 void InnerBookWindow::cache(unsigned update_flag) const
  {
-  if( update_flag || !ok )
+  Coord dx=getSize().x;
+
+  if( update_flag || !ok || cache_dx!=dx )
     {
-     Coord dx=getSize().x;
+     ok=false;
 
      if( shapes.getLen()!=frames.len )
        {
@@ -724,6 +760,7 @@ void InnerBookWindow::cache(unsigned update_flag) const
      size=s;
 
      ok=true;
+     cache_dx=dx;
     }
  }
 

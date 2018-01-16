@@ -264,6 +264,7 @@ class InnerBookWindow : public SubWindow
    mutable Size size;
 
    mutable bool ok = false ;
+   mutable Coord cache_dx;
 
   private:
 
