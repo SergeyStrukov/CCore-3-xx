@@ -333,13 +333,7 @@ struct InnerBookWindow::DrawContext
 
      static void Line(PtrLen<const Book::TypeDef::VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
       {
-       if( x>=line.len ) return;
-
-       Replace_min<ulen>(dx,line.len-x);
-
-       auto part=line.part(x,dx);
-
-       for(; +part ;++part,ptr+=DesktopColor::RawCount)
+       for(auto part=SafePart(line,x,dx); +part ;++part,ptr+=DesktopColor::RawCount)
          {
           DesktopColor col(Cast(*part));
 
@@ -582,7 +576,7 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
     }
   else
     {
-     return Point(100,100);
+     return Point(500,300);
     }
  }
 

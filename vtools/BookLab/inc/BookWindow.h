@@ -32,6 +32,16 @@ inline Point Cast(Book::TypeDef::Point p) { return {p.x,p.y}; }
 
 inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(r.a,r.b); }
 
+/* SafePart() */
+
+template <class T>
+PtrLen<T> SafePart(PtrLen<T> range,ulen off,ulen len)
+ {
+  if( off>range.len ) return Null;
+
+  return range.part(off,Min_cast(len,range.len-off));
+ }
+
 /* functions */
 
 inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
