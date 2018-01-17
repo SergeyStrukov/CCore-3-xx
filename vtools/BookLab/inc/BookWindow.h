@@ -213,6 +213,7 @@ class InnerBookWindow : public SubWindow
     {
       Point size;
       Coord offx = 0 ;
+      DynArray<ulen> split;
 
      public:
 

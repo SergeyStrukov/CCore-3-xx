@@ -48,6 +48,8 @@ Format fmt_H1_italic = { .font = &font_italic , .back = Light } ;
 
 OneLine H1 = { OneLine#Center } ;
 
+MultiLine DefaultPlacement = { {5,4} , {3,1} } ;
+               
 /* texts */
 
 FixedText text1 = { { 
@@ -65,6 +67,9 @@ Text text2 = { {
                 { {'a','test','book'} , &fmt_H1_italic } , 
                 { {'with','test','content'} } 
                } , &fmt_H1 , &H1 } ;
+               
+Text text3 = { { {{'The'}},{{'full'}},{{'color'}},{{'palette'}},{{'is'}},{{'shown'}},{{'on'}},{{'the'}},{{'bottom'}},{{'part'}},
+                 {{'of'}},{{'the'}},{{'dialog.'}} } } ;                            
 
 Bitmap pict1 = 
  {
@@ -89,6 +94,7 @@ Bitmap pict1 =
 Page page1 = { 'Main page' , { 
                                { &text1 , &DefaultSingleLine },
                                { &text2 , &DefaultDoubleLine },
+                               { &text3 , &DefaultSingleLine },
                                { &pict1 , null , DefaultInner , DefaultOuter , 0FFh }
  
                              } } ;
