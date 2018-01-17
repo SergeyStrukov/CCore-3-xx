@@ -174,6 +174,10 @@ struct Page
   
   VColor back = NoColor ;
   VColor fore = NoColor ;
+  
+  Page *top = null ;
+  Page *prev = null ;
+  Page *next = null ;
  };
  
 struct Book

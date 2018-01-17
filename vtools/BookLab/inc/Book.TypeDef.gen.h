@@ -77,6 +77,9 @@ struct TypeDefCore
     DDL::MapRange< S4 > list;
     A6 back;
     A6 fore;
+    DDL::MapPtr< S5 > top;
+    DDL::MapPtr< S5 > prev;
+    DDL::MapPtr< S5 > next;
 
     struct Ext;
    };

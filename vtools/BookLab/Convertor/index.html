@@ -1,0 +1,77 @@
+<h1>Mandelbrot scope</h1>
+
+<h2>Introduction</h2>
+
+<img src="html/Mandelbrot.png">
+
+<p>
+<b>Mandelbrot scope</b> (MScope.exe) is a software to display the Mandelbrot Set. The Mandelbrot Set is a famous mathematical fractal set,
+it has been discovered by <a href="http://users.math.yale.edu/mandelbrot/">Benoit B. Mandelbrot</a>.
+The Mandelbrot Set itself cannot be calculated, because it requires infinite number of precise iteration per point.
+But we can calculate and paint the outer of it up to some level. 
+The rest of the painted area is black and contains inside the true Mandelbrot Set, but we don't know which part.
+The more deeper we calculate, the more closer we are coming to the true border.
+You can select the depth in the <i>Options</i> menu. You can also adjust the color palette to paint the outer part.
+</p>
+
+<h2>Navigation</h2>
+
+<p>
+To move the picture drag it by the mouse. 
+To zoom/unzoom the picture use the mouse wheel. 
+To return to the top view use the key <b>Home</b>.
+</p>
+
+<h2>Software options</h2>
+
+<p>
+The menu <i>Options</i> contains three submenus: <i>Global</i>, <i>Application</i>, <i>Colors</i>. 
+The first submenu opens the dialog to edit preferences, shared by all applications.
+The second submenu opens the dialog to edit preferences, specific to the application.
+The submenu <i>Colors</i> opens the dialog, used to change the color palette and the depth of the calculation.
+</p>
+
+<img src="html/Colors.png">
+
+<p>
+There are several configuration options on this dialog.
+</p>
+
+<p>
+The spinor <b>Cap</b> controls the calculation depth.
+</p>
+
+<p>
+The spinor <b>Len</b> determines the number of colors between pivot colors. The full color palette is built upon the pivot color list. 
+Between two consecutive pivot colors a number of intermediate colors are inserted, using progressive blending of edge colors.
+The pivot list is cycled, when needed, except the first pivot color, which is usually <b>Blue</b>.
+</p>
+
+<p>
+The full color palette is shown on the bottom part of the dialog.
+</p>
+
+<p>
+The list of pivot colors is presented in the middle left part of the dialog. You can insert a new element or delete an existing element from the list
+using buttons or keys <b>Insert</b> and <b>Delete</b>. You can also change the selected color using RGB spinors or the color cube.
+</p>
+
+<h2>System requirements</h2>
+
+<p>
+To run this software you will need a quit fast PC with GPU (or another OpenCL accelerator). 
+Operating system Windows 10 is required, but you may try earlier versions (not guaranteed).
+To perform calculation an OpenCL provider is required. 
+It is installed automatically with modern GPU drivers.
+</p>
+
+<h2>Copyright notes</h2>
+
+<p>
+Copyright (c) 2017 Sergey Strukov. All rights reserved.
+</p>
+
+<p>
+This software is distributed under the commercial license, see the <b>License.txt</b> for details.
+</p>
+

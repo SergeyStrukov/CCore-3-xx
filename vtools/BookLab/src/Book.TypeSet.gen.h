@@ -79,7 +79,10 @@ struct TypeSet : TypeDefCore
                                "name",offsetof(S5,name),
                                "list",offsetof(S5,list),
                                "back",offsetof(S5,back),
-                               "fore",offsetof(S5,fore)
+                               "fore",offsetof(S5,fore),
+                               "top",offsetof(S5,top),
+                               "prev",offsetof(S5,prev),
+                               "next",offsetof(S5,next)
                               );
         }
        return ret;
@@ -316,7 +319,10 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                DDL::MapRange< S4 >,
                                A6,
-                               A6
+                               A6,
+                               DDL::MapPtr< S5 >,
+                               DDL::MapPtr< S5 >,
+                               DDL::MapPtr< S5 >
                               >(*this,struct_node);
         }
        break;
