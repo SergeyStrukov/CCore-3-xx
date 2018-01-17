@@ -63,13 +63,13 @@ FixedText text1 = { {
 
 
 Text text2 = { { 
-                { {'Header','H1','this','is'} } , 
-                { {'a','test','book'} , &fmt_H1_italic } , 
-                { {'with','test','content'} } 
+                { 'Header H1 this is' } , 
+                { 'a test book' , &fmt_H1_italic } , 
+                { 'with test content' } 
                } , &fmt_H1 , &H1 } ;
                
-Text text3 = { { {{'The'}},{{'full'}},{{'color'}},{{'palette'}},{{'is'}},{{'shown'}},{{'on'}},{{'the'}},{{'bottom'}},{{'part'}},
-                 {{'of'}},{{'the'}},{{'dialog.'}} } } ;                            
+Text text3 = { { {'The'},{'full'},{'color'},{'palette'},{'is'},{'shown'},{'on'},{'the'},{'bottom'},{'part'},
+                 {'of'},{'the'},{'dialog.'} } } ;                            
 
 Bitmap pict1 = 
  {

@@ -128,7 +128,7 @@ struct TypeDefCore
 
   struct S11
    {
-    DDL::MapRange< DDL::MapText > list;
+    DDL::MapText body;
     DDL::MapPtr< S15 > fmt;
     DDL::MapPolyPtr< S1 , S5 > ref;
 

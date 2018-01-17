@@ -85,7 +85,7 @@ struct MultiLine
 
 struct Span
  {
-  text[] list;
+  text body;
   
   Format *fmt = null ;
   

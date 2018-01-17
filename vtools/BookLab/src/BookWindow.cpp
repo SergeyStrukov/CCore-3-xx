@@ -200,39 +200,53 @@ struct InnerBookWindow::SizeContext
     return space_dx;
    }
 
-  Coordinate sizeSpan(Font font,StrLen text,bool space)
+  Coordinate sizeSpan(Book::TypeDef::Span span)
    {
-    Coordinate dx=sizeSpan(font,text);
-
-    if( space ) dx+=sizeSpace(font);
-
-    return dx;
+    return sizeSpan(useSpan(span.fmt),span.body);
    }
 
-  Coordinate sizeLine(Book::TypeDef::Span span,bool space=false)
+  struct DeltaSize
+   {
+    Coordinate dx;
+    Coordinate edx;
+   };
+
+  DeltaSize sizeSpan(const Book::TypeDef::Format *fmt,Book::TypeDef::Span span)
    {
     Font font=useSpan(span.fmt);
-    auto line=span.list.getRange();
 
-    Coordinate dx=0;
+    Coordinate sdx;
 
-    for(; +line ;++line)
+    if( fmt==span.fmt )
       {
-       dx+=sizeSpan(font,*line,line.len>1);
+       sdx=sizeSpace(font);
+      }
+    else
+      {
+       sdx=sizeSpace();
       }
 
-    if( space ) dx+=sizeSpace();
+    Coordinate dx=sizeSpan(font,span.body);
 
-    return dx;
+    return {dx,dx+sdx};
    }
 
   Coordinate sizeLine(PtrLen<const Book::TypeDef::Span> line)
    {
     Coordinate dx=0;
 
-    for(; +line ;++line)
+    if( +line )
       {
-       dx+=sizeLine(*line,line.len>1);
+       dx=sizeSpan(*line);
+
+       const Book::TypeDef::Format *fmt=line->fmt;
+
+       for(++line; +line ;++line)
+         {
+          dx+=sizeSpan(fmt,*line).edx;
+
+          fmt=line->fmt;
+         }
       }
 
     return dx;
@@ -287,7 +301,9 @@ struct InnerBookWindow::SizeContext
 
     if( +range )
       {
-       Coordinate dx=sizeLine(*range)+first_dx;
+       Coordinate dx=sizeSpan(*range)+first_dx;
+
+       const Book::TypeDef::Format *fmt=range->fmt;
 
        while( +range )
          {
@@ -295,11 +311,13 @@ struct InnerBookWindow::SizeContext
 
           for(++range; +range ;++range,len++)
             {
-             Coordinate dx1=sizeLine(*range);
+             DeltaSize delta=sizeSpan(fmt,*range);
 
-             if( dx1<=wdx-dx-sizeSpace() )
+             fmt=range->fmt;
+
+             if( delta.edx<=wdx-dx )
                {
-                dx+=dx1+sizeSpace();
+                dx+=delta.edx;
                }
              else
                {
@@ -307,7 +325,7 @@ struct InnerBookWindow::SizeContext
 
                 tdy+=dy;
 
-                dx=dx1;
+                dx=delta.dx;
 
                 break;
                }
@@ -511,35 +529,41 @@ struct InnerBookWindow::DrawContext
     return drawSpace(useSpan(),base);
    }
 
-  Point drawSpan(Format fmt,StrLen text,bool space,Point base)
+  Point drawSpan(Book::TypeDef::Span span,Point base)
    {
-    base=drawSpan(fmt,text,base);
-
-    if( space ) base=drawSpace(fmt,base);
-
-    return base;
+    return drawSpan(useSpan(span.fmt),span.body,base);
    }
 
-  Point drawLine(Book::TypeDef::Span span,bool space,Point base)
+  Point drawSpan(const Book::TypeDef::Format *fmt,Book::TypeDef::Span span,Point base)
    {
-    Format fmt=useSpan(span.fmt);
-    auto line=span.list.getRange();
+    Format format=useSpan(span.fmt);
 
-    for(; +line ;++line)
+    if( fmt==span.fmt )
       {
-       base=drawSpan(fmt,*line,line.len>1,base);
+       base=drawSpace(format,base);
+      }
+    else
+      {
+       base=drawSpace(base);
       }
 
-    if( space ) base=drawSpace(base);
-
-    return base;
+    return drawSpan(format,span.body,base);
    }
 
   void drawLine(PtrLen<const Book::TypeDef::Span> line,Point base)
    {
-    for(; +line ;++line)
+    if( +line )
       {
-       base=drawLine(*line,line.len>1,base);
+       base=drawSpan(*line,base);
+
+       const Book::TypeDef::Format *fmt=line->fmt;
+
+       for(++line; +line ;++line)
+         {
+          base=drawSpan(fmt,*line,base);
+
+          fmt=line->fmt;
+         }
       }
    }
 
