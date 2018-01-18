@@ -16,6 +16,22 @@
 
 namespace App {
 
+/* classes */
+
+struct BitmapProc;
+
+/* struct BitmapProc */
+
+struct BitmapProc
+ {
+  virtual void operator () (const void *buf,int dx,int dy,int dline) =0 ;
+
+  static bool Proc(const wchar_t *file_name,BitmapProc &proc);
+
+  void open(const wchar_t *file_name) { Proc(file_name,*this); }
+
+  void open(const char *file_name,size_t len);
+ };
 
 } // namespace App
 

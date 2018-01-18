@@ -18,6 +18,8 @@
 
 #include <CCore/inc/video/PrintDDL.h>
 
+#include "Bitmap.h"
+
 namespace App {
 
 /* using */
@@ -185,6 +187,23 @@ class TestProc
    bool tagImg(String file_name) { Printf(Con,"Img #.q;\n",file_name); return true; }
 
    bool complete() { return true; }
+ };
+
+/* struct PrintBmp */
+
+struct PrintBmp : BitmapProc
+ {
+  PrintBase &out;
+
+  explicit PrintBmp(PrintBase &out_) : out(out_) {}
+
+  virtual void operator () (const void *buf,int dx,int dy,int dline)
+   {
+    Used(buf);
+    Used(dline);
+
+    Printf(Con,"dx = #; dy = #;\n",dx,dy);
+   }
  };
 
 /* class Convert */
@@ -360,9 +379,13 @@ class Convert : NoCopy
 
    void makeImg(String file_name)
     {
-     Used(file_name);
+     PrintBmp print(out);
 
      Printf(out,"Bitmap text#; = {\n",ind++);
+
+     auto name=Range(file_name);
+
+     print.open(name.ptr,name.len);
 
      Putobj(out,"};\n\n");
     }
