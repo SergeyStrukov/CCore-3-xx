@@ -1,12 +1,15 @@
 OBJ_LIST = \
+.obj/Bitmap.o \
 .obj/main.o \
 
 
 ASM_LIST = \
+.obj/Bitmap.s \
 .obj/main.s \
 
 
 DEP_LIST = \
+.obj/Bitmap.dep \
 .obj/main.dep \
 
 
@@ -16,15 +19,24 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
+.obj/Bitmap.o : ././Bitmap.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : ././main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
+.obj/Bitmap.s : ././Bitmap.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/main.s : ././main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+.obj/Bitmap.dep : ././Bitmap.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Bitmap.o $< -MF $@
 
 .obj/main.dep : ././main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

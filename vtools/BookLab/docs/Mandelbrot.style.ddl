@@ -4,6 +4,9 @@ include <Book.ddl>
 
 scope Pages {
 
+text BookName = 'Mandelbrot scope' ;
+text PageName = 'Manual' ;
+
 VColor Silver = 0C0C0C0h ;
 VColor Black  =       0h ;
 VColor Blue   =     0FFh ;
@@ -12,7 +15,7 @@ VColor Green  =    8000h ;
 VColor Back = Silver ;
 VColor Fore = Black ;
 
-Point DefaultInner = { 5 , 5 } ;
+Point DefaultInner = { 10 , 10 } ;
 
 MultiLine DefaultPlacement = { {1,1} , {2,1} } ;
 

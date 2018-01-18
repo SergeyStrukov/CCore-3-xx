@@ -13,6 +13,8 @@
 
 CCORE_ROOT = ../../..
 
+LDOPT_EXTRA = -lgdiplus
+
 include $(CCORE_ROOT)/Makefile.host
 
 TARGET = ./Convertor.exe

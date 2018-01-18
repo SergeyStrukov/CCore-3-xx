@@ -98,6 +98,10 @@ struct DDLPrintableString
    {
     switch( ch )
       {
+       case '"' : out.put('\\'); out.put('"'); break;
+
+       case '\\' : out.put('\\'); out.put('\\'); break;
+
        default:
         {
          if( CharIsPrintable(ch) ) out.put(ch); else GuardNotPrintable();
@@ -107,11 +111,11 @@ struct DDLPrintableString
 
   void print(PrinterType &out) const
    {
-    out.put('\'');
+    out.put('"');
 
     for(char ch : str ) PrintChar(out,ch);
 
-    out.put('\'');
+    out.put('"');
    }
  };
 
