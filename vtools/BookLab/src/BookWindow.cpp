@@ -282,6 +282,18 @@ const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *bmp)
 
 /* struct InnerBookWindow::SizeContext */
 
+bool InnerBookWindow::SkipSpace(StrLen text)
+ {
+  if( text.len!=1 ) return false;
+
+  switch( *text )
+    {
+     case '.' : case ',' : case ';' : case ':' : return true;
+
+     default: return false;
+    }
+ }
+
 struct InnerBookWindow::SizeContext
  {
   const Config &cfg;
@@ -368,15 +380,18 @@ struct InnerBookWindow::SizeContext
    {
     Font font=useSpan(span.fmt);
 
-    Coordinate sdx;
+    Coordinate sdx=0;
 
-    if( fmt==span.fmt )
+    if( !SkipSpace(span.body) )
       {
-       sdx=sizeSpace(font);
-      }
-    else
-      {
-       sdx=sizeSpace();
+       if( fmt==span.fmt )
+         {
+          sdx=sizeSpace(font);
+         }
+       else
+         {
+          sdx=sizeSpace();
+         }
       }
 
     Coordinate dx=sizeSpan(font,span.body);
@@ -688,13 +703,16 @@ struct InnerBookWindow::DrawContext
    {
     Format format=useSpan(span.fmt);
 
-    if( fmt==span.fmt )
+    if( !SkipSpace(span.body) )
       {
-       base=drawSpace(format,base);
-      }
-    else
-      {
-       base=drawSpace(base);
+       if( fmt==span.fmt )
+         {
+          base=drawSpace(format,base);
+         }
+       else
+         {
+          base=drawSpace(base);
+         }
       }
 
     return drawSpan(format,span.body,base);
