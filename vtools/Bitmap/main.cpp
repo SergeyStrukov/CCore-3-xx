@@ -112,7 +112,7 @@ int main(int argc,const char *argv[])
 
       if( argc<3 )
         {
-         Putobj(Con,"Usage: Bitmap <input-file-name> <output-file-name>\n");
+         Putobj(Con,"Usage: CCore-Bitmap <input-file-name> <output-file-name>\n");
 
          return 1;
         }

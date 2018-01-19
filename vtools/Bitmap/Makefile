@@ -11,21 +11,17 @@
 #
 #----------------------------------------------------------------------------------------
 
-CCORE_ROOT = ../../..
+CCORE_ROOT = ../..
 
 LDOPT_EXTRA = -lgdiplus
 
 include $(CCORE_ROOT)/Makefile.host
 
-TARGET = ./Bitmap.exe
+TARGET = $(HOME)/bin/CCore-Bitmap.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
-.PHONY : run
 
-run: $(TARGET) 
-	$(TARGET)  img/Colors.png img/Colors.bitmap
-	$(TARGET)  img/Mandelbrot.png img/Mandelbrot.bitmap
 
 
 
