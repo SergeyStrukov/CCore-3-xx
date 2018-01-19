@@ -115,11 +115,13 @@ class Bitmap
 
   private:
 
+   class File;
+
    struct Fill;
 
   public:
 
-   explicit Bitmap(StrLen file_name);
+   Bitmap(StrLen root,StrLen file_name);
 
    ulen dX() const { return dx; }
 
@@ -136,6 +138,8 @@ class BitmapMap : NoCopy
  {
    DynArray<Bitmap> map;
 
+   String root;
+
   public:
 
    BitmapMap() {}
@@ -143,6 +147,8 @@ class BitmapMap : NoCopy
    ~BitmapMap() {}
 
    void erase() { map.erase(); }
+
+   void setRoot(StrLen file_name);
 
    const Bitmap * operator () (Book::TypeDef::Bitmap *bmp);
  };
@@ -339,7 +345,7 @@ class InnerBookWindow : public SubWindow
 
    Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
 
    // special methods
 
@@ -418,7 +424,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    // methods
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
 
    // signals
 

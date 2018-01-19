@@ -18,6 +18,13 @@
 
 #include <CCore/inc/Scope.h>
 
+#include <CCore/inc/Path.h>
+#include <CCore/inc/MakeFileName.h>
+#include <CCore/inc/FileToMem.h>
+#include <CCore/inc/FeedBuf.h>
+#include <CCore/inc/SaveLoad.h>
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 /* functions */
@@ -130,6 +137,70 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
 /* class Bitmap */
 
+class Bitmap::File : NoCopy
+ {
+   RawFileToRead file;
+   DynArray<uint8> buf;
+
+   PtrLen<const uint8> cur;
+
+  private:
+
+   void provide()
+    {
+     uint8 *ptr=buf.getPtr();
+
+     ulen len=file.read(ptr,buf.getLen());
+
+     if( !len )
+       {
+        Printf(Exception,"App::Bitmap::File::provide() : no more data");
+       }
+
+     cur=Range(ptr,len);
+    }
+
+   void next(PtrLen<uint8> range)
+    {
+     while( +range )
+       {
+        if( !cur ) provide();
+
+        FeedBuf feed(range,cur);
+
+        range+=feed.delta;
+        cur+=feed.delta;
+       }
+    }
+
+  public:
+
+   explicit File(StrLen file_name)
+    : file(file_name),
+      buf(64_KByte)
+    {
+    }
+
+   ~File()
+    {
+    }
+
+   uint32 next()
+    {
+     uint8 temp[4];
+
+     next(Range(temp));
+
+     BufGetDev dev(temp);
+
+     uint32 ret;
+
+     dev.use<BeOrder>(ret);
+
+     return ret;
+    }
+ };
+
 struct Bitmap::Fill
  {
   ulen dx;
@@ -156,12 +227,16 @@ struct Bitmap::Fill
    }
  };
 
-Bitmap::Bitmap(StrLen file_name) // TODO
+Bitmap::Bitmap(StrLen root,StrLen file_name)
  {
-  Used(file_name);
+  MakeFileName temp(root,file_name);
 
-  dx=0;
-  dy=0;
+  File file(temp.get());
+
+  dx=file.next();
+  dy=file.next();
+
+  for(VColor &col : buf.extend_raw( LenOf(dx,dy) ) ) col=(VColor)file.next();
  }
 
 void Bitmap::draw(DrawBuf buf,Pane pane) const
@@ -171,24 +246,38 @@ void Bitmap::draw(DrawBuf buf,Pane pane) const
 
 /* class BitmapMap */
 
+void BitmapMap::setRoot(StrLen file_name)
+ {
+  SplitPath split1(file_name);
+  SplitName split2(split1.path);
+
+  file_name.len-=split2.name.len;
+
+  root=String(file_name);
+ }
+
 const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *bmp)
  {
   if( !bmp ) return 0;
 
-  if( ulen ext=bmp->ext )
+  try
     {
-     return &map.at(ext-1);
+     if( ulen ext=bmp->ext )
+       {
+        return &map.at(ext-1);
+       }
+     else
+       {
+        ulen ind=map.getLen();
+
+        Bitmap *ret=map.append_fill(Range(root),bmp->file_name);
+
+        bmp->ext=ind+1;
+
+        return ret;
+       }
     }
-  else
-    {
-     ulen ind=map.getLen();
-
-     Bitmap *ret=map.append_fill(bmp->file_name);
-
-     bmp->ext=ind+1;
-
-     return ret;
-    }
+  catch(...) { return 0; }
  }
 
 /* struct InnerBookWindow::SizeContext */
@@ -953,11 +1042,13 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
     }
  }
 
-void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
+void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back_,VColor fore_)
  {
   frames=Null;
 
   bmp_map.erase();
+
+  bmp_map.setRoot(file_name);
 
   if( page )
     {
@@ -1107,9 +1198,9 @@ DisplayBookWindow::~DisplayBookWindow()
 
  // methods
 
-void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore)
+void DisplayBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore)
  {
-  window.setPage(page,back,fore);
+  window.setPage(file_name,page,back,fore);
 
   layout(LayoutUpdate);
 
@@ -1227,7 +1318,7 @@ Point BookWindow::getMinSize(unsigned flags) const
 
 void BookWindow::blank()
  {
-  book.setPage(0,Book::NoColor,Book::NoColor);
+  book.setPage(Null,0,Book::NoColor,Book::NoColor);
 
   font_map.erase();
 
@@ -1270,7 +1361,7 @@ void BookWindow::load(StrLen file_name)
 
         layout(LayoutUpdate);
 
-        book.setPage(page,Cast(ptr->back),Cast(ptr->fore));
+        book.setPage(file_name,page,Cast(ptr->back),Cast(ptr->fore));
        }
      else
        {
@@ -1278,7 +1369,7 @@ void BookWindow::load(StrLen file_name)
 
         layout(LayoutUpdate);
 
-        book.setPage(0,Cast(ptr->back),Cast(ptr->fore));
+        book.setPage(Null,0,Cast(ptr->back),Cast(ptr->fore));
        }
 
      redraw();

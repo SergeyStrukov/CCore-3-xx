@@ -18,8 +18,6 @@
 
 #include <CCore/inc/video/PrintDDL.h>
 
-#include "Bitmap.h"
-
 namespace App {
 
 /* using */
@@ -188,79 +186,6 @@ class TestProc
    bool tagImg(String file_name) { Printf(Con,"Img #.q;\n",file_name); return true; }
 
    bool complete() { return true; }
- };
-
-/* struct PrintBmp */
-
-struct PrintBmp : BitmapProc
- {
-  PrintBase &out;
-
-  explicit PrintBmp(PrintBase &out_) : out(out_) {}
-
-  template <class P>
-  static void PrintLine(P &out,const void *buf,int dx) // dx > 0
-   {
-    const uint32 *ptr=static_cast<const uint32 *>(buf);
-
-    out.put('{');
-
-    while( dx-- >0 )
-      {
-       Printf(out,"#8.hi;", (*ptr)&0xFFFFFFu );
-
-       if( dx )
-         {
-          out.put(',');
-
-          ptr++;
-         }
-      }
-
-    out.put('}');
-   }
-
-  virtual void operator () (const void *buf,int dx,int dy,int dline)
-   {
-    if( dy<=0 || dx<=0 ) return;
-
-    if( dline>0 )
-      {
-       while( dy-- > 0 )
-         {
-          PrintLine(out,buf,dx);
-
-          if( dy )
-            {
-             out.put(',');
-
-             buf=PtrAdd(buf,dline);
-            }
-
-          out.put('\n');
-         }
-      }
-    else
-      {
-       Printf(Con,"dx = #; dy = #; dline = #;\n",dx,dy,dline);
-
-       dline=-dline;
-
-       while( dy-- > 0 )
-         {
-          PrintLine(out,buf,dx);
-
-          if( dy )
-            {
-             out.put(',');
-
-             buf=PtrSub(buf,dline);
-            }
-
-          out.put('\n');
-         }
-      }
-   }
  };
 
 /* class Convert */

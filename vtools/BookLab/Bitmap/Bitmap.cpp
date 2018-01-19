@@ -1,7 +1,7 @@
 /* Bitmap.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book Convertor 1.00
+//  Project: Bitmap Convertor 1.00
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //

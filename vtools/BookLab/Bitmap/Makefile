@@ -13,16 +13,19 @@
 
 CCORE_ROOT = ../../..
 
+LDOPT_EXTRA = -lgdiplus
+
 include $(CCORE_ROOT)/Makefile.host
 
-TARGET = ./Convertor.exe
+TARGET = ./Bitmap.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
 .PHONY : run
 
 run: $(TARGET) 
-	$(TARGET) index.html ../docs/Mandelbrot.book.ddl
+	$(TARGET)  img/Colors.png img/Colors.bitmap
+	$(TARGET)  img/Mandelbrot.png img/Mandelbrot.bitmap
 
 
 
