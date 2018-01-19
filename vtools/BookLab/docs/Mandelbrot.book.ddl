@@ -13,8 +13,7 @@ Text text2 = { {
 {"Introduction"}
 } , &fmt_h2 , &align_h2 } ;
 
-Bitmap text3 = {
-};
+Bitmap text3 = { "img/Mandelbrot" + '.bitmap'  };
 
 Text text4 = { {
 {"Mandelbrot",&fmt_b}
@@ -235,8 +234,7 @@ Text text8 = { {
 ,{"calculation."}
 } } ;
 
-Bitmap text9 = {
-};
+Bitmap text9 = { "img/Colors" + '.bitmap'  };
 
 Text text10 = { {
 {"There"}

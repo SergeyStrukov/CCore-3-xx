@@ -27,6 +27,7 @@ namespace App {
 using namespace CCore;
 
 using Video::DDLString;
+using Video::DDLPrintableString;
 
 /* class Source */
 
@@ -197,12 +198,68 @@ struct PrintBmp : BitmapProc
 
   explicit PrintBmp(PrintBase &out_) : out(out_) {}
 
+  template <class P>
+  static void PrintLine(P &out,const void *buf,int dx) // dx > 0
+   {
+    const uint32 *ptr=static_cast<const uint32 *>(buf);
+
+    out.put('{');
+
+    while( dx-- >0 )
+      {
+       Printf(out,"#8.hi;", (*ptr)&0xFFFFFFu );
+
+       if( dx )
+         {
+          out.put(',');
+
+          ptr++;
+         }
+      }
+
+    out.put('}');
+   }
+
   virtual void operator () (const void *buf,int dx,int dy,int dline)
    {
-    Used(buf);
-    Used(dline);
+    if( dy<=0 || dx<=0 ) return;
 
-    Printf(Con,"dx = #; dy = #;\n",dx,dy);
+    if( dline>0 )
+      {
+       while( dy-- > 0 )
+         {
+          PrintLine(out,buf,dx);
+
+          if( dy )
+            {
+             out.put(',');
+
+             buf=PtrAdd(buf,dline);
+            }
+
+          out.put('\n');
+         }
+      }
+    else
+      {
+       Printf(Con,"dx = #; dy = #; dline = #;\n",dx,dy,dline);
+
+       dline=-dline;
+
+       while( dy-- > 0 )
+         {
+          PrintLine(out,buf,dx);
+
+          if( dy )
+            {
+             out.put(',');
+
+             buf=PtrSub(buf,dline);
+            }
+
+          out.put('\n');
+         }
+      }
    }
  };
 
@@ -377,17 +434,21 @@ class Convert : NoCopy
 
    // Img
 
-   void makeImg(String file_name)
+   void makeImg(String file_name) { makeImg(Range(file_name)); }
+
+   void makeImg(StrLen file_name)
     {
-     PrintBmp print(out);
+     SplitPath split1(file_name);
+     SplitName split2(split1.path);
+     SplitExt split3(split2.name);
 
-     Printf(out,"Bitmap text#; = {\n",ind++);
+     file_name.len-=split3.ext.len;
 
-     auto name=Range(file_name);
+     Printf(out,"Bitmap text#; = { ",ind++);
 
-     print.open(name.ptr,name.len);
+     Printf(out,"#; + '.bitmap' ",DDLPrintableString(file_name));
 
-     Putobj(out,"};\n\n");
+     Putobj(out," };\n\n");
     }
 
   public:

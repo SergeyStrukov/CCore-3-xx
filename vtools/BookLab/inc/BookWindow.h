@@ -68,6 +68,10 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
 
 class FontMap;
 
+class Bitmap;
+
+class BitmapMap;
+
 class InnerBookWindow;
 
 class DisplayBookWindow;
@@ -99,6 +103,48 @@ class FontMap : NoCopy
    void erase() { map.erase(); }
 
    Font operator () (Book::TypeDef::Font *font,Font fallback);
+ };
+
+/* class Bitmap */
+
+class Bitmap
+ {
+   DynArray<VColor> buf;
+   ulen dx;
+   ulen dy;
+
+  private:
+
+   struct Fill;
+
+  public:
+
+   explicit Bitmap(StrLen file_name);
+
+   ulen dX() const { return dx; }
+
+   ulen dY() const { return dy; }
+
+   const VColor * getPtr() const { return buf.getPtr(); }
+
+   void draw(DrawBuf buf,Pane pane) const;
+ };
+
+/* class BitmapMap */
+
+class BitmapMap : NoCopy
+ {
+   DynArray<Bitmap> map;
+
+  public:
+
+   BitmapMap() {}
+
+   ~BitmapMap() {}
+
+   void erase() { map.erase(); }
+
+   const Bitmap * operator () (Book::TypeDef::Bitmap *bmp);
  };
 
 /* class InnerBookWindow */
@@ -166,6 +212,7 @@ class InnerBookWindow : public SubWindow
    const Config &cfg;
 
    FontMap &font_map;
+   mutable BitmapMap bmp_map;
 
    PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
@@ -221,9 +268,9 @@ class InnerBookWindow : public SubWindow
 
       Size getSize() const { return size; }
 
-      void set(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Coordinate dx);
+      void set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
 
-      void draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
+      void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
 
      private:
 
@@ -257,7 +304,7 @@ class InnerBookWindow : public SubWindow
 
       void drawLine(FontMap &font_map,Font font,VColor fore,Effect effect,MCoord width,DrawBuf buf,Book::TypeDef::Line line,Pane pane,Point base) const;
 
-      void draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
+      void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };
 
    mutable DynArray<Shape> shapes;

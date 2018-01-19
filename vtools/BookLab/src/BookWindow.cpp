@@ -112,7 +112,7 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
   if( ulen ext=font->ext )
     {
-     return map[ext-1];
+     return map.at(ext-1);
     }
   else
     {
@@ -128,12 +128,76 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
     }
  }
 
+/* class Bitmap */
+
+struct Bitmap::Fill
+ {
+  ulen dx;
+  ulen dy;
+  const VColor *ptr;
+
+  PtrLen<const VColor> line(ulen y) const { return Range(ptr+y*dx,dx); }
+
+  static void Line(PtrLen<const VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
+   {
+    for(auto part=SafePart(line,x,dx); +part ;++part,ptr+=DesktopColor::RawCount)
+      {
+       DesktopColor col(*part);
+
+       col.copyTo(ptr);
+      }
+   }
+
+  void operator () (ulen x,ulen y,ulen dx,DesktopColor::Raw *ptr) const
+   {
+    if( y>=dy ) return;
+
+    Line(line(y),x,dx,ptr);
+   }
+ };
+
+Bitmap::Bitmap(StrLen file_name) // TODO
+ {
+  Used(file_name);
+
+  dx=0;
+  dy=0;
+ }
+
+void Bitmap::draw(DrawBuf buf,Pane pane) const
+ {
+  buf.fill(pane,Fill{dx,dy,getPtr()});
+ }
+
+/* class BitmapMap */
+
+const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *bmp)
+ {
+  if( !bmp ) return 0;
+
+  if( ulen ext=bmp->ext )
+    {
+     return &map.at(ext-1);
+    }
+  else
+    {
+     ulen ind=map.getLen();
+
+     Bitmap *ret=map.append_fill(bmp->file_name);
+
+     bmp->ext=ind+1;
+
+     return ret;
+    }
+ }
+
 /* struct InnerBookWindow::SizeContext */
 
 struct InnerBookWindow::SizeContext
  {
   const Config &cfg;
   FontMap &font_map;
+  BitmapMap &bmp_map;
   const Book::TypeDef::Frame &frame;
   Coordinate wdx;
 
@@ -389,17 +453,13 @@ struct InnerBookWindow::SizeContext
     return Point(dx,CountToCoordinate(range.len)*dy);
    }
 
-  Point size(const Book::TypeDef::Bitmap *obj)
+  Point size(Book::TypeDef::Bitmap *obj)
    {
-    if( !obj ) return Null;
+    const Bitmap *bitmap=bmp_map(obj);
 
-    auto lines=obj->getRange();
+    if( !bitmap ) return Null;
 
-    if( !lines ) return Null;
-
-    auto line=lines[0].getRange();
-
-    return {CountToCoordinate(line.len),CountToCoordinate(lines.len)};
+    return {CountToCoordinate(bitmap->dX()),CountToCoordinate(bitmap->dY())};
    }
 
   Point size()
@@ -418,6 +478,7 @@ struct InnerBookWindow::DrawContext
  {
   const Config &cfg;
   FontMap &font_map;
+  BitmapMap &bmp_map;
   VColor fore;
   DrawBuf buf;
   const Book::TypeDef::Frame &frame;
@@ -659,41 +720,13 @@ struct InnerBookWindow::DrawContext
       }
    }
 
-  class Fill
+  void draw(Book::TypeDef::Bitmap *obj)
    {
-     PtrLen<DDL::MapRange<Book::TypeDef::VColor> > map;
+    const Bitmap *bitmap=bmp_map(obj);
 
-    private:
+    if( !bitmap ) return;
 
-     static void Line(PtrLen<const Book::TypeDef::VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
-      {
-       for(auto part=SafePart(line,x,dx); +part ;++part,ptr+=DesktopColor::RawCount)
-         {
-          DesktopColor col(Cast(*part));
-
-          col.copyTo(ptr);
-         }
-      }
-
-    public:
-
-     explicit Fill(const Book::TypeDef::Bitmap *obj) : map(obj->getRange()) {}
-
-     void operator () (ulen x,ulen y,ulen dx,DesktopColor::Raw *ptr) const
-      {
-       if( y >= map.len ) return;
-
-       Line(map[y].getRange(),x,dx,ptr);
-      }
-   };
-
-  void draw(const Book::TypeDef::Bitmap *obj)
-   {
-    if( !obj ) return;
-
-    pane=pane.shrink(base);
-
-    buf.fill(pane,Fill(obj));
+    bitmap->draw(buf,pane.shrink(base));
    }
 
   void draw()
@@ -704,7 +737,7 @@ struct InnerBookWindow::DrawContext
 
 /* struct InnerBookWindow::Shape */
 
-void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Coordinate dx)
+void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx)
  {
   Scope scope("App::InnerBookWindow::Shape::set"_c);
 
@@ -713,19 +746,19 @@ void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,const Book:
   offx=0;
   split.erase();
 
-  SizeContext ctx{cfg,font_map,frame,dx-delta.x,offx,split};
+  SizeContext ctx{cfg,font_map,bmp_map,frame,dx-delta.x,offx,split};
 
   size=ctx.size()+delta;
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
  {
   Scope scope("App::InnerBookWindow::Shape::draw"_c);
 
   if( posflag )
-    draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
+    draw(cfg,font_map,bmp_map,fore,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
-    draw(cfg,font_map,fore,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
+    draw(cfg,font_map,bmp_map,fore,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
  }
 
 VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
@@ -810,7 +843,7 @@ void InnerBookWindow::Shape::DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pa
   line.apply( [&] (auto *obj) { DrawLine(cfg,buf,obj,pane); } );
  }
 
-void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
+void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const
  {
   Pane pane(base,size);
 
@@ -833,7 +866,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,VColor for
 
   DrawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,fore,buf,frame,inner,Cast(frame.inner),offx,Range(split)};
+  DrawContext ctx{cfg,font_map,bmp_map,fore,buf,frame,inner,Cast(frame.inner),offx,Range(split)};
 
   ctx.draw();
  }
@@ -860,7 +893,7 @@ void InnerBookWindow::cache(unsigned update_flag) const
        {
         Shape &shape=shapes[i];
 
-        shape.set(cfg,font_map,frames[i],dx);
+        shape.set(cfg,font_map,bmp_map,frames[i],dx);
 
         s=StackY(s,shape.size);
        }
@@ -923,6 +956,8 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
 void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
  {
   frames=Null;
+
+  bmp_map.erase();
 
   if( page )
     {
@@ -1006,7 +1041,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<wdy )
           {
-           if( pos_x<size.dx ) shape.draw(cfg,font_map,fore,buf,frame,pos_x,delta,false);
+           if( pos_x<size.dx ) shape.draw(cfg,font_map,bmp_map,fore,buf,frame,pos_x,delta,false);
           }
         else
           {
@@ -1019,7 +1054,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
         if( delta<size.dy && pos_x<size.dx )
           {
-           shape.draw(cfg,font_map,fore,buf,frame,pos_x,delta,true);
+           shape.draw(cfg,font_map,bmp_map,fore,buf,frame,pos_x,delta,true);
           }
        }
 
