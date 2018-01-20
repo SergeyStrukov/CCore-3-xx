@@ -527,7 +527,7 @@ void FileFilterListWindow::layout(unsigned flags)
 
      PaneCut pane(size,BoxSpace(dy),flags);
 
-     for(auto &ptr : getList() ) pane.place_cutTop(*ptr);
+     for(auto &ptr : getList() ) pane.place_cutTop(*ptr,dy);
 
      pane.place_cutTopLeft(knob);
     }
