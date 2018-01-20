@@ -26,6 +26,8 @@ void TextLineShape::Cache::operator () (unsigned update_flag,const Config &cfg,S
  {
   if( update_flag || !ok )
     {
+     ok=false;
+
      const Font &font=cfg.font.get();
 
      MCoord width=+cfg.width;

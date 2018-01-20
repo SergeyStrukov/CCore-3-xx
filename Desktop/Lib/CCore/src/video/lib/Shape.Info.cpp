@@ -28,6 +28,8 @@ void InfoShape::Cache::operator () (unsigned update_flag,const Config &cfg,const
  {
   if( update_flag || !ok )
     {
+     ok=false;
+
      ulen count=info->getLineCount();
 
      const Font &font=cfg.font.get();

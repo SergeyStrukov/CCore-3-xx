@@ -255,6 +255,8 @@ void SimpleTopMenuShape::layout(unsigned update_flag)
  {
   if( update_flag || !ok )
     {
+     ok=false;
+
      const Font &font=cfg.font.get();
      FontSize fs=font->getSize();
      Point space=+cfg.space;

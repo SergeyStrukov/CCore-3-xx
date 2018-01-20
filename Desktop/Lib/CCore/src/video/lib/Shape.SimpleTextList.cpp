@@ -28,6 +28,8 @@ void SimpleTextListShape::Cache::operator () (unsigned update_flag,const Config 
  {
   if( update_flag || !ok )
     {
+     ok=false;
+
      ulen count=info->getLineCount();
 
      const Font &font=cfg.font.get();
