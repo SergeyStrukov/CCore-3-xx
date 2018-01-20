@@ -48,22 +48,28 @@ Point LineEditShape::getMinSize(unsigned update_flag) const
   return getMinSize(update_flag,"Sample 1234567890"_c);
  }
 
-Point LineEditShape::getMinSize(unsigned,StrLen sample_text) const
+Point LineEditShape::getMinSize(unsigned update_flag,StrLen sample_text) const
  {
+  Used(update_flag);
+
   return getMinSize(cfg.font->text_guarded(sample_text));
  }
 
 #ifdef CCORE_UTF8
 
-Point LineEditShape::getMinSize(unsigned,PtrLen<const Char> sample_text) const
+Point LineEditShape::getMinSize(unsigned update_flag,PtrLen<const Char> sample_text) const
  {
+  Used(update_flag);
+
   return getMinSize(cfg.font->text_guarded(sample_text));
  }
 
 #endif
 
-void LineEditShape::setMax(unsigned)
+void LineEditShape::setMax(unsigned update_flag)
  {
+  Used(update_flag);
+
   const Font &font=cfg.font.get();
 
   MCoord width=+cfg.width;

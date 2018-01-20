@@ -85,8 +85,10 @@ Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
     }
  }
 
-Point ScrollListShape::getMinSize(unsigned,Point cap) const
+Point ScrollListShape::getMinSize(unsigned update_flag,Point cap) const
  {
+  if( update_flag ) cache.ok=false;
+
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
@@ -108,8 +110,10 @@ Point ScrollListShape::getMinSize(unsigned,Point cap) const
   return 2*space+Inf(Point(dx,dy.value),cap-2*space);
  }
 
-Point ScrollListShape::getMinSize(unsigned,unsigned lines) const
+Point ScrollListShape::getMinSize(unsigned update_flag,unsigned lines) const
  {
+  if( update_flag ) cache.ok=false;
+
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;

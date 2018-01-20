@@ -54,8 +54,10 @@ void SimpleTextListShape::Cache::operator () (unsigned update_flag,const Config 
     }
  }
 
-Point SimpleTextListShape::getMinSize(unsigned,Point cap) const
+Point SimpleTextListShape::getMinSize(unsigned update_flag,Point cap) const
  {
+  if( update_flag ) cache.ok=false;
+
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;

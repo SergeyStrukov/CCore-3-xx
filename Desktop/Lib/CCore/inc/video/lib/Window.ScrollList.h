@@ -670,6 +670,8 @@ class ScrollableWindow : public ComboWindow
 
      window.setPlace(pane,flags);
 
+     flags=ClearUpdate(flags);
+
      if( window.shortDY() )
        {
         Pane py=SplitX(pane,delta_x);

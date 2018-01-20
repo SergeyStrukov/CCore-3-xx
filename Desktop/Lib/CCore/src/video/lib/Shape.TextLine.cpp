@@ -61,8 +61,10 @@ Point TextLineShape::getMinSize(unsigned update_flag) const
   return 2*Point(cache.inner_dx,cache.inner_dy)+Point(cache.text_dx,cache.text_dy)+(+cfg.space);
  }
 
-Point TextLineShape::getMinSize(unsigned,StrLen text) const
+Point TextLineShape::getMinSize(unsigned update_flag,StrLen text) const
  {
+  if( update_flag ) cache.ok=false;
+
   TextSize ts=cfg.font->text_guarded(text);
 
   MCoord width=+cfg.width;
