@@ -65,7 +65,7 @@ Point InsWindow::getMinSize(unsigned flags,Point cap) const
 
   LayToTop lay(lay1,LayCap(list));
 
-  return lay.getMinSize(flags,space,cap);
+  return ExtLay(lay).getMinSize(flags,space,cap);
  }
 
  // drawing
@@ -78,7 +78,7 @@ void InsWindow::layout(unsigned flags)
 
   LayToTop lay(lay1,Lay(list));
 
-  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
+  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void InsWindow::drawBack(DrawBuf buf,bool) const

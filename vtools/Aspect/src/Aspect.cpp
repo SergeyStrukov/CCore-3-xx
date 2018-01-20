@@ -1191,7 +1191,7 @@ Point AspectWindow::getMinSize(unsigned flags) const
 
   LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  return lay.getMinSize(flags,space);
+  return ExtLay(lay).getMinSize(flags,space);
  }
 
 void AspectWindow::blank(StrLen path)
@@ -1334,7 +1334,7 @@ void AspectWindow::layout(unsigned flags)
 
   LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
+  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void AspectWindow::drawBack(DrawBuf buf,bool) const

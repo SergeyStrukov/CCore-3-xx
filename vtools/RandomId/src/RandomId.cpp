@@ -115,7 +115,7 @@ Point RandomIdWindow::getMinSize(unsigned flags) const
 
   LayToRightTop lay(lay2,lay3);
 
-  return lay.getMinSize(flags,space)+2*Point::Diag(space);
+  return ExtLay(lay).getMinSize(flags,space);
  }
 
  // drawing
@@ -140,7 +140,7 @@ void RandomIdWindow::layout(unsigned flags)
 
   LayToRightTop lay(lay2,lay3);
 
-  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
+  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void RandomIdWindow::drawBack(DrawBuf buf,bool) const

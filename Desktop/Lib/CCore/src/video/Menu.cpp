@@ -235,8 +235,10 @@ void MenuShapeBase::drawY(const DrawBuf &buf,Pane pane) const
 
 /* class SimpleTopMenuShape */
 
-SizeY SimpleTopMenuShape::getMinSize(unsigned) const
+SizeY SimpleTopMenuShape::getMinSize(unsigned update_flag) const
  {
+  if( update_flag ) ok=false;
+
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;

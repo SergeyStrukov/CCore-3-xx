@@ -329,7 +329,7 @@ void ClientWindow::layout(unsigned flags)
 
   Pane pane(Null,getSize());
 
-  menu.setPlace(SplitY(dy,pane),flags);
+  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
   editor.setPlace(pane,flags);
  }
 

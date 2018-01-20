@@ -137,7 +137,7 @@ void RatioEditWindow::layout(unsigned flags)
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_a.setPlace(Pane(Null,s),flags);
+  spin_a.setPlace(Pane(Null,s),ClearUpdate(flags));
 
   spin_b.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
 

@@ -251,7 +251,7 @@ class MenuShapeBase
 class SimpleTopMenuShape : public MenuShapeBase
  {
    Coord menu_dx = 0 ;
-   bool ok = false ;
+   mutable bool ok = false ;
 
   public:
 

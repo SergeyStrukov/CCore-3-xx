@@ -219,7 +219,7 @@ void TestWindow::layout(unsigned flags)
                   LayLeft(text_list),
                   LayAlignTop(LayLeft(btn_shade)));
 
-  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
+  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void TestWindow::drawBack(DrawBuf buf,bool) const
@@ -400,7 +400,7 @@ void TestClient::layout(unsigned flags)
 
   Pane pane(Null,getSize());
 
-  menu.setPlace(SplitY(dy,pane),flags);
+  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
   test.setPlace(pane,flags);
  }
 

@@ -1984,7 +1984,7 @@ void DisplayWindow::layout(unsigned flags)
 
   LayToBottom lay(lay1,lay2,Lay(dline),Lay(ddl));
 
-  lay.setPlace(Pane(Null,getSize()).shrink(space),flags,space);
+  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
  }
 
 void DisplayWindow::drawBack(DrawBuf buf,bool) const

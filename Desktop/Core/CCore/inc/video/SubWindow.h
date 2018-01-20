@@ -42,6 +42,10 @@ enum LayoutFlags : unsigned
   LayoutUpdate = 2
  };
 
+/* functions */
+
+inline unsigned ClearUpdate(unsigned flags) { return (flags&(~LayoutUpdate))|LayoutResize; }
+
 /* classes */
 
 struct SubWindowHost;

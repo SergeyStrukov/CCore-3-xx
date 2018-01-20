@@ -88,7 +88,7 @@ void PointEditWindow::layout(unsigned flags)
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_x.setPlace(Pane(Null,s),flags);
+  spin_x.setPlace(Pane(Null,s),ClearUpdate(flags));
 
   spin_y.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
 

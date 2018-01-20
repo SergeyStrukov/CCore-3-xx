@@ -1099,7 +1099,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
         Coord dy=light.getMinSize(flags).dxy;
 
-        light.setPlace( TrySplitY(dy,pane) ,flags);
+        light.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
 
         TrySplitY(dy,pane);
 
@@ -1144,7 +1144,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
         Coord dy=text.getMinSize(flags).y;
 
-        text.setPlace( TrySplitY(dy,pane) ,flags);
+        text.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
 
         TrySplitY(dy,pane);
 
@@ -1238,7 +1238,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
         Coord dy=light.getMinSize(flags).dxy;
 
-        light.setPlace( TrySplitY(dy,pane) ,flags);
+        light.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
 
         TrySplitY(dy,pane);
 
