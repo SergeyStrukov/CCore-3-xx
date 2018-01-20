@@ -13,6 +13,8 @@
 
 #include <inc/Client.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace App {
 
 /* class ClientWindow */
@@ -143,11 +145,9 @@ ClientWindow::~ClientWindow()
 
 Point ClientWindow::getMinSize(unsigned flags) const
  {
-  Coordinate dy=menu.getMinSize(flags).dy;
+  LayToBottom lay{Lay(menu),Lay(sub_win)};
 
-  Point s=sub_win.getMinSize(flags);
-
-  return Point(s.x,dy+s.y);
+  return lay.getMinSize(flags,0);
  }
 
  // base
@@ -163,12 +163,9 @@ void ClientWindow::open()
 
 void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize(flags).dy;
+  LayToBottom lay{Lay(menu),Lay(sub_win)};
 
-  Pane pane(Null,getSize());
-
-  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
-  sub_win.setPlace(pane,flags);
+  lay.setPlace(Pane(Null,getSize()),flags,0);
  }
 
  // user input

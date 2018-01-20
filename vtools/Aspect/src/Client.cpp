@@ -13,6 +13,8 @@
 
 #include <inc/Client.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace App {
 
 /* struct RecentList */
@@ -504,14 +506,13 @@ void ClientWindow::open()
 
 void ClientWindow::layout(unsigned flags)
  {
-  Coord dy=menu.getMinSize(flags).dy;
+  LayToBottom lay{Lay(menu),Lay(aspect)};
 
-  action_base=Point(dy,dy);
+  lay.setPlace(Pane(Null,getSize()),flags,0);
 
-  Pane pane(Null,getSize());
+  // action_base
 
-  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
-  aspect.setPlace(pane,flags);
+  action_base=Point::Diag( menu.getPlace().dy );
  }
 
  // user input
