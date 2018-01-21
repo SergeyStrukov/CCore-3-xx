@@ -76,61 +76,6 @@ The first argument of the constructor is the <b>file_name</b>. The second <b>max
 This class is swappable and movable.
 </p>
 
-<h4>RawFileToRead</h4>
-
-<p>
-The <b>RawFileToRead</b> class is used to read data from a file. It is a simple wrapped over 
-the <b>Sys::File</b>.
-This class is used in the <b>FileToMem</b> constructor. 
-See also <a href="page_PrintDevice.html#PrintFile">PrintFile</a>
-about file writing and printing and about <b>Sys::File</b>. 
-</p>
-
-<pre>
-
-class <span class="Att">RawFileToRead</span> : NoCopy
- {
-   Sys::File file;
- 
-  public:
-  
-   explicit RawFileToRead(StrLen file_name,FileOpenFlags oflags=Open_Read);
-    
-   ~RawFileToRead();
-    
-   FilePosType getLen();
-    
-   ulen read(uint8 *buf,ulen len); 
-   
-   void read_all(uint8 *buf,ulen len); 
- };
-
-</pre>
-
-<p>
-Constructor opens the file with the given name and open flags. An exception is thrown in case of error. 
-</p>
-
-<p>
-Destructor closes the file. Errors are reported.
-</p>
-
-<p>
-Methods throw exceptions in case of errors.
-</p>
-
-<p>
-<b>getLen()</b> returns the file length. The open flag <b>Open_Pos</b> is required.
-</p>
-
-<p>
-<b>read()</b> reads the file from the current position. The number of bytes red is returned.
-</p>
-
-<p>
-<b>read_all()</b> reads the file from the current position. The whole buffer must be red for success. 
-</p>
-
 <h4>PartFileToMem</h4>
 
 <p>

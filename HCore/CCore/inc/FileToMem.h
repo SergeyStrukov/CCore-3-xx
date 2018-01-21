@@ -18,37 +18,15 @@
 
 #include <CCore/inc/ToMemBase.h>
 #include <CCore/inc/Array.h>
-
-#include <CCore/inc/sys/SysFile.h>
+#include <CCore/inc/RawFileToRead.h>
 
 namespace CCore {
 
 /* classes */
 
-class RawFileToRead;
-
 class FileToMem;
 
 class PartFileToMem;
-
-/* class RawFileToRead */
-
-class RawFileToRead : NoCopy
- {
-   Sys::File file;
-
-  public:
-
-   explicit RawFileToRead(StrLen file_name,FileOpenFlags oflags=Open_Read);
-
-   ~RawFileToRead();
-
-   FilePosType getLen();
-
-   ulen read(uint8 *buf,ulen len);
-
-   void read_all(uint8 *buf,ulen len);
- };
 
 /* class FileToMem */
 

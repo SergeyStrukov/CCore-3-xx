@@ -1,0 +1,66 @@
+<!--
+/* page_XCore_RawFileToRead.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> (XCore) RawFileToRead</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>(XCore) RawFileToRead</h2>
+
+<p class="Files">Files <b>CCore/inc/RawFileToRead.h</b> <b>CCore/src/RawFileToRead.cpp</b></p>
+
+<p>
+<b>XCore</b> <b>RawFileToRead</b> is similar to <b>HCore</b> <a href="page_RawFileToRead.html">ones</a>, but built on
+<a href="page_AsyncFileClients.html#AsyncFile"><b>AsyncFile</b></a> class.
+</p>
+
+<pre>
+
+class <span class="Att">RawFileToRead</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit RawFileToRead(StrLen file_name,FileOpenFlags oflags=Open_Read);
+
+   ~RawFileToRead();
+
+   FilePosType getLen();
+
+   ulen read(uint8 *buf,ulen len);
+
+   void read_all(uint8 *buf,ulen len);
+ };
+
+</pre>
+
+<p>
+To open a file the <a href="page_DefaultFileDevice.html"><b>DefaultFileDevice</b></a> is used.
+</p>
+
+</body>
+
+</html>
+

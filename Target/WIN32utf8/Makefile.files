@@ -290,6 +290,7 @@ OBJ_LIST = \
 .obj/Random.o \
 .obj/RangeDel.o \
 .obj/RatioEdit.o \
+.obj/RawFileToRead.o \
 .obj/ReadCon.o \
 .obj/ReadConType.o \
 .obj/RefArray.o \
@@ -740,6 +741,7 @@ ASM_LIST = \
 .obj/Random.s \
 .obj/RangeDel.s \
 .obj/RatioEdit.s \
+.obj/RawFileToRead.s \
 .obj/ReadCon.s \
 .obj/ReadConType.s \
 .obj/RefArray.s \
@@ -1190,6 +1192,7 @@ DEP_LIST = \
 .obj/Random.dep \
 .obj/RangeDel.dep \
 .obj/RatioEdit.dep \
+.obj/RawFileToRead.dep \
 .obj/ReadCon.dep \
 .obj/ReadConType.dep \
 .obj/RefArray.dep \
@@ -2233,6 +2236,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/RatioEdit.o : ../../Desktop/Lib/CCore/src/./video/pref/RatioEdit.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/RawFileToRead.o : ../../HCore/CCore/src/./RawFileToRead.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ReadCon.o : ../../HCore/CCore/src/./ReadCon.cpp
@@ -3578,6 +3584,9 @@ include $(RULES_FILE)
 .obj/RatioEdit.s : ../../Desktop/Lib/CCore/src/./video/pref/RatioEdit.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/RawFileToRead.s : ../../HCore/CCore/src/./RawFileToRead.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ReadCon.s : ../../HCore/CCore/src/./ReadCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4920,6 +4929,9 @@ include $(RULES_FILE)
 
 .obj/RatioEdit.dep : ../../Desktop/Lib/CCore/src/./video/pref/RatioEdit.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/RatioEdit.o $< -MF $@
+
+.obj/RawFileToRead.dep : ../../HCore/CCore/src/./RawFileToRead.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/RawFileToRead.o $< -MF $@
 
 .obj/ReadCon.dep : ../../HCore/CCore/src/./ReadCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ReadCon.o $< -MF $@

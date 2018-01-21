@@ -19,67 +19,6 @@
 
 namespace CCore {
 
-/* class RawFileToRead */
-
-RawFileToRead::RawFileToRead(StrLen file_name,FileOpenFlags oflags)
- {
-  if( FileError fe=file.open(file_name,oflags) )
-    {
-     Printf(Exception,"CCore::RawFileToRead::RawFileToRead(#.q;,#;) : #;",file_name,oflags,fe);
-    }
- }
-
-RawFileToRead::~RawFileToRead()
- {
-  FileMultiError errout;
-
-  file.close(errout);
-
-  if( +errout )
-    {
-     Printf(NoException,"CCore::RawFileToRead::~RawFileToRead() : #;",errout);
-    }
- }
-
-FilePosType RawFileToRead::getLen()
- {
-  auto result=file.getLen();
-
-  if( result.error )
-    {
-     Printf(Exception,"CCore::RawFileToRead::getLen() : #;",result.error);
-    }
-
-  return result.pos;
- }
-
-ulen RawFileToRead::read(uint8 *buf,ulen len)
- {
-  auto result=file.read(buf,len);
-
-  if( result.error )
-    {
-     Printf(Exception,"CCore::RawFileToRead::read(...) : #;",result.error);
-    }
-
-  return result.len;
- }
-
-void RawFileToRead::read_all(uint8 *buf,ulen len)
- {
-  auto result=file.read(buf,len);
-
-  if( result.error )
-    {
-     Printf(Exception,"CCore::RawFileToRead::read_all(...) : #;",result.error);
-    }
-
-  if( result.len!=len )
-    {
-     Printf(Exception,"CCore::RawFileToRead::read_all(...,#;) : return #;",len,result.len);
-    }
- }
-
 /* class FileToMem */
 
 FileToMem::FileToMem(StrLen file_name,ulen max_len)

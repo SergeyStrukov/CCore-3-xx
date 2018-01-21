@@ -256,6 +256,7 @@ OBJ_LIST = \
 .obj/RadixHeap.o \
 .obj/Random.o \
 .obj/RangeDel.o \
+.obj/RawFileToRead.o \
 .obj/ReadCon.o \
 .obj/ReadConType.o \
 .obj/RedirectPTPCon.o \
@@ -627,6 +628,7 @@ ASM_LIST = \
 .obj/RadixHeap.s \
 .obj/Random.s \
 .obj/RangeDel.s \
+.obj/RawFileToRead.s \
 .obj/ReadCon.s \
 .obj/ReadConType.s \
 .obj/RedirectPTPCon.s \
@@ -998,6 +1000,7 @@ DEP_LIST = \
 .obj/RadixHeap.dep \
 .obj/Random.dep \
 .obj/RangeDel.dep \
+.obj/RawFileToRead.dep \
 .obj/ReadCon.dep \
 .obj/ReadConType.dep \
 .obj/RedirectPTPCon.dep \
@@ -1896,6 +1899,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/RangeDel.o : ../../Simple/CCore/src/./RangeDel.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/RawFileToRead.o : ../../XCore/CCore/src/./RawFileToRead.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ReadCon.o : ../../XCore/CCore/src/./ReadCon.cpp
@@ -3004,6 +3010,9 @@ include $(RULES_FILE)
 .obj/RangeDel.s : ../../Simple/CCore/src/./RangeDel.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/RawFileToRead.s : ../../XCore/CCore/src/./RawFileToRead.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ReadCon.s : ../../XCore/CCore/src/./ReadCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4109,6 +4118,9 @@ include $(RULES_FILE)
 
 .obj/RangeDel.dep : ../../Simple/CCore/src/./RangeDel.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/RangeDel.o $< -MF $@
+
+.obj/RawFileToRead.dep : ../../XCore/CCore/src/./RawFileToRead.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/RawFileToRead.o $< -MF $@
 
 .obj/ReadCon.dep : ../../XCore/CCore/src/./ReadCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ReadCon.o $< -MF $@
