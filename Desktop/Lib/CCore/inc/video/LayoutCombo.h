@@ -389,7 +389,7 @@ class LayAlignX
     {
      Coord dx=lay.getMinSize(flags,space).x;
 
-     lay.setPlace(Func(pane,dx),flags,space);
+     lay.setPlace(Func(pane,dx),ClearUpdate(flags),space);
     }
  };
 
@@ -427,7 +427,7 @@ class LayAlignY
     {
      Coord dy=lay.getMinSize(flags,space).y;
 
-     lay.setPlace(Func(pane,dy),flags,space);
+     lay.setPlace(Func(pane,dy),ClearUpdate(flags),space);
     }
  };
 
@@ -511,11 +511,13 @@ class LayToTop : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(SplitToTop(pane,dy,GetLaySpace(obj,flags,space)),flags,space);
+                                 obj.setPlace(SplitToTop(pane,dy,GetLaySpace(obj,flags,space)),flags1,space);
 
                                 } ,
 
@@ -529,19 +531,21 @@ class LayToTop : protected LaySet<LL...>
    template <Pane Func(Pane pane,Coord dx)>
    void alignPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToTop(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToTop(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags1,space);
 
                                 } ,
 
-            [&pane,flags,space] (auto &obj)
+            [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(pane,s.x),flags,space);
+                                 obj.setPlace(Func(pane,s.x),flags1,space);
 
                                 } );
     }
@@ -675,11 +679,13 @@ class LayToBottom : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Coord dy=obj.getMinSize(flags,space).y;
 
-                                 obj.setPlace(SplitToBottom(pane,dy,GetLaySpace(obj,flags,space)),flags,space);
+                                 obj.setPlace(SplitToBottom(pane,dy,GetLaySpace(obj,flags,space)),flags1,space);
 
                                 } ,
 
@@ -693,19 +699,21 @@ class LayToBottom : protected LaySet<LL...>
    template <Pane Func(Pane pane,Coord dx)>
    void alignPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToBottom(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags,space);
+                                 obj.setPlace(Func(SplitToBottom(pane,s.y,GetLaySpace(obj,flags,space)),s.x),flags1,space);
 
                                 } ,
 
-            [&pane,flags,space] (auto &obj)
+            [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(pane,s.x),flags,space);
+                                 obj.setPlace(Func(pane,s.x),flags1,space);
 
                                 } );
     }
@@ -839,11 +847,13 @@ class LayToLeft : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(SplitToLeft(pane,dx,GetLaySpace(obj,flags,space)),flags,space);
+                                 obj.setPlace(SplitToLeft(pane,dx,GetLaySpace(obj,flags,space)),flags1,space);
 
                                 } ,
 
@@ -857,19 +867,21 @@ class LayToLeft : protected LaySet<LL...>
    template <Pane Func(Pane pane,Coord dy)>
    void alignPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToLeft(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToLeft(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags1,space);
 
                                 } ,
 
-            [&pane,flags,space] (auto &obj)
+            [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(pane,s.y),flags,space);
+                                 obj.setPlace(Func(pane,s.y),flags1,space);
 
                                 } );
     }
@@ -1005,11 +1017,13 @@ class LayToRight : protected LaySet<LL...>
 
    void setPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Coord dx=obj.getMinSize(flags,space).x;
 
-                                 obj.setPlace(SplitToRight(pane,dx,GetLaySpace(obj,flags,space)),flags,space);
+                                 obj.setPlace(SplitToRight(pane,dx,GetLaySpace(obj,flags,space)),flags1,space);
 
                                 } ,
 
@@ -1023,19 +1037,21 @@ class LayToRight : protected LaySet<LL...>
    template <Pane Func(Pane pane,Coord dy)>
    void alignPlace(Pane pane,unsigned flags,Coord space) const
     {
-     apply( [&pane,flags,space] (auto &obj)
+     unsigned flags1=ClearUpdate(flags);
+
+     apply( [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(SplitToRight(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags,space);
+                                 obj.setPlace(Func(SplitToRight(pane,s.x,GetLaySpace(obj,flags,space)),s.y),flags1,space);
 
                                 } ,
 
-            [&pane,flags,space] (auto &obj)
+            [&pane,flags,flags1,space] (auto &obj)
                                 {
                                  Point s=obj.getMinSize(flags,space);
 
-                                 obj.setPlace(Func(pane,s.y),flags,space);
+                                 obj.setPlace(Func(pane,s.y),flags1,space);
 
                                 } );
     }
@@ -1258,7 +1274,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
 
   private:
 
-   Point getSize(unsigned flags,Coord space) const
+   Point getSize(unsigned &flags,Coord space) const
     {
      if( has_size && space==size_space ) return size;
 
@@ -1269,6 +1285,8 @@ class LaySupCenterXExt : protected LaySet<LL...>
      has_size=true;
      size=s;
      size_space=space;
+
+     flags=ClearUpdate(flags);
 
      return s;
     }
@@ -1355,7 +1373,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
 
   private:
 
-   Point getSize(unsigned flags,Coord space) const
+   Point getSize(unsigned &flags,Coord space) const
     {
      if( has_size && space==size_space ) return size;
 
@@ -1366,6 +1384,8 @@ class LaySupCenterYExt : protected LaySet<LL...>
      has_size=true;
      size=s;
      size_space=space;
+
+     flags=ClearUpdate(flags);
 
      return s;
     }
@@ -1457,16 +1477,28 @@ template <class W>
 class LayBase
  {
    W &obj;
-   mutable unsigned flags = 0 ;
-   mutable Point s;
+   mutable bool ok = false ;
+   mutable Point size;
 
   protected:
 
-   Point get(unsigned flags_) const
+   Point get(unsigned flags) const
     {
-     if( Change(flags,flags_) ) s=GetMinSize(flags_,obj);
+     if( Change(ok,true) ) size=GetMinSize(flags,obj);
 
-     return s;
+     return size;
+    }
+
+   Point get_clear(unsigned &flags) const
+    {
+     if( Change(ok,true) )
+       {
+        size=GetMinSize(flags,obj);
+
+        flags=ClearUpdate(flags);
+       }
+
+     return size;
     }
 
    void set(Pane pane,unsigned flags) const { obj.setPlace(pane,flags); }
@@ -1636,7 +1668,7 @@ class LayLeft : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignLeft(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignLeft(pane,s.x),flags); }
  };
 
 /* class LayCenterX<W> */
@@ -1650,7 +1682,7 @@ class LayCenterX : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterX(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayRight<W> */
@@ -1664,7 +1696,7 @@ class LayRight : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignRight(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignRight(pane,s.x),flags); }
  };
 
 /* class LayTop<W> */
@@ -1678,7 +1710,7 @@ class LayTop : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignTop(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignTop(pane,s.y),flags); }
  };
 
 /* class LayCenterY<W> */
@@ -1692,7 +1724,7 @@ class LayCenterY : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterY(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignCenterY(pane,s.y),flags); }
  };
 
 /* class LayBottom<W> */
@@ -1706,7 +1738,7 @@ class LayBottom : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord) const { return this->get(flags); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignBottom(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignBottom(pane,s.y),flags); }
  };
 
 /* class LayCenterXExt<W> */
@@ -1720,7 +1752,7 @@ class LayCenterXExt : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Point(space,0); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterX(pane,s.x),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignCenterX(pane,s.x),flags); }
  };
 
 /* class LayCenterYExt<W> */
@@ -1734,7 +1766,7 @@ class LayCenterYExt : LayBase<W>
 
    Point getMinSize(unsigned flags,Coord space) const { return this->get(flags)+2*Point(0,space); }
 
-   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get(flags); this->set(AlignCenterY(pane,s.y),flags); }
+   void setPlace(Pane pane,unsigned flags,Coord) const { Point s=this->get_clear(flags); this->set(AlignCenterY(pane,s.y),flags); }
  };
 
 /* class LayBox<W> */
@@ -1743,16 +1775,16 @@ template <class W>
 class LayBox
  {
    W &box;
-   mutable unsigned flags = 0 ;
+   mutable bool ok = false ;
    mutable Coord dxy = 0 ;
 
   private:
 
-   void cache(unsigned flags_) const
+   void cache(unsigned flags) const
     {
-     if( Change(flags,flags_) )
+     if( Change(ok,true) )
        {
-        dxy=box.getMinSize(flags_).dxy;
+        dxy=box.getMinSize(flags).dxy;
        }
     }
 

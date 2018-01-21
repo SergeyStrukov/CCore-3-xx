@@ -248,7 +248,7 @@ SizeY SimpleTopMenuShape::getMinSize(unsigned update_flag) const
 
 bool SimpleTopMenuShape::isGoodSize(Point size) const
  {
-  Point min_size(menu_dx,getMinSize(LayoutResize).dy);
+  Point min_size(menu_dx,getMinSize(0).dy);
 
   return size>=min_size;
  }
