@@ -27,6 +27,7 @@ OBJ_LIST = \
 .obj/BinaryFile.o \
 .obj/BinarySearch.o \
 .obj/BindBagProxy.o \
+.obj/Bitmap.o \
 .obj/BlockCipher.o \
 .obj/BlockFifo.o \
 .obj/Bridge.o \
@@ -478,6 +479,7 @@ ASM_LIST = \
 .obj/BinaryFile.s \
 .obj/BinarySearch.s \
 .obj/BindBagProxy.s \
+.obj/Bitmap.s \
 .obj/BlockCipher.s \
 .obj/BlockFifo.s \
 .obj/Bridge.s \
@@ -929,6 +931,7 @@ DEP_LIST = \
 .obj/BinaryFile.dep \
 .obj/BinarySearch.dep \
 .obj/BindBagProxy.dep \
+.obj/Bitmap.dep \
 .obj/BlockCipher.dep \
 .obj/BlockFifo.dep \
 .obj/Bridge.dep \
@@ -1447,6 +1450,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BindBagProxy.o : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Bitmap.o : ../../Desktop/Tools/CCore/src/./video/Bitmap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BlockCipher.o : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
@@ -2795,6 +2801,9 @@ include $(RULES_FILE)
 .obj/BindBagProxy.s : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Bitmap.s : ../../Desktop/Tools/CCore/src/./video/Bitmap.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BlockCipher.s : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4140,6 +4149,9 @@ include $(RULES_FILE)
 
 .obj/BindBagProxy.dep : ../../Desktop/Lib/CCore/src/./video/BindBagProxy.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BindBagProxy.o $< -MF $@
+
+.obj/Bitmap.dep : ../../Desktop/Tools/CCore/src/./video/Bitmap.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Bitmap.o $< -MF $@
 
 .obj/BlockCipher.dep : ../../Applied/CCore/src/./crypton/BlockCipher.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BlockCipher.o $< -MF $@

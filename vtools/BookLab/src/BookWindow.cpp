@@ -17,13 +17,7 @@
 #include <CCore/inc/video/LayoutCombo.h>
 
 #include <CCore/inc/Scope.h>
-
 #include <CCore/inc/Path.h>
-#include <CCore/inc/MakeFileName.h>
-#include <CCore/inc/FileToMem.h>
-#include <CCore/inc/FeedBuf.h>
-#include <CCore/inc/SaveLoad.h>
-#include <CCore/inc/Exception.h>
 
 namespace App {
 
@@ -133,115 +127,6 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
      return f;
     }
- }
-
-/* class Bitmap */
-
-class Bitmap::File : NoCopy
- {
-   RawFileToRead file;
-   DynArray<uint8> buf;
-
-   PtrLen<const uint8> cur;
-
-  private:
-
-   void provide()
-    {
-     uint8 *ptr=buf.getPtr();
-
-     ulen len=file.read(ptr,buf.getLen());
-
-     if( !len )
-       {
-        Printf(Exception,"App::Bitmap::File::provide() : no more data");
-       }
-
-     cur=Range(ptr,len);
-    }
-
-   void next(PtrLen<uint8> range)
-    {
-     while( +range )
-       {
-        if( !cur ) provide();
-
-        FeedBuf feed(range,cur);
-
-        range+=feed.delta;
-        cur+=feed.delta;
-       }
-    }
-
-  public:
-
-   explicit File(StrLen file_name)
-    : file(file_name),
-      buf(64_KByte)
-    {
-    }
-
-   ~File()
-    {
-    }
-
-   uint32 next()
-    {
-     uint8 temp[4];
-
-     next(Range(temp));
-
-     BufGetDev dev(temp);
-
-     uint32 ret;
-
-     dev.use<BeOrder>(ret);
-
-     return ret;
-    }
- };
-
-struct Bitmap::Fill
- {
-  ulen dx;
-  ulen dy;
-  const VColor *ptr;
-
-  PtrLen<const VColor> line(ulen y) const { return Range(ptr+y*dx,dx); }
-
-  static void Line(PtrLen<const VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
-   {
-    for(auto part=SafePart(line,x,dx); +part ;++part,ptr+=DesktopColor::RawCount)
-      {
-       DesktopColor col(*part);
-
-       col.copyTo(ptr);
-      }
-   }
-
-  void operator () (ulen x,ulen y,ulen dx,DesktopColor::Raw *ptr) const
-   {
-    if( y>=dy ) return;
-
-    Line(line(y),x,dx,ptr);
-   }
- };
-
-Bitmap::Bitmap(StrLen root,StrLen file_name)
- {
-  MakeFileName temp(root,file_name);
-
-  File file(temp.get());
-
-  dx=file.next();
-  dy=file.next();
-
-  for(VColor &col : buf.extend_raw( LenOf(dx,dy) ) ) col=(VColor)file.next();
- }
-
-void Bitmap::draw(DrawBuf buf,Pane pane) const
- {
-  buf.fill(pane,Fill{dx,dy,getPtr()});
  }
 
 /* class BitmapMap */

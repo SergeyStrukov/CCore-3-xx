@@ -505,6 +505,19 @@ PtrLen&lt;T&gt; <span class="Att">Single</span>(T &amp;obj) { return Range(&amp;
 <b>Single()</b> creates a range from the single object.
 </p>
 
+<h2>SafePart()</h2>
+
+<pre>
+
+template &lt;class T&gt;
+PtrLen&lt;T&gt; <span class="Att">SafePart</span>(PtrLen&lt;T&gt; range,ulen off,ulen len);
+
+</pre>
+
+<p>
+<b>SafePart()</b> is similar to the method <b>part()</b>, but safe to use. It checks boundaries and returns the available part from the range.
+</p>
+
 <h2>Range() and Range_const()</h2>
 
 <p>

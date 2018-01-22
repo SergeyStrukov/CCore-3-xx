@@ -242,6 +242,16 @@ PtrLen<const T> Range_const(T *ptr,T *lim) { return {ptr,Dist(ptr,lim)}; }
 template <class T>
 PtrLen<T> Single(T &obj) { return {&obj,1}; }
 
+/* SafePart() */
+
+template <class T>
+PtrLen<T> SafePart(PtrLen<T> range,ulen off,ulen len)
+ {
+  if( off>range.len ) return Null;
+
+  return range.part(off,Min_cast(len,range.len-off));
+ }
+
 /* container Range...() */
 
 auto Range(RangeAccessType &&obj) { return Range(obj.getPtr(),obj.getLen()); }

@@ -17,6 +17,7 @@
 #include <inc/Book.h>
 
 #include <CCore/inc/video/FontLookup.h>
+#include <CCore/inc/video/Bitmap.h>
 
 namespace App {
 
@@ -31,16 +32,6 @@ inline VColor Cast(Book::TypeDef::VColor vc) { return (VColor)vc; }
 inline Point Cast(Book::TypeDef::Point p) { return {p.x,p.y}; }
 
 inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(r.a,r.b); }
-
-/* SafePart() */
-
-template <class T>
-PtrLen<T> SafePart(PtrLen<T> range,ulen off,ulen len)
- {
-  if( off>range.len ) return Null;
-
-  return range.part(off,Min_cast(len,range.len-off));
- }
 
 /* functions */
 
@@ -67,8 +58,6 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
 /* classes */
 
 class FontMap;
-
-class Bitmap;
 
 class BitmapMap;
 
@@ -103,33 +92,6 @@ class FontMap : NoCopy
    void erase() { map.erase(); }
 
    Font operator () (Book::TypeDef::Font *font,Font fallback);
- };
-
-/* class Bitmap */
-
-class Bitmap
- {
-   DynArray<VColor> buf;
-   ulen dx;
-   ulen dy;
-
-  private:
-
-   class File;
-
-   struct Fill;
-
-  public:
-
-   Bitmap(StrLen root,StrLen file_name);
-
-   ulen dX() const { return dx; }
-
-   ulen dY() const { return dy; }
-
-   const VColor * getPtr() const { return buf.getPtr(); }
-
-   void draw(DrawBuf buf,Pane pane) const;
  };
 
 /* class BitmapMap */
