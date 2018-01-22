@@ -467,7 +467,7 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    virtual void layout(unsigned flags)
     {
-     shape.pane=Pane(Null,getSize());
+     shape.pane=getPane();
 
      shape.layout(flags&LayoutUpdate);
     }
@@ -846,7 +846,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
    virtual void layout(unsigned flags)
     {
-     shape.pane=Pane(Null,getSize());
+     shape.pane=getPane();
 
      shape.layout(flags&LayoutUpdate);
     }

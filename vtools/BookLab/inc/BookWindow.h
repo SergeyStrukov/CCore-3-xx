@@ -131,6 +131,7 @@ class InnerBookWindow : public SubWindow
      RefVal<VColor> gray = Gray ;
      RefVal<VColor> snow = Snow ;
 
+     RefVal<VColor> border = Blue ;
      RefVal<VColor> focus = OrangeRed ;
 
      // app
@@ -159,6 +160,7 @@ class InnerBookWindow : public SubWindow
        gray.bind(bag.gray);
        snow.bind(bag.snow);
 
+       border.bind(bag.border);
        focus.bind(bag.focus);
       }
 

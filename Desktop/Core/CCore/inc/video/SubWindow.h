@@ -166,6 +166,8 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    Point getSize() const { return place.getSize(); }
 
+   Pane getPane() const { return Pane(Null,getSize()); }
+
    FrameWindow * getFrame() const { return host.getFrame(); }
 
    WindowHost * getFrameHost() const { return host.getFrameHost(); }

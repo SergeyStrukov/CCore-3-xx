@@ -412,7 +412,7 @@ void FileFilterWindow::layout(unsigned flags)
 
   LayToRightCenter lay(lay1,LayToLeftCenter(lay2,Lay(edit)));
 
-  lay.setPlace(Pane(Null,getSize()),flags,0);
+  lay.setPlace(getPane(),flags,0);
  }
 
 /* class FileFilterListWindow */
@@ -1290,7 +1290,7 @@ void FileWindow::layout(unsigned flags)
 
      // lay
 
-     Pane pane=Pane(Null,getSize()).shrink(0,space);
+     Pane pane=getPane().shrink(0,space);
 
      splitSize(pane.getSize().y);
 
@@ -1327,7 +1327,7 @@ void FileWindow::layout(unsigned flags)
 
      // lay
 
-     Pane pane=Pane(Null,getSize()).shrink(0,space);
+     Pane pane=getPane().shrink(0,space);
 
      splitSize(pane.getSize().y);
 

@@ -1334,7 +1334,7 @@ void AspectWindow::layout(unsigned flags)
 
   LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
+  ExtLay(lay).setPlace(getPane(),flags,space);
  }
 
 void AspectWindow::drawBack(DrawBuf buf,bool) const

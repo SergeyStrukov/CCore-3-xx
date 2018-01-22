@@ -78,7 +78,7 @@ void InsWindow::layout(unsigned flags)
 
   LayToTop lay(lay1,Lay(list));
 
-  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
+  ExtLay(lay).setPlace(getPane(),flags,space);
  }
 
 void InsWindow::drawBack(DrawBuf buf,bool) const
@@ -428,7 +428,7 @@ void ItemListWindow::layout(unsigned flags)
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
 
-     lay.setPlace(Pane(Null,getSize()),flags,space);
+     lay.setPlace(getPane(),flags,space);
     }
   else
     {
@@ -440,7 +440,7 @@ void ItemListWindow::layout(unsigned flags)
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
 
-     lay.setPlace(Pane(Null,getSize()),flags,space);
+     lay.setPlace(getPane(),flags,space);
     }
  }
 

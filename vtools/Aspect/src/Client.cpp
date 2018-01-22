@@ -508,7 +508,7 @@ void ClientWindow::layout(unsigned flags)
  {
   LayToBottom lay{Lay(menu),Lay(aspect)};
 
-  lay.setPlace(Pane(Null,getSize()),flags,0);
+  lay.setPlace(getPane(),flags,0);
 
   // action_base
 

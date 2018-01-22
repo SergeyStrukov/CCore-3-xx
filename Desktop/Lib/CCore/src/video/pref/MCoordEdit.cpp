@@ -54,7 +54,7 @@ Point MCoordEditWindow::getMinSize(unsigned flags) const
 
 void MCoordEditWindow::layout(unsigned flags)
  {
-  spinor.setPlace(Pane(Null,getSize()),flags);
+  spinor.setPlace(getPane(),flags);
  }
 
 } // namespace Video

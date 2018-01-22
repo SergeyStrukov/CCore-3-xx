@@ -139,7 +139,7 @@ void ClientWindow::layout(unsigned flags)
  {
   LayToBottom lay{Lay(menu),Lay(sub_win)};
 
-  lay.setPlace(Pane(Null,getSize()),flags,0);
+  lay.setPlace(getPane(),flags,0);
  }
 
  // user input

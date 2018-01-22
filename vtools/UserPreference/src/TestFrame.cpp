@@ -219,7 +219,7 @@ void TestWindow::layout(unsigned flags)
                   LayLeft(text_list),
                   LayAlignTop(LayLeft(btn_shade)));
 
-  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
+  ExtLay(lay).setPlace(getPane(),flags,space);
  }
 
 void TestWindow::drawBack(DrawBuf buf,bool) const

@@ -1265,7 +1265,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       virtual void layout(unsigned)
        {
-        outer=Pane(Null,getSize()).shrink(10);
+        outer=getPane().shrink(10);
 
         PlaceColumn place(outer,{30,20},10,3);
 

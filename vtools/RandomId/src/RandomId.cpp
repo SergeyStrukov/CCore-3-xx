@@ -140,7 +140,7 @@ void RandomIdWindow::layout(unsigned flags)
 
   LayToRightTop lay(lay2,lay3);
 
-  ExtLay(lay).setPlace(Pane(Null,getSize()),flags,space);
+  ExtLay(lay).setPlace(getPane(),flags,space);
  }
 
 void RandomIdWindow::drawBack(DrawBuf buf,bool) const

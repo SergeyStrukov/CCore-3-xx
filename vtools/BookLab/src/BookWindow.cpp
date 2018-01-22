@@ -937,7 +937,7 @@ Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
      Coord dx=CapSize(size.dx,cap.x);
      Coord dy=CapSize(size.dy,cap.y);
 
-     return Point(dx,dy);
+     return Point(dx,dy)+2*Point::Diag(RoundUpLen(+cfg.width));
     }
   else
     {
@@ -973,20 +973,31 @@ void InnerBookWindow::layout(unsigned flags)
  {
   cache(flags&LayoutUpdate);
 
-  Point s=getSize();
+  Point s=getSize()-2*Point::Diag(RoundUpLen(+cfg.width));
 
-  sx.total=size.dx;
-  sx.page=(ulen)s.x;
+  if( s>Null )
+    {
+     sx.total=size.dx;
+     sx.page=(ulen)s.x;
 
-  sy.total=size.dy;
-  sy.page=(ulen)s.y;
+     sy.total=size.dy;
+     sy.page=(ulen)s.y;
+    }
+  else
+    {
+     sx.total=size.dx;
+     sx.page=1;
+
+     sy.total=size.dy;
+     sy.page=1;
+    }
  }
 
 void InnerBookWindow::draw(DrawBuf buf,bool) const
  {
   cache(0);
 
-  Pane pane(Null,getSize());
+  Pane pane=getPane();
 
   buf=buf.cut(pane);
 
@@ -994,27 +1005,32 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   // back , fore
 
+  MCoord width=+cfg.width;
+
   VColor back=Combine(this->back,+cfg.back);
   VColor fore=Combine(this->fore,+cfg.fore);
 
   art.erase(back);
 
-  // focus
+  // border
 
-  if( focus )
-    {
-     MPane p(pane);
+  {
+   MPane p(pane);
 
-     MCoord width=+cfg.width;
+   FigureBox fig(p);
 
-     FigureBox fig(p);
+   VColor vc = focus? +cfg.focus : +cfg.border ;
 
-     fig.loop(art,width,+cfg.focus);
-    }
+   fig.loop(art,width,vc);
+  }
 
   // frames
 
-  Point s=getSize();
+  Pane inner=pane.shrink(RoundUpLen(width));
+
+  buf=buf.cutRebase(inner);
+
+  Point s=inner.getSize();
 
   ulen wdy=(ulen)s.y;
 
@@ -1295,7 +1311,7 @@ void BookWindow::layout(unsigned flags)
 
   LaySame lay(lay2,ExtLay{LayTop(progress)});
 
-  lay.setPlace(Pane(Null,getSize()),flags,space);
+  lay.setPlace(getPane(),flags,space);
  }
 
 void BookWindow::drawBack(DrawBuf buf,bool) const

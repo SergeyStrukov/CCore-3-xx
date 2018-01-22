@@ -103,7 +103,7 @@ class CheckWindowOf : public SubWindow
 
    virtual void layout(unsigned)
     {
-     shape.pane=Pane(Null,getSize());
+     shape.pane=getPane();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -306,7 +306,7 @@ class AltWindowOf : public SubWindow
 
    virtual void layout(unsigned)
     {
-     shape.pane=Pane(Null,getSize());
+     shape.pane=getPane();
     }
 
    virtual void draw(DrawBuf buf,bool) const

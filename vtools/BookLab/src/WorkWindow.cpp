@@ -68,7 +68,7 @@ void WorkWindow::save(StrLen)
 
 void WorkWindow::layout(unsigned flags)
  {
-  book.setPlace(Pane(Null,getSize()),flags);
+  book.setPlace(getPane(),flags);
  }
 
 } // namespace App

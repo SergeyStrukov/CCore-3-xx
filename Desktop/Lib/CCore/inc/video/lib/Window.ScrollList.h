@@ -326,7 +326,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    virtual void layout(unsigned flags)
     {
-     shape.pane=Pane(Null,getSize());
+     shape.pane=getPane();
 
      shape.setMax(flags&LayoutUpdate);
     }
