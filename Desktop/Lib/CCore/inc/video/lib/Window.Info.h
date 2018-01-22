@@ -230,25 +230,25 @@ class InfoWindowOf : public SubWindow
        {
         case VKey_Left :
          {
-          if( shape.enable ) addXOff(-CountToCoordinate(repeat));
+          addXOff(-CountToCoordinate(repeat));
          }
         break;
 
         case VKey_Right :
          {
-          if( shape.enable ) addXOff(CountToCoordinate(repeat));
+          addXOff(CountToCoordinate(repeat));
          }
         break;
 
         case VKey_Up :
          {
-          if( shape.enable ) subYOff(repeat);
+          subYOff(repeat);
          }
         break;
 
         case VKey_Down :
          {
-          if( shape.enable ) addYOff(repeat);
+          addYOff(repeat);
          }
         break;
        }

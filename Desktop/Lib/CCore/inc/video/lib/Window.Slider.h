@@ -221,37 +221,37 @@ class SliderWindowOf : public SubWindow
        {
         case Shape::KeyDown :
          {
-          if( shape.enable ) subPos(repeat);
+          subPos(repeat);
          }
         break;
 
         case Shape::KeyUp :
          {
-          if( shape.enable ) addPos(repeat);
+          addPos(repeat);
          }
         break;
 
         case VKey_Home :
          {
-          if( shape.enable ) movePos(0);
+          movePos(0);
          }
         break;
 
         case VKey_End :
          {
-          if( shape.enable ) movePos(shape.cap);
+          movePos(shape.cap);
          }
         break;
 
         case VKey_PageUp :
          {
-          if( shape.enable ) addPos(shape.cap/10);
+          addPos(shape.cap/10);
          }
         break;
 
         case VKey_PageDown :
          {
-          if( shape.enable ) subPos(shape.cap/10);
+          subPos(shape.cap/10);
          }
         break;
        }

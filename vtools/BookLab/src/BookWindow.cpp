@@ -897,6 +897,96 @@ void InnerBookWindow::cache(unsigned update_flag) const
     }
  }
 
+void InnerBookWindow::addXPos(ulen delta,bool mul_flag)
+ {
+  sx.add(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::subXPos(ulen delta,bool mul_flag)
+ {
+  sx.sub(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::addYPos(ulen delta,bool mul_flag)
+ {
+  sy.add(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::subYPos(ulen delta,bool mul_flag)
+ {
+  sy.sub(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::begXPos()
+ {
+  sx.beg();
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::endXPos()
+ {
+  sx.end();
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::begYPos()
+ {
+  sy.beg();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::endYPos()
+ {
+  sy.end();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::addYPosPage()
+ {
+  sy.addPage();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::subYPosPage()
+ {
+  sy.subPage();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
 void InnerBookWindow::posX(ulen pos)
  {
   sx.pos=pos;
@@ -1099,6 +1189,96 @@ MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
   Used(kmod);
 
   return Mouse_Arrow;
+ }
+
+ // user input
+
+void InnerBookWindow::react(UserAction action)
+ {
+  action.dispatch(*this);
+ }
+
+void InnerBookWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  switch( vkey )
+    {
+     case VKey_Left :
+      {
+       subXPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Right :
+      {
+       addXPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Up :
+      {
+       subYPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Down :
+      {
+       addYPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Home :
+      {
+       begXPos();
+      }
+     break;
+
+     case VKey_End :
+      {
+       endXPos();
+      }
+     break;
+
+     case VKey_PageUp :
+      {
+       if( kmod&KeyMod_Ctrl )
+         begYPos();
+       else
+         subYPosPage();
+      }
+     break;
+
+     case VKey_PageDown :
+      {
+       if( kmod&KeyMod_Ctrl )
+         endYPos();
+       else
+         addYPosPage();
+      }
+     break;
+    }
+ }
+
+void InnerBookWindow::react_LeftClick(Point point,MouseKey) // TODO
+ {
+  Used(point);
+ }
+
+void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
+ {
+  if( delta<0 )
+    {
+     if( mkey&MouseKey_Shift )
+       addXPos(IntAbs(delta),true);
+     else
+       addYPos(IntAbs(delta),true);
+    }
+  else
+    {
+     if( mkey&MouseKey_Shift )
+       subXPos(IntAbs(delta),true);
+     else
+       subYPos(IntAbs(delta),true);
+    }
  }
 
 /* class DisplayBookWindow */

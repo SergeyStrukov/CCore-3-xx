@@ -200,7 +200,21 @@ class InnerBookWindow : public SubWindow
 
      bool tooShort() const { return page<total; }
 
-     ulen getPos() const { return Min<ulen>(pos,PosSub(total,page)); }
+     ulen getCap() const { return PosSub(total,page); }
+
+     ulen getPos() const { return Min<ulen>(pos,getCap()); }
+
+     void beg() { pos=0; }
+
+     void end() { pos=getCap(); }
+
+     void addPage() { add(page); }
+
+     void subPage() { sub(page); }
+
+     void add(ulen delta) { pos=AddToCap(pos,delta,getCap()); }
+
+     void sub(ulen delta) { pos=PosSub(pos,delta); }
     };
 
    Scroll sx;
@@ -294,6 +308,30 @@ class InnerBookWindow : public SubWindow
 
   private:
 
+   static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
+
+   void addXPos(ulen delta,bool mul_flag);
+
+   void subXPos(ulen delta,bool mul_flag);
+
+   void addYPos(ulen delta,bool mul_flag);
+
+   void subYPos(ulen delta,bool mul_flag);
+
+   void begXPos();
+
+   void endXPos();
+
+   void begYPos();
+
+   void endYPos();
+
+   void addYPosPage();
+
+   void subYPosPage();
+
+  private:
+
    void posX(ulen pos);
 
    void posY(ulen pos);
@@ -350,6 +388,16 @@ class InnerBookWindow : public SubWindow
    // mouse
 
    virtual MouseShape getMouseShape(Point point,KeyMod kmod) const;
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
+
+   void react_LeftClick(Point point,MouseKey);
+
+   void react_Wheel(Point,MouseKey,Coord delta);
 
    // signals
 
