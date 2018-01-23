@@ -649,7 +649,7 @@ struct InnerBookWindow::DrawContext
        {
         ulen len=*split;
 
-        auto part=SafePart(range,off,len);
+        auto part=range.safe_part(off,len);
 
         off+=len;
 
@@ -660,7 +660,7 @@ struct InnerBookWindow::DrawContext
 
        for(ulen len : split.part(1) )
          {
-          auto part=SafePart(range,off,len);
+          auto part=range.safe_part(off,len);
 
           off+=len;
 

@@ -31,9 +31,16 @@ class Bitmap;
 
 class Bitmap
  {
-   DynArray<VColor> buf;
+   using Raw = DesktopColor::Raw ;
+
+   static constexpr unsigned RawCount = DesktopColor::RawCount ;
+
+  private:
+
+   DynArray<Raw> buf;
    ulen dx;
    ulen dy;
+   ulen dline;
 
   private:
 
@@ -42,6 +49,8 @@ class Bitmap
    struct Fill;
 
    void load(StrLen file_name);
+
+   const Raw * getPtr() const { return buf.getPtr(); }
 
   public:
 
@@ -52,8 +61,6 @@ class Bitmap
    ulen dX() const { return dx; }
 
    ulen dY() const { return dy; }
-
-   const VColor * getPtr() const { return buf.getPtr(); }
 
    void draw(DrawBuf buf,Pane pane) const;
  };

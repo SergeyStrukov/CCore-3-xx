@@ -354,7 +354,15 @@ You can select a desired part of the range using parts methods:
   
   PtrLen&lt;T&gt; inner(ulen off,ulen endoff) const; // inner part with the given off(set) and offset from the end (endoff)
 
+  PtrLen&lt;T&gt; safe_part(ulen off,ulen length) const;
+
+  PtrLen&lt;T&gt; safe_part(ulen off) const;
+
 </pre>
+
+<p>
+<b>safe_part()</b> is similar to the method <b>part()</b>, but safe to use. It checks boundaries and returns the available part from the range.
+</p>
 
 <p>
 You can pick an element of the range based on its index:
@@ -503,19 +511,6 @@ PtrLen&lt;T&gt; <span class="Att">Single</span>(T &amp;obj) { return Range(&amp;
 
 <p>
 <b>Single()</b> creates a range from the single object.
-</p>
-
-<h2>SafePart()</h2>
-
-<pre>
-
-template &lt;class T&gt;
-PtrLen&lt;T&gt; <span class="Att">SafePart</span>(PtrLen&lt;T&gt; range,ulen off,ulen len);
-
-</pre>
-
-<p>
-<b>SafePart()</b> is similar to the method <b>part()</b>, but safe to use. It checks boundaries and returns the available part from the range.
 </p>
 
 <h2>Range() and Range_const()</h2>

@@ -188,6 +188,10 @@ You can select a desired part of the range using parts methods:
   
   PtrLenReverse&lt;T&gt; inner(ulen off,ulen endoff) const; // inner part with the given off(set) and offset from the end (endoff)
    
+  PtrLenReverse&lt;T&gt; safe_part(ulen off,ulen length) const;
+
+  PtrLenReverse&lt;T&gt; safe_part(ulen off) const;
+
 </pre>
 
 <p>

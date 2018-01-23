@@ -20,6 +20,7 @@
 #include <CCore/inc/SaveLoad.h>
 #include <CCore/inc/FeedBuf.h>
 #include <CCore/inc/Exception.h>
+#include <CCore/inc/algon/GCDConst.h>
 
 namespace CCore {
 namespace Video {
@@ -96,25 +97,21 @@ struct Bitmap::Fill
  {
   ulen dx;
   ulen dy;
-  const VColor *ptr;
+  ulen dline;
+  const Raw *src;
 
-  PtrLen<const VColor> line(ulen y) const { return Range(ptr+y*dx,dx); }
+  PtrLen<const Raw> line(ulen y) const { return Range(src+y*dline,dx*RawCount); }
 
-  static void Line(PtrLen<const VColor> line,ulen x,ulen dx,DesktopColor::Raw *ptr)
+  static void Line(PtrLen<const Raw> line,ulen x,ulen dx,Raw *dst)
    {
-    for(auto part=SafePart(line,x,dx); +part ;++part,ptr+=DesktopColor::RawCount)
-      {
-       DesktopColor col(*part);
-
-       col.copyTo(ptr);
-      }
+    line.safe_part(x*RawCount,dx*RawCount).copyTo(dst);
    }
 
-  void operator () (ulen x,ulen y,ulen dx,DesktopColor::Raw *ptr) const
+  void operator () (ulen x,ulen y,ulen dx,Raw *dst) const
    {
     if( y>=dy ) return;
 
-    Line(line(y),x,dx,ptr);
+    Line(line(y),x,dx,dst);
    }
  };
 
@@ -127,7 +124,25 @@ void Bitmap::load(StrLen file_name)
   dx=file.next();
   dy=file.next();
 
-  for(VColor &col : buf.extend_raw( LenOf(dx,dy) ) ) col=(VColor)file.next();
+  dline=dx*RawCount;
+
+  const ulen Align = MaxAlign/Algon::GCDConst<ulen,MaxAlign,sizeof (Raw)>  ;
+
+  if constexpr ( Align>1 ) TryAlign(dline,Align);
+
+  Raw *ptr=buf.extend_raw( LenOf(dline,dy) ).ptr;
+
+  for(ulen count=dy; count ;count--,ptr+=dline)
+    {
+     Raw *line=ptr;
+
+     for(ulen count=dx; count ;count--,line+=RawCount)
+       {
+        DesktopColor col( (VColor)file.next() );
+
+        col.copyTo(line);
+       }
+    }
  }
 
 Bitmap::Bitmap(StrLen file_name)
@@ -144,7 +159,7 @@ Bitmap::Bitmap(StrLen dir,StrLen file_name)
 
 void Bitmap::draw(DrawBuf buf,Pane pane) const
  {
-  buf.fill(pane,Fill{dx,dy,getPtr()});
+  buf.fill(pane,Fill{dx,dy,dline,getPtr()});
  }
 
 } // namespace Video

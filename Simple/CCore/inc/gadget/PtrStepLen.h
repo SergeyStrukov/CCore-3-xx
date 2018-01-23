@@ -103,6 +103,20 @@ struct PtrStepLen
 
   PtrStepLen<T> inner(ulen off,ulen endoff) const { return {ptr+off*step,step,len-off-endoff}; } // assume fit(off,endoff)
 
+  PtrStepLen<T> safe_part(ulen off,ulen length) const
+   {
+    if( off>len ) return Null;
+
+    return part(off,Min_cast(length,len-off));
+   }
+
+  PtrStepLen<T> safe_part(ulen off) const
+   {
+    if( off>len ) return Null;
+
+    return part(off);
+   }
+
   // index access
 
   T & operator [] (ulen index) const

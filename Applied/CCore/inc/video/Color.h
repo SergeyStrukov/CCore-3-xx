@@ -1,7 +1,7 @@
 /* Color.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -27,15 +27,15 @@ using Clr = uint8 ;
 
 /* consts */
 
-const unsigned ClrBits = 8 ;
+inline constexpr unsigned ClrBits = 8 ;
 
-const unsigned AlphaLim = 256 ;
+inline constexpr unsigned AlphaLim = 256 ;
 
-const Clr MinClr =   0 ;
+inline constexpr Clr MinClr =   0 ;
 
-const Clr MedClr = 128 ;
+inline constexpr Clr MedClr = 128 ;
 
-const Clr MaxClr = 255 ;
+inline constexpr Clr MaxClr = 255 ;
 
 /* functions */
 
@@ -278,7 +278,7 @@ class RawColor16
 
    using Raw = uint16 ;
 
-   static const unsigned RawCount = 1 ;
+   static constexpr unsigned RawCount = 1 ;
 
   private:
 
@@ -334,7 +334,7 @@ class RawColor24
 
    using Raw = uint8 ;
 
-   static const unsigned RawCount = 3 ;
+   static constexpr unsigned RawCount = 3 ;
 
   private:
 
@@ -382,7 +382,7 @@ class RawColor24Inv
 
    using Raw = uint8 ;
 
-   static const unsigned RawCount = 3 ;
+   static constexpr unsigned RawCount = 3 ;
 
   private:
 
@@ -430,7 +430,7 @@ class RawColor32
 
    using Raw = uint32 ;
 
-   static const unsigned RawCount = 1 ;
+   static constexpr unsigned RawCount = 1 ;
 
   private:
 
@@ -484,7 +484,7 @@ class RawColor32Inv
 
    using Raw = uint32 ;
 
-   static const unsigned RawCount = 1 ;
+   static constexpr unsigned RawCount = 1 ;
 
   private:
 

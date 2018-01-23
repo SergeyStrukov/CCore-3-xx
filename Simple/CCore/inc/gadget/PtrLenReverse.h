@@ -114,6 +114,20 @@ struct PtrLenReverse
 
   PtrLenReverse<T> inner(ulen off,ulen endoff) const { return MakeFrom(ptr-off,len-off-endoff); } // assume fit(off,endoff)
 
+  PtrLenReverse<T> safe_part(ulen off,ulen length) const
+   {
+    if( off>len ) return Null;
+
+    return part(off,Min_cast(length,len-off));
+   }
+
+  PtrLenReverse<T> safe_part(ulen off) const
+   {
+    if( off>len ) return Null;
+
+    return part(off);
+   }
+
   // index access
 
   T & operator [] (ulen index) const

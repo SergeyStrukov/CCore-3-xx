@@ -135,6 +135,20 @@ struct PtrLen
 
   PtrLen<T> inner(ulen off,ulen endoff) const { return {ptr+off,len-off-endoff}; } // assume fit(off,endoff)
 
+  PtrLen<T> safe_part(ulen off,ulen length) const
+   {
+    if( off>len ) return Null;
+
+    return part(off,Min_cast(length,len-off));
+   }
+
+  PtrLen<T> safe_part(ulen off) const
+   {
+    if( off>len ) return Null;
+
+    return part(off);
+   }
+
   // index access
 
   T & operator [] (ulen index) const
@@ -241,16 +255,6 @@ PtrLen<const T> Range_const(T *ptr,T *lim) { return {ptr,Dist(ptr,lim)}; }
 
 template <class T>
 PtrLen<T> Single(T &obj) { return {&obj,1}; }
-
-/* SafePart() */
-
-template <class T>
-PtrLen<T> SafePart(PtrLen<T> range,ulen off,ulen len)
- {
-  if( off>range.len ) return Null;
-
-  return range.part(off,Min_cast(len,range.len-off));
- }
 
 /* container Range...() */
 

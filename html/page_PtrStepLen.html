@@ -143,6 +143,10 @@ You can select a desired part of the range using parts methods:
   
   PtrStepLen&lt;T&gt; inner(ulen off,ulen endoff) const;  // assume fit(off,endoff), inner part with the given off(set) and offset from the end (endoff)
 
+  PtrStepLen&lt;T&gt; safe_part(ulen off,ulen length) const;
+
+  PtrStepLen&lt;T&gt; safe_part(ulen off) const;
+
 </pre>
 
 <p>
