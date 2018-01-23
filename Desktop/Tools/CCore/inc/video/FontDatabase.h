@@ -56,6 +56,7 @@ struct FontInfo
   String family;
   String style;
 
+  FontClass font_class = FontHasNoClass ;
   bool scalable = false ;
   bool monospace = false ;
   bool italic = false ;
@@ -86,10 +87,11 @@ struct FontInfo
 
   void printDDL(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; }",
+    Printf(out,"{ #; , #; , #; , #; , #; , #; , #; , #; }",
                   DDLPrintableString(file_name),
                   DDLString(family),
                   DDLString(style),
+                  (unsigned)font_class,
                   DDLBool(scalable),
                   DDLBool(monospace),
                   DDLBool(italic),
@@ -99,7 +101,7 @@ struct FontInfo
   void print(PrinterType &out) const
    {
     Printf(out,"File #.q;\n",file_name);
-    Printf(out,"Font #; #;\n",family,style);
+    Printf(out,"Font #; #; class = #;\n",family,style,font_class);
     Putobj(out,"Flags");
 
     if( scalable ) Putobj(out," scalable");

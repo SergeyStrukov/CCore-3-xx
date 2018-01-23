@@ -1,7 +1,7 @@
 /* FontInfo.TypeDef.gen.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -35,6 +35,7 @@ struct TypeDefCore
     DDL::MapText file_name;
     DDL::MapText family;
     DDL::MapText style;
+    DDL::uint_type font_class;
     A3 scalable;
     A3 monospace;
     A3 italic;

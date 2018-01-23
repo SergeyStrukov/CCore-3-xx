@@ -265,24 +265,46 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
  {
    struct Rec
     {
-     DefString name;
-     const FontInfo *info;
+     bool is_font_class = false ;
+     FontClass fc = FontHasNoClass ;
 
-     Rec() noexcept : name("-- Default --"_def),info(0) {}
+     DefString name;
+     const FontInfo *info = 0 ;
+
+     Rec() noexcept : name("-- Default --"_def) {}
 
      explicit Rec(const FontInfo &obj)
       {
+       fc=obj.font_class;
+
        name=StringCat(obj.family," ",obj.style);
 
        info=&obj;
       }
 
+     explicit Rec(FontClass fc_) : is_font_class(true),fc(fc_) {}
+
      bool testFileName(StrLen file_name) const
       {
+       if( !info ) return false;
+
        return file_name.equal(Range(info->file_name));
       }
 
-     bool operator < (const Rec &obj) const { return StrLess(name.str(),obj.name.str()); }
+     bool operator < (const Rec &obj) const
+      {
+       if( CmpResult result=LessCmp(fc,obj.fc) ) return result<0;
+
+       if( obj.is_font_class ) return false;
+
+       if( is_font_class ) return true;
+
+       if( !obj.info ) return false;
+
+       if( !info ) return true;
+
+       return StrLess(name.str(),obj.name.str());
+      }
     };
 
    DynArray<Rec> list;
@@ -300,17 +322,29 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
      auto range=fdb.getList();
 
      list.erase();
-     list.reserve(range.len+1);
+     list.reserve(range.len+FontClassLim+1);
 
      list.append_fill();
+
+     bool temp[FontClassLim]={};
 
      for(const FontInfo &obj : range )
 #ifdef DISABLE_NONSCALABLE
        if( obj.scalable )
 #endif
-         list.append_fill(obj);
+         {
+          list.append_fill(obj);
 
-     Sort(Range(list).part(1));
+          temp[obj.font_class]=true;
+         }
+
+     for(unsigned i=0; i<FontClassLim ;i++)
+       if( temp[i] )
+         {
+          list.append_fill(FontClass(i));
+         }
+
+     Sort(Range(list));
     }
 
    const FontInfo * get(ulen index) const
@@ -329,7 +363,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
 
    ulen getIndex(StrLen file_name) const
     {
-     for(ulen index=1,count=list.getLen(); index<count ;index++)
+     for(ulen index=0,count=list.getLen(); index<count ;index++)
        if( list[index].testFileName(file_name) )
          return index;
 
@@ -345,7 +379,11 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
 
    virtual ComboInfoItem getLine(ulen index) const
     {
-     return {ComboInfoText,list.at(index).name.str()};
+     const Rec &rec=list.at(index);
+
+     if( rec.is_font_class ) return {ComboInfoTitle,StrLen(GetTextDesc(rec.fc))};
+
+     return {ComboInfoText,rec.name.str()};
     }
  };
 

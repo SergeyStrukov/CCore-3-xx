@@ -1,7 +1,7 @@
 /* FontInfo.TypeSet.gen.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -49,6 +49,7 @@ struct TypeSet : TypeDefCore
                                "file_name",offsetof(S1,file_name),
                                "family",offsetof(S1,family),
                                "style",offsetof(S1,style),
+                               "font_class",offsetof(S1,font_class),
                                "scalable",offsetof(S1,scalable),
                                "monospace",offsetof(S1,monospace),
                                "italic",offsetof(S1,italic),
@@ -76,6 +77,7 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,
+                               DDL::uint_type,
                                A3,
                                A3,
                                A3,

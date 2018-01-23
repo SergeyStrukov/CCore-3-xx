@@ -56,6 +56,48 @@ DefFont Object CCORE_INITPRI_3 ;
 
 using namespace Private_Font;
 
+/* enum FontClass */
+
+FontClass Correct(FontClass fc)
+ {
+  switch( fc )
+    {
+     case FontOldstyleSerif :
+     case FontTransitionalSerif :
+     case FontModernSerif :
+     case FontClarendonSerif :
+     case FontSlabSerif :
+     case FontFreedomSerif :
+     case FontSansSerif :
+     case FontOrnamental :
+     case FontScript :
+     case FontSymbol :
+
+       return fc;
+
+     default: return FontHasNoClass;
+    }
+ }
+
+const char * GetTextDesc(FontClass fc)
+ {
+  switch( fc )
+    {
+     case FontOldstyleSerif : return "Oldstyle Serif";
+     case FontTransitionalSerif : return "Transitional Serif";
+     case FontModernSerif : return "Modern Serif";
+     case FontClarendonSerif : return "Clarendon Serif";
+     case FontSlabSerif : return "Slab Serif";
+     case FontFreedomSerif : return "Freedom Serif";
+     case FontSansSerif : return "Sans Serif";
+     case FontOrnamental : return "Ornamental";
+     case FontScript : return "Script";
+     case FontSymbol : return "Symbol";
+
+     default: return "NoClass";
+    }
+ }
+
 /* struct AbstractSparseString */
 
 void AbstractSparseString::cutSuffix(ulen len,ulen &index)

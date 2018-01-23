@@ -24,7 +24,10 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET) 
 	$(TARGET) ../CondLangLR1/LangTypes.ddl TypeDef.gen.h TypeSet.gen.h
 
+TOOLS = $(CCORE_ROOT)/Desktop/Tools/CCore/src/video
 
+ddl:
+	$(TARGET) $(TOOLS)/FontInfo.ddl $(TOOLS)/FontInfo.TypeDef.gen.h $(TOOLS)/FontInfo.TypeSet.gen.h 
 
 
 

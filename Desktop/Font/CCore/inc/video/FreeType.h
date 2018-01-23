@@ -177,9 +177,9 @@ class Face : NoCopy
 
    const TT_Header * getTTHeader() const { return static_cast<const TT_Header *>(FT_Get_Sfnt_Table(face,FT_SFNT_HEAD)); }
 
-   const TT_OS2 * getTTOS2Header() const { return static_cast<const TT_OS2 *>(FT_Get_Sfnt_Table(face,FT_SFNT_OS2)); }
-
 #endif
+
+   const TT_OS2 * getTTOS2Header() const { return static_cast<const TT_OS2 *>(FT_Get_Sfnt_Table(face,FT_SFNT_OS2)); }
 
    // set size
 

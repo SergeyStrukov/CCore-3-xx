@@ -140,6 +140,8 @@ class FreeTypeFont : public Font
 
    Config getConfig() const;
 
+   FontClass getClass() const { return (*this)->getFontClass(); }
+
    StrLen getFamily() const;
 
    StrLen getStyle() const;
@@ -160,6 +162,8 @@ class ProbeFreeTypeFont : NoCopy
    ProbeFreeTypeFont(StrLen file_name,bool &is_font);
 
    ~ProbeFreeTypeFont();
+
+   FontClass getClass() const;
 
    StrLen getFamily() const;
 

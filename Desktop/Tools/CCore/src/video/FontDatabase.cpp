@@ -61,6 +61,7 @@ void FontInfo::fill(Font &font,bool &is_font)
     {
      family=font.getFamily();
      style=font.getStyle();
+     font_class=font.getClass();
 
      auto flags=font.getStyleFlags();
 
@@ -103,27 +104,29 @@ StrLen FontDatabase::CacheFile() { return "/FontCache.ddl"_c; }
 StrLen FontDatabase::Pretext()
  {
   return
-"type Bool = uint8 ;"
-
-"Bool True = 1 ;"
-"Bool False = 0 ;"
-
-"type Coord = sint16 ;"
-
-"struct FontInfo"
-" {"
-"  text file_name;"
-
-"  text family;"
-"  text style;"
-
-"  Bool scalable;"
-"  Bool monospace;"
-"  Bool italic;"
-"  Bool bold;"
-" };"
-
-"type FontDatabase = FontInfo[] ;"_c;
+"type Bool = uint8 ;\r\n"
+"\r\n"
+"Bool True = 1 ;\r\n"
+"Bool False = 0 ;\r\n"
+"\r\n"
+"type Coord = sint16 ;\r\n"
+"\r\n"
+"struct FontInfo\r\n"
+" {\r\n"
+"  text file_name;\r\n"
+"\r\n"
+"  text family;\r\n"
+"  text style;\r\n"
+"  \r\n"
+"  uint font_class;\r\n"
+"\r\n"
+"  Bool scalable;\r\n"
+"  Bool monospace;\r\n"
+"  Bool italic;\r\n"
+"  Bool bold;\r\n"
+" };\r\n"
+"\r\n"
+"type FontDatabase = FontInfo[] ;\r\n"_c;
  }
 
 String FontDatabase::CatPath(StrLen path,StrLen name)
@@ -272,6 +275,7 @@ void FontDatabase::loadDDL(StrLen file_name)
         obj.file_name=String(info.file_name);
         obj.family=String(info.family);
         obj.style=String(info.style);
+        obj.font_class=Correct((FontClass)info.font_class);
 
         obj.scalable=info.scalable;
         obj.monospace=info.monospace;

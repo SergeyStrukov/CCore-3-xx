@@ -101,6 +101,20 @@ struct FreeTypeFont::Global
   Global() : mutex("!FreeTypeFont"),lib(FT_LCD_FILTER_DEFAULT) {}
  };
 
+/* GetFontClass() */
+
+static FontClass GetFontClass(const FreeType::Face &face)
+ {
+  if( auto *ptr=face.getTTOS2Header() )
+    {
+     uint16 fc=ptr->sFamilyClass;
+
+     return Correct( FontClass(fc>>8) );
+    }
+
+  return FontHasNoClass;
+ }
+
 /* struct FreeTypeFont::Inner */
 
 struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
@@ -793,6 +807,11 @@ class FreeTypeFont::Base : public FontBase , Inner
 
    // AbstractFont
 
+   virtual FontClass getFontClass() const
+    {
+     return GetFontClass(face);
+    }
+
    virtual FontSize getSize() const
     {
      return font_size;
@@ -1008,6 +1027,8 @@ class ProbeFreeTypeFont::Inner : public MemBase_nocopy , AutoGlobal<FreeTypeFont
 
    ~Inner();
 
+   FontClass getClass() const;
+
    StrLen getFamily() const;
 
    StrLen getStyle() const;
@@ -1023,6 +1044,11 @@ ProbeFreeTypeFont::Inner::Inner(StrLen file_name,bool &is_font)
 
 ProbeFreeTypeFont::Inner::~Inner()
  {
+ }
+
+FontClass ProbeFreeTypeFont::Inner::getClass() const
+ {
+  return GetFontClass(face);
  }
 
 StrLen ProbeFreeTypeFont::Inner::getFamily() const
@@ -1057,6 +1083,11 @@ ProbeFreeTypeFont::ProbeFreeTypeFont(StrLen file_name,bool &is_font)
 ProbeFreeTypeFont::~ProbeFreeTypeFont()
  {
   delete ptr;
+ }
+
+FontClass ProbeFreeTypeFont::getClass() const
+ {
+  return ptr->getClass();
  }
 
 StrLen ProbeFreeTypeFont::getFamily() const

@@ -73,6 +73,30 @@ class Font;
 
 template <class FontShape> class DotFontBase;
 
+/* enum FontClass */
+
+enum FontClass
+ {
+  FontHasNoClass = 0,
+
+  FontOldstyleSerif     =  1,
+  FontTransitionalSerif =  2,
+  FontModernSerif       =  3,
+  FontClarendonSerif    =  4,
+  FontSlabSerif         =  5,
+  FontFreedomSerif      =  7,
+  FontSansSerif         =  8,
+  FontOrnamental        =  9,
+  FontScript            = 10,
+  FontSymbol            = 12,
+
+  FontClassLim = 13
+ };
+
+FontClass Correct(FontClass fc);
+
+const char * GetTextDesc(FontClass fc);
+
 /* struct FontSize */
 
 struct FontSize
@@ -333,6 +357,8 @@ class CharString : public AbstractSparseString
 struct AbstractFont
  {
   // abstract
+
+  virtual FontClass getFontClass() const =0;
 
   virtual FontSize getSize() const =0;
 
@@ -886,6 +912,8 @@ class DotFontBase : public FontBase
    virtual ~DotFontBase() {}
 
    // AbstractFont
+
+   virtual FontClass getFontClass() const { return FontHasNoClass; }
 
    virtual FontSize getSize() const
     {

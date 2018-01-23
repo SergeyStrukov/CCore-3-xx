@@ -1,7 +1,7 @@
 /* FontInfo.ddl */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -26,6 +26,8 @@ struct FontInfo
 
   text family;
   text style;
+  
+  uint font_class;
 
   Bool scalable;
   Bool monospace;
