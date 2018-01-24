@@ -132,6 +132,23 @@ struct Bitmap
   text file_name;
  };
 
+//--- TextList ---------------------------------------------------------------------------
+
+struct ListItem
+ {
+  text bullet;
+  Frame[] list;
+ };
+
+struct TextList
+ {
+  ListItem[] list;
+  
+  Format *bullet_fmt = & ?DefaultBulletFormat ;
+  
+  Coord space = 0 ;
+ };
+
 //--- Frame ------------------------------------------------------------------------------
 
 struct SingleLine
@@ -157,7 +174,7 @@ Point DefaultOuter = { 0 , 0 } ;
 
 struct Frame
  {
-  {Text,FixedText,Bitmap} *body;
+  {Text,FixedText,Bitmap,TextList} *body;
   
   {SingleLine,DoubleLine} *line = null ;
   

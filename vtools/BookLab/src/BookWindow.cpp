@@ -451,6 +451,11 @@ struct InnerBookWindow::SizeContext
     return {CountToCoordinate(bitmap->dX()),CountToCoordinate(bitmap->dY())};
    }
 
+  Point size(Book::TypeDef::TextList *obj) // TODO
+   {
+    return Null;
+   }
+
   Point size()
    {
     Point ret;
@@ -721,6 +726,13 @@ struct InnerBookWindow::DrawContext
     bitmap->draw(buf,pane.shrink(base));
    }
 
+  void draw(Book::TypeDef::TextList *obj) // TODO
+   {
+    if( !obj ) return;
+
+
+   }
+
   void draw()
    {
     frame.body.getPtr().apply( [&] (auto *obj) { draw(obj); } );
@@ -775,6 +787,11 @@ VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::FixedText *obj)
  }
 
 VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Bitmap *)
+ {
+  return Book::NoColor;
+ }
+
+VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::TextList *)
  {
   return Book::NoColor;
  }

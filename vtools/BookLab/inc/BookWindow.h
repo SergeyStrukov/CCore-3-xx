@@ -276,6 +276,8 @@ class InnerBookWindow : public SubWindow
 
       static VColor GetBack(const Book::TypeDef::Bitmap *obj);
 
+      static VColor GetBack(const Book::TypeDef::TextList *obj);
+
       template <class T>
       static VColor GetAnyBack(T body);
 

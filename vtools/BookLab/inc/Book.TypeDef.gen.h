@@ -12,17 +12,19 @@ struct TypeDefCore
   struct S6; // #Ratio 
   struct S7; // #DoubleLine 
   struct S8; // #SingleLine 
-  struct S9; // #Bitmap 
-  struct S10; // #FixedSpan 
-  struct S11; // #FixedText 
-  struct S12; // #Span 
-  struct S13; // #Text 
-  struct S14; // #MultiLine 
-  struct S15; // #OneLine 
-  struct S16; // #Format 
-  struct S17; // #Font 
+  struct S9; // #ListItem 
+  struct S10; // #TextList 
+  struct S11; // #Bitmap 
+  struct S12; // #FixedSpan 
+  struct S13; // #FixedText 
+  struct S14; // #Span 
+  struct S15; // #Text 
+  struct S16; // #MultiLine 
+  struct S17; // #OneLine 
+  struct S18; // #Format 
+  struct S19; // #Font 
 
-  using A1 = DDL::MapRange< S10 > ; // #Line
+  using A1 = DDL::MapRange< S12 > ; // #Line
   using A2 = uint8 ; // #OneLine#Align
   using A3 = uint8 ; // #Format#Effect
   using A4 = sint16 ; // #Coord
@@ -62,7 +64,7 @@ struct TypeDefCore
 
   struct S4
    {
-    DDL::MapPolyPtr< S13 , S11 , S9 > body;
+    DDL::MapPolyPtr< S15 , S13 , S11 , S10 > body;
     DDL::MapPolyPtr< S8 , S7 > line;
     S3 inner;
     S3 outer;
@@ -111,6 +113,23 @@ struct TypeDefCore
 
   struct S9
    {
+    DDL::MapText bullet;
+    DDL::MapRange< S4 > list;
+
+    struct Ext;
+   };
+
+  struct S10
+   {
+    DDL::MapRange< S9 > list;
+    DDL::MapPtr< S18 > bullet_fmt;
+    A4 space;
+
+    struct Ext;
+   };
+
+  struct S11
+   {
     DDL::MapText file_name;
 
     struct Ext;
@@ -118,27 +137,10 @@ struct TypeDefCore
     ulen ext;
    };
 
-  struct S10
-   {
-    DDL::MapText body;
-    DDL::MapPtr< S16 > fmt;
-    DDL::MapPolyPtr< S1 , S5 > ref;
-
-    struct Ext;
-   };
-
-  struct S11
-   {
-    DDL::MapRange< A1 > list;
-    DDL::MapPtr< S16 > fmt;
-
-    struct Ext;
-   };
-
   struct S12
    {
     DDL::MapText body;
-    DDL::MapPtr< S16 > fmt;
+    DDL::MapPtr< S18 > fmt;
     DDL::MapPolyPtr< S1 , S5 > ref;
 
     struct Ext;
@@ -146,14 +148,31 @@ struct TypeDefCore
 
   struct S13
    {
-    DDL::MapRange< S12 > list;
-    DDL::MapPtr< S16 > fmt;
-    DDL::MapPolyPtr< S15 , S14 > placement;
+    DDL::MapRange< A1 > list;
+    DDL::MapPtr< S18 > fmt;
 
     struct Ext;
    };
 
   struct S14
+   {
+    DDL::MapText body;
+    DDL::MapPtr< S18 > fmt;
+    DDL::MapPolyPtr< S1 , S5 > ref;
+
+    struct Ext;
+   };
+
+  struct S15
+   {
+    DDL::MapRange< S14 > list;
+    DDL::MapPtr< S18 > fmt;
+    DDL::MapPolyPtr< S17 , S16 > placement;
+
+    struct Ext;
+   };
+
+  struct S16
    {
     S6 line_space;
     S6 first_line_space;
@@ -161,7 +180,7 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S15
+  struct S17
    {
     A2 align;
 
@@ -170,9 +189,9 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S16
+  struct S18
    {
-    DDL::MapPtr< S17 > font;
+    DDL::MapPtr< S19 > font;
     A5 back;
     A5 fore;
     A3 effect;
@@ -182,7 +201,7 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S17
+  struct S19
    {
     DDL::MapText face;
     A4 size;
@@ -207,21 +226,23 @@ namespace TypeDef {
     using Line = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A1 ;
     using VColor = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A5 ;
     using Coord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A4 ;
-    using OneLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S15 ;
+    using OneLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S17 ;
     using Book = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
-    using Font = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S17 ;
+    using Font = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S19 ;
     using Link = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
     using SingleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
     using Page = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
-    using Bitmap = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
-    using Span = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S12 ;
-    using Text = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S13 ;
+    using Bitmap = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
+    using Span = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S14 ;
+    using Text = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S15 ;
     using DoubleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
-    using FixedText = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
-    using FixedSpan = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
-    using Format = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S16 ;
+    using ListItem = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
+    using TextList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
+    using FixedText = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S13 ;
+    using FixedSpan = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S12 ;
+    using Format = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S18 ;
     using Ratio = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
-    using MultiLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S14 ;
+    using MultiLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S16 ;
     using Point = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S3 ;
     using Frame = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S4 ;
 
