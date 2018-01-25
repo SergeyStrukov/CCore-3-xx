@@ -165,7 +165,7 @@ const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *bmp)
   catch(...) { return 0; }
  }
 
-/* struct InnerBookWindow::SizeContext */
+/* class InnerBookWindow */
 
 bool InnerBookWindow::SkipSpace(StrLen text)
  {
@@ -178,6 +178,53 @@ bool InnerBookWindow::SkipSpace(StrLen text)
      default: return false;
     }
  }
+
+Coord InnerBookWindow::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Format *fmt)
+ {
+  Font font;
+
+  if( fmt )
+    {
+     font=font_map(fmt->font,+cfg.font);
+    }
+  else
+    {
+     font=+cfg.font;
+    }
+
+  return font->getSize().by;
+ }
+
+Coord InnerBookWindow::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Text *obj)
+ {
+  return GetBY(cfg,font_map,obj->fmt);
+ }
+
+Coord InnerBookWindow::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::FixedText *obj)
+ {
+  return GetBY(cfg,font_map,obj->fmt);
+ }
+
+Coord InnerBookWindow::GetBY(const Config &,FontMap &,const Book::TypeDef::Bitmap *)
+ {
+  return 0;
+ }
+
+Coord InnerBookWindow::GetBY(const Config &,FontMap &,const Book::TypeDef::TextList *)
+ {
+  return 0;
+ }
+
+Coord InnerBookWindow::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame)
+ {
+  Coord ret=0;
+
+  frame.body.getPtr().apply( [&] (auto *obj) { ret=GetBY(cfg,font_map,obj); } );
+
+  return frame.inner.y+frame.outer.y+ret;
+ }
+
+/* struct InnerBookWindow::SizeContext */
 
 struct InnerBookWindow::SizeContext
  {
@@ -459,13 +506,31 @@ struct InnerBookWindow::SizeContext
 
   Point size(Font font,Book::TypeDef::ListItem item,Shape *shapes)
    {
-    Coord dy1=font->getSize().dy;
+    FontSize fs=font->getSize();
 
     auto list=item.list.getRange();
 
+    Coord by1=fs.by;
+    Coord dy1=fs.dy;
+    Coord dy2=0;
+
+    if( +list )
+      {
+       Coord by2=GetBY(cfg,font_map,*list);
+
+       if( by2>by1 )
+         {
+          dy1+=(by2-by1);
+         }
+       else
+         {
+          dy2=by1-by2;
+         }
+      }
+
     Coordinate dx=wdx-offx;
 
-    Point s=Null;
+    Point s(0,dy2);
 
     for(ulen i=0; i<list.len ;i++)
       {
@@ -479,11 +544,11 @@ struct InnerBookWindow::SizeContext
    {
     if( !obj ) return Null;
 
-    Font font=useSpan(obj->bullet_fmt);
-
     auto list=obj->list.getRange();
 
     if( !list.len ) return Null;
+
+    Font font=useSpan(obj->bullet_fmt);
 
     ulen total=0;
 
@@ -790,17 +855,37 @@ struct InnerBookWindow::DrawContext
    {
     FontSize fs=fmt.font->getSize();
 
-    Coord dy1=fs.dy;
-
-    drawSpan(fmt,item.bullet,base.addY(fs.by));
-
     auto list=item.list.getRange();
+
+    Coord by1=fs.by;
+    Coord dy1=fs.dy;
+    Coord dy2=0;
+
+    if( +list )
+      {
+       Coord by2=GetBY(cfg,font_map,*list);
+
+       if( by2>by1 )
+         {
+          dy1+=(by2-by1);
+          by1=by2;
+         }
+       else
+         {
+          dy2=by1-by2;
+         }
+      }
+
+    Point b=base;
+
+    b.y+=by1;
+
+    drawSpan(fmt,item.bullet,b);
 
     Point p=base;
 
     p.x+=offx;
-
-    Coord dy2=0;
+    p.y+=dy2;
 
     for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
       {

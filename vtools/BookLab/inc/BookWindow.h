@@ -238,6 +238,18 @@ class InnerBookWindow : public SubWindow
 
    static bool SkipSpace(StrLen text);
 
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Format *fmt);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Text *obj);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::FixedText *obj);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Bitmap *obj);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::TextList *obj);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame);
+
    struct SizeContext;
 
    struct DrawContext;
