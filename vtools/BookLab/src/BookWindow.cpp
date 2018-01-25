@@ -1145,7 +1145,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
   ulen pos_y=sy.getPos();
   ulen y=0;
 
-  for(ulen i=0; i<frames.len ;i++)
+  for(ulen i=0,len=Min(frames.len,shapes.getLen()); i<len ;i++)
     {
      auto &frame=frames[i];
      auto &shape=shapes[i];

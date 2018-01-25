@@ -40,7 +40,11 @@ template &lt;class T&gt;
 struct <span class="Att">FeedBuf</span>
  {
   ulen delta;
-  bool overflow;
+  CmpResult cmp;
+
+  bool overflow() const { return cmp&lt;0; } // src has extra data
+
+  bool underflow() const { return cmp&gt;0; } // dst has extra space
 
   FeedBuf(PtrLen&lt;T&gt; dst,PtrLen&lt;const T&gt; src);
  };
@@ -48,7 +52,7 @@ struct <span class="Att">FeedBuf</span>
 </pre>
 
 <p>
-It copies data from one range to another. The result value has two fields: <b>delta</b> and <b>overflow</b>.
+It copies data from one range to another. The result value has two fields: <b>delta</b> and <b>cmp</b>.
 </p>
 
 <p>
@@ -56,19 +60,31 @@ It copies data from one range to another. The result value has two fields: <b>de
 </p>
 
 <p>
-<b>overflow</b> if <b>true</b> iff the source range has larger length than the destination one.
+<b>cmp</b> if the result of comparison of the destination range length and the source ones.
 </p>
 
 <pre>
 
 template &lt;class T&gt;
-bool <span class="Att">Feedup</span>(PtrLen&lt;T&gt; &amp;dst,PtrLen&lt;const T&gt; src);
+bool /* overflow */ <span class="Att">Feedup</span>(PtrLen&lt;T&gt; &amp;dst,PtrLen&lt;const T&gt; src);
 
 </pre>
 
 <p>
 This function feeds the destination range from the source and updates <b>dst</b> to the remaining range.
 The overflow flag is returned.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+bool /* underflow */ <span class="Att">Pumpup</span>(PtrLen&lt;T&gt; &dst,PtrLen&lt;const T&gt; &amp;src);
+
+</pre>
+
+<p>
+This function pumps the destination range from the source and updates both <b>dst</b> and <b>src</b>.
+The underflow flag is returned.
 </p>
 
 </body>

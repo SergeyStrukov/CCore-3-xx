@@ -42,25 +42,17 @@ class Bitmap::File : NoCopy
 
      ulen len=file.read(ptr,buf.getLen());
 
+     cur=Range(ptr,len);
+
      if( !len )
        {
         Printf(Exception,"CCore::Video::Bitmap::File::provide() : no more data");
        }
-
-     cur=Range(ptr,len);
     }
 
    void next(PtrLen<uint8> range)
     {
-     while( +range )
-       {
-        if( !cur ) provide();
-
-        FeedBuf feed(range,cur);
-
-        range+=feed.delta;
-        cur+=feed.delta;
-       }
+     while( Pumpup(range,cur) ) provide();
     }
 
   public:
