@@ -140,13 +140,19 @@ struct ListItem
   Frame[] list;
  };
 
+Format DefaultBulletFormat = {} ;
+
+Coord DefaultBulletSpace = 5 ;
+Coord DefaultItemSpace = 0 ;
+
 struct TextList
  {
   ListItem[] list;
   
   Format *bullet_fmt = & ?DefaultBulletFormat ;
   
-  Coord space = 0 ;
+  Coord bullet_space = ?DefaultBulletSpace ;
+  Coord item_space = ?DefaultItemSpace ;
  };
 
 //--- Frame ------------------------------------------------------------------------------

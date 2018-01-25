@@ -146,7 +146,8 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "list",offsetof(S10,list),
                                "bullet_fmt",offsetof(S10,bullet_fmt),
-                               "space",offsetof(S10,space)
+                               "bullet_space",offsetof(S10,bullet_space),
+                               "item_space",offsetof(S10,item_space)
                               );
         }
        return ret;
@@ -408,6 +409,7 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapRange< S9 >,
                                DDL::MapPtr< S18 >,
+                               A4,
                                A4
                               >(*this,struct_node);
         }

@@ -48,4 +48,6 @@ Format fmt_i = { .font = &font_i } ;
 
 Format fmt_u = { .font = &font_p , .effect = Format#Underline } ;
 
+Format DefaultBulletFormat = { .font = &font_b } ;
+
 } // scope Pages

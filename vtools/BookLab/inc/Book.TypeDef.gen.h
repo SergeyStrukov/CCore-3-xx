@@ -123,7 +123,8 @@ struct TypeDefCore
    {
     DDL::MapRange< S9 > list;
     DDL::MapPtr< S18 > bullet_fmt;
-    A4 space;
+    A4 bullet_space;
+    A4 item_space;
 
     struct Ext;
    };

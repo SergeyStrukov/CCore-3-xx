@@ -483,6 +483,8 @@ struct InnerBookWindow::SizeContext
 
     auto list=obj->list.getRange();
 
+    if( !list.len ) return Null;
+
     ulen total=0;
 
     for(ulen i=0; i<list.len ;i++) total=LenAdd(total,list[i].list.len);
@@ -494,6 +496,8 @@ struct InnerBookWindow::SizeContext
       }
 
     for(ulen i=0; i<list.len ;i++) Replace_max(offx, sizeBullet(font,list[i].bullet) );
+
+    offx+=obj->bullet_space;
 
     Shape *shapes=subshapes.getPtr();
 
@@ -508,7 +512,7 @@ struct InnerBookWindow::SizeContext
        shapes+=count;
       }
 
-    return ret;
+    return ret.addY( +( (CountToCoordinate(list.len)-1)*obj->item_space ) );
    }
 
   Point size()
@@ -784,9 +788,11 @@ struct InnerBookWindow::DrawContext
 
   Coord draw(Format fmt,Book::TypeDef::ListItem item,PtrLen<const Shape> shapes)
    {
-    drawSpan(fmt,item.bullet,base);
+    FontSize fs=fmt.font->getSize();
 
-    Coord dy1=fmt.font->getSize().dy;
+    Coord dy1=fs.dy;
+
+    drawSpan(fmt,item.bullet,base.addY(fs.by));
 
     auto list=item.list.getRange();
 
@@ -825,7 +831,7 @@ struct InnerBookWindow::DrawContext
 
        off+=count;
 
-       base.y += ( dy + obj->space ) ;
+       base.y += ( dy + obj->item_space ) ;
       }
    }
 
