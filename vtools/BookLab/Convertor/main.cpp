@@ -27,6 +27,10 @@ using namespace CCore;
 using Video::DDLString;
 using Video::DDLPrintableString;
 
+/* classes */
+
+class Source;
+
 /* class Source */
 
 class Source : NoCopy
@@ -57,10 +61,15 @@ class Source : NoCopy
     : inp(input_file_name),
       tags{"h1","/h1",
            "h2","/h2",
+           "h3","/h3",
+           "h4","/h4",
+           "h5","/h5",
            "p","/p",
            "b","/b",
            "i","/i",
            "a","/a",
+           "ol","/ol",
+           "li","/li",
            "img"}
     {
     }
@@ -84,13 +93,13 @@ class Source : NoCopy
 
         switch( tags )
           {
-           case 11 :
+           case 17 :
             {
              Scanf(inp," href = #.q; >",param);
             }
            break;
 
-           case 13 :
+           case 23 :
             {
              Scanf(inp," src = #.q; >",param);
             }
@@ -112,19 +121,34 @@ class Source : NoCopy
            case 3 : return step( proc.tagH2() );
            case 4 : return step( proc.tagH2end() );
 
-           case 5 : return step( proc.tagP() );
-           case 6 : return step( proc.tagPend() );
+           case 5 : return step( proc.tagH3() );
+           case 6 : return step( proc.tagH3end() );
 
-           case 7 : return step( proc.tagB() );
-           case 8 : return step( proc.tagBend() );
+           case 7 : return step( proc.tagH4() );
+           case 8 : return step( proc.tagH4end() );
 
-           case 9 : return step( proc.tagI() );
-           case 10 : return step( proc.tagIend() );
+           case 9  : return step( proc.tagH5() );
+           case 10 : return step( proc.tagH5end() );
 
-           case 11 : return step( proc.tagA(param) );
-           case 12 : return step( proc.tagAend() );
+           case 11 : return step( proc.tagP() );
+           case 12 : return step( proc.tagPend() );
 
-           case 13 : return step( proc.tagImg(param) );
+           case 13 : return step( proc.tagB() );
+           case 14 : return step( proc.tagBend() );
+
+           case 15 : return step( proc.tagI() );
+           case 16 : return step( proc.tagIend() );
+
+           case 17 : return step( proc.tagA(param) );
+           case 18 : return step( proc.tagAend() );
+
+           case 19 : return step( proc.tagOL() );
+           case 20 : return step( proc.tagOLend() );
+
+           case 21 : return step( proc.tagLI() );
+           case 22 : return step( proc.tagLIend() );
+
+           case 23 : return step( proc.tagImg(param) );
 
            default: return step(false);
           }
@@ -157,37 +181,6 @@ class Source : NoCopy
     }
  };
 
-/* class TestProc */
-
-class TestProc
- {
-  public:
-
-   bool word(String word) { Printf(Con,"  #;\n",word); return true; }
-
-   bool tagH1() { Printf(Con,"H1\n"); return true; }
-   bool tagH1end() { Printf(Con,"/H1\n"); return true; }
-
-   bool tagH2() { Printf(Con,"H2\n"); return true; }
-   bool tagH2end() { Printf(Con,"/H2\n"); return true; }
-
-   bool tagP() { Printf(Con,"P\n"); return true; }
-   bool tagPend() { Printf(Con,"/P\n"); return true; }
-
-   bool tagB() { Printf(Con,"B\n"); return true; }
-   bool tagBend() { Printf(Con,"/B\n"); return true; }
-
-   bool tagI() { Printf(Con,"I\n"); return true; }
-   bool tagIend() { Printf(Con,"/I\n"); return true; }
-
-   bool tagA(String url) { Printf(Con,"A #.q;\n",url); return true; }
-   bool tagAend() { Printf(Con,"/A\n"); return true; }
-
-   bool tagImg(String file_name) { Printf(Con,"Img #.q;\n",file_name); return true; }
-
-   bool complete() { return true; }
- };
-
 /* class Convert */
 
 class Convert : NoCopy
@@ -202,17 +195,28 @@ class Convert : NoCopy
 
      TagH1,
      TagH2,
+     TagH3,
+     TagH4,
+     TagH5,
      TagP,
 
      TagB,
      TagI,
-     TagA
+     TagA,
+
+     TagOL,
+     TagLI
     };
 
    State state = Start ;
+   unsigned level = 0 ;
 
    ulen ind = 1 ;
    bool first = true ;
+
+   State parent = Start ;
+
+   unsigned number[10];
 
   private:
 
@@ -275,6 +279,84 @@ class Convert : NoCopy
    void endH2()
     {
      Putobj(out,"} , &fmt_h2 , &align_h2 } ;\n\n");
+    }
+
+   // H3
+
+   void startH3()
+    {
+     Printf(out,"Text text#; = { {\n",ind++);
+
+     first=true;
+    }
+
+   void wordH3(String word)
+    {
+     if( Change(first,false) )
+       {
+        Printf(out,"{#;}\n",DDLString(word));
+       }
+     else
+       {
+        Printf(out,",{#;}\n",DDLString(word));
+       }
+    }
+
+   void endH3()
+    {
+     Putobj(out,"} , &fmt_h3 , &align_h3 } ;\n\n");
+    }
+
+   // H4
+
+   void startH4()
+    {
+     Printf(out,"Text text#; = { {\n",ind++);
+
+     first=true;
+    }
+
+   void wordH4(String word)
+    {
+     if( Change(first,false) )
+       {
+        Printf(out,"{#;}\n",DDLString(word));
+       }
+     else
+       {
+        Printf(out,",{#;}\n",DDLString(word));
+       }
+    }
+
+   void endH4()
+    {
+     Putobj(out,"} , &fmt_h4 , &align_h4 } ;\n\n");
+    }
+
+   // H5
+
+   void startH5()
+    {
+     Printf(out,"Text text#; = { {\n",ind++);
+
+     first=true;
+    }
+
+   void wordH5(String word)
+    {
+     if( Change(first,false) )
+       {
+        Printf(out,"{#;}\n",DDLString(word));
+       }
+     else
+       {
+        Printf(out,",{#;}\n",DDLString(word));
+       }
+    }
+
+   void endH5()
+    {
+     Putobj(out,"} , &fmt_h5 , &align_h5 } ;\n\n");
     }
 
    // P
@@ -357,6 +439,45 @@ class Convert : NoCopy
 
    void endA() {}
 
+   // OL
+
+   void startOL()
+    {
+     Printf(out,"TextList text#; = { {\n",ind++);
+
+     number[level]=1;
+    }
+
+   void endOL()
+    {
+     Putobj(out,"} } ;\n\n");
+    }
+
+   // LI
+
+   void startLI()
+    {
+     unsigned num=number[level]++;
+
+     if( num==1 )
+       {
+        Printf(out,"{'#;.',{",num);
+       }
+     else
+       {
+        Printf(out,",{'#;.',{",num);
+       }
+    }
+
+   void wordLI(String word)
+    {
+    }
+
+   void endLI()
+    {
+     Putobj(out,"}}\n");
+    }
+
    // Img
 
    void makeImg(String file_name) { makeImg(Range(file_name)); }
@@ -400,6 +521,12 @@ class Convert : NoCopy
 
         case TagH2 : wordH2(word); return true;
 
+        case TagH3 : wordH3(word); return true;
+
+        case TagH4 : wordH4(word); return true;
+
+        case TagH5 : wordH5(word); return true;
+
         case TagP : wordP(word); return true;
 
         case TagB : wordB(word); return true;
@@ -407,6 +534,8 @@ class Convert : NoCopy
         case TagI : wordI(word); return true;
 
         case TagA : wordA(word); return true;
+
+        case TagLI : wordLI(word); return true;
        }
 
      return false;
@@ -459,6 +588,90 @@ class Convert : NoCopy
      if( state==TagH2 )
        {
         endH2();
+
+        state=Start;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH3()
+    {
+     if( state==Start )
+       {
+        startH3();
+
+        state=TagH3;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH3end()
+    {
+     if( state==TagH3 )
+       {
+        endH3();
+
+        state=Start;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH4()
+    {
+     if( state==Start )
+       {
+        startH4();
+
+        state=TagH4;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH4end()
+    {
+     if( state==TagH4 )
+       {
+        endH4();
+
+        state=Start;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH5()
+    {
+     if( state==Start )
+       {
+        startH5();
+
+        state=TagH5;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagH5end()
+    {
+     if( state==TagH5 )
+       {
+        endH5();
 
         state=Start;
 
@@ -554,11 +767,11 @@ class Convert : NoCopy
 
    bool tagA(String url)
     {
-     if( state==TagP )
+     if( state==TagP || state==TagLI )
        {
         startA(url);
 
-        state=TagA;
+        parent=Replace(state,TagA);
 
         return true;
        }
@@ -572,7 +785,72 @@ class Convert : NoCopy
        {
         endA();
 
-        state=TagP;
+        state=parent;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagOL()
+    {
+     if( state==Start || state==TagLI )
+       {
+        level++;
+
+        if( level>=DimOf(number) )
+          {
+           return false;
+          }
+
+        startOL();
+
+        state=TagOL;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagOLend()
+    {
+     if( state==TagOL && level )
+       {
+        endOL();
+
+        level--;
+
+        state=level?TagLI:Start;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagLI()
+    {
+     if( state==TagOL )
+       {
+        startLI();
+
+        state=TagLI;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   bool tagLIend()
+    {
+     if( state==TagLI )
+       {
+        endLI();
+
+        state=TagOL;
 
         return true;
        }
@@ -620,19 +898,9 @@ void Main(StrLen input_file_name,StrLen output_file_name)
  {
   Source src(input_file_name);
 
-#if 1
-
   Convert convert(output_file_name);
 
   src.run(convert);
-
-#else
-
-  TestProc test;
-
-  src.run(test);
-
-#endif
  }
 
 } // namespace App

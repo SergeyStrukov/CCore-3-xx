@@ -22,7 +22,8 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET) 
-	$(TARGET) index.html ../docs/Mandelbrot.book.ddl
+#	$(TARGET) Mandelbrot.html ../docs/Mandelbrot.book.ddl
+	$(TARGET) CCore.html ../docs/CCore.book.ddl
 
 
 

@@ -474,32 +474,6 @@ Text text19 = { {
 ,{"details."}
 } } ;
 
-MultiLine place_item = {{1,1},{0,1}} ;
-
-Text item1=
-{{
-{"This"},{"is"},{"a"},{"list"},{"item1"}
-},{},&place_item};
-
-Text item2=
-{{
-{"This"},{"is"},{"a"},{"list"},{"item2"}
-},{},&place_item};
-
-Text item3=
-{{
-{"This"},{"is"},{"a"},{"list"},{"item3"}
-},{},&place_item};
-
-TextList text20 =
-{
- { 
-  {"1)",{{&item1,null,{0,0},{0,0}}}},
-  {"2)",{{&item2,null,{0,0},{0,0}}}},
-  {"3)",{{&item3,null,{0,0},{0,0}}}} 
- }
-};
-
 Page page1 = { Pages#PageName , {
 { &text1 }
 ,{ &text2 }
@@ -520,7 +494,6 @@ Page page1 = { Pages#PageName , {
 ,{ &text17 }
 ,{ &text18 }
 ,{ &text19 }
-,{ &text20 }
 } };
 
 } // scope Pages
