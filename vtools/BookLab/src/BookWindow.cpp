@@ -189,6 +189,7 @@ struct InnerBookWindow::SizeContext
 
   Coord &offx;
   DynArray<ulen> &split;
+  DynArray<Shape> &subshapes;
 
   Font font;
   Coordinate space_dx;
@@ -451,9 +452,63 @@ struct InnerBookWindow::SizeContext
     return {CountToCoordinate(bitmap->dX()),CountToCoordinate(bitmap->dY())};
    }
 
-  Point size(Book::TypeDef::TextList *obj) // TODO
+  Coord sizeBullet(Font font,StrLen text)
    {
-    return Null;
+    return +sizeSpan(font,text);
+   }
+
+  Point size(Font font,Book::TypeDef::ListItem item,Shape *shapes)
+   {
+    Coord dy1=font->getSize().dy;
+
+    auto list=item.list.getRange();
+
+    Coordinate dx=wdx-offx;
+
+    Point s=Null;
+
+    for(ulen i=0; i<list.len ;i++)
+      {
+       s=StackYSize(s, shapes[i].set(cfg,font_map,bmp_map,list[i],dx) );
+      }
+
+    return StackXSize( Point(offx,dy1) , s );
+   }
+
+  Point size(Book::TypeDef::TextList *obj)
+   {
+    if( !obj ) return Null;
+
+    Font font=useSpan(obj->bullet_fmt);
+
+    auto list=obj->list.getRange();
+
+    ulen total=0;
+
+    for(ulen i=0; i<list.len ;i++) total=LenAdd(total,list[i].list.len);
+
+    if( subshapes.getLen()!=total )
+      {
+       subshapes.erase();
+       subshapes.extend_default(total);
+      }
+
+    for(ulen i=0; i<list.len ;i++) Replace_max(offx, sizeBullet(font,list[i].bullet) );
+
+    Shape *shapes=subshapes.getPtr();
+
+    Point ret=Null;
+
+    for(ulen i=0; i<list.len ;i++)
+      {
+       ulen count=list[i].list.len;
+
+       ret=StackYSize(ret, size(font,list[i],shapes) );
+
+       shapes+=count;
+      }
+
+    return ret;
    }
 
   Point size()
@@ -480,6 +535,7 @@ struct InnerBookWindow::DrawContext
   Point base;
   Coord offx;
   PtrLen<const ulen> split;
+  PtrLen<const Shape> subshapes;
 
   Font font;
   Effect effect;
@@ -726,11 +782,51 @@ struct InnerBookWindow::DrawContext
     bitmap->draw(buf,pane.shrink(base));
    }
 
-  void draw(Book::TypeDef::TextList *obj) // TODO
+  Coord draw(Format fmt,Book::TypeDef::ListItem item,PtrLen<const Shape> shapes)
+   {
+    drawSpan(fmt,item.bullet,base);
+
+    Coord dy1=fmt.font->getSize().dy;
+
+    auto list=item.list.getRange();
+
+    Point p=base;
+
+    p.x+=offx;
+
+    Coord dy2=0;
+
+    for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
+      {
+       Coord dy=shapes[i].drawSub(cfg,font_map,bmp_map,fore,buf,list[i],pane,p);
+
+       p.y+=dy;
+       dy2+=dy;
+      }
+
+    return Max(dy1,dy2);
+   }
+
+  void draw(Book::TypeDef::TextList *obj)
    {
     if( !obj ) return;
 
+    Format fmt=useSpan(obj->bullet_fmt);
 
+    auto list=obj->list.getRange();
+
+    ulen off=0;
+
+    for(ulen i=0; i<list.len ;i++)
+      {
+       ulen count=list[i].list.len;
+
+       Coord dy=draw(fmt,list[i],subshapes.safe_part(off,count));
+
+       off+=count;
+
+       base.y += ( dy + obj->space ) ;
+      }
    }
 
   void draw()
@@ -741,7 +837,7 @@ struct InnerBookWindow::DrawContext
 
 /* struct InnerBookWindow::Shape */
 
-void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx)
+Point InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx)
  {
   Scope scope("App::InnerBookWindow::Shape::set"_c);
 
@@ -750,9 +846,11 @@ void InnerBookWindow::Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &
   offx=0;
   split.erase();
 
-  SizeContext ctx{cfg,font_map,bmp_map,frame,dx-delta.x,offx,split};
+  SizeContext ctx{cfg,font_map,bmp_map,frame,dx-delta.x,offx,split,subshapes};
 
   size=ctx.size()+delta;
+
+  return size;
  }
 
 void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const
@@ -763,6 +861,36 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap 
     draw(cfg,font_map,bmp_map,fore,buf,frame,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
     draw(cfg,font_map,bmp_map,fore,buf,frame,Point(-(Coord)pos_x,(Coord)pos_y));
+ }
+
+Coord InnerBookWindow::Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Pane parent,Point base) const
+ {
+  Pane pane(parent.getBase()+base,size);
+
+  Pane inner=pane.shrink(Cast(frame.outer));
+
+  if( VColor col=Cast(frame.col) ; col!=Book::NoColor )
+    {
+     PaneSub sub(pane,inner);
+
+     buf.erase(sub.top,col);
+     buf.erase(sub.bottom,col);
+     buf.erase(sub.left,col);
+     buf.erase(sub.right,col);
+    }
+
+  if( VColor back=GetAnyBack(frame.body.getPtr()) ; back!=Book::NoColor )
+    {
+     buf.erase(inner,back);
+    }
+
+  DrawAnyLine(cfg,buf,frame.line.getPtr(),inner);
+
+  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(Inf(inner,parent)),frame,inner,Cast(frame.inner),offx,Range(split),Range(subshapes)};
+
+  ctx.draw();
+
+  return size.y;
  }
 
 VColor InnerBookWindow::Shape::GetBack(const Book::TypeDef::Format *fmt)
@@ -875,7 +1003,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap 
 
   DrawAnyLine(cfg,buf,frame.line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,fore,buf,frame,inner,Cast(frame.inner),offx,Range(split)};
+  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(inner),frame,inner,Cast(frame.inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
  }

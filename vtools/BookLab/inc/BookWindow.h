@@ -247,6 +247,7 @@ class InnerBookWindow : public SubWindow
       Point size;
       Coord offx = 0 ;
       DynArray<ulen> split;
+      DynArray<Shape> subshapes;
 
      public:
 
@@ -254,9 +255,11 @@ class InnerBookWindow : public SubWindow
 
       Size getSize() const { return size; }
 
-      void set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
+      Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
 
       void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
+
+      Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Pane parent,Point base) const;
 
      private:
 
