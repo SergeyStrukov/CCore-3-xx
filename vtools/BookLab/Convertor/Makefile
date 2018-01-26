@@ -15,15 +15,19 @@ CCORE_ROOT = ../../..
 
 include $(CCORE_ROOT)/Makefile.host
 
+SRC_PATH_LIST = src
+
 TARGET = ./Convertor.exe
+
+CCOPT_EXTRA = -I.
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
 .PHONY : run
 
 run: $(TARGET) 
-#	$(TARGET) Mandelbrot.html ../docs/Mandelbrot.book.ddl
-	$(TARGET) CCore.html ../docs/CCore.book.ddl
+	$(TARGET) Mandelbrot.html ../docs/Mandelbrot.book.ddl
+#	$(TARGET) CCore.html ../docs/CCore.book.ddl
 
 
 

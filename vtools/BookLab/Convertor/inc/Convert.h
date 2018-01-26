@@ -1,4 +1,4 @@
-/* main.cpp */
+/* Convert.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Book Convertor 1.00
@@ -11,177 +11,209 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <CCore/inc/Print.h>
-#include <CCore/inc/Scan.h>
-#include <CCore/inc/Exception.h>
-#include <CCore/inc/Path.h>
+#ifndef App_Convert_h
+#define App_Convert_h
 
-#include <CCore/inc/video/PrintDDL.h>
+#include <inc/AnyObjectPtr.h>
+
+#include <CCore/inc/Print.h>
+#include <CCore/inc/String.h>
 
 namespace App {
 
-/* using */
-
-using namespace CCore;
-
-using Video::DDLString;
-using Video::DDLPrintableString;
-
 /* classes */
 
-class Source;
+class Span;
 
-/* class Source */
+class Text;
 
-class Source : NoCopy
+class Image;
+
+class Frame;
+
+class FrameList;
+
+class Convert;
+
+/* enum SpanType */
+
+enum SpanType
  {
-   ScanFile inp;
+  SpanB,
+  SpanI,
+  SpanA
+ };
 
-   StringSetScan tags;
+/* class Span */
 
-  private:
-
-   static bool CharStop(char ch)
-    {
-     return CharIsSpace(ch) || ch=='<' ;
-    }
-
-   bool step(bool ok)
-    {
-     if( ok ) return ok;
-
-     inp.fail();
-
-     return false;
-    }
+class Span
+ {
+   SpanType type;
+   String text;
+   String url;
 
   public:
 
-   explicit Source(StrLen input_file_name)
-    : inp(input_file_name),
-      tags{"h1","/h1",
-           "h2","/h2",
-           "h3","/h3",
-           "h4","/h4",
-           "h5","/h5",
-           "p","/p",
-           "b","/b",
-           "i","/i",
-           "a","/a",
-           "ol","/ol",
-           "li","/li",
-           "img"}
+   Span(SpanType type_,String text_,String url_=Null) : type(type_),text(text_),url(url_) {}
+ };
+
+/* enum TextType */
+
+enum TextType
+ {
+  TextP,
+  TextH1,
+  TextH2,
+  TextH3,
+  TextH4,
+  TextH5
+ };
+
+/* class Text */
+
+class Text
+ {
+   TextType type;
+   DynArray<Span> list;
+
+  public:
+
+   explicit Text(TextType type_) : type(type_) {}
+
+   void add(Span span) { list.append_copy(span); }
+
+   void print(PrintBase &out) const // TODO
     {
-    }
-
-   ~Source() {}
-
-   template <class Proc>
-   bool next(Proc &proc)
-    {
-     SkipSpace(inp);
-
-     if( !inp ) return false;
-
-     if( ProbeChar(inp,'<') )
-       {
-        Scanf(inp," #;",tags);
-
-        if( !inp ) return false;
-
-        String param;
-
-        switch( tags )
-          {
-           case 17 :
-            {
-             Scanf(inp," href = #.q; >",param);
-            }
-           break;
-
-           case 23 :
-            {
-             Scanf(inp," src = #.q; >",param);
-            }
-           break;
-
-           default:
-            {
-             Scanf(inp," >");
-            }
-          }
-
-        if( !inp ) return false;
-
-        switch( tags )
-          {
-           case 1 : return step( proc.tagH1() );
-           case 2 : return step( proc.tagH1end() );
-
-           case 3 : return step( proc.tagH2() );
-           case 4 : return step( proc.tagH2end() );
-
-           case 5 : return step( proc.tagH3() );
-           case 6 : return step( proc.tagH3end() );
-
-           case 7 : return step( proc.tagH4() );
-           case 8 : return step( proc.tagH4end() );
-
-           case 9  : return step( proc.tagH5() );
-           case 10 : return step( proc.tagH5end() );
-
-           case 11 : return step( proc.tagP() );
-           case 12 : return step( proc.tagPend() );
-
-           case 13 : return step( proc.tagB() );
-           case 14 : return step( proc.tagBend() );
-
-           case 15 : return step( proc.tagI() );
-           case 16 : return step( proc.tagIend() );
-
-           case 17 : return step( proc.tagA(param) );
-           case 18 : return step( proc.tagAend() );
-
-           case 19 : return step( proc.tagOL() );
-           case 20 : return step( proc.tagOLend() );
-
-           case 21 : return step( proc.tagLI() );
-           case 22 : return step( proc.tagLIend() );
-
-           case 23 : return step( proc.tagImg(param) );
-
-           default: return step(false);
-          }
-       }
-     else
-       {
-        PrintString out;
-
-        for(char ch; +inp && !CharStop(ch=*inp) ;++inp) out.put(ch);
-
-        String word=out.close();
-
-        if( !inp ) return false;
-
-        return step( proc.word(word) );
-       }
-    }
-
-   template <class Proc>
-   void run(Proc &proc)
-    {
-     while( next(proc) );
-
-     step( proc.complete() );
-
-     if( inp.isFailed() )
-       {
-        Printf(Con,"Failed at #;\n",inp.getTextPos());
-       }
+     Used(out);
     }
  };
 
+/* class Image */
+
+class Image
+ {
+   String file_name;
+
+  public:
+
+   explicit Image(String file_name_) : file_name(file_name_) {}
+
+   void print(PrintBase &out) const // TODO
+    {
+     Used(out);
+    }
+ };
+
+/* class Frame */
+
+class Frame
+ {
+   struct PrintFunc
+    {
+     PrintBase &out;
+
+     template <class T>
+     void operator () (T &obj)
+      {
+       Putobj(out,obj);
+      }
+    };
+
+   AnyObjectPtr<PrintFunc> ptr;
+
+  public:
+
+   explicit Frame(OneOfTypes<Text,Image> &&obj) : ptr(std::move(obj)) {}
+
+   void print(PrintBase &out) const
+    {
+     ptr.apply(PrintFunc{out});
+    }
+ };
+
+/* class FrameList */
+
+class FrameList
+ {
+   DynArray<Frame> list;
+
+  public:
+
+   FrameList() {}
+
+   void add(OneOfTypes<Text,Image> &&obj) { list.append_fill(Frame(std::move(obj))); }
+ };
+
 /* class Convert */
+
+class Convert : NoCopy
+ {
+   String name;
+
+   PrintFile out;
+
+  private:
+
+   void start();
+
+  public:
+
+   explicit Convert(StrLen output_file_name);
+
+   ~Convert() {}
+
+   bool word(String word);
+
+   bool tagH1();
+
+   bool tagH1end();
+
+   bool tagH2();
+
+   bool tagH2end();
+
+   bool tagH3();
+
+   bool tagH3end();
+
+   bool tagH4();
+
+   bool tagH4end();
+
+   bool tagH5();
+
+   bool tagH5end();
+
+   bool tagP();
+
+   bool tagPend();
+
+   bool tagB();
+
+   bool tagBend();
+
+   bool tagI();
+
+   bool tagIend();
+
+   bool tagA(String url);
+
+   bool tagAend();
+
+   bool tagOL();
+
+   bool tagOLend();
+
+   bool tagLI();
+
+   bool tagLIend();
+
+   bool tagImg(String file_name);
+
+   bool complete();
+ };
+
+#if 0
 
 class Convert : NoCopy
  {
@@ -892,49 +924,9 @@ class Convert : NoCopy
     }
  };
 
-/* Main() */
-
-void Main(StrLen input_file_name,StrLen output_file_name)
- {
-  Source src(input_file_name);
-
-  Convert convert(output_file_name);
-
-  src.run(convert);
- }
+#endif
 
 } // namespace App
 
-/* main() */
-
-using namespace App;
-
-int main(int argc,const char *argv[])
- {
-  try
-    {
-     ReportException report;
-
-     {
-      Putobj(Con,"--- Book Convertor 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
-
-      if( argc<3 )
-        {
-         Putobj(Con,"Usage: Convertor <input-file-name> <output-file-name>\n");
-
-         return 1;
-        }
-
-      Main(argv[1],argv[2]);
-     }
-
-     report.guard();
-
-     return 0;
-    }
-  catch(CatchType)
-    {
-     return 1;
-    }
- }
+#endif
 
