@@ -23,6 +23,124 @@ namespace App {
 using Video::DDLString;
 using Video::DDLPrintableString;
 
+/* class Convert::Builder */
+
+struct Convert::Builder::Elaborate
+ {
+  BuilderPtr &ret;
+
+  template <class T>
+  void operator () (T &obj)
+   {
+    ret=&obj;
+   }
+ };
+
+auto Convert::Builder::elaborate() -> BuilderPtr
+ {
+  BuilderPtr ret;
+
+  ptr.apply(Elaborate{ret});
+
+  return ret;
+ }
+
+template <class T,class S> requires( CanPopTypes<T,S> )
+void Convert::Builder::Add(T *obj,S *top)
+ {
+  if( obj && top )
+    {
+     obj->add(top->complete());
+    }
+ }
+
+template <class T>
+void Convert::Builder::Add(T *obj,Builder &top)
+ {
+  top.elaborate().apply( [obj] (auto *top) { Add(obj,top); } );
+ }
+
+template <class T,class ... SS>
+bool Convert::Builder::check(SS && ... ss)
+ {
+  bool ret=false;
+
+  elaborate().applyFor<T>( [&] (T *obj) { if( obj ) ret=obj->check( std::forward<SS>(ss)... ); } );
+
+  return ret;
+ }
+
+template <class T>
+bool Convert::Builder::canPop()
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { ret=CanPopTypes<decltype(*obj),T>; } );
+
+  return ret;
+ }
+
+void Convert::Builder::pop(Builder &top)
+ {
+  elaborate().apply( [&] (auto *obj) { Add(obj,top); } );
+
+  top=std::move(*this);
+ }
+
+bool Convert::Builder::word(String word)
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->word(word); } );
+
+  return ret;
+ }
+
+bool Convert::Builder::tagB()
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagB(); } );
+
+  return ret;
+ }
+
+bool Convert::Builder::tagBend()
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagBend(); } );
+
+  return ret;
+ }
+
+bool Convert::Builder::tagI()
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagI(); } );
+
+  return ret;
+ }
+
+bool Convert::Builder::tagIend()
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagIend(); } );
+
+  return ret;
+ }
+
+bool Convert::Builder::tagImg(String file_name)
+ {
+  bool ret=false;
+
+  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagImg(file_name); } );
+
+  return ret;
+ }
+
 /* class Convert */
 
 void Convert::start()
@@ -34,8 +152,45 @@ void Convert::start()
   Putobj(out,"scope Pages {\n\n");
  }
 
+template <class T,class ... SS>
+bool Convert::push(SS && ... ss)
+ {
+  if( top.canPop<T>() )
+    {
+     stack.append_fill( std::move(top) );
+
+     top=Builder( T( std::forward<SS>(ss)... ) );
+
+     return true;
+    }
+
+  return false;
+ }
+
+template <class T,class ... SS>
+bool Convert::pop(SS && ... ss)
+ {
+  if( top.check<T>( std::forward<SS>(ss)... ) )
+    {
+     if( ulen len=stack.getLen() )
+       {
+        len--;
+
+        stack[len].pop(top);
+
+        stack.shrink_one();
+
+        return true;
+       }
+    }
+
+  return false;
+ }
+
 Convert::Convert(StrLen output_file_name)
- : out(output_file_name)
+ : out(output_file_name),
+
+   top(FrameListBuilder())
  {
   SplitPath split1(output_file_name);
   SplitName split2(split1.path);
@@ -46,133 +201,143 @@ Convert::Convert(StrLen output_file_name)
   start();
  }
 
+ // word
+
 bool Convert::word(String word)
  {
-  Used(word);
-
-  return false;
+  return top.word(word);
  }
+
+ // text
 
 bool Convert::tagH1()
  {
-  return false;
+  return push<TextBuilder>(TextH1);
  }
 
 bool Convert::tagH1end()
  {
-  return false;
+  return pop<TextBuilder>(TextH1);
  }
 
 bool Convert::tagH2()
  {
-  return false;
+  return push<TextBuilder>(TextH2);
  }
 
 bool Convert::tagH2end()
  {
-  return false;
+  return pop<TextBuilder>(TextH2);
  }
 
 bool Convert::tagH3()
  {
-  return false;
+  return push<TextBuilder>(TextH3);
  }
 
 bool Convert::tagH3end()
  {
-  return false;
+  return pop<TextBuilder>(TextH3);
  }
 
 bool Convert::tagH4()
  {
-  return false;
+  return push<TextBuilder>(TextH4);
  }
 
 bool Convert::tagH4end()
  {
-  return false;
+  return pop<TextBuilder>(TextH4);
  }
 
 bool Convert::tagH5()
  {
-  return false;
+  return push<TextBuilder>(TextH5);
  }
 
 bool Convert::tagH5end()
  {
-  return false;
+  return pop<TextBuilder>(TextH5);
  }
 
 bool Convert::tagP()
  {
-  return false;
+  return push<TextBuilder>(TextP);
  }
 
 bool Convert::tagPend()
  {
-  return false;
+  return pop<TextBuilder>(TextP);
  }
+
+ // format
 
 bool Convert::tagB()
  {
-  return false;
+  return top.tagB();
  }
 
 bool Convert::tagBend()
  {
-  return false;
+  return top.tagBend();
  }
 
 bool Convert::tagI()
  {
-  return false;
+  return top.tagI();
  }
 
 bool Convert::tagIend()
  {
-  return false;
+  return top.tagIend();
  }
 
-bool Convert::tagA(String url)
+ // hyperlink
+
+bool Convert::tagA(String url) // TODO
  {
   Used(url);
 
   return false;
  }
 
-bool Convert::tagAend()
+bool Convert::tagAend() // TODO
  {
   return false;
  }
 
-bool Convert::tagOL()
+ // list
+
+bool Convert::tagOL() // TODO
  {
   return false;
  }
 
-bool Convert::tagOLend()
+bool Convert::tagOLend() // TODO
  {
   return false;
  }
 
-bool Convert::tagLI()
+bool Convert::tagLI() // TODO
  {
   return false;
  }
 
-bool Convert::tagLIend()
+bool Convert::tagLIend() // TODO
  {
   return false;
  }
+
+ // image
 
 bool Convert::tagImg(String file_name)
  {
-  Used(file_name);
-
-  return false;
+  return top.tagImg(file_name);
  }
 
-bool Convert::complete()
+ // complete
+
+bool Convert::complete() // TODO
  {
   Putobj(out,"Page page1 = { Pages#PageName , {\n");
 

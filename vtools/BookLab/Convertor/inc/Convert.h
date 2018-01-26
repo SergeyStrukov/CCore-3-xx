@@ -18,10 +18,13 @@
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/String.h>
+#include <CCore/inc/AnyPtr.h>
 
 namespace App {
 
 /* classes */
+
+struct SpanType;
 
 class Span;
 
@@ -35,13 +38,25 @@ class FrameList;
 
 class Convert;
 
-/* enum SpanType */
+/* enum Effect */
 
-enum SpanType
+enum Effect
  {
-  SpanB,
-  SpanI,
-  SpanA
+  NoEffect,
+
+  Underline,
+  Strikeout,
+  Hyperlink
+ };
+
+/* struct SpanType */
+
+struct SpanType
+ {
+  bool bold = false ;
+  bool italic = false ;
+
+  Effect effect = NoEffect ;
  };
 
 /* class Span */
@@ -80,12 +95,9 @@ class Text
 
    explicit Text(TextType type_) : type(type_) {}
 
-   void add(Span span) { list.append_copy(span); }
+   TextType getType() const { return type; }
 
-   void print(PrintBase &out) const // TODO
-    {
-     Used(out);
-    }
+   void add(Span span) { list.append_copy(span); }
  };
 
 /* class Image */
@@ -97,38 +109,17 @@ class Image
   public:
 
    explicit Image(String file_name_) : file_name(file_name_) {}
-
-   void print(PrintBase &out) const // TODO
-    {
-     Used(out);
-    }
  };
 
 /* class Frame */
 
 class Frame
  {
-   struct PrintFunc
-    {
-     PrintBase &out;
-
-     template <class T>
-     void operator () (T &obj)
-      {
-       Putobj(out,obj);
-      }
-    };
-
-   AnyObjectPtr<PrintFunc> ptr;
+   AnyObjectPtr<> ptr;
 
   public:
 
    explicit Frame(OneOfTypes<Text,Image> &&obj) : ptr(std::move(obj)) {}
-
-   void print(PrintBase &out) const
-    {
-     ptr.apply(PrintFunc{out});
-    }
  };
 
 /* class FrameList */
@@ -146,15 +137,135 @@ class FrameList
 
 /* class Convert */
 
+template <class T,class S>
+concept bool CanPopTypes = requires(T *obj,S *top)
+ {
+  obj->add(top->complete());
+ } ;
+
 class Convert : NoCopy
  {
+   class TextBuilder
+    {
+      Text text;
+      SpanType span_type;
+
+     public:
+
+      explicit TextBuilder(TextType type) : text(type) {}
+
+      bool check(TextType type) const { return text.getType()==type; }
+
+      bool word(String word) { text.add(Span(span_type,word)); return true; }
+
+      bool tagB() { return Change(span_type.bold,true); }
+
+      bool tagBend() { return Change(span_type.bold,false); }
+
+      bool tagI() { return Change(span_type.italic,true); }
+
+      bool tagIend() { return Change(span_type.italic,false); }
+
+      bool tagImg(String) { return false; }
+
+      void add(Span span) { text.add(span); }
+
+      Text complete() { return std::move(text); }
+    };
+
+   class FrameListBuilder
+    {
+      FrameList result;
+
+     public:
+
+      FrameListBuilder() {}
+
+      bool check() const { return true; }
+
+      bool word(String) { return false; }
+
+      bool tagB() { return false; }
+
+      bool tagBend() { return false; }
+
+      bool tagI() { return false; }
+
+      bool tagIend() { return false; }
+
+      bool tagImg(String file_name) { result.add(Image(file_name)); return true; }
+
+      void add(OneOfTypes<Text,Image> &&obj) { result.add(std::move(obj)); }
+
+      FrameList complete() { return std::move(result); }
+    };
+
+   class Builder
+    {
+      using BuilderPtr = AnyPtr<TextBuilder,FrameListBuilder> ;
+
+      struct Elaborate;
+
+      AnyObjectPtr<Elaborate> ptr;
+
+     private:
+
+      BuilderPtr elaborate();
+
+      template <class T,class S> requires( !CanPopTypes<T,S> )
+      static void Add(T *,S *) {}
+
+      template <class T,class S> requires( CanPopTypes<T,S> )
+      static void Add(T *obj,S *top);
+
+      template <class T>
+      static void Add(T *obj,Builder &top);
+
+     public:
+
+      template <class T> requires ( !IsType<T,ToMoveCtor<Builder> &> )
+      explicit Builder(T &&obj)  : ptr(std::move(obj)) {}
+
+      template <class T,class ... SS>
+      bool check(SS && ... ss);
+
+      template <class T>
+      bool canPop();
+
+      void pop(Builder &top);
+
+      bool word(String word);
+
+      bool tagB();
+
+      bool tagBend();
+
+      bool tagI();
+
+      bool tagIend();
+
+      bool tagImg(String file_name);
+    };
+
+  private:
+
    String name;
 
    PrintFile out;
 
+   DynArray<Builder> stack;
+
+   Builder top;
+
   private:
 
    void start();
+
+   template <class T,class ... SS>
+   bool push(SS && ... ss);
+
+   template <class T,class ... SS>
+   bool pop(SS && ... ss);
 
   public:
 
@@ -162,7 +273,11 @@ class Convert : NoCopy
 
    ~Convert() {}
 
+   // word
+
    bool word(String word);
+
+   // text
 
    bool tagH1();
 
@@ -188,6 +303,8 @@ class Convert : NoCopy
 
    bool tagPend();
 
+   // format
+
    bool tagB();
 
    bool tagBend();
@@ -196,9 +313,13 @@ class Convert : NoCopy
 
    bool tagIend();
 
+   // hyperlink
+
    bool tagA(String url);
 
    bool tagAend();
+
+   // list
 
    bool tagOL();
 
@@ -208,7 +329,11 @@ class Convert : NoCopy
 
    bool tagLIend();
 
+   // image
+
    bool tagImg(String file_name);
+
+   // complete
 
    bool complete();
  };

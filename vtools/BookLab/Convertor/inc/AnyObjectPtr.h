@@ -38,7 +38,9 @@ struct ObjectFuncTable
  {
   void (*destroy)(void *obj) noexcept;
 
-  Tuple< void (*)(FF &,void *obj) ... > methods;
+  using Methods = Tuple< void (*)(FF &,void *obj) ... > ;
+
+  Methods methods;
 
   template <OneOfTypes<FF...> Func>
   void apply(Func &func,void *obj) const
@@ -63,6 +65,8 @@ class ObjectFuncTableOf
      func( *static_cast<T *>(obj) );
     }
 
+   using Methods = typename ObjectFuncTable<FF...>::Methods ;
+
    static const ObjectFuncTable<FF...> Table;
 
   public:
@@ -71,15 +75,18 @@ class ObjectFuncTableOf
  };
 
 template <class T,class ... FF>
-const ObjectFuncTable<FF...> ObjectFuncTableOf<T,FF...>::Table={Destroy,{ Apply<FF> ... }};
+const ObjectFuncTable<FF...> ObjectFuncTableOf<T,FF...>::Table={Destroy,Methods{ Apply<FF> ... }};
 
 /* class AnyObjectPtr<FF> */
+
+template <class T>
+concept bool AnyObjectType = NothrowDtorType<T> && MoveCtorType<T> ;
 
 template <class ... FF>
 class AnyObjectPtr
  {
    void *obj;
-   ObjectFuncTable<FF...> *func;
+   const ObjectFuncTable<FF...> *func;
 
   private:
 
@@ -93,10 +100,8 @@ class AnyObjectPtr
        }
     }
 
-  public:
-
-   template <NothrowDtorType T>
-   explicit AnyObjectPtr(T &&obj_)
+   template <AnyObjectType T>
+   void create(T &&obj_)
     {
      MemAllocGuard guard(sizeof (T));
 
@@ -105,6 +110,14 @@ class AnyObjectPtr
      guard.disarm();
 
      func=ObjectFuncTableOf<T,FF...>::Get();
+    }
+
+  public:
+
+   template <class T>
+   explicit AnyObjectPtr(T &&obj)
+    {
+     create(std::move(obj));
     }
 
    ~AnyObjectPtr()
