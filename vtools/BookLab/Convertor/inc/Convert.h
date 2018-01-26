@@ -154,6 +154,8 @@ class Convert : NoCopy
 
       explicit TextBuilder(TextType type) : text(type) {}
 
+      SpanType getSpanType() const { return span_type; }
+
       bool check(TextType type) const { return text.getType()==type; }
 
       bool word(String word) { text.add(Span(span_type,word)); return true; }
@@ -171,6 +173,42 @@ class Convert : NoCopy
       void add(Span span) { text.add(span); }
 
       Text complete() { return std::move(text); }
+    };
+
+   class ABuilder
+    {
+      String url;
+      SpanType span_type;
+
+      Collector<char> text;
+      bool first = true ;
+
+     public:
+
+      ABuilder(String url_,SpanType span_type_) : url(url_),span_type(span_type_) { span_type.effect=Hyperlink; }
+
+      bool check() const { return true; }
+
+      bool word(String word)
+       {
+        if( !Change(first,false) ) text.append_copy(' ');
+
+        text.extend_copy(Range(word));
+
+        return true;
+       }
+
+      bool tagB() { return false; }
+
+      bool tagBend() { return false; }
+
+      bool tagI() { return false; }
+
+      bool tagIend() { return false; }
+
+      bool tagImg(String) { return false; }
+
+      Span complete() { return Span(span_type,String(text.flat()),url); }
     };
 
    class FrameListBuilder
@@ -202,7 +240,7 @@ class Convert : NoCopy
 
    class Builder
     {
-      using BuilderPtr = AnyPtr<TextBuilder,FrameListBuilder> ;
+      using BuilderPtr = AnyPtr<TextBuilder,ABuilder,FrameListBuilder> ;
 
       struct Elaborate;
 
@@ -224,7 +262,7 @@ class Convert : NoCopy
      public:
 
       template <class T> requires ( !IsType<T,ToMoveCtor<Builder> &> )
-      explicit Builder(T &&obj)  : ptr(std::move(obj)) {}
+      explicit Builder(T &&obj) : ptr(std::move(obj)) {}
 
       template <class T,class ... SS>
       bool check(SS && ... ss);
@@ -245,6 +283,9 @@ class Convert : NoCopy
       bool tagIend();
 
       bool tagImg(String file_name);
+
+      template <class T>
+      T * getOf();
     };
 
   private:

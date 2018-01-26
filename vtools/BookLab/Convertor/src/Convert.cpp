@@ -141,6 +141,12 @@ bool Convert::Builder::tagImg(String file_name)
   return ret;
  }
 
+template <class T>
+T * Convert::Builder::getOf()
+ {
+  return elaborate().castPtr<T>();
+ }
+
 /* class Convert */
 
 void Convert::start()
@@ -294,16 +300,19 @@ bool Convert::tagIend()
 
  // hyperlink
 
-bool Convert::tagA(String url) // TODO
+bool Convert::tagA(String url)
  {
-  Used(url);
+  if( TextBuilder *text=top.getOf<TextBuilder>() )
+    {
+     return push<ABuilder>(url,text->getSpanType());
+    }
 
   return false;
  }
 
-bool Convert::tagAend() // TODO
+bool Convert::tagAend()
  {
-  return false;
+  return pop<ABuilder>();
  }
 
  // list
