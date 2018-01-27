@@ -48,6 +48,8 @@ Format fmt_i = { .font = &font_i } ;
 
 Format fmt_u = { .font = &font_p , .effect = Format#Underline } ;
 
+Format fmt_h = { .font = &font_p , .effect = Format#Underline } ;
+
 Font bullet_font = { 'Times New Roman' , (mul*8)/div , True } ;
 
 Format DefaultBulletFormat = { .font = &bullet_font } ;

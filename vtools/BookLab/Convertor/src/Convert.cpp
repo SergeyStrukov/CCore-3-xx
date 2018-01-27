@@ -14,14 +14,111 @@
 #include <inc/Convert.h>
 
 #include <CCore/inc/Path.h>
-#include <CCore/inc/video/PrintDDL.h>
 
 namespace App {
 
-/* using */
+/* class OName */
 
-using Video::DDLString;
-using Video::DDLPrintableString;
+ulen OName::Next = 1 ;
+
+/* class Span */
+
+StrLen Span::GetTail(SpanType type)
+ {
+  if( type.bold )
+    {
+     if( type.italic )
+       {
+        switch( type.effect )
+          {
+           case Underline : return ",&fmt_biu"_c;
+           case Strikeout : return ",&fmt_bis"_c;
+           case Hyperlink : return ",&fmt_bih"_c;
+           default: return ",&fmt_bi"_c;
+          }
+       }
+     else
+       {
+        switch( type.effect )
+          {
+           case Underline : return ",&fmt_bu"_c;
+           case Strikeout : return ",&fmt_bs"_c;
+           case Hyperlink : return ",&fmt_bh"_c;
+           default: return ",&fmt_b"_c;
+          }
+       }
+    }
+  else
+    {
+     if( type.italic )
+       {
+        switch( type.effect )
+          {
+           case Underline : return ",&fmt_iu"_c;
+           case Strikeout : return ",&fmt_is"_c;
+           case Hyperlink : return ",&fmt_ih"_c;
+           default: return ",&fmt_i"_c;
+          }
+       }
+     else
+       {
+        switch( type.effect )
+          {
+           case Underline : return ",&fmt_u"_c;
+           case Strikeout : return ",&fmt_s"_c;
+           case Hyperlink : return ",&fmt_h"_c;
+           default: return ""_c;
+          }
+       }
+    }
+ }
+
+/* class Text */
+
+StrLen Text::GetTail(TextType type)
+ {
+  switch( type )
+    {
+     case TextH1 : return " , &fmt_h1 , &align_h1 "_c;
+     case TextH2 : return " , &fmt_h2 , &align_h2 "_c;
+     case TextH3 : return " , &fmt_h3 , &align_h3 "_c;
+     case TextH4 : return " , &fmt_h4 , &align_h4 "_c;
+     case TextH5 : return " , &fmt_h5 , &align_h5 "_c;
+
+     default: return Null;
+    }
+ }
+
+/* class Image */
+
+StrLen Image::GetFileName(StrLen file_name)
+ {
+  SplitPath split1(file_name);
+  SplitName split2(split1.path);
+  SplitExt split3(split2.name);
+
+  file_name.len-=split3.ext.len;
+
+  return file_name;
+ }
+
+/* class Frame */
+
+OName Frame::getName() const
+ {
+  OName ret(Nothing);
+
+  ptr.apply(GetName{ret});
+
+  return ret;
+ }
+
+ // print object
+
+void Frame::print(PrintBase &out) const
+ {
+  ptr.apply(Print{out});
+ }
 
 /* class Convert::Builder */
 
@@ -75,7 +172,7 @@ bool Convert::Builder::canPop()
  {
   bool ret=false;
 
-  elaborate().apply( [&] (auto *obj) { ret=CanPopTypes<decltype(*obj),T>; } );
+  elaborate().apply( [&] (auto *obj) { ret=CanPopTypes<std::decay_t<decltype(*obj)>,T>; } );
 
   return ret;
  }
@@ -156,6 +253,25 @@ void Convert::start()
   Printf(out,"include <#;.style.ddl>\n\n",name);
 
   Putobj(out,"scope Pages {\n\n");
+ }
+
+void Convert::complete(FrameList list_)
+ {
+  PtrLen<const Frame> list=list_.get();
+
+  Putobj(out,"Page page1 = { Pages#PageName , {\n");
+
+  PrintFirst stem(""_c,","_c);
+
+  for(auto &obj : list ) Printf(out,"#;{ &#; }\n",stem,obj.getName());
+
+  Putobj(out,"} };\n\n");
+
+  for(auto &obj : list ) Printf(out,"#;\n\n",obj);
+
+  Putobj(out,"} // scope Pages\n\n");
+
+  Putobj(out,"Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;\n\n");
  }
 
 template <class T,class ... SS>
@@ -346,29 +462,18 @@ bool Convert::tagImg(String file_name)
 
  // complete
 
-bool Convert::complete() // TODO
+bool Convert::complete()
  {
-  Putobj(out,"Page page1 = { Pages#PageName , {\n");
+  if( stack.getLen() ) return false;
 
-#if 0
-
-  for(ulen i=1; i<ind ;i++)
+  if( FrameListBuilder *obj=top.getOf<FrameListBuilder>() )
     {
-     if( i==1 )
-       Printf(out,"{ &text#; }\n",i);
-     else
-       Printf(out,",{ &text#; }\n",i);
+     complete(obj->complete());
+
+     return true;
     }
 
-#endif
-
-  Putobj(out,"} };\n\n");
-
-  Putobj(out,"} // scope Pages\n\n");
-
-  Putobj(out,"Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;");
-
-  return true;
+  return false;
  }
 
 } // namespace App

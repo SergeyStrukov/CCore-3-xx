@@ -19,14 +19,24 @@
 #include <CCore/inc/Print.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/AnyPtr.h>
+#include <CCore/inc/PrintStem.h>
+
+#include <CCore/inc/video/PrintDDL.h>
 
 namespace App {
+
+/* using */
+
+using Video::DDLString;
+using Video::DDLPrintableString;
 
 /* classes */
 
 struct SpanType;
 
 class Span;
+
+class OName;
 
 class Text;
 
@@ -67,9 +77,22 @@ class Span
    String text;
    String url;
 
+  private:
+
+   static StrLen GetTail(SpanType type);
+
+   StrLen getTail() const { return GetTail(type); }
+
   public:
 
    Span(SpanType type_,String text_,String url_=Null) : type(type_),text(text_),url(url_) {}
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Printf(out,"{#;#;}",DDLString(text),getTail());
+    }
  };
 
 /* enum TextType */
@@ -84,42 +107,134 @@ enum TextType
   TextH5
  };
 
+/* class OName */
+
+class OName
+ {
+   ulen ind;
+
+   static ulen Next;
+
+  public:
+
+   OName() : ind(Next++) {}
+
+   OName(NothingType) : ind(0) {}
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     if( ind ) Printf(out,"o#;",ind); else Putobj(out,"<none>");
+    }
+ };
+
 /* class Text */
 
 class Text
  {
+   OName name;
    TextType type;
    DynArray<Span> list;
+
+  private:
+
+   static StrLen GetTail(TextType type);
+
+   StrLen getTail() const { return GetTail(type); }
 
   public:
 
    explicit Text(TextType type_) : type(type_) {}
 
+   OName getName() const { return name; }
+
    TextType getType() const { return type; }
 
    void add(Span span) { list.append_copy(span); }
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Printf(out,"Text #; = { {\n",name);
+
+     PrintFirst stem(""_c,","_c);
+
+     for(auto &obj : list ) Printf(out,"#;#;\n",stem,obj);
+
+     Printf(out,"}#;} ;\n\n",getTail());
+    }
  };
 
 /* class Image */
 
 class Image
  {
+   OName name;
    String file_name;
+
+  private:
+
+   static StrLen GetFileName(StrLen file_name);
+
+   StrLen getFileName() const { return GetFileName(Range(file_name)); }
 
   public:
 
    explicit Image(String file_name_) : file_name(file_name_) {}
+
+   OName getName() const { return name; }
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Printf(out,"Bitmap #; = { ",name);
+
+     Printf(out,"#; + '.bitmap' ",DDLPrintableString(getFileName()));
+
+     Putobj(out," };\n\n");
+    }
  };
 
 /* class Frame */
 
 class Frame
  {
-   AnyObjectPtr<> ptr;
+   struct GetName
+    {
+     OName &ret;
+
+     template <class T>
+     void operator () (T &obj)
+      {
+       ret=obj.getName();
+      }
+    };
+
+   struct Print
+    {
+     PrintBase &out;
+
+     template <class T>
+     void operator () (T &obj)
+      {
+       Putobj(out,obj);
+      }
+    };
+
+   AnyObjectPtr<GetName,Print> ptr;
 
   public:
 
    explicit Frame(OneOfTypes<Text,Image> &&obj) : ptr(std::move(obj)) {}
+
+   OName getName() const;
+
+   // print object
+
+   void print(PrintBase &out) const;
  };
 
 /* class FrameList */
@@ -133,6 +248,8 @@ class FrameList
    FrameList() {}
 
    void add(OneOfTypes<Text,Image> &&obj) { list.append_fill(Frame(std::move(obj))); }
+
+   PtrLen<const Frame> get() const { return Range(list); }
  };
 
 /* class Convert */
@@ -301,6 +418,8 @@ class Convert : NoCopy
   private:
 
    void start();
+
+   void complete(FrameList list);
 
    template <class T,class ... SS>
    bool push(SS && ... ss);

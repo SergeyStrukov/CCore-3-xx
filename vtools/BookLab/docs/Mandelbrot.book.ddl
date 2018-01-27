@@ -4,18 +4,46 @@ include <Mandelbrot.style.ddl>
 
 scope Pages {
 
-Text text1 = { {
+Page page1 = { Pages#PageName , {
+{ &o1 }
+,{ &o2 }
+,{ &o3 }
+,{ &o4 }
+,{ &o5 }
+,{ &o6 }
+,{ &o7 }
+,{ &o8 }
+,{ &o9 }
+,{ &o10 }
+,{ &o11 }
+,{ &o12 }
+,{ &o13 }
+,{ &o14 }
+,{ &o15 }
+,{ &o16 }
+,{ &o17 }
+,{ &o18 }
+,{ &o19 }
+} };
+
+Text o1 = { {
 {"Mandelbrot"}
 ,{"scope"}
 } , &fmt_h1 , &align_h1 } ;
 
-Text text2 = { {
+
+
+Text o2 = { {
 {"Introduction"}
 } , &fmt_h2 , &align_h2 } ;
 
-Bitmap text3 = { "img/Mandelbrot" + '.bitmap'  };
 
-Text text4 = { {
+
+Bitmap o3 = { "img/Mandelbrot" + '.bitmap'  };
+
+
+
+Text o4 = { {
 {"Mandelbrot",&fmt_b}
 ,{"scope",&fmt_b}
 ,{"(MScope.exe)"}
@@ -41,9 +69,7 @@ Text text4 = { {
 ,{"been"}
 ,{"discovered"}
 ,{"by"}
-,{"Benoit",&fmt_u}
-,{"B.",&fmt_u}
-,{"Mandelbrot",&fmt_u}
+,{"Benoit B. Mandelbrot",&fmt_h}
 ,{"."}
 ,{"The"}
 ,{"Mandelbrot"}
@@ -133,13 +159,17 @@ Text text4 = { {
 ,{"the"}
 ,{"outer"}
 ,{"part."}
-} } ;
+}} ;
 
-Text text5 = { {
+
+
+Text o5 = { {
 {"Navigation"}
 } , &fmt_h2 , &align_h2 } ;
 
-Text text6 = { {
+
+
+Text o6 = { {
 {"To"}
 ,{"move"}
 ,{"the"}
@@ -168,14 +198,18 @@ Text text6 = { {
 ,{"key"}
 ,{"Home",&fmt_b}
 ,{"."}
-} } ;
+}} ;
 
-Text text7 = { {
+
+
+Text o7 = { {
 {"Software"}
 ,{"options"}
 } , &fmt_h2 , &align_h2 } ;
 
-Text text8 = { {
+
+
+Text o8 = { {
 {"The"}
 ,{"menu"}
 ,{"Options",&fmt_i}
@@ -232,11 +266,15 @@ Text text8 = { {
 ,{"of"}
 ,{"the"}
 ,{"calculation."}
-} } ;
+}} ;
 
-Bitmap text9 = { "img/Colors" + '.bitmap'  };
 
-Text text10 = { {
+
+Bitmap o9 = { "img/Colors" + '.bitmap'  };
+
+
+
+Text o10 = { {
 {"There"}
 ,{"are"}
 ,{"several"}
@@ -245,9 +283,11 @@ Text text10 = { {
 ,{"on"}
 ,{"this"}
 ,{"dialog."}
-} } ;
+}} ;
 
-Text text11 = { {
+
+
+Text o11 = { {
 {"The"}
 ,{"spinor"}
 ,{"Cap",&fmt_b}
@@ -255,9 +295,11 @@ Text text11 = { {
 ,{"the"}
 ,{"calculation"}
 ,{"depth."}
-} } ;
+}} ;
 
-Text text12 = { {
+
+
+Text o12 = { {
 {"The"}
 ,{"spinor"}
 ,{"Len",&fmt_b}
@@ -315,9 +357,11 @@ Text text12 = { {
 ,{"usually"}
 ,{"Blue",&fmt_b}
 ,{"."}
-} } ;
+}} ;
 
-Text text13 = { {
+
+
+Text o13 = { {
 {"The"}
 ,{"full"}
 ,{"color"}
@@ -331,9 +375,11 @@ Text text13 = { {
 ,{"of"}
 ,{"the"}
 ,{"dialog."}
-} } ;
+}} ;
 
-Text text14 = { {
+
+
+Text o14 = { {
 {"The"}
 ,{"list"}
 ,{"of"}
@@ -385,14 +431,18 @@ Text text14 = { {
 ,{"the"}
 ,{"color"}
 ,{"cube."}
-} } ;
+}} ;
 
-Text text15 = { {
+
+
+Text o15 = { {
 {"System"}
 ,{"requirements"}
 } , &fmt_h2 , &align_h2 } ;
 
-Text text16 = { {
+
+
+Text o16 = { {
 {"To"}
 ,{"run"}
 ,{"this"}
@@ -440,14 +490,18 @@ Text text16 = { {
 ,{"modern"}
 ,{"GPU"}
 ,{"drivers."}
-} } ;
+}} ;
 
-Text text17 = { {
+
+
+Text o17 = { {
 {"Copyright"}
 ,{"notes"}
 } , &fmt_h2 , &align_h2 } ;
 
-Text text18 = { {
+
+
+Text o18 = { {
 {"Copyright"}
 ,{"(c)"}
 ,{"2017"}
@@ -456,9 +510,11 @@ Text text18 = { {
 ,{"All"}
 ,{"rights"}
 ,{"reserved."}
-} } ;
+}} ;
 
-Text text19 = { {
+
+
+Text o19 = { {
 {"This"}
 ,{"software"}
 ,{"is"}
@@ -472,30 +528,11 @@ Text text19 = { {
 ,{"License.txt",&fmt_b}
 ,{"for"}
 ,{"details."}
-} } ;
+}} ;
 
-Page page1 = { Pages#PageName , {
-{ &text1 }
-,{ &text2 }
-,{ &text3 }
-,{ &text4 }
-,{ &text5 }
-,{ &text6 }
-,{ &text7 }
-,{ &text8 }
-,{ &text9 }
-,{ &text10 }
-,{ &text11 }
-,{ &text12 }
-,{ &text13 }
-,{ &text14 }
-,{ &text15 }
-,{ &text16 }
-,{ &text17 }
-,{ &text18 }
-,{ &text19 }
-} };
+
 
 } // scope Pages
 
 Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;
+
