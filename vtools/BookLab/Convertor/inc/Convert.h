@@ -46,6 +46,10 @@ class Frame;
 
 class FrameList;
 
+class ListItem;
+
+class TextList;
+
 class Convert;
 
 /* enum Effect */
@@ -104,7 +108,8 @@ enum TextType
   TextH2,
   TextH3,
   TextH4,
-  TextH5
+  TextH5,
+  TextLI
  };
 
 /* class OName */
@@ -146,6 +151,8 @@ class Text
   public:
 
    explicit Text(TextType type_) : type(type_) {}
+
+   bool operator + () const { return list.getLen()>0; }
 
    OName getName() const { return name; }
 
@@ -225,12 +232,15 @@ class Frame
     };
 
    AnyObjectPtr<GetName,Print> ptr;
+   bool no_space;
 
   public:
 
-   explicit Frame(OneOfTypes<Text,Image> &&obj) : ptr(std::move(obj)) {}
+   explicit Frame(OneOfTypes<Text,Image,TextList> &&obj,bool no_space_=false) : ptr(std::move(obj)),no_space(no_space_) {}
 
    OName getName() const;
+
+   bool getNoSpace() const { return no_space; }
 
    // print object
 
@@ -247,9 +257,92 @@ class FrameList
 
    FrameList() {}
 
-   void add(OneOfTypes<Text,Image> &&obj) { list.append_fill(Frame(std::move(obj))); }
+   void add(OneOfTypes<Text,Image,TextList> &&obj,bool no_space=false) { list.append_fill(Frame(std::move(obj),no_space)); }
 
-   PtrLen<const Frame> get() const { return Range(list); }
+   struct Frames
+    {
+     PtrLen<const Frame> list;
+
+     // print object
+
+     void print(PrinterType &out) const
+      {
+       for(auto &obj : list ) Printf(out,"#;\n\n",obj);
+      }
+    };
+
+   Frames getFrames() const { return {Range(list)}; }
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Putobj(out,"{\n");
+
+     PrintFirst stem(""_c,","_c);
+
+     for(auto &obj : list )
+       if( obj.getNoSpace() )
+         Printf(out,"#;{ &#; , null , {0,0} , {0,0} }\n",stem,obj.getName());
+       else
+         Printf(out,"#;{ &#; }\n",stem,obj.getName());
+
+     Putobj(out,"}");
+    }
+ };
+
+/* class ListItem */
+
+class ListItem
+ {
+   String bullet;
+   FrameList list;
+
+  public:
+
+   explicit ListItem(ulen index) : bullet(Stringf("#;.",index)) {}
+
+   void add(OneOfTypes<Text,TextList> &&obj) { list.add(std::move(obj),true); }
+
+   auto getFrames() const { return list.getFrames(); }
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Printf(out,"{#;,#;}",DDLPrintableString(bullet),list);
+    }
+ };
+
+/* class TextList */
+
+class TextList
+ {
+   OName name;
+   DynArray<ListItem> list;
+
+  public:
+
+   TextList() noexcept {}
+
+   OName getName() const { return name; }
+
+   void add(ListItem &&item) { list.append_fill(std::move(item)); }
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Printf(out,"TextList #; = { {",name);
+
+     PrintFirst stem(""_c,","_c);
+
+     for(auto &obj : list ) Printf(out,"#;#;\n",stem,obj);
+
+     Putobj(out,"} };\n\n");
+
+     for(auto &obj : list ) Putobj(out,obj.getFrames());
+    }
  };
 
 /* class Convert */
@@ -270,6 +363,10 @@ class Convert : NoCopy
      public:
 
       explicit TextBuilder(TextType type) : text(type) {}
+
+      TextBuilder(TextType type,SpanType span_type_) : text(type),span_type(span_type_) {}
+
+      bool operator + () const { return +text; }
 
       SpanType getSpanType() const { return span_type; }
 
@@ -328,6 +425,96 @@ class Convert : NoCopy
       Span complete() { return Span(span_type,String(text.flat()),url); }
     };
 
+   class ListItemBuilder
+    {
+      ListItem result;
+
+      TextBuilder cur;
+
+     private:
+
+      void addText()
+       {
+        if( +cur )
+          {
+           SpanType span_type=cur.getSpanType();
+
+           result.add(cur.complete());
+
+           cur=TextBuilder(TextLI,span_type);
+          }
+       }
+
+     public:
+
+      explicit ListItemBuilder(ulen index) : result(index),cur(TextLI) {}
+
+      SpanType getSpanType() const { return cur.getSpanType(); }
+
+      bool check() const { return true; }
+
+      bool word(String word) { return cur.word(word); }
+
+      bool tagB() { return cur.tagB(); }
+
+      bool tagBend() { return cur.tagBend(); }
+
+      bool tagI() { return cur.tagI(); }
+
+      bool tagIend() { return cur.tagIend(); }
+
+      bool tagImg(String) { return false; }
+
+      void add(TextList &&obj)
+       {
+        addText();
+
+        result.add(std::move(obj));
+       }
+
+      void add(Span span)
+       {
+        cur.add(span);
+       }
+
+      ListItem complete()
+       {
+        addText();
+
+        return std::move(result);
+       }
+    };
+
+   class TextListBuilder
+    {
+      TextList result;
+      ulen index = 1 ;
+
+     public:
+
+      TextListBuilder() {}
+
+      ulen nextIndex() { return index++; }
+
+      bool check() const { return true; }
+
+      bool word(String) { return false; }
+
+      bool tagB() { return false; }
+
+      bool tagBend() { return false; }
+
+      bool tagI() { return false; }
+
+      bool tagIend() { return false; }
+
+      bool tagImg(String) { return false; }
+
+      void add(ListItem &&obj) { result.add(std::move(obj)); }
+
+      TextList complete() { return std::move(result); }
+    };
+
    class FrameListBuilder
     {
       FrameList result;
@@ -350,14 +537,14 @@ class Convert : NoCopy
 
       bool tagImg(String file_name) { result.add(Image(file_name)); return true; }
 
-      void add(OneOfTypes<Text,Image> &&obj) { result.add(std::move(obj)); }
+      void add(OneOfTypes<Text,Image,TextList> &&obj) { result.add(std::move(obj)); }
 
       FrameList complete() { return std::move(result); }
     };
 
    class Builder
     {
-      using BuilderPtr = AnyPtr<TextBuilder,ABuilder,FrameListBuilder> ;
+      using BuilderPtr = AnyPtr<TextBuilder,ABuilder,ListItemBuilder,TextListBuilder,FrameListBuilder> ;
 
       struct Elaborate;
 
@@ -497,719 +684,6 @@ class Convert : NoCopy
 
    bool complete();
  };
-
-#if 0
-
-class Convert : NoCopy
- {
-   String name;
-
-   PrintFile out;
-
-   enum State
-    {
-     Start = 0,
-
-     TagH1,
-     TagH2,
-     TagH3,
-     TagH4,
-     TagH5,
-     TagP,
-
-     TagB,
-     TagI,
-     TagA,
-
-     TagOL,
-     TagLI
-    };
-
-   State state = Start ;
-   unsigned level = 0 ;
-
-   ulen ind = 1 ;
-   bool first = true ;
-
-   State parent = Start ;
-
-   unsigned number[10];
-
-  private:
-
-   void start()
-    {
-     Printf(out,"/* #;.book.ddl */\n\n",name);
-
-     Printf(out,"include <#;.style.ddl>\n\n",name);
-
-     Putobj(out,"scope Pages {\n\n");
-    }
-
-   // H1
-
-   void startH1()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordH1(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endH1()
-    {
-     Putobj(out,"} , &fmt_h1 , &align_h1 } ;\n\n");
-    }
-
-   // H2
-
-   void startH2()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordH2(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endH2()
-    {
-     Putobj(out,"} , &fmt_h2 , &align_h2 } ;\n\n");
-    }
-
-   // H3
-
-   void startH3()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordH3(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endH3()
-    {
-     Putobj(out,"} , &fmt_h3 , &align_h3 } ;\n\n");
-    }
-
-   // H4
-
-   void startH4()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordH4(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endH4()
-    {
-     Putobj(out,"} , &fmt_h4 , &align_h4 } ;\n\n");
-    }
-
-   // H5
-
-   void startH5()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordH5(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endH5()
-    {
-     Putobj(out,"} , &fmt_h5 , &align_h5 } ;\n\n");
-    }
-
-   // P
-
-   void startP()
-    {
-     Printf(out,"Text text#; = { {\n",ind++);
-
-     first=true;
-    }
-
-   void wordP(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;}\n",DDLString(word));
-       }
-    }
-
-   void endP()
-    {
-     Putobj(out,"} } ;\n\n");
-    }
-
-   // B
-
-   void startB() {}
-
-   void wordB(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;,&fmt_b}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;,&fmt_b}\n",DDLString(word));
-       }
-    }
-
-   void endB() {}
-
-   // I
-
-   void startI() {}
-
-   void wordI(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;,&fmt_i}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;,&fmt_i}\n",DDLString(word));
-       }
-    }
-
-   void endI() {}
-
-   // A
-
-   void startA(String url) { Used(url); }
-
-   void wordA(String word)
-    {
-     if( Change(first,false) )
-       {
-        Printf(out,"{#;,&fmt_u}\n",DDLString(word));
-       }
-     else
-       {
-        Printf(out,",{#;,&fmt_u}\n",DDLString(word));
-       }
-    }
-
-   void endA() {}
-
-   // OL
-
-   void startOL()
-    {
-     Printf(out,"TextList text#; = { {\n",ind++);
-
-     number[level]=1;
-    }
-
-   void endOL()
-    {
-     Putobj(out,"} } ;\n\n");
-    }
-
-   // LI
-
-   void startLI()
-    {
-     unsigned num=number[level]++;
-
-     if( num==1 )
-       {
-        Printf(out,"{'#;.',{",num);
-       }
-     else
-       {
-        Printf(out,",{'#;.',{",num);
-       }
-    }
-
-   void wordLI(String word)
-    {
-    }
-
-   void endLI()
-    {
-     Putobj(out,"}}\n");
-    }
-
-   // Img
-
-   void makeImg(String file_name) { makeImg(Range(file_name)); }
-
-   void makeImg(StrLen file_name)
-    {
-     SplitPath split1(file_name);
-     SplitName split2(split1.path);
-     SplitExt split3(split2.name);
-
-     file_name.len-=split3.ext.len;
-
-     Printf(out,"Bitmap text#; = { ",ind++);
-
-     Printf(out,"#; + '.bitmap' ",DDLPrintableString(file_name));
-
-     Putobj(out," };\n\n");
-    }
-
-  public:
-
-   explicit Convert(StrLen output_file_name)
-    : out(output_file_name)
-    {
-     SplitPath split1(output_file_name);
-     SplitName split2(split1.path);
-     SplitFullExt split3(split2.name);
-
-     name=String(split3.name);
-
-     start();
-    }
-
-   ~Convert() {}
-
-   bool word(String word)
-    {
-     switch( state )
-       {
-        case TagH1 : wordH1(word); return true;
-
-        case TagH2 : wordH2(word); return true;
-
-        case TagH3 : wordH3(word); return true;
-
-        case TagH4 : wordH4(word); return true;
-
-        case TagH5 : wordH5(word); return true;
-
-        case TagP : wordP(word); return true;
-
-        case TagB : wordB(word); return true;
-
-        case TagI : wordI(word); return true;
-
-        case TagA : wordA(word); return true;
-
-        case TagLI : wordLI(word); return true;
-       }
-
-     return false;
-    }
-
-   bool tagH1()
-    {
-     if( state==Start )
-       {
-        startH1();
-
-        state=TagH1;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH1end()
-    {
-     if( state==TagH1 )
-       {
-        endH1();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH2()
-    {
-     if( state==Start )
-       {
-        startH2();
-
-        state=TagH2;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH2end()
-    {
-     if( state==TagH2 )
-       {
-        endH2();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH3()
-    {
-     if( state==Start )
-       {
-        startH3();
-
-        state=TagH3;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH3end()
-    {
-     if( state==TagH3 )
-       {
-        endH3();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH4()
-    {
-     if( state==Start )
-       {
-        startH4();
-
-        state=TagH4;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH4end()
-    {
-     if( state==TagH4 )
-       {
-        endH4();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH5()
-    {
-     if( state==Start )
-       {
-        startH5();
-
-        state=TagH5;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagH5end()
-    {
-     if( state==TagH5 )
-       {
-        endH5();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagP()
-    {
-     if( state==Start )
-       {
-        startP();
-
-        state=TagP;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagPend()
-    {
-     if( state==TagP )
-       {
-        endP();
-
-        state=Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagB()
-    {
-     if( state==TagP )
-       {
-        startB();
-
-        state=TagB;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagBend()
-    {
-     if( state==TagB )
-       {
-        endB();
-
-        state=TagP;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagI()
-    {
-     if( state==TagP )
-       {
-        startI();
-
-        state=TagI;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagIend()
-    {
-     if( state==TagI )
-       {
-        endI();
-
-        state=TagP;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagA(String url)
-    {
-     if( state==TagP || state==TagLI )
-       {
-        startA(url);
-
-        parent=Replace(state,TagA);
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagAend()
-    {
-     if( state==TagA )
-       {
-        endA();
-
-        state=parent;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagOL()
-    {
-     if( state==Start || state==TagLI )
-       {
-        level++;
-
-        if( level>=DimOf(number) )
-          {
-           return false;
-          }
-
-        startOL();
-
-        state=TagOL;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagOLend()
-    {
-     if( state==TagOL && level )
-       {
-        endOL();
-
-        level--;
-
-        state=level?TagLI:Start;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagLI()
-    {
-     if( state==TagOL )
-       {
-        startLI();
-
-        state=TagLI;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagLIend()
-    {
-     if( state==TagLI )
-       {
-        endLI();
-
-        state=TagOL;
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool tagImg(String file_name)
-    {
-     if( state==Start )
-       {
-        makeImg(file_name);
-
-        return true;
-       }
-
-     return false;
-    }
-
-   bool complete()
-    {
-     Putobj(out,"Page page1 = { Pages#PageName , {\n");
-
-     for(ulen i=1; i<ind ;i++)
-       {
-        if( i==1 )
-          Printf(out,"{ &text#; }\n",i);
-        else
-          Printf(out,",{ &text#; }\n",i);
-       }
-
-     Putobj(out,"} };\n\n");
-
-     Putobj(out,"} // scope Pages\n\n");
-
-     Putobj(out,"Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;");
-
-     return true;
-    }
- };
-
-#endif
 
 } // namespace App
 

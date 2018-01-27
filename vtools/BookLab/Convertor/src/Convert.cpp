@@ -84,6 +84,7 @@ StrLen Text::GetTail(TextType type)
      case TextH3 : return " , &fmt_h3 , &align_h3 "_c;
      case TextH4 : return " , &fmt_h4 , &align_h4 "_c;
      case TextH5 : return " , &fmt_h5 , &align_h5 "_c;
+     case TextLI : return " , &fmt_li , &align_li "_c;
 
      default: return Null;
     }
@@ -255,19 +256,11 @@ void Convert::start()
   Putobj(out,"scope Pages {\n\n");
  }
 
-void Convert::complete(FrameList list_)
+void Convert::complete(FrameList list)
  {
-  PtrLen<const Frame> list=list_.get();
+  Printf(out,"Page page1 = { Pages##PageName , #; };\n\n",list);
 
-  Putobj(out,"Page page1 = { Pages#PageName , {\n");
-
-  PrintFirst stem(""_c,","_c);
-
-  for(auto &obj : list ) Printf(out,"#;{ &#; }\n",stem,obj.getName());
-
-  Putobj(out,"} };\n\n");
-
-  for(auto &obj : list ) Printf(out,"#;\n\n",obj);
+  Putobj(out,list.getFrames());
 
   Putobj(out,"} // scope Pages\n\n");
 
@@ -423,6 +416,11 @@ bool Convert::tagA(String url)
      return push<ABuilder>(url,text->getSpanType());
     }
 
+  if( ListItemBuilder *item=top.getOf<ListItemBuilder>() )
+    {
+     return push<ABuilder>(url,item->getSpanType());
+    }
+
   return false;
  }
 
@@ -433,24 +431,29 @@ bool Convert::tagAend()
 
  // list
 
-bool Convert::tagOL() // TODO
+bool Convert::tagOL()
  {
+  return push<TextListBuilder>();
+ }
+
+bool Convert::tagOLend()
+ {
+  return pop<TextListBuilder>();
+ }
+
+bool Convert::tagLI()
+ {
+  if( TextListBuilder *list=top.getOf<TextListBuilder>() )
+    {
+     return push<ListItemBuilder>(list->nextIndex());
+    }
+
   return false;
  }
 
-bool Convert::tagOLend() // TODO
+bool Convert::tagLIend()
  {
-  return false;
- }
-
-bool Convert::tagLI() // TODO
- {
-  return false;
- }
-
-bool Convert::tagLIend() // TODO
- {
-  return false;
+  return pop<ListItemBuilder>();
  }
 
  // image

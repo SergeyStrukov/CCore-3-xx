@@ -12,7 +12,9 @@ VColor Black  =       0h ;
 VColor Blue   =     0FFh ;
 VColor Green  =    8000h ;
 
-VColor Back = Silver ;
+VColor Wheat = 0F5DEB3h ;
+
+VColor Back = Wheat ;
 VColor Fore = Black ;
 
 Point DefaultInner = { 10 , 10 } ;
@@ -48,7 +50,13 @@ Format fmt_i = { .font = &font_i } ;
 
 Format fmt_u = { .font = &font_p , .effect = Format#Underline } ;
 
-Font bullet_font = { 'Times New Roman' , (mul*8)/div , True } ;
+Format fmt_h = fmt_u ;
+
+Format fmt_li = { .font = &font_p , .fore = Blue } ;
+
+MultiLine align_li = { {1,1} , {0,1} } ;
+
+Font bullet_font = { 'Times New Roman' , (mul*16)/div } ;
 
 Format DefaultBulletFormat = { .font = &bullet_font } ;
 

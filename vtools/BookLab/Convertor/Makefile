@@ -27,7 +27,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 
 run: $(TARGET) 
 	$(TARGET) Mandelbrot.html ../docs/Mandelbrot.book.ddl
-#	$(TARGET) CCore.html ../docs/CCore.book.ddl
+	$(TARGET) CCore.html ../docs/CCore.book.ddl
 
 
 
