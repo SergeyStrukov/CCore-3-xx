@@ -53,10 +53,12 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
       {
        SmoothDrawArt art(buf.cutRebase(pane));
 
-       MPoint a=MPoint(base)-MPoint(MPoint::Half,MPoint::Half);
+       Coord delta=(ts.dy-ts.by)/2;
+
+       MPoint a=MPoint(base.addY(delta));
        MPoint b=a.addX(Fraction(ts.dx));
 
-       art.path(HalfNeg,width,fore,a,b);
+       art.path(width,fore,a,b);
       }
      break;
 
@@ -69,7 +71,7 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
        MPoint a=MPoint(base.subY(delta));
        MPoint b=a.addX(Fraction(ts.dx));
 
-       art.path(HalfPos,width,fore,a,b);
+       art.path(width,fore,a,b);
       }
      break;
     }
@@ -504,7 +506,7 @@ struct InnerBookWindow::SizeContext
     return +sizeSpan(font,text);
    }
 
-  Point size(Font font,Book::TypeDef::ListItem item,Shape *shapes)
+  Point size(Font font,Book::TypeDef::ListItem item,Shape *shapes,Coord bullet_space)
    {
     FontSize fs=font->getSize();
 
@@ -528,7 +530,7 @@ struct InnerBookWindow::SizeContext
          }
       }
 
-    Coordinate dx=wdx-offx;
+    Coordinate dx=wdx-offx-bullet_space;
 
     Point s(0,dy2);
 
@@ -537,7 +539,7 @@ struct InnerBookWindow::SizeContext
        s=StackYSize(s, shapes[i].set(cfg,font_map,bmp_map,list[i],dx) );
       }
 
-    return StackXSize( Point(offx,dy1) , s );
+    return StackXSize( Point(offx+bullet_space,dy1) , s );
    }
 
   Point size(Book::TypeDef::TextList *obj)
@@ -560,19 +562,19 @@ struct InnerBookWindow::SizeContext
        subshapes.extend_default(total);
       }
 
-    for(ulen i=0; i<list.len ;i++) Replace_max(offx, sizeBullet(font,list[i].bullet) );
-
-    offx+=obj->bullet_space;
+    for(ulen i=0; i<list.len ;i++) Replace_max(offx,sizeBullet(font,list[i].bullet));
 
     Shape *shapes=subshapes.getPtr();
 
     Point ret=Null;
 
+    Coord bullet_space=obj->bullet_space;
+
     for(ulen i=0; i<list.len ;i++)
       {
        ulen count=list[i].list.len;
 
-       ret=StackYSize(ret, size(font,list[i],shapes) );
+       ret=StackYSize(ret,size(font,list[i],shapes,bullet_space));
 
        shapes+=count;
       }
@@ -697,6 +699,19 @@ struct InnerBookWindow::DrawContext
     base.x+=ts.dx;
 
     return base;
+   }
+
+  void drawBullet(Format fmt,StrLen text,Point base)
+   {
+    TextSize ts=fmt.font->text(text);
+
+    base.x+=offx-ts.dx;
+
+    if( fmt.back!=Book::NoColor ) FillBack(buf,pane,base,ts,fmt.back);
+
+    if( fmt.effect ) MakeEffect(buf,pane,base,ts,fmt.effect,fmt.fore,+cfg.width);
+
+    fmt.font->text(buf,pane,base,text,fmt.fore);
    }
 
   Point drawSpace(Format fmt,Point base)
@@ -851,7 +866,7 @@ struct InnerBookWindow::DrawContext
     bitmap->draw(buf,pane.shrink(base));
    }
 
-  Coord draw(Format fmt,Book::TypeDef::ListItem item,PtrLen<const Shape> shapes)
+  Coord draw(Format fmt,Book::TypeDef::ListItem item,PtrLen<const Shape> shapes,Coord bullet_space)
    {
     FontSize fs=fmt.font->getSize();
 
@@ -880,11 +895,11 @@ struct InnerBookWindow::DrawContext
 
     b.y+=by1;
 
-    drawSpan(fmt,item.bullet,b);
+    drawBullet(fmt,item.bullet,b);
 
     Point p=base;
 
-    p.x+=offx;
+    p.x+=offx+bullet_space;
     p.y+=dy2;
 
     for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
@@ -908,11 +923,13 @@ struct InnerBookWindow::DrawContext
 
     ulen off=0;
 
+    Coord bullet_space=obj->bullet_space;
+
     for(ulen i=0; i<list.len ;i++)
       {
        ulen count=list[i].list.len;
 
-       Coord dy=draw(fmt,list[i],subshapes.safe_part(off,count));
+       Coord dy=draw(fmt,list[i],subshapes.safe_part(off,count),bullet_space);
 
        off+=count;
 
@@ -1103,7 +1120,7 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap 
 
 void InnerBookWindow::cache(unsigned update_flag) const
  {
-  Coord dx=getSize().x;
+  Coord dx=getSize().x-2*RoundUpLen(+cfg.width);
 
   if( update_flag || !ok || cache_dx!=dx )
     {
