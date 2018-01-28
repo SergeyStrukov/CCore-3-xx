@@ -229,16 +229,14 @@ class ScrollListInnerWindowOf : public SubWindow
 
    bool shortDY() const { return shape.yoffMax>0; }
 
-   template <class W>
-   void setScrollXRange(W &window) const
+   ScrollPos getScrollXRange() const
     {
-     window.setRange((ulen)shape.xoffMax+(ulen)shape.dxoff,(ulen)shape.dxoff,(ulen)shape.xoff);
+     return {(ulen)shape.xoffMax+(ulen)shape.dxoff,(ulen)shape.dxoff,(ulen)shape.xoff};
     }
 
-   template <class W>
-   void setScrollYRange(W &window) const
+   ScrollPos getScrollYRange() const
     {
-     window.setRange(shape.yoffMax+shape.page,shape.page,shape.yoff);
+     return {shape.yoffMax+shape.page,shape.page,shape.yoff};
     }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
@@ -554,11 +552,9 @@ class Window
 
    bool shortDY() const;
 
-   template <class W>
-   void setScrollXRange(W &window) const;
+   ScrollPos getScrollXRange() const;
 
-   template <class W>
-   void setScrollYRange(W &window) const;
+   ScrollPos getScrollYRange() const;
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
 
@@ -622,9 +618,9 @@ class ScrollableWindow : public ComboWindow
 
    void setScroll()
     {
-     if( scroll_x.isListed() ) window.setScrollXRange(scroll_x);
+     if( scroll_x.isListed() ) scroll_x.setRange(window.getScrollXRange());
 
-     if( scroll_y.isListed() ) window.setScrollYRange(scroll_y);
+     if( scroll_y.isListed() ) scroll_y.setRange(window.getScrollYRange());
     }
 
   private:

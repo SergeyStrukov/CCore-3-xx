@@ -41,6 +41,8 @@ enum ScrollType
 
 /* classes */
 
+struct ScrollPos;
+
 struct ScrollState;
 
 class ScrollShape;
@@ -49,13 +51,65 @@ class XScrollShape;
 
 class YScrollShape;
 
-/* struct ScrollState */
+/* struct ScrollPos */
 
-struct ScrollState
+struct ScrollPos
  {
   ulen total = 0 ;
-  ulen page  = 0 ; // page <= total
-  ulen pos   = 0 ; // pos <= total-page
+  ulen page  = 1 ;
+  ulen pos   = 0 ;
+
+  // 1
+
+  ulen getMaxPos() const { return PosSub(total,page); }
+
+  void adjustPos() { Replace_min(pos,getMaxPos()); }
+
+  void posMin() { pos=0; }
+
+  void posMax() { pos=getMaxPos(); }
+
+  void posDown() { if( pos ) pos--; }
+
+  void posDown(ulen delta) { pos=PosSub(pos,delta); }
+
+  void posDownPage() { posDown(page); }
+
+  void posUp() { if( pos<getMaxPos() ) pos++; }
+
+  void posUp(ulen delta) { pos=AddToCap(pos,delta,getMaxPos()); }
+
+  void posUpPage() { posUp(page); }
+
+  // 2
+
+  bool tooShort() const { return page<total; }
+
+  ulen getPos() const { return Min<ulen>(pos,getMaxPos()); }
+
+  void beg() { pos=0; }
+
+  void end() { pos=getMaxPos(); }
+
+  void dec() { if( pos ) pos--; }
+
+  void sub(ulen delta) { pos=PosSub(pos,delta); }
+
+  void subPage() { sub(page); }
+
+  void inc() { if( pos<getMaxPos() ) pos++; }
+
+  void add(ulen delta) { pos=AddToCap(pos,delta,getMaxPos()); }
+
+  void addPage() { add(page); }
+ };
+
+/* struct ScrollState */
+
+struct ScrollState : ScrollPos
+ {
+  // page <= total
+  // pos <= total-page
 
   bool enable = true ;
   bool focus  = false ;
@@ -128,52 +182,6 @@ class ScrollShape : public ScrollState
    // methods
 
    explicit ScrollShape(const Config &cfg_) : cfg(cfg_) {}
-
-   ulen getMaxPos() const
-    {
-     if( page<total ) return total-page;
-
-     return 0;
-    }
-
-   void adjustPos()
-    {
-     Replace_min(pos,getMaxPos());
-    }
-
-   void posMin()
-    {
-     pos=0;
-    }
-
-   void posMax()
-    {
-     pos=getMaxPos();
-    }
-
-   void posDown()
-    {
-     if( pos ) pos--;
-    }
-
-   void posDown(ulen delta)
-    {
-     pos=PosSub(pos,delta);
-    }
-
-   void posDownPage() { posDown(page); }
-
-   void posUp()
-    {
-     if( pos<getMaxPos() ) pos++;
-    }
-
-   void posUp(ulen delta)
-    {
-     pos=AddToCap(pos,delta,getMaxPos());
-    }
-
-   void posUpPage() { posUp(page); }
 
    bool posChange()
     {

@@ -226,6 +226,11 @@ class ScrollWindowOf : public SubWindow
      redraw();
     }
 
+   void setRange(ScrollPos spos)
+    {
+     setRange(spos.total,spos.page,spos.pos);
+    }
+
    void setRange(ulen total,ulen page)
     {
      stopDown();
