@@ -34,6 +34,8 @@ class TextLineWindowOf : public SubWindow
  {
    Shape shape;
 
+   SignalConnector<Shape,unsigned> connector_updated;
+
   private:
 
    void setXOff(Coord xoff)
@@ -88,7 +90,8 @@ class TextLineWindowOf : public SubWindow
    template <class ... TT>
    TextLineWindowOf(SubWindowHost &host,TT && ... tt)
     : SubWindow(host),
-      shape( std::forward<TT>(tt)... )
+      shape( std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated())
     {
     }
 
@@ -98,9 +101,9 @@ class TextLineWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
+   auto getMinSize() const { return shape.getMinSize(); }
 
-   Point getMinSize(unsigned flags,StrLen sample_text) const { return shape.getMinSize(flags&LayoutUpdate,sample_text); }
+   Point getMinSize(StrLen sample_text) const { return shape.getMinSize(sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -124,7 +127,8 @@ class TextLineWindowOf : public SubWindow
     {
      shape.text=text;
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      shape.xoff=0;
 
@@ -144,11 +148,11 @@ class TextLineWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.setMax(flags&LayoutUpdate);
+     shape.setMax();
     }
 
    virtual void draw(DrawBuf buf,bool) const

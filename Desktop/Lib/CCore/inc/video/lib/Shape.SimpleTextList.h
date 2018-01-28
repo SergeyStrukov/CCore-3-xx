@@ -104,11 +104,13 @@ class SimpleTextListShape : public SimpleTextListState
 
    SimpleTextListShape(const Config &cfg_,const Info &info_) : cfg(cfg_),info(info_) { initSelect(); }
 
-   Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
+   void update(unsigned) { cache.ok=false; }
 
-   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
+   Point getMinSize(Point cap=Point::Max()) const;
 
-   void setMax(unsigned update_flag);
+   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
+
+   void setMax();
 
    void initSelect()
     {
@@ -130,7 +132,7 @@ class SimpleTextListShape : public SimpleTextListState
      Coord med_dx = 0 ;
      bool ok = false ;
 
-     void operator () (unsigned update_flag,const Config &cfg,const Info &info);
+     void operator () (const Config &cfg,const Info &info);
     };
 
    mutable Cache cache;

@@ -129,19 +129,21 @@ class LineEditShape : public LineEditState
 
    LineEditShape(PtrLen<Char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}
 
-   Point getMinSize(unsigned update_flag) const;
+   void update(unsigned) {}
 
-   Point getMinSize(unsigned update_flag,StrLen sample_text) const;
+   Point getMinSize() const;
+
+   Point getMinSize(StrLen sample_text) const;
 
 #ifdef CCORE_UTF8
 
-   Point getMinSize(unsigned update_flag,PtrLen<const Char> sample_text) const;
+   Point getMinSize(PtrLen<const Char> sample_text) const;
 
 #endif
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void setMax(unsigned update_flag);
+   void setMax();
 
    bool tick()
     {

@@ -54,6 +54,8 @@ class ScrollListInnerWindowOf : public SubWindow
  {
    Shape shape;
 
+   SignalConnector<Shape,unsigned> connector_updated;
+
    ScrollListWindowBase *outer;
 
   private:
@@ -210,6 +212,7 @@ class ScrollListInnerWindowOf : public SubWindow
    ScrollListInnerWindowOf(SubWindowHost &host,const ConfigType &cfg,ScrollListWindowBase *outer_,TT && ... tt)
     : SubWindow(host),
       shape(cfg, std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated()),
       outer(outer_),
       connector_posX(this,&ScrollListInnerWindowOf<Shape>::posX),
       connector_posY(this,&ScrollListInnerWindowOf<Shape>::posY)
@@ -246,9 +249,9 @@ class ScrollListInnerWindowOf : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const { return shape.getMinSize(flags&LayoutUpdate,cap); }
+   Point getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
-   Point getMinSize(unsigned flags,unsigned lines) const { return shape.getMinSize(flags&LayoutUpdate,lines); }
+   Point getMinSize(unsigned lines) const { return shape.getMinSize(lines); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -267,7 +270,8 @@ class ScrollListInnerWindowOf : public SubWindow
 
      shape.initSelect();
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      redraw();
     }
@@ -324,11 +328,11 @@ class ScrollListInnerWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.setMax(flags&LayoutUpdate);
+     shape.setMax();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -550,7 +554,7 @@ class Window
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    // signals
 
@@ -643,41 +647,39 @@ class ScrollableWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const
+   Point getMinSize(Point cap=Point::Max()) const
     {
-     Point delta(scroll_y.getMinSize(flags).dx,0);
+     Point delta(scroll_y.getMinSize().dx,0);
 
-     return window.getMinSize(flags,cap-delta)+delta;
+     return window.getMinSize(cap-delta)+delta;
     }
 
    template <class T>
-   Point getMinSize(unsigned flags,T arg) const
+   Point getMinSize(T arg) const
     {
-     Point delta(scroll_y.getMinSize(flags).dx,0);
+     Point delta(scroll_y.getMinSize().dx,0);
 
-     return window.getMinSize(flags,arg)+delta;
+     return window.getMinSize(arg)+delta;
     }
 
    // drawing
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
-     Pane all(Null,getSize());
+     Pane all=getPane();
      Pane pane(all);
 
-     Coord delta_x=scroll_y.getMinSize(flags).dx;
-     Coord delta_y=scroll_x.getMinSize(flags).dy;
+     Coord delta_x=scroll_y.getMinSize().dx;
+     Coord delta_y=scroll_x.getMinSize().dy;
 
-     window.setPlace(pane,flags);
-
-     flags=ClearUpdate(flags);
+     window.setPlace(pane);
 
      if( window.shortDY() )
        {
         Pane py=SplitX(pane,delta_x);
 
-        window.setPlace(pane,flags);
-        scroll_y.setPlace(py,flags);
+        window.setPlace(pane);
+        scroll_y.setPlace(py);
 
         wlist.insBottom(scroll_y);
 
@@ -685,8 +687,8 @@ class ScrollableWindow : public ComboWindow
           {
            Pane px=SplitY(pane,delta_y);
 
-           window.setPlace(pane,flags);
-           scroll_x.setPlace(px,flags);
+           window.setPlace(pane);
+           scroll_x.setPlace(px);
 
            wlist.insBottom(scroll_x);
           }
@@ -701,7 +703,7 @@ class ScrollableWindow : public ComboWindow
           {
            Pane px=SplitY(pane,delta_y);
 
-           window.setPlace(pane,flags);
+           window.setPlace(pane);
 
            if( window.shortDY() )
              {
@@ -709,9 +711,9 @@ class ScrollableWindow : public ComboWindow
               Pane py=SplitX(pane,delta_x);
               Pane px=SplitY(pane,delta_y);
 
-              window.setPlace(pane,flags);
-              scroll_x.setPlace(px,flags);
-              scroll_y.setPlace(py,flags);
+              window.setPlace(pane);
+              scroll_x.setPlace(px);
+              scroll_y.setPlace(py);
 
               wlist.insBottom(scroll_x);
 
@@ -719,7 +721,7 @@ class ScrollableWindow : public ComboWindow
              }
            else
              {
-              scroll_x.setPlace(px,flags);
+              scroll_x.setPlace(px);
 
               wlist.insBottom(scroll_x);
 
@@ -782,7 +784,7 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
     {
      window.setInfo(info);
 
-     layout(LayoutUpdate);
+     layout();
 
      redraw();
     }

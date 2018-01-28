@@ -50,7 +50,7 @@ class LightWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned) const { return shape.getMinSize(); }
+   auto getMinSize() const { return shape.getMinSize(); }
 
    VColor getFace() const { return shape.face; }
 
@@ -77,7 +77,7 @@ class LightWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout()
     {
      shape.pane=getPane();
     }

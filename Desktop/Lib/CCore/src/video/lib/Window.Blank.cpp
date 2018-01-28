@@ -34,10 +34,10 @@ BlankWindow::~BlankWindow()
 
 bool BlankWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void BlankWindow::layout(unsigned)
+void BlankWindow::layout()
  {
  }
 

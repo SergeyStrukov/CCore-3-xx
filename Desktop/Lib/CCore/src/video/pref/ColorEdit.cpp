@@ -295,7 +295,7 @@ ColorEditWindow::~ColorEditWindow()
 
  // methods
 
-Point ColorEditWindow::getMinSize(unsigned) const
+Point ColorEditWindow::getMinSize() const
  {
   Coordinate radius=+cfg.radius;
   Coordinate space_dxy=+cfg.space_dxy;
@@ -317,10 +317,10 @@ void ColorEditWindow::setColor(VColor value_)
 
 bool ColorEditWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void ColorEditWindow::layout(unsigned)
+void ColorEditWindow::layout()
  {
   Coord radius=+cfg.radius;
   Coord space_dxy=+cfg.space_dxy;

@@ -51,13 +51,13 @@ class DecorWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned) const { return shape.getMinSize(); }
+   auto getMinSize() const { return shape.getMinSize(); }
 
-   Point getMinSize(unsigned,Point inner_size) const { return shape.getMinSize(inner_size); }
+   Point getMinSize(Point inner_size) const { return shape.getMinSize(inner_size); }
 
    Pane getInner() const { return shape.getInner()+getPlace().getBase(); }
 
-   Point getDelta(unsigned) const { return shape.getDelta(); }
+   Point getDelta() const { return shape.getDelta(); }
 
    // drawing
 
@@ -66,7 +66,7 @@ class DecorWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout()
     {
      shape.pane=getPane();
     }

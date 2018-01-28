@@ -343,6 +343,8 @@ class FrameWindow : public NoCopyBase<MemBase,UserInput>
 
    Signal<Point> moved; // asserted by a derived frame class
 
+   Signal<unsigned> updated; // asserted by a derived frame class
+
    Signal<> destroyed;
  };
 

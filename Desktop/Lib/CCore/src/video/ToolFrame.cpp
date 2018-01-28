@@ -87,7 +87,11 @@ void ToolFrame::redrawAll(unsigned flags)
  {
   if( flags )
     {
-     if( client ) client->setPlace(Pane(Null,size),flags);
+     BitClear(flags,LayoutResize);
+
+     if( flags ) updated.assert(flags);
+
+     if( client ) client->setPlace(Pane(Null,size));
     }
 
   redraw_set.pop();

@@ -48,20 +48,25 @@ CoordEditWindow::~CoordEditWindow()
 
  // methods
 
-Point CoordEditWindow::getMinSize(unsigned flags) const
+Point CoordEditWindow::getMinSize() const
  {
-  Point s=spin.getMinSize(flags);
+  Point s=spin.getMinSize();
 
   return Point(s.x,2*Coordinate(s.y));
  }
 
  // drawing
 
-void CoordEditWindow::layout(unsigned flags)
+bool CoordEditWindow::hasGoodSize() const
+ {
+  return getSize()>=getMinSize();
+ }
+
+void CoordEditWindow::layout()
  {
   Point size=getSize();
 
-  spin.setPlace(Pane(Null,size.x,size.y/2),flags);
+  spin.setPlace(Pane(Null,size.x,size.y/2));
 
   pos.x=size.x/2;
   pos.y=Div(3,4)*size.y;

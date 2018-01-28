@@ -95,13 +95,13 @@ class CharTableWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    // drawing
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -463,7 +463,7 @@ class FontEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    const FontParam & getParam() const { return font.param; }
 
@@ -475,7 +475,7 @@ class FontEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    // base
 

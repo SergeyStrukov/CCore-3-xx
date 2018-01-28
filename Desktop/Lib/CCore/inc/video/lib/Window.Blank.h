@@ -39,13 +39,13 @@ class BlankWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned) const { return Point(10,10); }
+   Point getMinSize() const { return Point(10,10); }
 
    // drawing
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

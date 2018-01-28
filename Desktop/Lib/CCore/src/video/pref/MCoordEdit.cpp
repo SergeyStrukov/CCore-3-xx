@@ -45,16 +45,21 @@ MCoordEditWindow::~MCoordEditWindow()
 
  // methods
 
-Point MCoordEditWindow::getMinSize(unsigned flags) const
+Point MCoordEditWindow::getMinSize() const
  {
-  return spinor.getMinSize(flags);
+  return spinor.getMinSize();
  }
 
  // drawing
 
-void MCoordEditWindow::layout(unsigned flags)
+bool MCoordEditWindow::hasGoodSize() const
  {
-  spinor.setPlace(getPane(),flags);
+  return getSize()>=getMinSize();
+ }
+
+void MCoordEditWindow::layout()
+ {
+  spinor.setPlace(getPane());
  }
 
 } // namespace Video

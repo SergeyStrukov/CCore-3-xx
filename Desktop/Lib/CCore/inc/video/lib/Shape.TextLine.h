@@ -102,13 +102,15 @@ class TextLineShape : public TextLineState
 
    explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
 
-   Point getMinSize(unsigned update_flag) const;
+   void update(unsigned) { cache.ok=false; }
 
-   Point getMinSize(unsigned update_flag,StrLen text) const;
+   Point getMinSize() const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
+   Point getMinSize(StrLen text) const;
 
-   void setMax(unsigned update_flag);
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void setMax();
 
    void draw(const DrawBuf &buf) const;
 
@@ -125,7 +127,7 @@ class TextLineShape : public TextLineState
      Coord font_dx0 = 0 ;
      bool ok = false ;
 
-     void operator () (unsigned update_flag,const Config &cfg,StrLen text);
+     void operator () (const Config &cfg,StrLen text);
     };
 
    mutable Cache cache;

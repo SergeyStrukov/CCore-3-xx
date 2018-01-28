@@ -98,11 +98,13 @@ class InfoShape : public InfoState
 
    InfoShape(const Config &cfg_,const Info &info_) : cfg(cfg_),info(info_) {}
 
-   Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
+   void update(unsigned) { cache.ok=false; }
 
-   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
+   Point getMinSize(Point cap=Point::Max()) const;
 
-   void setMax(unsigned update_flag);
+   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
+
+   void setMax();
 
    void draw(const DrawBuf &buf) const;
 

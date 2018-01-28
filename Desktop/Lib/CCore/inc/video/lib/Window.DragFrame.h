@@ -423,13 +423,17 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
     {
      if( flags )
        {
+        BitClear(flags,LayoutResize);
+
+        if( flags ) updated.assert(flags);
+
         shape.layout(size);
 
         Pane place=shape.getClient();
 
-        if( client ) client->setPlace(place,flags);
+        if( client ) client->setPlace(place);
 
-        if( alert_client ) alert_client->setPlace(place,flags);
+        if( alert_client ) alert_client->setPlace(place);
        }
 
      auto &client=getClient();

@@ -42,10 +42,6 @@ enum LayoutFlags : unsigned
   LayoutUpdate = 2
  };
 
-/* functions */
-
-inline unsigned ClearUpdate(unsigned flags) { return (flags&(~LayoutUpdate))|LayoutResize; }
-
 /* classes */
 
 struct SubWindowHost;
@@ -83,6 +79,8 @@ struct SubWindowHost
   Desktop * getFrameDesktop() { return getFrame()->getDesktop(); }
 
   WindowHost * getFrameHost() { return getFrame()->getHost(); }
+
+  Signal<unsigned> & getUpdated() { return getFrame()->updated; }
  };
 
 /* struct AliveControl */
@@ -182,11 +180,11 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
    template <class T>
    T fromScreen(T obj) const { return obj-getScreenOrigin(); }
 
-   void setPlace(Pane place_,unsigned flags)
+   void setPlace(Pane place_)
     {
      place=place_;
 
-     layout(flags);
+     layout();
     }
 
    // host methods
@@ -237,7 +235,9 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
      return isGoodSize(getSize());
     }
 
-   virtual void layout(unsigned flags)=0;
+   virtual void layout()
+    {
+    }
 
    virtual void draw(DrawBuf buf,bool drag_active) const
     {
@@ -682,7 +682,7 @@ class SomeWindow : public SubWindow
 
    virtual bool hasGoodSize() const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
@@ -750,7 +750,7 @@ bool SomeWindow::hasGoodSize() const
   return wlist.hasGoodSize();
  }
 
-void SomeWindow::layout(unsigned flags)
+void SomeWindow::layout()
  {
   // TODO
  }

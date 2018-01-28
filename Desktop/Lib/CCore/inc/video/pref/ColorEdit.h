@@ -185,7 +185,7 @@ class ColorEditWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    VColor getColor() const { return value; }
 
@@ -195,7 +195,7 @@ class ColorEditWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

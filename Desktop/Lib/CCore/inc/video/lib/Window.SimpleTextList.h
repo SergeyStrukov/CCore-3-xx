@@ -34,6 +34,8 @@ class SimpleTextListWindowOf : public SubWindow
  {
    Shape shape;
 
+   SignalConnector<Shape,unsigned> connector_updated;
+
   private:
 
    void setXOff(Coord xoff)
@@ -118,7 +120,8 @@ class SimpleTextListWindowOf : public SubWindow
    template <class ... TT>
    SimpleTextListWindowOf(SubWindowHost &host,TT && ... tt)
     : SubWindow(host),
-      shape( std::forward<TT>(tt)... )
+      shape( std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated())
     {
     }
 
@@ -128,7 +131,7 @@ class SimpleTextListWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned flags,Point cap=Point::Max()) const { return shape.getMinSize(flags&LayoutUpdate,cap); }
+   auto getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -147,7 +150,8 @@ class SimpleTextListWindowOf : public SubWindow
 
      shape.initSelect();
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      redraw();
     }
@@ -201,11 +205,11 @@ class SimpleTextListWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.setMax(flags&LayoutUpdate);
+     shape.setMax();
     }
 
    virtual void draw(DrawBuf buf,bool) const

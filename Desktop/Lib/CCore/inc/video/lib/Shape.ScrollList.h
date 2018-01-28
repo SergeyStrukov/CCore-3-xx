@@ -115,13 +115,15 @@ class ScrollListShape : public ScrollListState
 
    ScrollListShape(const Config &cfg_,const ComboInfo &info_) : cfg(cfg_),info(info_) { setSelectDown(0); }
 
-   Point getMinSize(unsigned update_flag,Point cap=Point::Max()) const;
+   void update(unsigned) { cache.ok=false; }
 
-   Point getMinSize(unsigned update_flag,unsigned lines) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
-   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(0,cap); }
+   Point getMinSize(unsigned lines) const;
 
-   void setMax(unsigned update_flag);
+   bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
+
+   void setMax();
 
    void initSelect();
 
@@ -144,7 +146,7 @@ class ScrollListShape : public ScrollListState
      Coord med_dx = 0 ;
      bool ok = false ;
 
-     void operator () (unsigned update_flag,const Config &cfg,const ComboInfo &info);
+     void operator () (const Config &cfg,const ComboInfo &info);
     };
 
    mutable Cache cache;

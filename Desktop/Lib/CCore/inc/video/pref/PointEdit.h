@@ -85,7 +85,7 @@ class PointEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    Point getPoint() const;
 
@@ -93,7 +93,9 @@ class PointEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual bool hasGoodSize() const;
+
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

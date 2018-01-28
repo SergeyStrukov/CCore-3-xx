@@ -22,12 +22,10 @@ namespace Video {
 
 /* class TextLineShape */
 
-void TextLineShape::Cache::operator () (unsigned update_flag,const Config &cfg,StrLen text)
+void TextLineShape::Cache::operator () (const Config &cfg,StrLen text)
  {
-  if( update_flag || !ok )
+  if( !ok )
     {
-     ok=false;
-
      const Font &font=cfg.font.get();
 
      MCoord width=+cfg.width;
@@ -54,17 +52,15 @@ MCoord TextLineShape::FigEX(Coord fdy,MCoord width)
   return Max_cast(width, (Fraction(fdy)+2*width)/4 );
  }
 
-Point TextLineShape::getMinSize(unsigned update_flag) const
+Point TextLineShape::getMinSize() const
  {
-  cache(update_flag,cfg,text.str());
+  cache(cfg,text.str());
 
   return 2*Point(cache.inner_dx,cache.inner_dy)+Point(cache.text_dx,cache.text_dy)+(+cfg.space);
  }
 
-Point TextLineShape::getMinSize(unsigned update_flag,StrLen text) const
+Point TextLineShape::getMinSize(StrLen text) const
  {
-  if( update_flag ) cache.ok=false;
-
   TextSize ts=cfg.font->text_guarded(text);
 
   MCoord width=+cfg.width;
@@ -77,9 +73,9 @@ Point TextLineShape::getMinSize(unsigned update_flag,StrLen text) const
   return 2*Point(dx,dy)+Point(ts.full_dx,ts.dy)+(+cfg.space);
  }
 
-void TextLineShape::setMax(unsigned update_flag)
+void TextLineShape::setMax()
  {
-  cache(update_flag,cfg,text.str());
+  cache(cfg,text.str());
 
   Pane inner=pane.shrink(cache.inner_dx,cache.inner_dy);
 
@@ -109,7 +105,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
   MCoord width=+cfg.width;
 
-  cache(0,cfg,text.str());
+  cache(cfg,text.str());
 
   if( cache.btn_ex>p.dx/3 )
     {

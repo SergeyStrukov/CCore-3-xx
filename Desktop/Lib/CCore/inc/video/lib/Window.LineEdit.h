@@ -55,6 +55,8 @@ class LineEditWindowOf : public SubWindow
 
    Shape shape;
 
+   SignalConnector<Shape,unsigned> connector_updated;
+
    DeferInput<LineEditWindowOf<Shape> > input;
 
   private:
@@ -297,7 +299,8 @@ class LineEditWindowOf : public SubWindow
     {
      shape.cursor=true;
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      Replace_min(shape.xoff,shape.xoffMax);
 
@@ -439,6 +442,7 @@ class LineEditWindowOf : public SubWindow
     : SubWindow(host),
       storage(DefBufLen),
       shape(Range(storage), std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated()),
       input(this)
     {
      defer_tick=input.create(&LineEditWindowOf<Shape>::tick);
@@ -449,6 +453,7 @@ class LineEditWindowOf : public SubWindow
     : SubWindow(host),
       storage(buf_len),
       shape(Range(storage), std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated()),
       input(this)
     {
      defer_tick=input.create(&LineEditWindowOf<Shape>::tick);
@@ -460,10 +465,10 @@ class LineEditWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
+   auto getMinSize() const { return shape.getMinSize(); }
 
    template <class T>
-   Point getMinSize(unsigned flags,T sample_text) const { return shape.getMinSize(flags&LayoutUpdate,sample_text); }
+   Point getMinSize(T sample_text) const { return shape.getMinSize(sample_text); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -523,7 +528,8 @@ class LineEditWindowOf : public SubWindow
      shape.select_off=0;
      shape.select_len=0;
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      redraw();
 
@@ -596,7 +602,8 @@ class LineEditWindowOf : public SubWindow
 
      shape.cursor=true;
 
-     shape.setMax(LayoutUpdate);
+     shape.update(LayoutUpdate);
+     shape.setMax();
 
      Replace_min(shape.xoff,shape.xoffMax);
 
@@ -642,11 +649,11 @@ class LineEditWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.setMax(flags&LayoutUpdate);
+     shape.setMax();
     }
 
    virtual void draw(DrawBuf buf,bool) const

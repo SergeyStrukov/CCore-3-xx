@@ -24,12 +24,10 @@ namespace Video {
 
 /* class SimpleTextListShape */
 
-void SimpleTextListShape::Cache::operator () (unsigned update_flag,const Config &cfg,const Info &info)
+void SimpleTextListShape::Cache::operator () (const Config &cfg,const Info &info)
  {
-  if( update_flag || !ok )
+  if( !ok )
     {
-     ok=false;
-
      ulen count=info->getLineCount();
 
      const Font &font=cfg.font.get();
@@ -54,10 +52,8 @@ void SimpleTextListShape::Cache::operator () (unsigned update_flag,const Config 
     }
  }
 
-Point SimpleTextListShape::getMinSize(unsigned update_flag,Point cap) const
+Point SimpleTextListShape::getMinSize(Point cap) const
  {
-  if( update_flag ) cache.ok=false;
-
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
@@ -65,9 +61,9 @@ Point SimpleTextListShape::getMinSize(unsigned update_flag,Point cap) const
   return 2*space+Inf(InfoSize(font,info),cap-2*space);
  }
 
-void SimpleTextListShape::setMax(unsigned update_flag)
+void SimpleTextListShape::setMax()
  {
-  cache(update_flag,cfg,info);
+  cache(cfg,info);
 
   Pane inner=pane.shrink(+cfg.space);
 

@@ -93,7 +93,7 @@ RatioEditWindow::~RatioEditWindow()
 
  // methods
 
-Point RatioEditWindow::getMinSize(unsigned flags) const
+Point RatioEditWindow::getMinSize() const
  {
   Point s=spin_a.getMinSize(flags);
 
@@ -131,15 +131,20 @@ void RatioEditWindow::setRatio(Ratio value)
 
  // drawing
 
-void RatioEditWindow::layout(unsigned flags)
+bool RatioEditWindow::hasGoodSize() const
  {
-  Point s=spin_a.getMinSize(flags);
+  return getSize()>=getMinSize();
+ }
+
+void RatioEditWindow::layout()
+ {
+  Point s=spin_a.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_a.setPlace(Pane(Null,s),ClearUpdate(flags));
+  spin_a.setPlace(Pane(Null,s));
 
-  spin_b.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
+  spin_b.setPlace(Pane(Point(s.x+space_dxy,0),s));
 
   Coord dx=s.x+space_dxy/2;
 

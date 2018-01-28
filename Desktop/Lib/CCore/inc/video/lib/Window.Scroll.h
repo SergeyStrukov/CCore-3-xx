@@ -194,7 +194,7 @@ class ScrollWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned) const { return shape.getMinSize(); }
+   auto getMinSize() const { return shape.getMinSize(); }
 
    bool isEnabled() const { return shape.enable; }
 
@@ -256,7 +256,7 @@ class ScrollWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned)
+   virtual void layout()
     {
      shape.pane=getPane();
     }

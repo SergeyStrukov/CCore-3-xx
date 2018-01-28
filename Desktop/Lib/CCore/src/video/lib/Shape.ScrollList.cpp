@@ -22,12 +22,10 @@ namespace Video {
 
 /* class ScrollListShape */
 
-void ScrollListShape::Cache::operator () (unsigned update_flag,const Config &cfg,const ComboInfo &info)
+void ScrollListShape::Cache::operator () (const Config &cfg,const ComboInfo &info)
  {
-  if( update_flag || !ok )
+  if( !ok )
     {
-     ok=false;
-
      ulen count=info->getLineCount();
 
      const Font &font=cfg.font.get();
@@ -85,10 +83,8 @@ Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
     }
  }
 
-Point ScrollListShape::getMinSize(unsigned update_flag,Point cap) const
+Point ScrollListShape::getMinSize(Point cap) const
  {
-  if( update_flag ) cache.ok=false;
-
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
@@ -110,10 +106,8 @@ Point ScrollListShape::getMinSize(unsigned update_flag,Point cap) const
   return 2*space+Inf(Point(dx,dy.value),cap-2*space);
  }
 
-Point ScrollListShape::getMinSize(unsigned update_flag,unsigned lines) const
+Point ScrollListShape::getMinSize(unsigned lines) const
  {
-  if( update_flag ) cache.ok=false;
-
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
@@ -125,9 +119,9 @@ Point ScrollListShape::getMinSize(unsigned update_flag,unsigned lines) const
   return 2*space+Point(dx,CountToCoordinate(lines)*fs.dy);
  }
 
-void ScrollListShape::setMax(unsigned update_flag)
+void ScrollListShape::setMax()
  {
-  cache(update_flag,cfg,info);
+  cache(cfg,info);
 
   Pane inner=pane.shrink(+cfg.space);
 

@@ -92,7 +92,7 @@ class RatioEditWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    Ratio getRatio() const;
 
@@ -100,7 +100,9 @@ class RatioEditWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual bool hasGoodSize() const;
+
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

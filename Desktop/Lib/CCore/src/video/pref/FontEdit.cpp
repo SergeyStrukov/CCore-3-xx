@@ -71,7 +71,7 @@ CharTableWindow::~CharTableWindow()
 
  // methods
 
-Point CharTableWindow::getMinSize(unsigned) const
+Point CharTableWindow::getMinSize() const
  {
   const Font &font=cfg.font.get();
 
@@ -88,10 +88,10 @@ Point CharTableWindow::getMinSize(unsigned) const
 
 bool CharTableWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void CharTableWindow::layout(unsigned)
+void CharTableWindow::layout()
  {
   const Font &font=cfg.font.get();
 
@@ -968,7 +968,7 @@ FontEditWindow::~FontEditWindow()
 
  // methods
 
-Point FontEditWindow::getMinSize(unsigned flags,Point cap) const
+Point FontEditWindow::getMinSize(Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
@@ -1036,7 +1036,7 @@ void FontEditWindow::setCouple(const FontCouple &font_)
 
  // drawing
 
-void FontEditWindow::layout(unsigned flags)
+void FontEditWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 

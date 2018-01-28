@@ -56,9 +56,9 @@ PointEditWindow::~PointEditWindow()
 
  // methods
 
-Point PointEditWindow::getMinSize(unsigned flags) const
+Point PointEditWindow::getMinSize() const
  {
-  Point s=spin_x.getMinSize(flags);
+  Point s=spin_x.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 
@@ -82,15 +82,20 @@ void PointEditWindow::setPoint(Point value)
 
  // drawing
 
-void PointEditWindow::layout(unsigned flags)
+bool PointEditWindow::hasGoodSize() const
  {
-  Point s=spin_x.getMinSize(flags);
+  return getSize()>=getMinSize();
+ }
+
+void PointEditWindow::layout()
+ {
+  Point s=spin_x.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 
-  spin_x.setPlace(Pane(Null,s),ClearUpdate(flags));
+  spin_x.setPlace(Pane(Null,s));
 
-  spin_y.setPlace(Pane(Point(s.x+space_dxy,0),s),flags);
+  spin_y.setPlace(Pane(Point(s.x+space_dxy,0),s));
 
   Coord dx=s.x+space_dxy/2;
 
