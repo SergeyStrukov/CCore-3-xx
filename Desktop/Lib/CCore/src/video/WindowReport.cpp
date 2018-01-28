@@ -412,7 +412,7 @@ void ExceptionWindow::reposition() noexcept
 
  // drawing
 
-void ExceptionWindow::layout(unsigned flags)
+void ExceptionWindow::layout()
  {
   FontSize fs=cfg.font->getSize();
 
@@ -429,8 +429,8 @@ void ExceptionWindow::layout(unsigned flags)
      Pane xp=Pane(dxy,size.y-dxy,size.x-dxy,dxy);
      Pane yp=Pane(Null,dxy,size.y-dxy);
 
-     if( xscroll.isGoodSize(xp.getSize()) ) xscroll.setPlace(xp,flags); else xscroll.setPlace(Empty,flags);
-     if( yscroll.isGoodSize(yp.getSize()) ) yscroll.setPlace(yp,flags); else yscroll.setPlace(Empty,flags);
+     if( xscroll.isGoodSize(xp.getSize()) ) xscroll.setPlace(xp); else xscroll.setPlace(Empty);
+     if( yscroll.isGoodSize(yp.getSize()) ) yscroll.setPlace(yp); else yscroll.setPlace(Empty);
 
      Coord offx=dxy+delta_dx;
 
@@ -438,8 +438,8 @@ void ExceptionWindow::layout(unsigned flags)
     }
   else
     {
-     xscroll.setPlace(Empty,flags);
-     yscroll.setPlace(Empty,flags);
+     xscroll.setPlace(Empty);
+     yscroll.setPlace(Empty);
 
      ptext=Pane(Null,size);
     }

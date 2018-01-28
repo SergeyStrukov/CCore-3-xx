@@ -117,7 +117,7 @@ class InfoShape : public InfoState
      Coord med_dx = 0 ;
      bool ok = false ;
 
-     void operator () (unsigned update_flag,const Config &cfg,const Info &info);
+     void operator () (const Config &cfg,const Info &info);
     };
 
    mutable Cache cache;

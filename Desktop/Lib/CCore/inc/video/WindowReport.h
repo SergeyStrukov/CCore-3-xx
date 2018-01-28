@@ -213,7 +213,7 @@ class ExceptionWindow : public SubWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

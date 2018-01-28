@@ -329,9 +329,9 @@ void DirEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace pla
   font->text(buf,pane,place,text,temp.function());
  }
 
-Point DirEditShape::getMinSize(unsigned update_flag) const
+Point DirEditShape::getMinSize() const
  {
-  return LineEditShape::getMinSize(update_flag,SampleDir());
+  return LineEditShape::getMinSize(SampleDir());
  }
 
 /* class FileFilterWindow */
@@ -393,26 +393,26 @@ FileFilterWindow::~FileFilterWindow()
 
  // methods
 
-Point FileFilterWindow::getMinSize(unsigned flags) const
+Point FileFilterWindow::getMinSize() const
  {
   LayBox lay1(check);
   LayBox lay2(knob);
 
   LayToRightCenter lay(lay1,LayToLeftCenter(lay2,Lay(edit)));
 
-  return lay.getMinSize(flags,0);
+  return lay.getMinSize(0);
  }
 
  // drawing
 
-void FileFilterWindow::layout(unsigned flags)
+void FileFilterWindow::layout()
  {
   LayBox lay1(check);
   LayBox lay2(knob);
 
   LayToRightCenter lay(lay1,LayToLeftCenter(lay2,Lay(edit)));
 
-  lay.setPlace(getPane(),flags,0);
+  lay.setPlace(getPane(),0);
  }
 
 /* class FileFilterListWindow */
@@ -477,13 +477,13 @@ FileFilterListWindow::~FileFilterListWindow()
 
  // methods
 
-Point FileFilterListWindow::getMinSize(unsigned flags) const
+Point FileFilterListWindow::getMinSize() const
  {
   if( ulen count=filter_count )
     {
-     Coord knob_dxy=knob.getMinSize(flags).dxy;
+     Coord knob_dxy=knob.getMinSize().dxy;
 
-     Point size=filter_list[0]->getMinSize(flags);
+     Point size=filter_list[0]->getMinSize();
 
      Coord delta=BoxExt(size.y);
 
@@ -491,7 +491,7 @@ Point FileFilterListWindow::getMinSize(unsigned flags) const
     }
   else
     {
-     return GetMinSize(flags,knob);
+     return GetMinSize(knob);
     }
  }
 
@@ -517,15 +517,15 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
  // drawing
 
-void FileFilterListWindow::layout(unsigned flags)
+void FileFilterListWindow::layout()
  {
   Point size=getSize();
 
   if( filter_count )
     {
-     Coord dy=filter_list[0]->getMinSize(flags).y;
+     Coord dy=filter_list[0]->getMinSize().y;
 
-     PaneCut pane(size,BoxSpace(dy),flags);
+     PaneCut pane(size,BoxSpace(dy));
 
      for(auto &ptr : getList() ) pane.place_cutTop(*ptr,dy);
 
@@ -533,7 +533,7 @@ void FileFilterListWindow::layout(unsigned flags)
     }
   else
     {
-     PaneCut pane(size,0,flags);
+     PaneCut pane(size,0);
 
      pane.place_cutTopLeft(knob);
     }
@@ -1044,7 +1044,7 @@ void FileWindow::split_dragged(Point delta)
  {
   if( Change(top_dy, CapTop(top_dy+delta.y,total_dy) ) )
     {
-     layout(LayoutResize);
+     layout();
 
      redraw();
     }
@@ -1138,7 +1138,7 @@ FileWindow::~FileWindow()
 
  // methods
 
-Point FileWindow::getMinSize(unsigned flags) const
+Point FileWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
@@ -1174,8 +1174,8 @@ Point FileWindow::getMinSize(unsigned flags) const
 
      // lay
 
-     Point s1=lay_dir.getMinSize(flags,space);
-     Point s2=lay_file.getMinSize(flags,space);
+     Point s1=lay_dir.getMinSize(space);
+     Point s2=lay_file.getMinSize(space);
 
      return StackYSize(s1,s2)+2*Point(0,space);
     }
@@ -1207,8 +1207,8 @@ Point FileWindow::getMinSize(unsigned flags) const
 
      // lay
 
-     Point s1=lay_dir.getMinSize(flags,space);
-     Point s2=lay_file.getMinSize(flags,space);
+     Point s1=lay_dir.getMinSize(space);
+     Point s2=lay_file.getMinSize(space);
 
      return StackYSize(s1,s2)+2*Point(0,space);
     }
@@ -1254,7 +1254,7 @@ void FileWindow::setNewFile(bool on)
 
  // drawing
 
-void FileWindow::layout(unsigned flags)
+void FileWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -1296,8 +1296,8 @@ void FileWindow::layout(unsigned flags)
 
      Pane top=SplitY(top_dy,pane);
 
-     lay_dir.setPlace(top,flags,space);
-     lay_file.setPlace(pane,flags,space);
+     lay_dir.setPlace(top,space);
+     lay_file.setPlace(pane,space);
     }
   else
     {
@@ -1333,8 +1333,8 @@ void FileWindow::layout(unsigned flags)
 
      Pane top=SplitY(top_dy,pane);
 
-     lay_dir.setPlace(top,flags,space);
-     lay_file.setPlace(pane,flags,space);
+     lay_dir.setPlace(top,space);
+     lay_file.setPlace(pane,space);
     }
  }
 
@@ -1401,7 +1401,7 @@ FileFrame::~FileFrame()
 
 Pane FileFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
+  Point size=getMinSize(false,title,sub_win.getMinSize());
 
   Point screen_size=getScreenSize();
 
@@ -1410,7 +1410,7 @@ Pane FileFrame::getPane(StrLen title,Point base) const
 
 Pane FileFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
+  Point size=getMinSize(false,title,sub_win.getMinSize());
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

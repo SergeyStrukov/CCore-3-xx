@@ -1020,9 +1020,9 @@ Point FontEditWindow::getMinSize(Point cap) const
                   lay_sample,
                   LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0)};
 
-  Point delta=Inf( lay.getMinSize(flags,space) , Point(2*(cap.x/3),cap.y) );
+  Point delta=Inf( lay.getMinSize(space) , Point(2*(cap.x/3),cap.y) );
 
-  Point s=list.getMinSize(flags, Point(cap.x/3,cap.y) );
+  Point s=list.getMinSize( Point(cap.x/3,cap.y) );
 
   return Point( 3*Sup(s.x,delta.x/2) , Sup(s.y,delta.y) );
  }
@@ -1040,7 +1040,7 @@ void FontEditWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space,flags);
+  PaneCut pane(getSize(),space);
 
   // progress
 
@@ -1051,7 +1051,7 @@ void FontEditWindow::layout()
   {
    auto list__=CutPoint(list);
 
-   Coord len=list__.getMinSize(flags).x;
+   Coord len=list__.getMinSize().x;
 
    min_list_dx=len/4;
    max_list_dx=pane.getSize().x/2;
@@ -1116,7 +1116,7 @@ void FontEditWindow::layout()
                   lay_sample,
                   LayInnerSpace(contour_test,LaySame(Lay(info_test),Lay(table)),0)};
 
-  lay.setPlace(pane,flags,space);
+  lay.setPlace(pane,space);
  }
 
  // base

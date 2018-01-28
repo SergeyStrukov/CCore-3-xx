@@ -95,7 +95,7 @@ RatioEditWindow::~RatioEditWindow()
 
 Point RatioEditWindow::getMinSize() const
  {
-  Point s=spin_a.getMinSize(flags);
+  Point s=spin_a.getMinSize();
 
   Coord space_dxy=+cfg.space_dxy;
 

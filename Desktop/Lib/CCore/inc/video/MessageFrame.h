@@ -135,7 +135,7 @@ class MessageWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    void erase(); // for dead windows!
 
@@ -147,7 +147,7 @@ class MessageWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

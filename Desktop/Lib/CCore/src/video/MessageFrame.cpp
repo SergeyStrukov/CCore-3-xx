@@ -57,14 +57,14 @@ struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
 
     AdapterType(const OwnPtr<Btn> &r) : ptr(r.getPtr()) {}
 
-    Point getMinSize(unsigned flags,Coord) const
+    Point getMinSize(Coord) const
      {
-      return ptr->getMinSize(flags);
+      return ptr->getMinSize();
      }
 
-    void setPlace(Pane pane,unsigned flags,Coord) const
+    void setPlace(Pane pane,Coord) const
      {
-      ptr->setPlace(pane,flags);
+      ptr->setPlace(pane);
      }
    };
  };
@@ -93,7 +93,7 @@ MessageWindow::~MessageWindow()
 
  // methods
 
-Point MessageWindow::getMinSize(unsigned flags,Point cap) const
+Point MessageWindow::getMinSize(Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
@@ -101,13 +101,13 @@ Point MessageWindow::getMinSize(unsigned flags,Point cap) const
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),Lay(dline),LayExtXCap(info)));
 
-     return lay.getMinSize(flags,space,cap);
+     return lay.getMinSize(space,cap);
     }
   else
     {
      auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),Lay(dline),LayExtXCap(info)));
 
-     return lay.getMinSize(flags,space,cap);
+     return lay.getMinSize(space,cap);
     }
  }
 
@@ -136,7 +136,7 @@ MessageWindow & MessageWindow::add(const DefString &name,int btn_id)
 
  // drawing
 
-void MessageWindow::layout(unsigned flags)
+void MessageWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -146,13 +146,13 @@ void MessageWindow::layout(unsigned flags)
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),Lay(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,flags,space);
+     lay.setPlace(pane,space);
     }
   else
     {
      auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),Lay(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,flags,space);
+     lay.setPlace(pane,space);
     }
  }
 
@@ -230,7 +230,7 @@ Pane MessageFrame::getPane(bool is_main,StrLen title) const
 
   Point cap=Div(9,10)*screen_size-getDeltaSize();
 
-  Point size=getMinSize(is_main,title,client.getMinSize(LayoutUpdate,cap));
+  Point size=getMinSize(is_main,title,client.getMinSize(cap));
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

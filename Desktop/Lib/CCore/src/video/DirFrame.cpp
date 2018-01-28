@@ -306,7 +306,7 @@ DirWindow::~DirWindow()
 
  // methods
 
-Point DirWindow::getMinSize(unsigned flags) const
+Point DirWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
@@ -322,12 +322,12 @@ Point DirWindow::getMinSize(unsigned flags) const
 
   LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
-  return ExtLayY(lay).getMinSize(flags,space);
+  return ExtLayY(lay).getMinSize(space);
  }
 
  // drawing
 
-void DirWindow::layout(unsigned flags)
+void DirWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -343,7 +343,7 @@ void DirWindow::layout(unsigned flags)
 
   LayToBottom lay{ ExtLayX(lay1) , Lay(line1) , LayToTop(LaySupCenterXExt(Lay(btn_Ok),Lay(btn_Cancel)),Lay(line2),ExtLayX(lay2)) };
 
-  ExtLayY(lay).setPlace(getPane(),flags,space);
+  ExtLayY(lay).setPlace(getPane(),space);
  }
 
 void DirWindow::drawBack(DrawBuf buf,bool) const
@@ -402,7 +402,7 @@ DirFrame::~DirFrame()
 
 Pane DirFrame::getPane(StrLen title,Point base) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
+  Point size=getMinSize(false,title,sub_win.getMinSize());
 
   Point screen_size=getScreenSize();
 
@@ -411,7 +411,7 @@ Pane DirFrame::getPane(StrLen title,Point base) const
 
 Pane DirFrame::getPane(StrLen title) const
  {
-  Point size=getMinSize(false,title,sub_win.getMinSize(LayoutUpdate));
+  Point size=getMinSize(false,title,sub_win.getMinSize());
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

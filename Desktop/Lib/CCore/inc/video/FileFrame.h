@@ -128,7 +128,7 @@ class DirEditShape : public LineEditShape
 
    DirEditShape(PtrLen<Char> text_buf,const Config &cfg) : LineEditShape(text_buf,cfg) {}
 
-   Point getMinSize(unsigned update_flag) const;
+   Point getMinSize() const;
  };
 
 using DirEditWindow = LineEditWindowOf<DirEditShape> ;
@@ -214,7 +214,7 @@ class FileFilterWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    bool isChecked() const { return check.isChecked(); }
 
@@ -234,7 +234,7 @@ class FileFilterWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
  };
 
 /* class FileFilterListWindow */
@@ -298,7 +298,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    void add(StrLen filter,bool check);
 
@@ -312,7 +312,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    // user input
 
@@ -643,7 +643,7 @@ class FileWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    StrLen getFilePath() const { return file_path; }
 
@@ -655,7 +655,7 @@ class FileWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
