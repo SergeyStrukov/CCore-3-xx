@@ -587,7 +587,7 @@ void ConfigEditorWindow::newList()
 
   selectVar(item_list.getSelect());
 
-  layout(LayoutUpdate);
+  layout();
 
   redraw();
  }

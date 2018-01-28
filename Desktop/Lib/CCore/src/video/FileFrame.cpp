@@ -448,7 +448,7 @@ void FileFilterListWindow::knob_del_pressed(ulen index)
 
      wlist.del(list[list.len-1].getPtr());
 
-     layout(LayoutUpdate);
+     layout();
 
      redraw();
 
@@ -509,7 +509,7 @@ void FileFilterListWindow::add(StrLen filter,bool check)
 
   if( getFrame()->isAlive() )
     {
-     layout(LayoutUpdate);
+     layout();
 
      redraw();
     }
@@ -1246,7 +1246,7 @@ void FileWindow::setNewFile(bool on)
 
      enableOk();
 
-     layout(LayoutUpdate);
+     layout();
 
      redraw();
     }

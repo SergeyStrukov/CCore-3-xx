@@ -458,10 +458,14 @@ int FontEditWindow::GetMaxIndex(Font font_)
 
 void FontEditWindow::updateSample()
  {
-  info_test.layout(LayoutUpdate);
+  getFrame()->updated.assert(LayoutUpdate);
+
+  info_test.layout();
+
   info_test.redraw();
 
-  table.layout(LayoutUpdate);
+  table.layout();
+
   table.redraw();
  }
 
@@ -637,7 +641,7 @@ void FontEditWindow::split_dragged(Point delta)
 
      split_on=true;
 
-     layout(LayoutResize);
+     layout();
 
      redraw();
     }
@@ -822,7 +826,8 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,info_test);
 
-       layout(LayoutResize);
+       layout();
+
        redraw();
       }
      break;
@@ -833,7 +838,8 @@ void FontEditWindow::group_sample_changed(int new_id,int)
 
        wlist.insBefore(contour_test,table);
 
-       layout(LayoutResize);
+       layout();
+
        redraw();
       }
      break;
