@@ -235,10 +235,8 @@ void MenuShapeBase::drawY(const DrawBuf &buf,Pane pane) const
 
 /* class SimpleTopMenuShape */
 
-SizeY SimpleTopMenuShape::getMinSize(unsigned update_flag) const
+SizeY SimpleTopMenuShape::getMinSize() const
  {
-  if( update_flag ) ok=false;
-
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
   Point space=+cfg.space;
@@ -248,17 +246,15 @@ SizeY SimpleTopMenuShape::getMinSize(unsigned update_flag) const
 
 bool SimpleTopMenuShape::isGoodSize(Point size) const
  {
-  Point min_size(menu_dx,getMinSize(0).dy);
+  Point min_size(menu_dx,getMinSize().dy);
 
   return size>=min_size;
  }
 
-void SimpleTopMenuShape::layout(unsigned update_flag)
+void SimpleTopMenuShape::layout()
  {
-  if( update_flag || !ok )
+  if( !ok )
     {
-     ok=false;
-
      const Font &font=cfg.font.get();
      FontSize fs=font->getSize();
      Point space=+cfg.space;
@@ -488,7 +484,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
     }
  }
 
-Point SimpleCascadeMenuShape::getMinSize(unsigned) const
+Point SimpleCascadeMenuShape::getMinSize() const
  {
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();
@@ -528,7 +524,7 @@ Point SimpleCascadeMenuShape::getMinSize(unsigned) const
   return Point(dx,y)+2*Point::Diag(delta);
  }
 
-void SimpleCascadeMenuShape::layout(unsigned)
+void SimpleCascadeMenuShape::layout()
  {
   const Font &font=cfg.font.get();
   FontSize fs=font->getSize();

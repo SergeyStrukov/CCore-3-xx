@@ -29,14 +29,14 @@ SampleWindow::~SampleWindow()
 
  // methods
 
-Point SampleWindow::getMinSize(unsigned) const
+Point SampleWindow::getMinSize() const
  {
   return Point(100,100);
  }
 
  // drawing
 
-void SampleWindow::layout(unsigned)
+void SampleWindow::layout()
  {
  }
 

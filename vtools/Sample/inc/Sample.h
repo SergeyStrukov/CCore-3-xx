@@ -67,11 +67,11 @@ class SampleWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
  };
 
 } // namespace App

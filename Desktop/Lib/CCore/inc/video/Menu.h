@@ -259,6 +259,7 @@ class SimpleTopMenuShape : public MenuShapeBase
 
    MenuData &data;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // state
 
@@ -275,11 +276,13 @@ class SimpleTopMenuShape : public MenuShapeBase
 
    SimpleTopMenuShape(const Config &cfg,MenuData &data_) : MenuShapeBase(cfg),data(data_) {}
 
-   SizeY getMinSize(unsigned update_flag) const;
+   void update(unsigned flags) { if( flags&update_mask ) ok=false; }
+
+   SizeY getMinSize() const;
 
    bool isGoodSize(Point size) const;
 
-   void layout(unsigned update_flag);
+   void layout();
 
    void draw(const DrawBuf &buf) const;
  };
@@ -290,6 +293,8 @@ template <class Shape>
 class SimpleTopMenuWindowOf : public SubWindow
  {
    Shape shape;
+
+   SignalConnector<Shape,unsigned> connector_updated;
 
   private:
 
@@ -427,7 +432,8 @@ class SimpleTopMenuWindowOf : public SubWindow
    template <class ... TT>
    SimpleTopMenuWindowOf(SubWindowHost &host,TT && ... tt)
     : SubWindow(host),
-      shape( std::forward<TT>(tt)... )
+      shape( std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated())
     {
     }
 
@@ -435,7 +441,11 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
+   unsigned getUpdateMask() const { return shape.update_mask; }
+
+   void setUpdateMask(unsigned flags) { shape.update_mask=flags|LayoutUpdate; }
+
+   auto getMinSize() const { return shape.getMinSize(); }
 
    unsigned getState() const { return shape.state; }
 
@@ -465,11 +475,11 @@ class SimpleTopMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.layout(flags&LayoutUpdate);
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -615,6 +625,7 @@ class SimpleCascadeMenuShape : public MenuShapeBase
 
    MenuData *data = 0 ;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // state
 
@@ -637,11 +648,13 @@ class SimpleCascadeMenuShape : public MenuShapeBase
 
    explicit SimpleCascadeMenuShape(const Config &cfg) : MenuShapeBase(cfg) {}
 
-   Point getMinSize(unsigned update_flag) const;
+   void update(unsigned) {}
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(0); }
+   Point getMinSize() const;
 
-   void layout(unsigned update_flag);
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void layout();
 
    void draw(const DrawBuf &buf) const;
  };
@@ -652,6 +665,8 @@ template <class Shape>
 class SimpleCascadeMenuWindowOf : public SubWindow
  {
    Shape shape;
+
+   SignalConnector<Shape,unsigned> connector_updated;
 
   private:
 
@@ -802,7 +817,8 @@ class SimpleCascadeMenuWindowOf : public SubWindow
    template <class ... TT>
    SimpleCascadeMenuWindowOf(SubWindowHost &host,TT && ... tt)
     : SubWindow(host),
-      shape( std::forward<TT>(tt)... )
+      shape( std::forward<TT>(tt)... ),
+      connector_updated(&shape,&Shape::update,host.getUpdated())
     {
     }
 
@@ -810,11 +826,26 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
    // methods
 
-   auto getMinSize(unsigned flags) const { return shape.getMinSize(flags&LayoutUpdate); }
+   unsigned getUpdateMask() const { return shape.update_mask; }
+
+   void setUpdateMask(unsigned flags) { shape.update_mask=flags|LayoutUpdate; }
+
+   auto getMinSize() const { return shape.getMinSize(); }
 
    unsigned getState() const { return shape.state; }
 
-   void bind(MenuData &data) { shape.data=&data; }
+   void bind(MenuData &data)
+    {
+     shape.data=&data;
+
+     update();
+    }
+
+   void update()
+    {
+     shape.update(LayoutUpdate);
+     shape.layout();
+    }
 
    void unselect()
     {
@@ -844,11 +875,11 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      return shape.isGoodSize(size);
     }
 
-   virtual void layout(unsigned flags)
+   virtual void layout()
     {
      shape.pane=getPane();
 
-     shape.layout(flags&LayoutUpdate);
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -1109,7 +1140,7 @@ class SimpleCascadeMenuOf
     {
      client.bind(data);
 
-     Point size=client.getMinSize(LayoutUpdate);
+     Point size=client.getMinSize();
 
      screen_size=frame.getScreenSize();
 
@@ -1128,8 +1159,10 @@ class SimpleCascadeMenuOf
     {
      if( frame.isAlive() )
        {
+        client.update();
+
         Point base=frame.getScreenOrigin();
-        Point size=client.getMinSize(LayoutUpdate);
+        Point size=client.getMinSize();
 
         Pane pane=FitToScreen(base,size,screen_size);
 
@@ -1139,7 +1172,7 @@ class SimpleCascadeMenuOf
 
         frame.resize(new_size);
 
-        frame.input.redrawAll(LayoutUpdate);
+        frame.input.redrawAll(LayoutResize);
        }
     }
 
