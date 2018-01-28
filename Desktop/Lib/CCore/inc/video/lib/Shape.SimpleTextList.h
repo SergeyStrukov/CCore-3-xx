@@ -97,6 +97,7 @@ class SimpleTextListShape : public SimpleTextListState
    const Config &cfg;
    Info info;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // methods
 
@@ -104,7 +105,7 @@ class SimpleTextListShape : public SimpleTextListState
 
    SimpleTextListShape(const Config &cfg_,const Info &info_) : cfg(cfg_),info(info_) { initSelect(); }
 
-   void update(unsigned) { cache.ok=false; }
+   void update(unsigned flags) { if( flags&update_mask ) cache.ok=false; }
 
    Point getMinSize(Point cap=Point::Max()) const;
 

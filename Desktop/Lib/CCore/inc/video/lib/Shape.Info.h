@@ -91,6 +91,7 @@ class InfoShape : public InfoState
    const Config &cfg;
    Info info;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // methods
 
@@ -98,7 +99,7 @@ class InfoShape : public InfoState
 
    InfoShape(const Config &cfg_,const Info &info_) : cfg(cfg_),info(info_) {}
 
-   void update(unsigned) { cache.ok=false; }
+   void update(unsigned flags) { if( flags&update_mask ) cache.ok=false; }
 
    Point getMinSize(Point cap=Point::Max()) const;
 

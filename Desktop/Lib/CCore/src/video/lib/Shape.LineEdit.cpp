@@ -31,16 +31,14 @@ Point LineEditShape::getMinSize(TextSize ts) const
  {
   MCoord width=+cfg.width;
 
-  FontSize fs=cfg.font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
+  MCoord ex=FigEX(ts.dy,width,+cfg.ex);
 
   Coordinate dx=RoundUpLen(ex+width);
   Coordinate dy=RoundUpLen(width);
 
   Coordinate cursor_dx=+cfg.cursor_dx;
 
-  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(fs.skew),2*dy+2*cursor_dx)+(+cfg.space);
+  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(ts.skew),2*dy+2*cursor_dx)+(+cfg.space);
  }
 
 Point LineEditShape::getMinSize() const
@@ -66,11 +64,11 @@ void LineEditShape::setMax()
  {
   const Font &font=cfg.font.get();
 
+  TextSize ts=font->text_guarded(text_buf.prefix(len));
+
   MCoord width=+cfg.width;
 
-  FontSize fs=font->getSize();
-
-  MCoord ex=FigEX(fs.dy,width,+cfg.ex);
+  MCoord ex=FigEX(ts.dy,width,+cfg.ex);
 
   Coord dx=RoundUpLen(ex+width);
   Coord dy=RoundUpLen(width);
@@ -79,24 +77,22 @@ void LineEditShape::setMax()
 
   if( +inner )
     {
-     TextSize ts=font->text_guarded(text_buf.prefix(len));
-
      Coordinate cursor_dx=+cfg.cursor_dx;
 
-     Coordinate extra=2*cursor_dx+dy+IntAbs(fs.skew);
+     Coordinate extra=2*cursor_dx+dy+IntAbs(ts.skew);
 
      Coordinate tx=ts.full_dx+extra;
 
      xoffMax=PlusSub(+tx,inner.dx);
-
-     dxoff=fs.medDX();
     }
   else
     {
      xoffMax=0;
-
-     dxoff=fs.medDX();
     }
+
+  FontSize fs=font->getSize();
+
+  dxoff=fs.medDX();
  }
 
 void LineEditShape::showCursor()

@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -33,13 +33,6 @@ enum FocusType
   NoFocus = 0,
   FocusOk,
   FocusTab
- };
-
-enum LayoutFlags : unsigned
- {
-  NoLayout     = 0,
-  LayoutResize = 1,
-  LayoutUpdate = 2
  };
 
 /* classes */

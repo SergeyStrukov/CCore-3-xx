@@ -465,6 +465,10 @@ class LineEditWindowOf : public SubWindow
 
    // methods
 
+   unsigned getUpdateMask() const { return shape.update_mask; }
+
+   void setUpdateMask(unsigned flags) { shape.update_mask=flags|LayoutUpdate; }
+
    auto getMinSize() const { return shape.getMinSize(); }
 
    template <class T>

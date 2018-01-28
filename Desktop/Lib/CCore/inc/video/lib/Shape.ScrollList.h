@@ -108,6 +108,7 @@ class ScrollListShape : public ScrollListState
    const Config &cfg;
    ComboInfo info;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // methods
 
@@ -115,7 +116,7 @@ class ScrollListShape : public ScrollListState
 
    ScrollListShape(const Config &cfg_,const ComboInfo &info_) : cfg(cfg_),info(info_) { setSelectDown(0); }
 
-   void update(unsigned) { cache.ok=false; }
+   void update(unsigned flags) { if( flags&update_mask ) cache.ok=false; }
 
    Point getMinSize(Point cap=Point::Max()) const;
 

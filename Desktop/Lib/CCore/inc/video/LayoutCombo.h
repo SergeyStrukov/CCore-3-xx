@@ -45,9 +45,9 @@ concept bool LayRangeType = requires(R r)
 /* concept LaySpaceType<L> */
 
 template <class L>
-concept bool LaySpaceType = requires(const L &lay,unsigned flags,Coord space)
+concept bool LaySpaceType = requires(const L &lay,Coord space)
  {
-  { lay.getSpace(flags,space) } -> Coord ;
+  { lay.getSpace(space) } -> Coord ;
  } ;
 
 /* Split...() */

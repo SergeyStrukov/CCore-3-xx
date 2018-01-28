@@ -120,6 +120,7 @@ class LineEditShape : public LineEditState
    const Config &cfg;
    PtrLen<Char> text_buf;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // tick count
 

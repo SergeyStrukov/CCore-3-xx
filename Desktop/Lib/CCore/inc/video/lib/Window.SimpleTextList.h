@@ -131,6 +131,10 @@ class SimpleTextListWindowOf : public SubWindow
 
    // methods
 
+   unsigned getUpdateMask() const { return shape.update_mask; }
+
+   void setUpdateMask(unsigned flags) { shape.update_mask=flags|LayoutUpdate; }
+
    auto getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
    bool isEnabled() const { return shape.enable; }
@@ -142,9 +146,17 @@ class SimpleTextListWindowOf : public SubWindow
 
    void disable() { enable(false); }
 
+   const Info & getInfo() const { return shape.info; }
+
    void setInfo(const Info &info)
     {
      shape.info=info;
+
+     update();
+    }
+
+   void update()
+    {
      shape.yoff=0;
      shape.xoff=0;
 
@@ -155,8 +167,6 @@ class SimpleTextListWindowOf : public SubWindow
 
      redraw();
     }
-
-   const Info & getInfo() const { return shape.info; }
 
    ulen getSelect() const { return shape.select; } // valid OR MaxULen, if there is no positions
 

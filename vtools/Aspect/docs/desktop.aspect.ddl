@@ -54,7 +54,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "Lib",
-   Green,
+   Red,
    {
     &Dir8
    },
@@ -274,11 +274,10 @@ Dir Dir21=
 Dir Dir8=
   {
    "CCore",
-   Green,
+   Red,
    {
     &Dir22,
-    &Dir23,
-    &Dir24
+    &Dir23
    },
    {
    }
@@ -287,9 +286,9 @@ Dir Dir8=
 Dir Dir22=
   {
    "inc",
-   Green,
+   Red,
    {
-    &Dir25
+    &Dir24
    },
    {
    }
@@ -298,9 +297,9 @@ Dir Dir22=
 Dir Dir23=
   {
    "src",
-   Green,
+   Red,
    {
-    &Dir26
+    &Dir25
    },
    {
    }
@@ -308,229 +307,207 @@ Dir Dir23=
 
 Dir Dir24=
   {
-   "test",
-   Ignore,
+   "video",
+   Red,
+   {
+    &Dir26,
+    &Dir27
+   },
+   {
+    { "ApplicationBase.h" , Red },
+    { "BindBagProxy.h" , Red },
+    { "ConfigBinder.h" , Red },
+    { "ConfigEditor.h" , Red },
+    { "ConfigStore.h" , Red },
+    { "DirFrame.h" , Red },
+    { "ExceptionFrame.h" , Red },
+    { "FigureLib.h" , Red },
+    { "FileFrame.h" , Red },
+    { "FrameBase.h" , Red },
+    { "Layout.h" , Red },
+    { "LayoutCombo.h" , Red },
+    { "Menu.h" , Red },
+    { "MessageFrame.h" , Red },
+    { "MinSizeType.h" , Red },
+    { "ShapeLib.h" , Red },
+    { "ToolFrame.h" , Red },
+    { "UserPreference.h" , Red },
+    { "WindowLib.h" , Red },
+    { "WindowReport.h" , Red }
+   }
+  };
+
+Dir Dir26=
+  {
+   "lib",
+   Red,
    {
    },
    {
-    { "SpecialDrawArt.cpp" , Ignore },
-    { "wintest.cpp" , Ignore },
-    { "test7006.Ball.cpp" , Ignore },
-    { "test7007.CommonArt.cpp" , Ignore },
-    { "test7003.DragWindow.cpp" , Ignore },
-    { "test7005.DragWindow.cpp" , Ignore },
-    { "test7001.DrawAlgo.cpp" , Ignore },
-    { "test7002.DrawAlgo.cpp" , Ignore },
-    { "test7004.Font.cpp" , Ignore },
-    { "test7008.Tab.cpp" , Ignore },
-    { "SpecialDrawArt.h" , Ignore },
-    { "wintest.h" , Ignore }
+    { "Window.Blank.h" , Red },
+    { "Shape.Button.h" , Red },
+    { "Window.Button.h" , Red },
+    { "Shape.Check.h" , Red },
+    { "Window.Check.h" , Red },
+    { "Shape.Contour.h" , Red },
+    { "Window.Decor.h" , Red },
+    { "Shape.DragFrame.h" , Red },
+    { "Window.DragFrame.h" , Red },
+    { "Window.FireButton.h" , Red },
+    { "Shape.FixedFrame.h" , Red },
+    { "Shape.FrameBase.h" , Red },
+    { "Shape.Info.h" , Red },
+    { "Window.Info.h" , Red },
+    { "Shape.Label.h" , Red },
+    { "Shape.Light.h" , Red },
+    { "Window.Light.h" , Red },
+    { "Shape.Line.h" , Red },
+    { "Shape.LineEdit.h" , Red },
+    { "Window.LineEdit.h" , Red },
+    { "Shape.Progress.h" , Red },
+    { "Window.Progress.h" , Red },
+    { "Shape.Radio.h" , Red },
+    { "Window.Radio.h" , Red },
+    { "Shape.RunButton.h" , Red },
+    { "Window.RunButton.h" , Red },
+    { "Shape.Scroll.h" , Red },
+    { "Window.Scroll.h" , Red },
+    { "Shape.ScrollList.h" , Red },
+    { "Window.ScrollList.h" , Red },
+    { "Shape.SimpleTextList.h" , Red },
+    { "Window.SimpleTextList.h" , Red },
+    { "Shape.Slider.h" , Red },
+    { "Window.Slider.h" , Red },
+    { "Shape.Spinor.h" , Red },
+    { "Window.Spinor.h" , Red },
+    { "Shape.Split.h" , Red },
+    { "Window.Split.h" , Red },
+    { "Shape.Switch.h" , Red },
+    { "Shape.Text.h" , Red },
+    { "Window.Text.h" , Red },
+    { "Shape.TextLine.h" , Red },
+    { "Window.TextLine.h" , Red }
+   }
+  };
+
+Dir Dir27=
+  {
+   "pref",
+   Red,
+   {
+   },
+   {
+    { "ColorEdit.h" , Red },
+    { "CoordEdit.h" , Red },
+    { "FontEdit.h" , Red },
+    { "MCoordEdit.h" , Red },
+    { "PointEdit.h" , Red },
+    { "RatioEdit.h" , Red }
    }
   };
 
 Dir Dir25=
   {
    "video",
-   Green,
+   Red,
    {
-    &Dir27,
-    &Dir28
+    &Dir28,
+    &Dir29
    },
    {
-    { "ApplicationBase.h" , Green },
-    { "BindBagProxy.h" , Green },
-    { "ConfigBinder.h" , Green },
-    { "ConfigEditor.h" , Green },
-    { "ConfigStore.h" , Green },
-    { "DirFrame.h" , Green },
-    { "ExceptionFrame.h" , Green },
-    { "FigureLib.h" , Green },
-    { "FileFrame.h" , Green },
-    { "FrameBase.h" , Green },
-    { "Layout.h" , Green },
-    { "LayoutCombo.h" , Green },
-    { "Menu.h" , Green },
-    { "MessageFrame.h" , Green },
-    { "MinSizeType.h" , Green },
-    { "ShapeLib.h" , Green },
-    { "ToolFrame.h" , Green },
-    { "UserPreference.h" , Green },
-    { "WindowLib.h" , Green },
-    { "WindowReport.h" , Green }
-   }
-  };
-
-Dir Dir27=
-  {
-   "lib",
-   Green,
-   {
-   },
-   {
-    { "Window.Blank.h" , Green },
-    { "Shape.Button.h" , Green },
-    { "Window.Button.h" , Green },
-    { "Shape.Check.h" , Green },
-    { "Window.Check.h" , Green },
-    { "Shape.Contour.h" , Green },
-    { "Window.Decor.h" , Green },
-    { "Shape.DragFrame.h" , Green },
-    { "Window.DragFrame.h" , Green },
-    { "Window.FireButton.h" , Green },
-    { "Shape.FixedFrame.h" , Green },
-    { "Shape.FrameBase.h" , Green },
-    { "Shape.Info.h" , Green },
-    { "Window.Info.h" , Green },
-    { "Shape.Label.h" , Green },
-    { "Shape.Light.h" , Green },
-    { "Window.Light.h" , Green },
-    { "Shape.Line.h" , Green },
-    { "Shape.LineEdit.h" , Green },
-    { "Window.LineEdit.h" , Green },
-    { "Shape.Progress.h" , Green },
-    { "Window.Progress.h" , Green },
-    { "Shape.Radio.h" , Green },
-    { "Window.Radio.h" , Green },
-    { "Shape.RunButton.h" , Green },
-    { "Window.RunButton.h" , Green },
-    { "Shape.Scroll.h" , Green },
-    { "Window.Scroll.h" , Green },
-    { "Shape.ScrollList.h" , Green },
-    { "Window.ScrollList.h" , Green },
-    { "Shape.SimpleTextList.h" , Green },
-    { "Window.SimpleTextList.h" , Green },
-    { "Shape.Slider.h" , Green },
-    { "Window.Slider.h" , Green },
-    { "Shape.Spinor.h" , Green },
-    { "Window.Spinor.h" , Green },
-    { "Shape.Split.h" , Green },
-    { "Window.Split.h" , Green },
-    { "Shape.Switch.h" , Green },
-    { "Shape.Text.h" , Green },
-    { "Window.Text.h" , Green },
-    { "Shape.TextLine.h" , Green },
-    { "Window.TextLine.h" , Green }
+    { "ApplicationBase.cpp" , Red },
+    { "BindBagProxy.cpp" , Red },
+    { "ConfigBinder.cpp" , Red },
+    { "ConfigEditor.cpp" , Red },
+    { "ConfigStore.cpp" , Red },
+    { "DirFrame.cpp" , Red },
+    { "ExceptionFrame.cpp" , Red },
+    { "FigureLib.cpp" , Red },
+    { "FileFrame.cpp" , Red },
+    { "FrameBase.cpp" , Red },
+    { "Layout.cpp" , Red },
+    { "LayoutCombo.cpp" , Red },
+    { "Menu.cpp" , Red },
+    { "MessageFrame.cpp" , Red },
+    { "MinSizeType.cpp" , Red },
+    { "ShapeLib.cpp" , Red },
+    { "ToolFrame.cpp" , Red },
+    { "UserPreference.cpp" , Red },
+    { "WindowLib.cpp" , Red },
+    { "WindowReport.cpp" , Red },
+    { "ConfigTypes.ddl" , Red },
+    { "HitDirs.ddl" , Red },
+    { "HitDirs.TypeDef.gen.h" , Red },
+    { "HitDirs.TypeSet.gen.h" , Red }
    }
   };
 
 Dir Dir28=
   {
-   "pref",
-   Green,
+   "lib",
+   Red,
    {
    },
    {
-    { "ColorEdit.h" , Green },
-    { "CoordEdit.h" , Green },
-    { "FontEdit.h" , Green },
-    { "MCoordEdit.h" , Green },
-    { "PointEdit.h" , Green },
-    { "RatioEdit.h" , Green }
-   }
-  };
-
-Dir Dir26=
-  {
-   "video",
-   Green,
-   {
-    &Dir29,
-    &Dir30
-   },
-   {
-    { "ApplicationBase.cpp" , Green },
-    { "BindBagProxy.cpp" , Green },
-    { "ConfigBinder.cpp" , Green },
-    { "ConfigEditor.cpp" , Green },
-    { "ConfigStore.cpp" , Green },
-    { "DirFrame.cpp" , Green },
-    { "ExceptionFrame.cpp" , Green },
-    { "FigureLib.cpp" , Green },
-    { "FileFrame.cpp" , Green },
-    { "FrameBase.cpp" , Green },
-    { "Layout.cpp" , Green },
-    { "LayoutCombo.cpp" , Green },
-    { "Menu.cpp" , Green },
-    { "MessageFrame.cpp" , Green },
-    { "MinSizeType.cpp" , Green },
-    { "ShapeLib.cpp" , Green },
-    { "ToolFrame.cpp" , Green },
-    { "UserPreference.cpp" , Green },
-    { "WindowLib.cpp" , Green },
-    { "WindowReport.cpp" , Green },
-    { "ConfigTypes.ddl" , Green },
-    { "HitDirs.ddl" , Green },
-    { "HitDirs.TypeDef.gen.h" , Green },
-    { "HitDirs.TypeSet.gen.h" , Green }
+    { "Window.Blank.cpp" , Red },
+    { "Shape.Button.cpp" , Red },
+    { "Window.Button.cpp" , Red },
+    { "Shape.Check.cpp" , Red },
+    { "Window.Check.cpp" , Red },
+    { "Shape.Contour.cpp" , Red },
+    { "Window.Decor.cpp" , Red },
+    { "Shape.DragFrame.cpp" , Red },
+    { "Window.DragFrame.cpp" , Red },
+    { "Window.FireButton.cpp" , Red },
+    { "Shape.FixedFrame.cpp" , Red },
+    { "Shape.FrameBase.cpp" , Red },
+    { "Shape.Info.cpp" , Red },
+    { "Window.Info.cpp" , Red },
+    { "Shape.Label.cpp" , Red },
+    { "Shape.Light.cpp" , Red },
+    { "Window.Light.cpp" , Red },
+    { "Shape.Line.cpp" , Red },
+    { "Shape.LineEdit.cpp" , Red },
+    { "Window.LineEdit.cpp" , Red },
+    { "Shape.Progress.cpp" , Red },
+    { "Window.Progress.cpp" , Red },
+    { "Shape.Radio.cpp" , Red },
+    { "Window.Radio.cpp" , Red },
+    { "Shape.RunButton.cpp" , Red },
+    { "Window.RunButton.cpp" , Red },
+    { "Shape.Scroll.cpp" , Red },
+    { "Window.Scroll.cpp" , Red },
+    { "Shape.ScrollList.cpp" , Red },
+    { "Window.ScrollList.cpp" , Red },
+    { "Shape.SimpleTextList.cpp" , Red },
+    { "Window.SimpleTextList.cpp" , Red },
+    { "Shape.Slider.cpp" , Red },
+    { "Window.Slider.cpp" , Red },
+    { "Shape.Spinor.cpp" , Red },
+    { "Window.Spinor.cpp" , Red },
+    { "Shape.Split.cpp" , Red },
+    { "Window.Split.cpp" , Red },
+    { "Shape.Switch.cpp" , Red },
+    { "Shape.Text.cpp" , Red },
+    { "Window.Text.cpp" , Red },
+    { "Shape.TextLine.cpp" , Red },
+    { "Window.TextLine.cpp" , Red }
    }
   };
 
 Dir Dir29=
   {
-   "lib",
-   Green,
-   {
-   },
-   {
-    { "Window.Blank.cpp" , Green },
-    { "Shape.Button.cpp" , Green },
-    { "Window.Button.cpp" , Green },
-    { "Shape.Check.cpp" , Green },
-    { "Window.Check.cpp" , Green },
-    { "Shape.Contour.cpp" , Green },
-    { "Window.Decor.cpp" , Green },
-    { "Shape.DragFrame.cpp" , Green },
-    { "Window.DragFrame.cpp" , Green },
-    { "Window.FireButton.cpp" , Green },
-    { "Shape.FixedFrame.cpp" , Green },
-    { "Shape.FrameBase.cpp" , Green },
-    { "Shape.Info.cpp" , Green },
-    { "Window.Info.cpp" , Green },
-    { "Shape.Label.cpp" , Green },
-    { "Shape.Light.cpp" , Green },
-    { "Window.Light.cpp" , Green },
-    { "Shape.Line.cpp" , Green },
-    { "Shape.LineEdit.cpp" , Green },
-    { "Window.LineEdit.cpp" , Green },
-    { "Shape.Progress.cpp" , Green },
-    { "Window.Progress.cpp" , Green },
-    { "Shape.Radio.cpp" , Green },
-    { "Window.Radio.cpp" , Green },
-    { "Shape.RunButton.cpp" , Green },
-    { "Window.RunButton.cpp" , Green },
-    { "Shape.Scroll.cpp" , Green },
-    { "Window.Scroll.cpp" , Green },
-    { "Shape.ScrollList.cpp" , Green },
-    { "Window.ScrollList.cpp" , Green },
-    { "Shape.SimpleTextList.cpp" , Green },
-    { "Window.SimpleTextList.cpp" , Green },
-    { "Shape.Slider.cpp" , Green },
-    { "Window.Slider.cpp" , Green },
-    { "Shape.Spinor.cpp" , Green },
-    { "Window.Spinor.cpp" , Green },
-    { "Shape.Split.cpp" , Green },
-    { "Window.Split.cpp" , Green },
-    { "Shape.Switch.cpp" , Green },
-    { "Shape.Text.cpp" , Green },
-    { "Window.Text.cpp" , Green },
-    { "Shape.TextLine.cpp" , Green },
-    { "Window.TextLine.cpp" , Green }
-   }
-  };
-
-Dir Dir30=
-  {
    "pref",
-   Green,
+   Red,
    {
    },
    {
-    { "ColorEdit.cpp" , Green },
-    { "CoordEdit.cpp" , Green },
-    { "FontEdit.cpp" , Green },
-    { "MCoordEdit.cpp" , Green },
-    { "PointEdit.cpp" , Green },
-    { "RatioEdit.cpp" , Green }
+    { "ColorEdit.cpp" , Red },
+    { "CoordEdit.cpp" , Red },
+    { "FontEdit.cpp" , Red },
+    { "MCoordEdit.cpp" , Red },
+    { "PointEdit.cpp" , Red },
+    { "RatioEdit.cpp" , Red }
    }
   };
 
@@ -539,7 +516,18 @@ Dir Dir9=
    "CCore",
    Green,
    {
-    &Dir31,
+    &Dir30,
+    &Dir31
+   },
+   {
+   }
+  };
+
+Dir Dir30=
+  {
+   "inc",
+   Green,
+   {
     &Dir32
    },
    {
@@ -548,7 +536,7 @@ Dir Dir9=
 
 Dir Dir31=
   {
-   "inc",
+   "src",
    Green,
    {
     &Dir33
@@ -558,17 +546,6 @@ Dir Dir31=
   };
 
 Dir Dir32=
-  {
-   "src",
-   Green,
-   {
-    &Dir34
-   },
-   {
-   }
-  };
-
-Dir Dir33=
   {
    "video",
    Green,
@@ -593,7 +570,7 @@ Dir Dir33=
    }
   };
 
-Dir Dir34=
+Dir Dir33=
   {
    "video",
    Green,

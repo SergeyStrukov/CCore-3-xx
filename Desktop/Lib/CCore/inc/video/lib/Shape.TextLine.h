@@ -95,6 +95,7 @@ class TextLineShape : public TextLineState
    const Config &cfg;
    DefString text;
    Pane pane;
+   unsigned update_mask = LayoutUpdate ;
 
    // methods
 
@@ -102,7 +103,7 @@ class TextLineShape : public TextLineState
 
    explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
 
-   void update(unsigned) { cache.ok=false; }
+   void update(unsigned flags) { if( flags&update_mask ) cache.ok=false; }
 
    Point getMinSize() const;
 

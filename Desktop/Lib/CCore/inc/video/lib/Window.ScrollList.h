@@ -249,6 +249,10 @@ class ScrollListInnerWindowOf : public SubWindow
 
    // methods
 
+   unsigned getUpdateMask() const { return shape.update_mask; }
+
+   void setUpdateMask(unsigned flags) { shape.update_mask=flags|LayoutUpdate; }
+
    Point getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
    Point getMinSize(unsigned lines) const { return shape.getMinSize(lines); }
@@ -262,9 +266,17 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void disable() { enable(false); }
 
+   const ComboInfo & getInfo() const { return shape.info; }
+
    void setInfo(const ComboInfo &info)
     {
      shape.info=info;
+
+     update();
+    }
+
+   void update()
+    {
      shape.yoff=0;
      shape.xoff=0;
 
@@ -275,8 +287,6 @@ class ScrollListInnerWindowOf : public SubWindow
 
      redraw();
     }
-
-   const ComboInfo & getInfo() const { return shape.info; }
 
    ulen getSelect() const { return shape.select; } // valid OR MaxULen, if there is no positions
 
@@ -647,6 +657,10 @@ class ScrollableWindow : public ComboWindow
 
    // methods
 
+   unsigned getUpdateMask() const { return window.getUpdateMask(); }
+
+   void setUpdateMask(unsigned flags) { window.setUpdateMask(flags); }
+
    Point getMinSize(Point cap=Point::Max()) const
     {
      Point delta(scroll_y.getMinSize().dx,0);
@@ -780,6 +794,8 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
 
    void disable() { enable(false); }
 
+   const ComboInfo & getInfo() const { return window.getInfo(); }
+
    void setInfo(const ComboInfo &info)
     {
      window.setInfo(info);
@@ -789,7 +805,14 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
      redraw();
     }
 
-   const ComboInfo & getInfo() const { return window.getInfo(); }
+   void update()
+    {
+     window.update();
+
+     layout();
+
+     redraw();
+    }
 
    ulen getSelect() const { return window.getSelect(); }
 
