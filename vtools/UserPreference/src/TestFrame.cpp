@@ -15,7 +15,7 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 
-#include <CCore/inc/Print.h>
+//#include <CCore/inc/Print.h>
 
 namespace App {
 
@@ -181,7 +181,7 @@ TestWindow::~TestWindow()
 
  // drawing
 
-void TestWindow::layout(unsigned flags)
+void TestWindow::layout()
  {
   Coord space=pref.get().space_dxy;
 
@@ -219,7 +219,7 @@ void TestWindow::layout(unsigned flags)
                   LayLeft(text_list),
                   LayAlignTop(LayLeft(btn_shade)));
 
-  ExtLay(lay).setPlace(getPane(),flags,space);
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void TestWindow::drawBack(DrawBuf buf,bool) const
@@ -394,14 +394,11 @@ void TestClient::open()
 
  // drawing
 
-void TestClient::layout(unsigned flags)
+void TestClient::layout()
  {
-  Coord dy=menu.getMinSize(flags).dy;
+  LayToBottom lay{Lay(menu),Lay(test)};
 
-  Pane pane(Null,getSize());
-
-  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
-  test.setPlace(pane,flags);
+  lay.setPlace(getPane(),0);
  }
 
  // user input

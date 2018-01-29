@@ -458,7 +458,7 @@ int FontEditWindow::GetMaxIndex(Font font_)
 
 void FontEditWindow::updateSample()
  {
-  getFrame()->updated.assert(LayoutUpdate);
+  getFrame()->updated.assert(SampleMask);
 
   info_test.layout();
 
@@ -960,6 +960,8 @@ FontEditWindow::FontEditWindow(SubWindowHost &host,const ConfigType &cfg_)
   info_cfg.font.bind(font.font);
   table_cfg.font.bind(font.font);
 
+  info_test.setUpdateMask(SampleMask);
+
   // bind hints
 
   list.bindHint(cfg.hint_list);
@@ -1046,7 +1048,7 @@ void FontEditWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut pane(getSize(),space);
+  PaneCut pane(getSize(),0);
 
   // progress
 
@@ -1064,11 +1066,11 @@ void FontEditWindow::layout()
 
    if( split_on )
      {
-      pane.place_cutLeft(list__,list_split_dx,0).place_cutLeft(split);
+      pane.place_cutLeft(list__,list_split_dx).place_cutLeft(split);
      }
    else
      {
-      pane.place_cutLeft(list__,Div(1,3),0).place_cutLeft(split);
+      pane.place_cutLeft(list__,Div(1,3)).place_cutLeft(split);
 
       list_split_dx=list.getSize().x;
      }

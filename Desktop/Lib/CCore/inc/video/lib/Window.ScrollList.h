@@ -231,7 +231,9 @@ class ScrollListInnerWindowOf : public SubWindow
 
    ScrollPos getScrollXRange() const
     {
-     return {(ulen)shape.xoffMax+(ulen)shape.dxoff,(ulen)shape.dxoff,(ulen)shape.xoff};
+     Coord page=getSize().x;
+
+     return {(ulen)shape.xoffMax+(ulen)page,(ulen)page,(ulen)shape.xoff};
     }
 
    ScrollPos getScrollYRange() const

@@ -377,6 +377,8 @@ class FontEditWindow : public ComboWindow
    RefLabelWindow label_sample;
    RefLabelWindow label_table;
 
+   enum UpdateMask : unsigned { SampleMask = 4 };
+
    InfoWindow::ConfigType info_cfg;
 
    InfoWindow info_test;
