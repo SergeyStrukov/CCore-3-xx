@@ -1320,6 +1320,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
                                 }
 
                               obj.setPlace(p,space);
+
                              } ,
 
             [&pane,space,dx] (auto &obj)
@@ -1417,6 +1418,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
                                 }
 
                               obj.setPlace(p,space);
+
                              } ,
 
             [&pane,space,dy] (auto &obj)
