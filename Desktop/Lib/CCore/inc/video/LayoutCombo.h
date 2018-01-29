@@ -387,7 +387,7 @@ class LayAlignX
 
    void setPlace(Pane pane,Coord space) const
     {
-     Coord dx=lay.getMinSize(space).x;
+     Coord dx=getMinSize(space).x;
 
      lay.setPlace(Func(pane,dx),space);
     }
@@ -425,7 +425,7 @@ class LayAlignY
 
    void setPlace(Pane pane,Coord space) const
     {
-     Coord dy=lay.getMinSize(space).y;
+     Coord dy=getMinSize(space).y;
 
      lay.setPlace(Func(pane,dy),space);
     }
@@ -520,10 +520,10 @@ class LayToTop : protected LaySet<LL...>
                           } ,
 
             [&pane,space] (auto &obj)
-                                {
-                                 obj.setPlace(pane,space);
+                          {
+                           obj.setPlace(pane,space);
 
-                                } );
+                          } );
     }
 
    template <Pane Func(Pane pane,Coord dx)>
@@ -1535,7 +1535,7 @@ class LaySpecial
 
   public:
 
-   LaySpecial(W &obj_,T arg_) : obj(obj_),arg(arg_) {}
+   LaySpecial(W &obj_,const T &arg_) : obj(obj_),arg(arg_) {}
 
    Point getMinSize(Coord) const { return obj.getMinSize(arg); }
 
@@ -1870,14 +1870,18 @@ class LayInner
 
    Point getMinSize(Coord space) const
     {
-     return obj.getMinSize(lay.getMinSize(space)+2*Point::Diag(space));
+     Point delta=2*Point::Diag(space);
+
+     return obj.getMinSize(lay.getMinSize(space)+delta);
     }
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Point delta=obj.getDelta();
+     Point cap1=obj.getCap(cap);
 
-     return obj.getMinSize(lay.getMinSize(space,cap-delta)+2*Point::Diag(space));
+     Point delta=2*Point::Diag(space);
+
+     return obj.getMinSize(lay.getMinSize(space,cap1-delta)+delta);
     }
 
    void setPlace(Pane pane,Coord space) const
@@ -1905,14 +1909,18 @@ class LayInnerSpace
 
    Point getMinSize(Coord space) const
     {
-     return obj.getMinSize(lay.getMinSize(space)+2*inner_space);
+     Point delta=2*inner_space;
+
+     return obj.getMinSize(lay.getMinSize(space)+delta);
     }
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Point delta=obj.getDelta();
+     Point cap1=obj.getCap(cap);
 
-     return obj.getMinSize(lay.getMinSize(space,cap-delta)+2*inner_space);
+     Point delta=2*inner_space;
+
+     return obj.getMinSize(lay.getMinSize(space,cap1-delta)+delta);
     }
 
    void setPlace(Pane pane,Coord space) const

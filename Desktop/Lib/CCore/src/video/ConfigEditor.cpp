@@ -1134,17 +1134,17 @@ void ConfigEditorWindow::layout()
 
   pane.place(color_edit);
 
+  // point_edit
+
+  pane.place(point_edit);
+
   // string_edit
 
   pane.dup().place_cutTop(string_edit);
 
-  // coord_edit
+  // bool_edit
 
-  pane.dup().place_cutTop(coord_edit);
-
-  // mcoord_edit
-
-  pane.dup().place_cutTop(mcoord_edit);
+  pane.placeMin(bool_edit);
 
   // unsigned_edit
 
@@ -1154,17 +1154,17 @@ void ConfigEditorWindow::layout()
 
   pane.placeMin(clr_edit);
 
-  // point_edit
+  // coord_edit
 
-  pane.place(point_edit);
+  pane.placeMin(coord_edit);
 
-  // bool_edit
+  // mcoord_edit
 
-  pane.placeMin(bool_edit);
+  pane.placeMin(mcoord_edit);
 
   // ratio_edit
 
-  pane.dup().place_cutTop(ratio_edit);
+  pane.placeMin(ratio_edit);
  }
 
 void ConfigEditorWindow::drawBack(DrawBuf buf,bool) const

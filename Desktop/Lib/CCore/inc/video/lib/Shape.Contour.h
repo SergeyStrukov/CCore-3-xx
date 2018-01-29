@@ -73,6 +73,8 @@ class ContourShape
 
    Point getDelta() const;
 
+   Point getCap(Point cap) const { return cap-getDelta(); }
+
    void draw(const DrawBuf &buf) const;
  };
 
@@ -125,6 +127,8 @@ class TextContourShape
 
    Point getDelta() const;
 
+   Point getCap(Point cap) const { return cap-getDelta(); }
+
    void draw(const DrawBuf &buf) const;
  };
 
@@ -154,6 +158,8 @@ class RefTextContourShape
    Pane getInner() const;
 
    Point getDelta() const;
+
+   Point getCap(Point cap) const { return cap-getDelta(); }
 
    void draw(const DrawBuf &buf) const;
  };

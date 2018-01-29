@@ -57,7 +57,7 @@ class DecorWindowOf : public SubWindow
 
    Pane getInner() const { return shape.getInner()+getPlace().getBase(); }
 
-   Point getDelta() const { return shape.getDelta(); }
+   Point getCap(Point cap) const { return shape.getCap(cap); }
 
    // drawing
 
