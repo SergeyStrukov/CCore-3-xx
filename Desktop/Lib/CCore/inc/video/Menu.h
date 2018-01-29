@@ -449,6 +449,12 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    unsigned getState() const { return shape.state; }
 
+   void update()
+    {
+     shape.update(LayoutUpdate);
+     shape.layout();
+    }
+
    void unselect()
     {
      if( Change<unsigned>(shape.state,MenuNone) ) redraw();

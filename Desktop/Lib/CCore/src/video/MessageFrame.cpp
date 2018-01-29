@@ -140,19 +140,17 @@ void MessageWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  Pane pane(Null,getSize());
-
   if( ulen count=btn_count )
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),Lay(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,space);
+     lay.setPlace(getPane(),space);
     }
   else
     {
      auto lay=ExtLayY(LayToTop(LayCenterXExt(knob),Lay(dline),LayExtXCap(info)));
 
-     lay.setPlace(pane,space);
+     lay.setPlace(getPane(),space);
     }
  }
 

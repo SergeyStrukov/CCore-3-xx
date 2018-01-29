@@ -266,21 +266,21 @@ void SimpleTopMenuShape::layout()
        {
         Coordinate dx=GetDX(point,font,space.x,dy);
 
-        point.place=Pane(x,0,dx,dy)+pane.getBase();
+        point.place=Pane(x,0,dx,dy);
 
         x+=dx;
        }
 
      menu_dx=+x;
 
-     xoffMax=PlusSub(menu_dx,pane.dx);
-
-     Replace_min(xoff,xoffMax);
-
      dxoff=fs.medDX();
 
      ok=true;
     }
+
+  xoffMax=PlusSub(menu_dx,pane.dx);
+
+  Replace_min(xoff,xoffMax);
  }
 
 void SimpleTopMenuShape::draw(const DrawBuf &buf) const
@@ -314,7 +314,9 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
     {
      const MenuPoint &point=r[i];
 
-     Pane pane=point.place-Point(xoff,0);
+     Pane point_pane=point.place-Point(xoff,0);
+
+     point_pane+=pane.getBase();
 
      switch( point.type )
        {
@@ -322,28 +324,28 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
          {
           if( BitTest(state,MenuSelect) && select_index==i )
             {
-             FigureBox(pane).loop(art,HalfPos,width,select);
+             FigureBox(point_pane).loop(art,HalfPos,width,select);
 
-             drawText(buf,point,pane,font,AlignX_Center,hilight,focus);
+             drawText(buf,point,point_pane,font,AlignX_Center,hilight,focus);
             }
           else if( BitTest(state,MenuHilight) && hilight_index==i )
             {
-             MPane p(pane);
+             MPane p(point_pane);
 
              art.path(HalfPos,width,hilight,p.getBottomLeft(),p.getBottomRight());
 
-             drawText(buf,point,pane,font,AlignX_Center,hilight,focus);
+             drawText(buf,point,point_pane,font,AlignX_Center,hilight,focus);
             }
           else
             {
-             drawText(buf,point,pane,font,AlignX_Center,text,focus);
+             drawText(buf,point,point_pane,font,AlignX_Center,text,focus);
             }
          }
         break;
 
         case MenuDisabled :
          {
-          drawText(buf,point,pane,font,AlignX_Center,inactive);
+          drawText(buf,point,point_pane,font,AlignX_Center,inactive);
          }
         break;
 
@@ -355,7 +357,7 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
 
         case MenuSeparator :
          {
-          drawY(buf,pane);
+          drawY(buf,point_pane);
          }
        }
     }
@@ -553,9 +555,9 @@ void SimpleCascadeMenuShape::layout()
        case MenuText :
        case MenuDisabled :
         {
-         Pane pane=Pane(0,y,inner.dx,dy)+inner.getBase();
+         Pane p=Pane(0,y,inner.dx,dy)+inner.getBase();
 
-         point.place=pane.shrink(delta,0);
+         point.place=p.shrink(delta,0);
 
          y+=dy;
         }
@@ -565,9 +567,9 @@ void SimpleCascadeMenuShape::layout()
         {
          Coordinate sdy=dy/5;
 
-         Pane pane=Pane(0,y,inner.dx,sdy)+inner.getBase();
+         Pane p=Pane(0,y,inner.dx,sdy)+inner.getBase();
 
-         point.place=pane.shrink(delta,0);
+         point.place=p.shrink(delta,0);
 
          y+=sdy;
         }
