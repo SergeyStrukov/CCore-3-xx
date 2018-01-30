@@ -141,11 +141,11 @@ class RandomIdWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };

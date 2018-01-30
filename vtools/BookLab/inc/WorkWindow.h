@@ -74,7 +74,7 @@ class WorkWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    bool isModified() const;
 
@@ -88,7 +88,7 @@ class WorkWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
  };
 
 } // namespace App

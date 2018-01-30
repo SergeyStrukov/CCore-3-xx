@@ -181,7 +181,7 @@ class SpaceWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned) const { return Null; }
+   Point getMinSize() const { return Null; }
 
    Pane getInner() const { return getPlace().shrink(space); }
 
@@ -189,7 +189,7 @@ class SpaceWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
@@ -329,7 +329,7 @@ class ClientWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

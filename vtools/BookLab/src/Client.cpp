@@ -312,11 +312,11 @@ ClientWindow::~ClientWindow()
 
  // methods
 
-Point ClientWindow::getMinSize(unsigned flags) const
+Point ClientWindow::getMinSize() const
  {
   LayToBottom lay{Lay(menu),Lay(sub_win)};
 
-  return lay.getMinSize(flags,0);
+  return lay.getMinSize(0);
  }
 
  // base
@@ -330,11 +330,11 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout(unsigned flags)
+void ClientWindow::layout()
  {
   LayToBottom lay{Lay(menu),Lay(sub_win)};
 
-  lay.setPlace(getPane(),flags,0);
+  lay.setPlace(getPane(),0);
 
   // action_base
 

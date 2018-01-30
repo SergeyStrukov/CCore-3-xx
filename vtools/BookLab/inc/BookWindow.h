@@ -192,33 +192,8 @@ class InnerBookWindow : public SubWindow
 
    // scroll
 
-   struct Scroll
-    {
-     ulen total = 0 ;
-     ulen page  = 1 ;
-     ulen pos   = 0 ;
-
-     bool tooShort() const { return page<total; }
-
-     ulen getCap() const { return PosSub(total,page); }
-
-     ulen getPos() const { return Min<ulen>(pos,getCap()); }
-
-     void beg() { pos=0; }
-
-     void end() { pos=getCap(); }
-
-     void addPage() { add(page); }
-
-     void subPage() { sub(page); }
-
-     void add(ulen delta) { pos=AddToCap(pos,delta,getCap()); }
-
-     void sub(ulen delta) { pos=PosSub(pos,delta); }
-    };
-
-   Scroll sx;
-   Scroll sy;
+   ScrollPos sx;
+   ScrollPos sy;
 
    // layout
 
@@ -321,7 +296,7 @@ class InnerBookWindow : public SubWindow
 
    static Coord CapSize(ulen dx,Coord cap) { return (Coord)Min(dx,(ulen)cap); }
 
-   void cache(unsigned update_flag) const;
+   void cache() const;
 
   private:
 
@@ -356,6 +331,10 @@ class InnerBookWindow : public SubWindow
    SignalConnector<InnerBookWindow,ulen> connector_posX;
    SignalConnector<InnerBookWindow,ulen> connector_posY;
 
+   void updated(unsigned flags);
+
+   SignalConnector<InnerBookWindow,unsigned> connector_updated;
+
   public:
 
    InnerBookWindow(SubWindowHost &host,const Config &cfg,FontMap &font_map);
@@ -364,7 +343,7 @@ class InnerBookWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
 
@@ -374,11 +353,9 @@ class InnerBookWindow : public SubWindow
 
    bool shortDY() const { return sy.tooShort();  }
 
-   template <class W>
-   void setScrollXRange(W &window) const { window.setRange(sx.total,sx.page,sx.pos); }
+   ScrollPos getScrollXRange() const { return sx; }
 
-   template <class W>
-   void setScrollYRange(W &window) const { window.setRange(sy.total,sy.page,sy.pos); }
+   ScrollPos getScrollYRange() const { return sy; }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
@@ -388,7 +365,7 @@ class InnerBookWindow : public SubWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
@@ -600,7 +577,7 @@ class BookWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    void blank();
 
@@ -608,7 +585,7 @@ class BookWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

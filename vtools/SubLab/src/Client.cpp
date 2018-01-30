@@ -200,7 +200,7 @@ bool SpaceWindow::isGoodSize(Point size) const
   return size/2 >= space ;
  }
 
-void SpaceWindow::layout(unsigned)
+void SpaceWindow::layout()
  {
   // do nothing
  }
@@ -888,7 +888,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
         Point size=getSize();
 
@@ -897,16 +897,16 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
          Coord delta=2*pane.dy;
 
-         radio_Off.setPlace(pane,flags); pane.y+=delta;
-         radio_Red.setPlace(pane,flags); pane.y+=delta;
-         radio_Green.setPlace(pane,flags); pane.y+=delta;
-         radio_Blue.setPlace(pane,flags); pane.y+=delta;
+         radio_Off.setPlace(pane); pane.y+=delta;
+         radio_Red.setPlace(pane); pane.y+=delta;
+         radio_Green.setPlace(pane); pane.y+=delta;
+         radio_Blue.setPlace(pane); pane.y+=delta;
         }
 
         {
          Coord dx=size.x/3;
 
-         light.setPlace(Pane(2*dx,(size.y-dx)/2,dx,dx),flags);
+         light.setPlace(Pane(2*dx,(size.y-dx)/2,dx,dx));
         }
        }
     };
@@ -1024,9 +1024,9 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
-        PaneCut pane(getSize(),+space_dxy,flags);
+        PaneCut pane(getSize(),+space_dxy);
 
         Coord dxy=+radio_dxy;
 
@@ -1093,17 +1093,17 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
-        Pane pane(Null,getSize());
+        Pane pane=getPane();
 
-        Coord dy=light.getMinSize(flags).dxy;
+        Coord dy=light.getMinSize().dxy;
 
-        light.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
+        light.setPlace( TrySplitY(dy,pane) );
 
         TrySplitY(dy,pane);
 
-        btn.setPlace(pane,flags);
+        btn.setPlace(pane);
        }
     };
 
@@ -1138,17 +1138,17 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
-        Pane pane(Null,getSize());
+        Pane pane=getPane();
 
-        Coord dy=text.getMinSize(flags).y;
+        Coord dy=text.getMinSize().y;
 
-        text.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
+        text.setPlace( TrySplitY(dy,pane) );
 
         TrySplitY(dy,pane);
 
-        slider.setPlace(pane,flags);
+        slider.setPlace(pane);
        }
     };
 
@@ -1183,19 +1183,19 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
-        Pane pane(Null,getSize());
+        Pane pane=getPane();
 
         Point s=text.getMinSize("12345"_c);
 
         Pane left=TrySplitX(s.x,pane);
 
-        text.setPlace( TrySplitY(s.y,left) ,flags);
+        text.setPlace( TrySplitY(s.y,left) );
 
         TrySplitX(s.y,pane);
 
-        slider.setPlace(pane,flags);
+        slider.setPlace(pane);
        }
     };
 
@@ -1232,17 +1232,17 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned flags)
+      virtual void layout()
        {
-        Pane pane(Null,getSize());
+        Pane pane=getPane();
 
-        Coord dy=light.getMinSize(flags).dxy;
+        Coord dy=light.getMinSize().dxy;
 
-        light.setPlace( TrySplitY(dy,pane) ,ClearUpdate(flags));
+        light.setPlace( TrySplitY(dy,pane) );
 
         TrySplitY(dy,pane);
 
-        btn.setPlace(pane,flags);
+        btn.setPlace(pane);
        }
     };
 
@@ -1263,7 +1263,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
       // drawing
 
-      virtual void layout(unsigned)
+      virtual void layout()
        {
         outer=getPane().shrink(10);
 
@@ -1421,7 +1421,8 @@ void ClientWindow::type_selected(ulen index)
 
      list_type.setFocus();
 
-     layout(LayoutResize);
+     layout();
+
      redraw();
     }
  }
@@ -1430,7 +1431,7 @@ void ClientWindow::space_changed()
  {
   if( +cur )
     {
-     cur->setPlace(space.getInner(),LayoutUpdate);
+     cur->setPlace(space.getInner());
 
      space.redraw();
     }
@@ -1480,9 +1481,9 @@ ClientWindow::~ClientWindow()
 
  // drawing
 
-void ClientWindow::layout(unsigned flags)
+void ClientWindow::layout()
  {
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
+  PaneCut pane(getSize(),+cfg.space_dxy);
 
   pane.shrink();
 
@@ -1493,13 +1494,13 @@ void ClientWindow::layout(unsigned flags)
    auto label__wheat=CutPoint(label_wheat);
    auto list__type=CutPoint(list_type);
 
-   Coordinate len=Coordinate(check__wheat.getExt(flags))+label__wheat.getMinSize(flags).x;
+   Coordinate len=Coordinate(check__wheat.getExt())+label__wheat.getMinSize().x;
 
-   Coord dx=Sup(list__type.getMinSize(flags).x,+len);
+   Coord dx=Sup(list__type.getMinSize().x,+len);
 
    PaneCut p=pane.cutLeft(dx);
 
-   Coord dy=SupDY(flags,check__wheat,label__wheat);
+   Coord dy=SupDY(check__wheat,label__wheat);
 
    PaneCut q=p.cutTop(dy);
 
@@ -1516,7 +1517,7 @@ void ClientWindow::layout(unsigned flags)
 
   if( +cur )
     {
-     cur->setPlace(space.getInner(),flags);
+     cur->setPlace(space.getInner());
     }
  }
 

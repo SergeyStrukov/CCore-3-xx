@@ -93,7 +93,7 @@ RandomIdWindow::~RandomIdWindow()
 
  // methods
 
-Point RandomIdWindow::getMinSize(unsigned flags) const
+Point RandomIdWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
@@ -115,12 +115,12 @@ Point RandomIdWindow::getMinSize(unsigned flags) const
 
   LayToRightTop lay(lay2,lay3);
 
-  return ExtLay(lay).getMinSize(flags,space);
+  return ExtLay(lay).getMinSize(space);
  }
 
  // drawing
 
-void RandomIdWindow::layout(unsigned flags)
+void RandomIdWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -140,7 +140,7 @@ void RandomIdWindow::layout(unsigned flags)
 
   LayToRightTop lay(lay2,lay3);
 
-  ExtLay(lay).setPlace(getPane(),flags,space);
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void RandomIdWindow::drawBack(DrawBuf buf,bool) const

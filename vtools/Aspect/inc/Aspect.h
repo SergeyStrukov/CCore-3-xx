@@ -162,7 +162,7 @@ class HideControl : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    bool operator [] (ItemStatus status) const;
 
@@ -172,7 +172,7 @@ class HideControl : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
@@ -242,7 +242,7 @@ class CountControl : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    void setCount(ulen count);
 
@@ -252,7 +252,7 @@ class CountControl : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };
@@ -403,6 +403,10 @@ class InnerDataWindow : public SubWindow
    SignalConnector<InnerDataWindow,ulen> connector_posX;
    SignalConnector<InnerDataWindow,ulen> connector_posY;
 
+   void updated(unsigned flags);
+
+   SignalConnector<InnerDataWindow,unsigned> connector_updated;
+
   private:
 
    static Point BaseX(Point point,ulen off,ulen depth,Coord dxy);
@@ -447,16 +451,14 @@ class InnerDataWindow : public SubWindow
 
    bool shortDY() const { return page_y<total_y; }
 
-   template <class W>
-   void setScrollXRange(W &window)
+   ScrollPos getScrollXRange()
     {
-     window.setRange(total_x,page_x,off_x);
+     return {total_x,page_x,off_x};
     }
 
-   template <class W>
-   void setScrollYRange(W &window)
+   ScrollPos getScrollYRange()
     {
-     window.setRange(total_y,page_y,off_y);
+     return {total_y,page_y,off_y};
     }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
@@ -467,7 +469,7 @@ class InnerDataWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    void update();
 
@@ -481,7 +483,7 @@ class InnerDataWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -727,7 +729,7 @@ class AspectWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    bool isModified() const { return text_aspect.isAlerted(); }
 
@@ -751,7 +753,7 @@ class AspectWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };

@@ -88,13 +88,13 @@ HideControl::~HideControl()
 
  // methods
 
-Point HideControl::getMinSize(unsigned flags) const
+Point HideControl::getMinSize() const
  {
   Coordinate space_dxy=+cfg.space_dxy;
   Coordinate status_dxy=+cfg.status_dxy;
 
-  Point s1=label_Hide.getMinSize(flags);
-  Point s2=btn_ShowAll.getMinSize(flags);
+  Point s1=label_Hide.getMinSize();
+  Point s2=btn_ShowAll.getMinSize();
 
   return Point( 6*space_dxy+5*status_dxy+s1.x+s2.x , Sup(s1.y,s2.y,+status_dxy) );
  }
@@ -137,12 +137,12 @@ void HideControl::reset()
 
  // drawing
 
-void HideControl::layout(unsigned flags)
+void HideControl::layout()
  {
   Coord status_dxy=+cfg.status_dxy;
   Point s=Point::Diag(status_dxy);
 
-  PaneCut pane(getSize(),+cfg.space_dxy,flags);
+  PaneCut pane(getSize(),+cfg.space_dxy);
 
   pane.place_cutLeft(label_Hide);
 
@@ -154,13 +154,13 @@ void HideControl::layout(unsigned flags)
 
   pane.place_cutLeftCenter(btn_ShowAll);
 
-  Coord dxy=check_New.getMinSize(flags).dxy;
+  Coord dxy=check_New.getMinSize().dxy;
 
-  check_New.setPlace(Inner(place_New,dxy),flags);
-  check_Ignore.setPlace(Inner(place_Ignore,dxy),flags);
-  check_Red.setPlace(Inner(place_Red,dxy),flags);
-  check_Yellow.setPlace(Inner(place_Yellow,dxy),flags);
-  check_Green.setPlace(Inner(place_Green,dxy),flags);
+  check_New.setPlace(Inner(place_New,dxy));
+  check_Ignore.setPlace(Inner(place_Ignore,dxy));
+  check_Red.setPlace(Inner(place_Red,dxy));
+  check_Yellow.setPlace(Inner(place_Yellow,dxy));
+  check_Green.setPlace(Inner(place_Green,dxy));
  }
 
 void HideControl::drawBack(DrawBuf buf,bool) const
@@ -197,11 +197,11 @@ CountControl::~CountControl()
 
  // methods
 
-Point CountControl::getMinSize(unsigned flags) const
+Point CountControl::getMinSize() const
  {
   Coordinate dxy=+cfg.status_dxy;
 
-  Point s=text.getMinSize(flags,"10000000000"_c);
+  Point s=text.getMinSize("10000000000"_c);
 
   return Point( 2*dxy+s.x , Sup(2*dxy,s.y) );
  }
@@ -215,11 +215,11 @@ void CountControl::setCount(ulen count_)
 
  // drawing
 
-void CountControl::layout(unsigned flags)
+void CountControl::layout()
  {
   Coord dxy=+cfg.status_dxy;
 
-  PaneCut pane(getSize(),0,flags);
+  PaneCut pane(getSize(),0);
 
   Pane left=pane.cutLeftCenter(2*dxy,2*dxy);
   Point s=left.getSize();
@@ -277,6 +277,8 @@ void InnerDataWindow::updateList()
   total_y=count;
 
   hilight_type=PressNone;
+
+  update();
 
   update_scroll.assert();
  }
@@ -612,6 +614,11 @@ void InnerDataWindow::posY(ulen pos)
   redraw();
  }
 
+void InnerDataWindow::updated(unsigned flags)
+ {
+  if( flags&LayoutUpdate ) update();
+ }
+
 Point InnerDataWindow::BaseX(Point point,ulen off,ulen depth,Coord dxy)
  {
   return ( off<=depth )? point.addX((depth-off)*dxy) : point.subX((off-depth)*dxy) ;
@@ -808,7 +815,8 @@ InnerDataWindow::InnerDataWindow(SubWindowHost &host,const Config &cfg_,AspectDa
    data(data_),
 
    connector_posX(this,&InnerDataWindow::posX),
-   connector_posY(this,&InnerDataWindow::posY)
+   connector_posY(this,&InnerDataWindow::posY),
+   connector_updated(this,&InnerDataWindow::updated,host.getFrame()->updated)
  {
  }
 
@@ -818,7 +826,7 @@ InnerDataWindow::~InnerDataWindow()
 
  // methods
 
-Point InnerDataWindow::getMinSize(unsigned,Point cap) const
+Point InnerDataWindow::getMinSize(Point cap) const
  {
   Used(cap);
 
@@ -873,13 +881,11 @@ void InnerDataWindow::collect()
 
 bool InnerDataWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void InnerDataWindow::layout(unsigned flags)
+void InnerDataWindow::layout()
  {
-  if( flags&LayoutUpdate ) update();
-
   setMax();
  }
 
@@ -1008,7 +1014,7 @@ void InnerDataWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 void DataWindow::update_scroll()
  {
-  layout(LayoutUpdate);
+  layout();
 
   redraw();
  }
@@ -1174,7 +1180,7 @@ AspectWindow::~AspectWindow()
 
  // methods
 
-Point AspectWindow::getMinSize(unsigned flags) const
+Point AspectWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
@@ -1191,7 +1197,7 @@ Point AspectWindow::getMinSize(unsigned flags) const
 
   LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  return ExtLay(lay).getMinSize(flags,space);
+  return ExtLay(lay).getMinSize(space);
  }
 
 void AspectWindow::blank(StrLen path)
@@ -1291,7 +1297,7 @@ void AspectWindow::update()
 
   data_window.update(hide.getFilter());
 
-  layout(LayoutUpdate);
+  layout();
 
   redraw();
  }
@@ -1317,7 +1323,7 @@ void AspectWindow::open()
 
  // drawing
 
-void AspectWindow::layout(unsigned flags)
+void AspectWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -1334,7 +1340,7 @@ void AspectWindow::layout(unsigned flags)
 
   LayToBottom lay(lay1,lay2,Lay(line1),Lay(hide),lay3,Lay(line2),Lay(data_window));
 
-  ExtLay(lay).setPlace(getPane(),flags,space);
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void AspectWindow::drawBack(DrawBuf buf,bool) const

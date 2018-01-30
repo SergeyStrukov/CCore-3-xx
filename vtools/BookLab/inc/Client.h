@@ -211,7 +211,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    // base
 
@@ -219,7 +219,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    // user input
 

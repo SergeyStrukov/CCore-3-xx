@@ -504,11 +504,11 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout(unsigned flags)
+void ClientWindow::layout()
  {
   LayToBottom lay{Lay(menu),Lay(aspect)};
 
-  lay.setPlace(getPane(),flags,0);
+  lay.setPlace(getPane(),0);
 
   // action_base
 

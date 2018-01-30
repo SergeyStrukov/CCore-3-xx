@@ -34,9 +34,9 @@ WorkWindow::~WorkWindow()
 
  // methods
 
-Point WorkWindow::getMinSize(unsigned flags) const
+Point WorkWindow::getMinSize() const
  {
-  return book.getMinSize(flags);
+  return book.getMinSize();
  }
 
 bool WorkWindow::isModified() const
@@ -66,9 +66,9 @@ void WorkWindow::save(StrLen)
 
  // drawing
 
-void WorkWindow::layout(unsigned flags)
+void WorkWindow::layout()
  {
-  book.setPlace(getPane(),flags);
+  book.setPlace(getPane());
  }
 
 } // namespace App

@@ -1118,14 +1118,12 @@ void InnerBookWindow::Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap 
 
 /* class InnerBookWindow */
 
-void InnerBookWindow::cache(unsigned update_flag) const
+void InnerBookWindow::cache() const
  {
   Coord dx=getSize().x-2*RoundUpLen(+cfg.width);
 
-  if( update_flag || !ok || cache_dx!=dx )
+  if( !ok || cache_dx!=dx )
     {
-     ok=false;
-
      if( shapes.getLen()!=frames.len )
        {
         shapes.erase();
@@ -1254,6 +1252,11 @@ void InnerBookWindow::posY(ulen pos)
   redraw();
  }
 
+void InnerBookWindow::updated(unsigned flags)
+ {
+  if( flags&LayoutUpdate ) ok=false;
+ }
+
 InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap &font_map_)
  : SubWindow(host),
    cfg(cfg_),
@@ -1261,7 +1264,9 @@ InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap 
    font_map(font_map_),
 
    connector_posX(this,&InnerBookWindow::posX),
-   connector_posY(this,&InnerBookWindow::posY)
+   connector_posY(this,&InnerBookWindow::posY),
+
+   connector_updated(this,&InnerBookWindow::updated,host.getFrame()->updated)
  {
  }
 
@@ -1271,9 +1276,9 @@ InnerBookWindow::~InnerBookWindow()
 
  // methods
 
-Point InnerBookWindow::getMinSize(unsigned flags,Point cap) const
+Point InnerBookWindow::getMinSize(Point cap) const
  {
-  cache(flags&LayoutUpdate);
+  cache();
 
   if( frames.len )
     {
@@ -1312,9 +1317,9 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
 
  // drawing
 
-void InnerBookWindow::layout(unsigned flags)
+void InnerBookWindow::layout()
  {
-  cache(flags&LayoutUpdate);
+  cache();
 
   Point s=getSize()-2*Point::Diag(RoundUpLen(+cfg.width));
 
@@ -1338,7 +1343,7 @@ void InnerBookWindow::layout(unsigned flags)
 
 void InnerBookWindow::draw(DrawBuf buf,bool) const
  {
-  cache(0);
+  cache();
 
   Pane pane=getPane();
 
@@ -1554,7 +1559,7 @@ void DisplayBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColo
  {
   window.setPage(file_name,page,back,fore);
 
-  layout(LayoutUpdate);
+  layout();
 
   redraw();
  }
@@ -1655,7 +1660,7 @@ BookWindow::~BookWindow()
 
  // methods
 
-Point BookWindow::getMinSize(unsigned flags) const
+Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
@@ -1665,7 +1670,7 @@ Point BookWindow::getMinSize(unsigned flags) const
 
   LaySame lay(lay2,ExtLay{LayTop(progress)});
 
-  return lay.getMinSize(flags,space);
+  return lay.getMinSize(space);
  }
 
 void BookWindow::blank()
@@ -1677,7 +1682,7 @@ void BookWindow::blank()
   text_title.setText(""_def);
   text_page.setText(""_def);
 
-  layout(LayoutUpdate);
+  layout();
 
   redraw();
  }
@@ -1711,7 +1716,7 @@ void BookWindow::load(StrLen file_name)
 
         text_page.setText(DefString(page->name.getStr()));
 
-        layout(LayoutUpdate);
+        layout();
 
         book.setPage(file_name,page,Cast(ptr->back),Cast(ptr->fore));
        }
@@ -1719,7 +1724,7 @@ void BookWindow::load(StrLen file_name)
        {
         text_page.setText(""_def);
 
-        layout(LayoutUpdate);
+        layout();
 
         book.setPage(Null,0,Cast(ptr->back),Cast(ptr->fore));
        }
@@ -1734,7 +1739,7 @@ void BookWindow::load(StrLen file_name)
 
  // drawing
 
-void BookWindow::layout(unsigned flags)
+void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -1744,7 +1749,7 @@ void BookWindow::layout(unsigned flags)
 
   LaySame lay(lay2,ExtLay{LayTop(progress)});
 
-  lay.setPlace(getPane(),flags,space);
+  lay.setPlace(getPane(),space);
  }
 
 void BookWindow::drawBack(DrawBuf buf,bool) const
