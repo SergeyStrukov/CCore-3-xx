@@ -59,33 +59,21 @@ struct ScrollPos
   ulen page  = 1 ;
   ulen pos   = 0 ;
 
-  // 1
-
-  ulen getMaxPos() const { return PosSub(total,page); }
-
-  void adjustPos() { Replace_min(pos,getMaxPos()); }
-
-  void posMin() { pos=0; }
-
-  void posMax() { pos=getMaxPos(); }
-
-  void posDown() { if( pos ) pos--; }
-
-  void posDown(ulen delta) { pos=PosSub(pos,delta); }
-
-  void posDownPage() { posDown(page); }
-
-  void posUp() { if( pos<getMaxPos() ) pos++; }
-
-  void posUp(ulen delta) { pos=AddToCap(pos,delta,getMaxPos()); }
-
-  void posUpPage() { posUp(page); }
-
-  // 2
+  // props
 
   bool tooShort() const { return page<total; }
 
-  ulen getPos() const { return Min<ulen>(pos,getMaxPos()); }
+  ulen getMaxPos() const { return PosSub(total,page); }
+
+  ulen getPos() const { return Min(pos,getMaxPos()); }
+
+  ulen getPos(ulen pos) const { return Min(pos,getMaxPos()); }
+
+  // repos
+
+  void setPos(ulen pos_) { pos=Min(pos_,getMaxPos()); }
+
+  void adjustPos() { Replace_min(pos,getMaxPos()); }
 
   void beg() { pos=0; }
 
@@ -102,6 +90,16 @@ struct ScrollPos
   void add(ulen delta) { pos=AddToCap(pos,delta,getMaxPos()); }
 
   void addPage() { add(page); }
+
+  // new pos
+
+  ulen getSub(ulen delta) const { return PosSub(pos,delta); }
+
+  ulen getSubPage() const { return getSub(page); }
+
+  ulen getAdd(ulen delta) const { return AddToCap(pos,delta,getMaxPos()); }
+
+  ulen getAddPage() const { return getAdd(page); }
  };
 
 /* struct ScrollState */
@@ -193,25 +191,25 @@ class ScrollShape : public ScrollState
        {
         case ScrollType_Down :
          {
-          posDown(Accelerate(change_count,period));
+          sub(Accelerate(change_count,period));
          }
         break;
 
         case ScrollType_Up :
          {
-          posUp(Accelerate(change_count,period));
+          add(Accelerate(change_count,period));
          }
         break;
 
         case ScrollType_DownPage :
          {
-          if( (change_count%period)==0 ) posDownPage();
+          if( (change_count%period)==0 ) subPage();
          }
         break;
 
         case ScrollType_UpPage :
          {
-          if( (change_count%period)==0 ) posUpPage();
+          if( (change_count%period)==0 ) addPage();
          }
         break;
        }

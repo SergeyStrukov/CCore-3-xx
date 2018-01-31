@@ -274,7 +274,7 @@ void InnerDataWindow::updateList()
        }
     }
 
-  total_y=count;
+  sy.total=count;
 
   hilight_type=PressNone;
 
@@ -289,13 +289,13 @@ void InnerDataWindow::setMax()
 
   Coord dxy=+cfg.dxy;
 
-  page_x=s.x/dxy;
+  sx.page=s.x/dxy;
 
-  page_y=s.y/dxy;
+  sy.page=s.y/dxy;
 
-  if( page_x>=total_x ) off_x=0; else Replace_min(off_x,total_x-page_x);
+  sx.adjustPos();
 
-  if( page_y>=total_y ) off_y=0; else Replace_min(off_y,total_y-page_y);
+  sy.adjustPos();
  }
 
 class InnerDataWindow::DrawItem : NoCopy
@@ -598,7 +598,7 @@ class InnerDataWindow::DrawItem : NoCopy
 
 void InnerDataWindow::posX(ulen pos)
  {
-  off_x=pos;
+  sx.setPos(pos);
 
   hilight_type=PressNone;
 
@@ -607,7 +607,7 @@ void InnerDataWindow::posX(ulen pos)
 
 void InnerDataWindow::posY(ulen pos)
  {
-  off_y=pos;
+  sy.setPos(pos);
 
   hilight_type=PressNone;
 
@@ -631,46 +631,46 @@ Point InnerDataWindow::Base(ulen off,ulen depth,ulen line,Coord dxy)
 
 void InnerDataWindow::setPosX(ulen pos)
  {
-  if( Change(off_x,pos) )
+  if( Change(sx.pos,pos) )
     {
      hilight_type=PressNone;
 
      redraw();
 
-     scroll_x.assert(off_x);
+     scroll_x.assert(sx.pos);
     }
  }
 
 void InnerDataWindow::addPosX(ulen delta)
  {
-  if( page_x<total_x ) setPosX(AddToCap<ulen>(off_x,delta,total_x-page_x));
+  if( sx.tooShort() ) setPosX(sx.getAdd(delta));
  }
 
 void InnerDataWindow::subPosX(ulen delta)
  {
-  if( page_x<total_x ) setPosX(PosSub(off_x,delta));
+  if( sx.tooShort() ) setPosX(sx.getSub(delta));
  }
 
 void InnerDataWindow::setPosY(ulen pos)
  {
-  if( Change(off_y,pos) )
+  if( Change(sy.pos,pos) )
     {
      hilight_type=PressNone;
 
      redraw();
 
-     scroll_y.assert(off_y);
+     scroll_y.assert(sy.pos);
     }
  }
 
 void InnerDataWindow::addPosY(ulen delta)
  {
-  if( page_y<total_y ) setPosY(AddToCap<ulen>(off_y,delta,total_y-page_y));
+  if( sy.tooShort() ) setPosY(sy.getAdd(delta));
  }
 
 void InnerDataWindow::subPosY(ulen delta)
  {
-  if( page_y<total_y ) setPosY(PosSub(off_y,delta));
+  if( sy.tooShort() ) setPosY(sy.getSub(delta));
  }
 
 auto InnerDataWindow::test(const DrawItem &draw,Point test_point) const -> TestResult
@@ -681,14 +681,14 @@ auto InnerDataWindow::test(const DrawItem &draw,Point test_point) const -> TestR
   auto vis=data.getVisible();
 
   Coord dxy=+cfg.dxy;
-  ulen off=off_x;
+  ulen off=sx.pos;
 
   ulen line=test_point.y/dxy;
-  ulen lim=Min(total_y,vis.len);
+  ulen lim=Min(sy.total,vis.len);
 
-  if( line<page_y && off_y<lim && line<lim-off_y )
+  if( line<sy.page && sy.pos<lim && line<lim-sy.pos )
     {
-     ulen i=off_y+line;
+     ulen i=sy.pos+line;
      ulen ind=vis[i];
 
      if( ind<items.len )
@@ -841,11 +841,11 @@ void InnerDataWindow::update()
 
   DrawItem draw(cfg,getSize());
 
-  total_x=0;
+  sx.total=0;
 
   for(const ItemData &item : items )
     {
-     Replace_max(total_x,draw(item));
+     Replace_max(sx.total,draw(item));
     }
  }
 
@@ -857,8 +857,8 @@ void InnerDataWindow::update(Filter filter)
 
   updateList();
 
-  off_x=0;
-  off_y=0;
+  sx.beg();
+  sy.beg();
  }
 
 void InnerDataWindow::filter(Filter filter)
@@ -898,9 +898,9 @@ void InnerDataWindow::draw(DrawBuf buf,bool) const
 
   Point point=Null;
   Coord dxy=+cfg.dxy;
-  ulen off=off_x;
+  ulen off=sx.pos;
 
-  for(ulen i=off_y,lim=Min(total_y,vis.len),line=0; i<lim && line<page_y ;i++,line++,point=point.addY(dxy))
+  for(ulen i=sy.pos,lim=Min(sy.total,vis.len),line=0; i<lim && line<sy.page ;i++,line++,point=point.addY(dxy))
     {
      ulen ind=vis[i];
 
@@ -914,9 +914,7 @@ void InnerDataWindow::draw(DrawBuf buf,bool) const
 
   if( focus )
     {
-     Pane pane(Null,getSize());
-
-     draw.frame(buf,pane);
+     draw.frame(buf,getPane());
     }
  }
 

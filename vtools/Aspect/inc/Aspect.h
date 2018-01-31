@@ -349,14 +349,8 @@ class InnerDataWindow : public SubWindow
 
    bool focus = false ;
 
-   ulen off_x = 0 ;
-   ulen off_y = 0 ;
-
-   ulen total_x = 0 ;
-   ulen total_y = 0 ;
-
-   ulen page_x = 1 ;
-   ulen page_y = 1 ;
+   ScrollPos sx;
+   ScrollPos sy;
 
    enum KnobType
     {
@@ -447,19 +441,13 @@ class InnerDataWindow : public SubWindow
 
    // special methods
 
-   bool shortDX() const { return page_x<total_x; }
+   bool shortDX() const { return sx.tooShort(); }
 
-   bool shortDY() const { return page_y<total_y; }
+   bool shortDY() const { return sy.tooShort(); }
 
-   ScrollPos getScrollXRange()
-    {
-     return {total_x,page_x,off_x};
-    }
+   ScrollPos getScrollXRange() { return sx; }
 
-   ScrollPos getScrollYRange()
-    {
-     return {total_y,page_y,off_y};
-    }
+   ScrollPos getScrollYRange() { return sy; }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
@@ -521,6 +509,7 @@ class InnerDataWindow : public SubWindow
 
    Signal<ulen> scroll_x;
    Signal<ulen> scroll_y;
+
    Signal<> update_scroll;
    Signal<ItemStatus,ItemStatus> changed; // prev , status
    Signal<> manychanged;

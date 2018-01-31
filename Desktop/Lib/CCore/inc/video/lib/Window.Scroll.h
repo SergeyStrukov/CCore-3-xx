@@ -349,7 +349,7 @@ class ScrollWindowOf : public SubWindow
          {
           if( shape.enable && !shape.down )
             {
-             shape.posMin();
+             shape.beg();
 
              redraw();
 
@@ -362,7 +362,7 @@ class ScrollWindowOf : public SubWindow
          {
           if( shape.enable && !shape.down )
             {
-             shape.posMax();
+             shape.end();
 
              redraw();
 
@@ -553,16 +553,16 @@ class ScrollWindowOf : public SubWindow
         if( invert_wheel? delta_<0 : ( delta_>0 ) )
           {
            if( mkey&MouseKey_Shift )
-             shape.posDown(delta*shape.page);
+             shape.sub(delta*shape.page);
            else
-             shape.posDown(delta);
+             shape.sub(delta);
           }
         else
           {
            if( mkey&MouseKey_Shift )
-             shape.posUp(delta*shape.page);
+             shape.add(delta*shape.page);
            else
-             shape.posUp(delta);
+             shape.add(delta);
           }
 
         redraw();
