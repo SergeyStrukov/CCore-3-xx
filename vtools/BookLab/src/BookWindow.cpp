@@ -1240,14 +1240,14 @@ void InnerBookWindow::subYPosPage()
 
 void InnerBookWindow::posX(ulen pos)
  {
-  sx.pos=pos;
+  sx.setPos(pos);
 
   redraw();
  }
 
 void InnerBookWindow::posY(ulen pos)
  {
-  sy.pos=pos;
+  sy.setPos(pos);
 
   redraw();
  }
@@ -1309,8 +1309,8 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
      fore=Combine(page->fore,fore_);
     }
 
-  sx.pos=0;
-  sy.pos=0;
+  sx.beg();
+  sy.beg();
 
   ok=false;
  }
@@ -1754,13 +1754,11 @@ void BookWindow::layout()
 
 void BookWindow::drawBack(DrawBuf buf,bool) const
  {
-  Pane pane(Null,getSize());
-
   VColor back=+cfg.back;
 
   if( book.isListed() )
     {
-     PaneSub sub(pane,book.getPlace());
+     PaneSub sub(getPane(),book.getPlace());
 
      buf.erase(sub.top,back);
      buf.erase(sub.bottom,back);
