@@ -1369,12 +1369,18 @@ void DDLInnerWindow::posY(ulen pos)
   redraw();
  }
 
+void DDLInnerWindow::updated(unsigned flags)
+ {
+  if( flags&LayoutUpdate ) update();
+ }
+
 DDLInnerWindow::DDLInnerWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
 
    connector_posX(this,&DDLInnerWindow::posX),
-   connector_posY(this,&DDLInnerWindow::posY)
+   connector_posY(this,&DDLInnerWindow::posY),
+   connector_updated(this,&DDLInnerWindow::updated,host.getFrame()->updated)
  {
  }
 
@@ -1396,10 +1402,8 @@ void DDLInnerWindow::update(DDL::EngineResult result)
 
  // drawing
 
-void DDLInnerWindow::layout(unsigned flags)
+void DDLInnerWindow::layout()
  {
-  if( flags&LayoutUpdate ) update();
-
   Point size=getSize();
 
   slide_x.setPage(size.x);
@@ -1857,7 +1861,7 @@ void DDLWindow::file_updated()
  {
   window.update(file.getResult());
 
-  layout(LayoutResize);
+  layout();
 
   redraw();
  }
@@ -1915,6 +1919,25 @@ DisplayWindow::~DisplayWindow()
 
  // methods
 
+Point DisplayWindow::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  // label_pretext , text_pretext
+
+  LayToRightCenter lay1{Lay(label_pretext),Lay(text_pretext)};
+
+  // label_file , text_file
+
+  LayToRightCenter lay2{Lay(label_file),Lay(text_file)};
+
+  // lay
+
+  LayToBottom lay(lay1,lay2,Lay(dline),Lay(ddl));
+
+  return ExtLay(lay).getMinSize(space);
+ }
+
 void DisplayWindow::open(StrLen file_name)
  {
   auto result=file.open(file_name);
@@ -1968,7 +1991,7 @@ void DisplayWindow::noPretext()
 
  // drawing
 
-void DisplayWindow::layout(unsigned flags)
+void DisplayWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -1984,7 +2007,7 @@ void DisplayWindow::layout(unsigned flags)
 
   LayToBottom lay(lay1,lay2,Lay(dline),Lay(ddl));
 
-  ExtLay(lay).setPlace(getPane(),flags,space);
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void DisplayWindow::drawBack(DrawBuf buf,bool) const

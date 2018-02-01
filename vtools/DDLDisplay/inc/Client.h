@@ -133,7 +133,7 @@ class ClientWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    // user input
 

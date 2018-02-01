@@ -436,26 +436,13 @@ class DDLInnerWindow : public SubWindow
 
    ulen wheel_mul = 0 ;
 
-   struct Slide
+   struct Slide : ScrollPos
     {
-     ulen pos = 0 ;
-     ulen page = 0 ;
-     ulen total = 0 ;
-
-     bool isShort() const { return page<total; }
-
      void setPage(ulen page_)
       {
        page=page_;
 
-       if( page>=total )
-         {
-          pos=0;
-         }
-       else
-         {
-          Replace_min(pos,total-page);
-         }
+       adjustPos();
       }
 
      bool move(Coord delta,ulen mul)
@@ -508,9 +495,6 @@ class DDLInnerWindow : public SubWindow
 
        return false;
       }
-
-     template <class W>
-     void setScroll(W &window) { window.setRange(total,page,pos); }
 
      bool set(ulen pos_)
       {
@@ -583,6 +567,10 @@ class DDLInnerWindow : public SubWindow
    SignalConnector<DDLInnerWindow,ulen> connector_posX;
    SignalConnector<DDLInnerWindow,ulen> connector_posY;
 
+   void updated(unsigned flags);
+
+   SignalConnector<DDLInnerWindow,unsigned> connector_updated;
+
   public:
 
    DDLInnerWindow(SubWindowHost &host,const Config &cfg);
@@ -591,15 +579,13 @@ class DDLInnerWindow : public SubWindow
 
    // special methods
 
-   bool shortDX() const { return slide_x.isShort(); }
+   bool shortDX() const { return slide_x.tooShort(); }
 
-   bool shortDY() const { return slide_y.isShort(); }
+   bool shortDY() const { return slide_y.tooShort(); }
 
-   template <class W>
-   void setScrollXRange(W &window) { slide_x.setScroll(window); }
+   ScrollPos getScrollXRange() const { return slide_x; }
 
-   template <class W>
-   void setScrollYRange(W &window) { slide_y.setScroll(window); }
+   ScrollPos getScrollYRange() const { return slide_y; }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
@@ -609,7 +595,7 @@ class DDLInnerWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned) const { return Point(100,100); }
+   Point getMinSize(Point cap=Point::Max()) const { Used(cap); return Point(100,100); }
 
    void update(DDL::EngineResult result);
 
@@ -617,10 +603,10 @@ class DDLInnerWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const
     {
-     return size>=getMinSize(LayoutResize);
+     return size>=getMinSize();
     }
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool) const;
 
@@ -778,6 +764,8 @@ class DisplayWindow : public ComboWindow
 
    // methods
 
+   Point getMinSize() const;
+
    void open(StrLen file_name);
 
    void openPretext(StrLen file_name);
@@ -786,7 +774,7 @@ class DisplayWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 

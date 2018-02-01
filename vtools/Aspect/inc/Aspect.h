@@ -445,9 +445,9 @@ class InnerDataWindow : public SubWindow
 
    bool shortDY() const { return sy.tooShort(); }
 
-   ScrollPos getScrollXRange() { return sx; }
+   ScrollPos getScrollXRange() const { return sx; }
 
-   ScrollPos getScrollYRange() { return sy; }
+   ScrollPos getScrollYRange() const { return sy; }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
