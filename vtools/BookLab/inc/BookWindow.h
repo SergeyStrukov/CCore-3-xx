@@ -14,52 +14,11 @@
 #ifndef BookWindow_h
 #define BookWindow_h
 
-#include <inc/Book.h>
-
-#include <CCore/inc/video/FontLookup.h>
-#include <CCore/inc/video/Bitmap.h>
+#include <inc/Shape.h>
 
 namespace App {
 
-/* using */
-
-using Effect = Book::TypeDef::Format::Effect ;
-
-/* Cast() */
-
-inline VColor Cast(Book::TypeDef::VColor vc) { return (VColor)vc; }
-
-inline Point Cast(Book::TypeDef::Point p) { return {p.x,p.y}; }
-
-inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(r.a,r.b); }
-
-/* functions */
-
-inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
- {
-  VColor vc=Cast(vc_);
-
-  if( vc!=Book::NoColor ) return vc;
-
-  return fallback;
- }
-
-inline void Combine(VColor &dst,Book::TypeDef::VColor vc_)
- {
-  VColor vc=Cast(vc_);
-
-  if( vc!=Book::NoColor ) dst=vc;
- }
-
-void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back);
-
-void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width);
-
 /* classes */
-
-class FontMap;
-
-class BitmapMap;
 
 class InnerBookWindow;
 
@@ -67,69 +26,15 @@ class DisplayBookWindow;
 
 class BookWindow;
 
-/* class FontMap */
-
-class FontMap : NoCopy
- {
-   DynArray<Font> map;
-
-   FontLookup lookup;
-
-  private:
-
-   Font find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback);
-
-   Font find(Book::TypeDef::Font *font,Font fallback);
-
-  public:
-
-   FontMap() : lookup(FontLookup::None) {}
-
-   ~FontMap() {}
-
-   void cache(FontLookup::Incremental &inc,bool use_cache=true) { lookup.cache(inc,use_cache); }
-
-   void erase() { map.erase(); }
-
-   Font operator () (Book::TypeDef::Font *font,Font fallback);
- };
-
-/* class BitmapMap */
-
-class BitmapMap : NoCopy
- {
-   DynArray<Bitmap> map;
-
-   String root;
-
-  public:
-
-   BitmapMap() {}
-
-   ~BitmapMap() {}
-
-   void erase() { map.erase(); }
-
-   void setRoot(StrLen file_name);
-
-   const Bitmap * operator () (Book::TypeDef::Bitmap *bmp);
- };
-
 /* class InnerBookWindow */
 
 class InnerBookWindow : public SubWindow
  {
   public:
 
-   struct Config
+   struct Config : Shape::Config
     {
      // user
-
-     RefVal<MCoord> width = Fraction(6,2) ;
-
-     RefVal<VColor> line = Gray ;
-     RefVal<VColor> gray = Gray ;
-     RefVal<VColor> snow = Snow ;
 
      RefVal<VColor> border = Blue ;
      RefVal<VColor> focus = OrangeRed ;
@@ -138,9 +43,6 @@ class InnerBookWindow : public SubWindow
 
      RefVal<VColor> back = Silver ;
      RefVal<VColor> fore = Black ;
-
-     RefVal<Font> font;
-     RefVal<Font> codefont;
 
      Config() noexcept {}
 
@@ -209,80 +111,6 @@ class InnerBookWindow : public SubWindow
      Size(Point s) : Size((ulen)s.x,(ulen)s.y) {}
 
      friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
-    };
-
-   static bool SkipSpace(StrLen text);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Format *fmt);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Text *obj);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::FixedText *obj);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Bitmap *obj);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::TextList *obj);
-
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame);
-
-   struct SizeContext;
-
-   struct DrawContext;
-
-   class Shape
-    {
-      Point size;
-      Coord offx = 0 ;
-      DynArray<ulen> split;
-      DynArray<Shape> subshapes;
-
-     public:
-
-      Shape() noexcept {}
-
-      Size getSize() const { return size; }
-
-      Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
-
-      void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,ulen pos_x,ulen pos_y,bool posflag) const;
-
-      Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Pane parent,Point base) const;
-
-     private:
-
-      Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
-
-      Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
-
-      Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
-
-      Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
-
-      static VColor GetBack(const Book::TypeDef::Format *fmt);
-
-      static VColor GetBack(const Book::TypeDef::Text *obj);
-
-      static VColor GetBack(const Book::TypeDef::FixedText *obj);
-
-      static VColor GetBack(const Book::TypeDef::Bitmap *obj);
-
-      static VColor GetBack(const Book::TypeDef::TextList *obj);
-
-      template <class T>
-      static VColor GetAnyBack(T body);
-
-      static void DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLine *obj,Pane pane);
-
-      static void DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLine *obj,Pane pane);
-
-      template <class T>
-      static void DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane);
-
-      Coord drawSpan(DrawBuf buf,Font font,VColor back,VColor fore,Effect effect,MCoord width,StrLen text,Pane pane,Point base) const;
-
-      void drawLine(FontMap &font_map,Font font,VColor fore,Effect effect,MCoord width,DrawBuf buf,Book::TypeDef::Line line,Pane pane,Point base) const;
-
-      void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,const Book::TypeDef::Frame &frame,Point base) const;
     };
 
    mutable DynArray<Shape> shapes;
