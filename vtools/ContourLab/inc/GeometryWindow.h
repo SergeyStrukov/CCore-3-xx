@@ -123,7 +123,7 @@ class GeometryWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    void selectPoint(const Contour::Object &obj_,Geometry::Point &point_)
     {
@@ -157,7 +157,7 @@ class GeometryWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

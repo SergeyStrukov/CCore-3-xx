@@ -52,7 +52,7 @@ EditLengthWindow::~EditLengthWindow()
 
  // methods
 
-Point EditLengthWindow::getMinSize(unsigned) const
+Point EditLengthWindow::getMinSize() const
  {
   return {+cfg.dx,+cfg.dy};
  }
@@ -61,10 +61,10 @@ Point EditLengthWindow::getMinSize(unsigned) const
 
 bool EditLengthWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void EditLengthWindow::layout(unsigned)
+void EditLengthWindow::layout()
  {
   Coord s=+cfg.shade_dxy;
 

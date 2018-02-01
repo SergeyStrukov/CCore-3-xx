@@ -55,7 +55,7 @@ EditAngleWindow::~EditAngleWindow()
 
  // methods
 
-SizeBox EditAngleWindow::getMinSize(unsigned) const
+SizeBox EditAngleWindow::getMinSize() const
  {
   return +cfg.dxy;
  }
@@ -64,10 +64,10 @@ SizeBox EditAngleWindow::getMinSize(unsigned) const
 
 bool EditAngleWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void EditAngleWindow::layout(unsigned)
+void EditAngleWindow::layout()
  {
   Point size=getSize();
   Coord s=+cfg.shade_dxy;

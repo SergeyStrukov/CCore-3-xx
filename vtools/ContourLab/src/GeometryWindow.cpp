@@ -647,7 +647,7 @@ GeometryWindow::~GeometryWindow()
 
  // methods
 
-Point GeometryWindow::getMinSize(unsigned) const
+Point GeometryWindow::getMinSize() const
  {
   return Point::Diag(+cfg.dxy);
  }
@@ -656,10 +656,10 @@ Point GeometryWindow::getMinSize(unsigned) const
 
 bool GeometryWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void GeometryWindow::layout(unsigned)
+void GeometryWindow::layout()
  {
   Coord s=+cfg.shade_dxy;
 

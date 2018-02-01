@@ -206,9 +206,9 @@ class EditorWindow : public ComboWindow
 
    Coord getMinDXY() const;
 
-   Coord getMaxLeftDX(unsigned flags) const;
+   Coord getMaxLeftDX() const;
 
-   Coord getMaxTopDY(unsigned flags) const;
+   Coord getMaxTopDY() const;
 
    bool adjustSplitX(Coord dx);
 
@@ -315,7 +315,7 @@ class EditorWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    bool isModified() const { return text_file.isAlerted(); }
 
@@ -329,7 +329,7 @@ class EditorWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };

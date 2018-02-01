@@ -167,24 +167,24 @@ Coord EditorWindow::getMinDXY() const
   return 2*(+cfg.space_dxy);
  }
 
-Coord EditorWindow::getMaxLeftDX(unsigned flags) const
+Coord EditorWindow::getMaxLeftDX() const
  {
   Coord space=+cfg.space_dxy;
   Coord min_dx=2*space;
 
   Coord total_dx=getSize().x;
-  Coord sx=split1.getMinSize(flags).dx;
+  Coord sx=split1.getMinSize().dx;
 
   return Max_cast(min_dx,total_dx-2*space-min_dx-sx);
  }
 
-Coord EditorWindow::getMaxTopDY(unsigned flags) const
+Coord EditorWindow::getMaxTopDY() const
  {
   Coord space=+cfg.space_dxy;
   Coord min_dy=2*space;
 
   Coord total_dy=getSize().y;
-  Coord sy=split2.getMinSize(flags).dy;
+  Coord sy=split2.getMinSize().dy;
 
   return Max_cast(min_dy,total_dy-2*space-min_dy-sy);
  }
@@ -192,7 +192,7 @@ Coord EditorWindow::getMaxTopDY(unsigned flags) const
 bool EditorWindow::adjustSplitX(Coord dx)
  {
   Coord min_dx=getMinDXY();
-  Coord max_dx=getMaxLeftDX(LayoutResize);
+  Coord max_dx=getMaxLeftDX();
 
   return Change(left_dx, Cap<Coord>(min_dx,left_dx+dx,max_dx) );
  }
@@ -200,7 +200,7 @@ bool EditorWindow::adjustSplitX(Coord dx)
 bool EditorWindow::adjustSplitY(Coord dy)
  {
   Coord min_dy=getMinDXY();
-  Coord max_dy=getMaxTopDY(LayoutResize);
+  Coord max_dy=getMaxTopDY();
 
   return Change(top_dy, Cap<Coord>(min_dy,top_dy+dy,max_dy) );
  }
@@ -209,7 +209,7 @@ void EditorWindow::adjustSplit(Point point)
  {
   if( adjustSplitX(point.x) | adjustSplitY(point.y) )
     {
-     layout(LayoutResize);
+     layout();
 
      redraw();
     }
@@ -604,7 +604,7 @@ EditorWindow::~EditorWindow()
 
  // methods
 
-Point EditorWindow::getMinSize(unsigned) const
+Point EditorWindow::getMinSize() const
  {
   return Point(100,100);
  }
@@ -693,18 +693,18 @@ void EditorWindow::save(StrLen file_name_)
 
  // drawing
 
-void EditorWindow::layout(unsigned flags)
+void EditorWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  PaneCut right(space,flags);
-  PaneCut top(space,flags);
-  PaneCut bottom(space,flags);
+  PaneCut right(space);
+  PaneCut top(space);
+  PaneCut bottom(space);
 
   // first split
 
   {
-   PaneCut pane(getSize(),space,flags);
+   PaneCut pane(getSize(),space);
 
    pane.shrink();
 
@@ -728,9 +728,9 @@ void EditorWindow::layout(unsigned flags)
      {
       Coord min_dxy=getMinDXY();
 
-      left_dx=Cap(min_dxy,left_dx,getMaxLeftDX(flags));
+      left_dx=Cap(min_dxy,left_dx,getMaxLeftDX());
 
-      top_dy=Cap(min_dxy,top_dy,getMaxTopDY(flags));
+      top_dy=Cap(min_dxy,top_dy,getMaxTopDY());
 
       PaneCut p=pane.cutLeft(left_dx,0);
 
@@ -745,7 +745,7 @@ void EditorWindow::layout(unsigned flags)
   // right
 
   {
-   PaneCut pane(space,flags);
+   PaneCut pane(space);
 
    right.place_cutBottom(pane,Div(20,100)).place(geom);
 

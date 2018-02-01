@@ -122,7 +122,7 @@ class EditLengthWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    Geometry::Length getValue() const { return value; }
 
@@ -140,7 +140,7 @@ class EditLengthWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

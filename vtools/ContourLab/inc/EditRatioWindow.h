@@ -123,7 +123,7 @@ class EditRatioWindow : public SubWindow
 
    // methods
 
-   Point getMinSize(unsigned flags) const;
+   Point getMinSize() const;
 
    Geometry::Ratio getValue() const { return value; }
 
@@ -133,7 +133,7 @@ class EditRatioWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

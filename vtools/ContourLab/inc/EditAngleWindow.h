@@ -120,7 +120,7 @@ class EditAngleWindow : public SubWindow
 
    // methods
 
-   SizeBox getMinSize(unsigned flags) const;
+   SizeBox getMinSize() const;
 
    Geometry::Angle getValue() const { return value; }
 
@@ -138,7 +138,7 @@ class EditAngleWindow : public SubWindow
 
    virtual bool isGoodSize(Point size) const;
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 

@@ -13,6 +13,8 @@
 
 #include <inc/Client.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace App {
 
 /* class ClientWindow */
@@ -321,16 +323,15 @@ void ClientWindow::open()
 
  // drawing
 
-void ClientWindow::layout(unsigned flags)
+void ClientWindow::layout()
  {
-  Coord dy=menu.getMinSize(flags).dy;
+  LayToBottom lay{Lay(menu),Lay(editor)};
 
-  action_base=Point(dy,dy);
+  lay.setPlace(getPane(),0);
 
-  Pane pane(Null,getSize());
+  // action_base
 
-  menu.setPlace(SplitY(dy,pane),ClearUpdate(flags));
-  editor.setPlace(pane,flags);
+  action_base=Point::Diag( menu.getPlace().dy );
  }
 
  // user input

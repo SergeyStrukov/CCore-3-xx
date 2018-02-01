@@ -113,7 +113,7 @@ class InsWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    class Builder : NoCopy
     {
@@ -150,7 +150,7 @@ class InsWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
@@ -487,7 +487,7 @@ class ItemListWindow : public ComboWindow
 
    // methods
 
-   Point getMinSize(unsigned flags,Point cap=Point::Max()) const;
+   Point getMinSize(Point cap=Point::Max()) const;
 
    void setInfo(const ComboInfo &info) { list.setInfo(info); }
 
@@ -507,7 +507,9 @@ class ItemListWindow : public ComboWindow
 
    void updateList()
     {
-     list.layout(LayoutUpdate);
+     list.update();
+
+     list.layout();
 
      list.redraw();
     }
@@ -535,7 +537,7 @@ class ItemListWindow : public ComboWindow
 
    // drawing
 
-   virtual void layout(unsigned flags);
+   virtual void layout();
 
    // user input
 

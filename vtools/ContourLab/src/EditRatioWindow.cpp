@@ -85,7 +85,7 @@ EditRatioWindow::~EditRatioWindow()
 
  // methods
 
-Point EditRatioWindow::getMinSize(unsigned) const
+Point EditRatioWindow::getMinSize() const
  {
   return {+cfg.dx,+cfg.dy};
  }
@@ -118,10 +118,10 @@ void EditRatioWindow::setValue(Geometry::Ratio value_)
 
 bool EditRatioWindow::isGoodSize(Point size) const
  {
-  return size>=getMinSize(LayoutResize);
+  return size>=getMinSize();
  }
 
-void EditRatioWindow::layout(unsigned)
+void EditRatioWindow::layout()
  {
   Coord s=+cfg.shade_dxy;
 

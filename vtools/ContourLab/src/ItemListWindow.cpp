@@ -57,7 +57,7 @@ InsWindow::~InsWindow()
 
  // methods
 
-Point InsWindow::getMinSize(unsigned flags,Point cap) const
+Point InsWindow::getMinSize(Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
@@ -65,12 +65,12 @@ Point InsWindow::getMinSize(unsigned flags,Point cap) const
 
   LayToTop lay(lay1,LayCap(list));
 
-  return ExtLay(lay).getMinSize(flags,space,cap);
+  return ExtLay(lay).getMinSize(space,cap);
  }
 
  // drawing
 
-void InsWindow::layout(unsigned flags)
+void InsWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -78,7 +78,7 @@ void InsWindow::layout(unsigned flags)
 
   LayToTop lay(lay1,Lay(list));
 
-  ExtLay(lay).setPlace(getPane(),flags,space);
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void InsWindow::drawBack(DrawBuf buf,bool) const
@@ -105,7 +105,7 @@ Pane InsFrame::getPane(StrLen title,Point base) const
  {
   Point screen_size=getScreenSize();
 
-  Point size=getMinSize(false,title,client.getMinSize(LayoutUpdate,screen_size));
+  Point size=getMinSize(false,title,client.getMinSize(screen_size));
 
   return FitToScreen(base,size,screen_size);
  }
@@ -342,7 +342,7 @@ ItemListWindow::~ItemListWindow()
 
  // methods
 
-Point ItemListWindow::getMinSize(unsigned flags,Point cap) const
+Point ItemListWindow::getMinSize(Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
@@ -366,7 +366,7 @@ Point ItemListWindow::getMinSize(unsigned flags,Point cap) const
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,LayCap(list)));
 
-     return lay.getMinSize(flags,space,cap);
+     return lay.getMinSize(space,cap);
     }
   else
     {
@@ -378,7 +378,7 @@ Point ItemListWindow::getMinSize(unsigned flags,Point cap) const
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,LayCap(list)));
 
-     return lay.getMinSize(flags,space,cap);
+     return lay.getMinSize(space,cap);
     }
  }
 
@@ -404,7 +404,7 @@ void ItemListWindow::noItem()
 
  // drawing
 
-void ItemListWindow::layout(unsigned flags)
+void ItemListWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
@@ -428,7 +428,7 @@ void ItemListWindow::layout(unsigned flags)
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
 
-     lay.setPlace(getPane(),flags,space);
+     lay.setPlace(getPane(),space);
     }
   else
     {
@@ -440,7 +440,7 @@ void ItemListWindow::layout(unsigned flags)
 
      LayToBottom lay(lay1,LayToTop(lay3,lay2,Lay(list)));
 
-     lay.setPlace(getPane(),flags,space);
+     lay.setPlace(getPane(),space);
     }
  }
 
