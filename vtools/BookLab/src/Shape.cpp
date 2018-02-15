@@ -604,6 +604,7 @@ struct Shape::DrawContext
   const Book::TypeDef::Frame &frame;
   Pane pane;
   Point base;
+
   Coord offx;
   PtrLen<const ulen> split;
   PtrLen<const Shape> subshapes;
