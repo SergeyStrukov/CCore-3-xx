@@ -153,6 +153,8 @@ class WCharString : NoCopy
 
 /* class GetEnv<ulen NameLen,ulen ValueLen> */
 
+ulen BackupGetEnv(StrLen name,Sys::WChar *buf,ulen len);
+
 template <ulen NameLen,ulen ValueLen>
 class GetEnv : NoCopy
  {
@@ -175,7 +177,12 @@ class GetEnv : NoCopy
 
      if( value.len==0 )
        {
-        Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(#.q;) : no variable",name_);
+        value.len=BackupGetEnv(name_,value.buf,value.Len);
+
+        if( value.len==0 )
+          {
+           Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(#.q;) : no variable",name_);
+          }
        }
     }
 

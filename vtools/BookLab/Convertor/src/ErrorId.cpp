@@ -1,4 +1,4 @@
-/* Source.cpp */
+/* ErrorId.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Book Convertor 1.00
@@ -11,22 +11,15 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Source.h>
+#include <inc/ErrorId.h>
 
 namespace App {
 
-/* class SourceErrorId */
+/* class ErrorId */
 
-StrLen SourceErrorId::Func(int code)
+StrLen ErrorId::BoolFunc(int code)
  {
-  switch( code )
-    {
-     case UnknownTag : return "Unknown tag"_c;
-
-     case BadTagText : return "Bad tag text"_c;
-
-     default: return "???"_c;
-    }
+  return code?"Error"_c:"Ok"_c;
  }
 
 } // namespace App

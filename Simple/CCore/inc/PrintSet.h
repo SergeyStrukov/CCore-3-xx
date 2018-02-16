@@ -27,7 +27,7 @@ template <CursorType R,class T=Meta::PtrObjType<R> > requires ( CursorOverType<R
 /* class PrintSet<R,T> */
 
 template <CursorType R,class T> requires ( CursorOverType<R,T> )
-class PrintSet : public PrintOptAdapter<T>
+class PrintSet : public PrintOptAdapter< Meta::UnConst<T> >
  {
    R range;
 

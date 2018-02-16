@@ -14,24 +14,42 @@
 #ifndef App_Source_h
 #define App_Source_h
 
+#include <inc/ErrorId.h>
+
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Scan.h>
 
 namespace App {
 
-/* using */
-
-using namespace CCore;
-
 /* classes */
 
+class SourceErrorId;
+
 class Source;
+
+/* class SourceErrorId */
+
+enum SourceErrorCode
+ {
+   UnknownTag = 1,
+   BadTagText
+ };
+
+class SourceErrorId : public ErrorId
+ {
+   static StrLen Func(int code);
+
+  public:
+
+   SourceErrorId(SourceErrorCode code) : ErrorId(code,Func) {}
+ };
 
 /* class Source */
 
 class Source : NoCopy
  {
    ScanFile inp;
+   ErrorId err;
 
    StringSetScan tags;
 
@@ -42,13 +60,23 @@ class Source : NoCopy
      return CharIsSpace(ch) || ch=='<' ;
     }
 
-   bool step(bool ok)
+   bool step(ErrorId err_)
     {
-     if( ok ) return ok;
+     if( +err ) return false;
+
+     if( !err_ ) return true;
 
      inp.fail();
+     err=err_;
 
      return false;
+    }
+
+   bool step(SourceErrorCode code) { return step(SourceErrorId(code)); }
+
+   bool step(bool ok)
+    {
+     return step(ErrorId(ok));
     }
 
   public:
@@ -83,7 +111,7 @@ class Source : NoCopy
        {
         Scanf(inp," #;",tags);
 
-        if( !inp ) return false;
+        if( inp.isFailed() ) return step(UnknownTag);
 
         String param;
 
@@ -107,7 +135,7 @@ class Source : NoCopy
             }
           }
 
-        if( !inp ) return false;
+        if( inp.isFailed() ) return step(BadTagText);
 
         switch( tags )
           {
@@ -146,7 +174,7 @@ class Source : NoCopy
 
            case 23 : return step( proc.tagImg(param) );
 
-           default: return step(false);
+           default: return step(UnknownTag);
           }
        }
      else
@@ -156,8 +184,6 @@ class Source : NoCopy
         for(char ch; +inp && !CharStop(ch=*inp) ;++inp) out.put(ch);
 
         String word=out.close();
-
-        if( !inp ) return false;
 
         return step( proc.word(word) );
        }
@@ -172,7 +198,10 @@ class Source : NoCopy
 
      if( inp.isFailed() )
        {
-        Printf(Con,"Failed at #;\n",inp.getTextPos());
+        if( +err )
+          Printf(Con,"Failed at #; : #;\n",inp.getTextPos(),err);
+        else
+          Printf(Con,"Failed at #; : scanning failed\n",inp.getTextPos());
        }
     }
  };

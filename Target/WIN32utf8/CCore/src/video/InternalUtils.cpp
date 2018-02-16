@@ -45,6 +45,13 @@ Pane GetWorkPane(Pane pane)
   return ToPane(rect);
  }
 
+/* class GetEnv<ulen NameLen,ulen ValueLen> */
+
+ulen BackupGetEnv(StrLen name,Sys::WChar *buf,ulen len)
+ {
+  return 0;
+ }
+
 /* struct MsgEvent */
 
 void MsgEvent::Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc)
