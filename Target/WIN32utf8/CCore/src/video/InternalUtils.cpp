@@ -18,6 +18,8 @@
 #include <CCore/inc/Exception.h>
 #include <CCore/inc/PrintError.h>
 
+#include <cstdlib>
+
 namespace CCore {
 namespace Video {
 namespace Internal {
@@ -45,11 +47,75 @@ Pane GetWorkPane(Pane pane)
   return ToPane(rect);
  }
 
+/* struct ToWChar */
+
+ToWChar::ToWChar(PtrLen<Sys::WChar> out,StrLen text)
+ {
+  ulen start=out.len;
+
+  while( +text )
+    {
+     Unicode ch=CutUtf8_unicode(text);
+
+     if( ch==Unicode(-1) )
+       {
+        broken=true;
+
+        break;
+       }
+     else
+       {
+        if( Sys::IsSurrogate(ch) )
+          {
+           Sys::SurrogateCouple couple(ch);
+
+           if( out.len<2 )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           out[0]=couple.hi;
+           out[1]=couple.lo;
+
+           out+=2;
+          }
+        else
+          {
+           if( !out.len )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           *out=Sys::WChar(ch);
+
+           ++out;
+          }
+       }
+    }
+
+  len=start-out.len;
+ }
+
 /* class GetEnv<ulen NameLen,ulen ValueLen> */
 
-ulen BackupGetEnv(StrLen name,Sys::WChar *buf,ulen len)
+ulen BackupGetEnv(const char *name,Sys::WChar *buf,ulen len)
  {
-  return 0;
+  if( const char *str=std::getenv(name) )
+    {
+     ToWChar to(Range(buf,len),str);
+
+     if( to.broken || to.overflow ) return 0;
+
+     return to.len;
+    }
+  else
+    {
+     return 0;
+    }
  }
 
 /* struct MsgEvent */

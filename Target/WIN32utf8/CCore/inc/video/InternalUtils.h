@@ -53,6 +53,8 @@ Pane GetWorkPane(Pane pane={});
 
 /* classes */
 
+struct ToWChar;
+
 template <ulen MaxLen=TextBufLen> class WCharString;
 
 template <ulen NameLen,ulen ValueLen> class GetEnv;
@@ -73,66 +75,36 @@ class GetFromClipboard;
 
 class TextToClipboard;
 
+/* struct ToWChar */
+
+struct ToWChar
+ {
+  ulen len;
+  bool overflow = false ;
+  bool broken = false ;
+
+  ToWChar(PtrLen<Sys::WChar> out,StrLen text);
+ };
+
 /* class WCharString<MaxLen> */
 
 template <ulen MaxLen>
 class WCharString : NoCopy
  {
    Sys::WChar buf[MaxLen+1];
-   bool overflow = false ;
-   bool broken = false ;
+   bool overflow;
+   bool broken;
 
   public:
 
    explicit WCharString(StrLen text)
     {
-     auto out=Range(buf);
+     ToWChar to(Range(buf,MaxLen),text);
 
-     while( +text )
-       {
-        Unicode ch=CutUtf8_unicode(text);
+     buf[to.len]=0;
 
-        if( ch==Unicode(-1) )
-          {
-           broken=true;
-
-           break;
-          }
-        else
-          {
-           if( Sys::IsSurrogate(ch) )
-             {
-              Sys::SurrogateCouple couple(ch);
-
-              if( out.len<=2 )
-                {
-                 overflow=true;
-
-                 break;
-                }
-
-              out[0]=couple.hi;
-              out[1]=couple.lo;
-
-              out+=2;
-             }
-           else
-             {
-              if( out.len<=1 )
-                {
-                 overflow=true;
-
-                 break;
-                }
-
-              *out=Sys::WChar(ch);
-
-              ++out;
-             }
-          }
-       }
-
-     *out=0;
+     overflow=to.overflow;
+     broken=to.broken;
     }
 
    void guard(const char *name) const
@@ -153,7 +125,7 @@ class WCharString : NoCopy
 
 /* class GetEnv<ulen NameLen,ulen ValueLen> */
 
-ulen BackupGetEnv(StrLen name,Sys::WChar *buf,ulen len);
+ulen BackupGetEnv(const char *name,Sys::WChar *buf,ulen len);
 
 template <ulen NameLen,ulen ValueLen>
 class GetEnv : NoCopy
@@ -163,7 +135,7 @@ class GetEnv : NoCopy
 
   public:
 
-   explicit GetEnv(StrLen name_)
+   explicit GetEnv(const char *name_)
     : name(name_)
     {
      name.guard("CCore::Video::Internal::GetEnv<...>::GetEnv(...)");

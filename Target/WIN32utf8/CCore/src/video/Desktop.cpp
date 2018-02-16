@@ -114,7 +114,7 @@ CharMapTable::CharMapTable()
 
 SystemFontDirs::SystemFontDirs()
  {
-  Internal::GetEnv<32,MaxPathLen> data("WINDIR"_c);
+  Internal::GetEnv<32,MaxPathLen> data("WINDIR");
 
   ulen len=data.full(Range(buf));
 
@@ -139,7 +139,7 @@ SystemFontDirs::SystemFontDirs()
 
 HomeDir::HomeDir()
  {
-  Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA"_c);
+  Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA");
 
   ulen len=data.full(Range(buf));
 
