@@ -14,7 +14,7 @@
 #ifndef ErrorText_h
 #define ErrorText_h
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
 namespace App {
 

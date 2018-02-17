@@ -1,4 +1,4 @@
-/* main.cpp */
+/* App.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Aspect 1.01
@@ -7,25 +7,21 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
-#include <CCore/inc/Abort.h>
+namespace App {
 
-/* main() */
+/* AppKey() */
 
-using namespace App;
-
-const AbortMsgFuncType CCore::AbortMsgFunc = AbortMsgBox ;
-
-int main(int argc,const char *argv[])
+StrLen AppKey()
  {
-  return AppMain<AppProp>(StartDisplay(),argc,argv);
+  return "/Aspect-5399CEC08CD81156F71679107FBC42A596486B06FDE5AAE7C17475ADA6DB9A2C"_c;
  }
 
-
+} // namespace App
 
 

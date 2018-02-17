@@ -1134,10 +1134,10 @@ void AspectWindow::btn_save_pressed()
   save();
  }
 
-AspectWindow::AspectWindow(SubWindowHost &host,const Config &cfg_,const char *open_file_name_)
+AspectWindow::AspectWindow(SubWindowHost &host,const Config &cfg_,const OptFileName &opt_)
  : ComboWindow(host),
    cfg(cfg_),
-   open_file_name(open_file_name_),
+   opt(opt_),
 
    label_path(wlist,cfg.label_cfg,cfg.text_Path),
    label_aspect(wlist,cfg.label_cfg,cfg.text_Aspect),
@@ -1311,9 +1311,9 @@ void AspectWindow::open()
  {
   ComboWindow::open();
 
-  if( const char *file_name=Replace_null(open_file_name) )
+  if( Change(opt.ok,false) )
     {
-     NormalPath temp(file_name);
+     NormalPath temp(opt.file_name);
 
      load(temp.get());
     }

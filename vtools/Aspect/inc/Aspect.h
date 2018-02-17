@@ -14,6 +14,8 @@
 #ifndef Aspect_h
 #define Aspect_h
 
+#include <CCore/inc/video/AppOpt.h>
+
 #include <inc/AspectData.h>
 
 namespace App {
@@ -646,7 +648,7 @@ class AspectWindow : public ComboWindow
    String aspect_file_name;
    bool has_file = false ;
 
-   const char *open_file_name;
+   OptFileName opt;
 
    // subs
 
@@ -712,7 +714,7 @@ class AspectWindow : public ComboWindow
 
   public:
 
-   AspectWindow(SubWindowHost &host,const Config &cfg,const char *open_file_name);
+   AspectWindow(SubWindowHost &host,const Config &cfg,const OptFileName &opt);
 
    virtual ~AspectWindow();
 

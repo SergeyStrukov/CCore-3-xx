@@ -11,7 +11,8 @@ Aspect Data=
     &Dir1,
     &Dir2,
     &Dir3,
-    &Dir4
+    &Dir4,
+    &Dir5
    },
    {
    }
@@ -20,19 +21,8 @@ Aspect Data=
 
 Dir Dir0=
   {
-   "Core",
+   "App",
    Green,
-   {
-    &Dir5
-   },
-   {
-   }
-  };
-
-Dir Dir1=
-  {
-   "Draw",
-   Red,
    {
     &Dir6
    },
@@ -40,10 +30,10 @@ Dir Dir1=
    }
   };
 
-Dir Dir2=
+Dir Dir1=
   {
-   "Font",
-   Red,
+   "Core",
+   Green,
    {
     &Dir7
    },
@@ -51,10 +41,10 @@ Dir Dir2=
    }
   };
 
-Dir Dir3=
+Dir Dir2=
   {
-   "Lib",
-   Green,
+   "Draw",
+   Red,
    {
     &Dir8
    },
@@ -62,10 +52,10 @@ Dir Dir3=
    }
   };
 
-Dir Dir4=
+Dir Dir3=
   {
-   "Tools",
-   Green,
+   "Font",
+   Red,
    {
     &Dir9
    },
@@ -73,34 +63,34 @@ Dir Dir4=
    }
   };
 
-Dir Dir5=
+Dir Dir4=
   {
-   "CCore",
+   "Lib",
    Green,
    {
-    &Dir10,
+    &Dir10
+   },
+   {
+   }
+  };
+
+Dir Dir5=
+  {
+   "Tools",
+   Green,
+   {
     &Dir11
    },
    {
    }
   };
 
-Dir Dir10=
+Dir Dir6=
   {
-   "inc",
+   "CCore",
    Green,
    {
-    &Dir12
-   },
-   {
-   }
-  };
-
-Dir Dir11=
-  {
-   "src",
-   Green,
-   {
+    &Dir12,
     &Dir13
    },
    {
@@ -108,6 +98,90 @@ Dir Dir11=
   };
 
 Dir Dir12=
+  {
+   "inc",
+   Green,
+   {
+    &Dir14
+   },
+   {
+   }
+  };
+
+Dir Dir13=
+  {
+   "src",
+   Green,
+   {
+    &Dir15
+   },
+   {
+   }
+  };
+
+Dir Dir14=
+  {
+   "video",
+   Green,
+   {
+   },
+   {
+    { "AppMain.h" , Green },
+    { "AppOpt.h" , Green },
+    { "ApplicationBase.h" , Green },
+    { "WindowReport.h" , Green }
+   }
+  };
+
+Dir Dir15=
+  {
+   "video",
+   Green,
+   {
+   },
+   {
+    { "AppMain.cpp" , Green },
+    { "AppOpt.cpp" , Green },
+    { "ApplicationBase.cpp" , Green },
+    { "WindowReport.cpp" , Green }
+   }
+  };
+
+Dir Dir7=
+  {
+   "CCore",
+   Green,
+   {
+    &Dir16,
+    &Dir17
+   },
+   {
+   }
+  };
+
+Dir Dir16=
+  {
+   "inc",
+   Green,
+   {
+    &Dir18
+   },
+   {
+   }
+  };
+
+Dir Dir17=
+  {
+   "src",
+   Green,
+   {
+    &Dir19
+   },
+   {
+   }
+  };
+
+Dir Dir18=
   {
    "video",
    Green,
@@ -124,7 +198,7 @@ Dir Dir12=
    }
   };
 
-Dir Dir13=
+Dir Dir19=
   {
    "video",
    Green,
@@ -141,41 +215,41 @@ Dir Dir13=
    }
   };
 
-Dir Dir6=
+Dir Dir8=
   {
    "CCore",
    Red,
    {
-    &Dir14,
-    &Dir15
+    &Dir20,
+    &Dir21
    },
    {
    }
   };
 
-Dir Dir14=
+Dir Dir20=
   {
    "inc",
    Red,
    {
-    &Dir16
+    &Dir22
    },
    {
    }
   };
 
-Dir Dir15=
+Dir Dir21=
   {
    "src",
    Red,
    {
-    &Dir17
+    &Dir23
    },
    {
    }
   };
 
-Dir Dir16=
+Dir Dir22=
   {
    "video",
    Red,
@@ -193,7 +267,7 @@ Dir Dir16=
    }
   };
 
-Dir Dir17=
+Dir Dir23=
   {
    "video",
    Red,
@@ -211,41 +285,41 @@ Dir Dir17=
    }
   };
 
-Dir Dir7=
+Dir Dir9=
   {
    "CCore",
    Red,
    {
-    &Dir18,
-    &Dir19
+    &Dir24,
+    &Dir25
    },
    {
    }
   };
 
-Dir Dir18=
+Dir Dir24=
   {
    "inc",
    Red,
    {
-    &Dir20
+    &Dir26
    },
    {
    }
   };
 
-Dir Dir19=
+Dir Dir25=
   {
    "src",
    Red,
    {
-    &Dir21
+    &Dir27
    },
    {
    }
   };
 
-Dir Dir20=
+Dir Dir26=
   {
    "video",
    Red,
@@ -258,7 +332,7 @@ Dir Dir20=
    }
   };
 
-Dir Dir21=
+Dir Dir27=
   {
    "video",
    Red,
@@ -271,50 +345,49 @@ Dir Dir21=
    }
   };
 
-Dir Dir8=
+Dir Dir10=
   {
    "CCore",
    Green,
    {
-    &Dir22,
-    &Dir23
+    &Dir28,
+    &Dir29
    },
    {
    }
   };
 
-Dir Dir22=
+Dir Dir28=
   {
    "inc",
    Green,
    {
-    &Dir24
+    &Dir30
    },
    {
    }
   };
 
-Dir Dir23=
+Dir Dir29=
   {
    "src",
    Green,
    {
-    &Dir25
+    &Dir31
    },
    {
    }
   };
 
-Dir Dir24=
+Dir Dir30=
   {
    "video",
    Green,
    {
-    &Dir26,
-    &Dir27
+    &Dir32,
+    &Dir33
    },
    {
-    { "ApplicationBase.h" , Green },
     { "BindBagProxy.h" , Green },
     { "ConfigBinder.h" , Green },
     { "ConfigEditor.h" , Green },
@@ -332,12 +405,11 @@ Dir Dir24=
     { "ShapeLib.h" , Green },
     { "ToolFrame.h" , Green },
     { "UserPreference.h" , Green },
-    { "WindowLib.h" , Green },
-    { "WindowReport.h" , Green }
+    { "WindowLib.h" , Green }
    }
   };
 
-Dir Dir26=
+Dir Dir32=
   {
    "lib",
    Green,
@@ -390,7 +462,7 @@ Dir Dir26=
    }
   };
 
-Dir Dir27=
+Dir Dir33=
   {
    "pref",
    Green,
@@ -406,16 +478,15 @@ Dir Dir27=
    }
   };
 
-Dir Dir25=
+Dir Dir31=
   {
    "video",
    Green,
    {
-    &Dir28,
-    &Dir29
+    &Dir34,
+    &Dir35
    },
    {
-    { "ApplicationBase.cpp" , Green },
     { "BindBagProxy.cpp" , Green },
     { "ConfigBinder.cpp" , Green },
     { "ConfigEditor.cpp" , Green },
@@ -434,7 +505,6 @@ Dir Dir25=
     { "ToolFrame.cpp" , Green },
     { "UserPreference.cpp" , Green },
     { "WindowLib.cpp" , Green },
-    { "WindowReport.cpp" , Green },
     { "ConfigTypes.ddl" , Green },
     { "HitDirs.ddl" , Green },
     { "HitDirs.TypeDef.gen.h" , Green },
@@ -442,7 +512,7 @@ Dir Dir25=
    }
   };
 
-Dir Dir28=
+Dir Dir34=
   {
    "lib",
    Green,
@@ -495,7 +565,7 @@ Dir Dir28=
    }
   };
 
-Dir Dir29=
+Dir Dir35=
   {
    "pref",
    Green,
@@ -511,41 +581,41 @@ Dir Dir29=
    }
   };
 
-Dir Dir9=
+Dir Dir11=
   {
    "CCore",
    Green,
    {
-    &Dir30,
-    &Dir31
+    &Dir36,
+    &Dir37
    },
    {
    }
   };
 
-Dir Dir30=
+Dir Dir36=
   {
    "inc",
    Green,
    {
-    &Dir32
+    &Dir38
    },
    {
    }
   };
 
-Dir Dir31=
+Dir Dir37=
   {
    "src",
    Green,
    {
-    &Dir33
+    &Dir39
    },
    {
    }
   };
 
-Dir Dir32=
+Dir Dir38=
   {
    "video",
    Green,
@@ -570,7 +640,7 @@ Dir Dir32=
    }
   };
 
-Dir Dir33=
+Dir Dir39=
   {
    "video",
    Green,

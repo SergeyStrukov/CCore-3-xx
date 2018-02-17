@@ -14,10 +14,10 @@
 #ifndef AppState_h
 #define AppState_h
 
-#include <inc/Application.h>
-
 #include <CCore/inc/Array.h>
 #include <CCore/inc/String.h>
+
+#include <inc/App.h>
 
 namespace App {
 

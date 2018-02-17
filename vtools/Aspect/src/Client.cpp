@@ -419,14 +419,14 @@ void ClientWindow::msg_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const char *open_file_name,Signal<> &update)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const OptFileName &opt,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
    menu_recent_data(MenuRecentFirst,MenuRecentLim-MenuRecentFirst),
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
-   aspect(wlist,cfg.aspect_cfg,open_file_name),
+   aspect(wlist,cfg.aspect_cfg,opt),
    file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".aspect.ddl"_def}),
    dir_frame(host.getFrameDesktop(),cfg.dir_cfg),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),

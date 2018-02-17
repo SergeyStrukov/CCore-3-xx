@@ -14,10 +14,10 @@
 #ifndef AspectData_h
 #define AspectData_h
 
-#include <inc/ErrorText.h>
-
 #include <CCore/inc/Array.h>
 #include <CCore/inc/MakeString.h>
+
+#include <inc/ErrorText.h>
 
 namespace App {
 

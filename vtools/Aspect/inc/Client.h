@@ -271,7 +271,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg,const char *open_file_name,Signal<> &update);
+   ClientWindow(SubWindowHost &host,const Config &cfg,const OptFileName &opt,Signal<> &update);
 
    virtual ~ClientWindow();
 
