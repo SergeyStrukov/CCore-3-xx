@@ -16,8 +16,9 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/MakeString.h>
+#include <CCore/inc/ErrorText.h>
 
-#include <inc/ErrorText.h>
+#include <inc/App.h>
 
 namespace App {
 
@@ -286,9 +287,9 @@ class AspectData : NoCopy
 
    void blank(StrLen path);
 
-   void save(StrLen file_name,ErrorText &etext) const;
+   ErrorText save(StrLen file_name,PtrLen<char> ebuf) const;
 
-   bool load(StrLen file_name,ErrorText &etext);
+   ObjErrorText<bool> load(StrLen file_name,PtrLen<char> ebuf);
  };
 
 } // namespace App

@@ -28,6 +28,8 @@ enum SuccessType { Success };
 
 struct ErrorText;
 
+template <class T> struct ObjErrorText;
+
 /* struct ErrorText */
 
 struct ErrorText
@@ -40,6 +42,20 @@ struct ErrorText
   ErrorText(SuccessType) : ok(true) {}
 
   ErrorText(StrLen etext_) : ok(false),etext(TrimText(etext_)) {}
+ };
+
+/* struct ObjErrorText<T> */
+
+template <class T>
+struct ObjErrorText
+ {
+  bool ok;
+  T obj;
+  StrLen etext;
+
+  ObjErrorText(const T &obj_) : ok(true),obj(obj_) {}
+
+  ObjErrorText(StrLen etext_) : ok(false),obj{},etext(TrimText(etext_)) {}
  };
 
 } // namespace CCore

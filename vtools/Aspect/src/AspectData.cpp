@@ -736,9 +736,9 @@ void AspectData::PrintSub(PrinterType &out,ulen &index,const DirData &dir)
     }
  }
 
-void AspectData::save(StrLen file_name,ErrorText &etext) const
+ErrorText AspectData::save(StrLen file_name,PtrLen<char> ebuf) const
  {
-  PrintBuf eout(etext.getBuf());
+  PrintBuf eout(ebuf);
 
   ReportExceptionTo<PrintBuf> report(eout);
 
@@ -768,12 +768,14 @@ void AspectData::save(StrLen file_name,ErrorText &etext) const
      Printf(out,"\n };\n\n");
 
      PrintSub(out,index,root);
+
+     return Success;
     }
   catch(CatchType)
     {
      Printf(eout,"\n@ #.q;",file_name);
 
-     etext.setTextLen(eout.close().len);
+     return eout.close();
     }
  }
 
@@ -872,11 +874,11 @@ void AspectData::toAbs(StrLen file_name)
     }
  }
 
-bool AspectData::load(StrLen file_name,ErrorText &etext)
+ObjErrorText<bool> AspectData::load(StrLen file_name,PtrLen<char> ebuf)
  {
   erase();
 
-  PrintBuf eout(etext.getBuf());
+  PrintBuf eout(ebuf);
 
   ReportExceptionTo<PrintBuf> report(eout);
 
@@ -890,9 +892,7 @@ bool AspectData::load(StrLen file_name,ErrorText &etext)
        {
         Printf(eout,"\n@ #.q;",file_name);
 
-        etext.setTextLen(eout.close().len);
-
-        return false;
+        return eout.close();
        }
      else
        {
@@ -920,9 +920,7 @@ bool AspectData::load(StrLen file_name,ErrorText &etext)
 
      Printf(eout,"\n@ #.q;",file_name);
 
-     etext.setTextLen(eout.close().len);
-
-     return false;
+     return eout.close();
     }
  }
 

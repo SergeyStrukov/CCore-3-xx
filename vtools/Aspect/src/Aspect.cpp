@@ -1217,11 +1217,11 @@ void AspectWindow::load(StrLen file_name)
  {
   hide.reset();
 
-  ErrorText etext;
+  SimpleArray<char> ebuf(64_KByte);
 
-  bool mod=data.load(file_name,etext);
+  auto result=data.load(file_name,Range(ebuf));
 
-  if( !etext )
+  if( result.ok )
     {
      text_path.setText(data.getPath());
 
@@ -1233,10 +1233,10 @@ void AspectWindow::load(StrLen file_name)
 
      clearAspect();
 
-     errorMsg(etext.getText());
+     errorMsg(result.etext);
     }
 
-  if( mod )
+  if( result.obj )
     setModified();
   else
     clearModified();
@@ -1248,17 +1248,17 @@ bool AspectWindow::save()
  {
   if( !has_file ) return false;
 
-  ErrorText etext;
+  SimpleArray<char> ebuf(64_KByte);
 
-  data.save(Range(aspect_file_name),etext);
+  auto result=data.save(Range(aspect_file_name),Range(ebuf));
 
-  if( !etext )
+  if( result.ok )
     {
      clearModified();
     }
   else
     {
-     errorMsg(etext.getText());
+     errorMsg(result.etext);
     }
 
   return true;

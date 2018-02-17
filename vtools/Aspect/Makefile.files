@@ -5,7 +5,6 @@ OBJ_LIST = \
 .obj/Aspect.o \
 .obj/AspectData.o \
 .obj/Client.o \
-.obj/ErrorText.o \
 .obj/main.o \
 
 
@@ -16,7 +15,6 @@ ASM_LIST = \
 .obj/Aspect.s \
 .obj/AspectData.s \
 .obj/Client.s \
-.obj/ErrorText.s \
 .obj/main.s \
 
 
@@ -27,7 +25,6 @@ DEP_LIST = \
 .obj/Aspect.dep \
 .obj/AspectData.dep \
 .obj/Client.dep \
-.obj/ErrorText.dep \
 .obj/main.dep \
 
 
@@ -55,9 +52,6 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ErrorText.o : src/./ErrorText.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -79,9 +73,6 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Client.s : src/./Client.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/ErrorText.s : src/./ErrorText.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -106,9 +97,6 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
-
-.obj/ErrorText.dep : src/./ErrorText.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/ErrorText.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
