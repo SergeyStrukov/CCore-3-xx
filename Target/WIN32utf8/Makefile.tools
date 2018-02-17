@@ -68,6 +68,7 @@ CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
         -I$(CCORE_ROOT)/Desktop/Font \
         -I$(CCORE_ROOT)/Desktop/Lib \
         -I$(CCORE_ROOT)/Desktop/Tools \
+        -I$(CCORE_ROOT)/Desktop/App \
 
 
 CCCPU = -march=ivybridge -mmmx -msse -msse2

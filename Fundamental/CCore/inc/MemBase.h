@@ -25,7 +25,7 @@ namespace CCore {
 
 PlanInitNode * GetPlanInitNode_MemBase();
 
-/* words */
+/* word JustTry */
 
 enum JustTryType { JustTry };
 

@@ -20,7 +20,7 @@
 
 namespace CCore {
 
-/* words */
+/* word Con */
 
 enum ConType { Con };
 

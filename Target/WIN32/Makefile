@@ -25,6 +25,7 @@ SRC_PATH_LIST = $(CCORE_ROOT)/Simple/CCore/src \
                 $(CCORE_ROOT)/Desktop/Font/CCore/src \
                 $(CCORE_ROOT)/Desktop/Lib/CCore/src \
                 $(CCORE_ROOT)/Desktop/Tools/CCore/src \
+                $(CCORE_ROOT)/Desktop/App/CCore/src \
                 $(CCORE_ROOT)/HCore/CCore/src \
                 $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore/src \
 

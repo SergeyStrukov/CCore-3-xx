@@ -1,0 +1,73 @@
+<!--
+/* page_ErrorText.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ErrorText</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ErrorText</h2>
+
+<p class="Files">Files <b>CCore/inc/ErrorText.h</b> <b>CCore/src/ErrorText.cpp</b></p>
+
+<p>
+This file defines the word <b>Success</b>:
+</p>
+
+<pre>
+
+/* word Success */
+
+enum SuccessType { <span class="Att">Success</span> };
+
+</pre>
+
+<p>
+and the simple type <b>ErrorText</b>:
+</p>
+
+<pre>
+
+struct <span class="Att">ErrorText</span>
+ {
+  bool ok;
+  StrLen etext;
+
+  ErrorText() : ok(true) {}
+
+  ErrorText(SuccessType) : ok(true) {}
+
+  ErrorText(StrLen etext_) : ok(false),etext(TrimText(etext_)) {}
+ };
+
+</pre>
+
+<p>
+This type can be used to return a error description. It has two fields: <b>ok</b> and <b>etext</b>. The first indicates success of the operation,
+the secind is a error description. The third constructor trims the error text (it is assumed, the text is created in some buffer and can outfit it).
+</p>
+
+</body>
+
+</html>
+

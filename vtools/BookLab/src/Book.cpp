@@ -49,7 +49,7 @@ void BookMap::blank()
   MemFree(Replace_null(mem));
  }
 
-auto BookMap::load(StrLen file_name,PtrLen<char> ebuf) -> Result
+ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
  {
   blank();
 
@@ -81,7 +81,7 @@ auto BookMap::load(StrLen file_name,PtrLen<char> ebuf) -> Result
            mem=guard.disarm();
            book=data;
 
-           return {};
+           return Success;
           }
         else
           {

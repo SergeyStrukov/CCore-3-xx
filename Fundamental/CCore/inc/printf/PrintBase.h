@@ -20,7 +20,7 @@
 
 namespace CCore {
 
-/* words */
+/* word NoPrint */
 
 enum NoPrintType { NoPrint };
 

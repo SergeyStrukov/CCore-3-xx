@@ -99,6 +99,7 @@ OBJ_LIST = \
 .obj/EchoDevice.o \
 .obj/ElementPool.o \
 .obj/Elf.o \
+.obj/ErrorText.o \
 .obj/EthDevice.o \
 .obj/EuclidRotate.o \
 .obj/Event.o \
@@ -551,6 +552,7 @@ ASM_LIST = \
 .obj/EchoDevice.s \
 .obj/ElementPool.s \
 .obj/Elf.s \
+.obj/ErrorText.s \
 .obj/EthDevice.s \
 .obj/EuclidRotate.s \
 .obj/Event.s \
@@ -1003,6 +1005,7 @@ DEP_LIST = \
 .obj/EchoDevice.dep \
 .obj/ElementPool.dep \
 .obj/Elf.dep \
+.obj/ErrorText.dep \
 .obj/EthDevice.dep \
 .obj/EuclidRotate.dep \
 .obj/Event.dep \
@@ -1388,7 +1391,7 @@ include $(RULES_FILE)
 .obj/AnyPtr.o : ../../Simple/CCore/src/./AnyPtr.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ApplicationBase.o : ../../Desktop/Lib/CCore/src/./video/ApplicationBase.cpp
+.obj/ApplicationBase.o : ../../Desktop/App/CCore/src/./video/ApplicationBase.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ApplyToList.o : ../../Fundamental/CCore/src/./algon/ApplyToList.cpp
@@ -1665,6 +1668,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Elf.o : ../../Applied/CCore/src/./Elf.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/ErrorText.o : ../../Simple/CCore/src/./ErrorText.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/EthDevice.o : ../../Applied/CCore/src/./net/EthDevice.cpp
@@ -2708,7 +2714,7 @@ include $(RULES_FILE)
 .obj/WindowLib.o : ../../Desktop/Lib/CCore/src/./video/WindowLib.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/WindowReport.o : ../../Desktop/Lib/CCore/src/./video/WindowReport.cpp
+.obj/WindowReport.o : ../../Desktop/App/CCore/src/./video/WindowReport.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/XPoint.o : ../../Applied/CCore/src/./net/XPoint.cpp
@@ -2737,7 +2743,7 @@ include $(RULES_FILE)
 .obj/AnyPtr.s : ../../Simple/CCore/src/./AnyPtr.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ApplicationBase.s : ../../Desktop/Lib/CCore/src/./video/ApplicationBase.cpp
+.obj/ApplicationBase.s : ../../Desktop/App/CCore/src/./video/ApplicationBase.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/ApplyToList.s : ../../Fundamental/CCore/src/./algon/ApplyToList.cpp
@@ -3014,6 +3020,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Elf.s : ../../Applied/CCore/src/./Elf.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/ErrorText.s : ../../Simple/CCore/src/./ErrorText.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/EthDevice.s : ../../Applied/CCore/src/./net/EthDevice.cpp
@@ -4057,7 +4066,7 @@ include $(RULES_FILE)
 .obj/WindowLib.s : ../../Desktop/Lib/CCore/src/./video/WindowLib.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/WindowReport.s : ../../Desktop/Lib/CCore/src/./video/WindowReport.cpp
+.obj/WindowReport.s : ../../Desktop/App/CCore/src/./video/WindowReport.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/XPoint.s : ../../Applied/CCore/src/./net/XPoint.cpp
@@ -4086,7 +4095,7 @@ include $(RULES_FILE)
 .obj/AnyPtr.dep : ../../Simple/CCore/src/./AnyPtr.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AnyPtr.o $< -MF $@
 
-.obj/ApplicationBase.dep : ../../Desktop/Lib/CCore/src/./video/ApplicationBase.cpp
+.obj/ApplicationBase.dep : ../../Desktop/App/CCore/src/./video/ApplicationBase.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ApplicationBase.o $< -MF $@
 
 .obj/ApplyToList.dep : ../../Fundamental/CCore/src/./algon/ApplyToList.cpp
@@ -4364,6 +4373,9 @@ include $(RULES_FILE)
 
 .obj/Elf.dep : ../../Applied/CCore/src/./Elf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Elf.o $< -MF $@
+
+.obj/ErrorText.dep : ../../Simple/CCore/src/./ErrorText.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ErrorText.o $< -MF $@
 
 .obj/EthDevice.dep : ../../Applied/CCore/src/./net/EthDevice.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EthDevice.o $< -MF $@
@@ -5406,7 +5418,7 @@ include $(RULES_FILE)
 .obj/WindowLib.dep : ../../Desktop/Lib/CCore/src/./video/WindowLib.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/WindowLib.o $< -MF $@
 
-.obj/WindowReport.dep : ../../Desktop/Lib/CCore/src/./video/WindowReport.cpp
+.obj/WindowReport.dep : ../../Desktop/App/CCore/src/./video/WindowReport.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/WindowReport.o $< -MF $@
 
 .obj/XPoint.dep : ../../Applied/CCore/src/./net/XPoint.cpp

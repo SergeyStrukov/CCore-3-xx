@@ -15,6 +15,8 @@
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
+#include <CCore/inc/ErrorText.h>
+
 #ifndef Book_h
 #define Book_h
 
@@ -65,17 +67,7 @@ class BookMap : NoCopy
 
    void blank();
 
-   struct Result
-    {
-     bool ok;
-     StrLen etext;
-
-     Result() : ok(true) {}
-
-     Result(StrLen etext_) : ok(false),etext(TrimText(etext_)) {}
-    };
-
-   Result load(StrLen file_name,PtrLen<char> ebuf);
+   ErrorText load(StrLen file_name,PtrLen<char> ebuf);
 
    TypeDef::Book * get() const { return book; }
  };
