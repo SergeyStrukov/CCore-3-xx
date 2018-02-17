@@ -67,6 +67,26 @@ This type can be used to return a error description. It has two fields: <b>ok</b
 the secind is a error description. The third constructor trims the error text (it is assumed, the text is created in some buffer and can outfit it).
 </p>
 
+<pre>
+
+template &lt;class T&gt;
+struct <span class="Att">ObjErrorText</span>
+ {
+  bool ok;
+  T obj;
+  StrLen etext;
+
+  ObjErrorText(const T &amp;obj_) : ok(true),obj(obj_) {}
+
+  ObjErrorText(StrLen etext_) : ok(false),obj{},etext(TrimText(etext_)) {}
+ };
+
+</pre>
+
+<p>
+The last type is similar to the <b>ErrorText</b>, it contains some return value.
+</p>
+
 </body>
 
 </html>
