@@ -28,6 +28,15 @@
 namespace CCore {
 namespace Video {
 
+/* enum PrepareOpt */
+
+enum PrepareOpt
+ {
+  PrepareRandom,
+  PrepareCenter,
+  PreparePersist
+ };
+
 /* classes */
 
 template <class AppProp> class AppPreference;
@@ -54,6 +63,8 @@ struct AppProp
   using Opt = ??? ;
 
   using Persist = ??? ;
+
+  static constexpr PrepareOpt Prepare = ??? ;
  };
 
 #endif
@@ -212,7 +223,24 @@ class Application : public ApplicationBase
      exception_client.show();
     }
 
-   virtual void prepare()
+   void prepareMain() requires ( AppProp::Prepare==PrepareRandom )
+    {
+     main_frame.createMain(cmd_display,param.app_pref.get().title);
+    }
+
+   void prepareMain() requires ( AppProp::Prepare==PrepareCenter )
+    {
+     DefString title=param.app_pref.get().title;
+     Ratio frame_pos_ry=param.user_pref.get().frame_pos_ry;
+
+     Point size=main_frame.getMinSize(true,title.str(),client.getMinSize());
+
+     Pane pane=GetWindowPlace(desktop,frame_pos_ry,size);
+
+     main_frame.createMain(cmd_display,pane,param.app_pref.get().title);
+    }
+
+   void prepareMain() requires ( AppProp::Prepare==PreparePersist )
     {
      typename AppProp::Persist persist;
 
@@ -226,6 +254,11 @@ class Application : public ApplicationBase
        {
         main_frame.createMain(cmd_display,param.app_pref.get().title);
        }
+    }
+
+   virtual void prepare()
+    {
+     prepareMain();
     }
 
    virtual void beforeLoop() noexcept

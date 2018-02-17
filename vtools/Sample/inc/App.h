@@ -1,4 +1,4 @@
-/* main.cpp */
+/* App.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Sample 1.00
@@ -7,25 +7,27 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Application.h>
+#ifndef App_h
+#define App_h
 
-#include <CCore/inc/Abort.h>
+#include <CCore/inc/video/UserPreference.h>
 
-/* main() */
+namespace App {
 
-using namespace App;
+/* using */
 
-const AbortMsgFuncType CCore::AbortMsgFunc = AbortMsgBox ;
+using namespace CCore;
+using namespace CCore::Video;
 
-int main(int argc,const char *argv[])
- {
-  return AppMain<AppProp>(StartDisplay(),argc,argv);
- }
+/* AppKey() */
 
+StrLen AppKey();
 
+} // namespace App
 
+#endif
 

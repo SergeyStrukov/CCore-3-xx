@@ -14,7 +14,7 @@
 #ifndef Sample_h
 #define Sample_h
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
 namespace App {
 

@@ -20,11 +20,6 @@
 
 namespace App {
 
-/* using */
-
-using namespace CCore;
-using namespace CCore::Video;
-
 /* classes */
 
 struct AppPreferenceBag;
@@ -179,6 +174,8 @@ struct AppProp
   using Opt = OptFileName ;
 
   using Persist = AppState ;
+
+  static constexpr PrepareOpt Prepare = PreparePersist ;
  };
 
 } // namespace App

@@ -104,7 +104,7 @@ void ClientWindow::cascade_menu_pressed(VKey vkey,KeyMod kmod)
   menu.put_Key(vkey,kmod);
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
