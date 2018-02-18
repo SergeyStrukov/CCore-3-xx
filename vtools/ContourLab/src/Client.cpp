@@ -257,7 +257,7 @@ void ClientWindow::msg_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 

@@ -14,7 +14,7 @@
 #ifndef Display_h
 #define Display_h
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
 #include <CCore/inc/video/lib/Window.ScrollList.h>
 

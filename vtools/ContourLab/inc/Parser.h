@@ -14,10 +14,10 @@
 #ifndef Parser_h
 #define Parser_h
 
-#include <inc/Application.h>
-
 #include <CCore/inc/TextTools.h>
 #include <CCore/inc/Array.h>
+
+#include <inc/App.h>
 
 namespace App {
 

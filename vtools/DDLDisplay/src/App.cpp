@@ -1,4 +1,4 @@
-/* main.cpp */
+/* App.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: DDLDisplay 1.00
@@ -7,27 +7,21 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
-#include <CCore/inc/video/Desktop.h>
+namespace App {
 
-#include <CCore/inc/Abort.h>
+/* AppKey() */
 
-/* main() */
-
-using namespace App;
-
-const AbortMsgFuncType CCore::AbortMsgFunc = AbortMsgBox ;
-
-int main(int argc,const char *argv[])
+StrLen AppKey()
  {
-  return AppMain<AppProp>(StartDisplay(),argc,argv);
+  return "/DDLDisplay-F7BEB23B4D025F4D0BB7C3033139083269233409EA11AD076E2B7DDBB90A4CBF"_c;
  }
 
-
+} // namespace App
 
 

@@ -14,18 +14,78 @@
 #ifndef Application_h
 #define Application_h
 
-#include <CCore/inc/video/UserPreference.h>
+#include <CCore/inc/video/AppMain.h>
+
+#include <inc/Client.h>
 
 namespace App {
 
-/* using */
+/* classes */
 
-using namespace CCore;
-using namespace CCore::Video;
+struct AppPreferenceBag;
 
-/* Main() */
+struct AppProp;
 
-int Main(CmdDisplay cmd_display);
+/* struct AppPreferenceBag */
+
+struct AppPreferenceBag : ConfigItemHost
+ {
+  DefString title = "DDLDisplay"_def ;
+
+  Coord space_dxy = 3 ;
+
+  Point space = Point(6,4) ;
+
+  VColor text   =     Black ;
+  VColor ptr    =      Blue ;
+  VColor select = OrangeRed ;
+
+  FontCouple title_font;
+  FontCouple font;
+
+  // constructors
+
+  AppPreferenceBag() noexcept {}
+
+  // methods
+
+  template <class Ptr,class Func>
+  static void Members(Ptr ptr,Func func);
+
+  virtual void bind(ConfigItemBind &binder);
+
+  void createFonts();
+ };
+
+template <class Ptr,class Func>
+void AppPreferenceBag::Members(Ptr ptr,Func func)
+ {
+  func("title"_c,ptr->title);
+  func("space_dxy"_c,ptr->space_dxy);
+  func("space"_c,ptr->space);
+  func("vc_text"_c,ptr->text);
+  func("vc_ptr"_c,ptr->ptr);
+  func("select"_c,ptr->select);
+  func("title_font"_c,ptr->title_font.param);
+  func("font"_c,ptr->font.param);
+ }
+
+/* struct AppProp */
+
+struct AppProp
+ {
+  static StrLen Key() { return AppKey(); }
+
+  static Picture Icon() { return DefaultAppIcon(); }
+
+  using PreferenceBag = AppPreferenceBag ;
+
+  using ClientWindow = App::ClientWindow ;
+
+  using Opt = OptNone ;
+
+  static constexpr PrepareOpt Prepare = PrepareRandom ;
+ };
 
 } // namespace App
 

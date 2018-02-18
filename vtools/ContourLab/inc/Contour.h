@@ -14,8 +14,6 @@
 #ifndef Contour_h
 #define Contour_h
 
-#include <inc/Geometry.h>
-
 #include <CCore/inc/MemBase.h>
 #include <CCore/inc/RefPtr.h>
 #include <CCore/inc/String.h>
@@ -25,6 +23,8 @@
 #include <CCore/inc/StrToChar.h>
 
 #include <CCore/inc/video/PrintDDL.h>
+
+#include <inc/Geometry.h>
 
 namespace App {
 

@@ -1,4 +1,5 @@
 OBJ_LIST = \
+.obj/App.o \
 .obj/Application.o \
 .obj/Client.o \
 .obj/Contour.o \
@@ -15,6 +16,7 @@ OBJ_LIST = \
 
 
 ASM_LIST = \
+.obj/App.s \
 .obj/Application.s \
 .obj/Client.s \
 .obj/Contour.s \
@@ -31,6 +33,7 @@ ASM_LIST = \
 
 
 DEP_LIST = \
+.obj/App.dep \
 .obj/Application.dep \
 .obj/Client.dep \
 .obj/Contour.dep \
@@ -51,6 +54,9 @@ ASM_OBJ_LIST = \
 
 include $(RULES_FILE)
 
+
+.obj/App.o : src/./App.cpp
+	$(CC) $(CCOPT) $< -o $@
 
 .obj/Application.o : src/./Application.cpp
 	$(CC) $(CCOPT) $< -o $@
@@ -93,6 +99,9 @@ include $(RULES_FILE)
 
 
 
+.obj/App.s : src/./App.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -133,6 +142,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+.obj/App.dep : src/./App.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/App.o $< -MF $@
 
 .obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@

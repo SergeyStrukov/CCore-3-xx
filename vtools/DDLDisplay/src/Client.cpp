@@ -123,7 +123,7 @@ void ClientWindow::open_pretext_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
    menu(wlist,cfg.menu_cfg,menu_data),

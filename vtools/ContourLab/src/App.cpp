@@ -1,4 +1,4 @@
-/* main.cpp */
+/* App.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: ContourLab 1.00
@@ -7,27 +7,21 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
-#include <CCore/inc/video/Desktop.h>
+namespace App {
 
-#include <CCore/inc/Abort.h>
+/* AppKey() */
 
-/* main() */
-
-using namespace App;
-
-const AbortMsgFuncType CCore::AbortMsgFunc = AbortMsgBox ;
-
-int main(int argc,const char *argv[])
+StrLen AppKey()
  {
-  return AppMain<AppProp>(StartDisplay(),argc,argv);
+  return "/ContourLab-5C73F691B5ED963C3580A06131FD2D6EC57ECE3349028B3986554636EC1A70B8"_c;
  }
 
-
+} // namespace App
 
 

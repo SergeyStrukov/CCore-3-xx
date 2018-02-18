@@ -14,6 +14,8 @@
 #ifndef Client_h
 #define Client_h
 
+#include <CCore/inc/video/AppOpt.h>
+
 #include <inc/Display.h>
 
 namespace App {
@@ -123,7 +125,7 @@ class ClientWindow : public ComboWindow
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
+   ClientWindow(SubWindowHost &host,const Config &cfg,OptNone opt,Signal<> &update);
 
    virtual ~ClientWindow();
 
