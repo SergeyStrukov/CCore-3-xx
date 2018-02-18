@@ -16,7 +16,7 @@
 
 #include <CCore/inc/PlatformRandom.h>
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
 namespace App {
 

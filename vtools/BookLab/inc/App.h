@@ -1,4 +1,4 @@
-/* Sample.cpp */
+/* App.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: BookLab 1.00
@@ -7,32 +7,27 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Sample.h>
+#ifndef App_h
+#define App_h
+
+#include <CCore/inc/video/UserPreference.h>
 
 namespace App {
 
-/* class SampleWindow */
+/* using */
 
-SampleWindow::SampleWindow(SubWindowHost &host,const Config &cfg_)
- : SubWindow(host),
-   cfg(cfg_)
- {
- }
+using namespace CCore;
+using namespace CCore::Video;
 
-SampleWindow::~SampleWindow()
- {
- }
+/* AppKey() */
 
- // methods
-
-Point SampleWindow::getMinSize() const
- {
-  return Point(100,100);
- }
+StrLen AppKey();
 
 } // namespace App
+
+#endif
 

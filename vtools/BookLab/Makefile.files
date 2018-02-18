@@ -1,31 +1,31 @@
 OBJ_LIST = \
+.obj/App.o \
 .obj/Application.o \
 .obj/Book.o \
 .obj/BookWindow.o \
 .obj/Client.o \
-.obj/Sample.o \
 .obj/Shape.o \
 .obj/WorkWindow.o \
 .obj/main.o \
 
 
 ASM_LIST = \
+.obj/App.s \
 .obj/Application.s \
 .obj/Book.s \
 .obj/BookWindow.s \
 .obj/Client.s \
-.obj/Sample.s \
 .obj/Shape.s \
 .obj/WorkWindow.s \
 .obj/main.s \
 
 
 DEP_LIST = \
+.obj/App.dep \
 .obj/Application.dep \
 .obj/Book.dep \
 .obj/BookWindow.dep \
 .obj/Client.dep \
-.obj/Sample.dep \
 .obj/Shape.dep \
 .obj/WorkWindow.dep \
 .obj/main.dep \
@@ -36,6 +36,9 @@ ASM_OBJ_LIST = \
 
 include $(RULES_FILE)
 
+
+.obj/App.o : src/./App.cpp
+	$(CC) $(CCOPT) $< -o $@
 
 .obj/Application.o : src/./Application.cpp
 	$(CC) $(CCOPT) $< -o $@
@@ -49,9 +52,6 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Sample.o : src/./Sample.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/Shape.o : src/./Shape.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -62,6 +62,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 
+
+.obj/App.s : src/./App.cpp
+	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
@@ -75,9 +78,6 @@ include $(RULES_FILE)
 .obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Sample.s : src/./Sample.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/Shape.s : src/./Shape.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -88,6 +88,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+.obj/App.dep : src/./App.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/App.o $< -MF $@
 
 .obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
@@ -100,9 +103,6 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
-
-.obj/Sample.dep : src/./Sample.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/Sample.o $< -MF $@
 
 .obj/Shape.dep : src/./Shape.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.o $< -MF $@

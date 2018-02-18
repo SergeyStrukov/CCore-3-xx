@@ -11,7 +11,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Application.h>
+#include <inc/App.h>
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
 

@@ -14,18 +14,86 @@
 #ifndef Application_h
 #define Application_h
 
-#include <CCore/inc/video/UserPreference.h>
+#include <CCore/inc/video/AppMain.h>
+
+#include <inc/Client.h>
 
 namespace App {
 
-/* using */
+/* classes */
 
-using namespace CCore;
-using namespace CCore::Video;
+struct AppPreferenceBag;
 
-/* Main() */
+struct AppProp;
 
-int Main(CmdDisplay cmd_display);
+/* struct AppPreferenceBag */
+
+struct AppPreferenceBag : ConfigItemHost
+ {
+  // common
+
+  DefString title = "RandomId"_def ;
+
+  // menu
+
+  DefString menu_File    = "@File"_def ;
+  DefString menu_Options = "@Options"_def ;
+  DefString menu_Exit    = "E@xit"_def ;
+  DefString menu_Global  = "@Global"_def ;
+  DefString menu_App     = "@Application"_def ;
+
+  // text
+
+  DefString text_Unid = "Unid"_def ;
+  DefString text_Raw  = "Raw"_def ;
+  DefString text_Roll = "Roll"_def ;
+  DefString text_Copy = "Copy"_def ;
+
+  // constructors
+
+  AppPreferenceBag() noexcept {}
+
+  // methods
+
+  template <class Ptr,class Func>
+  static void Members(Ptr ptr,Func func);
+
+  virtual void bind(ConfigItemBind &binder);
+
+  void createFonts();
+ };
+
+template <class Ptr,class Func>
+void AppPreferenceBag::Members(Ptr ptr,Func func)
+ {
+  func("title"_c,ptr->title);
+  func("menu_File"_c,ptr->menu_File);
+  func("menu_Options"_c,ptr->menu_Options);
+  func("menu_Exit"_c,ptr->menu_Exit);
+  func("menu_Global"_c,ptr->menu_Global);
+  func("menu_App"_c,ptr->menu_App);
+  func("text_Unid"_c,ptr->text_Unid);
+  func("text_Raw"_c,ptr->text_Raw);
+  func("text_Roll"_c,ptr->text_Roll);
+  func("text_Copy"_c,ptr->text_Copy);
+ }
+
+/* struct AppProp */
+
+struct AppProp
+ {
+  static StrLen Key() { return AppKey(); }
+
+  static Picture Icon() { return DefaultAppIcon(); }
+
+  using PreferenceBag = AppPreferenceBag ;
+
+  using ClientWindow = App::ClientWindow ;
+
+  using Opt = OptNone ;
+
+  static constexpr PrepareOpt Prepare = PrepareCenter ;
+ };
 
 } // namespace App
 

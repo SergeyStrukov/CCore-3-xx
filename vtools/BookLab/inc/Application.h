@@ -14,18 +14,104 @@
 #ifndef Application_h
 #define Application_h
 
-#include <CCore/inc/video/UserPreference.h>
+#include <CCore/inc/video/AppMain.h>
+
+#include <inc/Client.h>
 
 namespace App {
 
-/* using */
+/* classes */
 
-using namespace CCore;
-using namespace CCore::Video;
+struct AppPreferenceBag;
 
-/* Main() */
+struct AppProp;
 
-int Main(CmdDisplay cmd_display);
+/* struct AppPreferenceBag */
+
+struct AppPreferenceBag : ConfigItemHost
+ {
+  // common
+
+  DefString title = "BookLab"_def ;
+
+  // menu
+
+  DefString menu_File    = "@File"_def ;
+  DefString menu_Options = "@Options"_def ;
+  DefString menu_New     = "@New"_def ;
+  DefString menu_Open    = "@Open"_def ;
+  DefString menu_Save    = "@Save"_def ;
+  DefString menu_SaveAs  = "Save @as"_def ;
+  DefString menu_Exit    = "E@xit"_def ;
+  DefString menu_Global  = "@Global"_def ;
+  DefString menu_App     = "@Application"_def ;
+
+  // book
+
+  VColor back = Silver ;
+  VColor fore = Black ;
+
+  FontCouple font;
+  FontCouple codefont;
+
+  DefString text_Title = "Title"_def ;
+  DefString text_Page = "Page"_def ;
+  DefString text_NotReady = "Font database is not ready yet"_def ;
+
+  // constructors
+
+  AppPreferenceBag() noexcept {}
+
+  // methods
+
+  template <class Ptr,class Func>
+  static void Members(Ptr ptr,Func func);
+
+  virtual void bind(ConfigItemBind &binder);
+
+  void createFonts();
+
+  void findFonts();
+ };
+
+template <class Ptr,class Func>
+void AppPreferenceBag::Members(Ptr ptr,Func func)
+ {
+  func("title"_c,ptr->title);
+  func("menu_File"_c,ptr->menu_File);
+  func("menu_Options"_c,ptr->menu_Options);
+  func("menu_New"_c,ptr->menu_New);
+  func("menu_Open"_c,ptr->menu_Open);
+  func("menu_Save"_c,ptr->menu_Save);
+  func("menu_SaveAs"_c,ptr->menu_SaveAs);
+  func("menu_Exit"_c,ptr->menu_Exit);
+  func("menu_Global"_c,ptr->menu_Global);
+  func("menu_App"_c,ptr->menu_App);
+  func("back"_c,ptr->back);
+  func("fore"_c,ptr->fore);
+  func("font"_c,ptr->font.param);
+  func("codefont"_c,ptr->codefont.param);
+  func("text_Title"_c,ptr->text_Title);
+  func("text_Page"_c,ptr->text_Page);
+  func("text_NotReady"_c,ptr->text_NotReady);
+ }
+
+/* struct AppProp */
+
+struct AppProp
+ {
+  static StrLen Key() { return AppKey(); }
+
+  static Picture Icon() { return DefaultAppIcon(); }
+
+  using PreferenceBag = AppPreferenceBag ;
+
+  using ClientWindow = App::ClientWindow ;
+
+  using Opt = OptNone ;
+
+  static constexpr PrepareOpt Prepare = PrepareRandom ;
+ };
 
 } // namespace App
 
