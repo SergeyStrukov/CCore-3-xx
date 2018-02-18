@@ -198,6 +198,7 @@ OBJ_LIST = \
 .obj/MemPageHeap.o \
 .obj/MemSpaceHeap.o \
 .obj/Menu.o \
+.obj/MenuClient.o \
 .obj/MergeSort.o \
 .obj/MersenneTwister.o \
 .obj/MessageFrame.o \
@@ -653,6 +654,7 @@ ASM_LIST = \
 .obj/MemPageHeap.s \
 .obj/MemSpaceHeap.s \
 .obj/Menu.s \
+.obj/MenuClient.s \
 .obj/MergeSort.s \
 .obj/MersenneTwister.s \
 .obj/MessageFrame.s \
@@ -1108,6 +1110,7 @@ DEP_LIST = \
 .obj/MemPageHeap.dep \
 .obj/MemSpaceHeap.dep \
 .obj/Menu.dep \
+.obj/MenuClient.dep \
 .obj/MergeSort.dep \
 .obj/MersenneTwister.dep \
 .obj/MessageFrame.dep \
@@ -1971,6 +1974,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Menu.o : ../../Desktop/Lib/CCore/src/./video/Menu.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/MenuClient.o : ../../Desktop/App/CCore/src/./video/MenuClient.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/MergeSort.o : ../../Fundamental/CCore/src/./sort/MergeSort.cpp
@@ -3331,6 +3337,9 @@ include $(RULES_FILE)
 .obj/Menu.s : ../../Desktop/Lib/CCore/src/./video/Menu.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/MenuClient.s : ../../Desktop/App/CCore/src/./video/MenuClient.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/MergeSort.s : ../../Fundamental/CCore/src/./sort/MergeSort.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4688,6 +4697,9 @@ include $(RULES_FILE)
 
 .obj/Menu.dep : ../../Desktop/Lib/CCore/src/./video/Menu.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Menu.o $< -MF $@
+
+.obj/MenuClient.dep : ../../Desktop/App/CCore/src/./video/MenuClient.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/MenuClient.o $< -MF $@
 
 .obj/MergeSort.dep : ../../Fundamental/CCore/src/./sort/MergeSort.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/MergeSort.o $< -MF $@
