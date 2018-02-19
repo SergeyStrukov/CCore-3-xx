@@ -198,6 +198,10 @@ class Shape
 
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Point base) const;
 
+   bool hit(Point point) const;
+
+   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point) const;
+
   public:
 
    ulen offy = 0 ;
@@ -211,6 +215,10 @@ class Shape
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
 
    Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const;
+
+   bool hit(Point point,ulen pos_x,ulen pos_y,bool posflag) const;
+
+   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point,ulen pos_x,ulen pos_y,bool posflag) const;
  };
 
 } // namespace App

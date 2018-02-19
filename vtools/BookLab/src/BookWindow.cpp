@@ -17,6 +17,7 @@
 
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
+#include <CCore/inc/algon/BinarySearch.h>
 
 namespace App {
 
@@ -92,6 +93,65 @@ void InnerBookWindow::subYPos(ulen delta,bool mul_flag)
   scroll_y.assert(sy.pos);
 
   redraw();
+ }
+
+PtrLen<const Shape> InnerBookWindow::getVisibleShapes(ulen off,ulen lim) const
+ {
+  PtrLen<const Shape> r=Range(shapes);
+
+  r=Algon::BinarySearch_if(r, [lim] (const Shape &shape) { return shape.offy >= lim ; } );
+
+  auto s=Algon::BinarySearch_if(r, [off] (const Shape &shape) { return shape.offy > off ; } );
+
+  if( +s ) --r;
+
+  return r;
+ }
+
+PtrLen<const Shape> InnerBookWindow::getVisibleShapes() const
+ {
+  ulen wdy=sy.page;
+  ulen pos_y=sy.getPos();
+
+  return getVisibleShapes(pos_y,pos_y+wdy);
+ }
+
+AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> InnerBookWindow::getRef(Point point) const
+ {
+  cache();
+
+  Pane pane=getPane();
+
+  MCoord width=+cfg.width;
+  Pane inner=pane.shrink(RoundUpLen(width));
+
+  point-=inner.getBase();
+
+  ulen wdy=sy.page;
+
+  ulen pos_x=sx.getPos();
+  ulen pos_y=sy.getPos();
+
+  for(auto &shape : getVisibleShapes(pos_y,pos_y+wdy) )
+    {
+     ulen y=shape.offy;
+
+     Size size=shape.getSize();
+
+     if( pos_x<size.dx )
+       {
+        if( y>=pos_y )
+          {
+           if( shape.hit(point,pos_x,y-pos_y,false) ) return shape.getRef(point,pos_x,y-pos_y,false);
+          }
+        else
+          {
+           if( shape.hit(point,pos_x,pos_y-y,true) ) return shape.getRef(point,pos_x,pos_y-y,true);
+          }
+       }
+    }
+
+  return Null;
  }
 
 void InnerBookWindow::begXPos()
@@ -288,39 +348,26 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   buf=buf.cutRebase(inner);
 
-  Point s=inner.getSize();
-
-  ulen wdy=(ulen)s.y;
+  ulen wdy=sy.page;
 
   ulen pos_x=sx.getPos();
   ulen pos_y=sy.getPos();
 
-  for(auto &shape : shapes )
+  for(auto &shape : getVisibleShapes(pos_y,pos_y+wdy) )
     {
-     ulen y=shape.offy; // y>=pos_y
+     ulen y=shape.offy;
 
      Size size=shape.getSize();
 
-     if( y>=pos_y )
+     if( pos_x<size.dx )
        {
-        ulen delta=y-pos_y;
-
-        if( delta<wdy )
+        if( y>=pos_y )
           {
-           if( pos_x<size.dx ) shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,delta,false);
+           shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,y-pos_y,false);
           }
         else
           {
-           break;
-          }
-       }
-     else
-       {
-        ulen delta=pos_y-y;
-
-        if( delta<size.dy && pos_x<size.dx )
-          {
-           shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,delta,true);
+           shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,pos_y-y,true);
           }
        }
     }
@@ -347,12 +394,11 @@ void InnerBookWindow::looseFocus()
 
  // mouse
 
-MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
+MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod) const
  {
-  Used(point);
-  Used(kmod);
+  AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref=getRef(point);
 
-  return Mouse_Arrow;
+  return +ref?Mouse_Hand:Mouse_Arrow;
  }
 
  // user input
@@ -422,9 +468,30 @@ void InnerBookWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     }
  }
 
-void InnerBookWindow::react_LeftClick(Point point,MouseKey) // TODO
+void InnerBookWindow::react_LeftClick(Point point,MouseKey)
  {
-  Used(point);
+  AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref=getRef(point);
+
+  if( !ref ) return;
+
+  struct Func
+   {
+    InnerBookWindow *obj;
+
+    void operator () (Book::TypeDef::Link *ref)
+     {
+      obj->link.assert(*ref);
+     }
+
+    void operator () (Book::TypeDef::Page *ref)
+     {
+      obj->hint.assert(ref);
+     }
+   };
+
+  Func func{this};
+
+  ElaborateAnyPtr(func,ref);
  }
 
 void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)

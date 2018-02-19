@@ -1061,6 +1061,16 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor f
   ctx.draw();
  }
 
+bool Shape::hit(Point point) const
+ {
+  return point>=Null && point<size ;
+ }
+
+AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point) const
+ {
+  return Null;
+ }
+
 Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame_,Coordinate dx)
  {
   frame=&frame_;
@@ -1117,6 +1127,22 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VCol
   ctx.draw();
 
   return size.y;
+ }
+
+bool Shape::hit(Point point,ulen pos_x,ulen pos_y,bool posflag) const
+ {
+  if( posflag )
+    return hit(point-Point(-(Coord)pos_x,-(Coord)pos_y));
+  else
+    return hit(point-Point(-(Coord)pos_x,(Coord)pos_y));
+ }
+
+AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point,ulen pos_x,ulen pos_y,bool posflag) const
+ {
+  if( posflag )
+    return getRef(point-Point(-(Coord)pos_x,-(Coord)pos_y));
+  else
+    return getRef(point-Point(-(Coord)pos_x,(Coord)pos_y));
  }
 
 } // namespace App

@@ -150,6 +150,12 @@ class InnerBookWindow : public SubWindow
 
    void subYPosPage();
 
+   PtrLen<const Shape> getVisibleShapes(ulen off,ulen lim) const;
+
+   PtrLen<const Shape> getVisibleShapes() const;
+
+   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point) const;
+
   private:
 
    void posX(ulen pos);
