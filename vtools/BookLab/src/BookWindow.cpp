@@ -36,6 +36,8 @@ void InnerBookWindow::cache() const
 
      Size s;
 
+     ulen y=0;
+
      for(ulen i=0; i<frames.len ;i++)
        {
         Shape &shape=shapes[i];
@@ -43,6 +45,10 @@ void InnerBookWindow::cache() const
         shape.set(cfg,font_map,bmp_map,frames[i],dx);
 
         s=StackY(s,shape.size);
+
+        shape.offy=y;
+
+        y+=shape.getSize().y;
        }
 
      size=s;
@@ -288,11 +294,10 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   ulen pos_x=sx.getPos();
   ulen pos_y=sy.getPos();
-  ulen y=0;
 
-  for(ulen i=0,len=shapes.getLen(); i<len ;i++)
+  for(auto &shape : shapes )
     {
-     auto &shape=shapes[i];
+     ulen y=shape.offy; // y>=pos_y
 
      Size size=shape.getSize();
 
@@ -318,8 +323,6 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
            shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,delta,true);
           }
        }
-
-     y+=size.dy;
     }
  }
 

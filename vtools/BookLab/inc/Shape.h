@@ -164,20 +164,6 @@ class Shape
 
    struct DrawContext;
 
-  public:
-
-   Shape() noexcept {}
-
-   Point getSize() const { return size; }
-
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
-
-   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
-
-   Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const;
-
-  private:
-
    Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
 
    Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
@@ -211,6 +197,20 @@ class Shape
    void drawLine(FontMap &font_map,Font font,VColor fore,Effect effect,MCoord width,DrawBuf buf,Book::TypeDef::Line line,Pane pane,Point base) const;
 
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Point base) const;
+
+  public:
+
+   ulen offy = 0 ;
+
+   Shape() noexcept {}
+
+   Point getSize() const { return size; }
+
+   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
+
+   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
+
+   Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const;
  };
 
 } // namespace App

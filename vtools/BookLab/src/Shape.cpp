@@ -946,64 +946,6 @@ struct Shape::DrawContext
 
 /* class Shape */
 
-Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame_,Coordinate dx)
- {
-  frame=&frame_;
-
-  Scope scope("App::Shape::set"_c);
-
-  Point delta=2*( Cast(frame->inner)+Cast(frame->outer) );
-
-  offx=0;
-  split.erase();
-
-  SizeContext ctx{cfg,font_map,bmp_map,*frame,dx-delta.x,offx,split,subshapes};
-
-  size=ctx.size()+delta;
-
-  return size;
- }
-
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const
- {
-  Scope scope("App::Shape::draw"_c);
-
-  if( posflag )
-    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,-(Coord)pos_y));
-  else
-    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,(Coord)pos_y));
- }
-
-Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const
- {
-  Pane pane(parent.getBase()+base,size);
-
-  Pane inner=pane.shrink(Cast(frame->outer));
-
-  if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
-    {
-     PaneSub sub(pane,inner);
-
-     buf.erase(sub.top,col);
-     buf.erase(sub.bottom,col);
-     buf.erase(sub.left,col);
-     buf.erase(sub.right,col);
-    }
-
-  if( VColor back=GetAnyBack(frame->body.getPtr()) ; back!=Book::NoColor )
-    {
-     buf.erase(inner,back);
-    }
-
-  DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
-
-  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(Inf(inner,parent)),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
-
-  ctx.draw();
-
-  return size.y;
- }
-
 VColor Shape::GetBack(const Book::TypeDef::Format *fmt)
  {
   if( fmt ) return Cast(fmt->back);
@@ -1117,6 +1059,64 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor f
   DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(inner),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
+ }
+
+Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame_,Coordinate dx)
+ {
+  frame=&frame_;
+
+  Scope scope("App::Shape::set"_c);
+
+  Point delta=2*( Cast(frame->inner)+Cast(frame->outer) );
+
+  offx=0;
+  split.erase();
+
+  SizeContext ctx{cfg,font_map,bmp_map,*frame,dx-delta.x,offx,split,subshapes};
+
+  size=ctx.size()+delta;
+
+  return size;
+ }
+
+void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const
+ {
+  Scope scope("App::Shape::draw"_c);
+
+  if( posflag )
+    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,-(Coord)pos_y));
+  else
+    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,(Coord)pos_y));
+ }
+
+Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const
+ {
+  Pane pane(parent.getBase()+base,size);
+
+  Pane inner=pane.shrink(Cast(frame->outer));
+
+  if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
+    {
+     PaneSub sub(pane,inner);
+
+     buf.erase(sub.top,col);
+     buf.erase(sub.bottom,col);
+     buf.erase(sub.left,col);
+     buf.erase(sub.right,col);
+    }
+
+  if( VColor back=GetAnyBack(frame->body.getPtr()) ; back!=Book::NoColor )
+    {
+     buf.erase(inner,back);
+    }
+
+  DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
+
+  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(Inf(inner,parent)),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
+
+  ctx.draw();
+
+  return size.y;
  }
 
 } // namespace App
