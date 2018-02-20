@@ -534,5 +534,5 @@ Text o19 = { {
 
 } // scope Pages
 
-Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;
+Book Data = { Pages#BookName , &Pages#page1 , Pages#Back , Pages#Fore } ;
 

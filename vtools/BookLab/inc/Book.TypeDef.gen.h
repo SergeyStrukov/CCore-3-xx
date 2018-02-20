@@ -38,7 +38,7 @@ struct TypeDefCore
 
   struct S1
    {
-    DDL::ulen_type page_index;
+    DDL::MapPtr< S5 > page;
     DDL::ulen_type frame_index;
 
     struct Ext;
@@ -47,7 +47,7 @@ struct TypeDefCore
   struct S2
    {
     DDL::MapText title;
-    DDL::MapRange< DDL::MapPtr< S5 > > list;
+    DDL::MapPtr< S5 > start;
     A5 back;
     A5 fore;
 
@@ -79,7 +79,7 @@ struct TypeDefCore
     DDL::MapRange< S4 > list;
     A5 back;
     A5 fore;
-    DDL::MapPtr< S5 > top;
+    DDL::MapPtr< S5 > up;
     DDL::MapPtr< S5 > prev;
     DDL::MapPtr< S5 > next;
 

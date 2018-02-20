@@ -7,7 +7,7 @@ scope Pages {
 /* page1 */
 
 Page page1 = { Pages#PageName , {
-{ &o1 }
+{ &bmp1 } , { &o1 }
 } };
 
 TextList o1 = { {{"1.",{
@@ -22,19 +22,21 @@ Text o2 = { {
 {"page1",null,&link1}
 } , &fmt_li , &align_li } ;
 
-Link link1 = {1,0} ;
+Link link1 = {&page2,0} ;
 
 Text o4 = { {
 {"page2",null,&link2}
 } , &fmt_li , &align_li } ;
 
-Link link2 = {2,0} ;
+Link link2 = {&page3,0} ;
+
+Bitmap bmp1 = { "img/Mandelbrot" + '.bitmap'  };
 
 /* page2 */
 
 Page page2 = { .name = Pages#PageName + " : page1" , .list = {
 { &o5 }
-} , .top = &page1 , .next = &page3 };
+} , .up = &page1 , .next = &page3 };
 
 Text o5 = { {
 {"This"}
@@ -49,7 +51,7 @@ Text o5 = { {
 
 Page page3 = { .name = Pages#PageName + " : page2" , .list = {
 { &o6 }
-} , .top = &page1 , .prev = &page2 };
+} , .up = &page1 , .prev = &page2 };
 
 Text o6 = { {
 {"This"}
@@ -62,5 +64,5 @@ Text o6 = { {
 
 } // scope Pages
 
-Book Data = { Pages#BookName , {&Pages#page1,&Pages#page2,&Pages#page3} , Pages#Back , Pages#Fore } ;
+Book Data = { Pages#BookName , &Pages#page1 , Pages#Back , Pages#Fore } ;
 

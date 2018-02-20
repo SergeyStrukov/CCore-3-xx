@@ -90,6 +90,9 @@ class InnerBookWindow : public SubWindow
    VColor back = Book::NoColor ;
    VColor fore = Book::NoColor ;
 
+   VColor book_back = Book::NoColor ;
+   VColor book_fore = Book::NoColor ;
+
    bool focus = false ;
 
    // scroll
@@ -183,7 +186,7 @@ class InnerBookWindow : public SubWindow
 
    void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index);
+   void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
    // special methods
 
@@ -272,7 +275,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index);
+   void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
    // signals
 
@@ -300,6 +303,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<ArrowProgressWindow::ConfigType> progress_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
 
      // app
 
@@ -331,6 +335,7 @@ class BookWindow : public ComboWindow
        text_cfg.bind(proxy);
        progress_cfg.bind(proxy);
        msg_cfg.bind(proxy);
+       knob_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -353,6 +358,10 @@ class BookWindow : public ComboWindow
    Book::BookMap book_map;
    FontMap font_map;
 
+   Book::TypeDef::Page *prev = 0 ;
+   Book::TypeDef::Page *up   = 0 ;
+   Book::TypeDef::Page *next = 0 ;
+
    // subwindows
 
    RefLabelWindow label_title;
@@ -360,6 +369,10 @@ class BookWindow : public ComboWindow
 
    RefLabelWindow label_page;
    TextLineWindow text_page;
+
+   KnobWindow knob_prev;
+   KnobWindow knob_up;
+   KnobWindow knob_next;
 
    DisplayBookWindow book;
 
@@ -401,6 +414,8 @@ class BookWindow : public ComboWindow
 
    void error(DefString etext);
 
+   void setNav(Book::TypeDef::Page *page);
+
    void enableFrame();
 
    SignalConnector<BookWindow> connector_msg_destroyed;
@@ -416,6 +431,18 @@ class BookWindow : public ComboWindow
    void hint(Book::TypeDef::Page *page);
 
    SignalConnector<BookWindow,Book::TypeDef::Page *> connector_hint;
+
+   void gotoPrev();
+
+   void gotoUp();
+
+   void gotoNext();
+
+   SignalConnector<BookWindow> connector_prev_pressed;
+
+   SignalConnector<BookWindow> connector_up_pressed;
+
+   SignalConnector<BookWindow> connector_next_pressed;
 
   public:
 

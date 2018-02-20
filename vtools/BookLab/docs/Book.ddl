@@ -201,7 +201,7 @@ struct Page
   VColor back = NoColor ;
   VColor fore = NoColor ;
   
-  Page *top = null ;
+  Page *up = null ;
   Page *prev = null ;
   Page *next = null ;
  };
@@ -210,7 +210,7 @@ struct Book
  {
   text title;
   
-  Page * [] list;
+  Page *start;
   
   VColor back = NoColor ;
   VColor fore = NoColor ;
@@ -218,7 +218,7 @@ struct Book
 
 struct Link
  {
-  ulen page_index;
+  Page *page;
   ulen frame_index = 0 ;
  };
 

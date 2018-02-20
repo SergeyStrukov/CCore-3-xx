@@ -283,6 +283,9 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
 
   bmp_map.setRoot(file_name);
 
+  book_back=back_;
+  book_fore=fore_;
+
   if( page )
     {
      frames=page->list;
@@ -302,23 +305,21 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
   ok=false;
  }
 
-void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_,ulen frame_index)
+void InnerBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
  {
   frames=Null;
-
-  bmp_map.erase();
 
   if( page )
     {
      frames=page->list;
 
-     back=Combine(page->back,back_);
-     fore=Combine(page->fore,fore_);
+     back=Combine(page->back,book_back);
+     fore=Combine(page->fore,book_fore);
     }
   else
     {
-     back=back_;
-     fore=fore_;
+     back=book_back;
+     fore=book_fore;
     }
 
   sx.beg();
@@ -579,17 +580,13 @@ void DisplayBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColo
   window.setPage(file_name,page,back,fore);
 
   layout();
-
-  redraw();
  }
 
-void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index)
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
  {
-  window.setPage(page,back,fore,frame_index);
+  window.setPage(page,frame_index);
 
   layout();
-
-  redraw();
  }
 
 /* class BookWindow::ProgressControl */
@@ -639,6 +636,26 @@ void BookWindow::error(DefString etext)
     }
  }
 
+void BookWindow::setNav(Book::TypeDef::Page *page)
+ {
+  if( page )
+    {
+     prev=page->prev;
+     up=page->up;
+     next=page->next;
+    }
+  else
+    {
+     prev=0;
+     up=0;
+     next=0;
+    }
+
+  knob_prev.enable(prev);
+  knob_up.enable(up);
+  knob_next.enable(next);
+ }
+
 void BookWindow::enableFrame()
  {
   enableFrameReact();
@@ -652,7 +669,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,book);
+     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,book);
 
      redraw();
     }
@@ -660,30 +677,37 @@ void BookWindow::font_completed(bool ok)
 
 void BookWindow::link(Book::TypeDef::Link dst)
  {
-  if( auto *ptr=book_map.get() )
+  if( auto *page=dst.page.getPtr() )
     {
-     auto list=ptr->list.getRange();
+     text_page.setText(DefString(page->name.getStr()));
 
-     if( dst.page_index<list.len )
-       {
-        auto *page=list[dst.page_index].getPtr();
+     setNav(page);
 
-        if( page )
-          text_page.setText(DefString(page->name.getStr()));
-        else
-          text_page.setText(""_def);
+     layout();
 
-        layout();
-
-        book.setPage(page,Cast(ptr->back),Cast(ptr->fore),dst.frame_index);
-       }
-
-     redraw();
+     book.setPage(page,dst.frame_index);
     }
+
+  redraw();
  }
 
 void BookWindow::hint(Book::TypeDef::Page *page)
  {
+ }
+
+void BookWindow::gotoPrev()
+ {
+  if( prev ) link({prev,0});
+ }
+
+void BookWindow::gotoUp()
+ {
+  if( up ) link({up,0});
+ }
+
+void BookWindow::gotoNext()
+ {
+  if( next ) link({next,0});
  }
 
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
@@ -696,6 +720,10 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    label_page(wlist,cfg.label_cfg,cfg.text_Page),
    text_page(wlist,cfg.text_cfg),
 
+   knob_prev(wlist,cfg.knob_cfg,KnobShape::FaceLeft),
+   knob_up(wlist,cfg.knob_cfg,KnobShape::FaceUp),
+   knob_next(wlist,cfg.knob_cfg,KnobShape::FaceRight),
+
    book(wlist,cfg.book_cfg,font_map),
    progress(wlist,cfg.progress_cfg),
 
@@ -706,10 +734,19 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    connector_msg_destroyed(this,&BookWindow::enableFrame,msg.destroyed),
    connector_font_completed(this,&BookWindow::font_completed,font_inc.completed),
+
    connector_link(this,&BookWindow::link,book.link),
-   connector_hint(this,&BookWindow::hint,book.hint)
+   connector_hint(this,&BookWindow::hint,book.hint),
+
+   connector_prev_pressed(this,&BookWindow::gotoPrev,knob_prev.pressed),
+   connector_up_pressed(this,&BookWindow::gotoUp,knob_up.pressed),
+   connector_next_pressed(this,&BookWindow::gotoNext,knob_next.pressed)
  {
   wlist.insTop(progress);
+
+  knob_prev.disable();
+  knob_up.disable();
+  knob_next.disable();
  }
 
 BookWindow::~BookWindow()
@@ -722,7 +759,7 @@ Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
+  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),LayLeft(knob_next)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -739,6 +776,8 @@ void BookWindow::blank()
 
   text_title.setText(""_def);
   text_page.setText(""_def);
+
+  setNav(0);
 
   layout();
 
@@ -766,16 +805,11 @@ void BookWindow::load(StrLen file_name)
 
      text_title.setText(DefString(ptr->title.getStr()));
 
-     auto list=ptr->list.getRange();
-
-     if( list.len )
+     if( auto *page=ptr->start.getPtr() )
        {
-        auto *page=list[0].getPtr();
+        text_page.setText(DefString(page->name.getStr()));
 
-        if( page )
-          text_page.setText(DefString(page->name.getStr()));
-        else
-          text_page.setText(""_def);
+        setNav(page);
 
         layout();
 
@@ -784,6 +818,8 @@ void BookWindow::load(StrLen file_name)
      else
        {
         text_page.setText(""_def);
+
+        setNav(0);
 
         layout();
 
@@ -804,7 +840,7 @@ void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),Lay(text_title),Lay(label_page),LayLeft(text_page)};
+  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),LayLeft(knob_next)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 

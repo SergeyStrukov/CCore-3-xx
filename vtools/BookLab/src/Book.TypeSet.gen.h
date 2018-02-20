@@ -49,7 +49,7 @@ struct TypeSet : TypeDefCore
          ret.set<S1>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "page_index",offsetof(S1,page_index),
+                               "page",offsetof(S1,page),
                                "frame_index",offsetof(S1,frame_index)
                               );
         }
@@ -64,7 +64,7 @@ struct TypeSet : TypeDefCore
 
          DDL::SetFieldOffsets(struct_node,
                                "title",offsetof(S2,title),
-                               "list",offsetof(S2,list),
+                               "start",offsetof(S2,start),
                                "back",offsetof(S2,back),
                                "fore",offsetof(S2,fore)
                               );
@@ -83,7 +83,7 @@ struct TypeSet : TypeDefCore
                                "list",offsetof(S5,list),
                                "back",offsetof(S5,back),
                                "fore",offsetof(S5,fore),
-                               "top",offsetof(S5,top),
+                               "up",offsetof(S5,up),
                                "prev",offsetof(S5,prev),
                                "next",offsetof(S5,next)
                               );
@@ -342,7 +342,7 @@ struct TypeSet : TypeDefCore
        case 1 :
         {
          DDL::GuardFieldTypes<
-                               DDL::ulen_type,
+                               DDL::MapPtr< S5 >,
                                DDL::ulen_type
                               >(*this,struct_node);
         }
@@ -352,7 +352,7 @@ struct TypeSet : TypeDefCore
         {
          DDL::GuardFieldTypes<
                                DDL::MapText,
-                               DDL::MapRange< DDL::MapPtr< S5 > >,
+                               DDL::MapPtr< S5 >,
                                A5,
                                A5
                               >(*this,struct_node);
