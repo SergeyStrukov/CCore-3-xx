@@ -144,6 +144,14 @@ class Shape
    DynArray<ulen> split;
    DynArray<Shape> subshapes;
 
+   struct RefPane
+    {
+     Pane pane;
+     AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref;
+    };
+
+   DynArray<RefPane> refs;
+
   private:
 
    static bool SkipSpace(StrLen text);
@@ -210,7 +218,7 @@ class Shape
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx);
+   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame,Coordinate dx,Point base=Null);
 
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
 
