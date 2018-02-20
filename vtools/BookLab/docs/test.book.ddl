@@ -19,14 +19,16 @@ TextList o1 = { {{"1.",{
 } };
 
 Text o2 = { {
-{"page1",null,&page2}
+{"page1",null,&link1}
 } , &fmt_li , &align_li } ;
 
-
+Link link1 = {1,0} ;
 
 Text o4 = { {
-{"page2",null,&page3}
+{"page2",null,&link2}
 } , &fmt_li , &align_li } ;
+
+Link link2 = {2,0} ;
 
 /* page2 */
 
@@ -60,5 +62,5 @@ Text o6 = { {
 
 } // scope Pages
 
-Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;
+Book Data = { Pages#BookName , {&Pages#page1,&Pages#page2,&Pages#page3} , Pages#Back , Pages#Fore } ;
 

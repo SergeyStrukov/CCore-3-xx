@@ -156,6 +156,8 @@ class InnerBookWindow : public SubWindow
 
    AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point) const;
 
+   void posFrame(ulen frame_index);
+
   private:
 
    void posX(ulen pos);
@@ -180,6 +182,8 @@ class InnerBookWindow : public SubWindow
    Point getMinSize(Point cap=Point::Max()) const;
 
    void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
+
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index);
 
    // special methods
 
@@ -267,6 +271,8 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
    // methods
 
    void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
+
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index);
 
    // signals
 
@@ -402,6 +408,14 @@ class BookWindow : public ComboWindow
    void font_completed(bool ok);
 
    SignalConnector<BookWindow,bool> connector_font_completed;
+
+   void link(Book::TypeDef::Link dst);
+
+   SignalConnector<BookWindow,Book::TypeDef::Link> connector_link;
+
+   void hint(Book::TypeDef::Page *page);
+
+   SignalConnector<BookWindow,Book::TypeDef::Page *> connector_hint;
 
   public:
 

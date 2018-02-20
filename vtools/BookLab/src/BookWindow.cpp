@@ -154,6 +154,18 @@ AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> InnerBookWindow::getRef(Point po
   return Null;
  }
 
+void InnerBookWindow::posFrame(ulen frame_index)
+ {
+  if( frame_index<shapes.getLen() )
+    {
+     sy.setPos( shapes[frame_index].offy );
+    }
+  else
+    {
+     sy.end();
+    }
+ }
+
 void InnerBookWindow::begXPos()
  {
   sx.beg();
@@ -278,11 +290,45 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
      back=Combine(page->back,back_);
      fore=Combine(page->fore,fore_);
     }
+  else
+    {
+     back=back_;
+     fore=fore_;
+    }
 
   sx.beg();
   sy.beg();
 
   ok=false;
+ }
+
+void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_,ulen frame_index)
+ {
+  frames=Null;
+
+  bmp_map.erase();
+
+  if( page )
+    {
+     frames=page->list;
+
+     back=Combine(page->back,back_);
+     fore=Combine(page->fore,fore_);
+    }
+  else
+    {
+     back=back_;
+     fore=fore_;
+    }
+
+  sx.beg();
+  sy.beg();
+
+  ok=false;
+
+  cache();
+
+  posFrame(frame_index);
  }
 
  // drawing
@@ -537,6 +583,15 @@ void DisplayBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColo
   redraw();
  }
 
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore,ulen frame_index)
+ {
+  window.setPage(page,back,fore,frame_index);
+
+  layout();
+
+  redraw();
+ }
+
 /* class BookWindow::ProgressControl */
 
 BookWindow::ProgressControl::ProgressControl(ArrowProgressWindow &window_)
@@ -603,6 +658,34 @@ void BookWindow::font_completed(bool ok)
     }
  }
 
+void BookWindow::link(Book::TypeDef::Link dst)
+ {
+  if( auto *ptr=book_map.get() )
+    {
+     auto list=ptr->list.getRange();
+
+     if( dst.page_index<list.len )
+       {
+        auto *page=list[dst.page_index].getPtr();
+
+        if( page )
+          text_page.setText(DefString(page->name.getStr()));
+        else
+          text_page.setText(""_def);
+
+        layout();
+
+        book.setPage(page,Cast(ptr->back),Cast(ptr->fore),dst.frame_index);
+       }
+
+     redraw();
+    }
+ }
+
+void BookWindow::hint(Book::TypeDef::Page *page)
+ {
+ }
+
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
@@ -622,7 +705,9 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    font_inc(progress_control),
 
    connector_msg_destroyed(this,&BookWindow::enableFrame,msg.destroyed),
-   connector_font_completed(this,&BookWindow::font_completed,font_inc.completed)
+   connector_font_completed(this,&BookWindow::font_completed,font_inc.completed),
+   connector_link(this,&BookWindow::link,book.link),
+   connector_hint(this,&BookWindow::hint,book.hint)
  {
   wlist.insTop(progress);
  }
@@ -687,7 +772,10 @@ void BookWindow::load(StrLen file_name)
        {
         auto *page=list[0].getPtr();
 
-        text_page.setText(DefString(page->name.getStr()));
+        if( page )
+          text_page.setText(DefString(page->name.getStr()));
+        else
+          text_page.setText(""_def);
 
         layout();
 
