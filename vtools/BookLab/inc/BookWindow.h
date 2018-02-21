@@ -95,6 +95,8 @@ class InnerBookWindow : public SubWindow
 
    bool focus = false ;
 
+   Ratio scale;
+
    // scroll
 
    ScrollPos sx;
@@ -188,6 +190,8 @@ class InnerBookWindow : public SubWindow
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
+   void setScale(Ratio scale);
+
    // special methods
 
    bool shortDX() const { return sx.tooShort(); }
@@ -277,6 +281,8 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
+   void setScale(Ratio scale);
+
    // signals
 
    Signal<Book::TypeDef::Link> &link;
@@ -304,6 +310,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<ArrowProgressWindow::ConfigType> progress_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
+     CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
 
      // app
 
@@ -336,6 +343,7 @@ class BookWindow : public ComboWindow
        progress_cfg.bind(proxy);
        msg_cfg.bind(proxy);
        knob_cfg.bind(proxy);
+       spinor_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -373,6 +381,8 @@ class BookWindow : public ComboWindow
    KnobWindow knob_prev;
    KnobWindow knob_up;
    KnobWindow knob_next;
+
+   SpinorWindow spinor;
 
    DisplayBookWindow book;
 
@@ -443,6 +453,10 @@ class BookWindow : public ComboWindow
    SignalConnector<BookWindow> connector_up_pressed;
 
    SignalConnector<BookWindow> connector_next_pressed;
+
+   void setScale(int scale);
+
+   SignalConnector<BookWindow,int> connector_scale_changed;
 
   public:
 

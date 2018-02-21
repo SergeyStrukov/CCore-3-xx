@@ -233,6 +233,7 @@ struct Shape::SizeContext
   const Config &cfg;
   FontMap &font_map;
   BitmapMap &bmp_map;
+  Ratio scale;
   const Book::TypeDef::Frame &frame;
   Coordinate wdx;
 
@@ -588,7 +589,7 @@ struct Shape::SizeContext
 
     for(ulen i=0; i<list.len ;i++)
       {
-       Point t=shapes[i].set(cfg,font_map,bmp_map,list[i],dx,p);
+       Point t=shapes[i].set(cfg,font_map,bmp_map,scale,list[i],dx,p);
 
        s=StackYSize(s,t);
 
@@ -661,6 +662,7 @@ struct Shape::DrawContext
   const Config &cfg;
   FontMap &font_map;
   BitmapMap &bmp_map;
+  Ratio scale;
   VColor fore;
   DrawBuf buf;
   const Book::TypeDef::Frame &frame;
@@ -975,7 +977,7 @@ struct Shape::DrawContext
 
     for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
       {
-       Coord dy=shapes[i].drawSub(cfg,font_map,bmp_map,fore,buf,pane,p);
+       Coord dy=shapes[i].drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,p);
 
        p.y+=dy;
        dy2+=dy;
@@ -1105,7 +1107,7 @@ void Shape::DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane)
   line.apply( [&] (auto *obj) { DrawLine(cfg,buf,obj,pane); } );
  }
 
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Point base) const
+void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Point base) const
  {
   Pane pane(base,size);
 
@@ -1128,7 +1130,7 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor f
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(inner),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
  }
@@ -1152,7 +1154,7 @@ AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point) const
   return Null;
  }
 
-Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Book::TypeDef::Frame &frame_,Coordinate dx,Point base)
+Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame_,Coordinate dx,Point base)
  {
   frame=&frame_;
 
@@ -1165,24 +1167,24 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,const Bo
   split.erase();
   refs.shrink_all();
 
-  SizeContext ctx{cfg,font_map,bmp_map,*frame,dx-delta.x,offx,split,subshapes,refs};
+  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,offx,split,subshapes,refs};
 
   size=ctx.size(base+off)+delta;
 
   return size;
  }
 
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const
+void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const
  {
   Scope scope("App::Shape::draw"_c);
 
   if( posflag )
-    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,-(Coord)pos_y));
+    draw(cfg,font_map,bmp_map,scale,fore,buf,Point(-(Coord)pos_x,-(Coord)pos_y));
   else
-    draw(cfg,font_map,bmp_map,fore,buf,Point(-(Coord)pos_x,(Coord)pos_y));
+    draw(cfg,font_map,bmp_map,scale,fore,buf,Point(-(Coord)pos_x,(Coord)pos_y));
  }
 
-Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VColor fore,DrawBuf buf,Pane parent,Point base) const
+Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const
  {
   Pane pane(parent.getBase()+base,size);
 
@@ -1205,7 +1207,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,VCol
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,fore,buf.cut(Inf(inner,parent)),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
 

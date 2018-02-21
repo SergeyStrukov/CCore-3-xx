@@ -43,7 +43,7 @@ void InnerBookWindow::cache() const
        {
         Shape &shape=shapes[i];
 
-        shape.set(cfg,font_map,bmp_map,frames[i],dx);
+        shape.set(cfg,font_map,bmp_map,scale,frames[i],dx);
 
         s=StackY(s,shape.size);
 
@@ -286,6 +286,8 @@ void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor 
   book_back=back_;
   book_fore=fore_;
 
+  scale=Ratio(1,0);
+
   if( page )
     {
      frames=page->list;
@@ -330,6 +332,13 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
   cache();
 
   posFrame(frame_index);
+ }
+
+void InnerBookWindow::setScale(Ratio scale_)
+ {
+  scale=scale_;
+
+  ok=false;
  }
 
  // drawing
@@ -410,11 +419,11 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
        {
         if( y>=pos_y )
           {
-           shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,y-pos_y,false);
+           shape.draw(cfg,font_map,bmp_map,scale,fore,buf,pos_x,y-pos_y,false);
           }
         else
           {
-           shape.draw(cfg,font_map,bmp_map,fore,buf,pos_x,pos_y-y,true);
+           shape.draw(cfg,font_map,bmp_map,scale,fore,buf,pos_x,pos_y-y,true);
           }
        }
     }
@@ -589,6 +598,15 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
   layout();
  }
 
+void DisplayBookWindow::setScale(Ratio scale)
+ {
+  window.setScale(scale);
+
+  layout();
+
+  redraw();
+ }
+
 /* class BookWindow::ProgressControl */
 
 BookWindow::ProgressControl::ProgressControl(ArrowProgressWindow &window_)
@@ -669,7 +687,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,book);
+     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,spinor,book);
 
      redraw();
     }
@@ -710,6 +728,11 @@ void BookWindow::gotoNext()
   if( next ) link({next,0});
  }
 
+void BookWindow::setScale(int scale)
+ {
+  book.setScale(Div(scale,100));
+ }
+
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
@@ -723,6 +746,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    knob_prev(wlist,cfg.knob_cfg,KnobShape::FaceLeft),
    knob_up(wlist,cfg.knob_cfg,KnobShape::FaceUp),
    knob_next(wlist,cfg.knob_cfg,KnobShape::FaceRight),
+
+   spinor(wlist,cfg.spinor_cfg),
 
    book(wlist,cfg.book_cfg,font_map),
    progress(wlist,cfg.progress_cfg),
@@ -740,13 +765,19 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    connector_prev_pressed(this,&BookWindow::gotoPrev,knob_prev.pressed),
    connector_up_pressed(this,&BookWindow::gotoUp,knob_up.pressed),
-   connector_next_pressed(this,&BookWindow::gotoNext,knob_next.pressed)
+   connector_next_pressed(this,&BookWindow::gotoNext,knob_next.pressed),
+
+   connector_scale_changed(this,&BookWindow::setScale,spinor.changed)
  {
   wlist.insTop(progress);
 
   knob_prev.disable();
   knob_up.disable();
   knob_next.disable();
+
+  spinor.setRange(25,400);
+  spinor.setValue(100);
+  spinor.setOptions(".f2"_c);
  }
 
 BookWindow::~BookWindow()
@@ -759,7 +790,7 @@ Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),LayLeft(knob_next)};
+  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),Lay(knob_next),LayLeft(spinor)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -840,7 +871,7 @@ void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),LayLeft(knob_next)};
+  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),Lay(knob_next),LayLeft(spinor)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
