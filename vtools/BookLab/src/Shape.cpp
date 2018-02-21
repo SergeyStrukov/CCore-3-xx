@@ -245,6 +245,8 @@ struct Shape::SizeContext
   Font font;
   Coordinate space_dx;
 
+  // methods
+
   void use(const Book::TypeDef::Format *fmt)
    {
     if( fmt )
@@ -675,6 +677,8 @@ struct Shape::DrawContext
 
   Font font;
   Effect effect;
+
+  // methods
 
   void use(const Book::TypeDef::Format *fmt)
    {
@@ -1111,7 +1115,7 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
  {
   Pane pane(base,size);
 
-  Pane inner=pane.shrink(Cast(frame->outer));
+  Pane inner=pane.shrink(scale*Cast(frame->outer));
 
   if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
     {
@@ -1130,7 +1134,7 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
  }
@@ -1160,7 +1164,7 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
   Scope scope("App::Shape::set"_c);
 
-  Point off=Cast(frame->inner)+Cast(frame->outer);
+  Point off=scale*Cast(frame->inner)+scale*Cast(frame->outer);
   Point delta=2*off;
 
   offx=0;
@@ -1188,7 +1192,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
  {
   Pane pane(parent.getBase()+base,size);
 
-  Pane inner=pane.shrink(Cast(frame->outer));
+  Pane inner=pane.shrink(scale*Cast(frame->outer));
 
   if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
     {
@@ -1207,7 +1211,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),offx,Range(split),Range(subshapes)};
 
   ctx.draw();
 
