@@ -67,7 +67,15 @@ class Shape;
 
 class FontMap : NoCopy
  {
-   DynArray<Font> map;
+   struct Rec
+    {
+     Font font;
+     bool ok = false ;
+    };
+
+   DynArray<Rec> map;
+
+   Ratio scale = Ratio(1,0) ;
 
    FontLookup lookup;
 
@@ -85,7 +93,9 @@ class FontMap : NoCopy
 
    void cache(FontLookup::Incremental &inc,bool use_cache=true) { lookup.cache(inc,use_cache); }
 
-   void erase() { map.erase(); }
+   void erase() { map.erase(); scale=Ratio(1,0); }
+
+   void setScale(Ratio scale);
 
    Font operator () (Book::TypeDef::Font *font,Font fallback);
  };
@@ -166,7 +176,7 @@ class Shape
 
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::TextList *obj);
 
-   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame);
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Ratio scale);
 
    struct SizeContext;
 

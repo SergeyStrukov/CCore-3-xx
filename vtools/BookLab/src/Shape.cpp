@@ -106,7 +106,14 @@ Font FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Fon
 
 Font FontMap::find(Book::TypeDef::Font *font,Font fallback)
  {
-  return find(font->face,font->size,font->strength,font->bold,font->italic,fallback);
+  return find(font->face,scale*font->size,font->strength,font->bold,font->italic,fallback);
+ }
+
+void FontMap::setScale(Ratio scale_)
+ {
+  scale=scale_;
+
+  for(Rec &rec : map ) rec.ok=false;
  }
 
 Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
@@ -115,7 +122,15 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
   if( ulen ext=font->ext )
     {
-     return map.at(ext-1);
+     Rec &rec=map.at(ext-1);
+
+     if( rec.ok ) return rec.font;
+
+     rec.font=find(font,fallback);
+
+     rec.ok=true;
+
+     return rec.font;
     }
   else
     {
@@ -123,7 +138,7 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
      Font f=find(font,fallback);
 
-     map.append_copy(f);
+     map.append_copy({f,true});
 
      font->ext=ind+1;
 
@@ -217,13 +232,13 @@ Coord Shape::GetBY(const Config &,FontMap &,const Book::TypeDef::TextList *)
   return 0;
  }
 
-Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame)
+Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Ratio scale)
  {
   Coord ret=0;
 
   frame.body.getPtr().apply( [&] (auto *obj) { ret=GetBY(cfg,font_map,obj); } );
 
-  return frame.inner.y+frame.outer.y+ret;
+  return scale*frame.inner.y+scale*frame.outer.y+ret;
  }
 
 /* struct Shape::SizeContext */
@@ -378,11 +393,23 @@ struct Shape::SizeContext
     return tdx;
    }
 
+  void correctRefs(ulen refs_len)
+   {
+    Coord delta=offx;
+
+    for(RefPane &ref : Range(refs).part(refs_len) )
+      {
+       ref.pane.x+=delta;
+      }
+   }
+
   Point size(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,Point base)
    {
     if( !placement ) return Null;
 
     FontSize fs=font->getSize();
+
+    ulen refs_len=refs.getLen();
 
     Coordinate dx=sizeLine(range,base,fs.dy);
 
@@ -393,6 +420,8 @@ struct Shape::SizeContext
          Coord extra=+PlusSub(wdx,dx);
 
          offx=extra;
+
+         correctRefs(refs_len);
         }
        break;
 
@@ -401,6 +430,8 @@ struct Shape::SizeContext
          Coord extra=+PlusSub(wdx,dx);
 
          offx=extra/2;
+
+         correctRefs(refs_len);
         }
        break;
 
@@ -568,7 +599,7 @@ struct Shape::SizeContext
 
     if( +list )
       {
-       Coord by2=GetBY(cfg,font_map,*list);
+       Coord by2=GetBY(cfg,font_map,*list,scale);
 
        if( by2>by1 )
          {
@@ -627,7 +658,9 @@ struct Shape::SizeContext
 
     Point ret=Null;
 
-    Coord bullet_space=obj->bullet_space;
+    Coord bullet_space=scale*Coord(obj->bullet_space);
+
+    Coord item_space=scale*Coord(obj->item_space);
 
     for(ulen i=0; i<list.len ;i++)
       {
@@ -639,10 +672,10 @@ struct Shape::SizeContext
 
        shapes+=count;
 
-       base.y += ( s.y + obj->item_space ) ;
+       base.y += ( s.y + item_space ) ;
       }
 
-    return ret.addY( +( (CountToCoordinate(list.len)-1)*obj->item_space ) );
+    return ret.addY( +( (CountToCoordinate(list.len)-1)*item_space ) );
    }
 
   // size
@@ -955,7 +988,7 @@ struct Shape::DrawContext
 
     if( +list )
       {
-       Coord by2=GetBY(cfg,font_map,*list);
+       Coord by2=GetBY(cfg,font_map,*list,scale);
 
        if( by2>by1 )
          {
@@ -1000,7 +1033,9 @@ struct Shape::DrawContext
 
     ulen off=0;
 
-    Coord bullet_space=obj->bullet_space;
+    Coord bullet_space=scale*Coord(obj->bullet_space);
+
+    Coord item_space=scale*Coord(obj->item_space);
 
     for(ulen i=0; i<list.len ;i++)
       {
@@ -1010,7 +1045,7 @@ struct Shape::DrawContext
 
        off+=count;
 
-       base.y += ( dy + obj->item_space ) ;
+       base.y += ( dy + item_space ) ;
       }
    }
 

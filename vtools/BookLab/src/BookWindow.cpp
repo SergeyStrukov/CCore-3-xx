@@ -338,6 +338,8 @@ void InnerBookWindow::setScale(Ratio scale_)
  {
   scale=scale_;
 
+  font_map.setScale(scale_);
+
   ok=false;
  }
 
@@ -807,6 +809,7 @@ void BookWindow::blank()
 
   text_title.setText(""_def);
   text_page.setText(""_def);
+  spinor.setValue(100);
 
   setNav(0);
 
