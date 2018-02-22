@@ -71,6 +71,7 @@ class FontMap : NoCopy
     {
      Font font;
      bool ok = false ;
+     bool fallback = false ;
     };
 
    DynArray<Rec> map;
@@ -81,9 +82,11 @@ class FontMap : NoCopy
 
   private:
 
-   Font find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback);
+   Rec find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback);
 
-   Font find(Book::TypeDef::Font *font,Font fallback);
+   Rec find(Book::TypeDef::Font *font,Font fallback);
+
+   static void SetSize(Font &font,Coord size);
 
   public:
 

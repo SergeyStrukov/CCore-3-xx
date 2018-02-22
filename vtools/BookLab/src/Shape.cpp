@@ -79,34 +79,42 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
 
 /* class FontMap */
 
-Font FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback)
+auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
  {
   const FontInfo *info=lookup.find(face,bold,italic);
 
-  if( !info ) return fallback;
+  if( !info ) return {fallback,true,true};
 
   try
     {
-     FontParam param;
+     FreeTypeFont font(Range(info->file_name));
 
-     param.engine_type=FontParam::EngineFreeType;
-     param.file_name=info->file_name;
-     param.size_type=FontParam::SizeXY;
-     param.set_size.size_xy=size;
+     font.setSize(size);
 
-     param.cfg.strength=strength;
+     FreeTypeFont::Config cfg;
 
-     return param.create();
+     cfg.strength=strength;
+
+     font.setConfig(cfg);
+
+     return {font,true,false};
     }
   catch(...)
     {
-     return fallback;
+     return {fallback,true,true};
     }
  }
 
-Font FontMap::find(Book::TypeDef::Font *font,Font fallback)
+auto FontMap::find(Book::TypeDef::Font *font,Font fallback) -> Rec
  {
   return find(font->face,scale*font->size,font->strength,font->bold,font->italic,fallback);
+ }
+
+void FontMap::SetSize(Font &font_,Coord size)
+ {
+  FreeTypeFont &font=static_cast<FreeTypeFont &>(font_);
+
+  font.setSize(size);
  }
 
 void FontMap::setScale(Ratio scale_)
@@ -126,7 +134,14 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
 
      if( rec.ok ) return rec.font;
 
-     rec.font=find(font,fallback);
+     if( rec.fallback )
+       {
+        rec.font=fallback;
+       }
+     else
+       {
+        SetSize(rec.font,scale*font->size);
+       }
 
      rec.ok=true;
 
@@ -136,13 +151,13 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
     {
      ulen ind=map.getLen();
 
-     Font f=find(font,fallback);
+     Rec rec=find(font,fallback);
 
-     map.append_copy({f,true});
+     map.append_copy(rec);
 
      font->ext=ind+1;
 
-     return f;
+     return rec.font;
     }
  }
 
