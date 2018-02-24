@@ -305,13 +305,11 @@ class DisplayBookFrame : public DragFrame
 
      // app
 
-     DisplayBookWindow::ConfigType book_cfg;
-
-     Config() noexcept {}
+     DisplayBookWindow::ConfigType &book_cfg;
 
      template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : book_cfg(user_pref,app_pref)
+     Config(const UserPreference &user_pref,const AppPref &app_pref,DisplayBookWindow::ConfigType &book_cfg_) noexcept
+      : book_cfg(book_cfg_)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -395,11 +393,12 @@ class BookWindow : public ComboWindow
 
      DisplayBookWindow::ConfigType book_cfg;
 
-     Config() noexcept {}
+     DisplayBookFrame::ConfigType popup_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : book_cfg(user_pref,app_pref)
+      : book_cfg(user_pref,app_pref),
+        popup_cfg(user_pref,app_pref,book_cfg)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -467,6 +466,8 @@ class BookWindow : public ComboWindow
    // frames
 
    MessageFrame msg;
+
+   DisplayBookFrame popup;
 
    // incremental
 

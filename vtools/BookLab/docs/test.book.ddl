@@ -19,13 +19,13 @@ TextList o1 = { {{"1.",{
 } };
 
 Text o2 = { {
-{"page1",null,&link1}
+{"page1",null,&page2}
 } , &fmt_li , &align_li } ;
 
 Link link1 = {&page2,0} ;
 
 Text o4 = { {
-{"page2",null,&link2}
+{"page2",null,&page3}
 } , &fmt_li , &align_li } ;
 
 Link link2 = {&page3,0} ;

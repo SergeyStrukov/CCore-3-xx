@@ -65,8 +65,6 @@ class ClientWindow : public ComboWindow , public AliveControl
 
      SubWinType::ConfigType sub_win_cfg;
 
-     Config() noexcept {}
-
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : sub_win_cfg(user_pref,app_pref)

@@ -760,6 +760,21 @@ void BookWindow::link(Book::TypeDef::Link dst)
 
 void BookWindow::hint(Book::TypeDef::Page *page)
  {
+  popup.setPage(page);
+
+  if( page )
+    {
+     String title(page->name.getStr());
+
+     if( popup.isDead() )
+       {
+        popup.create(getFrame(),title);
+       }
+     else
+       {
+        popup.setTitle(title);
+       }
+    }
  }
 
 void BookWindow::gotoPrev()
@@ -777,9 +792,12 @@ void BookWindow::gotoNext()
   if( next ) link({next,0});
  }
 
-void BookWindow::setScale(int scale)
+void BookWindow::setScale(int scale_)
  {
-  book.setScale(Div(scale,100));
+  Ratio scale=Div(scale_,100);
+
+  book.setScale(scale);
+  popup.setScale(scale);
  }
 
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
@@ -802,6 +820,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    progress(wlist,cfg.progress_cfg),
 
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
+
+   popup(host.getFrameDesktop(),cfg.popup_cfg,font_map,bmp_map,update),
 
    progress_control(progress),
    font_inc(progress_control),
@@ -850,6 +870,8 @@ Point BookWindow::getMinSize() const
 
 void BookWindow::blank()
  {
+  if( popup.isAlive() ) popup.destroy();
+
   bmp_map.erase();
 
   bmp_map.setRoot(""_c);
@@ -900,7 +922,12 @@ void BookWindow::load(StrLen file_name)
 
         bmp_map.setRoot(file_name);
 
-        book.setPage(page,Cast(ptr->back),Cast(ptr->fore));
+        VColor back=Cast(ptr->back);
+        VColor fore=Cast(ptr->fore);
+
+        popup.setPage(back,fore);
+
+        book.setPage(page,back,fore);
        }
      else
        {

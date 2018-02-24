@@ -34,8 +34,6 @@ class WorkWindow : public ComboWindow
 
      BookWindow::ConfigType book_cfg;
 
-     Config() noexcept {}
-
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref)
