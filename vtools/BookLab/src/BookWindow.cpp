@@ -239,11 +239,12 @@ void InnerBookWindow::updated(unsigned flags)
   if( flags&LayoutUpdate ) ok=false;
  }
 
-InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap &font_map_)
+InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap &font_map_,BitmapMap &bmp_map_)
  : SubWindow(host),
    cfg(cfg_),
 
    font_map(font_map_),
+   bmp_map(bmp_map_),
 
    connector_posX(this,&InnerBookWindow::posX),
    connector_posY(this,&InnerBookWindow::posY),
@@ -275,13 +276,9 @@ Point InnerBookWindow::getMinSize(Point cap) const
     }
  }
 
-void InnerBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back_,VColor fore_)
+void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
  {
   frames=Null;
-
-  bmp_map.erase();
-
-  bmp_map.setRoot(file_name);
 
   book_back=back_;
   book_fore=fore_;
@@ -572,8 +569,8 @@ void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 /* class DisplayBookWindow */
 
-DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map)
- : Base(host,cfg,font_map),
+DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map,BitmapMap &bmp_map)
+ : Base(host,cfg,font_map,bmp_map),
 
    link(window.link),
    hint(window.hint)
@@ -586,9 +583,9 @@ DisplayBookWindow::~DisplayBookWindow()
 
  // methods
 
-void DisplayBookWindow::setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore)
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore)
  {
-  window.setPage(file_name,page,back,fore);
+  window.setPage(page,back,fore);
 
   layout();
  }
@@ -607,6 +604,56 @@ void DisplayBookWindow::setScale(Ratio scale)
   layout();
 
   redraw();
+ }
+
+/* class DisplayBookFrame */
+
+DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update)
+ : DragFrame(desktop,cfg_.frame_cfg),
+   cfg(cfg_),
+   client(*this,cfg.book_cfg,font_map,bmp_map)
+ {
+  bindClient(client);
+
+  connectUpdate(update);
+ }
+
+DisplayBookFrame::~DisplayBookFrame()
+ {
+ }
+
+ // methods
+
+void DisplayBookFrame::setPage(VColor back,VColor fore)
+ {
+  client.setPage(0,back,fore);
+
+  client.redraw();
+ }
+
+void DisplayBookFrame::setPage(Book::TypeDef::Page *page)
+ {
+  client.setPage(page,0);
+
+  client.redraw();
+ }
+
+void DisplayBookFrame::setScale(Ratio scale)
+ {
+  client.setScale(scale);
+ }
+
+ // create
+
+Pane DisplayBookFrame::getPane(StrLen title) const // TODO
+ {
+  Point screen_size=getScreenSize();
+
+  Point cap=Div(9,10)*screen_size-getDeltaSize();
+
+  Point size=getMinSize(false,title,client.getMinSize(cap));
+
+  return GetWindowPlace(desktop,Div(5,12),size);
  }
 
 /* class BookWindow::ProgressControl */
@@ -751,7 +798,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    spinor(wlist,cfg.spinor_cfg),
 
-   book(wlist,cfg.book_cfg,font_map),
+   book(wlist,cfg.book_cfg,font_map,bmp_map),
    progress(wlist,cfg.progress_cfg),
 
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
@@ -803,7 +850,11 @@ Point BookWindow::getMinSize() const
 
 void BookWindow::blank()
  {
-  book.setPage(Null,0,Book::NoColor,Book::NoColor);
+  bmp_map.erase();
+
+  bmp_map.setRoot(""_c);
+
+  book.setPage(0,Book::NoColor,Book::NoColor);
 
   font_map.erase();
 
@@ -847,7 +898,9 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        book.setPage(file_name,page,Cast(ptr->back),Cast(ptr->fore));
+        bmp_map.setRoot(file_name);
+
+        book.setPage(page,Cast(ptr->back),Cast(ptr->fore));
        }
      else
        {
@@ -857,7 +910,7 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        book.setPage(Null,0,Cast(ptr->back),Cast(ptr->fore));
+        book.setPage(0,Cast(ptr->back),Cast(ptr->fore));
        }
 
      redraw();

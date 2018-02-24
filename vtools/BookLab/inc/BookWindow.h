@@ -24,6 +24,8 @@ class InnerBookWindow;
 
 class DisplayBookWindow;
 
+class DisplayBookFrame;
+
 class BookWindow;
 
 /* class InnerBookWindow */
@@ -84,7 +86,7 @@ class InnerBookWindow : public SubWindow
    const Config &cfg;
 
    FontMap &font_map;
-   mutable BitmapMap bmp_map;
+   BitmapMap &bmp_map;
 
    PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
@@ -178,7 +180,7 @@ class InnerBookWindow : public SubWindow
 
   public:
 
-   InnerBookWindow(SubWindowHost &host,const Config &cfg,FontMap &font_map);
+   InnerBookWindow(SubWindowHost &host,const Config &cfg,FontMap &font_map,BitmapMap &bmp_map);
 
    virtual ~InnerBookWindow();
 
@@ -186,7 +188,7 @@ class InnerBookWindow : public SubWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
@@ -271,13 +273,13 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
   public:
 
-   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map);
+   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map,BitmapMap &bmp_map);
 
    virtual ~DisplayBookWindow();
 
    // methods
 
-   void setPage(StrLen file_name,Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index);
 
@@ -287,6 +289,79 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    Signal<Book::TypeDef::Link> &link;
    Signal<Book::TypeDef::Page *> &hint;
+ };
+
+/* class DisplayBookFrame */
+
+class DisplayBookFrame : public DragFrame
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<DragFrame::ConfigType> frame_cfg;
+
+     // app
+
+     DisplayBookWindow::ConfigType book_cfg;
+
+     Config() noexcept {}
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : book_cfg(user_pref,app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       frame_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   DisplayBookWindow client;
+
+  public:
+
+   DisplayBookFrame(Desktop *desktop,const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update);
+
+   virtual ~DisplayBookFrame();
+
+   // methods
+
+   void setPage(VColor back,VColor fore);
+
+   void setPage(Book::TypeDef::Page *page);
+
+   void setScale(Ratio scale);
+
+   // create
+
+   Pane getPane(StrLen title) const;
+
+   void create(FrameWindow *parent,const DefString &title)
+    {
+     DragFrame::create(parent,getPane(title.str()),title);
+    }
  };
 
 /* class BookWindow */
@@ -365,6 +440,7 @@ class BookWindow : public ComboWindow
 
    Book::BookMap book_map;
    FontMap font_map;
+   BitmapMap bmp_map;
 
    Book::TypeDef::Page *prev = 0 ;
    Book::TypeDef::Page *up   = 0 ;
