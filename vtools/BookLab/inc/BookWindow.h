@@ -338,6 +338,9 @@ class DisplayBookFrame : public DragFrame
 
    DisplayBookWindow client;
 
+   Pane place;
+   bool has_place = false ;
+
   public:
 
    DisplayBookFrame(Desktop *desktop,const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update);
@@ -352,14 +355,21 @@ class DisplayBookFrame : public DragFrame
 
    void setScale(Ratio scale);
 
-   // create
-
-   Pane getPane(StrLen title) const;
-
-   void create(FrameWindow *parent,const DefString &title)
+   bool getPlace(Pane &ret) const
     {
-     DragFrame::create(parent,getPane(title.str()),title);
+     if( has_place )
+       {
+        ret=place;
+
+        return true;
+       }
+
+     return false;
     }
+
+   // base
+
+   virtual void dying();
  };
 
 /* class BookWindow */

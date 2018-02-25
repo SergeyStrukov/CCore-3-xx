@@ -643,17 +643,13 @@ void DisplayBookFrame::setScale(Ratio scale)
   client.setScale(scale);
  }
 
- // create
+ // base
 
-Pane DisplayBookFrame::getPane(StrLen title) const // TODO
+void DisplayBookFrame::dying()
  {
-  Point screen_size=getScreenSize();
+  place=getFrameHost()->getPlace();
 
-  Point cap=Div(9,10)*screen_size-getDeltaSize();
-
-  Point size=getMinSize(false,title,client.getMinSize(cap));
-
-  return GetWindowPlace(desktop,Div(5,12),size);
+  has_place=true;
  }
 
 /* class BookWindow::ProgressControl */
@@ -768,7 +764,16 @@ void BookWindow::hint(Book::TypeDef::Page *page)
 
      if( popup.isDead() )
        {
-        popup.create(getFrame(),title);
+        Pane place;
+
+        if( !popup.getPlace(place) )
+          {
+           Pane pane=toScreen(getPane());
+
+           place=SplitX(pane,Div(1,3)*pane.dx);
+          }
+
+        popup.create(getFrame(),place,title);
        }
      else
        {
