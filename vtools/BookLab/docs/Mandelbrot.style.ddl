@@ -1,6 +1,9 @@
 /* Mandelbrot.style.ddl */
 
-include <Book.ddl>
+include <pretext:/Book1.ddl>
+
+include <pretext:/abc.ddl>
+include <pretext:/123.ddl>
 
 scope Pages {
 

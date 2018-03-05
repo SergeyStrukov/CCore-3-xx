@@ -57,7 +57,7 @@ class BookMap : NoCopy
 
   private:
 
-   static StrLen Pretext();
+   class Pretext;
 
   public:
 

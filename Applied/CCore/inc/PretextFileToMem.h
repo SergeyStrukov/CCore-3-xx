@@ -16,7 +16,8 @@
 #ifndef CCore_inc_PretextFileToMem_h
 #define CCore_inc_PretextFileToMem_h
 
-#include <CCore/inc/Gadget.h>
+#include <CCore/inc/Array.h>
+#include <CCore/inc/Cmp.h>
 
 namespace CCore {
 
@@ -30,13 +31,27 @@ template <class FileToMem,auto &Pretext> class PretextFileToMem;
 
 class PretextMap : NoCopy
  {
+   struct Rec
+    {
+     StrLen file_name;
+     StrLen text;
+
+     bool operator < (const Rec &obj) const { return StrLess(file_name,obj.file_name); }
+    };
+
+   DynArray<Rec> list;
+   bool ready = false ;
+   bool check_dev;
+
   protected:
 
    void add(StrLen file_name,StrLen text);
 
+   virtual void prepare()=0;
+
   public:
 
-   PretextMap();
+   explicit PretextMap(bool check_dev=true) noexcept;
 
    ~PretextMap();
 
