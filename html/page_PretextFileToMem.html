@@ -1,0 +1,89 @@
+<!--
+/* page_PretextFileToMem.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> PretextFileToMem</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>PretextFileToMem</h2>
+
+<p class="Files">Files <b>CCore/inc/PretextFileToMem.h</b> <b>CCore/src/PretextFileToMem.cpp</b></p>
+
+<pre>
+
+template &lt;class FileToMem,auto &amp;Pretext&gt;
+class <span class="Att">PretextFileToMem</span>
+ {
+   ....
+
+  public:
+
+   PretextFileToMem(StrLen file_name,ulen max_len);
+
+   ~PretextFileToMem();
+
+   // range access
+
+   const uint8 * getPtr_const() const;
+
+   const uint8 * getPtr() const;
+
+   ulen getLen() const;
+ };
+
+</pre>
+
+<pre>
+
+class <span class="Att">PretextMap</span> : NoCopy
+ {
+   ....
+
+  protected:
+
+   void add(StrLen file_name,StrLen text);
+
+   virtual void prepare()=0;
+
+  public:
+
+   explicit PretextMap(bool check_dev=true) noexcept;
+
+   ~PretextMap();
+
+   struct Result
+    {
+     PtrLen&lt;const uint8&gt; text;
+     bool ok;
+    };
+
+   Result operator () (StrLen file_name);
+ };
+
+</pre>
+
+</body>
+
+</html>
+
