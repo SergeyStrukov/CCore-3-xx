@@ -229,6 +229,7 @@ OBJ_LIST = \
 .obj/Point.o \
 .obj/PosSub.o \
 .obj/Pow.o \
+.obj/PretextFileToMem.o \
 .obj/Print.o \
 .obj/PrintAbort.o \
 .obj/PrintAsyncFile.o \
@@ -602,6 +603,7 @@ ASM_LIST = \
 .obj/Point.s \
 .obj/PosSub.s \
 .obj/Pow.s \
+.obj/PretextFileToMem.s \
 .obj/Print.s \
 .obj/PrintAbort.s \
 .obj/PrintAsyncFile.s \
@@ -975,6 +977,7 @@ DEP_LIST = \
 .obj/Point.dep \
 .obj/PosSub.dep \
 .obj/Pow.dep \
+.obj/PretextFileToMem.dep \
 .obj/Print.dep \
 .obj/PrintAbort.dep \
 .obj/PrintAsyncFile.dep \
@@ -1821,6 +1824,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Pow.o : ../../Simple/CCore/src/./Pow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/PretextFileToMem.o : ../../Applied/CCore/src/./PretextFileToMem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Print.o : ../../XCore/CCore/src/./Print.cpp
@@ -2935,6 +2941,9 @@ include $(RULES_FILE)
 .obj/Pow.s : ../../Simple/CCore/src/./Pow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/PretextFileToMem.s : ../../Applied/CCore/src/./PretextFileToMem.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Print.s : ../../XCore/CCore/src/./Print.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4046,6 +4055,9 @@ include $(RULES_FILE)
 
 .obj/Pow.dep : ../../Simple/CCore/src/./Pow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Pow.o $< -MF $@
+
+.obj/PretextFileToMem.dep : ../../Applied/CCore/src/./PretextFileToMem.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/PretextFileToMem.o $< -MF $@
 
 .obj/Print.dep : ../../XCore/CCore/src/./Print.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Print.o $< -MF $@
