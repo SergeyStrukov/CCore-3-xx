@@ -30,6 +30,11 @@
 
 <p class="Files">Files <b>CCore/inc/PretextFileToMem.h</b> <b>CCore/src/PretextFileToMem.cpp</b></p>
 
+<p>
+<b>PretextFileToMem</b> behaves similar to the <b>FileToMem</b> class: it maps the content of the given file to the memory.
+But it can instead returns the content of some hard-coded virtual files.
+</p>
+
 <pre>
 
 template &lt;class FileToMem,auto &amp;Pretext&gt;
@@ -53,6 +58,15 @@ class <span class="Att">PretextFileToMem</span>
  };
 
 </pre>
+
+<p>
+The first template argument can be the <b>FileToMem</b> class or any class with similar functionality.
+The second template argument is a reference to some object. This object provides the content of virtual files.
+</p>
+
+<p>
+The class <b>PretextMap</b> can be used as a base class of a <b>Pretext</b> class. 
+</p>
 
 <pre>
 
@@ -82,6 +96,15 @@ class <span class="Att">PretextMap</span> : NoCopy
  };
 
 </pre>
+
+<p>
+You should derive a class from this one and implement the virtual method <b>prepare()</b>. 
+This method should register each virtual file using the method <b>add()</b>.
+Constructor of the <b>PretextMap</b> has one argument <b>check_dev</b>, defaulted to the <b>true</b>.
+If this argument is <b>true</b>, then the <b>operator ()</b> checks the <b>file_name</b> for the prefix <b>pretext:</b>.
+If such prefix is not found, the file is not virtual. Otherwise it is considered as a virtual.
+If the <b>check_dev</b> is <b>false</b>, only registered files are considered as virtual.
+</p>
 
 </body>
 
