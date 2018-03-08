@@ -28,6 +28,23 @@ void GuardReadOutOfBound()
 
 /* class VolumeDir */
 
+template <UIntType UInt,UIntType UInt1>
+void VolumeDir::CheckBounds(UInt off,UInt len,UInt1 total)
+ {
+  if( len>total || off>total-len )
+    {
+     Printf(Exception,"CCore::VolumeDir::fill(...) : bad file data");
+    }
+ }
+
+auto VolumeDir::makeRec(Entry entry,FilePosType file_len) -> Rec
+ {
+  CheckBounds(entry.name_off,entry.name_len,names.getLen());
+  CheckBounds(entry.body_off,entry.body_len,file_len);
+
+  return {StrLen(names.getPtr()+entry.name_off,entry.name_len),entry.body_off,entry.body_len};
+ }
+
 VolumeDir::VolumeDir()
  {
  }

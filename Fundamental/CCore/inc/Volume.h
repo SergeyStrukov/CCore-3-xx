@@ -20,6 +20,7 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Sort.h>
 #include <CCore/inc/algon/BinarySearch.h>
+#include <CCore/inc/SaveLoad.h>
 
 namespace CCore {
 
@@ -54,6 +55,8 @@ class VolumeDir : NoCopy
 
    DynArray<Rec> list;
 
+   DynArray<char> names;
+
   private:
 
    void add(StrLen file_name,FilePosType file_off,FilePosType file_len)
@@ -61,8 +64,92 @@ class VolumeDir : NoCopy
      list.append_copy({file_name,file_off,file_len});
     }
 
+   struct Header
+    {
+     uint32 count;
+     uint32 names_off;
+     uint32 names_len;
+
+     // save/load object
+
+     enum { SaveLoadLen = SaveLenCounter<uint32,uint32,uint32>::SaveLoadLen };
+
+     template <LoadDevType Dev>
+     void load(Dev &dev)
+      {
+       dev.template use<BeOrder>(count,names_off,names_len);
+      }
+    };
+
+   struct Entry
+    {
+     uint32 name_off;
+     uint32 name_len;
+     FilePosType body_off;
+     FilePosType body_len;
+
+     // save/load object
+
+     enum { SaveLoadLen = SaveLenCounter<uint32,uint32,FilePosType,FilePosType>::SaveLoadLen };
+
+     template <LoadDevType Dev>
+     void load(Dev &dev)
+      {
+       dev.template use<BeOrder>(name_off,name_len,body_off,body_len);
+      }
+    };
+
    template <class AltFile>
-   void fill(AltFile &file); // TODO
+   static Header ReadHeader(AltFile &file)
+    {
+     uint8 temp[Header::SaveLoadLen];
+
+     file.read_all(0,temp,Header::SaveLoadLen);
+
+     BufGetDev dev(temp);
+
+     Header ret;
+
+     dev(ret);
+
+     return ret;
+    }
+
+   template <UIntType UInt,UIntType UInt1>
+   static void CheckBounds(UInt off,UInt len,UInt1 total);
+
+   Rec makeRec(Entry entry,FilePosType file_len);
+
+   template <class AltFile>
+   void fill(AltFile &file)
+    {
+     Header header=ReadHeader(file);
+
+     list.erase();
+     list.extend_default(header.count);
+
+     names.erase();
+     names.extend_raw(header.names_len);
+
+     DynArray<uint8> dir(DoRaw(LenOf(header.count,Entry::SaveLoadLen)));
+
+     file.read_all(Header::SaveLoadLen,dir.getPtr(),dir.getLen());
+
+     file.read_all(header.names_off,MutatePtr<uint8>(names.getPtr()),names.getLen());
+
+     BufGetDev dev(dir.getPtr());
+
+     FilePosType file_len=file.getLen();
+
+     for(Rec &rec : list )
+       {
+        Entry entry;
+
+        dev(entry);
+
+        rec=makeRec(entry,file_len);
+       }
+    }
 
   public:
 
