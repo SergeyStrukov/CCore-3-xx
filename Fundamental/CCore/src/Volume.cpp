@@ -15,8 +15,21 @@
 
 #include <CCore/inc/Volume.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace CCore {
 
+/* functions */
+
+void GuardReadOutOfBound()
+ {
+  Printf(Exception,"CCore::VolumeFile<...>::read_all(...) : out of bound");
+ }
+
+void GuardVolumeNoFile(StrLen file_name)
+ {
+  Printf(Exception,"CCore::Volume<...>::open(#.q;) : no such file",file_name);
+ }
 
 } // namespace CCore
 
