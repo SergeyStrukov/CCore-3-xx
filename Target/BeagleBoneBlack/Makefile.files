@@ -363,6 +363,7 @@ OBJ_LIST = \
 .obj/VideoConsole.o \
 .obj/VideoControl.o \
 .obj/VideoDevice.o \
+.obj/Volume.o \
 .obj/XPoint.o \
 .obj/__std_init.o \
 .obj/assert.o \
@@ -737,6 +738,7 @@ ASM_LIST = \
 .obj/VideoConsole.s \
 .obj/VideoControl.s \
 .obj/VideoDevice.s \
+.obj/Volume.s \
 .obj/XPoint.s \
 .obj/__std_init.s \
 .obj/assert.s \
@@ -1111,6 +1113,7 @@ DEP_LIST = \
 .obj/VideoConsole.dep \
 .obj/VideoControl.dep \
 .obj/VideoDevice.dep \
+.obj/Volume.dep \
 .obj/XPoint.dep \
 .obj/__std_init.dep \
 .obj/assert.dep \
@@ -2228,6 +2231,9 @@ include $(RULES_FILE)
 .obj/VideoDevice.o : ../../Applied/CCore/src/./video/VideoDevice.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Volume.o : ../../Fundamental/CCore/src/./Volume.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/XPoint.o : ../../Applied/CCore/src/./net/XPoint.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -3341,6 +3347,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/VideoDevice.s : ../../Applied/CCore/src/./video/VideoDevice.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Volume.s : ../../Fundamental/CCore/src/./Volume.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/XPoint.s : ../../Applied/CCore/src/./net/XPoint.cpp
@@ -4457,6 +4466,9 @@ include $(RULES_FILE)
 
 .obj/VideoDevice.dep : ../../Applied/CCore/src/./video/VideoDevice.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VideoDevice.o $< -MF $@
+
+.obj/Volume.dep : ../../Fundamental/CCore/src/./Volume.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Volume.o $< -MF $@
 
 .obj/XPoint.dep : ../../Applied/CCore/src/./net/XPoint.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/XPoint.o $< -MF $@

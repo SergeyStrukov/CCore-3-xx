@@ -428,6 +428,7 @@ OBJ_LIST = \
 .obj/UtilFunc.o \
 .obj/VideoConsole.o \
 .obj/VideoDevice.o \
+.obj/Volume.o \
 .obj/Win64.o \
 .obj/Window.Blank.o \
 .obj/Window.Button.o \
@@ -884,6 +885,7 @@ ASM_LIST = \
 .obj/UtilFunc.s \
 .obj/VideoConsole.s \
 .obj/VideoDevice.s \
+.obj/Volume.s \
 .obj/Win64.s \
 .obj/Window.Blank.s \
 .obj/Window.Button.s \
@@ -1340,6 +1342,7 @@ DEP_LIST = \
 .obj/UtilFunc.dep \
 .obj/VideoConsole.dep \
 .obj/VideoDevice.dep \
+.obj/Volume.dep \
 .obj/Win64.dep \
 .obj/Window.Blank.dep \
 .obj/Window.Button.dep \
@@ -2664,6 +2667,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/VideoDevice.o : ../../Applied/CCore/src/./video/VideoDevice.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Volume.o : ../../Fundamental/CCore/src/./Volume.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Win64.o : ../../Target/WIN64/CCore/src/./win64/Win64.cpp
@@ -4027,6 +4033,9 @@ include $(RULES_FILE)
 .obj/VideoDevice.s : ../../Applied/CCore/src/./video/VideoDevice.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Volume.s : ../../Fundamental/CCore/src/./Volume.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Win64.s : ../../Target/WIN64/CCore/src/./win64/Win64.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5387,6 +5396,9 @@ include $(RULES_FILE)
 
 .obj/VideoDevice.dep : ../../Applied/CCore/src/./video/VideoDevice.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VideoDevice.o $< -MF $@
+
+.obj/Volume.dep : ../../Fundamental/CCore/src/./Volume.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Volume.o $< -MF $@
 
 .obj/Win64.dep : ../../Target/WIN64/CCore/src/./win64/Win64.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Win64.o $< -MF $@

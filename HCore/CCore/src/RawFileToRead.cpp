@@ -80,5 +80,60 @@ void RawFileToRead::read_all(uint8 *buf,ulen len)
     }
  }
 
+/* class AltFileToRead */
+
+AltFileToRead::AltFileToRead(StrLen file_name,FileOpenFlags oflags)
+ {
+  auto result=file.open(file_name,oflags);
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::AltFileToRead::AltFileToRead(#.q;,#;) : #;",file_name,oflags,result.error);
+    }
+
+  file_len=result.file_len;
+ }
+
+AltFileToRead::~AltFileToRead()
+ {
+  FileMultiError errout;
+
+  file.close(errout);
+
+  if( +errout )
+    {
+     Printf(NoException,"CCore::AltFileToRead::~AltFileToRead() : #;",errout);
+    }
+ }
+
+ulen AltFileToRead::read(FilePosType off,uint8 *buf,ulen len)
+ {
+  CapDown(len,getCap(off));
+
+  if( !len ) return 0;
+
+  if( FileError fe=file.read(off,buf,len) )
+    {
+     Printf(Exception,"CCore::AltFileToRead::read(...) : #;",fe);
+    }
+
+  return len;
+ }
+
+void AltFileToRead::read_all(FilePosType off,uint8 *buf,ulen len)
+ {
+  if( len>getCap(off) )
+    {
+     Printf(Exception,"CCore::AltFileToRead::read_all(...) : out of bound");
+    }
+
+  if( !len ) return;
+
+  if( FileError fe=file.read(off,buf,len) )
+    {
+     Printf(Exception,"CCore::AltFileToRead::read_all(...) : #;",fe);
+    }
+ }
+
 } // namespace CCore
 
