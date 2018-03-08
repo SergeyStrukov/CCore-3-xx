@@ -26,9 +26,28 @@ void GuardReadOutOfBound()
   Printf(Exception,"CCore::VolumeFile<...>::read_all(...) : out of bound");
  }
 
-void GuardVolumeNoFile(StrLen file_name)
+/* class VolumeDir */
+
+VolumeDir::VolumeDir()
  {
-  Printf(Exception,"CCore::Volume<...>::open(#.q;) : no such file",file_name);
+ }
+
+VolumeDir::~VolumeDir()
+ {
+ }
+
+auto VolumeDir::find(StrLen file_name) const -> Rec
+ {
+  auto r=Range(list);
+
+  Algon::BinarySearch_if(r, [file_name] (const Rec &obj) { return !StrLess(obj.file_name,file_name); } );
+
+  if( !r || StrLess(file_name,r->file_name) )
+    {
+     Printf(Exception,"CCore::VolumeDir::find(#.q;) : no such file",file_name);
+    }
+
+  return *r;
  }
 
 } // namespace CCore

@@ -27,20 +27,19 @@ namespace CCore {
 
 void GuardReadOutOfBound();
 
-void GuardVolumeNoFile(StrLen file_name);
-
 /* classes */
+
+class VolumeDir;
 
 template <class AltFile> class Volume;
 
 template <class AltFile> class VolumeFile;
 
-/* class Volume<AltFile> */
+/* class VolumeDir */
 
-template <class AltFile>
-class Volume : NoCopy
+class VolumeDir : NoCopy
  {
-   AltFile file;
+  public:
 
    struct Rec
     {
@@ -51,6 +50,8 @@ class Volume : NoCopy
      bool operator < (const Rec &obj) const { return StrLess(file_name,obj.file_name); }
     };
 
+  private:
+
    DynArray<Rec> list;
 
   private:
@@ -60,18 +61,41 @@ class Volume : NoCopy
      list.append_copy({file_name,file_off,file_len});
     }
 
-   void fill() // TODO
+   template <class AltFile>
+   void fill(AltFile &file); // TODO
+
+  public:
+
+   VolumeDir();
+
+   ~VolumeDir();
+
+   template <class AltFile>
+   void prepare(AltFile &file)
     {
+     fill(file);
+
+     Sort(Range(list));
     }
+
+   Rec find(StrLen file_name) const;
+ };
+
+/* class Volume<AltFile> */
+
+template <class AltFile>
+class Volume : NoCopy
+ {
+   AltFile file;
+
+   VolumeDir dir;
 
   public:
 
    Volume(StrLen file_name,FileOpenFlags oflags=Open_Read)
     : file(file_name,oflags)
     {
-     fill();
-
-     Sort(Range(list));
+     dir.prepare(file);
     }
 
    ~Volume()
@@ -87,13 +111,9 @@ class Volume : NoCopy
 
    Result open(StrLen file_name)
     {
-     auto r=Range(list);
+     auto rec=dir.find(file_name);
 
-     Algon::BinarySearch_if(r, [file_name] (const Rec &obj) { return !StrLess(obj.file_name,file_name); } );
-
-     if( !r || StrLess(file_name,r->file_name) ) GuardVolumeNoFile(file_name);
-
-     return {file,r->file_off,r->file_len};
+     return {file,rec.file_off,rec.file_len};
     }
  };
 
