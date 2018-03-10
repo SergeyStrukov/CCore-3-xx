@@ -14,53 +14,162 @@
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/MakeString.h>
+#include <CCore/inc/Path.h>
+
 namespace App {
 
 /* using */
 
 using namespace CCore;
 
-/* struct Opt */
+/* class Opt */
 
-struct Opt
+class Opt : NoCopy
  {
-  enum Command
-   {
-    List,
-    Pack,
-    Unpack
-   };
+  public:
 
-  Command cmd;
-  StrLen dir_name;
-  StrLen file_name;
+   enum Command
+    {
+     List,
+     Pack,
+     Unpack
+    };
 
-  Opt(int argc,const char *argv[]) // TODO
-   {
-   }
+   Command cmd;
+   StrLen dir_name;
+   StrLen file_name;
+
+   Opt(int argc,const char *argv[])
+    {
+     if( argc<3 )
+       {
+        Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
+       }
+
+     cmd=GetCommand(argv[1]);
+
+     switch( cmd )
+       {
+        case List :
+         {
+          if( argc!=3 )
+            {
+             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
+            }
+
+          file_name=argv[2];
+         }
+        break;
+
+        case Pack :
+         {
+          if( argc==3 )
+            {
+             dir_name=argv[2];
+
+             file_name=makeFileName(dir_name);
+            }
+          else if( argc==4 )
+            {
+             dir_name=argv[2];
+             file_name=argv[3];
+            }
+          else
+            {
+             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
+            }
+         }
+        break;
+
+        case Unpack :
+         {
+          if( argc==3 )
+            {
+             file_name=argv[2];
+
+             dir_name=makeDirName(file_name);
+            }
+          else if( argc==4 )
+            {
+             file_name=argv[2];
+             dir_name=argv[3];
+            }
+          else
+            {
+             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
+            }
+         }
+        break;
+       }
+    }
+
+  private:
+
+   static Command GetCommand(StrLen str)
+    {
+     if( str.equal("-l"_c) ) return List;
+
+     if( str.equal("-a"_c) ) return Pack;
+
+     if( str.equal("-x"_c) ) return Unpack;
+
+     Printf(Exception,"App::Opt::Opt(...) : bad command");
+
+     return List;
+    }
+
+  private:
+
+   MakeString<MaxPathLen> temp;
+
+   StrLen makeFileName(StrLen dir_name)
+    {
+     if( !temp.add(dir_name,".vol") )
+       {
+        Printf(Exception,"App::Opt::Opt(...) : overflow");
+       }
+
+     return temp.get();
+    }
+
+   StrLen makeDirName(StrLen file_name)
+    {
+     SplitPath split1(file_name);
+     SplitName split2(split1.path);
+     SplitExt split3(split2.name);
+
+     if( !split3 || split3.ext.equal("."_c) )
+       {
+        Printf(Exception,"App::Opt::Opt(...) : no file extension");
+       }
+
+     return file_name.inner(0,split3.ext.len);
+    }
  };
 
 /* List() */
 
 void List(StrLen file_name) // TODO
  {
-  Used(file_name);
+  Printf(Con,"list #.q;\n",file_name);
+
  }
 
 /* Pack() */
 
 void Pack(StrLen dir_name,StrLen file_name) // TODO
  {
-  Used(dir_name);
-  Used(file_name);
+  Printf(Con,"pack #.q; -> #.q;\n",dir_name,file_name);
+
  }
 
 /* Unpack() */
 
 void Unpack(StrLen file_name,StrLen dir_name) // TODO
  {
-  Used(dir_name);
-  Used(file_name);
+  Printf(Con,"unpack #.q; -> #.q;\n",file_name,dir_name);
+
  }
 
 } // namespace App
