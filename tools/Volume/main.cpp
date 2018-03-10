@@ -20,10 +20,47 @@ namespace App {
 
 using namespace CCore;
 
-/* Process() */
+/* struct Opt */
 
-void Process(StrLen input_file_name,StrLen output_file_name)
+struct Opt
  {
+  enum Command
+   {
+    List,
+    Pack,
+    Unpack
+   };
+
+  Command cmd;
+  StrLen dir_name;
+  StrLen file_name;
+
+  Opt(int argc,const char *argv[]) // TODO
+   {
+   }
+ };
+
+/* List() */
+
+void List(StrLen file_name) // TODO
+ {
+  Used(file_name);
+ }
+
+/* Pack() */
+
+void Pack(StrLen dir_name,StrLen file_name) // TODO
+ {
+  Used(dir_name);
+  Used(file_name);
+ }
+
+/* Unpack() */
+
+void Unpack(StrLen file_name,StrLen dir_name) // TODO
+ {
+  Used(dir_name);
+  Used(file_name);
  }
 
 } // namespace App
@@ -41,7 +78,28 @@ int main(int argc,const char *argv[])
      {
       Putobj(Con,"--- Volume 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
 
-      Process(argv[1],argv[2]);
+      Opt opt(argc,argv);
+
+      switch( opt.cmd )
+        {
+         case Opt::List :
+          {
+           List(opt.file_name);
+          }
+         break;
+
+         case Opt::Pack :
+          {
+           Pack(opt.dir_name,opt.file_name);
+          }
+         break;
+
+         case Opt::Unpack :
+          {
+           Unpack(opt.file_name,opt.dir_name);
+          }
+         break;
+        }
      }
 
      report.guard();
