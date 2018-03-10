@@ -15,7 +15,7 @@ OPT = -j 8
 
 LIST = MakeList Keywords CondLangLR1/Main CondLangLR1/Gen DDLShow DDLTypeSet EllipticPi EchoServer \
        PTPEchoServer PTPServerProc PTPServer PTPSecureServerProc PTPSecureServer PTPSecureClient \
-       exectest PSecEchoServer Regen
+       exectest PSecEchoServer Regen Volume
 
 include ../Target/Makefile.list
 

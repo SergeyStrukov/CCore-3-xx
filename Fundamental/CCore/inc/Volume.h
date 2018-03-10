@@ -165,6 +165,10 @@ class VolumeDir : NoCopy
      Sort(Range(list));
     }
 
+   ulen getCount() const { return list.getLen(); }
+
+   Rec get(ulen ind) const { return list[ind]; }
+
    Rec find(StrLen file_name) const;
  };
 
@@ -189,12 +193,23 @@ class Volume : NoCopy
     {
     }
 
+   ulen getCount() const { return dir.getCount(); }
+
+   StrLen getName(ulen ind) const { return dir.get(ind).file_name; }
+
    struct Result
     {
      AltFile &file;
      FilePosType file_off;
      FilePosType file_len;
     };
+
+   Result open(ulen ind)
+    {
+     auto rec=dir.get(ind);
+
+     return {file,rec.file_off,rec.file_len};
+    }
 
    Result open(StrLen file_name)
     {
@@ -229,6 +244,11 @@ class VolumeFile : NoCopy
 
    VolumeFile(Volume<AltFile> &vol,StrLen file_name)
     : VolumeFile(vol.open(file_name))
+    {
+    }
+
+   VolumeFile(Volume<AltFile> &vol,ulen ind)
+    : VolumeFile(vol.open(ind))
     {
     }
 
