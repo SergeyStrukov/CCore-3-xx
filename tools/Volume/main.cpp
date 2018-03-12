@@ -17,6 +17,12 @@
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Path.h>
 
+#include <CCore/inc/RawFileToRead.h>
+#include <CCore/inc/Volume.h>
+
+#include <CCore/inc/DirTreeRun.h>
+#include <CCore/inc/ElementPool.h>
+
 namespace App {
 
 /* using */
@@ -150,25 +156,88 @@ class Opt : NoCopy
 
 /* List() */
 
-void List(StrLen file_name) // TODO
+void List(StrLen file_name)
  {
-  Printf(Con,"list #.q;\n",file_name);
+  Printf(Con,"list #.q;\n\n",file_name);
 
+  Volume<AltFileToRead> vol(file_name);
+
+  for(ulen i=0,count=vol.getCount(); i<count ;i++)
+    {
+     Printf(Con,"#;\n",vol.getName(i));
+    }
  }
 
 /* Pack() */
 
-void Pack(StrLen dir_name,StrLen file_name) // TODO
+class Proc : NoCopy
  {
-  Printf(Con,"pack #.q; -> #.q;\n",dir_name,file_name);
+   struct Rec
+    {
+     StrLen file_path;
+     StrLen file_name;
+    };
 
+  private:
+
+   ulen off = 0 ;
+
+   ElementPool pool;
+
+   DynArray<Rec> files;
+
+  public:
+
+   Proc() {}
+
+   ~Proc() {}
+
+   PtrLen<const Rec> getList() const { return Range(files); }
+
+   // proc interface
+
+   using DataType = void ;
+
+   DataType * dir(StrLen root)
+    {
+     off=root.len+2;
+
+     return 0;
+    }
+
+   DataType * dir(StrLen,StrLen,DataType *) { return 0; }
+
+   void file(StrLen path,StrLen name,DataType *)
+    {
+     StrLen file_path=pool.cat(path,"/"_c,name);
+     StrLen file_name=pool.cat(path.part(off),"/"_c,name);
+
+     files.append_copy({file_path,file_name});
+    }
+
+   void enddir(StrLen,StrLen,DataType *) {}
+ };
+
+void Pack(StrLen dir_name,StrLen file_name)
+ {
+  Printf(Con,"pack #.q; -> #.q;\n\n",dir_name,file_name);
+
+  Proc proc;
+  DirTreeRun run(dir_name);
+
+  run.apply(proc);
+
+  for(auto r : proc.getList() )
+    {
+     Printf(Con,"#; : #;\n",r.file_path,r.file_name);
+    }
  }
 
 /* Unpack() */
 
 void Unpack(StrLen file_name,StrLen dir_name) // TODO
  {
-  Printf(Con,"unpack #.q; -> #.q;\n",file_name,dir_name);
+  Printf(Con,"unpack #.q; -> #.q;\n\n",file_name,dir_name);
 
  }
 

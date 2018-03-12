@@ -22,5 +22,5 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET)
+	$(TARGET) -a test
 
