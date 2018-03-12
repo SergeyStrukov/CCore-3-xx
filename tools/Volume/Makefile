@@ -23,4 +23,6 @@ include $(CCORE_ROOT)/Target/Makefile.app
 
 run: $(TARGET)
 	$(TARGET) -a test
+	$(TARGET) -l test.vol
+	$(TARGET) -x test.vol test1
 

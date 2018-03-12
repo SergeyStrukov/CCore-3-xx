@@ -1,4 +1,4 @@
-/* test.style.ddl */
+/* text.style.ddl */
 
 include <pretext:/Book1.ddl>
 

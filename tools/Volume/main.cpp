@@ -15,6 +15,7 @@
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/MakeString.h>
+#include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/Path.h>
 
 #include <CCore/inc/RawFileToRead.h>
@@ -22,6 +23,9 @@
 
 #include <CCore/inc/DirTreeRun.h>
 #include <CCore/inc/ElementPool.h>
+
+#include <CCore/inc/BinaryFile.h>
+#include <CCore/inc/FileSystem.h>
 
 namespace App {
 
@@ -218,27 +222,214 @@ class Proc : NoCopy
    void enddir(StrLen,StrLen,DataType *) {}
  };
 
+struct Header
+ {
+  uint32 count;
+  uint32 names_off;
+  uint32 names_len;
+
+  // save/load object
+
+  enum { SaveLoadLen = SaveLenCounter<uint32,uint32,uint32>::SaveLoadLen };
+
+  template <SaveDevType Dev>
+  void save(Dev &dev) const
+   {
+    dev.template use<BeOrder>(count,names_off,names_len);
+   }
+ };
+
+struct Entry
+ {
+  uint32 name_off;
+  uint32 name_len;
+  FilePosType body_off;
+  FilePosType body_len;
+
+  // save/load object
+
+  enum { SaveLoadLen = SaveLenCounter<uint32,uint32,FilePosType,FilePosType>::SaveLoadLen };
+
+  template <SaveDevType Dev>
+  void save(Dev &dev) const
+   {
+    dev.template use<BeOrder>(name_off,name_len,body_off,body_len);
+   }
+ };
+
+uint32 Add(uint32 a,ulen b)
+ {
+  if( b>MaxUInt<uint32>-a )
+    {
+     Printf(Exception,"App::Add(#;,#;) : overflow",a,b);
+    }
+
+  return a+(uint32)b;
+ }
+
+uint32 AddMul(uint32 a,uint32 b,ulen c)
+ {
+  if( b && c>(MaxUInt<uint32>-a)/b )
+    {
+     Printf(Exception,"App::AddMul(#;,#;,#;) : overflow",a,b,c);
+    }
+
+  return uint32( a+b*c );
+ }
+
+FilePosType GetFileLen(StrLen file_name)
+ {
+  AltFileToRead file(file_name);
+
+  return file.getLen();
+ }
+
+template <class File>
+void CopyFile(File &file,SaveDevType &dev)
+ {
+  static constexpr ulen BufLen = 64_KByte ;
+
+  DynArray<uint8> buf(BufLen);
+
+  FilePosType off=0;
+  FilePosType file_len=file.getLen();
+
+  uint8 *ptr=buf.getPtr();
+
+  while( off<file_len )
+    {
+     ulen len=(ulen)Min<FilePosType>(BufLen,file_len-off);
+
+     file.read_all(off,ptr,len);
+
+     dev.put(ptr,len);
+
+     off+=len;
+    }
+ }
+
 void Pack(StrLen dir_name,StrLen file_name)
  {
   Printf(Con,"pack #.q; -> #.q;\n\n",dir_name,file_name);
+
+  // scan
 
   Proc proc;
   DirTreeRun run(dir_name);
 
   run.apply(proc);
 
-  for(auto r : proc.getList() )
+  // pack
+
+  auto list=proc.getList();
+
+  uint32 names_len=0;
+
+  for(auto r : list )
     {
      Printf(Con,"#; : #;\n",r.file_path,r.file_name);
+
+     names_len=Add(names_len,r.file_name.len);
     }
+
+  BinaryFile dev(file_name,Open_ToWrite|Open_AutoDelete);
+
+   // header
+
+  Header header;
+
+  header.count=(uint32)list.len;
+  header.names_off=AddMul(Header::SaveLoadLen,Entry::SaveLoadLen,list.len);
+  header.names_len=names_len;
+
+  dev(header);
+
+   // entry
+
+  uint32 off=0;
+  FilePosType file_off=(FilePosType)header.names_off+header.names_len;
+
+  for(auto r : list )
+    {
+     FilePosType file_len=GetFileLen(r.file_path);
+
+     Entry entry;
+
+     entry.name_off=off;
+     entry.name_len=(uint32)r.file_name.len;
+
+     off+=entry.name_len;
+
+     entry.body_off=file_off;
+     entry.body_len=file_len;
+
+     file_off+=file_len;
+
+     dev(entry);
+    }
+
+   // name
+
+  for(auto r : list )
+    {
+     SaveRange(Mutate<const uint8>(r.file_name),dev);
+    }
+
+   // body
+
+  for(auto r : list )
+    {
+     AltFileToRead file(r.file_path);
+
+     CopyFile(file,dev);
+    }
+
+  dev.preserveFile();
  }
 
 /* Unpack() */
 
-void Unpack(StrLen file_name,StrLen dir_name) // TODO
+void CreateDir(StrLen path)
+ {
+  FileSystem fs;
+
+  if( fs.getFileType(path)==FileType_none )
+    {
+     Printf(Con,"create dir #.q;\n",path);
+
+     fs.createDir(path);
+    }
+ }
+
+void CreatePath(StrLen path)
+ {
+  WalkPath(path, [path] (StrLen sub) { if( sub.len<path.len ) CreateDir(sub); } );
+ }
+
+void Unpack(StrLen file_name,StrLen dir_name)
  {
   Printf(Con,"unpack #.q; -> #.q;\n\n",file_name,dir_name);
 
+  Volume<AltFileToRead> vol(file_name);
+
+  for(ulen i=0,count=vol.getCount(); i<count ;i++)
+    {
+     StrLen file_name=vol.getName(i);
+
+     MakeFileName temp(dir_name,file_name.part(1));
+
+     StrLen file_path=temp.get();
+
+     Printf(Con,"#; : #;\n",file_name,file_path);
+
+     VolumeFile<AltFileToRead> file(vol,i);
+
+     CreatePath(file_path);
+
+     BinaryFile dev(file_path);
+
+     CopyFile(file,dev);
+    }
  }
 
 } // namespace App
