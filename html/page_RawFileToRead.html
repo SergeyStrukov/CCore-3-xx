@@ -18,7 +18,7 @@
 
 <head>
 
- <title>CCore -> RawFileToRead</title>
+ <title>CCore -> RawFileToRead and AltFileToRead</title>
 
  <link href="CCore.css" rel="stylesheet" type="text/css">
 
@@ -26,9 +26,11 @@
 
 <body>
 
-<h2>RawFileToRead</h2>
+<h2>RawFileToRead and AltFileToRead</h2>
 
 <p class="Files">Files <b>CCore/inc/RawFileToRead.h</b> <b>CCore/src/RawFileToRead.cpp</b></p>
+
+<h4>RawFileToRead</h4>
 
 <p>
 The <b>RawFileToRead</b> class is used to read data from a file. It is a simple wrapped over 
@@ -81,6 +83,38 @@ Methods throw exceptions in case of errors.
 
 <p>
 <b>read_all()</b> reads the file from the current position. The whole buffer must be read for success. 
+</p>
+
+<h4>AltFileToRead</h4>
+
+<p>
+<b>AltFileToRead</b> is simalar to the <b>RawFileToRead</b>, but uses the alternative read operation.
+</p>
+
+<pre>
+
+class <span class="Att">AltFileToRead</span> : NoCopy
+ {
+   Sys::AltFile file;
+   FilePosType file_len;
+
+  public:
+
+   explicit AltFileToRead(StrLen file_name,FileOpenFlags oflags=Open_Read);
+
+   ~AltFileToRead();
+
+   FilePosType getLen() const { return file_len; }
+
+   ulen read(FilePosType off,uint8 *buf,ulen len);
+
+   void read_all(FilePosType off,uint8 *buf,ulen len);
+ };
+
+</pre>
+
+<p>
+This object does not have an internal file read position, the read position is provided as the operaion argument.
 </p>
 
 </body>

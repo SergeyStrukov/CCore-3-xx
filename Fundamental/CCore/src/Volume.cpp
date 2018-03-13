@@ -26,6 +26,11 @@ void GuardReadOutOfBound()
   Printf(Exception,"CCore::VolumeFile<...>::read_all(...) : out of bound");
  }
 
+void GuardVolumeFileTooLong(StrLen file_name,ulen max_len,FilePosType file_len)
+ {
+  Printf(Exception,"CCore::VolumeFileToMem<...>::VolumeFileToMem(...,#.q;,max_len=#;) : file is too long #;",file_name,max_len,file_len);
+ }
+
 /* class VolumeDir */
 
 template <UIntType UInt,UIntType UInt1>

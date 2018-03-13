@@ -21,12 +21,15 @@
 #include <CCore/inc/Sort.h>
 #include <CCore/inc/algon/BinarySearch.h>
 #include <CCore/inc/SaveLoad.h>
+#include <CCore/inc/ToMemBase.h>
 
 namespace CCore {
 
 /* guard functions */
 
 void GuardReadOutOfBound();
+
+void GuardVolumeFileTooLong(StrLen file_name,ulen max_len,FilePosType file_len);
 
 /* classes */
 
@@ -35,6 +38,8 @@ class VolumeDir;
 template <class AltFile> class Volume;
 
 template <class AltFile> class VolumeFile;
+
+template <class AltFile> class VolumeFileToMem;
 
 /* class VolumeDir */
 
@@ -277,6 +282,46 @@ class VolumeFile : NoCopy
 
      do_read(off,buf,len);
     }
+ };
+
+/* class VolumeFileToMem<AltFile> */
+
+template <class AltFile>
+class VolumeFileToMem : public ToMemBase
+ {
+  public:
+
+   VolumeFileToMem() noexcept {}
+
+   VolumeFileToMem(Volume<AltFile> &vol,StrLen file_name,ulen max_len=MaxULen)
+    {
+     VolumeFile<AltFile> file(vol,file_name);
+
+     auto file_len=file.getLen();
+
+     if( file_len>max_len ) GuardVolumeFileTooLong(file_name,max_len,file_len);
+
+     ulen len=(ulen)file_len;
+
+     file.read_all(0,alloc(len),len);
+    }
+
+   ~VolumeFileToMem() {}
+
+   // std move
+
+   VolumeFileToMem(VolumeFileToMem &&obj) noexcept = default ;
+
+   VolumeFileToMem & operator = (VolumeFileToMem &&obj) noexcept = default ;
+
+   // swap/move objects
+
+   void objSwap(VolumeFileToMem &obj)
+    {
+     Swap<ToMemBase>(*this,obj);
+    }
+
+   explicit VolumeFileToMem(ToMoveCtor<VolumeFileToMem> obj) : ToMemBase(obj.template cast<ToMemBase>()) {}
  };
 
 } // namespace CCore
