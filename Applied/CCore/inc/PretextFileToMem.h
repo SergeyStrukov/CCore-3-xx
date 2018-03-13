@@ -75,7 +75,8 @@ class PretextFileToMem
 
   public:
 
-   PretextFileToMem(StrLen file_name,ulen max_len)
+   template <class ... SS>
+   PretextFileToMem(SS && ... ss,StrLen file_name,ulen max_len)
     {
      if( auto result=Pretext(file_name) ; result.ok )
        {
@@ -83,7 +84,7 @@ class PretextFileToMem
        }
      else
        {
-        file=FileToMem(file_name,max_len);
+        file=FileToMem( std::forward<SS>(ss)... ,file_name,max_len);
 
         text=Range(file);
        }

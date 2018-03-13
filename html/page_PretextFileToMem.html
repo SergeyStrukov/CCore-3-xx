@@ -44,7 +44,8 @@ class <span class="Att">PretextFileToMem</span>
 
   public:
 
-   PretextFileToMem(StrLen file_name,ulen max_len);
+   template &lt;class ... SS&gt;
+   PretextFileToMem(SS &amp;&amp; ... ss,StrLen file_name,ulen max_len);
 
    ~PretextFileToMem();
 
