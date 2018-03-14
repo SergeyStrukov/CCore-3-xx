@@ -21,6 +21,8 @@
 #include <CCore/inc/ddl/DDLParser.h>
 #include <CCore/inc/ddl/DDLEval.h>
 
+#include <CCore/inc/Tuple.h>
+
 namespace CCore {
 namespace DDL {
 
@@ -48,21 +50,13 @@ concept bool FileNameType = MovableType<FileName> && requires(FileName &obj,Prin
   obj.printPos(out,pos);
  } ;
 
-/* concept FileTextType<FileText> */
-
-template <class FileText>
-concept bool FileTextType = ConstTypeRangeableType<FileText,uint8> && requires(StrLen file_name,ulen max_len)
- {
-  FileText(file_name,max_len);
- } ;
-
 /* classes */
 
 struct EngineResult;
 
 class TextEngine;
 
-template <FileNameType FileName,FileTextType FileText> class FileEngine;
+template <FileNameType FileName,class FileText,class ... SS> class FileEngine;
 
 /* struct EngineResult */
 
@@ -107,7 +101,7 @@ class TextEngine : ParserContext
 
 /* class FileEngine<FileName,FileText> */
 
-template <FileNameType FileName,FileTextType FileText>
+template <FileNameType FileName,class FileText,class ... SS>
 class FileEngine : ParserContext
  {
    struct FileRec : FileId , MemBase_nocopy
@@ -117,8 +111,9 @@ class FileEngine : ParserContext
 
      RBTreeLink<FileRec,StrKey> link;
 
-     FileRec(FileName &&file_name_,ulen max_file_len)
-      : file_name(std::move(file_name_)),file_text(file_name.getStr(),max_file_len)
+     FileRec(const SS & ... args,FileName &&file_name_,ulen max_file_len)
+      : file_name(std::move(file_name_)),
+        file_text(file_name.getStr(),max_file_len,args...)
       {
       }
 
@@ -128,6 +123,8 @@ class FileEngine : ParserContext
     };
 
    using Algo = typename RBTreeLink<FileRec,StrKey>::template Algo<&FileRec::link,StrKey> ;
+
+   Tuple<SS...> args;
 
    ulen max_files;
    ulen max_inc;
@@ -154,14 +151,14 @@ class FileEngine : ParserContext
 
   public:
 
-   static constexpr ulen DefaultMaxFiles    = 1000 ;
-   static constexpr ulen DefaultMaxIncludes = 100 ;
+   static constexpr ulen DefaultMaxFiles    =    1000 ;
+   static constexpr ulen DefaultMaxIncludes =     100 ;
    static constexpr ulen DefaultMaxFileLen  = MaxULen ;
 
-   explicit FileEngine(PrintBase &msg,ulen mem_cap=MaxULen,
-                                      ulen max_files=DefaultMaxFiles,
-                                      ulen max_inc=DefaultMaxIncludes,
-                                      ulen max_file_len=DefaultMaxFileLen);
+   explicit FileEngine(const SS & ... args,PrintBase &msg,ulen mem_cap=MaxULen,
+                                                          ulen max_files=DefaultMaxFiles,
+                                                          ulen max_inc=DefaultMaxIncludes,
+                                                          ulen max_file_len=DefaultMaxFileLen);
 
    ~FileEngine();
 
@@ -174,8 +171,8 @@ class FileEngine : ParserContext
    EngineResult process(StrLen file_name);
  };
 
-template <FileNameType FileName,FileTextType FileText>
-void FileEngine<FileName,FileText>::Destroy(FileRec *rec)
+template <FileNameType FileName,class FileText,class ... SS>
+void FileEngine<FileName,FileText,SS...>::Destroy(FileRec *rec)
  {
   if( rec )
     {
@@ -186,14 +183,14 @@ void FileEngine<FileName,FileText>::Destroy(FileRec *rec)
     }
  }
 
-template <FileNameType FileName,FileTextType FileText>
-auto FileEngine<FileName,FileText>::Make(FileRec *rec) -> File
+template <FileNameType FileName,class FileText,class ... SS>
+auto FileEngine<FileName,FileText,SS...>::Make(FileRec *rec) -> File
  {
   return File(rec,rec->getText());
  }
 
-template <FileNameType FileName,FileTextType FileText>
-auto FileEngine<FileName,FileText>::open(FileName &&file_name) -> File
+template <FileNameType FileName,class FileText,class ... SS>
+auto FileEngine<FileName,FileText,SS...>::open(FileName &&file_name) -> File
  {
   StrKey key(file_name.getStr());
 
@@ -208,7 +205,9 @@ auto FileEngine<FileName,FileText>::open(FileName &&file_name) -> File
      return Nothing;
     }
 
-  FileRec *rec=new FileRec(std::move(file_name),max_file_len);
+  FileRec *rec;
+
+  args.call( [&] (const SS & ... aa) { rec=new FileRec(aa...,std::move(file_name),max_file_len); } );
 
   file_count++;
 
@@ -217,8 +216,8 @@ auto FileEngine<FileName,FileText>::open(FileName &&file_name) -> File
   return Make(rec);
  }
 
-template <FileNameType FileName,FileTextType FileText>
-auto FileEngine<FileName,FileText>::openFile(StrLen file_name_) -> File
+template <FileNameType FileName,class FileText,class ... SS>
+auto FileEngine<FileName,FileText,SS...>::openFile(StrLen file_name_) -> File
  {
   inc_count=0;
 
@@ -234,8 +233,8 @@ auto FileEngine<FileName,FileText>::openFile(StrLen file_name_) -> File
   return open(std::move(file_name));
  }
 
-template <FileNameType FileName,FileTextType FileText>
-auto FileEngine<FileName,FileText>::openFile(FileId *file_id,const Token &name) -> File
+template <FileNameType FileName,class FileText,class ... SS>
+auto FileEngine<FileName,FileText,SS...>::openFile(FileId *file_id,const Token &name) -> File
  {
   if( inc_count>=max_inc )
     {
@@ -262,9 +261,10 @@ auto FileEngine<FileName,FileText>::openFile(FileId *file_id,const Token &name) 
   return open(std::move(file_name));
  }
 
-template <FileNameType FileName,FileTextType FileText>
-FileEngine<FileName,FileText>::FileEngine(PrintBase &msg,ulen mem_cap,ulen max_files_,ulen max_inc_,ulen max_file_len_)
+template <FileNameType FileName,class FileText,class ... SS>
+FileEngine<FileName,FileText,SS...>::FileEngine(const SS & ... args_,PrintBase &msg,ulen mem_cap,ulen max_files_,ulen max_inc_,ulen max_file_len_)
  : ParserContext(msg,mem_cap),
+   args(args_...),
    max_files(max_files_),
    max_inc(max_inc_),
    max_file_len(max_file_len_),
@@ -273,22 +273,22 @@ FileEngine<FileName,FileText>::FileEngine(PrintBase &msg,ulen mem_cap,ulen max_f
  {
  }
 
-template <FileNameType FileName,FileTextType FileText>
-FileEngine<FileName,FileText>::~FileEngine()
+template <FileNameType FileName,class FileText,class ... SS>
+FileEngine<FileName,FileText,SS...>::~FileEngine()
  {
   Destroy(root.root);
  }
 
-template <FileNameType FileName,FileTextType FileText>
-void FileEngine<FileName,FileText>::purge()
+template <FileNameType FileName,class FileText,class ... SS>
+void FileEngine<FileName,FileText,SS...>::purge()
  {
   Destroy(root.root);
 
   root.init();
  }
 
-template <FileNameType FileName,FileTextType FileText>
-EngineResult FileEngine<FileName,FileText>::process(StrLen file_name,StrLen pretext)
+template <FileNameType FileName,class FileText,class ... SS>
+EngineResult FileEngine<FileName,FileText,SS...>::process(StrLen file_name,StrLen pretext)
  {
   if( BodyNode *body_node=parseFile(file_name,pretext) )
     {
@@ -301,8 +301,8 @@ EngineResult FileEngine<FileName,FileText>::process(StrLen file_name,StrLen pret
   return Nothing;
  }
 
-template <FileNameType FileName,FileTextType FileText>
-EngineResult FileEngine<FileName,FileText>::process(StrLen file_name)
+template <FileNameType FileName,class FileText,class ... SS>
+EngineResult FileEngine<FileName,FileText,SS...>::process(StrLen file_name)
  {
   if( BodyNode *body_node=parseFile(file_name) )
     {

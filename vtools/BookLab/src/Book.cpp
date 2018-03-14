@@ -19,6 +19,9 @@
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
 #include <CCore/inc/PretextFileToMem.h>
+#include <CCore/inc/Path.h>
+#include <CCore/inc/Volume.h>
+#include <CCore/inc/RawFileToRead.h>
 
 namespace App {
 namespace Book {
@@ -261,28 +264,8 @@ BookMap::Pretext BookMap::Pretext::Object;
 
 /* class BookMap */
 
-BookMap::BookMap()
+ErrorText BookMap::loadFS(StrLen file_name,PtrLen<char> ebuf)
  {
-  mem=0;
-  book=0;
- }
-
-BookMap::~BookMap()
- {
-  blank();
- }
-
-void BookMap::blank()
- {
-  book=0;
-
-  MemFree(Replace_null(mem));
- }
-
-ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
- {
-  blank();
-
   PrintBuf eout(ebuf);
 
   ReportExceptionTo<PrintBuf> report(eout);
@@ -327,6 +310,86 @@ ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
 
      return eout.close();
     }
+ }
+
+ErrorText BookMap::loadVolume(StrLen file_name,PtrLen<char> ebuf)
+ {
+  PrintBuf eout(ebuf);
+
+  ReportExceptionTo<PrintBuf> report(eout);
+
+  try
+    {
+     using VolType = Volume<AltFileToRead> ;
+     using FileType = PretextFileToMem<VolumeFileToMem<AltFileToRead>,Pretext::Object> ;
+
+     VolType vol(file_name);
+
+     DDL::FileEngine<FileName,FileType,VolType &> engine(vol,eout);
+
+     auto result=engine.process("/main.book.ddl"_c);
+
+     if( !result )
+       {
+        Printf(eout,"\n@ #.q;",file_name);
+
+        return eout.close();
+       }
+     else
+       {
+        DDL::TypedMap<TypeSet> map(result);
+        MemAllocGuard guard(map.getLen());
+
+        map(guard);
+
+        if( TypeDef::Book *data=map.findConst<TypeDef::Book>("Data"_c) )
+          {
+           mem=guard.disarm();
+           book=data;
+
+           return Success;
+          }
+        else
+          {
+           Printf(eout,"Error : No Data\n@ #.q;",file_name);
+
+           return eout.close();
+          }
+       }
+    }
+  catch(CatchType)
+    {
+     Printf(eout,"\n@ #.q;",file_name);
+
+     return eout.close();
+    }
+ }
+
+BookMap::BookMap()
+ {
+  mem=0;
+  book=0;
+ }
+
+BookMap::~BookMap()
+ {
+  blank();
+ }
+
+void BookMap::blank()
+ {
+  book=0;
+
+  MemFree(Replace_null(mem));
+ }
+
+ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
+ {
+  blank();
+
+  if( SuffixExt(file_name).equal(".vol"_c) ) return loadVolume(file_name,ebuf);
+
+  return loadFS(file_name,ebuf);
  }
 
 } // namespace Book

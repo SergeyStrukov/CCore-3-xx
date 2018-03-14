@@ -59,6 +59,10 @@ class BookMap : NoCopy
 
    class Pretext;
 
+   ErrorText loadFS(StrLen file_name,PtrLen<char> ebuf);
+
+   ErrorText loadVolume(StrLen file_name,PtrLen<char> ebuf);
+
   public:
 
    BookMap();

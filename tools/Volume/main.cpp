@@ -145,16 +145,14 @@ class Opt : NoCopy
 
    StrLen makeDirName(StrLen file_name)
     {
-     SplitPath split1(file_name);
-     SplitName split2(split1.path);
-     SplitExt split3(split2.name);
+     StrLen ext=SuffixExt(file_name);
 
-     if( !split3 || split3.ext.equal("."_c) )
+     if( !ext || ext.equal("."_c) )
        {
         Printf(Exception,"App::Opt::Opt(...) : no file extension");
        }
 
-     return file_name.inner(0,split3.ext.len);
+     return file_name.inner(0,ext.len);
     }
  };
 

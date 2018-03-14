@@ -76,7 +76,7 @@ class PretextFileToMem
   public:
 
    template <class ... SS>
-   PretextFileToMem(SS && ... ss,StrLen file_name,ulen max_len)
+   PretextFileToMem(StrLen file_name,ulen max_len,SS && ... ss)
     {
      if( auto result=Pretext(file_name) ; result.ok )
        {

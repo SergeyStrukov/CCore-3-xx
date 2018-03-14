@@ -33,6 +33,15 @@ StrLen PrefixPath(StrLen file_name)
   return file_name.prefix(split1.dev.len+len);
  }
 
+StrLen SuffixExt(StrLen file_name)
+ {
+  SplitPath split1(file_name);
+  SplitName split2(split1.path);
+  SplitExt split3(split2.name);
+
+  return split3.ext;
+ }
+
 /* struct PathBase */
 
 void PathBase::TurnSlash(PtrLen<char> name)

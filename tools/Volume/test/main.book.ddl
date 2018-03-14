@@ -1,4 +1,4 @@
-/* test.book.ddl */
+/* main.book.ddl */
 
 include <test.style.ddl>
 

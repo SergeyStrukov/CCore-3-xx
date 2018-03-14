@@ -25,6 +25,8 @@ namespace CCore {
 
 StrLen PrefixPath(StrLen file_name);
 
+StrLen SuffixExt(StrLen file_name);
+
 /* classes */
 
 struct PathBase;
