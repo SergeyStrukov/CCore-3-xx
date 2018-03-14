@@ -296,6 +296,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
   // file frame
 
   file_frame.addFilter("*.book.ddl"_c);
+  file_frame.addFilter("*.vol"_c);
   file_frame.addFilter("*"_c,false);
 
   // msg frame
