@@ -1,0 +1,144 @@
+<!--
+/* page_Volume.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Volume</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Volume</h2>
+
+<p class="Files">Files <b>CCore/inc/Volume.h</b> <b>CCore/src/Volume.cpp</b></p>
+
+<p>
+Volume is a file, which contains several files. Each packed file is identified by a name.
+There are several classes to read a volume content. 
+They all uses some base class, similar to the <a href="page_RawFileToRead.html#AltFileToRead"><b>AltFileToRead</b></a>, to read the volume file data.
+This class is given as a template parameter.
+</p>
+
+<pre>
+
+template &lt;class AltFile&gt;
+class <span class="Att">Volume</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   Volume(StrLen file_name,FileOpenFlags oflags=Open_Read);
+
+   ~Volume();
+
+   ulen getCount() const;
+
+   StrLen getName(ulen ind) const;
+
+   struct Result
+    {
+     AltFile &amp;file;
+     FilePosType file_off;
+     FilePosType file_len;
+    };
+
+   Result open(ulen ind);
+
+   Result open(StrLen file_name);
+ };
+
+</pre>
+
+<p>
+This class is required to work with a volume.
+</p>
+
+<p>
+<b>getCount()</b> returns the number of packed files.
+</p>
+
+<p>
+<b>getName()</b> returns the name of the file with the given index. 
+</p>
+
+<p>
+<b>open()</b> "opens" the given packed file. The file can be specified using its name or index. 
+An exception is thrown in case of error.
+</p>
+
+<pre>
+
+template &lt;class AltFile&gt;
+class <span class="Att">VolumeFile</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   VolumeFile(Volume&lt;AltFile&gt; &amp;vol,StrLen file_name);
+
+   VolumeFile(Volume&lt;AltFile&gt; &amp;vol,ulen ind);
+
+   ~VolumeFile();
+
+   FilePosType getLen() const;
+
+   ulen read(FilePosType off,uint8 *buf,ulen len);
+
+   void read_all(FilePosType off,uint8 *buf,ulen len);
+ };
+
+</pre>
+
+<pre>
+
+template &lt;class AltFile&gt;
+class <span class="Att">VolumeFileToMem</span> : public ToMemBase
+ {
+  public:
+
+   VolumeFileToMem() noexcept;
+
+   VolumeFileToMem(Volume&lt;AltFile&gt; &amp;vol,StrLen file_name,ulen max_len=MaxULen);
+
+   ~VolumeFileToMem();
+
+   // std move
+
+   VolumeFileToMem(VolumeFileToMem &amp;&amp;obj) noexcept = default ;
+
+   VolumeFileToMem &amp; operator = (VolumeFileToMem &amp;&amp;obj) noexcept = default ;
+
+   // swap/move objects
+
+   void objSwap(VolumeFileToMem &amp;obj);
+
+   explicit VolumeFileToMem(ToMoveCtor&lt;VolumeFileToMem&gt; obj);
+ };
+
+</pre>
+
+</body>
+
+</html>
+
+
