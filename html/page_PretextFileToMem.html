@@ -45,7 +45,7 @@ class <span class="Att">PretextFileToMem</span>
   public:
 
    template &lt;class ... SS&gt;
-   PretextFileToMem(SS &amp;&amp; ... ss,StrLen file_name,ulen max_len);
+   PretextFileToMem(StrLen file_name,ulen max_len,SS &amp;&amp; ... ss); // FileToMem( std::forward&lt;SS&gt;(ss)... ,file_name,max_len)
 
    ~PretextFileToMem();
 

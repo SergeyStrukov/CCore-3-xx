@@ -110,7 +110,7 @@ Result objects life-time is ended with the engine life-time end.
 
 <pre>
 
-template &lt;FileNameType FileName,FileTextType FileText&gt;
+template &lt;FileNameType FileName,FileTextType FileText,class ... SS&gt;
 class <span class="Att">FileEngine</span> : NoCopy
  {
    ....
@@ -121,10 +121,10 @@ class <span class="Att">FileEngine</span> : NoCopy
    static constexpr ulen DefaultMaxIncludes = 100 ;
    static constexpr ulen DefaultMaxFileLen  = MaxULen ;
   
-   explicit FileEngine(PrintBase &msg,ulen mem_cap=MaxULen,
-                                      ulen max_files=DefaultMaxFiles,
-                                      ulen max_inc=DefaultMaxIncludes,
-                                      ulen max_file_len=DefaultMaxFileLen);
+   explicit FileEngine(const SS & ... args,PrintBase &msg,ulen mem_cap=MaxULen,
+                                           ulen max_files=DefaultMaxFiles,
+                                           ulen max_inc=DefaultMaxIncludes,
+                                           ulen max_file_len=DefaultMaxFileLen);
    
    ~FileEngine();
 
@@ -175,7 +175,7 @@ class <span class="Att">FileText</span> : NoCopy
  {
   public:
 
-   FileText(StrLen file_name,ulen max_len);
+   FileText(SS ... args,StrLen file_name,ulen max_len);
 
    ~FileText();
 
@@ -188,6 +188,11 @@ class <span class="Att">FileText</span> : NoCopy
 
 <p>
 On <b>HCore</b> targets you can use the class <a href="page_FileToMem.html"><b>FileToMem</b></a> as the <b>FileText</b> template parameter.
+</p>
+
+<p>
+You may supply additional arguments using the variables <b>args</b>. They are copied from the constructor arguments of the class <b>FileEngine</b> and stored inside
+an object of this class. Then these copies are used in <b>FileText</b> constructor calls.
 </p>
 
 <h3>EvalResult</h3>
