@@ -1,0 +1,63 @@
+<!--
+/* page_UtilVolume.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> Volume</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>Volume</h2>
+
+<p>
+<b>Volume</b> is a simple utility to work with <a href="page_Volume.html">volumes</a>.
+</p>
+
+<pre>
+
+CCore-Volume.exe -a &lt;src-dir&gt; [&lt;vol-file&gt;]
+
+CCore-Volume.exe -l &lt;vol-file&gt;
+
+CCore-Volume.exe -x &lt;vol-file&gt; [&lt;dst-dir&gt;]
+
+</pre>
+
+<p>
+First, you can create a volume. You must provide a directory with files. These files will be placed in a volume file.
+The name of each file is "/file" or "/dir/file". 
+If the volume file name is not given, the name of the directory with the appended extension ".vol" is used.
+</p>
+
+<p>
+You can list volume files.
+</p>
+
+<p>
+Finally, you can extract files from a volume into some directory.
+If the directory name is not given, the name of the volume file is used with skipped extension.
+</p>
+
+</body>
+
+</html>
+

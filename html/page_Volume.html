@@ -37,6 +37,12 @@ They all uses some base class, similar to the <a href="page_RawFileToRead.html#A
 This class is given as a template parameter.
 </p>
 
+<h4>Volume</h4>
+
+<p>
+This class is required to work with a volume.
+</p>
+
 <pre>
 
 template &lt;class AltFile&gt;
@@ -69,10 +75,6 @@ class <span class="Att">Volume</span> : NoCopy
 </pre>
 
 <p>
-This class is required to work with a volume.
-</p>
-
-<p>
 <b>getCount()</b> returns the number of packed files.
 </p>
 
@@ -83,6 +85,14 @@ This class is required to work with a volume.
 <p>
 <b>open()</b> "opens" the given packed file. The file can be specified using its name or index. 
 An exception is thrown in case of error.
+You don't need to use this method directly. Use the class <b>VolumeFile</b> instead.
+</p>
+
+<h4>VolumeFile</h4>
+
+<p>
+This class implements a read file interface, similar to the <a href="page_RawFileToRead.html#AltFileToRead"><b>AltFileToRead</b></a>, 
+to read data from a volume file.
 </p>
 
 <pre>
@@ -108,6 +118,12 @@ class <span class="Att">VolumeFile</span> : NoCopy
  };
 
 </pre>
+
+<h4>VolumeFileToMem</h4>
+
+<p>
+This class load the content of a volume file to the memory, similar to the <a href="page_FileToMem.html"><b>FileToMem</b></a>.
+</p>
 
 <pre>
 
