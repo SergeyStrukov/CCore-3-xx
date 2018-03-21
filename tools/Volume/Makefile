@@ -22,7 +22,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-#	$(TARGET) -a test
+	$(TARGET) -a test
 	$(TARGET) -l test.vol
-#	$(TARGET) -x test.vol test1
+	$(TARGET) -x test.vol test1
 

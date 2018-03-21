@@ -33,129 +33,6 @@ namespace App {
 
 using namespace CCore;
 
-/* class Opt */
-
-class Opt : NoCopy
- {
-  public:
-
-   enum Command
-    {
-     List,
-     Pack,
-     Unpack
-    };
-
-   Command cmd;
-   StrLen dir_name;
-   StrLen file_name;
-
-   Opt(int argc,const char *argv[])
-    {
-     if( argc<3 )
-       {
-        Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
-       }
-
-     cmd=GetCommand(argv[1]);
-
-     switch( cmd )
-       {
-        case List :
-         {
-          if( argc!=3 )
-            {
-             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
-            }
-
-          file_name=argv[2];
-         }
-        break;
-
-        case Pack :
-         {
-          if( argc==3 )
-            {
-             dir_name=argv[2];
-
-             file_name=makeFileName(dir_name);
-            }
-          else if( argc==4 )
-            {
-             dir_name=argv[2];
-             file_name=argv[3];
-            }
-          else
-            {
-             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
-            }
-         }
-        break;
-
-        case Unpack :
-         {
-          if( argc==3 )
-            {
-             file_name=argv[2];
-
-             dir_name=makeDirName(file_name);
-            }
-          else if( argc==4 )
-            {
-             file_name=argv[2];
-             dir_name=argv[3];
-            }
-          else
-            {
-             Printf(Exception,"App::Opt::Opt(...) : bad arguments number");
-            }
-         }
-        break;
-       }
-    }
-
-  private:
-
-   static Command GetCommand(StrLen str)
-    {
-     if( str.equal("-l"_c) ) return List;
-
-     if( str.equal("-a"_c) ) return Pack;
-
-     if( str.equal("-x"_c) ) return Unpack;
-
-     Printf(Exception,"App::Opt::Opt(...) : bad command");
-
-     return List;
-    }
-
-  private:
-
-   MakeString<MaxPathLen> temp;
-
-   StrLen makeFileName(StrLen dir_name)
-    {
-     if( !temp.add(dir_name,".vol") )
-       {
-        Printf(Exception,"App::Opt::Opt(...) : overflow");
-       }
-
-     return temp.get();
-    }
-
-   StrLen makeDirName(StrLen file_name)
-    {
-     StrLen ext=SuffixExt(file_name);
-
-     if( !ext || ext.equal("."_c) )
-       {
-        Printf(Exception,"App::Opt::Opt(...) : no file extension");
-       }
-
-     return file_name.inner(0,ext.len);
-    }
- };
-
 /* List() */
 
 void List(StrLen file_name)
@@ -168,6 +45,8 @@ void List(StrLen file_name)
     {
      Printf(Con,"#;\n",vol.getName(i));
     }
+
+  Putch(Con,'\n');
  }
 
 /* Pack() */
@@ -383,6 +262,8 @@ void Pack(StrLen dir_name,StrLen file_name)
     }
 
   dev.preserveFile();
+
+  Putch(Con,'\n');
  }
 
 /* Unpack() */
@@ -428,6 +309,101 @@ void Unpack(StrLen file_name,StrLen dir_name)
 
      CopyFile(file,dev);
     }
+
+  Putch(Con,'\n');
+ }
+
+/* Main() */
+
+void Main(int argc,const char *argv[],StrLen str)
+ {
+  if( str.equal("-l"_c) )
+    {
+     if( argc!=3 )
+       {
+        Printf(Exception,"App::Main(...) : bad arguments number");
+       }
+
+     StrLen file_name=argv[2];
+
+     List(file_name);
+
+     return;
+    }
+
+  if( str.equal("-a"_c) )
+    {
+     StrLen dir_name=argv[2];
+
+     StrLen file_name;
+
+     MakeString<MaxPathLen> temp;
+
+     if( argc==3 )
+       {
+        if( !temp.add(dir_name,".vol"_c) )
+          {
+           Printf(Exception,"App::Main(...) : too long file name");
+          }
+
+        file_name=temp.get();
+       }
+     else if( argc==4 )
+       {
+        file_name=argv[3];
+       }
+     else
+       {
+        Printf(Exception,"App::Main(...) : bad arguments number");
+       }
+
+     Pack(dir_name,file_name);
+
+     return;
+    }
+
+  if( str.equal("-x"_c) )
+    {
+     StrLen file_name=argv[2];
+
+     StrLen dir_name;
+
+     if( argc==3 )
+       {
+        StrLen ext=SuffixExt(file_name);
+
+        if( !ext || ext.equal("."_c) )
+          {
+           Printf(Exception,"App::Main(...) : no file extension");
+          }
+
+        dir_name=file_name.inner(0,ext.len);
+       }
+     else if( argc==4 )
+       {
+        dir_name=argv[3];
+       }
+     else
+       {
+        Printf(Exception,"App::Main(...) : bad arguments number");
+       }
+
+     Unpack(file_name,dir_name);
+
+     return;
+    }
+
+  Printf(Exception,"App::Main(...) : bad command");
+ }
+
+void Main(int argc,const char *argv[])
+ {
+  if( argc<3 )
+    {
+     Printf(Exception,"App::Main(...) : bad arguments number");
+    }
+
+  Main(argc,argv,argv[1]);
  }
 
 } // namespace App
@@ -445,28 +421,7 @@ int main(int argc,const char *argv[])
      {
       Putobj(Con,"--- Volume 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
 
-      Opt opt(argc,argv);
-
-      switch( opt.cmd )
-        {
-         case Opt::List :
-          {
-           List(opt.file_name);
-          }
-         break;
-
-         case Opt::Pack :
-          {
-           Pack(opt.dir_name,opt.file_name);
-          }
-         break;
-
-         case Opt::Unpack :
-          {
-           Unpack(opt.file_name,opt.dir_name);
-          }
-         break;
-        }
+      Main(argc,argv);
      }
 
      report.guard();
