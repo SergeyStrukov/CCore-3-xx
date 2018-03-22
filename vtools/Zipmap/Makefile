@@ -22,8 +22,8 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET) -z Mandelbrot.bitmap Mandelbrot.zipmap
-	$(TARGET) -x Mandelbrot.zipmap Mandelbrot1.bitmap 
+	$(TARGET) -z Mandelbrot.bitmap
+	$(TARGET) -x Mandelbrot.zipmap test.bitmap
 
 
 

@@ -315,9 +315,9 @@ void Unpack(StrLen file_name,StrLen dir_name)
 
 /* Main() */
 
-void Main(int argc,const char *argv[],StrLen str)
+void Main(int argc,const char *argv[],StrLen cmd)
  {
-  if( str.equal("-l"_c) )
+  if( cmd.equal("-l"_c) )
     {
      if( argc!=3 )
        {
@@ -331,7 +331,7 @@ void Main(int argc,const char *argv[],StrLen str)
      return;
     }
 
-  if( str.equal("-a"_c) )
+  if( cmd.equal("-a"_c) )
     {
      StrLen dir_name=argv[2];
 
@@ -362,7 +362,7 @@ void Main(int argc,const char *argv[],StrLen str)
      return;
     }
 
-  if( str.equal("-x"_c) )
+  if( cmd.equal("-x"_c) )
     {
      StrLen file_name=argv[2];
 
