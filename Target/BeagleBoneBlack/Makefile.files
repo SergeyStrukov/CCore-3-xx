@@ -83,6 +83,7 @@ OBJ_LIST = \
 .obj/DefaultFileDevice.o \
 .obj/DefaultTimeout.o \
 .obj/DeferCall.o \
+.obj/Deflate.o \
 .obj/DestroyGuard.o \
 .obj/DetectProxy.o \
 .obj/DevBit.o \
@@ -458,6 +459,7 @@ ASM_LIST = \
 .obj/DefaultFileDevice.s \
 .obj/DefaultTimeout.s \
 .obj/DeferCall.s \
+.obj/Deflate.s \
 .obj/DestroyGuard.s \
 .obj/DetectProxy.s \
 .obj/DevBit.s \
@@ -833,6 +835,7 @@ DEP_LIST = \
 .obj/DefaultFileDevice.dep \
 .obj/DefaultTimeout.dep \
 .obj/DeferCall.dep \
+.obj/Deflate.dep \
 .obj/DestroyGuard.dep \
 .obj/DetectProxy.dep \
 .obj/DevBit.dep \
@@ -1389,6 +1392,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DeferCall.o : ../../Fundamental/CCore/src/./DeferCall.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Deflate.o : ../../Applied/CCore/src/./Deflate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DestroyGuard.o : ../../Simple/CCore/src/./DestroyGuard.cpp
@@ -2509,6 +2515,9 @@ include $(RULES_FILE)
 .obj/DeferCall.s : ../../Fundamental/CCore/src/./DeferCall.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Deflate.s : ../../Applied/CCore/src/./Deflate.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/DestroyGuard.s : ../../Simple/CCore/src/./DestroyGuard.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3626,6 +3635,9 @@ include $(RULES_FILE)
 
 .obj/DeferCall.dep : ../../Fundamental/CCore/src/./DeferCall.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DeferCall.o $< -MF $@
+
+.obj/Deflate.dep : ../../Applied/CCore/src/./Deflate.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Deflate.o $< -MF $@
 
 .obj/DestroyGuard.dep : ../../Simple/CCore/src/./DestroyGuard.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DestroyGuard.o $< -MF $@

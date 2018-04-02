@@ -86,6 +86,7 @@ OBJ_LIST = \
 .obj/DHExp.o \
 .obj/DefaultTimeout.o \
 .obj/DeferCall.o \
+.obj/Deflate.o \
 .obj/Desktop.o \
 .obj/DesktopKey.o \
 .obj/DestroyGuard.o \
@@ -543,6 +544,7 @@ ASM_LIST = \
 .obj/DHExp.s \
 .obj/DefaultTimeout.s \
 .obj/DeferCall.s \
+.obj/Deflate.s \
 .obj/Desktop.s \
 .obj/DesktopKey.s \
 .obj/DestroyGuard.s \
@@ -1000,6 +1002,7 @@ DEP_LIST = \
 .obj/DHExp.dep \
 .obj/DefaultTimeout.dep \
 .obj/DeferCall.dep \
+.obj/Deflate.dep \
 .obj/Desktop.dep \
 .obj/DesktopKey.dep \
 .obj/DestroyGuard.dep \
@@ -1641,6 +1644,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DeferCall.o : ../../Fundamental/CCore/src/./DeferCall.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Deflate.o : ../../Applied/CCore/src/./Deflate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Desktop.o : ../../Target/WIN64/CCore/src/./video/Desktop.cpp
@@ -3007,6 +3013,9 @@ include $(RULES_FILE)
 .obj/DeferCall.s : ../../Fundamental/CCore/src/./DeferCall.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Deflate.s : ../../Applied/CCore/src/./Deflate.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Desktop.s : ../../Target/WIN64/CCore/src/./video/Desktop.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4370,6 +4379,9 @@ include $(RULES_FILE)
 
 .obj/DeferCall.dep : ../../Fundamental/CCore/src/./DeferCall.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DeferCall.o $< -MF $@
+
+.obj/Deflate.dep : ../../Applied/CCore/src/./Deflate.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Deflate.o $< -MF $@
 
 .obj/Desktop.dep : ../../Target/WIN64/CCore/src/./video/Desktop.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Desktop.o $< -MF $@
