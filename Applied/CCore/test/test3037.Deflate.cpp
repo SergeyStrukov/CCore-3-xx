@@ -40,11 +40,16 @@ struct Code
 
 /* BitReverse() */
 
+uint32 BitSwap(uint32 value,uint32 hi,uint32 lo,unsigned shift)
+ {
+  return uint32( (value&hi)>>shift )|uint32( (value&lo)<<shift );
+ }
+
 uint32 BitReverse(uint32 value)
  {
-  value = uint32((value&0xAAAAAAAAu)>>1) | uint32((value&0x55555555u)<<1) ;
-  value = uint32((value&0xCCCCCCCCu)>>2) | uint32((value&0x33333333u)<<2) ;
-  value = uint32((value&0xF0F0F0F0u)>>4) | uint32((value&0x0F0F0F0Fu)<<4) ;
+  value=BitSwap(value,0xAAAAAAAAu,0x55555555u,1);
+  value=BitSwap(value,0xCCCCCCCCu,0x33333333u,2);
+  value=BitSwap(value,0xF0F0F0F0u,0x0F0F0F0Fu,4);
 
   return Quick::ByteSwap32(value);
  }
@@ -59,9 +64,10 @@ class LowFirstBitWriter : NoCopy
    ulen m_bitCount;
 
    uint8 m_outputBuffer[BufLen];
+   unsigned m_bytesBuffered;
+
    uint32 m_buffer;
    unsigned m_bitsBuffered;
-   unsigned m_bytesBuffered;
 
    Function<void (const uint8 *,ulen)> out;
 
@@ -95,9 +101,9 @@ class LowFirstBitWriter : NoCopy
 LowFirstBitWriter::LowFirstBitWriter(Function<void (const uint8 *,ulen)> out_)
  : m_counting(false),
    m_bitCount(0),
+   m_bytesBuffered(0),
    m_buffer(0),
    m_bitsBuffered(0),
-   m_bytesBuffered(0),
    out(out_)
  {
  }
@@ -142,11 +148,11 @@ void LowFirstBitWriter::PutBits(Code code)
     }
  }
 
-void LowFirstBitWriter::FlushBitBuffer()
+void LowFirstBitWriter::FlushBitBuffer() // TODO
  {
   if( m_counting )
     {
-     m_bitCount += 8*(m_bitsBuffered>0) ;
+     m_bitCount += 8*(m_bitsBuffered>0) ; // ?
     }
   else
     {
@@ -195,9 +201,9 @@ class HuffmanEncoder : NoCopy
 
    void Initialize(PtrLen<const BitLen> bitlens);
 
-   struct Node;
+   static void Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,PtrLen<const ulen> counts);
 
-   static void Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts);
+     // counts.len > 0 && counts.len <= 2^maxbitlen
 
    void Encode(LowFirstBitWriter &writer,USym sym) const
     {
@@ -226,7 +232,7 @@ void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
 
   for(BitLen bitlen : bitlens ) counts[bitlen]++;
 
-  // set codes
+  // base codes
 
   TempArray<UCode,MaxBitLens+1> code(len);
 
@@ -242,6 +248,8 @@ void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
       code[i]=next;
      }
   }
+
+  // set codes
 
   m_valueToCode.erase();
   m_valueToCode.extend_raw(bitlens.len);
@@ -259,20 +267,20 @@ void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
     }
  }
 
-struct HuffmanEncoder::Node
+void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,PtrLen<const ulen> counts)
  {
-  ulen sym;
-
-  union
+  struct Node
    {
-    ulen count;
-    ulen parent;
-    ulen depth;
-   };
- };
+    ulen sym;
 
-void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts) // counts.len > 0 && counts.len <= 2^bitlens.len
- {
+    union
+     {
+      ulen count;
+      ulen parent;
+      ulen depth;
+     };
+   };
+
   // Huffman tree
 
   TempArray<Node,2*MaxSyms> tree(2*counts.len);
@@ -291,7 +299,7 @@ void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts) // c
 
   if( !initial )
     {
-     bitlens.set_null();
+     Range(bitlens,counts.len).set_null();
 
      return;
     }
@@ -318,15 +326,17 @@ void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts) // c
 
   // combo depth
 
-  tree[lim-1].depth=0;
-
   if( lim>=2 )
-    for(ulen i=lim-2; i>=counts.len ;i--)
-      tree[i].depth=tree[tree[i].parent].depth+1;
+    {
+     tree[lim-1].depth=0;
+
+     for(ulen i=lim-2; i>=counts.len ;i--)
+       tree[i].depth=tree[tree[i].parent].depth+1;
+    }
 
   // bitlen counts
 
-  TempArray<BitLen,MaxBitLens+1> blcounts(bitlens.len+1);
+  TempArray<BitLen,MaxBitLens+1> blcounts(maxbitlen+1);
 
   Range(blcounts).set_null();
 
@@ -335,40 +345,40 @@ void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts) // c
   for(ulen i=beg; i<counts.len ;i++)
     {
      ulen comb=tree[i].parent;
-     ulen depth=Min_cast(bitlens.len,tree[comb].depth+1);
+     ulen depth=Min<ulen>(maxbitlen,tree[comb].depth+1);
 
      blcounts[depth]++;
 
-     sum += ulen(1)<<(bitlens.len-depth) ;
+     sum += ulen(1)<<(maxbitlen-depth) ;
     }
 
   // bitlens
 
-  ulen cap=ulen(1)<<bitlens.len;
+  ulen cap=ulen(1)<<maxbitlen;
 
   ulen overflow = ( sum>cap )? sum-cap : 0 ;
 
   while( overflow-- )
     {
-     ulen bits=bitlens.len-1;
+     BitLen bits=maxbitlen-1;
 
      while( blcounts[bits]==0 ) bits--;
 
      blcounts[bits]--;
      blcounts[bits+1]+=2;
 
-     blcounts[bitlens.len]--;
+     blcounts[maxbitlen]--;
     }
 
   for(ulen i=0; i<beg ;i++) bitlens[tree[i].sym]=0;
 
-  ulen bits=bitlens.len;
+  BitLen bits=maxbitlen;
 
   for(ulen i=beg; i<counts.len ;i++)
     {
      while( blcounts[bits]==0 ) bits--;
 
-     bitlens[tree[i].sym]=(BitLen)bits;
+     bitlens[tree[i].sym]=bits;
 
      blcounts[bits]--;
     }
