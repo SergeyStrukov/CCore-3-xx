@@ -16,7 +16,9 @@
 #include <CCore/test/test.h>
 
 #include <CCore/inc/Array.h>
+#include <CCore/inc/Sort.h>
 #include <CCore/inc/algon/BestSearch.h>
+#include <CCore/inc/algon/BinarySearch.h>
 
 namespace App {
 
@@ -193,6 +195,8 @@ class HuffmanEncoder : NoCopy
 
    void Initialize(PtrLen<const BitLen> bitlens);
 
+   struct Node;
+
    static void Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts);
 
    void Encode(LowFirstBitWriter &writer,USym sym) const
@@ -249,14 +253,125 @@ void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
      m_valueToCode[i].bitlen=bitlen;
 
      if( bitlen!=0 )
-       m_valueToCode[i].code = BitReverse(code[bitlen]++) >> (32-bitlen) ;
+       m_valueToCode[i].code = BitReverse(code[bitlen]++) >> (32u-bitlen) ;
      else
        m_valueToCode[i].code = 0 ;
     }
  }
 
-void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts)
+struct HuffmanEncoder::Node
  {
+  ulen sym;
+
+  union
+   {
+    ulen count;
+    ulen parent;
+    ulen depth;
+   };
+ };
+
+void HuffmanEncoder::Tree(PtrLen<BitLen> bitlens,PtrLen<const ulen> counts) // counts.len > 0 && counts.len <= 2^bitlens.len
+ {
+  // Huffman tree
+
+  TempArray<Node,2*MaxSyms> tree(2*counts.len);
+
+  for(ulen i=0; i<counts.len ;i++)
+    {
+     tree[i].sym=i;
+     tree[i].count=counts[i];
+    }
+
+  auto initial=Range(tree.getPtr(),counts.len);
+
+  IncrSort(initial, [] (const Node &a,const Node &b) { return a.count<b.count; } );
+
+  Algon::BinarySearch_if(initial, [] (const Node &a) { return a.count>0; } );
+
+  if( !initial )
+    {
+     bitlens.set_null();
+
+     return;
+    }
+
+  // build
+
+  ulen beg=counts.len-initial.len;
+  ulen lim=counts.len+initial.len-1;
+
+  for(ulen next=counts.len,leaf=beg,comb=counts.len; next<lim ;next++)
+    {
+     ulen least =
+
+      ( leaf==counts.len || ( comb<next && tree[comb].count<tree[leaf].count ) ) ? comb++ : leaf++ ;
+
+     tree[next].count=tree[least].count;
+     tree[least].parent=next;
+
+     least = ( leaf==counts.len || ( comb<next && tree[comb].count<tree[leaf].count ) ) ? comb++ : leaf++ ;
+
+     tree[next].count+=tree[least].count;
+     tree[least].parent=next;
+    }
+
+  // combo depth
+
+  tree[lim-1].depth=0;
+
+  if( lim>=2 )
+    for(ulen i=lim-2; i>=counts.len ;i--)
+      tree[i].depth=tree[tree[i].parent].depth+1;
+
+  // bitlen counts
+
+  TempArray<BitLen,MaxBitLens+1> blcounts(bitlens.len+1);
+
+  Range(blcounts).set_null();
+
+  ulen sum=0;
+
+  for(ulen i=beg; i<counts.len ;i++)
+    {
+     ulen comb=tree[i].parent;
+     ulen depth=Min_cast(bitlens.len,tree[comb].depth+1);
+
+     blcounts[depth]++;
+
+     sum += ulen(1)<<(bitlens.len-depth) ;
+    }
+
+  // bitlens
+
+  ulen cap=ulen(1)<<bitlens.len;
+
+  ulen overflow = ( sum>cap )? sum-cap : 0 ;
+
+  while( overflow-- )
+    {
+     ulen bits=bitlens.len-1;
+
+     while( blcounts[bits]==0 ) bits--;
+
+     blcounts[bits]--;
+     blcounts[bits+1]+=2;
+
+     blcounts[bitlens.len]--;
+    }
+
+  for(ulen i=0; i<beg ;i++) bitlens[tree[i].sym]=0;
+
+  ulen bits=bitlens.len;
+
+  for(ulen i=beg; i<counts.len ;i++)
+    {
+     while( blcounts[bits]==0 ) bits--;
+
+     bitlens[tree[i].sym]=(BitLen)bits;
+
+     blcounts[bits]--;
+    }
  }
 
 //----------------------------------------------------------------------------------------
