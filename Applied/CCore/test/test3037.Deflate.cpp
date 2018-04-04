@@ -66,6 +66,16 @@ Ptr Mismatch(Ptr a,Ptr lim,Ptr b)
   return lim;
  }
 
+/* TrimNull() */
+
+template <class Ptr>
+ulen TrimNull(Ptr beg,Ptr lim)
+ {
+  while( beg<lim && lim[-1]==0 ) --lim;
+
+  return Dist(beg,lim);
+ }
+
 /* class LowFirstBitWriter */
 
 class LowFirstBitWriter : NoCopy
@@ -97,6 +107,8 @@ class LowFirstBitWriter : NoCopy
    void StartCounting();
 
    ulen FinishCounting();
+
+   unsigned extBits() const { return RoundUp<unsigned>(m_bitsBuffered+3,8)-m_bitsBuffered; }
 
    void PutBits(Code code);
 
@@ -411,8 +423,10 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
 
 /* class Deflator */
 
-class Deflator : public LowFirstBitWriter
+class Deflator : NoCopy
  {
+   LowFirstBitWriter writer;
+
   public:
 
    enum
@@ -528,7 +542,7 @@ void Deflator::WritePoststreamTail()
  }
 
 Deflator::Deflator(Function<void (const uint8 *,ulen)> out,int deflateLevel,int log2WindowSize,bool detectUncompressible)
- : LowFirstBitWriter(out),
+ : writer(out),
    m_deflateLevel(-1)
  {
   InitializeStaticEncoders();
@@ -589,7 +603,7 @@ void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressibl
 
 void Deflator::Reset(bool forceReset)
  {
-  if( forceReset ) ClearBitBuffer();
+  if( forceReset ) writer.ClearBitBuffer();
 
   m_headerWritten = false ;
   m_matchAvailable = false ;
@@ -848,7 +862,7 @@ ulen Deflator::Put2(const uint8 *str,ulen len,int messageEnd,bool blocking)
 
      EndBlock(true);
 
-     FlushBitBuffer();
+     writer.FlushBitBuffer();
 
      WritePoststreamTail();
 
@@ -944,20 +958,65 @@ void Deflator::MatchFound(unsigned distance,unsigned length)
 
 unsigned Deflator::CodeLengthEncode(const unsigned *beg,const unsigned *lim,const unsigned * &p,unsigned &extraBits,unsigned &extraBitsLength)
  {
+  unsigned v=*p;
+
+  if( (lim-p)>=3 )
+    {
+     const unsigned *oldp = p;
+
+     if( v==0 && p[1]==0 && p[2]==0 )
+       {
+        for(p+=3; p<lim && *p==0 && p!=oldp+138 ;p++);
+
+        unsigned repeat=(unsigned)(p-oldp);
+
+        if( repeat<=10 )
+          {
+           extraBits=repeat-3;
+           extraBitsLength=3;
+
+           return 17;
+          }
+        else
+          {
+           extraBits=repeat-11;
+           extraBitsLength=7;
+
+           return 18;
+          }
+       }
+     else if( p!=beg && v==p[-1] && v==p[1] && v==p[2] )
+       {
+        for(p+=3; p<lim && *p==v && p!=oldp+6 ;p++);
+
+        unsigned repeat=(unsigned)(p-oldp);
+
+        extraBits=repeat-3;
+        extraBitsLength=2;
+
+        return 16;
+       }
+    }
+
+  p++;
+  extraBits=0;
+  extraBitsLength=0;
+
+  return v;
  }
 
 void Deflator::EncodeBlock(bool eof,unsigned blockType)
  {
-  PutBits({eof,1});
-  PutBits({blockType,2});
+  writer.PutBits({eof,1});
+  writer.PutBits({blockType,2});
 
   if( blockType==STORED )
     {
-     FlushBitBuffer();
+     writer.FlushBitBuffer();
 
-     Put16(uint16(m_blockLength));
-     Put16(~uint16(m_blockLength));
-     Put(m_byteBuffer.getPtr()+m_blockStart,m_blockLength);
+     writer.Put16(uint16(m_blockLength));
+     writer.Put16(~uint16(m_blockLength));
+     writer.Put(m_byteBuffer.getPtr()+m_blockStart,m_blockLength);
     }
   else
     {
@@ -972,13 +1031,13 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
         m_dynamicLiteralEncoder.Initialize(Range(literalCodeLengths));
 
-          unsigned hlit = (unsigned)(FindIfNot(RevIt(literalCodeLengths.end()), RevIt(literalCodeLengths.begin()+257), 0).base() - (literalCodeLengths.begin()+257));
+        unsigned hlit=(unsigned)TrimNull(literalCodeLengths+257,literalCodeLengths+286);
 
         HuffmanEncoder::Tree(distanceCodeLengths,15,Range(m_distanceCounts));
 
         m_dynamicDistanceEncoder.Initialize(Range(distanceCodeLengths));
 
-          unsigned int hdist = (unsigned int)(FindIfNot(RevIt(distanceCodeLengths.end()), RevIt(distanceCodeLengths.begin()+1), 0).base() - (distanceCodeLengths.begin()+1));
+        unsigned hdist=(unsigned)TrimNull(distanceCodeLengths+1,distanceCodeLengths+30);
 
         TempArray<BitLen,286+30> combinedLengths(hlit+257+hdist+1);
 
@@ -1016,11 +1075,11 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
         hclen-=4;
 
-        PutBits({hlit,5});
-        PutBits({hdist,5});
-        PutBits({hclen,4});
+        writer.PutBits({hlit,5});
+        writer.PutBits({hdist,5});
+        writer.PutBits({hclen,4});
 
-        for(unsigned i=0; i<hclen+4 ;i++) PutBits({codeLengthCodeLengths[border[i]],3});
+        for(unsigned i=0; i<hclen+4 ;i++) writer.PutBits({codeLengthCodeLengths[border[i]],3});
 
         for(const unsigned *p=beg; p<lim ;)
           {
@@ -1028,9 +1087,9 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
            code=CodeLengthEncode(beg,lim,p,extraBits,extraBitsLength);
 
-           codeLengthEncoder.Encode(*this,code);
+           codeLengthEncoder.Encode(writer,code);
 
-           PutBits({extraBits,extraBitsLength});
+           writer.PutBits({extraBits,extraBitsLength});
           }
        }
 
@@ -1052,85 +1111,91 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
        {
         unsigned literalCode=m_matchBuffer[i].literalCode;
 
-        literalEncoder.Encode(*this,literalCode);
+        literalEncoder.Encode(writer,literalCode);
 
         if( literalCode>=257 )
           {
-           PutBits({m_matchBuffer[i].literalExtra,lengthExtraBits[literalCode-257]});
+           writer.PutBits({m_matchBuffer[i].literalExtra,lengthExtraBits[literalCode-257]});
 
            unsigned distanceCode=m_matchBuffer[i].distanceCode;
 
-           distanceEncoder.Encode(*this,distanceCode);
+           distanceEncoder.Encode(writer,distanceCode);
 
-           PutBits({m_matchBuffer[i].distanceExtra,distanceExtraBits[distanceCode]});
+           writer.PutBits({m_matchBuffer[i].distanceExtra,distanceExtraBits[distanceCode]});
           }
        }
 
-     literalEncoder.Encode(*this,256); // end of block
+     literalEncoder.Encode(writer,256); // end of block
     }
  }
 
 void Deflator::EndBlock(bool eof)
  {
-    if (m_blockLength == 0 && !eof)
-        return;
+  if( m_blockLength==0 && !eof ) return;
 
-    if (m_deflateLevel == 0)
+  if( m_deflateLevel==0 )
     {
-        EncodeBlock(eof, STORED);
+     EncodeBlock(eof,STORED);
 
-        if (m_compressibleDeflateLevel > 0 && ++m_detectCount == m_detectSkip)
-        {
-            m_deflateLevel = m_compressibleDeflateLevel;
-            m_detectCount = 1;
-        }
+     if( m_compressibleDeflateLevel>0 && ++m_detectCount==m_detectSkip )
+       {
+        m_deflateLevel=m_compressibleDeflateLevel;
+        m_detectCount=1;
+       }
     }
-    else
+  else
     {
-        unsigned long storedLen = 8*((unsigned long)m_blockLength+4) + RoundUpToMultipleOf(m_bitsBuffered+3, 8U)-m_bitsBuffered;
+     ulen storedLen=8*((ulen)m_blockLength+4)+writer.extBits();
 
-        StartCounting();
-        EncodeBlock(eof, STATIC);
-        unsigned long staticLen = FinishCounting();
+     writer.StartCounting();
 
-        unsigned long dynamicLen;
-        if (m_blockLength < 128 && m_deflateLevel < 8)
-            dynamicLen = ULONG_MAX;
+     EncodeBlock(eof,STATIC);
+
+     ulen staticLen=writer.FinishCounting();
+
+     ulen dynamicLen;
+
+     if( m_blockLength<128 && m_deflateLevel<8 )
+       {
+        dynamicLen=MaxULen;
+       }
+     else
+       {
+        writer.StartCounting();
+
+        EncodeBlock(eof,DYNAMIC);
+
+        dynamicLen=writer.FinishCounting();
+       }
+
+     if( storedLen<=staticLen && storedLen<=dynamicLen )
+       {
+        EncodeBlock(eof,STORED);
+
+        if( m_compressibleDeflateLevel>0 )
+          {
+           if( m_detectSkip ) m_deflateLevel=0;
+
+           m_detectSkip = m_detectSkip? Min<unsigned>(2*m_detectSkip,128) : 1 ;
+          }
+       }
+     else
+       {
+        if( staticLen<=dynamicLen )
+          EncodeBlock(eof,STATIC);
         else
-        {
-            StartCounting();
-            EncodeBlock(eof, DYNAMIC);
-            dynamicLen = FinishCounting();
-        }
+          EncodeBlock(eof,DYNAMIC);
 
-        if (storedLen <= staticLen && storedLen <= dynamicLen)
-        {
-            EncodeBlock(eof, STORED);
-
-            if (m_compressibleDeflateLevel > 0)
-            {
-                if (m_detectSkip)
-                    m_deflateLevel = 0;
-                m_detectSkip = m_detectSkip ? STDMIN(2*m_detectSkip, 128U) : 1;
-            }
-        }
-        else
-        {
-            if (staticLen <= dynamicLen)
-                EncodeBlock(eof, STATIC);
-            else
-                EncodeBlock(eof, DYNAMIC);
-
-            if (m_compressibleDeflateLevel > 0)
-                m_detectSkip = 0;
-        }
+        if( m_compressibleDeflateLevel>0 ) m_detectSkip=0;
+       }
     }
 
-    m_matchBufferEnd = 0;
-    m_blockStart += m_blockLength;
-    m_blockLength = 0;
-    std::fill(m_literalCounts.begin(), m_literalCounts.end(), 0);
-    std::fill(m_distanceCounts.begin(), m_distanceCounts.end(), 0);
+  m_matchBufferEnd=0;
+  m_blockStart+=m_blockLength;
+  m_blockLength=0;
+
+  Range(m_literalCounts).set_null();
+  Range(m_distanceCounts).set_null();
  }
 
 //----------------------------------------------------------------------------------------
