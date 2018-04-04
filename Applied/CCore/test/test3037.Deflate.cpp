@@ -90,11 +90,6 @@ class LowFirstBitWriter : NoCopy
      out(&byte,1);
     }
 
-   void put(const uint8 *bytes,ulen len)
-    {
-     out(bytes,len);
-    }
-
   public:
 
    explicit LowFirstBitWriter(Function<void (const uint8 *,ulen)> out);
@@ -104,6 +99,18 @@ class LowFirstBitWriter : NoCopy
    ulen FinishCounting();
 
    void PutBits(Code code);
+
+   void Put16(uint16 value)
+    {
+     uint8 buf[2]={ uint8(value) , uint8(value>>8) };
+
+     Put(buf,2);
+    }
+
+   void Put(const uint8 *bytes,ulen len)
+    {
+     out(bytes,len);
+    }
 
    void FlushBitBuffer();
 
@@ -150,7 +157,7 @@ void LowFirstBitWriter::PutBits(Code code)
 
         if( m_bytesBuffered==BufLen )
           {
-           put(m_outputBuffer,m_bytesBuffered);
+           Put(m_outputBuffer,m_bytesBuffered);
            m_bytesBuffered=0;
           }
 
@@ -170,7 +177,7 @@ void LowFirstBitWriter::FlushBitBuffer() // TODO
     {
      if( m_bytesBuffered>0 )
        {
-        put(m_outputBuffer,m_bytesBuffered);
+        Put(m_outputBuffer,m_bytesBuffered);
 
         m_bytesBuffered=0;
        }
@@ -471,6 +478,8 @@ class Deflator : public LowFirstBitWriter
 
    void MatchFound(unsigned distance,unsigned length);
 
+   static unsigned CodeLengthEncode(const unsigned *beg,const unsigned *lim,const unsigned * &p,unsigned &extraBits,unsigned &extraBitsLength);
+
    void EncodeBlock(bool eof,unsigned blockType);
 
    void EndBlock(bool eof);
@@ -498,8 +507,8 @@ class Deflator : public LowFirstBitWriter
    SimpleArray<uint8> m_byteBuffer;
    SimpleArray<uint16> m_head, m_prev;
 
-   TempArray<unsigned,286> m_literalCounts;
-   TempArray<unsigned, 30> m_distanceCounts;
+   unsigned m_literalCounts[286];
+   unsigned m_distanceCounts[30];
 
    SimpleArray<EncodedMatch> m_matchBuffer;
 
@@ -878,6 +887,250 @@ void Deflator::LiteralByte(uint8 b)
   m_literalCounts[b]++;
 
   m_blockLength++;
+ }
+
+void Deflator::MatchFound(unsigned distance,unsigned length)
+ {
+  if( m_matchBufferEnd==m_matchBuffer.getLen() ) EndBlock(false);
+
+  static const unsigned lengthCodes[]=
+   {
+    257, 258, 259, 260, 261, 262, 263, 264, 265, 265, 266, 266, 267, 267, 268, 268,
+    269, 269, 269, 269, 270, 270, 270, 270, 271, 271, 271, 271, 272, 272, 272, 272,
+    273, 273, 273, 273, 273, 273, 273, 273, 274, 274, 274, 274, 274, 274, 274, 274,
+    275, 275, 275, 275, 275, 275, 275, 275, 276, 276, 276, 276, 276, 276, 276, 276,
+    277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277, 277,
+    278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278, 278,
+    279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279, 279,
+    280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280,
+    281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281,
+    281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281, 281,
+    282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282,
+    282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282, 282,
+    283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283,
+    283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283,
+    284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284,
+    284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 285
+   };
+
+  static const unsigned lengthBases[]=
+   {
+    3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258
+   };
+
+  static const unsigned distanceBases[30]=
+   {
+    1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577
+   };
+
+  EncodedMatch &m=m_matchBuffer[m_matchBufferEnd++];
+
+  unsigned lengthCode=lengthCodes[length-3];
+
+  m.literalCode=lengthCode;
+  m.literalExtra=length-lengthBases[lengthCode-257];
+
+  auto r=Range(distanceBases);
+
+  unsigned distanceCode=(unsigned)Algon::BinarySearch_greater(r,distance).len-1;
+
+  m.distanceCode=distanceCode;
+  m.distanceExtra=distance-distanceBases[distanceCode];
+
+  m_literalCounts[lengthCode]++;
+  m_distanceCounts[distanceCode]++;
+  m_blockLength+=length;
+ }
+
+unsigned Deflator::CodeLengthEncode(const unsigned *beg,const unsigned *lim,const unsigned * &p,unsigned &extraBits,unsigned &extraBitsLength)
+ {
+ }
+
+void Deflator::EncodeBlock(bool eof,unsigned blockType)
+ {
+  PutBits({eof,1});
+  PutBits({blockType,2});
+
+  if( blockType==STORED )
+    {
+     FlushBitBuffer();
+
+     Put16(uint16(m_blockLength));
+     Put16(~uint16(m_blockLength));
+     Put(m_byteBuffer.getPtr()+m_blockStart,m_blockLength);
+    }
+  else
+    {
+     if( blockType==DYNAMIC )
+       {
+        BitLen literalCodeLengths[286];
+        BitLen distanceCodeLengths[30];
+
+        m_literalCounts[256]=1;
+
+        HuffmanEncoder::Tree(literalCodeLengths,15,Range(m_literalCounts));
+
+        m_dynamicLiteralEncoder.Initialize(Range(literalCodeLengths));
+
+          unsigned hlit = (unsigned)(FindIfNot(RevIt(literalCodeLengths.end()), RevIt(literalCodeLengths.begin()+257), 0).base() - (literalCodeLengths.begin()+257));
+
+        HuffmanEncoder::Tree(distanceCodeLengths,15,Range(m_distanceCounts));
+
+        m_dynamicDistanceEncoder.Initialize(Range(distanceCodeLengths));
+
+          unsigned int hdist = (unsigned int)(FindIfNot(RevIt(distanceCodeLengths.end()), RevIt(distanceCodeLengths.begin()+1), 0).base() - (distanceCodeLengths.begin()+1));
+
+        TempArray<BitLen,286+30> combinedLengths(hlit+257+hdist+1);
+
+        Range(combinedLengths.getPtr(),hlit+257).copy(literalCodeLengths);
+
+        Range(combinedLengths.getPtr()+hlit+257,hdist+1).copy(distanceCodeLengths);
+
+        ulen codeLengthCodeCounts[19]={};
+        BitLen codeLengthCodeLengths[19];
+
+        const unsigned *beg=combinedLengths.getPtr();
+        const unsigned *lim=beg+combinedLengths.getLen();
+
+        for(const unsigned *p=beg; p<lim ;)
+          {
+           unsigned code=0, extraBits=0, extraBitsLength=0;
+
+           code=CodeLengthEncode(beg,lim,p,extraBits,extraBitsLength);
+
+           codeLengthCodeCounts[code]++;
+          }
+
+        HuffmanEncoder::Tree(codeLengthCodeLengths,7,Range(codeLengthCodeCounts));
+
+        HuffmanEncoder codeLengthEncoder(Range(codeLengthCodeLengths));
+
+        static const unsigned border[]= // Order of the bit length code lengths
+         {
+          16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
+         };
+
+        unsigned hclen=19;
+
+        while( hclen>4 && codeLengthCodeLengths[border[hclen-1]]==0 ) hclen--;
+
+        hclen-=4;
+
+        PutBits({hlit,5});
+        PutBits({hdist,5});
+        PutBits({hclen,4});
+
+        for(unsigned i=0; i<hclen+4 ;i++) PutBits({codeLengthCodeLengths[border[i]],3});
+
+        for(const unsigned *p=beg; p<lim ;)
+          {
+           unsigned code=0, extraBits=0, extraBitsLength=0;
+
+           code=CodeLengthEncode(beg,lim,p,extraBits,extraBitsLength);
+
+           codeLengthEncoder.Encode(*this,code);
+
+           PutBits({extraBits,extraBitsLength});
+          }
+       }
+
+     static const unsigned lengthExtraBits[]=
+      {
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0
+      };
+
+     static const unsigned distanceExtraBits[]=
+      {
+       0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13
+      };
+
+     const HuffmanEncoder &literalEncoder = (blockType==STATIC)? m_staticLiteralEncoder : m_dynamicLiteralEncoder ;
+
+     const HuffmanEncoder &distanceEncoder = (blockType==STATIC)? m_staticDistanceEncoder : m_dynamicDistanceEncoder ;
+
+     for(unsigned i=0; i<m_matchBufferEnd ;i++)
+       {
+        unsigned literalCode=m_matchBuffer[i].literalCode;
+
+        literalEncoder.Encode(*this,literalCode);
+
+        if( literalCode>=257 )
+          {
+           PutBits({m_matchBuffer[i].literalExtra,lengthExtraBits[literalCode-257]});
+
+           unsigned distanceCode=m_matchBuffer[i].distanceCode;
+
+           distanceEncoder.Encode(*this,distanceCode);
+
+           PutBits({m_matchBuffer[i].distanceExtra,distanceExtraBits[distanceCode]});
+          }
+       }
+
+     literalEncoder.Encode(*this,256); // end of block
+    }
+ }
+
+void Deflator::EndBlock(bool eof)
+ {
+    if (m_blockLength == 0 && !eof)
+        return;
+
+    if (m_deflateLevel == 0)
+    {
+        EncodeBlock(eof, STORED);
+
+        if (m_compressibleDeflateLevel > 0 && ++m_detectCount == m_detectSkip)
+        {
+            m_deflateLevel = m_compressibleDeflateLevel;
+            m_detectCount = 1;
+        }
+    }
+    else
+    {
+        unsigned long storedLen = 8*((unsigned long)m_blockLength+4) + RoundUpToMultipleOf(m_bitsBuffered+3, 8U)-m_bitsBuffered;
+
+        StartCounting();
+        EncodeBlock(eof, STATIC);
+        unsigned long staticLen = FinishCounting();
+
+        unsigned long dynamicLen;
+        if (m_blockLength < 128 && m_deflateLevel < 8)
+            dynamicLen = ULONG_MAX;
+        else
+        {
+            StartCounting();
+            EncodeBlock(eof, DYNAMIC);
+            dynamicLen = FinishCounting();
+        }
+
+        if (storedLen <= staticLen && storedLen <= dynamicLen)
+        {
+            EncodeBlock(eof, STORED);
+
+            if (m_compressibleDeflateLevel > 0)
+            {
+                if (m_detectSkip)
+                    m_deflateLevel = 0;
+                m_detectSkip = m_detectSkip ? STDMIN(2*m_detectSkip, 128U) : 1;
+            }
+        }
+        else
+        {
+            if (staticLen <= dynamicLen)
+                EncodeBlock(eof, STATIC);
+            else
+                EncodeBlock(eof, DYNAMIC);
+
+            if (m_compressibleDeflateLevel > 0)
+                m_detectSkip = 0;
+        }
+    }
+
+    m_matchBufferEnd = 0;
+    m_blockStart += m_blockLength;
+    m_blockLength = 0;
+    std::fill(m_literalCounts.begin(), m_literalCounts.end(), 0);
+    std::fill(m_distanceCounts.begin(), m_distanceCounts.end(), 0);
  }
 
 //----------------------------------------------------------------------------------------
