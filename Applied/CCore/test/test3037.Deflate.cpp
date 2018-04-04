@@ -56,6 +56,16 @@ uint32 BitReverse(uint32 value)
   return Quick::ByteSwap32(value);
  }
 
+/* Mismatch() */
+
+template <class Ptr>
+Ptr Mismatch(Ptr a,Ptr lim,Ptr b)
+ {
+  for(; a<lim ;++a,++b) if( *a!=*b ) return a;
+
+  return lim;
+ }
+
 /* class LowFirstBitWriter */
 
 class LowFirstBitWriter : NoCopy
@@ -205,7 +215,7 @@ class HuffmanEncoder : NoCopy
 
    static void Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,PtrLen<const ulen> counts);
 
-     // counts.len > 0 && counts.len <= 2^maxbitlen
+     // maxbitlen>0 && counts.len>0 && counts.len <= 2^maxbitlen
 
    void Encode(LowFirstBitWriter &writer,USym sym) const
     {
@@ -306,6 +316,15 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
      return;
     }
 
+  if( initial.len==1 )
+    {
+     Range(bitlens,counts.len).set_null();
+
+     bitlens[initial->sym]=1;
+
+     return;
+    }
+
   // build
 
   ulen beg=counts.len-initial.len;
@@ -328,13 +347,10 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
 
   // combo depth
 
-  if( lim>=2 )
-    {
-     tree[lim-1].depth=0;
+  tree[lim-1].depth=0;
 
-     for(ulen i=lim-2; i>=counts.len ;i--)
-       tree[i].depth=tree[tree[i].parent].depth+1;
-    }
+  for(ulen i=lim-2; i>=counts.len ;i--)
+    tree[i].depth=tree[tree[i].parent].depth+1;
 
   // bitlen counts
 
@@ -419,7 +435,7 @@ class Deflator : public LowFirstBitWriter
 
    int GetLog2WindowSize() const { return m_log2WindowSize; }
 
-   size_t Put2(const uint8 *str,ulen len,int messageEnd,bool blocking);
+   ulen Put2(const uint8 *str,ulen len,int messageEnd,bool blocking);
 
    bool IsolatedFlush(bool hardFlush,bool blocking);
 
@@ -441,11 +457,11 @@ class Deflator : public LowFirstBitWriter
 
    void Reset(bool forceReset=false);
 
-   unsigned int FillWindow(const uint8 *str,ulen len);
+   unsigned FillWindow(const uint8 *str,ulen len);
 
-   unsigned int ComputeHash(const uint8 *str) const;
+   unsigned ComputeHash(const uint8 *str) const;
 
-   unsigned int LongestMatch(unsigned &bestMatch) const;
+   unsigned LongestMatch(unsigned &bestMatch) const;
 
    void InsertString(unsigned start);
 
@@ -482,8 +498,8 @@ class Deflator : public LowFirstBitWriter
    SimpleArray<uint8> m_byteBuffer;
    SimpleArray<uint16> m_head, m_prev;
 
-   TempArray<unsigned int,286> m_literalCounts;
-   TempArray<unsigned int, 30> m_distanceCounts;
+   TempArray<unsigned,286> m_literalCounts;
+   TempArray<unsigned, 30> m_distanceCounts;
 
    SimpleArray<EncodedMatch> m_matchBuffer;
 
@@ -616,6 +632,252 @@ void Deflator::SetDeflateLevel(int deflateLevel)
   MAX_CHAIN_LENGTH = configurationTable[deflateLevel][3] ;
 
   m_deflateLevel = deflateLevel ;
+ }
+
+unsigned Deflator::FillWindow(const uint8 *str,ulen len)
+ {
+  unsigned maxBlockSize = (unsigned)Min(2UL*DSIZE,0xffffUL) ;
+
+  uint8 *base=m_byteBuffer.getPtr();
+
+  if( m_stringStart>=maxBlockSize-MAX_MATCH )
+    {
+     if( m_blockStart<DSIZE ) EndBlock(false);
+
+     Range(base,DSIZE).copy(base+DSIZE);
+
+     m_dictionaryEnd = ( m_dictionaryEnd<DSIZE )? 0 : (m_dictionaryEnd-DSIZE) ;
+
+     m_stringStart-=DSIZE;
+     m_previousMatch-=DSIZE;
+     m_blockStart-=DSIZE;
+
+     for(unsigned i=0; i<HSIZE ;i++) m_head[i]=PosSub(m_head[i],HSIZE); // was DSIZE???
+
+     for(unsigned i=0; i<DSIZE ;i++) m_prev[i]=PosSub(m_prev[i],DSIZE);
+    }
+
+  unsigned off=m_stringStart+m_lookahead;
+
+  unsigned accepted = (unsigned)Min<ulen>(maxBlockSize-off,len) ;
+
+  Range(base+off,accepted).copy(str);
+
+  m_lookahead+=accepted;
+
+  return accepted;
+ }
+
+unsigned Deflator::ComputeHash(const uint8 *str) const
+ {
+  unsigned s0=str[0];
+  unsigned s1=str[1];
+  unsigned s2=str[2];
+
+  return ((s0<<10)^(s1<<5)^s2)&HMASK;
+ }
+
+unsigned Deflator::LongestMatch(unsigned &bestMatch) const
+ {
+  bestMatch=0;
+
+  unsigned bestLength = Max<unsigned>(m_previousLength,MIN_MATCH-1) ;
+
+  if( m_lookahead<=bestLength ) return 0;
+
+  const uint8 *scan=m_byteBuffer.getPtr()+m_stringStart;
+  const uint8 *scanEnd=scan+Min<unsigned>(MAX_MATCH,m_lookahead);
+
+  unsigned limit=PosSub(m_stringStart,DSIZE-MAX_MATCH);
+
+  unsigned current=m_head[ComputeHash(scan)];
+
+  unsigned chainLength=MAX_CHAIN_LENGTH;
+
+  if( m_previousLength>=GOOD_MATCH ) chainLength>>=2;
+
+  while( current>limit && --chainLength>0 )
+    {
+     const uint8 *match=m_byteBuffer.getPtr()+current;
+
+     if( scan[bestLength-1]==match[bestLength-1] && scan[bestLength]==match[bestLength] && scan[0]==match[0] && scan[1]==match[1] )
+       {
+        unsigned len=(unsigned)Dist(scan,Mismatch(scan+3,scanEnd,match+3));
+
+        if( len>bestLength )
+          {
+           bestLength=len;
+           bestMatch=current;
+
+           if( len==Dist(scan,scanEnd) ) break;
+          }
+       }
+
+     current=m_prev[current&DMASK];
+    }
+
+  return (bestMatch>0)? bestLength : 0 ;
+ }
+
+void Deflator::InsertString(unsigned start)
+ {
+  unsigned hash = ComputeHash(m_byteBuffer.getPtr()+start) ;
+
+  m_prev[start&DMASK]=m_head[hash];
+  m_head[hash]=uint16(start);
+ }
+
+void Deflator::ProcessBuffer()
+ {
+  if( !m_headerWritten )
+    {
+     WritePrestreamHeader();
+
+     m_headerWritten=true;
+    }
+
+  if( m_deflateLevel==0 )
+    {
+     m_stringStart+=m_lookahead;
+     m_lookahead=0;
+     m_blockLength=m_stringStart-m_blockStart;
+
+     m_matchAvailable=false;
+
+     return;
+    }
+
+  while( m_lookahead>m_minLookahead )
+    {
+     while( m_dictionaryEnd<m_stringStart && m_dictionaryEnd+3<=m_stringStart+m_lookahead ) InsertString(m_dictionaryEnd++);
+
+     if( m_matchAvailable )
+       {
+        unsigned matchPosition=0,matchLength=0;
+
+        bool usePreviousMatch;
+
+        if( m_previousLength>=MAX_LAZYLENGTH )
+          {
+           usePreviousMatch = true;
+          }
+        else
+          {
+           matchLength=LongestMatch(matchPosition);
+
+           usePreviousMatch=(matchLength==0);
+          }
+
+        if( usePreviousMatch )
+          {
+           MatchFound(m_stringStart-1-m_previousMatch,m_previousLength);
+
+           m_stringStart += m_previousLength-1 ;
+           m_lookahead -= m_previousLength-1 ;
+
+           m_matchAvailable=false;
+          }
+        else
+          {
+           m_previousLength=matchLength;
+           m_previousMatch=matchPosition;
+
+           LiteralByte(m_byteBuffer[m_stringStart-1]);
+
+           m_stringStart++;
+           m_lookahead--;
+          }
+       }
+     else
+       {
+        m_previousLength=0;
+        m_previousLength=LongestMatch(m_previousMatch);
+
+        if( m_previousLength )
+          m_matchAvailable=true;
+        else
+          LiteralByte(m_byteBuffer[m_stringStart]);
+
+        m_stringStart++;
+        m_lookahead--;
+       }
+    }
+
+  if( m_minLookahead==0 && m_matchAvailable )
+    {
+     LiteralByte(m_byteBuffer[m_stringStart-1]);
+
+     m_matchAvailable = false;
+    }
+ }
+
+ulen Deflator::Put2(const uint8 *str,ulen len,int messageEnd,bool blocking)
+ {
+  if( !blocking )
+    {
+     Printf(Exception,"Deflator : blocking input only");
+    }
+
+  ulen accepted=0;
+
+  while( accepted<len )
+    {
+     unsigned newAccepted=FillWindow(str+accepted,len-accepted);
+
+     ProcessBuffer();
+
+     ProcessUncompressedData(str+accepted,newAccepted);
+
+     accepted+=newAccepted;
+    }
+
+  if( messageEnd )
+    {
+     m_minLookahead=0;
+
+     ProcessBuffer();
+
+     EndBlock(true);
+
+     FlushBitBuffer();
+
+     WritePoststreamTail();
+
+     Reset();
+    }
+
+  return 0;
+ }
+
+bool Deflator::IsolatedFlush(bool hardFlush,bool blocking)
+ {
+  if( !blocking )
+    {
+     Printf(Exception,"Deflator : blocking input only");
+    }
+
+  m_minLookahead=0;
+
+  ProcessBuffer();
+
+  m_minLookahead=MAX_MATCH;
+
+  EndBlock(false);
+
+  if( hardFlush ) EncodeBlock(false,STORED);
+
+  return false;
+ }
+
+void Deflator::LiteralByte(uint8 b)
+ {
+  if( m_matchBufferEnd==m_matchBuffer.getLen() ) EndBlock(false);
+
+  m_matchBuffer[m_matchBufferEnd++].literalCode=b;
+
+  m_literalCounts[b]++;
+
+  m_blockLength++;
  }
 
 //----------------------------------------------------------------------------------------
