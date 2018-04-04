@@ -20,6 +20,8 @@
 #include <CCore/inc/algon/BestSearch.h>
 #include <CCore/inc/algon/BinarySearch.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 namespace Private_3037 {
@@ -382,6 +384,238 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
 
      blcounts[bits]--;
     }
+ }
+
+/* class Deflator */
+
+class Deflator : public LowFirstBitWriter
+ {
+  public:
+
+   enum
+    {
+     MIN_DEFLATE_LEVEL     = 0,
+     DEFAULT_DEFLATE_LEVEL = 6,
+     MAX_DEFLATE_LEVEL     = 9
+    };
+
+   enum
+    {
+     MIN_LOG2_WINDOW_SIZE     = 9,
+     DEFAULT_LOG2_WINDOW_SIZE = 15,
+     MAX_LOG2_WINDOW_SIZE     = 15
+    };
+
+   Deflator(Function<void (const uint8 *,ulen)> out,
+            int deflateLevel=DEFAULT_DEFLATE_LEVEL,
+            int log2WindowSize=DEFAULT_LOG2_WINDOW_SIZE,
+            bool detectUncompressible=true);
+
+   ~Deflator();
+
+   void SetDeflateLevel(int deflateLevel);
+
+   int GetDeflateLevel() const { return m_deflateLevel; }
+
+   int GetLog2WindowSize() const { return m_log2WindowSize; }
+
+   size_t Put2(const uint8 *str,ulen len,int messageEnd,bool blocking);
+
+   bool IsolatedFlush(bool hardFlush,bool blocking);
+
+  protected:
+
+   virtual void WritePrestreamHeader();
+
+   virtual void ProcessUncompressedData(const uint8 *str,ulen len);
+
+   virtual void WritePoststreamTail();
+
+   enum { STORED = 0, STATIC = 1, DYNAMIC = 2 };
+
+   enum { MIN_MATCH = 3, MAX_MATCH = 258 };
+
+   void InitializeStaticEncoders();
+
+   void Init(int deflateLevel,int log2WindowSize,bool detectUncompressible);
+
+   void Reset(bool forceReset=false);
+
+   unsigned int FillWindow(const uint8 *str,ulen len);
+
+   unsigned int ComputeHash(const uint8 *str) const;
+
+   unsigned int LongestMatch(unsigned &bestMatch) const;
+
+   void InsertString(unsigned start);
+
+   void ProcessBuffer();
+
+   void LiteralByte(uint8 b);
+
+   void MatchFound(unsigned distance,unsigned length);
+
+   void EncodeBlock(bool eof,unsigned blockType);
+
+   void EndBlock(bool eof);
+
+   struct EncodedMatch
+    {
+     unsigned literalCode : 9 ;
+     unsigned literalExtra : 5 ;
+     unsigned distanceCode : 5 ;
+     unsigned distanceExtra : 13 ;
+    };
+
+   int m_deflateLevel, m_log2WindowSize, m_compressibleDeflateLevel;
+
+   unsigned m_detectSkip, m_detectCount;
+
+   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
+
+   bool m_headerWritten, m_matchAvailable;
+
+   unsigned m_dictionaryEnd, m_stringStart, m_lookahead, m_minLookahead, m_previousMatch, m_previousLength;
+
+   HuffmanEncoder m_staticLiteralEncoder, m_staticDistanceEncoder, m_dynamicLiteralEncoder, m_dynamicDistanceEncoder;
+
+   SimpleArray<uint8> m_byteBuffer;
+   SimpleArray<uint16> m_head, m_prev;
+
+   TempArray<unsigned int,286> m_literalCounts;
+   TempArray<unsigned int, 30> m_distanceCounts;
+
+   SimpleArray<EncodedMatch> m_matchBuffer;
+
+   unsigned m_matchBufferEnd, m_blockStart, m_blockLength;
+ };
+
+void Deflator::WritePrestreamHeader()
+ {
+ }
+
+void Deflator::ProcessUncompressedData(const uint8 *,ulen)
+ {
+ }
+
+void Deflator::WritePoststreamTail()
+ {
+ }
+
+Deflator::Deflator(Function<void (const uint8 *,ulen)> out,int deflateLevel,int log2WindowSize,bool detectUncompressible)
+ : LowFirstBitWriter(out),
+   m_deflateLevel(-1)
+ {
+  InitializeStaticEncoders();
+
+  Init(deflateLevel,log2WindowSize,detectUncompressible);
+ }
+
+Deflator::~Deflator()
+ {
+ }
+
+void Deflator::InitializeStaticEncoders()
+ {
+  BitLen codeLengths[288];
+
+  // lit
+
+  Range(codeLengths+0,codeLengths+144).set(8);
+  Range(codeLengths+144,codeLengths+256).set(9);
+  Range(codeLengths+256,codeLengths+280).set(7);
+  Range(codeLengths+280,codeLengths+288).set(8);
+
+  m_staticLiteralEncoder.Initialize({codeLengths,288});
+
+  // dist
+
+  Range(codeLengths+0,codeLengths+32).set(5);
+
+  m_staticDistanceEncoder.Initialize({codeLengths,32});
+ }
+
+void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressible)
+ {
+  if( !( MIN_LOG2_WINDOW_SIZE<=log2WindowSize && log2WindowSize<=MAX_LOG2_WINDOW_SIZE) )
+    {
+     Printf(Exception,"Deflator: #; is an invalid window size",log2WindowSize);
+    }
+
+  m_log2WindowSize = log2WindowSize ;
+  DSIZE = 1 << m_log2WindowSize ;
+  DMASK = DSIZE - 1 ;
+  HSIZE = 1 << m_log2WindowSize ;
+  HMASK = HSIZE - 1 ;
+
+  m_byteBuffer=SimpleArray<uint8>(2*DSIZE);
+
+  m_head=SimpleArray<uint16>(HSIZE);
+  m_prev=SimpleArray<uint16>(DSIZE);
+
+  m_matchBuffer=SimpleArray<EncodedMatch>(DSIZE/2);
+
+  Reset(true);
+
+  SetDeflateLevel(deflateLevel);
+
+  m_compressibleDeflateLevel = detectUncompressible ? m_deflateLevel : 0 ;
+ }
+
+void Deflator::Reset(bool forceReset)
+ {
+  if( forceReset ) ClearBitBuffer();
+
+  m_headerWritten = false ;
+  m_matchAvailable = false ;
+  m_dictionaryEnd = 0 ;
+  m_stringStart = 0 ;
+  m_lookahead = 0 ;
+  m_minLookahead = MAX_MATCH ;
+  m_matchBufferEnd = 0 ;
+  m_blockStart = 0 ;
+  m_blockLength = 0 ;
+
+  m_detectCount = 1 ;
+  m_detectSkip = 0 ;
+
+  // m_prev will be initialized automatically in InsertString
+
+  Range(m_head).set_null();
+  Range(m_literalCounts).set_null();
+  Range(m_distanceCounts).set_null();
+ }
+
+void Deflator::SetDeflateLevel(int deflateLevel)
+ {
+  if( !( deflateLevel>=MIN_DEFLATE_LEVEL && deflateLevel<=MAX_DEFLATE_LEVEL ) )
+    {
+     Printf(Exception,"Deflator: #; is an invalid deflate level",deflateLevel);
+    }
+
+  if( deflateLevel==m_deflateLevel ) return;
+
+  EndBlock(false);
+
+  static const unsigned configurationTable[10][4]=
+   {
+    /* 0 */ {0,    0,  0,    0},  // store only
+    /* 1 */ {4,    3,  8,    4},  // maximum speed, no lazy matches
+    /* 2 */ {4,    3, 16,    8},
+    /* 3 */ {4,    3, 32,   32},
+    /* 4 */ {4,    4, 16,   16},  // lazy matches
+    /* 5 */ {8,   16, 32,   32},
+    /* 6 */ {8,   16, 128, 128},
+    /* 7 */ {8,   32, 128, 256},
+    /* 8 */ {32, 128, 258, 1024},
+    /* 9 */ {32, 258, 258, 4096} // maximum compression
+   };
+
+  GOOD_MATCH = configurationTable[deflateLevel][0] ;
+  MAX_LAZYLENGTH = configurationTable[deflateLevel][1] ;
+  MAX_CHAIN_LENGTH = configurationTable[deflateLevel][3] ;
+
+  m_deflateLevel = deflateLevel ;
  }
 
 //----------------------------------------------------------------------------------------
