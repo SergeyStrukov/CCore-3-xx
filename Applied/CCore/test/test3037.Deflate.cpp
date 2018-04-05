@@ -442,58 +442,84 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
     }
  }
 
+/* enum DeflateLevel */
+
+enum DeflateLevel
+ {
+  NO_DEFLATE_LEVEL = -1,
+
+  MIN_DEFLATE_LEVEL     = 0,
+  DEFAULT_DEFLATE_LEVEL = 6,
+  MAX_DEFLATE_LEVEL     = 9
+ };
+
+/* enum DeflateLog2WindowSize */
+
+enum DeflateLog2WindowSize
+ {
+  MIN_LOG2_WINDOW_SIZE     =  9,
+  DEFAULT_LOG2_WINDOW_SIZE = 15,
+  MAX_LOG2_WINDOW_SIZE     = 15
+ };
+
+/* struct DeflateParam */
+
+struct DeflateParam
+ {
+  DeflateLevel level = DEFAULT_DEFLATE_LEVEL ;
+  DeflateLog2WindowSize log2_window_size = DEFAULT_LOG2_WINDOW_SIZE ;
+  bool detect_uncompressible = true ;
+
+  DeflateParam() {}
+ };
+
 /* class Deflator */
 
 class Deflator : NoCopy
  {
    BitWriter writer;
 
-  public:
+   DeflateLevel m_deflateLevel = NO_DEFLATE_LEVEL ;
+   DeflateLog2WindowSize m_log2WindowSize;
+   DeflateLevel m_compressibleDeflateLevel;
 
-   enum
+   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
+
+   unsigned m_detectSkip, m_detectCount;
+
+   bool m_headerWritten, m_matchAvailable;
+
+   unsigned m_dictionaryEnd, m_stringStart, m_lookahead, m_minLookahead, m_previousMatch, m_previousLength;
+
+   HuffmanEncoder m_staticLiteralEncoder, m_staticDistanceEncoder, m_dynamicLiteralEncoder, m_dynamicDistanceEncoder;
+
+   SimpleArray<uint8> m_byteBuffer;
+   SimpleArray<uint16> m_head, m_prev;
+
+   unsigned m_literalCounts[286];
+   unsigned m_distanceCounts[30];
+
+   struct EncodedMatch
     {
-     MIN_DEFLATE_LEVEL     = 0,
-     DEFAULT_DEFLATE_LEVEL = 6,
-     MAX_DEFLATE_LEVEL     = 9
+     unsigned literalCode : 9 ;
+     unsigned literalExtra : 5 ;
+     unsigned distanceCode : 5 ;
+     unsigned distanceExtra : 13 ;
     };
 
-   enum
-    {
-     MIN_LOG2_WINDOW_SIZE     = 9,
-     DEFAULT_LOG2_WINDOW_SIZE = 15,
-     MAX_LOG2_WINDOW_SIZE     = 15
-    };
+   SimpleArray<EncodedMatch> m_matchBuffer;
 
-   Deflator(OutFunc out,
-            int deflateLevel=DEFAULT_DEFLATE_LEVEL,
-            int log2WindowSize=DEFAULT_LOG2_WINDOW_SIZE,
-            bool detectUncompressible=true);
+   unsigned m_matchBufferEnd, m_blockStart, m_blockLength;
 
-   ~Deflator();
-
-   void SetDeflateLevel(int deflateLevel);
-
-   int GetDeflateLevel() const { return m_deflateLevel; }
-
-   int GetLog2WindowSize() const { return m_log2WindowSize; }
-
-   void put(const uint8 *ptr,ulen len);
-
-   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
-
-   void complete();
-
-   bool IsolatedFlush(bool hardFlush);
-
-  protected:
+  private:
 
    enum { STORED = 0, STATIC = 1, DYNAMIC = 2 };
 
    enum { MIN_MATCH = 3, MAX_MATCH = 258 };
 
-   void InitializeStaticEncoders();
+   void initializeStaticEncoders();
 
-   void Init(int deflateLevel,int log2WindowSize,bool detectUncompressible);
+   void init(DeflateParam param);
 
    void Reset(bool forceReset=false);
 
@@ -517,78 +543,62 @@ class Deflator : NoCopy
 
    void EndBlock(bool eof);
 
-   struct EncodedMatch
-    {
-     unsigned literalCode : 9 ;
-     unsigned literalExtra : 5 ;
-     unsigned distanceCode : 5 ;
-     unsigned distanceExtra : 13 ;
-    };
+  public:
 
-   int m_deflateLevel, m_log2WindowSize, m_compressibleDeflateLevel;
+   explicit Deflator(OutFunc out,DeflateParam param={});
 
-   unsigned m_detectSkip, m_detectCount;
+   ~Deflator();
 
-   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
+   void setDeflateLevel(DeflateLevel deflateLevel);
 
-   bool m_headerWritten, m_matchAvailable;
+   DeflateLevel getDeflateLevel() const { return m_deflateLevel; }
 
-   unsigned m_dictionaryEnd, m_stringStart, m_lookahead, m_minLookahead, m_previousMatch, m_previousLength;
+   DeflateLog2WindowSize getLog2WindowSize() const { return m_log2WindowSize; }
 
-   HuffmanEncoder m_staticLiteralEncoder, m_staticDistanceEncoder, m_dynamicLiteralEncoder, m_dynamicDistanceEncoder;
+   void put(const uint8 *ptr,ulen len);
 
-   SimpleArray<uint8> m_byteBuffer;
-   SimpleArray<uint16> m_head, m_prev;
+   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
 
-   unsigned m_literalCounts[286];
-   unsigned m_distanceCounts[30];
+   void complete();
 
-   SimpleArray<EncodedMatch> m_matchBuffer;
-
-   unsigned m_matchBufferEnd, m_blockStart, m_blockLength;
+   void isolatedFlush(bool hardFlush);
  };
 
-Deflator::Deflator(OutFunc out,int deflateLevel,int log2WindowSize,bool detectUncompressible)
- : writer(out),
-   m_deflateLevel(-1)
+void Deflator::initializeStaticEncoders()
  {
-  InitializeStaticEncoders();
+  // literal
 
-  Init(deflateLevel,log2WindowSize,detectUncompressible);
+  {
+   BitLen bitlens[288];
+
+   Range(bitlens+0,bitlens+144).set(8);
+   Range(bitlens+144,bitlens+256).set(9);
+   Range(bitlens+256,bitlens+280).set(7);
+   Range(bitlens+280,bitlens+288).set(8);
+
+   m_staticLiteralEncoder.init(Range(bitlens));
+  }
+
+  // distance
+
+  {
+   BitLen bitlens[32];
+
+   Range(bitlens).set(5);
+
+   m_staticDistanceEncoder.init(Range(bitlens));
+  }
  }
 
-Deflator::~Deflator()
+void Deflator::init(DeflateParam param)
  {
- }
-
-void Deflator::InitializeStaticEncoders()
- {
-  BitLen codeLengths[288];
-
-  // lit
-
-  Range(codeLengths+0,codeLengths+144).set(8);
-  Range(codeLengths+144,codeLengths+256).set(9);
-  Range(codeLengths+256,codeLengths+280).set(7);
-  Range(codeLengths+280,codeLengths+288).set(8);
-
-  m_staticLiteralEncoder.init(Range(codeLengths));
-
-  // dist
-
-  Range(codeLengths+0,codeLengths+32).set(5);
-
-  m_staticDistanceEncoder.init(Range(codeLengths));
- }
-
-void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressible)
- {
-  if( !( MIN_LOG2_WINDOW_SIZE<=log2WindowSize && log2WindowSize<=MAX_LOG2_WINDOW_SIZE) )
+  if( !( MIN_LOG2_WINDOW_SIZE<=param.log2_window_size && param.log2_window_size<=MAX_LOG2_WINDOW_SIZE) )
     {
-     Printf(Exception,"Deflator: #; is an invalid window size",log2WindowSize);
+     Printf(Exception,"Deflator: #; is an invalid window size",param.log2_window_size);
     }
 
-  m_log2WindowSize = log2WindowSize ;
+  m_log2WindowSize = param.log2_window_size ;
+
   DSIZE = 1 << m_log2WindowSize ;
   DMASK = DSIZE - 1 ;
   HSIZE = 1 << m_log2WindowSize ;
@@ -603,36 +613,25 @@ void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressibl
 
   Reset(true);
 
-  SetDeflateLevel(deflateLevel);
+  setDeflateLevel(param.level);
 
-  m_compressibleDeflateLevel = detectUncompressible ? m_deflateLevel : 0 ;
+  m_compressibleDeflateLevel = param.detect_uncompressible ? m_deflateLevel : MIN_DEFLATE_LEVEL ;
  }
 
-void Deflator::Reset(bool forceReset)
+
+Deflator::Deflator(OutFunc out,DeflateParam param)
+ : writer(out)
  {
-  if( forceReset ) writer.clearBitBuffer();
+  initializeStaticEncoders();
 
-  m_headerWritten = false ;
-  m_matchAvailable = false ;
-  m_dictionaryEnd = 0 ;
-  m_stringStart = 0 ;
-  m_lookahead = 0 ;
-  m_minLookahead = MAX_MATCH ;
-  m_matchBufferEnd = 0 ;
-  m_blockStart = 0 ;
-  m_blockLength = 0 ;
-
-  m_detectCount = 1 ;
-  m_detectSkip = 0 ;
-
-  // m_prev will be initialized automatically in InsertString
-
-  Range(m_head).set_null();
-  Range(m_literalCounts).set_null();
-  Range(m_distanceCounts).set_null();
+  init(param);
  }
 
-void Deflator::SetDeflateLevel(int deflateLevel)
+Deflator::~Deflator()
+ {
+ }
+
+void Deflator::setDeflateLevel(DeflateLevel deflateLevel)
  {
   if( !( deflateLevel>=MIN_DEFLATE_LEVEL && deflateLevel<=MAX_DEFLATE_LEVEL ) )
     {
@@ -663,6 +662,31 @@ void Deflator::SetDeflateLevel(int deflateLevel)
 
   m_deflateLevel = deflateLevel ;
  }
+
+void Deflator::Reset(bool forceReset)
+ {
+  if( forceReset ) writer.clearBitBuffer();
+
+  m_headerWritten = false ;
+  m_matchAvailable = false ;
+  m_dictionaryEnd = 0 ;
+  m_stringStart = 0 ;
+  m_lookahead = 0 ;
+  m_minLookahead = MAX_MATCH ;
+  m_matchBufferEnd = 0 ;
+  m_blockStart = 0 ;
+  m_blockLength = 0 ;
+
+  m_detectCount = 1 ;
+  m_detectSkip = 0 ;
+
+  // m_prev will be initialized automatically in InsertString
+
+  Range(m_head).set_null();
+  Range(m_literalCounts).set_null();
+  Range(m_distanceCounts).set_null();
+ }
+
 
 unsigned Deflator::FillWindow(const uint8 *str,ulen len)
  {
@@ -866,7 +890,7 @@ void Deflator::complete()
   Reset();
  }
 
-bool Deflator::IsolatedFlush(bool hardFlush)
+void Deflator::isolatedFlush(bool hardFlush)
  {
   m_minLookahead=0;
 
@@ -877,8 +901,6 @@ bool Deflator::IsolatedFlush(bool hardFlush)
   EndBlock(false);
 
   if( hardFlush ) EncodeBlock(false,STORED);
-
-  return false;
  }
 
 void Deflator::LiteralByte(uint8 b)
@@ -1163,7 +1185,7 @@ void Deflator::EndBlock(bool eof)
 
         if( m_compressibleDeflateLevel>0 )
           {
-           if( m_detectSkip ) m_deflateLevel=0;
+           if( m_detectSkip ) m_deflateLevel=MIN_DEFLATE_LEVEL;
 
            m_detectSkip = m_detectSkip? Min<unsigned>(2*m_detectSkip,128) : 1 ;
           }
