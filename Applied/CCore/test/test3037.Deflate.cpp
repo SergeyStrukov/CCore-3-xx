@@ -653,7 +653,7 @@ void Deflator::setDeflateLevel(DeflateLevel deflateLevel)
     /* 6 */ {8,   16, 128, 128},
     /* 7 */ {8,   32, 128, 256},
     /* 8 */ {32, 128, 258, 1024},
-    /* 9 */ {32, 258, 258, 4096} // maximum compression
+    /* 9 */ {32, 258, 258, 4096}  // maximum compression
    };
 
   GOOD_MATCH = configurationTable[deflateLevel][0] ;
