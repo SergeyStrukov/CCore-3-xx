@@ -22,17 +22,26 @@
 
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/FileToMem.h>
+#include <CCore/inc/BinaryFile.h>
+
 namespace App {
 
 namespace Private_3037 {
 
+/* consts */
+
+inline constexpr ulen MaxBitLens = 15 ;
+
+inline constexpr ulen MaxSyms = 286 ;
+
 /* struct Code */
 
-using UCode = uint32 ; // max 16 bits
+using UCode = uint32 ;
 
-using USym  = uint32 ; // max 16 bits
+using USym  = uint32 ;
 
-using BitLen = unsigned ; // <= 16
+using BitLen = unsigned ;
 
 struct Code
  {
@@ -76,146 +85,146 @@ ulen TrimNull(Ptr beg,Ptr lim)
   return Dist(beg,lim);
  }
 
-/* class LowFirstBitWriter */
+/* class BitWriter */
 
-class LowFirstBitWriter : NoCopy
+using OutFunc = Function<void (PtrLen<const uint8>)> ;
+
+class BitWriter : NoCopy
  {
    static constexpr unsigned BufLen = 256 ;
 
-   bool m_counting;
-   ulen m_bitCount;
+   OutFunc out;
 
-   uint8 m_outputBuffer[BufLen];
-   unsigned m_bytesBuffered;
+   bool count_mode = false ;
+   ulen bit_count = 0 ;
 
-   uint32 m_buffer;
-   unsigned m_bitsBuffered;
+   uint8 outbuf[BufLen];
+   unsigned outlen = 0 ;
 
-   Function<void (const uint8 *,ulen)> out;
+   uint32 buffer = 0 ;
+   unsigned bits = 0 ;
 
   private:
 
-   void put(uint8 byte)
-    {
-     out(&byte,1);
-    }
+   void put(uint8 octet) { out(Single(octet)); }
 
   public:
 
-   explicit LowFirstBitWriter(Function<void (const uint8 *,ulen)> out);
+   explicit BitWriter(OutFunc out);
 
-   void StartCounting();
+   // direct
 
-   ulen FinishCounting();
-
-   unsigned extBits() const { return RoundUp<unsigned>(m_bitsBuffered+3,8)-m_bitsBuffered; }
-
-   void PutBits(Code code);
-
-   void Put16(uint16 value)
+   void put16(uint16 value)
     {
      uint8 buf[2]={ uint8(value) , uint8(value>>8) };
 
-     Put(buf,2);
+     out(Range(buf));
     }
 
-   void Put(const uint8 *bytes,ulen len)
-    {
-     out(bytes,len);
-    }
+   void put(PtrLen<const uint8> data) { out(data); }
 
-   void FlushBitBuffer();
+   void put(const uint8 *ptr,ulen len) { out(Range(ptr,len)); }
 
-   void ClearBitBuffer();
+   // bitbuf
+
+   void putBits(Code code);
+
+   void flushBitBuffer();
+
+   void clearBitBuffer();
+
+   // bit counting
+
+   void startCounting();
+
+   ulen finishCounting();
+
+   unsigned extBits() const { return RoundUp<unsigned>(bits+3,8)-bits; } // TODO ?
  };
 
-LowFirstBitWriter::LowFirstBitWriter(Function<void (const uint8 *,ulen)> out_)
- : m_counting(false),
-   m_bitCount(0),
-   m_bytesBuffered(0),
-   m_buffer(0),
-   m_bitsBuffered(0),
-   out(out_)
+BitWriter::BitWriter(OutFunc out_)
+ : out(out_)
  {
  }
 
-void LowFirstBitWriter::StartCounting()
+void BitWriter::putBits(Code code)
  {
-  m_counting=true;
-  m_bitCount=0;
- }
-
-ulen LowFirstBitWriter::FinishCounting()
- {
-  m_counting=false;
-
-  return m_bitCount;
- }
-
-void LowFirstBitWriter::PutBits(Code code)
- {
-  if( m_counting )
+  if( count_mode )
     {
-     m_bitCount+=code.bitlen;
+     bit_count+=code.bitlen;
     }
   else
     {
-     m_buffer |= (code.code<<m_bitsBuffered) ;
-     m_bitsBuffered+=code.bitlen;
+     buffer|=(code.code<<bits) ;
+     bits+=code.bitlen;
 
-     while( m_bitsBuffered>=8 )
+     while( bits>=8 )
        {
-        m_outputBuffer[m_bytesBuffered++]=(uint8)m_buffer;
+        outbuf[outlen++]=(uint8)buffer;
 
-        if( m_bytesBuffered==BufLen )
+        if( outlen==BufLen )
           {
-           Put(m_outputBuffer,m_bytesBuffered);
-           m_bytesBuffered=0;
+           put(outbuf,outlen);
+           outlen=0;
           }
 
-        m_buffer>>=8;
-        m_bitsBuffered-=8;
+        buffer>>=8;
+        bits-=8;
        }
     }
  }
 
-void LowFirstBitWriter::FlushBitBuffer() // TODO
+void BitWriter::flushBitBuffer() // TODO
  {
-  if( m_counting )
+  if( count_mode )
     {
-     m_bitCount += 8*(m_bitsBuffered>0) ; // ?
+     bit_count += 8*(bits>0) ; // ?
     }
   else
     {
-     if( m_bytesBuffered>0 )
+     if( outlen>0 )
        {
-        Put(m_outputBuffer,m_bytesBuffered);
+        put(outbuf,outlen);
 
-        m_bytesBuffered=0;
+        outlen=0;
        }
 
-     if( m_bitsBuffered>0 )
+     if( bits>0 )
        {
-        put((uint8)m_buffer);
+        put((uint8)buffer);
 
-        m_buffer=0;
-        m_bitsBuffered=0;
+        buffer=0;
+        bits=0;
        }
     }
  }
 
-void LowFirstBitWriter::ClearBitBuffer()
+void BitWriter::clearBitBuffer()
  {
-  m_buffer=0;
-  m_bytesBuffered=0;
-  m_bitsBuffered=0;
+  buffer=0;
+  bits=0;
+
+  outlen=0;
+ }
+
+void BitWriter::startCounting()
+ {
+  count_mode=true;
+  bit_count=0;
+ }
+
+ulen BitWriter::finishCounting()
+ {
+  count_mode=false;
+
+  return bit_count;
  }
 
 /* class HuffmanEncoder */
 
 class HuffmanEncoder : NoCopy
  {
-   DynArray<Code> m_valueToCode;
+   DynArray<Code> table;
 
   private:
 
@@ -223,23 +232,17 @@ class HuffmanEncoder : NoCopy
 
   public:
 
-   static constexpr ulen MaxBitLens = 15 ;
-   static constexpr ulen MaxSyms = 286 ;
-
    HuffmanEncoder() {}
 
-   HuffmanEncoder(PtrLen<const BitLen> bitlens) { Initialize(bitlens); }
+   HuffmanEncoder(PtrLen<const BitLen> bitlens) { init(bitlens); }
 
-   void Initialize(PtrLen<const BitLen> bitlens);
+   void init(PtrLen<const BitLen> bitlens);
 
    static void Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,PtrLen<const ulen> counts);
 
      // maxbitlen>0 && counts.len>0 && counts.len <= 2^maxbitlen
 
-   void Encode(LowFirstBitWriter &writer,USym sym) const
-    {
-     writer.PutBits(m_valueToCode[sym]);
-    }
+   void encode(BitWriter &writer,USym sym) const { writer.putBits(table[sym]); }
  };
 
 BitLen HuffmanEncoder::MaxValue(PtrLen<const BitLen> bitlens)
@@ -251,7 +254,7 @@ BitLen HuffmanEncoder::MaxValue(PtrLen<const BitLen> bitlens)
   return *r;
  }
 
-void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
+void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
  {
   // count table
 
@@ -282,19 +285,19 @@ void HuffmanEncoder::Initialize(PtrLen<const BitLen> bitlens)
 
   // set codes
 
-  m_valueToCode.erase();
-  m_valueToCode.extend_raw(bitlens.len);
+  table.erase();
+  table.extend_raw(bitlens.len);
 
   for(ulen i=0; i<bitlens.len ;i++)
     {
      BitLen bitlen=bitlens[i];
 
-     m_valueToCode[i].bitlen=bitlen;
+     table[i].bitlen=bitlen;
 
      if( bitlen!=0 )
-       m_valueToCode[i].code = BitReverse(code[bitlen]++) >> (32u-bitlen) ;
+       table[i].code = BitReverse(code[bitlen]++) >> (32u-bitlen) ;
      else
-       m_valueToCode[i].code = 0 ;
+       table[i].code = 0 ;
     }
  }
 
@@ -349,19 +352,37 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
   ulen beg=counts.len-initial.len;
   ulen lim=counts.len+initial.len-1;
 
-  for(ulen next=counts.len,leaf=beg,comb=counts.len; next<lim ;next++)
+  struct Builder
+   {
+    Node *tree;
+    ulen leaf;
+    ulen comb;
+
+    ulen getLeast(ulen leaf_lim,ulen comb_lim)
+     {
+      return ( leaf>=leaf_lim || ( comb<comb_lim && tree[comb].count<tree[leaf].count ) ) ? comb++ : leaf++ ;
+     }
+
+    void setComb(ulen ind,ulen elem)
+     {
+      tree[ind].count=tree[elem].count;
+      tree[elem].parent=ind;
+     }
+
+    void addComb(ulen ind,ulen elem)
+     {
+      tree[ind].count+=tree[elem].count;
+      tree[elem].parent=ind;
+     }
+   };
+
+  Builder builder{tree.getPtr(),beg,counts.len};
+
+  for(ulen next=counts.len; next<lim ;next++)
     {
-     ulen least =
+     builder.setComb(next, builder.getLeast(counts.len,next) );
 
-      ( leaf==counts.len || ( comb<next && tree[comb].count<tree[leaf].count ) ) ? comb++ : leaf++ ;
-
-     tree[next].count=tree[least].count;
-     tree[least].parent=next;
-
-     least = ( leaf==counts.len || ( comb<next && tree[comb].count<tree[leaf].count ) ) ? comb++ : leaf++ ;
-
-     tree[next].count+=tree[least].count;
-     tree[least].parent=next;
+     builder.addComb(next, builder.getLeast(counts.len,next) );
     }
 
   // combo depth
@@ -425,7 +446,7 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
 
 class Deflator : NoCopy
  {
-   LowFirstBitWriter writer;
+   BitWriter writer;
 
   public:
 
@@ -443,7 +464,7 @@ class Deflator : NoCopy
      MAX_LOG2_WINDOW_SIZE     = 15
     };
 
-   Deflator(Function<void (const uint8 *,ulen)> out,
+   Deflator(OutFunc out,
             int deflateLevel=DEFAULT_DEFLATE_LEVEL,
             int log2WindowSize=DEFAULT_LOG2_WINDOW_SIZE,
             bool detectUncompressible=true);
@@ -456,17 +477,15 @@ class Deflator : NoCopy
 
    int GetLog2WindowSize() const { return m_log2WindowSize; }
 
-   ulen Put2(const uint8 *str,ulen len,int messageEnd,bool blocking);
+   void put(const uint8 *ptr,ulen len);
 
-   bool IsolatedFlush(bool hardFlush,bool blocking);
+   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
+
+   void complete();
+
+   bool IsolatedFlush(bool hardFlush);
 
   protected:
-
-   virtual void WritePrestreamHeader();
-
-   virtual void ProcessUncompressedData(const uint8 *str,ulen len);
-
-   virtual void WritePoststreamTail();
 
    enum { STORED = 0, STATIC = 1, DYNAMIC = 2 };
 
@@ -529,19 +548,7 @@ class Deflator : NoCopy
    unsigned m_matchBufferEnd, m_blockStart, m_blockLength;
  };
 
-void Deflator::WritePrestreamHeader()
- {
- }
-
-void Deflator::ProcessUncompressedData(const uint8 *,ulen)
- {
- }
-
-void Deflator::WritePoststreamTail()
- {
- }
-
-Deflator::Deflator(Function<void (const uint8 *,ulen)> out,int deflateLevel,int log2WindowSize,bool detectUncompressible)
+Deflator::Deflator(OutFunc out,int deflateLevel,int log2WindowSize,bool detectUncompressible)
  : writer(out),
    m_deflateLevel(-1)
  {
@@ -565,13 +572,13 @@ void Deflator::InitializeStaticEncoders()
   Range(codeLengths+256,codeLengths+280).set(7);
   Range(codeLengths+280,codeLengths+288).set(8);
 
-  m_staticLiteralEncoder.Initialize({codeLengths,288});
+  m_staticLiteralEncoder.init(Range(codeLengths));
 
   // dist
 
   Range(codeLengths+0,codeLengths+32).set(5);
 
-  m_staticDistanceEncoder.Initialize({codeLengths,32});
+  m_staticDistanceEncoder.init(Range(codeLengths));
  }
 
 void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressible)
@@ -603,7 +610,7 @@ void Deflator::Init(int deflateLevel,int log2WindowSize,bool detectUncompressibl
 
 void Deflator::Reset(bool forceReset)
  {
-  if( forceReset ) writer.ClearBitBuffer();
+  if( forceReset ) writer.clearBitBuffer();
 
   m_headerWritten = false ;
   m_matchAvailable = false ;
@@ -754,8 +761,6 @@ void Deflator::ProcessBuffer()
  {
   if( !m_headerWritten )
     {
-     WritePrestreamHeader();
-
      m_headerWritten=true;
     }
 
@@ -834,51 +839,35 @@ void Deflator::ProcessBuffer()
     }
  }
 
-ulen Deflator::Put2(const uint8 *str,ulen len,int messageEnd,bool blocking)
+void Deflator::put(const uint8 *ptr,ulen len)
  {
-  if( !blocking )
-    {
-     Printf(Exception,"Deflator : blocking input only");
-    }
-
   ulen accepted=0;
 
   while( accepted<len )
     {
-     unsigned newAccepted=FillWindow(str+accepted,len-accepted);
+     unsigned newAccepted=FillWindow(ptr+accepted,len-accepted);
 
      ProcessBuffer();
-
-     ProcessUncompressedData(str+accepted,newAccepted);
 
      accepted+=newAccepted;
     }
-
-  if( messageEnd )
-    {
-     m_minLookahead=0;
-
-     ProcessBuffer();
-
-     EndBlock(true);
-
-     writer.FlushBitBuffer();
-
-     WritePoststreamTail();
-
-     Reset();
-    }
-
-  return 0;
  }
 
-bool Deflator::IsolatedFlush(bool hardFlush,bool blocking)
+void Deflator::complete()
  {
-  if( !blocking )
-    {
-     Printf(Exception,"Deflator : blocking input only");
-    }
+  m_minLookahead=0;
 
+  ProcessBuffer();
+
+  EndBlock(true);
+
+  writer.flushBitBuffer();
+
+  Reset();
+ }
+
+bool Deflator::IsolatedFlush(bool hardFlush)
+ {
   m_minLookahead=0;
 
   ProcessBuffer();
@@ -1007,16 +996,16 @@ unsigned Deflator::CodeLengthEncode(const unsigned *beg,const unsigned *lim,cons
 
 void Deflator::EncodeBlock(bool eof,unsigned blockType)
  {
-  writer.PutBits({eof,1});
-  writer.PutBits({blockType,2});
+  writer.putBits({eof,1});
+  writer.putBits({blockType,2});
 
   if( blockType==STORED )
     {
-     writer.FlushBitBuffer();
+     writer.flushBitBuffer();
 
-     writer.Put16(uint16(m_blockLength));
-     writer.Put16(~uint16(m_blockLength));
-     writer.Put(m_byteBuffer.getPtr()+m_blockStart,m_blockLength);
+     writer.put16(uint16(m_blockLength));
+     writer.put16(~uint16(m_blockLength));
+     writer.put(m_byteBuffer.getPtr()+m_blockStart,m_blockLength);
     }
   else
     {
@@ -1029,13 +1018,13 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
         HuffmanEncoder::Tree(literalCodeLengths,15,Range(m_literalCounts));
 
-        m_dynamicLiteralEncoder.Initialize(Range(literalCodeLengths));
+        m_dynamicLiteralEncoder.init(Range(literalCodeLengths));
 
         unsigned hlit=(unsigned)TrimNull(literalCodeLengths+257,literalCodeLengths+286);
 
         HuffmanEncoder::Tree(distanceCodeLengths,15,Range(m_distanceCounts));
 
-        m_dynamicDistanceEncoder.Initialize(Range(distanceCodeLengths));
+        m_dynamicDistanceEncoder.init(Range(distanceCodeLengths));
 
         unsigned hdist=(unsigned)TrimNull(distanceCodeLengths+1,distanceCodeLengths+30);
 
@@ -1075,11 +1064,11 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
         hclen-=4;
 
-        writer.PutBits({hlit,5});
-        writer.PutBits({hdist,5});
-        writer.PutBits({hclen,4});
+        writer.putBits({hlit,5});
+        writer.putBits({hdist,5});
+        writer.putBits({hclen,4});
 
-        for(unsigned i=0; i<hclen+4 ;i++) writer.PutBits({codeLengthCodeLengths[border[i]],3});
+        for(unsigned i=0; i<hclen+4 ;i++) writer.putBits({codeLengthCodeLengths[border[i]],3});
 
         for(const unsigned *p=beg; p<lim ;)
           {
@@ -1087,9 +1076,9 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
 
            code=CodeLengthEncode(beg,lim,p,extraBits,extraBitsLength);
 
-           codeLengthEncoder.Encode(writer,code);
+           codeLengthEncoder.encode(writer,code);
 
-           writer.PutBits({extraBits,extraBitsLength});
+           writer.putBits({extraBits,extraBitsLength});
           }
        }
 
@@ -1111,21 +1100,21 @@ void Deflator::EncodeBlock(bool eof,unsigned blockType)
        {
         unsigned literalCode=m_matchBuffer[i].literalCode;
 
-        literalEncoder.Encode(writer,literalCode);
+        literalEncoder.encode(writer,literalCode);
 
         if( literalCode>=257 )
           {
-           writer.PutBits({m_matchBuffer[i].literalExtra,lengthExtraBits[literalCode-257]});
+           writer.putBits({m_matchBuffer[i].literalExtra,lengthExtraBits[literalCode-257]});
 
            unsigned distanceCode=m_matchBuffer[i].distanceCode;
 
-           distanceEncoder.Encode(writer,distanceCode);
+           distanceEncoder.encode(writer,distanceCode);
 
-           writer.PutBits({m_matchBuffer[i].distanceExtra,distanceExtraBits[distanceCode]});
+           writer.putBits({m_matchBuffer[i].distanceExtra,distanceExtraBits[distanceCode]});
           }
        }
 
-     literalEncoder.Encode(writer,256); // end of block
+     literalEncoder.encode(writer,256); // end of block
     }
  }
 
@@ -1147,11 +1136,11 @@ void Deflator::EndBlock(bool eof)
     {
      ulen storedLen=8*((ulen)m_blockLength+4)+writer.extBits();
 
-     writer.StartCounting();
+     writer.startCounting();
 
      EncodeBlock(eof,STATIC);
 
-     ulen staticLen=writer.FinishCounting();
+     ulen staticLen=writer.finishCounting();
 
      ulen dynamicLen;
 
@@ -1161,11 +1150,11 @@ void Deflator::EndBlock(bool eof)
        }
      else
        {
-        writer.StartCounting();
+        writer.startCounting();
 
         EncodeBlock(eof,DYNAMIC);
 
-        dynamicLen=writer.FinishCounting();
+        dynamicLen=writer.finishCounting();
        }
 
      if( storedLen<=staticLen && storedLen<=dynamicLen )
@@ -1200,6 +1189,22 @@ void Deflator::EndBlock(bool eof)
 
 //----------------------------------------------------------------------------------------
 
+/* class OutFile */
+
+class OutFile : public Funchor_nocopy
+ {
+   BinaryFile outfile;
+
+  public:
+
+   explicit OutFile(StrLen file_name) : outfile(file_name) {}
+
+   ~OutFile() {}
+
+   void out(PtrLen<const uint8> data) { outfile.put(data); }
+
+   OutFunc function_out() { return FunctionOf(this,&OutFile::out); }
+ };
 
 } // namespace Private_3037
 
@@ -1213,6 +1218,15 @@ const char *const Testit<3037>::Name="Test3037 Deflate";
 template<>
 bool Testit<3037>::Main()
  {
+  FileToMem file("../../../HCore/files/test.txt");
+  OutFile outfile("test3037.bin");
+
+  Deflator deflate(outfile.function_out());
+
+  deflate.put(Range(file));
+
+  deflate.complete();
+
   return true;
  }
 
