@@ -210,7 +210,7 @@ class SymWriter : NoCopy
 
    void initStaticEncoders();
 
-   enum BlockType : unsigned
+   enum BlockType : UCode
     {
      Stored  = 0,
      Static  = 1,

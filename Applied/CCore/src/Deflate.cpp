@@ -453,20 +453,20 @@ void SymWriter::encodeTree(PtrLen<const BitLen> combined,unsigned hlit,unsigned 
 
   // put header
 
-  static const unsigned Border[19]= // bitlen permutation
+  static const unsigned Order[19]= // bitlen permutation
    {
     16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
    };
 
   unsigned hclen=19;
 
-  while( hclen>4 && bitlens[Border[hclen-1]]==0 ) hclen--;
+  while( hclen>4 && bitlens[Order[hclen-1]]==0 ) hclen--;
 
   writer.putBits({hlit,5});
   writer.putBits({hdist,5});
   writer.putBits({hclen-4,4});
 
-  for(unsigned i=0; i<hclen ;i++) writer.putBits({bitlens[Border[i]],3});
+  for(unsigned i=0; i<hclen ;i++) writer.putBits({bitlens[Order[i]],3});
 
   // put combined
 
@@ -639,7 +639,7 @@ void SymWriter::put(uint8 octet)
 
 void SymWriter::put(unsigned distance,unsigned length)
  {
-  static const unsigned LengthCodes[256]=
+  static const USym LengthCodes[256]=
    {
     257, 258, 259, 260, 261, 262, 263, 264, 265, 265, 266, 266, 267, 267, 268, 268,
     269, 269, 269, 269, 270, 270, 270, 270, 271, 271, 271, 271, 272, 272, 272, 272,
@@ -671,14 +671,14 @@ void SymWriter::put(unsigned distance,unsigned length)
 
   EncodedMatch &m=buf[pos++];
 
-  unsigned length_code=LengthCodes[length-3];
+  USym length_code=LengthCodes[length-3];
 
   m.literal_code=length_code;
   m.literal_extra=length-LengthBases[length_code-257];
 
   auto r=Range(DistanceBases);
 
-  unsigned distance_code=(unsigned)Algon::BinarySearch_greater(r,distance).len-1;
+  USym distance_code=(USym)Algon::BinarySearch_greater(r,distance).len-1;
 
   m.distance_code=distance_code;
   m.distance_extra=distance-DistanceBases[distance_code];
