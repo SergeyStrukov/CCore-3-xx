@@ -60,7 +60,7 @@ class Deflator : NoCopy
    bool m_matchAvailable;
 
    unsigned m_dictionaryEnd, m_stringStart, m_lookahead, m_minLookahead, m_previousMatch, m_previousLength;
-   unsigned m_blockStart, m_blockLength;
+   unsigned block_start, block_len;
 
   private:
 
@@ -86,7 +86,7 @@ class Deflator : NoCopy
    void processBuffer();
 
 
-   PtrLen<const uint8> getBlock() const { return Range(m_byteBuffer.getPtr()+m_blockStart,m_blockLength); }
+   PtrLen<const uint8> getBlock() const { return Range(m_byteBuffer.getPtr()+block_start,block_len); }
 
    void literalByte(uint8 octet);
 
@@ -174,8 +174,8 @@ void Deflator::reset()
   m_lookahead = 0 ;
   m_minLookahead = MAX_MATCH ;
 
-  m_blockStart = 0 ;
-  m_blockLength = 0 ;
+  block_start = 0 ;
+  block_len = 0 ;
 
   // m_prev will be initialized automatically in InsertString
 
@@ -191,13 +191,13 @@ unsigned Deflator::fillWindow(const uint8 *str,ulen len)
 
   if( m_stringStart>=maxBlockSize-MAX_MATCH )
     {
-     if( m_blockStart<DSIZE ) endBlock(false);
+     if( block_start<DSIZE ) endBlock(false);
 
      Range(base,DSIZE).copy(base+DSIZE);
 
      m_stringStart-=DSIZE;
      m_previousMatch-=DSIZE;
-     m_blockStart-=DSIZE;
+     block_start-=DSIZE;
 
      m_dictionaryEnd=PosSub(m_dictionaryEnd,DSIZE);
 
@@ -283,7 +283,7 @@ void Deflator::processBuffer()
     {
      m_stringStart+=m_lookahead;
      m_lookahead=0;
-     m_blockLength=m_stringStart-m_blockStart;
+     block_len=m_stringStart-block_start;
 
      m_matchAvailable=false;
 
@@ -359,34 +359,34 @@ void Deflator::literalByte(uint8 octet)
  {
   if( sym.testFull(getBlock()) )
     {
-     m_blockStart+=m_blockLength;
-     m_blockLength=0;
+     block_start+=block_len;
+     block_len=0;
     }
 
   sym.put(octet);
 
-  m_blockLength++;
+  block_len++;
  }
 
 void Deflator::matchFound(unsigned distance,unsigned length)
  {
   if( sym.testFull(getBlock()) )
     {
-     m_blockStart+=m_blockLength;
-     m_blockLength=0;
+     block_start+=block_len;
+     block_len=0;
     }
 
   sym.put(distance,length);
 
-  m_blockLength+=length;
+  block_len+=length;
  }
 
 void Deflator::endBlock(bool eof)
  {
   sym.endBlock(eof,getBlock());
 
-  m_blockStart+=m_blockLength;
-  m_blockLength=0;
+  block_start+=block_len;
+  block_len=0;
  }
 
 
