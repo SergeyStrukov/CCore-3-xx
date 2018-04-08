@@ -63,7 +63,7 @@ class Deflator : NoCopy
 
    bool has_match;
 
-   unsigned m_previousMatch, m_previousLength;
+   unsigned match_pos, match_len;
 
    // hash
 
@@ -202,7 +202,7 @@ unsigned Deflator::fillWindow(PtrLen<const uint8> data)
      Range(base,DSIZE).copy(base+DSIZE);
 
      string_start-=DSIZE;
-     m_previousMatch-=DSIZE;
+     match_pos-=DSIZE;
      block_start-=DSIZE;
 
      hashed_len=PosSub(hashed_len,DSIZE);
@@ -245,7 +245,7 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
  {
   bestMatch=0;
 
-  unsigned bestLength=Max<unsigned>(m_previousLength,MinMatch-1);
+  unsigned bestLength=Max<unsigned>(match_len,MinMatch-1);
 
   if( string_len<=bestLength ) return 0;
 
@@ -258,7 +258,7 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
 
   unsigned chainLength=MAX_CHAIN_LENGTH;
 
-  if( m_previousLength>=GOOD_MATCH ) chainLength>>=2;
+  if( match_len>=GOOD_MATCH ) chainLength>>=2;
 
   while( current>limit && --chainLength>0 )
     {
@@ -306,7 +306,7 @@ void Deflator::processBuffer()
 
         bool usePreviousMatch;
 
-        if( m_previousLength>=MAX_LAZYLENGTH )
+        if( match_len>=MAX_LAZYLENGTH )
           {
            usePreviousMatch=true;
           }
@@ -319,17 +319,17 @@ void Deflator::processBuffer()
 
         if( usePreviousMatch )
           {
-           matchFound(string_start-1-m_previousMatch,m_previousLength);
+           matchFound(string_start-1-match_pos,match_len);
 
-           string_start += m_previousLength-1 ;
-           string_len -= m_previousLength-1 ;
+           string_start += match_len-1 ;
+           string_len -= match_len-1 ;
 
            has_match=false;
           }
         else
           {
-           m_previousLength=matchLength;
-           m_previousMatch=matchPosition;
+           match_len=matchLength;
+           match_pos=matchPosition;
 
            literalByte(buf[string_start-1]);
 
@@ -339,10 +339,10 @@ void Deflator::processBuffer()
        }
      else
        {
-        m_previousLength=0;
-        m_previousLength=longestMatch(m_previousMatch);
+        match_len=0;
+        match_len=longestMatch(match_pos);
 
-        if( m_previousLength )
+        if( match_len )
           has_match=true;
         else
           literalByte(buf[string_start]);
