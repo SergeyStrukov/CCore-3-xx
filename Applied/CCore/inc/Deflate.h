@@ -81,6 +81,8 @@ class HuffmanEncoder;
 
 class SymWriter;
 
+class Deflator;
+
 /* struct Code */
 
 struct Code
@@ -242,6 +244,119 @@ class SymWriter : NoCopy
    void put(unsigned distance,unsigned length); // distance in [1,2^15] , length in [3,258]
 
    void endBlock(bool eof,PtrLen<const uint8> block);
+ };
+
+/* class Deflator */
+
+class Deflator : NoCopy
+ {
+   SymWriter sym;
+
+   // params
+
+   Log2WindowLen log2_window_len;
+
+   unsigned wind_len, wind_mask, hash_len, hash_mask;
+   unsigned cap_data_len;
+   unsigned min_lazy_len;
+   unsigned good_match, max_chain_len;
+
+   // data
+
+   SimpleArray<uint8> buf;
+
+   struct Frame
+    {
+     unsigned pos;
+     unsigned len;
+
+     unsigned getLim() const { return pos+len; }
+
+     void null()
+      {
+       pos=0;
+       len=0;
+      }
+
+     void finish()
+      {
+       pos+=len;
+       len=0;
+      }
+
+     void operator ++ ()
+      {
+       pos++;
+       len--;
+      }
+
+     void operator += (unsigned delta)
+      {
+       pos+=delta;
+       len-=delta;
+      }
+    };
+
+   Frame block;
+   Frame string;
+
+   unsigned hashed_len;
+   unsigned min_testlen;
+
+   bool has_match;
+   Frame match;
+
+   // hash
+
+   SimpleArray<uint16> hashed_head;
+   SimpleArray<uint16> prevpos;
+
+  private:
+
+   static constexpr unsigned MinMatch =   3 ;
+   static constexpr unsigned MaxMatch = 258 ;
+
+   void setLevel(Level level);
+
+   void init(Param param);
+
+   void reset();
+
+   void downWindow();
+
+   unsigned fillWindow(PtrLen<const uint8> data);
+
+   unsigned computeHash(const uint8 *str) const;
+
+   void insertHash(unsigned start);
+
+   Frame bestMatch(unsigned prev_len) const;
+
+   void processBuffer();
+
+   PtrLen<const uint8> getBlock() const { return Range(buf.getPtr()+block.pos,block.len); }
+
+   void literalByte(uint8 octet);
+
+   void matchFound(unsigned distance,unsigned length);
+
+   void endBlock(bool eof);
+
+  public:
+
+   explicit Deflator(OutFunc out,Param param={});
+
+   ~Deflator();
+
+   Level getLevel() const { return sym.getLevel(); }
+
+   Log2WindowLen getLog2WindowLen() const { return log2_window_len; }
+
+   void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
+
+   void put(PtrLen<const uint8> data);
+
+   void complete();
  };
 
 } // namespace Deflate
