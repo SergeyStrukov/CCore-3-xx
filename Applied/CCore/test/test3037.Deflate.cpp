@@ -50,9 +50,10 @@ class Deflator : NoCopy
 
    Log2WindowLen log2_window_len;
 
-   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_CHAIN_LENGTH;
-
-   unsigned max_lazy_len;
+   unsigned wind_len, wind_mask, hash_len, hash_mask;
+   unsigned cap_data_len;
+   unsigned min_lazy_len;
+   unsigned good_match, max_chain_len;
 
    // data
 
@@ -62,6 +63,8 @@ class Deflator : NoCopy
     {
      unsigned pos;
      unsigned len;
+
+     unsigned getLim() const { return pos+len; }
 
      void null()
       {
@@ -111,6 +114,8 @@ class Deflator : NoCopy
    void init(Param param);
 
    void reset();
+
+   void downWindow();
 
    unsigned fillWindow(PtrLen<const uint8> data);
 
@@ -168,9 +173,9 @@ void Deflator::setLevel(Level level)
     /* 9 */ {32, 258, 258, 4096}  // maximum compression
    };
 
-  GOOD_MATCH = configurationTable[level][0] ;
-  max_lazy_len = configurationTable[level][1] ;
-  MAX_CHAIN_LENGTH = configurationTable[level][3] ;
+  good_match = configurationTable[level][0] ;
+  min_lazy_len = configurationTable[level][1] ;
+  max_chain_len = configurationTable[level][3] ;
  }
 
 void Deflator::init(Param param)
@@ -182,19 +187,22 @@ void Deflator::init(Param param)
 
   log2_window_len = param.log2_window_len ;
 
-  DSIZE = 1 << log2_window_len ;
-  DMASK = DSIZE - 1 ;
-  HSIZE = 1 << log2_window_len ;
-  HMASK = HSIZE - 1 ;
+  wind_len = 1 << log2_window_len ;
+  wind_mask = wind_len - 1 ;
 
-  buf=SimpleArray<uint8>(2*DSIZE);
+  hash_len = 1 << log2_window_len ;
+  hash_mask = hash_len - 1 ;
 
-  m_head=SimpleArray<uint16>(HSIZE);
-  m_prev=SimpleArray<uint16>(DSIZE);
+  cap_data_len=Min<unsigned>(2*wind_len,0xFFFFu);
+
+  buf=SimpleArray<uint8>(2*wind_len);
+
+  m_head=SimpleArray<uint16>(hash_len);
+  m_prev=SimpleArray<uint16>(wind_len);
 
   setLevel(param.level);
 
-  sym.init(param.level,param.detect_uncompressible,DSIZE/2);
+  sym.init(param.level,param.detect_uncompressible,wind_len/2);
 
   reset();
  }
@@ -217,35 +225,35 @@ void Deflator::reset()
   Range(m_head).set_null();
  }
 
-
-unsigned Deflator::fillWindow(PtrLen<const uint8> data)
+void Deflator::downWindow()
  {
-  unsigned maxBlockSize=Min<unsigned>(2*DSIZE,0xFFFFu);
+  if( block.pos<wind_len ) endBlock(false);
 
   uint8 *base=buf.getPtr();
 
-  if( string.pos>=maxBlockSize-MaxMatch )
-    {
-     if( block.pos<DSIZE ) endBlock(false);
+  Range(base,wind_len).copy(base+wind_len);
 
-     Range(base,DSIZE).copy(base+DSIZE);
+  string.pos-=wind_len;
+  match.pos-=wind_len;
+  block.pos-=wind_len;
 
-     string.pos-=DSIZE;
-     match.pos-=DSIZE;
-     block.pos-=DSIZE;
+  hashed_len=PosSub(hashed_len,wind_len);
 
-     hashed_len=PosSub(hashed_len,DSIZE);
+  for(unsigned i=0; i<hash_len ;i++) m_head[i]=PosSub(m_head[i],wind_len);
 
-     for(unsigned i=0; i<HSIZE ;i++) m_head[i]=PosSub(m_head[i],DSIZE);
+  for(unsigned i=0; i<wind_len ;i++) m_prev[i]=PosSub(m_prev[i],wind_len);
+ }
 
-     for(unsigned i=0; i<DSIZE ;i++) m_prev[i]=PosSub(m_prev[i],DSIZE);
-    }
 
-  unsigned off=string.pos+string.len;
+unsigned Deflator::fillWindow(PtrLen<const uint8> data)
+ {
+  if( string.pos>=cap_data_len-MaxMatch ) downWindow();
 
-  unsigned delta = (unsigned)Min<ulen>(maxBlockSize-off,data.len) ;
+  unsigned off=string.getLim();
 
-  Range(base+off,delta).copy(data.ptr);
+  unsigned delta=(unsigned)Min<ulen>(cap_data_len-off,data.len) ;
+
+  Range(buf.getPtr()+off,delta).copy(data.ptr);
 
   string.len+=delta;
 
@@ -259,14 +267,14 @@ unsigned Deflator::computeHash(const uint8 *str) const
   unsigned s1=str[1];
   unsigned s2=str[2];
 
-  return ((s0<<10)^(s1<<5)^s2)&HMASK;
+  return ((s0<<10)^(s1<<5)^s2)&hash_mask;
  }
 
 void Deflator::insertHash(unsigned start)
  {
   unsigned hash=computeHash(buf.getPtr()+start);
 
-  m_prev[start&DMASK]=m_head[hash];
+  m_prev[start&wind_mask]=m_head[hash];
   m_head[hash]=uint16(start);
  }
 
@@ -280,13 +288,13 @@ auto Deflator::bestMatch(unsigned prev_len) const -> Frame
   const uint8 *scan=buf.getPtr()+string.pos;
   const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string.len);
 
-  unsigned limit=PosSub(string.pos,DSIZE-MaxMatch);
+  unsigned limit=PosSub(string.pos,wind_len-MaxMatch);
 
   unsigned current=m_head[computeHash(scan)];
 
-  unsigned chainLength=MAX_CHAIN_LENGTH;
+  unsigned chainLength=max_chain_len;
 
-  if( prev_len>=GOOD_MATCH ) chainLength>>=2;
+  if( prev_len>=good_match ) chainLength>>=2;
 
   while( current>limit && --chainLength>0 )
     {
@@ -305,7 +313,7 @@ auto Deflator::bestMatch(unsigned prev_len) const -> Frame
           }
        }
 
-     current=m_prev[current&DMASK];
+     current=m_prev[current&wind_mask];
     }
 
   return {bestMatch,(bestMatch>0)? bestLength : 0 };
@@ -327,7 +335,7 @@ void Deflator::processBuffer()
 
   while( string.len>min_testlen )
     {
-     while( hashed_len<string.pos && hashed_len+3<=string.pos+string.len ) insertHash(hashed_len++);
+     while( hashed_len<string.pos && hashed_len+3<=string.getLim() ) insertHash(hashed_len++);
 
      if( has_match )
        {
@@ -335,7 +343,7 @@ void Deflator::processBuffer()
 
         bool push_current;
 
-        if( match.len>=max_lazy_len )
+        if( match.len>=min_lazy_len )
           {
            push_current=true;
           }
