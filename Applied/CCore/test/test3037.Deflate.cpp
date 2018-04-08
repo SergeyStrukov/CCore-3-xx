@@ -280,43 +280,47 @@ void Deflator::insertHash(unsigned start)
 
 auto Deflator::bestMatch(unsigned prev_len) const -> Frame
  {
-  unsigned bestMatch=0;
-  unsigned bestLength=Max<unsigned>(prev_len,MinMatch-1);
+  unsigned best_pos=0;
+  unsigned best_len=Max(prev_len,MinMatch-1);
 
-  if( string.len<=bestLength ) return {0,0};
+  unsigned testlen=Min(MaxMatch,string.len);
 
-  const uint8 *scan=buf.getPtr()+string.pos;
-  const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string.len);
+  if( testlen<=best_len ) return {0,0};
+
+  const uint8 *ptr=buf.getPtr()+string.pos;
+  const uint8 *lim=ptr+testlen;
 
   unsigned limit=PosSub(string.pos,wind_len-MaxMatch);
 
-  unsigned current=m_head[computeHash(scan)];
+  unsigned current=m_head[computeHash(ptr)];
 
-  unsigned chainLength=max_chain_len;
+  unsigned chain_len=max_chain_len;
 
-  if( prev_len>=good_match ) chainLength>>=2;
+  if( prev_len>=good_match ) chain_len>>=2;
 
-  while( current>limit && --chainLength>0 )
+  while( current>limit && --chain_len>0 )
     {
      const uint8 *match=buf.getPtr()+current;
 
-     if( scan[bestLength-1]==match[bestLength-1] && scan[bestLength]==match[bestLength] && scan[0]==match[0] && scan[1]==match[1] )
+     if( ptr[best_len-1]==match[best_len-1] && ptr[best_len]==match[best_len] && ptr[0]==match[0] && ptr[1]==match[1] )
        {
-        unsigned len=(unsigned)Dist(scan,Mismatch(scan+3,scanEnd,match+3));
+        unsigned len=(unsigned)Dist(ptr,Mismatch(ptr+3,lim,match+3));
 
-        if( len>bestLength )
+        if( len>best_len )
           {
-           bestLength=len;
-           bestMatch=current;
+           best_len=len;
+           best_pos=current;
 
-           if( len==Dist(scan,scanEnd) ) break;
+           if( len==testlen ) break;
           }
        }
 
      current=m_prev[current&wind_mask];
     }
 
-  return {bestMatch,(bestMatch>0)? bestLength : 0 };
+  if( best_pos ) return {best_pos,best_len};
+
+  return {0,0};
  }
 
 
