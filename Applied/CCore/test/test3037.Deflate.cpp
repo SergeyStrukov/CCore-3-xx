@@ -302,34 +302,34 @@ void Deflator::processBuffer()
 
      if( has_match )
        {
-        unsigned matchPosition=0,matchLength=0;
+        unsigned pos=0,len=0;
 
-        bool usePreviousMatch;
+        bool push_current;
 
         if( match_len>=MAX_LAZYLENGTH )
           {
-           usePreviousMatch=true;
+           push_current=true;
           }
         else
           {
-           matchLength=longestMatch(matchPosition);
+           len=longestMatch(pos);
 
-           usePreviousMatch=(matchLength==0);
+           push_current=(len==0);
           }
 
-        if( usePreviousMatch )
+        if( push_current )
           {
            matchFound(string_start-1-match_pos,match_len);
 
            string_start += match_len-1 ;
-           string_len -= match_len-1 ;
+           string_len   -= match_len-1 ;
 
            has_match=false;
           }
         else
           {
-           match_len=matchLength;
-           match_pos=matchPosition;
+           match_len=len;
+           match_pos=pos;
 
            literalByte(buf[string_start-1]);
 
@@ -356,7 +356,7 @@ void Deflator::processBuffer()
     {
      literalByte(buf[string_start-1]);
 
-     has_match = false;
+     has_match=false;
     }
  }
 
