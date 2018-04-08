@@ -48,7 +48,7 @@ class Deflator : NoCopy
 
    // params
 
-   Log2WindowLen m_log2WindowSize;
+   Log2WindowLen log2_window_len;
 
    unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
 
@@ -81,7 +81,7 @@ class Deflator : NoCopy
 
    unsigned longestMatch(unsigned &bestMatch) const;
 
-   void insertString(unsigned start);
+   void insertHash(unsigned start);
 
    void processBuffer();
 
@@ -102,7 +102,7 @@ class Deflator : NoCopy
 
    Level getLevel() const { return sym.getLevel(); }
 
-   Log2WindowLen getLog2WindowSize() const { return m_log2WindowSize; }
+   Log2WindowLen getLog2WindowLen() const { return log2_window_len; }
 
    void put(const uint8 *ptr,ulen len);
 
@@ -144,11 +144,11 @@ void Deflator::init(Param param)
      Printf(Exception,"Deflator: #; is an invalid window size",param.log2_window_len);
     }
 
-  m_log2WindowSize = param.log2_window_len ;
+  log2_window_len = param.log2_window_len ;
 
-  DSIZE = 1 << m_log2WindowSize ;
+  DSIZE = 1 << log2_window_len ;
   DMASK = DSIZE - 1 ;
-  HSIZE = 1 << m_log2WindowSize ;
+  HSIZE = 1 << log2_window_len ;
   HMASK = HSIZE - 1 ;
 
   buf=SimpleArray<uint8>(2*DSIZE);
@@ -269,7 +269,7 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
   return (bestMatch>0)? bestLength : 0 ;
  }
 
-void Deflator::insertString(unsigned start)
+void Deflator::insertHash(unsigned start)
  {
   unsigned hash=computeHash(buf.getPtr()+start);
 
@@ -292,7 +292,7 @@ void Deflator::processBuffer()
 
   while( string_len>min_testlen )
     {
-     while( hashed_len<string_start && hashed_len+3<=string_start+string_len ) insertString(hashed_len++);
+     while( hashed_len<string_start && hashed_len+3<=string_start+string_len ) insertHash(hashed_len++);
 
      if( m_matchAvailable )
        {
