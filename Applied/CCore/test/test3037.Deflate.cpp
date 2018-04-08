@@ -84,9 +84,9 @@ class Deflator : NoCopy
 
    unsigned computeHash(const uint8 *str) const;
 
-   unsigned longestMatch(unsigned &bestMatch) const;
-
    void insertHash(unsigned start);
+
+   unsigned longestMatch(unsigned &bestMatch) const;
 
    void processBuffer();
 
@@ -171,15 +171,17 @@ void Deflator::reset()
  {
   sym.reset();
 
-  has_match = false ;
+  block_start=0;
+  block_len=0;
 
-  hashed_len = 0 ;
-  string_start = 0 ;
-  string_len = 0 ;
-  min_testlen = MaxMatch ;
+  string_start=0;
+  string_len=0;
 
-  block_start = 0 ;
-  block_len = 0 ;
+  hashed_len=0;
+
+  min_testlen=MaxMatch;
+
+  has_match=false;
 
   // m_prev will be initialized automatically in InsertString
 
@@ -231,6 +233,14 @@ unsigned Deflator::computeHash(const uint8 *str) const
   return ((s0<<10)^(s1<<5)^s2)&HMASK;
  }
 
+void Deflator::insertHash(unsigned start)
+ {
+  unsigned hash=computeHash(buf.getPtr()+start);
+
+  m_prev[start&DMASK]=m_head[hash];
+  m_head[hash]=uint16(start);
+ }
+
 unsigned Deflator::longestMatch(unsigned &bestMatch) const
  {
   bestMatch=0;
@@ -271,14 +281,6 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
     }
 
   return (bestMatch>0)? bestLength : 0 ;
- }
-
-void Deflator::insertHash(unsigned start)
- {
-  unsigned hash=computeHash(buf.getPtr()+start);
-
-  m_prev[start&DMASK]=m_head[hash];
-  m_head[hash]=uint16(start);
  }
 
 void Deflator::processBuffer()
