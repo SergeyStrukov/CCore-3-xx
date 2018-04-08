@@ -59,7 +59,7 @@ class Deflator : NoCopy
 
    bool m_matchAvailable;
 
-   unsigned m_dictionaryEnd, string_start, string_len, m_minLookahead, m_previousMatch, m_previousLength;
+   unsigned hashed_len, string_start, string_len, min_testlen, m_previousMatch, m_previousLength;
    unsigned block_start, block_len;
 
   private:
@@ -169,10 +169,10 @@ void Deflator::reset()
 
   m_matchAvailable = false ;
 
-  m_dictionaryEnd = 0 ;
+  hashed_len = 0 ;
   string_start = 0 ;
   string_len = 0 ;
-  m_minLookahead = MAX_MATCH ;
+  min_testlen = MAX_MATCH ;
 
   block_start = 0 ;
   block_len = 0 ;
@@ -199,7 +199,7 @@ unsigned Deflator::fillWindow(const uint8 *str,ulen len)
      m_previousMatch-=DSIZE;
      block_start-=DSIZE;
 
-     m_dictionaryEnd=PosSub(m_dictionaryEnd,DSIZE);
+     hashed_len=PosSub(hashed_len,DSIZE);
 
      for(unsigned i=0; i<HSIZE ;i++) m_head[i]=PosSub(m_head[i],DSIZE);
 
@@ -290,9 +290,9 @@ void Deflator::processBuffer()
      return;
     }
 
-  while( string_len>m_minLookahead )
+  while( string_len>min_testlen )
     {
-     while( m_dictionaryEnd<string_start && m_dictionaryEnd+3<=string_start+string_len ) insertString(m_dictionaryEnd++);
+     while( hashed_len<string_start && hashed_len+3<=string_start+string_len ) insertString(hashed_len++);
 
      if( m_matchAvailable )
        {
@@ -346,7 +346,7 @@ void Deflator::processBuffer()
        }
     }
 
-  if( m_minLookahead==0 && m_matchAvailable )
+  if( min_testlen==0 && m_matchAvailable )
     {
      literalByte(buf[string_start-1]);
 
@@ -416,7 +416,7 @@ void Deflator::put(const uint8 *ptr,ulen len)
 
 void Deflator::complete()
  {
-  m_minLookahead=0;
+  min_testlen=0;
 
   processBuffer();
 
