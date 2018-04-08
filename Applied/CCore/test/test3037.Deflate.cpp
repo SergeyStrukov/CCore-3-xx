@@ -160,23 +160,30 @@ void Deflator::setLevel(Level level)
      Printf(Exception,"Deflator: #; is an invalid deflate level",level);
     }
 
-  static const unsigned configurationTable[10][4]=
+  struct Rec
    {
-    /* 0 */ {0,    0,  0,    0},  // store only
-    /* 1 */ {4,    3,  8,    4},  // maximum speed, no lazy matches
-    /* 2 */ {4,    3, 16,    8},
-    /* 3 */ {4,    3, 32,   32},
-    /* 4 */ {4,    4, 16,   16},  // lazy matches
-    /* 5 */ {8,   16, 32,   32},
-    /* 6 */ {8,   16, 128, 128},
-    /* 7 */ {8,   32, 128, 256},
-    /* 8 */ {32, 128, 258, 1024},
-    /* 9 */ {32, 258, 258, 4096}  // maximum compression
+    unsigned good_match;
+    unsigned min_lazy_len;
+    unsigned max_chain_len;
    };
 
-  good_match = configurationTable[level][0] ;
-  min_lazy_len = configurationTable[level][1] ;
-  max_chain_len = configurationTable[level][3] ;
+  static const Rec Table[10]=
+   {
+    /* 0 */ {0,    0,    0},  // store only
+    /* 1 */ {4,    3,    4},  // maximum speed, no lazy matches
+    /* 2 */ {4,    3,    8},
+    /* 3 */ {4,    3,   32},
+    /* 4 */ {4,    4,   16},  // lazy matches
+    /* 5 */ {8,   16,   32},
+    /* 6 */ {8,   16,  128},
+    /* 7 */ {8,   32,  256},
+    /* 8 */ {32, 128, 1024},
+    /* 9 */ {32, 258, 4096}  // maximum compression
+   };
+
+  min_lazy_len=Table[level].min_lazy_len;
+  good_match=Table[level].good_match;
+  max_chain_len=Table[level].max_chain_len;
  }
 
 void Deflator::init(Param param)
