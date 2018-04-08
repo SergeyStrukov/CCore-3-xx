@@ -74,7 +74,7 @@ class Deflator : NoCopy
    void reset();
 
 
-   unsigned fillWindow(const uint8 *str,ulen len);
+   unsigned fillWindow(PtrLen<const uint8> data);
 
 
    unsigned computeHash(const uint8 *str) const;
@@ -104,9 +104,9 @@ class Deflator : NoCopy
 
    Log2WindowLen getLog2WindowLen() const { return log2_window_len; }
 
-   void put(const uint8 *ptr,ulen len);
+   void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
 
-   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
+   void put(PtrLen<const uint8> data);
 
    void complete();
  };
@@ -183,7 +183,7 @@ void Deflator::reset()
  }
 
 
-unsigned Deflator::fillWindow(const uint8 *str,ulen len)
+unsigned Deflator::fillWindow(PtrLen<const uint8> data)
  {
   unsigned maxBlockSize=Min<unsigned>(2*DSIZE,0xFFFFu);
 
@@ -208,13 +208,13 @@ unsigned Deflator::fillWindow(const uint8 *str,ulen len)
 
   unsigned off=string_start+string_len;
 
-  unsigned accepted = (unsigned)Min<ulen>(maxBlockSize-off,len) ;
+  unsigned delta = (unsigned)Min<ulen>(maxBlockSize-off,data.len) ;
 
-  Range(base+off,accepted).copy(str);
+  Range(base+off,delta).copy(data.ptr);
 
-  string_len+=accepted;
+  string_len+=delta;
 
-  return accepted;
+  return delta;
  }
 
 
@@ -400,17 +400,15 @@ Deflator::~Deflator()
  {
  }
 
-void Deflator::put(const uint8 *ptr,ulen len)
+void Deflator::put(PtrLen<const uint8> data)
  {
-  ulen accepted=0;
-
-  while( accepted<len )
+  while( +data )
     {
-     unsigned newAccepted=fillWindow(ptr+accepted,len-accepted);
+     unsigned delta=fillWindow(data);
+
+     data+=delta;
 
      processBuffer();
-
-     accepted+=newAccepted;
     }
  }
 
