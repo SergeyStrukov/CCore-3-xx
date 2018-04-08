@@ -25,12 +25,12 @@ namespace Deflate {
 
 enum Level
  {
-  MinLevel         = 0,
+  MinLevel         = 0, // store only
 
   DefaultLevel     = 6,
   EverdynamicLevel = 8,
 
-  MaxLevel         = 9
+  MaxLevel         = 9  // maximum compression
  };
 
 /* enum Log2WindowLen */

@@ -64,7 +64,11 @@ bool Testit<3037>::Main()
   FileToMem file("../../../HCore/files/test.txt");
   OutFile outfile("test3037.bin");
 
-  Deflator deflate(outfile.function_out());
+  Deflate::Param param;
+
+  param.level=Deflate::MaxLevel;
+
+  Deflator deflate(outfile.function_out(),param);
 
   deflate.put(Range(file));
 
