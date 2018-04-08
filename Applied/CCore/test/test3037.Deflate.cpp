@@ -52,20 +52,27 @@ class Deflator : NoCopy
 
    unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
 
-   // octets
+   // data
 
    SimpleArray<uint8> buf;
-   SimpleArray<uint16> m_head, m_prev;
 
-   bool m_matchAvailable;
-
-   unsigned hashed_len, string_start, string_len, min_testlen, m_previousMatch, m_previousLength;
    unsigned block_start, block_len;
+   unsigned string_start, string_len;
+   unsigned hashed_len;
+   unsigned min_testlen;
+
+   bool has_match;
+
+   unsigned m_previousMatch, m_previousLength;
+
+   // hash
+
+   SimpleArray<uint16> m_head, m_prev;
 
   private:
 
-   enum { MIN_MATCH = 3, MAX_MATCH = 258 };
-
+   static constexpr unsigned MinMatch =   3 ;
+   static constexpr unsigned MaxMatch = 258 ;
 
    void setLevel(Level level);
 
@@ -73,9 +80,7 @@ class Deflator : NoCopy
 
    void reset();
 
-
    unsigned fillWindow(PtrLen<const uint8> data);
-
 
    unsigned computeHash(const uint8 *str) const;
 
@@ -84,7 +89,6 @@ class Deflator : NoCopy
    void insertHash(unsigned start);
 
    void processBuffer();
-
 
    PtrLen<const uint8> getBlock() const { return Range(buf.getPtr()+block_start,block_len); }
 
@@ -167,12 +171,12 @@ void Deflator::reset()
  {
   sym.reset();
 
-  m_matchAvailable = false ;
+  has_match = false ;
 
   hashed_len = 0 ;
   string_start = 0 ;
   string_len = 0 ;
-  min_testlen = MAX_MATCH ;
+  min_testlen = MaxMatch ;
 
   block_start = 0 ;
   block_len = 0 ;
@@ -189,7 +193,7 @@ unsigned Deflator::fillWindow(PtrLen<const uint8> data)
 
   uint8 *base=buf.getPtr();
 
-  if( string_start>=maxBlockSize-MAX_MATCH )
+  if( string_start>=maxBlockSize-MaxMatch )
     {
      if( block_start<DSIZE ) endBlock(false);
 
@@ -231,14 +235,14 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
  {
   bestMatch=0;
 
-  unsigned bestLength=Max<unsigned>(m_previousLength,MIN_MATCH-1);
+  unsigned bestLength=Max<unsigned>(m_previousLength,MinMatch-1);
 
   if( string_len<=bestLength ) return 0;
 
   const uint8 *scan=buf.getPtr()+string_start;
-  const uint8 *scanEnd=scan+Min<unsigned>(MAX_MATCH,string_len);
+  const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string_len);
 
-  unsigned limit=PosSub(string_start,DSIZE-MAX_MATCH);
+  unsigned limit=PosSub(string_start,DSIZE-MaxMatch);
 
   unsigned current=m_head[computeHash(scan)];
 
@@ -285,7 +289,7 @@ void Deflator::processBuffer()
      string_len=0;
      block_len=string_start-block_start;
 
-     m_matchAvailable=false;
+     has_match=false;
 
      return;
     }
@@ -294,7 +298,7 @@ void Deflator::processBuffer()
     {
      while( hashed_len<string_start && hashed_len+3<=string_start+string_len ) insertHash(hashed_len++);
 
-     if( m_matchAvailable )
+     if( has_match )
        {
         unsigned matchPosition=0,matchLength=0;
 
@@ -318,7 +322,7 @@ void Deflator::processBuffer()
            string_start += m_previousLength-1 ;
            string_len -= m_previousLength-1 ;
 
-           m_matchAvailable=false;
+           has_match=false;
           }
         else
           {
@@ -337,7 +341,7 @@ void Deflator::processBuffer()
         m_previousLength=longestMatch(m_previousMatch);
 
         if( m_previousLength )
-          m_matchAvailable=true;
+          has_match=true;
         else
           literalByte(buf[string_start]);
 
@@ -346,11 +350,11 @@ void Deflator::processBuffer()
        }
     }
 
-  if( min_testlen==0 && m_matchAvailable )
+  if( min_testlen==0 && has_match )
     {
      literalByte(buf[string_start-1]);
 
-     m_matchAvailable = false;
+     has_match = false;
     }
  }
 
@@ -388,7 +392,6 @@ void Deflator::endBlock(bool eof)
   block_start+=block_len;
   block_len=0;
  }
-
 
 Deflator::Deflator(OutFunc out,Param param)
  : sym(out)
