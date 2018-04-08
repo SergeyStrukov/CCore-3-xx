@@ -102,7 +102,8 @@ class Deflator : NoCopy
 
    // hash
 
-   SimpleArray<uint16> m_head, m_prev;
+   SimpleArray<uint16> hashed_head;
+   SimpleArray<uint16> prevpos;
 
   private:
 
@@ -185,20 +186,21 @@ void Deflator::init(Param param)
      Printf(Exception,"Deflator: #; is an invalid window size",param.log2_window_len);
     }
 
-  log2_window_len = param.log2_window_len ;
+  log2_window_len=param.log2_window_len;
 
-  wind_len = 1 << log2_window_len ;
+  wind_len = 1 << log2_window_len ; // > MaxMatch
   wind_mask = wind_len - 1 ;
 
   hash_len = 1 << log2_window_len ;
   hash_mask = hash_len - 1 ;
 
-  cap_data_len=Min<unsigned>(2*wind_len,0xFFFFu);
+  cap_data_len=Min<unsigned>(2*wind_len,0xFFFFu); // >= wind_len+MaxMatch
 
   buf=SimpleArray<uint8>(2*wind_len);
 
-  m_head=SimpleArray<uint16>(hash_len);
-  m_prev=SimpleArray<uint16>(wind_len);
+  hashed_head=SimpleArray<uint16>(hash_len);
+
+  prevpos=SimpleArray<uint16>(wind_len);
 
   setLevel(param.level);
 
@@ -220,9 +222,7 @@ void Deflator::reset()
 
   has_match=false;
 
-  // m_prev will be initialized automatically in InsertString
-
-  Range(m_head).set_null();
+  Range(hashed_head).set_null();
  }
 
 void Deflator::downWindow()
@@ -233,17 +233,17 @@ void Deflator::downWindow()
 
   Range(base,wind_len).copy(base+wind_len);
 
-  string.pos-=wind_len;
-  match.pos-=wind_len;
   block.pos-=wind_len;
+  string.pos-=wind_len;
+
+  match.pos-=wind_len;
 
   hashed_len=PosSub(hashed_len,wind_len);
 
-  for(unsigned i=0; i<hash_len ;i++) m_head[i]=PosSub(m_head[i],wind_len);
+  for(auto &start : hashed_head ) start=PosSub(start,wind_len);
 
-  for(unsigned i=0; i<wind_len ;i++) m_prev[i]=PosSub(m_prev[i],wind_len);
+  for(auto &prev : prevpos ) prev=PosSub(prev,wind_len);
  }
-
 
 unsigned Deflator::fillWindow(PtrLen<const uint8> data)
  {
@@ -260,7 +260,6 @@ unsigned Deflator::fillWindow(PtrLen<const uint8> data)
   return delta;
  }
 
-
 unsigned Deflator::computeHash(const uint8 *str) const
  {
   unsigned s0=str[0];
@@ -274,8 +273,9 @@ void Deflator::insertHash(unsigned start)
  {
   unsigned hash=computeHash(buf.getPtr()+start);
 
-  m_prev[start&wind_mask]=m_head[hash];
-  m_head[hash]=uint16(start);
+  prevpos[start&wind_mask]=hashed_head[hash];
+
+  hashed_head[hash]=uint16(start);
  }
 
 auto Deflator::bestMatch(unsigned prev_len) const -> Frame
@@ -292,7 +292,7 @@ auto Deflator::bestMatch(unsigned prev_len) const -> Frame
 
   unsigned limit=PosSub(string.pos,wind_len-MaxMatch);
 
-  unsigned current=m_head[computeHash(ptr)];
+  unsigned current=hashed_head[computeHash(ptr)];
 
   unsigned chain_len=max_chain_len;
 
@@ -315,14 +315,13 @@ auto Deflator::bestMatch(unsigned prev_len) const -> Frame
           }
        }
 
-     current=m_prev[current&wind_mask];
+     current=prevpos[current&wind_mask];
     }
 
   if( best_pos ) return {best_pos,best_len};
 
   return {0,0};
  }
-
 
 void Deflator::processBuffer()
  {
