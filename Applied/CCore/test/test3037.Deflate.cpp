@@ -50,20 +50,52 @@ class Deflator : NoCopy
 
    Log2WindowLen log2_window_len;
 
-   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_LAZYLENGTH, MAX_CHAIN_LENGTH;
+   unsigned DSIZE, DMASK, HSIZE, HMASK, GOOD_MATCH, MAX_CHAIN_LENGTH;
+
+   unsigned max_lazy_len;
 
    // data
 
    SimpleArray<uint8> buf;
 
-   unsigned block_start, block_len;
-   unsigned string_start, string_len;
+   struct Frame
+    {
+     unsigned pos;
+     unsigned len;
+
+     void null()
+      {
+       pos=0;
+       len=0;
+      }
+
+     void finish()
+      {
+       pos+=len;
+       len=0;
+      }
+
+     void operator ++ ()
+      {
+       pos++;
+       len--;
+      }
+
+     void operator += (unsigned delta)
+      {
+       pos+=delta;
+       len-=delta;
+      }
+    };
+
+   Frame block;
+   Frame string;
+
    unsigned hashed_len;
    unsigned min_testlen;
 
    bool has_match;
-
-   unsigned match_pos, match_len;
+   Frame match;
 
    // hash
 
@@ -90,7 +122,7 @@ class Deflator : NoCopy
 
    void processBuffer();
 
-   PtrLen<const uint8> getBlock() const { return Range(buf.getPtr()+block_start,block_len); }
+   PtrLen<const uint8> getBlock() const { return Range(buf.getPtr()+block.pos,block.len); }
 
    void literalByte(uint8 octet);
 
@@ -137,7 +169,7 @@ void Deflator::setLevel(Level level)
    };
 
   GOOD_MATCH = configurationTable[level][0] ;
-  MAX_LAZYLENGTH = configurationTable[level][1] ;
+  max_lazy_len = configurationTable[level][1] ;
   MAX_CHAIN_LENGTH = configurationTable[level][3] ;
  }
 
@@ -171,14 +203,11 @@ void Deflator::reset()
  {
   sym.reset();
 
-  block_start=0;
-  block_len=0;
+  block.null();
 
-  string_start=0;
-  string_len=0;
+  string.null();
 
   hashed_len=0;
-
   min_testlen=MaxMatch;
 
   has_match=false;
@@ -195,15 +224,15 @@ unsigned Deflator::fillWindow(PtrLen<const uint8> data)
 
   uint8 *base=buf.getPtr();
 
-  if( string_start>=maxBlockSize-MaxMatch )
+  if( string.pos>=maxBlockSize-MaxMatch )
     {
-     if( block_start<DSIZE ) endBlock(false);
+     if( block.pos<DSIZE ) endBlock(false);
 
      Range(base,DSIZE).copy(base+DSIZE);
 
-     string_start-=DSIZE;
-     match_pos-=DSIZE;
-     block_start-=DSIZE;
+     string.pos-=DSIZE;
+     match.pos-=DSIZE;
+     block.pos-=DSIZE;
 
      hashed_len=PosSub(hashed_len,DSIZE);
 
@@ -212,13 +241,13 @@ unsigned Deflator::fillWindow(PtrLen<const uint8> data)
      for(unsigned i=0; i<DSIZE ;i++) m_prev[i]=PosSub(m_prev[i],DSIZE);
     }
 
-  unsigned off=string_start+string_len;
+  unsigned off=string.pos+string.len;
 
   unsigned delta = (unsigned)Min<ulen>(maxBlockSize-off,data.len) ;
 
   Range(base+off,delta).copy(data.ptr);
 
-  string_len+=delta;
+  string.len+=delta;
 
   return delta;
  }
@@ -245,20 +274,20 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
  {
   bestMatch=0;
 
-  unsigned bestLength=Max<unsigned>(match_len,MinMatch-1);
+  unsigned bestLength=Max<unsigned>(match.len,MinMatch-1);
 
-  if( string_len<=bestLength ) return 0;
+  if( string.len<=bestLength ) return 0;
 
-  const uint8 *scan=buf.getPtr()+string_start;
-  const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string_len);
+  const uint8 *scan=buf.getPtr()+string.pos;
+  const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string.len);
 
-  unsigned limit=PosSub(string_start,DSIZE-MaxMatch);
+  unsigned limit=PosSub(string.pos,DSIZE-MaxMatch);
 
   unsigned current=m_head[computeHash(scan)];
 
   unsigned chainLength=MAX_CHAIN_LENGTH;
 
-  if( match_len>=GOOD_MATCH ) chainLength>>=2;
+  if( match.len>=GOOD_MATCH ) chainLength>>=2;
 
   while( current>limit && --chainLength>0 )
     {
@@ -287,18 +316,18 @@ void Deflator::processBuffer()
  {
   if( getLevel()==MinLevel )
     {
-     string_start+=string_len;
-     string_len=0;
-     block_len=string_start-block_start;
+     string.finish();
+
+     block.len=string.pos-block.pos;
 
      has_match=false;
 
      return;
     }
 
-  while( string_len>min_testlen )
+  while( string.len>min_testlen )
     {
-     while( hashed_len<string_start && hashed_len+3<=string_start+string_len ) insertHash(hashed_len++);
+     while( hashed_len<string.pos && hashed_len+3<=string.pos+string.len ) insertHash(hashed_len++);
 
      if( has_match )
        {
@@ -306,7 +335,7 @@ void Deflator::processBuffer()
 
         bool push_current;
 
-        if( match_len>=MAX_LAZYLENGTH )
+        if( match.len>=max_lazy_len )
           {
            push_current=true;
           }
@@ -319,42 +348,39 @@ void Deflator::processBuffer()
 
         if( push_current )
           {
-           matchFound(string_start-1-match_pos,match_len);
+           matchFound(string.pos-1-match.pos,match.len);
 
-           string_start += match_len-1 ;
-           string_len   -= match_len-1 ;
+           string+=match.len-1;
 
            has_match=false;
           }
         else
           {
-           match_len=len;
-           match_pos=pos;
+           match.len=len;
+           match.pos=pos;
 
-           literalByte(buf[string_start-1]);
+           literalByte(buf[string.pos-1]);
 
-           string_start++;
-           string_len--;
+           ++string;
           }
        }
      else
        {
-        match_len=0;
-        match_len=longestMatch(match_pos);
+        match.len=0;
+        match.len=longestMatch(match.pos);
 
-        if( match_len )
+        if( match.len )
           has_match=true;
         else
-          literalByte(buf[string_start]);
+          literalByte(buf[string.pos]);
 
-        string_start++;
-        string_len--;
+        ++string;
        }
     }
 
   if( min_testlen==0 && has_match )
     {
-     literalByte(buf[string_start-1]);
+     literalByte(buf[string.pos-1]);
 
      has_match=false;
     }
@@ -363,36 +389,27 @@ void Deflator::processBuffer()
 
 void Deflator::literalByte(uint8 octet)
  {
-  if( sym.testFull(getBlock()) )
-    {
-     block_start+=block_len;
-     block_len=0;
-    }
+  if( sym.testFull(getBlock()) ) block.finish();
 
   sym.put(octet);
 
-  block_len++;
+  block.len++;
  }
 
 void Deflator::matchFound(unsigned distance,unsigned length)
  {
-  if( sym.testFull(getBlock()) )
-    {
-     block_start+=block_len;
-     block_len=0;
-    }
+  if( sym.testFull(getBlock()) ) block.finish();
 
   sym.put(distance,length);
 
-  block_len+=length;
+  block.len+=length;
  }
 
 void Deflator::endBlock(bool eof)
  {
   sym.endBlock(eof,getBlock());
 
-  block_start+=block_len;
-  block_len=0;
+  block.finish();
  }
 
 Deflator::Deflator(OutFunc out,Param param)
