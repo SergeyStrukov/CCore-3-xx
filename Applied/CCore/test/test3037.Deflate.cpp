@@ -118,7 +118,7 @@ class Deflator : NoCopy
 
    void insertHash(unsigned start);
 
-   unsigned longestMatch(unsigned &bestMatch) const;
+   Frame bestMatch(unsigned prev_len) const;
 
    void processBuffer();
 
@@ -270,13 +270,12 @@ void Deflator::insertHash(unsigned start)
   m_head[hash]=uint16(start);
  }
 
-unsigned Deflator::longestMatch(unsigned &bestMatch) const
+auto Deflator::bestMatch(unsigned prev_len) const -> Frame
  {
-  bestMatch=0;
+  unsigned bestMatch=0;
+  unsigned bestLength=Max<unsigned>(prev_len,MinMatch-1);
 
-  unsigned bestLength=Max<unsigned>(match.len,MinMatch-1);
-
-  if( string.len<=bestLength ) return 0;
+  if( string.len<=bestLength ) return {0,0};
 
   const uint8 *scan=buf.getPtr()+string.pos;
   const uint8 *scanEnd=scan+Min<unsigned>(MaxMatch,string.len);
@@ -287,7 +286,7 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
 
   unsigned chainLength=MAX_CHAIN_LENGTH;
 
-  if( match.len>=GOOD_MATCH ) chainLength>>=2;
+  if( prev_len>=GOOD_MATCH ) chainLength>>=2;
 
   while( current>limit && --chainLength>0 )
     {
@@ -309,8 +308,9 @@ unsigned Deflator::longestMatch(unsigned &bestMatch) const
      current=m_prev[current&DMASK];
     }
 
-  return (bestMatch>0)? bestLength : 0 ;
+  return {bestMatch,(bestMatch>0)? bestLength : 0 };
  }
+
 
 void Deflator::processBuffer()
  {
@@ -331,7 +331,7 @@ void Deflator::processBuffer()
 
      if( has_match )
        {
-        unsigned pos=0,len=0;
+        Frame next;
 
         bool push_current;
 
@@ -341,9 +341,9 @@ void Deflator::processBuffer()
           }
         else
           {
-           len=longestMatch(pos);
+           next=bestMatch(match.len);
 
-           push_current=(len==0);
+           push_current=(next.len==0);
           }
 
         if( push_current )
@@ -356,8 +356,7 @@ void Deflator::processBuffer()
           }
         else
           {
-           match.len=len;
-           match.pos=pos;
+           match=next;
 
            literalByte(buf[string.pos-1]);
 
@@ -366,8 +365,7 @@ void Deflator::processBuffer()
        }
      else
        {
-        match.len=0;
-        match.len=longestMatch(match.pos);
+        match=bestMatch(0);
 
         if( match.len )
           has_match=true;
@@ -385,7 +383,6 @@ void Deflator::processBuffer()
      has_match=false;
     }
  }
-
 
 void Deflator::literalByte(uint8 octet)
  {
