@@ -136,20 +136,20 @@ bool LowFirstBitReader::FillBuffer(unsigned bitlen)
 
 class HuffmanDecoder
  {
-   static constexpr unsigned MaxCodeBits = 32 ;
+   static constexpr unsigned MaxCodeBits = Meta::UIntBits<UCode> ;
 
    struct CodeInfo
     {
-     CodeInfo(UCode code_=0,unsigned len_=0,USym value_=0) noexcept : code(code_),len(len_),value(value_) {}
-
-     bool operator < (const CodeInfo &obj) const { return code<obj.code; }
-
      UCode code;
      unsigned len;
      USym value;
+
+     CodeInfo(UCode code_=0,unsigned len_=0,USym value_=0) noexcept : code(code_),len(len_),value(value_) {}
+
+     bool operator < (const CodeInfo &obj) const { return code<obj.code; }
     };
 
-   struct LookupEntry
+   struct CacheEntry
     {
      unsigned type;
 
@@ -170,7 +170,7 @@ class HuffmanDecoder
 
    DynArray<CodeInfo> m_codeToValue;
 
-   mutable DynArray<LookupEntry> m_cache;
+   mutable DynArray<CacheEntry> m_cache;
 
   private:
 
@@ -188,7 +188,7 @@ class HuffmanDecoder
 
    static UCode NormalizeCode(UCode code,unsigned codeBits);
 
-   void FillCacheEntry(LookupEntry &entry,UCode normalizedCode) const;
+   void FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const;
 
   public:
 
@@ -327,7 +327,7 @@ void HuffmanDecoder::Initialize(const unsigned *codeBits,unsigned nCodes)
   for(auto &m : m_cache ) m.type=0;
  }
 
-void HuffmanDecoder::FillCacheEntry(LookupEntry &entry,UCode normalizedCode) const
+void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const
  {
   normalizedCode&=m_normalizedCacheMask;
 
@@ -360,7 +360,7 @@ void HuffmanDecoder::FillCacheEntry(LookupEntry &entry,UCode normalizedCode) con
 
 unsigned HuffmanDecoder::Decode(UCode code,USym &value) const
  {
-  LookupEntry &entry=m_cache[code&m_cacheMask];
+  CacheEntry &entry=m_cache[code&m_cacheMask];
 
   UCode normalizedCode=0;
 
