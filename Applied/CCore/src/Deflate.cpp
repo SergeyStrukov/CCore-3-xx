@@ -60,6 +60,17 @@ ulen TrimNull(Ptr beg,Ptr lim)
   return Dist(beg,lim);
  }
 
+/* functions */
+
+BitLen MaxValue(PtrLen<const BitLen> bitlens)
+ {
+  auto r=Algon::BestSearch(bitlens, [] (BitLen a,BitLen b) { return a>b; } );
+
+  if( !r ) return 0;
+
+  return *r;
+ }
+
 /* class BitWriter */
 
 BitWriter::BitWriter(OutFunc out_)
@@ -137,15 +148,6 @@ unsigned BitWriter::finishCounting()
  }
 
 /* class HuffmanEncoder */
-
-BitLen HuffmanEncoder::MaxValue(PtrLen<const BitLen> bitlens)
- {
-  auto r=Algon::BestSearch(bitlens, [] (BitLen a,BitLen b) { return a>b; } );
-
-  if( !r ) return 0;
-
-  return *r;
- }
 
 void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
  {
@@ -770,7 +772,7 @@ void Deflator::setLevel(Level level)
  {
   if( !( level>=MinLevel && level<=MaxLevel ) )
     {
-     Printf(Exception,"Deflator: #; is an invalid deflate level",level);
+     Printf(Exception,"CCore::Deflate::Deflator::setLevel(#;) : is an invalid deflate level",level);
     }
 
   struct Rec
@@ -803,7 +805,7 @@ void Deflator::init(Param param)
  {
   if( !( MinLog2WindowLen<=param.log2_window_len && param.log2_window_len<=MaxLog2WindowLen ) )
     {
-     Printf(Exception,"Deflator: #; is an invalid window size",param.log2_window_len);
+     Printf(Exception,"CCore::Deflate::Deflator::init(...) : #; is an invalid window length",param.log2_window_len);
     }
 
   log2_window_len=param.log2_window_len;

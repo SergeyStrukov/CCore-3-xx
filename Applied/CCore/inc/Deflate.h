@@ -71,6 +71,10 @@ using USym  = uint32 ;
 
 using BitLen = unsigned ;
 
+/* functions */
+
+BitLen MaxValue(PtrLen<const BitLen> bitlens);
+
 /* classes */
 
 struct Code;
@@ -155,8 +159,6 @@ class HuffmanEncoder : NoCopy
    DynArray<Code> table;
 
   private:
-
-   static BitLen MaxValue(PtrLen<const BitLen> bitlens);
 
   public:
 
