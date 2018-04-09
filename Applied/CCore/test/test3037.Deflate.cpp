@@ -399,6 +399,8 @@ bool HuffmanDecoder::Decode(LowFirstBitReader &reader,USym &value) const
   return true;
  }
 
+#if 0
+
 /* class Inflator */
 
 class Inflator : NoCopy
@@ -977,6 +979,8 @@ ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
 
   return 0;
  }
+
+#endif
 
 //----------------------------------------------------------------------------------------
 

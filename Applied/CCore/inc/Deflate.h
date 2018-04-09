@@ -71,6 +71,15 @@ using USym  = uint32 ;
 
 using BitLen = unsigned ;
 
+/* consts */
+
+enum BlockType : UCode
+ {
+  Stored  = 0,
+  Static  = 1,
+  Dynamic = 2
+ };
+
 /* functions */
 
 BitLen MaxValue(PtrLen<const BitLen> bitlens);
@@ -82,6 +91,12 @@ struct Code;
 class BitWriter;
 
 class HuffmanEncoder;
+
+struct StaticLiteralBitlens;
+
+struct StaticDistanceBitlens;
+
+template <class Coder,class Bitlens> class StaticCoder;
 
 class SymWriter;
 
@@ -156,13 +171,11 @@ class BitWriter : NoCopy
 
 class HuffmanEncoder : NoCopy
  {
-   DynArray<Code> table;
-
-  private:
+   SimpleArray<Code> table;
 
   public:
 
-   HuffmanEncoder() {}
+   HuffmanEncoder() noexcept {}
 
    HuffmanEncoder(PtrLen<const BitLen> bitlens) { init(bitlens); }
 
@@ -174,6 +187,55 @@ class HuffmanEncoder : NoCopy
 
    void encode(BitWriter &writer,USym sym) const { writer.putBits(table[sym]); }
  };
+
+/* struct StaticLiteralBitlens */
+
+struct StaticLiteralBitlens
+ {
+  BitLen bitlens[288];
+
+  StaticLiteralBitlens();
+ };
+
+/* struct StaticDistanceBitlens */
+
+struct StaticDistanceBitlens
+ {
+  BitLen bitlens[32];
+
+  StaticDistanceBitlens();
+ };
+
+/* class StaticCoder<Coder,Bitlens> */
+
+template <class Coder,class Bitlens>
+class StaticCoder
+ {
+   static Coder Object;
+   static bool Init;
+
+  public:
+
+   static const Coder & Get()
+    {
+     if( Init )
+       {
+        Bitlens temp;
+
+        Object.init(Range(temp.bitlens));
+
+        Init=false;
+       }
+
+     return Object;
+    }
+ };
+
+template <class Coder,class Bitlens>
+Coder StaticCoder<Coder,Bitlens>::Object;
+
+template <class Coder,class Bitlens>
+bool StaticCoder<Coder,Bitlens>::Init=true;
 
 /* class SymWriter */
 
@@ -204,22 +266,10 @@ class SymWriter : NoCopy
    ulen literal_counts[286];
    ulen distance_counts[30];
 
-   HuffmanEncoder static_literal_encoder;
-   HuffmanEncoder static_distance_encoder;
-
    HuffmanEncoder dynamic_literal_encoder;
    HuffmanEncoder dynamic_distance_encoder;
 
   private:
-
-   void initStaticEncoders();
-
-   enum BlockType : UCode
-    {
-     Stored  = 0,
-     Static  = 1,
-     Dynamic = 2
-    };
 
    struct CodeLenEncoder;
 

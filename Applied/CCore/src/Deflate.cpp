@@ -180,8 +180,7 @@ void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
 
   // set codes
 
-  table.erase();
-  table.extend_raw(bitlens.len);
+  table=SimpleArray<Code>(bitlens.len);
 
   for(ulen i=0; i<bitlens.len ;i++)
     {
@@ -190,7 +189,7 @@ void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
      table[i].bitlen=bitlen;
 
      if( bitlen!=0 )
-       table[i].code = BitReverse(code[bitlen]++) >> (32u-bitlen) ;
+       table[i].code = BitReverse(code[bitlen]++) >> (Meta::UIntBits<UCode>-bitlen) ;
      else
        table[i].code = 0 ;
     }
@@ -340,33 +339,24 @@ void HuffmanEncoder::Tree(BitLen bitlens[ /* counts.len */ ],BitLen maxbitlen,Pt
     }
  }
 
-/* class SymWriter */
+/* struct StaticLiteralBitlens */
 
-void SymWriter::initStaticEncoders()
+StaticLiteralBitlens::StaticLiteralBitlens()
  {
-  // literal
-
-  {
-   BitLen bitlens[288];
-
-   Range(bitlens,bitlens+144).set(8);
-   Range(bitlens+144,bitlens+256).set(9);
-   Range(bitlens+256,bitlens+280).set(7);
-   Range(bitlens+280,bitlens+288).set(8);
-
-   static_literal_encoder.init(Range(bitlens));
-  }
-
-  // distance
-
-  {
-   BitLen bitlens[32];
-
-   Range(bitlens).set(5);
-
-   static_distance_encoder.init(Range(bitlens));
-  }
+  Range(bitlens,bitlens+144).set(8);
+  Range(bitlens+144,bitlens+256).set(9);
+  Range(bitlens+256,bitlens+280).set(7);
+  Range(bitlens+280,bitlens+288).set(8);
  }
+
+/* struct StaticDistanceBitlens */
+
+StaticDistanceBitlens::StaticDistanceBitlens()
+ {
+  Range(bitlens).set(5);
+ }
+
+/* class SymWriter */
 
 struct SymWriter::CodeLenEncoder
  {
@@ -563,9 +553,11 @@ void SymWriter::encodeBlock(bool eof,BlockType block_type,PtrLen<const uint8> bl
        13, 13
       };
 
-     const HuffmanEncoder &literal_encoder = (block_type==Static)? static_literal_encoder : dynamic_literal_encoder ;
+     const HuffmanEncoder &literal_encoder = (block_type==Static)? StaticCoder<HuffmanEncoder,StaticLiteralBitlens>::Get()
+                                                                 : dynamic_literal_encoder ;
 
-     const HuffmanEncoder &distance_encoder = (block_type==Static)? static_distance_encoder : dynamic_distance_encoder ;
+     const HuffmanEncoder &distance_encoder = (block_type==Static)? StaticCoder<HuffmanEncoder,StaticDistanceBitlens>::Get()
+                                                                  : dynamic_distance_encoder ;
 
      for(auto m : Range(buf.getPtr(),pos) )
        {
@@ -592,7 +584,6 @@ void SymWriter::encodeBlock(bool eof,BlockType block_type,PtrLen<const uint8> bl
 SymWriter::SymWriter(OutFunc out)
  : writer(out)
  {
-  initStaticEncoders();
  }
 
 SymWriter::~SymWriter()
