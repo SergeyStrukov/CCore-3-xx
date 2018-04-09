@@ -64,11 +64,11 @@ ulen TrimNull(Ptr beg,Ptr lim)
 
 BitLen MaxValue(PtrLen<const BitLen> bitlens)
  {
-  auto r=Algon::BestSearch(bitlens, [] (BitLen a,BitLen b) { return a>b; } );
+  BitLen ret=0;
 
-  if( !r ) return 0;
+  for(BitLen t : bitlens ) Replace_max(ret,t);
 
-  return *r;
+  return ret;
  }
 
 /* class BitWriter */
