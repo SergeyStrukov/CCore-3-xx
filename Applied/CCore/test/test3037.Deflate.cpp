@@ -399,180 +399,138 @@ bool HuffmanDecoder::Decode(LowFirstBitReader &reader,USym &value) const
   return true;
  }
 
+/* class Inflator */
 
-#if 0
+class Inflator : NoCopy
+ {
+   OutFunc out;
 
-class Inflator : public AutoSignaling<Filter>
-{
-public:
-    class Err : public Exception
+   class ByteQueue : NoCopy
     {
-    public:
-        Err(ErrorType e, const std::string &s)
-            : Exception(e, s) {}
+     public:
+
+      ByteQueue();
+
+      ~ByteQueue();
+
+      void LazyPut(const uint8 *str,ulen len);
+
+      void FinLazyPut();
+
+      bool IsEmpty() const;
+
+      ulen CurrentSize() const;
+
+      void TransferTo(OutFunc out);
+
+      const uint8 * Spy(ulen &len);
+
+      void Skip(ulen len);
+
+      void Unget(const uint8 *ptr,ulen len);
+
+      InpFunc function_get();
     };
-    /// \brief Exception thrown when a truncated stream is encountered
-    class UnexpectedEndErr : public Err {public: UnexpectedEndErr() : Err(INVALID_DATA_FORMAT, "Inflator: unexpected end of compressed block") {}};
-    /// \brief Exception thrown when a bad block is encountered
-    class BadBlockErr : public Err {public: BadBlockErr() : Err(INVALID_DATA_FORMAT, "Inflator: error in compressed block") {}};
-    /// \brief Exception thrown when an invalid distance is encountered
-    class BadDistanceErr : public Err {public: BadDistanceErr() : Err(INVALID_DATA_FORMAT, "Inflator: error in bit distance") {}};
 
-    /// \brief RFC 1951 Decompressor
-    /// \param attachment the filter's attached transformation
-    /// \param repeat decompress multiple compressed streams in series
-    /// \param autoSignalPropagation 0 to turn off MessageEnd signal
-    Inflator(BufferedTransformation *attachment = NULLPTR, bool repeat = false, int autoSignalPropagation = -1);
+   ByteQueue m_inQueue;
 
-    void IsolatedInitialize(const NameValuePairs &parameters);
-    size_t Put2(const byte *inString, size_t length, int messageEnd, bool blocking);
-    bool IsolatedFlush(bool hardFlush, bool blocking);
+   enum State {PRE_STREAM, WAIT_HEADER, DECODING_BODY, POST_STREAM, AFTER_END};
 
-    virtual unsigned int GetLog2WindowSize() const {return 15;}
+   State m_state;
+   bool m_repeat, m_eof, m_wrappedAround;
+   uint8 m_blockType;
+   uint16 m_storedLen;
 
-protected:
-    ByteQueue m_inQueue;
+   enum NextDecode {LITERAL, LENGTH_BITS, DISTANCE, DISTANCE_BITS};
 
-private:
-    virtual unsigned int MaxPrestreamHeaderSize() const {return 0;}
-    virtual void ProcessPrestreamHeader() {}
-    virtual void ProcessDecompressedData(const byte *string, size_t length)
-        {AttachedTransformation()->Put(string, length);}
-    virtual unsigned int MaxPoststreamTailSize() const {return 0;}
-    virtual void ProcessPoststreamTail() {}
+   NextDecode m_nextDecode;
 
-    void ProcessInput(bool flush);
-    void DecodeHeader();
-    bool DecodeBody();
-    void FlushOutput();
-    void OutputByte(byte b);
-    void OutputString(const byte *string, size_t length);
-    void OutputPast(unsigned int length, unsigned int distance);
+   unsigned m_literal, m_distance; // for LENGTH_BITS or DISTANCE_BITS
 
-    static const HuffmanDecoder *FixedLiteralDecoder();
-    static const HuffmanDecoder *FixedDistanceDecoder();
+   HuffmanDecoder m_dynamicLiteralDecoder, m_dynamicDistanceDecoder;
+   LowFirstBitReader m_reader;
+   SimpleArray<uint8> m_window;
 
-    const HuffmanDecoder& GetLiteralDecoder() const;
-    const HuffmanDecoder& GetDistanceDecoder() const;
+   ulen m_current, m_lastFlush;
 
-    enum State {PRE_STREAM, WAIT_HEADER, DECODING_BODY, POST_STREAM, AFTER_END};
-    State m_state;
-    bool m_repeat, m_eof, m_wrappedAround;
-    byte m_blockType;
-    word16 m_storedLen;
-    enum NextDecode {LITERAL, LENGTH_BITS, DISTANCE, DISTANCE_BITS};
-    NextDecode m_nextDecode;
-    unsigned int m_literal, m_distance; // for LENGTH_BITS or DISTANCE_BITS
-    HuffmanDecoder m_dynamicLiteralDecoder, m_dynamicDistanceDecoder;
-    LowFirstBitReader m_reader;
-    SecByteBlock m_window;
-    size_t m_current, m_lastFlush;
-};
+   static HuffmanDecoder FixedLiteralDecoder;
+   static HuffmanDecoder FixedDistanceDecoder;
 
-Inflator::Inflator(BufferedTransformation *attachment, bool repeat, int propagation)
-    : AutoSignaling<Filter>(propagation)
-    , m_state(PRE_STREAM), m_repeat(repeat), m_eof(0), m_wrappedAround(0)
-    , m_blockType(0xff), m_storedLen(0xffff), m_nextDecode(), m_literal(0)
-    , m_distance(0), m_reader(m_inQueue), m_current(0), m_lastFlush(0)
-{
-    Detach(attachment);
-}
+   static bool FixedLiteralDecoderInit;
+   static bool FixedDistanceDecoderInit;
 
-void Inflator::IsolatedInitialize(const NameValuePairs &parameters)
-{
-    m_state = PRE_STREAM;
-    parameters.GetValue("Repeat", m_repeat);
-    m_inQueue.Clear();
-    m_reader.SkipBits(m_reader.BitsBuffered());
-}
+  private:
 
-void Inflator::OutputByte(byte b)
-{
-    m_window[m_current++] = b;
-    if (m_current == m_window.size())
+   static const HuffmanDecoder & GetFixedLiteralDecoder();
+   static const HuffmanDecoder & GetFixedDistanceDecoder();
+
+   void ProcessDecompressedData(const uint8 *string,ulen length) { out(Range(string,length));}
+
+
+   void ProcessInput(bool flush);
+
+   void DecodeHeader();
+
+   bool DecodeBody();
+
+   void FlushOutput();
+
+   void OutputByte(uint8 b);
+
+   void OutputString(const uint8 *string,ulen length);
+
+   void OutputPast(unsigned length,unsigned distance);
+
+   const HuffmanDecoder & GetLiteralDecoder() const;
+   const HuffmanDecoder & GetDistanceDecoder() const;
+
+  public:
+
+   Inflator(OutFunc out,bool repeat=false);
+
+   ulen Put2(const uint8 *inString,ulen length,bool eof);
+
+   unsigned GetLog2WindowSize() const { return 15; }
+ };
+
+HuffmanDecoder Inflator::FixedLiteralDecoder;
+
+HuffmanDecoder Inflator::FixedDistanceDecoder;
+
+bool Inflator::FixedLiteralDecoderInit=true;
+
+bool Inflator::FixedDistanceDecoderInit=true;
+
+const HuffmanDecoder & Inflator::GetFixedLiteralDecoder()
+ {
+  if( Change(FixedLiteralDecoderInit,false) )
     {
-        ProcessDecompressedData(m_window + m_lastFlush, m_window.size() - m_lastFlush);
-        m_lastFlush = 0;
-        m_current = 0;
-        m_wrappedAround = true;
-    }
-}
+     unsigned bitlens[288];
 
-void Inflator::OutputString(const byte *string, size_t length)
-{
-    while (length)
-    {
-        size_t len = UnsignedMin(length, m_window.size() - m_current);
-        memcpy(m_window + m_current, string, len);
-        m_current += len;
-        if (m_current == m_window.size())
-        {
-            ProcessDecompressedData(m_window + m_lastFlush, m_window.size() - m_lastFlush);
-            m_lastFlush = 0;
-            m_current = 0;
-            m_wrappedAround = true;
-        }
-        string += len;
-        length -= len;
-    }
-}
+     Range(bitlens,bitlens+144).set(8);
+     Range(bitlens+144,bitlens+256).set(9);
+     Range(bitlens+256,bitlens+280).set(7);
+     Range(bitlens+280,bitlens+288).set(8);
 
-void Inflator::OutputPast(unsigned int length, unsigned int distance)
-{
-    size_t start;
-    if (distance <= m_current)
-        start = m_current - distance;
-    else if (m_wrappedAround && distance <= m_window.size())
-        start = m_current + m_window.size() - distance;
-    else
-        throw BadBlockErr();
-
-    if (start + length > m_window.size())
-    {
-        for (; start < m_window.size(); start++, length--)
-            OutputByte(m_window[start]);
-        start = 0;
+     FixedLiteralDecoder.Initialize(bitlens,288);
     }
 
-    if (start + length > m_current || m_current + length >= m_window.size())
+  return FixedLiteralDecoder;
+ }
+
+const HuffmanDecoder & Inflator::GetFixedDistanceDecoder()
+ {
+  if( Change(FixedDistanceDecoderInit,false) )
     {
-        while (length--)
-            OutputByte(m_window[start++]);
+     unsigned bitlens[32];
+
+     Range(bitlens).set(5);
+
+     FixedDistanceDecoder.Initialize(bitlens,32);
     }
-    else
-    {
-        memcpy(m_window + m_current, m_window + start, length);
-        m_current += length;
-    }
-}
 
-size_t Inflator::Put2(const byte *inString, size_t length, int messageEnd, bool blocking)
-{
-    if (!blocking)
-        throw BlockingInputOnly("Inflator");
-
-    LazyPutter lp(m_inQueue, inString, length);
-    ProcessInput(messageEnd != 0);
-
-    if (messageEnd)
-        if (!(m_state == PRE_STREAM || m_state == AFTER_END))
-            throw UnexpectedEndErr();
-
-    Output(0, NULLPTR, 0, messageEnd, blocking);
-    return 0;
-}
-
-bool Inflator::IsolatedFlush(bool hardFlush, bool blocking)
-{
-    if (!blocking)
-        throw BlockingInputOnly("Inflator");
-
-    if (hardFlush)
-        ProcessInput(true);
-    FlushOutput();
-
-    return false;
-}
+  return FixedDistanceDecoder;
+ }
 
 void Inflator::ProcessInput(bool flush)
 {
@@ -581,22 +539,25 @@ void Inflator::ProcessInput(bool flush)
         switch (m_state)
         {
         case PRE_STREAM:
-            if (!flush && m_inQueue.CurrentSize() < MaxPrestreamHeaderSize())
-                return;
-            ProcessPrestreamHeader();
             m_state = WAIT_HEADER;
             m_wrappedAround = false;
             m_current = 0;
             m_lastFlush = 0;
-            m_window.New(((size_t) 1) << GetLog2WindowSize());
+
+            m_window=SimpleArray<uint8>( ulen(1)<<GetLog2WindowSize() );
+
             break;
         case WAIT_HEADER:
             {
             // maximum number of bytes before actual compressed data starts
-            const size_t MAX_HEADER_SIZE = BitsToBytes(3+5+5+4+19*7+286*15+19*15);
-            if (m_inQueue.CurrentSize() < (flush ? 1 : MAX_HEADER_SIZE))
+
+            const ulen MAX_HEADER_SIZE = RoundUpCount(3+5+5+4+19*7+286*15+19*15,8) ;
+
+            if (m_inQueue.CurrentSize() < (flush ? 1u : MAX_HEADER_SIZE))
                 return;
+
             DecodeHeader();
+
             break;
             }
         case DECODING_BODY:
@@ -604,16 +565,14 @@ void Inflator::ProcessInput(bool flush)
                 return;
             break;
         case POST_STREAM:
-            if (!flush && m_inQueue.CurrentSize() < MaxPoststreamTailSize())
-                return;
-            ProcessPoststreamTail();
             m_state = m_repeat ? PRE_STREAM : AFTER_END;
-            Output(0, NULLPTR, 0, GetAutoSignalPropagation(), true);    // TODO: non-blocking
             if (m_inQueue.IsEmpty())
                 return;
             break;
         case AFTER_END:
-            m_inQueue.TransferTo(*AttachedTransformation());
+
+            m_inQueue.TransferTo(out);
+
             return;
         }
     }
@@ -622,7 +581,10 @@ void Inflator::ProcessInput(bool flush)
 void Inflator::DecodeHeader()
 {
     if (!m_reader.FillBuffer(3))
-        throw UnexpectedEndErr();
+      {
+       Printf(Exception,"");
+      }
+
     m_eof = m_reader.GetBits(1) != 0;
     m_blockType = (byte)m_reader.GetBits(2);
 
@@ -631,12 +593,19 @@ void Inflator::DecodeHeader()
     case 0: // stored
         {
         m_reader.SkipBits(m_reader.BitsBuffered() % 8);
+
         if (!m_reader.FillBuffer(32))
-            throw UnexpectedEndErr();
-        m_storedLen = (word16)m_reader.GetBits(16);
-        word16 nlen = (word16)m_reader.GetBits(16);
-        if (nlen != (word16)~m_storedLen)
-            throw BadBlockErr();
+          {
+           Printf(Exception,"");
+          }
+        m_storedLen = (uint16)m_reader.GetBits(16);
+
+        uint16 nlen = (uint16)m_reader.GetBits(16);
+
+        if (nlen != (uint16)~m_storedLen)
+          {
+           Printf(Exception,"");
+          }
         break;
         }
     case 1: // fixed codes
@@ -645,33 +614,38 @@ void Inflator::DecodeHeader()
     case 2: // dynamic codes
         {
         if (!m_reader.FillBuffer(5+5+4))
-            throw UnexpectedEndErr();
+          {
+           Printf(Exception,"");
+          }
+
         unsigned int hlit = m_reader.GetBits(5);
         unsigned int hdist = m_reader.GetBits(5);
         unsigned int hclen = m_reader.GetBits(4);
-        unsigned int i = 0;
 
-        FixedSizeSecBlock<unsigned int, 286+32> codeLengths;
-        static const unsigned int border[] = {    // Order of the bit length code lengths
+        unsigned int codeLengths[286+32];
+
+        static const unsigned int border[19] = {    // Order of the bit length code lengths
             16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
-        std::fill(codeLengths.begin(), codeLengths+19, 0);
-        for (i=0; i<hclen+4; ++i)
+
+        Range(codeLengths,19).set_null();
+
+        for (unsigned i=0; i<hclen+4; ++i)
         {
-            CRYPTOPP_ASSERT(border[i] < codeLengths.size());
             codeLengths[border[i]] = m_reader.GetBits(3);
         }
 
-        try
         {
             bool result = false;
             unsigned int k=0, count=0, repeater=0;
             HuffmanDecoder codeLengthDecoder(codeLengths, 19);
-            for (i=0; i < hlit+257+hdist+1; )
+            for (unsigned i=0; i < hlit+257+hdist+1; )
             {
                 k = 0, count = 0, repeater = 0;
                 result = codeLengthDecoder.Decode(m_reader, k);
                 if (!result)
-                    throw UnexpectedEndErr();
+                 {
+                  Printf(Exception,"");
+                 }
                 if (k <= 15)
                 {
                     count = 1;
@@ -681,48 +655,60 @@ void Inflator::DecodeHeader()
                 {
                 case 16:
                     if (!m_reader.FillBuffer(2))
-                        throw UnexpectedEndErr();
+                     {
+                      Printf(Exception,"");
+                     }
                     count = 3 + m_reader.GetBits(2);
                     if (i == 0)
-                        throw BadBlockErr();
+                     {
+                      Printf(Exception,"");
+                     }
                     repeater = codeLengths[i-1];
                     break;
                 case 17:
                     if (!m_reader.FillBuffer(3))
-                        throw UnexpectedEndErr();
+                     {
+                      Printf(Exception,"");
+                     }
                     count = 3 + m_reader.GetBits(3);
                     repeater = 0;
                     break;
                 case 18:
                     if (!m_reader.FillBuffer(7))
-                        throw UnexpectedEndErr();
+                     {
+                      Printf(Exception,"");
+                     }
                     count = 11 + m_reader.GetBits(7);
                     repeater = 0;
                     break;
                 }
                 if (i + count > hlit+257+hdist+1)
-                    throw BadBlockErr();
-                std::fill(codeLengths + i, codeLengths + i + count, repeater);
+                 {
+                  Printf(Exception,"");
+                 }
+
+                Range(codeLengths + i, count).set(repeater);
+
                 i += count;
             }
             m_dynamicLiteralDecoder.Initialize(codeLengths, hlit+257);
             if (hdist == 0 && codeLengths[hlit+257] == 0)
             {
                 if (hlit != 0)  // a single zero distance code length means all literals
-                    throw BadBlockErr();
+                 {
+                  Printf(Exception,"");
+                 }
             }
             else
                 m_dynamicDistanceDecoder.Initialize(codeLengths+hlit+257, hdist+1);
             m_nextDecode = LITERAL;
         }
-        catch (HuffmanDecoder::Err &)
-        {
-            throw BadBlockErr();
-        }
         break;
         }
     default:
-        throw BadBlockErr();    // reserved block type
+     {
+      Printf(Exception,"");
+     }
     }
     m_state = DECODING_BODY;
 }
@@ -733,17 +719,15 @@ bool Inflator::DecodeBody()
     switch (m_blockType)
     {
     case 0: // stored
-        CRYPTOPP_ASSERT(m_reader.BitsBuffered() == 0);
         while (!m_inQueue.IsEmpty() && !blockEnd)
         {
-            size_t size;
-            const byte *block = m_inQueue.Spy(size);
-            size = UnsignedMin(m_storedLen, size);
-            CRYPTOPP_ASSERT(size <= 0xffff);
+            ulen size;
+            const uint8 *block = m_inQueue.Spy(size);
+            size = Min<ulen>(m_storedLen, size);
 
             OutputString(block, size);
             m_inQueue.Skip(size);
-            m_storedLen = m_storedLen - (word16)size;
+            m_storedLen = m_storedLen - (uint16)size;
             if (m_storedLen == 0)
                 blockEnd = true;
         }
@@ -779,7 +763,7 @@ bool Inflator::DecodeBody()
                     break;
                 }
                 if (m_literal < 256)
-                    OutputByte((byte)m_literal);
+                    OutputByte((uint8)m_literal);
                 else if (m_literal == 256)  // end of block
                 {
                     blockEnd = true;
@@ -788,17 +772,17 @@ bool Inflator::DecodeBody()
                 else
                 {
                     if (m_literal > 285)
-                        throw BadBlockErr();
+                     {
+                      Printf(Exception,"");
+                     }
                     unsigned int bits;
         case LENGTH_BITS:
-                    CRYPTOPP_ASSERT(m_literal-257 < COUNTOF(lengthExtraBits));
                     bits = lengthExtraBits[m_literal-257];
                     if (!m_reader.FillBuffer(bits))
                     {
                         m_nextDecode = LENGTH_BITS;
                         break;
                     }
-                    CRYPTOPP_ASSERT(m_literal-257 < COUNTOF(lengthStarts));
                     m_literal = m_reader.GetBits(bits) + lengthStarts[m_literal-257];
         case DISTANCE:
                     if (!distanceDecoder.Decode(m_reader, m_distance))
@@ -807,25 +791,25 @@ bool Inflator::DecodeBody()
                         break;
                     }
         case DISTANCE_BITS:
-                    CRYPTOPP_ASSERT(m_distance < COUNTOF(distanceExtraBits));
-                    if (m_distance >= COUNTOF(distanceExtraBits))
-                        throw BadDistanceErr();
+                    if (m_distance >= DimOf(distanceExtraBits))
+                     {
+                      Printf(Exception,"");
+                     }
                     bits = distanceExtraBits[m_distance];
                     if (!m_reader.FillBuffer(bits))
                     {
                         m_nextDecode = DISTANCE_BITS;
                         break;
                     }
-                    CRYPTOPP_ASSERT(m_distance < COUNTOF(distanceStarts));
-                    if (m_distance >= COUNTOF(distanceStarts))
-                        throw BadDistanceErr();
+                    if (m_distance >= DimOf(distanceStarts))
+                     {
+                      Printf(Exception,"");
+                     }
                     m_distance = m_reader.GetBits(bits) + distanceStarts[m_distance];
                     OutputPast(m_literal, m_distance);
                 }
             }
             break;
-        default:
-            CRYPTOPP_ASSERT(0);
         }
     }
     if (blockEnd)
@@ -837,10 +821,13 @@ bool Inflator::DecodeBody()
             if (m_reader.BitsBuffered())
             {
                 // undo too much lookahead
-                SecBlockWithHint<byte, 4> buffer(m_reader.BitsBuffered() / 8);
-                for (unsigned int i=0; i<buffer.size(); i++)
-                    buffer[i] = (byte)m_reader.GetBits(8);
-                m_inQueue.Unget(buffer, buffer.size());
+
+                TempArray<uint8, 4> buffer(m_reader.BitsBuffered() / 8);
+
+                for (unsigned int i=0; i<buffer.getLen(); i++)
+                    buffer[i] = (uint8)m_reader.GetBits(8);
+
+                m_inQueue.Unget(buffer.getPtr(), buffer.getLen());
             }
             m_state = POST_STREAM;
         }
@@ -854,50 +841,142 @@ void Inflator::FlushOutput()
 {
     if (m_state != PRE_STREAM)
     {
-        CRYPTOPP_ASSERT(m_current >= m_lastFlush);
-        ProcessDecompressedData(m_window + m_lastFlush, m_current - m_lastFlush);
+        ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_current - m_lastFlush);
         m_lastFlush = m_current;
     }
 }
 
-struct NewFixedLiteralDecoder
+void Inflator::OutputByte(uint8 b)
 {
-    HuffmanDecoder * operator()() const
-    {
-        unsigned int codeLengths[288];
-        std::fill(codeLengths + 0, codeLengths + 144, 8);
-        std::fill(codeLengths + 144, codeLengths + 256, 9);
-        std::fill(codeLengths + 256, codeLengths + 280, 7);
-        std::fill(codeLengths + 280, codeLengths + 288, 8);
-        member_ptr<HuffmanDecoder> pDecoder(new HuffmanDecoder);
-        pDecoder->Initialize(codeLengths, 288);
-        return pDecoder.release();
-    }
-};
+    m_window[m_current++] = b;
 
-struct NewFixedDistanceDecoder
-{
-    HuffmanDecoder * operator()() const
+    if (m_current == m_window.getLen())
     {
-        unsigned int codeLengths[32];
-        std::fill(codeLengths + 0, codeLengths + 32, 5);
-        member_ptr<HuffmanDecoder> pDecoder(new HuffmanDecoder);
-        pDecoder->Initialize(codeLengths, 32);
-        return pDecoder.release();
-    }
-};
+        ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_window.getLen() - m_lastFlush);
 
-const HuffmanDecoder& Inflator::GetLiteralDecoder() const
-{
-    return m_blockType == 1 ? Singleton<HuffmanDecoder, NewFixedLiteralDecoder>().Ref() : m_dynamicLiteralDecoder;
+        m_lastFlush = 0;
+        m_current = 0;
+        m_wrappedAround = true;
+    }
 }
 
-const HuffmanDecoder& Inflator::GetDistanceDecoder() const
+void Inflator::OutputString(const uint8 *string, ulen length)
 {
-    return m_blockType == 1 ? Singleton<HuffmanDecoder, NewFixedDistanceDecoder>().Ref() : m_dynamicDistanceDecoder;
+    while (length)
+    {
+        ulen len = Min(length, m_window.getLen() - m_current);
+
+        Range(m_window.getPtr()+m_current,len).copy(string);
+
+        m_current += len;
+
+        if (m_current == m_window.getLen() )
+        {
+            ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_window.getLen() - m_lastFlush);
+            m_lastFlush = 0;
+            m_current = 0;
+            m_wrappedAround = true;
+        }
+
+        string += len;
+        length -= len;
+    }
 }
 
-#endif
+void Inflator::OutputPast(unsigned length,unsigned distance)
+{
+    ulen start;
+
+    if (distance <= m_current)
+        start = m_current - distance;
+    else if (m_wrappedAround && distance <= m_window.getLen())
+        start = m_current + m_window.getLen() - distance;
+    else
+      {
+       Printf(Exception,"");
+
+       start=0;
+      }
+
+    if (start + length > m_window.getLen() )
+    {
+        for (; start < m_window.getLen(); start++, length--)
+            OutputByte(m_window[start]);
+        start = 0;
+    }
+
+    if (start + length > m_current || m_current + length >= m_window.getLen())
+    {
+        while (length--)
+            OutputByte(m_window[start++]);
+    }
+    else
+    {
+      Range(m_window.getPtr() + m_current,length).copy(m_window.getPtr() + start);
+
+        m_current += length;
+    }
+}
+
+const HuffmanDecoder & Inflator::GetLiteralDecoder() const
+ {
+  return (m_blockType==1)? GetFixedLiteralDecoder() : m_dynamicLiteralDecoder ;
+ }
+
+const HuffmanDecoder & Inflator::GetDistanceDecoder() const
+ {
+  return (m_blockType==1)? GetFixedDistanceDecoder() : m_dynamicDistanceDecoder ;
+ }
+
+Inflator::Inflator(OutFunc out_,bool repeat)
+ : out(out_),
+   m_state(PRE_STREAM),
+   m_repeat(repeat),
+   m_eof(0),
+   m_wrappedAround(0),
+   m_blockType(0xff),
+   m_storedLen(0xffff),
+   m_nextDecode(),
+   m_literal(0),
+   m_distance(0),
+   m_reader(m_inQueue.function_get()),
+   m_current(0),
+   m_lastFlush(0)
+ {
+ }
+
+ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
+ {
+  struct Putter
+   {
+     ByteQueue &obj;
+
+     Putter(ByteQueue &obj_,const uint8 *inString,ulen length)
+      : obj(obj_)
+      {
+       obj.LazyPut(inString,length);
+      }
+
+     ~Putter()
+      {
+       obj.FinLazyPut();
+      }
+   };
+
+  Putter putter(m_inQueue, inString, length);
+
+  ProcessInput(eof);
+
+  if( eof )
+    {
+        if (!(m_state == PRE_STREAM || m_state == AFTER_END))
+         {
+          Printf(Exception,"");
+         }
+    }
+
+  return 0;
+ }
 
 //----------------------------------------------------------------------------------------
 
