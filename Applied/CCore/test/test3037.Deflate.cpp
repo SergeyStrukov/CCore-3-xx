@@ -51,15 +51,15 @@ inline uint32 BitReverse(uint32 value)
 
 inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
 
-/* class LowFirstBitReader */
+/* class BitReader */
 
-class LowFirstBitReader : NoCopy
+class BitReader : NoCopy
  {
    static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 256u ) ;
 
    PtrLen<const uint8> inp;
 
-   uint8 bytes[BufLen];
+   uint8 inpbuf[BufLen];
    unsigned getpos = 0 ;
    unsigned addpos = 0 ;
 
@@ -68,191 +68,192 @@ class LowFirstBitReader : NoCopy
 
   private:
 
-   bool next(uint8 &octet)
-    {
-     if( getpos<addpos )
-       {
-        octet=bytes[getpos++];
+   bool next(uint8 &octet);
 
-        return true;
-       }
+   UCode peekBits(unsigned bitlen);
 
-     if( !inp ) return false;
-
-     octet=*inp;
-
-     ++inp;
-
-     return true;
-    }
-
-   UCode PeekBits(unsigned bitlen)
-    {
-     FillBuffer(bitlen);
-
-     return buffer&((uint32(1)<<bitlen)-1);
-    }
-
-   void copyDown()
-    {
-     unsigned delta=getpos;
-     unsigned count=addpos-getpos;
-
-     if( delta==0 || count==0 ) return;
-
-     for(unsigned i=0; i<count ;i++) bytes[i]=bytes[i+delta];
-
-     getpos=0;
-     addpos=count;
-    }
+   void copyDown();
 
   public:
 
-   LowFirstBitReader() {}
+   BitReader() {}
 
-   unsigned BitsBuffered() const { return bits; }
+   bool isEmpty() const { return bits==0 && getpos==addpos && !inp ; }
 
-   uint32 PeekBuffer() const { return buffer; }
+   bool canRead(unsigned bitlen) const;
 
-   bool FillBuffer(unsigned bitlen);
+   void align8() { skipBits(bits%8); }
 
-   void SkipBits(unsigned bitlen)
+   void extend(PtrLen<const uint8> data) { inp=data; }
+
+   void bufferize(ExceptionType ex);
+
+   void pumpTo(WindowOut &out);
+
+   void pumpTo(WindowOut &out,ulen &cap);
+
+   // bit buffer
+
+   uint32 peekBuffer() const { return buffer; }
+
+   unsigned bitsBuffered() const { return bits; }
+
+   bool fillBuffer(unsigned bitlen);
+
+   void skipBits(unsigned bitlen)
     {
      buffer>>=bitlen;
      bits-=bitlen;
     }
 
-   UCode GetBits(unsigned bitlen)
+   UCode getBits(unsigned bitlen)
     {
-     UCode ret=PeekBits(bitlen);
+     UCode ret=peekBits(bitlen);
 
-     SkipBits(bitlen);
+     skipBits(bitlen);
 
      return ret;
     }
+ };
 
-   // byte queue
-
-   bool isEmpty() const { return bits==0 && getpos==addpos && !inp ; }
-
-   bool canRead(unsigned bitlen) const
+bool BitReader::next(uint8 &octet)
+ {
+  if( getpos<addpos )
     {
-     if( bitlen<=bits ) return true;
+     octet=inpbuf[getpos++];
 
-     unsigned len=RoundUpCount(bitlen-bits,8u);
-     unsigned mid=addpos-getpos;
-
-     return len<=mid || len-mid<=inp.len ;
+     return true;
     }
 
-   void align8()
-    {
-     SkipBits(bits%8);
-    }
+  if( !inp ) return false;
 
-   void extend(PtrLen<const uint8> data)
-    {
-     inp=data;
-    }
+  octet=*inp;
 
-   void bufferize(ExceptionType ex)
+  ++inp;
+
+  return true;
+ }
+
+UCode BitReader::peekBits(unsigned bitlen)
+ {
+  fillBuffer(bitlen);
+
+  return buffer&((UCode(1)<<bitlen)-1);
+ }
+
+void BitReader::copyDown()
+ {
+  unsigned delta=getpos;
+  unsigned count=addpos-getpos;
+
+  if( delta==0 || count==0 ) return;
+
+  for(unsigned i=0; i<count ;i++) inpbuf[i]=inpbuf[i+delta];
+
+  getpos=0;
+  addpos=count;
+ }
+
+bool BitReader::canRead(unsigned bitlen) const
+ {
+  if( bitlen<=bits ) return true;
+
+  unsigned len=RoundUpCount(bitlen-bits,8u);
+  unsigned count=addpos-getpos;
+
+  return len<=count || len-count<=inp.len ;
+ }
+
+void BitReader::bufferize(ExceptionType ex)
+ {
+  if( inp.len>BufLen-addpos )
     {
-     if( inp.len<=BufLen-addpos )
+     if( inp.len>BufLen-addpos+getpos )
        {
-        inp.copyTo(bytes+addpos);
-
-        addpos+=(unsigned)inp.len;
-
-        inp=Null;
-       }
-     else if( inp.len<=BufLen-addpos+getpos )
-       {
-        copyDown();
-
-        inp.copyTo(bytes+addpos);
-
-        addpos+=(unsigned)inp.len;
-
-        inp=Null;
-       }
-     else
-       {
-        Printf(ex,"");
-       }
-    }
-
-   template <class T>
-   void copyTo(T &out)
-    {
-     // 1
-
-     while( bits>=8 ) out.put((uint8)GetBits(8));
-
-     // 2
-
-     out.put(bytes+getpos,addpos-getpos);
-
-     getpos=0;
-     addpos=0;
-
-     // 3
-
-     out.put(inp);
-
-     inp=Null;
-    }
-
-   template <class T>
-   void copyTo(T &out,ulen &cap)
-    {
-     // 1
-
-     for(; bits>=8 && cap ;cap--) out.put((uint8)GetBits(8));
-
-     // 2
-
-     unsigned len=addpos-getpos;
-
-     if( cap<len )
-       {
-        out.put(bytes+getpos,cap);
-
-        getpos+=(unsigned)cap;
-
-        cap=0;
+        Printf(ex,"CCore::Deflate::BitReader::bufferize(...) : overflow");
 
         return;
        }
-     else
-       {
-        out.put(bytes+getpos,len);
 
-        getpos=0;
-        addpos=0;
-
-        cap-=len;
-       }
-
-     // 3
-
-     if( cap<inp.len )
-       {
-        out.put(inp+=cap);
-
-        cap=0;
-       }
-     else
-       {
-        out.put(inp);
-
-        cap-=inp.len;
-
-        inp=Null;
-       }
+     copyDown();
     }
- };
 
-bool LowFirstBitReader::FillBuffer(unsigned bitlen)
+  inp.copyTo(inpbuf+addpos);
+
+  addpos+=(unsigned)inp.len;
+
+  inp=Null;
+ }
+
+void BitReader::pumpTo(WindowOut &out)
+ {
+  // 1
+
+  while( bits>=8 ) out.put((uint8)getBits(8));
+
+  // 2
+
+  out.put(inpbuf+getpos,addpos-getpos);
+
+  getpos=0;
+  addpos=0;
+
+  // 3
+
+  out.put(inp);
+
+  inp=Null;
+ }
+
+void BitReader::pumpTo(WindowOut &out,ulen &cap)
+ {
+  // 1
+
+  for(; bits>=8 && cap ;cap--) out.put((uint8)getBits(8));
+
+  // 2
+
+  unsigned len=addpos-getpos;
+
+  if( cap<len )
+    {
+     out.put(inpbuf+getpos,cap);
+
+     getpos+=(unsigned)cap;
+
+     cap=0;
+
+     return;
+    }
+  else
+    {
+     out.put(inpbuf+getpos,len);
+
+     cap-=len;
+
+     getpos=0;
+     addpos=0;
+    }
+
+  // 3
+
+  if( cap<inp.len )
+    {
+     out.put(inp+=cap);
+
+     cap=0;
+    }
+  else
+    {
+     out.put(inp);
+
+     cap-=inp.len;
+
+     inp=Null;
+    }
+ }
+
+bool BitReader::fillBuffer(unsigned bitlen)
  {
   while( bits<bitlen )
     {
@@ -336,7 +337,7 @@ class HuffmanDecoder
 
    unsigned Decode(UCode code,USym &value) const;
 
-   bool Decode(LowFirstBitReader &reader,USym &value) const;
+   bool Decode(BitReader &reader,USym &value) const;
  };
 
 UCode HuffmanDecoder::NormalizeCode(UCode code,unsigned codeBits)
@@ -522,15 +523,15 @@ unsigned HuffmanDecoder::Decode(UCode code,USym &value) const
     }
  }
 
-bool HuffmanDecoder::Decode(LowFirstBitReader &reader,USym &value) const
+bool HuffmanDecoder::Decode(BitReader &reader,USym &value) const
  {
-  reader.FillBuffer(m_maxCodeBits);
+  reader.fillBuffer(m_maxCodeBits);
 
-  unsigned codeBits=Decode(reader.PeekBuffer(),value);
+  unsigned codeBits=Decode(reader.peekBuffer(),value);
 
-  if( codeBits>reader.BitsBuffered() ) return false;
+  if( codeBits>reader.bitsBuffered() ) return false;
 
-  reader.SkipBits(codeBits);
+  reader.skipBits(codeBits);
 
   return true;
  }
@@ -541,7 +542,7 @@ class Inflator : NoCopy
  {
    WindowOut out;
 
-   LowFirstBitReader m_reader;
+   BitReader m_reader;
 
    enum State
     {
@@ -596,14 +597,14 @@ class Inflator : NoCopy
 
 void Inflator::DecodeHeader()
  {
-  if( !m_reader.FillBuffer(3) )
+  if( !m_reader.fillBuffer(3) )
     {
      Printf(Exception,"");
     }
 
-  m_eof=( m_reader.GetBits(1)!=0 );
+  m_eof=( m_reader.getBits(1)!=0 );
 
-  m_blockType=(uint8)m_reader.GetBits(2);
+  m_blockType=(uint8)m_reader.getBits(2);
 
   switch( m_blockType )
     {
@@ -611,13 +612,13 @@ void Inflator::DecodeHeader()
       {
        m_reader.align8();
 
-       if( !m_reader.FillBuffer(32) )
+       if( !m_reader.fillBuffer(32) )
          {
           Printf(Exception,"");
          }
 
-       uint16 len=(uint16)m_reader.GetBits(16);
-       uint16 nlen=(uint16)m_reader.GetBits(16);
+       uint16 len=(uint16)m_reader.getBits(16);
+       uint16 nlen=(uint16)m_reader.getBits(16);
 
        m_storedLen=len;
 
@@ -636,14 +637,14 @@ void Inflator::DecodeHeader()
 
      case Dynamic :
       {
-       if( !m_reader.FillBuffer(5+5+4) )
+       if( !m_reader.fillBuffer(5+5+4) )
          {
           Printf(Exception,"");
          }
 
-       unsigned hlit=m_reader.GetBits(5);
-       unsigned hdist=m_reader.GetBits(5);
-       unsigned hclen=m_reader.GetBits(4);
+       unsigned hlit=m_reader.getBits(5);
+       unsigned hdist=m_reader.getBits(5);
+       unsigned hclen=m_reader.getBits(4);
 
        BitLen codeLengths[286+32];
 
@@ -651,7 +652,7 @@ void Inflator::DecodeHeader()
 
        for(unsigned i=0; i<hclen+4 ;i++)
          {
-          codeLengths[Order[i]]=m_reader.GetBits(3);
+          codeLengths[Order[i]]=m_reader.getBits(3);
          }
 
        bool result = false;
@@ -681,12 +682,12 @@ void Inflator::DecodeHeader()
                {
                 case 16:
                  {
-                  if( !m_reader.FillBuffer(2) )
+                  if( !m_reader.fillBuffer(2) )
                     {
                      Printf(Exception,"");
                     }
 
-                  count=3+m_reader.GetBits(2);
+                  count=3+m_reader.getBits(2);
 
                   if( i==0 )
                     {
@@ -699,24 +700,24 @@ void Inflator::DecodeHeader()
 
                 case 17:
                  {
-                  if( !m_reader.FillBuffer(3) )
+                  if( !m_reader.fillBuffer(3) )
                     {
                      Printf(Exception,"");
                     }
 
-                  count=3+m_reader.GetBits(3);
+                  count=3+m_reader.getBits(3);
                   repeater=0;
                  }
                 break;
 
                 case 18:
                  {
-                  if( !m_reader.FillBuffer(7) )
+                  if( !m_reader.fillBuffer(7) )
                     {
                      Printf(Exception,"");
                     }
 
-                  count=11+m_reader.GetBits(7);
+                  count=11+m_reader.getBits(7);
                   repeater=0;
                  }
                 break;
@@ -766,7 +767,7 @@ bool Inflator::DecodeBody()
     {
      while( !m_reader.isEmpty() && !blockEnd )
        {
-        m_reader.copyTo(out,m_storedLen);
+        m_reader.pumpTo(out,m_storedLen);
 
         if( m_storedLen==0 ) blockEnd=true;
        }
@@ -815,14 +816,14 @@ bool Inflator::DecodeBody()
 
                 bits=LengthExtraBits[m_literal-257];
 
-                if( !m_reader.FillBuffer(bits) )
+                if( !m_reader.fillBuffer(bits) )
                   {
                    m_nextDecode=LENGTH_BITS;
 
                    break;
                   }
 
-                m_literal=m_reader.GetBits(bits)+LengthBases[m_literal-257];
+                m_literal=m_reader.getBits(bits)+LengthBases[m_literal-257];
 
                 case DISTANCE :
 
@@ -842,7 +843,7 @@ bool Inflator::DecodeBody()
 
                 bits=DistanceExtraBits[m_distance];
 
-                if( !m_reader.FillBuffer(bits) )
+                if( !m_reader.fillBuffer(bits) )
                   {
                    m_nextDecode=DISTANCE_BITS;
 
@@ -854,7 +855,7 @@ bool Inflator::DecodeBody()
                    Printf(Exception,"");
                   }
 
-                m_distance=m_reader.GetBits(bits)+DistanceBases[m_distance];
+                m_distance=m_reader.getBits(bits)+DistanceBases[m_distance];
 
                 out.put(m_distance,m_literal);
                }
@@ -923,7 +924,7 @@ void Inflator::ProcessInput(bool eof)
 
         case AFTER_END :
          {
-          m_reader.copyTo(out);
+          m_reader.pumpTo(out);
 
           return;
          }

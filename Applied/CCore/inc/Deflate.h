@@ -443,7 +443,7 @@ class WindowOut : NoCopy
 
   private:
 
-   void output();
+   PtrLen<const uint8> output() const;
 
    void commit();
 

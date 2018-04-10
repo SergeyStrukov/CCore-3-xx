@@ -163,8 +163,7 @@ void BitWriter::putBits(Code code)
 
         if( outlen==BufLen )
           {
-           put(outbuf,outlen);
-           outlen=0;
+           put(outbuf,Replace_null(outlen));
           }
 
         buffer>>=8;
@@ -179,17 +178,17 @@ void BitWriter::flushBitBuffer()
     {
      if( outlen>0 )
        {
-        put(outbuf,outlen);
-
-        outlen=0;
+        put(outbuf,Replace_null(outlen));
        }
 
      if( bits>0 )
        {
-        put((uint8)buffer);
+        uint8 octet=(uint8)buffer;
 
         buffer=0;
         bits=0;
+
+        put(octet);
        }
     }
  }
@@ -1070,20 +1069,22 @@ void Deflator::complete()
 
 /* class WindowOut */
 
-void WindowOut::output()
+PtrLen<const uint8> WindowOut::output() const
  {
-  out(Range(buf.getPtr()+outpos,addpos-outpos));
+  return Range(buf.getPtr()+outpos,addpos-outpos);
  }
 
 void WindowOut::commit()
  {
   if( addpos==WindowLen )
     {
-     output();
+     auto r=output();
 
      outpos=0;
      addpos=0;
      wrapped=true;
+
+     out(r);
     }
  }
 
@@ -1099,9 +1100,11 @@ WindowOut::~WindowOut()
 
 void WindowOut::flush()
  {
-  output();
+  auto r=output();
 
   outpos=addpos;
+
+  out(r);
  }
 
 void WindowOut::put(uint8 octet)
