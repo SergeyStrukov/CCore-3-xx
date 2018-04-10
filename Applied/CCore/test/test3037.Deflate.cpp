@@ -49,43 +49,29 @@ inline uint32 BitReverse(uint32 value)
 
 /* class LowFirstBitReader */
 
-using InpFunc = Function<ulen (PtrLen<uint8>)> ;
-
 class LowFirstBitReader : NoCopy
  {
-   static constexpr unsigned BufLen = 256 ;
-
-   InpFunc inp;
-
-   uint8 inpbuf[BufLen];
-   unsigned pos = 0 ;
-   unsigned inplen = 0 ;
+   PtrLen<const uint8> inp;
 
    uint32 buffer = 0 ;
    unsigned bits = 0 ;
 
   private:
 
-   bool fill()
-    {
-     inplen=(unsigned)inp(Range(inpbuf));
-     pos=0;
-
-     return inplen>0;
-    }
-
    bool next(uint8 &octet)
     {
-     if( pos>=inplen && !fill() ) return false;
+     if( !inp ) return false;
 
-     octet=inpbuf[pos++];
+     octet=*inp;
+
+     ++inp;
 
      return true;
     }
 
   public:
 
-   explicit LowFirstBitReader(InpFunc inp_) : inp(inp_) {}
+   LowFirstBitReader() {}
 
    unsigned BitsBuffered() const { return bits; }
 
@@ -114,6 +100,24 @@ class LowFirstBitReader : NoCopy
 
      return ret;
     }
+
+   // byte queue
+
+   void LazyPut(const uint8 *str,ulen len);
+
+   void FinLazyPut();
+
+   bool IsEmpty() const;
+
+   ulen CurrentSize() const;
+
+   void TransferTo(OutFunc out);
+
+   const uint8 * Spy(ulen &len);
+
+   void Skip(ulen len);
+
+   void Unget(const uint8 *ptr,ulen len);
  };
 
 bool LowFirstBitReader::FillBuffer(unsigned bitlen)
@@ -194,9 +198,9 @@ class HuffmanDecoder
 
    HuffmanDecoder() {}
 
-   HuffmanDecoder(const unsigned *codeBitLengths,unsigned nCodes) { Initialize(codeBitLengths,nCodes); }
+   HuffmanDecoder(PtrLen<BitLen> bitlens) { init(bitlens); }
 
-   void Initialize(const unsigned *codeBitLengths,unsigned nCodes);
+   void init(PtrLen<BitLen> bitlens);
 
    unsigned Decode(UCode code,USym &value) const;
 
@@ -208,7 +212,7 @@ UCode HuffmanDecoder::NormalizeCode(UCode code,unsigned codeBits)
   return code<<(MaxCodeBits-codeBits);
  }
 
-void HuffmanDecoder::Initialize(const unsigned *codeBits,unsigned nCodes)
+void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
  {
   // the Huffman codes are represented in 3 ways in this code:
   //
@@ -225,12 +229,12 @@ void HuffmanDecoder::Initialize(const unsigned *codeBits,unsigned nCodes)
   // The BitReverse() function is used to convert between (1) and (2)
   // The NormalizeCode() function is used to convert from (3) to (2)
 
-  if( nCodes==0 )
+  if( bitlens.len==0 )
     {
      Printf(Exception,"HuffmanDecoder: null code");
     }
 
-  m_maxCodeBits=MaxValue(Range(codeBits,nCodes));
+  m_maxCodeBits=MaxValue(bitlens);
 
   if( m_maxCodeBits>MaxCodeBits || m_maxCodeBits>=Meta::UIntBits<ulen> )
     {
@@ -248,7 +252,7 @@ void HuffmanDecoder::Initialize(const unsigned *codeBits,unsigned nCodes)
 
   Range(blCount).set_null();
 
-  for(unsigned i=0; i<nCodes ;i++) blCount[codeBits[i]]++;
+  for(unsigned i=0; i<bitlens.len ;i++) blCount[bitlens.ptr[i]]++;
 
   // compute the starting code of each length
 
@@ -286,13 +290,13 @@ void HuffmanDecoder::Initialize(const unsigned *codeBits,unsigned nCodes)
   // compute a vector of <code, length, value> triples sorted by code
 
   m_codeToValue.erase();
-  m_codeToValue.extend_default(nCodes-blCount[0]);
+  m_codeToValue.extend_default(bitlens.len-blCount[0]);
 
   unsigned j=0;
 
-  for(unsigned i=0; i<nCodes ;i++)
+  for(unsigned i=0; i<bitlens.len ;i++)
     {
-     unsigned len=codeBits[i];
+     unsigned len=bitlens.ptr[i];
 
      if( len!=0 )
        {
@@ -399,75 +403,180 @@ bool HuffmanDecoder::Decode(LowFirstBitReader &reader,USym &value) const
   return true;
  }
 
-#if 0
+/* class WindowOut */
+
+class WindowOut : NoCopy
+ {
+   static constexpr unsigned WindowLen = 1u<<15 ;
+
+   OutFunc out;
+
+   SimpleArray<uint8> buf;
+
+   unsigned outpos = 0 ;
+   unsigned addpos = 0 ;
+   bool wrapped = false ;
+
+  private:
+
+   void output();
+
+   void commit();
+
+  public:
+
+   explicit WindowOut(OutFunc out);
+
+   ~WindowOut();
+
+   void reset()
+    {
+     outpos=0;
+     addpos=0;
+     wrapped=false;
+    }
+
+   void flush();
+
+   void put(uint8 octet);
+
+   void put(const uint8 *ptr,ulen len);
+
+   void put(unsigned length,unsigned distance);
+ };
+
+void WindowOut::output()
+ {
+  out(Range(buf.getPtr()+outpos,addpos-outpos));
+ }
+
+void WindowOut::commit()
+ {
+  if( addpos==WindowLen )
+    {
+     output();
+
+     outpos=0;
+     addpos=0;
+     wrapped=true;
+    }
+ }
+
+WindowOut::WindowOut(OutFunc out_)
+ : out(out_),
+   buf(WindowLen)
+ {
+ }
+
+WindowOut::~WindowOut()
+ {
+ }
+
+void WindowOut::flush()
+ {
+  output();
+
+  outpos=addpos;
+ }
+
+void WindowOut::put(uint8 octet)
+ {
+  buf[addpos++]=octet;
+
+  commit();
+ }
+
+void WindowOut::put(const uint8 *ptr,ulen len)
+ {
+  while( len )
+    {
+     ulen delta=Min<ulen>(len,WindowLen-addpos);
+
+     Range(buf.getPtr()+addpos,delta).copy(ptr);
+
+     addpos+=delta;
+     ptr+=delta;
+     len-=delta;
+
+     commit();
+    }
+ }
+
+void WindowOut::put(unsigned length,unsigned distance)
+ {
+  unsigned start;
+
+  if( distance<=addpos )
+    {
+     start=addpos-distance;
+    }
+  else if( wrapped && distance<=WindowLen )
+    {
+     start=addpos+WindowLen-distance;
+    }
+  else
+    {
+     Printf(Exception,"");
+
+     start=0;
+    }
+
+  if( start+length>WindowLen )
+    {
+     for(; start<WindowLen ;start++,length--) put(buf[start]);
+
+     start=0;
+    }
+
+  if( start+length>addpos || addpos+length>=WindowLen )
+    {
+     while( length-- ) put(buf[start++]);
+    }
+  else
+    {
+     Range(buf.getPtr()+addpos,length).copy(buf.getPtr()+start);
+
+     addpos+=length;
+    }
+ }
 
 /* class Inflator */
 
 class Inflator : NoCopy
  {
-   OutFunc out;
+   WindowOut out;
 
-   class ByteQueue : NoCopy
+   LowFirstBitReader m_reader;
+
+   enum State
     {
-     public:
-
-      ByteQueue();
-
-      ~ByteQueue();
-
-      void LazyPut(const uint8 *str,ulen len);
-
-      void FinLazyPut();
-
-      bool IsEmpty() const;
-
-      ulen CurrentSize() const;
-
-      void TransferTo(OutFunc out);
-
-      const uint8 * Spy(ulen &len);
-
-      void Skip(ulen len);
-
-      void Unget(const uint8 *ptr,ulen len);
-
-      InpFunc function_get();
+     PRE_STREAM,
+     WAIT_HEADER,
+     DECODING_BODY,
+     POST_STREAM,
+     AFTER_END
     };
 
-   ByteQueue m_inQueue;
-
-   enum State {PRE_STREAM, WAIT_HEADER, DECODING_BODY, POST_STREAM, AFTER_END};
-
    State m_state;
-   bool m_repeat, m_eof, m_wrappedAround;
+   bool m_repeat, m_eof;
    uint8 m_blockType;
    uint16 m_storedLen;
 
-   enum NextDecode {LITERAL, LENGTH_BITS, DISTANCE, DISTANCE_BITS};
+   enum NextDecode
+    {
+     LITERAL,
+     LENGTH_BITS,
+     DISTANCE,
+     DISTANCE_BITS
+    };
 
    NextDecode m_nextDecode;
 
    unsigned m_literal, m_distance; // for LENGTH_BITS or DISTANCE_BITS
 
    HuffmanDecoder m_dynamicLiteralDecoder, m_dynamicDistanceDecoder;
-   LowFirstBitReader m_reader;
-   SimpleArray<uint8> m_window;
-
-   ulen m_current, m_lastFlush;
-
-   static HuffmanDecoder FixedLiteralDecoder;
-   static HuffmanDecoder FixedDistanceDecoder;
-
-   static bool FixedLiteralDecoderInit;
-   static bool FixedDistanceDecoderInit;
 
   private:
-
-   static const HuffmanDecoder & GetFixedLiteralDecoder();
-   static const HuffmanDecoder & GetFixedDistanceDecoder();
-
-   void ProcessDecompressedData(const uint8 *string,ulen length) { out(Range(string,length));}
-
 
    void ProcessInput(bool flush);
 
@@ -475,64 +584,12 @@ class Inflator : NoCopy
 
    bool DecodeBody();
 
-   void FlushOutput();
-
-   void OutputByte(uint8 b);
-
-   void OutputString(const uint8 *string,ulen length);
-
-   void OutputPast(unsigned length,unsigned distance);
-
-   const HuffmanDecoder & GetLiteralDecoder() const;
-   const HuffmanDecoder & GetDistanceDecoder() const;
-
   public:
 
    Inflator(OutFunc out,bool repeat=false);
 
    ulen Put2(const uint8 *inString,ulen length,bool eof);
-
-   unsigned GetLog2WindowSize() const { return 15; }
  };
-
-HuffmanDecoder Inflator::FixedLiteralDecoder;
-
-HuffmanDecoder Inflator::FixedDistanceDecoder;
-
-bool Inflator::FixedLiteralDecoderInit=true;
-
-bool Inflator::FixedDistanceDecoderInit=true;
-
-const HuffmanDecoder & Inflator::GetFixedLiteralDecoder()
- {
-  if( Change(FixedLiteralDecoderInit,false) )
-    {
-     unsigned bitlens[288];
-
-     Range(bitlens,bitlens+144).set(8);
-     Range(bitlens+144,bitlens+256).set(9);
-     Range(bitlens+256,bitlens+280).set(7);
-     Range(bitlens+280,bitlens+288).set(8);
-
-     FixedLiteralDecoder.Initialize(bitlens,288);
-    }
-
-  return FixedLiteralDecoder;
- }
-
-const HuffmanDecoder & Inflator::GetFixedDistanceDecoder()
- {
-  if( Change(FixedDistanceDecoderInit,false) )
-    {
-     unsigned bitlens[32];
-
-     Range(bitlens).set(5);
-
-     FixedDistanceDecoder.Initialize(bitlens,32);
-    }
-
-  return FixedDistanceDecoder;
- }
 
 void Inflator::ProcessInput(bool flush)
 {
@@ -542,11 +599,7 @@ void Inflator::ProcessInput(bool flush)
         {
         case PRE_STREAM:
             m_state = WAIT_HEADER;
-            m_wrappedAround = false;
-            m_current = 0;
-            m_lastFlush = 0;
-
-            m_window=SimpleArray<uint8>( ulen(1)<<GetLog2WindowSize() );
+            out.reset();
 
             break;
         case WAIT_HEADER:
@@ -555,7 +608,7 @@ void Inflator::ProcessInput(bool flush)
 
             const ulen MAX_HEADER_SIZE = RoundUpCount(3+5+5+4+19*7+286*15+19*15,8) ;
 
-            if (m_inQueue.CurrentSize() < (flush ? 1u : MAX_HEADER_SIZE))
+            if (m_reader.CurrentSize() < (flush ? 1u : MAX_HEADER_SIZE))
                 return;
 
             DecodeHeader();
@@ -568,12 +621,12 @@ void Inflator::ProcessInput(bool flush)
             break;
         case POST_STREAM:
             m_state = m_repeat ? PRE_STREAM : AFTER_END;
-            if (m_inQueue.IsEmpty())
+            if (m_reader.IsEmpty())
                 return;
             break;
         case AFTER_END:
 
-            m_inQueue.TransferTo(out);
+            //m_inQueue.TransferTo(out); TODO
 
             return;
         }
@@ -639,7 +692,9 @@ void Inflator::DecodeHeader()
         {
             bool result = false;
             unsigned int k=0, count=0, repeater=0;
-            HuffmanDecoder codeLengthDecoder(codeLengths, 19);
+
+            HuffmanDecoder codeLengthDecoder({codeLengths, 19});
+
             for (unsigned i=0; i < hlit+257+hdist+1; )
             {
                 k = 0, count = 0, repeater = 0;
@@ -693,7 +748,9 @@ void Inflator::DecodeHeader()
 
                 i += count;
             }
-            m_dynamicLiteralDecoder.Initialize(codeLengths, hlit+257);
+
+            m_dynamicLiteralDecoder.init({codeLengths, hlit+257});
+
             if (hdist == 0 && codeLengths[hlit+257] == 0)
             {
                 if (hlit != 0)  // a single zero distance code length means all literals
@@ -702,7 +759,9 @@ void Inflator::DecodeHeader()
                  }
             }
             else
-                m_dynamicDistanceDecoder.Initialize(codeLengths+hlit+257, hdist+1);
+             {
+                m_dynamicDistanceDecoder.init({codeLengths+hlit+257, hdist+1});
+             }
             m_nextDecode = LITERAL;
         }
         break;
@@ -721,14 +780,14 @@ bool Inflator::DecodeBody()
     switch (m_blockType)
     {
     case 0: // stored
-        while (!m_inQueue.IsEmpty() && !blockEnd)
+        while (!m_reader.IsEmpty() && !blockEnd)
         {
             ulen size;
-            const uint8 *block = m_inQueue.Spy(size);
+            const uint8 *block = m_reader.Spy(size);
             size = Min<ulen>(m_storedLen, size);
 
-            OutputString(block, size);
-            m_inQueue.Skip(size);
+            out.put(block, size);
+            m_reader.Skip(size);
             m_storedLen = m_storedLen - (uint16)size;
             if (m_storedLen == 0)
                 blockEnd = true;
@@ -751,8 +810,11 @@ bool Inflator::DecodeBody()
             7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
             12, 12, 13, 13};
 
-        const HuffmanDecoder& literalDecoder = GetLiteralDecoder();
-        const HuffmanDecoder& distanceDecoder = GetDistanceDecoder();
+        const HuffmanDecoder& literalDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
+                                                                    : m_dynamicLiteralDecoder ;
+
+        const HuffmanDecoder& distanceDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
+                                                                     : m_dynamicDistanceDecoder ;
 
         switch (m_nextDecode)
         {
@@ -765,7 +827,7 @@ bool Inflator::DecodeBody()
                     break;
                 }
                 if (m_literal < 256)
-                    OutputByte((uint8)m_literal);
+                    out.put((uint8)m_literal);
                 else if (m_literal == 256)  // end of block
                 {
                     blockEnd = true;
@@ -808,7 +870,7 @@ bool Inflator::DecodeBody()
                       Printf(Exception,"");
                      }
                     m_distance = m_reader.GetBits(bits) + distanceStarts[m_distance];
-                    OutputPast(m_literal, m_distance);
+                    out.put(m_literal, m_distance);
                 }
             }
             break;
@@ -818,7 +880,8 @@ bool Inflator::DecodeBody()
     {
         if (m_eof)
         {
-            FlushOutput();
+           if( m_state!=PRE_STREAM ) out.flush();
+
             m_reader.SkipBits(m_reader.BitsBuffered()%8);
             if (m_reader.BitsBuffered())
             {
@@ -829,7 +892,7 @@ bool Inflator::DecodeBody()
                 for (unsigned int i=0; i<buffer.getLen(); i++)
                     buffer[i] = (uint8)m_reader.GetBits(8);
 
-                m_inQueue.Unget(buffer.getPtr(), buffer.getLen());
+                m_reader.Unget(buffer.getPtr(), buffer.getLen());
             }
             m_state = POST_STREAM;
         }
@@ -839,111 +902,16 @@ bool Inflator::DecodeBody()
     return blockEnd;
 }
 
-void Inflator::FlushOutput()
-{
-    if (m_state != PRE_STREAM)
-    {
-        ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_current - m_lastFlush);
-        m_lastFlush = m_current;
-    }
-}
-
-void Inflator::OutputByte(uint8 b)
-{
-    m_window[m_current++] = b;
-
-    if (m_current == m_window.getLen())
-    {
-        ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_window.getLen() - m_lastFlush);
-
-        m_lastFlush = 0;
-        m_current = 0;
-        m_wrappedAround = true;
-    }
-}
-
-void Inflator::OutputString(const uint8 *string, ulen length)
-{
-    while (length)
-    {
-        ulen len = Min(length, m_window.getLen() - m_current);
-
-        Range(m_window.getPtr()+m_current,len).copy(string);
-
-        m_current += len;
-
-        if (m_current == m_window.getLen() )
-        {
-            ProcessDecompressedData(m_window.getPtr() + m_lastFlush, m_window.getLen() - m_lastFlush);
-            m_lastFlush = 0;
-            m_current = 0;
-            m_wrappedAround = true;
-        }
-
-        string += len;
-        length -= len;
-    }
-}
-
-void Inflator::OutputPast(unsigned length,unsigned distance)
-{
-    ulen start;
-
-    if (distance <= m_current)
-        start = m_current - distance;
-    else if (m_wrappedAround && distance <= m_window.getLen())
-        start = m_current + m_window.getLen() - distance;
-    else
-      {
-       Printf(Exception,"");
-
-       start=0;
-      }
-
-    if (start + length > m_window.getLen() )
-    {
-        for (; start < m_window.getLen(); start++, length--)
-            OutputByte(m_window[start]);
-        start = 0;
-    }
-
-    if (start + length > m_current || m_current + length >= m_window.getLen())
-    {
-        while (length--)
-            OutputByte(m_window[start++]);
-    }
-    else
-    {
-      Range(m_window.getPtr() + m_current,length).copy(m_window.getPtr() + start);
-
-        m_current += length;
-    }
-}
-
-const HuffmanDecoder & Inflator::GetLiteralDecoder() const
- {
-  return (m_blockType==1)? GetFixedLiteralDecoder() : m_dynamicLiteralDecoder ;
- }
-
-const HuffmanDecoder & Inflator::GetDistanceDecoder() const
- {
-  return (m_blockType==1)? GetFixedDistanceDecoder() : m_dynamicDistanceDecoder ;
- }
-
 Inflator::Inflator(OutFunc out_,bool repeat)
  : out(out_),
    m_state(PRE_STREAM),
    m_repeat(repeat),
    m_eof(0),
-   m_wrappedAround(0),
    m_blockType(0xff),
    m_storedLen(0xffff),
    m_nextDecode(),
    m_literal(0),
-   m_distance(0),
-   m_reader(m_inQueue.function_get()),
-   m_current(0),
-   m_lastFlush(0)
+   m_distance(0)
  {
  }
 
@@ -951,9 +919,9 @@ ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
  {
   struct Putter
    {
-     ByteQueue &obj;
+     LowFirstBitReader &obj;
 
-     Putter(ByteQueue &obj_,const uint8 *inString,ulen length)
+     Putter(LowFirstBitReader &obj_,const uint8 *inString,ulen length)
       : obj(obj_)
       {
        obj.LazyPut(inString,length);
@@ -965,7 +933,7 @@ ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
       }
    };
 
-  Putter putter(m_inQueue, inString, length);
+  Putter putter(m_reader, inString, length);
 
   ProcessInput(eof);
 
@@ -979,8 +947,6 @@ ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
 
   return 0;
  }
-
-#endif
 
 //----------------------------------------------------------------------------------------
 
