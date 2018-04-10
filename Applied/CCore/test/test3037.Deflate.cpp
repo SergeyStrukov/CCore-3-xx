@@ -578,11 +578,11 @@ class Inflator : NoCopy
 
   private:
 
-   void ProcessInput(bool flush);
-
    void DecodeHeader();
 
    bool DecodeBody();
+
+   void ProcessInput(bool flush);
 
   public:
 
@@ -591,316 +591,385 @@ class Inflator : NoCopy
    ulen Put2(const uint8 *inString,ulen length,bool eof);
  };
 
-void Inflator::ProcessInput(bool flush)
-{
-    while (true)
-    {
-        switch (m_state)
-        {
-        case PRE_STREAM:
-            m_state = WAIT_HEADER;
-            out.reset();
-
-            break;
-        case WAIT_HEADER:
-            {
-            // maximum number of bytes before actual compressed data starts
-
-            const ulen MAX_HEADER_SIZE = RoundUpCount(3+5+5+4+19*7+286*15+19*15,8) ;
-
-            if (m_reader.CurrentSize() < (flush ? 1u : MAX_HEADER_SIZE))
-                return;
-
-            DecodeHeader();
-
-            break;
-            }
-        case DECODING_BODY:
-            if (!DecodeBody())
-                return;
-            break;
-        case POST_STREAM:
-            m_state = m_repeat ? PRE_STREAM : AFTER_END;
-            if (m_reader.IsEmpty())
-                return;
-            break;
-        case AFTER_END:
-
-            //m_inQueue.TransferTo(out); TODO
-
-            return;
-        }
-    }
-}
-
 void Inflator::DecodeHeader()
-{
-    if (!m_reader.FillBuffer(3))
+ {
+  if( !m_reader.FillBuffer(3) )
+    {
+     Printf(Exception,"");
+    }
+
+  m_eof=( m_reader.GetBits(1)!=0 );
+
+  m_blockType=(uint8)m_reader.GetBits(2);
+
+  switch( m_blockType )
+    {
+     case Stored :
+      {
+       m_reader.SkipBits(m_reader.BitsBuffered()%8);
+
+       if( !m_reader.FillBuffer(32) )
+         {
+          Printf(Exception,"");
+         }
+
+       m_storedLen=(uint16)m_reader.GetBits(16);
+
+       uint16 nlen=(uint16)m_reader.GetBits(16);
+
+       if( nlen!=(uint16)~m_storedLen )
+         {
+          Printf(Exception,"");
+         }
+      }
+     break;
+
+     case Static :
+      {
+       m_nextDecode=LITERAL;
+      }
+     break;
+
+     case Dynamic :
+      {
+       if( !m_reader.FillBuffer(5+5+4) )
+         {
+          Printf(Exception,"");
+         }
+
+       unsigned hlit=m_reader.GetBits(5);
+       unsigned hdist=m_reader.GetBits(5);
+       unsigned hclen=m_reader.GetBits(4);
+
+       BitLen codeLengths[286+32];
+
+       static const unsigned Order[19]=
+        {
+         16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
+        };
+
+       Range(codeLengths,19).set_null();
+
+       for(unsigned i=0; i<hclen+4 ;i++)
+         {
+          codeLengths[Order[i]]=m_reader.GetBits(3);
+         }
+
+       bool result = false;
+       unsigned k=0, count=0, repeater=0;
+
+       HuffmanDecoder codeLengthDecoder({codeLengths,19});
+
+       for(unsigned i=0; i<hlit+257+hdist+1 ;)
+         {
+          k = 0, count = 0, repeater = 0;
+
+          result=codeLengthDecoder.Decode(m_reader,k);
+
+          if( !result )
+            {
+             Printf(Exception,"");
+            }
+
+          if( k<=15 )
+            {
+             count = 1;
+             repeater = k;
+            }
+          else
+            {
+             switch (k)
+               {
+                case 16:
+                 {
+                  if( !m_reader.FillBuffer(2) )
+                    {
+                     Printf(Exception,"");
+                    }
+
+                  count=3+m_reader.GetBits(2);
+
+                  if( i==0 )
+                    {
+                     Printf(Exception,"");
+                    }
+
+                  repeater=codeLengths[i-1];
+                 }
+                break;
+
+                case 17:
+                 {
+                  if( !m_reader.FillBuffer(3) )
+                    {
+                     Printf(Exception,"");
+                    }
+
+                  count=3+m_reader.GetBits(3);
+                  repeater=0;
+                 }
+                break;
+
+                case 18:
+                 {
+                  if( !m_reader.FillBuffer(7) )
+                    {
+                     Printf(Exception,"");
+                    }
+
+                  count=11+m_reader.GetBits(7);
+                  repeater=0;
+                 }
+                break;
+               }
+            }
+
+          if( i+count>hlit+257+hdist+1 )
+            {
+             Printf(Exception,"");
+            }
+
+          Range(codeLengths+i,count).set(repeater);
+
+          i+=count;
+         }
+
+       m_dynamicLiteralDecoder.init({codeLengths,hlit+257});
+
+       if( hdist==0 && codeLengths[hlit+257]==0 )
+         {
+          if( hlit!=0 )
+            {
+             Printf(Exception,"");
+            }
+         }
+       else
+         {
+          m_dynamicDistanceDecoder.init({codeLengths+hlit+257,hdist+1});
+         }
+
+       m_nextDecode=LITERAL;
+      }
+     break;
+
+     default:
       {
        Printf(Exception,"");
       }
-
-    m_eof = m_reader.GetBits(1) != 0;
-    m_blockType = (byte)m_reader.GetBits(2);
-
-    switch (m_blockType)
-    {
-    case 0: // stored
-        {
-        m_reader.SkipBits(m_reader.BitsBuffered() % 8);
-
-        if (!m_reader.FillBuffer(32))
-          {
-           Printf(Exception,"");
-          }
-        m_storedLen = (uint16)m_reader.GetBits(16);
-
-        uint16 nlen = (uint16)m_reader.GetBits(16);
-
-        if (nlen != (uint16)~m_storedLen)
-          {
-           Printf(Exception,"");
-          }
-        break;
-        }
-    case 1: // fixed codes
-        m_nextDecode = LITERAL;
-        break;
-    case 2: // dynamic codes
-        {
-        if (!m_reader.FillBuffer(5+5+4))
-          {
-           Printf(Exception,"");
-          }
-
-        unsigned int hlit = m_reader.GetBits(5);
-        unsigned int hdist = m_reader.GetBits(5);
-        unsigned int hclen = m_reader.GetBits(4);
-
-        unsigned int codeLengths[286+32];
-
-        static const unsigned int border[19] = {    // Order of the bit length code lengths
-            16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
-
-        Range(codeLengths,19).set_null();
-
-        for (unsigned i=0; i<hclen+4; ++i)
-        {
-            codeLengths[border[i]] = m_reader.GetBits(3);
-        }
-
-        {
-            bool result = false;
-            unsigned int k=0, count=0, repeater=0;
-
-            HuffmanDecoder codeLengthDecoder({codeLengths, 19});
-
-            for (unsigned i=0; i < hlit+257+hdist+1; )
-            {
-                k = 0, count = 0, repeater = 0;
-                result = codeLengthDecoder.Decode(m_reader, k);
-                if (!result)
-                 {
-                  Printf(Exception,"");
-                 }
-                if (k <= 15)
-                {
-                    count = 1;
-                    repeater = k;
-                }
-                else switch (k)
-                {
-                case 16:
-                    if (!m_reader.FillBuffer(2))
-                     {
-                      Printf(Exception,"");
-                     }
-                    count = 3 + m_reader.GetBits(2);
-                    if (i == 0)
-                     {
-                      Printf(Exception,"");
-                     }
-                    repeater = codeLengths[i-1];
-                    break;
-                case 17:
-                    if (!m_reader.FillBuffer(3))
-                     {
-                      Printf(Exception,"");
-                     }
-                    count = 3 + m_reader.GetBits(3);
-                    repeater = 0;
-                    break;
-                case 18:
-                    if (!m_reader.FillBuffer(7))
-                     {
-                      Printf(Exception,"");
-                     }
-                    count = 11 + m_reader.GetBits(7);
-                    repeater = 0;
-                    break;
-                }
-                if (i + count > hlit+257+hdist+1)
-                 {
-                  Printf(Exception,"");
-                 }
-
-                Range(codeLengths + i, count).set(repeater);
-
-                i += count;
-            }
-
-            m_dynamicLiteralDecoder.init({codeLengths, hlit+257});
-
-            if (hdist == 0 && codeLengths[hlit+257] == 0)
-            {
-                if (hlit != 0)  // a single zero distance code length means all literals
-                 {
-                  Printf(Exception,"");
-                 }
-            }
-            else
-             {
-                m_dynamicDistanceDecoder.init({codeLengths+hlit+257, hdist+1});
-             }
-            m_nextDecode = LITERAL;
-        }
-        break;
-        }
-    default:
-     {
-      Printf(Exception,"");
-     }
     }
-    m_state = DECODING_BODY;
-}
+
+  m_state=DECODING_BODY;
+ }
 
 bool Inflator::DecodeBody()
-{
-    bool blockEnd = false;
-    switch (m_blockType)
+ {
+  bool blockEnd=false;
+
+  if( m_blockType==Stored )
     {
-    case 0: // stored
-        while (!m_reader.IsEmpty() && !blockEnd)
-        {
-            ulen size;
-            const uint8 *block = m_reader.Spy(size);
-            size = Min<ulen>(m_storedLen, size);
+     while( !m_reader.IsEmpty() && !blockEnd )
+       {
+        ulen size;
 
-            out.put(block, size);
-            m_reader.Skip(size);
-            m_storedLen = m_storedLen - (uint16)size;
-            if (m_storedLen == 0)
-                blockEnd = true;
-        }
-        break;
-    case 1: // fixed codes
-    case 2: // dynamic codes
-        static const unsigned int lengthStarts[] = {
-            3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
-            35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
-        static const unsigned int lengthExtraBits[] = {
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
-            3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
-        static const unsigned int distanceStarts[] = {
-            1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
-            257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
-            8193, 12289, 16385, 24577};
-        static const unsigned int distanceExtraBits[] = {
-            0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
-            7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
-            12, 12, 13, 13};
+        const uint8 *block=m_reader.Spy(size);
 
-        const HuffmanDecoder& literalDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
-                                                                    : m_dynamicLiteralDecoder ;
+        size=Min<ulen>(m_storedLen,size);
 
-        const HuffmanDecoder& distanceDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
-                                                                     : m_dynamicDistanceDecoder ;
+        out.put(block,size);
 
-        switch (m_nextDecode)
-        {
-        case LITERAL:
-            while (true)
-            {
-                if (!literalDecoder.Decode(m_reader, m_literal))
-                {
-                    m_nextDecode = LITERAL;
-                    break;
-                }
-                if (m_literal < 256)
-                    out.put((uint8)m_literal);
-                else if (m_literal == 256)  // end of block
-                {
-                    blockEnd = true;
-                    break;
-                }
-                else
-                {
-                    if (m_literal > 285)
-                     {
-                      Printf(Exception,"");
-                     }
-                    unsigned int bits;
-        case LENGTH_BITS:
-                    bits = lengthExtraBits[m_literal-257];
-                    if (!m_reader.FillBuffer(bits))
-                    {
-                        m_nextDecode = LENGTH_BITS;
-                        break;
-                    }
-                    m_literal = m_reader.GetBits(bits) + lengthStarts[m_literal-257];
-        case DISTANCE:
-                    if (!distanceDecoder.Decode(m_reader, m_distance))
-                    {
-                        m_nextDecode = DISTANCE;
-                        break;
-                    }
-        case DISTANCE_BITS:
-                    if (m_distance >= DimOf(distanceExtraBits))
-                     {
-                      Printf(Exception,"");
-                     }
-                    bits = distanceExtraBits[m_distance];
-                    if (!m_reader.FillBuffer(bits))
-                    {
-                        m_nextDecode = DISTANCE_BITS;
-                        break;
-                    }
-                    if (m_distance >= DimOf(distanceStarts))
-                     {
-                      Printf(Exception,"");
-                     }
-                    m_distance = m_reader.GetBits(bits) + distanceStarts[m_distance];
-                    out.put(m_literal, m_distance);
-                }
-            }
-            break;
-        }
+        m_reader.Skip(size);
+
+        m_storedLen=m_storedLen-(uint16)size;
+
+        if( m_storedLen==0 ) blockEnd=true;
+       }
     }
-    if (blockEnd)
+  else
     {
-        if (m_eof)
-        {
-           if( m_state!=PRE_STREAM ) out.flush();
+     static const unsigned int lengthStarts[] = {
+        3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+        35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
 
-            m_reader.SkipBits(m_reader.BitsBuffered()%8);
-            if (m_reader.BitsBuffered())
+     static const unsigned int lengthExtraBits[] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
+        3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
+
+     static const unsigned int distanceStarts[] = {
+        1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+        257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
+        8193, 12289, 16385, 24577};
+
+     static const unsigned int distanceExtraBits[] = {
+        0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
+        7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
+        12, 12, 13, 13};
+
+     const HuffmanDecoder &literalDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
+                                                                 : m_dynamicLiteralDecoder ;
+
+     const HuffmanDecoder &distanceDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
+                                                                  : m_dynamicDistanceDecoder ;
+
+     switch( m_nextDecode )
+       {
+        case LITERAL:
+
+          for(;;)
             {
-                // undo too much lookahead
+             if( !literalDecoder.Decode(m_reader,m_literal) )
+               {
+                m_nextDecode=LITERAL;
 
+                break;
+               }
+
+             if( m_literal<256 )
+               {
+                out.put((uint8)m_literal);
+               }
+             else if( m_literal==256 )
+               {
+                blockEnd=true;
+
+                break;
+               }
+             else
+               {
+                if( m_literal>285 )
+                  {
+                   Printf(Exception,"");
+                  }
+
+                unsigned int bits;
+
+                case LENGTH_BITS :
+
+                bits=lengthExtraBits[m_literal-257];
+
+                if( !m_reader.FillBuffer(bits) )
+                  {
+                   m_nextDecode=LENGTH_BITS;
+
+                   break;
+                  }
+
+                m_literal=m_reader.GetBits(bits)+lengthStarts[m_literal-257];
+
+                case DISTANCE :
+
+                if( !distanceDecoder.Decode(m_reader,m_distance) )
+                  {
+                   m_nextDecode=DISTANCE;
+
+                   break;
+                  }
+
+                case DISTANCE_BITS :
+
+                if( m_distance>=DimOf(distanceExtraBits) )
+                  {
+                   Printf(Exception,"");
+                  }
+
+                bits=distanceExtraBits[m_distance];
+
+                if( !m_reader.FillBuffer(bits) )
+                  {
+                   m_nextDecode=DISTANCE_BITS;
+
+                   break;
+                  }
+
+                if( m_distance>=DimOf(distanceStarts) )
+                  {
+                   Printf(Exception,"");
+                  }
+
+                m_distance=m_reader.GetBits(bits)+distanceStarts[m_distance];
+
+                out.put(m_literal,m_distance);
+               }
+            }
+       }
+    }
+
+  if( blockEnd )
+    {
+     if( m_eof )
+       {
+        if( m_state!=PRE_STREAM ) out.flush();
+
+        m_reader.SkipBits(m_reader.BitsBuffered()%8);
+
+        if( m_reader.BitsBuffered() )
+          {
                 TempArray<uint8, 4> buffer(m_reader.BitsBuffered() / 8);
 
                 for (unsigned int i=0; i<buffer.getLen(); i++)
                     buffer[i] = (uint8)m_reader.GetBits(8);
 
                 m_reader.Unget(buffer.getPtr(), buffer.getLen());
-            }
-            m_state = POST_STREAM;
-        }
-        else
-            m_state = WAIT_HEADER;
+          }
+
+        m_state=POST_STREAM;
+       }
+     else
+       {
+        m_state=WAIT_HEADER;
+       }
     }
-    return blockEnd;
-}
+
+  return blockEnd;
+ }
+
+void Inflator::ProcessInput(bool flush)
+ {
+  for(;;)
+    {
+     switch( m_state )
+       {
+        case PRE_STREAM :
+         {
+          m_state=WAIT_HEADER;
+
+          out.reset();
+         }
+        break;
+
+        case WAIT_HEADER :
+         {
+          const unsigned MAX_HEADER_SIZE = RoundUpCount(3+5+5+4+19*7+286*15+19*15,8) ;
+
+          if( m_reader.CurrentSize()<(flush? 1u : MAX_HEADER_SIZE) ) return;
+
+          DecodeHeader();
+
+          break;
+         }
+
+        case DECODING_BODY :
+         {
+          if( !DecodeBody() ) return;
+         }
+        break;
+
+        case POST_STREAM :
+         {
+          m_state = m_repeat? PRE_STREAM : AFTER_END ;
+
+          if( m_reader.IsEmpty() ) return;
+         }
+        break;
+
+        case AFTER_END :
+         {
+          //m_inQueue.TransferTo(out); TODO
+
+          return;
+         }
+       }
+    }
+ }
 
 Inflator::Inflator(OutFunc out_,bool repeat)
  : out(out_),
