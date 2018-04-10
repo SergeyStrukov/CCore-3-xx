@@ -116,8 +116,6 @@ class SymWriter;
 
 class Deflator;
 
-class WindowOut;
-
 /* struct Code */
 
 struct Code
@@ -427,6 +425,18 @@ class Deflator : NoCopy
    void complete();
  };
 
+//----------------------------------------------------------------------------------------
+
+/* consts */
+
+inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
+
+/* classes */
+
+class WindowOut;
+
+class BitReader;
+
 /* class WindowOut */
 
 class WindowOut : NoCopy
@@ -469,6 +479,71 @@ class WindowOut : NoCopy
    void put(PtrLen<const uint8> data);
 
    void put(unsigned distance,unsigned length);
+ };
+
+/* class BitReader */
+
+class BitReader : NoCopy
+ {
+   static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 256u ) ;
+
+   PtrLen<const uint8> inp;
+
+   uint8 inpbuf[BufLen];
+   unsigned getpos = 0 ;
+   unsigned addpos = 0 ;
+
+   uint32 buffer = 0 ;
+   unsigned bits = 0 ;
+
+  private:
+
+   bool next(uint8 &octet);
+
+   UCode peekBits(unsigned bitlen);
+
+   void copyDown();
+
+  public:
+
+   BitReader() {}
+
+   bool isEmpty() const { return bits==0 && getpos==addpos && !inp ; }
+
+   bool canRead(unsigned bitlen) const;
+
+   void align8() { skipBits(bits%8); }
+
+   void extend(PtrLen<const uint8> data) { inp=data; }
+
+   void bufferize(ExceptionType ex);
+
+   void pumpTo(WindowOut &out);
+
+   void pumpTo(WindowOut &out,ulen &cap);
+
+   // bit buffer
+
+   uint32 peekBuffer() const { return buffer; }
+
+   unsigned bitsBuffered() const { return bits; }
+
+   bool fillBuffer(unsigned bitlen);
+
+   void skipBits(unsigned bitlen)
+    {
+     buffer>>=bitlen;
+     bits-=bitlen;
+    }
+
+   UCode getBits(unsigned bitlen)
+    {
+     UCode ret=peekBits(bitlen);
+
+     skipBits(bitlen);
+
+     return ret;
+    }
  };
 
 } // namespace Deflate

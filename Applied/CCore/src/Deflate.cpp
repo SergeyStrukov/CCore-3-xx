@@ -1167,6 +1167,161 @@ void WindowOut::put(unsigned distance,unsigned length)
     }
  }
 
+/* class BitReader */
+
+bool BitReader::next(uint8 &octet)
+ {
+  if( getpos<addpos )
+    {
+     octet=inpbuf[getpos++];
+
+     return true;
+    }
+
+  if( !inp ) return false;
+
+  octet=*inp;
+
+  ++inp;
+
+  return true;
+ }
+
+UCode BitReader::peekBits(unsigned bitlen)
+ {
+  fillBuffer(bitlen);
+
+  return buffer&((UCode(1)<<bitlen)-1);
+ }
+
+void BitReader::copyDown()
+ {
+  unsigned delta=getpos;
+  unsigned count=addpos-getpos;
+
+  if( delta==0 || count==0 ) return;
+
+  for(unsigned i=0; i<count ;i++) inpbuf[i]=inpbuf[i+delta];
+
+  getpos=0;
+  addpos=count;
+ }
+
+bool BitReader::canRead(unsigned bitlen) const
+ {
+  if( bitlen<=bits ) return true;
+
+  unsigned len=RoundUpCount(bitlen-bits,8u);
+  unsigned count=addpos-getpos;
+
+  return len<=count || len-count<=inp.len ;
+ }
+
+void BitReader::bufferize(ExceptionType ex)
+ {
+  if( inp.len>BufLen-addpos )
+    {
+     if( inp.len>BufLen-addpos+getpos )
+       {
+        Printf(ex,"CCore::Deflate::BitReader::bufferize(...) : overflow");
+
+        return;
+       }
+
+     copyDown();
+    }
+
+  inp.copyTo(inpbuf+addpos);
+
+  addpos+=(unsigned)inp.len;
+
+  inp=Null;
+ }
+
+void BitReader::pumpTo(WindowOut &out)
+ {
+  // 1
+
+  while( bits>=8 ) out.put((uint8)getBits(8));
+
+  // 2
+
+  out.put(inpbuf+getpos,addpos-getpos);
+
+  getpos=0;
+  addpos=0;
+
+  // 3
+
+  out.put(inp);
+
+  inp=Null;
+ }
+
+void BitReader::pumpTo(WindowOut &out,ulen &cap)
+ {
+  // 1
+
+  for(; bits>=8 && cap ;cap--) out.put((uint8)getBits(8));
+
+  // 2
+
+  unsigned len=addpos-getpos;
+
+  if( cap<len )
+    {
+     out.put(inpbuf+getpos,cap);
+
+     getpos+=(unsigned)cap;
+
+     cap=0;
+
+     return;
+    }
+  else
+    {
+     out.put(inpbuf+getpos,len);
+
+     cap-=len;
+
+     getpos=0;
+     addpos=0;
+    }
+
+  // 3
+
+  if( cap<inp.len )
+    {
+     out.put(inp+=cap);
+
+     cap=0;
+    }
+  else
+    {
+     out.put(inp);
+
+     cap-=inp.len;
+
+     inp=Null;
+    }
+ }
+
+bool BitReader::fillBuffer(unsigned bitlen)
+ {
+  while( bits<bitlen )
+    {
+     uint8 octet;
+
+     if( !next(octet) ) return false;
+
+     buffer|=uint32(octet)<<bits;
+
+     bits+=8;
+    }
+
+  return true;
+ }
+
 } // namespace Deflate
 } // namespace CCore
 
