@@ -474,7 +474,7 @@ class WindowOut : NoCopy
 
    void put(uint8 octet);
 
-   void put(const uint8 *ptr,ulen len) { put(Range(ptr,len)); }
+   void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
 
    void put(PtrLen<const uint8> data);
 
@@ -529,6 +529,8 @@ class BitReader : NoCopy
    unsigned bitsBuffered() const { return bits; }
 
    bool fillBuffer(unsigned bitlen);
+
+   void reqBuffer(unsigned bitlen);
 
    void skipBits(unsigned bitlen)
     {

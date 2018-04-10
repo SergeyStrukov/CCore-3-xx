@@ -1322,6 +1322,14 @@ bool BitReader::fillBuffer(unsigned bitlen)
   return true;
  }
 
+void BitReader::reqBuffer(unsigned bitlen)
+ {
+  if( !fillBuffer(bitlen) )
+    {
+     Printf(Exception,"CCore::Deflate::BitReader::reqBuffer(...) : underflow");
+    }
+ }
+
 } // namespace Deflate
 } // namespace CCore
 

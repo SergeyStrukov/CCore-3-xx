@@ -113,9 +113,9 @@ class HuffmanDecoder
 
    void init(PtrLen<BitLen> bitlens);
 
-   unsigned Decode(UCode code,USym &value) const;
+   unsigned decode(UCode code,USym &value) const;
 
-   bool Decode(BitReader &reader,USym &value) const;
+   bool decode(BitReader &reader,USym &value) const;
  };
 
 UCode HuffmanDecoder::NormalizeCode(UCode code,unsigned codeBits)
@@ -273,7 +273,7 @@ void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) cons
     }
  }
 
-unsigned HuffmanDecoder::Decode(UCode code,USym &value) const
+unsigned HuffmanDecoder::decode(UCode code,USym &value) const
  {
   CacheEntry &entry=m_cache[code&m_cacheMask];
 
@@ -301,11 +301,11 @@ unsigned HuffmanDecoder::Decode(UCode code,USym &value) const
     }
  }
 
-bool HuffmanDecoder::Decode(BitReader &reader,USym &value) const
+bool HuffmanDecoder::decode(BitReader &reader,USym &value) const
  {
   reader.fillBuffer(m_maxCodeBits);
 
-  unsigned codeBits=Decode(reader.peekBuffer(),value);
+  unsigned codeBits=decode(reader.peekBuffer(),value);
 
   if( codeBits>reader.bitsBuffered() ) return false;
 
@@ -320,47 +320,53 @@ class Inflator : NoCopy
  {
    WindowOut out;
 
-   BitReader m_reader;
+   BitReader reader;
+
+   // params
+
+   bool repeat;
+
+   // data
 
    enum State
     {
-     PRE_STREAM,
-     WAIT_HEADER,
-     DECODING_BODY,
-     POST_STREAM,
-     AFTER_END
+     PreStream,
+     WaitHeader,
+     DecodingBody,
+     PostStream,
+     AfterEnd
     };
 
-   State m_state;
+   State state;
 
-   bool m_repeat, m_eof;
-   uint8 m_blockType;
+   bool last_block;
+   UCode block_type;
 
-   ulen m_storedLen;
+   ulen stored_len;
 
-   enum NextDecode
+   enum DecodeState
     {
-     LITERAL,
-     LENGTH_BITS,
-     DISTANCE,
-     DISTANCE_BITS
+     Literal,
+     LengthBits,
+     Distance,
+     DistanceBits
     };
 
-   NextDecode m_nextDecode;
+   DecodeState decode_state;
 
-   unsigned m_literal, m_distance; // for LENGTH_BITS or DISTANCE_BITS
+   unsigned m_literal, m_distance;
 
    HuffmanDecoder m_dynamicLiteralDecoder, m_dynamicDistanceDecoder;
 
   private:
 
-   void DecodeHeader();
+   void decodeCode();
 
-   bool DecodeBody();
+   void decodeHeader();
 
-   void completeStream();
+   bool decodeBody();
 
-   void ProcessInput(bool eof);
+   void processInput(bool eof);
 
   public:
 
@@ -373,200 +379,199 @@ class Inflator : NoCopy
    void complete();
  };
 
-void Inflator::DecodeHeader()
+void Inflator::decodeCode()
  {
-  if( !m_reader.fillBuffer(3) )
+  if( !reader.fillBuffer(5+5+4) )
     {
      Printf(Exception,"");
     }
 
-  m_eof=( m_reader.getBits(1)!=0 );
+  unsigned hlit=reader.getBits(5);
+  unsigned hdist=reader.getBits(5);
+  unsigned hclen=reader.getBits(4);
 
-  m_blockType=(uint8)m_reader.getBits(2);
+  BitLen codeLengths[286+32];
 
-  switch( m_blockType )
+  Range(codeLengths,19).set_null();
+
+  for(unsigned i=0; i<hclen+4 ;i++)
+    {
+     codeLengths[Order[i]]=reader.getBits(3);
+    }
+
+  bool result = false;
+  unsigned k=0, count=0, repeater=0;
+
+  HuffmanDecoder codeLengthDecoder({codeLengths,19});
+
+  for(unsigned i=0; i<hlit+257+hdist+1 ;)
+    {
+     k = 0, count = 0, repeater = 0;
+
+     result=codeLengthDecoder.decode(reader,k);
+
+     if( !result )
+       {
+        Printf(Exception,"");
+       }
+
+     if( k<=15 )
+       {
+        count = 1;
+        repeater = k;
+       }
+     else
+       {
+        switch (k)
+          {
+           case 16:
+            {
+             if( !reader.fillBuffer(2) )
+               {
+                Printf(Exception,"");
+               }
+
+             count=3+reader.getBits(2);
+
+             if( i==0 )
+               {
+                Printf(Exception,"");
+               }
+
+             repeater=codeLengths[i-1];
+            }
+           break;
+
+           case 17:
+            {
+             if( !reader.fillBuffer(3) )
+               {
+                Printf(Exception,"");
+               }
+
+             count=3+reader.getBits(3);
+             repeater=0;
+            }
+           break;
+
+           case 18:
+            {
+             if( !reader.fillBuffer(7) )
+               {
+                Printf(Exception,"");
+               }
+
+             count=11+reader.getBits(7);
+             repeater=0;
+            }
+           break;
+          }
+       }
+
+     if( i+count>hlit+257+hdist+1 )
+       {
+        Printf(Exception,"");
+       }
+
+     Range(codeLengths+i,count).set(repeater);
+
+     i+=count;
+    }
+
+  m_dynamicLiteralDecoder.init({codeLengths,hlit+257});
+
+  if( hdist==0 && codeLengths[hlit+257]==0 )
+    {
+     if( hlit!=0 )
+       {
+        Printf(Exception,"");
+       }
+    }
+  else
+    {
+     m_dynamicDistanceDecoder.init({codeLengths+hlit+257,hdist+1});
+    }
+ }
+
+void Inflator::decodeHeader()
+ {
+  reader.reqBuffer(3);
+
+  last_block=( reader.getBits(1)!=0 );
+
+  block_type=reader.getBits(2);
+
+  switch( block_type )
     {
      case Stored :
       {
-       m_reader.align8();
+       reader.align8();
 
-       if( !m_reader.fillBuffer(32) )
-         {
-          Printf(Exception,"");
-         }
+       reader.reqBuffer(32);
 
-       uint16 len=(uint16)m_reader.getBits(16);
-       uint16 nlen=(uint16)m_reader.getBits(16);
+       uint16 len=(uint16)reader.getBits(16);
+       uint16 nlen=(uint16)reader.getBits(16);
 
-       m_storedLen=len;
+       stored_len=len;
 
        if( nlen!=(uint16)~len )
          {
-          Printf(Exception,"");
+          Printf(Exception,"CCore::Deflate::Inflator::decodeHeader() : incorrect stored length");
          }
       }
      break;
 
      case Static :
       {
-       m_nextDecode=LITERAL;
+       decode_state=Literal;
       }
      break;
 
      case Dynamic :
       {
-       if( !m_reader.fillBuffer(5+5+4) )
-         {
-          Printf(Exception,"");
-         }
+       decodeCode();
 
-       unsigned hlit=m_reader.getBits(5);
-       unsigned hdist=m_reader.getBits(5);
-       unsigned hclen=m_reader.getBits(4);
-
-       BitLen codeLengths[286+32];
-
-       Range(codeLengths,19).set_null();
-
-       for(unsigned i=0; i<hclen+4 ;i++)
-         {
-          codeLengths[Order[i]]=m_reader.getBits(3);
-         }
-
-       bool result = false;
-       unsigned k=0, count=0, repeater=0;
-
-       HuffmanDecoder codeLengthDecoder({codeLengths,19});
-
-       for(unsigned i=0; i<hlit+257+hdist+1 ;)
-         {
-          k = 0, count = 0, repeater = 0;
-
-          result=codeLengthDecoder.Decode(m_reader,k);
-
-          if( !result )
-            {
-             Printf(Exception,"");
-            }
-
-          if( k<=15 )
-            {
-             count = 1;
-             repeater = k;
-            }
-          else
-            {
-             switch (k)
-               {
-                case 16:
-                 {
-                  if( !m_reader.fillBuffer(2) )
-                    {
-                     Printf(Exception,"");
-                    }
-
-                  count=3+m_reader.getBits(2);
-
-                  if( i==0 )
-                    {
-                     Printf(Exception,"");
-                    }
-
-                  repeater=codeLengths[i-1];
-                 }
-                break;
-
-                case 17:
-                 {
-                  if( !m_reader.fillBuffer(3) )
-                    {
-                     Printf(Exception,"");
-                    }
-
-                  count=3+m_reader.getBits(3);
-                  repeater=0;
-                 }
-                break;
-
-                case 18:
-                 {
-                  if( !m_reader.fillBuffer(7) )
-                    {
-                     Printf(Exception,"");
-                    }
-
-                  count=11+m_reader.getBits(7);
-                  repeater=0;
-                 }
-                break;
-               }
-            }
-
-          if( i+count>hlit+257+hdist+1 )
-            {
-             Printf(Exception,"");
-            }
-
-          Range(codeLengths+i,count).set(repeater);
-
-          i+=count;
-         }
-
-       m_dynamicLiteralDecoder.init({codeLengths,hlit+257});
-
-       if( hdist==0 && codeLengths[hlit+257]==0 )
-         {
-          if( hlit!=0 )
-            {
-             Printf(Exception,"");
-            }
-         }
-       else
-         {
-          m_dynamicDistanceDecoder.init({codeLengths+hlit+257,hdist+1});
-         }
-
-       m_nextDecode=LITERAL;
+       decode_state=Literal;
       }
      break;
 
      default:
       {
-       Printf(Exception,"");
+       Printf(Exception,"CCore::Deflate::Inflator::decodeHeader() : incorrect block type");
       }
     }
  }
 
-bool Inflator::DecodeBody()
+bool Inflator::decodeBody()
  {
   bool blockEnd=false;
 
-  if( m_blockType==Stored )
+  if( block_type==Stored )
     {
-     while( !m_reader.isEmpty() && !blockEnd )
+     while( !reader.isEmpty() && !blockEnd )
        {
-        m_reader.pumpTo(out,m_storedLen);
+        reader.pumpTo(out,stored_len);
 
-        if( m_storedLen==0 ) blockEnd=true;
+        if( stored_len==0 ) blockEnd=true;
        }
     }
   else
     {
-     const HuffmanDecoder &literalDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
+     const HuffmanDecoder &literalDecoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
                                                                  : m_dynamicLiteralDecoder ;
 
-     const HuffmanDecoder &distanceDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
+     const HuffmanDecoder &distanceDecoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
                                                                   : m_dynamicDistanceDecoder ;
 
-     switch( m_nextDecode )
+     switch( decode_state )
        {
-        case LITERAL:
+        case Literal:
 
           for(;;)
             {
-             if( !literalDecoder.Decode(m_reader,m_literal) )
+             if( !literalDecoder.decode(reader,m_literal) )
                {
-                m_nextDecode=LITERAL;
+                decode_state=Literal;
 
                 break;
                }
@@ -590,29 +595,29 @@ bool Inflator::DecodeBody()
 
                 unsigned int bits;
 
-                case LENGTH_BITS :
+                case LengthBits :
 
                 bits=LengthExtraBits[m_literal-257];
 
-                if( !m_reader.fillBuffer(bits) )
+                if( !reader.fillBuffer(bits) )
                   {
-                   m_nextDecode=LENGTH_BITS;
+                   decode_state=LengthBits;
 
                    break;
                   }
 
-                m_literal=m_reader.getBits(bits)+LengthBases[m_literal-257];
+                m_literal=reader.getBits(bits)+LengthBases[m_literal-257];
 
-                case DISTANCE :
+                case Distance :
 
-                if( !distanceDecoder.Decode(m_reader,m_distance) )
+                if( !distanceDecoder.decode(reader,m_distance) )
                   {
-                   m_nextDecode=DISTANCE;
+                   decode_state=Distance;
 
                    break;
                   }
 
-                case DISTANCE_BITS :
+                case DistanceBits :
 
                 if( m_distance>=DimOf(DistanceExtraBits) )
                   {
@@ -621,9 +626,9 @@ bool Inflator::DecodeBody()
 
                 bits=DistanceExtraBits[m_distance];
 
-                if( !m_reader.fillBuffer(bits) )
+                if( !reader.fillBuffer(bits) )
                   {
-                   m_nextDecode=DISTANCE_BITS;
+                   decode_state=DistanceBits;
 
                    break;
                   }
@@ -633,7 +638,7 @@ bool Inflator::DecodeBody()
                    Printf(Exception,"");
                   }
 
-                m_distance=m_reader.getBits(bits)+DistanceBases[m_distance];
+                m_distance=reader.getBits(bits)+DistanceBases[m_distance];
 
                 out.put(m_distance,m_literal);
                }
@@ -644,65 +649,58 @@ bool Inflator::DecodeBody()
   return blockEnd;
  }
 
-void Inflator::completeStream()
- {
-  out.flush();
-
-  m_reader.align8();
- }
-
-void Inflator::ProcessInput(bool eof)
+void Inflator::processInput(bool eof)
  {
   for(;;)
     {
-     switch( m_state )
+     switch( state )
        {
-        case PRE_STREAM :
+        case PreStream :
          {
           out.reset();
 
-          m_state=WAIT_HEADER;
+          state=WaitHeader;
          }
         break;
 
-        case WAIT_HEADER :
+        case WaitHeader :
          {
-          if( !eof && !m_reader.canRead(MaxHeaderBitlen) ) return;
+          if( !eof && !reader.canRead(MaxHeaderBitlen) ) return;
 
-          DecodeHeader();
+          decodeHeader();
 
-          m_state=DECODING_BODY;
+          state=DecodingBody;
          }
         break;
 
-        case DECODING_BODY :
+        case DecodingBody :
          {
-          if( !DecodeBody() ) return;
+          if( !decodeBody() ) return;
 
-          if( m_eof )
+          if( last_block )
             {
-             completeStream();
+             out.flush();
 
-             m_state=POST_STREAM;
+             reader.align8();
+
+             state=PostStream;
             }
           else
             {
-             m_state=WAIT_HEADER;
+             state=WaitHeader;
             }
          }
         break;
 
-        case POST_STREAM :
+        case PostStream :
          {
-          m_state = m_repeat? PRE_STREAM : AFTER_END ;
-
-          if( m_reader.isEmpty() ) return;
+          state = repeat? PreStream : AfterEnd ;
          }
         break;
 
-        case AFTER_END :
+        case AfterEnd :
          {
-          m_reader.pumpTo(out);
+          reader.pumpTo(out);
 
           return;
          }
@@ -710,37 +708,31 @@ void Inflator::ProcessInput(bool eof)
     }
  }
 
-Inflator::Inflator(OutFunc out_,bool repeat)
+Inflator::Inflator(OutFunc out_,bool repeat_)
  : out(out_),
-   m_state(PRE_STREAM),
-   m_repeat(repeat),
-   m_eof(0),
-   m_blockType(0xff),
-   m_storedLen(0xffff),
-   m_nextDecode(),
-   m_literal(0),
-   m_distance(0)
+   repeat(repeat_),
+   state(PreStream)
  {
  }
 
 void Inflator::put(PtrLen<const uint8> data)
  {
-  m_reader.extend(data);
+  reader.extend(data);
 
-  ScopeGuard guard( [this] () { m_reader.bufferize(NoException); } );
+  ScopeGuard guard( [this] () { reader.bufferize(NoException); } );
 
-  ProcessInput(false);
+  processInput(false);
 
-  m_reader.bufferize(Exception);
+  reader.bufferize(Exception);
  }
 
 void Inflator::complete()
  {
-  ProcessInput(true);
+  processInput(true);
 
-  if( !( m_state==PRE_STREAM || m_state==AFTER_END ) )
+  if( !( state==PreStream || state==AfterEnd ) )
     {
-     Printf(Exception,"");
+     Printf(Exception,"CCore::Deflate::Inflator::complete() : unexpected EOF");
     }
  }
 
