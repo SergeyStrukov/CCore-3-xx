@@ -55,7 +55,7 @@ inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
 
 class LowFirstBitReader : NoCopy
  {
-   static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 512u ) ;
+   static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 256u ) ;
 
    PtrLen<const uint8> inp;
 
@@ -535,145 +535,6 @@ bool HuffmanDecoder::Decode(LowFirstBitReader &reader,USym &value) const
   return true;
  }
 
-/* class WindowOut */
-
-class WindowOut : NoCopy
- {
-   static constexpr unsigned WindowLen = 1u<<15 ;
-
-   OutFunc out;
-
-   SimpleArray<uint8> buf;
-
-   unsigned outpos = 0 ;
-   unsigned addpos = 0 ;
-   bool wrapped = false ;
-
-  private:
-
-   void output();
-
-   void commit();
-
-  public:
-
-   explicit WindowOut(OutFunc out);
-
-   ~WindowOut();
-
-   void reset()
-    {
-     outpos=0;
-     addpos=0;
-     wrapped=false;
-    }
-
-   void flush();
-
-   void put(uint8 octet);
-
-   void put(const uint8 *ptr,ulen len);
-
-   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
-
-   void put(unsigned length,unsigned distance);
- };
-
-void WindowOut::output()
- {
-  out(Range(buf.getPtr()+outpos,addpos-outpos));
- }
-
-void WindowOut::commit()
- {
-  if( addpos==WindowLen )
-    {
-     output();
-
-     outpos=0;
-     addpos=0;
-     wrapped=true;
-    }
- }
-
-WindowOut::WindowOut(OutFunc out_)
- : out(out_),
-   buf(WindowLen)
- {
- }
-
-WindowOut::~WindowOut()
- {
- }
-
-void WindowOut::flush()
- {
-  output();
-
-  outpos=addpos;
- }
-
-void WindowOut::put(uint8 octet)
- {
-  buf[addpos++]=octet;
-
-  commit();
- }
-
-void WindowOut::put(const uint8 *ptr,ulen len)
- {
-  while( len )
-    {
-     ulen delta=Min<ulen>(len,WindowLen-addpos);
-
-     Range(buf.getPtr()+addpos,delta).copy(ptr);
-
-     addpos+=delta;
-     ptr+=delta;
-     len-=delta;
-
-     commit();
-    }
- }
-
-void WindowOut::put(unsigned length,unsigned distance)
- {
-  unsigned start;
-
-  if( distance<=addpos )
-    {
-     start=addpos-distance;
-    }
-  else if( wrapped && distance<=WindowLen )
-    {
-     start=addpos+WindowLen-distance;
-    }
-  else
-    {
-     Printf(Exception,"");
-
-     start=0;
-    }
-
-  if( start+length>WindowLen )
-    {
-     for(; start<WindowLen ;start++,length--) put(buf[start]);
-
-     start=0;
-    }
-
-  if( start+length>addpos || addpos+length>=WindowLen )
-    {
-     while( length-- ) put(buf[start++]);
-    }
-  else
-    {
-     Range(buf.getPtr()+addpos,length).copy(buf.getPtr()+start);
-
-     addpos+=length;
-    }
- }
-
 /* class Inflator */
 
 class Inflator : NoCopy
@@ -785,11 +646,6 @@ void Inflator::DecodeHeader()
        unsigned hclen=m_reader.GetBits(4);
 
        BitLen codeLengths[286+32];
-
-       static const unsigned Order[19]=
-        {
-         16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
-        };
 
        Range(codeLengths,19).set_null();
 
@@ -917,24 +773,6 @@ bool Inflator::DecodeBody()
     }
   else
     {
-     static const unsigned int lengthStarts[] = {
-        3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
-        35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
-
-     static const unsigned int lengthExtraBits[] = {
-        0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
-        3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
-
-     static const unsigned int distanceStarts[] = {
-        1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
-        257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
-        8193, 12289, 16385, 24577};
-
-     static const unsigned int distanceExtraBits[] = {
-        0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
-        7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
-        12, 12, 13, 13};
-
      const HuffmanDecoder &literalDecoder = (m_blockType==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
                                                                  : m_dynamicLiteralDecoder ;
 
@@ -975,7 +813,7 @@ bool Inflator::DecodeBody()
 
                 case LENGTH_BITS :
 
-                bits=lengthExtraBits[m_literal-257];
+                bits=LengthExtraBits[m_literal-257];
 
                 if( !m_reader.FillBuffer(bits) )
                   {
@@ -984,7 +822,7 @@ bool Inflator::DecodeBody()
                    break;
                   }
 
-                m_literal=m_reader.GetBits(bits)+lengthStarts[m_literal-257];
+                m_literal=m_reader.GetBits(bits)+LengthBases[m_literal-257];
 
                 case DISTANCE :
 
@@ -997,12 +835,12 @@ bool Inflator::DecodeBody()
 
                 case DISTANCE_BITS :
 
-                if( m_distance>=DimOf(distanceExtraBits) )
+                if( m_distance>=DimOf(DistanceExtraBits) )
                   {
                    Printf(Exception,"");
                   }
 
-                bits=distanceExtraBits[m_distance];
+                bits=DistanceExtraBits[m_distance];
 
                 if( !m_reader.FillBuffer(bits) )
                   {
@@ -1011,14 +849,14 @@ bool Inflator::DecodeBody()
                    break;
                   }
 
-                if( m_distance>=DimOf(distanceStarts) )
+                if( m_distance>=DimOf(DistanceBases) )
                   {
                    Printf(Exception,"");
                   }
 
-                m_distance=m_reader.GetBits(bits)+distanceStarts[m_distance];
+                m_distance=m_reader.GetBits(bits)+DistanceBases[m_distance];
 
-                out.put(m_literal,m_distance);
+                out.put(m_distance,m_literal);
                }
             }
        }

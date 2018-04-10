@@ -80,6 +80,20 @@ enum BlockType : UCode
   Dynamic = 2
  };
 
+/* tables */
+
+extern const USym LengthCodes[256];
+
+extern const unsigned LengthBases[29];
+
+extern const unsigned DistanceBases[30];
+
+extern const unsigned Order[19];
+
+extern const unsigned LengthExtraBits[29];
+
+extern const unsigned DistanceExtraBits[30];
+
 /* functions */
 
 BitLen MaxValue(PtrLen<const BitLen> bitlens);
@@ -101,6 +115,8 @@ template <class Coder,class Bitlens> class StaticCoder;
 class SymWriter;
 
 class Deflator;
+
+class WindowOut;
 
 /* struct Code */
 
@@ -409,6 +425,50 @@ class Deflator : NoCopy
    void put(PtrLen<const uint8> data);
 
    void complete();
+ };
+
+/* class WindowOut */
+
+class WindowOut : NoCopy
+ {
+   static constexpr unsigned WindowLen = 1u<<15 ;
+
+   OutFunc out;
+
+   SimpleArray<uint8> buf;
+
+   unsigned outpos = 0 ;
+   unsigned addpos = 0 ;
+   bool wrapped = false ;
+
+  private:
+
+   void output();
+
+   void commit();
+
+  public:
+
+   explicit WindowOut(OutFunc out);
+
+   ~WindowOut();
+
+   void reset()
+    {
+     outpos=0;
+     addpos=0;
+     wrapped=false;
+    }
+
+   void flush();
+
+   void put(uint8 octet);
+
+   void put(const uint8 *ptr,ulen len) { put(Range(ptr,len)); }
+
+   void put(PtrLen<const uint8> data);
+
+   void put(unsigned distance,unsigned length);
  };
 
 } // namespace Deflate
