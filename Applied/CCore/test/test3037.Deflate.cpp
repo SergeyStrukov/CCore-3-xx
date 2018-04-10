@@ -47,6 +47,10 @@ inline uint32 BitReverse(uint32 value)
   return Quick::ByteSwap32(value);
  }
 
+/* consts */
+
+inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
+
 /* class LowFirstBitReader */
 
 class LowFirstBitReader : NoCopy
@@ -69,6 +73,13 @@ class LowFirstBitReader : NoCopy
      return true;
     }
 
+   UCode PeekBits(unsigned bitlen)
+    {
+     FillBuffer(bitlen);
+
+     return buffer&((uint32(1)<<bitlen)-1);
+    }
+
   public:
 
    LowFirstBitReader() {}
@@ -78,13 +89,6 @@ class LowFirstBitReader : NoCopy
    uint32 PeekBuffer() const { return buffer; }
 
    bool FillBuffer(unsigned bitlen);
-
-   UCode PeekBits(unsigned bitlen)
-    {
-     FillBuffer(bitlen);
-
-     return buffer&((uint32(1)<<bitlen)-1);
-    }
 
    void SkipBits(unsigned bitlen)
     {
@@ -103,21 +107,21 @@ class LowFirstBitReader : NoCopy
 
    // byte queue
 
-   void LazyPut(const uint8 *str,ulen len);
+   bool isEmpty() const;
 
-   void FinLazyPut();
+   bool canRead(unsigned bitlen) const;
 
-   bool IsEmpty() const;
+   void align8();
 
-   ulen CurrentSize() const;
+   void extend(PtrLen<const uint8> data);
 
-   void TransferTo(OutFunc out);
+   void bufferize(ExceptionType ex);
 
-   const uint8 * Spy(ulen &len);
+   template <class T>
+   ulen copyTo(T &out); // put(,)
 
-   void Skip(ulen len);
-
-   void Unget(const uint8 *ptr,ulen len);
+   template <class T>
+   ulen copyTo(T &out,ulen cap); // put(,)
  };
 
 bool LowFirstBitReader::FillBuffer(unsigned bitlen)
@@ -558,9 +562,11 @@ class Inflator : NoCopy
     };
 
    State m_state;
+
    bool m_repeat, m_eof;
    uint8 m_blockType;
-   uint16 m_storedLen;
+
+   ulen m_storedLen;
 
    enum NextDecode
     {
@@ -582,13 +588,19 @@ class Inflator : NoCopy
 
    bool DecodeBody();
 
-   void ProcessInput(bool flush);
+   void completeStream();
+
+   void ProcessInput(bool eof);
 
   public:
 
    Inflator(OutFunc out,bool repeat=false);
 
-   ulen Put2(const uint8 *inString,ulen length,bool eof);
+   void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
+
+   void put(PtrLen<const uint8> data);
+
+   void complete();
  };
 
 void Inflator::DecodeHeader()
@@ -606,18 +618,19 @@ void Inflator::DecodeHeader()
     {
      case Stored :
       {
-       m_reader.SkipBits(m_reader.BitsBuffered()%8);
+       m_reader.align8();
 
        if( !m_reader.FillBuffer(32) )
          {
           Printf(Exception,"");
          }
 
-       m_storedLen=(uint16)m_reader.GetBits(16);
-
+       uint16 len=(uint16)m_reader.GetBits(16);
        uint16 nlen=(uint16)m_reader.GetBits(16);
 
-       if( nlen!=(uint16)~m_storedLen )
+       m_storedLen=len;
+
+       if( nlen!=(uint16)~len )
          {
           Printf(Exception,"");
          }
@@ -757,8 +770,6 @@ void Inflator::DecodeHeader()
        Printf(Exception,"");
       }
     }
-
-  m_state=DECODING_BODY;
  }
 
 bool Inflator::DecodeBody()
@@ -767,19 +778,11 @@ bool Inflator::DecodeBody()
 
   if( m_blockType==Stored )
     {
-     while( !m_reader.IsEmpty() && !blockEnd )
+     while( !m_reader.isEmpty() && !blockEnd )
        {
-        ulen size;
+        ulen delta=m_reader.copyTo(out,m_storedLen);
 
-        const uint8 *block=m_reader.Spy(size);
-
-        size=Min<ulen>(m_storedLen,size);
-
-        out.put(block,size);
-
-        m_reader.Skip(size);
-
-        m_storedLen=m_storedLen-(uint16)size;
+        m_storedLen-=delta;
 
         if( m_storedLen==0 ) blockEnd=true;
        }
@@ -893,36 +896,17 @@ bool Inflator::DecodeBody()
        }
     }
 
-  if( blockEnd )
-    {
-     if( m_eof )
-       {
-        if( m_state!=PRE_STREAM ) out.flush();
-
-        m_reader.SkipBits(m_reader.BitsBuffered()%8);
-
-        if( m_reader.BitsBuffered() )
-          {
-                TempArray<uint8, 4> buffer(m_reader.BitsBuffered() / 8);
-
-                for (unsigned int i=0; i<buffer.getLen(); i++)
-                    buffer[i] = (uint8)m_reader.GetBits(8);
-
-                m_reader.Unget(buffer.getPtr(), buffer.getLen());
-          }
-
-        m_state=POST_STREAM;
-       }
-     else
-       {
-        m_state=WAIT_HEADER;
-       }
-    }
-
   return blockEnd;
  }
 
-void Inflator::ProcessInput(bool flush)
+void Inflator::completeStream()
+ {
+  out.flush();
+
+  m_reader.align8();
+ }
+
+void Inflator::ProcessInput(bool eof)
  {
   for(;;)
     {
@@ -930,26 +914,36 @@ void Inflator::ProcessInput(bool flush)
        {
         case PRE_STREAM :
          {
-          m_state=WAIT_HEADER;
-
           out.reset();
+
+          m_state=WAIT_HEADER;
          }
         break;
 
         case WAIT_HEADER :
          {
-          const unsigned MAX_HEADER_SIZE = RoundUpCount(3+5+5+4+19*7+286*15+19*15,8) ;
-
-          if( m_reader.CurrentSize()<(flush? 1u : MAX_HEADER_SIZE) ) return;
+          if( !eof && !m_reader.canRead(MaxHeaderBitlen) ) return;
 
           DecodeHeader();
 
-          break;
+          m_state=DECODING_BODY;
          }
+        break;
 
         case DECODING_BODY :
          {
           if( !DecodeBody() ) return;
+
+          if( m_eof )
+            {
+             completeStream();
+
+             m_state=POST_STREAM;
+            }
+          else
+            {
+             m_state=WAIT_HEADER;
+            }
          }
         break;
 
@@ -957,13 +951,13 @@ void Inflator::ProcessInput(bool flush)
          {
           m_state = m_repeat? PRE_STREAM : AFTER_END ;
 
-          if( m_reader.IsEmpty() ) return;
+          if( m_reader.isEmpty() ) return;
          }
         break;
 
         case AFTER_END :
          {
-          //m_inQueue.TransferTo(out); TODO
+          m_reader.copyTo(out);
 
           return;
          }
@@ -984,37 +978,25 @@ Inflator::Inflator(OutFunc out_,bool repeat)
  {
  }
 
-ulen Inflator::Put2(const uint8 *inString,ulen length,bool eof)
+void Inflator::put(PtrLen<const uint8> data)
  {
-  struct Putter
-   {
-     LowFirstBitReader &obj;
+  m_reader.extend(data);
 
-     Putter(LowFirstBitReader &obj_,const uint8 *inString,ulen length)
-      : obj(obj_)
-      {
-       obj.LazyPut(inString,length);
-      }
+  ScopeGuard guard( [this] () { m_reader.bufferize(NoException); } );
 
-     ~Putter()
-      {
-       obj.FinLazyPut();
-      }
-   };
+  ProcessInput(false);
 
-  Putter putter(m_reader, inString, length);
+  m_reader.bufferize(Exception);
+ }
 
-  ProcessInput(eof);
+void Inflator::complete()
+ {
+  ProcessInput(true);
 
-  if( eof )
+  if( !( m_state==PRE_STREAM || m_state==AFTER_END ) )
     {
-        if (!(m_state == PRE_STREAM || m_state == AFTER_END))
-         {
-          Printf(Exception,"");
-         }
+     Printf(Exception,"");
     }
-
-  return 0;
  }
 
 //----------------------------------------------------------------------------------------
