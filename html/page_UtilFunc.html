@@ -222,13 +222,13 @@ Two functions to round up integral values. It is assumed that arguments are posi
 <pre>
 
 template &lt;SUIntType SUInt&gt;
-SUInt <span class="Att">RoundUpCount</span>(SUInt x,SUInt g)
+constexpr SUInt <span class="Att">RoundUpCount</span>(SUInt x,SUInt g)
  {
   return (x+g-1)/g;
  }
 
 template &lt;SUIntType SUInt&gt;
-SUInt <span class="Att">RoundUp</span>(SUInt x,SUInt g)
+constexpr SUInt <span class="Att">RoundUp</span>(SUInt x,SUInt g)
  {
   SUInt count=(x+g-1)/g;
 
@@ -255,13 +255,13 @@ Two functions to round down integral values. It is assumed that arguments are po
 <pre>
 
 template &lt;SUIntType SUInt&gt;
-SUInt <span class="Att">RoundDownCount</span>(SUInt x,SUInt g)
+constexpr SUInt <span class="Att">RoundDownCount</span>(SUInt x,SUInt g)
  {
   return x/g;
  }
 
 template &lt;SUIntType SUInt&gt;
-SUInt <span class="Att">RoundDown</span>(SUInt x,SUInt g)
+constexpr SUInt <span class="Att">RoundDown</span>(SUInt x,SUInt g)
  {
   SUInt count=x/g;
 

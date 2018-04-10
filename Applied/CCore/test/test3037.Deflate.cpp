@@ -55,7 +55,13 @@ inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
 
 class LowFirstBitReader : NoCopy
  {
+   static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 512u ) ;
+
    PtrLen<const uint8> inp;
+
+   uint8 bytes[BufLen];
+   unsigned getpos = 0 ;
+   unsigned addpos = 0 ;
 
    uint32 buffer = 0 ;
    unsigned bits = 0 ;
@@ -64,6 +70,13 @@ class LowFirstBitReader : NoCopy
 
    bool next(uint8 &octet)
     {
+     if( getpos<addpos )
+       {
+        octet=bytes[getpos++];
+
+        return true;
+       }
+
      if( !inp ) return false;
 
      octet=*inp;
@@ -78,6 +91,19 @@ class LowFirstBitReader : NoCopy
      FillBuffer(bitlen);
 
      return buffer&((uint32(1)<<bitlen)-1);
+    }
+
+   void copyDown()
+    {
+     unsigned delta=getpos;
+     unsigned count=addpos-getpos;
+
+     if( delta==0 || count==0 ) return;
+
+     for(unsigned i=0; i<count ;i++) bytes[i]=bytes[i+delta];
+
+     getpos=0;
+     addpos=count;
     }
 
   public:
@@ -107,21 +133,123 @@ class LowFirstBitReader : NoCopy
 
    // byte queue
 
-   bool isEmpty() const;
+   bool isEmpty() const { return bits==0 && getpos==addpos && !inp ; }
 
-   bool canRead(unsigned bitlen) const;
+   bool canRead(unsigned bitlen) const
+    {
+     if( bitlen<=bits ) return true;
 
-   void align8();
+     unsigned len=RoundUpCount(bitlen-bits,8u);
+     unsigned mid=addpos-getpos;
 
-   void extend(PtrLen<const uint8> data);
+     return len<=mid || len-mid<=inp.len ;
+    }
 
-   void bufferize(ExceptionType ex);
+   void align8()
+    {
+     SkipBits(bits%8);
+    }
+
+   void extend(PtrLen<const uint8> data)
+    {
+     inp=data;
+    }
+
+   void bufferize(ExceptionType ex)
+    {
+     if( inp.len<=BufLen-addpos )
+       {
+        inp.copyTo(bytes+addpos);
+
+        addpos+=(unsigned)inp.len;
+
+        inp=Null;
+       }
+     else if( inp.len<=BufLen-addpos+getpos )
+       {
+        copyDown();
+
+        inp.copyTo(bytes+addpos);
+
+        addpos+=(unsigned)inp.len;
+
+        inp=Null;
+       }
+     else
+       {
+        Printf(ex,"");
+       }
+    }
 
    template <class T>
-   ulen copyTo(T &out); // put(,)
+   void copyTo(T &out)
+    {
+     // 1
+
+     while( bits>=8 ) out.put((uint8)GetBits(8));
+
+     // 2
+
+     out.put(bytes+getpos,addpos-getpos);
+
+     getpos=0;
+     addpos=0;
+
+     // 3
+
+     out.put(inp);
+
+     inp=Null;
+    }
 
    template <class T>
-   ulen copyTo(T &out,ulen cap); // put(,)
+   void copyTo(T &out,ulen &cap)
+    {
+     // 1
+
+     for(; bits>=8 && cap ;cap--) out.put((uint8)GetBits(8));
+
+     // 2
+
+     unsigned len=addpos-getpos;
+
+     if( cap<len )
+       {
+        out.put(bytes+getpos,cap);
+
+        getpos+=(unsigned)cap;
+
+        cap=0;
+
+        return;
+       }
+     else
+       {
+        out.put(bytes+getpos,len);
+
+        getpos=0;
+        addpos=0;
+
+        cap-=len;
+       }
+
+     // 3
+
+     if( cap<inp.len )
+       {
+        out.put(inp+=cap);
+
+        cap=0;
+       }
+     else
+       {
+        out.put(inp);
+
+        cap-=inp.len;
+
+        inp=Null;
+       }
+    }
  };
 
 bool LowFirstBitReader::FillBuffer(unsigned bitlen)
@@ -445,6 +573,8 @@ class WindowOut : NoCopy
    void put(uint8 octet);
 
    void put(const uint8 *ptr,ulen len);
+
+   void put(PtrLen<const uint8> data) { put(data.ptr,data.len); }
 
    void put(unsigned length,unsigned distance);
  };
@@ -780,9 +910,7 @@ bool Inflator::DecodeBody()
     {
      while( !m_reader.isEmpty() && !blockEnd )
        {
-        ulen delta=m_reader.copyTo(out,m_storedLen);
-
-        m_storedLen-=delta;
+        m_reader.copyTo(out,m_storedLen);
 
         if( m_storedLen==0 ) blockEnd=true;
        }
@@ -1030,18 +1158,35 @@ const char *const Testit<3037>::Name="Test3037 Deflate";
 template<>
 bool Testit<3037>::Main()
  {
-  FileToMem file("../../../HCore/files/test.txt");
-  OutFile outfile("test3037.bin");
+  // 1
 
-  Deflate::Param param;
+  {
+   FileToMem file("../../../HCore/files/test.txt");
+   OutFile outfile("test3037.bin");
 
-  param.level=Deflate::MaxLevel;
+   Deflate::Param param;
 
-  Deflator deflate(outfile.function_out(),param);
+   param.level=Deflate::MaxLevel;
 
-  deflate.put(Range(file));
+   Deflator deflate(outfile.function_out(),param);
 
-  deflate.complete();
+   deflate.put(Range(file));
+
+   deflate.complete();
+  }
+
+  // 2
+
+  {
+   FileToMem file("test3037.bin");
+   OutFile outfile("test3037.txt");
+
+   Inflator inflate(outfile.function_out());
+
+   inflate.put(Range(file));
+
+   inflate.complete();
+  }
 
   return true;
  }

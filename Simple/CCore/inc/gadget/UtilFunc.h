@@ -95,13 +95,13 @@ void CapDown(T &obj,S cap)
  }
 
 template <SUIntType SUInt>
-SUInt RoundUpCount(SUInt x,SUInt g)
+constexpr SUInt RoundUpCount(SUInt x,SUInt g)
  {
   return (x+g-1)/g;
  }
 
 template <SUIntType SUInt>
-SUInt RoundUp(SUInt x,SUInt g)
+constexpr SUInt RoundUp(SUInt x,SUInt g)
  {
   SUInt count=(x+g-1)/g;
 
@@ -109,13 +109,13 @@ SUInt RoundUp(SUInt x,SUInt g)
  }
 
 template <SUIntType SUInt>
-SUInt RoundDownCount(SUInt x,SUInt g)
+constexpr SUInt RoundDownCount(SUInt x,SUInt g)
  {
   return x/g;
  }
 
 template <SUIntType SUInt>
-SUInt RoundDown(SUInt x,SUInt g)
+constexpr SUInt RoundDown(SUInt x,SUInt g)
  {
   SUInt count=x/g;
 
