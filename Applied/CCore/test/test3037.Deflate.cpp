@@ -92,6 +92,16 @@ class HuffmanDecoder
        BitLen bitlen;       // 1,2
        const CodeInfo *lim; // 3
       };
+
+     const CodeInfo & index(UCode ncode,BitLen cache_bits) const
+      {
+       return beg[ (ncode<<cache_bits)>>(MaxCodeBits-(bitlen-cache_bits)) ];
+      }
+
+     const CodeInfo & find(UCode ncode) const
+      {
+       return Find(beg,lim,ncode);
+      }
     };
 
    mutable SimpleArray<CacheEntry> cache;
@@ -267,16 +277,9 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
   for(auto &m : cache ) m.type=0;
  }
 
-
-BitLen HuffmanDecoder::decode(UCode code,USym &sym) const // TODO
+BitLen HuffmanDecoder::decode(UCode code,USym &sym) const
  {
   CacheEntry &entry=cache[code&cache_mask];
-
-  UCode normalizedCode=0;
-
-  if( entry.type!=1 ) normalizedCode=BitReverse(code);
-
-  if( entry.type==0 ) FillCacheEntry(entry,normalizedCode);
 
   if( entry.type==1 )
     {
@@ -284,18 +287,39 @@ BitLen HuffmanDecoder::decode(UCode code,USym &sym) const // TODO
 
      return entry.bitlen;
     }
-  else
+
+  UCode ncode=BitReverse(code);
+
+  if( entry.type==0 ) FillCacheEntry(entry,ncode);
+
+  switch( entry.type )
     {
-     const CodeInfo &codeInfo = (entry.type==2)
-                                ? entry.beg[(normalizedCode<<cache_bits)>>(MaxCodeBits-(entry.bitlen-cache_bits))]
-                                : Find(entry.beg,entry.lim,normalizedCode) ;
+     case 2 :
+      {
+       const CodeInfo &info=entry.index(ncode,cache_bits);
 
-     sym=codeInfo.sym;
+       sym=info.sym;
 
-     return codeInfo.bitlen;
+       return info.bitlen;
+      }
+
+     case 3 :
+      {
+       const CodeInfo &info=entry.find(ncode);
+
+       sym=info.sym;
+
+       return info.bitlen;
+      }
+
+     default: // 1
+      {
+       sym=entry.sym;
+
+       return entry.bitlen;
+      }
     }
  }
-
 
 bool HuffmanDecoder::decode(BitReader &reader,USym &sym) const
  {
