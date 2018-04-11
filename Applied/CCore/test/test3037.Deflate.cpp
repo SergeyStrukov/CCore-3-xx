@@ -138,6 +138,7 @@ UCode HuffmanDecoder::NormalizeCode(UCode code,BitLen bitlen)
   return code<<(MaxCodeBits-bitlen);
  }
 
+
 void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const
  {
   normalizedCode&=norm_cache_mask;
@@ -169,7 +170,6 @@ void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) cons
     }
  }
 
-
 void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
  {
   // the Huffman codes are represented in 3 ways in this code:
@@ -194,7 +194,7 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
 
   max_code_bits=MaxValue(bitlens);
 
-  if( max_code_bits>MaxCodeBits || max_code_bits>=Meta::UIntBits<ulen> )
+  if( max_code_bits>MaxCodeBits )
     {
      Printf(Exception,"HuffmanDecoder: code length exceeds maximum");
     }
@@ -286,7 +286,6 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
 
   for(auto &m : cache ) m.type=0;
  }
-
 
 BitLen HuffmanDecoder::decode(UCode code,USym &sym) const
  {
