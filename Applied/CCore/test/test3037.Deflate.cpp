@@ -16,37 +16,119 @@
 #include <CCore/test/test.h>
 
 #include <CCore/inc/Deflate.h>
-
-#include <CCore/inc/Sort.h>
-#include <CCore/inc/algon/BinarySearch.h>
-
-#include <CCore/inc/Exception.h>
+#include <CCore/inc/PlatformRandom.h>
 
 #include <CCore/inc/FileToMem.h>
-#include <CCore/inc/BinaryFile.h>
+#include <CCore/inc/FileSystem.h>
+#include <CCore/inc/MakeFileName.h>
 
 namespace App {
 
 namespace Private_3037 {
 
-using namespace Deflate;
+/* Rat() */
 
-/* class OutFile */
-
-class OutFile : public Funchor_nocopy
+unsigned Rat(ulen a,ulen b)
  {
-   BinaryFile outfile;
+  if( !b ) return 100;
+
+  return (a*100)/b;
+ }
+
+/* class Transform<T> */
+
+template <class T>
+class Transform : public Funchor_nocopy
+ {
+   PtrLen<const uint8> data;
+
+   T work;
+
+   DynArray<uint8> result;
+
+  private:
+
+   void out(PtrLen<const uint8> r)
+    {
+     result.extend_copy(r);
+    }
+
+   Function<void (PtrLen<const uint8>)> function_out() { return FunctionOf(this,&Transform::out); }
 
   public:
 
-   explicit OutFile(StrLen file_name) : outfile(file_name) {}
+   template <class ... SS>
+   Transform(PtrLen<const uint8> data_,SS && ... ss)
+    : data(data_),
+      work(function_out(), std::forward<SS>(ss)... )
+    {
+    }
 
-   ~OutFile() {}
+   ~Transform()
+    {
+    }
 
-   void out(PtrLen<const uint8> data) { outfile.put(data); }
+   PtrLen<const uint8> getResult() const { return Range(result); }
 
-   OutFunc function_out() { return FunctionOf(this,&OutFile::out); }
+   void run(PlatformRandom &random)
+    {
+     ulen off=0;
+
+     while( off<data.len )
+       {
+        ulen len=Min<ulen>(data.len-off,random.select(1000));
+
+        work.put(data.part(off,len));
+
+        off+=len;
+       }
+
+     work.complete();
+    }
  };
+
+/* Test() */
+
+void Test(StrLen dir,StrLen file_name)
+ {
+  PlatformRandom random;
+
+  MakeFileName path(dir,file_name);
+  FileToMem file(path.get());
+
+  auto data=Range(file);
+
+  // 1
+
+  Deflate::Param param;
+
+  //param.level=Deflate::MaxLevel;
+
+  Transform<Deflate::Deflator> zip(data,param);
+
+  zip.run(random);
+
+  auto zipped=zip.getResult();
+
+  // 2
+
+  Transform<Deflate::Inflator> unzip(zipped);
+
+  unzip.run(random);
+
+  auto unzipped=unzip.getResult();
+
+  // 3
+
+  if( data.equal(unzipped) )
+    {
+     Printf(Con,"#; : #; -> #; (#; %)\n",file_name,data.len,zipped.len,Rat(zipped.len,data.len));
+    }
+  else
+    {
+     Printf(Exception,"#; : failed",file_name);
+    }
+ }
 
 } // namespace Private_3037
 
@@ -60,35 +142,22 @@ const char *const Testit<3037>::Name="Test3037 Deflate";
 template<>
 bool Testit<3037>::Main()
  {
-  // 1
+  //StrLen dir="../../../html";
 
-  {
-   FileToMem file("../../../HCore/files/test.txt");
-   OutFile outfile("test3037.bin");
+  StrLen dir="../.test-obj";
 
-   Deflate::Param param;
+  FileSystem fs;
+  FileSystem::DirCursor cur(fs,dir);
 
-   param.level=Deflate::MaxLevel;
+  while( cur.next() )
+    {
+     if( cur.getFileType()==FileType_file )
+       {
+        StrLen file_name=cur.getFileName();
 
-   Deflator deflate(outfile.function_out(),param);
-
-   deflate.put(Range(file));
-
-   deflate.complete();
-  }
-
-  // 2
-
-  {
-   FileToMem file("test3037.bin");
-   OutFile outfile("test3037.txt");
-
-   Inflator inflate(outfile.function_out());
-
-   inflate.put(Range(file));
-
-   inflate.complete();
-  }
+        Test(dir,file_name);
+       }
+    }
 
   return true;
  }

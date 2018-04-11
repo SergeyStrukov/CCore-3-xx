@@ -44,6 +44,10 @@ enum Log2WindowLen
   MaxLog2WindowLen     = 15
  };
 
+/* type OutFunc */
+
+using OutFunc = Function<void (PtrLen<const uint8>)> ;
+
 /* struct Param */
 
 struct Param
@@ -127,8 +131,6 @@ struct Code
  };
 
 /* class BitWriter */
-
-using OutFunc = Function<void (PtrLen<const uint8>)> ;
 
 class BitWriter : NoCopy
  {
@@ -523,7 +525,7 @@ class BitReader : NoCopy
 
    void align8() { skipBits(bits%8); }
 
-   void extend(PtrLen<const uint8> data) { inp=data; }
+   void extend(PtrLen<const uint8> data);
 
    void bufferize(ExceptionType ex);
 

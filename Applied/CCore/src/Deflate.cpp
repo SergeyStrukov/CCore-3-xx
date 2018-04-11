@@ -749,9 +749,13 @@ void SymWriter::endBlock(bool eof,PtrLen<const uint8> block)
      else
        {
         if( static_len<=dynamic_len )
-          encodeBlock(eof,Static,block);
+          {
+           encodeBlock(eof,Static,block);
+          }
         else
-          encodeBlock(eof,Dynamic,block);
+          {
+           encodeBlock(eof,Dynamic,block);
+          }
 
         if( compressible_level>MinLevel ) detect_skip=0;
        }
@@ -1196,15 +1200,24 @@ bool BitReader::next(uint8 &octet)
 
 void BitReader::copyDown()
  {
-  unsigned delta=getpos;
-  unsigned count=addpos-getpos;
+  if( getpos>=addpos )
+    {
+     getpos=0;
+     addpos=0;
+    }
+  else
+    {
+     unsigned delta=getpos;
 
-  if( delta==0 || count==0 ) return;
+     if( delta==0 ) return;
 
-  for(unsigned i=0; i<count ;i++) inpbuf[i]=inpbuf[i+delta];
+     unsigned count=addpos-getpos;
 
-  getpos=0;
-  addpos=count;
+     for(unsigned i=0; i<count ;i++) inpbuf[i]=inpbuf[i+delta];
+
+     getpos=0;
+     addpos=count;
+    }
  }
 
 bool BitReader::canRead(unsigned bitlen) const
@@ -1217,8 +1230,20 @@ bool BitReader::canRead(unsigned bitlen) const
   return len<=count || len-count<=inp.len ;
  }
 
+void BitReader::extend(PtrLen<const uint8> data)
+ {
+  if( +inp )
+    {
+     Printf(Exception,"CCore::Deflate::BitReader::extend(...) : dirty");
+    }
+
+  inp=data;
+ }
+
 void BitReader::bufferize(ExceptionType ex)
  {
+  if( !inp ) return;
+
   if( inp.len>BufLen-addpos )
     {
      if( inp.len>BufLen-addpos+getpos )
@@ -1749,6 +1774,11 @@ bool Inflator::decodeBody()
              }
            else
              {
+              if( literal>=286 )
+                {
+                 Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect literal");
+                }
+
               case LengthBits :
                {
                 unsigned bits=LengthExtraBits[literal-257];
@@ -1772,6 +1802,11 @@ bool Inflator::decodeBody()
                    break;
                   }
                }
+
+              if( distance>=30 )
+                {
+                 Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect distance");
+                }
 
               case DistanceBits :
                {
@@ -1864,11 +1899,20 @@ Inflator::Inflator(OutFunc out_,bool repeat_)
 
 void Inflator::put(PtrLen<const uint8> data)
  {
+  out.flush();
+
   reader.extend(data);
 
-  ScopeGuard guard( [this] () { reader.bufferize(NoException); } );
+  try
+    {
+     processInput(false);
+    }
+  catch(...)
+    {
+     reader.bufferize(NoException);
 
-  processInput(false);
+     throw;
+    }
 
   reader.bufferize(Exception);
  }
