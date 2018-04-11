@@ -287,7 +287,7 @@ class SymWriter : NoCopy
 
    struct CodeLenEncoder;
 
-   void encodeTree(PtrLen<const BitLen> combined,unsigned hlit,unsigned hdist);
+   void encodeCode(PtrLen<const BitLen> combined,unsigned hlit,unsigned hdist);
 
    void encodeBlock(bool eof,BlockType block_type,PtrLen<const uint8> block);
 
@@ -429,7 +429,7 @@ class Deflator : NoCopy
 
 /* consts */
 
-inline constexpr unsigned MaxHeaderBitlen = 3+5+5+4+19*7+286*15+19*15 ;
+inline constexpr unsigned MaxHeaderBitlen = 3+(5+5+4)+19*3+(286+30)*(7+7) ;
 
 /* classes */
 
@@ -485,7 +485,7 @@ class WindowOut : NoCopy
 
 class BitReader : NoCopy
  {
-   static constexpr unsigned BufLen = Max( RoundUpCount(MaxHeaderBitlen,8u) , 256u ) ;
+   static constexpr unsigned BufLen = RoundUpCount(MaxHeaderBitlen,8u) ;
 
    PtrLen<const uint8> inp;
 

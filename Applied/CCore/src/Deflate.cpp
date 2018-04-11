@@ -489,7 +489,7 @@ struct SymWriter::CodeLenEncoder
    }
  };
 
-void SymWriter::encodeTree(PtrLen<const BitLen> combined,unsigned hlit,unsigned hdist)
+void SymWriter::encodeCode(PtrLen<const BitLen> combined,unsigned hlit,unsigned hdist)
  {
   // create encoder
 
@@ -581,7 +581,7 @@ void SymWriter::encodeBlock(bool eof,BlockType block_type,PtrLen<const uint8> bl
 
         Range(combined.getPtr()+nlit,ndist).copy(distance_bitlens);
 
-        encodeTree(Range(combined),hlit,hdist);
+        encodeCode(Range(combined),hlit,hdist);
        }
 
      const HuffmanEncoder &literal_encoder = (block_type==Static)? StaticCoder<HuffmanEncoder,StaticLiteralBitlens>::Get()

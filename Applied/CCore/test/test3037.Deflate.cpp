@@ -383,14 +383,26 @@ class Inflator : NoCopy
 
 void Inflator::decodeCode()
  {
-  BitLen bitlens[288+32];
+  BitLen bitlens[286+30];
 
   // 1
 
   reader.reqBuffer(5+5+4);
 
-  unsigned hlit=reader.getBits(5)+257;
-  unsigned hdist=reader.getBits(5)+1;
+  unsigned nlit=reader.getBits(5)+257;
+
+  if( nlit>286 )
+    {
+     Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
+    }
+
+  unsigned ndist=reader.getBits(5)+1;
+
+  if( ndist>30 )
+    {
+     Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
+    }
+
   unsigned hclen=reader.getBits(4)+4;
 
   Range(bitlens,19).set_null();
@@ -406,7 +418,7 @@ void Inflator::decodeCode()
 
   // 2
 
-  unsigned len=hlit+hdist;
+  unsigned len=nlit+ndist;
 
   for(unsigned i=0; i<len ;)
     {
@@ -473,18 +485,18 @@ void Inflator::decodeCode()
 
   // 3
 
-  dynamic_literal_decoder.init({bitlens,hlit});
+  dynamic_literal_decoder.init({bitlens,nlit});
 
-  if( hdist==1 && bitlens[hlit]==0 )
+  if( ndist==1 && bitlens[nlit]==0 )
     {
-     if( hlit!=257 )
+     if( nlit!=257 )
        {
         Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
        }
     }
   else
     {
-     dynamic_distance_decoder.init({bitlens+hlit,hdist});
+     dynamic_distance_decoder.init({bitlens+nlit,ndist});
     }
  }
 
@@ -580,11 +592,6 @@ bool Inflator::decodeBody()
              }
            else
              {
-              if( literal>285 )
-                {
-                 Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect literal");
-                }
-
               case LengthBits :
                {
                 unsigned bits=LengthExtraBits[literal-257];
@@ -611,11 +618,6 @@ bool Inflator::decodeBody()
 
               case DistanceBits :
                {
-                if( distance>=30 )
-                  {
-                   Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect distance");
-                  }
-
                 unsigned bits=DistanceExtraBits[distance];
 
                 if( !reader.fillBuffer(bits) )
