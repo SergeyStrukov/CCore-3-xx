@@ -381,46 +381,51 @@ class Inflator : NoCopy
    void complete();
  };
 
-void Inflator::decodeCode() // TODO
+void Inflator::decodeCode()
  {
+  BitLen bitlens[288+32];
+
+  // 1
+
   reader.reqBuffer(5+5+4);
 
-  unsigned hlit=reader.getBits(5);
-  unsigned hdist=reader.getBits(5);
-  unsigned hclen=reader.getBits(4);
+  unsigned hlit=reader.getBits(5)+257;
+  unsigned hdist=reader.getBits(5)+1;
+  unsigned hclen=reader.getBits(4)+4;
 
-  BitLen codeLengths[286+32];
+  Range(bitlens,19).set_null();
 
-  Range(codeLengths,19).set_null();
-
-  for(unsigned i=0; i<hclen+4 ;i++)
+  for(unsigned i=0; i<hclen ;i++)
     {
-     codeLengths[Order[i]]=reader.getBits(3);
+     reader.reqBuffer(3);
+
+     bitlens[Order[i]]=reader.getBits(3);
     }
 
-  bool result = false;
-  unsigned k=0, count=0, repeater=0;
+  HuffmanDecoder decoder({bitlens,19});
 
-  HuffmanDecoder codeLengthDecoder({codeLengths,19});
+  // 2
 
-  for(unsigned i=0; i<hlit+257+hdist+1 ;)
+  unsigned len=hlit+hdist;
+
+  for(unsigned i=0; i<len ;)
     {
-     k = 0, count = 0, repeater = 0;
+     USym k;
 
-     result=codeLengthDecoder.decode(reader,k);
-
-     if( !result )
+     if( !decoder.decode(reader,k) )
        {
-        Printf(Exception,"");
+        Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : coder data underflow");
        }
 
      if( k<=15 )
        {
-        count=1;
-        repeater=k;
+        bitlens[i++]=k;
        }
      else
        {
+        unsigned count=0;
+        unsigned repeater=0;
+
         switch( k )
           {
            case 16:
@@ -431,10 +436,10 @@ void Inflator::decodeCode() // TODO
 
              if( i==0 )
                {
-                Printf(Exception,"");
+                Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
                }
 
-             repeater=codeLengths[i-1];
+             repeater=bitlens[i-1];
             }
            break;
 
@@ -443,7 +448,6 @@ void Inflator::decodeCode() // TODO
              reader.reqBuffer(3);
 
              count=3+reader.getBits(3);
-             repeater=0;
             }
            break;
 
@@ -452,34 +456,35 @@ void Inflator::decodeCode() // TODO
              reader.reqBuffer(7);
 
              count=11+reader.getBits(7);
-             repeater=0;
             }
            break;
           }
+
+        if( i+count>len )
+          {
+           Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
+          }
+
+        Range(bitlens+i,count).set(repeater);
+
+        i+=count;
        }
-
-     if( i+count>hlit+257+hdist+1 )
-       {
-        Printf(Exception,"");
-       }
-
-     Range(codeLengths+i,count).set(repeater);
-
-     i+=count;
     }
 
-  dynamic_literal_decoder.init({codeLengths,hlit+257});
+  // 3
 
-  if( hdist==0 && codeLengths[hlit+257]==0 )
+  dynamic_literal_decoder.init({bitlens,hlit});
+
+  if( hdist==1 && bitlens[hlit]==0 )
     {
-     if( hlit!=0 )
+     if( hlit!=257 )
        {
-        Printf(Exception,"");
+        Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : incorrect coder data");
        }
     }
   else
     {
-     dynamic_distance_decoder.init({codeLengths+hlit+257,hdist+1});
+     dynamic_distance_decoder.init({bitlens+hlit,hdist});
     }
  }
 
