@@ -116,7 +116,7 @@ class HuffmanDecoder
 
    static UCode NormalizeCode(UCode code,BitLen bitlen);
 
-   void FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const;
+   void FillCacheEntry(CacheEntry &entry,UCode ncode) const;
 
   public:
 
@@ -138,29 +138,28 @@ UCode HuffmanDecoder::NormalizeCode(UCode code,BitLen bitlen)
   return code<<(MaxCodeBits-bitlen);
  }
 
-
-void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const
+void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode ncode) const
  {
-  normalizedCode&=norm_cache_mask;
+  ncode&=norm_cache_mask;
 
-  const CodeInfo &codeInfo=Find(Range(table),normalizedCode);
+  const CodeInfo &base=Find(Range(table),ncode);
 
-  if( codeInfo.bitlen<=cache_bits )
+  if( base.bitlen<=cache_bits )
     {
      entry.type=1;
-     entry.sym=codeInfo.sym;
-     entry.bitlen=codeInfo.bitlen;
+     entry.sym=base.sym;
+     entry.bitlen=base.bitlen;
     }
   else
     {
-     entry.beg=&codeInfo;
+     entry.beg=&base;
 
-     const CodeInfo &last=Find(Range(table),normalizedCode + ~norm_cache_mask);
+     const CodeInfo &last=Find(Range(table),ncode+ ~norm_cache_mask);
 
-     if( codeInfo.bitlen==last.bitlen )
+     if( base.bitlen==last.bitlen )
        {
         entry.type=2;
-        entry.bitlen=codeInfo.bitlen;
+        entry.bitlen=base.bitlen;
        }
      else
        {
@@ -169,6 +168,7 @@ void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) cons
        }
     }
  }
+
 
 void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
  {
