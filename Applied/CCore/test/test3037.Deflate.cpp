@@ -354,9 +354,11 @@ class Inflator : NoCopy
 
    DecodeState decode_state;
 
-   unsigned m_literal, m_distance;
+   unsigned literal;
+   unsigned distance;
 
-   HuffmanDecoder m_dynamicLiteralDecoder, m_dynamicDistanceDecoder;
+   HuffmanDecoder dynamic_literal_decoder;
+   HuffmanDecoder dynamic_distance_decoder;
 
   private:
 
@@ -379,12 +381,9 @@ class Inflator : NoCopy
    void complete();
  };
 
-void Inflator::decodeCode()
+void Inflator::decodeCode() // TODO
  {
-  if( !reader.fillBuffer(5+5+4) )
-    {
-     Printf(Exception,"");
-    }
+  reader.reqBuffer(5+5+4);
 
   unsigned hlit=reader.getBits(5);
   unsigned hdist=reader.getBits(5);
@@ -417,19 +416,16 @@ void Inflator::decodeCode()
 
      if( k<=15 )
        {
-        count = 1;
-        repeater = k;
+        count=1;
+        repeater=k;
        }
      else
        {
-        switch (k)
+        switch( k )
           {
            case 16:
             {
-             if( !reader.fillBuffer(2) )
-               {
-                Printf(Exception,"");
-               }
+             reader.reqBuffer(2);
 
              count=3+reader.getBits(2);
 
@@ -444,10 +440,7 @@ void Inflator::decodeCode()
 
            case 17:
             {
-             if( !reader.fillBuffer(3) )
-               {
-                Printf(Exception,"");
-               }
+             reader.reqBuffer(3);
 
              count=3+reader.getBits(3);
              repeater=0;
@@ -456,10 +449,7 @@ void Inflator::decodeCode()
 
            case 18:
             {
-             if( !reader.fillBuffer(7) )
-               {
-                Printf(Exception,"");
-               }
+             reader.reqBuffer(7);
 
              count=11+reader.getBits(7);
              repeater=0;
@@ -478,7 +468,7 @@ void Inflator::decodeCode()
      i+=count;
     }
 
-  m_dynamicLiteralDecoder.init({codeLengths,hlit+257});
+  dynamic_literal_decoder.init({codeLengths,hlit+257});
 
   if( hdist==0 && codeLengths[hlit+257]==0 )
     {
@@ -489,7 +479,7 @@ void Inflator::decodeCode()
     }
   else
     {
-     m_dynamicDistanceDecoder.init({codeLengths+hlit+257,hdist+1});
+     dynamic_distance_decoder.init({codeLengths+hlit+257,hdist+1});
     }
  }
 
@@ -544,60 +534,55 @@ void Inflator::decodeHeader()
 
 bool Inflator::decodeBody()
  {
-  bool blockEnd=false;
-
   if( block_type==Stored )
     {
-     while( !reader.isEmpty() && !blockEnd )
-       {
-        reader.pumpTo(out,stored_len);
+     reader.pumpTo(out,stored_len);
 
-        if( stored_len==0 ) blockEnd=true;
-       }
+     return !stored_len;
     }
   else
     {
-     const HuffmanDecoder &literalDecoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
-                                                                 : m_dynamicLiteralDecoder ;
+     bool end_of_block=false;
 
-     const HuffmanDecoder &distanceDecoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
-                                                                  : m_dynamicDistanceDecoder ;
+     const HuffmanDecoder &literal_decoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticLiteralBitlens>::Get()
+                                                                 : dynamic_literal_decoder ;
+
+     const HuffmanDecoder &distance_decoder = (block_type==Static)? StaticCoder<HuffmanDecoder,StaticDistanceBitlens>::Get()
+                                                                  : dynamic_distance_decoder ;
 
      switch( decode_state )
        {
         case Literal:
 
-          for(;;)
-            {
-             if( !literalDecoder.decode(reader,m_literal) )
+        for(;;)
+          {
+           if( !literal_decoder.decode(reader,literal) )
+             {
+              decode_state=Literal;
+
+              break;
+             }
+
+           if( literal<256 )
+             {
+              out.put((uint8)literal);
+             }
+           else if( literal==256 )
+             {
+              end_of_block=true;
+
+              break;
+             }
+           else
+             {
+              if( literal>285 )
+                {
+                 Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect literal");
+                }
+
+              case LengthBits :
                {
-                decode_state=Literal;
-
-                break;
-               }
-
-             if( m_literal<256 )
-               {
-                out.put((uint8)m_literal);
-               }
-             else if( m_literal==256 )
-               {
-                blockEnd=true;
-
-                break;
-               }
-             else
-               {
-                if( m_literal>285 )
-                  {
-                   Printf(Exception,"");
-                  }
-
-                unsigned int bits;
-
-                case LengthBits :
-
-                bits=LengthExtraBits[m_literal-257];
+                unsigned bits=LengthExtraBits[literal-257];
 
                 if( !reader.fillBuffer(bits) )
                   {
@@ -606,25 +591,27 @@ bool Inflator::decodeBody()
                    break;
                   }
 
-                m_literal=reader.getBits(bits)+LengthBases[m_literal-257];
+                literal=reader.getBits(bits)+LengthBases[literal-257];
+               }
 
-                case Distance :
-
-                if( !distanceDecoder.decode(reader,m_distance) )
+              case Distance :
+               {
+                if( !distance_decoder.decode(reader,distance) )
                   {
                    decode_state=Distance;
 
                    break;
                   }
+               }
 
-                case DistanceBits :
-
-                if( m_distance>=DimOf(DistanceExtraBits) )
+              case DistanceBits :
+               {
+                if( distance>=30 )
                   {
-                   Printf(Exception,"");
+                   Printf(Exception,"CCore::Deflate::Inflator::decodeBody() : incorrect distance");
                   }
 
-                bits=DistanceExtraBits[m_distance];
+                unsigned bits=DistanceExtraBits[distance];
 
                 if( !reader.fillBuffer(bits) )
                   {
@@ -633,20 +620,16 @@ bool Inflator::decodeBody()
                    break;
                   }
 
-                if( m_distance>=DimOf(DistanceBases) )
-                  {
-                   Printf(Exception,"");
-                  }
+                distance=reader.getBits(bits)+DistanceBases[distance];
 
-                m_distance=reader.getBits(bits)+DistanceBases[m_distance];
-
-                out.put(m_distance,m_literal);
+                out.put(distance,literal);
                }
-            }
+             }
+          }
        }
-    }
 
-  return blockEnd;
+     return end_of_block;
+    }
  }
 
 void Inflator::processInput(bool eof)
