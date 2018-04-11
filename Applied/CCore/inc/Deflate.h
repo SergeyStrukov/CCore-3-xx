@@ -439,6 +439,10 @@ class WindowOut;
 
 class BitReader;
 
+class HuffmanDecoder;
+
+class Inflator;
+
 /* class WindowOut */
 
 class WindowOut : NoCopy
@@ -551,6 +555,164 @@ class BitReader : NoCopy
 
      return ret;
     }
+ };
+
+/* class HuffmanDecoder */
+
+class HuffmanDecoder : NoCopy
+ {
+   BitLen max_code_bits;
+
+   // code
+
+   struct CodeInfo
+    {
+     UCode ncode = 0 ;
+     BitLen bitlen = 0 ;
+     USym sym = 0 ;
+
+     CodeInfo() noexcept {}
+
+     void set(UCode code,BitLen bitlen_,USym sym_)
+      {
+       ncode=NormalizeCode(code,bitlen_);
+       bitlen=bitlen_;
+       sym=sym_;
+      }
+
+     bool operator < (const CodeInfo &obj) const { return ncode<obj.ncode; }
+    };
+
+   SimpleArray<CodeInfo> table;
+
+   // cache
+
+   struct CacheEntry
+    {
+     unsigned type;
+
+     union
+      {
+       USym sym;            // 1
+       const CodeInfo *beg; // 2,3
+      };
+
+     union
+      {
+       BitLen bitlen;       // 1,2
+       const CodeInfo *lim; // 3
+      };
+
+     const CodeInfo & index(UCode ncode,BitLen cache_bits) const
+      {
+       return beg[ (ncode<<cache_bits)>>(MaxCodeBits-(bitlen-cache_bits)) ];
+      }
+
+     const CodeInfo & find(UCode ncode) const
+      {
+       return Find(beg,lim,ncode);
+      }
+    };
+
+   mutable SimpleArray<CacheEntry> cache;
+
+   BitLen cache_bits;
+   UCode cache_mask;
+   UCode norm_cache_mask;
+
+  private:
+
+   static const CodeInfo & Find(PtrLen<const CodeInfo> r,UCode ncode);
+
+   static const CodeInfo & Find(const CodeInfo *beg,const CodeInfo *lim,UCode ncode)
+    {
+     return Find(Range(beg,lim),ncode);
+    }
+
+   static UCode NormalizeCode(UCode code,BitLen bitlen);
+
+   void FillCacheEntry(CacheEntry &entry,UCode ncode) const;
+
+  public:
+
+   HuffmanDecoder() {}
+
+   HuffmanDecoder(PtrLen<BitLen> bitlens) { init(bitlens); }
+
+   void init(PtrLen<BitLen> bitlens);
+
+   BitLen decode(UCode code,USym &sym) const;
+
+   bool decode(BitReader &reader,USym &sym) const;
+
+   void reqDecode(BitReader &reader,USym &sym) const;
+ };
+
+/* class Inflator */
+
+class Inflator : NoCopy
+ {
+   WindowOut out;
+
+   BitReader reader;
+
+   // params
+
+   bool repeat;
+
+   // data
+
+   enum State
+    {
+     PreStream,
+     WaitHeader,
+     DecodingBody,
+     PostStream,
+     AfterEnd
+    };
+
+   State state;
+
+   bool last_block;
+   UCode block_type;
+
+   ulen stored_len;
+
+   enum DecodeState
+    {
+     Literal,
+     LengthBits,
+     Distance,
+     DistanceBits
+    };
+
+   DecodeState decode_state;
+
+   USym literal;
+   USym distance;
+
+   HuffmanDecoder dynamic_literal_decoder;
+   HuffmanDecoder dynamic_distance_decoder;
+
+  private:
+
+   void decodeCode();
+
+   void decodeHeader();
+
+   bool decodeBody();
+
+   void processInput(bool eof);
+
+  public:
+
+   Inflator(OutFunc out,bool repeat=false);
+
+   void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
+
+   void put(PtrLen<const uint8> data);
+
+   void complete();
  };
 
 } // namespace Deflate
