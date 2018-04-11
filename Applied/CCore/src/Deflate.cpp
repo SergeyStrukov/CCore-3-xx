@@ -220,7 +220,14 @@ void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
  {
   // count table
 
-  ulen len=(ulen)MaxValue(bitlens)+1;
+  BitLen max_code_bits=MaxValue(bitlens);
+
+  if( max_code_bits>MaxCodeBits )
+    {
+     Printf(Exception,"CCore::Deflate::HuffmanEncoder::init() : code length exceeds maximum");
+    }
+
+  ulen len=max_code_bits+1;
 
   TempArray<ulen,MaxBitLens+1> counts(len);
 
@@ -256,7 +263,7 @@ void HuffmanEncoder::init(PtrLen<const BitLen> bitlens)
      table[i].bitlen=bitlen;
 
      if( bitlen!=0 )
-       table[i].code = BitReverse(code[bitlen]++) >> (Meta::UIntBits<UCode>-bitlen) ;
+       table[i].code = BitReverse(code[bitlen]++) >> (MaxCodeBits-bitlen) ;
      else
        table[i].code = 0 ;
     }
@@ -1185,13 +1192,6 @@ bool BitReader::next(uint8 &octet)
   ++inp;
 
   return true;
- }
-
-UCode BitReader::peekBits(unsigned bitlen)
- {
-  fillBuffer(bitlen);
-
-  return buffer&((UCode(1)<<bitlen)-1);
  }
 
 void BitReader::copyDown()

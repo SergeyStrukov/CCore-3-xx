@@ -51,8 +51,6 @@ inline uint32 BitReverse(uint32 value)
 
 class HuffmanDecoder
  {
-   static constexpr unsigned MaxCodeBits = Meta::UIntBits<UCode> ;
-
    struct CodeInfo
     {
      UCode code;

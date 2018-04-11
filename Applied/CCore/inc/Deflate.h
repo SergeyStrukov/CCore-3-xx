@@ -73,6 +73,8 @@ using BitLen = unsigned ;
 
 /* consts */
 
+inline constexpr BitLen MaxCodeBits = Meta::UIntBits<UCode> ;
+
 enum BlockType : UCode
  {
   Stored  = 0,
@@ -500,7 +502,10 @@ class BitReader : NoCopy
 
    bool next(uint8 &octet);
 
-   UCode peekBits(unsigned bitlen);
+   UCode peekBits(unsigned bitlen) const
+    {
+     return buffer&((UCode(1)<<bitlen)-1);
+    }
 
    void copyDown();
 
@@ -524,7 +529,7 @@ class BitReader : NoCopy
 
    // bit buffer
 
-   uint32 peekBuffer() const { return buffer; }
+   UCode peekBuffer() const { return buffer; }
 
    unsigned bitsBuffered() const { return bits; }
 
@@ -532,13 +537,13 @@ class BitReader : NoCopy
 
    void reqBuffer(unsigned bitlen);
 
-   void skipBits(unsigned bitlen)
+   void skipBits(unsigned bitlen) // bitlen <= bitsBuffered()
     {
      buffer>>=bitlen;
      bits-=bitlen;
     }
 
-   UCode getBits(unsigned bitlen)
+   UCode getBits(unsigned bitlen) // bitlen <= bitsBuffered()
     {
      UCode ret=peekBits(bitlen);
 
