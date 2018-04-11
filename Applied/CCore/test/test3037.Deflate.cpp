@@ -51,16 +51,31 @@ inline uint32 BitReverse(uint32 value)
 
 class HuffmanDecoder
  {
+   BitLen max_code_bits;
+
+   // code
+
    struct CodeInfo
     {
-     UCode code;
-     unsigned len;
-     USym value;
+     UCode ncode = 0 ;
+     BitLen bitlen = 0 ;
+     USym sym = 0 ;
 
-     CodeInfo(UCode code_=0,unsigned len_=0,USym value_=0) noexcept : code(code_),len(len_),value(value_) {}
+     CodeInfo() noexcept {}
 
-     bool operator < (const CodeInfo &obj) const { return code<obj.code; }
+     void set(UCode code,BitLen bitlen_,USym sym_)
+      {
+       ncode=NormalizeCode(code,bitlen_);
+       bitlen=bitlen_;
+       sym=sym_;
+      }
+
+     bool operator < (const CodeInfo &obj) const { return ncode<obj.ncode; }
     };
+
+   SimpleArray<CodeInfo> table;
+
+   // cache
 
    struct CacheEntry
     {
@@ -68,22 +83,22 @@ class HuffmanDecoder
 
      union
       {
-       USym value;
-       const CodeInfo *begin;
+       USym sym;            // 1
+       const CodeInfo *beg; // 2,3
       };
 
      union
       {
-       unsigned len;
-       const CodeInfo *end;
+       BitLen bitlen;       // 1,2
+       const CodeInfo *lim; // 3
       };
     };
 
-   unsigned m_maxCodeBits = 0 , m_cacheBits = 0 , m_cacheMask = 0 , m_normalizedCacheMask = 0 ;
+   mutable SimpleArray<CacheEntry> cache;
 
-   DynArray<CodeInfo> m_codeToValue;
-
-   mutable DynArray<CacheEntry> m_cache;
+   BitLen cache_bits;
+   UCode cache_mask;
+   UCode norm_cache_mask;
 
   private:
 
@@ -94,12 +109,12 @@ class HuffmanDecoder
 
    static const CodeInfo & Find(PtrLen<const CodeInfo> r,UCode ncode)
     {
-     auto prefix=Algon::BinarySearch_if(r, [ncode] (const CodeInfo &obj) { return obj.code>ncode; } );
+     auto prefix=Algon::BinarySearch_if(r, [ncode] (const CodeInfo &obj) { return obj.ncode>ncode; } );
 
      return prefix.back(1);
     }
 
-   static UCode NormalizeCode(UCode code,unsigned codeBits);
+   static UCode NormalizeCode(UCode code,BitLen bitlen);
 
    void FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const;
 
@@ -111,17 +126,49 @@ class HuffmanDecoder
 
    void init(PtrLen<BitLen> bitlens);
 
-   unsigned decode(UCode code,USym &value) const;
+   BitLen decode(UCode code,USym &sym) const;
 
-   bool decode(BitReader &reader,USym &value) const;
+   bool decode(BitReader &reader,USym &sym) const;
 
-   void reqDecode(BitReader &reader,USym &value) const;
+   void reqDecode(BitReader &reader,USym &sym) const;
  };
 
-UCode HuffmanDecoder::NormalizeCode(UCode code,unsigned codeBits)
+UCode HuffmanDecoder::NormalizeCode(UCode code,BitLen bitlen)
  {
-  return code<<(MaxCodeBits-codeBits);
+  return code<<(MaxCodeBits-bitlen);
  }
+
+void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const
+ {
+  normalizedCode&=norm_cache_mask;
+
+  const CodeInfo &codeInfo=Find(Range(table),normalizedCode);
+
+  if( codeInfo.bitlen<=cache_bits )
+    {
+     entry.type=1;
+     entry.sym=codeInfo.sym;
+     entry.bitlen=codeInfo.bitlen;
+    }
+  else
+    {
+     entry.beg=&codeInfo;
+
+     const CodeInfo &last=Find(Range(table),normalizedCode + ~norm_cache_mask);
+
+     if( codeInfo.bitlen==last.bitlen )
+       {
+        entry.type=2;
+        entry.bitlen=codeInfo.bitlen;
+       }
+     else
+       {
+        entry.type=3;
+        entry.lim=&last+1;
+       }
+    }
+ }
+
 
 void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
  {
@@ -145,21 +192,21 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
      Printf(Exception,"HuffmanDecoder: null code");
     }
 
-  m_maxCodeBits=MaxValue(bitlens);
+  max_code_bits=MaxValue(bitlens);
 
-  if( m_maxCodeBits>MaxCodeBits || m_maxCodeBits>=Meta::UIntBits<ulen> )
+  if( max_code_bits>MaxCodeBits || max_code_bits>=Meta::UIntBits<ulen> )
     {
      Printf(Exception,"HuffmanDecoder: code length exceeds maximum");
     }
 
-  if( m_maxCodeBits==0 )
+  if( max_code_bits==0 )
     {
      Printf(Exception,"HuffmanDecoder: null code");
     }
 
   // count number of codes of each length
 
-  TempArray<unsigned,MaxBitLens+1> blCount(m_maxCodeBits+1);
+  TempArray<unsigned,MaxBitLens+1> blCount(max_code_bits+1);
 
   Range(blCount).set_null();
 
@@ -169,11 +216,11 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
 
   UCode code=0;
 
-  TempArray<UCode,MaxBitLens+1> nextCode(m_maxCodeBits+1);
+  TempArray<UCode,MaxBitLens+1> nextCode(max_code_bits+1);
 
   nextCode[1]=0;
 
-  for(unsigned i=2; i<=m_maxCodeBits; i++)
+  for(unsigned i=2; i<=max_code_bits; i++)
     {
      auto t=blCount[i-1];
 
@@ -185,23 +232,22 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
      nextCode[i]=code;
     }
 
-  // MaxCodeBits is 32, m_maxCodeBits may be smaller.
+  // MaxCodeBits is 32, max_code_bits may be smaller.
 
-  const uint64 shiftedMaxCode=(uint64(1)<<m_maxCodeBits);
+  const uint64 shiftedMaxCode=(uint64(1)<<max_code_bits);
 
-  if( code>shiftedMaxCode-blCount[m_maxCodeBits] )
+  if( code>shiftedMaxCode-blCount[max_code_bits] )
     {
      Printf(Exception,"HuffmanDecoder: code overflow");
     }
-  else if( m_maxCodeBits!=1 && code<shiftedMaxCode-blCount[m_maxCodeBits] )
+  else if( max_code_bits!=1 && code<shiftedMaxCode-blCount[max_code_bits] )
     {
      Printf(Exception,"HuffmanDecoder: code incomplete");
     }
 
   // compute a vector of <code, length, value> triples sorted by code
 
-  m_codeToValue.erase();
-  m_codeToValue.extend_default(bitlens.len-blCount[0]);
+  table=SimpleArray<CodeInfo>(bitlens.len-blCount[0]);
 
   unsigned j=0;
 
@@ -213,69 +259,38 @@ void HuffmanDecoder::init(PtrLen<BitLen> bitlens)
        {
         code=NormalizeCode(nextCode[len]++,len);
 
-        m_codeToValue[j].code=code;
-        m_codeToValue[j].len=len;
-        m_codeToValue[j].value=i;
+        table[j].ncode=code;
+        table[j].bitlen=len;
+        table[j].sym=i;
 
         j++;
        }
     }
 
-  Sort(Range(m_codeToValue));
+  Sort(Range(table));
 
   // initialize the decoding cache
 
-  m_cacheBits=Min<unsigned>(9,m_maxCodeBits);
+  cache_bits=Min<unsigned>(9,max_code_bits);
 
-  m_cacheMask=(1<<m_cacheBits)-1;
+  cache_mask=(UCode(1)<<cache_bits)-1;
 
-  m_normalizedCacheMask=NormalizeCode(m_cacheMask,m_cacheBits);
+  norm_cache_mask=NormalizeCode(cache_mask,cache_bits);
 
-  const ulen shiftedCache=(ulen(1)<<m_cacheBits);
+  const ulen shiftedCache=(ulen(1)<<cache_bits);
 
-  if( m_cache.getLen()!=shiftedCache )
+  if( cache.getLen()!=shiftedCache )
     {
-     m_cache.erase();
-     m_cache.extend_raw(shiftedCache);
+     cache=SimpleArray<CacheEntry>(shiftedCache);
     }
 
-  for(auto &m : m_cache ) m.type=0;
+  for(auto &m : cache ) m.type=0;
  }
 
-void HuffmanDecoder::FillCacheEntry(CacheEntry &entry,UCode normalizedCode) const
+
+BitLen HuffmanDecoder::decode(UCode code,USym &sym) const
  {
-  normalizedCode&=m_normalizedCacheMask;
-
-  const CodeInfo &codeInfo=Find(Range(m_codeToValue),normalizedCode);
-
-  if( codeInfo.len<=m_cacheBits )
-    {
-     entry.type=1;
-     entry.value=codeInfo.value;
-     entry.len=codeInfo.len;
-    }
-  else
-    {
-     entry.begin=&codeInfo;
-
-     const CodeInfo *last=&Find(Range(m_codeToValue),normalizedCode + ~m_normalizedCacheMask);
-
-     if( codeInfo.len==last->len )
-       {
-        entry.type=2;
-        entry.len=codeInfo.len;
-       }
-     else
-       {
-        entry.type=3;
-        entry.end=last+1;
-       }
-    }
- }
-
-unsigned HuffmanDecoder::decode(UCode code,USym &value) const
- {
-  CacheEntry &entry=m_cache[code&m_cacheMask];
+  CacheEntry &entry=cache[code&cache_mask];
 
   UCode normalizedCode=0;
 
@@ -285,42 +300,43 @@ unsigned HuffmanDecoder::decode(UCode code,USym &value) const
 
   if( entry.type==1 )
     {
-     value=entry.value;
+     sym=entry.sym;
 
-     return entry.len;
+     return entry.bitlen;
     }
   else
     {
      const CodeInfo &codeInfo = (entry.type==2)
-                                ? entry.begin[(normalizedCode<<m_cacheBits)>>(MaxCodeBits-(entry.len-m_cacheBits))]
-                                : Find(entry.begin,entry.end,normalizedCode) ;
+                                ? entry.beg[(normalizedCode<<cache_bits)>>(MaxCodeBits-(entry.bitlen-cache_bits))]
+                                : Find(entry.beg,entry.lim,normalizedCode) ;
 
-     value=codeInfo.value;
+     sym=codeInfo.sym;
 
-     return codeInfo.len;
+     return codeInfo.bitlen;
     }
  }
 
-bool HuffmanDecoder::decode(BitReader &reader,USym &value) const
+
+bool HuffmanDecoder::decode(BitReader &reader,USym &sym) const
  {
-  reader.fillBuffer(m_maxCodeBits);
+  reader.fillBuffer(max_code_bits);
 
-  unsigned codeBits=decode(reader.peekBuffer(),value);
+  BitLen bits=decode(reader.peekBuffer(),sym);
 
-  if( codeBits>reader.bitsBuffered() ) return false;
+  if( bits>reader.bitsBuffered() ) return false;
 
-  reader.skipBits(codeBits);
+  reader.skipBits(bits);
 
   return true;
  }
 
-void HuffmanDecoder::reqDecode(BitReader &reader,USym &value) const
+void HuffmanDecoder::reqDecode(BitReader &reader,USym &sym) const
  {
-  reader.reqBuffer(m_maxCodeBits);
+  reader.reqBuffer(max_code_bits);
 
-  unsigned codeBits=decode(reader.peekBuffer(),value);
+  BitLen bits=decode(reader.peekBuffer(),sym);
 
-  reader.skipBits(codeBits);
+  reader.skipBits(bits);
  }
 
 /* class Inflator */
