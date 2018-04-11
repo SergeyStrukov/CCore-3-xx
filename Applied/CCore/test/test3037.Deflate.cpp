@@ -354,8 +354,8 @@ class Inflator : NoCopy
 
    DecodeState decode_state;
 
-   unsigned literal;
-   unsigned distance;
+   USym literal;
+   USym distance;
 
    HuffmanDecoder dynamic_literal_decoder;
    HuffmanDecoder dynamic_distance_decoder;
