@@ -114,6 +114,8 @@ class HuffmanDecoder
    unsigned decode(UCode code,USym &value) const;
 
    bool decode(BitReader &reader,USym &value) const;
+
+   void reqDecode(BitReader &reader,USym &value) const;
  };
 
 UCode HuffmanDecoder::NormalizeCode(UCode code,unsigned codeBits)
@@ -312,6 +314,15 @@ bool HuffmanDecoder::decode(BitReader &reader,USym &value) const
   return true;
  }
 
+void HuffmanDecoder::reqDecode(BitReader &reader,USym &value) const
+ {
+  reader.reqBuffer(m_maxCodeBits);
+
+  unsigned codeBits=decode(reader.peekBuffer(),value);
+
+  reader.skipBits(codeBits);
+ }
+
 /* class Inflator */
 
 class Inflator : NoCopy
@@ -422,10 +433,7 @@ void Inflator::decodeCode()
     {
      USym k;
 
-     if( !decoder.decode(reader,k) )
-       {
-        Printf(Exception,"CCore::Deflate::Inflator::decodeCode() : coder data underflow");
-       }
+     decoder.reqDecode(reader,k);
 
      if( k<=15 )
        {
