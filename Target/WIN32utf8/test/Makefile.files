@@ -132,7 +132,6 @@ OBJ_LIST = \
 ../.test-obj/test3034.IntegerMulAlgo1.o \
 ../.test-obj/test3035.IntegerMulAlgo2.o \
 ../.test-obj/test3036.FFTMul.o \
-../.test-obj/test3037.Deflate.o \
 ../.test-obj/test4001.Mutex.o \
 ../.test-obj/test4002.Sem.o \
 ../.test-obj/test4003.Event.o \
@@ -166,6 +165,7 @@ OBJ_LIST = \
 ../.test-obj/test4031.PTPSec.o \
 ../.test-obj/test4032.DelDirRecursive.o \
 ../.test-obj/test4033.exec.o \
+../.test-obj/test4034.Deflate.o \
 ../.test-obj/test6001.Quick.o \
 ../.test-obj/test6002.SysError.o \
 ../.test-obj/test6003.Char.o \
@@ -317,7 +317,6 @@ ASM_LIST = \
 ../.test-obj/test3034.IntegerMulAlgo1.s \
 ../.test-obj/test3035.IntegerMulAlgo2.s \
 ../.test-obj/test3036.FFTMul.s \
-../.test-obj/test3037.Deflate.s \
 ../.test-obj/test4001.Mutex.s \
 ../.test-obj/test4002.Sem.s \
 ../.test-obj/test4003.Event.s \
@@ -351,6 +350,7 @@ ASM_LIST = \
 ../.test-obj/test4031.PTPSec.s \
 ../.test-obj/test4032.DelDirRecursive.s \
 ../.test-obj/test4033.exec.s \
+../.test-obj/test4034.Deflate.s \
 ../.test-obj/test6001.Quick.s \
 ../.test-obj/test6002.SysError.s \
 ../.test-obj/test6003.Char.s \
@@ -502,7 +502,6 @@ DEP_LIST = \
 ../.test-obj/test3034.IntegerMulAlgo1.dep \
 ../.test-obj/test3035.IntegerMulAlgo2.dep \
 ../.test-obj/test3036.FFTMul.dep \
-../.test-obj/test3037.Deflate.dep \
 ../.test-obj/test4001.Mutex.dep \
 ../.test-obj/test4002.Sem.dep \
 ../.test-obj/test4003.Event.dep \
@@ -536,6 +535,7 @@ DEP_LIST = \
 ../.test-obj/test4031.PTPSec.dep \
 ../.test-obj/test4032.DelDirRecursive.dep \
 ../.test-obj/test4033.exec.dep \
+../.test-obj/test4034.Deflate.dep \
 ../.test-obj/test6001.Quick.dep \
 ../.test-obj/test6002.SysError.dep \
 ../.test-obj/test6003.Char.dep \
@@ -958,9 +958,6 @@ include $(RULES_FILE)
 ../.test-obj/test3036.FFTMul.o : ../../../Applied/CCore/test/./test3036.FFTMul.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-../.test-obj/test3037.Deflate.o : ../../../Applied/CCore/test/./test3037.Deflate.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 ../.test-obj/test4001.Mutex.o : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1058,6 +1055,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test4033.exec.o : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test4034.Deflate.o : ../../../HCore/CCore/test/./test4034.Deflate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test6001.Quick.o : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
@@ -1506,9 +1506,6 @@ include $(RULES_FILE)
 ../.test-obj/test3036.FFTMul.s : ../../../Applied/CCore/test/./test3036.FFTMul.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-../.test-obj/test3037.Deflate.s : ../../../Applied/CCore/test/./test3037.Deflate.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 ../.test-obj/test4001.Mutex.s : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1606,6 +1603,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 ../.test-obj/test4033.exec.s : ../../../HCore/CCore/test/./test4033.exec.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+../.test-obj/test4034.Deflate.s : ../../../HCore/CCore/test/./test4034.Deflate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 ../.test-obj/test6001.Quick.s : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
@@ -2054,9 +2054,6 @@ include $(RULES_FILE)
 ../.test-obj/test3036.FFTMul.dep : ../../../Applied/CCore/test/./test3036.FFTMul.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3036.FFTMul.o $< -MF $@
 
-../.test-obj/test3037.Deflate.dep : ../../../Applied/CCore/test/./test3037.Deflate.cpp
-	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3037.Deflate.o $< -MF $@
-
 ../.test-obj/test4001.Mutex.dep : ../../../HCore/CCore/test/./test4001.Mutex.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4001.Mutex.o $< -MF $@
 
@@ -2155,6 +2152,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test4033.exec.dep : ../../../HCore/CCore/test/./test4033.exec.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4033.exec.o $< -MF $@
+
+../.test-obj/test4034.Deflate.dep : ../../../HCore/CCore/test/./test4034.Deflate.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test4034.Deflate.o $< -MF $@
 
 ../.test-obj/test6001.Quick.dep : ../../../Target/WIN32utf8/CCore/test/./test6001.Quick.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test6001.Quick.o $< -MF $@

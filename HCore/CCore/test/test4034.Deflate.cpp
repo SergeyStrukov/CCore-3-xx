@@ -1,9 +1,9 @@
-/* test3037.Deflate.cpp */
+/* test4034.Deflate.cpp */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.50
 //
-//  Tag: Applied
+//  Tag: HCore
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -24,7 +24,7 @@
 
 namespace App {
 
-namespace Private_3037 {
+namespace Private_4034 {
 
 /* Rat() */
 
@@ -130,17 +130,17 @@ void Test(StrLen dir,StrLen file_name)
     }
  }
 
-} // namespace Private_3037
+} // namespace Private_4034
 
-using namespace Private_3037;
+using namespace Private_4034;
 
-/* Testit<3037> */
-
-template<>
-const char *const Testit<3037>::Name="Test3037 Deflate";
+/* Testit<4034> */
 
 template<>
-bool Testit<3037>::Main()
+const char *const Testit<4034>::Name="Test4034 Deflate";
+
+template<>
+bool Testit<4034>::Main()
  {
   //StrLen dir="../../../html";
 

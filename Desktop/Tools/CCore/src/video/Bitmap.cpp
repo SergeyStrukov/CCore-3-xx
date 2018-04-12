@@ -116,7 +116,7 @@ void Bitmap::load(StrLen file_name)
   dx=file.next();
   dy=file.next();
 
-  dline=dx*RawCount;
+  dline=LenOf(dx,RawCount);
 
   const ulen Align = MaxAlign/Algon::GCDConst<ulen,MaxAlign,sizeof (Raw)>  ;
 

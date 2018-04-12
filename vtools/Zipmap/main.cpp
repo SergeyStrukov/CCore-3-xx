@@ -16,6 +16,7 @@
 
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Path.h>
+#include <CCore/inc/Deflate.h>
 
 namespace App {
 
