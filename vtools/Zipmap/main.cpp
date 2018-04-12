@@ -17,6 +17,9 @@
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Path.h>
 #include <CCore/inc/Deflate.h>
+#include <CCore/inc/DecodeFile.h>
+#include <CCore/inc/BinaryFile.h>
+#include <CCore/inc/Array.h>
 
 namespace App {
 
@@ -24,13 +27,44 @@ namespace App {
 
 using namespace CCore;
 
+/* class BitmapFile */
+
+class BitmapFile : NoCopy
+ {
+   DecodeFile dev;
+
+  public:
+
+   explicit BitmapFile(StrLen file_name) : dev(file_name) {}
+
+   ~BitmapFile() {}
+
+   uint32 next()
+    {
+     uint32 ret;
+
+     dev.use<BeOrder>(ret);
+
+     return ret;
+    }
+ };
+
 /* Zip() */
 
 void Zip(StrLen src_file,StrLen dst_file) // TODO
  {
   Printf(Con,"zip #.q; -> #.q;\n\n",src_file,dst_file);
 
+  BitmapFile src(src_file);
 
+  ulen dx=src.next();
+  ulen dy=src.next();
+
+  Printf(Con,"#; x #;\n\n",dx,dy);
+
+  DynArray<uint32> map(DoRaw(LenOf(dy,dx)));
+
+  for(uint32 &x : map ) x=src.next();
  }
 
 /* Unzip() */
