@@ -84,6 +84,7 @@ OBJ_LIST = \
 .obj/DDLTypes.o \
 .obj/DDLValue.o \
 .obj/DHExp.o \
+.obj/DecodeFile.o \
 .obj/DefaultTimeout.o \
 .obj/DeferCall.o \
 .obj/Deflate.o \
@@ -542,6 +543,7 @@ ASM_LIST = \
 .obj/DDLTypes.s \
 .obj/DDLValue.s \
 .obj/DHExp.s \
+.obj/DecodeFile.s \
 .obj/DefaultTimeout.s \
 .obj/DeferCall.s \
 .obj/Deflate.s \
@@ -1000,6 +1002,7 @@ DEP_LIST = \
 .obj/DDLTypes.dep \
 .obj/DDLValue.dep \
 .obj/DHExp.dep \
+.obj/DecodeFile.dep \
 .obj/DefaultTimeout.dep \
 .obj/DeferCall.dep \
 .obj/Deflate.dep \
@@ -1639,6 +1642,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DHExp.o : ../../Applied/CCore/src/./crypton/DHExp.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/DecodeFile.o : ../../HCore/CCore/src/./DecodeFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DefaultTimeout.o : ../../Simple/CCore/src/./gadget/DefaultTimeout.cpp
@@ -3008,6 +3014,9 @@ include $(RULES_FILE)
 .obj/DHExp.s : ../../Applied/CCore/src/./crypton/DHExp.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/DecodeFile.s : ../../HCore/CCore/src/./DecodeFile.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/DefaultTimeout.s : ../../Simple/CCore/src/./gadget/DefaultTimeout.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4374,6 +4383,9 @@ include $(RULES_FILE)
 
 .obj/DHExp.dep : ../../Applied/CCore/src/./crypton/DHExp.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DHExp.o $< -MF $@
+
+.obj/DecodeFile.dep : ../../HCore/CCore/src/./DecodeFile.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DecodeFile.o $< -MF $@
 
 .obj/DefaultTimeout.dep : ../../Simple/CCore/src/./gadget/DefaultTimeout.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DefaultTimeout.o $< -MF $@
