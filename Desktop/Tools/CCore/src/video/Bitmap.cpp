@@ -15,9 +15,8 @@
 
 #include <CCore/inc/video/Bitmap.h>
 
-#include <CCore/inc/RawFileToRead.h>
+#include <CCore/inc/DecodeFile.h>
 #include <CCore/inc/MakeFileName.h>
-#include <CCore/inc/SaveLoad.h>
 #include <CCore/inc/FeedBuf.h>
 #include <CCore/inc/Exception.h>
 #include <CCore/inc/algon/GCDConst.h>
@@ -29,52 +28,16 @@ namespace Video {
 
 class Bitmap::File : NoCopy
  {
-   RawFileToRead file;
-   DynArray<uint8> buf;
-
-   PtrLen<const uint8> cur;
-
-  private:
-
-   void provide()
-    {
-     uint8 *ptr=buf.getPtr();
-
-     ulen len=file.read(ptr,buf.getLen());
-
-     cur=Range(ptr,len);
-
-     if( !len )
-       {
-        Printf(Exception,"CCore::Video::Bitmap::File::provide() : no more data");
-       }
-    }
-
-   void next(PtrLen<uint8> range)
-    {
-     while( Pumpup(range,cur) ) provide();
-    }
+   DecodeFile dev;
 
   public:
 
-   explicit File(StrLen file_name)
-    : file(file_name),
-      buf(64_KByte)
-    {
-    }
+   explicit File(StrLen file_name) : dev(file_name) {}
 
-   ~File()
-    {
-    }
+   ~File() {}
 
    uint32 next()
     {
-     uint8 temp[4];
-
-     next(Range(temp));
-
-     BufGetDev dev(temp);
-
      uint32 ret;
 
      dev.use<BeOrder>(ret);

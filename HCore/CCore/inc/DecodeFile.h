@@ -28,7 +28,7 @@ class DecodeFile;
 
 /* class DecodeFile */
 
-class DecodeFile : NoCopyBase<GetDevBase<DecodeFile> >
+class DecodeFile : public NoCopyBase<GetDevBase<DecodeFile> >
  {
    static constexpr ulen BufLen = 64_KByte ;
 
