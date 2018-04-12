@@ -44,7 +44,8 @@ class Bitmap
 
   private:
 
-   class File;
+   template <class Dev>
+   static uint32 Next(Dev &dev);
 
    struct Fill;
 

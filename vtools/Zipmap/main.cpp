@@ -27,44 +27,75 @@ namespace App {
 
 using namespace CCore;
 
-/* class BitmapFile */
+/* Next() */
 
-class BitmapFile : NoCopy
+template <class Dev>
+uint32 Next(Dev &dev)
  {
-   DecodeFile dev;
+  uint32 ret;
 
-  public:
+  dev.template use<BeOrder>(ret);
 
-   explicit BitmapFile(StrLen file_name) : dev(file_name) {}
+  return ret;
+ }
 
-   ~BitmapFile() {}
+/* Diff() */
 
-   uint32 next()
+void Diff(uint8 *base,ulen dx,ulen dy)
+ {
+  if( dx<=1 || dy<=1 ) return;
+
+  uint8 *ptr=base+(dx*dy-1);
+
+  for(dy--; dy-- ;)
     {
-     uint32 ret;
+     for(ulen cnt=dx-1; cnt-- ;ptr--)
+       {
+        (*ptr) += *(ptr-dx-1) - *(ptr-1) - *(ptr-dx) ;
+       }
 
-     dev.use<BeOrder>(ret);
-
-     return ret;
+     ptr--;
     }
- };
+ }
 
 /* Zip() */
 
-void Zip(StrLen src_file,StrLen dst_file) // TODO
+void Zip(StrLen src_file,StrLen dst_file)
  {
   Printf(Con,"zip #.q; -> #.q;\n\n",src_file,dst_file);
 
-  BitmapFile src(src_file);
+  DecodeFile src(src_file);
+  BinaryFile dst(dst_file);
 
-  ulen dx=src.next();
-  ulen dy=src.next();
+  auto temp=ToFunction<void (PtrLen<const uint8>)>( [&dst] (PtrLen<const uint8> data) { dst.put(data); } );
+
+  Deflate::Deflator zip(temp.function());
+
+  ulen dx=Next(src);
+  ulen dy=Next(src);
 
   Printf(Con,"#; x #;\n\n",dx,dy);
 
-  DynArray<uint32> map(DoRaw(LenOf(dy,dx)));
+  dst.use<BeOrder>(dx,dy);
 
-  for(uint32 &x : map ) x=src.next();
+  ulen len=LenOf(dy,dx);
+
+  DynArray<uint32> map(DoRaw{len});
+
+  for(uint32 &x : map ) x=Next(src);
+
+  DynArray<uint8> plane(DoRaw{len});
+
+  for(unsigned shift=0; shift<32u ;shift+=8)
+    {
+     for(ulen i=0; i<len ;i++) plane[i]=uint8(map[i]>>shift);
+
+     Diff(plane.getPtr(),dx,dy);
+
+     zip.put(Range(plane));
+
+     zip.complete();
+    }
  }
 
 /* Unzip() */
@@ -73,7 +104,38 @@ void Unzip(StrLen src_file,StrLen dst_file) // TODO
  {
   Printf(Con,"unzip #.q; -> #.q;\n\n",src_file,dst_file);
 
+  DecodeFile src(src_file);
+  BinaryFile dst(dst_file);
 
+  ulen dx=Next(src);
+  ulen dy=Next(src);
+
+  Printf(Con,"#; x #;\n\n",dx,dy);
+
+  dst.use<BeOrder>(dx,dy);
+
+  ulen len=LenOf(dy,dx);
+
+  DynArray<uint32> map(DoRaw{len});
+
+  DynArray<uint8> plane(DoRaw{len});
+
+#if 0
+
+  Deflate::Inflator unzip(temp.function(),true);
+
+  for(unsigned shift=0; shift<32u ;shift+=8)
+    {
+     unzip.put(Range(plane));
+
+     unzip.complete();
+
+     Diff(plane.getPtr(),dx,dy);
+
+     for(ulen i=0; i<len ;i++) plane[i]=uint8(map[i]>>shift);
+    }
+
+#endif
  }
 
 /* Main() */

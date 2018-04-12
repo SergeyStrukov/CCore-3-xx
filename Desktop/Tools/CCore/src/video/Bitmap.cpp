@@ -24,28 +24,6 @@
 namespace CCore {
 namespace Video {
 
-/* class Bitmap::File */
-
-class Bitmap::File : NoCopy
- {
-   DecodeFile dev;
-
-  public:
-
-   explicit File(StrLen file_name) : dev(file_name) {}
-
-   ~File() {}
-
-   uint32 next()
-    {
-     uint32 ret;
-
-     dev.use<BeOrder>(ret);
-
-     return ret;
-    }
- };
-
 /* struct Bitmap::Fill */
 
 struct Bitmap::Fill
@@ -72,12 +50,22 @@ struct Bitmap::Fill
 
 /* class Bitmap */
 
+template <class Dev>
+uint32 Bitmap::Next(Dev &dev)
+ {
+  uint32 ret;
+
+  dev.template use<BeOrder>(ret);
+
+  return ret;
+ }
+
 void Bitmap::load(StrLen file_name)
  {
-  File file(file_name);
+  DecodeFile file(file_name);
 
-  dx=file.next();
-  dy=file.next();
+  dx=Next(file);
+  dy=Next(file);
 
   dline=LenOf(dx,RawCount);
 
@@ -93,7 +81,7 @@ void Bitmap::load(StrLen file_name)
 
      for(ulen count=dx; count ;count--,line+=RawCount)
        {
-        DesktopColor col( (VColor)file.next() );
+        DesktopColor col( (VColor)Next(file) );
 
         col.copyTo(line);
        }
