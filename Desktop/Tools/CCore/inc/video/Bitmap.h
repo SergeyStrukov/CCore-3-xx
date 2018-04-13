@@ -25,7 +25,39 @@ namespace Video {
 
 /* classes */
 
+struct BitmapData;
+
 class Bitmap;
+
+/* struct BitmapData */
+
+struct BitmapData
+ {
+  uint32 dx;
+  uint32 dy;
+
+  DynArray<uint32> map; // dx*dy
+
+  // load/save
+
+  void loadBitmap(StrLen file_name);
+
+  void saveBitmap(StrLen file_name) const;
+
+  void loadZipmap(StrLen file_name);
+
+  void saveZipmap(StrLen file_name) const;
+
+  // internal
+
+  static void Diff(uint8 *base,ulen dx,ulen dy);
+
+  static void Undiff(uint8 *base,ulen dx,ulen dy);
+
+  static void GetPlane(uint8 *plane,PtrLen<const uint32> map,unsigned shift);
+
+  static void AddPlane(PtrLen<uint32> map,const uint8 *plane,unsigned shift);
+ };
 
 /* class Bitmap */
 

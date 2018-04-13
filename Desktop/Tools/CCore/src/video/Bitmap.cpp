@@ -16,13 +16,186 @@
 #include <CCore/inc/video/Bitmap.h>
 
 #include <CCore/inc/DecodeFile.h>
+#include <CCore/inc/BinaryFile.h>
+#include <CCore/inc/Deflate.h>
+
 #include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/FeedBuf.h>
-#include <CCore/inc/Exception.h>
 #include <CCore/inc/algon/GCDConst.h>
+
+#include <CCore/inc/Exception.h>
 
 namespace CCore {
 namespace Video {
+
+/* struct BitmapData */
+
+ // internal
+
+void BitmapData::Diff(uint8 *base,ulen dx,ulen dy)
+ {
+  if( dx<=1 || dy<=1 ) return;
+
+  uint8 *ptr=base+(dx*dy-1);
+
+  for(dy--; dy-- ;)
+    {
+     for(ulen cnt=dx-1; cnt-- ;ptr--)
+       {
+        (*ptr) += *(ptr-dx-1) - *(ptr-1) - *(ptr-dx) ;
+       }
+
+     ptr--;
+    }
+ }
+
+void BitmapData::Undiff(uint8 *base,ulen dx,ulen dy)
+ {
+  if( dx<=1 || dy<=1 ) return;
+
+  uint8 *ptr=base+(dx+1);
+
+  for(dy--; dy-- ;)
+    {
+     for(ulen cnt=dx-1; cnt-- ;ptr++)
+       {
+        (*ptr) -= *(ptr-dx-1) - *(ptr-1) - *(ptr-dx) ;
+       }
+
+     ptr++;
+    }
+ }
+
+void BitmapData::GetPlane(uint8 *plane,PtrLen<const uint32> map,unsigned shift)
+ {
+  for(uint32 x : map ) *(plane++)=uint8(x>>shift);
+ }
+
+void BitmapData::AddPlane(PtrLen<uint32> map,const uint8 *plane,unsigned shift)
+ {
+  for(uint32 &x : map ) x|=(uint32(*(plane++))<<shift);
+ }
+
+ // load/save
+
+void BitmapData::loadBitmap(StrLen file_name)
+ {
+  DecodeFile file(file_name);
+
+  file.use<BeOrder>(dx,dy);
+
+  ulen len=LenOf(dy,dx);
+
+  map.erase();
+  map.extend_raw(len);
+
+  for(uint32 &x : map ) file.use<BeOrder>(x);
+ }
+
+void BitmapData::saveBitmap(StrLen file_name) const
+ {
+  BinaryFile file(file_name);
+
+  file.use<BeOrder>(dx,dy);
+
+  for(uint32 x : map ) file.use<BeOrder>(x);
+ }
+
+void BitmapData::loadZipmap(StrLen file_name)
+ {
+  DecodeFile file(file_name);
+
+  file.use<BeOrder>(dx,dy);
+
+  ulen len=LenOf(dy,dx);
+
+  map.erase();
+  map.extend_default(len);
+
+  DynArray<uint8> plane(DoRaw{len});
+
+  PtrLen<uint8> cur=Range(plane);
+  unsigned shift=0;
+
+  auto temp1=ToFunction<void (PtrLen<const uint8>)>( [&] (PtrLen<const uint8> data)
+                                                   {
+                                                    if( data.len>cur.len )
+                                                      {
+                                                       Printf(Exception,"CCore::BitmapData::loadZipmap(...) : plane data overflow");
+                                                      }
+
+                                                    if( shift>=32u )
+                                                      {
+                                                       Printf(Exception,"CCore::BitmapData::loadZipmap(...) : extra plane");
+                                                      }
+
+                                                    data.copyTo(cur.ptr);
+
+                                                    cur+=data.len;
+
+                                                   } );
+
+  auto temp2=ToFunction<void (void)>( [&] ()
+                                          {
+                                           if( cur.len )
+                                             {
+                                              Printf(Exception,"CCore::BitmapData::loadZipmap(...) : plane data underflow");
+                                             }
+
+                                           if( shift>=32u )
+                                             {
+                                              Printf(Exception,"CCore::BitmapData::loadZipmap(...) : extra plane");
+                                             }
+
+                                           Undiff(plane.getPtr(),dx,dy);
+
+                                           AddPlane(Range(map),plane.getPtr(),shift);
+
+                                           cur=Range(plane);
+                                           shift+=8;
+
+                                          } );
+
+  Deflate::Inflator unzip(temp1.function(),true);
+
+  unzip.setTrigger(temp2.function());
+
+  while( file.more() ) unzip.put(file.pump());
+
+  unzip.complete();
+ }
+
+void BitmapData::saveZipmap(StrLen file_name) const
+ {
+  BinaryFile file(file_name);
+
+  file.use<BeOrder>(dx,dy);
+
+  auto temp=ToFunction<void (PtrLen<const uint8>)>( [&] (PtrLen<const uint8> data) { file.put(data); } );
+
+  Deflate::Param param;
+
+  param.level=Deflate::MaxLevel;
+
+  Deflate::Deflator zip(temp.function(),param);
+
+  ulen len=map.getLen();
+
+  DynArray<uint8> plane(DoRaw{len});
+
+  uint8 *base=plane.getPtr();
+
+  for(unsigned shift=0; shift<32u ;shift+=8)
+    {
+     GetPlane(base,Range(map),shift);
+
+     Diff(base,dx,dy);
+
+     zip.put(base,len);
+
+     zip.complete();
+    }
+ }
 
 /* struct Bitmap::Fill */
 
