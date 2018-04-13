@@ -233,13 +233,8 @@ uint32 Bitmap::Next(Dev &dev)
   return ret;
  }
 
-void Bitmap::load(StrLen file_name)
+void Bitmap::fill(FuncType<uint32> next)
  {
-  DecodeFile file(file_name);
-
-  dx=Next(file);
-  dy=Next(file);
-
   dline=LenOf(dx,RawCount);
 
   const ulen Align = MaxAlign/Algon::GCDConst<ulen,MaxAlign,sizeof (Raw)>  ;
@@ -254,10 +249,46 @@ void Bitmap::load(StrLen file_name)
 
      for(ulen count=dx; count ;count--,line+=RawCount)
        {
-        DesktopColor col( (VColor)Next(file) );
+        DesktopColor col( (VColor)next() );
 
         col.copyTo(line);
        }
+    }
+ }
+
+void Bitmap::load(const BitmapData &data)
+ {
+  dx=data.dx;
+  dy=data.dy;
+
+  struct Src
+   {
+    const uint32 *ptr;
+
+    uint32 operator () () { return *(ptr++); }
+   };
+
+  fill(Src{data.map.getPtr()});
+ }
+
+void Bitmap::load(StrLen file_name)
+ {
+  if( file_name.hasSuffix(".zipmap"_c) )
+    {
+     BitmapData data;
+
+     data.loadZipmap(file_name);
+
+     load(data);
+    }
+  else
+    {
+     DecodeFile file(file_name);
+
+     dx=Next(file);
+     dy=Next(file);
+
+     fill( [&file] () { return Next(file); } );
     }
  }
 

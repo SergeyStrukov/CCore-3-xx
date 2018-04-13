@@ -39,7 +39,7 @@ Text o2 = { {
 
 
 
-Bitmap o3 = { "img/Mandelbrot" + '.bitmap'  };
+Bitmap o3 = { "img/Mandelbrot" + '.zipmap'  };
 
 
 

@@ -81,6 +81,10 @@ class Bitmap
 
    struct Fill;
 
+   void fill(FuncType<uint32> next);
+
+   void load(const BitmapData &data);
+
    void load(StrLen file_name);
 
    const Raw * getPtr() const { return buf.getPtr(); }
