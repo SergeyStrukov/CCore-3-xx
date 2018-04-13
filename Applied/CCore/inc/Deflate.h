@@ -661,6 +661,7 @@ class Inflator : NoCopy
    // params
 
    bool repeat;
+   Function<void (void)> trigger;
 
    // data
 
@@ -709,6 +710,8 @@ class Inflator : NoCopy
   public:
 
    Inflator(OutFunc out,bool repeat=false);
+
+   void setTrigger(Function<void (void)> trigger_) { trigger=trigger_; }
 
    void put(const uint8 *ptr,ulen len) { put({ptr,len}); }
 

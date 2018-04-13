@@ -41,6 +41,30 @@ void DecodeFile::underflow()
     }
  }
 
+bool DecodeFile::underflow_eof()
+ {
+  uint8 *ptr=MutatePtr<uint8>(buf.getPtr());
+
+  auto result=file.read(ptr,buf.getLen());
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::DecodeFile::underflow_eof() : #;",result.error);
+
+     return false;
+    }
+  else if( !result.len )
+    {
+     return false;
+    }
+  else
+    {
+     cur=Range_const(ptr,result.len);
+
+     return true;
+    }
+ }
+
 DecodeFile::DecodeFile() noexcept
  : buf(BufLen)
  {

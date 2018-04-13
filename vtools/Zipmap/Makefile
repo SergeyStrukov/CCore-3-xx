@@ -24,6 +24,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET) -z Mandelbrot.bitmap
 	$(TARGET) -x Mandelbrot.zipmap test.bitmap
+	diff -s Mandelbrot.bitmap test.bitmap
 
 
 

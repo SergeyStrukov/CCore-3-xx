@@ -1847,7 +1847,19 @@ void Inflator::processInput(bool eof)
 
         case WaitHeader :
          {
-          if( !eof && !reader.canRead(MaxHeaderBitlen) ) return;
+          if( eof )
+            {
+             if( !reader.canRead(1) )
+               {
+                state=AfterEnd;
+
+                return;
+               }
+            }
+          else
+            {
+             if( !reader.canRead(MaxHeaderBitlen) ) return;
+            }
 
           decodeHeader();
 
@@ -1876,6 +1888,8 @@ void Inflator::processInput(bool eof)
 
         case PostStream :
          {
+          trigger();
+
           state = repeat? PreStream : AfterEnd ;
          }
         break;
@@ -1921,7 +1935,7 @@ void Inflator::complete()
  {
   processInput(true);
 
-  if( !( state==PreStream || state==AfterEnd ) )
+  if( state!=AfterEnd )
     {
      Printf(Exception,"CCore::Deflate::Inflator::complete() : unexpected EOF");
     }

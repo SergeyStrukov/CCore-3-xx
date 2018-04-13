@@ -43,6 +43,8 @@ class DecodeFile : public NoCopyBase< GetDevBase<DecodeFile> >
 
    void underflow();
 
+   bool underflow_eof();
+
   public:
 
    // constructors
@@ -62,6 +64,12 @@ class DecodeFile : public NoCopyBase< GetDevBase<DecodeFile> >
    void soft_close(FileMultiError &errout);
 
    void close();
+
+   // pump raw data
+
+   bool more() { return +cur || underflow_eof() ; }
+
+   PtrLen<const uint8> pump() { return Replace_null(cur); }
 
    // extract data methods
 

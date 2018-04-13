@@ -98,9 +98,28 @@ void Zip(StrLen src_file,StrLen dst_file)
     }
  }
 
+/* Undiff() */
+
+void Undiff(uint8 *base,ulen dx,ulen dy)
+ {
+  if( dx<=1 || dy<=1 ) return;
+
+  uint8 *ptr=base+(dx+1);
+
+  for(dy--; dy-- ;)
+    {
+     for(ulen cnt=dx-1; cnt-- ;ptr++)
+       {
+        (*ptr) -= *(ptr-dx-1) - *(ptr-1) - *(ptr-dx) ;
+       }
+
+     ptr++;
+    }
+ }
+
 /* Unzip() */
 
-void Unzip(StrLen src_file,StrLen dst_file) // TODO
+void Unzip(StrLen src_file,StrLen dst_file)
  {
   Printf(Con,"unzip #.q; -> #.q;\n\n",src_file,dst_file);
 
@@ -120,22 +139,57 @@ void Unzip(StrLen src_file,StrLen dst_file) // TODO
 
   DynArray<uint8> plane(DoRaw{len});
 
-#if 0
+  PtrLen<uint8> cur=Range(plane);
+  unsigned shift=0;
 
-  Deflate::Inflator unzip(temp.function(),true);
+  auto temp1=ToFunction<void (PtrLen<const uint8>)>( [&] (PtrLen<const uint8> data)
+                                                   {
+                                                    if( data.len>cur.len )
+                                                      {
+                                                       Printf(Exception,"App::Unzip(...) : plane data overflow");
+                                                      }
 
-  for(unsigned shift=0; shift<32u ;shift+=8)
-    {
-     unzip.put(Range(plane));
+                                                    if( shift>=32 )
+                                                      {
+                                                       Printf(Exception,"App::Unzip(...) : extra plane");
+                                                      }
 
-     unzip.complete();
+                                                    data.copyTo(cur.ptr);
 
-     Diff(plane.getPtr(),dx,dy);
+                                                    cur+=data.len;
 
-     for(ulen i=0; i<len ;i++) plane[i]=uint8(map[i]>>shift);
-    }
+                                                   } );
 
-#endif
+  auto temp2=ToFunction<void (void)>( [&] ()
+                                          {
+                                           if( cur.len )
+                                             {
+                                              Printf(Exception,"App::Unzip(...) : plane data underflow");
+                                             }
+
+                                           if( shift>=32 )
+                                             {
+                                              Printf(Exception,"App::Unzip(...) : extra plane");
+                                             }
+
+                                           Undiff(plane.getPtr(),dx,dy);
+
+                                           for(ulen i=0; i<len ;i++) map[i]|=uint32(plane[i])<<shift;
+
+                                           cur=Range(plane);
+                                           shift+=8;
+
+                                          } );
+
+  Deflate::Inflator unzip(temp1.function(),true);
+
+  unzip.setTrigger(temp2.function());
+
+  while( src.more() ) unzip.put(src.pump());
+
+  unzip.complete();
+
+  for(uint32 x : map ) dst.use<BeOrder>(x);
  }
 
 /* Main() */
