@@ -1,0 +1,77 @@
+<!--
+/* page_DecodeFile.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> DecodeFile</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>DecodeFile</h2>
+
+<p class="Files">Files <b>CCore/inc/DecodeFile.h</b> <b>CCore/src/DecodeFile.cpp</b></p>
+
+<pre>
+
+class <span class="Att">DecodeFile</span> : public NoCopyBase&lt; GetDevBase&lt;DecodeFile&gt; &gt;
+ {
+   ....
+
+  public:
+
+   // constructors
+
+   DecodeFile() noexcept;
+
+   explicit DecodeFile(StrLen file_name);
+
+   ~DecodeFile();
+
+   // methods
+
+   bool isOpened() const;
+
+   void open(StrLen file_name);
+
+   void soft_close(FileMultiError &amp;errout);
+
+   void close();
+
+   // pump raw data
+
+   bool more();
+
+   PtrLen&lt;const uint8&gt; pump();
+
+   // get
+
+   uint8 do_get();
+
+   void do_get(uint8 *ptr,ulen len);
+ };
+
+</pre>
+
+</body>
+
+</html>
+

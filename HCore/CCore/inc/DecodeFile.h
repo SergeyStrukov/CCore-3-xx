@@ -71,7 +71,7 @@ class DecodeFile : public NoCopyBase< GetDevBase<DecodeFile> >
 
    PtrLen<const uint8> pump() { return Replace_null(cur); }
 
-   // extract data methods
+   // get
 
    uint8 do_get()
     {
