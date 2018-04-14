@@ -1911,6 +1911,10 @@ Inflator::Inflator(OutFunc out_,bool repeat_)
  {
  }
 
+Inflator::~Inflator()
+ {
+ }
+
 void Inflator::put(PtrLen<const uint8> data)
  {
   out.flush();

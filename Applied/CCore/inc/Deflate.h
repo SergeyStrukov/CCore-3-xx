@@ -195,7 +195,9 @@ class HuffmanEncoder : NoCopy
 
    HuffmanEncoder() noexcept {}
 
-   HuffmanEncoder(PtrLen<const BitLen> bitlens) { init(bitlens); }
+   explicit HuffmanEncoder(PtrLen<const BitLen> bitlens) { init(bitlens); }
+
+   ~HuffmanEncoder() {}
 
    void init(PtrLen<const BitLen> bitlens);
 
@@ -637,9 +639,11 @@ class HuffmanDecoder : NoCopy
 
   public:
 
-   HuffmanDecoder() {}
+   HuffmanDecoder() noexcept {}
 
-   HuffmanDecoder(PtrLen<BitLen> bitlens) { init(bitlens); }
+   explicit HuffmanDecoder(PtrLen<BitLen> bitlens) { init(bitlens); }
+
+   ~HuffmanDecoder() {}
 
    void init(PtrLen<BitLen> bitlens);
 
@@ -709,7 +713,9 @@ class Inflator : NoCopy
 
   public:
 
-   Inflator(OutFunc out,bool repeat=false);
+   explicit Inflator(OutFunc out,bool repeat=false);
+
+   ~Inflator();
 
    void setTrigger(Function<void (void)> trigger_) { trigger=trigger_; }
 

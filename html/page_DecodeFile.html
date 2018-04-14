@@ -30,6 +30,11 @@
 
 <p class="Files">Files <b>CCore/inc/DecodeFile.h</b> <b>CCore/src/DecodeFile.cpp</b></p>
 
+<p>
+A <b>DecodeFile</b> object can be used as a <a href="page_SaveLoad.html#Devices">serialization input device</a>.
+It gets data bytes from the input file. 
+</p>
+
 <pre>
 
 class <span class="Att">DecodeFile</span> : public NoCopyBase&lt; GetDevBase&lt;DecodeFile&gt; &gt;
@@ -70,6 +75,48 @@ class <span class="Att">DecodeFile</span> : public NoCopyBase&lt; GetDevBase&lt;
  };
 
 </pre>
+
+<p>
+Defalut constructor creats an object in the closed state.
+</p>
+
+<p>
+To create an opened object use the constructor with the argument &mdash; the file name.
+</p>
+
+<p>
+Destructor closes an opened object. Errors are reported.
+</p>
+
+<p>
+<b>isOpened()</b> returns <b>true</b>, if the object is opened, and <b>false</b> otherwise.
+</p>
+
+<p>
+<b>open()</b> opens a closed object with the given file name. 
+In case of error an exception is thrown.
+</p>
+
+<p>
+<b>close()</b> closes an opened object. In case of error and an exception is thrown.
+</p>
+
+<p>
+<b>soft_close()</b> does not throw, it returns a group of errors using the 
+<a href="page_Files.html"><b>FileMultiError</b></a> object.
+</p>
+
+<p>
+To read the file contetnt you can use serialization methods, but you can also use raw input methods:
+</p>
+
+<p>
+<b>more()</b> retuns <b>true</b> iff there is a next data chunk.
+</p>
+
+<p>
+<b>pump()</b> returns the next data chunk. This range is valid until a next object method call.
+</p>
 
 </body>
 

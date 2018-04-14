@@ -30,6 +30,97 @@
 
 <p class="Files">Files <b>CCore/inc/Deflate.h</b> <b>CCore/src/Deflate.cpp</b></p>
 
+<p>
+This part implements the deflate compression algorithms, as specified in the <a href="https://tools.ietf.org/html/rfc1951">RFC1951</a>.
+This implementation is a reengineered version of the <a href="https://www.cryptopp.com">Crypto++</a> variant.
+The implementation is enclosed in the <b>Deflate</b> namespace.
+</p>
+
+<pre>
+
+/* enum Level */
+
+enum <span class="Att">Level</span>
+ {
+  MinLevel         = 0, // store only
+
+  DefaultLevel     = 6,
+  EverdynamicLevel = 8,
+
+  MaxLevel         = 9  // maximum compression
+ };
+
+/* enum Log2WindowLen */
+
+enum <span class="Att">Log2WindowLen</span>
+ {
+  MinLog2WindowLen     = 9,
+
+  DefaultLog2WindowLen = 15,
+
+  MaxLog2WindowLen     = 15
+ };
+
+/* type OutFunc */
+
+using <span class="Att">OutFunc</span> = Function&lt;void (PtrLen&lt;const uint8&gt;)&gt; ;
+
+/* struct Param */
+
+struct <span class="Att">Param</span>
+ {
+  Level level = DefaultLevel ;
+  Log2WindowLen log2_window_len = DefaultLog2WindowLen ;
+  bool detect_uncompressible = true ;
+
+  Param() {}
+ };
+
+/* class Deflator */
+
+class <span class="Att">Deflator</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit Deflator(OutFunc out,Param param={});
+
+   ~Deflator();
+
+   Level getLevel() const;
+
+   Log2WindowLen getLog2WindowLen() const;
+
+   void put(const uint8 *ptr,ulen len);
+
+   void put(PtrLen&lt;const uint8&gt; data);
+
+   void complete();
+ };
+
+/* class Inflator */
+
+class <span class="Att">Inflator</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit Inflator(OutFunc out,bool repeat=false);
+
+   ~Inflator();
+
+   void setTrigger(Function&lt;void (void)&gt; trigger);
+
+   void put(const uint8 *ptr,ulen len);
+
+   void put(PtrLen&lt;const uint8&gt; data);
+
+   void complete();
+ };
+
+</pre>
 
 </body>
 
