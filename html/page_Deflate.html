@@ -99,6 +99,17 @@ class <span class="Att">Deflator</span> : NoCopy
    void complete();
  };
 
+</pre>
+
+<p>
+To compress a data stream you create an object of the type <b>Deflator</b>. The first argument is an output function. 
+This function is used to output processed data. 
+To inject source data into the object methods <b>put()</b> are used and the method <b>complete()</b> to indicate the end of the data stream.
+This method completes the data processing and flushes the output.
+</p>
+
+<pre>
+
 /* class Inflator */
 
 class <span class="Att">Inflator</span> : NoCopy
@@ -121,6 +132,17 @@ class <span class="Att">Inflator</span> : NoCopy
  };
 
 </pre>
+
+<p>
+To uncompress a data stream you create an object of the type <b>Inflator</b>. The first argument is an output function. 
+This function is used to output processed data. 
+To inject source data into the object methods <b>put()</b> are used and the method <b>complete()</b> to indicate the end of the data stream.
+This method completes the data processing and flushes the output. 
+The source data stream may consist of several compressed substreams. 
+In such case sets the argument <b>repeat</b> to <b>true</b> when constructing the object.
+You may also assign a <b>trigger</b>, this function is called each time the compressed stream is processed and flushed to the output.
+If the argument <b>repeat</b> is <b>false</b>, the input data stream is sent to the output unchanged after the compressed part is finished.
+</p>
 
 </body>
 
