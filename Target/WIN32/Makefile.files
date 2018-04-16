@@ -47,7 +47,6 @@ OBJ_LIST = \
 .obj/Color.o \
 .obj/ColorEdit.o \
 .obj/ColorField.o \
-.obj/CommonDrawArt.o \
 .obj/CommonIntAlgo.o \
 .obj/CompactList.o \
 .obj/CompactMap.o \
@@ -94,7 +93,6 @@ OBJ_LIST = \
 .obj/DetectProxy.o \
 .obj/DirFrame.o \
 .obj/DirTreeRun.o \
-.obj/DrawAlgo.o \
 .obj/DrawBuf.o \
 .obj/DrawTools.o \
 .obj/DynArray.o \
@@ -502,7 +500,6 @@ ASM_LIST = \
 .obj/Color.s \
 .obj/ColorEdit.s \
 .obj/ColorField.s \
-.obj/CommonDrawArt.s \
 .obj/CommonIntAlgo.s \
 .obj/CompactList.s \
 .obj/CompactMap.s \
@@ -549,7 +546,6 @@ ASM_LIST = \
 .obj/DetectProxy.s \
 .obj/DirFrame.s \
 .obj/DirTreeRun.s \
-.obj/DrawAlgo.s \
 .obj/DrawBuf.s \
 .obj/DrawTools.s \
 .obj/DynArray.s \
@@ -957,7 +953,6 @@ DEP_LIST = \
 .obj/Color.dep \
 .obj/ColorEdit.dep \
 .obj/ColorField.dep \
-.obj/CommonDrawArt.dep \
 .obj/CommonIntAlgo.dep \
 .obj/CompactList.dep \
 .obj/CompactMap.dep \
@@ -1004,7 +999,6 @@ DEP_LIST = \
 .obj/DetectProxy.dep \
 .obj/DirFrame.dep \
 .obj/DirTreeRun.dep \
-.obj/DrawAlgo.dep \
 .obj/DrawBuf.dep \
 .obj/DrawTools.dep \
 .obj/DynArray.dep \
@@ -1517,9 +1511,6 @@ include $(RULES_FILE)
 .obj/ColorField.o : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/CommonDrawArt.o : ../../Desktop/Draw/CCore/src/./video/CommonDrawArt.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/CommonIntAlgo.o : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1656,9 +1647,6 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DirTreeRun.o : ../../HCore/CCore/src/./DirTreeRun.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/DrawAlgo.o : ../../Desktop/Draw/CCore/src/./video/DrawAlgo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DrawBuf.o : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
@@ -2875,9 +2863,6 @@ include $(RULES_FILE)
 .obj/ColorField.s : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/CommonDrawArt.s : ../../Desktop/Draw/CCore/src/./video/CommonDrawArt.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/CommonIntAlgo.s : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3014,9 +2999,6 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/DirTreeRun.s : ../../HCore/CCore/src/./DirTreeRun.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/DrawAlgo.s : ../../Desktop/Draw/CCore/src/./video/DrawAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/DrawBuf.s : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
@@ -4233,9 +4215,6 @@ include $(RULES_FILE)
 .obj/ColorField.dep : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ColorField.o $< -MF $@
 
-.obj/CommonDrawArt.dep : ../../Desktop/Draw/CCore/src/./video/CommonDrawArt.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/CommonDrawArt.o $< -MF $@
-
 .obj/CommonIntAlgo.dep : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/CommonIntAlgo.o $< -MF $@
 
@@ -4373,9 +4352,6 @@ include $(RULES_FILE)
 
 .obj/DirTreeRun.dep : ../../HCore/CCore/src/./DirTreeRun.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DirTreeRun.o $< -MF $@
-
-.obj/DrawAlgo.dep : ../../Desktop/Draw/CCore/src/./video/DrawAlgo.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/DrawAlgo.o $< -MF $@
 
 .obj/DrawBuf.dep : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DrawBuf.o $< -MF $@
