@@ -40,9 +40,9 @@ StepResult FontLookup::Step::start(FontLookup &obj,bool use_cache)
   return finish(obj,dbstep.start(obj.fdb,use_cache));
  }
 
-StepResult FontLookup::Step::operator () (IncrementalProgress &progress,FontLookup &obj)
+StepResult FontLookup::Step::step(IncrementalProgress &progress,FontLookup &obj)
  {
-  return finish(obj,dbstep(progress,obj.fdb));
+  return finish(obj,dbstep.step(progress,obj.fdb));
  }
 
 void FontLookup::Step::erase() noexcept
@@ -110,7 +110,7 @@ const FontInfo * FontLookup::find(StrLen family,bool bold,bool italic) const
  {
   return index.find( [=] (const FontInfo &obj) { return AlphaCmp(CmpAsStr(obj.family),CmpAsStr(family),
                                                                  obj.bold,bold,
-                                                                 obj.italic,italic); });
+                                                                 obj.italic,italic); } );
  }
 
 FontCouple FontLookup::build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config) const

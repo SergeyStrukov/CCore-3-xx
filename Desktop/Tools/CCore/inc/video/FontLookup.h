@@ -70,7 +70,7 @@ class FontLookup : NoCopy
 
       StepResult start(FontLookup &obj,bool use_cache=true);
 
-      StepResult operator () (IncrementalProgress &progress,FontLookup &obj);
+      StepResult step(IncrementalProgress &progress,FontLookup &obj);
 
       void erase() noexcept;
     };
@@ -83,7 +83,7 @@ class FontLookup : NoCopy
 
    const FontInfo * find(StrLen family,bool bold,bool italic) const;
 
-   FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const;
+   FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const; // noexcept
  };
 
 } // namespace Video

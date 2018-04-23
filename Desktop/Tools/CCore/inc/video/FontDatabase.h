@@ -187,7 +187,7 @@ class FontDatabase : NoCopy
 
       StepResult start(FontDatabase &obj,bool use_cache=true);
 
-      StepResult operator () (IncrementalProgress &progress,FontDatabase &obj)
+      StepResult step(IncrementalProgress &progress,FontDatabase &obj)
        {
         return (this->*stage)(progress,obj);
        }
@@ -285,7 +285,7 @@ class FontBuilder : NoCopy
 
    class Step : NoCopy
     {
-      FontDatabase::Step step;
+      FontDatabase::Step dbstep;
 
      private:
 
@@ -299,7 +299,7 @@ class FontBuilder : NoCopy
 
       StepResult start(FontBuilder &obj,bool use_cache=true);
 
-      StepResult operator () (IncrementalProgress &progress,FontBuilder &obj);
+      StepResult step(IncrementalProgress &progress,FontBuilder &obj);
 
       void erase() noexcept;
     };

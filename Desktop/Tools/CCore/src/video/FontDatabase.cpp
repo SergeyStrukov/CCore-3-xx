@@ -560,17 +560,17 @@ FontBuilder::Step::~Step()
 
 StepResult FontBuilder::Step::start(FontBuilder &obj,bool use_cache)
  {
-  return finish(step.start(obj.fdb,use_cache),obj);
+  return finish(dbstep.start(obj.fdb,use_cache),obj);
  }
 
-StepResult FontBuilder::Step::operator () (IncrementalProgress &progress,FontBuilder &obj)
+StepResult FontBuilder::Step::step(IncrementalProgress &progress,FontBuilder &obj)
  {
-  return finish(step(progress,obj.fdb),obj);
+  return finish(dbstep.step(progress,obj.fdb),obj);
  }
 
 void FontBuilder::Step::erase() noexcept
  {
-  step.erase();
+  dbstep.erase();
  }
 
 } // namespace Video

@@ -62,7 +62,7 @@ concept bool StepBuilderType = requires(Step &obj,T &t,IncrementalProgress &prog
 
   { obj.start(t) } -> StepResult ;
 
-  { obj(progress,t) } -> StepResult ;
+  { obj.step(progress,t) } -> StepResult ;
 
   { obj.erase() } noexcept;
  } ;
@@ -144,7 +144,7 @@ class Step
 
    StepResult start(T &obj);
 
-   StepResult operator () (IncrementalProgress &progress,T &obj);
+   StepResult step(IncrementalProgress &progress,T &obj);
 
    void erase() noexcept;
  };
@@ -159,6 +159,21 @@ class IncrementalBuilder : IncrementalNode
    T *obj = 0 ;
 
    Step builder;
+
+  private:
+
+   void clean(bool ok) noexcept
+    {
+     obj=0;
+
+     builder.erase();
+
+     progress.stop();
+
+     deactivate();
+
+     completed.assert(ok);
+    }
 
   public:
 
@@ -248,66 +263,36 @@ void IncrementalBuilder<T,Step>::step(TimeScope time_scope)
  {
   if( !obj ) return;
 
-  StepResult result;
-
   try
     {
      do
        {
-        result=builder(progress,*obj);
+        StepResult result=builder.step(progress,*obj);
 
-        if( result ) break;
+        if( result )
+          {
+           clean(result==StepFinalOk);
+
+           break;
+          }
        }
      while( +time_scope.get() );
     }
   catch(...)
     {
-     obj=0;
-
-     builder.erase();
-
-     progress.stop();
-
-     deactivate();
-
-     completed.assert(false);
+     clean(false);
 
      throw;
-    }
-
-  if( result )
-    {
-     obj=0;
-
-     builder.erase();
-
-     progress.stop();
-
-     deactivate();
-
-     completed.assert(result==StepFinalOk);
     }
  }
 
 template <class T,StepBuilderType<T> Step>
 void IncrementalBuilder<T,Step>::cancel() noexcept
  {
-  if( !obj )
-    {
-     deactivate();
-
-     return;
-    }
-
-  obj=0;
-
-  builder.erase();
-
-  progress.stop();
-
-  deactivate();
-
-  completed.assert(false);
+  if( obj )
+    clean(false);
+  else
+    deactivate();
  }
 
 } // namespace Video
