@@ -45,9 +45,9 @@ class DefaultFont
 
   public:
 
-   static const Coord DX = 10 ;
-   static const Coord DY = 18 ;
-   static const Coord BY = 15 ;
+   static constexpr Coord DX = 10 ;
+   static constexpr Coord DY = 18 ;
+   static constexpr Coord BY = 15 ;
 
    DefaultFont()
     {
@@ -59,7 +59,7 @@ class DefaultFont
      unsigned index=(unsigned char)ch;
 
      if( index>=32 && index<128 )
-       pixel=Table+(index-32)*Area(DX,DY);
+       pixel=Table+(index-32)*(DX*DY);
      else
        pixel=NoCharTable;
     }
@@ -85,7 +85,7 @@ class DefaultFont
       bool operator [] (Coord x) const { return pixel[x]; }
     };
 
-   Pattern operator [] (Coord y) const { return Pattern(pixel+Area(DX,y)); }
+   Pattern operator [] (Coord y) const { return Pattern(pixel+(DX*y)); }
  };
 
 /* class CharPanel<RawColor> */
