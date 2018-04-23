@@ -160,7 +160,7 @@ class RGBGlyph : ColorPlane
  {
   private:
 
-   Clr * place(Point p) const { return getBase()+dline*ulen(p.y)+3*DLineType(p.x); }
+   Clr * place(Point p) const { return getBase()+dline*ulen(p.y)+3u*DLineType(p.x); }
 
   public:
 
