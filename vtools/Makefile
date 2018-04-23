@@ -13,7 +13,9 @@
 
 OPT = -j 8
 
-LIST = Aspect BookLab ContourLab DDLDisplay RandomId Sample SubLab UserPreference Zipmap
+# Aspect
+
+LIST =  BookLab ContourLab DDLDisplay RandomId Sample SubLab UserPreference Zipmap
 
 include ../Target/Makefile.list
 

@@ -22,7 +22,7 @@ Aspect Data=
 Dir Dir0=
   {
    "App",
-   Red,
+   Yellow,
    {
     &Dir6
    },
@@ -33,7 +33,7 @@ Dir Dir0=
 Dir Dir1=
   {
    "Core",
-   Red,
+   Green,
    {
     &Dir7
    },
@@ -88,7 +88,7 @@ Dir Dir5=
 Dir Dir6=
   {
    "CCore",
-   Red,
+   Yellow,
    {
     &Dir12,
     &Dir13
@@ -100,7 +100,7 @@ Dir Dir6=
 Dir Dir12=
   {
    "inc",
-   Red,
+   Yellow,
    {
     &Dir14
    },
@@ -111,7 +111,7 @@ Dir Dir12=
 Dir Dir13=
   {
    "src",
-   Red,
+   Yellow,
    {
     &Dir15
    },
@@ -122,35 +122,35 @@ Dir Dir13=
 Dir Dir14=
   {
    "video",
-   Red,
+   Yellow,
    {
    },
    {
-    { "AppMain.h" , Red },
-    { "AppOpt.h" , Red },
-    { "ApplicationBase.h" , Red },
-    { "WindowReport.h" , Red }
+    { "AppMain.h" , Green },
+    { "AppOpt.h" , Green },
+    { "ApplicationBase.h" , Green },
+    { "WindowReport.h" , Yellow }
    }
   };
 
 Dir Dir15=
   {
    "video",
-   Red,
+   Yellow,
    {
    },
    {
-    { "AppMain.cpp" , Red },
-    { "AppOpt.cpp" , Red },
-    { "ApplicationBase.cpp" , Red },
-    { "WindowReport.cpp" , Red }
+    { "AppMain.cpp" , Green },
+    { "AppOpt.cpp" , Green },
+    { "ApplicationBase.cpp" , Green },
+    { "WindowReport.cpp" , Yellow }
    }
   };
 
 Dir Dir7=
   {
    "CCore",
-   Red,
+   Green,
    {
     &Dir16,
     &Dir17
@@ -162,7 +162,7 @@ Dir Dir7=
 Dir Dir16=
   {
    "inc",
-   Red,
+   Green,
    {
     &Dir18
    },
@@ -173,7 +173,7 @@ Dir Dir16=
 Dir Dir17=
   {
    "src",
-   Red,
+   Green,
    {
     &Dir19
    },
@@ -184,34 +184,34 @@ Dir Dir17=
 Dir Dir18=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
-    { "DrawBuf.h" , Red },
-    { "FrameWindow.h" , Red },
-    { "Keyboard.h" , Red },
-    { "Mouse.h" , Red },
-    { "RefVal.h" , Red },
-    { "SubWindow.h" , Red },
-    { "UserAction.h" , Red }
+    { "DrawBuf.h" , Green },
+    { "FrameWindow.h" , Green },
+    { "Keyboard.h" , Green },
+    { "Mouse.h" , Green },
+    { "RefVal.h" , Green },
+    { "SubWindow.h" , Green },
+    { "UserAction.h" , Green }
    }
   };
 
 Dir Dir19=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
-    { "DrawBuf.cpp" , Red },
-    { "FrameWindow.cpp" , Red },
-    { "Keyboard.cpp" , Red },
-    { "Mouse.cpp" , Red },
-    { "RefVal.cpp" , Red },
-    { "SubWindow.cpp" , Red },
-    { "UserAction.cpp" , Red }
+    { "DrawBuf.cpp" , Green },
+    { "FrameWindow.cpp" , Green },
+    { "Keyboard.cpp" , Green },
+    { "Mouse.cpp" , Green },
+    { "RefVal.cpp" , Green },
+    { "SubWindow.cpp" , Green },
+    { "UserAction.cpp" , Green }
    }
   };
 
