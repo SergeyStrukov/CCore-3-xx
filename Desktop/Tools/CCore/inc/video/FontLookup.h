@@ -22,9 +22,45 @@
 namespace CCore {
 namespace Video {
 
+/* words */
+
+enum BoldType { Bold };
+
+enum ItalicType { Italic };
+
 /* classes */
 
+struct FontId;
+
+struct Bolder;
+
 class FontLookup;
+
+/* struct FontId */
+
+struct FontId
+ {
+  StrLen family;
+  bool bold = false ;
+  bool italic = false ;
+
+  FontId(StrLen family_) : family(family_) {}
+
+  FontId(const char *family_) : family(family_) {}
+
+  FontId(const ConstTypeRangeableType<char> &obj) : family(Range_const(obj)) {}
+ };
+
+inline FontId operator | (FontId id,BoldType) { id.bold=true; return id; }
+
+inline FontId operator | (FontId id,ItalicType) { id.italic=true; return id; }
+
+/* struct Bolder */
+
+struct Bolder : FreeTypeFont::Config
+ {
+  explicit Bolder(int strength_) { strength=strength_; }
+ };
 
 /* class FontLookup */
 
@@ -83,7 +119,11 @@ class FontLookup : NoCopy
 
    const FontInfo * find(StrLen family,bool bold,bool italic) const;
 
+   const FontInfo * find(FontId id) const { return find(id.family,id.bold,id.italic); }
+
    FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const; // noexcept
+
+   FontCouple build(FontId id,Coord font_size,const FreeTypeFont::Config &font_config={}) const { return build(id.family,id.bold,id.italic,font_size,font_config); }
  };
 
 } // namespace Video

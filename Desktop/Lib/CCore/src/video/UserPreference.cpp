@@ -685,24 +685,19 @@ void UserPreferenceBag::findFonts() // Update fonts here
  {
   FontLookup dev;
 
-  struct Bolder : FreeTypeFont::Config
-   {
-    explicit Bolder(int strength_) { strength=strength_; }
-   };
-
-  label_font=dev.build("Georgia"_c,false,true,18);
-  contour_font=dev.build("Microsoft Sans Serif"_c,false,false,20);
-  button_font=dev.build("Tahoma"_c,false,false,20,Bolder(20));
-  message_font=dev.build("Bookman Old Style"_c,false,false,20);
-  info_font=dev.build("Bookman Old Style"_c,false,false,18);
-  line_edit_font=dev.build("Segoe UI"_c,false,true,20);
-  list_font=dev.build("Bookman Old Style"_c,false,true,18);
-  menu_font=dev.build("Georgia"_c,false,true,17);
-  spinor_font=dev.build("Anonymous Pro"_c,false,false,22,Bolder(20));
-  code_font=dev.build("Anonymous Pro"_c,false,false,20,Bolder(20));
-  title_font=dev.build("Times New Roman"_c,false,false,28);
-  hint_font=dev.build("Bookman Old Style"_c,true,true,17);
-  file_filter_font=dev.build("Anonymous Pro"_c,false,false,20,Bolder(20));
+  label_font=dev.build("Georgia"_c|Italic,18);
+  contour_font=dev.build("Microsoft Sans Serif"_c,20);
+  button_font=dev.build("Tahoma"_c,20,Bolder(20));
+  message_font=dev.build("Bookman Old Style"_c,20);
+  info_font=dev.build("Bookman Old Style"_c,18);
+  line_edit_font=dev.build("Segoe UI"_c|Italic,20);
+  list_font=dev.build("Bookman Old Style"_c|Italic,18);
+  menu_font=dev.build("Georgia"_c|Italic,17);
+  spinor_font=dev.build("Anonymous Pro"_c,22,Bolder(20));
+  code_font=dev.build("Anonymous Pro"_c,20,Bolder(20));
+  title_font=dev.build("Times New Roman"_c,28);
+  hint_font=dev.build("Bookman Old Style"_c|Bold|Italic,17);
+  file_filter_font=dev.build("Anonymous Pro"_c,20,Bolder(20));
  }
 
 /* class UserPreference */

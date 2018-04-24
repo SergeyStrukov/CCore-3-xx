@@ -29,12 +29,6 @@
 namespace CCore {
 namespace Video {
 
-/* words */
-
-enum BoldType { Bold };
-
-enum ItalicType { Italic };
-
 /* classes */
 
 struct FontInfo;
@@ -42,10 +36,6 @@ struct FontInfo;
 class FontDatabase;
 
 class FontIndex;
-
-struct FontId;
-
-class FontBuilder;
 
 /* struct FontInfo */
 
@@ -238,94 +228,6 @@ class FontIndex : NoCopy
      if( +r && func(**r)==0 ) return *r;
 
      return 0;
-    }
- };
-
-/* struct FontId */
-
-struct FontId
- {
-  StrLen family;
-  bool bold;
-  bool italic;
-
-  FontId(StrLen family_) : family(family_),bold(false),italic(false) {}
-
-  FontId(const char *family_) : family(family_),bold(false),italic(false) {}
-
-  FontId(const ConstTypeRangeableType<char> &obj) : family(Range_const(obj)),bold(false),italic(false) {}
- };
-
-inline FontId operator | (FontId id,BoldType) { id.bold=true; return id; }
-
-inline FontId operator | (FontId id,ItalicType) { id.italic=true; return id; }
-
-/* class FontBuilder */
-
-class FontBuilder : NoCopy
- {
-   FontDatabase fdb;
-   FontIndex index;
-
-  private:
-
-   static FreeTypeFont Build(const FontInfo *info,Coord font_size,const FreeTypeFont::Config &font_config);
-
-   void buildIndex();
-
-  public:
-
-   FontBuilder();
-
-   ~FontBuilder();
-
-   void prepare();
-
-   // incremental
-
-   class Step : NoCopy
-    {
-      FontDatabase::Step dbstep;
-
-     private:
-
-      StepResult finish(StepResult result,FontBuilder &obj);
-
-     public:
-
-      Step();
-
-      ~Step();
-
-      StepResult start(FontBuilder &obj,bool use_cache=true);
-
-      StepResult step(IncrementalProgress &progress,FontBuilder &obj);
-
-      void erase() noexcept;
-    };
-
-   using Incremental = IncrementalBuilder<FontBuilder,Step> ;
-
-   void prepare(Incremental &inc,bool use_cache=true) { inc.start(*this,use_cache); }
-
-   // methods
-
-   const FontDatabase & getDatabase() const { return fdb; }
-
-   const FontInfo * find(StrLen family,bool bold,bool italic) const;
-
-   FreeTypeFont build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const;
-
-   Font build_or_default(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const;
-
-   FreeTypeFont build(FontId id,Coord font_size,const FreeTypeFont::Config &font_config={}) const
-    {
-     return build(id.family,id.bold,id.italic,font_size,font_config);
-    }
-
-   Font build_or_default(FontId id,Coord font_size,const FreeTypeFont::Config &font_config={}) const
-    {
-     return build_or_default(id.family,id.bold,id.italic,font_size,font_config);
     }
  };
 

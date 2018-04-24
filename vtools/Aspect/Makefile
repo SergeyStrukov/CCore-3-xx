@@ -17,7 +17,9 @@ include $(CCORE_ROOT)/Makefile.host
 
 SRC_PATH_LIST = src
 
-TARGET = $(HOME)/bin/CCore-Aspect.exe
+TARGET = ./CCore-Aspect.exe 
+
+# $(HOME)/bin/CCore-Aspect.exe
 
 CCOPT_EXTRA = -I.
 
