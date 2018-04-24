@@ -623,7 +623,7 @@ Dir Dir38=
     { "DesktopKey.h" , Green },
     { "FileBoss.h" , Green },
     { "FileNameCmp.h" , Green },
-    { "FontDatabase.h" , Red },
+    { "FontDatabase.h" , Yellow },
     { "FontLookup.h" , Green },
     { "FontParam.h" , Green },
     { "HomeFile.h" , Green },
@@ -648,7 +648,7 @@ Dir Dir39=
     { "DesktopKey.cpp" , Green },
     { "FileBoss.cpp" , Green },
     { "FileNameCmp.cpp" , Green },
-    { "FontDatabase.cpp" , Red },
+    { "FontDatabase.cpp" , Yellow },
     { "FontLookup.cpp" , Green },
     { "FontParam.cpp" , Green },
     { "HomeFile.cpp" , Green },
@@ -658,9 +658,9 @@ Dir Dir39=
     { "Picture.cpp" , Green },
     { "PrintDDL.cpp" , Green },
     { "ProgressScale.cpp" , Green },
-    { "FontInfo.ddl" , Red },
-    { "FontInfo.TypeDef.gen.h" , Red },
-    { "FontInfo.TypeSet.gen.h" , Red }
+    { "FontInfo.ddl" , Green },
+    { "FontInfo.TypeDef.gen.h" , Green },
+    { "FontInfo.TypeSet.gen.h" , Green }
    }
   };
 

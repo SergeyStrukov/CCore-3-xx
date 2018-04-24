@@ -52,7 +52,7 @@ void MakeFileName::make(StrLen dir_name,StrLen file_name,StrLen auto_ext)
 
   if( !(*this) )
     {
-     Printf(Exception,"CCore::MakeFileName::make(#.q;,#.q;) : too long path",dir_name,file_name);
+     Printf(Exception,"CCore::MakeFileName::make(#.q;,#.q;,#.q;) : too long path",dir_name,file_name,auto_ext);
     }
  }
 

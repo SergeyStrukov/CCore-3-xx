@@ -102,12 +102,12 @@ struct FontInfo
    {
     Printf(out,"File #.q;\n",file_name);
     Printf(out,"Font #; #; class = #;\n",family,style,font_class);
-    Putobj(out,"Flags");
+    Putobj(out,"Flags"_c);
 
-    if( scalable ) Putobj(out," scalable");
-    if( monospace ) Putobj(out," monospace");
-    if( italic ) Putobj(out," italic");
-    if( bold ) Putobj(out," bold");
+    if( scalable ) Putobj(out," scalable"_c);
+    if( monospace ) Putobj(out," monospace"_c);
+    if( italic ) Putobj(out," italic"_c);
+    if( bold ) Putobj(out," bold"_c);
 
     out.put('\n');
    }
