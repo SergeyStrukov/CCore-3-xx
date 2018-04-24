@@ -77,7 +77,7 @@ Dir Dir4=
 Dir Dir5=
   {
    "Tools",
-   Red,
+   Green,
    {
     &Dir11
    },
@@ -580,7 +580,7 @@ Dir Dir35=
 Dir Dir11=
   {
    "CCore",
-   Red,
+   Green,
    {
     &Dir36,
     &Dir37
@@ -592,7 +592,7 @@ Dir Dir11=
 Dir Dir36=
   {
    "inc",
-   Red,
+   Green,
    {
     &Dir38
    },
@@ -603,7 +603,7 @@ Dir Dir36=
 Dir Dir37=
   {
    "src",
-   Red,
+   Green,
    {
     &Dir39
    },
@@ -614,11 +614,11 @@ Dir Dir37=
 Dir Dir38=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
-    { "Bitmap.h" , Red },
+    { "Bitmap.h" , Green },
     { "ButtonId.h" , Green },
     { "DesktopKey.h" , Green },
     { "FileBoss.h" , Green },
@@ -639,11 +639,11 @@ Dir Dir38=
 Dir Dir39=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
-    { "Bitmap.cpp" , Red },
+    { "Bitmap.cpp" , Green },
     { "ButtonId.cpp" , Green },
     { "DesktopKey.cpp" , Green },
     { "FileBoss.cpp" , Green },

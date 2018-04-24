@@ -114,6 +114,8 @@ void BitmapData::loadZipmap(StrLen file_name)
 
   DynArray<uint8> plane(DoRaw{len});
 
+  uint8 *base=plane.getPtr();
+
   PtrLen<uint8> cur=Range(plane);
   unsigned shift=0;
 
@@ -121,12 +123,12 @@ void BitmapData::loadZipmap(StrLen file_name)
                                                    {
                                                     if( data.len>cur.len )
                                                       {
-                                                       Printf(Exception,"CCore::BitmapData::loadZipmap(...) : plane data overflow");
+                                                       Printf(Exception,"CCore::Video::BitmapData::loadZipmap(...) : plane data overflow");
                                                       }
 
                                                     if( shift>=32u )
                                                       {
-                                                       Printf(Exception,"CCore::BitmapData::loadZipmap(...) : extra plane");
+                                                       Printf(Exception,"CCore::Video::BitmapData::loadZipmap(...) : extra plane");
                                                       }
 
                                                     data.copyTo(cur.ptr);
@@ -139,17 +141,17 @@ void BitmapData::loadZipmap(StrLen file_name)
                                           {
                                            if( cur.len )
                                              {
-                                              Printf(Exception,"CCore::BitmapData::loadZipmap(...) : plane data underflow");
+                                              Printf(Exception,"CCore::Video::BitmapData::loadZipmap(...) : plane data underflow");
                                              }
 
                                            if( shift>=32u )
                                              {
-                                              Printf(Exception,"CCore::BitmapData::loadZipmap(...) : extra plane");
+                                              Printf(Exception,"CCore::Video::BitmapData::loadZipmap(...) : extra plane");
                                              }
 
-                                           Undiff(plane.getPtr(),dx,dy);
+                                           Undiff(base,dx,dy);
 
-                                           AddPlane(Range(map),plane.getPtr(),shift);
+                                           AddPlane(Range(map),base,shift);
 
                                            cur=Range(plane);
                                            shift+=8;
