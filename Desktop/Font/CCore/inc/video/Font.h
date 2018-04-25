@@ -18,6 +18,8 @@
 
 #include <CCore/inc/video/DrawBuf.h>
 
+#include <CCore/inc/video/MPoint.h>
+
 #include <CCore/inc/Symbol.h>
 #include <CCore/inc/RefObjectBase.h>
 #include <CCore/inc/algon/ApplyToRange.h>

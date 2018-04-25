@@ -16,6 +16,8 @@
 #ifndef CCore_inc_video_Picture_h
 #define CCore_inc_video_Picture_h
 
+#include <CCore/inc/video/MPoint.h>
+
 #include <CCore/inc/video/DrawBuf.h>
 
 #include <CCore/inc/RefObjectBase.h>

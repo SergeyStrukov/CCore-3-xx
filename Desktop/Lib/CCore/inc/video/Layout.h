@@ -16,6 +16,8 @@
 #ifndef CCore_inc_video_Layout_h
 #define CCore_inc_video_Layout_h
 
+#include <CCore/inc/video/MPoint.h>
+
 #include <CCore/inc/video/Desktop.h>
 #include <CCore/inc/video/SubWindow.h>
 

@@ -16,7 +16,7 @@
 #ifndef CCore_inc_video_ColorField_h
 #define CCore_inc_video_ColorField_h
 
-#include <CCore/inc/video/Point.h>
+#include <CCore/inc/video/MPoint.h>
 #include <CCore/inc/video/Color.h>
 
 namespace CCore {

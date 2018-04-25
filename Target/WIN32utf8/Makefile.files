@@ -189,6 +189,7 @@ OBJ_LIST = \
 .obj/Log.o \
 .obj/MCoordEdit.o \
 .obj/MD5.o \
+.obj/MPoint.o \
 .obj/MSec.o \
 .obj/MakeFileName.o \
 .obj/MakeString.o \
@@ -646,6 +647,7 @@ ASM_LIST = \
 .obj/Log.s \
 .obj/MCoordEdit.s \
 .obj/MD5.s \
+.obj/MPoint.s \
 .obj/MSec.s \
 .obj/MakeFileName.s \
 .obj/MakeString.s \
@@ -1103,6 +1105,7 @@ DEP_LIST = \
 .obj/Log.dep \
 .obj/MCoordEdit.dep \
 .obj/MD5.dep \
+.obj/MPoint.dep \
 .obj/MSec.dep \
 .obj/MakeFileName.dep \
 .obj/MakeString.dep \
@@ -1951,6 +1954,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/MD5.o : ../../Applied/CCore/src/./crypton/MD5.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/MPoint.o : ../../Desktop/Draw/CCore/src/./video/MPoint.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/MSec.o : ../../Simple/CCore/src/./gadget/MSec.cpp
@@ -3317,6 +3323,9 @@ include $(RULES_FILE)
 .obj/MD5.s : ../../Applied/CCore/src/./crypton/MD5.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/MPoint.s : ../../Desktop/Draw/CCore/src/./video/MPoint.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/MSec.s : ../../Simple/CCore/src/./gadget/MSec.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4680,6 +4689,9 @@ include $(RULES_FILE)
 
 .obj/MD5.dep : ../../Applied/CCore/src/./crypton/MD5.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/MD5.o $< -MF $@
+
+.obj/MPoint.dep : ../../Desktop/Draw/CCore/src/./video/MPoint.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/MPoint.o $< -MF $@
 
 .obj/MSec.dep : ../../Simple/CCore/src/./gadget/MSec.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/MSec.o $< -MF $@

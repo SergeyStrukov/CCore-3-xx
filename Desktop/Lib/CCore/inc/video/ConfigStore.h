@@ -17,7 +17,7 @@
 #define CCore_inc_video_ConfigStore_h
 
 #include <CCore/inc/video/Color.h>
-#include <CCore/inc/video/Point.h>
+#include <CCore/inc/video/MPoint.h>
 #include <CCore/inc/video/FontParam.h>
 #include <CCore/inc/video/RefVal.h>
 #include <CCore/inc/video/PrintDDL.h>

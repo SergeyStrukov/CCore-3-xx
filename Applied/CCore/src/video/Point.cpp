@@ -1,7 +1,7 @@
 /* Point.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
 //  Tag: Applied
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,43 +17,6 @@
 
 namespace CCore {
 namespace Video {
-
-/* functions */
-
-DCoord Length(MCoord a,MCoord b)
- {
-  uMCoord A=IntAbs(a);
-  uMCoord B=IntAbs(b);
-
-  uMCoord x=Max(A,B);
-
-  if( x==0 ) return 0;
-
-  return UIntFunc<uDCoord>::SqRoot(uDCoord(A)*A+uDCoord(B)*B,x);
- }
-
-/* struct Ratio */
-
-Ratio Ratio::pow(unsigned deg) const
- {
-  if( !deg ) return Ratio(1,0);
-
-  BitScanner<unsigned> scanner(deg);
-
-  Ratio ret(*this);
-
-  for(++scanner; +scanner ;++scanner)
-    if( *scanner )
-      {
-       ret=Sq(ret)*(*this);
-      }
-    else
-      {
-       ret=Sq(ret);
-      }
-
-  return ret;
- }
 
 /* struct PaneSub */
 
