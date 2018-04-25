@@ -32,7 +32,7 @@ class EditLengthWindow : public SubWindow
     {
      // user
 
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      // app
 
@@ -40,7 +40,7 @@ class EditLengthWindow : public SubWindow
 
      RefVal<Coord> shade_dxy = 8 ;
 
-     RefVal<MCoord> arrow_size = Fraction(5) ;
+     RefVal<Fraction> arrow_size = Fraction(5) ;
 
      RefVal<VColor> back    =     White ;
      RefVal<VColor> border  =     Black ;

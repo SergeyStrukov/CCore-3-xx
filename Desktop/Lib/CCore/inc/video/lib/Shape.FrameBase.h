@@ -39,7 +39,7 @@ class FrameShapeBase
 
    struct ConfigBase
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> gray              =      Gray ;
      RefVal<VColor> snow              =      Snow ;
@@ -55,7 +55,7 @@ class FrameShapeBase
      RefVal<VColor> btnPictNoAlert    =      Gray ;
      RefVal<VColor> btnPictCloseAlert =    Orange ;
 
-     RefVal<MCoord> hintWidth = Fraction(3) ;
+     RefVal<Fraction> hintWidth = Fraction(3) ;
 
      RefVal<VColor> hintBack   = Wheat ;
      RefVal<VColor> hintText   =  Blue ;

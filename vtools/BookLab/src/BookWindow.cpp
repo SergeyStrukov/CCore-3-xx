@@ -25,7 +25,7 @@ namespace App {
 
 void InnerBookWindow::cache() const
  {
-  Coord dx=getSize().x-2*RoundUpLen(+cfg.width);
+  Coord dx=getSize().x-2*cfg.width.get().roundUp();
 
   if( !ok || cache_dx!=dx )
     {
@@ -268,7 +268,7 @@ Point InnerBookWindow::getMinSize(Point cap) const
      Coord dx=CapSize(size.dx,cap.x);
      Coord dy=CapSize(size.dy,cap.y);
 
-     return Point(dx,dy)+2*Point::Diag(RoundUpLen(+cfg.width));
+     return Point(dx,dy)+2*Point::Diag(cfg.width.get().roundUp());
     }
   else
     {
@@ -346,7 +346,7 @@ void InnerBookWindow::layout()
  {
   cache();
 
-  Point s=getSize()-2*Point::Diag(RoundUpLen(+cfg.width));
+  Point s=getSize()-2*Point::Diag(cfg.width.get().roundUp());
 
   if( s>Null )
     {

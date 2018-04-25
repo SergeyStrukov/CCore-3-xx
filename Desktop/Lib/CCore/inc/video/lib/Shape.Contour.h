@@ -40,7 +40,7 @@ class ContourShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> gray = Gray ;
      RefVal<VColor> snow = Snow ;
@@ -86,7 +86,7 @@ class TextContourShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> gray =  Gray ;
      RefVal<VColor> snow =  Snow ;

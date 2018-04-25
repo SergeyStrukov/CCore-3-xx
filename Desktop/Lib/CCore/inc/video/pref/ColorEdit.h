@@ -33,7 +33,7 @@ class ColorEditWindow : public SubWindow
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(8,2) ;
+     RefVal<Fraction> width = Fraction(8,2) ;
 
      RefVal<Coord> space_dxy =  10 ;
 

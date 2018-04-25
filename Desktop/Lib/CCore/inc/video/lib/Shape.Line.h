@@ -46,7 +46,7 @@ class SingleLineShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> line = Gray ;
 
@@ -110,7 +110,7 @@ class DoubleLineShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> gray = Gray ;
      RefVal<VColor> snow = Snow ;

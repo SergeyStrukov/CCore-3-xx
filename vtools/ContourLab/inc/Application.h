@@ -34,7 +34,7 @@ struct AppPreferenceBag : ConfigItemHost
 
   DefString title = "ContourLab"_def ;
 
-  MCoord arrow_size = Fraction(5) ;
+  Fraction arrow_size = Fraction(5) ;
 
   Coord shade_dxy = 8 ;
 

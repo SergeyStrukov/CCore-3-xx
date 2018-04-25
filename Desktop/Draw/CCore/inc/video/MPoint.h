@@ -37,13 +37,13 @@ inline constexpr MCoord MaxMCoord = 2'147'483'647 ;
 
 /* functions */
 
-template <OneOfTypes<Coord,MCoord> T>
-T Sup(T a,T b) { return Max(a,b); }
+inline constexpr MCoord Sup(MCoord a,MCoord b) { return Max(a,b); }
 
-template <OneOfTypes<Coord,MCoord> T>
-T Inf(T a,T b) { return Min(a,b); }
+inline constexpr MCoord Inf(MCoord a,MCoord b) { return Min(a,b); }
 
 DCoord Length(MCoord a,MCoord b);
+
+inline DCoord DMul(DCoord a,MCoord b) { return a*b; }
 
 inline MCoord MulDiv(DCoord a,MCoord b,MCoord c) { IntGuard( c!=0 ); return MCoord( (a*b)/c ); }
 
@@ -66,13 +66,15 @@ MCoord Position(UInt P,UInt Q,MCoord a,MCoord b)
 
 /* classes */
 
+struct Fraction;
+
 struct MPoint;
 
 struct Ratio;
 
-/* struct MPoint */
+/* struct Fraction */
 
-struct MPoint : BasePoint<MPoint,MCoord>
+struct Fraction
  {
   // consts
 
@@ -81,6 +83,52 @@ struct MPoint : BasePoint<MPoint,MCoord>
   static constexpr MCoord One = MCoord(1)<<Precision ;
 
   static constexpr MCoord Half = MCoord(1)<<(Precision-1) ;
+
+  // value
+
+  MCoord value;
+
+  // constructors
+
+  explicit Fraction(MCoord *value_) : value(*value_) {}
+
+  Fraction(MCoord value_,unsigned prec) // prec <= Precision
+   {
+    value=IntLShift(value_,Precision-prec);
+   }
+
+  Fraction(Coordinate x) : Fraction(+x,0) {}
+
+  // methods
+
+  using PrintProxyType = MCoord ;
+
+  operator MCoord() const { return value; }
+
+  static Coord RoundUp(MCoord dx)
+   {
+    return To16( IntRShift(dx+One-1,Precision) );
+   }
+
+  Coord roundUp() const { return RoundUp(value); }
+ };
+
+inline Coord RoundUpLen(MCoord dx)
+ {
+  return Fraction::RoundUp(dx);
+ }
+
+/* struct MPoint */
+
+struct MPoint : BasePoint<MPoint,MCoord>
+ {
+  // consts
+
+  static constexpr unsigned Precision = Fraction::Precision ;
+
+  static constexpr MCoord One = Fraction::One ;
+
+  static constexpr MCoord Half = Fraction::Half ;
 
   // LShift
 
@@ -115,18 +163,6 @@ struct MPoint : BasePoint<MPoint,MCoord>
   MPoint round() const { return MPoint(Round(x),Round(y)); }
  };
 
-inline MCoord Fraction(MCoord value,unsigned prec=0) // prec <= MPoint::Precision
- {
-  return IntLShift(value,MPoint::Precision-prec);
- }
-
-inline MCoord Fraction(Coordinate x) { return Fraction(+x); }
-
-inline Coord RoundUpLen(MCoord dx)
- {
-  return To16( IntRShift(dx+MPoint::One-1,MPoint::Precision) );
- }
-
 /* struct Ratio */
 
 struct Ratio
@@ -137,15 +173,18 @@ struct Ratio
 
   // data
 
-  sint32 value;
+  MCoord value;
 
   // constructors
 
   Ratio() noexcept : value(0) {}
 
-  explicit Ratio(sint32 value_) : value(value_) {}
+  explicit Ratio(MCoord value_) : value(value_) {}
 
-  Ratio(sint32 value_,unsigned prec) : value( IntLShift(value_,Precision-prec) ) {} // prec <= Precision
+  Ratio(MCoord value_,unsigned prec) // prec <= Precision
+   {
+    value=IntLShift(value_,Precision-prec);
+   }
 
   // methods
 
@@ -170,26 +209,26 @@ struct Ratio
 
   friend Ratio operator * (Ratio a,Ratio b)
    {
-    return Ratio( sint32( IntRShift(sint64(a.value)*b.value,Precision) ) );
+    return Ratio( MCoord( IntRShift(DMul(a.value,b.value),Precision) ) );
    }
 
   friend Ratio operator / (Ratio a,Ratio b)
    {
     IntGuard( b.value!=0 );
 
-    return Ratio( sint32( IntLShift(sint64(a.value),Precision)/b.value ) );
+    return Ratio( MCoord( IntLShift(DCoord(a.value),Precision)/b.value ) );
    }
 
   // multiplicators
 
   friend Coord operator * (Ratio a,Coord b)
    {
-    return To16( IntRShift(sint64(a.value)*b,Precision) );
+    return To16( IntRShift(DMul(a.value,b),Precision) );
    }
 
-  friend sint32 operator * (Ratio a,sint32 b)
+  friend MCoord operator * (Ratio a,MCoord b)
    {
-    return sint32( IntRShift(sint64(a.value)*b,Precision) );
+    return MCoord( IntRShift(DMul(a.value,b),Precision) );
    }
  };
 
@@ -208,7 +247,7 @@ inline MPoint operator * (Ratio a,MPoint point)
   return MPoint(a*point.x,a*point.y);
  }
 
-inline Ratio Div(sint32 a,sint32 b) { return Ratio(a)/Ratio(b); }
+inline Ratio Div(MCoord a,MCoord b) { return Ratio(a)/Ratio(b); }
 
 inline Ratio XdivY(Point size) { return Div(size.x,size.y); }
 
@@ -218,7 +257,7 @@ inline Ratio YdivX(Point size) { return Div(size.y,size.x); }
 
 inline DCoord Length(MPoint a) { return Length(a.x,a.y); }
 
-inline DCoord Prod(MCoord a,MCoord b,MCoord x,MCoord y) { return DCoord(a)*x+DCoord(b)*y; }
+inline DCoord Prod(MCoord a,MCoord b,MCoord x,MCoord y) { return DMul(a,x)+DMul(b,y); }
 
 inline DCoord Prod(MCoord a,MCoord b,MPoint point) { return Prod(a,b,point.x,point.y); }
 

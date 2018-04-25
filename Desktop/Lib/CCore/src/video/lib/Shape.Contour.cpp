@@ -24,28 +24,28 @@ namespace Video {
 
 Point ContourShape::getMinSize() const
  {
-  Coordinate dxy=RoundUpLen(+cfg.width);
+  Coordinate dxy=cfg.width.get().roundUp();
 
   return Point::Diag(2*dxy+10);
  }
 
 Point ContourShape::getMinSize(Point inner_size) const
  {
-  Coordinate dxy=RoundUpLen(+cfg.width);
+  Coordinate dxy=cfg.width.get().roundUp();
 
   return inner_size.addXY(+(2*dxy));
  }
 
 Pane ContourShape::getInner() const
  {
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   return pane.shrink(dxy);
  }
 
 Point ContourShape::getDelta() const
  {
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   return 2*Point::Diag(dxy);
  }
@@ -75,7 +75,7 @@ Point TextContourShape::getMinSize() const
  {
   TextSize ts=cfg.font->text_guarded(title.str());
 
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   return 2*Point(ts.dy,dxy)+Point(ts.full_dx,ts.dy);
  }
@@ -84,7 +84,7 @@ Point TextContourShape::getMinSize(Point inner_size) const
  {
   TextSize ts=cfg.font->text_guarded(title.str());
 
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   return Sup( Point(dxy,dxy)+Point(dxy,ts.dy)+inner_size , 2*Point(ts.dy,dxy)+Point(ts.full_dx,ts.dy) );
  }
@@ -93,7 +93,7 @@ Pane TextContourShape::getInner() const
  {
   FontSize fs=cfg.font->getSize();
 
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   if( dxy>=pane.dx-dxy || fs.dy>=pane.dy-dxy ) return Empty;
 
@@ -104,7 +104,7 @@ Point TextContourShape::getDelta() const
  {
   FontSize fs=cfg.font->getSize();
 
-  Coord dxy=RoundUpLen(+cfg.width);
+  Coord dxy=cfg.width.get().roundUp();
 
   return Point::Diag(dxy)+Point(dxy,fs.dy);
  }

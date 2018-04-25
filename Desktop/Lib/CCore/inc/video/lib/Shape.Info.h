@@ -61,7 +61,7 @@ class InfoShape : public InfoState
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> focus    = OrangeRed ;
      RefVal<VColor> inactive =      Gray ;

@@ -111,7 +111,7 @@ class ExceptionWindow : public SubWindow
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> back    = Black ;
      RefVal<VColor> text    = Green ;

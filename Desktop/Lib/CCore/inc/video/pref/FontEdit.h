@@ -41,7 +41,7 @@ class CharTableWindow : public SubWindow
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> text = Black ;
 

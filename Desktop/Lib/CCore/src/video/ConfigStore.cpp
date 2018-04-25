@@ -81,7 +81,7 @@ template <>
 auto ConfigItem::DDLTypeNameCtx::call<Coord>() -> RetType { return "Coord"; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<MCoord>() -> RetType { return "MCoord"; }
+auto ConfigItem::DDLTypeNameCtx::call<Fraction>() -> RetType { return "MCoord"; }
 
 template <>
 auto ConfigItem::DDLTypeNameCtx::call<VColor>() -> RetType { return "VColor"; }
@@ -407,7 +407,7 @@ void ConfigMap::add_text(StrLen name,StrLen value) { add(name,DefString(value));
 
 void ConfigMap::add_Coord(StrLen name,Coord value) { add(name,value); }
 
-void ConfigMap::add_MCoord(StrLen name,MCoord value) { add(name,value); }
+void ConfigMap::add_MCoord(StrLen name,MCoord value) { add(name,Fraction(&value)); }
 
 void ConfigMap::add_VColor(StrLen name,uint32 value) { add(name,VColor(value)); }
 

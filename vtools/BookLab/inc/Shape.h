@@ -134,7 +134,7 @@ class Shape
     {
      // user
 
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> line = Gray ;
      RefVal<VColor> gray = Gray ;

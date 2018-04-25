@@ -38,7 +38,7 @@ class DrawShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(10) ;
+     RefVal<Fraction> width = Fraction(10) ;
 
      RefVal<VColor> border = Black ;
      RefVal<VColor> body   =  Blue ;

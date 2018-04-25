@@ -24,7 +24,7 @@ namespace Video {
 
 SizeY XSingleLineShape::getMinSize() const
  {
-  Coord dy=RoundUpLen(+cfg.width);
+  Coord dy=cfg.width.get().roundUp();
 
   return dy;
  }
@@ -46,7 +46,7 @@ void XSingleLineShape::draw(const DrawBuf &buf) const
 
 SizeX YSingleLineShape::getMinSize() const
  {
-  Coord dx=RoundUpLen(+cfg.width);
+  Coord dx=cfg.width.get().roundUp();
 
   return dx;
  }
@@ -68,7 +68,7 @@ void YSingleLineShape::draw(const DrawBuf &buf) const
 
 SizeY XDoubleLineShape::getMinSize() const
  {
-  Coordinate dy=RoundUpLen(+cfg.width);
+  Coordinate dy=cfg.width.get().roundUp();
 
   return 2*dy;
  }
@@ -95,7 +95,7 @@ void XDoubleLineShape::draw(const DrawBuf &buf) const
 
 SizeX YDoubleLineShape::getMinSize() const
  {
-  Coordinate dx=RoundUpLen(+cfg.width);
+  Coordinate dx=cfg.width.get().roundUp();
 
   return 2*dx;
  }

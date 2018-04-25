@@ -33,7 +33,7 @@ class PointEditWindow : public ComboWindow
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(1) ;
+     RefVal<Fraction> width = Fraction(1) ;
 
      RefVal<VColor> line = Black ;
 

@@ -99,7 +99,7 @@ void CharTableWindow::layout()
 
   Coord cell_dxy=Cell(fs.dy);
 
-  Coord len=16*cell_dxy+RoundUpLen(+cfg.width);
+  Coord len=16*cell_dxy+cfg.width.get().roundUp();
 
   Point size=getSize();
 
@@ -1032,7 +1032,7 @@ Point FontEditWindow::getMinSize(Point cap) const
 
   Point s=list.getMinSize( Point(cap.x/3,cap.y) );
 
-  return Point( 3*Sup(s.x,delta.x/2) , Sup(s.y,delta.y) );
+  return Point( 3*Sup(s.x,Coord(delta.x/2)) , Sup(s.y,delta.y) );
  }
 
 void FontEditWindow::setCouple(const FontCouple &font_)

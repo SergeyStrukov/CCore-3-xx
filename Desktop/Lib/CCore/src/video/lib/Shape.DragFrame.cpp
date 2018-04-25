@@ -184,7 +184,7 @@ void DragFrameShape::layout(Point size_)
         btnClose=Pane(xb2,yb,bdx,bdy);
        }
 
-     Coord w=RoundUpLen(+cfg.width);
+     Coord w=cfg.width.get().roundUp();
 
      titleBar=Pane(dragBar.x+bdx/4,w,tx-bdx/2,tdy-2*w);
     }
@@ -223,7 +223,7 @@ Point DragFrameShape::getDeltaSize() const
 
 Coord DragFrameShape::getMinDX(bool is_main,StrLen title) const
  {
-  Coord width=RoundUpLen(+cfg.width);
+  Coord width=cfg.width.get().roundUp();
   Coord tdy=+cfg.title_dy;
 
   Coord dxy=+cfg.frame_dxy;

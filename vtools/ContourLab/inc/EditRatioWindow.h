@@ -32,7 +32,7 @@ class EditRatioWindow : public SubWindow
     {
      // user
 
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      // app
 

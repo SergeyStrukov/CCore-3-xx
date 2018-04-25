@@ -44,7 +44,7 @@ struct UserPreferenceBag : ConfigItemHost
   // common
 
   Ratio frame_pos_ry = Div(5,12) ;
-  MCoord width = Fraction(6,2) ;
+  Fraction width = Fraction(6,2) ;
   Coord space_dxy = 10 ;
 
   Coord check_dxy   = 20 ;
@@ -226,7 +226,7 @@ struct UserPreferenceBag : ConfigItemHost
   VColor hintText   =  Blue ;
   VColor hintBorder = Green ;
 
-  MCoord hintWidth = Fraction(3) ;
+  Fraction hintWidth = Fraction(3) ;
 
   FontCouple title_font;
   FontCouple hint_font;
@@ -294,11 +294,11 @@ struct UserPreferenceBag : ConfigItemHost
 
   // ConfigEditor
 
-  MCoord cfg_edit_width = Fraction(1) ;
+  Fraction cfg_edit_width = Fraction(1) ;
   Coord cfg_edit_mark_dy = 3 ;
   VColor cfg_edit_line = Black ;
 
-  MCoord cfg_width = Fraction(8,2) ;
+  Fraction cfg_width = Fraction(8,2) ;
   Coord cfg_radius    =  15 ;
   Coord cfg_mix_len   = 350 ;
   Coord cfg_mix_width =  30 ;

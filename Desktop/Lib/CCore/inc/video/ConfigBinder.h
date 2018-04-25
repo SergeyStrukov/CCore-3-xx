@@ -44,7 +44,7 @@ struct ConfigItemBind
 
   virtual void item(DefString name,Coord &var)=0;
 
-  virtual void item(DefString name,MCoord &var)=0;
+  virtual void item(DefString name,Fraction &var)=0;
 
   virtual void item(DefString name,VColor &var)=0;
 

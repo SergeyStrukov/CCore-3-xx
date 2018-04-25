@@ -331,7 +331,7 @@ class FileCheckShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> border    =      Blue ;
      RefVal<VColor> focus     = OrangeRed ;

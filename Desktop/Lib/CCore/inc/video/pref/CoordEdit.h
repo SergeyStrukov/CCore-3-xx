@@ -33,7 +33,7 @@ class CoordEditWindow : public ComboWindow
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(1) ;
+     RefVal<Fraction> width = Fraction(1) ;
 
      RefVal<Coord> mark_dy = 3 ;
 

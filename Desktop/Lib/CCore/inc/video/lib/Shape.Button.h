@@ -58,7 +58,7 @@ class ButtonShape : public ButtonState
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> border =      Blue ;
      RefVal<VColor> focus  = OrangeRed ;
@@ -143,7 +143,7 @@ class KnobShape : public ButtonState
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> border =      Blue ;
      RefVal<VColor> focus  = OrangeRed ;

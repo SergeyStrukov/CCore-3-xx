@@ -50,7 +50,7 @@ class ConfigMap;
 using ConfigTypeList = Meta::CaseList<
                                        Meta::Case<int,1,unsigned> ,
                                        Meta::Case<int,2,Coord> ,
-                                       Meta::Case<int,3,MCoord> ,
+                                       Meta::Case<int,3,Fraction> ,
                                        Meta::Case<int,4,VColor> ,
                                        Meta::Case<int,5,Clr> ,
                                        Meta::Case<int,6,Point> ,
@@ -63,7 +63,7 @@ using ConfigTypeList = Meta::CaseList<
 /* concept ConfigType<T> */
 
 template <class T>
-concept bool ConfigType = OneOfTypes<T,unsigned,Coord,MCoord,VColor,Clr,Point,DefString,FontParam,bool,Ratio> ;
+concept bool ConfigType = OneOfTypes<T,unsigned,Coord,Fraction,VColor,Clr,Point,DefString,FontParam,bool,Ratio> ;
 
 /* class ConfigItem */
 

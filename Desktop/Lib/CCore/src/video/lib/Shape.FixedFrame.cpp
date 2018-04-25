@@ -121,7 +121,7 @@ void FixedFrameShape::layout(Point size_)
         btnClose=Pane(xb1,yb,bdx,bdy);
        }
 
-     Coord w=RoundUpLen(+cfg.width);
+     Coord w=cfg.width.get().roundUp();
 
      titleBar=Pane(top.x+bdx/4,w,tx-bdx/2,tdy-2*w);
     }
@@ -148,7 +148,7 @@ Point FixedFrameShape::getDeltaSize() const
 
 Coord FixedFrameShape::getMinDX(bool is_main,StrLen title) const
  {
-  Coord width=RoundUpLen(+cfg.width);
+  Coord width=cfg.width.get().roundUp();
   Coord tdy=+cfg.title_dy;
 
   Coord dxy=+cfg.frame_dxy;

@@ -38,7 +38,7 @@ Point SpinorShape::getMinSize() const
  {
   Point s=Sup(getInnerSize(12345),getInnerSize(min_val),getInnerSize(max_val));
 
-  Coordinate len=RoundUpLen(+cfg.width);
+  Coordinate len=cfg.width.get().roundUp();
 
   Coordinate dy=s.y+2*len;
   Coordinate dx=s.x+4*dy;

@@ -191,9 +191,9 @@ void MenuShapeBase::drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane
 
            Point base=pane.getBase()+func.base;
 
-           MCoord width=+cfg.width;
+           Fraction width=+cfg.width;
 
-           base=base.addY(RoundUpLen(width));
+           base=base.addY(width.roundUp());
 
            SmoothDrawArt art(buf);
 
@@ -521,7 +521,7 @@ Point SimpleCascadeMenuShape::getMinSize() const
        break;
       }
 
-  Coord delta=RoundUpLen(+cfg.width);
+  Coord delta=cfg.width.get().roundUp();
 
   return Point(dx,y)+2*Point::Diag(delta);
  }
@@ -545,7 +545,7 @@ void SimpleCascadeMenuShape::layout()
      return;
     }
 
-  Coord delta=RoundUpLen(+cfg.width);
+  Coord delta=cfg.width.get().roundUp();
 
   Pane inner=pane.shrink(delta);
 
@@ -590,7 +590,7 @@ void SimpleCascadeMenuShape::draw(const DrawBuf &buf) const
  {
   drawFrame(buf.cut(pane));
 
-  Coord delta=RoundUpLen(+cfg.width);
+  Coord delta=cfg.width.get().roundUp();
 
   drawMenu(buf.cut(pane.shrink(delta)));
  }

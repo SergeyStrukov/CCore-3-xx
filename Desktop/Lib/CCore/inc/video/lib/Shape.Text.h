@@ -38,7 +38,7 @@ class TextShape
 
    struct Config
     {
-     RefVal<MCoord> width = Fraction(6,2) ;
+     RefVal<Fraction> width = Fraction(6,2) ;
 
      RefVal<VColor> back     = Silver ;
      RefVal<VColor> gray     =   Gray ;
