@@ -41,13 +41,15 @@ inline constexpr MCoord Sup(MCoord a,MCoord b) { return Max(a,b); }
 
 inline constexpr MCoord Inf(MCoord a,MCoord b) { return Min(a,b); }
 
-DCoord Length(MCoord a,MCoord b);
-
 inline DCoord DMul(DCoord a,MCoord b) { return a*b; }
+
+inline uDCoord UDMul(uDCoord a,uMCoord b) { return a*b; }
 
 inline MCoord MulDiv(DCoord a,MCoord b,MCoord c) { IntGuard( c!=0 ); return MCoord( (a*b)/c ); }
 
 inline uMCoord UMulDiv(uDCoord a,uMCoord b,uMCoord c) { IntGuard( c!=0 ); return uMCoord( (a*b)/c ); }
+
+/* Position() */
 
 template <UIntType UInt>
 MCoord Position(UInt P,UInt Q,MCoord a,MCoord b)
@@ -105,18 +107,15 @@ struct Fraction
 
   operator MCoord() const { return value; }
 
-  static Coord RoundUp(MCoord dx)
+  static Coord RoundUp(MCoord value)
    {
-    return To16( IntRShift(dx+One-1,Precision) );
+    return To16( IntRShift(value+One-1,Precision) );
    }
 
   Coord roundUp() const { return RoundUp(value); }
  };
 
-inline Coord RoundUpLen(MCoord dx)
- {
-  return Fraction::RoundUp(dx);
- }
+inline Coord RoundUpLen(MCoord dx) { return Fraction::RoundUp(dx); }
 
 /* struct MPoint */
 
@@ -221,7 +220,7 @@ struct Ratio
 
   // multiplicators
 
-  friend Coord operator * (Ratio a,Coord b)
+  friend sint16 operator * (Ratio a,sint16 b)
    {
     return To16( IntRShift(DMul(a.value,b),Precision) );
    }
@@ -253,21 +252,23 @@ inline Ratio XdivY(Point size) { return Div(size.x,size.y); }
 
 inline Ratio YdivX(Point size) { return Div(size.y,size.x); }
 
-/* Prod() */
+inline Ratio XdivY(MPoint size) { return Div(size.x,size.y); }
+
+inline Ratio YdivX(MPoint size) { return Div(size.y,size.x); }
+
+/* Length() */
+
+DCoord Length(MCoord a,MCoord b);
 
 inline DCoord Length(MPoint a) { return Length(a.x,a.y); }
+
+/* Prod() */
 
 inline DCoord Prod(MCoord a,MCoord b,MCoord x,MCoord y) { return DMul(a,x)+DMul(b,y); }
 
 inline DCoord Prod(MCoord a,MCoord b,MPoint point) { return Prod(a,b,point.x,point.y); }
 
 inline DCoord Prod(MPoint a,MPoint b) { return Prod(a.x,a.y,b.x,b.y); }
-
-/* functions */
-
-inline Ratio XdivY(MPoint size) { return Div(size.x,size.y); }
-
-inline Ratio YdivX(MPoint size) { return Div(size.y,size.x); }
 
 } // namespace Video
 } // namespace CCore

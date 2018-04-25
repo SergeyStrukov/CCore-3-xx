@@ -129,7 +129,7 @@ struct Coordinate
 
   static Coordinate Max() { return Coordinate(MaxCoord); }
 
-  static Coordinate Min() { return Coordinate(MinCoord); }
+  //static Coordinate Min() { return Coordinate(MinCoord); }
 
   // unsafe operations
 
@@ -307,7 +307,7 @@ struct Point : BasePoint<Point,Coord>
  {
   static Point Max() { return Point(MaxCoord,MaxCoord); }
 
-  static Point Min() { return Point(MinCoord,MinCoord); }
+  //static Point Min() { return Point(MinCoord,MinCoord); }
 
   using BasePoint<Point,Coord>::Diag;
 

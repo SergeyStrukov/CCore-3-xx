@@ -59,7 +59,7 @@ auto IntMove(SInt a,SInt e,UInt delta)
 template <SIntType SInt>
 auto IntAbs(SInt a,SInt b)
  {
-  return (a<b)?IntDist(a,b):IntDist(b,a);
+  return (a<b)? IntDist(a,b) : IntDist(b,a) ;
  }
 
 template <SIntType SInt>
@@ -102,7 +102,7 @@ SInt IntMask(SInt a,UInt mask) { return SIntFunc<SInt>::Mask(a,mask); }
 /* sint16 functions */
 
 template <SIntType SInt>
-sint16 To16(SInt x) { IntGuard( x>=-32768 && x<=32767 ); return sint16(x); }
+sint16 To16(SInt x) { IntGuard( x>=-32'768 && x<=32'767 ); return sint16(x); }
 
 inline sint16 IntAdd(sint16 a,sint16 b) { return To16( sint32(a)+sint32(b) ); }
 

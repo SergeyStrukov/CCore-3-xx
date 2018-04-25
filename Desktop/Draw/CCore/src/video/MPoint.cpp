@@ -18,20 +18,6 @@
 namespace CCore {
 namespace Video {
 
-/* functions */
-
-DCoord Length(MCoord a,MCoord b)
- {
-  uMCoord A=IntAbs(a);
-  uMCoord B=IntAbs(b);
-
-  uMCoord x=Max(A,B);
-
-  if( x==0 ) return 0;
-
-  return UIntFunc<uDCoord>::SqRoot(uDCoord(A)*A+uDCoord(B)*B,x);
- }
-
 /* struct Ratio */
 
 Ratio Ratio::pow(unsigned deg) const
@@ -53,6 +39,20 @@ Ratio Ratio::pow(unsigned deg) const
       }
 
   return ret;
+ }
+
+/* Length() */
+
+DCoord Length(MCoord a,MCoord b)
+ {
+  uMCoord A=IntAbs(a);
+  uMCoord B=IntAbs(b);
+
+  uMCoord x=Max(A,B);
+
+  if( x==0 ) return 0;
+
+  return UIntFunc<uDCoord>::SqRoot(UDMul(A,A)+UDMul(B,B),x);
  }
 
 } // namespace Video
