@@ -250,7 +250,7 @@ struct Pane
        dx=dx_;
        dy=dy_;
 
-       IntGuard( x < x+dx && y < y+dy );
+       IntGuard( x<IntAdd(x,dx) && y<IntAdd(y,dy) );
       }
     else
       {
@@ -318,13 +318,23 @@ struct Pane
 
   // pull
 
-  Pane pullLeft(Coord delta) const { return Pane(x-delta,y,dx+delta,dy); }
+  Pane pullLeft(Coord delta) const { return Pane(IntSub(x,delta),y,IntAdd(dx,delta),dy); }
 
-  Pane pullTop(Coord delta) const { return Pane(x,y-delta,dx,dy+delta); }
+  Pane pullTop(Coord delta) const { return Pane(x,IntSub(y,delta),dx,IntAdd(dy,delta)); }
 
-  Pane pullRight(Coord delta) const { return Pane(x,y,dx+delta,dy); }
+  Pane pullRight(Coord delta) const { return Pane(x,y,IntAdd(dx,delta),dy); }
 
-  Pane pullBottom(Coord delta) const { return Pane(x,y,dx,dy+delta); }
+  Pane pullBottom(Coord delta) const { return Pane(x,y,dx,IntAdd(dy,delta)); }
+
+  // push
+
+  Pane pushLeft(Coord delta) const { return Pane(IntAdd(x,delta),y,IntSub(dx,delta),dy); }
+
+  Pane pushTop(Coord delta) const { return Pane(x,IntAdd(y,delta),dx,IntSub(dy,delta)); }
+
+  Pane pushRight(Coord delta) const { return Pane(x,y,IntSub(dx,delta),dy); }
+
+  Pane pushBottom(Coord delta) const { return Pane(x,y,dx,IntSub(dy,delta)); }
 
   // shrink
 
@@ -477,16 +487,16 @@ inline Pane SplitX(Coord delta,Pane &pane)
  {
   Pane ret=Pane(pane.x,pane.y,delta,pane.dy);
 
-  pane=Pane(pane.x+delta,pane.y,pane.dx-delta,pane.dy);
+  pane=pane.pushLeft(delta);
 
   return ret;
  }
 
 inline Pane SplitX(Pane &pane,Coord delta)
  {
-  Coord dx=pane.dx-delta;
+  Coord dx=IntSub(pane.dx,delta);
 
-  Pane ret=Pane(pane.x+dx,pane.y,delta,pane.dy);
+  Pane ret=Pane(IntAdd(pane.x,dx),pane.y,delta,pane.dy);
 
   pane=Pane(pane.x,pane.y,dx,pane.dy);
 
@@ -497,16 +507,16 @@ inline Pane SplitY(Coord delta,Pane &pane)
  {
   Pane ret=Pane(pane.x,pane.y,pane.dx,delta);
 
-  pane=Pane(pane.x,pane.y+delta,pane.dx,pane.dy-delta);
+  pane=pane.pushTop(delta);
 
   return ret;
  }
 
 inline Pane SplitY(Pane &pane,Coord delta)
  {
-  Coord dy=pane.dy-delta;
+  Coord dy=IntSub(pane.dy,delta);
 
-  Pane ret=Pane(pane.x,pane.y+dy,pane.dx,delta);
+  Pane ret=Pane(pane.x,IntAdd(pane.y,dy),pane.dx,delta);
 
   pane=Pane(pane.x,pane.y,pane.dx,dy);
 

@@ -105,7 +105,7 @@ void EditLengthWindow::draw(DrawBuf buf,bool) const
   // length
 
   {
-   MPoint line_x(Div(90,100)*Fraction(base.x),0);
+   MPoint line_x(Div(90,100)*+Fraction(base.x),0);
 
    MPoint end_x=base+line_x;
 
