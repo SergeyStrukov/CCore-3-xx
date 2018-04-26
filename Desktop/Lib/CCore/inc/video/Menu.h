@@ -158,9 +158,9 @@ class MenuShapeBase
  {
   protected:
 
-   static Coordinate GetDX(const MenuPoint &point,const Font &font,Coordinate space);
+   static Coord GetDX(const MenuPoint &point,const Font &font,Coord space);
 
-   static Coordinate GetDX(const MenuPoint &point,const Font &font,Coordinate space,Coordinate dy);
+   static Coord GetDX(const MenuPoint &point,const Font &font,Coord space,Coord dy);
 
    struct PlaceFunc : Funchor
     {
@@ -305,9 +305,9 @@ class SimpleTopMenuWindowOf : public SubWindow
      if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
     }
 
-   void addXOff(Coordinate delta)
+   void addXOff(Coord delta)
     {
-     Coordinate xoff=shape.xoff+delta*shape.dxoff;
+     Coord xoff=shape.xoff+delta*shape.dxoff;
 
      setXOff(+xoff);
     }
@@ -683,9 +683,9 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      if( Change(shape.yoff,Cap<Coord>(0,yoff,shape.yoffMax)) ) redraw();
     }
 
-   void addYOff(Coordinate delta)
+   void addYOff(Coord delta)
     {
-     Coordinate yoff=shape.yoff+delta*shape.cell_dy;
+     Coord yoff=shape.yoff+delta*shape.cell_dy;
 
      setYOff(+yoff);
     }

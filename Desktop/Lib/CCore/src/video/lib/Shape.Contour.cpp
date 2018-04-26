@@ -24,14 +24,14 @@ namespace Video {
 
 Point ContourShape::getMinSize() const
  {
-  Coordinate dxy=cfg.width.get().roundUp();
+  Coord dxy=cfg.width.get().roundUp();
 
   return Point::Diag(2*dxy+10);
  }
 
 Point ContourShape::getMinSize(Point inner_size) const
  {
-  Coordinate dxy=cfg.width.get().roundUp();
+  Coord dxy=cfg.width.get().roundUp();
 
   return inner_size.addXY(+(2*dxy));
  }

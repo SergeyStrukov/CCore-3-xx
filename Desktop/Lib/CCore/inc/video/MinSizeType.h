@@ -31,13 +31,9 @@ concept bool MinSizeType = requires(Meta::ToConst<T> &cobj)
 
 /* Box...() */
 
-inline Coordinate BoxSpace(Coordinate dxy) { return dxy/5; }
-
 inline Coord BoxSpace(Coord dxy) { return dxy/5; }
 
-inline Coordinate BoxExt(Coordinate dxy) { return dxy+BoxSpace(dxy); }
-
-inline Coord BoxExt(Coord dxy) { return +BoxExt(Coordinate(dxy)); }
+inline Coord BoxExt(Coord dxy) { return dxy+BoxSpace(dxy); }
 
 /* classes */
 
@@ -61,8 +57,6 @@ struct SizeBox
 
   SizeBox(Coord dxy_=0) : dxy(dxy_) {}
 
-  SizeBox(Coordinate dxy_) : dxy(+dxy_) {}
-
   Point toSizePoint() const { return {dxy,dxy}; }
  };
 
@@ -75,11 +69,7 @@ struct SizeBoxSpace
 
   SizeBoxSpace(Coord dxy_=0) : dxy(dxy_),space(BoxSpace(dxy_)) {}
 
-  SizeBoxSpace(Coordinate dxy_) : dxy(+dxy_),space(+BoxSpace(dxy_)) {}
-
   SizeBoxSpace(Coord dxy_,Coord space_) : dxy(dxy_),space(space_) {}
-
-  SizeBoxSpace(Coordinate dxy_,Coordinate space_) : dxy(+dxy_),space(+space_) {}
 
   Point toSizePoint() const { return {dxy,dxy}; }
  };
@@ -92,8 +82,6 @@ struct SizeX
 
   SizeX(Coord dx_=0) : dx(dx_) {}
 
-  SizeX(Coordinate dx_) : dx(+dx_) {}
-
   Point toSizePoint() const { return {dx,0}; }
  };
 
@@ -104,8 +92,6 @@ struct SizeY
   Coord dy;
 
   SizeY(Coord dy_=0) : dy(dy_) {}
-
-  SizeY(Coordinate dy_) : dy(+dy_) {}
 
   Point toSizePoint() const { return {0,dy}; }
  };
@@ -119,8 +105,6 @@ struct SizeXSpace
 
   SizeXSpace(Coord dx_=0,Coord space_=0) : dx(dx_),space(space_) {}
 
-  SizeXSpace(Coordinate dx_,Coordinate space_=0) : dx(+dx_),space(+space_) {}
-
   Point toSizePoint() const { return {dx,0}; }
  };
 
@@ -132,8 +116,6 @@ struct SizeYSpace
   Coord space;
 
   SizeYSpace(Coord dy_=0,Coord space_=0) : dy(dy_),space(space_) {}
-
-  SizeYSpace(Coordinate dy_,Coordinate space_=0) : dy(+dy_),space(+space_) {}
 
   Point toSizePoint() const { return {0,dy}; }
  };

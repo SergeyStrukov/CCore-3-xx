@@ -42,13 +42,13 @@ Pane GetWindowPlace(Desktop *desktop,Ratio ry,Point size);
 
 Pane FreeCenter(Pane outer,Point size);
 
-inline Pane FreeCenter(Pane outer,Coordinate dxy) { return FreeCenter(outer,{dxy,dxy}); }
+inline Pane FreeCenter(Pane outer,Coord dxy) { return FreeCenter(outer,{dxy,dxy}); }
 
 inline Pane FreeCenter(Point outer,Point size) { return FreeCenter(Pane(Null,outer),size); }
 
-Pane FreeCenterX(Pane outer,Coordinate dx);
+Pane FreeCenterX(Pane outer,Coord dx);
 
-Pane FreeCenterY(Pane outer,Coordinate dy);
+Pane FreeCenterY(Pane outer,Coord dy);
 
 //----------------------------------------------------------------------------------------
 

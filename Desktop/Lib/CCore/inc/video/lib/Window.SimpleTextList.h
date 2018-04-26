@@ -43,9 +43,9 @@ class SimpleTextListWindowOf : public SubWindow
      if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
     }
 
-   void addXOff(Coordinate count)
+   void addXOff(Coord count)
     {
-     Coordinate xoff=shape.xoff+count*shape.dxoff;
+     Coord xoff=shape.xoff+count*shape.dxoff;
 
      setXOff(+xoff);
     }

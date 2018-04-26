@@ -37,9 +37,9 @@ inline constexpr MCoord MaxMCoord = 2'147'483'647 ;
 
 /* functions */
 
-inline constexpr MCoord Sup(MCoord a,MCoord b) { return Max(a,b); }
+//inline constexpr MCoord Sup(MCoord a,MCoord b) { return Max(a,b); }
 
-inline constexpr MCoord Inf(MCoord a,MCoord b) { return Min(a,b); }
+//inline constexpr MCoord Inf(MCoord a,MCoord b) { return Min(a,b); }
 
 inline DCoord DMul(DCoord a,MCoord b) { return a*b; }
 
@@ -99,7 +99,7 @@ struct Fraction
     value=IntLShift(value_,Precision-prec);
    }
 
-  Fraction(Coordinate x) : Fraction(+x,0) {}
+  Fraction(Coord x) : Fraction(x,0) {}
 
   // methods
 
@@ -230,11 +230,6 @@ struct Ratio
     return MCoord( IntRShift(DMul(a.value,b),Precision) );
    }
  };
-
-inline Coordinate operator * (Ratio a,Coordinate c)
- {
-  return a*c.x;
- }
 
 inline Point operator * (Ratio a,Point point)
  {

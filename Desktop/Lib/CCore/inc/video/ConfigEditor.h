@@ -442,7 +442,7 @@ class ConfigEditorWindow : public ComboWindow
 
    void select(Coord &var);
 
-   void select(MCoord &var);
+   void select(Fraction &var);
 
    void select(VColor &var);
 

@@ -52,7 +52,7 @@ Point CoordEditWindow::getMinSize() const
  {
   Point s=spin.getMinSize();
 
-  return Point(s.x,2*Coordinate(s.y));
+  return Point(s.x,2*s.y);
  }
 
  // drawing

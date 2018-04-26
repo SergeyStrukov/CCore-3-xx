@@ -260,6 +260,7 @@ Dir Dir22=
     { "CurveDriver.h" , Red },
     { "DrawTools.h" , Red },
     { "GammaTable.h" , Red },
+    { "MPoint.h" , Red },
     { "SmoothAlgo.h" , Red },
     { "SmoothDrawArt.h" , Red }
    }
@@ -276,6 +277,7 @@ Dir Dir23=
     { "CurveDriver.cpp" , Red },
     { "DrawTools.cpp" , Red },
     { "GammaTable.cpp" , Red },
+    { "MPoint.cpp" , Red },
     { "SmoothAlgo.cpp" , Red },
     { "SmoothDrawArt.cpp" , Red }
    }

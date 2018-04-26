@@ -68,7 +68,7 @@ void YSingleLineShape::draw(const DrawBuf &buf) const
 
 SizeY XDoubleLineShape::getMinSize() const
  {
-  Coordinate dy=cfg.width.get().roundUp();
+  Coord dy=cfg.width.get().roundUp();
 
   return 2*dy;
  }
@@ -95,7 +95,7 @@ void XDoubleLineShape::draw(const DrawBuf &buf) const
 
 SizeX YDoubleLineShape::getMinSize() const
  {
-  Coordinate dx=cfg.width.get().roundUp();
+  Coord dx=cfg.width.get().roundUp();
 
   return 2*dx;
  }

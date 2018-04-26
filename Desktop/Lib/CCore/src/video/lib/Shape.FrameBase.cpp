@@ -616,7 +616,7 @@ Coord FrameShapeBase::getMinTitleDX(StrLen title,Coord dy) const
 
   TextSize ts=cfg.font->text_guarded(title);
 
-  Coordinate dx=ts.full_dx;
+  Coord dx=ts.full_dx;
 
   dx+=2*RoundUpLen(ex);
 

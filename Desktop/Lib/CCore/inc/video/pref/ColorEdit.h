@@ -143,12 +143,12 @@ class ColorEditWindow : public SubWindow
 
   private:
 
-   static Pane EnvelopeX(Point base,Coordinate dy,Coordinate delta_x)
+   static Pane EnvelopeX(Point base,Coord dy,Coord delta_x)
     {
      return Pane(base.x-delta_x,base.y,2*delta_x,dy);
     }
 
-   static Pane EnvelopeY(Point base,Coordinate dx,Coordinate delta_y)
+   static Pane EnvelopeY(Point base,Coord dx,Coord delta_y)
     {
      return Pane(base.x,base.y-delta_y,dx,2*delta_y);
     }

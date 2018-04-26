@@ -70,9 +70,9 @@ class ScrollListInnerWindowOf : public SubWindow
        }
     }
 
-   void addXOff(Coordinate count)
+   void addXOff(Coord count)
     {
-     Coordinate xoff=shape.xoff+count*shape.dxoff;
+     Coord xoff=shape.xoff+count*shape.dxoff;
 
      setXOff(+xoff);
     }

@@ -64,12 +64,12 @@ Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
 inline Point StackXSize(Point s1,Point s2)
  {
-  return Point( Coordinate(s1.x)+s2.x , Sup(s1.y,s2.y) );
+  return Point( s1.x+s2.x , Sup(s1.y,s2.y) );
  }
 
 inline Point StackYSize(Point s1,Point s2)
  {
-  return Point( Sup(s1.x,s2.x) , Coordinate(s1.y)+s2.y );
+  return Point( Sup(s1.x,s2.x) , s1.y+s2.y );
  }
 
 /* GetLaySpace() */
@@ -453,8 +453,8 @@ class LayToTop : protected LaySet<LL...>
 
    Point getMinSize(Coord space) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -482,8 +482,8 @@ class LayToTop : protected LaySet<LL...>
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -617,8 +617,8 @@ class LayToBottom : protected LaySet<LL...>
 
    Point getMinSize(Coord space) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -646,8 +646,8 @@ class LayToBottom : protected LaySet<LL...>
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -781,8 +781,8 @@ class LayToLeft : protected LaySet<LL...>
 
    Point getMinSize(Coord space) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -810,8 +810,8 @@ class LayToLeft : protected LaySet<LL...>
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -947,8 +947,8 @@ class LayToRight : protected LaySet<LL...>
 
    Point getMinSize(Coord space) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {
@@ -976,8 +976,8 @@ class LayToRight : protected LaySet<LL...>
 
    Point getMinSize(Coord space,Point cap) const
     {
-     Coordinate dx;
-     Coordinate dy;
+     Coord dx=0;
+     Coord dy=0;
 
      apply( [space,&dx,&dy] (auto &obj)
                             {

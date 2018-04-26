@@ -24,7 +24,7 @@ namespace Video {
 
 SizeXSpace XSplitShape::getMinSize() const
  {
-  Coordinate dxy=+cfg.dxy;
+  Coord dxy=+cfg.dxy;
 
   return 2*dxy;
  }
@@ -55,7 +55,7 @@ void XSplitShape::draw(const DrawBuf &buf) const
 
 SizeYSpace YSplitShape::getMinSize() const
  {
-  Coordinate dxy=+cfg.dxy;
+  Coord dxy=+cfg.dxy;
 
   return 2*dxy;
  }

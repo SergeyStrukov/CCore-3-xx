@@ -231,7 +231,7 @@ Coord DragFrameShape::getMinDX(bool is_main,StrLen title) const
 
   Coord btn_len = is_main? 6*bdx+bdx/8 : 4*bdx ;
 
-  Coordinate dx=getMinTitleDX(title,tdy-2*width);
+  Coord dx=getMinTitleDX(title,tdy-2*width);
 
   Replace_max(dx,Max(tdy,dxy));
 

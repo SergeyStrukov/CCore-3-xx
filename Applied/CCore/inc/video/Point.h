@@ -25,11 +25,11 @@ namespace Video {
 
 /* types */
 
-using Coord = sint16 ;
+using Coord = sint32 ;
 
-using uCoord = uint16 ;
+using uCoord = uint32 ;
 
-using AreaType = uint32 ;
+using AreaType = ulen ;
 
 /* consts */
 
@@ -43,16 +43,7 @@ inline constexpr Coord Sup(Coord a,Coord b) { return Max(a,b); }
 
 inline constexpr Coord Inf(Coord a,Coord b) { return Min(a,b); }
 
-inline constexpr AreaType Area(Coord dx,Coord dy) { return AreaType(dx)*AreaType(dy); }
-
-inline Coord AddSat(Coord a,Coord b)
- {
-  sint32 ret=sint32(a)+b;
-
-  if( ret>MaxCoord ) return MaxCoord;
-
-  return (Coord)ret;
- }
+inline AreaType Area(Coord dx,Coord dy) { return LenOf(dx,dy); } // dx >= 0 , dy >= 0
 
 /* Multi Sup() & Inf() */
 
@@ -68,11 +59,24 @@ T Inf(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
   return Inf(a,Inf(tt...));
  }
 
+/* CountToCoordinate() */
+
+Coord CountToCoordinate(UIntType count) { IntGuard( count<=MaxCoord ); return Coord(count); }
+
+/* AddSat() */
+
+inline Coord AddSat(Coord a,Coord b)
+ {
+  sint64 ret=sint64(a)+b;
+
+  if( ret>MaxCoord ) return MaxCoord;
+
+  return (Coord)ret;
+ }
+
 /* classes */
 
 struct CoordAcc;
-
-struct Coordinate;
 
 template <class T,class Int> struct BasePoint;
 
@@ -95,7 +99,7 @@ struct CoordAcc
 
   void add(Coord dx) // >= 0
    {
-    sint32 s=(sint32)value+dx;
+    sint64 s=(sint64)value+dx;
 
     if( s>MaxCoord )
       {
@@ -108,88 +112,6 @@ struct CoordAcc
       }
    }
  };
-
-/* struct Coordinate */
-
-struct Coordinate
- {
-  Coord x;
-
-  // constructors
-
-  Coordinate() noexcept : x(0) {}
-
-  Coordinate(NothingType) : Coordinate() {}
-
-  Coordinate(Coord x_) : x(x_) {}
-
-  // methods
-
-  Coord operator + () const { return x; }
-
-  static Coordinate Max() { return Coordinate(MaxCoord); }
-
-  //static Coordinate Min() { return Coordinate(MinCoord); }
-
-  // unsafe operations
-
-  friend Coordinate operator - (Coordinate a) { return Coordinate()-a; }
-
-  friend Coordinate operator + (Coordinate a,Coordinate b) { return Coordinate(IntAdd(a.x,b.x)); }
-
-  friend Coordinate operator - (Coordinate a,Coordinate b) { return Coordinate(IntSub(a.x,b.x)); }
-
-  friend Coordinate operator * (Coordinate a,Coordinate b) { return Coordinate(IntMul(a.x,b.x)); }
-
-  friend Coordinate operator / (Coordinate a,Coordinate b) { return Coordinate(IntDiv(a.x,b.x)); }
-
-  friend Coordinate operator << (Coordinate a,unsigned s) { return Coordinate(IntLShift(a.x,s)); }
-
-  friend Coordinate operator >> (Coordinate a,unsigned s) { return Coordinate(IntRShift(a.x,s)); }
-
-  // derived operations
-
-  friend Coordinate operator += (Coordinate &a,Coordinate b) { return a=a+b; }
-
-  friend Coordinate operator -= (Coordinate &a,Coordinate b) { return a=a-b; }
-
-  friend Coordinate operator *= (Coordinate &a,Coordinate b) { return a=a*b; }
-
-  friend Coordinate operator /= (Coordinate &a,Coordinate b) { return a=a/b; }
-
-  friend Coordinate operator <<= (Coordinate &a,unsigned s) { return a=a<<s; }
-
-  friend Coordinate operator >>= (Coordinate &a,unsigned s) { return a=a>>s; }
-
-  // safe operations
-
-  friend bool operator == (Coordinate a,Coordinate b) { return a.x==b.x ; }
-
-  friend bool operator != (Coordinate a,Coordinate b) { return a.x!=b.x ; }
-
-  friend bool operator < (Coordinate a,Coordinate b) { return a.x<b.x ; }
-
-  friend bool operator <= (Coordinate a,Coordinate b) { return a.x<=b.x ; }
-
-  friend bool operator > (Coordinate a,Coordinate b) { return a.x>b.x ; }
-
-  friend bool operator >= (Coordinate a,Coordinate b) { return a.x>=b.x ; }
-
-  // print object
-
-  void print(PrinterType &out) const
-   {
-    Putobj(out,x);
-   }
- };
-
-inline Coordinate Sup(Coordinate a,Coordinate b) { return Coordinate(Max(a.x,b.x)); }
-
-inline Coordinate Inf(Coordinate a,Coordinate b) { return Coordinate(Min(a.x,b.x)); }
-
-/* CountToCoordinate() */
-
-Coordinate CountToCoordinate(UIntType count) { IntGuard( count<=MaxCoord ); return Coord(count); }
 
 /* struct BasePoint<T,Int> */
 
@@ -307,19 +229,11 @@ struct Point : BasePoint<Point,Coord>
  {
   static Point Max() { return Point(MaxCoord,MaxCoord); }
 
-  //static Point Min() { return Point(MinCoord,MinCoord); }
-
-  using BasePoint<Point,Coord>::Diag;
-
-  static Point Diag(Coordinate xy) { return Diag(+xy); }
-
   // constructors
 
   using BasePoint<Point,Coord>::BasePoint;
 
   Point() noexcept {}
-
-  Point(Coordinate x,Coordinate y) : Point(+x,+y) {}
  };
 
 /* struct Pane */
@@ -328,8 +242,8 @@ struct Pane
  {
   Coord x;
   Coord y;
-  Coord dx; // >=0
-  Coord dy; // >=0
+  Coord dx; // >= 0
+  Coord dy; // >= 0
 
   // constructors
 
@@ -358,17 +272,11 @@ struct Pane
       }
    }
 
-  Pane(Coordinate x,Coordinate y,Coordinate dx,Coordinate dy) : Pane(+x,+y,+dx,+dy) {}
-
   Pane(Point base,Coord dx,Coord dy) : Pane(base.x,base.y,dx,dy) {}
-
-  Pane(Point base,Coordinate dx,Coordinate dy) : Pane(base,+dx,+dy) {}
 
   Pane(Point base,Point size) : Pane(base.x,base.y,size.x,size.y) {}
 
   Pane(Point base,Coord dxy) : Pane(base.x,base.y,dxy,dxy) {}
-
-  Pane(Point base,Coordinate dxy) : Pane(base,+dxy) {}
 
   // methods
 
@@ -421,29 +329,29 @@ struct Pane
 
   // pull
 
-  Pane pullLeft(Coordinate delta) const { return Pane(x-delta,y,dx+delta,dy); }
+  Pane pullLeft(Coord delta) const { return Pane(x-delta,y,dx+delta,dy); }
 
-  Pane pullTop(Coordinate delta) const { return Pane(x,y-delta,dx,dy+delta); }
+  Pane pullTop(Coord delta) const { return Pane(x,y-delta,dx,dy+delta); }
 
-  Pane pullRight(Coordinate delta) const { return Pane(x,y,dx+delta,dy); }
+  Pane pullRight(Coord delta) const { return Pane(x,y,dx+delta,dy); }
 
-  Pane pullBottom(Coordinate delta) const { return Pane(x,y,dx,dy+delta); }
+  Pane pullBottom(Coord delta) const { return Pane(x,y,dx,dy+delta); }
 
   // shrink
 
   Pane shrink(Point delta) const { return Pane(getBase()+delta,getSize()-2*delta); }
 
-  Pane shrink(Coordinate delta_x,Coordinate delta_y) const { return shrink(Point(delta_x,delta_y)); }
+  Pane shrink(Coord delta_x,Coord delta_y) const { return shrink(Point(delta_x,delta_y)); }
 
-  Pane shrink(Coordinate delta_xy) const { return shrink(Point(delta_xy,delta_xy)); }
+  Pane shrink(Coord delta_xy) const { return shrink(Point(delta_xy,delta_xy)); }
 
   // expand
 
   Pane expand(Point delta) const { return shrink(-delta); }
 
-  Pane expand(Coordinate delta_x,Coordinate delta_y) const { return expand(Point(delta_x,delta_y)); }
+  Pane expand(Coord delta_x,Coord delta_y) const { return expand(Point(delta_x,delta_y)); }
 
-  Pane expand(Coordinate delta_xy) const { return expand(Point(delta_xy,delta_xy)); }
+  Pane expand(Coord delta_xy) const { return expand(Point(delta_xy,delta_xy)); }
 
   // apply
 
@@ -576,7 +484,7 @@ inline Pane Inner(Pane pane,Pane subpane) { return Inf(subpane+pane.getBase(),pa
 
 /* Split...() */
 
-inline Pane SplitX(Coordinate delta,Pane &pane)
+inline Pane SplitX(Coord delta,Pane &pane)
  {
   Pane ret=Pane(pane.x,pane.y,delta,pane.dy);
 
@@ -585,9 +493,9 @@ inline Pane SplitX(Coordinate delta,Pane &pane)
   return ret;
  }
 
-inline Pane SplitX(Pane &pane,Coordinate delta)
+inline Pane SplitX(Pane &pane,Coord delta)
  {
-  auto dx=pane.dx-delta;
+  Coord dx=pane.dx-delta;
 
   Pane ret=Pane(pane.x+dx,pane.y,delta,pane.dy);
 
@@ -596,7 +504,7 @@ inline Pane SplitX(Pane &pane,Coordinate delta)
   return ret;
  }
 
-inline Pane SplitY(Coordinate delta,Pane &pane)
+inline Pane SplitY(Coord delta,Pane &pane)
  {
   Pane ret=Pane(pane.x,pane.y,pane.dx,delta);
 
@@ -605,9 +513,9 @@ inline Pane SplitY(Coordinate delta,Pane &pane)
   return ret;
  }
 
-inline Pane SplitY(Pane &pane,Coordinate delta)
+inline Pane SplitY(Pane &pane,Coord delta)
  {
-  auto dy=pane.dy-delta;
+  Coord dy=pane.dy-delta;
 
   Pane ret=Pane(pane.x,pane.y+dy,pane.dx,delta);
 
@@ -617,28 +525,28 @@ inline Pane SplitY(Pane &pane,Coordinate delta)
  }
 
 
-inline Pane TrySplitX(Coordinate delta,Pane &pane)
+inline Pane TrySplitX(Coord delta,Pane &pane)
  {
   if( delta<=pane.dx ) return SplitX(delta,pane);
 
   return Empty;
  }
 
-inline Pane TrySplitX(Pane &pane,Coordinate delta)
+inline Pane TrySplitX(Pane &pane,Coord delta)
  {
   if( delta<=pane.dx ) return SplitX(pane,delta);
 
   return Empty;
  }
 
-inline Pane TrySplitY(Coordinate delta,Pane &pane)
+inline Pane TrySplitY(Coord delta,Pane &pane)
  {
   if( delta<=pane.dy ) return SplitY(delta,pane);
 
   return Empty;
  }
 
-inline Pane TrySplitY(Pane &pane,Coordinate delta)
+inline Pane TrySplitY(Pane &pane,Coord delta)
  {
   if( delta<=pane.dy ) return SplitY(pane,delta);
 

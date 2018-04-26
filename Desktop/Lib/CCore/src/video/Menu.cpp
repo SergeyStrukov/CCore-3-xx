@@ -107,7 +107,7 @@ auto MenuData::findFirst() const -> FindResult
 
 /* class MenuShapeBase */
 
-Coordinate MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coordinate space)
+Coord MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coord space)
  {
   switch( point.type )
     {
@@ -141,7 +141,7 @@ Coordinate MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coordina
     }
  }
 
-Coordinate MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coordinate space,Coordinate dy)
+Coord MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coord space,Coord dy)
  {
   if( point.type==MenuSeparator ) return dy/5;
 
@@ -241,7 +241,7 @@ SizeY SimpleTopMenuShape::getMinSize() const
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
-  return fs.dy+2*Coordinate(space.y);
+  return fs.dy+2*space.y;
  }
 
 bool SimpleTopMenuShape::isGoodSize(Point size) const
@@ -259,12 +259,12 @@ void SimpleTopMenuShape::layout()
      FontSize fs=font->getSize();
      Point space=+cfg.space;
 
-     Coordinate dy=fs.dy+2*Coordinate(space.y);
-     Coordinate x=0;
+     Coord dy=fs.dy+2*space.y;
+     Coord x=0;
 
      for(MenuPoint &point : data.list )
        {
-        Coordinate dx=GetDX(point,font,space.x,dy);
+        Coord dx=GetDX(point,font,space.x,dy);
 
         point.place=Pane(x,0,dx,dy);
 
@@ -492,9 +492,9 @@ Point SimpleCascadeMenuShape::getMinSize() const
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
-  Coordinate dy=fs.dy+2*Coordinate(space.y);
-  Coordinate dx=dy;
-  Coordinate y=0;
+  Coord dy=fs.dy+2*space.y;
+  Coord dx=dy;
+  Coord y=0;
 
   if( !data ) return Point(dx,0);
 
@@ -504,7 +504,7 @@ Point SimpleCascadeMenuShape::getMinSize() const
        case MenuText :
        case MenuDisabled :
         {
-         Coordinate tdx=GetDX(point,font,space.x);
+         Coord tdx=GetDX(point,font,space.x);
 
          Replace_max(dx,tdx);
 
@@ -514,7 +514,7 @@ Point SimpleCascadeMenuShape::getMinSize() const
 
        case MenuSeparator :
         {
-         Coordinate sdy=dy/5;
+         Coord sdy=dy/5;
 
          y+=sdy;
         }
@@ -532,8 +532,8 @@ void SimpleCascadeMenuShape::layout()
   FontSize fs=font->getSize();
   Point space=+cfg.space;
 
-  Coordinate dy=fs.dy+2*Coordinate(space.y);
-  Coordinate y=0;
+  Coord dy=fs.dy+2*space.y;
+  Coord y=0;
 
   cell_dy=+dy;
 
@@ -565,7 +565,7 @@ void SimpleCascadeMenuShape::layout()
 
        case MenuSeparator :
         {
-         Coordinate sdy=dy/5;
+         Coord sdy=dy/5;
 
          Pane p=Pane(0,y,inner.dx,sdy)+inner.getBase();
 

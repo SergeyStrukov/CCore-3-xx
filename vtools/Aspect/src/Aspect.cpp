@@ -90,8 +90,8 @@ HideControl::~HideControl()
 
 Point HideControl::getMinSize() const
  {
-  Coordinate space_dxy=+cfg.space_dxy;
-  Coordinate status_dxy=+cfg.status_dxy;
+  Coord space_dxy=+cfg.space_dxy;
+  Coord status_dxy=+cfg.status_dxy;
 
   Point s1=label_Hide.getMinSize();
   Point s2=btn_ShowAll.getMinSize();
@@ -199,7 +199,7 @@ CountControl::~CountControl()
 
 Point CountControl::getMinSize() const
  {
-  Coordinate dxy=+cfg.status_dxy;
+  Coord dxy=+cfg.status_dxy;
 
   Point s=text.getMinSize("10000000000"_c);
 

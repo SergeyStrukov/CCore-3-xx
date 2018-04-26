@@ -297,11 +297,11 @@ ColorEditWindow::~ColorEditWindow()
 
 Point ColorEditWindow::getMinSize() const
  {
-  Coordinate radius=+cfg.radius;
-  Coordinate space_dxy=+cfg.space_dxy;
-  Coordinate len=+cfg.len;
+  Coord radius=+cfg.radius;
+  Coord space_dxy=+cfg.space_dxy;
+  Coord len=+cfg.len;
 
-  Coordinate contour_len=len*(2*radius)+(len+1)*space_dxy;
+  Coord contour_len=len*(2*radius)+(len+1)*space_dxy;
 
   return Point(contour_len+space_dxy+2*radius,contour_len+2*space_dxy+4*radius);
  }

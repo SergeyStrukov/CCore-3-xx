@@ -33,10 +33,10 @@ Point LineEditShape::getMinSize(TextSize ts) const
 
   MCoord ex=FigEX(ts.dy,width,+cfg.ex);
 
-  Coordinate dx=RoundUpLen(ex+width);
-  Coordinate dy=RoundUpLen(width);
+  Coord dx=RoundUpLen(ex+width);
+  Coord dy=RoundUpLen(width);
 
-  Coordinate cursor_dx=+cfg.cursor_dx;
+  Coord cursor_dx=+cfg.cursor_dx;
 
   return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(ts.skew),2*dy+2*cursor_dx)+(+cfg.space);
  }
@@ -77,11 +77,11 @@ void LineEditShape::setMax()
 
   if( +inner )
     {
-     Coordinate cursor_dx=+cfg.cursor_dx;
+     Coord cursor_dx=+cfg.cursor_dx;
 
-     Coordinate extra=2*cursor_dx+dy+IntAbs(ts.skew);
+     Coord extra=2*cursor_dx+dy+IntAbs(ts.skew);
 
-     Coordinate tx=ts.full_dx+extra;
+     Coord tx=ts.full_dx+extra;
 
      xoffMax=PlusSub(+tx,inner.dx);
     }
@@ -118,14 +118,14 @@ void LineEditShape::showCursor()
 
      TextSize ts=font->text_guarded(text_buf.prefix(pos));
 
-     Coordinate cursor_dx=+cfg.cursor_dx;
+     Coord cursor_dx=+cfg.cursor_dx;
 
-     Coordinate x1=(fs.dx0+cursor_dx)-xoff;
+     Coord x1=(fs.dx0+cursor_dx)-xoff;
 
-     Coordinate x=x1+ts.dx;
+     Coord x=x1+ts.dx;
 
-     Coordinate a=cursor_dx;
-     Coordinate b=inner.dx-2*cursor_dx;
+     Coord a=cursor_dx;
+     Coord b=inner.dx-2*cursor_dx;
 
      if( x<a )
        {
@@ -163,11 +163,11 @@ ulen LineEditShape::getPosition(Point point) const
 
   TextSize ts=font->text_guarded(text_buf.prefix(pos));
 
-  Coordinate cursor_dx=+cfg.cursor_dx;
+  Coord cursor_dx=+cfg.cursor_dx;
 
-  Coordinate x1=(fs.dx0+cursor_dx)-xoff;
-  Coordinate x2=x1+ts.dx;
-  Coordinate x3=x2+cursor_dx;
+  Coord x1=(fs.dx0+cursor_dx)-xoff;
+  Coord x2=x1+ts.dx;
+  Coord x3=x2+cursor_dx;
 
   Coord ytop=(inner.dy-ts.dy)/2;
   Coord ybase=ytop+ts.by;
@@ -287,11 +287,11 @@ void LineEditShape::draw(const DrawBuf &buf) const
 
    TextSize ts=font->text_guarded(text_buf.prefix(pos));
 
-   Coordinate cursor_dx=+cfg.cursor_dx;
+   Coord cursor_dx=+cfg.cursor_dx;
 
-   Coordinate x1=(fs.dx0+cursor_dx)-xoff;
-   Coordinate x2=x1+ts.dx;
-   Coordinate x3=x2+cursor_dx;
+   Coord x1=(fs.dx0+cursor_dx)-xoff;
+   Coord x2=x1+ts.dx;
+   Coord x3=x2+cursor_dx;
 
    MCoord DX=Fraction(dx);
    MCoord X1=Fraction(x1)+DX;

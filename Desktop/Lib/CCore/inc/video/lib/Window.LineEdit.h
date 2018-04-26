@@ -66,9 +66,9 @@ class LineEditWindowOf : public SubWindow
      if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
     }
 
-   void addXOff(Coordinate count)
+   void addXOff(Coord count)
     {
-     Coordinate xoff=shape.xoff+count*shape.dxoff;
+     Coord xoff=shape.xoff+count*shape.dxoff;
 
      setXOff(+xoff);
     }
@@ -86,7 +86,7 @@ class LineEditWindowOf : public SubWindow
 
    void dragTo(Point point)
     {
-     Coordinate xoff=shape.xoff_base-(Coordinate(point.x)-shape.drag_base.x);
+     Coord xoff=shape.xoff_base-(point.x-shape.drag_base.x);
 
      setXOff(+xoff);
     }

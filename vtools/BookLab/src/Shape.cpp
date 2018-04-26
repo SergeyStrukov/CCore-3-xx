@@ -265,7 +265,7 @@ struct Shape::SizeContext
   BitmapMap &bmp_map;
   Ratio scale;
   const Book::TypeDef::Frame &frame;
-  Coordinate wdx;
+  Coord wdx;
 
   Coord &offx;
   DynArray<ulen> &split;
@@ -273,7 +273,7 @@ struct Shape::SizeContext
   DynArray<RefPane> &refs;
 
   Font font;
-  Coordinate space_dx;
+  Coord space_dx;
 
   // methods
 
@@ -317,19 +317,19 @@ struct Shape::SizeContext
       }
    }
 
-  Coordinate sizeSpan(Font font,StrLen text)
+  Coord sizeSpan(Font font,StrLen text)
    {
     TextSize ts=font->text(text);
 
     return ts.dx;
    }
 
-  Coordinate sizeSpace(Font font)
+  Coord sizeSpace(Font font)
    {
     return sizeSpan(font," "_c);
    }
 
-  Coordinate sizeSpace()
+  Coord sizeSpace()
    {
     return space_dx;
    }
@@ -341,9 +341,9 @@ struct Shape::SizeContext
 
   // size Text
 
-  Coordinate sizeSpan(Book::TypeDef::Span span,Point base,Coordinate dy)
+  Coord sizeSpan(Book::TypeDef::Span span,Point base,Coord dy)
    {
-    Coordinate dx=sizeSpan(useSpan(span.fmt),span.body);
+    Coord dx=sizeSpan(useSpan(span.fmt),span.body);
 
     addRef(span.ref,Pane(base,dx,dy));
 
@@ -352,15 +352,15 @@ struct Shape::SizeContext
 
   struct DeltaSize
    {
-    Coordinate dx;
-    Coordinate edx;
+    Coord dx;
+    Coord edx;
    };
 
-  DeltaSize sizeSpan(const Book::TypeDef::Format *fmt,Book::TypeDef::Span span,Point base,Coordinate dy)
+  DeltaSize sizeSpan(const Book::TypeDef::Format *fmt,Book::TypeDef::Span span,Point base,Coord dy)
    {
     Font font=useSpan(span.fmt);
 
-    Coordinate sdx=0;
+    Coord sdx=0;
 
     if( !SkipSpace(span.body) )
       {
@@ -374,16 +374,16 @@ struct Shape::SizeContext
          }
       }
 
-    Coordinate dx=sizeSpan(font,span.body);
+    Coord dx=sizeSpan(font,span.body);
 
     addRef(span.ref,Pane(base.addX(+sdx),dx,dy));
 
     return {dx,dx+sdx};
    }
 
-  Coordinate sizeLine(PtrLen<const Book::TypeDef::Span> line,Point base,Coordinate dy)
+  Coord sizeLine(PtrLen<const Book::TypeDef::Span> line,Point base,Coord dy)
    {
-    Coordinate tdx=0;
+    Coord tdx=0;
 
     if( +line )
       {
@@ -395,7 +395,7 @@ struct Shape::SizeContext
 
        for(++line; +line ;++line)
          {
-          Coordinate dx=sizeSpan(fmt,*line,base,dy).edx;
+          Coord dx=sizeSpan(fmt,*line,base,dy).edx;
 
           tdx+=dx;
 
@@ -426,7 +426,7 @@ struct Shape::SizeContext
 
     ulen refs_len=refs.getLen();
 
-    Coordinate dx=sizeLine(range,base,fs.dy);
+    Coord dx=sizeLine(range,base,fs.dy);
 
     switch( placement->align )
       {
@@ -465,15 +465,15 @@ struct Shape::SizeContext
 
     FontSize fs=font->getSize();
 
-    Coordinate tdx=fs.dy;
-    Coordinate tdy=fs.dy;
+    Coord tdx=fs.dy;
+    Coord tdy=fs.dy;
 
-    Coordinate dy=Cast(placement->line_space)*fs.dy;
-    Coordinate first_dx=Cast(placement->first_line_space)*fs.dy;
+    Coord dy=Cast(placement->line_space)*fs.dy;
+    Coord first_dx=Cast(placement->first_line_space)*fs.dy;
 
     if( +range )
       {
-       Coordinate dx=sizeSpan(*range,base.addX(+first_dx),tdy)+first_dx;
+       Coord dx=sizeSpan(*range,base.addX(+first_dx),tdy)+first_dx;
 
        const Book::TypeDef::Format *fmt=range->fmt;
 
@@ -541,13 +541,13 @@ struct Shape::SizeContext
 
   // size FixedText
 
-  Coordinate sizeLine(Book::TypeDef::Line line,Point base,Coord dy)
+  Coord sizeLine(Book::TypeDef::Line line,Point base,Coord dy)
    {
-    Coordinate ret=0;
+    Coord ret=0;
 
     for(const Book::TypeDef::FixedSpan &span : line.getRange() )
       {
-       Coordinate dx=sizeSpan(useSpan(span.fmt),span.body);
+       Coord dx=sizeSpan(useSpan(span.fmt),span.body);
 
        addRef(span.ref,Pane(base,dx,dy));
 
@@ -570,7 +570,7 @@ struct Shape::SizeContext
 
     auto range=obj->list.getRange();
 
-    Coordinate dx=0;
+    Coord dx=0;
 
     for(const Book::TypeDef::Line &line : range )
       {
@@ -626,7 +626,7 @@ struct Shape::SizeContext
          }
       }
 
-    Coordinate dx=wdx-offx-bullet_space;
+    Coord dx=wdx-offx-bullet_space;
 
     Point s(0,dy2);
 
@@ -1208,7 +1208,7 @@ AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point) const
   return Null;
  }
 
-Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame_,Coordinate dx,Point base)
+Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame_,Coord dx,Point base)
  {
   frame=&frame_;
 

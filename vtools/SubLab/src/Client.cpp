@@ -48,7 +48,7 @@ void DrawShape::draw(const DrawBuf &buf) const
 
 Point AltShape::getMinSize() const
  {
-  Coordinate dy=+cfg.dy;
+  Coord dy=+cfg.dy;
 
   return Point(2*dy,dy);
  }
@@ -1494,7 +1494,7 @@ void ClientWindow::layout()
    auto label__wheat=CutPoint(label_wheat);
    auto list__type=CutPoint(list_type);
 
-   Coordinate len=Coordinate(check__wheat.getExt())+label__wheat.getMinSize().x;
+   Coord len=check__wheat.getExt()+label__wheat.getMinSize().x;
 
    Coord dx=Sup(list__type.getMinSize().x,+len);
 

@@ -84,14 +84,14 @@ Pane FreeCenter(Pane outer,Point size)
   return Pane(outer.getBase()+pos,size);
  }
 
-Pane FreeCenterX(Pane outer,Coordinate dx)
+Pane FreeCenterX(Pane outer,Coord dx)
  {
   auto x=outer.x+(outer.dx-dx)/2;
 
   return Pane(x,outer.y,dx,outer.dy);
  }
 
-Pane FreeCenterY(Pane outer,Coordinate dy)
+Pane FreeCenterY(Pane outer,Coord dy)
  {
   auto y=outer.y+(outer.dy-dy)/2;
 

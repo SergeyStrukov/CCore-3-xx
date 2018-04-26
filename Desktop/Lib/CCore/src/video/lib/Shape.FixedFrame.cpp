@@ -156,7 +156,7 @@ Coord FixedFrameShape::getMinDX(bool is_main,StrLen title) const
 
   Coord btn_len = is_main? 5*bdx : 3*bdx ;
 
-  Coordinate dx=getMinTitleDX(title,tdy-2*width);
+  Coord dx=getMinTitleDX(title,tdy-2*width);
 
   Replace_max(dx,Max(tdy,dxy));
 

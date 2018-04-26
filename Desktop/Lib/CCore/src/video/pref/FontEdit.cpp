@@ -77,9 +77,9 @@ Point CharTableWindow::getMinSize() const
 
   FontSize fs=font->getSize();
 
-  Coordinate cell_dxy=Cell(fs.dy);
+  Coord cell_dxy=Cell(fs.dy);
 
-  Coordinate len=16*cell_dxy;
+  Coord len=16*cell_dxy;
 
   return Point(len,len);
  }

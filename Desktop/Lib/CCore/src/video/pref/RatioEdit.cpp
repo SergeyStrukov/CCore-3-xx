@@ -99,8 +99,8 @@ Point RatioEditWindow::getMinSize() const
 
   Coord space_dxy=+cfg.space_dxy;
 
-  Coordinate dx=2*Coordinate(s.x)+space_dxy;
-  Coordinate dy=3*Coordinate(s.y);
+  Coord dx=2*s.x+space_dxy;
+  Coord dy=3*s.y;
 
   return Point(dx,dy);
  }

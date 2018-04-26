@@ -51,7 +51,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
      union Ref
       {
        Coord      *of_Coord;
-       MCoord     *of_MCoord;
+       Fraction   *of_MCoord;
        VColor     *of_VColor;
        Clr        *of_Clr;
        unsigned   *of_unsigned;
@@ -65,7 +65,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
        Ref(Coord &var) : of_Coord{&var} {}
 
-       Ref(MCoord &var) : of_MCoord{&var} {}
+       Ref(Fraction &var) : of_MCoord{&var} {}
 
        Ref(VColor &var) : of_VColor{&var} {}
 
@@ -97,7 +97,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
       {
       }
 
-     Rec(DefString name_,MCoord &var)
+     Rec(DefString name_,Fraction &var)
       : name(name_),
         type(Var_MCoord),
         ref(var)
@@ -341,7 +341,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
    void add(DefString name,Coord &var) { list.append_fill(name,var); }
 
-   void add(DefString name,MCoord &var) { list.append_fill(name,var); }
+   void add(DefString name,Fraction &var) { list.append_fill(name,var); }
 
    void add(DefString name,VColor &var) { list.append_fill(name,var); }
 
@@ -716,9 +716,9 @@ void ConfigEditorWindow::select(Coord &var)
   switchTo(coord_edit,coord_pad);
  }
 
-void ConfigEditorWindow::select(MCoord &var)
+void ConfigEditorWindow::select(Fraction &var)
  {
-  mcoord_pad.bind(var);
+  mcoord_pad.bind(var.value);
 
   switchTo(mcoord_edit,mcoord_pad);
  }
@@ -995,22 +995,22 @@ ConfigEditorWindow::~ConfigEditorWindow()
 
 Point ConfigEditorWindow::getMinSize(Point cap) const
  {
-  Coordinate space=+cfg.space_dxy;
+  Coord space=+cfg.space_dxy;
 
   Point m;
 
   {
    Coord check_dxy=check_all.getMinSize().dxy;
 
-   Coordinate ex=BoxExt(check_dxy);
+   Coord ex=BoxExt(check_dxy);
 
    Point s1=SupMinSize(label_all,label_Coord,label_MCoord,label_VColor,label_Clr,
                        label_unsigned,label_String,label_Point,label_Font,label_bool,label_Ratio);
 
    Point s2=SupMinSize(btn_Save,btn_Self,btn_Set,btn_Back);
 
-   Coordinate dx=Sup(ex+s1.x,s2.x);
-   Coordinate dy=14*space+4*Coordinate(s2.y)+11*Coordinate(Sup(check_dxy,s1.y));
+   Coord dx=Sup(ex+s1.x,s2.x);
+   Coord dy=14*space+4*s2.y+11*Sup(check_dxy,s1.y);
 
    m=Point(dx,dy);
   }

@@ -185,13 +185,13 @@ class Shape
 
    struct DrawContext;
 
-   Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coordinate dx);
+   Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coord dx);
 
-   Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coordinate dx);
+   Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coord dx);
 
-   Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coordinate dx);
+   Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coord dx);
 
-   Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coordinate dx);
+   Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx);
 
    static VColor GetBack(const Book::TypeDef::Format *fmt);
 
@@ -231,7 +231,7 @@ class Shape
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coordinate dx,Point base=Null);
+   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base=Null);
 
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
 

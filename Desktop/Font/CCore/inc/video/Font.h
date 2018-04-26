@@ -142,11 +142,11 @@ struct TextPlace
 
   TextPlace(AlignX align_x_,AlignY align_y_) : align_x(align_x_),align_y(align_y_) {}
 
-  TextPlace(AlignX align_x_,Coordinate y_) : align_x(align_x_),align_y(AlignY_Given),y(+y_) {}
+  TextPlace(AlignX align_x_,Coord y_) : align_x(align_x_),align_y(AlignY_Given),y(y_) {}
 
-  TextPlace(Coordinate x_,AlignY align_y_) : align_x(AlignX_Given),align_y(align_y_),x(+x_) {}
+  TextPlace(Coord x_,AlignY align_y_) : align_x(AlignX_Given),align_y(align_y_),x(x_) {}
 
-  TextPlace(Coordinate x_,Coordinate y_) : align_x(AlignX_Given),align_y(AlignY_Given),x(+x_),y(+y_) {}
+  TextPlace(Coord x_,Coord y_) : align_x(AlignX_Given),align_y(AlignY_Given),x(x_),y(y_) {}
 
   TextPlace(Point pos) : TextPlace(pos.x,pos.y) {}
  };
@@ -431,7 +431,7 @@ struct AbstractFont
     return text_guarded(obj,len);
    }
 
-  ulen fit(StrLen str,Coordinate full_dx) const
+  ulen fit(StrLen str,Coord full_dx) const
    {
     SingleString obj(str);
 
@@ -489,7 +489,7 @@ struct AbstractFont
     return text_guarded(obj,len);
    }
 
-  ulen fit(StrLen str1,StrLen str2,Coordinate full_dx) const
+  ulen fit(StrLen str1,StrLen str2,Coord full_dx) const
    {
     DoubleString obj(str1,str2);
 
@@ -549,7 +549,7 @@ struct AbstractFont
     return text_guarded(obj,len);
    }
 
-  ulen fit(PtrLen<const Char> str,Coordinate full_dx) const
+  ulen fit(PtrLen<const Char> str,Coord full_dx) const
    {
     CharString obj(str);
 

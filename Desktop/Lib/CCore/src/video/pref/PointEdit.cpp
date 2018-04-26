@@ -62,7 +62,7 @@ Point PointEditWindow::getMinSize() const
 
   Coord space_dxy=+cfg.space_dxy;
 
-  Coordinate dx=2*Coordinate(s.x)+space_dxy;
+  Coord dx=2*s.x+space_dxy;
 
   return Point(dx,s.y+dx);
  }
