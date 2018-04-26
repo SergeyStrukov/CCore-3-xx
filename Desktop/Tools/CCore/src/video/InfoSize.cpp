@@ -22,19 +22,16 @@ namespace Video {
 
 Point InfoSize(Font font,Info info)
  {
-  Coord dx=0;
-  CoordAcc dy;
+  Point ret;
 
   for(ulen index=0,count=info->getLineCount(); index<count ;index++)
     {
      TextSize ts=font->text(info->getLine(index));
 
-     Replace_max(dx,ts.full_dx);
-
-     dy.add(ts.dy);
+     ret=StackYSize(ret,ts.getSize());
     }
 
-  return Point(dx,dy.value);
+  return ret;
  }
 
 } // namespace Video

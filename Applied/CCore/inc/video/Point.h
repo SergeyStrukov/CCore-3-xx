@@ -226,6 +226,18 @@ struct Point : BasePoint<Point,Coord>
   Point() noexcept {}
  };
 
+/* Stack...Size() */
+
+inline Point StackXSize(Point s1,Point s2)
+ {
+  return Point( s1.x+s2.x , Sup(s1.y,s2.y) );
+ }
+
+inline Point StackYSize(Point s1,Point s2)
+ {
+  return Point( Sup(s1.x,s2.x) , s1.y+s2.y );
+ }
+
 /* struct Pane */
 
 struct Pane

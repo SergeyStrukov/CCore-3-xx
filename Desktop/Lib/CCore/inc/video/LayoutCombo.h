@@ -60,18 +60,6 @@ Pane SplitToLeft(Pane &pane,Coord dx,Coord space);
 
 Pane SplitToRight(Pane &pane,Coord dx,Coord space);
 
-/* Stack...Size() */
-
-inline Point StackXSize(Point s1,Point s2)
- {
-  return Point( s1.x+s2.x , Sup(s1.y,s2.y) );
- }
-
-inline Point StackYSize(Point s1,Point s2)
- {
-  return Point( Sup(s1.x,s2.x) , s1.y+s2.y );
- }
-
 /* GetLaySpace() */
 
 template <class L>

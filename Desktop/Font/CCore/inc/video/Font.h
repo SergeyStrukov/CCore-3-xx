@@ -128,6 +128,8 @@ struct TextSize
   bool overflow; // full_dx overflowed
 
   Coord extDX() const { return dx+dx0+dx1; }
+
+  Point getSize() const { return {full_dx,dy}; }
  };
 
 /* struct TextPlace */
