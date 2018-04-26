@@ -218,7 +218,7 @@ void ExceptionWindow::setLines()
 
   lines=temp;
 
-  total_dx=Min_cast(temp_dx,MaxCoord-delta_dx)+delta_dx;
+  total_dx=temp_dx+delta_dx;
 
   setScrollPage();
  }
@@ -228,7 +228,7 @@ void ExceptionWindow::drawText(DrawBuf buf,Pane pane,Coord xoff) const
   SmoothDrawArt art(buf);
 
   const Font &font=cfg.font.get();
-  Coord y=text_by;
+  Coord ypos=text_by;
   ulen ind=0;
   ulen off=yscroll.getPos();
 
@@ -271,14 +271,14 @@ void ExceptionWindow::drawText(DrawBuf buf,Pane pane,Coord xoff) const
 
                               StrLen line1=out.close();
 
-                              font->text(buf,pane,TextPlace(xpos,y),line1,line,vc);
+                              font->text(buf,pane,TextPlace(xpos,ypos),line1,line,vc);
                              }
                            else
                              {
-                              font->text(buf,pane,TextPlace(xpos,y),line,vc);
+                              font->text(buf,pane,TextPlace(xpos,ypos),line,vc);
                              }
 
-                           y+=text_dy;
+                           ypos+=text_dy;
                           }
 
                         ind++;
@@ -288,7 +288,7 @@ void ExceptionWindow::drawText(DrawBuf buf,Pane pane,Coord xoff) const
                        {
                         if( ind>=off+page ) return;
 
-                        MCoord div_y=Fraction(pane.y)-MPoint::Half+Fraction(y-text_by)+Fraction(text_dy)/2;
+                        MCoord div_y=Fraction(pane.y)-MPoint::Half+Fraction(ypos-text_by)+Fraction(text_dy)/2;
 
                         if( divide )
                           {
@@ -299,7 +299,7 @@ void ExceptionWindow::drawText(DrawBuf buf,Pane pane,Coord xoff) const
                            art.path(width,divider,MPoint(x0,div_y),MPoint(x1,div_y));
                           }
 
-                        y+=text_dy;
+                        ypos+=text_dy;
                        }
 
                      ind++;

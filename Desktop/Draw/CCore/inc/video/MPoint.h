@@ -228,6 +228,11 @@ inline Point operator * (Ratio a,Point point)
   return Point(a*point.x,a*point.y);
  }
 
+inline MCoord operator * (Ratio a,Fraction b)
+ {
+  return a*b.value;
+ }
+
 inline MPoint operator * (Ratio a,MPoint point)
  {
   return MPoint(a*point.x,a*point.y);
