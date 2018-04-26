@@ -37,10 +37,6 @@ inline constexpr MCoord MaxMCoord = 2'147'483'647 ;
 
 /* functions */
 
-//inline constexpr MCoord Sup(MCoord a,MCoord b) { return Max(a,b); }
-
-//inline constexpr MCoord Inf(MCoord a,MCoord b) { return Min(a,b); }
-
 inline DCoord DMul(DCoord a,MCoord b) { return a*b; }
 
 inline uDCoord UDMul(uDCoord a,uMCoord b) { return a*b; }
@@ -92,7 +88,9 @@ struct Fraction
 
   // constructors
 
-  explicit Fraction(MCoord *value_) : value(*value_) {}
+  enum MaxPrecType { MaxPrec };
+
+  Fraction(MCoord value_,MaxPrecType) : value(value_) {}
 
   Fraction(MCoord value_,unsigned prec) // prec <= Precision
    {
@@ -106,6 +104,8 @@ struct Fraction
   using PrintProxyType = MCoord ;
 
   operator MCoord() const { return value; }
+
+  MCoord operator + () const { return value; }
 
   static Coord RoundUp(MCoord value)
    {
@@ -133,13 +133,9 @@ struct MPoint : BasePoint<MPoint,MCoord>
 
   static MCoord LShift(Coord a) { return IntLShift(MCoord(a),Precision); }
 
-  static MCoord LShift_ext(MCoord a) { return IntLShift(a,Precision); }
-
   // RShift
 
-  static Coord RShift(MCoord a) { return IntRShift(IntAdd(a,Half),Precision); }
-
-  static MCoord RShift_ext(MCoord a) { return IntRShift(IntAdd(a,Half),Precision); }
+  static Coord RShift(MCoord a) { return (Coord)IntRShift(IntAdd(a,Half),Precision); }
 
   // Round
 
@@ -220,9 +216,10 @@ struct Ratio
 
   // multiplicators
 
-  friend sint32 operator * (Ratio a,sint32 b)
+  template <OneOfTypes<Coord,MCoord> Int>
+  friend Int operator * (Ratio a,Int b)
    {
-    return sint32( IntRShift(DMul(a.value,b),Precision) );
+    return Int( IntRShift(DMul(a.value,b),Precision) );
    }
  };
 

@@ -407,7 +407,7 @@ void ConfigMap::add_text(StrLen name,StrLen value) { add(name,DefString(value));
 
 void ConfigMap::add_Coord(StrLen name,Coord value) { add(name,value); }
 
-void ConfigMap::add_MCoord(StrLen name,MCoord value) { add(name,Fraction(&value)); }
+void ConfigMap::add_MCoord(StrLen name,MCoord value) { add(name,Fraction(value,Fraction::MaxPrec)); }
 
 void ConfigMap::add_VColor(StrLen name,uint32 value) { add(name,VColor(value)); }
 

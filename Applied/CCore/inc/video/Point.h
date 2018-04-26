@@ -39,9 +39,11 @@ inline constexpr Coord MinCoord = -32'768 ;
 
 /* functions */
 
-inline constexpr Coord Sup(Coord a,Coord b) { return Max(a,b); }
+template <SUIntType SUInt>
+inline constexpr SUInt Sup(SUInt a,SUInt b) { return Max(a,b); }
 
-inline constexpr Coord Inf(Coord a,Coord b) { return Min(a,b); }
+template <SUIntType SUInt>
+inline constexpr SUInt Inf(SUInt a,SUInt b) { return Min(a,b); }
 
 inline AreaType Area(Coord dx,Coord dy) { return LenOf(dx,dy); } // dx >= 0 , dy >= 0
 
@@ -89,16 +91,14 @@ struct CoordAcc
 
   void add(Coord dx) // >= 0
    {
-    sint64 s=(sint64)value+dx;
-
-    if( s>cap )
+    if( dx>cap-value )
       {
        value=cap;
        overflow=true;
       }
     else
       {
-       value=Coord(s);
+       value+=dx;
       }
    }
  };

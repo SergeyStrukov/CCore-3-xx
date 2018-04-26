@@ -107,7 +107,7 @@ auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Fon
 
 auto FontMap::find(Book::TypeDef::Font *font,Font fallback) -> Rec
  {
-  return find(font->face,scale*font->size,font->strength,font->bold,font->italic,fallback);
+  return find(font->face,scale*Coord(font->size),font->strength,font->bold,font->italic,fallback);
  }
 
 void FontMap::SetSize(Font &font_,Coord size)
@@ -140,7 +140,7 @@ Font FontMap::operator () (Book::TypeDef::Font *font,Font fallback)
        }
      else
        {
-        SetSize(rec.font,scale*font->size);
+        SetSize(rec.font,scale*Coord(font->size));
        }
 
      rec.ok=true;
@@ -253,7 +253,7 @@ Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Fram
 
   frame.body.getPtr().apply( [&] (auto *obj) { ret=GetBY(cfg,font_map,obj); } );
 
-  return scale*frame.inner.y+scale*frame.outer.y+ret;
+  return scale*Coord(frame.inner.y)+scale*Coord(frame.outer.y)+ret;
  }
 
 /* struct Shape::SizeContext */
@@ -1125,7 +1125,7 @@ void Shape::DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::SingleLi
 
   VColor line=Combine(obj->line,+cfg.line);
 
-  MCoord width=Cast(obj->width)*(+cfg.width);
+  MCoord width=Cast(obj->width)*+(+cfg.width);
 
   SmoothDrawArt art(buf);
 
@@ -1145,7 +1145,7 @@ void Shape::DrawLine(const Config &cfg,DrawBuf buf,const Book::TypeDef::DoubleLi
   VColor gray=Combine(obj->gray,+cfg.gray);
   VColor snow=Combine(obj->snow,+cfg.snow);
 
-  MCoord width=Cast(obj->width)*(+cfg.width);
+  MCoord width=Cast(obj->width)*+(+cfg.width);
 
   SmoothDrawArt art(buf);
 
