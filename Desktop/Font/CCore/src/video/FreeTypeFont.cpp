@@ -518,7 +518,7 @@ class FreeTypeFont::Base : public FontBase , Inner
     {
      if( font_size.skew )
        {
-        Coord delta=To16( (font_size.skew*MCoord(point.y))/font_size.dy ); // (skew/dy)*y
+        Coord delta = (font_size.skew*MCoord(point.y))/font_size.dy ; // (skew/dy)*y
 
         return IntAdd(point.x,delta);
        }

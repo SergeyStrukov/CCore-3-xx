@@ -61,18 +61,7 @@ T Inf(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
 
 /* CountToCoordinate() */
 
-Coord CountToCoordinate(UIntType count) { IntGuard( count<=MaxCoord ); return Coord(count); }
-
-/* AddSat() */
-
-inline Coord AddSat(Coord a,Coord b)
- {
-  sint64 ret=sint64(a)+b;
-
-  if( ret>MaxCoord ) return MaxCoord;
-
-  return (Coord)ret;
- }
+Coord CountToCoordinate(UIntType count) { return Coord(count); }
 
 /* classes */
 
@@ -92,18 +81,19 @@ class PointMap;
 
 struct CoordAcc
  {
+  Coord cap;
   Coord value = 0 ;
   bool overflow = false ;
 
-  CoordAcc() {}
+  explicit CoordAcc(Coord cap_=MaxCoord) : cap(cap_) {}
 
   void add(Coord dx) // >= 0
    {
     sint64 s=(sint64)value+dx;
 
-    if( s>MaxCoord )
+    if( s>cap )
       {
-       value=MaxCoord;
+       value=cap;
        overflow=true;
       }
     else
@@ -260,8 +250,7 @@ struct Pane
        dx=dx_;
        dy=dy_;
 
-       IntAdd(x_,dx_);
-       IntAdd(y_,dy_);
+       IntGuard( x < x+dx && y < y+dy );
       }
     else
       {

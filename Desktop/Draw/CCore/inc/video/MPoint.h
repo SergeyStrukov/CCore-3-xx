@@ -109,7 +109,7 @@ struct Fraction
 
   static Coord RoundUp(MCoord value)
    {
-    return To16( IntRShift(value+One-1,Precision) );
+    return IntRShift(value+One-1,Precision);
    }
 
   Coord roundUp() const { return RoundUp(value); }
@@ -137,7 +137,7 @@ struct MPoint : BasePoint<MPoint,MCoord>
 
   // RShift
 
-  static Coord RShift(MCoord a) { return To16( IntRShift(IntAdd(a,Half),Precision) ); }
+  static Coord RShift(MCoord a) { return IntRShift(IntAdd(a,Half),Precision); }
 
   static MCoord RShift_ext(MCoord a) { return IntRShift(IntAdd(a,Half),Precision); }
 
@@ -220,14 +220,9 @@ struct Ratio
 
   // multiplicators
 
-  friend sint16 operator * (Ratio a,sint16 b)
+  friend sint32 operator * (Ratio a,sint32 b)
    {
-    return To16( IntRShift(DMul(a.value,b),Precision) );
-   }
-
-  friend MCoord operator * (Ratio a,MCoord b)
-   {
-    return MCoord( IntRShift(DMul(a.value,b),Precision) );
+    return sint32( IntRShift(DMul(a.value,b),Precision) );
    }
  };
 

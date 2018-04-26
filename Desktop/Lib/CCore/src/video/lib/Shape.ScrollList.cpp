@@ -72,7 +72,7 @@ Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
       {
        TextSize ts=font->text(item.text);
 
-       return AddSat(ts.full_dx,off);
+       return ts.full_dx+off;
       }
      break;
 

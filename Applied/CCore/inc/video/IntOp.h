@@ -99,19 +99,6 @@ SInt IntRShift(SInt a,unsigned s) { return SIntFunc<SInt>::RShift(a,s); }
 template <SIntType SInt,UIntType UInt>
 SInt IntMask(SInt a,UInt mask) { return SIntFunc<SInt>::Mask(a,mask); }
 
-/* sint16 functions */
-
-template <SIntType SInt>
-sint16 To16(SInt x) { IntGuard( x>=-32'768 && x<=32'767 ); return sint16(x); }
-
-inline sint16 IntAdd(sint16 a,sint16 b) { return To16( sint32(a)+sint32(b) ); }
-
-inline sint16 IntSub(sint16 a,sint16 b) { return To16( sint32(a)-sint32(b) ); }
-
-inline sint16 IntMul(sint16 a,sint16 b) { return To16( sint32(a)*sint32(b) ); }
-
-inline sint16 IntDiv(sint16 a,sint16 b) { IntGuard( b!=0 ); return To16( sint32(a)/sint32(b) ); }
-
 /* classes */
 
 template <UIntType UInt> class DownBits;
