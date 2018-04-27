@@ -16,7 +16,7 @@
 #ifndef CCore_inc_video_MinSizeType_h
 #define CCore_inc_video_MinSizeType_h
 
-#include <CCore/inc/video/Point.h>
+#include <CCore/inc/video/MPoint.h>
 
 namespace CCore {
 namespace Video {

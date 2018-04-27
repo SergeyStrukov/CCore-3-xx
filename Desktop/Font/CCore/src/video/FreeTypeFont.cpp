@@ -16,6 +16,7 @@
 #include <CCore/inc/video/FreeTypeFont.h>
 
 #include <CCore/inc/video/FreeType.h>
+#include <CCore/inc/video/MPoint.h>
 
 #include <CCore/inc/TextTools.h>
 
@@ -139,7 +140,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
 
 #ifdef CCORE_UTF8
 
-  mutable CompactRBTreeMap<IndexType,CharX> map;
+  mutable CompactRadixTreeMap<IndexType,CharX> map;
 
 #else
 
@@ -362,12 +363,12 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
       {
        if( const TT_HoriHeader *ptr=face.getTTHoriHeader() )
          {
-          MCoord P=ptr->caret_Slope_Run;
-          MCoord Q=ptr->caret_Slope_Rise;
+          Coord P=ptr->caret_Slope_Run;
+          Coord Q=ptr->caret_Slope_Rise;
 
           if( P!=0 && Q>0 )
             {
-             font_size.skew=Coord( (DCoord(P)*font_size.dy)/Q ); // (P/Q)*font_size.dy
+             font_size.skew = (Coord)MulDiv(P,font_size.dy,Q) ; // (P/Q)*font_size.dy
             }
          }
       }
@@ -518,9 +519,9 @@ class FreeTypeFont::Base : public FontBase , Inner
     {
      if( font_size.skew )
        {
-        Coord delta = (font_size.skew*MCoord(point.y))/font_size.dy ; // (skew/dy)*y
+        Coord delta = (Coord)MulDiv(font_size.skew,point.y,font_size.dy) ; // (skew/dy)*y
 
-        return IntAdd(point.x,delta);
+        return point.x+delta;
        }
      else
        {
@@ -551,17 +552,12 @@ class FreeTypeFont::Base : public FontBase , Inner
 
    // draw text
 
-   MCoord text_dx(AbstractSparseString &str) const
+   Coord text_dx(AbstractSparseString &str) const
     {
-     MCoord ret=0;
+     Coord ret=0;
 
      textRun(str, [&] (CharX met)
                       {
-                       if( ret>=0 && met.dx>MaxMCoord-ret )
-                         {
-                          Printf(Exception,"CCore::Video::FreeTypeFont::Base::text_dx(...) : overflow");
-                         }
-
                        ret+=met.dx;
 
                       } );
@@ -569,7 +565,7 @@ class FreeTypeFont::Base : public FontBase , Inner
      return ret;
     }
 
-   ulen skipCount(AbstractSparseString &str,MCoord &x) const // return suffix length
+   ulen skipCount(AbstractSparseString &str,Coord &x) const // return suffix length
     {
      ulen ret=0;
 
@@ -626,34 +622,34 @@ class FreeTypeFont::Base : public FontBase , Inner
      return ret;
     }
 
-   Coord skip(AbstractSparseString &str,MCoord x) const
+   Coord skip(AbstractSparseString &str,Coord x) const
     {
      if( x>=0 )
        {
-        return Coord(x);
+        return x;
        }
 
      ulen len=skipCount(str,x);
 
      str.cutSuffix(len);
 
-     return Coord(x);
+     return x;
     }
 
-   Coord skip(AbstractSparseString &str,MCoord x,ulen &index) const
+   Coord skip(AbstractSparseString &str,Coord x,ulen &index) const
     {
      if( x>=0 )
        {
         index=0;
 
-        return Coord(x);
+        return x;
        }
 
      ulen len=skipCount(str,x);
 
      str.cutSuffix(len,index);
 
-     return Coord(x);
+     return x;
     }
 
    Point prepare(Coord dx,Coord dy,TextPlace place,AbstractSparseString &str) const
@@ -679,7 +675,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
         case AlignX_Right :
          {
-          MCoord tdx=text_dx(str);
+          Coord tdx=text_dx(str);
 
           x=skip(str,dx-font_size.dx1-tdx);
          }
@@ -687,7 +683,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
         case AlignX_Center :
          {
-          MCoord tdx=text_dx(str);
+          Coord tdx=text_dx(str);
 
           x=skip(str,(dx-tdx)/2);
          }
@@ -722,7 +718,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
         case AlignX_Right :
          {
-          MCoord tdx=text_dx(str);
+          Coord tdx=text_dx(str);
 
           x=skip(str,dx-font_size.dx1-tdx,index);
          }
@@ -730,7 +726,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
         case AlignX_Center :
          {
-          MCoord tdx=text_dx(str);
+          Coord tdx=text_dx(str);
 
           x=skip(str,(dx-tdx)/2,index);
          }
@@ -744,7 +740,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
    void text(FrameBuf<DesktopColor> &buf,Point base,AbstractSparseString &str,VColor vc) const
     {
-     if( base.y<font_size.by-font_size.dy || base.y>buf.dY()+(MCoord)font_size.by ) return;
+     if( base.y<font_size.by-font_size.dy || base.y>buf.dY()+font_size.by ) return;
 
      if( cfg.use_kerning )
        {
@@ -760,7 +756,7 @@ class FreeTypeFont::Base : public FontBase , Inner
 
    void text(FrameBuf<DesktopColor> &buf,Point base,AbstractSparseString &str,ulen ch_index,PointMap map,CharFunction func) const
     {
-     if( base.y<font_size.by-font_size.dy || base.y>buf.dY()+(MCoord)font_size.by ) return;
+     if( base.y<font_size.by-font_size.dy || base.y>buf.dY()+font_size.by ) return;
 
      if( cfg.use_kerning )
        {

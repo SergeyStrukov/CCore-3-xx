@@ -17,6 +17,7 @@
 #define CCore_inc_video_lib_Shape_FrameBase_h
 
 #include <CCore/inc/video/FrameBase.h>
+#include <CCore/inc/video/MPoint.h>
 #include <CCore/inc/video/Color.h>
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/RefVal.h>

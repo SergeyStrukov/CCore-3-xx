@@ -55,7 +55,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "Font",
-   Red,
+   Green,
    {
     &Dir9
    },
@@ -260,7 +260,7 @@ Dir Dir22=
     { "CurveDriver.h" , Red },
     { "DrawTools.h" , Red },
     { "GammaTable.h" , Red },
-    { "MPoint.h" , Red },
+    { "MPoint.h" , Green },
     { "SmoothAlgo.h" , Red },
     { "SmoothDrawArt.h" , Red }
    }
@@ -277,7 +277,7 @@ Dir Dir23=
     { "CurveDriver.cpp" , Red },
     { "DrawTools.cpp" , Red },
     { "GammaTable.cpp" , Red },
-    { "MPoint.cpp" , Red },
+    { "MPoint.cpp" , Green },
     { "SmoothAlgo.cpp" , Red },
     { "SmoothDrawArt.cpp" , Red }
    }
@@ -286,7 +286,7 @@ Dir Dir23=
 Dir Dir9=
   {
    "CCore",
-   Red,
+   Green,
    {
     &Dir24,
     &Dir25
@@ -298,7 +298,7 @@ Dir Dir9=
 Dir Dir24=
   {
    "inc",
-   Red,
+   Green,
    {
     &Dir26
    },
@@ -309,7 +309,7 @@ Dir Dir24=
 Dir Dir25=
   {
    "src",
-   Red,
+   Green,
    {
     &Dir27
    },
@@ -320,26 +320,26 @@ Dir Dir25=
 Dir Dir26=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
     { "Font.h" , Green },
     { "FreeType.h" , Green },
-    { "FreeTypeFont.h" , Red }
+    { "FreeTypeFont.h" , Green }
    }
   };
 
 Dir Dir27=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
     { "Font.cpp" , Green },
     { "FreeType.cpp" , Green },
-    { "FreeTypeFont.cpp" , Red }
+    { "FreeTypeFont.cpp" , Green }
    }
   };
 
