@@ -29,7 +29,7 @@ Point SpinorShape::getInnerSize(int val) const
 
   Putobj(out,BindOpt(opt,val));
 
-  TextSize ts=cfg.font->text_guarded(out.close());
+  TextSize ts=cfg.font->text(out.close());
 
   return Point(ts.full_dx,ts.dy);
  }

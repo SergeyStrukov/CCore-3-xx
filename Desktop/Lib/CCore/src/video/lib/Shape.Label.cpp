@@ -22,7 +22,7 @@ namespace Video {
 
 Point LabelShape::getMinSize() const
  {
-  TextSize ts=cfg.font->text_guarded(text.str());
+  TextSize ts=cfg.font->text(text.str());
 
   return Point(ts.full_dx,ts.dy).addXY(2);
  }

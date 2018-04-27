@@ -848,8 +848,6 @@ class DDLInnerWindow::SizeProc : NoCopy
     {
      TextSize ts=font->text(str.str);
 
-     IntGuard(!ts.overflow);
-
      ulen x=Cast(ts.full_dx);
      ulen y=Cast(ts.dy);
 
@@ -862,8 +860,6 @@ class DDLInnerWindow::SizeProc : NoCopy
    uPoint title_size(StrSize &str) const
     {
      TextSize ts=title_font->text(str.str);
-
-     IntGuard(!ts.overflow);
 
      ulen x=Cast(ts.full_dx);
      ulen y=Cast(ts.dy);

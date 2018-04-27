@@ -29,7 +29,7 @@ MCoord ButtonShape::FigEX(Coord fdy,MCoord width)
 
 Point ButtonShape::getMinSize() const
  {
-  TextSize ts=cfg.font->text_guarded(face.str());
+  TextSize ts=cfg.font->text(face.str());
 
   MCoord width=+cfg.width;
 

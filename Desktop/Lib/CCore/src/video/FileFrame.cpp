@@ -487,7 +487,7 @@ Point FileFilterListWindow::getMinSize() const
 
      Coord delta=BoxExt(size.y);
 
-     return Point( Sup(size.x,knob_dxy) , delta*CountToCoordinate(count)+knob_dxy );
+     return Point( Sup(size.x,knob_dxy) , delta*CountToCoord(count)+knob_dxy );
     }
   else
     {

@@ -324,8 +324,8 @@ Dir Dir26=
    {
    },
    {
-    { "Font.h" , Red },
-    { "FreeType.h" , Red },
+    { "Font.h" , Green },
+    { "FreeType.h" , Green },
     { "FreeTypeFont.h" , Red }
    }
   };
@@ -337,8 +337,8 @@ Dir Dir27=
    {
    },
    {
-    { "Font.cpp" , Red },
-    { "FreeType.cpp" , Red },
+    { "Font.cpp" , Green },
+    { "FreeType.cpp" , Green },
     { "FreeTypeFont.cpp" , Red }
    }
   };

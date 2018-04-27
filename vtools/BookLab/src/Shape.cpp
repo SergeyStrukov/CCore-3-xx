@@ -579,7 +579,7 @@ struct Shape::SizeContext
        base.y+=dy;
       }
 
-    return Point(dx,CountToCoordinate(range.len)*dy);
+    return Point(dx,CountToCoord(range.len)*dy);
    }
 
   // size Bitmap
@@ -592,7 +592,7 @@ struct Shape::SizeContext
 
     if( !bitmap ) return Null;
 
-    return {CountToCoordinate(bitmap->dX()),CountToCoordinate(bitmap->dY())};
+    return {CountToCoord(bitmap->dX()),CountToCoord(bitmap->dY())};
    }
 
   // size TextList
@@ -690,7 +690,7 @@ struct Shape::SizeContext
        base.y += ( s.y + item_space ) ;
       }
 
-    return ret.addY( +( (CountToCoordinate(list.len)-1)*item_space ) );
+    return ret.addY( +( (CountToCoord(list.len)-1)*item_space ) );
    }
 
   // size

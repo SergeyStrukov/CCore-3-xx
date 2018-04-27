@@ -1272,7 +1272,7 @@ class LaySupCenterXExt : protected LaySet<LL...>
     {
      Point size=getSize(space);
 
-     auto count=CountToCoordinate(getCount());
+     auto count=CountToCoord(getCount());
 
      return {count*size.x+(count+1)*space,size.y};
     }

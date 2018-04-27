@@ -229,13 +229,13 @@ class TextLineWindowOf : public SubWindow
        {
         case VKey_Left :
          {
-          addXOff(-CountToCoordinate(repeat));
+          addXOff(-CountToCoord(repeat));
          }
         break;
 
         case VKey_Right :
          {
-          addXOff(CountToCoordinate(repeat));
+          addXOff(CountToCoord(repeat));
          }
         break;
        }

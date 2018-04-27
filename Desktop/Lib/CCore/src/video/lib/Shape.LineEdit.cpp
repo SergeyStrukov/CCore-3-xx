@@ -48,14 +48,14 @@ Point LineEditShape::getMinSize() const
 
 Point LineEditShape::getMinSize(StrLen sample_text) const
  {
-  return getMinSize(cfg.font->text_guarded(sample_text));
+  return getMinSize(cfg.font->text(sample_text));
  }
 
 #ifdef CCORE_UTF8
 
 Point LineEditShape::getMinSize(PtrLen<const Char> sample_text) const
  {
-  return getMinSize(cfg.font->text_guarded(sample_text));
+  return getMinSize(cfg.font->text(sample_text));
  }
 
 #endif
@@ -64,7 +64,7 @@ void LineEditShape::setMax()
  {
   const Font &font=cfg.font.get();
 
-  TextSize ts=font->text_guarded(text_buf.prefix(len));
+  TextSize ts=font->text(text_buf.prefix(len));
 
   MCoord width=+cfg.width;
 
@@ -116,7 +116,7 @@ void LineEditShape::showCursor()
 
      ulen pos = show_cursor? this->pos : len ;
 
-     TextSize ts=font->text_guarded(text_buf.prefix(pos));
+     TextSize ts=font->text(text_buf.prefix(pos));
 
      Coord cursor_dx=+cfg.cursor_dx;
 
@@ -161,7 +161,7 @@ ulen LineEditShape::getPosition(Point point) const
 
   point-=inner.getBase();
 
-  TextSize ts=font->text_guarded(text_buf.prefix(pos));
+  TextSize ts=font->text(text_buf.prefix(pos));
 
   Coord cursor_dx=+cfg.cursor_dx;
 
@@ -285,7 +285,7 @@ void LineEditShape::draw(const DrawBuf &buf) const
 
    ulen pos = show_cursor? this->pos : len ;
 
-   TextSize ts=font->text_guarded(text_buf.prefix(pos));
+   TextSize ts=font->text(text_buf.prefix(pos));
 
    Coord cursor_dx=+cfg.cursor_dx;
 
@@ -318,11 +318,11 @@ void LineEditShape::draw(const DrawBuf &buf) const
 
       if( select_off<pos )
         {
-         xs0=X1+Fraction( font->text_guarded(text_buf.prefix(pos),select_off).dx );
+         xs0=X1+Fraction( font->text(text_buf.prefix(pos),select_off).dx );
         }
       else
         {
-         xs0=X3+Fraction( font->text_guarded(text_buf.part(pos,len-pos),select_off-pos).dx );
+         xs0=X3+Fraction( font->text(text_buf.part(pos,len-pos),select_off-pos).dx );
         }
 
       ulen lim=select_off+select_len;
@@ -331,11 +331,11 @@ void LineEditShape::draw(const DrawBuf &buf) const
 
       if( lim<=pos )
         {
-         xs1=X1+Fraction( font->text_guarded(text_buf.prefix(pos),lim).dx );
+         xs1=X1+Fraction( font->text(text_buf.prefix(pos),lim).dx );
         }
       else
         {
-         xs1=X3+Fraction( font->text_guarded(text_buf.part(pos,len-pos),lim-pos).dx );
+         xs1=X3+Fraction( font->text(text_buf.part(pos,len-pos),lim-pos).dx );
         }
 
       FigureSkew fig(xs0-skew1,xs1-skew1,Y0,Y1,skew);

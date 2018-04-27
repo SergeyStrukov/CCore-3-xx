@@ -256,27 +256,6 @@ void Face::setFixedSize(FT_Int index)
 
  // metrics
 
-#if 0
-
-FT_BBox Face::getScaledBBox() const
- {
-  FT_BBox ret;
-
-  auto x_scale=face->size->metrics.x_scale;
-
-  ret.xMin=FT_MulFix(getBBox().xMin,x_scale);
-  ret.xMax=FT_MulFix(getBBox().xMax,x_scale);
-
-  auto y_scale=face->size->metrics.y_scale;
-
-  ret.yMin=FT_MulFix(getBBox().yMin,y_scale);
-  ret.yMax=FT_MulFix(getBBox().yMax,y_scale);
-
-  return ret;
- }
-
-#endif
-
 FT_Vector Face::getKerning(FT_UInt prev_index,FT_UInt next_index,FT_UInt mode) const
  {
   FT_Vector ret;

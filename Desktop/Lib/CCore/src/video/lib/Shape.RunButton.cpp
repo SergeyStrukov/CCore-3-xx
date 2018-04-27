@@ -29,8 +29,8 @@ MCoord RunButtonShape::FigEX(Coord fdy,MCoord width)
 
 Point RunButtonShape::getMinSize() const
  {
-  TextSize ts1=cfg.font->text_guarded(face_off.str());
-  TextSize ts2=cfg.font->text_guarded(face_on.str());
+  TextSize ts1=cfg.font->text(face_off.str());
+  TextSize ts2=cfg.font->text(face_on.str());
 
   MCoord width=+cfg.width;
 

@@ -34,7 +34,7 @@ Point TextShape::getMinSize() const
 
 Point TextShape::getMinSize(StrLen text) const
  {
-  TextSize ts=cfg.font->text_guarded(text);
+  TextSize ts=cfg.font->text(text);
 
   MCoord width=+cfg.width;
 

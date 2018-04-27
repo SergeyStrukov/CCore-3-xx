@@ -829,13 +829,13 @@ class LineEditWindowOf : public SubWindow
        {
         case VKey_Left :
          {
-          if( kmod&KeyMod_Ctrl ) { addXOff(-CountToCoordinate(repeat)); return; }
+          if( kmod&KeyMod_Ctrl ) { addXOff(-CountToCoord(repeat)); return; }
          }
         break;
 
         case VKey_Right :
          {
-          if( kmod&KeyMod_Ctrl ) { addXOff(CountToCoordinate(repeat)); return; }
+          if( kmod&KeyMod_Ctrl ) { addXOff(CountToCoord(repeat)); return; }
          }
         break;
 

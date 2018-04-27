@@ -30,7 +30,7 @@ void TextLineShape::Cache::operator () (const Config &cfg,StrLen text)
 
      MCoord width=+cfg.width;
 
-     TextSize ts=font->text_guarded(text);
+     TextSize ts=font->text(text);
 
      text_dy=ts.dy;
      btn_ex=FigEX(ts.dy,width);
@@ -61,7 +61,7 @@ Point TextLineShape::getMinSize() const
 
 Point TextLineShape::getMinSize(StrLen text) const
  {
-  TextSize ts=cfg.font->text_guarded(text);
+  TextSize ts=cfg.font->text(text);
 
   MCoord width=+cfg.width;
 

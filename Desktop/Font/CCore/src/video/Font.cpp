@@ -148,7 +148,7 @@ ulen SingleString::getLen() const
   return total;
  }
 
-// cursor
+ // cursor
 
 void SingleString::restart()
  {

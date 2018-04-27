@@ -94,16 +94,16 @@ Point ScrollListShape::getMinSize(Point cap) const
   Coord off=fs.dy;
 
   Coord dx=0;
-  CoordAcc dy;
+  Coord dy=0;
 
   for(ulen index=0,count=info->getLineCount(); index<count ;index++)
     {
      Replace_max(dx,GetLineDX(font,info->getLine(index),off));
 
-     dy.add(fs.dy);
+     dy+=fs.dy;
     }
 
-  return 2*space+Inf(Point(dx,dy.value),cap-2*space);
+  return 2*space+Inf(Point(dx,dy),cap-2*space);
  }
 
 Point ScrollListShape::getMinSize(unsigned lines) const
@@ -116,7 +116,7 @@ Point ScrollListShape::getMinSize(unsigned lines) const
 
   Coord dx=font->text(SampleLine()).full_dx;
 
-  return 2*space+Point(dx,CountToCoordinate(lines)*fs.dy);
+  return 2*space+Point(dx,CountToCoord(lines)*fs.dy);
  }
 
 void ScrollListShape::setMax()

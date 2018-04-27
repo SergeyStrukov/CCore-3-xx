@@ -61,13 +61,11 @@ T Inf(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
   return Inf(a,Inf(tt...));
  }
 
-/* CountToCoordinate() */
+/* CountToCoord() */
 
-Coord CountToCoordinate(UIntType count) { return Coord(count); }
+Coord CountToCoord(UIntType count) { return Coord(count); }
 
 /* classes */
-
-struct CoordAcc;
 
 template <class T,class Int> struct BasePoint;
 
@@ -78,30 +76,6 @@ struct Pane;
 struct PaneSub;
 
 class PointMap;
-
-/* struct CoordAcc */
-
-struct CoordAcc
- {
-  Coord cap;
-  Coord value = 0 ;
-  bool overflow = false ;
-
-  explicit CoordAcc(Coord cap_=MaxCoord) : cap(cap_) {}
-
-  void add(Coord dx) // >= 0
-   {
-    if( dx>cap-value )
-      {
-       value=cap;
-       overflow=true;
-      }
-    else
-      {
-       value+=dx;
-      }
-   }
- };
 
 /* struct BasePoint<T,Int> */
 

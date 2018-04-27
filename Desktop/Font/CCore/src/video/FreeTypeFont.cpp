@@ -827,28 +827,21 @@ class FreeTypeFont::Base : public FontBase , Inner
      ret.dx1=0;
      ret.skew=font_size.skew;
 
-     CoordAcc acc;
+     ret.dx=0;
+
      bool first=true;
 
      textRun(str, [&] (CharX met)
                       {
-                       acc.add(met.dx);
+                       ret.dx+=met.dx;
 
-                       if( first ) first=false,ret.dx0=met.dx0;
+                       if( Change(first,false) ) ret.dx0=met.dx0;
 
                        ret.dx1=met.dx1;
 
                       } );
 
-     ret.dx=acc.value;
-
-     if( ret.dx<0 ) ret.dx=0;
-
-     acc.add(font_size.dx0);
-     acc.add(font_size.dx1);
-
-     ret.full_dx=acc.value;
-     ret.overflow=acc.overflow;
+     ret.full_dx=ret.dx+font_size.dx0+font_size.dx1;
 
      return ret;
     }

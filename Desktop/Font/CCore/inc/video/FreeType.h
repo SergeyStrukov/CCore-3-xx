@@ -125,10 +125,7 @@ struct Placement
 
   Point toPos(Point base) const { return base+Point(left,-top); }
 
-  Point getDelta() const
-   {
-    return Point(Round(delta_x),Round(delta_y));
-   }
+  Point getDelta() const { return Point(Round(delta_x),Round(delta_y)); }
  };
 
 /* class Face */
@@ -173,12 +170,6 @@ class Face : NoCopy
 
    const TT_HoriHeader * getTTHoriHeader() const { return static_cast<const TT_HoriHeader *>(FT_Get_Sfnt_Table(face,FT_SFNT_HHEA)); }
 
-#if 0
-
-   const TT_Header * getTTHeader() const { return static_cast<const TT_Header *>(FT_Get_Sfnt_Table(face,FT_SFNT_HEAD)); }
-
-#endif
-
    const TT_OS2 * getTTOS2Header() const { return static_cast<const TT_OS2 *>(FT_Get_Sfnt_Table(face,FT_SFNT_OS2)); }
 
    // set size
@@ -190,14 +181,6 @@ class Face : NoCopy
    // metrics
 
    const FT_Size_Metrics & getMetrics() const { return face->size->metrics; }
-
-#if 0
-
-   const FT_BBox & getBBox() const { return face->bbox; }
-
-   FT_BBox getScaledBBox() const;
-
-#endif
 
    FT_Vector getKerning(FT_UInt prev_index,FT_UInt next_index,FT_UInt mode=FT_KERNING_DEFAULT) const;
 

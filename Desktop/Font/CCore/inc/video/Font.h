@@ -118,14 +118,13 @@ struct FontSize
 
 struct TextSize
  {
-  Coord dx;      // MaxCoord if overflowed
+  Coord dx;
   Coord dy;
   Coord by;
   Coord dx0;
   Coord dx1;
   Coord skew;
-  Coord full_dx; // dx+font_size.dx0+font_size.dx1 , MaxCoord if overflowed
-  bool overflow; // full_dx overflowed
+  Coord full_dx; // dx+font_size.dx0+font_size.dx1
 
   Coord extDX() const { return dx+dx0+dx1; }
 
@@ -378,29 +377,11 @@ struct AbstractFont
 
   // helpers
 
-  TextSize text_guarded(AbstractSparseString &str) const
-   {
-    TextSize ts=text(str);
-
-    IntGuard( !ts.overflow );
-
-    return ts;
-   }
-
   TextSize text(AbstractSparseString &str,ulen len) const
    {
     str.cutPrefix(len);
 
     return text(str);
-   }
-
-  TextSize text_guarded(AbstractSparseString &str,ulen len) const
-   {
-    TextSize ts=text(str,len);
-
-    IntGuard( !ts.overflow );
-
-    return ts;
    }
 
   // single
@@ -417,20 +398,6 @@ struct AbstractFont
     SingleString obj(str);
 
     return text(obj,len);
-   }
-
-  TextSize text_guarded(StrLen str) const
-   {
-    SingleString obj(str);
-
-    return text_guarded(obj);
-   }
-
-  TextSize text_guarded(StrLen str,ulen len) const
-   {
-    SingleString obj(str);
-
-    return text_guarded(obj,len);
    }
 
   ulen fit(StrLen str,Coord full_dx) const
@@ -477,20 +444,6 @@ struct AbstractFont
     return text(obj,len);
    }
 
-  TextSize text_guarded(StrLen str1,StrLen str2) const
-   {
-    DoubleString obj(str1,str2);
-
-    return text_guarded(obj);
-   }
-
-  TextSize text_guarded(StrLen str1,StrLen str2,ulen len) const
-   {
-    DoubleString obj(str1,str2);
-
-    return text_guarded(obj,len);
-   }
-
   ulen fit(StrLen str1,StrLen str2,Coord full_dx) const
    {
     DoubleString obj(str1,str2);
@@ -535,20 +488,6 @@ struct AbstractFont
     CharString obj(str);
 
     return text(obj,len);
-   }
-
-  TextSize text_guarded(PtrLen<const Char> str) const
-   {
-    CharString obj(str);
-
-    return text_guarded(obj);
-   }
-
-  TextSize text_guarded(PtrLen<const Char> str,ulen len) const
-   {
-    CharString obj(str);
-
-    return text_guarded(obj,len);
    }
 
   ulen fit(PtrLen<const Char> str,Coord full_dx) const
@@ -636,25 +575,13 @@ class DotFontBase : public FontBase
  {
    FontShape shape;
 
-   ulen max_len;
-
   private:
 
-   TextSize text(ulen len,bool overflow) const
+   TextSize text(ulen len) const
     {
      TextSize ret;
 
-     if( overflow )
-       {
-        ret.dx=MaxCoord;
-        ret.overflow=true;
-       }
-     else
-       {
-        ret.dx=Coord(len)*shape.dX();
-        ret.overflow=false;
-       }
-
+     ret.dx=CountToCoord(len)*shape.dX();
      ret.full_dx=ret.dx;
 
      ret.dy=shape.dY();
@@ -699,7 +626,7 @@ class DotFontBase : public FontBase
 
            case AlignY_Bottom : y=py-fdy; break;
 
-           default: y=IntSub(place.y,fby);
+           default: y=place.y-fby;
           }
 
         Coord x;
@@ -715,13 +642,13 @@ class DotFontBase : public FontBase
 
              if( len<=cap )
                {
-                x=Coord( px-MCoord(len)*fdx );
+                x=px-CountToCoord(len)*fdx;
                }
              else
                {
                 str.cutSuffix(cap);
 
-                x=Coord( px-MCoord(cap)*fdx );
+                x=px-CountToCoord(cap)*fdx;
                }
             }
            break;
@@ -733,13 +660,13 @@ class DotFontBase : public FontBase
 
              if( len<=cap )
                {
-                x=Coord( (px-MCoord(len)*fdx)/2 );
+                x=(px-CountToCoord(len)*fdx)/2;
                }
              else
                {
                 ulen new_len=cap+str.cutCenter(cap);
 
-                x=Coord( (px-MCoord(new_len)*fdx)/2 );
+                x=(px-CountToCoord(new_len)*fdx)/2;
                }
             }
            break;
@@ -766,7 +693,7 @@ class DotFontBase : public FontBase
 
            case AlignY_Bottom : y=py-fdy; break;
 
-           default: y=IntSub(place.y,fby);
+           default: y=place.y-fby;
           }
 
         Coord x;
@@ -784,13 +711,13 @@ class DotFontBase : public FontBase
                {
                 index=0;
 
-                x=Coord( px-MCoord(len)*fdx );
+                x=px-CountToCoord(len)*fdx;
                }
              else
                {
                 str.cutSuffix(cap,index);
 
-                x=Coord( px-MCoord(cap)*fdx );
+                x=px-CountToCoord(cap)*fdx;
                }
             }
            break;
@@ -804,13 +731,13 @@ class DotFontBase : public FontBase
                {
                 index=0;
 
-                x=Coord( (px-MCoord(len)*fdx)/2 );
+                x=(px-CountToCoord(len)*fdx)/2;
                }
              else
                {
                 ulen new_len=cap+str.cutCenter(cap,index);
 
-                x=Coord( (px-MCoord(new_len)*fdx)/2 );
+                x=(px-CountToCoord(new_len)*fdx)/2;
                }
             }
            break;
@@ -831,7 +758,7 @@ class DotFontBase : public FontBase
 
         Point p=map(point);
 
-        MCoord x=p.x;
+        Coord x=p.x;
         Coord y=p.y;
 
         if( y>=dy || y<=-fdy ) return;
@@ -840,7 +767,7 @@ class DotFontBase : public FontBase
                        {
                         if( x>=dx ) return false;
 
-                        text((Coord)x,y,ch,color);
+                        text(x,y,ch,color);
 
                         x+=fdx;
 
@@ -860,7 +787,7 @@ class DotFontBase : public FontBase
 
         Point p=map(point);
 
-        MCoord x=p.x;
+        Coord x=p.x;
         Coord y=p.y;
 
         if( y>=dy || y<=-fdy ) return;
@@ -873,7 +800,7 @@ class DotFontBase : public FontBase
 
                         VColor vc=func(index++,ch,point,Point(fdx,0));
 
-                        text((Coord)x,y,ch,vc);
+                        text(x,y,ch,vc);
 
                         x+=fdx;
 
@@ -910,7 +837,6 @@ class DotFontBase : public FontBase
    explicit DotFontBase(TT && ... tt)
     : shape( std::forward<TT>(tt)... )
     {
-     max_len=ulen(MaxCoord/shape.dX());
     }
 
    virtual ~DotFontBase() {}
@@ -938,7 +864,7 @@ class DotFontBase : public FontBase
     {
      ulen len=str.getLen();
 
-     return text(len,len>max_len);
+     return text(len);
     }
 
    virtual ulen fit(AbstractSparseString &str,Coord full_dx) const

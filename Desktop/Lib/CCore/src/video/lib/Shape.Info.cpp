@@ -41,7 +41,7 @@ void InfoShape::Cache::operator () (const Config &cfg,const Info &info)
 
      for(ulen index=0; index<count ;index++)
        {
-        TextSize ts=font->text_guarded(info->getLine(index));
+        TextSize ts=font->text(info->getLine(index));
 
         Replace_max(dx,ts.full_dx);
        }
