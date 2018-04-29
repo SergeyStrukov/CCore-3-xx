@@ -65,6 +65,10 @@ T Inf(T a,TT ... tt) requires ( sizeof ... (TT) >= 2 )
 
 Coord CountToCoord(UIntType count) { return Coord(count); }
 
+/* CoordMulDiv() */
+
+inline Coord CoordMulDiv(sint64 a,Coord b,Coord c) { IntGuard( c!=0 ); return Coord( (a*b)/c ); }
+
 /* classes */
 
 template <class T,class Int> struct BasePoint;

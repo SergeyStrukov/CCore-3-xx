@@ -16,7 +16,6 @@
 #include <CCore/inc/video/FreeTypeFont.h>
 
 #include <CCore/inc/video/FreeType.h>
-#include <CCore/inc/video/MPoint.h>
 
 #include <CCore/inc/TextTools.h>
 
@@ -368,7 +367,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
 
           if( P!=0 && Q>0 )
             {
-             font_size.skew = (Coord)MulDiv(P,font_size.dy,Q) ; // (P/Q)*font_size.dy
+             font_size.skew=CoordMulDiv(P,font_size.dy,Q); // (P/Q)*font_size.dy
             }
          }
       }
@@ -519,7 +518,7 @@ class FreeTypeFont::Base : public FontBase , Inner
     {
      if( font_size.skew )
        {
-        Coord delta = (Coord)MulDiv(font_size.skew,point.y,font_size.dy) ; // (skew/dy)*y
+        Coord delta=CoordMulDiv(font_size.skew,point.y,font_size.dy); // (skew/dy)*y
 
         return point.x+delta;
        }

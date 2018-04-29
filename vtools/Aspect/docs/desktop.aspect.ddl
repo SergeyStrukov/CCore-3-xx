@@ -257,9 +257,9 @@ Dir Dir22=
    },
    {
     { "ColorField.h" , Red },
-    { "CurveDriver.h" , Red },
-    { "DrawTools.h" , Red },
-    { "GammaTable.h" , Red },
+    { "CurveDriver.h" , Green },
+    { "DrawTools.h" , Green },
+    { "GammaTable.h" , Green },
     { "MPoint.h" , Green },
     { "SmoothAlgo.h" , Red },
     { "SmoothDrawArt.h" , Red }
@@ -274,9 +274,9 @@ Dir Dir23=
    },
    {
     { "ColorField.cpp" , Red },
-    { "CurveDriver.cpp" , Red },
-    { "DrawTools.cpp" , Red },
-    { "GammaTable.cpp" , Red },
+    { "CurveDriver.cpp" , Green },
+    { "DrawTools.cpp" , Green },
+    { "GammaTable.cpp" , Green },
     { "MPoint.cpp" , Green },
     { "SmoothAlgo.cpp" , Red },
     { "SmoothDrawArt.cpp" , Red }
