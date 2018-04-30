@@ -781,7 +781,7 @@ class CurveBase : public DotsBase
 
         case 2 :
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -798,7 +798,7 @@ class CurveBase : public DotsBase
 
         case 3 :
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -820,7 +820,7 @@ class CurveBase : public DotsBase
 
         case 4 :
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -847,7 +847,7 @@ class CurveBase : public DotsBase
 
         case 5 :
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -879,7 +879,7 @@ class CurveBase : public DotsBase
 
         default: // >=6
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -923,7 +923,7 @@ class CurveBase : public DotsBase
     }
 
    template <class R>
-   void extPath(R dots,MPointMapType<R> map,DrawAlgo::CurveDriver &driver)
+   void extPath(R dots,MPointMapType<R> map,CurveDriver &driver)
     {
      switch( Algon::BaseRangeAlgo<R>::GetLen(dots) )
        {
@@ -986,7 +986,7 @@ class CurveBase : public DotsBase
     }
 
    template <class R>
-   void extPath(R dots,R ext,MPointMapType<R> map,DrawAlgo::CurveDriver &driver)
+   void extPath(R dots,R ext,MPointMapType<R> map,CurveDriver &driver)
     {
      switch( Algon::BaseRangeAlgo<R>::GetLen(dots) )
        {
@@ -1231,7 +1231,7 @@ class CurvePath : public DotsBase
 
         case 3 :
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -1251,7 +1251,7 @@ class CurvePath : public DotsBase
 
         default:
          {
-          StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+          StackObject<CurveDriver> driver(MaxFineness);
 
           auto a=map(dots[0]);
           auto b=map(dots[1]);
@@ -1317,7 +1317,7 @@ class CurveBreakPath : public CurveBase
 
      addPoint(map(dots[0]));
 
-     StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+     StackObject<CurveDriver> driver(MaxFineness);
 
      for(DotBreaker<R> breaker(dots);;)
        {
@@ -1341,7 +1341,7 @@ class CurveBreakLoop : public CurveBase
    template <DotRangeType R>
    void buildPath(R dots,R ext,MPointMapType<R> map)
     {
-     StackObject<DrawAlgo::CurveDriver> driver(MaxFineness);
+     StackObject<CurveDriver> driver(MaxFineness);
 
      DotBreaker<R> breaker(dots);
 

@@ -17,7 +17,6 @@
 
 namespace CCore {
 namespace Video {
-namespace DrawAlgo {
 
 /* class CurveDriver */
 
@@ -136,7 +135,6 @@ void CurveDriver::shift()
   spline();
  }
 
-} // namespace DrawAlgo
 } // namespace Video
 } // namespace CCore
 
