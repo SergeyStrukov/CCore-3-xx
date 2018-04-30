@@ -31,30 +31,6 @@ concept bool PointSetTypes = ( ... && IsType<TT,Point> ) ;
 template <class ... TT>
 concept bool MPointSetTypes = ( ... && OneOfTypes<TT,Point,MPoint> ) ;
 
-/* concept PlotType<Plot> */
-
-template <NothrowCopyCtorType Plot> // ref extended
-concept bool PlotType = requires(Plot &obj,Point p)
- {
-  obj(p);
- } ;
-
-/* concept SmoothPlotType<SPlot> */
-
-template <class SPlot> // ref extended
-concept bool SmoothPlotType = PlotType<SPlot> && requires(SPlot &obj,Point p,unsigned alpha)
- {
-  obj(p,alpha);
- } ;
-
-/* concept MapType<Map> */
-
-template <NothrowCopyCtorType Map> // ref extended
-concept bool MapType = requires(Meta::ToConst<Map> &cobj,Point p)
- {
-  { cobj(p) } -> Point ;
- } ;
-
 /* enum SolidFlag */
 
 enum SolidFlag

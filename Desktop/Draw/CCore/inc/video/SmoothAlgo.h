@@ -1,7 +1,7 @@
 /* SmoothAlgo.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,15 +9,13 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #ifndef CCore_inc_video_SmoothAlgo_h
 #define CCore_inc_video_SmoothAlgo_h
 
-#include <CCore/inc/video/Point.h>
-#include <CCore/inc/video/Color.h>
 #include <CCore/inc/video/DrawTools.h>
 
 #include <CCore/inc/Array.h>
@@ -70,6 +68,8 @@ concept bool PlotType = requires(Plot &obj,MPoint p,unsigned alpha)
 inline constexpr unsigned MaxCapFineness = 1 ;
 
 inline constexpr unsigned MaxFineness = 2 ;
+
+inline constexpr unsigned AlphaBits = 8 ;
 
 /* functions */
 
@@ -468,7 +468,7 @@ class SolidRow : NoCopy
 
    static unsigned ToAlpha(Area s)
     {
-     const unsigned Bits=2*MPoint::Precision-ClrBits;
+     const unsigned Bits=2*MPoint::Precision-AlphaBits;
      const Area Half = Area(1)<<(Bits-1) ;
 
      return (s+Half)>>Bits;

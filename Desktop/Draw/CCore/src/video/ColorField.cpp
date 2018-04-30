@@ -15,8 +15,6 @@
 
 #include <CCore/inc/video/ColorField.h>
 
-#include <CCore/inc/video/DrawTools.h>
-
 namespace CCore {
 namespace Video {
 
