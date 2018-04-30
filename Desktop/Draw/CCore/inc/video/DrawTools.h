@@ -1,7 +1,7 @@
 /* DrawTools.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
 //  Tag: Desktop
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -47,14 +47,6 @@ concept bool SmoothPlotType = PlotType<SPlot> && requires(SPlot &obj,Point p,uns
   obj(p,alpha);
  } ;
 
-/* concept HPlotType<HPlot> */
-
-template <class HPlot> // ref extended
-concept bool HPlotType = PlotType<HPlot> && requires(HPlot &obj,Coord y,Coord a,Coord b)
- {
-  obj(y,a,b);
- } ;
-
 /* concept MapType<Map> */
 
 template <NothrowCopyCtorType Map> // ref extended
@@ -77,42 +69,6 @@ enum HalfFlag // contraclockwise
  {
   HalfPos,
   HalfNeg,
- };
-
-/* classes */
-
-struct CircleSpline;
-
-struct PaneBorder;
-
-/* struct CircleSpline */
-
-struct CircleSpline
- {
-  Point buf[12]; // contraclockwise
-
-  CircleSpline(Point center,Coord radius); // radius > 0
-
-  PtrLen<const Point> get() const { return Range(buf); }
- };
-
-/* struct PaneBorder */
-
-struct PaneBorder
- {
-  Point buf[4]; // contraclockwise
-
-  explicit PaneBorder(Pane pane); // +pane
-
-  Point topLeft() const { return buf[0]; }
-
-  Point bottomLeft() const { return buf[1]; }
-
-  Point bottomRight() const { return buf[2]; }
-
-  Point topRight() const { return buf[3]; }
-
-  PtrLen<const Point> get() const { return Range(buf); }
  };
 
 } // namespace Video
