@@ -235,7 +235,7 @@ class FieldPlotBase : public DrawBuf
 
    void plot(Point p,AlphaColor ac,unsigned alpha)
     {
-     plot_cap(p,ac.vc,(Min(ac.alpha,AlphaLim)*alpha)>>ClrBits);
+     plot_cap(p,ac.vc,(Min(ac.alpha,AlphaLim)*alpha)>>AlphaBits);
     }
  };
 
@@ -332,7 +332,7 @@ class NextLine
 
      while( +dots )
        {
-        auto d=map(*dots);
+        MPoint d=map(*dots);
 
         ++dots;
 
@@ -351,7 +351,7 @@ class NextLine
     {
      while( +dots )
        {
-        auto d=map(*dots);
+        MPoint d=map(*dots);
 
         ++dots;
 
@@ -783,8 +783,8 @@ class CurveBase : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
 
           driver->spline(a,b,a,b,a,b);
 
@@ -800,9 +800,9 @@ class CurveBase : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
 
           driver->spline(a,b,c,a,b,c);
 
@@ -822,10 +822,10 @@ class CurveBase : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
 
           driver->spline(a,b,c,d,a,b);
 
@@ -849,11 +849,11 @@ class CurveBase : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
-          auto e=map(dots[4]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
+          MPoint e=map(dots[4]);
 
           driver->spline(a,b,c,d,e,a);
 
@@ -881,12 +881,12 @@ class CurveBase : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
-          auto e=map(dots[4]);
-          auto f=map(dots[5]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
+          MPoint e=map(dots[4]);
+          MPoint f=map(dots[5]);
 
           driver->spline(a,b,c,d,e,f);
 
@@ -942,9 +942,9 @@ class CurveBase : public DotsBase
 
         case 3 :
          {
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
 
           driver.spline(a,b,c,c);
 
@@ -958,10 +958,10 @@ class CurveBase : public DotsBase
 
         default: // >=4
          {
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
 
           driver.spline(a,b,c,d);
 
@@ -998,7 +998,7 @@ class CurveBase : public DotsBase
 
         case 1 :
          {
-          auto a=map(dots[0]);
+          MPoint a=map(dots[0]);
 
           switch( Algon::BaseRangeAlgo<R>::GetLen(ext) )
             {
@@ -1010,7 +1010,7 @@ class CurveBase : public DotsBase
 
              case 1 :
               {
-               auto b=map(ext[0]);
+               MPoint b=map(ext[0]);
 
                addPoint(b);
               }
@@ -1018,8 +1018,8 @@ class CurveBase : public DotsBase
 
              case 2 :
               {
-               auto b=map(ext[0]);
-               auto c=map(ext[1]);
+               MPoint b=map(ext[0]);
+               MPoint c=map(ext[1]);
 
                driver.spline(a,b,c,c);
 
@@ -1033,9 +1033,9 @@ class CurveBase : public DotsBase
 
              default: // >=3
               {
-               auto b=map(ext[0]);
-               auto c=map(ext[1]);
-               auto d=map(ext[2]);
+               MPoint b=map(ext[0]);
+               MPoint c=map(ext[1]);
+               MPoint d=map(ext[2]);
 
                driver.spline(a,b,c,d);
 
@@ -1062,8 +1062,8 @@ class CurveBase : public DotsBase
 
         case 2 :
          {
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
 
           switch( Algon::BaseRangeAlgo<R>::GetLen(ext) )
             {
@@ -1075,7 +1075,7 @@ class CurveBase : public DotsBase
 
              case 1 :
               {
-               auto c=map(ext[0]);
+               MPoint c=map(ext[0]);
 
                driver.spline(a,b,c,c);
 
@@ -1089,8 +1089,8 @@ class CurveBase : public DotsBase
 
              default: // >=2
               {
-               auto c=map(ext[0]);
-               auto d=map(ext[1]);
+               MPoint c=map(ext[0]);
+               MPoint d=map(ext[1]);
 
                driver.spline(a,b,c,d);
 
@@ -1117,9 +1117,9 @@ class CurveBase : public DotsBase
 
         case 3 :
          {
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
 
           switch( Algon::BaseRangeAlgo<R>::GetLen(ext) )
             {
@@ -1137,7 +1137,7 @@ class CurveBase : public DotsBase
 
              default: // >=1
               {
-               auto d=map(ext[0]);
+               MPoint d=map(ext[0]);
 
                driver.spline(a,b,c,d);
 
@@ -1164,10 +1164,10 @@ class CurveBase : public DotsBase
 
         default: // >=4
          {
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
 
           driver.spline(a,b,c,d);
 
@@ -1233,9 +1233,9 @@ class CurvePath : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
 
           addPoint(a);
 
@@ -1253,10 +1253,10 @@ class CurvePath : public DotsBase
          {
           StackObject<CurveDriver> driver(MaxFineness);
 
-          auto a=map(dots[0]);
-          auto b=map(dots[1]);
-          auto c=map(dots[2]);
-          auto d=map(dots[3]);
+          MPoint a=map(dots[0]);
+          MPoint b=map(dots[1]);
+          MPoint c=map(dots[2]);
+          MPoint d=map(dots[3]);
 
           addPoint(a);
 
