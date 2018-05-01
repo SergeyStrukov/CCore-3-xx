@@ -1393,6 +1393,8 @@ class CurveBreakLoop : public CurveBase
 
 class GenDrawArt
  {
+  protected:
+
    DrawBuf buf;
 
   public:
@@ -1458,7 +1460,7 @@ class GenDrawArt
      solid_gen(loop.complete(),SolidAll,field);
     }
 
-   // half line
+   // generic half line
 
    void path_gen(MPointRangeType dots,HalfFlag half_flag,MCoord width,VColor vc)
     {

@@ -279,7 +279,7 @@ Dir Dir23=
     { "GammaTable.cpp" , Green },
     { "MPoint.cpp" , Green },
     { "SmoothAlgo.cpp" , Red },
-    { "SmoothDrawArt.cpp" , Red }
+    { "SmoothDrawArt.cpp" , Green }
    }
   };
 
