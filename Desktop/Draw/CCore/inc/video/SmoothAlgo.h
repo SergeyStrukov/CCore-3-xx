@@ -649,7 +649,7 @@ class SolidRow : NoCopy
       MCoord a = 0 ;
       MCoord b = 0 ;
 
-      static const ulen Len = 10 ;
+      static constexpr ulen Len = 10 ;
 
       TempArray<Area,Len> buf;
       ulen count = 0 ;
