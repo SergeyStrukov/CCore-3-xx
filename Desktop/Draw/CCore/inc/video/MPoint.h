@@ -248,6 +248,13 @@ inline Ratio XdivY(MPoint size) { return Div(size.x,size.y); }
 
 inline Ratio YdivX(MPoint size) { return Div(size.y,size.x); }
 
+/* AbsDist() */
+
+inline uMCoord AbsDist(MPoint a,MPoint b)
+ {
+  return Max(IntAbs(a.x,b.x),IntAbs(a.y,b.y))>>MPoint::Precision;
+ }
+
 /* Length() */
 
 DCoord Length(MCoord a,MCoord b);

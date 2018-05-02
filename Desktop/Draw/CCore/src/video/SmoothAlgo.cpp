@@ -21,11 +21,6 @@ namespace Smooth {
 
 /* class ArcDriver */
 
-uMCoord ArcDriver::Fineness(MPoint a,MPoint b)
- {
-  return Max(IntAbs(a.x,b.x),IntAbs(a.y,b.y))>>MPoint::Precision;
- }
-
 void ArcDriver::arc(MPoint a,MPoint b,MPoint c,MCoord radius,unsigned fineness)
  {
   buf[0]=a;
@@ -40,7 +35,7 @@ void ArcDriver::arc(MPoint a,MPoint b,MPoint c,MCoord radius,unsigned fineness)
      MPoint P=buf[0]-c;
      MPoint Q=buf[len1]-c;
 
-     if( Fineness(P,Q)<=fineness ) break;
+     if( AbsDist(P,Q)<=fineness ) break;
 
      DCoord R=Length(P+Q);
 

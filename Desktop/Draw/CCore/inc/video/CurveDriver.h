@@ -33,8 +33,6 @@ class CurveDriver : NoCopy
 
    static constexpr unsigned Len = Pow2(MaxLevel) ;
 
-   static uMCoord PointDist(MPoint a,MPoint b);
-
    static uMCoord Fineness(PtrStepLen<const MPoint> dots);
 
    static MCoord Spline(MCoord a,MCoord b,MCoord c,MCoord d);

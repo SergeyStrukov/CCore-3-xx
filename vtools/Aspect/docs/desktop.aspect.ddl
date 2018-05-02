@@ -44,7 +44,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "Draw",
-   Red,
+   Yellow,
    {
     &Dir8
    },
@@ -218,7 +218,7 @@ Dir Dir19=
 Dir Dir8=
   {
    "CCore",
-   Red,
+   Yellow,
    {
     &Dir20,
     &Dir21
@@ -230,7 +230,7 @@ Dir Dir8=
 Dir Dir20=
   {
    "inc",
-   Red,
+   Yellow,
    {
     &Dir22
    },
@@ -241,7 +241,7 @@ Dir Dir20=
 Dir Dir21=
   {
    "src",
-   Red,
+   Green,
    {
     &Dir23
    },
@@ -252,7 +252,7 @@ Dir Dir21=
 Dir Dir22=
   {
    "video",
-   Red,
+   Yellow,
    {
    },
    {
@@ -261,15 +261,15 @@ Dir Dir22=
     { "DrawTools.h" , Green },
     { "GammaTable.h" , Green },
     { "MPoint.h" , Green },
-    { "SmoothAlgo.h" , Red },
-    { "SmoothDrawArt.h" , Red }
+    { "SmoothAlgo.h" , Yellow },
+    { "SmoothDrawArt.h" , Yellow }
    }
   };
 
 Dir Dir23=
   {
    "video",
-   Red,
+   Green,
    {
    },
    {
@@ -278,7 +278,7 @@ Dir Dir23=
     { "DrawTools.cpp" , Green },
     { "GammaTable.cpp" , Green },
     { "MPoint.cpp" , Green },
-    { "SmoothAlgo.cpp" , Red },
+    { "SmoothAlgo.cpp" , Green },
     { "SmoothDrawArt.cpp" , Green }
    }
   };

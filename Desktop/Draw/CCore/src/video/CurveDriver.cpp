@@ -20,16 +20,11 @@ namespace Video {
 
 /* class CurveDriver */
 
-uMCoord CurveDriver::PointDist(MPoint a,MPoint b)
- {
-  return Max(IntAbs(a.x,b.x),IntAbs(a.y,b.y))>>MPoint::Precision;
- }
-
 uMCoord CurveDriver::Fineness(PtrStepLen<const MPoint> dots)
  {
   uMCoord ret=0;
 
-  for(; dots.len>1 ;++dots) Replace_max(ret,PointDist(dots[0],dots[1]));
+  for(; dots.len>1 ;++dots) Replace_max(ret,AbsDist(dots[0],dots[1]));
 
   return ret;
  }

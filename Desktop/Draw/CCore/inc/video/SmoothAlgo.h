@@ -77,7 +77,7 @@ inline MPoint Rotate90(MPoint point) { return MPoint(-point.y,point.x); } // clo
 
 /* classes */
 
-template <SIntType SInt> struct RationalType;
+template <SIntType SInt> struct Rational;
 
 class Rotate;
 
@@ -93,15 +93,15 @@ template <PlotType Plot> class SolidRow;
 
 class SolidDriver;
 
-/* struct RationalType<SInt> */
+/* struct Rational<SInt> */
 
 template <SIntType SInt>
-struct RationalType
+struct Rational
  {
   MCoord a;
   SInt b;
 
-  RationalType(MCoord a_,SInt b_) : a(a_),b(b_) { IntGuard( b!=0 ); }
+  Rational(MCoord a_,SInt b_) : a(a_),b(b_) { IntGuard( b!=0 ); }
 
   MCoord mul(MCoord x) const { return MCoord( (DCoord(a)*x)/b ); }
 
@@ -109,12 +109,6 @@ struct RationalType
 
   MPoint operator * (MPoint a) const { return MPoint(mul(a.x),mul(a.y)); }
  };
-
-/* Rational() */
-
-inline RationalType<MCoord> Rational(MCoord a,MCoord b) { return {a,b}; }
-
-inline RationalType<DCoord> Rational(MCoord a,DCoord b) { return {a,b}; }
 
 /* class Rotate */
 
@@ -151,9 +145,7 @@ class ArcDriver : NoCopy
  {
    static constexpr unsigned MaxLevel = 10 ;
 
-   static constexpr unsigned Len = (1u<<MaxLevel) ;
-
-   static uMCoord Fineness(MPoint a,MPoint b);
+   static constexpr unsigned Len = Pow2(MaxLevel) ;
 
   private:
 
@@ -166,7 +158,7 @@ class ArcDriver : NoCopy
 
    void arc(MPoint a,MPoint b,MPoint c,MCoord radius,unsigned fineness); // c center, a,b ends , angle < 180
 
-   PtrStepLen<const MPoint> getArc() const { return {buf,1u<<(MaxLevel-level),(1u<<level)+1}; }
+   PtrStepLen<const MPoint> getArc() const { return {buf,Pow2(MaxLevel-level),Pow2(level)+1}; }
  };
 
 /* struct LineRound */
