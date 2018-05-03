@@ -1060,7 +1060,7 @@ class SolidDriver : NoCopy
        MCoord xa=x_bottom;
        MCoord xb=obj->x_bottom;
 
-       auto dt=IntDist(obj->x_top,x_top);
+       uMCoord dt=IntDist(obj->x_top,x_top);
 
        for(;;)
          {
