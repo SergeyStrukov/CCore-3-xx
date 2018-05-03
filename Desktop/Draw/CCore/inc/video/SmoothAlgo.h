@@ -75,6 +75,10 @@ inline constexpr unsigned AlphaBits = 8 ;
 
 inline MPoint Rotate90(MPoint point) { return MPoint(-point.y,point.x); } // clockwise
 
+/* guard functions */
+
+void GuardHugeFigure();
+
 /* classes */
 
 template <SIntType SInt> struct Rational;
@@ -90,6 +94,8 @@ struct LineArc;
 struct SolidBox;
 
 template <PlotType Plot> class SolidRow;
+
+template <class Row> class ClipPlot;
 
 class SolidDriver;
 
@@ -408,15 +414,24 @@ inline MCoord Intersect(MPoint a,MPoint b,MCoord y)
   return Intersect(a.x,b.x,IntDist(a.y,y),IntDist(a.y,b.y));
  }
 
+/* WholeLen() */
+
+inline uMCoord WholeLen(MCoord a,MCoord b) // works fine even after the round overflow
+ {
+  uMCoord delta=uMCoord(b)-uMCoord(a);
+
+  return delta>>MPoint::Precision;
+ }
+
 /* struct SolidBox */
 
 struct SolidBox
  {
   MPoint base; // whole
-  MCoord dx;   // in whole pixels
-  MCoord dy;   // in whole pixels
+  MPoint cap;  // whole
 
-  static MCoord Len(MCoord len) { return IntRShift(len,MPoint::Precision)+1; }
+  uMCoord dx;
+  uMCoord dy;
 
   template <class R>
   SolidBox(R dots,MPointMapType<R> map)
@@ -435,17 +450,21 @@ struct SolidBox
          }
 
        base=a.round();
+       cap=b.round();
 
-       MPoint p=b.round()-base;
-
-       dx=Len(p.x);
-       dy=Len(p.y);
+       setXY();
       }
     else
       {
        dx=0;
        dy=0;
       }
+   }
+
+  void setXY()
+   {
+    dx=WholeLen(base.x,cap.x)+1;
+    dy=WholeLen(base.y,cap.y)+1;
    }
  };
 
@@ -454,13 +473,19 @@ struct SolidBox
 template <PlotType Plot>
 class SolidRow : NoCopy
  {
+   static constexpr unsigned Precision = MPoint::Precision ;
+
+   static constexpr MCoord One = MPoint::One ;
+
+   static constexpr MCoord Half = MPoint::Half ;
+
    using Area = uint32 ;
 
-   static constexpr Area FullArea = Area(1)<<(2*MPoint::Precision) ;
+   static constexpr Area FullArea = Area(1)<<(2*Precision) ;
 
    static unsigned ToAlpha(Area s)
     {
-     const unsigned Bits=2*MPoint::Precision-AlphaBits;
+     const unsigned Bits=2*Precision-AlphaBits;
      const Area Half = Area(1)<<(Bits-1) ;
 
      return (s+Half)>>Bits;
@@ -468,42 +493,42 @@ class SolidRow : NoCopy
 
    static Area PixelArea(MCoord c,MCoord e)
     {
-     if( c>=MPoint::Half ) return 0;
+     if( c>=Half ) return 0;
 
-     if( e<=-MPoint::Half ) return FullArea;
+     if( e<=-Half ) return FullArea;
 
-     if( c>=-MPoint::Half )
+     if( c>=-Half )
        {
-        if( e>MPoint::Half )
+        if( e>Half )
           {
-           Area E=Area(e-MPoint::Half);
-           Area C=Area(MPoint::Half-c);
+           Area E=Area(e-Half);
+           Area C=Area(Half-c);
 
-           return (C*((C<<MPoint::Precision)/(C+E)))/2;
+           return (C*((C<<Precision)/(C+E)))/2;
           }
         else
           {
-           Area H=Area(MPoint::Half-(e+c)/2);
+           Area H=Area(Half-(e+c)/2);
 
-           return H<<MPoint::Precision;
+           return H<<Precision;
           }
        }
      else
        {
-        if( e>MPoint::Half )
+        if( e>Half )
           {
            Area C=Area(-c);
            Area E=Area(e);
-           Area H=(C<<MPoint::Precision)/(C+E);
+           Area H=(C<<Precision)/(C+E);
 
-           return H<<MPoint::Precision;
+           return H<<Precision;
           }
         else
           {
-           Area E=Area(e+MPoint::Half);
-           Area C=Area(-MPoint::Half-c);
+           Area E=Area(e+Half);
+           Area C=Area(-Half-c);
 
-           return FullArea-(E*((E<<MPoint::Precision)/(C+E)))/2;
+           return FullArea-(E*((E<<Precision)/(C+E)))/2;
           }
        }
     }
@@ -515,7 +540,7 @@ class SolidRow : NoCopy
 
    static Area PixelArea(MCoord H,MCoord c,MCoord e,MCoord d,MCoord f,MCoord x)
     {
-     return (PixelArea(c,e,d,f,x)*Area(H))>>MPoint::Precision;
+     return (PixelArea(c,e,d,f,x)*Area(H))>>Precision;
     }
 
    class Part : NoCopy
@@ -555,20 +580,20 @@ class SolidRow : NoCopy
        {
         if( x<base.x ) return;
 
-        ulen ind=(ulen)IntRShift(x-base.x,MPoint::Precision);
+        ulen ind=WholeLen(base.x,x);
 
         add(ind,s);
        }
 
      public:
 
-      explicit Part(SolidBox box) : base(box.base),line(box.dx) {}
+      explicit Part(const SolidBox &box) : base(box.base),line(box.dx) {}
 
       void start(MCoord y)
        {
         base.y=y;
-        a=y-MPoint::Half;
-        b=y+MPoint::Half;
+        a=y-Half;
+        b=y+Half;
 
         off=0;
         lim=0;
@@ -616,30 +641,30 @@ class SolidRow : NoCopy
         if( d>f ) Swap(d,f);
 
         MCoord x=MPoint::Round(c);
-        MCoord x1=MPoint::Round(e+MPoint::One-1);
+        MCoord x1=MPoint::Round(e+One-1);
 
         MCoord x2=MPoint::Round(d);
-        MCoord x3=MPoint::Round(f+MPoint::One-1);
+        MCoord x3=MPoint::Round(f+One-1);
 
         MCoord H=B-A;
-        Area S=Area(H)<<MPoint::Precision;
+        Area S=Area(H)<<Precision;
 
-        for(; x<x1 ;x+=MPoint::One) pixel(x,PixelArea(H,c,e,d,f,x));
+        for(; x<x1 ;x+=One) pixel(x,PixelArea(H,c,e,d,f,x));
 
-        for(; x<x2 ;x+=MPoint::One) pixel(x,S);
+        for(; x<x2 ;x+=One) pixel(x,S);
 
-        for(; x<x3 ;x+=MPoint::One) pixel(x,PixelArea(H,c,e,d,f,x));
+        for(; x<x3 ;x+=One) pixel(x,PixelArea(H,c,e,d,f,x));
        }
 
       void complete(Plot &plot)
        {
-        auto *ptr=line.getPtr()+off;
+        Area *ptr=line.getPtr()+off;
 
         MPoint p=base;
 
-        p.x+=MCoord(off)*MPoint::One;
+        p.x+=MCoord(off)*One;
 
-        for(ulen cnt=lim-off; cnt ;cnt--,ptr++,p.x+=MPoint::One) plot(p,ToAlpha(*ptr));
+        for(ulen cnt=lim-off; cnt ;cnt--,ptr++,p.x+=One) plot(p,ToAlpha(*ptr));
        }
     };
 
@@ -674,7 +699,7 @@ class SolidRow : NoCopy
           {
            if( x<base.x ) return;
 
-           ulen delta=(ulen)IntRShift(x-base.x,MPoint::Precision);
+           ulen delta=WholeLen(base.x,x);
 
            if( delta>=count )
              {
@@ -690,14 +715,14 @@ class SolidRow : NoCopy
                  {
                   plot(base,ToAlpha(s));
 
-                  base.x+=MPoint::One;
+                  base.x+=One;
                  }
               }
 
               count-=delta;
 
               {
-               auto *ptr=buf.getPtr();
+               Area *ptr=buf.getPtr();
 
                for(ulen i=0,len=count; i<len ;i++) ptr[i]=ptr[i+delta];
               }
@@ -736,7 +761,7 @@ class SolidRow : NoCopy
           {
            if( x<base.x ) return;
 
-           ulen ind=(ulen)IntRShift(x-base.x,MPoint::Precision);
+           ulen ind=WholeLen(base.x,x);
 
            add(ind,s);
           }
@@ -760,8 +785,8 @@ class SolidRow : NoCopy
       void start(MCoord y)
        {
         base.y=y;
-        a=y-MPoint::Half;
-        b=y+MPoint::Half;
+        a=y-Half;
+        b=y+Half;
 
         count=0;
        }
@@ -777,23 +802,23 @@ class SolidRow : NoCopy
         if( d>f ) Swap(d,f);
 
         MCoord x=MPoint::Round(c);
-        MCoord x1=MPoint::Round(e+MPoint::One-1);
+        MCoord x1=MPoint::Round(e+One-1);
 
         MCoord x2=MPoint::Round(d);
-        MCoord x3=MPoint::Round(f+MPoint::One-1);
+        MCoord x3=MPoint::Round(f+One-1);
 
         push(x,plot);
 
-        for(; x<x1 ;x+=MPoint::One) pixel(x,PixelArea(c,e,d,f,x));
+        for(; x<x1 ;x+=One) pixel(x,PixelArea(c,e,d,f,x));
 
         if( x<x2 )
           {
            complete(plot);
 
-           for(; x<x2 ;x+=MPoint::One) pixel(x,plot);
+           for(; x<x2 ;x+=One) pixel(x,plot);
           }
 
-        for(; x<x3 ;x+=MPoint::One) pixel(x,PixelArea(c,e,d,f,x));
+        for(; x<x3 ;x+=One) pixel(x,PixelArea(c,e,d,f,x));
        }
 
       void complete(Plot &plot)
@@ -804,7 +829,7 @@ class SolidRow : NoCopy
              {
               plot(base,ToAlpha(s));
 
-              base.x+=MPoint::One;
+              base.x+=One;
              }
 
            count=0;
@@ -822,8 +847,10 @@ class SolidRow : NoCopy
 
    Part *bottom_part;
    Part *top_part;
+
    StackArray<Full> fulls;
    ulen count = 0 ;
+
    bool top_on = false ;
    bool bottom_on = false ;
 
@@ -843,14 +870,14 @@ class SolidRow : NoCopy
           {
            f.start(y);
 
-           y+=MPoint::One;
+           y+=One;
           }
        }
     }
 
   public:
 
-   SolidRow(SolidBox box,const PlotType &plot_)
+   SolidRow(const SolidBox &box,const Plot &plot_)
     : part1(box),
       part2(box),
       fulls(box.dy),
@@ -868,13 +895,13 @@ class SolidRow : NoCopy
      MCoord a=MPoint::Round(bottom_);
      MCoord b=MPoint::Round(top_);
 
-     if( bottom_==a-MPoint::Half )
+     if( bottom_==a-Half )
        {
         bottom_on=false;
 
-        count=IntRShift(b-a,MPoint::Precision);
+        count=WholeLen(a,b);
 
-        if( top_==b-MPoint::Half )
+        if( top_==b-Half )
           {
            top_on=false;
           }
@@ -889,9 +916,9 @@ class SolidRow : NoCopy
        }
      else
        {
-        if( top_==b-MPoint::Half )
+        if( top_==b-Half )
           {
-           count=IntRShift(b-a,MPoint::Precision)-1;
+           count=WholeLen(a,b)-1;
 
            bottom_on=true;
 
@@ -938,11 +965,11 @@ class SolidRow : NoCopy
 
               bottom_on=true;
 
-              count=IntRShift(b-a,MPoint::Precision)-1;
+              count=WholeLen(a,b)-1;
              }
           }
 
-        startFulls(a+MPoint::One);
+        startFulls(a+One);
        }
     }
 
@@ -965,6 +992,33 @@ class SolidRow : NoCopy
    void complete()
     {
      if( top_on ) top_part->complete(plot);
+    }
+ };
+
+/* class ClipPlot<Row> */
+
+template <class Row>
+class ClipPlot : NoCopy
+ {
+   Row &row;
+
+  public:
+
+   explicit ClipPlot(Row &row_) : row(row_) {}
+
+   void start(MCoord bottom,MCoord top)
+    {
+     row.start(bottom,top);
+    }
+
+   void next(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
+    {
+     row.next(bottom_start,bottom_end,top_start,top_end);
+    }
+
+   void end()
+    {
+     row.end();
     }
  };
 
@@ -1095,7 +1149,7 @@ class SolidDriver : NoCopy
 
   private:
 
-   void substep(MCoord bottom,MCoord top,PtrLen<Line *> set,SolidFlag solid_flag,AnyType &row)
+   void substep(MCoord bottom,MCoord top,PtrLen<Line *> set,SolidFlag solid_flag,auto &row)
     {
      row.start(bottom,top);
 
@@ -1133,7 +1187,7 @@ class SolidDriver : NoCopy
      for(Line *line : set ) line->copyX();
     }
 
-   void step(MCoord bottom,MCoord top,PtrLen<Line *> set,SolidFlag solid_flag,AnyType &row)
+   void step(MCoord bottom,MCoord top,PtrLen<Line *> set,SolidFlag solid_flag,auto &row)
     {
      for(Line *line : set ) line->setTop(top);
 
@@ -1221,7 +1275,8 @@ class SolidDriver : NoCopy
     {
      if( !dot_count ) return;
 
-     SolidRow<Plot> row(box,plot);
+     SolidRow row(box,plot);
+     ClipPlot clip(row);
 
      ulen off=0;
      ulen lim=0;
@@ -1260,7 +1315,7 @@ class SolidDriver : NoCopy
 
         // [off,lim) : bottom < s && top >= s
 
-        step(bottom,top,Range(lines).part(off,lim-off),solid_flag,row);
+        step(bottom,top,Range(lines).part(off,lim-off),solid_flag,clip);
 
         bottom=top;
        }
