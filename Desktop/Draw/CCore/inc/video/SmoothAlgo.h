@@ -91,6 +91,8 @@ struct LineRound;
 
 struct LineArc;
 
+struct ClipPane;
+
 struct SolidBox;
 
 template <PlotType Plot> class SolidRow;
@@ -423,6 +425,14 @@ inline uMCoord WholeLen(MCoord a,MCoord b) // works fine even after the round ov
   return delta>>MPoint::Precision;
  }
 
+/* struct ClipPane */
+
+struct ClipPane
+ {
+  MPoint base; // whole
+  MPoint cap;  // whole
+ };
+
 /* struct SolidBox */
 
 struct SolidBox
@@ -460,6 +470,26 @@ struct SolidBox
        dy=0;
       }
    }
+
+  SolidBox(const SolidBox &box,const ClipPane &clip)
+   {
+    base=Sup(box.base,clip.base);
+    cap=Inf(box.cap,clip.cap);
+
+    if( base<=cap )
+      {
+       setXY();
+      }
+    else
+      {
+       dx=0;
+       dy=0;
+      }
+   }
+
+  bool operator + () const { return base<=cap; }
+
+  bool operator ! () const { return !(base<=cap); }
 
   void setXY()
    {
