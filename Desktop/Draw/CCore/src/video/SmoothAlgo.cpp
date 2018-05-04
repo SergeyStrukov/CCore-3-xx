@@ -15,18 +15,9 @@
 
 #include <CCore/inc/video/SmoothAlgo.h>
 
-#include <CCore/inc/Exception.h>
-
 namespace CCore {
 namespace Video {
 namespace Smooth {
-
-/* guard functions */
-
-void GuardHugeFigure()
- {
-  Printf(Exception,"CCore::Video::Smooth::SolidBox::SolidBox(...) : huge figure");
- }
 
 /* class ArcDriver */
 

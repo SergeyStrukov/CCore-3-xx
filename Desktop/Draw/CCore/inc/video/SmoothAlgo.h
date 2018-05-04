@@ -58,6 +58,8 @@ concept bool MPointMapType = requires(R &obj,Map &map,ulen ind)
 template <NothrowCopyCtorType Plot>
 concept bool PlotType = requires(Plot &obj,MPoint p,unsigned alpha)
  {
+  { obj.getClip() } -> Pane ;
+
   obj(p);
 
   obj(p,alpha);
@@ -74,10 +76,6 @@ inline constexpr unsigned AlphaBits = 8 ;
 /* functions */
 
 inline MPoint Rotate90(MPoint point) { return MPoint(-point.y,point.x); } // clockwise
-
-/* guard functions */
-
-void GuardHugeFigure();
 
 /* classes */
 
@@ -431,6 +429,14 @@ struct ClipPane
  {
   MPoint base; // whole
   MPoint cap;  // whole
+
+  explicit ClipPane(Pane clip)
+   {
+    base=clip.getBase();
+    cap=clip.getLim().subXY(1);
+   }
+
+  ClipPane(MPoint base_,MPoint cap_) : base(base_),cap(cap_) {}
  };
 
 /* struct SolidBox */
@@ -490,6 +496,8 @@ struct SolidBox
   bool operator + () const { return base<=cap; }
 
   bool operator ! () const { return !(base<=cap); }
+
+  ClipPane getClip() const { return {base,cap}; }
 
   void setXY()
    {
@@ -812,6 +820,11 @@ class SolidRow : NoCopy
 
       ~Full() {}
 
+      void prepare(const SolidBox &box)
+       {
+        Used(box);
+       }
+
       void start(MCoord y)
        {
         base.y=y;
@@ -915,6 +928,8 @@ class SolidRow : NoCopy
     {
      bottom_part=&part1;
      top_part=&part2;
+
+     for(Full &f : fulls ) f.prepare(box);
     }
 
    void start(MCoord bottom_,MCoord top_)
@@ -1032,23 +1047,176 @@ class ClipPlot : NoCopy
  {
    Row &row;
 
-  public:
+   MCoord bottom;
+   MCoord top;
+   MCoord left;
+   MCoord right;
 
-   explicit ClipPlot(Row &row_) : row(row_) {}
-
-   void start(MCoord bottom,MCoord top)
+   enum ClipType
     {
-     row.start(bottom,top);
+     Ignore,
+
+     ClipBottom,
+     ClipTop,
+     ClipBoth,
+     Pass
+    };
+
+   ClipType type = Ignore ;
+
+   MCoord row_bottom;
+   MCoord row_top;
+
+  private:
+
+   MCoord clipBottom(MCoord a,MCoord b) const
+    {
+     return Intersect(MPoint(a,row_bottom),MPoint(b,row_top),bottom);
     }
 
-   void next(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
+   MCoord clipTop(MCoord a,MCoord b) const
+    {
+     return Intersect(MPoint(a,row_bottom),MPoint(b,row_top),top);
+    }
+
+   void next3(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
     {
      row.next(bottom_start,bottom_end,top_start,top_end);
     }
 
+   void next2(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
+    {
+     if( bottom_start>=right && top_start>=right ) return;
+
+     if( bottom_start<=right && top_start<=right && bottom_end>=right && top_end>=right )
+       {
+        next3(bottom_start,right,top_start,right);
+       }
+     else
+       {
+        next3(bottom_start,bottom_end,top_start,top_end);
+       }
+    }
+
+   void next1(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
+    {
+     if( bottom_end<=left && top_end<=left ) return;
+
+     if( bottom_start<=left && top_start<=left && left<=bottom_end && left<=top_end )
+       {
+        next2(left,bottom_end,left,top_end);
+       }
+     else
+       {
+        next2(bottom_start,bottom_end,top_start,top_end);
+       }
+    }
+
+  public:
+
+   explicit ClipPlot(Row &row_,const ClipPane &clip)
+    : row(row_)
+    {
+     bottom=clip.base.y-MPoint::Half;
+     top=clip.cap.y+MPoint::Half;
+     left=clip.base.x-MPoint::Half;
+     right=clip.cap.x+MPoint::Half;
+    }
+
+   void start(MCoord row_bottom_,MCoord row_top_)
+    {
+     if( row_bottom_>=top || row_top_<=bottom )
+       {
+        type=Ignore;
+
+        return;
+       }
+
+     if( row_bottom_>=bottom )
+       {
+        if( row_top_<=top )
+          {
+           type=Pass;
+
+           row.start(row_bottom_,row_top_);
+          }
+        else
+          {
+           type=ClipTop;
+
+           row_top=row_top_;
+           row_bottom=row_bottom_;
+
+           row.start(row_bottom_,top);
+          }
+       }
+     else
+       {
+        if( row_top_<=top )
+          {
+           type=ClipBottom;
+
+           row_top=row_top_;
+           row_bottom=row_bottom_;
+
+           row.start(bottom,row_top_);
+          }
+        else
+          {
+           type=ClipBoth;
+
+           row_bottom=row_bottom_;
+           row_top=row_top_;
+
+           row.start(bottom,top);
+          }
+       }
+    }
+
+   void next(MCoord bottom_start,MCoord bottom_end,MCoord top_start,MCoord top_end)
+    {
+     switch( type )
+       {
+        case ClipBottom :
+         {
+          MCoord bottom_start_=clipBottom(bottom_start,top_start);
+          MCoord bottom_end_=clipBottom(bottom_end,top_end);
+
+          next1(bottom_start_,bottom_end_,top_start,top_end);
+         }
+        break;
+
+        case ClipTop :
+         {
+          MCoord top_start_=clipTop(bottom_start,top_start);
+          MCoord top_end_=clipTop(bottom_end,top_end);
+
+          next1(bottom_start,bottom_end,top_start_,top_end_);
+         }
+        break;
+
+        case ClipBoth :
+         {
+          MCoord bottom_start_=clipBottom(bottom_start,top_start);
+          MCoord bottom_end_=clipBottom(bottom_end,top_end);
+          MCoord top_start_=clipTop(bottom_start,top_start);
+          MCoord top_end_=clipTop(bottom_end,top_end);
+
+          next1(bottom_start_,bottom_end_,top_start_,top_end_);
+         }
+        break;
+
+        case Pass :
+         {
+          next1(bottom_start,bottom_end,top_start,top_end);
+         }
+        break;
+       }
+    }
+
    void end()
     {
-     row.end();
+     if( type!=Ignore ) row.end();
     }
  };
 
@@ -1265,7 +1433,7 @@ class SolidDriver : NoCopy
       lines(dot_count),
       box(dots,map)
     {
-     if( !dot_count ) return;
+     if( !dot_count || !box ) return;
 
      for(ulen i=0; i<dot_count ;i++)
        {
@@ -1303,10 +1471,19 @@ class SolidDriver : NoCopy
    template <PlotType Plot>
    void operator () (SolidFlag solid_flag,const Plot &plot)
     {
-     if( !dot_count ) return;
+     if( !dot_count || !box ) return;
 
-     SolidRow row(box,plot);
-     ClipPlot clip(row);
+     Pane pclip=plot.getClip();
+
+     if( !pclip ) return;
+
+     ClipPane clip(pclip);
+     SolidBox cbox(box,clip);
+
+     if( !cbox ) return;
+
+     SolidRow row(cbox,plot);
+     ClipPlot clipper(row,cbox.getClip());
 
      ulen off=0;
      ulen lim=0;
@@ -1345,7 +1522,7 @@ class SolidDriver : NoCopy
 
         // [off,lim) : bottom < s && top >= s
 
-        step(bottom,top,Range(lines).part(off,lim-off),solid_flag,clip);
+        step(bottom,top,Range(lines).part(off,lim-off),solid_flag,clipper);
 
         bottom=top;
        }

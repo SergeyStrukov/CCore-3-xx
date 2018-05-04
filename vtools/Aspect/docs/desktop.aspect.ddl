@@ -262,7 +262,7 @@ Dir Dir22=
     { "GammaTable.h" , Green },
     { "MPoint.h" , Green },
     { "SmoothAlgo.h" , Yellow },
-    { "SmoothDrawArt.h" , Yellow }
+    { "SmoothDrawArt.h" , Green }
    }
   };
 

@@ -49,6 +49,8 @@ class DrawBuf
 
    bool operator ! () const { return !buf; }
 
+   Pane getClip() const { return Pane(-origin,buf.dX(),buf.dY()); }
+
    const FrameBuf<DesktopColor> & getFrameBuf() const { return buf; }
 
    FrameBuf<DesktopColor> & getFrameBuf() { return buf; }

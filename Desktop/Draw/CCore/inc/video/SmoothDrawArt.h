@@ -276,6 +276,8 @@ class FieldPlot : FieldPlotBase
 
    FieldPlot(const DrawBuf &buf_,const Field &field_) : FieldPlotBase(buf_),field(field_) { size=buf.getSize(); }
 
+   using DrawBuf::getClip;
+
    void operator () (MPoint point)
     {
      MPoint biased=map(point).addXY(MPoint::Half);
