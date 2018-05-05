@@ -39,7 +39,7 @@ class BlankWindow : public SubWindow
 
    // methods
 
-   Point getMinSize() const { return Point(10,10); }
+   Point getMinSize() const { return {10,10}; }
 
    // drawing
 

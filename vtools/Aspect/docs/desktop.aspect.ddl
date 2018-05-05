@@ -414,9 +414,9 @@ Dir Dir32=
    {
    },
    {
-    { "Window.Blank.h" , Red },
-    { "Shape.Button.h" , Red },
-    { "Window.Button.h" , Red },
+    { "Window.Blank.h" , Green },
+    { "Shape.Button.h" , Green },
+    { "Window.Button.h" , Green },
     { "Shape.Check.h" , Red },
     { "Window.Check.h" , Red },
     { "Shape.Contour.h" , Red },
@@ -517,9 +517,9 @@ Dir Dir34=
    {
    },
    {
-    { "Window.Blank.cpp" , Red },
-    { "Shape.Button.cpp" , Red },
-    { "Window.Button.cpp" , Red },
+    { "Window.Blank.cpp" , Green },
+    { "Shape.Button.cpp" , Green },
+    { "Window.Button.cpp" , Green },
     { "Shape.Check.cpp" , Red },
     { "Window.Check.cpp" , Red },
     { "Shape.Contour.cpp" , Red },
