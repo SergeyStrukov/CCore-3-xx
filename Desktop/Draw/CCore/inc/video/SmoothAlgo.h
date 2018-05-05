@@ -708,6 +708,9 @@ class SolidRow : NoCopy
 
    class Full : NoCopy
     {
+      MCoord min_x;
+      MCoord max_x;
+
       MPoint base;
       MCoord a = 0 ;
       MCoord b = 0 ;
@@ -795,6 +798,8 @@ class SolidRow : NoCopy
 
       void pixel(MCoord x,Area s)
        {
+        if( x<min_x || x>max_x ) return;
+
         if( count )
           {
            if( x<base.x ) return;
@@ -822,7 +827,8 @@ class SolidRow : NoCopy
 
       void prepare(const SolidBox &box)
        {
-        Used(box);
+        min_x=box.base.x;
+        max_x=box.cap.x;
        }
 
       void start(MCoord y)

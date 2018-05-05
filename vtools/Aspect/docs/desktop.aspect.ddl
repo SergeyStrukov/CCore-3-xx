@@ -44,7 +44,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "Draw",
-   Yellow,
+   Green,
    {
     &Dir8
    },
@@ -218,7 +218,7 @@ Dir Dir19=
 Dir Dir8=
   {
    "CCore",
-   Yellow,
+   Green,
    {
     &Dir20,
     &Dir21
@@ -230,7 +230,7 @@ Dir Dir8=
 Dir Dir20=
   {
    "inc",
-   Yellow,
+   Green,
    {
     &Dir22
    },
@@ -252,7 +252,7 @@ Dir Dir21=
 Dir Dir22=
   {
    "video",
-   Yellow,
+   Green,
    {
    },
    {
@@ -261,7 +261,7 @@ Dir Dir22=
     { "DrawTools.h" , Green },
     { "GammaTable.h" , Green },
     { "MPoint.h" , Green },
-    { "SmoothAlgo.h" , Yellow },
+    { "SmoothAlgo.h" , Green },
     { "SmoothDrawArt.h" , Green }
    }
   };
