@@ -498,8 +498,7 @@ struct PoorFlagCtor<T,true>
 template <class T>
 struct PoorFlagCtor<T,false>
  {
-  [[deprecated("poor object flag value")]]
-  static constexpr bool Warning() { return false; }
+  static constexpr bool Warning(int unused=0) { return false; }
 
   enum RetType { Ret = Warning() };
  };

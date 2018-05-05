@@ -187,7 +187,7 @@ struct PacketFormat
 
     CutResult(PtrLen<T> range_,LenStatus status_) : range(range_),status(status_) {}
 
-    LenStatus operator ! () const { return status==Len_too_short; }
+    bool operator ! () const { return status==Len_too_short; }
    };
 
   template <class T>

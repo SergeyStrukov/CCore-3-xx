@@ -75,7 +75,7 @@ class IncrementalNode;
 
 class IncrementalDriver;
 
-template <class T,StepBuilderType<T> Step> class IncrementalBuilder;
+template <class T,class Step> class IncrementalBuilder;
 
 /* class IncrementalNode */
 
@@ -151,7 +151,7 @@ class Step
 
 #endif
 
-template <class T,StepBuilderType<T> Step>
+template <class T,class Step>
 class IncrementalBuilder : IncrementalNode
  {
    IncrementalProgress &progress;
@@ -177,7 +177,7 @@ class IncrementalBuilder : IncrementalNode
 
   public:
 
-   explicit IncrementalBuilder(IncrementalProgress &progress);
+   explicit IncrementalBuilder(IncrementalProgress &progress) requires ( StepBuilderType<Step,T> ) ;
 
    ~IncrementalBuilder();
 
@@ -193,19 +193,19 @@ class IncrementalBuilder : IncrementalNode
    Signal<bool> completed; // ok
  };
 
-template <class T,StepBuilderType<T> Step>
-IncrementalBuilder<T,Step>::IncrementalBuilder(IncrementalProgress &progress_)
+template <class T,class Step>
+IncrementalBuilder<T,Step>::IncrementalBuilder(IncrementalProgress &progress_) requires ( StepBuilderType<Step,T> )
  : progress(progress_)
  {
  }
 
-template <class T,StepBuilderType<T> Step>
+template <class T,class Step>
 IncrementalBuilder<T,Step>::~IncrementalBuilder()
  {
   cancel();
  }
 
-template <class T,StepBuilderType<T> Step>
+template <class T,class Step>
 template <class ... SS>
 void IncrementalBuilder<T,Step>::start(T &obj_,SS && ... ss)
  {
@@ -258,7 +258,7 @@ void IncrementalBuilder<T,Step>::start(T &obj_,SS && ... ss)
   obj=&obj_;
  }
 
-template <class T,StepBuilderType<T> Step>
+template <class T,class Step>
 void IncrementalBuilder<T,Step>::step(TimeScope time_scope)
  {
   if( !obj ) return;
@@ -286,7 +286,7 @@ void IncrementalBuilder<T,Step>::step(TimeScope time_scope)
     }
  }
 
-template <class T,StepBuilderType<T> Step>
+template <class T,class Step>
 void IncrementalBuilder<T,Step>::cancel() noexcept
  {
   if( obj )

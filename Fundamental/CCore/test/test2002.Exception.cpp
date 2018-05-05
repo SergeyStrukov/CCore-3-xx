@@ -97,7 +97,7 @@ bool Testit<2002>::Main()
     {
      GuardNoMem(1000);
     }
-  catch(std::bad_alloc)
+  catch(std::bad_alloc &)
     {
      Printf(Con,"catch bad_alloc\n\n");
     }
@@ -114,7 +114,7 @@ bool Testit<2002>::Main()
     {
      Printf(Con,"catch\n\n");
     }
-  catch(std::bad_alloc)
+  catch(std::bad_alloc &)
     {
      Printf(Con,"catch bad_alloc\n\n");
     }
