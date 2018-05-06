@@ -38,7 +38,7 @@ Point ButtonShape::getMinSize() const
   Coord dx=RoundUpLen(ex);
   Coord dy=RoundUpLen(width);
 
-  return 2*Point(dx,dy)+Point(ts.full_dx,ts.dy)+(+cfg.space);
+  return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
 void ButtonShape::draw(const DrawBuf &buf) const

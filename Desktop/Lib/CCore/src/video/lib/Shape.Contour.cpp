@@ -33,7 +33,7 @@ Point ContourShape::getMinSize(Point inner_size) const
  {
   Coord dxy=cfg.width.get().roundUp();
 
-  return inner_size.addXY(+(2*dxy));
+  return inner_size.addXY(2*dxy);
  }
 
 Pane ContourShape::getInner() const
@@ -47,7 +47,7 @@ Point ContourShape::getDelta() const
  {
   Coord dxy=cfg.width.get().roundUp();
 
-  return 2*Point::Diag(dxy);
+  return Point::Diag(2*dxy);
  }
 
 void ContourShape::draw(const DrawBuf &buf) const
@@ -77,7 +77,7 @@ Point TextContourShape::getMinSize() const
 
   Coord dxy=cfg.width.get().roundUp();
 
-  return 2*Point(ts.dy,dxy)+Point(ts.full_dx,ts.dy);
+  return Point(2*ts.dy+ts.full_dx,2*dxy+ts.dy);
  }
 
 Point TextContourShape::getMinSize(Point inner_size) const
@@ -86,7 +86,7 @@ Point TextContourShape::getMinSize(Point inner_size) const
 
   Coord dxy=cfg.width.get().roundUp();
 
-  return Sup( Point(dxy,dxy)+Point(dxy,ts.dy)+inner_size , 2*Point(ts.dy,dxy)+Point(ts.full_dx,ts.dy) );
+  return Sup( Point(2*dxy,dxy+ts.dy)+inner_size , Point(2*ts.dy+ts.full_dx,2*dxy+ts.dy) );
  }
 
 Pane TextContourShape::getInner() const
@@ -94,8 +94,6 @@ Pane TextContourShape::getInner() const
   FontSize fs=cfg.font->getSize();
 
   Coord dxy=cfg.width.get().roundUp();
-
-  if( dxy>=pane.dx-dxy || fs.dy>=pane.dy-dxy ) return Empty;
 
   return Pane(pane.x+dxy,pane.y+fs.dy,pane.dx-2*dxy,pane.dy-fs.dy-dxy);
  }
@@ -106,7 +104,7 @@ Point TextContourShape::getDelta() const
 
   Coord dxy=cfg.width.get().roundUp();
 
-  return Point::Diag(dxy)+Point(dxy,fs.dy);
+  return Point(2*dxy,dxy+fs.dy);
  }
 
 void TextContourShape::draw(const DrawBuf &buf) const

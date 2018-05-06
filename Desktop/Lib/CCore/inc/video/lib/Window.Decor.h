@@ -55,7 +55,7 @@ class DecorWindowOf : public SubWindow
 
    Point getMinSize(Point inner_size) const { return shape.getMinSize(inner_size); }
 
-   Pane getInner() const { return shape.getInner()+getPlace().getBase(); }
+   Pane getInner() const { return shape.getInner()+getPlace().getBase(); } // owner coordinates
 
    Point getCap(Point cap) const { return shape.getCap(cap); }
 
