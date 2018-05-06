@@ -43,7 +43,7 @@ Point TextShape::getMinSize(StrLen text) const
   Coord dx=RoundUpLen(ex);
   Coord dy=RoundUpLen(width);
 
-  return 2*Point(dx,dy)+Point(ts.full_dx,ts.dy)+(+cfg.space);
+  return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
 void TextShape::draw(const DrawBuf &buf) const
@@ -54,7 +54,7 @@ void TextShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  Font font=cfg.font.get();
+  const Font &font=cfg.font.get();
 
   // figure
 

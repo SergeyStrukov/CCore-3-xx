@@ -24,7 +24,7 @@ Point LabelShape::getMinSize() const
  {
   TextSize ts=cfg.font->text(text.str());
 
-  return Point(ts.full_dx,ts.dy).addXY(2);
+  return ts.getSize().addXY(2);
  }
 
 void LabelShape::draw(const DrawBuf &buf) const
