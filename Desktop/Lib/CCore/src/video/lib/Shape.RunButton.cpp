@@ -75,7 +75,7 @@ void RunButtonShape::draw(const DrawBuf &buf) const
 
   if( on )
     {
-     MCoord x=Position(pos+1,+cfg.steps+1,p.x,p.ex);
+     MCoord x=Position(pos+1,(+cfg.steps)+1,p.x,p.ex);
 
      fig.curveSolid(art,RadioField({x,p.y+p.dy/3},p.dy,+cfg.snow,+cfg.run));
     }
