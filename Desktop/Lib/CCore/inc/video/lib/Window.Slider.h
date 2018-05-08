@@ -95,6 +95,17 @@ class SliderWindowOf : public SubWindow
      if( Change(shape.mover,false) ) redraw();
     }
 
+   static unsigned Round10(unsigned pos,unsigned cap)
+    {
+     if( cap<10 ) return pos;
+
+     unsigned p=(20*pos)/cap;
+
+     p=(p+1)/2;
+
+     return (p*cap)/10;
+    }
+
   public:
 
    using ShapeType = Shape ;
@@ -254,6 +265,12 @@ class SliderWindowOf : public SubWindow
           subPos(shape.cap/10);
          }
         break;
+
+        case VKey_Insert :
+         {
+          movePos(Round10(shape.pos,shape.cap));
+         }
+        break;
        }
     }
 
@@ -298,17 +315,23 @@ class SliderWindowOf : public SubWindow
      outside();
     }
 
-   void react_Wheel(Point,MouseKey,Coord delta)
+   void react_Wheel(Point,MouseKey mkey,Coord delta)
     {
      if( !shape.enable ) return;
 
      if( delta>0 )
        {
-        addPos(IntAbs(delta));
+        if( mkey&MouseKey_Shift )
+          addPos(10*IntAbs(delta));
+        else
+          addPos(IntAbs(delta));
        }
      else
        {
-        subPos(IntAbs(delta));
+        if( mkey&MouseKey_Shift )
+          subPos(10*IntAbs(delta));
+        else
+          subPos(IntAbs(delta));
        }
     }
 

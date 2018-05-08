@@ -446,10 +446,10 @@ Dir Dir32=
     { "Window.ScrollList.h" , Red },
     { "Shape.SimpleTextList.h" , Red },
     { "Window.SimpleTextList.h" , Red },
-    { "Shape.Slider.h" , Red },
-    { "Window.Slider.h" , Red },
-    { "Shape.Spinor.h" , Red },
-    { "Window.Spinor.h" , Red },
+    { "Shape.Slider.h" , Green },
+    { "Window.Slider.h" , Green },
+    { "Shape.Spinor.h" , Green },
+    { "Window.Spinor.h" , Green },
     { "Shape.Split.h" , Green },
     { "Window.Split.h" , Green },
     { "Shape.Switch.h" , Green },
@@ -549,9 +549,9 @@ Dir Dir34=
     { "Window.ScrollList.cpp" , Red },
     { "Shape.SimpleTextList.cpp" , Red },
     { "Window.SimpleTextList.cpp" , Red },
-    { "Shape.Slider.cpp" , Red },
+    { "Shape.Slider.cpp" , Green },
     { "Window.Slider.cpp" , Green },
-    { "Shape.Spinor.cpp" , Red },
+    { "Shape.Spinor.cpp" , Green },
     { "Window.Spinor.cpp" , Green },
     { "Shape.Split.cpp" , Green },
     { "Window.Split.cpp" , Green },
@@ -559,7 +559,7 @@ Dir Dir34=
     { "Shape.Text.cpp" , Green },
     { "Window.Text.cpp" , Green },
     { "Shape.TextLine.cpp" , Red },
-    { "Window.TextLine.cpp" , Red }
+    { "Window.TextLine.cpp" , Green }
    }
   };
 

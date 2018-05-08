@@ -31,7 +31,7 @@ Point SpinorShape::getInnerSize(int val) const
 
   TextSize ts=cfg.font->text(out.close());
 
-  return Point(ts.full_dx,ts.dy);
+  return ts.getSize();
  }
 
 Point SpinorShape::getMinSize() const
