@@ -436,7 +436,7 @@ void ColorEditWindow::draw(DrawBuf buf,bool) const
      {
       MPoint pos(box_mix.getBase()+box_mix.getSize()/2);
 
-      MCoord radius2=Div(1,3)*+Fraction(mix_width);
+      MCoord radius2=Div(1,3)*Fraction(mix_width);
 
       FigureAsterisk fig(pos,radius2);
 
@@ -474,7 +474,7 @@ void ColorEditWindow::draw(DrawBuf buf,bool) const
      {
       MPoint pos(box_white.getBase()+box_white.getSize()/2);
 
-      MCoord radius2=Div(1,3)*+Fraction(mix_width);
+      MCoord radius2=Div(1,3)*Fraction(mix_width);
 
       FigureAsterisk fig(pos,radius2);
 

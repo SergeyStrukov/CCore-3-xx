@@ -40,7 +40,7 @@ class TextLineWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) ) redraw();
     }
 
    void addXOff(Coord count)
@@ -95,9 +95,7 @@ class TextLineWindowOf : public SubWindow
     {
     }
 
-   virtual ~TextLineWindowOf()
-    {
-    }
+   virtual ~TextLineWindowOf() {}
 
    // methods
 
@@ -132,7 +130,7 @@ class TextLineWindowOf : public SubWindow
      shape.text=text;
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
      shape.xoff=0;
 
@@ -156,7 +154,7 @@ class TextLineWindowOf : public SubWindow
     {
      shape.pane=getPane();
 
-     shape.setMax();
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -202,7 +200,7 @@ class TextLineWindowOf : public SubWindow
     {
      if( !shape.enable ) return Mouse_Arrow;
 
-     if( ( shape.xoffMax>0 || shape.xoff>0 ) ) return Mouse_SizeLeftRight;
+     if( shape.xoff_max>0 || shape.xoff>0 ) return Mouse_SizeLeftRight;
 
      return Mouse_Arrow;
     }

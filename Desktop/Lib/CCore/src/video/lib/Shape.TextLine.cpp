@@ -70,10 +70,10 @@ Point TextLineShape::getMinSize(StrLen text) const
   Coord dx=RoundUpLen(ex+width);
   Coord dy=RoundUpLen(width);
 
-  return 2*Point(dx,dy)+Point(ts.full_dx,ts.dy)+(+cfg.space);
+  return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
-void TextLineShape::setMax()
+void TextLineShape::layout()
  {
   cache(cfg,text.str());
 
@@ -81,12 +81,12 @@ void TextLineShape::setMax()
 
   if( +inner )
     {
-     xoffMax=PlusSub(cache.text_dx,inner.dx);
+     xoff_max=PlusSub(cache.text_dx,inner.dx);
      dxoff=cache.med_dx;
     }
   else
     {
-     xoffMax=0;
+     xoff_max=0;
      dxoff=0;
     }
  }
@@ -164,7 +164,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( xoff<xoffMax ) // Right
+   if( xoff<xoff_max ) // Right
      {
       MCoord x=p.ex-width;
 

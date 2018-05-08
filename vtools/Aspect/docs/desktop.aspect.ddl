@@ -455,8 +455,8 @@ Dir Dir32=
     { "Shape.Switch.h" , Green },
     { "Shape.Text.h" , Green },
     { "Window.Text.h" , Green },
-    { "Shape.TextLine.h" , Red },
-    { "Window.TextLine.h" , Red }
+    { "Shape.TextLine.h" , Green },
+    { "Window.TextLine.h" , Green }
    }
   };
 
@@ -558,7 +558,7 @@ Dir Dir34=
     { "Shape.Switch.cpp" , Green },
     { "Shape.Text.cpp" , Green },
     { "Window.Text.cpp" , Green },
-    { "Shape.TextLine.cpp" , Red },
+    { "Shape.TextLine.cpp" , Green },
     { "Window.TextLine.cpp" , Green }
    }
   };

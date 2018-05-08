@@ -39,8 +39,8 @@ struct TextLineState
   bool alert  = false ;
   Coord xoff  =     0 ;
 
-  Coord xoffMax = 0 ;
-  Coord dxoff   = 0 ;
+  Coord xoff_max = 0 ;
+  Coord dxoff    = 0 ;
 
   bool drag = false ;
   Point drag_base;
@@ -111,7 +111,7 @@ class TextLineShape : public TextLineState
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void setMax();
+   void layout();
 
    void draw(const DrawBuf &buf) const;
 
