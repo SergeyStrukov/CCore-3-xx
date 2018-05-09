@@ -85,11 +85,15 @@ struct ScrollPos
 
   void subPage() { sub(page); }
 
+  void subPage(ulen delta) { sub(delta*page); }
+
   void inc() { if( pos<getMaxPos() ) pos++; }
 
   void add(ulen delta) { pos=AddToCap(pos,delta,getMaxPos()); }
 
   void addPage() { add(page); }
+
+  void addPage(ulen delta) { add(delta*page); }
 
   // new pos
 

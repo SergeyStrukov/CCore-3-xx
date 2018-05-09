@@ -553,14 +553,14 @@ class ScrollWindowOf : public SubWindow
         if( invert_wheel? delta_<0 : ( delta_>0 ) )
           {
            if( mkey&MouseKey_Shift )
-             shape.sub(delta*shape.page);
+             shape.subPage(delta);
            else
              shape.sub(delta);
           }
         else
           {
            if( mkey&MouseKey_Shift )
-             shape.add(delta*shape.page);
+             shape.addPage(delta);
            else
              shape.add(delta);
           }

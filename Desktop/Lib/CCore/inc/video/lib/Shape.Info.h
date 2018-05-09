@@ -39,12 +39,12 @@ struct InfoState
   bool enable =  true ;
   bool focus  = false ;
 
-  ulen yoff    = 0 ;
-  ulen yoffMax = 0 ;
+  ulen yoff     = 0 ;
+  ulen yoff_max = 0 ;
 
-  Coord xoff    = 0 ;
-  Coord xoffMax = 0 ;
-  Coord dxoff   = 0 ;
+  Coord xoff     = 0 ;
+  Coord xoff_max = 0 ;
+  Coord dxoff    = 0 ;
 
   bool drag = false ;
   Point drag_base;
@@ -105,7 +105,7 @@ class InfoShape : public InfoState
 
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
 
-   void setMax();
+   void layout();
 
    void draw(const DrawBuf &buf) const;
 

@@ -28,8 +28,6 @@ void InfoShape::Cache::operator () (const Config &cfg,const Info &info)
  {
   if( !ok )
     {
-     ulen count=info->getLineCount();
-
      const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
@@ -37,16 +35,7 @@ void InfoShape::Cache::operator () (const Config &cfg,const Info &info)
      line_dy=fs.dy;
      med_dx=fs.medDX();
 
-     Coord dx=0;
-
-     for(ulen index=0; index<count ;index++)
-       {
-        TextSize ts=font->text(info->getLine(index));
-
-        Replace_max(dx,ts.full_dx);
-       }
-
-     info_dx=dx;
+     info_dx=InfoSize(font,info).x;
 
      ok=true;
     }
@@ -58,10 +47,10 @@ Point InfoShape::getMinSize(Point cap) const
 
   Point space=+cfg.space;
 
-  return 3*space+Inf(InfoSize(font,info),cap-2*space);
+  return 3*space+Inf(InfoSize(font,info),cap-3*space);
  }
 
-void InfoShape::setMax()
+void InfoShape::layout()
  {
   cache(cfg,info);
 
@@ -69,18 +58,18 @@ void InfoShape::setMax()
 
   if( +inner )
     {
-     xoffMax=PlusSub(cache.info_dx,inner.dx);
+     xoff_max=PlusSub(cache.info_dx,inner.dx);
 
      ulen h=ulen(inner.dy/cache.line_dy);
 
-     yoffMax=PlusSub(info->getLineCount(),h);
+     yoff_max=PlusSub(info->getLineCount(),h);
 
      dxoff=cache.med_dx;
     }
   else
     {
-     xoffMax=0;
-     yoffMax=0;
+     xoff_max=0;
+     yoff_max=0;
      dxoff=0;
     }
  }
@@ -121,7 +110,7 @@ void InfoShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( xoff<xoffMax )
+   if( xoff<xoff_max )
      {
       FigureRightMark fig(p,dx);
 
@@ -135,7 +124,7 @@ void InfoShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( yoff<yoffMax )
+   if( yoff<yoff_max )
      {
       FigureDownMark fig(p,dy);
 

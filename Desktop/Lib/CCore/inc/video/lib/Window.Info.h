@@ -40,7 +40,7 @@ class InfoWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) ) redraw();
     }
 
    void addXOff(Coord count)
@@ -52,12 +52,12 @@ class InfoWindowOf : public SubWindow
 
    void setYOff(ulen yoff)
     {
-     if( Change(shape.yoff,Min(yoff,shape.yoffMax)) ) redraw();
+     if( Change(shape.yoff,Min(yoff,shape.yoff_max)) ) redraw();
     }
 
    void addYOff(ulen delta)
     {
-     setYOff(AddToCap(shape.yoff,delta,shape.yoffMax));
+     setYOff(AddToCap(shape.yoff,delta,shape.yoff_max));
     }
 
    void subYOff(ulen delta)
@@ -110,9 +110,7 @@ class InfoWindowOf : public SubWindow
     {
     }
 
-   virtual ~InfoWindowOf()
-    {
-    }
+   virtual ~InfoWindowOf() {}
 
    // methods
 
@@ -146,7 +144,7 @@ class InfoWindowOf : public SubWindow
      shape.xoff=0;
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
      redraw();
     }
@@ -162,7 +160,7 @@ class InfoWindowOf : public SubWindow
     {
      shape.pane=getPane();
 
-     shape.setMax();
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -209,7 +207,7 @@ class InfoWindowOf : public SubWindow
     {
      if( !shape.enable ) return Mouse_Arrow;
 
-     if( shape.xoffMax>0 || shape.xoff>0 ) return Mouse_SizeLeftRight;
+     if( shape.xoff_max>0 || shape.xoff>0 ) return Mouse_SizeLeftRight;
 
      return Mouse_Arrow;
     }
