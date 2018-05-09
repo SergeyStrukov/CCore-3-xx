@@ -41,21 +41,40 @@ struct LineEditState
   bool cursor      = false ;
   bool hide_cursor = false ;
   bool alert       = false ;
+
   ulen len         = 0 ;
   ulen pos         = 0 ;
   ulen select_off  = 0 ;
   ulen select_len  = 0 ;
   Coord xoff       = 0 ;
 
-  Coord xoffMax = 0 ;
-  Coord dxoff   = 0 ;
+  Coord xoff_max = 0 ;
+  Coord dxoff    = 0 ;
 
   bool drag = false ;
   Point drag_base;
   Coord xoff_base = 0 ;
   bool mouse_pos = false ;
 
+  unsigned tick_count = 0 ;
+
   LineEditState() {}
+
+  bool tick(unsigned period)
+   {
+    if( tick_count )
+      {
+       tick_count--;
+
+       return false;
+      }
+    else
+      {
+       tick_count=PosSub(period,1u);
+
+       return true;
+      }
+   }
  };
 
 /* class LineEditShape */
@@ -105,6 +124,7 @@ class LineEditShape : public LineEditState
        snow.bind(bag.snow);
        inactive.bind(bag.inactive);
        alert.bind(bag.alert);
+
        select.bind(bag.text_select);
        cursor.bind(bag.text_cursor);
        cursor_dx.bind(bag.text_cursor_dx);
@@ -124,13 +144,11 @@ class LineEditShape : public LineEditState
 
    // tick count
 
-   unsigned tick_count = 0 ;
-
    // methods
 
    LineEditShape(PtrLen<Char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}
 
-   void update(unsigned) {}
+   void update(unsigned) { /* do nothing */ }
 
    Point getMinSize() const;
 
@@ -144,23 +162,9 @@ class LineEditShape : public LineEditState
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void setMax();
+   void layout();
 
-   bool tick()
-    {
-     if( tick_count )
-       {
-        tick_count--;
-
-        return false;
-       }
-     else
-       {
-        tick_count=PosSub(+cfg.period,1u);
-
-        return true;
-       }
-    }
+   bool tick() { return LineEditState::tick(+cfg.period); }
 
    void showCursor();
 

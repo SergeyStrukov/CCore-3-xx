@@ -63,7 +63,7 @@ class LineEditWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) ) redraw();
     }
 
    void addXOff(Coord count)
@@ -225,7 +225,7 @@ class LineEditWindowOf : public SubWindow
     {
      if( shape.pos==shape.len )
        {
-        shape.xoff=shape.xoffMax;
+        shape.xoff=shape.xoff_max;
 
         redraw();
 
@@ -263,7 +263,7 @@ class LineEditWindowOf : public SubWindow
 
      shape.cursor=true;
 
-     shape.xoff=shape.xoffMax;
+     shape.xoff=shape.xoff_max;
 
      redraw();
     }
@@ -300,9 +300,9 @@ class LineEditWindowOf : public SubWindow
      shape.cursor=true;
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
-     Replace_min(shape.xoff,shape.xoffMax);
+     Replace_min(shape.xoff,shape.xoff_max);
 
      shape.showCursor();
 
@@ -459,9 +459,7 @@ class LineEditWindowOf : public SubWindow
      defer_tick=input.create(&LineEditWindowOf<Shape>::tick);
     }
 
-   virtual ~LineEditWindowOf()
-    {
-    }
+   virtual ~LineEditWindowOf() {}
 
    // methods
 
@@ -533,7 +531,7 @@ class LineEditWindowOf : public SubWindow
      shape.select_len=0;
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
      redraw();
 
@@ -607,9 +605,9 @@ class LineEditWindowOf : public SubWindow
      shape.cursor=true;
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
-     Replace_min(shape.xoff,shape.xoffMax);
+     Replace_min(shape.xoff,shape.xoff_max);
 
      shape.showCursor();
 
@@ -657,7 +655,7 @@ class LineEditWindowOf : public SubWindow
     {
      shape.pane=getPane();
 
-     shape.setMax();
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -725,7 +723,7 @@ class LineEditWindowOf : public SubWindow
     {
      if( !shape.enable ) return Mouse_Arrow;
 
-     if( ( shape.xoffMax>0 || shape.xoff>0 ) && (kmod&KeyMod_Ctrl) ) return Mouse_SizeLeftRight;
+     if( ( shape.xoff_max>0 || shape.xoff>0 ) && (kmod&KeyMod_Ctrl) ) return Mouse_SizeLeftRight;
 
      return Mouse_IBeem;
     }

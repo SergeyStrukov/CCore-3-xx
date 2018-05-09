@@ -38,7 +38,7 @@ Point LineEditShape::getMinSize(TextSize ts) const
 
   Coord cursor_dx=+cfg.cursor_dx;
 
-  return Point(ts.full_dx,ts.dy)+Point(2*dx+2*cursor_dx+dy+IntAbs(ts.skew),2*dy+2*cursor_dx)+(+cfg.space);
+  return ts.getSize()+Point(2*dx+2*cursor_dx+dy+IntAbs(ts.skew),2*dy+2*cursor_dx)+(+cfg.space);
  }
 
 Point LineEditShape::getMinSize() const
@@ -60,7 +60,7 @@ Point LineEditShape::getMinSize(PtrLen<const Char> sample_text) const
 
 #endif
 
-void LineEditShape::setMax()
+void LineEditShape::layout()
  {
   const Font &font=cfg.font.get();
 
@@ -83,11 +83,11 @@ void LineEditShape::setMax()
 
      Coord tx=ts.full_dx+extra;
 
-     xoffMax=PlusSub(+tx,inner.dx);
+     xoff_max=PlusSub(+tx,inner.dx);
     }
   else
     {
-     xoffMax=0;
+     xoff_max=0;
     }
 
   FontSize fs=font->getSize();
@@ -129,11 +129,11 @@ void LineEditShape::showCursor()
 
      if( x<a )
        {
-        xoff -= +Min_cast(a-x,xoff) ;
+        xoff -= Min<Coord>(a-x,xoff) ;
        }
      else if( x>b )
        {
-        xoff += +Min_cast(x-b,xoffMax-xoff) ;
+        xoff += Min<Coord>(x-b,xoff_max-xoff) ;
        }
     }
  }
@@ -257,7 +257,7 @@ void LineEditShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( xoff<xoffMax ) // Right
+   if( xoff<xoff_max ) // Right
      {
       MCoord x=p.ex-width;
 

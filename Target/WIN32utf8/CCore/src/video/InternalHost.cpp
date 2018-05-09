@@ -1259,7 +1259,7 @@ Point WindowsHost::getMousePos()
 
   if( Win32::GetCursorPos(&point_) )
     {
-     Point point(point_.x,point_.y);
+     Point point((Coord)point_.x,(Coord)point_.y);
 
      return point-origin;
     }
