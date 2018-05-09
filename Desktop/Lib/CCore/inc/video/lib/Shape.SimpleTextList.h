@@ -42,11 +42,11 @@ struct SimpleTextListState
 
   ulen yoff     = 0 ;
   ulen page     = 0 ;
-  ulen yoffMax  = 0 ;
+  ulen yoff_max = 0 ;
 
-  Coord xoff    = 0 ;
-  Coord xoffMax = 0 ;
-  Coord dxoff   = 0 ;
+  Coord xoff     = 0 ;
+  Coord xoff_max = 0 ;
+  Coord dxoff    = 0 ;
 
   SimpleTextListState() {}
  };
@@ -84,6 +84,7 @@ class SimpleTextListShape : public SimpleTextListState
        gray.bind(bag.gray);
        snow.bind(bag.snow);
        inactive.bind(bag.inactive);
+
        select.bind(bag.text_select);
 
        text.bind(bag.list_text);
@@ -111,7 +112,7 @@ class SimpleTextListShape : public SimpleTextListState
 
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
 
-   void setMax();
+   void layout();
 
    void initSelect()
     {

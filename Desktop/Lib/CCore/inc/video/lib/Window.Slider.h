@@ -315,23 +315,25 @@ class SliderWindowOf : public SubWindow
      outside();
     }
 
-   void react_Wheel(Point,MouseKey mkey,Coord delta)
+   void react_Wheel(Point,MouseKey mkey,Coord delta_)
     {
      if( !shape.enable ) return;
 
-     if( delta>0 )
+     unsigned delta=IntAbs(delta_);
+
+     if( delta_>0 )
        {
         if( mkey&MouseKey_Shift )
-          addPos(10*IntAbs(delta));
+          addPos(10*delta);
         else
-          addPos(IntAbs(delta));
+          addPos(delta);
        }
      else
        {
         if( mkey&MouseKey_Shift )
-          subPos(10*IntAbs(delta));
+          subPos(10*delta);
         else
-          subPos(IntAbs(delta));
+          subPos(delta);
        }
     }
 

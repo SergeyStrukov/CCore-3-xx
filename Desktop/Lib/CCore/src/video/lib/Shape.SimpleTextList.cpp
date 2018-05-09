@@ -28,8 +28,6 @@ void SimpleTextListShape::Cache::operator () (const Config &cfg,const Info &info
  {
   if( !ok )
     {
-     ulen count=info->getLineCount();
-
      const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
@@ -37,16 +35,7 @@ void SimpleTextListShape::Cache::operator () (const Config &cfg,const Info &info
      line_dy=fs.dy;
      med_dx=fs.medDX();
 
-     Coord dx=0;
-
-     for(ulen index=0; index<count ;index++)
-       {
-        TextSize ts=font->text(info->getLine(index));
-
-        Replace_max(dx,ts.full_dx);
-       }
-
-     info_dx=dx;
+     info_dx=InfoSize(font,info).x;
 
      ok=true;
     }
@@ -61,7 +50,7 @@ Point SimpleTextListShape::getMinSize(Point cap) const
   return 2*space+Inf(InfoSize(font,info),cap-2*space);
  }
 
-void SimpleTextListShape::setMax()
+void SimpleTextListShape::layout()
  {
   cache(cfg,info);
 
@@ -71,18 +60,18 @@ void SimpleTextListShape::setMax()
     {
      dxoff=cache.med_dx;
 
-     xoffMax=PlusSub(cache.info_dx,inner.dx);
+     xoff_max=PlusSub(cache.info_dx,inner.dx);
 
-     page=ulen(inner.dy/cache.line_dy);
+     page=ulen( inner.dy/cache.line_dy );
 
-     yoffMax=PlusSub(info->getLineCount(),page);
+     yoff_max=PlusSub(info->getLineCount(),page);
     }
   else
     {
      dxoff=0;
-     xoffMax=0;
+     xoff_max=0;
      page=0;
-     yoffMax=0;
+     yoff_max=0;
     }
  }
 
@@ -98,7 +87,7 @@ void SimpleTextListShape::showSelect()
     {
      if( select-yoff>=page && page>0 )
        {
-        yoff=Min<ulen>(select-page+1,yoffMax);
+        yoff=Min<ulen>(select-page+1,yoff_max);
        }
     }
  }
@@ -115,7 +104,7 @@ ulen SimpleTextListShape::getPosition(Point point) const
 
   FontSize fs=cfg.font->getSize();
 
-  return yoff+ulen((point.y-inner.y)/fs.dy);
+  return yoff+ulen( (point.y-inner.y)/fs.dy );
  }
 
 void SimpleTextListShape::draw(const DrawBuf &buf) const
@@ -164,7 +153,7 @@ void SimpleTextListShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( xoff<xoffMax )
+   if( xoff<xoff_max )
      {
       FigureRightMark fig(p,dx);
 
@@ -178,7 +167,7 @@ void SimpleTextListShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( yoff<yoffMax )
+   if( yoff<yoff_max )
      {
       FigureDownMark fig(p,dy);
 

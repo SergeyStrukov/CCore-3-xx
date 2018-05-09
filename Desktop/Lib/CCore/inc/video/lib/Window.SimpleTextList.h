@@ -40,7 +40,7 @@ class SimpleTextListWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) ) redraw();
     }
 
    void addXOff(Coord count)
@@ -52,12 +52,12 @@ class SimpleTextListWindowOf : public SubWindow
 
    void setYOff(ulen yoff)
     {
-     if( Change(shape.yoff,Min(yoff,shape.yoffMax)) ) redraw();
+     if( Change(shape.yoff,Min(yoff,shape.yoff_max)) ) redraw();
     }
 
    void addYOff(ulen delta)
     {
-     setYOff(AddToCap(shape.yoff,delta,shape.yoffMax));
+     setYOff(AddToCap(shape.yoff,delta,shape.yoff_max));
     }
 
    void subYOff(ulen delta)
@@ -125,9 +125,7 @@ class SimpleTextListWindowOf : public SubWindow
     {
     }
 
-   virtual ~SimpleTextListWindowOf()
-    {
-    }
+   virtual ~SimpleTextListWindowOf() {}
 
    // methods
 
@@ -163,7 +161,7 @@ class SimpleTextListWindowOf : public SubWindow
      shape.initSelect();
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
      redraw();
     }
@@ -219,7 +217,7 @@ class SimpleTextListWindowOf : public SubWindow
     {
      shape.pane=getPane();
 
-     shape.setMax();
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const

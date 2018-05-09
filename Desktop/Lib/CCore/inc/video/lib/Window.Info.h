@@ -287,17 +287,19 @@ class InfoWindowOf : public SubWindow
        }
     }
 
-   void react_Wheel(Point,MouseKey,Coord delta)
+   void react_Wheel(Point,MouseKey,Coord delta_)
     {
      if( !shape.enable ) return;
 
-     if( delta>0 )
+     ulen delta=IntAbs(delta_);
+
+     if( delta_>0 )
        {
-        addYOff(IntAbs(delta));
+        addYOff(delta);
        }
      else
        {
-        subYOff(IntAbs(delta));
+        subYOff(delta);
        }
     }
 

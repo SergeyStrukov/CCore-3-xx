@@ -978,21 +978,23 @@ class LineEditWindowOf : public SubWindow
      posCursorEnd();
     }
 
-   void react_Wheel(Point,MouseKey mkey,Coord delta)
+   void react_Wheel(Point,MouseKey mkey,Coord delta_)
     {
      if( mkey&MouseKey_Ctrl )
        {
-        addXOff(delta);
+        addXOff(delta_);
        }
      else if( shape.enable )
        {
-        if( delta<0 )
+        unsigned delta=IntAbs(delta_);
+
+        if( delta_<0 )
           {
-           keyLeft(mkey&MouseKey_Shift,IntAbs(delta));
+           keyLeft(mkey&MouseKey_Shift,delta);
           }
         else
           {
-           keyRight(mkey&MouseKey_Shift,IntAbs(delta));
+           keyRight(mkey&MouseKey_Shift,delta);
           }
        }
     }
