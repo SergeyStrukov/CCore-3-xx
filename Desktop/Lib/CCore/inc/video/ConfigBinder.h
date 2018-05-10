@@ -76,7 +76,7 @@ struct HomeSyncBase
 
   virtual void updateMap(ConfigMap &map) const = 0;
 
-  bool syncHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file"
+  bool syncHome(StrLen home_dir,StrLen cfg_file) noexcept; // "/dir" "/file" , true iff load file is ok
 
   void updateHome(StrLen home_dir,StrLen cfg_file) const noexcept; // "/dir" "/file"
  };
@@ -131,14 +131,14 @@ class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase
 
    virtual void syncMap(ConfigMap &map)
     {
-     Bag::Members(this, [&map] (StrLen name,AnyType &obj) { map.sync(name,obj); } );
+     Bag::Members(this, [&map] (StrLen name,auto &obj) { map.sync(name,obj); } );
 
      Bag::createFonts();
     }
 
    virtual void updateMap(ConfigMap &map) const
     {
-     Bag::Members(this, [&map] (StrLen name,AnyType &obj) { map.update(name,obj); } );
+     Bag::Members(this, [&map] (StrLen name,auto &obj) { map.update(name,obj); } );
     }
 
    // getSmartConfig()
