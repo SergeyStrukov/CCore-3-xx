@@ -70,39 +70,39 @@ struct ConfigItem::DDLTypeNameCtx
 
   RetType defcall(int)
    {
-    return "???";
+    return "???"_c;
    }
  };
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<unsigned>() -> RetType { return "uint"; }
+auto ConfigItem::DDLTypeNameCtx::call<unsigned>() -> RetType { return "uint"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<Coord>() -> RetType { return "Coord"; }
+auto ConfigItem::DDLTypeNameCtx::call<Coord>() -> RetType { return "Coord"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<Fraction>() -> RetType { return "MCoord"; }
+auto ConfigItem::DDLTypeNameCtx::call<Fraction>() -> RetType { return "MCoord"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<VColor>() -> RetType { return "VColor"; }
+auto ConfigItem::DDLTypeNameCtx::call<VColor>() -> RetType { return "VColor"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<Clr>() -> RetType { return "Clr"; }
+auto ConfigItem::DDLTypeNameCtx::call<Clr>() -> RetType { return "Clr"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<Point>() -> RetType { return "Point"; }
+auto ConfigItem::DDLTypeNameCtx::call<Point>() -> RetType { return "Point"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<DefString>() -> RetType { return "text"; }
+auto ConfigItem::DDLTypeNameCtx::call<DefString>() -> RetType { return "text"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<FontParam>() -> RetType { return "Font"; }
+auto ConfigItem::DDLTypeNameCtx::call<FontParam>() -> RetType { return "Font"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<bool>() -> RetType { return "Bool"; }
+auto ConfigItem::DDLTypeNameCtx::call<bool>() -> RetType { return "Bool"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<Ratio>() -> RetType { return "Ratio"; }
+auto ConfigItem::DDLTypeNameCtx::call<Ratio>() -> RetType { return "Ratio"_c; }
 
 StrLen ConfigItem::getDDLTypeName() const
  {
@@ -128,7 +128,7 @@ StrLen ConfigMap::Pretext()
 
 "Bool False = 0 ;"
 
-"type Coord = sint16 ;"
+"type Coord = sint32 ;"
 
 "type MCoord = sint32 ; "
 
@@ -292,33 +292,41 @@ struct ConfigMap::AddItem
 
   // Get...()
 
+  static unsigned Get_uint(DDL::Value value) { return value.get<DDL::imp_uint>().value; }
+
+  static StrLen Get_text(DDL::Value value) { return value.get<DDL::Text>().str; }
+
+  static Coord Get_Coord(DDL::Value value) { return value.get<DDL::imp_sint32>().value; }
+
+  static MCoord Get_MCoord(DDL::Value value) { return value.get<DDL::imp_sint32>().value; }
+
+  static uint32 Get_VColor(DDL::Value value) { return value.get<DDL::imp_uint32>().value; }
+
+  static uint8 Get_Clr(DDL::Value value) { return value.get<DDL::imp_uint8>().value; }
+
   static int Get_int(DDL::Value value) { return value.get<DDL::imp_sint>().value; }
 
   static bool Get_Bool(DDL::Value value) { return value.get<DDL::imp_uint8>().value; }
 
-  static StrLen Get_text(DDL::Value value) { return value.get<DDL::Text>().str; }
-
-  static Coord Get_Coord(DDL::Value value) { return value.get<DDL::imp_sint16>().value; }
-
   // get...()
 
-  unsigned get_uint() const { return value.get<DDL::imp_uint>().value; }
+  unsigned get_uint() const { return Get_uint(value); }
 
   StrLen get_text() const { return Get_text(value); }
 
   Coord get_Coord() const { return Get_Coord(value); }
 
-  MCoord get_MCoord() const { return value.get<DDL::imp_sint32>().value; }
+  MCoord get_MCoord() const { return Get_MCoord(value); }
 
-  uint32 get_VColor() const { return value.get<DDL::imp_uint32>().value; }
+  uint32 get_VColor() const { return Get_VColor(value); }
 
-  uint8 get_Clr() const { return value.get<DDL::imp_uint8>().value; }
+  uint8 get_Clr() const { return Get_Clr(value); }
 
   Point get_Point() const
    {
     auto r=value.get<DDL::Block>().data;
 
-    return Point(Get_Coord(r[0]),Get_Coord(r[1]));
+    return Point( Get_Coord(r[0]) , Get_Coord(r[1]) );
    }
 
   FontParam get_Font() const
@@ -327,11 +335,11 @@ struct ConfigMap::AddItem
 
     FontParam param;
 
-    param.engine_type=FontParam::EngineType(Get_int(r[0]));
+    param.engine_type=FontParam::EngineType( Get_int(r[0]) );
 
     param.file_name=Get_text(r[1]);
 
-    param.size_type=FontParam::SizeType(Get_int(r[2]));
+    param.size_type=FontParam::SizeType( Get_int(r[2]) );
 
     int x=Get_int(r[3]);
     int y=Get_int(r[4]);
@@ -347,22 +355,24 @@ struct ConfigMap::AddItem
 
     auto cfg=r[5].get<DDL::Block>().data;
 
-    param.cfg.fht=FontHintType(Get_int(cfg[0]));
-    param.cfg.fsm=FontSmoothType(Get_int(cfg[1]));
+    param.cfg.fht=FontHintType( Get_int(cfg[0]) );
+    param.cfg.fsm=FontSmoothType( Get_int(cfg[1]) );
+
     param.cfg.use_kerning=Get_Bool(cfg[2]);
     param.cfg.strength=Get_int(cfg[3]);
-    param.cfg.gamma_order=IntToGamma(Get_int(cfg[4]));
+
+    param.cfg.gamma_order=IntToGamma( Get_int(cfg[4]) );
 
     return param;
    }
 
-  uint8 get_Bool() const { return value.get<DDL::imp_uint8>().value; }
+  uint8 get_Bool() const { return Get_Bool(value); }
 
   Ratio get_Ratio() const
    {
     auto r=value.get<DDL::Block>().data;
 
-    return Ratio(r[0].get<DDL::imp_sint32>().value);
+    return Ratio( r[0].get<DDL::imp_sint32>().value );
    }
 
   // do...()

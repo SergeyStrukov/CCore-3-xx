@@ -389,7 +389,7 @@ Dir Dir30=
     { "BindBagProxy.h" , Green },
     { "ConfigBinder.h" , Red },
     { "ConfigEditor.h" , Red },
-    { "ConfigStore.h" , Red },
+    { "ConfigStore.h" , Green },
     { "DirFrame.h" , Red },
     { "ExceptionFrame.h" , Red },
     { "FigureLib.h" , Red },
@@ -400,10 +400,10 @@ Dir Dir30=
     { "Menu.h" , Red },
     { "MessageFrame.h" , Red },
     { "MinSizeType.h" , Red },
-    { "ShapeLib.h" , Red },
+    { "ShapeLib.h" , Green },
     { "ToolFrame.h" , Red },
     { "UserPreference.h" , Red },
-    { "WindowLib.h" , Red }
+    { "WindowLib.h" , Green }
    }
   };
 
@@ -489,7 +489,7 @@ Dir Dir31=
     { "BindBagProxy.cpp" , Green },
     { "ConfigBinder.cpp" , Red },
     { "ConfigEditor.cpp" , Red },
-    { "ConfigStore.cpp" , Red },
+    { "ConfigStore.cpp" , Green },
     { "DirFrame.cpp" , Red },
     { "ExceptionFrame.cpp" , Red },
     { "FigureLib.cpp" , Red },
@@ -500,11 +500,11 @@ Dir Dir31=
     { "Menu.cpp" , Red },
     { "MessageFrame.cpp" , Red },
     { "MinSizeType.cpp" , Red },
-    { "ShapeLib.cpp" , Red },
+    { "ShapeLib.cpp" , Green },
     { "ToolFrame.cpp" , Red },
     { "UserPreference.cpp" , Red },
-    { "WindowLib.cpp" , Red },
-    { "ConfigTypes.ddl" , Red },
+    { "WindowLib.cpp" , Green },
+    { "ConfigTypes.ddl" , Green },
     { "HitDirs.ddl" , Red },
     { "HitDirs.TypeDef.gen.h" , Red },
     { "HitDirs.TypeSet.gen.h" , Red }

@@ -19,7 +19,7 @@ Bool True = 1 ;
 
 Bool False = 0 ;
 
-type Coord = sint16 ;
+type Coord = sint32 ;
 
 type MCoord = sint32 ; 
 

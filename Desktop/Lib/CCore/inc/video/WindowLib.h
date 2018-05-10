@@ -30,6 +30,7 @@
 #include <CCore/inc/video/lib/Window.Radio.h>
 #include <CCore/inc/video/lib/Window.RunButton.h>
 #include <CCore/inc/video/lib/Window.Scroll.h>
+#include <CCore/inc/video/lib/Window.Scrollable.h>
 #include <CCore/inc/video/lib/Window.ScrollList.h>
 #include <CCore/inc/video/lib/Window.SimpleTextList.h>
 #include <CCore/inc/video/lib/Window.Slider.h>
