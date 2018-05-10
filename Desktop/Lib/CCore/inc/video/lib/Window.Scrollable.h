@@ -1,0 +1,256 @@
+/* Window.Scrollable.h */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.50
+//
+//  Tag: Desktop
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+
+#ifndef CCore_inc_video_lib_Window_Scrollable_h
+#define CCore_inc_video_lib_Window_Scrollable_h
+
+#include <CCore/inc/video/BindBagProxy.h>
+
+#include <CCore/inc/video/lib/Window.Scroll.h>
+
+namespace CCore {
+namespace Video {
+
+/* classes */
+
+template <class Window,class XShape=XScrollShape,class YShape=YScrollShape> class ScrollableWindow;
+
+/* class ScrollableWindow<Window,XShape,YShape> */
+
+#if 0
+
+class Window
+ {
+   ....
+
+  public:
+
+   using ConfigType = .... ;
+
+   Window(SubWindowHost &host,const ConfigType &cfg, .... );
+
+   ....
+
+   // special methods
+
+   bool shortDX() const;
+
+   bool shortDY() const;
+
+   ScrollPos getScrollXRange() const;
+
+   ScrollPos getScrollYRange() const;
+
+   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
+
+   // methods
+
+   Point getMinSize(Point cap=Point::Max()) const;
+
+   [ Point getMinSize(T arg) const; ]
+
+   // signals
+
+   Signal<ulen> scroll_x;
+   Signal<ulen> scroll_y;
+ };
+
+#endif
+
+template <class Window,class XShape,class YShape>
+class ScrollableWindow : public ComboWindow
+ {
+  public:
+
+   struct Config
+    {
+     typename Window::ConfigType window_cfg;
+
+     CtorRefVal<typename XShape::Config> x_cfg;
+     CtorRefVal<typename YShape::Config> y_cfg;
+
+     Config() noexcept {}
+
+     template <class ... TT>
+     explicit Config(TT && ... tt) : window_cfg( std::forward<TT>(tt)... ) {}
+
+     template <class Bag,class Proxy>
+     void bindScroll(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       x_cfg.bind(proxy);
+       y_cfg.bind(proxy);
+      }
+
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy)
+      {
+       BindBagProxy(window_cfg,bag,proxy);
+
+       x_cfg.bind(proxy);
+       y_cfg.bind(proxy);
+      }
+    };
+
+  protected:
+
+   const Config &cfg;
+
+   Window window;
+   ScrollWindowOf<XShape> scroll_x;
+   ScrollWindowOf<YShape> scroll_y;
+
+  private:
+
+   void setScroll()
+    {
+     if( scroll_x.isListed() ) scroll_x.setRange(window.getScrollXRange());
+
+     if( scroll_y.isListed() ) scroll_y.setRange(window.getScrollYRange());
+    }
+
+  private:
+
+   SignalConnector<ScrollWindowOf<XShape>,ulen> connector_posx;
+   SignalConnector<ScrollWindowOf<YShape>,ulen> connector_posy;
+
+  public:
+
+   using ConfigType = Config ;
+
+   template <class ... TT>
+   ScrollableWindow(SubWindowHost &host,const Config &cfg_,TT && ... tt)
+    : ComboWindow(host),
+      cfg(cfg_),
+
+      window(wlist,cfg_.window_cfg, std::forward<TT>(tt)... ),
+      scroll_x(wlist,cfg_.x_cfg),
+      scroll_y(wlist,cfg_.y_cfg),
+
+      connector_posx(&scroll_x,&ScrollWindowOf<XShape>::setPos,window.scroll_x),
+      connector_posy(&scroll_y,&ScrollWindowOf<YShape>::setPos,window.scroll_y)
+    {
+     wlist.insTop(window);
+
+     window.connect(scroll_x.changed,scroll_y.changed);
+    }
+
+   virtual ~ScrollableWindow() {}
+
+   // methods
+
+   unsigned getUpdateMask() const { return window.getUpdateMask(); }
+
+   void setUpdateMask(unsigned flags) { window.setUpdateMask(flags); }
+
+   Point getMinSize(Point cap=Point::Max()) const
+    {
+     Point delta(scroll_y.getMinSize().dx,0);
+
+     return window.getMinSize(cap-delta)+delta;
+    }
+
+   template <class T>
+   Point getMinSize(T arg) const
+    {
+     Point delta(scroll_y.getMinSize().dx,0);
+
+     return window.getMinSize(arg)+delta;
+    }
+
+   // drawing
+
+   virtual void layout()
+    {
+     Pane all=getPane();
+     Pane pane(all);
+
+     Coord delta_x=scroll_y.getMinSize().dx;
+     Coord delta_y=scroll_x.getMinSize().dy;
+
+     window.setPlace(pane);
+
+     if( window.shortDY() )
+       {
+        Pane py=SplitX(pane,delta_x);
+
+        window.setPlace(pane);
+        scroll_y.setPlace(py);
+
+        wlist.insBottom(scroll_y);
+
+        if( window.shortDX() )
+          {
+           Pane px=SplitY(pane,delta_y);
+
+           window.setPlace(pane);
+           scroll_x.setPlace(px);
+
+           wlist.insBottom(scroll_x);
+          }
+        else
+          {
+           wlist.del(scroll_x);
+          }
+       }
+     else
+       {
+        if( window.shortDX() )
+          {
+           Pane px=SplitY(pane,delta_y);
+
+           window.setPlace(pane);
+
+           if( window.shortDY() )
+             {
+              pane=all;
+              Pane py=SplitX(pane,delta_x);
+              Pane px=SplitY(pane,delta_y);
+
+              window.setPlace(pane);
+              scroll_x.setPlace(px);
+              scroll_y.setPlace(py);
+
+              wlist.insBottom(scroll_x);
+
+              wlist.insBottom(scroll_y);
+             }
+           else
+             {
+              scroll_x.setPlace(px);
+
+              wlist.insBottom(scroll_x);
+
+              wlist.del(scroll_y);
+             }
+          }
+        else
+          {
+           wlist.del(scroll_x);
+
+           wlist.del(scroll_y);
+          }
+       }
+
+     setScroll();
+    }
+ };
+
+} // namespace Video
+} // namespace CCore
+
+#endif
+

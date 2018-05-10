@@ -16,9 +16,7 @@
 #ifndef CCore_inc_video_lib_Window_ScrollList_h
 #define CCore_inc_video_lib_Window_ScrollList_h
 
-#include <CCore/inc/video/BindBagProxy.h>
-
-#include <CCore/inc/video/lib/Window.Scroll.h>
+#include <CCore/inc/video/lib/Window.Scrollable.h>
 
 #include <CCore/inc/video/lib/Shape.ScrollList.h>
 
@@ -30,8 +28,6 @@ namespace Video {
 struct ScrollListWindowBase;
 
 template <class Shape> class ScrollListInnerWindowOf;
-
-template <class Window,class XShape=XScrollShape,class YShape=YScrollShape> class ScrollableWindow;
 
 template <class Shape,class XShape,class YShape> class ScrollListWindowOf;
 
@@ -62,7 +58,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) )
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) )
        {
         redraw();
 
@@ -79,7 +75,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void setYOff(ulen yoff)
     {
-     if( Change(shape.yoff,Min(yoff,shape.yoffMax)) )
+     if( Change(shape.yoff,Min(yoff,shape.yoff_max)) )
        {
         redraw();
 
@@ -89,7 +85,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void addYOff(ulen delta)
     {
-     setYOff(AddToCap(shape.yoff,delta,shape.yoffMax));
+     setYOff(AddToCap(shape.yoff,delta,shape.yoff_max));
     }
 
    void subYOff(ulen delta)
@@ -219,26 +215,24 @@ class ScrollListInnerWindowOf : public SubWindow
     {
     }
 
-   virtual ~ScrollListInnerWindowOf()
-    {
-    }
+   virtual ~ScrollListInnerWindowOf() {}
 
    // special methods
 
-   bool shortDX() const { return shape.xoffMax>0; }
+   bool shortDX() const { return shape.xoff_max>0; }
 
-   bool shortDY() const { return shape.yoffMax>0; }
+   bool shortDY() const { return shape.yoff_max>0; }
 
    ScrollPos getScrollXRange() const
     {
      Coord page=getSize().x;
 
-     return {(ulen)shape.xoffMax+(ulen)page,(ulen)page,(ulen)shape.xoff};
+     return {(ulen)shape.xoff_max+(ulen)page,(ulen)page,(ulen)shape.xoff};
     }
 
    ScrollPos getScrollYRange() const
     {
-     return {shape.yoffMax+shape.page,shape.page,shape.yoff};
+     return {shape.yoff_max+shape.page,shape.page,shape.yoff};
     }
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
@@ -283,7 +277,7 @@ class ScrollListInnerWindowOf : public SubWindow
      shape.initSelect();
 
      shape.update(LayoutUpdate);
-     shape.setMax();
+     shape.layout();
 
      redraw();
     }
@@ -342,7 +336,7 @@ class ScrollListInnerWindowOf : public SubWindow
     {
      shape.pane=getPane();
 
-     shape.setMax();
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,bool) const
@@ -532,226 +526,6 @@ class ScrollListInnerWindowOf : public SubWindow
    Signal<ulen> scroll_y;
  };
 
-/* class ScrollableWindow<Window,XShape,YShape> */
-
-#if 0
-
-class Window
- {
-   ....
-
-  public:
-
-   using ConfigType = .... ;
-
-   Window(SubWindowHost &host,const ConfigType &cfg, .... );
-
-   ....
-
-   // special methods
-
-   bool shortDX() const;
-
-   bool shortDY() const;
-
-   ScrollPos getScrollXRange() const;
-
-   ScrollPos getScrollYRange() const;
-
-   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
-
-   // methods
-
-   Point getMinSize(Point cap=Point::Max()) const;
-
-   // signals
-
-   Signal<ulen> scroll_x;
-   Signal<ulen> scroll_y;
- };
-
-#endif
-
-template <class Window,class XShape,class YShape>
-class ScrollableWindow : public ComboWindow
- {
-  public:
-
-   struct Config
-    {
-     typename Window::ConfigType window_cfg;
-
-     CtorRefVal<typename XShape::Config> x_cfg;
-     CtorRefVal<typename YShape::Config> y_cfg;
-
-     Config() noexcept {}
-
-     template <class ... TT>
-     explicit Config(TT && ... tt) : window_cfg( std::forward<TT>(tt)... ) {}
-
-     template <class Bag,class Proxy>
-     void bindScroll(const Bag &bag,Proxy proxy)
-      {
-       Used(bag);
-
-       x_cfg.bind(proxy);
-       y_cfg.bind(proxy);
-      }
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       BindBagProxy(window_cfg,bag,proxy);
-
-       x_cfg.bind(proxy);
-       y_cfg.bind(proxy);
-      }
-    };
-
-  protected:
-
-   const Config &cfg;
-
-   Window window;
-   ScrollWindowOf<XShape> scroll_x;
-   ScrollWindowOf<YShape> scroll_y;
-
-  private:
-
-   void setScroll()
-    {
-     if( scroll_x.isListed() ) scroll_x.setRange(window.getScrollXRange());
-
-     if( scroll_y.isListed() ) scroll_y.setRange(window.getScrollYRange());
-    }
-
-  private:
-
-   SignalConnector<ScrollWindowOf<XShape>,ulen> connector_posx;
-   SignalConnector<ScrollWindowOf<YShape>,ulen> connector_posy;
-
-  public:
-
-   using ConfigType = Config ;
-
-   template <class ... TT>
-   ScrollableWindow(SubWindowHost &host,const Config &cfg_,TT && ... tt)
-    : ComboWindow(host),
-      cfg(cfg_),
-      window(wlist,cfg_.window_cfg, std::forward<TT>(tt)... ),
-      scroll_x(wlist,cfg_.x_cfg),
-      scroll_y(wlist,cfg_.y_cfg),
-      connector_posx(&scroll_x,&ScrollWindowOf<XShape>::setPos,window.scroll_x),
-      connector_posy(&scroll_y,&ScrollWindowOf<YShape>::setPos,window.scroll_y)
-    {
-     wlist.insTop(window);
-
-     window.connect(scroll_x.changed,scroll_y.changed);
-    }
-
-   virtual ~ScrollableWindow()
-    {
-    }
-
-   // methods
-
-   unsigned getUpdateMask() const { return window.getUpdateMask(); }
-
-   void setUpdateMask(unsigned flags) { window.setUpdateMask(flags); }
-
-   Point getMinSize(Point cap=Point::Max()) const
-    {
-     Point delta(scroll_y.getMinSize().dx,0);
-
-     return window.getMinSize(cap-delta)+delta;
-    }
-
-   template <class T>
-   Point getMinSize(T arg) const
-    {
-     Point delta(scroll_y.getMinSize().dx,0);
-
-     return window.getMinSize(arg)+delta;
-    }
-
-   // drawing
-
-   virtual void layout()
-    {
-     Pane all=getPane();
-     Pane pane(all);
-
-     Coord delta_x=scroll_y.getMinSize().dx;
-     Coord delta_y=scroll_x.getMinSize().dy;
-
-     window.setPlace(pane);
-
-     if( window.shortDY() )
-       {
-        Pane py=SplitX(pane,delta_x);
-
-        window.setPlace(pane);
-        scroll_y.setPlace(py);
-
-        wlist.insBottom(scroll_y);
-
-        if( window.shortDX() )
-          {
-           Pane px=SplitY(pane,delta_y);
-
-           window.setPlace(pane);
-           scroll_x.setPlace(px);
-
-           wlist.insBottom(scroll_x);
-          }
-        else
-          {
-           wlist.del(scroll_x);
-          }
-       }
-     else
-       {
-        if( window.shortDX() )
-          {
-           Pane px=SplitY(pane,delta_y);
-
-           window.setPlace(pane);
-
-           if( window.shortDY() )
-             {
-              pane=all;
-              Pane py=SplitX(pane,delta_x);
-              Pane px=SplitY(pane,delta_y);
-
-              window.setPlace(pane);
-              scroll_x.setPlace(px);
-              scroll_y.setPlace(py);
-
-              wlist.insBottom(scroll_x);
-
-              wlist.insBottom(scroll_y);
-             }
-           else
-             {
-              scroll_x.setPlace(px);
-
-              wlist.insBottom(scroll_x);
-
-              wlist.del(scroll_y);
-             }
-          }
-        else
-          {
-           wlist.del(scroll_x);
-
-           wlist.del(scroll_y);
-          }
-       }
-
-     setScroll();
-    }
- };
-
 /* class ScrollListWindowOf<Shape,XShape,YShape> */
 
 template <class Shape,class XShape,class YShape>
@@ -775,9 +549,7 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
     {
     }
 
-   virtual ~ScrollListWindowOf()
-    {
-    }
+   virtual ~ScrollListWindowOf() {}
 
    // methods
 

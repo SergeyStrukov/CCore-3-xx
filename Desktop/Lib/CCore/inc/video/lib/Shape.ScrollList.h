@@ -42,10 +42,10 @@ struct ScrollListState
 
   ulen yoff     = 0 ;
   ulen page     = 0 ;
-  ulen yoffMax  = 0 ;
+  ulen yoff_max  = 0 ;
 
   Coord xoff    = 0 ;
-  Coord xoffMax = 0 ;
+  Coord xoff_max = 0 ;
   Coord dxoff   = 0 ;
 
   ScrollListState() {}
@@ -57,7 +57,9 @@ class ScrollListShape : public ScrollListState
  {
    static StrLen SampleLine();
 
-   static Coord GetLineDX(const Font &font,ComboInfoItem item,Coord off);
+   static Coord GetLineDX(const Font &font,ComboInfoItem item,Coord title_off);
+
+   static Point InfoSize(Font font,ComboInfo info);
 
   public:
 
@@ -91,6 +93,7 @@ class ScrollListShape : public ScrollListState
        gray.bind(bag.gray);
        snow.bind(bag.snow);
        inactive.bind(bag.inactive);
+
        select.bind(bag.text_select);
 
        text.bind(bag.list_text);
@@ -124,7 +127,7 @@ class ScrollListShape : public ScrollListState
 
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
 
-   void setMax();
+   void layout();
 
    void initSelect();
 

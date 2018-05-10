@@ -26,8 +26,6 @@ void ScrollListShape::Cache::operator () (const Config &cfg,const ComboInfo &inf
  {
   if( !ok )
     {
-     ulen count=info->getLineCount();
-
      const Font &font=cfg.font.get();
 
      FontSize fs=font->getSize();
@@ -36,16 +34,7 @@ void ScrollListShape::Cache::operator () (const Config &cfg,const ComboInfo &inf
 
      line_dy=fs.dy;
 
-     Coord off=fs.dy;
-
-     Coord dx=0;
-
-     for(ulen index=0; index<count ;index++)
-       {
-        Replace_max(dx,GetLineDX(font,info->getLine(index),off));
-       }
-
-     info_dx=dx;
+     info_dx=InfoSize(font,info).x;
 
      ok=true;
     }
@@ -56,7 +45,7 @@ StrLen ScrollListShape::SampleLine()
   return "Sample line 12345"_c;
  }
 
-Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
+Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord title_off)
  {
   switch( item.type )
     {
@@ -72,7 +61,7 @@ Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
       {
        TextSize ts=font->text(item.text);
 
-       return ts.full_dx+off;
+       return ts.full_dx+title_off;
       }
      break;
 
@@ -83,27 +72,31 @@ Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord off)
     }
  }
 
+Point ScrollListShape::InfoSize(Font font,ComboInfo info)
+ {
+  FontSize fs=font->getSize();
+
+  Coord title_off=fs.dy;
+
+  Point ret;
+
+  for(ulen index=0,count=info->getLineCount(); index<count ;index++)
+    {
+     Coord dx=GetLineDX(font,info->getLine(index),title_off);
+
+     ret=StackYSize(ret,{dx,fs.dy});
+    }
+
+  return ret;
+ }
+
 Point ScrollListShape::getMinSize(Point cap) const
  {
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
 
-  FontSize fs=font->getSize();
-
-  Coord off=fs.dy;
-
-  Coord dx=0;
-  Coord dy=0;
-
-  for(ulen index=0,count=info->getLineCount(); index<count ;index++)
-    {
-     Replace_max(dx,GetLineDX(font,info->getLine(index),off));
-
-     dy+=fs.dy;
-    }
-
-  return 2*space+Inf(Point(dx,dy),cap-2*space);
+  return 2*space+Inf(InfoSize(font,info),cap-2*space);
  }
 
 Point ScrollListShape::getMinSize(unsigned lines) const
@@ -119,7 +112,7 @@ Point ScrollListShape::getMinSize(unsigned lines) const
   return 2*space+Point(dx,CountToCoord(lines)*fs.dy);
  }
 
-void ScrollListShape::setMax()
+void ScrollListShape::layout()
  {
   cache(cfg,info);
 
@@ -127,20 +120,20 @@ void ScrollListShape::setMax()
 
   if( +inner )
     {
-     xoffMax=PlusSub(cache.info_dx,inner.dx);
+     xoff_max=PlusSub(cache.info_dx,inner.dx);
 
      dxoff=cache.med_dx;
 
      page=ulen(inner.dy/cache.line_dy);
 
-     yoffMax=PlusSub(info->getLineCount(),page);
+     yoff_max=PlusSub(info->getLineCount(),page);
     }
   else
     {
-     xoffMax=0;
+     xoff_max=0;
      dxoff=0;
      page=0;
-     yoffMax=0;
+     yoff_max=0;
     }
  }
 
@@ -221,7 +214,7 @@ bool ScrollListShape::showSelect()
 
      if( i>=page && page>0 )
        {
-        yoff=Min_cast(yoffMax,select-page+1);
+        yoff=Min_cast(yoff_max,select-page+1);
 
         return true;
        }
@@ -294,7 +287,7 @@ void ScrollListShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( xoff<xoffMax )
+   if( xoff<xoff_max )
      {
       FigureRightMark fig(p,dx);
 
@@ -308,7 +301,7 @@ void ScrollListShape::draw(const DrawBuf &buf) const
       fig.solid(art,text);
      }
 
-   if( yoff<yoffMax )
+   if( yoff<yoff_max )
      {
       FigureDownMark fig(p,dy);
 

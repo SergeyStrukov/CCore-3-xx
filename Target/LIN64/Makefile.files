@@ -444,6 +444,7 @@ OBJ_LIST = \
 .obj/Window.RunButton.o \
 .obj/Window.Scroll.o \
 .obj/Window.ScrollList.o \
+.obj/Window.Scrollable.o \
 .obj/Window.SimpleTextList.o \
 .obj/Window.Slider.o \
 .obj/Window.Spinor.o \
@@ -901,6 +902,7 @@ ASM_LIST = \
 .obj/Window.RunButton.s \
 .obj/Window.Scroll.s \
 .obj/Window.ScrollList.s \
+.obj/Window.Scrollable.s \
 .obj/Window.SimpleTextList.s \
 .obj/Window.Slider.s \
 .obj/Window.Spinor.s \
@@ -1358,6 +1360,7 @@ DEP_LIST = \
 .obj/Window.RunButton.dep \
 .obj/Window.Scroll.dep \
 .obj/Window.ScrollList.dep \
+.obj/Window.Scrollable.dep \
 .obj/Window.SimpleTextList.dep \
 .obj/Window.Slider.dep \
 .obj/Window.Spinor.dep \
@@ -2715,6 +2718,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.ScrollList.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.ScrollList.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Window.Scrollable.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scrollable.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Window.SimpleTextList.o : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
@@ -4081,6 +4087,9 @@ include $(RULES_FILE)
 .obj/Window.ScrollList.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.ScrollList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Window.Scrollable.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scrollable.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Window.SimpleTextList.s : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5444,6 +5453,9 @@ include $(RULES_FILE)
 
 .obj/Window.ScrollList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.ScrollList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.ScrollList.o $< -MF $@
+
+.obj/Window.Scrollable.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.Scrollable.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Window.Scrollable.o $< -MF $@
 
 .obj/Window.SimpleTextList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Window.SimpleTextList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Window.SimpleTextList.o $< -MF $@
