@@ -162,7 +162,7 @@ Coord FixedFrameShape::getMinDX(bool is_main,StrLen title) const
 
   dx += 2*dxy+btn_len+bdx/2 ;
 
-  return +dx;
+  return dx;
  }
 
 DragType FixedFrameShape::dragTest(Point point) const

@@ -588,9 +588,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      connector_update.connect(update);
     }
 
-   virtual ~DragFrameOf()
-    {
-    }
+   virtual ~DragFrameOf() {}
 
    // methods
 

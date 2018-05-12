@@ -394,14 +394,14 @@ Dir Dir30=
     { "ExceptionFrame.h" , Green },
     { "FigureLib.h" , Red },
     { "FileFrame.h" , Red },
-    { "FrameBase.h" , Red },
+    { "FrameBase.h" , Green },
     { "Layout.h" , Red },
     { "LayoutCombo.h" , Red },
     { "Menu.h" , Red },
     { "MessageFrame.h" , Red },
     { "MinSizeType.h" , Green },
     { "ShapeLib.h" , Green },
-    { "ToolFrame.h" , Red },
+    { "ToolFrame.h" , Green },
     { "UserPreference.h" , Red },
     { "WindowLib.h" , Green }
    }
@@ -410,7 +410,7 @@ Dir Dir30=
 Dir Dir32=
   {
    "lib",
-   Red,
+   Green,
    {
    },
    {
@@ -421,11 +421,11 @@ Dir Dir32=
     { "Window.Check.h" , Green },
     { "Shape.Contour.h" , Green },
     { "Window.Decor.h" , Green },
-    { "Shape.DragFrame.h" , Red },
-    { "Window.DragFrame.h" , Red },
+    { "Shape.DragFrame.h" , Green },
+    { "Window.DragFrame.h" , Green },
     { "Window.FireButton.h" , Green },
-    { "Shape.FixedFrame.h" , Red },
-    { "Shape.FrameBase.h" , Red },
+    { "Shape.FixedFrame.h" , Green },
+    { "Shape.FrameBase.h" , Green },
     { "Shape.Info.h" , Green },
     { "Window.Info.h" , Green },
     { "Shape.Label.h" , Green },
@@ -494,14 +494,14 @@ Dir Dir31=
     { "ExceptionFrame.cpp" , Green },
     { "FigureLib.cpp" , Red },
     { "FileFrame.cpp" , Red },
-    { "FrameBase.cpp" , Red },
+    { "FrameBase.cpp" , Green },
     { "Layout.cpp" , Red },
     { "LayoutCombo.cpp" , Red },
     { "Menu.cpp" , Red },
     { "MessageFrame.cpp" , Red },
     { "MinSizeType.cpp" , Green },
     { "ShapeLib.cpp" , Green },
-    { "ToolFrame.cpp" , Red },
+    { "ToolFrame.cpp" , Green },
     { "UserPreference.cpp" , Red },
     { "WindowLib.cpp" , Green },
     { "ConfigTypes.ddl" , Green },
@@ -514,7 +514,7 @@ Dir Dir31=
 Dir Dir34=
   {
    "lib",
-   Red,
+   Green,
    {
    },
    {
@@ -525,11 +525,11 @@ Dir Dir34=
     { "Window.Check.cpp" , Green },
     { "Shape.Contour.cpp" , Green },
     { "Window.Decor.cpp" , Green },
-    { "Shape.DragFrame.cpp" , Red },
-    { "Window.DragFrame.cpp" , Red },
+    { "Shape.DragFrame.cpp" , Green },
+    { "Window.DragFrame.cpp" , Green },
     { "Window.FireButton.cpp" , Green },
-    { "Shape.FixedFrame.cpp" , Red },
-    { "Shape.FrameBase.cpp" , Red },
+    { "Shape.FixedFrame.cpp" , Green },
+    { "Shape.FrameBase.cpp" , Green },
     { "Shape.Info.cpp" , Green },
     { "Window.Info.cpp" , Green },
     { "Shape.Label.cpp" , Green },

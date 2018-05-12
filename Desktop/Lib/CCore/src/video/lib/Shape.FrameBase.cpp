@@ -620,7 +620,7 @@ Coord FrameShapeBase::getMinTitleDX(StrLen title,Coord dy) const
 
   dx+=2*RoundUpLen(ex);
 
-  return +dx;
+  return dx;
  }
 
 void FrameShapeBase::reset(const DefString &title_,bool is_main_)
