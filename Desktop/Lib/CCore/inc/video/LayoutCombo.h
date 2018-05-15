@@ -486,7 +486,7 @@ class LayToTop : protected LaySet<LL...>
 
             [space,cap,&dx,&dy] (auto &obj)
                                 {
-                                 Point s=obj.getMinSize(space,cap.subY(+dy));
+                                 Point s=obj.getMinSize(space,cap.subY(dy));
 
                                  dy+=s.y;
 
@@ -650,7 +650,7 @@ class LayToBottom : protected LaySet<LL...>
 
             [space,cap,&dx,&dy] (auto &obj)
                                 {
-                                 Point s=obj.getMinSize(space,cap.subY(+dy));
+                                 Point s=obj.getMinSize(space,cap.subY(dy));
 
                                  dy+=s.y;
 
@@ -814,7 +814,7 @@ class LayToLeft : protected LaySet<LL...>
 
             [space,cap,&dx,&dy] (auto &obj)
                                 {
-                                 Point s=obj.getMinSize(space,cap.subX(+dx));
+                                 Point s=obj.getMinSize(space,cap.subX(dx));
 
                                  dx+=s.x;
 
@@ -980,7 +980,7 @@ class LayToRight : protected LaySet<LL...>
 
             [space,cap,&dx,&dy] (auto &obj)
                                 {
-                                 Point s=obj.getMinSize(space,cap.subX(+dx));
+                                 Point s=obj.getMinSize(space,cap.subX(dx));
 
                                  dx+=s.x;
 
