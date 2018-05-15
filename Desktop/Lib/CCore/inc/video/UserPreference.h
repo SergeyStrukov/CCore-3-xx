@@ -19,10 +19,12 @@
 #include <CCore/inc/video/ConfigBinder.h>
 
 #include <CCore/inc/video/WindowLib.h>
-#include <CCore/inc/video/ToolFrame.h>
+
 #include <CCore/inc/video/WindowReport.h>
-#include <CCore/inc/video/MessageFrame.h>
+#include <CCore/inc/video/ToolFrame.h>
 #include <CCore/inc/video/Menu.h>
+
+#include <CCore/inc/video/MessageFrame.h>
 #include <CCore/inc/video/FileFrame.h>
 #include <CCore/inc/video/DirFrame.h>
 #include <CCore/inc/video/ConfigEditor.h>

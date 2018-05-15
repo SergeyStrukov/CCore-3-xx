@@ -402,7 +402,7 @@ Dir Dir30=
     { "MinSizeType.h" , Green },
     { "ShapeLib.h" , Green },
     { "ToolFrame.h" , Green },
-    { "UserPreference.h" , Red },
+    { "UserPreference.h" , Green },
     { "WindowLib.h" , Green }
    }
   };
@@ -502,7 +502,7 @@ Dir Dir31=
     { "MinSizeType.cpp" , Green },
     { "ShapeLib.cpp" , Green },
     { "ToolFrame.cpp" , Green },
-    { "UserPreference.cpp" , Red },
+    { "UserPreference.cpp" , Green },
     { "WindowLib.cpp" , Green },
     { "ConfigTypes.ddl" , Green },
     { "HitDirs.ddl" , Red },
