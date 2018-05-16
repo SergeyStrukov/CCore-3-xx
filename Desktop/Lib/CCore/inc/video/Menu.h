@@ -269,7 +269,7 @@ class SimpleTopMenuShape : public MenuShapeBase
    ulen select_index = 0 ;
    Coord xoff = 0 ;
 
-   Coord xoffMax = 0 ;
+   Coord xoff_max = 0 ;
    Coord dxoff = 0 ;
 
    // methods
@@ -302,14 +302,14 @@ class SimpleTopMenuWindowOf : public SubWindow
 
    void setXOff(Coord xoff)
     {
-     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoffMax)) ) redraw();
+     if( Change(shape.xoff,Cap<Coord>(0,xoff,shape.xoff_max)) ) redraw();
     }
 
    void addXOff(Coord delta)
     {
      Coord xoff=shape.xoff+delta*shape.dxoff;
 
-     setXOff(+xoff);
+     setXOff(xoff);
     }
 
    void assert()
@@ -500,7 +500,7 @@ class SimpleTopMenuWindowOf : public SubWindow
      shape.focus=false;
      shape.state=MenuNone;
      shape.xoff=0;
-     shape.xoffMax=0;
+     shape.xoff_max=0;
     }
 
    // keyboard
@@ -641,7 +641,7 @@ class SimpleCascadeMenuShape : public MenuShapeBase
    ulen select_index = 0 ;
    Coord yoff = 0 ;
 
-   Coord yoffMax = 0 ;
+   Coord yoff_max = 0 ;
    Coord cell_dy = 0 ;
 
   private:
@@ -680,14 +680,14 @@ class SimpleCascadeMenuWindowOf : public SubWindow
 
    void setYOff(Coord yoff)
     {
-     if( Change(shape.yoff,Cap<Coord>(0,yoff,shape.yoffMax)) ) redraw();
+     if( Change(shape.yoff,Cap<Coord>(0,yoff,shape.yoff_max)) ) redraw();
     }
 
    void addYOff(Coord delta)
     {
      Coord yoff=shape.yoff+delta*shape.cell_dy;
 
-     setYOff(+yoff);
+     setYOff(yoff);
     }
 
    void assert()
@@ -900,7 +900,7 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      shape.focus=false;
      shape.state=MenuNone;
      shape.yoff=0;
-     shape.yoffMax=0;
+     shape.yoff_max=0;
     }
 
    // keyboard

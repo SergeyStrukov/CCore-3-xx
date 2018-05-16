@@ -70,7 +70,7 @@ class LineEditWindowOf : public SubWindow
     {
      Coord xoff=shape.xoff+count*shape.dxoff;
 
-     setXOff(+xoff);
+     setXOff(xoff);
     }
 
    void startDrag(Point point)
@@ -88,7 +88,7 @@ class LineEditWindowOf : public SubWindow
     {
      Coord xoff=shape.xoff_base-(point.x-shape.drag_base.x);
 
-     setXOff(+xoff);
+     setXOff(xoff);
     }
 
    void endDrag()

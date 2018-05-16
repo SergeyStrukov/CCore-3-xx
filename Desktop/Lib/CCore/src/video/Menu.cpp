@@ -271,16 +271,16 @@ void SimpleTopMenuShape::layout()
         x+=dx;
        }
 
-     menu_dx=+x;
+     menu_dx=x;
 
      dxoff=fs.medDX();
 
      ok=true;
     }
 
-  xoffMax=PlusSub(menu_dx,pane.dx);
+  xoff_max=PlusSub(menu_dx,pane.dx);
 
-  Replace_min(xoff,xoffMax);
+  Replace_min(xoff,xoff_max);
  }
 
 void SimpleTopMenuShape::draw(const DrawBuf &buf) const
@@ -373,7 +373,7 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf) const
      FigureLeftArrow(p).curveSolid(art,hilight);
     }
 
-  if( xoff<xoffMax )
+  if( xoff<xoff_max )
     {
      Coord len=pane.dy/3;
 
@@ -476,7 +476,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
      FigureUpArrow(p).curveSolid(art,hilight);
     }
 
-  if( yoff<yoffMax )
+  if( yoff<yoff_max )
     {
      Coord len=cell_dy/3;
 
@@ -535,12 +535,12 @@ void SimpleCascadeMenuShape::layout()
   Coord dy=fs.dy+2*space.y;
   Coord y=0;
 
-  cell_dy=+dy;
+  cell_dy=dy;
 
   if( !data )
     {
      yoff=0;
-     yoffMax=0;
+     yoff_max=0;
 
      return;
     }
@@ -581,9 +581,9 @@ void SimpleCascadeMenuShape::layout()
         }
       }
 
-  yoffMax=PlusSub(+y,inner.dy);
+  yoff_max=PlusSub(y,inner.dy);
 
-  Replace_min(yoff,yoffMax);
+  Replace_min(yoff,yoff_max);
  }
 
 void SimpleCascadeMenuShape::draw(const DrawBuf &buf) const

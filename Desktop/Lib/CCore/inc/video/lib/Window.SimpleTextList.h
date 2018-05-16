@@ -47,7 +47,7 @@ class SimpleTextListWindowOf : public SubWindow
     {
      Coord xoff=shape.xoff+count*shape.dxoff;
 
-     setXOff(+xoff);
+     setXOff(xoff);
     }
 
    void setYOff(ulen yoff)
