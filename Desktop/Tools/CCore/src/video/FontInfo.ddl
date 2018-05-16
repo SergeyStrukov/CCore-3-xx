@@ -18,8 +18,6 @@ type Bool = uint8 ;
 Bool True = 1 ;
 Bool False = 0 ;
 
-type Coord = sint16 ;
-
 struct FontInfo
  {
   text file_name;

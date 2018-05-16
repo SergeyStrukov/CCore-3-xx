@@ -109,8 +109,6 @@ StrLen FontDatabase::Pretext()
 "Bool True = 1 ;\r\n"
 "Bool False = 0 ;\r\n"
 "\r\n"
-"type Coord = sint16 ;\r\n"
-"\r\n"
 "struct FontInfo\r\n"
 " {\r\n"
 "  text file_name;\r\n"
