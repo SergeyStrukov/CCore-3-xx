@@ -113,7 +113,7 @@ Ratio RatioEditWindow::getRatio() const
 void RatioEditWindow::setRatio(Ratio value)
  {
   MCoord a=value.value;
-  MCoord b=MCoord(1)<<Ratio::Precision;
+  MCoord b=Ratio::One;
 
   if( a<=0 )
     {

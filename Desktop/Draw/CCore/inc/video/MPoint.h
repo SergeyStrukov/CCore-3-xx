@@ -166,6 +166,8 @@ struct Ratio
 
   static constexpr unsigned Precision = 16 ;
 
+  static constexpr MCoord One = MCoord(1)<<Precision ;
+
   // data
 
   MCoord value;

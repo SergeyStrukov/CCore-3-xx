@@ -388,12 +388,12 @@ Dir Dir30=
    {
     { "BindBagProxy.h" , Green },
     { "ConfigBinder.h" , Green },
-    { "ConfigEditor.h" , Red },
+    { "ConfigEditor.h" , Green },
     { "ConfigStore.h" , Green },
-    { "DirFrame.h" , Red },
+    { "DirFrame.h" , Green },
     { "ExceptionFrame.h" , Green },
-    { "FigureLib.h" , Yellow },
-    { "FileFrame.h" , Red },
+    { "FigureLib.h" , Green },
+    { "FileFrame.h" , Green },
     { "FrameBase.h" , Green },
     { "Layout.h" , Green },
     { "LayoutCombo.h" , Green },
@@ -469,11 +469,11 @@ Dir Dir33=
    },
    {
     { "ColorEdit.h" , Red },
-    { "CoordEdit.h" , Red },
+    { "CoordEdit.h" , Green },
     { "FontEdit.h" , Red },
-    { "MCoordEdit.h" , Red },
-    { "PointEdit.h" , Red },
-    { "RatioEdit.h" , Red }
+    { "MCoordEdit.h" , Green },
+    { "PointEdit.h" , Green },
+    { "RatioEdit.h" , Green }
    }
   };
 
@@ -488,12 +488,12 @@ Dir Dir31=
    {
     { "BindBagProxy.cpp" , Green },
     { "ConfigBinder.cpp" , Green },
-    { "ConfigEditor.cpp" , Red },
+    { "ConfigEditor.cpp" , Green },
     { "ConfigStore.cpp" , Green },
-    { "DirFrame.cpp" , Red },
+    { "DirFrame.cpp" , Green },
     { "ExceptionFrame.cpp" , Green },
-    { "FigureLib.cpp" , Red },
-    { "FileFrame.cpp" , Red },
+    { "FigureLib.cpp" , Green },
+    { "FileFrame.cpp" , Green },
     { "FrameBase.cpp" , Green },
     { "Layout.cpp" , Green },
     { "LayoutCombo.cpp" , Green },
@@ -505,9 +505,9 @@ Dir Dir31=
     { "UserPreference.cpp" , Green },
     { "WindowLib.cpp" , Green },
     { "ConfigTypes.ddl" , Green },
-    { "HitDirs.ddl" , Red },
-    { "HitDirs.TypeDef.gen.h" , Red },
-    { "HitDirs.TypeSet.gen.h" , Red }
+    { "HitDirs.ddl" , Green },
+    { "HitDirs.TypeDef.gen.h" , Green },
+    { "HitDirs.TypeSet.gen.h" , Green }
    }
   };
 
@@ -573,11 +573,11 @@ Dir Dir35=
    },
    {
     { "ColorEdit.cpp" , Red },
-    { "CoordEdit.cpp" , Red },
+    { "CoordEdit.cpp" , Green },
     { "FontEdit.cpp" , Red },
-    { "MCoordEdit.cpp" , Red },
-    { "PointEdit.cpp" , Red },
-    { "RatioEdit.cpp" , Red }
+    { "MCoordEdit.cpp" , Green },
+    { "PointEdit.cpp" , Green },
+    { "RatioEdit.cpp" , Green }
    }
   };
 

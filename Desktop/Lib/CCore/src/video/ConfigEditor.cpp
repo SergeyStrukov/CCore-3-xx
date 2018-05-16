@@ -456,7 +456,7 @@ class ConfigEditorWindow::PrefInfo::Binder : public ConfigItemBind
 
    virtual void item(DefString name,Coord &var) { base->add(name,var); }
 
-   virtual void item(DefString name,Fraction &var) { base->add(name,var.value); }
+   virtual void item(DefString name,Fraction &var) { base->add(name,var); }
 
    virtual void item(DefString name,VColor &var) { base->add(name,var); }
 

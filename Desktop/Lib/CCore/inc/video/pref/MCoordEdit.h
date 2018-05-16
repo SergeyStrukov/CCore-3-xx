@@ -68,9 +68,9 @@ class MCoordEditWindow : public ComboWindow
 
    Point getMinSize() const;
 
-   MCoord getMCoord() const { return (spinor.getValue()*1024)/100; }
+   MCoord getMCoord() const { return (spinor.getValue()*MPoint::One)/100; }
 
-   void setMCoord(MCoord value) { spinor.setValue( (value*100)/1024 ); }
+   void setMCoord(MCoord value) { spinor.setValue( (value*100)/MPoint::One ); }
 
    // drawing
 
