@@ -5,7 +5,7 @@ Aspect Data=
   "../../../Desktop",
   {
    "",
-   Red,
+   Green,
    {
     &Dir0,
     &Dir1,
@@ -66,7 +66,7 @@ Dir Dir3=
 Dir Dir4=
   {
    "Lib",
-   Red,
+   Green,
    {
     &Dir10
    },
@@ -346,7 +346,7 @@ Dir Dir27=
 Dir Dir10=
   {
    "CCore",
-   Red,
+   Green,
    {
     &Dir28,
     &Dir29
@@ -358,7 +358,7 @@ Dir Dir10=
 Dir Dir28=
   {
    "inc",
-   Red,
+   Green,
    {
     &Dir30
    },
@@ -369,7 +369,7 @@ Dir Dir28=
 Dir Dir29=
   {
    "src",
-   Red,
+   Green,
    {
     &Dir31
    },
@@ -380,7 +380,7 @@ Dir Dir29=
 Dir Dir30=
   {
    "video",
-   Red,
+   Green,
    {
     &Dir32,
     &Dir33
@@ -464,13 +464,13 @@ Dir Dir32=
 Dir Dir33=
   {
    "pref",
-   Red,
+   Green,
    {
    },
    {
-    { "ColorEdit.h" , Red },
+    { "ColorEdit.h" , Green },
     { "CoordEdit.h" , Green },
-    { "FontEdit.h" , Red },
+    { "FontEdit.h" , Green },
     { "MCoordEdit.h" , Green },
     { "PointEdit.h" , Green },
     { "RatioEdit.h" , Green }
@@ -480,7 +480,7 @@ Dir Dir33=
 Dir Dir31=
   {
    "video",
-   Red,
+   Green,
    {
     &Dir34,
     &Dir35
@@ -568,13 +568,13 @@ Dir Dir34=
 Dir Dir35=
   {
    "pref",
-   Red,
+   Green,
    {
    },
    {
-    { "ColorEdit.cpp" , Red },
+    { "ColorEdit.cpp" , Green },
     { "CoordEdit.cpp" , Green },
-    { "FontEdit.cpp" , Red },
+    { "FontEdit.cpp" , Green },
     { "MCoordEdit.cpp" , Green },
     { "PointEdit.cpp" , Green },
     { "RatioEdit.cpp" , Green }
