@@ -17,9 +17,9 @@ struct TypeDefCore
  {
   // types
 
-  struct S1; // #File 
-  struct S2; // #Dir 
-  struct S3; // #Aspect 
+  struct S1; // #File
+  struct S2; // #Dir
+  struct S3; // #Aspect
 
   using A1 = uint8 ; // #Status
 

@@ -17,10 +17,10 @@ struct TypeDefCore
  {
   // types
 
-  struct S1; // #Pane 
-  struct S2; // #AppState 
+  struct S1; // #Pane
+  struct S2; // #AppState
 
-  using A1 = sint16 ; // #Coord
+  using A1 = sint32 ; // #Coord
 
 
   using XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8 = TypeDefCore ;

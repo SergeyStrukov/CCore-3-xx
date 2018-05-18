@@ -35,7 +35,7 @@ StrLen AppState::File() { return "/AppState.ddl"_c; }
 StrLen AppState::Pretext()
  {
   return
-"type Coord = sint16 ;"
+"type Coord = sint32 ;"
 
 "struct Pane"
 " {"
