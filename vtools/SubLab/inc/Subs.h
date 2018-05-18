@@ -17,8 +17,7 @@
 #include <inc/Application.h>
 
 #include <CCore/inc/video/WindowLib.h>
-
-#include <CCore/inc/Exception.h>
+#include <CCore/inc/video/Layout.h>
 
 namespace App {
 namespace Subs {
@@ -337,86 +336,17 @@ class RadioLightWindow : public ComboWindow
 
   private:
 
-   void group_changed(int new_id,int)
-    {
-     switch( new_id )
-       {
-        case 0 :
-         {
-          light.turnOff();
-         }
-        break;
-
-        case 1 :
-         {
-          light.setFace(Red);
-
-          light.turnOn();
-         }
-        break;
-
-        case 2 :
-         {
-          light.setFace(Green);
-
-          light.turnOn();
-         }
-        break;
-
-        case 3 :
-         {
-          light.setFace(Blue);
-
-          light.turnOn();
-         }
-        break;
-       }
-    }
+   void group_changed(int new_id,int);
 
    SignalConnector<RadioLightWindow,int,int> connector_group_changed;
 
   public:
 
-   RadioLightWindow(SubWindowHost &host,const UserPreference &pref)
-    : ComboWindow(host),
-
-      radio_Off(wlist,0,pref.getSmartConfig()),
-      radio_Red(wlist,1,pref.getSmartConfig()),
-      radio_Green(wlist,2,pref.getSmartConfig()),
-      radio_Blue(wlist,3,pref.getSmartConfig()),
-
-      light(wlist,pref.getSmartConfig(),Red,false),
-
-      connector_group_changed(this,&RadioLightWindow::group_changed,group.changed)
-    {
-     wlist.insTop(radio_Off,radio_Red,radio_Green,radio_Blue,light);
-
-     group.add(radio_Off,radio_Red,radio_Green,radio_Blue);
-    }
+   RadioLightWindow(SubWindowHost &host,const UserPreference &pref);
 
    // drawing
 
-   virtual void layout()
-    {
-     Point size=getSize();
-
-     {
-      Pane pane(Null,size.x/2,size.y/7);
-
-      Coord delta=2*pane.dy;
-
-      radio_Off.setPlace(pane); pane.y+=delta;
-      radio_Red.setPlace(pane); pane.y+=delta;
-      radio_Green.setPlace(pane); pane.y+=delta;
-      radio_Blue.setPlace(pane); pane.y+=delta;
-     }
-
-     {
-      Coord dx=size.x/3;
-
-      light.setPlace(Pane(2*dx,(size.y-dx)/2,dx,dx));
-     }
-    }
+   virtual void layout();
  };
 
 /* class AlignWindow<W> */
@@ -635,11 +565,7 @@ class AltWindow_Sample : AltConfig , public AltWindow
  {
   public:
 
-   AltWindow_Sample(SubWindowHost &host,const UserPreference &pref)
-    : AltConfig(pref),
-      AltWindow(host,(AltConfig &)*this)
-    {
-    }
+   AltWindow_Sample(SubWindowHost &host,const UserPreference &pref);
  };
 
 /* class FireButtonWindow_Sample */
@@ -654,40 +580,17 @@ class FireButtonWindow_Sample : public ComboWindow
 
   private:
 
-   void fire(bool on)
-    {
-     light.turn(on);
-    }
+   void fire(bool on);
 
    SignalConnector<FireButtonWindow_Sample,bool> connector_fire;
 
   public:
 
-   FireButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
-    : ComboWindow(host),
-
-      light(wlist,pref.getSmartConfig(),Red,false),
-      btn(wlist,pref.getSmartConfig(),name),
-
-      connector_fire(this,&FireButtonWindow_Sample::fire,btn.fire)
-    {
-     wlist.insTop(light,btn);
-    }
+   FireButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref);
 
    // drawing
 
-   virtual void layout()
-    {
-     Pane pane=getPane();
-
-     Coord dy=light.getMinSize().dxy;
-
-     light.setPlace( TrySplitY(dy,pane) );
-
-     TrySplitY(dy,pane);
-
-     btn.setPlace(pane);
-    }
+   virtual void layout();
  };
 
 /* class XSliderWindow_Sample */
@@ -699,42 +602,17 @@ class XSliderWindow_Sample : public ComboWindow
 
   private:
 
-   void changed(unsigned pos)
-    {
-     text.printf("#;",pos);
-    }
+   void changed(unsigned pos);
 
    SignalConnector<XSliderWindow_Sample,unsigned> connector_changed;
 
   public:
 
-   XSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
-    : ComboWindow(host),
-
-      text(wlist,pref.getSmartConfig()),
-      slider(wlist,pref.getSmartConfig()),
-
-      connector_changed(this,&XSliderWindow_Sample::changed,slider.changed)
-    {
-     wlist.insTop(text,slider);
-
-     slider.setCap(1000);
-    }
+   XSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref);
 
    // drawing
 
-   virtual void layout()
-    {
-     Pane pane=getPane();
-
-     Coord dy=text.getMinSize().y;
-
-     text.setPlace( TrySplitY(dy,pane) );
-
-     TrySplitY(dy,pane);
-
-     slider.setPlace(pane);
-    }
+   virtual void layout();
  };
 
 /* class YSliderWindow_Sample */
@@ -746,44 +624,17 @@ class YSliderWindow_Sample : public ComboWindow
 
   private:
 
-   void changed(unsigned pos)
-    {
-     text.printf("#;",pos);
-    }
+   void changed(unsigned pos);
 
    SignalConnector<YSliderWindow_Sample,unsigned> connector_changed;
 
   public:
 
-   YSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
-    : ComboWindow(host),
-
-      text(wlist,pref.getSmartConfig()),
-      slider(wlist,pref.getSmartConfig()),
-
-      connector_changed(this,&YSliderWindow_Sample::changed,slider.changed)
-    {
-     wlist.insTop(text,slider);
-
-     slider.setCap(1000);
-    }
+   YSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref);
 
    // drawing
 
-   virtual void layout()
-    {
-     Pane pane=getPane();
-
-     Point s=text.getMinSize("12345"_c);
-
-     Pane left=TrySplitX(s.x,pane);
-
-     text.setPlace( TrySplitY(s.y,left) );
-
-     TrySplitX(s.y,pane);
-
-     slider.setPlace(pane);
-    }
+   virtual void layout();
  };
 
 /* class RunButtonWindow_Sample */
@@ -799,40 +650,17 @@ class RunButtonWindow_Sample : public ComboWindow
 
   private:
 
-   void changed(bool on)
-    {
-     light.turn(on);
-    }
+   void changed(bool on);
 
    SignalConnector<RunButtonWindow_Sample,bool> connector_changed;
 
   public:
 
-   RunButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
-    : ComboWindow(host),
-
-      light(wlist,pref.getSmartConfig(),Red,false),
-      btn(wlist,pref.getSmartConfig(),name_off,name_on),
-
-      connector_changed(this,&RunButtonWindow_Sample::changed,btn.changed)
-    {
-     wlist.insTop(light,btn);
-    }
+   RunButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref);
 
    // drawing
 
-   virtual void layout()
-    {
-     Pane pane=getPane();
-
-     Coord dy=light.getMinSize().dxy;
-
-     light.setPlace( TrySplitY(dy,pane) );
-
-     TrySplitY(dy,pane);
-
-     btn.setPlace(pane);
-    }
+   virtual void layout();
  };
 
 /* class LayoutWindow */

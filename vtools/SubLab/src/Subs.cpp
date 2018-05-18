@@ -14,7 +14,8 @@
 #include <inc/Subs.h>
 
 #include <CCore/inc/video/FigureLib.h>
-#include <CCore/inc/video/Layout.h>
+
+#include <CCore/inc/Exception.h>
 
 namespace App {
 namespace Subs {
@@ -36,104 +37,6 @@ void DrawShape::draw(const DrawBuf &buf) const
   auto fig2=fig1.border(+cfg.width);
 
   fig2.curveSolid(art,+cfg.border);
- }
-
-/* class AltShape */
-
-Point AltShape::getMinSize() const
- {
-  Coord dy=+cfg.dy;
-
-  return Point(2*dy,dy);
- }
-
-auto AltShape::getZone(Point point) const -> CheckType
- {
-  return point.x-pane.x > pane.dx/2 ;
- }
-
-void AltShape::draw(const DrawBuf &buf) const
- {
-  MPane p(pane);
-
-  if( !p ) return;
-
-  MCoord t=p.x+p.dx/2;
-  MCoord space=p.dy/5;
-
-  MPane a=p.cutLeft(t);
-  MPane b=p.cutRight(t);
-
-  SmoothDrawArt art(buf.cut(pane));
-
-  VColor snow=+cfg.snow;
-  VColor gray=+cfg.gray;
-  VColor snowUp=+cfg.snowUp;
-
-  // body
-
-  {
-   FigureBox fig(a);
-
-   if( enable && check )
-     {
-      VColor top_ = ( mover && !zone )? snowUp : snow ;
-
-      fig.solid(art,TwoField(a.getTopLeft(),top_,a.getBottomLeft(),gray));
-     }
-   else
-     {
-      fig.solid(art,gray);
-     }
-  }
-  {
-   FigureBox fig(b);
-
-   if( enable && !check )
-     {
-      VColor top_ = ( mover && zone )? snowUp : snow ;
-
-      fig.solid(art,TwoField(b.getTopLeft(),top_,b.getTopRight(),gray));
-     }
-   else
-     {
-      fig.solid(art,gray);
-     }
-  }
-
-  // mark
-
-  {
-   FigureDownArrow fig(a.shrink(space));
-
-   VColor mark = ( enable && !check )? +cfg.mark_false_on : +cfg.mark_false ;
-
-   fig.curveSolid(art,mark);
-  }
-  {
-   FigureRightArrow fig(b.shrink(space));
-
-   VColor mark = ( enable && check )? +cfg.mark_true_on : +cfg.mark_true ;
-
-   fig.curveSolid(art,mark);
-  }
-
-  // border
-
-  {
-   FigureBox fig(p);
-
-   MCoord width=space/2;
-
-   VColor border = enable? +cfg.border : snow ;
-
-   fig.loop(art,HalfPos,width,border);
-
-   art.path(width,border,p.getTopMid(),p.getBottomMid());
-
-   if( focus )
-     fig.loop(art,HalfPos,width/2,+cfg.focus);
-  }
  }
 
 /* class TextContourWindow_Left */
@@ -488,6 +391,328 @@ SpinorWindow_Sample::SpinorWindow_Sample(SubWindowHost &host,const ConfigType &c
   setOptions("+4i");
  }
 
+/* class RadioLightWindow */
+
+void RadioLightWindow::group_changed(int new_id,int)
+ {
+  switch( new_id )
+    {
+     case 0 :
+      {
+       light.turnOff();
+      }
+     break;
+
+     case 1 :
+      {
+       light.setFace(Red);
+
+       light.turnOn();
+      }
+     break;
+
+     case 2 :
+      {
+       light.setFace(Green);
+
+       light.turnOn();
+      }
+     break;
+
+     case 3 :
+      {
+       light.setFace(Blue);
+
+       light.turnOn();
+      }
+     break;
+    }
+ }
+
+RadioLightWindow::RadioLightWindow(SubWindowHost &host,const UserPreference &pref)
+ : ComboWindow(host),
+
+   radio_Off(wlist,0,pref.getSmartConfig()),
+   radio_Red(wlist,1,pref.getSmartConfig()),
+   radio_Green(wlist,2,pref.getSmartConfig()),
+   radio_Blue(wlist,3,pref.getSmartConfig()),
+
+   light(wlist,pref.getSmartConfig(),Red,false),
+
+   connector_group_changed(this,&RadioLightWindow::group_changed,group.changed)
+ {
+  wlist.insTop(radio_Off,radio_Red,radio_Green,radio_Blue,light);
+
+  group.add(radio_Off,radio_Red,radio_Green,radio_Blue);
+ }
+
+ // drawing
+
+void RadioLightWindow::layout()
+ {
+  Point size=getSize();
+
+  {
+   Pane pane(Null,size.x/2,size.y/7);
+
+   Coord delta=2*pane.dy;
+
+   radio_Off.setPlace(pane); pane.y+=delta;
+   radio_Red.setPlace(pane); pane.y+=delta;
+   radio_Green.setPlace(pane); pane.y+=delta;
+   radio_Blue.setPlace(pane); pane.y+=delta;
+  }
+
+  {
+   Coord dx=size.x/3;
+
+   light.setPlace(Pane(2*dx,(size.y-dx)/2,dx,dx));
+  }
+ }
+
+/* class AltShape */
+
+Point AltShape::getMinSize() const
+ {
+  Coord dy=+cfg.dy;
+
+  return Point(2*dy,dy);
+ }
+
+auto AltShape::getZone(Point point) const -> CheckType
+ {
+  return point.x-pane.x > pane.dx/2 ;
+ }
+
+void AltShape::draw(const DrawBuf &buf) const
+ {
+  MPane p(pane);
+
+  if( !p ) return;
+
+  MCoord t=p.x+p.dx/2;
+  MCoord space=p.dy/5;
+
+  MPane a=p.cutLeft(t);
+  MPane b=p.cutRight(t);
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  VColor snow=+cfg.snow;
+  VColor gray=+cfg.gray;
+  VColor snowUp=+cfg.snowUp;
+
+  // body
+
+  {
+   FigureBox fig(a);
+
+   if( enable && check )
+     {
+      VColor top_ = ( mover && !zone )? snowUp : snow ;
+
+      fig.solid(art,TwoField(a.getTopLeft(),top_,a.getBottomLeft(),gray));
+     }
+   else
+     {
+      fig.solid(art,gray);
+     }
+  }
+  {
+   FigureBox fig(b);
+
+   if( enable && !check )
+     {
+      VColor top_ = ( mover && zone )? snowUp : snow ;
+
+      fig.solid(art,TwoField(b.getTopLeft(),top_,b.getTopRight(),gray));
+     }
+   else
+     {
+      fig.solid(art,gray);
+     }
+  }
+
+  // mark
+
+  {
+   FigureDownArrow fig(a.shrink(space));
+
+   VColor mark = ( enable && !check )? +cfg.mark_false_on : +cfg.mark_false ;
+
+   fig.curveSolid(art,mark);
+  }
+  {
+   FigureRightArrow fig(b.shrink(space));
+
+   VColor mark = ( enable && check )? +cfg.mark_true_on : +cfg.mark_true ;
+
+   fig.curveSolid(art,mark);
+  }
+
+  // border
+
+  {
+   FigureBox fig(p);
+
+   MCoord width=space/2;
+
+   VColor border = enable? +cfg.border : snow ;
+
+   fig.loop(art,HalfPos,width,border);
+
+   art.path(width,border,p.getTopMid(),p.getBottomMid());
+
+   if( focus )
+     fig.loop(art,HalfPos,width/2,+cfg.focus);
+  }
+ }
+
+/* class AltWindow_Sample */
+
+AltWindow_Sample::AltWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+ : AltConfig(pref),
+   AltWindow(host,(AltConfig &)*this)
+ {
+ }
+
+/* class FireButtonWindow_Sample */
+
+void FireButtonWindow_Sample::fire(bool on)
+ {
+  light.turn(on);
+ }
+
+FireButtonWindow_Sample::FireButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+ : ComboWindow(host),
+
+   light(wlist,pref.getSmartConfig(),Red,false),
+   btn(wlist,pref.getSmartConfig(),name),
+
+   connector_fire(this,&FireButtonWindow_Sample::fire,btn.fire)
+ {
+  wlist.insTop(light,btn);
+ }
+
+ // drawing
+
+void FireButtonWindow_Sample::layout()
+ {
+  Pane pane=getPane();
+
+  Coord dy=light.getMinSize().dxy;
+
+  light.setPlace( TrySplitY(dy,pane) );
+
+  TrySplitY(dy,pane);
+
+  btn.setPlace(pane);
+ }
+
+/* class XSliderWindow_Sample */
+
+void XSliderWindow_Sample::changed(unsigned pos)
+ {
+  text.printf("#;",pos);
+ }
+
+XSliderWindow_Sample::XSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+ : ComboWindow(host),
+
+   text(wlist,pref.getSmartConfig()),
+   slider(wlist,pref.getSmartConfig()),
+
+   connector_changed(this,&XSliderWindow_Sample::changed,slider.changed)
+ {
+  wlist.insTop(text,slider);
+
+  slider.setCap(1000);
+ }
+
+ // drawing
+
+void XSliderWindow_Sample::layout()
+ {
+  Pane pane=getPane();
+
+  Coord dy=text.getMinSize().y;
+
+  text.setPlace( TrySplitY(dy,pane) );
+
+  TrySplitY(dy,pane);
+
+  slider.setPlace(pane);
+ }
+
+/* class YSliderWindow_Sample */
+
+void YSliderWindow_Sample::changed(unsigned pos)
+ {
+  text.printf("#;",pos);
+ }
+
+YSliderWindow_Sample::YSliderWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+ : ComboWindow(host),
+
+   text(wlist,pref.getSmartConfig()),
+   slider(wlist,pref.getSmartConfig()),
+
+   connector_changed(this,&YSliderWindow_Sample::changed,slider.changed)
+ {
+  wlist.insTop(text,slider);
+
+  slider.setCap(1000);
+ }
+
+ // drawing
+
+void YSliderWindow_Sample::layout()
+ {
+  Pane pane=getPane();
+
+  Point s=text.getMinSize("12345"_c);
+
+  Pane left=TrySplitX(s.x,pane);
+
+  text.setPlace( TrySplitY(s.y,left) );
+
+  TrySplitX(s.y,pane);
+
+  slider.setPlace(pane);
+ }
+
+/* class RunButtonWindow_Sample */
+
+void RunButtonWindow_Sample::changed(bool on)
+ {
+  light.turn(on);
+ }
+
+RunButtonWindow_Sample::RunButtonWindow_Sample(SubWindowHost &host,const UserPreference &pref)
+ : ComboWindow(host),
+
+   light(wlist,pref.getSmartConfig(),Red,false),
+   btn(wlist,pref.getSmartConfig(),name_off,name_on),
+
+   connector_changed(this,&RunButtonWindow_Sample::changed,btn.changed)
+ {
+  wlist.insTop(light,btn);
+ }
+
+ // drawing
+
+void RunButtonWindow_Sample::layout()
+ {
+  Pane pane=getPane();
+
+  Coord dy=light.getMinSize().dxy;
+
+  light.setPlace( TrySplitY(dy,pane) );
+
+  TrySplitY(dy,pane);
+
+  btn.setPlace(pane);
+ }
 
 /* class LayoutWindow */
 
