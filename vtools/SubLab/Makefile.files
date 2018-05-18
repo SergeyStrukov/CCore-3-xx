@@ -1,18 +1,21 @@
 OBJ_LIST = \
 .obj/Application.o \
 .obj/Client.o \
+.obj/Subs.o \
 .obj/main.o \
 
 
 ASM_LIST = \
 .obj/Application.s \
 .obj/Client.s \
+.obj/Subs.s \
 .obj/main.s \
 
 
 DEP_LIST = \
 .obj/Application.dep \
 .obj/Client.dep \
+.obj/Subs.dep \
 .obj/main.dep \
 
 
@@ -28,6 +31,9 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Subs.o : src/./Subs.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -37,6 +43,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Client.s : src/./Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Subs.s : src/./Subs.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -49,6 +58,9 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
+
+.obj/Subs.dep : src/./Subs.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Subs.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
