@@ -96,7 +96,7 @@ Point HideControl::getMinSize() const
   Point s1=label_Hide.getMinSize();
   Point s2=btn_ShowAll.getMinSize();
 
-  return Point( 6*space_dxy+5*status_dxy+s1.x+s2.x , Sup(s1.y,s2.y,+status_dxy) );
+  return Point( 6*space_dxy+5*status_dxy+s1.x+s2.x , Sup(s1.y,s2.y,status_dxy) );
  }
 
 bool HideControl::operator [] (ItemStatus status) const
@@ -545,7 +545,7 @@ class InnerDataWindow::DrawItem : NoCopy
 
    ulen operator () (const ItemData &item) const
     {
-     Coord ex=item.is_dir?dir_dx:file_dx;
+     Coord ex = item.is_dir? dir_dx : file_dx ;
 
      TextSize ts=font->text(Range(item.ptr->name));
 
@@ -626,7 +626,7 @@ Point InnerDataWindow::BaseX(Point point,ulen off,ulen depth,Coord dxy)
 
 Point InnerDataWindow::Base(ulen off,ulen depth,ulen line,Coord dxy)
  {
-  return BaseX(Point(0,line*dxy),off,depth,dxy);
+  return BaseX(Point(0,CountToCoord(line)*dxy),off,depth,dxy);
  }
 
 void InnerDataWindow::setPosX(ulen pos)
