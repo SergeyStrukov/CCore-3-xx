@@ -19,25 +19,25 @@ XCORE_TARGET = BeagleBoneBlack
 
 # CC tool
 
-CC = /opt/BBB-7.1.0/bin/arm-gcc.exe
+CC = /opt/BBB-8.1.0/bin/arm-gcc.exe
 
 NOWARN = -Wno-non-virtual-dtor -Wno-switch
 
 CCINC = -I$(XCORE_ROOT)/Target/$(XCORE_TARGET)
 
-CCOPT = -c -std=c++1z -fconcepts -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard -mno-unaligned-access -O3 -Wall -Wextra $(NOWARN) $(CCINC) -D__STDBUILD
+CCOPT = -c -std=c++17 -fconcepts -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard -mno-unaligned-access -O3 -Wall -Wextra $(NOWARN) $(CCINC) -D__STDBUILD
 
 CCOPT_C = -c -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard -mno-unaligned-access -O3 -Wall -Wextra $(CCINC) -D__STDBUILD
 
 # AS tool
 
-AS = /opt/BBB-7.1.0/bin/arm-as.exe
+AS = /opt/BBB-8.1.0/bin/arm-as.exe
 
 ASOPT = -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard
 
 # AR tool
 
-AR = /opt/BBB-7.1.0/bin/arm-ar.exe
+AR = /opt/BBB-8.1.0/bin/arm-ar.exe
 
 # RM tool
 
@@ -63,8 +63,8 @@ clean:
 	$(RM) $(OBJ_LIST) lib/libc.a lib/libm.a lib/crt0.o
 
 install: all
-	cp -r -v ./lib /opt/BBB-7.1.0/sysroot
-	cp -r -v ./usr /opt/BBB-7.1.0/sysroot
+	cp -r -v ./lib /opt/BBB-8.1.0/sysroot
+	cp -r -v ./usr /opt/BBB-8.1.0/sysroot
 
 lib/libc.a : $(OBJ_LIST)
 	$(RM) $@
