@@ -37,7 +37,7 @@ CAT = cat
 
 TOUCH = touch
 
-CC_ = /opt/gcc-7.1.0/bin/g++-7.1.0 -static
+CC_ = /opt/gcc-8.1.0/bin/g++-8.1.0 -static
 
 CC = @$(ECHO) CC $< ; $(CC_)
 
@@ -81,7 +81,7 @@ CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
 
 FREETYPEOPT = -I$(HOME)/freetype
 
-CCOPT = -c -pthread -std=c++1z -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) $(FREETYPEOPT)
+CCOPT = -c -pthread -std=c++17 -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) $(FREETYPEOPT)
 
 ASOPT =
 
