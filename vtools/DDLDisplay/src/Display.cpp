@@ -136,52 +136,21 @@ void DDLFile::noPretext()
   erase();
  }
 
-/* struct uPoint */
-
-Coord uPoint::BaseOf(ulen a,ulen b)
- {
-  if( a<b ) return -Coord(b-a);
-
-  return Coord(a-b);
- }
-
-Point uPoint::baseOf(uPoint pos) const
- {
-  return {BaseOf(x,pos.x),BaseOf(y,pos.y)};
- }
-
-/* struct uPane */
-
-bool uPane::intersect(uPane obj) const
- {
-  if( size.noSize() || obj.size.noSize() ) return false;
-
-  uPoint a=Sup(base,obj.base);
-  uPoint b=Inf(base+size,obj.base+obj.size);
-
-  return a<b;
- }
-
-Pane uPane::baseOf(uPoint pos) const
- {
-  return Pane(base.baseOf(pos),Coord(size.x),Coord(size.y));
- }
-
 /* struct ValueTarget */
 
-uPane ValueTarget::frame() const
+Pane ValueTarget::frame() const
  {
-  if( !target ) return {};
+  if( !target ) return Null;
 
   if( single ) return target->place;
 
-  uPane ret;
+  Pane ret;
 
-  ret.base.x=parent->place.base.x;
-  ret.size.x=parent->place.size.x;
+  ret.x=parent->place.x;
+  ret.dx=parent->place.dx;
 
-  ret.base.y=row->y;
-  ret.size.y=row->dy;
+  ret.y=row->y;
+  ret.dy=row->dy;
 
   return ret;
  }
@@ -825,10 +794,10 @@ class DDLInnerWindow::SizeProc : NoCopy
    Font font;
    Font title_font;
 
-   ulen dxy;
-   ulen exy;
-   ulen ex;
-   ulen ey;
+   Coord dxy;
+   Coord exy;
+   Coord ex;
+   Coord ey;
 
   public:
 
@@ -838,18 +807,18 @@ class DDLInnerWindow::SizeProc : NoCopy
       font(+cfg.font),
       title_font(+cfg.title_font)
     {
-     dxy=Cast(space_dxy);
+     dxy=space_dxy;
      exy=2*dxy;
-     ex=2*Cast(space.x);
-     ey=2*Cast(space.y);
+     ex=2*space.x;
+     ey=2*space.y;
     }
 
-   uPoint size(StrSize &str) const
+   Point size(StrSize &str) const
     {
      TextSize ts=font->text(str.str);
 
-     ulen x=Cast(ts.full_dx);
-     ulen y=Cast(ts.dy);
+     Coord x=ts.full_dx;
+     Coord y=ts.dy;
 
      str.size.x=x;
      str.size.y=y;
@@ -857,12 +826,12 @@ class DDLInnerWindow::SizeProc : NoCopy
      return {x+ex,y+ey};
     }
 
-   uPoint title_size(StrSize &str) const
+   Point title_size(StrSize &str) const
     {
      TextSize ts=title_font->text(str.str);
 
-     ulen x=Cast(ts.full_dx);
-     ulen y=Cast(ts.dy);
+     Coord x=ts.full_dx;
+     Coord y=ts.dy;
 
      str.size.x=x;
      str.size.y=y;
@@ -870,22 +839,22 @@ class DDLInnerWindow::SizeProc : NoCopy
      return {x+ex,y+ey};
     }
 
-   void operator () (uPoint &ret,StrSize *ptr) const
+   void operator () (Point &ret,StrSize *ptr) const
     {
      ret=size(*ptr);
     }
 
-   void operator () (uPoint &ret,PtrLen<ValueDesc> *ptr) const
+   void operator () (Point &ret,PtrLen<ValueDesc> *ptr) const
     {
-     ulen x=0;
-     ulen y=0;
+     Coord x=0;
+     Coord y=0;
 
      for(ValueDesc &obj : *ptr )
        {
         set(obj);
 
-        ulen dx=obj.place.size.x;
-        ulen dy=obj.place.size.y;
+        Coord dx=obj.place.dx;
+        Coord dy=obj.place.dy;
 
         if( !obj.isScalar() )
           {
@@ -902,22 +871,25 @@ class DDLInnerWindow::SizeProc : NoCopy
      ret.y=y;
     }
 
-   void operator () (uPoint &ret,StructDesc *ptr) const
+   void operator () (Point &ret,StructDesc *ptr) const
     {
      auto fields=ptr->fields;
 
-     ulen y=0;
+     Coord y=0;
 
      for(FieldDesc &field : fields )
        {
-        field.place.size=title_size(field.name);
+        Point s=title_size(field.name);
 
-        Replace_max(y,field.place.size.y);
+        field.place.dx=s.x;
+        field.place.dy=s.y;
+
+        Replace_max(y,field.place.dy);
        }
 
      for(FieldDesc &field : fields )
        {
-        field.place.size.y=y;
+        field.place.dy=y;
        }
 
      y+=dxy;
@@ -933,8 +905,8 @@ class DDLInnerWindow::SizeProc : NoCopy
 
            set(obj);
 
-           ulen dx=obj.place.size.x;
-           ulen dy=obj.place.size.y;
+           Coord dx=obj.place.dx;
+           Coord dy=obj.place.dy;
 
            if( !obj.isScalar() )
              {
@@ -942,7 +914,7 @@ class DDLInnerWindow::SizeProc : NoCopy
               dy+=exy;
              }
 
-           Replace_max(field.place.size.x,dx);
+           Replace_max(field.place.dx,dx);
            Replace_max(row_y,dy);
           }
 
@@ -955,21 +927,26 @@ class DDLInnerWindow::SizeProc : NoCopy
 
      for(FieldDesc &field : fields )
        {
-        x+=field.place.size.x;
+        x+=field.place.dx;
        }
 
      ret.x=x;
      ret.y=y;
     }
 
-   void operator () (uPoint &ret,PtrDesc *ptr) const
+   void operator () (Point &ret,PtrDesc *ptr) const
     {
      ret=size(ptr->name);
     }
 
    void set(ValueDesc &value) const
     {
-     ElaborateAnyPtr(*this,value.place.size,value.ptr);
+     Point s;
+
+     ElaborateAnyPtr(*this,s,value.ptr);
+
+     value.place.dx=s.x;
+     value.place.dy=s.y;
     }
 
    void operator () (ValueDesc &value) const
@@ -986,7 +963,10 @@ void DDLInnerWindow::sizeView()
 
   for(auto &obj : list )
     {
-     obj.place.size=size.title_size(obj.name);
+     Point s=size.title_size(obj.name);
+
+     obj.place.dx=s.x;
+     obj.place.dy=s.y;
 
      size(obj.value);
     }
@@ -996,30 +976,30 @@ class DDLInnerWindow::PlaceProc : NoCopy
  {
    Coord space_dxy;
 
-   ulen dxy;
-   ulen exy;
+   Coord dxy;
+   Coord exy;
 
-   ulen y = 0 ;
+   Coord y = 0 ;
 
-   ulen total_x = 0 ;
+   Coord total_x = 0 ;
 
   public:
 
    explicit PlaceProc(const Config &cfg)
     : space_dxy(+cfg.space_dxy)
     {
-     dxy=Cast(space_dxy);
+     dxy=space_dxy;
      exy=2*dxy;
     }
 
-   void operator () (StrSize *ptr,ulen x,ulen y)
+   void operator () (StrSize *ptr,Coord x,Coord y)
     {
      Used(ptr);
      Used(x);
      Used(y);
     }
 
-   void operator () (PtrLen<ValueDesc> *ptr,ulen x,ulen y)
+   void operator () (PtrLen<ValueDesc> *ptr,Coord x,Coord y)
     {
      for(ValueDesc &obj : *ptr )
        {
@@ -1027,40 +1007,40 @@ class DDLInnerWindow::PlaceProc : NoCopy
           {
            set(obj,x,y);
 
-           y+=obj.place.size.y;
+           y+=obj.place.dy;
           }
         else
           {
            set(obj,x+dxy,y+dxy);
 
-           y+=obj.place.size.y+exy;
+           y+=obj.place.dy+exy;
           }
        }
     }
 
-   void operator () (StructDesc *ptr,ulen x,ulen y)
+   void operator () (StructDesc *ptr,Coord x,Coord y)
     {
      auto fields=ptr->fields;
 
      {
-      ulen X=x;
+      Coord X=x;
 
       for(FieldDesc &field : fields )
         {
-         field.place.base.x=X;
-         field.place.base.y=y;
+         field.place.x=X;
+         field.place.y=y;
 
-         X+=field.place.size.x;
+         X+=field.place.dx;
         }
      }
 
-     if( +fields ) y+=fields[0].place.size.y;
+     if( +fields ) y+=fields[0].place.dy;
 
      y+=dxy;
 
      for(StructDesc::Row &row : ptr->table )
        {
-        ulen X=x;
+        Coord X=x;
 
         row.y=y;
 
@@ -1074,46 +1054,46 @@ class DDLInnerWindow::PlaceProc : NoCopy
            else
              set(obj,X+dxy,y+dxy);
 
-           X+=field.place.size.x;
+           X+=field.place.dx;
           }
 
         y+=row.dy;
        }
     }
 
-   void operator () (PtrDesc *ptr,ulen x,ulen y)
+   void operator () (PtrDesc *ptr,Coord x,Coord y)
     {
      Used(ptr);
      Used(x);
      Used(y);
     }
 
-   void set(ValueDesc &value,ulen x,ulen y)
+   void set(ValueDesc &value,Coord x,Coord y)
     {
-     value.place.base.x=x;
-     value.place.base.y=y;
+     value.place.x=x;
+     value.place.y=y;
 
      ElaborateAnyPtr(*this,value.ptr,x,y);
     }
 
-   void operator () (uPane &place,ValueDesc &value)
+   void operator () (Pane &place,ValueDesc &value)
     {
-     ulen x=dxy;
+     Coord x=dxy;
 
      y+=dxy;
 
-     place.base.x=x;
-     place.base.y=y;
+     place.x=x;
+     place.y=y;
 
-     x+=place.size.x+dxy;
+     x+=place.dx+dxy;
 
      set(value,x,y);
 
-     x+=value.place.size.x;
+     x+=value.place.dx;
 
      Replace_max(total_x,x);
 
-     y+=Max(place.size.y,value.place.size.y);
+     y+=Max(place.dy,value.place.dy);
     }
 
    void getTotal(ulen &ret_x,ulen &ret_y)
@@ -1129,13 +1109,13 @@ void DDLInnerWindow::placeView()
 
   auto list=view.getConstList();
 
-  ulen x=0;
+  Coord x=0;
 
-  for(auto &obj : list ) Replace_max(x,obj.place.size.x);
+  for(auto &obj : list ) Replace_max(x,obj.place.dx);
 
   for(auto &obj : list )
     {
-     obj.place.size.x=x;
+     obj.place.dx=x;
 
      place(obj.place,obj.value);
     }
@@ -1153,37 +1133,37 @@ struct DDLInnerWindow::ClipProc
  {
   struct Extension
    {
-    ulen x;
-    ulen len;
+    Coord x;
+    Coord len;
 
     bool operator >= (Extension ext) const { return x+len > ext.x ; }
 
     bool operator <= (Extension ext) const { return x < ext.x+ext.len ; }
 
-    bool operator >= (ulen pos) const { return x+len > pos ; }
+    bool operator >= (Coord pos) const { return x+len > pos ; }
 
-    bool operator <= (ulen pos) const { return x <= pos ; }
+    bool operator <= (Coord pos) const { return x <= pos ; }
    };
 
   static Extension ExtY(const ConstDesc &desc)
    {
-    return {desc.place.base.y,Max(desc.place.size.y,desc.value.place.size.y)};
+    return {desc.place.y,Max(desc.place.dy,desc.value.place.dy)};
    }
 
   static Extension ExtX(const FieldDesc &desc)
    {
-    return {desc.place.base.x,desc.place.size.x};
+    return {desc.place.x,desc.place.dx};
    }
 
-  static Extension CellExtY(const ValueDesc &desc,ulen dxy,ulen exy)
+  static Extension CellExtY(const ValueDesc &desc,Coord dxy,Coord exy)
    {
     if( desc.isScalar() )
       {
-       return {desc.place.base.y,desc.place.size.y};
+       return {desc.place.y,desc.place.dy};
       }
     else
       {
-       return {desc.place.base.y-dxy,desc.place.size.y+exy};
+       return {desc.place.y-dxy,desc.place.dy+exy};
       }
    }
 
@@ -1195,11 +1175,11 @@ struct DDLInnerWindow::ClipProc
 
 class DDLInnerWindow::FindProc : ClipProc
  {
-   uPoint pos;
+   Point pos;
    bool cell = false ;
 
-   ulen dxy;
-   ulen exy;
+   Coord dxy;
+   Coord exy;
 
    ValueDesc *ret = 0 ;
 
@@ -1214,7 +1194,7 @@ class DDLInnerWindow::FindProc : ClipProc
     }
 
    template <class T,FuncType<Extension,T> Func>
-   static T * Clip(PtrLen<T> list,Func func,ulen pos)
+   static T * Clip(PtrLen<T> list,Func func,Coord pos)
     {
      Algon::BinarySearch_if(list, [func,pos] (const T &obj) { return func(obj) >= pos ; } );
 
@@ -1223,8 +1203,8 @@ class DDLInnerWindow::FindProc : ClipProc
 
    ValueDesc * clipY(PtrLen<ValueDesc> list) const
     {
-     ulen dxy=this->dxy;
-     ulen exy=this->exy;
+     Coord dxy=this->dxy;
+     Coord exy=this->exy;
 
      return Clip(list, [dxy,exy] (const ValueDesc &desc) { return CellExtY(desc,dxy,exy); } ,pos.y);
     }
@@ -1241,12 +1221,12 @@ class DDLInnerWindow::FindProc : ClipProc
 
   public:
 
-   FindProc(uPoint pos_,const Config &cfg)
+   FindProc(Point pos_,const Config &cfg)
     : pos(pos_)
     {
      Coord space_dxy=+cfg.space_dxy;
 
-     dxy=Cast(space_dxy);
+     dxy=space_dxy;
      exy=2*dxy;
     }
 
@@ -1311,7 +1291,7 @@ class DDLInnerWindow::FindProc : ClipProc
     }
  };
 
-ValueDesc * DDLInnerWindow::find(uPoint pos) const
+ValueDesc * DDLInnerWindow::find(Point pos) const
  {
   FindProc proc(pos,cfg);
 
@@ -1326,17 +1306,17 @@ void DDLInnerWindow::moveTo(ValueTarget target,Point point)
  {
   if( !target ) return;
 
-  moveTo(target.target->place.base,point);
+  moveTo(target.target->place.getBase(),point);
 
   select(target.frame());
  }
 
-void DDLInnerWindow::moveTo(uPoint target,Point point)
+void DDLInnerWindow::moveTo(Point target,Point point)
  {
-  moveTo(target-uPoint{Cast(point.x),Cast(point.y)});
+  moveTo(Sup(target-point,Null));
  }
 
-void DDLInnerWindow::moveTo(uPoint pos)
+void DDLInnerWindow::moveTo(Point pos)
  {
   slide_x.set(pos.x,scroll_x);
   slide_y.set(pos.y,scroll_y);
@@ -1344,7 +1324,7 @@ void DDLInnerWindow::moveTo(uPoint pos)
   redraw();
  }
 
-void DDLInnerWindow::select(uPane pane)
+void DDLInnerWindow::select(Pane pane)
  {
   selection=pane;
 
@@ -1428,31 +1408,36 @@ class DDLInnerWindow::DrawProc : ClipProc
    Font font;
    Font title_font;
 
-   ulen dxy;
-   ulen exy;
-   ulen sdx;
-   ulen widthUp;
+   Coord dxy;
+   Coord exy;
+   Coord sdx;
+   Coord widthUp;
 
-   uPoint pos;
-   uPoint size;
+   Point pos;
+   Point size;
 
   private:
 
-   void drawText(StrLen str,uPane outer,Font font,VColor vc) const
+   bool intersect(Pane place) const
     {
-     if( outer.intersect(pos,size) )
+     return +Inf( Pane(pos,size) , place );
+    }
+
+   void drawText(StrLen str,Pane outer,Font font,VColor vc) const
+    {
+     if( intersect(outer) )
        {
-        Pane pane=outer.baseOf(pos);
+        Pane pane=outer-pos;
 
         font->text(buf,pane,{AlignX_Left,AlignY_Top},str,vc);
        }
     }
 
-   static bool CapTo(ulen &x,ulen &len,ulen X,ulen L)
+   static bool CapTo(Coord &x,Coord &len,Coord X,Coord L)
     {
      if( x<X )
        {
-        ulen delta=X-x;
+        Coord delta=X-x;
 
         x=X;
 
@@ -1461,7 +1446,7 @@ class DDLInnerWindow::DrawProc : ClipProc
         len-=delta;
        }
 
-     ulen off=x-X;
+     Coord off=x-X;
 
      if( off>=L ) return false;
 
@@ -1472,16 +1457,16 @@ class DDLInnerWindow::DrawProc : ClipProc
      return len>0;
     }
 
-   static bool IntersectUp(ulen x,ulen len,ulen X,ulen L)
+   static bool IntersectUp(Coord x,Coord len,Coord X,Coord L)
     {
      return CapTo(x,len,X,L);
     }
 
-   static bool IntersectDown(ulen x,ulen len,ulen X,ulen L)
+   static bool IntersectDown(Coord x,Coord len,Coord X,Coord L)
     {
      if( len==0 ) return false;
 
-     ulen dx=len-1;
+     Coord dx=len-1;
 
      if( x>=dx )
        {
@@ -1496,13 +1481,13 @@ class DDLInnerWindow::DrawProc : ClipProc
      return IntersectUp(x,len,X,L);
     }
 
-   void drawLeft(uPoint base,ulen len,VColor vc) const
+   void drawLeft(Point base,Coord len,VColor vc) const
     {
      if( !CapTo(base.y,len,pos.y,size.y) ) return;
 
      if( !IntersectUp(base.x,widthUp,pos.x,size.x) ) return;
 
-     Point a=base.baseOf(pos);
+     Point a=base-pos;
      Point b=a.addY(Coord(len-1));
 
      SmoothDrawArt art(buf);
@@ -1510,13 +1495,13 @@ class DDLInnerWindow::DrawProc : ClipProc
      art.path(HalfPos,width,vc,MPoint(a).subXY(MPoint::Half),MPoint(b).subXaddY(MPoint::Half));
     }
 
-   void drawTop(uPoint base,ulen len,VColor vc) const
+   void drawTop(Point base,Coord len,VColor vc) const
     {
      if( !CapTo(base.x,len,pos.x,size.x) ) return;
 
      if( !IntersectUp(base.y,widthUp,pos.y,size.y) ) return;
 
-     Point a=base.baseOf(pos);
+     Point a=base-pos;
      Point b=a.addX(Coord(len-1));
 
      SmoothDrawArt art(buf);
@@ -1524,13 +1509,13 @@ class DDLInnerWindow::DrawProc : ClipProc
      art.path(HalfNeg,width,vc,MPoint(a).subXY(MPoint::Half),MPoint(b).addXsubY(MPoint::Half));
     }
 
-   void drawRight(uPoint base,ulen len,VColor vc) const
+   void drawRight(Point base,Coord len,VColor vc) const
     {
      if( !CapTo(base.y,len,pos.y,size.y) ) return;
 
      if( !IntersectDown(base.x,widthUp,pos.x,size.x) ) return;
 
-     Point a=base.baseOf(pos);
+     Point a=base-pos;
      Point b=a.addY(Coord(len-1));
 
      SmoothDrawArt art(buf);
@@ -1538,13 +1523,13 @@ class DDLInnerWindow::DrawProc : ClipProc
      art.path(HalfNeg,width,vc,MPoint(a).addXsubY(MPoint::Half),MPoint(b).addXY(MPoint::Half));
     }
 
-   void drawBottom(uPoint base,ulen len,VColor vc) const
+   void drawBottom(Point base,Coord len,VColor vc) const
     {
      if( !CapTo(base.x,len,pos.x,size.x) ) return;
 
      if( !IntersectDown(base.y,widthUp,pos.y,size.y) ) return;
 
-     Point a=base.baseOf(pos);
+     Point a=base-pos;
      Point b=a.addX(Coord(len-1));
 
      SmoothDrawArt art(buf);
@@ -1582,7 +1567,7 @@ class DDLInnerWindow::DrawProc : ClipProc
 
   public:
 
-   DrawProc(const DrawBuf &buf_,const Config &cfg,uPoint pos_,uPoint size_)
+   DrawProc(const DrawBuf &buf_,const Config &cfg,Point pos_,Point size_)
     : buf(buf_),
       width(+cfg.width),
       space_dxy(+cfg.space_dxy),
@@ -1596,59 +1581,63 @@ class DDLInnerWindow::DrawProc : ClipProc
       pos(pos_),
       size(size_)
     {
-     dxy=Cast(space_dxy);
+     dxy=space_dxy;
      exy=2*dxy;
-     sdx=Cast(space.x);
-     widthUp=Cast(RoundUpLen(width));
+     sdx=space.x;
+     widthUp=RoundUpLen(width);
     }
 
-   void drawFrame(uPane place) const
+   void drawFrame(Pane place) const
     {
-     if( place.size.noSize() ) return;
+     if( !place ) return;
 
-     drawLeft(place.base,place.size.y,top);
-     drawTop(place.base,place.size.x,top);
-     drawRight({place.base.x+place.size.x-1,place.base.y},place.size.y,bottom);
-     drawBottom({place.base.x,place.base.y+place.size.y-1},place.size.x,bottom);
+     drawLeft(place.getBase(),place.dy,top);
+     drawTop(place.getBase(),place.dx,top);
+
+     drawRight({place.x+place.dx-1,place.y},place.dy,bottom);
+     drawBottom({place.x,place.y+place.dy-1},place.dx,bottom);
     }
 
-   void drawFrame(uPane place,VColor vc) const
+   void drawFrame(Pane place,VColor vc) const
     {
-     if( place.size.noSize() ) return;
+     if( !place ) return;
 
-     drawLeft(place.base,place.size.y,vc);
-     drawTop(place.base,place.size.x,vc);
-     drawRight({place.base.x+place.size.x-1,place.base.y},place.size.y,vc);
-     drawBottom({place.base.x,place.base.y+place.size.y-1},place.size.x,vc);
+     drawLeft(place.getBase(),place.dy,vc);
+     drawTop(place.getBase(),place.dx,vc);
+
+     drawRight({place.x+place.dx-1,place.dy},place.dy,vc);
+     drawBottom({place.x,place.y+place.dy-1},place.dx,vc);
     }
 
-   void drawText(StrSize str,uPane place,Font font,VColor vc) const
+   void drawText(StrSize str,Pane place,Font font,VColor vc) const
     {
-     uPane outer;
+     Pane outer;
 
-     outer.base.x=place.base.x+sdx;
-     outer.base.y=place.base.y+(place.size.y-str.size.y)/2;
+     outer.x=place.x+sdx;
+     outer.y=place.y+(place.dy-str.size.y)/2;
 
-     outer.size=str.size;
+     outer.dx=str.size.x;
+     outer.dy=str.size.y;
 
      drawText(str.str,outer,font,vc);
     }
 
-   void drawTextCenter(StrSize str,uPane place) const
+   void drawTextCenter(StrSize str,Pane place) const
     {
-     uPane outer;
+     Pane outer;
 
-     outer.base.x=place.base.x+(place.size.x-str.size.x)/2;
-     outer.base.y=place.base.y+(place.size.y-str.size.y)/2;
+     outer.x=place.x+(place.dx-str.size.x)/2;
+     outer.y=place.y+(place.dy-str.size.y)/2;
 
-     outer.size=str.size;
+     outer.dx=str.size.x;
+     outer.dy=str.size.y;
 
      drawText(str.str,outer,title_font,text);
     }
 
-   void draw(StrSize str,uPane place,Font font,VColor vc,bool inside=false) const
+   void draw(StrSize str,Pane place,Font font,VColor vc,bool inside=false) const
     {
-     if( place.intersect(pos,size) )
+     if( intersect(place) )
        {
         if( !inside ) drawFrame(place);
 
@@ -1656,45 +1645,47 @@ class DDLInnerWindow::DrawProc : ClipProc
        }
     }
 
-   void drawCenter(StrSize str,uPane place) const
+   void drawCenter(StrSize str,Pane place) const
     {
      drawFrame(place);
 
      drawTextCenter(str,place);
     }
 
-   void operator () (uPane place,StrSize *ptr,bool inside) const
+   void operator () (Pane place,StrSize *ptr,bool inside) const
     {
      draw(*ptr,place,font,text,inside);
     }
 
-   void operator () (uPane place,PtrLen<ValueDesc> *ptr,bool inside) const
+   void operator () (Pane place,PtrLen<ValueDesc> *ptr,bool inside) const
     {
      Used(inside);
 
-     uPane cell;
+     Pane cell;
 
-     cell.base=place.base;
-     cell.size.x=place.size.x;
+     cell.x=place.x;
+     cell.y=place.y;
+
+     cell.dx=place.dx;
 
      for(ValueDesc &obj : clipY(*ptr) )
        {
         if( obj.isScalar() )
           {
-           cell.base.y=obj.place.base.y;
-           cell.size.y=obj.place.size.y;
+           cell.y=obj.place.y;
+           cell.dy=obj.place.dy;
           }
         else
           {
-           cell.base.y=obj.place.base.y-dxy;
-           cell.size.y=obj.place.size.y+exy;
+           cell.y=obj.place.y-dxy;
+           cell.dy=obj.place.dy+exy;
           }
 
         draw(cell,obj);
        }
     }
 
-   void operator () (uPane place,StructDesc *ptr,bool inside) const
+   void operator () (Pane place,StructDesc *ptr,bool inside) const
     {
      Used(inside);
      Used(place);
@@ -1712,38 +1703,38 @@ class DDLInnerWindow::DrawProc : ClipProc
         drawCenter(field.name,field.place);
        }
 
-     uPane cell;
+     Pane cell;
 
      for(StructDesc::Row &row : clipY(ptr->table) )
        {
-        cell.base.y=row.y;
-        cell.size.y=row.dy;
+        cell.y=row.y;
+        cell.dy=row.dy;
 
         for(ulen i=0; i<clip_fields.len ;i++)
           {
            FieldDesc &field=clip_fields[i];
            ValueDesc &obj=row.row[i+di];
 
-           cell.base.x=field.place.base.x;
-           cell.size.x=field.place.size.x;
+           cell.x=field.place.x;
+           cell.dx=field.place.dx;
 
            draw(cell,obj);
           }
        }
     }
 
-   void operator () (uPane place,PtrDesc *ptr,bool inside) const
+   void operator () (Pane place,PtrDesc *ptr,bool inside) const
     {
      draw(ptr->name,place,font,this->ptr,inside);
     }
 
    void draw(const ValueDesc &value,bool inside=false) const
     {
-     if( value.place.intersect(pos,size) )
+     if( intersect(value.place) )
        ElaborateAnyPtr(*this,value.place,value.ptr,inside);
     }
 
-   void draw(uPane cell,const ValueDesc &value) const
+   void draw(Pane cell,const ValueDesc &value) const
     {
      drawFrame(cell);
 
@@ -1771,7 +1762,7 @@ void DDLInnerWindow::draw(DrawBuf buf,bool) const
 
   Point size=getSize();
 
-  DrawProc proc(buf,cfg,{slide_x.pos,slide_y.pos},{Cast(size.x),Cast(size.y)});
+  DrawProc proc(buf,cfg,getOff(),size);
 
   auto list=view.getConstList();
 
@@ -1780,7 +1771,7 @@ void DDLInnerWindow::draw(DrawBuf buf,bool) const
      proc(obj);
     }
 
-  if( focus ) proc.drawFrame({{0,0},{slide_x.total,slide_y.total}},+cfg.focus);
+  if( focus ) proc.drawFrame(Pane(Null,getFull()),+cfg.focus);
 
   proc.drawFrame(selection,+cfg.select);
  }
@@ -1813,7 +1804,7 @@ void DDLInnerWindow::react(UserAction action)
 
 void DDLInnerWindow::react_LeftClick(Point point,MouseKey mkey)
  {
-  if( ValueDesc *desc=find({slide_x.pos+Cast(point.x),slide_y.pos+Cast(point.y)}) )
+  if( ValueDesc *desc=find(getOff()+point) )
     {
      if( PtrDesc *ptr=desc->ptr.castPtr<PtrDesc>() )
        {

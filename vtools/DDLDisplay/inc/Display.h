@@ -34,10 +34,6 @@ namespace App {
 
 class DDLFile;
 
-struct uPoint;
-
-struct uPane;
-
 struct StrSize;
 
 struct FieldDesc;
@@ -103,58 +99,12 @@ class DDLFile : NoCopy
    Signal<> updated;
  };
 
-/* struct uPoint */
-
-struct uPoint
- {
-  ulen x = 0 ;
-  ulen y = 0 ;
-
-  bool noSize() const { return x==0 || y==0 ; }
-
-  friend uPoint operator + (uPoint a,uPoint b) { return {a.x+b.x,a.y+b.y}; }
-
-  friend uPoint operator - (uPoint a,uPoint b) { return {PosSub(a.x,b.x),PosSub(a.y,b.y)}; }
-
-  friend uPoint Sup(uPoint a,uPoint b) { return {Max(a.x,b.x),Max(a.y,b.y)}; }
-
-  friend uPoint Inf(uPoint a,uPoint b) { return {Min(a.x,b.x),Min(a.y,b.y)}; }
-
-  friend bool operator < (uPoint a,uPoint b) { return a.x<b.x && a.y<b.y ; }
-
-  friend bool operator <= (uPoint a,uPoint b) { return a.x<=b.x && a.y<=b.y ; }
-
-  static Coord BaseOf(ulen a,ulen b);
-
-  Point baseOf(uPoint pos) const;
- };
-
-/* struct uPane */
-
-struct uPane
- {
-  uPoint base;
-  uPoint size;
-
-  bool operator + () const { return !size.noSize(); }
-
-  bool operator ! () const { return size.noSize(); }
-
-  bool contains(uPoint pos) const { return base<=pos && pos<base+size ; }
-
-  bool intersect(uPane obj) const;
-
-  bool intersect(uPoint base,uPoint size) const { return intersect({base,size}); }
-
-  Pane baseOf(uPoint pos) const;
- };
-
 /* struct StrSize */
 
 struct StrSize
  {
   StrLen str;
-  uPoint size;
+  Point size;
 
   void operator = (StrLen str_) { str=str_; }
  };
@@ -164,7 +114,7 @@ struct StrSize
 struct FieldDesc
  {
   StrSize name;
-  uPane place;
+  Pane place;
  };
 
 /* struct StructDesc */
@@ -175,8 +125,8 @@ struct StructDesc
 
   struct Row
    {
-    ulen y = 0 ;
-    ulen dy = 0 ;
+    Coord y = 0 ;
+    Coord dy = 0 ;
     PtrLen<ValueDesc> row;
    };
 
@@ -197,7 +147,7 @@ struct ValueTarget
 
   bool operator ! () const { return !target; }
 
-  uPane frame() const;
+  Pane frame() const;
  };
 
 /* struct PtrDesc */
@@ -227,7 +177,7 @@ struct PtrDesc
 
 struct ValueDesc
  {
-  uPane place;
+  Pane place;
 
   AnyPtr<StrSize,PtrLen<ValueDesc>,StructDesc,PtrDesc> ptr;
 
@@ -245,7 +195,7 @@ struct ValueDesc
 struct ConstDesc
  {
   StrSize name;
-  uPane place;
+  Pane place;
 
   ValueDesc value;
  };
@@ -430,7 +380,7 @@ class DDLInnerWindow : public SubWindow
 
    bool focus = false ;
 
-   uPane selection;
+   Pane selection;
 
    // scroll
 
@@ -523,7 +473,9 @@ class DDLInnerWindow : public SubWindow
 
   private:
 
-   static ulen Cast(Coord len) { return (len>0)? ulen(len) : 0 ; }
+   Point getOff() const { return {Coord(slide_x.pos),Coord(slide_y.pos)}; }
+
+   Point getFull() const { return {Coord(slide_x.total),Coord(slide_y.total)}; }
 
    class SizeProc;
 
@@ -539,7 +491,7 @@ class DDLInnerWindow : public SubWindow
     {
      layoutView();
 
-     selection={};
+     selection=Null;
     }
 
    struct ClipProc;
@@ -548,15 +500,15 @@ class DDLInnerWindow : public SubWindow
 
    class FindProc;
 
-   ValueDesc * find(uPoint pos) const;
+   ValueDesc * find(Point pos) const;
 
    void moveTo(ValueTarget target,Point point);
 
-   void moveTo(uPoint target,Point point);
+   void moveTo(Point target,Point point);
 
-   void moveTo(uPoint pos);
+   void moveTo(Point pos);
 
-   void select(uPane pane);
+   void select(Pane pane);
 
   private:
 
