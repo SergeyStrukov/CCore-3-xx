@@ -37,7 +37,7 @@ CAT = cat
 
 TOUCH = touch
 
-CC_ = g++ -static
+CC_ = g++
 
 CC = @$(ECHO) CC $< ; $(CC_)
 
