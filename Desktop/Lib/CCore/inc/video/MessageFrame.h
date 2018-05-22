@@ -117,8 +117,6 @@ class MessageWindow : public ComboWindow
 
    DynArray<OwnPtr<Btn> > btn_list;
 
-   ulen btn_count = 0 ; // <= btn_list.getLen()
-
   private:
 
    struct BtnRange;

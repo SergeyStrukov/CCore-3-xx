@@ -97,7 +97,7 @@ Point MessageWindow::getMinSize(Point cap) const
  {
   Coord space=+cfg.space_dxy;
 
-  if( ulen count=btn_count )
+  if( ulen count=btn_list.getLen() )
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),Lay(dline),LayExtXCap(info)));
 
@@ -114,8 +114,6 @@ Point MessageWindow::getMinSize(Point cap) const
 void MessageWindow::erase()
  {
   btn_list.erase();
-
-  btn_count=0;
 
   setInfo(Info());
  }
@@ -140,7 +138,7 @@ void MessageWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  if( ulen count=btn_count )
+  if( ulen count=btn_list.getLen() )
     {
      auto lay=ExtLayY(LayToTop(LaySupCenterXExt(BtnRange(btn_list.getPtr(),count)),Lay(dline),LayExtXCap(info)));
 
@@ -165,9 +163,7 @@ void MessageWindow::open()
  {
   wlist.delAll();
 
-  btn_count=btn_list.getLen();
-
-  if( btn_count )
+  if( btn_list.getLen() )
     {
      btn_list.apply( [this] (OwnPtr<Btn> &obj) { wlist.insBottom(*obj); } );
 
