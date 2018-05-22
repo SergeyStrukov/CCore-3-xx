@@ -153,6 +153,10 @@ void FontDatabase::Append(Collector<FontInfo> &obj,StrLen path,StrLen name)
 
 void FontDatabase::Append(Collector<FontInfo> &obj,StrLen dir)
  {
+  FileSystem fs;
+
+  if( fs.getFileType(dir)!=FileType_dir ) return;
+
   struct Proc
    {
     Collector<FontInfo> &obj;
@@ -351,6 +355,10 @@ void FontDatabase::saveCache() const
 
 void FontDatabase::Step::append(StrLen dir)
  {
+  FileSystem fs;
+
+  if( fs.getFileType(dir)!=FileType_dir ) return;
+
   struct Proc
    {
     Collector<String> &obj;
