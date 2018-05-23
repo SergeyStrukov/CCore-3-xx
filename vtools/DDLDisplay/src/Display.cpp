@@ -146,11 +146,9 @@ Pane ValueTarget::frame() const
 
   Pane ret;
 
-  ret.x=parent->place.x;
-  ret.dx=parent->place.dx;
+  SetExtX(ret,GetExtX(parent->place));
 
-  ret.y=row->y;
-  ret.dy=row->dy;
+  SetExtY(ret,row->exty);
 
   return ret;
  }
@@ -796,8 +794,21 @@ class DDLInnerWindow::SizeProc : NoCopy
 
    Coord dxy;
    Coord exy;
-   Coord ex;
-   Coord ey;
+
+   Point delta;
+
+  private:
+
+   Point size(const Font &font,StrSize &str) const
+    {
+     TextSize ts=font->text(str.str);
+
+     Point s=ts.getSize();
+
+     str.size=s;
+
+     return s+delta;
+    }
 
   public:
 
@@ -809,34 +820,18 @@ class DDLInnerWindow::SizeProc : NoCopy
     {
      dxy=space_dxy;
      exy=2*dxy;
-     ex=2*space.x;
-     ey=2*space.y;
+
+     delta=2*space;
     }
 
    Point size(StrSize &str) const
     {
-     TextSize ts=font->text(str.str);
-
-     Coord x=ts.full_dx;
-     Coord y=ts.dy;
-
-     str.size.x=x;
-     str.size.y=y;
-
-     return {x+ex,y+ey};
+     return size(font,str);
     }
 
    Point title_size(StrSize &str) const
     {
-     TextSize ts=title_font->text(str.str);
-
-     Coord x=ts.full_dx;
-     Coord y=ts.dy;
-
-     str.size.x=x;
-     str.size.y=y;
-
-     return {x+ex,y+ey};
+     return size(title_font,str);
     }
 
    void operator () (Point &ret,StrSize *ptr) const
@@ -846,29 +841,20 @@ class DDLInnerWindow::SizeProc : NoCopy
 
    void operator () (Point &ret,PtrLen<ValueDesc> *ptr) const
     {
-     Coord x=0;
-     Coord y=0;
+     Point s;
 
      for(ValueDesc &obj : *ptr )
        {
         set(obj);
 
-        Coord dx=obj.place.dx;
-        Coord dy=obj.place.dy;
+        Point ds=obj.place.getSize();
 
-        if( !obj.isScalar() )
-          {
-           dx+=exy;
-           dy+=exy;
-          }
+        if( !obj.isScalar() ) ds+=Point::Diag(exy);
 
-        Replace_max(x,dx);
-
-        y+=dy;
+        s=StackYSize(s,ds);
        }
 
-     ret.x=x;
-     ret.y=y;
+     ret=s;
     }
 
    void operator () (Point &ret,StructDesc *ptr) const
@@ -879,10 +865,7 @@ class DDLInnerWindow::SizeProc : NoCopy
 
      for(FieldDesc &field : fields )
        {
-        Point s=title_size(field.name);
-
-        field.place.dx=s.x;
-        field.place.dy=s.y;
+        field.setSize(title_size(field.name));
 
         Replace_max(y,field.place.dy);
        }
@@ -896,7 +879,7 @@ class DDLInnerWindow::SizeProc : NoCopy
 
      for(StructDesc::Row &row : ptr->table )
        {
-        ulen row_y=0;
+        Coord row_y=0;
 
         for(ulen i=0; i<fields.len ;i++)
           {
@@ -905,25 +888,20 @@ class DDLInnerWindow::SizeProc : NoCopy
 
            set(obj);
 
-           Coord dx=obj.place.dx;
-           Coord dy=obj.place.dy;
+           Point ds=obj.place.getSize();
 
-           if( !obj.isScalar() )
-             {
-              dx+=exy;
-              dy+=exy;
-             }
+           if( !obj.isScalar() ) ds+=Point::Diag(exy);
 
-           Replace_max(field.place.dx,dx);
-           Replace_max(row_y,dy);
+           Replace_max(field.place.dx,ds.x);
+           Replace_max(row_y,ds.y);
           }
 
-        row.dy=row_y;
+        row.exty.len=row_y;
 
         y+=row_y;
        }
 
-     ulen x=0;
+     Coord x=0;
 
      for(FieldDesc &field : fields )
        {
@@ -941,12 +919,11 @@ class DDLInnerWindow::SizeProc : NoCopy
 
    void set(ValueDesc &value) const
     {
-     Point s;
+     Point size;
 
-     ElaborateAnyPtr(*this,s,value.ptr);
+     ElaborateAnyPtr(*this,size,value.ptr);
 
-     value.place.dx=s.x;
-     value.place.dy=s.y;
+     value.setSize(size);
     }
 
    void operator () (ValueDesc &value) const
@@ -963,10 +940,7 @@ void DDLInnerWindow::sizeView()
 
   for(auto &obj : list )
     {
-     Point s=size.title_size(obj.name);
-
-     obj.place.dx=s.x;
-     obj.place.dy=s.y;
+     obj.setTitleSize(size.title_size(obj.name));
 
      size(obj.value);
     }
@@ -1042,7 +1016,7 @@ class DDLInnerWindow::PlaceProc : NoCopy
        {
         Coord X=x;
 
-        row.y=y;
+        row.exty.pos=y;
 
         for(ulen i=0; i<fields.len ;i++)
           {
@@ -1057,7 +1031,7 @@ class DDLInnerWindow::PlaceProc : NoCopy
            X+=field.place.dx;
           }
 
-        y+=row.dy;
+        y+=row.exty.len;
        }
     }
 
@@ -1131,46 +1105,44 @@ void DDLInnerWindow::layoutView()
 
 struct DDLInnerWindow::ClipProc
  {
-  struct Extension
-   {
-    Coord x;
-    Coord len;
+  static Extension ExtY(const ConstDesc &desc) { return desc.getExtY(); }
 
-    bool operator >= (Extension ext) const { return x+len > ext.x ; }
-
-    bool operator <= (Extension ext) const { return x < ext.x+ext.len ; }
-
-    bool operator >= (Coord pos) const { return x+len > pos ; }
-
-    bool operator <= (Coord pos) const { return x <= pos ; }
-   };
-
-  static Extension ExtY(const ConstDesc &desc)
-   {
-    return {desc.place.y,Max(desc.place.dy,desc.value.place.dy)};
-   }
-
-  static Extension ExtX(const FieldDesc &desc)
-   {
-    return {desc.place.x,desc.place.dx};
-   }
+  static Extension ExtX(const FieldDesc &desc) { return desc.getExtX(); }
 
   static Extension CellExtY(const ValueDesc &desc,Coord dxy,Coord exy)
    {
+    Extension ext=desc.getExtY();
+
     if( desc.isScalar() )
       {
-       return {desc.place.y,desc.place.dy};
+       return ext;
       }
     else
       {
-       return {desc.place.y-dxy,desc.place.dy+exy};
+       return ext.expand(dxy,exy);
       }
    }
 
-  static Extension RowExtY(const StructDesc::Row &row)
+  static Extension RowExtY(const StructDesc::Row &row) { return row.exty; }
+
+  template <class T,FuncType<Extension,T> Func,class Pos>
+  static PtrLen<T> Clip(PtrLen<T> list,Func func,Pos pos)
    {
-    return {row.y,row.dy};
+    Algon::BinarySearch_if(list, [func,pos] (const T &obj) { return func(obj) >= pos ; } );
+
+    return Algon::BinarySearch_if(list, [func,pos] (const T &obj) { return !( func(obj) <= pos ); } );
    }
+
+  template <class T>
+  static T * First(PtrLen<T> list)
+   {
+    if( list.len ) return list.ptr;
+
+    return 0;
+   }
+
+  template <class T,FuncType<Extension,T> Func,class Pos>
+  static T * ClipFirst(PtrLen<T> list,Func func,Pos pos) { return First( Clip(list,func,pos) ); }
  };
 
 class DDLInnerWindow::FindProc : ClipProc
@@ -1185,39 +1157,17 @@ class DDLInnerWindow::FindProc : ClipProc
 
   private:
 
-   template <class T>
-   static T * First(PtrLen<T> list)
-    {
-     if( list.len ) return list.ptr;
-
-     return 0;
-    }
-
-   template <class T,FuncType<Extension,T> Func>
-   static T * Clip(PtrLen<T> list,Func func,Coord pos)
-    {
-     Algon::BinarySearch_if(list, [func,pos] (const T &obj) { return func(obj) >= pos ; } );
-
-     return First( Algon::BinarySearch_if(list, [func,pos] (const T &obj) { return !( func(obj) <= pos ); } ) );
-    }
-
    ValueDesc * clipY(PtrLen<ValueDesc> list) const
     {
      Coord dxy=this->dxy;
      Coord exy=this->exy;
 
-     return Clip(list, [dxy,exy] (const ValueDesc &desc) { return CellExtY(desc,dxy,exy); } ,pos.y);
+     return ClipFirst(list, [dxy,exy] (const ValueDesc &desc) { return CellExtY(desc,dxy,exy); } ,pos.y);
     }
 
-   StructDesc::Row * clipY(PtrLen<StructDesc::Row> list) const
-    {
-     return Clip(list,RowExtY,pos.y);
-    }
+   StructDesc::Row * clipY(PtrLen<StructDesc::Row> list) const { return ClipFirst(list,RowExtY,pos.y); }
 
-   FieldDesc * clipX(PtrLen<FieldDesc> list) const
-    {
-     return Clip(list,ExtX,pos.x);
-    }
+   FieldDesc * clipX(PtrLen<FieldDesc> list) const { return ClipFirst(list,ExtX,pos.x); }
 
   public:
 
@@ -1285,10 +1235,7 @@ class DDLInnerWindow::FindProc : ClipProc
      set(desc);
     }
 
-   ConstDesc * clipY(PtrLen<ConstDesc> list) const
-    {
-     return Clip(list,ExtY,pos.y);
-    }
+   ConstDesc * clipY(PtrLen<ConstDesc> list) const { return ClipFirst(list,ExtY,pos.y); }
  };
 
 ValueDesc * DDLInnerWindow::find(Point pos) const
@@ -1488,7 +1435,7 @@ class DDLInnerWindow::DrawProc : ClipProc
      if( !IntersectUp(base.x,widthUp,pos.x,size.x) ) return;
 
      Point a=base-pos;
-     Point b=a.addY(Coord(len-1));
+     Point b=a.addY(len-1);
 
      SmoothDrawArt art(buf);
 
@@ -1502,7 +1449,7 @@ class DDLInnerWindow::DrawProc : ClipProc
      if( !IntersectUp(base.y,widthUp,pos.y,size.y) ) return;
 
      Point a=base-pos;
-     Point b=a.addX(Coord(len-1));
+     Point b=a.addX(len-1);
 
      SmoothDrawArt art(buf);
 
@@ -1516,7 +1463,7 @@ class DDLInnerWindow::DrawProc : ClipProc
      if( !IntersectDown(base.x,widthUp,pos.x,size.x) ) return;
 
      Point a=base-pos;
-     Point b=a.addY(Coord(len-1));
+     Point b=a.addY(len-1);
 
      SmoothDrawArt art(buf);
 
@@ -1530,7 +1477,7 @@ class DDLInnerWindow::DrawProc : ClipProc
      if( !IntersectDown(base.y,widthUp,pos.y,size.y) ) return;
 
      Point a=base-pos;
-     Point b=a.addX(Coord(len-1));
+     Point b=a.addX(len-1);
 
      SmoothDrawArt art(buf);
 
@@ -1539,31 +1486,25 @@ class DDLInnerWindow::DrawProc : ClipProc
 
   private:
 
-   template <class T,FuncType<Extension,T> Func>
-   static PtrLen<T> Clip(PtrLen<T> list,Func func,Extension ext)
-    {
-     Algon::BinarySearch_if(list, [func,ext] (const T &obj) { return func(obj) >= ext ; } );
+   static Point GetTopRight(Pane pane) { return Point(pane.x+pane.dx-1,pane.y); }
 
-     return Algon::BinarySearch_if(list, [func,ext] (const T &obj) { return !( func(obj) <= ext ); } );
-    }
+   static Point GetBottomLeft(Pane pane) { return Point(pane.x,pane.y+pane.dy-1); }
 
-   PtrLen<FieldDesc> clipX(PtrLen<FieldDesc> list) const
-    {
-     return Clip(list,ExtX,{pos.x,size.x});
-    }
+   Extension getExtX() const { return {pos.x,size.x}; }
+
+   Extension getExtY() const { return {pos.y,size.y}; }
+
+   PtrLen<FieldDesc> clipX(PtrLen<FieldDesc> list) const { return Clip(list,ExtX,getExtX()); }
 
    PtrLen<ValueDesc> clipY(PtrLen<ValueDesc> list) const
     {
-     ulen dxy=this->dxy;
-     ulen exy=this->exy;
+     Coord dxy=this->dxy;
+     Coord exy=this->exy;
 
-     return Clip(list, [dxy,exy] (const ValueDesc &desc) { return CellExtY(desc,dxy,exy); } ,{pos.y,size.y});
+     return Clip(list, [dxy,exy] (const ValueDesc &desc) { return CellExtY(desc,dxy,exy); } ,getExtY());
     }
 
-   PtrLen<StructDesc::Row> clipY(PtrLen<StructDesc::Row> list) const
-    {
-     return Clip(list,RowExtY,{pos.y,size.y});
-    }
+   PtrLen<StructDesc::Row> clipY(PtrLen<StructDesc::Row> list) const { return Clip(list,RowExtY,getExtY()); }
 
   public:
 
@@ -1594,8 +1535,8 @@ class DDLInnerWindow::DrawProc : ClipProc
      drawLeft(place.getBase(),place.dy,top);
      drawTop(place.getBase(),place.dx,top);
 
-     drawRight({place.x+place.dx-1,place.y},place.dy,bottom);
-     drawBottom({place.x,place.y+place.dy-1},place.dx,bottom);
+     drawRight(GetTopRight(place),place.dy,bottom);
+     drawBottom(GetBottomLeft(place),place.dx,bottom);
     }
 
    void drawFrame(Pane place,VColor vc) const
@@ -1605,32 +1546,24 @@ class DDLInnerWindow::DrawProc : ClipProc
      drawLeft(place.getBase(),place.dy,vc);
      drawTop(place.getBase(),place.dx,vc);
 
-     drawRight({place.x+place.dx-1,place.dy},place.dy,vc);
-     drawBottom({place.x,place.y+place.dy-1},place.dx,vc);
+     drawRight(GetTopRight(place),place.dy,vc);
+     drawBottom(GetBottomLeft(place),place.dx,vc);
     }
 
    void drawText(StrSize str,Pane place,Font font,VColor vc) const
     {
-     Pane outer;
+     Point base=place.getBase()+Point(sdx,(place.dy-str.size.y)/2);
 
-     outer.x=place.x+sdx;
-     outer.y=place.y+(place.dy-str.size.y)/2;
-
-     outer.dx=str.size.x;
-     outer.dy=str.size.y;
+     Pane outer(base,str.size);
 
      drawText(str.str,outer,font,vc);
     }
 
    void drawTextCenter(StrSize str,Pane place) const
     {
-     Pane outer;
+     Point base=place.getBase()+(place.getSize()-str.size)/2;
 
-     outer.x=place.x+(place.dx-str.size.x)/2;
-     outer.y=place.y+(place.dy-str.size.y)/2;
-
-     outer.dx=str.size.x;
-     outer.dy=str.size.y;
+     Pane outer(base,str.size);
 
      drawText(str.str,outer,title_font,text);
     }
@@ -1663,23 +1596,11 @@ class DDLInnerWindow::DrawProc : ClipProc
 
      Pane cell;
 
-     cell.x=place.x;
-     cell.y=place.y;
-
-     cell.dx=place.dx;
+     SetExtX(cell,GetExtX(place));
 
      for(ValueDesc &obj : clipY(*ptr) )
        {
-        if( obj.isScalar() )
-          {
-           cell.y=obj.place.y;
-           cell.dy=obj.place.dy;
-          }
-        else
-          {
-           cell.y=obj.place.y-dxy;
-           cell.dy=obj.place.dy+exy;
-          }
+        SetExtY(cell,CellExtY(obj,dxy,exy));
 
         draw(cell,obj);
        }
@@ -1707,16 +1628,14 @@ class DDLInnerWindow::DrawProc : ClipProc
 
      for(StructDesc::Row &row : clipY(ptr->table) )
        {
-        cell.y=row.y;
-        cell.dy=row.dy;
+        SetExtY(cell,row.exty);
 
         for(ulen i=0; i<clip_fields.len ;i++)
           {
            FieldDesc &field=clip_fields[i];
            ValueDesc &obj=row.row[i+di];
 
-           cell.x=field.place.x;
-           cell.dx=field.place.dx;
+           SetExtX(cell,field.getExtX());
 
            draw(cell,obj);
           }
@@ -1752,7 +1671,7 @@ class DDLInnerWindow::DrawProc : ClipProc
 
    PtrLen<ConstDesc> clipY(PtrLen<ConstDesc> list) const
     {
-     return Clip(list,ExtY,{pos.y,size.y});
+     return Clip(list,ExtY,getExtY());
     }
  };
 
@@ -1771,7 +1690,7 @@ void DDLInnerWindow::draw(DrawBuf buf,bool) const
      proc(obj);
     }
 
-  if( focus ) proc.drawFrame(Pane(Null,getFull()),+cfg.focus);
+  if( focus ) proc.drawFrame(Pane(getOff(),size),+cfg.focus);
 
   proc.drawFrame(selection,+cfg.select);
  }

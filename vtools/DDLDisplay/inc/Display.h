@@ -30,9 +30,19 @@
 
 namespace App {
 
+/* SetSize() */
+
+inline void SetSize(Pane &pane,Point size)
+ {
+  pane.dx=size.x;
+  pane.dy=size.y;
+ }
+
 /* classes */
 
 class DDLFile;
+
+struct Extension;
 
 struct StrSize;
 
@@ -99,6 +109,32 @@ class DDLFile : NoCopy
    Signal<> updated;
  };
 
+/* struct Extension */
+
+struct Extension
+ {
+  Coord pos;
+  Coord len;
+
+  bool operator >= (Extension ext) const { return pos+len > ext.pos ; }
+
+  bool operator <= (Extension ext) const { return pos < ext.pos+ext.len ; }
+
+  bool operator >= (Coord pos_) const { return pos+len > pos_ ; }
+
+  bool operator <= (Coord pos_) const { return pos <= pos_ ; }
+
+  Extension expand(Coord dpos,Coord dlen) const { return {pos-dpos,len+dlen}; }
+ };
+
+inline Extension GetExtX(Pane pane) { return {pane.x,pane.dx}; }
+
+inline Extension GetExtY(Pane pane) { return {pane.y,pane.dy}; }
+
+inline void SetExtX(Pane &pane,Extension ext) { pane.x=ext.pos; pane.dx=ext.len; }
+
+inline void SetExtY(Pane &pane,Extension ext) { pane.y=ext.pos; pane.dy=ext.len; }
+
 /* struct StrSize */
 
 struct StrSize
@@ -115,6 +151,10 @@ struct FieldDesc
  {
   StrSize name;
   Pane place;
+
+  void setSize(Point size) { SetSize(place,size); }
+
+  Extension getExtX() const { return GetExtX(place); }
  };
 
 /* struct StructDesc */
@@ -125,8 +165,7 @@ struct StructDesc
 
   struct Row
    {
-    Coord y = 0 ;
-    Coord dy = 0 ;
+    Extension exty = {0,0} ;
     PtrLen<ValueDesc> row;
    };
 
@@ -185,6 +224,10 @@ struct ValueDesc
 
   ValueDesc(AnyType *ptr_) : ptr(ptr_) {}
 
+  void setSize(Point size) { SetSize(place,size); }
+
+  Extension getExtY() const { return GetExtY(place); }
+
   class IsScalar;
 
   bool isScalar() const;
@@ -198,6 +241,10 @@ struct ConstDesc
   Pane place;
 
   ValueDesc value;
+
+  void setTitleSize(Point size) { SetSize(place,size); }
+
+  Extension getExtY() const { return {place.y,Max(place.dy,value.place.dy)}; }
  };
 
 /* class DDLView */
