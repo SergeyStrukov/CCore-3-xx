@@ -1404,84 +1404,94 @@ class DDLInnerWindow::DrawProc : ClipProc
      return len>0;
     }
 
-   static bool IntersectUp(Coord x,Coord len,Coord X,Coord L)
+   static bool CapTo(Coord &x,Coord &len,Coord X,Coord L,Coord ext)
     {
-     return CapTo(x,len,X,L);
+     return CapTo(x,len,X-ext,L+2*ext);
     }
 
-   static bool IntersectDown(Coord x,Coord len,Coord X,Coord L)
+   void solid(MPoint A,MPoint B,MPoint C,MPoint D,VColor vc) const
     {
-     if( len==0 ) return false;
+     SmoothDrawArt art(buf);
 
-     Coord dx=len-1;
+     MPoint temp[]={A,B,C,D};
 
-     if( x>=dx )
-       {
-        x-=dx;
-       }
-     else
-       {
-        len=x+1;
-        x=0;
-       }
-
-     return IntersectUp(x,len,X,L);
+     art.solid(Range(temp),SolidAll,vc);
     }
 
    void drawLeft(Point base,Coord len,VColor vc) const
     {
-     if( !CapTo(base.y,len,pos.y,size.y) ) return;
-
-     if( !IntersectUp(base.x,widthUp,pos.x,size.x) ) return;
+     if( !CapTo(base.y,len,pos.y,size.y,widthUp) ) return;
 
      Point a=base-pos;
      Point b=a.addY(len-1);
 
-     SmoothDrawArt art(buf);
+     MPoint A(a);
+     MPoint B(b);
 
-     art.path(HalfPos,width,vc,MPoint(a).subXY(MPoint::Half),MPoint(b).subXaddY(MPoint::Half));
+     A=A.subXY(MPoint::Half);
+     B=B.subXaddY(MPoint::Half);
+
+     MPoint C=B.addXsubY(width);
+     MPoint D=A.addXY(width);
+
+     solid(A,B,C,D,vc);
     }
 
    void drawTop(Point base,Coord len,VColor vc) const
     {
-     if( !CapTo(base.x,len,pos.x,size.x) ) return;
-
-     if( !IntersectUp(base.y,widthUp,pos.y,size.y) ) return;
+     if( !CapTo(base.x,len,pos.x,size.x,widthUp) ) return;
 
      Point a=base-pos;
      Point b=a.addX(len-1);
 
-     SmoothDrawArt art(buf);
+     MPoint A(a);
+     MPoint B(b);
 
-     art.path(HalfNeg,width,vc,MPoint(a).subXY(MPoint::Half),MPoint(b).addXsubY(MPoint::Half));
+     A=A.subXY(MPoint::Half);
+     B=B.addXsubY(MPoint::Half);
+
+     MPoint C=B.subXaddY(width);
+     MPoint D=A.addXY(width);
+
+     solid(A,B,C,D,vc);
     }
 
    void drawRight(Point base,Coord len,VColor vc) const
     {
-     if( !CapTo(base.y,len,pos.y,size.y) ) return;
-
-     if( !IntersectDown(base.x,widthUp,pos.x,size.x) ) return;
+     if( !CapTo(base.y,len,pos.y,size.y,widthUp) ) return;
 
      Point a=base-pos;
      Point b=a.addY(len-1);
 
-     SmoothDrawArt art(buf);
+     MPoint A(a);
+     MPoint B(b);
 
-     art.path(HalfNeg,width,vc,MPoint(a).addXsubY(MPoint::Half),MPoint(b).addXY(MPoint::Half));
+     A=A.addXsubY(MPoint::Half);
+     B=B.addXY(MPoint::Half);
+
+     MPoint C=B.subXY(width);
+     MPoint D=A.subXaddY(width);
+
+     solid(A,B,C,D,vc);
     }
 
    void drawBottom(Point base,Coord len,VColor vc) const
     {
-     if( !CapTo(base.x,len,pos.x,size.x) ) return;
-
-     if( !IntersectDown(base.y,widthUp,pos.y,size.y) ) return;
+     if( !CapTo(base.x,len,pos.x,size.x,widthUp) ) return;
 
      Point a=base-pos;
      Point b=a.addX(len-1);
 
-     SmoothDrawArt art(buf);
+     MPoint A(a);
+     MPoint B(b);
 
-     art.path(HalfPos,width,vc,MPoint(a).subXaddY(MPoint::Half),MPoint(b).addXY(MPoint::Half));
+     A=A.subXaddY(MPoint::Half);
+     B=B.addXY(MPoint::Half);
+
+     MPoint C=B.subXY(width);
+     MPoint D=A.addXsubY(width);
+
+     solid(A,B,C,D,vc);
     }
 
   private:
