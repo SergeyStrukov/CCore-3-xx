@@ -140,7 +140,7 @@ void EditRatioWindow::draw(DrawBuf buf,bool) const
  {
   if( pane.dx<10 || pane.dy<10 ) return;
 
-  MCoord w=+cfg.width;
+  MCoord width=+cfg.width;
 
   VColor face=+cfg.face;
   VColor gray=+cfg.gray;
@@ -162,16 +162,16 @@ void EditRatioWindow::draw(DrawBuf buf,bool) const
   // length
 
   {
-   Coord d=RoundUpLen(w);
+   Coord d=RoundUpLen(width);
    MPoint endA=base.addX(Cap<Coord>(-base.x+d,a,base.x+1+d));
    MPoint endB=base.subY(b);
 
-   art.ball(base,2*w,face);
-   art.ball(endA,2*w,face);
-   art.ball(endB,2*w,face);
+   art.ball(base,2*width,face);
+   art.ball(endA,2*width,face);
+   art.ball(endB,2*width,face);
 
-   art.path(w,face,base,endA);
-   art.path(w,face,base,endB);
+   art.path(width,face,base,endA);
+   art.path(width,face,base,endB);
   }
 
   // text
@@ -190,7 +190,7 @@ void EditRatioWindow::draw(DrawBuf buf,bool) const
   {
    VColor vc = focus? +cfg.focus : ( hilight? +cfg.hilight : +cfg.border ) ;
 
-   fig.loop(art,HalfPos,w,vc);
+   fig.loop(art,HalfPos,width,vc);
   }
  }
 
@@ -240,18 +240,18 @@ void EditRatioWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_Up :
       {
        if( kmod&KeyMod_Shift )
-         shiftB(10*Coord(repeat));
+         shiftB(10*CountToCoord(repeat));
        else
-         shiftB(Coord(repeat));
+         shiftB(CountToCoord(repeat));
       }
      break;
 
      case VKey_Down :
       {
        if( kmod&KeyMod_Shift )
-         shiftB(-10*Coord(repeat));
+         shiftB(-10*CountToCoord(repeat));
        else
-         shiftB(-Coord(repeat));
+         shiftB(-CountToCoord(repeat));
       }
      break;
 
@@ -259,9 +259,9 @@ void EditRatioWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumPlus :
       {
        if( kmod&KeyMod_Shift )
-         shiftA(10*Coord(repeat));
+         shiftA(10*CountToCoord(repeat));
        else
-         shiftA(Coord(repeat));
+         shiftA(CountToCoord(repeat));
       }
      break;
 
@@ -269,9 +269,9 @@ void EditRatioWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumMinus :
       {
        if( kmod&KeyMod_Shift )
-         shiftA(-10*Coord(repeat));
+         shiftA(-10*CountToCoord(repeat));
        else
-         shiftA(-Coord(repeat));
+         shiftA(-CountToCoord(repeat));
       }
      break;
     }

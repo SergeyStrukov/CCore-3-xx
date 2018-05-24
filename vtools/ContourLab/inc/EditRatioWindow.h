@@ -92,7 +92,7 @@ class EditRatioWindow : public SubWindow
 
    Geometry::Ratio value;
    Coord a;
-   Coord b; // >0
+   Coord b; // > 0
 
    bool hilight = false ;
    bool focus = false ;

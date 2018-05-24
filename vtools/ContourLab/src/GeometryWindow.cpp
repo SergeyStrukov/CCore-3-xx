@@ -73,7 +73,7 @@ class GeometryWindow::DrawItem : Geometry
 
    Point A,B,C,D;
 
-   static const Coord Guard = 2 ;
+   static constexpr Coord Guard = 2 ;
 
    Point P1,P2;
    Point P3,P4;
@@ -205,7 +205,7 @@ class GeometryWindow::DrawItem : Geometry
 
      if( B.rex ) return drawArc(label,selected,c,r,A);
 
-     return drawArc(label,selected,c,r,A.a,B.a);
+     drawArc(label,selected,c,r,A.a,B.a);
     }
 
    void drawArc(const Label &label,bool selected,Point c,Real r,Couple A)
@@ -674,7 +674,7 @@ void GeometryWindow::draw(DrawBuf buf,bool) const
  {
   if( pane.dx<10 || pane.dy<10 ) return;
 
-  MCoord w=+cfg.width;
+  MCoord width=+cfg.width;
 
   VColor gray=+cfg.gray;
 
@@ -701,7 +701,7 @@ void GeometryWindow::draw(DrawBuf buf,bool) const
   {
    VColor vc = focus? +cfg.focus : ( hilight? +cfg.hilight : +cfg.border ) ;
 
-   fig.loop(art,HalfPos,w,vc);
+   fig.loop(art,HalfPos,width,vc);
   }
  }
 
@@ -751,36 +751,36 @@ void GeometryWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_Left :
       {
        if( kmod&KeyMod_Shift )
-         shift_x(-10*Coord(repeat));
+         shift_x(-10*CountToCoord(repeat));
        else
-         shift_x(-Coord(repeat));
+         shift_x(-CountToCoord(repeat));
       }
      break;
 
      case VKey_Right :
       {
        if( kmod&KeyMod_Shift )
-         shift_x(10*Coord(repeat));
+         shift_x(10*CountToCoord(repeat));
        else
-         shift_x(Coord(repeat));
+         shift_x(CountToCoord(repeat));
       }
      break;
 
      case VKey_Up :
       {
        if( kmod&KeyMod_Shift )
-         shift_y(-10*Coord(repeat));
+         shift_y(-10*CountToCoord(repeat));
        else
-         shift_y(-Coord(repeat));
+         shift_y(-CountToCoord(repeat));
       }
      break;
 
      case VKey_Down :
       {
        if( kmod&KeyMod_Shift )
-         shift_y(10*Coord(repeat));
+         shift_y(10*CountToCoord(repeat));
        else
-         shift_y(Coord(repeat));
+         shift_y(CountToCoord(repeat));
       }
      break;
     }

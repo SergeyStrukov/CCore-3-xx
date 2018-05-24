@@ -83,7 +83,7 @@ void EditLengthWindow::draw(DrawBuf buf,bool) const
  {
   if( pane.dx<10 || pane.dy<10 ) return;
 
-  MCoord w=+cfg.width;
+  MCoord width=+cfg.width;
 
   VColor face=+cfg.face;
   VColor gray=+cfg.gray;
@@ -105,11 +105,11 @@ void EditLengthWindow::draw(DrawBuf buf,bool) const
   // length
 
   {
-   MPoint line_x(Div(90,100)*+Fraction(base.x),0);
+   MPoint line_x(Div(90,100)*Fraction(base.x),0);
 
    MPoint end_x=base+line_x;
 
-   art.path(w/2,gray,base-line_x,end_x);
+   art.path(width/2,gray,base-line_x,end_x);
 
    MCoord arrow_size=+cfg.arrow_size;
 
@@ -119,12 +119,12 @@ void EditLengthWindow::draw(DrawBuf buf,bool) const
 
    MPoint end=base;
 
-   end.x+=Map(value,base.x+RoundUpLen(w));
+   end.x+=Map(value,base.x+RoundUpLen(width));
 
-   art.ball(base,2*w,face);
-   art.ball(end,2*w,face);
+   art.ball(base,2*width,face);
+   art.ball(end,2*width,face);
 
-   art.path(w,face,base,end);
+   art.path(width,face,base,end);
   }
 
   // text
@@ -143,7 +143,7 @@ void EditLengthWindow::draw(DrawBuf buf,bool) const
   {
    VColor vc = focus? +cfg.focus : ( hilight? +cfg.hilight : +cfg.border ) ;
 
-   fig.loop(art,HalfPos,w,vc);
+   fig.loop(art,HalfPos,width,vc);
   }
  }
 
@@ -194,9 +194,9 @@ void EditLengthWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumMinus :
       {
        if( kmod&KeyMod_Shift )
-         shift(-10*Coord(repeat));
+         shift(-10*CountToCoord(repeat));
        else
-         shift(-Coord(repeat));
+         shift(-CountToCoord(repeat));
       }
      break;
 
@@ -204,9 +204,9 @@ void EditLengthWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumPlus :
       {
        if( kmod&KeyMod_Shift )
-         shift(10*Coord(repeat));
+         shift(10*CountToCoord(repeat));
        else
-         shift(Coord(repeat));
+         shift(CountToCoord(repeat));
       }
      break;
     }

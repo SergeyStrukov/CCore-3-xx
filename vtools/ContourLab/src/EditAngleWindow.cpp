@@ -89,7 +89,7 @@ void EditAngleWindow::draw(DrawBuf buf,bool) const
  {
   if( len<10 ) return;
 
-  MCoord w=+cfg.width;
+  MCoord width=+cfg.width;
 
   VColor face=+cfg.face;
   VColor gray=+cfg.gray;
@@ -123,8 +123,8 @@ void EditAngleWindow::draw(DrawBuf buf,bool) const
    MPoint end_x=base+line_x;
    MPoint end_y=base-line_y;
 
-   art.path(w/2,gray,base-line_x,end_x);
-   art.path(w/2,gray,end_y,base+line_y);
+   art.path(width/2,gray,base-line_x,end_x);
+   art.path(width/2,gray,end_y,base+line_y);
 
    MCoord arrow_size=+cfg.arrow_size;
 
@@ -141,12 +141,12 @@ void EditAngleWindow::draw(DrawBuf buf,bool) const
        {
         Geometry::Angle a=GradToRadian(x+y);
 
-        art.path(w/2,gray,base+Geometry::Map(Geometry::Point::Polar(radius3,a)),base+Geometry::Map(Geometry::Point::Polar(radius2,a)));
+        art.path(width/2,gray,base+Geometry::Map(Geometry::Point::Polar(radius3,a)),base+Geometry::Map(Geometry::Point::Polar(radius2,a)));
        }
 
-   art.path(w,face,base,base+line);
+   art.path(width,face,base,base+line);
 
-   art.ball(base,2*w,face);
+   art.ball(base,2*width,face);
   }
 
   // text
@@ -168,7 +168,7 @@ void EditAngleWindow::draw(DrawBuf buf,bool) const
   {
    VColor vc = focus? +cfg.focus : ( hilight? +cfg.hilight : +cfg.border ) ;
 
-   fig.loop(art,HalfPos,w,vc);
+   fig.loop(art,HalfPos,width,vc);
   }
  }
 
@@ -220,9 +220,9 @@ void EditAngleWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumPlus :
       {
        if( kmod&KeyMod_Shift )
-         rotate(10*Coord(repeat));
+         rotate(10*CountToCoord(repeat));
        else
-         rotate(Coord(repeat));
+         rotate(CountToCoord(repeat));
       }
      break;
 
@@ -231,9 +231,9 @@ void EditAngleWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
      case VKey_NumMinus :
       {
        if( kmod&KeyMod_Shift )
-         rotate(-10*Coord(repeat));
+         rotate(-10*CountToCoord(repeat));
        else
-         rotate(-Coord(repeat));
+         rotate(-CountToCoord(repeat));
       }
      break;
     }
