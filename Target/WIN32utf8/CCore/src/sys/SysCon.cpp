@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -149,7 +149,9 @@ void ConRead::Symbol::shift(ulen delta)
     }
   else
     {
-     for(ulen i=0,count=len-delta; i<count ;i++) buf[i]=buf[i+delta];
+     len-=delta;
+
+     for(ulen i=0,count=len; i<count ;i++) buf[i]=buf[i+delta];
     }
  }
 
