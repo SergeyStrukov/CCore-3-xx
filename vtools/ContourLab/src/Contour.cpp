@@ -477,11 +477,15 @@ struct Contour::CreateOp
       switch( b.getTypeId() )
         {
          case Length::TypeId :
+          {
            ret=Formula<Ratio (Length,Length)>::Create<Div>("Div"_c,a,b);
+          }
          return true;
 
          case Ratio::TypeId :
+          {
            ret=Formula<Length (Length,Ratio)>::Create<Div>("Div"_c,a,b);
+          }
          return true;
         }
 

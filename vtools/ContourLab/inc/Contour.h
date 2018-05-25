@@ -82,7 +82,7 @@ struct Formular : Geometry
  {
   // Object
 
-  static const int PadFlag = 1<<10 ;
+  static constexpr int PadFlag = 1<<10 ;
 
   class Object;
 
@@ -279,7 +279,7 @@ struct Formular : Geometry
     template <S Func(SS...)>
     struct Pack : UnusedPad<S>
      {
-      static const int TypeId = S::TypeId ;
+      static constexpr int TypeId = S::TypeId ;
 
       using RetType = S ;
 
@@ -372,7 +372,7 @@ struct Formular : Geometry
     template <S Func(ArgCursor<A>)>
     struct Pack : UnusedPad<S>
      {
-      static const int TypeId = S::TypeId ;
+      static constexpr int TypeId = S::TypeId ;
 
       using RetType = S ;
 
@@ -416,7 +416,7 @@ struct Formular : Geometry
   template <class S>
   struct Pad
    {
-    static const int TypeId = S::TypeId|PadFlag ;
+    static constexpr int TypeId = S::TypeId|PadFlag ;
 
     using RetType = S ;
 
