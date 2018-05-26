@@ -152,7 +152,7 @@ Dir Dir9=
 Dir Dir10=
   {
    "sys",
-   New,
+   Green,
    {
    },
    {
@@ -161,12 +161,12 @@ Dir Dir10=
     { "SysCon.h" , Green },
     { "SysData.h" , Green },
     { "SysError.h" , Green },
-    { "SysFile.h" , New },
+    { "SysFile.h" , Green },
     { "SysFileSystem.h" , Green },
     { "SysInternal.h" , Green },
     { "SysLaunchPath.h" , Green },
     { "SysMemPage.h" , Green },
-    { "SysNet.h" , New },
+    { "SysNet.h" , Green },
     { "SysPlanInit.h" , Green },
     { "SysProp.h" , Green },
     { "SysSem.h" , Green },
@@ -235,7 +235,7 @@ Dir Dir14=
 Dir Dir15=
   {
    "sys",
-   New,
+   Green,
    {
    },
    {
@@ -244,12 +244,12 @@ Dir Dir15=
     { "SysCon.cpp" , Green },
     { "SysData.cpp" , Green },
     { "SysError.cpp" , Green },
-    { "SysFile.cpp" , New },
+    { "SysFile.cpp" , Green },
     { "SysFileSystem.cpp" , Green },
     { "SysInternal.cpp" , Green },
     { "SysLaunchPath.cpp" , Green },
     { "SysMemPage.cpp" , Green },
-    { "SysNet.cpp" , New },
+    { "SysNet.cpp" , Green },
     { "SysPlanInit.cpp" , Green },
     { "SysProp.cpp" , Green },
     { "SysSem.cpp" , Green },

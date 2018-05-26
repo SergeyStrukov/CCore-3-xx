@@ -1,0 +1,91 @@
+# Makefile.tools
+#----------------------------------------------------------------------------------------
+#
+#  Project: CCore 3.00
+#
+#  Tag: Target/LIN64
+#
+#  License: Boost Software License - Version 1.0 - August 17th, 2003 
+#
+#            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+#
+#  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+#
+#----------------------------------------------------------------------------------------
+
+CCOPT_EXTRA ?= 
+
+LDOPT_EXTRA ?=
+
+# tools
+
+ECHO = echo
+
+ifeq ($(OS),Windows_NT)
+
+FIND = /usr/bin/find
+
+else
+
+FIND = find
+
+endif
+
+MKDIR = mkdir
+
+CAT = cat
+
+TOUCH = touch
+
+CC_ = /opt/gcc-8.1.0/bin/g++-8.1.0 -static
+
+CC = @$(ECHO) CC $< ; $(CC_)
+
+LD = @$(ECHO) LD $@ ; $(CC_)
+
+AS_ = as
+
+AS = @$(ECHO) AS $< ; $(AS_)
+
+AR_ = ar
+
+AR = @$(ECHO) AR $@ ; $(AR_)
+
+RM_ = rm -f
+
+RM = @$(ECHO) RM ; $(RM_)
+
+# options
+
+NOWARN = -Wno-non-virtual-dtor \
+         -Wno-switch \
+         -Wno-type-limits \
+         -Wno-enum-compare \
+         -Wno-missing-field-initializers \
+         -Wno-delete-non-virtual-dtor \
+         -Wno-misleading-indentation \
+
+
+CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
+        -I$(CCORE_ROOT)/HCore \
+        -I$(CCORE_ROOT)/Simple \
+        -I$(CCORE_ROOT)/Fundamental \
+        -I$(CCORE_ROOT)/Applied \
+        -I$(CCORE_ROOT)/Desktop/Core \
+        -I$(CCORE_ROOT)/Desktop/Draw \
+        -I$(CCORE_ROOT)/Desktop/Font \
+        -I$(CCORE_ROOT)/Desktop/Lib \
+        -I$(CCORE_ROOT)/Desktop/Tools \
+        -I$(CCORE_ROOT)/Desktop/App \
+
+
+FREETYPEOPT = -I$(HOME)/freetype
+
+CCOPT = -c -pthread -std=c++17 -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) $(FREETYPEOPT)
+
+ASOPT =
+
+CCORELIB = $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore.a
+
+LDOPT = -Wl,-s $(LDOPT_EXTRA) $(CCORELIB) -pthread -laio -lgmp -lXcursor -lXfixes -lXrender -lX11 -lxcb -lXau -lXdmcp -ldl $(HOME)/freetype/libfreetype.a
+
