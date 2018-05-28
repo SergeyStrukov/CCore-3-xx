@@ -21,10 +21,7 @@
 
 #include <CCore/inc/Exception.h>
 
-#include <cctype>
-#include <cstring>
-#include <cstdlib>
-#include <clocale>
+#include <locale>
 #include <cwctype>
 
 namespace CCore {
@@ -37,9 +34,11 @@ CmdDisplay StartDisplay()
   return CmdDisplay_Normal;
  }
 
-Char ToLowerCase(Char ch) // TODO
+Char ToLowerCase(Char ch)
  {
-  return std::towlower(ch);
+  std::locale loc("");
+
+  return std::tolower((wchar_t)ch,loc);
  }
 
 void ShellVerb(StrLen verb,StrLen file_name)

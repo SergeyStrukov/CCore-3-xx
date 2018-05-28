@@ -16,7 +16,7 @@
 #include <CCore/inc/video/InternalHost.h>
 #include <CCore/inc/video/InternalDesktop.h>
 
-#include <CCore/inc/CapString.h>
+#include <CCore/inc/StrToChar.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -203,19 +203,23 @@ Bool X11Host::MatchSelection(Display *,XEvent *event,XPointer)
   return event->type==SelectionNotify || event->type==SelectionRequest ;
  }
 
-void X11Host::setClipboard(PtrLen<const Char> text) // TODO
+void X11Host::setClipboard(PtrLen<const Char> text)
  {
-#if 0
-
   clipboard.erase();
 
-  clipboard.extend_copy(text);
+  for(Char ch : text )
+    {
+     Utf8Code code=ToUtf8(ch);
 
-#endif
+     clipboard.extend_copy(code.getRange());
+    }
  }
 
-void X11Host::Translate(Function<void (PtrLen<const Char>)> func,PtrLen<const uint8> text) // TODO
+void X11Host::Translate(Function<void (PtrLen<const Char>)> func,StrLen text_)
  {
+  StrToChar text(text_);
+
+  func(+text);
  }
 
  // cursor
@@ -1431,7 +1435,7 @@ void X11Host::textFromClipboard(Function<void (PtrLen<const Char>)> func)
                    {
                     if( format==8 )
                       {
-                       Translate(func,Range((const uint8 *)str,(ulen)ret_len));
+                       Translate(func,Range((const char *)str,(ulen)ret_len));
 
                        XFree(str);
 

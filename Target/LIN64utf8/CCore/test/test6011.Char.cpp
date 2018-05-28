@@ -18,6 +18,9 @@
 #include <CCore/inc/video/Desktop.h>
 #include <CCore/inc/ReadCon.h>
 
+#include <locale>
+#include <cwctype>
+
 namespace App {
 
 namespace Private_6011 {
@@ -41,9 +44,11 @@ bool Testit<6011>::Main()
 
   for(Symbol ch; ToChar(ch=con.get())!='x' ;)
     {
-     Char lch=Video::ToLowerCase(ch.toUnicode());
+     Char uch=ch.toUnicode();
 
-     Printf(Con,"#; #;\n",ExtCharCode(ch),ExtCharCode(lch));
+     Char lch=Video::ToLowerCase(uch);
+
+     Printf(Con,"#; #; #;\n",ExtCharCode(ch),ExtCharCode(lch));
     }
 
   return true;

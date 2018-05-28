@@ -22,7 +22,7 @@
 
 #include <CCore/inc/Exception.h>
 
-#include <cstdlib>
+#include <locale>
 #include <cwctype>
 
 namespace CCore {
@@ -1032,7 +1032,9 @@ bool X11KeyMap::IsChar(KeySym ksym)
  {
   if( uint32 unicode=MapToUnicode(ksym) )
     {
-     return std::iswalpha(unicode);
+     std::locale loc("");
+
+     return std::isalpha((wchar_t)unicode,loc);
     }
 
   return false;

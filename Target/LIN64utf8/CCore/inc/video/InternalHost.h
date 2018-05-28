@@ -138,7 +138,7 @@ class X11Host : public WindowHost , WindowDispatcher
    X11Host *dparent = 0 ;
    DAlgo::Top dlist;
 
-   DynArray<uint8> clipboard;
+   DynArray<char> clipboard;
 
   private:
 
@@ -170,7 +170,7 @@ class X11Host : public WindowHost , WindowDispatcher
 
    void setClipboard(PtrLen<const Char> text);
 
-   static void Translate(Function<void (PtrLen<const Char>)> func,PtrLen<const uint8> text);
+   static void Translate(Function<void (PtrLen<const Char>)> func,StrLen text);
 
    // cursor
 
