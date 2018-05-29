@@ -22,12 +22,13 @@
 
 #include <CCore/inc/Exception.h>
 
-#include <locale>
-#include <cwctype>
-
 namespace CCore {
 namespace Video {
 namespace Internal {
+
+/* global Locale */
+
+std::locale Locale("");
 
 /* SysGuard() */
 
@@ -1032,9 +1033,7 @@ bool X11KeyMap::IsChar(KeySym ksym)
  {
   if( uint32 unicode=MapToUnicode(ksym) )
     {
-     std::locale loc("");
-
-     return std::isalpha((wchar_t)unicode,loc);
+     return std::isalpha((wchar_t)unicode,Locale);
     }
 
   return false;

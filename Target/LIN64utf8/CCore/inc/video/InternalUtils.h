@@ -33,9 +33,15 @@
 #include <X11/Xcursor/Xcursor.h>
 #include <X11/Xutil.h>
 
+#include <locale>
+
 namespace CCore {
 namespace Video {
 namespace Internal {
+
+/* global Locale */
+
+extern std::locale Locale;
 
 /* SysGuard() */
 

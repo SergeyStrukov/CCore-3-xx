@@ -21,9 +21,6 @@
 
 #include <CCore/inc/Exception.h>
 
-#include <locale>
-#include <cwctype>
-
 namespace CCore {
 namespace Video {
 
@@ -36,9 +33,7 @@ CmdDisplay StartDisplay()
 
 Char ToLowerCase(Char ch)
  {
-  std::locale loc("");
-
-  return std::tolower((wchar_t)ch,loc);
+  return std::tolower((wchar_t)ch,Internal::Locale);
  }
 
 void ShellVerb(StrLen verb,StrLen file_name)
@@ -60,7 +55,7 @@ void ShellVerb(StrLen verb,StrLen file_name)
 
 /* class CharMapTable */
 
-CharMapTable::CharMapTable() // TODO
+CharMapTable::CharMapTable()
  {
   AllChars( [this] (char ch)
                    {
