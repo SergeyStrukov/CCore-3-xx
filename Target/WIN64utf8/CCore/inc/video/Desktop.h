@@ -1,15 +1,15 @@
 /* Desktop.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2016 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ void ErrorMsgBox(StrLen text,StrLen title);
 
 CmdDisplay StartDisplay();
 
-char ToLowerCase(char ch);
+Char ToLowerCase(Char ch);
 
 void ShellVerb(StrLen verb,StrLen file_name);
 

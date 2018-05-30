@@ -225,7 +225,7 @@ int WIN64_API MultiByteToWideChar(codepage_t codepage,
 
 /* CharLowerA() */
 
-char * WIN64_API CharLowerA(char *str);
+wchar * WIN64_API CharLowerW(wchar *str);
 
 /*--------------------------------------------------------------------------------------*/
 /* Error functions                                                                      */
@@ -559,7 +559,7 @@ struct ConKeyRecord
 
   union
    {
-    unsigned short unicode;
+    wchar unicode;
     char ascii;
    } ch;
 
@@ -641,9 +641,9 @@ bool_t WIN64_API SetConsoleMode(handle_t h_con, flags_t modes);
 
 bool_t WIN64_API GetConsoleMode(handle_t h_con, flags_t *modes);
 
-/* ReadConsoleInputA() */
+/* ReadConsoleInputW() */
 
-bool_t WIN64_API ReadConsoleInputA(handle_t h_con,
+bool_t WIN64_API ReadConsoleInputW(handle_t h_con,
                                    ConInputRecord *buf,
                                    ushortlen_t buf_len,
                                    ushortlen_t *ret_len);

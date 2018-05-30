@@ -41,7 +41,7 @@ Dir Dir1=
    {
     { "Makefile" , Green },
     { "main.cpp" , Green },
-    { "main.exe" , New },
+    { "main.exe" , Green },
     { "Makefile.files" , Green }
    }
   };
@@ -83,13 +83,13 @@ Dir Dir3=
 Dir Dir4=
   {
    "test",
-   New,
+   Green,
    {
    },
    {
     { "test6001.Atomic.cpp" , Green },
     { "test6003.Blank.cpp" , Green },
-    { "test6011.Char.cpp" , New },
+    { "test6011.Char.cpp" , Green },
     { "test6004.IntegerFastAlgo.cpp" , Green },
     { "test6006.IntelAES.cpp" , Green },
     { "test6005.IntelRandom.cpp" , Green },
@@ -98,7 +98,7 @@ Dir Dir4=
     { "test6012.SysError.cpp" , Green },
     { "test6009.SysFile.cpp" , Green },
     { "test6008.Time.cpp" , Green },
-    { "test6002.WIN64.cpp" , New }
+    { "test6002.WIN64.cpp" , Green }
    }
   };
 
@@ -148,7 +148,7 @@ Dir Dir8=
    {
     { "SysAbort.h" , Green },
     { "SysAtomic.h" , Green },
-    { "SysCon.h" , New },
+    { "SysCon.h" , Green },
     { "SysError.h" , Green },
     { "SysFile.h" , New },
     { "SysFileInternal.h" , New },
@@ -244,7 +244,7 @@ Dir Dir14=
    {
     { "SysAbort.cpp" , Green },
     { "SysAtomic.cpp" , Green },
-    { "SysCon.cpp" , New },
+    { "SysCon.cpp" , Green },
     { "SysError.cpp" , Green },
     { "SysFile.cpp" , New },
     { "SysFileInternal.cpp" , New },

@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysCon.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/win64/Win64.h>
 
@@ -76,6 +77,97 @@ void ConWrite(StrLen str) noexcept
 
 /* struct ConRead */
 
+void ConRead::Symbol::put(uint32 sym)
+ {
+  Utf8Code code=ToUtf8(sym);
+
+  if( code.getLen()>DimOf(buf)-len ) return; // should not happens
+
+  code.getRange().copyTo(buf+len);
+
+  len+=code.getLen();
+ }
+
+bool ConRead::Symbol::pushUnicode(uint32 sym)
+ {
+  put(sym);
+
+  return true;
+ }
+
+bool ConRead::Symbol::push(WChar wch)
+ {
+  if( hi )
+    {
+     if( IsLoSurrogate(wch) )
+       {
+        return pushUnicode(Surrogate(Replace_null(hi),wch));
+       }
+     else if( IsHiSurrogate(wch) )
+       {
+        // broken, skip
+
+        hi=wch;
+
+        return false;
+       }
+     else
+       {
+        // broken, skip
+
+        hi=0;
+
+        return false;
+       }
+    }
+  else
+    {
+     if( IsHiSurrogate(wch) )
+       {
+        hi=wch;
+
+        return false;
+       }
+     else if( IsLoSurrogate(wch) )
+       {
+        // broken, skip
+
+        return false;
+       }
+     else
+       {
+        return pushUnicode(wch);
+       }
+    }
+ }
+
+void ConRead::Symbol::shift(ulen delta)
+ {
+  if( delta>=len )
+    {
+     len=0;
+    }
+  else
+    {
+     len-=delta;
+
+     for(ulen i=0,count=len; i<count ;i++) buf[i]=buf[i+delta];
+    }
+ }
+
+auto ConRead::Symbol::get(char *out,ulen out_len) -> IOResult
+ {
+  Replace_min(out_len,len);
+
+  if( !out_len ) return {0,NoError};
+
+  Range(buf,out_len).copyTo(out);
+
+  shift(out_len);
+
+  return {out_len,NoError};
+ }
+
 auto ConRead::Init() noexcept -> InitType
  {
   InitType ret;
@@ -85,7 +177,6 @@ auto ConRead::Init() noexcept -> InitType
   if( ret.handle==Win64::InvalidFileHandle )
     {
      ret.modes=0;
-     ret.cp=0;
      ret.error=NonNullError();
 
      return ret;
@@ -94,7 +185,6 @@ auto ConRead::Init() noexcept -> InitType
   if( ret.handle==0 )
     {
      ret.modes=0;
-     ret.cp=0;
      ret.error=ErrorType(Win64::ErrorFileNotFound);
 
      return ret;
@@ -103,7 +193,6 @@ auto ConRead::Init() noexcept -> InitType
   if( !Win64::GetConsoleMode(ret.handle,&ret.modes) )
     {
      ret.modes=0;
-     ret.cp=0;
      ret.error=NonNullError();
 
      return ret;
@@ -115,19 +204,7 @@ auto ConRead::Init() noexcept -> InitType
 
   if( !Win64::SetConsoleMode(ret.handle,new_modes) )
     {
-     ret.cp=0;
      ret.error=NonNullError();
-
-     return ret;
-    }
-
-  ret.cp=Win64::GetConsoleCP();
-
-  if( !Win64::SetConsoleCP(Win64::GetACP()) )
-    {
-     ret.error=NonNullError();
-
-     Win64::SetConsoleMode(ret.handle,ret.modes);
 
      return ret;
     }
@@ -137,35 +214,12 @@ auto ConRead::Init() noexcept -> InitType
   return ret;
  }
 
-ErrorType ConRead::Exit(Type handle,ModeType modes,unsigned cp) noexcept
+ErrorType ConRead::Exit(Type handle,ModeType modes) noexcept
  {
-  ErrorType ret=NoError;
-
-  if( !Win64::SetConsoleCP(cp) ) ret=NonNullError();
-
-  if( !Win64::SetConsoleMode(handle,modes) && !ret ) ret=NonNullError();
-
-  return ret;
+  return ErrorIf( !Win64::SetConsoleMode(handle,modes) );
  }
 
-auto ConRead::Read(Type handle,char *buf,ulen len) noexcept -> IOResult
- {
-  IOResult ret;
-
-  if( Win64::ExtReadFile(handle,buf,len,&ret.len) )
-    {
-     ret.error=NoError;
-    }
-  else
-    {
-     ret.len=0;
-     ret.error=NonNullError();
-    }
-
-  return ret;
- }
-
-auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IOResult
+auto ConRead::read(char *buf,ulen len) noexcept -> IOResult
  {
   IOResult ret;
 
@@ -177,7 +231,31 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
      return ret;
     }
 
-  TimeScope time_scope(timeout);
+  do
+    {
+     ret=read(buf,len,DefaultTimeout);
+    }
+  while( !ret.error && ret.len==0 );
+
+  return ret;
+ }
+
+auto ConRead::read(char *buf,ulen len,TimeScope time_scope) noexcept -> IOResult
+ {
+  IOResult ret;
+
+  if( len==0 )
+    {
+     ret.error=NoError;
+     ret.len=0;
+
+     return ret;
+    }
+
+  if( +symbol )
+    {
+     return symbol.get(buf,len);
+    }
 
   for(unsigned to_msec; (to_msec=+time_scope.get())!=0 ;)
     {
@@ -188,7 +266,7 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
         Win64::ConInputRecord input;
         Win64::ushortlen_t ret_len;
 
-        if( !Win64::ReadConsoleInputA(handle,&input,1,&ret_len) )
+        if( !Win64::ReadConsoleInputW(handle,&input,1,&ret_len) )
           {
            ret.error=NonNullError();
            ret.len=0;
@@ -206,14 +284,9 @@ auto ConRead::Read(Type handle,char *buf,ulen len,MSec timeout) noexcept -> IORe
 
         if( input.event_type==Win64::ConKeyEvent )
           {
-           if( input.event.key.key_down && input.event.key.ch.ascii )
+           if( input.event.key.key_down && input.event.key.ch.unicode && symbol.push(input.event.key.ch.unicode) )
              {
-              *buf=input.event.key.ch.ascii;
-
-              ret.error=NoError;
-              ret.len=1;
-
-              return ret;
+              return symbol.get(buf,len);
              }
           }
        }

@@ -19,7 +19,10 @@
 
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/video/InternalUtils.h>
 #include <CCore/inc/video/InternalDesktop.h>
+
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <cstdlib>
 
@@ -57,9 +60,25 @@ CmdDisplay StartDisplay()
   return CmdDisplay_Normal;
  }
 
-char ToLowerCase(char ch)
+Char ToLowerCase(Char ch)
  {
-  return (unsigned char)(unsigned long)Win64::CharLowerA((char *)(unsigned long)(unsigned char)ch);
+  if( Sys::IsSurrogate(ch) )
+    {
+     Sys::SurrogateCouple couple(ch);
+     Sys::WChar buf[3]={couple.hi,couple.lo,0};
+
+     Win64::CharLowerW(buf);
+
+     return Sys::Surrogate(buf[0],buf[1]);
+    }
+  else
+    {
+     Sys::WChar buf[2]={(Sys::WChar)ch,0};
+
+     Win64::CharLowerW(buf);
+
+     return buf[0];
+    }
  }
 
 void ShellVerb(StrLen verb_,StrLen file_name_)

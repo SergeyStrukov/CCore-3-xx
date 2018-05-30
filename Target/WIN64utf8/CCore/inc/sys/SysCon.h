@@ -1,15 +1,15 @@
 /* SysCon.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -50,7 +50,30 @@ struct ConRead
 
   Type handle;
   ModeType modes;
-  unsigned cp;
+
+  struct Symbol
+   {
+    uint16 hi;
+
+    char buf[8];
+    ulen len;
+
+    ulen operator + () const { return len; }
+
+    void reset() { len=0; hi=0; }
+
+    void put(uint32 sym);
+
+    bool pushUnicode(uint32 sym);
+
+    bool push(uint16 wch);
+
+    void shift(ulen delta);
+
+    IOResult get(char *out,ulen out_len);
+   };
+
+  Symbol symbol;
 
   // private
 
@@ -58,17 +81,12 @@ struct ConRead
    {
     Type handle;
     ModeType modes;
-    unsigned cp;
     ErrorType error;
    };
 
   static InitType Init() noexcept;
 
-  static ErrorType Exit(Type handle,ModeType modes,unsigned cp) noexcept;
-
-  static IOResult Read(Type handle,char *buf,ulen len) noexcept;
-
-  static IOResult Read(Type handle,char *buf,ulen len,MSec timeout) noexcept;
+  static ErrorType Exit(Type handle,ModeType modes) noexcept;
 
   // public
 
@@ -78,25 +96,22 @@ struct ConRead
 
     handle=result.handle;
     modes=result.modes;
-    cp=result.cp;
+
+    symbol.reset();
 
     return result.error;
    }
 
-  ErrorType exit() { return Exit(handle,modes,cp); }
+  ErrorType exit() { return Exit(handle,modes); }
 
-  IOResult read(char *buf,ulen len) { return Read(handle,buf,len); }
+  IOResult read(char *buf,ulen len) noexcept;
 
-  IOResult read(char *buf,ulen len,MSec timeout) { return Read(handle,buf,len,timeout); }
-
-  IOResult read(char *buf,ulen len,TimeScope time_scope)
+  IOResult read(char *buf,ulen len,MSec timeout)
    {
-    auto timeout=time_scope.get();
-
-    if( !timeout ) return {0,NoError};
-
-    return read(buf,len,timeout);
+    return read(buf,len,TimeScope(timeout));
    }
+
+  IOResult read(char *buf,ulen len,TimeScope time_scope) noexcept;
  };
 
 } // namespace Sys
