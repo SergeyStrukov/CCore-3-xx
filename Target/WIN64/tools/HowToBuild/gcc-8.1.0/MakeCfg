@@ -1,6 +1,6 @@
 # MakeCfg
 
-VER = 7.1.0
+VER = 8.1.0
 
 CONFIGURE = ../../gcc-$(VER)/configure
 

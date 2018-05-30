@@ -18,9 +18,6 @@
 #include <CCore/inc/video/Desktop.h>
 #include <CCore/inc/ReadCon.h>
 
-#include <locale>
-#include <cwctype>
-
 namespace App {
 
 namespace Private_6011 {
