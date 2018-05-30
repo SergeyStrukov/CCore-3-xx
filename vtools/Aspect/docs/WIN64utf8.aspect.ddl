@@ -12,6 +12,7 @@ Aspect Data=
    },
    {
     { "Makefile" , Green },
+    { "CCore.a" , Green },
     { "Makefile.files" , Green },
     { "Makefile.tools" , Green }
    }
@@ -40,6 +41,7 @@ Dir Dir1=
    {
     { "Makefile" , Green },
     { "main.cpp" , Green },
+    { "main.exe" , New },
     { "Makefile.files" , Green }
    }
   };
@@ -93,6 +95,7 @@ Dir Dir4=
     { "test6005.IntelRandom.cpp" , Green },
     { "test6007.MemAlloc.cpp" , Green },
     { "test6010.Quick.cpp" , Green },
+    { "test6012.SysError.cpp" , Green },
     { "test6009.SysFile.cpp" , Green },
     { "test6008.Time.cpp" , Green },
     { "test6002.WIN64.cpp" , New }
@@ -146,7 +149,7 @@ Dir Dir8=
     { "SysAbort.h" , Green },
     { "SysAtomic.h" , Green },
     { "SysCon.h" , New },
-    { "SysError.h" , New },
+    { "SysError.h" , Green },
     { "SysFile.h" , New },
     { "SysFileInternal.h" , New },
     { "SysFileSystem.h" , New },
@@ -159,8 +162,9 @@ Dir Dir8=
     { "SysTask.h" , Green },
     { "SysTime.h" , Green },
     { "SysTlsSlot.h" , Green },
+    { "SysUtf8.h" , Green },
     { "SysWait.h" , Green },
-    { "SysWaitInternal.h" , New }
+    { "SysWaitInternal.h" , Green }
    }
   };
 
@@ -241,7 +245,7 @@ Dir Dir14=
     { "SysAbort.cpp" , Green },
     { "SysAtomic.cpp" , Green },
     { "SysCon.cpp" , New },
-    { "SysError.cpp" , New },
+    { "SysError.cpp" , Green },
     { "SysFile.cpp" , New },
     { "SysFileInternal.cpp" , New },
     { "SysFileSystem.cpp" , New },
@@ -254,8 +258,9 @@ Dir Dir14=
     { "SysTask.cpp" , Green },
     { "SysTime.cpp" , Green },
     { "SysTlsSlot.cpp" , Green },
+    { "SysUtf8.cpp" , Green },
     { "SysWait.cpp" , Green },
-    { "SysWaitInternal.cpp" , New },
+    { "SysWaitInternal.cpp" , Green },
     { "SysAtomic.s" , Green },
     { "SysTime.s" , Green }
    }
