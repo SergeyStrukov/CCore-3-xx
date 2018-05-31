@@ -1,20 +1,23 @@
 /* SysFileInternal.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/GenFile.h>
 #include <CCore/inc/MakeString.h>
+#include <CCore/inc/MemBase.h>
+
+#include <CCore/inc/sys/SysUtf8.h>
 
 //#include <CCore/inc/Print.h>
 
@@ -85,20 +88,72 @@ inline CmpFileTimeType ToCmpFileTime(Win64::FileTime ft)
 
 /* classes */
 
+template <PODType T> class TempBuf;
+
+struct MakeZStr;
+
 struct FileName;
+
+/* class TempBuf<T> */
+
+template <PODType T>
+class TempBuf : NoCopy
+ {
+   T *ptr;
+
+  public:
+
+   explicit TempBuf(ulen len) noexcept { ptr=static_cast<T *>( TryMemAlloc(LenOf(len,sizeof (T))) ); }
+
+   ~TempBuf() { MemFree(ptr); }
+
+   T * operator + () const { return ptr; }
+
+   operator T * () const { return ptr; }
+ };
+
+/* struct MakeZStr */
+
+struct MakeZStr
+ {
+  FileError error;
+  ulen len;
+
+  void setError(FileError error_) { error=error_; len=0; }
+
+  MakeZStr(StrLen str,PtrLen<WChar> out);
+ };
 
 /* struct FileName */
 
-struct FileName
+struct FileName : NoCopy
  {
-  MakeString<MaxPathLen+1> buf;
+  WChar wbuf[MaxPathLen+1];
+  ulen len;
 
-  operator const char * () const { return buf.getZStr(); }
+  operator const WChar * () const { return wbuf; }
 
-  template <class ... TT>
-  bool set(TT ... tt)
+  FileError prepare(StrLen str)
    {
-    return +buf.add(tt...,Null);
+    MakeZStr result(str,Range(wbuf));
+
+    len=result.len;
+
+    return result.error;
+   }
+
+  FileError prepare(StrLen str1,StrLen str2)
+   {
+    MakeString<MaxPathLen> buf;
+
+    if( !buf.add(str1,str2) )
+      {
+       len=0;
+
+       return FileError_TooLongPath;
+      }
+
+    return prepare(buf.get());
    }
  };
 

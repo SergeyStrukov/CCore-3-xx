@@ -1,15 +1,15 @@
 /* SysFile.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 2.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -139,7 +139,7 @@ struct OpenFile : File::OpenType
     error=fe;
    }
 
-  OpenFile(const char *file_name,FileOpenFlags oflags)
+  OpenFile(const WChar *file_name,FileOpenFlags oflags)
    {
     // flags & options
 
@@ -153,7 +153,7 @@ struct OpenFile : File::OpenType
 
     // open
 
-    if( !set( Win64::CreateFileA(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
+    if( !set( Win64::CreateFileW(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
 
     // post-open
 
@@ -222,7 +222,7 @@ struct OpenAltFile : AltFile::OpenType
     error=fe;
    }
 
-  OpenAltFile(const char *file_name,FileOpenFlags oflags)
+  OpenAltFile(const WChar *file_name,FileOpenFlags oflags)
    {
     // flags & options
 
@@ -236,7 +236,7 @@ struct OpenAltFile : AltFile::OpenType
 
     // open
 
-    if( !set( Win64::CreateFileA(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
+    if( !set( Win64::CreateFileW(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
 
     // post-open
 
@@ -308,7 +308,7 @@ struct OpenAltAsyncFile : AltAsyncFile::OpenType
     error=fe;
    }
 
-  OpenAltAsyncFile(const char *file_name,FileOpenFlags oflags)
+  OpenAltAsyncFile(const WChar *file_name,FileOpenFlags oflags)
    {
     // flags & options
 
@@ -322,7 +322,7 @@ struct OpenAltAsyncFile : AltAsyncFile::OpenType
 
     // open
 
-    if( !set( Win64::CreateFileA(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
+    if( !set( Win64::CreateFileW(file_name,access_flags,share_flags,0,creation_options,file_flags,0) ) ) return;
 
     // post-open
 
@@ -355,7 +355,7 @@ auto File::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
  {
   FileName file_name;
 
-  if( !file_name.set(file_name_) ) return OpenFile(FileError_TooLongPath);
+  if( auto fe=file_name.prepare(file_name_) ) return OpenFile(fe);
 
   return OpenFile(file_name,oflags);
  }
@@ -461,7 +461,7 @@ auto AltFile::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
  {
   FileName file_name;
 
-  if( !file_name.set(file_name_) ) return OpenAltFile(FileError_TooLongPath);
+  if( auto fe=file_name.prepare(file_name_) ) return OpenAltFile(fe);
 
   return OpenAltFile(file_name,oflags);
  }
@@ -620,7 +620,7 @@ auto AltAsyncFile::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> Open
  {
   FileName file_name;
 
-  if( !file_name.set(file_name_) ) return OpenAltAsyncFile(FileError_TooLongPath);
+  if( auto fe=file_name.prepare(file_name_) ) return OpenAltAsyncFile(fe);
 
   return OpenAltAsyncFile(file_name,oflags);
  }

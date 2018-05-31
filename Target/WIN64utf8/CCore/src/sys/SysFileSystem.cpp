@@ -1,23 +1,21 @@
 /* SysFileSystem.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/sys/SysFileSystem.h>
 #include <CCore/inc/sys/SysFileInternal.h>
 
-#include <CCore/inc/Exception.h>
-#include <CCore/inc/Array.h>
 #include <CCore/inc/Path.h>
 
 namespace CCore {
@@ -31,7 +29,7 @@ namespace Private_SysFileSystem {
 
 class EmptyDirEngine : NoCopy
  {
-   char buf[MaxPathLen+1];
+   WChar buf[MaxPathLen+1];
    Win64::FindFileData data;
 
   private:
@@ -42,34 +40,49 @@ class EmptyDirEngine : NoCopy
 
      buf[dir_len]=0;
 
-     return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryA(buf) );
+     return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryW(buf) );
     }
 
-   bool set(ulen dir_len,StrLen file_name)
+   bool set(ulen dir_len,const WChar *file_name,ulen len)
     {
-     if( file_name.len>MaxPathLen-dir_len ) return false;
+     if( len>MaxPathLen-dir_len ) return false;
 
-     file_name.copyTo(buf+dir_len);
+     Range(file_name,len).copyTo(buf+dir_len);
 
-     buf[dir_len+file_name.len]=0;
+     buf[dir_len+len]=0;
 
      return true;
     }
 
-   FileError remove(ulen dir_len,StrLen file_name,bool is_dir)
+   FileError remove(ulen dir_len,const WChar *file_name,ulen len,bool is_dir)
     {
-     if( !set(dir_len+1,file_name) ) return FileError_TooLongPath;
+     if( !set(dir_len+1,file_name,len) ) return FileError_TooLongPath;
 
      if( is_dir )
        {
-        return deleteDir(dir_len+1+file_name.len);
+        return deleteDir(dir_len+1+len);
        }
      else
        {
-        if( !Win64::DeleteFileA(buf) ) return MakeError(FileError_OpFault);
+        if( !Win64::DeleteFileW(buf) ) return MakeError(FileError_OpFault);
 
         return FileError_Ok;
        }
+    }
+
+   static bool IsDot(const WChar *file_name,ulen len)
+    {
+     return len==1 && file_name[0]=='.' ;
+    }
+
+   static bool IsDotDot(const WChar *file_name,ulen len)
+    {
+     return len==2 && file_name[0]=='.' && file_name[1]=='.' ;
+    }
+
+   static bool IsSpecial(const WChar *file_name,ulen len)
+    {
+     return IsDot(file_name,len) || IsDotDot(file_name,len) ;
     }
 
    FileError emptyDir(ulen dir_len)
@@ -80,17 +93,17 @@ class EmptyDirEngine : NoCopy
      buf[dir_len+1]='*';
      buf[dir_len+2]=0;
 
-     Win64::handle_t h_find=Win64::FindFirstFileA(buf,&data);
+     Win64::handle_t h_find=Win64::FindFirstFileW(buf,&data);
 
      if( h_find==Win64::InvalidFileHandle ) return MakeError(FileError_OpFault);
 
      do
        {
-        StrLen file_name(data.file_name);
+        ulen len=ZLen(data.file_name);
 
-        if( !PathBase::IsSpecial(file_name) )
+        if( !IsSpecial(data.file_name,len) )
           {
-           if( FileError fe=remove(dir_len,file_name,data.attr&Win64::FileAttributes_Directory) )
+           if( FileError fe=remove(dir_len,data.file_name,len,data.attr&Win64::FileAttributes_Directory) )
              {
               Win64::FindClose(h_find);
 
@@ -98,7 +111,7 @@ class EmptyDirEngine : NoCopy
              }
           }
        }
-     while( FindNextFileA(h_find,&data) );
+     while( Win64::FindNextFileW(h_find,&data) );
 
      Win64::error_t error_=Win64::GetLastError();
 
@@ -113,41 +126,30 @@ class EmptyDirEngine : NoCopy
 
    EmptyDirEngine() {}
 
-   FileError emptyDir(StrLen dir_name)
+   FileError emptyDir(const WChar *dir_name,ulen len)
     {
-     if( dir_name.len>MaxPathLen ) return FileError_TooLongPath;
+     if( len>MaxPathLen ) return FileError_TooLongPath;
 
-     dir_name.copyTo(buf);
+     Range(dir_name,len).copyTo(buf);
 
-     return emptyDir(dir_name.len);
+     return emptyDir(len);
     }
  };
 
 /* DeleteDirRecursive() */
 
-FileError DeleteDirRecursive(StrLen dir_name)
+FileError DeleteDirRecursive(const WChar *dir_name,ulen len)
  {
   EmptyDirEngine engine;
 
-  if( FileError fe=engine.emptyDir(dir_name) ) return fe;
+  if( FileError fe=engine.emptyDir(dir_name,len) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryA(dir_name.ptr) );
- }
-
-/* Copyz() */
-
-char * Copyz(char *out,StrLen str)
- {
-  str.copyTo(out);
-
-  out[str.len]=0;
-
-  return out+(str.len+1);
+  return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryW(dir_name) );
  }
 
 /* Execz() */
 
-FileError Execz(char *dir,char *program,char *arg)
+FileError Execz(const WChar *dir,const WChar *program,WChar *arg)
  {
   Win64::flags_t flags=Win64::CreateNewConsole;
 
@@ -157,7 +159,7 @@ FileError Execz(char *dir,char *program,char *arg)
 
   Win64::ProcessInfo pinfo;
 
-  if( Win64::CreateProcessA(program,arg,0,0,false,flags,0,dir,&info,&pinfo) )
+  if( Win64::CreateProcessW(program,arg,0,0,false,flags,0,dir,&info,&pinfo) )
     {
      Win64::CloseHandle(pinfo.h_process);
      Win64::CloseHandle(pinfo.h_thread);
@@ -182,11 +184,15 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
 
   FileName path;
 
-  if( path.set(dir_name,"/*"_c) )
+  if( auto fe=path.prepare(dir_name,"/*"_c) )
+    {
+     error=fe;
+    }
+  else
     {
      Win64::FindFileData data;
 
-     handle=Win64::FindFirstFileA(path,&data);
+     handle=Win64::FindFirstFileW(path,&data);
 
      if( handle==Win64::InvalidFileHandle )
        {
@@ -203,23 +209,24 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
        }
      else
        {
-        is_first=true;
-        is_closed=false;
+        len=Full(data.file_name,Range(file_name));
 
-        StrLen str(data.file_name);
+        if( len==MaxULen )
+          {
+           Win64::FindClose(handle);
 
-        str.copyTo(file_name);
+           error=FileError_TooLongPath;
+          }
+        else
+          {
+           is_first=true;
+           is_closed=false;
 
-        len=str.len;
+           type=(data.attr&Win64::FileAttributes_Directory)?FileType_dir:FileType_file;
 
-        type=(data.attr&Win64::FileAttributes_Directory)?FileType_dir:FileType_file;
-
-        error=FileError_Ok;
+           error=FileError_Ok;
+          }
        }
-    }
-  else
-    {
-     error=FileError_TooLongPath;
     }
  }
 
@@ -244,17 +251,26 @@ bool FileSystem::DirCursor::next() noexcept
 
   Win64::FindFileData data;
 
-  if( FindNextFileA(handle,&data) )
+  if( FindNextFileW(handle,&data) )
     {
-     StrLen str(data.file_name);
+     len=Full(data.file_name,Range(file_name));
 
-     str.copyTo(file_name);
+     if( len==MaxULen )
+       {
+        is_closed=true;
 
-     len=str.len;
+        Win64::FindClose(handle);
 
-     type=(data.attr&Win64::FileAttributes_Directory)?FileType_dir:FileType_file;
+        error=FileError_TooLongPath;
 
-     return true;
+        return false;
+       }
+     else
+       {
+        type=(data.attr&Win64::FileAttributes_Directory)?FileType_dir:FileType_file;
+
+        return true;
+       }
     }
 
   Win64::error_t error_=Win64::GetLastError();
@@ -288,9 +304,14 @@ auto FileSystem::getFileType(StrLen path_) noexcept -> TypeResult
   TypeResult ret;
   FileName path;
 
-  if( path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
-     Win64::flags_t attr=Win64::GetFileAttributesA(path);
+     ret.type=FileType_none;
+     ret.error=fe;
+    }
+  else
+    {
+     Win64::flags_t attr=Win64::GetFileAttributesW(path);
 
      if( attr==Win64::InvalidFileAttributes )
        {
@@ -303,11 +324,6 @@ auto FileSystem::getFileType(StrLen path_) noexcept -> TypeResult
         ret.error=FileError_Ok;
        }
     }
-  else
-    {
-     ret.type=FileType_none;
-     ret.error=FileError_TooLongPath;
-    }
 
   return ret;
  }
@@ -317,9 +333,14 @@ auto FileSystem::getFileUpdateTime(StrLen path_) noexcept -> CmpTimeResult
   CmpTimeResult ret;
   FileName path;
 
-  if( path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
-     Win64::handle_t h_file=Win64::CreateFileA(path,Win64::AccessRead,Win64::ShareRead,0,Win64::OpenExisting,Win64::FileBackupSemantic,0);
+     ret.time=0;
+     ret.error=fe;
+    }
+  else
+    {
+     Win64::handle_t h_file=Win64::CreateFileW(path,Win64::AccessRead,Win64::ShareRead,0,Win64::OpenExisting,Win64::FileBackupSemantic,0);
 
      if( h_file==Win64::InvalidFileHandle )
        {
@@ -344,11 +365,6 @@ auto FileSystem::getFileUpdateTime(StrLen path_) noexcept -> CmpTimeResult
         Win64::CloseHandle(h_file);
        }
     }
-  else
-    {
-     ret.time=0;
-     ret.error=FileError_TooLongPath;
-    }
 
   return ret;
  }
@@ -357,7 +373,7 @@ FileError FileSystem::createFile(StrLen file_name) noexcept
  {
   FileName path;
 
-  if( !path.set(file_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(file_name) ) return fe;
 
   Win64::flags_t access_flags = 0 ;
 
@@ -367,7 +383,7 @@ FileError FileSystem::createFile(StrLen file_name) noexcept
 
   Win64::flags_t file_flags = Win64::FileAttributeNormal ;
 
-  Win64::handle_t h_file = Win64::CreateFileA(path,access_flags,share_flags,0,creation_options,file_flags,0) ;
+  Win64::handle_t h_file = Win64::CreateFileW(path,access_flags,share_flags,0,creation_options,file_flags,0) ;
 
   if( h_file==Win64::InvalidFileHandle ) return MakeError(FileError_OpenFault);
 
@@ -380,96 +396,86 @@ FileError FileSystem::deleteFile(StrLen file_name) noexcept
  {
   FileName path;
 
-  if( !path.set(file_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(file_name) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win64::DeleteFileA(path) );
+  return MakeErrorIf(FileError_OpFault, !Win64::DeleteFileW(path) );
  }
 
 FileError FileSystem::createDir(StrLen dir_name) noexcept
  {
   FileName path;
 
-  if( !path.set(dir_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(dir_name) ) return fe;
 
-  return MakeErrorIf(FileError_OpFault, !Win64::CreateDirectoryA(path,0) );
+  return MakeErrorIf(FileError_OpFault, !Win64::CreateDirectoryW(path,0) );
  }
 
 FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
  {
   FileName path;
 
-  if( !path.set(dir_name) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(dir_name) ) return fe;
 
-  if( recursive ) return DeleteDirRecursive(StrLen(path,dir_name.len));
+  if( recursive ) return DeleteDirRecursive(path,path.len);
 
-  return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryA(path) );
+  return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryW(path) );
  }
 
 FileError FileSystem::rename(StrLen old_path_,StrLen new_path_,bool allow_overwrite) noexcept
  {
   FileName old_path;
 
-  if( !old_path.set(old_path_) ) return FileError_TooLongPath;
+  if( auto fe=old_path.prepare(old_path_) ) return fe;
 
   FileName new_path;
 
-  if( !new_path.set(new_path_) ) return FileError_TooLongPath;
+  if( auto fe=new_path.prepare(new_path_) ) return fe;
 
   Win64::flags_t flags=allow_overwrite?Win64::MoveFileEx_AllowOverwrite:0;
 
-  return MakeErrorIf(FileError_OpFault, !Win64::MoveFileExA(old_path,new_path,flags) );
+  return MakeErrorIf(FileError_OpFault, !Win64::MoveFileExW(old_path,new_path,flags) );
  }
 
 FileError FileSystem::remove(StrLen path_) noexcept
  {
   FileName path;
 
-  if( !path.set(path_) ) return FileError_TooLongPath;
+  if( auto fe=path.prepare(path_) ) return fe;
 
-  Win64::flags_t attr=Win64::GetFileAttributesA(path);
+  Win64::flags_t attr=Win64::GetFileAttributesW(path);
 
   if( attr==Win64::InvalidFileAttributes ) return MakeError(FileError_NoPath);
 
   if( attr&Win64::FileAttributes_Directory )
     {
-     return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryA(path) );
+     return MakeErrorIf(FileError_OpFault, !Win64::RemoveDirectoryW(path) );
     }
   else
     {
-     return MakeErrorIf(FileError_OpFault, !Win64::DeleteFileA(path) );
+     return MakeErrorIf(FileError_OpFault, !Win64::DeleteFileW(path) );
     }
  }
 
 FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
  {
-  SilentReportException report;
+  const ulen Len1=MaxPathLen+1;
+  const ulen Len2=32_KByte;
 
-  try
-    {
-     if( dir.len>MaxPathLen || program.len>MaxPathLen ) return FileError_TooLongPath;
+  TempBuf<WChar> temp(2*Len1+Len2);
 
-     if( arg.len>32_KByte ) return FileError_SysOverload;
+  if( !temp ) return FileError_SysOverload;
 
-     SimpleArray<char> buf(dir.len+program.len+arg.len+3);
+  WChar *dirz=temp;
+  WChar *programz=dirz+Len1;
+  WChar *argz=programz+Len1;
 
-     char *dirz;
-     char *programz;
-     char *argz;
+  if( auto fe=MakeZStr(dir,Range(dirz,Len1)).error ) return fe;
 
-     char *out=buf.getPtr();
+  if( auto fe=MakeZStr(program,Range(programz,Len1)).error ) return fe;
 
-     out=Copyz(dirz=out,dir);
+  if( auto fe=MakeZStr(arg,Range(argz,Len2)).error ) return fe;
 
-     out=Copyz(programz=out,program);
-
-     out=Copyz(argz=out,arg);
-
-     return Execz(dirz,programz,argz);
-    }
-  catch(CatchType)
-    {
-     return FileError_SysOverload;
-    }
+  return Execz(dirz,programz,argz);
  }
 
 auto FileSystem::pathOf(StrLen path_,char buf[MaxPathLen+1]) noexcept -> PathOfResult
@@ -478,34 +484,48 @@ auto FileSystem::pathOf(StrLen path_,char buf[MaxPathLen+1]) noexcept -> PathOfR
 
   FileName path;
 
-  if( !path.set(path_) )
+  if( auto fe=path.prepare(path_) )
     {
-     ret.path=StrLen();
-     ret.error=FileError_TooLongPath;
+     ret.path=Empty;
+     ret.error=fe;
 
      return ret;
     }
 
-  ulen len=Win64::GetFullPathNameA(path,MaxPathLen+1,buf,0);
+  WCharToUtf8<MaxPathLen+1> temp;
 
-  if( len )
+  temp.len=Win64::GetFullPathNameW(path,temp.Len,temp.buf,0);
+
+  if( temp.len )
     {
-     if( len>MaxPathLen )
+     if( temp.len>MaxPathLen )
        {
-        ret.path=StrLen();
+        ret.path=Empty;
         ret.error=FileError_TooLongPath;
        }
      else
        {
-        PathBase::TurnSlash(Range(buf,len));
+        ulen len=temp.full(Range(buf,MaxPathLen));
 
-        ret.path=StrLen(buf,len);
-        ret.error=FileError_Ok;
+        if( len==MaxULen )
+          {
+           ret.path=Empty;
+           ret.error=FileError_TooLongPath;
+          }
+        else
+          {
+           buf[len]=0;
+
+           ret.path=StrLen(buf,len);
+           ret.error=FileError_Ok;
+
+           PathBase::TurnSlash(Range(buf,len));
+          }
        }
     }
   else
     {
-     ret.path=StrLen();
+     ret.path=Empty;
      ret.error=MakeError(FileError_OpFault);
     }
 

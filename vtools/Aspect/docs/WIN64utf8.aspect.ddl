@@ -142,7 +142,7 @@ Dir Dir7=
 Dir Dir8=
   {
    "sys",
-   New,
+   Green,
    {
    },
    {
@@ -150,12 +150,12 @@ Dir Dir8=
     { "SysAtomic.h" , Green },
     { "SysCon.h" , Green },
     { "SysError.h" , Green },
-    { "SysFile.h" , New },
-    { "SysFileInternal.h" , New },
-    { "SysFileSystem.h" , New },
-    { "SysLaunchPath.h" , New },
+    { "SysFile.h" , Green },
+    { "SysFileInternal.h" , Green },
+    { "SysFileSystem.h" , Green },
+    { "SysLaunchPath.h" , Green },
     { "SysMemPage.h" , Green },
-    { "SysNet.h" , New },
+    { "SysNet.h" , Green },
     { "SysPlanInit.h" , Green },
     { "SysProp.h" , Green },
     { "SysSem.h" , Green },
@@ -175,22 +175,22 @@ Dir Dir9=
    {
    },
    {
-    { "Desktop.h" , New },
-    { "InternalDesktop.h" , New },
-    { "InternalHost.h" , New },
-    { "InternalUtils.h" , New }
+    { "Desktop.h" , Red },
+    { "InternalDesktop.h" , Red },
+    { "InternalHost.h" , Red },
+    { "InternalUtils.h" , Red }
    }
   };
 
 Dir Dir10=
   {
    "win64",
-   New,
+   Red,
    {
    },
    {
-    { "Win64.h" , New },
-    { "Win64gui.h" , New }
+    { "Win64.h" , Yellow },
+    { "Win64gui.h" , Red }
    }
   };
 
@@ -238,7 +238,7 @@ Dir Dir13=
 Dir Dir14=
   {
    "sys",
-   New,
+   Green,
    {
    },
    {
@@ -246,12 +246,12 @@ Dir Dir14=
     { "SysAtomic.cpp" , Green },
     { "SysCon.cpp" , Green },
     { "SysError.cpp" , Green },
-    { "SysFile.cpp" , New },
-    { "SysFileInternal.cpp" , New },
-    { "SysFileSystem.cpp" , New },
-    { "SysLaunchPath.cpp" , New },
+    { "SysFile.cpp" , Green },
+    { "SysFileInternal.cpp" , Green },
+    { "SysFileSystem.cpp" , Green },
+    { "SysLaunchPath.cpp" , Green },
     { "SysMemPage.cpp" , Green },
-    { "SysNet.cpp" , New },
+    { "SysNet.cpp" , Green },
     { "SysPlanInit.cpp" , Green },
     { "SysProp.cpp" , Green },
     { "SysSem.cpp" , Green },
@@ -273,10 +273,10 @@ Dir Dir15=
    {
    },
    {
-    { "Desktop.cpp" , New },
-    { "InternalDesktop.cpp" , New },
-    { "InternalHost.cpp" , New },
-    { "InternalUtils.cpp" , New }
+    { "Desktop.cpp" , Red },
+    { "InternalDesktop.cpp" , Red },
+    { "InternalHost.cpp" , Red },
+    { "InternalUtils.cpp" , Red }
    }
   };
 

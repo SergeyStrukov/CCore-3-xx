@@ -27,7 +27,7 @@ namespace Internal {
 
 void WindowClass::regClass()
  {
-  Win64::HModule hModule=(Win64::HModule)Win64::GetModuleHandleA(0);
+  Win64::HModule hModule=(Win64::HModule)Win64::GetModuleHandleW(0);
 
   if( hModule==0 )
     {

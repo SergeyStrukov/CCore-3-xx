@@ -372,14 +372,14 @@ options_t WIN64_API WaitForMultipleObjects(ushortlen_t hcount,
 /* DLL functions                                                                        */
 /*--------------------------------------------------------------------------------------*/
 
-/* GetModuleHandleA() */
+/* GetModuleHandleW() */
 
-handle_t WIN64_API GetModuleHandleA(const char *module_name);
+handle_t WIN64_API GetModuleHandleW(const wchar *module_name);
 
-/* GetModuleFileNameA() */
+/* GetModuleFileNameW() */
 
-ushortlen_t WIN64_API GetModuleFileNameA(handle_t h_module,
-                                         char *buf,
+ushortlen_t WIN64_API GetModuleFileNameW(handle_t h_module,
+                                         wchar *buf,
                                          ushortlen_t len);
 
 /*--------------------------------------------------------------------------------------*/
@@ -469,16 +469,16 @@ void WIN64_API Sleep(timeout_t timeout);
 
 numid_t WIN64_API GetCurrentThreadId(void);
 
-/* CreateProcessA() */
+/* CreateProcessW() */
 
-bool_t WIN64_API CreateProcessA(const char *program,
-                                const char *arg,
+bool_t WIN64_API CreateProcessW(const wchar *program,
+                                const wchar *arg,
                                 SecurityAttributes *,
                                 SecurityAttributes *,
                                 bool_t inherit_handles,
                                 flags_t process_creation_flags,
                                 void_ptr,
-                                const char *dir,
+                                const wchar *dir,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
 
@@ -757,9 +757,9 @@ struct FileDispositionInfoData
 
 handle_t WIN64_API GetStdHandle(options_t std_handle_options);
 
-/* CreateFileA() */
+/* CreateFileW() */
 
-handle_t WIN64_API CreateFileA(const char *file_name,
+handle_t WIN64_API CreateFileW(const wchar *file_name,
                                flags_t access_flags,
                                flags_t share_flags,
                                SecurityAttributes *,
@@ -840,8 +840,8 @@ struct FindFileData
   flags_t reserved0;
   flags_t reserved1;
 
-  char file_name[260];
-  char alt_file_name[14];
+  wchar file_name[260];
+  wchar alt_file_name[14];
  };
 
 /*--------------------------------------------------------------------------------------*/
@@ -854,44 +854,44 @@ bool_t WIN64_API GetFileTime(handle_t h_file, FileTime *creation_time,
                                               FileTime *last_access_time,
                                               FileTime *last_write_time);
 
-/* GetFileAttributesA() */
+/* GetFileAttributesW() */
 
-flags_t WIN64_API GetFileAttributesA(const char *path);
+flags_t WIN64_API GetFileAttributesW(const wchar *path);
 
-/* DeleteFileA() */
+/* DeleteFileW() */
 
-bool_t WIN64_API DeleteFileA(const char *path);
+bool_t WIN64_API DeleteFileW(const wchar *path);
 
-/* CreateDirectoryA() */
+/* CreateDirectoryW() */
 
-bool_t WIN64_API CreateDirectoryA(const char *path, SecurityAttributes *);
+bool_t WIN64_API CreateDirectoryW(const wchar *path, SecurityAttributes *);
 
-/* RemoveDirectoryA() */
+/* RemoveDirectoryW() */
 
-bool_t WIN64_API RemoveDirectoryA(const char *path);
+bool_t WIN64_API RemoveDirectoryW(const wchar *path);
 
-/* MoveFileExA() */
+/* MoveFileExW() */
 
-bool_t WIN64_API MoveFileExA(const char *old_path, const char *new_path, flags_t flags);
+bool_t WIN64_API MoveFileExW(const wchar *old_path, const wchar *new_path, flags_t flags);
 
-/* FindFirstFileA() */
+/* FindFirstFileW() */
 
-handle_t WIN64_API FindFirstFileA(const char *path, FindFileData *find_data);
+handle_t WIN64_API FindFirstFileW(const wchar *path, FindFileData *find_data);
 
-/* FindNextFileA() */
+/* FindNextFileW() */
 
-bool_t WIN64_API FindNextFileA(handle_t h_find, FindFileData *find_data);
+bool_t WIN64_API FindNextFileW(handle_t h_find, FindFileData *find_data);
 
 /* FindClose() */
 
 bool_t WIN64_API FindClose(handle_t h_find);
 
-/* GetFullPathNameA() */
+/* GetFullPathNameW() */
 
-ushortlen_t WIN64_API GetFullPathNameA(const char *path,
+ushortlen_t WIN64_API GetFullPathNameW(const wchar *path,
                                        ushortlen_t buf_len,
-                                       char *buf,
-                                       char **file_part);
+                                       wchar *buf,
+                                       wchar **file_part);
 
 /*--------------------------------------------------------------------------------------*/
 /* Socket flags and options                                                             */
@@ -1032,9 +1032,9 @@ negbool_t WIN64_API WSACleanup(void);
 
 error_t WIN64_API WSAGetLastError(void);
 
-/* WSASocketA() */
+/* WSASocketW() */
 
-socket_t WIN64_API WSASocketA(options_t address_family,
+socket_t WIN64_API WSASocketW(options_t address_family,
                               options_t type,
                               options_t protocol,
                               WSAProtocolInfo *,
