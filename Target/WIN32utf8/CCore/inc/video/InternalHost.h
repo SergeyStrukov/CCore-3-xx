@@ -153,7 +153,7 @@ class WindowsHost : public WindowHost
 
    void mouseShape(VKey vkey,KeyMod kmod);
 
-   Win32::MsgResult msgProc(Win32::HWindow hWnd_,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam);
+   Win32::MsgResult msgProc(Win32::HWindow hWnd,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam);
 
    static Win32::MsgResult ObjWndProc(WindowsHost *obj,Win32::HWindow hWnd,Win32::MsgCode message,Win32::MsgWParam wParam,Win32::MsgLParam lParam);
 

@@ -445,8 +445,8 @@ struct CreateData
   int y;
   int x;
   flags_t window_style;
-  const char *window_name;
-  const char *class_name;
+  const wchar *window_name;
+  const wchar *class_name;
   flags_t ex_window_style;
  };
 
@@ -475,9 +475,9 @@ inline short SHiWord(unsigned long val) { return (short)HiWord(val); }
 
 inline short SLoWord(unsigned long val) { return (short)LoWord(val); }
 
-inline const char * MakeIntResource(IntRes res) { return (const char *)(unsigned long)res; }
+inline const wchar * MakeIntResource(IntRes res) { return (const wchar *)(unsigned long)res; }
 
-inline const char * MakeIntAtom(Atom atom) { return (const char *)(unsigned long)atom; }
+inline const wchar * MakeIntAtom(Atom atom) { return (const wchar *)(unsigned long)atom; }
 
 inline Color32 MakeColor32(Intensity R,Intensity G,Intensity B) { return R|(Color32(G)<<8)|(Color32(B)<<16); }
 
@@ -594,11 +594,11 @@ unsigned short WIN64_API GetKeyState(unsigned vkey);
 
 HCursor WIN64_API SetCursor(HCursor hCursor);
 
-HCursor WIN64_API LoadCursorA(HModule module, const char *res);
+HCursor WIN64_API LoadCursorW(HModule module, const wchar *res);
 
-HIcon WIN64_API LoadIconA(HModule module, const char *res);
+HIcon WIN64_API LoadIconW(HModule module, const wchar *res);
 
-HAccelerator WIN64_API LoadAcceleratorsA(HModule module, const char *res);
+HAccelerator WIN64_API LoadAcceleratorsW(HModule module, const wchar *res);
 
 /*--------------------------------------------------------------------------------------*/
 /* Message flags                                                                        */
@@ -645,7 +645,7 @@ enum PeekMessageFlags
 /* Message functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
-bool_t WIN64_API PeekMessageA(Msg *msg,
+bool_t WIN64_API PeekMessageW(Msg *msg,
                               HWindow hWnd,
                               MsgCode filter_min,
                               MsgCode filter_max,
@@ -661,7 +661,7 @@ options_t WIN64_API MsgWaitForMultipleObjects(ushortlen_t hcount,
 
 bool_t WIN64_API TranslateMessage(const Msg *msg);
 
-MsgResult WIN64_API DispatchMessageA(const Msg *msg);
+MsgResult WIN64_API DispatchMessageW(const Msg *msg);
 
 void WIN64_API PostQuitMessage(int exit_code);
 
@@ -827,8 +827,8 @@ struct WindowClass
   HIcon hIcon;
   HCursor hCursor;
   HBrush hBrush;
-  const char *menu_res;
-  const char *class_name;
+  const wchar *menu_res;
+  const wchar *class_name;
   HIcon hIconSm;
  };
 
@@ -861,11 +861,11 @@ struct TrackMouseDesc
 /* Window functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
-Atom WIN64_API RegisterClassExA(const WindowClass *wclass);
+Atom WIN64_API RegisterClassExW(const WindowClass *wclass);
 
-HWindow WIN64_API CreateWindowExA(flags_t ex_window_style,
-                                  const char *class_name,
-                                  const char *window_name,
+HWindow WIN64_API CreateWindowExW(flags_t ex_window_style,
+                                  const wchar *class_name,
+                                  const wchar *window_name,
                                   flags_t window_style,
                                   int x,int y,int dx,int dy,
                                   HWindow hParent,
@@ -875,18 +875,18 @@ HWindow WIN64_API CreateWindowExA(flags_t ex_window_style,
 
 bool_t WIN64_API DestroyWindow(HWindow hWnd);
 
-UPtrType WIN64_API GetWindowLongA(HWindow hWnd, int index);
+UPtrType WIN64_API GetWindowLongW(HWindow hWnd, int index);
 
-UPtrType WIN64_API SetWindowLongA(HWindow hWnd, int index, UPtrType value);
+UPtrType WIN64_API SetWindowLongW(HWindow hWnd, int index, UPtrType value);
 
-MsgResult WIN64_API DefWindowProcA(HWindow hWnd,
+MsgResult WIN64_API DefWindowProcW(HWindow hWnd,
                                    MsgCode message,
                                    MsgWParam wParam,
                                    MsgLParam lParam);
 
 bool_t WIN64_API EnableWindow(HWindow hWnd, bool_t en);
 
-bool_t WIN64_API SetWindowTextA(HWindow hWnd, const char *text);
+bool_t WIN64_API SetWindowTextW(HWindow hWnd, const wchar *text);
 
 HGDevice WIN64_API BeginPaint(HWindow hWnd, PaintData *pd);
 
@@ -977,9 +977,9 @@ enum MessageBoxFlags
 /* Dialog functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
-options_t WIN64_API MessageBoxA(HWindow hParent,
-                                const char *text,
-                                const char *caption,
+options_t WIN64_API MessageBoxW(HWindow hParent,
+                                const wchar *text,
+                                const wchar *caption,
                                 flags_t message_box_flags);
 
 /*--------------------------------------------------------------------------------------*/
@@ -1120,7 +1120,7 @@ enum SysParamActionOptions // incomplete
 /* System parameters functions                                                          */
 /*--------------------------------------------------------------------------------------*/
 
-bool_t WIN64_API SystemParametersInfoA(options_t action,
+bool_t WIN64_API SystemParametersInfoW(options_t action,
                                        flags_t param,
                                        void *data,
                                        flags_t winini_flag);
@@ -1133,7 +1133,7 @@ bool_t WIN64_API SystemParametersInfoA(options_t action,
 
 enum ClipboardFormatOptions // incomplete
  {
-  ClipboardFormat_Text = 1
+  ClipboardFormat_UnicodeText = 13
  };
 
 /*--------------------------------------------------------------------------------------*/
@@ -1154,11 +1154,11 @@ handle_t /* h_mem */ WIN64_API GetClipboardData(options_t format);
 /* Shell functions                                                                      */
 /*--------------------------------------------------------------------------------------*/
 
-handle_t /* h_instance */ WIN64_API ShellExecuteA(HWindow hWnd,
-                                                  const char *operation,
-                                                  const char *file,
-                                                  const char *parameters,
-                                                  const char *dir,
+handle_t /* h_instance */ WIN64_API ShellExecuteW(HWindow hWnd,
+                                                  const wchar *operation,
+                                                  const wchar *file,
+                                                  const wchar *parameters,
+                                                  const wchar *dir,
                                                   options_t show);
 
 } // extern "C"

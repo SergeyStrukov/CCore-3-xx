@@ -410,9 +410,9 @@ struct StartupInfo
  {
   ushortlen_t cb;
 
-  const char *reserved;
-  const char *desktop;
-  const char *title;
+  const wchar *reserved;
+  const wchar *desktop;
+  const wchar *title;
 
   int x;
   int y;
@@ -449,9 +449,15 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
-/* GetStartupInfoA() */
+/* GetEnvironmentVariableW() */
 
-void WIN64_API GetStartupInfoA(StartupInfo *info);
+ushortlen_t WIN64_API GetEnvironmentVariableW(const wchar *name,
+                                              wchar *buf,
+                                              ushortlen_t len);
+
+/* GetStartupInfoW() */
+
+void WIN64_API GetStartupInfoW(StartupInfo *info);
 
 /* GetCurrentProcess() */
 

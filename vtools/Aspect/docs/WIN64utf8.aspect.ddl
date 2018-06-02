@@ -5,7 +5,7 @@ Aspect Data=
   "../../../../../../home64/C++/CCore-3-xx/Target/WIN64utf8",
   {
    "",
-   New,
+   Green,
    {
     &Dir0,
     &Dir1
@@ -22,7 +22,7 @@ Aspect Data=
 Dir Dir0=
   {
    "CCore",
-   New,
+   Green,
    {
     &Dir2,
     &Dir3,
@@ -49,7 +49,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "inc",
-   New,
+   Green,
    {
     &Dir5,
     &Dir6,
@@ -66,7 +66,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "src",
-   New,
+   Green,
    {
     &Dir11,
     &Dir12,
@@ -171,26 +171,26 @@ Dir Dir8=
 Dir Dir9=
   {
    "video",
-   New,
+   Green,
    {
    },
    {
-    { "Desktop.h" , Red },
-    { "InternalDesktop.h" , Red },
-    { "InternalHost.h" , Red },
-    { "InternalUtils.h" , Red }
+    { "Desktop.h" , Green },
+    { "InternalDesktop.h" , Green },
+    { "InternalHost.h" , Green },
+    { "InternalUtils.h" , Green }
    }
   };
 
 Dir Dir10=
   {
    "win64",
-   Red,
+   Green,
    {
    },
    {
-    { "Win64.h" , Yellow },
-    { "Win64gui.h" , Red }
+    { "Win64.h" , Green },
+    { "Win64gui.h" , Green }
    }
   };
 
@@ -269,14 +269,14 @@ Dir Dir14=
 Dir Dir15=
   {
    "video",
-   New,
+   Green,
    {
    },
    {
-    { "Desktop.cpp" , Red },
-    { "InternalDesktop.cpp" , Red },
-    { "InternalHost.cpp" , Red },
-    { "InternalUtils.cpp" , Red }
+    { "Desktop.cpp" , Green },
+    { "InternalDesktop.cpp" , Green },
+    { "InternalHost.cpp" , Green },
+    { "InternalUtils.cpp" , Green }
    }
   };
 

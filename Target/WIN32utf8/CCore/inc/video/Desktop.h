@@ -83,7 +83,7 @@ class SystemFontDirs : NoCopy
 
    SystemFontDirs();
 
-   PtrLen<const StrLen> getList() const { return Range(&dir,1); }
+   PtrLen<const StrLen> getList() const { return Single(dir); }
  };
 
 /* class HomeDir */

@@ -21,7 +21,6 @@
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/Cmp.h>
 #include <CCore/inc/CharProp.h>
-#include <CCore/inc/Utf8.h>
 
 namespace CCore {
 namespace Video {
@@ -77,21 +76,21 @@ class CharMapTable : NoCopy
 
 class SystemFontDirs : NoCopy
  {
-   MakeString<MaxPathLen> buf;
+   char buf[MaxPathLen];
    StrLen dir;
 
   public:
 
    SystemFontDirs();
 
-   PtrLen<const StrLen> getList() const { return Range(&dir,1); }
+   PtrLen<const StrLen> getList() const { return Single(dir); }
  };
 
 /* class HomeDir */
 
 class HomeDir : NoCopy
  {
-   MakeString<MaxPathLen> buf;
+   char buf[MaxPathLen];
    StrLen dir;
 
   public:

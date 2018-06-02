@@ -1,21 +1,21 @@
 /* InternalHost.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/video/InternalHost.h>
 
-#include <CCore/inc/CapString.h>
+#include <CCore/inc/sys/SysFileInternal.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -53,10 +53,12 @@ void WindowClass::regClass()
   wndcls.hIconSm=hIconSm;
   wndcls.menu_res=0;
 
-  wndcls.class_name="9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost";
+  WCharString<> temp("9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost"_c);
+
+  wndcls.class_name=temp;
   wndcls.wnd_proc=WindowsHost::WndProc;
 
-  atom=Win64::RegisterClassExA(&wndcls);
+  atom=Win64::RegisterClassExW(&wndcls);
 
   if( atom==0 )
     {
@@ -170,20 +172,20 @@ WindowPaint::~WindowPaint()
 Win64::HCursor WindowsHost::CursorTable[]=
  {
   0,
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_Arrow)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_IBeam)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_Wait)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_Cross)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_Hand)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_No)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_Help)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_SizeLeftRight)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpDown)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpLeft)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpRight)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_SizeAll)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_UpArrow)),
-  Win64::LoadCursorA(0,Win64::MakeIntResource(Win64::SysCursor_AppStarting))
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_Arrow)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_IBeam)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_Wait)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_Cross)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_Hand)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_No)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_Help)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_SizeLeftRight)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpDown)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpLeft)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_SizeUpRight)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_SizeAll)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_UpArrow)),
+  Win64::LoadCursorW(0,Win64::MakeIntResource(Win64::SysCursor_AppStarting))
  };
 
 WindowClass WindowsHost::WindowClassObject CCORE_INITPRI_3 ;
@@ -485,7 +487,7 @@ Win64::MsgResult WindowsHost::msgProc(Win64::HWindow hWnd_,Win64::MsgCode messag
 
        if( is_main ) HMainWindow=hWnd_;
 
-       auto ret=Win64::DefWindowProcA(hWnd_,message,wParam,lParam);
+       auto ret=Win64::DefWindowProcW(hWnd_,message,wParam,lParam);
 
        try { frame->alive(); } catch(...) {}
 
@@ -506,7 +508,7 @@ Win64::MsgResult WindowsHost::msgProc(Win64::HWindow hWnd_,Win64::MsgCode messag
           Win64::PostQuitMessage(0);
          }
 
-       return Win64::DefWindowProcA(hWnd_,message,wParam,lParam);
+       return Win64::DefWindowProcW(hWnd_,message,wParam,lParam);
       }
 
      case Win64::WM_Paint :
@@ -625,30 +627,104 @@ Win64::MsgResult WindowsHost::msgProc(Win64::HWindow hWnd_,Win64::MsgCode messag
 
      case Win64::WM_Char :
       {
-       if( wParam<256 )
-         {
-          char ch=(char)wParam;
-          unsigned repeat=lParam&0xFFFFu;
+       Sys::WChar ch=(Sys::WChar)wParam;
 
-          if( repeat>1 )
-            frame->put_Char(ch,repeat);
+       if( hi )
+         {
+          if( Sys::IsLoSurrogate(ch) )
+            {
+             Unicode uch=Sys::Surrogate(Replace_null(hi),ch);
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_Char(uch,repeat);
+             else
+               frame->put_Char(uch);
+            }
+          else if( Sys::IsHiSurrogate(ch) )
+            {
+             // broken, skip
+
+             hi=ch;
+            }
           else
-            frame->put_Char(ch);
+            {
+             // broken, skip
+
+             hi=0;
+            }
+         }
+       else
+         {
+          if( Sys::IsHiSurrogate(ch) )
+            {
+             hi=ch;
+            }
+          else if( Sys::IsLoSurrogate(ch) )
+            {
+             // broken, skip
+            }
+          else
+            {
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_Char(ch,repeat);
+             else
+               frame->put_Char(ch);
+            }
          }
       }
      return 0;
 
      case Win64::WM_SysChar :
       {
-       if( wParam<256 )
-         {
-          char ch=(char)wParam;
-          unsigned repeat=lParam&0xFFFFu;
+       Sys::WChar ch=(Sys::WChar)wParam;
 
-          if( repeat>1 )
-            frame->put_AltChar(ch,repeat);
+       if( syshi )
+         {
+          if( Sys::IsLoSurrogate(ch) )
+            {
+             Unicode uch=Sys::Surrogate(Replace_null(syshi),ch);
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_AltChar(uch,repeat);
+             else
+               frame->put_AltChar(uch);
+            }
+          else if( Sys::IsHiSurrogate(ch) )
+            {
+             // broken, skip
+
+             syshi=ch;
+            }
           else
-            frame->put_AltChar(ch);
+            {
+             // broken, skip
+
+             syshi=0;
+            }
+         }
+       else
+         {
+          if( Sys::IsHiSurrogate(ch) )
+            {
+             syshi=ch;
+            }
+          else if( Sys::IsLoSurrogate(ch) )
+            {
+             // broken, skip
+            }
+          else
+            {
+             unsigned repeat=lParam&0xFFFFu;
+
+             if( repeat>1 )
+               frame->put_AltChar(ch,repeat);
+             else
+               frame->put_AltChar(ch);
+            }
          }
       }
      return 0;
@@ -775,7 +851,7 @@ Win64::MsgResult WindowsHost::msgProc(Win64::HWindow hWnd_,Win64::MsgCode messag
       }
      return 0;
 
-     default: return Win64::DefWindowProcA(hWnd_,message,wParam,lParam);
+     default: return Win64::DefWindowProcW(hWnd_,message,wParam,lParam);
     }
  }
 
@@ -799,10 +875,10 @@ Win64::MsgResult WindowsHost::WndProc(Win64::HWindow hWnd,Win64::MsgCode message
     {
      Win64::CreateData *ctx=(Win64::CreateData *)lParam;
 
-     Win64::SetWindowLongA(hWnd,0,(Win64::UPtrType)(ctx->arg));
+     Win64::SetWindowLongW(hWnd,0,(Win64::UPtrType)(ctx->arg));
     }
 
-  void *arg=(void *)Win64::GetWindowLongA(hWnd,0);
+  void *arg=(void *)Win64::GetWindowLongW(hWnd,0);
 
   Win64::MsgResult ret;
 
@@ -810,7 +886,7 @@ Win64::MsgResult WindowsHost::WndProc(Win64::HWindow hWnd,Win64::MsgCode message
     {
      // WM_GetMinMaxInfo comes before WM_NcCreate
 
-     ret=Win64::DefWindowProcA(hWnd,message,wParam,lParam);
+     ret=Win64::DefWindowProcW(hWnd,message,wParam,lParam);
     }
   else
     {
@@ -829,6 +905,8 @@ void WindowsHost::reset()
   track_flags=0;
   track_on=false;
   max_flag=false;
+  hi=0;
+  syshi=0;
  }
 
 void WindowsHost::do_move(Pane pane)
@@ -860,17 +938,15 @@ WindowsHost::~WindowsHost()
 
 void WindowsHost::AbortMsgBox(StrLen text)
  {
-  CapString<> cap(text);
-
-  Win64::MessageBoxA(HMainWindow,cap,"Abort",Win64::MessageBox_Ok|Win64::MessageBox_IconError);
+  ErrorMsgBox(text,"Abort"_c);
  }
 
 void WindowsHost::ErrorMsgBox(StrLen text,StrLen title)
  {
-  CapString<> cap(text);
-  CapString<> cap_title(title);
+  WCharString<> cap(text);
+  WCharString<> cap_title(title);
 
-  Win64::MessageBoxA(HMainWindow,cap,cap_title,Win64::MessageBox_Ok|Win64::MessageBox_IconError);
+  Win64::MessageBoxW(HMainWindow,cap,cap_title,Win64::MessageBox_Ok|Win64::MessageBox_IconError);
  }
 
  // icons
@@ -922,9 +998,11 @@ void WindowsHost::createMain(Pane pane,Point max_size_)
 
   buf.setSize(max_size_);
 
-  Win64::HWindow hWnd=Win64::CreateWindowExA(0,
+  WCharString<16> temp(""_c);
+
+  Win64::HWindow hWnd=Win64::CreateWindowExW(0,
                                              Win64::MakeIntAtom(WindowClassObject.getAtom(format)),
-                                             "",
+                                             temp,
                                              Win64::WindowStyle_Popup,
                                              pane.x,pane.y,pane.dx,pane.dy,
                                              0,0,0,
@@ -974,9 +1052,11 @@ void WindowsHost::create(WindowHost *parent,Pane pane,Point max_size_)
      hParent=HMainWindow;
     }
 
-  Win64::HWindow hWnd=Win64::CreateWindowExA(0,
+  WCharString<16> temp(""_c);
+
+  Win64::HWindow hWnd=Win64::CreateWindowExW(0,
                                              Win64::MakeIntAtom(WindowClassObject.getAtom(format)),
-                                             "",
+                                             temp,
                                              Win64::WindowStyle_Popup,
                                              pane.x,pane.y,pane.dx,pane.dy,
                                              hParent,0,0,
@@ -998,14 +1078,14 @@ void WindowsHost::destroy()
 
 void WindowsHost::setTitle(StrLen title)
  {
-  CapString<> cap(title);
+  WCharString<> cap(title);
 
   const char *format="CCore::Video::Internal::WindowsHost::setTitle(...) : #;";
 
   guardAlive(format);
 
   if( is_main )
-    SysGuard(format, Win64::SetWindowTextA(hWnd,cap) );
+    SysGuard(format, Win64::SetWindowTextW(hWnd,cap) );
  }
 
 void WindowsHost::setMaxSize(Point max_size_)
@@ -1264,10 +1344,8 @@ void WindowsHost::setPlace(Pane pane)
 
  // clipboard
 
-void WindowsHost::textToClipboard(PtrLen<const Char> text) // TODO
+void WindowsHost::textToClipboard(PtrLen<const Char> text)
  {
-#if 0
-
   TextToClipboard obj(text);
 
   Clipboard cbd(hWnd);
@@ -1278,20 +1356,16 @@ void WindowsHost::textToClipboard(PtrLen<const Char> text) // TODO
 
   obj.fill(put.getMem());
 
-  put.commit(Win64::ClipboardFormat_Text);
-
-#endif
+  put.commit(Win64::ClipboardFormat_UnicodeText);
  }
 
-void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func) // TODO
+void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func)
  {
-#if 0
-
   Clipboard cbd(hWnd);
-  GetFromClipboard get(Win64::ClipboardFormat_Text);
+  GetFromClipboard get(Win64::ClipboardFormat_UnicodeText);
 
-  const char *ptr=static_cast<const char *>(get.getMem());
-  ulen len=get.getLen();
+  const Sys::WChar *ptr=static_cast<const Sys::WChar *>(get.getMem());
+  ulen len=get.getLen()/sizeof (Sys::WChar);
 
   auto text=Range(ptr,len);
 
@@ -1305,9 +1379,27 @@ void WindowsHost::textFromClipboard(Function<void (PtrLen<const Char>)> func) //
        }
     }
 
-  func(text);
+  ULenSat outlen;
 
-#endif
+  Sys::FeedUnicode(text, [&outlen] (Char) { outlen+=1u; } );
+
+  if( !outlen )
+    {
+     Printf(Exception,"CCore::Video::Internal::WindowsHost::textFromClipboard(...) : overflow");
+    }
+
+  Sys::TempBuf<Char> temp(outlen.value);
+
+  Char *dst=temp;
+
+  if( !dst )
+    {
+     Printf(Exception,"CCore::Video::Internal::WindowsHost::textFromClipboard(...) : no memory");
+    }
+
+  Sys::FeedUnicode(text, [&dst] (Char ch) { *(dst++)=ch; } );
+
+  func(Range(+temp,outlen.value));
  }
 
 } // namespace Internal

@@ -17,14 +17,8 @@
 
 #include <CCore/inc/TextTools.h>
 
-#include <CCore/inc/Exception.h>
-
 #include <CCore/inc/video/InternalUtils.h>
 #include <CCore/inc/video/InternalDesktop.h>
-
-#include <CCore/inc/sys/SysUtf8.h>
-
-#include <cstdlib>
 
 namespace CCore {
 namespace Video {
@@ -35,7 +29,7 @@ CmdDisplay StartDisplay()
 
   info.cb=sizeof (info);
 
-  Win64::GetStartupInfoA(&info);
+  Win64::GetStartupInfoW(&info);
 
   if( info.flags&Win64::StartupInfo_show_window )
     {
@@ -83,18 +77,13 @@ Char ToLowerCase(Char ch)
 
 void ShellVerb(StrLen verb_,StrLen file_name_)
  {
-  MakeString<TextBufLen> verb;
-  MakeString<MaxPathLen+1> file_name;
+  Internal::WCharString<> verb(verb_);
+  Internal::WCharString<MaxPathLen> file_name(file_name_);
 
-  verb.add(verb_,Null);
-  file_name.add(file_name_,Null);
+  verb.guard("CCore::Video::ShellVerb(...)");
+  file_name.guard("CCore::Video::ShellVerb(...)");
 
-  if( !verb || !file_name )
-    {
-     Printf(Exception,"CCore::Video::ShellVerb(...) : too long arguments");
-    }
-
-  Win64::ShellExecuteA(0,verb.getZStr(),file_name.getZStr(),0,0,Win64::CmdShow_Show);
+  Win64::ShellExecuteW(0,verb,file_name,0,0,Win64::CmdShow_Show);
  }
 
 /* class CharMapTable */
@@ -123,42 +112,41 @@ CharMapTable::CharMapTable()
 
 SystemFontDirs::SystemFontDirs()
  {
-  if( const char *root=std::getenv("WINDIR") )
+  Internal::GetEnv<32,MaxPathLen> data("WINDIR");
+
+  ulen len=data.full(Range(buf));
+
+  if( len==MaxULen )
     {
-     if( +buf.add(root,"/Fonts") )
-       {
-        dir=buf.get();
-       }
-     else
-       {
-        Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
-       }
+     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
     }
-  else
+
+  StrLen file="/Fonts"_c;
+
+  if( file.len>DimOf(buf)-len )
     {
-     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : no WINDIR");
+     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : too long file name");
     }
+
+  file.copyTo(buf+len);
+
+  dir=Range(buf,len+file.len);
  }
 
 /* class HomeDir */
 
 HomeDir::HomeDir()
  {
-  if( const char *data=std::getenv("LOCALAPPDATA") )
+  Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA");
+
+  ulen len=data.full(Range(buf));
+
+  if( len==MaxULen )
     {
-     if( +buf.add(data) )
-       {
-        dir=buf.get();
-       }
-     else
-       {
-        Printf(Exception,"CCore::Video::HomeDir::HomeDir() : too long file name");
-       }
+     Printf(Exception,"CCore::Video::HomeDir::HomeDir() : too long file name");
     }
-  else
-    {
-     Printf(Exception,"CCore::Video::HomeDir::HomeDir() : no LOCALAPPDATA");
-    }
+
+  dir=Range(buf,len);
  }
 
 /* functions */

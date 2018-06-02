@@ -1,15 +1,15 @@
 /* InternalUtils.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -19,8 +19,11 @@
 #include <CCore/inc/video/FrameWindow.h>
 
 #include <CCore/inc/sys/SysError.h>
+#include <CCore/inc/sys/SysUtf8.h>
 
 #include <CCore/inc/task/TaskEvent.h>
+
+#include <CCore/inc/Exception.h>
 
 #include <CCore/inc/win64/Win64gui.h>
 
@@ -50,6 +53,12 @@ Pane GetWorkPane(Pane pane={});
 
 /* classes */
 
+struct ToWChar;
+
+template <ulen MaxLen=TextBufLen> class WCharString;
+
+template <ulen NameLen,ulen ValueLen> class GetEnv;
+
 struct MsgEvent;
 
 struct TickEvent;
@@ -65,6 +74,92 @@ class PutToClipboard;
 class GetFromClipboard;
 
 class TextToClipboard;
+
+/* struct ToWChar */
+
+struct ToWChar
+ {
+  ulen len;
+  bool overflow = false ;
+  bool broken = false ;
+
+  ToWChar(PtrLen<Sys::WChar> out,StrLen text);
+ };
+
+/* class WCharString<MaxLen> */
+
+template <ulen MaxLen>
+class WCharString : NoCopy
+ {
+   Sys::WChar buf[MaxLen+1];
+   bool overflow;
+   bool broken;
+
+  public:
+
+   explicit WCharString(StrLen text)
+    {
+     ToWChar to(Range(buf,MaxLen),text);
+
+     buf[to.len]=0;
+
+     overflow=to.overflow;
+     broken=to.broken;
+    }
+
+   void guard(const char *name) const
+    {
+     if( broken )
+       {
+        Printf(Exception,"#; : broken UTF8 sequence",name);
+       }
+
+     if( overflow )
+       {
+        Printf(Exception,"#; : too long argument",name);
+       }
+    }
+
+   operator const Sys::WChar * () const { return buf; }
+ };
+
+/* class GetEnv<ulen NameLen,ulen ValueLen> */
+
+ulen BackupGetEnv(const char *name,Sys::WChar *buf,ulen len);
+
+template <ulen NameLen,ulen ValueLen>
+class GetEnv : NoCopy
+ {
+   WCharString<NameLen> name;
+   Sys::WCharToUtf8<ValueLen+1> value;
+
+  public:
+
+   explicit GetEnv(const char *name_)
+    : name(name_)
+    {
+     name.guard("CCore::Video::Internal::GetEnv<...>::GetEnv(...)");
+
+     value.len=Win64::GetEnvironmentVariableW(name,value.buf,value.Len);
+
+     if( value.len>ValueLen )
+       {
+        Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(...) : too long value");
+       }
+
+     if( value.len==0 )
+       {
+        value.len=BackupGetEnv(name_,value.buf,value.Len);
+
+        if( value.len==0 )
+          {
+           Printf(Exception,"CCore::Video::Internal::GetEnv<...>::GetEnv(#.q;) : no variable",name_);
+          }
+       }
+    }
+
+   ulen full(PtrLen<char> out) const { return value.full(out); }
+ };
 
 /* struct MsgEvent */
 
@@ -242,11 +337,15 @@ class GetFromClipboard : NoCopy
 
 class TextToClipboard : NoCopy
  {
-   StrLen text;
+   PtrLen<const Char> text;
+
+  private:
+
+   static void Feed(PtrLen<const Char> text,FuncArgType<Sys::WChar> func);
 
   public:
 
-   explicit TextToClipboard(StrLen text_) : text(text_) {}
+   explicit TextToClipboard(PtrLen<const Char> text_) : text(text_) {}
 
    ulen getLen() const;
 

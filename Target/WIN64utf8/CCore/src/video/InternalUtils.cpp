@@ -1,15 +1,15 @@
 /* InternalUtils.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.01
+//  Project: CCore 3.50
 //
-//  Tag: Target/WIN64
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -17,6 +17,8 @@
 
 #include <CCore/inc/Exception.h>
 #include <CCore/inc/PrintError.h>
+
+#include <cstdlib>
 
 namespace CCore {
 namespace Video {
@@ -40,9 +42,80 @@ Pane GetWorkPane(Pane pane)
   rect.right=pane.x+pane.dx;
   rect.bottom=pane.y+pane.dy;
 
-  SysGuard("CCore::Video::Internal::GetWorkPane() : #;", Win64::SystemParametersInfoA(Win64::SPA_getWorkArea,0,&rect,0) );
+  SysGuard("CCore::Video::Internal::GetWorkPane() : #;", Win64::SystemParametersInfoW(Win64::SPA_getWorkArea,0,&rect,0) );
 
   return ToPane(rect);
+ }
+
+/* struct ToWChar */
+
+ToWChar::ToWChar(PtrLen<Sys::WChar> out,StrLen text)
+ {
+  ulen start=out.len;
+
+  while( +text )
+    {
+     Unicode ch=CutUtf8_unicode(text);
+
+     if( ch==Unicode(-1) )
+       {
+        broken=true;
+
+        break;
+       }
+     else
+       {
+        if( Sys::IsSurrogate(ch) )
+          {
+           Sys::SurrogateCouple couple(ch);
+
+           if( out.len<2 )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           out[0]=couple.hi;
+           out[1]=couple.lo;
+
+           out+=2;
+          }
+        else
+          {
+           if( !out.len )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           *out=Sys::WChar(ch);
+
+           ++out;
+          }
+       }
+    }
+
+  len=start-out.len;
+ }
+
+/* class GetEnv<ulen NameLen,ulen ValueLen> */
+
+ulen BackupGetEnv(const char *name,Sys::WChar *buf,ulen len)
+ {
+  if( const char *str=std::getenv(name) )
+    {
+     ToWChar to(Range(buf,len),str);
+
+     if( to.broken || to.overflow ) return 0;
+
+     return to.len;
+    }
+  else
+    {
+     return 0;
+    }
  }
 
 /* struct MsgEvent */
@@ -386,20 +459,55 @@ GetFromClipboard::~GetFromClipboard()
 
 /* class TextToClipboard */
 
+void TextToClipboard::Feed(PtrLen<const Char> text,FuncArgType<Sys::WChar> func)
+ {
+  while( +text )
+    {
+     Char ch=*text;
+
+     if( ch=='\r' || ch=='\n' )
+       {
+        if( text.len>=2 && ch=='\r' && text[1]=='\n' )
+          {
+           text+=2;
+          }
+        else
+          {
+           ++text;
+          }
+
+        if( +text )
+          {
+           func('\r');
+           func('\n');
+          }
+       }
+     else
+       {
+        ++text;
+
+        if( Sys::IsSurrogate(ch) )
+          {
+           Sys::SurrogateCouple couple(ch);
+
+           func(couple.hi);
+           func(couple.lo);
+          }
+        else
+          {
+           func((Sys::WChar)ch);
+          }
+       }
+    }
+
+  func(0);
+ }
+
 ulen TextToClipboard::getLen() const
  {
-  ULenSat len=1u;
+  ULenSat len;
 
-  StrLen temp=text;
-
-  while( +temp )
-    {
-     StrLen line=CutLine(temp);
-
-     len+=line.len;
-
-     if( +temp ) len+=2u;
-    }
+  Feed(text, [&len] (Sys::WChar) { len+=sizeof (Sys::WChar); } );
 
   if( !len )
     {
@@ -411,28 +519,9 @@ ulen TextToClipboard::getLen() const
 
 void TextToClipboard::fill(void *mem) const
  {
-  char *dst=static_cast<char *>(mem);
+  Sys::WChar *dst=static_cast<Sys::WChar *>(mem);
 
-  StrLen temp=text;
-
-  while( +temp )
-    {
-     StrLen line=CutLine(temp);
-
-     line.copyTo(dst);
-
-     dst+=line.len;
-
-     if( +temp )
-       {
-        dst[0]='\r';
-        dst[1]='\n';
-
-        dst+=2;
-       }
-    }
-
-  dst[0]=0;
+  Feed(text, [&dst] (Sys::WChar ch) { *(dst++)=ch; } );
  }
 
 } // namespace Internal
