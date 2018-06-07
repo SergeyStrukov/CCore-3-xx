@@ -32,8 +32,12 @@ list:
 	make -C Target/WIN32utf8/test        list
 	make -C Target/WIN64                 list
 	make -C Target/WIN64/test            list
+	make -C Target/WIN64utf8             list
+	make -C Target/WIN64utf8/test        list
 	make -C Target/LIN64                 list
 	make -C Target/LIN64/test            list
+	make -C Target/LIN64utf8             list
+	make -C Target/LIN64utf8/test        list
 	make -C Target/BeagleBoneBlack       list
 	make -C Target/BeagleBoneBlack/test  list
 	make -C tools                        list
