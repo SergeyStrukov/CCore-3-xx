@@ -131,8 +131,6 @@ struct AppPreferenceBag : ConfigItemHost
   static void Members(Ptr ptr,Func func);
 
   virtual void bind(ConfigItemBind &binder);
-
-  void createFonts();
  };
 
 template <class Ptr,class Func>
@@ -152,7 +150,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("hilight"_c,ptr->hilight);
   func("focus"_c,ptr->focus);
 
-  func("font"_c,ptr->font.param);
+  func("font"_c,ptr->font);
 
   func("edit_angle_dxy"_c,ptr->edit_angle_dxy);
 

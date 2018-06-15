@@ -31,12 +31,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
    binder.item("text font"_def,font);
  }
 
-void AppPreferenceBag::createFonts()
- {
-  title_font.create();
-  font.create();
- }
-
 } // namespace App
 
 

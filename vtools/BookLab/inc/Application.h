@@ -69,8 +69,6 @@ struct AppPreferenceBag : ConfigItemHost
 
   virtual void bind(ConfigItemBind &binder);
 
-  void createFonts();
-
   void findFonts();
  };
 
@@ -89,8 +87,8 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_App"_c,ptr->menu_App);
   func("back"_c,ptr->back);
   func("fore"_c,ptr->fore);
-  func("font"_c,ptr->font.param);
-  func("codefont"_c,ptr->codefont.param);
+  func("font"_c,ptr->font);
+  func("codefont"_c,ptr->codefont);
   func("text_Title"_c,ptr->text_Title);
   func("text_Page"_c,ptr->text_Page);
   func("text_NotReady"_c,ptr->text_NotReady);

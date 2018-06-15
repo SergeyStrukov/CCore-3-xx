@@ -78,11 +78,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("Green"_def,status_Green);
  }
 
-void AppPreferenceBag::createFonts()
- {
-  item_font.create();
- }
-
 } // namespace App
 
 

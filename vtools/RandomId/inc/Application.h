@@ -59,8 +59,6 @@ struct AppPreferenceBag : ConfigItemHost
   static void Members(Ptr ptr,Func func);
 
   virtual void bind(ConfigItemBind &binder);
-
-  void createFonts();
  };
 
 template <class Ptr,class Func>

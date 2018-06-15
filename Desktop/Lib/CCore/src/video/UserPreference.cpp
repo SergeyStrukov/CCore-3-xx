@@ -104,18 +104,18 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("list_space"_c,ptr->list_space);
   func("menu_space"_c,ptr->menu_space);
 
-  func("label_font"_c,ptr->label_font.param);
-  func("contour_font"_c,ptr->contour_font.param);
+  func("label_font"_c,ptr->label_font);
+  func("contour_font"_c,ptr->contour_font);
 
-  func("button_font"_c,ptr->button_font.param);
-  func("message_font"_c,ptr->message_font.param);
-  func("info_font"_c,ptr->info_font.param);
-  func("line_edit_font"_c,ptr->line_edit_font.param);
-  func("list_font"_c,ptr->list_font.param);
-  func("menu_font"_c,ptr->menu_font.param);
-  func("spinor_font"_c,ptr->spinor_font.param);
+  func("button_font"_c,ptr->button_font);
+  func("message_font"_c,ptr->message_font);
+  func("info_font"_c,ptr->info_font);
+  func("line_edit_font"_c,ptr->line_edit_font);
+  func("list_font"_c,ptr->list_font);
+  func("menu_font"_c,ptr->menu_font);
+  func("spinor_font"_c,ptr->spinor_font);
 
-  func("code_font"_c,ptr->code_font.param);
+  func("code_font"_c,ptr->code_font);
 
   // switch
 
@@ -212,8 +212,8 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("hintWidth"_c,ptr->hintWidth);
 
-  func("title_font"_c,ptr->title_font.param);
-  func("hint_font"_c,ptr->hint_font.param);
+  func("title_font"_c,ptr->title_font);
+  func("hint_font"_c,ptr->hint_font);
 
   func("shadeColor"_c,ptr->shadeColor);
   func("shadeAlpha"_c,ptr->shadeAlpha);
@@ -256,7 +256,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("file_faceRight"_c,ptr->file_faceRight);
   func("file_faceDown"_c,ptr->file_faceDown);
 
-  func("file_filter_font"_c,ptr->file_filter_font.param);
+  func("file_filter_font"_c,ptr->file_filter_font);
 
   func("text_New_file"_c,ptr->text_New_file);
 
@@ -659,26 +659,6 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("?'Font length'"_def,hint_cfg_length);
    binder.space();
    binder.item("?'Color hint'"_def,hint_cfg_color);
- }
-
-void UserPreferenceBag::createFonts() // Update fonts here
- {
-  label_font.create();
-  contour_font.create();
-  button_font.create();
-  message_font.create();
-  info_font.create();
-  line_edit_font.create();
-  list_font.create();
-  menu_font.create();
-  spinor_font.create();
-
-  code_font.create();
-
-  title_font.create();
-  hint_font.create();
-
-  file_filter_font.create();
  }
 
 void UserPreferenceBag::findFonts() // Update fonts here

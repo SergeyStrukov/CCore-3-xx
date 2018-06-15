@@ -278,6 +278,18 @@ class ConfigMap : NoCopy
      modified=true;
     }
 
+   void sync(StrLen name,FontCouple &ret)
+    {
+     sync(name,ret.param);
+
+     ret.create();
+    }
+
+   void update(StrLen name,const FontCouple &value)
+    {
+     update(name,value.param);
+    }
+
    void saveDDL(StrLen file_name) const;
 
    void loadDDL(StrLen file_name);

@@ -46,18 +46,12 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Not ready'"_def,text_NotReady);
  }
 
-void AppPreferenceBag::createFonts()
- {
-  font.create();
-  codefont.create();
- }
-
 void AppPreferenceBag::findFonts()
  {
   FontLookup dev;
 
-  font=dev.build("Times New Roman"_c,false,false,22);
-  codefont=dev.build("Anonymous Pro"_c,false,false,22);
+  font=dev.build("Times New Roman"_c,22);
+  codefont=dev.build("Anonymous Pro"_c,22);
  }
 
 } // namespace App

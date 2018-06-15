@@ -92,11 +92,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("?'Name'"_def,hint_item_Name);
  }
 
-void AppPreferenceBag::createFonts()
- {
-  font.create();
- }
-
 } // namespace App
 
 

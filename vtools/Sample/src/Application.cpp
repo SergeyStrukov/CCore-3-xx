@@ -36,10 +36,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("App"_def,menu_App);
  }
 
-void AppPreferenceBag::createFonts()
- {
- }
-
 } // namespace App
 
 

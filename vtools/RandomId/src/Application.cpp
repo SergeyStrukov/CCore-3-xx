@@ -39,10 +39,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Copy'"_def,text_Copy);
  }
 
-void AppPreferenceBag::createFonts()
- {
- }
-
 } // namespace App
 
 

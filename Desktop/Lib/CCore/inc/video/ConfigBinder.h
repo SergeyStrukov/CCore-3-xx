@@ -132,8 +132,6 @@ class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase
    virtual void syncMap(ConfigMap &map)
     {
      Bag::Members(this, [&map] (StrLen name,auto &obj) { map.sync(name,obj); } );
-
-     Bag::createFonts();
     }
 
    virtual void updateMap(ConfigMap &map) const

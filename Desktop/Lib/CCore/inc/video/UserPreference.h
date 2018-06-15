@@ -377,8 +377,6 @@ struct UserPreferenceBag : ConfigItemHost
 
   virtual void bind(ConfigItemBind &binder);
 
-  void createFonts();
-
   void findFonts();
  };
 
