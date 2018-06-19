@@ -36,9 +36,7 @@ class BookMap::Pretext : public PretextMap
 
    static StrLen Pretext1()
     {
-     return
-       "\r\n"
-       "type Bool = uint8 ;\r\n"
+     return "type Bool = uint8 ;\r\n"
        "\r\n"
        "Bool True = 1 ;\r\n"
        "\r\n"
@@ -48,7 +46,7 @@ class BookMap::Pretext : public PretextMap
        "\r\n"
        "VColor NoColor = 0FFFFFFFFh ;\r\n"
        "\r\n"
-       "type Coord = sint16 ;\r\n"
+       "type Coord = sint32 ;\r\n"
        "\r\n"
        "struct Point\r\n"
        " {\r\n"
@@ -272,7 +270,9 @@ ErrorText BookMap::loadFS(StrLen file_name,PtrLen<char> ebuf)
 
   try
     {
-     DDL::FileEngine<FileName, PretextFileToMem<FileToMem,Pretext::Object> > engine(eout);
+     using FileType = PretextFileToMem<FileToMem,Pretext::Object> ;
+
+     DDL::FileEngine<FileName,FileType> engine(eout);
 
      auto result=engine.process(file_name);
 

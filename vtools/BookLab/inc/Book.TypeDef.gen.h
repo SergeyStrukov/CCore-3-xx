@@ -27,7 +27,7 @@ struct TypeDefCore
   using A1 = DDL::MapRange< S12 > ; // #Line
   using A2 = uint8 ; // #OneLine#Align
   using A3 = uint8 ; // #Format#Effect
-  using A4 = sint16 ; // #Coord
+  using A4 = sint32 ; // #Coord
   using A5 = uint32 ; // #VColor
   using A6 = uint8 ; // #Bool
 

@@ -23,7 +23,7 @@ type VColor = uint32 ;
 
 VColor NoColor = 0FFFFFFFFh ;
 
-type Coord = sint16 ;
+type Coord = sint32 ;
 
 struct Point
  {
