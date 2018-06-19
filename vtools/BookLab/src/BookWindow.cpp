@@ -609,13 +609,11 @@ void DisplayBookWindow::setScale(Ratio scale)
 /* class DisplayBookFrame */
 
 DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update)
- : DragFrame(desktop,cfg_.frame_cfg),
+ : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
    client(*this,cfg.book_cfg,font_map,bmp_map)
  {
   bindClient(client);
-
-  connectUpdate(update);
  }
 
 DisplayBookFrame::~DisplayBookFrame()
