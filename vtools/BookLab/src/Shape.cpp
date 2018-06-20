@@ -14,7 +14,6 @@
 #include <inc/Shape.h>
 
 #include <CCore/inc/Path.h>
-#include <CCore/inc/Scope.h>
 
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
@@ -1226,8 +1225,6 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
  {
   frame=&frame_;
 
-  Scope scope("App::Shape::set"_c);
-
   Point off=scale*Cast(frame->inner)+scale*Cast(frame->outer);
   Point delta=2*off;
 
@@ -1244,8 +1241,6 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
 void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
  {
-  Scope scope("App::Shape::draw"_c);
-
   draw(cfg,font_map,bmp_map,scale,fore,buf,Point(pos_x,pos_y));
  }
 

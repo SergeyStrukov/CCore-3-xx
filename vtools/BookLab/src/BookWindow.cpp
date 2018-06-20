@@ -25,6 +25,8 @@ namespace App {
 
 void InnerBookWindow::cache() const
  {
+  Scope scope("App::InnerBookWindow::cache()"_c);
+
   Coord dx=getSize().x-2*cfg.width.get().roundUp();
 
   if( !ok || cache_dx!=dx )
@@ -361,6 +363,8 @@ void InnerBookWindow::layout()
 void InnerBookWindow::draw(DrawBuf buf,bool) const
  {
   cache();
+
+  Scope scope("App::InnerBookWindow::draw()"_c);
 
   Pane pane=getPane();
 
