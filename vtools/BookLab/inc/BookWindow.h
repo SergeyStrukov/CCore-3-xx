@@ -106,30 +106,14 @@ class InnerBookWindow : public SubWindow
 
    // layout
 
-   struct Size
-    {
-     ulen dx;
-     ulen dy;
-
-     Size() : dx(0),dy(0) {}
-
-     Size(ulen dx_,ulen dy_) : dx(dx_),dy(dy_) {}
-
-     Size(Point s) : Size((ulen)s.x,(ulen)s.y) {}
-
-     friend Size StackY(Size a,Size b) { return { Max(a.dx,b.dx) , LenAdd(a.dy,b.dy) }; }
-    };
-
    mutable DynArray<Shape> shapes;
 
-   mutable Size size;
+   mutable Point size;
 
    mutable bool ok = false ;
    mutable Coord cache_dx;
 
   private:
-
-   static Coord CapSize(ulen dx,Coord cap) { return (Coord)Min(dx,(ulen)cap); }
 
    void cache() const;
 
@@ -157,7 +141,7 @@ class InnerBookWindow : public SubWindow
 
    void subYPosPage();
 
-   PtrLen<const Shape> getVisibleShapes(ulen off,ulen lim) const;
+   PtrLen<const Shape> getVisibleShapes(Coord off,Coord lim) const;
 
    PtrLen<const Shape> getVisibleShapes() const;
 

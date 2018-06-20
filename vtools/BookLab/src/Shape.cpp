@@ -19,9 +19,23 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 /* functions */
+
+Point StackY(Point a,Point b)
+ {
+  Coord y=a.y+b.y;
+
+  if( y<0 )
+    {
+     Printf(Exception,"App::StackY(...) : size overflow");
+    }
+
+  return Point( Max(a.x,b.x) , y );
+ }
 
 void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back)
  {
@@ -1228,14 +1242,11 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
   return size;
  }
 
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const
+void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
  {
   Scope scope("App::Shape::draw"_c);
 
-  if( posflag )
-    draw(cfg,font_map,bmp_map,scale,fore,buf,Point(-(Coord)pos_x,-(Coord)pos_y));
-  else
-    draw(cfg,font_map,bmp_map,scale,fore,buf,Point(-(Coord)pos_x,(Coord)pos_y));
+  draw(cfg,font_map,bmp_map,scale,fore,buf,Point(pos_x,pos_y));
  }
 
 Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const
@@ -1268,20 +1279,14 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
   return size.y;
  }
 
-bool Shape::hit(Point point,ulen pos_x,ulen pos_y,bool posflag) const
+bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const
  {
-  if( posflag )
-    return hit(point-Point(-(Coord)pos_x,-(Coord)pos_y));
-  else
-    return hit(point-Point(-(Coord)pos_x,(Coord)pos_y));
+  return hit(point-Point(pos_x,pos_y));
  }
 
-AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point,ulen pos_x,ulen pos_y,bool posflag) const
+AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
  {
-  if( posflag )
-    return getRef(point-Point(-(Coord)pos_x,-(Coord)pos_y));
-  else
-    return getRef(point-Point(-(Coord)pos_x,(Coord)pos_y));
+  return getRef(point-Point(pos_x,pos_y));
  }
 
 } // namespace App

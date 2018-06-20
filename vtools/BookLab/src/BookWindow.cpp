@@ -35,21 +35,21 @@ void InnerBookWindow::cache() const
         shapes.extend_default(frames.len);
        }
 
-     Size s;
+     Point s;
 
-     ulen y=0;
+     Coord y=0;
 
      for(ulen i=0; i<frames.len ;i++)
        {
         Shape &shape=shapes[i];
 
-        shape.set(cfg,font_map,bmp_map,scale,frames[i],dx);
+        Point ds=shape.set(cfg,font_map,bmp_map,scale,frames[i],dx);
 
-        s=StackY(s,shape.size);
+        s=StackY(s,ds);
 
         shape.offy=y;
 
-        y+=shape.getSize().y;
+        y+=ds.y;
        }
 
      size=s;
@@ -95,7 +95,7 @@ void InnerBookWindow::subYPos(ulen delta,bool mul_flag)
   redraw();
  }
 
-PtrLen<const Shape> InnerBookWindow::getVisibleShapes(ulen off,ulen lim) const
+PtrLen<const Shape> InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const
  {
   PtrLen<const Shape> r=Range(shapes);
 
@@ -110,8 +110,8 @@ PtrLen<const Shape> InnerBookWindow::getVisibleShapes(ulen off,ulen lim) const
 
 PtrLen<const Shape> InnerBookWindow::getVisibleShapes() const
  {
-  ulen wdy=sy.page;
-  ulen pos_y=sy.getPos();
+  Coord wdy=(Coord)sy.page;
+  Coord pos_y=(Coord)sy.getPos();
 
   return getVisibleShapes(pos_y,pos_y+wdy);
  }
@@ -127,27 +127,20 @@ AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> InnerBookWindow::getRef(Point po
 
   point-=inner.getBase();
 
-  ulen wdy=sy.page;
+  Coord wdy=(Coord)sy.page;
 
-  ulen pos_x=sx.getPos();
-  ulen pos_y=sy.getPos();
+  Coord pos_x=(Coord)sx.getPos();
+  Coord pos_y=(Coord)sy.getPos();
 
   for(auto &shape : getVisibleShapes(pos_y,pos_y+wdy) )
     {
-     ulen y=shape.offy;
+     Coord y=shape.offy;
 
-     Size size=shape.getSize();
+     Point size=shape.getSize();
 
-     if( pos_x<size.dx )
+     if( pos_x<size.x )
        {
-        if( y>=pos_y )
-          {
-           if( shape.hit(point,pos_x,y-pos_y,false) ) return shape.getRef(point,pos_x,y-pos_y,false);
-          }
-        else
-          {
-           if( shape.hit(point,pos_x,pos_y-y,true) ) return shape.getRef(point,pos_x,pos_y-y,true);
-          }
+        if( shape.hit(point,-pos_x,y-pos_y) ) return shape.getRef(point,-pos_x,y-pos_y);
        }
     }
 
@@ -158,7 +151,7 @@ void InnerBookWindow::posFrame(ulen frame_index)
  {
   if( frame_index<shapes.getLen() )
     {
-     sy.setPos( shapes[frame_index].offy );
+     sy.setPos(ulen( shapes[frame_index].offy ));
     }
   else
     {
@@ -265,14 +258,13 @@ Point InnerBookWindow::getMinSize(Point cap) const
 
   if( frames.len )
     {
-     Coord dx=CapSize(size.dx,cap.x);
-     Coord dy=CapSize(size.dy,cap.y);
+     Point delta=2*Point::Diag(cfg.width.get().roundUp());
 
-     return Point(dx,dy)+2*Point::Diag(cfg.width.get().roundUp());
+     return Inf(size,cap-delta)+delta;
     }
   else
     {
-     return Point(500,300);
+     return Inf(Point(500,300),cap);
     }
  }
 
@@ -350,18 +342,18 @@ void InnerBookWindow::layout()
 
   if( s>Null )
     {
-     sx.total=size.dx;
+     sx.total=(ulen)size.x;
      sx.page=(ulen)s.x;
 
-     sy.total=size.dy;
+     sy.total=(ulen)size.y;
      sy.page=(ulen)s.y;
     }
   else
     {
-     sx.total=size.dx;
+     sx.total=(ulen)size.x;
      sx.page=1;
 
-     sy.total=size.dy;
+     sy.total=(ulen)size.y;
      sy.page=1;
     }
  }
@@ -403,27 +395,20 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   buf=buf.cutRebase(inner);
 
-  ulen wdy=sy.page;
+  Coord wdy=(Coord)sy.page;
 
-  ulen pos_x=sx.getPos();
-  ulen pos_y=sy.getPos();
+  Coord pos_x=(Coord)sx.getPos();
+  Coord pos_y=(Coord)sy.getPos();
 
   for(auto &shape : getVisibleShapes(pos_y,pos_y+wdy) )
     {
-     ulen y=shape.offy;
+     Coord y=shape.offy;
 
-     Size size=shape.getSize();
+     Point size=shape.getSize();
 
-     if( pos_x<size.dx )
+     if( pos_x<size.x )
        {
-        if( y>=pos_y )
-          {
-           shape.draw(cfg,font_map,bmp_map,scale,fore,buf,pos_x,y-pos_y,false);
-          }
-        else
-          {
-           shape.draw(cfg,font_map,bmp_map,scale,fore,buf,pos_x,pos_y-y,true);
-          }
+        shape.draw(cfg,font_map,bmp_map,scale,fore,buf, -pos_x , y-pos_y );
        }
     }
  }

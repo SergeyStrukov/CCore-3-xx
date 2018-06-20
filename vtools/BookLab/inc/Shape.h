@@ -51,6 +51,8 @@ inline void Combine(VColor &dst,Book::TypeDef::VColor vc_)
   if( vc!=Book::NoColor ) dst=vc;
  }
 
+Point StackY(Point a,Point b);
+
 void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back);
 
 void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width);
@@ -225,7 +227,7 @@ class Shape
 
   public:
 
-   ulen offy = 0 ;
+   Coord offy = 0 ;
 
    Shape() noexcept {}
 
@@ -233,13 +235,13 @@ class Shape
 
    Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base=Null);
 
-   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,ulen pos_x,ulen pos_y,bool posflag) const;
+   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
 
    Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const;
 
-   bool hit(Point point,ulen pos_x,ulen pos_y,bool posflag) const;
+   bool hit(Point point,Coord pos_x,Coord pos_y) const;
 
-   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point,ulen pos_x,ulen pos_y,bool posflag) const;
+   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
 
 } // namespace App
