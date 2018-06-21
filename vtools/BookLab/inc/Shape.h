@@ -185,15 +185,9 @@ class Shape
 
    struct SizeContext;
 
+   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base);
+
    struct DrawContext;
-
-   Point body(const Config &cfg,const Book::TypeDef::Text *obj,Coord dx);
-
-   Point body(const Config &cfg,const Book::TypeDef::FixedText *obj,Coord dx);
-
-   Point body(const Config &cfg,const Book::TypeDef::Bitmap *obj,Coord dx);
-
-   Point body(const Config &cfg,const Book::TypeDef::Frame &frame,Coord dx);
 
    static VColor GetBack(const Book::TypeDef::Format *fmt);
 
@@ -215,11 +209,9 @@ class Shape
    template <class T>
    static void DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane);
 
-   Coord drawSpan(DrawBuf buf,Font font,VColor back,VColor fore,Effect effect,MCoord width,StrLen text,Pane pane,Point base) const;
-
-   void drawLine(FontMap &font_map,Font font,VColor fore,Effect effect,MCoord width,DrawBuf buf,Book::TypeDef::Line line,Pane pane,Point base) const;
-
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Point base) const;
+
+   Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const;
 
    bool hit(Point point) const;
 
@@ -233,11 +225,9 @@ class Shape
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base=Null);
+   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx);
 
    void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
-
-   Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const;
 
    bool hit(Point point,Coord pos_x,Coord pos_y) const;
 
