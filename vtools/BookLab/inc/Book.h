@@ -25,7 +25,7 @@ namespace Book {
 
 /* namespace TypeDef */
 
-#include "Book.TypeDef.gen.h"
+#include "Book1.TypeDef.gen.h"
 
 /* consts */
 

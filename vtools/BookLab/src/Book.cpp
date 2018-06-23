@@ -26,7 +26,7 @@
 namespace App {
 namespace Book {
 
-#include "Book.TypeSet.gen.h"
+#include "Book1.TypeSet.gen.h"
 
 /* class BookMap::Pretext */
 
@@ -36,7 +36,8 @@ class BookMap::Pretext : public PretextMap
 
    static StrLen Pretext1()
     {
-     return "type Bool = uint8 ;\r\n"
+     return "int Version = 1 ;\r\n"
+       "type Bool = uint8 ;\r\n"
        "\r\n"
        "Bool True = 1 ;\r\n"
        "\r\n"

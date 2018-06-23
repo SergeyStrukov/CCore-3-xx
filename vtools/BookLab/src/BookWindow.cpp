@@ -986,5 +986,41 @@ void BookWindow::open()
     }
  }
 
+ // user input
+
+void BookWindow::react(UserAction action)
+ {
+  action.dispatch(*this, [this] (UserAction action) { wlist.react(action); } );
+ }
+
+void BookWindow::react_Key(VKey vkey,KeyMod kmod)
+ {
+  switch( vkey )
+    {
+     case VKey_F5 :
+      {
+       gotoPrev();
+      }
+     break;
+
+     case VKey_F6 :
+      {
+       gotoUp();
+      }
+     break;
+
+     case VKey_F7 :
+      {
+       gotoNext();
+      }
+     break;
+
+     default:
+      {
+       wlist.put_Key(vkey,kmod);
+      }
+    }
+ }
+
 } // namespace App
 

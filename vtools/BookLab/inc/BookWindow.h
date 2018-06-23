@@ -552,6 +552,12 @@ class BookWindow : public ComboWindow
    // base
 
    virtual void open();
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod);
  };
 
 } // namespace App

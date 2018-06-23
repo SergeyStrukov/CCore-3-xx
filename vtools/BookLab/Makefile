@@ -32,6 +32,6 @@ run: $(TARGET)
 
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
-inc/Book.TypeDef.gen.h : docs/Book.ddl
-	$(TypeSet) docs/Book.ddl inc/Book.TypeDef.gen.h src/Book.TypeSet.gen.h Font Bitmap
+inc/Book1.TypeDef.gen.h : docs/Book1.ddl
+	$(TypeSet) docs/Book1.ddl inc/Book1.TypeDef.gen.h src/Book1.TypeSet.gen.h Font Bitmap
 

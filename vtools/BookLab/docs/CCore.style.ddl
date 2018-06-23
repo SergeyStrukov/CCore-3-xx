@@ -1,6 +1,6 @@
 /* CCore.style.ddl */
 
-include <Book.ddl>
+include <Book1.ddl>
 
 scope Pages {
 
