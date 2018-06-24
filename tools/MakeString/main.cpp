@@ -15,6 +15,7 @@
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/FileToMem.h>
+#include <CCore/inc/CharProp.h>
 
 namespace App {
 
@@ -32,6 +33,31 @@ void ProcStrip(StrLen input_file_name,StrLen output_file_name)
 void Proc(StrLen input_file_name,StrLen output_file_name)
  {
   Printf(Con,"#.q; -> #.q;\n\n",input_file_name,output_file_name);
+
+  FileToMem input_file(input_file_name);
+  StrLen input=Mutate<const char>(Range(input_file));
+  PrintFile out(output_file_name);
+
+  while( +input )
+    {
+     StrLen line=CutLine(input);
+
+     Putch(out,'"');
+
+     for(char ch : line )
+       {
+        if( CharIsPrintable(ch) )
+          {
+           Putch(out,ch);
+          }
+        else
+          {
+           Putch(out,' ');
+          }
+       }
+
+     Putobj(out,"\\n\"\n"_c);
+    }
  }
 
 /* Main() */
