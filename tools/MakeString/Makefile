@@ -1,7 +1,7 @@
 # Makefile
 #----------------------------------------------------------------------------------------
 #
-#  Project: Volume 1.00
+#  Project: MakeString 1.00
 #
 #  License: Boost Software License - Version 1.0 - August 17th, 2003 
 #
@@ -15,14 +15,12 @@ CCORE_ROOT = ../..
 
 include $(CCORE_ROOT)/Makefile.host
 
-TARGET = $(HOME)/bin/CCore-Volume.exe
+TARGET = $(HOME)/bin/CCore-MakeString.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET) -a test
-	$(TARGET) -l test.vol
-	$(TARGET) -x test.vol test1
+	$(TARGET) Book1.ddl Book1.gen.cpp
 
