@@ -24,6 +24,16 @@ Format fmt_u = { .font = &font , .effect = Format#Underline } ;
 
 Format fmt_s = { .font = &font , .effect = Format#Strikeout } ;
 
+Font font_code = { 'Anonymous Pro' , 22 , False , False , 30 } ;
+
+Format fmt_code = { .font = &font_code } ;
+
+Format fmt_code_keyword = { .font = &font_code , .fore = 0FFh } ;
+
+Font font_bullet = { 'Georgia' , 20 } ;
+
+Format fmt_bullet = { .font = &font_bullet , .back = 0D0D0D0h } ;
+
 /* Page1 */
 
 scope Page1 {
@@ -42,6 +52,8 @@ MultiLine pl_1_0 = { {1,1} , {2,1} } ;
 
 MultiLine pl_1_5 = { {3,2} , {2,1} } ;
 
+MultiLine pl_item = { {1,1} , {0,1} } ;
+
 // ---
 
 Page page = { "page1" , { 
@@ -49,12 +61,16 @@ Page page = { "page1" , {
                          { .body = &t2 , .line = &line1 , .col = 00000FFh },
                          { .body = &t3 , .line = &line1 , .col = 0008000h },
                          { .body = &t4 , .line = &line1 , .col = 0008080h },
-                         { .body = &t5 , .line = &line1 }
+                         { .body = &t5 , .line = &line1 },
+                         { .body = &t6 , .line = &line2 },
+                         { .body = &t7 , .line = &line2 }
                          
                           
                         } , 0C0C0C0h , 0h , null , null , &Page2#page } ;
 
 SingleLine line1 = { {2,1} , 0FF00h } ;
+
+SingleLine line2 = { {1,1} , 0FF0000h } ;
 
 Text t1 = { {
              { 'aligned left' }
@@ -251,7 +267,76 @@ Text t5 = { {
              ,{"part."}
 
             } , &fmt , &pl_1_5 } ;
+            
+FixedText t6 = { {
+                  {{'struct',&fmt_code_keyword},{' NoCopyType'}},
+                  {{' {'}},
+                  {{'  NoCopyType() = '},{'default',&fmt_code_keyword},{' ;'}},
+                  {{''}},
+                  {{'  NoCopyType('},{'const',&fmt_code_keyword},{' NoCopyType &) = '},{'delete',&fmt_code_keyword},{' ;'}},
+                  {{''}},
+                  {{'  '},{'void',&fmt_code_keyword},{' '},{'operator',&fmt_code_keyword},{' = ('},{'const',&fmt_code_keyword},{' NoCopyType &) = '},{'delete',&fmt_code_keyword},{' ;'}},
+                  {{' };'}}
+
+                 } , &fmt_code } ;
+                 
+TextList t7 = { {
+                 { '1)' , {{ .body = &i1 , .inner = {0,0} , .outer = {0,0} }} },
+                 { '2)' , {{ .body = &i2 , .inner = {0,0} , .outer = {0,0} }} },
+                 { '3)' , {{ .body = &i3 , .inner = {0,0} , .outer = {0,0} }} },
+                 
+                 { '4)->' , {{ .body = &i4 , .inner = {0,0} , .outer = {0,0} }} },
+                 { '5)->' , {{ .body = &i5 , .inner = {0,0} , .outer = {0,0} }} },
+                 { '6)->' , {{ .body = &i6 , .inner = {0,0} , .outer = {0,0} }} }
+
+
+                } , &fmt_bullet , 5 , 5 } ;
+
+                
+Text i1 = { {
+             {"aligned left",null,&link1}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link1 = { &page , 0 } ;
                         
+Text i2 = { {
+             {"aligned right",null,&link2}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link2 = { &page , 1 } ;
+
+Text i3 = { {
+             {"aligned center",null,&link3}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link3 = { &page , 2 } ;
+
+
+Text i4 = { {
+             {"aligned left",null,&link4}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link4 = { &Page2#page , 0 } ;
+                        
+Text i5 = { {
+             {"aligned right",null,&link5}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link5 = { &Page2#page , 1 } ;
+
+Text i6 = { {
+             {"aligned center",null,&link6}
+
+            } , &fmt , &pl_item } ;     
+            
+Link link6 = { &Page2#page , 2 } ;
+
+
 } // scope Page1
 
 /* Page2 */
