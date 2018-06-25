@@ -719,7 +719,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,spinor,book);
+     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,line2,spinor,line3,book);
 
      redraw();
     }
@@ -802,11 +802,17 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    label_page(wlist,cfg.label_cfg,cfg.text_Page),
    text_page(wlist,cfg.text_cfg),
 
+   line1(wlist,cfg.line_cfg),
+
    knob_prev(wlist,cfg.knob_cfg,KnobShape::FaceLeft),
    knob_up(wlist,cfg.knob_cfg,KnobShape::FaceUp),
    knob_next(wlist,cfg.knob_cfg,KnobShape::FaceRight),
 
+   line2(wlist,cfg.line_cfg),
+
    spinor(wlist,cfg.spinor_cfg),
+
+   line3(wlist,cfg.line_cfg),
 
    book(wlist,cfg.book_cfg,font_map,bmp_map),
    progress(wlist,cfg.progress_cfg),
@@ -851,7 +857,9 @@ Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),Lay(knob_next),LayLeft(spinor)};
+  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
+                  LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
+                  LayCenterY(spinor),LayLeft(line3)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -946,7 +954,9 @@ void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_title),Lay(text_title),Lay(label_page),Lay(text_page),Lay(knob_prev),Lay(knob_up),Lay(knob_next),LayLeft(spinor)};
+  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
+                  LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
+                  LayCenterY(spinor),LayLeft(line3)};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 

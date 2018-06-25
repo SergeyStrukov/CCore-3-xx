@@ -23,12 +23,203 @@ namespace App {
 
 using namespace CCore;
 
-/* Proc() */
+/* functions */
+
+inline bool IsEOL(char ch)
+ {
+  return ch=='\n' || ch=='\r' ;
+ }
+
+/* class Strip */
+
+class Strip : NoCopy
+ {
+   StrLen input;
+
+   char ch = 0 ;
+   bool ok = true ;
+
+  private:
+
+   static StrLen SkipShortComment(StrLen input)
+    {
+     input+=2;
+
+     for(; +input && !IsEOL(*input) ;++input);
+
+     return input;
+    }
+
+   static StrLen SkipLongComment(StrLen input)
+    {
+     input+=2;
+
+     for(; input.len>=2 ;++input)
+       {
+        if( input[0]=='*' && input[1]=='/' )
+          {
+           input+=2;
+
+           return input;
+          }
+       }
+
+     return Null;
+    }
+
+   void next()
+    {
+     if( !input )
+       {
+        ok=false;
+       }
+     else
+       {
+        if( input.len>=2 && input[0]=='/' )
+          {
+           switch( input[1] )
+             {
+              case '/' :
+               {
+                ch=' ';
+
+                input=SkipShortComment(input);
+               }
+              return;
+
+              case '*' :
+               {
+                ch=' ';
+
+                input=SkipLongComment(input);
+               }
+              return;
+             }
+          }
+
+        ch=*input;
+
+        ++input;
+       }
+    }
+
+  public:
+
+   explicit Strip(StrLen input_) : input(input_) { next(); }
+
+   bool operator + () const { return ok; }
+
+   bool operator ! () const { return !ok; }
+
+   char operator * () const { return ch; }
+
+   void operator ++ () { next(); }
+ };
+
+/* class Line */
+
+class Line : NoCopy
+ {
+   Strip input;
+
+   char ch = 0 ;
+   bool ok = true ;
+   bool need_eol = false ;
+
+  private:
+
+   template <class T>
+   static void SkipEOL(char ch,T &cur)
+    {
+     ++cur;
+
+     if( ch=='\r' && (*cur)=='\n' ) ++cur;
+    }
+
+   void next()
+    {
+     if( !input )
+       {
+        if( need_eol )
+          {
+           this->ch='\n';
+
+           need_eol=false;
+          }
+        else
+          {
+           ok=false;
+          }
+       }
+     else
+       {
+        char ch=*input;
+
+        if( IsEOL(ch) )
+          {
+           this->ch='\n';
+
+           SkipEOL(ch,input);
+
+           need_eol=false;
+          }
+        else
+          {
+           this->ch=ch;
+
+           ++input;
+
+           need_eol=true;
+          }
+       }
+    }
+
+  public:
+
+   explicit Line(StrLen input_) : input(input_) { next(); }
+
+   bool operator + () const { return ok; }
+
+   bool operator ! () const { return !ok; }
+
+   char operator * () const { return ch; }
+
+   void operator ++ () { next(); }
+ };
+
+/* ProcStrip() */
 
 void ProcStrip(StrLen input_file_name,StrLen output_file_name)
  {
   Printf(Con,"#.q; -> #.q; strip comments\n\n",input_file_name,output_file_name);
+
+  FileToMem input_file(input_file_name);
+  StrLen input=Mutate<const char>(Range(input_file));
+  PrintFile out(output_file_name);
+
+  Line line(input);
+
+  for(; +line ;++line)
+    {
+     Putch(out,'"');
+
+     for(char ch; (ch=*line)!='\n' ;++line)
+       {
+        if( CharIsPrintable(ch) )
+          {
+           Putch(out,ch);
+          }
+        else
+          {
+           Putch(out,' ');
+          }
+       }
+
+     Putobj(out,"\\n\"\n"_c);
+    }
  }
+
+/* Proc() */
 
 void Proc(StrLen input_file_name,StrLen output_file_name)
  {

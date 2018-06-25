@@ -22,5 +22,5 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET) Book1.ddl Book1.gen.cpp
+	$(TARGET) -s Book1.ddl Book1.gen.cpp
 

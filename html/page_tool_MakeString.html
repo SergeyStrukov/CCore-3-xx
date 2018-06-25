@@ -1,0 +1,87 @@
+<!--
+/* page_tool_MakeString.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MakeString</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MakeString</h2>
+
+<p>
+<b>MakeString</b> is a simple utility, it converts a text file into a file with C-string, which match the content of the original file.
+</p>
+
+<pre>
+
+CCore-MakeString &lt;input-file&gt; &lt;output-file&gt;
+
+CCore-MakeString -s &lt;input-file&gt; &lt;output-file&gt;
+
+</pre>
+
+<p>
+If you specify the option <b>-s</b>, C-style comments will be stripped from the result.
+</p>
+
+<p>
+The output looks like
+</p>
+
+<pre>
+"\n"
+"int Version = 1 ;\n"
+"\n"
+" \n"
+"\n"
+"type Bool = uint8 ;\n"
+"\n"
+"Bool True = 1 ;\n"
+"\n"
+"Bool False = 0 ;\n"
+"\n"
+"type VColor = uint32 ;\n"
+"\n"
+"VColor NoColor = 0FFFFFFFFh ;\n"
+"\n"
+"type Coord = sint32 ;\n"
+"\n"
+"struct Point\n"
+" {\n"
+"  Coord x;\n"
+"  Coord y;\n"
+" };\n"
+" \n"
+"struct Ratio\n"
+" {\n"
+"  Coord a;\n"
+"  Coord b;\n"
+" }; \n"
+"\n"
+" \n"
+</pre>
+
+</body>
+
+</html>
+

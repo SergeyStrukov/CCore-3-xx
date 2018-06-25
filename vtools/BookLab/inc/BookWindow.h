@@ -378,6 +378,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
+     CtorRefVal<YDoubleLineWindow::ConfigType> line_cfg;
 
      // app
 
@@ -412,6 +413,7 @@ class BookWindow : public ComboWindow
        msg_cfg.bind(proxy);
        knob_cfg.bind(proxy);
        spinor_cfg.bind(proxy);
+       line_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -447,11 +449,17 @@ class BookWindow : public ComboWindow
    RefLabelWindow label_page;
    TextLineWindow text_page;
 
+   YDoubleLineWindow line1;
+
    KnobWindow knob_prev;
    KnobWindow knob_up;
    KnobWindow knob_next;
 
+   YDoubleLineWindow line2;
+
    SpinorWindow spinor;
+
+   YDoubleLineWindow line3;
 
    DisplayBookWindow book;
 

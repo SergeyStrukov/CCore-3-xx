@@ -39,7 +39,7 @@ struct Ratio
   Coord b;
  }; 
 
-//--- Text -------------------------------------------------------------------------------
+//--- Format -----------------------------------------------------------------------------
 
 struct Font
  {
@@ -68,6 +68,8 @@ struct Format
   Effect effect = None ;
  };
 
+//--- Text -------------------------------------------------------------------------------
+
 struct OneLine
  {
   type Align = uint8 ;
@@ -91,7 +93,7 @@ struct Span
   
   Format *fmt = null ;
   
-  {Link,Page} * ref = null ;
+  {Link,Page} *ref = null ;
  };
 
 Format DefaultFormat = {} ;
@@ -107,13 +109,15 @@ struct Text
   {OneLine,MultiLine} *placement = & ?DefaultPlacement ;
  };
  
+//--- FixedText -------------------------------------------------------------------------- 
+ 
 struct FixedSpan
  {
   text body;
   
   Format *fmt = null ;
   
-  {Link,Page} * ref = null ;
+  {Link,Page} *ref = null ;
  };
  
 type Line = FixedSpan[] ; 
@@ -203,7 +207,7 @@ struct Page
   VColor back = NoColor ;
   VColor fore = NoColor ;
   
-  Page *up = null ;
+  Page *up   = null ;
   Page *prev = null ;
   Page *next = null ;
  };
@@ -224,5 +228,6 @@ struct Link
   ulen frame_index = 0 ;
  };
 
+//----------------------------------------------------------------------------------------
 
  
