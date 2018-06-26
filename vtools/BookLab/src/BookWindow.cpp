@@ -118,7 +118,7 @@ PtrLen<const Shape> InnerBookWindow::getVisibleShapes() const
   return getVisibleShapes(pos_y,pos_y+wdy);
  }
 
-AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> InnerBookWindow::getRef(Point point) const
+RefType InnerBookWindow::getRef(Point point) const
  {
   cache();
 
@@ -440,7 +440,7 @@ void InnerBookWindow::looseFocus()
 
 MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod) const
  {
-  AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref=getRef(point);
+  RefType ref=getRef(point);
 
   return +ref?Mouse_Hand:Mouse_Arrow;
  }
@@ -514,7 +514,7 @@ void InnerBookWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 void InnerBookWindow::react_LeftClick(Point point,MouseKey)
  {
-  AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref=getRef(point);
+  RefType ref=getRef(point);
 
   if( !ref ) return;
 
@@ -530,6 +530,17 @@ void InnerBookWindow::react_LeftClick(Point point,MouseKey)
     void operator () (Book::TypeDef::Page *ref)
      {
       obj->hint.assert(ref);
+     }
+
+    void operator () (Book::TypeDef::Collapse *ref)
+     {
+      ref->open=!ref->open;
+
+      obj->ok=false;
+
+      obj->changed.assert();
+
+      obj->redraw();
      }
    };
 
@@ -558,8 +569,15 @@ void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 
 /* class DisplayBookWindow */
 
+void DisplayBookWindow::changed()
+ {
+  layout();
+ }
+
 DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map,BitmapMap &bmp_map)
  : Base(host,cfg,font_map,bmp_map),
+
+   connector_changed(this,&DisplayBookWindow::changed,window.changed),
 
    link(window.link),
    hint(window.hint)

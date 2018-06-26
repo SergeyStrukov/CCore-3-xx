@@ -242,12 +242,16 @@ Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Form
 
 Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Text *obj)
  {
-  return GetBY(cfg,font_map,obj->fmt);
+  if( obj ) return GetBY(cfg,font_map,obj->fmt);
+
+  return 0;
  }
 
 Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::FixedText *obj)
  {
-  return GetBY(cfg,font_map,obj->fmt);
+  if( obj ) return GetBY(cfg,font_map,obj->fmt);
+
+  return 0;
  }
 
 Coord Shape::GetBY(const Config &,FontMap &,const Book::TypeDef::Bitmap *)
@@ -257,6 +261,13 @@ Coord Shape::GetBY(const Config &,FontMap &,const Book::TypeDef::Bitmap *)
 
 Coord Shape::GetBY(const Config &,FontMap &,const Book::TypeDef::TextList *)
  {
+  return 0;
+ }
+
+Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Collapse *obj)
+ {
+  if( obj ) return GetBY(cfg,font_map,obj->collapse_fmt);
+
   return 0;
  }
 
@@ -342,9 +353,23 @@ struct Shape::SizeContext
       }
    }
 
-  void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane)
+  void addRef(RefType ref,Pane pane)
    {
     if( +ref ) refs.append_copy(RefPane{pane,ref});
+   }
+
+  static RefType CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref)
+   {
+    RefType ret;
+
+    ref.apply( [ref,&ret] (auto *ptr) { ret=ptr; } );
+
+    return ret;
+   }
+
+  void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane)
+   {
+    if( +ref ) refs.append_copy(RefPane{pane,CastRef(ref)});
    }
 
   // size Text
@@ -699,6 +724,66 @@ struct Shape::SizeContext
       }
 
     return ret;
+   }
+
+  // size Collapse
+
+  Point size(Book::TypeDef::Collapse *obj,Point base)
+   {
+    if( !obj ) return Null;
+
+    Font font=useSpan(obj->collapse_fmt);
+
+    offx=font->getSize().dy;
+
+    addRef(RefType(obj),Pane(base,offx));
+
+    if( obj->open )
+      {
+       Point ret;
+
+       if( obj->hide )
+         {
+          ret=Point(offx,BoxExt(offx));
+         }
+       else
+         {
+          Coord tx=SizeSpan(font,obj->title);
+
+          ret=Point::Diag(BoxExt(offx)).addX(tx);
+         }
+
+       auto list=obj->list.getRange();
+
+       if( subshapes.getLen()!=list.len )
+         {
+          subshapes.erase();
+          subshapes.extend_default(list.len);
+         }
+
+       base.y+=ret.y;
+
+       for(ulen i=0; i<list.len ;i++)
+         {
+          Point s=subshapes[i].set(cfg,font_map,bmp_map,scale,list[i],wdx,base);
+
+          ret=StackY(ret,s);
+
+          base.y+=s.y;
+         }
+
+       return ret;
+      }
+    else
+      {
+       Point ret;
+
+       Coord tx=SizeSpan(font,obj->title);
+
+       ret=Point::Diag(BoxExt(offx)).addX(tx);
+
+       return ret;
+      }
    }
 
   // size
@@ -1084,6 +1169,116 @@ struct Shape::DrawContext
       }
    }
 
+  // draw Collapse
+
+  void drawPlus(Point base,Coord len_)
+   {
+    MPane p(Pane(pane.getBase()+base,len_));
+
+    if( !p ) return;
+
+    SmoothDrawArt art(buf.cut(pane));
+
+    // center and radius
+
+    MCoord len=p.dx;
+    MCoord radius=len/2;
+
+    MPoint center=p.getCenter();
+
+    VColor gray=+cfg.gray;
+
+    // body
+
+    VColor top=+cfg.snow;
+
+    art.ball(center,radius,YField(p.y,top,p.ey,gray));
+
+    // face
+
+    VColor fc=+cfg.face;
+
+    MCoord a=radius/2;
+    MCoord w=radius/3;
+
+    art.path(w,fc,center.subX(a),center.addX(a));
+    art.path(w,fc,center.subY(a),center.addY(a));
+   }
+
+  void drawMinus(Point base,Coord len_)
+   {
+    MPane p(Pane(pane.getBase()+base,len_));
+
+    if( !p ) return;
+
+    SmoothDrawArt art(buf.cut(pane));
+
+    // center and radius
+
+    MCoord len=p.dx;
+    MCoord radius=len/2;
+
+    MPoint center=p.getCenter();
+
+    VColor gray=+cfg.gray;
+
+    // body
+
+    VColor top=+cfg.snow;
+
+    art.ball(center,radius,YField(p.y,top,p.ey,gray));
+
+    // face
+
+    VColor fc=+cfg.face;
+
+    MCoord a=radius/2;
+    MCoord w=radius/3;
+
+    art.path(w,fc,center.subX(a),center.addX(a));
+   }
+
+  void draw(Book::TypeDef::Collapse *obj)
+   {
+    if( !obj ) return;
+
+    Format fmt=useSpan(obj->collapse_fmt);
+
+    if( obj->open )
+      {
+       Point base=inner;
+
+       drawMinus(base,offx);
+
+       if( !obj->hide )
+         {
+          Coord by=fmt.font->getSize().by;
+
+          drawSpan(fmt,obj->title,base+Point(BoxExt(offx),by));
+         }
+
+       auto list=obj->list.getRange();
+
+       base.y+=BoxExt(offx);
+
+       for(ulen i=0; i<list.len ;i++)
+         {
+          Coord dy=subshapes[i].drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,base);
+
+          base.y+=dy;
+         }
+      }
+    else
+      {
+       Point base=inner;
+       Coord by=fmt.font->getSize().by;
+
+       drawPlus(base,offx);
+
+       drawSpan(fmt,obj->title,base+Point(BoxExt(offx),by));
+      }
+   }
+
   // draw
 
   void draw()
@@ -1121,6 +1316,11 @@ VColor Shape::GetBack(const Book::TypeDef::Bitmap *)
  }
 
 VColor Shape::GetBack(const Book::TypeDef::TextList *)
+ {
+  return Book::NoColor;
+ }
+
+VColor Shape::GetBack(const Book::TypeDef::Collapse *)
  {
   return Book::NoColor;
  }
@@ -1244,7 +1444,7 @@ bool Shape::hit(Point point) const
   return point>=Null && point<size ;
  }
 
-AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point) const
+RefType Shape::getRef(Point point) const
  {
   for(auto &obj : refs ) if( obj.pane.contains(point) ) return obj.ref;
 
@@ -1273,7 +1473,7 @@ bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const
   return hit(point-Point(pos_x,pos_y));
  }
 
-AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
+RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
  {
   return getRef(point-Point(pos_x,pos_y));
  }

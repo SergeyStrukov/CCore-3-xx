@@ -34,6 +34,8 @@ Font font_bullet = { 'Georgia' , 20 } ;
 
 Format fmt_bullet = { .font = &font_bullet , .back = 0D0D0D0h } ;
 
+Font font_collapse = { 'Georgia' , 24 } ;
+
 /* Page1 */
 
 scope Page1 {
@@ -54,6 +56,8 @@ MultiLine pl_1_5 = { {3,2} , {2,1} } ;
 
 MultiLine pl_item = { {1,1} , {0,1} } ;
 
+Format DefaultCollapseFormat = { .font = &font_collapse , .back = 0D0D0D0h } ;
+
 // ---
 
 Page page = { "page1" , { 
@@ -63,7 +67,8 @@ Page page = { "page1" , {
                          { .body = &t4 , .line = &line1 , .col = 0008080h },
                          { .body = &t5 , .line = &line1 },
                          { .body = &t6 , .line = &line2 },
-                         { .body = &t7 , .line = &line2 }
+                         { .body = &t7 , .line = &line2 },
+                         { .body = &t8 , .line = &line2 }
                          
                           
                         } , 0C0C0C0h , 0h , null , null , &Page2#page } ;
@@ -281,9 +286,9 @@ FixedText t6 = { {
                  } , &fmt_code } ;
                  
 TextList t7 = { {
-                 { '1)' , {{ .body = &i1 , .inner = {0,0} , .outer = {0,0} }} },
-                 { '2)' , {{ .body = &i2 , .inner = {0,0} , .outer = {0,0} }} },
-                 { '3)' , {{ .body = &i3 , .inner = {0,0} , .outer = {0,0} }} },
+                 { '1)' , {{ .body = &i1 , .inner = {5,5} , .outer = {0,0} }} },
+                 { '2)' , {{ .body = &i2 , .inner = {5,5} , .outer = {0,0} }} },
+                 { '3)' , {{ .body = &i3 , .inner = {5,5} , .outer = {0,0} }} },
                  
                  { '4)->' , {{ .body = &i4 , .inner = {0,0} , .outer = {0,0} }} },
                  { '5)->' , {{ .body = &i5 , .inner = {0,0} , .outer = {0,0} }} },
@@ -336,7 +341,28 @@ Text i6 = { {
             
 Link link6 = { &Page2#page , 2 } ;
 
+Collapse t8 = { .title = 'hidden text' , .list = {
 
+                                                  { .body = &t1 , .line = &line2 , .col = 0FF0000h },
+                                                  { .body = &t2 , .line = &line2 , .col = 00000FFh },
+                                                  { .body = &t3 , .line = &line2 , .col = 0008000h },
+                                                  { .body = &t9 , .line = &line2 },
+                                                  { .body = &t10 , .line = &line2 }
+  
+                                                 } , .open = True , .hide = False } ;
+
+Collapse t9 = { .title = 'hidden text' , .list = {
+
+                                                  { .body = &t1 , .line = &line2 , .col = 0FF0000h }
+  
+                                                 } , .open = True } ;
+                                                 
+Collapse t10 = { .title = 'hidden text' , .list = {
+
+                                                   { .body = &t1 , .line = &line2 , .col = 0FF0000h }
+  
+                                                  } , .open = False } ;
+                                                 
 } // scope Page1
 
 /* Page2 */

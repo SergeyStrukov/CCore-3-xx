@@ -25,6 +25,8 @@ namespace App {
 
 using Effect = Book::TypeDef::Format::Effect ;
 
+using RefType = AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page,Book::TypeDef::Collapse> ;
+
 /* Cast() */
 
 inline VColor Cast(Book::TypeDef::VColor vc) { return (VColor)vc; }
@@ -138,9 +140,10 @@ class Shape
 
      RefVal<Fraction> width = Fraction(6,2) ;
 
-     RefVal<VColor> line = Gray ;
-     RefVal<VColor> gray = Gray ;
-     RefVal<VColor> snow = Snow ;
+     RefVal<VColor> line =  Gray ;
+     RefVal<VColor> gray =  Gray ;
+     RefVal<VColor> snow =  Snow ;
+     RefVal<VColor> face = Black ;
 
      // app
 
@@ -162,7 +165,7 @@ class Shape
    struct RefPane
     {
      Pane pane;
-     AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref;
+     RefType ref;
     };
 
    DynArray<RefPane> refs;
@@ -180,6 +183,8 @@ class Shape
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Bitmap *obj);
 
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::TextList *obj);
+
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Collapse *obj);
 
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Ratio scale);
 
@@ -199,6 +204,8 @@ class Shape
 
    static VColor GetBack(const Book::TypeDef::TextList *obj);
 
+   static VColor GetBack(const Book::TypeDef::Collapse *obj);
+
    template <class T>
    static VColor GetAnyBack(T body);
 
@@ -215,7 +222,7 @@ class Shape
 
    bool hit(Point point) const;
 
-   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point) const;
+   RefType getRef(Point point) const;
 
   public:
 
@@ -231,7 +238,7 @@ class Shape
 
    bool hit(Point point,Coord pos_x,Coord pos_y) const;
 
-   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point,Coord pos_x,Coord pos_y) const;
+   RefType getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
 
 } // namespace App

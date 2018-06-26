@@ -161,6 +161,22 @@ struct TextList
   Coord item_space = ?DefaultItemSpace ;
  };
 
+//--- Collapse ---------------------------------------------------------------------------
+
+Format DefaultCollapseFormat = {} ;
+
+struct Collapse
+ {
+  text title;
+  
+  Frame[] list;
+  
+  Format *collapse_fmt = & ?DefaultCollapseFormat ;
+  
+  Bool open;
+  Bool hide = True ;
+ };
+
 //--- Frame ------------------------------------------------------------------------------
 
 struct SingleLine
@@ -186,7 +202,7 @@ Point DefaultOuter = { 0 , 0 } ;
 
 struct Frame
  {
-  {Text,FixedText,Bitmap,TextList} *body;
+  {Text,FixedText,Bitmap,TextList,Collapse} *body;
   
   {SingleLine,DoubleLine} *line = null ;
   

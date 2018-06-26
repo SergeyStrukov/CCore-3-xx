@@ -63,6 +63,7 @@ class InnerBookWindow : public SubWindow
        line.bind(bag.line);
        gray.bind(bag.gray);
        snow.bind(bag.snow);
+       face.bind(bag.face);
 
        border.bind(bag.border);
        focus.bind(bag.focus);
@@ -145,7 +146,7 @@ class InnerBookWindow : public SubWindow
 
    PtrLen<const Shape> getVisibleShapes() const;
 
-   AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> getRef(Point point) const;
+   RefType getRef(Point point) const;
 
    void posFrame(ulen frame_index);
 
@@ -231,6 +232,7 @@ class InnerBookWindow : public SubWindow
 
    Signal<Book::TypeDef::Link> link;
    Signal<Book::TypeDef::Page *> hint;
+   Signal<> changed;
  };
 
 /* class DisplayBookWindow */
@@ -254,6 +256,12 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
     };
 
    using ConfigType = Config ;
+
+  private:
+
+   void changed();
+
+   SignalConnector<DisplayBookWindow> connector_changed;
 
   public:
 
