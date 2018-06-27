@@ -186,6 +186,8 @@ class Shape
 
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Collapse *obj);
 
+   static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Table *obj);
+
    static Coord GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Ratio scale);
 
    struct SizeContext;
@@ -205,6 +207,8 @@ class Shape
    static VColor GetBack(const Book::TypeDef::TextList *obj);
 
    static VColor GetBack(const Book::TypeDef::Collapse *obj);
+
+   static VColor GetBack(const Book::TypeDef::Table *obj);
 
    template <class T>
    static VColor GetAnyBack(T body);

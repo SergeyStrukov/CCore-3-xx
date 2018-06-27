@@ -271,6 +271,11 @@ Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Coll
   return 0;
  }
 
+Coord Shape::GetBY(const Config &,FontMap &,const Book::TypeDef::Table *)
+ {
+  return 0;
+ }
+
 Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Frame &frame,Ratio scale)
  {
   Coord ret=0;
@@ -786,6 +791,13 @@ struct Shape::SizeContext
       }
    }
 
+  // size Table
+
+  Point size(Book::TypeDef::Table *obj,Point base) // TODO
+   {
+    return Null;
+   }
+
   // size
 
   Point size(Point base)
@@ -1279,6 +1291,12 @@ struct Shape::DrawContext
       }
    }
 
+  // draw Table
+
+  void draw(Book::TypeDef::Table *obj) // TODO
+   {
+   }
+
   // draw
 
   void draw()
@@ -1321,6 +1339,11 @@ VColor Shape::GetBack(const Book::TypeDef::TextList *)
  }
 
 VColor Shape::GetBack(const Book::TypeDef::Collapse *)
+ {
+  return Book::NoColor;
+ }
+
+VColor Shape::GetBack(const Book::TypeDef::Table *)
  {
   return Book::NoColor;
  }

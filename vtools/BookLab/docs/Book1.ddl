@@ -176,6 +176,35 @@ struct Collapse
   Bool open;
   Bool hide = True ;
  };
+ 
+//--- Table ------------------------------------------------------------------------------
+
+struct Cell
+ {
+  Frame[] list;
+  
+  ulen span_x = 1 ;
+  ulen span_y = 1 ;
+ };
+
+struct Border
+ {
+  Coord space = 0 ; 
+  
+  Ratio width = {1,1} ; 
+  VColor line = NoColor ;
+ };
+ 
+Border DefaultBorder = {} ; 
+ 
+struct Table
+ {
+  uint[] width; // column percent width
+ 
+  Cell * [][] rows;
+  
+  Border *border = & ?DefaultBorder ;   
+ }; 
 
 //--- Frame ------------------------------------------------------------------------------
 
@@ -202,7 +231,7 @@ Point DefaultOuter = { 0 , 0 } ;
 
 struct Frame
  {
-  {Text,FixedText,Bitmap,TextList,Collapse} *body;
+  {Text,FixedText,Bitmap,TextList,Collapse,Table} *body;
   
   {SingleLine,DoubleLine} *line = null ;
   
