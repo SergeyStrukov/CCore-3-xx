@@ -277,8 +277,6 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore
   book_back=back_;
   book_fore=fore_;
 
-  scale=Ratio(1,0);
-
   if( page )
     {
      frames=page->list;
@@ -900,7 +898,10 @@ void BookWindow::blank()
 
   text_title.setText(""_def);
   text_page.setText(""_def);
-  spinor.setValue(100);
+
+  spinor.setValue( (+cfg.defscale)*Coord(100) );
+
+  setScale(spinor.getValue());
 
   setNav(0);
 

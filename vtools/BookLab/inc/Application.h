@@ -58,6 +58,8 @@ struct AppPreferenceBag : ConfigItemHost
   DefString text_Page = "Page"_def ;
   DefString text_NotReady = "Font database is not ready yet"_def ;
 
+  Ratio defscale = Ratio(1,0) ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -92,6 +94,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Title"_c,ptr->text_Title);
   func("text_Page"_c,ptr->text_Page);
   func("text_NotReady"_c,ptr->text_NotReady);
+  func("defscale"_c,ptr->defscale);
  }
 
 /* struct AppProp */

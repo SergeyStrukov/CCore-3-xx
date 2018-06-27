@@ -44,6 +44,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Title'"_def,text_Title);
     binder.item("'Page'"_def,text_Page);
     binder.item("'Not ready'"_def,text_NotReady);
+    binder.item("default scale"_def,defscale);
  }
 
 void AppPreferenceBag::findFonts()

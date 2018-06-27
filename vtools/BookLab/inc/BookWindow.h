@@ -394,6 +394,8 @@ class BookWindow : public ComboWindow
      RefVal<DefString> text_Page = "Page"_def ;
      RefVal<DefString> text_NotReady = "Font database is not ready yet"_def ;
 
+     RefVal<Ratio> defscale = Ratio(1,0) ;
+
      DisplayBookWindow::ConfigType book_cfg;
 
      DisplayBookFrame::ConfigType popup_cfg;
@@ -430,6 +432,7 @@ class BookWindow : public ComboWindow
        text_Title.bind(bag.text_Title);
        text_Page.bind(bag.text_Page);
        text_NotReady.bind(bag.text_NotReady);
+       defscale.bind(bag.defscale);
       }
     };
 

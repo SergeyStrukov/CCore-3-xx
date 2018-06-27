@@ -787,6 +787,8 @@ struct Shape::SizeContext
 
        ret=Point::Diag(BoxExt(offx)).addX(tx);
 
+       subshapes.erase();
+
        return ret;
       }
    }
