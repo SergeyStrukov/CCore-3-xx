@@ -31,11 +31,7 @@ void InnerBookWindow::cache() const
 
   if( !ok || cache_dx!=dx )
     {
-     if( shapes.getLen()!=frames.len )
-       {
-        shapes.erase();
-        shapes.extend_default(frames.len);
-       }
+     SetExactArrayLen(shapes,frames.len);
 
      Point s;
 
@@ -887,6 +883,8 @@ Point BookWindow::getMinSize() const
 void BookWindow::blank()
  {
   if( popup.isAlive() ) popup.destroy();
+
+  popup.setPage(Book::NoColor,Book::NoColor);
 
   bmp_map.erase();
 

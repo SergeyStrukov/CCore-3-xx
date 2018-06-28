@@ -59,6 +59,29 @@ void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back);
 
 void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width);
 
+template <class T>
+void SetArrayLen(DynArray<T> &obj,ulen len)
+ {
+  ulen cur=obj.getLen();
+
+  if( cur<len )
+    {
+     obj.extend_default(len-cur);
+    }
+  else if( cur>len )
+    {
+     obj.shrink(cur-len);
+    }
+ }
+
+template <class T>
+void SetExactArrayLen(DynArray<T> &obj,ulen len)
+ {
+  SetArrayLen(obj,len);
+
+  obj.shrink_extra();
+ }
+
 /* classes */
 
 class FontMap;
@@ -157,9 +180,9 @@ class Shape
 
    const Book::TypeDef::Frame *frame = 0 ;
 
+   // base
+
    Point size;
-   Coord offx = 0 ;
-   DynArray<ulen> split;
    DynArray<Shape> subshapes;
 
    struct RefPane
@@ -169,6 +192,13 @@ class Shape
     };
 
    DynArray<RefPane> refs;
+
+   Point rebase;
+
+   // extra
+
+   Coord len = 0 ;
+   DynArray<ulen> split;
 
   private:
 
@@ -230,7 +260,11 @@ class Shape
 
   public:
 
+   // pad
+
    Coord offy = 0 ;
+
+   // methods
 
    Shape() noexcept {}
 

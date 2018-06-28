@@ -296,10 +296,11 @@ struct Shape::SizeContext
   const Book::TypeDef::Frame &frame;
   Coord wdx;
 
-  Coord &offx;
-  DynArray<ulen> &split;
   DynArray<Shape> &subshapes;
   DynArray<RefPane> &refs;
+
+  Coord &len;
+  DynArray<ulen> &split;
 
   Font font;
   Coord space_dx;
@@ -446,13 +447,11 @@ struct Shape::SizeContext
     return tdx;
    }
 
-  void correctRefs(ulen refs_len)
+  void correctRefs(ulen refs_len,Coord delta_x)
    {
-    Coord delta=offx;
-
     for(RefPane &ref : Range(refs).part(refs_len) )
       {
-       ref.pane.x+=delta;
+       ref.pane.x+=delta_x;
       }
    }
 
@@ -472,9 +471,9 @@ struct Shape::SizeContext
         {
          Coord extra=PlusSub(wdx,dx);
 
-         offx=extra;
+         len=extra;
 
-         correctRefs(refs_len);
+         correctRefs(refs_len,len);
         }
        break;
 
@@ -482,15 +481,15 @@ struct Shape::SizeContext
         {
          Coord extra=PlusSub(wdx,dx);
 
-         offx=extra/2;
+         len=extra/2;
 
-         correctRefs(refs_len);
+         correctRefs(refs_len,len);
         }
        break;
 
        default: // case Book::LineLeft :
         {
-         offx=0;
+         len=0;
         }
       }
 
@@ -564,6 +563,8 @@ struct Shape::SizeContext
 
   Point size(const Book::TypeDef::Text *obj,Point base)
    {
+    subshapes.erase();
+
     if( !obj ) return Null;
 
     use(obj->fmt);
@@ -598,6 +599,8 @@ struct Shape::SizeContext
 
   Point size(const Book::TypeDef::FixedText *obj,Point base)
    {
+    subshapes.erase();
+
     if( !obj ) return Null;
 
     useFixed(obj->fmt);
@@ -622,9 +625,9 @@ struct Shape::SizeContext
 
   // size Bitmap
 
-  Point size(Book::TypeDef::Bitmap *obj,Point base)
+  Point size(Book::TypeDef::Bitmap *obj,Point)
    {
-    Used(base);
+    subshapes.erase();
 
     const Bitmap *bitmap=bmp_map(obj);
 
@@ -664,13 +667,13 @@ struct Shape::SizeContext
          }
       }
 
-    Coord dx=wdx-offx-bullet_space;
+    Coord dx=wdx-len-bullet_space;
 
     Point s(0,dy2);
 
     Point p=base;
 
-    p.x+=offx+bullet_space;
+    p.x+=len+bullet_space;
     p.y+=dy2;
 
     for(ulen i=0; i<list.len ;i++)
@@ -682,12 +685,17 @@ struct Shape::SizeContext
        p.y+=t.y;
       }
 
-    return StackXSize(Point(offx+bullet_space,dy1),s);
+    return StackXSize(Point(len+bullet_space,dy1),s);
    }
 
   Point size(Book::TypeDef::TextList *obj,Point base)
    {
-    if( !obj ) return Null;
+    if( !obj )
+      {
+       subshapes.erase();
+
+       return Null;
+      }
 
     auto list=obj->list.getRange();
 
@@ -699,13 +707,9 @@ struct Shape::SizeContext
 
     for(ulen i=0; i<list.len ;i++) total=LenAdd(total,list[i].list.len);
 
-    if( subshapes.getLen()!=total )
-      {
-       subshapes.erase();
-       subshapes.extend_default(total);
-      }
+    SetExactArrayLen(subshapes,total);
 
-    for(ulen i=0; i<list.len ;i++) Replace_max(offx,sizeBullet(font,list[i].bullet));
+    for(ulen i=0; i<list.len ;i++) Replace_max(len,sizeBullet(font,list[i].bullet));
 
     Shape *shapes=subshapes.getPtr();
 
@@ -735,13 +739,18 @@ struct Shape::SizeContext
 
   Point size(Book::TypeDef::Collapse *obj,Point base)
    {
-    if( !obj ) return Null;
+    if( !obj )
+      {
+       subshapes.erase();
+
+       return Null;
+      }
 
     Font font=useSpan(obj->collapse_fmt);
 
-    offx=font->getSize().dy;
+    len=font->getSize().dy;
 
-    addRef(RefType(obj),Pane(base,offx));
+    addRef(RefType(obj),Pane(base,len));
 
     if( obj->open )
       {
@@ -749,22 +758,18 @@ struct Shape::SizeContext
 
        if( obj->hide )
          {
-          ret=Point(offx,BoxExt(offx));
+          ret=Point(len,BoxExt(len));
          }
        else
          {
           Coord tx=SizeSpan(font,obj->title);
 
-          ret=Point::Diag(BoxExt(offx)).addX(tx);
+          ret=Point::Diag(BoxExt(len)).addX(tx);
          }
 
        auto list=obj->list.getRange();
 
-       if( subshapes.getLen()!=list.len )
-         {
-          subshapes.erase();
-          subshapes.extend_default(list.len);
-         }
+       SetExactArrayLen(subshapes,list.len);
 
        base.y+=ret.y;
 
@@ -781,13 +786,13 @@ struct Shape::SizeContext
       }
     else
       {
+       subshapes.erase();
+
        Point ret;
 
        Coord tx=SizeSpan(font,obj->title);
 
-       ret=Point::Diag(BoxExt(offx)).addX(tx);
-
-       subshapes.erase();
+       ret=Point::Diag(BoxExt(len)).addX(tx);
 
        return ret;
       }
@@ -797,6 +802,90 @@ struct Shape::SizeContext
 
   Point size(Book::TypeDef::Table *obj,Point base) // TODO
    {
+    if( !obj )
+      {
+       subshapes.erase();
+
+       return Null;
+      }
+
+    // 1
+
+    ulen col=obj->width.len;
+
+    TempArray<Coord,50> wcol(col);
+
+    // TODO wcol
+
+    // 2
+
+    auto rows=obj->rows.getRange();
+
+    ulen total=0;
+
+    for(auto row_ : rows )
+      {
+       auto row=row_.getRange();
+
+       Replace_min(row.len,col);
+
+       for(auto cell_ : row )
+         {
+          auto *cell=cell_.getPtr();
+
+          if( cell ) total+=cell->list.len;
+         }
+      }
+
+    SetExactArrayLen(subshapes,total);
+
+    // 3
+
+    TempArray<Coord,50> tdx(col);
+    TempArray<Coord,50> tdy(rows.len);
+
+    Range(tdx).set_null();
+    Range(tdy).set_null();
+
+    Shape *shape=subshapes.getPtr();
+
+    for(ulen j=0; j<rows.len ;j++)
+      {
+       auto row=rows[j].getRange();
+
+       Replace_min(row.len,col);
+
+       for(ulen i=0; i<row.len ;i++)
+         {
+          if( auto *cell=row[i].getPtr() )
+            {
+             auto list=cell->list.getRange();
+
+             Coord w=wcol[i];
+
+             Point size=Null;
+
+             for(auto &fr : list )
+               {
+                Point s=shape->set(cfg,font_map,bmp_map,scale,fr,w,base);
+
+                size=StackY(size,s);
+               }
+
+             Replace_max(tdx[i],size.x);
+             Replace_max(tdy[j],size.y);
+            }
+         }
+      }
+
+    // 4
+
+    // TODO rebase
+
+    // 5
+
+    // TODO size
+
     return Null;
    }
 
@@ -821,11 +910,15 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
   Point off=scale*Cast(frame->inner)+scale*Cast(frame->outer);
   Point delta=2*off;
 
-  offx=0;
-  split.erase();
-  refs.shrink_all();
+  refs.erase();
 
-  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,offx,split,subshapes,refs};
+  rebase=Null;
+
+  len=0;
+
+  split.erase();
+
+  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,subshapes,refs,len,split};
 
   size=ctx.size(base+off)+delta;
 
@@ -846,9 +939,10 @@ struct Shape::DrawContext
   Pane pane;
   Point inner; // base
 
-  Coord offx;
-  PtrLen<const ulen> split;
   PtrLen<const Shape> subshapes;
+
+  Coord len;
+  PtrLen<const ulen> split;
 
   Font font;
   Effect effect;
@@ -949,7 +1043,7 @@ struct Shape::DrawContext
    {
     TextSize ts=fmt.font->text(text);
 
-    base.x+=offx-ts.dx;
+    base.x+=len-ts.dx;
 
     if( fmt.back!=Book::NoColor ) FillBack(buf,pane,base,ts,fmt.back);
 
@@ -1017,7 +1111,7 @@ struct Shape::DrawContext
 
     FontSize fs=font->getSize();
 
-    drawLine(range,inner+Point(offx,fs.by));
+    drawLine(range,inner+Point(len,fs.by));
    }
 
   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement)
@@ -1141,7 +1235,7 @@ struct Shape::DrawContext
 
     drawBullet(fmt,item.bullet,base.addY(by1));
 
-    base.x+=offx+bullet_space;
+    base.x+=len+bullet_space;
     base.y+=dy2;
 
     for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
@@ -1262,18 +1356,18 @@ struct Shape::DrawContext
       {
        Point base=inner;
 
-       drawMinus(base,offx);
+       drawMinus(base,len);
 
        if( !obj->hide )
          {
           Coord by=fmt.font->getSize().by;
 
-          drawSpan(fmt,obj->title,base+Point(BoxExt(offx),by));
+          drawSpan(fmt,obj->title,base+Point(BoxExt(len),by));
          }
 
        auto list=obj->list.getRange();
 
-       base.y+=BoxExt(offx);
+       base.y+=BoxExt(len);
 
        for(ulen i=0; i<list.len ;i++)
          {
@@ -1287,9 +1381,9 @@ struct Shape::DrawContext
        Point base=inner;
        Coord by=fmt.font->getSize().by;
 
-       drawPlus(base,offx);
+       drawPlus(base,len);
 
-       drawSpan(fmt,obj->title,base+Point(BoxExt(offx),by));
+       drawSpan(fmt,obj->title,base+Point(BoxExt(len),by));
       }
    }
 
@@ -1297,6 +1391,9 @@ struct Shape::DrawContext
 
   void draw(Book::TypeDef::Table *obj) // TODO
    {
+    if( !obj ) return;
+
+
    }
 
   // draw
@@ -1429,7 +1526,7 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split)};
 
   ctx.draw();
  }
@@ -1457,7 +1554,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),offx,Range(split),Range(subshapes)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split)};
 
   ctx.draw();
 
@@ -1471,6 +1568,8 @@ bool Shape::hit(Point point) const
 
 RefType Shape::getRef(Point point) const
  {
+  point-=rebase;
+
   for(auto &obj : refs ) if( obj.pane.contains(point) ) return obj.ref;
 
   for(auto &shape : subshapes )
