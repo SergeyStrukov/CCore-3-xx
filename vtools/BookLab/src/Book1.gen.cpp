@@ -199,7 +199,7 @@
 " \n"
 "struct Table\n"
 " {\n"
-"  uint[] width;  \n"
+"  Coord[] width;  \n"
 " \n"
 "  Cell * [][] rows;\n"
 "  \n"

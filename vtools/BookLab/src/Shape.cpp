@@ -301,6 +301,8 @@ struct Shape::SizeContext
 
   Coord &len;
   DynArray<ulen> &split;
+  DynArray<Coord> &tdx;
+  DynArray<Coord> &tdy;
 
   Font font;
   Coord space_dx;
@@ -811,11 +813,26 @@ struct Shape::SizeContext
 
     // 1
 
-    ulen col=obj->width.len;
+    Coord space=0;
 
-    TempArray<Coord,50> wcol(col);
+    if( auto *border=obj->border.getPtr() )
+      {
+       space=scale*Coord(border->space);
+      }
 
-    // TODO wcol
+    len=space;
+
+    auto width=obj->width.getRange();
+
+    TempArray<Coord,50> cdx(width.len);
+
+    {
+     Coord dx=wdx-Coord(width.len+1)*space;
+
+     if( dx<0 ) dx=0;
+
+     for(ulen i=0; i<width.len ;i++) cdx[i]=Div(width[i],100)*dx;
+    }
 
     // 2
 
@@ -827,7 +844,7 @@ struct Shape::SizeContext
       {
        auto row=row_.getRange();
 
-       Replace_min(row.len,col);
+       Replace_min(row.len,width.len);
 
        for(auto cell_ : row )
          {
@@ -841,11 +858,8 @@ struct Shape::SizeContext
 
     // 3
 
-    TempArray<Coord,50> tdx(col);
-    TempArray<Coord,50> tdy(rows.len);
-
-    Range(tdx).set_null();
-    Range(tdy).set_null();
+    tdx.extend_default(width.len);
+    tdy.extend_default(rows.len);
 
     Shape *shape=subshapes.getPtr();
 
@@ -853,7 +867,7 @@ struct Shape::SizeContext
       {
        auto row=rows[j].getRange();
 
-       Replace_min(row.len,col);
+       Replace_min(row.len,width.len);
 
        for(ulen i=0; i<row.len ;i++)
          {
@@ -861,15 +875,21 @@ struct Shape::SizeContext
             {
              auto list=cell->list.getRange();
 
-             Coord w=wcol[i];
+             Coord w=cdx[i];
 
              Point size=Null;
 
+             Point p=base;
+
              for(auto &fr : list )
                {
-                Point s=shape->set(cfg,font_map,bmp_map,scale,fr,w,base);
+                Point s=shape->set(cfg,font_map,bmp_map,scale,fr,w,p);
 
                 size=StackY(size,s);
+
+                p.y+=s.y;
+
+                shape++;
                }
 
              Replace_max(tdx[i],size.x);
@@ -880,13 +900,41 @@ struct Shape::SizeContext
 
     // 4
 
-    // TODO rebase
+    Point off(space,space);
+
+    shape=subshapes.getPtr();
+
+    for(ulen j=0; j<rows.len ;j++)
+      {
+       auto row=rows[j].getRange();
+
+       Replace_min(row.len,width.len);
+
+       off.x=space;
+
+       for(ulen i=0; i<row.len ;i++)
+         {
+          if( auto *cell=row[i].getPtr() )
+            {
+             auto list=cell->list.getRange();
+
+             for(ulen count=list.len; count ;count--)
+               {
+                shape->rebase=off;
+
+                shape++;
+               }
+            }
+
+          off.x+=tdx[i]+space;
+         }
+
+       off.y+=tdy[j]+space;
+      }
 
     // 5
 
-    // TODO size
-
-    return Null;
+    return off;
    }
 
   // size
@@ -917,8 +965,10 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
   len=0;
 
   split.erase();
+  tdx.erase();
+  tdy.erase();
 
-  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,subshapes,refs,len,split};
+  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,subshapes,refs,len,split,tdx,tdy};
 
   size=ctx.size(base+off)+delta;
 
@@ -937,12 +987,14 @@ struct Shape::DrawContext
   DrawBuf buf;
   const Book::TypeDef::Frame &frame;
   Pane pane;
-  Point inner; // base
+  Point inner;
 
   PtrLen<const Shape> subshapes;
 
   Coord len;
   PtrLen<const ulen> split;
+  PtrLen<const Coord> tdx;
+  PtrLen<const Coord> tdy;
 
   Font font;
   Effect effect;
@@ -1281,11 +1333,11 @@ struct Shape::DrawContext
 
   void drawPlus(Point base,Coord len_)
    {
-    MPane p(Pane(pane.getBase()+base,len_));
+    MPane p(Pane(base,len_));
 
     if( !p ) return;
 
-    SmoothDrawArt art(buf.cut(pane));
+    SmoothDrawArt art(buf.cutRebase(pane));
 
     // center and radius
 
@@ -1315,11 +1367,11 @@ struct Shape::DrawContext
 
   void drawMinus(Point base,Coord len_)
    {
-    MPane p(Pane(pane.getBase()+base,len_));
+    MPane p(Pane(base,len_));
 
     if( !p ) return;
 
-    SmoothDrawArt art(buf.cut(pane));
+    SmoothDrawArt art(buf.cutRebase(pane));
 
     // center and radius
 
@@ -1389,11 +1441,80 @@ struct Shape::DrawContext
 
   // draw Table
 
+  void drawTable(Point base,VColor line,MCoord width)
+   {
+    SmoothDrawArt art(buf.cutRebase(pane));
+
+    // 1
+
+    MPoint A=base;
+    MPoint S=Point::Diag(len);
+
+    A+=S/2;
+
+    // 2
+
+    Coord dy=0;
+
+    for(Coord y : tdy ) dy+=y+len;
+
+    // 3
+
+    Coord dx=0;
+
+    for(Coord x : tdx ) dx+=x+len;
+
+    // 4
+
+    MCoord H=MPoint::LShift(dy);
+    MCoord L=MPoint::LShift(dx);
+
+    // 5
+
+    MPoint B=A;
+
+    art.path(width,line,A,A.addY(H));
+
+    for(Coord x : tdx )
+      {
+       A=A.addX(MPoint::LShift(x+len));
+
+       art.path(width,line,A,A.addY(H));
+      }
+
+    // 6
+
+    art.path(width,line,B,B.addX(L));
+
+    for(Coord y : tdy )
+      {
+       B=B.addY(MPoint::LShift(y+len));
+
+       art.path(width,line,B,B.addX(L));
+      }
+   }
+
   void draw(Book::TypeDef::Table *obj) // TODO
    {
     if( !obj ) return;
 
+    // 1
 
+    if( auto *border=obj->border.getPtr() ; border && border->space>0 )
+      {
+       VColor line=Combine(border->line,+cfg.line);
+
+       MCoord width=Cast(border->width)*(+cfg.width);
+
+       drawTable(inner,line,width);
+      }
+
+    // 2
+
+    for(const Shape &shape : subshapes )
+      {
+       shape.drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,inner);
+      }
    }
 
   // draw
@@ -1526,13 +1647,15 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
 
   ctx.draw();
  }
 
 Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const
  {
+  base+=rebase;
+
   Pane pane(parent.getBase()+base,size);
 
   Pane inner=pane.shrink(scale*Cast(frame->outer));
@@ -1554,7 +1677,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split)};
+  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
 
   ctx.draw();
 

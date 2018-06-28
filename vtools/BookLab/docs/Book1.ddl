@@ -199,7 +199,7 @@ Border DefaultBorder = {} ;
  
 struct Table
  {
-  uint[] width; // column percent width
+  Coord[] width; // column percent width
  
   Cell * [][] rows;
   

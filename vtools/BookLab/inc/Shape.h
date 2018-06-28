@@ -199,6 +199,8 @@ class Shape
 
    Coord len = 0 ;
    DynArray<ulen> split;
+   DynArray<Coord> tdx;
+   DynArray<Coord> tdy;
 
   private:
 

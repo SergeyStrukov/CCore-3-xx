@@ -68,7 +68,8 @@ Page page = { "page1" , {
                          { .body = &t5 , .line = &line1 },
                          { .body = &t6 , .line = &line2 },
                          { .body = &t7 , .line = &line2 },
-                         { .body = &t8 , .line = &line2 }
+                         { .body = &t8 , .line = &line2 },
+                         { .body = &table1 , .line = &line2 }
                          
                           
                         } , 0C0C0C0h , 0h , null , null , &Page2#page } ;
@@ -362,6 +363,71 @@ Collapse t10 = { .title = 'hidden text' , .list = {
                                                    { .body = &t1 , .line = &line2 , .col = 0FF0000h }
   
                                                   } , .open = False } ;
+
+Border tb1 = { .space = 5 , .line = 0008000h } ;
+
+Table table1 = { { 25 , 25 , 50 } , {
+                                     {&Cell#c1_1,&Cell#c1_2,&Cell#c1_3},
+                                     {&Cell#c2_1,&Cell#c2_2,&Cell#c2_3},
+                                     {&Cell#c3_1,&Cell#c3_2,&Cell#c3_3},
+                                     {&Cell#c4_1,&Cell#c4_2,&Cell#c4_3}
+                                    } , &tb1 } ;
+                                
+scope Cell {                                
+              
+Point DefaultInner = { 5 , 5 } ;
+
+Point DefaultOuter = { 0 , 0 } ;
+                                
+Cell c1_1 = { {{&t1_1}} } ;
+Cell c1_2 = { {{&t1_2}} } ;
+Cell c1_3 = { {{&t1_3}} } ;
+
+Cell c2_1 = { {{&t2_1}} } ;
+Cell c2_2 = { {{&t2_2}} } ;
+Cell c2_3 = { {{&t2_3}} } ;
+
+Cell c3_1 = { {{&t3_1}} } ;
+Cell c3_2 = { {{&t3_2}} } ;
+Cell c3_3 = { {{&t3_3}} } ;
+
+Cell c4_1 = { {{&t4_1}} } ;
+Cell c4_2 = { {{&t4_2}} } ;
+Cell c4_3 = { {{&t4_3}} } ;
+
+Font font = { 'Times New Roman' , 16 } ;
+
+Format DefaultFormat = { &font } ;
+
+Format fmt1 = { .font = &font , .back = 0D0D0D0h } ;
+
+MultiLine DefaultPlacement = { {1,1} , {0,1} } ;
+
+Text t1_1 = { { {'Source'},{'type'} } , &fmt1 } ;
+
+Text t1_2 = { { {'Target'},{'type'} } , &fmt1 } ;
+
+Text t1_3 = { { {'List'},{'of'},{'operations'} } , &fmt1 } ;
+
+Text t2_1 = { { {'int'} } } ;
+
+Text t2_2 = { { {'long'} } } ;
+
+Text t2_3 = { { {'cast'},{'+'},{'-'} } } ;
+
+Text t3_1 = { { {'short'} } } ;
+
+Text t3_2 = { { {'int'} } } ;
+
+Text t3_3 = { { {'cast'} } } ;
+
+Text t4_1 = { { {'int'} } } ;
+
+Text t4_2 = { { {'int'} } } ;
+
+Text t4_3 = { { {'+'},{'-'} } } ;
+
+} // scope Cell                               
                                                  
 } // scope Page1
 

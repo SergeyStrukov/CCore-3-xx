@@ -473,7 +473,7 @@ struct TypeSet : TypeDefCore
        case 9 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapRange< DDL::uint_type >,
+                               DDL::MapRange< A4 >,
                                DDL::MapRange< DDL::MapRange< DDL::MapPtr< S11 > > >,
                                DDL::MapPtr< S10 >
                               >(*this,struct_node);
