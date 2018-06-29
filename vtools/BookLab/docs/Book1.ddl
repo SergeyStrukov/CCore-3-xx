@@ -203,7 +203,9 @@ struct Table
  
   Cell * [][] rows;
   
-  Border *border = & ?DefaultBorder ;   
+  Border *border = & ?DefaultBorder ;
+  
+  Bool hard = False ;   
  }; 
 
 //--- Frame ------------------------------------------------------------------------------

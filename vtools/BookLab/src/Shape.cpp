@@ -927,6 +927,24 @@ struct Shape::SizeContext
     tdx=engx.complete();
     tdy=engy.complete();
 
+    if( obj->hard )
+      {
+       Coord dx=0;
+
+       for(ulen i=0; i<width.len ;i++)
+         {
+          if( Coord p=width[i] ; p>0 )
+            {
+             Replace_max(dx,Div(100,p)*tdx[i]);
+            }
+         }
+
+       for(ulen i=0; i<width.len ;i++)
+         {
+          tdx[i]=Div(width[i],100)*dx;
+         }
+      }
+
     // 4
 
     Point off(space,space);
@@ -1470,9 +1488,91 @@ struct Shape::DrawContext
 
   // draw Table
 
-  void drawTable(Point base,VColor line,MCoord width)
+  struct CellSkip
+   {
+    bool top  = false ;
+    bool left = false ;
+
+    void set(ulen i,ulen j)
+     {
+      top=(j>0);
+      left=(i>0);
+     }
+   };
+
+  struct Skip
+   {
+    CellSkip *base;
+    ulen lenx;
+
+    CellSkip & operator () (ulen i,ulen j) const { return base[i+j*lenx]; }
+   };
+
+  static Coord Sum(PtrLen<const Coord> tdx,Coord len,ulen i,ulen k)
+   {
+    Coord ret=0;
+
+    for(; i<k ;i++) ret+=tdx[i]+len;
+
+    return ret;
+   }
+
+  template <class F1,class F2,class F3>
+  static void DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord len,Coord maxlen,F2 sk,F3 add)
+   {
+    for(ulen i=0; i<tdx.len ;i++)
+      {
+       if( sk(i) )
+         {
+          if( i>0 )
+            {
+             MPoint B=add(A, Sum(tdx,len,0,i) );
+
+             path(A,B);
+
+             A=B;
+            }
+
+          while( i<tdx.len )
+            {
+             ulen k=i+1;
+
+             for(; k<tdx.len && sk(k) ;k++);
+
+             if( k<tdx.len )
+               {
+                A=add(A, Sum(tdx,len,i,k) );
+
+                i=k;
+
+                for(k=i+1; k<tdx.len && !sk(k) ;k++);
+
+                MPoint B=add(A, Sum(tdx,len,i,k) );
+
+                i=k;
+
+                path(A,B);
+
+                A=B;
+               }
+             else
+               {
+                return;
+               }
+            }
+
+          return;
+         }
+      }
+
+    path(A,add(A,maxlen));
+   }
+
+  void drawTable(Point base,VColor line,MCoord width,Skip skip)
    {
     SmoothDrawArt art(buf.cutRebase(pane));
+
+    auto path = [&art,line,width] (MPoint A,MPoint B) { art.path(width,line,A,B); } ;
 
     // 1
 
@@ -1495,35 +1595,48 @@ struct Shape::DrawContext
 
     // 4
 
-    MCoord H=MPoint::LShift(dy);
-    MCoord L=MPoint::LShift(dx);
+    {
+     auto add = [] (MPoint A,Coord delta) { return A.addY(MPoint::LShift(delta)); } ;
+
+     MPoint P=A;
+
+     for(ulen i=0,lim=tdx.len; i<lim ;i++)
+       {
+        auto sk = [i,&skip] (ulen j) { return skip(i,j).left; } ;
+
+        DrawLine(path,P,tdy,len,dy,sk,add);
+
+        Coord x=tdx[i];
+
+        P=P.addX(MPoint::LShift(x+len));
+       }
+
+     path(P,add(P,dy));
+    }
 
     // 5
 
-    MPoint B=A;
+    {
+     auto add = [] (MPoint A,Coord delta) { return A.addX(MPoint::LShift(delta)); } ;
 
-    art.path(width,line,A,A.addY(H));
+     MPoint P=A;
 
-    for(Coord x : tdx )
-      {
-       A=A.addX(MPoint::LShift(x+len));
+     for(ulen j=0,lim=tdy.len; j<lim ;j++)
+       {
+        auto sk = [j,&skip] (ulen i) { return skip(i,j).top; } ;
 
-       art.path(width,line,A,A.addY(H));
-      }
+        DrawLine(path,P,tdx,len,dx,sk,add);
 
-    // 6
+        Coord y=tdy[j];
 
-    art.path(width,line,B,B.addX(L));
+        P=P.addY(MPoint::LShift(y+len));
+       }
 
-    for(Coord y : tdy )
-      {
-       B=B.addY(MPoint::LShift(y+len));
-
-       art.path(width,line,B,B.addX(L));
-      }
+     path(P,add(P,dx));
+    }
    }
 
-  void draw(Book::TypeDef::Table *obj) // TODO
+  void draw(Book::TypeDef::Table *obj)
    {
     if( !obj ) return;
 
@@ -1535,7 +1648,34 @@ struct Shape::DrawContext
 
        MCoord width=Cast(border->width)*(+cfg.width);
 
-       drawTable(inner,line,width);
+       ulen lenx=obj->width.len;
+
+       auto rows=obj->rows.getRange();
+
+       DynArray<CellSkip> buf(LenOf(lenx,rows.len));
+
+       Skip skip{buf.getPtr(),lenx};
+
+       for(ulen j=0; j<rows.len ;j++)
+         {
+          auto row=rows[j].getRange();
+
+          Replace_min(row.len,lenx);
+
+          for(ulen i=0; i<row.len ;i++)
+            {
+             if( auto *cell=row[i].getPtr() )
+               {
+                for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
+                  for(ulen i1=0,ilim=cell->span_x; i1<ilim ;i1++)
+                    {
+                     skip(i+i1,j+j1).set(i1,j1);
+                    }
+               }
+            }
+         }
+
+       drawTable(inner,line,width,skip);
       }
 
     // 2

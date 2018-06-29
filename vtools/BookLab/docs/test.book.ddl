@@ -371,7 +371,7 @@ Table table1 = { { 25 , 25 , 50 } , {
                                      {&Cell#c2_1,&Cell#c2_2,&Cell#c2_3},
                                      {&Cell#c3_1,&Cell#c3_2,&Cell#c3_3},
                                      {&Cell#c4_1,&Cell#c4_2,&Cell#c4_3}
-                                    } , &tb1 } ;
+                                    } , &tb1 , True } ;
                                 
 scope Cell {                                
               
@@ -384,7 +384,7 @@ Cell c1_2 = { {{&t1_2}} } ;
 Cell c1_3 = { {{&t1_3}} } ;
 
 Cell c2_1 = { {{&t2_1}} } ;
-Cell c2_2 = { {{&t2_2}} , 2 , 2 } ;
+Cell c2_2 = { {{&t2_2}} } ;
 Cell c2_3 = { {{&t2_3}} } ;
 
 Cell c3_1 = { {{&t3_1}} } ;

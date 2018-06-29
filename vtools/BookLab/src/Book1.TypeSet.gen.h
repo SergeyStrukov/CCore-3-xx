@@ -150,7 +150,8 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "width",offsetof(S9,width),
                                "rows",offsetof(S9,rows),
-                               "border",offsetof(S9,border)
+                               "border",offsetof(S9,border),
+                               "hard",offsetof(S9,hard)
                               );
         }
        return ret;
@@ -475,7 +476,8 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapRange< A4 >,
                                DDL::MapRange< DDL::MapRange< DDL::MapPtr< S11 > > >,
-                               DDL::MapPtr< S10 >
+                               DDL::MapPtr< S10 >,
+                               A6
                               >(*this,struct_node);
         }
        break;

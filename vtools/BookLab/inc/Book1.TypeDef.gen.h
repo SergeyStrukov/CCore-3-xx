@@ -120,6 +120,7 @@ struct TypeDefCore
     DDL::MapRange< A4 > width;
     DDL::MapRange< DDL::MapRange< DDL::MapPtr< S11 > > > rows;
     DDL::MapPtr< S10 > border;
+    A6 hard;
 
     struct Ext;
    };
