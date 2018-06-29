@@ -12,6 +12,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <inc/Shape.h>
+#include <inc/SpanLenEngine.h>
 
 #include <CCore/inc/Path.h>
 
@@ -802,7 +803,15 @@ struct Shape::SizeContext
 
   // size Table
 
-  Point size(Book::TypeDef::Table *obj,Point base) // TODO
+  template <class T>
+  static void CorrectSpanLen(T &span,ulen cap)
+   {
+    if( !span ) span=1;
+
+    if( span>cap ) span=(T)cap;
+   }
+
+  Point size(Book::TypeDef::Table *obj,Point base)
    {
     if( !obj )
       {
@@ -840,17 +849,34 @@ struct Shape::SizeContext
 
     ulen total=0;
 
-    for(auto row_ : rows )
+    for(ulen j=0; j<rows.len ;j++)
       {
-       auto row=row_.getRange();
+       auto row=rows[j].getRange();
 
        Replace_min(row.len,width.len);
 
-       for(auto cell_ : row )
+       for(ulen i=0; i<row.len ;i++)
          {
-          auto *cell=cell_.getPtr();
+          if( auto *cell=row[i].getPtr() )
+            {
+             CorrectSpanLen(cell->span_x,width.len-i);
+             CorrectSpanLen(cell->span_y,rows.len-j);
 
-          if( cell ) total+=cell->list.len;
+             for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
+               {
+                auto row=rows[j+j1].getRange();
+
+                for(ulen i1=0,ilim=Min<ulen>(cell->span_x,row.len-i); i1<ilim ;i1++)
+                  {
+                   if( i1 || j1 )
+                     {
+                      if( i+i1<row.len ) row[i+i1]={};
+                     }
+                  }
+               }
+
+             total+=cell->list.len;
+            }
          }
       }
 
@@ -858,8 +884,8 @@ struct Shape::SizeContext
 
     // 3
 
-    tdx.extend_default(width.len);
-    tdy.extend_default(rows.len);
+    SpanLenEngine engx(width.len);
+    SpanLenEngine engy(rows.len);
 
     Shape *shape=subshapes.getPtr();
 
@@ -892,11 +918,14 @@ struct Shape::SizeContext
                 shape++;
                }
 
-             Replace_max(tdx[i],size.x);
-             Replace_max(tdy[j],size.y);
+             engx.add(i,cell->span_x,size.x);
+             engy.add(j,cell->span_y,size.y);
             }
          }
       }
+
+    tdx=engx.complete();
+    tdy=engy.complete();
 
     // 4
 

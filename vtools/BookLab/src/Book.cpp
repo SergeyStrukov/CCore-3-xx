@@ -38,7 +38,7 @@ class BookMap::Pretext : public PretextMap
     {
      return
 
-#include "Book1.gen.cpp"
+#include "Book1.Pretext.gen.h"
 
      ""_c;
     }

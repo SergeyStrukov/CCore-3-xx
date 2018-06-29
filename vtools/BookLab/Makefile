@@ -37,5 +37,5 @@ MakeString = $(HOME)/bin/CCore-MakeString.exe
 inc/Book1.TypeDef.gen.h : docs/Book1.ddl
 	$(TypeSet) docs/Book1.ddl inc/Book1.TypeDef.gen.h src/Book1.TypeSet.gen.h Font Bitmap
 
-src/./Book1.gen.cpp : docs/Book1.ddl
-	$(MakeString) -s docs/Book1.ddl src/Book1.gen.cpp
+src/./Book1.Pretext.gen.h : docs/Book1.ddl
+	$(MakeString) -s docs/Book1.ddl src/Book1.Pretext.gen.h

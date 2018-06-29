@@ -5,6 +5,7 @@ OBJ_LIST = \
 .obj/BookWindow.o \
 .obj/Client.o \
 .obj/Shape.o \
+.obj/SpanLenEngine.o \
 .obj/WorkWindow.o \
 .obj/main.o \
 
@@ -16,6 +17,7 @@ ASM_LIST = \
 .obj/BookWindow.s \
 .obj/Client.s \
 .obj/Shape.s \
+.obj/SpanLenEngine.s \
 .obj/WorkWindow.s \
 .obj/main.s \
 
@@ -27,6 +29,7 @@ DEP_LIST = \
 .obj/BookWindow.dep \
 .obj/Client.dep \
 .obj/Shape.dep \
+.obj/SpanLenEngine.dep \
 .obj/WorkWindow.dep \
 .obj/main.dep \
 
@@ -55,6 +58,9 @@ include $(RULES_FILE)
 .obj/Shape.o : src/./Shape.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/SpanLenEngine.o : src/./SpanLenEngine.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/WorkWindow.o : src/./WorkWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -79,6 +85,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Shape.s : src/./Shape.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SpanLenEngine.s : src/./SpanLenEngine.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/WorkWindow.s : src/./WorkWindow.cpp
@@ -106,6 +115,9 @@ include $(RULES_FILE)
 
 .obj/Shape.dep : src/./Shape.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.o $< -MF $@
+
+.obj/SpanLenEngine.dep : src/./SpanLenEngine.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SpanLenEngine.o $< -MF $@
 
 .obj/WorkWindow.dep : src/./WorkWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/WorkWindow.o $< -MF $@
