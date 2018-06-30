@@ -57,42 +57,6 @@ void InnerBookWindow::cache() const
     }
  }
 
-void InnerBookWindow::addXPos(ulen delta,bool mul_flag)
- {
-  sx.add(Delta(delta,mul_flag));
-
-  scroll_x.assert(sx.pos);
-
-  redraw();
- }
-
-void InnerBookWindow::subXPos(ulen delta,bool mul_flag)
- {
-  sx.sub(Delta(delta,mul_flag));
-
-  scroll_x.assert(sx.pos);
-
-  redraw();
- }
-
-void InnerBookWindow::addYPos(ulen delta,bool mul_flag)
- {
-  sy.add(Delta(delta,mul_flag));
-
-  scroll_y.assert(sy.pos);
-
-  redraw();
- }
-
-void InnerBookWindow::subYPos(ulen delta,bool mul_flag)
- {
-  sy.sub(Delta(delta,mul_flag));
-
-  scroll_y.assert(sy.pos);
-
-  redraw();
- }
-
 PtrLen<const Shape> InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const
  {
   PtrLen<const Shape> r=Range(shapes);
@@ -155,6 +119,43 @@ void InnerBookWindow::posFrame(ulen frame_index)
     {
      sy.end();
     }
+ }
+
+
+void InnerBookWindow::addXPos(ulen delta,bool mul_flag)
+ {
+  sx.add(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::subXPos(ulen delta,bool mul_flag)
+ {
+  sx.sub(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::addYPos(ulen delta,bool mul_flag)
+ {
+  sy.add(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookWindow::subYPos(ulen delta,bool mul_flag)
+ {
+  sy.sub(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
  }
 
 void InnerBookWindow::begXPos()
@@ -322,7 +323,7 @@ void InnerBookWindow::setScale(Ratio scale_)
  {
   scale=scale_;
 
-  map.font.setScale(scale_);
+  map.setScale(scale_);
 
   ok=false;
  }
@@ -532,8 +533,6 @@ void InnerBookWindow::react_LeftClick(Point point,MouseKey)
       obj->ok=false;
 
       obj->changed.assert();
-
-      obj->redraw();
      }
    };
 

@@ -117,6 +117,14 @@ class InnerBookWindow : public SubWindow
 
    void cache() const;
 
+   PtrLen<const Shape> getVisibleShapes(Coord off,Coord lim) const;
+
+   PtrLen<const Shape> getVisibleShapes() const;
+
+   RefType getRef(Point point) const;
+
+   void posFrame(ulen frame_index);
+
   private:
 
    static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
@@ -140,14 +148,6 @@ class InnerBookWindow : public SubWindow
    void addYPosPage();
 
    void subYPosPage();
-
-   PtrLen<const Shape> getVisibleShapes(Coord off,Coord lim) const;
-
-   PtrLen<const Shape> getVisibleShapes() const;
-
-   RefType getRef(Point point) const;
-
-   void posFrame(ulen frame_index);
 
   private:
 

@@ -167,6 +167,11 @@ struct ExtMap
     font.erase();
     bmp.erase();
    }
+
+  void setScale(Ratio scale)
+   {
+    font.setScale(scale);
+   }
  };
 
 /* class Shape */
