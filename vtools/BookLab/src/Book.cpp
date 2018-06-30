@@ -59,9 +59,57 @@ class BookMap::Pretext : public PretextMap
 
 BookMap::Pretext BookMap::Pretext::Object;
 
+/* class BookMap::FromFS */
+
+class BookMap::FromFS : NoCopy
+ {
+   using FileType = PretextFileToMem<FileToMem,Pretext::Object> ;
+
+   StrLen file_name;
+
+   DDL::FileEngine<FileName,FileType> engine;
+
+  public:
+
+   FromFS(StrLen file_name_,PrintBase &eout)
+    : file_name(file_name_),
+      engine(eout)
+    {
+    }
+
+   ~FromFS() {}
+
+   auto operator () () { return engine.process(file_name); }
+ };
+
+/* class BookMap::FromVolume */
+
+class BookMap::FromVolume : NoCopy
+ {
+   using VolType = Volume<AltFileToRead> ;
+   using FileType = PretextFileToMem<VolumeFileToMem<AltFileToRead>,Pretext::Object> ;
+
+   VolType vol;
+
+   DDL::FileEngine<FileName,FileType,VolType &> engine;
+
+  public:
+
+   FromVolume(StrLen file_name,PrintBase &eout)
+    : vol(file_name),
+      engine(vol,eout)
+    {
+    }
+
+   ~FromVolume() {}
+
+   auto operator () () { return engine.process("/main.book.ddl"_c); }
+ };
+
 /* class BookMap */
 
-ErrorText BookMap::loadFS(StrLen file_name,PtrLen<char> ebuf)
+template <class Engine>
+ErrorText BookMap::loadFrom(StrLen file_name,PtrLen<char> ebuf)
  {
   PrintBuf eout(ebuf);
 
@@ -69,64 +117,9 @@ ErrorText BookMap::loadFS(StrLen file_name,PtrLen<char> ebuf)
 
   try
     {
-     using FileType = PretextFileToMem<FileToMem,Pretext::Object> ;
+     Engine engine(file_name,eout);
 
-     DDL::FileEngine<FileName,FileType> engine(eout);
-
-     auto result=engine.process(file_name);
-
-     if( !result )
-       {
-        Printf(eout,"\n@ #.q;",file_name);
-
-        return eout.close();
-       }
-     else
-       {
-        DDL::TypedMap<TypeSet> map(result);
-        MemAllocGuard guard(map.getLen());
-
-        map(guard);
-
-        if( TypeDef::Book *data=map.findConst<TypeDef::Book>("Data"_c) )
-          {
-           mem=guard.disarm();
-           book=data;
-
-           return Success;
-          }
-        else
-          {
-           Printf(eout,"Error : No Data\n@ #.q;",file_name);
-
-           return eout.close();
-          }
-       }
-    }
-  catch(CatchType)
-    {
-     Printf(eout,"\n@ #.q;",file_name);
-
-     return eout.close();
-    }
- }
-
-ErrorText BookMap::loadVolume(StrLen file_name,PtrLen<char> ebuf)
- {
-  PrintBuf eout(ebuf);
-
-  ReportExceptionTo<PrintBuf> report(eout);
-
-  try
-    {
-     using VolType = Volume<AltFileToRead> ;
-     using FileType = PretextFileToMem<VolumeFileToMem<AltFileToRead>,Pretext::Object> ;
-
-     VolType vol(file_name);
-
-     DDL::FileEngine<FileName,FileType,VolType &> engine(vol,eout);
-
-     auto result=engine.process("/main.book.ddl"_c);
+     auto result=engine();
 
      if( !result )
        {
@@ -186,9 +179,9 @@ ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
  {
   blank();
 
-  if( SuffixExt(file_name).equal(".vol"_c) ) return loadVolume(file_name,ebuf);
+  if( SuffixExt(file_name).equal(".vol"_c) ) return loadFrom<FromVolume>(file_name,ebuf);
 
-  return loadFS(file_name,ebuf);
+  return loadFrom<FromFS>(file_name,ebuf);
  }
 
 } // namespace Book

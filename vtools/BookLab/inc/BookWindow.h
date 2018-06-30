@@ -86,8 +86,7 @@ class InnerBookWindow : public SubWindow
 
    const Config &cfg;
 
-   FontMap &font_map;
-   BitmapMap &bmp_map;
+   ExtMap &map;
 
    PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
@@ -165,7 +164,7 @@ class InnerBookWindow : public SubWindow
 
   public:
 
-   InnerBookWindow(SubWindowHost &host,const Config &cfg,FontMap &font_map,BitmapMap &bmp_map);
+   InnerBookWindow(SubWindowHost &host,const Config &cfg,ExtMap &map);
 
    virtual ~InnerBookWindow();
 
@@ -265,7 +264,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
   public:
 
-   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map,BitmapMap &bmp_map);
+   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,ExtMap &map);
 
    virtual ~DisplayBookWindow();
 
@@ -335,7 +334,7 @@ class DisplayBookFrame : public DragFrame
 
   public:
 
-   DisplayBookFrame(Desktop *desktop,const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update);
+   DisplayBookFrame(Desktop *desktop,const Config &cfg,ExtMap &map,Signal<> &update);
 
    virtual ~DisplayBookFrame();
 
@@ -445,8 +444,7 @@ class BookWindow : public ComboWindow
    // data
 
    Book::BookMap book_map;
-   FontMap font_map;
-   BitmapMap bmp_map;
+   ExtMap ext_map;
 
    Book::TypeDef::Page *prev = 0 ;
    Book::TypeDef::Page *up   = 0 ;

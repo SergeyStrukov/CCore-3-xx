@@ -29,17 +29,19 @@ using RefType = AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page,Book::TypeDef::Co
 
 /* Cast() */
 
-inline VColor Cast(Book::TypeDef::VColor vc) { return (VColor)vc; }
+inline VColor CastColor(Book::TypeDef::VColor vc) { return (VColor)vc; }
 
-inline Point Cast(Book::TypeDef::Point p) { return {p.x,p.y}; }
+inline Coord CastCoord(Book::TypeDef::Coord x) { return (Coord)x; }
 
-inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(r.a,r.b); }
+inline Point Cast(Book::TypeDef::Point p) { return {CastCoord(p.x),CastCoord(p.y)}; }
+
+inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(r.b)); }
 
 /* functions */
 
 inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
  {
-  VColor vc=Cast(vc_);
+  VColor vc=CastColor(vc_);
 
   if( vc!=Book::NoColor ) return vc;
 
@@ -48,7 +50,7 @@ inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
 
 inline void Combine(VColor &dst,Book::TypeDef::VColor vc_)
  {
-  VColor vc=Cast(vc_);
+  VColor vc=CastColor(vc_);
 
   if( vc!=Book::NoColor ) dst=vc;
  }
@@ -87,6 +89,8 @@ void SetExactArrayLen(DynArray<T> &obj,ulen len)
 class FontMap;
 
 class BitmapMap;
+
+struct ExtMap;
 
 class Shape;
 
@@ -144,11 +148,25 @@ class BitmapMap : NoCopy
 
    ~BitmapMap() {}
 
-   void erase() { map.erase(); }
+   void erase() { map.erase(); root=Null; }
 
    void setRoot(StrLen file_name);
 
    const Bitmap * operator () (Book::TypeDef::Bitmap *bmp);
+ };
+
+/* struct ExtMap */
+
+struct ExtMap
+ {
+  FontMap font;
+  BitmapMap bmp;
+
+  void blank()
+   {
+    font.erase();
+    bmp.erase();
+   }
  };
 
 /* class Shape */
@@ -224,7 +242,7 @@ class Shape
 
    struct SizeContext;
 
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base);
+   Point set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base);
 
    struct DrawContext;
 
@@ -252,9 +270,9 @@ class Shape
    template <class T>
    static void DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane);
 
-   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Point base) const;
+   void draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Point base) const;
 
-   Coord drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const;
+   Coord drawSub(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const;
 
    bool hit(Point point) const;
 
@@ -272,9 +290,9 @@ class Shape
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx);
+   Point set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx);
 
-   void draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
+   void draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
 
    bool hit(Point point,Coord pos_x,Coord pos_y) const;
 

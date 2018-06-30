@@ -291,8 +291,7 @@ Coord Shape::GetBY(const Config &cfg,FontMap &font_map,const Book::TypeDef::Fram
 struct Shape::SizeContext
  {
   const Config &cfg;
-  FontMap &font_map;
-  BitmapMap &bmp_map;
+  ExtMap &map;
   Ratio scale;
   const Book::TypeDef::Frame &frame;
   Coord wdx;
@@ -326,7 +325,7 @@ struct Shape::SizeContext
    {
     if( fmt )
       {
-       font=font_map(fmt->font,+cfg.font);
+       font=map.font(fmt->font,+cfg.font);
       }
     else
       {
@@ -340,7 +339,7 @@ struct Shape::SizeContext
    {
     if( fmt )
       {
-       font=font_map(fmt->font,+cfg.codefont);
+       font=map.font(fmt->font,+cfg.codefont);
       }
     else
       {
@@ -354,7 +353,7 @@ struct Shape::SizeContext
    {
     if( fmt )
       {
-       return font_map(fmt->font,font);
+       return map.font(fmt->font,font);
       }
     else
       {
@@ -632,7 +631,7 @@ struct Shape::SizeContext
    {
     subshapes.erase();
 
-    const Bitmap *bitmap=bmp_map(obj);
+    const Bitmap *bitmap=map.bmp(obj);
 
     if( !bitmap ) return Null;
 
@@ -658,7 +657,7 @@ struct Shape::SizeContext
 
     if( +list )
       {
-       Coord by2=GetBY(cfg,font_map,*list,scale);
+       Coord by2=GetBY(cfg,map.font,*list,scale);
 
        if( by2>by1 )
          {
@@ -681,7 +680,7 @@ struct Shape::SizeContext
 
     for(ulen i=0; i<list.len ;i++)
       {
-       Point t=shapes[i].set(cfg,font_map,bmp_map,scale,list[i],dx,p);
+       Point t=shapes[i].set(cfg,map,scale,list[i],dx,p);
 
        s=StackY(s,t);
 
@@ -778,7 +777,7 @@ struct Shape::SizeContext
 
        for(ulen i=0; i<list.len ;i++)
          {
-          Point s=subshapes[i].set(cfg,font_map,bmp_map,scale,list[i],wdx,base);
+          Point s=subshapes[i].set(cfg,map,scale,list[i],wdx,base);
 
           ret=StackY(ret,s);
 
@@ -909,7 +908,7 @@ struct Shape::SizeContext
 
              for(auto &fr : list )
                {
-                Point s=shape->set(cfg,font_map,bmp_map,scale,fr,w,p);
+                Point s=shape->set(cfg,map,scale,fr,w,p);
 
                 size=StackY(size,s);
 
@@ -998,7 +997,7 @@ struct Shape::SizeContext
 
 /* class Shape */
 
-Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame_,Coord dx,Point base)
+Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame_,Coord dx,Point base)
  {
   frame=&frame_;
 
@@ -1015,7 +1014,7 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
   tdx.erase();
   tdy.erase();
 
-  SizeContext ctx{cfg,font_map,bmp_map,scale,*frame,dx-delta.x,subshapes,refs,len,split,tdx,tdy};
+  SizeContext ctx{cfg,map,scale,*frame,dx-delta.x,subshapes,refs,len,split,tdx,tdy};
 
   size=ctx.size(base+off)+delta;
 
@@ -1027,8 +1026,7 @@ Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 struct Shape::DrawContext
  {
   const Config &cfg;
-  FontMap &font_map;
-  BitmapMap &bmp_map;
+  ExtMap &map;
   Ratio scale;
   VColor fore;
   DrawBuf buf;
@@ -1052,7 +1050,7 @@ struct Shape::DrawContext
    {
     if( fmt )
       {
-       font=font_map(fmt->font,+cfg.font);
+       font=map.font(fmt->font,+cfg.font);
 
        Combine(fore,fmt->fore);
 
@@ -1070,7 +1068,7 @@ struct Shape::DrawContext
    {
     if( fmt )
       {
-       font=font_map(fmt->font,+cfg.codefont);
+       font=map.font(fmt->font,+cfg.codefont);
 
        Combine(fore,fmt->fore);
 
@@ -1110,8 +1108,8 @@ struct Shape::DrawContext
       {
        Format ret;
 
-       ret.font=font_map(fmt->font,font);
-       ret.back=Cast(fmt->back);
+       ret.font=map.font(fmt->font,font);
+       ret.back=CastColor(fmt->back);
        ret.fore=Combine(fmt->fore,fore);
        ret.effect=fmt->effect;
 
@@ -1298,7 +1296,7 @@ struct Shape::DrawContext
 
   void draw(Book::TypeDef::Bitmap *obj)
    {
-    const Bitmap *bitmap=bmp_map(obj);
+    const Bitmap *bitmap=map.bmp(obj);
 
     if( !bitmap ) return;
 
@@ -1319,7 +1317,7 @@ struct Shape::DrawContext
 
     if( +list )
       {
-       Coord by2=GetBY(cfg,font_map,*list,scale);
+       Coord by2=GetBY(cfg,map.font,*list,scale);
 
        if( by2>by1 )
          {
@@ -1339,7 +1337,7 @@ struct Shape::DrawContext
 
     for(ulen i=0,len=Min(list.len,shapes.len); i<len ;i++)
       {
-       Coord dy=shapes[i].drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,base);
+       Coord dy=shapes[i].drawSub(cfg,map,scale,fore,buf,pane,base);
 
        base.y+=dy;
        dy2+=dy;
@@ -1470,7 +1468,7 @@ struct Shape::DrawContext
 
        for(ulen i=0; i<list.len ;i++)
          {
-          Coord dy=subshapes[i].drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,base);
+          Coord dy=subshapes[i].drawSub(cfg,map,scale,fore,buf,pane,base);
 
           base.y+=dy;
          }
@@ -1682,7 +1680,7 @@ struct Shape::DrawContext
 
     for(const Shape &shape : subshapes )
       {
-       shape.drawSub(cfg,font_map,bmp_map,scale,fore,buf,pane,inner);
+       shape.drawSub(cfg,map,scale,fore,buf,pane,inner);
       }
    }
 
@@ -1698,7 +1696,7 @@ struct Shape::DrawContext
 
 VColor Shape::GetBack(const Book::TypeDef::Format *fmt)
  {
-  if( fmt ) return Cast(fmt->back);
+  if( fmt ) return CastColor(fmt->back);
 
   return Book::NoColor;
  }
@@ -1793,13 +1791,13 @@ void Shape::DrawAnyLine(const Config &cfg,DrawBuf buf,T line,Pane pane)
   line.apply( [&] (auto *obj) { DrawLine(cfg,buf,obj,pane); } );
  }
 
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Point base) const
+void Shape::draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Point base) const
  {
   Pane pane(base,size);
 
   Pane inner=pane.shrink(scale*Cast(frame->outer));
 
-  if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
+  if( VColor col=CastColor(frame->col) ; col!=Book::NoColor )
     {
      PaneSub sub(pane,inner);
 
@@ -1816,12 +1814,12 @@ void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio sc
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
+  DrawContext ctx{cfg,map,scale,fore,buf.cut(inner),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
 
   ctx.draw();
  }
 
-Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const
+Coord Shape::drawSub(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Pane parent,Point base) const
  {
   base+=rebase;
 
@@ -1829,7 +1827,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
 
   Pane inner=pane.shrink(scale*Cast(frame->outer));
 
-  if( VColor col=Cast(frame->col) ; col!=Book::NoColor )
+  if( VColor col=CastColor(frame->col) ; col!=Book::NoColor )
     {
      PaneSub sub(pane,inner);
 
@@ -1846,7 +1844,7 @@ Coord Shape::drawSub(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Rati
 
   DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
 
-  DrawContext ctx{cfg,font_map,bmp_map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
+  DrawContext ctx{cfg,map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
 
   ctx.draw();
 
@@ -1874,14 +1872,14 @@ RefType Shape::getRef(Point point) const
   return Null;
  }
 
-Point Shape::set(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx)
+Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx)
  {
-  return set(cfg,font_map,bmp_map,scale,frame,dx,Null);
+  return set(cfg,map,scale,frame,dx,Null);
  }
 
-void Shape::draw(const Config &cfg,FontMap &font_map,BitmapMap &bmp_map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
+void Shape::draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
  {
-  draw(cfg,font_map,bmp_map,scale,fore,buf,Point(pos_x,pos_y));
+  draw(cfg,map,scale,fore,buf,Point(pos_x,pos_y));
  }
 
 bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const

@@ -29,13 +29,15 @@ namespace Book {
 
 /* consts */
 
-inline constexpr VColor NoColor = (VColor)0xFFFFFFFFu ;
+inline constexpr VColor NoColor = (VColor)0xFFFF'FFFFu ;
+
 
 inline constexpr TypeDef::Format::Effect NoEffect = 0 ;
 
 inline constexpr TypeDef::Format::Effect Underline = 1 ;
 
 inline constexpr TypeDef::Format::Effect Strikeout = 2 ;
+
 
 inline constexpr TypeDef::OneLine::Align LineLeft   = 0 ;
 
@@ -59,9 +61,12 @@ class BookMap : NoCopy
 
    class Pretext;
 
-   ErrorText loadFS(StrLen file_name,PtrLen<char> ebuf);
+   class FromFS;
 
-   ErrorText loadVolume(StrLen file_name,PtrLen<char> ebuf);
+   class FromVolume;
+
+   template <class Engine>
+   ErrorText loadFrom(StrLen file_name,PtrLen<char> ebuf);
 
   public:
 
@@ -73,7 +78,7 @@ class BookMap : NoCopy
 
    ErrorText load(StrLen file_name,PtrLen<char> ebuf);
 
-   TypeDef::Book * get() const { return book; }
+   TypeDef::Book * get() const { return book; } // null on blank, non-null on successful load
  };
 
 } // namespace Book

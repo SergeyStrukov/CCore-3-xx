@@ -41,7 +41,7 @@ void InnerBookWindow::cache() const
        {
         Shape &shape=shapes[i];
 
-        Point ds=shape.set(cfg,font_map,bmp_map,scale,frames[i],dx);
+        Point ds=shape.set(cfg,map,scale,frames[i],dx);
 
         s=StackY(s,ds);
 
@@ -230,12 +230,11 @@ void InnerBookWindow::updated(unsigned flags)
   if( flags&LayoutUpdate ) ok=false;
  }
 
-InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,FontMap &font_map_,BitmapMap &bmp_map_)
+InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,ExtMap &map_)
  : SubWindow(host),
    cfg(cfg_),
 
-   font_map(font_map_),
-   bmp_map(bmp_map_),
+   map(map_),
 
    connector_posX(this,&InnerBookWindow::posX),
    connector_posY(this,&InnerBookWindow::posY),
@@ -323,7 +322,7 @@ void InnerBookWindow::setScale(Ratio scale_)
  {
   scale=scale_;
 
-  font_map.setScale(scale_);
+  map.font.setScale(scale_);
 
   ok=false;
  }
@@ -406,7 +405,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
      if( pos_x<size.x )
        {
-        shape.draw(cfg,font_map,bmp_map,scale,fore,buf, -pos_x , y-pos_y );
+        shape.draw(cfg,map,scale,fore,buf, -pos_x , y-pos_y );
        }
     }
  }
@@ -566,10 +565,12 @@ void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
 void DisplayBookWindow::changed()
  {
   layout();
+
+  redraw();
  }
 
-DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,FontMap &font_map,BitmapMap &bmp_map)
- : Base(host,cfg,font_map,bmp_map),
+DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,ExtMap &map)
+ : Base(host,cfg,map),
 
    connector_changed(this,&DisplayBookWindow::changed,window.changed),
 
@@ -609,10 +610,10 @@ void DisplayBookWindow::setScale(Ratio scale)
 
 /* class DisplayBookFrame */
 
-DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,FontMap &font_map,BitmapMap &bmp_map,Signal<> &update)
+DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,ExtMap &map,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
-   client(*this,cfg.book_cfg,font_map,bmp_map)
+   client(*this,cfg.book_cfg,map)
  {
   bindClient(client);
  }
@@ -748,9 +749,9 @@ void BookWindow::link(Book::TypeDef::Link dst)
      layout();
 
      book.setPage(page,dst.frame_index);
-    }
 
-  redraw();
+     redraw();
+    }
  }
 
 void BookWindow::hint(Book::TypeDef::Page *page)
@@ -826,12 +827,12 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    line3(wlist,cfg.line_cfg),
 
-   book(wlist,cfg.book_cfg,font_map,bmp_map),
+   book(wlist,cfg.book_cfg,ext_map),
    progress(wlist,cfg.progress_cfg),
 
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
 
-   popup(host.getFrameDesktop(),cfg.popup_cfg,font_map,bmp_map,update),
+   popup(host.getFrameDesktop(),cfg.popup_cfg,ext_map,update),
 
    progress_control(progress),
    font_inc(progress_control),
@@ -886,13 +887,12 @@ void BookWindow::blank()
 
   popup.setPage(Book::NoColor,Book::NoColor);
 
-  bmp_map.erase();
-
-  bmp_map.setRoot(""_c);
-
   book.setPage(0,Book::NoColor,Book::NoColor);
 
-  font_map.erase();
+  setNav(0);
+
+  ext_map.blank();
+  book_map.blank();
 
   text_title.setText(""_def);
   text_page.setText(""_def);
@@ -900,8 +900,6 @@ void BookWindow::blank()
   spinor.setValue( (+cfg.defscale)*Coord(100) );
 
   setScale(spinor.getValue());
-
-  setNav(0);
 
   layout();
 
@@ -937,10 +935,10 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        bmp_map.setRoot(file_name);
+        ext_map.bmp.setRoot(file_name);
 
-        VColor back=Cast(ptr->back);
-        VColor fore=Cast(ptr->fore);
+        VColor back=CastColor(ptr->back);
+        VColor fore=CastColor(ptr->fore);
 
         popup.setPage(back,fore);
 
@@ -954,7 +952,7 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        book.setPage(0,Cast(ptr->back),Cast(ptr->fore));
+        book.setPage(0,CastColor(ptr->back),CastColor(ptr->fore));
        }
 
      redraw();
@@ -1009,7 +1007,7 @@ void BookWindow::open()
 
   if( font_flag )
     {
-     font_map.cache(font_inc);
+     ext_map.font.cache(font_inc);
     }
  }
 
