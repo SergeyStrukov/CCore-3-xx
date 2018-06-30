@@ -654,44 +654,9 @@ struct TypeSet : TypeDefCore
          obj->ext=0;
         }
        break;
-       case 9 :
-        {
-         S9 *obj=place;
-
-         obj->ext=0;
-        }
-       break;
-       case 12 :
-        {
-         S12 *obj=place;
-
-         obj->ext=0;
-        }
-       break;
-       case 14 :
-        {
-         S14 *obj=place;
-
-         obj->ext=0;
-        }
-       break;
        case 15 :
         {
          S15 *obj=place;
-
-         obj->ext=0;
-        }
-       break;
-       case 17 :
-        {
-         S17 *obj=place;
-
-         obj->ext=0;
-        }
-       break;
-       case 19 :
-        {
-         S19 *obj=place;
 
          obj->ext=0;
         }

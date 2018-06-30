@@ -295,6 +295,32 @@ auto Draw::Format::over(ExtMap &map,const Book::TypeDef::Format *fmt) const -> F
   return *this;
  }
 
+auto Draw::use(const Book::TypeDef::Format *fmt) -> Format
+ {
+  Format ret;
+
+  if( fmt )
+    {
+     ret.font=map(fmt->font,+cfg.font);
+
+     ret.fore=Combine(fmt->fore,fore);
+
+     ret.effect=fmt->effect;
+    }
+  else
+    {
+     ret.font=+cfg.font;
+
+     ret.fore=fore;
+
+     ret.effect=Book::NoEffect;
+    }
+
+  ret.back=Book::NoColor;
+
+  return ret;
+ }
+
 auto Draw::useFixed(const Book::TypeDef::Format *fmt) -> Format
  {
   Format ret;
@@ -336,12 +362,23 @@ Point Draw::drawSpan(Format fmt,StrLen text,Pane inner,Point base,DrawBuf buf)
 
  // draw(Book::TypeDef::Text *)
 
-void Draw::draw(Book::TypeDef::Text *obj,Pane inner,Point pad,DrawBuf buf) // TODO
+void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,Format format,Pane inner,Point pad,DrawBuf buf)
  {
-  Used(obj);
-  Used(inner);
-  Used(pad);
-  Used(buf);
+ }
+
+void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,Format format,Pane inner,Point pad,DrawBuf buf)
+ {
+ }
+
+void Draw::draw(Book::TypeDef::Text *obj,Pane inner,Point pad,DrawBuf buf)
+ {
+  if( !obj ) return;
+
+  Format format=use(obj->fmt);
+
+  auto range=obj->list.getRange();
+
+  obj->placement.getPtr().apply( [&] (auto *placement) { draw(range,placement,format,inner,pad,buf); } );
  }
 
  // draw(Book::TypeDef::FixedText *)

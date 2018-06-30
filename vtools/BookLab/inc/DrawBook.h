@@ -293,11 +293,17 @@ struct Draw
     Format over(ExtMap &map,const Book::TypeDef::Format *fmt) const;
    };
 
+  Format use(const Book::TypeDef::Format *fmt);
+
   Format useFixed(const Book::TypeDef::Format *fmt);
 
   Point drawSpan(Format fmt,StrLen text,Pane inner,Point base,DrawBuf buf);
 
    // draw()
+
+   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,Format format,Pane inner,Point pad,DrawBuf buf);
+
+   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,Format format,Pane inner,Point pad,DrawBuf buf);
 
   void draw(Book::TypeDef::Text *obj,Pane inner,Point pad,DrawBuf buf);
 
