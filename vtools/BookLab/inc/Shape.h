@@ -205,6 +205,7 @@ class Shape
 
    // base
 
+   Coord down = 0 ;
    Point size;
    DynArray<Shape> subshapes;
 
@@ -247,7 +248,7 @@ class Shape
 
    struct SizeContext;
 
-   Point set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base);
+   Point setBase(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Point base);
 
    struct DrawContext;
 
@@ -285,17 +286,13 @@ class Shape
 
   public:
 
-   // pad
-
-   Coord offy = 0 ;
-
-   // methods
-
    Shape() noexcept {}
+
+   Coord getDown() const { return down; }
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx);
+   Point set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Coord down);
 
    void draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
 

@@ -123,8 +123,6 @@ class InnerBookWindow : public SubWindow
 
    RefType getRef(Point point) const;
 
-   void posFrame(ulen frame_index);
-
   private:
 
    static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
@@ -174,7 +172,9 @@ class InnerBookWindow : public SubWindow
 
    void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
 
-   void setPage(Book::TypeDef::Page *page,ulen frame_index);
+   void setPage(Book::TypeDef::Page *page);
+
+   void posFrame(ulen frame_index);
 
    void setScale(Ratio scale);
 
@@ -271,6 +271,8 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
    // methods
 
    void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+
+   void setPage(Book::TypeDef::Page *page);
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index);
 

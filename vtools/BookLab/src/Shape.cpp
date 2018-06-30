@@ -680,7 +680,7 @@ struct Shape::SizeContext
 
     for(ulen i=0; i<list.len ;i++)
       {
-       Point t=shapes[i].set(cfg,map,scale,list[i],dx,p);
+       Point t=shapes[i].setBase(cfg,map,scale,list[i],dx,p);
 
        s=StackY(s,t);
 
@@ -777,7 +777,7 @@ struct Shape::SizeContext
 
        for(ulen i=0; i<list.len ;i++)
          {
-          Point s=subshapes[i].set(cfg,map,scale,list[i],wdx,base);
+          Point s=subshapes[i].setBase(cfg,map,scale,list[i],wdx,base);
 
           ret=StackY(ret,s);
 
@@ -908,7 +908,7 @@ struct Shape::SizeContext
 
              for(auto &fr : list )
                {
-                Point s=shape->set(cfg,map,scale,fr,w,p);
+                Point s=shape->setBase(cfg,map,scale,fr,w,p);
 
                 size=StackY(size,s);
 
@@ -997,7 +997,7 @@ struct Shape::SizeContext
 
 /* class Shape */
 
-Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame_,Coord dx,Point base)
+Point Shape::setBase(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame_,Coord dx,Point base)
  {
   frame=&frame_;
 
@@ -1872,9 +1872,11 @@ RefType Shape::getRef(Point point) const
   return Null;
  }
 
-Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx)
+Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,const Book::TypeDef::Frame &frame,Coord dx,Coord down_)
  {
-  return set(cfg,map,scale,frame,dx,Null);
+  down=down_;
+
+  return setBase(cfg,map,scale,frame,dx,Null);
  }
 
 void Shape::draw(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
