@@ -75,6 +75,8 @@ struct TypeDefCore
     A5 col;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S5
@@ -123,6 +125,8 @@ struct TypeDefCore
     A6 hard;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S10
@@ -152,6 +156,8 @@ struct TypeDefCore
     A6 hide;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S13
@@ -170,6 +176,8 @@ struct TypeDefCore
     A4 item_space;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S15
@@ -196,6 +204,8 @@ struct TypeDefCore
     DDL::MapPtr< S22 > fmt;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S18
@@ -214,6 +224,8 @@ struct TypeDefCore
     DDL::MapPolyPtr< S21 , S20 > placement;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S20

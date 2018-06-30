@@ -89,15 +89,86 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
     }
  }
 
-/* struct ExtMap */
+/* class FontMap */
 
-FrameExt * ExtMap::operator () (const Book::TypeDef::Frame *frame)
+auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
  {
-  Used(frame);
+  const FontInfo *info=lookup.find(face,bold,italic);
 
-  static FrameExt stub;
+  if( !info ) return {fallback,true,true};
 
-  return &stub;
+  try
+    {
+     FreeTypeFont font(Range(info->file_name));
+
+     font.setSize(size);
+
+     FreeTypeFont::Config cfg;
+
+     cfg.strength=strength;
+
+     font.setConfig(cfg);
+
+     return {font,true,false};
+    }
+  catch(...)
+    {
+     return {fallback,true,true};
+    }
+ }
+
+auto FontMap::find(Book::TypeDef::Font *obj,Font fallback) -> Rec
+ {
+  return find(obj->face,scale*CastCoord(obj->size),obj->strength,obj->bold,obj->italic,fallback);
+ }
+
+void FontMap::SetSize(Font &font_,Coord size)
+ {
+  FreeTypeFont &font=static_cast<FreeTypeFont &>(font_);
+
+  font.setSize(size);
+ }
+
+void FontMap::setScale(Ratio scale_)
+ {
+  scale=scale_;
+
+  for(Rec &rec : map ) rec.ok=false;
+ }
+
+Font FontMap::operator () (Book::TypeDef::Font *obj,Font fallback)
+ {
+  if( !obj ) return fallback;
+
+  if( ulen ext=obj->ext )
+    {
+     Rec &rec=map.at(ext-1);
+
+     if( rec.ok ) return rec.font;
+
+     if( rec.fallback )
+       {
+        rec.font=fallback;
+       }
+     else
+       {
+        SetSize(rec.font,scale*CastCoord(obj->size));
+       }
+
+     rec.ok=true;
+
+     return rec.font;
+    }
+  else
+    {
+     Rec rec=find(obj,fallback);
+
+     map.append_copy(rec);
+
+     obj->ext=map.getLen();
+
+     return rec.font;
+    }
  }
 
 /* struct Draw */
@@ -157,7 +228,7 @@ VColor Draw::GetAnyBack(T body)
 
  // drawAnyLine()
 
-void Draw::drawLine(const Book::TypeDef::SingleLine *obj,Pane pane)
+void Draw::drawLine(const Book::TypeDef::SingleLine *obj,Pane pane,DrawBuf buf)
  {
   if( !obj ) return;
 
@@ -176,7 +247,7 @@ void Draw::drawLine(const Book::TypeDef::SingleLine *obj,Pane pane)
   fig.loop(art,width,line);
  }
 
-void Draw::drawLine(const Book::TypeDef::DoubleLine *obj,Pane pane)
+void Draw::drawLine(const Book::TypeDef::DoubleLine *obj,Pane pane,DrawBuf buf)
  {
   if( !obj ) return;
 
@@ -198,64 +269,162 @@ void Draw::drawLine(const Book::TypeDef::DoubleLine *obj,Pane pane)
  }
 
 template <class T>
-void Draw::drawAnyLine(T line,Pane pane)
+void Draw::drawAnyLine(T line,Pane pane,DrawBuf buf)
  {
-  line.apply( [&] (auto *obj) { drawLine(obj,pane); } );
+  line.apply( [&] (auto *obj) { drawLine(obj,pane,buf); } );
  }
 
- // draw()
+ // common
 
-void Draw::draw(const Book::TypeDef::Text *obj,Pane inner,Point pad)
+auto Draw::Format::over(ExtMap &map,const Book::TypeDef::Format *fmt) const -> Format
+ {
+  if( fmt )
+    {
+     Format ret;
+
+     ret.font=map(fmt->font,font);
+
+     ret.back=Combine(fmt->back,back);
+     ret.fore=Combine(fmt->fore,fore);
+
+     ret.effect=fmt->effect;
+
+     return ret;
+    }
+
+  return *this;
+ }
+
+auto Draw::useFixed(const Book::TypeDef::Format *fmt) -> Format
+ {
+  Format ret;
+
+  if( fmt )
+    {
+     ret.font=map(fmt->font,+cfg.codefont);
+
+     ret.fore=Combine(fmt->fore,fore);
+
+     ret.effect=fmt->effect;
+    }
+  else
+    {
+     ret.font=+cfg.codefont;
+
+     ret.fore=fore;
+
+     ret.effect=Book::NoEffect;
+    }
+
+  ret.back=Book::NoColor;
+
+  return ret;
+ }
+
+Point Draw::drawSpan(Format fmt,StrLen text,Pane inner,Point base,DrawBuf buf)
+ {
+  TextSize ts=fmt.font->text(text);
+
+  if( fmt.back!=Book::NoColor ) FillBack(buf,inner,base,ts,fmt.back);
+
+  if( fmt.effect ) MakeEffect(buf,inner,base,ts,fmt.effect,fmt.fore,+cfg.width);
+
+  fmt.font->text(buf,inner,base,text,fmt.fore);
+
+  return base.addX(ts.dx);
+ }
+
+ // draw(Book::TypeDef::Text *)
+
+void Draw::draw(Book::TypeDef::Text *obj,Pane inner,Point pad,DrawBuf buf) // TODO
  {
   Used(obj);
   Used(inner);
   Used(pad);
+  Used(buf);
  }
 
-void Draw::draw(const Book::TypeDef::FixedText *obj,Pane inner,Point pad)
+ // draw(Book::TypeDef::FixedText *)
+
+void Draw::drawLine(PtrLen<const Book::TypeDef::FixedSpan> line,Format format,Pane inner,Point base,DrawBuf buf)
+ {
+  for(const Book::TypeDef::FixedSpan &span : line )
+    {
+     base=drawSpan(format.over(map,span.fmt),span.body,inner,base,buf);
+    }
+ }
+
+void Draw::draw(Book::TypeDef::FixedText *obj,Pane inner,Point pad,DrawBuf buf)
+ {
+  if( !obj ) return;
+
+  Format format=useFixed(obj->fmt);
+
+  FontSize fs=format.font->getSize();
+
+  Point base=pad.addY(fs.by);
+
+  Coord dy=fs.dy;
+
+  for(const Book::TypeDef::Line &line : obj->list.getRange() )
+    {
+     drawLine(line.getRange(),format,inner,base,buf);
+
+     base.y+=dy;
+    }
+ }
+
+ // draw(Book::TypeDef::Bitmap *)
+
+void Draw::draw(Book::TypeDef::Bitmap *obj,Pane inner,Point pad,DrawBuf buf) // TODO
  {
   Used(obj);
   Used(inner);
   Used(pad);
+  Used(buf);
  }
 
-void Draw::draw(const Book::TypeDef::Bitmap *obj,Pane inner,Point pad)
+ // draw(Book::TypeDef::TextList *)
+
+void Draw::draw(Book::TypeDef::TextList *obj,Pane inner,Point pad,DrawBuf buf) // TODO
  {
   Used(obj);
   Used(inner);
   Used(pad);
+  Used(buf);
  }
 
-void Draw::draw(const Book::TypeDef::TextList *obj,Pane inner,Point pad)
+ // draw(Book::TypeDef::Collapse *)
+
+void Draw::draw(Book::TypeDef::Collapse *obj,Pane inner,Point pad,DrawBuf buf) // TODO
  {
   Used(obj);
   Used(inner);
   Used(pad);
+  Used(buf);
  }
 
-void Draw::draw(const Book::TypeDef::Collapse *obj,Pane inner,Point pad)
+ // draw(Book::TypeDef::Table *)
+
+void Draw::draw(Book::TypeDef::Table *obj,Pane inner,Point pad,DrawBuf buf) // TODO
  {
   Used(obj);
   Used(inner);
   Used(pad);
+  Used(buf);
  }
 
-void Draw::draw(const Book::TypeDef::Table *obj,Pane inner,Point pad)
- {
-  Used(obj);
-  Used(inner);
-  Used(pad);
- }
+ // drawAny()
 
 template <class T>
-void Draw::drawAny(T body,Pane inner,Point pad)
+void Draw::drawAny(T body,Pane inner,Point pad,DrawBuf buf)
  {
-  body.apply( [&] (auto *obj) { draw(obj,inner,pad); } );
+  body.apply( [&] (auto *obj) { draw(obj,inner,pad,buf); } );
  }
 
  // public
 
-void Draw::operator () (const Book::TypeDef::Frame *frame)
+void Draw::operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base)
  {
   FrameExt *ext=map(frame);
 
@@ -278,11 +447,9 @@ void Draw::operator () (const Book::TypeDef::Frame *frame)
      buf.erase(inner,back);
     }
 
-  drawAnyLine(frame->line.getPtr(),inner);
+  drawAnyLine(frame->line.getPtr(),inner,buf);
 
-  buf=buf.cut(inner);
-
-  drawAny(frame->body.getPtr(),inner,scale*Cast(frame->inner));
+  drawAny(frame->body.getPtr(),inner,scale*Cast(frame->inner),buf.cut(inner));
  }
 
 } // namespace DrawBook
