@@ -1823,30 +1823,7 @@ Coord Shape::drawSub(const Config &cfg,ExtMap &map,Ratio scale,VColor fore,DrawB
  {
   base+=rebase;
 
-  Pane pane(parent.getBase()+base,size);
-
-  Pane inner=pane.shrink(scale*Cast(frame->outer));
-
-  if( VColor col=CastColor(frame->col) ; col!=Book::NoColor )
-    {
-     PaneSub sub(pane,inner);
-
-     buf.erase(sub.top,col);
-     buf.erase(sub.bottom,col);
-     buf.erase(sub.left,col);
-     buf.erase(sub.right,col);
-    }
-
-  if( VColor back=GetAnyBack(frame->body.getPtr()) ; back!=Book::NoColor )
-    {
-     buf.erase(inner,back);
-    }
-
-  DrawAnyLine(cfg,buf,frame->line.getPtr(),inner);
-
-  DrawContext ctx{cfg,map,scale,fore,buf.cut(Inf(inner,parent)),*frame,inner,scale*Cast(frame->inner),Range(subshapes),len,Range(split),Range(tdx),Range(tdy)};
-
-  ctx.draw();
+  draw(cfg,map,scale,fore,buf,parent.getBase()+base);
 
   return size.y;
  }

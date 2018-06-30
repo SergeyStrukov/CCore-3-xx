@@ -4,6 +4,7 @@ OBJ_LIST = \
 .obj/Book.o \
 .obj/BookWindow.o \
 .obj/Client.o \
+.obj/DrawBook.o \
 .obj/Shape.o \
 .obj/SpanLenEngine.o \
 .obj/WorkWindow.o \
@@ -16,6 +17,7 @@ ASM_LIST = \
 .obj/Book.s \
 .obj/BookWindow.s \
 .obj/Client.s \
+.obj/DrawBook.s \
 .obj/Shape.s \
 .obj/SpanLenEngine.s \
 .obj/WorkWindow.s \
@@ -28,6 +30,7 @@ DEP_LIST = \
 .obj/Book.dep \
 .obj/BookWindow.dep \
 .obj/Client.dep \
+.obj/DrawBook.dep \
 .obj/Shape.dep \
 .obj/SpanLenEngine.dep \
 .obj/WorkWindow.dep \
@@ -53,6 +56,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Client.o : src/./Client.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/DrawBook.o : src/./DrawBook.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.o : src/./Shape.cpp
@@ -84,6 +90,9 @@ include $(RULES_FILE)
 .obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/DrawBook.s : src/./DrawBook.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.s : src/./Shape.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -112,6 +121,9 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
+
+.obj/DrawBook.dep : src/./DrawBook.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DrawBook.o $< -MF $@
 
 .obj/Shape.dep : src/./Shape.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.o $< -MF $@
