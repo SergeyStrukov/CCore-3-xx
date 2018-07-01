@@ -17,7 +17,7 @@
 #include <inc/Book.h>
 
 #include <CCore/inc/Array.h>
-#include <CCore/inc/CompactList.h>
+#include <CCore/inc/ElementPool.h>
 
 #include <CCore/inc/video/FontLookup.h>
 #include <CCore/inc/video/Bitmap.h>
@@ -92,13 +92,27 @@ void SetExactArrayLen(DynArray<T> &obj,ulen len)
 
 struct Config;
 
+class BitmapMap;
+
 class FontMap;
 
 struct FrameExt;
 
-template <class T,class E> class MapOf;
+struct FrameExt_OneLine;
 
-struct ExtMap;
+struct FrameExt_MultiLine;
+
+struct FrameExt_TextList;
+
+struct FrameExt_Collapse;
+
+struct FrameExt_Table;
+
+class FrameMap;
+
+class ExtMap;
+
+template <class T> class AutoCast;
 
 struct Draw;
 
@@ -168,78 +182,229 @@ class FontMap : NoCopy
    Font operator () (Book::TypeDef::Font *obj,Font fallback);
  };
 
+/* class BitmapMap */
+
+class BitmapMap : NoCopy
+ {
+   DynArray<Bitmap> map;
+
+   String root;
+
+  public:
+
+   BitmapMap() {}
+
+   ~BitmapMap() {}
+
+   void erase() { map.erase(); root=Null; }
+
+   void setRoot(StrLen file_name);
+
+   const Bitmap * operator () (Book::TypeDef::Bitmap *obj); // may return 0
+ };
+
 /* struct FrameExt */
 
 struct FrameExt
  {
+  Point outer; // scale*Cast(frame->outer)
+  Point inner; // scale*Cast(frame->inner)
   Point size;
+
+  virtual ~FrameExt() {}
  };
 
-/* MapOf<T,E> */
+/* struct FrameExt_OneLine */
 
-template <class T,class E>
-class MapOf : NoCopy
+struct FrameExt_OneLine : FrameExt
  {
-   CompactList<E> list;
-   DynArray<E *> buf;
+  Coord offx = 0 ;
+ };
+
+/* struct FrameExt_MultiLine */
+
+struct FrameExt_MultiLine : FrameExt
+ {
+  Coord first_dx = 0 ; // Cast(placement->first_line_space)*fs.dy
+  Coord dy = 0 ;       // Cast(placement->line_space)*fs.dy
+  DynArray<ulen> split;
+ };
+
+/* struct FrameExt_TextList */
+
+struct FrameExt_TextList : FrameExt
+ {
+  Coord bullet_len = 0 ;
+  Coord bullet_space = 0 ; // scale*Coord(obj->bullet_space)
+  Coord item_space = 0 ;   // scale*Coord(obj->item_space)
+
+  struct Delta
+   {
+    Coord by1 = 0 ;
+    Coord dy1 = 0 ;
+    Coord by2 = 0 ;
+   };
+
+  DynArray<Delta> delta;
+ };
+
+/* struct FrameExt_Collapse */
+
+struct FrameExt_Collapse : FrameExt
+ {
+  Coord len = 0 ;
+ };
+
+/* struct FrameExt_Table */
+
+struct FrameExt_Table : FrameExt
+ {
+ };
+
+/* class FrameMap */
+
+class FrameMap : NoCopy
+ {
+   MemPool pool;
+   DynArray<FrameExt *> buf;
+
+  private:
+
+   template <class T>
+   FrameExt * createType();
+
+   FrameExt * create(Book::TypeDef::OneLine *placement);
+
+   FrameExt * create(Book::TypeDef::MultiLine *placement);
+
+   FrameExt * create(Book::TypeDef::Text *obj);
+
+   FrameExt * create(Book::TypeDef::FixedText *obj);
+
+   FrameExt * create(Book::TypeDef::Bitmap *obj);
+
+   FrameExt * create(Book::TypeDef::TextList *obj);
+
+   FrameExt * create(Book::TypeDef::Collapse *obj);
+
+   FrameExt * create(Book::TypeDef::Table *obj);
+
+   FrameExt * create(Book::TypeDef::Frame *obj);
 
   public:
 
-   MapOf() {}
+   FrameMap() : pool(4_KByte) {}
 
-   ~MapOf() {}
+   ~FrameMap() { erase(); }
 
-   void erase()
-    {
-     list.erase();
-     buf.erase();
-    }
+   void erase();
 
-   E * operator () (T *obj)
-    {
-     if( !obj ) return 0;
-
-     if( ulen ext=obj->ext )
-       {
-        return buf.at(ext-1);
-       }
-     else
-       {
-        buf.reserve(1);
-
-        E *ret=list.ins();
-
-        buf.append_copy(ret);
-
-        obj->ext=buf.getLen();
-
-        return ret;
-       }
-    }
+   FrameExt * operator () (Book::TypeDef::Frame *obj);
  };
 
-/* struct ExtMap */
+/* class ExtMap */
 
-struct ExtMap : NoCopy
+class ExtMap : NoCopy
  {
-  FontMap font;
+   FontMap font;
+   BitmapMap bmp;
+   FrameMap frame;
 
-  MapOf<Book::TypeDef::Frame,FrameExt> frame;
+  public:
 
-  void blank()
-   {
-    font.erase();
-    frame.erase();
-   }
+   ExtMap() {}
 
-  void setScale(Ratio scale)
-   {
-    font.setScale(scale);
-   }
+   ~ExtMap() {}
 
-  Font operator () (Book::TypeDef::Font *obj,Font fallback) { return font(obj,fallback); }
+   void blank()
+    {
+     font.erase();
+     bmp.erase();
+     frame.erase();
+    }
 
-  FrameExt * operator () (Book::TypeDef::Frame *obj) { return frame(obj); }
+   void setScale(Ratio scale)
+    {
+     font.setScale(scale);
+    }
+
+   void setRoot(StrLen file_name)
+    {
+     bmp.setRoot(file_name);
+    }
+
+   Font operator () (Book::TypeDef::Font *obj,Font fallback) { return font(obj,fallback); }
+
+   const Bitmap * operator () (Book::TypeDef::Bitmap *obj) { return bmp(obj); }
+
+   FrameExt * operator () (Book::TypeDef::Frame *obj) { return frame(obj); }
+ };
+
+/* class AutoCast<T> */
+
+template <class T>
+class AutoCast
+ {
+   T *ptr;
+
+  public:
+
+   explicit AutoCast(T *ptr_) : ptr(ptr_) {}
+
+   template <class S>
+   operator S * () const { return static_cast<S *>(ptr); }
+ };
+
+/* struct Prepare */
+
+struct Prepare
+ {
+  const Config &cfg;
+  ExtMap &map;
+  Ratio scale;
+
+  // private
+
+  void addRef(RefType ref,Pane pane);
+
+  static RefType CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref);
+
+  void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane);
+
+   // common
+
+  Font use(const Book::TypeDef::Format *fmt);
+
+  Font useFixed(const Book::TypeDef::Format *fmt);
+
+  Font useSpan(Font font,const Book::TypeDef::Format *fmt);
+
+  static Coord SizeSpan(Font font,StrLen text);
+
+  static Coord SizeSpace(Font font);
+
+   // size()
+
+  Point size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base);
+
+   Coord sizeLine(Font font,const Book::TypeDef::Line &line,Point base,Coord dy);
+
+  Point size(Book::TypeDef::FixedText *obj,FrameExt *ext,Coord wdx,Point base);
+
+  Point size(Book::TypeDef::Bitmap *obj,FrameExt *ext,Coord wdx,Point base);
+
+  Point size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base);
+
+  Point size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base);
+
+  Point size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base);
+
+  template <class T>
+  Point sizeAny(T body,FrameExt *ext,Coord wdx,Point base);
+
+  // public
+
+  Point operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base);
  };
 
 /* struct Draw */
@@ -248,7 +413,6 @@ struct Draw
  {
   const Config &cfg;
   ExtMap &map;
-  Ratio scale;
   VColor fore;
 
   // private
@@ -283,6 +447,8 @@ struct Draw
 
    // common
 
+  static bool InsSpace(StrLen text);
+
   struct Format
    {
     Font font;
@@ -297,34 +463,54 @@ struct Draw
 
   Format useFixed(const Book::TypeDef::Format *fmt);
 
-  Point drawSpan(Format fmt,StrLen text,Pane inner,Point base,DrawBuf buf);
+  Point drawSpan(Format format,StrLen text,Pane inner,Point base,DrawBuf buf);
+
+  Point drawSpace(Format format,Pane inner,Point base,DrawBuf buf);
 
    // draw()
 
-   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,Format format,Pane inner,Point pad,DrawBuf buf);
+   Point drawSpan(Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf);
 
-   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,Format format,Pane inner,Point pad,DrawBuf buf);
+   Point drawSpan(const Book::TypeDef::Format *prev_fmt,Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf);
 
-  void draw(Book::TypeDef::Text *obj,Pane inner,Point pad,DrawBuf buf);
+   void drawLine(PtrLen<const Book::TypeDef::Span> line,Format format,Pane inner,Point base,DrawBuf buf);
+
+   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Format format,Pane inner,Point pad,DrawBuf buf);
+
+   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Format format,Pane inner,Point pad,DrawBuf buf);
+
+  void draw(Book::TypeDef::Text *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
 
    void drawLine(PtrLen<const Book::TypeDef::FixedSpan> line,Format format,Pane inner,Point base,DrawBuf buf);
 
-  void draw(Book::TypeDef::FixedText *obj,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::FixedText *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
 
-  void draw(Book::TypeDef::Bitmap *obj,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::Bitmap *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
 
-  void draw(Book::TypeDef::TextList *obj,Pane inner,Point pad,DrawBuf buf);
+   void drawBullet(Format format,StrLen text,Coord bullet_len,Pane inner,Point base,DrawBuf buf);
 
-  void draw(Book::TypeDef::Collapse *obj,Pane inner,Point pad,DrawBuf buf);
+   Coord drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,Pane inner,Point base,DrawBuf buf);
 
-  void draw(Book::TypeDef::Table *obj,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Pane inner,Point pad,DrawBuf buf);
+
+   void drawPlus(Point base,Coord len_,Pane inner,DrawBuf buf);
+
+   void drawMinus(Point base,Coord len,Pane inner,DrawBuf buf);
+
+  void draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Pane inner,Point pad,DrawBuf buf);
+
+  void draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,Pane inner,Point pad,DrawBuf buf);
 
   template <class T>
-  void drawAny(T body,Pane inner,Point pad,DrawBuf buf);
+  void drawAny(T body,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
 
   // public
 
-  void operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base);
+  Coord operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base);
+
+  Point operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Pane inner,Point base);
+
+  Point operator () (PtrLen<Book::TypeDef::Frame> list,DrawBuf buf,Pane inner,Point base);
  };
 
 } // namespace DrawBook
