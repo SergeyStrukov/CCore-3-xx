@@ -544,7 +544,7 @@ struct Shape::SizeContext
 
                 dx=delta.dx;
 
-                base.y+=tdy;
+                base.y+=dy;
 
                 p=base;
 

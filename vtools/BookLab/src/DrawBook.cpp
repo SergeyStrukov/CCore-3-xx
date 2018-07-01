@@ -91,6 +91,18 @@ void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColo
     }
  }
 
+bool InsSpace(StrLen text)
+ {
+  if( text.len!=1 ) return true;
+
+  switch( *text )
+    {
+     case '.' : case ',' : case ';' : case ':' : return false;
+
+     default: return true;
+    }
+ }
+
 /* class FontMap */
 
 auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
@@ -376,14 +388,207 @@ Coord Prepare::SizeSpace(Font font)
 
  // size(Book::TypeDef::Text *)
 
-Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base) // TODO
+void Prepare::correctRefs(ulen refs_len,Coord delta_x)
  {
-  Used(obj);
-  Used(ext);
-  Used(wdx);
-  Used(base);
+  for(RefPane &ref : Range(refs).part(refs_len) )
+    {
+     ref.pane.x+=delta_x;
+    }
+ }
 
-  return Null;
+Coord Prepare::sizeSpan(Font font,Book::TypeDef::Span span,Point base)
+ {
+  TextSize ts=SizeSpan(over(font,span.fmt),span.body);
+
+  addRef(span.ref,Pane(base.subY(ts.by),ts.dx,ts.dy));
+
+  return ts.dx;
+ }
+
+auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base) -> DeltaSize
+ {
+  Font span_font=over(font,span.fmt);
+
+  Coord sdx=0;
+
+  if( InsSpace(span.body) )
+    {
+     if( prev_fmt==span.fmt )
+       {
+        sdx=SizeSpace(span_font);
+       }
+     else
+       {
+        sdx=space_dx;
+       }
+    }
+
+  TextSize ts=SizeSpan(span_font,span.body);
+
+  addRef(span.ref,Pane(base+Point(sdx,-ts.by),ts.dx,ts.dy));
+
+  return {ts.dx,ts.dx+sdx};
+ }
+
+Coord Prepare::sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> line,Point base)
+ {
+  Coord tdx=0;
+
+  if( +line )
+    {
+     tdx=sizeSpan(font,*line,base);
+
+     const Book::TypeDef::Format *fmt=line->fmt;
+
+     base.x+=tdx;
+
+     for(++line; +line ;++line)
+       {
+        Coord dx=sizeSpan(fmt,font,space_dx,*line,base).edx;
+
+        tdx+=dx;
+
+        base.x+=dx;
+
+        fmt=line->fmt;
+       }
+    }
+
+  return tdx;
+ }
+
+Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Coord wdx,Point base)
+ {
+  if( !placement ) return Null;
+
+  FontSize fs=font->getSize();
+
+  ulen refs_len=refs.getLen();
+
+  Coord dx=sizeLine(font,space_dx,range,base.addY(fs.by));
+
+  switch( placement->align )
+    {
+     case Book::LineRight :
+      {
+       Coord extra=PlusSub(wdx,dx);
+
+       Coord offx=extra;
+
+       ext->offx=offx;
+
+       correctRefs(refs_len,offx);
+      }
+     break;
+
+     case Book::LineCenter :
+      {
+       Coord extra=PlusSub(wdx,dx);
+
+       Coord offx=extra/2;
+
+       ext->offx=offx;
+
+       correctRefs(refs_len,offx);
+      }
+     break;
+
+     default: // case Book::LineLeft :
+      {
+       ext->offx=0;
+      }
+    }
+
+  return Point(Max(dx,wdx),fs.dy);
+ }
+
+Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Coord wdx,Point base)
+ {
+  if( !placement ) return Null;
+
+  FontSize fs=font->getSize();
+
+  Coord tdx=fs.dy;
+  Coord tdy=fs.dy;
+
+  Coord first_dx=Cast(placement->first_line_space)*fs.dy;
+  Coord dy=Cast(placement->line_space)*fs.dy;
+
+  ext->first_dx=first_dx;
+  ext->dy=dy;
+
+  ext->split.erase();
+
+  if( +range )
+    {
+     base.y+=fs.by;
+
+     Coord dx=sizeSpan(font,*range,base.addX(first_dx))+first_dx;
+
+     const Book::TypeDef::Format *fmt=range->fmt;
+
+     Point p=base;
+
+     p.x+=dx;
+
+     while( +range )
+       {
+        ulen len=1;
+
+        for(++range; +range ;++range,len++)
+          {
+           DeltaSize delta=sizeSpan(fmt,font,space_dx,*range,p);
+
+           fmt=range->fmt;
+
+           if( delta.edx<=wdx-dx )
+             {
+              dx+=delta.edx;
+
+              p.x+=delta.edx;
+             }
+           else
+             {
+              Replace_max(tdx,dx);
+
+              tdy+=dy;
+
+              dx=delta.dx;
+
+              base.y+=dy;
+
+              p=base;
+
+              p.x+=dx;
+
+              break;
+             }
+          }
+
+        ext->split.append_copy(len);
+       }
+
+     Replace_max(tdx,dx);
+    }
+
+  return Point(tdx,tdy);
+ }
+
+Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base)
+ {
+  if( !obj ) return Null;
+
+  Font font=use(obj->fmt);
+
+  Coord space_dx=SizeSpace(font);
+
+  auto range=obj->list.getRange();
+
+  Point ret;
+
+  obj->placement.getPtr().apply( [&] (auto *placement) { ret=size(font,space_dx,range,placement,AutoCast(ext),wdx,base); } );
+
+  return ret;
  }
 
  // size(Book::TypeDef::FixedText *)
@@ -617,18 +822,6 @@ void Draw::drawAnyLine(T line,Pane pane,DrawBuf buf)
 
  // common
 
-bool Draw::InsSpace(StrLen text)
- {
-  if( text.len!=1 ) return true;
-
-  switch( *text )
-    {
-     case '.' : case ',' : case ';' : case ':' : return false;
-
-     default: return true;
-    }
- }
-
 auto Draw::Format::over(ExtMap &map,const Book::TypeDef::Format *fmt) const -> Format
  {
   if( fmt )
@@ -804,8 +997,8 @@ void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::Mul
 
   Point base=pad.addY(fs.by);
 
-  Coord first_dx=ext->first_dx; // Cast(placement->first_line_space)*fs.dy;
-  Coord dy=ext->dy;             // Cast(placement->line_space)*fs.dy;
+  Coord first_dx=ext->first_dx;
+  Coord dy=ext->dy;
 
   PtrLen<ulen> split=Range(ext->split);
 

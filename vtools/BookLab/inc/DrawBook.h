@@ -88,6 +88,8 @@ void SetExactArrayLen(DynArray<T> &obj,ulen len)
   obj.shrink_extra();
  }
 
+bool InsSpace(StrLen text);
+
 /* classes */
 
 struct Config;
@@ -400,6 +402,24 @@ struct Prepare
 
    // size()
 
+   void correctRefs(ulen refs_len,Coord delta_x);
+
+   Coord sizeSpan(Font font,Book::TypeDef::Span span,Point base);
+
+   struct DeltaSize
+    {
+     Coord dx;
+     Coord edx;
+    };
+
+   DeltaSize sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base);
+
+   Coord sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Point base);
+
+   Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Coord wdx,Point base);
+
+   Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Coord wdx,Point base);
+
   Point size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base);
 
    Coord sizeLine(Font font,const Book::TypeDef::Line &line,Point base);
@@ -461,8 +481,6 @@ struct Draw
   void drawAnyLine(T line,Pane pane,DrawBuf buf);
 
    // common
-
-  static bool InsSpace(StrLen text);
 
   struct Format
    {
