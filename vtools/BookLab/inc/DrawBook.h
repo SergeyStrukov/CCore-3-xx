@@ -114,7 +114,13 @@ class ExtMap;
 
 template <class T> class AutoCast;
 
+struct RefPane;
+
+struct Prepare;
+
 struct Draw;
+
+class Shape;
 
 /* struct Config */
 
@@ -355,6 +361,14 @@ class AutoCast
    operator S * () const { return static_cast<S *>(ptr); }
  };
 
+/* struct RefPane */
+
+struct RefPane
+ {
+  Pane pane;
+  RefType ref;
+ };
+
 /* struct Prepare */
 
 struct Prepare
@@ -362,6 +376,7 @@ struct Prepare
   const Config &cfg;
   ExtMap &map;
   Ratio scale;
+  DynArray<RefPane> &refs;
 
   // private
 
@@ -513,6 +528,44 @@ struct Draw
   Point operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Pane inner,Point base);
 
   Point operator () (PtrLen<Book::TypeDef::Frame> list,DrawBuf buf,Pane inner,Point base);
+ };
+
+/* class Shape */
+
+class Shape
+ {
+   Book::TypeDef::Frame *frame = 0 ;
+
+   Coord down = 0 ;
+   Point size;
+
+   DynArray<RefPane> refs;
+
+  private:
+
+   void prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx);
+
+   void draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Point base) const;
+
+   bool hit(Point point) const;
+
+   RefType getRef(Point point) const;
+
+  public:
+
+   Shape() noexcept {}
+
+   Coord getDown() const { return down; }
+
+   Point getSize() const { return size; }
+
+   Point set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame,Coord wdx,Coord down);
+
+   void draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const;
+
+   bool hit(Point point,Coord pos_x,Coord pos_y) const;
+
+   RefType getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
 
 } // namespace DrawBook

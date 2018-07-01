@@ -307,10 +307,9 @@ FrameExt * FrameMap::operator () (Book::TypeDef::Frame *obj)
 
  // private
 
-void Prepare::addRef(RefType ref,Pane pane) // TODO
+void Prepare::addRef(RefType ref,Pane pane)
  {
-  Used(ref);
-  Used(pane);
+  if( +ref ) refs.append_copy({pane,ref});
  }
 
 RefType Prepare::CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref)
@@ -375,7 +374,7 @@ Coord Prepare::SizeSpace(Font font)
   return SizeSpan(font," "_c).dx;
  }
 
- // size()
+ // size(Book::TypeDef::Text *)
 
 Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base) // TODO
  {
@@ -386,6 +385,8 @@ Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base)
 
   return Null;
  }
+
+ // size(Book::TypeDef::FixedText *)
 
 Coord Prepare::sizeLine(Font font,const Book::TypeDef::Line &line,Point base)
  {
@@ -430,6 +431,8 @@ Point Prepare::size(Book::TypeDef::FixedText *obj,FrameExt *,Coord,Point base)
   return Point(dx,CountToCoord(range.len)*dy);
  }
 
+ // size(Book::TypeDef::Bitmap *)
+
 Point Prepare::size(Book::TypeDef::Bitmap *obj,FrameExt *,Coord,Point)
  {
   const Bitmap *bitmap=map(obj);
@@ -438,6 +441,8 @@ Point Prepare::size(Book::TypeDef::Bitmap *obj,FrameExt *,Coord,Point)
 
   return {CountToCoord(bitmap->dX()),CountToCoord(bitmap->dY())};
  }
+
+ // size(Book::TypeDef::TextList *)
 
 Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base) // TODO
  {
@@ -449,6 +454,8 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
   return Null;
  }
 
+ // size(Book::TypeDef::Collapse *)
+
 Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base) // TODO
  {
   Used(obj);
@@ -459,6 +466,8 @@ Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wd
   return Null;
  }
 
+ // size(Book::TypeDef::Table *)
+
 Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base) // TODO
  {
   Used(obj);
@@ -468,6 +477,8 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
 
   return Null;
  }
+
+ // sizeAny()
 
 template <class T>
 Point Prepare::sizeAny(T body,FrameExt *ext,Coord wdx,Point base)
@@ -1094,6 +1105,61 @@ Point Draw::operator () (PtrLen<Book::TypeDef::Frame> list,DrawBuf buf,Pane inne
     }
 
   return base;
+ }
+
+/* class Shape */
+
+void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx)
+ {
+  Prepare ctx{cfg,map,scale,refs};
+
+  size=ctx(frame,wdx,Null);
+ }
+
+void Shape::draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Point base) const
+ {
+  Draw ctx{cfg,map,fore};
+
+  ctx(frame,buf,base);
+ }
+
+bool Shape::hit(Point point) const
+ {
+  return point>=Null && point<size ;
+ }
+
+RefType Shape::getRef(Point point) const
+ {
+  for(auto &obj : refs ) if( obj.pane.contains(point) ) return obj.ref;
+
+  return Null;
+ }
+
+Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame_,Coord wdx,Coord down_)
+ {
+  frame=&frame_;
+  down=down_;
+
+  refs.erase();
+
+  prepare(cfg,map,scale,wdx);
+
+  return size;
+ }
+
+void Shape::draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const
+ {
+  draw(cfg,map,fore,buf,Point(pos_x,pos_y));
+ }
+
+bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const
+ {
+  return hit(point-Point(pos_x,pos_y));
+ }
+
+RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
+ {
+  return getRef(point-Point(pos_x,pos_y));
  }
 
 } // namespace DrawBook
