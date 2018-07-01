@@ -207,8 +207,8 @@ class BitmapMap : NoCopy
 
 struct FrameExt
  {
-  Point outer; // scale*Cast(frame->outer)
-  Point inner; // scale*Cast(frame->inner)
+  Point outer;
+  Point inner;
   Point size;
 
   virtual ~FrameExt() {}
@@ -377,9 +377,9 @@ struct Prepare
 
   Font useFixed(const Book::TypeDef::Format *fmt);
 
-  Font useSpan(Font font,const Book::TypeDef::Format *fmt);
+  Font over(Font font,const Book::TypeDef::Format *fmt);
 
-  static Coord SizeSpan(Font font,StrLen text);
+  static TextSize SizeSpan(Font font,StrLen text);
 
   static Coord SizeSpace(Font font);
 
@@ -387,7 +387,7 @@ struct Prepare
 
   Point size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base);
 
-   Coord sizeLine(Font font,const Book::TypeDef::Line &line,Point base,Coord dy);
+   Coord sizeLine(Font font,const Book::TypeDef::Line &line,Point base);
 
   Point size(Book::TypeDef::FixedText *obj,FrameExt *ext,Coord wdx,Point base);
 
@@ -462,6 +462,8 @@ struct Draw
   Format use(const Book::TypeDef::Format *fmt);
 
   Format useFixed(const Book::TypeDef::Format *fmt);
+
+  Format useBack(const Book::TypeDef::Format *fmt);
 
   Point drawSpan(Format format,StrLen text,Pane inner,Point base,DrawBuf buf);
 

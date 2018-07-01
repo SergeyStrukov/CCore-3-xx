@@ -353,7 +353,7 @@ Font Prepare::useFixed(const Book::TypeDef::Format *fmt)
     }
  }
 
-Font Prepare::useSpan(Font font,const Book::TypeDef::Format *fmt)
+Font Prepare::over(Font font,const Book::TypeDef::Format *fmt)
  {
   if( fmt )
     {
@@ -365,16 +365,14 @@ Font Prepare::useSpan(Font font,const Book::TypeDef::Format *fmt)
     }
  }
 
-Coord Prepare::SizeSpan(Font font,StrLen text)
+TextSize Prepare::SizeSpan(Font font,StrLen text)
  {
-  TextSize ts=font->text(text);
-
-  return ts.dx;
+  return font->text(text);
  }
 
 Coord Prepare::SizeSpace(Font font)
  {
-  return SizeSpan(font," "_c);
+  return SizeSpan(font," "_c).dx;
  }
 
  // size()
@@ -389,18 +387,18 @@ Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base)
   return Null;
  }
 
-Coord Prepare::sizeLine(Font font,const Book::TypeDef::Line &line,Point base,Coord dy)
+Coord Prepare::sizeLine(Font font,const Book::TypeDef::Line &line,Point base)
  {
   Coord ret=0;
 
   for(const Book::TypeDef::FixedSpan &span : line.getRange() )
     {
-     Coord dx=SizeSpan(useSpan(font,span.fmt),span.body);
+     TextSize ts=SizeSpan(over(font,span.fmt),span.body);
 
-     addRef(span.ref,Pane(base,dx,dy));
+     addRef(span.ref,Pane(base.subY(ts.by),ts.dx,ts.dy));
 
-     ret+=dx;
-     base.x+=dx;
+     ret+=ts.dx;
+     base.x+=ts.dx;
     }
 
   return ret;
@@ -418,11 +416,13 @@ Point Prepare::size(Book::TypeDef::FixedText *obj,FrameExt *,Coord,Point base)
 
   auto range=obj->list.getRange();
 
+  base.y+=fs.by;
+
   Coord dx=0;
 
   for(const Book::TypeDef::Line &line : range )
     {
-     dx=Max(dx,sizeLine(font,line,base,dy));
+     dx=Max(dx,sizeLine(font,line,base));
 
      base.y+=dy;
     }
@@ -689,6 +689,32 @@ auto Draw::useFixed(const Book::TypeDef::Format *fmt) -> Format
   return ret;
  }
 
+auto Draw::useBack(const Book::TypeDef::Format *fmt) -> Format
+ {
+  Format ret;
+
+  if( fmt )
+    {
+     ret.font=map(fmt->font,+cfg.font);
+
+     ret.back=CastColor(fmt->back);
+     ret.fore=Combine(fmt->fore,fore);
+
+     ret.effect=fmt->effect;
+    }
+  else
+    {
+     ret.font=+cfg.font;
+
+     ret.back=Book::NoColor;
+     ret.fore=fore;
+
+     ret.effect=Book::NoEffect;
+    }
+
+  return ret;
+ }
+
 Point Draw::drawSpan(Format format,StrLen text,Pane inner,Point base,DrawBuf buf)
  {
   TextSize ts=format.font->text(text);
@@ -887,7 +913,7 @@ void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Pane inner,P
 
   FrameExt_TextList::Delta *delta=ext->delta.getPtr();
 
-  Format format=use(obj->bullet_fmt);
+  Format format=useBack(obj->bullet_fmt);
 
   Point base=pad;
 
@@ -977,7 +1003,7 @@ void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Pane inner,P
   Coord len=ext->len;
   Coord elen=BoxExt(len);
 
-  Format format=use(obj->collapse_fmt);
+  Format format=useBack(obj->collapse_fmt);
 
   if( obj->open )
     {
