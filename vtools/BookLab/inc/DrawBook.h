@@ -43,28 +43,6 @@ inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(
 
 /* functions */
 
-inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
- {
-  VColor vc=CastColor(vc_);
-
-  if( vc!=Book::NoColor ) return vc;
-
-  return fallback;
- }
-
-inline void Combine(VColor &dst,Book::TypeDef::VColor vc_)
- {
-  VColor vc=CastColor(vc_);
-
-  if( vc!=Book::NoColor ) dst=vc;
- }
-
-Point StackY(Point a,Point b);
-
-void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back);
-
-void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width);
-
 template <class T>
 void SetArrayLen(DynArray<T> &obj,ulen len)
  {
@@ -88,7 +66,20 @@ void SetExactArrayLen(DynArray<T> &obj,ulen len)
   obj.shrink_extra();
  }
 
+inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
+ {
+  VColor vc=CastColor(vc_);
+
+  if( vc!=Book::NoColor ) return vc;
+
+  return fallback;
+ }
+
+Point StackY(Point a,Point b);
+
 bool InsSpace(StrLen text);
+
+inline Pane TextPane(Point base,TextSize ts) { return Pane(base.x,base.y-ts.by,ts.dx,ts.dy); }
 
 /* classes */
 
@@ -119,6 +110,8 @@ template <class T> class AutoCast;
 struct RefPane;
 
 struct Prepare;
+
+struct DrawOut;
 
 struct Draw;
 
@@ -233,8 +226,8 @@ struct FrameExt_OneLine : FrameExt
 
 struct FrameExt_MultiLine : FrameExt
  {
-  Coord first_dx = 0 ; // Cast(placement->first_line_space)*fs.dy
-  Coord dy = 0 ;       // Cast(placement->line_space)*fs.dy
+  Coord first_dx = 0 ;
+  Coord dy       = 0 ;
   DynArray<ulen> split;
  };
 
@@ -242,9 +235,9 @@ struct FrameExt_MultiLine : FrameExt
 
 struct FrameExt_TextList : FrameExt
  {
-  Coord bullet_len = 0 ;
+  Coord bullet_len   = 0 ;
   Coord bullet_space = 0 ; // scale*Coord(obj->bullet_space)
-  Coord item_space = 0 ;   // scale*Coord(obj->item_space)
+  Coord item_space   = 0 ; // scale*Coord(obj->item_space)
 
   struct Delta
    {
@@ -442,6 +435,35 @@ struct Prepare
   Point operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base);
  };
 
+/* struct DrawOut */
+
+struct DrawOut
+ {
+  DrawBuf buf;
+  Pane pane;
+  Point base;
+
+  Point fullBase() const { return pane.getBase()+base; }
+
+  DrawOut addX(Coord dx) const { return {buf,pane,base.addX(dx)}; }
+
+  DrawOut addY(Coord dy) const { return {buf,pane,base.addY(dy)}; }
+
+  DrawOut add(Coord dx,Coord dy) const { return {buf,pane,base+Point(dx,dy)}; }
+
+  void back(TextSize ts,VColor back);
+
+  void effect(TextSize ts,Effect effect,VColor fore,MCoord width);
+
+  void text(Font font,StrLen text,VColor fore);
+
+  void bitmap(const Bitmap *bitmap);
+
+  void drawPlus(const Config &cfg,Coord len);
+
+  void drawMinus(const Config &cfg,Coord len);
+ };
+
 /* struct Draw */
 
 struct Draw
@@ -498,54 +520,52 @@ struct Draw
 
   Format useBack(const Book::TypeDef::Format *fmt);
 
-  Point drawSpan(Format format,StrLen text,Pane inner,Point base,DrawBuf buf);
+  Point drawSpan(Format format,StrLen text,DrawOut out);
 
-  Point drawSpace(Format format,Pane inner,Point base,DrawBuf buf);
+  Point drawSpace(Format format,DrawOut out);
 
    // draw()
 
-   Point drawSpan(Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf);
+   Point drawSpan(Format format,Book::TypeDef::Span span,DrawOut out);
 
-   Point drawSpan(const Book::TypeDef::Format *prev_fmt,Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf);
+   Point drawSpan(const Book::TypeDef::Format *prev_fmt,Format format,Book::TypeDef::Span span,DrawOut out);
 
-   void drawLine(PtrLen<const Book::TypeDef::Span> line,Format format,Pane inner,Point base,DrawBuf buf);
+   void drawLine(Format format,PtrLen<const Book::TypeDef::Span> line,DrawOut out);
 
-   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Format format,Pane inner,Point pad,DrawBuf buf);
+   void draw(Format format,PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,DrawOut out);
 
-   void draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Format format,Pane inner,Point pad,DrawBuf buf);
+   void draw(Format format,PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,DrawOut out);
 
-  void draw(Book::TypeDef::Text *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::Text *obj,FrameExt *ext,DrawOut out);
 
-   void drawLine(PtrLen<const Book::TypeDef::FixedSpan> line,Format format,Pane inner,Point base,DrawBuf buf);
+   void drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,DrawOut out);
 
-  void draw(Book::TypeDef::FixedText *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::FixedText *obj,FrameExt *ext,DrawOut out);
 
-  void draw(Book::TypeDef::Bitmap *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::Bitmap *obj,FrameExt *ext,DrawOut out);
 
-   void drawBullet(Format format,StrLen text,Coord bullet_len,Pane inner,Point base,DrawBuf buf);
+   void drawBullet(Format format,StrLen text,Coord bullet_len,DrawOut out);
 
-   Coord drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,Pane inner,Point base,DrawBuf buf);
+   Coord drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,DrawOut out);
 
-  void draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,DrawOut out);
 
-   void drawPlus(Point base,Coord len_,Pane inner,DrawBuf buf);
+  void draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,DrawOut out);
 
-   void drawMinus(Point base,Coord len,Pane inner,DrawBuf buf);
-
-  void draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Pane inner,Point pad,DrawBuf buf);
-
-  void draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,Pane inner,Point pad,DrawBuf buf);
+  void draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,DrawOut out);
 
   template <class T>
-  void drawAny(T body,FrameExt *ext,Pane inner,Point pad,DrawBuf buf);
+  void drawAny(T body,FrameExt *ext,DrawOut out);
+
+   // frame
+
+  Point operator () (Book::TypeDef::Frame *frame,DrawOut out);
+
+  Point operator () (PtrLen<Book::TypeDef::Frame> list,DrawOut out);
 
   // public
 
   Coord operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base);
-
-  Point operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Pane inner,Point base);
-
-  Point operator () (PtrLen<Book::TypeDef::Frame> list,DrawBuf buf,Pane inner,Point base);
  };
 
 /* class Shape */

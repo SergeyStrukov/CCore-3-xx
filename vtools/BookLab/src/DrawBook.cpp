@@ -37,60 +37,6 @@ Point StackY(Point a,Point b)
   return Point( Max(a.x,b.x) , y );
  }
 
-void FillBack(DrawBuf buf,Pane pane,Point base,TextSize ts,VColor back)
- {
-  SmoothDrawArt art(buf.cutRebase(pane));
-
-  MCoord skew=Fraction(ts.skew);
-
-  Pane text(base.x,base.y-ts.by,ts.dx,ts.dy);
-
-  MPane p(text);
-
-  if( skew )
-    {
-     MCoord delta=Div(ts.dy-ts.by,ts.dy)*skew;
-
-     p+=MPoint(-delta,0);
-    }
-
-  FigureSkew fig(p,skew);
-
-  fig.solid(art,back);
- }
-
-void MakeEffect(DrawBuf buf,Pane pane,Point base,TextSize ts,Effect effect,VColor fore,MCoord width)
- {
-  switch( effect )
-    {
-     case Book::Underline :
-      {
-       SmoothDrawArt art(buf.cutRebase(pane));
-
-       Coord delta=(ts.dy-ts.by)/2;
-
-       MPoint a=MPoint(base.addY(delta));
-       MPoint b=a.addX(Fraction(ts.dx));
-
-       art.path(width,fore,a,b);
-      }
-     break;
-
-     case Book::Strikeout :
-      {
-       SmoothDrawArt art(buf.cutRebase(pane));
-
-       Coord delta=ts.by-ts.dy/2;
-
-       MPoint a=MPoint(base.subY(delta));
-       MPoint b=a.addX(Fraction(ts.dx));
-
-       art.path(width,fore,a,b);
-      }
-     break;
-    }
- }
-
 bool InsSpace(StrLen text)
  {
   if( text.len!=1 ) return true;
@@ -717,6 +663,139 @@ Point Prepare::operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base)
   return size;
  }
 
+/* struct DrawOut */
+
+void DrawOut::back(TextSize ts,VColor back)
+ {
+  SmoothDrawArt art(buf.cutRebase(pane));
+
+  MCoord skew=Fraction(ts.skew);
+
+  MPane p(TextPane(base,ts));
+
+  if( skew )
+    {
+     MCoord delta=Div(ts.dy-ts.by,ts.dy)*skew;
+
+     p+=MPoint(-delta,0);
+    }
+
+  FigureSkew fig(p,skew);
+
+  fig.solid(art,back);
+ }
+
+void DrawOut::effect(TextSize ts,Effect effect,VColor fore,MCoord width)
+ {
+  switch( effect )
+    {
+     case Book::Underline :
+      {
+       SmoothDrawArt art(buf.cutRebase(pane));
+
+       Coord delta=(ts.dy-ts.by)/2;
+
+       MPoint a=MPoint(base.addY(delta));
+       MPoint b=a.addX(Fraction(ts.dx));
+
+       art.path(width,fore,a,b);
+      }
+     break;
+
+     case Book::Strikeout :
+      {
+       SmoothDrawArt art(buf.cutRebase(pane));
+
+       Coord delta=ts.by-ts.dy/2;
+
+       MPoint a=MPoint(base.subY(delta));
+       MPoint b=a.addX(Fraction(ts.dx));
+
+       art.path(width,fore,a,b);
+      }
+     break;
+    }
+ }
+
+void DrawOut::text(Font font,StrLen text,VColor fore)
+ {
+  font->text(buf,pane,base,text,fore);
+ }
+
+void DrawOut::bitmap(const Bitmap *bitmap)
+ {
+  if( !bitmap ) return;
+
+  bitmap->draw(buf,pane.shrink(base));
+ }
+
+void DrawOut::drawPlus(const Config &cfg,Coord len_)
+ {
+  MPane p(Pane(base,len_));
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf.cutRebase(pane));
+
+  // center and radius
+
+  MCoord len=p.dx;
+  MCoord radius=len/2;
+
+  MPoint center=p.getCenter();
+
+  VColor gray=+cfg.gray;
+
+  // body
+
+  VColor top=+cfg.snow;
+
+  art.ball(center,radius,YField(p.y,top,p.ey,gray));
+
+  // face
+
+  VColor fc=+cfg.face;
+
+  MCoord a=radius/2;
+  MCoord w=radius/3;
+
+  art.path(w,fc,center.subX(a),center.addX(a));
+  art.path(w,fc,center.subY(a),center.addY(a));
+ }
+
+void DrawOut::drawMinus(const Config &cfg,Coord len_)
+ {
+  MPane p(Pane(base,len_));
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf.cutRebase(pane));
+
+  // center and radius
+
+  MCoord len=p.dx;
+  MCoord radius=len/2;
+
+  MPoint center=p.getCenter();
+
+  VColor gray=+cfg.gray;
+
+  // body
+
+  VColor top=+cfg.snow;
+
+  art.ball(center,radius,YField(p.y,top,p.ey,gray));
+
+  // face
+
+  VColor fc=+cfg.face;
+
+  MCoord a=radius/2;
+  MCoord w=radius/3;
+
+  art.path(w,fc,center.subX(a),center.addX(a));
+ }
+
 /* struct Draw */
 
  // GetAnyBack()
@@ -919,32 +998,32 @@ auto Draw::useBack(const Book::TypeDef::Format *fmt) -> Format
   return ret;
  }
 
-Point Draw::drawSpan(Format format,StrLen text,Pane inner,Point base,DrawBuf buf)
+Point Draw::drawSpan(Format format,StrLen text,DrawOut out)
  {
   TextSize ts=format.font->text(text);
 
-  if( format.back!=Book::NoColor ) FillBack(buf,inner,base,ts,format.back);
+  if( format.back!=Book::NoColor ) out.back(ts,format.back);
 
-  if( format.effect ) MakeEffect(buf,inner,base,ts,format.effect,format.fore,+cfg.width);
+  if( format.effect ) out.effect(ts,format.effect,format.fore,+cfg.width);
 
-  format.font->text(buf,inner,base,text,format.fore);
+  out.text(format.font,text,format.fore);
 
-  return base.addX(ts.dx);
+  return out.base.addX(ts.dx);
  }
 
-Point Draw::drawSpace(Format format,Pane inner,Point base,DrawBuf buf)
+Point Draw::drawSpace(Format format,DrawOut out)
  {
-  return drawSpan(format," "_c,inner,base,buf);
+  return drawSpan(format," "_c,out);
  }
 
  // draw(Book::TypeDef::Text *)
 
-Point Draw::drawSpan(Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf)
+Point Draw::drawSpan(Format format,Book::TypeDef::Span span,DrawOut out)
  {
-  return drawSpan(format.over(map,span.fmt),span.body,inner,base,buf);
+  return drawSpan(format.over(map,span.fmt),span.body,out);
  }
 
-Point Draw::drawSpan(const Book::TypeDef::Format *prev_fmt,Book::TypeDef::Span span,Format format,Pane inner,Point base,DrawBuf buf)
+Point Draw::drawSpan(const Book::TypeDef::Format *prev_fmt,Format format,Book::TypeDef::Span span,DrawOut out)
  {
   Format span_format=format.over(map,span.fmt);
 
@@ -952,50 +1031,50 @@ Point Draw::drawSpan(const Book::TypeDef::Format *prev_fmt,Book::TypeDef::Span s
     {
      if( prev_fmt==span.fmt )
        {
-        base=drawSpace(span_format,inner,base,buf);
+        out.base=drawSpace(span_format,out);
        }
      else
        {
-        base=drawSpace(format,inner,base,buf);
+        out.base=drawSpace(format,out);
        }
     }
 
-  return drawSpan(span_format,span.body,inner,base,buf);
+  return drawSpan(span_format,span.body,out);
  }
 
-void Draw::drawLine(PtrLen<const Book::TypeDef::Span> line,Format format,Pane inner,Point base,DrawBuf buf)
+void Draw::drawLine(Format format,PtrLen<const Book::TypeDef::Span> line,DrawOut out)
  {
   if( +line )
     {
-     base=drawSpan(*line,format,inner,base,buf);
+     out.base=drawSpan(format,*line,out);
 
      const Book::TypeDef::Format *fmt=line->fmt;
 
      for(++line; +line ;++line)
        {
-        base=drawSpan(fmt,*line,format,inner,base,buf);
+        out.base=drawSpan(fmt,format,*line,out);
 
         fmt=line->fmt;
        }
     }
  }
 
-void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Format format,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Format format,PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,DrawOut out)
  {
   if( !placement ) return;
 
   FontSize fs=format.font->getSize();
 
-  drawLine(range,format,inner,pad+Point(ext->offx,fs.by),buf);
+  drawLine(format,range,out.add(ext->offx,fs.by));
  }
 
-void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Format format,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Format format,PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,DrawOut out)
  {
   if( !placement ) return;
 
   FontSize fs=format.font->getSize();
 
-  Point base=pad.addY(fs.by);
+  out.base.y+=fs.by;
 
   Coord first_dx=ext->first_dx;
   Coord dy=ext->dy;
@@ -1013,9 +1092,9 @@ void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::Mul
 
       off+=len;
 
-      drawLine(part,format,inner,base.addX(first_dx),buf);
+      drawLine(format,part,out.addX(first_dx));
 
-      base.y+=dy;
+      out.base.y+=dy;
      }
 
      for(ulen len : split.part(1) )
@@ -1024,14 +1103,14 @@ void Draw::draw(PtrLen<const Book::TypeDef::Span> range,const Book::TypeDef::Mul
 
         off+=len;
 
-        drawLine(part,format,inner,base,buf);
+        drawLine(format,part,out);
 
-        base.y+=dy;
+        out.base.y+=dy;
        }
     }
  }
 
-void Draw::draw(Book::TypeDef::Text *obj,FrameExt *ext,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Book::TypeDef::Text *obj,FrameExt *ext,DrawOut out)
  {
   if( !obj ) return;
 
@@ -1039,20 +1118,20 @@ void Draw::draw(Book::TypeDef::Text *obj,FrameExt *ext,Pane inner,Point pad,Draw
 
   auto range=obj->list.getRange();
 
-  obj->placement.getPtr().apply( [&] (auto *placement) { draw(range,placement,AutoCast(ext),format,inner,pad,buf); } );
+  obj->placement.getPtr().apply( [&] (auto *placement) { draw(format,range,placement,AutoCast(ext),out); } );
  }
 
  // draw(Book::TypeDef::FixedText *)
 
-void Draw::drawLine(PtrLen<const Book::TypeDef::FixedSpan> line,Format format,Pane inner,Point base,DrawBuf buf)
+void Draw::drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,DrawOut out)
  {
   for(const Book::TypeDef::FixedSpan &span : line )
     {
-     base=drawSpan(format.over(map,span.fmt),span.body,inner,base,buf);
+     out.base=drawSpan(format.over(map,span.fmt),span.body,out);
     }
  }
 
-void Draw::draw(Book::TypeDef::FixedText *obj,FrameExt *,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Book::TypeDef::FixedText *obj,FrameExt *,DrawOut out)
  {
   if( !obj ) return;
 
@@ -1060,54 +1139,50 @@ void Draw::draw(Book::TypeDef::FixedText *obj,FrameExt *,Pane inner,Point pad,Dr
 
   FontSize fs=format.font->getSize();
 
-  Point base=pad.addY(fs.by);
+  out.base.y+=fs.by;
 
   Coord dy=fs.dy;
 
   for(const Book::TypeDef::Line &line : obj->list.getRange() )
     {
-     drawLine(line.getRange(),format,inner,base,buf);
+     drawLine(format,line.getRange(),out);
 
-     base.y+=dy;
+     out.base.y+=dy;
     }
  }
 
  // draw(Book::TypeDef::Bitmap *)
 
-void Draw::draw(Book::TypeDef::Bitmap *obj,FrameExt *,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Book::TypeDef::Bitmap *obj,FrameExt *,DrawOut out)
  {
-  const Bitmap *bitmap=map(obj);
-
-  if( !bitmap ) return;
-
-  bitmap->draw(buf,inner.shrink(pad));
+  out.bitmap(map(obj));
  }
 
  // draw(Book::TypeDef::TextList *)
 
-void Draw::drawBullet(Format format,StrLen text,Coord bullet_len,Pane inner,Point base,DrawBuf buf)
+void Draw::drawBullet(Format format,StrLen text,Coord bullet_len,DrawOut out)
  {
   TextSize ts=format.font->text(text);
 
-  base.x+=bullet_len-ts.dx;
+  out.base.x+=bullet_len-ts.dx;
 
-  if( format.back!=Book::NoColor ) FillBack(buf,inner,base,ts,format.back);
+  if( format.back!=Book::NoColor ) out.back(ts,format.back);
 
-  if( format.effect ) MakeEffect(buf,inner,base,ts,format.effect,format.fore,+cfg.width);
+  if( format.effect ) out.effect(ts,format.effect,format.fore,+cfg.width);
 
-  format.font->text(buf,inner,base,text,format.fore);
+  out.text(format.font,text,format.fore);
  }
 
-Coord Draw::drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,Pane inner,Point base,DrawBuf buf)
+Coord Draw::drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,DrawOut out)
  {
-  drawBullet(format,item.bullet,bullet_len,inner,base.addY(delta.by1),buf);
+  drawBullet(format,item.bullet,bullet_len,out.addY(delta.by1));
 
-  Point ebase=(*this)(item.list,buf,inner,base+Point(bullet_len+bullet_space,delta.by2));
+  Point ebase=(*this)(item.list,out.add(bullet_len+bullet_space,delta.by2));
 
-  return Max_cast(delta.dy1,ebase.y-base.y);
+  return Max_cast(delta.dy1,ebase.y-out.base.y);
  }
 
-void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,DrawOut out)
  {
   if( !obj ) return;
 
@@ -1119,88 +1194,19 @@ void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Pane inner,P
 
   Format format=useBack(obj->bullet_fmt);
 
-  Point base=pad;
-
   auto list=obj->list.getRange();
 
   for(ulen i=0; i<list.len ;i++)
     {
-     Coord dy=drawItem(format,list[i],delta[i],bullet_len,bullet_space,inner,base,buf);
+     Coord dy=drawItem(format,list[i],delta[i],bullet_len,bullet_space,out);
 
-     base.y+=(dy+item_space);
+     out.base.y+=(dy+item_space);
     }
  }
 
  // draw(Book::TypeDef::Collapse *)
 
-void Draw::drawPlus(Point base,Coord len_,Pane inner,DrawBuf buf)
- {
-  MPane p(Pane(base,len_));
-
-  if( !p ) return;
-
-  SmoothDrawArt art(buf.cutRebase(inner));
-
-  // center and radius
-
-  MCoord len=p.dx;
-  MCoord radius=len/2;
-
-  MPoint center=p.getCenter();
-
-  VColor gray=+cfg.gray;
-
-  // body
-
-  VColor top=+cfg.snow;
-
-  art.ball(center,radius,YField(p.y,top,p.ey,gray));
-
-  // face
-
-  VColor fc=+cfg.face;
-
-  MCoord a=radius/2;
-  MCoord w=radius/3;
-
-  art.path(w,fc,center.subX(a),center.addX(a));
-  art.path(w,fc,center.subY(a),center.addY(a));
- }
-
-void Draw::drawMinus(Point base,Coord len_,Pane inner,DrawBuf buf)
- {
-  MPane p(Pane(base,len_));
-
-  if( !p ) return;
-
-  SmoothDrawArt art(buf.cutRebase(inner));
-
-  // center and radius
-
-  MCoord len=p.dx;
-  MCoord radius=len/2;
-
-  MPoint center=p.getCenter();
-
-  VColor gray=+cfg.gray;
-
-  // body
-
-  VColor top=+cfg.snow;
-
-  art.ball(center,radius,YField(p.y,top,p.ey,gray));
-
-  // face
-
-  VColor fc=+cfg.face;
-
-  MCoord a=radius/2;
-  MCoord w=radius/3;
-
-  art.path(w,fc,center.subX(a),center.addX(a));
- }
-
-void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Pane inner,Point pad,DrawBuf buf)
+void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,DrawOut out)
  {
   if( !obj ) return;
 
@@ -1211,44 +1217,61 @@ void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Pane inner,P
 
   if( obj->open )
     {
-     drawMinus(pad,len,inner,buf);
+     out.drawMinus(cfg,len);
 
      if( !obj->hide )
        {
         Coord by=format.font->getSize().by;
 
-        drawSpan(format,obj->title,inner,pad+Point(elen,by),buf);
+        drawSpan(format,obj->title,out.add(elen,by));
        }
 
-     (*this)(obj->list,buf,inner,pad.addY(elen));
+     (*this)(obj->list,out.addY(elen));
     }
   else
     {
      Coord by=format.font->getSize().by;
 
-     drawPlus(pad,len,inner,buf);
+     out.drawPlus(cfg,len);
 
-     drawSpan(format,obj->title,inner,pad+Point(elen,by),buf);
+     drawSpan(format,obj->title,out.add(elen,by));
     }
  }
 
  // draw(Book::TypeDef::Table *)
 
-void Draw::draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,Pane inner,Point pad,DrawBuf buf) // TODO
+void Draw::draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,DrawOut out) // TODO
  {
   Used(obj);
   Used(ext);
-  Used(inner);
-  Used(pad);
-  Used(buf);
+  Used(out);
  }
 
  // drawAny()
 
 template <class T>
-void Draw::drawAny(T body,FrameExt *ext,Pane inner,Point pad,DrawBuf buf)
+void Draw::drawAny(T body,FrameExt *ext,DrawOut out)
  {
-  body.apply( [&] (auto *obj) { draw(obj,AutoCast(ext),inner,pad,buf); } );
+  body.apply( [&] (auto *obj) { draw(obj,AutoCast(ext),out); } );
+ }
+
+ // frame
+
+Point Draw::operator () (Book::TypeDef::Frame *frame,DrawOut out)
+ {
+  Coord dy=(*this)(frame,out.buf,out.fullBase());
+
+  return out.base.addY(dy);
+ }
+
+Point Draw::operator () (PtrLen<Book::TypeDef::Frame> list,DrawOut out)
+ {
+  for(Book::TypeDef::Frame &frame : list )
+    {
+     out.base=(*this)(&frame,out);
+    }
+
+  return out.base;
  }
 
  // public
@@ -1278,26 +1301,9 @@ Coord Draw::operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base)
 
   drawAnyLine(frame->line.getPtr(),inner,buf);
 
-  drawAny(frame->body.getPtr(),ext,inner,ext->inner,buf.cut(inner));
+  drawAny(frame->body.getPtr(),ext,{buf.cut(inner),inner,ext->inner});
 
   return ext->size.y;
- }
-
-Point Draw::operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Pane inner,Point base)
- {
-  Coord dy=(*this)(frame,buf,inner.getBase()+base);
-
-  return base.addY(dy);
- }
-
-Point Draw::operator () (PtrLen<Book::TypeDef::Frame> list,DrawBuf buf,Pane inner,Point base)
- {
-  for(Book::TypeDef::Frame &frame : list )
-    {
-     base=(*this)(&frame,buf,inner,base);
-    }
-
-  return base;
  }
 
 /* class Shape */
