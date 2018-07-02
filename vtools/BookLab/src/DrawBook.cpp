@@ -450,6 +450,8 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
 
 Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Coord wdx,Point base)
  {
+  ext->split.erase();
+
   if( !placement ) return Null;
 
   FontSize fs=font->getSize();
@@ -462,8 +464,6 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
 
   ext->first_dx=first_dx;
   ext->dy=dy;
-
-  ext->split.erase();
 
   if( +range )
     {
@@ -596,26 +596,210 @@ Point Prepare::size(Book::TypeDef::Bitmap *obj,FrameExt *,Coord,Point)
 
  // size(Book::TypeDef::TextList *)
 
-Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base) // TODO
+Coord Prepare::sizeBullet(Font font,StrLen text)
  {
-  Used(obj);
-  Used(ext);
-  Used(wdx);
-  Used(base);
+  return SizeSpan(font,text).dx;
+ }
 
-  return Null;
+auto Prepare::getBase(Book::TypeDef::Text *obj) -> ItemBase
+ {
+  if( obj ) return {use(obj->fmt)->getSize().by,true};
+
+  return {};
+ }
+
+auto Prepare::getBase(Book::TypeDef::FixedText *obj) -> ItemBase
+ {
+  if( obj ) return {useFixed(obj->fmt)->getSize().by,true};
+
+  return {};
+ }
+
+auto Prepare::getBase(Book::TypeDef::Bitmap *) -> ItemBase { return {}; }
+
+auto Prepare::getBase(Book::TypeDef::TextList *obj) -> ItemBase
+ {
+  if( obj )
+    {
+     auto list=obj->list.getRange();
+
+     if( !list.len ) return {};
+
+     FontSize fs=use(obj->bullet_fmt)->getSize();
+
+     auto item=list[0];
+
+     {
+      auto list=item.list.getRange();
+
+      Coord by1=fs.by;
+
+      if( +list )
+        {
+         ItemBase base=getBase(list.ptr);
+
+         if( base.ok )
+           {
+            if( base.by>by1 )
+              {
+               by1=base.by;
+              }
+           }
+        }
+
+      return {by1,true};
+     }
+    }
+
+  return {};
+ }
+
+auto Prepare::getBase(Book::TypeDef::Collapse *obj) -> ItemBase
+ {
+  if( obj ) return {use(obj->collapse_fmt)->getSize().by,true};
+
+  return {};
+ }
+
+auto Prepare::getBase(Book::TypeDef::Table *) -> ItemBase { return {}; }
+
+auto Prepare::getBase(Book::TypeDef::Frame *frame) -> ItemBase
+ {
+  ItemBase ret;
+
+  frame->body.getPtr().apply( [&] (auto *obj) { ret=getBase(obj); } );
+
+  if( ret.ok ) ret.by+=scale*CastCoord(frame->inner.y)+scale*CastCoord(frame->outer.y);
+
+  return ret;
+ }
+
+Point Prepare::sizeItem(FontSize fs,Book::TypeDef::ListItem item,FrameExt_TextList::Delta &delta,Coord bullet_dx,Coord wdx,Point base)
+ {
+  auto list=item.list.getRange();
+
+  Coord by1=fs.by;
+  Coord dy1=fs.dy;
+  Coord by2=0;
+
+  if( +list )
+    {
+     ItemBase base=getBase(list.ptr);
+
+     if( base.ok )
+       {
+        if( base.by>by1 )
+          {
+           dy1+=(base.by-by1);
+           by1=base.by;
+          }
+        else
+          {
+           by2=by1-base.by;
+          }
+       }
+    }
+
+  delta.by1=by1;
+  delta.dy1=dy1;
+  delta.by2=by2;
+
+  Point s=(*this)(list,wdx,base+Point(bullet_dx,by2));
+
+  return {AddSize(bullet_dx,s.x),Max(dy1,AddSize(by2,s.y))};
+ }
+
+Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base)
+ {
+  if( !obj )
+    {
+     ext->delta.erase();
+
+     return Null;
+    }
+
+  auto list=obj->list.getRange();
+
+  SetExactArrayLen(ext->delta,list.len);
+
+  if( !list.len ) return Null;
+
+  Font font=use(obj->bullet_fmt);
+
+  Coord bullet_len = 0 ;
+
+  for(auto &item : list ) Replace_max(bullet_len,sizeBullet(font,item.bullet));
+
+  Coord bullet_space=scale*Coord(obj->bullet_space);
+
+  Coord item_space=scale*Coord(obj->item_space);
+
+  ext->bullet_len=bullet_len;
+  ext->bullet_space=bullet_space;
+  ext->item_space=item_space;
+
+  Point ret(0,MulSize(list.len-1,item_space));
+
+  FrameExt_TextList::Delta *delta=ext->delta.getPtr();
+
+  Coord bullet_dx=AddSize(bullet_len,bullet_space);
+
+  wdx-=bullet_dx;
+
+  FontSize fs=font->getSize();
+
+  for(ulen i=0; i<list.len ;i++)
+    {
+     Point s=sizeItem(fs,list[i],delta[i],bullet_dx,wdx,base);
+
+     ret=StackY(ret,s);
+
+     base.y+=(s.y+item_space);
+    }
+
+  return ret;
  }
 
  // size(Book::TypeDef::Collapse *)
 
-Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base) // TODO
+Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base)
  {
-  Used(obj);
-  Used(ext);
-  Used(wdx);
-  Used(base);
+  if( !obj ) return Null;
 
-  return Null;
+  Font font=use(obj->collapse_fmt);
+
+  Coord len=font->getSize().dy;
+  Coord elen=BoxExt(len);
+
+  ext->len=len;
+
+  addRef(RefType(obj),Pane(base,len));
+
+  if( obj->open )
+    {
+     Point ret;
+
+     if( obj->hide )
+       {
+        ret={len,elen};
+       }
+     else
+       {
+        Coord tx=SizeSpan(font,obj->title).dx;
+
+        ret={AddSize(elen,tx),elen};
+       }
+
+     Point s=(*this)(obj->list,wdx,base.addY(elen));
+
+     return StackY(ret,s);
+    }
+  else
+    {
+     Coord tx=SizeSpan(font,obj->title).dx;
+
+     return {AddSize(elen,tx),elen};
+    }
  }
 
  // size(Book::TypeDef::Table *)
@@ -638,6 +822,24 @@ Point Prepare::sizeAny(T body,FrameExt *ext,Coord wdx,Point base)
   Point ret=Null;
 
   body.apply( [&] (auto *obj) { ret=size(obj,AutoCast(ext),wdx,base); } );
+
+  return ret;
+ }
+
+ // frame
+
+Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point base)
+ {
+  Point ret=Null;
+
+  for(Book::TypeDef::Frame &frame : list )
+    {
+     Point s=(*this)(&frame,wdx,base);
+
+     ret=StackY(ret,s);
+
+     base.y+=s.y;
+    }
 
   return ret;
  }

@@ -703,7 +703,7 @@ struct Shape::SizeContext
 
     if( !list.len ) return Null;
 
-    Font font=useSpan(obj->bullet_fmt);
+    use(obj->bullet_fmt);
 
     ulen total=0;
 
@@ -748,7 +748,7 @@ struct Shape::SizeContext
        return Null;
       }
 
-    Font font=useSpan(obj->collapse_fmt);
+    use(obj->collapse_fmt);
 
     len=font->getSize().dy;
 

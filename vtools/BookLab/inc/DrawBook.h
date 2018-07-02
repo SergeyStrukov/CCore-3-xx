@@ -259,8 +259,8 @@ struct FrameExt_MultiLine : FrameExt
 struct FrameExt_TextList : FrameExt
  {
   Coord bullet_len   = 0 ;
-  Coord bullet_space = 0 ; // scale*Coord(obj->bullet_space)
-  Coord item_space   = 0 ; // scale*Coord(obj->item_space)
+  Coord bullet_space = 0 ;
+  Coord item_space   = 0 ;
 
   struct Delta
    {
@@ -444,6 +444,30 @@ struct Prepare
 
   Point size(Book::TypeDef::Bitmap *obj,FrameExt *ext,Coord wdx,Point base);
 
+   Coord sizeBullet(Font font,StrLen text);
+
+   struct ItemBase
+    {
+     Coord by = 0 ;
+     bool ok = false ;
+    };
+
+   ItemBase getBase(Book::TypeDef::Text *obj);
+
+   ItemBase getBase(Book::TypeDef::FixedText *obj);
+
+   ItemBase getBase(Book::TypeDef::Bitmap *obj);
+
+   ItemBase getBase(Book::TypeDef::TextList *obj);
+
+   ItemBase getBase(Book::TypeDef::Collapse *obj);
+
+   ItemBase getBase(Book::TypeDef::Table *obj);
+
+   ItemBase getBase(Book::TypeDef::Frame *frame);
+
+   Point sizeItem(FontSize fs,Book::TypeDef::ListItem item,FrameExt_TextList::Delta &delta,Coord bullet_dx,Coord wdx,Point base);
+
   Point size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base);
 
   Point size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base);
@@ -452,6 +476,10 @@ struct Prepare
 
   template <class T>
   Point sizeAny(T body,FrameExt *ext,Coord wdx,Point base);
+
+   // frame
+
+  Point operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point base);
 
   // public
 
