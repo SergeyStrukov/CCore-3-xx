@@ -41,9 +41,13 @@ inline Point Cast(Book::TypeDef::Point p) { return {CastCoord(p.x),CastCoord(p.y
 
 inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(r.b)); }
 
-/* size functions */
+/* guard functions */
 
 void GuardSizeOverflow(const char *name);
+
+void GuardLocked();
+
+/* size functions */
 
 Coord AddSize(Coord a,Coord b);
 
@@ -106,6 +110,12 @@ T CastAnyPtr(S obj)
 
 /* classes */
 
+template <class T> class AutoCast;
+
+template <UIntType UInt> class LockUse;
+
+template <class T> struct MatrixSpan;
+
 struct Config;
 
 class BitmapMap;
@@ -122,13 +132,13 @@ struct FrameExt_TextList;
 
 struct FrameExt_Collapse;
 
+struct TableDesc;
+
 struct FrameExt_Table;
 
 class FrameMap;
 
 class ExtMap;
-
-template <class T> class AutoCast;
 
 struct RefPane;
 
@@ -139,6 +149,48 @@ struct DrawOut;
 struct Draw;
 
 class Shape;
+
+/* class AutoCast<T> */
+
+template <class T>
+class AutoCast
+ {
+   T *ptr;
+
+  public:
+
+   explicit AutoCast(T *ptr_) : ptr(ptr_) {}
+
+   template <class S>
+   operator S * () const { return static_cast<S *>(ptr); }
+ };
+
+/* class LockUse<UInt> */
+
+template <UIntType UInt>
+class LockUse : NoCopy
+ {
+   UInt &count;
+
+  public:
+
+   explicit LockUse(UInt &count_) : count(count_) { if( !count_ ) GuardLocked(); count_--; }
+
+   ~LockUse() { count++; }
+ };
+
+/* struct MatrixSpan<T> */
+
+template <class T>
+struct MatrixSpan
+ {
+  T *base;
+  ulen lenI;
+
+  MatrixSpan(T *base_,ulen lenI_) : base(base_),lenI(lenI_) {}
+
+  T & operator () (ulen i,ulen j) const { return base[i+j*lenI]; }
+ };
 
 /* struct Config */
 
@@ -235,6 +287,8 @@ struct FrameExt
   Point inner;
   Point size;
 
+  unsigned lock = 1 ;
+
   virtual ~FrameExt() {}
  };
 
@@ -279,10 +333,63 @@ struct FrameExt_Collapse : FrameExt
   Coord len = 0 ;
  };
 
+/* struct TableDesc */
+
+struct TableDesc
+ {
+  PtrLen<const Coord> tdx;
+  PtrLen<const Coord> tdy;
+  Coord space;
+
+  struct Cell
+   {
+    Point base;
+    bool top  = false ;
+    bool left = false ;
+
+    void set(ulen i,ulen j)
+     {
+      left=(i>0);
+      top=(j>0);
+     }
+   };
+
+  MatrixSpan<Cell> span;
+
+  void setBase();
+
+  static Coord Size(PtrLen<const Coord> tdx,Coord space);
+
+  Point getSize() const { return {Size(tdx,space),Size(tdy,space)}; }
+ };
+
 /* struct FrameExt_Table */
 
 struct FrameExt_Table : FrameExt
  {
+  DynArray<Coord> tdx;
+  DynArray<Coord> tdy;
+  Coord space = 0 ;
+
+  DynArray<TableDesc::Cell> table;
+  ulen lenI = 0 ;
+
+  void alloc(ulen lenI_,ulen lenJ)
+   {
+    SetExactArrayLen(table,LenOf(lenI_,lenJ));
+
+    lenI=lenI_;
+   }
+
+  void erase()
+   {
+    tdx.erase();
+    tdy.erase();
+    table.erase();
+    lenI=0;
+   }
+
+  TableDesc getDesc() { return {Range(tdx),Range(tdy),space,MatrixSpan(table.getPtr(),lenI)}; }
  };
 
 /* class FrameMap */
@@ -364,21 +471,6 @@ class ExtMap : NoCopy
    FrameExt * operator () (Book::TypeDef::Frame *obj) { return frame(obj); }
  };
 
-/* class AutoCast<T> */
-
-template <class T>
-class AutoCast
- {
-   T *ptr;
-
-  public:
-
-   explicit AutoCast(T *ptr_) : ptr(ptr_) {}
-
-   template <class S>
-   operator S * () const { return static_cast<S *>(ptr); }
- };
-
 /* struct RefPane */
 
 struct RefPane
@@ -386,6 +478,28 @@ struct RefPane
   Pane pane;
   RefType ref;
  };
+
+/* ForTable() */
+
+template <FuncArgType<ulen,ulen,Book::TypeDef::Cell *> Func>
+void ForTable(Book::TypeDef::Table *obj,Func func)
+ {
+  auto width=obj->width.getRange();
+
+  auto rows=obj->rows.getRange();
+
+  for(ulen j=0; j<rows.len ;j++)
+    {
+     auto row=rows[j].getRange();
+
+     Replace_min(row.len,width.len);
+
+     for(ulen i=0; i<row.len ;i++)
+       {
+        if( auto *cell=row[i].getPtr() ) func(i,j,cell);
+       }
+    }
+ }
 
 /* struct Prepare */
 
@@ -395,6 +509,8 @@ struct Prepare
   ExtMap &map;
   Ratio scale;
   DynArray<RefPane> &refs;
+
+  unsigned level = 25 ;
 
   // private
 
@@ -472,6 +588,9 @@ struct Prepare
 
   Point size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base);
 
+   template <class T>
+   static void CorrectSpanLen(T &span,ulen cap);
+
   Point size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base);
 
   template <class T>
@@ -502,6 +621,8 @@ struct DrawOut
 
   DrawOut add(Coord dx,Coord dy) const { return {buf,pane,base+Point(dx,dy)}; }
 
+  DrawOut add(Point p) const { return {buf,pane,base+p}; }
+
   void back(TextSize ts,VColor back);
 
   void effect(TextSize ts,Effect effect,VColor fore,MCoord width);
@@ -513,6 +634,13 @@ struct DrawOut
   void drawPlus(const Config &cfg,Coord len);
 
   void drawMinus(const Config &cfg,Coord len);
+
+  static Coord Sum(PtrLen<const Coord> tdx,Coord space,ulen i,ulen k);
+
+  template <class F1,class F2,class F3>
+  static void DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord len,Coord maxlen,F2 sk,F3 add);
+
+  void table(TableDesc desc,VColor line,MCoord width);
  };
 
 /* struct Draw */

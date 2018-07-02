@@ -23,12 +23,19 @@
 namespace App {
 namespace DrawBook {
 
-/* size functions */
+/* guard functions */
 
 void GuardSizeOverflow(const char *name)
  {
   Printf(Exception,"#;(...) : size overflow",name);
  }
+
+void GuardLocked()
+ {
+  Printf(Exception,"App::DrawBook::LockUse<...>::LockUse(...) : locked");
+ }
+
+/* size functions */
 
 Coord AddSize(Coord a,Coord b)
  {
@@ -172,6 +179,36 @@ const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *obj)
        }
     }
   catch(...) { return 0; }
+ }
+
+/* struct TableDesc */
+
+void TableDesc::setBase()
+ {
+  Point base(space,space);
+
+  for(ulen j=0; j<tdy.len ;j++)
+    {
+     base.x=space;
+
+     for(ulen i=0; i<tdx.len ;i++)
+       {
+        span(i,j).base=base;
+
+        base.x+=tdx[i]+space;
+       }
+
+     base.y+=tdy[j]+space;
+    }
+ }
+
+Coord TableDesc::Size(PtrLen<const Coord> tdx,Coord space)
+ {
+  Coord ret=space;
+
+  for(Coord x : tdx ) ret=AddSize(ret,AddSize(x,space));
+
+  return ret;
  }
 
 /* class FrameMap */
@@ -665,6 +702,8 @@ auto Prepare::getBase(Book::TypeDef::Table *) -> ItemBase { return {}; }
 
 auto Prepare::getBase(Book::TypeDef::Frame *frame) -> ItemBase
  {
+  LockUse lock(level);
+
   ItemBase ret;
 
   frame->body.getPtr().apply( [&] (auto *obj) { ret=getBase(obj); } );
@@ -804,14 +843,135 @@ Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wd
 
  // size(Book::TypeDef::Table *)
 
-Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base) // TODO
+template <class T>
+void Prepare::CorrectSpanLen(T &span,ulen cap)
  {
-  Used(obj);
-  Used(ext);
-  Used(wdx);
-  Used(base);
+  if( !span ) span=1;
 
-  return Null;
+  if( span>cap ) span=(T)cap;
+ }
+
+Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base) // TODO refs rebase
+ {
+  if( !obj )
+    {
+     ext->erase();
+
+     return Null;
+    }
+
+  // 1
+
+  Coord space=0;
+
+  if( auto *border=obj->border.getPtr() )
+    {
+     space=scale*Coord(border->space);
+    }
+
+  ext->space=space;
+
+  auto width=obj->width.getRange();
+
+  TempArray<Coord,50> cdx(width.len);
+
+  {
+   Coord dx=wdx-MulSize(width.len+1,space);
+
+   if( dx<0 ) dx=0;
+
+   for(ulen i=0; i<width.len ;i++) cdx[i]=Div(width[i],100)*dx;
+  }
+
+  // 2
+
+  auto rows=obj->rows.getRange();
+
+  for(ulen j=0; j<rows.len ;j++)
+    {
+     auto row=rows[j].getRange();
+
+     Replace_min(row.len,width.len);
+
+     for(ulen i=0; i<row.len ;i++)
+       {
+        if( auto *cell=row[i].getPtr() )
+          {
+           CorrectSpanLen(cell->span_x,width.len-i);
+           CorrectSpanLen(cell->span_y,rows.len-j);
+
+           for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
+             {
+              auto row=rows[j+j1].getRange();
+
+              for(ulen i1=0,ilim=Min<ulen>(cell->span_x,row.len-i); i1<ilim ;i1++)
+                {
+                 if( i1 || j1 )
+                   {
+                    if( i+i1<row.len ) row[i+i1]={};
+                   }
+                }
+             }
+          }
+       }
+    }
+
+  // 3
+
+  SpanLenEngine engx(width.len);
+  SpanLenEngine engy(rows.len);
+
+  ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
+                    {
+                     Point size=(*this)(cell->list,cdx[i],base);
+
+                     engx.add(i,cell->span_x,size.x);
+                     engy.add(j,cell->span_y,size.y);
+
+                    } );
+
+  ext->tdx=engx.complete();
+  ext->tdy=engy.complete();
+
+  if( obj->hard )
+    {
+     Coord dx=0;
+
+     for(ulen i=0; i<width.len ;i++)
+       {
+        if( Coord p=width[i] ; p>0 )
+          {
+           Replace_max(dx,Div(100,p)*ext->tdx[i]);
+          }
+       }
+
+     for(ulen i=0; i<width.len ;i++)
+       {
+        ext->tdx[i]=Div(width[i],100)*dx;
+       }
+    }
+
+  // 4
+
+  ext->alloc(width.len,rows.len);
+
+  TableDesc desc=ext->getDesc();
+
+  desc.setBase();
+
+  // 5
+
+  ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
+                    {
+                     for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
+                       for(ulen i1=0,ilim=cell->span_x; i1<ilim ;i1++)
+                         {
+                          desc.span(i+i1,j+j1).set(i1,j1);
+                         }
+
+                    } );
+
+  return desc.getSize();
  }
 
  // sizeAny()
@@ -849,6 +1009,9 @@ Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point ba
 Point Prepare::operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base)
  {
   FrameExt *ext=map(frame);
+
+  LockUse lock1(ext->lock);
+  LockUse lock2(level);
 
   Point outer=scale*Cast(frame->outer);
   Point inner=scale*Cast(frame->inner);
@@ -997,6 +1160,136 @@ void DrawOut::drawMinus(const Config &cfg,Coord len_)
   MCoord w=radius/3;
 
   art.path(w,fc,center.subX(a),center.addX(a));
+ }
+
+Coord DrawOut::Sum(PtrLen<const Coord> tdx,Coord space,ulen i,ulen k)
+ {
+  Coord ret=0;
+
+  for(; i<k ;i++) ret+=tdx[i]+space;
+
+  return ret;
+ }
+
+template <class F1,class F2,class F3>
+void DrawOut::DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord space,Coord maxlen,F2 sk,F3 add)
+ {
+  for(ulen i=0; i<tdx.len ;i++)
+    {
+     if( sk(i) )
+       {
+        if( i>0 )
+          {
+           MPoint B=add(A, Sum(tdx,space,0,i) );
+
+           path(A,B);
+
+           A=B;
+          }
+
+        while( i<tdx.len )
+          {
+           ulen k=i+1;
+
+           for(; k<tdx.len && sk(k) ;k++);
+
+           if( k<tdx.len )
+             {
+              A=add(A, Sum(tdx,space,i,k) );
+
+              i=k;
+
+              for(k=i+1; k<tdx.len && !sk(k) ;k++);
+
+              MPoint B=add(A, Sum(tdx,space,i,k) );
+
+              i=k;
+
+              path(A,B);
+
+              A=B;
+             }
+           else
+             {
+              return;
+             }
+          }
+
+        return;
+       }
+    }
+
+  path(A,add(A,maxlen));
+ }
+
+void DrawOut::table(TableDesc desc,VColor line,MCoord width)
+ {
+  auto span=desc.span;
+
+  SmoothDrawArt art(buf.cutRebase(pane));
+
+  auto path = [&art,line,width] (MPoint A,MPoint B) { art.path(width,line,A,B); } ;
+
+  // 1
+
+  MPoint A=base;
+  MPoint S=Point::Diag(desc.space);
+
+  A+=S/2;
+
+  // 2
+
+  Coord dy=0;
+
+  for(Coord y : desc.tdy ) dy+=y+desc.space;
+
+  // 3
+
+  Coord dx=0;
+
+  for(Coord x : desc.tdx ) dx+=x+desc.space;
+
+  // 4
+
+  {
+   auto add = [] (MPoint A,Coord delta) { return A.addY(MPoint::LShift(delta)); } ;
+
+   MPoint P=A;
+
+   for(ulen i=0,lim=desc.tdx.len; i<lim ;i++)
+     {
+      auto sk = [i,span] (ulen j) { return span(i,j).left; } ;
+
+      DrawLine(path,P,desc.tdy,desc.space,dy,sk,add);
+
+      Coord x=desc.tdx[i];
+
+      P=P.addX(MPoint::LShift(x+desc.space));
+     }
+
+   path(P,add(P,dy));
+  }
+
+  // 5
+
+  {
+   auto add = [] (MPoint A,Coord delta) { return A.addX(MPoint::LShift(delta)); } ;
+
+   MPoint P=A;
+
+   for(ulen j=0,lim=desc.tdy.len; j<lim ;j++)
+     {
+      auto sk = [j,span] (ulen i) { return span(i,j).top; } ;
+
+      DrawLine(path,P,desc.tdx,desc.space,dx,sk,add);
+
+      Coord y=desc.tdy[j];
+
+      P=P.addY(MPoint::LShift(y+desc.space));
+     }
+
+   path(P,add(P,dx));
+  }
  }
 
 /* struct Draw */
@@ -1443,11 +1736,26 @@ void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,DrawOut out)
 
  // draw(Book::TypeDef::Table *)
 
-void Draw::draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,DrawOut out) // TODO
+void Draw::draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,DrawOut out)
  {
-  Used(obj);
-  Used(ext);
-  Used(out);
+  if( !obj ) return;
+
+  TableDesc desc=ext->getDesc();
+
+  if( auto *border=obj->border.getPtr() ; border && border->space>0 )
+    {
+     VColor line=Combine(border->line,+cfg.line);
+
+     MCoord width=Cast(border->width)*(+cfg.width);
+
+     out.table(desc,line,width);
+    }
+
+  ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
+                    {
+                     (*this)(cell->list,out.add(desc.span(i,j).base));
+
+                    } );
  }
 
  // drawAny()
