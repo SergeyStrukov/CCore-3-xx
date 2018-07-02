@@ -851,7 +851,7 @@ void Prepare::CorrectSpanLen(T &span,ulen cap)
   if( span>cap ) span=(T)cap;
  }
 
-Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base) // TODO refs rebase
+Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base)
  {
   if( !obj )
     {
@@ -917,9 +917,15 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
   SpanLenEngine engx(width.len);
   SpanLenEngine engy(rows.len);
 
+  DynArray<ulen> ref_lens(DoReserve,width.len*rows.len+1);
+
+  ref_lens.append_copy(refs.getLen());
+
   ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
                     {
                      Point size=(*this)(cell->list,cdx[i],base);
+
+                     ref_lens.append_copy(refs.getLen());
 
                      engx.add(i,cell->span_x,size.x);
                      engy.add(j,cell->span_y,size.y);
@@ -957,8 +963,28 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
 
   // 5
 
+  ulen *ptrLen=ref_lens.getPtr();
+
+  ulen off=*(ptrLen++);
+
   ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
                     {
+                     // 1
+
+                     ulen lim=*(ptrLen++);
+
+                     auto part=Range(refs).part(off,lim-off);
+
+                     off=lim;
+
+                     // 2
+
+                     Point rebase=desc.span(i,j).base;
+
+                     for(RefPane &ref : part ) ref.pane+=rebase;
+
+                     // 3
+
                      for(ulen j1 : IndLim(cell->span_y) )
                        for(ulen i1 : IndLim(cell->span_x) )
                          {
