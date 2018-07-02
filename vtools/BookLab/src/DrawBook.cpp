@@ -23,19 +23,28 @@
 namespace App {
 namespace DrawBook {
 
-/* functions */
+/* size functions */
+
+void GuardSizeOverflow(const char *name)
+ {
+  Printf(Exception,"#;(...) : size overflow",name);
+ }
+
+Coord AddSize(Coord a,Coord b)
+ {
+  Coord ret=a+b;
+
+  if( ret<0 ) GuardSizeOverflow("App::DrawBook::AddSize");
+
+  return ret;
+ }
 
 Point StackY(Point a,Point b)
  {
-  Coord y=a.y+b.y;
-
-  if( y<0 )
-    {
-     Printf(Exception,"App::StackY(...) : size overflow");
-    }
-
-  return Point( Max(a.x,b.x) , y );
+  return Point( Max(a.x,b.x) , AddSize(a.y,b.y) );
  }
+
+/* functions */
 
 bool InsSpace(StrLen text)
  {
@@ -270,18 +279,9 @@ void Prepare::addRef(RefType ref,Pane pane)
   if( +ref ) refs.append_copy({pane,ref});
  }
 
-RefType Prepare::CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref)
- {
-  RefType ret;
-
-  ref.apply( [ref,&ret] (auto *ptr) { ret=ptr; } );
-
-  return ret;
- }
-
 void Prepare::addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane)
  {
-  if( +ref ) addRef(CastRef(ref),pane);
+  if( +ref ) addRef(CastAnyPtr<RefType>(ref),pane);
  }
 
  // common
@@ -346,12 +346,12 @@ Coord Prepare::sizeSpan(Font font,Book::TypeDef::Span span,Point base)
  {
   TextSize ts=SizeSpan(over(font,span.fmt),span.body);
 
-  addRef(span.ref,Pane(base.subY(ts.by),ts.dx,ts.dy));
+  addRef(span.ref,TextPane(base,ts));
 
   return ts.dx;
  }
 
-auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base) -> DeltaSize
+auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base) -> LineSize
  {
   Font span_font=over(font,span.fmt);
 
@@ -359,7 +359,7 @@ auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord spa
 
   if( InsSpace(span.body) )
     {
-     if( prev_fmt==span.fmt )
+     if( span.fmt && prev_fmt==span.fmt )
        {
         sdx=SizeSpace(span_font);
        }
@@ -371,7 +371,7 @@ auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord spa
 
   TextSize ts=SizeSpan(span_font,span.body);
 
-  addRef(span.ref,Pane(base+Point(sdx,-ts.by),ts.dx,ts.dy));
+  addRef(span.ref,TextPane(base.addX(sdx),ts));
 
   return {ts.dx,ts.dx+sdx};
  }
@@ -392,7 +392,7 @@ Coord Prepare::sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Spa
        {
         Coord dx=sizeSpan(fmt,font,space_dx,*line,base).edx;
 
-        tdx+=dx;
+        tdx=AddSize(tdx,dx);
 
         base.x+=dx;
 
@@ -469,7 +469,7 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
     {
      base.y+=fs.by;
 
-     Coord dx=sizeSpan(font,*range,base.addX(first_dx))+first_dx;
+     Coord dx=AddSize( sizeSpan(font,*range,base.addX(first_dx)) ,first_dx);
 
      const Book::TypeDef::Format *fmt=range->fmt;
 
@@ -483,13 +483,13 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
 
         for(++range; +range ;++range,len++)
           {
-           DeltaSize delta=sizeSpan(fmt,font,space_dx,*range,p);
+           LineSize delta=sizeSpan(fmt,font,space_dx,*range,p);
 
            fmt=range->fmt;
 
            if( delta.edx<=wdx-dx )
              {
-              dx+=delta.edx;
+              dx=AddSize(dx,delta.edx);
 
               p.x+=delta.edx;
              }
@@ -497,7 +497,7 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
              {
               Replace_max(tdx,dx);
 
-              tdy+=dy;
+              tdy=AddSize(tdy,dy);
 
               dx=delta.dx;
 
@@ -541,19 +541,20 @@ Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base)
 
 Coord Prepare::sizeLine(Font font,const Book::TypeDef::Line &line,Point base)
  {
-  Coord ret=0;
+  Coord tdx=0;
 
   for(const Book::TypeDef::FixedSpan &span : line.getRange() )
     {
      TextSize ts=SizeSpan(over(font,span.fmt),span.body);
 
-     addRef(span.ref,Pane(base.subY(ts.by),ts.dx,ts.dy));
+     addRef(span.ref,TextPane(base,ts));
 
-     ret+=ts.dx;
+     tdx=AddSize(tdx,ts.dx);
+
      base.x+=ts.dx;
     }
 
-  return ret;
+  return tdx;
  }
 
 Point Prepare::size(Book::TypeDef::FixedText *obj,FrameExt *,Coord,Point base)
@@ -579,7 +580,7 @@ Point Prepare::size(Book::TypeDef::FixedText *obj,FrameExt *,Coord,Point base)
      base.y+=dy;
     }
 
-  return Point(dx,CountToCoord(range.len)*dy);
+  return Point(dx,MulSize(range.len,dy));
  }
 
  // size(Book::TypeDef::Bitmap *)

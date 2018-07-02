@@ -41,6 +41,21 @@ inline Point Cast(Book::TypeDef::Point p) { return {CastCoord(p.x),CastCoord(p.y
 
 inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(r.b)); }
 
+/* size functions */
+
+void GuardSizeOverflow(const char *name);
+
+Coord AddSize(Coord a,Coord b);
+
+Coord MulSize(UIntType count,Coord x)
+ {
+  if( x>0 && count>SIntFunc<Coord>::UInt(SIntFunc<Coord>::MaxPositive/x) ) GuardSizeOverflow("App::DrawBook::MulSize");
+
+  return Coord(count)*x;
+ }
+
+Point StackY(Point a,Point b);
+
 /* functions */
 
 template <class T>
@@ -75,11 +90,19 @@ inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
   return fallback;
  }
 
-Point StackY(Point a,Point b);
-
 bool InsSpace(StrLen text);
 
 inline Pane TextPane(Point base,TextSize ts) { return Pane(base.x,base.y-ts.by,ts.dx,ts.dy); }
+
+template <class T,class S>
+T CastAnyPtr(S obj)
+ {
+  T ret;
+
+  obj.apply( [&ret] (auto *ptr) { ret=ptr; } );
+
+  return ret;
+ }
 
 /* classes */
 
@@ -399,13 +422,13 @@ struct Prepare
 
    Coord sizeSpan(Font font,Book::TypeDef::Span span,Point base);
 
-   struct DeltaSize
+   struct LineSize
     {
      Coord dx;
      Coord edx;
     };
 
-   DeltaSize sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base);
+   LineSize sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base);
 
    Coord sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Point base);
 
