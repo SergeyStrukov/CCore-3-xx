@@ -114,6 +114,8 @@ template <class T> class AutoCast;
 
 template <UIntType UInt> class LockUse;
 
+template <SUIntType SUInt> class IndLim;
+
 template <class T> struct MatrixSpan;
 
 struct Config;
@@ -177,6 +179,35 @@ class LockUse : NoCopy
    explicit LockUse(UInt &count_) : count(count_) { if( !count_ ) GuardLocked(); count_--; }
 
    ~LockUse() { count++; }
+ };
+
+/* class IndLim<SUInt> */
+
+template <SUIntType SUInt>
+class IndLim
+ {
+   SUInt ind;
+   SUInt lim;
+
+  public:
+
+   IndLim(SUInt ind_,SUInt lim_) : ind(ind_),lim(lim_) {}
+
+   explicit IndLim(SUInt lim_) : ind(0),lim(lim_) {}
+
+   // loop
+
+   bool operator != (Meta::Empty) const { return ind<lim; }
+
+   SUInt operator * () const { return ind; }
+
+   void operator ++ () { ind++; }
+
+   // begin()/end()
+
+   IndLim begin() const { return *this; }
+
+   Meta::Empty end() const { return {}; }
  };
 
 /* struct MatrixSpan<T> */
@@ -488,13 +519,11 @@ void ForTable(Book::TypeDef::Table *obj,Func func)
 
   auto rows=obj->rows.getRange();
 
-  for(ulen j=0; j<rows.len ;j++)
+  for(ulen j : IndLim(rows.len) )
     {
      auto row=rows[j].getRange();
 
-     Replace_min(row.len,width.len);
-
-     for(ulen i=0; i<row.len ;i++)
+     for(ulen i : IndLim( Min(row.len,width.len) ) )
        {
         if( auto *cell=row[i].getPtr() ) func(i,j,cell);
        }

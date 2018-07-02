@@ -187,11 +187,11 @@ void TableDesc::setBase()
  {
   Point base(space,space);
 
-  for(ulen j=0; j<tdy.len ;j++)
+  for(ulen j : IndLim(tdy.len) )
     {
      base.x=space;
 
-     for(ulen i=0; i<tdx.len ;i++)
+     for(ulen i : IndLim(tdx.len) )
        {
         span(i,j).base=base;
 
@@ -880,37 +880,33 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
 
    if( dx<0 ) dx=0;
 
-   for(ulen i=0; i<width.len ;i++) cdx[i]=Div(width[i],100)*dx;
+   for(ulen i : IndLim(width.len) ) cdx[i]=Div(width[i],100)*dx;
   }
 
   // 2
 
   auto rows=obj->rows.getRange();
 
-  for(ulen j=0; j<rows.len ;j++)
+  for(ulen j : IndLim(rows.len) )
     {
      auto row=rows[j].getRange();
 
-     Replace_min(row.len,width.len);
-
-     for(ulen i=0; i<row.len ;i++)
+     for(ulen i : IndLim( Min(row.len,width.len) ) )
        {
         if( auto *cell=row[i].getPtr() )
           {
            CorrectSpanLen(cell->span_x,width.len-i);
            CorrectSpanLen(cell->span_y,rows.len-j);
 
-           for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
+           for(ulen j1 : IndLim(cell->span_y) )
              {
-              auto row=rows[j+j1].getRange();
+              auto row1=rows[j+j1].getRange();
 
-              for(ulen i1=0,ilim=Min<ulen>(cell->span_x,row.len-i); i1<ilim ;i1++)
-                {
-                 if( i1 || j1 )
-                   {
-                    if( i+i1<row.len ) row[i+i1]={};
-                   }
-                }
+              if( i<row1.len )
+                for(ulen i1 : IndLim( Min<ulen>(cell->span_x,row1.len-i) ) )
+                  {
+                   if( i1 || j1 ) row1[i+i1]={};
+                  }
              }
           }
        }
@@ -937,7 +933,7 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
     {
      Coord dx=0;
 
-     for(ulen i=0; i<width.len ;i++)
+     for(ulen i : IndLim(width.len) )
        {
         if( Coord p=width[i] ; p>0 )
           {
@@ -945,7 +941,7 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
           }
        }
 
-     for(ulen i=0; i<width.len ;i++)
+     for(ulen i : IndLim(width.len) )
        {
         ext->tdx[i]=Div(width[i],100)*dx;
        }
@@ -963,8 +959,8 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
 
   ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
                     {
-                     for(ulen j1=0,jlim=cell->span_y; j1<jlim ;j1++)
-                       for(ulen i1=0,ilim=cell->span_x; i1<ilim ;i1++)
+                     for(ulen j1 : IndLim(cell->span_y) )
+                       for(ulen i1 : IndLim(cell->span_x) )
                          {
                           desc.span(i+i1,j+j1).set(i1,j1);
                          }
@@ -1256,7 +1252,7 @@ void DrawOut::table(TableDesc desc,VColor line,MCoord width)
 
    MPoint P=A;
 
-   for(ulen i=0,lim=desc.tdx.len; i<lim ;i++)
+   for(ulen i : IndLim(desc.tdx.len) )
      {
       auto sk = [i,span] (ulen j) { return span(i,j).left; } ;
 
@@ -1277,7 +1273,7 @@ void DrawOut::table(TableDesc desc,VColor line,MCoord width)
 
    MPoint P=A;
 
-   for(ulen j=0,lim=desc.tdy.len; j<lim ;j++)
+   for(ulen j : IndLim(desc.tdy.len) )
      {
       auto sk = [j,span] (ulen i) { return span(i,j).top; } ;
 
