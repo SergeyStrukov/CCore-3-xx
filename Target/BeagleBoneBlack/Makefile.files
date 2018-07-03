@@ -20,6 +20,7 @@ OBJ_LIST = \
 .obj/Atomic.o \
 .obj/AtomicRefArray.o \
 .obj/AttachmentHost.o \
+.obj/AutoCast.o \
 .obj/AutoGlobal.o \
 .obj/AutoText.o \
 .obj/BaseRangeAlgo.o \
@@ -121,6 +122,7 @@ OBJ_LIST = \
 .obj/FileName.o \
 .obj/FileNameMatch.o \
 .obj/FileToMem.o \
+.obj/ForLoop.o \
 .obj/Forget.o \
 .obj/FrameBuf.o \
 .obj/FuncTask.o \
@@ -161,6 +163,7 @@ OBJ_LIST = \
 .obj/List.o \
 .obj/ListCursor.o \
 .obj/LockObject.o \
+.obj/LockUse.o \
 .obj/Locked.o \
 .obj/Log.o \
 .obj/MD5.o \
@@ -396,6 +399,7 @@ ASM_LIST = \
 .obj/Atomic.s \
 .obj/AtomicRefArray.s \
 .obj/AttachmentHost.s \
+.obj/AutoCast.s \
 .obj/AutoGlobal.s \
 .obj/AutoText.s \
 .obj/BaseRangeAlgo.s \
@@ -497,6 +501,7 @@ ASM_LIST = \
 .obj/FileName.s \
 .obj/FileNameMatch.s \
 .obj/FileToMem.s \
+.obj/ForLoop.s \
 .obj/Forget.s \
 .obj/FrameBuf.s \
 .obj/FuncTask.s \
@@ -537,6 +542,7 @@ ASM_LIST = \
 .obj/List.s \
 .obj/ListCursor.s \
 .obj/LockObject.s \
+.obj/LockUse.s \
 .obj/Locked.s \
 .obj/Log.s \
 .obj/MD5.s \
@@ -772,6 +778,7 @@ DEP_LIST = \
 .obj/Atomic.dep \
 .obj/AtomicRefArray.dep \
 .obj/AttachmentHost.dep \
+.obj/AutoCast.dep \
 .obj/AutoGlobal.dep \
 .obj/AutoText.dep \
 .obj/BaseRangeAlgo.dep \
@@ -873,6 +880,7 @@ DEP_LIST = \
 .obj/FileName.dep \
 .obj/FileNameMatch.dep \
 .obj/FileToMem.dep \
+.obj/ForLoop.dep \
 .obj/Forget.dep \
 .obj/FrameBuf.dep \
 .obj/FuncTask.dep \
@@ -913,6 +921,7 @@ DEP_LIST = \
 .obj/List.dep \
 .obj/ListCursor.dep \
 .obj/LockObject.dep \
+.obj/LockUse.dep \
 .obj/Locked.dep \
 .obj/Log.dep \
 .obj/MD5.dep \
@@ -1203,6 +1212,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/AttachmentHost.o : ../../Fundamental/CCore/src/./AttachmentHost.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/AutoCast.o : ../../Simple/CCore/src/./gadget/AutoCast.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/AutoGlobal.o : ../../Fundamental/CCore/src/./AutoGlobal.cpp
@@ -1508,6 +1520,9 @@ include $(RULES_FILE)
 .obj/FileToMem.o : ../../XCore/CCore/src/./FileToMem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/ForLoop.o : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Forget.o : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1626,6 +1641,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/LockObject.o : ../../Simple/CCore/src/./gadget/LockObject.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LockUse.o : ../../Simple/CCore/src/./gadget/LockUse.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Locked.o : ../../Simple/CCore/src/./gadget/Locked.cpp
@@ -2326,6 +2344,9 @@ include $(RULES_FILE)
 .obj/AttachmentHost.s : ../../Fundamental/CCore/src/./AttachmentHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/AutoCast.s : ../../Simple/CCore/src/./gadget/AutoCast.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/AutoGlobal.s : ../../Fundamental/CCore/src/./AutoGlobal.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2629,6 +2650,9 @@ include $(RULES_FILE)
 .obj/FileToMem.s : ../../XCore/CCore/src/./FileToMem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ForLoop.s : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Forget.s : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -2747,6 +2771,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/LockObject.s : ../../Simple/CCore/src/./gadget/LockObject.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/LockUse.s : ../../Simple/CCore/src/./gadget/LockUse.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Locked.s : ../../Simple/CCore/src/./gadget/Locked.cpp
@@ -3447,6 +3474,9 @@ include $(RULES_FILE)
 .obj/AttachmentHost.dep : ../../Fundamental/CCore/src/./AttachmentHost.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AttachmentHost.o $< -MF $@
 
+.obj/AutoCast.dep : ../../Simple/CCore/src/./gadget/AutoCast.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/AutoCast.o $< -MF $@
+
 .obj/AutoGlobal.dep : ../../Fundamental/CCore/src/./AutoGlobal.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AutoGlobal.o $< -MF $@
 
@@ -3750,6 +3780,9 @@ include $(RULES_FILE)
 .obj/FileToMem.dep : ../../XCore/CCore/src/./FileToMem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FileToMem.o $< -MF $@
 
+.obj/ForLoop.dep : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ForLoop.o $< -MF $@
+
 .obj/Forget.dep : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Forget.o $< -MF $@
 
@@ -3869,6 +3902,9 @@ include $(RULES_FILE)
 
 .obj/LockObject.dep : ../../Simple/CCore/src/./gadget/LockObject.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LockObject.o $< -MF $@
+
+.obj/LockUse.dep : ../../Simple/CCore/src/./gadget/LockUse.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/LockUse.o $< -MF $@
 
 .obj/Locked.dep : ../../Simple/CCore/src/./gadget/Locked.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Locked.o $< -MF $@

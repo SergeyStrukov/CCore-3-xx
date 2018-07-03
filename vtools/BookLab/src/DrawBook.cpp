@@ -18,17 +18,8 @@
 
 #include <CCore/inc/video/FigureLib.h>
 
-#include <CCore/inc/Exception.h>
-
 namespace App {
 namespace DrawBook {
-
-/* guard functions */
-
-void GuardLocked()
- {
-  Printf(Exception,"App::DrawBook::LockUse<...>::LockUse(...) : locked");
- }
 
 /* functions */
 

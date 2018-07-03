@@ -23,6 +23,7 @@ OBJ_LIST = \
 .obj/Atomic.o \
 .obj/AtomicRefArray.o \
 .obj/AttachmentHost.o \
+.obj/AutoCast.o \
 .obj/AutoGlobal.o \
 .obj/BaseRangeAlgo.o \
 .obj/BestSearch.o \
@@ -126,6 +127,7 @@ OBJ_LIST = \
 .obj/FontEdit.o \
 .obj/FontLookup.o \
 .obj/FontParam.o \
+.obj/ForLoop.o \
 .obj/Forget.o \
 .obj/FrameBase.o \
 .obj/FrameBuf.o \
@@ -185,6 +187,7 @@ OBJ_LIST = \
 .obj/List.o \
 .obj/ListCursor.o \
 .obj/LockObject.o \
+.obj/LockUse.o \
 .obj/Locked.o \
 .obj/Log.o \
 .obj/MCoordEdit.o \
@@ -483,6 +486,7 @@ ASM_LIST = \
 .obj/Atomic.s \
 .obj/AtomicRefArray.s \
 .obj/AttachmentHost.s \
+.obj/AutoCast.s \
 .obj/AutoGlobal.s \
 .obj/BaseRangeAlgo.s \
 .obj/BestSearch.s \
@@ -586,6 +590,7 @@ ASM_LIST = \
 .obj/FontEdit.s \
 .obj/FontLookup.s \
 .obj/FontParam.s \
+.obj/ForLoop.s \
 .obj/Forget.s \
 .obj/FrameBase.s \
 .obj/FrameBuf.s \
@@ -645,6 +650,7 @@ ASM_LIST = \
 .obj/List.s \
 .obj/ListCursor.s \
 .obj/LockObject.s \
+.obj/LockUse.s \
 .obj/Locked.s \
 .obj/Log.s \
 .obj/MCoordEdit.s \
@@ -943,6 +949,7 @@ DEP_LIST = \
 .obj/Atomic.dep \
 .obj/AtomicRefArray.dep \
 .obj/AttachmentHost.dep \
+.obj/AutoCast.dep \
 .obj/AutoGlobal.dep \
 .obj/BaseRangeAlgo.dep \
 .obj/BestSearch.dep \
@@ -1046,6 +1053,7 @@ DEP_LIST = \
 .obj/FontEdit.dep \
 .obj/FontLookup.dep \
 .obj/FontParam.dep \
+.obj/ForLoop.dep \
 .obj/Forget.dep \
 .obj/FrameBase.dep \
 .obj/FrameBuf.dep \
@@ -1105,6 +1113,7 @@ DEP_LIST = \
 .obj/List.dep \
 .obj/ListCursor.dep \
 .obj/LockObject.dep \
+.obj/LockUse.dep \
 .obj/Locked.dep \
 .obj/Log.dep \
 .obj/MCoordEdit.dep \
@@ -1463,6 +1472,9 @@ include $(RULES_FILE)
 .obj/AttachmentHost.o : ../../Fundamental/CCore/src/./AttachmentHost.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/AutoCast.o : ../../Simple/CCore/src/./gadget/AutoCast.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/AutoGlobal.o : ../../Fundamental/CCore/src/./AutoGlobal.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1772,6 +1784,9 @@ include $(RULES_FILE)
 .obj/FontParam.o : ../../Desktop/Tools/CCore/src/./video/FontParam.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/ForLoop.o : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Forget.o : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1947,6 +1962,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/LockObject.o : ../../Simple/CCore/src/./gadget/LockObject.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LockUse.o : ../../Simple/CCore/src/./gadget/LockUse.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Locked.o : ../../Simple/CCore/src/./gadget/Locked.cpp
@@ -2836,6 +2854,9 @@ include $(RULES_FILE)
 .obj/AttachmentHost.s : ../../Fundamental/CCore/src/./AttachmentHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/AutoCast.s : ../../Simple/CCore/src/./gadget/AutoCast.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/AutoGlobal.s : ../../Fundamental/CCore/src/./AutoGlobal.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3145,6 +3166,9 @@ include $(RULES_FILE)
 .obj/FontParam.s : ../../Desktop/Tools/CCore/src/./video/FontParam.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ForLoop.s : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Forget.s : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3320,6 +3344,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/LockObject.s : ../../Simple/CCore/src/./gadget/LockObject.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/LockUse.s : ../../Simple/CCore/src/./gadget/LockUse.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Locked.s : ../../Simple/CCore/src/./gadget/Locked.cpp
@@ -4209,6 +4236,9 @@ include $(RULES_FILE)
 .obj/AttachmentHost.dep : ../../Fundamental/CCore/src/./AttachmentHost.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AttachmentHost.o $< -MF $@
 
+.obj/AutoCast.dep : ../../Simple/CCore/src/./gadget/AutoCast.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/AutoCast.o $< -MF $@
+
 .obj/AutoGlobal.dep : ../../Fundamental/CCore/src/./AutoGlobal.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AutoGlobal.o $< -MF $@
 
@@ -4518,6 +4548,9 @@ include $(RULES_FILE)
 .obj/FontParam.dep : ../../Desktop/Tools/CCore/src/./video/FontParam.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FontParam.o $< -MF $@
 
+.obj/ForLoop.dep : ../../Simple/CCore/src/./ForLoop.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ForLoop.o $< -MF $@
+
 .obj/Forget.dep : ../../Applied/CCore/src/./crypton/Forget.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Forget.o $< -MF $@
 
@@ -4694,6 +4727,9 @@ include $(RULES_FILE)
 
 .obj/LockObject.dep : ../../Simple/CCore/src/./gadget/LockObject.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LockObject.o $< -MF $@
+
+.obj/LockUse.dep : ../../Simple/CCore/src/./gadget/LockUse.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/LockUse.o $< -MF $@
 
 .obj/Locked.dep : ../../Simple/CCore/src/./gadget/Locked.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Locked.o $< -MF $@

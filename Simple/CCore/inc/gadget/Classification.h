@@ -206,6 +206,18 @@ concept bool RangeAccessType = requires(T &obj,Meta::ToConst<T> &cobj)
   RangeAccessHelper(obj.getPtr(),cobj.getPtr_const(),cobj.getPtr(),cobj.getLen());
  } ;
 
+/* concept ForType<R> */
+
+template <NothrowCopyableType R>
+concept bool ForType = requires(R &obj,Meta::ToConst<R> &cobj)
+ {
+  { +cobj } -> bool ;
+
+  *cobj;
+
+  ++obj;
+ } ;
+
 /* concept CursorType<R> */
 
 template <NothrowCopyableType R>

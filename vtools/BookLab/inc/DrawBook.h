@@ -16,6 +16,7 @@
 
 #include <inc/Book.h>
 
+#include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ElementPool.h>
 
@@ -40,10 +41,6 @@ inline Coord CastCoord(Book::TypeDef::Coord x) { return (Coord)x; }
 inline Point Cast(Book::TypeDef::Point p) { return {CastCoord(p.x),CastCoord(p.y)}; }
 
 inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(r.b)); }
-
-/* guard functions */
-
-void GuardLocked();
 
 /* functions */
 
@@ -85,12 +82,6 @@ inline Pane TextPane(Point base,TextSize ts) { return Pane(base.x,base.y-ts.by,t
 
 /* classes */
 
-template <class T> class AutoCast;
-
-template <UIntType UInt> class LockUse;
-
-template <SUIntType SUInt> class IndLim;
-
 template <class T> struct MatrixSpan;
 
 struct Config;
@@ -126,64 +117,6 @@ struct DrawOut;
 struct Draw;
 
 class Shape;
-
-/* class AutoCast<T> */
-
-template <class T>
-class AutoCast
- {
-   T *ptr;
-
-  public:
-
-   explicit AutoCast(T *ptr_) : ptr(ptr_) {}
-
-   template <class S>
-   operator S * () const { return static_cast<S *>(ptr); }
- };
-
-/* class LockUse<UInt> */
-
-template <UIntType UInt>
-class LockUse : NoCopy
- {
-   UInt &count;
-
-  public:
-
-   explicit LockUse(UInt &count_) : count(count_) { if( !count_ ) GuardLocked(); count_--; }
-
-   ~LockUse() { count++; }
- };
-
-/* class IndLim<SUInt> */
-
-template <SUIntType SUInt>
-class IndLim
- {
-   SUInt ind;
-   SUInt lim;
-
-  public:
-
-   IndLim(SUInt ind_,SUInt lim_) : ind(ind_),lim(lim_) {}
-
-   explicit IndLim(SUInt lim_) : ind(0),lim(lim_) {}
-
-   // loop
-
-   bool operator != (Meta::Empty) const { return ind<lim; }
-
-   SUInt operator * () const { return ind; }
-
-   void operator ++ () { ind++; }
-
-   // begin()/end()
-
-   IndLim begin() const { return *this; }
-
-   Meta::Empty end() const { return {}; }
- };
 
 /* struct MatrixSpan<T> */
 
