@@ -15,8 +15,17 @@
 
 #include <CCore/inc/video/Point.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace CCore {
 namespace Video {
+
+/* size functions */
+
+void GuardSizeOverflow(const char *name)
+ {
+  Printf(Exception,"#;(...) : size overflow",name);
+ }
 
 /* struct PaneSub */
 

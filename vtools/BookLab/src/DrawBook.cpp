@@ -25,30 +25,9 @@ namespace DrawBook {
 
 /* guard functions */
 
-void GuardSizeOverflow(const char *name)
- {
-  Printf(Exception,"#;(...) : size overflow",name);
- }
-
 void GuardLocked()
  {
   Printf(Exception,"App::DrawBook::LockUse<...>::LockUse(...) : locked");
- }
-
-/* size functions */
-
-Coord AddSize(Coord a,Coord b)
- {
-  Coord ret=a+b;
-
-  if( ret<0 ) GuardSizeOverflow("App::DrawBook::AddSize");
-
-  return ret;
- }
-
-Point StackY(Point a,Point b)
- {
-  return Point( Max(a.x,b.x) , AddSize(a.y,b.y) );
  }
 
 /* functions */
@@ -791,7 +770,7 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
     {
      Point s=sizeItem(fs,list[i],delta[i],bullet_dx,wdx,base);
 
-     ret=StackY(ret,s);
+     ret=StackYSize_guarded(ret,s);
 
      base.y+=(s.y+item_space);
     }
@@ -831,7 +810,7 @@ Point Prepare::size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wd
 
      Point s=(*this)(obj->list,wdx,base.addY(elen));
 
-     return StackY(ret,s);
+     return StackYSize_guarded(ret,s);
     }
   else
     {
@@ -1018,7 +997,7 @@ Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point ba
     {
      Point s=(*this)(&frame,wdx,base);
 
-     ret=StackY(ret,s);
+     ret=StackYSize_guarded(ret,s);
 
      base.y+=s.y;
     }

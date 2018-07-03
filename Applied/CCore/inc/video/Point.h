@@ -47,6 +47,26 @@ inline constexpr SUInt Inf(SUInt a,SUInt b) { return Min(a,b); }
 
 inline AreaType Area(Coord dx,Coord dy) { return LenOf(dx,dy); } // dx >= 0 , dy >= 0
 
+/* size functions */
+
+void GuardSizeOverflow(const char *name);
+
+inline Coord AddSize(Coord a,Coord b)
+ {
+  Coord ret=a+b;
+
+  if( ret<0 ) GuardSizeOverflow("CCore::Video::AddSize");
+
+  return ret;
+ }
+
+Coord MulSize(UIntType count,Coord x)
+ {
+  if( x>0 && count>SIntFunc<Coord>::UInt(SIntFunc<Coord>::MaxPositive/x) ) GuardSizeOverflow("CCore::Video::MulSize");
+
+  return Coord(count)*x;
+ }
+
 /* Multi Sup() & Inf() */
 
 template <class T,class ... TT>
@@ -206,14 +226,24 @@ struct Point : BasePoint<Point,Coord>
 
 /* Stack...Size() */
 
-inline Point StackXSize(Point s1,Point s2)
+inline Point StackXSize(Point a,Point b)
  {
-  return Point( s1.x+s2.x , Sup(s1.y,s2.y) );
+  return Point( a.x+b.x , Sup(a.y,b.y) );
  }
 
-inline Point StackYSize(Point s1,Point s2)
+inline Point StackYSize(Point a,Point b)
  {
-  return Point( Sup(s1.x,s2.x) , s1.y+s2.y );
+  return Point( Sup(a.x,b.x) , a.y+b.y );
+ }
+
+inline Point StackXSize_guarded(Point a,Point b)
+ {
+  return Point( AddSize(a.x,b.x) , Sup(a.y,b.y) );
+ }
+
+inline Point StackYSize_guarded(Point a,Point b)
+ {
+  return Point( Sup(a.x,b.x) , AddSize(a.y,b.y) );
  }
 
 /* struct Pane */

@@ -27,9 +27,9 @@ void InnerBookWindow::cache() const
  {
   Scope scope("App::InnerBookWindow::cache()"_c);
 
-  Coord dx=getSize().x-2*cfg.width.get().roundUp();
+  Coord wdx=getSize().x-2*cfg.width.get().roundUp();
 
-  if( !ok || cache_dx!=dx )
+  if( !ok || cache_wdx!=wdx )
     {
      DrawBook::SetExactArrayLen(shapes,frames.len);
 
@@ -37,17 +37,17 @@ void InnerBookWindow::cache() const
 
      for(ulen i=0; i<frames.len ;i++)
        {
-        DrawBook::Shape &shape=shapes[i];
+        auto &shape=shapes[i];
 
-        Point ds=shape.set(cfg,map,scale,frames[i],dx,s.y);
+        Point ds=shape.set(cfg,map,scale,frames[i],wdx,s.y);
 
-        s=DrawBook::StackY(s,ds);
+        s=StackYSize_guarded(s,ds);
        }
 
      size=s;
 
      ok=true;
-     cache_dx=dx;
+     cache_wdx=wdx;
     }
  }
 
@@ -78,8 +78,7 @@ DrawBook::RefType InnerBookWindow::getRef(Point point) const
 
   Pane pane=getPane();
 
-  MCoord width=+cfg.width;
-  Pane inner=pane.shrink(RoundUpLen(width));
+  Pane inner=pane.shrink(cfg.width.get().roundUp());
 
   point-=inner.getBase();
 

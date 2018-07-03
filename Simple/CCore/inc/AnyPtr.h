@@ -306,6 +306,18 @@ void ElaborateAnyPtr(T &obj,S && s,SS && ... ss)
   ElaborateAnyPtr(bind, std::forward<SS>(ss)... );
  }
 
+/* CastAnyPtr() */
+
+template <class T,class S>
+T CastAnyPtr(S obj)
+ {
+  T ret;
+
+  obj.apply( [&ret] (auto *ptr) { ret=ptr; } );
+
+  return ret;
+ }
+
 } // namespace CCore
 
 #endif

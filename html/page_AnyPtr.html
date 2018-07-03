@@ -30,6 +30,8 @@
 
 <p class="Files">Files <b>CCore/inc/AnyPtr.h</b> <b>CCore/src/AnyPtr.cpp</b></p>
 
+<h3>Pointer classes</h3>
+
 <p>
 Two similar classes implement a "polymorphic pointer" type. They can store multiple type pointers.
 The pointee type list is the template parameter list. <b>AnyPtr</b> stores pointers to non-constants and 
@@ -146,7 +148,7 @@ it remembers the pointer type.
 </p>
 
 <p>
-<b>operator +</b> and <b>operator !</b> can be used to check, if the pointer is non-null.
+<b>operator +</b> and <b>operator !</b> can be used to check, <span class="Alert">if the pointer is non-null</span>.
 </p>
 
 <p>
@@ -213,10 +215,11 @@ class <span class="Att">PrintAnyObj</span>
 </pre>
 
 <p>
-The static method <b>Binary</b> is used with two any-pointers. If pointer types are different then the return object is
-constructed as <b>Ret(a.type,b.type)</b>, so you can handle this case separately. Otherwise if both any-pointers are not
-null objects, then the functor with two elaborated pointers is called. Finally, <b>Ret()</b> is returned if both arguments 
-are null. An example:
+The static method <b>Binary</b> is used with two any-pointers. 
+If pointer types are different then the return object is constructed as <b>Ret(a.type,b.type)</b>, so you can handle this case separately. 
+This case happens also if one of the pointers is null and the other is not (<b>type</b> is 0 for null pointer). 
+Otherwise if both any-pointers are not null objects, then the functor with two elaborated pointers is called. 
+Finally, <b>Ret()</b> is returned if both arguments are null. An example:
 </p>
 
 <pre>
@@ -231,6 +234,8 @@ Type::Binary&lt;Ret&gt;(Type(),Type(),func); // return Ret();
 
 Type::Binary&lt;Ret&gt;(Type(a),Type(b),func); // return Ret(1,2);
 
+Type::Binary&lt;Ret&gt;(Type(),Type(b),func); // return Ret(0,2);
+
 Type::Binary&lt;Ret&gt;(Type(a),Type(c),func); // return func(a,c);
 
 </pre>
@@ -238,6 +243,8 @@ Type::Binary&lt;Ret&gt;(Type(a),Type(c),func); // return func(a,c);
 <p>
 This method is useful for a comparison implementation.
 </p>
+
+<h3>ElaborateAnyPtr()</h3>
 
 <p>
 The global function <b>ElaborateAnyPtr</b> is another great way to demultiplex any-pointers.
@@ -262,6 +269,19 @@ int *a=....;
 double *b=....;
 
 ElaborateAnyPtr(obj,AnyPtr&lt;int,double&gt;(a),AnyPtr&lt;int,double&gt;(b),3,4,5); // calls obj(a,b,3,4,5);
+
+</pre>
+
+<h3>CastAnyPtr()</h3>
+
+<p>
+To cast one <b>AnyPtr</b> pointer to another with an extended type list you can use the following generic function:
+</p>
+
+<pre>
+
+template &lt;class T,class S&gt;
+T <span class="Att">CastAnyPtr</span>(S obj);
 
 </pre>
 

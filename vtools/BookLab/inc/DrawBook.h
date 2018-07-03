@@ -25,7 +25,7 @@
 namespace App {
 namespace DrawBook {
 
-/* using */
+/* types */
 
 using Effect = Book::TypeDef::Format::Effect ;
 
@@ -43,22 +43,7 @@ inline Ratio Cast(Book::TypeDef::Ratio r) { return Div(CastCoord(r.a),CastCoord(
 
 /* guard functions */
 
-void GuardSizeOverflow(const char *name);
-
 void GuardLocked();
-
-/* size functions */
-
-Coord AddSize(Coord a,Coord b);
-
-Coord MulSize(UIntType count,Coord x)
- {
-  if( x>0 && count>SIntFunc<Coord>::UInt(SIntFunc<Coord>::MaxPositive/x) ) GuardSizeOverflow("App::DrawBook::MulSize");
-
-  return Coord(count)*x;
- }
-
-Point StackY(Point a,Point b);
 
 /* functions */
 
@@ -97,16 +82,6 @@ inline VColor Combine(Book::TypeDef::VColor vc_,VColor fallback)
 bool InsSpace(StrLen text);
 
 inline Pane TextPane(Point base,TextSize ts) { return Pane(base.x,base.y-ts.by,ts.dx,ts.dy); }
-
-template <class T,class S>
-T CastAnyPtr(S obj)
- {
-  T ret;
-
-  obj.apply( [&ret] (auto *ptr) { ret=ptr; } );
-
-  return ret;
- }
 
 /* classes */
 

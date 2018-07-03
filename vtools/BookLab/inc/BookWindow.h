@@ -111,7 +111,7 @@ class InnerBookWindow : public SubWindow
    mutable Point size;
 
    mutable bool ok = false ;
-   mutable Coord cache_dx;
+   mutable Coord cache_wdx = 0 ;
 
   private:
 
