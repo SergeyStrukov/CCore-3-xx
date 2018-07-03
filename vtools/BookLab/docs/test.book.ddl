@@ -384,7 +384,7 @@ Cell c1_2 = { {{&t1_2}} } ;
 Cell c1_3 = { {{&t1_3}} } ;
 
 Cell c2_1 = { {{&t2_1}} } ;
-Cell c2_2 = { {{&t2_2}} } ;
+Cell c2_2 = { {{&t2_2}} , 2 , 2 } ;
 Cell c2_3 = { {{&t2_3}} } ;
 
 Cell c3_1 = { {{&t3_1}} } ;
@@ -411,7 +411,7 @@ Text t1_3 = { { {'List'},{'of'},{'operations'} } , &fmt1 } ;
 
 Text t2_1 = { { {'int'} } } ;
 
-Text t2_2 = { { {'long'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'} } } ;
+Text t2_2 = { { {'long'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'LLLLL',&fmt_u,&link3} } } ;
 
 Text t2_3 = { { {'cast'},{'+'},{'-'} } } ;
 

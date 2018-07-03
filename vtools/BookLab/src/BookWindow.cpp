@@ -31,17 +31,17 @@ void InnerBookWindow::cache() const
 
   if( !ok || cache_dx!=dx )
     {
-     SetExactArrayLen(shapes,frames.len);
+     DrawBook::SetExactArrayLen(shapes,frames.len);
 
      Point s;
 
      for(ulen i=0; i<frames.len ;i++)
        {
-        Shape &shape=shapes[i];
+        DrawBook::Shape &shape=shapes[i];
 
         Point ds=shape.set(cfg,map,scale,frames[i],dx,s.y);
 
-        s=StackY(s,ds);
+        s=DrawBook::StackY(s,ds);
        }
 
      size=s;
@@ -51,20 +51,20 @@ void InnerBookWindow::cache() const
     }
  }
 
-PtrLen<const Shape> InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const
+PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const
  {
-  PtrLen<const Shape> r=Range(shapes);
+  PtrLen<const DrawBook::Shape> r=Range(shapes);
 
-  r=Algon::BinarySearch_if(r, [lim] (const Shape &shape) { return shape.getDown() >= lim ; } );
+  r=Algon::BinarySearch_if(r, [lim] (const DrawBook::Shape &shape) { return shape.getDown() >= lim ; } );
 
-  auto s=Algon::BinarySearch_if(r, [off] (const Shape &shape) { return shape.getDown() > off ; } );
+  auto s=Algon::BinarySearch_if(r, [off] (const DrawBook::Shape &shape) { return shape.getDown() > off ; } );
 
   if( +s ) --r;
 
   return r;
  }
 
-PtrLen<const Shape> InnerBookWindow::getVisibleShapes() const
+PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes() const
  {
   Coord wdy=(Coord)sy.page;
   Coord pos_y=(Coord)sy.getPos();
@@ -72,7 +72,7 @@ PtrLen<const Shape> InnerBookWindow::getVisibleShapes() const
   return getVisibleShapes(pos_y,pos_y+wdy);
  }
 
-RefType InnerBookWindow::getRef(Point point) const
+DrawBook::RefType InnerBookWindow::getRef(Point point) const
  {
   cache();
 
@@ -214,7 +214,7 @@ void InnerBookWindow::updated(unsigned flags)
   if( flags&LayoutUpdate ) ok=false;
  }
 
-InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,ExtMap &map_)
+InnerBookWindow::InnerBookWindow(SubWindowHost &host,const Config &cfg_,DrawBook::ExtMap &map_)
  : SubWindow(host),
    cfg(cfg_),
 
@@ -260,8 +260,8 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore
     {
      frames=page->list;
 
-     back=Combine(page->back,back_);
-     fore=Combine(page->fore,fore_);
+     back=DrawBook::Combine(page->back,back_);
+     fore=DrawBook::Combine(page->fore,fore_);
     }
   else
     {
@@ -283,8 +283,8 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page)
     {
      frames=page->list;
 
-     back=Combine(page->back,book_back);
-     fore=Combine(page->fore,book_fore);
+     back=DrawBook::Combine(page->back,book_back);
+     fore=DrawBook::Combine(page->fore,book_fore);
     }
   else
     {
@@ -345,6 +345,9 @@ void InnerBookWindow::layout()
      sy.total=(ulen)size.y;
      sy.page=1;
     }
+
+  sx.adjustPos();
+  sy.adjustPos();
  }
 
 void InnerBookWindow::draw(DrawBuf buf,bool) const
@@ -363,8 +366,8 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
   MCoord width=+cfg.width;
 
-  VColor back=Combine(this->back,+cfg.back);
-  VColor fore=Combine(this->fore,+cfg.fore);
+  VColor back=DrawBook::Combine(this->back,+cfg.back);
+  VColor fore=DrawBook::Combine(this->fore,+cfg.fore);
 
   art.erase(back);
 
@@ -399,7 +402,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
 
      if( pos_x<size.x )
        {
-        shape.draw(cfg,map,scale,fore,buf, -pos_x , down-pos_y );
+        shape.draw(cfg,map,fore,buf, -pos_x , down-pos_y );
        }
     }
  }
@@ -427,7 +430,7 @@ void InnerBookWindow::looseFocus()
 
 MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod) const
  {
-  RefType ref=getRef(point);
+  DrawBook::RefType ref=getRef(point);
 
   return +ref?Mouse_Hand:Mouse_Arrow;
  }
@@ -501,7 +504,7 @@ void InnerBookWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 void InnerBookWindow::react_LeftClick(Point point,MouseKey)
  {
-  RefType ref=getRef(point);
+  DrawBook::RefType ref=getRef(point);
 
   if( !ref ) return;
 
@@ -561,7 +564,7 @@ void DisplayBookWindow::changed()
   redraw();
  }
 
-DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,ExtMap &map)
+DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,DrawBook::ExtMap &map)
  : Base(host,cfg,map),
 
    connector_changed(this,&DisplayBookWindow::changed,window.changed),
@@ -613,7 +616,7 @@ void DisplayBookWindow::setScale(Ratio scale)
 
 /* class DisplayBookFrame */
 
-DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,ExtMap &map,Signal<> &update)
+DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,DrawBook::ExtMap &map,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
    client(*this,cfg.book_cfg,map)
@@ -930,8 +933,8 @@ void BookWindow::load(StrLen file_name)
 
      text_title.setText(DefString(ptr->title.getStr()));
 
-     VColor back=CastColor(ptr->back);
-     VColor fore=CastColor(ptr->fore);
+     VColor back=DrawBook::CastColor(ptr->back);
+     VColor fore=DrawBook::CastColor(ptr->fore);
 
      if( auto *page=ptr->start.getPtr() )
        {
@@ -941,7 +944,7 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        ext_map.bmp.setRoot(file_name);
+        ext_map.setRoot(file_name);
 
         popup.setPage(back,fore);
 
@@ -1012,7 +1015,7 @@ void BookWindow::open()
 
   if( font_flag )
     {
-     ext_map.font.cache(font_inc);
+     ext_map.cache(font_inc);
     }
  }
 

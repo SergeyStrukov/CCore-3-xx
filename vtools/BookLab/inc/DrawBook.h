@@ -478,6 +478,8 @@ class ExtMap : NoCopy
 
    ~ExtMap() {}
 
+   void cache(FontLookup::Incremental &inc,bool use_cache=true) { font.cache(inc,use_cache); }
+
    void blank()
     {
      font.erase();

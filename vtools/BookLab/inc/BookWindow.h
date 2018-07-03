@@ -14,7 +14,7 @@
 #ifndef BookWindow_h
 #define BookWindow_h
 
-#include <inc/Shape.h>
+#include <inc/DrawBook.h>
 
 namespace App {
 
@@ -34,7 +34,7 @@ class InnerBookWindow : public SubWindow
  {
   public:
 
-   struct Config : Shape::Config
+   struct Config : DrawBook::Config
     {
      // user
 
@@ -86,7 +86,7 @@ class InnerBookWindow : public SubWindow
 
    const Config &cfg;
 
-   ExtMap &map;
+   DrawBook::ExtMap &map;
 
    PtrLen<Book::TypeDef::Frame> frames;
    VColor back = Book::NoColor ;
@@ -106,7 +106,7 @@ class InnerBookWindow : public SubWindow
 
    // layout
 
-   mutable DynArray<Shape> shapes;
+   mutable DynArray<DrawBook::Shape> shapes;
 
    mutable Point size;
 
@@ -117,11 +117,11 @@ class InnerBookWindow : public SubWindow
 
    void cache() const;
 
-   PtrLen<const Shape> getVisibleShapes(Coord off,Coord lim) const;
+   PtrLen<const DrawBook::Shape> getVisibleShapes(Coord off,Coord lim) const;
 
-   PtrLen<const Shape> getVisibleShapes() const;
+   PtrLen<const DrawBook::Shape> getVisibleShapes() const;
 
-   RefType getRef(Point point) const;
+   DrawBook::RefType getRef(Point point) const;
 
   private:
 
@@ -162,7 +162,7 @@ class InnerBookWindow : public SubWindow
 
   public:
 
-   InnerBookWindow(SubWindowHost &host,const Config &cfg,ExtMap &map);
+   InnerBookWindow(SubWindowHost &host,const Config &cfg,DrawBook::ExtMap &map);
 
    virtual ~InnerBookWindow();
 
@@ -170,13 +170,13 @@ class InnerBookWindow : public SubWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore); // no layout/redraw
 
-   void setPage(Book::TypeDef::Page *page);
+   void setPage(Book::TypeDef::Page *page); // no layout/redraw
 
-   void posFrame(ulen frame_index);
+   void posFrame(ulen frame_index); // no redraw
 
-   void setScale(Ratio scale);
+   void setScale(Ratio scale); // no layout/redraw
 
    // special methods
 
@@ -264,17 +264,17 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
   public:
 
-   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,ExtMap &map);
+   DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,DrawBook::ExtMap &map);
 
    virtual ~DisplayBookWindow();
 
    // methods
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore);
+   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore); // no redraw
 
    void setPage(Book::TypeDef::Page *page);
 
-   void setPage(Book::TypeDef::Page *page,ulen frame_index);
+   void setPage(Book::TypeDef::Page *page,ulen frame_index); // no redraw
 
    void setScale(Ratio scale);
 
@@ -336,7 +336,7 @@ class DisplayBookFrame : public DragFrame
 
   public:
 
-   DisplayBookFrame(Desktop *desktop,const Config &cfg,ExtMap &map,Signal<> &update);
+   DisplayBookFrame(Desktop *desktop,const Config &cfg,DrawBook::ExtMap &map,Signal<> &update);
 
    virtual ~DisplayBookFrame();
 
@@ -446,7 +446,7 @@ class BookWindow : public ComboWindow
    // data
 
    Book::BookMap book_map;
-   ExtMap ext_map;
+   DrawBook::ExtMap ext_map;
 
    Book::TypeDef::Page *prev = 0 ;
    Book::TypeDef::Page *up   = 0 ;
