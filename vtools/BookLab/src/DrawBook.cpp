@@ -81,11 +81,11 @@ Coord Prepare::SizeSpace(Font font)
 
  // size(Book::TypeDef::Text *)
 
-void Prepare::correctRefs(ulen refs_len,Coord delta_x)
+void Prepare::correctRefs(ulen refs_len,Coord delta_x,Coord delta_y)
  {
   for(RefPane &ref : Range(refs).part(refs_len) )
     {
-     ref.pane.x+=delta_x;
+     ref.pane+=Point(delta_x,delta_y);
     }
  }
 
@@ -203,14 +203,14 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
 
   FontSize fs=font->getSize();
 
-  Coord tdx=fs.dy;
-  Coord tdy=fs.dy;
-
   Coord first_dx=Cast(placement->first_line_space)*fs.dy;
   Coord dy=Cast(placement->line_space)*fs.dy;
 
   ext->first_dx=first_dx;
   ext->dy=dy;
+
+  Coord tdx=fs.dy;
+  Coord tdy=fs.dy;
 
   if( +range )
     {
@@ -230,6 +230,8 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
 
         for(++range; +range ;++range,len++)
           {
+           ulen refs_len=refs.getLen();
+
            LineSize delta=sizeSpan(fmt,font,space_dx,*range,p);
 
            fmt=range->fmt;
@@ -242,6 +244,8 @@ Point Prepare::size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> r
              }
            else
              {
+              correctRefs(refs_len,-dx,dy);
+
               Replace_max(tdx,dx);
 
               tdy=AddSize(tdy,dy);
@@ -343,7 +347,7 @@ Point Prepare::size(Book::TypeDef::Bitmap *obj,FrameExt *,Coord,Point)
 
  // size(Book::TypeDef::TextList *)
 
-Coord Prepare::sizeBullet(Font font,StrLen text)
+Coord Prepare::SizeBullet(Font font,StrLen text)
  {
   return SizeSpan(font,text).dx;
  }
@@ -469,15 +473,20 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
 
   auto list=obj->list.getRange();
 
-  SetExactArrayLen(ext->size_list,list.len);
+  if( !list.len )
+    {
+     ext->size_list.erase();
 
-  if( !list.len ) return Null;
+     return Null;
+    }
+
+  SetExactArrayLen(ext->size_list,list.len);
 
   Font font=use(obj->bullet_fmt);
 
   Coord bullet_len = 0 ;
 
-  for(auto &item : list ) Replace_max(bullet_len,sizeBullet(font,item.bullet));
+  for(auto &item : list ) Replace_max(bullet_len,SizeBullet(font,item.bullet));
 
   Coord bullet_space=scale*Coord(obj->bullet_space);
 

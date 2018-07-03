@@ -62,7 +62,7 @@ class Prepare : NoCopy
 
    // size()
 
-    void correctRefs(ulen refs_len,Coord delta_x);
+    void correctRefs(ulen refs_len,Coord delta_x,Coord delta_y=0);
 
     Coord sizeSpan(Font font,Book::TypeDef::Span span,Point base);
 
@@ -88,7 +88,7 @@ class Prepare : NoCopy
 
    Point size(Book::TypeDef::Bitmap *obj,FrameExt *ext,Coord wdx,Point base);
 
-    Coord sizeBullet(Font font,StrLen text);
+    static Coord SizeBullet(Font font,StrLen text);
 
     struct ItemBase
      {
