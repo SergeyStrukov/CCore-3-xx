@@ -21,7 +21,7 @@ namespace DrawBook {
 
 /* classes */
 
-struct Prepare;
+class Prepare;
 
 struct DrawOut;
 
@@ -29,108 +29,110 @@ class Draw;
 
 class Shape;
 
-/* struct Prepare */
+/* class Prepare */
 
-struct Prepare
+class Prepare : NoCopy
  {
-  const Config &cfg;
-  ExtMap &map;
-  Ratio scale;
-  DynArray<RefPane> &refs;
+   const Config &cfg;
+   ExtMap &map;
+   Ratio scale;
+   DynArray<RefPane> &refs;
 
-  unsigned level = 25 ;
+   unsigned level = 25 ;
 
-  // private
+  private:
 
-  void addRef(RefType ref,Pane pane);
+   void addRef(RefType ref,Pane pane);
 
-  static RefType CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref);
+   static RefType CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref);
 
-  void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane);
+   void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane);
 
    // common
 
-  Font use(const Book::TypeDef::Format *fmt);
+   Font use(const Book::TypeDef::Format *fmt);
 
-  Font useFixed(const Book::TypeDef::Format *fmt);
+   Font useFixed(const Book::TypeDef::Format *fmt);
 
-  Font over(Font font,const Book::TypeDef::Format *fmt);
+   Font over(Font font,const Book::TypeDef::Format *fmt);
 
-  static TextSize SizeSpan(Font font,StrLen text);
+   static TextSize SizeSpan(Font font,StrLen text);
 
-  static Coord SizeSpace(Font font);
+   static Coord SizeSpace(Font font);
 
    // size()
 
-   void correctRefs(ulen refs_len,Coord delta_x);
+    void correctRefs(ulen refs_len,Coord delta_x);
 
-   Coord sizeSpan(Font font,Book::TypeDef::Span span,Point base);
+    Coord sizeSpan(Font font,Book::TypeDef::Span span,Point base);
 
-   struct LineSize
-    {
-     Coord dx;
-     Coord edx;
-    };
+    struct LineSize
+     {
+      Coord dx;
+      Coord edx;
+     };
 
-   LineSize sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base);
+    LineSize sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord space_dx,Book::TypeDef::Span span,Point base);
 
-   Coord sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Point base);
+    Coord sizeLine(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Point base);
 
-   Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Coord wdx,Point base);
+    Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::OneLine *placement,FrameExt_OneLine *ext,Coord wdx,Point base);
 
-   Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Coord wdx,Point base);
+    Point size(Font font,Coord space_dx,PtrLen<const Book::TypeDef::Span> range,Book::TypeDef::MultiLine *placement,FrameExt_MultiLine *ext,Coord wdx,Point base);
 
-  Point size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base);
+   Point size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base);
 
-   Coord sizeLine(Font font,const Book::TypeDef::Line &line,Point base);
+    Coord sizeLine(Font font,Book::TypeDef::Line line,Point base);
 
-  Point size(Book::TypeDef::FixedText *obj,FrameExt *ext,Coord wdx,Point base);
+   Point size(Book::TypeDef::FixedText *obj,FrameExt *ext,Coord wdx,Point base);
 
-  Point size(Book::TypeDef::Bitmap *obj,FrameExt *ext,Coord wdx,Point base);
+   Point size(Book::TypeDef::Bitmap *obj,FrameExt *ext,Coord wdx,Point base);
 
-   Coord sizeBullet(Font font,StrLen text);
+    Coord sizeBullet(Font font,StrLen text);
 
-   struct ItemBase
-    {
-     Coord by = 0 ;
-     bool ok = false ;
-    };
+    struct ItemBase
+     {
+      Coord by = 0 ;
+      bool ok = false ;
+     };
 
-   ItemBase getBase(Book::TypeDef::Text *obj);
+    ItemBase getBase(Book::TypeDef::Text *obj);
 
-   ItemBase getBase(Book::TypeDef::FixedText *obj);
+    ItemBase getBase(Book::TypeDef::FixedText *obj);
 
-   ItemBase getBase(Book::TypeDef::Bitmap *obj);
+    ItemBase getBase(Book::TypeDef::Bitmap *obj);
 
-   ItemBase getBase(Book::TypeDef::TextList *obj);
+    ItemBase getBase(Book::TypeDef::TextList *obj);
 
-   ItemBase getBase(Book::TypeDef::Collapse *obj);
+    ItemBase getBase(Book::TypeDef::Collapse *obj);
 
-   ItemBase getBase(Book::TypeDef::Table *obj);
+    ItemBase getBase(Book::TypeDef::Table *obj);
 
-   ItemBase getBase(Book::TypeDef::Frame *frame);
+    ItemBase getBase(Book::TypeDef::Frame *frame);
 
-   Point sizeItem(FontSize fs,Book::TypeDef::ListItem item,ListItemSize &item_size,Coord bullet_dx,Coord wdx,Point base);
+    Point sizeItem(FontSize fs,Book::TypeDef::ListItem item,ListItemSize &item_size,Coord bullet_dx,Coord wdx,Point base);
 
-  Point size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base);
+   Point size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wdx,Point base);
 
-  Point size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base);
+   Point size(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,Coord wdx,Point base);
+
+    template <class T>
+    static void CorrectSpanLen(T &span,ulen cap);
+
+   Point size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base);
 
    template <class T>
-   static void CorrectSpanLen(T &span,ulen cap);
-
-  Point size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Point base);
-
-  template <class T>
-  Point sizeAny(T body,FrameExt *ext,Coord wdx,Point base);
+   Point sizeAny(T body,FrameExt *ext,Coord wdx,Point base);
 
    // frame
 
-  Point operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point base);
+   Point operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point base);
 
-  // public
+  public:
 
-  Point operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base);
+   Prepare(const Config &cfg_,ExtMap &map_,Ratio scale_,DynArray<RefPane> &refs_) : cfg(cfg_),map(map_),scale(scale_),refs(refs_) {}
+
+   Point operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base);
  };
 
 /* struct DrawOut */
@@ -173,7 +175,7 @@ struct DrawOut
 
 /* class Draw */
 
-class Draw
+class Draw : NoCopy
  {
    const Config &cfg;
    ExtMap &map;

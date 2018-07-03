@@ -21,8 +21,6 @@ namespace DrawBook {
 
 /* struct Prepare */
 
- // private
-
 void Prepare::addRef(RefType ref,Pane pane)
  {
   if( +ref ) refs.append_copy({pane,ref});
@@ -97,8 +95,6 @@ Coord Prepare::sizeSpan(Font font,Book::TypeDef::Span span,Point base)
 
   addRef(span.ref,TextPane(base,ts));
 
-  OptimizeBarrier(0,0);
-
   return ts.dx;
  }
 
@@ -123,8 +119,6 @@ auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord spa
   TextSize ts=SizeSpan(span_font,span.body);
 
   addRef(span.ref,TextPane(base.addX(sdx),ts));
-
-  OptimizeBarrier(0,0);
 
   return {ts.dx,ts.dx+sdx};
  }
@@ -292,11 +286,11 @@ Point Prepare::size(Book::TypeDef::Text *obj,FrameExt *ext,Coord wdx,Point base)
 
  // size(Book::TypeDef::FixedText *)
 
-Coord Prepare::sizeLine(Font font,const Book::TypeDef::Line &line,Point base)
+Coord Prepare::sizeLine(Font font,Book::TypeDef::Line line,Point base)
  {
   Coord tdx=0;
 
-  for(const Book::TypeDef::FixedSpan &span : line.getRange() )
+  for(Book::TypeDef::FixedSpan span : line.getRange() )
     {
      TextSize ts=SizeSpan(over(font,span.fmt),span.body);
 
@@ -326,9 +320,9 @@ Point Prepare::size(Book::TypeDef::FixedText *obj,FrameExt *,Coord,Point base)
 
   Coord dx=0;
 
-  for(const Book::TypeDef::Line &line : range )
+  for(const Book::TypeDef::Line line : range )
     {
-     dx=Max(dx,sizeLine(font,line,base));
+     Replace_max(dx,sizeLine(font,line,base));
 
      base.y+=dy;
     }
@@ -1359,7 +1353,7 @@ void Draw::draw(Book::TypeDef::Text *obj,FrameExt *ext,DrawOut out)
 
 void Draw::drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,DrawOut out)
  {
-  for(const Book::TypeDef::FixedSpan &span : line )
+  for(Book::TypeDef::FixedSpan span : line )
     {
      out.base=drawSpan(over(format,span.fmt),span.body,out);
     }
@@ -1377,7 +1371,7 @@ void Draw::draw(Book::TypeDef::FixedText *obj,FrameExt *,DrawOut out)
 
   Coord dy=fs.dy;
 
-  for(const Book::TypeDef::Line &line : obj->list.getRange() )
+  for(Book::TypeDef::Line line : obj->list.getRange() )
     {
      drawLine(format,line.getRange(),out);
 
@@ -1559,7 +1553,7 @@ Coord Draw::operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base)
 
 void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx)
  {
-  Prepare ctx{cfg,map,scale,refs};
+  Prepare ctx(cfg,map,scale,refs);
 
   size=ctx(frame,wdx,Null);
  }
