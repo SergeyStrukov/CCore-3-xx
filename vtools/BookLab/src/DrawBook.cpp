@@ -14,268 +14,10 @@
 #include <inc/DrawBook.h>
 #include <inc/SpanLenEngine.h>
 
-#include <CCore/inc/Path.h>
-
 #include <CCore/inc/video/FigureLib.h>
 
 namespace App {
 namespace DrawBook {
-
-/* functions */
-
-bool InsSpace(StrLen text)
- {
-  if( text.len!=1 ) return true;
-
-  switch( *text )
-    {
-     case '.' : case ',' : case ';' : case ':' : return false;
-
-     default: return true;
-    }
- }
-
-/* class FontMap */
-
-auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
- {
-  const FontInfo *info=lookup.find(face,bold,italic);
-
-  if( !info ) return {fallback,true,true};
-
-  try
-    {
-     FreeTypeFont font(Range(info->file_name));
-
-     font.setSize(size);
-
-     FreeTypeFont::Config cfg;
-
-     cfg.strength=strength;
-
-     font.setConfig(cfg);
-
-     return {font,true,false};
-    }
-  catch(...)
-    {
-     return {fallback,true,true};
-    }
- }
-
-auto FontMap::find(Book::TypeDef::Font *obj,Font fallback) -> Rec
- {
-  return find(obj->face,scale*CastCoord(obj->size),obj->strength,obj->bold,obj->italic,fallback);
- }
-
-void FontMap::SetSize(Font &font_,Coord size)
- {
-  FreeTypeFont &font=static_cast<FreeTypeFont &>(font_);
-
-  font.setSize(size);
- }
-
-void FontMap::setScale(Ratio scale_)
- {
-  scale=scale_;
-
-  for(Rec &rec : map ) rec.ok=false;
- }
-
-Font FontMap::operator () (Book::TypeDef::Font *obj,Font fallback)
- {
-  if( !obj ) return fallback;
-
-  if( ulen ext=obj->ext )
-    {
-     Rec &rec=map.at(ext-1);
-
-     if( rec.ok ) return rec.font;
-
-     if( rec.fallback )
-       {
-        rec.font=fallback;
-       }
-     else
-       {
-        SetSize(rec.font,scale*CastCoord(obj->size));
-       }
-
-     rec.ok=true;
-
-     return rec.font;
-    }
-  else
-    {
-     Rec rec=find(obj,fallback);
-
-     map.append_copy(rec);
-
-     obj->ext=map.getLen();
-
-     return rec.font;
-    }
- }
-
-/* class BitmapMap */
-
-void BitmapMap::setRoot(StrLen file_name)
- {
-  SplitPath split1(file_name);
-  SplitName split2(split1.path);
-
-  file_name.len-=split2.name.len;
-
-  root=String(file_name);
- }
-
-const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *obj)
- {
-  if( !obj ) return 0;
-
-  try
-    {
-     if( ulen ext=obj->ext )
-       {
-        return &map.at(ext-1);
-       }
-     else
-       {
-        Bitmap *ret=map.append_fill(Range(root),obj->file_name);
-
-        obj->ext=map.getLen();
-
-        return ret;
-       }
-    }
-  catch(...) { return 0; }
- }
-
-/* struct TableDesc */
-
-void TableDesc::setBase()
- {
-  Point base(space,space);
-
-  for(ulen j : IndLim(tdy.len) )
-    {
-     base.x=space;
-
-     for(ulen i : IndLim(tdx.len) )
-       {
-        span(i,j).base=base;
-
-        base.x+=tdx[i]+space;
-       }
-
-     base.y+=tdy[j]+space;
-    }
- }
-
-Coord TableDesc::Size(PtrLen<const Coord> tdx,Coord space)
- {
-  Coord ret=space;
-
-  for(Coord x : tdx ) ret=AddSize(ret,AddSize(x,space));
-
-  return ret;
- }
-
-/* class FrameMap */
-
-template <class T>
-FrameExt * FrameMap::createType()
- {
-  return new( pool.alloc(sizeof (T)) ) T();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::OneLine *)
- {
-  return createType<FrameExt_OneLine>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::MultiLine *)
- {
-  return createType<FrameExt_MultiLine>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::Text *obj)
- {
-  if( !obj ) return 0;
-
-  FrameExt *ret=0;
-
-  obj->placement.getPtr().apply( [&] (auto *placement) { ret=create(placement); } );
-
-  return ret;
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::FixedText *)
- {
-  return createType<FrameExt>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::Bitmap *)
- {
-  return createType<FrameExt>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::TextList *)
- {
-  return createType<FrameExt_TextList>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::Collapse *)
- {
-  return createType<FrameExt_Collapse>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::Table *)
- {
-  return createType<FrameExt_Table>();
- }
-
-FrameExt * FrameMap::create(Book::TypeDef::Frame *obj)
- {
-  FrameExt *ret=0;
-
-  obj->body.getPtr().apply( [&] (auto *obj) { ret=create(obj); } );
-
-  if( !ret ) return createType<FrameExt>();
-
-  return ret;
- }
-
-void FrameMap::erase()
- {
-  for(FrameExt *ext : buf ) ext->~FrameExt();
-
-  buf.erase();
-
-  pool.erase();
- }
-
-FrameExt * FrameMap::operator () (Book::TypeDef::Frame *obj)
- {
-  if( !obj ) return 0;
-
-  if( ulen ext=obj->ext )
-    {
-     return buf.at(ext-1);
-    }
-  else
-    {
-     buf.reserve(1);
-
-     FrameExt *ret=create(obj);
-
-     buf.append_copy(ret);
-
-     obj->ext=buf.getLen();
-
-     return ret;
-    }
- }
 
 /* struct Prepare */
 
@@ -355,6 +97,8 @@ Coord Prepare::sizeSpan(Font font,Book::TypeDef::Span span,Point base)
 
   addRef(span.ref,TextPane(base,ts));
 
+  OptimizeBarrier(0,0);
+
   return ts.dx;
  }
 
@@ -379,6 +123,8 @@ auto Prepare::sizeSpan(const Book::TypeDef::Format *prev_fmt,Font font,Coord spa
   TextSize ts=SizeSpan(span_font,span.body);
 
   addRef(span.ref,TextPane(base.addX(sdx),ts));
+
+  OptimizeBarrier(0,0);
 
   return {ts.dx,ts.dx+sdx};
  }
@@ -683,7 +429,7 @@ auto Prepare::getBase(Book::TypeDef::Frame *frame) -> ItemBase
   return ret;
  }
 
-Point Prepare::sizeItem(FontSize fs,Book::TypeDef::ListItem item,FrameExt_TextList::Delta &delta,Coord bullet_dx,Coord wdx,Point base)
+Point Prepare::sizeItem(FontSize fs,Book::TypeDef::ListItem item,ListItemSize &item_size,Coord bullet_dx,Coord wdx,Point base)
  {
   auto list=item.list.getRange();
 
@@ -709,9 +455,9 @@ Point Prepare::sizeItem(FontSize fs,Book::TypeDef::ListItem item,FrameExt_TextLi
        }
     }
 
-  delta.by1=by1;
-  delta.dy1=dy1;
-  delta.by2=by2;
+  item_size.by1=by1;
+  item_size.dy1=dy1;
+  item_size.by2=by2;
 
   Point s=(*this)(list,wdx,base+Point(bullet_dx,by2));
 
@@ -722,14 +468,14 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
  {
   if( !obj )
     {
-     ext->delta.erase();
+     ext->size_list.erase();
 
      return Null;
     }
 
   auto list=obj->list.getRange();
 
-  SetExactArrayLen(ext->delta,list.len);
+  SetExactArrayLen(ext->size_list,list.len);
 
   if( !list.len ) return Null;
 
@@ -749,7 +495,7 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
 
   Point ret(0,MulSize(list.len-1,item_space));
 
-  FrameExt_TextList::Delta *delta=ext->delta.getPtr();
+  ListItemSize *size_list=ext->size_list.getPtr();
 
   Coord bullet_dx=AddSize(bullet_len,bullet_space);
 
@@ -759,7 +505,7 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
 
   for(ulen i=0; i<list.len ;i++)
     {
-     Point s=sizeItem(fs,list[i],delta[i],bullet_dx,wdx,base);
+     Point s=sizeItem(fs,list[i],size_list[i],bullet_dx,wdx,base);
 
      ret=StackYSize_guarded(ret,s);
 
@@ -1164,11 +910,11 @@ Coord DrawOut::Sum(PtrLen<const Coord> tdx,Coord space,ulen i,ulen k)
  }
 
 template <class F1,class F2,class F3>
-void DrawOut::DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord space,Coord maxlen,F2 sk,F3 add)
+void DrawOut::DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord space,Coord maxlen,F2 skip,F3 add)
  {
   for(ulen i=0; i<tdx.len ;i++)
     {
-     if( sk(i) )
+     if( skip(i) )
        {
         if( i>0 )
           {
@@ -1183,7 +929,7 @@ void DrawOut::DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord space,Coor
           {
            ulen k=i+1;
 
-           for(; k<tdx.len && sk(k) ;k++);
+           for(; k<tdx.len && skip(k) ;k++);
 
            if( k<tdx.len )
              {
@@ -1191,7 +937,7 @@ void DrawOut::DrawLine(F1 path,MPoint A,PtrLen<const Coord> tdx,Coord space,Coor
 
               i=k;
 
-              for(k=i+1; k<tdx.len && !sk(k) ;k++);
+              for(k=i+1; k<tdx.len && !skip(k) ;k++);
 
               MPoint B=add(A, Sum(tdx,space,i,k) );
 
@@ -1250,9 +996,9 @@ void DrawOut::table(TableDesc desc,VColor line,MCoord width)
 
    for(ulen i : IndLim(desc.tdx.len) )
      {
-      auto sk = [i,span] (ulen j) { return span(i,j).left; } ;
+      auto skip = [i,span] (ulen j) { return span(i,j).left; } ;
 
-      DrawLine(path,P,desc.tdy,desc.space,dy,sk,add);
+      DrawLine(path,P,desc.tdy,desc.space,dy,skip,add);
 
       Coord x=desc.tdx[i];
 
@@ -1271,9 +1017,9 @@ void DrawOut::table(TableDesc desc,VColor line,MCoord width)
 
    for(ulen j : IndLim(desc.tdy.len) )
      {
-      auto sk = [j,span] (ulen i) { return span(i,j).top; } ;
+      auto skip = [j,span] (ulen i) { return span(i,j).top; } ;
 
-      DrawLine(path,P,desc.tdx,desc.space,dx,sk,add);
+      DrawLine(path,P,desc.tdx,desc.space,dx,skip,add);
 
       Coord y=desc.tdy[j];
 
@@ -1284,7 +1030,7 @@ void DrawOut::table(TableDesc desc,VColor line,MCoord width)
   }
  }
 
-/* struct Draw */
+/* class Draw */
 
  // GetAnyBack()
 
@@ -1389,25 +1135,6 @@ void Draw::drawAnyLine(T line,Pane pane,DrawBuf buf)
 
  // common
 
-auto Draw::Format::over(ExtMap &map,const Book::TypeDef::Format *fmt) const -> Format
- {
-  if( fmt )
-    {
-     Format ret;
-
-     ret.font=map(fmt->font,font);
-
-     ret.back=Combine(fmt->back,back);
-     ret.fore=Combine(fmt->fore,fore);
-
-     ret.effect=fmt->effect;
-
-     return ret;
-    }
-
-  return *this;
- }
-
 auto Draw::use(const Book::TypeDef::Format *fmt) -> Format
  {
   Format ret;
@@ -1486,6 +1213,25 @@ auto Draw::useBack(const Book::TypeDef::Format *fmt) -> Format
   return ret;
  }
 
+auto Draw::over(Format format,const Book::TypeDef::Format *fmt) -> Format
+ {
+  if( fmt )
+    {
+     Format ret;
+
+     ret.font=map(fmt->font,format.font);
+
+     ret.back=Combine(fmt->back,format.back);
+     ret.fore=Combine(fmt->fore,format.fore);
+
+     ret.effect=fmt->effect;
+
+     return ret;
+    }
+
+  return format;
+ }
+
 Point Draw::drawSpan(Format format,StrLen text,DrawOut out)
  {
   TextSize ts=format.font->text(text);
@@ -1508,12 +1254,12 @@ Point Draw::drawSpace(Format format,DrawOut out)
 
 Point Draw::drawSpan(Format format,Book::TypeDef::Span span,DrawOut out)
  {
-  return drawSpan(format.over(map,span.fmt),span.body,out);
+  return drawSpan(over(format,span.fmt),span.body,out);
  }
 
 Point Draw::drawSpan(const Book::TypeDef::Format *prev_fmt,Format format,Book::TypeDef::Span span,DrawOut out)
  {
-  Format span_format=format.over(map,span.fmt);
+  Format span_format=over(format,span.fmt);
 
   if( InsSpace(span.body) )
     {
@@ -1615,7 +1361,7 @@ void Draw::drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,Dr
  {
   for(const Book::TypeDef::FixedSpan &span : line )
     {
-     out.base=drawSpan(format.over(map,span.fmt),span.body,out);
+     out.base=drawSpan(over(format,span.fmt),span.body,out);
     }
  }
 
@@ -1661,13 +1407,13 @@ void Draw::drawBullet(Format format,StrLen text,Coord bullet_len,DrawOut out)
   out.text(format.font,text,format.fore);
  }
 
-Coord Draw::drawItem(Format format,Book::TypeDef::ListItem item,FrameExt_TextList::Delta delta,Coord bullet_len,Coord bullet_space,DrawOut out)
+Coord Draw::drawItem(Format format,Book::TypeDef::ListItem item,ListItemSize item_size,Coord bullet_len,Coord bullet_space,DrawOut out)
  {
-  drawBullet(format,item.bullet,bullet_len,out.addY(delta.by1));
+  drawBullet(format,item.bullet,bullet_len,out.addY(item_size.by1));
 
-  Point ebase=(*this)(item.list,out.add(bullet_len+bullet_space,delta.by2));
+  Point ebase=(*this)(item.list,out.add(bullet_len+bullet_space,item_size.by2));
 
-  return Max_cast(delta.dy1,ebase.y-out.base.y);
+  return Max_cast(item_size.dy1,ebase.y-out.base.y);
  }
 
 void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,DrawOut out)
@@ -1678,7 +1424,7 @@ void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,DrawOut out)
   Coord bullet_space=ext->bullet_space;
   Coord item_space=ext->item_space;
 
-  FrameExt_TextList::Delta *delta=ext->delta.getPtr();
+  ListItemSize *size_list=ext->size_list.getPtr();
 
   Format format=useBack(obj->bullet_fmt);
 
@@ -1686,7 +1432,7 @@ void Draw::draw(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,DrawOut out)
 
   for(ulen i=0; i<list.len ;i++)
     {
-     Coord dy=drawItem(format,list[i],delta[i],bullet_len,bullet_space,out);
+     Coord dy=drawItem(format,list[i],size_list[i],bullet_len,bullet_space,out);
 
      out.base.y+=(dy+item_space);
     }
@@ -1718,9 +1464,9 @@ void Draw::draw(Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext,DrawOut out)
     }
   else
     {
-     Coord by=format.font->getSize().by;
-
      out.drawPlus(cfg,len);
+
+     Coord by=format.font->getSize().by;
 
      drawSpan(format,obj->title,out.add(elen,by));
     }
@@ -1820,7 +1566,7 @@ void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx)
 
 void Shape::draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Point base) const
  {
-  Draw ctx{cfg,map,fore};
+  Draw ctx(cfg,map,fore);
 
   ctx(frame,buf,base);
  }
