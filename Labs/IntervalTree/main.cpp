@@ -157,6 +157,51 @@ class IntervalTree
      root=buildNode(list,temp.getPtr());
     }
 
+   template <class Func>
+   static void Feed(Func func,PtrLen<Rec> list)
+    {
+     for(auto &rec : list ) func(rec.index);
+    }
+
+   template <class Func>
+   static void FindLo(T point,Func func,PtrLen<Rec> list) // obj.point <= point
+    {
+     auto res=Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
+
+     Feed(func,res);
+    }
+
+   template <class Func>
+   static void FindHi(T point,Func func,PtrLen<Rec> list) // obj.point > point
+    {
+     Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
+
+     Feed(func,list);
+    }
+
+   template <class Func>
+   static void Find(T point,Func func,const Node *node)
+    {
+     if( !node ) return;
+
+     if( point<node->split )
+       {
+        Find(point,func,node->lo);
+
+        FindLo(point,func,Range(node->mid_lo));
+       }
+     else if( point>node->split )
+       {
+        FindHi(point,func,Range(node->mid_hi));
+
+        Find(point,func,node->hi);
+       }
+     else
+       {
+        Feed(func,Range(node->mid_lo));
+       }
+    }
+
   public:
 
    IntervalTree() {}
@@ -179,8 +224,9 @@ class IntervalTree
     }
 
    template <class Func>
-   void find(T point,Func func) // func(index)
+   void find(T point,Func func) const // func(index)
     {
+     Find(point,func,root);
     }
  };
 
