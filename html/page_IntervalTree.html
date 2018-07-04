@@ -1,0 +1,55 @@
+<!--
+/* page_IntervalTree.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> IntervalTree</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>IntervalTree</h2>
+
+<p class="Files">Files <b>CCore/inc/IntervalTree.h</b> <b>CCore/src/IntervalTree.cpp</b></p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">IntervalTree</span>
+ {
+   ....
+
+  public:
+
+   IntervalTree() {}
+
+   template &lt;class R,class Func&gt;
+   IntervalTree(R range,Func func); // func(range[index]) -> {T a,T b} , [a,b)
+
+   void find(T point,FuncArgType&lt;ulen&gt; func) const; // func(index)
+ };
+
+</pre>
+
+</body>
+
+</html>
+

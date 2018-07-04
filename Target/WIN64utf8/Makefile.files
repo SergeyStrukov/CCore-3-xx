@@ -176,6 +176,7 @@ OBJ_LIST = \
 .obj/InternalDesktop.o \
 .obj/InternalHost.o \
 .obj/InternalUtils.o \
+.obj/IntervalTree.o \
 .obj/Job.o \
 .obj/Keyboard.o \
 .obj/LangDataMap.o \
@@ -639,6 +640,7 @@ ASM_LIST = \
 .obj/InternalDesktop.s \
 .obj/InternalHost.s \
 .obj/InternalUtils.s \
+.obj/IntervalTree.s \
 .obj/Job.s \
 .obj/Keyboard.s \
 .obj/LangDataMap.s \
@@ -1102,6 +1104,7 @@ DEP_LIST = \
 .obj/InternalDesktop.dep \
 .obj/InternalHost.dep \
 .obj/InternalUtils.dep \
+.obj/IntervalTree.dep \
 .obj/Job.dep \
 .obj/Keyboard.dep \
 .obj/LangDataMap.dep \
@@ -1929,6 +1932,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/InternalUtils.o : ../../Target/WIN64utf8/CCore/src/./video/InternalUtils.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/IntervalTree.o : ../../Applied/CCore/src/./IntervalTree.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Job.o : ../../Fundamental/CCore/src/./Job.cpp
@@ -3313,6 +3319,9 @@ include $(RULES_FILE)
 .obj/InternalUtils.s : ../../Target/WIN64utf8/CCore/src/./video/InternalUtils.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/IntervalTree.s : ../../Applied/CCore/src/./IntervalTree.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Job.s : ../../Fundamental/CCore/src/./Job.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4694,6 +4703,9 @@ include $(RULES_FILE)
 
 .obj/InternalUtils.dep : ../../Target/WIN64utf8/CCore/src/./video/InternalUtils.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InternalUtils.o $< -MF $@
+
+.obj/IntervalTree.dep : ../../Applied/CCore/src/./IntervalTree.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/IntervalTree.o $< -MF $@
 
 .obj/Job.dep : ../../Fundamental/CCore/src/./Job.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Job.o $< -MF $@
