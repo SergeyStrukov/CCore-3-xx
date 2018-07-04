@@ -13,6 +13,7 @@
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
+#include <CCore/inc/PlatformRandom.h>
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Array.h>
@@ -158,13 +159,13 @@ class IntervalTree
     }
 
    template <class Func>
-   static void Feed(Func func,PtrLen<Rec> list)
+   static void Feed(Func func,PtrLen<const Rec> list)
     {
      for(auto &rec : list ) func(rec.index);
     }
 
    template <class Func>
-   static void FindLo(T point,Func func,PtrLen<Rec> list) // obj.point <= point
+   static void FindLo(T point,Func func,PtrLen<const Rec> list) // obj.point <= point
     {
      auto res=Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
 
@@ -172,7 +173,7 @@ class IntervalTree
     }
 
    template <class Func>
-   static void FindHi(T point,Func func,PtrLen<Rec> list) // obj.point > point
+   static void FindHi(T point,Func func,PtrLen<const Rec> list) // obj.point > point
     {
      Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
 
@@ -230,10 +231,98 @@ class IntervalTree
     }
  };
 
+/* class Engine */
+
+class Engine : NoCopy
+ {
+   PlatformRandom random;
+
+   struct Int
+    {
+     int a;
+     int b;
+    };
+
+   struct Rec
+    {
+     int a;
+     int b;
+     bool hit;
+
+     void test(int t)
+      {
+       bool res = ( t>=a && t<b ) ;
+
+       if( res!=hit )
+         {
+          Printf(Exception,"test failed");
+         }
+
+       //Printf(Con,"#;\n",(int)res);
+      }
+    };
+
+   DynArray<Rec> list;
+
+   IntervalTree<int> tree;
+
+  private:
+
+   Rec gen()
+    {
+     int a=random.select(1000);
+     int b=a+1+random.select(1000);
+
+     return {a,b,false};
+    }
+
+   void test()
+    {
+     int t=random.select(2000);
+
+     for(Rec &rec : list ) rec.hit=false;
+
+     tree.find(t, [&] (ulen ind) { list[ind].hit=true; } );
+
+     for(Rec &rec : list ) rec.test(t);
+    }
+
+  public:
+
+   Engine()
+    : list(random.select(10,1000))
+    {
+     for(Rec &obj : list ) obj=gen();
+
+     tree=IntervalTree<int>(Range(list), [] (Rec rec) ->Int { return {rec.a,rec.b}; } );
+    }
+
+   void run(unsigned count=1000)
+    {
+     for(; count ;count--) test();
+    }
+ };
+
 /* Main() */
 
 void Main()
  {
+#if 0
+
+  Engine engine;
+
+  engine.run(1);
+
+#else
+
+  for(unsigned cnt=10000; cnt ;cnt--)
+    {
+     Engine engine;
+
+     engine.run();
+    }
+
+#endif
  }
 
 } // namespace App
