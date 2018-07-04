@@ -30,6 +30,46 @@
 
 <p class="Files">Files <b>CCore/inc/gadget/LockUse.h</b> <b>CCore/src/gadget/LockUse.cpp</b></p>
 
+<p>
+<b>LockUse</b> is used to limit usage of some resource. It works with some usage counter.
+</p>
+
+<pre>
+
+template &lt;UIntType UInt&gt;
+class <span class="Att">LockUse</span> : NoCopy
+ {
+   UInt &amp;count;
+
+  public:
+
+   explicit LockUse(UInt &amp;count_) : count(count_) { if( !count_ ) GuardUseLocked(); count_--; }
+
+   ~LockUse() { count++; }
+ };
+
+</pre>
+
+<p>
+If the counter is zero then attempt to lock it cause an exception.
+Otherwise the counter is decremented and incremented in the destructor.
+This class is useful to guard recursive calls.
+</p>
+
+<pre>
+
+unsigned count = 10 ; 
+
+{
+ // no more count locks in the scope
+
+ LockUse lock(count)
+
+ ....
+
+}
+
+</pre>
 
 </body>
 

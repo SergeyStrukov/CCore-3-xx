@@ -30,6 +30,101 @@
 
 <p class="Files">Files <b>CCore/inc/ForLoop.h</b> <b>CCore/src/ForLoop.cpp</b></p>
 
+<p>
+Some tools for range-based for loop.
+</p>
+
+<h3>IndLim</h3>
+
+<p>
+<b>IndLim</b> can be used to run over a set of indexes.
+</p>
+
+<pre>
+
+template &lt;SUIntType SUInt&gt;
+class <span class="Att">IndLim</span>
+ {
+   SUInt ind;
+   SUInt lim;
+
+  public:
+
+   IndLim(SUInt ind_,SUInt lim_) : ind(ind_),lim(lim_) {}
+
+   explicit IndLim(SUInt lim_) : ind(0),lim(lim_) {}
+
+   // loop
+
+   bool operator != (Meta::Empty) const { return ind&lt;lim; }
+
+   SUInt operator * () const { return ind; }
+
+   void operator ++ () { ind++; }
+
+   // begin()/end()
+
+   IndLim begin() const { return *this; }
+
+   Meta::Empty end() const { return {}; }
+ };
+
+</pre>
+
+<pre>
+
+for(auto i : IndLim(10) ) { .... } // run for 0,1,...,9
+
+for(auto i : IndLim(10,20) ) { .... } // run for 10,11,...,19
+
+</pre>
+
+<h3>ForLoop</h3>
+
+<p>
+<b>ForLoop</b> can use a cursor to run over its sequence.
+</p>
+
+<pre>
+
+template &lt;ForType Cur&gt;
+class <span class="Att">ForLoop</span>
+ {
+   Cur cur;
+
+  public:
+
+   explicit ForLoop(const Cur &amp;cur_) : cur(cur_) {}
+
+   template &lt;class ... SS&gt;
+   explicit ForLoop(SS &amp;&amp; ... ss) : cur( std::forward&lt;SS&gt;(ss)... ) {}
+
+   // loop
+
+   bool operator != (Meta::Empty) const { return +cur; }
+
+   decltype(auto) operator * () const { return *cur; }
+
+   void operator ++ () { ++cur; }
+
+   // begin()/end()
+
+   ForLoop begin() const { return *this; }
+
+   Meta::Empty end() const { return {}; }
+ };
+
+</pre>
+
+<pre>
+
+for(auto i : ForLoop(cur) ) { .... }
+
+ instead of
+
+for(Cur cur = ....; +cur ;++cur) { auto i=*cur; .... }
+
+</pre>
 
 </body>
 

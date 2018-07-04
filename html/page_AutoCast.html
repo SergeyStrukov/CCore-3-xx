@@ -30,6 +30,38 @@
 
 <p class="Files">Files <b>CCore/inc/gadget/AutoCast.h</b> <b>CCore/src/gadget/AutoCast.cpp</b></p>
 
+<p>
+<b>AutoCast</b> helps implicit pointer conversion.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">AutoCast</span>
+ {
+   T *ptr;
+
+  public:
+
+   explicit AutoCast(T *ptr_) : ptr(ptr_) {}
+
+   template &lt;class S&gt;
+   operator S * () const { return static_cast&lt;S *&gt;(ptr); }
+ };
+
+</pre>
+
+<p>
+It can be used for implicit pointer conversion:
+</p>
+
+<pre>
+
+T *ptr = .... ;
+
+S *dst = AutoCast(ptr) ; // requires static_cast&lt;S *&gt;(T *)
+
+</pre>
 
 </body>
 
