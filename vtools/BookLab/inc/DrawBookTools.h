@@ -240,6 +240,8 @@ struct FrameExt
 
   unsigned lock = 1 ;
 
+  DynArray<Coord> downs;
+
   virtual ~FrameExt() {}
  };
 

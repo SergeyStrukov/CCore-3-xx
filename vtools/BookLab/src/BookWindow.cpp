@@ -604,6 +604,11 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
   window.posFrame(frame_index);
  }
 
+void DisplayBookWindow::posFrame(ulen frame_index)
+ {
+  window.posFrame(frame_index);
+ }
+
 void DisplayBookWindow::setScale(Ratio scale)
  {
   window.setScale(scale);
@@ -706,12 +711,14 @@ void BookWindow::setNav(Book::TypeDef::Page *page)
  {
   if( page )
     {
+     cur=page;
      prev=page->prev;
      up=page->up;
      next=page->next;
     }
   else
     {
+     cur=0;
      prev=0;
      up=0;
      next=0;
@@ -745,15 +752,24 @@ void BookWindow::link(Book::TypeDef::Link dst)
  {
   if( auto *page=dst.page.getPtr() )
     {
-     text_page.setText(DefString(page->name.getStr()));
+     if( page!=cur )
+       {
+        text_page.setText(DefString(page->name.getStr()));
 
-     setNav(page);
+        setNav(page);
 
-     layout();
+        layout();
 
-     book.setPage(page,dst.frame_index);
+        book.setPage(page,dst.frame_index);
 
-     redraw();
+        redraw();
+       }
+     else
+       {
+        book.posFrame(dst.frame_index);
+
+        redraw();
+       }
     }
  }
 

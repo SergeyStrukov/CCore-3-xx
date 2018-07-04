@@ -13,6 +13,7 @@
 
 #include <inc/DrawBook.h>
 #include <inc/SpanLenEngine.h>
+#include <inc/SelectFrames.h>
 
 #include <CCore/inc/video/FigureLib.h>
 
@@ -733,13 +734,28 @@ Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point ba
  {
   Point ret=Null;
 
-  for(Book::TypeDef::Frame &frame : list )
+  if( +list )
     {
-     Point s=(*this)(&frame,wdx,base);
+     FrameExt *ext=map(list.ptr);
 
-     ret=StackYSize_guarded(ret,s);
+     SetExactArrayLen(ext->downs,list.len);
 
-     base.y+=s.y;
+     Coord *downPtr=ext->downs.getPtr();
+
+     Coord down=0;
+
+     for(Book::TypeDef::Frame &frame : list )
+       {
+        Point s=(*this)(&frame,wdx,base);
+
+        ret=StackYSize_guarded(ret,s);
+
+        base.y+=s.y;
+
+        down+=s.y;
+
+        *(downPtr++)=down;
+       }
     }
 
   return ret;
@@ -1518,10 +1534,43 @@ Point Draw::operator () (Book::TypeDef::Frame *frame,DrawOut out)
 
 Point Draw::operator () (PtrLen<Book::TypeDef::Frame> list,DrawOut out)
  {
+  if( +list )
+    {
+     FrameExt *ext=map(list.ptr);
+
+     PtrLen<const Coord> downs=Range(ext->downs);
+
+     Point ret=out.base.addY(downs[list.len-1]);
+
+     Pane clip=out.buf.getClip();
+
+     Point base=out.fullBase();
+
+     SelectFrames select(downs,base.y,clip.y,clip.dy);
+
+     if( select.ind<select.lim )
+       {
+        if( select.ind ) out.base.y+=downs[select.ind-1];
+
+        for(ulen i : IndLim(select.ind,select.lim) )
+          {
+           Book::TypeDef::Frame &frame=list[i];
+
+           out.base=(*this)(&frame,out);
+          }
+       }
+
+     return ret;
+    }
+
+#if 0
+
   for(Book::TypeDef::Frame &frame : list )
     {
      out.base=(*this)(&frame,out);
     }
+
+#endif
 
   return out.base;
  }

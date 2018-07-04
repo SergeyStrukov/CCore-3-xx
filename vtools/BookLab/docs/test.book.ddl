@@ -70,7 +70,6 @@ Page page = { "page1" , {
                          { .body = &t7 , .line = &line2 },
                          { .body = &t8 , .line = &line2 },
                          { .body = &table1 , .line = &line2 }
-                         
                           
                         } , 0C0C0C0h , 0h , null , null , &Page2#page } ;
 
@@ -450,12 +449,14 @@ OneLine pl_center = { OneLine#Center } ;
 Page page = { "page2" , { 
                          { .body = &t1 , .line = &line1 , .col = 0FF0000h },
                          { .body = &t2 , .line = &line1 , .col = 00000FFh },
-                         { .body = &t3 , .line = &line1 , .col = 0008000h }
-                         
+                         { .body = &t3 , .line = &line1 , .col = 0008000h },
+                         { .body = &t4 , .line = &line2 }
                           
                         } , NoColor , NoColor , null , &Page1#page , null } ;
 
 DoubleLine line1 = { {1,1} } ;
+
+SingleLine line2 = { {1,1} , 0FF0000h } ;
 
 Text t1 = { {
              { 'aligned left' }
@@ -472,4 +473,19 @@ Text t3 = { {
 
             } , &fmt , &pl_center } ;
 
+Collapse t4 = { .title = 'hidden page' , .list = {
+                                                   { .body = &Page1#t1 , .line = &line1 , .col = 0FF0000h },
+                                                   { .body = &Page1#t2 , .line = &line1 , .col = 00000FFh },
+                                                   { .body = &Page1#t3 , .line = &line1 , .col = 0008000h },
+                                                   { .body = &Page1#t4 , .line = &line1 , .col = 0008080h },
+                                                   { .body = &Page1#t5 , .line = &line1 },
+                                                   { .body = &Page1#t6 , .line = &line2 },
+                                                   { .body = &Page1#t7 , .line = &line2 },
+                                                   { .body = &Page1#t8 , .line = &line2 },
+                                                   { .body = &Page1#table1 , .line = &line2 }
+  
+                                                 } , .open = False } ;
+                                                  
 } // scope Page2
+
+

@@ -276,6 +276,8 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    void setPage(Book::TypeDef::Page *page,ulen frame_index); // no redraw
 
+   void posFrame(ulen frame_index); // no redraw
+
    void setScale(Ratio scale);
 
    // signals
@@ -448,6 +450,7 @@ class BookWindow : public ComboWindow
    Book::BookMap book_map;
    DrawBook::ExtMap ext_map;
 
+   Book::TypeDef::Page *cur  = 0 ;
    Book::TypeDef::Page *prev = 0 ;
    Book::TypeDef::Page *up   = 0 ;
    Book::TypeDef::Page *next = 0 ;
