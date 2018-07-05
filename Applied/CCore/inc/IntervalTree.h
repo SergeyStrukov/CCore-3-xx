@@ -163,6 +163,8 @@ class IntervalTree
      rec_buf.reserve(LenOf(list.len,2));
 
      root=buildNode(list,temp.getPtr());
+
+     buf.shrink_extra();
     }
 
    // find
