@@ -1630,9 +1630,26 @@ bool Shape::hit(Point point) const
 
 RefType Shape::getRef(Point point) const
  {
-  for(auto &obj : refs ) if( obj.pane.contains(point) ) return obj.ref;
+  const RefPane *ptr=refs.getPtr();
 
-  return Null;
+  RefType ret;
+
+  tree.find(point.y, [ptr,point,&ret] (ulen index)
+                                      {
+                                       auto &obj=ptr[index];
+
+                                       if( obj.pane.contains(point) )
+                                        {
+                                         ret=obj.ref;
+
+                                         return false;
+                                        }
+
+                                       return true;
+
+                                      } );
+
+  return ret;
  }
 
 Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame_,Coord wdx,Coord down_)
@@ -1643,6 +1660,23 @@ Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame 
   refs.erase();
 
   prepare(cfg,map,scale,wdx);
+
+  struct Span
+   {
+    Coord a;
+    Coord b;
+
+    explicit Span(const RefPane &ref)
+     {
+      Coord y=ref.pane.y;
+      Coord dy=ref.pane.dy;
+
+      a=y;
+      b=y+dy;
+     }
+   };
+
+  tree=IntervalTree<Coord>(Range(refs), [] (const RefPane &ref) { return Span(ref); } );
 
   return size;
  }

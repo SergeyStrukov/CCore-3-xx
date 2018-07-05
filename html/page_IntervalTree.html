@@ -30,6 +30,13 @@
 
 <p class="Files">Files <b>CCore/inc/IntervalTree.h</b> <b>CCore/src/IntervalTree.cpp</b></p>
 
+<p>
+<b>IntervalTree</b> solves the following problem: assume we have a number of intervals. 
+We need an efficient algorithm to pick such of them, which contains the given point.
+Intervals are given as couples <b>{a,b}</b>, where <b>a</b> and <b>b </b>of type <b>T</b>. 
+Such couple defines the interval <b>[a,b)</b>.
+</p>
+
 <pre>
 
 template &lt;class T&gt;
@@ -45,9 +52,34 @@ class <span class="Att">IntervalTree</span>
    IntervalTree(R range,Func func); // func(range[index]) -> {T a,T b} , [a,b)
 
    void find(T point,FuncArgType&lt;ulen&gt; func) const; // func(index)
+
+   bool find(T point,FuncType&lt;bool,ulen&gt; func) const; // func(index), return false to break
  };
 
 </pre>
+
+<p>
+<b>IntervalTree</b> is <b>std</b> movable. Default constructor creates a null object.
+</p>
+
+<p>
+The main constructor takes two arguments: the first is some <b>range</b> (most likely of some <b>PtrLen</b> type).
+The second is a functor, this functor is used to extract intervals from the range objects.
+For each such interval the object index is recorded.
+Constructor builds a search engine.
+</p>
+
+<p>
+The method <b>find()</b> performes the search of intervals, which contains the given <b>point</b>.
+For each found interval its index is used to call the given functor <b>func</b>.
+</p>
+
+<p>
+The second variant of <b>find</b> is called, if the functor has <b>bool</b> return value.
+You can break the search process by returning <b>false</b> from the functor.
+In this case the method returns <b>false</b> also. 
+Otherwise the full set of indexes is covered and <b>true</b> is retruned.
+</p>
 
 </body>
 

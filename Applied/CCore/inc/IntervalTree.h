@@ -212,6 +212,51 @@ class IntervalTree
        }
     }
 
+   // find while
+
+   template <class Func>
+   static bool FeedWhile(Func func,PtrLen<const Rec> list)
+    {
+     for(auto &rec : list ) if( !func(rec.index) ) return false;
+
+     return true;
+    }
+
+   template <class Func>
+   static bool FindLoWhile(T point,Func func,PtrLen<const Rec> list) // obj.point <= point
+    {
+     auto res=Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
+
+     return FeedWhile(func,res);
+    }
+
+   template <class Func>
+   static bool FindHiWhile(T point,Func func,PtrLen<const Rec> list) // obj.point > point
+    {
+     Algon::BinarySearch_if(list, [point] (const Rec &obj) { return obj.point>point; } );
+
+     return FeedWhile(func,list);
+    }
+
+   template <class Func>
+   static bool FindWhile(T point,Func func,const Node *node)
+    {
+     if( !node ) return true;
+
+     if( point<node->split )
+       {
+        return FindWhile(point,func,node->lo) && FindLoWhile(point,func,node->mid_lo) ;
+       }
+     else if( point>node->split )
+       {
+        return FindHiWhile(point,func,node->mid_hi) && FindWhile(point,func,node->hi) ;
+       }
+     else
+       {
+        return FeedWhile(func,node->mid_lo);
+       }
+    }
+
   public:
 
    IntervalTree() {}
@@ -236,6 +281,11 @@ class IntervalTree
    void find(T point,FuncArgType<ulen> func) const // func(index)
     {
      Find(point,func,root);
+    }
+
+   bool find(T point,FuncType<bool,ulen> func) const // func(index), return false to break
+    {
+     return FindWhile(point,func,root);
     }
  };
 

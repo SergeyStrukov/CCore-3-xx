@@ -16,6 +16,8 @@
 
 #include <inc/DrawBookTools.h>
 
+#include <CCore/inc/IntervalTree.h>
+
 namespace App {
 namespace DrawBook {
 
@@ -289,6 +291,8 @@ class Shape
    Point size;
 
    DynArray<RefPane> refs;
+
+   IntervalTree<Coord> tree;
 
   private:
 
