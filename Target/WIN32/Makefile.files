@@ -226,6 +226,7 @@ OBJ_LIST = \
 .obj/NoThrowFlags.o \
 .obj/NodeAllocator.o \
 .obj/Nothing.o \
+.obj/NullMovePtr.o \
 .obj/ObjHost.o \
 .obj/ObjectDomain.o \
 .obj/OpAddHelper.o \
@@ -685,6 +686,7 @@ ASM_LIST = \
 .obj/NoThrowFlags.s \
 .obj/NodeAllocator.s \
 .obj/Nothing.s \
+.obj/NullMovePtr.s \
 .obj/ObjHost.s \
 .obj/ObjectDomain.s \
 .obj/OpAddHelper.s \
@@ -1144,6 +1146,7 @@ DEP_LIST = \
 .obj/NoThrowFlags.dep \
 .obj/NodeAllocator.dep \
 .obj/Nothing.dep \
+.obj/NullMovePtr.dep \
 .obj/ObjHost.dep \
 .obj/ObjectDomain.dep \
 .obj/OpAddHelper.dep \
@@ -2064,6 +2067,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Nothing.o : ../../Simple/CCore/src/./gadget/Nothing.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/NullMovePtr.o : ../../Simple/CCore/src/./gadget/NullMovePtr.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ObjHost.o : ../../Fundamental/CCore/src/./ObjHost.cpp
@@ -3436,6 +3442,9 @@ include $(RULES_FILE)
 .obj/Nothing.s : ../../Simple/CCore/src/./gadget/Nothing.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/NullMovePtr.s : ../../Simple/CCore/src/./gadget/NullMovePtr.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ObjHost.s : ../../Fundamental/CCore/src/./ObjHost.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4805,6 +4814,9 @@ include $(RULES_FILE)
 
 .obj/Nothing.dep : ../../Simple/CCore/src/./gadget/Nothing.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Nothing.o $< -MF $@
+
+.obj/NullMovePtr.dep : ../../Simple/CCore/src/./gadget/NullMovePtr.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/NullMovePtr.o $< -MF $@
 
 .obj/ObjHost.dep : ../../Fundamental/CCore/src/./ObjHost.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ObjHost.o $< -MF $@

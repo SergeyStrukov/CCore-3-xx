@@ -35,6 +35,7 @@
 #include <CCore/inc/gadget/NoCopy.h>
 #include <CCore/inc/gadget/Nothing.h>
 #include <CCore/inc/gadget/NoThrowFlags.h>
+#include <CCore/inc/gadget/NullMovePtr.h>
 #include <CCore/inc/gadget/OpAddHelper.h>
 #include <CCore/inc/gadget/Place.h>
 #include <CCore/inc/gadget/PosSub.h>

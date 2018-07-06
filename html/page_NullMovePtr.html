@@ -1,0 +1,89 @@
+<!--
+/* page_NullMovePtr.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> NullMovePtr</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>NullMovePtr</h2>
+
+<p class="Files">Files <b>CCore/inc/gadget/NullMovePtr.h</b> <b>CCore/src/gadget/NullMovePtr.cpp</b></p>
+
+<p>
+<b>NullMovePtr</b> is a simple wrapped over a pointer of the given type. 
+It implements the <a href="page_Taxonomy.html#ObjectPointerInterface"><b>Object Pointer Interface</b></a>.
+Default constructor creates a null pointer.
+This wrapper supports <b>std</b> move semantic. 
+The source operand is nullified during a move operation.
+This is the main purpose of this class.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">NullMovePtr</span> : NoCopy
+ {
+   T *ptr;
+
+  public:
+
+   // constructors
+
+   NullMovePtr() noexcept : ptr(0) {}
+
+   explicit NullMovePtr(T *ptr_) : ptr(ptr_) {}
+
+   // std move
+
+   NullMovePtr(NullMovePtr&lt;T&gt; &amp;&amp;obj) noexcept : ptr(<span class="Att">Replace_null</span>(obj.ptr)) {}
+
+   NullMovePtr&lt;T&gt; & operator = (NullMovePtr&lt;T&gt; &amp;&amp;obj) noexcept
+    {
+     if( this!=&amp;obj )
+       {
+        ptr=<span class="Att">Replace_null</span>(obj.ptr);
+       }
+
+     return *this;
+    }
+
+   // object ptr
+
+   T * operator + () const { return ptr; }
+
+   bool operator ! () const { return !ptr; }
+
+   T * getPtr() const { return ptr; }
+
+   T &amp; operator * () const { return *ptr; }
+
+   T * operator -> () const { return ptr; }
+ };
+
+</pre>
+
+</body>
+
+</html>
+

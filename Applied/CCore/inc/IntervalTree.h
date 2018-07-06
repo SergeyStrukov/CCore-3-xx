@@ -77,7 +77,7 @@ class IntervalTree
    DynArray<Node,ArrayAlgo_mini<Node> > buf;
    DynArray<Rec,ArrayAlgo_mini<Rec> > rec_buf;
 
-   Node *root = 0 ;
+   NullMovePtr<Node> root;
 
   private:
 
@@ -162,7 +162,7 @@ class IntervalTree
      buf.reserve(list.len);
      rec_buf.reserve(LenOf(list.len,2));
 
-     root=buildNode(list,temp.getPtr());
+     root=NullMovePtr( buildNode(list,temp.getPtr()) );
 
      buf.shrink_extra();
     }
@@ -282,12 +282,12 @@ class IntervalTree
 
    void find(T point,FuncArgType<ulen> func) const // func(index)
     {
-     Find(point,func,root);
+     Find(point,func,root.getPtr());
     }
 
    bool find(T point,FuncType<bool,ulen> func) const // func(index), return false to break
     {
-     return FindWhile(point,func,root);
+     return FindWhile(point,func,root.getPtr());
     }
  };
 
