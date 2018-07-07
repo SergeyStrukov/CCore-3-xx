@@ -39,6 +39,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("light_dxy"_c,ptr->light_dxy);
   func("scroll_dxy"_c,ptr->scroll_dxy);
   func("progress_dy"_c,ptr->progress_dy);
+  func("shift_len"_c,ptr->shift_len);
 
   func("gray"_c,ptr->gray);
   func("grayUp"_c,ptr->grayUp);
@@ -121,6 +122,12 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("switch_on"_c,ptr->switch_on);
   func("switch_off"_c,ptr->switch_off);
+
+  // shift switch
+
+  func("shift_shift"_c,ptr->shift_shift);
+  func("shift_on"_c,ptr->shift_on);
+  func("shift_off"_c,ptr->shift_off);
 
   // progress
 
@@ -363,6 +370,7 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("light box"_def,light_dxy);
    binder.item("scroll width"_def,scroll_dxy);
    binder.item("progress height"_def,progress_dy);
+   binder.item("shift switch length"_def,shift_len);
    binder.space();
    binder.item("gray"_def,gray);
    binder.item("grayUp"_def,grayUp);
@@ -438,6 +446,12 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
 
    binder.item("on"_def,switch_on);
    binder.item("off"_def,switch_off);
+
+  binder.group("Shift switch"_def);
+
+   binder.item("shift"_def,shift_shift);
+   binder.item("on"_def,shift_on);
+   binder.item("off"_def,shift_off);
 
   binder.group("Progress"_def);
 

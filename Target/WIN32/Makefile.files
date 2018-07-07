@@ -339,6 +339,7 @@ OBJ_LIST = \
 .obj/Shape.RunButton.o \
 .obj/Shape.Scroll.o \
 .obj/Shape.ScrollList.o \
+.obj/Shape.ShiftSwitch.o \
 .obj/Shape.SimpleTextList.o \
 .obj/Shape.Slider.o \
 .obj/Shape.Spinor.o \
@@ -799,6 +800,7 @@ ASM_LIST = \
 .obj/Shape.RunButton.s \
 .obj/Shape.Scroll.s \
 .obj/Shape.ScrollList.s \
+.obj/Shape.ShiftSwitch.s \
 .obj/Shape.SimpleTextList.s \
 .obj/Shape.Slider.s \
 .obj/Shape.Spinor.s \
@@ -1259,6 +1261,7 @@ DEP_LIST = \
 .obj/Shape.RunButton.dep \
 .obj/Shape.Scroll.dep \
 .obj/Shape.ScrollList.dep \
+.obj/Shape.ShiftSwitch.dep \
 .obj/Shape.SimpleTextList.dep \
 .obj/Shape.Slider.dep \
 .obj/Shape.Spinor.dep \
@@ -2406,6 +2409,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.ScrollList.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ScrollList.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Shape.ShiftSwitch.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ShiftSwitch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.SimpleTextList.o : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
@@ -3781,6 +3787,9 @@ include $(RULES_FILE)
 .obj/Shape.ScrollList.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ScrollList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Shape.ShiftSwitch.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ShiftSwitch.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.SimpleTextList.s : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5153,6 +5162,9 @@ include $(RULES_FILE)
 
 .obj/Shape.ScrollList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ScrollList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.ScrollList.o $< -MF $@
+
+.obj/Shape.ShiftSwitch.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.ShiftSwitch.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.ShiftSwitch.o $< -MF $@
 
 .obj/Shape.SimpleTextList.dep : ../../Desktop/Lib/CCore/src/./video/lib/Shape.SimpleTextList.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.SimpleTextList.o $< -MF $@

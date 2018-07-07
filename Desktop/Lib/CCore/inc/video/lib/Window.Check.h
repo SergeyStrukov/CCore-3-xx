@@ -20,6 +20,7 @@
 
 #include <CCore/inc/video/lib/Shape.Check.h>
 #include <CCore/inc/video/lib/Shape.Switch.h>
+#include <CCore/inc/video/lib/Shape.ShiftSwitch.h>
 
 namespace CCore {
 namespace Video {
@@ -204,6 +205,14 @@ using CheckWindow = CheckWindowOf<CheckShape> ;
 /* type SwitchWindow */
 
 using SwitchWindow = CheckWindowOf<SwitchShape> ;
+
+/* type XShiftSwitchWindow */
+
+using XShiftSwitchWindow = CheckWindowOf<XShiftSwitchShape> ;
+
+/* type YShiftSwitchWindow */
+
+using YShiftSwitchWindow = CheckWindowOf<YShiftSwitchShape> ;
 
 /* class AltWindowOf<Shape> */
 

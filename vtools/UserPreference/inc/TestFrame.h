@@ -45,6 +45,8 @@ class TestWindow : public ComboWindow
    KnobWindow knob;
    CheckWindow check;
    SwitchWindow swtch;
+   XShiftSwitchWindow swtch1;
+   YShiftSwitchWindow swtch2;
    AltWindow alt;
 
    RadioGroup group;

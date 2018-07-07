@@ -56,6 +56,7 @@ struct UserPreferenceBag : ConfigItemHost
   Coord light_dxy   = 20 ;
   Coord scroll_dxy  = 20 ;
   Coord progress_dy = 24 ;
+  Coord shift_len   = 30 ;
 
   VColor gray    =       Gray ;
   VColor grayUp  =      Green ;
@@ -138,6 +139,12 @@ struct UserPreferenceBag : ConfigItemHost
 
   VColor switch_on  = Green ;
   VColor switch_off =   Red ;
+
+  // shift switch
+
+  VColor shift_shift =    Black ;
+  VColor shift_on    =    Green ;
+  VColor shift_off   = DarkGray ;
 
   // progress
 
@@ -408,6 +415,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            XSplitWindow::ConfigType,
                                            XSliderWindow::ConfigType,
                                            SpinorWindow::ConfigType,
+                                           XShiftSwitchWindow::ConfigType,
 
                                            DragFrame::ConfigType,
                                            FixedFrame::ConfigType,

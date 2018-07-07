@@ -126,6 +126,8 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
    knob(wlist,pref.getSmartConfig(),KnobShape::FaceOk),
    check(wlist,pref.getSmartConfig()),
    swtch(wlist,pref.getSmartConfig(),true),
+   swtch1(wlist,pref.getSmartConfig()),
+   swtch2(wlist,pref.getSmartConfig()),
    alt(wlist,pref.getSmartConfig()),
    rad1(wlist,1,pref.getSmartConfig()),
    rad2(wlist,2,pref.getSmartConfig()),
@@ -164,7 +166,7 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
   wlist.insTop(swtch,btn,alt,rad1,rad2,rad3,check,
                edit,knob,xscroll,info,text_list,
                label1,label2,label3,label,text,xsingle,ysingle,xdouble,ydouble,
-               contour,text_contour,light,progress,btn_shade);
+               contour,text_contour,light,swtch1,swtch2,progress,btn_shade);
 
   group.add(rad1,rad2,rad3);
 
@@ -193,9 +195,9 @@ void TestWindow::layout()
 
   LayInner lay2(text_contour,LayToBottomLeft(BoxedWindow(rad1,label1),BoxedWindow(rad2,label2),BoxedWindow(rad3,label3)));
 
-  // check , label , light
+  // check , label , light , swtch1 , swtch2
 
-  LayToRightCenter lay3(BoxedWindow(check,label),LayLeft(light));
+  LayToRightCenter lay3(BoxedWindow(check,label),Lay(light),Lay(swtch1),LayLeft(swtch2));
 
   // ysingle , knob , ydouble , xscroll
 
