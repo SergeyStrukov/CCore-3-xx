@@ -115,7 +115,7 @@ struct BasePoint
 
   BasePoint(NothingType) : BasePoint() {}
 
-  BasePoint(Int x_,Int y_) : x(x_),y(y_) {}
+  constexpr BasePoint(Int x_,Int y_) : x(x_),y(y_) {}
 
   // unsafe operations
 
@@ -571,6 +571,24 @@ inline Pane TrySplitY(Pane &pane,Coord delta)
 
   return Empty;
  }
+
+/* Align...() */
+
+Pane AlignLeft(Pane pane,Coord dx);
+
+Pane AlignCenterX(Pane pane,Coord dx);
+
+Pane AlignRight(Pane pane,Coord dx);
+
+Pane AlignTop(Pane pane,Coord dy);
+
+Pane AlignCenterY(Pane pane,Coord dy);
+
+Pane AlignBottom(Pane pane,Coord dy);
+
+Pane AlignCenter(Pane pane,Coord dx,Coord dy);
+
+inline Pane AlignCenter(Pane pane,Point size) { return AlignCenter(pane,size.x,size.y); }
 
 /* struct PaneSub */
 

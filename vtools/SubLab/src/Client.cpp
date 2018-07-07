@@ -181,7 +181,7 @@ void SpaceWindow::react_Move(Point point,MouseKey mkey)
 
 class YShiftSwitchShape : public CheckState
  {
-   static Point Aspect() { return Point(2,4); }
+   static constexpr Point Aspect = Point(2,4) ;
 
   public:
 
@@ -229,21 +229,12 @@ Point YShiftSwitchShape::getMinSize() const
  {
   Coord dy=+cfg.dy;
 
-  return Point(XdivY(Aspect())*dy,dy);
- }
-
-Pane AdjustAspect(Point aspect,Pane pane)
- {
-  Coord dy=YdivX(aspect)*pane.dx;
-
-  if( pane.dy>dy ) return AlignCenterY(pane,dy);
-
-  return AlignCenterX(pane,XdivY(aspect)*pane.dy);
+  return Point(XdivY(Aspect)*dy,dy);
  }
 
 void YShiftSwitchShape::draw(const DrawBuf &buf) const
  {
-  Pane pane=AdjustAspect(Aspect(),this->pane);
+  Pane pane=AdjustAspect(Aspect,this->pane);
 
   SmoothDrawArt art(buf.cut(pane));
 

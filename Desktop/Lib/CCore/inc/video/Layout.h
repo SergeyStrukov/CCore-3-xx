@@ -74,24 +74,6 @@ concept bool PlaceOfType = PlaceType<W> && requires(Meta::ToConst<W> &cobj)
 
 Coord PosSubMul(Coord a,ulen count,Coord b);
 
-/* Align...() */
-
-Pane AlignLeft(Pane pane,Coord dx);
-
-Pane AlignCenterX(Pane pane,Coord dx);
-
-Pane AlignRight(Pane pane,Coord dx);
-
-Pane AlignTop(Pane pane,Coord dy);
-
-Pane AlignCenterY(Pane pane,Coord dy);
-
-Pane AlignBottom(Pane pane,Coord dy);
-
-Pane AlignCenter(Pane pane,Coord dx,Coord dy);
-
-inline Pane AlignCenter(Pane pane,Point size) { return AlignCenter(pane,size.x,size.y); }
-
 /* GetMinSize() */
 
 Point GetMinSize(const PlaceType &window) { return ToSizePoint(window.getMinSize()); }

@@ -27,6 +27,121 @@ void GuardSizeOverflow(const char *name)
   Printf(Exception,"#;(...) : size overflow",name);
  }
 
+/* Align...() */
+
+Pane AlignLeft(Pane pane,Coord dx)
+ {
+  if( dx<=pane.dx )
+    {
+     return Pane(pane.x,pane.y,dx,pane.dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignCenterX(Pane pane,Coord dx)
+ {
+  if( dx<=pane.dx )
+    {
+     Coord off=(pane.dx-dx)/2;
+
+     return Pane(pane.x+off,pane.y,dx,pane.dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignRight(Pane pane,Coord dx)
+ {
+  if( dx<=pane.dx )
+    {
+     Coord off=pane.dx-dx;
+
+     return Pane(pane.x+off,pane.y,dx,pane.dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignTop(Pane pane,Coord dy)
+ {
+  if( dy<=pane.dy )
+    {
+     return Pane(pane.x,pane.y,pane.dx,dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignCenterY(Pane pane,Coord dy)
+ {
+  if( dy<=pane.dy )
+    {
+     Coord off=(pane.dy-dy)/2;
+
+     return Pane(pane.x,pane.y+off,pane.dx,dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignBottom(Pane pane,Coord dy)
+ {
+  if( dy<=pane.dy )
+    {
+     Coord off=pane.dy-dy;
+
+     return Pane(pane.x,pane.y+off,pane.dx,dy);
+    }
+  else
+    {
+     return pane;
+    }
+ }
+
+Pane AlignCenter(Pane pane,Coord dx,Coord dy)
+ {
+  if( dx<=pane.dx )
+    {
+     if( dy<=pane.dy )
+       {
+        Coord off_x=(pane.dx-dx)/2;
+        Coord off_y=(pane.dy-dy)/2;
+
+        return Pane(pane.x+off_x,pane.y+off_y,dx,dy);
+       }
+     else
+       {
+        Coord off_x=(pane.dx-dx)/2;
+
+        return Pane(pane.x+off_x,pane.y,dx,pane.dy);
+       }
+    }
+  else
+    {
+     if( dy<=pane.dy )
+       {
+        Coord off_y=(pane.dy-dy)/2;
+
+        return Pane(pane.x,pane.y+off_y,pane.dx,dy);
+       }
+     else
+       {
+        return pane;
+       }
+    }
+ }
+
 /* struct PaneSub */
 
 PaneSub::PaneSub(Pane outer,Pane inner)

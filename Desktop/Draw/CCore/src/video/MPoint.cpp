@@ -41,6 +41,17 @@ Ratio Ratio::pow(unsigned deg) const
   return ret;
  }
 
+/* AdjustAspect() */
+
+Pane AdjustAspect(Point aspect,Pane pane)
+ {
+  Coord dy=YdivX(aspect)*pane.dx;
+
+  if( pane.dy>dy ) return AlignCenterY(pane,dy);
+
+  return AlignCenterX(pane,XdivY(aspect)*pane.dy);
+ }
+
 /* Length() */
 
 DCoord Length(MCoord a,MCoord b)

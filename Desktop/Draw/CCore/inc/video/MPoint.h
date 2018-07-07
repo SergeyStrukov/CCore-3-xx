@@ -250,6 +250,10 @@ inline Ratio XdivY(MPoint size) { return Div(size.x,size.y); }
 
 inline Ratio YdivX(MPoint size) { return Div(size.y,size.x); }
 
+/* AdjustAspect() */
+
+Pane AdjustAspect(Point aspect,Pane pane);
+
 /* AbsDist() */
 
 inline uMCoord AbsDist(MPoint a,MPoint b)
