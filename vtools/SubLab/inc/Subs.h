@@ -38,6 +38,18 @@ static SubWindow * Create_def(SubWindowHost &host,const UserPreference &)
   return new W(host,cfg);
  }
 
+template <class W>
+static SubWindow * Create_def_disable(SubWindowHost &host,const UserPreference &)
+ {
+  static typename W::ConfigType cfg;
+
+  W *ret=new W(host,cfg);
+
+  ret->disable();
+
+  return ret;
+ }
+
 /* class DrawShape */
 
 class DrawShape

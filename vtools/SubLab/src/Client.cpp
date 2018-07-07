@@ -177,6 +177,160 @@ void SpaceWindow::react_Move(Point point,MouseKey mkey)
     }
  }
 
+/* TODO */
+
+class YShiftSwitchShape : public CheckState
+ {
+   static Point Aspect() { return Point(2,4); }
+
+  public:
+
+   struct Config
+    {
+     RefVal<Fraction> width = Fraction(6,2) ;
+
+     RefVal<VColor> back   =    Silver ;
+     RefVal<VColor> focus  = OrangeRed ;
+     RefVal<VColor> gray   =      Gray ;
+     RefVal<VColor> border =      Blue ;
+     RefVal<VColor> snow   =      Snow ;
+     RefVal<VColor> snowUp = PaleGreen ;
+
+     RefVal<VColor> shift  = Black    ;
+     RefVal<VColor> on     = Green    ;
+     RefVal<VColor> off    = DarkGray ;
+
+     RefVal<Coord> dy = 30 ;
+
+     Config() noexcept {}
+
+     template <class Bag>
+     void bind(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   const Config &cfg;
+   Pane pane;
+
+   // methods
+
+   explicit YShiftSwitchShape(const Config &cfg_,bool check_=false) : cfg(cfg_) { check=check_; }
+
+   Point getMinSize() const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf) const;
+ };
+
+Point YShiftSwitchShape::getMinSize() const
+ {
+  Coord dy=+cfg.dy;
+
+  return Point(XdivY(Aspect())*dy,dy);
+ }
+
+Pane AdjustAspect(Point aspect,Pane pane)
+ {
+  Coord dy=YdivX(aspect)*pane.dx;
+
+  if( pane.dy>dy ) return AlignCenterY(pane,dy);
+
+  return AlignCenterX(pane,XdivY(aspect)*pane.dy);
+ }
+
+void YShiftSwitchShape::draw(const DrawBuf &buf) const
+ {
+  Pane pane=AdjustAspect(Aspect(),this->pane);
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  MPane p(pane);
+
+  if( !p ) return;
+
+  MCoord radius=p.dx/2;
+  MCoord radius2=radius/5;
+  MCoord width=+cfg.width;
+
+  MPoint A=p.getTopMid().addY(radius);
+  MPoint B=p.getBottomMid().subY(radius);
+
+  VColor gray=+cfg.gray;
+
+  FigureBox fig(p);
+
+  // back
+
+  if( enable )
+    {
+     if( mover )
+       {
+        fig.solid(art,YField(p.y,+cfg.snowUp,p.ey,gray));
+       }
+     else
+       {
+        fig.solid(art,YField(p.y,+cfg.snow,p.ey,gray));
+       }
+    }
+  else
+    {
+     fig.solid(art,+cfg.back);
+    }
+
+  // shift
+
+  VColor shift=+cfg.shift;
+
+  art.path(radius2,shift,A,B);
+  art.ball(A,radius2,shift);
+  art.ball(B,radius2,shift);
+
+  // focus
+
+  if( focus )
+    {
+     fig.loop(art,HalfPos,width,+cfg.focus);
+    }
+  else
+    {
+     fig.loop(art,HalfPos,width,gray);
+    }
+
+  // handle
+
+  if( check )
+    {
+     if( enable )
+       {
+        art.ball(A,radius,RadioField(A.subXY(radius/3),radius,White,+cfg.on));
+        art.circle(A,radius-width/2,width,+cfg.border);
+       }
+     else
+       {
+        art.ball(A,radius,+cfg.on);
+        art.circle(A,radius-width/2,width,gray);
+       }
+    }
+  else
+    {
+     if( enable )
+       {
+        art.ball(B,radius,RadioField(B.subXY(radius/3),radius,Black,+cfg.off));
+        art.circle(B,radius-width/2,width,+cfg.border);
+       }
+     else
+       {
+        art.ball(B,radius,+cfg.off);
+        art.circle(B,radius-width/2,width,gray);
+       }
+    }
+ }
+
+using YShiftSwitchWindow = CheckWindowOf<YShiftSwitchShape> ;
+
 /* class ClientWindow::TypeInfo::Base */
 
 class ClientWindow::TypeInfo::Base : public ComboInfoBase
@@ -252,6 +406,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
        add("Check"_def,Create<CheckWindow>);
        add("Switch"_def,Create<SwitchWindow>);
+       add("YSwitch"_def,Create_def<YShiftSwitchWindow>);
        add("RadioLight"_def,CreateCombo<RadioLightWindow>);
        add("Alt"_def,CreateCombo<AltWindow_Sample>);
 
