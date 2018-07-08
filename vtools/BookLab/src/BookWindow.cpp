@@ -39,7 +39,7 @@ void InnerBookWindow::cache() const
        {
         auto &shape=shapes[i];
 
-        Point ds=shape.set(cfg,map,scale,frames[i],wdx,s.y);
+        Point ds=shape.set(cfg,map,scale,frames[i],i,wdx,s.y);
 
         s=StackYSize_guarded(s,ds);
        }
@@ -72,7 +72,7 @@ PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes() const
   return getVisibleShapes(pos_y,pos_y+wdy);
  }
 
-DrawBook::RefType InnerBookWindow::getRef(Point point) const
+DrawBook::RefList InnerBookWindow::getRef(Point point) const
  {
   cache();
 
@@ -101,7 +101,7 @@ DrawBook::RefType InnerBookWindow::getRef(Point point) const
        }
     }
 
-  return Null;
+  return {};
  }
 
 void InnerBookWindow::addXPos(ulen delta,bool mul_flag)
@@ -447,7 +447,7 @@ void InnerBookWindow::looseFocus()
 
 MouseShape InnerBookWindow::getMouseShape(Point point,KeyMod) const
  {
-  DrawBook::RefType ref=getRef(point);
+  DrawBook::RefType ref=getRef(point).ref;
 
   return +ref?Mouse_Hand:Mouse_Arrow;
  }
@@ -521,17 +521,18 @@ void InnerBookWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 void InnerBookWindow::react_LeftClick(Point point,MouseKey)
  {
-  DrawBook::RefType ref=getRef(point);
+  DrawBook::RefList ref=getRef(point);
 
-  if( !ref ) return;
+  if( !ref.ref ) return;
 
   struct Func
    {
     InnerBookWindow *obj;
+    RefArray<ulen> index_list;
 
     void operator () (Book::TypeDef::Link *ref)
      {
-      obj->link.assert(*ref);
+      obj->link.assert(*ref,index_list);
      }
 
     void operator () (Book::TypeDef::Page *ref)
@@ -549,9 +550,9 @@ void InnerBookWindow::react_LeftClick(Point point,MouseKey)
      }
    };
 
-  Func func{this};
+  Func func{this,ref.index_list};
 
-  ElaborateAnyPtr(func,ref);
+  ElaborateAnyPtr(func,ref.ref);
  }
 
 void InnerBookWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
@@ -861,10 +862,69 @@ void BookWindow::font_completed(bool ok)
     }
  }
 
+void BookWindow::push(Book::TypeDef::Page *page,RefArray<ulen> index_list)
+ {
+  if( page )
+    {
+     history.shrink(history.getLen()-history_index);
+
+     if( history.getLen()>HistoryCap )
+       {
+        auto data=Range(history).suffix(HistoryCap/2);
+
+        DynArray<History> temp(DoCopy(data.len),data.ptr);
+
+        history=std::move(temp);
+
+        history_index=history.getLen();
+       }
+
+     history.append_copy({page,index_list});
+
+     history_index++;
+
+     back_btn.enable();
+
+     fore_btn.disable();
+    }
+ }
+
+void BookWindow::link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list)
+ {
+  if( page )
+    {
+     if( page!=cur )
+       {
+        text_page.setText(DefString(page->name.getStr()));
+
+        setNav(page);
+
+        layout();
+
+        book.setPage(page,index_list);
+
+        redraw();
+       }
+     else
+       {
+        book.posFrame(index_list);
+
+        redraw();
+       }
+    }
+ }
+
 void BookWindow::link(Book::TypeDef::Link dst)
+ {
+  link(dst.page,Range_const(dst.index_list.getRange()));
+ }
+
+void BookWindow::link(Book::TypeDef::Link dst,RefArray<ulen> index_list)
  {
   if( auto *page=dst.page.getPtr() )
     {
+     push(cur,index_list);
+
      if( page!=cur )
        {
         text_page.setText(DefString(page->name.getStr()));
@@ -883,6 +943,33 @@ void BookWindow::link(Book::TypeDef::Link dst)
 
         redraw();
        }
+    }
+ }
+
+void BookWindow::link(History obj)
+ {
+  link(obj.page,Range_const(obj.index_list));
+ }
+
+void BookWindow::back()
+ {
+  if( history_index>0 )
+    {
+     link(history[--history_index]);
+
+     back_btn.enable( history_index>0 );
+     fore_btn.enable( history.getLen()-history_index > 1u );
+    }
+ }
+
+void BookWindow::fore()
+ {
+  if( history.getLen()-history_index > 1u )
+    {
+     link(history[++history_index]);
+
+     back_btn.enable();
+     fore_btn.enable( history.getLen()-history_index > 1u );
     }
  }
 
@@ -916,17 +1003,17 @@ void BookWindow::hint(Book::TypeDef::Page *page)
 
 void BookWindow::gotoPrev()
  {
-  if( prev ) link({prev,0});
+  link<ulen>(prev,{});
  }
 
 void BookWindow::gotoUp()
  {
-  if( up ) link({up,0});
+  link<ulen>(up,{});
  }
 
 void BookWindow::gotoNext()
  {
-  if( next ) link({next,0});
+  link<ulen>(next,{});
  }
 
 void BookWindow::setScale(int scale_)
@@ -978,6 +1065,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    connector_font_completed(this,&BookWindow::font_completed,font_inc.completed),
 
    connector_link(this,&BookWindow::link,book.link),
+   connector_back_pressed(this,&BookWindow::back,back_btn.pressed),
+   connector_fore_pressed(this,&BookWindow::fore,fore_btn.pressed),
    connector_hint(this,&BookWindow::hint,book.hint),
 
    connector_prev_pressed(this,&BookWindow::gotoPrev,knob_prev.pressed),
@@ -1023,6 +1112,9 @@ Point BookWindow::getMinSize() const
 
 void BookWindow::blank()
  {
+  history.erase();
+  history_index=0;
+
   back_btn.disable();
   fore_btn.disable();
 

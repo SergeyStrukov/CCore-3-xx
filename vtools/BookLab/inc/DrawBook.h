@@ -48,15 +48,27 @@ class Prepare : NoCopy
    Ratio scale;
    DynArray<RefPane> &refs;
 
+   DynArray<ulen> stack;
+
    unsigned level = 25 ;
 
   private:
+
+   // refs
 
    void addRef(RefType ref,Pane pane);
 
    static RefType CastRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref);
 
    void addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane);
+
+   void push(ulen index) { stack.append_copy(index); }
+
+   void pop() { stack.shrink_one(); }
+
+   void push(ulen i1,ulen i2) { auto r=stack.extend_raw(2); r[0]=i1; r[1]=i2; }
+
+   void pop2() { stack.shrink(2); }
 
    // common
 
@@ -140,9 +152,11 @@ class Prepare : NoCopy
 
   public:
 
-   Prepare(const Config &cfg_,ExtMap &map_,Ratio scale_,DynArray<RefPane> &refs_) : cfg(cfg_),map(map_),scale(scale_),refs(refs_) {}
+   Prepare(const Config &cfg,ExtMap &map,Ratio scale,DynArray<RefPane> &refs);
 
-   Point operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base);
+   ~Prepare() {}
+
+   Point operator () (Book::TypeDef::Frame *frame,ulen frame_index,Coord wdx,Point base);
  };
 
 /* struct DrawOut */
@@ -308,6 +322,8 @@ class GotoBase : NoCopy
 
    Coord getDown() const { return down; }
 
+   void border(FrameExt *ext);
+
    Book::TypeDef::Frame * step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
 
    Book::TypeDef::Frame * step(ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext);
@@ -374,6 +390,8 @@ class Goto : GotoBase
      Book::TypeDef::Frame *ret=0;
 
      body.apply( [&] (auto *obj) { ret=step(obj,ext); } );
+
+     if( ret ) border(ext);
 
      return ret;
     }
@@ -505,13 +523,13 @@ class Shape
 
   private:
 
-   void prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx);
+   void prepare(const Config &cfg,ExtMap &map,Ratio scale,ulen frame_index,Coord wdx);
 
    void draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Point base) const;
 
    bool hit(Point point) const;
 
-   RefType getRef(Point point) const;
+   RefList getRef(Point point) const;
 
   public:
 
@@ -525,13 +543,13 @@ class Shape
 
    Point getSize() const { return size; }
 
-   Point set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame,Coord wdx,Coord down);
+   Point set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame,ulen frame_index,Coord wdx,Coord down);
 
    void draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Coord pos_x,Coord pos_y) const; // set() first
 
    bool hit(Point point,Coord pos_x,Coord pos_y) const;
 
-   RefType getRef(Point point,Coord pos_x,Coord pos_y) const;
+   RefList getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
 
 Coord Shape::getDown(ExtMap &map,PtrLen<const UIntType> index_list) const

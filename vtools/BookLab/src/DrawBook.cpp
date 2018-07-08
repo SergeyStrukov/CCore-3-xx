@@ -22,9 +22,13 @@ namespace DrawBook {
 
 /* struct Prepare */
 
+ // refs
+
 void Prepare::addRef(RefType ref,Pane pane)
  {
-  if( +ref ) refs.append_copy({pane,ref});
+  auto list=Range(stack);
+
+  if( +ref ) refs.append_copy({pane,ref,RefArray<ulen>(DoCopy(list.len),list.ptr)});
  }
 
 void Prepare::addRef(AnyPtr<Book::TypeDef::Link,Book::TypeDef::Page> ref,Pane pane)
@@ -511,7 +515,11 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
 
   for(ulen i=0; i<list.len ;i++)
     {
+     push(i);
+
      Point s=sizeItem(fs,list[i],size_list[i],bullet_dx,wdx,base);
+
+     pop();
 
      down+=s.y;
 
@@ -651,7 +659,11 @@ Point Prepare::size(Book::TypeDef::Table *obj,FrameExt_Table *ext,Coord wdx,Poin
 
   ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
                     {
+                     push(i,j);
+
                      Point size=(*this)(cell->list,cdx[i],base);
+
+                     pop2();
 
                      ref_lens.append_copy(refs.getLen());
 
@@ -752,9 +764,9 @@ Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point ba
 
      Coord down=0;
 
-     for(Book::TypeDef::Frame &frame : list )
+     for(ulen i : IndLim(list.len) )
        {
-        Point s=(*this)(&frame,wdx,base);
+        Point s=(*this)(&list[i],i,wdx,base);
 
         ret=StackYSize_guarded(ret,s);
 
@@ -771,8 +783,16 @@ Point Prepare::operator () (PtrLen<Book::TypeDef::Frame> list,Coord wdx,Point ba
 
  // public
 
-Point Prepare::operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base)
+Prepare::Prepare(const Config &cfg_,ExtMap &map_,Ratio scale_,DynArray<RefPane> &refs_)
+ : cfg(cfg_),map(map_),scale(scale_),refs(refs_),
+   stack(DoReserve,100)
  {
+ }
+
+Point Prepare::operator () (Book::TypeDef::Frame *frame,ulen frame_index,Coord wdx,Point base)
+ {
+  push(frame_index);
+
   FrameExt *ext=map(frame);
 
   LockUse lock1(ext->lock);
@@ -790,6 +810,8 @@ Point Prepare::operator () (Book::TypeDef::Frame *frame,Coord wdx,Point base)
   Point size=sizeAny(frame->body.getPtr(),ext,wdx-delta.x,base+off)+delta;
 
   ext->size=size;
+
+  pop();
 
   return size;
  }
@@ -1635,6 +1657,11 @@ void GotoBase::frameDown(PtrLen<Book::TypeDef::Frame> list)
   down+=ext->downs[list.len-1];
  }
 
+void GotoBase::border(FrameExt *ext)
+ {
+  down+=ext->outer.y+ext->inner.y;
+ }
+
 Book::TypeDef::Frame * GotoBase::step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext)
  {
   if( !obj ) return 0;
@@ -1766,11 +1793,11 @@ Book::TypeDef::Frame * OpenBase::step(ulen col,ulen row,ulen index,Book::TypeDef
 
 /* class Shape */
 
-void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx)
+void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,ulen frame_index,Coord wdx)
  {
   Prepare ctx(cfg,map,scale,refs);
 
-  size=ctx(frame,wdx,Null);
+  size=ctx(frame,frame_index,wdx,Null);
  }
 
 void Shape::draw(const Config &cfg,ExtMap &map,VColor fore,DrawBuf buf,Point base) const
@@ -1785,11 +1812,11 @@ bool Shape::hit(Point point) const
   return point>=Null && point<size ;
  }
 
-RefType Shape::getRef(Point point) const
+RefList Shape::getRef(Point point) const
  {
   const RefPane *ptr=refs.getPtr();
 
-  RefType ret;
+  RefList ret;
 
   tree.find(point.y, [ptr,point,&ret] (ulen index)
                                       {
@@ -1797,7 +1824,7 @@ RefType Shape::getRef(Point point) const
 
                                        if( obj.pane.contains(point) )
                                         {
-                                         ret=obj.ref;
+                                         ret=obj;
 
                                          return false;
                                         }
@@ -1809,14 +1836,14 @@ RefType Shape::getRef(Point point) const
   return ret;
  }
 
-Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame_,Coord wdx,Coord down_)
+Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame &frame_,ulen frame_index,Coord wdx,Coord down_)
  {
   frame=&frame_;
   down=down_;
 
   refs.erase();
 
-  prepare(cfg,map,scale,wdx);
+  prepare(cfg,map,scale,frame_index,wdx);
 
   struct Span
    {
@@ -1848,7 +1875,7 @@ bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const
   return hit(point-Point(pos_x,pos_y));
  }
 
-RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
+RefList Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
  {
   return getRef(point-Point(pos_x,pos_y));
  }

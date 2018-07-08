@@ -128,6 +128,8 @@ class FrameMap;
 
 class ExtMap;
 
+struct RefList;
+
 struct RefPane;
 
 /* struct MatrixSpan<T> */
@@ -430,12 +432,23 @@ class ExtMap : NoCopy
    FrameExt * operator () (Book::TypeDef::Frame *obj) { return frame(obj); }
  };
 
+/* struct RefList */
+
+struct RefList
+ {
+  RefType ref;
+  RefArray<ulen> index_list;
+ };
+
 /* struct RefPane */
 
 struct RefPane
  {
   Pane pane;
   RefType ref;
+  RefArray<ulen> index_list;
+
+  operator RefList() const { return {ref,index_list}; }
  };
 
 } // namespace DrawBook

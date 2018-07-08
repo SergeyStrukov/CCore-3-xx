@@ -121,7 +121,7 @@ class InnerBookWindow : public SubWindow
 
    PtrLen<const DrawBook::Shape> getVisibleShapes() const;
 
-   DrawBook::RefType getRef(Point point) const;
+   DrawBook::RefList getRef(Point point) const;
 
   private:
 
@@ -229,7 +229,7 @@ class InnerBookWindow : public SubWindow
    Signal<ulen> scroll_x;
    Signal<ulen> scroll_y;
 
-   Signal<Book::TypeDef::Link> link;
+   Signal<Book::TypeDef::Link,RefArray<ulen> > link;
    Signal<Book::TypeDef::Page *> hint;
    Signal<> changed;
  };
@@ -282,7 +282,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    // signals
 
-   Signal<Book::TypeDef::Link> &link;
+   Signal<Book::TypeDef::Link,RefArray<ulen> > &link;
    Signal<Book::TypeDef::Page *> &hint;
  };
 
@@ -596,6 +596,19 @@ class BookWindow : public ComboWindow
    FontLookup::Incremental font_inc;
    bool font_flag = true ;
 
+   // history
+
+   static constexpr ulen HistoryCap = 1000 ;
+
+   struct History
+    {
+     Book::TypeDef::Page *page = 0 ;
+     RefArray<ulen> index_list;
+    };
+
+   DynArray<History> history;
+   ulen history_index = 0 ;
+
   private:
 
    void error(DefString etext);
@@ -610,9 +623,25 @@ class BookWindow : public ComboWindow
 
    SignalConnector<BookWindow,bool> connector_font_completed;
 
+   void push(Book::TypeDef::Page *page,RefArray<ulen> index_list);
+
+   void link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list);
+
    void link(Book::TypeDef::Link dst);
 
-   SignalConnector<BookWindow,Book::TypeDef::Link> connector_link;
+   void link(Book::TypeDef::Link dst,RefArray<ulen> index_list);
+
+   SignalConnector<BookWindow,Book::TypeDef::Link,RefArray<ulen> > connector_link;
+
+   void link(History obj);
+
+   void back();
+
+   void fore();
+
+   SignalConnector<BookWindow> connector_back_pressed;
+
+   SignalConnector<BookWindow> connector_fore_pressed;
 
    void hint(Book::TypeDef::Page *page);
 
