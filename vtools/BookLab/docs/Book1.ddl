@@ -272,7 +272,7 @@ struct Book
 struct Link
  {
   Page *page;
-  ulen frame_index = 0 ;
+  ulen[] index_list;
  };
 
 //----------------------------------------------------------------------------------------

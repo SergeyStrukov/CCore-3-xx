@@ -174,7 +174,7 @@ class InnerBookWindow : public SubWindow
 
    void setPage(Book::TypeDef::Page *page); // no layout/redraw
 
-   void posFrame(ulen frame_index); // no redraw
+   void posFrame(PtrLen<const UIntType> index_list); // no redraw
 
    void setScale(Ratio scale); // no layout/redraw
 
@@ -274,9 +274,9 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    void setPage(Book::TypeDef::Page *page);
 
-   void setPage(Book::TypeDef::Page *page,ulen frame_index); // no redraw
+   void setPage(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list); // no redraw
 
-   void posFrame(ulen frame_index); // no redraw
+   void posFrame(PtrLen<const UIntType> index_list); // no redraw
 
    void setScale(Ratio scale);
 

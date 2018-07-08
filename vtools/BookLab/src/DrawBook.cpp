@@ -1696,6 +1696,60 @@ RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
   return getRef(point-Point(pos_x,pos_y));
  }
 
+Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index)
+ {
+  if( !index ) return 0;
+
+  FrameExt *ext=map(list.ptr);
+
+  PtrLen<const Coord> downs=Range(ext->downs);
+
+  return downs[index-1];
+ }
+
+Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,Book::TypeDef::TextList *obj,FrameExt_TextList *ext) // TODO
+ {
+  Used(map);
+  Used(down);
+  Used(index1);
+  Used(index2);
+  Used(obj);
+  Used(ext);
+
+  return 0;
+ }
+
+Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext)
+ {
+  if( !obj ) return 0;
+
+  auto list=obj->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  Book::TypeDef::Frame &frame=list[index];
+
+  Coord len=ext->len;
+  Coord elen=BoxExt(len);
+
+  down+=elen+FrameDown(map,list,index);
+
+  return &frame;
+ }
+
+Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,ulen index3,Book::TypeDef::Table *obj,FrameExt_Table *ext) // TODO
+ {
+  Used(map);
+  Used(down);
+  Used(index1);
+  Used(index2);
+  Used(index3);
+  Used(obj);
+  Used(ext);
+
+  return 0;
+ }
+
 } // namespace DrawBook
 } // namespace App
 

@@ -304,11 +304,73 @@ class Shape
 
    RefType getRef(Point point) const;
 
+   static Coord FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index);
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext);
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,ulen index3,Book::TypeDef::Table *obj,FrameExt_Table *ext);
+
+   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::Text *,FrameExt *) { return 0; }
+
+   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::FixedText *,FrameExt *) { return 0; }
+
+   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::Bitmap *,FrameExt *) { return 0; }
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::TextList *obj,FrameExt *ext)
+    {
+     if( index_list.len<2 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+
+     index_list+=2;
+
+     return Goto(map,down,index1,index2,obj,AutoCast(ext));
+    }
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::Collapse *obj,FrameExt *ext)
+    {
+     if( !index_list ) return 0;
+
+     ulen index=index_list[0];
+
+     ++index_list;
+
+     return Goto(map,down,index,obj,AutoCast(ext));
+    }
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::Table *obj,FrameExt *ext)
+    {
+     if( index_list.len<3 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+     ulen index3=index_list[2];
+
+     index_list+=3;
+
+     return Goto(map,down,index1,index2,index3,obj,AutoCast(ext));
+    }
+
+   template <class T>
+   static Book::TypeDef::Frame * GotoAny(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,T body,FrameExt *ext)
+    {
+     Book::TypeDef::Frame *ret=0;
+
+     body.apply( [&] (auto *obj) { ret=Goto(map,down,index_list,obj,ext); } );
+
+     return ret;
+    }
+
   public:
 
    Shape() noexcept {}
 
    Coord getDown() const { return down; }
+
+   Coord getDown(ExtMap &map,PtrLen<const UIntType> index_list) const;
 
    Point getSize() const { return size; }
 
@@ -320,6 +382,22 @@ class Shape
 
    RefType getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
+
+Coord Shape::getDown(ExtMap &map,PtrLen<const UIntType> index_list) const
+ {
+  Coord ret=down;
+
+  Book::TypeDef::Frame *cur=frame;
+
+  while( +index_list && cur )
+    {
+     FrameExt *ext=map(cur);
+
+     cur=GotoAny(map,ret,index_list,cur->body.getPtr(),ext);
+    }
+
+  return ret;
+ }
 
 } // namespace DrawBook
 } // namespace App

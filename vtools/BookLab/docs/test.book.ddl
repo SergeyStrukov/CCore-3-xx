@@ -303,21 +303,21 @@ Text i1 = { {
 
             } , &fmt , &pl_item } ;     
             
-Link link1 = { &page , 0 } ;
+Link link1 = { &page } ;
                         
 Text i2 = { {
              {"aligned right",null,&link2}
 
             } , &fmt , &pl_item } ;     
             
-Link link2 = { &page , 1 } ;
+Link link2 = { &page , { 1 } } ;
 
 Text i3 = { {
              {"aligned center",null,&link3}
 
             } , &fmt , &pl_item } ;     
             
-Link link3 = { &page , 2 } ;
+Link link3 = { &page , { 2 } } ;
 
 
 Text i4 = { {
@@ -325,21 +325,21 @@ Text i4 = { {
 
             } , &fmt , &pl_item } ;     
             
-Link link4 = { &Page2#page , 0 } ;
+Link link4 = { &Page2#page , { 0 } } ;
                         
 Text i5 = { {
              {"aligned right",null,&link5}
 
             } , &fmt , &pl_item } ;     
             
-Link link5 = { &Page2#page , 1 } ;
+Link link5 = { &Page2#page , { 1 } } ;
 
 Text i6 = { {
              {"aligned center",null,&link6}
 
             } , &fmt , &pl_item } ;     
             
-Link link6 = { &Page2#page , 2 } ;
+Link link6 = { &Page2#page , { 2 } } ;
 
 Collapse t8 = { .title = 'hidden text' , .list = {
 

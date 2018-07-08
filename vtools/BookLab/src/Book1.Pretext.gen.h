@@ -272,7 +272,7 @@
 "struct Link\n"
 " {\n"
 "  Page *page;\n"
-"  ulen frame_index = 0 ;\n"
+"  ulen[] index_list;\n"
 " };\n"
 "\n"
 " \n"

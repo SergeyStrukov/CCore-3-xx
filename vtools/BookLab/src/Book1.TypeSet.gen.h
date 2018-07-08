@@ -54,7 +54,7 @@ struct TypeSet : TypeDefCore
 
          DDL::SetFieldOffsets(struct_node,
                                "page",offsetof(S1,page),
-                               "frame_index",offsetof(S1,frame_index)
+                               "index_list",offsetof(S1,index_list)
                               );
         }
        return ret;
@@ -410,7 +410,7 @@ struct TypeSet : TypeDefCore
         {
          DDL::GuardFieldTypes<
                                DDL::MapPtr< S5 >,
-                               DDL::ulen_type
+                               DDL::MapRange< DDL::ulen_type >
                               >(*this,struct_node);
         }
        break;

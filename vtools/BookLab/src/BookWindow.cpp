@@ -297,17 +297,28 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page)
   ok=false;
  }
 
-void InnerBookWindow::posFrame(ulen frame_index)
+void InnerBookWindow::posFrame(PtrLen<const UIntType> index_list)
  {
   cache();
 
-  if( frame_index<shapes.getLen() )
+  if( !index_list )
     {
-     sy.setPos(ulen( shapes[frame_index].getDown() ));
+     sy.beg();
     }
   else
     {
-     sy.end();
+     ulen frame_index=index_list[0];
+
+     ++index_list;
+
+     if( frame_index<shapes.getLen() )
+       {
+        sy.setPos(ulen( shapes[frame_index].getDown(map,index_list) ));
+       }
+     else
+       {
+        sy.end();
+       }
     }
 
   scroll_y.assert(sy.pos);
@@ -595,18 +606,18 @@ void DisplayBookWindow::setPage(Book::TypeDef::Page *page)
   redraw();
  }
 
-void DisplayBookWindow::setPage(Book::TypeDef::Page *page,ulen frame_index)
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list)
  {
   window.setPage(page);
 
   layout();
 
-  window.posFrame(frame_index);
+  window.posFrame(index_list);
  }
 
-void DisplayBookWindow::posFrame(ulen frame_index)
+void DisplayBookWindow::posFrame(PtrLen<const UIntType> index_list)
  {
-  window.posFrame(frame_index);
+  window.posFrame(index_list);
  }
 
 void DisplayBookWindow::setScale(Ratio scale)
@@ -855,13 +866,13 @@ void BookWindow::link(Book::TypeDef::Link dst)
 
         layout();
 
-        book.setPage(page,dst.frame_index);
+        book.setPage(page,Range_const(dst.index_list.getRange()));
 
         redraw();
        }
      else
        {
-        book.posFrame(dst.frame_index);
+        book.posFrame(Range_const(dst.index_list.getRange()));
 
         redraw();
        }

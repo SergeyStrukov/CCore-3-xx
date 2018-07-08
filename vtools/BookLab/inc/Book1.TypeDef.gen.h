@@ -43,7 +43,7 @@ struct TypeDefCore
   struct S1
    {
     DDL::MapPtr< S5 > page;
-    DDL::ulen_type frame_index;
+    DDL::MapRange< DDL::ulen_type > index_list;
 
     struct Ext;
    };
