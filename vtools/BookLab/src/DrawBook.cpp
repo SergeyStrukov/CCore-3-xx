@@ -507,9 +507,17 @@ Point Prepare::size(Book::TypeDef::TextList *obj,FrameExt_TextList *ext,Coord wd
 
   FontSize fs=font->getSize();
 
+  Coord down=0;
+
   for(ulen i=0; i<list.len ;i++)
     {
      Point s=sizeItem(fs,list[i],size_list[i],bullet_dx,wdx,base);
+
+     down+=s.y;
+
+     if( i ) down+=item_space;
+
+     size_list[i].down=down;
 
      ret=StackYSize_guarded(ret,s);
 
@@ -1696,6 +1704,8 @@ RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
   return getRef(point-Point(pos_x,pos_y));
  }
 
+ // Goto
+
 Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index)
  {
   if( !index ) return 0;
@@ -1707,19 +1717,111 @@ Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index)
   return downs[index-1];
  }
 
-Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,Book::TypeDef::TextList *obj,FrameExt_TextList *ext) // TODO
+Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list)
  {
-  Used(map);
-  Used(down);
-  Used(index1);
-  Used(index2);
-  Used(obj);
-  Used(ext);
+  if( !list ) return 0;
 
-  return 0;
+  FrameExt *ext=map(list.ptr);
+
+  PtrLen<const Coord> downs=Range(ext->downs);
+
+  return downs[list.len-1];
+ }
+
+Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext)
+ {
+  if( !obj ) return 0;
+
+  auto items=obj->list.getRange();
+
+  if( item_index>=items.len ) return 0;
+
+  Book::TypeDef::ListItem item=items[item_index];
+
+  auto frames=item.list.getRange();
+
+  if( frame_index>=frames.len ) return 0;
+
+  Coord item_space=ext->item_space;
+
+  ListItemSize *size_list=ext->size_list.getPtr();
+
+  Coord dy=0;
+
+  if( item_index ) dy=size_list[item_index-1].down+item_space;
+
+  dy+=size_list[item_index].by2;
+
+  down+=dy+FrameDown(map,frames,frame_index);
+
+  return &frames[frame_index];
  }
 
 Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext)
+ {
+  if( !obj || !obj->open ) return 0;
+
+  auto list=obj->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  Coord len=ext->len;
+  Coord elen=BoxExt(len);
+
+  down+=elen+FrameDown(map,list,index);
+
+  return &list[index];
+ }
+
+Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext)
+ {
+  if( !obj ) return 0;
+
+  auto rows=obj->rows.getRange();
+
+  if( row>=rows.len ) return 0;
+
+  auto line=rows[row].getRange();
+
+  if( col>=line.len ) return 0;
+
+  auto *cell=line[col].getPtr();
+
+  if( !cell ) return 0;
+
+  auto list=cell->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  TableDesc desc=ext->getDesc();
+
+  Coord dy=desc.span(col,row).base.y;
+
+  down+=dy+FrameDown(map,list,index);
+
+  return &list[index];
+ }
+
+ // Open
+
+Book::TypeDef::Frame * Shape::Open(bool &,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj)
+ {
+  if( !obj ) return 0;
+
+  auto items=obj->list.getRange();
+
+  if( item_index>=items.len ) return 0;
+
+  Book::TypeDef::ListItem item=items[item_index];
+
+  auto frames=item.list.getRange();
+
+  if( frame_index>=frames.len ) return 0;
+
+  return &frames[frame_index];
+ }
+
+Book::TypeDef::Frame * Shape::Open(bool &flag,ulen index,Book::TypeDef::Collapse *obj)
  {
   if( !obj ) return 0;
 
@@ -1727,27 +1829,37 @@ Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index,Book::Type
 
   if( index>=list.len ) return 0;
 
-  Book::TypeDef::Frame &frame=list[index];
+  if( !obj->open )
+    {
+     obj->open=true;
 
-  Coord len=ext->len;
-  Coord elen=BoxExt(len);
+     flag=true;
+    }
 
-  down+=elen+FrameDown(map,list,index);
-
-  return &frame;
+  return &list[index];
  }
 
-Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,ulen index3,Book::TypeDef::Table *obj,FrameExt_Table *ext) // TODO
+Book::TypeDef::Frame * Shape::Open(bool &,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj)
  {
-  Used(map);
-  Used(down);
-  Used(index1);
-  Used(index2);
-  Used(index3);
-  Used(obj);
-  Used(ext);
+  if( !obj ) return 0;
 
-  return 0;
+  auto rows=obj->rows.getRange();
+
+  if( row>=rows.len ) return 0;
+
+  auto line=rows[row].getRange();
+
+  if( col>=line.len ) return 0;
+
+  auto *cell=line[col].getPtr();
+
+  if( !cell ) return 0;
+
+  auto list=cell->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  return &list[index];
  }
 
 } // namespace DrawBook

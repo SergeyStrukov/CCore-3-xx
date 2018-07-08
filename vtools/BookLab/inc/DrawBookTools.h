@@ -268,6 +268,8 @@ struct ListItemSize
   Coord by1 = 0 ;
   Coord dy1 = 0 ;
   Coord by2 = 0 ;
+
+  Coord down = 0 ;
  };
 
 /* struct FrameExt_TextList */

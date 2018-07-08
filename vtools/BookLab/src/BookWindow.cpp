@@ -313,6 +313,13 @@ void InnerBookWindow::posFrame(PtrLen<const UIntType> index_list)
 
      if( frame_index<shapes.getLen() )
        {
+        if( shapes[frame_index].open(index_list) )
+          {
+           ok=false;
+
+           changed.assert();
+          }
+
         sy.setPos(ulen( shapes[frame_index].getDown(map,index_list) ));
        }
      else

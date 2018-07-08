@@ -304,13 +304,17 @@ class Shape
 
    RefType getRef(Point point) const;
 
+   // Goto
+
    static Coord FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index);
 
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
+   static Coord FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list);
+
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
 
    static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext);
 
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index1,ulen index2,ulen index3,Book::TypeDef::Table *obj,FrameExt_Table *ext);
+   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext);
 
    static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::Text *,FrameExt *) { return 0; }
 
@@ -364,6 +368,66 @@ class Shape
      return ret;
     }
 
+   // Open
+
+   static Book::TypeDef::Frame * Open(bool &flag,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj);
+
+   static Book::TypeDef::Frame * Open(bool &flag,ulen index,Book::TypeDef::Collapse *obj);
+
+   static Book::TypeDef::Frame * Open(bool &flag,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj);
+
+   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::Text *) { return 0; }
+
+   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::FixedText *) { return 0; }
+
+   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::Bitmap *) { return 0; }
+
+   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::TextList *obj)
+    {
+     if( index_list.len<2 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+
+     index_list+=2;
+
+     return Open(flag,index1,index2,obj);
+    }
+
+   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::Collapse *obj)
+    {
+     if( !index_list ) return 0;
+
+     ulen index=index_list[0];
+
+     ++index_list;
+
+     return Open(flag,index,obj);
+    }
+
+   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::Table *obj)
+    {
+     if( index_list.len<3 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+     ulen index3=index_list[2];
+
+     index_list+=3;
+
+     return Open(flag,index1,index2,index3,obj);
+    }
+
+   template <class T>
+   static Book::TypeDef::Frame * OpenAny(bool &flag,PtrLen<const UIntType> &index_list,T body)
+    {
+     Book::TypeDef::Frame *ret=0;
+
+     body.apply( [&] (auto *obj) { ret=Open(flag,index_list,obj); } );
+
+     return ret;
+    }
+
   public:
 
    Shape() noexcept {}
@@ -371,6 +435,8 @@ class Shape
    Coord getDown() const { return down; }
 
    Coord getDown(ExtMap &map,PtrLen<const UIntType> index_list) const;
+
+   bool open(PtrLen<const UIntType> index_list) const;
 
    Point getSize() const { return size; }
 
@@ -397,6 +463,20 @@ Coord Shape::getDown(ExtMap &map,PtrLen<const UIntType> index_list) const
     }
 
   return ret;
+ }
+
+bool Shape::open(PtrLen<const UIntType> index_list) const
+ {
+  bool flag=false;
+
+  Book::TypeDef::Frame *cur=frame;
+
+  while( +index_list && cur )
+    {
+     cur=OpenAny(flag,index_list,cur->body.getPtr());
+    }
+
+  return flag;
  }
 
 } // namespace DrawBook
