@@ -45,6 +45,11 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Page'"_def,text_Page);
     binder.item("'Not ready'"_def,text_NotReady);
     binder.item("default scale"_def,defscale);
+
+  binder.group("Back button"_def);
+
+    binder.item("picture"_def,back_pict);
+    binder.item("height"_def,back_dy);
  }
 
 void AppPreferenceBag::findFonts()

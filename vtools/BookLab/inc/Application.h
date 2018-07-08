@@ -60,6 +60,12 @@ struct AppPreferenceBag : ConfigItemHost
 
   Ratio defscale = Ratio(1,0) ;
 
+  // back
+
+  VColor back_pict = Black ;
+
+  Coord back_dy = 30 ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -95,6 +101,8 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Page"_c,ptr->text_Page);
   func("text_NotReady"_c,ptr->text_NotReady);
   func("defscale"_c,ptr->defscale);
+  func("back_pict"_c,ptr->back_pict);
+  func("back_dy"_c,ptr->back_dy);
  }
 
 /* struct AppProp */

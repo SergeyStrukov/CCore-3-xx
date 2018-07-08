@@ -33,11 +33,11 @@ void XShiftSwitchShape::draw(const DrawBuf &buf) const
  {
   Pane pane=AdjustAspect(Aspect,this->pane);
 
-  SmoothDrawArt art(buf.cut(pane));
-
   MPane p(pane);
 
   if( !p ) return;
+
+  SmoothDrawArt art(buf.cut(pane));
 
   MCoord radius=p.dy/2;
   MCoord radius2=radius/5;
@@ -130,11 +130,11 @@ void YShiftSwitchShape::draw(const DrawBuf &buf) const
  {
   Pane pane=AdjustAspect(Aspect,this->pane);
 
-  SmoothDrawArt art(buf.cut(pane));
-
   MPane p(pane);
 
   if( !p ) return;
+
+  SmoothDrawArt art(buf.cut(pane));
 
   MCoord radius=p.dx/2;
   MCoord radius2=radius/5;

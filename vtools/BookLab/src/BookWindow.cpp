@@ -660,6 +660,101 @@ void DisplayBookFrame::dying()
   has_place=true;
  }
 
+/* class BackShape */
+
+Point BackShape::getMinSize() const
+ {
+  Coord dy=+cfg.dy;
+
+  return Point(XdivY(Aspect)*dy,dy);
+ }
+
+void BackShape::draw(const DrawBuf &buf) const
+ {
+  Pane pane=AdjustAspect(Aspect,this->pane);
+
+  MPane p(pane);
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  // figure
+
+  MCoord width=+cfg.width;
+
+  VColor gray=+cfg.gray;
+
+  MCoord H=p.dy;
+
+  FigureButton fig(p,H/5);
+
+  // body
+
+  if( down )
+    {
+     fig.curveSolid(art,gray);
+    }
+  else
+    {
+     VColor top = ( mover && enable )? +cfg.snowUp : +cfg.snow ;
+
+     fig.curveSolid(art,YField(p.y,top,p.ey,gray));
+    }
+
+  // face
+
+  {
+   VColor pict = enable? +cfg.pict : gray ;
+
+   Coord dy=RoundUpLen(width);
+
+   MCoord shift=0;
+
+   if( down ) shift=Fraction( (dy+1)/2 );
+
+   MCoord s=H/10;
+   MCoord radius=H/2-2*s;
+
+   MCoord y0=p.y+s+shift;
+   MCoord y1=p.y+H/2+shift;
+   MCoord y2=p.ey-s+shift;
+
+   if( face==BackDir )
+     {
+      MCoord x0=p.x+H/4+shift;
+      MCoord x1=x0+(H-2*s);
+      MCoord x2=x1+(radius-s/2);
+
+      FigureLeftArrow fig1(x0,x1,y0,y2);
+
+      fig1.curveSolid(art,pict);
+
+      art.ball(MPoint(x2,y1),radius,pict);
+     }
+   else
+     {
+      MCoord x0=p.ex-H/4+shift;
+      MCoord x1=x0-(H-2*s);
+      MCoord x2=x1-(radius-s/2);
+
+      FigureRightArrow fig1(x1,x0,y0,y2);
+
+      fig1.curveSolid(art,pict);
+
+      art.ball(MPoint(x2,y1),radius,pict);
+     }
+  }
+
+  // border
+
+  {
+   VColor border = focus? +cfg.focus : ( enable? +cfg.border : gray ) ;
+
+   fig.curveLoop(art,HalfPos,width,border);
+  }
+ }
+
 /* class BookWindow::ProgressControl */
 
 BookWindow::ProgressControl::ProgressControl(ArrowProgressWindow &window_)
@@ -742,7 +837,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,line2,spinor,line3,book);
+     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,line2,spinor,line3,back_btn,fore_btn,book);
 
      redraw();
     }
@@ -848,6 +943,9 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    line3(wlist,cfg.line_cfg),
 
+   back_btn(wlist,cfg.back_cfg,BackShape::BackDir),
+   fore_btn(wlist,cfg.back_cfg,BackShape::ForeDir),
+
    book(wlist,cfg.book_cfg,ext_map),
    progress(wlist,cfg.progress_cfg),
 
@@ -876,6 +974,9 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
   knob_up.disable();
   knob_next.disable();
 
+  back_btn.disable();
+  fore_btn.disable();
+
   spinor.setRange(25,400);
   spinor.setValue(100);
   spinor.setOptions(".f2"_c);
@@ -893,7 +994,7 @@ Point BookWindow::getMinSize() const
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),LayLeft(line3)};
+                  LayCenterY(spinor),Lay(line3),LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -904,6 +1005,9 @@ Point BookWindow::getMinSize() const
 
 void BookWindow::blank()
  {
+  back_btn.disable();
+  fore_btn.disable();
+
   if( popup.isAlive() ) popup.destroy();
 
   popup.setPage(Book::NoColor,Book::NoColor);
@@ -921,6 +1025,8 @@ void BookWindow::blank()
   spinor.setValue( (+cfg.defscale)*Coord(100) );
 
   setScale(spinor.getValue());
+
+  book.setFocus();
 
   layout();
 
@@ -994,7 +1100,7 @@ void BookWindow::layout()
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),LayLeft(line3)};
+                  LayCenterY(spinor),Lay(line3),LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 

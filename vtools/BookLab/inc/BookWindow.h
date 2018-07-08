@@ -367,6 +367,83 @@ class DisplayBookFrame : public DragFrame
    virtual void dying();
  };
 
+/* class BackShape */
+
+class BackShape : public ButtonState
+ {
+   static constexpr Point Aspect = Point(37,20) ;
+
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Fraction> width = Fraction(6,2) ;
+
+     RefVal<VColor> border =      Blue ;
+     RefVal<VColor> focus  = OrangeRed ;
+     RefVal<VColor> gray   =      Gray ;
+     RefVal<VColor> snow   =      Snow ;
+     RefVal<VColor> snowUp = PaleGreen ;
+
+     // app
+
+     RefVal<VColor> pict = Black ;
+
+     RefVal<Coord> dy = 30 ;
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy)
+      {
+       width.bind(bag.width);
+       border.bind(bag.border);
+       focus.bind(bag.focus);
+       gray.bind(bag.gray);
+       snow.bind(bag.snow);
+       snowUp.bind(bag.snowUp);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       pict.bind(bag.back_pict);
+       dy.bind(bag.back_dy);
+      }
+    };
+
+   // parameters
+
+   enum FaceType
+    {
+     BackDir,
+     ForeDir
+    };
+
+   const Config &cfg;
+   FaceType face;
+   Pane pane;
+
+   // methods
+
+   BackShape(const Config &cfg_,FaceType face_) : cfg(cfg_),face(face_) {}
+
+   Point getMinSize() const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf) const;
+ };
+
+using BackButtonWindow = ButtonWindowOf<BackShape> ;
+
 /* class BookWindow */
 
 class BookWindow : public ComboWindow
@@ -403,10 +480,13 @@ class BookWindow : public ComboWindow
 
      DisplayBookFrame::ConfigType popup_cfg;
 
+     BackButtonWindow::ConfigType back_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref),
-        popup_cfg(user_pref,app_pref,book_cfg)
+        popup_cfg(user_pref,app_pref,book_cfg),
+        back_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -474,6 +554,9 @@ class BookWindow : public ComboWindow
    SpinorWindow spinor;
 
    YDoubleLineWindow line3;
+
+   BackButtonWindow back_btn;
+   BackButtonWindow fore_btn;
 
    DisplayBookWindow book;
 
