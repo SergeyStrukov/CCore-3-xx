@@ -1615,6 +1615,155 @@ Coord Draw::operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base)
   return ext->size.y;
  }
 
+/* class GotoBase */
+
+void GotoBase::frameDown(PtrLen<Book::TypeDef::Frame> list,ulen index)
+ {
+  if( !index ) return;
+
+  FrameExt *ext=map(list.ptr);
+
+  down+=ext->downs[index-1];
+ }
+
+void GotoBase::frameDown(PtrLen<Book::TypeDef::Frame> list)
+ {
+  if( !list ) return;
+
+  FrameExt *ext=map(list.ptr);
+
+  down+=ext->downs[list.len-1];
+ }
+
+Book::TypeDef::Frame * GotoBase::step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext)
+ {
+  if( !obj ) return 0;
+
+  auto items=obj->list.getRange();
+
+  if( item_index>=items.len ) return 0;
+
+  Book::TypeDef::ListItem item=items[item_index];
+
+  auto frames=item.list.getRange();
+
+  if( frame_index>=frames.len ) return 0;
+
+  ListItemSize *size_list=ext->size_list.getPtr();
+
+  if( item_index ) down+=size_list[item_index-1].down+ext->item_space;
+
+  down+=size_list[item_index].by2;
+
+  frameDown(frames,frame_index);
+
+  return &frames[frame_index];
+ }
+
+Book::TypeDef::Frame * GotoBase::step(ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext)
+ {
+  if( !obj || !obj->open ) return 0;
+
+  auto list=obj->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  down+=BoxExt(ext->len);
+
+  frameDown(list,index);
+
+  return &list[index];
+ }
+
+Book::TypeDef::Frame * GotoBase::step(ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext)
+ {
+  if( !obj ) return 0;
+
+  auto rows=obj->rows.getRange();
+
+  if( row>=rows.len ) return 0;
+
+  auto line=rows[row].getRange();
+
+  if( col>=line.len ) return 0;
+
+  auto *cell=line[col].getPtr();
+
+  if( !cell ) return 0;
+
+  auto list=cell->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  TableDesc desc=ext->getDesc();
+
+  down+=desc.span(col,row).base.y;
+
+  frameDown(list,index);
+
+  return &list[index];
+ }
+
+/* class OpenBase */
+
+Book::TypeDef::Frame * OpenBase::step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj)
+ {
+  if( !obj ) return 0;
+
+  auto items=obj->list.getRange();
+
+  if( item_index>=items.len ) return 0;
+
+  Book::TypeDef::ListItem item=items[item_index];
+
+  auto frames=item.list.getRange();
+
+  if( frame_index>=frames.len ) return 0;
+
+  return &frames[frame_index];
+ }
+
+Book::TypeDef::Frame * OpenBase::step(ulen index,Book::TypeDef::Collapse *obj)
+ {
+  if( !obj ) return 0;
+
+  auto list=obj->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  if( !obj->open )
+    {
+     obj->open=true;
+
+     flag=true;
+    }
+
+  return &list[index];
+ }
+
+Book::TypeDef::Frame * OpenBase::step(ulen col,ulen row,ulen index,Book::TypeDef::Table *obj)
+ {
+  if( !obj ) return 0;
+
+  auto rows=obj->rows.getRange();
+
+  if( row>=rows.len ) return 0;
+
+  auto line=rows[row].getRange();
+
+  if( col>=line.len ) return 0;
+
+  auto *cell=line[col].getPtr();
+
+  if( !cell ) return 0;
+
+  auto list=cell->list.getRange();
+
+  if( index>=list.len ) return 0;
+
+  return &list[index];
+ }
+
 /* class Shape */
 
 void Shape::prepare(const Config &cfg,ExtMap &map,Ratio scale,Coord wdx)
@@ -1702,164 +1851,6 @@ bool Shape::hit(Point point,Coord pos_x,Coord pos_y) const
 RefType Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
  {
   return getRef(point-Point(pos_x,pos_y));
- }
-
- // Goto
-
-Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index)
- {
-  if( !index ) return 0;
-
-  FrameExt *ext=map(list.ptr);
-
-  PtrLen<const Coord> downs=Range(ext->downs);
-
-  return downs[index-1];
- }
-
-Coord Shape::FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list)
- {
-  if( !list ) return 0;
-
-  FrameExt *ext=map(list.ptr);
-
-  PtrLen<const Coord> downs=Range(ext->downs);
-
-  return downs[list.len-1];
- }
-
-Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext)
- {
-  if( !obj ) return 0;
-
-  auto items=obj->list.getRange();
-
-  if( item_index>=items.len ) return 0;
-
-  Book::TypeDef::ListItem item=items[item_index];
-
-  auto frames=item.list.getRange();
-
-  if( frame_index>=frames.len ) return 0;
-
-  Coord item_space=ext->item_space;
-
-  ListItemSize *size_list=ext->size_list.getPtr();
-
-  Coord dy=0;
-
-  if( item_index ) dy=size_list[item_index-1].down+item_space;
-
-  dy+=size_list[item_index].by2;
-
-  down+=dy+FrameDown(map,frames,frame_index);
-
-  return &frames[frame_index];
- }
-
-Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext)
- {
-  if( !obj || !obj->open ) return 0;
-
-  auto list=obj->list.getRange();
-
-  if( index>=list.len ) return 0;
-
-  Coord len=ext->len;
-  Coord elen=BoxExt(len);
-
-  down+=elen+FrameDown(map,list,index);
-
-  return &list[index];
- }
-
-Book::TypeDef::Frame * Shape::Goto(ExtMap &map,Coord &down,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext)
- {
-  if( !obj ) return 0;
-
-  auto rows=obj->rows.getRange();
-
-  if( row>=rows.len ) return 0;
-
-  auto line=rows[row].getRange();
-
-  if( col>=line.len ) return 0;
-
-  auto *cell=line[col].getPtr();
-
-  if( !cell ) return 0;
-
-  auto list=cell->list.getRange();
-
-  if( index>=list.len ) return 0;
-
-  TableDesc desc=ext->getDesc();
-
-  Coord dy=desc.span(col,row).base.y;
-
-  down+=dy+FrameDown(map,list,index);
-
-  return &list[index];
- }
-
- // Open
-
-Book::TypeDef::Frame * Shape::Open(bool &,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj)
- {
-  if( !obj ) return 0;
-
-  auto items=obj->list.getRange();
-
-  if( item_index>=items.len ) return 0;
-
-  Book::TypeDef::ListItem item=items[item_index];
-
-  auto frames=item.list.getRange();
-
-  if( frame_index>=frames.len ) return 0;
-
-  return &frames[frame_index];
- }
-
-Book::TypeDef::Frame * Shape::Open(bool &flag,ulen index,Book::TypeDef::Collapse *obj)
- {
-  if( !obj ) return 0;
-
-  auto list=obj->list.getRange();
-
-  if( index>=list.len ) return 0;
-
-  if( !obj->open )
-    {
-     obj->open=true;
-
-     flag=true;
-    }
-
-  return &list[index];
- }
-
-Book::TypeDef::Frame * Shape::Open(bool &,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj)
- {
-  if( !obj ) return 0;
-
-  auto rows=obj->rows.getRange();
-
-  if( row>=rows.len ) return 0;
-
-  auto line=rows[row].getRange();
-
-  if( col>=line.len ) return 0;
-
-  auto *cell=line[col].getPtr();
-
-  if( !cell ) return 0;
-
-  auto list=cell->list.getRange();
-
-  if( index>=list.len ) return 0;
-
-  return &list[index];
  }
 
 } // namespace DrawBook

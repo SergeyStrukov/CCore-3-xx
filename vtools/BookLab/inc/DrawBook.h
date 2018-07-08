@@ -29,6 +29,14 @@ struct DrawOut;
 
 class Draw;
 
+class GotoBase;
+
+template <UIntType UInt> class Goto;
+
+class OpenBase;
+
+template <UIntType UInt> class Open;
+
 class Shape;
 
 /* class Prepare */
@@ -281,6 +289,207 @@ class Draw : NoCopy
    Coord operator () (Book::TypeDef::Frame *frame,DrawBuf buf,Point base);
  };
 
+/* class GotoBase */
+
+class GotoBase : NoCopy
+ {
+   ExtMap &map;
+   Coord down;
+
+  private:
+
+   void frameDown(PtrLen<Book::TypeDef::Frame> list,ulen index);
+
+   void frameDown(PtrLen<Book::TypeDef::Frame> list);
+
+  public:
+
+   GotoBase(ExtMap &map_,Coord down_) : map(map_),down(down_) {}
+
+   Coord getDown() const { return down; }
+
+   Book::TypeDef::Frame * step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
+
+   Book::TypeDef::Frame * step(ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext);
+
+   Book::TypeDef::Frame * step(ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext);
+ };
+
+/* class Goto<UInt> */
+
+template <UIntType UInt>
+class Goto : GotoBase
+ {
+   PtrLen<const UInt> index_list;
+
+  private:
+
+   using GotoBase::step;
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Text *,FrameExt *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::FixedText *,FrameExt *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Bitmap *,FrameExt *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::TextList *obj,FrameExt *ext)
+    {
+     if( index_list.len<2 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+
+     index_list+=2;
+
+     return step(index1,index2,obj,AutoCast(ext));
+    }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Collapse *obj,FrameExt *ext)
+    {
+     if( !index_list ) return 0;
+
+     ulen index=index_list[0];
+
+     ++index_list;
+
+     return step(index,obj,AutoCast(ext));
+    }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Table *obj,FrameExt *ext)
+    {
+     if( index_list.len<3 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+     ulen index3=index_list[2];
+
+     index_list+=3;
+
+     return step(index1,index2,index3,obj,AutoCast(ext));
+    }
+
+   template <class T>
+   Book::TypeDef::Frame * stepAny(T body,FrameExt *ext)
+    {
+     Book::TypeDef::Frame *ret=0;
+
+     body.apply( [&] (auto *obj) { ret=step(obj,ext); } );
+
+     return ret;
+    }
+
+  public:
+
+   Goto(ExtMap &map,Coord down,PtrLen<const UInt> index_list_) : GotoBase(map,down),index_list(index_list_) {}
+
+   Coord operator () (Book::TypeDef::Frame *frame)
+    {
+     while( +index_list && frame )
+       {
+        FrameExt *ext=map(frame);
+
+        frame=stepAny(frame->body.getPtr(),ext);
+       }
+
+     return getDown();
+    }
+ };
+
+/* class OpenBase */
+
+class OpenBase : NoCopy
+ {
+   bool flag = false ;
+
+  public:
+
+   bool getFlag() const { return flag; }
+
+   Book::TypeDef::Frame * step(ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj);
+
+   Book::TypeDef::Frame * step(ulen index,Book::TypeDef::Collapse *obj);
+
+   Book::TypeDef::Frame * step(ulen col,ulen row,ulen index,Book::TypeDef::Table *obj);
+ };
+
+/* class Open<UInt> */
+
+template <UIntType UInt>
+class Open : OpenBase
+ {
+   PtrLen<const UInt> index_list;
+
+  private:
+
+   using OpenBase::step;
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Text *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::FixedText *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Bitmap *) { return 0; }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::TextList *obj)
+    {
+     if( index_list.len<2 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+
+     index_list+=2;
+
+     return step(index1,index2,obj);
+    }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Collapse *obj)
+    {
+     if( !index_list ) return 0;
+
+     ulen index=index_list[0];
+
+     ++index_list;
+
+     return step(index,obj);
+    }
+
+   Book::TypeDef::Frame * step(Book::TypeDef::Table *obj)
+    {
+     if( index_list.len<3 ) return 0;
+
+     ulen index1=index_list[0];
+     ulen index2=index_list[1];
+     ulen index3=index_list[2];
+
+     index_list+=3;
+
+     return step(index1,index2,index3,obj);
+    }
+
+   template <class T>
+   Book::TypeDef::Frame * stepAny(T body)
+    {
+     Book::TypeDef::Frame *ret=0;
+
+     body.apply( [&] (auto *obj) { ret=step(obj); } );
+
+     return ret;
+    }
+
+  private:
+
+   explicit Open(PtrLen<const UInt> index_list_) : index_list(index_list_) {}
+
+   bool operator () (Book::TypeDef::Frame *frame)
+    {
+     while( +index_list && frame )
+       {
+        frame=stepAny(frame->body.getPtr());
+       }
+
+     return getFlag();
+    }
+ };
+
 /* class Shape */
 
 class Shape
@@ -303,130 +512,6 @@ class Shape
    bool hit(Point point) const;
 
    RefType getRef(Point point) const;
-
-   // Goto
-
-   static Coord FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list,ulen index);
-
-   static Coord FrameDown(ExtMap &map,PtrLen<Book::TypeDef::Frame> list);
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj,FrameExt_TextList *ext);
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen index,Book::TypeDef::Collapse *obj,FrameExt_Collapse *ext);
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj,FrameExt_Table *ext);
-
-   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::Text *,FrameExt *) { return 0; }
-
-   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::FixedText *,FrameExt *) { return 0; }
-
-   static Book::TypeDef::Frame * Goto(ExtMap &,Coord &,PtrLen<const UIntType> &,Book::TypeDef::Bitmap *,FrameExt *) { return 0; }
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::TextList *obj,FrameExt *ext)
-    {
-     if( index_list.len<2 ) return 0;
-
-     ulen index1=index_list[0];
-     ulen index2=index_list[1];
-
-     index_list+=2;
-
-     return Goto(map,down,index1,index2,obj,AutoCast(ext));
-    }
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::Collapse *obj,FrameExt *ext)
-    {
-     if( !index_list ) return 0;
-
-     ulen index=index_list[0];
-
-     ++index_list;
-
-     return Goto(map,down,index,obj,AutoCast(ext));
-    }
-
-   static Book::TypeDef::Frame * Goto(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,Book::TypeDef::Table *obj,FrameExt *ext)
-    {
-     if( index_list.len<3 ) return 0;
-
-     ulen index1=index_list[0];
-     ulen index2=index_list[1];
-     ulen index3=index_list[2];
-
-     index_list+=3;
-
-     return Goto(map,down,index1,index2,index3,obj,AutoCast(ext));
-    }
-
-   template <class T>
-   static Book::TypeDef::Frame * GotoAny(ExtMap &map,Coord &down,PtrLen<const UIntType> &index_list,T body,FrameExt *ext)
-    {
-     Book::TypeDef::Frame *ret=0;
-
-     body.apply( [&] (auto *obj) { ret=Goto(map,down,index_list,obj,ext); } );
-
-     return ret;
-    }
-
-   // Open
-
-   static Book::TypeDef::Frame * Open(bool &flag,ulen item_index,ulen frame_index,Book::TypeDef::TextList *obj);
-
-   static Book::TypeDef::Frame * Open(bool &flag,ulen index,Book::TypeDef::Collapse *obj);
-
-   static Book::TypeDef::Frame * Open(bool &flag,ulen col,ulen row,ulen index,Book::TypeDef::Table *obj);
-
-   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::Text *) { return 0; }
-
-   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::FixedText *) { return 0; }
-
-   static Book::TypeDef::Frame * Open(bool &,PtrLen<const UIntType> &,Book::TypeDef::Bitmap *) { return 0; }
-
-   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::TextList *obj)
-    {
-     if( index_list.len<2 ) return 0;
-
-     ulen index1=index_list[0];
-     ulen index2=index_list[1];
-
-     index_list+=2;
-
-     return Open(flag,index1,index2,obj);
-    }
-
-   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::Collapse *obj)
-    {
-     if( !index_list ) return 0;
-
-     ulen index=index_list[0];
-
-     ++index_list;
-
-     return Open(flag,index,obj);
-    }
-
-   static Book::TypeDef::Frame * Open(bool &flag,PtrLen<const UIntType> &index_list,Book::TypeDef::Table *obj)
-    {
-     if( index_list.len<3 ) return 0;
-
-     ulen index1=index_list[0];
-     ulen index2=index_list[1];
-     ulen index3=index_list[2];
-
-     index_list+=3;
-
-     return Open(flag,index1,index2,index3,obj);
-    }
-
-   template <class T>
-   static Book::TypeDef::Frame * OpenAny(bool &flag,PtrLen<const UIntType> &index_list,T body)
-    {
-     Book::TypeDef::Frame *ret=0;
-
-     body.apply( [&] (auto *obj) { ret=Open(flag,index_list,obj); } );
-
-     return ret;
-    }
 
   public:
 
@@ -451,32 +536,16 @@ class Shape
 
 Coord Shape::getDown(ExtMap &map,PtrLen<const UIntType> index_list) const
  {
-  Coord ret=down;
+  Goto ctx(map,down,index_list);
 
-  Book::TypeDef::Frame *cur=frame;
-
-  while( +index_list && cur )
-    {
-     FrameExt *ext=map(cur);
-
-     cur=GotoAny(map,ret,index_list,cur->body.getPtr(),ext);
-    }
-
-  return ret;
+  return ctx(frame);
  }
 
 bool Shape::open(PtrLen<const UIntType> index_list) const
  {
-  bool flag=false;
+  Open ctx(index_list);
 
-  Book::TypeDef::Frame *cur=frame;
-
-  while( +index_list && cur )
-    {
-     cur=OpenAny(flag,index_list,cur->body.getPtr());
-    }
-
-  return flag;
+  return ctx(frame);
  }
 
 } // namespace DrawBook
