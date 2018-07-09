@@ -774,39 +774,6 @@ void BackShape::draw(const DrawBuf &buf) const
   }
  }
 
-/* class BookWindow::ProgressControl */
-
-BookWindow::ProgressControl::ProgressControl(ArrowProgressWindow &window_)
- : window(window_)
- {
- }
-
-BookWindow::ProgressControl::~ProgressControl()
- {
- }
-
- // IncrementalProgress
-
-void BookWindow::ProgressControl::start()
- {
- }
-
-void BookWindow::ProgressControl::setTotal(unsigned total)
- {
-  window.setTotal(total);
- }
-
-bool BookWindow::ProgressControl::setPos(unsigned pos)
- {
-  window.setPosPing(pos);
-
-  return true;
- }
-
-void BookWindow::ProgressControl::stop() noexcept
- {
- }
-
 /* class BookWindow */
 
 void BookWindow::error(DefString etext)

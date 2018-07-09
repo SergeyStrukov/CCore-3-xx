@@ -223,42 +223,6 @@ void CharTableWindow::react_Move(Point point,MouseKey mkey)
     }
  }
 
-/* class FontEditWindow */
-
-FontEditWindow::ProgressControl::ProgressControl(WindowList &wlist_,ProgressWindow &window_)
- : wlist(wlist_),
-   window(window_)
- {
- }
-
-FontEditWindow::ProgressControl::~ProgressControl()
- {
- }
-
- // IncrementalProgress
-
-void FontEditWindow::ProgressControl::start()
- {
-  wlist.insTop(window);
- }
-
-void FontEditWindow::ProgressControl::setTotal(unsigned total)
- {
-  window.setTotal(total);
- }
-
-bool FontEditWindow::ProgressControl::setPos(unsigned pos)
- {
-  window.setPosPing(pos);
-
-  return true;
- }
-
-void FontEditWindow::ProgressControl::stop() noexcept
- {
-  wlist.del(window);
- }
-
 /* class FontEditWindow::FDBInfo::Base */
 
 class FontEditWindow::FDBInfo::Base : public ComboInfoBase
@@ -651,6 +615,8 @@ void FontEditWindow::fdb_completed(bool ok)
  {
   fdb_flag=false;
 
+  wlist.del(progress);
+
   if( ok )
     {
      info.build(fdb);
@@ -673,6 +639,8 @@ void FontEditWindow::fdb_completed(bool ok)
 
      setCouple();
     }
+
+  redraw();
  }
 
 void FontEditWindow::list_selected(ulen select)
@@ -851,7 +819,7 @@ FontEditWindow::FontEditWindow(SubWindowHost &host,const ConfigType &cfg_)
    cfg(cfg_),
 
    progress(wlist,cfg.progress_cfg),
-   progress_control(wlist,progress),
+   progress_control(progress),
 
    fdb_inc(progress_control),
 
@@ -939,6 +907,8 @@ FontEditWindow::FontEditWindow(SubWindowHost &host,const ConfigType &cfg_)
    connector_spin_strength_changed(this,&FontEditWindow::spin_strength_changed,spin_strength.changed),
    connector_group_sample_changed(this,&FontEditWindow::group_sample_changed,group_sample.changed)
  {
+  wlist.insTop(progress);
+
   spin_fdy.setRange(1,1000);
   spin_fdx.setRange(1,1000);
 

@@ -40,6 +40,8 @@ void GuardIncrementalInProgress();
 
 struct IncrementalProgress;
 
+template <class W> class ProgressTo;
+
 /* struct IncrementalProgress */
 
 struct IncrementalProgress
@@ -51,6 +53,30 @@ struct IncrementalProgress
   virtual bool setPos(unsigned pos)=0; // false to cancel
 
   virtual void stop() noexcept =0;
+ };
+
+/* class ProgressTo<W> */
+
+template <class W>
+class ProgressTo : public NoCopyBase<IncrementalProgress>
+ {
+   W &obj;
+
+  public:
+
+   explicit ProgressTo(W &obj_) : obj(obj_) {}
+
+   ~ProgressTo() {}
+
+   // IncrementalProgress
+
+   virtual void start() {}
+
+   virtual void setTotal(unsigned total) { obj.setTotal(total); }
+
+   virtual bool setPos(unsigned pos) { obj.setPosPing(pos); return true; }
+
+   virtual void stop() noexcept {}
  };
 
 /* concept StepBuilderType<Step,T> */

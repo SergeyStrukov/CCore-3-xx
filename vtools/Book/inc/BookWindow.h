@@ -584,28 +584,7 @@ class BookWindow : public ComboWindow
 
    // incremental
 
-   class ProgressControl : public IncrementalProgress
-    {
-      ArrowProgressWindow &window;
-
-     public:
-
-      explicit ProgressControl(ArrowProgressWindow &window);
-
-      ~ProgressControl();
-
-      // IncrementalProgress
-
-      virtual void start();
-
-      virtual void setTotal(unsigned total);
-
-      virtual bool setPos(unsigned pos);
-
-      virtual void stop() noexcept;
-    };
-
-   ProgressControl progress_control;
+   ProgressTo<ArrowProgressWindow> progress_control;
 
    FontLookup::Incremental font_inc;
    bool font_flag = true ;

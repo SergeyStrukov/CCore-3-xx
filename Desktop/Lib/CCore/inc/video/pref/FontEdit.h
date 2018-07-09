@@ -257,29 +257,7 @@ class FontEditWindow : public ComboWindow
 
    ProgressWindow progress;
 
-   class ProgressControl : public IncrementalProgress
-    {
-      WindowList &wlist;
-      ProgressWindow &window;
-
-     public:
-
-      ProgressControl(WindowList &wlist,ProgressWindow &window);
-
-      ~ProgressControl();
-
-      // IncrementalProgress
-
-      virtual void start();
-
-      virtual void setTotal(unsigned total);
-
-      virtual bool setPos(unsigned pos);
-
-      virtual void stop() noexcept;
-    };
-
-   ProgressControl progress_control;
+   ProgressTo<ProgressWindow> progress_control;
 
    FontDatabase fdb;
    FontDatabase::Incremental fdb_inc;

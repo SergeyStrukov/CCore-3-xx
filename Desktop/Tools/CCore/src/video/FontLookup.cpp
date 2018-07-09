@@ -149,35 +149,7 @@ class DialogFontLookup::Window : public ComboWindow
 
    ArrowProgressWindow progress;
 
-   class ProgressControl : public IncrementalProgress
-    {
-      ArrowProgressWindow &window;
-
-     public:
-
-      explicit ProgressControl(ArrowProgressWindow &window_) : window(window_) {}
-
-      ~ProgressControl() {}
-
-      // IncrementalProgress
-
-      virtual void start() {}
-
-      virtual void setTotal(unsigned total) { window.setTotal(total); }
-
-      virtual bool setPos(unsigned pos)
-       {
-        window.setPosPing(pos);
-
-        return true;
-       }
-
-      virtual void stop() noexcept
-       {
-       }
-    };
-
-   ProgressControl progress_control;
+   ProgressTo<ArrowProgressWindow> progress_control;
 
    FontLookup::Incremental font_inc;
 
