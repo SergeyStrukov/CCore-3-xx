@@ -248,24 +248,24 @@ Point InnerBookWindow::getMinSize(Point cap) const
     }
  }
 
-void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor back_,VColor fore_)
+void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor book_back_,VColor book_fore_)
  {
   frames=Null;
 
-  book_back=back_;
-  book_fore=fore_;
+  book_back=book_back_;
+  book_fore=book_fore_;
 
   if( page )
     {
      frames=page->list;
 
-     back=DrawBook::Combine(page->back,back_);
-     fore=DrawBook::Combine(page->fore,fore_);
+     back=DrawBook::Combine(page->back,book_back_);
+     fore=DrawBook::Combine(page->fore,book_fore_);
     }
   else
     {
-     back=back_;
-     fore=fore_;
+     back=book_back_;
+     fore=book_fore_;
     }
 
   sx.beg();
@@ -318,6 +318,8 @@ void InnerBookWindow::posFrame(PtrLen<const UIntType> index_list)
            ok=false;
 
            changed.assert();
+
+           cache();
           }
 
         sy.setPos(ulen( shapes[frame_index].getDown(map,index_list) ));
@@ -598,9 +600,9 @@ DisplayBookWindow::~DisplayBookWindow()
 
  // methods
 
-void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor back,VColor fore)
+void DisplayBookWindow::setPage(Book::TypeDef::Page *page,VColor book_back,VColor book_fore)
  {
-  window.setPage(page,back,fore);
+  window.setPage(page,book_back,book_fore);
 
   layout();
  }
@@ -653,9 +655,9 @@ DisplayBookFrame::~DisplayBookFrame()
 
  // methods
 
-void DisplayBookFrame::setPage(VColor back,VColor fore)
+void DisplayBookFrame::setPage(VColor book_back,VColor book_fore)
  {
-  client.setPage(0,back,fore);
+  client.setPage(0,book_back,book_fore);
 
   client.redraw();
  }
@@ -881,35 +883,13 @@ void BookWindow::link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_lis
     }
  }
 
-void BookWindow::link(Book::TypeDef::Link dst)
- {
-  link(dst.page,Range_const(dst.index_list.getRange()));
- }
-
 void BookWindow::link(Book::TypeDef::Link dst,RefArray<ulen> index_list)
  {
   if( auto *page=dst.page.getPtr() )
     {
      push(cur,index_list);
 
-     if( page!=cur )
-       {
-        text_page.setText(DefString(page->name.getStr()));
-
-        setNav(page);
-
-        layout();
-
-        book.setPage(page,Range_const(dst.index_list.getRange()));
-
-        redraw();
-       }
-     else
-       {
-        book.posFrame(Range_const(dst.index_list.getRange()));
-
-        redraw();
-       }
+     link(page,Range_const(dst.index_list.getRange()));
     }
  }
 
@@ -1139,8 +1119,8 @@ void BookWindow::load(StrLen file_name)
 
      text_title.setText(DefString(ptr->title.getStr()));
 
-     VColor back=DrawBook::CastColor(ptr->back);
-     VColor fore=DrawBook::CastColor(ptr->fore);
+     VColor book_back=DrawBook::CastColor(ptr->back);
+     VColor book_fore=DrawBook::CastColor(ptr->fore);
 
      if( auto *page=ptr->start.getPtr() )
        {
@@ -1152,9 +1132,9 @@ void BookWindow::load(StrLen file_name)
 
         ext_map.setRoot(file_name);
 
-        popup.setPage(back,fore);
+        popup.setPage(book_back,book_fore);
 
-        book.setPage(page,back,fore);
+        book.setPage(page,book_back,book_fore);
        }
      else
        {
@@ -1164,9 +1144,9 @@ void BookWindow::load(StrLen file_name)
 
         layout();
 
-        popup.setPage(back,fore);
+        popup.setPage(book_back,book_fore);
 
-        book.setPage(0,back,fore);
+        book.setPage(0,book_back,book_fore);
        }
 
      redraw();

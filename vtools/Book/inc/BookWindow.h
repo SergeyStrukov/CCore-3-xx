@@ -170,7 +170,7 @@ class InnerBookWindow : public SubWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore); // no layout/redraw
+   void setPage(Book::TypeDef::Page *page,VColor book_back,VColor book_fore); // no layout/redraw
 
    void setPage(Book::TypeDef::Page *page); // no layout/redraw
 
@@ -270,7 +270,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    // methods
 
-   void setPage(Book::TypeDef::Page *page,VColor back,VColor fore); // no redraw
+   void setPage(Book::TypeDef::Page *page,VColor book_back,VColor book_fore); // no redraw
 
    void setPage(Book::TypeDef::Page *page);
 
@@ -344,7 +344,7 @@ class DisplayBookFrame : public DragFrame
 
    // methods
 
-   void setPage(VColor back,VColor fore);
+   void setPage(VColor book_back,VColor book_fore);
 
    void setPage(Book::TypeDef::Page *page);
 
@@ -619,8 +619,6 @@ class BookWindow : public ComboWindow
    void push(Book::TypeDef::Page *page,RefArray<ulen> index_list);
 
    void link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list);
-
-   void link(Book::TypeDef::Link dst);
 
    void link(Book::TypeDef::Link dst,RefArray<ulen> index_list);
 
