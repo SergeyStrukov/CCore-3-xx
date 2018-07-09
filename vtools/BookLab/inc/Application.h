@@ -7,7 +7,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -54,24 +54,7 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple font;
   FontCouple codefont;
 
-  DefString text_Title = "Title"_def ;
-  DefString text_Page = "Page"_def ;
   DefString text_NotReady = "Font database is not ready yet"_def ;
-
-  Ratio defscale = Ratio(1,0) ;
-
-  DefString hint_PrevPage   = "Go to the previous page"_def ;
-  DefString hint_ParentPage = "Go to the parent page"_def ;
-  DefString hint_NextPage   = "Go to the next page"_def ;
-  DefString hint_Scale      = "Set the display scale"_def ;
-  DefString hint_GotoBack   = "Jump back"_def ;
-  DefString hint_GotoFore   = "Jump fore"_def ;
-
-  // back
-
-  VColor back_pict = Black ;
-
-  Coord back_dy = 30 ;
 
   // constructors
 
@@ -104,18 +87,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("fore"_c,ptr->fore);
   func("font"_c,ptr->font);
   func("codefont"_c,ptr->codefont);
-  func("text_Title"_c,ptr->text_Title);
-  func("text_Page"_c,ptr->text_Page);
   func("text_NotReady"_c,ptr->text_NotReady);
-  func("defscale"_c,ptr->defscale);
-  func("back_pict"_c,ptr->back_pict);
-  func("back_dy"_c,ptr->back_dy);
-  func("hint_PrevPage"_c,ptr->hint_PrevPage);
-  func("hint_ParentPage"_c,ptr->hint_ParentPage);
-  func("hint_NextPage"_c,ptr->hint_NextPage);
-  func("hint_Scale"_c,ptr->hint_Scale);
-  func("hint_GotoBack"_c,ptr->hint_GotoBack);
-  func("hint_GotoFore"_c,ptr->hint_GotoFore);
  }
 
 /* struct AppProp */

@@ -1,42 +1,24 @@
 OBJ_LIST = \
 .obj/App.o \
 .obj/Application.o \
-.obj/Book.o \
-.obj/BookWindow.o \
 .obj/Client.o \
-.obj/DrawBook.o \
-.obj/DrawBookTools.o \
-.obj/SelectFrames.o \
-.obj/SpanLenEngine.o \
-.obj/WorkWindow.o \
+.obj/EditWindow.o \
 .obj/main.o \
 
 
 ASM_LIST = \
 .obj/App.s \
 .obj/Application.s \
-.obj/Book.s \
-.obj/BookWindow.s \
 .obj/Client.s \
-.obj/DrawBook.s \
-.obj/DrawBookTools.s \
-.obj/SelectFrames.s \
-.obj/SpanLenEngine.s \
-.obj/WorkWindow.s \
+.obj/EditWindow.s \
 .obj/main.s \
 
 
 DEP_LIST = \
 .obj/App.dep \
 .obj/Application.dep \
-.obj/Book.dep \
-.obj/BookWindow.dep \
 .obj/Client.dep \
-.obj/DrawBook.dep \
-.obj/DrawBookTools.dep \
-.obj/SelectFrames.dep \
-.obj/SpanLenEngine.dep \
-.obj/WorkWindow.dep \
+.obj/EditWindow.dep \
 .obj/main.dep \
 
 
@@ -52,28 +34,10 @@ include $(RULES_FILE)
 .obj/Application.o : src/./Application.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Book.o : src/./Book.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/BookWindow.o : src/./BookWindow.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/DrawBook.o : src/./DrawBook.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/DrawBookTools.o : src/./DrawBookTools.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/SelectFrames.o : src/./SelectFrames.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/SpanLenEngine.o : src/./SpanLenEngine.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/WorkWindow.o : src/./WorkWindow.cpp
+.obj/EditWindow.o : src/./EditWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/main.o : src/./main.cpp
@@ -87,28 +51,10 @@ include $(RULES_FILE)
 .obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Book.s : src/./Book.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/BookWindow.s : src/./BookWindow.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/DrawBook.s : src/./DrawBook.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/DrawBookTools.s : src/./DrawBookTools.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/SelectFrames.s : src/./SelectFrames.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/SpanLenEngine.s : src/./SpanLenEngine.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/WorkWindow.s : src/./WorkWindow.cpp
+.obj/EditWindow.s : src/./EditWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -122,29 +68,11 @@ include $(RULES_FILE)
 .obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
 
-.obj/Book.dep : src/./Book.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/Book.o $< -MF $@
-
-.obj/BookWindow.dep : src/./BookWindow.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/BookWindow.o $< -MF $@
-
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
 
-.obj/DrawBook.dep : src/./DrawBook.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/DrawBook.o $< -MF $@
-
-.obj/DrawBookTools.dep : src/./DrawBookTools.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/DrawBookTools.o $< -MF $@
-
-.obj/SelectFrames.dep : src/./SelectFrames.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/SelectFrames.o $< -MF $@
-
-.obj/SpanLenEngine.dep : src/./SpanLenEngine.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/SpanLenEngine.o $< -MF $@
-
-.obj/WorkWindow.dep : src/./WorkWindow.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/WorkWindow.o $< -MF $@
+.obj/EditWindow.dep : src/./EditWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/EditWindow.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

@@ -7,7 +7,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
 
 #include <CCore/inc/video/AppOpt.h>
 
-#include <inc/WorkWindow.h>
+#include <inc/EditWindow.h>
 
 namespace App {
 
@@ -30,7 +30,7 @@ class ClientWindow : public ComboWindow , public AliveControl
  {
   public:
 
-   using SubWinType = WorkWindow ;
+   using SubWinType = EditWindow ;
 
    struct Config
     {

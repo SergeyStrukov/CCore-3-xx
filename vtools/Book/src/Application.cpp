@@ -58,7 +58,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
 void AppPreferenceBag::findFonts()
  {
-  FontLookup dev;
+  DialogFontLookup dev;
 
   font=dev.build("Times New Roman"_c,22);
   codefont=dev.build("Anonymous Pro"_c,22);

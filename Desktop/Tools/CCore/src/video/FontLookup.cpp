@@ -122,6 +122,13 @@ FontCouple FontLookup::build(StrLen family,bool bold,bool italic,Coord font_size
   return Build(info,font_size,font_config);
  }
 
+/* class DialogFontLookup */
+
+DialogFontLookup::DialogFontLookup() // TODO
+ {
+
+ }
+
 } // namespace Video
 } // namespace CCore
 

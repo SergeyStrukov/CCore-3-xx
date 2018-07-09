@@ -1,4 +1,4 @@
-/* WorkWindow.h */
+/* EditWindow.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: BookLab 1.00
@@ -7,24 +7,24 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef WorkWindow_h
-#define WorkWindow_h
+#ifndef EditWindow_h
+#define EditWindow_h
 
-#include <inc/BookWindow.h>
+#include <inc/App.h>
 
 namespace App {
 
 /* classes */
 
-class WorkWindow;
+class EditWindow;
 
-/* class WorkWindow */
+/* class EditWindow */
 
-class WorkWindow : public ComboWindow
+class EditWindow : public ComboWindow
  {
   public:
 
@@ -32,11 +32,8 @@ class WorkWindow : public ComboWindow
     {
      // app
 
-     BookWindow::ConfigType book_cfg;
-
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : book_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -62,13 +59,11 @@ class WorkWindow : public ComboWindow
 
    const Config &cfg;
 
-   BookWindow book;
-
   public:
 
-   WorkWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
+   EditWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
-   virtual ~WorkWindow();
+   virtual ~EditWindow();
 
    // methods
 
@@ -87,6 +82,8 @@ class WorkWindow : public ComboWindow
    // drawing
 
    virtual void layout();
+
+   virtual void drawBack(DrawBuf buf,bool drag_active) const;
  };
 
 } // namespace App

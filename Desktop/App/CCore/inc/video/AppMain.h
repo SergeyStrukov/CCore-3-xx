@@ -69,6 +69,11 @@ struct AppProp
 
 #endif
 
+/* concept FindFontsBagType<Bag> */
+
+template <class Bag>
+concept bool FindFontsBagType = requires(Bag &bag) { bag.findFonts(); } ;
+
 /* class AppPreference<AppProp> */
 
 template <class AppProp>
@@ -77,6 +82,17 @@ class AppPreference : public ConfigBinder<typename AppProp::PreferenceBag>
    static StrLen File()
     {
      return "/AppPreference.ddl"_c;
+    }
+
+   void findFonts() requires( FindFontsBagType<typename AppProp::PreferenceBag> )
+    {
+     this->ref().findFonts();
+
+     update();
+    }
+
+   void findFonts() requires( !FindFontsBagType<typename AppProp::PreferenceBag> )
+    {
     }
 
   public:
@@ -95,7 +111,10 @@ class AppPreference : public ConfigBinder<typename AppProp::PreferenceBag>
 
    void sync() noexcept
     {
-     this->syncHome(AppProp::Key(),File());
+     if( !this->syncHome(AppProp::Key(),File()) )
+       {
+        findFonts();
+       }
     }
 
    void update() noexcept

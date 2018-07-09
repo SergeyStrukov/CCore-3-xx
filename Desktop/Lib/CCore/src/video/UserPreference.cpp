@@ -677,7 +677,7 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
 
 void UserPreferenceBag::findFonts() // Update fonts here
  {
-  FontLookup dev;
+  DialogFontLookup dev;
 
   label_font=dev.build("Georgia"_c|Italic,18);
   contour_font=dev.build("Microsoft Sans Serif"_c,20);

@@ -36,6 +36,8 @@ struct Bolder;
 
 class FontLookup;
 
+class DialogFontLookup;
+
 /* struct FontId */
 
 struct FontId
@@ -124,6 +126,17 @@ class FontLookup : NoCopy
    FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const; // noexcept
 
    FontCouple build(FontId id,Coord font_size,const FreeTypeFont::Config &font_config={}) const { return build(id.family,id.bold,id.italic,font_size,font_config); }
+ };
+
+/* class DialogFontLookup */
+
+class DialogFontLookup : public FontLookup
+ {
+  public:
+
+   DialogFontLookup();
+
+   ~DialogFontLookup() {}
  };
 
 } // namespace Video
