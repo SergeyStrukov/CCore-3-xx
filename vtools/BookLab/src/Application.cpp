@@ -45,6 +45,12 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Page'"_def,text_Page);
     binder.item("'Not ready'"_def,text_NotReady);
     binder.item("default scale"_def,defscale);
+    binder.item("'Previuos page'"_def,hint_PrevPage);
+    binder.item("'Parent page'"_def,hint_ParentPage);
+    binder.item("'Next page'"_def,hint_NextPage);
+    binder.item("'Scale'"_def,hint_Scale);
+    binder.item("'Back'"_def,hint_GotoBack);
+    binder.item("'Fore'"_def,hint_GotoFore);
 
   binder.group("Back button"_def);
 

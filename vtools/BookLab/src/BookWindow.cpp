@@ -1087,6 +1087,14 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
   spinor.setRange(25,400);
   spinor.setValue(100);
   spinor.setOptions(".f2"_c);
+
+  knob_prev.bindHint(cfg.hint_PrevPage);
+  knob_up.bindHint(cfg.hint_ParentPage);
+  knob_next.bindHint(cfg.hint_NextPage);
+
+  spinor.bindHint(cfg.hint_Scale);
+  back_btn.bindHint(cfg.hint_GotoBack);
+  fore_btn.bindHint(cfg.hint_GotoFore);
  }
 
 BookWindow::~BookWindow()

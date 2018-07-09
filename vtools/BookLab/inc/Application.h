@@ -60,6 +60,13 @@ struct AppPreferenceBag : ConfigItemHost
 
   Ratio defscale = Ratio(1,0) ;
 
+  DefString hint_PrevPage   = "Go to the previous page"_def ;
+  DefString hint_ParentPage = "Go to the parent page"_def ;
+  DefString hint_NextPage   = "Go to the next page"_def ;
+  DefString hint_Scale      = "Set the display scale"_def ;
+  DefString hint_GotoBack   = "Jump back"_def ;
+  DefString hint_GotoFore   = "Jump fore"_def ;
+
   // back
 
   VColor back_pict = Black ;
@@ -103,6 +110,12 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("defscale"_c,ptr->defscale);
   func("back_pict"_c,ptr->back_pict);
   func("back_dy"_c,ptr->back_dy);
+  func("hint_PrevPage"_c,ptr->hint_PrevPage);
+  func("hint_ParentPage"_c,ptr->hint_ParentPage);
+  func("hint_NextPage"_c,ptr->hint_NextPage);
+  func("hint_Scale"_c,ptr->hint_Scale);
+  func("hint_GotoBack"_c,ptr->hint_GotoBack);
+  func("hint_GotoFore"_c,ptr->hint_GotoFore);
  }
 
 /* struct AppProp */

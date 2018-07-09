@@ -476,6 +476,13 @@ class BookWindow : public ComboWindow
 
      RefVal<Ratio> defscale = Ratio(1,0) ;
 
+     RefVal<DefString> hint_PrevPage   = "Go to the previous page"_def ;
+     RefVal<DefString> hint_ParentPage = "Go to the parent page"_def ;
+     RefVal<DefString> hint_NextPage   = "Go to the next page"_def ;
+     RefVal<DefString> hint_Scale      = "Set the display scale"_def ;
+     RefVal<DefString> hint_GotoBack   = "Jump back"_def ;
+     RefVal<DefString> hint_GotoFore   = "Jump fore"_def ;
+
      DisplayBookWindow::ConfigType book_cfg;
 
      DisplayBookFrame::ConfigType popup_cfg;
@@ -516,6 +523,13 @@ class BookWindow : public ComboWindow
        text_Page.bind(bag.text_Page);
        text_NotReady.bind(bag.text_NotReady);
        defscale.bind(bag.defscale);
+
+       hint_PrevPage.bind(bag.hint_PrevPage);
+       hint_ParentPage.bind(bag.hint_ParentPage);
+       hint_NextPage.bind(bag.hint_NextPage);
+       hint_Scale.bind(bag.hint_Scale);
+       hint_GotoBack.bind(bag.hint_GotoBack);
+       hint_GotoFore.bind(bag.hint_GotoFore);
       }
     };
 
