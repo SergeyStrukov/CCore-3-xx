@@ -132,6 +132,12 @@ class FontLookup : NoCopy
 
 class DialogFontLookup : public FontLookup
  {
+   class Window;
+
+   class Frame;
+
+   class App;
+
   public:
 
    DialogFontLookup();

@@ -122,11 +122,207 @@ FontCouple FontLookup::build(StrLen family,bool bold,bool italic,Coord font_size
   return Build(info,font_size,font_config);
  }
 
+} // namespace Video
+} // namespace CCore
+
+//----------------------------------------------------------------------------------------
+
+#include <CCore/inc/video/UserPreference.h>
+#include <CCore/inc/video/ApplicationBase.h>
+#include <CCore/inc/video/Layout.h>
+
+namespace CCore {
+namespace Video {
+
+/* class DialogFontLookup::Window */
+
+class DialogFontLookup::Window : public ComboWindow
+ {
+   FontLookup &lookup;
+
+   ArrowProgressWindow::ConfigType cfg;
+
+   VColor back = Silver ;
+
+   Coord space = 30 ;
+   Coord len = 300 ;
+
+   ArrowProgressWindow progress;
+
+   class ProgressControl : public IncrementalProgress
+    {
+      ArrowProgressWindow &window;
+
+     public:
+
+      explicit ProgressControl(ArrowProgressWindow &window_) : window(window_) {}
+
+      ~ProgressControl() {}
+
+      // IncrementalProgress
+
+      virtual void start() {}
+
+      virtual void setTotal(unsigned total) { window.setTotal(total); }
+
+      virtual bool setPos(unsigned pos)
+       {
+        window.setPosPing(pos);
+
+        return true;
+       }
+
+      virtual void stop() noexcept
+       {
+       }
+    };
+
+   ProgressControl progress_control;
+
+   FontLookup::Incremental font_inc;
+
+  private:
+
+   void complete(bool)
+    {
+     askFrameClose();
+    }
+
+   SignalConnector<Window,bool> connector_complete;
+
+  public:
+
+   Window(SubWindowHost &host,FontLookup &lookup_)
+    : ComboWindow(host),
+      lookup(lookup_),
+
+      progress(wlist,cfg),
+      progress_control(progress),
+      font_inc(progress_control),
+
+      connector_complete(this,&Window::complete,font_inc.completed)
+    {
+     wlist.insTop(progress);
+    }
+
+   virtual ~Window() {}
+
+   // methods
+
+   Point getMinSize() const
+    {
+     return Point(2*space+len,2*space+len/10);
+    }
+
+   void start() { lookup.cache(font_inc); }
+
+   // drawing
+
+   virtual void layout()
+    {
+     Pane pane=getPane();
+
+     progress.setPlace(pane.shrink(space));
+    }
+
+   virtual void drawBack(DrawBuf buf,bool) const
+    {
+     buf.erase(back);
+    }
+ };
+
+/* class DialogFontLookup::Frame */
+
+class DialogFontLookup::Frame : public FixedFrame
+ {
+   Window client;
+
+   DefString title = "Font lookup in progress, please, standby ! "_def ;
+
+  public:
+
+   Frame(Desktop *desktop,const FixedFrame::ConfigType &cfg,FontLookup &lookup)
+    : FixedFrame(desktop,cfg),
+      client(*this,lookup)
+    {
+     bindClient(client);
+    }
+
+   virtual ~Frame() {}
+
+   void create()
+    {
+     Point size=getMinSize(true,title.str(),client.getMinSize());
+
+     Pane pane=GetWindowPlace(desktop,Div(5,12),size);
+
+     createMain(pane,title);
+    }
+
+   void start() { client.start(); }
+ };
+
+/* class DialogFontLookup::App */
+
+class DialogFontLookup::App : public ApplicationBase
+ {
+   FixedFrame::ConfigType cfg;
+
+   Frame frame;
+
+  private:
+
+   virtual void clearException() noexcept
+    {
+    }
+
+   virtual void guardException()
+    {
+    }
+
+   virtual void showException() noexcept
+    {
+    }
+
+   virtual void prepare()
+    {
+     frame.create();
+
+     frame.start();
+    }
+
+   virtual void beforeLoop() noexcept
+    {
+    }
+
+   virtual void afterLoop() noexcept
+    {
+    }
+
+   virtual void final()
+    {
+     // do nothing
+    }
+
+  public:
+
+   App(Desktop *desktop,FontLookup &lookup)
+    : ApplicationBase(desktop,DeferCallQueue::DefaultTickPeriod),
+      frame(desktop,cfg,lookup)
+    {
+    }
+
+   ~App() {}
+ };
+
 /* class DialogFontLookup */
 
-DialogFontLookup::DialogFontLookup() // TODO
+DialogFontLookup::DialogFontLookup()
+ : FontLookup(None)
  {
+  App app(DefaultDesktop,*this);
 
+  app.run();
  }
 
 } // namespace Video

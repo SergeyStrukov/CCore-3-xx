@@ -134,6 +134,10 @@ class ProgressWindowOf : public SubWindow
      redraw();
     }
 
+   void setEnd() { setPos(getTotal()); }
+
+   void setEndPing() { setPosPing(getTotal()); }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const
