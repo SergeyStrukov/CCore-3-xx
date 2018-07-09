@@ -253,10 +253,17 @@ void Proc(StrLen input_file_name,StrLen output_file_name)
 
 /* Main() */
 
-void Main(int argc,const char *argv[])
+int Main(int argc,const char *argv[])
  {
   switch( argc )
     {
+     case 1 :
+      {
+       Putobj(Con,"Usage: CCore-MakeString <input-file> <output-file>\n");
+       Putobj(Con,"OR     CCore-MakeString -s <input-file> <output-file>\n\n");
+      }
+     return 1;
+
      case 3 :
       {
        Proc(argv[1],argv[2]);
@@ -283,6 +290,8 @@ void Main(int argc,const char *argv[])
        Printf(Exception,"App::Main(...) : bad arguments number");
       }
     }
+
+  return 0;
  }
 
 } // namespace App
@@ -296,16 +305,17 @@ int main(int argc,const char *argv[])
   try
     {
      ReportException report;
+     int ret;
 
      {
       Putobj(Con,"--- MakeString 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
 
-      Main(argc,argv);
+      ret=Main(argc,argv);
      }
 
      report.guard();
 
-     return 0;
+     return ret;
     }
   catch(CatchType)
     {

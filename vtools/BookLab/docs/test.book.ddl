@@ -68,8 +68,8 @@ Page page = { "page1" , {
                          { .body = &t5 , .line = &line1 },
                          { .body = &t6 , .line = &line2 },
                          { .body = &t7 , .line = &line2 },
-                         { .body = &t8 , .line = &line2 },
-                         { .body = &table1 , .line = &line2 }
+                         { .body = &table1 , .line = &line2 },
+                         { .body = &t8 , .line = &line2 }
                           
                         } , 0C0C0C0h , 0h , null , null , &Page2#page } ;
 

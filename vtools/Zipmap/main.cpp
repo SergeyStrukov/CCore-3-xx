@@ -118,14 +118,24 @@ void Main(int argc,const char *argv[],StrLen cmd)
   Printf(Exception,"App::Main(...) : bad command");
  }
 
-void Main(int argc,const char *argv[])
+int Main(int argc,const char *argv[])
  {
   if( argc<3 )
     {
+     if( argc==1 )
+       {
+        Putobj(Con,"Usage: CCore-Zipmap -z <src-file> [<zipmap-file>]\n");
+        Putobj(Con,"OR     CCore-Zipmap -x <src-file> [<bitmap-file>]\n\n");
+
+        return 1;
+       }
+
      Printf(Exception,"App::Main(...) : bad arguments number");
     }
 
   Main(argc,argv,argv[1]);
+
+  return 0;
  }
 
 } // namespace App
@@ -139,16 +149,17 @@ int main(int argc,const char *argv[])
   try
     {
      ReportException report;
+     int ret;
 
      {
       Putobj(Con,"--- Zipmap 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
 
-      Main(argc,argv);
+      ret=Main(argc,argv);
      }
 
      report.guard();
 
-     return 0;
+     return ret;
     }
   catch(CatchType)
     {
