@@ -264,7 +264,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
    sub_win(wlist,cfg.sub_win_cfg,update),
-   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def}),
+   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".booklab.ddl"_def}),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),
@@ -295,8 +295,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
 
   // file frame
 
-  file_frame.addFilter("*.book.ddl"_c);
-  file_frame.addFilter("*.vol"_c);
+  file_frame.addFilter("*.booklab.ddl"_c);
   file_frame.addFilter("*"_c,false);
 
   // msg frame

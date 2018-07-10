@@ -1,0 +1,112 @@
+/* BookLab.txt */
+
+Color : (uint8 R,uint8 G,uint8 B)
+
+Coord : sint32 // 0 - 100'000
+
+Point : (Coord x,Coord y)
+
+Ratio : (Coord a,Coord b) // b>0
+
+Effect : None,Underline,Strikeout 
+
+//------------------------------------------
+
+Font <name>
+@{
+  text face
+  Coord size
+  bool bold    = false
+  bool italic  = false
+  int strength = 0 
+ }
+ 
+Format <name>
+@{
+  Font [*]font = nullptr
+  Color back   =
+  Color fore   =
+  Effect       = None
+ } 
+
+//------------------------------------------
+
+SingleLine <name>
+@{
+  Ratio width = (1,1) 
+  VColor line = 
+ };
+ 
+DoubleLine <name>
+@{
+  Ratio width = (1,1)
+  VColor gray = 
+  VColor snow =  
+ };
+ 
+Frame
+ {
+  Point inner = ?DefaultInner
+  Point outer = ?DefaultOuter
+  Color col   = 
+  {SingleLine,DoubleLine} [*]line = nullptr
+  
+  {Text,FixedText,Bitmap,TextList,Collapse,Table} [*]body
+ }
+
+//------------------------------------------
+
+SingleLine DefaultSingleLine = {} ;
+
+DoubleLine DefaultDoubleLine = {} ;
+  
+Point DefaultInner = (0,0)
+
+Point DefaultOuter = (0,0)
+
+doc
+{
+ Book
+
+ Element
+ 
+ ...
+}
+
+Book
+ {
+  text title
+  Color back =
+  Color fore =
+  Page [*]start
+ }
+
+Element = Comment Scope Page Font Format SingleLine DoubleLine Text FixedText Bitmap TextList Collapse Table 
+
+Scope <name|name*=scope*>
+@{
+  Element
+ 
+  ...
+ }
+ 
+Page <name|name*=page*>
+@{
+  text name
+  Color back =
+  Color fore =
+  
+  Page *up   = nullptr
+  Page *prev = nullptr
+  Page *next = nullptr
+  
+  Frame[] list
+ } 
+
+//------------------------------------------
+
+Text FixedText Bitmap TextList Collapse Table
+
+Comment
+
+ 
