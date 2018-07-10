@@ -56,40 +56,6 @@ Frame
 
 //------------------------------------------
 
-SingleLine DefaultSingleLine = {} ;
-
-DoubleLine DefaultDoubleLine = {} ;
-  
-Point DefaultInner = (0,0)
-
-Point DefaultOuter = (0,0)
-
-doc
-{
- Book
-
- Element
- 
- ...
-}
-
-Book
- {
-  text title
-  Color back =
-  Color fore =
-  Page [*]start
- }
-
-Element = Comment Scope Page Font Format SingleLine DoubleLine Text FixedText Bitmap TextList Collapse Table 
-
-Scope <name|name*=scope*>
-@{
-  Element
- 
-  ...
- }
- 
 Page <name|name*=page*>
 @{
   text name
@@ -105,8 +71,119 @@ Page <name|name*=page*>
 
 //------------------------------------------
 
-Text FixedText Bitmap TextList Collapse Table
+SingleLine DefaultSingleLine = {} ;
 
-Comment
+DoubleLine DefaultDoubleLine = {} ;
+  
+Point DefaultInner = (0,0)
+
+Point DefaultOuter = (0,0)
+
+Format DefaultCollapseFormat = {} ;
+
+Format DefaultBulletFormat = {} ;
+
+Coord DefaultBulletSpace = 5 ;
+
+Coord DefaultItemSpace = 0 ;
+
+Border DefaultBorder = {} ;
+ 
+Element = Font Format SingleLine DoubleLine Page Scope Section   Bitmap Collapse TextList Table Text FixedText 
+
+Scope <name|name*=scope*>
+@{
+  Element
+ 
+  ...
+ }
+ 
+Section @<text>
+{
+ Element
+ 
+ ...
+} 
+ 
+Doc
+ {
+  text title
+  Color back =
+  Color fore =
+  Page [*]start
+  
+  Element
+ 
+  ...
+ }
+
+//------------------------------------------
+
+Bitmap <name> : (text file_name)
+
+//------------------------------------------
+
+Collapse <name>
+ {
+  text title
+  Format [*]format = & ?DefaultCollapseFormat
+  bool open
+  bool hide = true
+  
+  Frame[] list
+ }
+
+//------------------------------------------
+
+ListItem
+ {
+  text bullet
+  
+  Frame[] list
+ }
+
+TextList <name>
+ {
+  Format [*]format = & ?DefaultBulletFormat
+  
+  Coord bullet_space = ?DefaultBulletSpace
+  Coord item_space   = ?DefaultItemSpace
+  
+  ListItem[] list
+ }
+
+//------------------------------------------
+
+Border <name>
+ {
+  Coord space = 0 
+  
+  Ratio width = (1,1) 
+  VColor line = 
+ };
+ 
+Cell <name>
+ {
+  ulen span_x = 1
+  ulen span_y = 1
+ 
+  Frame[] list
+ } 
+ 
+Table <name>
+ {
+  Border [*]border = & ?DefaultBorder
+  
+  Bool hard = False ;
+  
+  Coord[] width
+  
+  (Cell [*]=nullptr) [,] table   
+ }
+
+//------------------------------------------
+
+Text FixedText
+
 
  

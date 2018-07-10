@@ -1533,9 +1533,12 @@ void Draw::draw(Book::TypeDef::Table *obj,FrameExt_Table *ext,DrawOut out)
     {
      VColor line=Combine(border->line,+cfg.line);
 
-     MCoord width=Cast(border->width)*(+cfg.width);
+     if( line!=Book::NoColor )
+       {
+        MCoord width=Cast(border->width)*(+cfg.width);
 
-     out.table(desc,line,width);
+        out.table(desc,line,width);
+       }
     }
 
   ForTable(obj, [&] (ulen i,ulen j,Book::TypeDef::Cell *cell)
