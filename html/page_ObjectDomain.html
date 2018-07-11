@@ -42,8 +42,9 @@ two special object methods.
 class SomeClass
  {
    IntObjPtr&lt;Type1&gt; ptr;
-   WeakObjPtr&lt;Type2&gt; weak_ptr;
-   IntDelObjPtr&lt;Type3&gt; del_ptr;
+   IntAnyObjPtr&lt;Type2,Type3&gt; any_ptr;
+   WeakObjPtr&lt;Type4&gt; weak_ptr;
+   IntDelObjPtr&lt;Type5&gt; del_ptr;
 
   public:
 
@@ -51,7 +52,12 @@ class SomeClass
    void keepAlive(Keeper keeper)
     {
      keeper(ptr);
+     keeper(any_ptr);
      keeper(del_ptr);
+
+     OR
+
+     keeper(ptr,any_ptr,del_ptr);
     }
    
    template &lt;class Breaker&gt;
@@ -64,7 +70,7 @@ class SomeClass
 </pre>
 
 <p>
-There are 3 special smart pointer classes to support object referencing. When a class member reference
+There are 4 special smart pointer classes to support object referencing. When a class member reference
 another object being governed by the domain, it must be one of these three types.
 </p>
 
@@ -73,6 +79,14 @@ another object being governed by the domain, it must be one of these three types
 the correspondent object is kept alive at least the referencing object is alive. So you may safely
 assume the pointer is valid. You must use this pointer in the <b>keepAlive()</b> method as the argument
 of the <b>keeper</b> call.
+</p>
+
+<p>
+<b>IntAnyObjPtr&lt;Type1,Type2&gt;</b> is used to reference another domain object by class members. If this pointer is not null, then
+the correspondent object is kept alive at least the referencing object is alive. So you may safely
+assume the pointer is valid. You must use this pointer in the <b>keepAlive()</b> method as the argument
+of the <b>keeper</b> call. 
+This pointer is similar to the <a href="page_AnyPtr.html"><b>AnyPtr</b></a>, i.e. it may point to objects of different types.
 </p>
 
 <p>
@@ -108,6 +122,11 @@ ExtDelObjPtr&lt;Type2&gt; del_ptr;
 <p>
 You may freely cast between <b>IntObjPtr&lt;Type&gt;</b>, <b>WeakObjPtr&lt;Type&gt;</b>
 and <b>ExtObjPtr&lt;Type&gt;</b>.
+</p>
+
+<p>
+You may freely cast any of <b>IntObjPtr&lt;Type&gt;</b>, <b>WeakObjPtr&lt;Type&gt;</b>
+and <b>ExtObjPtr&lt;Type&gt;</b> to <b>IntAnyObjPtr&lt;...,Type,...&gt;</b>.
 </p>
 
 <p>
@@ -461,6 +480,63 @@ class <span class="Att">ObjectDomain::WeakPtr</span> // default copying
 
 <p>
 <b>WeakObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>ExtObjPtr&lt;T&gt;</b> and <b>IntObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>getExtRefs()</b> returns the external reference counter. The pointer must be non-null.
+</p>
+
+<h4>IntAnyObjPtr</h4>
+
+<p>
+This smart pointer should be used to reference domain objects by members of another domain objects. 
+It keeps the object being referenced alive. If a domain object contains members of this type, it must
+define the method <b>keepAlive()</b> and use these pointers as arguments of <b>keeper</b> calls inside this method.
+<b>IntAnyObjPtr&lt;T,...&gt;</b>, in fact, is the alias of the
+<b>ObjectDomain::IntAnyPtr&lt;T,...&gt;</b>.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt; 
+class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
+ {
+   ....
+
+  public:
+  
+   // constructors
+ 
+   IntAnyPtr() noexcept;
+  
+   IntAnyPtr(NothingType);
+   
+   template &lt;class T&gt;
+   IntAnyPtr(const IntPtr&lt;T&gt; &amp;obj);
+
+   template &lt;class T&gt;
+   IntAnyPtr(const ExtPtr&lt;T&gt; &amp;obj);
+  
+   template &lt;class T&gt;
+   IntAnyPtr(const WeakPtr&lt;T&gt; &amp;obj);
+   
+   void nullify();
+   
+   // methods
+   
+   void * operator + () const;
+   
+   bool operator ! () const;
+  
+   AnyPtr&lt;TT...&gt; getPtr() const;
+   
+   ulen getExtRefs() const;
+ };
+
+</pre>
+
+<p>
+<b>IntAnyObjPtr&lt;...,T,...&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b>, <b>ExtObjPtr&lt;T&gt;</b> and <b>WeakObjPtr&lt;T&gt;</b>.
 </p>
 
 <p>

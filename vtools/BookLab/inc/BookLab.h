@@ -35,6 +35,20 @@ enum Effect
   Strikeout
  };
 
+/* functions */
+
+template <class T,class ... SS>
+void Create(IntObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
+ {
+  ptr=IntObjPtr<T>(&domain, std::forward<SS>(ss)... );
+ }
+
+template <class T,class ... SS>
+void Create(ExtObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
+ {
+  ptr=ExtObjPtr<T>(&domain, std::forward<SS>(ss)... );
+ }
+
 /* classes */
 
 struct Ratio;
@@ -439,6 +453,8 @@ struct Doc
 
   ElementList list;
 
+  explicit Doc(ObjectDomain &domain);
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -629,6 +645,10 @@ class Book : NoCopy
    Domain domain;
 
    ExtObjPtr<Doc> doc;
+
+  private:
+
+   void startDoc();
 
   public:
 

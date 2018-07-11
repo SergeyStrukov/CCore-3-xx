@@ -16,7 +16,26 @@
 namespace App {
 namespace BookLab {
 
+/* struct Doc */
+
+Doc::Doc(ObjectDomain &domain)
+ {
+  Create(lastdefs.singleLine,domain);
+  Create(lastdefs.doubleLine,domain);
+  Create(lastdefs.collapseFormat,domain);
+  Create(lastdefs.bulletFormat,domain);
+  Create(lastdefs.border,domain);
+ }
+
 /* class Book */
+
+void Book::startDoc()
+ {
+  if( !doc )
+    {
+     Create(doc,domain,domain);
+    }
+ }
 
 Book::Book()
  {
