@@ -16,15 +16,24 @@
 namespace App {
 namespace BookLab {
 
+/* struct LastDefaults */
+
+LastDefaults::LastDefaults(ObjectDomain &domain)
+ {
+  Create(singleLine,domain);
+  Create(doubleLine,domain);
+  Create(collapseFormat,domain);
+  Create(bulletFormat,domain);
+  Create(border,domain);
+  Create(textFormat,domain);
+  Create(fixedFormat,domain);
+ }
+
 /* struct Doc */
 
 Doc::Doc(ObjectDomain &domain)
+ : lastdefs(domain)
  {
-  Create(lastdefs.singleLine,domain);
-  Create(lastdefs.doubleLine,domain);
-  Create(lastdefs.collapseFormat,domain);
-  Create(lastdefs.bulletFormat,domain);
-  Create(lastdefs.border,domain);
  }
 
 /* class Book */

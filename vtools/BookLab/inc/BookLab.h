@@ -49,9 +49,28 @@ void Create(ExtObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
   ptr=ExtObjPtr<T>(&domain, std::forward<SS>(ss)... );
  }
 
+template <class Keeper,class ... TT>
+void KeepAlive(Keeper keeper,TT & ... tt)
+ {
+  ( tt.keepAlive(keeper) , ... );
+ }
+
+template <class T>
+T DefNull() { return Null; }
+
+inline VColor DefNoColor() { return NoColor; }
+
+inline Effect DefNoEffect() { return NoEffect; }
+
 /* classes */
 
 struct Ratio;
+
+template <class T,T Def()=DefNull> struct OptData;
+
+struct NamedObj;
+
+template <class ... TT> struct NamedPtr;
 
 struct Font;
 
@@ -73,18 +92,21 @@ struct ElementList;
 
 struct Defaults;
 
+struct LastDefaults;
+
 struct Scope;
 
 struct Section;
 
 struct Doc;
 
-
 struct Bitmap;
 
 struct Collapse;
 
-struct ListItem;
+struct Item;
+
+struct ItemList;
 
 struct TextList;
 
@@ -93,6 +115,7 @@ struct Border;
 struct Cell;
 
 struct Table;
+
 
 struct Text;
 
@@ -111,24 +134,33 @@ struct Ratio
   operator Video::Ratio() const { return Div(a,b); }
  };
 
-/* struct Font */
+inline Ratio DefRatioOne() { return {1}; }
 
-struct Font
+/* struct OptData<T,T Def()> */
+
+template <class T,T Def()>
+struct OptData
  {
-  // obj
+  T data = Def() ;
+  bool def = true ;
 
-  IntObjPtr<Scope> scope;
+  T get() const { return def? Def() : data ; }
+
+  void set(T data_) { data=data_; def=false; }
+
+  void clear() { def=true; }
+ };
+
+/* struct NamedObj */
+
+struct NamedObj
+ {
+  IntAnyObjPtr<Scope,Doc> scope;
 
   String name;
   bool open = true ;
 
-  // data
-
-  String face;        // no default
-  Coord size   = 20 ; // no default
-  bool bold    = false ;
-  bool italic  = false ;
-  int strength = 0 ;
+  NamedObj & getBase() { return *this; }
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -137,95 +169,96 @@ struct Font
    }
  };
 
- //
- // IntObjPtr<Type> obj;
- // String obj_name;
- //
- // obj_name is empty
- // obj is null             obj is default
- //
- // obj_name is empty
- // obj is not null         obj is anonym
- //
- // obj_name is not empty
- // obj is null             obj is not resolved by obj_name
- //
- // obj_name is not empty
- // obj is not null         obj is resolved by obj_name
- //
+/* struct NamedPtr<TT> */
 
-/* struct Format */
-
-struct Format
+template <class ... TT> requires ( sizeof ... (TT) > 1 )
+struct NamedPtr<TT...>
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
   String name;
-  bool open = true ;
-
-  // data
-
-  IntObjPtr<Font> font; // default is null
-  String font_name;
-
-  VColor back   = NoColor ;
-  VColor fore   = NoColor ;
-  Effect effect = NoEffect ;
+  IntAnyObjPtr<TT...> ptr;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope,font);
+    keeper(ptr);
+   }
+ };
+
+template <class T>
+struct NamedPtr<T>
+ {
+  String name;
+  IntObjPtr<T> ptr;
+
+  //
+  // !name && !ptr => default
+  //
+  // !name && +ptr => anonym
+  //
+  // +name && !ptr => name is not resolved
+  //
+  // +name && +ptr => name is resolved to ptr
+  //
+
+  bool isDef() const { return !Range(name) && !ptr ; }
+
+  bool isAnonym() const { return !Range(name) && +ptr ; }
+
+  bool notResolved() const { return +Range(name) && !ptr ; }
+
+  bool isResolved() const { return +Range(name) && +ptr ; }
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(ptr);
+   }
+ };
+
+/* struct Font */
+
+struct Font : NamedObj
+ {
+  String face;
+  Coord size = 20 ;
+
+  OptData<bool> bold;
+  OptData<bool> italic;
+  OptData<int> strength;
+ };
+
+/* struct Format */
+
+struct Format : NamedObj
+ {
+  NamedPtr<Font> font; // default: null
+
+  OptData<VColor,DefNoColor> back;
+  OptData<VColor,DefNoColor> fore;
+  OptData<Effect,DefNoEffect> effect;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),font);
    }
  };
 
 /* struct SingleLine */
 
-struct SingleLine
+struct SingleLine : NamedObj
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  Ratio width = {1} ;
-  VColor line = NoColor ;
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(scope);
-   }
+  OptData<Ratio,DefRatioOne> width;
+  OptData<VColor,DefNoColor> line;
  };
 
 /* struct DoubleLine */
 
-struct DoubleLine
+struct DoubleLine : NamedObj
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  Ratio width = {1} ;
-  VColor gray = NoColor ;
-  VColor snow = NoColor ;
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(scope);
-   }
+  OptData<Ratio,DefRatioOne> width;
+  OptData<VColor,DefNoColor> gray;
+  OptData<VColor,DefNoColor> snow;
  };
 
 /* struct Frame */
@@ -239,26 +272,21 @@ struct Frame
 
   // data
 
-  Point inner;
-  bool ok_inner = false ;
-  bool has_inner = false ; // ?DefaultInner
+  OptData<Point> inner; // default: ?DefaultInner
+  OptData<Point> outer; // default: ?DefaultOuter
 
-  Point outer;
-  bool ok_outer = false ;
-  bool has_outer = false ; // ?DefaultOuter
+  OptData<VColor,DefNoColor> col;
 
-  VColor col = NoColor ;
+  NamedPtr<SingleLine,DoubleLine> line; // default: null
 
-  IntAnyObjPtr<SingleLine,DoubleLine> line; // default is null
-  String line_name;
-
-  IntAnyObjPtr<Bitmap,Collapse,TextList,Table,Text,FixedText> body; // no default
-  String body_name;
+  NamedPtr<Bitmap,Collapse,TextList,Table,Text,FixedText> body; // default: none
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(prev,next,line,body);
+    keeper(prev,next);
+
+    KeepAlive(keeper,line,body);
    }
  };
 
@@ -279,38 +307,22 @@ struct FrameList
 
 /* struct Page */
 
-struct Page
+struct Page : NamedObj
  {
-  // obj
+  String title;
+  OptData<VColor,DefNoColor> back;
+  OptData<VColor,DefNoColor> fore;
 
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  String title; // no default
-  VColor back = NoColor ;
-  VColor fore = NoColor ;
-
-  IntObjPtr<Page> up; // default is null , no anonym
-  String up_name;
-
-  IntObjPtr<Page> prev; // default is null , no anonym
-  String prev_name;
-
-  IntObjPtr<Page> next; // default is null , no anonym
-  String next_name;
+  NamedPtr<Page> up;   // default: null , no anonym
+  NamedPtr<Page> prev; // default: null , no anonym
+  NamedPtr<Page> next; // default: null , no anonym
 
   FrameList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope,up,prev,next);
-
-    list.keepAlive(keeper);
+    KeepAlive(keeper,getBase(),up,prev,next,list);
    }
  };
 
@@ -352,29 +364,44 @@ struct ElementList
 
 struct Defaults
  {
-  // data
-
-  Point inner;
-  bool has_inner = false ;
-
-  Point outer;
-  bool has_outer = false ;
-
-  Coord bulletSpace = 5 ;
-  bool has_bulletSpace = false ;
-
-  Coord itemSpace = 0 ;
-  bool has_itemSpace = false ;
+  OptData<Point> inner;
+  OptData<Point> outer;
+  OptData<Coord> bulletSpace;
+  OptData<Coord> itemSpace;
 
   IntObjPtr<SingleLine> singleLine;
-
   IntObjPtr<DoubleLine> doubleLine;
-
   IntObjPtr<Format> collapseFormat;
-
   IntObjPtr<Format> bulletFormat;
-
   IntObjPtr<Border> border;
+  IntObjPtr<Format> textFormat;
+  IntObjPtr<Format> fixedFormat;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border);
+   }
+ };
+
+/* struct LastDefaults */
+
+struct LastDefaults
+ {
+  Point inner = Null ;
+  Point outer = Null ;
+  Coord bulletSpace = 5 ;
+  Coord itemSpace = 0 ;
+
+  IntObjPtr<SingleLine> singleLine;
+  IntObjPtr<DoubleLine> doubleLine;
+  IntObjPtr<Format> collapseFormat;
+  IntObjPtr<Format> bulletFormat;
+  IntObjPtr<Border> border;
+  IntObjPtr<Format> textFormat;
+  IntObjPtr<Format> fixedFormat;
+
+  explicit LastDefaults(ObjectDomain &domain);
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -385,17 +412,8 @@ struct Defaults
 
 /* struct Scope */
 
-struct Scope
+struct Scope : NamedObj
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
   Defaults defs;
 
   ElementList list;
@@ -403,10 +421,7 @@ struct Scope
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope);
-
-    defs.keepAlive(keeper);
-    list.keepAlive(keeper);
+    KeepAlive(keeper,getBase(),defs,list);
    }
  };
 
@@ -416,13 +431,13 @@ struct Section
  {
   // obj
 
-  IntObjPtr<Scope> scope;
+  IntAnyObjPtr<Scope,Doc> scope;
 
   bool open = true ;
 
   // data
 
-  String text; // no default
+  String text;
 
   ElementList list;
 
@@ -439,17 +454,14 @@ struct Section
 
 struct Doc
  {
-  // data
+  String title;
+  OptData<VColor,DefNoColor> back;
+  OptData<VColor,DefNoColor> fore;
 
-  String title; // no default
-  VColor back = NoColor ;
-  VColor fore = NoColor ;
+  NamedPtr<Page> start; // default: none
 
-  IntObjPtr<Page> start; // no default
-  String start_name;
-
-  Defaults lastdefs;
   Defaults defs;
+  LastDefaults lastdefs;
 
   ElementList list;
 
@@ -458,11 +470,7 @@ struct Doc
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(start);
-
-    lastdefs.keepAlive(keeper);
-    defs.keepAlive(keeper);
-    list.keepAlive(keeper);
+    KeepAlive(keeper,start,defs,lastdefs,list);
    }
  };
 
@@ -472,7 +480,7 @@ struct Bitmap
  {
   // obj
 
-  IntObjPtr<Scope> scope;
+  IntAnyObjPtr<Scope,Doc> scope;
 
   String name;
 
@@ -489,134 +497,139 @@ struct Bitmap
 
 /* struct Collapse */
 
-struct Collapse // TODO
+struct Collapse : NamedObj
  {
-  // obj
+  static bool DefTrue() { return true; }
 
-  IntObjPtr<Scope> scope;
+  String title;
+  NamedPtr<Format> format; // default: ?DefaultCollapseFormat
+  bool one = true ;
+  OptData<bool,DefTrue> hide;
 
-  String name;
-  bool open = true ;
-
-  // data
+  FrameList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope);
+    KeepAlive(keeper,getBase(),format,list);
    }
  };
 
-/* struct ListItem */
+/* struct Item */
 
-struct ListItem;
-
-/* struct TextList */
-
-struct TextList // TODO
+struct Item
  {
-  // obj
+  // links
 
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
+  IntObjPtr<Item> prev;
+  IntObjPtr<Item> next;
 
   // data
+
+  String bullet;
+
+  FrameList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope);
+    keeper(prev,next);
+
+    list.keepAlive(keeper);
+   }
+ };
+
+/* struct ItemList */
+
+struct ItemList
+ {
+  IntObjPtr<Item> beg;
+  IntObjPtr<Item> cur;
+  IntObjPtr<Item> end;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(beg,cur,end);
+   }
+ };
+
+/* struct TextList */
+
+struct TextList : NamedObj
+ {
+  NamedPtr<Format> format; // default: ?DefaultBulletFormat
+
+  OptData<Coord> bullet_space; // default: ?DefaultBulletSpace
+  OptData<Coord> item_space;   // default: ?DefaultItemSpace
+
+  ItemList list;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),format,list);
    }
  };
 
 /* struct Border */
 
-struct Border
+struct Border : NamedObj
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  Coord space = 0 ;
-  Ratio width = {1} ;
-  VColor line = NoColor ;
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(scope);
-   }
+  OptData<Coord> space;
+  OptData<Ratio,DefRatioOne> width;
+  OptData<VColor,DefNoColor> line;
  };
 
 /* struct Cell */
 
-struct Cell;
-
-/* struct Table */
-
-struct Table // TODO
+struct Cell : NamedObj
  {
-  // obj
+  static ulen DefOne() { return 1; }
 
-  IntObjPtr<Scope> scope;
+  OptData<ulen,DefOne> span_x;
+  OptData<ulen,DefOne> span_y;
 
-  String name;
-  bool open = true ;
-
-  // data
+  FrameList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope);
+    KeepAlive(keeper,getBase(),list);
+   }
+ };
+
+/* struct Table */
+
+struct Table : NamedObj
+ {
+  NamedPtr<Border> border; // default: ?DefaultBorder
+
+  OptData<bool> hard;
+
+  DynArray<Coord> width;
+
+  DynArray<NamedPtr<Cell> > table; // default: null
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),border);
+
+    for(NamedPtr<Cell> &obj : table ) obj.keepAlive(keeper);
    }
  };
 
 /* struct Text */
 
-struct Text // TODO
+struct Text : NamedObj // TODO
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(scope);
-   }
  };
 
 /* struct FixedText */
 
-struct FixedText // TODO
+struct FixedText : NamedObj // TODO
  {
-  // obj
-
-  IntObjPtr<Scope> scope;
-
-  String name;
-  bool open = true ;
-
-  // data
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(scope);
-   }
  };
 
 /* class Book */
