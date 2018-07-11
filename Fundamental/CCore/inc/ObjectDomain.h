@@ -18,6 +18,7 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/NewDelete.h>
+#include <CCore/inc/AnyPtr.h>
 
 namespace CCore {
 
@@ -45,6 +46,8 @@ class ObjectDomain : NoCopy
 
    template <class T> class IntPtr;
 
+   template <class ... TT> class IntAnyPtr;
+
    template <class T> class WeakPtr;
 
    template <class T> class OwnPtr;
@@ -64,8 +67,17 @@ class ObjectDomain : NoCopy
       template <class T>
       void operator () (IntPtr<T> int_ptr);
 
+      template <class ... TT>
+      void operator () (IntAnyPtr<TT...> int_ptr);
+
       template <class T>
       void operator () (IntDelObjPtr<T> &del_ptr);
+
+      template <class ... TT>
+      void operator () (TT && ... tt)
+       {
+        ( (*this)( std::forward<TT>(tt) ) , ... );
+       }
     };
 
    class Breaker
@@ -82,9 +94,18 @@ class ObjectDomain : NoCopy
 
       template <class T>
       void operator () (WeakPtr<T> &weak_ptr);
+
+      template <class ... TT>
+      void operator () (TT && ... tt)
+       {
+        ( (*this)( std::forward<TT>(tt) ) , ... );
+       }
     };
 
   private:
+
+   template <class Ptr>
+   static auto GetNode(Ptr &ptr) { return ptr.node; }
 
    struct AllocInit
     {
@@ -263,15 +284,15 @@ struct ObjectDomain::ObjNode : ObjBase
   T * getPtr() { return &obj; }
  };
 
-/* class ObjectDomain<T>::ExtPtr */
+/* class ObjectDomain::ExtPtr<T> */
 
 template <class T>
 class ObjectDomain::ExtPtr
  {
    ObjNode<T> *node;
 
-   friend class IntPtr<T>;
-   friend class WeakPtr<T>;
+   template <class Ptr>
+   friend auto ObjectDomain::GetNode(Ptr &obj);
 
   public:
 
@@ -279,16 +300,16 @@ class ObjectDomain::ExtPtr
 
    ExtPtr() noexcept : node(0) {}
 
-   explicit ExtPtr(NothingType) : node(0) {}
+   ExtPtr(NothingType) : node(0) {}
 
    ExtPtr(const IntPtr<T> &obj)
-    : node(obj.node)
+    : node(GetNode(obj))
     {
      if( node ) node->incRef();
     }
 
    ExtPtr(const WeakPtr<T> &obj)
-    : node(obj.node)
+    : node(GetNode(obj))
     {
      if( node ) node->incRef();
     }
@@ -347,21 +368,20 @@ class ObjectDomain::ExtPtr
     }
 
    explicit ExtPtr(ToMoveCtor<ExtPtr<T> > obj)
-    : node(Replace_null(obj.node))
+    : node(Replace_null(obj->node))
     {
     }
  };
 
-/* class ObjectDomain<T>::IntPtr */
+/* class ObjectDomain::IntPtr<T> */
 
 template <class T>
 class ObjectDomain::IntPtr // default copying
  {
    ObjNode<T> *node;
 
-   friend class Keeper;
-   friend class ExtPtr<T>;
-   friend class WeakPtr<T>;
+   template <class Ptr>
+   friend auto ObjectDomain::GetNode(Ptr &obj);
 
   public:
 
@@ -369,11 +389,11 @@ class ObjectDomain::IntPtr // default copying
 
    IntPtr() noexcept : node(0) {}
 
-   explicit IntPtr(NothingType) : node(0) {}
+   IntPtr(NothingType) : node(0) {}
 
-   IntPtr(const ExtPtr<T> &obj) : node(obj.node) {}
+   IntPtr(const ExtPtr<T> &obj) : node(GetNode(obj)) {}
 
-   IntPtr(const WeakPtr<T> &obj) : node(obj.node) {}
+   IntPtr(const WeakPtr<T> &obj) : node(GetNode(obj)) {}
 
    template <class ... SS>
    explicit IntPtr(ObjectDomain *domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
@@ -398,16 +418,85 @@ class ObjectDomain::IntPtr // default copying
    ulen getExtRefs() const { return node->ref_count; }
  };
 
-/* class ObjectDomain<T>::WeakPtr */
+/* class ObjectDomain::IntAnyPtr<TT> */
+
+template <class ... TT>
+class ObjectDomain::IntAnyPtr // default copying
+ {
+   ObjBase *node;
+   unsigned type;
+
+   template <class Ptr>
+   friend auto ObjectDomain::GetNode(Ptr &obj);
+
+  private:
+
+   using GetFuncType = AnyPtr<TT...> (*)(ObjBase *node) ;
+
+   template <class T>
+   static AnyPtr<TT...> GetPtr(ObjBase *node)
+    {
+     T *ptr;
+
+     if( node )
+       ptr=static_cast<ObjNode<T> *>(node)->getPtr();
+     else
+       ptr=0;
+
+     return ptr;
+    }
+
+  public:
+
+   // constructors
+
+   IntAnyPtr() noexcept : node(0),type(0) {}
+
+   IntAnyPtr(NothingType) : node(0),type(0) {}
+
+   template <class T>
+   IntAnyPtr(const IntPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) {}
+
+   template <class T>
+   IntAnyPtr(const ExtPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) {}
+
+   template <class T>
+   IntAnyPtr(const WeakPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) {}
+
+   void nullify() { node=0; type=0; }
+
+   // methods
+
+   void * operator + () const { return node; }
+
+   bool operator ! () const { return !node; }
+
+   AnyPtr<TT...> getPtr() const
+    {
+     if( type )
+       {
+        static const GetFuncType Table[]={ GetPtr<TT>... };
+
+        return Table[type-1](node);
+       }
+
+     return Null;
+    }
+
+   ulen getExtRefs() const { return node->ref_count; }
+ };
+
+/* class ObjectDomain::WeakPtr<T> */
 
 template <class T>
 class ObjectDomain::WeakPtr // default copying
  {
    ObjNode<T> *node;
 
+   template <class Ptr>
+   friend auto ObjectDomain::GetNode(Ptr &obj);
+
    friend class Breaker;
-   friend class ExtPtr<T>;
-   friend class IntPtr<T>;
 
   private:
 
@@ -428,11 +517,11 @@ class ObjectDomain::WeakPtr // default copying
 
    WeakPtr() noexcept : node(0) {}
 
-   explicit WeakPtr(NothingType) : node(0) {}
+   WeakPtr(NothingType) : node(0) {}
 
-   WeakPtr(const ExtPtr<T> &obj) : node(obj.node) {}
+   WeakPtr(const ExtPtr<T> &obj) : node(GetNode(obj)) {}
 
-   WeakPtr(const IntPtr<T> &obj) : node(obj.node) {}
+   WeakPtr(const IntPtr<T> &obj) : node(GetNode(obj)) {}
 
    template <class ... SS>
    explicit WeakPtr(ObjectDomain *domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
@@ -529,6 +618,9 @@ using ExtObjPtr = ObjectDomain::ExtPtr<T> ;
 
 template <class T>
 using IntObjPtr = ObjectDomain::IntPtr<T> ;
+
+template <class ... TT>
+using IntAnyObjPtr = ObjectDomain::IntAnyPtr<TT...> ;
 
 template <class T>
 using WeakObjPtr = ObjectDomain::WeakPtr<T> ;
@@ -703,7 +795,13 @@ class IntDelObjPtr
 template <class T>
 void ObjectDomain::Keeper::operator () (IntPtr<T> int_ptr)
  {
-  domain->markAlive(int_ptr.node);
+  domain->markAlive(GetNode(int_ptr));
+ }
+
+template <class ... TT>
+void ObjectDomain::Keeper::operator () (IntAnyPtr<TT...> int_ptr)
+ {
+  domain->markAlive(GetNode(int_ptr));
  }
 
 template <class T>

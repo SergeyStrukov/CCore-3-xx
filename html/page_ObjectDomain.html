@@ -298,7 +298,7 @@ class <span class="Att">ObjectDomain::ExtPtr</span>
   
    ExtPtr() noexcept;
    
-   explicit ExtPtr(NothingType);
+   ExtPtr(NothingType);
    
    ExtPtr(const IntPtr&lt;T&gt; &amp;obj); 
    
@@ -371,7 +371,7 @@ class <span class="Att">ObjectDomain::IntPtr</span> // default copying
  
    IntPtr() noexcept;
   
-   explicit IntPtr(NothingType);
+   IntPtr(NothingType);
    
    IntPtr(const ExtPtr&lt;T&gt; &amp;obj);
   
@@ -431,7 +431,7 @@ class <span class="Att">ObjectDomain::WeakPtr</span> // default copying
  
    WeakPtr() noexcept;
   
-   explicit WeakPtr(NothingType);
+   WeakPtr(NothingType);
    
    WeakPtr(const ExtPtr&lt;T&gt; &amp;obj);
   

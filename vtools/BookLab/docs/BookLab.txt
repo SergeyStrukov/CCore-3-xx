@@ -34,7 +34,7 @@ Format <name>
 SingleLine <name>
 @{
   Ratio width = (1,1) 
-  VColor line = 
+  VColor line =
  };
  
 DoubleLine <name>
@@ -71,28 +71,33 @@ Page <name|name*=page*>
 
 //------------------------------------------
 
-SingleLine DefaultSingleLine = {} ;
+Defaults
+@{
+  Point inner = (0,0)
 
-DoubleLine DefaultDoubleLine = {} ;
+  Point outer = (0,0)
+
+  Coord bulletSpace = 5
+
+  Coord itemSpace = 0
+
+  SingleLine singleLine = {}
+
+  DoubleLine doubleLine = {}
   
-Point DefaultInner = (0,0)
+  Format collapseFormat = {}
 
-Point DefaultOuter = (0,0)
+  Format bulletFormat = {}
 
-Format DefaultCollapseFormat = {} ;
-
-Format DefaultBulletFormat = {} ;
-
-Coord DefaultBulletSpace = 5 ;
-
-Coord DefaultItemSpace = 0 ;
-
-Border DefaultBorder = {} ;
+  Border border = {}
+ }
  
 Element = Font Format SingleLine DoubleLine Page Scope Section   Bitmap Collapse TextList Table Text FixedText 
 
 Scope <name|name*=scope*>
 @{
+  Defaults defs
+  
   Element
  
   ...
@@ -112,6 +117,8 @@ Doc
   Color fore =
   Page [*]start
   
+  Defaults defs
+  
   Element
  
   ...
@@ -124,7 +131,7 @@ Bitmap <name> : (text file_name)
 //------------------------------------------
 
 Collapse <name>
- {
+@{
   text title
   Format [*]format = & ?DefaultCollapseFormat
   bool open
@@ -143,7 +150,7 @@ ListItem
  }
 
 TextList <name>
- {
+@{
   Format [*]format = & ?DefaultBulletFormat
   
   Coord bullet_space = ?DefaultBulletSpace
@@ -155,7 +162,7 @@ TextList <name>
 //------------------------------------------
 
 Border <name>
- {
+@{
   Coord space = 0 
   
   Ratio width = (1,1) 
@@ -163,7 +170,7 @@ Border <name>
  };
  
 Cell <name>
- {
+@{
   ulen span_x = 1
   ulen span_y = 1
  
@@ -171,7 +178,7 @@ Cell <name>
  } 
  
 Table <name>
- {
+@{
   Border [*]border = & ?DefaultBorder
   
   Bool hard = False ;

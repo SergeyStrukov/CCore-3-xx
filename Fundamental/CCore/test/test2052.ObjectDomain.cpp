@@ -195,6 +195,8 @@ class Test1 : NoCopy
    WeakObjPtr<Test1> weak_ptr;
    IntDelObjPtr<Test1> del_ptr;
 
+   IntAnyObjPtr<Test1> any_ptr;
+
    explicit Test1(int num_)
     : num(num_)
     {
@@ -209,8 +211,7 @@ class Test1 : NoCopy
    template <class Keeper>
    void keepAlive(Keeper keeper)
     {
-     keeper(ptr);
-     keeper(del_ptr);
+     keeper(ptr,del_ptr,any_ptr);
     }
 
    template <class Breaker>
@@ -240,6 +241,10 @@ void test4()
   ExtObjPtr<Test1> obj1(Domain,1);
 
   obj1->ptr=IntObjPtr<Test1>(Domain,2);
+
+  obj1->any_ptr=IntObjPtr<Test1>(Domain,50);
+
+  obj1->any_ptr.getPtr();
 
   collect(1);
 

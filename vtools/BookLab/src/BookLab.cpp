@@ -16,6 +16,32 @@
 namespace App {
 namespace BookLab {
 
+/* class Book */
+
+Book::Book()
+ {
+ }
+
+Book::~Book()
+ {
+ }
+
+void Book::blank()
+ {
+  doc=Null;
+
+  domain.collect();
+ }
+
+void Book::load(StrLen file_name) // TODO
+ {
+  Used(file_name);
+ }
+
+void Book::save(StrLen file_name) const // TODO
+ {
+  Used(file_name);
+ }
 
 } // namespace BookLab
 } // namespace App
