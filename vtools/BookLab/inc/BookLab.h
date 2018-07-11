@@ -57,6 +57,8 @@ struct Element;
 
 struct ElementList;
 
+struct Defaults;
+
 struct Scope;
 
 struct Section;
@@ -68,7 +70,13 @@ struct Bitmap;
 
 struct Collapse;
 
+struct ListItem;
+
 struct TextList;
+
+struct Border;
+
+struct Cell;
 
 struct Table;
 
@@ -102,10 +110,10 @@ struct Font
 
   // data
 
-  String face;      // not default
-  Coord size = 20 ; // not default
-  bool bold = false ;
-  bool italic = false ;
+  String face;        // no default
+  Coord size   = 20 ; // no default
+  bool bold    = false ;
+  bool italic  = false ;
   int strength = 0 ;
 
   template <class Keeper>
@@ -114,6 +122,23 @@ struct Font
     keeper(scope);
    }
  };
+
+ //
+ // IntObjPtr<Type> obj;
+ // String obj_name;
+ //
+ // obj_name is empty
+ // obj is null             obj is default
+ //
+ // obj_name is empty
+ // obj is not null         obj is anonym
+ //
+ // obj_name is not empty
+ // obj is null             obj is not resolved by obj_name
+ //
+ // obj_name is not empty
+ // obj is not null         obj is resolved by obj_name
+ //
 
 /* struct Format */
 
@@ -128,11 +153,11 @@ struct Format
 
   // data
 
-  IntObjPtr<Font> font;
+  IntObjPtr<Font> font; // default is null
   String font_name;
 
-  VColor back = NoColor ;
-  VColor fore = NoColor ;
+  VColor back   = NoColor ;
+  VColor fore   = NoColor ;
   Effect effect = NoEffect ;
 
   template <class Keeper>
@@ -201,16 +226,20 @@ struct Frame
   // data
 
   Point inner;
+  bool ok_inner = false ;
   bool has_inner = false ; // ?DefaultInner
 
   Point outer;
-  bool has_outer = false ;
+  bool ok_outer = false ;
+  bool has_outer = false ; // ?DefaultOuter
 
   VColor col = NoColor ;
 
-  IntAnyObjPtr<SingleLine,DoubleLine> line;
+  IntAnyObjPtr<SingleLine,DoubleLine> line; // default is null
+  String line_name;
 
-  IntAnyObjPtr<Bitmap,Collapse,TextList,Table,Text,FixedText> body; // not default
+  IntAnyObjPtr<Bitmap,Collapse,TextList,Table,Text,FixedText> body; // no default
+  String body_name;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -247,15 +276,20 @@ struct Page
 
   // data
 
-  String title; // not default
+  String title; // no default
   VColor back = NoColor ;
   VColor fore = NoColor ;
 
-  IntObjPtr<Page> up;
-  IntObjPtr<Page> prev;
-  IntObjPtr<Page> next;
+  IntObjPtr<Page> up; // default is null , no anonym
+  String up_name;
 
-  FrameList list; // not default
+  IntObjPtr<Page> prev; // default is null , no anonym
+  String prev_name;
+
+  IntObjPtr<Page> next; // default is null , no anonym
+  String next_name;
+
+  FrameList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -300,6 +334,41 @@ struct ElementList
    }
  };
 
+/* struct Defaults */
+
+struct Defaults
+ {
+  // data
+
+  Point inner;
+  bool has_inner = false ;
+
+  Point outer;
+  bool has_outer = false ;
+
+  Coord bulletSpace = 5 ;
+  bool has_bulletSpace = false ;
+
+  Coord itemSpace = 0 ;
+  bool has_itemSpace = false ;
+
+  IntObjPtr<SingleLine> singleLine;
+
+  IntObjPtr<DoubleLine> doubleLine;
+
+  IntObjPtr<Format> collapseFormat;
+
+  IntObjPtr<Format> bulletFormat;
+
+  IntObjPtr<Border> border;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border);
+   }
+ };
+
 /* struct Scope */
 
 struct Scope
@@ -311,6 +380,10 @@ struct Scope
   String name;
   bool open = true ;
 
+  // data
+
+  Defaults defs;
+
   ElementList list;
 
   template <class Keeper>
@@ -318,6 +391,7 @@ struct Scope
    {
     keeper(scope);
 
+    defs.keepAlive(keeper);
     list.keepAlive(keeper);
    }
  };
@@ -334,7 +408,7 @@ struct Section
 
   // data
 
-  String text; // not default
+  String text; // no default
 
   ElementList list;
 
@@ -351,10 +425,17 @@ struct Section
 
 struct Doc
  {
-  String title; // not default
+  // data
+
+  String title; // no default
   VColor back = NoColor ;
   VColor fore = NoColor ;
-  IntObjPtr<Page> start; // not default
+
+  IntObjPtr<Page> start; // no default
+  String start_name;
+
+  Defaults lastdefs;
+  Defaults defs;
 
   ElementList list;
 
@@ -363,6 +444,8 @@ struct Doc
    {
     keeper(start);
 
+    lastdefs.keepAlive(keeper);
+    defs.keepAlive(keeper);
     list.keepAlive(keeper);
    }
  };
@@ -408,6 +491,10 @@ struct Collapse // TODO
    }
  };
 
+/* struct ListItem */
+
+struct ListItem;
+
 /* struct TextList */
 
 struct TextList // TODO
@@ -427,6 +514,34 @@ struct TextList // TODO
     keeper(scope);
    }
  };
+
+/* struct Border */
+
+struct Border
+ {
+  // obj
+
+  IntObjPtr<Scope> scope;
+
+  String name;
+  bool open = true ;
+
+  // data
+
+  Coord space = 0 ;
+  Ratio width = {1} ;
+  VColor line = NoColor ;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(scope);
+   }
+ };
+
+/* struct Cell */
+
+struct Cell;
 
 /* struct Table */
 

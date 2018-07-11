@@ -1,6 +1,6 @@
 /* BookLab.txt */
 
-Color : (uint8 R,uint8 G,uint8 B)
+Color : (uint8 R,uint8 G,uint8 B) , NoColor
 
 Coord : sint32 // 0 - 100'000
 
@@ -23,10 +23,10 @@ Font <name>
  
 Format <name>
 @{
-  Font [*]font = nullptr
-  Color back   =
-  Color fore   =
-  Effect       = None
+  Font [*]font  = nullptr
+  Color back    = NoColor
+  Color fore    = NoColor
+  Effect effect = None
  } 
 
 //------------------------------------------
@@ -34,21 +34,21 @@ Format <name>
 SingleLine <name>
 @{
   Ratio width = (1,1) 
-  VColor line =
+  VColor line = NoColor
  };
  
 DoubleLine <name>
 @{
   Ratio width = (1,1)
-  VColor gray = 
-  VColor snow =  
+  VColor gray = NoColor
+  VColor snow = NoColor 
  };
  
 Frame
  {
   Point inner = ?DefaultInner
   Point outer = ?DefaultOuter
-  Color col   = 
+  Color col   = NoColor
   {SingleLine,DoubleLine} [*]line = nullptr
   
   {Text,FixedText,Bitmap,TextList,Collapse,Table} [*]body
@@ -59,8 +59,8 @@ Frame
 Page <name|name*=page*>
 @{
   text name
-  Color back =
-  Color fore =
+  Color back = NoColor
+  Color fore = NoColor
   
   Page *up   = nullptr
   Page *prev = nullptr
@@ -113,8 +113,8 @@ Section @<text>
 Doc
  {
   text title
-  Color back =
-  Color fore =
+  Color back = NoColor
+  Color fore = NoColor
   Page [*]start
   
   Defaults defs
@@ -166,7 +166,7 @@ Border <name>
   Coord space = 0 
   
   Ratio width = (1,1) 
-  VColor line = 
+  VColor line = NoColor 
  };
  
 Cell <name>
