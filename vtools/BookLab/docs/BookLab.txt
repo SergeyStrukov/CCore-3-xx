@@ -8,7 +8,9 @@ Point : (Coord x,Coord y)
 
 Ratio : (Coord a,Coord b) // b>0
 
-Effect : None,Underline,Strikeout 
+Effect : None,Underline,Strikeout
+
+Align : Left,Right,Center 
 
 //------------------------------------------
 
@@ -90,6 +92,12 @@ Defaults
   Format bulletFormat = {}
 
   Border border = {}
+  
+  Format textFormat = {}
+  
+  Format fixedFormat = {}
+  
+  MultiLine placement = {}
  }
  
 Element = Font Format SingleLine DoubleLine Page Scope Section   Bitmap Collapse TextList Table Text FixedText 
@@ -190,7 +198,49 @@ Table <name>
 
 //------------------------------------------
 
-Text FixedText
+Link <name>
+@{
+  Page [*]page
+  ulen[] index_list
+ } 
+
+Span
+ {
+  text body
+  
+  Format [*]format = null
+  
+  {Link,Page} [*]ref = null 
+ }
+ 
+FixedText <name>
+@{
+  Format [*]format = & ?DefaultFixedFormat
+  
+  Span[][] list
+ }
+
+OneLine <name>
+@{
+  Align align = Left
+ }
+ 
+MultiLine <name>
+@{
+  Ratio line_space = (1,1)
+  Ratio first_line_space = (2,1)
+ } 
+
+Text <name>
+@{
+  {OneLine,MultiLine} [*]placement = & ?DefaultPlacement
+
+  Format [*]format = & ?DefaultFormat
+  
+  Span[] list
+ } 
+
+//------------------------------------------
 
 
  

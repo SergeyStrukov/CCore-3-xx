@@ -68,6 +68,21 @@ struct Format
   Effect effect = None ;
  };
 
+struct Span
+ {
+  text body;
+  
+  Format *fmt = null ;
+  
+  {Link,Page} *ref = null ;
+ };
+
+struct Link
+ {
+  Page *page;
+  ulen[] index_list;
+ };
+
 //--- Text -------------------------------------------------------------------------------
 
 struct OneLine
@@ -87,15 +102,6 @@ struct MultiLine
   Ratio first_line_space = {2,1} ;
  }; 
 
-struct Span
- {
-  text body;
-  
-  Format *fmt = null ;
-  
-  {Link,Page} *ref = null ;
- };
-
 Format DefaultFormat = {} ;
 
 MultiLine DefaultPlacement = {} ;
@@ -111,16 +117,7 @@ struct Text
  
 //--- FixedText -------------------------------------------------------------------------- 
  
-struct FixedSpan
- {
-  text body;
-  
-  Format *fmt = null ;
-  
-  {Link,Page} *ref = null ;
- };
- 
-type Line = FixedSpan[] ; 
+type Line = Span[] ; 
  
 Format DefaultFixedFormat = {} ;
 
@@ -268,12 +265,6 @@ struct Book
   VColor back = NoColor ;
   VColor fore = NoColor ;
  }; 
-
-struct Link
- {
-  Page *page;
-  ulen[] index_list;
- };
 
 //----------------------------------------------------------------------------------------
 

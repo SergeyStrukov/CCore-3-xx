@@ -27,6 +27,9 @@ LastDefaults::LastDefaults(ObjectDomain &domain)
   Create(border,domain);
   Create(textFormat,domain);
   Create(fixedFormat,domain);
+  Create(textFormat,domain);
+  Create(fixedFormat,domain);
+  CreateOf<MultiLine>(placement,domain);
  }
 
 /* struct Doc */

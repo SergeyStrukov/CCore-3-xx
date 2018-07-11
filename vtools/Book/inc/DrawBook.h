@@ -271,7 +271,7 @@ class Draw : NoCopy
 
    void draw(Book::TypeDef::Text *obj,FrameExt *ext,DrawOut out);
 
-    void drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,DrawOut out);
+    void drawFixedLine(Format format,PtrLen<const Book::TypeDef::Span> line,DrawOut out);
 
    void draw(Book::TypeDef::FixedText *obj,FrameExt *ext,DrawOut out);
 

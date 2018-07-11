@@ -35,10 +35,23 @@ enum Effect
   Strikeout
  };
 
+enum Align
+ {
+  Left,
+  Right,
+  Center
+ };
+
 /* functions */
 
 template <class T,class ... SS>
 void Create(IntObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
+ {
+  ptr=IntObjPtr<T>(&domain, std::forward<SS>(ss)... );
+ }
+
+template <class T,class Ptr,class ... SS>
+void CreateOf(Ptr &ptr,ObjectDomain &domain,SS && ... ss)
  {
   ptr=IntObjPtr<T>(&domain, std::forward<SS>(ss)... );
  }
@@ -116,10 +129,17 @@ struct Cell;
 
 struct Table;
 
+struct Link;
 
-struct Text;
+struct Span;
 
 struct FixedText;
+
+struct OneLine;
+
+struct MultiLine;
+
+struct Text;
 
 
 class Book;
@@ -135,6 +155,8 @@ struct Ratio
  };
 
 inline Ratio DefRatioOne() { return {1}; }
+
+inline Ratio DefRatioTwo() { return {2}; }
 
 /* struct OptData<T,T Def()> */
 
@@ -376,11 +398,12 @@ struct Defaults
   IntObjPtr<Border> border;
   IntObjPtr<Format> textFormat;
   IntObjPtr<Format> fixedFormat;
+  IntAnyObjPtr<OneLine,MultiLine> placement;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border);
+    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
    }
  };
 
@@ -400,13 +423,14 @@ struct LastDefaults
   IntObjPtr<Border> border;
   IntObjPtr<Format> textFormat;
   IntObjPtr<Format> fixedFormat;
+  IntAnyObjPtr<OneLine,MultiLine> placement;
 
   explicit LastDefaults(ObjectDomain &domain);
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border);
+    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
    }
  };
 
@@ -620,16 +644,92 @@ struct Table : NamedObj
    }
  };
 
-/* struct Text */
+/* struct Link */
 
-struct Text : NamedObj // TODO
+struct Link : NamedObj
  {
+  NamedPtr<Page> page; // default: none
+
+  DynArray<ulen> index_list;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),page);
+   }
+ };
+
+/* struct Span */
+
+struct Span
+ {
+  String body;
+
+  NamedPtr<Format> format; // default: null
+
+  NamedPtr<Link,Page> ref; // default: null
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,format,ref);
+   }
  };
 
 /* struct FixedText */
 
-struct FixedText : NamedObj // TODO
+struct FixedText : NamedObj
  {
+  NamedPtr<Format> format; // default: ?DefaultFixedFormat
+
+  DynArray<DynArray<Span> > list;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),format);
+
+    for(DynArray<Span> &line : list )
+      for(Span &span : line )
+        span.keepAlive(keeper);
+   }
+ };
+
+/* struct OneLine */
+
+struct OneLine : NamedObj
+ {
+  static Align DefLeft() { return Left; }
+
+  OptData<Align,DefLeft> align;
+ };
+
+/* struct MultiLine */
+
+struct MultiLine : NamedObj
+ {
+  OptData<Ratio,DefRatioOne> line_space;
+  OptData<Ratio,DefRatioTwo> first_line_space;
+ };
+
+/* struct Text */
+
+struct Text : NamedObj
+ {
+  NamedPtr<OneLine,MultiLine> placement; // default: ?DefaultPlacement
+
+  NamedPtr<Format> format; // default: ?DefaultFormat
+
+  DynArray<Span> list;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    KeepAlive(keeper,getBase(),placement,format);
+
+    for(Span &span : list )
+      span.keepAlive(keeper);
+   }
  };
 
 /* class Book */

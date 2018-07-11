@@ -299,7 +299,7 @@ Coord Prepare::sizeLine(Font font,Book::TypeDef::Line line,Point base)
  {
   Coord tdx=0;
 
-  for(Book::TypeDef::FixedSpan span : line.getRange() )
+  for(Book::TypeDef::Span span : line.getRange() )
     {
      TextSize ts=SizeSpan(over(font,span.fmt),span.body);
 
@@ -1406,9 +1406,9 @@ void Draw::draw(Book::TypeDef::Text *obj,FrameExt *ext,DrawOut out)
 
  // draw(Book::TypeDef::FixedText *)
 
-void Draw::drawLine(Format format,PtrLen<const Book::TypeDef::FixedSpan> line,DrawOut out)
+void Draw::drawFixedLine(Format format,PtrLen<const Book::TypeDef::Span> line,DrawOut out)
  {
-  for(Book::TypeDef::FixedSpan span : line )
+  for(Book::TypeDef::Span span : line )
     {
      out.base=drawSpan(over(format,span.fmt),span.body,out);
     }
@@ -1428,7 +1428,7 @@ void Draw::draw(Book::TypeDef::FixedText *obj,FrameExt *,DrawOut out)
 
   for(Book::TypeDef::Line line : obj->list.getRange() )
     {
-     drawLine(format,line.getRange(),out);
+     drawFixedLine(format,line.getRange(),out);
 
      out.base.y+=dy;
     }
