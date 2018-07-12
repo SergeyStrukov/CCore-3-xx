@@ -44,30 +44,6 @@ enum Align
 
 /* functions */
 
-template <class T,class ... SS>
-void Create(IntObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
- {
-  ptr=IntObjPtr<T>(&domain, std::forward<SS>(ss)... );
- }
-
-template <class T,class Ptr,class ... SS>
-void CreateOf(Ptr &ptr,ObjectDomain &domain,SS && ... ss)
- {
-  ptr=IntObjPtr<T>(&domain, std::forward<SS>(ss)... );
- }
-
-template <class T,class ... SS>
-void Create(ExtObjPtr<T> &ptr,ObjectDomain &domain,SS && ... ss)
- {
-  ptr=ExtObjPtr<T>(&domain, std::forward<SS>(ss)... );
- }
-
-template <class Keeper,class ... TT>
-void KeepAlive(Keeper keeper,TT & ... tt)
- {
-  ( tt.keepAlive(keeper) , ... );
- }
-
 template <class T>
 T DefNull() { return Null; }
 
@@ -262,7 +238,7 @@ struct Format : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),font);
+    keeper(getBase(),font);
    }
  };
 
@@ -306,9 +282,7 @@ struct Frame
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(prev,next);
-
-    KeepAlive(keeper,line,body);
+    keeper(prev,next,line,body);
    }
  };
 
@@ -344,7 +318,7 @@ struct Page : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),up,prev,next,list);
+    keeper(getBase(),up,prev,next,list);
    }
  };
 
@@ -445,7 +419,7 @@ struct Scope : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),defs,list);
+    keeper(getBase(),defs,list);
    }
  };
 
@@ -468,9 +442,7 @@ struct Section
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(scope);
-
-    list.keepAlive(keeper);
+    keeper(scope,list);
    }
  };
 
@@ -494,7 +466,7 @@ struct Doc
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,start,defs,lastdefs,list);
+    keeper(start,defs,lastdefs,list);
    }
  };
 
@@ -535,7 +507,7 @@ struct Collapse : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),format,list);
+    keeper(getBase(),format,list);
    }
  };
 
@@ -557,9 +529,7 @@ struct Item
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(prev,next);
-
-    list.keepAlive(keeper);
+    keeper(prev,next,list);
    }
  };
 
@@ -592,7 +562,7 @@ struct TextList : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),format,list);
+    keeper(getBase(),format,list);
    }
  };
 
@@ -619,7 +589,7 @@ struct Cell : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),list);
+    keeper(getBase(),list);
    }
  };
 
@@ -638,9 +608,9 @@ struct Table : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),border);
+    keeper(getBase(),border);
 
-    for(NamedPtr<Cell> &obj : table ) obj.keepAlive(keeper);
+    for(NamedPtr<Cell> &obj : table ) keeper(obj);
    }
  };
 
@@ -655,7 +625,7 @@ struct Link : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),page);
+    keeper(getBase(),page);
    }
  };
 
@@ -672,7 +642,7 @@ struct Span
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,format,ref);
+    keeper(format,ref);
    }
  };
 
@@ -687,11 +657,9 @@ struct FixedText : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),format);
+    keeper(getBase(),format);
 
-    for(DynArray<Span> &line : list )
-      for(Span &span : line )
-        span.keepAlive(keeper);
+    for(DynArray<Span> &line : list ) for(Span &span : line ) keeper(span);
    }
  };
 
@@ -725,10 +693,9 @@ struct Text : NamedObj
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    KeepAlive(keeper,getBase(),placement,format);
+    keeper(getBase(),placement,format);
 
-    for(Span &span : list )
-      span.keepAlive(keeper);
+    for(Span &span : list ) keeper(span);
    }
  };
 

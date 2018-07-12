@@ -16,20 +16,45 @@
 namespace App {
 namespace BookLab {
 
+/* test() */
+
+#if 0
+
+template <class T>
+void testOne(ObjectDomain *domain)
+ {
+  static_assert( Has_keepAlive<T> ,"has keepAlive");
+
+  ExtObjPtr<T> test(domain);
+ }
+
+template <class ... TT>
+void testList(ObjectDomain *domain)
+ {
+  ( testOne<TT>(domain) , ... );
+ }
+
+void test(ObjectDomain *domain)
+ {
+  testList<Font,Format,SingleLine,DoubleLine,Frame,FrameList,Page,Element,ElementList,Defaults,
+           Scope,Section,Bitmap,Collapse,Item,ItemList,TextList,Border,Cell,Table,Link,Span,
+           FixedText,OneLine,MultiLine,Text>(domain);
+ }
+
+#endif
+
 /* struct LastDefaults */
 
 LastDefaults::LastDefaults(ObjectDomain &domain)
  {
-  Create(singleLine,domain);
-  Create(doubleLine,domain);
-  Create(collapseFormat,domain);
-  Create(bulletFormat,domain);
-  Create(border,domain);
-  Create(textFormat,domain);
-  Create(fixedFormat,domain);
-  Create(textFormat,domain);
-  Create(fixedFormat,domain);
-  CreateOf<MultiLine>(placement,domain);
+  singleLine.create(domain);
+  doubleLine.create(domain);
+  collapseFormat.create(domain);
+  bulletFormat.create(domain);
+  border.create(domain);
+  textFormat.create(domain);
+  fixedFormat.create(domain);
+  placement.create<MultiLine>(domain);
  }
 
 /* struct Doc */
@@ -45,7 +70,7 @@ void Book::startDoc()
  {
   if( !doc )
     {
-     Create(doc,domain,domain);
+     doc.create(domain,domain);
     }
  }
 

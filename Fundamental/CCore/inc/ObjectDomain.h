@@ -40,6 +40,8 @@ template <class T> class IntDelObjPtr;
 
 class ObjectDomain : NoCopy
  {
+   struct ObjBase;
+
   public:
 
    template <class T> class ExtPtr;
@@ -60,24 +62,20 @@ class ObjectDomain : NoCopy
 
       friend class ObjectDomain;
 
+      template <class T>
+      friend class IntPtr;
+
+      template <class ... TT>
+      friend class IntAnyPtr;
+
       Keeper(ObjectDomain *domain_) : domain(domain_) {}
+
+      void markAlive(ObjBase *obj) { domain->markAlive(obj); }
 
      public:
 
-      template <class T>
-      void operator () (IntPtr<T> int_ptr);
-
       template <class ... TT>
-      void operator () (IntAnyPtr<TT...> int_ptr);
-
-      template <class T>
-      void operator () (IntDelObjPtr<T> &del_ptr);
-
-      template <class ... TT>
-      void operator () (TT && ... tt)
-       {
-        ( (*this)( std::forward<TT>(tt) ) , ... );
-       }
+      void operator () (TT & ... tt);
     };
 
    class Breaker
@@ -88,18 +86,15 @@ class ObjectDomain : NoCopy
 
       friend class ObjectDomain;
 
+      template <class T>
+      friend class WeakPtr;
+
       Breaker(ulen preserved_) : preserved(preserved_) {}
 
      public:
 
-      template <class T>
-      void operator () (WeakPtr<T> &weak_ptr);
-
       template <class ... TT>
-      void operator () (TT && ... tt)
-       {
-        ( (*this)( std::forward<TT>(tt) ) , ... );
-       }
+      void operator () (TT & ... tt);
     };
 
   private:
@@ -320,12 +315,21 @@ class ObjectDomain::ExtPtr
      node=New<ObjNode<T>,AllocInit>(domain, domain,1, std::forward<SS>(ss)... );
     }
 
+   template <class ... SS>
+   explicit ExtPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
+    {
+     node=New<ObjNode<T>,AllocInit>(&domain, &domain,1, std::forward<SS>(ss)... );
+    }
+
    ~ExtPtr() { if( node ) node->decRef(); }
 
    void nullify()
     {
      if( ObjNode<T> *temp=Replace_null(node) ) temp->decRef();
     }
+
+   template <class ... SS>
+   void create(SS && ... ss) { (*this)=ExtPtr( std::forward<SS>(ss)... ); }
 
    // copying
 
@@ -401,7 +405,16 @@ class ObjectDomain::IntPtr // default copying
      node=New<ObjNode<T>,AllocInit>(domain, domain,0, std::forward<SS>(ss)... );
     }
 
+   template <class ... SS>
+   explicit IntPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
+    {
+     node=New<ObjNode<T>,AllocInit>(&domain, &domain,0, std::forward<SS>(ss)... );
+    }
+
    void nullify() { node=0; }
+
+   template <class ... SS>
+   void create(SS && ... ss) { (*this)=IntPtr( std::forward<SS>(ss)... ); }
 
    // object ptr
 
@@ -416,6 +429,11 @@ class ObjectDomain::IntPtr // default copying
    T * operator -> () const { return node->getPtr(); }
 
    ulen getExtRefs() const { return node->ref_count; }
+
+   void keepAlive(Keeper keeper)
+    {
+     keeper.markAlive(node);
+    }
  };
 
 /* class ObjectDomain::IntAnyPtr<TT> */
@@ -465,6 +483,9 @@ class ObjectDomain::IntAnyPtr // default copying
 
    void nullify() { node=0; type=0; }
 
+   template <class T,class ... SS>
+   void create(SS && ... ss) { (*this)=IntPtr<T>( std::forward<SS>(ss)... ); }
+
    // methods
 
    void * operator + () const { return node; }
@@ -484,6 +505,11 @@ class ObjectDomain::IntAnyPtr // default copying
     }
 
    ulen getExtRefs() const { return node->ref_count; }
+
+   void keepAlive(Keeper keeper)
+    {
+     keeper.markAlive(node);
+    }
  };
 
 /* class ObjectDomain::WeakPtr<T> */
@@ -529,7 +555,16 @@ class ObjectDomain::WeakPtr // default copying
      node=New<ObjNode<T>,AllocInit>(domain, domain,0, std::forward<SS>(ss)... );
     }
 
+   template <class ... SS>
+   explicit WeakPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
+    {
+     node=New<ObjNode<T>,AllocInit>(&domain, &domain,0, std::forward<SS>(ss)... );
+    }
+
    void nullify() { node=0; }
+
+   template <class ... SS>
+   void create(SS && ... ss) { (*this)=WeakPtr( std::forward<SS>(ss)... ); }
 
    // object ptr
 
@@ -544,6 +579,11 @@ class ObjectDomain::WeakPtr // default copying
    T * operator -> () const { return node->getPtr(); }
 
    ulen getExtRefs() const { return node->ref_count; }
+
+   void breakWeak(Breaker breaker)
+    {
+     breakWeak(breaker.preserved);
+    }
  };
 
 /* class ObjectDomain::OwnPtr<T> */
@@ -691,9 +731,18 @@ class ExtDelObjPtr
     {
     }
 
+   template <class ... SS>
+   ExtDelObjPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
+    : ptr(&domain, &domain, std::forward<SS>(ss)... )
+    {
+    }
+
    ~ExtDelObjPtr() {}
 
    void nullify() { ptr.nullify(); }
+
+   template <class ... SS>
+   void create(SS && ... ss) { (*this)=ExtDelObjPtr( std::forward<SS>(ss)... ); }
 
    // object ptr
 
@@ -759,7 +808,16 @@ class IntDelObjPtr
     {
     }
 
+   template <class ... SS>
+   IntDelObjPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
+    : ptr(&domain, &domain, std::forward<SS>(ss)... )
+    {
+    }
+
    void nullify() { ptr.nullify(); }
+
+   template <class ... SS>
+   void create(SS && ... ss) { (*this)=IntDelObjPtr( std::forward<SS>(ss)... ); }
 
    // object ptr
 
@@ -788,34 +846,27 @@ class IntDelObjPtr
 
      return true;
     }
+
+   void keepAlive(ObjectDomain::Keeper keeper)
+    {
+     getInnerPtr().keepAlive(keeper);
+    }
  };
 
 /* class ObjectDomain::Keeper */
 
-template <class T>
-void ObjectDomain::Keeper::operator () (IntPtr<T> int_ptr)
- {
-  domain->markAlive(GetNode(int_ptr));
- }
-
 template <class ... TT>
-void ObjectDomain::Keeper::operator () (IntAnyPtr<TT...> int_ptr)
+void ObjectDomain::Keeper::operator () (TT & ... tt)
  {
-  domain->markAlive(GetNode(int_ptr));
- }
-
-template <class T>
-void ObjectDomain::Keeper::operator () (IntDelObjPtr<T> &del_ptr)
- {
-  (*this)(del_ptr.getInnerPtr());
+  ( KeepAliveAdapter<TT>::KeepAlive(tt,*this) , ... );
  }
 
 /* class ObjectDomain::Breaker */
 
-template <class T>
-void ObjectDomain::Breaker::operator () (WeakPtr<T> &weak_ptr)
+template <class ... TT>
+void ObjectDomain::Breaker::operator () (TT & ... tt)
  {
-  weak_ptr.breakWeak(preserved);
+  ( BreakWeakAdapter<TT>::BreakWeak(tt,*this) , ... );
  }
 
 } // namespace CCore
