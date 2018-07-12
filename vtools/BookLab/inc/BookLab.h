@@ -109,6 +109,8 @@ struct Link;
 
 struct Span;
 
+struct TextLine;
+
 struct FixedText;
 
 struct OneLine;
@@ -385,19 +387,19 @@ struct Defaults
 
 struct LastDefaults
  {
-  Point inner = Null ;
-  Point outer = Null ;
-  Coord bulletSpace = 5 ;
-  Coord itemSpace = 0 ;
+  Point inner = Null ;                       // DefaultInner
+  Point outer = Null ;                       // DefaultOuter
+  Coord bulletSpace = 5 ;                    // DefaultBulletSpace
+  Coord itemSpace = 0 ;                      // DefaultItemSpace
 
-  IntObjPtr<SingleLine> singleLine;
-  IntObjPtr<DoubleLine> doubleLine;
-  IntObjPtr<Format> collapseFormat;
-  IntObjPtr<Format> bulletFormat;
-  IntObjPtr<Border> border;
-  IntObjPtr<Format> textFormat;
-  IntObjPtr<Format> fixedFormat;
-  IntAnyObjPtr<OneLine,MultiLine> placement;
+  IntObjPtr<SingleLine> singleLine;          // DefaultSingleLine
+  IntObjPtr<DoubleLine> doubleLine;          // DefalutDoubleLine
+  IntObjPtr<Format> collapseFormat;          // DefaultCollapseFormat
+  IntObjPtr<Format> bulletFormat;            // DefaultBulletFormat
+  IntObjPtr<Border> border;                  // DefaultBorder
+  IntObjPtr<Format> textFormat;              // DefaultFormat
+  IntObjPtr<Format> fixedFormat;             // DefaultFixedFormat
+  IntAnyObjPtr<OneLine,MultiLine> placement; // Placement
 
   explicit LastDefaults(ObjectDomain &domain);
 
@@ -610,7 +612,7 @@ struct Table : NamedObj
    {
     keeper(getBase(),border);
 
-    for(NamedPtr<Cell> &obj : table ) keeper(obj);
+    table.apply(keeper);
    }
  };
 
@@ -646,20 +648,33 @@ struct Span
    }
  };
 
+/* struct TextLine */
+
+struct TextLine
+ {
+  DynArray<Span> list;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    list.apply(keeper);
+   }
+ };
+
 /* struct FixedText */
 
 struct FixedText : NamedObj
  {
   NamedPtr<Format> format; // default: ?DefaultFixedFormat
 
-  DynArray<DynArray<Span> > list;
+  DynArray<TextLine> list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
     keeper(getBase(),format);
 
-    for(DynArray<Span> &line : list ) for(Span &span : line ) keeper(span);
+    list.apply(keeper);
    }
  };
 
@@ -695,7 +710,7 @@ struct Text : NamedObj
    {
     keeper(getBase(),placement,format);
 
-    for(Span &span : list ) keeper(span);
+    list.apply(keeper);
    }
  };
 

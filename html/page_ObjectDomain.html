@@ -70,8 +70,8 @@ class SomeClass
 </pre>
 
 <p>
-There are 4 special smart pointer classes to support object referencing. When a class member reference
-another object being governed by the domain, it must be one of these three types.
+There are four special smart pointer classes to support object referencing. When a class member reference
+another object being governed by the domain, it must be one of these four types.
 </p>
 
 <p>
@@ -272,7 +272,7 @@ Each smart pointer has also the method <b>nullify()</b> to set the pointer to th
 </p>
 
 <p>
-Each smart pointer has a generic constructor to create a domain object. The pointer will reference the created object.
+Each smart pointer, except <b>IntAnyObjPtr</b>, has generic constructors to create a domain object. The pointer will reference the created object.
 </p>
 
 <pre>
@@ -280,14 +280,17 @@ Each smart pointer has a generic constructor to create a domain object. The poin
 template &lt;class ... SS&gt;
 explicit SomePtr(ObjectDomain *domain,SS &amp;&amp; ... ss);
 
+template &lt;class ... SS&gt;
+explicit SomePtr(ObjectDomain &domain,SS &amp;&amp; ... ss);
+
 </pre>
 
 <p>
-The first argument is the <b>ObjectDomain</b> pointer. Other arguments are used to create the object.
+The first argument is the <b>ObjectDomain</b> pointer or reference. Other arguments are used to create the object.
 </p>
 
 <p>
-Each smart pointer implements the <b>Object Pointer Interface</b>.
+Each smart pointer, except <b>IntAnyObjPtr</b>, implements the <b>Object Pointer Interface</b>.
 </p>
 
 <p>
@@ -326,9 +329,15 @@ class <span class="Att">ObjectDomain::ExtPtr</span>
    template &lt;class ... SS&gt;
    explicit ExtPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
+   template &lt;class ... SS&gt;
+   explicit ExtPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+
    ~ExtPtr();
    
    void nullify(); 
+
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
 
    // copying
    
@@ -361,6 +370,10 @@ class <span class="Att">ObjectDomain::ExtPtr</span>
 
 <p>
 <b>ExtObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b> and <b>WeakObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create()</b> creates an <b>ExtPtr</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>
@@ -399,8 +412,14 @@ class <span class="Att">ObjectDomain::IntPtr</span> // default copying
    template &lt;class ... SS&gt;
    explicit IntPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
   
+   template &lt;class ... SS&gt;
+   explicit IntPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+
    void nullify();
    
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
    // object ptr
    
    void * operator + () const;
@@ -414,12 +433,18 @@ class <span class="Att">ObjectDomain::IntPtr</span> // default copying
    T * operator -> () const;
    
    ulen getExtRefs() const;
+
+   void keepAlive(Keeper keeper);
  };
 
 </pre>
 
 <p>
 <b>IntObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>ExtObjPtr&lt;T&gt;</b> and <b>WeakObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create()</b> creates an <b>IntPtr</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>
@@ -459,8 +484,14 @@ class <span class="Att">ObjectDomain::WeakPtr</span> // default copying
    template &lt;class ... SS&gt;
    explicit WeakPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
   
+   template &lt;class ... SS&gt;
+   explicit WeakPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+
    void nullify();
    
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
    // object ptr
    
    void * operator + () const;
@@ -474,12 +505,18 @@ class <span class="Att">ObjectDomain::WeakPtr</span> // default copying
    T * operator -> () const;
    
    ulen getExtRefs() const;
+
+   void breakWeak(Breaker breaker);
  };
 
 </pre>
 
 <p>
 <b>WeakObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>ExtObjPtr&lt;T&gt;</b> and <b>IntObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create()</b> creates an <b>WeakPtr</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>
@@ -522,6 +559,9 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
    
    void nullify();
    
+   template &ltclass T,class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
    // methods
    
    void * operator + () const;
@@ -531,12 +571,18 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
    AnyPtr&lt;TT...&gt; getPtr() const;
    
    ulen getExtRefs() const;
+
+   void keepAlive(Keeper keeper);
  };
 
 </pre>
 
 <p>
 <b>IntAnyObjPtr&lt;...,T,...&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b>, <b>ExtObjPtr&lt;T&gt;</b> and <b>WeakObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create&lt;T&gt;()</b> creates an <b>IntPtr&lt;T&gt;</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>
@@ -572,10 +618,16 @@ class <span class="Att">ExtDelObjPtr</span>
    template &lt;class ... SS&gt;
    ExtDelObjPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
+   template &lt;class ... SS&gt;
+   ExtDelObjPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+
    ~ExtDelObjPtr();
    
    void nullify();
    
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
    // object ptr
    
    void * operator + () const;
@@ -597,6 +649,10 @@ class <span class="Att">ExtDelObjPtr</span>
 
 <p>
 <b>ExtDelObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>IntDelObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create()</b> creates an <b>ExtDelObjPtr</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>
@@ -636,8 +692,14 @@ class <span class="Att">IntDelObjPtr</span>
    template &lt;class ... SS&gt;
    IntDelObjPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
+   template &lt;class ... SS&gt;
+   IntDelObjPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+
    void nullify();
    
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
    // object ptr
    
    void * operator + () const;
@@ -653,12 +715,18 @@ class <span class="Att">IntDelObjPtr</span>
    // destroy
    
    bool destroy();
+
+   void keepAlive(ObjectDomain::Keeper keeper);
  };
 
 </pre>
 
 <p>
 <b>IntDelObjPtr&lt;T&gt;</b> is implicitly convertible from the <b>ExtDelObjPtr&lt;T&gt;</b>.
+</p>
+
+<p>
+<b>create()</b> creates an <b>IntDelObjPtr</b> object with the given arguments and assigned it to the self.
 </p>
 
 <p>

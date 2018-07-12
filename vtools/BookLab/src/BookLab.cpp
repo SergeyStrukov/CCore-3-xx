@@ -37,7 +37,7 @@ void testList(ObjectDomain *domain)
 void test(ObjectDomain *domain)
  {
   testList<Font,Format,SingleLine,DoubleLine,Frame,FrameList,Page,Element,ElementList,Defaults,
-           Scope,Section,Bitmap,Collapse,Item,ItemList,TextList,Border,Cell,Table,Link,Span,
+           Scope,Section,Bitmap,Collapse,Item,ItemList,TextList,Border,Cell,Table,Link,Span,TextLine,
            FixedText,OneLine,MultiLine,Text>(domain);
  }
 
