@@ -14,13 +14,29 @@
 #ifndef EditWindow_h
 #define EditWindow_h
 
-#include <inc/App.h>
+#include <inc/DrawBookLab.h>
 
 namespace App {
 
 /* classes */
 
+class InnerBookLabWindow;
+
+class BookLabWindow;
+
 class EditWindow;
+
+/* class InnerBookLabWindow */
+
+class InnerBookLabWindow
+ {
+ };
+
+/* class BookLabWindow */
+
+class BookLabWindow
+ {
+ };
 
 /* class EditWindow */
 

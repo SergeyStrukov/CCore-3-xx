@@ -3,6 +3,7 @@ OBJ_LIST = \
 .obj/Application.o \
 .obj/BookLab.o \
 .obj/Client.o \
+.obj/DrawBookLab.o \
 .obj/EditWindow.o \
 .obj/main.o \
 
@@ -12,6 +13,7 @@ ASM_LIST = \
 .obj/Application.s \
 .obj/BookLab.s \
 .obj/Client.s \
+.obj/DrawBookLab.s \
 .obj/EditWindow.s \
 .obj/main.s \
 
@@ -21,6 +23,7 @@ DEP_LIST = \
 .obj/Application.dep \
 .obj/BookLab.dep \
 .obj/Client.dep \
+.obj/DrawBookLab.dep \
 .obj/EditWindow.dep \
 .obj/main.dep \
 
@@ -43,6 +46,9 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/DrawBookLab.o : src/./DrawBookLab.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/EditWindow.o : src/./EditWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -61,6 +67,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Client.s : src/./Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/DrawBookLab.s : src/./DrawBookLab.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/EditWindow.s : src/./EditWindow.cpp
@@ -82,6 +91,9 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
+
+.obj/DrawBookLab.dep : src/./DrawBookLab.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DrawBookLab.o $< -MF $@
 
 .obj/EditWindow.dep : src/./EditWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditWindow.o $< -MF $@
