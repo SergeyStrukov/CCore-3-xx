@@ -144,7 +144,7 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const // TODO
 
   SmoothDrawArt art(buf);
 
-  // back , fore
+  // back
 
   MCoord width=+cfg.width;
 
@@ -227,11 +227,35 @@ void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta) // T
   Used(delta);
  }
 
+/* class BookLabWindow */
+
+void BookLabWindow::changed()
+ {
+  layout();
+
+  redraw();
+ }
+
+BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg)
+ : Base(host,cfg),
+
+   connector_changed(this,&BookLabWindow::changed,window.changed),
+
+   modified(window.modified)
+ {
+ }
+
+BookLabWindow::~BookLabWindow()
+ {
+ }
+
 /* class EditWindow */
 
 EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
-   cfg(cfg_)
+   cfg(cfg_),
+
+   book(wlist,cfg.book_cfg)
  {
   Used(update);
  }

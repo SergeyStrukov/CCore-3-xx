@@ -53,7 +53,7 @@ class InnerBookLabWindow : public SubWindow
       }
 
      template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy)
       {
        focus.bind(bag.focus);
       }
@@ -179,8 +179,47 @@ class InnerBookLabWindow : public SubWindow
 
 /* class BookLabWindow */
 
-class BookLabWindow
+class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
  {
+  public:
+
+   using Base = ScrollableWindow<InnerBookLabWindow> ;
+
+   struct Config : Base::Config
+    {
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : Base::Config(user_pref,app_pref)
+      {
+       bindScroll(user_pref.get(),user_pref.getSmartConfig());
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   void changed();
+
+   SignalConnector<BookLabWindow> connector_changed;
+
+  public:
+
+   BookLabWindow(SubWindowHost &host,const ConfigType &cfg);
+
+   virtual ~BookLabWindow();
+
+   // methods
+
+   void blank() { window.blank(); }
+
+   ErrorText load(StrLen file_name,PtrLen<char> ebuf) { return window.load(file_name,ebuf); }
+
+   ErrorText save(StrLen file_name,PtrLen<char> ebuf) const { return window.save(file_name,ebuf); }
+
+   // signals
+
+   Signal<> &modified;
  };
 
 /* class EditWindow */
@@ -193,8 +232,11 @@ class EditWindow : public ComboWindow
     {
      // app
 
+     BookLabWindow::ConfigType book_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : book_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -219,6 +261,8 @@ class EditWindow : public ComboWindow
   private:
 
    const Config &cfg;
+
+   BookLabWindow book;
 
   public:
 

@@ -43,9 +43,9 @@ struct Config
   template <class Bag,class Proxy>
   void bindUser(const Bag &bag,Proxy proxy)
    {
-    width.bind(bag.width);
-
     Used(proxy);
+
+    width.bind(bag.width);
    }
 
   template <class Bag>
