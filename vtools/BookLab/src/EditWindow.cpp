@@ -14,6 +14,7 @@
 #include <inc/EditWindow.h>
 
 #include <CCore/inc/video/FigureLib.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -251,13 +252,62 @@ BookLabWindow::~BookLabWindow()
 
 /* class EditWindow */
 
+void EditWindow::errorMsg(StrLen etext) // TODO
+ {
+  Used(etext);
+ }
+
+bool EditWindow::saveFile(StrLen file_name)
+ {
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book.save(file_name,Range(temp));
+
+  if( result.ok )
+    {
+     clearModified();
+
+     return true;
+    }
+  else
+    {
+     errorMsg(result.etext);
+
+     return false;
+    }
+ }
+
+void EditWindow::book_modified()
+ {
+  text_file.alert();
+ }
+
+void EditWindow::link_pressed() // TODO
+ {
+ }
+
+void EditWindow::book_pressed() // TODO
+ {
+ }
+
 EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
-   book(wlist,cfg.book_cfg)
+   label_file(wlist,cfg.label_cfg,cfg.text_File),
+   text_file(wlist,cfg.text_cfg,+cfg.text_NoFile),
+   btn_link(wlist,cfg.btn_cfg,cfg.text_Link),
+   btn_book(wlist,cfg.btn_cfg,cfg.text_Book),
+
+   book(wlist,cfg.book_cfg),
+
+   connector_book_modified(this,&EditWindow::book_modified,book.modified),
+   connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
+   connector_book_pressed(this,&EditWindow::book_pressed,btn_book.pressed)
  {
   Used(update);
+
+  wlist.insTop(label_file,text_file,btn_link,btn_book,book);
  }
 
 EditWindow::~EditWindow()
@@ -268,42 +318,111 @@ EditWindow::~EditWindow()
 
 Point EditWindow::getMinSize() const
  {
-  return Point(10,10);
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(label_file),Lay(text_file),Lay(btn_link),LayLeft(btn_book)};
+
+  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+
+  return lay.getMinSize(space);
  }
 
 bool EditWindow::isModified() const
  {
-  return false;
+  return text_file.isAlerted();
  }
 
 void EditWindow::blank()
  {
+  book.blank();
+
+  text_file.setText(+cfg.text_NoFile);
+
+  has_file=false;
+
+  clearModified();
+
+  book.setFocus();
+
+  layout();
+
+  redraw();
  }
 
 void EditWindow::load(StrLen file_name)
  {
-  Used(file_name);
+  blank();
+
+  String text(file_name);
+
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book.load(file_name,Range(temp));
+
+  if( result.ok )
+    {
+     text_file.setText(text);
+
+     has_file=true;
+    }
+  else
+    {
+     text_file.setText(+cfg.text_NoFile);
+
+     errorMsg(result.etext);
+    }
+
+  layout();
+
+  redraw();
  }
 
 bool EditWindow::save()
  {
-  return true;
+  if( !has_file ) return false;
+
+  return saveFile(text_file.getText().str());
  }
 
 void EditWindow::save(StrLen file_name)
  {
-  Used(file_name);
+  String text(file_name);
+
+  if( saveFile(file_name) )
+    {
+     text_file.setText(text);
+
+     has_file=true;
+
+     layout();
+
+     redraw();
+    }
  }
 
  // drawing
 
 void EditWindow::layout()
  {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(label_file),Lay(text_file),Lay(btn_link),LayLeft(btn_book)};
+
+  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+
+  lay.setPlace(getPane(),space);
  }
 
 void EditWindow::drawBack(DrawBuf buf,bool) const
  {
-  buf.erase(Black);
+  VColor back=+cfg.back;
+
+  PaneSub sub(getPane(),book.getPlace());
+
+  buf.erase(sub.top,back);
+  buf.erase(sub.bottom,back);
+  buf.erase(sub.left,back);
+  buf.erase(sub.right,back);
  }
 
 } // namespace App

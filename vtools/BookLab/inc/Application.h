@@ -48,15 +48,16 @@ struct AppPreferenceBag : ConfigItemHost
 
   // book
 
+  DefString text_NoFile = "<No file>"_def ;
+  DefString text_File = "File"_def ;
+  DefString text_Link = "Link"_def ;
+  DefString text_Book = "Book"_def ;
+
   Coord border_dxy = 5 ;
 
   VColor back = Silver ;
-  VColor fore = Black ;
 
   FontCouple font;
-  FontCouple codefont;
-
-  DefString text_NotReady = "Font database is not ready yet"_def ;
 
   // constructors
 
@@ -85,12 +86,13 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+  func("text_NoFile"_c,ptr->text_NoFile);
+  func("text_File"_c,ptr->text_File);
+  func("text_Link"_c,ptr->text_Link);
+  func("text_Book"_c,ptr->text_Book);
   func("border_dxy"_c,ptr->border_dxy);
   func("back"_c,ptr->back);
-  func("fore"_c,ptr->fore);
   func("font"_c,ptr->font);
-  func("codefont"_c,ptr->codefont);
-  func("text_NotReady"_c,ptr->text_NotReady);
  }
 
 /* struct AppProp */

@@ -230,7 +230,22 @@ class EditWindow : public ComboWindow
 
    struct Config
     {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     RefVal<VColor> back = Silver ;
+
+     CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
+     CtorRefVal<TextLineWindow::ConfigType> text_cfg;
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+
      // app
+
+     RefVal<DefString> text_NoFile = "<No file>"_def ;
+     RefVal<DefString> text_File = "File"_def ;
+     RefVal<DefString> text_Link = "Link"_def ;
+     RefVal<DefString> text_Book = "Book"_def ;
 
      BookLabWindow::ConfigType book_cfg;
 
@@ -245,14 +260,21 @@ class EditWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
-       Used(proxy);
+       space_dxy.bind(bag.space_dxy);
+       back.bind(bag.back);
+
+       label_cfg.bind(proxy);
+       text_cfg.bind(proxy);
+       btn_cfg.bind(proxy);
       }
 
      template <class Bag>
      void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text_NoFile.bind(bag.text_NoFile);
+       text_File.bind(bag.text_File);
+       text_Link.bind(bag.text_Link);
+       text_Book.bind(bag.text_Book);
       }
     };
 
@@ -262,7 +284,34 @@ class EditWindow : public ComboWindow
 
    const Config &cfg;
 
+   RefLabelWindow label_file;
+   TextLineWindow text_file;
+   RefButtonWindow btn_link;
+   RefButtonWindow btn_book;
+
    BookLabWindow book;
+
+   bool has_file = false ;
+
+  private:
+
+   void clearModified() { text_file.alert(false); }
+
+   void errorMsg(StrLen etext);
+
+   bool saveFile(StrLen file_name);
+
+   void book_modified();
+
+   SignalConnector<EditWindow> connector_book_modified;
+
+   void link_pressed();
+
+   SignalConnector<EditWindow> connector_link_pressed;
+
+   void book_pressed();
+
+   SignalConnector<EditWindow> connector_book_pressed;
 
   public:
 

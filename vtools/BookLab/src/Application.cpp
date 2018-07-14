@@ -39,20 +39,21 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
   binder.group("Book"_def);
 
+    binder.item("'No file'"_def,text_NoFile);
+    binder.item("'File'"_def,text_File);
+    binder.item("'Link'"_def,text_Link);
+    binder.item("'Book'"_def,text_Book);
+
     binder.item("border_dxy"_def,border_dxy);
     binder.item("back"_def,back);
-    binder.item("fore"_def,fore);
     binder.item("font"_def,font);
-    binder.item("codefont"_def,codefont);
-    binder.item("'Not ready'"_def,text_NotReady);
  }
 
 void AppPreferenceBag::findFonts()
  {
   DialogFontLookup dev;
 
-  font=dev.build("Times New Roman"_c,22);
-  codefont=dev.build("Anonymous Pro"_c,22);
+  font=dev.build("Anonymous Pro"_c,22);
  }
 
 } // namespace App
