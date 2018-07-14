@@ -13,6 +13,8 @@
 
 #include <inc/BookLab.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 namespace BookLab {
 
@@ -89,14 +91,42 @@ void Book::blank()
   domain.collect();
  }
 
-void Book::load(StrLen file_name) // TODO
+ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
  {
   Used(file_name);
+
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
  }
 
-void Book::save(StrLen file_name) const // TODO
+ErrorText Book::save(StrLen file_name,PtrLen<char> ebuf) const
  {
   Used(file_name);
+
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
  }
 
 } // namespace BookLab

@@ -39,6 +39,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
   binder.group("Book"_def);
 
+    binder.item("border_dxy"_def,border_dxy);
     binder.item("back"_def,back);
     binder.item("fore"_def,fore);
     binder.item("font"_def,font);

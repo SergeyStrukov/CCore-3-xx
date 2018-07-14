@@ -48,6 +48,8 @@ struct AppPreferenceBag : ConfigItemHost
 
   // book
 
+  Coord border_dxy = 5 ;
+
   VColor back = Silver ;
   VColor fore = Black ;
 
@@ -83,6 +85,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+  func("border_dxy"_c,ptr->border_dxy);
   func("back"_c,ptr->back);
   func("fore"_c,ptr->fore);
   func("font"_c,ptr->font);

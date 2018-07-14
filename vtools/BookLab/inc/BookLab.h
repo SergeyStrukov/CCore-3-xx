@@ -20,6 +20,7 @@
 #include <CCore/inc/ObjectDomain.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
+#include <CCore/inc/ErrorText.h>
 
 namespace App {
 namespace BookLab {
@@ -753,9 +754,9 @@ class Book : NoCopy
 
    void blank();
 
-   void load(StrLen file_name);
+   ErrorText load(StrLen file_name,PtrLen<char> ebuf);
 
-   void save(StrLen file_name) const;
+   ErrorText save(StrLen file_name,PtrLen<char> ebuf) const;
  };
 
 } // namespace BookLab

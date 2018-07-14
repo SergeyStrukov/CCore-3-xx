@@ -27,6 +27,10 @@ struct Config;
 
 struct Config
  {
+  // user
+
+  RefVal<Fraction> width = Fraction(6,2) ;
+
   // app
 
   template <class AppPref>
@@ -39,7 +43,8 @@ struct Config
   template <class Bag,class Proxy>
   void bindUser(const Bag &bag,Proxy proxy)
    {
-    Used(bag);
+    width.bind(bag.width);
+
     Used(proxy);
    }
 
