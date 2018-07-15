@@ -120,6 +120,10 @@ class InnerBookLabWindow : public SubWindow
 
    ErrorText save(StrLen file_name,PtrLen<char> ebuf) const;
 
+   ErrorText link(PtrLen<char> ebuf);
+
+   ErrorText bookTo(StrLen file_name,PtrLen<char> ebuf) const;
+
    // special methods
 
    bool shortDX() const { return sx.tooShort(); }
@@ -217,6 +221,10 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    ErrorText save(StrLen file_name,PtrLen<char> ebuf) const { return window.save(file_name,ebuf); }
 
+   ErrorText link(PtrLen<char> ebuf) { return window.link(ebuf); }
+
+   ErrorText book(StrLen file_name,PtrLen<char> ebuf) const { return window.bookTo(file_name,ebuf); }
+
    // signals
 
    Signal<> &modified;
@@ -239,6 +247,11 @@ class EditWindow : public ComboWindow
      CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
+     CtorRefVal<FileFrame::ConfigType> file_cfg;
+
+     RefVal<DefString> text_Error = "Error"_def ;
+     RefVal<DefString> text_SaveFile = "Select a file to save to"_def ;
 
      // app
 
@@ -262,10 +275,14 @@ class EditWindow : public ComboWindow
       {
        space_dxy.bind(bag.space_dxy);
        back.bind(bag.back);
+       text_Error.bind(bag.text_Error);
+       text_SaveFile.bind(bag.text_SaveFile);
 
        label_cfg.bind(proxy);
        text_cfg.bind(proxy);
        btn_cfg.bind(proxy);
+       msg_cfg.bind(proxy);
+       file_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -293,6 +310,11 @@ class EditWindow : public ComboWindow
 
    bool has_file = false ;
 
+   // frames
+
+   MessageFrame msg_frame;
+   FileFrame file_frame;
+
   private:
 
    void clearModified() { text_file.alert(false); }
@@ -312,6 +334,14 @@ class EditWindow : public ComboWindow
    void book_pressed();
 
    SignalConnector<EditWindow> connector_book_pressed;
+
+   void msg_destroyed();
+
+   SignalConnector<EditWindow> connector_msg_destroyed;
+
+   void file_destroyed();
+
+   SignalConnector<EditWindow> connector_file_destroyed;
 
   public:
 

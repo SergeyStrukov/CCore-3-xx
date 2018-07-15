@@ -108,6 +108,42 @@ ErrorText InnerBookLabWindow::save(StrLen file_name,PtrLen<char> ebuf) const
   return book.save(file_name,ebuf);
  }
 
+ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf) // TODO
+ {
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
+ }
+
+ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const // TODO
+ {
+  Used(file_name);
+
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
+ }
+
  // drawing
 
 void InnerBookLabWindow::layout()
@@ -252,9 +288,21 @@ BookLabWindow::~BookLabWindow()
 
 /* class EditWindow */
 
-void EditWindow::errorMsg(StrLen etext) // TODO
+void EditWindow::errorMsg(StrLen etext)
  {
-  Used(etext);
+  try
+    {
+     String text(etext);
+
+     msg_frame.setInfo(text);
+
+     msg_frame.create(getFrame(),+cfg.text_Error);
+
+     disableFrameReact();
+    }
+  catch(CatchType)
+    {
+    }
  }
 
 bool EditWindow::saveFile(StrLen file_name)
@@ -282,12 +330,58 @@ void EditWindow::book_modified()
   text_file.alert();
  }
 
-void EditWindow::link_pressed() // TODO
+void EditWindow::link_pressed()
  {
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book.link(Range(temp));
+
+  if( !result.ok )
+    {
+     errorMsg(result.etext);
+    }
  }
 
-void EditWindow::book_pressed() // TODO
+void EditWindow::book_pressed()
  {
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book.link(Range(temp));
+
+  if( !result.ok )
+    {
+     errorMsg(result.etext);
+
+     return;
+    }
+
+  file_frame.create(getFrame(),+cfg.text_SaveFile);
+
+  disableFrameReact();
+ }
+
+void EditWindow::msg_destroyed()
+ {
+  enableFrameReact();
+ }
+
+void EditWindow::file_destroyed()
+ {
+  enableFrameReact();
+
+  StrLen file_name=file_frame.getFilePath();
+
+  if( +file_name )
+    {
+     SimpleArray<char> temp(64_KByte);
+
+     auto result=book.book(file_name,Range(temp));
+
+     if( !result.ok )
+       {
+        errorMsg(result.etext);
+       }
+    }
  }
 
 EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
@@ -301,13 +395,21 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    book(wlist,cfg.book_cfg),
 
+   msg_frame(host.getFrameDesktop(),cfg.msg_cfg,update),
+   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def},update),
+
    connector_book_modified(this,&EditWindow::book_modified,book.modified),
    connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
-   connector_book_pressed(this,&EditWindow::book_pressed,btn_book.pressed)
+   connector_book_pressed(this,&EditWindow::book_pressed,btn_book.pressed),
+   connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
+   connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed)
  {
-  Used(update);
-
   wlist.insTop(label_file,text_file,btn_link,btn_book,book);
+
+  // file_frame
+
+  file_frame.addFilter("*.book.ddl"_c);
+  file_frame.addFilter("*"_c,false);
  }
 
 EditWindow::~EditWindow()

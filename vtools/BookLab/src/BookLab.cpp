@@ -91,7 +91,7 @@ void Book::blank()
   domain.collect();
  }
 
-ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
+ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf) // TODO
  {
   Used(file_name);
 
@@ -110,7 +110,7 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
     }
  }
 
-ErrorText Book::save(StrLen file_name,PtrLen<char> ebuf) const
+ErrorText Book::save(StrLen file_name,PtrLen<char> ebuf) const // TODO
  {
   Used(file_name);
 
