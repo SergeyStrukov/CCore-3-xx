@@ -86,10 +86,11 @@ class InnerBookLabWindow : public SubWindow
    mutable Point size; // without border
 
    mutable bool ok = false ;
+   mutable bool block_cache = false ;
 
   private:
 
-   void cache() const;
+   bool cache() const;
 
   private:
 

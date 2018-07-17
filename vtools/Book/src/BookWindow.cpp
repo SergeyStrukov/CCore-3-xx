@@ -23,31 +23,44 @@ namespace App {
 
 /* class InnerBookWindow */
 
-void InnerBookWindow::cache() const
+bool InnerBookWindow::cache() const
  {
-  Scope scope("App::InnerBookWindow::cache()"_c);
+  if( block_cache ) return false;
 
-  Coord wdx=getSize().x-2*cfg.width.get().roundUp();
-
-  if( !ok || cache_wdx!=wdx )
+  try
     {
-     DrawBook::SetExactArrayLen(shapes,frames.len);
+     Scope scope("App::InnerBookWindow::cache()"_c);
 
-     Point s;
+     Coord wdx=getSize().x-2*cfg.width.get().roundUp();
 
-     for(ulen i=0; i<frames.len ;i++)
+     if( !ok || cache_wdx!=wdx )
        {
-        auto &shape=shapes[i];
+        DrawBook::SetExactArrayLen(shapes,frames.len);
 
-        Point ds=shape.set(cfg,map,scale,frames[i],i,wdx,s.y);
+        Point s;
 
-        s=StackYSize_guarded(s,ds);
+        for(ulen i=0; i<frames.len ;i++)
+          {
+           auto &shape=shapes[i];
+
+           Point ds=shape.set(cfg,map,scale,frames[i],i,wdx,s.y);
+
+           s=StackYSize_guarded(s,ds);
+          }
+
+        size=s;
+
+        ok=true;
+        cache_wdx=wdx;
        }
 
-     size=s;
+     return true;
+    }
+  catch(...)
+    {
+     block_cache=true;
 
-     ok=true;
-     cache_wdx=wdx;
+     return false;
     }
  }
 
@@ -74,7 +87,7 @@ PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes() const
 
 DrawBook::RefList InnerBookWindow::getRef(Point point) const
  {
-  cache();
+  if( !cache() ) return {};
 
   Pane pane=getPane();
 
@@ -234,7 +247,7 @@ InnerBookWindow::~InnerBookWindow()
 
 Point InnerBookWindow::getMinSize(Point cap) const
  {
-  cache();
+  if( !cache() ) return Inf(Point(500,300),cap);
 
   if( frames.len )
     {
@@ -271,6 +284,7 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page,VColor book_back_,VColor
   sx.beg();
   sy.beg();
 
+  block_cache=false;
   ok=false;
  }
 
@@ -294,12 +308,13 @@ void InnerBookWindow::setPage(Book::TypeDef::Page *page)
   sx.beg();
   sy.beg();
 
+  block_cache=false;
   ok=false;
  }
 
 void InnerBookWindow::posFrame(PtrLen<const UIntType> index_list)
  {
-  cache();
+  if( !cache() ) return;
 
   if( !index_list )
     {
@@ -319,7 +334,7 @@ void InnerBookWindow::posFrame(PtrLen<const UIntType> index_list)
 
            changed.assert();
 
-           cache();
+           if( !cache() ) return;
           }
 
         sy.setPos(ulen( shapes[frame_index].getDown(map,index_list) ));
@@ -344,7 +359,18 @@ void InnerBookWindow::setScale(Ratio scale_)
 
 void InnerBookWindow::layout()
  {
-  cache();
+  if( !cache() )
+    {
+     sx.pos=0;
+     sx.total=1;
+     sx.page=1;
+
+     sy.pos=0;
+     sy.total=1;
+     sy.page=1;
+
+     return;
+    }
 
   Point s=getSize()-2*Point::Diag(cfg.width.get().roundUp());
 
@@ -371,7 +397,12 @@ void InnerBookWindow::layout()
 
 void InnerBookWindow::draw(DrawBuf buf,bool) const
  {
-  cache();
+  if( !cache() )
+    {
+     buf.erase(Black);
+
+     return;
+    }
 
   Scope scope("App::InnerBookWindow::draw()"_c);
 

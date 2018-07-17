@@ -113,9 +113,11 @@ class InnerBookWindow : public SubWindow
    mutable bool ok = false ;
    mutable Coord cache_wdx = 0 ;
 
+   mutable bool block_cache = false ;
+
   private:
 
-   void cache() const;
+   bool cache() const;
 
    PtrLen<const DrawBook::Shape> getVisibleShapes(Coord off,Coord lim) const;
 

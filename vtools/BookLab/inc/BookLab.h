@@ -742,6 +742,8 @@ class Book : NoCopy
 
    ExtObjPtr<Doc> doc;
 
+   bool linked = true ;
+
   private:
 
    void startDoc();
@@ -757,6 +759,12 @@ class Book : NoCopy
    ErrorText load(StrLen file_name,PtrLen<char> ebuf);
 
    ErrorText save(StrLen file_name,PtrLen<char> ebuf) const;
+
+   bool isLinked() const { return linked; }
+
+   ErrorText link(PtrLen<char> ebuf);
+
+   ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
  };
 
 } // namespace BookLab

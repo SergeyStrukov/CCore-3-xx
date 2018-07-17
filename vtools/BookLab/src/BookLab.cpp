@@ -87,6 +87,7 @@ Book::~Book()
 void Book::blank()
  {
   doc=Null;
+  linked=true;
 
   domain.collect();
  }
@@ -111,6 +112,42 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf) // TODO
  }
 
 ErrorText Book::save(StrLen file_name,PtrLen<char> ebuf) const // TODO
+ {
+  Used(file_name);
+
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
+ }
+
+ErrorText Book::link(PtrLen<char> ebuf) // TODO
+ {
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     Printf(Exception,"not implemented");
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     return eout.close();
+    }
+ }
+
+ErrorText Book::book(StrLen file_name,PtrLen<char> ebuf) const // TODO
  {
   Used(file_name);
 

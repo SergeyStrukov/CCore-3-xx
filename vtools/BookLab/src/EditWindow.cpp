@@ -22,13 +22,26 @@ namespace App {
 
 /* class InnerBookLabWindow */
 
-void InnerBookLabWindow::cache() const // TODO
+bool InnerBookLabWindow::cache() const // TODO
  {
-  if( !ok )
-    {
-     size=Point(100,100);
+  if( block_cache ) return false;
 
-     ok=true;
+  try
+    {
+     if( !ok )
+       {
+        size=Point(100,100);
+
+        ok=true;
+       }
+
+     return true;
+    }
+  catch(...)
+    {
+     block_cache=true;
+
+     return false;
     }
  }
 
@@ -70,7 +83,7 @@ InnerBookLabWindow::~InnerBookLabWindow()
 
 Point InnerBookLabWindow::getMinSize(Point cap) const
  {
-  cache();
+  if( !cache() ) return Inf(Point(100,100),cap);
 
   Point delta=2*Point::Diag(+cfg.border_dxy);
 
@@ -79,6 +92,7 @@ Point InnerBookLabWindow::getMinSize(Point cap) const
 
 void InnerBookLabWindow::blank()
  {
+  block_cache=false;
   ok=false;
 
   sx.beg();
@@ -91,6 +105,7 @@ void InnerBookLabWindow::blank()
 
 ErrorText InnerBookLabWindow::load(StrLen file_name,PtrLen<char> ebuf)
  {
+  block_cache=false;
   ok=false;
 
   sx.beg();
@@ -108,47 +123,41 @@ ErrorText InnerBookLabWindow::save(StrLen file_name,PtrLen<char> ebuf) const
   return book.save(file_name,ebuf);
  }
 
-ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf) // TODO
+ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf)
  {
-  PrintBuf eout(ebuf);
-  ReportExceptionTo report(eout);
+  if( book.isLinked() ) return Success;
 
-  try
-    {
-     Printf(Exception,"not implemented");
+  ok=false;
 
-     return Success;
-    }
-  catch(CatchType)
-    {
-     return eout.close();
-    }
+  ErrorText ret=book.link(ebuf);
+
+  changed.assert();
+  modified.assert();
+
+  return ret;
  }
 
-ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const // TODO
+ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const
  {
-  Used(file_name);
-
-  PrintBuf eout(ebuf);
-  ReportExceptionTo report(eout);
-
-  try
-    {
-     Printf(Exception,"not implemented");
-
-     return Success;
-    }
-  catch(CatchType)
-    {
-     return eout.close();
-    }
+  return book.book(file_name,ebuf);
  }
 
  // drawing
 
 void InnerBookLabWindow::layout()
  {
-  cache();
+  if( !cache() )
+    {
+     sx.pos=0;
+     sx.total=1;
+     sx.page=1;
+
+     sy.pos=0;
+     sy.total=1;
+     sy.page=1;
+
+     return;
+    }
 
   Point s=getSize()-2*Point::Diag(+cfg.border_dxy);
 
@@ -175,7 +184,12 @@ void InnerBookLabWindow::layout()
 
 void InnerBookLabWindow::draw(DrawBuf buf,bool) const // TODO
  {
-  cache();
+  if( !cache() )
+    {
+     buf.erase(Black);
+
+     return;
+    }
 
   Pane pane=getPane();
 
