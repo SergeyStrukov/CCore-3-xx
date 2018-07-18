@@ -23,6 +23,8 @@ type VColor = uint32 ;
 
 type Coord = sint32 ;
 
+type Effect = uint8 ;
+
 struct Point
  {
   Coord x;
@@ -55,12 +57,42 @@ struct OptCoord
   Coord data;
  };  
  
+struct OptRatio
+ {
+  Bool def;
+  Ratio data;
+ }; 
+ 
+struct OptEffect
+ {
+  Bool def;
+  Effect data;
+ }; 
+ 
+struct OptBool
+ {
+  Bool def;
+  Bool data;
+ };
+  
+struct OptInt
+ {
+  Bool def;
+  int data;
+ };
+ 
 //--- Ptrs ------------------------------------------------------------------------------- 
  
 struct PagePtr
  {
   text name;
-  Page *page;
+  Page *ptr;
+ }; 
+ 
+struct FontPtr
+ {
+  text name;
+  Font *ptr;
  }; 
  
 //--- Doc --------------------------------------------------------------------------------
@@ -101,13 +133,44 @@ struct Section;
 
 //---  --------------------------------------------------------------------------------
 
-struct Font;
+struct Font
+ {
+  text face;
+  Coord size;
+  OptBool bold;
+  OptBool italic;
+  OptInt strength;
+ };
 
-struct Format;
+struct Format
+ {
+  text name;
+  Bool open;
+  
+  FontPtr font;
+  OptColor back;
+  OptColor fore;
+  OptEffect effect;  
+ };
 
-struct SingleLine;
+struct SingleLine
+ {
+  text name;
+  Bool open;
+  
+  OptRatio width;
+  OptColor line;
+ };
 
-struct DoubleLine;
+struct DoubleLine
+ {
+  text name;
+  Bool open;
+  
+  OptRatio width;
+  OptColor gray;
+  OptColor snow;
+ };
 
 struct Frame;
 

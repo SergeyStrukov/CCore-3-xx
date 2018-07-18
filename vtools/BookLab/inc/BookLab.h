@@ -211,6 +211,10 @@ struct NamedPtr<T>
 
   bool isAnonym() const { return !Range(name) && +ptr ; }
 
+  bool hasName() const { return +Range(name); }
+
+  bool hasObj() const { return +ptr; }
+
   bool notResolved() const { return +Range(name) && !ptr ; }
 
   bool isResolved() const { return +Range(name) && +ptr ; }
