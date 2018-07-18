@@ -117,7 +117,7 @@ class InnerBookWindow : public SubWindow
 
   private:
 
-   bool cache() const;
+   [[nodiscard]] bool cache() const;
 
    PtrLen<const DrawBook::Shape> getVisibleShapes(Coord off,Coord lim) const;
 

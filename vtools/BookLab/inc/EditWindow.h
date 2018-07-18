@@ -90,7 +90,7 @@ class InnerBookLabWindow : public SubWindow
 
   private:
 
-   bool cache() const;
+   [[nodiscard]] bool cache() const;
 
   private:
 

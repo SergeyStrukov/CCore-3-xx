@@ -132,7 +132,6 @@ ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf)
   ErrorText ret=book.link(ebuf);
 
   changed.assert();
-  modified.assert();
 
   return ret;
  }

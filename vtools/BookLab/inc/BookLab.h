@@ -52,6 +52,12 @@ inline VColor DefNoColor() { return NoColor; }
 
 inline Effect DefNoEffect() { return NoEffect; }
 
+template <class Ptr>
+auto SafePtr(Ptr &ptr)
+ {
+  return !ptr ? 0 : ptr.getPtr() ;
+ }
+
 /* classes */
 
 struct Ratio;
@@ -747,6 +753,10 @@ class Book : NoCopy
   private:
 
    void startDoc();
+
+   class SaveContext;
+
+   class BookContext;
 
   public:
 
