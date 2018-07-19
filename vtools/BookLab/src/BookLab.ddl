@@ -25,6 +25,8 @@ type Coord = sint32 ;
 
 type Effect = uint8 ;
 
+type Align = uint8 ;
+
 struct Point
  {
   Coord x;
@@ -67,7 +69,13 @@ struct OptEffect
  {
   Bool def;
   Effect data;
- }; 
+ };
+ 
+struct OptAlign
+ {
+  Bool def;
+  Align data;
+ };  
  
 struct OptBool
  {
@@ -131,7 +139,7 @@ struct Scope;
 
 struct Section;
 
-//---  --------------------------------------------------------------------------------
+//--- Meat -------------------------------------------------------------------------------
 
 struct Font
  {
@@ -188,7 +196,15 @@ struct ItemList;
 
 struct TextList;
 
-struct Border;
+struct Border
+ {
+  text name;
+  Bool open;
+  
+  OptCoord space;
+  OptRatio width;
+  OptColor line;
+ };
 
 struct Cell;
 
@@ -202,9 +218,22 @@ struct TextLine;
 
 struct FixedText;
 
-struct OneLine;
+struct OneLine
+ {
+  text name;
+  Bool open;
+  
+  OptAlign align;
+ };
 
-struct MultiLine;
+struct MultiLine
+ {
+  text name;
+  Bool open;
+  
+  OptRatio line_space;
+  OptRatio first_line_space; 
+ };
 
 struct Text;
  

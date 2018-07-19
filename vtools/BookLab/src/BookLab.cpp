@@ -71,6 +71,164 @@ Doc::Doc(ObjectDomain &domain)
  {
  }
 
+/* namespace SaveAdapter */
+
+namespace SaveAdapter {
+
+template <class T> struct Adapter;
+
+template <>
+struct Adapter<String>
+ {
+  DDLPrintableString data;
+
+  explicit Adapter(const String &obj) : data(obj) {}
+
+  void print(PrinterType &out) const
+   {
+    Putobj(out,data);
+   }
+ };
+
+template <>
+struct Adapter<bool>
+ {
+  bool data;
+
+  explicit Adapter(bool obj) : data(obj) {}
+
+  void print(PrinterType &out) const
+   {
+    Putobj(out,DDLBool(data));
+   }
+ };
+
+template <>
+struct Adapter<Coord>
+ {
+  Coord data;
+
+  explicit Adapter(Coord obj) : data(obj) {}
+
+  void print(PrinterType &out) const
+   {
+    Putobj(out,data);
+   }
+ };
+
+template <>
+struct Adapter<unsigned>
+ {
+  unsigned data;
+
+  explicit Adapter(unsigned obj) : data(obj) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"o#;",data);
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<bool,Def> >
+ {
+  bool data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",DDLBool(def),DDLBool(data));
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<Effect,Def> >
+ {
+  Effect data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",DDLBool(def),(uint8)data);
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<Align,Def> >
+ {
+  Align data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",DDLBool(def),(uint8)data);
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<VColor,Def> >
+ {
+  VColor data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",DDLBool(def),(uint32)data);
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<Point,Def> >
+ {
+  Point data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.x,data.y);
+   }
+ };
+
+template <auto Def>
+struct Adapter<OptData<Ratio,Def> >
+ {
+  Ratio data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.a,data.b);
+   }
+ };
+
+template <OneOfTypes<Coord,int> T,auto Def>
+struct Adapter<OptData<T,Def> >
+ {
+  Coord data;
+  bool def;
+
+  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",DDLBool(def),data);
+   }
+ };
+
+} // namespace SaveAdapter
+
 /* class Book::SaveContext */
 
 class Book::SaveContext : NoCopy
@@ -109,7 +267,7 @@ class Book::SaveContext : NoCopy
    template <class ... TT>
    void printf(const char *format,const TT & ... tt)
     {
-     Printf(out,format,tt...);
+     Printf(out,format,SaveAdapter::Adapter<TT>(tt)...);
     }
 
    void queue(unsigned index,ObjPtr objptr)
@@ -136,104 +294,13 @@ class Book::SaveContext : NoCopy
 
   private:
 
-   struct PrintOptColor
-    {
-     VColor data;
-     bool def;
-
-     explicit PrintOptColor(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , #; }",DDLBool(def),(uint32)data);
-      }
-    };
-
-   struct PrintOptPoint
-    {
-     Point data;
-     bool def;
-
-     explicit PrintOptPoint(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.x,data.y);
-      }
-    };
-
-   struct PrintOptCoord
-    {
-     Coord data;
-     bool def;
-
-     explicit PrintOptCoord(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , #; }",DDLBool(def),data);
-      }
-    };
-
-   struct PrintOptRatio
-    {
-     Ratio data;
-     bool def;
-
-     explicit PrintOptRatio(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.a,data.b);
-      }
-    };
-
-   struct PrintOptEffect
-    {
-     Effect data;
-     bool def;
-
-     explicit PrintOptEffect(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , #; }",DDLBool(def),(uint8)data);
-      }
-    };
-
-   struct PrintOptBool
-    {
-     bool data;
-     bool def;
-
-     explicit PrintOptBool(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , #; }",DDLBool(def),DDLBool(data));
-      }
-    };
-
-   struct PrintOptInt
-    {
-     int data;
-     bool def;
-
-     explicit PrintOptInt(const auto &obj) : data(obj.data),def(obj.def) {}
-
-     void print(PrinterType &out) const
-      {
-       Printf(out,"{ #; , #; }",DDLBool(def),data);
-      }
-    };
-
    void printPtr(auto *ptr)
     {
      if( ptr )
        {
         unsigned index=getIndex();
 
-        printf("& o#;",index);
+        printf("& #;",index);
 
         queue(index,ptr);
        }
@@ -261,7 +328,7 @@ class Book::SaveContext : NoCopy
        {
         unsigned index=getIndex();
 
-        printf("{ null , & o#; }",index);
+        printf("{ null , & #; }",index);
 
         queue(index,ref.ptr.getPtr());
        }
@@ -273,10 +340,10 @@ class Book::SaveContext : NoCopy
 
    void print(const Defaults &defs)
     {
-     printf("{ #; , #; , #; , #; , ",PrintOptPoint(defs.inner)
-                                    ,PrintOptPoint(defs.outer)
-                                    ,PrintOptCoord(defs.bulletSpace)
-                                    ,PrintOptCoord(defs.itemSpace));
+     printf("{ #; , #; , #; , #; , ",defs.inner
+                                    ,defs.outer
+                                    ,defs.bulletSpace
+                                    ,defs.itemSpace);
 
      printPtr(SafePtr(defs.singleLine));
 
@@ -326,9 +393,9 @@ class Book::SaveContext : NoCopy
            unsigned index=getIndex();
 
            if( Change(flag,true) )
-             printf("& o#;",index);
+             printf("& #;",index);
            else
-             printf(",\n& o#;",index);
+             printf(",\n& #;",index);
 
            queue(index,objptr);
           }
@@ -341,146 +408,157 @@ class Book::SaveContext : NoCopy
 
    void print(unsigned index,Font *ptr)
     {
-     printf("Font o#; = { #; , #; , ",index,DDLPrintableString(ptr->name),DDLBool(ptr->open));
-
-     printf("#; , #; , #; , #; , #; };\n\n",DDLPrintableString(ptr->face)
-                                           ,ptr->size
-                                           ,PrintOptBool(ptr->bold)
-                                           ,PrintOptBool(ptr->italic)
-                                           ,PrintOptInt(ptr->strength));
+     printf("Font #; = { #; , #; , #; , #; , #; , #; , #; };\n\n",index
+                                                                 ,ptr->name
+                                                                 ,ptr->open
+                                                                 ,ptr->face
+                                                                 ,ptr->size
+                                                                 ,ptr->bold
+                                                                 ,ptr->italic
+                                                                 ,ptr->strength);
     }
 
    void print(unsigned index,Format *ptr)
     {
-     printf("Format o#; = { #; , #; , ",index,DDLPrintableString(ptr->name),DDLBool(ptr->open));
+     printf("Format #; = { #; , #; , ",index
+                                      ,ptr->name
+                                      ,ptr->open);
 
      print(ptr->font);
 
-     printf(" , #; , #; , #; };\n\n",PrintOptColor(ptr->back),PrintOptColor(ptr->fore),PrintOptEffect(ptr->effect));
+     printf(" , #; , #; , #; };\n\n",ptr->back
+                                    ,ptr->fore
+                                    ,ptr->effect);
     }
 
    void print(unsigned index,SingleLine *ptr)
     {
-     printf("SingleLine o#; = { #; , #; , ",index,DDLPrintableString(ptr->name),DDLBool(ptr->open));
-
-     printf("#; , #; };\n\n",PrintOptRatio(ptr->width),PrintOptColor(ptr->line));
+     printf("SingleLine #; = { #; , #; , #; , #; };\n\n",index
+                                                        ,ptr->name
+                                                        ,ptr->open
+                                                        ,ptr->width
+                                                        ,ptr->line);
     }
 
    void print(unsigned index,DoubleLine *ptr)
     {
-     printf("DoubleLine o#; = { #; , #; , ",index,DDLPrintableString(ptr->name),DDLBool(ptr->open));
-
-     printf("#; , #; , #; };\n\n",PrintOptRatio(ptr->width),PrintOptColor(ptr->gray),PrintOptColor(ptr->snow));
+     printf("DoubleLine #; = { #; , #; , #; , #; , #; };\n\n",index
+                                                             ,ptr->name
+                                                             ,ptr->open
+                                                             ,ptr->width
+                                                             ,ptr->gray
+                                                             ,ptr->snow);
     }
 
-   // TODO
 
-   void print(unsigned index,Page *ptr)
+   void print(unsigned index,Page *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Page o#; = { ",index);
+     printf("Page #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Scope *ptr)
+   void print(unsigned index,Scope *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Scope o#; = { ",index);
+     printf("Scope #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Section *ptr)
+   void print(unsigned index,Section *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Section o#; = { ",index);
+     printf("Section #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Bitmap *ptr)
+   void print(unsigned index,Bitmap *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Bitmap o#; = { ",index);
+     printf("Bitmap #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Collapse *ptr)
+   void print(unsigned index,Collapse *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Collapse o#; = { ",index);
+     printf("Collapse #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,TextList *ptr)
+   void print(unsigned index,TextList *ptr) // TODO
     {
      Used(ptr);
 
-     printf("TextList o#; = { ",index);
+     printf("TextList #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Table *ptr)
+   void print(unsigned index,Table *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Table o#; = { ",index);
+     printf("Table #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Text *ptr)
+   void print(unsigned index,Text *ptr) // TODO
     {
      Used(ptr);
 
-     printf("Text o#; = { ",index);
+     printf("Text #; = { ",index);
 
      printf(" };\n\n");
     }
 
-   void print(unsigned index,FixedText *ptr)
+   void print(unsigned index,FixedText *ptr) // TODO
     {
      Used(ptr);
 
-     printf("FixedText o#; = { ",index);
+     printf("FixedText #; = { ",index);
 
      printf(" };\n\n");
     }
+
 
    void print(unsigned index,Border *ptr)
     {
-     Used(ptr);
+     printf("Border #; = { #; , #; , #; , #; , #; };\n\n",index
+                                                         ,ptr->name
+                                                         ,ptr->open
+                                                         ,ptr->space
+                                                         ,ptr->width
+                                                         ,ptr->line);
 
-     printf("Border o#; = { ",index);
-
-     printf(" };\n\n");
     }
 
    void print(unsigned index,OneLine *ptr)
     {
-     Used(ptr);
-
-     printf("OneLine o#; = { ",index);
-
-     printf(" };\n\n");
+     printf("OneLine #; = { #; , #; , #; };\n\n",index
+                                                ,ptr->name
+                                                ,ptr->open
+                                                ,ptr->align);
     }
 
    void print(unsigned index,MultiLine *ptr)
     {
-     Used(ptr);
-
-     printf("MultiLine o#; = { ",index);
-
-     printf(" };\n\n");
+     printf("MultiLine #; = { #; , #; , #; , #; };\n\n",index
+                                                       ,ptr->name
+                                                       ,ptr->open
+                                                       ,ptr->line_space
+                                                       ,ptr->first_line_space);
     }
 
   public:
@@ -489,9 +567,9 @@ class Book::SaveContext : NoCopy
 
    void print(Doc *doc)
     {
-     printf("Doc Data = { #; , #; , #; , ",DDLPrintableString(doc->title)
-                                          ,PrintOptColor(doc->back)
-                                          ,PrintOptColor(doc->fore));
+     printf("Doc Data = { #; , #; , #; , ",doc->title
+                                          ,doc->back
+                                          ,doc->fore);
 
      print(doc->start);
 
