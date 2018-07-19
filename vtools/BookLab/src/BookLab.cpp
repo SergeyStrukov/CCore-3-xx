@@ -116,12 +116,12 @@ struct Adapter<bool>
    }
  };
 
-template <>
-struct Adapter<Coord>
+template <OneOfTypes<Coord,int,ulen> T>
+struct Adapter<T>
  {
-  Coord data;
+  T data;
 
-  explicit Adapter(Coord obj) : data(obj) {}
+  explicit Adapter(T obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
@@ -129,101 +129,82 @@ struct Adapter<Coord>
    }
  };
 
-template <auto Def>
-struct Adapter<OptData<bool,Def> >
- {
-  bool data;
-  bool def;
-
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
-
-  void print(PrinterType &out) const
-   {
-    Printf(out,"{ #; , #; }",DDLBool(def),DDLBool(data));
-   }
- };
-
-template <auto Def>
-struct Adapter<OptData<Effect,Def> >
+template <>
+struct Adapter<Effect>
  {
   Effect data;
-  bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(Effect obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; }",DDLBool(def),(uint8)data);
+    Putobj(out,(uint8)data);
    }
  };
 
-template <auto Def>
-struct Adapter<OptData<Align,Def> >
+template <>
+struct Adapter<Align>
  {
   Align data;
-  bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(Align obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; }",DDLBool(def),(uint8)data);
+    Putobj(out,(uint8)data);
    }
  };
 
-template <auto Def>
-struct Adapter<OptData<VColor,Def> >
+template <>
+struct Adapter<VColor>
  {
   VColor data;
-  bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(VColor obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; }",DDLBool(def),(uint32)data);
+    Putobj(out,(uint32)data);
    }
  };
 
-template <auto Def>
-struct Adapter<OptData<Point,Def> >
+template <>
+struct Adapter<Point>
  {
   Point data;
-  bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(Point obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.x,data.y);
+    Printf(out,"{ #; , #; }",data.x,data.y);
    }
  };
 
-template <auto Def>
-struct Adapter<OptData<Ratio,Def> >
+template <>
+struct Adapter<Ratio>
  {
   Ratio data;
-  bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(Ratio obj) : data(obj) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , { #; , #; } }",DDLBool(def),data.a,data.b);
+    Printf(out,"{ #; , #; }",data.a,data.b);
    }
  };
 
-template <OneOfTypes<Coord,int,ulen> T,auto Def>
+template <class T,auto Def>
 struct Adapter<OptData<T,Def> >
  {
-  Coord data;
+  T data;
   bool def;
 
-  explicit Adapter(const auto &obj) : data(obj.data),def(obj.def) {}
+  explicit Adapter(const OptData<T,Def> &obj) : data(obj.data),def(obj.def) {}
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{ #; , #; }",DDLBool(def),data);
+    Printf(out,"{ #; , #; }",DDLBool(def), Adapter<T>(data) );
    }
  };
 
@@ -258,7 +239,7 @@ struct Adapter<BindCtx<Ctx,NamedPtr<T> > >
       }
     else
       {
-       Printf(out,"{ null , null }");
+       Putobj(out,"{ null , null }"_c);
       }
    }
  };
@@ -288,41 +269,8 @@ struct Adapter<BindCtx<Ctx,NamedPtr<TT...> > >
       }
     else
       {
-       Printf(out,"{ null , null }");
+       Putobj(out,"{ null , null }"_c);
       }
-   }
- };
-
-template <class Ctx>
-struct Adapter<BindCtx<Ctx,ElementList> >
- {
-  const BindCtx<Ctx,ElementList> &bind;
-
-  explicit Adapter(const BindCtx<Ctx,ElementList> &bind_) : bind(bind_) {}
-
-  void print(PrinterType &out) const
-   {
-    Printf(out,"{\n");
-
-    bool flag=false;
-
-    for(Element *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next))
-      {
-       auto objptr=ptr->ptr.getPtr();
-
-       if( +objptr )
-         {
-          Index index=bind.ctx->getIndex();
-
-          if( !Change(flag,true) ) Printf(out,",\n");
-
-          AdaptPrintf(out,"& #;",index);
-
-          bind.ctx->queueCast(index,objptr);
-         }
-      }
-
-    Printf(out,"\n}\n");
    }
  };
 
@@ -345,7 +293,7 @@ struct Adapter<BindCtx<Ctx,Defaults> >
       }
     else
       {
-       Printf(out,"null");
+       Putobj(out,"null"_c);
       }
    }
 
@@ -354,7 +302,7 @@ struct Adapter<BindCtx<Ctx,Defaults> >
     if( +objptr )
       objptr.apply( [&] (auto *ptr) { printPtr(out,ptr); } );
     else
-      Printf(out,"null");
+      Putobj(out,"null"_c);
    }
 
   void print(PrinterType &out) const
@@ -368,35 +316,68 @@ struct Adapter<BindCtx<Ctx,Defaults> >
 
     printPtr(out,SafePtr(defs.singleLine));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.doubleLine));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.collapseFormat));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.bulletFormat));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.border));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.textFormat));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printPtr(out,SafePtr(defs.fixedFormat));
 
-    Printf(out," , ");
+    Putobj(out," , "_c);
 
     printAnyPtr(out,defs.placement.getPtr());
 
-    Printf(out," }");
+    Putobj(out," }"_c);
+   }
+ };
+
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,ElementList> >
+ {
+  const BindCtx<Ctx,ElementList> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,ElementList> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    Putobj(out,"\n\n{\n"_c);
+
+    bool flag=false;
+
+    for(Element *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next))
+      {
+       auto objptr=ptr->ptr.getPtr();
+
+       if( +objptr )
+         {
+          Index index=bind.ctx->getIndex();
+
+          if( !Change(flag,true) ) Putobj(out,",\n"_c);
+
+          AdaptPrintf(out,"& #;",index);
+
+          bind.ctx->queueCast(index,objptr);
+         }
+      }
+
+    Putobj(out,"\n}\n\n"_c);
    }
  };
 
@@ -409,7 +390,7 @@ struct Adapter<BindCtx<Ctx,FrameList> >
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{\n\n{\n");
+    Putobj(out,"{\n\n{\n"_c);
 
     bool flag=false;
 
@@ -420,7 +401,7 @@ struct Adapter<BindCtx<Ctx,FrameList> >
 
     for(Frame *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next),ind++)
       {
-       if( !Change(flag,true) ) Printf(out,",\n");
+       if( !Change(flag,true) ) Putobj(out,",\n"_c);
 
        AdaptPrintf(out,"{ #; , #; , #; , #; , #; }",ptr->inner
                                                    ,ptr->outer
@@ -431,7 +412,7 @@ struct Adapter<BindCtx<Ctx,FrameList> >
        if( ptr==curptr ) cur=ind;
       }
 
-    Printf(out,"\n} ,\n\n #; }",cur);
+    Printf(out,"\n}\n\n , #; }",cur);
    }
  };
 
@@ -444,7 +425,7 @@ struct Adapter<BindCtx<Ctx,ItemList> >
 
   void print(PrinterType &out) const
    {
-    Printf(out,"{\n\n{\n");
+    Putobj(out,"{\n\n{\n"_c);
 
     bool flag=false;
 
@@ -455,7 +436,7 @@ struct Adapter<BindCtx<Ctx,ItemList> >
 
     for(Item *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next),ind++)
       {
-       if( !Change(flag,true) ) Printf(out,",\n");
+       if( !Change(flag,true) ) Putobj(out,",\n"_c);
 
        AdaptPrintf(out,"{ #; , #; }",ptr->bullet
                                     ,bind.ctx->bind(ptr->list));
@@ -463,7 +444,7 @@ struct Adapter<BindCtx<Ctx,ItemList> >
        if( ptr==curptr ) cur=ind;
       }
 
-    Printf(out,"\n} ,\n\n #; }",cur);
+    Printf(out,"\n}\n\n , #; }",cur);
    }
  };
 
@@ -545,6 +526,44 @@ class Book::SaveContext : public NextIndex
 
    auto bind(const auto &obj) { return BindCtx(this,obj); }
 
+   template <class R>
+   void printRange(R r)
+    {
+     printf("\n\n{\n");
+
+     {
+      bool flag=false;
+
+      for(const auto &obj : r )
+        {
+         if( !Change(flag,true) ) printf(",\n");
+
+         printf("#;",obj);
+        }
+     }
+
+     printf("\n}\n\n");
+    }
+
+   template <class R>
+   void printRangeBind(R r)
+    {
+     printf("\n\n{\n");
+
+     {
+      bool flag=false;
+
+      for(const auto &obj : r )
+        {
+         if( !Change(flag,true) ) printf(",\n");
+
+         printf("#;",bind(obj));
+        }
+     }
+
+     printf("\n}\n\n");
+    }
+
   private:
 
    void print(Index index,Font *ptr)
@@ -605,19 +624,19 @@ class Book::SaveContext : public NextIndex
 
    void print(Index index,Scope *ptr)
     {
-     printf("Scope #; = { #; , #; , #; ,\n\n#;\n};\n\n",index
-                                                       ,ptr->name
-                                                       ,ptr->open
-                                                       ,bind(ptr->defs)
-                                                       ,bind(ptr->list));
+     printf("Scope #; = { #; , #; , #; , #; };\n\n",index
+                                                   ,ptr->name
+                                                   ,ptr->open
+                                                   ,bind(ptr->defs)
+                                                   ,bind(ptr->list));
     }
 
    void print(Index index,Section *ptr)
     {
-     printf("Section #; = { #; , #; ,\n\n#;\n};\n\n",index
-                                                    ,ptr->open
-                                                    ,ptr->comment
-                                                    ,bind(ptr->list));
+     printf("Section #; = { #; , #; , #; };\n\n",index
+                                                ,ptr->open
+                                                ,ptr->comment
+                                                ,bind(ptr->list));
     }
 
    void print(Index index,Bitmap *ptr)
@@ -650,45 +669,15 @@ class Book::SaveContext : public NextIndex
                                                                 ,bind(ptr->list));
     }
 
-   void print(Index index,Table *ptr)
+   void print(Index index,Border *ptr)
     {
-     printf("Table #; = { #; , #; , #; , #; ,\n\n",index
-                                                  ,ptr->name
-                                                  ,ptr->open
-                                                  ,bind(ptr->border)
-                                                  ,ptr->hard);
+     printf("Border #; = { #; , #; , #; , #; , #; };\n\n",index
+                                                         ,ptr->name
+                                                         ,ptr->open
+                                                         ,ptr->space
+                                                         ,ptr->width
+                                                         ,ptr->line);
 
-     printf("{\n");
-
-     {
-      bool flag=false;
-
-      for(auto w : ptr->width )
-        {
-         if( !Change(flag,true) ) printf(",\n");
-
-         printf("#;",w);
-        }
-     }
-
-     printf("\n} ,\n\n");
-
-     printf("{\n");
-
-     {
-      bool flag=false;
-
-      for(const auto &elem : ptr->table )
-        {
-         if( !Change(flag,true) ) printf(",\n");
-
-         printf("#;",bind(elem));
-        }
-     }
-
-     printf("\n} ,\n\n");
-
-     printf(" };\n\n");
     }
 
    void print(Index index,Cell *ptr)
@@ -701,26 +690,21 @@ class Book::SaveContext : public NextIndex
                                                        ,bind(ptr->list));
     }
 
-   void print(Index index,Text *ptr) // TODO
+   void print(Index index,Table *ptr)
     {
-     printf("Text #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
-    }
+     printf("Table #; = { #; , #; , #; , #; , ",index
+                                               ,ptr->name
+                                               ,ptr->open
+                                               ,bind(ptr->border)
+                                               ,ptr->hard);
 
-   void print(Index index,FixedText *ptr) // TODO
-    {
-     printf("FixedText #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
-    }
+     printRange(Range(ptr->width));
 
+     printf(" , ");
 
-   void print(Index index,Border *ptr)
-    {
-     printf("Border #; = { #; , #; , #; , #; , #; };\n\n",index
-                                                         ,ptr->name
-                                                         ,ptr->open
-                                                         ,ptr->space
-                                                         ,ptr->width
-                                                         ,ptr->line);
+     printRangeBind(Range(ptr->table));
 
+     printf(" };\n\n");
     }
 
    void print(Index index,OneLine *ptr)
@@ -740,18 +724,30 @@ class Book::SaveContext : public NextIndex
                                                        ,ptr->first_line_space);
     }
 
+
+   void print(Index index,Text *ptr) // TODO
+    {
+     printf("Text #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
+    }
+
+   void print(Index index,FixedText *ptr) // TODO
+    {
+     printf("FixedText #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
+    }
+
+
   public:
 
    explicit SaveContext(PrintBase &out_) : out(out_) {}
 
    void print(Doc *doc)
     {
-     printf("Doc Data = { #; , #; , #; , #; , #; ,\n\n#;\n};\n\n",doc->title
-                                                                 ,doc->back
-                                                                 ,doc->fore
-                                                                 ,bind(doc->start)
-                                                                 ,bind(doc->defs)
-                                                                 ,bind(doc->list));
+     printf("Doc Data = { #; , #; , #; , #; , #; , #; };\n\n",doc->title
+                                                             ,doc->back
+                                                             ,doc->fore
+                                                             ,bind(doc->start)
+                                                             ,bind(doc->defs)
+                                                             ,bind(doc->list));
 
      printQueue();
     }
@@ -784,7 +780,7 @@ class Book::BookContext : NoCopy
        {
         unsigned index=getIndex();
 
-        Putobj(out,"& Doc##ANONYM#;"_c,index);
+        Printf(out,"& Doc##ANONYM#;",index);
 
         // TODO
        }
