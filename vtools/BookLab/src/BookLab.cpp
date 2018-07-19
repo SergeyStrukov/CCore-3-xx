@@ -227,6 +227,147 @@ struct Adapter<OptData<T,Def> >
    }
  };
 
+template <class T>
+auto Adapt(const T &obj) { return Adapter<T>(obj); }
+
+template <class Ctx,class T>
+struct Adapter<BindCtx<Ctx,NamedPtr<T> > >
+ {
+  const BindCtx<Ctx,NamedPtr<T> > &bind;
+
+  explicit Adapter(const BindCtx<Ctx,NamedPtr<T> > &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    auto &ref=bind.obj;
+
+    if( ref.hasName() )
+      {
+       Printf(out,"{ #; , null }",Adapt(ref.name));
+      }
+    else if( ref.hasObj() )
+      {
+       unsigned index=bind.ctx->getIndex();
+
+       Printf(out,"{ null , & #; }",Adapt(index));
+
+       bind.ctx->queue(index,ref.ptr.getPtr());
+      }
+    else
+      {
+       Printf(out,"{ null , null }");
+      }
+   }
+ };
+
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,ElementList> >
+ {
+  const BindCtx<Ctx,ElementList> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,ElementList> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{\n");
+
+    bool flag=false;
+
+    for(Element *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next))
+      {
+       auto objptr=ptr->ptr.getPtr();
+
+       if( +objptr )
+         {
+          unsigned index=bind.ctx->getIndex();
+
+          if( Change(flag,true) )
+            Printf(out,"& #;",Adapt(index));
+          else
+            Printf(out,",\n& #;",Adapt(index));
+
+          bind.ctx->queueCast(index,objptr);
+         }
+      }
+
+    Printf(out,"\n}\n");
+   }
+ };
+
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,Defaults> >
+ {
+  const BindCtx<Ctx,Defaults> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,Defaults> &bind_) : bind(bind_) {}
+
+  void printPtr(PrinterType &out,auto *ptr) const
+   {
+    if( ptr )
+      {
+       unsigned index=bind.ctx->getIndex();
+
+       Printf(out,"& #;",Adapt(index));
+
+       bind.ctx->queue(index,ptr);
+      }
+    else
+      {
+       Printf(out,"null");
+      }
+   }
+
+  void printAnyPtr(PrinterType &out,AnyPtr<OneLine,MultiLine> objptr) const
+   {
+    if( +objptr )
+      objptr.apply( [&] (auto *ptr) { printPtr(out,ptr); } );
+    else
+      Printf(out,"null");
+   }
+
+  void print(PrinterType &out) const
+   {
+    auto &defs=bind.obj;
+
+    Printf(out,"{ #; , #; , #; , #; , ",Adapt(defs.inner)
+                                       ,Adapt(defs.outer)
+                                       ,Adapt(defs.bulletSpace)
+                                       ,Adapt(defs.itemSpace));
+
+    printPtr(out,SafePtr(defs.singleLine));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.doubleLine));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.collapseFormat));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.bulletFormat));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.border));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.textFormat));
+
+    Printf(out," , ");
+
+    printPtr(out,SafePtr(defs.fixedFormat));
+
+    Printf(out," , ");
+
+    printAnyPtr(out,defs.placement.getPtr());
+
+    Printf(out," }");
+   }
+ };
+
 } // namespace SaveAdapter
 
 /* class Book::SaveContext */
@@ -275,6 +416,12 @@ class Book::SaveContext : NoCopy
      list.insLast(Rec{index,objptr});
     }
 
+   template <class ... TT>
+   void queueCast(unsigned index,AnyPtr<TT...> objptr)
+    {
+     queue(index,CastAnyPtr<ObjPtr>(objptr));
+    }
+
    void printAny(unsigned index,ObjPtr objptr)
     {
      objptr.apply( [&] (auto *ptr) { print(index,ptr); } );
@@ -294,115 +441,10 @@ class Book::SaveContext : NoCopy
 
   private:
 
-   void printPtr(auto *ptr)
-    {
-     if( ptr )
-       {
-        unsigned index=getIndex();
+   template <class T>
+   friend struct SaveAdapter::Adapter;
 
-        printf("& #;",index);
-
-        queue(index,ptr);
-       }
-     else
-       {
-        printf("null");
-       }
-    }
-
-   void printAnyPtr(AnyPtr<OneLine,MultiLine> objptr)
-    {
-     if( +objptr )
-       objptr.apply( [&] (auto *ptr) { printPtr(ptr); } );
-     else
-       printf("null");
-    }
-
-   void print(const NamedPtr<auto> &ref)
-    {
-     if( ref.hasName() )
-       {
-        printf("{ #; , null }",ref.name);
-       }
-     else if( ref.hasObj() )
-       {
-        unsigned index=getIndex();
-
-        printf("{ null , & #; }",index);
-
-        queue(index,ref.ptr.getPtr());
-       }
-     else
-       {
-        printf("{ null , null }");
-       }
-    }
-
-   void print(const Defaults &defs)
-    {
-     printf("{ #; , #; , #; , #; , ",defs.inner
-                                    ,defs.outer
-                                    ,defs.bulletSpace
-                                    ,defs.itemSpace);
-
-     printPtr(SafePtr(defs.singleLine));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.doubleLine));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.collapseFormat));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.bulletFormat));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.border));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.textFormat));
-
-     printf(" , ");
-
-     printPtr(SafePtr(defs.fixedFormat));
-
-     printf(" , ");
-
-     printAnyPtr(defs.placement.getPtr());
-
-     printf(" }");
-    }
-
-   void print(const ElementList &list)
-    {
-     printf("{\n");
-
-     bool flag=false;
-
-     for(Element *ptr=SafePtr(list.beg); ptr ;ptr=SafePtr(ptr->next))
-       {
-        ObjPtr objptr=CastAnyPtr<ObjPtr>(ptr->ptr.getPtr());
-
-        if( +objptr )
-          {
-           unsigned index=getIndex();
-
-           if( Change(flag,true) )
-             printf("& #;",index);
-           else
-             printf(",\n& #;",index);
-
-           queue(index,objptr);
-          }
-       }
-
-     printf("\n}\n");
-    }
+   auto bind(const auto &obj) { return BindCtx(this,obj); }
 
   private:
 
@@ -420,15 +462,13 @@ class Book::SaveContext : NoCopy
 
    void print(unsigned index,Format *ptr)
     {
-     printf("Format #; = { #; , #; , ",index
-                                      ,ptr->name
-                                      ,ptr->open);
-
-     print(ptr->font);
-
-     printf(" , #; , #; , #; };\n\n",ptr->back
-                                    ,ptr->fore
-                                    ,ptr->effect);
+     printf("Format #; = { #; , #; , #; , #; , #; , #; };\n\n",index
+                                                              ,ptr->name
+                                                              ,ptr->open
+                                                              ,bind(ptr->font)
+                                                              ,ptr->back
+                                                              ,ptr->fore
+                                                              ,ptr->effect);
     }
 
    void print(unsigned index,SingleLine *ptr)
@@ -567,21 +607,12 @@ class Book::SaveContext : NoCopy
 
    void print(Doc *doc)
     {
-     printf("Doc Data = { #; , #; , #; , ",doc->title
-                                          ,doc->back
-                                          ,doc->fore);
-
-     print(doc->start);
-
-     printf(" , ");
-
-     print(doc->defs);
-
-     printf(" ,\n\n");
-
-     print(doc->list);
-
-     printf("\n};\n\n");
+     printf("Doc Data = { #; , #; , #; , #; , #; ,\n\n#;\n};\n\n",doc->title
+                                                                 ,doc->back
+                                                                 ,doc->fore
+                                                                 ,bind(doc->start)
+                                                                 ,bind(doc->defs)
+                                                                 ,bind(doc->list));
 
      printQueue();
     }

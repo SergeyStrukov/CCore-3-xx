@@ -60,6 +60,8 @@ auto SafePtr(Ptr &ptr)
 
 /* classes */
 
+template <class Ctx,class T> struct BindCtx;
+
 struct Ratio;
 
 template <class T,T Def()=DefNull> struct OptData;
@@ -128,6 +130,17 @@ struct Text;
 
 
 class Book;
+
+/* struct BindCtx<Ctx,T> */
+
+template <class Ctx,class T>
+struct BindCtx
+ {
+  Ctx *ctx;
+  const T &obj;
+
+  BindCtx(Ctx *ctx_,const T &obj_) : ctx(ctx_),obj(obj_) {}
+ };
 
 /* struct Ratio */
 
