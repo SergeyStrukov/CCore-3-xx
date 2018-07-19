@@ -78,6 +78,19 @@ namespace SaveAdapter {
 template <class T> struct Adapter;
 
 template <>
+struct Adapter<Index>
+ {
+  Index data;
+
+  explicit Adapter(Index obj) : data(obj) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"o#;",data.index);
+   }
+ };
+
+template <>
 struct Adapter<String>
  {
   DDLPrintableString data;
@@ -113,19 +126,6 @@ struct Adapter<Coord>
   void print(PrinterType &out) const
    {
     Putobj(out,data);
-   }
- };
-
-template <>
-struct Adapter<unsigned>
- {
-  unsigned data;
-
-  explicit Adapter(unsigned obj) : data(obj) {}
-
-  void print(PrinterType &out) const
-   {
-    Printf(out,"o#;",data);
    }
  };
 
@@ -250,7 +250,7 @@ struct Adapter<BindCtx<Ctx,NamedPtr<T> > >
       }
     else if( ref.hasObj() )
       {
-       unsigned index=bind.ctx->getIndex();
+       Index index=bind.ctx->getIndex();
 
        AdaptPrintf(out,"{ null , & #; }",index);
 
@@ -280,7 +280,7 @@ struct Adapter<BindCtx<Ctx,NamedPtr<TT...> > >
       }
     else if( ref.hasObj() )
       {
-       unsigned index=bind.ctx->getIndex();
+       Index index=bind.ctx->getIndex();
 
        AdaptPrintf(out,"{ null , & #; }",index);
 
@@ -312,7 +312,7 @@ struct Adapter<BindCtx<Ctx,ElementList> >
 
        if( +objptr )
          {
-          unsigned index=bind.ctx->getIndex();
+          Index index=bind.ctx->getIndex();
 
           if( !Change(flag,true) ) Printf(out,",\n");
 
@@ -337,7 +337,7 @@ struct Adapter<BindCtx<Ctx,Defaults> >
    {
     if( ptr )
       {
-       unsigned index=bind.ctx->getIndex();
+       Index index=bind.ctx->getIndex();
 
        AdaptPrintf(out,"& #;",index);
 
@@ -469,20 +469,34 @@ struct Adapter<BindCtx<Ctx,ItemList> >
 
 } // namespace SaveAdapter
 
+/* class NextIndex */
+
+Index NextIndex::getIndex()
+ {
+  unsigned ret=next_index;
+
+  if( !ret )
+    {
+     Printf(Exception,"App::BookLab::NextIndex::getIndex() : too many objects");
+    }
+
+  next_index++;
+
+  return {ret};
+ }
+
 /* class Book::SaveContext */
 
-class Book::SaveContext : NoCopy
+class Book::SaveContext : public NextIndex
  {
    PrintBase &out;
-
-   unsigned next_index = 1 ;
 
    using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText,
                          Border,OneLine,MultiLine,Cell> ;
 
    struct Rec
     {
-     unsigned index;
+     Index index;
      ObjPtr objptr;
     };
 
@@ -490,38 +504,24 @@ class Book::SaveContext : NoCopy
 
   private:
 
-   unsigned getIndex()
-    {
-     unsigned ret=next_index;
-
-     if( !ret )
-       {
-        Printf(Exception,"App::BookLab::Book::SaveContext::getIndex() : too many objects");
-       }
-
-     next_index++;
-
-     return ret;
-    }
-
    template <class ... TT>
    void printf(const char *format,const TT & ... tt)
     {
      Printf(out,format,SaveAdapter::Adapter<TT>(tt)...);
     }
 
-   void queue(unsigned index,ObjPtr objptr)
+   void queue(Index index,ObjPtr objptr)
     {
      list.insLast(Rec{index,objptr});
     }
 
    template <class ... TT>
-   void queueCast(unsigned index,AnyPtr<TT...> objptr)
+   void queueCast(Index index,AnyPtr<TT...> objptr)
     {
      queue(index,CastAnyPtr<ObjPtr>(objptr));
     }
 
-   void printAny(unsigned index,ObjPtr objptr)
+   void printAny(Index index,ObjPtr objptr)
     {
      objptr.apply( [&] (auto *ptr) { print(index,ptr); } );
     }
@@ -547,7 +547,7 @@ class Book::SaveContext : NoCopy
 
   private:
 
-   void print(unsigned index,Font *ptr)
+   void print(Index index,Font *ptr)
     {
      printf("Font #; = { #; , #; , #; , #; , #; , #; , #; };\n\n",index
                                                                  ,ptr->name
@@ -559,7 +559,7 @@ class Book::SaveContext : NoCopy
                                                                  ,ptr->strength);
     }
 
-   void print(unsigned index,Format *ptr)
+   void print(Index index,Format *ptr)
     {
      printf("Format #; = { #; , #; , #; , #; , #; , #; };\n\n",index
                                                               ,ptr->name
@@ -570,7 +570,7 @@ class Book::SaveContext : NoCopy
                                                               ,ptr->effect);
     }
 
-   void print(unsigned index,SingleLine *ptr)
+   void print(Index index,SingleLine *ptr)
     {
      printf("SingleLine #; = { #; , #; , #; , #; };\n\n",index
                                                         ,ptr->name
@@ -579,7 +579,7 @@ class Book::SaveContext : NoCopy
                                                         ,ptr->line);
     }
 
-   void print(unsigned index,DoubleLine *ptr)
+   void print(Index index,DoubleLine *ptr)
     {
      printf("DoubleLine #; = { #; , #; , #; , #; , #; };\n\n",index
                                                              ,ptr->name
@@ -589,7 +589,7 @@ class Book::SaveContext : NoCopy
                                                              ,ptr->snow);
     }
 
-   void print(unsigned index,Page *ptr)
+   void print(Index index,Page *ptr)
     {
      printf("Page #; = { #; , #; , #; , #; , #; , #; , #; , #; , #; };\n\n",index
                                                                            ,ptr->name
@@ -603,7 +603,7 @@ class Book::SaveContext : NoCopy
                                                                            ,bind(ptr->list));
     }
 
-   void print(unsigned index,Scope *ptr)
+   void print(Index index,Scope *ptr)
     {
      printf("Scope #; = { #; , #; , #; ,\n\n#;\n};\n\n",index
                                                        ,ptr->name
@@ -612,7 +612,7 @@ class Book::SaveContext : NoCopy
                                                        ,bind(ptr->list));
     }
 
-   void print(unsigned index,Section *ptr)
+   void print(Index index,Section *ptr)
     {
      printf("Section #; = { #; , #; ,\n\n#;\n};\n\n",index
                                                     ,ptr->open
@@ -620,14 +620,14 @@ class Book::SaveContext : NoCopy
                                                     ,bind(ptr->list));
     }
 
-   void print(unsigned index,Bitmap *ptr)
+   void print(Index index,Bitmap *ptr)
     {
      printf("Bitmap #; = { #; , #; };\n\n",index
                                           ,ptr->name
                                           ,ptr->file_name);
     }
 
-   void print(unsigned index,Collapse *ptr)
+   void print(Index index,Collapse *ptr)
     {
      printf("Collapse #; = { #; , #; , #; , #; , #; , #; , #; };\n\n",index
                                                                      ,ptr->name
@@ -639,7 +639,7 @@ class Book::SaveContext : NoCopy
                                                                      ,bind(ptr->list));
     }
 
-   void print(unsigned index,TextList *ptr)
+   void print(Index index,TextList *ptr)
     {
      printf("TextList #; = { #; , #; , #; , #; , #; , #; };\n\n",index
                                                                 ,ptr->name
@@ -650,7 +650,7 @@ class Book::SaveContext : NoCopy
                                                                 ,bind(ptr->list));
     }
 
-   void print(unsigned index,Table *ptr)
+   void print(Index index,Table *ptr)
     {
      printf("Table #; = { #; , #; , #; , #; ,\n\n",index
                                                   ,ptr->name
@@ -691,7 +691,7 @@ class Book::SaveContext : NoCopy
      printf(" };\n\n");
     }
 
-   void print(unsigned index,Cell *ptr)
+   void print(Index index,Cell *ptr)
     {
      printf("Cell #; = { #; , #; , #; , #; , #; };\n\n",index
                                                        ,ptr->name
@@ -701,18 +701,18 @@ class Book::SaveContext : NoCopy
                                                        ,bind(ptr->list));
     }
 
-   void print(unsigned index,Text *ptr) // TODO
+   void print(Index index,Text *ptr) // TODO
     {
      printf("Text #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
-   void print(unsigned index,FixedText *ptr) // TODO
+   void print(Index index,FixedText *ptr) // TODO
     {
      printf("FixedText #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
 
-   void print(unsigned index,Border *ptr)
+   void print(Index index,Border *ptr)
     {
      printf("Border #; = { #; , #; , #; , #; , #; };\n\n",index
                                                          ,ptr->name
@@ -723,7 +723,7 @@ class Book::SaveContext : NoCopy
 
     }
 
-   void print(unsigned index,OneLine *ptr)
+   void print(Index index,OneLine *ptr)
     {
      printf("OneLine #; = { #; , #; , #; };\n\n",index
                                                 ,ptr->name
@@ -731,7 +731,7 @@ class Book::SaveContext : NoCopy
                                                 ,ptr->align);
     }
 
-   void print(unsigned index,MultiLine *ptr)
+   void print(Index index,MultiLine *ptr)
     {
      printf("MultiLine #; = { #; , #; , #; , #; };\n\n",index
                                                        ,ptr->name

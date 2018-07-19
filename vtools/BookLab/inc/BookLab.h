@@ -60,8 +60,6 @@ auto SafePtr(Ptr &ptr)
 
 /* classes */
 
-template <class Ctx,class T> struct BindCtx;
-
 struct Ratio;
 
 template <class T,T Def()=DefNull> struct OptData;
@@ -129,18 +127,13 @@ struct MultiLine;
 struct Text;
 
 
+struct Index;
+
+class NextIndex;
+
+template <class Ctx,class T> struct BindCtx;
+
 class Book;
-
-/* struct BindCtx<Ctx,T> */
-
-template <class Ctx,class T>
-struct BindCtx
- {
-  Ctx *ctx;
-  const T &obj;
-
-  BindCtx(Ctx *ctx_,const T &obj_) : ctx(ctx_),obj(obj_) {}
- };
 
 /* struct Ratio */
 
@@ -758,6 +751,39 @@ struct Text : NamedObj
 
     list.apply(keeper);
    }
+ };
+
+//----------------------------------------------------------------------------------------
+
+/* struct Index */
+
+struct Index
+ {
+  unsigned index;
+ };
+
+/* class NextIndex */
+
+class NextIndex : NoCopy
+ {
+   unsigned next_index = 1 ;
+
+  public:
+
+   NextIndex() {}
+
+   Index getIndex();
+ };
+
+/* struct BindCtx<Ctx,T> */
+
+template <class Ctx,class T>
+struct BindCtx
+ {
+  Ctx *ctx;
+  const T &obj;
+
+  BindCtx(Ctx *ctx_,const T &obj_) : ctx(ctx_),obj(obj_) {}
  };
 
 /* class Book */
