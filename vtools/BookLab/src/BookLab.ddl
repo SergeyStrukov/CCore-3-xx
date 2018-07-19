@@ -89,6 +89,12 @@ struct OptInt
   int data;
  };
  
+struct OptULen
+ {
+  Bool def;
+  ulen data;
+ }; 
+ 
 //--- Ptrs ------------------------------------------------------------------------------- 
  
 struct PagePtr
@@ -119,7 +125,19 @@ struct FormatPtr
  {
   text name;
   Format *ptr;
- }; 
+ };
+ 
+struct BorderPtr
+ {
+  text name;
+  Border *ptr;
+ };
+ 
+struct CellPtr
+ {
+  text name;
+  Cell *ptr;
+ };   
  
 //--- Doc --------------------------------------------------------------------------------
  
@@ -265,11 +283,30 @@ struct Collapse
   FrameList list;
  };
 
-struct Item;
+struct Item
+ {
+  text bullet;
+  
+  FrameList list;
+ };
 
-struct ItemList;
+struct ItemList
+ {
+  Item[] list;
+  ulen cur;
+ };
 
-struct TextList;
+struct TextList
+ {
+  text name;
+  Bool open;
+  
+  FormatPtr format;
+  OptCoord bullet_space;
+  OptCoord item_space;
+  
+  ItemList list;
+ };
 
 struct Border
  {
@@ -281,9 +318,28 @@ struct Border
   OptColor line;
  };
 
-struct Cell;
+struct Cell
+ {
+  text name;
+  Bool open;
+  
+  OptULen span_x;
+  OptULen span_y;
+   
+  FrameList list;
+ };
 
-struct Table;
+struct Table
+ {
+  text name;
+  Bool open;
+  
+  BorderPtr border;
+  OptBool hard;
+  
+  Coord[] width;
+  CellPtr[] table;
+ };
 
 struct Link;
 

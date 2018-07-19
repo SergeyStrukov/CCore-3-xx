@@ -600,7 +600,7 @@ struct ItemList
 
 struct TextList : NamedObj
  {
-  NamedPtr<Format> format; // default: ?DefaultBulletFormat
+  NamedPtr<Format> format;     // default: ?DefaultBulletFormat
 
   OptData<Coord> bullet_space; // default: ?DefaultBulletSpace
   OptData<Coord> item_space;   // default: ?DefaultItemSpace
@@ -645,7 +645,7 @@ struct Cell : NamedObj
 
 struct Table : NamedObj
  {
-  NamedPtr<Border> border; // default: ?DefaultBorder
+  NamedPtr<Border> border;         // default: ?DefaultBorder
 
   OptData<bool> hard;
 
@@ -747,7 +747,7 @@ struct Text : NamedObj
  {
   NamedPtr<OneLine,MultiLine> placement; // default: ?DefaultPlacement
 
-  NamedPtr<Format> format; // default: ?DefaultFormat
+  NamedPtr<Format> format;               // default: ?DefaultFormat
 
   DynArray<Span> list;
 

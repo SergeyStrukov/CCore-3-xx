@@ -213,7 +213,7 @@ struct Adapter<OptData<Ratio,Def> >
    }
  };
 
-template <OneOfTypes<Coord,int> T,auto Def>
+template <OneOfTypes<Coord,int,ulen> T,auto Def>
 struct Adapter<OptData<T,Def> >
  {
   Coord data;
@@ -435,6 +435,38 @@ struct Adapter<BindCtx<Ctx,FrameList> >
    }
  };
 
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,ItemList> >
+ {
+  const BindCtx<Ctx,ItemList> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,ItemList> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{\n\n{\n");
+
+    bool flag=false;
+
+    ulen cur=0;
+    ulen ind=0;
+
+    Item *curptr=SafePtr(bind.obj.cur);
+
+    for(Item *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next),ind++)
+      {
+       if( !Change(flag,true) ) Printf(out,",\n");
+
+       AdaptPrintf(out,"{ #; , #; }",ptr->bullet
+                                    ,bind.ctx->bind(ptr->list));
+
+       if( ptr==curptr ) cur=ind;
+      }
+
+    Printf(out,"\n} ,\n\n #; }",cur);
+   }
+ };
+
 } // namespace SaveAdapter
 
 /* class Book::SaveContext */
@@ -446,7 +478,7 @@ class Book::SaveContext : NoCopy
    unsigned next_index = 1 ;
 
    using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText,
-                         Border,OneLine,MultiLine> ;
+                         Border,OneLine,MultiLine,Cell> ;
 
    struct Rec
     {
@@ -607,14 +639,66 @@ class Book::SaveContext : NoCopy
                                                                      ,bind(ptr->list));
     }
 
-   void print(unsigned index,TextList *ptr) // TODO
+   void print(unsigned index,TextList *ptr)
     {
-     printf("TextList #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
+     printf("TextList #; = { #; , #; , #; , #; , #; , #; };\n\n",index
+                                                                ,ptr->name
+                                                                ,ptr->open
+                                                                ,bind(ptr->format)
+                                                                ,ptr->bullet_space
+                                                                ,ptr->item_space
+                                                                ,bind(ptr->list));
     }
 
-   void print(unsigned index,Table *ptr) // TODO
+   void print(unsigned index,Table *ptr)
     {
-     printf("Table #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
+     printf("Table #; = { #; , #; , #; , #; ,\n\n",index
+                                                  ,ptr->name
+                                                  ,ptr->open
+                                                  ,bind(ptr->border)
+                                                  ,ptr->hard);
+
+     printf("{\n");
+
+     {
+      bool flag=false;
+
+      for(auto w : ptr->width )
+        {
+         if( !Change(flag,true) ) printf(",\n");
+
+         printf("#;",w);
+        }
+     }
+
+     printf("\n} ,\n\n");
+
+     printf("{\n");
+
+     {
+      bool flag=false;
+
+      for(const auto &elem : ptr->table )
+        {
+         if( !Change(flag,true) ) printf(",\n");
+
+         printf("#;",bind(elem));
+        }
+     }
+
+     printf("\n} ,\n\n");
+
+     printf(" };\n\n");
+    }
+
+   void print(unsigned index,Cell *ptr)
+    {
+     printf("Cell #; = { #; , #; , #; , #; , #; };\n\n",index
+                                                       ,ptr->name
+                                                       ,ptr->open
+                                                       ,ptr->span_x
+                                                       ,ptr->span_y
+                                                       ,bind(ptr->list));
     }
 
    void print(unsigned index,Text *ptr) // TODO
