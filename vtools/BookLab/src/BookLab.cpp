@@ -227,8 +227,11 @@ struct Adapter<OptData<T,Def> >
    }
  };
 
-template <class T>
-auto Adapt(const T &obj) { return Adapter<T>(obj); }
+template <class ... TT>
+void AdaptPrintf(PrinterType &out,const char *format,const TT & ... tt)
+ {
+  Printf(out,format,Adapter<TT>(tt)...);
+ }
 
 template <class Ctx,class T>
 struct Adapter<BindCtx<Ctx,NamedPtr<T> > >
@@ -243,15 +246,45 @@ struct Adapter<BindCtx<Ctx,NamedPtr<T> > >
 
     if( ref.hasName() )
       {
-       Printf(out,"{ #; , null }",Adapt(ref.name));
+       AdaptPrintf(out,"{ #; , null }",ref.name);
       }
     else if( ref.hasObj() )
       {
        unsigned index=bind.ctx->getIndex();
 
-       Printf(out,"{ null , & #; }",Adapt(index));
+       AdaptPrintf(out,"{ null , & #; }",index);
 
        bind.ctx->queue(index,ref.ptr.getPtr());
+      }
+    else
+      {
+       Printf(out,"{ null , null }");
+      }
+   }
+ };
+
+template <class Ctx,class ... TT>
+struct Adapter<BindCtx<Ctx,NamedPtr<TT...> > >
+ {
+  const BindCtx<Ctx,NamedPtr<TT...> > &bind;
+
+  explicit Adapter(const BindCtx<Ctx,NamedPtr<TT...> > &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    auto &ref=bind.obj;
+
+    if( ref.hasName() )
+      {
+       AdaptPrintf(out,"{ #; , null }",ref.name);
+      }
+    else if( ref.hasObj() )
+      {
+       unsigned index=bind.ctx->getIndex();
+
+       AdaptPrintf(out,"{ null , & #; }",index);
+
+       bind.ctx->queueCast(index,ref.ptr.getPtr());
       }
     else
       {
@@ -281,10 +314,9 @@ struct Adapter<BindCtx<Ctx,ElementList> >
          {
           unsigned index=bind.ctx->getIndex();
 
-          if( Change(flag,true) )
-            Printf(out,"& #;",Adapt(index));
-          else
-            Printf(out,",\n& #;",Adapt(index));
+          if( !Change(flag,true) ) Printf(out,",\n");
+
+          AdaptPrintf(out,"& #;",index);
 
           bind.ctx->queueCast(index,objptr);
          }
@@ -307,7 +339,7 @@ struct Adapter<BindCtx<Ctx,Defaults> >
       {
        unsigned index=bind.ctx->getIndex();
 
-       Printf(out,"& #;",Adapt(index));
+       AdaptPrintf(out,"& #;",index);
 
        bind.ctx->queue(index,ptr);
       }
@@ -329,10 +361,10 @@ struct Adapter<BindCtx<Ctx,Defaults> >
    {
     auto &defs=bind.obj;
 
-    Printf(out,"{ #; , #; , #; , #; , ",Adapt(defs.inner)
-                                       ,Adapt(defs.outer)
-                                       ,Adapt(defs.bulletSpace)
-                                       ,Adapt(defs.itemSpace));
+    AdaptPrintf(out,"{ #; , #; , #; , #; , ",defs.inner
+                                            ,defs.outer
+                                            ,defs.bulletSpace
+                                            ,defs.itemSpace);
 
     printPtr(out,SafePtr(defs.singleLine));
 
@@ -365,6 +397,41 @@ struct Adapter<BindCtx<Ctx,Defaults> >
     printAnyPtr(out,defs.placement.getPtr());
 
     Printf(out," }");
+   }
+ };
+
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,FrameList> >
+ {
+  const BindCtx<Ctx,FrameList> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,FrameList> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{\n\n{\n");
+
+    bool flag=false;
+
+    ulen cur=0;
+    ulen ind=0;
+
+    Frame *curptr=SafePtr(bind.obj.cur);
+
+    for(Frame *ptr=SafePtr(bind.obj.beg); ptr ;ptr=SafePtr(ptr->next),ind++)
+      {
+       if( !Change(flag,true) ) Printf(out,",\n");
+
+       AdaptPrintf(out,"{ #; , #; , #; , #; , #; }",ptr->inner
+                                                   ,ptr->outer
+                                                   ,ptr->col
+                                                   ,bind.ctx->bind(ptr->line)
+                                                   ,bind.ctx->bind(ptr->body));
+
+       if( ptr==curptr ) cur=ind;
+      }
+
+    Printf(out,"\n} ,\n\n #; }",cur);
    }
  };
 
@@ -490,86 +557,74 @@ class Book::SaveContext : NoCopy
                                                              ,ptr->snow);
     }
 
-
-   void print(unsigned index,Page *ptr) // TODO
+   void print(unsigned index,Page *ptr)
     {
-     Used(ptr);
-
-     printf("Page #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Page #; = { #; , #; , #; , #; , #; , #; , #; , #; , #; };\n\n",index
+                                                                           ,ptr->name
+                                                                           ,ptr->open
+                                                                           ,ptr->title
+                                                                           ,ptr->back
+                                                                           ,ptr->fore
+                                                                           ,bind(ptr->up)
+                                                                           ,bind(ptr->prev)
+                                                                           ,bind(ptr->next)
+                                                                           ,bind(ptr->list));
     }
 
-   void print(unsigned index,Scope *ptr) // TODO
+   void print(unsigned index,Scope *ptr)
     {
-     Used(ptr);
-
-     printf("Scope #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Scope #; = { #; , #; , #; ,\n\n#;\n};\n\n",index
+                                                       ,ptr->name
+                                                       ,ptr->open
+                                                       ,bind(ptr->defs)
+                                                       ,bind(ptr->list));
     }
 
-   void print(unsigned index,Section *ptr) // TODO
+   void print(unsigned index,Section *ptr)
     {
-     Used(ptr);
-
-     printf("Section #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Section #; = { #; , #; ,\n\n#;\n};\n\n",index
+                                                    ,ptr->open
+                                                    ,ptr->comment
+                                                    ,bind(ptr->list));
     }
 
-   void print(unsigned index,Bitmap *ptr) // TODO
+   void print(unsigned index,Bitmap *ptr)
     {
-     Used(ptr);
-
-     printf("Bitmap #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Bitmap #; = { #; , #; };\n\n",index
+                                          ,ptr->name
+                                          ,ptr->file_name);
     }
 
-   void print(unsigned index,Collapse *ptr) // TODO
+   void print(unsigned index,Collapse *ptr)
     {
-     Used(ptr);
-
-     printf("Collapse #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Collapse #; = { #; , #; , #; , #; , #; , #; , #; };\n\n",index
+                                                                     ,ptr->name
+                                                                     ,ptr->open
+                                                                     ,ptr->title
+                                                                     ,bind(ptr->format)
+                                                                     ,ptr->openlist
+                                                                     ,ptr->hide
+                                                                     ,bind(ptr->list));
     }
 
    void print(unsigned index,TextList *ptr) // TODO
     {
-     Used(ptr);
-
-     printf("TextList #; = { ",index);
-
-     printf(" };\n\n");
+     printf("TextList #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
    void print(unsigned index,Table *ptr) // TODO
     {
-     Used(ptr);
-
-     printf("Table #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Table #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
    void print(unsigned index,Text *ptr) // TODO
     {
-     Used(ptr);
-
-     printf("Text #; = { ",index);
-
-     printf(" };\n\n");
+     printf("Text #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
    void print(unsigned index,FixedText *ptr) // TODO
     {
-     Used(ptr);
-
-     printf("FixedText #; = { ",index);
-
-     printf(" };\n\n");
+     printf("FixedText #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
     }
 
 

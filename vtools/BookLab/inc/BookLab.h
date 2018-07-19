@@ -197,6 +197,28 @@ struct NamedPtr<TT...>
   String name;
   IntAnyObjPtr<TT...> ptr;
 
+  //
+  // !name && !ptr => default
+  //
+  // !name && +ptr => anonym
+  //
+  // +name && !ptr => name is not resolved
+  //
+  // +name && +ptr => name is resolved to ptr
+  //
+
+  bool isDef() const { return !Range(name) && !ptr ; }
+
+  bool isAnonym() const { return !Range(name) && +ptr ; }
+
+  bool hasName() const { return +Range(name); }
+
+  bool hasObj() const { return +ptr; }
+
+  bool notResolved() const { return +Range(name) && !ptr ; }
+
+  bool isResolved() const { return +Range(name) && +ptr ; }
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -461,7 +483,7 @@ struct Section
 
   // data
 
-  String text;
+  String comment;
 
   ElementList list;
 
@@ -525,7 +547,7 @@ struct Collapse : NamedObj
 
   String title;
   NamedPtr<Format> format; // default: ?DefaultCollapseFormat
-  bool one = true ;
+  bool openlist = true ;
   OptData<bool,DefTrue> hide;
 
   FrameList list;

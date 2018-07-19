@@ -101,6 +101,24 @@ struct FontPtr
  {
   text name;
   Font *ptr;
+ };
+ 
+struct LinePtr
+ {
+  text name;
+  {SingleLine,DoubleLine} *ptr;
+ };  
+ 
+struct BodyPtr
+ {
+  text name;
+  {Bitmap,Collapse,TextList,Table,Text,FixedText} *ptr;
+ }; 
+ 
+struct FormatPtr
+ {
+  text name;
+  Format *ptr;
  }; 
  
 //--- Doc --------------------------------------------------------------------------------
@@ -134,10 +152,6 @@ struct Doc
   
   Element[] list;
  };
-
-struct Scope;
-
-struct Section;
 
 //--- Meat -------------------------------------------------------------------------------
 
@@ -180,15 +194,76 @@ struct DoubleLine
   OptColor snow;
  };
 
-struct Frame;
+struct Frame
+ {
+  OptPoint inner;
+  OptPoint outer;
+  OptColor col;
+  
+  LinePtr line;
+  BodyPtr body;
+ };
 
-struct FrameList;
+struct FrameList
+ {
+  Frame[] list;
+  ulen cur;
+ };
 
-struct Page;
+struct Page
+ {
+  text name;
+  Bool open;
+  
+  text title;
+  OptColor back;
+  OptColor fore;
+  
+  PagePtr up;
+  PagePtr prev;
+  PagePtr next;
+  
+  FrameList list;
+ };
 
-struct Bitmap;
+struct Scope
+ {
+  text name;
+  Bool open;
+  
+  Defaults defs;
+  
+  Element[] list;
+ };
 
-struct Collapse;
+struct Section
+ {
+  Bool open;
+  
+  text comment;
+  
+  Element[] list;
+ };
+
+struct Bitmap
+ {
+  text name;
+  
+  text file_name;
+ };
+
+struct Collapse
+ {
+  text name;
+  Bool open;
+  
+  text title;
+  FormatPtr format;
+  Bool onelist;
+  OptBool hide;
+  
+  FrameList list;
+ };
 
 struct Item;
 
