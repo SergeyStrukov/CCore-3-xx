@@ -177,7 +177,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
     {
      place=place_;
 
-     layout();
+     try { layout(); } catch(...) {}
     }
 
    // host methods
@@ -255,6 +255,10 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
     {
      // do nothing
     }
+
+   void safe_open() { try { open(); } catch(...) {} }
+
+   void safe_close() { try { close(); } catch(...) {} }
 
    // keyboard
 

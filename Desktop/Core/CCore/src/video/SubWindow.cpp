@@ -95,7 +95,7 @@ bool WindowList::insTop(SubWindow *sub_win)
 
   sub_win->list=this;
 
-  if( is_opened ) sub_win->open();
+  if( is_opened ) sub_win->safe_open();
 
   return true;
  }
@@ -116,7 +116,7 @@ bool WindowList::insBottom(SubWindow *sub_win)
 
   sub_win->list=this;
 
-  if( is_opened ) sub_win->open();
+  if( is_opened ) sub_win->safe_open();
 
   return true;
  }
@@ -151,7 +151,7 @@ bool WindowList::del(SubWindow *sub_win)
      enter=0;
     }
 
-  if( is_opened ) sub_win->close();
+  if( is_opened ) sub_win->safe_close();
 
   return true;
  }
@@ -201,7 +201,7 @@ void WindowList::insAfter(SubWindow *that,SubWindow *sub_win)
 
      sub_win->list=this;
 
-     if( is_opened ) sub_win->open();
+     if( is_opened ) sub_win->safe_open();
     }
  }
 
@@ -228,7 +228,7 @@ void WindowList::insBefore(SubWindow *that,SubWindow *sub_win)
 
      sub_win->list=this;
 
-     if( is_opened ) sub_win->open();
+     if( is_opened ) sub_win->safe_open();
     }
  }
 
@@ -238,7 +238,7 @@ void WindowList::delAll()
 
   if( is_opened )
     {
-     for(auto cur=list.start(); +cur ;++cur) try { cur->close(); } catch(...) {}
+     for(auto cur=list.start(); +cur ;++cur) cur->safe_close();
     }
 
   list.init();
@@ -441,14 +441,14 @@ void WindowList::open() noexcept
   has_focus=false;
   is_opened=true;
 
-  for(auto cur=list.start(); +cur ;++cur) try { cur->open(); } catch(...) {}
+  for(auto cur=list.start(); +cur ;++cur) cur->safe_open();
  }
 
 void WindowList::close() noexcept
  {
   is_opened=false;
 
-  for(auto cur=list.start(); +cur ;++cur) try { cur->close(); } catch(...) {}
+  for(auto cur=list.start(); +cur ;++cur) cur->safe_close();
  }
 
  // keyboard

@@ -448,6 +448,45 @@ struct Adapter<BindCtx<Ctx,ItemList> >
    }
  };
 
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,TextLine> >
+ {
+  const BindCtx<Ctx,TextLine> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,TextLine> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    Putobj(out,"\n\n{\n"_c);
+
+    bool flag=false;
+
+    for(const Span &span : bind.obj.list )
+      {
+       if( !Change(flag,true) ) Putobj(out,",\n"_c);
+
+       AdaptPrintf(out,"#;",bind.ctx->bind(span));
+      }
+
+    Putobj(out,"\n}\n\n"_c);
+   }
+ };
+
+template <class Ctx>
+struct Adapter<BindCtx<Ctx,Span> >
+ {
+  const BindCtx<Ctx,Span> &bind;
+
+  explicit Adapter(const BindCtx<Ctx,Span> &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    const Span &span=bind.obj;
+
+    AdaptPrintf(out,"{ #; , #; , #; }",span.body,bind.ctx->bind(span.format),bind.ctx->bind(span.ref));
+   }
+ };
+
 } // namespace SaveAdapter
 
 /* class NextIndex */
@@ -473,7 +512,7 @@ class Book::SaveContext : public NextIndex
    PrintBase &out;
 
    using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText,
-                         Border,OneLine,MultiLine,Cell> ;
+                         Border,OneLine,MultiLine,Cell,Link> ;
 
    struct Rec
     {
@@ -707,6 +746,18 @@ class Book::SaveContext : public NextIndex
      printf(" };\n\n");
     }
 
+   void print(Index index,Link *ptr)
+    {
+     printf("Link #; = { #; , #; , #; , ",index
+                                         ,ptr->name
+                                         ,ptr->open
+                                         ,bind(ptr->page));
+
+     printRange(Range(ptr->index_list));
+
+     printf(" };\n\n");
+    }
+
    void print(Index index,OneLine *ptr)
     {
      printf("OneLine #; = { #; , #; , #; };\n\n",index
@@ -724,17 +775,30 @@ class Book::SaveContext : public NextIndex
                                                        ,ptr->first_line_space);
     }
 
-
-   void print(Index index,Text *ptr) // TODO
+   void print(Index index,FixedText *ptr)
     {
-     printf("Text #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
+     printf("FixedText #; = { #; , #; , #; , ",index
+                                              ,ptr->name
+                                              ,ptr->open
+                                              ,bind(ptr->format));
+
+     printRangeBind(Range(ptr->list));
+
+     printf(" };\n\n");
     }
 
-   void print(Index index,FixedText *ptr) // TODO
+   void print(Index index,Text *ptr)
     {
-     printf("FixedText #; = { #; , #; };\n\n",index,ptr->name,ptr->open);
-    }
+     printf("Text #; = { #; , #; , #; , #; , ",index
+                                              ,ptr->name
+                                              ,ptr->open
+                                              ,bind(ptr->placement)
+                                              ,bind(ptr->format));
 
+     printRangeBind(Range(ptr->list));
+
+     printf(" };\n\n");
+    }
 
   public:
 

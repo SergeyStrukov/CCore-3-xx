@@ -34,8 +34,8 @@ TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 MakeString = $(HOME)/bin/CCore-MakeString.exe
 
-inc/Book1.TypeDef.gen.h : docs/Book1.ddl
-	$(TypeSet) docs/Book1.ddl inc/Book1.TypeDef.gen.h src/Book1.TypeSet.gen.h Font Frame Bitmap
+src/./BookLab.TypeDef.gen.h : src/BookLab.ddl
+	$(TypeSet) src/BookLab.ddl src/BookLab.TypeDef.gen.h src/BookLab.TypeSet.gen.h
 
-src/./Book1.Pretext.gen.h : docs/Book1.ddl
-	$(MakeString) -s docs/Book1.ddl src/Book1.Pretext.gen.h
+src/./BookLab.Pretext.gen.h : src/BookLab.ddl
+	$(MakeString) -s src/BookLab.ddl src/BookLab.Pretext.gen.h

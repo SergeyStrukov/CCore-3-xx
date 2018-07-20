@@ -137,7 +137,19 @@ struct CellPtr
  {
   text name;
   Cell *ptr;
- };   
+ };
+ 
+struct RefPtr
+ {
+  text name;
+  {Link,Page} *ptr;
+ };
+ 
+struct PlacementPtr
+ {
+  text name;
+  {OneLine,MultiLine} *ptr;
+ };     
  
 //--- Doc --------------------------------------------------------------------------------
  
@@ -341,13 +353,33 @@ struct Table
   CellPtr[] table;
  };
 
-struct Link;
+struct Link
+ {
+  text name;
+  Bool open;
+  
+  PagePtr page;
+  ulen[] index_list;
+ };
 
-struct Span;
+struct Span
+ {
+  text body;
+  FormatPtr format;
+  RefPtr ref;
+ };
 
-struct TextLine;
+type TextLine = Span[] ;
 
-struct FixedText;
+struct FixedText
+ {
+  text name;
+  Bool open;
+  
+  FormatPtr format;
+  
+  TextLine[] list;
+ };
 
 struct OneLine
  {
@@ -366,5 +398,15 @@ struct MultiLine
   OptRatio first_line_space; 
  };
 
-struct Text;
+struct Text
+ {
+  text name;
+  Bool open;
+  
+  PlacementPtr placement;
+  FormatPtr format;
+  
+  Span[] list;  
+ };
+ 
  
