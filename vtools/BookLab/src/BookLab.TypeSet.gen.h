@@ -435,6 +435,8 @@ struct TypeSet : TypeDefCore
          ret.set<S44>();
 
          DDL::SetFieldOffsets(struct_node,
+                               "name",offsetof(S44,name),
+                               "open",offsetof(S44,open),
                                "face",offsetof(S44,face),
                                "size",offsetof(S44,size),
                                "bold",offsetof(S44,bold),
@@ -1032,6 +1034,8 @@ struct TypeSet : TypeDefCore
        case 44 :
         {
          DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               A7,
                                DDL::MapText,
                                A5,
                                S15,

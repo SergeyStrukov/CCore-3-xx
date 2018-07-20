@@ -187,6 +187,9 @@ struct Doc
 
 struct Font
  {
+  text name;
+  Bool open;
+  
   text face;
   Coord size;
   OptBool bold;

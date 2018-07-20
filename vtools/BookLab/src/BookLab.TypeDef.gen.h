@@ -471,6 +471,8 @@ struct TypeDefCore
 
   struct S44
    {
+    DDL::MapText name;
+    A7 open;
     DDL::MapText face;
     A5 size;
     S15 bold;

@@ -817,9 +817,13 @@ class Book : NoCopy
 
   private:
 
-   void startDoc();
+   static StrLen Pretext();
 
    class SaveContext;
+
+   template <class T> struct LoadType;
+
+   class LoadContext;
 
    class BookContext;
 
