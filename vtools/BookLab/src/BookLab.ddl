@@ -292,7 +292,7 @@ struct Collapse
   
   text title;
   FormatPtr format;
-  Bool onelist;
+  Bool openlist;
   OptBool hide;
   
   FrameList list;

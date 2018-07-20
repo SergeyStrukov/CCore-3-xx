@@ -292,7 +292,7 @@
 "  \n"
 "  text title;\n"
 "  FormatPtr format;\n"
-"  Bool onelist;\n"
+"  Bool openlist;\n"
 "  OptBool hide;\n"
 "  \n"
 "  FrameList list;\n"

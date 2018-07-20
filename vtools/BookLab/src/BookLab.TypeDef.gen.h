@@ -345,7 +345,7 @@ struct TypeDefCore
     A7 open;
     DDL::MapText title;
     S2 format;
-    A7 onelist;
+    A7 openlist;
     S15 hide;
     S25 list;
 

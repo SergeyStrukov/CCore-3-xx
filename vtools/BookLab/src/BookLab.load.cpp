@@ -18,6 +18,7 @@
 
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
+#include <CCore/inc/ForLoop.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -30,10 +31,52 @@ namespace BookLab {
 /* struct Book::LoadType<T> */
 
 template <>
+struct Book::LoadType<TypeDef::Font> : Meta::DefType<Font> {};
+
+template <>
+struct Book::LoadType<TypeDef::Format> : Meta::DefType<Format> {};
+
+template <>
+struct Book::LoadType<TypeDef::SingleLine> : Meta::DefType<SingleLine> {};
+
+template <>
+struct Book::LoadType<TypeDef::DoubleLine> : Meta::DefType<DoubleLine> {};
+
+template <>
+struct Book::LoadType<TypeDef::Page> : Meta::DefType<Page> {};
+
+template <>
+struct Book::LoadType<TypeDef::Scope> : Meta::DefType<Scope> {};
+
+template <>
+struct Book::LoadType<TypeDef::Section> : Meta::DefType<Section> {};
+
+template <>
+struct Book::LoadType<TypeDef::Bitmap> : Meta::DefType<Bitmap> {};
+
+template <>
+struct Book::LoadType<TypeDef::Collapse> : Meta::DefType<Collapse> {};
+
+template <>
+struct Book::LoadType<TypeDef::TextList> : Meta::DefType<TextList> {};
+
+template <>
+struct Book::LoadType<TypeDef::Table> : Meta::DefType<Table> {};
+
+template <>
+struct Book::LoadType<TypeDef::Text> : Meta::DefType<Text> {};
+
+template <>
+struct Book::LoadType<TypeDef::FixedText> : Meta::DefType<FixedText> {};
+
+template <>
 struct Book::LoadType<TypeDef::OneLine> : Meta::DefType<OneLine> {};
 
 template <>
 struct Book::LoadType<TypeDef::MultiLine> : Meta::DefType<MultiLine> {};
+
+template <>
+struct Book::LoadType<TypeDef::Link> : Meta::DefType<Link> {};
 
 #if 0
 
@@ -52,7 +95,7 @@ class Book::LoadContext : NoCopy
 
   private:
 
-   template <OneOfTypes<VColor,Coord,Effect,Align,bool,int> T,class S>
+   template <OneOfTypes<VColor,Coord,Effect,Align,bool,int,ulen> T,class S>
    static void Cast(T &ret,S obj)
     {
      ret=T(obj);
@@ -78,6 +121,16 @@ class Book::LoadContext : NoCopy
      Cast(ret.data,obj.data);
 
      ret.def=obj.def;
+    }
+
+   template <class T,class S>
+   static void CastArray(DynArray<T> &ret,const S &obj)
+    {
+     auto r=obj.getRange();
+
+     auto *out=ret.extend_default(r.len).ptr;
+
+     for(ulen i : IndLim(r.len) ) Cast(out[i],r[i]);
     }
 
   private:
@@ -169,6 +222,123 @@ class Book::LoadContext : NoCopy
      Cast(ret->strength,ptr->strength);
     }
 
+   void init(Scope *ret,const TypeDef::Scope *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->defs,ptr->defs);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Section *ret,const TypeDef::Section *ptr)
+    {
+     ret->open=ptr->open;
+
+     ret->comment=String(ptr->comment);
+
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Bitmap *ret,const TypeDef::Bitmap *ptr)
+    {
+     ret->name=String(ptr->name);
+
+     ret->file_name=String(ptr->file_name);
+    }
+
+   void init(Collapse *ret,const TypeDef::Collapse *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     ret->title=String(ptr->title);
+     cast(ret->format,ptr->format);
+     ret->openlist=ptr->openlist;
+     Cast(ret->hide,ptr->hide);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(TextList *ret,const TypeDef::TextList *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->format,ptr->format);
+     Cast(ret->bullet_space,ptr->bullet_space);
+     Cast(ret->item_space,ptr->item_space);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Cell *ret,const TypeDef::Cell *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     Cast(ret->span_x,ptr->span_x);
+     Cast(ret->span_y,ptr->span_y);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Table *ret,const TypeDef::Table *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->border,ptr->border);
+     Cast(ret->hard,ptr->hard);
+     CastArray(ret->width,ptr->width);
+     castArray(ret->table,ptr->table);
+    }
+
+   void init(Text *ret,const TypeDef::Text *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->placement,ptr->placement);
+     cast(ret->format,ptr->format);
+     castArray(ret->list,ptr->list);
+    }
+
+   void init(FixedText *ret,const TypeDef::FixedText *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->format,ptr->format);
+     castArray(ret->list,ptr->list);
+    }
+
+   void init(Link *ret,const TypeDef::Link *ptr)
+    {
+     ret->name=String(ptr->name);
+     ret->open=ptr->open;
+
+     cast(ret->page,ptr->page);
+     CastArray(ret->index_list,ptr->index_list);
+    }
+
+   void init(Element *ret,const TypeDef::Element &obj)
+    {
+     create(ret->ptr,obj);
+    }
+
+   void init(Item *ret,const TypeDef::Item &obj)
+    {
+     ret->bullet=String(obj.bullet);
+     cast(ret->list,obj.list);
+    }
+
+   void init(Frame *ret,const TypeDef::Frame &obj)
+    {
+     Cast(ret->inner,obj.inner);
+     Cast(ret->outer,obj.outer);
+     Cast(ret->col,obj.col);
+     cast(ret->line,obj.line);
+     cast(ret->body,obj.body);
+    }
+
    template <class T,class S>
    void create(IntObjPtr<T> &ret,const S &ptr)
     {
@@ -210,23 +380,104 @@ class Book::LoadContext : NoCopy
   private:
 
    template <class T,class S>
-   void cast(NamedPtr<T> &ret,const S &obj)
+   void castArray(DynArray<T> &ret,const S &obj)
+    {
+     auto r=obj.getRange();
+
+     auto *out=ret.extend_default(r.len).ptr;
+
+     for(ulen i : IndLim(r.len) ) cast(out[i],r[i]);
+    }
+
+   template <class S,class ... TT>
+   void cast(NamedPtr<TT...> &ret,const S &obj)
     {
      ret.name=String(obj.name);
 
      create(ret.ptr,obj.ptr);
     }
 
-   void cast(FrameList &ret,const TypeDef::FrameList &obj) // TODO
+   void cast(FrameList &ret,const TypeDef::FrameList &obj)
     {
-     Used(ret);
-     Used(obj);
+     LockUse lock(level);
+
+     auto list=obj.list.getRange();
+
+     for(ulen i : IndLim(list.len) )
+       {
+        ExtObjPtr<Frame> elem(domain);
+
+        init(elem.getPtr(),list[i]);
+
+        if( !ret.end )
+          {
+           ret.beg=elem;
+           ret.end=elem;
+          }
+        else
+          {
+           ret.end->next=elem;
+           elem->prev=ret.end;
+
+           ret.end=elem;
+          }
+
+        if( i==obj.cur ) ret.cur=elem;
+       }
     }
 
-   void cast(ElementList &ret,PtrLen<TypeDef::Element> list) // TODO
+   void cast(ItemList &ret,const TypeDef::ItemList &obj)
     {
-     Used(ret);
-     Used(list);
+     LockUse lock(level);
+
+     auto list=obj.list.getRange();
+
+     for(ulen i : IndLim(list.len) )
+       {
+        ExtObjPtr<Item> elem(domain);
+
+        init(elem.getPtr(),list[i]);
+
+        if( !ret.end )
+          {
+           ret.beg=elem;
+           ret.end=elem;
+          }
+        else
+          {
+           ret.end->next=elem;
+           elem->prev=ret.end;
+
+           ret.end=elem;
+          }
+
+        if( i==obj.cur ) ret.cur=elem;
+       }
+    }
+
+   void cast(ElementList &ret,PtrLen<TypeDef::Element> list)
+    {
+     LockUse lock(level);
+
+     for(const auto &obj : list )
+       {
+        ExtObjPtr<Element> elem(domain);
+
+        init(elem.getPtr(),obj);
+
+        if( !ret.end )
+          {
+           ret.beg=elem;
+           ret.end=elem;
+          }
+        else
+          {
+           ret.end->next=elem;
+           elem->prev=ret.end;
+
+           ret.end=elem;
+          }
+       }
     }
 
    void cast(Defaults &ret,const TypeDef::Defaults &obj)
@@ -244,6 +495,18 @@ class Book::LoadContext : NoCopy
      create(ret.textFormat,obj.textFormat);
      create(ret.fixedFormat,obj.fixedFormat);
      create(ret.placement,obj.placement);
+    }
+
+   void cast(Span &ret,const TypeDef::Span &obj)
+    {
+     ret.body=String(obj.body);
+     cast(ret.format,obj.format);
+     cast(ret.ref,obj.ref);
+    }
+
+   void cast(TextLine &ret,const TypeDef::TextLine &obj)
+    {
+     castArray(ret.list,obj);
     }
 
   public:
@@ -311,6 +574,8 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
     }
   catch(CatchType)
     {
+     blank();
+
      return eout.close();
     }
  }

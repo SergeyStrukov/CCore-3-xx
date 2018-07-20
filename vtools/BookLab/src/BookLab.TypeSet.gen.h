@@ -272,7 +272,7 @@ struct TypeSet : TypeDefCore
                                "open",offsetof(S32,open),
                                "title",offsetof(S32,title),
                                "format",offsetof(S32,format),
-                               "onelist",offsetof(S32,onelist),
+                               "openlist",offsetof(S32,openlist),
                                "hide",offsetof(S32,hide),
                                "list",offsetof(S32,list)
                               );
