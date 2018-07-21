@@ -387,6 +387,13 @@ class ObjectDomain::IntPtr // default copying
    template <class Ptr>
    friend auto ObjectDomain::GetNode(Ptr &obj);
 
+  private:
+
+   template <class ... TT>
+   friend class IntAnyPtr;
+
+   explicit IntPtr(ObjBase *node_) : node(static_cast<ObjNode<T> *>(node_)) {}
+
   public:
 
    // constructors
@@ -449,8 +456,6 @@ class ObjectDomain::IntAnyPtr // default copying
 
   private:
 
-   using GetFuncType = AnyPtr<TT...> (*)(ObjBase *node) ;
-
    template <class T>
    static AnyPtr<TT...> GetPtr(ObjBase *node)
     {
@@ -462,6 +467,16 @@ class ObjectDomain::IntAnyPtr // default copying
        ptr=0;
 
      return ptr;
+    }
+
+   template <class T,class FuncInit,class ... SS>
+   static void ApplyToNode(ObjBase *node,FuncInit func_init,SS && ... ss)
+    {
+     IntPtr<T> ptr(node);
+
+     FunctorTypeOf<FuncInit> func(func_init);
+
+     func(ptr, std::forward<SS>(ss)... );
     }
 
   public:
@@ -496,12 +511,24 @@ class ObjectDomain::IntAnyPtr // default copying
     {
      if( type )
        {
+        using GetFuncType = AnyPtr<TT...> (*)(ObjBase *node) ;
+
         static const GetFuncType Table[]={ GetPtr<TT>... };
 
         return Table[type-1](node);
        }
 
      return Null;
+    }
+
+   template <class FuncInit,class ... SS>
+   void apply(FuncInit func_init,SS && ... ss) const requires ( ... && FuncInitArgType<FuncInit,IntPtr<TT>,SS...> )
+    {
+     using FuncType = void (*)(ObjBase *node,FuncInit func_init,SS && ...) ;
+
+     static const FuncType Table[]={ ApplyToNode<TT,FuncInit,SS...>... };
+
+     if( type ) Table[type-1](node,func_init, std::forward<SS>(ss)... );
     }
 
    ulen getExtRefs() const { return node->ref_count; }

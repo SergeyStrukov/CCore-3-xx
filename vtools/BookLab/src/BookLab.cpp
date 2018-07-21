@@ -106,10 +106,86 @@ class Book::ScopeContext : NoCopy
      set(scope,ptr->list);
     }
 
-   void subs(IntAnyObjPtr<Scope,Doc> scope,auto *ptr) // TODO
+   void subs(IntAnyObjPtr<Scope,Doc>,Font *)
     {
-     Used(scope);
-     Used(ptr);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Format *ptr)
+    {
+     set(scope,ptr->font);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,SingleLine *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,DoubleLine *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Section *ptr)
+    {
+     set(scope,ptr->list);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,Bitmap *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Collapse *ptr)
+    {
+     set(scope,ptr->format);
+     set(scope,ptr->list);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,TextList *ptr)
+    {
+     set(scope,ptr->format);
+     set(scope,ptr->list);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,Border *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Cell *ptr)
+    {
+     set(scope,ptr->list);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Table *ptr)
+    {
+     set(scope,ptr->border);
+
+     for(NamedPtr<Cell> &obj : ptr->table ) set(scope,obj);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Text *ptr)
+    {
+     set(scope,ptr->placement);
+     set(scope,ptr->format);
+
+     for(Span &span : ptr->list ) set(scope,span);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,OneLine *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc>,MultiLine *)
+    {
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,FixedText *ptr)
+    {
+     set(scope,ptr->format);
+
+     for(TextLine &line : ptr->list ) set(scope,line);
+    }
+
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Link *ptr)
+    {
+     set(scope,ptr->page);
     }
 
   private:
@@ -142,25 +218,34 @@ class Book::ScopeContext : NoCopy
      if( +ptr ) set(scope,ptr.getPtr());
     }
 
+   struct GetScopeFunc
+    {
+     IntAnyObjPtr<Scope,Doc> &ret;
+
+     template <class T>
+     void operator () (IntObjPtr<T>) {}
+
+     void operator () (IntObjPtr<Scope> ptr) { ret=ptr; }
+    };
+
    template <class ... TT>
    static IntAnyObjPtr<Scope,Doc> GetScope(IntAnyObjPtr<TT...> ptr)
     {
      IntAnyObjPtr<Scope,Doc> ret;
 
-     Used(ptr);
-     // ptr.apply( [] (IntObjPtr<auto> ptr) { ret=ptr; } );
+     ptr.apply( GetScopeFunc{ret} );
 
      return ret;
     }
 
    template <class ... TT>
-   struct SetAny
+   struct SetAnyFunc
     {
      ScopeContext *ctx;
      IntAnyObjPtr<Scope,Doc> scope;
      IntAnyObjPtr<TT...> ptr;
 
-     SetAny(ScopeContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,IntAnyObjPtr<TT...> ptr_) : ctx(ctx_),scope(scope_),ptr(ptr_) {}
+     SetAnyFunc(ScopeContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,IntAnyObjPtr<TT...> ptr_) : ctx(ctx_),scope(scope_),ptr(ptr_) {}
 
      void operator () (auto *obj) { if( obj ) ctx->set(scope,obj); }
 
@@ -170,7 +255,7 @@ class Book::ScopeContext : NoCopy
    template <class ... TT>
    void set(IntAnyObjPtr<Scope,Doc> scope,IntAnyObjPtr<TT...> ptr)
     {
-     SetAny func(this,scope,ptr);
+     SetAnyFunc func(this,scope,ptr);
 
      ptr.getPtr().apply( func );
     }
@@ -210,6 +295,17 @@ class Book::ScopeContext : NoCopy
        {
         set(scope,ptr->list);
        }
+    }
+
+   void set(IntAnyObjPtr<Scope,Doc> scope,Span &span)
+    {
+     set(scope,span.format);
+     set(scope,span.ref);
+    }
+
+   void set(IntAnyObjPtr<Scope,Doc> scope,TextLine &line)
+    {
+     for(Span &span : line.list ) set(scope,span);
     }
 
   public:

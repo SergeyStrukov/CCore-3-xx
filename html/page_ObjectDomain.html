@@ -570,6 +570,9 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
   
    AnyPtr&lt;TT...&gt; getPtr() const;
    
+   template &lt;class FuncInit,class ... SS&gt;
+   void apply(FuncInit func_init,SS &amp;&amp; ... ss) const requires ( ... &amp;&amp; FuncInitArgType&lt;FuncInit,IntPtr&lt;TT&gt;,SS...&gt; );
+
    ulen getExtRefs() const;
 
    void keepAlive(Keeper keeper);
@@ -583,6 +586,10 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
 
 <p>
 <b>create&lt;T&gt;()</b> creates an <b>IntPtr&lt;T&gt;</b> object with the given arguments and assigned it to the self.
+</p>
+
+<p>
+<b>apply()</b> works the same way, as the <b>apply()</b> method for <b>AnyPtr</b>, but transforms the pointer into the <b>IntObjPtr&lt;T&gt;</b> type.
 </p>
 
 <p>
