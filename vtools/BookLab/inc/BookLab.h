@@ -827,6 +827,10 @@ class Book : NoCopy
 
    class BookContext;
 
+   class ScopeContext;
+
+   void setScope();
+
   public:
 
    Book();

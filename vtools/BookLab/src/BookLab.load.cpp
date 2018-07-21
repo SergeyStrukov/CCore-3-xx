@@ -394,7 +394,7 @@ class Book::LoadContext : NoCopy
     {
      ret.name=String(obj.name);
 
-     create(ret.ptr,obj.ptr);
+     if( !Range(ret.name) ) create(ret.ptr,obj.ptr);
     }
 
    void cast(FrameList &ret,const TypeDef::FrameList &obj)
@@ -566,6 +566,8 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
         LoadContext ctx(domain);
 
         doc=ctx.process(doc_);
+
+        setScope();
 
         linked=false;
        }
