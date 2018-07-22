@@ -442,7 +442,7 @@ struct LastDefaults
   IntObjPtr<Border> border;                  // DefaultBorder
   IntObjPtr<Format> textFormat;              // DefaultFormat
   IntObjPtr<Format> fixedFormat;             // DefaultFixedFormat
-  IntAnyObjPtr<OneLine,MultiLine> placement; // Placement
+  IntAnyObjPtr<OneLine,MultiLine> placement; // DefaultPlacement
 
   explicit LastDefaults(ObjectDomain &domain);
 
