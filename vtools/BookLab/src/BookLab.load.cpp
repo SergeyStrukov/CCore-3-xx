@@ -63,7 +63,7 @@ template <>
 struct Book::LoadType<TypeDef::Table> : Meta::DefType<Table> {};
 
 template <>
-struct Book::LoadType<TypeDef::Text> : Meta::DefType<Text> {};
+struct Book::LoadType<TypeDef::Link> : Meta::DefType<Link> {};
 
 template <>
 struct Book::LoadType<TypeDef::FixedText> : Meta::DefType<FixedText> {};
@@ -75,7 +75,7 @@ template <>
 struct Book::LoadType<TypeDef::MultiLine> : Meta::DefType<MultiLine> {};
 
 template <>
-struct Book::LoadType<TypeDef::Link> : Meta::DefType<Link> {};
+struct Book::LoadType<TypeDef::Text> : Meta::DefType<Text> {};
 
 #if 0
 
@@ -94,7 +94,7 @@ class Book::LoadContext : NoCopy
 
   private:
 
-   template <OneOfTypes<VColor,Coord,Effect,Align,bool,int,ulen> T,class S>
+   template <OneOfTypes<VColor,Coord,Effect,Align,bool,int,ulen,String> T,class S>
    static void Cast(T &ret,S obj)
     {
      ret=T(obj);
@@ -123,7 +123,7 @@ class Book::LoadContext : NoCopy
     }
 
    template <class T,class S>
-   static void CastArray(DynArray<T> &ret,const S &obj)
+   static void Cast(DynArray<T> &ret,const S &obj)
     {
      auto r=obj.getRange();
 
@@ -134,45 +134,22 @@ class Book::LoadContext : NoCopy
 
   private:
 
-   void init(Page *ret,const TypeDef::Page *ptr)
+   void init(Font *ret,const TypeDef::Font *ptr)
     {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
 
-     ret->title=String(ptr->title);
-     Cast(ret->back,ptr->back);
-     Cast(ret->fore,ptr->fore);
-
-     cast(ret->up,ptr->up);
-     cast(ret->prev,ptr->prev);
-     cast(ret->next,ptr->next);
-
-     cast(ret->list,ptr->list);
-    }
-
-   void init(SingleLine *ret,const TypeDef::SingleLine *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     Cast(ret->width,ptr->width);
-     Cast(ret->line,ptr->line);
-    }
-
-   void init(DoubleLine *ret,const TypeDef::DoubleLine *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     Cast(ret->width,ptr->width);
-     Cast(ret->gray,ptr->gray);
-     Cast(ret->snow,ptr->snow);
+     Cast(ret->face,ptr->face);
+     Cast(ret->size,ptr->size);
+     Cast(ret->bold,ptr->bold);
+     Cast(ret->italic,ptr->italic);
+     Cast(ret->strength,ptr->strength);
     }
 
    void init(Format *ret,const TypeDef::Format *ptr)
     {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
 
      Cast(ret->back,ptr->back);
      Cast(ret->fore,ptr->fore);
@@ -181,152 +158,23 @@ class Book::LoadContext : NoCopy
      cast(ret->font,ptr->font);
     }
 
-   void init(Border *ret,const TypeDef::Border *ptr)
+   void init(SingleLine *ret,const TypeDef::SingleLine *ptr)
     {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
 
-     Cast(ret->space,ptr->space);
      Cast(ret->width,ptr->width);
      Cast(ret->line,ptr->line);
     }
 
-   void init(OneLine *ret,const TypeDef::OneLine *ptr)
+   void init(DoubleLine *ret,const TypeDef::DoubleLine *ptr)
     {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
 
-     Cast(ret->align,ptr->align);
-    }
-
-   void init(MultiLine *ret,const TypeDef::MultiLine *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     Cast(ret->line_space,ptr->line_space);
-     Cast(ret->first_line_space,ptr->first_line_space);
-    }
-
-   void init(Font *ret,const TypeDef::Font *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     ret->face=String(ptr->face);
-
-     Cast(ret->size,ptr->size);
-     Cast(ret->bold,ptr->bold);
-     Cast(ret->italic,ptr->italic);
-     Cast(ret->strength,ptr->strength);
-    }
-
-   void init(Scope *ret,const TypeDef::Scope *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->defs,ptr->defs);
-     cast(ret->list,ptr->list);
-    }
-
-   void init(Section *ret,const TypeDef::Section *ptr)
-    {
-     ret->open=ptr->open;
-
-     ret->comment=String(ptr->comment);
-
-     cast(ret->list,ptr->list);
-    }
-
-   void init(Bitmap *ret,const TypeDef::Bitmap *ptr)
-    {
-     ret->name=String(ptr->name);
-
-     ret->file_name=String(ptr->file_name);
-    }
-
-   void init(Collapse *ret,const TypeDef::Collapse *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     ret->title=String(ptr->title);
-     cast(ret->format,ptr->format);
-     ret->openlist=ptr->openlist;
-     Cast(ret->hide,ptr->hide);
-     cast(ret->list,ptr->list);
-    }
-
-   void init(TextList *ret,const TypeDef::TextList *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->format,ptr->format);
-     Cast(ret->bullet_space,ptr->bullet_space);
-     Cast(ret->item_space,ptr->item_space);
-     cast(ret->list,ptr->list);
-    }
-
-   void init(Cell *ret,const TypeDef::Cell *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     Cast(ret->span_x,ptr->span_x);
-     Cast(ret->span_y,ptr->span_y);
-     cast(ret->list,ptr->list);
-    }
-
-   void init(Table *ret,const TypeDef::Table *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->border,ptr->border);
-     Cast(ret->hard,ptr->hard);
-     CastArray(ret->width,ptr->width);
-     castArray(ret->table,ptr->table);
-    }
-
-   void init(Text *ret,const TypeDef::Text *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->placement,ptr->placement);
-     cast(ret->format,ptr->format);
-     castArray(ret->list,ptr->list);
-    }
-
-   void init(FixedText *ret,const TypeDef::FixedText *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->format,ptr->format);
-     castArray(ret->list,ptr->list);
-    }
-
-   void init(Link *ret,const TypeDef::Link *ptr)
-    {
-     ret->name=String(ptr->name);
-     ret->open=ptr->open;
-
-     cast(ret->page,ptr->page);
-     CastArray(ret->index_list,ptr->index_list);
-    }
-
-   void init(Element *ret,const TypeDef::Element &obj)
-    {
-     create(ret->ptr,obj);
-    }
-
-   void init(Item *ret,const TypeDef::Item &obj)
-    {
-     ret->bullet=String(obj.bullet);
-     cast(ret->list,obj.list);
+     Cast(ret->width,ptr->width);
+     Cast(ret->gray,ptr->gray);
+     Cast(ret->snow,ptr->snow);
     }
 
    void init(Frame *ret,const TypeDef::Frame &obj)
@@ -334,20 +182,180 @@ class Book::LoadContext : NoCopy
      Cast(ret->inner,obj.inner);
      Cast(ret->outer,obj.outer);
      Cast(ret->col,obj.col);
+
      cast(ret->line,obj.line);
      cast(ret->body,obj.body);
     }
 
-   template <class T,class S>
-   void create(IntObjPtr<T> &ret,const S &ptr)
+   void init(Page *ret,const TypeDef::Page *ptr)
     {
-     if( +ptr )
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->title,ptr->title);
+     Cast(ret->back,ptr->back);
+     Cast(ret->fore,ptr->fore);
+
+     Cast(ret->up.name,ptr->up.name);
+     Cast(ret->prev.name,ptr->prev.name);
+     Cast(ret->next.name,ptr->next.name);
+
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Element *ret,const TypeDef::Element &obj)
+    {
+     create(ret->ptr,obj);
+    }
+
+   void init(Scope *ret,const TypeDef::Scope *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     cast(ret->defs,ptr->defs);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Section *ret,const TypeDef::Section *ptr)
+    {
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->comment,ptr->comment);
+
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Bitmap *ret,const TypeDef::Bitmap *ptr)
+    {
+     Cast(ret->name,ptr->name);
+
+     Cast(ret->file_name,ptr->file_name);
+    }
+
+   void init(Collapse *ret,const TypeDef::Collapse *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->title,ptr->title);
+     Cast(ret->openlist,ptr->openlist);
+     Cast(ret->hide,ptr->hide);
+
+     cast(ret->format,ptr->format);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Item *ret,const TypeDef::Item &obj)
+    {
+     Cast(ret->bullet,obj.bullet);
+
+     cast(ret->list,obj.list);
+    }
+
+   void init(TextList *ret,const TypeDef::TextList *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->bullet_space,ptr->bullet_space);
+     Cast(ret->item_space,ptr->item_space);
+
+     cast(ret->format,ptr->format);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Border *ret,const TypeDef::Border *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->space,ptr->space);
+     Cast(ret->width,ptr->width);
+     Cast(ret->line,ptr->line);
+    }
+
+   void init(Cell *ret,const TypeDef::Cell *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->span_x,ptr->span_x);
+     Cast(ret->span_y,ptr->span_y);
+
+     cast(ret->list,ptr->list);
+    }
+
+   void init(Table *ret,const TypeDef::Table *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->hard,ptr->hard);
+     Cast(ret->width,ptr->width);
+
+     cast(ret->border,ptr->border);
+     cast(ret->table,ptr->table);
+    }
+
+   void init(Link *ret,const TypeDef::Link *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->index_list,ptr->index_list);
+
+     cast(ret->page,ptr->page);
+    }
+
+   void init(FixedText *ret,const TypeDef::FixedText *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     cast(ret->format,ptr->format);
+     cast(ret->list,ptr->list);
+    }
+
+   void init(OneLine *ret,const TypeDef::OneLine *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->align,ptr->align);
+    }
+
+   void init(MultiLine *ret,const TypeDef::MultiLine *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     Cast(ret->line_space,ptr->line_space);
+     Cast(ret->first_line_space,ptr->first_line_space);
+    }
+
+   void init(Text *ret,const TypeDef::Text *ptr)
+    {
+     Cast(ret->name,ptr->name);
+     Cast(ret->open,ptr->open);
+
+     cast(ret->placement,ptr->placement);
+     cast(ret->format,ptr->format);
+     cast(ret->list,ptr->list);
+    }
+
+  private:
+
+   template <class T,class S>
+   void create(IntObjPtr<T> &ret,const S &obj)
+    {
+     if( +obj )
        {
         LockUse lock(level);
 
         ret.create(domain);
 
-        init(ret.getPtr(),ptr.getPtr());
+        init(ret.getPtr(),obj.getPtr());
        }
     }
 
@@ -369,17 +377,17 @@ class Book::LoadContext : NoCopy
     }
 
    template <class S,class ... TT>
-   void create(IntAnyObjPtr<TT...> &ret,const S &ptr)
+   void create(IntAnyObjPtr<TT...> &ret,const S &obj)
     {
-     auto anyptr=ptr.getPtr();
+     auto anyptr=obj.getPtr();
 
-     anyptr.apply( [&] (auto *objptr) { createPtr(ret,objptr); } );
+     anyptr.apply( [&] (auto *ptr) { createPtr(ret,ptr); } );
     }
 
   private:
 
    template <class T,class S>
-   void castArray(DynArray<T> &ret,const S &obj)
+   void cast(DynArray<T> &ret,const S &obj)
     {
      auto r=obj.getRange();
 
@@ -391,9 +399,26 @@ class Book::LoadContext : NoCopy
    template <class S,class ... TT>
    void cast(NamedPtr<TT...> &ret,const S &obj)
     {
-     ret.name=String(obj.name);
+     Cast(ret.name,obj.name);
 
      if( !Range(ret.name) ) create(ret.ptr,obj.ptr);
+    }
+
+   template <class List,class T>
+   static void InsList(List &ret,T &elem)
+    {
+     if( !ret.end )
+       {
+        ret.beg=elem;
+        ret.end=elem;
+       }
+     else
+       {
+        ret.end->next=elem;
+        elem->prev=ret.end;
+
+        ret.end=elem;
+       }
     }
 
    void cast(FrameList &ret,const TypeDef::FrameList &obj)
@@ -408,18 +433,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),list[i]);
 
-        if( !ret.end )
-          {
-           ret.beg=elem;
-           ret.end=elem;
-          }
-        else
-          {
-           ret.end->next=elem;
-           elem->prev=ret.end;
-
-           ret.end=elem;
-          }
+        InsList(ret,elem);
 
         if( i==obj.cur ) ret.cur=elem;
        }
@@ -437,18 +451,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),list[i]);
 
-        if( !ret.end )
-          {
-           ret.beg=elem;
-           ret.end=elem;
-          }
-        else
-          {
-           ret.end->next=elem;
-           elem->prev=ret.end;
-
-           ret.end=elem;
-          }
+        InsList(ret,elem);
 
         if( i==obj.cur ) ret.cur=elem;
        }
@@ -464,18 +467,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),obj);
 
-        if( !ret.end )
-          {
-           ret.beg=elem;
-           ret.end=elem;
-          }
-        else
-          {
-           ret.end->next=elem;
-           elem->prev=ret.end;
-
-           ret.end=elem;
-          }
+        InsList(ret,elem);
        }
     }
 
@@ -498,14 +490,14 @@ class Book::LoadContext : NoCopy
 
    void cast(Span &ret,const TypeDef::Span &obj)
     {
-     ret.body=String(obj.body);
+     Cast(ret.body,obj.body);
      cast(ret.format,obj.format);
      cast(ret.ref,obj.ref);
     }
 
    void cast(TextLine &ret,const TypeDef::TextLine &obj)
     {
-     castArray(ret.list,obj);
+     cast(ret.list,obj);
     }
 
   public:
@@ -516,7 +508,7 @@ class Book::LoadContext : NoCopy
     {
      ExtObjPtr<Doc> ret(domain,domain);
 
-     ret->title=String(doc->title);
+     Cast(ret->title,doc->title);
      Cast(ret->back,doc->back);
      Cast(ret->fore,doc->fore);
 
