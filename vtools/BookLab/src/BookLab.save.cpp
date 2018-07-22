@@ -694,6 +694,18 @@ class Book::SaveContext : public NextIndex
      printf(" };\n\n");
     }
 
+   void print(Index index,FixedText *ptr)
+    {
+     printf("FixedText #; = { #; , #; , #; , ",index
+                                              ,ptr->name
+                                              ,ptr->open
+                                              ,bind(ptr->format));
+
+     printRangeBind(Range(ptr->list));
+
+     printf(" };\n\n");
+    }
+
    void print(Index index,OneLine *ptr)
     {
      printf("OneLine #; = { #; , #; , #; };\n\n",index
@@ -709,18 +721,6 @@ class Book::SaveContext : public NextIndex
                                                        ,ptr->open
                                                        ,ptr->line_space
                                                        ,ptr->first_line_space);
-    }
-
-   void print(Index index,FixedText *ptr)
-    {
-     printf("FixedText #; = { #; , #; , #; , ",index
-                                              ,ptr->name
-                                              ,ptr->open
-                                              ,bind(ptr->format));
-
-     printRangeBind(Range(ptr->list));
-
-     printf(" };\n\n");
     }
 
    void print(Index index,Text *ptr)
