@@ -115,6 +115,8 @@ class InnerBookLabWindow : public SubWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
+   void collect() { book.collect(); }
+
    void blank();
 
    ErrorText load(StrLen file_name,PtrLen<char> ebuf);
@@ -216,6 +218,8 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    // methods
 
+   void collect() { window.collect(); }
+
    void blank() { window.blank(); }
 
    ErrorText load(StrLen file_name,PtrLen<char> ebuf) { return window.load(file_name,ebuf); }
@@ -311,6 +315,8 @@ class EditWindow : public ComboWindow
 
    bool has_file = false ;
 
+   unsigned tick_count = 0 ;
+
    // frames
 
    MessageFrame msg_frame;
@@ -328,11 +334,9 @@ class EditWindow : public ComboWindow
 
    SignalConnector<EditWindow> connector_book_modified;
 
-   void link_pressed();
+   void link_pressed() { link(); }
 
    SignalConnector<EditWindow> connector_link_pressed;
-
-   void book_pressed();
 
    SignalConnector<EditWindow> connector_book_pressed;
 
@@ -343,6 +347,12 @@ class EditWindow : public ComboWindow
    void file_destroyed();
 
    SignalConnector<EditWindow> connector_file_destroyed;
+
+   DeferInput<EditWindow> input;
+
+   void tick();
+
+   DeferTick defer_tick;
 
   public:
 
@@ -364,11 +374,21 @@ class EditWindow : public ComboWindow
 
    void save(StrLen file_name);
 
+   bool link();
+
+   void saveBook();
+
    // drawing
 
    virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
+
+   // base
+
+   virtual void open();
+
+   virtual void close();
  };
 
 } // namespace App

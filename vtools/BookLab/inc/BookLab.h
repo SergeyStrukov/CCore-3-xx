@@ -21,6 +21,7 @@
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ErrorText.h>
+#include <CCore/inc/ForLoop.h>
 
 namespace App {
 namespace BookLab {
@@ -126,6 +127,8 @@ struct MultiLine;
 
 struct Text;
 
+
+template <class IntList> class IntListCur;
 
 struct Index;
 
@@ -755,6 +758,29 @@ struct Text : NamedObj
 
 //----------------------------------------------------------------------------------------
 
+/* class IntListCur<IntList> */
+
+template <class IntList>
+class IntListCur
+ {
+   using Ptr = decltype( SafePtr(Meta::TypeBox<IntList &>::Get().beg) ) ;
+
+   Ptr ptr;
+
+  public:
+
+   explicit IntListCur(IntList &list) : ptr(SafePtr(list.beg)) {}
+
+   bool operator + () const { return ptr; }
+
+   auto & operator * () const { return *ptr; }
+
+   void operator ++ () { ptr=SafePtr(ptr->next); }
+ };
+
+template <class IntList>
+auto ForIntList(IntList &list) { return ForLoop(IntListCur(list)); }
+
 /* struct Index */
 
 struct Index
@@ -836,6 +862,8 @@ class Book : NoCopy
    Book();
 
    ~Book();
+
+   void collect() { domain.collect(); }
 
    void blank();
 

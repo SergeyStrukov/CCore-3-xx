@@ -343,36 +343,6 @@ void EditWindow::book_modified()
   text_file.alert();
  }
 
-void EditWindow::link_pressed()
- {
-  SimpleArray<char> temp(64_KByte);
-
-  auto result=book.link(Range(temp));
-
-  if( !result.ok )
-    {
-     errorMsg(result.etext);
-    }
- }
-
-void EditWindow::book_pressed()
- {
-  SimpleArray<char> temp(64_KByte);
-
-  auto result=book.link(Range(temp));
-
-  if( !result.ok )
-    {
-     errorMsg(result.etext);
-
-     return;
-    }
-
-  file_frame.create(getFrame(),+cfg.text_SaveFile);
-
-  disableFrameReact();
- }
-
 void EditWindow::msg_destroyed()
  {
   enableFrameReact();
@@ -397,6 +367,18 @@ void EditWindow::file_destroyed()
     }
  }
 
+void EditWindow::tick()
+ {
+  if( !tick_count )
+    {
+     tick_count=60_sectick;
+
+     book.collect();
+    }
+
+  tick_count--;
+ }
+
 EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
@@ -413,10 +395,13 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    connector_book_modified(this,&EditWindow::book_modified,book.modified),
    connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
-   connector_book_pressed(this,&EditWindow::book_pressed,btn_book.pressed),
+   connector_book_pressed(this,&EditWindow::saveBook,btn_book.pressed),
    connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
-   connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed)
+   connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed),
+   input(this)
  {
+  defer_tick=input.create(&EditWindow::tick);
+
   wlist.insTop(label_file,text_file,btn_link,btn_book,book);
 
   // file_frame
@@ -515,6 +500,31 @@ void EditWindow::save(StrLen file_name)
     }
  }
 
+bool EditWindow::link()
+ {
+  SimpleArray<char> temp(64_KByte);
+
+  auto result=book.link(Range(temp));
+
+  if( !result.ok )
+    {
+     errorMsg(result.etext);
+
+     return false;
+    }
+
+  return true;
+ }
+
+void EditWindow::saveBook()
+ {
+  if( !link() ) return;
+
+  file_frame.create(getFrame(),+cfg.text_SaveFile);
+
+  disableFrameReact();
+ }
+
  // drawing
 
 void EditWindow::layout()
@@ -538,6 +548,20 @@ void EditWindow::drawBack(DrawBuf buf,bool) const
   buf.erase(sub.bottom,back);
   buf.erase(sub.left,back);
   buf.erase(sub.right,back);
+ }
+
+ // base
+
+void EditWindow::open()
+ {
+  tick_count=0;
+
+  defer_tick.start();
+ }
+
+void EditWindow::close()
+ {
+  defer_tick.stop();
  }
 
 } // namespace App

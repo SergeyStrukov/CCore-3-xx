@@ -364,6 +364,18 @@ void ClientWindow::react_Key(VKey vkey,KeyMod kmod)
       }
      break;
 
+     case VKey_F5 :
+      {
+       sub_win.link();
+      }
+     break;
+
+     case VKey_F8 :
+      {
+       sub_win.saveBook();
+      }
+     break;
+
      case VKey_F10 :
       {
        menu.setFocus();

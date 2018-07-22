@@ -18,7 +18,6 @@
 
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
-#include <CCore/inc/ForLoop.h>
 
 #include <CCore/inc/Exception.h>
 
