@@ -522,10 +522,6 @@ struct Section : NoCopy
 
 struct Doc : NoCopy
  {
-  // layout
-
-  TableLayout<4> layout;
-
   // data
 
   String title;
@@ -546,6 +542,10 @@ struct Doc : NoCopy
    {
     keeper(start,defs,lastdefs,list);
    }
+
+  // layout
+
+  TableLayout<4> layout;
  };
 
 /* struct Bitmap */

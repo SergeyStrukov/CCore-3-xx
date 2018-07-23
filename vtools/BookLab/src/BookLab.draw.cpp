@@ -28,9 +28,13 @@ class Book::PrepareContext : NoCopy
     {
      void *data;
 
-     Point (*size)(PrepareContext *ctx,void *data);
+     Point (*size_func)(PrepareContext *ctx,void *data);
 
-     void (*place)(PrepareContext *ctx,Point base,void *data);
+     void (*place_func)(PrepareContext *ctx,Point base,void *data);
+
+     Point size(PrepareContext *ctx) { return size_func(ctx,data); }
+
+     void place(PrepareContext *ctx,Point base) { place_func(ctx,base,data); }
     };
 
    template <class T>
@@ -49,8 +53,8 @@ class Book::PrepareContext : NoCopy
      explicit PlaceOf(T &obj)
       {
        data=&obj;
-       size=SizeFunc;
-       place=PlaceFunc;
+       size_func=SizeFunc;
+       place_func=PlaceFunc;
       }
     };
 
@@ -140,21 +144,23 @@ class Book::DrawContext : NoCopy
     {
      const void *data;
 
-     void (*draw)(DrawContext *ctx,DrawBuf buf,Point base,Coord offy,const void *data);
+     void (*draw_func)(DrawContext *ctx,DrawBuf buf,Pane cell,Coord offy,const void *data);
+
+     void draw(DrawContext *ctx,DrawBuf buf,Pane cell,Coord offy) { draw_func(ctx,buf,cell,offy,data); }
     };
 
    template <class T>
    struct DrawOf : Draw
     {
-     static void DrawFunc(DrawContext *ctx,DrawBuf buf,Point base,Coord offy,const void *data)
+     static void DrawFunc(DrawContext *ctx,DrawBuf buf,Pane cell,Coord offy,const void *data)
       {
-       ctx->draw(buf,base,offy,*static_cast<const T *>(data));
+       ctx->draw(buf,cell,offy,*static_cast<const T *>(data));
       }
 
      explicit DrawOf(const T &obj)
       {
        data=&obj;
-       draw=DrawFunc;
+       draw_func=DrawFunc;
       }
     };
 
@@ -176,28 +182,28 @@ class Book::DrawContext : NoCopy
 
   private:
 
-   void draw(DrawBuf buf,Point base,Coord offy,const String &obj)
+   void draw(DrawBuf buf,Pane cell,Coord offy,const String &obj)
     {
      Used(buf);
-     Used(base);
+     Used(cell);
      Used(offy);
      Used(obj);
     }
 
    template <auto Def>
-   void draw(DrawBuf buf,Point base,Coord offy,const OptData<VColor,Def> &obj)
+   void draw(DrawBuf buf,Pane cell,Coord offy,const OptData<VColor,Def> &obj)
     {
      Used(buf);
-     Used(base);
+     Used(cell);
      Used(offy);
      Used(obj);
     }
 
    template <class T>
-   void draw(DrawBuf buf,Point base,Coord offy,const NamedPtr<T> &obj)
+   void draw(DrawBuf buf,Pane cell,Coord offy,const NamedPtr<T> &obj)
     {
      Used(buf);
-     Used(base);
+     Used(cell);
      Used(offy);
      Used(obj);
     }
