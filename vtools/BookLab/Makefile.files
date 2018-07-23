@@ -3,10 +3,10 @@ OBJ_LIST = \
 .obj/Application.o \
 .obj/BookLab.o \
 .obj/BookLab.book.o \
+.obj/BookLab.draw.o \
 .obj/BookLab.load.o \
 .obj/BookLab.save.o \
 .obj/Client.o \
-.obj/DrawBookLab.o \
 .obj/EditWindow.o \
 .obj/main.o \
 
@@ -16,10 +16,10 @@ ASM_LIST = \
 .obj/Application.s \
 .obj/BookLab.s \
 .obj/BookLab.book.s \
+.obj/BookLab.draw.s \
 .obj/BookLab.load.s \
 .obj/BookLab.save.s \
 .obj/Client.s \
-.obj/DrawBookLab.s \
 .obj/EditWindow.s \
 .obj/main.s \
 
@@ -29,10 +29,10 @@ DEP_LIST = \
 .obj/Application.dep \
 .obj/BookLab.dep \
 .obj/BookLab.book.dep \
+.obj/BookLab.draw.dep \
 .obj/BookLab.load.dep \
 .obj/BookLab.save.dep \
 .obj/Client.dep \
-.obj/DrawBookLab.dep \
 .obj/EditWindow.dep \
 .obj/main.dep \
 
@@ -55,6 +55,9 @@ include $(RULES_FILE)
 .obj/BookLab.book.o : src/./BookLab.book.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/BookLab.draw.o : src/./BookLab.draw.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/BookLab.load.o : src/./BookLab.load.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -62,9 +65,6 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Client.o : src/./Client.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/DrawBookLab.o : src/./DrawBookLab.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/EditWindow.o : src/./EditWindow.cpp
@@ -87,6 +87,9 @@ include $(RULES_FILE)
 .obj/BookLab.book.s : src/./BookLab.book.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BookLab.draw.s : src/./BookLab.draw.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BookLab.load.s : src/./BookLab.load.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -94,9 +97,6 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Client.s : src/./Client.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/DrawBookLab.s : src/./DrawBookLab.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/EditWindow.s : src/./EditWindow.cpp
@@ -119,6 +119,9 @@ include $(RULES_FILE)
 .obj/BookLab.book.dep : src/./BookLab.book.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookLab.book.o $< -MF $@
 
+.obj/BookLab.draw.dep : src/./BookLab.draw.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookLab.draw.o $< -MF $@
+
 .obj/BookLab.load.dep : src/./BookLab.load.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookLab.load.o $< -MF $@
 
@@ -127,9 +130,6 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
-
-.obj/DrawBookLab.dep : src/./DrawBookLab.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/DrawBookLab.o $< -MF $@
 
 .obj/EditWindow.dep : src/./EditWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditWindow.o $< -MF $@

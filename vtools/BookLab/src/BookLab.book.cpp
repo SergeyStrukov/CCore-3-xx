@@ -51,7 +51,7 @@ class Book::BookContext : NoCopy
        }
     }
 
-   void print(StrLen name,OptData<VColor,DefNoColor> data)
+   void print(StrLen name,const OptData<VColor,DefNoColor> &data)
     {
      if( !data.def )
        {

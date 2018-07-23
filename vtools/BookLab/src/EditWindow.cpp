@@ -30,7 +30,7 @@ bool InnerBookLabWindow::cache() const // TODO
     {
      if( !ok )
        {
-        size=Point(100,100);
+        size=book.prepare(cfg);
 
         ok=true;
        }
@@ -181,7 +181,7 @@ void InnerBookLabWindow::layout()
   sy.adjustPos();
  }
 
-void InnerBookLabWindow::draw(DrawBuf buf,bool) const // TODO
+void InnerBookLabWindow::draw(DrawBuf buf,bool) const
  {
   if( !cache() )
     {
@@ -212,7 +212,11 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const // TODO
 
   // body
 
-  // TODO
+  pane=pane.shrink(+cfg.border_dxy);
+
+  if( !pane ) return;
+
+  book.draw(cfg,buf.cutRebase(pane),getBase());
  }
 
  // base

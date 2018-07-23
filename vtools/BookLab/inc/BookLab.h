@@ -69,6 +69,8 @@ struct NamedObj;
 
 template <class ... TT> struct NamedPtr;
 
+template <ulen RowCount> struct TableLayout;
+
 
 struct Font;
 
@@ -137,6 +139,8 @@ class NextIndex;
 
 template <class Ctx,class T> struct BindCtx;
 
+struct Config;
+
 class Book;
 
 /* struct Ratio */
@@ -156,7 +160,7 @@ inline Ratio DefRatioTwo() { return {2}; }
 /* struct OptData<T,T Def()> */
 
 template <class T,T Def()>
-struct OptData
+struct OptData : NoCopy
  {
   T data = Def() ;
   bool def = true ;
@@ -170,7 +174,7 @@ struct OptData
 
 /* struct NamedObj */
 
-struct NamedObj
+struct NamedObj : NoCopy
  {
   IntAnyObjPtr<Scope,Doc> scope;
 
@@ -258,6 +262,29 @@ struct NamedPtr<T>
    }
  };
 
+/* struct TableLayout<ulen RowCount> */
+
+template <ulen RowCount>
+struct TableLayout : NoCopy
+ {
+  struct Cell
+   {
+    Coord dy = 0 ;
+    Coord offx = 0 ;
+   };
+
+  struct Col
+   {
+    Coord dx = 0 ;
+
+    Cell cell[RowCount];
+   };
+
+  Col col[3];
+
+  Coord offy[RowCount] = {} ;
+ };
+
 /* struct Font */
 
 struct Font : NamedObj
@@ -306,7 +333,7 @@ struct DoubleLine : NamedObj
 
 /* struct Frame */
 
-struct Frame
+struct Frame : NoCopy
  {
   // links
 
@@ -333,7 +360,7 @@ struct Frame
 
 /* struct FrameList */
 
-struct FrameList
+struct FrameList : NoCopy
  {
   IntObjPtr<Frame> beg;
   IntObjPtr<Frame> cur;
@@ -369,7 +396,7 @@ struct Page : NamedObj
 
 /* struct Element */
 
-struct Element
+struct Element : NoCopy
  {
   // links
 
@@ -389,7 +416,7 @@ struct Element
 
 /* struct ElementList */
 
-struct ElementList
+struct ElementList : NoCopy
  {
   IntObjPtr<Element> beg;
   IntObjPtr<Element> end;
@@ -403,7 +430,7 @@ struct ElementList
 
 /* struct Defaults */
 
-struct Defaults
+struct Defaults : NoCopy
  {
   OptData<Point> inner;
   OptData<Point> outer;
@@ -428,7 +455,7 @@ struct Defaults
 
 /* struct LastDefaults */
 
-struct LastDefaults
+struct LastDefaults : NoCopy
  {
   Point inner = Null ;                       // DefaultInner
   Point outer = Null ;                       // DefaultOuter
@@ -470,7 +497,7 @@ struct Scope : NamedObj
 
 /* struct Section */
 
-struct Section
+struct Section : NoCopy
  {
   // obj
 
@@ -493,8 +520,14 @@ struct Section
 
 /* struct Doc */
 
-struct Doc
+struct Doc : NoCopy
  {
+  // layout
+
+  TableLayout<4> layout;
+
+  // data
+
   String title;
   OptData<VColor,DefNoColor> back;
   OptData<VColor,DefNoColor> fore;
@@ -517,7 +550,7 @@ struct Doc
 
 /* struct Bitmap */
 
-struct Bitmap
+struct Bitmap : NoCopy
  {
   // obj
 
@@ -558,7 +591,7 @@ struct Collapse : NamedObj
 
 /* struct Item */
 
-struct Item
+struct Item : NoCopy
  {
   // links
 
@@ -580,7 +613,7 @@ struct Item
 
 /* struct ItemList */
 
-struct ItemList
+struct ItemList : NoCopy
  {
   IntObjPtr<Item> beg;
   IntObjPtr<Item> cur;
@@ -813,6 +846,38 @@ struct BindCtx
   BindCtx(Ctx *ctx_,const T &obj_) : ctx(ctx_),obj(obj_) {}
  };
 
+/* struct Config */
+
+struct Config
+ {
+  // user
+
+  RefVal<Fraction> width = Fraction(6,2) ;
+
+  // app
+
+  template <class AppPref>
+  Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+   {
+    bindUser(user_pref.get(),user_pref.getSmartConfig());
+    bindApp(app_pref.get());
+   }
+
+  template <class Bag,class Proxy>
+  void bindUser(const Bag &bag,Proxy proxy)
+   {
+    Used(proxy);
+
+    width.bind(bag.width);
+   }
+
+  template <class Bag>
+  void bindApp(const Bag &bag)
+   {
+    Used(bag);
+   }
+ };
+
 /* class Book */
 
 class Book : NoCopy
@@ -858,6 +923,10 @@ class Book : NoCopy
 
    void setScope();
 
+   class PrepareContext;
+
+   class DrawContext;
+
   public:
 
    Book();
@@ -877,6 +946,10 @@ class Book : NoCopy
    ErrorText link(PtrLen<char> ebuf);
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
+
+   Point prepare(const Config &cfg) const;
+
+   void draw(const Config &cfg,DrawBuf buf,Point base) const;
  };
 
 } // namespace BookLab

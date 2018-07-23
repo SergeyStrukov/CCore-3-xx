@@ -14,7 +14,7 @@
 #ifndef EditWindow_h
 #define EditWindow_h
 
-#include <inc/DrawBookLab.h>
+#include <inc/BookLab.h>
 
 namespace App {
 
@@ -93,6 +93,8 @@ class InnerBookLabWindow : public SubWindow
    [[nodiscard]] bool cache() const;
 
   private:
+
+   Point getBase() const { return -Point((Coord)sx.pos,(Coord)sy.pos); }
 
    void posX(ulen pos);
 
