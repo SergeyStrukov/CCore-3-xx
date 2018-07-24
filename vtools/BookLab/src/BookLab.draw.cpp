@@ -205,10 +205,10 @@ class Book::PrepareContext : NoCopy
     {
      Row table[4]=
       {
-       {"text"_c,"title"_c,PlaceOf(doc->title)},
-       {"Color"_c,"back"_c,PlaceOf(doc->back)},
-       {"Color"_c,"fore"_c,PlaceOf(doc->fore)},
-       {"Page"_c,"start"_c,PlaceOf(doc->start)}
+       {"text"_c,"title = "_c,PlaceOf(doc->title)},
+       {"Color"_c,"back = "_c,PlaceOf(doc->back)},
+       {"Color"_c,"fore = "_c,PlaceOf(doc->fore)},
+       {"Page"_c,"start = "_c,PlaceOf(doc->start)}
       };
 
      place(doc->layout,Null,Range(table));
@@ -422,10 +422,10 @@ class Book::DrawContext : NoCopy
     {
      Row table[4]=
       {
-       {"text"_c,"title"_c,DrawOf(doc->title)},
-       {"Color"_c,"back"_c,DrawOf(doc->back)},
-       {"Color"_c,"fore"_c,DrawOf(doc->fore)},
-       {"Page"_c,"start"_c,DrawOf(doc->start)}
+       {"text"_c,"title = "_c,DrawOf(doc->title)},
+       {"Color"_c,"back = "_c,DrawOf(doc->back)},
+       {"Color"_c,"fore = "_c,DrawOf(doc->fore)},
+       {"Page"_c,"start = "_c,DrawOf(doc->start)}
       };
 
      draw(Null,Range(table),doc->layout);
