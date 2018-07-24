@@ -265,24 +265,24 @@ struct NamedPtr<T>
 /* struct TableLayout<ulen RowCount> */
 
 template <ulen RowCount>
-struct TableLayout : NoCopy
+struct TableLayout
  {
-  struct Cell
-   {
-    Coord dy = 0 ;
-    Coord offx = 0 ;
-   };
-
   struct Col
    {
     Coord dx = 0 ;
 
-    Cell cell[RowCount];
+    Coord offx[RowCount] = {} ;
    };
 
   Col col[3];
 
-  Coord offy[RowCount] = {} ;
+  struct Row
+   {
+    Coord dy = 0 ;
+    Coord offy = 0 ;
+   };
+
+  Row row[RowCount];
  };
 
 /* struct Font */
@@ -854,7 +854,17 @@ struct Config
 
   RefVal<Fraction> width = Fraction(6,2) ;
 
+  RefVal<VColor> gray = Gray ;
+
   // app
+
+  RefVal<Coord> table_dxy = 3 ;
+  RefVal<Coord> element_space = 5 ;
+
+  RefVal<VColor> table = Black ;
+  RefVal<VColor> text = Blue ;
+
+  RefVal<CCore::Video::Font> text_font;
 
   template <class AppPref>
   Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -869,12 +879,17 @@ struct Config
     Used(proxy);
 
     width.bind(bag.width);
+    gray.bind(bag.gray);
    }
 
   template <class Bag>
   void bindApp(const Bag &bag)
    {
-    Used(bag);
+    table_dxy.bind(bag.table_dxy);
+    element_space.bind(bag.element_space);
+    table.bind(bag.table);
+    text.bind(bag.text);
+    text_font.bind(bag.text_font.font);
    }
  };
 

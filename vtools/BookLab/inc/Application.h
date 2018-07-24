@@ -55,9 +55,15 @@ struct AppPreferenceBag : ConfigItemHost
 
   Coord border_dxy = 5 ;
 
+  Coord table_dxy = 3 ;
+  Coord element_space = 5 ;
+
   VColor back = Silver ;
 
-  FontCouple font;
+  VColor table = Black ;
+  VColor text = Blue ;
+
+  FontCouple text_font;
 
   // constructors
 
@@ -91,8 +97,12 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Link"_c,ptr->text_Link);
   func("text_Book"_c,ptr->text_Book);
   func("border_dxy"_c,ptr->border_dxy);
+  func("table_dxy"_c,ptr->table_dxy);
+  func("element_space"_c,ptr->element_space);
   func("back"_c,ptr->back);
-  func("font"_c,ptr->font);
+  func("table"_c,ptr->table);
+  func("text_"_c,ptr->text);
+  func("text_font"_c,ptr->text_font);
  }
 
 /* struct AppProp */

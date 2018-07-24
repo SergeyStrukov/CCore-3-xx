@@ -90,6 +90,8 @@ struct Fraction
 
   enum MaxPrecType { MaxPrec };
 
+  Fraction() noexcept : value(0) {}
+
   Fraction(MCoord value_,MaxPrecType) : value(value_) {}
 
   Fraction(MCoord value_,unsigned prec) // prec <= Precision

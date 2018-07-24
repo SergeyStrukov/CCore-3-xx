@@ -44,16 +44,20 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Link'"_def,text_Link);
     binder.item("'Book'"_def,text_Book);
 
-    binder.item("border_dxy"_def,border_dxy);
+    binder.item("border width"_def,border_dxy);
+    binder.item("table width"_def,table_dxy);
+    binder.item("element space"_def,element_space);
     binder.item("back"_def,back);
-    binder.item("font"_def,font);
+    binder.item("table"_def,table);
+    binder.item("text"_def,text);
+    binder.item("text font"_def,text_font);
  }
 
 void AppPreferenceBag::findFonts()
  {
   DialogFontLookup dev;
 
-  font=dev.build("Anonymous Pro"_c,22);
+  text_font=dev.build("Anonymous Pro"_c,22);
  }
 
 } // namespace App
