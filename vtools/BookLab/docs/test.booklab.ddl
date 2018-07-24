@@ -1,4 +1,4 @@
-Doc Data = { 'test' , { False , 0FF0000h } , { True , 0 } , { null , &start } , 
+Doc Data = { 'test' , { False , 0FF0000h } , { True , 0 } , { 'start' , null } , 
 
 {
  { True , {0,0} },
@@ -9,7 +9,10 @@ Doc Data = { 'test' , { False , 0FF0000h } , { True , 0 } , { null , &start } ,
  null,null,null,null
 } ,
 
-{}
+{
+ &start,
+ &start
+}
 
 } ;
 

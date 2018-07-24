@@ -473,6 +473,33 @@ struct Defaults : NoCopy
    {
     keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
    }
+
+  // layout
+
+  TableLayout<12> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[12]=
+     {
+      {"Point"_c,"inner = "_c,If(inner)},
+      {"Point"_c,"outer = "_c,If(outer)},
+      {"Coord"_c,"bulletSpace = "_c,If(bulletSpace)},
+      {"Coord"_c,"itemSpace = "_c,If(itemSpace)},
+
+      {"SingleLine"_c,"singleLine = "_c,If(singleLine)},
+      {"DoubleLine"_c,"doubleLine = "_c,If(doubleLine)},
+      {"Format"_c,"collapseFormat = "_c,If(collapseFormat)},
+      {"Format"_c,"bulletFormat = "_c,If(bulletFormat)},
+      {"Border"_c,"border = "_c,If(border)},
+      {"Format"_c,"textFormat = "_c,If(textFormat)},
+      {"Format"_c,"fixedFormat = "_c,If(fixedFormat)},
+      {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct LastDefaults */
@@ -975,6 +1002,8 @@ class Book : NoCopy
    class ScopeContext;
 
    void setScope();
+
+   class ShowData;
 
    class PrepareContext;
 
