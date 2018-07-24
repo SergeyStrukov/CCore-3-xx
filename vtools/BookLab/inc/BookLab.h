@@ -392,6 +392,26 @@ struct Page : NamedObj
    {
     keeper(getBase(),up,prev,next,list);
    }
+
+  // layout
+
+  TableLayout<6> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[6]=
+     {
+      {"text"_c,"title = "_c,If(title)},
+      {"Color"_c,"back = "_c,If(back)},
+      {"Color"_c,"fore = "_c,If(fore)},
+      {"Page"_c,"up = "_c,If(up)},
+      {"Page"_c,"prev = "_c,If(prev)},
+      {"Page"_c,"next = "_c,If(next)},
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Element */
@@ -546,6 +566,20 @@ struct Doc : NoCopy
   // layout
 
   TableLayout<4> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[4]=
+     {
+      {"text"_c,"title = "_c,If(title)},
+      {"Color"_c,"back = "_c,If(back)},
+      {"Color"_c,"fore = "_c,If(fore)},
+      {"Page"_c,"start = "_c,If(start)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Bitmap */
@@ -854,7 +888,8 @@ struct Config
 
   RefVal<Fraction> width = Fraction(6,2) ;
 
-  RefVal<VColor> gray = Gray ;
+  RefVal<VColor> gray  = Gray ;
+  RefVal<VColor> alert = Pink ;
 
   // app
 
@@ -880,6 +915,7 @@ struct Config
 
     width.bind(bag.width);
     gray.bind(bag.gray);
+    alert.bind(bag.alert);
    }
 
   template <class Bag>

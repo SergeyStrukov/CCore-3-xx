@@ -189,6 +189,21 @@ class Book::PrepareContext : NoCopy
      Used(ptr);
     }
 
+   Point size(Page *ptr) // TODO
+    {
+     Point ret;
+
+     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=place(layout,Null,table); } );
+
+     return ret;
+    }
+
+   void place(Point base,Page *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+    }
+
   public:
 
    explicit PrepareContext(const Config &cfg)
@@ -203,15 +218,7 @@ class Book::PrepareContext : NoCopy
 
    Point place(Doc *doc) // TODO
     {
-     Row table[4]=
-      {
-       {"text"_c,"title = "_c,PlaceOf(doc->title)},
-       {"Color"_c,"back = "_c,PlaceOf(doc->back)},
-       {"Color"_c,"fore = "_c,PlaceOf(doc->fore)},
-       {"Page"_c,"start = "_c,PlaceOf(doc->start)}
-      };
-
-     place(doc->layout,Null,Range(table));
+     doc->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,Null,table); } );
 
      return Point(3000,3000);
     }
@@ -229,6 +236,7 @@ class Book::DrawContext : NoCopy
    Coord element_space;
 
    VColor gray;
+   VColor alert;
    VColor table;
    VColor text;
 
@@ -365,6 +373,13 @@ class Book::DrawContext : NoCopy
      draw(cell,offy,Range(obj));
     }
 
+   void draw(Pane cell,Coord offy,const String &obj,bool alert_flag)
+    {
+     if( alert_flag ) buf.erase(cell,alert);
+
+     draw(cell,offy,Range(obj));
+    }
+
    template <auto Def>
    void draw(Pane cell,Coord offy,const OptData<VColor,Def> &obj)
     {
@@ -374,20 +389,30 @@ class Book::DrawContext : NoCopy
        }
      else
        {
+        SmoothDrawArt art(buf);
+
         Coord dy=fs.dy;
 
         Pane pane(cell.x,cell.y+offy-fs.by,2*dy,dy);
 
-        buf.erase(pane,obj.data);
+        MPane p(pane);
+
+        if( !p ) return;
+
+        FigureRoundBox fig(p,p.dy/4);
+
+        fig.curveSolid(art,obj.data);
        }
     }
 
    template <class T>
    void draw(Pane cell,Coord offy,const NamedPtr<T> &obj)
     {
-     if( obj.hasName() ) return draw(cell,offy,obj.name);
+     if( obj.hasName() ) return draw(cell,offy,obj.name,obj.notResolved());
 
      if( obj.hasObj() ) return draw(cell,offy,obj.ptr.getPtr());
+
+     buf.erase(cell,gray);
     }
 
   private:
@@ -402,6 +427,12 @@ class Book::DrawContext : NoCopy
      Used(ptr);
     }
 
+   void draw(Pane cell,Coord,Page *ptr) // TODO
+    {
+     ptr->apply<Row,DrawOf>( [&] (auto table,auto &layout) { draw(cell.getBase(),table,layout); } );
+
+    }
+
   public:
 
    DrawContext(const DrawBuf &buf_,const Config &cfg)
@@ -411,6 +442,7 @@ class Book::DrawContext : NoCopy
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
      gray=+cfg.gray;
+     alert=+cfg.alert;
      table=+cfg.table;
      text=+cfg.text;
      text_font=+cfg.text_font;
@@ -420,15 +452,7 @@ class Book::DrawContext : NoCopy
 
    void draw(Doc *doc) // TODO
     {
-     Row table[4]=
-      {
-       {"text"_c,"title = "_c,DrawOf(doc->title)},
-       {"Color"_c,"back = "_c,DrawOf(doc->back)},
-       {"Color"_c,"fore = "_c,DrawOf(doc->fore)},
-       {"Page"_c,"start = "_c,DrawOf(doc->start)}
-      };
-
-     draw(Null,Range(table),doc->layout);
+     doc->apply<Row,DrawOf>( [&] (auto table,auto &layout) { draw(Null,table,layout); } );
 
     }
  };

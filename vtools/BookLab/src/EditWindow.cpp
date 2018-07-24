@@ -16,8 +16,6 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
 
-#include <CCore/inc/Exception.h>
-
 namespace App {
 
 /* class InnerBookLabWindow */
