@@ -60,6 +60,12 @@ template <>
 struct Book::LoadType<TypeDef::TextList> : Meta::DefType<TextList> {};
 
 template <>
+struct Book::LoadType<TypeDef::Border> : Meta::DefType<Border> {};
+
+template <>
+struct Book::LoadType<TypeDef::Cell> : Meta::DefType<Cell> {};
+
+template <>
 struct Book::LoadType<TypeDef::Table> : Meta::DefType<Table> {};
 
 template <>

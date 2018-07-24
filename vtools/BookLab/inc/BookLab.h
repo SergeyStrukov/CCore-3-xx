@@ -151,6 +151,13 @@ struct Ratio
   Coord b = 1 ;
 
   operator Video::Ratio() const { return Div(a,b); }
+
+  // print object
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"#;/#;",a,b);
+   }
  };
 
 inline Ratio DefRatioOne() { return {1}; }
@@ -297,6 +304,25 @@ struct Font : NamedObj
   OptData<bool> bold;
   OptData<bool> italic;
   OptData<int> strength;
+
+  // layout
+
+  TableLayout<5> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[5]=
+     {
+      {"text"_c,"face = "_c,If(face)},
+      {"Coord"_c,"size = "_c,If(size)},
+      {"bool"_c,"bold = "_c,If(bold)},
+      {"bool"_c,"italic = "_c,If(italic)},
+      {"int"_c,"strength = "_c,If(strength)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Format */
@@ -314,6 +340,24 @@ struct Format : NamedObj
    {
     keeper(getBase(),font);
    }
+
+  // layout
+
+  TableLayout<4> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[4]=
+     {
+      {"Font"_c,"font = "_c,If(font)},
+      {"Color"_c,"back = "_c,If(back)},
+      {"Color"_c,"fore = "_c,If(fore)},
+      {"Effect"_c,"effect = "_c,If(effect)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct SingleLine */
@@ -322,6 +366,22 @@ struct SingleLine : NamedObj
  {
   OptData<Ratio,DefRatioOne> width;
   OptData<VColor,DefNoColor> line;
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"Ratio"_c,"width = "_c,If(width)},
+      {"Color"_c,"line = "_c,If(line)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct DoubleLine */
@@ -331,6 +391,23 @@ struct DoubleLine : NamedObj
   OptData<Ratio,DefRatioOne> width;
   OptData<VColor,DefNoColor> gray;
   OptData<VColor,DefNoColor> snow;
+
+  // layout
+
+  TableLayout<3> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[3]=
+     {
+      {"Ratio"_c,"width = "_c,If(width)},
+      {"Color"_c,"gray = "_c,If(gray)},
+      {"Color"_c,"snow = "_c,If(snow)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Frame */
@@ -427,7 +504,8 @@ struct Element : NoCopy
 
   // data
 
-  IntAnyObjPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText> ptr;
+  IntAnyObjPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
+               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ptr;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -630,6 +708,21 @@ struct Bitmap : NoCopy
    {
     keeper(scope);
    }
+
+  // layout
+
+  TableLayout<1> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[1]=
+     {
+      {"text"_c,"file_name = "_c,If(file_name)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Collapse */
@@ -649,6 +742,24 @@ struct Collapse : NamedObj
   void keepAlive(Keeper keeper)
    {
     keeper(getBase(),format,list);
+   }
+
+  // layout
+
+  TableLayout<4> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[4]=
+     {
+      {"text"_c,"title = "_c,If(title)},
+      {"Format"_c,"format = "_c,If(format)},
+      {"bool"_c,"openlist = "_c,If(openlist)},
+      {"bool"_c,"hide = "_c,If(hide)}
+     };
+
+    func(Range(table),layout);
    }
  };
 
@@ -705,6 +816,23 @@ struct TextList : NamedObj
    {
     keeper(getBase(),format,list);
    }
+
+  // layout
+
+  TableLayout<3> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[3]=
+     {
+      {"Format"_c,"format = "_c,If(format)},
+      {"Coord"_c,"bullet_space = "_c,If(bullet_space)},
+      {"Coord"_c,"item_space = "_c,If(item_space)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Border */
@@ -714,6 +842,23 @@ struct Border : NamedObj
   OptData<Coord> space;
   OptData<Ratio,DefRatioOne> width;
   OptData<VColor,DefNoColor> line;
+
+  // layout
+
+  TableLayout<3> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[3]=
+     {
+      {"Coord"_c,"space = "_c,If(space)},
+      {"Ratio"_c,"width = "_c,If(width)},
+      {"Color"_c,"line = "_c,If(line)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Cell */
@@ -731,6 +876,22 @@ struct Cell : NamedObj
   void keepAlive(Keeper keeper)
    {
     keeper(getBase(),list);
+   }
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"ulen"_c,"span_x = "_c,If(span_x)},
+      {"ulen"_c,"span_y = "_c,If(span_y)}
+     };
+
+    func(Range(table),layout);
    }
  };
 
@@ -767,6 +928,21 @@ struct Link : NamedObj
   void keepAlive(Keeper keeper)
    {
     keeper(getBase(),page);
+   }
+
+  // layout
+
+  TableLayout<1> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[1]=
+     {
+      {"Page"_c,"page = "_c,If(page)}
+     };
+
+    func(Range(table),layout);
    }
  };
 
@@ -824,6 +1000,21 @@ struct OneLine : NamedObj
   static Align DefLeft() { return Left; }
 
   OptData<Align,DefLeft> align;
+
+  // layout
+
+  TableLayout<1> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[1]=
+     {
+      {"Align"_c,"align = "_c,If(align)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct MultiLine */
@@ -832,6 +1023,22 @@ struct MultiLine : NamedObj
  {
   OptData<Ratio,DefRatioOne> line_space;
   OptData<Ratio,DefRatioTwo> first_line_space;
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"Ratio"_c,"line_space = "_c,If(line_space)},
+      {"Ratio"_c,"first_line_space = "_c,If(first_line_space)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Text */
@@ -916,6 +1123,8 @@ struct Config
   // user
 
   RefVal<VColor> gray  = Gray ;
+  RefVal<VColor> snow  = Snow ;
+  RefVal<VColor> face  = Black ;
   RefVal<VColor> alert = Pink ;
 
   // app
@@ -924,11 +1133,14 @@ struct Config
 
   RefVal<Coord> table_dxy     = 3 ;
   RefVal<Coord> element_space = 5 ;
+  RefVal<Coord> knob_dxy = 20 ;
 
-  RefVal<VColor> table = Black ;
-  RefVal<VColor> text  = Blue ;
+  RefVal<VColor> table   = Black ;
+  RefVal<VColor> element = Black ;
+  RefVal<VColor> text    = Blue ;
 
   RefVal<CCore::Video::Font> text_font;
+  RefVal<CCore::Video::Font> element_font;
 
   template <class AppPref>
   Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -943,6 +1155,8 @@ struct Config
     Used(proxy);
 
     gray.bind(bag.gray);
+    snow.bind(bag.snow);
+    face.bind(bag.face);
     alert.bind(bag.alert);
    }
 
@@ -952,9 +1166,12 @@ struct Config
     line_width.bind(bag.line_width);
     table_dxy.bind(bag.table_dxy);
     element_space.bind(bag.element_space);
+    knob_dxy.bind(bag.knob_dxy);
     table.bind(bag.table);
+    element.bind(bag.element);
     text.bind(bag.text);
     text_font.bind(bag.text_font.font);
+    element_font.bind(bag.element_font.font);
    }
  };
 
@@ -1004,6 +1221,8 @@ class Book : NoCopy
    void setScope();
 
    class ShowData;
+
+   class ShowName;
 
    class PrepareContext;
 

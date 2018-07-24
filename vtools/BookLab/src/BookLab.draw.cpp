@@ -14,6 +14,7 @@
 #include <inc/BookLab.h>
 
 #include <CCore/inc/video/FigureLib.h>
+#include <CCore/inc/video/Layout.h>
 
 namespace App {
 namespace BookLab {
@@ -28,23 +29,150 @@ class Book::ShowData : NoCopy
 
   private:
 
-   void show(Point data)
+   template <OneOfTypes<Point,Ratio,Coord,int,bool,ulen> T>
+   void show(T data)
     {
      Putobj(out,data);
     }
 
-   void show(Coord data)
+   void show(Effect data)
     {
-     Putobj(out,data);
+     switch( data )
+       {
+        case Underline : Putobj(out,"underline"_c); break;
+        case Strikeout : Putobj(out,"strikeout"_c); break;
+
+        default: Putobj(out,"none"_c); break;
+       }
+    }
+
+   void show(Align data)
+    {
+     switch( data )
+       {
+        case Right : Putobj(out,"right"_c); break;
+        case Center : Putobj(out,"center"_c); break;
+
+        default: Putobj(out,"left"_c); break;
+       }
     }
 
   public:
 
    template <class T>
-   ShowData(T data)
+   explicit ShowData(T data)
     : out(Range(buf))
     {
      show(data);
+
+     str=out.close();
+    }
+
+   StrLen get() const { return str; }
+ };
+
+/* class Book::ShowName */
+
+class Book::ShowName : NoCopy
+ {
+   char buf[TextBufLen];
+   PrintBuf out;
+   StrLen str;
+
+  private:
+
+   void show(Font *ptr)
+    {
+     Printf(out,"Font #; = ",ptr->name);
+    }
+
+   void show(Format *ptr)
+    {
+     Printf(out,"Format #; = ",ptr->name);
+    }
+
+   void show(SingleLine *ptr)
+    {
+     Printf(out,"SingleLine #; = ",ptr->name);
+    }
+
+   void show(DoubleLine *ptr)
+    {
+     Printf(out,"DoubleLine #; = ",ptr->name);
+    }
+
+   void show(Page *ptr)
+    {
+     Printf(out,"Page #; = ",ptr->name);
+    }
+
+   void show(Scope *ptr)
+    {
+     Printf(out,"Scope #; = ",ptr->name);
+    }
+
+   void show(Bitmap *ptr)
+    {
+     Printf(out,"Bitmap #; = ",ptr->name);
+    }
+
+   void show(Collapse *ptr)
+    {
+     Printf(out,"Collapse #; = ",ptr->name);
+    }
+
+   void show(TextList *ptr)
+    {
+     Printf(out,"TextList #; = ",ptr->name);
+    }
+
+   void show(Border *ptr)
+    {
+     Printf(out,"Border #; = ",ptr->name);
+    }
+
+   void show(Cell *ptr)
+    {
+     Printf(out,"Cell #; = ",ptr->name);
+    }
+
+   void show(Table *ptr)
+    {
+     Printf(out,"Table #; = ",ptr->name);
+    }
+
+   void show(Link *ptr)
+    {
+     Printf(out,"Link #; = ",ptr->name);
+    }
+
+   void show(FixedText *ptr)
+    {
+     Printf(out,"FixedText #; = ",ptr->name);
+    }
+
+   void show(OneLine *ptr)
+    {
+     Printf(out,"OneLine #; = ",ptr->name);
+    }
+
+   void show(MultiLine *ptr)
+    {
+     Printf(out,"MultiLine #; = ",ptr->name);
+    }
+
+   void show(Text *ptr)
+    {
+     Printf(out,"Text #; = ",ptr->name);
+    }
+
+  public:
+
+   template <class T>
+   explicit ShowName(T *ptr)
+    : out(Range(buf))
+    {
+     show(ptr);
 
      str=out.close();
     }
@@ -58,9 +186,13 @@ class Book::PrepareContext : NoCopy
  {
    Coord table_dxy;
    Coord element_space;
+   Coord knob_dxy;
 
    CCore::Video::Font text_font;
    FontSize fs;
+
+   CCore::Video::Font element_font;
+   FontSize efs;
 
   private:
 
@@ -190,6 +322,22 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
+   Point sizeTable(T *ptr)
+    {
+     Point ret;
+
+     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=size(layout,table); } );
+
+     return ret;
+    }
+
+   template <class T>
+   void placeTable(Point base,T *ptr)
+    {
+     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,base,table); } );
+    }
+
+   template <class T>
    Point prepareTable(Point base,T *ptr)
     {
      Point ret;
@@ -247,12 +395,17 @@ class Book::PrepareContext : NoCopy
      return Point(2*dy,dy);
     }
 
-   template <OneOfTypes<Point,Coord> T>
+   template <OneOfTypes<Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
    Point size(T data)
     {
      ShowData show(data);
 
      return size(show.get());
+    }
+
+   template <OneOfTypes<VColor,Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
+   void place(Point,T)
+    {
     }
 
    template <class T,auto Def>
@@ -335,35 +488,26 @@ class Book::PrepareContext : NoCopy
      anyptr.apply( [&] (auto *ptr) { if( ptr ) place(base,ptr); } );
     }
 
-   // TODO
-
    template <class T>
    Point size(T *ptr)
     {
-     Used(ptr);
-
-     return Null;
+     return sizeBody(ptr);
     }
 
    template <class T>
    void place(Point base,T *ptr)
     {
-     Used(base);
-     Used(ptr);
+     placeBody(base,ptr);
     }
 
    Point size(Page *ptr) // TODO
     {
-     Point ret;
-
-     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=size(layout,table); } );
-
-     return ret;
+     return sizeBody(ptr);
     }
 
    void place(Point base,Page *ptr) // TODO
     {
-     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,base,table); } );
+     placeBody(base,ptr);
     }
 
   private:
@@ -378,10 +522,68 @@ class Book::PrepareContext : NoCopy
      return ret;
     }
 
-   // TODO
+   template <class T>
+   Point sizeBody(T *ptr)
+    {
+     if( ptr->open )
+       {
+        Point s=sizeTable(ptr);
+
+        return StackXSize_guarded(s,Point(BoxExt(knob_dxy),knob_dxy));
+       }
+     else
+       {
+        return Point::Diag(knob_dxy);
+       }
+    }
+
+   template <class T>
+   void placeBody(Point base,T *ptr)
+    {
+     if( ptr->open )
+       {
+        placeTable(base.addX(BoxExt(knob_dxy)),ptr);
+       }
+    }
+
+   Point sizeBody(Bitmap *ptr)
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeBody(Point base,Bitmap *ptr)
+    {
+     placeTable(base,ptr);
+    }
+
+   template <class T>
+   Point prepareElement(Point base,T *ptr)
+    {
+     ShowName show(ptr);
+
+     TextSize ts=element_font->text(show.get());
+
+     Coord dy=BoxExt(efs.dy);
+
+     Point s=sizeBody(ptr);
+
+     placeBody(base.addY(dy),ptr);
+
+     return StackYSize(s,Point(ts.full_dx,dy));
+    }
 
    template <class T>
    Point prepare(Point base,T *ptr)
+    {
+     return prepareElement(base,ptr);
+    }
+
+   Point prepare(Point base,Page *ptr) // TODO
+    {
+     return prepareElement(base,ptr);
+    }
+
+   Point prepare(Point base,Scope *ptr) // TODO
     {
      Used(base);
      Used(ptr);
@@ -389,9 +591,52 @@ class Book::PrepareContext : NoCopy
      return Null;
     }
 
-   Point prepare(Point base,Page *ptr) // TODO
+   Point prepare(Point base,Section *ptr) // TODO
     {
-     return prepareTable(base,ptr);
+     Used(base);
+     Used(ptr);
+
+     return Null;
+    }
+
+   Point prepare(Point base,Collapse *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return Null;
+    }
+
+   Point prepare(Point base,TextList *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return Null;
+    }
+
+   Point prepare(Point base,Table *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return Null;
+    }
+
+   Point prepare(Point base,FixedText *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return Null;
+    }
+
+   Point prepare(Point base,Text *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return Null;
     }
 
   public:
@@ -400,9 +645,12 @@ class Book::PrepareContext : NoCopy
     {
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
+     knob_dxy=+cfg.knob_dxy;
      text_font=+cfg.text_font;
+     element_font=+cfg.element_font;
 
      fs=text_font->getSize();
+     efs=element_font->getSize();
     }
 
    Point place(Doc *doc)
@@ -431,14 +679,22 @@ class Book::DrawContext : NoCopy
 
    Coord table_dxy;
    Coord element_space;
+   Coord knob_dxy;
 
    VColor gray;
+   VColor snow;
+   VColor face;
+   VColor top;
    VColor alert;
    VColor table;
+   VColor element;
    VColor text;
 
    CCore::Video::Font text_font;
    FontSize fs;
+
+   CCore::Video::Font element_font;
+   FontSize efs;
 
   private:
 
@@ -620,7 +876,7 @@ class Book::DrawContext : NoCopy
      fig.curveSolid(art,data);
     }
 
-   template <OneOfTypes<Point,Coord> T>
+   template <OneOfTypes<Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
    void draw(Pane cell,Coord offy,T data)
     {
      ShowData show(data);
@@ -685,19 +941,15 @@ class Book::DrawContext : NoCopy
      anyptr.apply( [&] (auto *ptr) { if( ptr ) draw(cell,offy,ptr); } );
     }
 
-   // TODO
-
    template <class T>
-   void draw(Pane cell,Coord offy,T *ptr)
+   void draw(Pane cell,Coord,T *ptr)
     {
-     Used(cell);
-     Used(offy);
-     Used(ptr);
+     drawBody(cell.getBase(),ptr);
     }
 
    void draw(Pane cell,Coord,Page *ptr) // TODO
     {
-     drawTable(cell.getBase(),ptr);
+     drawBody(cell.getBase(),ptr);
     }
 
   private:
@@ -712,10 +964,107 @@ class Book::DrawContext : NoCopy
      return ret;
     }
 
-   // TODO
+   void drawPlus(Point base)
+    {
+     MPane p(Pane(base,knob_dxy));
+
+     if( !p ) return;
+
+     SmoothDrawArt art(buf);
+
+     // center and radius
+
+     MCoord len=p.dx;
+     MCoord radius=len/2;
+
+     MPoint center=p.getCenter();
+
+     // body
+
+     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
+
+     // face
+
+     MCoord a=radius/2;
+     MCoord w=radius/3;
+
+     art.path(w,face,center.subX(a),center.addX(a));
+     art.path(w,face,center.subY(a),center.addY(a));
+    }
+
+   void drawMinus(Point base)
+    {
+     MPane p(Pane(base,knob_dxy));
+
+     if( !p ) return;
+
+     SmoothDrawArt art(buf);
+
+     // center and radius
+
+     MCoord len=p.dx;
+     MCoord radius=len/2;
+
+     MPoint center=p.getCenter();
+
+     // body
+
+     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
+
+     // face
+
+     MCoord a=radius/2;
+     MCoord w=radius/3;
+
+     art.path(w,face,center.subX(a),center.addX(a));
+    }
+
+   template <class T>
+   Coord drawBody(Point base,T *ptr)
+    {
+     if( ptr->open )
+       {
+        drawMinus(base);
+
+        return Max(knob_dxy,drawTable(base.addX(BoxExt(knob_dxy)),ptr));
+       }
+     else
+       {
+        drawPlus(base);
+
+        return knob_dxy;
+       }
+    }
+
+   Coord drawBody(Point base,Bitmap *ptr)
+    {
+     return drawTable(base,ptr);
+    }
+
+   template <class T>
+   Coord drawElement(Point base,T *ptr)
+    {
+     ShowName show(ptr);
+
+     element_font->text(buf,Pane(base,MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),show.get(),element);
+
+     Coord dy=BoxExt(efs.dy);
+
+     return dy+drawBody(base.addY(dy),ptr);
+    }
 
    template <class T>
    Coord draw(Point base,T *ptr)
+    {
+     return drawElement(base,ptr);
+    }
+
+   Coord draw(Point base,Page *ptr) // TODO
+    {
+     return drawElement(base,ptr);
+    }
+
+   Coord draw(Point base,Scope *ptr) // TODO
     {
      Used(base);
      Used(ptr);
@@ -723,9 +1072,52 @@ class Book::DrawContext : NoCopy
      return 0;
     }
 
-   Coord draw(Point base,Page *ptr) // TODO
+   Coord draw(Point base,Section *ptr) // TODO
     {
-     return drawTable(base,ptr);
+     Used(base);
+     Used(ptr);
+
+     return 0;
+    }
+
+   Coord draw(Point base,Collapse *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return 0;
+    }
+
+   Coord draw(Point base,TextList *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return 0;
+    }
+
+   Coord draw(Point base,Table *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return 0;
+    }
+
+   Coord draw(Point base,FixedText *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return 0;
+    }
+
+   Coord draw(Point base,Text *ptr) // TODO
+    {
+     Used(base);
+     Used(ptr);
+
+     return 0;
     }
 
   public:
@@ -736,13 +1128,19 @@ class Book::DrawContext : NoCopy
      line_width=+cfg.line_width;
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
+     knob_dxy=+cfg.knob_dxy;
      gray=+cfg.gray;
+     snow=+cfg.snow;
+     face=+cfg.face;
      alert=+cfg.alert;
      table=+cfg.table;
+     element=+cfg.element;
      text=+cfg.text;
      text_font=+cfg.text_font;
+     element_font=+cfg.element_font;
 
      fs=text_font->getSize();
+     efs=element_font->getSize();
     }
 
    void draw(Doc *doc)

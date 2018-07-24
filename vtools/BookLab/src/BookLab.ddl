@@ -170,7 +170,8 @@ struct Defaults
   {OneLine,MultiLine} *placement;
  }; 
 
-type Element = {Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText} * ;
+type Element = {Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
+                Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text} * ;
 
 struct Doc
  {

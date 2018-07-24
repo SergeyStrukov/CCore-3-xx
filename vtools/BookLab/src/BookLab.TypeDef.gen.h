@@ -51,7 +51,7 @@ struct TypeDefCore
   struct S45; // #Doc 
 
   using A1 = DDL::MapRange< S4 > ; // #TextLine
-  using A2 = DDL::MapPolyPtr< S44 , S42 , S39 , S38 , S37 , S36 , S34 , S33 , S32 , S31 , S17 , S5 , S11 > ; // #Element
+  using A2 = DDL::MapPolyPtr< S44 , S42 , S39 , S38 , S37 , S36 , S34 , S33 , S32 , S31 , S28 , S26 , S17 , S13 , S11 , S10 , S8 , S5 > ; // #Element
   using A3 = uint8 ; // #Align
   using A4 = uint8 ; // #Effect
   using A5 = sint32 ; // #Coord
