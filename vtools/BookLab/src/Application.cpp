@@ -44,6 +44,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Link'"_def,text_Link);
     binder.item("'Book'"_def,text_Book);
 
+    binder.item("table line width"_def,line_width);
     binder.item("border width"_def,border_dxy);
     binder.item("table width"_def,table_dxy);
     binder.item("element space"_def,element_space);

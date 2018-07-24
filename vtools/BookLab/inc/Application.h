@@ -55,6 +55,8 @@ struct AppPreferenceBag : ConfigItemHost
 
   Coord border_dxy = 5 ;
 
+  Fraction line_width = Fraction(6,2) ;
+
   Coord table_dxy = 3 ;
   Coord element_space = 5 ;
 
@@ -97,6 +99,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Link"_c,ptr->text_Link);
   func("text_Book"_c,ptr->text_Book);
   func("border_dxy"_c,ptr->border_dxy);
+  func("line_width"_c,ptr->line_width);
   func("table_dxy"_c,ptr->table_dxy);
   func("element_space"_c,ptr->element_space);
   func("back"_c,ptr->back);

@@ -60,6 +60,13 @@ inline Coord AddSize(Coord a,Coord b)
   return ret;
  }
 
+Coord AddSize(Coord a,auto ... args) requires ( sizeof ... (args) > 1 )
+ {
+  using Helper = OpAddHelper<Coord,AddSize> ;
+
+  return ( Helper(a) + ... + Helper(args) ).val;
+ }
+
 Coord MulSize(UIntType count,Coord x)
  {
   if( x>0 && count>SIntFunc<Coord>::UInt(SIntFunc<Coord>::MaxPositive/x) ) GuardSizeOverflow("CCore::Video::MulSize");

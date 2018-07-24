@@ -283,6 +283,8 @@ struct TableLayout
    };
 
   Row row[RowCount];
+
+  Point size;
  };
 
 /* struct Font */
@@ -886,18 +888,18 @@ struct Config
  {
   // user
 
-  RefVal<Fraction> width = Fraction(6,2) ;
-
   RefVal<VColor> gray  = Gray ;
   RefVal<VColor> alert = Pink ;
 
   // app
 
-  RefVal<Coord> table_dxy = 3 ;
+  RefVal<Fraction> line_width = Fraction(6,2) ;
+
+  RefVal<Coord> table_dxy     = 3 ;
   RefVal<Coord> element_space = 5 ;
 
   RefVal<VColor> table = Black ;
-  RefVal<VColor> text = Blue ;
+  RefVal<VColor> text  = Blue ;
 
   RefVal<CCore::Video::Font> text_font;
 
@@ -913,7 +915,6 @@ struct Config
    {
     Used(proxy);
 
-    width.bind(bag.width);
     gray.bind(bag.gray);
     alert.bind(bag.alert);
    }
@@ -921,6 +922,7 @@ struct Config
   template <class Bag>
   void bindApp(const Bag &bag)
    {
+    line_width.bind(bag.line_width);
     table_dxy.bind(bag.table_dxy);
     element_space.bind(bag.element_space);
     table.bind(bag.table);

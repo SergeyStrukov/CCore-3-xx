@@ -36,6 +36,8 @@ class InnerBookLabWindow : public SubWindow
     {
      // user
 
+     RefVal<Fraction> width = Fraction(6,2) ;
+
      RefVal<VColor> focus = OrangeRed ;
 
      // app
@@ -55,6 +57,7 @@ class InnerBookLabWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy)
       {
+       width.bind(bag.width);
        focus.bind(bag.focus);
       }
 

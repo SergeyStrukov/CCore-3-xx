@@ -22,8 +22,6 @@ namespace BookLab {
 
 class Book::PrepareContext : NoCopy
  {
-   Fraction width;
-
    Coord table_dxy;
    Coord element_space;
 
@@ -74,7 +72,7 @@ class Book::PrepareContext : NoCopy
     };
 
    template <ulen RowCount>
-   Point place(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
+   Point size(TableLayout<RowCount> &layout,PtrLen<const Row> table)
     {
      layout={};
 
@@ -114,6 +112,26 @@ class Book::PrepareContext : NoCopy
         layout.col[2].offx[i]=0;
        }
 
+     Coord dy=table_dxy;
+
+     for(ulen i : IndLim(RowCount) )
+       {
+        dy=AddSize(dy,layout.row[i].dy,table_dxy);
+       }
+
+     Point size(AddSize(dx0,dx1,dx2,MulSize(4u,table_dxy)),dy);
+
+     layout.size=size;
+
+     return size;
+    }
+
+   template <ulen RowCount>
+   void place(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
+    {
+     Coord dx0=layout.col[0].dx;
+     Coord dx1=layout.col[1].dx;
+
      Coord dx=dx0+dx1+3*table_dxy;
      Coord dy=table_dxy;
 
@@ -123,8 +141,16 @@ class Book::PrepareContext : NoCopy
 
         dy+=layout.row[i].dy+table_dxy;
        }
+    }
 
-     return Point(dx+dx2+table_dxy,dy);
+   template <ulen RowCount>
+   Point size_and_place(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
+    {
+     Point ret=size(layout,table);
+
+     place(layout,base,table);
+
+     return ret;
     }
 
   private:
@@ -193,22 +219,20 @@ class Book::PrepareContext : NoCopy
     {
      Point ret;
 
-     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=place(layout,Null,table); } );
+     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=size(layout,table); } );
 
      return ret;
     }
 
    void place(Point base,Page *ptr) // TODO
     {
-     Used(base);
-     Used(ptr);
+     ptr->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,base,table); } );
     }
 
   public:
 
    explicit PrepareContext(const Config &cfg)
     {
-     width=+cfg.width;
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
      text_font=+cfg.text_font;
@@ -218,7 +242,7 @@ class Book::PrepareContext : NoCopy
 
    Point place(Doc *doc) // TODO
     {
-     doc->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,Null,table); } );
+     doc->apply<Row,PlaceOf>( [&] (auto table,auto &layout) { size_and_place(layout,Null,table); } );
 
      return Point(3000,3000);
     }
@@ -230,7 +254,7 @@ class Book::DrawContext : NoCopy
  {
    DrawBuf buf;
 
-   Fraction width;
+   Fraction line_width;
 
    Coord table_dxy;
    Coord element_space;
@@ -296,14 +320,11 @@ class Book::DrawContext : NoCopy
 
       A=A/2;
 
-      MCoord fdx=Fraction(dx0+dx1+dx2+3*table_dxy);
-
-      Coord tdy=0;
-
       {
        MPoint O=A;
+       MCoord fdx=Fraction(layout.size.x-table_dxy);
 
-       art.path(width,vc,O,O.addX(fdx));
+       art.path(line_width,vc,O,O.addX(fdx));
 
        for(ulen i : IndLim(RowCount) )
          {
@@ -311,29 +332,27 @@ class Book::DrawContext : NoCopy
 
           O=O.addY(Fraction(dy+table_dxy));
 
-          art.path(width,vc,O,O.addX(fdx));
-
-          tdy+=dy+table_dxy;
+          art.path(line_width,vc,O,O.addX(fdx));
          }
       }
 
       {
        MPoint O=A;
-       MCoord fdy=Fraction(tdy);
+       MCoord fdy=Fraction(layout.size.y-table_dxy);
 
-       art.path(width,vc,O,O.addY(fdy));
+       art.path(line_width,vc,O,O.addY(fdy));
 
        O=O.addX(Fraction(dx0+table_dxy));
 
-       art.path(width,vc,O,O.addY(fdy));
+       art.path(line_width,vc,O,O.addY(fdy));
 
        O=O.addX(Fraction(dx1+table_dxy));
 
-       art.path(width,vc,O,O.addY(fdy));
+       art.path(line_width,vc,O,O.addY(fdy));
 
        O=O.addX(Fraction(dx2+table_dxy));
 
-       art.path(width,vc,O,O.addY(fdy));
+       art.path(line_width,vc,O,O.addY(fdy));
       }
      }
 
@@ -438,7 +457,7 @@ class Book::DrawContext : NoCopy
    DrawContext(const DrawBuf &buf_,const Config &cfg)
     : buf(buf_)
     {
-     width=+cfg.width;
+     line_width=+cfg.line_width;
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
      gray=+cfg.gray;
