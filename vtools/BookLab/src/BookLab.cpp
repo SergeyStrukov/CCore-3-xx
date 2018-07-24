@@ -209,9 +209,16 @@ class Book::ScopeContext : NoCopy
      if( +ptr ) set(scope,ptr.getPtr());
     }
 
-   void set(IntAnyObjPtr<Scope,Doc>,IntObjPtr<Scope> ptr)
+   void set(IntAnyObjPtr<Scope,Doc> scope,IntObjPtr<Scope> ptr)
     {
-     if( +ptr ) set(ptr,ptr.getPtr());
+     if( +ptr )
+       {
+        LockUse lock(level);
+
+        ptr->scope=scope;
+
+        subs(ptr,ptr.getPtr());
+       }
     }
 
    template <class ... TT>

@@ -447,8 +447,8 @@ class Book::SaveContext : public NextIndex
  {
    PrintBase &out;
 
-   using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,Table,Text,FixedText,
-                         Border,OneLine,MultiLine,Cell,Link> ;
+   using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
+                         Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ;
 
    struct Rec
     {

@@ -914,6 +914,22 @@ struct Table : NamedObj
 
     table.apply(keeper);
    }
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"Border"_c,"border = "_c,If(border)},
+      {"bool"_c,"hard"_c,If(hard)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct Link */
@@ -991,6 +1007,21 @@ struct FixedText : NamedObj
 
     list.apply(keeper);
    }
+
+  // layout
+
+  TableLayout<1> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[1]=
+     {
+      {"Format"_c,"format = "_c,If(format)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct OneLine */
@@ -1057,6 +1088,22 @@ struct Text : NamedObj
     keeper(getBase(),placement,format);
 
     list.apply(keeper);
+   }
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
+      {"Format"_c,"format = "_c,If(format)}
+     };
+
+    func(Range(table),layout);
    }
  };
 

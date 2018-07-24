@@ -424,8 +424,8 @@ class Book::PrepareContext : NoCopy
    template <class T,auto Def>
    void place(Point,OptData<T,Def> &) {}
 
-   template <class T>
-   Point size(NamedPtr<T> &obj)
+   template <class ... TT>
+   Point size(NamedPtr<TT...> &obj)
     {
      if( obj.hasName() ) return size(obj.name);
 
@@ -434,8 +434,8 @@ class Book::PrepareContext : NoCopy
      return Null;
     }
 
-   template <class T>
-   void place(Point base,NamedPtr<T> &obj)
+   template <class ... TT>
+   void place(Point base,NamedPtr<TT...> &obj)
     {
      if( obj.hasName() ) return;
 
@@ -500,16 +500,6 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
-   Point size(Page *ptr) // TODO
-    {
-     return sizeBody(ptr);
-    }
-
-   void place(Point base,Page *ptr) // TODO
-    {
-     placeBody(base,ptr);
-    }
-
   private:
 
    template <class ... TT>
@@ -523,11 +513,83 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
+   Point sizeTableExt(T *ptr)
+    {
+     return sizeTable(ptr);
+    }
+
+   template <class T>
+   void placeTableExt(Point base,T *ptr)
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(Page *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,Page *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(Collapse *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,Collapse *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(TextList *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,TextList *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(Table *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,Table *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(FixedText *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,FixedText *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(Text *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeTableExt(Point base,Text *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
+   template <class T>
    Point sizeBody(T *ptr)
     {
      if( ptr->open )
        {
-        Point s=sizeTable(ptr);
+        Point s=sizeTableExt(ptr);
 
         return StackXSize_guarded(s,Point(BoxExt(knob_dxy),knob_dxy));
        }
@@ -542,7 +604,7 @@ class Book::PrepareContext : NoCopy
     {
      if( ptr->open )
        {
-        placeTable(base.addX(BoxExt(knob_dxy)),ptr);
+        placeTableExt(base.addX(BoxExt(knob_dxy)),ptr);
        }
     }
 
@@ -578,11 +640,6 @@ class Book::PrepareContext : NoCopy
      return prepareElement(base,ptr);
     }
 
-   Point prepare(Point base,Page *ptr) // TODO
-    {
-     return prepareElement(base,ptr);
-    }
-
    Point prepare(Point base,Scope *ptr) // TODO
     {
      Used(base);
@@ -592,46 +649,6 @@ class Book::PrepareContext : NoCopy
     }
 
    Point prepare(Point base,Section *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return Null;
-    }
-
-   Point prepare(Point base,Collapse *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return Null;
-    }
-
-   Point prepare(Point base,TextList *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return Null;
-    }
-
-   Point prepare(Point base,Table *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return Null;
-    }
-
-   Point prepare(Point base,FixedText *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return Null;
-    }
-
-   Point prepare(Point base,Text *ptr) // TODO
     {
      Used(base);
      Used(ptr);
@@ -897,8 +914,8 @@ class Book::DrawContext : NoCopy
        }
     }
 
-   template <class T>
-   void draw(Pane cell,Coord offy,const NamedPtr<T> &obj)
+   template <class ... TT>
+   void draw(Pane cell,Coord offy,const NamedPtr<TT...> &obj)
     {
      if( obj.hasName() ) return draw(cell,offy,obj.name,obj.notResolved());
 
@@ -947,11 +964,6 @@ class Book::DrawContext : NoCopy
      drawBody(cell.getBase(),ptr);
     }
 
-   void draw(Pane cell,Coord,Page *ptr) // TODO
-    {
-     drawBody(cell.getBase(),ptr);
-    }
-
   private:
 
    template <class ... TT>
@@ -962,6 +974,42 @@ class Book::DrawContext : NoCopy
      anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=draw(base,ptr); } );
 
      return ret;
+    }
+
+   template <class T>
+   Coord drawTableExt(Point base,T *ptr)
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,Page *ptr) // TODO
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,Collapse *ptr) // TODO
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,TextList *ptr) // TODO
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,Table *ptr) // TODO
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,FixedText *ptr) // TODO
+    {
+     return drawTable(base,ptr);
+    }
+
+   Coord drawTableExt(Point base,Text *ptr) // TODO
+    {
+     return drawTable(base,ptr);
     }
 
    void drawPlus(Point base)
@@ -1026,7 +1074,7 @@ class Book::DrawContext : NoCopy
        {
         drawMinus(base);
 
-        return Max(knob_dxy,drawTable(base.addX(BoxExt(knob_dxy)),ptr));
+        return Max(knob_dxy,drawTableExt(base.addX(BoxExt(knob_dxy)),ptr));
        }
      else
        {
@@ -1059,11 +1107,6 @@ class Book::DrawContext : NoCopy
      return drawElement(base,ptr);
     }
 
-   Coord draw(Point base,Page *ptr) // TODO
-    {
-     return drawElement(base,ptr);
-    }
-
    Coord draw(Point base,Scope *ptr) // TODO
     {
      Used(base);
@@ -1073,46 +1116,6 @@ class Book::DrawContext : NoCopy
     }
 
    Coord draw(Point base,Section *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
-    }
-
-   Coord draw(Point base,Collapse *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
-    }
-
-   Coord draw(Point base,TextList *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
-    }
-
-   Coord draw(Point base,Table *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
-    }
-
-   Coord draw(Point base,FixedText *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
-    }
-
-   Coord draw(Point base,Text *ptr) // TODO
     {
      Used(base);
      Used(ptr);
