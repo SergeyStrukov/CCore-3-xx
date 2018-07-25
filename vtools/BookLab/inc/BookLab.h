@@ -968,15 +968,27 @@ struct Table : NamedObj
 
   // layout
 
-  TableLayout<2> layout;
+  DynArray<Coord> cellsize;
+
+  struct Data
+   {
+    PtrLen<Coord> width;
+    PtrLen<NamedPtr<Cell> > cells;
+    DynArray<Coord> &cellsize;
+   };
+
+  TableLayout<3> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[2]=
+    Data temp={Range(width),Range(table),cellsize};
+
+    Row table[3]=
      {
       {"Border"_c,"border = "_c,If(border)},
-      {"bool"_c,"hard"_c,If(hard)}
+      {"bool"_c,"hard"_c,If(hard)},
+      {"Table"_c,"table = "_c,If(temp)}
      };
 
     func(Range(table),layout);
@@ -1004,9 +1016,11 @@ struct Link : NamedObj
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
+    StrLen temp="link ..."_c;
+
     Row table[1]=
      {
-      {"Page"_c,"page = "_c,If(page)}
+      {"Link"_c,"link = "_c,If(temp)}
      };
 
     func(Range(table),layout);
@@ -1061,14 +1075,17 @@ struct FixedText : NamedObj
 
   // layout
 
-  TableLayout<1> layout;
+  TableLayout<2> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[1]=
+    StrLen temp="fixed text ..."_c;
+
+    Row table[2]=
      {
-      {"Format"_c,"format = "_c,If(format)}
+      {"Format"_c,"format = "_c,If(format)},
+      {"FixedText"_c,"text = "_c,If(temp)}
      };
 
     func(Range(table),layout);
@@ -1143,15 +1160,18 @@ struct Text : NamedObj
 
   // layout
 
-  TableLayout<2> layout;
+  TableLayout<3> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[2]=
+    StrLen temp="text ..."_c;
+
+    Row table[3]=
      {
       {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
-      {"Format"_c,"format = "_c,If(format)}
+      {"Format"_c,"format = "_c,If(format)},
+      {"Text"_c,"text = "_c,If(temp)}
      };
 
     func(Range(table),layout);

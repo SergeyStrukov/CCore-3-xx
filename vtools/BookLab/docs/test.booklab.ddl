@@ -16,7 +16,10 @@ Doc Data = { 'test' , { False , 0FF0000h } , { True , 0 } , { null , &start } ,
  &font3,
  &font4,
  &fmt1,
- &start
+ &start,
+ &t1,
+ &t2,
+ &t3
 }
 
 } ;
@@ -61,7 +64,7 @@ TextList list1 = { 'menu' , True , { 'fmt' } , { True } , { True } , {
  
 } , 2 } } ;
 
-
+Link link1 = { 'link1' , True , { 'start' } } ;
 
 
 Scope scope1 = { 'page1' , True , 
@@ -96,7 +99,8 @@ Section elems = { True , 'elements' ,
  
 {
  &fmt1,
- &list1
+ &list1,
+ &link1
 }
  
 } ;
@@ -115,3 +119,11 @@ Page start = { 'start' , True , 'test page' , { True , 0 } , { True , 0 } , {'co
 } , 1 } 
 
 } ;
+
+FixedText t1 = { 't1' , True } ;
+
+Text t2 = { 't2' , True } ;
+
+Table t3 = { 't3' , True , null , null , {20,20,60} , { {'cell11'} , {'cell12'} , {'cell13'} , {'cell21'} ,{'cell22'} ,{'cell23'} } } ;
+
+

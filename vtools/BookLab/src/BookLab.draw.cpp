@@ -423,6 +423,8 @@ class Book::PrepareContext : NoCopy
      return text_font->text(text).getSize();
     }
 
+   void place(Point,StrLen) {}
+
    Point size(const String &obj)
     {
      return size(Range(obj));
@@ -542,6 +544,19 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
+   Point size(Table::Data obj) // TODO
+    {
+     Used(obj);
+
+     return Null;
+    }
+
+   void place(Point base,Table::Data obj) // TODO
+    {
+     Used(base);
+     Used(obj);
+    }
+
   private:
 
    template <class ... TT>
@@ -592,36 +607,6 @@ class Book::PrepareContext : NoCopy
      Coord dy=ptr->defs.layout.size.y+element_space;
 
      place(base.addY(dy),ptr->list);
-    }
-
-   Point sizeTableExt(Table *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,Table *ptr) // TODO
-    {
-     placeTable(base,ptr);
-    }
-
-   Point sizeTableExt(FixedText *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,FixedText *ptr) // TODO
-    {
-     placeTable(base,ptr);
-    }
-
-   Point sizeTableExt(Text *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,Text *ptr) // TODO
-    {
-     placeTable(base,ptr);
     }
 
    template <class T>
@@ -1067,6 +1052,12 @@ class Book::DrawContext : NoCopy
        }
     }
 
+   void draw(Pane cell,Coord,Table::Data obj) // TODO
+    {
+     Used(cell);
+     Used(obj);
+    }
+
   private:
 
    template <class ... TT>
@@ -1121,21 +1112,6 @@ class Book::DrawContext : NoCopy
      dy+=draw(base.addY(dy),ptr->list);
 
      drawScopeLine(base,ptr->size);
-    }
-
-   void drawTableExt(Point base,Table *ptr) // TODO
-    {
-     drawTable(base,ptr);
-    }
-
-   void drawTableExt(Point base,FixedText *ptr) // TODO
-    {
-     drawTable(base,ptr);
-    }
-
-   void drawTableExt(Point base,Text *ptr) // TODO
-    {
-     drawTable(base,ptr);
     }
 
    void drawPlus(Point base,Coord dxy)
