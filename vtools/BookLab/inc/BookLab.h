@@ -530,6 +530,10 @@ struct ElementList : NoCopy
    {
     keeper(beg,end);
    }
+
+  // layout
+
+  Point size;
  };
 
 /* struct Defaults */
@@ -1191,11 +1195,13 @@ struct Config
   RefVal<Coord> knob_dxy = 20 ;
 
   RefVal<VColor> table   = Black ;
-  RefVal<VColor> element = Black ;
   RefVal<VColor> text    = Blue ;
+  RefVal<VColor> element = Black ;
+  RefVal<VColor> comment = ForestGreen ;
 
   RefVal<CCore::Video::Font> text_font;
   RefVal<CCore::Video::Font> element_font;
+  RefVal<CCore::Video::Font> comment_font;
 
   template <class AppPref>
   Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -1223,10 +1229,12 @@ struct Config
     element_space.bind(bag.element_space);
     knob_dxy.bind(bag.knob_dxy);
     table.bind(bag.table);
-    element.bind(bag.element);
     text.bind(bag.text);
+    element.bind(bag.element);
+    comment.bind(bag.comment);
     text_font.bind(bag.text_font.font);
     element_font.bind(bag.element_font.font);
+    comment_font.bind(bag.comment_font.font);
    }
  };
 

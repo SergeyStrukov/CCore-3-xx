@@ -51,10 +51,12 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("knob len"_def,knob_dxy);
     binder.item("back"_def,back);
     binder.item("table"_def,table);
-    binder.item("element"_def,element);
     binder.item("text"_def,text);
+    binder.item("element"_def,element);
+    binder.item("comment"_def,comment);
     binder.item("text font"_def,text_font);
     binder.item("element font"_def,element_font);
+    binder.item("comment font"_def,comment_font);
  }
 
 void AppPreferenceBag::findFonts()
@@ -62,7 +64,8 @@ void AppPreferenceBag::findFonts()
   DialogFontLookup dev;
 
   text_font=dev.build("Anonymous Pro"_c,22);
-  element_font=dev.build("Anonymous Pro"_c,26);
+  element_font=dev.build("Anonymous Pro"_c|Italic,26);
+  comment_font=dev.build("Bookman Old Style"_c|Italic,20);
  }
 
 } // namespace App

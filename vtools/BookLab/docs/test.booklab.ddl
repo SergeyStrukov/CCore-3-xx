@@ -42,13 +42,21 @@ Scope scope1 = { 'page1' , True ,
 } ,
 
 {
- &font1,
- &font2,
- &font3,
- &font4,
+ &common_fonts,
  &fmt1
 }
 
+} ;
+
+Section common_fonts = { True , 'common fonts' ,
+ 
+{
+ &font1,
+ &font2,
+ &font3,
+ &font4
+}
+ 
 } ;
 
 Page start = { 'start' , True , 'test page' , { True , 0 } , { True , 0 } , {'content',null} , {null,null} , {null,null} , {} } ;

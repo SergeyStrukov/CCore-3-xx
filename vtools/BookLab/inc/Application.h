@@ -64,11 +64,13 @@ struct AppPreferenceBag : ConfigItemHost
   VColor back = Silver ;
 
   VColor table   = Black ;
-  VColor element = Black ;
   VColor text    = Blue ;
+  VColor element = Black ;
+  VColor comment = ForestGreen ;
 
   FontCouple text_font;
   FontCouple element_font;
+  FontCouple comment_font;
 
   // constructors
 
@@ -108,10 +110,12 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("knob_dxy"_c,ptr->knob_dxy);
   func("back"_c,ptr->back);
   func("table"_c,ptr->table);
-  func("element"_c,ptr->element);
   func("text_"_c,ptr->text);
+  func("element"_c,ptr->element);
+  func("comment"_c,ptr->comment);
   func("text_font"_c,ptr->text_font);
   func("element_font"_c,ptr->element_font);
+  func("comment_font"_c,ptr->comment_font);
  }
 
 /* struct AppProp */

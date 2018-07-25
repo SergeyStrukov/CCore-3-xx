@@ -194,6 +194,9 @@ class Book::PrepareContext : NoCopy
    CCore::Video::Font element_font;
    FontSize efs;
 
+   CCore::Video::Font comment_font;
+   FontSize cfs;
+
   private:
 
    struct Place
@@ -363,6 +366,8 @@ class Book::PrepareContext : NoCopy
         ret=StackYSize_guarded(ret,s);
        }
 
+     list.size=ret;
+
      return ret;
     }
 
@@ -404,9 +409,11 @@ class Book::PrepareContext : NoCopy
 
    Point prepare(Point base,Defaults &obj)
     {
-     Point s=prepareTable(base.addY(element_space),&obj);
+     Point ret=size(obj);
 
-     return StackYSize_guarded(s,Point(0,element_space));
+     place(base,obj);
+
+     return ret;
     }
 
   private:
@@ -703,17 +710,39 @@ class Book::PrepareContext : NoCopy
      placeBody(base.addY(dy),ptr);
     }
 
-   Point sizeElement(Section *ptr) // TODO
+   Point sizeElement(Section *ptr)
     {
-     Used(ptr);
+     Coord dxy=cfs.dy;
 
-     return Null;
+     if( ptr->open )
+       {
+        TextSize ts=comment_font->text(Range(ptr->comment));
+
+        Point s1(AddSize(BoxExt(dxy),ts.full_dx),BoxExt(dxy));
+
+        Point s2=size(ptr->list);
+
+        return StackYSize_guarded(s1,s2);
+       }
+     else
+       {
+        TextSize ts=comment_font->text(Range(ptr->comment));
+
+        return Point(AddSize(BoxExt(dxy),ts.full_dx),dxy);
+       }
     }
 
-   void placeElement(Point base,Section *ptr) // TODO
+   void placeElement(Point base,Section *ptr)
     {
-     Used(base);
-     Used(ptr);
+     if( ptr->open )
+       {
+        Coord dxy=cfs.dy;
+
+        place(base.addY(BoxExt(dxy)),ptr->list);
+       }
+     else
+       {
+       }
     }
 
   public:
@@ -725,9 +754,11 @@ class Book::PrepareContext : NoCopy
      knob_dxy=+cfg.knob_dxy;
      text_font=+cfg.text_font;
      element_font=+cfg.element_font;
+     comment_font=+cfg.comment_font;
 
      fs=text_font->getSize();
      efs=element_font->getSize();
+     cfs=comment_font->getSize();
     }
 
    Point place(Doc *doc)
@@ -764,14 +795,18 @@ class Book::DrawContext : NoCopy
    VColor top;
    VColor alert;
    VColor table;
-   VColor element;
    VColor text;
+   VColor element;
+   VColor comment;
 
    CCore::Video::Font text_font;
    FontSize fs;
 
    CCore::Video::Font element_font;
    FontSize efs;
+
+   CCore::Video::Font comment_font;
+   FontSize cfs;
 
   private:
 
@@ -898,18 +933,24 @@ class Book::DrawContext : NoCopy
 
    Coord draw(Point base,ElementList &list)
     {
-     Coord start=base.y;
+     Pane clip=buf.getClip();
+
+     if( !clip ) return list.size.y;
+
+     Coord lim=clip.y+clip.dy;
 
      for(Element &elem : ForIntList(list) )
        {
         base=base.addY(element_space);
 
-        Coord dy=draw(base,elem.ptr.getPtr());
+        if( base.y>=lim ) break;
 
-        base=base.addY(dy);
+        if( base.y+elem.pane.dy>clip.y ) draw(base,elem.ptr.getPtr());
+
+        base=base.addY(elem.pane.dy);
        }
 
-     return base.y-start;
+     return list.size.y;
     }
 
    Coord draw(Point base,Defaults &obj)
@@ -1102,9 +1143,9 @@ class Book::DrawContext : NoCopy
      return drawTable(base,ptr);
     }
 
-   void drawPlus(Point base)
+   void drawPlus(Point base,Coord dxy)
     {
-     MPane p(Pane(base,knob_dxy));
+     MPane p(Pane(base,dxy));
 
      if( !p ) return;
 
@@ -1130,9 +1171,9 @@ class Book::DrawContext : NoCopy
      art.path(w,face,center.subY(a),center.addY(a));
     }
 
-   void drawMinus(Point base)
+   void drawMinus(Point base,Coord dxy)
     {
-     MPane p(Pane(base,knob_dxy));
+     MPane p(Pane(base,dxy));
 
      if( !p ) return;
 
@@ -1156,6 +1197,10 @@ class Book::DrawContext : NoCopy
 
      art.path(w,face,center.subX(a),center.addX(a));
     }
+
+   void drawPlus(Point base) { drawPlus(base,knob_dxy); }
+
+   void drawMinus(Point base) { drawMinus(base,knob_dxy); }
 
    template <class T>
    Coord drawBody(Point base,T *ptr)
@@ -1197,12 +1242,28 @@ class Book::DrawContext : NoCopy
      return drawElement(base,ptr);
     }
 
-   Coord draw(Point base,Section *ptr) // TODO
+   Coord draw(Point base,Section *ptr)
     {
-     Used(base);
-     Used(ptr);
+     Coord dxy=cfs.dy;
 
-     return 0;
+     if( ptr->open )
+       {
+        drawMinus(base,dxy);
+
+        comment_font->text(buf,Pane(base.addX(BoxExt(dxy)),MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),Range(ptr->comment),comment);
+
+        Coord dy=draw(base.addY(BoxExt(dxy)),ptr->list);
+
+        return BoxExt(dxy)+dy;
+       }
+     else
+       {
+        drawPlus(base,dxy);
+
+        comment_font->text(buf,Pane(base.addX(BoxExt(dxy)),MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),Range(ptr->comment),comment);
+
+        return dxy;
+       }
     }
 
   public:
@@ -1219,13 +1280,16 @@ class Book::DrawContext : NoCopy
      face=+cfg.face;
      alert=+cfg.alert;
      table=+cfg.table;
-     element=+cfg.element;
      text=+cfg.text;
+     element=+cfg.element;
+     comment=+cfg.comment;
      text_font=+cfg.text_font;
      element_font=+cfg.element_font;
+     comment_font=+cfg.comment_font;
 
      fs=text_font->getSize();
      efs=element_font->getSize();
+     cfs=comment_font->getSize();
     }
 
    void draw(Doc *doc)
