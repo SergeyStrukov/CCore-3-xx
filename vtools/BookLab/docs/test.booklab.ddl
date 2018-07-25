@@ -31,6 +31,39 @@ Font font4 = { 'font_bi' , True , 'Times New Roman' , 24 , { False , True } , { 
 
 Format fmt1 = { 'fmt' , True , { null , &font1 } , { True , 0 } , { True , 0 } , { True , 0 } } ;
 
+TextList list1 = { 'menu' , True , { 'fmt' } , { True } , { True } , { 
+
+{ 
+
+{ 'item1' , { {
+
+{ {True,null},{True,null},{True,null},{null,null},{'iframe1',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe2',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe3',null} }
+  
+} , 1 } }, 
+
+{ 'item2' , { {
+
+{ {True,null},{True,null},{True,null},{null,null},{'iframe1',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe2',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe3',null} }
+  
+} , 1 } },
+
+{ 'item3' , { {
+
+{ {True,null},{True,null},{True,null},{null,null},{'iframe1',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe2',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'iframe3',null} }
+  
+} , 1 } } 
+ 
+} , 2 } } ;
+
+
+
+
 Scope scope1 = { 'page1' , True , 
 {
  { True , {0,0} },
@@ -43,7 +76,7 @@ Scope scope1 = { 'page1' , True ,
 
 {
  &common_fonts,
- &fmt1
+ &elems
 }
 
 } ;
@@ -58,6 +91,16 @@ Section common_fonts = { True , 'common fonts' ,
 }
  
 } ;
+
+Section elems = { True , 'elements' ,
+ 
+{
+ &fmt1,
+ &list1
+}
+ 
+} ;
+
 
 Page start = { 'start' , True , 'test page' , { True , 0 } , { True , 0 } , {'content',null} , {null,null} , {null,null} , 
 

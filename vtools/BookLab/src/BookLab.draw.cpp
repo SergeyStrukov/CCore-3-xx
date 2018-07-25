@@ -594,16 +594,6 @@ class Book::PrepareContext : NoCopy
      place(base.addY(dy),ptr->list);
     }
 
-   Point sizeTableExt(TextList *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,TextList *ptr) // TODO
-    {
-     placeTable(base,ptr);
-    }
-
    Point sizeTableExt(Table *ptr) // TODO
     {
      return sizeTable(ptr);
@@ -697,12 +687,14 @@ class Book::PrepareContext : NoCopy
        }
     }
 
-   Point sizeBody(Frame *ptr)
+   template <OneOfTypes<Frame,Item> T>
+   Point sizeBody(T *ptr)
     {
      return sizeListTable(ptr);
     }
 
-   void placeBody(Point base,Frame *ptr)
+   template <OneOfTypes<Frame,Item> T>
+   void placeBody(Point base,T *ptr)
     {
      placeListTable(base,ptr);
     }
@@ -1131,11 +1123,6 @@ class Book::DrawContext : NoCopy
      drawScopeLine(base,ptr->size);
     }
 
-   void drawTableExt(Point base,TextList *ptr) // TODO
-    {
-     drawTable(base,ptr);
-    }
-
    void drawTableExt(Point base,Table *ptr) // TODO
     {
      drawTable(base,ptr);
@@ -1367,7 +1354,8 @@ class Book::DrawContext : NoCopy
        }
     }
 
-   void drawBody(Point base,Frame *ptr)
+   template <OneOfTypes<Frame,Item> T>
+   void drawBody(Point base,T *ptr)
     {
      drawListTable(base,ptr);
     }

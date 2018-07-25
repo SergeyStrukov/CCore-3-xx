@@ -816,6 +816,22 @@ struct Item : NoCopy
    {
     keeper(prev,next,list);
    }
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[2]=
+     {
+      {"text"_c,"bullet = "_c,If(bullet)},
+      {"Frame[]"_c,"list = "_c,If(list.cur)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct ItemList */
@@ -852,16 +868,17 @@ struct TextList : NamedObj
 
   // layout
 
-  TableLayout<3> layout;
+  TableLayout<4> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[3]=
+    Row table[4]=
      {
       {"Format"_c,"format = "_c,If(format)},
       {"Coord"_c,"bullet_space = "_c,If(bullet_space)},
-      {"Coord"_c,"item_space = "_c,If(item_space)}
+      {"Coord"_c,"item_space = "_c,If(item_space)},
+      {"Item[]"_c,"list = "_c,If(list.cur)}
      };
 
     func(Range(table),layout);
