@@ -542,16 +542,6 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
-   Point size(Frame *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void place(Point base,Frame *ptr) // TODO
-    {
-     placeTable(base,ptr);
-    }
-
   private:
 
    template <class ... TT>
@@ -678,6 +668,45 @@ class Book::PrepareContext : NoCopy
      placeTable(base,ptr);
     }
 
+   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
+
+   template <class T>
+   Point sizeListTable(T *ptr)
+    {
+     Point s1=sizeListBtn();
+     Point s2=sizeTable(ptr);
+
+     return StackXSize_guarded(s1,s2);
+    }
+
+   template <class T>
+   void placeListTable(Point base,T *ptr)
+    {
+     Point s1=sizeListBtn();
+     Point s2=ptr->layout.size;
+
+     if( s1.y<s2.y )
+       {
+        placeTable(base.addX(s1.x),ptr);
+       }
+     else
+       {
+        Coord delta=s1.y-s2.y;
+
+        placeTable(base.addX(s1.x).addY(delta/2),ptr);
+       }
+    }
+
+   Point sizeBody(Frame *ptr)
+    {
+     return sizeListTable(ptr);
+    }
+
+   void placeBody(Point base,Frame *ptr)
+    {
+     placeListTable(base,ptr);
+    }
+
    template <class T>
    Point sizeElement(T *ptr)
     {
@@ -764,6 +793,11 @@ class Book::PrepareContext : NoCopy
      Point s3=prepare(Point(0,dy),doc->list);
 
      return StackYSize_guarded(StackYSize_guarded(s1,s2),s3);
+    }
+
+   static Point SizeListBtn(Coord dxy)
+    {
+     return Point(BoxExt(dxy),5*dxy);
     }
  };
 
@@ -1055,11 +1089,6 @@ class Book::DrawContext : NoCopy
      drawBody(cell.getBase(),ptr);
     }
 
-   void draw(Pane cell,Coord,Frame *ptr) // TODO
-    {
-     drawTable(cell.getBase(),ptr);
-    }
-
   private:
 
    template <class ... TT>
@@ -1199,6 +1228,148 @@ class Book::DrawContext : NoCopy
    void drawBody(Point base,Bitmap *ptr)
     {
      drawTable(base,ptr);
+    }
+
+   void drawBegBtn(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     MPane q=p.shrink(delta);
+
+     FigureUpArrow fig2(q);
+
+     fig2.curveSolid(art,face);
+
+     FigureBox fig3(q.x,q.ex,q.y-delta/2,q.y+delta/2);
+
+     fig3.solid(art,face);
+    }
+
+   void drawPrevBtn(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     FigureUpArrow fig2(p.shrink(delta));
+
+     fig2.curveSolid(art,face);
+    }
+
+   void drawWheelPad(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MPoint center=p.getCenter();
+     MCoord radius=Div(2,5)*p.dx;
+
+     art.ball(center,radius,face);
+    }
+
+   void drawNextBtn(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     FigureDownArrow fig2(p.shrink(delta));
+
+     fig2.curveSolid(art,face);
+    }
+
+   void drawEndBtn(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     MPane q=p.shrink(delta);
+
+     FigureDownArrow fig2(q);
+
+     fig2.curveSolid(art,face);
+
+     FigureBox fig3(q.x,q.ex,q.ey-delta/2,q.ey+delta/2);
+
+     fig3.solid(art,face);
+    }
+
+   void drawListBtn(Point base,Coord dxy)
+    {
+     SmoothDrawArt art(buf);
+
+     Pane pane1(base,dxy); base.y+=dxy;
+     Pane pane2(base,dxy); base.y+=dxy;
+     Pane pane3(base,dxy); base.y+=dxy;
+     Pane pane4(base,dxy); base.y+=dxy;
+     Pane pane5(base,dxy);
+
+     drawBegBtn(art,pane1);
+     drawPrevBtn(art,pane2);
+     drawWheelPad(art,pane3);
+     drawNextBtn(art,pane4);
+     drawEndBtn(art,pane5);
+    }
+
+   Point sizeListBtn() { return PrepareContext::SizeListBtn(knob_dxy); }
+
+   void drawListBtn(Point base) { drawListBtn(base,knob_dxy); }
+
+   template <class T>
+   void drawListTable(Point base,T *ptr)
+    {
+     Point s1=sizeListBtn();
+     Point s2=ptr->layout.size;
+
+     if( s1.y<s2.y )
+       {
+        Coord delta=s2.y-s1.y;
+
+        drawListBtn(base.addY(delta/2));
+
+        drawTable(base.addX(s1.x),ptr);
+       }
+     else
+       {
+        Coord delta=s1.y-s2.y;
+
+        drawListBtn(base);
+
+        drawTable(base.addX(s1.x).addY(delta/2),ptr);
+       }
+    }
+
+   void drawBody(Point base,Frame *ptr)
+    {
+     drawListTable(base,ptr);
     }
 
    template <class T>
