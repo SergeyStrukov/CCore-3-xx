@@ -935,7 +935,7 @@ class Book::DrawContext : NoCopy
 
         if( base.y>=lim ) break;
 
-        if( base.y+elem.pane.dy>clip.y ) draw(base,elem.ptr.getPtr());
+        if( base.y+elem.pane.dy>clip.y ) drawElement(base,elem.ptr.getPtr());
 
         base=base.addY(elem.pane.dy);
        }
@@ -1063,19 +1063,15 @@ class Book::DrawContext : NoCopy
   private:
 
    template <class ... TT>
-   Coord draw(Point base,AnyPtr<TT...> anyptr)
+   void drawElement(Point base,AnyPtr<TT...> anyptr)
     {
-     Coord ret=0;
-
-     anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=draw(base,ptr); } );
-
-     return ret;
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) drawElement(base,ptr); } );
     }
 
    template <class T>
-   Coord drawTableExt(Point base,T *ptr)
+   void drawTableExt(Point base,T *ptr)
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
    void drawScopeLine(Point base,Point size)
@@ -1097,35 +1093,33 @@ class Book::DrawContext : NoCopy
      art.path(line_width,table,A,B,C);
     }
 
-   Coord drawTableExt(Point base,Scope *ptr)
+   void drawTableExt(Point base,Scope *ptr)
     {
      Coord dy=draw(base,ptr->defs);
 
      dy+=draw(base.addY(dy),ptr->list);
 
      drawScopeLine(base,ptr->size);
-
-     return dy+element_space;
     }
 
-   Coord drawTableExt(Point base,TextList *ptr) // TODO
+   void drawTableExt(Point base,TextList *ptr) // TODO
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
-   Coord drawTableExt(Point base,Table *ptr) // TODO
+   void drawTableExt(Point base,Table *ptr) // TODO
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
-   Coord drawTableExt(Point base,FixedText *ptr) // TODO
+   void drawTableExt(Point base,FixedText *ptr) // TODO
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
-   Coord drawTableExt(Point base,Text *ptr) // TODO
+   void drawTableExt(Point base,Text *ptr) // TODO
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
    void drawPlus(Point base,Coord dxy)
@@ -1188,29 +1182,27 @@ class Book::DrawContext : NoCopy
    void drawMinus(Point base) { drawMinus(base,knob_dxy); }
 
    template <class T>
-   Coord drawBody(Point base,T *ptr)
+   void drawBody(Point base,T *ptr)
     {
      if( ptr->open )
        {
         drawMinus(base);
 
-        return Max(knob_dxy,drawTableExt(base.addX(BoxExt(knob_dxy)),ptr));
+        drawTableExt(base.addX(BoxExt(knob_dxy)),ptr);
        }
      else
        {
         drawPlus(base);
-
-        return knob_dxy;
        }
     }
 
-   Coord drawBody(Point base,Bitmap *ptr)
+   void drawBody(Point base,Bitmap *ptr)
     {
-     return drawTable(base,ptr);
+     drawTable(base,ptr);
     }
 
    template <class T>
-   Coord drawElement(Point base,T *ptr)
+   void drawElement(Point base,T *ptr)
     {
      ShowName show(ptr);
 
@@ -1218,16 +1210,10 @@ class Book::DrawContext : NoCopy
 
      Coord dy=BoxExt(efs.dy);
 
-     return dy+drawBody(base.addY(dy),ptr);
+     drawBody(base.addY(dy),ptr);
     }
 
-   template <class T>
-   Coord draw(Point base,T *ptr)
-    {
-     return drawElement(base,ptr);
-    }
-
-   Coord draw(Point base,Section *ptr)
+   void drawElement(Point base,Section *ptr)
     {
      Coord dxy=cfs.dy;
 
@@ -1237,17 +1223,13 @@ class Book::DrawContext : NoCopy
 
         comment_font->text(buf,Pane(base.addX(BoxExt(dxy)),MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),Range(ptr->comment),comment);
 
-        Coord dy=draw(base.addY(BoxExt(dxy)),ptr->list);
-
-        return BoxExt(dxy)+dy;
+        draw(base.addY(BoxExt(dxy)),ptr->list);
        }
      else
        {
         drawPlus(base,dxy);
 
         comment_font->text(buf,Pane(base.addX(BoxExt(dxy)),MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),Range(ptr->comment),comment);
-
-        return dxy;
        }
     }
 
