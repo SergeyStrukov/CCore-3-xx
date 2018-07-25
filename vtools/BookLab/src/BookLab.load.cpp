@@ -443,6 +443,8 @@ class Book::LoadContext : NoCopy
 
         if( i==obj.cur ) ret.cur=elem;
        }
+
+     if( !ret.cur ) ret.cur=ret.beg;
     }
 
    void cast(ItemList &ret,const TypeDef::ItemList &obj)
@@ -461,6 +463,8 @@ class Book::LoadContext : NoCopy
 
         if( i==obj.cur ) ret.cur=elem;
        }
+
+     if( !ret.cur ) ret.cur=ret.beg;
     }
 
    void cast(ElementList &ret,PtrLen<TypeDef::Element> list)

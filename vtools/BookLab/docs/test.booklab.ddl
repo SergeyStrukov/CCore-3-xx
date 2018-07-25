@@ -59,4 +59,16 @@ Section common_fonts = { True , 'common fonts' ,
  
 } ;
 
-Page start = { 'start' , True , 'test page' , { True , 0 } , { True , 0 } , {'content',null} , {null,null} , {null,null} , {} } ;
+Page start = { 'start' , True , 'test page' , { True , 0 } , { True , 0 } , {'content',null} , {null,null} , {null,null} , 
+
+{ 
+
+{
+
+{ {True,null},{True,null},{True,null},{null,null},{'frame1',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'frame2',null} },
+{ {True,null},{True,null},{True,null},{null,null},{'frame3',null} }
+  
+} , 1 } 
+
+} ;

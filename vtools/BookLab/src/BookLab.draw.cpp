@@ -542,6 +542,16 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
+   Point size(Frame *ptr) // TODO
+    {
+     return sizeTable(ptr);
+    }
+
+   void place(Point base,Frame *ptr) // TODO
+    {
+     placeTable(base,ptr);
+    }
+
   private:
 
    template <class ... TT>
@@ -592,26 +602,6 @@ class Book::PrepareContext : NoCopy
      Coord dy=ptr->defs.layout.size.y+element_space;
 
      place(base.addY(dy),ptr->list);
-    }
-
-   Point sizeTableExt(Page *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,Page *ptr) // TODO
-    {
-     placeTable(base,ptr);
-    }
-
-   Point sizeTableExt(Collapse *ptr) // TODO
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeTableExt(Point base,Collapse *ptr) // TODO
-    {
-     placeTable(base,ptr);
     }
 
    Point sizeTableExt(TextList *ptr) // TODO
@@ -1065,6 +1055,11 @@ class Book::DrawContext : NoCopy
      drawBody(cell.getBase(),ptr);
     }
 
+   void draw(Pane cell,Coord,Frame *ptr) // TODO
+    {
+     drawTable(cell.getBase(),ptr);
+    }
+
   private:
 
    template <class ... TT>
@@ -1111,16 +1106,6 @@ class Book::DrawContext : NoCopy
      drawScopeLine(base,ptr->size);
 
      return dy+element_space;
-    }
-
-   Coord drawTableExt(Point base,Page *ptr) // TODO
-    {
-     return drawTable(base,ptr);
-    }
-
-   Coord drawTableExt(Point base,Collapse *ptr) // TODO
-    {
-     return drawTable(base,ptr);
     }
 
    Coord drawTableExt(Point base,TextList *ptr) // TODO

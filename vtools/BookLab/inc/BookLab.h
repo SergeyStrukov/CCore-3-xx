@@ -435,6 +435,25 @@ struct Frame : NoCopy
    {
     keeper(prev,next,line,body);
    }
+
+  // layout
+
+  TableLayout<5> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    Row table[5]=
+     {
+      {"Point"_c,"inner = "_c,If(inner)},
+      {"Point"_c,"outer = "_c,If(outer)},
+      {"Color"_c,"col = "_c,If(col)},
+      {"{SingleLine,DoubleLine}"_c,"line = "_c,If(line)},
+      {"{...}"_c,"body = "_c,If(body)}
+     };
+
+    func(Range(table),layout);
+   }
  };
 
 /* struct FrameList */
@@ -474,12 +493,12 @@ struct Page : NamedObj
 
   // layout
 
-  TableLayout<6> layout;
+  TableLayout<7> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[6]=
+    Row table[7]=
      {
       {"text"_c,"title = "_c,If(title)},
       {"Color"_c,"back = "_c,If(back)},
@@ -487,6 +506,7 @@ struct Page : NamedObj
       {"Page"_c,"up = "_c,If(up)},
       {"Page"_c,"prev = "_c,If(prev)},
       {"Page"_c,"next = "_c,If(next)},
+      {"Frame[]"_c,"list = "_c,If(list.cur)}
      };
 
     func(Range(table),layout);
@@ -758,17 +778,18 @@ struct Collapse : NamedObj
 
   // layout
 
-  TableLayout<4> layout;
+  TableLayout<5> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[4]=
+    Row table[5]=
      {
       {"text"_c,"title = "_c,If(title)},
       {"Format"_c,"format = "_c,If(format)},
       {"bool"_c,"openlist = "_c,If(openlist)},
-      {"bool"_c,"hide = "_c,If(hide)}
+      {"bool"_c,"hide = "_c,If(hide)},
+      {"Frame[]"_c,"list = "_c,If(list.cur)}
      };
 
     func(Range(table),layout);
@@ -892,15 +913,16 @@ struct Cell : NamedObj
 
   // layout
 
-  TableLayout<2> layout;
+  TableLayout<3> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[2]=
+    Row table[3]=
      {
       {"ulen"_c,"span_x = "_c,If(span_x)},
-      {"ulen"_c,"span_y = "_c,If(span_y)}
+      {"ulen"_c,"span_y = "_c,If(span_y)},
+      {"Frame[]"_c,"list = "_c,If(list.cur)}
      };
 
     func(Range(table),layout);
