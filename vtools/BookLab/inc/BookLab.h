@@ -512,6 +512,10 @@ struct Element : NoCopy
    {
     keeper(prev,next,ptr);
    }
+
+  // layout
+
+  Pane pane;
  };
 
 /* struct ElementList */
@@ -620,6 +624,10 @@ struct Scope : NamedObj
    {
     keeper(getBase(),defs,list);
    }
+
+  // layout
+
+  Point size;
  };
 
 /* struct Section */

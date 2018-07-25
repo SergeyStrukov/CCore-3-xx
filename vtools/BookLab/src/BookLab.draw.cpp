@@ -347,24 +347,59 @@ class Book::PrepareContext : NoCopy
      return ret;
     }
 
-   Point prepare(Point base,ElementList &list)
+   Point size(ElementList &list)
     {
      Point ret;
 
      for(Element &elem : ForIntList(list) )
        {
-        base=base.addY(element_space);
-
         ret=StackYSize_guarded(ret,Point(0,element_space));
 
-        Point s=prepare(base,elem.ptr.getPtr());
+        Point s=sizeElement(elem.ptr.getPtr());
 
-        base=base.addY(s.y);
+        elem.pane.dx=s.x;
+        elem.pane.dy=s.y;
 
         ret=StackYSize_guarded(ret,s);
        }
 
      return ret;
+    }
+
+   void place(Point base,ElementList &list)
+    {
+     for(Element &elem : ForIntList(list) )
+       {
+        base=base.addY(element_space);
+
+        elem.pane.x=base.x;
+        elem.pane.y=base.y;
+
+        placeElement(base,elem.ptr.getPtr());
+
+        base=base.addY(elem.pane.dy);
+       }
+    }
+
+   Point prepare(Point base,ElementList &list)
+    {
+     Point ret=size(list);
+
+     place(base,list);
+
+     return ret;
+    }
+
+   Point size(Defaults &obj)
+    {
+     Point s=sizeTable(&obj);
+
+     return StackYSize_guarded(s,Point(0,element_space));
+    }
+
+   void place(Point base,Defaults &obj)
+    {
+     placeTable(base.addY(element_space),&obj);
     }
 
    Point prepare(Point base,Defaults &obj)
@@ -503,13 +538,19 @@ class Book::PrepareContext : NoCopy
   private:
 
    template <class ... TT>
-   Point prepare(Point base,AnyPtr<TT...> anyptr)
+   Point sizeElement(AnyPtr<TT...> anyptr)
     {
      Point ret;
 
-     anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=prepare(base,ptr); } );
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=sizeElement(ptr); } );
 
      return ret;
+    }
+
+   template <class ... TT>
+   void placeElement(Point base,AnyPtr<TT...> anyptr)
+    {
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) placeElement(base,ptr); } );
     }
 
    template <class T>
@@ -522,6 +563,28 @@ class Book::PrepareContext : NoCopy
    void placeTableExt(Point base,T *ptr)
     {
      placeTable(base,ptr);
+    }
+
+   Point sizeTableExt(Scope *ptr)
+    {
+     Point s1=size(ptr->defs);
+
+     Point s2=size(ptr->list);
+
+     Point s=StackYSize_guarded(StackYSize_guarded(s1,s2),Point(0,element_space));
+
+     ptr->size=s;
+
+     return s;
+    }
+
+   void placeTableExt(Point base,Scope *ptr)
+    {
+     place(base,ptr->defs);
+
+     Coord dy=ptr->defs.layout.size.y+element_space;
+
+     place(base.addY(dy),ptr->list);
     }
 
    Point sizeTableExt(Page *ptr) // TODO
@@ -619,7 +682,7 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
-   Point prepareElement(Point base,T *ptr)
+   Point sizeElement(T *ptr)
     {
      ShowName show(ptr);
 
@@ -629,31 +692,28 @@ class Book::PrepareContext : NoCopy
 
      Point s=sizeBody(ptr);
 
-     placeBody(base.addY(dy),ptr);
-
      return StackYSize(s,Point(ts.full_dx,dy));
     }
 
    template <class T>
-   Point prepare(Point base,T *ptr)
+   void placeElement(Point base,T *ptr)
     {
-     return prepareElement(base,ptr);
+     Coord dy=BoxExt(efs.dy);
+
+     placeBody(base.addY(dy),ptr);
     }
 
-   Point prepare(Point base,Scope *ptr) // TODO
+   Point sizeElement(Section *ptr) // TODO
     {
-     Used(base);
      Used(ptr);
 
      return Null;
     }
 
-   Point prepare(Point base,Section *ptr) // TODO
+   void placeElement(Point base,Section *ptr) // TODO
     {
      Used(base);
      Used(ptr);
-
-     return Null;
     }
 
   public:
@@ -762,7 +822,7 @@ class Book::DrawContext : NoCopy
 
       SmoothDrawArt art(buf1);
 
-      MPoint A=Point::Diag(table_dxy);
+      MPoint A=Point::Diag(table_dxy-1);
 
       A=A/2;
 
@@ -982,6 +1042,36 @@ class Book::DrawContext : NoCopy
      return drawTable(base,ptr);
     }
 
+   void drawScopeLine(Point base,Point size)
+    {
+     DrawBuf buf1=buf;
+
+     buf1.shift(base.subX(BoxExt(knob_dxy)).addY(knob_dxy));
+
+     SmoothDrawArt art(buf1);
+
+     MPoint A=Point(knob_dxy-1,0);
+
+     A=A/2;
+
+     MPoint B=A.addY(Fraction(size.y-knob_dxy)+Fraction(element_space,1));
+
+     MPoint C=B.addX(Fraction(size.x+knob_dxy));
+
+     art.path(line_width,table,A,B,C);
+    }
+
+   Coord drawTableExt(Point base,Scope *ptr)
+    {
+     Coord dy=draw(base,ptr->defs);
+
+     dy+=draw(base.addY(dy),ptr->list);
+
+     drawScopeLine(base,ptr->size);
+
+     return dy+element_space;
+    }
+
    Coord drawTableExt(Point base,Page *ptr) // TODO
     {
      return drawTable(base,ptr);
@@ -1105,14 +1195,6 @@ class Book::DrawContext : NoCopy
    Coord draw(Point base,T *ptr)
     {
      return drawElement(base,ptr);
-    }
-
-   Coord draw(Point base,Scope *ptr) // TODO
-    {
-     Used(base);
-     Used(ptr);
-
-     return 0;
     }
 
    Coord draw(Point base,Section *ptr) // TODO
