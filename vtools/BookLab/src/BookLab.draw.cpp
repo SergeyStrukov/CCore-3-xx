@@ -544,17 +544,85 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
-   Point size(Table::Data obj) // TODO
+   Coord tableLen(PtrLen<const Coord> tdx)
     {
-     Used(obj);
+     Coord ret=table_dxy;
 
-     return Null;
+     for(Coord dx : tdx ) ret=AddSize(ret,dx,table_dxy);
+
+     return ret;
     }
 
-   void place(Point base,Table::Data obj) // TODO
+   Point size(Table::Data obj)
     {
-     Used(base);
-     Used(obj);
+     obj.cellsize.erase();
+
+     ulen nx=obj.width.len;
+
+     if( !nx ) return Null;
+
+     ulen ny=obj.cells.len/nx+(obj.cells.len%nx!=0)+1;
+
+     Coord *tdx=obj.cellsize.extend_default(LenAdd(nx,ny)).ptr;
+     Coord *tdy=tdx+nx;
+
+     for(ulen i : IndLim(nx) )
+       {
+        ShowData show(obj.width[i]);
+
+        Point s=size(show.get());
+
+        tdx[i]=s.x;
+
+        Replace_max(tdy[0],s.y);
+       }
+
+     for(ulen k : IndLim(obj.cells.len) )
+       {
+        Point s=size(obj.cells[k]);
+
+        ulen i=k%nx;
+        ulen j=k/nx+1;
+
+        Replace_max(tdx[i],s.x);
+        Replace_max(tdy[j],s.y);
+       }
+
+     Coord dx=tableLen(Range(tdx,nx));
+     Coord dy=tableLen(Range(tdy,ny));
+
+     return Point(dx,dy);
+    }
+
+   void place(Point base,Table::Data obj)
+    {
+     ulen nx=obj.width.len;
+
+     if( !nx ) return;
+
+     Coord *tdx=obj.cellsize.getPtr();
+     Coord *tdy=tdx+nx;
+
+     Coord dx=table_dxy;
+     Coord dy=2*table_dxy+tdy[0];
+
+     for(ulen k : IndLim(obj.cells.len) )
+       {
+        ulen i=k%nx;
+        ulen j=k/nx+1;
+
+        place(base.addX(dx).addY(dy),obj.cells[k]);
+
+        if( i<nx-1 )
+          {
+           dx+=tdx[i]+table_dxy;
+          }
+        else
+          {
+           dx=table_dxy;
+           dy+=tdy[j]+table_dxy;
+          }
+       }
     }
 
   private:
@@ -1052,10 +1120,107 @@ class Book::DrawContext : NoCopy
        }
     }
 
-   void draw(Pane cell,Coord,Table::Data obj) // TODO
+   Coord tableLen(PtrLen<const Coord> tdx)
     {
-     Used(cell);
-     Used(obj);
+     Coord ret=table_dxy;
+
+     for(Coord dx : tdx ) ret+=dx+table_dxy;
+
+     return ret;
+    }
+
+   void drawTable(Point base,PtrLen<const Coord> tdx,PtrLen<const Coord> tdy)
+    {
+     Coord lenx=tableLen(tdx);
+     Coord leny=tableLen(tdy);
+
+     DrawBuf buf1=buf;
+
+     buf1.shift(base);
+
+     SmoothDrawArt art(buf1);
+
+     MPoint A=Point::Diag(table_dxy-1);
+
+     A=A/2;
+
+     {
+      MPoint O=A;
+      MCoord fdx=Fraction(lenx-table_dxy);
+
+      art.path(line_width,table,O,O.addX(fdx));
+
+      for(Coord dy : tdy )
+        {
+         O=O.addY(Fraction(dy+table_dxy));
+
+         art.path(line_width,table,O,O.addX(fdx));
+        }
+     }
+
+     {
+      MPoint O=A;
+      MCoord fdy=Fraction(leny-table_dxy);
+
+      art.path(line_width,table,O,O.addY(fdy));
+
+      for(Coord dx : tdx )
+        {
+         O=O.addX(Fraction(dx+table_dxy));
+
+         art.path(line_width,table,O,O.addY(fdy));
+        }
+     }
+    }
+
+   void draw(Pane cell,Coord,Table::Data obj)
+    {
+     ulen nx=obj.width.len;
+
+     if( !nx ) return;
+
+     Point base=cell.getBase();
+     Coord offy=fs.by;
+
+     Coord *tdx=obj.cellsize.getPtr();
+     Coord *tdy=tdx+nx;
+
+     ulen ny=obj.cells.len/nx+(obj.cells.len%nx!=0)+1;
+
+     drawTable(base,Range(tdx,nx),Range(tdy,ny));
+
+     Coord dx=table_dxy;
+     Coord dy=table_dxy;
+
+     for(ulen i : IndLim(nx) )
+       {
+        ShowData show(obj.width[i]);
+
+        draw(Pane(base.addX(dx).addY(dy),tdx[i],tdy[0]),offy,show.get());
+
+        dx+=tdx[i]+table_dxy;
+       }
+
+     dx=table_dxy;
+     dy=2*table_dxy+tdy[0];
+
+     for(ulen k : IndLim(obj.cells.len) )
+       {
+        ulen i=k%nx;
+        ulen j=k/nx+1;
+
+        draw(Pane(base.addX(dx).addY(dy),tdx[i],tdy[j]),offy,obj.cells[k]);
+
+        if( i<nx-1 )
+          {
+           dx+=tdx[i]+table_dxy;
+          }
+        else
+          {
+           dx=table_dxy;
+           dy+=tdy[j]+table_dxy;
+          }
+       }
     }
 
   private:

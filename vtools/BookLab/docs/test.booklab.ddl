@@ -124,6 +124,8 @@ FixedText t1 = { 't1' , True } ;
 
 Text t2 = { 't2' , True } ;
 
-Table t3 = { 't3' , True , null , null , {20,20,60} , { {'cell11'} , {'cell12'} , {'cell13'} , {'cell21'} ,{'cell22'} ,{'cell23'} } } ;
+Cell cell13 = { 'cell13' , True , {True} , {True} } ;
+
+Table t3 = { 't3' , True , null , null , {20,20,60} , { {'cell11'} , {'cell12'} , {null,&cell13} , {'cell21'} ,{} } } ;
 
 
