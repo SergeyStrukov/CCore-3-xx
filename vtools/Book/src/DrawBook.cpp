@@ -1845,6 +1845,7 @@ Point Shape::set(const Config &cfg,ExtMap &map,Ratio scale,Book::TypeDef::Frame 
   down=down_;
 
   refs.erase();
+  tree={};
 
   prepare(cfg,map,scale,frame_index,wdx);
 

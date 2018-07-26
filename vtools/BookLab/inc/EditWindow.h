@@ -16,6 +16,8 @@
 
 #include <inc/BookLab.h>
 
+#include <CCore/inc/IntervalTree.h>
+
 namespace App {
 
 /* classes */
@@ -86,6 +88,9 @@ class InnerBookLabWindow : public SubWindow
 
    // layout
 
+   mutable DynArray<BookLab::PaneRef> refs;
+   mutable IntervalTree<Coord> tree;
+
    mutable Point size; // without border
 
    mutable bool ok = false ;
@@ -94,6 +99,8 @@ class InnerBookLabWindow : public SubWindow
   private:
 
    [[nodiscard]] bool cache() const;
+
+   BookLab::Ref getRef(Point point) const;
 
   private:
 

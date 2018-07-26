@@ -197,6 +197,15 @@ class Book::PrepareContext : NoCopy
    CCore::Video::Font comment_font;
    FontSize cfs;
 
+   DynArray<PaneRef> &refs;
+
+  private:
+
+   void addRef(Pane pane,Ref ref)
+    {
+     refs.append_copy({pane,ref});
+    }
+
   private:
 
    struct Place
@@ -695,6 +704,8 @@ class Book::PrepareContext : NoCopy
    template <class T>
    void placeBody(Point base,T *ptr)
     {
+     addRef(Pane(base,knob_dxy),(OpenFlag *)ptr);
+
      if( ptr->open )
        {
         placeTableExt(base.addX(BoxExt(knob_dxy)),ptr);
@@ -798,10 +809,12 @@ class Book::PrepareContext : NoCopy
 
    void placeElement(Point base,Section *ptr)
     {
+     Coord dxy=cfs.dy;
+
+     addRef(Pane(base,dxy),(OpenFlag *)ptr);
+
      if( ptr->open )
        {
-        Coord dxy=cfs.dy;
-
         place(base.addY(BoxExt(dxy)),ptr->list);
        }
      else
@@ -811,7 +824,8 @@ class Book::PrepareContext : NoCopy
 
   public:
 
-   explicit PrepareContext(const Config &cfg)
+   PrepareContext(const Config &cfg,DynArray<PaneRef> &refs_)
+    : refs(refs_)
     {
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
@@ -1571,11 +1585,11 @@ class Book::DrawContext : NoCopy
 
 /* class Book */
 
-Point Book::prepare(const Config &cfg) const
+Point Book::prepare(const Config &cfg,DynArray<PaneRef> &refs) const
  {
   if( !doc ) return Point(100,100);
 
-  PrepareContext ctx(cfg);
+  PrepareContext ctx(cfg,refs);
 
   return ctx.place(doc.getPtr());
  }

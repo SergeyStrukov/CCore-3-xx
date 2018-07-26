@@ -20,7 +20,7 @@ namespace App {
 
 /* class InnerBookLabWindow */
 
-bool InnerBookLabWindow::cache() const // TODO
+bool InnerBookLabWindow::cache() const
  {
   if( block_cache ) return false;
 
@@ -28,7 +28,27 @@ bool InnerBookLabWindow::cache() const // TODO
     {
      if( !ok )
        {
-        size=book.prepare(cfg);
+        refs.erase();
+        tree={};
+
+        size=book.prepare(cfg,refs);
+
+        struct Span
+         {
+          Coord a;
+          Coord b;
+
+          explicit Span(const BookLab::PaneRef &ref)
+           {
+            Coord y=ref.pane.y;
+            Coord dy=ref.pane.dy;
+
+            a=y;
+            b=y+dy;
+           }
+         };
+
+        tree=IntervalTree<Coord>(Range(refs), [] (const BookLab::PaneRef &ref) { return Span(ref); } );
 
         ok=true;
        }
@@ -41,6 +61,34 @@ bool InnerBookLabWindow::cache() const // TODO
 
      return false;
     }
+ }
+
+BookLab::Ref InnerBookLabWindow::getRef(Point point) const
+ {
+  if( !cache() ) return Null;
+
+  point-=getBase();
+
+  const BookLab::PaneRef *ptr=refs.getPtr();
+
+  BookLab::Ref ret;
+
+  tree.find(point.y, [ptr,point,&ret] (ulen index)
+                                      {
+                                       auto &obj=ptr[index];
+
+                                       if( obj.pane.contains(point) )
+                                        {
+                                         ret=obj.ref;
+
+                                         return false;
+                                        }
+
+                                       return true;
+
+                                      } );
+
+  return ret;
  }
 
 void InnerBookLabWindow::posX(ulen pos)
@@ -238,10 +286,11 @@ void InnerBookLabWindow::looseFocus()
 
  // mouse
 
-MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
+MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const
  {
-  Used(point);
-  Used(kmod);
+  BookLab::Ref ref=getRef(point);
+
+  if( +ref ) return Mouse_Hand;
 
   return Mouse_Arrow;
  }
@@ -262,8 +311,25 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TOD
 
 void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
  {
-  Used(point);
   Used(mkey);
+
+  BookLab::Ref ref=getRef(point);
+
+  struct Proc
+   {
+    InnerBookLabWindow *win;
+
+    void operator () (BookLab::OpenFlag *ptr)
+     {
+      ptr->change();
+
+      win->ok=false;
+
+      win->changed.assert();
+     }
+   };
+
+  ref.apply(Proc{this});
  }
 
 void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO

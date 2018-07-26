@@ -65,6 +65,8 @@ struct Ratio;
 
 template <class T,T Def()=DefNull> struct OptData;
 
+struct OpenFlag;
+
 struct NamedObj;
 
 template <class ... TT> struct NamedPtr;
@@ -141,6 +143,8 @@ template <class Ctx,class T> struct BindCtx;
 
 struct Config;
 
+struct PaneRef;
+
 class Book;
 
 /* struct Ratio */
@@ -179,14 +183,22 @@ struct OptData : NoCopy
   void clear() { def=true; }
  };
 
+/* struct OpenFlag */
+
+struct OpenFlag : NoCopy
+ {
+  bool open = true ;
+
+  void change() { open=!open; }
+ };
+
 /* struct NamedObj */
 
-struct NamedObj : NoCopy
+struct NamedObj : OpenFlag
  {
   IntAnyObjPtr<Scope,Doc> scope;
 
   String name;
-  bool open = true ;
 
   NamedObj & getBase() { return *this; }
 
@@ -656,13 +668,11 @@ struct Scope : NamedObj
 
 /* struct Section */
 
-struct Section : NoCopy
+struct Section : OpenFlag
  {
   // obj
 
   IntAnyObjPtr<Scope,Doc> scope;
-
-  bool open = true ;
 
   // data
 
@@ -1297,6 +1307,18 @@ struct Config
    }
  };
 
+/* type Ref */
+
+using Ref = AnyPtr<OpenFlag> ;
+
+/* struct PaneRef */
+
+struct PaneRef
+ {
+  Pane pane;
+  Ref ref;
+ };
+
 /* class Book */
 
 class Book : NoCopy
@@ -1370,7 +1392,7 @@ class Book : NoCopy
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
 
-   Point prepare(const Config &cfg) const;
+   Point prepare(const Config &cfg,DynArray<PaneRef> &refs) const;
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
  };
