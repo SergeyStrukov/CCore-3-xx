@@ -28,7 +28,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET)
+	$(TARGET) docs/test1.booklab.ddl
 
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 

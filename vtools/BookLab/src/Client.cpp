@@ -257,9 +257,10 @@ void ClientWindow::msg_destroyed()
     }
  }
 
-ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal<> &update)
+ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
+   opt(opt_),
 
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
@@ -326,6 +327,11 @@ void ClientWindow::open()
   wlist.open();
 
   sub_win.setFocus();
+
+  if( Change(opt.ok,false) )
+    {
+     sub_win.load(opt.file_name);
+    }
  }
 
  // drawing

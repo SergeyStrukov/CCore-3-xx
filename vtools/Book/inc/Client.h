@@ -107,6 +107,8 @@ class ClientWindow : public ComboWindow
 
    const Config &cfg;
 
+   OptFileName opt;
+
    // menu
 
    MenuData menu_data;
@@ -182,7 +184,7 @@ class ClientWindow : public ComboWindow
 
   public:
 
-   ClientWindow(SubWindowHost &host,const Config &cfg,OptNone opt,Signal<> &update);
+   ClientWindow(SubWindowHost &host,const Config &cfg,OptFileName opt,Signal<> &update);
 
    virtual ~ClientWindow();
 

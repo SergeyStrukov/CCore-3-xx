@@ -130,7 +130,7 @@ struct AppProp
 
   using ClientWindow = App::ClientWindow ;
 
-  using Opt = OptNone ;
+  using Opt = OptFileName ;
 
   static constexpr PrepareOpt Prepare = PrepareRandom ;
  };
