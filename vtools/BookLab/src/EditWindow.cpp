@@ -107,10 +107,10 @@ void InnerBookLabWindow::moveList(Pane pane,Point point,T *ptr)
  {
   switch( BookLab::MoveListZone(pane,point) )
     {
-     case 0 : ptr->gotoBeg(); break;
-     case 1 : ptr->gotoPrev(); break;
-     case 3 : ptr->gotoNext(); break;
-     case 4 : ptr->gotoEnd(); break;
+     case 0 : if( ptr->gotoBeg() ) break; else return;
+     case 1 : if( ptr->gotoPrev() ) break; else return;
+     case 3 : if( ptr->gotoNext() ) break; else return;
+     case 4 : if( ptr->gotoEnd() ) break; else return;
 
      default: return;
     }

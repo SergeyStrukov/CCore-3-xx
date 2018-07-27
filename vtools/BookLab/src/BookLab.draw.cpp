@@ -1393,13 +1393,14 @@ class Book::DrawContext : NoCopy
      drawTable(base,ptr);
     }
 
-   void drawBegBtn(SmoothDrawArt &art,Pane pane)
+   void drawBegBtn(SmoothDrawArt &art,Pane pane,bool enable)
     {
      MPane p(pane);
 
      if( !p ) return;
 
      MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
 
      FigureBox fig1(p);
 
@@ -1409,20 +1410,21 @@ class Book::DrawContext : NoCopy
 
      FigureUpArrow fig2(q);
 
-     fig2.curveSolid(art,face);
+     fig2.curveSolid(art,fc);
 
      FigureBox fig3(q.x,q.ex,q.y-delta/2,q.y+delta/2);
 
-     fig3.solid(art,face);
+     fig3.solid(art,fc);
     }
 
-   void drawPrevBtn(SmoothDrawArt &art,Pane pane)
+   void drawPrevBtn(SmoothDrawArt &art,Pane pane,bool enable)
     {
      MPane p(pane);
 
      if( !p ) return;
 
      MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
 
      FigureBox fig1(p);
 
@@ -1430,7 +1432,7 @@ class Book::DrawContext : NoCopy
 
      FigureUpArrow fig2(p.shrink(delta));
 
-     fig2.curveSolid(art,face);
+     fig2.curveSolid(art,fc);
     }
 
    void drawWheelPad(SmoothDrawArt &art,Pane pane)
@@ -1445,13 +1447,14 @@ class Book::DrawContext : NoCopy
      art.ball(center,radius,face);
     }
 
-   void drawNextBtn(SmoothDrawArt &art,Pane pane)
+   void drawNextBtn(SmoothDrawArt &art,Pane pane,bool enable)
     {
      MPane p(pane);
 
      if( !p ) return;
 
      MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
 
      FigureBox fig1(p);
 
@@ -1459,16 +1462,17 @@ class Book::DrawContext : NoCopy
 
      FigureDownArrow fig2(p.shrink(delta));
 
-     fig2.curveSolid(art,face);
+     fig2.curveSolid(art,fc);
     }
 
-   void drawEndBtn(SmoothDrawArt &art,Pane pane)
+   void drawEndBtn(SmoothDrawArt &art,Pane pane,bool enable)
     {
      MPane p(pane);
 
      if( !p ) return;
 
      MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
 
      FigureBox fig1(p);
 
@@ -1478,14 +1482,15 @@ class Book::DrawContext : NoCopy
 
      FigureDownArrow fig2(q);
 
-     fig2.curveSolid(art,face);
+     fig2.curveSolid(art,fc);
 
      FigureBox fig3(q.x,q.ex,q.ey-delta/2,q.ey+delta/2);
 
-     fig3.solid(art,face);
+     fig3.solid(art,fc);
     }
 
-   void drawListBtn(Point base,Coord dxy)
+   template <class T>
+   void drawListBtn(Point base,Coord dxy,T *ptr)
     {
      SmoothDrawArt art(buf);
 
@@ -1495,16 +1500,17 @@ class Book::DrawContext : NoCopy
      Pane pane4(base,dxy); base.y+=dxy;
      Pane pane5(base,dxy);
 
-     drawBegBtn(art,pane1);
-     drawPrevBtn(art,pane2);
+     drawBegBtn(art,pane1,ptr->canBeg());
+     drawPrevBtn(art,pane2,ptr->canPrev());
      drawWheelPad(art,pane3);
-     drawNextBtn(art,pane4);
-     drawEndBtn(art,pane5);
+     drawNextBtn(art,pane4,ptr->canNext());
+     drawEndBtn(art,pane5,ptr->canEnd());
     }
 
    Point sizeListBtn() { return PrepareContext::SizeListBtn(knob_dxy); }
 
-   void drawListBtn(Point base) { drawListBtn(base,knob_dxy); }
+   template <class T>
+   void drawListBtn(Point base,T *ptr) { drawListBtn(base,knob_dxy,ptr); }
 
    template <class T>
    void drawListTable(Point base,T *ptr)
@@ -1516,7 +1522,7 @@ class Book::DrawContext : NoCopy
        {
         Coord delta=s2.y-s1.y;
 
-        drawListBtn(base.addY(delta/2));
+        drawListBtn(base.addY(delta/2),ptr);
 
         drawTable(base.addX(s1.x),ptr);
        }
@@ -1524,7 +1530,7 @@ class Book::DrawContext : NoCopy
        {
         Coord delta=s1.y-s2.y;
 
-        drawListBtn(base);
+        drawListBtn(base,ptr);
 
         drawTable(base.addX(s1.x).addY(delta/2),ptr);
        }

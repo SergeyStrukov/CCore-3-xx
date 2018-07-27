@@ -80,6 +80,8 @@ template <class ... TT> struct NamedPtr;
 
 template <ulen RowCount> struct TableLayout;
 
+template <class T> struct CommonList;
+
 
 struct Font;
 
@@ -313,6 +315,38 @@ struct TableLayout
   Point size;
  };
 
+/* struct CommonList<T> */
+
+template <class T>
+struct CommonList : NoCopy
+ {
+  IntObjPtr<T> beg;
+  IntObjPtr<T> cur;
+  IntObjPtr<T> end;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(beg,cur,end);
+   }
+
+  bool canBeg() { return canPrev(); }
+
+  bool canEnd() { return canNext(); }
+
+  bool canPrev() { return +cur && +cur->prev ; }
+
+  bool canNext() { return +cur && +cur->next ; }
+
+  bool gotoBeg() { if( canBeg() ) { cur=beg; return true; } return false; }
+
+  bool gotoEnd() { if( canEnd() ) { cur=end; return true; } return false; }
+
+  bool gotoPrev() { if( canPrev() ) { cur=cur->prev; return true; } return false; }
+
+  bool gotoNext() { if( canNext() ) { cur=cur->next; return true; } return false; }
+ };
+
 /* struct Font */
 
 struct Font : NamedObj
@@ -458,26 +492,8 @@ struct Frame : NoCopy
 
 /* struct FrameList */
 
-struct FrameList : NoCopy
+struct FrameList : CommonList<Frame>
  {
-  IntObjPtr<Frame> beg;
-  IntObjPtr<Frame> cur;
-  IntObjPtr<Frame> end;
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(beg,cur,end);
-   }
-
-  void gotoBeg() { cur=beg; }
-
-  void gotoEnd() { cur=end; }
-
-  void gotoPrev() { if( +cur && +cur->prev ) cur=cur->prev; }
-
-  void gotoNext() { if( +cur && +cur->next ) cur=cur->next; }
-
   // layout
 
   TableLayout<5> layout;
@@ -848,26 +864,8 @@ struct Item : NoCopy
 
 /* struct ItemList */
 
-struct ItemList : NoCopy
+struct ItemList : CommonList<Item>
  {
-  IntObjPtr<Item> beg;
-  IntObjPtr<Item> cur;
-  IntObjPtr<Item> end;
-
-  template <class Keeper>
-  void keepAlive(Keeper keeper)
-   {
-    keeper(beg,cur,end);
-   }
-
-  void gotoBeg() { cur=beg; }
-
-  void gotoEnd() { cur=end; }
-
-  void gotoPrev() { if( +cur && +cur->prev ) cur=cur->prev; }
-
-  void gotoNext() { if( +cur && +cur->next ) cur=cur->next; }
-
   // layout
 
   TableLayout<2> layout;
