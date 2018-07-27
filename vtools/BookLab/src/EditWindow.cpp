@@ -98,6 +98,96 @@ BookLab::Ref InnerBookLabWindow::getRef(Point point) const
   return ret;
  }
 
+void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
+ {
+  sx.add(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::subXPos(ulen delta,bool mul_flag)
+ {
+  sx.sub(Delta(delta,mul_flag));
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::addYPos(ulen delta,bool mul_flag)
+ {
+  sy.add(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::subYPos(ulen delta,bool mul_flag)
+ {
+  sy.sub(Delta(delta,mul_flag));
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::begXPos()
+ {
+  sx.beg();
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::endXPos()
+ {
+  sx.end();
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::begYPos()
+ {
+  sy.beg();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::endYPos()
+ {
+  sy.end();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::addYPosPage()
+ {
+  sy.addPage();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void InnerBookLabWindow::subYPosPage()
+ {
+  sy.subPage();
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
 void InnerBookLabWindow::posX(ulen pos)
  {
   sx.setPos(pos);
@@ -311,9 +401,62 @@ void InnerBookLabWindow::react(UserAction action)
 
 void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
  {
-  Used(vkey);
-  Used(kmod);
-  Used(repeat);
+  switch( vkey )
+    {
+     case VKey_Left :
+      {
+       subXPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Right :
+      {
+       addXPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Up :
+      {
+       subYPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Down :
+      {
+       addYPos(repeat,!(kmod&KeyMod_Shift));
+      }
+     break;
+
+     case VKey_Home :
+      {
+       begXPos();
+      }
+     break;
+
+     case VKey_End :
+      {
+       endXPos();
+      }
+     break;
+
+     case VKey_PageUp :
+      {
+       if( kmod&KeyMod_Ctrl )
+         begYPos();
+       else
+         subYPosPage();
+      }
+     break;
+
+     case VKey_PageDown :
+      {
+       if( kmod&KeyMod_Ctrl )
+         endYPos();
+       else
+         addYPosPage();
+      }
+     break;
+    }
  }
 
 void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
@@ -348,8 +491,21 @@ void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO
 void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta) // TODO
  {
   Used(point);
-  Used(mkey);
-  Used(delta);
+
+  if( delta<0 )
+    {
+     if( mkey&MouseKey_Shift )
+       addXPos(IntAbs(delta),true);
+     else
+       addYPos(IntAbs(delta),true);
+    }
+  else
+    {
+     if( mkey&MouseKey_Shift )
+       subXPos(IntAbs(delta),true);
+     else
+       subYPos(IntAbs(delta),true);
+    }
  }
 
 /* class BookLabWindow */

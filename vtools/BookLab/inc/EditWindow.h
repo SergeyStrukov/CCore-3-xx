@@ -106,6 +106,30 @@ class InnerBookLabWindow : public SubWindow
 
   private:
 
+   static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
+
+   void addXPos(ulen delta,bool mul_flag);
+
+   void subXPos(ulen delta,bool mul_flag);
+
+   void addYPos(ulen delta,bool mul_flag);
+
+   void subYPos(ulen delta,bool mul_flag);
+
+   void begXPos();
+
+   void endXPos();
+
+   void begYPos();
+
+   void endYPos();
+
+   void addYPosPage();
+
+   void subYPosPage();
+
+  private:
+
    Point getBase() const { return -Point((Coord)sx.pos,(Coord)sy.pos); }
 
    void posX(ulen pos);
