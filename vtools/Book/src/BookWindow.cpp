@@ -858,6 +858,8 @@ void BookWindow::font_completed(bool ok)
 
      wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,line2,spinor,line3,back_btn,fore_btn,book);
 
+     book.setFocus();
+
      redraw();
     }
  }

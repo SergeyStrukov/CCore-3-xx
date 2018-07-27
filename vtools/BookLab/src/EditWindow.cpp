@@ -20,6 +20,13 @@ namespace App {
 
 /* class InnerBookLabWindow */
 
+void InnerBookLabWindow::clean()
+ {
+  ok=false;
+  refs.erase();
+  tree={};
+ }
+
 bool InnerBookLabWindow::cache() const
  {
   if( block_cache ) return false;
@@ -139,7 +146,8 @@ Point InnerBookLabWindow::getMinSize(Point cap) const
 void InnerBookLabWindow::blank()
  {
   block_cache=false;
-  ok=false;
+
+  clean();
 
   sx.beg();
   sy.beg();
@@ -152,7 +160,8 @@ void InnerBookLabWindow::blank()
 ErrorText InnerBookLabWindow::load(StrLen file_name,PtrLen<char> ebuf)
  {
   block_cache=false;
-  ok=false;
+
+  clean();
 
   sx.beg();
   sy.beg();
@@ -172,8 +181,6 @@ ErrorText InnerBookLabWindow::save(StrLen file_name,PtrLen<char> ebuf) const
 ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf)
  {
   if( book.isLinked() ) return Success;
-
-  ok=false;
 
   ErrorText ret=book.link(ebuf);
 
@@ -286,7 +293,7 @@ void InnerBookLabWindow::looseFocus()
 
  // mouse
 
-MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const
+MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const // TODO
  {
   BookLab::Ref ref=getRef(point);
 
@@ -323,7 +330,7 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
      {
       ptr->change();
 
-      win->ok=false;
+      win->clean();
 
       win->changed.assert();
      }
@@ -361,6 +368,8 @@ BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg)
 
    modified(window.modified)
  {
+  wlist.enableTabFocus(false);
+  wlist.enableClickFocus(false);
  }
 
 BookLabWindow::~BookLabWindow()
@@ -622,6 +631,10 @@ void EditWindow::drawBack(DrawBuf buf,bool) const
 
 void EditWindow::open()
  {
+  wlist.open();
+
+  book.setFocus();
+
   tick_count=0;
 
   defer_tick.start();
@@ -630,6 +643,8 @@ void EditWindow::open()
 void EditWindow::close()
  {
   defer_tick.stop();
+
+  ComboWindow::close();
  }
 
 } // namespace App

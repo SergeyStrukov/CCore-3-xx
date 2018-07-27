@@ -98,6 +98,8 @@ class InnerBookLabWindow : public SubWindow
 
   private:
 
+   void clean();
+
    [[nodiscard]] bool cache() const;
 
    BookLab::Ref getRef(Point point) const;

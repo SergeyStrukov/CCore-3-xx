@@ -515,6 +515,8 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
 
    void focusOn(Point point);
 
+   bool getEnableTabFocus() const { return enable_tab; }
+
    void enableTabFocus(bool enable_tab_=true) { enable_tab=enable_tab_; }
 
    void enableClickFocus(bool enable_click_=true) { enable_click=enable_click_; }
@@ -937,7 +939,7 @@ class ComboWindow : public SubWindow
 
    virtual FocusType askFocus() const
     {
-     return FocusTab;
+     return wlist.getEnableTabFocus()?FocusTab:FocusOk;
     }
 
    virtual void gainFocus()
