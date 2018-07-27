@@ -101,7 +101,7 @@ Section o12 = { True , "common fonts" ,
 
  };
 
-Section o13 = { False , "elements" , 
+Section o13 = { True , "elements" , 
 
 {
 & o20,
@@ -131,7 +131,7 @@ Font o19 = { "font_bi" , False , "Times New Roman" , 24 , { False , True } , { F
 
 Format o20 = { "fmt" , False , { null , & o23 } , { True , 0 } , { True , 0 } , { True , 0 } };
 
-TextList o21 = { "menu" , False , { "fmt" , null } , { True , 0 } , { True , 0 } , {
+TextList o21 = { "menu" , True , { "fmt" , null } , { True , 0 } , { True , 0 } , {
 
 {
 { "item1" , {

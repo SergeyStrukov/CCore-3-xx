@@ -634,6 +634,20 @@ class Book::PrepareContext : NoCopy
        }
     }
 
+   template <OneOfTypes<FrameList,ItemList> T>
+   Point size(T &obj)
+    {
+     if( !obj.cur ) return Null;
+
+     return sizeListTable(&obj);
+    }
+
+   template <OneOfTypes<FrameList,ItemList> T>
+   void place(Point base,T &obj)
+    {
+     if( +obj.cur ) placeListTable(base,&obj);
+    }
+
   private:
 
    template <class ... TT>
@@ -741,26 +755,20 @@ class Book::PrepareContext : NoCopy
 
      if( s1.y<s2.y )
        {
+        Coord delta=s2.y-s1.y;
+
+        addRef(Pane(base.addY(delta/2),s1),ptr);
+
         placeTable(base.addX(s1.x),ptr);
        }
      else
        {
         Coord delta=s1.y-s2.y;
 
+        addRef(Pane(base,s1),ptr);
+
         placeTable(base.addX(s1.x).addY(delta/2),ptr);
        }
-    }
-
-   template <OneOfTypes<Frame,Item> T>
-   Point sizeBody(T *ptr)
-    {
-     return sizeListTable(ptr);
-    }
-
-   template <OneOfTypes<Frame,Item> T>
-   void placeBody(Point base,T *ptr)
-    {
-     placeListTable(base,ptr);
     }
 
    template <class T>
@@ -895,9 +903,9 @@ class Book::DrawContext : NoCopy
 
    struct Draw
     {
-     const void *data;
+     void *data;
 
-     void (*draw_func)(DrawContext *ctx,Pane cell,Coord offy,const void *data);
+     void (*draw_func)(DrawContext *ctx,Pane cell,Coord offy,void *data);
 
      void draw(DrawContext *ctx,Pane cell,Coord offy) const { draw_func(ctx,cell,offy,data); }
     };
@@ -905,12 +913,12 @@ class Book::DrawContext : NoCopy
    template <class T>
    struct DrawOf : Draw
     {
-     static void DrawFunc(DrawContext *ctx,Pane cell,Coord offy,const void *data)
+     static void DrawFunc(DrawContext *ctx,Pane cell,Coord offy,void *data)
       {
-       ctx->draw(cell,offy,*static_cast<const T *>(data));
+       ctx->draw(cell,offy,*static_cast<T *>(data));
       }
 
-     explicit DrawOf(const T &obj)
+     explicit DrawOf(T &obj)
       {
        data=&obj;
        draw_func=DrawFunc;
@@ -1237,6 +1245,19 @@ class Book::DrawContext : NoCopy
        }
     }
 
+   template <OneOfTypes<FrameList,ItemList> T>
+   void draw(Pane cell,Coord,T &obj)
+    {
+     if( !obj.cur )
+       {
+        buf.erase(cell,gray);
+       }
+     else
+       {
+        drawListTable(cell.getBase(),&obj);
+       }
+    }
+
   private:
 
    template <class ... TT>
@@ -1507,12 +1528,6 @@ class Book::DrawContext : NoCopy
 
         drawTable(base.addX(s1.x).addY(delta/2),ptr);
        }
-    }
-
-   template <OneOfTypes<Frame,Item> T>
-   void drawBody(Point base,T *ptr)
-    {
-     drawListTable(base,ptr);
     }
 
    template <class T>

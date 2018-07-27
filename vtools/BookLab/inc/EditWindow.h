@@ -102,7 +102,10 @@ class InnerBookLabWindow : public SubWindow
 
    [[nodiscard]] bool cache() const;
 
-   BookLab::Ref getRef(Point point) const;
+   BookLab::PaneRef getRef(Point point) const;
+
+   template <class T>
+   void moveList(Pane pane,Point point,T *ptr);
 
   private:
 

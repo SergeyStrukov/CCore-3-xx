@@ -59,6 +59,13 @@ auto SafePtr(Ptr &ptr)
   return !ptr ? 0 : ptr.getPtr() ;
  }
 
+inline Coord MoveListZone(Pane pane,Point point)
+ {
+  if( pane.dy<=0 ) return -1;
+
+  return (5*(point.y-pane.y))/pane.dy;
+ }
+
 /* classes */
 
 struct Ratio;
@@ -447,25 +454,6 @@ struct Frame : NoCopy
    {
     keeper(prev,next,line,body);
    }
-
-  // layout
-
-  TableLayout<5> layout;
-
-  template <class Row,template <class T> class If,class Func>
-  void apply(Func func)
-   {
-    Row table[5]=
-     {
-      {"Point"_c,"inner = "_c,If(inner)},
-      {"Point"_c,"outer = "_c,If(outer)},
-      {"Color"_c,"col = "_c,If(col)},
-      {"{SingleLine,DoubleLine}"_c,"line = "_c,If(line)},
-      {"{...}"_c,"body = "_c,If(body)}
-     };
-
-    func(Range(table),layout);
-   }
  };
 
 /* struct FrameList */
@@ -480,6 +468,36 @@ struct FrameList : NoCopy
   void keepAlive(Keeper keeper)
    {
     keeper(beg,cur,end);
+   }
+
+  void gotoBeg() { cur=beg; }
+
+  void gotoEnd() { cur=end; }
+
+  void gotoPrev() { if( +cur && +cur->prev ) cur=cur->prev; }
+
+  void gotoNext() { if( +cur && +cur->next ) cur=cur->next; }
+
+  // layout
+
+  TableLayout<5> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    if( +cur )
+      {
+       Row table[5]=
+        {
+         {"Point"_c,"inner = "_c,If(cur->inner)},
+         {"Point"_c,"outer = "_c,If(cur->outer)},
+         {"Color"_c,"col = "_c,If(cur->col)},
+         {"{SingleLine,DoubleLine}"_c,"line = "_c,If(cur->line)},
+         {"{...}"_c,"body = "_c,If(cur->body)}
+        };
+
+       func(Range(table),layout);
+      }
    }
  };
 
@@ -518,7 +536,7 @@ struct Page : NamedObj
       {"Page"_c,"up = "_c,If(up)},
       {"Page"_c,"prev = "_c,If(prev)},
       {"Page"_c,"next = "_c,If(next)},
-      {"Frame[]"_c,"list = "_c,If(list.cur)}
+      {"Frame[]"_c,"list = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -799,7 +817,7 @@ struct Collapse : NamedObj
       {"Format"_c,"format = "_c,If(format)},
       {"bool"_c,"openlist = "_c,If(openlist)},
       {"bool"_c,"hide = "_c,If(hide)},
-      {"Frame[]"_c,"list = "_c,If(list.cur)}
+      {"Frame[]"_c,"list = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -826,22 +844,6 @@ struct Item : NoCopy
    {
     keeper(prev,next,list);
    }
-
-  // layout
-
-  TableLayout<2> layout;
-
-  template <class Row,template <class T> class If,class Func>
-  void apply(Func func)
-   {
-    Row table[2]=
-     {
-      {"text"_c,"bullet = "_c,If(bullet)},
-      {"Frame[]"_c,"list = "_c,If(list.cur)}
-     };
-
-    func(Range(table),layout);
-   }
  };
 
 /* struct ItemList */
@@ -856,6 +858,33 @@ struct ItemList : NoCopy
   void keepAlive(Keeper keeper)
    {
     keeper(beg,cur,end);
+   }
+
+  void gotoBeg() { cur=beg; }
+
+  void gotoEnd() { cur=end; }
+
+  void gotoPrev() { if( +cur && +cur->prev ) cur=cur->prev; }
+
+  void gotoNext() { if( +cur && +cur->next ) cur=cur->next; }
+
+  // layout
+
+  TableLayout<2> layout;
+
+  template <class Row,template <class T> class If,class Func>
+  void apply(Func func)
+   {
+    if( +cur )
+      {
+       Row table[2]=
+        {
+         {"text"_c,"bullet = "_c,If(cur->bullet)},
+         {"Frame[]"_c,"list = "_c,If(cur->list)}
+        };
+
+       func(Range(table),layout);
+      }
    }
  };
 
@@ -888,7 +917,7 @@ struct TextList : NamedObj
       {"Format"_c,"format = "_c,If(format)},
       {"Coord"_c,"bullet_space = "_c,If(bullet_space)},
       {"Coord"_c,"item_space = "_c,If(item_space)},
-      {"Item[]"_c,"list = "_c,If(list.cur)}
+      {"Item[]"_c,"list = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -949,7 +978,7 @@ struct Cell : NamedObj
      {
       {"ulen"_c,"span_x = "_c,If(span_x)},
       {"ulen"_c,"span_y = "_c,If(span_y)},
-      {"Frame[]"_c,"list = "_c,If(list.cur)}
+      {"Frame[]"_c,"list = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -1309,7 +1338,7 @@ struct Config
 
 /* type Ref */
 
-using Ref = AnyPtr<OpenFlag> ;
+using Ref = AnyPtr<OpenFlag,FrameList,ItemList> ;
 
 /* struct PaneRef */
 

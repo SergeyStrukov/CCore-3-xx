@@ -70,15 +70,17 @@ bool InnerBookLabWindow::cache() const
     }
  }
 
-BookLab::Ref InnerBookLabWindow::getRef(Point point) const
+BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
  {
-  if( !cache() ) return Null;
+  if( !cache() ) return {};
 
-  point-=getBase();
+  Point base=getBase();
+
+  point-=base;
 
   const BookLab::PaneRef *ptr=refs.getPtr();
 
-  BookLab::Ref ret;
+  BookLab::PaneRef ret;
 
   tree.find(point.y, [ptr,point,&ret] (ulen index)
                                       {
@@ -86,7 +88,7 @@ BookLab::Ref InnerBookLabWindow::getRef(Point point) const
 
                                        if( obj.pane.contains(point) )
                                         {
-                                         ret=obj.ref;
+                                         ret=obj;
 
                                          return false;
                                         }
@@ -95,7 +97,27 @@ BookLab::Ref InnerBookLabWindow::getRef(Point point) const
 
                                       } );
 
+  ret.pane+=base;
+
   return ret;
+ }
+
+template <class T>
+void InnerBookLabWindow::moveList(Pane pane,Point point,T *ptr)
+ {
+  switch( BookLab::MoveListZone(pane,point) )
+    {
+     case 0 : ptr->gotoBeg(); break;
+     case 1 : ptr->gotoPrev(); break;
+     case 3 : ptr->gotoNext(); break;
+     case 4 : ptr->gotoEnd(); break;
+
+     default: return;
+    }
+
+  clean();
+
+  changed.assert();
  }
 
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
@@ -385,7 +407,7 @@ void InnerBookLabWindow::looseFocus()
 
 MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const // TODO
  {
-  BookLab::Ref ref=getRef(point);
+  BookLab::Ref ref=getRef(point).ref;
 
   if( +ref ) return Mouse_Hand;
 
@@ -463,11 +485,13 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
  {
   Used(mkey);
 
-  BookLab::Ref ref=getRef(point);
+  BookLab::PaneRef pane_ref=getRef(point);
 
   struct Proc
    {
     InnerBookLabWindow *win;
+    Pane pane;
+    Point point;
 
     void operator () (BookLab::OpenFlag *ptr)
      {
@@ -477,9 +501,19 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
 
       win->changed.assert();
      }
+
+    void operator () (BookLab::FrameList *ptr)
+     {
+      win->moveList(pane,point,ptr);
+     }
+
+    void operator () (BookLab::ItemList *ptr)
+     {
+      win->moveList(pane,point,ptr);
+     }
    };
 
-  ref.apply(Proc{this});
+  pane_ref.ref.apply(Proc{this,pane_ref.pane,point});
  }
 
 void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO
