@@ -16,6 +16,8 @@
 
 #include <inc/DrawBook.h>
 
+#include <CCore/inc/video/AppOpt.h>
+
 namespace App {
 
 /* classes */
@@ -541,6 +543,8 @@ class BookWindow : public ComboWindow
 
    const Config &cfg;
 
+   OptFileName opt;
+
    // data
 
    Book::BookMap book_map;
@@ -658,7 +662,7 @@ class BookWindow : public ComboWindow
 
   public:
 
-   BookWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
+   BookWindow(SubWindowHost &host,const Config &cfg,OptFileName opt,Signal<> &update);
 
    virtual ~BookWindow();
 

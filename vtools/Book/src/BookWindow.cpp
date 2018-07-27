@@ -860,6 +860,11 @@ void BookWindow::font_completed(bool ok)
 
      book.setFocus();
 
+     if( Change(opt.ok,false) )
+       {
+        load(opt.file_name);
+       }
+
      redraw();
     }
  }
@@ -1006,9 +1011,10 @@ void BookWindow::setScale(int scale_)
   popup.setScale(scale);
  }
 
-BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
+BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
+   opt(opt_),
 
    label_title(wlist,cfg.label_cfg,cfg.text_Title),
    text_title(wlist,cfg.text_cfg),

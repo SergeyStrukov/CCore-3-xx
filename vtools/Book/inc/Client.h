@@ -14,8 +14,6 @@
 #ifndef Client_h
 #define Client_h
 
-#include <CCore/inc/video/AppOpt.h>
-
 #include <inc/BookWindow.h>
 
 namespace App {
@@ -106,8 +104,6 @@ class ClientWindow : public ComboWindow
   private:
 
    const Config &cfg;
-
-   OptFileName opt;
 
    // menu
 
