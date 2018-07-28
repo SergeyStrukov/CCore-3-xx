@@ -215,9 +215,9 @@ class Book::PrepareContext : NoCopy
 
   private:
 
-   void addRef(Pane pane,AnyPtr<OpenFlag,FrameList,ItemList> mode)
+   void addRef(Pane pane,Ref ref)
     {
-     refs.append_copy({pane,{mode}});
+     refs.append_copy({pane,ref});
     }
 
   private:
@@ -403,7 +403,7 @@ class Book::PrepareContext : NoCopy
         elem.pane.x=base.x;
         elem.pane.y=base.y;
 
-        placeElement(base,elem.ptr.getPtr());
+        placeElement(base,elem.ptr.getPtr(),Ref(elem,list));
 
         base=base.addY(elem.pane.dy);
        }
@@ -675,9 +675,9 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class ... TT>
-   void placeElement(Point base,AnyPtr<TT...> anyptr)
+   void placeElement(Point base,AnyPtr<TT...> anyptr,Ref ref)
     {
-     anyptr.apply( [&] (auto *ptr) { if( ptr ) placeElement(base,ptr); } );
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) placeElement(base,ptr,ref); } );
     }
 
    template <class T>
@@ -800,8 +800,14 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
-   void placeElement(Point base,T *ptr)
+   void placeElement(Point base,T *ptr,Ref ref)
     {
+     ShowName show(ptr);
+
+     Point size=element_font->text(show.get()).getSize();
+
+     addRef(Pane(base,size),ref);
+
      Coord dy=BoxExt(efs.dy);
 
      placeBody(base.addY(dy),ptr);
@@ -829,11 +835,15 @@ class Book::PrepareContext : NoCopy
        }
     }
 
-   void placeElement(Point base,Section *ptr)
+   void placeElement(Point base,Section *ptr,Ref ref)
     {
      Coord dxy=cfs.dy;
 
      addRef(Pane(base,dxy),(OpenFlag *)ptr);
+
+     Point size=comment_font->text(Range(ptr->comment)).getSize();
+
+     addRef(Pane(base.addX(BoxExt(dxy)),Sup(size,Point::Diag(dxy))),ref);
 
      if( ptr->open )
        {
@@ -1614,6 +1624,23 @@ class Book::DrawContext : NoCopy
  };
 
 /* struct PaneRef */
+
+ // testMode()
+
+template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
+bool PaneRef::testMode(T *ptr)
+ {
+  return ptr!=0;
+ }
+
+bool PaneRef::testMode()
+ {
+  bool ret=false;
+
+  ref.mode.apply( [&] (auto *ptr) { ret=testMode(ptr); } );
+
+  return ret;
+ }
 
  // handleMode()
 

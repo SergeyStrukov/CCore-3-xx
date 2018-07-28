@@ -389,9 +389,9 @@ void InnerBookLabWindow::looseFocus()
 
 MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const
  {
-  BookLab::Ref ref=getRef(point).ref;
+  BookLab::PaneRef ref=getRef(point);
 
-  if( +ref.mode ) return Mouse_Hand;
+  if( ref.testMode() ) return Mouse_Hand;
 
   return Mouse_Arrow;
  }
@@ -469,11 +469,16 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
 
   BookLab::PaneRef pane_ref=getRef(point);
 
-  if( pane_ref.handleMode(point)==BookLab::HandleUpdate )
+  if( auto result=pane_ref.handleMode(point) )
     {
-     clean();
+     if( result==BookLab::HandleUpdate )
+       {
+        clean();
 
-     changed.assert();
+        changed.assert();
+       }
+
+     return;
     }
  }
 

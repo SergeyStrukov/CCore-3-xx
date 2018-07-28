@@ -155,6 +155,8 @@ struct Config;
 
 struct Ref;
 
+struct Cursor;
+
 struct PaneRef;
 
 class Book;
@@ -1341,7 +1343,36 @@ struct Config
 
 struct Ref
  {
-  AnyPtr<OpenFlag,FrameList,ItemList> mode;
+  AnyPtr<OpenFlag,FrameList,ItemList,Element> mode;
+
+  union
+   {
+    ElementList *list;
+   } opt;
+
+  Ref() noexcept {}
+
+  template <class T>
+  Ref(T *ptr) : mode(ptr) {}
+
+  Ref(Element &elem,ElementList &list) : mode(&elem) { opt.list=&list; }
+ };
+
+/* struct Cursor */
+
+struct Cursor
+ {
+  Pane pane;
+  AnyPtr<Element> mode;
+
+  union
+   {
+    ElementList *list;
+   } opt;
+
+  Cursor() noexcept {}
+
+  Cursor(Pane pane_,Element *elem,ElementList *list) : pane(pane_),mode(elem) { opt.list=list; }
  };
 
 /* struct PaneRef */
@@ -1351,7 +1382,20 @@ struct PaneRef
   Pane pane;
   Ref ref;
 
+  // testMode()
+
+  template <class T>
+  bool testMode(T *) { return false; }
+
+  template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
+  bool testMode(T *ptr);
+
+  bool testMode();
+
   // handleMode()
+
+  template <class T>
+  HandleResult handleMode(Point,T *) { return HandleNone; }
 
   HandleResult handleMode(Point point,OpenFlag *ptr);
 
@@ -1362,12 +1406,19 @@ struct PaneRef
 
   // handleList()
 
+  template <class T>
+  HandleResult handleList(Point,bool,T *) { return HandleNone; }
+
   HandleResult handleList(Point point,bool prev,OpenFlag *ptr);
 
   template <OneOfTypes<FrameList,ItemList> T>
   HandleResult handleList(Point point,bool prev,T *ptr);
 
   HandleResult handleList(Point point,bool prev);
+
+  // handleCursor
+
+
  };
 
 /* class Book */
