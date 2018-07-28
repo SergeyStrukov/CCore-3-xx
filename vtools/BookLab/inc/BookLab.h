@@ -44,6 +44,14 @@ enum Align
   Center
  };
 
+enum HandleResult
+ {
+  HandleNone = 0,
+
+  HandleOk,
+  HandleUpdate,
+ };
+
 /* functions */
 
 template <class T>
@@ -57,13 +65,6 @@ template <class Ptr>
 auto SafePtr(Ptr &ptr)
  {
   return !ptr ? 0 : ptr.getPtr() ;
- }
-
-inline Coord MoveListZone(Pane pane,Point point)
- {
-  if( pane.dy<=0 ) return -1;
-
-  return (5*(point.y-pane.y))/pane.dy;
  }
 
 /* classes */
@@ -151,6 +152,8 @@ class NextIndex;
 template <class Ctx,class T> struct BindCtx;
 
 struct Config;
+
+struct Ref;
 
 struct PaneRef;
 
@@ -1334,9 +1337,12 @@ struct Config
    }
  };
 
-/* type Ref */
+/* struct Ref */
 
-using Ref = AnyPtr<OpenFlag,FrameList,ItemList> ;
+struct Ref
+ {
+  AnyPtr<OpenFlag,FrameList,ItemList> mode;
+ };
 
 /* struct PaneRef */
 
@@ -1344,6 +1350,24 @@ struct PaneRef
  {
   Pane pane;
   Ref ref;
+
+  // handleMode()
+
+  HandleResult handleMode(Point point,OpenFlag *ptr);
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleMode(Point point,T *ptr);
+
+  HandleResult handleMode(Point point);
+
+  // handleList()
+
+  HandleResult handleList(Point point,bool prev,OpenFlag *ptr);
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleList(Point point,bool prev,T *ptr);
+
+  HandleResult handleList(Point point,bool prev);
  };
 
 /* class Book */

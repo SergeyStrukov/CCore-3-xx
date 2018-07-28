@@ -19,6 +19,20 @@
 namespace App {
 namespace BookLab {
 
+/* functions */
+
+inline Point SizeListBtn(Coord dxy)
+ {
+  return Point(BoxExt(dxy),5*dxy);
+ }
+
+inline Coord MoveListZone(Pane pane,Point point)
+ {
+  if( pane.dy<=0 ) return -1;
+
+  return (5*(point.y-pane.y))/pane.dy;
+ }
+
 /* class Book::ShowData */
 
 class Book::ShowData : NoCopy
@@ -201,9 +215,9 @@ class Book::PrepareContext : NoCopy
 
   private:
 
-   void addRef(Pane pane,Ref ref)
+   void addRef(Pane pane,AnyPtr<OpenFlag,FrameList,ItemList> mode)
     {
-     refs.append_copy({pane,ref});
+     refs.append_copy({pane,{mode}});
     }
 
   private:
@@ -861,11 +875,6 @@ class Book::PrepareContext : NoCopy
 
      return StackYSize_guarded(StackYSize_guarded(s1,s2),s3);
     }
-
-   static Point SizeListBtn(Coord dxy)
-    {
-     return Point(BoxExt(dxy),5*dxy);
-    }
  };
 
 /* class Book::DrawContext */
@@ -1507,7 +1516,7 @@ class Book::DrawContext : NoCopy
      drawEndBtn(art,pane5,ptr->canEnd());
     }
 
-   Point sizeListBtn() { return PrepareContext::SizeListBtn(knob_dxy); }
+   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
 
    template <class T>
    void drawListBtn(Point base,T *ptr) { drawListBtn(base,knob_dxy,ptr); }
@@ -1603,6 +1612,70 @@ class Book::DrawContext : NoCopy
      draw(Point(0,dy),doc->list);
     }
  };
+
+/* struct PaneRef */
+
+ // handleMode()
+
+HandleResult PaneRef::handleMode(Point,OpenFlag *ptr)
+ {
+  ptr->change();
+
+  return HandleUpdate;
+ }
+
+template <OneOfTypes<FrameList,ItemList> T>
+HandleResult PaneRef::handleMode(Point point,T *ptr)
+ {
+  switch( MoveListZone(pane,point) )
+    {
+     case 0 : return ptr->gotoBeg()?HandleUpdate:HandleOk;
+     case 1 : return ptr->gotoPrev()?HandleUpdate:HandleOk;
+     case 3 : return ptr->gotoNext()?HandleUpdate:HandleOk;
+     case 4 : return ptr->gotoEnd()?HandleUpdate:HandleOk;
+    }
+
+  return HandleOk;
+ }
+
+HandleResult PaneRef::handleMode(Point point)
+ {
+  HandleResult ret=HandleNone;
+
+  ref.mode.apply( [&] (auto *ptr) { ret=handleMode(point,ptr); } );
+
+  return ret;
+ }
+
+ // handleList()
+
+HandleResult PaneRef::handleList(Point,bool,OpenFlag *)
+ {
+  return HandleNone;
+ }
+
+template <OneOfTypes<FrameList,ItemList> T>
+HandleResult PaneRef::handleList(Point point,bool prev,T *ptr)
+ {
+  if( MoveListZone(pane,point)==2 )
+    {
+     if( prev )
+       return ptr->gotoPrev()?HandleUpdate:HandleOk;
+     else
+       return ptr->gotoNext()?HandleUpdate:HandleOk;
+    }
+
+  return HandleOk;
+ }
+
+HandleResult PaneRef::handleList(Point point,bool prev)
+ {
+  HandleResult ret=HandleNone;
+
+  ref.mode.apply( [&] (auto *ptr) { ret=handleList(point,prev,ptr); } );
+
+  return ret;
+ }
 
 /* class Book */
 

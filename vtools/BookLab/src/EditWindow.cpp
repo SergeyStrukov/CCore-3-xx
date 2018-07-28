@@ -76,7 +76,7 @@ BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
 
   Point base=getBase();
 
-  point-=base;
+  point+=base;
 
   const BookLab::PaneRef *ptr=refs.getPtr();
 
@@ -97,27 +97,9 @@ BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
 
                                       } );
 
-  ret.pane+=base;
+  ret.pane-=base;
 
   return ret;
- }
-
-template <class T>
-void InnerBookLabWindow::moveList(Pane pane,Point point,T *ptr)
- {
-  switch( BookLab::MoveListZone(pane,point) )
-    {
-     case 0 : if( ptr->gotoBeg() ) break; else return;
-     case 1 : if( ptr->gotoPrev() ) break; else return;
-     case 3 : if( ptr->gotoNext() ) break; else return;
-     case 4 : if( ptr->gotoEnd() ) break; else return;
-
-     default: return;
-    }
-
-  clean();
-
-  changed.assert();
  }
 
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
@@ -381,7 +363,7 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
 
   if( !pane ) return;
 
-  book.draw(cfg,buf.cutRebase(pane),getBase());
+  book.draw(cfg,buf.cutRebase(pane),-getBase());
  }
 
  // base
@@ -405,11 +387,11 @@ void InnerBookLabWindow::looseFocus()
 
  // mouse
 
-MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const // TODO
+MouseShape InnerBookLabWindow::getMouseShape(Point point,KeyMod) const
  {
   BookLab::Ref ref=getRef(point).ref;
 
-  if( +ref ) return Mouse_Hand;
+  if( +ref.mode ) return Mouse_Hand;
 
   return Mouse_Arrow;
  }
@@ -487,33 +469,12 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
 
   BookLab::PaneRef pane_ref=getRef(point);
 
-  struct Proc
-   {
-    InnerBookLabWindow *win;
-    Pane pane;
-    Point point;
+  if( pane_ref.handleMode(point)==BookLab::HandleUpdate )
+    {
+     clean();
 
-    void operator () (BookLab::OpenFlag *ptr)
-     {
-      ptr->change();
-
-      win->clean();
-
-      win->changed.assert();
-     }
-
-    void operator () (BookLab::FrameList *ptr)
-     {
-      win->moveList(pane,point,ptr);
-     }
-
-    void operator () (BookLab::ItemList *ptr)
-     {
-      win->moveList(pane,point,ptr);
-     }
-   };
-
-  pane_ref.ref.apply(Proc{this,pane_ref.pane,point});
+     changed.assert();
+    }
  }
 
 void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO
@@ -522,9 +483,21 @@ void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO
   Used(mkey);
  }
 
-void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta) // TODO
+void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
  {
-  Used(point);
+  BookLab::PaneRef pane_ref=getRef(point);
+
+  if( auto result=pane_ref.handleList(point, delta>0 ) )
+    {
+     if( result==BookLab::HandleUpdate )
+       {
+        clean();
+
+        changed.assert();
+       }
+
+     return;
+    }
 
   if( delta<0 )
     {

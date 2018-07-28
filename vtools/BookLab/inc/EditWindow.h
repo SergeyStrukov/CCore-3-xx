@@ -104,9 +104,6 @@ class InnerBookLabWindow : public SubWindow
 
    BookLab::PaneRef getRef(Point point) const;
 
-   template <class T>
-   void moveList(Pane pane,Point point,T *ptr);
-
   private:
 
    static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
@@ -133,7 +130,7 @@ class InnerBookLabWindow : public SubWindow
 
   private:
 
-   Point getBase() const { return -Point((Coord)sx.pos,(Coord)sy.pos); }
+   Point getBase() const { return Point((Coord)sx.pos,(Coord)sy.pos); }
 
    void posX(ulen pos);
 
