@@ -44,6 +44,11 @@ enum Align
   Center
  };
 
+enum Strength : int
+ {
+  NoStrength = 0
+ };
+
 enum HandleResult
  {
   HandleNone = 0,
@@ -61,11 +66,12 @@ inline VColor DefNoColor() { return NoColor; }
 
 inline Effect DefNoEffect() { return NoEffect; }
 
+inline Align DefLeft() { return Left; }
+
+inline Strength DefNoStrength() { return NoStrength; }
+
 template <class Ptr>
-auto SafePtr(Ptr &ptr)
- {
-  return !ptr ? 0 : ptr.getPtr() ;
- }
+auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
 
 /* classes */
 
@@ -361,7 +367,7 @@ struct Font : NamedObj
 
   OptData<bool> bold;
   OptData<bool> italic;
-  OptData<int> strength;
+  OptData<Strength,DefNoStrength> strength;
 
   // layout
 
@@ -1128,8 +1134,6 @@ struct FixedText : NamedObj
 
 struct OneLine : NamedObj
  {
-  static Align DefLeft() { return Left; }
-
   OptData<Align,DefLeft> align;
 
   // layout
@@ -1331,12 +1335,14 @@ struct Config
 
 using PadType =
 
-AnyPtr<String,Coord,bool,
+AnyPtr<bool,Coord,String,
 
-       OptData<bool>,OptData<int>,OptData<Point>,OptData<Coord>,
+       OptData<bool>,OptData<Coord>,OptData<Point>,OptData<Strength,DefNoStrength>,
 
-       OptData<bool,Collapse::DefTrue>,OptData<ulen,Cell::DefOne>,OptData<Align,OneLine::DefLeft>,
-       OptData<VColor,DefNoColor>,OptData<Effect,DefNoEffect>,OptData<Ratio,DefRatioOne>,OptData<Ratio,DefRatioTwo>,
+       OptData<bool,Collapse::DefTrue>,OptData<ulen,Cell::DefOne>,
+
+       OptData<Align,DefLeft>,OptData<Effect,DefNoEffect>,OptData<VColor,DefNoColor>,
+       OptData<Ratio,DefRatioOne>,OptData<Ratio,DefRatioTwo>,
 
        NamedPtr<Font>,NamedPtr<Page>,NamedPtr<Format>,NamedPtr<Border>,
        NamedPtr<OneLine,MultiLine>,NamedPtr<SingleLine,DoubleLine>,

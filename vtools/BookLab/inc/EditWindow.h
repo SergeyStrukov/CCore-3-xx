@@ -110,6 +110,10 @@ class InnerBookLabWindow : public SubWindow
 
    void setCursor(BookLab::Cursor cur);
 
+   void insItem();
+
+   void delItem();
+
   private:
 
    static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }

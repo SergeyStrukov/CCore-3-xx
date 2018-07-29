@@ -68,7 +68,7 @@ struct Adapter<bool>
    }
  };
 
-template <OneOfTypes<Coord,int,ulen> T>
+template <OneOfTypes<Coord,Strength,ulen> T>
 struct Adapter<T>
  {
   T data;

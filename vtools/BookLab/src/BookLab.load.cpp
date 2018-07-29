@@ -100,7 +100,7 @@ class Book::LoadContext : NoCopy
 
   private:
 
-   template <OneOfTypes<VColor,Coord,Effect,Align,bool,int,ulen,String> T,class S>
+   template <OneOfTypes<VColor,Coord,Effect,Align,bool,Strength,ulen,String> T,class S>
    static void Cast(T &ret,S obj)
     {
      ret=T(obj);

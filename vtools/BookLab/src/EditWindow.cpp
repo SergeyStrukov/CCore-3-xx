@@ -110,6 +110,14 @@ void InnerBookLabWindow::setCursor(BookLab::Cursor cur)
   redraw();
  }
 
+void InnerBookLabWindow::insItem() // TODO
+ {
+ }
+
+void InnerBookLabWindow::delItem() // TODO
+ {
+ }
+
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
  {
   sx.add(Delta(delta,mul_flag));
@@ -417,10 +425,22 @@ void InnerBookLabWindow::react(UserAction action)
   action.dispatch(*this);
  }
 
-void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
+void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
  {
   switch( vkey )
     {
+     case VKey_Insert :
+      {
+       insItem();
+      }
+     break;
+
+     case VKey_Delete :
+      {
+       delItem();
+      }
+     break;
+
      case VKey_Left :
       {
        subXPos(repeat,!(kmod&KeyMod_Shift));
@@ -477,7 +497,7 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TOD
     }
  }
 
-void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
+void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey)
  {
   Used(mkey);
 
@@ -505,7 +525,7 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
     }
  }
 
-void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey) // TODO
+void InnerBookLabWindow::react_RightClick(Point point,MouseKey mkey)
  {
   Used(point);
   Used(mkey);

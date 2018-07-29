@@ -49,7 +49,7 @@ class Book::ShowData : NoCopy
 
   private:
 
-   template <OneOfTypes<Point,Ratio,Coord,int,bool,ulen> T>
+   template <OneOfTypes<Point,Ratio,Coord,Strength,bool,ulen> T>
    void show(T data)
     {
      Putobj(out,data);
@@ -482,7 +482,7 @@ class Book::PrepareContext : NoCopy
      return Point(2*dy,dy);
     }
 
-   template <OneOfTypes<Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
+   template <OneOfTypes<Point,Ratio,Coord,Strength,bool,Effect,Align,ulen> T>
    Point size(T data)
     {
      ShowData show(data);
@@ -1149,7 +1149,7 @@ class Book::DrawContext : NoCopy
      fig.curveSolid(art,data);
     }
 
-   template <OneOfTypes<Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
+   template <OneOfTypes<Point,Ratio,Coord,Strength,bool,Effect,Align,ulen> T>
    void draw(Pane cell,Coord offy,T data)
     {
      ShowData show(data);
