@@ -996,44 +996,38 @@ struct Table : NamedObj
 
   OptData<bool> hard;
 
-  DynArray<Coord> width;
+  struct Data
+   {
+    DynArray<Coord> width;
+    DynArray<NamedPtr<Cell> > cells; // default: null
+    DynArray<Coord> cellsize;
+   };
 
-  DynArray<NamedPtr<Cell> > table; // default: null
+  Data table;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
     keeper(getBase(),border);
 
-    table.apply(keeper);
+    table.cells.apply(keeper);
    }
 
   // layout
-
-  DynArray<Coord> cellsize;
-
-  struct Data
-   {
-    PtrLen<Coord> width;
-    PtrLen<NamedPtr<Cell> > cells;
-    DynArray<Coord> &cellsize;
-   };
 
   TableLayout<3> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Data temp={Range(width),Range(table),cellsize};
-
-    Row table[3]=
+    Row table_[3]=
      {
       {"Border"_c,"border = "_c,If(border)},
       {"bool"_c,"hard"_c,If(hard)},
-      {"Table"_c,"table = "_c,If(temp)}
+      {"Table"_c,"table = "_c,If(table)}
      };
 
-    func(Range(table),layout);
+    func(Range(table_),layout);
    }
  };
 
@@ -1122,12 +1116,10 @@ struct FixedText : NamedObj
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    StrLen temp="fixed text ..."_c;
-
     Row table[2]=
      {
       {"Format"_c,"format = "_c,If(format)},
-      {"FixedText"_c,"text = "_c,If(temp)}
+      {"FixedText"_c,"text = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -1207,13 +1199,11 @@ struct Text : NamedObj
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    StrLen temp="text ..."_c;
-
     Row table[3]=
      {
       {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
       {"Format"_c,"format = "_c,If(format)},
-      {"Text"_c,"text = "_c,If(temp)}
+      {"Text"_c,"text = "_c,If(list)}
      };
 
     func(Range(table),layout);
@@ -1356,6 +1346,7 @@ AnyPtr<String,Coord,bool,
 
        IntObjPtr<SingleLine>,IntObjPtr<DoubleLine>,IntObjPtr<Format>,IntObjPtr<Border>,
        IntAnyObjPtr<OneLine,MultiLine>,
+       DynArray<Span>,DynArray<TextLine>,Table::Data,
 
        FrameList,ItemList,Element> ;
 

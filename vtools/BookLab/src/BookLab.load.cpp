@@ -298,10 +298,10 @@ class Book::LoadContext : NoCopy
      Cast(ret->open,ptr->open);
 
      Cast(ret->hard,ptr->hard);
-     Cast(ret->width,ptr->width);
+     Cast(ret->table.width,ptr->width);
 
      cast(ret->border,ptr->border);
-     cast(ret->table,ptr->table);
+     cast(ret->table.cells,ptr->table);
     }
 
    void init(Link *ret,const TypeDef::Link *ptr)

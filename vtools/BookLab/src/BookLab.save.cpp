@@ -673,11 +673,11 @@ class Book::SaveContext : public NextIndex
                                                ,bind(ptr->border)
                                                ,ptr->hard);
 
-     printRange(Range(ptr->width));
+     printRange(Range(ptr->table.width));
 
      printf(" , ");
 
-     printRangeBind(Range(ptr->table));
+     printRangeBind(Range(ptr->table.cells));
 
      printf(" };\n\n");
     }

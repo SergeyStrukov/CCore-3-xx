@@ -156,7 +156,7 @@ class Book::ScopeContext : NoCopy
    void subs(IntAnyObjPtr<Scope,Doc> scope,Table *ptr)
     {
      set(scope,ptr->border);
-     set(scope,ptr->table);
+     set(scope,ptr->table.cells);
     }
 
    void subs(IntAnyObjPtr<Scope,Doc> scope,Link *ptr)

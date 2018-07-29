@@ -33,6 +33,10 @@ inline Coord MoveListZone(Pane pane,Point point)
   return (5*(point.y-pane.y))/pane.dy;
  }
 
+inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
+
+inline StrLen TextDesc() { return "text ..."_c; }
+
 /* class Book::ShowData */
 
 class Book::ShowData : NoCopy
@@ -226,7 +230,7 @@ class Book::PrepareContext : NoCopy
      addRef(pad,PadType(ptr));
     }
 
-   void addPad(Pane,OneOfTypes<StrLen,Table::Data> *) {}
+   void addPad(Pane,StrLen *) {}
 
   private:
 
@@ -588,22 +592,25 @@ class Book::PrepareContext : NoCopy
      return ret;
     }
 
-   Point size(Table::Data obj)
+   Point size(Table::Data &obj)
     {
      obj.cellsize.erase();
 
-     ulen nx=obj.width.len;
+     auto width=Range(obj.width);
+     auto cells=Range(obj.cells);
+
+     ulen nx=width.len;
 
      if( !nx ) return Null;
 
-     ulen ny=obj.cells.len/nx+(obj.cells.len%nx!=0)+1;
+     ulen ny=cells.len/nx+(cells.len%nx!=0)+1;
 
      Coord *tdx=obj.cellsize.extend_default(LenAdd(nx,ny)).ptr;
      Coord *tdy=tdx+nx;
 
      for(ulen i : IndLim(nx) )
        {
-        ShowData show(obj.width[i]);
+        ShowData show(width[i]);
 
         Point s=size(show.get());
 
@@ -612,9 +619,9 @@ class Book::PrepareContext : NoCopy
         Replace_max(tdy[0],s.y);
        }
 
-     for(ulen k : IndLim(obj.cells.len) )
+     for(ulen k : IndLim(cells.len) )
        {
-        Point s=size(obj.cells[k]);
+        Point s=size(cells[k]);
 
         ulen i=k%nx;
         ulen j=k/nx+1;
@@ -629,9 +636,12 @@ class Book::PrepareContext : NoCopy
      return Point(dx,dy);
     }
 
-   void place(Point base,Table::Data obj)
+   void place(Point base,Table::Data &obj)
     {
-     ulen nx=obj.width.len;
+     auto width=Range(obj.width);
+     auto cells=Range(obj.cells);
+
+     ulen nx=width.len;
 
      if( !nx ) return;
 
@@ -641,12 +651,12 @@ class Book::PrepareContext : NoCopy
      Coord dx=table_dxy;
      Coord dy=2*table_dxy+tdy[0];
 
-     for(ulen k : IndLim(obj.cells.len) )
+     for(ulen k : IndLim(cells.len) )
        {
         ulen i=k%nx;
         ulen j=k/nx+1;
 
-        place(base.addX(dx).addY(dy),obj.cells[k]);
+        place(base.addX(dx).addY(dy),cells[k]);
 
         if( i<nx-1 )
           {
@@ -659,6 +669,20 @@ class Book::PrepareContext : NoCopy
           }
        }
     }
+
+   Point size(DynArray<TextLine> &)
+    {
+     return size(FixedTextDesc());
+    }
+
+   void place(Point,DynArray<TextLine> &) {}
+
+   Point size(DynArray<Span> &)
+    {
+     return size(TextDesc());
+    }
+
+   void place(Point,DynArray<Span> &) {}
 
    template <OneOfTypes<FrameList,ItemList> T>
    Point size(T &obj)
@@ -1226,9 +1250,12 @@ class Book::DrawContext : NoCopy
      }
     }
 
-   void draw(Pane cell,Coord,Table::Data obj)
+   void draw(Pane cell,Coord,Table::Data &obj)
     {
-     ulen nx=obj.width.len;
+     auto width=Range(obj.width);
+     auto cells=Range(obj.cells);
+
+     ulen nx=width.len;
 
      if( !nx ) return;
 
@@ -1238,7 +1265,7 @@ class Book::DrawContext : NoCopy
      Coord *tdx=obj.cellsize.getPtr();
      Coord *tdy=tdx+nx;
 
-     ulen ny=obj.cells.len/nx+(obj.cells.len%nx!=0)+1;
+     ulen ny=cells.len/nx+(cells.len%nx!=0)+1;
 
      drawTable(base,Range(tdx,nx),Range(tdy,ny));
 
@@ -1247,7 +1274,7 @@ class Book::DrawContext : NoCopy
 
      for(ulen i : IndLim(nx) )
        {
-        ShowData show(obj.width[i]);
+        ShowData show(width[i]);
 
         draw(Pane(base.addX(dx).addY(dy),tdx[i],tdy[0]),offy,show.get());
 
@@ -1257,12 +1284,12 @@ class Book::DrawContext : NoCopy
      dx=table_dxy;
      dy=2*table_dxy+tdy[0];
 
-     for(ulen k : IndLim(obj.cells.len) )
+     for(ulen k : IndLim(cells.len) )
        {
         ulen i=k%nx;
         ulen j=k/nx+1;
 
-        draw(Pane(base.addX(dx).addY(dy),tdx[i],tdy[j]),offy,obj.cells[k]);
+        draw(Pane(base.addX(dx).addY(dy),tdx[i],tdy[j]),offy,cells[k]);
 
         if( i<nx-1 )
           {
@@ -1274,6 +1301,16 @@ class Book::DrawContext : NoCopy
            dy+=tdy[j]+table_dxy;
           }
        }
+    }
+
+   void draw(Pane cell,Coord offy,DynArray<TextLine> &)
+    {
+     draw(cell,offy,FixedTextDesc());
+    }
+
+   void draw(Pane cell,Coord offy,DynArray<Span> &)
+    {
+     draw(cell,offy,TextDesc());
     }
 
    template <OneOfTypes<FrameList,ItemList> T>
