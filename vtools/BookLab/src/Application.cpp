@@ -50,6 +50,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("element space"_def,element_space);
     binder.item("knob len"_def,knob_dxy);
     binder.item("back"_def,back);
+    binder.item("cursor"_def,cursor);
     binder.item("table"_def,table);
     binder.item("text"_def,text);
     binder.item("element"_def,element);

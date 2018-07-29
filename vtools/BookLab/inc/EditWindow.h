@@ -47,6 +47,7 @@ class InnerBookLabWindow : public SubWindow
      RefVal<Coord> border_dxy = 5 ;
 
      RefVal<VColor> back = Silver ;
+     RefVal<VColor> cursor = Yellow ;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -68,6 +69,7 @@ class InnerBookLabWindow : public SubWindow
       {
        border_dxy.bind(bag.border_dxy);
        back.bind(bag.back);
+       cursor.bind(bag.cursor);
       }
     };
 
@@ -80,6 +82,8 @@ class InnerBookLabWindow : public SubWindow
    BookLab::Book book;
 
    bool focus = false ;
+
+   BookLab::Cursor cursor;
 
    // scroll
 
@@ -103,6 +107,8 @@ class InnerBookLabWindow : public SubWindow
    [[nodiscard]] bool cache() const;
 
    BookLab::PaneRef getRef(Point point) const;
+
+   void setCursor(BookLab::Cursor cur);
 
   private:
 

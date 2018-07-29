@@ -1341,9 +1341,28 @@ struct Config
 
 /* struct Ref */
 
+using PadType =
+
+AnyPtr<String,Coord,bool,
+
+       OptData<bool>,OptData<int>,OptData<Point>,OptData<Coord>,
+
+       OptData<bool,Collapse::DefTrue>,OptData<ulen,Cell::DefOne>,OptData<Align,OneLine::DefLeft>,
+       OptData<VColor,DefNoColor>,OptData<Effect,DefNoEffect>,OptData<Ratio,DefRatioOne>,OptData<Ratio,DefRatioTwo>,
+
+       NamedPtr<Font>,NamedPtr<Page>,NamedPtr<Format>,NamedPtr<Border>,
+       NamedPtr<OneLine,MultiLine>,NamedPtr<SingleLine,DoubleLine>,
+       NamedPtr<Bitmap,Collapse,TextList,Table,Text,FixedText>,
+
+       IntObjPtr<SingleLine>,IntObjPtr<DoubleLine>,IntObjPtr<Format>,IntObjPtr<Border>,
+       IntAnyObjPtr<OneLine,MultiLine>,
+
+       FrameList,ItemList,Element> ;
+
 struct Ref
  {
-  AnyPtr<OpenFlag,FrameList,ItemList,Element> mode;
+  AnyPtr<OpenFlag,FrameList,ItemList> mode;
+  PadType pad;
 
   union
    {
@@ -1355,7 +1374,9 @@ struct Ref
   template <class T>
   Ref(T *ptr) : mode(ptr) {}
 
-  Ref(Element &elem,ElementList &list) : mode(&elem) { opt.list=&list; }
+  Ref(Element &elem,ElementList &list) : pad(&elem) { opt.list=&list; }
+
+  Ref(PadType pad_) : pad(pad_) {}
  };
 
 /* struct Cursor */
@@ -1363,7 +1384,8 @@ struct Ref
 struct Cursor
  {
   Pane pane;
-  AnyPtr<Element> mode;
+
+  PadType pad;
 
   union
    {
@@ -1372,7 +1394,9 @@ struct Cursor
 
   Cursor() noexcept {}
 
-  Cursor(Pane pane_,Element *elem,ElementList *list) : pane(pane_),mode(elem) { opt.list=list; }
+  Cursor(Pane pane_,PadType pad_) : pane(pane_),pad(pad_) {}
+
+  Cursor(Pane pane_,PadType pad_,ElementList *list) : pane(pane_),pad(pad_) { opt.list=list; }
  };
 
 /* struct PaneRef */
@@ -1384,18 +1408,12 @@ struct PaneRef
 
   // testMode()
 
-  template <class T>
-  bool testMode(T *) { return false; }
-
   template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
   bool testMode(T *ptr);
 
   bool testMode();
 
   // handleMode()
-
-  template <class T>
-  HandleResult handleMode(Point,T *) { return HandleNone; }
 
   HandleResult handleMode(Point point,OpenFlag *ptr);
 
@@ -1406,9 +1424,6 @@ struct PaneRef
 
   // handleList()
 
-  template <class T>
-  HandleResult handleList(Point,bool,T *) { return HandleNone; }
-
   HandleResult handleList(Point point,bool prev,OpenFlag *ptr);
 
   template <OneOfTypes<FrameList,ItemList> T>
@@ -1416,9 +1431,9 @@ struct PaneRef
 
   HandleResult handleList(Point point,bool prev);
 
-  // handleCursor
+  // getCursor()
 
-
+  Cursor getCursor();
  };
 
 /* class Book */

@@ -220,6 +220,14 @@ class Book::PrepareContext : NoCopy
      refs.append_copy({pane,ref});
     }
 
+   template <class T>
+   void addPad(Pane pad,T *ptr)
+    {
+     addRef(pad,PadType(ptr));
+    }
+
+   void addPad(Pane,OneOfTypes<StrLen,Table::Data> *) {}
+
   private:
 
    struct Place
@@ -228,11 +236,11 @@ class Book::PrepareContext : NoCopy
 
      Point (*size_func)(PrepareContext *ctx,void *data);
 
-     void (*place_func)(PrepareContext *ctx,Point base,void *data);
+     void (*place_func)(PrepareContext *ctx,Point base,Pane pad,void *data);
 
      Point size(PrepareContext *ctx) const { return size_func(ctx,data); }
 
-     void place(PrepareContext *ctx,Point base) const { place_func(ctx,base,data); }
+     void place(PrepareContext *ctx,Point base,Pane pad) const { place_func(ctx,base,pad,data); }
     };
 
    template <class T>
@@ -243,9 +251,13 @@ class Book::PrepareContext : NoCopy
        return ctx->size(*static_cast<T *>(data));
       }
 
-     static void PlaceFunc(PrepareContext *ctx,Point base,void *data)
+     static void PlaceFunc(PrepareContext *ctx,Point base,Pane pad,void *data)
       {
-       ctx->place(base,*static_cast<T *>(data));
+       T *ptr=static_cast<T *>(data);
+
+       ctx->addPad(pad,ptr);
+
+       ctx->place(base,*ptr);
       }
 
      explicit PlaceOf(T &obj)
@@ -327,13 +339,15 @@ class Book::PrepareContext : NoCopy
      Coord dx1=layout.col[1].dx;
 
      Coord dx=dx0+dx1+3*table_dxy;
-     Coord dy=table_dxy;
+     Coord dy=0;
 
      for(ulen i : IndLim(RowCount) )
        {
-        table[i].place.place(this,base+Point(dx,dy));
+        Coord tdy=layout.row[i].dy;
 
-        dy+=layout.row[i].dy+table_dxy;
+        table[i].place.place(this,base+Point(dx,dy+table_dxy),Pane(base.x,base.y+dy,dx,tdy+2*table_dxy));
+
+        dy+=tdy+table_dxy;
        }
     }
 
@@ -471,9 +485,7 @@ class Book::PrepareContext : NoCopy
     }
 
    template <OneOfTypes<VColor,Point,Ratio,Coord,int,bool,Effect,Align,ulen> T>
-   void place(Point,T)
-    {
-    }
+   void place(Point,T &) {}
 
    template <class T,auto Def>
    Point size(const OptData<T,Def> &obj)
@@ -1700,6 +1712,23 @@ HandleResult PaneRef::handleList(Point point,bool prev)
   HandleResult ret=HandleNone;
 
   ref.mode.apply( [&] (auto *ptr) { ret=handleList(point,prev,ptr); } );
+
+  return ret;
+ }
+
+ // getCursor()
+
+Cursor PaneRef::getCursor()
+ {
+  Cursor ret;
+
+  if( +ref.pad )
+    {
+     if( ref.pad.hasType<Element>() )
+       ret=Cursor(pane,ref.pad,ref.opt.list);
+     else
+       ret=Cursor(pane,ref.pad);
+    }
 
   return ret;
  }

@@ -25,6 +25,7 @@ void InnerBookLabWindow::clean()
   ok=false;
   refs.erase();
   tree={};
+  cursor={};
  }
 
 bool InnerBookLabWindow::cache() const
@@ -100,6 +101,13 @@ BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
   ret.pane-=base;
 
   return ret;
+ }
+
+void InnerBookLabWindow::setCursor(BookLab::Cursor cur)
+ {
+  cursor=cur;
+
+  redraw();
  }
 
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
@@ -337,6 +345,8 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
      return;
     }
 
+  Point base=getBase();
+
   Pane pane=getPane();
 
   SmoothDrawArt art(buf);
@@ -363,7 +373,11 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
 
   if( !pane ) return;
 
-  book.draw(cfg,buf.cutRebase(pane),-getBase());
+  buf=buf.cutRebase(pane);
+
+  if( +cursor.pad ) buf.erase(cursor.pane-base,+cfg.cursor);
+
+  book.draw(cfg,buf,-base);
  }
 
  // base
@@ -479,6 +493,15 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
        }
 
      return;
+    }
+
+  BookLab::Cursor cur=pane_ref.getCursor();
+
+  if( +cur.pad )
+    {
+     cur.pane+=getBase();
+
+     setCursor(cur);
     }
  }
 

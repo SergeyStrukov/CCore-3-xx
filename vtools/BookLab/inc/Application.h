@@ -62,6 +62,7 @@ struct AppPreferenceBag : ConfigItemHost
   Coord knob_dxy = 20 ;
 
   VColor back = Silver ;
+  VColor cursor = Yellow ;
 
   VColor table   = Black ;
   VColor text    = Blue ;
@@ -109,6 +110,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("element_space"_c,ptr->element_space);
   func("knob_dxy"_c,ptr->knob_dxy);
   func("back"_c,ptr->back);
+  func("cursor"_c,ptr->cursor);
   func("table"_c,ptr->table);
   func("text_"_c,ptr->text);
   func("element"_c,ptr->element);
