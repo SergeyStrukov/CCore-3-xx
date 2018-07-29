@@ -1052,11 +1052,9 @@ struct Link : NamedObj
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    StrLen temp="link ..."_c;
-
     Row table[1]=
      {
-      {"Link"_c,"link = "_c,If(temp)}
+      {"Link"_c,"link = "_c,If(*this)}
      };
 
     func(Range(table),layout);
@@ -1346,7 +1344,8 @@ AnyPtr<String,Coord,bool,
 
        IntObjPtr<SingleLine>,IntObjPtr<DoubleLine>,IntObjPtr<Format>,IntObjPtr<Border>,
        IntAnyObjPtr<OneLine,MultiLine>,
-       DynArray<Span>,DynArray<TextLine>,Table::Data,
+
+       DynArray<Span>,DynArray<TextLine>,Table::Data,Link,
 
        FrameList,ItemList,Element> ;
 

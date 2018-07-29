@@ -33,6 +33,8 @@ inline Coord MoveListZone(Pane pane,Point point)
   return (5*(point.y-pane.y))/pane.dy;
  }
 
+inline StrLen LinkDesc() { return "link ..."_c; }
+
 inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
 
 inline StrLen TextDesc() { return "text ..."_c; }
@@ -591,6 +593,13 @@ class Book::PrepareContext : NoCopy
 
      return ret;
     }
+
+   Point size(Link &)
+    {
+     return size(LinkDesc());
+    }
+
+   void place(Point,Link &) {}
 
    Point size(Table::Data &obj)
     {
@@ -1248,6 +1257,11 @@ class Book::DrawContext : NoCopy
          art.path(line_width,table,O,O.addY(fdy));
         }
      }
+    }
+
+   void draw(Pane cell,Coord offy,Link &)
+    {
+     draw(cell,offy,LinkDesc());
     }
 
    void draw(Pane cell,Coord,Table::Data &obj)
