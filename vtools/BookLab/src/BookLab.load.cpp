@@ -120,8 +120,8 @@ class Book::LoadContext : NoCopy
      Cast(ret.b,obj.b);
     }
 
-   template <class T,auto Def,class S>
-   static void Cast(OptData<T,Def> &ret,const S &obj)
+   template <class T,class S>
+   static void Cast(OptDataBase<T> &ret,const S &obj)
     {
      Cast(ret.data,obj.data);
 

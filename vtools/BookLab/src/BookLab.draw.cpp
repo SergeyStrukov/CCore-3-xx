@@ -232,6 +232,12 @@ class Book::PrepareContext : NoCopy
      addRef(pad,PadType(ptr));
     }
 
+   template <class T,auto Def>
+   void addPad(Pane pad,OptData<T,Def> *ptr)
+    {
+     addRef(pad,PadType((OptDataBase<T> *)ptr));
+    }
+
    void addPad(Pane,StrLen *) {}
 
   private:

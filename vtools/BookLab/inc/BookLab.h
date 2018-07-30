@@ -77,6 +77,8 @@ auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
 
 struct Ratio;
 
+template <class T> struct OptDataBase;
+
 template <class T,T Def()=DefNull> struct OptData;
 
 struct OpenFlag;
@@ -188,13 +190,28 @@ inline Ratio DefRatioOne() { return {1}; }
 
 inline Ratio DefRatioTwo() { return {2}; }
 
+/* struct OptDataBase<T> */
+
+template <class T>
+struct OptDataBase : NoCopy
+ {
+  T data;
+  bool def;
+ };
+
 /* struct OptData<T,T Def()> */
 
 template <class T,T Def()>
-struct OptData : NoCopy
+struct OptData : OptDataBase<T>
  {
-  T data = Def() ;
-  bool def = true ;
+  using OptDataBase<T>::data;
+  using OptDataBase<T>::def;
+
+  OptData() noexcept
+   {
+    data=Def();
+    def=true;
+   }
 
   T get() const { return def? Def() : data ; }
 
@@ -1337,12 +1354,9 @@ using PadType =
 
 AnyPtr<bool,Coord,String,
 
-       OptData<bool>,OptData<Coord>,OptData<Point>,OptData<Strength,DefNoStrength>,
-
-       OptData<bool,Collapse::DefTrue>,OptData<ulen,Cell::DefOne>,
-
-       OptData<Align,DefLeft>,OptData<Effect,DefNoEffect>,OptData<VColor,DefNoColor>,
-       OptData<Ratio,DefRatioOne>,OptData<Ratio,DefRatioTwo>,
+       OptDataBase<bool>,OptDataBase<Coord>,OptDataBase<ulen>,
+       OptDataBase<VColor>,OptDataBase<Strength>,OptDataBase<Align>,OptDataBase<Effect>,
+       OptDataBase<Point>,OptDataBase<Ratio>,
 
        NamedPtr<Font>,NamedPtr<Page>,NamedPtr<Format>,NamedPtr<Border>,
        NamedPtr<OneLine,MultiLine>,NamedPtr<SingleLine,DoubleLine>,
