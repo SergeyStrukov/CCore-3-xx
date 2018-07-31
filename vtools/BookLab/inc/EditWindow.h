@@ -110,6 +110,15 @@ class InnerBookLabWindow : public SubWindow
 
    void setCursor(BookLab::Cursor cur);
 
+   template <class T>
+   bool insItem(T *) { return false; }
+
+   bool insItem(BookLab::FrameList *ptr);
+
+   bool insItem(BookLab::ItemList *ptr);
+
+   bool insItem(BookLab::Element *ptr);
+
    void insItem();
 
    void delItem();

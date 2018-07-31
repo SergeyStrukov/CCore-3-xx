@@ -19,6 +19,18 @@
 namespace App {
 namespace BookLab {
 
+/* struct ElementList */
+
+void ElementList::del(Element *ptr)
+ {
+  IntObjPtr<Element> prev=ptr->prev;
+  IntObjPtr<Element> next=ptr->next;
+
+  if( +prev ) prev->next=next; else beg=next;
+
+  if( +next ) next->prev=prev; else end=prev;
+ }
+
 /* functions */
 
 inline Point SizeListBtn(Coord dxy)
@@ -1810,6 +1822,44 @@ void Book::draw(const Config &cfg,DrawBuf buf,Point base) const
   DrawContext ctx(buf,cfg);
 
   ctx.draw(doc.getPtr());
+ }
+
+ // edit
+
+bool Book::delItem(Cursor,FrameList *ptr)
+ {
+  return ptr->del();
+ }
+
+bool Book::delItem(Cursor,ItemList *ptr)
+ {
+  return ptr->del();
+ }
+
+bool Book::delItem(Cursor cursor,Element *ptr)
+ {
+  cursor.opt.list->del(ptr);
+
+  return true;
+ }
+
+bool Book::delItem(Cursor cursor)
+ {
+  bool ret=false;
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=delItem(cursor,ptr); } );
+
+  return ret;
+ }
+
+void Book::insAfter(FrameList *ptr)
+ {
+  ptr->insAfter(ExtObjPtr<Frame>(domain));
+ }
+
+void Book::insAfter(ItemList *ptr)
+ {
+  ptr->insAfter(ExtObjPtr<Item>(domain));
  }
 
 } // namespace BookLab

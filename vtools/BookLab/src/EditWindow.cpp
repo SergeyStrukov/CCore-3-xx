@@ -110,12 +110,51 @@ void InnerBookLabWindow::setCursor(BookLab::Cursor cur)
   redraw();
  }
 
-void InnerBookLabWindow::insItem() // TODO
+bool InnerBookLabWindow::insItem(BookLab::FrameList *ptr)
  {
+  book.insAfter(ptr);
+
+  return true;
  }
 
-void InnerBookLabWindow::delItem() // TODO
+bool InnerBookLabWindow::insItem(BookLab::ItemList *ptr)
  {
+  book.insAfter(ptr);
+
+  return true;
+ }
+
+bool InnerBookLabWindow::insItem(BookLab::Element *ptr) // TODO
+ {
+  Used(ptr);
+
+  return false;
+ }
+
+void InnerBookLabWindow::insItem()
+ {
+  bool ret=false;
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
+
+  if( ret )
+    {
+     clean();
+
+     changed.assert();
+     modified.assert();
+    }
+ }
+
+void InnerBookLabWindow::delItem()
+ {
+  if( book.delItem(cursor) )
+    {
+     clean();
+
+     changed.assert();
+     modified.assert();
+    }
  }
 
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
@@ -655,11 +694,11 @@ void EditWindow::file_destroyed()
     }
  }
 
-void EditWindow::tick()
+void EditWindow::tick() // TODO
  {
   if( !tick_count )
     {
-     tick_count=60_sectick;
+     tick_count=1_sectick; // 60_sectick;
 
      book.collect();
     }

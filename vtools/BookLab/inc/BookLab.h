@@ -373,6 +373,53 @@ struct CommonList : NoCopy
   bool gotoPrev() { if( canPrev() ) { cur=cur->prev; return true; } return false; }
 
   bool gotoNext() { if( canNext() ) { cur=cur->next; return true; } return false; }
+
+  bool del()
+   {
+    if( +cur )
+      {
+       IntObjPtr<T> prev=cur->prev;
+       IntObjPtr<T> next=cur->next;
+
+       if( +prev ) prev->next=next; else beg=next;
+
+       if( +next ) next->prev=prev; else end=prev;
+
+       if( +next ) cur=next; else cur=prev;
+
+       return true;
+      }
+
+    return false;
+   }
+
+  void insAfter(ExtObjPtr<T> elem)
+   {
+    if( +cur )
+      {
+       IntObjPtr<T> next=cur->next;
+
+       cur->next=elem;
+       elem->prev=cur;
+
+       if( +next )
+         {
+          elem->next=next;
+          next->prev=elem;
+         }
+       else
+         {
+          end=elem;
+         }
+      }
+    else
+      {
+       beg=elem;
+       end=elem;
+      }
+
+    cur=elem;
+   }
  };
 
 /* struct Font */
@@ -624,6 +671,8 @@ struct ElementList : NoCopy
    {
     keeper(beg,end);
    }
+
+  void del(Element *ptr);
 
   // layout
 
@@ -1522,6 +1571,23 @@ class Book : NoCopy
    Point prepare(const Config &cfg,DynArray<PaneRef> &refs) const;
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
+
+   // edit
+
+   template <class T>
+   bool delItem(Cursor,T *) { return false; }
+
+   bool delItem(Cursor cursor,FrameList *ptr);
+
+   bool delItem(Cursor cursor,ItemList *ptr);
+
+   bool delItem(Cursor cursor,Element *ptr);
+
+   bool delItem(Cursor cursor);
+
+   void insAfter(FrameList *ptr);
+
+   void insAfter(ItemList *ptr);
  };
 
 } // namespace BookLab
