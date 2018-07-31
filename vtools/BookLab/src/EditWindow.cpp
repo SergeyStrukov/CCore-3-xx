@@ -131,11 +131,36 @@ bool InnerBookLabWindow::insItem(BookLab::Element *ptr) // TODO
   return false;
  }
 
+void InnerBookLabWindow::insFirstElement() // TODO
+ {
+ }
+
 void InnerBookLabWindow::insItem()
  {
   bool ret=false;
 
-  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
+  if( +cursor.pad )
+    {
+     cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
+    }
+  else
+    {
+     auto result=book.insFirst();
+
+     if( result==BookLab::HandleUpdate )
+       {
+        ret=true;
+       }
+     else
+       {
+        if( result )
+          {
+           insFirstElement();
+
+           return;
+          }
+       }
+    }
 
   if( ret )
     {

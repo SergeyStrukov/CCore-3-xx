@@ -1585,6 +1585,8 @@ class Book : NoCopy
 
    bool delItem(Cursor cursor);
 
+   HandleResult insFirst();
+
    void insAfter(FrameList *ptr);
 
    void insAfter(ItemList *ptr);

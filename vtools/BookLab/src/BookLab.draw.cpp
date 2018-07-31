@@ -1852,6 +1852,22 @@ bool Book::delItem(Cursor cursor)
   return ret;
  }
 
+HandleResult Book::insFirst()
+ {
+  if( !doc )
+    {
+     doc.create(domain,domain);
+
+     return HandleUpdate;
+    }
+  else if( !doc->list.beg )
+    {
+     return HandleOk;
+    }
+
+  return HandleNone;
+ }
+
 void Book::insAfter(FrameList *ptr)
  {
   ptr->insAfter(ExtObjPtr<Frame>(domain));

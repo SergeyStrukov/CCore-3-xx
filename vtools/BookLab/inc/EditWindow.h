@@ -119,6 +119,8 @@ class InnerBookLabWindow : public SubWindow
 
    bool insItem(BookLab::Element *ptr);
 
+   void insFirstElement();
+
    void insItem();
 
    void delItem();
