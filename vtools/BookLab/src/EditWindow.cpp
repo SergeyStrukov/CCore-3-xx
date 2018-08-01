@@ -124,15 +124,26 @@ bool InnerBookLabWindow::insItem(BookLab::ItemList *ptr)
   return true;
  }
 
-bool InnerBookLabWindow::insItem(BookLab::Element *ptr) // TODO
+bool InnerBookLabWindow::insItem(BookLab::Element *)
  {
-  Used(ptr);
+  if( ins_frame.isDead() )
+    {
+     ins_frame.create(getFrame());
+
+     disableFrameReact();
+    }
 
   return false;
  }
 
-void InnerBookLabWindow::insFirstElement() // TODO
+void InnerBookLabWindow::insFirstElement()
  {
+  if( ins_frame.isDead() )
+    {
+     ins_frame.create(getFrame());
+
+     disableFrameReact();
+    }
  }
 
 void InnerBookLabWindow::insItem()
@@ -291,14 +302,37 @@ void InnerBookLabWindow::updated(unsigned flags)
   if( flags&LayoutUpdate ) ok=false;
  }
 
-InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_)
+void InnerBookLabWindow::ins_destroyed() // TODO
+ {
+  enableFrameReact();
+
+  if( +cursor.pad )
+    {
+     if( cursor.pad.hasType<BookLab::Element>() )
+       {
+        BookLab::Element *ptr=cursor.pad.castPtr<BookLab::Element>();
+        BookLab::ElementList *list=cursor.opt.list;
+
+
+       }
+    }
+  else
+    {
+     // complete ins first element
+    }
+ }
+
+InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : SubWindow(host),
    cfg(cfg_),
+
+   ins_frame(host.getFrameDesktop(),cfg.ins_cfg,update),
 
    connector_posX(this,&InnerBookLabWindow::posX),
    connector_posY(this,&InnerBookLabWindow::posY),
 
-   connector_updated(this,&InnerBookLabWindow::updated,host.getFrame()->updated)
+   connector_updated(this,&InnerBookLabWindow::updated,host.getFrame()->updated),
+   connector_ins_destroyed(this,&InnerBookLabWindow::ins_destroyed,ins_frame.destroyed)
  {
  }
 
@@ -636,8 +670,8 @@ void BookLabWindow::changed()
   redraw();
  }
 
-BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg)
- : Base(host,cfg),
+BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> &update)
+ : Base(host,cfg,update),
 
    connector_changed(this,&BookLabWindow::changed,window.changed),
 
@@ -652,6 +686,26 @@ BookLabWindow::~BookLabWindow()
  }
 
 /* class EditWindow */
+
+template <class W>
+class EditWindow::LayLim : LayBase<W>
+ {
+   Coord x_min;
+   Coord x_max;
+
+  public:
+
+   LayLim(W &obj,Coord x_min_,Coord x_max_) : LayBase<W>(obj),x_min(x_min_),x_max(x_max_) {}
+
+   Point getMinSize(Coord) const
+    {
+     Point size=this->get();
+
+     return Point(Cap(x_min,size.x,x_max),size.y);
+    }
+
+   void setPlace(Pane pane,Coord) const { this->set(pane); }
+ };
 
 void EditWindow::errorMsg(StrLen etext)
  {
@@ -740,7 +794,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    btn_link(wlist,cfg.btn_cfg,cfg.text_Link),
    btn_book(wlist,cfg.btn_cfg,cfg.text_Book),
 
-   book(wlist,cfg.book_cfg),
+   book(wlist,cfg.book_cfg,update),
 
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg,update),
    file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def},update),
@@ -772,7 +826,12 @@ Point EditWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_file),Lay(text_file),Lay(btn_link),LayLeft(btn_book)};
+  Point s=getFrame()->getScreenSize();
+
+  Coord x_min=s.x/6;
+  Coord x_max=s.x/3;
+
+  LayToRightCenter lay1{Lay(label_file),LayLim(text_file,x_min,x_max),Lay(btn_link),LayLeft(btn_book)};
 
   LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -883,7 +942,12 @@ void EditWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(label_file),Lay(text_file),Lay(btn_link),LayLeft(btn_book)};
+  Point s=getFrame()->getScreenSize();
+
+  Coord x_min=s.x/6;
+  Coord x_max=s.x/3;
+
+  LayToRightCenter lay1{Lay(label_file),LayLim(text_file,x_min,x_max),Lay(btn_link),LayLeft(btn_book)};
 
   LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
 

@@ -707,6 +707,8 @@ void DisplayBookFrame::setScale(Ratio scale)
 
 void DisplayBookFrame::dying()
  {
+  DragFrame::dying();
+
   place=getFrameHost()->getPlace();
 
   has_place=true;

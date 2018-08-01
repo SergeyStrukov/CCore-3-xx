@@ -8,6 +8,7 @@ OBJ_LIST = \
 .obj/BookLab.save.o \
 .obj/Client.o \
 .obj/EditWindow.o \
+.obj/InsWindow.o \
 .obj/main.o \
 
 
@@ -21,6 +22,7 @@ ASM_LIST = \
 .obj/BookLab.save.s \
 .obj/Client.s \
 .obj/EditWindow.s \
+.obj/InsWindow.s \
 .obj/main.s \
 
 
@@ -34,6 +36,7 @@ DEP_LIST = \
 .obj/BookLab.save.dep \
 .obj/Client.dep \
 .obj/EditWindow.dep \
+.obj/InsWindow.dep \
 .obj/main.dep \
 
 
@@ -70,6 +73,9 @@ include $(RULES_FILE)
 .obj/EditWindow.o : src/./EditWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/InsWindow.o : src/./InsWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -100,6 +106,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/EditWindow.s : src/./EditWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/InsWindow.s : src/./InsWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -133,6 +142,9 @@ include $(RULES_FILE)
 
 .obj/EditWindow.dep : src/./EditWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/EditWindow.o $< -MF $@
+
+.obj/InsWindow.dep : src/./InsWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/InsWindow.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

@@ -15,6 +15,7 @@
 #define EditWindow_h
 
 #include <inc/BookLab.h>
+#include <inc/InsWindow.h>
 
 #include <CCore/inc/IntervalTree.h>
 
@@ -49,9 +50,12 @@ class InnerBookLabWindow : public SubWindow
      RefVal<VColor> back = Silver ;
      RefVal<VColor> cursor = Yellow ;
 
+     InsFrame::ConfigType ins_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : BookLab::Config(user_pref,app_pref)
+      : BookLab::Config(user_pref,app_pref),
+        ins_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -84,6 +88,10 @@ class InnerBookLabWindow : public SubWindow
    bool focus = false ;
 
    BookLab::Cursor cursor;
+
+   // frames
+
+   InsFrame ins_frame;
 
    // scroll
 
@@ -164,9 +172,13 @@ class InnerBookLabWindow : public SubWindow
 
    SignalConnector<InnerBookLabWindow,unsigned> connector_updated;
 
+   void ins_destroyed();
+
+   SignalConnector<InnerBookLabWindow> connector_ins_destroyed;
+
   public:
 
-   InnerBookLabWindow(SubWindowHost &host,const Config &cfg);
+   InnerBookLabWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
 
    virtual ~InnerBookLabWindow();
 
@@ -271,7 +283,7 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
   public:
 
-   BookLabWindow(SubWindowHost &host,const ConfigType &cfg);
+   BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> &update);
 
    virtual ~BookLabWindow();
 
@@ -382,6 +394,8 @@ class EditWindow : public ComboWindow
    FileFrame file_frame;
 
   private:
+
+   template <class W> class LayLim;
 
    void clearModified() { text_file.alert(false); }
 
