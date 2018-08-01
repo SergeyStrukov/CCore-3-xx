@@ -48,7 +48,7 @@ void InsWindow::drawBack(DrawBuf buf,bool) const
 /* class InsFrame */
 
 InsFrame::InsFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
- : FixedFrame(desktop,cfg_.frame_cfg,update),
+ : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
 
    client(*this,cfg.client_cfg)
@@ -64,12 +64,10 @@ InsFrame::~InsFrame()
 
 void InsFrame::dying()
  {
-  FixedFrame::dying();
+  DragFrame::dying();
 
-  Pane pane=host->getPlace();
-
-  pos=pane.getBase();
-  has_pos=true;
+  place=host->getPlace();
+  has_place=true;
  }
 
  // create
@@ -78,7 +76,7 @@ Pane InsFrame::getPane(StrLen title) const
  {
   Point size=getMinSize(false,title,client.getMinSize());
 
-  if( has_pos ) return Pane(pos,size);
+  if( has_place ) return Pane(place.getBase(),Sup(place.getSize(),size));
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

@@ -85,7 +85,7 @@ class InsWindow : public ComboWindow
 
 /* class InsFrame */
 
-class InsFrame : public FixedFrame
+class InsFrame : public DragFrame
  {
   public:
 
@@ -95,7 +95,7 @@ class InsFrame : public FixedFrame
 
      RefVal<Ratio> pos_ry = Div(5,12) ;
 
-     CtorRefVal<FixedFrame::ConfigType> frame_cfg;
+     CtorRefVal<DragFrame::ConfigType> frame_cfg;
 
      // app
 
@@ -134,8 +134,8 @@ class InsFrame : public FixedFrame
 
    InsWindow client;
 
-   Point pos;
-   bool has_pos = false ;
+   Pane place;
+   bool has_place = false ;
 
   public:
 
@@ -157,7 +157,7 @@ class InsFrame : public FixedFrame
     {
      DefString title=+cfg.title;
 
-     FixedFrame::create(parent,getPane(title.str()),title);
+     DragFrame::create(parent,getPane(title.str()),title);
     }
  };
 
