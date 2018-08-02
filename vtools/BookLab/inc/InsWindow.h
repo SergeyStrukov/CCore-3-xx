@@ -109,6 +109,54 @@ class InsWindow : public ComboWindow
    LabelWindow lab2;
    RadioWindow rad2;
 
+   LabelWindow lab3;
+   RadioWindow rad3;
+
+   LabelWindow lab4;
+   RadioWindow rad4;
+
+   LabelWindow lab5;
+   RadioWindow rad5;
+
+   LabelWindow lab6;
+   RadioWindow rad6;
+
+   LabelWindow lab7;
+   RadioWindow rad7;
+
+   LabelWindow lab8;
+   RadioWindow rad8;
+
+   LabelWindow lab9;
+   RadioWindow rad9;
+
+   LabelWindow lab10;
+   RadioWindow rad10;
+
+   LabelWindow lab11;
+   RadioWindow rad11;
+
+   LabelWindow lab12;
+   RadioWindow rad12;
+
+   LabelWindow lab13;
+   RadioWindow rad13;
+
+   LabelWindow lab14;
+   RadioWindow rad14;
+
+   LabelWindow lab15;
+   RadioWindow rad15;
+
+   LabelWindow lab16;
+   RadioWindow rad16;
+
+   LabelWindow lab17;
+   RadioWindow rad17;
+
+   LabelWindow lab18;
+   RadioWindow rad18;
+
    XDoubleLineWindow line1;
 
    RefButtonWindow btn_Ok;

@@ -1097,7 +1097,7 @@ struct Table : NamedObj
     Row table_[3]=
      {
       {"Border"_c,"border = "_c,If(border)},
-      {"bool"_c,"hard"_c,If(hard)},
+      {"bool"_c,"hard = "_c,If(hard)},
       {"Table"_c,"table = "_c,If(table)}
      };
 

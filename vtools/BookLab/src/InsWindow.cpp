@@ -53,6 +53,54 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
    lab2(wlist,cfg.lab_cfg,"Format"_def,AlignX_Left),
    rad2(wlist,BookLab::ElementFormat,cfg.rad_cfg),
 
+   lab3(wlist,cfg.lab_cfg,"SingleLine"_def,AlignX_Left),
+   rad3(wlist,BookLab::ElementSingleLine,cfg.rad_cfg),
+
+   lab4(wlist,cfg.lab_cfg,"DoubleLine"_def,AlignX_Left),
+   rad4(wlist,BookLab::ElementDoubleLine,cfg.rad_cfg),
+
+   lab5(wlist,cfg.lab_cfg,"Page"_def,AlignX_Left),
+   rad5(wlist,BookLab::ElementPage,cfg.rad_cfg),
+
+   lab6(wlist,cfg.lab_cfg,"Scope"_def,AlignX_Left),
+   rad6(wlist,BookLab::ElementScope,cfg.rad_cfg),
+
+   lab7(wlist,cfg.lab_cfg,"Section"_def,AlignX_Left),
+   rad7(wlist,BookLab::ElementSection,cfg.rad_cfg),
+
+   lab8(wlist,cfg.lab_cfg,"Bitmap"_def,AlignX_Left),
+   rad8(wlist,BookLab::ElementBitmap,cfg.rad_cfg),
+
+   lab9(wlist,cfg.lab_cfg,"Collapse"_def,AlignX_Left),
+   rad9(wlist,BookLab::ElementCollapse,cfg.rad_cfg),
+
+   lab10(wlist,cfg.lab_cfg,"TextList"_def,AlignX_Left),
+   rad10(wlist,BookLab::ElementTextList,cfg.rad_cfg),
+
+   lab11(wlist,cfg.lab_cfg,"Border"_def,AlignX_Left),
+   rad11(wlist,BookLab::ElementBorder,cfg.rad_cfg),
+
+   lab12(wlist,cfg.lab_cfg,"Cell"_def,AlignX_Left),
+   rad12(wlist,BookLab::ElementCell,cfg.rad_cfg),
+
+   lab13(wlist,cfg.lab_cfg,"Table"_def,AlignX_Left),
+   rad13(wlist,BookLab::ElementTable,cfg.rad_cfg),
+
+   lab14(wlist,cfg.lab_cfg,"Link"_def,AlignX_Left),
+   rad14(wlist,BookLab::ElementLink,cfg.rad_cfg),
+
+   lab15(wlist,cfg.lab_cfg,"FixedText"_def,AlignX_Left),
+   rad15(wlist,BookLab::ElementFixedText,cfg.rad_cfg),
+
+   lab16(wlist,cfg.lab_cfg,"OneLine"_def,AlignX_Left),
+   rad16(wlist,BookLab::ElementOneLine,cfg.rad_cfg),
+
+   lab17(wlist,cfg.lab_cfg,"MultiLine"_def,AlignX_Left),
+   rad17(wlist,BookLab::ElementMultiLine,cfg.rad_cfg),
+
+   lab18(wlist,cfg.lab_cfg,"Text"_def,AlignX_Left),
+   rad18(wlist,BookLab::ElementText,cfg.rad_cfg),
+
    line1(wlist,cfg.dline_cfg),
 
    btn_Ok(wlist,cfg.btn_cfg,cfg.text_Ok),
@@ -64,11 +112,27 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
   wlist.insTop(edit_text,lab_text,lab_before,rad_before,lab_after,rad_after,
                lab1,rad1,
                lab2,rad2,
+               lab3,rad3,
+               lab4,rad4,
+               lab5,rad5,
+               lab6,rad6,
+               lab7,rad7,
+               lab8,rad8,
+               lab9,rad9,
+               lab10,rad10,
+               lab11,rad11,
+               lab12,rad12,
+               lab13,rad13,
+               lab14,rad14,
+               lab15,rad15,
+               lab16,rad16,
+               lab17,rad17,
+               lab18,rad18,
                line1,btn_Ok,btn_Cancel);
 
   group_place.add(rad_after,rad_before);
 
-  group_type.add(rad1,rad2);
+  group_type.add(rad1,rad2,rad3,rad4,rad5,rad6,rad7,rad8,rad9,rad10,rad11,rad12,rad13,rad14,rad15,rad16,rad17,rad18);
  }
 
 InsWindow::~InsWindow()
@@ -87,12 +151,31 @@ Point InsWindow::getMinSize() const
 
   LayToRightCenter lay1{LayBox(rad1),LayLeft(lab1)};
   LayToRightCenter lay2{LayBox(rad2),LayLeft(lab2)};
+  LayToRightCenter lay3{LayBox(rad3),LayLeft(lab3)};
+  LayToRightCenter lay4{LayBox(rad4),LayLeft(lab4)};
+  LayToRightCenter lay5{LayBox(rad5),LayLeft(lab5)};
+  LayToRightCenter lay6{LayBox(rad6),LayLeft(lab6)};
+  LayToRightCenter lay7{LayBox(rad7),LayLeft(lab7)};
+  LayToRightCenter lay8{LayBox(rad8),LayLeft(lab8)};
+  LayToRightCenter lay9{LayBox(rad9),LayLeft(lab9)};
+  LayToRightCenter lay10{LayBox(rad10),LayLeft(lab10)};
+  LayToRightCenter lay11{LayBox(rad11),LayLeft(lab11)};
+  LayToRightCenter lay12{LayBox(rad12),LayLeft(lab12)};
+  LayToRightCenter lay13{LayBox(rad13),LayLeft(lab13)};
+  LayToRightCenter lay14{LayBox(rad14),LayLeft(lab14)};
+  LayToRightCenter lay15{LayBox(rad15),LayLeft(lab15)};
+  LayToRightCenter lay16{LayBox(rad16),LayLeft(lab16)};
+  LayToRightCenter lay17{LayBox(rad17),LayLeft(lab17)};
+  LayToRightCenter lay18{LayBox(rad18),LayLeft(lab18)};
+
+  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,LayAlignTop(lay9)};
+  LayToBottom col2{lay10,lay11,lay12,lay13,lay14,lay15,lay16,lay17,LayAlignTop(lay18)};
+
+  LayToRight rad{col1,LayAlignLeft(col2)};
 
   LaySupCenterXExt lay_btn{Lay(btn_Ok),LayLeft(btn_Cancel)};
 
-  LayToBottom lay{lay0,lay_edit,
-                  lay1,lay2,
-                  LayToTop{lay_btn,LayBottom(line1)}};
+  LayToBottom lay{lay0,lay_edit,rad,LayToTop{lay_btn,LayBottom(line1)}};
 
   return ExtLay(lay).getMinSize(space);
  }
@@ -118,12 +201,31 @@ void InsWindow::layout()
 
   LayToRightCenter lay1{LayBox(rad1),LayLeft(lab1)};
   LayToRightCenter lay2{LayBox(rad2),LayLeft(lab2)};
+  LayToRightCenter lay3{LayBox(rad3),LayLeft(lab3)};
+  LayToRightCenter lay4{LayBox(rad4),LayLeft(lab4)};
+  LayToRightCenter lay5{LayBox(rad5),LayLeft(lab5)};
+  LayToRightCenter lay6{LayBox(rad6),LayLeft(lab6)};
+  LayToRightCenter lay7{LayBox(rad7),LayLeft(lab7)};
+  LayToRightCenter lay8{LayBox(rad8),LayLeft(lab8)};
+  LayToRightCenter lay9{LayBox(rad9),LayLeft(lab9)};
+  LayToRightCenter lay10{LayBox(rad10),LayLeft(lab10)};
+  LayToRightCenter lay11{LayBox(rad11),LayLeft(lab11)};
+  LayToRightCenter lay12{LayBox(rad12),LayLeft(lab12)};
+  LayToRightCenter lay13{LayBox(rad13),LayLeft(lab13)};
+  LayToRightCenter lay14{LayBox(rad14),LayLeft(lab14)};
+  LayToRightCenter lay15{LayBox(rad15),LayLeft(lab15)};
+  LayToRightCenter lay16{LayBox(rad16),LayLeft(lab16)};
+  LayToRightCenter lay17{LayBox(rad17),LayLeft(lab17)};
+  LayToRightCenter lay18{LayBox(rad18),LayLeft(lab18)};
+
+  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,LayAlignTop(lay9)};
+  LayToBottom col2{lay10,lay11,lay12,lay13,lay14,lay15,lay16,lay17,LayAlignTop(lay18)};
+
+  LayToRight rad{col1,LayAlignLeft(col2)};
 
   LaySupCenterXExt lay_btn{Lay(btn_Ok),LayLeft(btn_Cancel)};
 
-  LayToBottom lay{lay0,lay_edit,
-                  lay1,lay2,
-                  LayToTop{lay_btn,LayBottom(line1)}};
+  LayToBottom lay{lay0,lay_edit,rad,LayToTop{lay_btn,LayBottom(line1)}};
 
   ExtLay(lay).setPlace(getPane(),space);
  }
