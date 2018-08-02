@@ -1856,6 +1856,8 @@ Point DisplayWindow::getMinSize() const
 
 void DisplayWindow::open(StrLen file_name)
  {
+  ComboWindow::open();
+
   auto result=file.open(file_name);
 
   if( result.ok )

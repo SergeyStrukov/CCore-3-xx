@@ -194,11 +194,15 @@ ProgressWindow_Sample::ProgressWindow_Sample(SubWindowHost &host,const ConfigTyp
 
 void ProgressWindow_Sample::open()
  {
+  ProgressWindow::open();
+
   defer_tick.start();
  }
 
 void ProgressWindow_Sample::close()
  {
+  ProgressWindow::close();
+
   defer_tick.stop();
  }
 
