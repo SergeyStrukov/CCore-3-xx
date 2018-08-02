@@ -124,10 +124,14 @@ bool InnerBookLabWindow::insItem(BookLab::ItemList *ptr)
   return true;
  }
 
-bool InnerBookLabWindow::insItem(BookLab::Element *)
+bool InnerBookLabWindow::insItem(BookLab::Element *ptr)
  {
   if( ins_frame.isDead() )
     {
+     auto anyptr=ptr->ptr.getPtr();
+
+     ins_frame.enablePlace(true, anyptr.hasType<BookLab::Scope>() || anyptr.hasType<BookLab::Section>() );
+
      ins_frame.create(getFrame());
 
      disableFrameReact();
@@ -140,6 +144,8 @@ void InnerBookLabWindow::insFirstElement()
  {
   if( ins_frame.isDead() )
     {
+     ins_frame.enablePlace(false,false);
+
      ins_frame.create(getFrame());
 
      disableFrameReact();

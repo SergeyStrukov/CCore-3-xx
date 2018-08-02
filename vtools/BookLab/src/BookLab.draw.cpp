@@ -51,6 +51,47 @@ inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
 
 inline StrLen TextDesc() { return "text ..."_c; }
 
+/* name functions */
+
+bool IsNameFirst(Char ch)
+ {
+  int code=ToChar(ch);
+
+  if( code<0 ) return false;
+
+  return PropTable::Object[ (char)code ]==CharNameFirst;
+ }
+
+bool IsNameNext(Char ch)
+ {
+  int code=ToChar(ch);
+
+  if( code<0 ) return false;
+
+  return PropTable::Object[ (char)code ]>=CharNameFirst;
+ }
+
+bool TestName(PtrLen<const Char> text)
+ {
+  if( !text ) return false;
+
+  if( !IsNameFirst(*text) ) return false;
+
+  for(++text; +text && IsNameNext(*text) ;++text);
+
+  return !text || IsNameBreak(*text) ;
+ }
+
+/* class PropTable */
+
+PropTable::PropTable()
+ {
+  setSet(GetCLetterChars(),CharNameFirst);
+  setSet(GetDigitChars(),CharNameNext);
+ }
+
+PropTable PropTable::Object;
+
 /* class Book::ShowData */
 
 class Book::ShowData : NoCopy
@@ -2058,6 +2099,24 @@ ExtObjPtr<Element> Book::create(InsData data)
   return ret;
  }
 
+void Book::insElementInside(ExtObjPtr<Element> elem,ElementList &list)
+ {
+  auto beg=list.beg;
+
+  elem->next=beg;
+
+  if( +beg )
+    {
+     beg->prev=elem;
+    }
+  else
+    {
+     list.end=elem;
+    }
+
+  list.beg=elem;
+ }
+
 bool Book::insElement(InsData data)
  {
   if( !data.type || !doc ) return false;
@@ -2078,56 +2137,71 @@ bool Book::insElement(InsData data,Element *ptr,ElementList *list)
 
   auto elem=create(data);
 
-  if( data.before )
+  switch( data.place )
     {
-     IntObjPtr<Element> prev=ptr->prev;
+     case InsBefore :
+      {
+       IntObjPtr<Element> prev=ptr->prev;
 
-     if( +prev )
-       {
-        IntObjPtr<Element> next=prev->next;
+       if( +prev )
+         {
+          IntObjPtr<Element> next=prev->next;
 
-        elem->prev=prev;
-        prev->next=elem;
+          elem->prev=prev;
+          prev->next=elem;
 
-        elem->next=next;
-        next->prev=elem;
-       }
-     else
-       {
-        IntObjPtr<Element> next=list->beg;
+          elem->next=next;
+          next->prev=elem;
+         }
+       else
+         {
+          IntObjPtr<Element> next=list->beg;
 
-        elem->next=next;
-        next->prev=elem;
+          elem->next=next;
+          next->prev=elem;
 
-        list->beg=elem;
-       }
+          list->beg=elem;
+         }
+      }
+     return true;
+
+     case InsAfter :
+      {
+       IntObjPtr<Element> next=ptr->next;
+
+       if( +next )
+         {
+          IntObjPtr<Element> prev=next->prev;
+
+          elem->prev=prev;
+          prev->next=elem;
+
+          elem->next=next;
+          next->prev=elem;
+         }
+       else
+         {
+          IntObjPtr<Element> prev=list->end;
+
+          elem->prev=prev;
+          prev->next=elem;
+
+          list->end=elem;
+         }
+      }
+     return true;
+
+     case InsInside :
+      {
+       bool ret=false;
+
+       ptr->ptr.getPtr().apply( [&] (auto *obj) { ret=insElementInside(elem,obj); } );
+
+       return ret;
+      }
+
+     default: return false;
     }
-  else
-    {
-     IntObjPtr<Element> next=ptr->next;
-
-     if( +next )
-       {
-        IntObjPtr<Element> prev=next->prev;
-
-        elem->prev=prev;
-        prev->next=elem;
-
-        elem->next=next;
-        next->prev=elem;
-       }
-     else
-       {
-        IntObjPtr<Element> prev=list->end;
-
-        elem->prev=prev;
-        prev->next=elem;
-
-        list->end=elem;
-       }
-    }
-
-  return true;
  }
 
 void Book::insAfter(FrameList *ptr)

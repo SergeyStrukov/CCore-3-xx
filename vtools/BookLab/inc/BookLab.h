@@ -22,6 +22,7 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ErrorText.h>
 #include <CCore/inc/ForLoop.h>
+#include <CCore/inc/TextTools.h>
 
 namespace App {
 namespace BookLab {
@@ -73,7 +74,19 @@ inline Strength DefNoStrength() { return NoStrength; }
 template <class Ptr>
 auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
 
+/* name functions */
+
+bool IsNameFirst(Char ch);
+
+bool IsNameNext(Char ch);
+
+inline bool IsNameBreak(Char ch) { return ch==' '; }
+
+bool TestName(PtrLen<const Char> text);
+
 /* classes */
+
+class PropTable;
 
 struct Ratio;
 
@@ -170,6 +183,25 @@ struct PaneRef;
 struct InsData;
 
 class Book;
+
+/* class PropTable */
+
+enum CharClass
+ {
+  CharClassNone = 0 ,
+
+  CharNameFirst,
+  CharNameNext
+ };
+
+class PropTable : public CharPropTable<CharClass,CharClassNone>
+ {
+  public:
+
+   PropTable();
+
+   static PropTable Object;
+ };
 
 /* struct Ratio */
 
@@ -1523,10 +1555,17 @@ enum ElementType
   ElementText
  };
 
+enum InsPlace
+ {
+  InsBefore = 1,
+  InsAfter,
+  InsInside
+ };
+
 struct InsData
  {
-  ElementType type;
-  bool before = false ;
+  ElementType type = ElementNone ;
+  InsPlace place = InsAfter ;
   String text; // name OR comment
  };
 
@@ -1586,6 +1625,14 @@ class Book : NoCopy
   private:
 
    ExtObjPtr<Element> create(InsData data);
+
+   template <class T>
+   bool insElementInside(ExtObjPtr<Element>,T *) { return false; }
+
+   template <OneOfTypes<Scope,Section> T>
+   bool insElementInside(ExtObjPtr<Element> elem,T *ptr) { insElementInside(elem,ptr->list); return true; }
+
+   void insElementInside(ExtObjPtr<Element> elem,ElementList &list);
 
   public:
 

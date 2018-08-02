@@ -98,6 +98,9 @@ class InsWindow : public ComboWindow
    LabelWindow lab_after;
    RadioWindow rad_after;
 
+   LabelWindow lab_inside;
+   RadioWindow rad_inside;
+
    LabelWindow lab_text;
    LineEditWindow edit_text;
 
@@ -172,6 +175,14 @@ class InsWindow : public ComboWindow
 
    SignalConnector<InsWindow> connector_Cancel_pressed;
 
+   void checkName();
+
+   SignalConnector<InsWindow> connector_text_changed;
+
+   void typeChanged(int,int) { checkName(); }
+
+   SignalConnector<InsWindow,int,int> connector_type_changed;
+
   public:
 
    InsWindow(SubWindowHost &host,const Config &cfg);
@@ -181,6 +192,8 @@ class InsWindow : public ComboWindow
    // methods
 
    Point getMinSize() const;
+
+   void enablePlace(bool all,bool inside);
 
    BookLab::InsData getData() const { return data; }
 
@@ -256,6 +269,8 @@ class InsFrame : public DragFrame
    virtual ~InsFrame();
 
    // methods
+
+   void enablePlace(bool all,bool inside) { client.enablePlace(all,inside); }
 
    BookLab::InsData getData() const { return client.getData(); }
 

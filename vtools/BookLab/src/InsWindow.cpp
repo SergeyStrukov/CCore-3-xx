@@ -21,7 +21,7 @@ namespace App {
 
 void InsWindow::closeOk()
  {
-  data.before = ( group_place.getRadioId() == 1 ) ;
+  data.place = BookLab::InsPlace(group_place.getRadioId()) ;
 
   data.type = BookLab::ElementType(group_type.getRadioId()) ;
 
@@ -35,14 +35,34 @@ void InsWindow::closeCancel()
   askFrameClose();
  }
 
+void InsWindow::checkName()
+ {
+  bool ok;
+
+  if( group_type.getRadioId()==BookLab::ElementSection )
+    {
+     ok=true;
+    }
+  else
+    {
+     ok=BookLab::TestName(edit_text.getText());
+    }
+
+  edit_text.alert(!ok);
+
+  btn_Ok.enable(ok);
+ }
+
 InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_before(wlist,cfg.lab_cfg,"Before"_def,AlignX_Left),
-   rad_before(wlist,1,cfg.rad_cfg),
-   lab_after(wlist,cfg.lab_cfg,"After"_def,AlignX_Left),
-   rad_after(wlist,2,cfg.rad_cfg),
+   lab_before(wlist,cfg.lab_cfg,"before"_def,AlignX_Left),
+   rad_before(wlist,BookLab::InsBefore,cfg.rad_cfg),
+   lab_after(wlist,cfg.lab_cfg,"after"_def,AlignX_Left),
+   rad_after(wlist,BookLab::InsAfter,cfg.rad_cfg),
+   lab_inside(wlist,cfg.lab_cfg,"inside"_def,AlignX_Left),
+   rad_inside(wlist,BookLab::InsInside,cfg.rad_cfg),
 
    lab_text(wlist,cfg.lab_cfg,"Name/Comment"_def,AlignX_Left),
    edit_text(wlist,cfg.edit_cfg),
@@ -107,9 +127,12 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
    btn_Cancel(wlist,cfg.btn_cfg,cfg.text_Cancel),
 
    connector_Ok_pressed(this,&InsWindow::closeOk,btn_Ok.pressed),
-   connector_Cancel_pressed(this,&InsWindow::closeCancel,btn_Cancel.pressed)
+   connector_Cancel_pressed(this,&InsWindow::closeCancel,btn_Cancel.pressed),
+   connector_text_changed(this,&InsWindow::checkName,edit_text.changed),
+   connector_type_changed(this,&InsWindow::typeChanged,group_type.changed)
  {
-  wlist.insTop(edit_text,lab_text,lab_before,rad_before,lab_after,rad_after,
+  wlist.insTop(edit_text,lab_text,
+               lab_before,rad_before,lab_after,rad_after,lab_inside,rad_inside,
                lab1,rad1,
                lab2,rad2,
                lab3,rad3,
@@ -130,7 +153,7 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
                lab18,rad18,
                line1,btn_Ok,btn_Cancel);
 
-  group_place.add(rad_after,rad_before);
+  group_place.add(rad_after,rad_before,rad_inside);
 
   group_type.add(rad1,rad2,rad3,rad4,rad5,rad6,rad7,rad8,rad9,rad10,rad11,rad12,rad13,rad14,rad15,rad16,rad17,rad18);
  }
@@ -145,7 +168,7 @@ Point InsWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),LayLeft(lab_after)};
+  LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),Lay(lab_after),LayBox(rad_inside),LayLeft(lab_inside)};
 
   LayToRightCenter lay_edit{Lay(lab_text),Lay(edit_text)};
 
@@ -180,6 +203,37 @@ Point InsWindow::getMinSize() const
   return ExtLay(lay).getMinSize(space);
  }
 
+void InsWindow::enablePlace(bool all,bool inside)
+ {
+  if( all )
+    {
+     lab_before.enable();
+     rad_before.enable();
+
+     lab_after.enable();
+     rad_after.enable();
+
+     lab_inside.enable(inside);
+     rad_inside.enable(inside);
+
+     if( !inside && rad_inside.isChecked() )
+       {
+        rad_after.check();
+       }
+    }
+  else
+    {
+     lab_before.disable();
+     rad_before.disable();
+
+     lab_after.disable();
+     rad_after.disable();
+
+     lab_inside.disable();
+     rad_inside.disable();
+    }
+ }
+
  // base
 
 void InsWindow::open()
@@ -187,6 +241,8 @@ void InsWindow::open()
   ComboWindow::open();
 
   data={};
+
+  checkName();
  }
 
  // drawing
@@ -195,7 +251,7 @@ void InsWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),LayLeft(lab_after)};
+  LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),Lay(lab_after),LayBox(rad_inside),LayLeft(lab_inside)};
 
   LayToRightCenter lay_edit{Lay(lab_text),Lay(edit_text)};
 
