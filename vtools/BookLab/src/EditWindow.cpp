@@ -302,9 +302,11 @@ void InnerBookLabWindow::updated(unsigned flags)
   if( flags&LayoutUpdate ) ok=false;
  }
 
-void InnerBookLabWindow::ins_destroyed() // TODO
+void InnerBookLabWindow::ins_destroyed()
  {
   enableFrameReact();
+
+  bool ret=false;
 
   if( +cursor.pad )
     {
@@ -313,12 +315,20 @@ void InnerBookLabWindow::ins_destroyed() // TODO
         BookLab::Element *ptr=cursor.pad.castPtr<BookLab::Element>();
         BookLab::ElementList *list=cursor.opt.list;
 
-
+        ret=book.insElement(ins_frame.getData(),ptr,list);
        }
     }
   else
     {
-     // complete ins first element
+     ret=book.insElement(ins_frame.getData());
+    }
+
+  if( ret )
+    {
+     clean();
+
+     changed.assert();
+     modified.assert();
     }
  }
 

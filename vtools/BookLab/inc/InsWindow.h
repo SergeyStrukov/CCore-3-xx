@@ -14,7 +14,7 @@
 #ifndef InsWindow_h
 #define InsWindow_h
 
-#include <inc/App.h>
+#include <inc/BookLab.h>
 
 namespace App {
 
@@ -66,6 +66,8 @@ class InsWindow : public ComboWindow
 
    const Config &cfg;
 
+   BookLab::InsData data;
+
   public:
 
    InsWindow(SubWindowHost &host,const Config &cfg);
@@ -75,6 +77,8 @@ class InsWindow : public ComboWindow
    // methods
 
    Point getMinSize() const;
+
+   BookLab::InsData getData() const { return data; }
 
    // drawing
 
@@ -144,6 +148,8 @@ class InsFrame : public DragFrame
    virtual ~InsFrame();
 
    // methods
+
+   BookLab::InsData getData() const { return client.getData(); }
 
    // base
 

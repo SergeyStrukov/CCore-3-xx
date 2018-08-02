@@ -167,6 +167,8 @@ struct Cursor;
 
 struct PaneRef;
 
+struct InsData;
+
 class Book;
 
 /* struct Ratio */
@@ -1495,6 +1497,39 @@ struct PaneRef
   Cursor getCursor();
  };
 
+/* struct InsData */
+
+enum ElementType
+ {
+  ElementNone = 0,
+
+  ElementFont,
+  ElementFormat,
+  ElementSingleLine,
+  ElementDoubleLine,
+  ElementPage,
+  ElementScope,
+  ElementSection,
+  ElementBitmap,
+  ElementCollapse,
+  ElementTextList,
+  ElementBorder,
+  ElementCell,
+  ElementTable,
+  ElementLink,
+  ElementFixedText,
+  ElementOneLine,
+  ElementMultiLine,
+  ElementText
+ };
+
+struct InsData
+ {
+  ElementType type;
+  bool before = false ;
+  String text; // name OR comment
+ };
+
 /* class Book */
 
 class Book : NoCopy
@@ -1548,6 +1583,10 @@ class Book : NoCopy
 
    class DrawContext;
 
+  private:
+
+   ExtObjPtr<Element> create(InsData data);
+
   public:
 
    Book();
@@ -1586,6 +1625,10 @@ class Book : NoCopy
    bool delItem(Cursor cursor);
 
    HandleResult insFirst();
+
+   bool insElement(InsData data);
+
+   bool insElement(InsData data,Element *ptr,ElementList *list);
 
    void insAfter(FrameList *ptr);
 

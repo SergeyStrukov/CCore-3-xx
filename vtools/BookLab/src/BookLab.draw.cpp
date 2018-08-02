@@ -1868,6 +1868,268 @@ HandleResult Book::insFirst()
   return HandleNone;
  }
 
+ExtObjPtr<Element> Book::create(InsData data)
+ {
+  ExtObjPtr<Element> ret(domain);
+
+  switch( data.type )
+    {
+     case ElementFont :
+      {
+       ExtObjPtr<Font> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementFormat :
+      {
+       ExtObjPtr<Format> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementSingleLine :
+      {
+       ExtObjPtr<SingleLine> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementDoubleLine :
+      {
+       ExtObjPtr<DoubleLine> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementPage :
+      {
+       ExtObjPtr<Page> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementScope :
+      {
+       ExtObjPtr<Scope> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementSection :
+      {
+       ExtObjPtr<Section> ptr(domain);
+
+       ptr->comment=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementBitmap :
+      {
+       ExtObjPtr<Bitmap> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementCollapse :
+      {
+       ExtObjPtr<Collapse> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementTextList :
+      {
+       ExtObjPtr<TextList> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementBorder :
+      {
+       ExtObjPtr<Border> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementCell :
+      {
+       ExtObjPtr<Cell> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementTable :
+      {
+       ExtObjPtr<Table> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementLink :
+      {
+       ExtObjPtr<Link> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementFixedText :
+      {
+       ExtObjPtr<FixedText> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementOneLine :
+      {
+       ExtObjPtr<OneLine> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementMultiLine :
+      {
+       ExtObjPtr<MultiLine> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+
+     case ElementText :
+      {
+       ExtObjPtr<Text> ptr(domain);
+
+       ptr->name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
+    }
+
+  return ret;
+ }
+
+bool Book::insElement(InsData data)
+ {
+  if( !data.type || !doc ) return false;
+
+  if( +doc->list.beg ) return false;
+
+  auto elem=create(data);
+
+  doc->list.beg=elem;
+  doc->list.end=elem;
+
+  return true;
+ }
+
+bool Book::insElement(InsData data,Element *ptr,ElementList *list)
+ {
+  if( !data.type ) return false;
+
+  auto elem=create(data);
+
+  if( data.before )
+    {
+     IntObjPtr<Element> prev=ptr->prev;
+
+     if( +prev )
+       {
+        IntObjPtr<Element> next=prev->next;
+
+        elem->prev=prev;
+        prev->next=elem;
+
+        elem->next=next;
+        next->prev=elem;
+       }
+     else
+       {
+        IntObjPtr<Element> next=list->beg;
+
+        elem->next=next;
+        next->prev=elem;
+
+        list->beg=elem;
+       }
+    }
+  else
+    {
+     IntObjPtr<Element> next=ptr->next;
+
+     if( +next )
+       {
+        IntObjPtr<Element> prev=next->prev;
+
+        elem->prev=prev;
+        prev->next=elem;
+
+        elem->next=next;
+        next->prev=elem;
+       }
+     else
+       {
+        IntObjPtr<Element> prev=list->end;
+
+        elem->prev=prev;
+        prev->next=elem;
+
+        list->end=elem;
+       }
+    }
+
+  return true;
+ }
+
 void Book::insAfter(FrameList *ptr)
  {
   ptr->insAfter(ExtObjPtr<Frame>(domain));
