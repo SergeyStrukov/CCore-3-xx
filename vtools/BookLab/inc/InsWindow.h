@@ -34,7 +34,18 @@ class InsWindow : public ComboWindow
     {
      // user
 
+     RefVal<Coord> space_dxy = 10 ;
+
      RefVal<VColor> back = Silver ;
+
+     RefVal<DefString> text_Ok     = "Ok"_def ;
+     RefVal<DefString> text_Cancel = "Cancel"_def ;
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
 
      // app
 
@@ -48,9 +59,18 @@ class InsWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(proxy);
-
        back.bind(bag.back);
+
+       space_dxy.bind(bag.space_dxy);
+
+       text_Ok.bind(bag.text_Ok);
+       text_Cancel.bind(bag.text_Cancel);
+
+       edit_cfg.bind(proxy);
+       lab_cfg.bind(proxy);
+       rad_cfg.bind(proxy);
+       btn_cfg.bind(proxy);
+       dline_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -68,6 +88,42 @@ class InsWindow : public ComboWindow
 
    BookLab::InsData data;
 
+   // subs
+
+   RadioGroup group_place;
+
+   LabelWindow lab_before;
+   RadioWindow rad_before;
+
+   LabelWindow lab_after;
+   RadioWindow rad_after;
+
+   LabelWindow lab_text;
+   LineEditWindow edit_text;
+
+   RadioGroup group_type;
+
+   LabelWindow lab1;
+   RadioWindow rad1;
+
+   LabelWindow lab2;
+   RadioWindow rad2;
+
+   XDoubleLineWindow line1;
+
+   RefButtonWindow btn_Ok;
+   RefButtonWindow btn_Cancel;
+
+  private:
+
+   void closeOk();
+
+   SignalConnector<InsWindow> connector_Ok_pressed;
+
+   void closeCancel();
+
+   SignalConnector<InsWindow> connector_Cancel_pressed;
+
   public:
 
    InsWindow(SubWindowHost &host,const Config &cfg);
@@ -79,6 +135,10 @@ class InsWindow : public ComboWindow
    Point getMinSize() const;
 
    BookLab::InsData getData() const { return data; }
+
+   // base
+
+   virtual void open();
 
    // drawing
 
