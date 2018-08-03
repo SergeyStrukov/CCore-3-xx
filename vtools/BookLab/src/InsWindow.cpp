@@ -53,6 +53,16 @@ void InsWindow::checkName()
   btn_Ok.enable(ok);
  }
 
+void InsWindow::typeChanged(int new_id,int)
+ {
+  checkName();
+
+  if( new_id==BookLab::ElementSection )
+    lab_text.setText("Comment"_def);
+  else
+    lab_text.setText("Name"_def);
+ }
+
 InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -170,7 +180,7 @@ Point InsWindow::getMinSize() const
 
   LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),Lay(lab_after),LayBox(rad_inside),LayLeft(lab_inside)};
 
-  LayToRightCenter lay_edit{Lay(lab_text),Lay(edit_text)};
+  LayToRightCenter lay_edit{LaySpecial(lab_text,"Name/Comment"_c),Lay(edit_text)};
 
   LayToRightCenter lay1{LayBox(rad1),LayLeft(lab1)};
   LayToRightCenter lay2{LayBox(rad2),LayLeft(lab2)};
@@ -242,7 +252,7 @@ void InsWindow::open()
 
   data={};
 
-  checkName();
+  typeChanged(group_type.getRadioId(),-1);
  }
 
  // drawing
@@ -253,7 +263,7 @@ void InsWindow::layout()
 
   LayToRightCenter lay0{LayBox(rad_before),Lay(lab_before),LayBox(rad_after),Lay(lab_after),LayBox(rad_inside),LayLeft(lab_inside)};
 
-  LayToRightCenter lay_edit{Lay(lab_text),Lay(edit_text)};
+  LayToRightCenter lay_edit{LaySpecial(lab_text,"Name/Comment"_c),Lay(edit_text)};
 
   LayToRightCenter lay1{LayBox(rad1),LayLeft(lab1)};
   LayToRightCenter lay2{LayBox(rad2),LayLeft(lab2)};

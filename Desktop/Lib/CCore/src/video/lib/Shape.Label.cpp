@@ -22,7 +22,12 @@ namespace Video {
 
 Point LabelShape::getMinSize() const
  {
-  TextSize ts=cfg.font->text(text.str());
+  return getMinSize(text.str());
+ }
+
+Point LabelShape::getMinSize(StrLen text) const
+ {
+  TextSize ts=cfg.font->text(text);
 
   return ts.getSize().addXY(2);
  }
@@ -43,6 +48,17 @@ Point RefLabelShape::getMinSize() const
   temp.enable=enable;
 
   return temp.getMinSize();
+ }
+
+Point RefLabelShape::getMinSize(StrLen text_) const
+ {
+  LabelShape temp(cfg,text.get(),align_x,align_y);
+
+  temp.pane=pane;
+
+  temp.enable=enable;
+
+  return temp.getMinSize(text_);
  }
 
 void RefLabelShape::draw(const DrawBuf &buf) const

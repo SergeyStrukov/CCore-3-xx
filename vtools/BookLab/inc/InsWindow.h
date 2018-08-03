@@ -179,7 +179,7 @@ class InsWindow : public ComboWindow
 
    SignalConnector<InsWindow> connector_text_changed;
 
-   void typeChanged(int,int) { checkName(); }
+   void typeChanged(int new_id,int prev_id);
 
    SignalConnector<InsWindow,int,int> connector_type_changed;
 

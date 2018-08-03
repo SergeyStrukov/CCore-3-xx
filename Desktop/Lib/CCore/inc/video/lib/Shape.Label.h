@@ -72,6 +72,8 @@ class LabelShape
 
    Point getMinSize() const;
 
+   Point getMinSize(StrLen text) const;
+
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
    void draw(const DrawBuf &buf) const;
@@ -101,6 +103,8 @@ class RefLabelShape
     : cfg(cfg_),text(text_),align_x(align_x_),align_y(align_y_) {}
 
    Point getMinSize() const;
+
+   Point getMinSize(StrLen text) const;
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
