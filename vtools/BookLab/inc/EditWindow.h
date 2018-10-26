@@ -395,8 +395,6 @@ class EditWindow : public ComboWindow
 
   private:
 
-   template <class W> class LayLim;
-
    void clearModified() { text_file.alert(false); }
 
    void errorMsg(StrLen etext);

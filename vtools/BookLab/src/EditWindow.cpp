@@ -703,26 +703,6 @@ BookLabWindow::~BookLabWindow()
 
 /* class EditWindow */
 
-template <class W>
-class EditWindow::LayLim : LayBase<W>
- {
-   Coord x_min;
-   Coord x_max;
-
-  public:
-
-   LayLim(W &obj,Coord x_min_,Coord x_max_) : LayBase<W>(obj),x_min(x_min_),x_max(x_max_) {}
-
-   Point getMinSize(Coord) const
-    {
-     Point size=this->get();
-
-     return Point(Cap(x_min,size.x,x_max),size.y);
-    }
-
-   void setPlace(Pane pane,Coord) const { this->set(pane); }
- };
-
 void EditWindow::errorMsg(StrLen etext)
  {
   try
@@ -842,14 +822,11 @@ Point EditWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  Point s=getFrame()->getScreenSize();
+  LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  Coord x_min=s.x/6;
-  Coord x_max=s.x/3;
+  LayToRightCenter lay2{Lay(btn_link),LayLeft(btn_book)};
 
-  LayToRightCenter lay1{Lay(label_file),LayLim(text_file,x_min,x_max),Lay(btn_link),LayLeft(btn_book)};
-
-  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
   return lay.getMinSize(space);
  }
@@ -958,14 +935,11 @@ void EditWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  Point s=getFrame()->getScreenSize();
+  LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  Coord x_min=s.x/6;
-  Coord x_max=s.x/3;
+  LayToRightCenter lay2{Lay(btn_link),LayLeft(btn_book)};
 
-  LayToRightCenter lay1{Lay(label_file),LayLim(text_file,x_min,x_max),Lay(btn_link),LayLeft(btn_book)};
-
-  LayToBottom lay{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
   lay.setPlace(getPane(),space);
  }
@@ -999,7 +973,7 @@ void EditWindow::close()
  {
   defer_tick.stop();
 
-  ComboWindow::close();
+  wlist.close();
  }
 
 } // namespace App
