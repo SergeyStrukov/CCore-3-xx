@@ -113,6 +113,8 @@ ErrorText Book::book(StrLen file_name,PtrLen<char> ebuf) const
     }
   catch(CatchType)
     {
+     Printf(eout,"\n@ #.q;",file_name);
+
      return eout.close();
     }
  }

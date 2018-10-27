@@ -554,6 +554,8 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
 
      if( !result )
        {
+        Printf(eout,"\n@ #.q;",file_name);
+
         return eout.close();
        }
 
@@ -578,6 +580,8 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
   catch(CatchType)
     {
      blank();
+
+     Printf(eout,"\n@ #.q;",file_name);
 
      return eout.close();
     }
