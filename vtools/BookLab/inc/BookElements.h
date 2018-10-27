@@ -71,8 +71,9 @@ inline Align DefLeft() { return Left; }
 
 inline Strength DefNoStrength() { return NoStrength; }
 
-template <class Ptr>
-auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
+inline bool DefTrue() { return true; }
+
+inline ulen DefOne() { return 1; }
 
 /* classes */
 
@@ -865,8 +866,6 @@ struct Bitmap : NoCopy
 
 struct Collapse : NamedObj
  {
-  static bool DefTrue() { return true; }
-
   String title;
   NamedPtr<Format> format; // default: ?DefaultCollapseFormat
   bool openlist = true ;
@@ -1012,8 +1011,6 @@ struct Border : NamedObj
 
 struct Cell : NamedObj
  {
-  static ulen DefOne() { return 1; }
-
   OptData<ulen,DefOne> span_x;
   OptData<ulen,DefOne> span_y;
 

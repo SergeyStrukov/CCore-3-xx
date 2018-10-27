@@ -50,27 +50,6 @@ void test(ObjectDomain *domain)
 
 #endif
 
-/* struct LastDefaults */
-
-LastDefaults::LastDefaults(ObjectDomain &domain)
- {
-  singleLine.create(domain);
-  doubleLine.create(domain);
-  collapseFormat.create(domain);
-  bulletFormat.create(domain);
-  border.create(domain);
-  textFormat.create(domain);
-  fixedFormat.create(domain);
-  placement.create<MultiLine>(domain);
- }
-
-/* struct Doc */
-
-Doc::Doc(ObjectDomain &domain)
- : lastdefs(domain)
- {
- }
-
 /* class NextIndex */
 
 Index NextIndex::getIndex()

@@ -19,6 +19,11 @@
 namespace App {
 namespace BookLab {
 
+/* functions */
+
+template <class Ptr>
+auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
+
 /* name functions */
 
 bool IsNameFirst(Char ch);

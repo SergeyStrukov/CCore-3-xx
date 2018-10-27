@@ -60,7 +60,7 @@ Frame
 
 Page <name|name*=page*>
 @{
-  text name
+  text title
   Color back = NoColor
   Color fore = NoColor
   
@@ -100,7 +100,9 @@ Defaults
   MultiLine placement = {}
  }
  
-Element = Font Format SingleLine DoubleLine Page Scope Section   Bitmap Collapse TextList Table Text FixedText 
+Element = Font Format SingleLine DoubleLine Page Scope Section   
+          Bitmap Collapse TextList Table Text FixedText
+          Border Cell Link OneLine MultiLine 
 
 Scope <name|name*=scope*>
 @{
@@ -112,11 +114,11 @@ Scope <name|name*=scope*>
  }
  
 Section @<text>
-{
- Element
+ {
+  Element
  
- ...
-} 
+  ...
+ } 
  
 Doc
  {

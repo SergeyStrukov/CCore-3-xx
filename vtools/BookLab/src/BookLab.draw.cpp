@@ -19,18 +19,6 @@
 namespace App {
 namespace BookLab {
 
-/* struct ElementList */
-
-void ElementList::del(Element *ptr)
- {
-  IntObjPtr<Element> prev=ptr->prev;
-  IntObjPtr<Element> next=ptr->next;
-
-  if( +prev ) prev->next=next; else beg=next;
-
-  if( +next ) next->prev=prev; else end=prev;
- }
-
 /* functions */
 
 inline Point SizeListBtn(Coord dxy)
