@@ -754,7 +754,7 @@ class Book::SaveContext : public NextIndex
 
    void printEmpty()
     {
-     // do nothing
+     printf("Doc Data = { '' , {True} , {True} , {'',null} , {{True},{True},{True},{True}} , {} };\n\n");
     }
  };
 
