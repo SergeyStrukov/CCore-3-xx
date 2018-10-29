@@ -30,6 +30,9 @@ auto SafePtr(DomainPtr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
 
 /* name functions */
 
+template <OneOfTypes<Char,char> Ch>
+bool TestKeyword(PtrLen<const Ch> str);
+
 bool IsNameFirst_char(char ch);
 
 bool IsNameNext_char(char ch);

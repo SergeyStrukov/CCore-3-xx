@@ -52,6 +52,275 @@ void test(ObjectDomain *domain)
 
 /* name functions */
 
+template <OneOfTypes<Char,char> Ch>
+bool TestKeyword(PtrLen<const Ch> str)
+ {
+  if( !str ) return false;
+
+  switch( str[0] )
+    {
+     case 'c' :
+      {
+       ++str;
+
+       if( str.len==4 && str[0]=='o' && str[1]=='n' && str[2]=='s' && str[3]=='t' ) return true; else return false;
+      }
+
+     case 'i' :
+      {
+       ++str;
+
+       if( !str ) return false;
+
+       switch( str[0] )
+         {
+          case 'n' :
+           {
+            ++str;
+
+            if( !str ) return false;
+
+            switch( str[0] )
+              {
+               case 'c' :
+                {
+                 ++str;
+
+                 if( str.len==4 && str[0]=='l' && str[1]=='u' && str[2]=='d' && str[3]=='e' ) return true; else return false;
+                }
+
+               case 't' :
+                {
+                 ++str;
+
+                 if( str.len==0 ) return true; else return false;
+                }
+
+               default: return false;
+              }
+           }
+
+          case 'p' :
+           {
+            ++str;
+
+            if( str.len==0 ) return true; else return false;
+           }
+
+          default: return false;
+         }
+      }
+
+     case 'n' :
+      {
+       ++str;
+
+       if( str.len==3 && str[0]=='u' && str[1]=='l' && str[2]=='l' ) return true; else return false;
+      }
+
+     case 's' :
+      {
+       ++str;
+
+       if( !str ) return false;
+
+       switch( str[0] )
+         {
+          case 'c' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='o' && str[1]=='p' && str[2]=='e' ) return true; else return false;
+           }
+
+          case 'i' :
+           {
+            ++str;
+
+            if( !str ) return false;
+
+            switch( str[0] )
+              {
+               case 'n' :
+                {
+                 ++str;
+
+                 if( !str ) return false;
+
+                 switch( str[0] )
+                   {
+                    case 't' :
+                     {
+                      ++str;
+
+                      if( !str ) return true;
+
+                      switch( str[0] )
+                        {
+                         case '1' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='6' ) return true; else return false;
+                          }
+
+                         case '3' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='2' ) return true; else return false;
+                          }
+
+                         case '6' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='4' ) return true; else return false;
+                          }
+
+                         case '8' :
+                          {
+                           ++str;
+
+                           if( str.len==0 ) return true; else return false;
+                          }
+
+                         default: return false;
+                        }
+                     }
+
+                    default: return false;
+                   }
+                }
+
+               default: return false;
+              }
+           }
+
+          case 't' :
+           {
+            ++str;
+
+            if( str.len==4 && str[0]=='r' && str[1]=='u' && str[2]=='c' && str[3]=='t' ) return true; else return false;
+           }
+
+          default: return false;
+         }
+      }
+
+     case 't' :
+      {
+       ++str;
+
+       if( !str ) return false;
+
+       switch( str[0] )
+         {
+          case 'e' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='x' && str[1]=='t' ) return true; else return false;
+           }
+
+          case 'y' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='p' && str[1]=='e' ) return true; else return false;
+           }
+
+          default: return false;
+         }
+      }
+
+     case 'u' :
+      {
+       ++str;
+
+       if( !str ) return false;
+
+       switch( str[0] )
+         {
+          case 'i' :
+           {
+            ++str;
+
+            if( !str ) return false;
+
+            switch( str[0] )
+              {
+               case 'n' :
+                {
+                 ++str;
+
+                 if( !str ) return false;
+
+                 switch( str[0] )
+                   {
+                    case 't' :
+                     {
+                      ++str;
+
+                      if( !str ) return true;
+
+                      switch( str[0] )
+                        {
+                         case '1' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='6' ) return true; else return false;
+                          }
+
+                         case '3' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='2' ) return true; else return false;
+                          }
+
+                         case '6' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='4' ) return true; else return false;
+                          }
+
+                         case '8' :
+                          {
+                           ++str;
+
+                           if( str.len==0 ) return true; else return false;
+                          }
+
+                         default: return false;
+                        }
+                     }
+
+                    default: return false;
+                   }
+                }
+
+               default: return false;
+              }
+           }
+
+          case 'l' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='e' && str[1]=='n' ) return true; else return false;
+           }
+
+          default: return false;
+         }
+      }
+
+     default: return false;
+    }
+ }
+
 bool IsNameFirst_char(char ch)
  {
   return PropTable::Object[ch]==CharNameFirst;
@@ -68,9 +337,11 @@ bool TestName(StrLen text)
 
   if( !IsNameFirst_char(*text) ) return false;
 
+  StrLen start=text;
+
   for(++text; +text && IsNameNext_char(*text) ;++text);
 
-  return !text || IsNameBreak_char(*text) ;
+  return ( !text || IsNameBreak_char(*text) ) && !TestKeyword( start.prefix(text) ) ;
  }
 
 bool IsNameFirst(Char ch)
@@ -97,9 +368,11 @@ bool TestName(PtrLen<const Char> text)
 
   if( !IsNameFirst(*text) ) return false;
 
+  PtrLen<const Char> start=text;
+
   for(++text; +text && IsNameNext(*text) ;++text);
 
-  return !text || IsNameBreak(*text) ;
+  return ( !text || IsNameBreak(*text) ) && !TestKeyword( start.prefix(text) ) ;
  }
 
 /* class PropTable */
