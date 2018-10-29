@@ -20,9 +20,6 @@
 #include <CCore/inc/ObjectDomain.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
-#include <CCore/inc/ErrorText.h>
-#include <CCore/inc/ForLoop.h>
-#include <CCore/inc/TextTools.h>
 
 namespace App {
 namespace BookLab {

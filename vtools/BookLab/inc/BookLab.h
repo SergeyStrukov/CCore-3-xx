@@ -16,15 +16,27 @@
 
 #include <inc/BookElements.h>
 
+#include <CCore/inc/TextTools.h>
+#include <CCore/inc/ForLoop.h>
+#include <CCore/inc/ErrorText.h>
+
 namespace App {
 namespace BookLab {
 
 /* functions */
 
-template <class Ptr>
-auto SafePtr(Ptr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
+template <class DomainPtr>
+auto SafePtr(DomainPtr &ptr) { return !ptr ? 0 : ptr.getPtr() ; }
 
 /* name functions */
+
+bool IsNameFirst_char(char ch);
+
+bool IsNameNext_char(char ch);
+
+inline bool IsNameBreak_char(char ch) { return ch==' '; }
+
+bool TestName(StrLen text);
 
 bool IsNameFirst(Char ch);
 
@@ -84,7 +96,7 @@ class IntListCur
  {
    using Ptr = decltype( SafePtr(Meta::TypeBox<IntList &>::Get().beg) ) ;
 
-   Ptr ptr;
+   Ptr ptr; // T *
 
   public:
 

@@ -50,6 +50,68 @@ void test(ObjectDomain *domain)
 
 #endif
 
+/* name functions */
+
+bool IsNameFirst_char(char ch)
+ {
+  return PropTable::Object[ch]==CharNameFirst;
+ }
+
+bool IsNameNext_char(char ch)
+ {
+  return PropTable::Object[ch]>=CharNameFirst;
+ }
+
+bool TestName(StrLen text)
+ {
+  if( !text ) return false;
+
+  if( !IsNameFirst_char(*text) ) return false;
+
+  for(++text; +text && IsNameNext_char(*text) ;++text);
+
+  return !text || IsNameBreak_char(*text) ;
+ }
+
+bool IsNameFirst(Char ch)
+ {
+  int code=ToChar(ch);
+
+  if( code<0 ) return false;
+
+  return IsNameFirst_char((char)code);
+ }
+
+bool IsNameNext(Char ch)
+ {
+  int code=ToChar(ch);
+
+  if( code<0 ) return false;
+
+  return IsNameNext_char((char)code);
+ }
+
+bool TestName(PtrLen<const Char> text)
+ {
+  if( !text ) return false;
+
+  if( !IsNameFirst(*text) ) return false;
+
+  for(++text; +text && IsNameNext(*text) ;++text);
+
+  return !text || IsNameBreak(*text) ;
+ }
+
+/* class PropTable */
+
+PropTable::PropTable()
+ {
+  setSet(GetCLetterChars(),CharNameFirst);
+  setSet(GetDigitChars(),CharNameNext);
+ }
+
+PropTable PropTable::Object;
+
 /* class NextIndex */
 
 Index NextIndex::getIndex()

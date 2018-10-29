@@ -138,11 +138,27 @@ class Book::LoadContext : NoCopy
      for(ulen i : IndLim(r.len) ) Cast(out[i],r[i]);
     }
 
+   static void GuardName(StrLen name)
+    {
+     if( +name && !TestName(name) )
+       {
+        Printf(Exception,"App::BookLab::Book::load(...) : bad object name #.q;",name);
+       }
+    }
+
+   template <class S>
+   static void CastName(String &ret,S obj)
+    {
+     GuardName(obj.getStr());
+
+     ret=String(obj);
+    }
+
   private:
 
    void init(Font *ret,const TypeDef::Font *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->face,ptr->face);
@@ -154,7 +170,7 @@ class Book::LoadContext : NoCopy
 
    void init(Format *ret,const TypeDef::Format *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->back,ptr->back);
@@ -166,7 +182,7 @@ class Book::LoadContext : NoCopy
 
    void init(SingleLine *ret,const TypeDef::SingleLine *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->width,ptr->width);
@@ -175,7 +191,7 @@ class Book::LoadContext : NoCopy
 
    void init(DoubleLine *ret,const TypeDef::DoubleLine *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->width,ptr->width);
@@ -195,16 +211,16 @@ class Book::LoadContext : NoCopy
 
    void init(Page *ret,const TypeDef::Page *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->title,ptr->title);
      Cast(ret->back,ptr->back);
      Cast(ret->fore,ptr->fore);
 
-     Cast(ret->up.name,ptr->up.name);
-     Cast(ret->prev.name,ptr->prev.name);
-     Cast(ret->next.name,ptr->next.name);
+     CastName(ret->up.name,ptr->up.name);
+     CastName(ret->prev.name,ptr->prev.name);
+     CastName(ret->next.name,ptr->next.name);
 
      cast(ret->list,ptr->list);
     }
@@ -216,7 +232,7 @@ class Book::LoadContext : NoCopy
 
    void init(Scope *ret,const TypeDef::Scope *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      cast(ret->defs,ptr->defs);
@@ -234,14 +250,14 @@ class Book::LoadContext : NoCopy
 
    void init(Bitmap *ret,const TypeDef::Bitmap *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
 
      Cast(ret->file_name,ptr->file_name);
     }
 
    void init(Collapse *ret,const TypeDef::Collapse *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->title,ptr->title);
@@ -261,7 +277,7 @@ class Book::LoadContext : NoCopy
 
    void init(TextList *ret,const TypeDef::TextList *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->bullet_space,ptr->bullet_space);
@@ -273,7 +289,7 @@ class Book::LoadContext : NoCopy
 
    void init(Border *ret,const TypeDef::Border *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->space,ptr->space);
@@ -283,7 +299,7 @@ class Book::LoadContext : NoCopy
 
    void init(Cell *ret,const TypeDef::Cell *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->span_x,ptr->span_x);
@@ -294,7 +310,7 @@ class Book::LoadContext : NoCopy
 
    void init(Table *ret,const TypeDef::Table *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->hard,ptr->hard);
@@ -306,7 +322,7 @@ class Book::LoadContext : NoCopy
 
    void init(Link *ret,const TypeDef::Link *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->index_list,ptr->index_list);
@@ -316,7 +332,7 @@ class Book::LoadContext : NoCopy
 
    void init(FixedText *ret,const TypeDef::FixedText *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      cast(ret->format,ptr->format);
@@ -325,7 +341,7 @@ class Book::LoadContext : NoCopy
 
    void init(OneLine *ret,const TypeDef::OneLine *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->align,ptr->align);
@@ -333,7 +349,7 @@ class Book::LoadContext : NoCopy
 
    void init(MultiLine *ret,const TypeDef::MultiLine *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->line_space,ptr->line_space);
@@ -342,7 +358,7 @@ class Book::LoadContext : NoCopy
 
    void init(Text *ret,const TypeDef::Text *ptr)
     {
-     Cast(ret->name,ptr->name);
+     CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      cast(ret->placement,ptr->placement);
@@ -573,6 +589,10 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
         setScope();
 
         linked=false;
+       }
+     else
+       {
+        Printf(Exception,"App::BookLab::Book::load(...) : cannot find document data");
        }
 
      return Success;

@@ -39,47 +39,6 @@ inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
 
 inline StrLen TextDesc() { return "text ..."_c; }
 
-/* name functions */
-
-bool IsNameFirst(Char ch)
- {
-  int code=ToChar(ch);
-
-  if( code<0 ) return false;
-
-  return PropTable::Object[ (char)code ]==CharNameFirst;
- }
-
-bool IsNameNext(Char ch)
- {
-  int code=ToChar(ch);
-
-  if( code<0 ) return false;
-
-  return PropTable::Object[ (char)code ]>=CharNameFirst;
- }
-
-bool TestName(PtrLen<const Char> text)
- {
-  if( !text ) return false;
-
-  if( !IsNameFirst(*text) ) return false;
-
-  for(++text; +text && IsNameNext(*text) ;++text);
-
-  return !text || IsNameBreak(*text) ;
- }
-
-/* class PropTable */
-
-PropTable::PropTable()
- {
-  setSet(GetCLetterChars(),CharNameFirst);
-  setSet(GetDigitChars(),CharNameNext);
- }
-
-PropTable PropTable::Object;
-
 /* class Book::ShowData */
 
 class Book::ShowData : NoCopy
