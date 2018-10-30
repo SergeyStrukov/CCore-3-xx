@@ -103,7 +103,7 @@ BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
   return ret;
  }
 
-void InnerBookLabWindow::setCursor(BookLab::Cursor cur)
+void InnerBookLabWindow::setCursor(BookLab::PaneRef cur)
  {
   cursor=cur;
 
@@ -156,9 +156,9 @@ void InnerBookLabWindow::insItem()
  {
   bool ret=false;
 
-  if( +cursor.pad )
+  if( +cursor.ref.pad )
     {
-     cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
+     cursor.ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
     }
   else
     {
@@ -314,12 +314,12 @@ void InnerBookLabWindow::ins_destroyed()
 
   bool ret=false;
 
-  if( +cursor.pad )
+  if( +cursor.ref.pad )
     {
-     if( cursor.pad.hasType<BookLab::Element>() )
+     if( cursor.ref.pad.hasType<BookLab::Element>() )
        {
-        BookLab::Element *ptr=cursor.pad.castPtr<BookLab::Element>();
-        BookLab::ElementList *list=cursor.opt.list;
+        BookLab::Element *ptr=cursor.ref.pad.castPtr<BookLab::Element>();
+        BookLab::ElementList *list=cursor.ref.mode.castPtr<BookLab::ElementList>();
 
         ret=book.insElement(ins_frame.getData(),ptr,list);
        }
@@ -497,7 +497,7 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
 
   buf=buf.cutRebase(pane);
 
-  if( +cursor.pad ) buf.erase(cursor.pane-base,+cfg.cursor);
+  if( +cursor.ref.pad ) buf.erase(cursor.pane-base,+cfg.cursor);
 
   book.draw(cfg,buf,-base);
  }
@@ -629,9 +629,9 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey)
      return;
     }
 
-  BookLab::Cursor cur=pane_ref.getCursor();
+  BookLab::PaneRef cur=pane_ref;
 
-  if( +cur.pad )
+  if( +cur.ref.pad )
     {
      cur.pane+=getBase();
 

@@ -23,6 +23,16 @@
 namespace App {
 namespace BookLab {
 
+/* consts */
+
+enum HandleResult
+ {
+  HandleNone = 0,
+
+  HandleOk,
+  HandleUpdate,
+ };
+
 /* functions */
 
 template <class DomainPtr>
@@ -61,15 +71,13 @@ class NextIndex;
 
 template <class Ctx,class T> struct BindCtx;
 
-struct Config;
-
 struct Ref;
-
-struct Cursor;
 
 struct PaneRef;
 
 struct InsData;
+
+struct Config;
 
 class Book;
 
@@ -146,6 +154,121 @@ struct BindCtx
   BindCtx(Ctx *ctx_,const T &obj_) : ctx(ctx_),obj(obj_) {}
  };
 
+/* struct Ref */
+
+using PadType =
+
+AnyPtr<bool,Coord,String,
+
+       OptDataBase<bool>,OptDataBase<Coord>,OptDataBase<ulen>,
+       OptDataBase<VColor>,OptDataBase<Strength>,OptDataBase<Align>,OptDataBase<Effect>,
+       OptDataBase<Point>,OptDataBase<Ratio>,
+
+       NamedPtr<Font>,NamedPtr<Page>,NamedPtr<Format>,NamedPtr<Border>,
+       NamedPtr<OneLine,MultiLine>,NamedPtr<SingleLine,DoubleLine>,
+       NamedPtr<Bitmap,Collapse,TextList,Table,Text,FixedText>,
+
+       IntObjPtr<SingleLine>,IntObjPtr<DoubleLine>,IntObjPtr<Format>,IntObjPtr<Border>,
+       IntAnyObjPtr<OneLine,MultiLine>,
+
+       DynArray<Span>,DynArray<TextLine>,Table::Data,Link,
+
+       FrameList,ItemList,Element> ;
+
+struct Ref
+ {
+  AnyPtr<OpenFlag,FrameList,ItemList,ElementList> mode;
+  PadType pad;
+
+  Ref() noexcept {}
+
+  template <class T>
+  Ref(T *ptr) : mode(ptr) {}
+
+  Ref(ElementList &list,Element &elem) : mode(&list),pad(&elem) {}
+
+  Ref(NothingType,PadType pad_) : pad(pad_) {}
+ };
+
+/* struct PaneRef */
+
+struct PaneRef
+ {
+  Pane pane;
+  Ref ref;
+
+  // testMode()
+
+  bool testMode(ElementList *) { return false; }
+
+  template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
+  bool testMode(T *ptr) { return ptr; }
+
+  bool testMode();
+
+  // handleMode()
+
+  HandleResult handleMode(Point,ElementList *) { return HandleNone; }
+
+  HandleResult handleMode(Point point,OpenFlag *ptr);
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleMode(Point point,T *ptr);
+
+  HandleResult handleMode(Point point);
+
+  // handleList()
+
+  HandleResult handleList(Point,bool,ElementList *) { return HandleNone; }
+
+  HandleResult handleList(Point,bool,OpenFlag *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleList(Point point,bool prev,T *ptr);
+
+  HandleResult handleList(Point point,bool prev);
+ };
+
+/* struct InsData */
+
+enum ElementType
+ {
+  ElementNone = 0,
+
+  ElementFont,
+  ElementFormat,
+  ElementSingleLine,
+  ElementDoubleLine,
+  ElementPage,
+  ElementScope,
+  ElementSection,
+  ElementBitmap,
+  ElementCollapse,
+  ElementTextList,
+  ElementBorder,
+  ElementCell,
+  ElementTable,
+  ElementLink,
+  ElementFixedText,
+  ElementOneLine,
+  ElementMultiLine,
+  ElementText
+ };
+
+enum InsPlace
+ {
+  InsBefore = 1,
+  InsAfter,
+  InsInside
+ };
+
+struct InsData
+ {
+  ElementType type = ElementNone ;
+  InsPlace place = InsAfter ;
+  String text; // name OR comment
+ };
+
 /* struct Config */
 
 struct Config
@@ -207,144 +330,6 @@ struct Config
     element_font.bind(bag.element_font.font);
     comment_font.bind(bag.comment_font.font);
    }
- };
-
-/* struct Ref */
-
-using PadType =
-
-AnyPtr<bool,Coord,String,
-
-       OptDataBase<bool>,OptDataBase<Coord>,OptDataBase<ulen>,
-       OptDataBase<VColor>,OptDataBase<Strength>,OptDataBase<Align>,OptDataBase<Effect>,
-       OptDataBase<Point>,OptDataBase<Ratio>,
-
-       NamedPtr<Font>,NamedPtr<Page>,NamedPtr<Format>,NamedPtr<Border>,
-       NamedPtr<OneLine,MultiLine>,NamedPtr<SingleLine,DoubleLine>,
-       NamedPtr<Bitmap,Collapse,TextList,Table,Text,FixedText>,
-
-       IntObjPtr<SingleLine>,IntObjPtr<DoubleLine>,IntObjPtr<Format>,IntObjPtr<Border>,
-       IntAnyObjPtr<OneLine,MultiLine>,
-
-       DynArray<Span>,DynArray<TextLine>,Table::Data,Link,
-
-       FrameList,ItemList,Element> ;
-
-struct Ref
- {
-  AnyPtr<OpenFlag,FrameList,ItemList> mode;
-  PadType pad;
-
-  union
-   {
-    ElementList *list;
-   } opt;
-
-  Ref() noexcept {}
-
-  template <class T>
-  Ref(T *ptr) : mode(ptr) {}
-
-  Ref(Element &elem,ElementList &list) : pad(&elem) { opt.list=&list; }
-
-  Ref(PadType pad_) : pad(pad_) {}
- };
-
-/* struct Cursor */
-
-struct Cursor
- {
-  Pane pane;
-
-  PadType pad;
-
-  union
-   {
-    ElementList *list;
-   } opt;
-
-  Cursor() noexcept {}
-
-  Cursor(Pane pane_,PadType pad_) : pane(pane_),pad(pad_) {}
-
-  Cursor(Pane pane_,PadType pad_,ElementList *list) : pane(pane_),pad(pad_) { opt.list=list; }
- };
-
-/* struct PaneRef */
-
-struct PaneRef
- {
-  Pane pane;
-  Ref ref;
-
-  // testMode()
-
-  template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
-  bool testMode(T *ptr);
-
-  bool testMode();
-
-  // handleMode()
-
-  HandleResult handleMode(Point point,OpenFlag *ptr);
-
-  template <OneOfTypes<FrameList,ItemList> T>
-  HandleResult handleMode(Point point,T *ptr);
-
-  HandleResult handleMode(Point point);
-
-  // handleList()
-
-  HandleResult handleList(Point point,bool prev,OpenFlag *ptr);
-
-  template <OneOfTypes<FrameList,ItemList> T>
-  HandleResult handleList(Point point,bool prev,T *ptr);
-
-  HandleResult handleList(Point point,bool prev);
-
-  // getCursor()
-
-  Cursor getCursor();
- };
-
-/* struct InsData */
-
-enum ElementType
- {
-  ElementNone = 0,
-
-  ElementFont,
-  ElementFormat,
-  ElementSingleLine,
-  ElementDoubleLine,
-  ElementPage,
-  ElementScope,
-  ElementSection,
-  ElementBitmap,
-  ElementCollapse,
-  ElementTextList,
-  ElementBorder,
-  ElementCell,
-  ElementTable,
-  ElementLink,
-  ElementFixedText,
-  ElementOneLine,
-  ElementMultiLine,
-  ElementText
- };
-
-enum InsPlace
- {
-  InsBefore = 1,
-  InsAfter,
-  InsInside
- };
-
-struct InsData
- {
-  ElementType type = ElementNone ;
-  InsPlace place = InsAfter ;
-  String text; // name OR comment
  };
 
 /* class Book */
@@ -436,18 +421,20 @@ class Book : NoCopy
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
 
-   // edit
+   // del
 
    template <class T>
-   bool delItem(Cursor,T *) { return false; }
+   bool delItem(PaneRef,T *) { return false; }
 
-   bool delItem(Cursor cursor,FrameList *ptr);
+   bool delItem(PaneRef cursor,FrameList *ptr);
 
-   bool delItem(Cursor cursor,ItemList *ptr);
+   bool delItem(PaneRef cursor,ItemList *ptr);
 
-   bool delItem(Cursor cursor,Element *ptr);
+   bool delItem(PaneRef cursor,Element *ptr);
 
-   bool delItem(Cursor cursor);
+   bool delItem(PaneRef cursor);
+
+   // ins
 
    HandleResult insFirst();
 

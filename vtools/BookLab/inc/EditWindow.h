@@ -87,7 +87,7 @@ class InnerBookLabWindow : public SubWindow
 
    bool focus = false ;
 
-   BookLab::Cursor cursor;
+   BookLab::PaneRef cursor;
 
    // frames
 
@@ -116,7 +116,7 @@ class InnerBookLabWindow : public SubWindow
 
    BookLab::PaneRef getRef(Point point) const;
 
-   void setCursor(BookLab::Cursor cur);
+   void setCursor(BookLab::PaneRef cur);
 
    template <class T>
    bool insItem(T *) { return false; }

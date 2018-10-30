@@ -47,14 +47,6 @@ enum Strength : int
   NoStrength = 0
  };
 
-enum HandleResult
- {
-  HandleNone = 0,
-
-  HandleOk,
-  HandleUpdate,
- };
-
 /* functions */
 
 template <class T>

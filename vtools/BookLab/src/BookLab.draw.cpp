@@ -26,13 +26,6 @@ inline Point SizeListBtn(Coord dxy)
   return Point(BoxExt(dxy),5*dxy);
  }
 
-inline Coord MoveListZone(Pane pane,Point point)
- {
-  if( pane.dy<=0 ) return -1;
-
-  return (5*(point.y-pane.y))/pane.dy;
- }
-
 inline StrLen LinkDesc() { return "link ..."_c; }
 
 inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
@@ -229,16 +222,40 @@ class Book::PrepareContext : NoCopy
    template <class T>
    void addPad(Pane pad,T *ptr)
     {
-     addRef(pad,PadType(ptr));
+     addRef(pad,Ref(Nothing,ptr));
     }
 
    template <class T,auto Def>
    void addPad(Pane pad,OptData<T,Def> *ptr)
     {
-     addRef(pad,PadType((OptDataBase<T> *)ptr));
+     addPad(pad,(OptDataBase<T> *)ptr);
     }
 
    void addPad(Pane,StrLen *) {}
+
+   void addOpenFlag(Pane pane,OpenFlag *ptr)
+    {
+     addRef(pane,ptr);
+    }
+
+   template <class T>
+   void addListRef(Pane pane,T *ptr)
+    {
+     addRef(pane,ptr);
+    }
+
+  private:
+
+   Coord tableLen(PtrLen<const Coord> tdx)
+    {
+     Coord ret=table_dxy;
+
+     for(Coord dx : tdx ) ret=AddSize(ret,dx,table_dxy);
+
+     return ret;
+    }
+
+   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
 
   private:
 
@@ -288,7 +305,7 @@ class Book::PrepareContext : NoCopy
     };
 
    template <ulen RowCount>
-   Point size(TableLayout<RowCount> &layout,PtrLen<const Row> table)
+   Point sizeTable(TableLayout<RowCount> &layout,PtrLen<const Row> table)
     {
      layout={};
 
@@ -345,7 +362,7 @@ class Book::PrepareContext : NoCopy
     }
 
    template <ulen RowCount>
-   void place(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
+   void placeTable(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
     {
      Coord dx0=layout.col[0].dx;
      Coord dx1=layout.col[1].dx;
@@ -364,11 +381,11 @@ class Book::PrepareContext : NoCopy
     }
 
    template <ulen RowCount>
-   Point prepare(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
+   Point prepareTable(TableLayout<RowCount> &layout,Point base,PtrLen<const Row> table)
     {
-     Point ret=size(layout,table);
+     Point ret=sizeTable(layout,table);
 
-     place(layout,base,table);
+     placeTable(layout,base,table);
 
      return ret;
     }
@@ -378,7 +395,7 @@ class Book::PrepareContext : NoCopy
     {
      Point ret;
 
-     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=size(layout,table); } );
+     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=sizeTable(layout,table); } );
 
      return ret;
     }
@@ -386,7 +403,7 @@ class Book::PrepareContext : NoCopy
    template <class T>
    void placeTable(Point base,T *ptr)
     {
-     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { place(layout,base,table); } );
+     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { placeTable(layout,base,table); } );
     }
 
    template <class T>
@@ -394,7 +411,7 @@ class Book::PrepareContext : NoCopy
     {
      Point ret;
 
-     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=prepare(layout,base,table); } );
+     ptr->template apply<Row,PlaceOf>( [&] (auto table,auto &layout) { ret=prepareTable(layout,base,table); } );
 
      return ret;
     }
@@ -429,7 +446,7 @@ class Book::PrepareContext : NoCopy
         elem.pane.x=base.x;
         elem.pane.y=base.y;
 
-        placeElement(base,elem.ptr.getPtr(),Ref(elem,list));
+        placeElement(base,elem.ptr.getPtr(),Ref(list,elem));
 
         base=base.addY(elem.pane.dy);
        }
@@ -591,14 +608,130 @@ class Book::PrepareContext : NoCopy
      placeBody(base,ptr);
     }
 
-   Coord tableLen(PtrLen<const Coord> tdx)
-    {
-     Coord ret=table_dxy;
+  private:
 
-     for(Coord dx : tdx ) ret=AddSize(ret,dx,table_dxy);
+   template <class ... TT>
+   Point sizeElement(AnyPtr<TT...> anyptr)
+    {
+     Point ret;
+
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=sizeElement(ptr); } );
 
      return ret;
     }
+
+   template <class ... TT>
+   void placeElement(Point base,AnyPtr<TT...> anyptr,Ref eref)
+    {
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) placeElement(base,ptr,eref); } );
+    }
+
+   template <class T>
+   Point sizeElement(T *ptr)
+    {
+     ShowName show(ptr);
+
+     TextSize ts=element_font->text(show.get());
+
+     Coord dy=BoxExt(efs.dy);
+
+     Point s=sizeBody(ptr);
+
+     return StackYSize(s,Point(ts.full_dx,dy));
+    }
+
+   template <class T>
+   void placeElement(Point base,T *ptr,Ref eref)
+    {
+     ShowName show(ptr);
+
+     Point size=element_font->text(show.get()).getSize();
+
+     addRef(Pane(base,size),eref);
+
+     Coord dy=BoxExt(efs.dy);
+
+     placeBody(base.addY(dy),ptr);
+    }
+
+   Point sizeElement(Section *ptr)
+    {
+     Coord dxy=cfs.dy;
+
+     if( ptr->open )
+       {
+        TextSize ts=comment_font->text(Range(ptr->comment));
+
+        Point s1(AddSize(BoxExt(dxy),ts.full_dx),BoxExt(dxy));
+
+        Point s2=size(ptr->list);
+
+        return StackYSize_guarded(s1,s2);
+       }
+     else
+       {
+        TextSize ts=comment_font->text(Range(ptr->comment));
+
+        return Point(AddSize(BoxExt(dxy),ts.full_dx),dxy);
+       }
+    }
+
+   void placeElement(Point base,Section *ptr,Ref eref)
+    {
+     Coord dxy=cfs.dy;
+
+     addOpenFlag(Pane(base,dxy),ptr);
+
+     Point size=comment_font->text(Range(ptr->comment)).getSize();
+
+     addRef(Pane(base.addX(BoxExt(dxy)),Sup(size,Point::Diag(dxy))),eref);
+
+     if( ptr->open )
+       {
+        place(base.addY(BoxExt(dxy)),ptr->list);
+       }
+     else
+       {
+       }
+    }
+
+   template <class T>
+   Point sizeBody(T *ptr)
+    {
+     if( ptr->open )
+       {
+        Point s=sizeTableExt(ptr);
+
+        return StackXSize_guarded(s,Point(BoxExt(knob_dxy),knob_dxy));
+       }
+     else
+       {
+        return Point::Diag(knob_dxy);
+       }
+    }
+
+   template <class T>
+   void placeBody(Point base,T *ptr)
+    {
+     addOpenFlag(Pane(base,knob_dxy),ptr);
+
+     if( ptr->open )
+       {
+        placeTableExt(base.addX(BoxExt(knob_dxy)),ptr);
+       }
+    }
+
+   Point sizeBody(Bitmap *ptr)
+    {
+     return sizeTable(ptr);
+    }
+
+   void placeBody(Point base,Bitmap *ptr)
+    {
+     placeTable(base,ptr);
+    }
+
+  private:
 
    Point size(Link &)
     {
@@ -704,32 +837,16 @@ class Book::PrepareContext : NoCopy
     {
      if( !obj.cur ) return Null;
 
-     return sizeListTable(&obj);
+     return sizeList(&obj);
     }
 
    template <OneOfTypes<FrameList,ItemList> T>
    void place(Point base,T &obj)
     {
-     if( +obj.cur ) placeListTable(base,&obj);
+     if( +obj.cur ) placeList(base,&obj);
     }
 
   private:
-
-   template <class ... TT>
-   Point sizeElement(AnyPtr<TT...> anyptr)
-    {
-     Point ret;
-
-     anyptr.apply( [&] (auto *ptr) { if( ptr ) ret=sizeElement(ptr); } );
-
-     return ret;
-    }
-
-   template <class ... TT>
-   void placeElement(Point base,AnyPtr<TT...> anyptr,Ref ref)
-    {
-     anyptr.apply( [&] (auto *ptr) { if( ptr ) placeElement(base,ptr,ref); } );
-    }
 
    template <class T>
    Point sizeTableExt(T *ptr)
@@ -766,45 +883,7 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
-   Point sizeBody(T *ptr)
-    {
-     if( ptr->open )
-       {
-        Point s=sizeTableExt(ptr);
-
-        return StackXSize_guarded(s,Point(BoxExt(knob_dxy),knob_dxy));
-       }
-     else
-       {
-        return Point::Diag(knob_dxy);
-       }
-    }
-
-   template <class T>
-   void placeBody(Point base,T *ptr)
-    {
-     addRef(Pane(base,knob_dxy),(OpenFlag *)ptr);
-
-     if( ptr->open )
-       {
-        placeTableExt(base.addX(BoxExt(knob_dxy)),ptr);
-       }
-    }
-
-   Point sizeBody(Bitmap *ptr)
-    {
-     return sizeTable(ptr);
-    }
-
-   void placeBody(Point base,Bitmap *ptr)
-    {
-     placeTable(base,ptr);
-    }
-
-   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
-
-   template <class T>
-   Point sizeListTable(T *ptr)
+   Point sizeList(T *ptr)
     {
      Point s1=sizeListBtn();
      Point s2=sizeTable(ptr);
@@ -813,7 +892,7 @@ class Book::PrepareContext : NoCopy
     }
 
    template <class T>
-   void placeListTable(Point base,T *ptr)
+   void placeList(Point base,T *ptr)
     {
      Point s1=sizeListBtn();
      Point s2=ptr->layout.size;
@@ -822,7 +901,7 @@ class Book::PrepareContext : NoCopy
        {
         Coord delta=s2.y-s1.y;
 
-        addRef(Pane(base.addY(delta/2),s1),ptr);
+        addListRef(Pane(base.addY(delta/2),s1),ptr);
 
         placeTable(base.addX(s1.x),ptr);
        }
@@ -830,78 +909,9 @@ class Book::PrepareContext : NoCopy
        {
         Coord delta=s1.y-s2.y;
 
-        addRef(Pane(base,s1),ptr);
+        addListRef(Pane(base,s1),ptr);
 
         placeTable(base.addX(s1.x).addY(delta/2),ptr);
-       }
-    }
-
-   template <class T>
-   Point sizeElement(T *ptr)
-    {
-     ShowName show(ptr);
-
-     TextSize ts=element_font->text(show.get());
-
-     Coord dy=BoxExt(efs.dy);
-
-     Point s=sizeBody(ptr);
-
-     return StackYSize(s,Point(ts.full_dx,dy));
-    }
-
-   template <class T>
-   void placeElement(Point base,T *ptr,Ref ref)
-    {
-     ShowName show(ptr);
-
-     Point size=element_font->text(show.get()).getSize();
-
-     addRef(Pane(base,size),ref);
-
-     Coord dy=BoxExt(efs.dy);
-
-     placeBody(base.addY(dy),ptr);
-    }
-
-   Point sizeElement(Section *ptr)
-    {
-     Coord dxy=cfs.dy;
-
-     if( ptr->open )
-       {
-        TextSize ts=comment_font->text(Range(ptr->comment));
-
-        Point s1(AddSize(BoxExt(dxy),ts.full_dx),BoxExt(dxy));
-
-        Point s2=size(ptr->list);
-
-        return StackYSize_guarded(s1,s2);
-       }
-     else
-       {
-        TextSize ts=comment_font->text(Range(ptr->comment));
-
-        return Point(AddSize(BoxExt(dxy),ts.full_dx),dxy);
-       }
-    }
-
-   void placeElement(Point base,Section *ptr,Ref ref)
-    {
-     Coord dxy=cfs.dy;
-
-     addRef(Pane(base,dxy),(OpenFlag *)ptr);
-
-     Point size=comment_font->text(Range(ptr->comment)).getSize();
-
-     addRef(Pane(base.addX(BoxExt(dxy)),Sup(size,Point::Diag(dxy))),ref);
-
-     if( ptr->open )
-       {
-        place(base.addY(BoxExt(dxy)),ptr->list);
-       }
-     else
-       {
        }
     }
 
@@ -971,6 +981,255 @@ class Book::DrawContext : NoCopy
 
   private:
 
+   Coord tableLen(PtrLen<const Coord> tdx)
+    {
+     Coord ret=table_dxy;
+
+     for(Coord dx : tdx ) ret+=dx+table_dxy;
+
+     return ret;
+    }
+
+   void drawTable(Point base,PtrLen<const Coord> tdx,PtrLen<const Coord> tdy)
+    {
+     Coord lenx=tableLen(tdx);
+     Coord leny=tableLen(tdy);
+
+     DrawBuf buf1=buf;
+
+     buf1.shift(base);
+
+     SmoothDrawArt art(buf1);
+
+     MPoint A=Point::Diag(table_dxy-1);
+
+     A=A/2;
+
+     {
+      MPoint O=A;
+      MCoord fdx=Fraction(lenx-table_dxy);
+
+      art.path(line_width,table,O,O.addX(fdx));
+
+      for(Coord dy : tdy )
+        {
+         O=O.addY(Fraction(dy+table_dxy));
+
+         art.path(line_width,table,O,O.addX(fdx));
+        }
+     }
+
+     {
+      MPoint O=A;
+      MCoord fdy=Fraction(leny-table_dxy);
+
+      art.path(line_width,table,O,O.addY(fdy));
+
+      for(Coord dx : tdx )
+        {
+         O=O.addX(Fraction(dx+table_dxy));
+
+         art.path(line_width,table,O,O.addY(fdy));
+        }
+     }
+    }
+
+   void drawPlus(Point base,Coord dxy)
+    {
+     MPane p(Pane(base,dxy));
+
+     if( !p ) return;
+
+     SmoothDrawArt art(buf);
+
+     // center and radius
+
+     MCoord len=p.dx;
+     MCoord radius=len/2;
+
+     MPoint center=p.getCenter();
+
+     // body
+
+     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
+
+     // face
+
+     MCoord a=radius/2;
+     MCoord w=radius/3;
+
+     art.path(w,face,center.subX(a),center.addX(a));
+     art.path(w,face,center.subY(a),center.addY(a));
+    }
+
+   void drawMinus(Point base,Coord dxy)
+    {
+     MPane p(Pane(base,dxy));
+
+     if( !p ) return;
+
+     SmoothDrawArt art(buf);
+
+     // center and radius
+
+     MCoord len=p.dx;
+     MCoord radius=len/2;
+
+     MPoint center=p.getCenter();
+
+     // body
+
+     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
+
+     // face
+
+     MCoord a=radius/2;
+     MCoord w=radius/3;
+
+     art.path(w,face,center.subX(a),center.addX(a));
+    }
+
+   void drawPlus(Point base) { drawPlus(base,knob_dxy); }
+
+   void drawMinus(Point base) { drawMinus(base,knob_dxy); }
+
+   void drawBegBtn(SmoothDrawArt &art,Pane pane,bool enable)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     MPane q=p.shrink(delta);
+
+     FigureUpArrow fig2(q);
+
+     fig2.curveSolid(art,fc);
+
+     FigureBox fig3(q.x,q.ex,q.y-delta/2,q.y+delta/2);
+
+     fig3.solid(art,fc);
+    }
+
+   void drawPrevBtn(SmoothDrawArt &art,Pane pane,bool enable)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     FigureUpArrow fig2(p.shrink(delta));
+
+     fig2.curveSolid(art,fc);
+    }
+
+   void drawWheelPad(SmoothDrawArt &art,Pane pane)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MPoint center=p.getCenter();
+     MCoord radius=Div(2,5)*p.dx;
+
+     art.ball(center,radius,face);
+    }
+
+   void drawNextBtn(SmoothDrawArt &art,Pane pane,bool enable)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     FigureDownArrow fig2(p.shrink(delta));
+
+     fig2.curveSolid(art,fc);
+    }
+
+   void drawEndBtn(SmoothDrawArt &art,Pane pane,bool enable)
+    {
+     MPane p(pane);
+
+     if( !p ) return;
+
+     MCoord delta=p.dx/10;
+     VColor fc=enable?face:gray;
+
+     FigureBox fig1(p);
+
+     fig1.solid(art,YField(p.y,snow,p.ey,gray));
+
+     MPane q=p.shrink(delta);
+
+     FigureDownArrow fig2(q);
+
+     fig2.curveSolid(art,fc);
+
+     FigureBox fig3(q.x,q.ex,q.ey-delta/2,q.ey+delta/2);
+
+     fig3.solid(art,fc);
+    }
+
+   template <class T>
+   void drawListBtn(Point base,Coord dxy,T *ptr)
+    {
+     SmoothDrawArt art(buf);
+
+     Pane pane1(base,dxy); base.y+=dxy;
+     Pane pane2(base,dxy); base.y+=dxy;
+     Pane pane3(base,dxy); base.y+=dxy;
+     Pane pane4(base,dxy); base.y+=dxy;
+     Pane pane5(base,dxy);
+
+     drawBegBtn(art,pane1,ptr->canBeg());
+     drawPrevBtn(art,pane2,ptr->canPrev());
+     drawWheelPad(art,pane3);
+     drawNextBtn(art,pane4,ptr->canNext());
+     drawEndBtn(art,pane5,ptr->canEnd());
+    }
+
+   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
+
+   void drawScopeLine(Point base,Point size)
+    {
+     DrawBuf buf1=buf;
+
+     buf1.shift(base.subX(BoxExt(knob_dxy)).addY(knob_dxy));
+
+     SmoothDrawArt art(buf1);
+
+     MPoint A=Point(knob_dxy-1,0);
+
+     A=A/2;
+
+     MPoint B=A.addY(Fraction(size.y-knob_dxy)+Fraction(element_space,1));
+
+     MPoint C=B.addX(Fraction(size.x+knob_dxy));
+
+     art.path(line_width,table,A,B,C);
+    }
+
+  private:
+
    struct Draw
     {
      void *data;
@@ -1003,7 +1262,7 @@ class Book::DrawContext : NoCopy
     };
 
    template <ulen RowCount>
-   void draw(Point base,PtrLen<const Row> table,const TableLayout<RowCount> &layout)
+   void drawTable(Point base,PtrLen<const Row> table,const TableLayout<RowCount> &layout)
     {
      Coord dx0=layout.col[0].dx;
      Coord dx1=layout.col[1].dx;
@@ -1087,7 +1346,7 @@ class Book::DrawContext : NoCopy
     {
      Coord ret=0;
 
-     ptr->template apply<Row,DrawOf>( [&] (auto table,auto &layout) { draw(base,table,layout); ret=layout.size.y; } );
+     ptr->template apply<Row,DrawOf>( [&] (auto table,auto &layout) { drawTable(base,table,layout); ret=layout.size.y; } );
 
      return ret;
     }
@@ -1212,59 +1471,6 @@ class Book::DrawContext : NoCopy
        }
     }
 
-   Coord tableLen(PtrLen<const Coord> tdx)
-    {
-     Coord ret=table_dxy;
-
-     for(Coord dx : tdx ) ret+=dx+table_dxy;
-
-     return ret;
-    }
-
-   void drawTable(Point base,PtrLen<const Coord> tdx,PtrLen<const Coord> tdy)
-    {
-     Coord lenx=tableLen(tdx);
-     Coord leny=tableLen(tdy);
-
-     DrawBuf buf1=buf;
-
-     buf1.shift(base);
-
-     SmoothDrawArt art(buf1);
-
-     MPoint A=Point::Diag(table_dxy-1);
-
-     A=A/2;
-
-     {
-      MPoint O=A;
-      MCoord fdx=Fraction(lenx-table_dxy);
-
-      art.path(line_width,table,O,O.addX(fdx));
-
-      for(Coord dy : tdy )
-        {
-         O=O.addY(Fraction(dy+table_dxy));
-
-         art.path(line_width,table,O,O.addX(fdx));
-        }
-     }
-
-     {
-      MPoint O=A;
-      MCoord fdy=Fraction(leny-table_dxy);
-
-      art.path(line_width,table,O,O.addY(fdy));
-
-      for(Coord dx : tdx )
-        {
-         O=O.addX(Fraction(dx+table_dxy));
-
-         art.path(line_width,table,O,O.addY(fdy));
-        }
-     }
-    }
-
    void draw(Pane cell,Coord offy,Link &)
     {
      draw(cell,offy,LinkDesc());
@@ -1342,7 +1548,7 @@ class Book::DrawContext : NoCopy
        }
      else
        {
-        drawListTable(cell.getBase(),&obj);
+        drawList(cell.getBase(),&obj);
        }
     }
 
@@ -1366,262 +1572,6 @@ class Book::DrawContext : NoCopy
    void drawElement(Point base,AnyPtr<TT...> anyptr)
     {
      anyptr.apply( [&] (auto *ptr) { if( ptr ) drawElement(base,ptr); } );
-    }
-
-   template <class T>
-   void drawTableExt(Point base,T *ptr)
-    {
-     drawTable(base,ptr);
-    }
-
-   void drawScopeLine(Point base,Point size)
-    {
-     DrawBuf buf1=buf;
-
-     buf1.shift(base.subX(BoxExt(knob_dxy)).addY(knob_dxy));
-
-     SmoothDrawArt art(buf1);
-
-     MPoint A=Point(knob_dxy-1,0);
-
-     A=A/2;
-
-     MPoint B=A.addY(Fraction(size.y-knob_dxy)+Fraction(element_space,1));
-
-     MPoint C=B.addX(Fraction(size.x+knob_dxy));
-
-     art.path(line_width,table,A,B,C);
-    }
-
-   void drawTableExt(Point base,Scope *ptr)
-    {
-     Coord dy=draw(base,ptr->defs);
-
-     dy+=draw(base.addY(dy),ptr->list);
-
-     drawScopeLine(base,ptr->size);
-    }
-
-   void drawPlus(Point base,Coord dxy)
-    {
-     MPane p(Pane(base,dxy));
-
-     if( !p ) return;
-
-     SmoothDrawArt art(buf);
-
-     // center and radius
-
-     MCoord len=p.dx;
-     MCoord radius=len/2;
-
-     MPoint center=p.getCenter();
-
-     // body
-
-     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
-
-     // face
-
-     MCoord a=radius/2;
-     MCoord w=radius/3;
-
-     art.path(w,face,center.subX(a),center.addX(a));
-     art.path(w,face,center.subY(a),center.addY(a));
-    }
-
-   void drawMinus(Point base,Coord dxy)
-    {
-     MPane p(Pane(base,dxy));
-
-     if( !p ) return;
-
-     SmoothDrawArt art(buf);
-
-     // center and radius
-
-     MCoord len=p.dx;
-     MCoord radius=len/2;
-
-     MPoint center=p.getCenter();
-
-     // body
-
-     art.ball(center,radius,YField(p.y,snow,p.ey,gray));
-
-     // face
-
-     MCoord a=radius/2;
-     MCoord w=radius/3;
-
-     art.path(w,face,center.subX(a),center.addX(a));
-    }
-
-   void drawPlus(Point base) { drawPlus(base,knob_dxy); }
-
-   void drawMinus(Point base) { drawMinus(base,knob_dxy); }
-
-   template <class T>
-   void drawBody(Point base,T *ptr)
-    {
-     if( ptr->open )
-       {
-        drawMinus(base);
-
-        drawTableExt(base.addX(BoxExt(knob_dxy)),ptr);
-       }
-     else
-       {
-        drawPlus(base);
-       }
-    }
-
-   void drawBody(Point base,Bitmap *ptr)
-    {
-     drawTable(base,ptr);
-    }
-
-   void drawBegBtn(SmoothDrawArt &art,Pane pane,bool enable)
-    {
-     MPane p(pane);
-
-     if( !p ) return;
-
-     MCoord delta=p.dx/10;
-     VColor fc=enable?face:gray;
-
-     FigureBox fig1(p);
-
-     fig1.solid(art,YField(p.y,snow,p.ey,gray));
-
-     MPane q=p.shrink(delta);
-
-     FigureUpArrow fig2(q);
-
-     fig2.curveSolid(art,fc);
-
-     FigureBox fig3(q.x,q.ex,q.y-delta/2,q.y+delta/2);
-
-     fig3.solid(art,fc);
-    }
-
-   void drawPrevBtn(SmoothDrawArt &art,Pane pane,bool enable)
-    {
-     MPane p(pane);
-
-     if( !p ) return;
-
-     MCoord delta=p.dx/10;
-     VColor fc=enable?face:gray;
-
-     FigureBox fig1(p);
-
-     fig1.solid(art,YField(p.y,snow,p.ey,gray));
-
-     FigureUpArrow fig2(p.shrink(delta));
-
-     fig2.curveSolid(art,fc);
-    }
-
-   void drawWheelPad(SmoothDrawArt &art,Pane pane)
-    {
-     MPane p(pane);
-
-     if( !p ) return;
-
-     MPoint center=p.getCenter();
-     MCoord radius=Div(2,5)*p.dx;
-
-     art.ball(center,radius,face);
-    }
-
-   void drawNextBtn(SmoothDrawArt &art,Pane pane,bool enable)
-    {
-     MPane p(pane);
-
-     if( !p ) return;
-
-     MCoord delta=p.dx/10;
-     VColor fc=enable?face:gray;
-
-     FigureBox fig1(p);
-
-     fig1.solid(art,YField(p.y,snow,p.ey,gray));
-
-     FigureDownArrow fig2(p.shrink(delta));
-
-     fig2.curveSolid(art,fc);
-    }
-
-   void drawEndBtn(SmoothDrawArt &art,Pane pane,bool enable)
-    {
-     MPane p(pane);
-
-     if( !p ) return;
-
-     MCoord delta=p.dx/10;
-     VColor fc=enable?face:gray;
-
-     FigureBox fig1(p);
-
-     fig1.solid(art,YField(p.y,snow,p.ey,gray));
-
-     MPane q=p.shrink(delta);
-
-     FigureDownArrow fig2(q);
-
-     fig2.curveSolid(art,fc);
-
-     FigureBox fig3(q.x,q.ex,q.ey-delta/2,q.ey+delta/2);
-
-     fig3.solid(art,fc);
-    }
-
-   template <class T>
-   void drawListBtn(Point base,Coord dxy,T *ptr)
-    {
-     SmoothDrawArt art(buf);
-
-     Pane pane1(base,dxy); base.y+=dxy;
-     Pane pane2(base,dxy); base.y+=dxy;
-     Pane pane3(base,dxy); base.y+=dxy;
-     Pane pane4(base,dxy); base.y+=dxy;
-     Pane pane5(base,dxy);
-
-     drawBegBtn(art,pane1,ptr->canBeg());
-     drawPrevBtn(art,pane2,ptr->canPrev());
-     drawWheelPad(art,pane3);
-     drawNextBtn(art,pane4,ptr->canNext());
-     drawEndBtn(art,pane5,ptr->canEnd());
-    }
-
-   Point sizeListBtn() { return SizeListBtn(knob_dxy); }
-
-   template <class T>
-   void drawListBtn(Point base,T *ptr) { drawListBtn(base,knob_dxy,ptr); }
-
-   template <class T>
-   void drawListTable(Point base,T *ptr)
-    {
-     Point s1=sizeListBtn();
-     Point s2=ptr->layout.size;
-
-     if( s1.y<s2.y )
-       {
-        Coord delta=s2.y-s1.y;
-
-        drawListBtn(base.addY(delta/2),ptr);
-
-        drawTable(base.addX(s1.x),ptr);
-       }
-     else
-       {
-        Coord delta=s1.y-s2.y;
-
-        drawListBtn(base,ptr);
-
-        drawTable(base.addX(s1.x).addY(delta/2),ptr);
-       }
     }
 
    template <class T>
@@ -1653,6 +1603,70 @@ class Book::DrawContext : NoCopy
         drawPlus(base,dxy);
 
         comment_font->text(buf,Pane(base.addX(BoxExt(dxy)),MaxCoord,MaxCoord),TextPlace(AlignX_Left,AlignY_Top),Range(ptr->comment),comment);
+       }
+    }
+
+   template <class T>
+   void drawBody(Point base,T *ptr)
+    {
+     if( ptr->open )
+       {
+        drawMinus(base);
+
+        drawTableExt(base.addX(BoxExt(knob_dxy)),ptr);
+       }
+     else
+       {
+        drawPlus(base);
+       }
+    }
+
+   void drawBody(Point base,Bitmap *ptr)
+    {
+     drawTable(base,ptr);
+    }
+
+  private:
+
+   template <class T>
+   void drawTableExt(Point base,T *ptr)
+    {
+     drawTable(base,ptr);
+    }
+
+   void drawTableExt(Point base,Scope *ptr)
+    {
+     Coord dy=draw(base,ptr->defs);
+
+     draw(base.addY(dy),ptr->list);
+
+     drawScopeLine(base,ptr->size);
+    }
+
+   template <class T>
+   void drawListBtn(Point base,T *ptr) { drawListBtn(base,knob_dxy,ptr); }
+
+   template <class T>
+   void drawList(Point base,T *ptr)
+    {
+     Point s1=sizeListBtn();
+     Point s2=ptr->layout.size;
+
+     if( s1.y<s2.y )
+       {
+        Coord delta=s2.y-s1.y;
+
+        drawListBtn(base.addY(delta/2),ptr);
+
+        drawTable(base.addX(s1.x),ptr);
+       }
+     else
+       {
+        Coord delta=s1.y-s2.y;
+
+        drawListBtn(base,ptr);
+
+        drawTable(base.addX(s1.x).addY(delta/2),ptr);
        }
     }
 
@@ -1692,104 +1706,6 @@ class Book::DrawContext : NoCopy
     }
  };
 
-/* struct PaneRef */
-
- // testMode()
-
-template <OneOfTypes<OpenFlag,FrameList,ItemList> T>
-bool PaneRef::testMode(T *ptr)
- {
-  return ptr!=0;
- }
-
-bool PaneRef::testMode()
- {
-  bool ret=false;
-
-  ref.mode.apply( [&] (auto *ptr) { ret=testMode(ptr); } );
-
-  return ret;
- }
-
- // handleMode()
-
-HandleResult PaneRef::handleMode(Point,OpenFlag *ptr)
- {
-  ptr->change();
-
-  return HandleUpdate;
- }
-
-template <OneOfTypes<FrameList,ItemList> T>
-HandleResult PaneRef::handleMode(Point point,T *ptr)
- {
-  switch( MoveListZone(pane,point) )
-    {
-     case 0 : return ptr->gotoBeg()?HandleUpdate:HandleOk;
-     case 1 : return ptr->gotoPrev()?HandleUpdate:HandleOk;
-     case 3 : return ptr->gotoNext()?HandleUpdate:HandleOk;
-     case 4 : return ptr->gotoEnd()?HandleUpdate:HandleOk;
-    }
-
-  return HandleOk;
- }
-
-HandleResult PaneRef::handleMode(Point point)
- {
-  HandleResult ret=HandleNone;
-
-  ref.mode.apply( [&] (auto *ptr) { ret=handleMode(point,ptr); } );
-
-  return ret;
- }
-
- // handleList()
-
-HandleResult PaneRef::handleList(Point,bool,OpenFlag *)
- {
-  return HandleNone;
- }
-
-template <OneOfTypes<FrameList,ItemList> T>
-HandleResult PaneRef::handleList(Point point,bool prev,T *ptr)
- {
-  if( MoveListZone(pane,point)==2 )
-    {
-     if( prev )
-       return ptr->gotoPrev()?HandleUpdate:HandleOk;
-     else
-       return ptr->gotoNext()?HandleUpdate:HandleOk;
-    }
-
-  return HandleOk;
- }
-
-HandleResult PaneRef::handleList(Point point,bool prev)
- {
-  HandleResult ret=HandleNone;
-
-  ref.mode.apply( [&] (auto *ptr) { ret=handleList(point,prev,ptr); } );
-
-  return ret;
- }
-
- // getCursor()
-
-Cursor PaneRef::getCursor()
- {
-  Cursor ret;
-
-  if( +ref.pad )
-    {
-     if( ref.pad.hasType<Element>() )
-       ret=Cursor(pane,ref.pad,ref.opt.list);
-     else
-       ret=Cursor(pane,ref.pad);
-    }
-
-  return ret;
- }
-
 /* class Book */
 
 Point Book::prepare(const Config &cfg,DynArray<PaneRef> &refs) const
@@ -1810,355 +1726,6 @@ void Book::draw(const Config &cfg,DrawBuf buf,Point base) const
   DrawContext ctx(buf,cfg);
 
   ctx.draw(doc.getPtr());
- }
-
- // edit
-
-bool Book::delItem(Cursor,FrameList *ptr)
- {
-  return ptr->del();
- }
-
-bool Book::delItem(Cursor,ItemList *ptr)
- {
-  return ptr->del();
- }
-
-bool Book::delItem(Cursor cursor,Element *ptr)
- {
-  cursor.opt.list->del(ptr);
-
-  return true;
- }
-
-bool Book::delItem(Cursor cursor)
- {
-  bool ret=false;
-
-  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=delItem(cursor,ptr); } );
-
-  return ret;
- }
-
-HandleResult Book::insFirst()
- {
-  if( !doc )
-    {
-     doc.create(domain,domain);
-
-     return HandleUpdate;
-    }
-  else if( !doc->list.beg )
-    {
-     return HandleOk;
-    }
-
-  return HandleNone;
- }
-
-ExtObjPtr<Element> Book::create(InsData data)
- {
-  ExtObjPtr<Element> ret(domain);
-
-  switch( data.type )
-    {
-     case ElementFont :
-      {
-       ExtObjPtr<Font> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementFormat :
-      {
-       ExtObjPtr<Format> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementSingleLine :
-      {
-       ExtObjPtr<SingleLine> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementDoubleLine :
-      {
-       ExtObjPtr<DoubleLine> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementPage :
-      {
-       ExtObjPtr<Page> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementScope :
-      {
-       ExtObjPtr<Scope> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementSection :
-      {
-       ExtObjPtr<Section> ptr(domain);
-
-       ptr->comment=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementBitmap :
-      {
-       ExtObjPtr<Bitmap> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementCollapse :
-      {
-       ExtObjPtr<Collapse> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementTextList :
-      {
-       ExtObjPtr<TextList> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementBorder :
-      {
-       ExtObjPtr<Border> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementCell :
-      {
-       ExtObjPtr<Cell> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementTable :
-      {
-       ExtObjPtr<Table> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementLink :
-      {
-       ExtObjPtr<Link> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementFixedText :
-      {
-       ExtObjPtr<FixedText> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementOneLine :
-      {
-       ExtObjPtr<OneLine> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementMultiLine :
-      {
-       ExtObjPtr<MultiLine> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-
-     case ElementText :
-      {
-       ExtObjPtr<Text> ptr(domain);
-
-       ptr->name=data.text;
-
-       ret->ptr=ptr;
-      }
-     break;
-    }
-
-  return ret;
- }
-
-void Book::insElementInside(ExtObjPtr<Element> elem,ElementList &list)
- {
-  auto beg=list.beg;
-
-  elem->next=beg;
-
-  if( +beg )
-    {
-     beg->prev=elem;
-    }
-  else
-    {
-     list.end=elem;
-    }
-
-  list.beg=elem;
- }
-
-bool Book::insElement(InsData data)
- {
-  if( !data.type || !doc ) return false;
-
-  if( +doc->list.beg ) return false;
-
-  auto elem=create(data);
-
-  doc->list.beg=elem;
-  doc->list.end=elem;
-
-  return true;
- }
-
-bool Book::insElement(InsData data,Element *ptr,ElementList *list)
- {
-  if( !data.type ) return false;
-
-  auto elem=create(data);
-
-  switch( data.place )
-    {
-     case InsBefore :
-      {
-       IntObjPtr<Element> prev=ptr->prev;
-
-       if( +prev )
-         {
-          IntObjPtr<Element> next=prev->next;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          elem->next=next;
-          next->prev=elem;
-         }
-       else
-         {
-          IntObjPtr<Element> next=list->beg;
-
-          elem->next=next;
-          next->prev=elem;
-
-          list->beg=elem;
-         }
-      }
-     return true;
-
-     case InsAfter :
-      {
-       IntObjPtr<Element> next=ptr->next;
-
-       if( +next )
-         {
-          IntObjPtr<Element> prev=next->prev;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          elem->next=next;
-          next->prev=elem;
-         }
-       else
-         {
-          IntObjPtr<Element> prev=list->end;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          list->end=elem;
-         }
-      }
-     return true;
-
-     case InsInside :
-      {
-       bool ret=false;
-
-       ptr->ptr.getPtr().apply( [&] (auto *obj) { ret=insElementInside(elem,obj); } );
-
-       return ret;
-      }
-
-     default: return false;
-    }
- }
-
-void Book::insAfter(FrameList *ptr)
- {
-  ptr->insAfter(ExtObjPtr<Frame>(domain));
- }
-
-void Book::insAfter(ItemList *ptr)
- {
-  ptr->insAfter(ExtObjPtr<Item>(domain));
  }
 
 } // namespace BookLab

@@ -5,6 +5,7 @@ OBJ_LIST = \
 .obj/BookLab.o \
 .obj/BookLab.book.o \
 .obj/BookLab.draw.o \
+.obj/BookLab.edit.o \
 .obj/BookLab.load.o \
 .obj/BookLab.save.o \
 .obj/Client.o \
@@ -20,6 +21,7 @@ ASM_LIST = \
 .obj/BookLab.s \
 .obj/BookLab.book.s \
 .obj/BookLab.draw.s \
+.obj/BookLab.edit.s \
 .obj/BookLab.load.s \
 .obj/BookLab.save.s \
 .obj/Client.s \
@@ -35,6 +37,7 @@ DEP_LIST = \
 .obj/BookLab.dep \
 .obj/BookLab.book.dep \
 .obj/BookLab.draw.dep \
+.obj/BookLab.edit.dep \
 .obj/BookLab.load.dep \
 .obj/BookLab.save.dep \
 .obj/Client.dep \
@@ -65,6 +68,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BookLab.draw.o : src/./BookLab.draw.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BookLab.edit.o : src/./BookLab.edit.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BookLab.load.o : src/./BookLab.load.cpp
@@ -105,6 +111,9 @@ include $(RULES_FILE)
 .obj/BookLab.draw.s : src/./BookLab.draw.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BookLab.edit.s : src/./BookLab.edit.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BookLab.load.s : src/./BookLab.load.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -142,6 +151,9 @@ include $(RULES_FILE)
 
 .obj/BookLab.draw.dep : src/./BookLab.draw.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookLab.draw.o $< -MF $@
+
+.obj/BookLab.edit.dep : src/./BookLab.edit.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookLab.edit.o $< -MF $@
 
 .obj/BookLab.load.dep : src/./BookLab.load.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookLab.load.o $< -MF $@
