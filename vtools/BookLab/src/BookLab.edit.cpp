@@ -372,9 +372,12 @@ bool Book::insElement(InsData data)
   return true;
  }
 
-bool Book::insElement(InsData data,Element *ptr,ElementList *list)
+bool Book::insElement(InsData data,PaneRef cursor)
  {
-  if( !data.type ) return false;
+  Element *ptr=cursor.getElement();
+  ElementList *list=cursor.getElementList();
+
+  if( !data.type || !ptr || !list ) return false;
 
   auto elem=create(data);
 

@@ -197,6 +197,19 @@ struct PaneRef
   Pane pane;
   Ref ref;
 
+  // methods
+
+  bool isPad() const { return +ref.pad; }
+
+  bool isElement() const { return +ref.pad && ref.pad.hasType<Element>() ; }
+
+  Element * getElement() const { return ref.pad.castPtr<Element>(); }
+
+  ElementList * getElementList() const { return ref.mode.castPtr<ElementList>(); }
+
+  template <class Func>
+  void applyToPad(Func func) { ref.pad.apply(func); }
+
   // testMode()
 
   bool testMode(ElementList *) { return false; }
@@ -440,7 +453,7 @@ class Book : NoCopy
 
    bool insElement(InsData data);
 
-   bool insElement(InsData data,Element *ptr,ElementList *list);
+   bool insElement(InsData data,PaneRef cursor);
 
    void insAfter(FrameList *ptr);
 

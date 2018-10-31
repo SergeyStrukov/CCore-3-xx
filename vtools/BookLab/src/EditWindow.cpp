@@ -156,26 +156,22 @@ void InnerBookLabWindow::insItem()
  {
   bool ret=false;
 
-  if( +cursor.ref.pad )
+  if( auto result=book.insFirst() )
     {
-     cursor.ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
-    }
-  else
-    {
-     auto result=book.insFirst();
-
      if( result==BookLab::HandleUpdate )
        {
         ret=true;
        }
      else
        {
-        if( result )
-          {
-           insFirstElement();
-
-           return;
-          }
+        insFirstElement();
+       }
+    }
+  else
+    {
+     if( cursor.isPad() )
+       {
+        cursor.applyToPad( [&] (auto *ptr) { if( ptr ) ret=insItem(ptr); } );
        }
     }
 
@@ -314,15 +310,9 @@ void InnerBookLabWindow::ins_destroyed()
 
   bool ret=false;
 
-  if( +cursor.ref.pad )
+  if( cursor.isElement() )
     {
-     if( cursor.ref.pad.hasType<BookLab::Element>() )
-       {
-        BookLab::Element *ptr=cursor.ref.pad.castPtr<BookLab::Element>();
-        BookLab::ElementList *list=cursor.ref.mode.castPtr<BookLab::ElementList>();
-
-        ret=book.insElement(ins_frame.getData(),ptr,list);
-       }
+     ret=book.insElement(ins_frame.getData(),cursor);
     }
   else
     {
@@ -497,7 +487,7 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
 
   buf=buf.cutRebase(pane);
 
-  if( +cursor.ref.pad ) buf.erase(cursor.pane-base,+cfg.cursor);
+  if( cursor.isPad() ) buf.erase(cursor.pane-base,+cfg.cursor);
 
   book.draw(cfg,buf,-base);
  }

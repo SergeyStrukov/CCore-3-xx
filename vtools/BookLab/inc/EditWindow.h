@@ -84,10 +84,9 @@ class InnerBookLabWindow : public SubWindow
    const Config &cfg;
 
    BookLab::Book book;
+   BookLab::PaneRef cursor;
 
    bool focus = false ;
-
-   BookLab::PaneRef cursor;
 
    // frames
 
