@@ -34,6 +34,26 @@ inline Coord MoveListZone(Pane pane,Point point)
 
 /* struct PaneRef */
 
+ // methods
+
+struct PaneRef::IsRef
+ {
+  bool same;
+
+  operator bool() const { return same; }
+
+  IsRef() : same(true) {}
+
+  IsRef(bool same_) : same(same_) {}
+
+  IsRef(unsigned,unsigned) : same(false) {}
+ };
+
+bool PaneRef::is(Ref ref_) const
+ {
+  return PadType::Binary<IsRef>(ref.pad,ref_.pad, [] (auto *ptr1,auto *ptr2) -> IsRef { return ptr1==ptr2; } );
+ }
+
  // testMode()
 
 bool PaneRef::testMode()
@@ -124,28 +144,40 @@ void Book::insElementInside(ExtObjPtr<Element> elem,ElementList &list)
 
  // del
 
-bool Book::delItem(PaneRef,FrameList *ptr)
+bool Book::delItem(PaneRef &,FrameList *ptr)
  {
   return ptr->del();
  }
 
-bool Book::delItem(PaneRef,ItemList *ptr)
+bool Book::delItem(PaneRef &,ItemList *ptr)
  {
   return ptr->del();
  }
 
-bool Book::delItem(PaneRef cursor,Element *ptr)
+bool Book::delItem(PaneRef &cursor,Element *ptr)
  {
-  if( ElementList *list=cursor.ref.mode.castPtr<ElementList>() ) list->del(ptr);
+  if( ElementList *list=cursor.getElementList() )
+    {
+     if( Element *subst=list->del(ptr) )
+       {
+        cursor.ref.pad=subst;
+       }
+     else
+       {
+        cursor=Null;
+       }
 
-  return true;
+     return true;
+    }
+
+  return false;
  }
 
-bool Book::delItem(PaneRef cursor)
+bool Book::delItem(PaneRef &cursor)
  {
   bool ret=false;
 
-  cursor.ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=delItem(cursor,ptr); } );
+  cursor.applyToPad( [&] (auto *ptr) { if( ptr ) ret=delItem(cursor,ptr); } );
 
   return ret;
  }

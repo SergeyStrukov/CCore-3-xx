@@ -645,7 +645,7 @@ struct ElementList : NoCopy
     keeper(beg,end);
    }
 
-  void del(Element *ptr);
+  Element * del(Element *ptr);
 
   // layout
 

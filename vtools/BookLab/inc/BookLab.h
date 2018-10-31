@@ -197,6 +197,14 @@ struct PaneRef
   Pane pane;
   Ref ref;
 
+  // constructors
+
+  PaneRef() noexcept {}
+
+  PaneRef(NothingType) noexcept {}
+
+  PaneRef(Pane pane_,Ref ref_) : pane(pane_),ref(ref_) {}
+
   // methods
 
   bool isPad() const { return +ref.pad; }
@@ -209,6 +217,10 @@ struct PaneRef
 
   template <class Func>
   void applyToPad(Func func) { ref.pad.apply(func); }
+
+  struct IsRef;
+
+  bool is(Ref ref_) const;
 
   // testMode()
 
@@ -430,22 +442,22 @@ class Book : NoCopy
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
 
-   Point prepare(const Config &cfg,DynArray<PaneRef> &refs) const;
+   Point prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const;
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
 
    // del
 
    template <class T>
-   bool delItem(PaneRef,T *) { return false; }
+   bool delItem(PaneRef &,T *) { return false; }
 
-   bool delItem(PaneRef cursor,FrameList *ptr);
+   bool delItem(PaneRef &cursor,FrameList *ptr);
 
-   bool delItem(PaneRef cursor,ItemList *ptr);
+   bool delItem(PaneRef &cursor,ItemList *ptr);
 
-   bool delItem(PaneRef cursor,Element *ptr);
+   bool delItem(PaneRef &cursor,Element *ptr);
 
-   bool delItem(PaneRef cursor);
+   bool delItem(PaneRef &cursor);
 
    // ins
 

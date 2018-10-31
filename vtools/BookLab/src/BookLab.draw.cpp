@@ -211,12 +211,20 @@ class Book::PrepareContext : NoCopy
    FontSize cfs;
 
    DynArray<PaneRef> &refs;
+   PaneRef &cursor;
+   bool cursor_done = false ;
 
   private:
 
    void addRef(Pane pane,Ref ref)
     {
      refs.append_copy({pane,ref});
+
+     if( cursor.is(ref) )
+       {
+        cursor.pane=pane;
+        cursor_done=true;
+       }
     }
 
    template <class T>
@@ -917,8 +925,9 @@ class Book::PrepareContext : NoCopy
 
   public:
 
-   PrepareContext(const Config &cfg,DynArray<PaneRef> &refs_)
-    : refs(refs_)
+   PrepareContext(const Config &cfg,DynArray<PaneRef> &refs_,PaneRef &cursor_)
+    : refs(refs_),
+      cursor(cursor_)
     {
      table_dxy=+cfg.table_dxy;
      element_space=+cfg.element_space;
@@ -930,6 +939,11 @@ class Book::PrepareContext : NoCopy
      fs=text_font->getSize();
      efs=element_font->getSize();
      cfs=comment_font->getSize();
+    }
+
+   ~PrepareContext()
+    {
+     if( !cursor_done ) cursor=Null;
     }
 
    Point place(Doc *doc)
@@ -1708,11 +1722,11 @@ class Book::DrawContext : NoCopy
 
 /* class Book */
 
-Point Book::prepare(const Config &cfg,DynArray<PaneRef> &refs) const
+Point Book::prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const
  {
   if( !doc ) return Point(100,100);
 
-  PrepareContext ctx(cfg,refs);
+  PrepareContext ctx(cfg,refs,cursor);
 
   return ctx.place(doc.getPtr());
  }

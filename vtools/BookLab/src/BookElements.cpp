@@ -18,7 +18,7 @@ namespace BookLab {
 
 /* struct ElementList */
 
-void ElementList::del(Element *ptr)
+Element * ElementList::del(Element *ptr)
  {
   IntObjPtr<Element> prev=ptr->prev;
   IntObjPtr<Element> next=ptr->next;
@@ -26,6 +26,12 @@ void ElementList::del(Element *ptr)
   if( +prev ) prev->next=next; else beg=next;
 
   if( +next ) next->prev=prev; else end=prev;
+
+  if( +next ) return next.getPtr();
+
+  if( +prev ) return prev.getPtr();
+
+  return 0;
  }
 
 /* struct LastDefaults */

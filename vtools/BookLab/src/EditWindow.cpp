@@ -22,15 +22,36 @@ namespace App {
 
 void InnerBookLabWindow::clean()
  {
+  block_cache=false;
+
   ok=false;
   refs.erase();
   tree={};
-  cursor={};
+  cursor=Null;
+
+  sx.beg();
+  sy.beg();
+ }
+
+void InnerBookLabWindow::update(bool mod)
+ {
+  ok=false;
+  refs.erase();
+  tree={};
+
+  changed.assert();
+
+  if( mod ) modified.assert();
  }
 
 bool InnerBookLabWindow::cache() const
  {
-  if( block_cache ) return false;
+  if( block_cache )
+    {
+     cursor=Null;
+
+     return false;
+    }
 
   try
     {
@@ -39,7 +60,7 @@ bool InnerBookLabWindow::cache() const
         refs.erase();
         tree={};
 
-        size=book.prepare(cfg,refs);
+        size=book.prepare(cfg,refs,cursor);
 
         struct Span
          {
@@ -177,10 +198,7 @@ void InnerBookLabWindow::insItem()
 
   if( ret )
     {
-     clean();
-
-     changed.assert();
-     modified.assert();
+     update(true);
     }
  }
 
@@ -188,10 +206,7 @@ void InnerBookLabWindow::delItem()
  {
   if( book.delItem(cursor) )
     {
-     clean();
-
-     changed.assert();
-     modified.assert();
+     update(true);
     }
  }
 
@@ -321,10 +336,7 @@ void InnerBookLabWindow::ins_destroyed()
 
   if( ret )
     {
-     clean();
-
-     changed.assert();
-     modified.assert();
+     update(true);
     }
  }
 
@@ -359,12 +371,7 @@ Point InnerBookLabWindow::getMinSize(Point cap) const
 
 void InnerBookLabWindow::blank()
  {
-  block_cache=false;
-
   clean();
-
-  sx.beg();
-  sy.beg();
 
   book.blank();
 
@@ -373,12 +380,7 @@ void InnerBookLabWindow::blank()
 
 ErrorText InnerBookLabWindow::load(StrLen file_name,PtrLen<char> ebuf)
  {
-  block_cache=false;
-
   clean();
-
-  sx.beg();
-  sy.beg();
 
   ErrorText ret=book.load(file_name,ebuf);
 
@@ -611,9 +613,7 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey)
     {
      if( result==BookLab::HandleUpdate )
        {
-        clean();
-
-        changed.assert();
+        update(false);
        }
 
      return;
@@ -643,9 +643,7 @@ void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
     {
      if( result==BookLab::HandleUpdate )
        {
-        clean();
-
-        changed.assert();
+        update(false);
        }
 
      return;
@@ -759,11 +757,11 @@ void EditWindow::file_destroyed()
     }
  }
 
-void EditWindow::tick() // TODO
+void EditWindow::tick()
  {
   if( !tick_count )
     {
-     tick_count=1_sectick; // 60_sectick;
+     tick_count=60_sectick;
 
      book.collect();
     }

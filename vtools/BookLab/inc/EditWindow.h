@@ -84,7 +84,7 @@ class InnerBookLabWindow : public SubWindow
    const Config &cfg;
 
    BookLab::Book book;
-   BookLab::PaneRef cursor;
+   mutable BookLab::PaneRef cursor;
 
    bool focus = false ;
 
@@ -110,6 +110,8 @@ class InnerBookLabWindow : public SubWindow
   private:
 
    void clean();
+
+   void update(bool mod);
 
    [[nodiscard]] bool cache() const;
 
