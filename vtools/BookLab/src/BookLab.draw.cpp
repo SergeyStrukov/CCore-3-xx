@@ -212,7 +212,7 @@ class Book::PrepareContext : NoCopy
 
    DynArray<PaneRef> &refs;
    PaneRef &cursor;
-   bool cursor_done = false ;
+   bool erase_cursor = true ;
 
   private:
 
@@ -223,7 +223,7 @@ class Book::PrepareContext : NoCopy
      if( cursor.is(ref) )
        {
         cursor.pane=pane;
-        cursor_done=true;
+        erase_cursor=false;
        }
     }
 
@@ -941,12 +941,7 @@ class Book::PrepareContext : NoCopy
      cfs=comment_font->getSize();
     }
 
-   ~PrepareContext()
-    {
-     if( !cursor_done ) cursor=Null;
-    }
-
-   Point place(Doc *doc)
+   PrepareResult place(Doc *doc)
     {
      Point s1=prepareTable(Null,doc);
 
@@ -958,7 +953,7 @@ class Book::PrepareContext : NoCopy
 
      Point s3=prepare(Point(0,dy),doc->list);
 
-     return StackYSize_guarded(StackYSize_guarded(s1,s2),s3);
+     return {StackYSize_guarded(StackYSize_guarded(s1,s2),s3),erase_cursor};
     }
  };
 
@@ -1722,9 +1717,9 @@ class Book::DrawContext : NoCopy
 
 /* class Book */
 
-Point Book::prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const
+auto Book::prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const -> PrepareResult
  {
-  if( !doc ) return Point(100,100);
+  if( !doc ) return {Point(100,100),true};
 
   PrepareContext ctx(cfg,refs,cursor);
 

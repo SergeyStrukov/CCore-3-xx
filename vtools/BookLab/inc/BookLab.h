@@ -442,7 +442,13 @@ class Book : NoCopy
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
 
-   Point prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const;
+   struct PrepareResult
+    {
+     Point size;
+     bool erase_cursor;
+    };
+
+   PrepareResult prepare(const Config &cfg,DynArray<PaneRef> &refs,PaneRef &cursor) const;
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
 

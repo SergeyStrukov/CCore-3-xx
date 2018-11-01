@@ -119,9 +119,11 @@ class InnerBookLabWindow : public SubWindow
 
    [[nodiscard]] bool cache() const;
 
-   BookLab::PaneRef getRef(Point point) const;
+   BookLab::PaneRef getRef(Point &point) const;
 
    void setCursor(BookLab::PaneRef cur);
+
+   void noCursor() const;
 
    template <class T>
    bool insItem(T *) { return false; }

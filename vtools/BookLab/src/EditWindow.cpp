@@ -28,6 +28,7 @@ void InnerBookLabWindow::clean()
   refs.erase();
   tree={};
   cursor=Null;
+  size=Null;
 
   sx.beg();
   sy.beg();
@@ -42,6 +43,7 @@ void InnerBookLabWindow::update(bool mod)
   ok=false;
   refs.erase();
   tree={};
+  size=Null;
 
   field_frame.setField(cursor.ref.pad);
 
@@ -54,9 +56,7 @@ bool InnerBookLabWindow::cache() const
  {
   if( block_cache )
     {
-     cursor=Null;
-
-     field_frame.setField(cursor.ref.pad);
+     noCursor();
 
      return false;
     }
@@ -68,9 +68,11 @@ bool InnerBookLabWindow::cache() const
         refs.erase();
         tree={};
 
-        size=book.prepare(cfg,refs,cursor);
+        auto result=book.prepare(cfg,refs,cursor);
 
-        field_frame.setField(cursor.ref.pad);
+        size=result.size;
+
+        if( result.erase_cursor && cursor.isPad() ) noCursor();
 
         struct Span
          {
@@ -98,17 +100,19 @@ bool InnerBookLabWindow::cache() const
     {
      block_cache=true;
 
+     noCursor();
+
      return false;
     }
  }
 
-BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
+BookLab::PaneRef InnerBookLabWindow::getRef(Point &point) const
  {
-  if( !cache() ) return {};
-
   Point base=getBase();
 
   point+=base;
+
+  if( !cache() ) return Null;
 
   const BookLab::PaneRef *ptr=refs.getPtr();
 
@@ -129,8 +133,6 @@ BookLab::PaneRef InnerBookLabWindow::getRef(Point point) const
 
                                       } );
 
-  ret.pane-=base;
-
   return ret;
  }
 
@@ -143,6 +145,16 @@ void InnerBookLabWindow::setCursor(BookLab::PaneRef cur)
   field_frame.setField(cur.ref.pad);
 
   if( field_frame.isDead() ) field_frame.create(getFrame());
+ }
+
+void InnerBookLabWindow::noCursor() const
+ {
+  if( cursor.isPad() )
+    {
+     cursor=Null;
+
+     field_frame.setField(Null);
+    }
  }
 
 bool InnerBookLabWindow::insItem(BookLab::FrameList *ptr)
@@ -640,13 +652,9 @@ void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey)
      return;
     }
 
-  BookLab::PaneRef cur=pane_ref;
-
-  if( +cur.ref.pad )
+  if( pane_ref.isPad() )
     {
-     cur.pane+=getBase();
-
-     setCursor(cur);
+     setCursor(pane_ref);
     }
  }
 

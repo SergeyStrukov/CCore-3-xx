@@ -42,7 +42,7 @@ struct PaneRef::IsRef
 
   operator bool() const { return same; }
 
-  IsRef() : same(true) {}
+  IsRef() : same(false) {}
 
   IsRef(bool same_) : same(same_) {}
 

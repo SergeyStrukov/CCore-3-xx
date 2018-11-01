@@ -13,7 +13,6 @@
 
 #include <inc/FieldEditor.h>
 
-#include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
 
 namespace App {
