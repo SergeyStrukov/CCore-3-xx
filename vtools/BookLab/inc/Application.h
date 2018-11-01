@@ -74,6 +74,7 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple comment_font;
 
   DefString ins_title = "Select element"_def ;
+  DefString field_title = "Edit field"_def ;
 
   // constructors
 
@@ -121,6 +122,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("element_font"_c,ptr->element_font);
   func("comment_font"_c,ptr->comment_font);
   func("ins_title"_c,ptr->ins_title);
+  func("field_title"_c,ptr->field_title);
  }
 
 /* struct AppProp */

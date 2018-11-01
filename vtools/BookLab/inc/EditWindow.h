@@ -16,6 +16,7 @@
 
 #include <inc/BookLab.h>
 #include <inc/InsWindow.h>
+#include <inc/FieldEditor.h>
 
 #include <CCore/inc/IntervalTree.h>
 
@@ -51,11 +52,13 @@ class InnerBookLabWindow : public SubWindow
      RefVal<VColor> cursor = Yellow ;
 
      InsFrame::ConfigType ins_cfg;
+     FieldFrame::ConfigType field_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : BookLab::Config(user_pref,app_pref),
-        ins_cfg(user_pref,app_pref)
+        ins_cfg(user_pref,app_pref),
+        field_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -91,6 +94,7 @@ class InnerBookLabWindow : public SubWindow
    // frames
 
    InsFrame ins_frame;
+   mutable FieldFrame field_frame;
 
    // scroll
 
@@ -176,6 +180,10 @@ class InnerBookLabWindow : public SubWindow
    void ins_destroyed();
 
    SignalConnector<InnerBookLabWindow> connector_ins_destroyed;
+
+   void field_modified();
+
+   SignalConnector<InnerBookLabWindow> connector_field_modified;
 
   public:
 

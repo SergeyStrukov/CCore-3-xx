@@ -31,6 +31,10 @@ void InnerBookLabWindow::clean()
 
   sx.beg();
   sy.beg();
+
+  field_frame.setField(Null);
+
+  if( field_frame.isAlive() ) field_frame.askClose();
  }
 
 void InnerBookLabWindow::update(bool mod)
@@ -38,6 +42,8 @@ void InnerBookLabWindow::update(bool mod)
   ok=false;
   refs.erase();
   tree={};
+
+  field_frame.setField(cursor.ref.pad);
 
   changed.assert();
 
@@ -50,6 +56,8 @@ bool InnerBookLabWindow::cache() const
     {
      cursor=Null;
 
+     field_frame.setField(cursor.ref.pad);
+
      return false;
     }
 
@@ -61,6 +69,8 @@ bool InnerBookLabWindow::cache() const
         tree={};
 
         size=book.prepare(cfg,refs,cursor);
+
+        field_frame.setField(cursor.ref.pad);
 
         struct Span
          {
@@ -129,6 +139,10 @@ void InnerBookLabWindow::setCursor(BookLab::PaneRef cur)
   cursor=cur;
 
   redraw();
+
+  field_frame.setField(cur.ref.pad);
+
+  if( field_frame.isDead() ) field_frame.create(getFrame());
  }
 
 bool InnerBookLabWindow::insItem(BookLab::FrameList *ptr)
@@ -340,17 +354,24 @@ void InnerBookLabWindow::ins_destroyed()
     }
  }
 
+void InnerBookLabWindow::field_modified()
+ {
+  update(true);
+ }
+
 InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : SubWindow(host),
    cfg(cfg_),
 
    ins_frame(host.getFrameDesktop(),cfg.ins_cfg,update),
+   field_frame(host.getFrameDesktop(),cfg.field_cfg,book,update),
 
    connector_posX(this,&InnerBookLabWindow::posX),
    connector_posY(this,&InnerBookLabWindow::posY),
 
    connector_updated(this,&InnerBookLabWindow::updated,host.getFrame()->updated),
-   connector_ins_destroyed(this,&InnerBookLabWindow::ins_destroyed,ins_frame.destroyed)
+   connector_ins_destroyed(this,&InnerBookLabWindow::ins_destroyed,ins_frame.destroyed),
+   connector_field_modified(this,&InnerBookLabWindow::field_modified,field_frame.modified)
  {
  }
 

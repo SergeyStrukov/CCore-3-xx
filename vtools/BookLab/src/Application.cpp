@@ -60,6 +60,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("comment font"_def,comment_font);
 
     binder.item("ins title"_def,ins_title);
+    binder.item("field title"_def,field_title);
  }
 
 void AppPreferenceBag::findFonts()
