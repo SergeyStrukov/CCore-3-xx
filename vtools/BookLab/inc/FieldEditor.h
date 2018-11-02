@@ -121,6 +121,93 @@ class FieldBool : public ComboWindow , public FieldControl
 
    void setField(bool *pad);
 
+   bool getValue() const { return check_true.isChecked(); }
+
+   void setValue(bool val) { check_true.check(val); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
+/* class FieldCoord */
+
+class FieldCoord : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   Coord * pad = 0 ;
+
+   // subs
+
+   LineEditWindow edit;
+
+  private:
+
+   static bool CheckText(PtrLen<const Char> text);
+
+   static Coord TextToValue(PtrLen<const Char> text);
+
+   void edit_changed();
+
+   SignalConnector<FieldCoord> connector_edit_changed;
+
+  public:
+
+   FieldCoord(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldCoord();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(Coord *pad);
+
+   Coord getValue() const;
+
+   void setValue(Coord val);
+
    virtual void set(bool *def_pad,bool def);
 
    virtual void noField();
@@ -151,10 +238,12 @@ class FieldWindow : public ComboWindow
      // app
 
      CtorRefVal<FieldBool::ConfigType> field_bool_cfg;
+     CtorRefVal<FieldCoord::ConfigType> field_Coord_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : field_bool_cfg(user_pref,app_pref)
+      : field_bool_cfg(user_pref,app_pref),
+        field_Coord_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -199,6 +288,7 @@ class FieldWindow : public ComboWindow
    // fields
 
    FieldBool field_bool;
+   FieldCoord field_Coord;
 
   private:
 
@@ -219,6 +309,10 @@ class FieldWindow : public ComboWindow
    void setField(bool *pad);
 
    void setField(BookLab::OptDataBase<bool> *pad);
+
+   void setField(Coord *pad);
+
+   void setField(BookLab::OptDataBase<Coord> *pad);
 
   private:
 
