@@ -26,6 +26,8 @@ class FieldBool;
 
 class CoordWindow;
 
+class ULenWindow;
+
 class FieldCoord;
 
 class FieldString;
@@ -161,6 +163,33 @@ class CoordWindow : public LineEditWindow
    Coord getValue() const;
 
    void setValue(Coord val);
+ };
+
+/* class ULenWindow */
+
+class ULenWindow : public LineEditWindow
+ {
+  private:
+
+   static bool CheckText(PtrLen<const Char> text);
+
+   static ulen TextToValue(PtrLen<const Char> text);
+
+   void edit_changed();
+
+   SignalConnector<ULenWindow> connector_edit_changed;
+
+  public:
+
+   ULenWindow(SubWindowHost &host,const ConfigType &cfg);
+
+   virtual ~ULenWindow();
+
+   // methods
+
+   ulen getValue() const;
+
+   void setValue(ulen val);
  };
 
 /* class FieldCoord */
@@ -309,6 +338,79 @@ class FieldString : public ComboWindow , public FieldControl
    virtual void layout();
  };
 
+/* class FieldULen */
+
+class FieldULen : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   ulen * pad = 0 ;
+
+   // subs
+
+   ULenWindow edit;
+
+  public:
+
+   FieldULen(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldULen();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(ulen *pad);
+
+   ulen getValue() const { return edit.getValue(); }
+
+   void setValue(ulen val) { edit.setValue(val); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
 /* class FieldWindow */
 
 class FieldWindow : public ComboWindow
@@ -332,12 +434,14 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldBool::ConfigType> field_bool_cfg;
      CtorRefVal<FieldCoord::ConfigType> field_Coord_cfg;
      CtorRefVal<FieldString::ConfigType> field_String_cfg;
+     CtorRefVal<FieldULen::ConfigType> field_ulen_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : field_bool_cfg(user_pref,app_pref),
         field_Coord_cfg(user_pref,app_pref),
-        field_String_cfg(user_pref,app_pref)
+        field_String_cfg(user_pref,app_pref),
+        field_ulen_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -384,6 +488,7 @@ class FieldWindow : public ComboWindow
    FieldBool field_bool;
    FieldCoord field_Coord;
    FieldString field_String;
+   FieldULen field_ulen;
 
   private:
 
@@ -410,6 +515,8 @@ class FieldWindow : public ComboWindow
    void setField(BookLab::OptDataBase<Coord> *pad);
 
    void setField(String *pad);
+
+   void setField(BookLab::OptDataBase<ulen> *pad);
 
   private:
 

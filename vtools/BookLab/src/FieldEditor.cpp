@@ -160,6 +160,65 @@ void CoordWindow::setValue(Coord val)
   alert(false);
  }
 
+/* class ULenWindow */
+
+bool ULenWindow::CheckText(PtrLen<const Char> text)
+ {
+  for(; +text && SymCharIsSpace(*text) ;++text);
+
+  if( !text ) return false;
+
+  for(; +text && SymCharDecValue(*text)>=0 ;++text);
+
+  return !text;
+ }
+
+ulen ULenWindow::TextToValue(PtrLen<const Char> text)
+ {
+  for(; +text && SymCharIsSpace(*text) ;++text);
+
+  if( !text ) return 0;
+
+  ulen val=0;
+
+  for(int dig; +text && (dig=SymCharDecValue(*text))>=0 ;++text)
+    {
+     val=10*val+dig;
+    }
+
+  return val;
+ }
+
+void ULenWindow::edit_changed()
+ {
+  alert(!CheckText(getText()));
+ }
+
+ULenWindow::ULenWindow(SubWindowHost &host,const ConfigType &cfg)
+ : LineEditWindow(host,cfg),
+
+   connector_edit_changed(this,&ULenWindow::edit_changed,changed)
+ {
+ }
+
+ULenWindow::~ULenWindow()
+ {
+ }
+
+ // methods
+
+ulen ULenWindow::getValue() const
+ {
+  return TextToValue(getText());
+ }
+
+void ULenWindow::setValue(ulen val)
+ {
+  printf("#;",val);
+
+  alert(false);
+ }
+
 /* class FieldCoord */
 
 FieldCoord::FieldCoord(SubWindowHost &host,const Config &cfg_)
@@ -270,6 +329,61 @@ void FieldString::layout()
   LayTop(edit).setPlace(getPane(),0);
  }
 
+/* class FieldULen */
+
+FieldULen::FieldULen(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   edit(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(edit);
+ }
+
+FieldULen::~FieldULen()
+ {
+ }
+
+ // methods
+
+Point FieldULen::getMinSize() const
+ {
+  return edit.getMinSize();
+ }
+
+void FieldULen::setField(ulen *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+void FieldULen::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldULen::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldULen::layout()
+ {
+  LayTop(edit).setPlace(getPane(),0);
+ }
+
 /* class FieldWindow */
 
 void FieldWindow::noField()
@@ -344,6 +458,8 @@ void FieldWindow::setFieldCtrl(W &sub,BookLab::OptDataBase<T> *pad)
   sub.setField(&pad->data);
 
   setFieldCtrl(&sub,&sub,true);
+
+  check_def.check(*def_pad);
  }
 
 void FieldWindow::setField(bool *pad)
@@ -371,6 +487,11 @@ void FieldWindow::setField(String *pad)
   setFieldCtrl(field_String,pad);
  }
 
+void FieldWindow::setField(BookLab::OptDataBase<ulen> *pad)
+ {
+  setFieldCtrl(field_ulen,pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -394,6 +515,7 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_bool(wlist,cfg.field_bool_cfg),
    field_Coord(wlist,cfg.field_Coord_cfg),
    field_String(wlist,cfg.field_String_cfg),
+   field_ulen(wlist,cfg.field_ulen_cfg),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
@@ -416,7 +538,7 @@ Point FieldWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -439,7 +561,7 @@ void FieldWindow::layout()
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
