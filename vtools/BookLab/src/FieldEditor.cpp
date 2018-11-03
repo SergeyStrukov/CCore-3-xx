@@ -81,9 +81,9 @@ void FieldBool::layout()
   lay.setPlace(getPane(),space);
  }
 
-/* class FieldCoord */
+/* class CoordWindow */
 
-bool FieldCoord::CheckText(PtrLen<const Char> text)
+bool CoordWindow::CheckText(PtrLen<const Char> text)
  {
   for(; +text && SymCharIsSpace(*text) ;++text);
 
@@ -101,7 +101,7 @@ bool FieldCoord::CheckText(PtrLen<const Char> text)
   return !text;
  }
 
-Coord FieldCoord::TextToValue(PtrLen<const Char> text)
+Coord CoordWindow::TextToValue(PtrLen<const Char> text)
  {
   for(; +text && SymCharIsSpace(*text) ;++text);
 
@@ -130,18 +130,43 @@ Coord FieldCoord::TextToValue(PtrLen<const Char> text)
   return val;
  }
 
-void FieldCoord::edit_changed()
+void CoordWindow::edit_changed()
  {
-  edit.alert(!CheckText(edit.getText()));
+  alert(!CheckText(getText()));
  }
+
+CoordWindow::CoordWindow(SubWindowHost &host,const ConfigType &cfg)
+ : LineEditWindow(host,cfg),
+
+   connector_edit_changed(this,&CoordWindow::edit_changed,changed)
+ {
+ }
+
+CoordWindow::~CoordWindow()
+ {
+ }
+
+ // methods
+
+Coord CoordWindow::getValue() const
+ {
+  return TextToValue(getText());
+ }
+
+void CoordWindow::setValue(Coord val)
+ {
+  printf("#;",val);
+
+  alert(false);
+ }
+
+/* class FieldCoord */
 
 FieldCoord::FieldCoord(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   edit(wlist,cfg.edit_cfg),
-
-   connector_edit_changed(this,&FieldCoord::edit_changed,edit.changed)
+   edit(wlist,cfg.edit_cfg)
  {
   wlist.insTop(edit);
  }
@@ -162,18 +187,6 @@ void FieldCoord::setField(Coord *pad_)
   pad=pad_;
 
   if( pad ) setValue(*pad);
- }
-
-Coord FieldCoord::getValue() const
- {
-  return TextToValue(edit.getText());
- }
-
-void FieldCoord::setValue(Coord val)
- {
-  edit.printf("#;",val);
-
-  edit.alert(false);
  }
 
 void FieldCoord::set(bool *def_pad,bool def)
@@ -199,7 +212,62 @@ void FieldCoord::noField()
 
 void FieldCoord::layout()
  {
-  edit.setPlace(getPane());
+  LayTop(edit).setPlace(getPane(),0);
+ }
+
+/* class FieldString */
+
+FieldString::FieldString(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   edit(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(edit);
+ }
+
+FieldString::~FieldString()
+ {
+ }
+
+ // methods
+
+Point FieldString::getMinSize() const
+ {
+  return edit.getMinSize();
+ }
+
+void FieldString::setField(String *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+void FieldString::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldString::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldString::layout()
+ {
+  LayTop(edit).setPlace(getPane(),0);
  }
 
 /* class FieldWindow */
@@ -298,6 +366,11 @@ void FieldWindow::setField(BookLab::OptDataBase<Coord> *pad)
   setFieldCtrl(field_Coord,pad);
  }
 
+void FieldWindow::setField(String *pad)
+ {
+  setFieldCtrl(field_String,pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -320,6 +393,7 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
 
    field_bool(wlist,cfg.field_bool_cfg),
    field_Coord(wlist,cfg.field_Coord_cfg),
+   field_String(wlist,cfg.field_String_cfg),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
@@ -342,7 +416,7 @@ Point FieldWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -365,7 +439,7 @@ void FieldWindow::layout()
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 

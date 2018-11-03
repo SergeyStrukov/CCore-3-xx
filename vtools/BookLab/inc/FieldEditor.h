@@ -24,6 +24,8 @@ struct FieldControl;
 
 class FieldBool;
 
+class CoordWindow;
+
 class FieldCoord;
 
 class FieldString;
@@ -134,6 +136,33 @@ class FieldBool : public ComboWindow , public FieldControl
    virtual void layout();
  };
 
+/* class CoordWindow */
+
+class CoordWindow : public LineEditWindow
+ {
+  private:
+
+   static bool CheckText(PtrLen<const Char> text);
+
+   static Coord TextToValue(PtrLen<const Char> text);
+
+   void edit_changed();
+
+   SignalConnector<CoordWindow> connector_edit_changed;
+
+  public:
+
+   CoordWindow(SubWindowHost &host,const ConfigType &cfg);
+
+   virtual ~CoordWindow();
+
+   // methods
+
+   Coord getValue() const;
+
+   void setValue(Coord val);
+ };
+
 /* class FieldCoord */
 
 class FieldCoord : public ComboWindow , public FieldControl
@@ -180,17 +209,7 @@ class FieldCoord : public ComboWindow , public FieldControl
 
    // subs
 
-   LineEditWindow edit;
-
-  private:
-
-   static bool CheckText(PtrLen<const Char> text);
-
-   static Coord TextToValue(PtrLen<const Char> text);
-
-   void edit_changed();
-
-   SignalConnector<FieldCoord> connector_edit_changed;
+   CoordWindow edit;
 
   public:
 
@@ -204,9 +223,82 @@ class FieldCoord : public ComboWindow , public FieldControl
 
    void setField(Coord *pad);
 
-   Coord getValue() const;
+   Coord getValue() const { return edit.getValue(); }
 
-   void setValue(Coord val);
+   void setValue(Coord val) { edit.setValue(val); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
+/* class FieldString */
+
+class FieldString : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   String * pad = 0 ;
+
+   // subs
+
+   LineEditWindow edit;
+
+  public:
+
+   FieldString(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldString();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(String *pad);
+
+   String getValue() const { return edit.getString(); }
+
+   void setValue(String val) { edit.setText(Range(val)); }
 
    virtual void set(bool *def_pad,bool def);
 
@@ -239,11 +331,13 @@ class FieldWindow : public ComboWindow
 
      CtorRefVal<FieldBool::ConfigType> field_bool_cfg;
      CtorRefVal<FieldCoord::ConfigType> field_Coord_cfg;
+     CtorRefVal<FieldString::ConfigType> field_String_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : field_bool_cfg(user_pref,app_pref),
-        field_Coord_cfg(user_pref,app_pref)
+        field_Coord_cfg(user_pref,app_pref),
+        field_String_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -289,6 +383,7 @@ class FieldWindow : public ComboWindow
 
    FieldBool field_bool;
    FieldCoord field_Coord;
+   FieldString field_String;
 
   private:
 
@@ -313,6 +408,8 @@ class FieldWindow : public ComboWindow
    void setField(Coord *pad);
 
    void setField(BookLab::OptDataBase<Coord> *pad);
+
+   void setField(String *pad);
 
   private:
 
