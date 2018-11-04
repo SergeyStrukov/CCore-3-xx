@@ -384,6 +384,228 @@ void FieldULen::layout()
   LayTop(edit).setPlace(getPane(),0);
  }
 
+/* class LayEqualX<L1,L2> */
+
+template <class L1,class L2>
+class LayEqualX
+ {
+   L1 lay1;
+   L2 lay2;
+
+  private:
+
+   static Point Equalize(Point a,Point b) { return {Sup(a.x,b.x),a.y}; }
+
+  public:
+
+   LayEqualX(const L1 &lay1_,const L2 &lay2_) : lay1(lay1_),lay2(lay2_) {}
+
+   Point getMinSize1(Coord space) const { return Equalize(lay1.getMinSize(space),lay2.getMinSize(space)); }
+
+   Point getMinSize2(Coord space) const { return Equalize(lay2.getMinSize(space),lay1.getMinSize(space)); }
+
+   void setPlace1(Pane pane,Coord space) const { lay1.setPlace(pane,space); }
+
+   void setPlace2(Pane pane,Coord space) const { lay2.setPlace(pane,space); }
+
+   class Item1
+    {
+      const LayEqualX &lay;
+
+     public:
+
+      Item1(const LayEqualX &lay_) : lay(lay_) {}
+
+      Point getMinSize(Coord space) const { return lay.getMinSize1(space); }
+
+      void setPlace(Pane pane,Coord space) const { lay.setPlace1(pane,space); }
+    };
+
+   class Item2
+    {
+      const LayEqualX &lay;
+
+     public:
+
+      Item2(const LayEqualX &lay_) : lay(lay_) {}
+
+      Point getMinSize(Coord space) const { return lay.getMinSize2(space); }
+
+      void setPlace(Pane pane,Coord space) const { lay.setPlace2(pane,space); }
+    };
+
+   Item1 get1() { return *this; }
+
+   Item2 get2() { return *this; }
+ };
+
+/* class FieldPoint */
+
+FieldPoint::FieldPoint(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   lab_point(wlist,cfg.lab_cfg,"Point (x,y)"_def),
+   lab_x(wlist,cfg.lab_cfg,"x"_def),
+   lab_y(wlist,cfg.lab_cfg,"y"_def),
+   edit_x(wlist,cfg.edit_cfg),
+   edit_y(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(lab_point,lab_x,lab_y,edit_x,edit_y);
+
+  edit_x.hideInactiveCursor();
+  edit_y.hideInactiveCursor();
+ }
+
+FieldPoint::~FieldPoint()
+ {
+ }
+
+ // methods
+
+Point FieldPoint::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayEqualX layeq{LayLeft(lab_x),LayLeft(lab_y)};
+
+  LayToRight lay1{layeq.get1(),Lay(edit_x)};
+  LayToRight lay2{layeq.get2(),Lay(edit_y)};
+
+  LayToBottom lay{Lay(lab_point),lay1,LayAlignTop(lay2)};
+
+  return lay.getMinSize(space);
+ }
+
+void FieldPoint::setField(Point *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+void FieldPoint::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldPoint::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldPoint::layout()
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayEqualX layeq{LayLeft(lab_x),LayLeft(lab_y)};
+
+  LayToRight lay1{layeq.get1(),Lay(edit_x)};
+  LayToRight lay2{layeq.get2(),Lay(edit_y)};
+
+  LayToBottom lay{Lay(lab_point),lay1,LayAlignTop(lay2)};
+
+  lay.setPlace(getPane(),space);
+ }
+
+/* class FieldRatio */
+
+BookLab::Ratio FieldRatio::Correct(Coord a,Coord b)
+ {
+  if( !b ) return {1,1};
+
+  return {a,b};
+ }
+
+FieldRatio::FieldRatio(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   lab_ratio(wlist,cfg.lab_cfg,"Ratio a/b"_def),
+   lab_a(wlist,cfg.lab_cfg,"a"_def),
+   lab_b(wlist,cfg.lab_cfg,"/b"_def),
+   edit_a(wlist,cfg.edit_cfg),
+   edit_b(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(lab_ratio,lab_a,lab_b,edit_a,edit_b);
+
+  edit_a.hideInactiveCursor();
+  edit_b.hideInactiveCursor();
+ }
+
+FieldRatio::~FieldRatio()
+ {
+ }
+
+ // methods
+
+Point FieldRatio::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayEqualX layeq{LayLeft(lab_a),LayLeft(lab_b)};
+
+  LayToRight lay1{layeq.get1(),Lay(edit_a)};
+  LayToRight lay2{layeq.get2(),Lay(edit_b)};
+
+  LayToBottom lay{Lay(lab_ratio),lay1,LayAlignTop(lay2)};
+
+  return lay.getMinSize(space);
+ }
+
+void FieldRatio::setField(BookLab::Ratio *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+void FieldRatio::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldRatio::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldRatio::layout()
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayEqualX layeq{LayLeft(lab_a),LayLeft(lab_b)};
+
+  LayToRight lay1{layeq.get1(),Lay(edit_a)};
+  LayToRight lay2{layeq.get2(),Lay(edit_b)};
+
+  LayToBottom lay{Lay(lab_ratio),lay1,LayAlignTop(lay2)};
+
+  lay.setPlace(getPane(),space);
+ }
+
 /* class FieldWindow */
 
 void FieldWindow::noField()
@@ -492,6 +714,16 @@ void FieldWindow::setField(BookLab::OptDataBase<ulen> *pad)
   setFieldCtrl(field_ulen,pad);
  }
 
+void FieldWindow::setField(BookLab::OptDataBase<Point> *pad)
+ {
+  setFieldCtrl(field_Point,pad);
+ }
+
+void FieldWindow::setField(BookLab::OptDataBase<BookLab::Ratio> *pad)
+ {
+  setFieldCtrl(field_Ratio,pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -517,6 +749,9 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_String(wlist,cfg.field_String_cfg),
    field_ulen(wlist,cfg.field_ulen_cfg),
 
+   field_Point(wlist,cfg.field_Point_cfg),
+   field_Ratio(wlist,cfg.field_Ratio_cfg),
+
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
   wlist.insTop(btn_set,check_def,lab_def);
@@ -538,7 +773,8 @@ Point FieldWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Point),
+               Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -561,7 +797,8 @@ void FieldWindow::layout()
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Point),
+               Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 

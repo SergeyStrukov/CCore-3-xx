@@ -411,6 +411,188 @@ class FieldULen : public ComboWindow , public FieldControl
    virtual void layout();
  };
 
+/* class FieldColor */
+
+class FieldColor;
+
+/* class FieldStrength */
+
+class FieldStrength;
+
+/* class FieldAlign */
+
+class FieldAlign;
+
+/* class FieldEffect */
+
+class FieldEffect;
+
+/* class FieldPoint */
+
+class FieldPoint : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       lab_cfg.bind(proxy);
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   Point * pad = 0 ;
+
+   // subs
+
+   LabelWindow lab_point;
+   LabelWindow lab_x;
+   LabelWindow lab_y;
+   CoordWindow edit_x;
+   CoordWindow edit_y;
+
+  public:
+
+   FieldPoint(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldPoint();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(Point *pad);
+
+   Point getValue() const { return Point(edit_x.getValue(),edit_y.getValue()); }
+
+   void setValue(Point val) { edit_x.setValue(val.x); edit_y.setValue(val.y); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
+/* class FieldRatio */
+
+class FieldRatio : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       lab_cfg.bind(proxy);
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Ratio * pad = 0 ;
+
+   // subs
+
+   LabelWindow lab_ratio;
+   LabelWindow lab_a;
+   LabelWindow lab_b;
+   CoordWindow edit_a;
+   CoordWindow edit_b;
+
+  private:
+
+   static BookLab::Ratio Correct(Coord a,Coord b);
+
+  public:
+
+   FieldRatio(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldRatio();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(BookLab::Ratio *pad);
+
+   BookLab::Ratio getValue() const { return Correct(edit_a.getValue(),edit_b.getValue()); }
+
+   void setValue(BookLab::Ratio val) { edit_a.setValue(val.a); edit_b.setValue(val.b); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
 /* class FieldWindow */
 
 class FieldWindow : public ComboWindow
@@ -436,12 +618,17 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldString::ConfigType> field_String_cfg;
      CtorRefVal<FieldULen::ConfigType> field_ulen_cfg;
 
+     CtorRefVal<FieldPoint::ConfigType> field_Point_cfg;
+     CtorRefVal<FieldRatio::ConfigType> field_Ratio_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : field_bool_cfg(user_pref,app_pref),
         field_Coord_cfg(user_pref,app_pref),
         field_String_cfg(user_pref,app_pref),
-        field_ulen_cfg(user_pref,app_pref)
+        field_ulen_cfg(user_pref,app_pref),
+        field_Point_cfg(user_pref,app_pref),
+        field_Ratio_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -490,6 +677,9 @@ class FieldWindow : public ComboWindow
    FieldString field_String;
    FieldULen field_ulen;
 
+   FieldPoint field_Point;
+   FieldRatio field_Ratio;
+
   private:
 
    void noField();
@@ -517,6 +707,11 @@ class FieldWindow : public ComboWindow
    void setField(String *pad);
 
    void setField(BookLab::OptDataBase<ulen> *pad);
+
+
+   void setField(BookLab::OptDataBase<Point> *pad);
+
+   void setField(BookLab::OptDataBase<BookLab::Ratio> *pad);
 
   private:
 
