@@ -421,11 +421,173 @@ class FieldStrength;
 
 /* class FieldAlign */
 
-class FieldAlign;
+class FieldAlign : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       lab_cfg.bind(proxy);
+       rad_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Align * pad = 0 ;
+
+   // subs
+
+   LabelWindow lab_left;
+   LabelWindow lab_right;
+   LabelWindow lab_center;
+
+   RadioGroup group;
+
+   RadioWindow rad_left;
+   RadioWindow rad_right;
+   RadioWindow rad_center;
+
+  public:
+
+   FieldAlign(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldAlign();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(BookLab::Align *pad);
+
+   BookLab::Align getValue() const;
+
+   void setValue(BookLab::Align val);
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
 
 /* class FieldEffect */
 
-class FieldEffect;
+class FieldEffect : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       lab_cfg.bind(proxy);
+       rad_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Effect * pad = 0 ;
+
+   // subs
+
+   LabelWindow lab_none;
+   LabelWindow lab_under;
+   LabelWindow lab_strike;
+
+   RadioGroup group;
+
+   RadioWindow rad_none;
+   RadioWindow rad_under;
+   RadioWindow rad_strike;
+
+  public:
+
+   FieldEffect(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldEffect();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(BookLab::Effect *pad);
+
+   BookLab::Effect getValue() const;
+
+   void setValue(BookLab::Effect val);
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
 
 /* class FieldPoint */
 
@@ -618,6 +780,8 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldString::ConfigType> field_String_cfg;
      CtorRefVal<FieldULen::ConfigType> field_ulen_cfg;
 
+     CtorRefVal<FieldAlign::ConfigType> field_Align_cfg;
+     CtorRefVal<FieldEffect::ConfigType> field_Effect_cfg;
      CtorRefVal<FieldPoint::ConfigType> field_Point_cfg;
      CtorRefVal<FieldRatio::ConfigType> field_Ratio_cfg;
 
@@ -627,6 +791,9 @@ class FieldWindow : public ComboWindow
         field_Coord_cfg(user_pref,app_pref),
         field_String_cfg(user_pref,app_pref),
         field_ulen_cfg(user_pref,app_pref),
+
+        field_Align_cfg(user_pref,app_pref),
+        field_Effect_cfg(user_pref,app_pref),
         field_Point_cfg(user_pref,app_pref),
         field_Ratio_cfg(user_pref,app_pref)
       {
@@ -677,6 +844,8 @@ class FieldWindow : public ComboWindow
    FieldString field_String;
    FieldULen field_ulen;
 
+   FieldAlign field_Align;
+   FieldEffect field_Effect;
    FieldPoint field_Point;
    FieldRatio field_Ratio;
 
@@ -708,6 +877,10 @@ class FieldWindow : public ComboWindow
 
    void setField(BookLab::OptDataBase<ulen> *pad);
 
+
+   void setField(BookLab::OptDataBase<BookLab::Align> *pad);
+
+   void setField(BookLab::OptDataBase<BookLab::Effect> *pad);
 
    void setField(BookLab::OptDataBase<Point> *pad);
 

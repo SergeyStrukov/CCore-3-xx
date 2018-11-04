@@ -384,6 +384,198 @@ void FieldULen::layout()
   LayTop(edit).setPlace(getPane(),0);
  }
 
+/* class FieldAlign */
+
+FieldAlign::FieldAlign(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   lab_left(wlist,cfg.lab_cfg,"Left"_def),
+   lab_right(wlist,cfg.lab_cfg,"Right"_def),
+   lab_center(wlist,cfg.lab_cfg,"Center"_def),
+
+   rad_left(wlist,BookLab::Left,cfg.rad_cfg),
+   rad_right(wlist,BookLab::Right,cfg.rad_cfg),
+   rad_center(wlist,BookLab::Center,cfg.rad_cfg)
+ {
+  wlist.insTop(lab_left,lab_right,lab_center,rad_left,rad_right,rad_center);
+
+  group.add(rad_left,rad_right,rad_center);
+ }
+
+FieldAlign::~FieldAlign()
+ {
+ }
+
+ // methods
+
+Point FieldAlign::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{LayBox(rad_left),LayLeft(lab_left)};
+  LayToRightCenter lay2{LayBox(rad_right),LayLeft(lab_right)};
+  LayToRightCenter lay3{LayBox(rad_center),LayLeft(lab_center)};
+
+  LayToBottom lay{lay1,lay2,LayAlignTop(lay3)};
+
+  return lay.getMinSize(space);
+ }
+
+void FieldAlign::setField(BookLab::Align *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+BookLab::Align FieldAlign::getValue() const
+ {
+  return BookLab::Align(group.getRadioId());
+ }
+
+void FieldAlign::setValue(BookLab::Align val)
+ {
+  switch( val )
+    {
+     case BookLab::Left : rad_left.check(); break;
+
+     case BookLab::Right : rad_right.check(); break;
+
+     case BookLab::Center : rad_center.check(); break;
+    }
+ }
+
+void FieldAlign::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldAlign::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldAlign::layout()
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{LayBox(rad_left),LayLeft(lab_left)};
+  LayToRightCenter lay2{LayBox(rad_right),LayLeft(lab_right)};
+  LayToRightCenter lay3{LayBox(rad_center),LayLeft(lab_center)};
+
+  LayToBottom lay{lay1,lay2,LayAlignTop(lay3)};
+
+  lay.setPlace(getPane(),space);
+ }
+
+/* class FieldEffect */
+
+FieldEffect::FieldEffect(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   lab_none(wlist,cfg.lab_cfg,"None"_def),
+   lab_under(wlist,cfg.lab_cfg,"Underline"_def),
+   lab_strike(wlist,cfg.lab_cfg,"Strikeout"_def),
+
+   rad_none(wlist,BookLab::NoEffect,cfg.rad_cfg),
+   rad_under(wlist,BookLab::Underline,cfg.rad_cfg),
+   rad_strike(wlist,BookLab::Strikeout,cfg.rad_cfg)
+ {
+  wlist.insTop(lab_none,lab_under,lab_strike,rad_none,rad_under,rad_strike);
+
+  group.add(rad_none,rad_under,rad_strike);
+ }
+
+FieldEffect::~FieldEffect()
+ {
+ }
+
+ // methods
+
+Point FieldEffect::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{LayBox(rad_none),LayLeft(lab_none)};
+  LayToRightCenter lay2{LayBox(rad_under),LayLeft(lab_under)};
+  LayToRightCenter lay3{LayBox(rad_strike),LayLeft(lab_strike)};
+
+  LayToBottom lay{lay1,lay2,LayAlignTop(lay3)};
+
+  return lay.getMinSize(space);
+ }
+
+void FieldEffect::setField(BookLab::Effect *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+BookLab::Effect FieldEffect::getValue() const
+ {
+  return BookLab::Effect(group.getRadioId());
+ }
+
+void FieldEffect::setValue(BookLab::Effect val)
+ {
+  switch( val )
+    {
+     case BookLab::NoEffect : rad_none.check(); break;
+
+     case BookLab::Underline : rad_under.check(); break;
+
+     case BookLab::Strikeout : rad_strike.check(); break;
+    }
+ }
+
+void FieldEffect::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldEffect::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldEffect::layout()
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{LayBox(rad_none),LayLeft(lab_none)};
+  LayToRightCenter lay2{LayBox(rad_under),LayLeft(lab_under)};
+  LayToRightCenter lay3{LayBox(rad_strike),LayLeft(lab_strike)};
+
+  LayToBottom lay{lay1,lay2,LayAlignTop(lay3)};
+
+  lay.setPlace(getPane(),space);
+ }
+
 /* class LayEqualX<L1,L2> */
 
 template <class L1,class L2>
@@ -714,6 +906,16 @@ void FieldWindow::setField(BookLab::OptDataBase<ulen> *pad)
   setFieldCtrl(field_ulen,pad);
  }
 
+void FieldWindow::setField(BookLab::OptDataBase<BookLab::Align> *pad)
+ {
+  setFieldCtrl(field_Align,pad);
+ }
+
+void FieldWindow::setField(BookLab::OptDataBase<BookLab::Effect> *pad)
+ {
+  setFieldCtrl(field_Effect,pad);
+ }
+
 void FieldWindow::setField(BookLab::OptDataBase<Point> *pad)
  {
   setFieldCtrl(field_Point,pad);
@@ -749,6 +951,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_String(wlist,cfg.field_String_cfg),
    field_ulen(wlist,cfg.field_ulen_cfg),
 
+   field_Align(wlist,cfg.field_Align_cfg),
+   field_Effect(wlist,cfg.field_Effect_cfg),
    field_Point(wlist,cfg.field_Point_cfg),
    field_Ratio(wlist,cfg.field_Ratio_cfg),
 
@@ -773,8 +977,8 @@ Point FieldWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Point),
-               Lay(field_Ratio)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),
+               Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -797,8 +1001,8 @@ void FieldWindow::layout()
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Point),
-               Lay(field_Ratio)};
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),
+               Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
