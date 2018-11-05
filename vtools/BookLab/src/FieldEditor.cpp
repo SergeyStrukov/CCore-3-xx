@@ -384,6 +384,61 @@ void FieldULen::layout()
   LayTop(edit).setPlace(getPane(),0);
  }
 
+/* class FieldStrength */
+
+FieldStrength::FieldStrength(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   edit(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(edit);
+ }
+
+FieldStrength::~FieldStrength()
+ {
+ }
+
+ // methods
+
+Point FieldStrength::getMinSize() const
+ {
+  return edit.getMinSize();
+ }
+
+void FieldStrength::setField(BookLab::Strength *pad_)
+ {
+  pad=pad_;
+
+  if( pad ) setValue(*pad);
+ }
+
+void FieldStrength::set(bool *def_pad,bool def)
+ {
+  if( def_pad )
+    {
+     *def_pad=def;
+
+     if( !def && pad ) *pad=getValue();
+    }
+  else
+    {
+     if( pad ) *pad=getValue();
+    }
+ }
+
+void FieldStrength::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldStrength::layout()
+ {
+  LayTop(edit).setPlace(getPane(),0);
+ }
+
 /* class FieldAlign */
 
 FieldAlign::FieldAlign(SubWindowHost &host,const Config &cfg_)
@@ -906,6 +961,11 @@ void FieldWindow::setField(BookLab::OptDataBase<ulen> *pad)
   setFieldCtrl(field_ulen,pad);
  }
 
+void FieldWindow::setField(BookLab::OptDataBase<BookLab::Strength> *pad)
+ {
+  setFieldCtrl(field_Strength,pad);
+ }
+
 void FieldWindow::setField(BookLab::OptDataBase<BookLab::Align> *pad)
  {
   setFieldCtrl(field_Align,pad);
@@ -951,6 +1011,7 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_String(wlist,cfg.field_String_cfg),
    field_ulen(wlist,cfg.field_ulen_cfg),
 
+   field_Strength(wlist,cfg.field_Strength_cfg),
    field_Align(wlist,cfg.field_Align_cfg),
    field_Effect(wlist,cfg.field_Effect_cfg),
    field_Point(wlist,cfg.field_Point_cfg),
@@ -978,7 +1039,7 @@ Point FieldWindow::getMinSize() const
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),
-               Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
+               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -1002,7 +1063,7 @@ void FieldWindow::layout()
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),
-               Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
+               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 

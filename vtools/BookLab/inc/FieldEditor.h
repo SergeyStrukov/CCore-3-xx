@@ -417,7 +417,76 @@ class FieldColor;
 
 /* class FieldStrength */
 
-class FieldStrength;
+class FieldStrength : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Strength * pad = 0 ;
+
+   // subs
+
+   CoordWindow edit;
+
+  public:
+
+   FieldStrength(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldStrength();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(BookLab::Strength *pad);
+
+   BookLab::Strength getValue() const { return BookLab::Strength(edit.getValue()); }
+
+   void setValue(BookLab::Strength val) { edit.setValue(val); }
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
 
 /* class FieldAlign */
 
@@ -780,6 +849,7 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldString::ConfigType> field_String_cfg;
      CtorRefVal<FieldULen::ConfigType> field_ulen_cfg;
 
+     CtorRefVal<FieldStrength::ConfigType> field_Strength_cfg;
      CtorRefVal<FieldAlign::ConfigType> field_Align_cfg;
      CtorRefVal<FieldEffect::ConfigType> field_Effect_cfg;
      CtorRefVal<FieldPoint::ConfigType> field_Point_cfg;
@@ -792,6 +862,7 @@ class FieldWindow : public ComboWindow
         field_String_cfg(user_pref,app_pref),
         field_ulen_cfg(user_pref,app_pref),
 
+        field_Strength_cfg(user_pref,app_pref),
         field_Align_cfg(user_pref,app_pref),
         field_Effect_cfg(user_pref,app_pref),
         field_Point_cfg(user_pref,app_pref),
@@ -844,6 +915,7 @@ class FieldWindow : public ComboWindow
    FieldString field_String;
    FieldULen field_ulen;
 
+   FieldStrength field_Strength;
    FieldAlign field_Align;
    FieldEffect field_Effect;
    FieldPoint field_Point;
@@ -877,6 +949,8 @@ class FieldWindow : public ComboWindow
 
    void setField(BookLab::OptDataBase<ulen> *pad);
 
+
+   void setField(BookLab::OptDataBase<BookLab::Strength> *pad);
 
    void setField(BookLab::OptDataBase<BookLab::Align> *pad);
 
