@@ -908,6 +908,182 @@ void FieldRatio::layout()
   lay.setPlace(getPane(),space);
  }
 
+/* class FieldNamed */
+
+FieldNamed::Item::Item(FieldNamed *obj,int radio_id,const DefString &name)
+ : lab_type(obj->wlist,obj->cfg.lab_cfg,name),
+   rad_type(obj->wlist,radio_id,obj->cfg.rad_cfg)
+ {
+ }
+
+template <class ... TT>
+FieldNamed::Variant<TT...>::Variant(FieldNamed *obj)
+ : rad_edit(obj->wlist,0,obj->cfg.rad_cfg),
+   list(DoReserve,sizeof ... (TT))
+ {
+  int radio_id=1;
+
+  ( append<TT>(obj,radio_id++) , ... );
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::setField(const FieldNamed *obj,BookLab::NamedPtr<TT...> *pad_) // TODO
+ {
+  Used(obj);
+
+  pad=pad_;
+
+  if( pad )
+    {
+     // TODO
+    }
+ }
+
+ // Base methods
+
+template <class ... TT>
+Point FieldNamed::Variant<TT...>::getMinSize(const FieldNamed *obj) const // TODO
+ {
+  Used(obj);
+
+  return Point(10,10);
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::set(FieldNamed *obj,bool *,bool def) // TODO
+ {
+  Used(obj);
+  Used(def);
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::noField()
+ {
+  pad=0;
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::insList(FieldNamed *obj)
+ {
+  obj->wlist.insBottom(rad_edit);
+
+  for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::delList(FieldNamed *obj)
+ {
+  obj->wlist.del(rad_edit);
+
+  for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
+ }
+
+template <class ... TT>
+void FieldNamed::Variant<TT...>::layout(FieldNamed *obj) // TODO
+ {
+  Used(obj);
+ }
+
+template <class ... TT>
+void FieldNamed::activate(Variant<TT...> *var,BookLab::NamedPtr<TT...> *pad)
+ {
+  active=var;
+
+  active->insList(this);
+
+  var->setField(this,pad);
+
+  layout();
+
+  redraw();
+ }
+
+FieldNamed::FieldNamed(SubWindowHost &host,const Config &cfg_,BookLab::Book &book_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   book(book_),
+
+   lab_edit(wlist,cfg.lab_cfg,"named"_def),
+   edit(wlist,cfg.edit_cfg),
+
+   variants(DoReserve,10)
+ {
+  setField((BookLab::NamedPtr<BookLab::Bitmap,BookLab::Collapse,BookLab::TextList,BookLab::Table,BookLab::Text,BookLab::FixedText> *)0);
+ }
+
+FieldNamed::~FieldNamed()
+ {
+ }
+
+ // methods
+
+Point FieldNamed::getMinSize() const
+ {
+  if( active ) return active->getMinSize(this);
+
+  return Point(10,10);
+ }
+
+template <class ... TT>
+void FieldNamed::setField(BookLab::NamedPtr<TT...> *pad)
+ {
+  if( active )
+    {
+     if( Variant<TT...> *var=dynamic_cast<Variant<TT...> *>(active) )
+       {
+        var->setField(this,pad);
+
+        return;
+       }
+     else
+       {
+        active->noField();
+
+        active->delList(this);
+
+        active=0;
+
+        layout();
+
+        redraw();
+       }
+    }
+
+  for(auto &ptr : variants )
+    {
+     if( Variant<TT...> *var=dynamic_cast<Variant<TT...> *>(ptr.getPtr()) )
+       {
+        activate(var,pad);
+
+        return;
+       }
+    }
+
+  Variant<TT...> *var=new Variant<TT...>(this);
+
+  variants.append_fill( OwnPtr<Base>(var) );
+
+  activate(var,pad);
+ }
+
+void FieldNamed::set(bool *def_pad,bool def)
+ {
+  if( active ) active->set(this,def_pad,def);
+ }
+
+void FieldNamed::noField()
+ {
+  if( active ) active->noField();
+ }
+
+ // drawing
+
+void FieldNamed::layout()
+ {
+  if( active ) active->layout(this);
+ }
+
 /* class FieldWindow */
 
 void FieldWindow::noField()
@@ -1046,6 +1222,16 @@ void FieldWindow::setField(BookLab::OptDataBase<BookLab::Ratio> *pad)
   setFieldCtrl(field_Ratio,pad);
  }
 
+template <class ... TT>
+void FieldWindow::setField(BookLab::NamedPtr<TT...> *pad)
+ {
+  field_Named.setField(pad);
+
+  setFieldCtrl(&field_Named,&field_Named,true);
+
+  check_def.check(pad->isDef());
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -1056,11 +1242,9 @@ void FieldWindow::set_pressed()
     }
  }
 
-FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book_)
+FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book)
  : ComboWindow(host),
    cfg(cfg_),
-
-   book(book_),
 
    btn_set(wlist,cfg.btn_cfg,"Set"_def),
    check_def(wlist,cfg.check_cfg),
@@ -1076,6 +1260,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Effect(wlist,cfg.field_Effect_cfg),
    field_Point(wlist,cfg.field_Point_cfg),
    field_Ratio(wlist,cfg.field_Ratio_cfg),
+
+   field_Named(wlist,cfg.field_Named_cfg,book),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
@@ -1099,7 +1285,8 @@ Point FieldWindow::getMinSize() const
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
-               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
+               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
+               Lay(field_Named)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -1123,7 +1310,8 @@ void FieldWindow::layout()
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
-               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio)};
+               Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
+               Lay(field_Named)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
