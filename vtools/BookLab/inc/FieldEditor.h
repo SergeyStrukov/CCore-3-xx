@@ -48,6 +48,8 @@ class FieldRatio;
 
 class FieldNamed;
 
+class FieldUnnamed;
+
 
 class FieldWindow;
 
@@ -1022,6 +1024,8 @@ class FieldNamed : public ComboWindow , public FieldControl
      Item(FieldNamed *obj,int radio_id,const DefString &name);
     };
 
+   struct ItemRange;
+
    template <class ... TT>
    class Variant : public Base
     {
@@ -1036,9 +1040,14 @@ class FieldNamed : public ComboWindow , public FieldControl
      private:
 
       template <class T>
-      void append(FieldNamed *obj,int radio_id)
+      void append(FieldNamed *obj,int radio_id);
+
+      using SetFunc = void (*)(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book) ;
+
+      template <class T>
+      static void SetFuncOf(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book)
        {
-        list.append_fill( OwnPtr<Item>(new Item(obj,radio_id,GetTypeName<T>())) );
+        *pad={Null,book.create<T>()};
        }
 
      public:
@@ -1047,7 +1056,7 @@ class FieldNamed : public ComboWindow , public FieldControl
 
       virtual ~Variant() {}
 
-      void setField(const FieldNamed *obj,BookLab::NamedPtr<TT...> *pad);
+      void setField(FieldNamed *obj,BookLab::NamedPtr<TT...> *pad);
 
       // Base methods
 
@@ -1095,6 +1104,179 @@ class FieldNamed : public ComboWindow , public FieldControl
    virtual void layout();
  };
 
+/* class FieldUnnamed */
+
+template <class ... TT>
+struct UnnamedPadType
+ {
+  using PadType = IntAnyObjPtr<TT...> ;
+ };
+
+template <class T>
+struct UnnamedPadType<T>
+ {
+  using PadType = IntObjPtr<T> ;
+ };
+
+class FieldUnnamed : public ComboWindow , public FieldControl
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<LabelWindow::ConfigType> lab_cfg;
+     CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       lab_cfg.bind(proxy);
+       rad_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Book &book;
+
+  private:
+
+   struct Base : MemBase_nocopy
+    {
+     virtual ~Base() {}
+
+     virtual Point getMinSize(const FieldUnnamed *obj) const = 0 ;
+
+     virtual void set(FieldUnnamed *obj,bool *def_pad,bool def) = 0 ;
+
+     virtual void noField() = 0 ;
+
+     virtual void insList(FieldUnnamed *obj) = 0 ;
+
+     virtual void delList(FieldUnnamed *obj) = 0 ;
+
+     virtual void layout(FieldUnnamed *obj) = 0 ;
+    };
+
+   struct Item : MemBase
+    {
+     LabelWindow lab_type;
+     RadioWindow rad_type;
+
+     Item(FieldUnnamed *obj,int radio_id,const DefString &name);
+    };
+
+   struct ItemRange;
+
+   template <class ... TT>
+   class Variant : public Base
+    {
+      using PadType = typename UnnamedPadType<TT...>::PadType ;
+
+      PadType * pad = 0 ;
+
+      RadioGroup group;
+
+      DynArray<OwnPtr<Item> > list;
+
+     private:
+
+      template <class T>
+      void append(FieldUnnamed *obj,int radio_id);
+
+      using SetFunc = void (*)(PadType *pad,BookLab::Book &book) ;
+
+      template <class T>
+      static void SetFuncOf(PadType *pad,BookLab::Book &book)
+       {
+        *pad=book.create<T>();
+       }
+
+     public:
+
+      explicit Variant(FieldUnnamed *obj);
+
+      virtual ~Variant() {}
+
+      void setField(FieldUnnamed *obj,PadType *pad);
+
+      // Base methods
+
+      virtual Point getMinSize(const FieldUnnamed *obj) const;
+
+      virtual void set(FieldUnnamed *obj,bool *def_pad,bool def);
+
+      virtual void noField();
+
+      virtual void insList(FieldUnnamed *obj);
+
+      virtual void delList(FieldUnnamed *obj);
+
+      virtual void layout(FieldUnnamed *obj);
+    };
+
+   DynArray<OwnPtr<Base> > variants;
+
+   Base * active = 0 ;
+
+  private:
+
+   template <class Pad,class ... TT>
+   void activate(Variant<TT...> *var,Pad *pad);
+
+   template <class Pad,class ... TT>
+   void setFieldVar(Pad *pad);
+
+  public:
+
+   FieldUnnamed(SubWindowHost &host,const Config &cfg,BookLab::Book &book);
+
+   virtual ~FieldUnnamed();
+
+   // methods
+
+   Point getMinSize() const;
+
+   template <class T>
+   void setField(IntObjPtr<T> *pad);
+
+   template <class ... TT>
+   void setField(IntAnyObjPtr<TT...> *pad);
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
+ };
+
 /* class FieldWindow */
 
 class FieldWindow : public ComboWindow
@@ -1127,6 +1309,7 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldRatio::ConfigType> field_Ratio_cfg;
 
      CtorRefVal<FieldNamed::ConfigType> field_Named_cfg;
+     CtorRefVal<FieldUnnamed::ConfigType> field_Unnamed_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -1140,7 +1323,8 @@ class FieldWindow : public ComboWindow
         field_Effect_cfg(user_pref,app_pref),
         field_Point_cfg(user_pref,app_pref),
         field_Ratio_cfg(user_pref,app_pref),
-        field_Named_cfg(user_pref,app_pref)
+        field_Named_cfg(user_pref,app_pref),
+        field_Unnamed_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -1195,6 +1379,7 @@ class FieldWindow : public ComboWindow
    FieldRatio field_Ratio;
 
    FieldNamed field_Named;
+   FieldUnnamed field_Unnamed;
 
   private:
 
@@ -1238,6 +1423,12 @@ class FieldWindow : public ComboWindow
 
    template <class ... TT>
    void setField(BookLab::NamedPtr<TT...> *pad);
+
+   template <class T>
+   void setField(IntObjPtr<T> *pad);
+
+   template <class ... TT>
+   void setField(IntAnyObjPtr<TT...> *pad);
 
   private:
 

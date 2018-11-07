@@ -916,44 +916,128 @@ FieldNamed::Item::Item(FieldNamed *obj,int radio_id,const DefString &name)
  {
  }
 
+struct FieldNamed::ItemRange : PtrLen<const OwnPtr<Item> >
+ {
+  explicit ItemRange(PtrLen<const OwnPtr<Item> > r) : PtrLen<const OwnPtr<Item> >(r) {}
+
+  ulen getLen() const { return len; }
+
+  struct AdapterType
+   {
+    Item *ptr;
+
+    AdapterType(const OwnPtr<Item> &r) : ptr(r.getPtr()) {}
+
+    Point getMinSize(Coord space) const
+     {
+      LayToRightCenter lay{LayBox(ptr->rad_type),LayLeft(ptr->lab_type)};
+
+      return lay.getMinSize(space);
+     }
+
+    void setPlace(Pane pane,Coord space) const
+     {
+      LayToRightCenter lay{LayBox(ptr->rad_type),LayLeft(ptr->lab_type)};
+
+      lay.setPlace(pane,space);
+     }
+   };
+ };
+
+template <class ... TT>
+template <class T>
+void FieldNamed::Variant<TT...>::append(FieldNamed *obj,int radio_id)
+ {
+  Item *item=new Item(obj,radio_id,GetTypeName<T>());
+
+  list.append_fill( OwnPtr<Item>(item) );
+
+  group.add(item->rad_type);
+ }
+
 template <class ... TT>
 FieldNamed::Variant<TT...>::Variant(FieldNamed *obj)
  : rad_edit(obj->wlist,0,obj->cfg.rad_cfg),
    list(DoReserve,sizeof ... (TT))
  {
+  group.add(rad_edit);
+
   int radio_id=1;
 
   ( append<TT>(obj,radio_id++) , ... );
  }
 
 template <class ... TT>
-void FieldNamed::Variant<TT...>::setField(const FieldNamed *obj,BookLab::NamedPtr<TT...> *pad_) // TODO
+void FieldNamed::Variant<TT...>::setField(FieldNamed *obj,BookLab::NamedPtr<TT...> *pad_)
  {
-  Used(obj);
-
   pad=pad_;
 
   if( pad )
     {
-     // TODO
+     obj->edit.setText(Range(pad->name));
+
+     if( +pad->ptr )
+       {
+        int ind=0;
+
+        AnyPtr<TT...> ptr=pad->ptr.getPtr();
+
+        ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
+
+        if( ind )
+          list[ind-1]->rad_type.check();
+        else
+          rad_edit.check();
+       }
+     else
+       {
+        rad_edit.check();
+       }
     }
  }
 
  // Base methods
 
 template <class ... TT>
-Point FieldNamed::Variant<TT...>::getMinSize(const FieldNamed *obj) const // TODO
+Point FieldNamed::Variant<TT...>::getMinSize(const FieldNamed *obj) const
  {
-  Used(obj);
+  Coord space=+obj->cfg.space_dxy;
 
-  return Point(10,10);
+  LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
+
+  LayToBottom lay2(ItemRange(Range(list)));
+
+  LayToBottom lay{lay1,LayAlignTop(lay2)};
+
+  return lay.getMinSize(space);
  }
 
 template <class ... TT>
-void FieldNamed::Variant<TT...>::set(FieldNamed *obj,bool *,bool def) // TODO
+void FieldNamed::Variant<TT...>::set(FieldNamed *obj,bool *,bool def)
  {
-  Used(obj);
-  Used(def);
+  if( pad )
+    {
+     if( def )
+       {
+        *pad={};
+       }
+     else
+       {
+        int radio_id=group.getRadioId();
+
+        if( radio_id )
+          {
+           SetFunc table[]={ SetFuncOf<TT>... };
+
+           table[radio_id-1](pad,obj->book);
+          }
+        else
+          {
+           pad->name=obj->edit.getString();
+           pad->ptr=Null;
+          }
+       }
+    }
  }
 
 template <class ... TT>
@@ -979,9 +1063,17 @@ void FieldNamed::Variant<TT...>::delList(FieldNamed *obj)
  }
 
 template <class ... TT>
-void FieldNamed::Variant<TT...>::layout(FieldNamed *obj) // TODO
+void FieldNamed::Variant<TT...>::layout(FieldNamed *obj)
  {
-  Used(obj);
+  Coord space=+obj->cfg.space_dxy;
+
+  LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
+
+  LayToBottom lay2(ItemRange(Range(list)));
+
+  LayToBottom lay{lay1,LayAlignTop(lay2)};
+
+  lay.setPlace(obj->getPane(),space);
  }
 
 template <class ... TT>
@@ -1010,6 +1102,8 @@ FieldNamed::FieldNamed(SubWindowHost &host,const Config &cfg_,BookLab::Book &boo
    variants(DoReserve,10)
  {
   setField((BookLab::NamedPtr<BookLab::Bitmap,BookLab::Collapse,BookLab::TextList,BookLab::Table,BookLab::Text,BookLab::FixedText> *)0);
+
+  wlist.insTop(lab_edit,edit);
  }
 
 FieldNamed::~FieldNamed()
@@ -1080,6 +1174,255 @@ void FieldNamed::noField()
  // drawing
 
 void FieldNamed::layout()
+ {
+  if( active ) active->layout(this);
+ }
+
+/* class FieldUnnamed */
+
+FieldUnnamed::Item::Item(FieldUnnamed *obj,int radio_id,const DefString &name)
+ : lab_type(obj->wlist,obj->cfg.lab_cfg,name),
+   rad_type(obj->wlist,radio_id,obj->cfg.rad_cfg)
+ {
+ }
+
+struct FieldUnnamed::ItemRange : PtrLen<const OwnPtr<Item> >
+ {
+  explicit ItemRange(PtrLen<const OwnPtr<Item> > r) : PtrLen<const OwnPtr<Item> >(r) {}
+
+  ulen getLen() const { return len; }
+
+  struct AdapterType
+   {
+    Item *ptr;
+
+    AdapterType(const OwnPtr<Item> &r) : ptr(r.getPtr()) {}
+
+    Point getMinSize(Coord space) const
+     {
+      LayToRightCenter lay{LayBox(ptr->rad_type),LayLeft(ptr->lab_type)};
+
+      return lay.getMinSize(space);
+     }
+
+    void setPlace(Pane pane,Coord space) const
+     {
+      LayToRightCenter lay{LayBox(ptr->rad_type),LayLeft(ptr->lab_type)};
+
+      lay.setPlace(pane,space);
+     }
+   };
+ };
+
+template <class ... TT>
+template <class T>
+void FieldUnnamed::Variant<TT...>::append(FieldUnnamed *obj,int radio_id)
+ {
+  Item *item=new Item(obj,radio_id,GetTypeName<T>());
+
+  list.append_fill( OwnPtr<Item>(item) );
+
+  group.add(item->rad_type);
+ }
+
+template <class ... TT>
+FieldUnnamed::Variant<TT...>::Variant(FieldUnnamed *obj)
+ : list(DoReserve,sizeof ... (TT))
+ {
+  int radio_id=1;
+
+  ( append<TT>(obj,radio_id++) , ... );
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::setField(FieldUnnamed *,PadType *pad_)
+ {
+  pad=pad_;
+
+  if( pad )
+    {
+     if( +(*pad) )
+       {
+        int ind=0;
+
+        AnyPtr<TT...> ptr=pad->getPtr();
+
+        ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
+
+        if( ind )
+          list[ind-1]->rad_type.check();
+       }
+    }
+ }
+
+ // Base methods
+
+template <class ... TT>
+Point FieldUnnamed::Variant<TT...>::getMinSize(const FieldUnnamed *obj) const
+ {
+  Coord space=+obj->cfg.space_dxy;
+
+  LayToBottom lay(ItemRange(Range(list)));
+
+  return LayAlignTop(lay).getMinSize(space);
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::set(FieldUnnamed *obj,bool *,bool def)
+ {
+  if( pad )
+    {
+     if( def )
+       {
+        *pad=Null;
+       }
+     else
+       {
+        int radio_id=group.getRadioId();
+
+        if( radio_id )
+          {
+           SetFunc table[]={ SetFuncOf<TT>... };
+
+           table[radio_id-1](pad,obj->book);
+          }
+       }
+    }
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::noField()
+ {
+  pad=0;
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::insList(FieldUnnamed *obj)
+ {
+  for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::delList(FieldUnnamed *obj)
+ {
+  for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
+ }
+
+template <class ... TT>
+void FieldUnnamed::Variant<TT...>::layout(FieldUnnamed *obj)
+ {
+  Coord space=+obj->cfg.space_dxy;
+
+  LayToBottom lay(ItemRange(Range(list)));
+
+  LayAlignTop(lay).setPlace(obj->getPane(),space);
+ }
+
+template <class Pad,class ... TT>
+void FieldUnnamed::activate(Variant<TT...> *var,Pad *pad)
+ {
+  active=var;
+
+  active->insList(this);
+
+  var->setField(this,pad);
+
+  layout();
+
+  redraw();
+ }
+
+template <class Pad,class ... TT>
+void FieldUnnamed::setFieldVar(Pad *pad)
+ {
+  if( active )
+    {
+     if( Variant<TT...> *var=dynamic_cast<Variant<TT...> *>(active) )
+       {
+        var->setField(this,pad);
+
+        return;
+       }
+     else
+       {
+        active->noField();
+
+        active->delList(this);
+
+        active=0;
+
+        layout();
+
+        redraw();
+       }
+    }
+
+  for(auto &ptr : variants )
+    {
+     if( Variant<TT...> *var=dynamic_cast<Variant<TT...> *>(ptr.getPtr()) )
+       {
+        activate(var,pad);
+
+        return;
+       }
+    }
+
+  Variant<TT...> *var=new Variant<TT...>(this);
+
+  variants.append_fill( OwnPtr<Base>(var) );
+
+  activate(var,pad);
+ }
+
+FieldUnnamed::FieldUnnamed(SubWindowHost &host,const Config &cfg_,BookLab::Book &book_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   book(book_),
+
+   variants(DoReserve,10)
+ {
+  setField((IntAnyObjPtr<BookLab::OneLine,BookLab::MultiLine> *)0);
+ }
+
+FieldUnnamed::~FieldUnnamed()
+ {
+ }
+
+ // methods
+
+Point FieldUnnamed::getMinSize() const
+ {
+  if( active ) return active->getMinSize(this);
+
+  return Point(10,10);
+ }
+
+template <class T>
+void FieldUnnamed::setField(IntObjPtr<T> *pad)
+ {
+  setFieldVar<IntObjPtr<T>,T>(pad);
+ }
+
+template <class ... TT>
+void FieldUnnamed::setField(IntAnyObjPtr<TT...> *pad)
+ {
+  setFieldVar<IntAnyObjPtr<TT...>,TT...>(pad);
+ }
+
+void FieldUnnamed::set(bool *def_pad,bool def)
+ {
+  if( active ) active->set(this,def_pad,def);
+ }
+
+void FieldUnnamed::noField()
+ {
+  if( active ) active->noField();
+ }
+
+ // drawing
+
+void FieldUnnamed::layout()
  {
   if( active ) active->layout(this);
  }
@@ -1232,6 +1575,26 @@ void FieldWindow::setField(BookLab::NamedPtr<TT...> *pad)
   check_def.check(pad->isDef());
  }
 
+template <class T>
+void FieldWindow::setField(IntObjPtr<T> *pad)
+ {
+  field_Unnamed.setField(pad);
+
+  setFieldCtrl(&field_Unnamed,&field_Unnamed,true);
+
+  check_def.check(!*pad);
+ }
+
+template <class ... TT>
+void FieldWindow::setField(IntAnyObjPtr<TT...> *pad)
+ {
+  field_Unnamed.setField(pad);
+
+  setFieldCtrl(&field_Unnamed,&field_Unnamed,true);
+
+  check_def.check(!*pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -1262,6 +1625,7 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Ratio(wlist,cfg.field_Ratio_cfg),
 
    field_Named(wlist,cfg.field_Named_cfg,book),
+   field_Unnamed(wlist,cfg.field_Unnamed_cfg,book),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
@@ -1286,7 +1650,7 @@ Point FieldWindow::getMinSize() const
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named)};
+               Lay(field_Named),Lay(field_Unnamed)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -1311,7 +1675,7 @@ void FieldWindow::layout()
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named)};
+               Lay(field_Named),Lay(field_Unnamed)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 

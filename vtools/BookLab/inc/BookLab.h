@@ -452,6 +452,11 @@ class Book : NoCopy
 
    void draw(const Config &cfg,DrawBuf buf,Point base) const;
 
+   // create
+
+   template <class T>
+   ExtObjPtr<T> create() { return ExtObjPtr<T>(domain); }
+
    // del
 
    template <class T>
