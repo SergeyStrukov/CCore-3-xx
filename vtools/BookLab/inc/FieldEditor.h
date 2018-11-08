@@ -50,6 +50,8 @@ class FieldNamed;
 
 class FieldUnnamed;
 
+class FieldElement;
+
 
 class FieldWindow;
 
@@ -1026,52 +1028,7 @@ class FieldNamed : public ComboWindow , public FieldControl
 
    struct ItemRange;
 
-   template <class ... TT>
-   class Variant : public Base
-    {
-      BookLab::NamedPtr<TT...> * pad = 0 ;
-
-      RadioGroup group;
-
-      RadioWindow rad_edit;
-
-      DynArray<OwnPtr<Item> > list;
-
-     private:
-
-      template <class T>
-      void append(FieldNamed *obj,int radio_id);
-
-      using SetFunc = void (*)(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book) ;
-
-      template <class T>
-      static void SetFuncOf(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book)
-       {
-        *pad={Null,book.create<T>()};
-       }
-
-     public:
-
-      explicit Variant(FieldNamed *obj);
-
-      virtual ~Variant() {}
-
-      void setField(FieldNamed *obj,BookLab::NamedPtr<TT...> *pad);
-
-      // Base methods
-
-      virtual Point getMinSize(const FieldNamed *obj) const;
-
-      virtual void set(FieldNamed *obj,bool *def_pad,bool def);
-
-      virtual void noField();
-
-      virtual void insList(FieldNamed *obj);
-
-      virtual void delList(FieldNamed *obj);
-
-      virtual void layout(FieldNamed *obj);
-    };
+   template <class ... TT> class Variant;
 
    DynArray<OwnPtr<Base> > variants;
 
@@ -1193,52 +1150,7 @@ class FieldUnnamed : public ComboWindow , public FieldControl
 
    struct ItemRange;
 
-   template <class ... TT>
-   class Variant : public Base
-    {
-      using PadType = typename UnnamedPadType<TT...>::PadType ;
-
-      PadType * pad = 0 ;
-
-      RadioGroup group;
-
-      DynArray<OwnPtr<Item> > list;
-
-     private:
-
-      template <class T>
-      void append(FieldUnnamed *obj,int radio_id);
-
-      using SetFunc = void (*)(PadType *pad,BookLab::Book &book) ;
-
-      template <class T>
-      static void SetFuncOf(PadType *pad,BookLab::Book &book)
-       {
-        *pad=book.create<T>();
-       }
-
-     public:
-
-      explicit Variant(FieldUnnamed *obj);
-
-      virtual ~Variant() {}
-
-      void setField(FieldUnnamed *obj,PadType *pad);
-
-      // Base methods
-
-      virtual Point getMinSize(const FieldUnnamed *obj) const;
-
-      virtual void set(FieldUnnamed *obj,bool *def_pad,bool def);
-
-      virtual void noField();
-
-      virtual void insList(FieldUnnamed *obj);
-
-      virtual void delList(FieldUnnamed *obj);
-
-      virtual void layout(FieldUnnamed *obj);
-    };
+   template <class ... TT> class Variant;
 
    DynArray<OwnPtr<Base> > variants;
 
@@ -1275,6 +1187,12 @@ class FieldUnnamed : public ComboWindow , public FieldControl
    // drawing
 
    virtual void layout();
+ };
+
+/* class FieldElement */
+
+class FieldElement
+ {
  };
 
 /* class FieldWindow */

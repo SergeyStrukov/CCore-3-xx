@@ -945,136 +945,153 @@ struct FieldNamed::ItemRange : PtrLen<const OwnPtr<Item> >
  };
 
 template <class ... TT>
-template <class T>
-void FieldNamed::Variant<TT...>::append(FieldNamed *obj,int radio_id)
+class FieldNamed::Variant : public Base
  {
-  Item *item=new Item(obj,radio_id,GetTypeName<T>());
+   BookLab::NamedPtr<TT...> * pad = 0 ;
 
-  list.append_fill( OwnPtr<Item>(item) );
+   RadioGroup group;
 
-  group.add(item->rad_type);
- }
+   RadioWindow rad_edit;
 
-template <class ... TT>
-FieldNamed::Variant<TT...>::Variant(FieldNamed *obj)
- : rad_edit(obj->wlist,0,obj->cfg.rad_cfg),
-   list(DoReserve,sizeof ... (TT))
- {
-  group.add(rad_edit);
+   DynArray<OwnPtr<Item> > list;
 
-  int radio_id=1;
+  private:
 
-  ( append<TT>(obj,radio_id++) , ... );
- }
-
-template <class ... TT>
-void FieldNamed::Variant<TT...>::setField(FieldNamed *obj,BookLab::NamedPtr<TT...> *pad_)
- {
-  pad=pad_;
-
-  if( pad )
+   template <class T>
+   void append(FieldNamed *obj,int radio_id)
     {
-     obj->edit.setText(Range(pad->name));
+     Item *item=new Item(obj,radio_id,GetTypeName<T>());
 
-     if( +pad->ptr )
-       {
-        int ind=0;
+     list.append_fill( OwnPtr<Item>(item) );
 
-        AnyPtr<TT...> ptr=pad->ptr.getPtr();
-
-        ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
-
-        if( ind )
-          list[ind-1]->rad_type.check();
-        else
-          rad_edit.check();
-       }
-     else
-       {
-        rad_edit.check();
-       }
+     group.add(item->rad_type);
     }
- }
 
- // Base methods
+   using SetFunc = void (*)(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book) ;
 
-template <class ... TT>
-Point FieldNamed::Variant<TT...>::getMinSize(const FieldNamed *obj) const
- {
-  Coord space=+obj->cfg.space_dxy;
-
-  LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
-
-  LayToBottom lay2(ItemRange(Range(list)));
-
-  LayToBottom lay{lay1,LayAlignTop(lay2)};
-
-  return lay.getMinSize(space);
- }
-
-template <class ... TT>
-void FieldNamed::Variant<TT...>::set(FieldNamed *obj,bool *,bool def)
- {
-  if( pad )
+   template <class T>
+   static void SetFuncOf(BookLab::NamedPtr<TT...> *pad,BookLab::Book &book)
     {
-     if( def )
-       {
-        *pad={};
-       }
-     else
-       {
-        int radio_id=group.getRadioId();
+     *pad={Null,book.create<T>()};
+    }
 
-        if( radio_id )
+  public:
+
+   explicit Variant(FieldNamed *obj)
+    : rad_edit(obj->wlist,0,obj->cfg.rad_cfg),
+      list(DoReserve,sizeof ... (TT))
+    {
+     group.add(rad_edit);
+
+     int radio_id=1;
+
+     ( append<TT>(obj,radio_id++) , ... );
+    }
+
+   virtual ~Variant() {}
+
+   void setField(FieldNamed *obj,BookLab::NamedPtr<TT...> *pad_)
+    {
+     pad=pad_;
+
+     if( pad )
+       {
+        obj->edit.setText(Range(pad->name));
+
+        if( +pad->ptr )
           {
-           SetFunc table[]={ SetFuncOf<TT>... };
+           int ind=0;
 
-           table[radio_id-1](pad,obj->book);
+           AnyPtr<TT...> ptr=pad->ptr.getPtr();
+
+           ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
+
+           if( ind )
+             list[ind-1]->rad_type.check();
+           else
+             rad_edit.check();
           }
         else
           {
-           pad->name=obj->edit.getString();
-           pad->ptr=Null;
+           rad_edit.check();
           }
        }
     }
- }
 
-template <class ... TT>
-void FieldNamed::Variant<TT...>::noField()
- {
-  pad=0;
- }
+   // Base methods
 
-template <class ... TT>
-void FieldNamed::Variant<TT...>::insList(FieldNamed *obj)
- {
-  obj->wlist.insBottom(rad_edit);
+   virtual Point getMinSize(const FieldNamed *obj) const
+    {
+     Coord space=+obj->cfg.space_dxy;
 
-  for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
- }
+     LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
 
-template <class ... TT>
-void FieldNamed::Variant<TT...>::delList(FieldNamed *obj)
- {
-  obj->wlist.del(rad_edit);
+     LayToBottom lay2(ItemRange(Range(list)));
 
-  for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
- }
+     LayToBottom lay{lay1,LayAlignTop(lay2)};
 
-template <class ... TT>
-void FieldNamed::Variant<TT...>::layout(FieldNamed *obj)
- {
-  Coord space=+obj->cfg.space_dxy;
+     return lay.getMinSize(space);
+    }
 
-  LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
+   virtual void set(FieldNamed *obj,bool *,bool def)
+    {
+     if( pad )
+       {
+        if( def )
+          {
+           *pad={};
+          }
+        else
+          {
+           int radio_id=group.getRadioId();
 
-  LayToBottom lay2(ItemRange(Range(list)));
+           if( radio_id )
+             {
+              SetFunc table[]={ SetFuncOf<TT>... };
 
-  LayToBottom lay{lay1,LayAlignTop(lay2)};
+              table[radio_id-1](pad,obj->book);
+             }
+           else
+             {
+              pad->name=obj->edit.getString();
+              pad->ptr=Null;
+             }
+          }
+       }
+    }
 
-  lay.setPlace(obj->getPane(),space);
- }
+   virtual void noField()
+    {
+     pad=0;
+    }
+
+   virtual void insList(FieldNamed *obj)
+    {
+     obj->wlist.insBottom(rad_edit);
+
+     for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
+    }
+
+   virtual void delList(FieldNamed *obj)
+    {
+     obj->wlist.del(rad_edit);
+
+     for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
+    }
+
+   virtual void layout(FieldNamed *obj)
+    {
+     Coord space=+obj->cfg.space_dxy;
+
+     LayToRightCenter lay1{LayBox(rad_edit),Lay(obj->lab_edit),Lay(obj->edit)};
+
+     LayToBottom lay2(ItemRange(Range(list)));
+
+     LayToBottom lay{lay1,LayAlignTop(lay2)};
+
+     lay.setPlace(obj->getPane(),space);
+    }
+ };
 
 template <class ... TT>
 void FieldNamed::activate(Variant<TT...> *var,BookLab::NamedPtr<TT...> *pad)
@@ -1215,108 +1232,125 @@ struct FieldUnnamed::ItemRange : PtrLen<const OwnPtr<Item> >
  };
 
 template <class ... TT>
-template <class T>
-void FieldUnnamed::Variant<TT...>::append(FieldUnnamed *obj,int radio_id)
+class FieldUnnamed::Variant : public Base
  {
-  Item *item=new Item(obj,radio_id,GetTypeName<T>());
+   using PadType = typename UnnamedPadType<TT...>::PadType ;
 
-  list.append_fill( OwnPtr<Item>(item) );
+   PadType * pad = 0 ;
 
-  group.add(item->rad_type);
- }
+   RadioGroup group;
 
-template <class ... TT>
-FieldUnnamed::Variant<TT...>::Variant(FieldUnnamed *obj)
- : list(DoReserve,sizeof ... (TT))
- {
-  int radio_id=1;
+   DynArray<OwnPtr<Item> > list;
 
-  ( append<TT>(obj,radio_id++) , ... );
- }
+  private:
 
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::setField(FieldUnnamed *,PadType *pad_)
- {
-  pad=pad_;
-
-  if( pad )
+   template <class T>
+   void append(FieldUnnamed *obj,int radio_id)
     {
-     if( +(*pad) )
-       {
-        int ind=0;
+     Item *item=new Item(obj,radio_id,GetTypeName<T>());
 
-        AnyPtr<TT...> ptr=pad->getPtr();
+     list.append_fill( OwnPtr<Item>(item) );
 
-        ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
-
-        if( ind )
-          list[ind-1]->rad_type.check();
-       }
+     group.add(item->rad_type);
     }
- }
 
- // Base methods
+   using SetFunc = void (*)(PadType *pad,BookLab::Book &book) ;
 
-template <class ... TT>
-Point FieldUnnamed::Variant<TT...>::getMinSize(const FieldUnnamed *obj) const
- {
-  Coord space=+obj->cfg.space_dxy;
-
-  LayToBottom lay(ItemRange(Range(list)));
-
-  return LayAlignTop(lay).getMinSize(space);
- }
-
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::set(FieldUnnamed *obj,bool *,bool def)
- {
-  if( pad )
+   template <class T>
+   static void SetFuncOf(PadType *pad,BookLab::Book &book)
     {
-     if( def )
-       {
-        *pad=Null;
-       }
-     else
-       {
-        int radio_id=group.getRadioId();
+     *pad=book.create<T>();
+    }
 
-        if( radio_id )
+  public:
+
+   explicit Variant(FieldUnnamed *obj)
+    : list(DoReserve,sizeof ... (TT))
+    {
+     int radio_id=1;
+
+     ( append<TT>(obj,radio_id++) , ... );
+    }
+
+   virtual ~Variant() {}
+
+   void setField(FieldUnnamed *,PadType *pad_)
+    {
+     pad=pad_;
+
+     if( pad )
+       {
+        if( +(*pad) )
           {
-           SetFunc table[]={ SetFuncOf<TT>... };
+           int ind=0;
 
-           table[radio_id-1](pad,obj->book);
+           AnyPtr<TT...> ptr=pad->getPtr();
+
+           ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
+
+           if( ind )
+             list[ind-1]->rad_type.check();
           }
        }
     }
- }
 
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::noField()
- {
-  pad=0;
- }
+   // Base methods
 
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::insList(FieldUnnamed *obj)
- {
-  for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
- }
+   virtual Point getMinSize(const FieldUnnamed *obj) const
+    {
+     Coord space=+obj->cfg.space_dxy;
 
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::delList(FieldUnnamed *obj)
- {
-  for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
- }
+     LayToBottom lay(ItemRange(Range(list)));
 
-template <class ... TT>
-void FieldUnnamed::Variant<TT...>::layout(FieldUnnamed *obj)
- {
-  Coord space=+obj->cfg.space_dxy;
+     return LayAlignTop(lay).getMinSize(space);
+    }
 
-  LayToBottom lay(ItemRange(Range(list)));
+   virtual void set(FieldUnnamed *obj,bool *,bool def)
+    {
+     if( pad )
+       {
+        if( def )
+          {
+           *pad=Null;
+          }
+        else
+          {
+           int radio_id=group.getRadioId();
 
-  LayAlignTop(lay).setPlace(obj->getPane(),space);
- }
+           if( radio_id )
+             {
+              SetFunc table[]={ SetFuncOf<TT>... };
+
+              table[radio_id-1](pad,obj->book);
+             }
+          }
+       }
+    }
+
+   virtual void noField()
+    {
+     pad=0;
+    }
+
+   virtual void insList(FieldUnnamed *obj)
+    {
+     for(auto &ptr : list ) obj->wlist.insBottom(ptr->lab_type,ptr->rad_type);
+    }
+
+   virtual void delList(FieldUnnamed *obj)
+    {
+     for(auto &ptr : list ) obj->wlist.del(ptr->lab_type,ptr->rad_type);
+    }
+
+   virtual void layout(FieldUnnamed *obj)
+    {
+     Coord space=+obj->cfg.space_dxy;
+
+     LayToBottom lay(ItemRange(Range(list)));
+
+     LayAlignTop(lay).setPlace(obj->getPane(),space);
+    }
+ };
 
 template <class Pad,class ... TT>
 void FieldUnnamed::activate(Variant<TT...> *var,Pad *pad)
