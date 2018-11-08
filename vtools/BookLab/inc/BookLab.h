@@ -438,6 +438,8 @@ class Book : NoCopy
 
    bool isLinked() const { return linked; }
 
+   void unlink() { linked=false; }
+
    ErrorText link(PtrLen<char> ebuf);
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;

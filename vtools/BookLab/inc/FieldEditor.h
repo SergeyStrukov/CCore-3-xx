@@ -50,6 +50,7 @@ class FieldNamed;
 
 class FieldUnnamed;
 
+
 class FieldElement;
 
 
@@ -1191,8 +1192,83 @@ class FieldUnnamed : public ComboWindow , public FieldControl
 
 /* class FieldElement */
 
-class FieldElement
+class FieldElement : public ComboWindow , public FieldControl
  {
+  public:
+
+   struct Config
+    {
+     // user
+
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+
+     // app
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+
+       edit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   BookLab::Element * pad = 0 ;
+
+   // subs
+
+   LineEditWindow edit;
+
+  private:
+
+   template <class T>
+   static StrLen GetName(T *ptr) { return Range(ptr->name); }
+
+   static StrLen GetName(BookLab::Section *ptr) { return Range(ptr->comment); }
+
+   template <class T>
+   static void SetName(T *ptr,String name) { if( BookLab::TestName(Range(name)) ) ptr->name=name; }
+
+   static void SetName(BookLab::Section *ptr,String name) { ptr->comment=name; }
+
+  public:
+
+   FieldElement(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldElement();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setField(BookLab::Element *pad);
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+
+   // drawing
+
+   virtual void layout();
  };
 
 /* class FieldWindow */
@@ -1225,9 +1301,10 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldEffect::ConfigType> field_Effect_cfg;
      CtorRefVal<FieldPoint::ConfigType> field_Point_cfg;
      CtorRefVal<FieldRatio::ConfigType> field_Ratio_cfg;
-
      CtorRefVal<FieldNamed::ConfigType> field_Named_cfg;
      CtorRefVal<FieldUnnamed::ConfigType> field_Unnamed_cfg;
+
+     CtorRefVal<FieldElement::ConfigType> field_Element_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -1242,7 +1319,9 @@ class FieldWindow : public ComboWindow
         field_Point_cfg(user_pref,app_pref),
         field_Ratio_cfg(user_pref,app_pref),
         field_Named_cfg(user_pref,app_pref),
-        field_Unnamed_cfg(user_pref,app_pref)
+        field_Unnamed_cfg(user_pref,app_pref),
+
+        field_Element_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -1295,9 +1374,10 @@ class FieldWindow : public ComboWindow
    FieldEffect field_Effect;
    FieldPoint field_Point;
    FieldRatio field_Ratio;
-
    FieldNamed field_Named;
    FieldUnnamed field_Unnamed;
+
+   FieldElement field_Element;
 
   private:
 
@@ -1347,6 +1427,8 @@ class FieldWindow : public ComboWindow
 
    template <class ... TT>
    void setField(IntAnyObjPtr<TT...> *pad);
+
+   void setField(BookLab::Element *pad);
 
   private:
 

@@ -49,7 +49,12 @@ void InnerBookLabWindow::update(bool mod)
 
   changed.assert();
 
-  if( mod ) modified.assert();
+  if( mod )
+    {
+     book.unlink();
+
+     modified.assert();
+    }
  }
 
 bool InnerBookLabWindow::cache() const

@@ -41,7 +41,7 @@ Point FieldBool::getMinSize() const
 
   LayToRightCenter lay{Lay(check_true),LayLeft(lab_true)};
 
-  return lay.getMinSize(space);
+  return LayAlignTop(lay).getMinSize(space);
  }
 
 void FieldBool::setField(bool *pad_)
@@ -78,7 +78,7 @@ void FieldBool::layout()
 
   LayToRightCenter lay{Lay(check_true),LayLeft(lab_true)};
 
-  lay.setPlace(getPane(),space);
+  LayAlignTop(lay).setPlace(getPane(),space);
  }
 
 /* class CoordWindow */
@@ -1461,6 +1461,59 @@ void FieldUnnamed::layout()
   if( active ) active->layout(this);
  }
 
+/* class FieldElement */
+
+FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   edit(wlist,cfg.edit_cfg)
+ {
+  wlist.insTop(edit);
+ }
+
+FieldElement::~FieldElement()
+ {
+ }
+
+ // methods
+
+Point FieldElement::getMinSize() const
+ {
+  return edit.getMinSize();
+ }
+
+void FieldElement::setField(BookLab::Element *pad_)
+ {
+  pad=pad_;
+
+  if( pad )
+    {
+     StrLen str;
+
+     pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) str=GetName(ptr); } );
+
+     edit.setText(str);
+    }
+ }
+
+void FieldElement::set(bool *,bool)
+ {
+  if( pad ) pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) SetName(ptr,edit.getString()); } );
+ }
+
+void FieldElement::noField()
+ {
+  pad=0;
+ }
+
+ // drawing
+
+void FieldElement::layout()
+ {
+  LayTop(edit).setPlace(getPane(),0);
+ }
+
 /* class FieldWindow */
 
 void FieldWindow::noField()
@@ -1629,6 +1682,11 @@ void FieldWindow::setField(IntAnyObjPtr<TT...> *pad)
   check_def.check(!*pad);
  }
 
+void FieldWindow::setField(BookLab::Element *pad)
+ {
+  setFieldCtrl(field_Element,pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -1657,9 +1715,10 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Effect(wlist,cfg.field_Effect_cfg),
    field_Point(wlist,cfg.field_Point_cfg),
    field_Ratio(wlist,cfg.field_Ratio_cfg),
-
    field_Named(wlist,cfg.field_Named_cfg,book),
    field_Unnamed(wlist,cfg.field_Unnamed_cfg,book),
+
+   field_Element(wlist,cfg.field_Element_cfg),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
  {
@@ -1684,7 +1743,7 @@ Point FieldWindow::getMinSize() const
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named),Lay(field_Unnamed)};
+               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -1709,7 +1768,7 @@ void FieldWindow::layout()
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named),Lay(field_Unnamed)};
+               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
