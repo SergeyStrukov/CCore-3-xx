@@ -1463,11 +1463,28 @@ void FieldUnnamed::layout()
 
 /* class FieldElement */
 
+void FieldElement::testResult(bool ok)
+ {
+  edit.alert(!ok);
+
+  valid_changed.assert(ok);
+ }
+
+void FieldElement::edit_changed()
+ {
+  if( test_enable )
+    {
+     testResult( BookLab::TestName(edit.getText()) );
+    }
+ }
+
 FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   edit(wlist,cfg.edit_cfg)
+   edit(wlist,cfg.edit_cfg),
+
+   connector_edit_changed(this,&FieldElement::edit_changed,edit.changed)
  {
   wlist.insTop(edit);
  }
@@ -1489,11 +1506,18 @@ void FieldElement::setField(BookLab::Element *pad_)
 
   if( pad )
     {
-     StrLen str;
+     GetNameResult result;
 
-     pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) str=GetName(ptr); } );
+     pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) result=GetName(ptr); } );
 
-     edit.setText(str);
+     edit.setText(result.str);
+
+     test_enable=result.test_enable;
+
+     if( test_enable )
+       testResult( BookLab::TestName(result.str) );
+     else
+       edit.alert(false);
     }
  }
 
@@ -1534,6 +1558,8 @@ void FieldWindow::noField()
      check_def.disable();
      lab_def.disable();
 
+     connector_valid_changed.disconnect();
+
      redraw();
     }
  }
@@ -1554,6 +1580,8 @@ void FieldWindow::setFieldCtrl(FieldControl *field_ctrl_,SubWindow *field_,bool 
         field_ctrl->noField();
 
         wlist.del(field);
+
+        connector_valid_changed.disconnect();
        }
 
      field_ctrl=field_ctrl_;
@@ -1566,6 +1594,8 @@ void FieldWindow::setFieldCtrl(FieldControl *field_ctrl_,SubWindow *field_,bool 
      check_def.enable(withdef);
      lab_def.enable(withdef);
 
+     connector_valid_changed.connect(field_ctrl->valid_changed);
+
      redraw();
     }
  }
@@ -1575,9 +1605,9 @@ void FieldWindow::setFieldCtrl(W &sub,T *pad)
  {
   def_pad=0;
 
-  sub.setField(pad);
-
   setFieldCtrl(&sub,&sub,false);
+
+  sub.setField(pad);
  }
 
 template <class W,class T>
@@ -1585,9 +1615,9 @@ void FieldWindow::setFieldCtrl(W &sub,BookLab::OptDataBase<T> *pad)
  {
   def_pad=&pad->def;
 
-  sub.setField(&pad->data);
-
   setFieldCtrl(&sub,&sub,true);
+
+  sub.setField(&pad->data);
 
   check_def.check(*def_pad);
  }
@@ -1655,9 +1685,9 @@ void FieldWindow::setField(BookLab::OptDataBase<BookLab::Ratio> *pad)
 template <class ... TT>
 void FieldWindow::setField(BookLab::NamedPtr<TT...> *pad)
  {
-  field_Named.setField(pad);
-
   setFieldCtrl(&field_Named,&field_Named,true);
+
+  field_Named.setField(pad);
 
   check_def.check(pad->isDef());
  }
@@ -1665,9 +1695,9 @@ void FieldWindow::setField(BookLab::NamedPtr<TT...> *pad)
 template <class T>
 void FieldWindow::setField(IntObjPtr<T> *pad)
  {
-  field_Unnamed.setField(pad);
-
   setFieldCtrl(&field_Unnamed,&field_Unnamed,true);
+
+  field_Unnamed.setField(pad);
 
   check_def.check(!*pad);
  }
@@ -1675,9 +1705,9 @@ void FieldWindow::setField(IntObjPtr<T> *pad)
 template <class ... TT>
 void FieldWindow::setField(IntAnyObjPtr<TT...> *pad)
  {
-  field_Unnamed.setField(pad);
-
   setFieldCtrl(&field_Unnamed,&field_Unnamed,true);
+
+  field_Unnamed.setField(pad);
 
   check_def.check(!*pad);
  }
@@ -1695,6 +1725,11 @@ void FieldWindow::set_pressed()
 
      modified.assert();
     }
+ }
+
+void FieldWindow::valid_changed(bool valid)
+ {
+  btn_set.enable(valid);
  }
 
 FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book)
@@ -1720,7 +1755,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
 
    field_Element(wlist,cfg.field_Element_cfg),
 
-   connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed)
+   connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed),
+   connector_valid_changed(this,&FieldWindow::valid_changed)
  {
   wlist.insTop(btn_set,check_def,lab_def);
 

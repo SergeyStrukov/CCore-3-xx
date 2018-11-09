@@ -65,6 +65,8 @@ struct FieldControl
   virtual void set(bool *def_pad,bool def) = 0 ;
 
   virtual void noField() = 0 ;
+
+  Signal<bool> valid_changed;
  };
 
 /* class FieldBool */
@@ -1237,18 +1239,33 @@ class FieldElement : public ComboWindow , public FieldControl
    // subs
 
    LineEditWindow edit;
+   bool test_enable = false ;
 
   private:
 
-   template <class T>
-   static StrLen GetName(T *ptr) { return Range(ptr->name); }
+   struct GetNameResult
+    {
+     StrLen str;
+     bool test_enable = false ;
+    };
 
-   static StrLen GetName(BookLab::Section *ptr) { return Range(ptr->comment); }
+   template <class T>
+   static GetNameResult GetName(T *ptr) { return {Range(ptr->name),true}; }
+
+   static GetNameResult GetName(BookLab::Section *ptr) { return {Range(ptr->comment),false}; }
 
    template <class T>
    static void SetName(T *ptr,String name) { if( BookLab::TestName(Range(name)) ) ptr->name=name; }
 
    static void SetName(BookLab::Section *ptr,String name) { ptr->comment=name; }
+
+  private:
+
+   void testResult(bool ok);
+
+   void edit_changed();
+
+   SignalConnector<FieldElement> connector_edit_changed;
 
   public:
 
@@ -1435,6 +1452,10 @@ class FieldWindow : public ComboWindow
    void set_pressed();
 
    SignalConnector<FieldWindow> connector_set_pressed;
+
+   void valid_changed(bool valid);
+
+   SignalConnector<FieldWindow,bool> connector_valid_changed;
 
   public:
 
