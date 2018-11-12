@@ -1202,7 +1202,11 @@ class FieldElement : public ComboWindow , public FieldControl
     {
      // user
 
+     RefVal<Coord> space_dxy = 10 ;
+
+     CtorRefVal<ButtonWindow::ConfigType> btn_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<FontEditWindow::ConfigType> font_cfg;
 
      // app
 
@@ -1216,9 +1220,11 @@ class FieldElement : public ComboWindow , public FieldControl
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
+       space_dxy.bind(bag.space_dxy);
 
+       btn_cfg.bind(proxy);
        edit_cfg.bind(proxy);
+       font_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -1234,12 +1240,18 @@ class FieldElement : public ComboWindow , public FieldControl
 
    const Config &cfg;
 
+   Signal<> &modified;
+
    BookLab::Element * pad = 0 ;
 
    // subs
 
    LineEditWindow edit;
    bool test_enable = false ;
+
+   ButtonWindow btn_select;
+
+   FontEditWindow font;
 
   private:
 
@@ -1267,9 +1279,13 @@ class FieldElement : public ComboWindow , public FieldControl
 
    SignalConnector<FieldElement> connector_edit_changed;
 
+   void font_selected();
+
+   SignalConnector<FieldElement> connector_font_selected;
+
   public:
 
-   FieldElement(SubWindowHost &host,const Config &cfg);
+   FieldElement(SubWindowHost &host,const Config &cfg,Signal<> &modified);
 
    virtual ~FieldElement();
 

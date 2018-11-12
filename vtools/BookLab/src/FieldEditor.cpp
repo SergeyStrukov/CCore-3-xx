@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/video/FreeTypeFont.h>
+
 namespace App {
 
 /* class FieldBool */
@@ -1478,13 +1480,53 @@ void FieldElement::edit_changed()
     }
  }
 
-FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_)
+void FieldElement::font_selected()
+ {
+  if( pad )
+    {
+     auto anyptr=pad->ptr.getPtr();
+
+     if( BookLab::Font *ptr=anyptr.castPtr<BookLab::Font>() )
+       {
+        FontCouple couple=font.getCouple();
+
+        if( couple.param.engine_type==FontParam::EngineFreeType )
+          {
+           FreeTypeFont ftfont;
+
+           (Font &)ftfont=couple.font;
+
+           ptr->face=String(ftfont.getFamily());
+
+           if( couple.param.size_type==FontParam::SizeXY )
+             {
+              ptr->size=couple.param.set_size.size_xy;
+             }
+
+           auto style=ftfont.getStyleFlags();
+
+           ptr->bold.set(style.bold);
+           ptr->italic.set(style.italic);
+
+           ptr->strength.set(BookLab::Strength(couple.param.cfg.strength));
+          }
+
+        modified.assert();
+       }
+    }
+ }
+
+FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_,Signal<> &modified_)
  : ComboWindow(host),
    cfg(cfg_),
+   modified(modified_),
 
    edit(wlist,cfg.edit_cfg),
+   btn_select(wlist,cfg.btn_cfg,"Select font"_def),
+   font(wlist,cfg.font_cfg),
 
-   connector_edit_changed(this,&FieldElement::edit_changed,edit.changed)
+   connector_edit_changed(this,&FieldElement::edit_changed,edit.changed),
+   connector_font_selected(this,&FieldElement::font_selected,btn_select.pressed)
  {
   wlist.insTop(edit);
  }
@@ -1497,7 +1539,11 @@ FieldElement::~FieldElement()
 
 Point FieldElement::getMinSize() const
  {
-  return edit.getMinSize();
+  Coord space=+cfg.space_dxy;
+
+  LayToBottom lay{Lay(edit),LayLeft(btn_select),LayTop(font)};
+
+  return lay.getMinSize(space);
  }
 
 void FieldElement::setField(BookLab::Element *pad_)
@@ -1508,7 +1554,9 @@ void FieldElement::setField(BookLab::Element *pad_)
     {
      GetNameResult result;
 
-     pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) result=GetName(ptr); } );
+     auto anyptr=pad->ptr.getPtr();
+
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) result=GetName(ptr); } );
 
      edit.setText(result.str);
 
@@ -1518,12 +1566,32 @@ void FieldElement::setField(BookLab::Element *pad_)
        testResult( BookLab::TestName(result.str) );
      else
        edit.alert(false);
+
+     if( BookLab::Font *ptr=anyptr.castPtr<BookLab::Font>() )
+       {
+        Used(ptr);
+
+        wlist.insBottom(btn_select);
+
+        if( wlist.insBottom(font) ) redraw();
+       }
+     else
+       {
+        wlist.del(btn_select);
+
+        if( wlist.del(font) ) redraw();
+       }
     }
  }
 
 void FieldElement::set(bool *,bool)
  {
-  if( pad ) pad->ptr.getPtr().apply( [&] (auto *ptr) { if( ptr ) SetName(ptr,edit.getString()); } );
+  if( pad )
+    {
+     auto anyptr=pad->ptr.getPtr();
+
+     anyptr.apply( [&] (auto *ptr) { if( ptr ) SetName(ptr,edit.getString()); } );
+    }
  }
 
 void FieldElement::noField()
@@ -1535,7 +1603,11 @@ void FieldElement::noField()
 
 void FieldElement::layout()
  {
-  LayTop(edit).setPlace(getPane(),0);
+  Coord space=+cfg.space_dxy;
+
+  LayToBottom lay{Lay(edit),LayLeft(btn_select),LayTop(font)};
+
+  lay.setPlace(getPane(),space);
  }
 
 /* class FieldWindow */
@@ -1753,7 +1825,7 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Named(wlist,cfg.field_Named_cfg,book),
    field_Unnamed(wlist,cfg.field_Unnamed_cfg,book),
 
-   field_Element(wlist,cfg.field_Element_cfg),
+   field_Element(wlist,cfg.field_Element_cfg,modified),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed),
    connector_valid_changed(this,&FieldWindow::valid_changed)
