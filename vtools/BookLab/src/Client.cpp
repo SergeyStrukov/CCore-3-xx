@@ -257,6 +257,37 @@ void ClientWindow::msg_destroyed()
     }
  }
 
+void ClientWindow::ask_save()
+ {
+  menuAction(MenuFileSave);
+ }
+
+void ClientWindow::field_key(UserAction action)
+ {
+  struct React
+   {
+    ClientWindow *obj;
+
+    void react_Key(VKey vkey,KeyMod kmod)
+     {
+      switch( vkey )
+        {
+         case VKey_F2 :
+         case VKey_F5 :
+         case VKey_F8 :
+         case VKey_Insert :
+          {
+           obj->react_Key(vkey,kmod);
+          }
+         break;
+        };
+     }
+
+   } react{this};
+
+  action.dispatch(react);
+ }
+
 ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
@@ -272,7 +303,9 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName op
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed),
    connector_file_destroyed(this,&ClientWindow::file_destroyed,file_frame.destroyed),
-   connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed)
+   connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed),
+   connector_ask_save(this,&ClientWindow::ask_save,sub_win.ask_save),
+   connector_field_key(this,&ClientWindow::field_key,sub_win.key_input)
  {
   cascade_menu.connectUpdate(update);
 

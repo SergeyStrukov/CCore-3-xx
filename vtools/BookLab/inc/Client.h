@@ -199,11 +199,17 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    void msg_destroyed();
 
+   void ask_save();
+
+   void field_key(UserAction action);
+
    SignalConnector<ClientWindow,int,Point> connector_menu_selected;
    SignalConnector<ClientWindow,int,Point> connector_cascade_menu_selected;
    SignalConnector<ClientWindow,VKey,KeyMod> connector_cascade_menu_pressed;
    SignalConnector<ClientWindow> connector_file_destroyed;
    SignalConnector<ClientWindow> connector_msg_destroyed;
+   SignalConnector<ClientWindow> connector_ask_save;
+   SignalConnector<ClientWindow,UserAction> connector_field_key;
 
   public:
 

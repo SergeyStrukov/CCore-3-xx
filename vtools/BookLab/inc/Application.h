@@ -50,6 +50,7 @@ struct AppPreferenceBag : ConfigItemHost
 
   DefString text_NoFile = "<No file>"_def ;
   DefString text_File = "File"_def ;
+  DefString text_Save = "Save"_def ;
   DefString text_Link = "Link"_def ;
   DefString text_Book = "Book"_def ;
 
@@ -105,6 +106,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_App"_c,ptr->menu_App);
   func("text_NoFile"_c,ptr->text_NoFile);
   func("text_File"_c,ptr->text_File);
+  func("text_Save"_c,ptr->text_Save);
   func("text_Link"_c,ptr->text_Link);
   func("text_Book"_c,ptr->text_Book);
   func("border_dxy"_c,ptr->border_dxy);

@@ -41,6 +41,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
     binder.item("'No file'"_def,text_NoFile);
     binder.item("'File'"_def,text_File);
+    binder.item("'Save'"_def,text_Save);
     binder.item("'Link'"_def,text_Link);
     binder.item("'Book'"_def,text_Book);
 

@@ -264,6 +264,7 @@ class InnerBookLabWindow : public SubWindow
 
    Signal<> changed;
    Signal<> modified;
+   Signal<UserAction> &key_input;
  };
 
 /* class BookLabWindow */
@@ -315,6 +316,7 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
    // signals
 
    Signal<> &modified;
+   Signal<UserAction> &key_input;
  };
 
 /* class EditWindow */
@@ -344,6 +346,7 @@ class EditWindow : public ComboWindow
 
      RefVal<DefString> text_NoFile = "<No file>"_def ;
      RefVal<DefString> text_File = "File"_def ;
+     RefVal<DefString> text_Save = "Save"_def ;
      RefVal<DefString> text_Link = "Link"_def ;
      RefVal<DefString> text_Book = "Book"_def ;
 
@@ -377,6 +380,7 @@ class EditWindow : public ComboWindow
       {
        text_NoFile.bind(bag.text_NoFile);
        text_File.bind(bag.text_File);
+       text_Save.bind(bag.text_Save);
        text_Link.bind(bag.text_Link);
        text_Book.bind(bag.text_Book);
       }
@@ -390,6 +394,7 @@ class EditWindow : public ComboWindow
 
    RefLabelWindow label_file;
    TextLineWindow text_file;
+   RefButtonWindow btn_save;
    RefButtonWindow btn_link;
    RefButtonWindow btn_book;
 
@@ -415,6 +420,10 @@ class EditWindow : public ComboWindow
    void book_modified();
 
    SignalConnector<EditWindow> connector_book_modified;
+
+   void save_pressed();
+
+   SignalConnector<EditWindow> connector_save_pressed;
 
    void link_pressed() { link(); }
 
@@ -471,6 +480,11 @@ class EditWindow : public ComboWindow
    virtual void open();
 
    virtual void close();
+
+   // signals
+
+   Signal<> ask_save;
+   Signal<UserAction> &key_input;
  };
 
 } // namespace App

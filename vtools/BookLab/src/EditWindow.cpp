@@ -388,7 +388,9 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
 
    connector_updated(this,&InnerBookLabWindow::updated,host.getFrame()->updated),
    connector_ins_destroyed(this,&InnerBookLabWindow::ins_destroyed,ins_frame.destroyed),
-   connector_field_modified(this,&InnerBookLabWindow::field_modified,field_frame.modified)
+   connector_field_modified(this,&InnerBookLabWindow::field_modified,field_frame.modified),
+
+   key_input(field_frame.key_input)
  {
  }
 
@@ -713,7 +715,8 @@ BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> 
 
    connector_changed(this,&BookLabWindow::changed,window.changed),
 
-   modified(window.modified)
+   modified(window.modified),
+   key_input(window.key_input)
  {
   wlist.enableTabFocus(false);
   wlist.enableClickFocus(false);
@@ -767,6 +770,11 @@ void EditWindow::book_modified()
   text_file.alert();
  }
 
+void EditWindow::save_pressed()
+ {
+  ask_save.assert();
+ }
+
 void EditWindow::msg_destroyed()
  {
   enableFrameReact();
@@ -809,6 +817,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    label_file(wlist,cfg.label_cfg,cfg.text_File),
    text_file(wlist,cfg.text_cfg,+cfg.text_NoFile),
+   btn_save(wlist,cfg.btn_cfg,cfg.text_Save),
    btn_link(wlist,cfg.btn_cfg,cfg.text_Link),
    btn_book(wlist,cfg.btn_cfg,cfg.text_Book),
 
@@ -818,15 +827,19 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def},update),
 
    connector_book_modified(this,&EditWindow::book_modified,book.modified),
+   connector_save_pressed(this,&EditWindow::save_pressed,btn_save.pressed),
    connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
    connector_book_pressed(this,&EditWindow::saveBook,btn_book.pressed),
    connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
    connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed),
-   input(this)
+
+   input(this),
+
+   key_input(book.key_input)
  {
   defer_tick=input.create(&EditWindow::tick);
 
-  wlist.insTop(label_file,text_file,btn_link,btn_book,book);
+  wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,book);
 
   // file_frame
 
@@ -846,7 +859,7 @@ Point EditWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  LayToRightCenter lay2{Lay(btn_link),LayLeft(btn_book)};
+  LayToRightCenter lay2{Lay(btn_save),Lay(btn_link),LayLeft(btn_book)};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
@@ -959,7 +972,7 @@ void EditWindow::layout()
 
   LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  LayToRightCenter lay2{Lay(btn_link),LayLeft(btn_book)};
+  LayToRightCenter lay2{Lay(btn_save),Lay(btn_link),LayLeft(btn_book)};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 

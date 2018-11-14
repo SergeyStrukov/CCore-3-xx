@@ -1888,6 +1888,18 @@ void FieldWindow::drawBack(DrawBuf buf,bool) const
   buf.erase(+cfg.back);
  }
 
+ // user input
+
+void FieldWindow::react(UserAction action)
+ {
+  wlist.react(action);
+
+  if( action.fromKeyboard() )
+    {
+     key_input.assert(action);
+    }
+ }
+
 /* class FieldFrame */
 
 FieldFrame::FieldFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
@@ -1896,7 +1908,8 @@ FieldFrame::FieldFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,S
 
    client(*this,cfg.client_cfg,book),
 
-   modified(client.modified)
+   modified(client.modified),
+   key_input(client.key_input)
  {
   bindClient(client);
  }

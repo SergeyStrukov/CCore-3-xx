@@ -1491,9 +1491,14 @@ class FieldWindow : public ComboWindow
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
 
+   // user input
+
+   virtual void react(UserAction action);
+
    // signals
 
    Signal<> modified;
+   Signal<UserAction> key_input;
  };
 
 /* class FieldFrame */
@@ -1578,6 +1583,7 @@ class FieldFrame : public DragFrame
    // signals
 
    Signal<> &modified;
+   Signal<UserAction> &key_input;
  };
 
 } // namespace App
