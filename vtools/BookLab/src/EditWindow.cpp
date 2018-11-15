@@ -241,6 +241,26 @@ void InnerBookLabWindow::delItem()
     }
  }
 
+void InnerBookLabWindow::listPrev()
+ {
+  if( cursor.handleListPrev()==BookLab::HandleUpdate ) update(false);
+ }
+
+void InnerBookLabWindow::listNext()
+ {
+  if( cursor.handleListNext()==BookLab::HandleUpdate ) update(false);
+ }
+
+void InnerBookLabWindow::listBeg()
+ {
+  if( cursor.handleListBeg()==BookLab::HandleUpdate ) update(false);
+ }
+
+void InnerBookLabWindow::listEnd()
+ {
+  if( cursor.handleListEnd()==BookLab::HandleUpdate ) update(false);
+ }
+
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
  {
   sx.add(Delta(delta,mul_flag));
@@ -529,7 +549,10 @@ void InnerBookLabWindow::draw(DrawBuf buf,bool) const
 
   buf=buf.cutRebase(pane);
 
-  if( cursor.isPad() ) buf.erase(cursor.pane-base,+cfg.cursor);
+  if( cursor.isPad() )
+    {
+     buf.erase(cursor.pane-base,focus? +cfg.cursor : +cfg.gray_cursor );
+    }
 
   book.draw(cfg,buf,-base);
  }
@@ -601,25 +624,37 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
      case VKey_Up :
       {
-       subYPos(repeat,!(kmod&KeyMod_Shift));
+       if( kmod&KeyMod_Ctrl )
+         listPrev();
+       else
+         subYPos(repeat,!(kmod&KeyMod_Shift));
       }
      break;
 
      case VKey_Down :
       {
-       addYPos(repeat,!(kmod&KeyMod_Shift));
+       if( kmod&KeyMod_Ctrl )
+         listNext();
+       else
+         addYPos(repeat,!(kmod&KeyMod_Shift));
       }
      break;
 
      case VKey_Home :
       {
-       begXPos();
+       if( kmod&KeyMod_Ctrl )
+         listBeg();
+       else
+         begXPos();
       }
      break;
 
      case VKey_End :
       {
-       endXPos();
+       if( kmod&KeyMod_Ctrl )
+         listEnd();
+       else
+         endXPos();
       }
      break;
 

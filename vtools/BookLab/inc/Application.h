@@ -64,6 +64,7 @@ struct AppPreferenceBag : ConfigItemHost
 
   VColor back = Silver ;
   VColor cursor = Yellow ;
+  VColor gray_cursor = Gray ;
 
   VColor table   = Black ;
   VColor text    = Blue ;
@@ -120,6 +121,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_"_c,ptr->text);
   func("element"_c,ptr->element);
   func("comment"_c,ptr->comment);
+  func("gray_cursor"_c,ptr->gray_cursor);
   func("text_font"_c,ptr->text_font);
   func("element_font"_c,ptr->element_font);
   func("comment_font"_c,ptr->comment_font);

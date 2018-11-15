@@ -252,6 +252,43 @@ struct PaneRef
   HandleResult handleList(Point point,bool prev,T *ptr);
 
   HandleResult handleList(Point point,bool prev);
+
+  // handleList...()
+
+  template <class T>
+  HandleResult handleListPrev(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleListPrev(T *ptr) { return ptr->gotoPrev()?HandleUpdate:HandleOk; }
+
+  HandleResult handleListPrev();
+
+
+  template <class T>
+  HandleResult handleListNext(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleListNext(T *ptr) { return ptr->gotoNext()?HandleUpdate:HandleOk; }
+
+  HandleResult handleListNext();
+
+
+  template <class T>
+  HandleResult handleListBeg(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleListBeg(T *ptr) { return ptr->gotoBeg()?HandleUpdate:HandleOk; }
+
+  HandleResult handleListBeg();
+
+
+  template <class T>
+  HandleResult handleListEnd(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleListEnd(T *ptr) { return ptr->gotoEnd()?HandleUpdate:HandleOk; }
+
+  HandleResult handleListEnd();
  };
 
 /* struct InsData */

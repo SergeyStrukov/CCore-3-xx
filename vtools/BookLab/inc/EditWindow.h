@@ -50,6 +50,7 @@ class InnerBookLabWindow : public SubWindow
 
      RefVal<VColor> back = Silver ;
      RefVal<VColor> cursor = Yellow ;
+     RefVal<VColor> gray_cursor = Gray ;
 
      InsFrame::ConfigType ins_cfg;
      FieldFrame::ConfigType field_cfg;
@@ -77,6 +78,7 @@ class InnerBookLabWindow : public SubWindow
        border_dxy.bind(bag.border_dxy);
        back.bind(bag.back);
        cursor.bind(bag.cursor);
+       gray_cursor.bind(bag.gray_cursor);
       }
     };
 
@@ -139,6 +141,14 @@ class InnerBookLabWindow : public SubWindow
    void insItem();
 
    void delItem();
+
+   void listPrev();
+
+   void listNext();
+
+   void listBeg();
+
+   void listEnd();
 
   private:
 

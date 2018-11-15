@@ -92,7 +92,7 @@ HandleResult PaneRef::handleMode(Point point)
  {
   HandleResult ret=HandleNone;
 
-  ref.mode.apply( [&] (auto *ptr) { ret=handleMode(point,ptr); } );
+  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleMode(point,ptr); } );
 
   return ret;
  }
@@ -117,7 +117,45 @@ HandleResult PaneRef::handleList(Point point,bool prev)
  {
   HandleResult ret=HandleNone;
 
-  ref.mode.apply( [&] (auto *ptr) { ret=handleList(point,prev,ptr); } );
+  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleList(point,prev,ptr); } );
+
+  return ret;
+ }
+
+ // handleList...()
+
+HandleResult PaneRef::handleListPrev()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleListPrev(ptr); } );
+
+  return ret;
+ }
+
+HandleResult PaneRef::handleListNext()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleListNext(ptr); } );
+
+  return ret;
+ }
+
+HandleResult PaneRef::handleListBeg()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleListBeg(ptr); } );
+
+  return ret;
+ }
+
+HandleResult PaneRef::handleListEnd()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleListEnd(ptr); } );
 
   return ret;
  }
