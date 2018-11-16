@@ -402,6 +402,7 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
 
    ins_frame(host.getFrameDesktop(),cfg.ins_cfg,update),
    field_frame(host.getFrameDesktop(),cfg.field_cfg,book,update),
+   temp_frame(host.getFrameDesktop(),cfg.temp_cfg,update),
 
    connector_posX(this,&InnerBookLabWindow::posX),
    connector_posY(this,&InnerBookLabWindow::posY),
@@ -470,8 +471,9 @@ ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const
   return book.book(file_name,ebuf);
  }
 
-void InnerBookLabWindow::showTemp() // TODO
+void InnerBookLabWindow::showTemp()
  {
+  if( temp_frame.isDead() ) temp_frame.create(getFrame());
  }
 
  // drawing

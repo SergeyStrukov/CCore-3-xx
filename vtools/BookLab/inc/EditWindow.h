@@ -17,6 +17,7 @@
 #include <inc/BookLab.h>
 #include <inc/InsWindow.h>
 #include <inc/FieldEditor.h>
+#include <inc/TempWindow.h>
 
 #include <CCore/inc/IntervalTree.h>
 
@@ -54,12 +55,14 @@ class InnerBookLabWindow : public SubWindow
 
      InsFrame::ConfigType ins_cfg;
      FieldFrame::ConfigType field_cfg;
+     TempFrame::ConfigType temp_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : BookLab::Config(user_pref,app_pref),
         ins_cfg(user_pref,app_pref),
-        field_cfg(user_pref,app_pref)
+        field_cfg(user_pref,app_pref),
+        temp_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -97,6 +100,7 @@ class InnerBookLabWindow : public SubWindow
 
    InsFrame ins_frame;
    mutable FieldFrame field_frame;
+   TempFrame temp_frame;
 
    // scroll
 

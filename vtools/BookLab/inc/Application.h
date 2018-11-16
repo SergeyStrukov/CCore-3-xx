@@ -78,6 +78,7 @@ struct AppPreferenceBag : ConfigItemHost
 
   DefString ins_title = "Select element"_def ;
   DefString field_title = "Edit field"_def ;
+  DefString temp_title = "Temp pad"_def ;
 
   // constructors
 
@@ -129,6 +130,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("comment_font"_c,ptr->comment_font);
   func("ins_title"_c,ptr->ins_title);
   func("field_title"_c,ptr->field_title);
+  func("temp_title"_c,ptr->temp_title);
  }
 
 /* struct AppProp */

@@ -13,10 +13,84 @@
 
 #include <inc/TempWindow.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace App {
 
-/* classes */
+/* class TempWindow */
 
+TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_)
+ {
+ }
+
+TempWindow::~TempWindow()
+ {
+ }
+
+ // methods
+
+Point TempWindow::getMinSize() const
+ {
+  return Point(100,100);
+ }
+
+ // drawing
+
+void TempWindow::layout()
+ {
+ }
+
+void TempWindow::drawBack(DrawBuf buf,bool) const
+ {
+  buf.erase(+cfg.back);
+ }
+
+ // user input
+
+void TempWindow::react(UserAction action)
+ {
+  wlist.react(action);
+ }
+
+/* class TempFrame */
+
+TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
+ : DragFrame(desktop,cfg_.frame_cfg,update),
+   cfg(cfg_),
+
+   client(*this,cfg.client_cfg)
+ {
+  bindClient(client);
+ }
+
+TempFrame::~TempFrame()
+ {
+ }
+
+ // methods
+
+ // base
+
+void TempFrame::dying()
+ {
+  DragFrame::dying();
+
+  place=host->getPlace();
+  has_place=true;
+ }
+
+ // create
+
+Pane TempFrame::getPane(StrLen title) const
+ {
+  Point size=getMinSize(false,title,client.getMinSize());
+
+  if( has_place ) return Pane(place.getBase(),Sup(place.getSize(),size));
+
+  return GetWindowPlace(desktop,+cfg.pos_ry,size);
+ }
 
 } // namespace App
 

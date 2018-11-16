@@ -64,6 +64,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
     binder.item("ins title"_def,ins_title);
     binder.item("field title"_def,field_title);
+    binder.item("temp title"_def,temp_title);
  }
 
 void AppPreferenceBag::findFonts()
