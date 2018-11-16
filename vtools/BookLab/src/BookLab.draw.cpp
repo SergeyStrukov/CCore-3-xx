@@ -1421,6 +1421,8 @@ class Book::DrawContext : NoCopy
      FigureRoundBox fig(p,p.dy/4);
 
      fig.curveSolid(art,data);
+
+     fig.curveLoop(art,HalfPos,line_width,table);
     }
 
    template <OneOfTypes<Point,Ratio,Coord,Strength,bool,Effect,Align,ulen> T>

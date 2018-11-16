@@ -53,6 +53,7 @@ struct AppPreferenceBag : ConfigItemHost
   DefString text_Save = "Save"_def ;
   DefString text_Link = "Link"_def ;
   DefString text_Book = "Book"_def ;
+  DefString text_Temp = "Temp"_def ;
 
   Coord border_dxy = 5 ;
 
@@ -110,6 +111,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Save"_c,ptr->text_Save);
   func("text_Link"_c,ptr->text_Link);
   func("text_Book"_c,ptr->text_Book);
+  func("text_Temp"_c,ptr->text_Temp);
   func("border_dxy"_c,ptr->border_dxy);
   func("line_width"_c,ptr->line_width);
   func("table_dxy"_c,ptr->table_dxy);

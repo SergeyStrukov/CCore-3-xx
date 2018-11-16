@@ -12,6 +12,7 @@ OBJ_LIST = \
 .obj/EditWindow.o \
 .obj/FieldEditor.o \
 .obj/InsWindow.o \
+.obj/TempWindow.o \
 .obj/main.o \
 
 
@@ -29,6 +30,7 @@ ASM_LIST = \
 .obj/EditWindow.s \
 .obj/FieldEditor.s \
 .obj/InsWindow.s \
+.obj/TempWindow.s \
 .obj/main.s \
 
 
@@ -46,6 +48,7 @@ DEP_LIST = \
 .obj/EditWindow.dep \
 .obj/FieldEditor.dep \
 .obj/InsWindow.dep \
+.obj/TempWindow.dep \
 .obj/main.dep \
 
 
@@ -94,6 +97,9 @@ include $(RULES_FILE)
 .obj/InsWindow.o : src/./InsWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/TempWindow.o : src/./TempWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -136,6 +142,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/InsWindow.s : src/./InsWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/TempWindow.s : src/./TempWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -181,6 +190,9 @@ include $(RULES_FILE)
 
 .obj/InsWindow.dep : src/./InsWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InsWindow.o $< -MF $@
+
+.obj/TempWindow.dep : src/./TempWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/TempWindow.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

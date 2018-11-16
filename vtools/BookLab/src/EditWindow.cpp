@@ -470,6 +470,10 @@ ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const
   return book.book(file_name,ebuf);
  }
 
+void InnerBookLabWindow::showTemp() // TODO
+ {
+ }
+
  // drawing
 
 void InnerBookLabWindow::layout()
@@ -494,7 +498,7 @@ void InnerBookLabWindow::layout()
      sx.total=(ulen)size.x;
      sx.page=(ulen)s.x;
 
-     sy.total=(ulen)size.y;
+     sy.total=(ulen)AddSize(size.y,s.y/2);
      sy.page=(ulen)s.y;
     }
   else
@@ -502,7 +506,7 @@ void InnerBookLabWindow::layout()
      sx.total=(ulen)size.x;
      sx.page=1;
 
-     sy.total=(ulen)size.y;
+     sy.total=(ulen)AddSize(size.y,s.y/2);
      sy.page=1;
     }
 
@@ -856,6 +860,10 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    btn_link(wlist,cfg.btn_cfg,cfg.text_Link),
    btn_book(wlist,cfg.btn_cfg,cfg.text_Book),
 
+   line1(wlist,cfg.dline_cfg),
+
+   btn_temp(wlist,cfg.btn_cfg,cfg.text_Temp),
+
    book(wlist,cfg.book_cfg,update),
 
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg,update),
@@ -865,6 +873,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    connector_save_pressed(this,&EditWindow::save_pressed,btn_save.pressed),
    connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
    connector_book_pressed(this,&EditWindow::saveBook,btn_book.pressed),
+   connector_temp_pressed(&book,&BookLabWindow::showTemp,btn_temp.pressed),
    connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
    connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed),
 
@@ -874,7 +883,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  {
   defer_tick=input.create(&EditWindow::tick);
 
-  wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,book);
+  wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,line1,btn_temp,book);
 
   // file_frame
 
@@ -894,7 +903,7 @@ Point EditWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  LayToRightCenter lay2{Lay(btn_save),Lay(btn_link),LayLeft(btn_book)};
+  LayToRight lay2{Lay(btn_save),Lay(btn_link),Lay(btn_book),Lay(line1),LayLeft(btn_temp)};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
@@ -1007,7 +1016,7 @@ void EditWindow::layout()
 
   LayToRightCenter lay1{Lay(label_file),Lay(text_file)};
 
-  LayToRightCenter lay2{Lay(btn_save),Lay(btn_link),LayLeft(btn_book)};
+  LayToRight lay2{Lay(btn_save),Lay(btn_link),Lay(btn_book),Lay(line1),LayLeft(btn_temp)};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 

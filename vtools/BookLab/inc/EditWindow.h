@@ -219,6 +219,8 @@ class InnerBookLabWindow : public SubWindow
 
    ErrorText bookTo(StrLen file_name,PtrLen<char> ebuf) const;
 
+   void showTemp();
+
    // special methods
 
    bool shortDX() const { return sx.tooShort(); }
@@ -323,6 +325,8 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const { return window.bookTo(file_name,ebuf); }
 
+   void showTemp() { window.showTemp(); }
+
    // signals
 
    Signal<> &modified;
@@ -345,6 +349,7 @@ class EditWindow : public ComboWindow
 
      CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
+     CtorRefVal<YDoubleLineWindow::ConfigType> dline_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<FileFrame::ConfigType> file_cfg;
@@ -359,6 +364,7 @@ class EditWindow : public ComboWindow
      RefVal<DefString> text_Save = "Save"_def ;
      RefVal<DefString> text_Link = "Link"_def ;
      RefVal<DefString> text_Book = "Book"_def ;
+     RefVal<DefString> text_Temp = "Temp"_def ;
 
      BookLabWindow::ConfigType book_cfg;
 
@@ -380,6 +386,7 @@ class EditWindow : public ComboWindow
 
        label_cfg.bind(proxy);
        text_cfg.bind(proxy);
+       dline_cfg.bind(proxy);
        btn_cfg.bind(proxy);
        msg_cfg.bind(proxy);
        file_cfg.bind(proxy);
@@ -393,6 +400,7 @@ class EditWindow : public ComboWindow
        text_Save.bind(bag.text_Save);
        text_Link.bind(bag.text_Link);
        text_Book.bind(bag.text_Book);
+       text_Temp.bind(bag.text_Temp);
       }
     };
 
@@ -407,6 +415,10 @@ class EditWindow : public ComboWindow
    RefButtonWindow btn_save;
    RefButtonWindow btn_link;
    RefButtonWindow btn_book;
+
+   YDoubleLineWindow line1;
+
+   RefButtonWindow btn_temp;
 
    BookLabWindow book;
 
@@ -440,6 +452,8 @@ class EditWindow : public ComboWindow
    SignalConnector<EditWindow> connector_link_pressed;
 
    SignalConnector<EditWindow> connector_book_pressed;
+
+   SignalConnector<BookLabWindow> connector_temp_pressed;
 
    void msg_destroyed();
 
