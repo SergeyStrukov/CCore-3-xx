@@ -15,6 +15,7 @@
 #define BookLab_h
 
 #include <inc/BookElements.h>
+#include <inc/SingleRoom.h>
 
 #include <CCore/inc/TextTools.h>
 #include <CCore/inc/ForLoop.h>
@@ -74,6 +75,8 @@ template <class Ctx,class T> struct BindCtx;
 struct Ref;
 
 struct PaneRef;
+
+class TempData;
 
 struct InsData;
 
@@ -156,6 +159,8 @@ struct BindCtx
 
 /* struct Ref */
 
+using ModeType = AnyPtr<OpenFlag,FrameList,ItemList,ElementList> ;
+
 using PadType =
 
 AnyPtr<bool,Coord,String,
@@ -177,7 +182,7 @@ AnyPtr<bool,Coord,String,
 
 struct Ref
  {
-  AnyPtr<OpenFlag,FrameList,ItemList,ElementList> mode;
+  ModeType mode;
   PadType pad;
 
   Ref() noexcept {}
@@ -289,6 +294,108 @@ struct PaneRef
   HandleResult handleListEnd(T *ptr) { return ptr->gotoEnd()?HandleUpdate:HandleOk; }
 
   HandleResult handleListEnd();
+ };
+
+/* class TempData */
+
+class TempData : NoCopy
+ {
+   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> data;
+
+  private:
+
+   template <class T>
+   static StrLen GetTypeName(T *) { return Null; }
+
+   static StrLen GetTypeName(bool *) { return "bool"_c; }
+
+   static StrLen GetTypeName(Coord *) { return "Coord"_c; }
+
+   static StrLen GetTypeName(String *) { return "text"_c; }
+
+   static StrLen GetTypeName(ulen *) { return "ulen"_c; }
+
+   static StrLen GetTypeName(VColor *) { return "Color"_c; }
+
+   static StrLen GetTypeName(Strength *) { return "int"_c; }
+
+   static StrLen GetTypeName(Align *) { return "Align"_c; }
+
+   static StrLen GetTypeName(Effect *) { return "Effect"_c; }
+
+   static StrLen GetTypeName(Point *) { return "Point"_c; }
+
+   static StrLen GetTypeName(Ratio *) { return "Ratio"_c; }
+
+   template <class T>
+   bool copy(T *,ModeType) { return false; }
+
+   template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
+   bool copy(T *ptr,ModeType)
+    {
+     data.create<T>(*ptr);
+
+     return true;
+    }
+
+   template <class T>
+   bool copy(OptDataBase<T> *ptr,ModeType)
+    {
+     if( ptr->def ) return false;
+
+     data.create<T>(ptr->data);
+
+     return true;
+    }
+
+   template <class T>
+   bool past(T *,ModeType) { return false; }
+
+   template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
+   bool past(T &ret)
+    {
+     if( T *src=data.getPtr().castPtr<T>() )
+       {
+        ret=*src;
+
+        return true;
+       }
+
+     return false;
+    }
+
+   template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
+   bool past(T *ptr,ModeType)
+    {
+     return past(*ptr);
+    }
+
+   template <class T>
+   bool past(OptDataBase<T> *ptr,ModeType)
+    {
+     if( past(ptr->data) )
+       {
+        ptr->def=false;
+
+        return true;
+       }
+
+     return false;
+    }
+
+  public:
+
+   TempData();
+
+   ~TempData();
+
+   StrLen getTypeName() const;
+
+   bool copy(Ref cursor);
+
+   bool past(Ref cursor);
+
+   void del();
  };
 
 /* struct InsData */

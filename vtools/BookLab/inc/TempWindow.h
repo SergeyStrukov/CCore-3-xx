@@ -20,8 +20,6 @@ namespace App {
 
 /* classes */
 
-class TempData;
-
 class TempWindow;
 
 class TempFrame;
@@ -96,6 +94,8 @@ class TempWindow : public ComboWindow
 
    // signals
 
+   Signal<> copy;
+   Signal<> past;
  };
 
 /* class TempFrame */

@@ -401,6 +401,48 @@ Index NextIndex::getIndex()
   return {ret};
  }
 
+/* class TempData */
+
+TempData::TempData()
+ {
+ }
+
+TempData::~TempData()
+ {
+ }
+
+StrLen TempData::getTypeName() const
+ {
+  StrLen ret;
+
+  data.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
+
+  return ret;
+ }
+
+bool TempData::copy(Ref cursor)
+ {
+  bool ret=false;
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=copy(ptr,cursor.mode); } );
+
+  return ret;
+ }
+
+bool TempData::past(Ref cursor)
+ {
+  bool ret=false;
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=past(ptr,cursor.mode); } );
+
+  return ret;
+ }
+
+void TempData::del()
+ {
+  data.destroy();
+ }
+
 /* class Book::ScopeContext */
 
 class Book::ScopeContext : NoCopy
