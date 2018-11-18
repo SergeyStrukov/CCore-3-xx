@@ -82,6 +82,12 @@ class TempWindow : public ComboWindow
 
    Point getMinSize() const;
 
+   bool copy(BookLab::Ref cursor);
+
+   bool copy(ulen slot,BookLab::Ref cursor);
+
+   bool past(ulen slot,BookLab::Ref cursor);
+
    // drawing
 
    virtual void layout();
@@ -94,8 +100,8 @@ class TempWindow : public ComboWindow
 
    // signals
 
-   Signal<> copy;
-   Signal<> past;
+   Signal<ulen> askCopy;
+   Signal<ulen> askPast;
  };
 
 /* class TempFrame */
@@ -160,6 +166,12 @@ class TempFrame : public DragFrame
 
    // methods
 
+   bool copy(BookLab::Ref cursor) { return client.copy(cursor); }
+
+   bool copy(ulen slot,BookLab::Ref cursor) { return client.copy(slot,cursor); }
+
+   bool past(ulen slot,BookLab::Ref cursor) { return client.past(slot,cursor); }
+
    // base
 
    virtual void dying();
@@ -177,6 +189,8 @@ class TempFrame : public DragFrame
 
    // signals
 
+   Signal<ulen> &askCopy;
+   Signal<ulen> &askPast;
  };
 
 } // namespace App

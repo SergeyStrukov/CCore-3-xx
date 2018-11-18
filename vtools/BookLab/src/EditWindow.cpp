@@ -235,6 +235,10 @@ void InnerBookLabWindow::insItem()
 
 void InnerBookLabWindow::delItem()
  {
+  temp_frame.copy(cursor.ref);
+
+  showTemp();
+
   if( book.delItem(cursor) )
     {
      update(true);
@@ -396,6 +400,16 @@ void InnerBookLabWindow::field_modified()
   update(true);
  }
 
+void InnerBookLabWindow::askCopy(ulen slot)
+ {
+  temp_frame.copy(slot,cursor.ref);
+ }
+
+void InnerBookLabWindow::askPast(ulen slot)
+ {
+  if( temp_frame.past(slot,cursor.ref) ) update(true);
+ }
+
 InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : SubWindow(host),
    cfg(cfg_),
@@ -410,6 +424,9 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
    connector_updated(this,&InnerBookLabWindow::updated,host.getFrame()->updated),
    connector_ins_destroyed(this,&InnerBookLabWindow::ins_destroyed,ins_frame.destroyed),
    connector_field_modified(this,&InnerBookLabWindow::field_modified,field_frame.modified),
+
+   connector_askCopy(this,&InnerBookLabWindow::askCopy,temp_frame.askCopy),
+   connector_askPast(this,&InnerBookLabWindow::askPast,temp_frame.askPast),
 
    key_input(field_frame.key_input)
  {

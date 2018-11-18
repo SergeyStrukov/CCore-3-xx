@@ -298,7 +298,7 @@ struct PaneRef
 
 /* class TempData */
 
-class TempData : NoCopy
+class TempData : NoCopy // TODO
  {
    SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> data;
 

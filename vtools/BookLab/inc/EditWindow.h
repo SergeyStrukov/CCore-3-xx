@@ -201,6 +201,14 @@ class InnerBookLabWindow : public SubWindow
 
    SignalConnector<InnerBookLabWindow> connector_field_modified;
 
+   void askCopy(ulen slot);
+
+   SignalConnector<InnerBookLabWindow,ulen> connector_askCopy;
+
+   void askPast(ulen slot);
+
+   SignalConnector<InnerBookLabWindow,ulen> connector_askPast;
+
   public:
 
    InnerBookLabWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
