@@ -19,10 +19,39 @@ namespace App {
 
 /* class TempWindow */
 
+void TempWindow::copy_pressed()
+ {
+ }
+
+void TempWindow::past_pressed()
+ {
+ }
+
+void TempWindow::del_pressed()
+ {
+ }
+
+void TempWindow::name_pressed()
+ {
+ }
+
 TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
-   cfg(cfg_)
+   cfg(cfg_),
+
+   btn_copy(wlist,cfg.btn_cfg,cfg.text_Copy),
+   btn_past(wlist,cfg.btn_cfg,cfg.text_Past),
+   btn_del(wlist,cfg.btn_cfg,cfg.text_Del),
+   btn_name(wlist,cfg.btn_cfg,cfg.text_Name),
+
+   edit(wlist,cfg.edit_cfg),
+
+   connector_copy_pressed(this,&TempWindow::copy_pressed,btn_copy.pressed),
+   connector_past_pressed(this,&TempWindow::past_pressed,btn_past.pressed),
+   connector_del_pressed(this,&TempWindow::del_pressed,btn_del.pressed),
+   connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed)
  {
+  wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit);
  }
 
 TempWindow::~TempWindow()
@@ -33,7 +62,11 @@ TempWindow::~TempWindow()
 
 Point TempWindow::getMinSize() const
  {
-  return Point(100,100);
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(btn_copy),Lay(btn_past),Lay(btn_del),Lay(btn_name),Lay(edit)};
+
+  return ExtLay(lay1).getMinSize(space);
  }
 
 bool TempWindow::copy(BookLab::Ref cursor)
@@ -63,6 +96,11 @@ bool TempWindow::past(ulen slot,BookLab::Ref cursor)
 
 void TempWindow::layout()
  {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(btn_copy),Lay(btn_past),Lay(btn_del),Lay(btn_name),Lay(edit)};
+
+  ExtLay(lay1).setPlace(getPane(),space);
  }
 
 void TempWindow::drawBack(DrawBuf buf,bool) const

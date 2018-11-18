@@ -38,7 +38,16 @@ class TempWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<YScrollWindow::ConfigType> scroll_cfg;
+
      // app
+
+     RefVal<DefString> text_Copy = "Copy"_def ;
+     RefVal<DefString> text_Past = "Past"_def ;
+     RefVal<DefString> text_Del  =  "Del"_def ;
+     RefVal<DefString> text_Name = "Name"_def ;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -50,15 +59,17 @@ class TempWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(proxy);
-
        space_dxy.bind(bag.space_dxy);
 
        back.bind(bag.back);
+
+       btn_cfg.bind(proxy);
+       edit_cfg.bind(proxy);
+       scroll_cfg.bind(proxy);
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag)
+     void bindApp(const Bag &bag) // TODO
       {
        Used(bag);
       }
@@ -71,6 +82,31 @@ class TempWindow : public ComboWindow
    const Config &cfg;
 
    // subs
+
+   RefButtonWindow btn_copy;
+   RefButtonWindow btn_past;
+   RefButtonWindow btn_del;
+   RefButtonWindow btn_name;
+
+   LineEditWindow edit;
+
+  private:
+
+   void copy_pressed();
+
+   void past_pressed();
+
+   void del_pressed();
+
+   void name_pressed();
+
+   SignalConnector<TempWindow> connector_copy_pressed;
+
+   SignalConnector<TempWindow> connector_past_pressed;
+
+   SignalConnector<TempWindow> connector_del_pressed;
+
+   SignalConnector<TempWindow> connector_name_pressed;
 
   public:
 
