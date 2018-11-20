@@ -20,9 +20,79 @@ namespace App {
 
 /* classes */
 
+struct TempSlot;
+
+class SlotWindow;
+
 class TempWindow;
 
 class TempFrame;
+
+/* struct TempSlot */
+
+struct TempSlot
+ {
+  BookLab::TempData data;
+  String name;
+ };
+
+/* class SlotWindow */
+
+class SlotWindow : public SubWindow
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+
+     // app
+
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       Used(bag);
+       Used(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+  public:
+
+   SlotWindow(SubWindowHost &host,const Config &cfg);
+
+   virtual ~SlotWindow();
+
+   // methods
+
+   Point getMinSize() const;
+
+   // drawing
+
+   virtual void layout();
+
+   virtual void draw(DrawBuf buf,bool drag_active) const;
+ };
 
 /* class TempWindow */
 
@@ -49,8 +119,11 @@ class TempWindow : public ComboWindow
      RefVal<DefString> text_Del  =  "Del"_def ;
      RefVal<DefString> text_Name = "Name"_def ;
 
+     SlotWindow::ConfigType slot_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : slot_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -69,9 +142,12 @@ class TempWindow : public ComboWindow
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag) // TODO
+     void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text_Copy.bind(bag.text_Copy);
+       text_Past.bind(bag.text_Past);
+       text_Del.bind(bag.text_Del);
+       text_Name.bind(bag.text_Name);
       }
     };
 
@@ -89,6 +165,9 @@ class TempWindow : public ComboWindow
    RefButtonWindow btn_name;
 
    LineEditWindow edit;
+
+   YScrollWindow scroll;
+   SlotWindow slots;
 
   private:
 

@@ -17,6 +17,36 @@
 
 namespace App {
 
+/* class SlotWindow */
+
+SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_)
+ : SubWindow(host),
+   cfg(cfg_)
+ {
+ }
+
+SlotWindow::~SlotWindow()
+ {
+ }
+
+ // methods
+
+Point SlotWindow::getMinSize() const
+ {
+  return Point(100,100);
+ }
+
+ // drawing
+
+void SlotWindow::layout()
+ {
+ }
+
+void SlotWindow::draw(DrawBuf buf,bool) const
+ {
+  buf.erase(Black);
+ }
+
 /* class TempWindow */
 
 void TempWindow::copy_pressed()
@@ -46,12 +76,15 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
 
    edit(wlist,cfg.edit_cfg),
 
+   scroll(wlist,cfg.scroll_cfg),
+   slots(wlist,cfg.slot_cfg),
+
    connector_copy_pressed(this,&TempWindow::copy_pressed,btn_copy.pressed),
    connector_past_pressed(this,&TempWindow::past_pressed,btn_past.pressed),
    connector_del_pressed(this,&TempWindow::del_pressed,btn_del.pressed),
    connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed)
  {
-  wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit);
+  wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit,scroll,slots);
  }
 
 TempWindow::~TempWindow()
@@ -66,7 +99,11 @@ Point TempWindow::getMinSize() const
 
   LayToRightCenter lay1{Lay(btn_copy),Lay(btn_past),Lay(btn_del),Lay(btn_name),Lay(edit)};
 
-  return ExtLay(lay1).getMinSize(space);
+  LayToRight lay2{Lay(scroll),Lay(slots)};
+
+  LayToBottom lay{lay1,lay2};
+
+  return ExtLay(lay).getMinSize(space);
  }
 
 bool TempWindow::copy(BookLab::Ref cursor)
@@ -100,7 +137,11 @@ void TempWindow::layout()
 
   LayToRightCenter lay1{Lay(btn_copy),Lay(btn_past),Lay(btn_del),Lay(btn_name),Lay(edit)};
 
-  ExtLay(lay1).setPlace(getPane(),space);
+  LayToRight lay2{Lay(scroll),Lay(slots)};
+
+  LayToBottom lay{lay1,lay2};
+
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void TempWindow::drawBack(DrawBuf buf,bool) const
