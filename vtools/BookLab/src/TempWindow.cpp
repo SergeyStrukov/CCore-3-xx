@@ -14,6 +14,7 @@
 #include <inc/TempWindow.h>
 
 #include <CCore/inc/video/LayoutCombo.h>
+#include <CCore/inc/video/FigureLib.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
 
@@ -121,12 +122,20 @@ void SlotWindow::delCurSlot()
 
 void SlotWindow::layout() // TODO
  {
-  // reposed.assert();
+  len=5; // TODO
+
+  ulen count=list.getLen();
+
+  Replace_min(len,count);
+  Replace_min(off,count-len);
+
+  reposed.assert({count,len,off});
  }
 
 void SlotWindow::draw(DrawBuf buf,bool) const // TODO
  {
-  buf.erase(Black);
+
+
  }
 
  // user input

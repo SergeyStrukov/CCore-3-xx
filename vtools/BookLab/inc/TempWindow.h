@@ -50,9 +50,14 @@ class SlotWindow : public SubWindow
     {
      // user
 
-
      // app
 
+     RefVal<Fraction> line_width = Fraction(6,2) ;
+
+     RefVal<VColor> table = Black ;
+     RefVal<VColor> text  = Blue ;
+
+     RefVal<Font> text_font;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -71,7 +76,10 @@ class SlotWindow : public SubWindow
      template <class Bag>
      void bindApp(const Bag &bag)
       {
-       Used(bag);
+       line_width.bind(bag.line_width);
+       table.bind(bag.table);
+       text.bind(bag.text);
+       text_font.bind(bag.text_font.font);
       }
     };
 
