@@ -19,10 +19,18 @@ namespace App {
 
 /* class SlotWindow */
 
+TempSlot * SlotWindow::ref(ulen slot)
+ {
+  return list.at(slot).getPtr();
+ }
+
 SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
-   cfg(cfg_)
+   cfg(cfg_),
+
+   list(DoReserve,100)
  {
+  list.append_fill(OwnPtr<TempSlot>(new TempSlot()));
  }
 
 SlotWindow::~SlotWindow()
@@ -31,38 +39,86 @@ SlotWindow::~SlotWindow()
 
  // methods
 
-Point SlotWindow::getMinSize() const
+Point SlotWindow::getMinSize() const // TODO
  {
   return Point(100,100);
  }
 
- // drawing
-
-void SlotWindow::layout()
+void SlotWindow::setPos(ulen pos) // TODO
  {
  }
 
-void SlotWindow::draw(DrawBuf buf,bool) const
+BookLab::TempData & SlotWindow::refSlot(ulen slot)
+ {
+  return ref(slot)->data;
+ }
+
+BookLab::TempData & SlotWindow::freeSlot()
+ {
+  return refSlot(0);
+ }
+
+void SlotWindow::setCurName(String name) // TODO
+ {
+  ref(cur)->name=name;
+
+  // make free slot 0
+
+  redraw();
+ }
+
+void SlotWindow::delCurSlot() // TODO
+ {
+ }
+
+ // drawing
+
+void SlotWindow::layout() // TODO
+ {
+ }
+
+void SlotWindow::draw(DrawBuf buf,bool) const // TODO
  {
   buf.erase(Black);
+ }
+
+ // user input
+
+void SlotWindow::react(UserAction action) // TODO
+ {
+  action.dispatch(*this);
  }
 
 /* class TempWindow */
 
 void TempWindow::copy_pressed()
  {
+  askCopy.assert(slots.getCurSlot());
  }
 
 void TempWindow::past_pressed()
  {
+  askPast.assert(slots.getCurSlot());
  }
 
 void TempWindow::del_pressed()
  {
+  slots.delCurSlot();
  }
 
 void TempWindow::name_pressed()
  {
+  slots.setCurName(edit.getString());
+ }
+
+void TempWindow::slots_reposed(ScrollPos pos)
+ {
+  scroll.setRange(pos);
+ }
+
+void TempWindow::scroll_changed(ulen pos)
+ {
+  slots.setPos(pos);
  }
 
 TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
@@ -82,9 +138,13 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
    connector_copy_pressed(this,&TempWindow::copy_pressed,btn_copy.pressed),
    connector_past_pressed(this,&TempWindow::past_pressed,btn_past.pressed),
    connector_del_pressed(this,&TempWindow::del_pressed,btn_del.pressed),
-   connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed)
+   connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed),
+   connector_slots_reposed(this,&TempWindow::slots_reposed,slots.reposed),
+   connector_scroll_changed(this,&TempWindow::scroll_changed,scroll.changed)
  {
   wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit,scroll,slots);
+
+  scroll.setRange(1,1,0);
  }
 
 TempWindow::~TempWindow()
@@ -108,25 +168,31 @@ Point TempWindow::getMinSize() const
 
 bool TempWindow::copy(BookLab::Ref cursor)
  {
-  Used(cursor);
+  if( slots.freeSlot().copy(cursor) )
+    {
+     slots.redraw();
+
+     return true;
+    }
 
   return false;
  }
 
 bool TempWindow::copy(ulen slot,BookLab::Ref cursor)
  {
-  Used(slot);
-  Used(cursor);
+  if( slots.refSlot(slot).copy(cursor) )
+    {
+     slots.redraw();
+
+     return true;
+    }
 
   return false;
  }
 
 bool TempWindow::past(ulen slot,BookLab::Ref cursor)
  {
-  Used(slot);
-  Used(cursor);
-
-  return false;
+  return slots.refSlot(slot).past(cursor);
  }
 
  // drawing

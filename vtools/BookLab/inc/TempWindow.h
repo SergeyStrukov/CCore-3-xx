@@ -30,10 +30,12 @@ class TempFrame;
 
 /* struct TempSlot */
 
-struct TempSlot
+struct TempSlot : MemBase
  {
   BookLab::TempData data;
   String name;
+
+  TempSlot() {}
  };
 
 /* class SlotWindow */
@@ -77,6 +79,15 @@ class SlotWindow : public SubWindow
 
    const Config &cfg;
 
+   DynArray<OwnPtr<TempSlot> > list;
+   ulen off = 0 ;
+   ulen len = 1 ;
+   ulen cur = 0 ;
+
+  private:
+
+   TempSlot * ref(ulen slot);
+
   public:
 
    SlotWindow(SubWindowHost &host,const Config &cfg);
@@ -87,11 +98,31 @@ class SlotWindow : public SubWindow
 
    Point getMinSize() const;
 
+   void setPos(ulen pos);
+
+   BookLab::TempData & refSlot(ulen slot);
+
+   BookLab::TempData & freeSlot();
+
+   ulen getCurSlot() const { return cur; }
+
+   void setCurName(String name);
+
+   void delCurSlot();
+
    // drawing
 
    virtual void layout();
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   // signals
+
+   Signal<ScrollPos> reposed;
  };
 
 /* class TempWindow */
@@ -179,6 +210,10 @@ class TempWindow : public ComboWindow
 
    void name_pressed();
 
+   void slots_reposed(ScrollPos pos);
+
+   void scroll_changed(ulen pos);
+
    SignalConnector<TempWindow> connector_copy_pressed;
 
    SignalConnector<TempWindow> connector_past_pressed;
@@ -186,6 +221,10 @@ class TempWindow : public ComboWindow
    SignalConnector<TempWindow> connector_del_pressed;
 
    SignalConnector<TempWindow> connector_name_pressed;
+
+   SignalConnector<TempWindow,ScrollPos> connector_slots_reposed;
+
+   SignalConnector<TempWindow,ulen> connector_scroll_changed;
 
   public:
 
