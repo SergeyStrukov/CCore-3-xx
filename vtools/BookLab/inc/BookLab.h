@@ -389,6 +389,8 @@ class TempData : NoCopy // TODO
 
    ~TempData();
 
+   bool notEmpty() const { return +data; }
+
    StrLen getTypeName() const;
 
    bool copy(Ref cursor);

@@ -15,6 +15,10 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/algon/SimpleRotate.h>
+
+#include <CCore/inc/RangeDel.h>
+
 namespace App {
 
 /* class SlotWindow */
@@ -24,13 +28,18 @@ TempSlot * SlotWindow::ref(ulen slot)
   return list.at(slot).getPtr();
  }
 
+void SlotWindow::append()
+ {
+  list.append_fill(OwnPtr<TempSlot>(new TempSlot()));
+ }
+
 SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
 
    list(DoReserve,100)
  {
-  list.append_fill(OwnPtr<TempSlot>(new TempSlot()));
+  append();
  }
 
 SlotWindow::~SlotWindow()
@@ -44,8 +53,9 @@ Point SlotWindow::getMinSize() const // TODO
   return Point(100,100);
  }
 
-void SlotWindow::setPos(ulen pos) // TODO
+void SlotWindow::setPos(ulen pos)
  {
+  if( Change(off,Min(pos,getMaxPos())) ) redraw();
  }
 
 BookLab::TempData & SlotWindow::refSlot(ulen slot)
@@ -55,26 +65,63 @@ BookLab::TempData & SlotWindow::refSlot(ulen slot)
 
 BookLab::TempData & SlotWindow::freeSlot()
  {
+  if( ref(0)->notEmpty() )
+    {
+     append();
+
+     Algon::RangeRotateRight(Range(list));
+
+     off=0;
+     cur=0;
+
+     layout();
+
+     redraw();
+    }
+
   return refSlot(0);
  }
 
-void SlotWindow::setCurName(String name) // TODO
+void SlotWindow::setCurName(String name)
  {
   ref(cur)->name=name;
 
-  // make free slot 0
+  if( cur==0 )
+    {
+     append();
+
+     Algon::RangeRotateRight(Range(list));
+
+     off=0;
+     cur=1;
+
+     layout();
+    }
 
   redraw();
  }
 
-void SlotWindow::delCurSlot() // TODO
+void SlotWindow::delCurSlot()
  {
+  ulen count=list.getLen();
+
+  if( count>1 && RangeSwapDel(Range(list),cur) )
+    {
+     list.shrink_one();
+
+     Replace_min(cur,count-2);
+
+     layout();
+
+     redraw();
+    }
  }
 
  // drawing
 
 void SlotWindow::layout() // TODO
  {
+  // reposed.assert();
  }
 
 void SlotWindow::draw(DrawBuf buf,bool) const // TODO
@@ -143,8 +190,6 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
    connector_scroll_changed(this,&TempWindow::scroll_changed,scroll.changed)
  {
   wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit,scroll,slots);
-
-  scroll.setRange(1,1,0);
  }
 
 TempWindow::~TempWindow()

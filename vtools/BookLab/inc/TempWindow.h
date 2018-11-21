@@ -30,12 +30,14 @@ class TempFrame;
 
 /* struct TempSlot */
 
-struct TempSlot : MemBase
+struct TempSlot : MemBase_nocopy
  {
   BookLab::TempData data;
   String name;
 
   TempSlot() {}
+
+  bool notEmpty() const { return name.getLen() || data.notEmpty() ; }
  };
 
 /* class SlotWindow */
@@ -86,7 +88,11 @@ class SlotWindow : public SubWindow
 
   private:
 
+   ulen getMaxPos() const { return PosSub(list.getLen(),len); }
+
    TempSlot * ref(ulen slot);
+
+   void append();
 
   public:
 

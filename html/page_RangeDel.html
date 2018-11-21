@@ -46,7 +46,7 @@ bool <span class="Att">RangeCopyDel</span>(PtrLen&lt;NothrowCopyableType&gt; ran
 These functions delete the element from the given range with the given index. 
 Range elements must be nothrow-copyable.
 If the index is out of range, <b>false</b> is returned. 
-Otherwise elements are swapped down to fill the hole, <b>true</b> is returned.
+Otherwise elements are copied down to fill the hole, <b>true</b> is returned.
 </p>
 
 <pre>
@@ -61,7 +61,7 @@ bool <span class="Att">RangeSwapDel</span>(PtrLen&lt;AnyType&gt; range,ulen ind)
 These functions delete the element from the given range with the given index. 
 Range elements must be <a href="page_Swap.html">swappable</a>.
 If the index is out of range, <b>false</b> is returned. 
-Otherwise elements are copied down to fill the hole, <b>true</b> is returned.
+Otherwise elements are swapped down to fill the hole, <b>true</b> is returned.
 </p>
 
 <pre>
