@@ -19,6 +19,7 @@
 #include <CCore/inc/algon/SimpleRotate.h>
 
 #include <CCore/inc/RangeDel.h>
+#include <CCore/inc/ForLoop.h>
 
 namespace App {
 
@@ -49,9 +50,16 @@ SlotWindow::~SlotWindow()
 
  // methods
 
-Point SlotWindow::getMinSize() const // TODO
+Point SlotWindow::getMinSize() const
  {
-  return Point(100,100);
+  const Font &font=cfg.text_font.get();
+
+  Coord cell_dy=font->getSize().dy;
+  Coord table_dxy=+cfg.table_dxy;
+
+  Coord dy=5*cell_dy+6*table_dxy;
+
+  return Point(3*dy,dy);
  }
 
 void SlotWindow::setPos(ulen pos)
@@ -120,9 +128,24 @@ void SlotWindow::delCurSlot()
 
  // drawing
 
-void SlotWindow::layout() // TODO
+void SlotWindow::layout()
  {
-  len=5; // TODO
+  const Font &font=cfg.text_font.get();
+
+  cell_dy=font->getSize().dy;
+  cell_dx=cell_dy;
+
+  for(OwnPtr<TempSlot> &ptr : list )
+    {
+     TextSize ts=font->text(ptr->data.getTypeName());
+
+     Replace_max(cell_dx,ts.full_dx);
+    }
+
+  Coord table_dxy=+cfg.table_dxy;
+  Coord dy=getSize().y;
+
+  len = (ulen)Sup(0,(dy-table_dxy)/(cell_dy+table_dxy)) ;
 
   ulen count=list.getLen();
 
@@ -132,10 +155,84 @@ void SlotWindow::layout() // TODO
   reposed.assert({count,len,off});
  }
 
-void SlotWindow::draw(DrawBuf buf,bool) const // TODO
+void SlotWindow::draw(DrawBuf buf,bool) const
  {
+  Fraction line_width=+cfg.line_width;
+  Coord table_dxy=+cfg.table_dxy;
+  const Font &font=cfg.text_font.get();
+  VColor table=+cfg.table;
+  VColor text=+cfg.text;
+  VColor cursor=+cfg.cursor;
 
+  Coord wlen=getSize().x;
 
+  SmoothDrawArt art(buf);
+
+  // table
+  {
+   MPoint A=Point::Diag(table_dxy-1);
+
+   A=A/2;
+
+   MCoord tdx=Fraction(wlen-table_dxy);
+   MCoord tdy=Fraction(cell_dy+table_dxy);
+
+   {
+    MPoint O=A;
+    MCoord flen=tdx;
+    MCoord delta=tdy;
+
+    art.path(line_width,table,O,O.addX(flen));
+
+    for(ulen cnt=len; cnt ;cnt--)
+      {
+       O=O.addY(delta);
+
+       art.path(line_width,table,O,O.addX(flen));
+      }
+   }
+
+   {
+    MPoint O=A;
+    MCoord flen=MCoord(len)*tdy;
+
+    art.path(line_width,table,O,O.addY(flen));
+
+    O=A.addX(Fraction(cell_dx+table_dxy));
+
+    art.path(line_width,table,O,O.addY(flen));
+
+    O=A.addX(tdx);
+
+    art.path(line_width,table,O,O.addY(flen));
+   }
+  }
+
+  // fill table
+  {
+   Point a=Point::Diag(table_dxy);
+   Point b=a.addX(cell_dx+table_dxy);
+
+   Coord delta=cell_dy+table_dxy;
+   Coord name_dx=wlen-table_dxy-b.x;
+
+   for(ulen i : IndLim(off,off+len) )
+     {
+      if( i==cur )
+        {
+         art.block(Pane(a,cell_dx,cell_dy),cursor);
+         art.block(Pane(b,name_dx,cell_dy),cursor);
+        }
+
+      TempSlot *slot=list[i].getPtr();
+
+      font->text(buf,Pane(a,cell_dx,cell_dy),TextPlace(AlignX_Left,AlignY_Top),slot->data.getTypeName(),text);
+      font->text(buf,Pane(b,name_dx,cell_dy),TextPlace(AlignX_Left,AlignY_Top),Range(slot->name),text);
+
+      a.y+=delta;
+      b.y+=delta;
+     }
+  }
  }
 
  // user input
@@ -224,6 +321,7 @@ bool TempWindow::copy(BookLab::Ref cursor)
  {
   if( slots.freeSlot().copy(cursor) )
     {
+     slots.layout();
      slots.redraw();
 
      return true;
@@ -236,6 +334,7 @@ bool TempWindow::copy(ulen slot,BookLab::Ref cursor)
  {
   if( slots.refSlot(slot).copy(cursor) )
     {
+     slots.layout();
      slots.redraw();
 
      return true;

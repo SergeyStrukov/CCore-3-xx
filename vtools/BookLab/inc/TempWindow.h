@@ -54,8 +54,11 @@ class SlotWindow : public SubWindow
 
      RefVal<Fraction> line_width = Fraction(6,2) ;
 
-     RefVal<VColor> table = Black ;
-     RefVal<VColor> text  = Blue ;
+     RefVal<Coord> table_dxy = 3 ;
+
+     RefVal<VColor> table  = Black ;
+     RefVal<VColor> text   = Blue ;
+     RefVal<VColor> cursor = Yellow ;
 
      RefVal<Font> text_font;
 
@@ -77,8 +80,13 @@ class SlotWindow : public SubWindow
      void bindApp(const Bag &bag)
       {
        line_width.bind(bag.line_width);
+
+       table_dxy.bind(bag.table_dxy);
+
        table.bind(bag.table);
        text.bind(bag.text);
+       cursor.bind(bag.cursor);
+
        text_font.bind(bag.text_font.font);
       }
     };
@@ -93,6 +101,9 @@ class SlotWindow : public SubWindow
    ulen off = 0 ;
    ulen len = 1 ;
    ulen cur = 0 ;
+
+   Coord cell_dx = 0 ;
+   Coord cell_dy = 0 ;
 
   private:
 
