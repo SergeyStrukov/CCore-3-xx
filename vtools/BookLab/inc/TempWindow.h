@@ -56,9 +56,10 @@ class SlotWindow : public SubWindow
 
      RefVal<Coord> table_dxy = 3 ;
 
-     RefVal<VColor> table  = Black ;
-     RefVal<VColor> text   = Blue ;
-     RefVal<VColor> cursor = Yellow ;
+     RefVal<VColor> table       = Black ;
+     RefVal<VColor> text        = Blue ;
+     RefVal<VColor> cursor      = Yellow ;
+     RefVal<VColor> gray_cursor = Gray ;
 
      RefVal<Font> text_font;
 
@@ -86,6 +87,7 @@ class SlotWindow : public SubWindow
        table.bind(bag.table);
        text.bind(bag.text);
        cursor.bind(bag.cursor);
+       gray_cursor.bind(bag.gray_cursor);
 
        text_font.bind(bag.text_font.font);
       }
@@ -96,6 +98,8 @@ class SlotWindow : public SubWindow
   private:
 
    const Config &cfg;
+
+   bool focus = false ;
 
    DynArray<OwnPtr<TempSlot> > list;
    ulen off = 0 ;
@@ -112,6 +116,16 @@ class SlotWindow : public SubWindow
    TempSlot * ref(ulen slot);
 
    void append();
+
+  private:
+
+   void moveUp();
+
+   void moveDown();
+
+   void curUp();
+
+   void curDown();
 
   public:
 
@@ -141,9 +155,21 @@ class SlotWindow : public SubWindow
 
    virtual void draw(DrawBuf buf,bool drag_active) const;
 
+   // keyboard
+
+   virtual void gainFocus();
+
+   virtual void looseFocus();
+
    // user input
 
    virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
+
+   void react_LeftClick(Point point,MouseKey mkey);
+
+   void react_Wheel(Point point,MouseKey mkey,Coord delta);
 
    // signals
 
@@ -276,6 +302,8 @@ class TempWindow : public ComboWindow
    // user input
 
    virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
 
    // signals
 

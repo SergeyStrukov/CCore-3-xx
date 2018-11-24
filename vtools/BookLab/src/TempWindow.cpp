@@ -35,6 +35,62 @@ void SlotWindow::append()
   list.append_fill(OwnPtr<TempSlot>(new TempSlot()));
  }
 
+void SlotWindow::moveUp()
+ {
+  if( cur>0 )
+    {
+     cur--;
+
+     if( cur<off ) off=cur;
+
+     Swap(list[cur],list[cur+1]);
+
+     redraw();
+    }
+ }
+
+void SlotWindow::moveDown()
+ {
+  ulen count=list.getLen();
+
+  if( cur<count-1 )
+    {
+     cur++;
+
+     if( off+len<=cur ) off=cur-len+1;
+
+     Swap(list[cur],list[cur-1]);
+
+     redraw();
+    }
+ }
+
+void SlotWindow::curUp()
+ {
+  if( cur>0 )
+    {
+     cur--;
+
+     if( cur<off ) off=cur;
+
+     redraw();
+    }
+ }
+
+void SlotWindow::curDown()
+ {
+  ulen count=list.getLen();
+
+  if( cur<count-1 )
+    {
+     cur++;
+
+     if( off+len<=cur ) off=cur-len+1;
+
+     redraw();
+    }
+ }
+
 SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
@@ -102,7 +158,6 @@ void SlotWindow::setCurName(String name)
      Algon::RangeRotateRight(Range(list));
 
      off=0;
-     cur=1;
 
      layout();
     }
@@ -162,7 +217,6 @@ void SlotWindow::draw(DrawBuf buf,bool) const
   const Font &font=cfg.text_font.get();
   VColor table=+cfg.table;
   VColor text=+cfg.text;
-  VColor cursor=+cfg.cursor;
 
   Coord wlen=getSize().x;
 
@@ -220,8 +274,10 @@ void SlotWindow::draw(DrawBuf buf,bool) const
      {
       if( i==cur )
         {
-         art.block(Pane(a,cell_dx,cell_dy),cursor);
-         art.block(Pane(b,name_dx,cell_dy),cursor);
+         VColor vc = focus? +cfg.cursor : +cfg.gray_cursor ;
+
+         art.block(Pane(a,cell_dx,cell_dy),vc);
+         art.block(Pane(b,name_dx,cell_dy),vc);
         }
 
       TempSlot *slot=list[i].getPtr();
@@ -235,11 +291,105 @@ void SlotWindow::draw(DrawBuf buf,bool) const
   }
  }
 
+ // keyboard
+
+void SlotWindow::gainFocus()
+ {
+  if( Change(focus,true) ) redraw();
+ }
+
+void SlotWindow::looseFocus()
+ {
+  if( Change(focus,false) ) redraw();
+ }
+
  // user input
 
-void SlotWindow::react(UserAction action) // TODO
+void SlotWindow::react(UserAction action)
  {
   action.dispatch(*this);
+ }
+
+void SlotWindow::react_Key(VKey vkey,KeyMod kmod,unsigned)
+ {
+  switch( vkey )
+    {
+     case VKey_Up :
+      {
+       if( kmod&KeyMod_Shift )
+         {
+          moveUp();
+         }
+       else
+         {
+          curUp();
+         }
+      }
+     break;
+
+     case VKey_Down :
+      {
+       if( kmod&KeyMod_Shift )
+         {
+          moveDown();
+         }
+       else
+         {
+          curDown();
+         }
+      }
+     break;
+    }
+ }
+
+void SlotWindow::react_LeftClick(Point point,MouseKey)
+ {
+  Coord table_dxy=+cfg.table_dxy;
+  Coord delta=cell_dy+table_dxy;
+
+  Coord ind=point.y/delta;
+  Coord y=point.y%delta;
+
+  if( y>=table_dxy && ind>=0 )
+    {
+     ulen i=(ulen)ind;
+
+     if( i<len )
+       {
+        i+=off;
+
+        if( i<list.getLen() && Change(cur,i) )
+          {
+           redraw();
+          }
+       }
+    }
+ }
+
+void SlotWindow::react_Wheel(Point,MouseKey mkey,Coord delta)
+ {
+  if( mkey&MouseKey_Shift )
+    {
+     if( delta>0 )
+       {
+        moveUp();
+       }
+     else
+       {
+        moveDown();
+       }
+    }
+  else
+    {
+     if( delta>0 )
+       {
+        curUp();
+       }
+     else
+       {
+        curDown();
+       }
+    }
  }
 
 /* class TempWindow */
@@ -372,7 +522,21 @@ void TempWindow::drawBack(DrawBuf buf,bool) const
 
 void TempWindow::react(UserAction action)
  {
-  wlist.react(action);
+  action.dispatch(*this, [this] (UserAction action) { wlist.react(action); } );
+ }
+
+void TempWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  switch( vkey )
+    {
+     case VKey_Delete :
+      {
+       del_pressed();
+      }
+     return;
+    }
+
+  wlist.put_Key(vkey,kmod,repeat);
  }
 
 /* class TempFrame */
