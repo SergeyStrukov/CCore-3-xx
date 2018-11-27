@@ -265,6 +265,16 @@ void InnerBookLabWindow::listEnd()
   if( cursor.handleListEnd()==BookLab::HandleUpdate ) update(false);
  }
 
+void InnerBookLabWindow::movePrev()
+ {
+  if( cursor.handleMovePrev()==BookLab::HandleUpdate ) update(true);
+ }
+
+void InnerBookLabWindow::moveNext()
+ {
+  if( cursor.handleMoveNext()==BookLab::HandleUpdate ) update(true);
+ }
+
 void InnerBookLabWindow::addXPos(ulen delta,bool mul_flag)
  {
   sx.add(Delta(delta,mul_flag));
@@ -645,6 +655,18 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
       }
      break;
 
+     case VKey_Comma :
+      {
+       movePrev();
+      }
+     break;
+
+     case VKey_Period :
+      {
+       moveNext();
+      }
+     break;
+
      case VKey_Up :
       {
        if( kmod&KeyMod_Ctrl )
@@ -703,15 +725,15 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 void InnerBookLabWindow::react_LeftClick(Point point,MouseKey mkey)
  {
-  Used(mkey);
-
   BookLab::PaneRef pane_ref=getRef(point);
 
-  if( auto result=pane_ref.handleMode(point) )
+  bool move_flag=mkey&MouseKey_Shift;
+
+  if( auto result=pane_ref.handleMode(point,move_flag) )
     {
      if( result==BookLab::HandleUpdate )
        {
-        update(false);
+        update(move_flag);
        }
 
      return;
@@ -733,11 +755,13 @@ void InnerBookLabWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
  {
   BookLab::PaneRef pane_ref=getRef(point);
 
-  if( auto result=pane_ref.handleList(point, delta>0 ) )
+  bool move_flag=mkey&MouseKey_Shift;
+
+  if( auto result=pane_ref.handleList(point, delta>0 ,move_flag) )
     {
      if( result==BookLab::HandleUpdate )
        {
-        update(false);
+        update(move_flag);
        }
 
      return;

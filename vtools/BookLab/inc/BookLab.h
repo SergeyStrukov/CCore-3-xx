@@ -238,25 +238,25 @@ struct PaneRef
 
   // handleMode()
 
-  HandleResult handleMode(Point,ElementList *) { return HandleNone; }
+  HandleResult handleMode(Point,ElementList *,bool) { return HandleNone; }
 
-  HandleResult handleMode(Point point,OpenFlag *ptr);
+  HandleResult handleMode(Point point,OpenFlag *ptr,bool move_flag);
 
   template <OneOfTypes<FrameList,ItemList> T>
-  HandleResult handleMode(Point point,T *ptr);
+  HandleResult handleMode(Point point,T *ptr,bool move_flag);
 
-  HandleResult handleMode(Point point);
+  HandleResult handleMode(Point point,bool move_flag);
 
   // handleList()
 
-  HandleResult handleList(Point,bool,ElementList *) { return HandleNone; }
+  HandleResult handleList(Point,bool,ElementList *,bool) { return HandleNone; }
 
-  HandleResult handleList(Point,bool,OpenFlag *) { return HandleNone; }
+  HandleResult handleList(Point,bool,OpenFlag *,bool) { return HandleNone; }
 
   template <OneOfTypes<FrameList,ItemList> T>
-  HandleResult handleList(Point point,bool prev,T *ptr);
+  HandleResult handleList(Point point,bool prev,T *ptr,bool move_flag);
 
-  HandleResult handleList(Point point,bool prev);
+  HandleResult handleList(Point point,bool prev,bool move_flag);
 
   // handleList...()
 
@@ -294,6 +294,25 @@ struct PaneRef
   HandleResult handleListEnd(T *ptr) { return ptr->gotoEnd()?HandleUpdate:HandleOk; }
 
   HandleResult handleListEnd();
+
+  // handleMove...()
+
+  template <class T>
+  HandleResult handleMovePrev(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleMovePrev(T *ptr) { return ptr->movePrev()?HandleUpdate:HandleOk; }
+
+  HandleResult handleMovePrev();
+
+
+  template <class T>
+  HandleResult handleMoveNext(T *) { return HandleNone; }
+
+  template <OneOfTypes<FrameList,ItemList> T>
+  HandleResult handleMoveNext(T *ptr) { return ptr->moveNext()?HandleUpdate:HandleOk; }
+
+  HandleResult handleMoveNext();
  };
 
 /* class TempData */

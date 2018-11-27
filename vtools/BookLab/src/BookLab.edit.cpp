@@ -67,7 +67,7 @@ bool PaneRef::testMode()
 
  // handleMode()
 
-HandleResult PaneRef::handleMode(Point,OpenFlag *ptr)
+HandleResult PaneRef::handleMode(Point,OpenFlag *ptr,bool)
  {
   ptr->change();
 
@@ -75,24 +75,35 @@ HandleResult PaneRef::handleMode(Point,OpenFlag *ptr)
  }
 
 template <OneOfTypes<FrameList,ItemList> T>
-HandleResult PaneRef::handleMode(Point point,T *ptr)
+HandleResult PaneRef::handleMode(Point point,T *ptr,bool move_flag)
  {
-  switch( MoveListZone(pane,point) )
+  if( move_flag )
     {
-     case 0 : return ptr->gotoBeg()?HandleUpdate:HandleOk;
-     case 1 : return ptr->gotoPrev()?HandleUpdate:HandleOk;
-     case 3 : return ptr->gotoNext()?HandleUpdate:HandleOk;
-     case 4 : return ptr->gotoEnd()?HandleUpdate:HandleOk;
+     switch( MoveListZone(pane,point) )
+       {
+        case 1 : return ptr->movePrev()?HandleUpdate:HandleOk;
+        case 3 : return ptr->moveNext()?HandleUpdate:HandleOk;
+       }
+    }
+  else
+    {
+     switch( MoveListZone(pane,point) )
+       {
+        case 0 : return ptr->gotoBeg()?HandleUpdate:HandleOk;
+        case 1 : return ptr->gotoPrev()?HandleUpdate:HandleOk;
+        case 3 : return ptr->gotoNext()?HandleUpdate:HandleOk;
+        case 4 : return ptr->gotoEnd()?HandleUpdate:HandleOk;
+       }
     }
 
   return HandleOk;
  }
 
-HandleResult PaneRef::handleMode(Point point)
+HandleResult PaneRef::handleMode(Point point,bool move_flag)
  {
   HandleResult ret=HandleNone;
 
-  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleMode(point,ptr); } );
+  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleMode(point,ptr,move_flag); } );
 
   return ret;
  }
@@ -100,24 +111,34 @@ HandleResult PaneRef::handleMode(Point point)
  // handleList()
 
 template <OneOfTypes<FrameList,ItemList> T>
-HandleResult PaneRef::handleList(Point point,bool prev,T *ptr)
+HandleResult PaneRef::handleList(Point point,bool prev,T *ptr,bool move_flag)
  {
   if( MoveListZone(pane,point)==2 )
     {
-     if( prev )
-       return ptr->gotoPrev()?HandleUpdate:HandleOk;
+     if( move_flag )
+       {
+        if( prev )
+          return ptr->movePrev()?HandleUpdate:HandleOk;
+        else
+          return ptr->moveNext()?HandleUpdate:HandleOk;
+       }
      else
-       return ptr->gotoNext()?HandleUpdate:HandleOk;
+       {
+        if( prev )
+          return ptr->gotoPrev()?HandleUpdate:HandleOk;
+        else
+          return ptr->gotoNext()?HandleUpdate:HandleOk;
+       }
     }
 
   return HandleOk;
  }
 
-HandleResult PaneRef::handleList(Point point,bool prev)
+HandleResult PaneRef::handleList(Point point,bool prev,bool move_flag)
  {
   HandleResult ret=HandleNone;
 
-  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleList(point,prev,ptr); } );
+  ref.mode.apply( [&] (auto *ptr) { if( ptr ) ret=handleList(point,prev,ptr,move_flag); } );
 
   return ret;
  }
@@ -156,6 +177,26 @@ HandleResult PaneRef::handleListEnd()
   HandleResult ret=HandleNone;
 
   ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleListEnd(ptr); } );
+
+  return ret;
+ }
+
+ // handleMove...()
+
+HandleResult PaneRef::handleMovePrev()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleMovePrev(ptr); } );
+
+  return ret;
+ }
+
+HandleResult PaneRef::handleMoveNext()
+ {
+  HandleResult ret=HandleNone;
+
+  ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleMoveNext(ptr); } );
 
   return ret;
  }

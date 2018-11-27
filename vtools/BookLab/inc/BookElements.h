@@ -346,6 +346,87 @@ struct CommonList : NoCopy
 
   bool gotoNext() { if( canNext() ) { cur=cur->next; return true; } return false; }
 
+  bool movePrev()
+   {
+    if( canPrev() )
+      {
+       IntObjPtr<T> obj=cur;
+
+       delPrev();
+
+       insBefore(obj);
+
+       return true;
+      }
+
+    return false;
+   }
+
+  bool delPrev()
+   {
+    if( +cur )
+      {
+       IntObjPtr<T> prev=cur->prev;
+       IntObjPtr<T> next=cur->next;
+
+       if( +prev ) prev->next=next; else beg=next;
+
+       if( +next ) next->prev=prev; else end=prev;
+
+       if( +prev ) cur=prev; else cur=next;
+
+       return true;
+      }
+
+    return false;
+   }
+
+  void insBefore(IntObjPtr<T> elem)
+   {
+    if( +cur )
+      {
+       IntObjPtr<T> prev=cur->prev;
+
+       cur->prev=elem;
+       elem->prev=prev;
+       elem->next=cur;
+
+       if( +prev )
+         {
+          prev->next=elem;
+         }
+       else
+         {
+          beg=elem;
+         }
+      }
+    else
+      {
+       elem->prev=Null;
+       elem->next=Null;
+       beg=elem;
+       end=elem;
+      }
+
+    cur=elem;
+   }
+
+  bool moveNext()
+   {
+    if( canNext() )
+      {
+       IntObjPtr<T> obj=cur;
+
+       del();
+
+       insAfter(obj);
+
+       return true;
+      }
+
+    return false;
+   }
+
   bool del()
    {
     if( +cur )
@@ -365,7 +446,7 @@ struct CommonList : NoCopy
     return false;
    }
 
-  void insAfter(ExtObjPtr<T> elem)
+  void insAfter(IntObjPtr<T> elem)
    {
     if( +cur )
       {
@@ -373,10 +454,10 @@ struct CommonList : NoCopy
 
        cur->next=elem;
        elem->prev=cur;
+       elem->next=next;
 
        if( +next )
          {
-          elem->next=next;
           next->prev=elem;
          }
        else
@@ -386,6 +467,8 @@ struct CommonList : NoCopy
       }
     else
       {
+       elem->prev=Null;
+       elem->next=Null;
        beg=elem;
        end=elem;
       }
@@ -393,7 +476,6 @@ struct CommonList : NoCopy
     cur=elem;
    }
  };
-
 
 /* struct Font */
 

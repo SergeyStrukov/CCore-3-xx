@@ -154,6 +154,10 @@ class InnerBookLabWindow : public SubWindow
 
    void listEnd();
 
+   void movePrev();
+
+   void moveNext();
+
   private:
 
    static ulen Delta(ulen delta,bool mul_flag) { return mul_flag? 10u*delta : delta ; }
