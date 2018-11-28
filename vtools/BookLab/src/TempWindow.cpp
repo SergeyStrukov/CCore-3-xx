@@ -32,7 +32,7 @@ TempSlot * SlotWindow::ref(ulen slot)
 
 void SlotWindow::append()
  {
-  list.append_fill(OwnPtr<TempSlot>(new TempSlot()));
+  list.append_fill(OwnPtr<TempSlot>(new TempSlot(book)));
  }
 
 void SlotWindow::moveUp()
@@ -91,9 +91,10 @@ void SlotWindow::curDown()
     }
  }
 
-SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_)
+SlotWindow::SlotWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book_)
  : SubWindow(host),
    cfg(cfg_),
+   book(book_),
 
    list(DoReserve,100)
  {
@@ -424,7 +425,7 @@ void TempWindow::scroll_changed(ulen pos)
   slots.setPos(pos);
  }
 
-TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
+TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -436,7 +437,7 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_)
    edit(wlist,cfg.edit_cfg),
 
    scroll(wlist,cfg.scroll_cfg),
-   slots(wlist,cfg.slot_cfg),
+   slots(wlist,cfg.slot_cfg,book),
 
    connector_copy_pressed(this,&TempWindow::copy_pressed,btn_copy.pressed),
    connector_past_pressed(this,&TempWindow::past_pressed,btn_past.pressed),
@@ -541,11 +542,11 @@ void TempWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 /* class TempFrame */
 
-TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
+TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
 
-   client(*this,cfg.client_cfg),
+   client(*this,cfg.client_cfg,book),
 
    askCopy(client.askCopy),
    askPast(client.askPast)

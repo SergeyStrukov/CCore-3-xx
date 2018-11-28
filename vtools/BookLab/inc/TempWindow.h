@@ -35,7 +35,7 @@ struct TempSlot : MemBase_nocopy
   BookLab::TempData data;
   String name;
 
-  TempSlot() {}
+  explicit TempSlot(BookLab::Book &book) : data(book) {}
 
   bool notEmpty() const { return name.getLen() || data.notEmpty() ; }
  };
@@ -98,6 +98,7 @@ class SlotWindow : public SubWindow
   private:
 
    const Config &cfg;
+   BookLab::Book &book;
 
    bool focus = false ;
 
@@ -129,7 +130,7 @@ class SlotWindow : public SubWindow
 
   public:
 
-   SlotWindow(SubWindowHost &host,const Config &cfg);
+   SlotWindow(SubWindowHost &host,const Config &cfg,BookLab::Book &book);
 
    virtual ~SlotWindow();
 
@@ -279,7 +280,7 @@ class TempWindow : public ComboWindow
 
   public:
 
-   TempWindow(SubWindowHost &host,const Config &cfg);
+   TempWindow(SubWindowHost &host,const Config &cfg,BookLab::Book &book);
 
    virtual ~TempWindow();
 
@@ -367,7 +368,7 @@ class TempFrame : public DragFrame
 
   public:
 
-   TempFrame(Desktop *desktop,const Config &cfg,Signal<> &update);
+   TempFrame(Desktop *desktop,const Config &cfg,BookLab::Book &book,Signal<> &update);
 
    virtual ~TempFrame();
 

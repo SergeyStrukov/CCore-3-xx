@@ -165,7 +165,7 @@ inline Ratio DefRatioTwo() { return {2}; }
 /* struct OptDataBase<T> */
 
 template <class T>
-struct OptDataBase : NoCopy
+struct OptDataBase
  {
   T data;
   bool def;
@@ -727,6 +727,12 @@ struct ElementList : NoCopy
     keeper(beg,end);
    }
 
+  void insBefore(Element *ptr,ExtObjPtr<Element> obj);
+
+  void insAfter(Element *ptr,ExtObjPtr<Element> obj);
+
+  void insFirst(ExtObjPtr<Element> obj);
+
   Element * del(Element *ptr);
 
   // layout
@@ -1160,7 +1166,7 @@ struct Link : NamedObj
  {
   NamedPtr<Page> page; // default: none
 
-  DynArray<ulen> index_list;
+  RefArray<ulen> index_list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)

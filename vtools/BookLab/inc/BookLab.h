@@ -319,7 +319,9 @@ struct PaneRef
 
 class TempData : NoCopy // TODO
  {
-   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> data;
+   Book &book;
+
+   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element> > data;
 
   private:
 
@@ -346,6 +348,8 @@ class TempData : NoCopy // TODO
 
    static StrLen GetTypeName(Ratio *) { return "Ratio"_c; }
 
+   static StrLen GetTypeName(ExtObjPtr<Element> *) { return "Element"_c; }
+
    template <class T>
    bool copy(T *,ModeType) { return false; }
 
@@ -366,6 +370,8 @@ class TempData : NoCopy // TODO
 
      return true;
     }
+
+   bool copy(Element *ptr,ModeType mode);
 
    template <class T>
    bool past(T *,ModeType) { return false; }
@@ -402,9 +408,19 @@ class TempData : NoCopy // TODO
      return false;
     }
 
+   template <class T>
+   void past(Element *ptr,T *,ElementList *list,ExtObjPtr<Element> obj) { list->insAfter(ptr,obj); }
+
+   template <OneOfTypes<Scope,Section> T>
+   void past(Element *,T *inner,ElementList *,ExtObjPtr<Element> obj) { inner->list.insFirst(obj); }
+
+   void past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj);
+
+   bool past(Element *ptr,ModeType mode);
+
   public:
 
-   TempData();
+   explicit TempData(Book &book);
 
    ~TempData();
 
@@ -583,9 +599,59 @@ class Book : NoCopy
    bool insElementInside(ExtObjPtr<Element>,T *) { return false; }
 
    template <OneOfTypes<Scope,Section> T>
-   bool insElementInside(ExtObjPtr<Element> elem,T *ptr) { insElementInside(elem,ptr->list); return true; }
+   bool insElementInside(ExtObjPtr<Element> obj,T *ptr) { ptr->list.insFirst(obj); return true; }
 
-   void insElementInside(ExtObjPtr<Element> elem,ElementList &list);
+  private:
+
+   void clone(FrameList &dst,FrameList &src);
+
+   void clone(ElementList &dst,ElementList &src);
+
+   void clone(ItemList &dst,ItemList &src);
+
+   void clone(Defaults &dst,Defaults &src);
+
+   ExtObjPtr<Font> clone(Font *ptr);
+
+   ExtObjPtr<Format> clone(Format *ptr);
+
+   ExtObjPtr<SingleLine> clone(SingleLine *ptr);
+
+   ExtObjPtr<DoubleLine> clone(DoubleLine *ptr);
+
+   ExtObjPtr<Page> clone(Page *ptr);
+
+   ExtObjPtr<Scope> clone(Scope *ptr);
+
+   ExtObjPtr<Section> clone(Section *ptr);
+
+   ExtObjPtr<Bitmap> clone(Bitmap *ptr);
+
+   ExtObjPtr<Collapse> clone(Collapse *ptr);
+
+   ExtObjPtr<TextList> clone(TextList *ptr);
+
+   ExtObjPtr<Border> clone(Border *ptr);
+
+   ExtObjPtr<Cell> clone(Cell *ptr);
+
+   ExtObjPtr<Table> clone(Table *ptr);
+
+   ExtObjPtr<Link> clone(Link *ptr);
+
+   ExtObjPtr<FixedText> clone(FixedText *ptr);
+
+   ExtObjPtr<OneLine> clone(OneLine *ptr);
+
+   ExtObjPtr<MultiLine> clone(MultiLine *ptr);
+
+   ExtObjPtr<Text> clone(Text *ptr);
+
+   template <class T>
+   NamedPtr<T> clone(NamedPtr<T> obj);
+
+   template <class ... TT>
+   IntAnyObjPtr<TT...> clone(AnyPtr<TT...> anyptr);
 
   public:
 
@@ -623,6 +689,10 @@ class Book : NoCopy
 
    template <class T>
    ExtObjPtr<T> create() { return ExtObjPtr<T>(domain); }
+
+   // clone
+
+   ExtObjPtr<Element> clone(Element *ptr);
 
    // del
 

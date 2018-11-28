@@ -18,6 +18,77 @@ namespace BookLab {
 
 /* struct ElementList */
 
+void ElementList::insBefore(Element *ptr,ExtObjPtr<Element> obj)
+ {
+  IntObjPtr<Element> prev=ptr->prev;
+
+  if( +prev )
+    {
+     IntObjPtr<Element> next=prev->next;
+
+     obj->prev=prev;
+     obj->next=next;
+
+     prev->next=obj;
+     next->prev=obj;
+    }
+  else
+    {
+     IntObjPtr<Element> next=beg;
+
+     obj->prev=Null;
+     obj->next=next;
+
+     beg=obj;
+     next->prev=obj;
+    }
+ }
+
+void ElementList::insAfter(Element *ptr,ExtObjPtr<Element> obj)
+ {
+  IntObjPtr<Element> next=ptr->next;
+
+  if( +next )
+    {
+     IntObjPtr<Element> prev=next->prev;
+
+     obj->prev=prev;
+     obj->next=next;
+
+     prev->next=obj;
+     next->prev=obj;
+    }
+  else
+    {
+     IntObjPtr<Element> prev=end;
+
+     obj->prev=prev;
+     obj->next=Null;
+
+     prev->next=obj;
+     end=obj;
+    }
+ }
+
+void ElementList::insFirst(ExtObjPtr<Element> obj)
+ {
+  IntObjPtr<Element> next=beg;
+
+  obj->prev=Null;
+  obj->next=next;
+
+  if( +next )
+    {
+     next->prev=obj;
+    }
+  else
+    {
+     end=obj;
+    }
+
+  beg=obj;
+ }
+
 Element * ElementList::del(Element *ptr)
  {
   IntObjPtr<Element> prev=ptr->prev;

@@ -426,7 +426,7 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
 
    ins_frame(host.getFrameDesktop(),cfg.ins_cfg,update),
    field_frame(host.getFrameDesktop(),cfg.field_cfg,book,update),
-   temp_frame(host.getFrameDesktop(),cfg.temp_cfg,update),
+   temp_frame(host.getFrameDesktop(),cfg.temp_cfg,book,update),
 
    connector_posX(this,&InnerBookLabWindow::posX),
    connector_posY(this,&InnerBookLabWindow::posY),

@@ -203,24 +203,6 @@ HandleResult PaneRef::handleMoveNext()
 
 /* class Book */
 
-void Book::insElementInside(ExtObjPtr<Element> elem,ElementList &list)
- {
-  auto beg=list.beg;
-
-  elem->next=beg;
-
-  if( +beg )
-    {
-     beg->prev=elem;
-    }
-  else
-    {
-     list.end=elem;
-    }
-
-  list.beg=elem;
- }
-
  // del
 
 bool Book::delItem(PaneRef &,FrameList *ptr)
@@ -475,10 +457,7 @@ bool Book::insElement(InsData data)
 
   if( +doc->list.beg ) return false;
 
-  auto elem=create(data);
-
-  doc->list.beg=elem;
-  doc->list.end=elem;
+  doc->list.insFirst(create(data));
 
   return true;
  }
@@ -496,53 +475,13 @@ bool Book::insElement(InsData data,PaneRef cursor)
     {
      case InsBefore :
       {
-       IntObjPtr<Element> prev=ptr->prev;
-
-       if( +prev )
-         {
-          IntObjPtr<Element> next=prev->next;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          elem->next=next;
-          next->prev=elem;
-         }
-       else
-         {
-          IntObjPtr<Element> next=list->beg;
-
-          elem->next=next;
-          next->prev=elem;
-
-          list->beg=elem;
-         }
+       list->insBefore(ptr,elem);
       }
      return true;
 
      case InsAfter :
       {
-       IntObjPtr<Element> next=ptr->next;
-
-       if( +next )
-         {
-          IntObjPtr<Element> prev=next->prev;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          elem->next=next;
-          next->prev=elem;
-         }
-       else
-         {
-          IntObjPtr<Element> prev=list->end;
-
-          elem->prev=prev;
-          prev->next=elem;
-
-          list->end=elem;
-         }
+       list->insAfter(ptr,elem);
       }
      return true;
 

@@ -138,6 +138,16 @@ class Book::LoadContext : NoCopy
      for(ulen i : IndLim(r.len) ) Cast(out[i],r[i]);
     }
 
+   template <class T,class S>
+   static void Cast(RefArray<T> &ret,const S &obj)
+    {
+     auto r=obj.getRange();
+
+     auto *out=ret.extend_default(r.len).ptr;
+
+     for(ulen i : IndLim(r.len) ) Cast(out[i],r[i]);
+    }
+
    static void GuardName(StrLen name)
     {
      if( +name && !TestName(name) )
