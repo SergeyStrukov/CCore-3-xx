@@ -170,6 +170,17 @@ void SlotWindow::delCurSlot()
  {
   ulen count=list.getLen();
 
+  if( count==1 && cur==0 )
+    {
+     list[0]->erase();
+
+     layout();
+
+     redraw();
+
+     return;
+    }
+
   if( count>1 && RangeSwapDel(Range(list),cur) )
     {
      list.shrink_one();

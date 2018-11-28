@@ -38,6 +38,12 @@ struct TempSlot : MemBase_nocopy
   explicit TempSlot(BookLab::Book &book) : data(book) {}
 
   bool notEmpty() const { return name.getLen() || data.notEmpty() ; }
+
+  void erase()
+   {
+    data.del();
+    name=Null;
+   }
  };
 
 /* class SlotWindow */
