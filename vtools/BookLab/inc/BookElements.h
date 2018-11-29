@@ -475,6 +475,24 @@ struct CommonList : NoCopy
 
     cur=elem;
    }
+
+  void append(IntObjPtr<T> elem)
+   {
+    IntObjPtr<T> prev=end;
+
+    if( +prev )
+      {
+       elem->prev=prev;
+       prev->next=elem;
+
+       end=elem;
+      }
+    else
+      {
+       beg=elem;
+       end=elem;
+      }
+   }
  };
 
 /* struct Font */
@@ -734,6 +752,24 @@ struct ElementList : NoCopy
   void insFirst(ExtObjPtr<Element> obj);
 
   Element * del(Element *ptr);
+
+  void append(IntObjPtr<Element> elem)
+   {
+    IntObjPtr<Element> prev=end;
+
+    if( +prev )
+      {
+       elem->prev=prev;
+       prev->next=elem;
+
+       end=elem;
+      }
+    else
+      {
+       beg=elem;
+       end=elem;
+      }
+   }
 
   // layout
 

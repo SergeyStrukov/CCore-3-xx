@@ -436,23 +436,6 @@ class Book::LoadContext : NoCopy
      if( !Range(ret.name) ) create(ret.ptr,obj.ptr);
     }
 
-   template <class List,class T>
-   static void InsList(List &ret,T &elem)
-    {
-     if( !ret.end )
-       {
-        ret.beg=elem;
-        ret.end=elem;
-       }
-     else
-       {
-        ret.end->next=elem;
-        elem->prev=ret.end;
-
-        ret.end=elem;
-       }
-    }
-
    void cast(FrameList &ret,const TypeDef::FrameList &obj)
     {
      LockUse lock(level);
@@ -465,7 +448,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),list[i]);
 
-        InsList(ret,elem);
+        ret.append(elem);
 
         if( i==obj.cur ) ret.cur=elem;
        }
@@ -485,7 +468,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),list[i]);
 
-        InsList(ret,elem);
+        ret.append(elem);
 
         if( i==obj.cur ) ret.cur=elem;
        }
@@ -503,7 +486,7 @@ class Book::LoadContext : NoCopy
 
         init(elem.getPtr(),obj);
 
-        InsList(ret,elem);
+        ret.append(elem);
        }
     }
 

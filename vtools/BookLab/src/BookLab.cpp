@@ -695,35 +695,123 @@ void Book::setScope()
  }
 
 template <class T>
+ExtObjPtr<T> Book::clone(IntObjPtr<T> ptr)
+ {
+  if( +ptr ) return clone(ptr.getPtr());
+
+  return Null;
+ }
+
+template <class ... TT>
+void Book::clone(IntAnyObjPtr<TT...> &dst,IntAnyObjPtr<TT...> src)
+ {
+  src.apply( [&] (auto ptr) { dst=clone(ptr); } );
+ }
+
+template <class T>
+void Book::clone(DynArray<T> &dst,const DynArray<T> &src)
+ {
+  PtrLen<T> r=dst.extend_default(src.getLen());
+
+  const T *ptr=src.getPtr();
+
+  for(T &obj : r ) clone(obj,*(ptr++));
+ }
+
+template <class T>
 NamedPtr<T> Book::clone(NamedPtr<T> obj)
  {
-  if( +obj.ptr ) return {obj.name,clone(obj.ptr.getPtr())};
-
-  return {obj.name};
+  return {obj.name,clone(obj.ptr)};
  }
 
-void Book::clone(FrameList &dst,FrameList &src) // TODO
+template <class ... T>
+void Book::clone(NamedPtr<T...> &dst,NamedPtr<T...> src)
  {
-  Used(dst);
-  Used(src);
+  dst.name=src.name;
+
+  clone(dst.ptr,src.ptr);
  }
 
-void Book::clone(ElementList &dst,ElementList &src) // TODO
+ExtObjPtr<Frame> Book::clone(Frame *ptr)
  {
-  Used(dst);
-  Used(src);
+  ExtObjPtr<Frame> ret(domain);
+
+  ret->inner=ptr->inner;
+  ret->outer=ptr->outer;
+
+  ret->col=ptr->col;
+
+  clone(ret->line,ptr->line);
+  clone(ret->body,ptr->body);
+
+  return ret;
  }
 
-void Book::clone(ItemList &dst,ItemList &src) // TODO
+void Book::clone(FrameList &dst,FrameList &src)
  {
-  Used(dst);
-  Used(src);
+  Frame *cur=SafePtr(src.cur);
+
+  for(auto &obj : ForIntList(src) )
+    {
+     ExtObjPtr<Frame> elem=clone(&obj);
+
+     dst.append(elem);
+
+     if( &obj==cur ) dst.cur=elem;
+    }
  }
 
-void Book::clone(Defaults &dst,Defaults &src) // TODO
+void Book::clone(ElementList &dst,ElementList &src)
  {
-  Used(dst);
-  Used(src);
+  for(auto &obj : ForIntList(src) )
+    {
+     ExtObjPtr<Element> elem=clone(&obj);
+
+     dst.append(elem);
+    }
+ }
+
+ExtObjPtr<Item> Book::clone(Item *ptr)
+ {
+  ExtObjPtr<Item> ret(domain);
+
+  ret->bullet=ptr->bullet;
+
+  clone(ret->list,ptr->list);
+
+  return ret;
+ }
+
+void Book::clone(ItemList &dst,ItemList &src)
+ {
+  Item *cur=SafePtr(src.cur);
+
+  for(auto &obj : ForIntList(src) )
+    {
+     ExtObjPtr<Item> elem=clone(&obj);
+
+     dst.append(elem);
+
+     if( &obj==cur ) dst.cur=elem;
+    }
+ }
+
+void Book::clone(Defaults &dst,Defaults &src)
+ {
+  dst.inner=src.inner;
+  dst.outer=src.outer;
+  dst.bulletSpace=src.bulletSpace;
+  dst.itemSpace=src.itemSpace;
+
+  dst.singleLine=clone(src.singleLine);
+  dst.doubleLine=clone(src.doubleLine);
+  dst.collapseFormat=clone(src.collapseFormat);
+  dst.bulletFormat=clone(src.bulletFormat);
+  dst.border=clone(src.border);
+  dst.textFormat=clone(src.textFormat);
+  dst.fixedFormat=clone(src.fixedFormat);
+
+  clone(dst.placement,src.placement);
  }
 
 ExtObjPtr<Font> Book::clone(Font *ptr)
@@ -899,12 +987,25 @@ ExtObjPtr<Cell> Book::clone(Cell *ptr)
   return ret;
  }
 
-ExtObjPtr<Table> Book::clone(Table *ptr) // TODO
+void Book::clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src)
+ {
+  dst=clone(src);
+ }
+
+ExtObjPtr<Table> Book::clone(Table *ptr)
  {
   ExtObjPtr<Table> ret(domain);
 
   ret->open=ptr->open;
   ret->name=ptr->name;
+
+  ret->border=clone(ptr->border);
+  ret->hard=ptr->hard;
+
+  ptr->table.width.cloneTo(ret->table.width);
+  ptr->table.cellsize.cloneTo(ret->table.cellsize);
+
+  clone(ret->table.cells,ptr->table.cells);
 
   return ret;
  }
@@ -922,12 +1023,30 @@ ExtObjPtr<Link> Book::clone(Link *ptr)
   return ret;
  }
 
-ExtObjPtr<FixedText> Book::clone(FixedText *ptr) // TODO
+void Book::clone(Span &dst,const Span &src)
+ {
+  dst.body=src.body;
+
+  dst.format=clone(src.format);
+
+  clone(dst.ref,src.ref);
+ }
+
+void Book::clone(TextLine &dst,const TextLine &src)
+ {
+  clone(dst.list,src.list);
+ }
+
+ExtObjPtr<FixedText> Book::clone(FixedText *ptr)
  {
   ExtObjPtr<FixedText> ret(domain);
 
   ret->open=ptr->open;
   ret->name=ptr->name;
+
+  ret->format=clone(ptr->format);
+
+  clone(ret->list,ptr->list);
 
   return ret;
  }
@@ -957,12 +1076,18 @@ ExtObjPtr<MultiLine> Book::clone(MultiLine *ptr)
   return ret;
  }
 
-ExtObjPtr<Text> Book::clone(Text *ptr) // TODO
+ExtObjPtr<Text> Book::clone(Text *ptr)
  {
   ExtObjPtr<Text> ret(domain);
 
   ret->open=ptr->open;
   ret->name=ptr->name;
+
+  clone(ret->placement,ptr->placement);
+
+  ret->format=clone(ptr->format);
+
+  clone(ret->list,ptr->list);
 
   return ret;
  }

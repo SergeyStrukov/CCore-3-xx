@@ -603,9 +603,13 @@ class Book : NoCopy
 
   private:
 
+   ExtObjPtr<Frame> clone(Frame *ptr);
+
    void clone(FrameList &dst,FrameList &src);
 
    void clone(ElementList &dst,ElementList &src);
+
+   ExtObjPtr<Item> clone(Item *ptr);
 
    void clone(ItemList &dst,ItemList &src);
 
@@ -635,9 +639,15 @@ class Book : NoCopy
 
    ExtObjPtr<Cell> clone(Cell *ptr);
 
+   void clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src);
+
    ExtObjPtr<Table> clone(Table *ptr);
 
    ExtObjPtr<Link> clone(Link *ptr);
+
+   void clone(Span &dst,const Span &src);
+
+   void clone(TextLine &dst,const TextLine &src);
 
    ExtObjPtr<FixedText> clone(FixedText *ptr);
 
@@ -648,10 +658,22 @@ class Book : NoCopy
    ExtObjPtr<Text> clone(Text *ptr);
 
    template <class T>
+   ExtObjPtr<T> clone(IntObjPtr<T> ptr);
+
+   template <class ... TT>
+   void clone(IntAnyObjPtr<TT...> &dst,IntAnyObjPtr<TT...> src);
+
+   template <class T>
    NamedPtr<T> clone(NamedPtr<T> obj);
+
+   template <class ... T>
+   void clone(NamedPtr<T...> &dst,NamedPtr<T...> src);
 
    template <class ... TT>
    IntAnyObjPtr<TT...> clone(AnyPtr<TT...> anyptr);
+
+   template <class T>
+   void clone(DynArray<T> &dst,const DynArray<T> &src);
 
   public:
 
