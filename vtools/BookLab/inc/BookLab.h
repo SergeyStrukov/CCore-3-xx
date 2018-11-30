@@ -321,7 +321,9 @@ class TempData : NoCopy // TODO
  {
    Book &book;
 
-   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element> > data;
+   using APtr = ExtAnyObjPtr<SingleLine,DoubleLine,Format,Border,OneLine,MultiLine> ;
+
+   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element>,APtr> data;
 
   private:
 
@@ -350,6 +352,21 @@ class TempData : NoCopy // TODO
 
    static StrLen GetTypeName(ExtObjPtr<Element> *) { return "Element"_c; }
 
+   static StrLen GetTypeName(SingleLine *) { return "SingleLine"_c; }
+
+   static StrLen GetTypeName(DoubleLine *) { return "DoubleLine"_c; }
+
+   static StrLen GetTypeName(Format *) { return "Format"_c; }
+
+   static StrLen GetTypeName(Border *) { return "Border"_c; }
+
+   static StrLen GetTypeName(OneLine *) { return "OneLine"_c; }
+
+   static StrLen GetTypeName(MultiLine *) { return "MultiLine"_c; }
+
+   static StrLen GetTypeName(APtr *ptr);
+
+
    template <class T>
    bool copy(T *,ModeType) { return false; }
 
@@ -372,6 +389,12 @@ class TempData : NoCopy // TODO
     }
 
    bool copy(Element *ptr,ModeType mode);
+
+   template <class T>
+   bool copy(IntObjPtr<T> *ptr,ModeType mode);
+
+   bool copy(IntAnyObjPtr<OneLine,MultiLine> *ptr,ModeType mode);
+
 
    template <class T>
    bool past(T *,ModeType) { return false; }
@@ -417,6 +440,24 @@ class TempData : NoCopy // TODO
    void past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj);
 
    bool past(Element *ptr,ModeType mode);
+
+   template <class T,class S>
+   bool past(IntObjPtr<T> *ptr,S *src);
+
+   template <class T>
+   bool past(IntObjPtr<T> *ptr,T *src);
+
+   template <class T>
+   bool past(IntObjPtr<T> *ptr,ModeType mode);
+
+   template <class S,class ... TT>
+   bool past(IntAnyObjPtr<TT...> *ptr,S *src);
+
+   template <class S,class ... TT>
+   bool past(IntAnyObjPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> ) ;
+
+   template <class ... TT>
+   bool past(IntAnyObjPtr<TT...> *ptr,ModeType mode);
 
   public:
 

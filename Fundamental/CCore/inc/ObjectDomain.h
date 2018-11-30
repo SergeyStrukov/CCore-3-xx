@@ -46,6 +46,8 @@ class ObjectDomain : NoCopy
 
    template <class T> class ExtPtr;
 
+   template <class ... TT> class ExtAnyPtr;
+
    template <class T> class IntPtr;
 
    template <class ... TT> class IntAnyPtr;
@@ -289,6 +291,13 @@ class ObjectDomain::ExtPtr
    template <class Ptr>
    friend auto ObjectDomain::GetNode(Ptr &obj);
 
+  private:
+
+   template <class ... TT>
+   friend class ExtAnyPtr;
+
+   explicit ExtPtr(ObjBase *node_) : node(static_cast<ObjNode<T> *>(node_)) { if( node ) node->incRef(); }
+
   public:
 
    // constructors
@@ -297,17 +306,9 @@ class ObjectDomain::ExtPtr
 
    ExtPtr(NothingType) : node(0) {}
 
-   ExtPtr(const IntPtr<T> &obj)
-    : node(GetNode(obj))
-    {
-     if( node ) node->incRef();
-    }
+   ExtPtr(const IntPtr<T> &obj) : node(GetNode(obj)) { if( node ) node->incRef(); }
 
-   ExtPtr(const WeakPtr<T> &obj)
-    : node(GetNode(obj))
-    {
-     if( node ) node->incRef();
-    }
+   ExtPtr(const WeakPtr<T> &obj) : node(GetNode(obj)) { if( node ) node->incRef(); }
 
    template <class ... SS>
    explicit ExtPtr(ObjectDomain *domain,SS && ... ss) requires ( ConstructibleType<T,SS...> )
@@ -373,6 +374,142 @@ class ObjectDomain::ExtPtr
 
    explicit ExtPtr(ToMoveCtor<ExtPtr<T> > obj)
     : node(Replace_null(obj->node))
+    {
+    }
+ };
+
+/* class ObjectDomain::ExtAnyPtr<TT> */
+
+template <class ... TT>
+class ObjectDomain::ExtAnyPtr
+ {
+   ObjBase *node;
+   unsigned type;
+
+   template <class Ptr>
+   friend auto ObjectDomain::GetNode(Ptr &obj);
+
+  private:
+
+   template <class T>
+   static AnyPtr<TT...> GetPtr(ObjBase *node)
+    {
+     T *ptr;
+
+     if( node )
+       ptr=static_cast<ObjNode<T> *>(node)->getPtr();
+     else
+       ptr=0;
+
+     return ptr;
+    }
+
+   template <class T,class FuncInit,class ... SS>
+   static void ApplyToNode(ObjBase *node,FuncInit func_init,SS && ... ss)
+    {
+     ExtPtr<T> ptr(node);
+
+     FunctorTypeOf<FuncInit> func(func_init);
+
+     func(ptr, std::forward<SS>(ss)... );
+    }
+
+  public:
+
+   // constructors
+
+   ExtAnyPtr() noexcept : node(0),type(0) {}
+
+   ExtAnyPtr(NothingType) : node(0),type(0) {}
+
+   template <class T>
+   ExtAnyPtr(const IntPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) { if( node ) node->incRef(); }
+
+   template <class T>
+   ExtAnyPtr(const ExtPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) { if( node ) node->incRef(); }
+
+   template <class T>
+   ExtAnyPtr(const WeakPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) { if( node ) node->incRef(); }
+
+   ExtAnyPtr(const IntAnyPtr<TT...> &obj) : node(GetNode(obj)),type(obj.type) {}
+
+   ~ExtAnyPtr() { if( node ) node->decRef(); }
+
+   void nullify()
+    {
+     type=0;
+
+     if( ObjBase *temp=Replace_null(node) ) temp->decRef();
+    }
+
+   template <class T,class ... SS>
+   void create(SS && ... ss) { (*this)=ExtAnyPtr<TT...>( std::forward<SS>(ss)... ); }
+
+   // copying
+
+   ExtAnyPtr(const ExtAnyPtr<TT...> &obj) noexcept
+    : node(obj.node),
+      type(obj.type)
+    {
+     if( node ) node->incRef();
+    }
+
+   ExtAnyPtr<TT...> & operator = (const ExtAnyPtr<TT...> &obj) noexcept
+    {
+     type=obj.type;
+
+     ObjBase *new_node=obj.node;
+     ObjBase *old_node=Replace(node,new_node);
+
+     if( new_node ) new_node->incRef();
+     if( old_node ) old_node->decRef();
+
+     return *this;
+    }
+
+   // methods
+
+   void * operator + () const { return node; }
+
+   bool operator ! () const { return !node; }
+
+   AnyPtr<TT...> getPtr() const
+    {
+     if( type )
+       {
+        using GetFuncType = AnyPtr<TT...> (*)(ObjBase *node) ;
+
+        static const GetFuncType Table[]={ GetPtr<TT>... };
+
+        return Table[type-1](node);
+       }
+
+     return Null;
+    }
+
+   template <class FuncInit,class ... SS>
+   void apply(FuncInit func_init,SS && ... ss) const requires ( ... && FuncInitArgType<FuncInit,ExtPtr<TT>,SS...> )
+    {
+     using FuncType = void (*)(ObjBase *node,FuncInit func_init,SS && ...) ;
+
+     static const FuncType Table[]={ ApplyToNode<TT,FuncInit,SS...>... };
+
+     if( type ) Table[type-1](node,func_init, std::forward<SS>(ss)... );
+    }
+
+   ulen getExtRefs() const { return node->ref_count; }
+
+   // swap/move objects
+
+   void objSwap(ExtAnyPtr<TT...> &obj)
+    {
+     Swap(type,obj.type);
+     Swap(node,obj.node);
+    }
+
+   explicit ExtAnyPtr(ToMoveCtor<ExtAnyPtr<TT...> > obj)
+    : node(Replace_null(obj->node)),
+      type(obj->type)
     {
     }
  };
@@ -495,6 +632,8 @@ class ObjectDomain::IntAnyPtr // default copying
 
    template <class T>
    IntAnyPtr(const WeakPtr<T> &obj) : node(GetNode(obj)),type(Meta::IndexOf<T,TT...>) {}
+
+   IntAnyPtr(const ExtAnyPtr<TT...> &obj) : node(GetNode(obj)),type(obj.type) {}
 
    void nullify() { node=0; type=0; }
 
@@ -682,6 +821,9 @@ class ObjectDomain::OwnPtr : NoCopy
 
 template <class T>
 using ExtObjPtr = ObjectDomain::ExtPtr<T> ;
+
+template <class ... TT>
+using ExtAnyObjPtr = ObjectDomain::ExtAnyPtr<TT...> ;
 
 template <class T>
 using IntObjPtr = ObjectDomain::IntPtr<T> ;

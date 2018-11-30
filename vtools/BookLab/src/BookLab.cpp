@@ -403,12 +403,49 @@ Index NextIndex::getIndex()
 
 /* class TempData */
 
+StrLen TempData::GetTypeName(APtr *ptr)
+ {
+  if( !ptr ) return Null;
+
+  StrLen ret=Null;
+
+  ptr->getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
+
+  return ret;
+ }
+
+
 bool TempData::copy(Element *ptr,ModeType)
  {
   data.create<ExtObjPtr<Element> >(book.clone(ptr));
 
   return true;
  }
+
+template <class T>
+bool TempData::copy(IntObjPtr<T> *ptr,ModeType)
+ {
+  if( T *src=ptr->getPtr() )
+    {
+     ExtObjPtr<T> obj=book.clone(src);
+
+     data.create<APtr>(obj);
+
+     return true;
+    }
+
+  return false;
+ }
+
+bool TempData::copy(IntAnyObjPtr<OneLine,MultiLine> *ptr,ModeType mode)
+ {
+  bool ret=false;
+
+  ptr->apply( [&] (auto ptr) { ret=copy(&ptr,mode); } );
+
+  return ret;
+ }
+
 
 void TempData::past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj)
  {
@@ -429,6 +466,65 @@ bool TempData::past(Element *ptr,ModeType mode)
 
   return false;
  }
+
+template <class T,class S>
+bool TempData::past(IntObjPtr<T> *,S *)
+ {
+  return false;
+ }
+
+template <class T>
+bool TempData::past(IntObjPtr<T> *ptr,T *src)
+ {
+  *ptr=book.clone(src);
+
+  return true;
+ }
+
+template <class T>
+bool TempData::past(IntObjPtr<T> *ptr,ModeType)
+ {
+  if( APtr *src=data.getPtr().castPtr<APtr>() )
+    {
+     bool ret=false;
+
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+
+     return ret;
+    }
+
+  return false;
+ }
+
+template <class S,class ... TT>
+bool TempData::past(IntAnyObjPtr<TT...> *,S *)
+ {
+  return false;
+ }
+
+template <class S,class ... TT>
+bool TempData::past(IntAnyObjPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> )
+ {
+  *ptr=book.clone(src);
+
+  return true;
+ }
+
+template <class ... TT>
+bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
+ {
+  if( APtr *src=data.getPtr().castPtr<APtr>() )
+    {
+     bool ret=false;
+
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+
+     return ret;
+    }
+
+  return false;
+ }
+
 
 TempData::TempData(Book &book_)
  : book(book_)
