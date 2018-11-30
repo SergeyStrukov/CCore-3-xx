@@ -323,7 +323,13 @@ class TempData : NoCopy // TODO
 
    using APtr = ExtAnyObjPtr<SingleLine,DoubleLine,Format,Border,OneLine,MultiLine> ;
 
-   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element>,APtr> data;
+   struct NPtr
+    {
+     String name;
+     ExtAnyObjPtr<Font,Page,Format,Border,OneLine,MultiLine,SingleLine,DoubleLine,Bitmap,Collapse,TextList,Table,Text,FixedText> ptr;
+    };
+
+   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element>,APtr,NPtr> data;
 
   private:
 
@@ -366,6 +372,24 @@ class TempData : NoCopy // TODO
 
    static StrLen GetTypeName(APtr *ptr);
 
+   static StrLen GetTypeName(Font *) { return "Font"_c; }
+
+   static StrLen GetTypeName(Page *) { return "Page"_c; }
+
+   static StrLen GetTypeName(Bitmap *) { return "Bitmap"_c; }
+
+   static StrLen GetTypeName(Collapse *) { return "Collapse"_c; }
+
+   static StrLen GetTypeName(TextList *) { return "TextList"_c; }
+
+   static StrLen GetTypeName(Table *) { return "Table"_c; }
+
+   static StrLen GetTypeName(Text *) { return "Text"_c; }
+
+   static StrLen GetTypeName(FixedText *) { return "FixedText"_c; }
+
+   static StrLen GetTypeName(NPtr *ptr);
+
 
    template <class T>
    bool copy(T *,ModeType) { return false; }
@@ -393,7 +417,17 @@ class TempData : NoCopy // TODO
    template <class T>
    bool copy(IntObjPtr<T> *ptr,ModeType mode);
 
-   bool copy(IntAnyObjPtr<OneLine,MultiLine> *ptr,ModeType mode);
+   template <class ... TT>
+   bool copy(IntAnyObjPtr<TT...> *ptr,ModeType mode);
+
+   template <class T>
+   bool copy(String name,IntObjPtr<T> ptr);
+
+   template <class T>
+   bool copy(NamedPtr<T> *ptr,ModeType mode);
+
+   template <class ... TT>
+   bool copy(NamedPtr<TT...> *ptr,ModeType mode);
 
 
    template <class T>
@@ -458,6 +492,15 @@ class TempData : NoCopy // TODO
 
    template <class ... TT>
    bool past(IntAnyObjPtr<TT...> *ptr,ModeType mode);
+
+   template <class S,class ... TT>
+   bool past(NamedPtr<TT...> *ptr,String name,S *src);
+
+   template <class S,class ... TT>
+   bool past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTypes<S,TT...> ) ;
+
+   template <class ... TT>
+   bool past(NamedPtr<TT...> *ptr,ModeType mode);
 
   public:
 
@@ -644,60 +687,6 @@ class Book : NoCopy
 
   private:
 
-   ExtObjPtr<Frame> clone(Frame *ptr);
-
-   void clone(FrameList &dst,FrameList &src);
-
-   void clone(ElementList &dst,ElementList &src);
-
-   ExtObjPtr<Item> clone(Item *ptr);
-
-   void clone(ItemList &dst,ItemList &src);
-
-   void clone(Defaults &dst,Defaults &src);
-
-   ExtObjPtr<Font> clone(Font *ptr);
-
-   ExtObjPtr<Format> clone(Format *ptr);
-
-   ExtObjPtr<SingleLine> clone(SingleLine *ptr);
-
-   ExtObjPtr<DoubleLine> clone(DoubleLine *ptr);
-
-   ExtObjPtr<Page> clone(Page *ptr);
-
-   ExtObjPtr<Scope> clone(Scope *ptr);
-
-   ExtObjPtr<Section> clone(Section *ptr);
-
-   ExtObjPtr<Bitmap> clone(Bitmap *ptr);
-
-   ExtObjPtr<Collapse> clone(Collapse *ptr);
-
-   ExtObjPtr<TextList> clone(TextList *ptr);
-
-   ExtObjPtr<Border> clone(Border *ptr);
-
-   ExtObjPtr<Cell> clone(Cell *ptr);
-
-   void clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src);
-
-   ExtObjPtr<Table> clone(Table *ptr);
-
-   ExtObjPtr<Link> clone(Link *ptr);
-
-   void clone(Span &dst,const Span &src);
-
-   void clone(TextLine &dst,const TextLine &src);
-
-   ExtObjPtr<FixedText> clone(FixedText *ptr);
-
-   ExtObjPtr<OneLine> clone(OneLine *ptr);
-
-   ExtObjPtr<MultiLine> clone(MultiLine *ptr);
-
-   ExtObjPtr<Text> clone(Text *ptr);
-
    template <class T>
    ExtObjPtr<T> clone(IntObjPtr<T> ptr);
 
@@ -715,6 +704,24 @@ class Book : NoCopy
 
    template <class T>
    void clone(DynArray<T> &dst,const DynArray<T> &src);
+
+   ExtObjPtr<Frame> clone(Frame *ptr);
+
+   void clone(FrameList &dst,FrameList &src);
+
+   void clone(ElementList &dst,ElementList &src);
+
+   ExtObjPtr<Item> clone(Item *ptr);
+
+   void clone(ItemList &dst,ItemList &src);
+
+   void clone(Defaults &dst,Defaults &src);
+
+   void clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src);
+
+   void clone(Span &dst,const Span &src);
+
+   void clone(TextLine &dst,const TextLine &src);
 
   public:
 
@@ -754,6 +761,42 @@ class Book : NoCopy
    ExtObjPtr<T> create() { return ExtObjPtr<T>(domain); }
 
    // clone
+
+   ExtObjPtr<Font> clone(Font *ptr);
+
+   ExtObjPtr<Format> clone(Format *ptr);
+
+   ExtObjPtr<SingleLine> clone(SingleLine *ptr);
+
+   ExtObjPtr<DoubleLine> clone(DoubleLine *ptr);
+
+   ExtObjPtr<Page> clone(Page *ptr);
+
+   ExtObjPtr<Scope> clone(Scope *ptr);
+
+   ExtObjPtr<Section> clone(Section *ptr);
+
+   ExtObjPtr<Bitmap> clone(Bitmap *ptr);
+
+   ExtObjPtr<Collapse> clone(Collapse *ptr);
+
+   ExtObjPtr<TextList> clone(TextList *ptr);
+
+   ExtObjPtr<Border> clone(Border *ptr);
+
+   ExtObjPtr<Cell> clone(Cell *ptr);
+
+   ExtObjPtr<Table> clone(Table *ptr);
+
+   ExtObjPtr<Link> clone(Link *ptr);
+
+   ExtObjPtr<FixedText> clone(FixedText *ptr);
+
+   ExtObjPtr<OneLine> clone(OneLine *ptr);
+
+   ExtObjPtr<MultiLine> clone(MultiLine *ptr);
+
+   ExtObjPtr<Text> clone(Text *ptr);
 
    ExtObjPtr<Element> clone(Element *ptr);
 

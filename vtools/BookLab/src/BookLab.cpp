@@ -405,11 +405,18 @@ Index NextIndex::getIndex()
 
 StrLen TempData::GetTypeName(APtr *ptr)
  {
-  if( !ptr ) return Null;
-
   StrLen ret=Null;
 
   ptr->getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
+
+  return ret;
+ }
+
+StrLen TempData::GetTypeName(NPtr *ptr)
+ {
+  StrLen ret=Null;
+
+  ptr->ptr.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
 
   return ret;
  }
@@ -437,11 +444,52 @@ bool TempData::copy(IntObjPtr<T> *ptr,ModeType)
   return false;
  }
 
-bool TempData::copy(IntAnyObjPtr<OneLine,MultiLine> *ptr,ModeType mode)
+template <class ... TT>
+bool TempData::copy(IntAnyObjPtr<TT...> *ptr,ModeType mode)
  {
   bool ret=false;
 
   ptr->apply( [&] (auto ptr) { ret=copy(&ptr,mode); } );
+
+  return ret;
+ }
+
+template <class T>
+bool TempData::copy(String name,IntObjPtr<T> ptr)
+ {
+  if( name.getLen() )
+    {
+     NPtr obj{name,ExtObjPtr<T>()};
+
+     data.create<NPtr>(obj);
+
+     return true;
+    }
+
+  if( +ptr )
+    {
+     NPtr obj{name,book.clone(ptr.getPtr())};
+
+     data.create<NPtr>(obj);
+
+     return true;
+    }
+
+  return false;
+ }
+
+template <class T>
+bool TempData::copy(NamedPtr<T> *ptr,ModeType)
+ {
+  return copy(ptr->name,ptr->ptr);
+ }
+
+template <class ... TT>
+bool TempData::copy(NamedPtr<TT...> *ptr,ModeType)
+ {
+  bool ret=false;
+
+  ptr->ptr.apply( [&] (auto p) { ret=copy(ptr->name,p); } );
 
   return ret;
  }
@@ -518,6 +566,49 @@ bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
      bool ret=false;
 
      src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+
+     return ret;
+    }
+
+  return false;
+ }
+
+template <class S,class ... TT>
+bool TempData::past(NamedPtr<TT...> *,String,S *)
+ {
+  return false;
+ }
+
+template <class S,class ... TT>
+bool TempData::past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTypes<S,TT...> )
+ {
+  if( name.getLen() )
+    {
+     ptr->name=name;
+     ptr->ptr=Null;
+
+     return true;
+    }
+
+  if( src )
+    {
+     ptr->name=Null;
+     ptr->ptr=book.clone(src);
+
+     return true;
+    }
+
+  return false;
+ }
+
+template <class ... TT>
+bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
+ {
+  if( NPtr *src=data.getPtr().castPtr<NPtr>() )
+    {
+     bool ret=false;
+
+     src->ptr.getPtr().apply( [&] (auto *s) { ret=past(ptr,src->name,s); } );
 
      return ret;
     }
@@ -805,16 +896,6 @@ void Book::clone(IntAnyObjPtr<TT...> &dst,IntAnyObjPtr<TT...> src)
  }
 
 template <class T>
-void Book::clone(DynArray<T> &dst,const DynArray<T> &src)
- {
-  PtrLen<T> r=dst.extend_default(src.getLen());
-
-  const T *ptr=src.getPtr();
-
-  for(T &obj : r ) clone(obj,*(ptr++));
- }
-
-template <class T>
 NamedPtr<T> Book::clone(NamedPtr<T> obj)
  {
   return {obj.name,clone(obj.ptr)};
@@ -826,6 +907,26 @@ void Book::clone(NamedPtr<T...> &dst,NamedPtr<T...> src)
   dst.name=src.name;
 
   clone(dst.ptr,src.ptr);
+ }
+
+template <class ... TT>
+IntAnyObjPtr<TT...> Book::clone(AnyPtr<TT...> anyptr)
+ {
+  IntAnyObjPtr<TT...> ret;
+
+  anyptr.apply( [&] (auto *ptr) { ret=clone(ptr); } );
+
+  return ret;
+ }
+
+template <class T>
+void Book::clone(DynArray<T> &dst,const DynArray<T> &src)
+ {
+  PtrLen<T> r=dst.extend_default(src.getLen());
+
+  const T *ptr=src.getPtr();
+
+  for(T &obj : r ) clone(obj,*(ptr++));
  }
 
 ExtObjPtr<Frame> Book::clone(Frame *ptr)
@@ -908,6 +1009,41 @@ void Book::clone(Defaults &dst,Defaults &src)
   dst.fixedFormat=clone(src.fixedFormat);
 
   clone(dst.placement,src.placement);
+ }
+
+void Book::clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src)
+ {
+  dst=clone(src);
+ }
+
+void Book::clone(Span &dst,const Span &src)
+ {
+  dst.body=src.body;
+
+  dst.format=clone(src.format);
+
+  clone(dst.ref,src.ref);
+ }
+
+void Book::clone(TextLine &dst,const TextLine &src)
+ {
+  clone(dst.list,src.list);
+ }
+
+Book::Book()
+ {
+ }
+
+Book::~Book()
+ {
+ }
+
+void Book::blank()
+ {
+  doc=Null;
+  linked=true;
+
+  domain.collect();
  }
 
 ExtObjPtr<Font> Book::clone(Font *ptr)
@@ -1083,11 +1219,6 @@ ExtObjPtr<Cell> Book::clone(Cell *ptr)
   return ret;
  }
 
-void Book::clone(NamedPtr<Cell> &dst,const NamedPtr<Cell> &src)
- {
-  dst=clone(src);
- }
-
 ExtObjPtr<Table> Book::clone(Table *ptr)
  {
   ExtObjPtr<Table> ret(domain);
@@ -1117,20 +1248,6 @@ ExtObjPtr<Link> Book::clone(Link *ptr)
   ret->index_list=ptr->index_list;
 
   return ret;
- }
-
-void Book::clone(Span &dst,const Span &src)
- {
-  dst.body=src.body;
-
-  dst.format=clone(src.format);
-
-  clone(dst.ref,src.ref);
- }
-
-void Book::clone(TextLine &dst,const TextLine &src)
- {
-  clone(dst.list,src.list);
  }
 
 ExtObjPtr<FixedText> Book::clone(FixedText *ptr)
@@ -1186,32 +1303,6 @@ ExtObjPtr<Text> Book::clone(Text *ptr)
   clone(ret->list,ptr->list);
 
   return ret;
- }
-
-template <class ... TT>
-IntAnyObjPtr<TT...> Book::clone(AnyPtr<TT...> anyptr)
- {
-  IntAnyObjPtr<TT...> ret;
-
-  anyptr.apply( [&] (auto *ptr) { ret=clone(ptr); } );
-
-  return ret;
- }
-
-Book::Book()
- {
- }
-
-Book::~Book()
- {
- }
-
-void Book::blank()
- {
-  doc=Null;
-  linked=true;
-
-  domain.collect();
  }
 
 ExtObjPtr<Element> Book::clone(Element *ptr)

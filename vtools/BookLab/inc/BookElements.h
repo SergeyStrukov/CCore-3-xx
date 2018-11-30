@@ -236,17 +236,17 @@ struct NamedPtr<TT...>
   // +name && +ptr => name is resolved to ptr
   //
 
-  bool isDef() const { return !Range(name) && !ptr ; }
+  bool isDef() const { return !name.getLen() && !ptr ; }
 
-  bool isAnonym() const { return !Range(name) && +ptr ; }
+  bool isAnonym() const { return !name.getLen() && +ptr ; }
 
-  bool hasName() const { return +Range(name); }
+  bool hasName() const { return +name.getLen(); }
 
   bool hasObj() const { return +ptr; }
 
-  bool notResolved() const { return +Range(name) && !ptr ; }
+  bool notResolved() const { return +name.getLen() && !ptr ; }
 
-  bool isResolved() const { return +Range(name) && +ptr ; }
+  bool isResolved() const { return +name.getLen() && +ptr ; }
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -271,17 +271,17 @@ struct NamedPtr<T>
   // +name && +ptr => name is resolved to ptr
   //
 
-  bool isDef() const { return !Range(name) && !ptr ; }
+  bool isDef() const { return !name.getLen() && !ptr ; }
 
-  bool isAnonym() const { return !Range(name) && +ptr ; }
+  bool isAnonym() const { return !name.getLen() && +ptr ; }
 
-  bool hasName() const { return +Range(name); }
+  bool hasName() const { return +name.getLen(); }
 
   bool hasObj() const { return +ptr; }
 
-  bool notResolved() const { return +Range(name) && !ptr ; }
+  bool notResolved() const { return +name.getLen() && !ptr ; }
 
-  bool isResolved() const { return +Range(name) && +ptr ; }
+  bool isResolved() const { return +name.getLen() && +ptr ; }
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
