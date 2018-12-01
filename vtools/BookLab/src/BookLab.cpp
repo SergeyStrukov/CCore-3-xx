@@ -414,9 +414,9 @@ StrLen TempData::GetTypeName(APtr *ptr)
 
 StrLen TempData::GetTypeName(NPtr *ptr)
  {
-  StrLen ret=Null;
+  StrLen ret="Named type"_c;
 
-  ptr->ptr.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
+  ptr->ptr.getPtr().apply( [&] (auto *ptr) { ret=GetNamedTypeName(ptr); } );
 
   return ret;
  }
@@ -487,6 +487,15 @@ bool TempData::copy(NamedPtr<T> *ptr,ModeType)
 template <class ... TT>
 bool TempData::copy(NamedPtr<TT...> *ptr,ModeType)
  {
+  if( ptr->name.getLen() )
+    {
+     NPtr obj{ptr->name};
+
+     data.create<NPtr>(obj);
+
+     return true;
+    }
+
   bool ret=false;
 
   ptr->ptr.apply( [&] (auto p) { ret=copy(ptr->name,p); } );
@@ -541,6 +550,15 @@ bool TempData::past(IntObjPtr<T> *ptr,ModeType)
      return ret;
     }
 
+  if( NPtr *src=data.getPtr().castPtr<NPtr>() )
+    {
+     bool ret=false;
+
+     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s); } );
+
+     return ret;
+    }
+
   return false;
  }
 
@@ -566,6 +584,15 @@ bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
      bool ret=false;
 
      src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+
+     return ret;
+    }
+
+  if( NPtr *src=data.getPtr().castPtr<NPtr>() )
+    {
+     bool ret=false;
+
+     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s); } );
 
      return ret;
     }
@@ -601,6 +628,26 @@ bool TempData::past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTyp
   return false;
  }
 
+template <class S,class ... TT>
+bool TempData::past(NamedPtr<TT...> *,S *)
+ {
+  return false;
+ }
+
+template <class S,class ... TT>
+bool TempData::past(NamedPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> )
+ {
+  if( src )
+    {
+     ptr->name=Null;
+     ptr->ptr=book.clone(src);
+
+     return true;
+    }
+
+  return false;
+ }
+
 template <class ... TT>
 bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
  {
@@ -609,6 +656,15 @@ bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
      bool ret=false;
 
      src->ptr.getPtr().apply( [&] (auto *s) { ret=past(ptr,src->name,s); } );
+
+     return ret;
+    }
+
+  if( APtr *src=data.getPtr().castPtr<APtr>() )
+    {
+     bool ret=false;
+
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
 
      return ret;
     }

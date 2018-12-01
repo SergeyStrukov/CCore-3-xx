@@ -372,21 +372,33 @@ class TempData : NoCopy // TODO
 
    static StrLen GetTypeName(APtr *ptr);
 
-   static StrLen GetTypeName(Font *) { return "Font"_c; }
+   static StrLen GetNamedTypeName(Font *) { return "Named Font"_c; }
 
-   static StrLen GetTypeName(Page *) { return "Page"_c; }
+   static StrLen GetNamedTypeName(Page *) { return "Named Page"_c; }
 
-   static StrLen GetTypeName(Bitmap *) { return "Bitmap"_c; }
+   static StrLen GetNamedTypeName(Format *) { return "Named Format"_c; }
 
-   static StrLen GetTypeName(Collapse *) { return "Collapse"_c; }
+   static StrLen GetNamedTypeName(Border *) { return "Named Border"_c; }
 
-   static StrLen GetTypeName(TextList *) { return "TextList"_c; }
+   static StrLen GetNamedTypeName(OneLine *) { return "Named OneLine"_c; }
 
-   static StrLen GetTypeName(Table *) { return "Table"_c; }
+   static StrLen GetNamedTypeName(MultiLine *) { return "Named MultiLine"_c; }
 
-   static StrLen GetTypeName(Text *) { return "Text"_c; }
+   static StrLen GetNamedTypeName(SingleLine *) { return "Named SingleLine"_c; }
 
-   static StrLen GetTypeName(FixedText *) { return "FixedText"_c; }
+   static StrLen GetNamedTypeName(DoubleLine *) { return "Named DoubleLine"_c; }
+
+   static StrLen GetNamedTypeName(Bitmap *) { return "Named Bitmap"_c; }
+
+   static StrLen GetNamedTypeName(Collapse *) { return "Named Collapse"_c; }
+
+   static StrLen GetNamedTypeName(TextList *) { return "Named TextList"_c; }
+
+   static StrLen GetNamedTypeName(Table *) { return "Named Table"_c; }
+
+   static StrLen GetNamedTypeName(Text *) { return "Named Text"_c; }
+
+   static StrLen GetNamedTypeName(FixedText *) { return "Named FixedText"_c; }
 
    static StrLen GetTypeName(NPtr *ptr);
 
@@ -498,6 +510,12 @@ class TempData : NoCopy // TODO
 
    template <class S,class ... TT>
    bool past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTypes<S,TT...> ) ;
+
+   template <class S,class ... TT>
+   bool past(NamedPtr<TT...> *ptr,S *src);
+
+   template <class S,class ... TT>
+   bool past(NamedPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> ) ;
 
    template <class ... TT>
    bool past(NamedPtr<TT...> *ptr,ModeType mode);
