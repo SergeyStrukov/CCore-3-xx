@@ -272,7 +272,7 @@ Each smart pointer has also the method <b>nullify()</b> to set the pointer to th
 </p>
 
 <p>
-Each smart pointer, except <b>IntAnyObjPtr</b>, has generic constructors to create a domain object. The pointer will reference the created object.
+Each smart pointer, except <b>IntAnyObjPtr</b> and <b>ExtAnyObjPtr</b>, has generic constructors to create a domain object. The pointer will reference the created object.
 </p>
 
 <pre>
@@ -290,8 +290,10 @@ The first argument is the <b>ObjectDomain</b> pointer or reference. Other argume
 </p>
 
 <p>
-Each smart pointer, except <b>IntAnyObjPtr</b>, implements the <b>Object Pointer Interface</b>.
-</p>
+Each smart pointer, except <b>IntAnyObjPtr</b> and <b>ExtAnyObjPtr</b>, implements the <b>Object Pointer Interface</b>.
+<b>IntAnyObjPtr</b> and <b>ExtAnyObjPtr</b> implement the "anypointer" <b>Object Pointer Interface</b>: the method <b>getPtr()</b> 
+returns <b>AnyPtr&lt;....&gt;</b> instead of a simple pointer.
+</p>   
 
 <p>
 Each smart pointer is efficiently copyable. For some the swap/move operations are implemented
@@ -378,6 +380,10 @@ class <span class="Att">ObjectDomain::ExtPtr</span>
 
 <p>
 <b>getExtRefs()</b> returns the external reference counter. The pointer must be non-null.
+</p>
+
+<p>
+<b>ExtObjPtr&lt;T&gt;</b> is copyable, swappable and movable.
 </p>
 
 <h4>IntObjPtr</h4>
@@ -557,6 +563,8 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
    template &lt;class T&gt;
    IntAnyPtr(const WeakPtr&lt;T&gt; &amp;obj);
    
+   IntAnyPtr(const ExtAnyPtr&lt;TT...&gt; &amp;obj);
+
    void nullify();
    
    template &ltclass T,class ... SS&gt;
@@ -581,7 +589,8 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
 </pre>
 
 <p>
-<b>IntAnyObjPtr&lt;...,T,...&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b>, <b>ExtObjPtr&lt;T&gt;</b> and <b>WeakObjPtr&lt;T&gt;</b>.
+<b>IntAnyObjPtr&lt;...,T,...&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b>, <b>ExtObjPtr&lt;T&gt;</b>, 
+<b>WeakObjPtr&lt;T&gt;</b> and <b>ExtAnyObjPtr&lt;...,T,...&gt;</b>.
 </p>
 
 <p>
@@ -594,6 +603,97 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
 
 <p>
 <b>getExtRefs()</b> returns the external reference counter. The pointer must be non-null.
+</p>
+
+<h4>ExtAnyObjPtr</h4>
+
+<p>
+This smart pointer should be used to reference domain objects by local or global variables. 
+It keeps the object being referenced alive. So you must destroy or nullify all such objects before
+the <b>ObjectDomain</b> is destroyed. <b>ExtAnyObjPtr&lt;TT&gt;</b>, in fact, is the alias of the
+<b>ObjectDomain::ExtAnyPtr&lt;TT&gt;</b>.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+class <span class="Att">ObjectDomain::ExtAnyPtr</span>
+ {
+   ....
+
+  public:
+
+   // constructors
+
+   ExtAnyPtr() noexcept;
+
+   ExtAnyPtr(NothingType);
+
+   template &lt;class T&gt;
+   ExtAnyPtr(const IntPtr&lt;T&gt; &amp;obj);
+
+   template &lt;class T&gt;
+   ExtAnyPtr(const ExtPtr&lt;T&gt; &amp;obj);
+
+   template &lt;class T&gt;
+   ExtAnyPtr(const WeakPtr&lt;T&gt; &amp;obj);
+
+   ExtAnyPtr(const IntAnyPtr&lt;TT...&gt; &amp;obj);
+
+   ~ExtAnyPtr();
+
+   void nullify();
+
+   template &lt;class T,class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
+   // copying
+
+   ExtAnyPtr(const ExtAnyPtr&lt;TT...&gt; &amp;obj) noexcept;
+
+   ExtAnyPtr&lt;TT...&gt; &amp; operator = (const ExtAnyPtr&lt;TT...&gt; &amp;obj) noexcept;
+
+   // methods
+
+   void * operator + () const;
+
+   bool operator ! () const;
+
+   AnyPtr&lt;TT...&gt; getPtr() const;
+
+   template &lt;class FuncInit,class ... SS&gt;
+   void apply(FuncInit func_init,SS &amp;&amp; ... ss) const requires ( ... &amp;&amp; FuncInitArgType&lt;FuncInit,ExtPtr&lt;TT&gt;,SS...&gt; );
+
+   ulen getExtRefs() const;
+
+   // swap/move objects
+
+   void objSwap(ExtAnyPtr&lt;TT...&gt; &amp;obj);
+
+   explicit ExtAnyPtr(ToMoveCtor&lt;ExtAnyPtr&lt;TT...&gt; &gt; obj);
+ };
+
+</pre>
+
+<p>
+<b>ExtAnyObjPtr&lt;...,T,...&gt;</b> is implicitly convertible from the <b>IntObjPtr&lt;T&gt;</b>, <b>ExtObjPtr&lt;T&gt;</b>, 
+<b>WeakObjPtr&lt;T&gt;</b> and <b>IntAnyObjPtr&lt;...,T,...&gt;</b>.
+</p>
+
+<p>
+<b>create&lt;T&gt;()</b> creates an <b>ExtPtr&lt;T&gt;</b> object with the given arguments and assigned it to the self.
+</p>
+
+<p>
+<b>apply()</b> works the same way, as the <b>apply()</b> method for <b>AnyPtr</b>, but transforms the pointer into the <b>ExtObjPtr&lt;T&gt;</b> type.
+</p>
+
+<p>
+<b>getExtRefs()</b> returns the external reference counter. The pointer must be non-null.
+</p>
+
+<p>
+<b>ExtAnyObjPtr&lt;...,T,...&gt;</b> is copyable, swappable and movable.
 </p>
 
 <h4>ExtDelObjPtr</h4>
@@ -668,6 +768,10 @@ external references to this object, in this case the method simply returns <b>fa
 to this object, if any, are nullified.
 </p>
 
+<p>
+<b>ExtDelObjPtr&lt;T&gt;</b> is copyable, swappable and movable.
+</p>
+
 <h4>IntDelObjPtr</h4>
 
 <p>
@@ -682,7 +786,7 @@ the manual object destruction via the method <b>destroy()</b>.
 <pre>
 
 template &lt;class T&gt;
-class <span class="Att">IntDelObjPtr</span>
+class <span class="Att">IntDelObjPtr</span> // default copying
  {
    ....
 
