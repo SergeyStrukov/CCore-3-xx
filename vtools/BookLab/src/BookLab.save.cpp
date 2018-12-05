@@ -682,12 +682,12 @@ class Book::SaveContext : public NextIndex
      printf(" };\n\n");
     }
 
-   void print(Index index,Link *ptr)
+   void print(Index index,Link *ptr) // TODO
     {
-     printf("Link #; = { #; , #; , #; , ",index
+     printf("Link #; = { #; , #; , null , ",index
                                          ,ptr->name
                                          ,ptr->open
-                                         ,bind(ptr->page));
+                                         );
 
      printRange(Range(ptr->index_list));
 

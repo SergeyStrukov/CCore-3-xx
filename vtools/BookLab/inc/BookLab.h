@@ -329,7 +329,7 @@ class TempData : NoCopy // TODO
      ExtAnyObjPtr<Font,Page,Format,Border,OneLine,MultiLine,SingleLine,DoubleLine,Bitmap,Collapse,TextList,Table,Text,FixedText> ptr;
     };
 
-   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element>,APtr,NPtr> data;
+   SingleRoom<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio,ExtObjPtr<Element>,ExtObjPtr<Frame>,APtr,NPtr> data;
 
   private:
 
@@ -357,6 +357,8 @@ class TempData : NoCopy // TODO
    static StrLen GetTypeName(Ratio *) { return "Ratio"_c; }
 
    static StrLen GetTypeName(ExtObjPtr<Element> *) { return "Element"_c; }
+
+   static StrLen GetTypeName(ExtObjPtr<Frame> *) { return "Frame link"_c; }
 
    static StrLen GetTypeName(SingleLine *) { return "SingleLine"_c; }
 
@@ -426,6 +428,8 @@ class TempData : NoCopy // TODO
 
    bool copy(Element *ptr,ModeType mode);
 
+   bool copy(FrameList *ptr,ModeType mode);
+
    template <class T>
    bool copy(IntObjPtr<T> *ptr,ModeType mode);
 
@@ -486,6 +490,8 @@ class TempData : NoCopy // TODO
    void past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj);
 
    bool past(Element *ptr,ModeType mode);
+
+   bool past(Link *ptr,ModeType mode);
 
    template <class T,class S>
    bool past(IntObjPtr<T> *ptr,S *src);

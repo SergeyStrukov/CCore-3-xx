@@ -362,7 +362,7 @@ struct Link
   text name;
   Bool open;
   
-  PagePtr page;
+  Page *page;
   ulen[] index_list;
  };
 

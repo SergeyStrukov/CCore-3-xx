@@ -26,7 +26,9 @@ inline Point SizeListBtn(Coord dxy)
   return Point(BoxExt(dxy),5*dxy);
  }
 
-inline StrLen LinkDesc() { return "link ..."_c; }
+inline StrLen LinkDesc(Link &link) { return (+link.frame)? "frame ..."_c : "null"_c ; }
+
+inline bool LinkAlert(Link &link) { return !link.page; }
 
 inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
 
@@ -741,9 +743,9 @@ class Book::PrepareContext : NoCopy
 
   private:
 
-   Point size(Link &)
+   Point size(Link &link)
     {
-     return size(LinkDesc());
+     return size(LinkDesc(link));
     }
 
    void place(Point,Link &) {}
@@ -1482,9 +1484,9 @@ class Book::DrawContext : NoCopy
        }
     }
 
-   void draw(Pane cell,Coord offy,Link &)
+   void draw(Pane cell,Coord offy,Link &link)
     {
-     draw(cell,offy,LinkDesc());
+     draw(cell,offy,LinkDesc(link),LinkAlert(link));
     }
 
    void draw(Pane cell,Coord,Table::Data &obj)

@@ -202,7 +202,7 @@ Table <name>
 
 Link <name>
 @{
-  Page [*]page
+  Page *page
   ulen[] index_list
  } 
 

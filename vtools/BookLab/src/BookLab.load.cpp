@@ -330,14 +330,16 @@ class Book::LoadContext : NoCopy
      cast(ret->table.cells,ptr->table);
     }
 
-   void init(Link *ret,const TypeDef::Link *ptr)
+   void init(Link *ret,const TypeDef::Link *ptr) // TODO
     {
      CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
      Cast(ret->index_list,ptr->index_list);
 
-     cast(ret->page,ptr->page);
+     ret->page=Null;
+
+     //cast(ret->page,ptr->page);
     }
 
    void init(FixedText *ret,const TypeDef::FixedText *ptr)

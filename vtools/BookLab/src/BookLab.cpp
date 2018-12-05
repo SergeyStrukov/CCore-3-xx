@@ -429,6 +429,18 @@ bool TempData::copy(Element *ptr,ModeType)
   return true;
  }
 
+bool TempData::copy(FrameList *ptr,ModeType)
+ {
+  if( +ptr->cur )
+    {
+     data.create<ExtObjPtr<Frame> >( ptr->cur );
+
+     return true;
+    }
+
+  return false;
+ }
+
 template <class T>
 bool TempData::copy(IntObjPtr<T> *ptr,ModeType)
  {
@@ -519,6 +531,18 @@ bool TempData::past(Element *ptr,ModeType mode)
 
         return true;
        }
+    }
+
+  return false;
+ }
+
+bool TempData::past(Link *ptr,ModeType)
+ {
+  if( ExtObjPtr<Frame> *frame=data.getPtr().castPtr<ExtObjPtr<Frame> >() )
+    {
+     ptr->set(*frame);
+
+     return true;
     }
 
   return false;

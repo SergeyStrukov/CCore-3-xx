@@ -1200,14 +1200,22 @@ struct Table : NamedObj
 
 struct Link : NamedObj
  {
-  NamedPtr<Page> page; // default: none
-
+  IntObjPtr<Page> page;
   RefArray<ulen> index_list;
+
+  IntObjPtr<Frame> frame;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(getBase(),page);
+    keeper(getBase(),page,frame);
+   }
+
+  void set(IntObjPtr<Frame> frame_)
+   {
+    frame=frame_;
+    page=Null;
+    index_list.erase();
    }
 
   // layout

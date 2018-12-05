@@ -362,7 +362,7 @@
 "  text name;\n"
 "  Bool open;\n"
 "  \n"
-"  PagePtr page;\n"
+"  Page *page;\n"
 "  ulen[] index_list;\n"
 " };\n"
 "\n"

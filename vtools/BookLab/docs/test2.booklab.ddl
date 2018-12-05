@@ -44,7 +44,8 @@ Section o5 = { True , "Style" ,
 Section o6 = { True , "Text" , 
 
 {
-& o20
+& o20,
+& o21
 }
 
  };
@@ -78,8 +79,8 @@ Format o19 = { "fmt_under" , False , { "font" , null } , { True , 4294967295 } ,
 Page o20 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 4294967295 } , { null , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o21 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o22 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o23 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
@@ -87,9 +88,9 @@ Page o20 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 429496
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } }
 }
 
- , 0 } };
+ , 1 } };
 
-Text o21 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+Link o21 = { "link1" , True , null , 
 
 {
 
@@ -97,7 +98,15 @@ Text o21 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o22 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+
+{
+
+}
+
+ };
+
+Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
