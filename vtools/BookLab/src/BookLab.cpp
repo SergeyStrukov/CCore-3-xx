@@ -12,6 +12,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <inc/BookLab.h>
+#include <inc/Linker.h>
 
 #include <CCore/inc/CompactList.h>
 
@@ -949,6 +950,212 @@ class Book::ScopeContext : NoCopy
     }
  };
 
+/* class Book::LinkContext */
+
+class Book::LinkContext : NoCopy
+ {
+   unsigned level = 100 ;
+
+   Linker linker;
+
+  private:
+
+   template <class T>
+   void addName(IntAnyObjPtr<Scope,Doc> scope,String name,IntObjPtr<T> ptr)
+    {
+     linker.addName(scope,name,ptr);
+    }
+
+   template <class T>
+   void addPtr(IntAnyObjPtr<Scope,Doc> scope,String name,IntObjPtr<T> &ptr)
+    {
+     linker.addPtr(scope,name,ptr);
+    }
+
+   template <class ... TT>
+   void addPtr(IntAnyObjPtr<Scope,Doc> scope,String name,IntAnyObjPtr<TT...> &ptr)
+    {
+     linker.addPtr(scope,name,ptr);
+    }
+
+   template <class ... TT>
+   void add(IntAnyObjPtr<Scope,Doc> scope,NamedPtr<TT...> &obj)
+    {
+     if( obj.hasName() )
+       {
+        addPtr(scope,obj.name,obj.ptr);
+       }
+     else if( +obj.ptr )
+       {
+        elem(obj.ptr);
+       }
+    }
+
+   template <class T>
+   void add(NamedObj *named,IntObjPtr<T> ptr)
+    {
+     addName(named->scope,named->name,ptr);
+    }
+
+   template <class T>
+   void add(IntObjPtr<T> ptr)
+    {
+     NamedObj *named=ptr.getPtr();
+
+     add(named,ptr);
+    }
+
+   void add(IntObjPtr<Section>) {}
+
+   void add(IntObjPtr<Bitmap> ptr)
+    {
+     addName(ptr->scope,ptr->name,ptr);
+    }
+
+  private:
+
+   template <class T>
+   void setElem(T *) {}
+
+   void setElem(Format *ptr)
+    {
+     add(ptr->scope,ptr->font);
+    }
+
+   void setElem(Page *ptr)
+    {
+     add(ptr->scope,ptr->up);
+     add(ptr->scope,ptr->prev);
+     add(ptr->scope,ptr->next);
+
+     set(ptr->scope,ptr->list);
+    }
+
+   void setElem(Scope *ptr)
+    {
+     set(ptr->list);
+    }
+
+   void setElem(Section *ptr)
+    {
+     set(ptr->list);
+    }
+
+   void setElem(Collapse *ptr)
+    {
+     add(ptr->scope,ptr->format);
+
+     set(ptr->scope,ptr->list);
+    }
+
+   void setElem(TextList *ptr)
+    {
+     add(ptr->scope,ptr->format);
+
+     set(ptr->scope,ptr->list);
+    }
+
+   void setElem(Cell *ptr)
+    {
+     set(ptr->scope,ptr->list);
+    }
+
+   void setElem(Table *ptr)
+    {
+     add(ptr->scope,ptr->border);
+
+     ptr->table.cells.apply( [&] (NamedPtr<Cell> &obj) { add(ptr->scope,obj); } );
+    }
+
+   void setElem(Link *ptr) // TODO
+    {
+     Used(ptr);
+    }
+
+   void setElem(IntAnyObjPtr<Scope,Doc> scope,Span &obj)
+    {
+     add(scope,obj.format);
+     add(scope,obj.ref);
+    }
+
+   void setElem(IntAnyObjPtr<Scope,Doc> scope,DynArray<Span> &list)
+    {
+     list.apply( [&] (Span &obj) { setElem(scope,obj); } );
+    }
+
+   void setElem(FixedText *ptr)
+    {
+     add(ptr->scope,ptr->format);
+
+     ptr->list.apply( [&] (TextLine &obj) { setElem(ptr->scope,obj.list); } );
+    }
+
+   void setElem(Text *ptr)
+    {
+     add(ptr->scope,ptr->placement);
+     add(ptr->scope,ptr->format);
+
+     setElem(ptr->scope,ptr->list);
+    }
+
+   template <class T>
+   void elem(IntObjPtr<T> ptr)
+    {
+     LockUse lock(level);
+
+     add(ptr);
+
+     setElem(ptr.getPtr());
+    }
+
+   template <class ... TT>
+   void elem(IntAnyObjPtr<TT...> ptr)
+    {
+     ptr.apply( [&] (auto ptr) { elem(ptr); } );
+    }
+
+   void set(ElementList &list)
+    {
+     for(Element &obj : ForIntList(list) )
+       {
+        obj.ptr.apply( [&] (auto ptr) { if( +ptr ) elem(ptr); } );
+       }
+    }
+
+   void set(IntAnyObjPtr<Scope,Doc> scope,FrameList &list)
+    {
+     for(Frame &obj : ForIntList(list) )
+       {
+        add(scope,obj.line);
+        add(scope,obj.body);
+       }
+    }
+
+   void set(IntAnyObjPtr<Scope,Doc> scope,ItemList &list)
+    {
+     for(Item &obj : ForIntList(list) )
+       {
+        set(scope,obj.list);
+       }
+    }
+
+  public:
+
+   LinkContext() {}
+
+   void set(IntObjPtr<Doc> ptr)
+    {
+     add(ptr,ptr->start);
+
+     set(ptr->list);
+    }
+
+   bool complete(PrintBase &eout)
+    {
+     return linker.link(eout);
+    }
+ };
+
 /* class Book */
 
 void Book::setScope()
@@ -1394,14 +1601,30 @@ ExtObjPtr<Element> Book::clone(Element *ptr)
   return ret;
  }
 
-ErrorText Book::link(PtrLen<char> ebuf) // TODO
+ErrorText Book::link(PtrLen<char> ebuf)
  {
   PrintBuf eout(ebuf);
   ReportExceptionTo report(eout);
 
   try
     {
-     Printf(Exception,"not implemented");
+     if( +doc )
+       {
+        setScope();
+
+        LinkContext ctx;
+
+        ctx.set(doc);
+
+        if( ctx.complete(eout) )
+          {
+           linked=true;
+
+           return Success;
+          }
+
+        return eout.close();
+       }
 
      return Success;
     }

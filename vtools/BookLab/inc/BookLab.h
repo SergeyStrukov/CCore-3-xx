@@ -699,6 +699,8 @@ class Book : NoCopy
 
    class DrawContext;
 
+   class LinkContext;
+
   private:
 
    ExtObjPtr<Element> create(InsData data);

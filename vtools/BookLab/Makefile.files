@@ -12,6 +12,7 @@ OBJ_LIST = \
 .obj/EditWindow.o \
 .obj/FieldEditor.o \
 .obj/InsWindow.o \
+.obj/Linker.o \
 .obj/SingleRoom.o \
 .obj/TempWindow.o \
 .obj/main.o \
@@ -31,6 +32,7 @@ ASM_LIST = \
 .obj/EditWindow.s \
 .obj/FieldEditor.s \
 .obj/InsWindow.s \
+.obj/Linker.s \
 .obj/SingleRoom.s \
 .obj/TempWindow.s \
 .obj/main.s \
@@ -50,6 +52,7 @@ DEP_LIST = \
 .obj/EditWindow.dep \
 .obj/FieldEditor.dep \
 .obj/InsWindow.dep \
+.obj/Linker.dep \
 .obj/SingleRoom.dep \
 .obj/TempWindow.dep \
 .obj/main.dep \
@@ -98,6 +101,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/InsWindow.o : src/./InsWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Linker.o : src/./Linker.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SingleRoom.o : src/./SingleRoom.cpp
@@ -150,6 +156,9 @@ include $(RULES_FILE)
 .obj/InsWindow.s : src/./InsWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Linker.s : src/./Linker.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SingleRoom.s : src/./SingleRoom.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -199,6 +208,9 @@ include $(RULES_FILE)
 
 .obj/InsWindow.dep : src/./InsWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/InsWindow.o $< -MF $@
+
+.obj/Linker.dep : src/./Linker.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Linker.o $< -MF $@
 
 .obj/SingleRoom.dep : src/./SingleRoom.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SingleRoom.o $< -MF $@

@@ -581,8 +581,6 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
 
         doc=ctx.process(doc_);
 
-        setScope();
-
         linked=false;
        }
      else
