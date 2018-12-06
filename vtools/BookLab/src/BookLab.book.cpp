@@ -101,6 +101,11 @@ ErrorText Book::book(StrLen file_name,PtrLen<char> ebuf) const
 
   try
     {
+     if( !linked )
+       {
+        Printf(Exception,"App::BookLab::Book::book(...) : not linked");
+       }
+
      PrintFile out(file_name);
      BookContext ctx(out);
 

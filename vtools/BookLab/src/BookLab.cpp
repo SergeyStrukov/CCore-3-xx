@@ -961,19 +961,19 @@ class Book::LinkContext : NoCopy
   private:
 
    template <class T>
-   void addName(IntAnyObjPtr<Scope,Doc> scope,String name,IntObjPtr<T> ptr)
+   void addName(IntAnyObjPtr<Scope,Doc> scope,StrLen name,IntObjPtr<T> ptr)
     {
-     linker.addName(scope,name,ptr);
+     if( +name ) linker.addName(scope,name,ptr);
     }
 
    template <class T>
-   void addPtr(IntAnyObjPtr<Scope,Doc> scope,String name,IntObjPtr<T> &ptr)
+   void addPtr(IntAnyObjPtr<Scope,Doc> scope,StrLen name,IntObjPtr<T> &ptr)
     {
      linker.addPtr(scope,name,ptr);
     }
 
    template <class ... TT>
-   void addPtr(IntAnyObjPtr<Scope,Doc> scope,String name,IntAnyObjPtr<TT...> &ptr)
+   void addPtr(IntAnyObjPtr<Scope,Doc> scope,StrLen name,IntAnyObjPtr<TT...> &ptr)
     {
      linker.addPtr(scope,name,ptr);
     }
@@ -983,7 +983,7 @@ class Book::LinkContext : NoCopy
     {
      if( obj.hasName() )
        {
-        addPtr(scope,obj.name,obj.ptr);
+        addPtr(scope,Range(obj.name),obj.ptr);
        }
      else if( +obj.ptr )
        {
@@ -994,7 +994,7 @@ class Book::LinkContext : NoCopy
    template <class T>
    void add(NamedObj *named,IntObjPtr<T> ptr)
     {
-     addName(named->scope,named->name,ptr);
+     addName(named->scope,Range(named->name),ptr);
     }
 
    template <class T>
@@ -1009,7 +1009,7 @@ class Book::LinkContext : NoCopy
 
    void add(IntObjPtr<Bitmap> ptr)
     {
-     addName(ptr->scope,ptr->name,ptr);
+     addName(ptr->scope,Range(ptr->name),ptr);
     }
 
   private:
@@ -1141,7 +1141,7 @@ class Book::LinkContext : NoCopy
 
   public:
 
-   LinkContext() {}
+   explicit LinkContext(PrintBase &eout) : linker(eout) {}
 
    void set(IntObjPtr<Doc> ptr)
     {
@@ -1150,9 +1150,9 @@ class Book::LinkContext : NoCopy
      set(ptr->list);
     }
 
-   bool complete(PrintBase &eout)
+   bool complete()
     {
-     return linker.link(eout);
+     return linker.link();
     }
  };
 
@@ -1612,12 +1612,14 @@ ErrorText Book::link(PtrLen<char> ebuf)
        {
         setScope();
 
-        LinkContext ctx;
+        LinkContext ctx(eout);
 
         ctx.set(doc);
 
-        if( ctx.complete(eout) )
+        if( ctx.complete() )
           {
+           report.guard();
+
            linked=true;
 
            return Success;
