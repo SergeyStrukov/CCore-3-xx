@@ -18,6 +18,7 @@
 
 #include <CCore/inc/ElementPool.h>
 #include <CCore/inc/StrKey.h>
+#include <CCore/inc/TypeSwitch.h>
 
 namespace App {
 namespace BookLab {
@@ -84,19 +85,94 @@ class Linker : NoCopy
     {
      StrKey name;
      PtrLen<StrKey> path;
-     bool def = true ;
+     bool def;
+    };
+
+   struct NameBase : Base
+    {
+     using CaseList = Meta::CaseList< Meta::Case<int,1,Font> ,
+                                      Meta::Case<int,2,Format> ,
+                                      Meta::Case<int,3,SingleLine> ,
+                                      Meta::Case<int,4,DoubleLine> ,
+                                      Meta::Case<int,5,Page> ,
+                                      Meta::Case<int,6,Scope> ,
+                                      Meta::Case<int,7,Bitmap> ,
+                                      Meta::Case<int,8,Collapse> ,
+                                      Meta::Case<int,9,TextList> ,
+                                      Meta::Case<int,10,Border> ,
+                                      Meta::Case<int,11,Cell> ,
+                                      Meta::Case<int,12,Table> ,
+                                      Meta::Case<int,13,Link> ,
+                                      Meta::Case<int,14,FixedText> ,
+                                      Meta::Case<int,15,OneLine> ,
+                                      Meta::Case<int,16,MultiLine> ,
+                                      Meta::Case<int,17,Text> > ;
+
+     int type;
+
+     NameBase() { def=true; }
+
+     template <class Arg>
+     struct Ctx
+      {
+       NameBase *def;
+       Arg arg;
+
+       using RetType = bool ;
+
+       template <class T>
+       RetType call();
+
+       RetType defcall(int) { return false; }
+      };
+
+     template <class Arg>
+     bool setBy(Arg arg)
+      {
+       Ctx<Arg> ctx{this,arg};
+
+       return Meta::TypeSwitch<CaseList>::Switch(type,ctx);
+      }
     };
 
    template <class T>
-   struct Name : Base
+   struct Name : NameBase
     {
      IntObjPtr<T> ptr;
+
+     Name() { type=Meta::CaseVal<CaseList,T>; }
+
+     template <class S>
+     bool set(IntObjPtr<S> *) { return false; }
+
+     bool set(IntObjPtr<T> *dst)
+      {
+       *dst=ptr;
+
+       return true;
+      }
+
+     template <class ... TT>
+     bool set(IntAnyObjPtr<TT...> *)
+      {
+       return false;
+      }
+
+     template <class ... TT>
+     bool set(IntAnyObjPtr<TT...> *dst) requires( OneOfTypes<T,TT...> )
+      {
+       *dst=ptr;
+
+       return true;
+      }
     };
 
    struct PtrBase : Base
     {
      PtrLen<StrKey> ext;
      bool abs = false ;
+
+     bool (*assign)(PtrBase *req,NameBase *def);
 
      PtrBase() { def=false; }
     };
@@ -105,21 +181,29 @@ class Linker : NoCopy
    struct Ptr : PtrBase
     {
      IntObjPtr<T> *ptr;
+
+     static bool Assign(PtrBase *req,NameBase *def) { return static_cast<Ptr<T> *>(req)->set(def); }
+
+     Ptr() { assign=Assign; }
+
+     bool set(NameBase *def) { return def->setBy(ptr); }
     };
 
    template <class ... TT>
    struct APtr : PtrBase
     {
      IntAnyObjPtr<TT...> *ptr;
+
+     static bool Assign(PtrBase *req,NameBase *def) { return static_cast<APtr<TT...> *>(req)->set(def); }
+
+     APtr() { assign=Assign; }
+
+     bool set(NameBase *def) { return def->setBy(ptr); }
     };
 
    PrintBase &eout;
    ElementPool pool;
    Collector<Base *> collector;
-
-  private:
-
-   bool assign(PtrBase *req,Base *def);
 
   private:
 
@@ -152,6 +236,8 @@ class Linker : NoCopy
    bool linkNameAbs(PtrLen<Base *> list);
 
    bool linkName(PtrLen<Base *> list);
+
+   bool assign(PtrBase *req,Base *def);
 
   public:
 
@@ -191,6 +277,13 @@ class Linker : NoCopy
 
    bool link();
  };
+
+template <class Arg>
+template <class T>
+auto Linker::NameBase::Ctx<Arg>::call() -> RetType
+ {
+  return static_cast<Name<T> *>(def)->set(arg);
+ }
 
 } // namespace BookLab
 } // namespace App

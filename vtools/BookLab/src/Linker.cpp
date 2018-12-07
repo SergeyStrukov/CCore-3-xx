@@ -57,14 +57,6 @@ void NameCursor::set(StrLen text)
 
 /* class Linker */
 
-bool Linker::assign(PtrBase *req,Base *def) // TODO
- {
-  Used(req);
-  Used(def);
-
-  return true;
- }
-
 void Linker::fillPath(Base *obj,IntAnyObjPtr<Scope,Doc> scope)
  {
   ulen count=0;
@@ -153,30 +145,22 @@ bool Linker::fillPtr(PtrBase *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name)
 
   ulen count=0;
 
-  for(NameCursor cur1(cur); +cur1 ;++cur1)
+  for(StrLen sname : ForLoop(cur) )
     {
-     StrLen sname=*cur1;
-
      if( !sname )
        {
-        ++cur1;
+        Printf(eout,"Bad name #.q;\n",name);
 
-        if( +cur1 )
-          {
-           Printf(eout,"Bad name #.q;\n",name);
-
-           return false;
-          }
-
-        fillPtrAbs(obj,cur,count);
-
-        return true;
+        return false;
        }
 
      count++;
     }
 
-  fillPtrRel(obj,scope,cur,count);
+  if( *name=='#' )
+    fillPtrAbs(obj,cur,count);
+  else
+    fillPtrRel(obj,scope,cur,count);
 
   return true;
  }
@@ -288,6 +272,16 @@ bool Linker::linkName(PtrLen<Base *> list) // TODO
   ret=false;
 
   return ret;
+ }
+
+bool Linker::assign(PtrBase *req,Base *def)
+ {
+  if( req->assign(req,static_cast<NameBase *>(def)) ) return true;
+
+  Printf(eout,"Incompatible type #;\n",def->name.str);
+  Printf(eout," in scope #;\n",PrintPath{def->path});
+
+  return false;
  }
 
 Linker::Linker(PrintBase &eout_)
