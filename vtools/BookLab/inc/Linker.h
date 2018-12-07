@@ -26,6 +26,8 @@ namespace BookLab {
 
 class ScopeCursor;
 
+class NameCursor;
+
 class Linker;
 
 /* class ScopeCursor */
@@ -49,6 +51,31 @@ class ScopeCursor
    void operator ++ () { set(ptr->scope); }
  };
 
+/* class NameCursor */
+
+class NameCursor
+ {
+   StrLen path;
+   StrLen name;
+   bool ok;
+
+  private:
+
+   void set(StrLen text);
+
+  public:
+
+   explicit NameCursor(StrLen text) { set(text); }
+
+   bool operator + () const { return ok; }
+
+   bool operator ! () const { return !ok; }
+
+   StrLen operator * () const { return name; }
+
+   void operator ++ () { set(path); }
+ };
+
 /* class Linker */
 
 class Linker : NoCopy
@@ -57,6 +84,7 @@ class Linker : NoCopy
     {
      StrKey name;
      PtrLen<StrKey> path;
+     bool def = true ;
     };
 
    template <class T>
@@ -65,14 +93,22 @@ class Linker : NoCopy
      IntObjPtr<T> ptr;
     };
 
+   struct PtrBase : Base
+    {
+     PtrLen<StrKey> ext;
+     bool abs = false ;
+
+     PtrBase() { def=false; }
+    };
+
    template <class T>
-   struct Ptr : Base
+   struct Ptr : PtrBase
     {
      IntObjPtr<T> *ptr;
     };
 
    template <class ... TT>
-   struct APtr : Base
+   struct APtr : PtrBase
     {
      IntAnyObjPtr<TT...> *ptr;
     };
@@ -83,17 +119,39 @@ class Linker : NoCopy
 
   private:
 
+   bool assign(PtrBase *req,Base *def);
+
+  private:
+
+   void fillPath(Base *obj,IntAnyObjPtr<Scope,Doc> scope);
+
    void fill(Base *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
 
    void append(Base *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
 
-   bool fillPtr(Base *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
+   PtrLen<StrKey> makeExt(NameCursor cur,ulen count);
 
-   void appendPtr(Base *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
+   void fillPtrRel(PtrBase *obj,IntAnyObjPtr<Scope,Doc> scope,NameCursor cur,ulen count);
 
-   bool linkName(PtrLen<Base *> list);
+   void fillPtrAbs(PtrBase *obj,NameCursor cur,ulen count);
+
+   bool fillPtr(PtrBase *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
+
+   void appendPtr(PtrBase *obj,IntAnyObjPtr<Scope,Doc> scope,StrLen name);
 
    bool link(PtrLen<Base *> list);
+
+  private:
+
+   struct PrintPath;
+
+   struct NeqPath;
+
+   static bool LessPrefix(Base *a,Base *b);
+
+   bool linkNameAbs(PtrLen<Base *> list);
+
+   bool linkName(PtrLen<Base *> list);
 
   public:
 
