@@ -985,9 +985,9 @@ class Book::LinkContext : NoCopy
        {
         addPtr(scope,Range(obj.name),obj.ptr);
        }
-     else if( +obj.ptr )
+     else
        {
-        elem(obj.ptr);
+        elem_null(obj.ptr);
        }
     }
 
@@ -1033,6 +1033,7 @@ class Book::LinkContext : NoCopy
 
    void setElem(Scope *ptr)
     {
+     set(ptr->defs);
      set(ptr->list);
     }
 
@@ -1118,7 +1119,7 @@ class Book::LinkContext : NoCopy
     {
      for(Element &obj : ForIntList(list) )
        {
-        obj.ptr.apply( [&] (auto ptr) { if( +ptr ) elem(ptr); } );
+        obj.ptr.apply( [&] (auto ptr) { elem_null(ptr); } );
        }
     }
 
@@ -1139,6 +1140,24 @@ class Book::LinkContext : NoCopy
        }
     }
 
+   template <class Ptr>
+   void elem_null(Ptr ptr)
+    {
+     if( +ptr ) elem(ptr);
+    }
+
+   void set(Defaults &defs)
+    {
+     elem_null(defs.singleLine);
+     elem_null(defs.doubleLine);
+     elem_null(defs.collapseFormat);
+     elem_null(defs.bulletFormat);
+     elem_null(defs.border);
+     elem_null(defs.textFormat);
+     elem_null(defs.fixedFormat);
+     elem_null(defs.placement);
+    }
+
   public:
 
    explicit LinkContext(PrintBase &eout) : linker(eout) {}
@@ -1147,6 +1166,7 @@ class Book::LinkContext : NoCopy
     {
      add(ptr,ptr->start);
 
+     set(ptr->defs);
      set(ptr->list);
     }
 

@@ -229,11 +229,23 @@ class Linker : NoCopy
 
    struct PrintPath;
 
+   struct PrintPathName;
+
    struct NeqPath;
 
    static bool LessPrefix(Base *a,Base *b);
 
+   static bool LessSuffix(Base *a,Base *b);
+
    bool linkNameAbs(PtrLen<Base *> list);
+
+   static PtrLen<Base *> ClipStep(PtrLen<Base *> list,ulen ind,StrKey key);
+
+   static PtrLen<Base *> ClipSuffix(PtrLen<Base *> list,PtrLen<StrKey> ext);
+
+   static Base * Find(PtrLen<Base *> list,ulen delta,PtrLen<StrKey> path);
+
+   bool linkRel(PtrLen<Base *> def,Base *base);
 
    bool linkName(PtrLen<Base *> list);
 

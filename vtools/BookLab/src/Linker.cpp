@@ -17,9 +17,39 @@
 
 #include <CCore/inc/algon/SortUnique.h>
 #include <CCore/inc/algon/BinarySearch.h>
+#include <CCore/inc/algon/Partition.h>
+#include <CCore/inc/algon/BinarySearch.h>
 
 namespace App {
 namespace BookLab {
+
+/* GenRange...() */
+
+template <CmpableType T>
+CmpResult ReverseRangeCmp(const T *a,const T *b,ulen count)
+ {
+  a+=count;
+  b+=count;
+
+  for(; count ;count--)
+    if( CmpResult ret=Cmp(*(--a),*(--b)) )
+      return ret;
+
+  return CmpEqual;
+ }
+
+template <CmpableType T>
+bool ReverseRangeLess(PtrLen<T> a,PtrLen<T> b)
+ {
+  if( a.len<b.len )
+    {
+     return ReverseRangeCmp(a.ptr,b.ptr+(b.len-a.len),a.len) <= 0 ;
+    }
+  else
+    {
+     return ReverseRangeCmp(a.ptr+(a.len-b.len),b.ptr,b.len) < 0 ;
+    }
+ }
 
 /* class NameCursor */
 
@@ -206,6 +236,31 @@ struct Linker::PrintPath
    }
  };
 
+struct Linker::PrintPathName
+ {
+  PtrLen<StrKey> path;
+  StrLen name;
+
+  void print(PrinterType &out) const
+   {
+    out.put('"');
+
+    if( +path )
+      {
+       for(const StrKey &key : path )
+         {
+          Putobj(out,key.str);
+
+          out.put('#');
+         }
+      }
+
+    Putobj(out,name);
+
+    out.put('"');
+   }
+ };
+
 struct Linker::NeqPath
  {
   PtrLen<StrKey> path;
@@ -218,6 +273,11 @@ bool Linker::LessPrefix(Base *a,Base *b)
   if( auto ret=RangeCmp(a->path,b->path) ) return ret<0;
 
   return a->def < b->def ;
+ }
+
+bool Linker::LessSuffix(Base *a,Base *b)
+ {
+  return ReverseRangeLess(a->path,b->path);
  }
 
 bool Linker::linkNameAbs(PtrLen<Base *> def)
@@ -257,7 +317,63 @@ bool Linker::linkNameAbs(PtrLen<Base *> def)
   return ret;
  }
 
-bool Linker::linkName(PtrLen<Base *> list) // TODO
+auto Linker::ClipStep(PtrLen<Base *> list,ulen ind,StrKey key) -> PtrLen<Base *>
+ {
+  Algon::BinarySearch_if(list, [=] (Base *obj) { auto path=obj->path; return ind<=path.len && key<=path.back(ind) ; } );
+
+  return Algon::BinarySearch_if(list, [=] (Base *obj) { auto path=obj->path; return key<path.back(ind); } );
+ }
+
+auto Linker::ClipSuffix(PtrLen<Base *> list,PtrLen<StrKey> ext) -> PtrLen<Base *>
+ {
+  for(ulen i=1; i-1<ext.len ;i++)
+    {
+     list=ClipStep(list,i,ext.back(i));
+    }
+
+  return list;
+ }
+
+auto Linker::Find(PtrLen<Base *> list,ulen delta,PtrLen<StrKey> path) -> Base *
+ {
+  Algon::BinarySearch_if(list, [=] (Base *obj) { auto opath=obj->path; opath.len-=delta; return !ReverseRangeLess(opath,path); } );
+
+  if( !list ) return 0;
+
+  auto opath=(*list)->path;
+
+  opath.len-=delta;
+
+  if( ReverseRangeLess(path,opath) ) return 0;
+
+  return *list;
+ }
+
+bool Linker::linkRel(PtrLen<Base *> def,Base *base) // TODO ???
+ {
+  PtrBase *req=static_cast<PtrBase *>(base);
+
+  def=ClipSuffix(def,req->ext);
+
+  // TODO
+
+  ulen delta=req->ext.len;
+
+  auto path=req->path;
+
+  do
+    {
+     if( Base *ptr=Find(def,delta,path) ) return assign(req,ptr);
+    }
+  while( path.len-- );
+
+  Printf(eout,"Undefined name #;\n",PrintPathName{req->ext,base->name.str});
+  Printf(eout," in scope #;\n",PrintPath{base->path});
+
+  return false;
+ }
+
+bool Linker::linkName(PtrLen<Base *> list)
  {
   IncrSort(list,LessPrefix);
 
@@ -267,9 +383,17 @@ bool Linker::linkName(PtrLen<Base *> list) // TODO
 
                                   [&] (PtrLen<Base *> list) { if( !linkNameAbs(list) ) ret=false; } );
 
-  // TODO
+  ulen len1=Algon::Partition(list, [] (Base *base) { return base->def; } );
 
-  ret=false;
+  PtrLen<Base *> def = (list+=len1) ;
+
+  ulen len2=Algon::Partition(list, [] (Base *base) { return !static_cast<PtrBase *>(base)->abs; } );
+
+  PtrLen<Base *> rel = list.prefix(len2) ;
+
+  IncrSort(def,LessSuffix);
+
+  for(Base *base : rel ) if( !linkRel(def,base) ) ret=false;
 
   return ret;
  }
