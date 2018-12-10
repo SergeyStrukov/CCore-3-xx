@@ -13,6 +13,7 @@
 
 #include <inc/BookLab.h>
 #include <inc/Linker.h>
+#include <inc/Resolver.h>
 
 #include <CCore/inc/CompactList.h>
 
@@ -697,7 +698,6 @@ bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
   return false;
  }
 
-
 TempData::TempData(Book &book_)
  : book(book_)
  {
@@ -957,6 +957,7 @@ class Book::LinkContext : NoCopy
    unsigned level = 100 ;
 
    Linker linker;
+   Resolver resolver;
 
   private:
 
@@ -1068,11 +1069,6 @@ class Book::LinkContext : NoCopy
      ptr->table.cells.apply( [&] (NamedPtr<Cell> &obj) { add(ptr->scope,obj); } );
     }
 
-   void setElem(Link *ptr) // TODO
-    {
-     Used(ptr);
-    }
-
    void setElem(IntAnyObjPtr<Scope,Doc> scope,Span &obj)
     {
      add(scope,obj.format);
@@ -1107,6 +1103,8 @@ class Book::LinkContext : NoCopy
      add(ptr);
 
      setElem(ptr.getPtr());
+
+     resolver.add(ptr);
     }
 
    template <class ... TT>
@@ -1160,7 +1158,7 @@ class Book::LinkContext : NoCopy
 
   public:
 
-   explicit LinkContext(PrintBase &eout) : linker(eout) {}
+   explicit LinkContext(PrintBase &eout) : linker(eout),resolver(eout) {}
 
    void set(IntObjPtr<Doc> ptr)
     {
@@ -1172,7 +1170,7 @@ class Book::LinkContext : NoCopy
 
    bool complete()
     {
-     return linker.link();
+     return linker.link() && resolver.resolve() ;
     }
  };
 

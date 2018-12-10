@@ -13,6 +13,7 @@ OBJ_LIST = \
 .obj/FieldEditor.o \
 .obj/InsWindow.o \
 .obj/Linker.o \
+.obj/Resolver.o \
 .obj/SingleRoom.o \
 .obj/TempWindow.o \
 .obj/main.o \
@@ -33,6 +34,7 @@ ASM_LIST = \
 .obj/FieldEditor.s \
 .obj/InsWindow.s \
 .obj/Linker.s \
+.obj/Resolver.s \
 .obj/SingleRoom.s \
 .obj/TempWindow.s \
 .obj/main.s \
@@ -53,6 +55,7 @@ DEP_LIST = \
 .obj/FieldEditor.dep \
 .obj/InsWindow.dep \
 .obj/Linker.dep \
+.obj/Resolver.dep \
 .obj/SingleRoom.dep \
 .obj/TempWindow.dep \
 .obj/main.dep \
@@ -104,6 +107,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Linker.o : src/./Linker.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Resolver.o : src/./Resolver.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SingleRoom.o : src/./SingleRoom.cpp
@@ -159,6 +165,9 @@ include $(RULES_FILE)
 .obj/Linker.s : src/./Linker.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Resolver.s : src/./Resolver.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SingleRoom.s : src/./SingleRoom.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -211,6 +220,9 @@ include $(RULES_FILE)
 
 .obj/Linker.dep : src/./Linker.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Linker.o $< -MF $@
+
+.obj/Resolver.dep : src/./Resolver.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Resolver.o $< -MF $@
 
 .obj/SingleRoom.dep : src/./SingleRoom.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SingleRoom.o $< -MF $@

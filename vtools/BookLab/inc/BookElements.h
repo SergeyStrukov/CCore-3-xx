@@ -631,6 +631,10 @@ struct Frame : NoCopy
 
   NamedPtr<Bitmap,Collapse,TextList,Table,Text,FixedText> body; // default: none
 
+  // link
+
+  ulen index = MaxULen ;
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
