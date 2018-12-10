@@ -63,6 +63,10 @@ class Resolver : NoCopy
 
    using APtr = AnyPtr<PageRec,CollapseRec,TextListRec,TableRec> ;
 
+   struct Loop;
+   struct LenCtx;
+   struct SetCtx;
+
    ElementPool pool;
    Collector<APtr> recs;
 
@@ -80,16 +84,20 @@ class Resolver : NoCopy
 
    void gen(IntObjPtr<Page> page);
 
+   void gen(Frame &frame);
+
    template <class T>
    void gen(ulen,T *) {}
 
-   void gen(ulen frame,Collapse *obj);
+   void gen(ulen parent,Collapse *obj);
 
-   void gen(ulen frame,TextList *obj);
+   void gen(ulen parent,TextList *obj);
 
-   void gen(ulen frame,Table *obj);
+   void gen(ulen parent,Table *obj);
 
-   bool resolve(Link *link,PtrLen<APtr> rec_list,APtr ptr);
+   static ulen * Prepare(RefArray<ulen> &obj,ulen len);
+
+   void resolve(Link *link,PtrLen<APtr> rec_list,APtr ptr);
 
    bool resolve(Link *link,PtrLen<APtr> rec_list);
 
