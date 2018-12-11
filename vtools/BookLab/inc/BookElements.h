@@ -1204,15 +1204,15 @@ struct Table : NamedObj
 
 struct Link : NamedObj
  {
+  IntObjPtr<Frame> frame;
+
   IntObjPtr<Page> page;
   RefArray<ulen> index_list;
-
-  IntObjPtr<Frame> frame;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(getBase(),page,frame);
+    keeper(getBase(),frame,page);
    }
 
   void set(IntObjPtr<Frame> frame_)

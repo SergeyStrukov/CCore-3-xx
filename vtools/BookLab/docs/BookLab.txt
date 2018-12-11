@@ -202,8 +202,7 @@ Table <name>
 
 Link <name>
 @{
-  Page *page
-  ulen[] index_list
+  Frame *frame = null
  } 
 
 Span

@@ -335,11 +335,7 @@ class Book::LoadContext : NoCopy
      CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
-     Cast(ret->index_list,ptr->index_list);
-
-     ret->page=Null;
-
-     //cast(ret->page,ptr->page);
+     ret->frame=Null;
     }
 
    void init(FixedText *ret,const TypeDef::FixedText *ptr)

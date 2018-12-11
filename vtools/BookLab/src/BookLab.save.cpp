@@ -441,6 +441,150 @@ struct Adapter<BindCtx<Ctx,Span> >
 
 } // namespace SaveAdapter
 
+/* class Book::SaveLinkContext */
+
+class Book::SaveLinkContext : NoCopy
+ {
+   struct FrameRec
+    {
+     Index index;
+     FrameList *list;
+    };
+
+   struct ItemRec
+    {
+     Index index;
+     ItemList *list;
+    };
+
+   struct LinkRec
+    {
+     Index index;
+     Link *link;
+    };
+
+   CompactList<FrameRec> frame_list;
+   CompactList<ItemRec> item_list;
+   CompactList<LinkRec> link_list;
+
+   ulen next_index = 1 ;
+
+  private:
+
+   void erase(FrameList &list)
+    {
+     for(Frame &frame : ForIntList(list) ) frame.index=MaxULen;
+    }
+
+   void erase(ItemList &list)
+    {
+     for(Item &item : ForIntList(list) ) erase(item.list);
+    }
+
+   void erase(Link *link) { link->frame->index=MaxULen; }
+
+   ulen set(ulen &index)
+    {
+     if( index==MaxULen ) index=next_index++;
+
+     return index;
+    }
+
+   void set(PrintBase &out,Index index,Link *ptr)
+    {
+     ulen f=set(ptr->frame->index);
+
+     SaveAdapter::AdaptPrintf(out,"Link #; = { #; , #; , f#; };\n\n",index
+                                                                    ,ptr->name
+                                                                    ,ptr->open
+                                                                    ,f);
+
+    }
+
+   void gen(PrintBase &out,Index oind,FrameList &list)
+    {
+     ulen index=0;
+
+     for(Frame &frame : ForIntList(list) )
+       {
+        ulen f=frame.index;
+
+        if( Change(frame.index,MaxULen) )
+          SaveAdapter::AdaptPrintf(out,"Frame *f#; = #;.list.list+#; ;\n\n",f,oind,index);
+
+        index++;
+       }
+    }
+
+   void gen(PrintBase &out,Index oind,ItemList &list)
+    {
+     ulen index1=0;
+
+     for(Item &item : ForIntList(list) )
+       {
+        ulen index2=0;
+
+        for(Frame &frame : ForIntList(item.list) )
+          {
+           ulen f=frame.index;
+
+           if( Change(frame.index,MaxULen) )
+             SaveAdapter::AdaptPrintf(out,"Frame *f#; = #;.list.list[#;].list.list+#; ;\n\n",f,oind,index1,index2);
+
+           frame.index=MaxULen;
+
+           index2++;
+          }
+
+        index1++;
+       }
+    }
+
+   void reset(PrintBase &out,ulen &index)
+    {
+     ulen f=index;
+
+     if( Change(index,MaxULen) )
+       {
+        SaveAdapter::AdaptPrintf(out,"Frame *f#; = null ;\n\n",f);
+       }
+    }
+
+   void reset(PrintBase &out,Link *link)
+    {
+     reset(out,link->frame->index);
+    }
+
+  public:
+
+   SaveLinkContext() {}
+
+   ~SaveLinkContext() {}
+
+   void addList(Index index,FrameList *list) { frame_list.ins(FrameRec{index,list}); }
+
+   void addList(Index index,ItemList *list) { item_list.ins(ItemRec{index,list}); }
+
+   void addLink(Index index,Link *link) { link_list.ins(LinkRec{index,link}); }
+
+   void print(PrintBase &out)
+    {
+     frame_list.apply( [&] (auto rec) { erase(*rec.list); } );
+
+     item_list.apply( [&] (auto rec) { erase(*rec.list); } );
+
+     link_list.apply( [&] (auto rec) { erase(rec.link); } );
+
+     link_list.apply( [&] (auto rec) { set(out,rec.index,rec.link); } );
+
+     frame_list.apply( [&] (auto rec) { gen(out,rec.index,*rec.list); } );
+
+     item_list.apply( [&] (auto rec) { gen(out,rec.index,*rec.list); } );
+
+     link_list.apply( [&] (auto rec) { reset(out,rec.link); } );
+    }
+ };
+
 /* class Book::SaveContext */
 
 class Book::SaveContext : public NextIndex
@@ -541,6 +685,16 @@ class Book::SaveContext : public NextIndex
 
   private:
 
+   SaveLinkContext link_ctx;
+
+   void addList(Index index,FrameList &list) { link_ctx.addList(index,&list); }
+
+   void addList(Index index,ItemList &list) { link_ctx.addList(index,&list); }
+
+   void addLink(Index index,Link *link) { link_ctx.addLink(index,link); }
+
+  private:
+
    void print(Index index,Font *ptr)
     {
      printf("Font #; = { #; , #; , #; , #; , #; , #; , #; };\n\n",index
@@ -595,6 +749,8 @@ class Book::SaveContext : public NextIndex
                                                                            ,bind(ptr->prev)
                                                                            ,bind(ptr->next)
                                                                            ,bind(ptr->list));
+
+     addList(index,ptr->list);
     }
 
    void print(Index index,Scope *ptr)
@@ -631,6 +787,8 @@ class Book::SaveContext : public NextIndex
                                                                      ,ptr->openlist
                                                                      ,ptr->hide
                                                                      ,bind(ptr->list));
+
+     addList(index,ptr->list);
     }
 
    void print(Index index,TextList *ptr)
@@ -642,6 +800,8 @@ class Book::SaveContext : public NextIndex
                                                                 ,ptr->bullet_space
                                                                 ,ptr->item_space
                                                                 ,bind(ptr->list));
+
+     addList(index,ptr->list);
     }
 
    void print(Index index,Border *ptr)
@@ -663,6 +823,8 @@ class Book::SaveContext : public NextIndex
                                                        ,ptr->span_x
                                                        ,ptr->span_y
                                                        ,bind(ptr->list));
+
+     addList(index,ptr->list);
     }
 
    void print(Index index,Table *ptr)
@@ -682,16 +844,20 @@ class Book::SaveContext : public NextIndex
      printf(" };\n\n");
     }
 
-   void print(Index index,Link *ptr) // TODO
+   void print(Index index,Link *ptr)
     {
-     printf("Link #; = { #; , #; , null , ",index
-                                         ,ptr->name
-                                         ,ptr->open
-                                         );
+     auto frame=ptr->frame;
 
-     printRange(Range(ptr->index_list));
-
-     printf(" };\n\n");
+     if( +frame )
+       {
+        addLink(index,ptr);
+       }
+     else
+       {
+        printf("Link #; = { #; , #; , null };\n\n",index
+                                                  ,ptr->name
+                                                  ,ptr->open);
+       }
     }
 
    void print(Index index,FixedText *ptr)
@@ -750,6 +916,8 @@ class Book::SaveContext : public NextIndex
                                                              ,bind(doc->list));
 
      printQueue();
+
+     link_ctx.print(out);
     }
 
    void printEmpty()

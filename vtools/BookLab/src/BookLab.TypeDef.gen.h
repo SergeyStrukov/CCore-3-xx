@@ -164,8 +164,7 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    DDL::MapPtr< S37 > page;
-    DDL::MapRange< DDL::ulen_type > index_list;
+    DDL::MapPtr< S23 > frame;
 
     struct Ext;
    };

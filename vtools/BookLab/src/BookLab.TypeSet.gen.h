@@ -156,8 +156,7 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "name",offsetof(S12,name),
                                "open",offsetof(S12,open),
-                               "page",offsetof(S12,page),
-                               "index_list",offsetof(S12,index_list)
+                               "frame",offsetof(S12,frame)
                               );
         }
        return ret;
@@ -840,8 +839,7 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapText,
                                A7,
-                               DDL::MapPtr< S37 >,
-                               DDL::MapRange< DDL::ulen_type >
+                               DDL::MapPtr< S23 >
                               >(*this,struct_node);
         }
        break;

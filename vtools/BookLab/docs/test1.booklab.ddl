@@ -165,13 +165,7 @@ TextList o21 = { "menu" , True , { "fmt" , null } , { True , 0 } , { True , 0 } 
 
  , 2 } };
 
-Link o22 = { "link1" , False , { "start" , null } , 
-
-{
-
-}
-
- };
+Link o22 = { "link1" , False , null };
 
 Font o23 = { "font" , True , "Times New Roman" , 24 , { True , False } , { True , False } , { True , 0 } };
 

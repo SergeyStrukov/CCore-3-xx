@@ -362,8 +362,7 @@ struct Link
   text name;
   Bool open;
   
-  Page *page;
-  ulen[] index_list;
+  Frame *frame = null ;
  };
 
 struct Span

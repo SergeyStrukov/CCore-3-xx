@@ -679,6 +679,8 @@ class Book : NoCopy
 
    static StrLen Pretext();
 
+   class SaveLinkContext;
+
    class SaveContext;
 
    template <class T> struct LoadType;

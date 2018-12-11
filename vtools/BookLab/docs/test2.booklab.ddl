@@ -90,14 +90,6 @@ Page o20 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 429496
 
  , 1 } };
 
-Link o21 = { "link1" , True , null , 
-
-{
-1
-}
-
- };
-
 Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
@@ -113,4 +105,8 @@ Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 }
 
  };
+
+Link o21 = { "link1" , True , f1 };
+
+Frame *f1 = o20.list.list+1 ;
 
