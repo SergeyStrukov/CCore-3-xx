@@ -116,7 +116,10 @@ struct Adapter<VColor>
 
   void print(PrinterType &out) const
    {
-    Putobj(out,(uint32)data);
+    if( data==NoColor )
+      Putobj(out,"NoColor"_c);
+    else
+      Printf(out,"0#.h;",(uint32)data);
    }
  };
 

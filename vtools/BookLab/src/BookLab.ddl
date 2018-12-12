@@ -21,6 +21,8 @@ Bool False = 0 ;
 
 type VColor = uint32 ;
 
+VColor NoColor = 0FFFFFFFFh ;
+
 type Coord = sint32 ;
 
 type Effect = uint8 ;

@@ -1,4 +1,4 @@
-Doc Data = { "Mandelbrot scope" , { False , 12632256 } , { False , 0 } , { "Pages#page1" , null } , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Doc Data = { "Mandelbrot scope" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { False , { 5 , 5 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
 
 {
 & o1
@@ -15,9 +15,9 @@ Scope o1 = { "Pages" , True , { { False , { 10 , 10 } } , { True , { 0 , 0 } } ,
 
  };
 
-Format o2 = { "" , True , { "font_bullet" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o2 = { "" , True , { "font_bullet" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o3 = { "" , True , { "font" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o3 = { "" , True , { "font" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
 MultiLine o4 = { "" , True , { False , { 1 , 1 } } , { False , { 2 , 1 } } };
 
@@ -63,32 +63,32 @@ Font o11 = { "font_italic" , False , "Times New Roman" , 22 , { False , False } 
 
 Font o12 = { "font_bullet" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
 
-Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , 4294967295 } , { False , 255 } , { True , 0 } };
+Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
 
-Format o14 = { "fmt_h2" , True , { "font_h2" , null } , { True , 4294967295 } , { False , 25600 } , { True , 0 } };
+Format o14 = { "fmt_h2" , True , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
 
-Format o15 = { "fmt_t1" , True , { null , & o23 } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o15 = { "fmt_t1" , True , { null , & o23 } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
 OneLine o16 = { "align_h1" , False , { False , 2 } };
 
 OneLine o17 = { "align_h2" , False , { False , 2 } };
 
-Format o18 = { "fmt_bold" , False , { "font_bold" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o18 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o19 = { "fmt_italic" , False , { "font_italic" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o19 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o20 = { "fmt_under" , False , { "font" , null } , { True , 4294967295 } , { True , 4294967295 } , { False , 1 } };
+Format o20 = { "fmt_under" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
 
-Page o21 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 4294967295 } , { null , null } , { null , null } , { null , null } , {
+Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o24 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o25 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o24 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o25 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } }
 }
 
  , 1 } };

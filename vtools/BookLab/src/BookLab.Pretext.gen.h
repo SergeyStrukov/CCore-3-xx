@@ -21,6 +21,8 @@
 "\n"
 "type VColor = uint32 ;\n"
 "\n"
+"VColor NoColor = 0FFFFFFFFh ;\n"
+"\n"
 "type Coord = sint32 ;\n"
 "\n"
 "type Effect = uint8 ;\n"
