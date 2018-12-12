@@ -25,29 +25,113 @@ namespace BookLab {
 
 /* class Book::BookContext */
 
-class Book::BookContext : NoCopy
+class Book::BookContext : NextIndex
  {
    PrintBase &out;
 
-   unsigned next_index = 1 ;
+   bool indoc = true ;
 
   private:
 
-   unsigned getIndex() { return next_index++; }
+   unsigned getIndex() { return NextIndex::getIndex().index; }
 
-   void printStart(const NamedPtr<Page> &page) // TODO
+   template <class ... TT>
+   void printf(const char *format,const TT & ... tt)
     {
-     if( page.isResolved() )
+     Printf(out,format,tt...);
+    }
+
+   static bool IsAbs(StrLen name) { return +name && *name=='#' ; }
+
+   template <class T>
+   void addAnonym(unsigned index,T *ptr) // TODO
+    {
+     Used(index);
+     Used(ptr);
+    }
+
+   struct PrintScope
+    {
+     IntAnyObjPtr<Scope,Doc> scope;
+
+     void print(PrinterType &out) const // TODO
+      {
+       Used(out);
+      }
+    };
+
+   template <class T>
+   struct Named
+    {
+     BookContext *ctx;
+     IntAnyObjPtr<Scope,Doc> scope;
+     NamedPtr<T> ptr;
+
+     Named(BookContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,NamedPtr<T> ptr_) : ctx(ctx_),scope(scope_),ptr(ptr_) {}
+
+     void print(PrinterType &out) const
+      {
+       if( ptr.hasName() )
+         {
+          StrLen name=Range(ptr.name);
+
+          if( IsAbs(name) )
+            {
+             Printf(out,"& ##Doc#;",name);
+            }
+          else
+            {
+             if( ctx->indoc )
+               {
+                Printf(out,"& #;",name);
+               }
+             else
+               {
+                Printf(out,"& #;###;",PrintScope{scope},name);
+               }
+            }
+         }
+       else if( ptr.hasObj() )
+         {
+          unsigned index=ctx->getIndex();
+
+          Printf(out,"& Anonym##o#;",index);
+
+          ctx->addAnonym(index,ptr.ptr.getPtr());
+         }
+       else
+         {
+          Putobj(out,"null"_c);
+         }
+      }
+    };
+
+   void printStart(NamedPtr<Page> ptr)
+    {
+     if( ptr.hasName() )
        {
-        Printf(out,"& Doc###;",page.name);
+        StrLen name=Range(ptr.name);
+
+        if( IsAbs(name) )
+          {
+           printf("& ##Doc#;",name);
+          }
+        else
+          {
+           printf("& ##Doc###;",name);
+          }
        }
-     else
+     else if( ptr.hasObj() )
        {
         unsigned index=getIndex();
 
-        Printf(out,"& Doc##ANONYM#;",index);
+        printf("& Anonym##o#;",index);
 
-        // TODO
+        addAnonym(index,ptr.ptr.getPtr());
+       }
+     else
+       {
+        printf("null");
        }
     }
 
@@ -57,6 +141,111 @@ class Book::BookContext : NoCopy
        {
         Printf(out," , .#; = #;",name,(uint32)data.data);
        }
+    }
+
+  private:
+
+   void elem(ElementList &list)
+    {
+     for(Element &obj : ForIntList(list) )
+       {
+        elem_null(obj.ptr);
+       }
+    }
+
+   template <class ... TT>
+   void elem_null(IntAnyObjPtr<TT...> ptr)
+    {
+     if( +ptr ) ptr.getPtr().apply( [&] (auto *ptr) { elem(ptr); } );
+    }
+
+   void elem(Font *ptr)
+    {
+     printf("Font #; = { #; , #; , #; , #; , #; } ;\n\n",ptr->name,
+                                                        DDLPrintableString(ptr->face),
+                                                        ptr->size,
+                                                        ptr->bold.get(),
+                                                        ptr->italic.get(),
+                                                        ptr->strength.get());
+    }
+
+   void elem(Format *ptr)
+    {
+     printf("Format #; = { #; , #; , #; , #; } ;\n\n",ptr->name,
+                                                     Named(this,ptr->scope,ptr->font),
+                                                     ptr->back.get(),
+                                                     ptr->fore.get(),
+                                                     ptr->effect.get());
+    }
+
+   void elem(SingleLine *ptr)
+    {
+    }
+
+   void elem(DoubleLine *ptr)
+    {
+    }
+
+   void elem(Page *ptr)
+    {
+    }
+
+   void elem(Scope *ptr) // TODO
+    {
+     printf("scope #; {\n\n",ptr->name);
+
+     elem(ptr->list);
+
+     printf("}\n\n");
+    }
+
+   void elem(Section *ptr)
+    {
+     elem(ptr->list);
+    }
+
+   void elem(Bitmap *ptr)
+    {
+    }
+
+   void elem(Collapse *ptr)
+    {
+    }
+
+   void elem(TextList *ptr)
+    {
+    }
+
+   void elem(Border *ptr)
+    {
+    }
+
+   void elem(Cell *ptr)
+    {
+    }
+
+   void elem(Table *ptr)
+    {
+    }
+
+   void elem(Link *ptr)
+    {
+    }
+
+   void elem(FixedText *ptr)
+    {
+    }
+
+   void elem(OneLine *ptr)
+    {
+    }
+
+   void elem(MultiLine *ptr)
+    {
+    }
+
+   void elem(Text *ptr)
+    {
     }
 
   public:
@@ -80,6 +269,8 @@ class Book::BookContext : NoCopy
      Putobj(out,"scope Doc {\n\n"_c);
 
      // TODO
+
+     elem(doc->list);
 
      Putobj(out,"\n}\n\n"_c);
     }

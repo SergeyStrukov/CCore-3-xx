@@ -36,7 +36,8 @@ Section o5 = { True , "Style" ,
 & o16,
 & o17,
 & o18,
-& o19
+& o19,
+& o20
 }
 
  };
@@ -44,8 +45,8 @@ Section o5 = { True , "Style" ,
 Section o6 = { True , "Text" , 
 
 {
-& o20,
-& o21
+& o21,
+& o22
 }
 
  };
@@ -64,23 +65,25 @@ Font o12 = { "font_bullet" , False , "Times New Roman" , 22 , { False , True } ,
 
 Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , 4294967295 } , { False , 255 } , { True , 0 } };
 
-Format o14 = { "fmt_h2" , False , { "font_h2" , null } , { True , 4294967295 } , { False , 25600 } , { True , 0 } };
+Format o14 = { "fmt_h2" , True , { "font_h2" , null } , { True , 4294967295 } , { False , 25600 } , { True , 0 } };
 
-OneLine o15 = { "align_h1" , False , { False , 2 } };
+Format o15 = { "fmt_t1" , True , { null , & o23 } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
 
-OneLine o16 = { "align_h2" , False , { False , 2 } };
+OneLine o16 = { "align_h1" , False , { False , 2 } };
 
-Format o17 = { "fmt_bold" , False , { "font_bold" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+OneLine o17 = { "align_h2" , False , { False , 2 } };
 
-Format o18 = { "fmt_italic" , False , { "font_italic" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
+Format o18 = { "fmt_bold" , False , { "font_bold" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
 
-Format o19 = { "fmt_under" , False , { "font" , null } , { True , 4294967295 } , { True , 4294967295 } , { False , 1 } };
+Format o19 = { "fmt_italic" , False , { "font_italic" , null } , { True , 4294967295 } , { True , 4294967295 } , { True , 0 } };
 
-Page o20 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 4294967295 } , { null , null } , { null , null } , { null , null } , {
+Format o20 = { "fmt_under" , False , { "font" , null } , { True , 4294967295 } , { True , 4294967295 } , { False , 1 } };
+
+Page o21 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 4294967295 } , { null , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o22 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o23 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o24 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , & o25 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 4294967295 } , { null , null } , { null , null } },
@@ -90,7 +93,9 @@ Page o20 = { "page1" , True , "Manual" , { True , 4294967295 } , { True , 429496
 
  , 1 } };
 
-Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+Font o23 = { "" , True , "Courier" , 20 , { True , False } , { True , False } , { True , 0 } };
+
+Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -98,7 +103,7 @@ Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -106,7 +111,7 @@ Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Link o21 = { "link1" , True , f1 };
+Link o22 = { "link1" , True , f1 };
 
-Frame *f1 = o20.list.list+1 ;
+Frame *f1 = o21.list.list+1 ;
 
