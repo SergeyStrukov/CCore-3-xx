@@ -262,6 +262,8 @@ struct TypeDefCore
     S22 body;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S24

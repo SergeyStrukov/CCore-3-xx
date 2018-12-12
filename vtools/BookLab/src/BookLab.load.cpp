@@ -13,6 +13,8 @@
 
 #include <inc/BookLab.h>
 
+#include <CCore/inc/CompactList.h>
+
 #include <CCore/inc/ddl/DDLEngine.h>
 #include <CCore/inc/ddl/DDLTypeSet.h>
 
@@ -97,6 +99,49 @@ class Book::LoadContext : NoCopy
    ObjectDomain &domain;
 
    unsigned level = 100 ;
+
+   struct Rec
+    {
+     IntObjPtr<Frame> *ptr;
+     TypeDef::Frame *frame;
+    };
+
+   CompactList<Rec> recs;
+   Collector<ExtObjPtr<Frame> > frames;
+
+  private:
+
+   void addFramePtr(IntObjPtr<Frame> &ptr,TypeDef::Frame *frame)
+    {
+     if( frame )
+       {
+        recs.ins(Rec{&ptr,frame});
+       }
+    }
+
+   void addFrame(ExtObjPtr<Frame> ptr,TypeDef::Frame *frame)
+    {
+     ulen index=frames.getLen()+1;
+
+     frames.append_copy(ptr);
+
+     frame->ext=index;
+    }
+
+   void setLink(IntObjPtr<Frame> *ptr,TypeDef::Frame *frame,PtrLen<ExtObjPtr<Frame> > frame_list)
+    {
+     if( ulen index=frame->ext )
+       {
+        (*ptr)=frame_list[index-1];
+       }
+    }
+
+   void setLinks()
+    {
+     auto frame_list=frames.flat();
+
+     recs.apply( [&] (Rec rec) { setLink(rec.ptr,rec.frame,frame_list); } );
+    }
 
   private:
 
@@ -209,7 +254,7 @@ class Book::LoadContext : NoCopy
      Cast(ret->snow,ptr->snow);
     }
 
-   void init(Frame *ret,const TypeDef::Frame &obj)
+   void init(ExtObjPtr<Frame> ret,TypeDef::Frame &obj)
     {
      Cast(ret->inner,obj.inner);
      Cast(ret->outer,obj.outer);
@@ -217,6 +262,8 @@ class Book::LoadContext : NoCopy
 
      cast(ret->line,obj.line);
      cast(ret->body,obj.body);
+
+     addFrame(ret,&obj);
     }
 
    void init(Page *ret,const TypeDef::Page *ptr)
@@ -330,12 +377,12 @@ class Book::LoadContext : NoCopy
      cast(ret->table.cells,ptr->table);
     }
 
-   void init(Link *ret,const TypeDef::Link *ptr) // TODO
+   void init(Link *ret,const TypeDef::Link *ptr)
     {
      CastName(ret->name,ptr->name);
      Cast(ret->open,ptr->open);
 
-     ret->frame=Null;
+     addFramePtr(ret->frame,ptr->frame);
     }
 
    void init(FixedText *ret,const TypeDef::FixedText *ptr)
@@ -444,7 +491,7 @@ class Book::LoadContext : NoCopy
        {
         ExtObjPtr<Frame> elem(domain);
 
-        init(elem.getPtr(),list[i]);
+        init(elem,list[i]);
 
         ret.append(elem);
 
@@ -533,6 +580,8 @@ class Book::LoadContext : NoCopy
      cast(ret->defs,doc->defs);
      cast(ret->list,doc->list);
 
+     setLinks();
+
      return ret;
     }
  };
@@ -583,6 +632,8 @@ ErrorText Book::load(StrLen file_name,PtrLen<char> ebuf)
        {
         Printf(Exception,"App::BookLab::Book::load(...) : cannot find document data");
        }
+
+     report.guard();
 
      return Success;
     }

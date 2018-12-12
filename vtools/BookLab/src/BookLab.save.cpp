@@ -943,6 +943,8 @@ ErrorText Book::save(StrLen file_name,PtrLen<char> ebuf) const
      else
        ctx.printEmpty();
 
+     report.guard();
+
      return Success;
     }
   catch(CatchType)
