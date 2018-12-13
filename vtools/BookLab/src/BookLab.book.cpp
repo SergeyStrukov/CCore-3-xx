@@ -522,16 +522,33 @@ class Book::BookContext : NextIndex
      printf(", #; , #; } ;\n\n",ptr->span_x.get(),ptr->span_y.get());
     }
 
-   void elem(NameType name,Table *ptr) // TODO
+   void elem(NameType name,Table *ptr)
     {
-     Used(name);
-     Used(ptr);
+     printf("Table #; = { ",name);
+
+     auto width=Range(ptr->table.width);
+
+     elem(width);
+
+     putstr(" , ");
+
+     elem(Range(ptr->table.cells),width.len);
+
+     printf(", #; , #; };\n\n",Named(this,ptr->border,"?DefaultBorder"_c),
+                               ptr->hard.get());
     }
 
    void elem(NameType name,Link *ptr) // TODO
     {
-     Used(name);
-     Used(ptr);
+     printf("Link #; = { ",name);
+
+     // ptr->page
+
+     putstr(" , "_c);
+
+     elem(Range(ptr->index_list));
+
+     putstr(" } ;\n\n"_c);
     }
 
    void elem(NameType name,FixedText *ptr)
@@ -639,6 +656,64 @@ class Book::BookContext : NextIndex
         elem(Range(line.list));
 
         putstr("}\n");
+       }
+
+     putstr("}\n"_c);
+    }
+
+   template <OneOfTypes<const ulen,Coord> T>
+   void elem(PtrLen<T> list)
+    {
+     putstr("{ "_c);
+
+     bool first=true;
+
+     for(T obj : list )
+       {
+        if( !Change(first,false) ) putstr(" , "_c);
+
+        printf("#;",obj);
+       }
+
+     putstr(" }"_c);
+    }
+
+   void elem(PtrLen<NamedPtr<Cell> > row)
+    {
+     putstr("{ "_c);
+
+     bool first=true;
+
+     for(auto &obj : row )
+       {
+        if( !Change(first,false) ) putstr(" , "_c);
+
+        printf("#;",Named(this,obj));
+       }
+
+     putstr(" }\n"_c);
+    }
+
+   void elem(PtrLen<NamedPtr<Cell> > list,ulen nx)
+    {
+     if( !nx )
+       {
+        putstr("{}\n"_c);
+
+        return;
+       }
+
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     while( +list )
+       {
+        auto row=list.takeup(nx);
+
+        if( !Change(first,false) ) putstr(","_c);
+
+        elem(row);
        }
 
      putstr("}\n"_c);
