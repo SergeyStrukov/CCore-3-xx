@@ -209,16 +209,14 @@ class Book::BookContext : NextIndex
 
    static bool IsAbs(StrLen name) { return +name && *name=='#' ; }
 
-   template <class T>
+   template <class ... TT>
    struct Named
     {
      BookContext *ctx;
-     IntAnyObjPtr<Scope,Doc> scope;
-     NamedPtr<T> ptr;
+     NamedPtr<TT...> ptr;
      StrLen def;
 
-     Named(BookContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,NamedPtr<T> ptr_,StrLen def_="null"_c)
-      : ctx(ctx_),scope(scope_),ptr(ptr_),def(def_) {}
+     Named(BookContext *ctx_,NamedPtr<TT...> ptr_,StrLen def_="null"_c) : ctx(ctx_),ptr(ptr_),def(def_) {}
 
      void print(PrinterType &out) const
       {
@@ -277,7 +275,7 @@ class Book::BookContext : NextIndex
        }
      else
        {
-        printf("null");
+        putstr("null"_c);
        }
     }
 
@@ -296,6 +294,12 @@ class Book::BookContext : NextIndex
    void addAnonym(Index index,T *ptr)
     {
      list.insLast(Rec{index,ptr});
+    }
+
+   template <class ... TT>
+   void addAnonym(Index index,AnyPtr<TT...> ptr)
+    {
+     ptr.apply( [&] (auto *ptr) { addAnonym(index,ptr); } );
     }
 
    template <class ... TT>
@@ -427,7 +431,7 @@ class Book::BookContext : NextIndex
    void elem(NameType name,Format *ptr)
     {
      printf("Format #; = { #; , #; , #; , #; } ;\n\n",name,
-                                                      Named(this,ptr->scope,ptr->font),
+                                                      Named(this,ptr->font),
                                                       ptr->back.get(),
                                                       ptr->fore.get(),
                                                       ptr->effect.get());
@@ -457,9 +461,9 @@ class Book::BookContext : NextIndex
 
      printf(", #; , #; , #; , #; , #; } ;\n\n",ptr->back.get(),
                                                ptr->fore.get(),
-                                               Named(this,ptr->scope,ptr->up),
-                                               Named(this,ptr->scope,ptr->prev),
-                                               Named(this,ptr->scope,ptr->next));
+                                               Named(this,ptr->up),
+                                               Named(this,ptr->prev),
+                                               Named(this,ptr->next));
     }
 
    void elem(NameType name,Scope *ptr)
@@ -469,7 +473,7 @@ class Book::BookContext : NextIndex
      elem(ptr->defs);
      elem(ptr->list);
 
-     printf("}\n\n");
+     putstr("}\n\n"_c);
     }
 
    void elem(NameType name,Bitmap *ptr)
@@ -485,7 +489,7 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->scope,ptr->format,"?DefaultCollapseFormat"_c),
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultCollapseFormat"_c),
                                      ptr->openlist,
                                      ptr->hide.get());
     }
@@ -496,7 +500,7 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->scope,ptr->format,"?DefaultBulletFormat"_c),
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultBulletFormat"_c),
                                      OptDef(ptr->bullet_space,"?DefaultBulletSpace"_c),
                                      OptDef(ptr->item_space,"?DefaultItemSpace"_c));
     }
@@ -530,10 +534,13 @@ class Book::BookContext : NextIndex
      Used(ptr);
     }
 
-   void elem(NameType name,FixedText *ptr) // TODO
+   void elem(NameType name,FixedText *ptr)
     {
-     Used(name);
-     Used(ptr);
+     printf("FixedText #; = {\n",name);
+
+     elem(Range(ptr->list));
+
+     printf(", #; } ;\n\n",Named(this,ptr->format,"?DefaultFixedFormat"_c));
     }
 
    void elem(NameType name,OneLine *ptr)
@@ -549,20 +556,92 @@ class Book::BookContext : NextIndex
                                                ptr->first_line_space.get());
     }
 
-   void elem(NameType name,Text *ptr) // TODO
+   void elem(NameType name,Text *ptr)
     {
-     Used(name);
-     Used(ptr);
+     printf("Text #; = {\n",name);
+
+     elem(Range(ptr->list));
+
+     printf(", #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultFormat"_c),
+                                Named(this,ptr->placement,"?DefaultPlacement"_c));
     }
 
-   void elem(FrameList &list) // TODO
+   void elem(FrameList &list)
     {
-     Used(list);
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(Frame &frame : ForIntList(list) )
+       {
+        if( !Change(first,false) ) putstr(","_c);
+
+        printf("{ #; , #; , #; , #; , #; }\n",Named(this,frame.body),
+                                              Named(this,frame.line),
+                                              OptDef(frame.inner,"?DefaultInner"_c),
+                                              OptDef(frame.outer,"?DefaultOuter"_c),
+                                              frame.col.get());
+       }
+
+     putstr("}\n"_c);
     }
 
-   void elem(ItemList &list) // TODO
+   void elem(ItemList &list)
     {
-     Used(list);
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(Item &item : ForIntList(list) )
+       {
+        if( !Change(first,false) ) putstr(","_c);
+
+        printf("{ #; ,\n",DDLPrintableString(item.bullet));
+
+        elem(item.list);
+
+        putstr("}\n");
+       }
+
+     putstr("}\n"_c);
+    }
+
+   void elem(PtrLen<Span> list)
+    {
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(Span &span : list )
+       {
+        if( !Change(first,false) ) putstr(","_c);
+
+        printf("{ #; , #; , #; }\n",DDLPrintableString(span.body),
+                                    Named(this,span.format),
+                                    Named(this,span.ref));
+       }
+
+     putstr("}\n"_c);
+    }
+
+   void elem(PtrLen<TextLine> list)
+    {
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(TextLine &line : list )
+       {
+        if( !Change(first,false) ) putstr(","_c);
+
+        putstr("{\n");
+
+        elem(Range(line.list));
+
+        putstr("}\n");
+       }
+
+     putstr("}\n"_c);
     }
 
   public:
