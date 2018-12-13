@@ -49,7 +49,7 @@ struct Adapter<Index>
 
   void print(PrinterType &out) const
    {
-    Printf(out,"Anonym##o#;",data.index);
+    Printf(out,"ANONYM#;",data.index);
    }
  };
 
@@ -157,6 +157,15 @@ concept bool NameType = OneOfTypes<T,StrLen,Index> ;
 class Book::BookContext : NextIndex
  {
    PrintBase &out;
+
+   struct Rec
+    {
+     Index index;
+     AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Bitmap,Collapse,TextList,
+            Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ptr;
+    };
+
+   CompactList2<Rec> list;
 
   private:
 
@@ -284,14 +293,25 @@ class Book::BookContext : NextIndex
   private:
 
    template <class T>
-   void addAnonym(Index index,T *ptr) // TODO
+   void addAnonym(Index index,T *ptr)
     {
-     Used(index);
-     Used(ptr);
+     list.insLast(Rec{index,ptr});
     }
 
-   void printAnonym() // TODO
+   template <class ... TT>
+   void printAnonym(Index index,AnyPtr<TT...> ptr)
     {
+     ptr.apply( [&] (auto *ptr) { elem(index,ptr); } );
+    }
+
+   void printAnonym()
+    {
+     while( Rec *rec=list.getFirst() )
+       {
+        printAnonym(rec->index,rec->ptr);
+
+        list.delFirst();
+       }
     }
 
   private:
