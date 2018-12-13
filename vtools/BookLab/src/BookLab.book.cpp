@@ -53,7 +53,7 @@ struct Adapter<Index>
    }
  };
 
-template <OneOfTypes<StrLen,Coord,Strength> T>
+template <OneOfTypes<StrLen,Coord,Strength,ulen> T>
 struct Adapter<T>
  {
   T data;
@@ -151,11 +151,12 @@ struct Adapter<Ratio>
 
 /* class Book::BookContext */
 
+template <class T>
+concept bool NameType = OneOfTypes<T,StrLen,Index> ;
+
 class Book::BookContext : NextIndex
  {
    PrintBase &out;
-
-   bool indoc = true ;
 
   private:
 
@@ -171,24 +172,33 @@ class Book::BookContext : NextIndex
      AdaptPrintf(out,format,tt...);
     }
 
-   static bool IsAbs(StrLen name) { return +name && *name=='#' ; }
-
-   template <class T>
-   void addAnonym(Index index,T *ptr) // TODO
+   void putstr(StrLen text)
     {
-     Used(index);
-     Used(ptr);
+     Putobj(out,text);
     }
 
-   struct PrintScope
+   template <class T>
+   struct OptDef
     {
-     IntAnyObjPtr<Scope,Doc> scope;
+     OptDataBase<T> data;
+     StrLen def;
 
-     void print(PrinterType &out) const // TODO
+     OptDef(OptDataBase<T> data_,StrLen def_) : data(data_),def(def_) {}
+
+     void print(PrinterType &out) const
       {
-       Used(out);
+       if( data.def )
+         {
+          Putobj(out,def);
+         }
+       else
+         {
+          AdaptPrintf(out,"#;",data.data);
+         }
       }
     };
+
+   static bool IsAbs(StrLen name) { return +name && *name=='#' ; }
 
    template <class T>
    struct Named
@@ -196,8 +206,10 @@ class Book::BookContext : NextIndex
      BookContext *ctx;
      IntAnyObjPtr<Scope,Doc> scope;
      NamedPtr<T> ptr;
+     StrLen def;
 
-     Named(BookContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,NamedPtr<T> ptr_) : ctx(ctx_),scope(scope_),ptr(ptr_) {}
+     Named(BookContext *ctx_,IntAnyObjPtr<Scope,Doc> scope_,NamedPtr<T> ptr_,StrLen def_="null"_c)
+      : ctx(ctx_),scope(scope_),ptr(ptr_),def(def_) {}
 
      void print(PrinterType &out) const
       {
@@ -207,18 +219,11 @@ class Book::BookContext : NextIndex
 
           if( IsAbs(name) )
             {
-             Printf(out,"& ##Doc#;",name);
+             AdaptPrintf(out,"& ##Doc#;",name);
             }
           else
             {
-             if( ctx->indoc )
-               {
-                Printf(out,"& #;",name);
-               }
-             else
-               {
-                Printf(out,"& #;###;",PrintScope{scope},name);
-               }
+             AdaptPrintf(out,"& #;",name);
             }
          }
        else if( ptr.hasObj() )
@@ -231,10 +236,12 @@ class Book::BookContext : NextIndex
          }
        else
          {
-          Putobj(out,"null"_c);
+          Putobj(out,def);
          }
       }
     };
+
+  private:
 
    void printStart(NamedPtr<Page> ptr)
     {
@@ -255,7 +262,7 @@ class Book::BookContext : NextIndex
        {
         Index index=getIndex();
 
-        printf("& #;",index);
+        printf("& ##Doc###;",index);
 
         addAnonym(index,ptr.ptr.getPtr());
        }
@@ -265,12 +272,26 @@ class Book::BookContext : NextIndex
        }
     }
 
-   void print(StrLen name,const OptData<VColor,DefNoColor> &data)
+   template <class T>
+   void print(StrLen name,const OptDataBase<T> &data)
     {
      if( !data.def )
        {
         printf(" , .#; = #;",name,data.data);
        }
+    }
+
+  private:
+
+   template <class T>
+   void addAnonym(Index index,T *ptr) // TODO
+    {
+     Used(index);
+     Used(ptr);
+    }
+
+   void printAnonym() // TODO
+    {
     }
 
   private:
@@ -337,6 +358,8 @@ class Book::BookContext : NextIndex
        {
         defs.placement.getPtr().apply( [&] (auto *ptr) { elem("DefaultPlacement"_c,ptr); } );
        }
+
+     printAnonym();
     }
 
    void elem(ElementList &list)
@@ -350,12 +373,30 @@ class Book::BookContext : NextIndex
    template <class ... TT>
    void elem_null(IntAnyObjPtr<TT...> ptr)
     {
-     if( +ptr ) ptr.getPtr().apply( [&] (auto *ptr) { elem(ptr); } );
+     if( +ptr )
+       {
+        ptr.getPtr().apply( [&] (auto *ptr) { elem(ptr); } );
+       }
     }
 
-   void elem(Font *ptr)
+   template <class T>
+   void elem(T *ptr)
     {
-     printf("Font #; = { #; , #; , #; , #; , #; } ;\n\n",ptr->name,
+     StrLen name=Range(ptr->name);
+
+     elem(name,ptr);
+
+     printAnonym();
+    }
+
+   void elem(Section *ptr)
+    {
+     elem(ptr->list);
+    }
+
+   void elem(NameType name,Font *ptr)
+    {
+     printf("Font #; = { #; , #; , #; , #; , #; } ;\n\n",name,
                                                          DDLPrintableString(ptr->face),
                                                          ptr->size,
                                                          ptr->bold.get(),
@@ -363,7 +404,7 @@ class Book::BookContext : NextIndex
                                                          ptr->strength.get());
     }
 
-   void elem(StrLen name,Format *ptr)
+   void elem(NameType name,Format *ptr)
     {
      printf("Format #; = { #; , #; , #; , #; } ;\n\n",name,
                                                       Named(this,ptr->scope,ptr->font),
@@ -372,24 +413,14 @@ class Book::BookContext : NextIndex
                                                       ptr->effect.get());
     }
 
-   void elem(Format *ptr)
-    {
-     elem(Range(ptr->name),ptr);
-    }
-
-   void elem(StrLen name,SingleLine *ptr)
+   void elem(NameType name,SingleLine *ptr)
     {
      printf("SingleLine #; = { #; , #; } ;\n\n",name,
                                                 ptr->width.get(),
                                                 ptr->line.get());
     }
 
-   void elem(SingleLine *ptr)
-    {
-     elem(Range(ptr->name),ptr);
-    }
-
-   void elem(StrLen name,DoubleLine *ptr)
+   void elem(NameType name,DoubleLine *ptr)
     {
      printf("DoubleLine #; = { #; , #; , #; } ;\n\n",name,
                                                      ptr->width.get(),
@@ -397,19 +428,23 @@ class Book::BookContext : NextIndex
                                                      ptr->snow.get());
     }
 
-   void elem(DoubleLine *ptr)
+   void elem(NameType name,Page *ptr)
     {
-     elem(Range(ptr->name),ptr);
+     printf("Page #; = { #; ,\n",name,
+                                 DDLPrintableString(ptr->title));
+
+     elem(ptr->list);
+
+     printf(", #; , #; , #; , #; , #; } ;\n\n",ptr->back.get(),
+                                               ptr->fore.get(),
+                                               Named(this,ptr->scope,ptr->up),
+                                               Named(this,ptr->scope,ptr->prev),
+                                               Named(this,ptr->scope,ptr->next));
     }
 
-   void elem(Page *ptr) // TODO
+   void elem(NameType name,Scope *ptr)
     {
-     Used(ptr);
-    }
-
-   void elem(Scope *ptr)
-    {
-     printf("scope #; {\n\n",ptr->name);
+     printf("scope #; {\n\n",name);
 
      elem(ptr->defs);
      elem(ptr->list);
@@ -417,27 +452,36 @@ class Book::BookContext : NextIndex
      printf("}\n\n");
     }
 
-   void elem(Section *ptr)
+   void elem(NameType name,Bitmap *ptr)
     {
+     printf("Bitmap #; = { #; } ;\n\n",name,
+                                       DDLPrintableString(ptr->file_name));
+    }
+
+   void elem(NameType name,Collapse *ptr)
+    {
+     printf("Collapse #; = { #; ,\n",name,
+                                     DDLPrintableString(ptr->title));
+
      elem(ptr->list);
+
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->scope,ptr->format,"?DefaultCollapseFormat"_c),
+                                     ptr->openlist,
+                                     ptr->hide.get());
     }
 
-   void elem(Bitmap *ptr) // TODO
+   void elem(NameType name,TextList *ptr)
     {
-     Used(ptr);
+     printf("TextList #; = {\n",name);
+
+     elem(ptr->list);
+
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->scope,ptr->format,"?DefaultBulletFormat"_c),
+                                     OptDef(ptr->bullet_space,"?DefaultBulletSpace"_c),
+                                     OptDef(ptr->item_space,"?DefaultItemSpace"_c));
     }
 
-   void elem(Collapse *ptr) // TODO
-    {
-     Used(ptr);
-    }
-
-   void elem(TextList *ptr) // TODO
-    {
-     Used(ptr);
-    }
-
-   void elem(StrLen name,Border *ptr)
+   void elem(NameType name,Border *ptr)
     {
      printf("Border #; = { #; , #; , #; } ;\n\n",name,
                                                  ptr->space.get(),
@@ -445,57 +489,60 @@ class Book::BookContext : NextIndex
                                                  ptr->line.get());
     }
 
-   void elem(Border *ptr)
+   void elem(NameType name,Cell *ptr)
     {
-     elem(Range(ptr->name),ptr);
+     printf("Cell #; = {\n",name);
+
+     elem(ptr->list);
+
+     printf(", #; , #; } ;\n\n",ptr->span_x.get(),ptr->span_y.get());
     }
 
-   void elem(Cell *ptr) // TODO
+   void elem(NameType name,Table *ptr) // TODO
     {
+     Used(name);
      Used(ptr);
     }
 
-   void elem(Table *ptr) // TODO
+   void elem(NameType name,Link *ptr) // TODO
     {
+     Used(name);
      Used(ptr);
     }
 
-   void elem(Link *ptr) // TODO
+   void elem(NameType name,FixedText *ptr) // TODO
     {
+     Used(name);
      Used(ptr);
     }
 
-   void elem(FixedText *ptr) // TODO
-    {
-     Used(ptr);
-    }
-
-   void elem(StrLen name,OneLine *ptr)
+   void elem(NameType name,OneLine *ptr)
     {
      printf("OneLine #; = { #; } ;\n\n",name,
                                         ptr->align.get());
     }
 
-   void elem(OneLine *ptr)
-    {
-     elem(Range(ptr->name),ptr);
-    }
-
-   void elem(StrLen name,MultiLine *ptr)
+   void elem(NameType name,MultiLine *ptr)
     {
      printf("MultiLine #; = { #; , #; } ;\n\n",name,
                                                ptr->line_space.get(),
                                                ptr->first_line_space.get());
     }
 
-   void elem(MultiLine *ptr)
+   void elem(NameType name,Text *ptr) // TODO
     {
-     elem(Range(ptr->name),ptr);
+     Used(name);
+     Used(ptr);
     }
 
-   void elem(Text *ptr) // TODO
+   void elem(FrameList &list) // TODO
     {
-     Used(ptr);
+     Used(list);
+    }
+
+   void elem(ItemList &list) // TODO
+    {
+     Used(list);
     }
 
   public:
@@ -504,7 +551,7 @@ class Book::BookContext : NextIndex
 
    void print(Doc *doc)
     {
-     Putobj(out,"include <pretext:/Book1.ddl>\n\n"_c);
+     putstr("include <pretext:/Book1.ddl>\n\n"_c);
 
      printf("Book Data = { .title = #; , .start = ",DDLPrintableString(doc->title));
 
@@ -514,21 +561,21 @@ class Book::BookContext : NextIndex
 
      print("fore",doc->fore);
 
-     Putobj(out," } ;\n\n"_c);
+     putstr(" } ;\n\n"_c);
 
-     Putobj(out,"scope Doc {\n\n"_c);
+     putstr("scope Doc {\n\n"_c);
 
      elem(doc->defs);
      elem(doc->list);
 
-     Putobj(out,"\n}\n\n"_c);
+     putstr("\n}\n\n"_c);
     }
 
    void printEmpty()
     {
-     Putobj(out,"include <pretext:/Book1.ddl>\n\n"_c);
+     putstr("include <pretext:/Book1.ddl>\n\n"_c);
 
-     Putobj(out,"Book Data = { 'Empty book' , null } ;\n\n"_c);
+     putstr("Book Data = { 'Empty book' , null } ;\n\n"_c);
     }
  };
 
