@@ -320,6 +320,117 @@ class Book::BookContext : NextIndex
 
   private:
 
+   Collector<Page *> links;
+
+   struct PageName
+    {
+     String name;
+     Page *page;
+    };
+
+   Collector<PageName> pages;
+
+   ulen addLink(Page *page)
+    {
+     ulen ret=links.getLen();
+
+     links.append_copy(page);
+
+     return ret;
+    }
+
+   struct ScopeCursor
+    {
+      Scope *ptr;
+
+     private:
+
+      void set(IntAnyObjPtr<Scope,Doc> scope)
+       {
+        if( +scope )
+          ptr=scope.getPtr().castPtr<Scope>();
+        else
+          ptr=0;
+       }
+
+     public:
+
+      explicit ScopeCursor(IntAnyObjPtr<Scope,Doc> scope) { set(scope); }
+
+      Scope * operator + () const { return ptr; }
+
+      String * operator * () const { return &ptr->name; }
+
+      void operator ++ () { set(ptr->scope); }
+    };
+
+   static String MakeName(IntAnyObjPtr<Scope,Doc> scope,NameType page_name)
+    {
+     ScopeCursor cur(scope);
+
+     ulen count=0;
+
+     for(String *name : ForLoop(cur) )
+       {
+        Used(name);
+
+        count++;
+       }
+
+     TempArray<String *,10> temp(count);
+
+     auto rev=RangeReverse(temp);
+
+     for(String *name : ForLoop(cur) )
+       {
+        *rev=name;
+
+        ++rev;
+       }
+
+     PrintString out;
+
+     Putobj(out,"#Doc"_c);
+
+     for(String *name : temp )
+       {
+        Printf(out,"###;",*name);
+       }
+
+     AdaptPrintf(out,"###;",page_name);
+
+     return out.close();
+    }
+
+   void addPage(NameType name,Page *page)
+    {
+     pages.append_copy({MakeName(page->scope,name),page});
+    }
+
+   void printLink(ulen ind,Page *page,PtrLen<PageName> page_list)
+    {
+     ulen index=page->index;
+
+     if( index<page_list.len )
+       printf("Page * link#; = & #; ;\n\n",ind,page_list[index].name);
+     else
+       putstr("Page * link#; = null ;\n\n");
+    }
+
+   void printLinks()
+    {
+     auto link_list=links.flat();
+     auto page_list=pages.flat();
+
+     for(Page *page : link_list ) page->index=MaxULen;
+
+     for(ulen ind=0; ind<page_list.len ;ind++) page_list[ind].page->index=ind;
+
+     for(ulen ind=0; ind<link_list.len ;ind++) printLink(ind,link_list[ind],page_list);
+    }
+
+  private:
+
    void elem(Defaults &defs)
     {
      if( !defs.inner.def )
@@ -464,6 +575,8 @@ class Book::BookContext : NextIndex
                                                Named(this,ptr->up),
                                                Named(this,ptr->prev),
                                                Named(this,ptr->next));
+
+     addPage(name,ptr);
     }
 
    void elem(NameType name,Scope *ptr)
@@ -489,7 +602,7 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultCollapseFormat"_c),
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"DefaultCollapseFormat"_c),
                                      ptr->openlist,
                                      ptr->hide.get());
     }
@@ -500,9 +613,9 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultBulletFormat"_c),
-                                     OptDef(ptr->bullet_space,"?DefaultBulletSpace"_c),
-                                     OptDef(ptr->item_space,"?DefaultItemSpace"_c));
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"DefaultBulletFormat"_c),
+                                     OptDef(ptr->bullet_space,"DefaultBulletSpace"_c),
+                                     OptDef(ptr->item_space,"DefaultItemSpace"_c));
     }
 
    void elem(NameType name,Border *ptr)
@@ -534,15 +647,24 @@ class Book::BookContext : NextIndex
 
      elem(Range(ptr->table.cells),width.len);
 
-     printf(", #; , #; };\n\n",Named(this,ptr->border,"?DefaultBorder"_c),
+     printf(", #; , #; };\n\n",Named(this,ptr->border,"DefaultBorder"_c),
                                ptr->hard.get());
     }
 
-   void elem(NameType name,Link *ptr) // TODO
+   void elem(NameType name,Link *ptr)
     {
      printf("Link #; = { ",name);
 
-     // ptr->page
+     if( +ptr->page )
+       {
+        ulen ind=addLink(ptr->page.getPtr());
+
+        printf("##link#;",ind);
+       }
+     else
+       {
+        putstr("null"_c);
+       }
 
      putstr(" , "_c);
 
@@ -557,7 +679,7 @@ class Book::BookContext : NextIndex
 
      elem(Range(ptr->list));
 
-     printf(", #; } ;\n\n",Named(this,ptr->format,"?DefaultFixedFormat"_c));
+     printf(", #; } ;\n\n",Named(this,ptr->format,"DefaultFixedFormat"_c));
     }
 
    void elem(NameType name,OneLine *ptr)
@@ -579,8 +701,8 @@ class Book::BookContext : NextIndex
 
      elem(Range(ptr->list));
 
-     printf(", #; , #; } ;\n\n",Named(this,ptr->format,"?DefaultFormat"_c),
-                                Named(this,ptr->placement,"?DefaultPlacement"_c));
+     printf(", #; , #; } ;\n\n",Named(this,ptr->format,"DefaultFormat"_c),
+                                Named(this,ptr->placement,"DefaultPlacement"_c));
     }
 
    void elem(FrameList &list)
@@ -595,8 +717,8 @@ class Book::BookContext : NextIndex
 
         printf("{ #; , #; , #; , #; , #; }\n",Named(this,frame.body),
                                               Named(this,frame.line),
-                                              OptDef(frame.inner,"?DefaultInner"_c),
-                                              OptDef(frame.outer,"?DefaultOuter"_c),
+                                              OptDef(frame.inner,"DefaultInner"_c),
+                                              OptDef(frame.outer,"DefaultOuter"_c),
                                               frame.col.get());
        }
 
@@ -743,6 +865,8 @@ class Book::BookContext : NextIndex
      elem(doc->list);
 
      putstr("\n}\n\n"_c);
+
+     printLinks();
     }
 
    void printEmpty()

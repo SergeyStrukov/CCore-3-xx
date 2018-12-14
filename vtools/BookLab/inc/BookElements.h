@@ -683,6 +683,10 @@ struct Page : NamedObj
 
   FrameList list;
 
+  // link
+
+  ulen index = MaxULen ;
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {

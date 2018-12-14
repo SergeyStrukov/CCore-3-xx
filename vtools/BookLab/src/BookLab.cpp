@@ -59,6 +59,13 @@ bool TestKeyword(PtrLen<const Ch> str)
  {
   if( !str ) return false;
 
+  if( str.len>=6 && str[0]=='A'
+                 && str[1]=='N'
+                 && str[2]=='O'
+                 && str[3]=='N'
+                 && str[4]=='Y'
+                 && str[5]=='M' ) return true;
+
   switch( str[0] )
     {
      case 'c' :

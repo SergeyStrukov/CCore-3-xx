@@ -32,7 +32,9 @@ Format fmt_h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
 
 Format fmt_h2 = { & font_h2 , NoColor , 06400h , 0 } ;
 
-Format fmt_t1 = { & Anonym#o1 , NoColor , NoColor , 0 } ;
+Format fmt_t1 = { & ANONYM1 , NoColor , NoColor , 0 } ;
+
+Font ANONYM1 = { "Courier" , 20 , False , False , 0 } ;
 
 OneLine align_h1 = { 2 } ;
 
@@ -44,8 +46,34 @@ Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
 
 Format fmt_under = { & font , NoColor , NoColor , 1 } ;
 
+Page page1 = { "Manual" ,
+{
+{ & ANONYM2 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM3 , null , DefaultInner , DefaultOuter , NoColor }
+,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ null , null , DefaultInner , DefaultOuter , NoColor }
+}
+, NoColor , NoColor , null , null , null } ;
+
+Text ANONYM2 = {
+{
+}
+, & fmt_h1 , & align_h1 } ;
+
+Text ANONYM3 = {
+{
+}
+, & fmt_h2 , & align_h2 } ;
+
+Link link1 = { #link0 , { 1 } } ;
+
 }
 
 
 }
+
+Page * link0 = & #Doc#Pages#page1 ;
 
