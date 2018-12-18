@@ -1892,12 +1892,26 @@ void FieldWindow::drawBack(DrawBuf buf,bool) const
 
 void FieldWindow::react(UserAction action)
  {
-  wlist.react(action);
+  action.dispatch(*this, [this] (UserAction action) { wlist.react(action); } );
 
   if( action.fromKeyboard() )
     {
      key_input.assert(action);
     }
+ }
+
+void FieldWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  switch( vkey )
+    {
+     case VKey_F5 :
+      {
+       set_pressed();
+      }
+     return;
+    }
+
+  wlist.put_Key(vkey,kmod,repeat);
  }
 
 /* class FieldFrame */

@@ -510,6 +510,10 @@ bool TempWindow::past(ulen slot,BookLab::Ref cursor)
   return slots.refSlot(slot).past(cursor);
  }
 
+void TempWindow::probe(BookLab::Ref cursor) // TODO
+ {
+ }
+
  // drawing
 
 void TempWindow::layout()

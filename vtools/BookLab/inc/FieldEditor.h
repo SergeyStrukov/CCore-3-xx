@@ -1495,6 +1495,8 @@ class FieldWindow : public ComboWindow
 
    virtual void react(UserAction action);
 
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
+
    // signals
 
    Signal<> modified;

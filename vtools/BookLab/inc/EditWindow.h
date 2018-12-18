@@ -100,7 +100,7 @@ class InnerBookLabWindow : public SubWindow
 
    InsFrame ins_frame;
    mutable FieldFrame field_frame;
-   TempFrame temp_frame;
+   mutable TempFrame temp_frame;
 
    // scroll
 

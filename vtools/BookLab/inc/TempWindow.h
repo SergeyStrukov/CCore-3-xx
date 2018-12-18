@@ -300,6 +300,8 @@ class TempWindow : public ComboWindow
 
    bool past(ulen slot,BookLab::Ref cursor);
 
+   void probe(BookLab::Ref cursor);
+
    // drawing
 
    virtual void layout();
@@ -385,6 +387,8 @@ class TempFrame : public DragFrame
    bool copy(ulen slot,BookLab::Ref cursor) { return client.copy(slot,cursor); }
 
    bool past(ulen slot,BookLab::Ref cursor) { return client.past(slot,cursor); }
+
+   void probe(BookLab::Ref cursor) { client.probe(cursor); }
 
    // base
 

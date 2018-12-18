@@ -64,7 +64,7 @@ TextList list1 = { 'menu' , True , { 'fmt' } , { True } , { True } , {
  
 } , 2 } } ;
 
-Link link1 = { 'link1' , True , { 'start' } } ;
+Link link1 = { 'link1' , True , start.list.list } ;
 
 
 Scope scope1 = { 'page1' , True , 

@@ -273,7 +273,7 @@ void ClientWindow::field_key(UserAction action)
       switch( vkey )
         {
          case VKey_F2 :
-         case VKey_F5 :
+         case VKey_F7 :
          case VKey_F8 :
          case VKey_Insert :
           {
@@ -403,7 +403,7 @@ void ClientWindow::react_Key(VKey vkey,KeyMod kmod)
       }
      break;
 
-     case VKey_F5 :
+     case VKey_F7 :
       {
        sub_win.link();
       }

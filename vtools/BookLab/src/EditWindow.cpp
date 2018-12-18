@@ -150,6 +150,8 @@ void InnerBookLabWindow::setCursor(BookLab::PaneRef cur)
   field_frame.setField(cur.ref.pad);
 
   if( field_frame.isDead() ) field_frame.create(getFrame());
+
+  temp_frame.probe(cursor.ref);
  }
 
 void InnerBookLabWindow::noCursor() const
@@ -159,6 +161,8 @@ void InnerBookLabWindow::noCursor() const
      cursor=Null;
 
      field_frame.setField(Null);
+
+     temp_frame.probe({});
     }
  }
 
