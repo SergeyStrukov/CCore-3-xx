@@ -319,7 +319,7 @@ struct PaneRef
 
 /* class TempData */
 
-class TempData : NoCopy // TODO
+class TempData : NoCopy
  {
    Book &book;
 
@@ -408,55 +408,64 @@ class TempData : NoCopy // TODO
 
 
    template <class T>
-   bool copy(T *,ModeType) { return false; }
+   bool copy(T *,ModeType,bool) { return false; }
 
    template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
-   bool copy(T *ptr,ModeType)
+   bool copy(T *ptr,ModeType,bool act)
     {
-     data.create<T>(*ptr);
+     if( act )
+       {
+        data.create<T>(*ptr);
+       }
 
      return true;
     }
 
    template <class T>
-   bool copy(OptDataBase<T> *ptr,ModeType)
+   bool copy(OptDataBase<T> *ptr,ModeType,bool act)
     {
      if( ptr->def ) return false;
 
-     data.create<T>(ptr->data);
+     if( act )
+       {
+        data.create<T>(ptr->data);
+       }
 
      return true;
     }
 
-   bool copy(Element *ptr,ModeType mode);
+   bool copy(Element *ptr,ModeType mode,bool act);
 
-   bool copy(FrameList *ptr,ModeType mode);
+   bool copy(FrameList *ptr,ModeType mode,bool act);
 
    template <class T>
-   bool copy(IntObjPtr<T> *ptr,ModeType mode);
+   bool copy(IntObjPtr<T> *ptr,ModeType mode,bool act);
 
    template <class ... TT>
-   bool copy(IntAnyObjPtr<TT...> *ptr,ModeType mode);
+   bool copy(IntAnyObjPtr<TT...> *ptr,ModeType mode,bool act);
 
    template <class T>
-   bool copy(String name,IntObjPtr<T> ptr);
+   bool copy(String name,IntObjPtr<T> ptr,bool act);
 
    template <class T>
-   bool copy(NamedPtr<T> *ptr,ModeType mode);
+   bool copy(NamedPtr<T> *ptr,ModeType mode,bool act);
 
    template <class ... TT>
-   bool copy(NamedPtr<TT...> *ptr,ModeType mode);
+   bool copy(NamedPtr<TT...> *ptr,ModeType mode,bool act);
 
 
    template <class T>
-   bool past(T *,ModeType) { return false; }
+   bool past(T *,ModeType,bool) { return false; }
 
    template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
-   bool past(T &ret)
+   bool past(T &ret,bool act)
     {
      if( T *src=data.getPtr().castPtr<T>() )
        {
-        ret=*src;
+        if( act )
+          {
+           ret=*src;
+          }
 
         return true;
        }
@@ -465,17 +474,20 @@ class TempData : NoCopy // TODO
     }
 
    template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
-   bool past(T *ptr,ModeType)
+   bool past(T *ptr,ModeType,bool act)
     {
-     return past(*ptr);
+     return past(*ptr,act);
     }
 
    template <class T>
-   bool past(OptDataBase<T> *ptr,ModeType)
+   bool past(OptDataBase<T> *ptr,ModeType,bool act)
     {
-     if( past(ptr->data) )
+     if( past(ptr->data,act) )
        {
-        ptr->def=false;
+        if( act )
+          {
+           ptr->def=false;
+          }
 
         return true;
        }
@@ -491,42 +503,42 @@ class TempData : NoCopy // TODO
 
    void past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj);
 
-   bool past(Element *ptr,ModeType mode);
+   bool past(Element *ptr,ModeType mode,bool act);
 
-   bool past(Link *ptr,ModeType mode);
+   bool past(Link *ptr,ModeType mode,bool act);
 
    template <class T,class S>
-   bool past(IntObjPtr<T> *ptr,S *src);
+   bool past(IntObjPtr<T> *ptr,S *src,bool act);
 
    template <class T>
-   bool past(IntObjPtr<T> *ptr,T *src);
+   bool past(IntObjPtr<T> *ptr,T *src,bool act);
 
    template <class T>
-   bool past(IntObjPtr<T> *ptr,ModeType mode);
+   bool past(IntObjPtr<T> *ptr,ModeType mode,bool act);
 
    template <class S,class ... TT>
-   bool past(IntAnyObjPtr<TT...> *ptr,S *src);
+   bool past(IntAnyObjPtr<TT...> *ptr,S *src,bool act);
 
    template <class S,class ... TT>
-   bool past(IntAnyObjPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> ) ;
+   bool past(IntAnyObjPtr<TT...> *ptr,S *src,bool act) requires ( OneOfTypes<S,TT...> ) ;
 
    template <class ... TT>
-   bool past(IntAnyObjPtr<TT...> *ptr,ModeType mode);
+   bool past(IntAnyObjPtr<TT...> *ptr,ModeType mode,bool act);
 
    template <class S,class ... TT>
-   bool past(NamedPtr<TT...> *ptr,String name,S *src);
+   bool past(NamedPtr<TT...> *ptr,String name,S *src,bool act);
 
    template <class S,class ... TT>
-   bool past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTypes<S,TT...> ) ;
+   bool past(NamedPtr<TT...> *ptr,String name,S *src,bool act) requires ( OneOfTypes<S,TT...> ) ;
 
    template <class S,class ... TT>
-   bool past(NamedPtr<TT...> *ptr,S *src);
+   bool past(NamedPtr<TT...> *ptr,S *src,bool act);
 
    template <class S,class ... TT>
-   bool past(NamedPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> ) ;
+   bool past(NamedPtr<TT...> *ptr,S *src,bool act) requires ( OneOfTypes<S,TT...> ) ;
 
    template <class ... TT>
-   bool past(NamedPtr<TT...> *ptr,ModeType mode);
+   bool past(NamedPtr<TT...> *ptr,ModeType mode,bool act);
 
   public:
 

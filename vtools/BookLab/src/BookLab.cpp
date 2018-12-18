@@ -431,18 +431,24 @@ StrLen TempData::GetTypeName(NPtr *ptr)
  }
 
 
-bool TempData::copy(Element *ptr,ModeType)
+bool TempData::copy(Element *ptr,ModeType,bool act)
  {
-  data.create<ExtObjPtr<Element> >(book.clone(ptr));
+  if( act )
+    {
+     data.create<ExtObjPtr<Element> >(book.clone(ptr));
+    }
 
   return true;
  }
 
-bool TempData::copy(FrameList *ptr,ModeType)
+bool TempData::copy(FrameList *ptr,ModeType,bool act)
  {
   if( +ptr->cur )
     {
-     data.create<ExtObjPtr<Frame> >( ptr->cur );
+     if( act )
+       {
+        data.create<ExtObjPtr<Frame> >( ptr->cur );
+       }
 
      return true;
     }
@@ -451,13 +457,16 @@ bool TempData::copy(FrameList *ptr,ModeType)
  }
 
 template <class T>
-bool TempData::copy(IntObjPtr<T> *ptr,ModeType)
+bool TempData::copy(IntObjPtr<T> *ptr,ModeType,bool act)
  {
   if( T *src=ptr->getPtr() )
     {
-     ExtObjPtr<T> obj=book.clone(src);
+     if( act )
+       {
+        ExtObjPtr<T> obj=book.clone(src);
 
-     data.create<APtr>(obj);
+        data.create<APtr>(obj);
+       }
 
      return true;
     }
@@ -466,32 +475,38 @@ bool TempData::copy(IntObjPtr<T> *ptr,ModeType)
  }
 
 template <class ... TT>
-bool TempData::copy(IntAnyObjPtr<TT...> *ptr,ModeType mode)
+bool TempData::copy(IntAnyObjPtr<TT...> *ptr,ModeType mode,bool act)
  {
   bool ret=false;
 
-  ptr->apply( [&] (auto ptr) { ret=copy(&ptr,mode); } );
+  ptr->apply( [&] (auto ptr) { ret=copy(&ptr,mode,act); } );
 
   return ret;
  }
 
 template <class T>
-bool TempData::copy(String name,IntObjPtr<T> ptr)
+bool TempData::copy(String name,IntObjPtr<T> ptr,bool act)
  {
   if( name.getLen() )
     {
-     NPtr obj{name,ExtObjPtr<T>()};
+     if( act )
+       {
+        NPtr obj{name,ExtObjPtr<T>()};
 
-     data.create<NPtr>(obj);
+        data.create<NPtr>(obj);
+       }
 
      return true;
     }
 
   if( +ptr )
     {
-     NPtr obj{name,book.clone(ptr.getPtr())};
+     if( act )
+       {
+        NPtr obj{name,book.clone(ptr.getPtr())};
 
-     data.create<NPtr>(obj);
+        data.create<NPtr>(obj);
+       }
 
      return true;
     }
@@ -500,26 +515,29 @@ bool TempData::copy(String name,IntObjPtr<T> ptr)
  }
 
 template <class T>
-bool TempData::copy(NamedPtr<T> *ptr,ModeType)
+bool TempData::copy(NamedPtr<T> *ptr,ModeType,bool act)
  {
-  return copy(ptr->name,ptr->ptr);
+  return copy(ptr->name,ptr->ptr,act);
  }
 
 template <class ... TT>
-bool TempData::copy(NamedPtr<TT...> *ptr,ModeType)
+bool TempData::copy(NamedPtr<TT...> *ptr,ModeType,bool act)
  {
   if( ptr->name.getLen() )
     {
-     NPtr obj{ptr->name};
+     if( act )
+       {
+        NPtr obj{ptr->name};
 
-     data.create<NPtr>(obj);
+        data.create<NPtr>(obj);
+       }
 
      return true;
     }
 
   bool ret=false;
 
-  ptr->ptr.apply( [&] (auto p) { ret=copy(ptr->name,p); } );
+  ptr->ptr.apply( [&] (auto p) { ret=copy(ptr->name,p,act); } );
 
   return ret;
  }
@@ -530,13 +548,13 @@ void TempData::past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj)
   ptr->ptr.getPtr().apply( [&] (auto *inner) { past(ptr,inner,list,obj); } );
  }
 
-bool TempData::past(Element *ptr,ModeType mode)
+bool TempData::past(Element *ptr,ModeType mode,bool act)
  {
   if( ExtObjPtr<Element> *elem=data.getPtr().castPtr<ExtObjPtr<Element> >() )
     {
      if( ElementList *list=mode.castPtr<ElementList>() )
        {
-        past(ptr,list,book.clone(elem->getPtr()));
+        if( act ) past(ptr,list,book.clone(elem->getPtr()));
 
         return true;
        }
@@ -545,11 +563,14 @@ bool TempData::past(Element *ptr,ModeType mode)
   return false;
  }
 
-bool TempData::past(Link *ptr,ModeType)
+bool TempData::past(Link *ptr,ModeType,bool act)
  {
   if( ExtObjPtr<Frame> *frame=data.getPtr().castPtr<ExtObjPtr<Frame> >() )
     {
-     ptr->set(*frame);
+     if( act )
+       {
+        ptr->set(*frame);
+       }
 
      return true;
     }
@@ -558,27 +579,30 @@ bool TempData::past(Link *ptr,ModeType)
  }
 
 template <class T,class S>
-bool TempData::past(IntObjPtr<T> *,S *)
+bool TempData::past(IntObjPtr<T> *,S *,bool)
  {
   return false;
  }
 
 template <class T>
-bool TempData::past(IntObjPtr<T> *ptr,T *src)
+bool TempData::past(IntObjPtr<T> *ptr,T *src,bool act)
  {
-  *ptr=book.clone(src);
+  if( act )
+    {
+     *ptr=book.clone(src);
+    }
 
   return true;
  }
 
 template <class T>
-bool TempData::past(IntObjPtr<T> *ptr,ModeType)
+bool TempData::past(IntObjPtr<T> *ptr,ModeType,bool act)
  {
   if( APtr *src=data.getPtr().castPtr<APtr>() )
     {
      bool ret=false;
 
-     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src,act); } );
 
      return ret;
     }
@@ -587,7 +611,7 @@ bool TempData::past(IntObjPtr<T> *ptr,ModeType)
     {
      bool ret=false;
 
-     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s); } );
+     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s,act); } );
 
      return ret;
     }
@@ -596,27 +620,30 @@ bool TempData::past(IntObjPtr<T> *ptr,ModeType)
  }
 
 template <class S,class ... TT>
-bool TempData::past(IntAnyObjPtr<TT...> *,S *)
+bool TempData::past(IntAnyObjPtr<TT...> *,S *,bool)
  {
   return false;
  }
 
 template <class S,class ... TT>
-bool TempData::past(IntAnyObjPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> )
+bool TempData::past(IntAnyObjPtr<TT...> *ptr,S *src,bool act) requires ( OneOfTypes<S,TT...> )
  {
-  *ptr=book.clone(src);
+  if( act )
+    {
+     *ptr=book.clone(src);
+    }
 
   return true;
  }
 
 template <class ... TT>
-bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
+bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType,bool act)
  {
   if( APtr *src=data.getPtr().castPtr<APtr>() )
     {
      bool ret=false;
 
-     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src,act); } );
 
      return ret;
     }
@@ -625,7 +652,7 @@ bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
     {
      bool ret=false;
 
-     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s); } );
+     src->ptr.getPtr().apply( [&] (auto *s) { if( s ) ret=past(ptr,s,act); } );
 
      return ret;
     }
@@ -634,26 +661,32 @@ bool TempData::past(IntAnyObjPtr<TT...> *ptr,ModeType)
  }
 
 template <class S,class ... TT>
-bool TempData::past(NamedPtr<TT...> *,String,S *)
+bool TempData::past(NamedPtr<TT...> *,String,S *,bool)
  {
   return false;
  }
 
 template <class S,class ... TT>
-bool TempData::past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTypes<S,TT...> )
+bool TempData::past(NamedPtr<TT...> *ptr,String name,S *src,bool act) requires ( OneOfTypes<S,TT...> )
  {
   if( name.getLen() )
     {
-     ptr->name=name;
-     ptr->ptr=Null;
+     if( act )
+       {
+        ptr->name=name;
+        ptr->ptr=Null;
+       }
 
      return true;
     }
 
   if( src )
     {
-     ptr->name=Null;
-     ptr->ptr=book.clone(src);
+     if( act )
+       {
+        ptr->name=Null;
+        ptr->ptr=book.clone(src);
+       }
 
      return true;
     }
@@ -662,18 +695,21 @@ bool TempData::past(NamedPtr<TT...> *ptr,String name,S *src) requires ( OneOfTyp
  }
 
 template <class S,class ... TT>
-bool TempData::past(NamedPtr<TT...> *,S *)
+bool TempData::past(NamedPtr<TT...> *,S *,bool)
  {
   return false;
  }
 
 template <class S,class ... TT>
-bool TempData::past(NamedPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> )
+bool TempData::past(NamedPtr<TT...> *ptr,S *src,bool act) requires ( OneOfTypes<S,TT...> )
  {
   if( src )
     {
-     ptr->name=Null;
-     ptr->ptr=book.clone(src);
+     if( act )
+       {
+        ptr->name=Null;
+        ptr->ptr=book.clone(src);
+       }
 
      return true;
     }
@@ -682,13 +718,13 @@ bool TempData::past(NamedPtr<TT...> *ptr,S *src) requires ( OneOfTypes<S,TT...> 
  }
 
 template <class ... TT>
-bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
+bool TempData::past(NamedPtr<TT...> *ptr,ModeType,bool act)
  {
   if( NPtr *src=data.getPtr().castPtr<NPtr>() )
     {
      bool ret=false;
 
-     src->ptr.getPtr().apply( [&] (auto *s) { ret=past(ptr,src->name,s); } );
+     src->ptr.getPtr().apply( [&] (auto *s) { ret=past(ptr,src->name,s,act); } );
 
      return ret;
     }
@@ -697,7 +733,7 @@ bool TempData::past(NamedPtr<TT...> *ptr,ModeType)
     {
      bool ret=false;
 
-     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src); } );
+     src->getPtr().apply( [&] (auto *src) { if( src ) ret=past(ptr,src,act); } );
 
      return ret;
     }
@@ -727,7 +763,7 @@ bool TempData::copy(Ref cursor)
  {
   bool ret=false;
 
-  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=copy(ptr,cursor.mode); } );
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=copy(ptr,cursor.mode,true); } );
 
   return ret;
  }
@@ -736,7 +772,7 @@ bool TempData::past(Ref cursor)
  {
   bool ret=false;
 
-  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=past(ptr,cursor.mode); } );
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret=past(ptr,cursor.mode,true); } );
 
   return ret;
  }
@@ -746,9 +782,15 @@ void TempData::del()
   data.destroy();
  }
 
-auto TempData::probe(Ref cursor) -> ProbeResult // TODO
+auto TempData::probe(Ref cursor) -> ProbeResult
  {
-  return {true,true};
+  ProbeResult ret{false,false};
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret.copy=copy(ptr,cursor.mode,false); } );
+
+  cursor.pad.apply( [&] (auto *ptr) { if( ptr ) ret.past=past(ptr,cursor.mode,false); } );
+
+  return ret;
  }
 
 /* class Book::ScopeContext */
