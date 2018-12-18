@@ -187,6 +187,8 @@ struct Ref
 
   Ref() noexcept {}
 
+  Ref(NothingType) noexcept {}
+
   template <class T>
   Ref(T *ptr) : mode(ptr) {}
 
@@ -541,6 +543,14 @@ class TempData : NoCopy // TODO
    bool past(Ref cursor);
 
    void del();
+
+   struct ProbeResult
+    {
+     bool copy;
+     bool past;
+    };
+
+   ProbeResult probe(Ref cursor);
  };
 
 /* struct InsData */

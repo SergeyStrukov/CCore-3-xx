@@ -162,7 +162,7 @@ void InnerBookLabWindow::noCursor() const
 
      field_frame.setField(Null);
 
-     temp_frame.probe({});
+     temp_frame.probe(Null);
     }
  }
 
@@ -424,6 +424,11 @@ void InnerBookLabWindow::askPast(ulen slot)
   if( temp_frame.past(slot,cursor.ref) ) update(true);
  }
 
+void InnerBookLabWindow::askProbe()
+ {
+  temp_frame.probe(cursor.ref);
+ }
+
 InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  : SubWindow(host),
    cfg(cfg_),
@@ -441,6 +446,7 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
 
    connector_askCopy(this,&InnerBookLabWindow::askCopy,temp_frame.askCopy),
    connector_askPast(this,&InnerBookLabWindow::askPast,temp_frame.askPast),
+   connector_askProbe(this,&InnerBookLabWindow::askProbe,temp_frame.askProbe),
 
    key_input(field_frame.key_input)
  {

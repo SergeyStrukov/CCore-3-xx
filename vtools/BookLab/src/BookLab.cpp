@@ -746,6 +746,11 @@ void TempData::del()
   data.destroy();
  }
 
+auto TempData::probe(Ref cursor) -> ProbeResult // TODO
+ {
+  return {true,true};
+ }
+
 /* class Book::ScopeContext */
 
 class Book::ScopeContext : NoCopy

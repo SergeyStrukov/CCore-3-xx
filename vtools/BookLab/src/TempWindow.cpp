@@ -45,6 +45,8 @@ void SlotWindow::moveUp()
 
      Swap(list[cur],list[cur+1]);
 
+     slot_changed.assert();
+
      redraw();
     }
  }
@@ -61,6 +63,8 @@ void SlotWindow::moveDown()
 
      Swap(list[cur],list[cur-1]);
 
+     slot_changed.assert();
+
      redraw();
     }
  }
@@ -72,6 +76,8 @@ void SlotWindow::curUp()
      cur--;
 
      if( cur<off ) off=cur;
+
+     slot_changed.assert();
 
      redraw();
     }
@@ -86,6 +92,8 @@ void SlotWindow::curDown()
      cur++;
 
      if( off+len<=cur ) off=cur-len+1;
+
+     slot_changed.assert();
 
      redraw();
     }
@@ -186,6 +194,8 @@ void SlotWindow::delCurSlot()
      list.shrink_one();
 
      Replace_min(cur,count-2);
+
+     slot_changed.assert();
 
      layout();
 
@@ -372,6 +382,8 @@ void SlotWindow::react_LeftClick(Point point,MouseKey)
 
         if( i<list.getLen() && Change(cur,i) )
           {
+           slot_changed.assert();
+
            redraw();
           }
        }
@@ -436,6 +448,11 @@ void TempWindow::scroll_changed(ulen pos)
   slots.setPos(pos);
  }
 
+void TempWindow::slot_changed()
+ {
+  askProbe.assert();
+ }
+
 TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book)
  : ComboWindow(host),
    cfg(cfg_),
@@ -455,7 +472,8 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &boo
    connector_del_pressed(this,&TempWindow::del_pressed,btn_del.pressed),
    connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed),
    connector_slots_reposed(this,&TempWindow::slots_reposed,slots.reposed),
-   connector_scroll_changed(this,&TempWindow::scroll_changed,scroll.changed)
+   connector_scroll_changed(this,&TempWindow::scroll_changed,scroll.changed),
+   connector_slot_changed(this,&TempWindow::slot_changed,slots.slot_changed)
  {
   wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit,scroll,slots);
  }
@@ -510,8 +528,14 @@ bool TempWindow::past(ulen slot,BookLab::Ref cursor)
   return slots.refSlot(slot).past(cursor);
  }
 
-void TempWindow::probe(BookLab::Ref cursor) // TODO
+void TempWindow::probe(BookLab::Ref cursor)
  {
+  ulen slot=slots.getCurSlot();
+
+  auto result=slots.refSlot(slot).probe(cursor);
+
+  btn_copy.enable(result.copy);
+  btn_past.enable(result.past);
  }
 
  // drawing
@@ -564,7 +588,8 @@ TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Sig
    client(*this,cfg.client_cfg,book),
 
    askCopy(client.askCopy),
-   askPast(client.askPast)
+   askPast(client.askPast),
+   askProbe(client.askProbe)
  {
   bindClient(client);
  }

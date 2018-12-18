@@ -181,6 +181,7 @@ class SlotWindow : public SubWindow
    // signals
 
    Signal<ScrollPos> reposed;
+   Signal<> slot_changed;
  };
 
 /* class TempWindow */
@@ -272,6 +273,8 @@ class TempWindow : public ComboWindow
 
    void scroll_changed(ulen pos);
 
+   void slot_changed();
+
    SignalConnector<TempWindow> connector_copy_pressed;
 
    SignalConnector<TempWindow> connector_past_pressed;
@@ -283,6 +286,8 @@ class TempWindow : public ComboWindow
    SignalConnector<TempWindow,ScrollPos> connector_slots_reposed;
 
    SignalConnector<TempWindow,ulen> connector_scroll_changed;
+
+   SignalConnector<TempWindow> connector_slot_changed;
 
   public:
 
@@ -318,6 +323,7 @@ class TempWindow : public ComboWindow
 
    Signal<ulen> askCopy;
    Signal<ulen> askPast;
+   Signal<> askProbe;
  };
 
 /* class TempFrame */
@@ -409,6 +415,7 @@ class TempFrame : public DragFrame
 
    Signal<ulen> &askCopy;
    Signal<ulen> &askPast;
+   Signal<> &askProbe;
  };
 
 } // namespace App

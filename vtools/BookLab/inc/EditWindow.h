@@ -213,6 +213,10 @@ class InnerBookLabWindow : public SubWindow
 
    SignalConnector<InnerBookLabWindow,ulen> connector_askPast;
 
+   void askProbe();
+
+   SignalConnector<InnerBookLabWindow> connector_askProbe;
+
   public:
 
    InnerBookLabWindow(SubWindowHost &host,const Config &cfg,Signal<> &update);
