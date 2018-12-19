@@ -18,6 +18,8 @@
 
 #include <CCore/inc/CharProp.h>
 
+#include <CCore/inc/video/Point.h>
+
 namespace CCore {
 namespace Video {
 
@@ -27,9 +29,45 @@ inline StrLen DDLBool(bool val) { return val?"True"_c:"False"_c; }
 
 /* classes */
 
+struct DDLPoint;
+
+struct DDLPane;
+
 struct DDLString;
 
 struct DDLPrintableString;
+
+/* struct DDLPoint */
+
+struct DDLPoint
+ {
+  Point point;
+
+  explicit DDLPoint(const Point &point_) : point(point_) {}
+
+  // print object
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; }",point.x,point.y);
+   }
+ };
+
+/* struct DDLPane */
+
+struct DDLPane
+ {
+  Pane pane;
+
+  explicit DDLPane(const Pane &pane_) : pane(pane_) {}
+
+  // print object
+
+  void print(PrinterType &out) const
+   {
+    Printf(out,"{ #; , #; , #; , #; }",pane.x,pane.y,pane.dx,pane.dy);
+   }
+ };
 
 /* struct DDLString */
 

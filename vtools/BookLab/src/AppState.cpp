@@ -104,7 +104,7 @@ void AppState::save(StrLen file_name) const
 
   Printf(out,"AppState Data=\n {\n");
 
-  Printf(out,"  .place = { #; , #; , #; , #; }",place.x,place.y,place.dx,place.dy);
+  Printf(out,"  .place = #;",DDLPane(place));
 
   if( temp_place.ok ) Printf(out,",\n  .temp_place = #;",temp_place);
 

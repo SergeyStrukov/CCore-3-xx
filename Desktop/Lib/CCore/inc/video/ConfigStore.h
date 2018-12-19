@@ -103,7 +103,7 @@ class ConfigItem : NoCopy
 
      void print(Point obj)
       {
-       Printf(out,"{ #; , #; }",obj.x,obj.y);
+       Putobj(out,DDLPoint(obj));
       }
 
      void print(const DefString &obj)
@@ -132,7 +132,7 @@ class ConfigItem : NoCopy
 
      void print(bool obj)
       {
-       Printf(out,"#;",DDLBool(obj));
+       Putobj(out,DDLBool(obj));
       }
 
      void print(Ratio obj)
