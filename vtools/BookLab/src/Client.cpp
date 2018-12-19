@@ -346,6 +346,11 @@ ClientWindow::~ClientWindow()
 
  // methods
 
+void ClientWindow::prepare(const AppState &app_state)
+ {
+  sub_win.prepare(app_state);
+ }
+
 Point ClientWindow::getMinSize() const
  {
   LayToBottom lay{Lay(menu),Lay(sub_win)};
@@ -456,6 +461,17 @@ void ClientWindow::react_other(UserAction action)
  }
 
  // AliveControl
+
+void ClientWindow::dying()
+ {
+  AppState app_state;
+
+  app_state.place=getFrameHost()->getPlace();
+
+  sub_win.save(app_state);
+
+  app_state.save();
+ }
 
 bool ClientWindow::askDestroy()
  {

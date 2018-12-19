@@ -15,6 +15,7 @@
 #define TempWindow_h
 
 #include <inc/BookLab.h>
+#include <inc/AppState.h>
 
 namespace App {
 
@@ -377,8 +378,7 @@ class TempFrame : public DragFrame
 
    TempWindow client;
 
-   Pane place;
-   bool has_place = false ;
+   FramePlace place;
 
   public:
 
@@ -387,6 +387,10 @@ class TempFrame : public DragFrame
    virtual ~TempFrame();
 
    // methods
+
+   void prepare(const AppState &app_state) { place=app_state.temp_place; }
+
+   void save(AppState &app_state) { if( isAlive() ) place.set(host->getPlace()); app_state.temp_place=place; }
 
    bool copy(BookLab::Ref cursor) { return client.copy(cursor); }
 

@@ -225,6 +225,18 @@ class InnerBookLabWindow : public SubWindow
 
    // methods
 
+   void prepare(const AppState &app_state)
+    {
+     field_frame.prepare(app_state);
+     temp_frame.prepare(app_state);
+    }
+
+   void save(AppState &app_state)
+    {
+     field_frame.save(app_state);
+     temp_frame.save(app_state);
+    }
+
    Point getMinSize(Point cap=Point::Max()) const;
 
    void collect() { book.collect(); }
@@ -332,6 +344,10 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
    virtual ~BookLabWindow();
 
    // methods
+
+   void prepare(const AppState &app_state) { window.prepare(app_state); }
+
+   void save(AppState &app_state) { window.save(app_state); }
 
    void collect() { window.collect(); }
 
@@ -496,6 +512,10 @@ class EditWindow : public ComboWindow
    virtual ~EditWindow();
 
    // methods
+
+   void prepare(const AppState &app_state) { book.prepare(app_state); }
+
+   void save(AppState &app_state) { book.save(app_state); }
 
    Point getMinSize() const;
 

@@ -1938,8 +1938,7 @@ void FieldFrame::dying()
  {
   DragFrame::dying();
 
-  place=host->getPlace();
-  has_place=true;
+  place.set(host->getPlace());
  }
 
  // create
@@ -1948,7 +1947,7 @@ Pane FieldFrame::getPane(StrLen title) const
  {
   Point size=getMinSize(false,title,client.getMinSize());
 
-  if( has_place ) return Pane(place.getBase(),Sup(place.getSize(),size));
+  if( place.ok ) return place.get(size);
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

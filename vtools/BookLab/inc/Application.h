@@ -156,7 +156,9 @@ struct AppProp
 
   using Opt = OptFileName ;
 
-  static constexpr PrepareOpt Prepare = PrepareRandom ;
+  using Persist = AppState ;
+
+  static constexpr PrepareOpt Prepare = PreparePersist ;
  };
 
 } // namespace App

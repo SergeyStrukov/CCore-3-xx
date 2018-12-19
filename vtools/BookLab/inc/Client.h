@@ -219,6 +219,8 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    // methods
 
+   void prepare(const AppState &app_state);
+
    Point getMinSize() const;
 
    // base
@@ -242,6 +244,8 @@ class ClientWindow : public ComboWindow , public AliveControl
    void react_other(UserAction action);
 
    // AliveControl
+
+   virtual void dying();
 
    virtual bool askDestroy();
 

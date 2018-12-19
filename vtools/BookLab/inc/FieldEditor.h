@@ -15,6 +15,7 @@
 #define FieldEditor_h
 
 #include <inc/BookLab.h>
+#include <inc/AppState.h>
 
 namespace App {
 
@@ -1554,8 +1555,7 @@ class FieldFrame : public DragFrame
 
    FieldWindow client;
 
-   Pane place;
-   bool has_place = false ;
+   FramePlace place;
 
   public:
 
@@ -1564,6 +1564,10 @@ class FieldFrame : public DragFrame
    virtual ~FieldFrame();
 
    // methods
+
+   void prepare(const AppState &app_state) { place=app_state.edit_place; }
+
+   void save(AppState &app_state) { if( isAlive() ) place.set(host->getPlace()); app_state.edit_place=place; }
 
    void setField(BookLab::PadType pad) { client.setField(pad); }
 

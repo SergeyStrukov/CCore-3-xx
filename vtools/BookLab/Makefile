@@ -39,3 +39,9 @@ src/./BookLab.TypeDef.gen.h : src/BookLab.ddl
 
 src/./BookLab.Pretext.gen.h : src/BookLab.ddl
 	$(MakeString) -s src/BookLab.ddl src/BookLab.Pretext.gen.h
+
+src/./AppState.TypeDef.gen.h : src/AppState.ddl
+	$(TypeSet) src/AppState.ddl src/AppState.TypeDef.gen.h src/AppState.TypeSet.gen.h
+
+src/./AppState.Pretext.gen.h : src/AppState.ddl
+	$(MakeString) -s src/AppState.ddl src/AppState.Pretext.gen.h

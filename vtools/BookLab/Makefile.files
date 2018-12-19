@@ -1,5 +1,6 @@
 OBJ_LIST = \
 .obj/App.o \
+.obj/AppState.o \
 .obj/Application.o \
 .obj/BookElements.o \
 .obj/BookLab.o \
@@ -21,6 +22,7 @@ OBJ_LIST = \
 
 ASM_LIST = \
 .obj/App.s \
+.obj/AppState.s \
 .obj/Application.s \
 .obj/BookElements.s \
 .obj/BookLab.s \
@@ -42,6 +44,7 @@ ASM_LIST = \
 
 DEP_LIST = \
 .obj/App.dep \
+.obj/AppState.dep \
 .obj/Application.dep \
 .obj/BookElements.dep \
 .obj/BookLab.dep \
@@ -68,6 +71,9 @@ include $(RULES_FILE)
 
 
 .obj/App.o : src/./App.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/AppState.o : src/./AppState.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Application.o : src/./Application.cpp
@@ -126,6 +132,9 @@ include $(RULES_FILE)
 .obj/App.s : src/./App.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/AppState.s : src/./AppState.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Application.s : src/./Application.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -181,6 +190,9 @@ include $(RULES_FILE)
 
 .obj/App.dep : src/./App.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/App.o $< -MF $@
+
+.obj/AppState.dep : src/./AppState.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/AppState.o $< -MF $@
 
 .obj/Application.dep : src/./Application.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
