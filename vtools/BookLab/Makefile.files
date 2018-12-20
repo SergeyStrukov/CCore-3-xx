@@ -17,6 +17,7 @@ OBJ_LIST = \
 .obj/Resolver.o \
 .obj/SingleRoom.o \
 .obj/TempWindow.o \
+.obj/TextEditor.o \
 .obj/main.o \
 
 
@@ -39,6 +40,7 @@ ASM_LIST = \
 .obj/Resolver.s \
 .obj/SingleRoom.s \
 .obj/TempWindow.s \
+.obj/TextEditor.s \
 .obj/main.s \
 
 
@@ -61,6 +63,7 @@ DEP_LIST = \
 .obj/Resolver.dep \
 .obj/SingleRoom.dep \
 .obj/TempWindow.dep \
+.obj/TextEditor.dep \
 .obj/main.dep \
 
 
@@ -124,6 +127,9 @@ include $(RULES_FILE)
 .obj/TempWindow.o : src/./TempWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/TextEditor.o : src/./TextEditor.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -181,6 +187,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/TempWindow.s : src/./TempWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/TextEditor.s : src/./TextEditor.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -241,6 +250,9 @@ include $(RULES_FILE)
 
 .obj/TempWindow.dep : src/./TempWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/TempWindow.o $< -MF $@
+
+.obj/TextEditor.dep : src/./TextEditor.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/TextEditor.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

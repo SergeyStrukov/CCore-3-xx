@@ -16,6 +16,7 @@
 
 #include <inc/BookLab.h>
 #include <inc/AppState.h>
+#include <inc/TextEditor.h>
 
 namespace App {
 
@@ -53,6 +54,9 @@ class FieldUnnamed;
 
 
 class FieldElement;
+
+
+class FieldText;
 
 
 class FieldWindow;
@@ -1305,6 +1309,29 @@ class FieldElement : public ComboWindow , public FieldControl
    virtual void layout();
  };
 
+/* class FieldText */
+
+class FieldText : public TextEditor , public FieldControl
+ {
+   AnyPtr<DynArray<BookLab::Span>,DynArray<BookLab::TextLine> > pad;
+
+  public:
+
+   FieldText(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FieldText();
+
+   // methods
+
+   void setField(DynArray<BookLab::Span> *pad);
+
+   void setField(DynArray<BookLab::TextLine> *pad);
+
+   virtual void set(bool *def_pad,bool def);
+
+   virtual void noField();
+ };
+
 /* class FieldWindow */
 
 class FieldWindow : public ComboWindow
@@ -1337,8 +1364,8 @@ class FieldWindow : public ComboWindow
      CtorRefVal<FieldRatio::ConfigType> field_Ratio_cfg;
      CtorRefVal<FieldNamed::ConfigType> field_Named_cfg;
      CtorRefVal<FieldUnnamed::ConfigType> field_Unnamed_cfg;
-
      CtorRefVal<FieldElement::ConfigType> field_Element_cfg;
+     CtorRefVal<FieldText::ConfigType> field_Text_cfg;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -1354,8 +1381,8 @@ class FieldWindow : public ComboWindow
         field_Ratio_cfg(user_pref,app_pref),
         field_Named_cfg(user_pref,app_pref),
         field_Unnamed_cfg(user_pref,app_pref),
-
-        field_Element_cfg(user_pref,app_pref)
+        field_Element_cfg(user_pref,app_pref),
+        field_Text_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -1410,8 +1437,8 @@ class FieldWindow : public ComboWindow
    FieldRatio field_Ratio;
    FieldNamed field_Named;
    FieldUnnamed field_Unnamed;
-
    FieldElement field_Element;
+   FieldText field_Text;
 
   private:
 
@@ -1463,6 +1490,10 @@ class FieldWindow : public ComboWindow
    void setField(IntAnyObjPtr<TT...> *pad);
 
    void setField(BookLab::Element *pad);
+
+   void setField(DynArray<BookLab::Span> *pad);
+
+   void setField(DynArray<BookLab::TextLine> *pad);
 
   private:
 

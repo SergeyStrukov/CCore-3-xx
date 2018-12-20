@@ -1610,6 +1610,45 @@ void FieldElement::layout()
   lay.setPlace(getPane(),space);
  }
 
+/* class FieldText */
+
+FieldText::FieldText(SubWindowHost &host,const Config &cfg)
+ : TextEditor(host,cfg)
+ {
+ }
+
+FieldText::~FieldText()
+ {
+ }
+
+ // methods
+
+void FieldText::setField(DynArray<BookLab::Span> *pad_)
+ {
+  load(Range(*pad_));
+
+  pad=pad_;
+ }
+
+void FieldText::setField(DynArray<BookLab::TextLine> *pad_)
+ {
+  load(Range(*pad_));
+
+  pad=pad_;
+ }
+
+void FieldText::set(bool *,bool)
+ {
+  pad.apply( [&] (auto *ptr) { if( ptr ) save(ptr); } );
+ }
+
+void FieldText::noField()
+ {
+  pad=Null;
+
+  blank();
+ }
+
 /* class FieldWindow */
 
 void FieldWindow::noField()
@@ -1789,6 +1828,16 @@ void FieldWindow::setField(BookLab::Element *pad)
   setFieldCtrl(field_Element,pad);
  }
 
+void FieldWindow::setField(DynArray<BookLab::Span> *pad)
+ {
+  setFieldCtrl(field_Text,pad);
+ }
+
+void FieldWindow::setField(DynArray<BookLab::TextLine> *pad)
+ {
+  setFieldCtrl(field_Text,pad);
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
@@ -1824,8 +1873,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Ratio(wlist,cfg.field_Ratio_cfg),
    field_Named(wlist,cfg.field_Named_cfg,book),
    field_Unnamed(wlist,cfg.field_Unnamed_cfg,book),
-
    field_Element(wlist,cfg.field_Element_cfg,modified),
+   field_Text(wlist,cfg.field_Text_cfg),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed),
    connector_valid_changed(this,&FieldWindow::valid_changed)
@@ -1851,7 +1900,7 @@ Point FieldWindow::getMinSize() const
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element)};
+               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element),Lay(field_Text)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
@@ -1876,7 +1925,7 @@ void FieldWindow::layout()
 
   LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element)};
+               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element),Lay(field_Text)};
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
