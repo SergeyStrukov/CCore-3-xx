@@ -182,7 +182,7 @@ class SlotWindow : public SubWindow
    // signals
 
    Signal<ScrollPos> reposed;
-   Signal<> slot_changed;
+   Signal<> slotChanged;
  };
 
 /* class TempWindow */

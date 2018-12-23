@@ -1469,7 +1469,7 @@ void FieldElement::testResult(bool ok)
  {
   edit.alert(!ok);
 
-  valid_changed.assert(ok);
+  validChanged.assert(ok);
  }
 
 void FieldElement::edit_changed()
@@ -1705,7 +1705,7 @@ void FieldWindow::setFieldCtrl(FieldControl *field_ctrl_,SubWindow *field_,bool 
      check_def.enable(withdef);
      lab_def.enable(withdef);
 
-     connector_valid_changed.connect(field_ctrl->valid_changed);
+     connector_valid_changed.connect(field_ctrl->validChanged);
 
      redraw();
     }
@@ -1945,7 +1945,7 @@ void FieldWindow::react(UserAction action)
 
   if( action.fromKeyboard() )
     {
-     key_input.assert(action);
+     keyPressed.assert(action);
     }
  }
 
@@ -1972,7 +1972,7 @@ FieldFrame::FieldFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,S
    client(*this,cfg.client_cfg,book),
 
    modified(client.modified),
-   key_input(client.key_input)
+   keyPressed(client.keyPressed)
  {
   bindClient(client);
  }

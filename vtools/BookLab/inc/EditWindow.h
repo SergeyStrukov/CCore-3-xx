@@ -308,7 +308,7 @@ class InnerBookLabWindow : public SubWindow
 
    Signal<> changed;
    Signal<> modified;
-   Signal<UserAction> &key_input;
+   Signal<UserAction> &keyPressed;
  };
 
 /* class BookLabWindow */
@@ -366,7 +366,7 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
    // signals
 
    Signal<> &modified;
-   Signal<UserAction> &key_input;
+   Signal<UserAction> &keyPressed;
  };
 
 /* class EditWindow */
@@ -547,8 +547,8 @@ class EditWindow : public ComboWindow
 
    // signals
 
-   Signal<> ask_save;
-   Signal<UserAction> &key_input;
+   Signal<> askSave;
+   Signal<UserAction> &keyPressed;
  };
 
 } // namespace App

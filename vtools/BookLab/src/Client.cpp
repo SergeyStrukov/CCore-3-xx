@@ -304,8 +304,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName op
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed),
    connector_file_destroyed(this,&ClientWindow::file_destroyed,file_frame.destroyed),
    connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed),
-   connector_ask_save(this,&ClientWindow::ask_save,sub_win.ask_save),
-   connector_field_key(this,&ClientWindow::field_key,sub_win.key_input)
+   connector_ask_save(this,&ClientWindow::ask_save,sub_win.askSave),
+   connector_field_key(this,&ClientWindow::field_key,sub_win.keyPressed)
  {
   cascade_menu.connectUpdate(update);
 

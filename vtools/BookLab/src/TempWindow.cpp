@@ -45,7 +45,7 @@ void SlotWindow::moveUp()
 
      Swap(list[cur],list[cur+1]);
 
-     slot_changed.assert();
+     slotChanged.assert();
 
      redraw();
     }
@@ -63,7 +63,7 @@ void SlotWindow::moveDown()
 
      Swap(list[cur],list[cur-1]);
 
-     slot_changed.assert();
+     slotChanged.assert();
 
      redraw();
     }
@@ -77,7 +77,7 @@ void SlotWindow::curUp()
 
      if( cur<off ) off=cur;
 
-     slot_changed.assert();
+     slotChanged.assert();
 
      redraw();
     }
@@ -93,7 +93,7 @@ void SlotWindow::curDown()
 
      if( off+len<=cur ) off=cur-len+1;
 
-     slot_changed.assert();
+     slotChanged.assert();
 
      redraw();
     }
@@ -195,7 +195,7 @@ void SlotWindow::delCurSlot()
 
      Replace_min(cur,count-2);
 
-     slot_changed.assert();
+     slotChanged.assert();
 
      layout();
 
@@ -382,7 +382,7 @@ void SlotWindow::react_LeftClick(Point point,MouseKey)
 
         if( i<list.getLen() && Change(cur,i) )
           {
-           slot_changed.assert();
+           slotChanged.assert();
 
            redraw();
           }
@@ -473,7 +473,7 @@ TempWindow::TempWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &boo
    connector_name_pressed(this,&TempWindow::name_pressed,btn_name.pressed),
    connector_slots_reposed(this,&TempWindow::slots_reposed,slots.reposed),
    connector_scroll_changed(this,&TempWindow::scroll_changed,scroll.changed),
-   connector_slot_changed(this,&TempWindow::slot_changed,slots.slot_changed)
+   connector_slot_changed(this,&TempWindow::slot_changed,slots.slotChanged)
  {
   wlist.insTop(btn_copy,btn_past,btn_del,btn_name,edit,scroll,slots);
  }

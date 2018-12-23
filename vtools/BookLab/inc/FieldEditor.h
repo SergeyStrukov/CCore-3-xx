@@ -71,7 +71,7 @@ struct FieldControl
 
   virtual void noField() = 0 ;
 
-  Signal<bool> valid_changed;
+  Signal<bool> validChanged;
  };
 
 /* class FieldBool */
@@ -1532,7 +1532,7 @@ class FieldWindow : public ComboWindow
    // signals
 
    Signal<> modified;
-   Signal<UserAction> key_input;
+   Signal<UserAction> keyPressed;
  };
 
 /* class FieldFrame */
@@ -1620,7 +1620,7 @@ class FieldFrame : public DragFrame
    // signals
 
    Signal<> &modified;
-   Signal<UserAction> &key_input;
+   Signal<UserAction> &keyPressed;
  };
 
 } // namespace App

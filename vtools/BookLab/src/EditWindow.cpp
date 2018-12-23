@@ -448,7 +448,7 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
    connector_askPast(this,&InnerBookLabWindow::askPast,temp_frame.askPast),
    connector_askProbe(this,&InnerBookLabWindow::askProbe,temp_frame.askProbe),
 
-   key_input(field_frame.key_input)
+   keyPressed(field_frame.keyPressed)
  {
  }
 
@@ -808,7 +808,7 @@ BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> 
    connector_changed(this,&BookLabWindow::changed,window.changed),
 
    modified(window.modified),
-   key_input(window.key_input)
+   keyPressed(window.keyPressed)
  {
   wlist.enableTabFocus(false);
   wlist.enableClickFocus(false);
@@ -864,7 +864,7 @@ void EditWindow::book_modified()
 
 void EditWindow::save_pressed()
  {
-  ask_save.assert();
+  askSave.assert();
  }
 
 void EditWindow::msg_destroyed()
@@ -932,7 +932,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    input(this),
 
-   key_input(book.key_input)
+   keyPressed(book.keyPressed)
  {
   defer_tick=input.create(&EditWindow::tick);
 
