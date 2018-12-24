@@ -80,6 +80,7 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple text_font;
   FontCouple element_font;
   FontCouple comment_font;
+  FontCouple textedit_font;
 
   DefString ins_title = "Select element"_def ;
   DefString field_title = "Edit field"_def ;
@@ -137,6 +138,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_font"_c,ptr->text_font);
   func("element_font"_c,ptr->element_font);
   func("comment_font"_c,ptr->comment_font);
+  func("textedit_font"_c,ptr->textedit_font);
   func("ins_title"_c,ptr->ins_title);
   func("field_title"_c,ptr->field_title);
   func("temp_title"_c,ptr->temp_title);

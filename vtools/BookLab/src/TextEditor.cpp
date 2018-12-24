@@ -44,11 +44,13 @@ TextWindow::~TextWindow()
 
 // methods
 
-Point TextWindow::getMinSize(Point cap) const
+Point TextWindow::getMinSize(Point) const
  {
-  Used(cap);
+  FontSize fs=cfg.font->getSize();
 
-  return Point(100,100);
+  Coord dy=10*fs.dy;
+
+  return Point(2*dy,dy);
  }
 
 void TextWindow::blank()
@@ -83,6 +85,99 @@ void TextWindow::setFormat(String name)
 void TextWindow::setLink(String name)
  {
   Used(name);
+ }
+
+ // drawing
+
+void TextWindow::layout()
+ {
+ }
+
+void TextWindow::draw(DrawBuf buf,bool) const
+ {
+  Used(buf);
+ }
+
+ // base
+
+void TextWindow::open()
+ {
+ }
+
+void TextWindow::close()
+ {
+ }
+
+ // keyboard
+
+void TextWindow::gainFocus()
+ {
+ }
+
+void TextWindow::looseFocus()
+ {
+ }
+
+ // mouse
+
+void TextWindow::looseCapture()
+ {
+ }
+
+MouseShape TextWindow::getMouseShape(Point point,KeyMod kmod) const
+ {
+  Used(point);
+  Used(kmod);
+
+  return Mouse_IBeem;
+ }
+
+ // user input
+
+void TextWindow::react(UserAction action)
+ {
+  action.dispatch(*this);
+ }
+
+void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  Used(vkey);
+  Used(kmod);
+  Used(repeat);
+ }
+
+void TextWindow::react_Char(Char ch)
+ {
+  Used(ch);
+ }
+
+void TextWindow::react_LeftClick(Point point,MouseKey mkey)
+ {
+  Used(point);
+  Used(mkey);
+ }
+
+void TextWindow::react_LeftUp(Point point,MouseKey mkey)
+ {
+  Used(point);
+  Used(mkey);
+ }
+
+void TextWindow::react_Move(Point point,MouseKey mkey)
+ {
+  Used(point);
+  Used(mkey);
+ }
+
+void TextWindow::react_Leave()
+ {
+ }
+
+void TextWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
+ {
+  Used(point);
+  Used(mkey);
+  Used(delta);
  }
 
 /* class ScrollTextWindow */

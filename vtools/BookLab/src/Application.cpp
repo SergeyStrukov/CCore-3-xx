@@ -65,6 +65,7 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("text font"_def,text_font);
     binder.item("element font"_def,element_font);
     binder.item("comment font"_def,comment_font);
+    binder.item("textedit font"_def,textedit_font);
 
     binder.item("ins title"_def,ins_title);
     binder.item("field title"_def,field_title);
@@ -78,6 +79,7 @@ void AppPreferenceBag::findFonts()
   text_font=dev.build("Anonymous Pro"_c,22);
   element_font=dev.build("Anonymous Pro"_c|Italic,26);
   comment_font=dev.build("Bookman Old Style"_c|Italic,20);
+  textedit_font=dev.build("Anonymous Pro"_c,22);
  }
 
 } // namespace App

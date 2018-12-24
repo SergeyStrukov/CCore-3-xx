@@ -40,6 +40,19 @@ class TextWindow : public SubWindow
 
      // app
 
+     RefVal<Fraction> width = Fraction(6,2) ;
+
+     RefVal<VColor> text   =  Black ;
+     RefVal<VColor> select = Yellow ;
+     RefVal<VColor> cursor =   Blue ;
+     RefVal<VColor> line   =   Gray ;
+
+     RefVal<Coord> cursor_dx = 3 ;
+
+     RefVal<Font> font;
+
+     RefVal<unsigned> period = 10_tick ;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       {
@@ -56,9 +69,9 @@ class TextWindow : public SubWindow
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag)
+     void bindApp(const Bag &bag) // TODO
       {
-       Used(bag);
+       font.bind(bag.textedit_font.font);
       }
     };
 
@@ -123,6 +136,48 @@ class TextWindow : public SubWindow
    void setFormat(String name);
 
    void setLink(String name);
+
+   // drawing
+
+   virtual void layout();
+
+   virtual void draw(DrawBuf buf,bool drag_active) const;
+
+   // base
+
+   virtual void open();
+
+   virtual void close();
+
+   // keyboard
+
+   virtual void gainFocus();
+
+   virtual void looseFocus();
+
+   // mouse
+
+   virtual void looseCapture();
+
+   virtual MouseShape getMouseShape(Point point,KeyMod kmod) const;
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
+
+   void react_Char(Char ch);
+
+   void react_LeftClick(Point point,MouseKey mkey);
+
+   void react_LeftUp(Point point,MouseKey);
+
+   void react_Move(Point point,MouseKey mkey);
+
+   void react_Leave();
+
+   void react_Wheel(Point point,MouseKey mkey,Coord delta);
 
    // signals
 
