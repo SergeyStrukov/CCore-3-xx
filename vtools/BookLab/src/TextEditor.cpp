@@ -19,9 +19,22 @@ namespace App {
 
 /* class TextWindow */
 
+void TextWindow::posX(ulen pos)
+ {
+  Used(pos);
+ }
+
+void TextWindow::posY(ulen pos)
+ {
+  Used(pos);
+ }
+
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
-   cfg(cfg_)
+   cfg(cfg_),
+
+   connector_posX(this,&TextWindow::posX),
+   connector_posY(this,&TextWindow::posY)
  {
  }
 
@@ -31,8 +44,10 @@ TextWindow::~TextWindow()
 
 // methods
 
-Point TextWindow::getMinSize() const
+Point TextWindow::getMinSize(Point cap) const
  {
+  Used(cap);
+
   return Point(100,100);
  }
 
@@ -68,6 +83,20 @@ void TextWindow::setFormat(String name)
 void TextWindow::setLink(String name)
  {
   Used(name);
+ }
+
+/* class ScrollTextWindow */
+
+ScrollTextWindow::ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg)
+ : ScrollableWindow<TextWindow>(host,cfg),
+
+   showFormat(window.showFormat),
+   showLink(window.showLink)
+ {
+ }
+
+ScrollTextWindow::~ScrollTextWindow()
+ {
  }
 
 /* class TextEditor */

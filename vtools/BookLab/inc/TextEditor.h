@@ -22,6 +22,8 @@ namespace App {
 
 class TextWindow;
 
+class ScrollTextWindow;
+
 class TextEditor;
 
 /* class TextWindow */
@@ -66,15 +68,47 @@ class TextWindow : public SubWindow
 
    const Config &cfg;
 
+   // scroll
+
+   ScrollPos sx;
+   ScrollPos sy;
+
+  private:
+
+   Point getBase() const { return Point((Coord)sx.pos,(Coord)sy.pos); }
+
+   void posX(ulen pos);
+
+   void posY(ulen pos);
+
+   SignalConnector<TextWindow,ulen> connector_posX;
+   SignalConnector<TextWindow,ulen> connector_posY;
+
   public:
 
    TextWindow(SubWindowHost &host,const Config &cfg);
 
    virtual ~TextWindow();
 
+   // special methods
+
+   bool shortDX() const { return sx.tooShort(); }
+
+   bool shortDY() const { return sy.tooShort();  }
+
+   ScrollPos getScrollXRange() const { return sx; }
+
+   ScrollPos getScrollYRange() const { return sy; }
+
+   void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
+    {
+     connector_posX.connect(scroll_x);
+     connector_posY.connect(scroll_y);
+    }
+
    // methods
 
-   Point getMinSize() const;
+   Point getMinSize(Point cap) const;
 
    void blank();
 
@@ -92,8 +126,59 @@ class TextWindow : public SubWindow
 
    // signals
 
+   Signal<ulen> scroll_x;
+   Signal<ulen> scroll_y;
+
    Signal<String> showFormat;
    Signal<String> showLink;
+ };
+
+/* class ScrollTextWindow */
+
+class ScrollTextWindow : public ScrollableWindow<TextWindow>
+ {
+  public:
+
+   using Base = ScrollableWindow<TextWindow> ;
+
+   struct Config : Base::Config
+    {
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : Base::Config(user_pref,app_pref)
+      {
+       bindScroll(user_pref.get(),user_pref.getSmartConfig());
+      }
+    };
+
+   using ConfigType = Config ;
+
+  public:
+
+   ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg);
+
+   virtual ~ScrollTextWindow();
+
+   // methods
+
+   void blank() { window.blank(); }
+
+   void load(PtrLen<BookLab::Span> text) { window.load(text); }
+
+   void load(PtrLen<BookLab::TextLine> text) { window.load(text); }
+
+   void save(DynArray<BookLab::Span> *pad) { window.save(pad); }
+
+   void save(DynArray<BookLab::TextLine> *pad) { window.save(pad); }
+
+   void setFormat(String name) { window.setFormat(name); }
+
+   void setLink(String name) { window.setLink(name); }
+
+   // signals
+
+   Signal<String> &showFormat;
+   Signal<String> &showLink;
  };
 
 /* class TextEditor */
@@ -114,7 +199,7 @@ class TextEditor : public ComboWindow
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
      CtorRefVal<ContourWindow::ConfigType> cont_cfg;
 
-     CtorRefVal<TextWindow::ConfigType> text_cfg;
+     CtorRefVal<ScrollTextWindow::ConfigType> text_cfg;
 
      // app
 
@@ -159,7 +244,7 @@ class TextEditor : public ComboWindow
 
    ContourWindow cont;
 
-   TextWindow edit_text;
+   ScrollTextWindow edit_text;
 
   private:
 
