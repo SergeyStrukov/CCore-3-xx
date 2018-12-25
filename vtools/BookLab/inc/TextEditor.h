@@ -52,6 +52,7 @@ class TextBuf : NoCopy
     {
      StrLen text;
      PtrLen<const Span> split;
+     mutable Coord dx = 0 ;
     };
 
    LineData getLine(ulen index) const;
@@ -131,13 +132,26 @@ class TextWindow : public SubWindow
    ScrollPos sx;
    ScrollPos sy;
 
+   // cursor
+
+   bool focus = false ;
+   bool cursor_on = false ;
+
+   ulen cursor_x = 0 ;
+   ulen cursor_y = 0 ;
+
+   // layout
+
+   mutable bool ok = false ;
+   mutable bool block_cache = false ;
+
   private:
 
    void clean();
 
-  private:
+   [[nodiscard]] bool cache() const;
 
-   Point getBase() const { return Point((Coord)sx.pos,(Coord)sy.pos); }
+  private:
 
    void posX(ulen pos);
 
@@ -145,6 +159,24 @@ class TextWindow : public SubWindow
 
    SignalConnector<TextWindow,ulen> connector_posX;
    SignalConnector<TextWindow,ulen> connector_posY;
+
+   void updated(unsigned flags);
+
+   SignalConnector<TextWindow,unsigned> connector_updated;
+
+  private:
+
+   unsigned tick_count = 0 ;
+
+   void tick();
+
+   void tickStart();
+
+   void tickStop();
+
+   DeferInput<TextWindow> input;
+
+   DeferTick defer_tick;
 
   public:
 

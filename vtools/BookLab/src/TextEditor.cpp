@@ -53,10 +53,42 @@ void TextBuf::save(DynArray<BookLab::TextLine> *pad) const
 
 /* class TextWindow */
 
-void TextWindow::clean() // TODO
+void TextWindow::clean()
  {
+  block_cache=false;
+  ok=false;
+
   sx.beg();
   sy.beg();
+
+  cursor_x=0;
+  cursor_y=0;
+ }
+
+[[nodiscard]] bool TextWindow::cache() const // TODO
+ {
+  if( block_cache )
+    {
+     return false;
+    }
+
+  try
+    {
+     if( !ok )
+       {
+        // TODO
+
+        ok=true;
+       }
+
+     return true;
+    }
+  catch(...)
+    {
+     block_cache=true;
+
+     return false;
+    }
  }
 
 void TextWindow::posX(ulen pos)
@@ -73,13 +105,53 @@ void TextWindow::posY(ulen pos)
   redraw();
  }
 
+void TextWindow::updated(unsigned flags)
+ {
+  if( flags&LayoutUpdate ) ok=false;
+ }
+
+void TextWindow::tick()
+ {
+  if( tick_count )
+    {
+     tick_count--;
+    }
+  else
+    {
+     tick_count=PosSub(+cfg.period,1u);
+
+     cursor_on=!cursor_on;
+
+     redraw();
+    }
+ }
+
+void TextWindow::tickStart()
+ {
+  cursor_on=true;
+
+  defer_tick.start();
+ }
+
+void TextWindow::tickStop()
+ {
+  cursor_on=false;
+
+  defer_tick.stop();
+ }
+
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
 
    connector_posX(this,&TextWindow::posX),
-   connector_posY(this,&TextWindow::posY)
+   connector_posY(this,&TextWindow::posY),
+
+   connector_updated(this,&TextWindow::updated,host.getFrame()->updated),
+
+   input(this)
  {
+  defer_tick=input.create(&TextWindow::tick);
  }
 
 TextWindow::~TextWindow()
@@ -138,31 +210,72 @@ void TextWindow::setLink(String name) // TODO
 
 void TextWindow::layout() // TODO
  {
+  if( !cache() )
+    {
+     sx.pos=0;
+     sx.total=1;
+     sx.page=1;
+
+     sy.pos=0;
+     sy.total=1;
+     sy.page=1;
+
+     return;
+    }
+
+  // TODO
+
+  sx.adjustPos();
+  sy.adjustPos();
  }
 
 void TextWindow::draw(DrawBuf buf,bool) const // TODO
  {
-  Used(buf);
+  if( !cache() )
+    {
+     buf.erase(Black);
+
+     return;
+    }
+
+  // TODO
  }
 
  // base
 
-void TextWindow::open() // TODO
+void TextWindow::open()
  {
+  focus=false;
+  cursor_on=false;
+
+  defer_tick.stop();
  }
 
-void TextWindow::close() // TODO
+void TextWindow::close()
  {
+  defer_tick.stop();
  }
 
  // keyboard
 
-void TextWindow::gainFocus() // TODO
+void TextWindow::gainFocus()
  {
+  if( Change(focus,true) )
+    {
+     tickStart();
+
+     redraw();
+    }
  }
 
-void TextWindow::looseFocus() // TODO
+void TextWindow::looseFocus()
  {
+  if( Change(focus,false) )
+    {
+     tickStop();
+
+     redraw();
+    }
  }
 
  // mouse
