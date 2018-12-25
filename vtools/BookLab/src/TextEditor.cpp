@@ -17,16 +17,60 @@
 
 namespace App {
 
+/* class TextBuf */
+
+TextBuf::TextBuf()
+ {
+ }
+
+TextBuf::~TextBuf()
+ {
+ }
+
+void TextBuf::blank()
+ {
+ }
+
+void TextBuf::load(PtrLen<BookLab::Span> text)
+ {
+  Used(text);
+ }
+
+void TextBuf::load(PtrLen<BookLab::TextLine> text)
+ {
+  Used(text);
+ }
+
+void TextBuf::save(DynArray<BookLab::Span> *pad) const
+ {
+  Used(pad);
+ }
+
+void TextBuf::save(DynArray<BookLab::TextLine> *pad) const
+ {
+  Used(pad);
+ }
+
 /* class TextWindow */
+
+void TextWindow::clean() // TODO
+ {
+  sx.beg();
+  sy.beg();
+ }
 
 void TextWindow::posX(ulen pos)
  {
-  Used(pos);
+  sx.setPos(pos);
+
+  redraw();
  }
 
 void TextWindow::posY(ulen pos)
  {
-  Used(pos);
+  sy.setPos(pos);
+
+  redraw();
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -55,76 +99,79 @@ Point TextWindow::getMinSize(Point) const
 
 void TextWindow::blank()
  {
+  clean();
+
+  text.blank();
+
+  changed.assert();
  }
 
-void TextWindow::load(PtrLen<BookLab::Span> text)
+void TextWindow::load(PtrLen<BookLab::Span> text_)
  {
-  Used(text);
+  clean();
+
+  text.load(text_);
+
+  changed.assert();
  }
 
-void TextWindow::load(PtrLen<BookLab::TextLine> text)
+void TextWindow::load(PtrLen<BookLab::TextLine> text_)
  {
-  Used(text);
+  clean();
+
+  text.load(text_);
+
+  changed.assert();
  }
 
-void TextWindow::save(DynArray<BookLab::Span> *pad)
- {
-  Used(pad);
- }
-
-void TextWindow::save(DynArray<BookLab::TextLine> *pad)
- {
-  Used(pad);
- }
-
-void TextWindow::setFormat(String name)
+void TextWindow::setFormat(String name) // TODO
  {
   Used(name);
  }
 
-void TextWindow::setLink(String name)
+void TextWindow::setLink(String name) // TODO
  {
   Used(name);
  }
 
  // drawing
 
-void TextWindow::layout()
+void TextWindow::layout() // TODO
  {
  }
 
-void TextWindow::draw(DrawBuf buf,bool) const
+void TextWindow::draw(DrawBuf buf,bool) const // TODO
  {
   Used(buf);
  }
 
  // base
 
-void TextWindow::open()
+void TextWindow::open() // TODO
  {
  }
 
-void TextWindow::close()
+void TextWindow::close() // TODO
  {
  }
 
  // keyboard
 
-void TextWindow::gainFocus()
+void TextWindow::gainFocus() // TODO
  {
  }
 
-void TextWindow::looseFocus()
+void TextWindow::looseFocus() // TODO
  {
  }
 
  // mouse
 
-void TextWindow::looseCapture()
+void TextWindow::looseCapture() // TODO
  {
  }
 
-MouseShape TextWindow::getMouseShape(Point point,KeyMod kmod) const
+MouseShape TextWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
  {
   Used(point);
   Used(kmod);
@@ -139,41 +186,41 @@ void TextWindow::react(UserAction action)
   action.dispatch(*this);
  }
 
-void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
  {
   Used(vkey);
   Used(kmod);
   Used(repeat);
  }
 
-void TextWindow::react_Char(Char ch)
+void TextWindow::react_Char(Char ch) // TODO
  {
   Used(ch);
  }
 
-void TextWindow::react_LeftClick(Point point,MouseKey mkey)
+void TextWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
  {
   Used(point);
   Used(mkey);
  }
 
-void TextWindow::react_LeftUp(Point point,MouseKey mkey)
+void TextWindow::react_LeftUp(Point point,MouseKey mkey) // TODO
  {
   Used(point);
   Used(mkey);
  }
 
-void TextWindow::react_Move(Point point,MouseKey mkey)
+void TextWindow::react_Move(Point point,MouseKey mkey) // TODO
  {
   Used(point);
   Used(mkey);
  }
 
-void TextWindow::react_Leave()
+void TextWindow::react_Leave() // TODO
  {
  }
 
-void TextWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
+void TextWindow::react_Wheel(Point point,MouseKey mkey,Coord delta) // TODO
  {
   Used(point);
   Used(mkey);
@@ -182,8 +229,17 @@ void TextWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
 
 /* class ScrollTextWindow */
 
+void ScrollTextWindow::changed()
+ {
+  layout();
+
+  redraw();
+ }
+
 ScrollTextWindow::ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg)
  : ScrollableWindow<TextWindow>(host,cfg),
+
+   connector_changed(this,&ScrollTextWindow::changed,window.changed),
 
    showFormat(window.showFormat),
    showLink(window.showLink)
@@ -275,16 +331,6 @@ void TextEditor::load(PtrLen<BookLab::Span> text)
 void TextEditor::load(PtrLen<BookLab::TextLine> text)
  {
   edit_text.load(text);
- }
-
-void TextEditor::save(DynArray<BookLab::Span> *pad)
- {
-  edit_text.save(pad);
- }
-
-void TextEditor::save(DynArray<BookLab::TextLine> *pad)
- {
-  edit_text.save(pad);
  }
 
  // drawing
