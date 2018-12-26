@@ -20,6 +20,8 @@ namespace App {
 
 /* classes */
 
+struct TextSpan;
+
 class TextBuf;
 
 class TextWindow;
@@ -28,10 +30,29 @@ class ScrollTextWindow;
 
 class TextEditor;
 
+/* struct TextSpan */
+
+struct TextSpan
+ {
+  ulen off = 0 ;
+  ulen len = 0 ;
+  String format;
+  String link;
+ };
+
 /* class TextBuf */
 
 class TextBuf : NoCopy
  {
+   struct Line
+    {
+     DynArray<char> text;
+     DynArray<TextSpan> split;
+     mutable Coord dx = 0 ;
+    };
+
+   DynArray<Line> buf;
+
   public:
 
    TextBuf();
@@ -40,22 +61,18 @@ class TextBuf : NoCopy
 
    // data
 
-   ulen getLineCount() const;
-
-   struct Span
-    {
-     ulen off = 0 ;
-     ulen len = 0 ;
-    };
+   ulen getLineCount() const { return buf.getLen(); }
 
    struct LineData
     {
      StrLen text;
-     PtrLen<const Span> split;
-     mutable Coord dx = 0 ;
+     PtrLen<const TextSpan> split;
+     Coord dx = 0 ;
     };
 
-   LineData getLine(ulen index) const;
+   static LineData Get(const Line &obj) { return {Range(obj.text),Range(obj.split),obj.dx}; }
+
+   LineData getLine(ulen index) const { return Get(buf.at(index)); }
 
    // methods
 

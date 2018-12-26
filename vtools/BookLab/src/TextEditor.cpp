@@ -29,24 +29,25 @@ TextBuf::~TextBuf()
 
 void TextBuf::blank()
  {
+  buf.erase();
  }
 
-void TextBuf::load(PtrLen<BookLab::Span> text)
+void TextBuf::load(PtrLen<BookLab::Span> text) // TODO
  {
   Used(text);
  }
 
-void TextBuf::load(PtrLen<BookLab::TextLine> text)
+void TextBuf::load(PtrLen<BookLab::TextLine> text) // TODO
  {
   Used(text);
  }
 
-void TextBuf::save(DynArray<BookLab::Span> *pad) const
+void TextBuf::save(DynArray<BookLab::Span> *pad) const // TODO
  {
   Used(pad);
  }
 
-void TextBuf::save(DynArray<BookLab::TextLine> *pad) const
+void TextBuf::save(DynArray<BookLab::TextLine> *pad) const // TODO
  {
   Used(pad);
  }
