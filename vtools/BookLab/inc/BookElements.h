@@ -1265,6 +1265,10 @@ struct TextLine
  {
   DynArray<Span> list;
 
+  // editor cache
+
+  Coord dx = 0 ;
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -1359,7 +1363,7 @@ struct Text : NamedObj
 
   NamedPtr<Format> format;               // default: ?DefaultFormat
 
-  DynArray<Span> list;
+  DynArray<TextLine> list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)

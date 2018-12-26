@@ -1623,29 +1623,18 @@ FieldText::~FieldText()
 
  // methods
 
-void FieldText::setField(DynArray<BookLab::Span> *pad_)
+void FieldText::setField(DynArray<BookLab::TextLine> *pad)
  {
-  load(Range(*pad_));
-
-  pad=pad_;
- }
-
-void FieldText::setField(DynArray<BookLab::TextLine> *pad_)
- {
-  load(Range(*pad_));
-
-  pad=pad_;
+  load(pad);
  }
 
 void FieldText::set(bool *,bool)
  {
-  pad.apply( [&] (auto *ptr) { if( ptr ) save(ptr); } );
+  save();
  }
 
 void FieldText::noField()
  {
-  pad=Null;
-
   blank();
  }
 
@@ -1826,11 +1815,6 @@ void FieldWindow::setField(IntAnyObjPtr<TT...> *pad)
 void FieldWindow::setField(BookLab::Element *pad)
  {
   setFieldCtrl(field_Element,pad);
- }
-
-void FieldWindow::setField(DynArray<BookLab::Span> *pad)
- {
-  setFieldCtrl(field_Text,pad);
  }
 
 void FieldWindow::setField(DynArray<BookLab::TextLine> *pad)

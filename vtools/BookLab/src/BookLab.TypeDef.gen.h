@@ -102,7 +102,7 @@ struct TypeDefCore
     A7 open;
     S1 placement;
     S2 format;
-    DDL::MapRange< S4 > list;
+    DDL::MapRange< A1 > list;
 
     struct Ext;
    };

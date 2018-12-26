@@ -36,22 +36,14 @@ struct TextSpan
  {
   ulen off = 0 ;
   ulen len = 0 ;
-  String format;
-  String link;
+  BookLab::Span *span = 0 ;
  };
 
 /* class TextBuf */
 
 class TextBuf : NoCopy
  {
-   struct Line
-    {
-     DynArray<char> text;
-     DynArray<TextSpan> split;
-     mutable Coord dx = 0 ;
-    };
-
-   DynArray<Line> buf;
+   DynArray<BookLab::TextLine> *pad = 0 ;
 
   public:
 
@@ -61,7 +53,7 @@ class TextBuf : NoCopy
 
    // data
 
-   ulen getLineCount() const { return buf.getLen(); }
+   ulen getLineCount() const { return pad?pad->getLen():0; }
 
    struct LineData
     {
@@ -70,21 +62,15 @@ class TextBuf : NoCopy
      Coord dx = 0 ;
     };
 
-   static LineData Get(const Line &obj) { return {Range(obj.text),Range(obj.split),obj.dx}; }
-
-   LineData getLine(ulen index) const { return Get(buf.at(index)); }
+   LineData getLine(ulen index) const;
 
    // methods
 
    void blank();
 
-   void load(PtrLen<BookLab::Span> text);
+   void load(DynArray<BookLab::TextLine> *pad);
 
-   void load(PtrLen<BookLab::TextLine> text);
-
-   void save(DynArray<BookLab::Span> *pad) const;
-
-   void save(DynArray<BookLab::TextLine> *pad) const;
+   void save() const;
  };
 
 /* class TextWindow */
@@ -223,13 +209,9 @@ class TextWindow : public SubWindow
 
    void blank();
 
-   void load(PtrLen<BookLab::Span> text);
+   void load(DynArray<BookLab::TextLine> *pad);
 
-   void load(PtrLen<BookLab::TextLine> text);
-
-   void save(DynArray<BookLab::Span> *pad) const { text.save(pad); }
-
-   void save(DynArray<BookLab::TextLine> *pad) const { text.save(pad); }
+   void save() const;
 
    void setFormat(String name);
 
@@ -324,13 +306,9 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
 
    void blank() { window.blank(); }
 
-   void load(PtrLen<BookLab::Span> text) { window.load(text); }
+   void load(DynArray<BookLab::TextLine> *pad) { window.load(pad); }
 
-   void load(PtrLen<BookLab::TextLine> text) { window.load(text); }
-
-   void save(DynArray<BookLab::Span> *pad) const { window.save(pad); }
-
-   void save(DynArray<BookLab::TextLine> *pad) const { window.save(pad); }
+   void save() const { window.save(); }
 
    void setFormat(String name) { window.setFormat(name); }
 
@@ -435,13 +413,9 @@ class TextEditor : public ComboWindow
 
    void blank();
 
-   void load(PtrLen<BookLab::Span> text);
+   void load(DynArray<BookLab::TextLine> *pad);
 
-   void load(PtrLen<BookLab::TextLine> text);
-
-   void save(DynArray<BookLab::Span> *pad) const { edit_text.save(pad); }
-
-   void save(DynArray<BookLab::TextLine> *pad) const { edit_text.save(pad); }
+   void save() const;
 
    // drawing
 

@@ -29,27 +29,16 @@ TextBuf::~TextBuf()
 
 void TextBuf::blank()
  {
-  buf.erase();
+  pad=0;
  }
 
-void TextBuf::load(PtrLen<BookLab::Span> text) // TODO
+void TextBuf::load(DynArray<BookLab::TextLine> *pad_)
  {
-  Used(text);
+  pad=pad_;
  }
 
-void TextBuf::load(PtrLen<BookLab::TextLine> text) // TODO
+void TextBuf::save() const
  {
-  Used(text);
- }
-
-void TextBuf::save(DynArray<BookLab::Span> *pad) const // TODO
- {
-  Used(pad);
- }
-
-void TextBuf::save(DynArray<BookLab::TextLine> *pad) const // TODO
- {
-  Used(pad);
  }
 
 /* class TextWindow */
@@ -179,22 +168,20 @@ void TextWindow::blank()
   changed.assert();
  }
 
-void TextWindow::load(PtrLen<BookLab::Span> text_)
+void TextWindow::load(DynArray<BookLab::TextLine> *pad)
  {
   clean();
 
-  text.load(text_);
+  text.load(pad);
 
   changed.assert();
  }
 
-void TextWindow::load(PtrLen<BookLab::TextLine> text_)
+void TextWindow::save() const // TODO
  {
-  clean();
+  // TODO
 
-  text.load(text_);
-
-  changed.assert();
+  text.save();
  }
 
 void TextWindow::setFormat(String name) // TODO
@@ -437,14 +424,14 @@ void TextEditor::blank()
   edit_text.blank();
  }
 
-void TextEditor::load(PtrLen<BookLab::Span> text)
+void TextEditor::load(DynArray<BookLab::TextLine> *pad)
  {
-  edit_text.load(text);
+  edit_text.load(pad);
  }
 
-void TextEditor::load(PtrLen<BookLab::TextLine> text)
+void TextEditor::save() const
  {
-  edit_text.load(text);
+  edit_text.save();
  }
 
  // drawing

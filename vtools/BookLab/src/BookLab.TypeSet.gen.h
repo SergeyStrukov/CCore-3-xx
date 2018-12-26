@@ -787,7 +787,7 @@ struct TypeSet : TypeDefCore
                                A7,
                                S1,
                                S2,
-                               DDL::MapRange< S4 >
+                               DDL::MapRange< A1 >
                               >(*this,struct_node);
         }
        break;

@@ -677,7 +677,7 @@ class Book::BookContext : NextIndex
     {
      printf("FixedText #; = {\n",name);
 
-     elem(Range(ptr->list));
+     elemFixed(Range(ptr->list));
 
      printf(", #; } ;\n\n",Named(this,ptr->format,"DefaultFixedFormat"_c));
     }
@@ -699,7 +699,7 @@ class Book::BookContext : NextIndex
     {
      printf("Text #; = {\n",name);
 
-     elem(Range(ptr->list));
+     elemText(Range(ptr->list));
 
      printf(", #; , #; } ;\n\n",Named(this,ptr->format,"DefaultFormat"_c),
                                 Named(this,ptr->placement,"DefaultPlacement"_c));
@@ -763,7 +763,7 @@ class Book::BookContext : NextIndex
      putstr("}\n"_c);
     }
 
-   void elem(PtrLen<TextLine> list)
+   void elemFixed(PtrLen<TextLine> list)
     {
      putstr("{\n"_c);
 
@@ -778,6 +778,27 @@ class Book::BookContext : NextIndex
         elem(Range(line.list));
 
         putstr("}\n");
+       }
+
+     putstr("}\n"_c);
+    }
+
+   void elemText(PtrLen<TextLine> list)
+    {
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(TextLine &line : list )
+       {
+        for(Span &span : line.list )
+          {
+           if( !Change(first,false) ) putstr(","_c);
+
+           printf("{ #; , #; , #; }\n",DDLPrintableString(span.body),
+                                       Named(this,span.format),
+                                       Named(this,span.ref));
+          }
        }
 
      putstr("}\n"_c);

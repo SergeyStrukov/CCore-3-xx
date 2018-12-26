@@ -411,7 +411,7 @@ struct Text
   PlacementPtr placement;
   FormatPtr format;
   
-  Span[] list;  
+  TextLine[] list;  
  };
  
  

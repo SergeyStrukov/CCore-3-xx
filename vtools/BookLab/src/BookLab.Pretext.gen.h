@@ -411,7 +411,7 @@
 "  PlacementPtr placement;\n"
 "  FormatPtr format;\n"
 "  \n"
-"  Span[] list;  \n"
+"  TextLine[] list;  \n"
 " };\n"
 " \n"
 " \n"

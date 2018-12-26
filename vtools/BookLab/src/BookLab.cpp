@@ -1134,11 +1134,16 @@ class Book::LinkContext : NoCopy
      list.apply( [&] (Span &obj) { setElem(scope,obj); } );
     }
 
+   void setElem(IntAnyObjPtr<Scope,Doc> scope,DynArray<TextLine> &list)
+    {
+     list.apply( [&] (TextLine &obj) { setElem(scope,obj.list); } );
+    }
+
    void setElem(FixedText *ptr)
     {
      add(ptr->scope,ptr->format);
 
-     ptr->list.apply( [&] (TextLine &obj) { setElem(ptr->scope,obj.list); } );
+     setElem(ptr->scope,ptr->list);
     }
 
    void setElem(Text *ptr)

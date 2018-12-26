@@ -238,7 +238,7 @@ Text <name>
 
   Format [*]format = & ?DefaultFormat
   
-  Span[] list
+  Span[][] list
  } 
 
 //------------------------------------------

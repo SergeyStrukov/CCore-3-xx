@@ -1313,8 +1313,6 @@ class FieldElement : public ComboWindow , public FieldControl
 
 class FieldText : public TextEditor , public FieldControl
  {
-   AnyPtr<DynArray<BookLab::Span>,DynArray<BookLab::TextLine> > pad;
-
   public:
 
    FieldText(SubWindowHost &host,const Config &cfg);
@@ -1322,8 +1320,6 @@ class FieldText : public TextEditor , public FieldControl
    virtual ~FieldText();
 
    // methods
-
-   void setField(DynArray<BookLab::Span> *pad);
 
    void setField(DynArray<BookLab::TextLine> *pad);
 
@@ -1490,8 +1486,6 @@ class FieldWindow : public ComboWindow
    void setField(IntAnyObjPtr<TT...> *pad);
 
    void setField(BookLab::Element *pad);
-
-   void setField(DynArray<BookLab::Span> *pad);
 
    void setField(DynArray<BookLab::TextLine> *pad);
 
