@@ -55,9 +55,14 @@ void TextWindow::clean()
   cursor_y=0;
  }
 
-Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line)
+Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
  {
-  Coord dx=0;
+  Coord dx;
+
+  if( ulen count=line.list.getLen() )
+    dx=MulSize(count-1,space_dx);
+  else
+    dx=0;
 
   for(BookLab::Span &span : line.list )
     {
@@ -90,13 +95,15 @@ Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line)
 
         fs=font->getSize();
 
+        space_dx=font->text(" "_c).dx;
+
         text_dx=0;
 
         ulen count=text.getLineCount();
 
         for(ulen i : IndLim(count) )
           {
-           Coord dx=Cache(font,text.getLine(i));
+           Coord dx=Cache(font,text.getLine(i),space_dx);
 
            Replace_max(text_dx,dx);
           }
@@ -252,20 +259,20 @@ void TextWindow::layout()
   sy.total=text.getLineCount();
   sy.page=ulen(size.y/fs.dy);
 
-  sx.total+=sx.page/4;
+  sx.total+=sx.page/8;
   sy.total+=sy.page/4;
 
   sx.adjustPos();
   sy.adjustPos();
  }
 
-void TextWindow::Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc)
+void TextWindow::Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc,Coord space_dx)
  {
   for(BookLab::Span &span : line.list )
     {
      font->text(buf,pane,base,Range(span.body),vc);
 
-     base.x+=span.dx;
+     base.x+=span.dx+space_dx;
     }
  }
 
@@ -294,7 +301,7 @@ void TextWindow::draw(DrawBuf buf,bool) const
     {
      if( i>=count ) break;
 
-     Draw(buf,pane,base,text.getLine(i),font,vc);
+     Draw(buf,pane,base,text.getLine(i),font,vc,space_dx);
 
      base.y+=fs.dy;
     }

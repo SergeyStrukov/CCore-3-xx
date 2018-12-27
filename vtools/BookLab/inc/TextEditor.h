@@ -140,16 +140,17 @@ class TextWindow : public SubWindow
 
    mutable FontSize fs;
    mutable Coord text_dx = 0 ;
+   mutable Coord space_dx = 0 ;
 
   private:
 
    void clean();
 
-   static Coord Cache(const Font &font,BookLab::TextLine &line);
+   static Coord Cache(const Font &font,BookLab::TextLine &line,Coord space_dx);
 
    [[nodiscard]] bool cache() const;
 
-   static void Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc);
+   static void Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc,Coord space_dx);
 
   private:
 
