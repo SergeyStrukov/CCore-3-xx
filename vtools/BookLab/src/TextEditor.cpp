@@ -55,7 +55,27 @@ void TextWindow::clean()
   cursor_y=0;
  }
 
-[[nodiscard]] bool TextWindow::cache() const // TODO
+Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line)
+ {
+  Coord dx=0;
+
+  for(BookLab::Span &span : line.list )
+    {
+     TextSize ts=font->text(Range(span.body));
+
+     Coord sdx=ts.dx;
+
+     span.dx=sdx;
+
+     dx=AddSize(dx,sdx);
+    }
+
+  line.dx=dx;
+
+  return dx;
+ }
+
+[[nodiscard]] bool TextWindow::cache() const
  {
   if( block_cache )
     {
@@ -66,7 +86,20 @@ void TextWindow::clean()
     {
      if( !ok )
        {
-        // TODO
+        const Font &font=cfg.font.get();
+
+        fs=font->getSize();
+
+        text_dx=0;
+
+        ulen count=text.getLineCount();
+
+        for(ulen i : IndLim(count) )
+          {
+           Coord dx=Cache(font,text.getLine(i));
+
+           Replace_max(text_dx,dx);
+          }
 
         ok=true;
        }
@@ -196,7 +229,7 @@ void TextWindow::setLink(String name) // TODO
 
  // drawing
 
-void TextWindow::layout() // TODO
+void TextWindow::layout()
  {
   if( !cache() )
     {
@@ -211,13 +244,32 @@ void TextWindow::layout() // TODO
      return;
     }
 
-  // TODO
+  Point size=getSize();
+
+  sx.total=(ulen)AddSize(text_dx,fs.dx0+fs.dx1);
+  sx.page=(ulen)size.x;
+
+  sy.total=text.getLineCount();
+  sy.page=ulen(size.y/fs.dy);
+
+  sx.total+=sx.page/4;
+  sy.total+=sy.page/4;
 
   sx.adjustPos();
   sy.adjustPos();
  }
 
-void TextWindow::draw(DrawBuf buf,bool) const // TODO
+void TextWindow::Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc)
+ {
+  for(BookLab::Span &span : line.list )
+    {
+     font->text(buf,pane,base,Range(span.body),vc);
+
+     base.x+=span.dx;
+    }
+ }
+
+void TextWindow::draw(DrawBuf buf,bool) const
  {
   if( !cache() )
     {
@@ -226,7 +278,26 @@ void TextWindow::draw(DrawBuf buf,bool) const // TODO
      return;
     }
 
-  // TODO
+  const Font &font=cfg.font.get();
+
+  VColor vc=+cfg.text;
+
+  ulen count=text.getLineCount();
+
+  Coord shift_x=Coord(sx.pos);
+
+  Point base(fs.dx0-shift_x,fs.by);
+
+  Pane pane=getPane().pullLeft(shift_x);
+
+  for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
+    {
+     if( i>=count ) break;
+
+     Draw(buf,pane,base,text.getLine(i),font,vc);
+
+     base.y+=fs.dy;
+    }
  }
 
  // base
@@ -392,7 +463,7 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
    connector_show_format(this,&TextEditor::show_format,edit_text.showFormat),
    connector_show_link(this,&TextEditor::show_link,edit_text.showLink)
  {
-  wlist.insTop(btn_format,btn_link,edit_format,edit_link,cont,edit_text);
+  wlist.insTop(btn_format,edit_format,btn_link,edit_link,edit_text,cont);
 
   edit_format.hideInactiveCursor();
   edit_link.hideInactiveCursor();
@@ -432,6 +503,15 @@ void TextEditor::load(DynArray<BookLab::TextLine> *pad)
 void TextEditor::save() const
  {
   edit_text.save();
+ }
+
+ // base
+
+void TextEditor::open()
+ {
+  ComboWindow::open();
+
+  edit_text.setFocus();
  }
 
  // drawing

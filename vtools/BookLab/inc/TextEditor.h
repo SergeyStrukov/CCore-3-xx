@@ -138,11 +138,18 @@ class TextWindow : public SubWindow
    mutable bool ok = false ;
    mutable bool block_cache = false ;
 
+   mutable FontSize fs;
+   mutable Coord text_dx = 0 ;
+
   private:
 
    void clean();
 
+   static Coord Cache(const Font &font,BookLab::TextLine &line);
+
    [[nodiscard]] bool cache() const;
+
+   static void Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc);
 
   private:
 
@@ -406,6 +413,10 @@ class TextEditor : public ComboWindow
    void load(DynArray<BookLab::TextLine> *pad);
 
    void save() const;
+
+   // base
+
+   virtual void open();
 
    // drawing
 

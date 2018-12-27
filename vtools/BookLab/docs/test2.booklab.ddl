@@ -106,6 +106,134 @@ Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
+{
+             {"Mandelbrot"}
+             ,{"scope"}
+             ,{"(MScope.exe)"}
+             ,{"is"}
+             ,{"a"}
+             ,{"software"}
+             ,{"to"}
+             ,{"display"}
+             ,{"the"}
+             ,{"Mandelbrot"}
+             ,{"Set."}
+             ,{"The"}
+             ,{"Mandelbrot"}
+             ,{"Set"}
+             ,{"is"}
+             ,{"a"}
+             ,{"famous"}
+}
+,{
+
+             {"mathematical"}
+             ,{"fractal"}
+             ,{"set,"}
+             ,{"it"}
+             ,{"has"}
+             ,{"been"}
+             ,{"discovered"}
+             ,{"by"}
+             ,{"Benoit B. Mandelbrot"}
+             ,{"."}
+             ,{"The"}
+             ,{"Mandelbrot"}
+             ,{"Set"}
+             ,{"itself"}
+             ,{"cannot"}
+             ,{"be"}
+}
+,{
+             {"calculated,"}
+             ,{"because"}
+             ,{"it"}
+             ,{"requires"}
+             ,{"infinite"}
+             ,{"number"}
+             ,{"of"}
+             ,{"precise"}
+             ,{"iteration"}
+             ,{"per"}
+             ,{"point."}
+             ,{"But"}
+             ,{"we"}
+             ,{"can"}
+             ,{"calculate"}
+             ,{"and"}
+             ,{"paint"}
+             ,{"the"}
+             ,{"outer"}
+             ,{"of"}
+}
+,{
+             {"it"}
+             ,{"up"}
+             ,{"to"}
+             ,{"some"}
+             ,{"level."}
+             ,{"The"}
+             ,{"rest"}
+             ,{"of"}
+             ,{"the"}
+             ,{"painted"}
+             ,{"area"}
+             ,{"is"}
+             ,{"black"}
+             ,{"and"}
+             ,{"contains"}
+             ,{"inside"}
+             ,{"the"}
+             ,{"true"}
+             ,{"Mandelbrot"}
+             ,{"Set,"}
+             ,{"but"}
+             ,{"we"}
+             ,{"don't"}
+             ,{"know"}
+}
+,{
+             {"which"}
+             ,{"part."}
+             ,{"The"}
+             ,{"more"}
+             ,{"deeper"}
+             ,{"we"}
+             ,{"calculate,"}
+             ,{"the"}
+             ,{"more"}
+             ,{"closer"}
+             ,{"we"}
+             ,{"are"}
+             ,{"coming"}
+             ,{"to"}
+             ,{"the"}
+             ,{"true"}
+             ,{"border."}
+             ,{"You"}
+             ,{"can"}
+             ,{"select"}
+             ,{"the"}
+             ,{"depth"}
+}
+,{
+             {"in"}
+             ,{"the"}
+             ,{"Options"}
+             ,{"menu."}
+             ,{"You"}
+             ,{"can"}
+             ,{"also"}
+             ,{"adjust"}
+             ,{"the"}
+             ,{"color"}
+             ,{"palette"}
+             ,{"to"}
+             ,{"paint"}
+             ,{"the"}
+             ,{"outer"}
+             ,{"part."}
+}
 
 }
 
