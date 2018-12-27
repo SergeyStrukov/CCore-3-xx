@@ -20,8 +20,6 @@ namespace App {
 
 /* classes */
 
-struct TextSpan;
-
 class TextBuf;
 
 class TextWindow;
@@ -29,15 +27,6 @@ class TextWindow;
 class ScrollTextWindow;
 
 class TextEditor;
-
-/* struct TextSpan */
-
-struct TextSpan
- {
-  ulen off = 0 ;
-  ulen len = 0 ;
-  BookLab::Span *span = 0 ;
- };
 
 /* class TextBuf */
 
@@ -53,16 +42,17 @@ class TextBuf : NoCopy
 
    // data
 
-   ulen getLineCount() const { return pad?pad->getLen():0; }
-
-   struct LineData
+   ulen getLineCount() const
     {
-     StrLen text;
-     PtrLen<const TextSpan> split;
-     Coord dx = 0 ;
-    };
+     return pad? pad->getLen() : 0 ;
+    }
 
-   LineData getLine(ulen index) const;
+   BookLab::TextLine & getLine(ulen index) const
+    {
+     if( !pad ) GuardIndex(index,0);
+
+     return pad->at(index);
+    }
 
    // methods
 

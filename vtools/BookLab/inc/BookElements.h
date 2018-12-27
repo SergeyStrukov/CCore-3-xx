@@ -1249,8 +1249,11 @@ struct Span
   String body;
 
   NamedPtr<Format> format; // default: null
-
   NamedPtr<Link,Page> ref; // default: null
+
+  // editor cache
+
+  Coord dx = 0 ;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
