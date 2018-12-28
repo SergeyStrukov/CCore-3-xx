@@ -21,7 +21,7 @@ Format o3 = { "" , True , { "font" , null } , { True , NoColor } , { True , NoCo
 
 MultiLine o4 = { "" , True , { False , { 1 , 1 } } , { False , { 2 , 1 } } };
 
-Section o5 = { True , "Style" , 
+Section o5 = { False , "Style" , 
 
 {
 & o7,
@@ -106,134 +106,156 @@ Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
-{
-             {"Mandelbrot"}
-             ,{"scope"}
-             ,{"(MScope.exe)"}
-             ,{"is"}
-             ,{"a"}
-             ,{"software"}
-             ,{"to"}
-             ,{"display"}
-             ,{"the"}
-             ,{"Mandelbrot"}
-             ,{"Set."}
-             ,{"The"}
-             ,{"Mandelbrot"}
-             ,{"Set"}
-             ,{"is"}
-             ,{"a"}
-             ,{"famous"}
-}
-,{
 
-             {"mathematical"}
-             ,{"fractal"}
-             ,{"set,"}
-             ,{"it"}
-             ,{"has"}
-             ,{"been"}
-             ,{"discovered"}
-             ,{"by"}
-             ,{"Benoit B. Mandelbrot"}
-             ,{"."}
-             ,{"The"}
-             ,{"Mandelbrot"}
-             ,{"Set"}
-             ,{"itself"}
-             ,{"cannot"}
-             ,{"be"}
+
+{
+{ "Mandelbrot" , { "fmt_bold" , null } , { null , null } },
+{ "scope" , { "fmt_bold" , null } , { null , null } },
+{ "(MScope.exe)" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "software" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "display" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "Mandelbrot" , { null , null } , { null , null } },
+{ "Set." , { null , null } , { null , null } },
+{ "The" , { null , null } , { null , null } },
+{ "Mandelbrot" , { null , null } , { null , null } },
+{ "Set" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "famous" , { null , null } , { null , null } }
 }
-,{
-             {"calculated,"}
-             ,{"because"}
-             ,{"it"}
-             ,{"requires"}
-             ,{"infinite"}
-             ,{"number"}
-             ,{"of"}
-             ,{"precise"}
-             ,{"iteration"}
-             ,{"per"}
-             ,{"point."}
-             ,{"But"}
-             ,{"we"}
-             ,{"can"}
-             ,{"calculate"}
-             ,{"and"}
-             ,{"paint"}
-             ,{"the"}
-             ,{"outer"}
-             ,{"of"}
+
+,
+
+
+{
+{ "mathematical" , { null , null } , { null , null } },
+{ "fractal" , { null , null } , { null , null } },
+{ "set," , { null , null } , { null , null } },
+{ "it" , { null , null } , { null , null } },
+{ "has" , { null , null } , { null , null } },
+{ "been" , { null , null } , { null , null } },
+{ "discovered" , { null , null } , { null , null } },
+{ "by" , { null , null } , { null , null } },
+{ "Benoit B. Mandelbrot" , { null , null } , { null , null } },
+{ "." , { null , null } , { null , null } },
+{ "The" , { null , null } , { null , null } },
+{ "Mandelbrot" , { null , null } , { null , null } },
+{ "Set" , { null , null } , { null , null } },
+{ "itself" , { null , null } , { null , null } },
+{ "cannot" , { null , null } , { null , null } },
+{ "be" , { null , null } , { null , null } }
 }
-,{
-             {"it"}
-             ,{"up"}
-             ,{"to"}
-             ,{"some"}
-             ,{"level."}
-             ,{"The"}
-             ,{"rest"}
-             ,{"of"}
-             ,{"the"}
-             ,{"painted"}
-             ,{"area"}
-             ,{"is"}
-             ,{"black"}
-             ,{"and"}
-             ,{"contains"}
-             ,{"inside"}
-             ,{"the"}
-             ,{"true"}
-             ,{"Mandelbrot"}
-             ,{"Set,"}
-             ,{"but"}
-             ,{"we"}
-             ,{"don't"}
-             ,{"know"}
+
+,
+
+
+{
+{ "calculated," , { null , null } , { null , null } },
+{ "because" , { null , null } , { null , null } },
+{ "it" , { null , null } , { null , null } },
+{ "requires" , { null , null } , { null , null } },
+{ "infinite" , { null , null } , { null , null } },
+{ "number" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "precise" , { null , null } , { null , null } },
+{ "iteration" , { null , null } , { null , null } },
+{ "per" , { null , null } , { null , null } },
+{ "point." , { null , null } , { null , null } },
+{ "But" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "calculate" , { null , null } , { null , null } },
+{ "and" , { null , null } , { null , null } },
+{ "paint" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "outer" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } }
 }
-,{
-             {"which"}
-             ,{"part."}
-             ,{"The"}
-             ,{"more"}
-             ,{"deeper"}
-             ,{"we"}
-             ,{"calculate,"}
-             ,{"the"}
-             ,{"more"}
-             ,{"closer"}
-             ,{"we"}
-             ,{"are"}
-             ,{"coming"}
-             ,{"to"}
-             ,{"the"}
-             ,{"true"}
-             ,{"border."}
-             ,{"You"}
-             ,{"can"}
-             ,{"select"}
-             ,{"the"}
-             ,{"depth"}
+
+,
+
+
+{
+{ "it" , { null , null } , { null , null } },
+{ "up" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "some" , { null , null } , { null , null } },
+{ "level." , { null , null } , { null , null } },
+{ "The" , { null , null } , { null , null } },
+{ "rest" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "painted" , { null , null } , { null , null } },
+{ "area" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "black" , { null , null } , { null , null } },
+{ "and" , { null , null } , { null , null } },
+{ "contains" , { null , null } , { null , null } },
+{ "inside" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "true" , { null , null } , { null , null } },
+{ "Mandelbrot" , { null , null } , { null , null } },
+{ "Set," , { null , null } , { null , null } },
+{ "but" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "don't" , { null , null } , { null , null } },
+{ "know" , { null , null } , { null , null } }
 }
-,{
-             {"in"}
-             ,{"the"}
-             ,{"Options"}
-             ,{"menu."}
-             ,{"You"}
-             ,{"can"}
-             ,{"also"}
-             ,{"adjust"}
-             ,{"the"}
-             ,{"color"}
-             ,{"palette"}
-             ,{"to"}
-             ,{"paint"}
-             ,{"the"}
-             ,{"outer"}
-             ,{"part."}
+
+,
+
+
+{
+{ "which" , { null , null } , { null , null } },
+{ "part." , { null , null } , { null , null } },
+{ "The" , { null , null } , { null , null } },
+{ "more" , { null , null } , { null , null } },
+{ "deeper" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "calculate," , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "more" , { null , null } , { null , null } },
+{ "closer" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "are" , { null , null } , { null , null } },
+{ "coming" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "true" , { null , null } , { null , null } },
+{ "border." , { null , null } , { null , null } },
+{ "You" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "select" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "depth" , { null , null } , { null , null } }
 }
+
+,
+
+
+{
+{ "in" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "Options" , { null , null } , { null , null } },
+{ "menu." , { null , null } , { null , null } },
+{ "You" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "also" , { null , null } , { null , null } },
+{ "adjust" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "color" , { null , null } , { null , null } },
+{ "palette" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "paint" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "outer" , { null , null } , { null , null } },
+{ "part." , { null , null } , { null , null } }
+}
+
 
 }
 

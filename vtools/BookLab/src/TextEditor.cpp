@@ -14,6 +14,7 @@
 #include <inc/TextEditor.h>
 
 #include <CCore/inc/video/LayoutCombo.h>
+#include <CCore/inc/video/FigureLib.h>
 
 namespace App {
 
@@ -266,14 +267,9 @@ void TextWindow::layout()
   sy.adjustPos();
  }
 
-void TextWindow::Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc,Coord space_dx)
+bool TextWindow::HasSpec(BookLab::Span &span)
  {
-  for(BookLab::Span &span : line.list )
-    {
-     font->text(buf,pane,base,Range(span.body),vc);
-
-     base.x+=span.dx+space_dx;
-    }
+  return span.format.name.getLen() || span.ref.name.getLen() ;
  }
 
 void TextWindow::draw(DrawBuf buf,bool) const
@@ -295,13 +291,43 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   Point base(fs.dx0-shift_x,fs.by);
 
-  Pane pane=getPane().pullLeft(shift_x);
+  Pane pane=getPane();
+
+  SmoothDrawArt art(buf);
 
   for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
     {
      if( i>=count ) break;
 
-     Draw(buf,pane,base,text.getLine(i),font,vc,space_dx);
+     {
+      BookLab::TextLine &line=text.getLine(i);
+      Point p=base;
+
+      for(BookLab::Span &span : line.list )
+        {
+         font->text(buf,pane,p,Range(span.body),vc);
+
+         if( HasSpec(span) )
+           {
+            art.path(+cfg.width,+cfg.line,p,p.addX(span.dx-1));
+           }
+
+         p.x+=span.dx;
+
+         {
+          Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
+
+          MCoord skew=Fraction(fs.skew);
+          MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
+
+          FigureSkew fig(MPane(end).subX(delta),skew);
+
+          fig.solid(art,+cfg.endspan);
+         }
+
+         p.x+=space_dx;
+        }
+     }
 
      base.y+=fs.dy;
     }

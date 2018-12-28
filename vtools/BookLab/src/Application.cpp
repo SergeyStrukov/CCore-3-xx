@@ -65,11 +65,18 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("text font"_def,text_font);
     binder.item("element font"_def,element_font);
     binder.item("comment font"_def,comment_font);
-    binder.item("textedit font"_def,textedit_font);
 
     binder.item("ins title"_def,ins_title);
     binder.item("field title"_def,field_title);
     binder.item("temp title"_def,temp_title);
+
+  binder.group("Text editor"_def);
+
+    binder.item("font"_def,textedit_font);
+    binder.item("line width"_def,textedit_width);
+    binder.item("text"_def,textedit_text);
+    binder.item("endspan"_def,textedit_endspan);
+    binder.item("line"_def,textedit_line);
  }
 
 void AppPreferenceBag::findFonts()

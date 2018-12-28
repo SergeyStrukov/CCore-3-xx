@@ -201,6 +201,66 @@ struct MPane
     return *this;
    }
 
+  MPane operator - (MPoint p) const
+   {
+    MPane ret(*this);
+
+    ret-=p;
+
+    return ret;
+   }
+
+  MPane operator -= (MPoint p)
+   {
+    x-=p.x;
+    y-=p.y;
+
+    ex-=p.x;
+    ey-=p.y;
+
+    return *this;
+   }
+
+  MPane addX(MCoord delta) const
+   {
+    MPane ret(*this);
+
+    ret.x+=delta;
+    ret.ex+=delta;
+
+    return ret;
+   }
+
+  MPane subX(MCoord delta) const
+   {
+    MPane ret(*this);
+
+    ret.x-=delta;
+    ret.ex-=delta;
+
+    return ret;
+   }
+
+  MPane addY(MCoord delta) const
+   {
+    MPane ret(*this);
+
+    ret.y+=delta;
+    ret.ey+=delta;
+
+    return ret;
+   }
+
+  MPane subY(MCoord delta) const
+   {
+    MPane ret(*this);
+
+    ret.y-=delta;
+    ret.ey-=delta;
+
+    return ret;
+   }
+
   // shrink
 
   MPane shrinkX(MCoord dleft,MCoord dright) const

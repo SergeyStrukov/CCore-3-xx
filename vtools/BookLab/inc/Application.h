@@ -63,6 +63,7 @@ struct AppPreferenceBag : ConfigItemHost
   Coord border_dxy = 5 ;
 
   Fraction line_width = Fraction(6,2) ;
+  Fraction textedit_width = Fraction(6,2) ;
 
   Coord table_dxy = 3 ;
   Coord element_space = 5 ;
@@ -76,6 +77,10 @@ struct AppPreferenceBag : ConfigItemHost
   VColor text    = Blue ;
   VColor element = Black ;
   VColor comment = ForestGreen ;
+
+  VColor textedit_text    = Black ;
+  VColor textedit_endspan = GrayColor(0xD0) ;
+  VColor textedit_line    =  Blue ;
 
   FontCouple text_font;
   FontCouple element_font;
@@ -125,6 +130,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Name"_c,ptr->text_Name);
   func("border_dxy"_c,ptr->border_dxy);
   func("line_width"_c,ptr->line_width);
+  func("textedit_width"_c,ptr->textedit_width);
   func("table_dxy"_c,ptr->table_dxy);
   func("element_space"_c,ptr->element_space);
   func("knob_dxy"_c,ptr->knob_dxy);
@@ -134,6 +140,9 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_"_c,ptr->text);
   func("element"_c,ptr->element);
   func("comment"_c,ptr->comment);
+  func("textedit_text"_c,ptr->textedit_text);
+  func("textedit_endspan"_c,ptr->textedit_endspan);
+  func("textedit_line"_c,ptr->textedit_line);
   func("gray_cursor"_c,ptr->gray_cursor);
   func("text_font"_c,ptr->text_font);
   func("element_font"_c,ptr->element_font);

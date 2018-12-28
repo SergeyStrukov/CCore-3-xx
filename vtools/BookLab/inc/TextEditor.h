@@ -73,22 +73,22 @@ class TextWindow : public SubWindow
     {
      // user
 
-     RefVal<VColor> back = Silver ;
+    RefVal<unsigned> period = 10_tick ;
 
      // app
 
      RefVal<Fraction> width = Fraction(6,2) ;
 
-     RefVal<VColor> text   =  Black ;
+     RefVal<VColor> text    = Black ;
+     RefVal<VColor> endspan = GrayColor(0xD0) ;
+     RefVal<VColor> line    =  Blue ;
+
      RefVal<VColor> select = Yellow ;
      RefVal<VColor> cursor =   Blue ;
-     RefVal<VColor> line   =   Gray ;
 
      RefVal<Coord> cursor_dx = 3 ;
 
      RefVal<Font> font;
-
-     RefVal<unsigned> period = 10_tick ;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -100,14 +100,20 @@ class TextWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(proxy);
+       period.bind(bag.line_edit_period);
 
-       back.bind(bag.back);
+       Used(proxy);
       }
 
      template <class Bag>
      void bindApp(const Bag &bag) // TODO
       {
+       width.bind(bag.textedit_width);
+
+       text.bind(bag.textedit_text);
+       endspan.bind(bag.textedit_endspan);
+       line.bind(bag.textedit_line);
+
        font.bind(bag.textedit_font.font);
       }
     };
@@ -150,7 +156,7 @@ class TextWindow : public SubWindow
 
    [[nodiscard]] bool cache() const;
 
-   static void Draw(DrawBuf buf,Pane pane,Point base,BookLab::TextLine &line,const Font &font,VColor vc,Coord space_dx);
+   static bool HasSpec(BookLab::Span &span);
 
   private:
 
