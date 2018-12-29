@@ -136,8 +136,17 @@ class TextWindow : public SubWindow
    bool focus = false ;
    bool cursor_on = false ;
 
-   ulen cursor_x = 0 ;
-   ulen cursor_y = 0 ;
+   struct Cursor
+    {
+     ulen y = 0 ;
+     ulen span = 0 ;
+     ulen x = 0 ;
+    };
+
+   Cursor cursor;
+
+   SimpleArray<Char> spanbuf;
+   ulen spanlen = 0 ;
 
    // layout
 
@@ -184,6 +193,16 @@ class TextWindow : public SubWindow
    DeferInput<TextWindow> input;
 
    DeferTick defer_tick;
+
+  private:
+
+   PtrLen<const Char> getCurSpan() const { return Range(spanbuf.getPtr(),spanlen); }
+
+   void fill(StrLen str);
+
+   void fill();
+
+   void flush() const;
 
   public:
 

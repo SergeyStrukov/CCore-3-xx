@@ -142,8 +142,6 @@ class LineEditShape : public LineEditState
    Pane pane;
    unsigned update_mask = LayoutUpdate ;
 
-   // tick count
-
    // methods
 
    LineEditShape(PtrLen<Char> text_buf_,const Config &cfg_) : cfg(cfg_),text_buf(text_buf_) {}

@@ -16,6 +16,8 @@
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 /* class TextBuf */
@@ -52,8 +54,8 @@ void TextWindow::clean()
   sx.beg();
   sy.beg();
 
-  cursor_x=0;
-  cursor_y=0;
+  cursor={};
+  spanlen=0;
  }
 
 Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
@@ -171,9 +173,53 @@ void TextWindow::tickStop()
   defer_tick.stop();
  }
 
+void TextWindow::fill(StrLen str)
+ {
+  FillCharBuf result(Range(spanbuf),str);
+
+  if( result.overflow )
+    {
+     Printf(Exception,"App::TextWindow::fill() : overflow, too long span");
+    }
+  else
+    {
+     spanlen=result.len;
+    }
+ }
+
+void TextWindow::fill()
+ {
+  spanlen=0;
+
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     if( cursor.span<line.list.getLen() )
+       {
+        fill(Range(line.list[cursor.span].body));
+       }
+    }
+ }
+
+void TextWindow::flush() const
+ {
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     if( cursor.span<line.list.getLen() )
+       {
+        line.list[cursor.span].body=String(getCurSpan());
+       }
+    }
+ }
+
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
+
+   spanbuf(1_KByte),
 
    connector_posX(this,&TextWindow::posX),
    connector_posY(this,&TextWindow::posY),
@@ -215,12 +261,14 @@ void TextWindow::load(DynArray<BookLab::TextLine> *pad)
 
   text.load(pad);
 
+  fill();
+
   changed.assert();
  }
 
-void TextWindow::save() const // TODO
+void TextWindow::save() const
  {
-  // TODO
+  flush();
 
   text.save();
  }
@@ -283,13 +331,18 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   const Font &font=cfg.font.get();
 
+  Coord dxc=+cfg.cursor_dx;
+
+  MCoord skew=Fraction(fs.skew);
+  MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
+
   VColor vc=+cfg.text;
 
   ulen count=text.getLineCount();
 
   Coord shift_x=Coord(sx.pos);
 
-  Point base(fs.dx0-shift_x,fs.by);
+  Point base(fs.dx0-shift_x+dxc,fs.by+dxc);
 
   Pane pane=getPane();
 
@@ -303,30 +356,101 @@ void TextWindow::draw(DrawBuf buf,bool) const
       BookLab::TextLine &line=text.getLine(i);
       Point p=base;
 
-      for(BookLab::Span &span : line.list )
-        {
-         font->text(buf,pane,p,Range(span.body),vc);
+      for(ulen j : IndLim(line.list.getLen()) )
+        if( i==cursor.y && j==cursor.span )
+          {
+           BookLab::Span &span=line.list[j];
 
-         if( HasSpec(span) )
+           Coord dx=0;
+
            {
-            art.path(+cfg.width,+cfg.line,p,p.addX(span.dx-1));
+            Point q=p;
+
+            auto str=getCurSpan();
+
+            ulen split=Min(cursor.x,str.len);
+
+            auto str1=str.prefix(split);
+            auto str2=str.part(split);
+
+            Coord dx1=font->text(str1).dx;
+            Coord dx2=font->text(str2).dx;
+
+            font->text(buf,pane,q,str1,vc);
+
+            q.x+=dx1;
+
+            if( focus )
+              {
+               MCoord w=Fraction(dxc);
+               MCoord x=Fraction(q.x);
+               MCoord y=Fraction(q.y-fs.by);
+               MCoord h=Fraction(fs.dy);
+
+               FigureCursor fig(x-delta,y,y+h,w,skew);
+
+               if( cursor_on )
+                 {
+                  fig.solid(art,+cfg.cursor);
+                 }
+               else
+                 {
+                  fig.loop(art,HalfPos,w/3,+cfg.cursor);
+                 }
+
+               q.x+=dxc;
+
+               dx=dxc;
+              }
+
+            font->text(buf,pane,q,str2,vc);
+
+            dx+=dx1+dx2;
            }
 
-         p.x+=span.dx;
+           if( HasSpec(span) )
+             {
+              art.path(+cfg.width,+cfg.line,p,p.addX(dx-1));
+             }
 
-         {
-          Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
+           p.x+=dx;
 
-          MCoord skew=Fraction(fs.skew);
-          MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
+           {
+            Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
 
-          FigureSkew fig(MPane(end).subX(delta),skew);
+            FigureSkew fig(MPane(end).subX(delta),skew);
 
-          fig.solid(art,+cfg.endspan);
-         }
+            fig.solid(art,+cfg.endspan);
+           }
 
-         p.x+=space_dx;
-        }
+           p.x+=space_dx;
+          }
+        else
+          {
+           BookLab::Span &span=line.list[j];
+
+           font->text(buf,pane,p,Range(span.body),vc);
+
+           if( HasSpec(span) )
+             {
+              art.path(+cfg.width,+cfg.line,p,p.addX(span.dx-1));
+             }
+
+           p.x+=span.dx;
+
+           {
+            Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
+
+            MCoord skew=Fraction(fs.skew);
+            MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
+
+            FigureSkew fig(MPane(end).subX(delta),skew);
+
+            fig.solid(art,+cfg.endspan);
+           }
+
+           p.x+=space_dx;
+          }
      }
 
      base.y+=fs.dy;
@@ -376,11 +500,8 @@ void TextWindow::looseCapture() // TODO
  {
  }
 
-MouseShape TextWindow::getMouseShape(Point point,KeyMod kmod) const // TODO
+MouseShape TextWindow::getMouseShape(Point,KeyMod) const
  {
-  Used(point);
-  Used(kmod);
-
   return Mouse_IBeem;
  }
 
