@@ -248,6 +248,8 @@ struct NamedPtr<TT...>
 
   bool isResolved() const { return +name.getLen() && +ptr ; }
 
+  void setName(String name_) { name=name_; ptr=Null; }
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -282,6 +284,8 @@ struct NamedPtr<T>
   bool notResolved() const { return +name.getLen() && !ptr ; }
 
   bool isResolved() const { return +name.getLen() && +ptr ; }
+
+  void setName(String name_) { name=name_; ptr=Null; }
 
   template <class Keeper>
   void keepAlive(Keeper keeper)

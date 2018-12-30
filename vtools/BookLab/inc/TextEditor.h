@@ -198,11 +198,43 @@ class TextWindow : public SubWindow
 
    PtrLen<const Char> getCurSpan() const { return Range(spanbuf.getPtr(),spanlen); }
 
+   template <class Func>
+   void applyToSpan(Func func);
+
+   template <class Func>
+   void applyToSpan(Func func) const;
+
    void fill(StrLen str);
 
    void fill();
 
    void flush() const;
+
+  private:
+
+   ulen getSpanCount() const;
+
+   void changeSpan(ulen span);
+
+   void showCursor();
+
+   void moveLeft(ulen delta);
+
+   void moveRight(ulen delta);
+
+   void moveHome();
+
+   void moveEnd();
+
+   void moveTab();
+
+   void moveUp(ulen delta);
+
+   void moveDown(ulen delta);
+
+   void moveTop();
+
+   void moveBottom();
 
   public:
 

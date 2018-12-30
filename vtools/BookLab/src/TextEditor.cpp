@@ -173,6 +173,34 @@ void TextWindow::tickStop()
   defer_tick.stop();
  }
 
+template <class Func>
+void TextWindow::applyToSpan(Func func)
+ {
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     if( cursor.span<line.list.getLen() )
+       {
+        func(line.list[cursor.span]);
+       }
+    }
+ }
+
+template <class Func>
+void TextWindow::applyToSpan(Func func) const
+ {
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     if( cursor.span<line.list.getLen() )
+       {
+        func(line.list[cursor.span]);
+       }
+    }
+ }
+
 void TextWindow::fill(StrLen str)
  {
   FillCharBuf result(Range(spanbuf),str);
@@ -191,28 +219,145 @@ void TextWindow::fill()
  {
   spanlen=0;
 
-  if( cursor.y<text.getLineCount() )
-    {
-     BookLab::TextLine &line=text.getLine(cursor.y);
+  applyToSpan( [&] (BookLab::Span &span)
+                   {
+                    fill(Range(span.body));
 
-     if( cursor.span<line.list.getLen() )
-       {
-        fill(Range(line.list[cursor.span].body));
-       }
-    }
+                    showFormat.assert(span.format.name);
+                    showLink.assert(span.ref.name);
+
+                   } );
  }
 
 void TextWindow::flush() const
  {
-  if( cursor.y<text.getLineCount() )
-    {
-     BookLab::TextLine &line=text.getLine(cursor.y);
+  applyToSpan( [&] (BookLab::Span &span) { span.body=String(getCurSpan()); } );
+ }
 
-     if( cursor.span<line.list.getLen() )
+ulen TextWindow::getSpanCount() const
+ {
+  if( cursor.y>=text.getLineCount() ) return 0;
+
+  BookLab::TextLine &line=text.getLine(cursor.y);
+
+  return line.list.getLen();
+ }
+
+void TextWindow::changeSpan(ulen span)
+ {
+  flush();
+
+  cursor.span=span;
+
+  fill();
+ }
+
+void TextWindow::showCursor() // TODO
+ {
+ }
+
+void TextWindow::moveLeft(ulen delta)
+ {
+  if( delta==0 || ( cursor.span==0 && cursor.x==0 ) ) return;
+
+  while( delta )
+    {
+     if( cursor.x>=delta )
        {
-        line.list[cursor.span].body=String(getCurSpan());
+        cursor.x-=delta;
+        delta=0;
+       }
+     else
+       {
+        if( cursor.span )
+          {
+           delta-=cursor.x+1;
+
+           changeSpan(cursor.span-1);
+
+           cursor.x=spanlen;
+          }
+        else
+          {
+           cursor.x=0;
+           delta=0;
+          }
        }
     }
+
+  showCursor();
+
+  redraw();
+ }
+
+void TextWindow::moveRight(ulen delta)
+ {
+  if( delta==0 ) return;
+
+  ulen count=getSpanCount();
+
+  if( count==0 || ( cursor.span==count-1 && cursor.x==spanlen ) ) return;
+
+  while( delta )
+    {
+     ulen len=PosSub(spanlen,cursor.x);
+
+     if( delta<=len )
+       {
+        cursor.x+=delta;
+        delta=0;
+       }
+     else
+       {
+        if( cursor.span<count-1 )
+          {
+           delta-=len+1;
+
+           changeSpan(cursor.span+1);
+
+           cursor.x=0;
+          }
+        else
+          {
+           cursor.x=spanlen;
+           delta=0;
+          }
+       }
+    }
+
+  showCursor();
+
+  redraw();
+ }
+
+void TextWindow::moveHome() // TODO
+ {
+ }
+
+void TextWindow::moveEnd() // TODO
+ {
+ }
+
+void TextWindow::moveTab() // TODO
+ {
+ }
+
+void TextWindow::moveUp(ulen delta) // TODO
+ {
+  if( delta==0 ) return;
+ }
+
+void TextWindow::moveDown(ulen delta) // TODO
+ {
+  if( delta==0 ) return;
+ }
+
+void TextWindow::moveTop() // TODO
+ {
+ }
+
+void TextWindow::moveBottom() // TODO
+ {
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -273,14 +418,14 @@ void TextWindow::save() const
   text.save();
  }
 
-void TextWindow::setFormat(String name) // TODO
+void TextWindow::setFormat(String name)
  {
-  Used(name);
+  applyToSpan( [&] (BookLab::Span &span) { span.format.setName(name); } );
  }
 
-void TextWindow::setLink(String name) // TODO
+void TextWindow::setLink(String name)
  {
-  Used(name);
+  applyToSpan( [&] (BookLab::Span &span) { span.ref.setName(name); } );
  }
 
  // drawing
@@ -380,28 +525,27 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
             q.x+=dx1;
 
-            if( focus )
-              {
-               MCoord w=Fraction(dxc);
-               MCoord x=Fraction(q.x);
-               MCoord y=Fraction(q.y-fs.by);
-               MCoord h=Fraction(fs.dy);
+            {
+             MCoord w=Fraction(dxc);
+             MCoord x=Fraction(q.x);
+             MCoord y=Fraction(q.y-fs.by);
+             MCoord h=Fraction(fs.dy);
 
-               FigureCursor fig(x-delta,y,y+h,w,skew);
+             FigureCursor fig(x-delta,y,y+h,w,skew);
 
-               if( cursor_on )
-                 {
-                  fig.solid(art,+cfg.cursor);
-                 }
-               else
-                 {
-                  fig.loop(art,HalfPos,w/3,+cfg.cursor);
-                 }
+             if( cursor_on )
+               {
+                fig.solid(art,+cfg.cursor);
+               }
+             else
+               {
+                fig.loop(art,HalfPos,w/3,+cfg.cursor);
+               }
 
-               q.x+=dxc;
+             q.x+=dxc;
 
-               dx=dxc;
-              }
+             dx=dxc;
+            }
 
             font->text(buf,pane,q,str2,vc);
 
@@ -514,9 +658,92 @@ void TextWindow::react(UserAction action)
 
 void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
  {
-  Used(vkey);
-  Used(kmod);
-  Used(repeat);
+  switch( vkey )
+    {
+     case VKey_Left :
+      {
+       moveLeft(repeat);
+      }
+     break;
+
+     case VKey_Right :
+      {
+       moveRight(repeat);
+      }
+     break;
+
+     case VKey_Home :
+      {
+       moveHome();
+      }
+     break;
+
+     case VKey_End :
+      {
+       moveEnd();
+      }
+     break;
+
+     case VKey_Tab :
+      {
+       moveTab();
+      }
+     break;
+
+     case VKey_Up :
+      {
+       moveUp(repeat);
+      }
+     break;
+
+     case VKey_Down :
+      {
+       moveDown(repeat);
+      }
+     break;
+
+     case VKey_PageUp :
+      {
+       if( kmod&KeyMod_Ctrl )
+         moveTop();
+       else
+         moveUp(repeat*sy.page);
+      }
+     break;
+
+     case VKey_PageDown :
+      {
+       if( kmod&KeyMod_Ctrl )
+         moveBottom();
+       else
+         moveDown(repeat*sy.page);
+      }
+     break;
+
+     case VKey_Enter :
+      {
+       // TODO
+      }
+     break;
+
+     case VKey_Space :
+      {
+       // TODO
+      }
+     break;
+
+     case VKey_Delete :
+      {
+       // TODO
+      }
+     break;
+
+     case VKey_BackSpace :
+      {
+       // TODO
+      }
+     break;
+    }
  }
 
 void TextWindow::react_Char(Char ch) // TODO
