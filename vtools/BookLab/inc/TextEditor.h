@@ -220,13 +220,17 @@ class TextWindow : public SubWindow
 
    void moveLeft(ulen delta);
 
-   void moveRight(ulen delta);
+   bool moveRight(ulen delta);
 
    void moveHome();
 
    void moveEnd();
 
    void moveTab();
+
+   ulen getPosX() const;
+
+   void setPos(ulen x,ulen y);
 
    void moveUp(ulen delta);
 

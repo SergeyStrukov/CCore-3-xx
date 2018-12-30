@@ -13,6 +13,9 @@
 
 #include <inc/TextEditor.h>
 
+#include <CCore/inc/CharUtils.h>
+#include <CCore/inc/SymCount.h>
+
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
 
@@ -290,13 +293,13 @@ void TextWindow::moveLeft(ulen delta)
   redraw();
  }
 
-void TextWindow::moveRight(ulen delta)
+bool TextWindow::moveRight(ulen delta)
  {
-  if( delta==0 ) return;
+  if( delta==0 ) return false;
 
   ulen count=getSpanCount();
 
-  if( count==0 || ( cursor.span==count-1 && cursor.x==spanlen ) ) return;
+  if( count==0 || ( cursor.span==count-1 && cursor.x==spanlen ) ) return false;
 
   while( delta )
     {
@@ -328,36 +331,124 @@ void TextWindow::moveRight(ulen delta)
   showCursor();
 
   redraw();
+
+  return true;
  }
 
-void TextWindow::moveHome() // TODO
+void TextWindow::moveHome()
  {
+  if( cursor.span )
+    {
+     changeSpan(0);
+    }
+  else
+    {
+     if( cursor.x==0 ) return;
+    }
+
+  cursor.x=0;
+
+  showCursor();
+
+  redraw();
  }
 
-void TextWindow::moveEnd() // TODO
+void TextWindow::moveEnd()
  {
+  ulen count=getSpanCount();
+
+  if( count==0 ) return;
+
+  if( cursor.span<count-1 )
+    {
+     changeSpan(count-1);
+    }
+  else
+    {
+     if( cursor.x==spanlen ) return;
+    }
+
+  cursor.x=spanlen;
+
+  showCursor();
+
+  redraw();
  }
 
 void TextWindow::moveTab() // TODO
  {
  }
 
-void TextWindow::moveUp(ulen delta) // TODO
+ulen TextWindow::getPosX() const
+ {
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     ulen ind=cursor.span;
+
+     if( ind>=line.list.getLen() ) return 0;
+
+     ulen len=0;
+
+     while( ind-- )
+       {
+        len+=1+SymLen(Range(line.list[ind].body));
+       }
+
+     return cursor.x+len;
+    }
+  else
+    {
+     return 0;
+    }
+ }
+
+void TextWindow::setPos(ulen x,ulen y)
+ {
+  flush();
+
+  cursor.y=y;
+  cursor.span=0;
+  cursor.x=0;
+
+  fill();
+
+  if( moveRight(x) ) return;
+
+  showCursor();
+
+  redraw();
+ }
+
+void TextWindow::moveUp(ulen delta)
+ {
+  if( delta==0 || cursor.y==0 ) return;
+
+  setPos(getPosX(),PosSub(cursor.y,delta));
+ }
+
+void TextWindow::moveDown(ulen delta)
  {
   if( delta==0 ) return;
+
+  ulen lim=text.getLineCount();
+
+  if( lim==0 || cursor.y==lim-1 ) return;
+
+  setPos(getPosX(),AddToCap(cursor.y,delta,lim-1));
  }
 
-void TextWindow::moveDown(ulen delta) // TODO
+void TextWindow::moveTop()
  {
-  if( delta==0 ) return;
+  moveUp(cursor.y);
  }
 
-void TextWindow::moveTop() // TODO
+void TextWindow::moveBottom()
  {
- }
+  ulen lim=text.getLineCount();
 
-void TextWindow::moveBottom() // TODO
- {
+  if( cursor.y<lim ) moveDown(lim-1-cursor.y);
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
