@@ -498,6 +498,8 @@ ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf)
 
   ErrorText ret=book.link(ebuf);
 
+  try { field_frame.link(); } catch(...) {}
+
   changed.assert();
 
   return ret;

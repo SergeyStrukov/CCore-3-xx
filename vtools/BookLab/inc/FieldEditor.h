@@ -1511,6 +1511,8 @@ class FieldWindow : public ComboWindow
 
    void setField(BookLab::PadType pad);
 
+   void link() { if( field_Text.isListed() ) field_Text.link(); }
+
    // base
 
    virtual void open();
@@ -1599,6 +1601,8 @@ class FieldFrame : public DragFrame
    void save(AppState &app_state) { if( isAlive() ) place.set(host->getPlace()); app_state.edit_place=place; }
 
    void setField(BookLab::PadType pad) { client.setField(pad); }
+
+   void link() { if( isAlive() ) client.link(); }
 
    // base
 

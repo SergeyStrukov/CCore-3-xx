@@ -78,9 +78,12 @@ struct AppPreferenceBag : ConfigItemHost
   VColor element = Black ;
   VColor comment = ForestGreen ;
 
-  VColor textedit_text    = Black ;
+  VColor textedit_text    =  Black ;
   VColor textedit_endspan = GrayColor(0xD0) ;
-  VColor textedit_line    =  Blue ;
+  VColor textedit_line    =   Blue ;
+  VColor textedit_alert   =    Red ;
+  VColor textedit_cursor  =   Blue ;
+  VColor textedit_select  = Yellow ;
 
   FontCouple text_font;
   FontCouple element_font;
@@ -143,6 +146,9 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("textedit_text"_c,ptr->textedit_text);
   func("textedit_endspan"_c,ptr->textedit_endspan);
   func("textedit_line"_c,ptr->textedit_line);
+  func("textedit_alert"_c,ptr->textedit_alert);
+  func("textedit_cursor"_c,ptr->textedit_cursor);
+  func("textedit_select"_c,ptr->textedit_select);
   func("gray_cursor"_c,ptr->gray_cursor);
   func("text_font"_c,ptr->text_font);
   func("element_font"_c,ptr->element_font);

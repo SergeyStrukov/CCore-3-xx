@@ -73,20 +73,20 @@ class TextWindow : public SubWindow
     {
      // user
 
-    RefVal<unsigned> period = 10_tick ;
+     RefVal<Coord> cursor_dx = 3 ;
+
+     RefVal<unsigned> period = 10_tick ;
 
      // app
 
      RefVal<Fraction> width = Fraction(6,2) ;
 
-     RefVal<VColor> text    = Black ;
+     RefVal<VColor> text    =  Black ;
      RefVal<VColor> endspan = GrayColor(0xD0) ;
-     RefVal<VColor> line    =  Blue ;
-
-     RefVal<VColor> select = Yellow ;
-     RefVal<VColor> cursor =   Blue ;
-
-     RefVal<Coord> cursor_dx = 3 ;
+     RefVal<VColor> line    =   Blue ;
+     RefVal<VColor> alert   =    Red ;
+     RefVal<VColor> cursor  =   Blue ;
+     RefVal<VColor> select  = Yellow ;
 
      RefVal<Font> font;
 
@@ -100,19 +100,24 @@ class TextWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       period.bind(bag.line_edit_period);
-
        Used(proxy);
+
+       cursor_dx.bind(bag.text_cursor_dx);
+
+       period.bind(bag.line_edit_period);
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag) // TODO
+     void bindApp(const Bag &bag)
       {
        width.bind(bag.textedit_width);
 
        text.bind(bag.textedit_text);
        endspan.bind(bag.textedit_endspan);
        line.bind(bag.textedit_line);
+       alert.bind(bag.textedit_alert);
+       cursor.bind(bag.textedit_cursor);
+       select.bind(bag.textedit_select);
 
        font.bind(bag.textedit_font.font);
       }
@@ -166,6 +171,8 @@ class TextWindow : public SubWindow
    [[nodiscard]] bool cache() const;
 
    static bool HasSpec(BookLab::Span &span);
+
+   static bool Alert(BookLab::Span &span);
 
   private:
 
@@ -276,6 +283,8 @@ class TextWindow : public SubWindow
 
    void setLink(String name);
 
+   void link();
+
    // drawing
 
    virtual void layout();
@@ -325,8 +334,8 @@ class TextWindow : public SubWindow
    Signal<ulen> scroll_x;
    Signal<ulen> scroll_y;
 
-   Signal<String> showFormat;
-   Signal<String> showLink;
+   Signal<String,bool> showFormat;
+   Signal<String,bool> showLink;
  };
 
 /* class ScrollTextWindow */
@@ -373,10 +382,12 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
 
    void setLink(String name) { window.setLink(name); }
 
+   void link() { window.link(); }
+
    // signals
 
-   Signal<String> &showFormat;
-   Signal<String> &showLink;
+   Signal<String,bool> &showFormat;
+   Signal<String,bool> &showLink;
  };
 
 /* class TextEditor */
@@ -453,12 +464,12 @@ class TextEditor : public ComboWindow
    SignalConnector<TextEditor> connector_format_pressed;
    SignalConnector<TextEditor> connector_link_pressed;
 
-   void show_format(String name);
+   void show_format(String name,bool alert);
 
-   void show_link(String name);
+   void show_link(String name,bool alert);
 
-   SignalConnector<TextEditor,String> connector_show_format;
-   SignalConnector<TextEditor,String> connector_show_link;
+   SignalConnector<TextEditor,String,bool> connector_show_format;
+   SignalConnector<TextEditor,String,bool> connector_show_link;
 
   public:
 
@@ -475,6 +486,8 @@ class TextEditor : public ComboWindow
    void load(DynArray<BookLab::TextLine> *pad);
 
    void save() const;
+
+   void link() { edit_text.link(); }
 
    // base
 

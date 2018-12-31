@@ -77,6 +77,9 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("text"_def,textedit_text);
     binder.item("endspan"_def,textedit_endspan);
     binder.item("line"_def,textedit_line);
+    binder.item("alert"_def,textedit_alert);
+    binder.item("cursor"_def,textedit_cursor);
+    binder.item("select"_def,textedit_select);
  }
 
 void AppPreferenceBag::findFonts()

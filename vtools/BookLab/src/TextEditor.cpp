@@ -226,8 +226,8 @@ void TextWindow::fill()
                    {
                     fill(Range(span.body));
 
-                    showFormat.assert(span.format.name);
-                    showLink.assert(span.ref.name);
+                    showFormat.assert(span.format.name,span.format.notResolved());
+                    showLink.assert(span.ref.name,span.ref.notResolved());
 
                    } );
  }
@@ -500,6 +500,8 @@ Point TextWindow::getMinSize(Point) const
 
 void TextWindow::blank()
  {
+  save();
+
   clean();
 
   text.blank();
@@ -533,6 +535,18 @@ void TextWindow::setFormat(String name)
 void TextWindow::setLink(String name)
  {
   applyToSpan( [&] (BookLab::Span &span) { span.ref.setName(name); } );
+ }
+
+void TextWindow::link()
+ {
+  applyToSpan( [&] (BookLab::Span &span)
+                   {
+                    showFormat.assert(span.format.name,span.format.notResolved());
+                    showLink.assert(span.ref.name,span.ref.notResolved());
+
+                   } );
+
+  redraw();
  }
 
  // drawing
@@ -570,6 +584,11 @@ void TextWindow::layout()
 bool TextWindow::HasSpec(BookLab::Span &span)
  {
   return span.format.name.getLen() || span.ref.name.getLen() ;
+ }
+
+bool TextWindow::Alert(BookLab::Span &span)
+ {
+  return span.format.notResolved() || span.ref.notResolved() ;
  }
 
 void TextWindow::draw(DrawBuf buf,bool) const
@@ -661,7 +680,9 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
            if( HasSpec(span) )
              {
-              art.path(+cfg.width,+cfg.line,p,p.addX(dx-1));
+              VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
+
+              art.path(+cfg.width,vc,p,p.addX(dx-1));
              }
 
            p.x+=dx;
@@ -684,7 +705,9 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
            if( HasSpec(span) )
              {
-              art.path(+cfg.width,+cfg.line,p,p.addX(span.dx-1));
+              VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
+
+              art.path(+cfg.width,vc,p,p.addX(span.dx-1));
              }
 
            p.x+=span.dx;
@@ -915,22 +938,34 @@ ScrollTextWindow::~ScrollTextWindow()
 
 void TextEditor::format_pressed()
  {
-  edit_text.setFormat(edit_format.getString());
+  String name=edit_format.getString();
+
+  edit_text.setFormat(name);
+
+  edit_format.alert(name.getLen()!=0);
  }
 
 void TextEditor::link_pressed()
  {
-  edit_text.setLink(edit_link.getString());
+  String name=edit_link.getString();
+
+  edit_text.setLink(name);
+
+  edit_link.alert(name.getLen()!=0);
  }
 
-void TextEditor::show_format(String name)
+void TextEditor::show_format(String name,bool alert)
  {
   edit_format.setText(Range(name));
+
+  edit_format.alert(alert);
  }
 
-void TextEditor::show_link(String name)
+void TextEditor::show_link(String name,bool alert)
  {
   edit_link.setText(Range(name));
+
+  edit_link.alert(alert);
  }
 
 TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
