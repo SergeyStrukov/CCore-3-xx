@@ -1511,6 +1511,10 @@ class FieldWindow : public ComboWindow
 
    void setField(BookLab::PadType pad);
 
+   // base
+
+   virtual void open();
+
    // drawing
 
    virtual void layout();

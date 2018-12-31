@@ -375,8 +375,24 @@ void TextWindow::moveEnd()
   redraw();
  }
 
-void TextWindow::moveTab() // TODO
+void TextWindow::moveTab()
  {
+  ulen count=getSpanCount();
+
+  if( count==0 || cursor.span>=count-1 )
+    {
+     cursor.x=spanlen;
+    }
+  else
+    {
+     changeSpan(cursor.span+1);
+
+     cursor.x=0;
+    }
+
+  showCursor();
+
+  redraw();
  }
 
 ulen TextWindow::getPosX() const
@@ -888,6 +904,7 @@ ScrollTextWindow::ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg)
    showFormat(window.showFormat),
    showLink(window.showLink)
  {
+  wlist.enableTabFocus(false);
  }
 
 ScrollTextWindow::~ScrollTextWindow()
@@ -939,6 +956,8 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
 
   edit_format.hideInactiveCursor();
   edit_link.hideInactiveCursor();
+
+  wlist.enableTabFocus(false);
  }
 
 TextEditor::~TextEditor()

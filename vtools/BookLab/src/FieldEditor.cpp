@@ -1708,6 +1708,8 @@ void FieldWindow::setFieldCtrl(W &sub,T *pad)
   setFieldCtrl(&sub,&sub,false);
 
   sub.setField(pad);
+
+  sub.setFocus();
  }
 
 template <class W,class T>
@@ -1718,6 +1720,8 @@ void FieldWindow::setFieldCtrl(W &sub,BookLab::OptDataBase<T> *pad)
   setFieldCtrl(&sub,&sub,true);
 
   sub.setField(&pad->data);
+
+  sub.setFocus();
 
   check_def.check(*def_pad);
  }
@@ -1868,6 +1872,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
   btn_set.disable();
   check_def.disable();
   lab_def.disable();
+
+  wlist.enableTabFocus(false);
  }
 
 FieldWindow::~FieldWindow()
@@ -1897,6 +1903,15 @@ void FieldWindow::setField(BookLab::PadType pad)
     pad.apply( [&] (auto *pad) { setField(pad); } );
   else
     noField();
+ }
+
+ // base
+
+void FieldWindow::open()
+ {
+  ComboWindow::open();
+
+  if( field ) field->setFocus();
  }
 
  // drawing
