@@ -237,6 +237,24 @@ void TextWindow::flush() const
   applyToSpan( [&] (BookLab::Span &span) { span.body=String(getCurSpan()); } );
  }
 
+void TextWindow::setPosX(ulen x)
+ {
+  sx.setPos(x);
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void TextWindow::setPosY(ulen y)
+ {
+  sy.setPos(y);
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
 ulen TextWindow::getSpanCount() const
  {
   if( cursor.y>=text.getLineCount() ) return 0;
@@ -255,8 +273,58 @@ void TextWindow::changeSpan(ulen span)
   fill();
  }
 
-void TextWindow::showCursor() // TODO
+void TextWindow::showCursor()
  {
+  if( cursor.y<sy.pos )
+    {
+     setPosY(cursor.y);
+    }
+  else if( cursor.y>=sy.pos+sy.page )
+    {
+     setPosY(cursor.y-sy.page+1);
+    }
+
+  const Font &font=cfg.font.get();
+
+  Coord dxc=+cfg.cursor_dx;
+
+  Coord x=fs.dx0+dxc;
+
+  if( cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     for(ulen j : IndLim(line.list.getLen()) )
+       if( j==cursor.span )
+         {
+          auto str=getCurSpan();
+
+          ulen split=Min(cursor.x,str.len);
+
+          auto str1=str.prefix(split);
+
+          x+=font->text(str1).dx;
+
+          break;
+         }
+       else
+         {
+          BookLab::Span &span=line.list[j];
+
+          x+=span.dx+space_dx;
+         }
+    }
+
+  ulen X=(ulen)x;
+
+  if( X<sx.pos )
+    {
+     setPosX(PosSub(X,(ulen)dxc));
+    }
+  else if( X>=sx.pos+sx.page )
+    {
+     setPosX(X-sx.page+1+(ulen)dxc+(ulen)space_dx);
+    }
  }
 
 void TextWindow::moveLeft(ulen delta)
@@ -568,11 +636,30 @@ void TextWindow::layout()
 
   Point size=getSize();
 
-  sx.total=(ulen)AddSize(text_dx,fs.dx0+fs.dx1);
-  sx.page=(ulen)size.x;
+  Coord dxc=+cfg.cursor_dx;
 
+  size.subXY(2*dxc);
+
+  if( size.x>0 )
+    {
+     sx.page=(ulen)size.x;
+    }
+  else
+    {
+     sx.page=1;
+    }
+
+  if( size.y>=fs.dy )
+    {
+     sy.page=ulen(size.y/fs.dy);
+    }
+  else
+    {
+     sy.page=1;
+    }
+
+  sx.total=(ulen)AddSize(text_dx,fs.dx0+fs.dx1+2*dxc);
   sy.total=text.getLineCount();
-  sy.page=ulen(size.y/fs.dy);
 
   sx.total+=sx.page/8;
   sy.total+=sy.page/4;
