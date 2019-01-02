@@ -251,6 +251,14 @@ class TextWindow : public SubWindow
 
    void moveBottom();
 
+  private:
+
+   void insChar(Char ch);
+
+   void splitSpan();
+
+   void splitLine();
+
   public:
 
    TextWindow(SubWindowHost &host,const Config &cfg);

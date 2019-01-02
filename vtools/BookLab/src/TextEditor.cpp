@@ -535,6 +535,64 @@ void TextWindow::moveBottom()
   if( cursor.y<lim ) moveDown(lim-1-cursor.y);
  }
 
+void TextWindow::insChar(Char ch) // TODO
+ {
+  if( SymCharIsPrintable(ch) && spanlen<spanbuf.getLen() && cursor.y<text.getLineCount() )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     ulen count=line.list.getLen();
+
+     if( cursor.span<count )
+       {
+        InsChar(spanbuf.getPtr(),spanlen,Min(cursor.x,spanlen),ch);
+
+        spanlen++;
+        cursor.x++;
+
+        Coord dx=MulSize(count-1,space_dx);
+
+        for(ulen i : IndLim(count) )
+          {
+           BookLab::Span &span=line.list[i];
+
+           if( i==cursor.span )
+             {
+              const Font &font=cfg.font.get();
+
+              TextSize ts=font->text(getCurSpan());
+
+              span.dx=ts.dx;
+             }
+
+           dx=AddSize(dx,span.dx);
+          }
+
+        line.dx=dx;
+
+        Replace_max(text_dx,dx);
+
+        changed.assert();
+
+        showCursor();
+       }
+     else
+       {
+        // TODO
+       }
+    }
+ }
+
+void TextWindow::splitSpan() // TODO
+ {
+  changed.assert();
+ }
+
+void TextWindow::splitLine() // TODO
+ {
+  changed.assert();
+ }
+
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
@@ -939,13 +997,16 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
 
      case VKey_Enter :
       {
-       // TODO
+       splitLine();
       }
      break;
 
      case VKey_Space :
       {
-       // TODO
+       if( kmod&KeyMod_Shift )
+         insChar(' ');
+       else
+         splitSpan();
       }
      break;
 
@@ -963,9 +1024,9 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
     }
  }
 
-void TextWindow::react_Char(Char ch) // TODO
+void TextWindow::react_Char(Char ch)
  {
-  Used(ch);
+  if( ch!=' ' ) insChar(ch);
  }
 
 void TextWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
