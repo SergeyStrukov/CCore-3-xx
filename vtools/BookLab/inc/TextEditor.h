@@ -158,9 +158,18 @@ class TextWindow : public SubWindow
    mutable bool ok = false ;
    mutable bool block_cache = false ;
 
-   mutable FontSize fs;
-   mutable Coord text_dx = 0 ;
-   mutable Coord space_dx = 0 ;
+   struct SizeData
+    {
+     FontSize fs;
+     Coord text_dx = 0 ;
+     Coord space_dx = 0 ;
+
+     void prepare(const Font &font);
+
+     void update(const Font &font,BookLab::TextLine &line);
+    };
+
+   mutable SizeData data;
 
   private:
 
@@ -258,6 +267,8 @@ class TextWindow : public SubWindow
    void splitSpan();
 
    void splitLine();
+
+   class Draw;
 
   public:
 
