@@ -745,12 +745,61 @@ void TextWindow::draw(DrawBuf buf,bool) const
      return;
     }
 
+  struct Draw : NoCopy
+   {
+    Coord dxc;
+    const FontSize &fs;
+
+    MCoord skew;
+    MCoord delta;
+
+    VColor vc_cursor;
+    VColor vc_end;
+
+    Draw(const Config &cfg,const FontSize &fs_)
+     : fs(fs_)
+     {
+      dxc=+cfg.cursor_dx;
+
+      skew=Fraction(fs.skew);
+      delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
+
+      vc_cursor=+cfg.cursor;
+      vc_end=+cfg.endspan;
+     }
+
+    void cursor(SmoothDrawArt &art,Point base,bool on)
+     {
+      MCoord w=Fraction(dxc);
+      MCoord x=Fraction(base.x);
+      MCoord y=Fraction(base.y-fs.by);
+      MCoord h=Fraction(fs.dy);
+
+      FigureCursor fig(x-delta,y,y+h,w,skew);
+
+      if( on )
+        {
+         fig.solid(art,vc_cursor);
+        }
+      else
+        {
+         fig.loop(art,HalfPos,w/3,vc_cursor);
+        }
+     }
+
+    void end(SmoothDrawArt &art,Point base,Coord space_dx)
+     {
+      Pane end(base.x,base.y-fs.by,space_dx,fs.dy);
+
+      FigureSkew fig(MPane(end).subX(delta),skew);
+
+      fig.solid(art,vc_end);
+     }
+   };
+
+  Draw draw(cfg,fs);
+
   const Font &font=cfg.font.get();
-
-  Coord dxc=+cfg.cursor_dx;
-
-  MCoord skew=Fraction(fs.skew);
-  MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
 
   VColor vc=+cfg.text;
 
@@ -758,7 +807,9 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   Coord shift_x=Coord(sx.pos);
 
-  Point base(fs.dx0-shift_x+dxc,fs.by+dxc);
+  Point base(fs.dx0-shift_x,fs.by);
+
+  base=base.addXY(draw.dxc);
 
   Pane pane=getPane();
 
@@ -768,109 +819,86 @@ void TextWindow::draw(DrawBuf buf,bool) const
     {
      if( i>=count ) break;
 
-     {
-      BookLab::TextLine &line=text.getLine(i);
-      Point p=base;
+     BookLab::TextLine &line=text.getLine(i);
 
-      for(ulen j : IndLim(line.list.getLen()) )
-        if( i==cursor.y && j==cursor.span )
-          {
-           BookLab::Span &span=line.list[j];
+     if( ulen spancount=line.list.getLen() )
+       {
+        Point p=base;
 
-           Coord dx=0;
-
-           {
-            Point q=p;
-
-            auto str=getCurSpan();
-
-            ulen split=Min(cursor.x,str.len);
-
-            auto str1=str.prefix(split);
-            auto str2=str.part(split);
-
-            Coord dx1=font->text(str1).dx;
-            Coord dx2=font->text(str2).dx;
-
-            font->text(buf,pane,q,str1,vc);
-
-            q.x+=dx1;
-
+        for(ulen j : IndLim(spancount) )
+          if( i==cursor.y && j==cursor.span )
             {
-             MCoord w=Fraction(dxc);
-             MCoord x=Fraction(q.x);
-             MCoord y=Fraction(q.y-fs.by);
-             MCoord h=Fraction(fs.dy);
+             BookLab::Span &span=line.list[j];
 
-             FigureCursor fig(x-delta,y,y+h,w,skew);
+             Coord dx=0;
 
-             if( cursor_on )
+             {
+              Point q=p;
+
+              auto str=getCurSpan();
+
+              ulen split=Min(cursor.x,str.len);
+
+              auto str1=str.prefix(split);
+              auto str2=str.part(split);
+
+              Coord dx1=font->text(str1).dx;
+              Coord dx2=font->text(str2).dx;
+
+              font->text(buf,pane,q,str1,vc);
+
+              q.x+=dx1;
+
+              {
+               draw.cursor(art,q,cursor_on);
+
+               q.x+=draw.dxc;
+
+               dx=draw.dxc;
+              }
+
+              font->text(buf,pane,q,str2,vc);
+
+              dx+=dx1+dx2;
+             }
+
+             if( HasSpec(span) )
                {
-                fig.solid(art,+cfg.cursor);
-               }
-             else
-               {
-                fig.loop(art,HalfPos,w/3,+cfg.cursor);
+                VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
+
+                art.path(+cfg.width,vc,p,p.addX(dx-1));
                }
 
-             q.x+=dxc;
+             p.x+=dx;
 
-             dx=dxc;
+             draw.end(art,p,space_dx);
+
+             p.x+=space_dx;
             }
+          else
+            {
+             BookLab::Span &span=line.list[j];
 
-            font->text(buf,pane,q,str2,vc);
+             font->text(buf,pane,p,Range(span.body),vc);
 
-            dx+=dx1+dx2;
-           }
+             if( HasSpec(span) )
+               {
+                VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
 
-           if( HasSpec(span) )
-             {
-              VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
+                art.path(+cfg.width,vc,p,p.addX(span.dx-1));
+               }
 
-              art.path(+cfg.width,vc,p,p.addX(dx-1));
-             }
+             p.x+=span.dx;
 
-           p.x+=dx;
+             draw.end(art,p,space_dx);
 
-           {
-            Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
-
-            FigureSkew fig(MPane(end).subX(delta),skew);
-
-            fig.solid(art,+cfg.endspan);
-           }
-
-           p.x+=space_dx;
-          }
-        else
-          {
-           BookLab::Span &span=line.list[j];
-
-           font->text(buf,pane,p,Range(span.body),vc);
-
-           if( HasSpec(span) )
-             {
-              VColor vc = Alert(span)? +cfg.alert : +cfg.line ;
-
-              art.path(+cfg.width,vc,p,p.addX(span.dx-1));
-             }
-
-           p.x+=span.dx;
-
-           {
-            Pane end(p.x,p.y-fs.by,space_dx,fs.dy);
-
-            MCoord skew=Fraction(fs.skew);
-            MCoord delta=MulDiv(skew,fs.dy-fs.by,fs.dy);
-
-            FigureSkew fig(MPane(end).subX(delta),skew);
-
-            fig.solid(art,+cfg.endspan);
-           }
-
-           p.x+=space_dx;
-          }
-     }
+             p.x+=space_dx;
+            }
+       }
+     else
+       {
+        if( i==cursor.y ) draw.cursor(art,base,cursor_on);
+       }
 
      base.y+=fs.dy;
     }
@@ -1171,6 +1199,9 @@ void TextEditor::blank()
 
 void TextEditor::load(DynArray<BookLab::TextLine> *pad)
  {
+  show_format(Null,false);
+  show_link(Null,false);
+
   edit_text.load(pad);
  }
 
