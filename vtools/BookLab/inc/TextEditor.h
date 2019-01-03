@@ -54,6 +54,11 @@ class TextBuf : NoCopy
      return pad->at(index);
     }
 
+   void addLine()
+    {
+     if( pad ) pad->append_default();
+    }
+
    // methods
 
    void blank();
@@ -261,6 +266,8 @@ class TextWindow : public SubWindow
    void moveBottom();
 
   private:
+
+   void insSpanChar(BookLab::TextLine &line,Char ch);
 
    void insChar(Char ch);
 

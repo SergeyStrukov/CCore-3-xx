@@ -91,13 +91,19 @@ Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } }
 }
 
- , 1 } };
+ , 0 } };
 
 Font o23 = { "" , True , "Courier" , 20 , { True , False } , { True , False } , { True , 0 } };
 
 Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
+
+
+{
+{ "12345" , { null , null } , { null , null } }
+}
+
 
 }
 
@@ -109,7 +115,7 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
 
 {
-{ "Mandelbrot" , { "fmt_bold" , null } , { null , null } },
+{ "12345Mandelbrot" , { "fmt_bold" , null } , { null , null } },
 { "scope" , { "fmt_bold" , null } , { null , null } },
 { "(MScope.exe)" , { null , null } , { null , null } },
 { "is" , { null , null } , { null , null } },
@@ -128,7 +134,14 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "famous" , { null , null } , { null , null } }
 }
 
-,{},
+,
+
+
+{
+{ "12345" , { null , null } , { null , null } }
+}
+
+,
 
 
 {
@@ -150,7 +163,14 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "be" , { null , null } , { null , null } }
 }
 
-,{},
+,
+
+
+{
+{ "" , { null , null } , { null , null } }
+}
+
+,
 
 
 {

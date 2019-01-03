@@ -544,50 +544,68 @@ void TextWindow::moveBottom()
   if( cursor.y<lim ) moveDown(lim-1-cursor.y);
  }
 
-void TextWindow::insChar(Char ch) // TODO
+void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
  {
-  if( SymCharIsPrintable(ch) && spanlen<spanbuf.getLen() && cursor.y<text.getLineCount() )
+  ulen count=line.list.getLen();
+
+  if( spanlen<spanbuf.getLen() )
     {
-     BookLab::TextLine &line=text.getLine(cursor.y);
+     InsChar(spanbuf.getPtr(),spanlen,Min(cursor.x,spanlen),ch);
 
-     ulen count=line.list.getLen();
+     spanlen++;
+     cursor.x++;
 
-     if( cursor.span<count )
+     Coord dx=MulSize(count-1,data.space_dx);
+
+     for(ulen i : IndLim(count) )
        {
-        InsChar(spanbuf.getPtr(),spanlen,Min(cursor.x,spanlen),ch);
+        BookLab::Span &span=line.list[i];
 
-        spanlen++;
-        cursor.x++;
-
-        Coord dx=MulSize(count-1,data.space_dx);
-
-        for(ulen i : IndLim(count) )
+        if( i==cursor.span )
           {
-           BookLab::Span &span=line.list[i];
+           const Font &font=cfg.font.get();
 
-           if( i==cursor.span )
-             {
-              const Font &font=cfg.font.get();
+           TextSize ts=font->text(getCurSpan());
 
-              TextSize ts=font->text(getCurSpan());
-
-              span.dx=ts.dx;
-             }
-
-           dx=AddSize(dx,span.dx);
+           span.dx=ts.dx;
           }
 
-        line.dx=dx;
-
-        Replace_max(data.text_dx,dx);
-
-        changed.assert();
-
-        showCursor();
+        dx=AddSize(dx,span.dx);
        }
-     else
+
+     line.dx=dx;
+
+     Replace_max(data.text_dx,dx);
+
+     changed.assert();
+
+     showCursor();
+    }
+ }
+
+void TextWindow::insChar(Char ch)
+ {
+  if( !SymCharIsPrintable(ch) ) return;
+
+  if( !text.getLineCount() ) text.addLine();
+
+  if( ulen count=text.getLineCount() )
+    {
+     if( cursor.y<count )
        {
-        // TODO
+        BookLab::TextLine &line=text.getLine(cursor.y);
+
+        if( !line.list.getLen() )
+          {
+           line.list.append_default();
+
+           cursor.span=0;
+           cursor.x=0;
+
+           spanlen=0;
+          }
+
+        insSpanChar(line,ch);
        }
     }
  }
@@ -925,34 +943,39 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   SmoothDrawArt art(buf);
 
-  ulen count=text.getLineCount();
-
-  for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
+  if( ulen count=text.getLineCount() )
     {
-     if( i>=count ) break;
-
-     BookLab::TextLine &line=text.getLine(i);
-
-     if( ulen spancount=line.list.getLen() )
+     for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
        {
-        Point p=base;
+        if( i>=count ) break;
 
-        for(ulen j : IndLim(spancount) )
-          if( i==cursor.y && j==cursor.span )
-            {
-             p=draw.span(p,line.list[j],getCurSpan(),cursor.x,cursor_on);
-            }
-          else
-            {
-             p=draw.span(p,line.list[j]);
-            }
-       }
-     else
-       {
-        if( i==cursor.y ) draw.cursor(base,cursor_on);
-       }
+        BookLab::TextLine &line=text.getLine(i);
 
-     base.y+=draw.dY();
+        if( ulen spancount=line.list.getLen() )
+          {
+           Point p=base;
+
+           for(ulen j : IndLim(spancount) )
+             if( i==cursor.y && j==cursor.span )
+               {
+                p=draw.span(p,line.list[j],getCurSpan(),cursor.x,cursor_on);
+               }
+             else
+               {
+                p=draw.span(p,line.list[j]);
+               }
+          }
+        else
+          {
+           if( i==cursor.y ) draw.cursor(base,cursor_on);
+          }
+
+        base.y+=draw.dY();
+       }
+    }
+  else
+    {
+     draw.cursor(base,cursor_on);
     }
  }
 
