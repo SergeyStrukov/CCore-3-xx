@@ -91,7 +91,7 @@ Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } }
 }
 
- , 0 } };
+ , 1 } };
 
 Font o23 = { "" , True , "Courier" , 20 , { True , False } , { True , False } , { True , 0 } };
 
@@ -138,7 +138,7 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
 
 {
-{ "12345" , { null , null } , { null , null } }
+
 }
 
 ,

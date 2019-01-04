@@ -172,6 +172,8 @@ class TextWindow : public SubWindow
      void prepare(const Font &font);
 
      void update(const Font &font,BookLab::TextLine &line);
+
+     void update(BookLab::TextLine &line);
     };
 
    mutable SizeData data;
@@ -180,7 +182,11 @@ class TextWindow : public SubWindow
 
    void clean();
 
+   static Coord Cache(const Font &font,BookLab::Span &span);
+
    static Coord Cache(const Font &font,BookLab::TextLine &line,Coord space_dx);
+
+   static Coord Cache(BookLab::TextLine &line,Coord space_dx);
 
    [[nodiscard]] bool cache() const;
 
@@ -220,12 +226,14 @@ class TextWindow : public SubWindow
    PtrLen<const Char> getCurSpan() const { return Range(spanbuf.getPtr(),spanlen); }
 
    template <class Func>
-   void applyToSpan(Func func);
+   bool applyToSpan(Func func);
 
    template <class Func>
-   void applyToSpan(Func func) const;
+   bool applyToSpan(Func func) const;
 
    void fill(StrLen str);
+
+   void cleanNames();
 
    void fill();
 
@@ -238,6 +246,8 @@ class TextWindow : public SubWindow
    void setPosY(ulen y);
 
    ulen getSpanCount() const;
+
+   struct Split;
 
    void changeSpan(ulen span);
 
@@ -266,6 +276,8 @@ class TextWindow : public SubWindow
    void moveBottom();
 
   private:
+
+   void makeNonEmpty();
 
    void insSpanChar(BookLab::TextLine &line,Char ch);
 

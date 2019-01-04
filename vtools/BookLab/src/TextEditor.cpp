@@ -19,9 +19,25 @@
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
 
+#include <CCore/inc/algon/SimpleRotate.h>
+
 #include <CCore/inc/Exception.h>
 
 namespace App {
+
+/* InsAt() */
+
+template <class A>
+auto InsAt(A &array,ulen ind)
+ {
+  array.append_default();
+
+  auto r=Range(array).part(ind);
+
+  Algon::RangeRotateRight(r);
+
+  return r.ptr;
+ }
 
 /* class TextBuf */
 
@@ -61,6 +77,17 @@ void TextWindow::clean()
   spanlen=0;
  }
 
+Coord TextWindow::Cache(const Font &font,BookLab::Span &span)
+ {
+  TextSize ts=font->text(Range(span.body));
+
+  Coord ret=ts.dx;
+
+  span.dx=ret;
+
+  return ret;
+ }
+
 Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
  {
   if( ulen count=line.list.getLen() )
@@ -69,13 +96,30 @@ Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
 
      for(BookLab::Span &span : line.list )
        {
-        TextSize ts=font->text(Range(span.body));
+        dx=AddSize(dx,Cache(font,span));
+       }
 
-        Coord sdx=ts.dx;
+     line.dx=dx;
 
-        span.dx=sdx;
+     return dx;
+    }
+  else
+    {
+     line.dx=0;
 
-        dx=AddSize(dx,sdx);
+     return 0;
+    }
+ }
+
+Coord TextWindow::Cache(BookLab::TextLine &line,Coord space_dx)
+ {
+  if( ulen count=line.list.getLen() )
+    {
+     Coord dx=MulSize(count-1,space_dx);
+
+     for(BookLab::Span &span : line.list )
+       {
+        dx=AddSize(dx,span.dx);
        }
 
      line.dx=dx;
@@ -102,6 +146,11 @@ void TextWindow::SizeData::prepare(const Font &font)
 void TextWindow::SizeData::update(const Font &font,BookLab::TextLine &line)
  {
   Replace_max(text_dx,Cache(font,line,space_dx));
+ }
+
+void TextWindow::SizeData::update(BookLab::TextLine &line)
+ {
+  Replace_max(text_dx,Cache(line,space_dx));
  }
 
 [[nodiscard]] bool TextWindow::cache() const
@@ -186,7 +235,7 @@ void TextWindow::tickStop()
  }
 
 template <class Func>
-void TextWindow::applyToSpan(Func func)
+bool TextWindow::applyToSpan(Func func)
  {
   if( cursor.y<text.getLineCount() )
     {
@@ -195,12 +244,16 @@ void TextWindow::applyToSpan(Func func)
      if( cursor.span<line.list.getLen() )
        {
         func(line.list[cursor.span]);
+
+        return true;
        }
     }
+
+  return false;
  }
 
 template <class Func>
-void TextWindow::applyToSpan(Func func) const
+bool TextWindow::applyToSpan(Func func) const
  {
   if( cursor.y<text.getLineCount() )
     {
@@ -209,8 +262,12 @@ void TextWindow::applyToSpan(Func func) const
      if( cursor.span<line.list.getLen() )
        {
         func(line.list[cursor.span]);
+
+        return true;
        }
     }
+
+  return false;
  }
 
 void TextWindow::fill(StrLen str)
@@ -227,18 +284,27 @@ void TextWindow::fill(StrLen str)
     }
  }
 
+void TextWindow::cleanNames()
+ {
+  showFormat.assert(Null,false);
+  showLink.assert(Null,false);
+ }
+
 void TextWindow::fill()
  {
   spanlen=0;
 
-  applyToSpan( [&] (BookLab::Span &span)
-                   {
-                    fill(Range(span.body));
+  if( !applyToSpan( [&] (BookLab::Span &span)
+                  {
+                   fill(Range(span.body));
 
-                    showFormat.assert(span.format.name,span.format.notResolved());
-                    showLink.assert(span.ref.name,span.ref.notResolved());
+                   showFormat.assert(span.format.name,span.format.notResolved());
+                   showLink.assert(span.ref.name,span.ref.notResolved());
 
-                   } );
+                  } ) )
+    {
+     cleanNames();
+    }
  }
 
 void TextWindow::flush() const
@@ -273,6 +339,20 @@ ulen TextWindow::getSpanCount() const
   return line.list.getLen();
  }
 
+struct TextWindow::Split
+ {
+  PtrLen<const Char> str1;
+  PtrLen<const Char> str2;
+
+  Split(PtrLen<const Char> str,ulen pos)
+   {
+    ulen split=Min(pos,str.len);
+
+    str1=str.prefix(split);
+    str2=str.part(split);
+   }
+ };
+
 void TextWindow::changeSpan(ulen span)
  {
   flush();
@@ -306,13 +386,9 @@ void TextWindow::showCursor()
      for(ulen j : IndLim(line.list.getLen()) )
        if( j==cursor.span )
          {
-          auto str=getCurSpan();
+          Split split(getCurSpan(),cursor.x);
 
-          ulen split=Min(cursor.x,str.len);
-
-          auto str1=str.prefix(split);
-
-          x+=font->text(str1).dx;
+          x+=font->text(split.str1).dx;
 
           break;
          }
@@ -544,6 +620,11 @@ void TextWindow::moveBottom()
   if( cursor.y<lim ) moveDown(lim-1-cursor.y);
  }
 
+void TextWindow::makeNonEmpty()
+ {
+  if( !text.getLineCount() ) text.addLine();
+ }
+
 void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
  {
   ulen count=line.list.getLen();
@@ -563,11 +644,7 @@ void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
 
         if( i==cursor.span )
           {
-           const Font &font=cfg.font.get();
-
-           TextSize ts=font->text(getCurSpan());
-
-           span.dx=ts.dx;
+           Cache(cfg.font.get(),span);
           }
 
         dx=AddSize(dx,span.dx);
@@ -587,7 +664,7 @@ void TextWindow::insChar(Char ch)
  {
   if( !SymCharIsPrintable(ch) ) return;
 
-  if( !text.getLineCount() ) text.addLine();
+  makeNonEmpty();
 
   if( ulen count=text.getLineCount() )
     {
@@ -603,6 +680,8 @@ void TextWindow::insChar(Char ch)
            cursor.x=0;
 
            spanlen=0;
+
+           cleanNames();
           }
 
         insSpanChar(line,ch);
@@ -610,14 +689,69 @@ void TextWindow::insChar(Char ch)
     }
  }
 
-void TextWindow::splitSpan() // TODO
+void TextWindow::splitSpan()
  {
-  changed.assert();
+  makeNonEmpty();
+
+  if( ulen count=text.getLineCount() )
+    {
+     if( cursor.y<count )
+       {
+        BookLab::TextLine &line=text.getLine(cursor.y);
+
+        if( ulen spancount=line.list.getLen() )
+          {
+           if( cursor.span>=spancount ) return;
+
+           BookLab::Span *span=InsAt(line.list,cursor.span);
+
+           Split split(getCurSpan(),cursor.x);
+
+           span[0].body=String(split.str1);
+           span[1].body=String(split.str2);
+
+           span[0].format=span[1].format;
+           span[0].ref=span[1].ref;
+
+           cursor.span++;
+           cursor.x=0;
+
+           fill();
+
+           const Font &font=cfg.font.get();
+
+           Cache(font,span[0]);
+           Cache(font,span[1]);
+
+           data.update(line);
+          }
+        else
+          {
+           line.list.append_default();
+
+           cursor.span=0;
+           cursor.x=0;
+
+           spanlen=0;
+
+           cleanNames();
+          }
+
+        changed.assert();
+
+        showCursor();
+       }
+    }
  }
 
 void TextWindow::splitLine() // TODO
  {
+  makeNonEmpty();
+
+
   changed.assert();
+
+  showCursor();
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -889,15 +1023,12 @@ class TextWindow::Draw : SizeData , NoCopy
 
    Point text(Point base,PtrLen<const Char> str,ulen pos,bool on)
     {
-     ulen split=Min(pos,str.len);
+     Split split(str,pos);
 
-     auto str1=str.prefix(split);
-     auto str2=str.part(split);
+     Coord dx1=text(split.str1);
+     Coord dx2=text(split.str2);
 
-     Coord dx1=text(str1);
-     Coord dx2=text(str2);
-
-     text(base,str1);
+     text(base,split.str1);
 
      base.x+=dx1;
 
@@ -905,7 +1036,7 @@ class TextWindow::Draw : SizeData , NoCopy
 
      base.x+=dxc;
 
-     text(base,str2);
+     text(base,split.str2);
 
      base.x+=dx2;
 
