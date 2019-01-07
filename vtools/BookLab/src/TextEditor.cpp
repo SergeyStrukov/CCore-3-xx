@@ -307,11 +307,6 @@ void TextWindow::fill()
     }
  }
 
-void TextWindow::flush() const
- {
-  applyToSpan( [&] (BookLab::Span &span) { span.body=String(getCurSpan()); } );
- }
-
 void TextWindow::setPosX(ulen x)
  {
   sx.setPos(x);
@@ -689,6 +684,11 @@ void TextWindow::insChar(Char ch)
     }
  }
 
+void TextWindow::delChar(bool prev) // TODO
+ {
+  Used(prev);
+ }
+
 void TextWindow::splitSpan()
  {
   makeNonEmpty();
@@ -787,7 +787,7 @@ Point TextWindow::getMinSize(Point) const
 
 void TextWindow::blank()
  {
-  save();
+  flush();
 
   clean();
 
@@ -807,11 +807,9 @@ void TextWindow::load(DynArray<BookLab::TextLine> *pad)
   changed.assert();
  }
 
-void TextWindow::save() const
+void TextWindow::flush()
  {
-  flush();
-
-  text.save();
+  applyToSpan( [&] (BookLab::Span &span) { span.body=String(getCurSpan()); } );
  }
 
 void TextWindow::setFormat(String name)
@@ -1123,6 +1121,8 @@ void TextWindow::open()
 void TextWindow::close()
  {
   defer_tick.stop();
+
+  flush();
  }
 
  // keyboard
@@ -1165,7 +1165,7 @@ void TextWindow::react(UserAction action)
   action.dispatch(*this);
  }
 
-void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
+void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
  {
   switch( vkey )
     {
@@ -1246,13 +1246,13 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
 
      case VKey_Delete :
       {
-       // TODO
+       delChar(false);
       }
      break;
 
      case VKey_BackSpace :
       {
-       // TODO
+       delChar(true);
       }
      break;
     }
@@ -1398,22 +1398,12 @@ Point TextEditor::getMinSize() const
   return lay.getMinSize(space);
  }
 
-void TextEditor::blank()
- {
-  edit_text.blank();
- }
-
 void TextEditor::load(DynArray<BookLab::TextLine> *pad)
  {
   show_format(Null,false);
   show_link(Null,false);
 
   edit_text.load(pad);
- }
-
-void TextEditor::save() const
- {
-  edit_text.save();
  }
 
  // base

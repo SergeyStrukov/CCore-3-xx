@@ -1630,7 +1630,7 @@ void FieldText::setField(DynArray<BookLab::TextLine> *pad)
 
 void FieldText::set(bool *,bool)
  {
-  save();
+  flush();
  }
 
 void FieldText::noField()
@@ -1666,9 +1666,11 @@ void FieldWindow::noField()
 
 void FieldWindow::setFieldCtrl(FieldControl *field_ctrl_,SubWindow *field_,bool withdef)
  {
+  bool enset = ( field_ctrl_ != &field_Text ) ;
+
   if( field_ctrl==field_ctrl_ )
     {
-     btn_set.enable();
+     btn_set.enable(enset);
 
      check_def.enable(withdef);
      lab_def.enable(withdef);
@@ -1689,7 +1691,7 @@ void FieldWindow::setFieldCtrl(FieldControl *field_ctrl_,SubWindow *field_,bool 
 
      wlist.insBottom(field);
 
-     btn_set.enable();
+     btn_set.enable(enset);
 
      check_def.enable(withdef);
      lab_def.enable(withdef);

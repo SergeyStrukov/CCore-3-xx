@@ -489,12 +489,16 @@ ErrorText InnerBookLabWindow::load(StrLen file_name,PtrLen<char> ebuf)
 
 ErrorText InnerBookLabWindow::save(StrLen file_name,PtrLen<char> ebuf) const
  {
+  field_frame.flush();
+
   return book.save(file_name,ebuf);
  }
 
 ErrorText InnerBookLabWindow::link(PtrLen<char> ebuf)
  {
   if( book.isLinked() ) return Success;
+
+  field_frame.flush();
 
   ErrorText ret=book.link(ebuf);
 

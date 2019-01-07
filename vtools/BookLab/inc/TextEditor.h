@@ -237,8 +237,6 @@ class TextWindow : public SubWindow
 
    void fill();
 
-   void flush() const;
-
   private:
 
    void setPosX(ulen x);
@@ -283,6 +281,8 @@ class TextWindow : public SubWindow
 
    void insChar(Char ch);
 
+   void delChar(bool prev);
+
    void splitSpan();
 
    void splitLine();
@@ -319,7 +319,7 @@ class TextWindow : public SubWindow
 
    void load(DynArray<BookLab::TextLine> *pad);
 
-   void save() const;
+   void flush();
 
    void setFormat(String name);
 
@@ -418,11 +418,11 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
 
    void load(DynArray<BookLab::TextLine> *pad) { window.load(pad); }
 
-   void save() const { window.save(); }
-
    void setFormat(String name) { window.setFormat(name); }
 
    void setLink(String name) { window.setLink(name); }
+
+   void flush() { window.flush(); }
 
    void link() { window.link(); }
 
@@ -523,11 +523,11 @@ class TextEditor : public ComboWindow
 
    Point getMinSize() const;
 
-   void blank();
+   void blank() { edit_text.blank(); }
 
    void load(DynArray<BookLab::TextLine> *pad);
 
-   void save() const;
+   void flush() { edit_text.flush(); }
 
    void link() { edit_text.link(); }
 

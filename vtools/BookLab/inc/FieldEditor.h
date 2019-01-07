@@ -1513,6 +1513,8 @@ class FieldWindow : public ComboWindow
 
    void link() { if( field_Text.isListed() ) field_Text.link(); }
 
+   void flush() { if( field_Text.isListed() ) field_Text.flush(); }
+
    // base
 
    virtual void open();
@@ -1602,7 +1604,9 @@ class FieldFrame : public DragFrame
 
    void setField(BookLab::PadType pad) { client.setField(pad); }
 
-   void link() { if( isAlive() ) client.link(); }
+   void link() { client.link(); }
+
+   void flush() { client.flush(); }
 
    // base
 
