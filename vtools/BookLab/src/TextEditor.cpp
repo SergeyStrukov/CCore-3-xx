@@ -20,6 +20,7 @@
 #include <CCore/inc/video/FigureLib.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
+#include <CCore/inc/RangeDel.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -47,6 +48,13 @@ TextBuf::TextBuf()
 
 TextBuf::~TextBuf()
  {
+ }
+
+void TextBuf::delLine(ulen index)
+ {
+  RangeSwapDel(Range(*pad),index);
+
+  pad->shrink_one();
  }
 
 void TextBuf::blank()
@@ -620,10 +628,35 @@ void TextWindow::makeNonEmpty()
   if( !text.getLineCount() ) text.addLine();
  }
 
-void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
+Coord TextWindow::updateCache(BookLab::TextLine &line)
  {
   ulen count=line.list.getLen();
 
+  Coord dx=MulSize(count-1,data.space_dx);
+
+  for(ulen i : IndLim(count) )
+    {
+     BookLab::Span &span=line.list[i];
+
+     if( i==cursor.span )
+       {
+        const Font &font=cfg.font.get();
+
+        TextSize ts=font->text(getCurSpan());
+
+        span.dx=ts.dx;
+       }
+
+     dx=AddSize(dx,span.dx);
+    }
+
+  line.dx=dx;
+
+  return dx;
+ }
+
+void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
+ {
   if( spanlen<spanbuf.getLen() )
     {
      InsChar(spanbuf.getPtr(),spanlen,Min(cursor.x,spanlen),ch);
@@ -631,23 +664,7 @@ void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
      spanlen++;
      cursor.x++;
 
-     Coord dx=MulSize(count-1,data.space_dx);
-
-     for(ulen i : IndLim(count) )
-       {
-        BookLab::Span &span=line.list[i];
-
-        if( i==cursor.span )
-          {
-           Cache(cfg.font.get(),span);
-          }
-
-        dx=AddSize(dx,span.dx);
-       }
-
-     line.dx=dx;
-
-     Replace_max(data.text_dx,dx);
+     Replace_max(data.text_dx,updateCache(line));
 
      changed.assert();
 
@@ -684,9 +701,112 @@ void TextWindow::insChar(Char ch)
     }
  }
 
-void TextWindow::delChar(bool prev) // TODO
+void TextWindow::delSpanChar(BookLab::TextLine &line)
  {
+  DelCharRange(spanbuf.getPtr(),spanlen,cursor.x,1);
+
+  spanlen--;
+
+  updateCache(line);
+
+  data.text_dx=0;
+
+  ulen count=text.getLineCount();
+
+  for(ulen i : IndLim(count) ) Replace_max(data.text_dx,text.getLine(i).dx);
+
+  changed.assert();
+
+  showCursor();
+ }
+
+void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
+ {
+  Used(line);
   Used(prev);
+ }
+
+void TextWindow::delChar(bool prev)
+ {
+  if( ulen count=text.getLineCount() )
+    {
+     if( cursor.y<count )
+       {
+        BookLab::TextLine &line=text.getLine(cursor.y);
+
+        if( ulen spancount=line.list.getLen() )
+          {
+           if( cursor.span<spancount )
+             {
+              if( prev )
+                {
+                 if( cursor.x==0 )
+                   {
+                    joinSpan(line,true);
+
+                    return;
+                   }
+
+                 cursor.x--;
+                }
+
+               if( cursor.x<spanlen )
+                 {
+                  delSpanChar(line);
+                 }
+               else
+                 {
+                  joinSpan(line,false);
+                 }
+             }
+          }
+        else
+          {
+           text.delLine(cursor.y);
+
+           bool toend=false;
+
+           if( prev || cursor.y>=count-1 )
+             {
+              if( cursor.y==0 )
+                {
+                 cursor.span=0;
+                 cursor.x=0;
+                }
+              else
+                {
+                 cursor.y--;
+
+                 BookLab::TextLine &line=text.getLine(cursor.y);
+
+                 if( ulen count=line.list.getLen() )
+                   {
+                    cursor.span=count-1;
+                    toend=true;
+                   }
+                 else
+                   {
+                    cursor.span=0;
+                    cursor.x=0;
+                   }
+                }
+             }
+           else
+             {
+              cursor.span=0;
+              cursor.x=0;
+             }
+
+           fill();
+
+           if( toend ) cursor.x=spanlen;
+
+           changed.assert();
+
+           showCursor();
+          }
+       }
+    }
  }
 
 void TextWindow::splitSpan()

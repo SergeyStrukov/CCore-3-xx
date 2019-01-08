@@ -59,6 +59,8 @@ class TextBuf : NoCopy
      if( pad ) pad->append_default();
     }
 
+   void delLine(ulen index);
+
    // methods
 
    void blank();
@@ -277,9 +279,15 @@ class TextWindow : public SubWindow
 
    void makeNonEmpty();
 
+   Coord updateCache(BookLab::TextLine &line);
+
    void insSpanChar(BookLab::TextLine &line,Char ch);
 
    void insChar(Char ch);
+
+   void delSpanChar(BookLab::TextLine &line);
+
+   void joinSpan(BookLab::TextLine &line,bool prev);
 
    void delChar(bool prev);
 

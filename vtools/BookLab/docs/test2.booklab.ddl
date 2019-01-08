@@ -113,6 +113,10 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
 {
 
+{
+
+},
+
 
 {
 { "12345Mandelbrot" , { "fmt_bold" , null } , { null , null } },
@@ -274,6 +278,9 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "the" , { null , null } , { null , null } },
 { "outer" , { null , null } , { null , null } },
 { "part." , { null , null } , { null , null } }
+},
+
+{
 }
 
 
