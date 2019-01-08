@@ -739,7 +739,75 @@ void TextWindow::delSpanChar(BookLab::TextLine &line)
   showCursor();
  }
 
-void TextWindow::joinSpan(BookLab::TextLine &line,bool prev) // TODO
+void TextWindow::joinLine()
+ {
+  ulen count=text.getLineCount();
+
+  if( count<2 || cursor.y>=count-1 ) return;
+
+  BookLab::TextLine &line1=text.getLine(cursor.y);
+  BookLab::TextLine &line2=text.getLine(cursor.y+1);
+
+  line1.list.extend_copy(Range(line2.list));
+
+  text.delLine(cursor.y+1);
+
+  Replace_max(data.text_dx,Cache(line1,data.space_dx));
+
+  changed.assert();
+
+  showCursor();
+ }
+
+void TextWindow::delEmptyLine(bool prev)
+ {
+  text.delLine(cursor.y);
+
+  bool toend=false;
+
+  ulen count=text.getLineCount();
+
+  if( prev || cursor.y>=count-1 )
+    {
+     if( cursor.y==0 )
+       {
+        cursor.span=0;
+        cursor.x=0;
+       }
+     else
+       {
+        cursor.y--;
+
+        BookLab::TextLine &line=text.getLine(cursor.y);
+
+        if( ulen spancount=line.list.getLen() )
+          {
+           cursor.span=spancount-1;
+           toend=true;
+          }
+        else
+          {
+           cursor.span=0;
+           cursor.x=0;
+          }
+       }
+    }
+  else
+    {
+     cursor.span=0;
+     cursor.x=0;
+    }
+
+  fill();
+
+  if( toend ) cursor.x=spanlen;
+
+  changed.assert();
+
+  showCursor();
+ }
+
+void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
  {
   if( prev )
     {
@@ -751,7 +819,30 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev) // TODO
        }
      else
        {
-        // TODO join line
+        if( cursor.y )
+          {
+           flush();
+
+           cursor.y--;
+
+           if( ulen count=text.getLine(cursor.y).list.getLen() )
+             {
+              cursor.span=count-1;
+
+              fill();
+
+              cursor.x=spanlen;
+
+              joinLine();
+             }
+           else
+             {
+              cursor.span=0;
+              cursor.x=0;
+
+              delEmptyLine(false);
+             }
+          }
 
         return;
        }
@@ -777,7 +868,7 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev) // TODO
     }
   else
     {
-     // TODO join line
+     joinLine();
     }
  }
 
@@ -817,48 +908,7 @@ void TextWindow::delChar(bool prev)
           }
         else
           {
-           text.delLine(cursor.y);
-
-           bool toend=false;
-
-           if( prev || cursor.y>=count-1 )
-             {
-              if( cursor.y==0 )
-                {
-                 cursor.span=0;
-                 cursor.x=0;
-                }
-              else
-                {
-                 cursor.y--;
-
-                 BookLab::TextLine &line=text.getLine(cursor.y);
-
-                 if( ulen count=line.list.getLen() )
-                   {
-                    cursor.span=count-1;
-                    toend=true;
-                   }
-                 else
-                   {
-                    cursor.span=0;
-                    cursor.x=0;
-                   }
-                }
-             }
-           else
-             {
-              cursor.span=0;
-              cursor.x=0;
-             }
-
-           fill();
-
-           if( toend ) cursor.x=spanlen;
-
-           changed.assert();
-
-           showCursor();
+           delEmptyLine(prev);
           }
        }
     }

@@ -291,6 +291,10 @@ class TextWindow : public SubWindow
 
    void delSpanChar(BookLab::TextLine &line);
 
+   void joinLine();
+
+   void delEmptyLine(bool prev);
+
    void joinSpan(BookLab::TextLine &line,bool prev);
 
    void delChar(bool prev);
