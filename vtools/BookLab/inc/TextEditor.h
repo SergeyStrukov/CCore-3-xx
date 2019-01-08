@@ -235,6 +235,8 @@ class TextWindow : public SubWindow
 
    void fill(StrLen str);
 
+   void extend(StrLen str);
+
    void cleanNames();
 
    void fill();
@@ -280,6 +282,8 @@ class TextWindow : public SubWindow
    void makeNonEmpty();
 
    Coord updateCache(BookLab::TextLine &line);
+
+   void updateData(BookLab::TextLine &line);
 
    void insSpanChar(BookLab::TextLine &line,Char ch);
 

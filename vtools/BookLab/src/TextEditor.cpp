@@ -292,6 +292,20 @@ void TextWindow::fill(StrLen str)
     }
  }
 
+void TextWindow::extend(StrLen str)
+ {
+  FillCharBuf result(Range(spanbuf).part(spanlen),str);
+
+  if( result.overflow )
+    {
+     Printf(Exception,"App::TextWindow::extend() : overflow, too long span");
+    }
+  else
+    {
+     spanlen+=result.len;
+    }
+ }
+
 void TextWindow::cleanNames()
  {
   showFormat.assert(Null,false);
@@ -655,6 +669,17 @@ Coord TextWindow::updateCache(BookLab::TextLine &line)
   return dx;
  }
 
+void TextWindow::updateData(BookLab::TextLine &line)
+ {
+  updateCache(line);
+
+  data.text_dx=0;
+
+  ulen count=text.getLineCount();
+
+  for(ulen i : IndLim(count) ) Replace_max(data.text_dx,text.getLine(i).dx);
+ }
+
 void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
  {
   if( spanlen<spanbuf.getLen() )
@@ -707,23 +732,53 @@ void TextWindow::delSpanChar(BookLab::TextLine &line)
 
   spanlen--;
 
-  updateCache(line);
-
-  data.text_dx=0;
-
-  ulen count=text.getLineCount();
-
-  for(ulen i : IndLim(count) ) Replace_max(data.text_dx,text.getLine(i).dx);
+  updateData(line);
 
   changed.assert();
 
   showCursor();
  }
 
-void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
+void TextWindow::joinSpan(BookLab::TextLine &line,bool prev) // TODO
  {
-  Used(line);
-  Used(prev);
+  if( prev )
+    {
+     if( cursor.span )
+       {
+        changeSpan(cursor.span-1);
+
+        cursor.x=spanlen;
+       }
+     else
+       {
+        // TODO join line
+
+        return;
+       }
+    }
+
+  ulen count=line.list.getLen();
+
+  if( cursor.span<count-1 )
+    {
+     BookLab::Span &span2=line.list[cursor.span+1];
+
+     extend(Range(span2.body));
+
+     RangeSwapDel(Range(line.list),cursor.span+1);
+
+     line.list.shrink_one();
+
+     updateData(line);
+
+     changed.assert();
+
+     showCursor();
+    }
+  else
+    {
+     // TODO join line
+    }
  }
 
 void TextWindow::delChar(bool prev)
