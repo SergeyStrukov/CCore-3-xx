@@ -40,6 +40,20 @@ auto InsAt(A &array,ulen ind)
   return r.ptr;
  }
 
+/* DelPrefix() */
+
+template <class A>
+void DelPrefix(A &array,ulen delta)
+ {
+  auto *base=array.getPtr();
+
+  ulen len=array.getLen()-delta;
+
+  for(ulen i : IndLim(len) ) base[i]=base[i+delta];
+
+  array.shrink(delta);
+ }
+
 /* class TextBuf */
 
 TextBuf::TextBuf()
@@ -48,6 +62,11 @@ TextBuf::TextBuf()
 
 TextBuf::~TextBuf()
  {
+ }
+
+BookLab::TextLine * TextBuf::insLine(ulen index)
+ {
+  return InsAt(*pad,index);
  }
 
 void TextBuf::delLine(ulen index)
@@ -669,15 +688,20 @@ Coord TextWindow::updateCache(BookLab::TextLine &line)
   return dx;
  }
 
-void TextWindow::updateData(BookLab::TextLine &line)
+void TextWindow::updateData()
  {
-  updateCache(line);
-
   data.text_dx=0;
 
   ulen count=text.getLineCount();
 
   for(ulen i : IndLim(count) ) Replace_max(data.text_dx,text.getLine(i).dx);
+ }
+
+void TextWindow::updateData(BookLab::TextLine &line)
+ {
+  updateCache(line);
+
+  updateData();
  }
 
 void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
@@ -969,14 +993,86 @@ void TextWindow::splitSpan()
     }
  }
 
-void TextWindow::splitLine() // TODO
+void TextWindow::splitLine()
  {
   makeNonEmpty();
 
+  if( ulen count=text.getLineCount() )
+    {
+     if( cursor.y<count )
+       {
+        BookLab::TextLine &line=text.getLine(cursor.y);
 
-  changed.assert();
+        if( ulen spancount=line.list.getLen() )
+          {
+           if( cursor.span>=spancount ) return;
 
-  showCursor();
+           BookLab::TextLine *lineptr=text.insLine(cursor.y);
+
+           cursor.y++;
+
+           BookLab::TextLine &line1=lineptr[0];
+           BookLab::TextLine &line2=lineptr[1];
+
+           Split split(getCurSpan(),cursor.x);
+
+           BookLab::Span &old=line2.list[cursor.span];
+
+           if( cursor.span>0 )
+             {
+              line1.list.reserve(cursor.span+1);
+
+              line1.list.extend_copy(cursor.span,line2.list.getPtr());
+             }
+
+           BookLab::Span *span=line1.list.append_default();
+
+           span->body=String(split.str1);
+           span->format=old.format;
+           span->ref=old.ref;
+
+           old.body=String(split.str2);
+
+           const Font &font=cfg.font.get();
+
+           Cache(font,line1.list[cursor.span]);
+           Cache(font,line2.list[cursor.span]);
+
+           if( cursor.span>0 )
+             {
+              DelPrefix(line2.list,cursor.span);
+
+              cursor.span=0;
+             }
+
+           cursor.x=0;
+
+           fill();
+
+           Cache(line1,data.space_dx);
+           Cache(line2,data.space_dx);
+
+           updateData();
+          }
+        else
+          {
+           text.insLine(cursor.y);
+
+           cursor.y++;
+
+           cursor.span=0;
+           cursor.x=0;
+
+           spanlen=0;
+
+           cleanNames();
+          }
+
+        changed.assert();
+
+        showCursor();
+       }
+    }
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -999,7 +1095,7 @@ TextWindow::~TextWindow()
  {
  }
 
-// methods
+ // methods
 
 Point TextWindow::getMinSize(Point) const
  {
@@ -1017,8 +1113,6 @@ void TextWindow::blank()
   clean();
 
   text.blank();
-
-  changed.assert();
  }
 
 void TextWindow::load(DynArray<BookLab::TextLine> *pad)
@@ -1028,8 +1122,6 @@ void TextWindow::load(DynArray<BookLab::TextLine> *pad)
   text.load(pad);
 
   fill();
-
-  changed.assert();
  }
 
 void TextWindow::flush()
@@ -1524,6 +1616,8 @@ void ScrollTextWindow::changed()
   layout();
 
   redraw();
+
+  modified.assert();
  }
 
 ScrollTextWindow::ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg)
@@ -1539,6 +1633,24 @@ ScrollTextWindow::ScrollTextWindow(SubWindowHost &host,const ConfigType &cfg)
 
 ScrollTextWindow::~ScrollTextWindow()
  {
+ }
+
+void ScrollTextWindow::blank()
+ {
+  window.blank();
+
+  layout();
+
+  redraw();
+ }
+
+void ScrollTextWindow::load(DynArray<BookLab::TextLine> *pad)
+ {
+  window.load(pad);
+
+  layout();
+
+  redraw();
  }
 
 /* class TextEditor */
@@ -1592,7 +1704,9 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
    connector_link_pressed(this,&TextEditor::link_pressed,btn_link.pressed),
 
    connector_show_format(this,&TextEditor::show_format,edit_text.showFormat),
-   connector_show_link(this,&TextEditor::show_link,edit_text.showLink)
+   connector_show_link(this,&TextEditor::show_link,edit_text.showLink),
+
+   modified(edit_text.modified)
  {
   wlist.insTop(btn_format,edit_format,btn_link,edit_link,edit_text,cont);
 

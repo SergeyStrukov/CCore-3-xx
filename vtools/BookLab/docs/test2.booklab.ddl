@@ -113,13 +113,9 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
 {
 
-{
-
-},
-
 
 {
-{ "12345Mandelbrot" , { "fmt_bold" , null } , { null , null } },
+{ "Mandelbrot" , { "fmt_bold" , null } , { null , null } },
 { "scope" , { "fmt_bold" , null } , { null , null } },
 { "(MScope.exe)" , { null , null } , { null , null } },
 { "is" , { null , null } , { null , null } },
@@ -129,56 +125,54 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "display" , { null , null } , { null , null } },
 { "the" , { null , null } , { null , null } },
 { "Mandelbrot" , { null , null } , { null , null } },
-{ "Set." , { null , null } , { null , null } },
+{ "Set." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "The" , { null , null } , { null , null } },
 { "Mandelbrot" , { null , null } , { null , null } },
 { "Set" , { null , null } , { null , null } },
 { "is" , { null , null } , { null , null } },
 { "a" , { null , null } , { null , null } },
-{ "famous" , { null , null } , { null , null } }
-}
-
-,
-
-
-{
-
-}
-
-,
-
-
-{
+{ "famous" , { null , null } , { null , null } },
 { "mathematical" , { null , null } , { null , null } },
 { "fractal" , { null , null } , { null , null } },
-{ "set," , { null , null } , { null , null } },
+{ "set," , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "it" , { null , null } , { null , null } },
 { "has" , { null , null } , { null , null } },
 { "been" , { null , null } , { null , null } },
 { "discovered" , { null , null } , { null , null } },
 { "by" , { null , null } , { null , null } },
 { "Benoit B. Mandelbrot" , { null , null } , { null , null } },
-{ "." , { null , null } , { null , null } },
+{ "." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "The" , { null , null } , { null , null } },
 { "Mandelbrot" , { null , null } , { null , null } },
 { "Set" , { null , null } , { null , null } },
 { "itself" , { null , null } , { null , null } },
 { "cannot" , { null , null } , { null , null } },
-{ "be" , { null , null } , { null , null } }
+{ "be" , { null , null } , { null , null } },
+{ "calculated," , { null , null } , { null , null } }
 }
 
 ,
 
 
 {
-{ "" , { null , null } , { null , null } }
-}
-
-,
-
-
-{
-{ "calculated," , { null , null } , { null , null } },
 { "because" , { null , null } , { null , null } },
 { "it" , { null , null } , { null , null } },
 { "requires" , { null , null } , { null , null } },
@@ -188,7 +182,13 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "precise" , { null , null } , { null , null } },
 { "iteration" , { null , null } , { null , null } },
 { "per" , { null , null } , { null , null } },
-{ "point." , { null , null } , { null , null } },
+{ "point." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "But" , { null , null } , { null , null } },
 { "we" , { null , null } , { null , null } },
 { "can" , { null , null } , { null , null } },
@@ -197,18 +197,18 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "paint" , { null , null } , { null , null } },
 { "the" , { null , null } , { null , null } },
 { "outer" , { null , null } , { null , null } },
-{ "of" , { null , null } , { null , null } }
+{ "of" , { null , null } , { null , null } },
+{ "it" , { null , null } , { null , null } },
+{ "up" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "some" , { null , null } , { null , null } },
+{ "level." , { null , null } , { null , null } }
 }
 
 ,
 
 
 {
-{ "it" , { null , null } , { null , null } },
-{ "up" , { null , null } , { null , null } },
-{ "to" , { null , null } , { null , null } },
-{ "some" , { null , null } , { null , null } },
-{ "level." , { null , null } , { null , null } },
 { "The" , { null , null } , { null , null } },
 { "rest" , { null , null } , { null , null } },
 { "of" , { null , null } , { null , null } },
@@ -220,22 +220,29 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "and" , { null , null } , { null , null } },
 { "contains" , { null , null } , { null , null } },
 { "inside" , { null , null } , { null , null } },
+{ "" , { null , null } , { null , null } },
 { "the" , { null , null } , { null , null } },
 { "true" , { null , null } , { null , null } },
 { "Mandelbrot" , { null , null } , { null , null } },
-{ "Set," , { null , null } , { null , null } },
-{ "but" , { null , null } , { null , null } },
-{ "we" , { null , null } , { null , null } },
-{ "don't" , { null , null } , { null , null } },
-{ "know" , { null , null } , { null , null } }
+{ "Set," , { null , null } , { null , null } }
 }
 
 ,
 
 
 {
+{ "but" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "don't" , { null , null } , { null , null } },
+{ "know" , { null , null } , { null , null } },
 { "which" , { null , null } , { null , null } },
-{ "part." , { null , null } , { null , null } },
+{ "part." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "The" , { null , null } , { null , null } },
 { "more" , { null , null } , { null , null } },
 { "deeper" , { null , null } , { null , null } },
@@ -248,24 +255,36 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "are" , { null , null } , { null , null } },
 { "coming" , { null , null } , { null , null } },
 { "to" , { null , null } , { null , null } },
-{ "the" , { null , null } , { null , null } },
-{ "true" , { null , null } , { null , null } },
-{ "border." , { null , null } , { null , null } },
-{ "You" , { null , null } , { null , null } },
-{ "can" , { null , null } , { null , null } },
-{ "select" , { null , null } , { null , null } },
-{ "the" , { null , null } , { null , null } },
-{ "depth" , { null , null } , { null , null } }
+{ "the" , { null , null } , { null , null } }
 }
 
 ,
 
 
 {
+{ "true" , { null , null } , { null , null } },
+{ "border." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "You" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "select" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "depth" , { null , null } , { null , null } },
 { "in" , { null , null } , { null , null } },
 { "the" , { null , null } , { null , null } },
 { "Options" , { null , null } , { null , null } },
-{ "menu." , { null , null } , { null , null } },
+{ "menu." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
 { "You" , { null , null } , { null , null } },
 { "can" , { null , null } , { null , null } },
 { "also" , { null , null } , { null , null } },
@@ -278,9 +297,13 @@ Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 { "the" , { null , null } , { null , null } },
 { "outer" , { null , null } , { null , null } },
 { "part." , { null , null } , { null , null } }
-},
+}
+
+,
+
 
 {
+
 }
 
 

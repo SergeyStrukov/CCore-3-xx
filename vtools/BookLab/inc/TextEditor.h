@@ -59,6 +59,8 @@ class TextBuf : NoCopy
      if( pad ) pad->append_default();
     }
 
+   BookLab::TextLine * insLine(ulen index);
+
    void delLine(ulen index);
 
    // methods
@@ -283,6 +285,8 @@ class TextWindow : public SubWindow
 
    Coord updateCache(BookLab::TextLine &line);
 
+   void updateData();
+
    void updateData(BookLab::TextLine &line);
 
    void insSpanChar(BookLab::TextLine &line,Char ch);
@@ -430,9 +434,9 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
 
    // methods
 
-   void blank() { window.blank(); }
+   void blank();
 
-   void load(DynArray<BookLab::TextLine> *pad) { window.load(pad); }
+   void load(DynArray<BookLab::TextLine> *pad);
 
    void setFormat(String name) { window.setFormat(name); }
 
@@ -446,6 +450,8 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
 
    Signal<String,bool> &showFormat;
    Signal<String,bool> &showLink;
+
+   Signal<> modified;
  };
 
 /* class TextEditor */
@@ -556,6 +562,10 @@ class TextEditor : public ComboWindow
    virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
+
+   // signals
+
+   Signal<> &modified;
  };
 
 } // namespace App
