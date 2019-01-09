@@ -409,9 +409,18 @@ void InnerBookLabWindow::ins_destroyed()
     }
  }
 
-void InnerBookLabWindow::field_modified()
+void InnerBookLabWindow::field_modified(bool flag)
  {
-  update(true);
+  if( flag )
+    {
+     update(true);
+    }
+  else
+    {
+     book.unlink();
+
+     modified.assert();
+    }
  }
 
 void InnerBookLabWindow::askCopy(ulen slot)

@@ -201,9 +201,9 @@ class InnerBookLabWindow : public SubWindow
 
    SignalConnector<InnerBookLabWindow> connector_ins_destroyed;
 
-   void field_modified();
+   void field_modified(bool flag);
 
-   SignalConnector<InnerBookLabWindow> connector_field_modified;
+   SignalConnector<InnerBookLabWindow,bool> connector_field_modified;
 
    void askCopy(ulen slot);
 

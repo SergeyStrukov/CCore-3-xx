@@ -1245,7 +1245,7 @@ class FieldElement : public ComboWindow , public FieldControl
 
    const Config &cfg;
 
-   Signal<> &modified;
+   Signal<bool> &modified;
 
    BookLab::Element * pad = 0 ;
 
@@ -1290,7 +1290,7 @@ class FieldElement : public ComboWindow , public FieldControl
 
   public:
 
-   FieldElement(SubWindowHost &host,const Config &cfg,Signal<> &modified);
+   FieldElement(SubWindowHost &host,const Config &cfg,Signal<bool> &modified);
 
    virtual ~FieldElement();
 
@@ -1499,6 +1499,10 @@ class FieldWindow : public ComboWindow
 
    SignalConnector<FieldWindow,bool> connector_valid_changed;
 
+   void text_modified();
+
+   SignalConnector<FieldWindow> connector_text_modified;
+
   public:
 
    FieldWindow(SubWindowHost &host,const Config &cfg,BookLab::Book &book);
@@ -1533,7 +1537,7 @@ class FieldWindow : public ComboWindow
 
    // signals
 
-   Signal<> modified;
+   Signal<bool> modified;
    Signal<UserAction> keyPressed;
  };
 
@@ -1625,7 +1629,7 @@ class FieldFrame : public DragFrame
 
    // signals
 
-   Signal<> &modified;
+   Signal<bool> &modified;
    Signal<UserAction> &keyPressed;
  };
 

@@ -1511,12 +1511,12 @@ void FieldElement::font_selected()
            ptr->strength.set(BookLab::Strength(couple.param.cfg.strength));
           }
 
-        modified.assert();
+        modified.assert(true);
        }
     }
  }
 
-FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_,Signal<> &modified_)
+FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_,Signal<bool> &modified_)
  : ComboWindow(host),
    cfg(cfg_),
    modified(modified_),
@@ -1834,13 +1834,18 @@ void FieldWindow::set_pressed()
     {
      field_ctrl->set(def_pad,check_def.isChecked());
 
-     modified.assert();
+     modified.assert(true);
     }
  }
 
 void FieldWindow::valid_changed(bool valid)
  {
   btn_set.enable(valid);
+ }
+
+void FieldWindow::text_modified()
+ {
+  modified.assert(false);
  }
 
 FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &book)
@@ -1867,7 +1872,8 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
    field_Text(wlist,cfg.field_Text_cfg),
 
    connector_set_pressed(this,&FieldWindow::set_pressed,btn_set.pressed),
-   connector_valid_changed(this,&FieldWindow::valid_changed)
+   connector_valid_changed(this,&FieldWindow::valid_changed),
+   connector_text_modified(this,&FieldWindow::text_modified,field_Text.modified)
  {
   wlist.insTop(btn_set,check_def,lab_def);
 
