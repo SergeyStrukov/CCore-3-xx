@@ -602,7 +602,7 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"DefaultCollapseFormat"_c),
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultCollapseFormat"_c),
                                      ptr->openlist,
                                      ptr->hide.get());
     }
@@ -613,9 +613,9 @@ class Book::BookContext : NextIndex
 
      elem(ptr->list);
 
-     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"DefaultBulletFormat"_c),
-                                     OptDef(ptr->bullet_space,"DefaultBulletSpace"_c),
-                                     OptDef(ptr->item_space,"DefaultItemSpace"_c));
+     printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultBulletFormat"_c),
+                                     OptDef(ptr->bullet_space,"&DefaultBulletSpace"_c),
+                                     OptDef(ptr->item_space,"&DefaultItemSpace"_c));
     }
 
    void elem(NameType name,Border *ptr)
@@ -647,7 +647,7 @@ class Book::BookContext : NextIndex
 
      elem(Range(ptr->table.cells),width.len);
 
-     printf(", #; , #; };\n\n",Named(this,ptr->border,"DefaultBorder"_c),
+     printf(", #; , #; };\n\n",Named(this,ptr->border,"&DefaultBorder"_c),
                                ptr->hard.get());
     }
 
@@ -679,7 +679,7 @@ class Book::BookContext : NextIndex
 
      elemFixed(Range(ptr->list));
 
-     printf(", #; } ;\n\n",Named(this,ptr->format,"DefaultFixedFormat"_c));
+     printf(", #; } ;\n\n",Named(this,ptr->format,"&DefaultFixedFormat"_c));
     }
 
    void elem(NameType name,OneLine *ptr)
@@ -701,8 +701,8 @@ class Book::BookContext : NextIndex
 
      elemText(Range(ptr->list));
 
-     printf(", #; , #; } ;\n\n",Named(this,ptr->format,"DefaultFormat"_c),
-                                Named(this,ptr->placement,"DefaultPlacement"_c));
+     printf(", #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultFormat"_c),
+                                Named(this,ptr->placement,"&DefaultPlacement"_c));
     }
 
    void elem(FrameList &list)

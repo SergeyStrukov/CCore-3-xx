@@ -126,6 +126,14 @@ Doc::Doc(ObjectDomain &domain)
  {
  }
 
+/* struct FixedText */
+
+StrLen FixedText::Desc = "fixed text ..."_c ;
+
+/* struct Text */
+
+StrLen Text::Desc = "text ..."_c ;
+
 } // namespace BookLab
 } // namespace App
 

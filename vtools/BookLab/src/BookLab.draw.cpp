@@ -30,10 +30,6 @@ inline StrLen LinkDesc(Link &link) { return (+link.frame)? "frame ..."_c : "null
 
 inline bool LinkAlert(Link &link) { return !link.page; }
 
-inline StrLen FixedTextDesc() { return "fixed text ..."_c; }
-
-inline StrLen TextDesc() { return "text ..."_c; }
-
 /* class Book::ShowData */
 
 class Book::ShowData : NoCopy
@@ -828,20 +824,6 @@ class Book::PrepareContext : NoCopy
        }
     }
 
-   Point size(DynArray<TextLine> &)
-    {
-     return size(FixedTextDesc());
-    }
-
-   void place(Point,DynArray<TextLine> &) {}
-
-   Point size(DynArray<Span> &)
-    {
-     return size(TextDesc());
-    }
-
-   void place(Point,DynArray<Span> &) {}
-
    template <OneOfTypes<FrameList,ItemList> T>
    Point size(T &obj)
     {
@@ -1540,16 +1522,6 @@ class Book::DrawContext : NoCopy
            dy+=tdy[j]+table_dxy;
           }
        }
-    }
-
-   void draw(Pane cell,Coord offy,DynArray<TextLine> &)
-    {
-     draw(cell,offy,FixedTextDesc());
-    }
-
-   void draw(Pane cell,Coord offy,DynArray<Span> &)
-    {
-     draw(cell,offy,TextDesc());
     }
 
    template <OneOfTypes<FrameList,ItemList> T>

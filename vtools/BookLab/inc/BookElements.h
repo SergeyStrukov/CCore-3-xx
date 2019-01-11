@@ -1287,6 +1287,8 @@ struct TextLine
 
 struct FixedText : NamedObj
  {
+  static StrLen Desc;
+
   NamedPtr<Format> format; // default: ?DefaultFixedFormat
 
   DynArray<TextLine> list;
@@ -1309,7 +1311,7 @@ struct FixedText : NamedObj
     Row table[2]=
      {
       {"Format"_c,"format = "_c,If(format)},
-      {"FixedText"_c,"text = "_c,If(list)}
+      {"FixedText"_c,"text = "_c,If(Desc)}
      };
 
     func(Range(table),layout);
@@ -1366,6 +1368,8 @@ struct MultiLine : NamedObj
 
 struct Text : NamedObj
  {
+  static StrLen Desc;
+
   NamedPtr<OneLine,MultiLine> placement; // default: ?DefaultPlacement
 
   NamedPtr<Format> format;               // default: ?DefaultFormat
@@ -1391,7 +1395,7 @@ struct Text : NamedObj
      {
       {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
       {"Format"_c,"format = "_c,If(format)},
-      {"Text"_c,"text = "_c,If(list)}
+      {"Text"_c,"text = "_c,If(Desc)}
      };
 
     func(Range(table),layout);

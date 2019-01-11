@@ -44,7 +44,7 @@ Page page1 = { "Manual" ,
 {
 { & ANONYM1 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM2 , null , DefaultInner , DefaultOuter , NoColor }
-,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM3 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ null , null , DefaultInner , DefaultOuter , NoColor }
 ,{ null , null , DefaultInner , DefaultOuter , NoColor }
 ,{ null , null , DefaultInner , DefaultOuter , NoColor }
@@ -60,6 +60,12 @@ Text ANONYM1 = {
 , & h1 , & align_h1 } ;
 
 Text ANONYM2 = {
+{
+{ "Introduction" , null , null }
+}
+, & h2 , & align_h2 } ;
+
+Text ANONYM3 = {
 {
 { "Mandelbrot" , & bold , null }
 ,{ "scope" , & bold , null }
@@ -178,7 +184,7 @@ Text ANONYM2 = {
 ,{ "outer" , null , null }
 ,{ "part." , null , null }
 }
-, DefaultFormat , DefaultPlacement } ;
+, &DefaultFormat , &DefaultPlacement } ;
 
 }
 
