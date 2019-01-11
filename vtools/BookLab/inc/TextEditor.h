@@ -184,6 +184,16 @@ class TextWindow : public SubWindow
 
   private:
 
+   void addXPos(ulen delta);
+
+   void subXPos(ulen delta);
+
+   void addYPos(ulen delta);
+
+   void subYPos(ulen delta);
+
+  private:
+
    void clean();
 
    static Coord Cache(const Font &font,BookLab::Span &span);

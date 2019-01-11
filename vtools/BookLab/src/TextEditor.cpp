@@ -92,6 +92,42 @@ void TextBuf::save() const
 
 /* class TextWindow */
 
+void TextWindow::addXPos(ulen delta)
+ {
+  sx.add(delta);
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void TextWindow::subXPos(ulen delta)
+ {
+  sx.sub(delta);
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
+ }
+
+void TextWindow::addYPos(ulen delta)
+ {
+  sy.add(delta);
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void TextWindow::subYPos(ulen delta)
+ {
+  sy.sub(delta);
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
 void TextWindow::clean()
  {
   block_cache=false;
@@ -1602,11 +1638,26 @@ void TextWindow::react_Leave() // TODO
  {
  }
 
-void TextWindow::react_Wheel(Point point,MouseKey mkey,Coord delta) // TODO
+void TextWindow::react_Wheel(Point,MouseKey mkey,Coord delta_)
  {
-  Used(point);
-  Used(mkey);
-  Used(delta);
+  unsigned delta=IntAbs(delta_);
+
+  if( mkey&MouseKey_Shift )
+    {
+     delta*=data.fs.medDX();
+
+     if( delta_>0 )
+       subXPos(delta);
+     else
+       addXPos(delta);
+    }
+  else
+    {
+     if( delta_>0 )
+       subYPos(delta);
+     else
+       addYPos(delta);
+    }
  }
 
 /* class ScrollTextWindow */
