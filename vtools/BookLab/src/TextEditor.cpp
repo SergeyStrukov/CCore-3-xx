@@ -1153,6 +1153,8 @@ void TextWindow::blank()
 
 void TextWindow::load(DynArray<BookLab::TextLine> *pad)
  {
+  flush();
+
   clean();
 
   text.load(pad);
@@ -1713,6 +1715,8 @@ void TextEditor::format_pressed()
   edit_text.setFormat(name);
 
   edit_format.alert(name.getLen()!=0);
+
+  modified.assert();
  }
 
 void TextEditor::link_pressed()
@@ -1722,6 +1726,8 @@ void TextEditor::link_pressed()
   edit_text.setLink(name);
 
   edit_link.alert(name.getLen()!=0);
+
+  modified.assert();
  }
 
 void TextEditor::show_format(String name,bool alert)

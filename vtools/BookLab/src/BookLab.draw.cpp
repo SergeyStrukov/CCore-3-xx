@@ -268,17 +268,18 @@ class Book::PrepareContext : NoCopy
    struct Place
     {
      void *data;
+     void *datapad;
 
      Point (*size_func)(PrepareContext *ctx,void *data);
 
-     void (*place_func)(PrepareContext *ctx,Point base,Pane pad,void *data);
+     void (*place_func)(PrepareContext *ctx,Point base,Pane pad,void *data,void *datapad);
 
      Point size(PrepareContext *ctx) const { return size_func(ctx,data); }
 
-     void place(PrepareContext *ctx,Point base,Pane pad) const { place_func(ctx,base,pad,data); }
+     void place(PrepareContext *ctx,Point base,Pane pad) const { place_func(ctx,base,pad,data,datapad); }
     };
 
-   template <class T>
+   template <class T,class S=int>
    struct PlaceOf : Place
     {
      static Point SizeFunc(PrepareContext *ctx,void *data)
@@ -286,11 +287,14 @@ class Book::PrepareContext : NoCopy
        return ctx->size(*static_cast<T *>(data));
       }
 
-     static void PlaceFunc(PrepareContext *ctx,Point base,Pane pad,void *data)
+     static void PlaceFunc(PrepareContext *ctx,Point base,Pane pad,void *data,void *datapad)
       {
        T *ptr=static_cast<T *>(data);
 
-       ctx->addPad(pad,ptr);
+       if( datapad )
+         ctx->addPad(pad,static_cast<S *>(datapad));
+       else
+         ctx->addPad(pad,ptr);
 
        ctx->place(base,*ptr);
       }
@@ -298,6 +302,15 @@ class Book::PrepareContext : NoCopy
      explicit PlaceOf(T &obj)
       {
        data=&obj;
+       datapad=0;
+       size_func=SizeFunc;
+       place_func=PlaceFunc;
+      }
+
+     PlaceOf(S &obj,T &desc,bool)
+      {
+       data=&desc;
+       datapad=&obj;
        size_func=SizeFunc;
        place_func=PlaceFunc;
       }
@@ -1226,24 +1239,38 @@ class Book::DrawContext : NoCopy
    struct Draw
     {
      void *data;
+     bool alert;
 
-     void (*draw_func)(DrawContext *ctx,Pane cell,Coord offy,void *data);
+     void (*draw_func)(DrawContext *ctx,Pane cell,Coord offy,void *data,bool alert);
 
-     void draw(DrawContext *ctx,Pane cell,Coord offy) const { draw_func(ctx,cell,offy,data); }
+     void draw(DrawContext *ctx,Pane cell,Coord offy) const { draw_func(ctx,cell,offy,data,alert); }
     };
 
    template <class T>
    struct DrawOf : Draw
     {
-     static void DrawFunc(DrawContext *ctx,Pane cell,Coord offy,void *data)
+     static void DrawFunc(DrawContext *ctx,Pane cell,Coord offy,void *data,bool)
       {
        ctx->draw(cell,offy,*static_cast<T *>(data));
+      }
+
+     static void AlertDrawFunc(DrawContext *ctx,Pane cell,Coord offy,void *data,bool alert)
+      {
+       ctx->draw(cell,offy,*static_cast<T *>(data),alert);
       }
 
      explicit DrawOf(T &obj)
       {
        data=&obj;
+       alert=false;
        draw_func=DrawFunc;
+      }
+
+     explicit DrawOf(auto &,T &desc,bool alert_)
+      {
+       data=&desc;
+       alert=alert_;
+       draw_func=AlertDrawFunc;
       }
     };
 

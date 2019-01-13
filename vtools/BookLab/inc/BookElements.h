@@ -1293,6 +1293,8 @@ struct FixedText : NamedObj
 
   DynArray<TextLine> list;
 
+  bool resolved = false ;
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -1311,7 +1313,7 @@ struct FixedText : NamedObj
     Row table[2]=
      {
       {"Format"_c,"format = "_c,If(format)},
-      {"FixedText"_c,"text = "_c,If(Desc)}
+      {"FixedText"_c,"text = "_c,If(list,Desc,!resolved)}
      };
 
     func(Range(table),layout);
@@ -1376,6 +1378,8 @@ struct Text : NamedObj
 
   DynArray<TextLine> list;
 
+  bool resolved = false ;
+
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
@@ -1395,7 +1399,7 @@ struct Text : NamedObj
      {
       {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
       {"Format"_c,"format = "_c,If(format)},
-      {"Text"_c,"text = "_c,If(Desc)}
+      {"Text"_c,"text = "_c,If(list,Desc,!resolved)}
      };
 
     func(Range(table),layout);

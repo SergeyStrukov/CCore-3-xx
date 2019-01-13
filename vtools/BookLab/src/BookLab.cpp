@@ -1069,6 +1069,50 @@ class Book::LinkContext : NoCopy
 
   private:
 
+   struct Rec
+    {
+     bool *resolved;
+     DynArray<TextLine> *list;
+    };
+
+   CompactList<Rec> textlist;
+
+   void add(bool &resolved,DynArray<TextLine> &list)
+    {
+     textlist.ins(Rec{&resolved,&list});
+    }
+
+   bool getNotResolved(Span &span)
+    {
+     return span.format.notResolved() || span.ref.notResolved() ;
+    }
+
+   bool getNotResolved(TextLine &line)
+    {
+     for(Span &span : line.list ) if( getNotResolved(span) ) return true;
+
+     return false;
+    }
+
+   bool getResolved(DynArray<TextLine> &list)
+    {
+     for(TextLine &obj : list ) if( getNotResolved(obj) ) return false;
+
+     return true;
+    }
+
+   void setResolved(bool *resolved,DynArray<TextLine> *list)
+    {
+     *resolved=getResolved(*list);
+    }
+
+   void setResolved()
+    {
+     textlist.apply( [&] (Rec rec) { setResolved(rec.resolved,rec.list); } );
+    }
+
+  private:
+
    template <class T>
    void setElem(T *) {}
 
@@ -1144,6 +1188,8 @@ class Book::LinkContext : NoCopy
      add(ptr->scope,ptr->format);
 
      setElem(ptr->scope,ptr->list);
+
+     add(ptr->resolved,ptr->list);
     }
 
    void setElem(Text *ptr)
@@ -1152,6 +1198,8 @@ class Book::LinkContext : NoCopy
      add(ptr->scope,ptr->format);
 
      setElem(ptr->scope,ptr->list);
+
+     add(ptr->resolved,ptr->list);
     }
 
    template <class T>
@@ -1229,7 +1277,11 @@ class Book::LinkContext : NoCopy
 
    bool complete()
     {
-     return linker.link() && resolver.resolve() ;
+     bool ret = linker.link() && resolver.resolve() ;
+
+     setResolved();
+
+     return ret;
     }
  };
 

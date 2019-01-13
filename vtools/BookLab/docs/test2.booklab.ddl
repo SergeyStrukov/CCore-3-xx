@@ -46,7 +46,9 @@ Section o6 = { True , "Text" ,
 
 {
 & o21,
-& o22
+& o22,
+& o23,
+& o24
 }
 
  };
@@ -67,7 +69,7 @@ Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { 
 
 Format o14 = { "fmt_h2" , True , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
 
-Format o15 = { "fmt_t1" , True , { null , & o23 } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o15 = { "fmt_t1" , True , { null , & o25 } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
 OneLine o16 = { "align_h1" , False , { False , 2 } };
 
@@ -82,8 +84,8 @@ Format o20 = { "fmt_under" , False , { "font" , null } , { True , NoColor } , { 
 Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o24 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o25 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o27 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
@@ -93,9 +95,37 @@ Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 
  , 1 } };
 
-Font o23 = { "" , True , "Courier" , 20 , { True , False } , { True , False } , { True , 0 } };
+Text o23 = { "t1" , True , { null , null } , { null , null } , 
 
-Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+{
+
+
+{
+{ "text1" , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+FixedText o24 = { "t2" , True , { null , null } , 
+
+{
+
+
+{
+{ "text2" , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Font o25 = { "" , True , "Courier" , 20 , { True , False } , { True , False } , { True , 0 } };
+
+Text o26 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -109,13 +139,13 @@ Text o24 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o27 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
 
 {
-{ "Mandelbrot" , { "fmt_bold" , null } , { null , null } },
+{ "Mandelbrot" , { "fmt_bold1" , null } , { null , null } },
 { "scope" , { "fmt_bold" , null } , { null , null } },
 { "(MScope.exe)" , { null , null } , { null , null } },
 { "is" , { null , null } , { null , null } },

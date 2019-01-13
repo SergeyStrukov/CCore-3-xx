@@ -274,6 +274,8 @@ class Linker : NoCopy
 
      obj->ptr=&ptr;
 
+     ptr=Null;
+
      appendPtr(obj,scope,name);
     }
 
@@ -283,6 +285,8 @@ class Linker : NoCopy
      APtr<TT...> *obj=pool.create<APtr<TT...> >();
 
      obj->ptr=&ptr;
+
+     ptr=Null;
 
      appendPtr(obj,scope,name);
     }
