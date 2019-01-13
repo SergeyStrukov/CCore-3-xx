@@ -302,6 +302,8 @@ class TextWindow : public SubWindow
 
    void startDrag(Point point);
 
+   static Coord Div(Coord a,Coord b);
+
    static ulen DragPos(ulen pos,Coord from,Coord to,ulen cap);
 
    void dragTo(Point point);
@@ -309,6 +311,8 @@ class TextWindow : public SubWindow
    void endDrag();
 
    void endDrag(Point point);
+
+   Cursor toCursor(Point point);
 
    void posCursor(Point point);
 

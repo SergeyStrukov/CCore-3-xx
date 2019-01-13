@@ -716,6 +716,13 @@ void TextWindow::startDrag(Point point)
     }
  }
 
+Coord TextWindow::Div(Coord a,Coord b)
+ {
+  if( a>0 ) return a/b;
+
+  return a/b-1;
+ }
+
 ulen TextWindow::DragPos(ulen pos,Coord from,Coord to,ulen cap)
  {
   if( to>from )
@@ -728,8 +735,8 @@ void TextWindow::dragTo(Point point)
  {
   Coord div=data.fs.dy;
 
-  setPosXY(DragPos(posx_base,point.x,drag_base.x,sx.getMaxPos()),
-           DragPos(posy_base,point.y/div,drag_base.y/div,sy.getMaxPos()));
+  setPosXY(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
+           DragPos(posy_base,Div(drag_base.y,div),Div(point.y,div),sy.getMaxPos()));
  }
 
 void TextWindow::endDrag()
@@ -746,34 +753,116 @@ void TextWindow::endDrag(Point point)
   dragTo(point);
  }
 
-void TextWindow::posCursor(Point point) // TODO
+auto TextWindow::toCursor(Point point) -> Cursor // TODO
  {
-#if 0
+  if( !cache() ) return {};
 
-  ulen new_pos=Min(shape.getPosition(point),shape.len);
+  ulen count=text.getLineCount();
 
-  if( mouse_pos )
+  if( !count ) return {};
+
+  // y
+
+  Coord py=Div(point.y,data.fs.dy);
+  ulen y;
+
+  if( py>0 )
     {
-     select(new_pos);
+     y=AddToCap(sy.pos,(ulen)py,count-1);
     }
   else
     {
-     mouse_pos=true;
-
-     shape.select_off=0;
-     shape.select_len=0;
+     y=PosSub(sy.pos,UIntNeg((ulen)py));
     }
 
-  shape.pos=new_pos;
+  Replace_min(y,count-1);
 
-#endif
+  // x
+
+  ulen span=0;
+  ulen x=0;
+
+  BookLab::TextLine &line=text.getLine(y);
+
+  if( ulen spancount=line.list.getLen() )
+    {
+     Coord px=Coord(sx.pos)+point.x;
+
+     if( px<0 ) px=0;
+
+     for(; span<spancount ;span++)
+       {
+        BookLab::Span &obj=line.list[span];
+
+        if( px>=obj.dx )
+          {
+           px-=obj.dx;
+
+           if( px>=data.space_dx )
+             {
+              px-=data.space_dx;
+             }
+           else
+             {
+              x=SymLen(Range(obj.body));
+
+              break;
+             }
+          }
+        else
+          {
+           const Font &font=cfg.font.get();
+
+           x=font->position(Range(obj.body),{px,0})-1;
+
+           break;
+          }
+       }
+
+     if( span==spancount )
+       {
+        span=spancount-1;
+
+        BookLab::Span &obj=line.list[span];
+
+        x=SymLen(Range(obj.body));
+       }
+    }
+
+  return {y,span,x};
+ }
+
+void TextWindow::posCursor(Point point) // TODO
+ {
+  Cursor cur=toCursor(point);
+
+  if( Change(mouse_pos,true) )
+    {
+     captureMouse();
+
+     // start selection (cur)
+    }
+  else
+    {
+     // select (cur)
+    }
+
+  flush();
+
+  cursor=cur;
+
+  fill();
 
   redraw();
+
+  showCursor();
  }
 
 void TextWindow::posCursorEnd()
  {
   mouse_pos=false;
+
+  releaseMouse();
  }
 
 void TextWindow::posCursorEnd(Point point)
@@ -1600,6 +1689,7 @@ void TextWindow::looseFocus()
 void TextWindow::looseCapture()
  {
   drag=false;
+  mouse_pos=false;
  }
 
 MouseShape TextWindow::getMouseShape(Point,KeyMod) const
@@ -1724,7 +1814,7 @@ void TextWindow::react_LeftClick(Point point,MouseKey mkey)
     }
  }
 
-void TextWindow::react_LeftUp(Point point,MouseKey mkey)
+void TextWindow::react_LeftUp(Point point,MouseKey)
  {
   if( drag )
     {
