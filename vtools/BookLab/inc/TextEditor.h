@@ -259,6 +259,8 @@ class TextWindow : public SubWindow
 
    void setPosY(ulen y);
 
+   void setPosXY(ulen x,ulen y);
+
    ulen getSpanCount() const;
 
    struct Split;
@@ -288,6 +290,31 @@ class TextWindow : public SubWindow
    void moveTop();
 
    void moveBottom();
+
+  private:
+
+   bool drag = false ;
+   Point drag_base;
+   ulen posx_base = 0 ;
+   ulen posy_base = 0 ;
+
+   bool mouse_pos = false ;
+
+   void startDrag(Point point);
+
+   static ulen DragPos(ulen pos,Coord from,Coord to,ulen cap);
+
+   void dragTo(Point point);
+
+   void endDrag();
+
+   void endDrag(Point point);
+
+   void posCursor(Point point);
+
+   void posCursorEnd();
+
+   void posCursorEnd(Point point);
 
   private:
 

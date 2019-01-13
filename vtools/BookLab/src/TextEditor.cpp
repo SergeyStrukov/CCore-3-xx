@@ -402,6 +402,17 @@ void TextWindow::setPosY(ulen y)
   redraw();
  }
 
+void TextWindow::setPosXY(ulen x,ulen y)
+ {
+  sx.setPos(x);
+  sy.setPos(y);
+
+  scroll_x.assert(sx.pos);
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
 ulen TextWindow::getSpanCount() const
  {
   if( cursor.y>=text.getLineCount() ) return 0;
@@ -690,6 +701,86 @@ void TextWindow::moveBottom()
   ulen lim=text.getLineCount();
 
   if( cursor.y<lim ) moveDown(lim-1-cursor.y);
+ }
+
+void TextWindow::startDrag(Point point)
+ {
+  if( Change(drag,true) )
+    {
+     drag_base=point;
+
+     posx_base=sx.pos;
+     posy_base=sy.pos;
+
+     captureMouse();
+    }
+ }
+
+ulen TextWindow::DragPos(ulen pos,Coord from,Coord to,ulen cap)
+ {
+  if( to>from )
+    return PosSub(pos,(ulen)to-(ulen)from) ;
+  else
+    return AddToCap(pos,(ulen)from-(ulen)to,cap);
+ }
+
+void TextWindow::dragTo(Point point)
+ {
+  Coord div=data.fs.dy;
+
+  setPosXY(DragPos(posx_base,point.x,drag_base.x,sx.getMaxPos()),
+           DragPos(posy_base,point.y/div,drag_base.y/div,sy.getMaxPos()));
+ }
+
+void TextWindow::endDrag()
+ {
+  drag=false;
+
+  releaseMouse();
+ }
+
+void TextWindow::endDrag(Point point)
+ {
+  endDrag();
+
+  dragTo(point);
+ }
+
+void TextWindow::posCursor(Point point) // TODO
+ {
+#if 0
+
+  ulen new_pos=Min(shape.getPosition(point),shape.len);
+
+  if( mouse_pos )
+    {
+     select(new_pos);
+    }
+  else
+    {
+     mouse_pos=true;
+
+     shape.select_off=0;
+     shape.select_len=0;
+    }
+
+  shape.pos=new_pos;
+
+#endif
+
+  redraw();
+ }
+
+void TextWindow::posCursorEnd()
+ {
+  mouse_pos=false;
+ }
+
+void TextWindow::posCursorEnd(Point point)
+ {
+  posCursor(point);
+
+  posCursorEnd();
  }
 
 void TextWindow::makeNonEmpty()
@@ -1469,6 +1560,8 @@ void TextWindow::open()
  {
   focus=false;
   cursor_on=false;
+  drag=false;
+  mouse_pos=false;
 
   defer_tick.stop();
  }
@@ -1504,8 +1597,9 @@ void TextWindow::looseFocus()
 
  // mouse
 
-void TextWindow::looseCapture() // TODO
+void TextWindow::looseCapture()
  {
+  drag=false;
  }
 
 MouseShape TextWindow::getMouseShape(Point,KeyMod) const
@@ -1618,26 +1712,59 @@ void TextWindow::react_Char(Char ch)
   if( ch!=' ' ) insChar(ch);
  }
 
-void TextWindow::react_LeftClick(Point point,MouseKey mkey) // TODO
+void TextWindow::react_LeftClick(Point point,MouseKey mkey)
  {
-  Used(point);
-  Used(mkey);
+  if( mkey&MouseKey_Ctrl )
+    {
+     startDrag(point);
+    }
+  else
+    {
+     posCursor(point);
+    }
  }
 
-void TextWindow::react_LeftUp(Point point,MouseKey mkey) // TODO
+void TextWindow::react_LeftUp(Point point,MouseKey mkey)
  {
-  Used(point);
-  Used(mkey);
+  if( drag )
+    {
+     endDrag(point);
+    }
+  else
+    {
+     posCursorEnd(point);
+    }
  }
 
-void TextWindow::react_Move(Point point,MouseKey mkey) // TODO
+void TextWindow::react_Move(Point point,MouseKey mkey)
  {
-  Used(point);
-  Used(mkey);
+  if( drag )
+    {
+     if( mkey&MouseKey_Left )
+       {
+        dragTo(point);
+       }
+     else
+       {
+        endDrag();
+       }
+    }
+  else
+    {
+     if( mkey&MouseKey_Left )
+       {
+        posCursor(point);
+       }
+     else
+       {
+        posCursorEnd();
+       }
+    }
  }
 
-void TextWindow::react_Leave() // TODO
+void TextWindow::react_Leave()
  {
+  posCursorEnd();
  }
 
 void TextWindow::react_Wheel(Point,MouseKey mkey,Coord delta_)
