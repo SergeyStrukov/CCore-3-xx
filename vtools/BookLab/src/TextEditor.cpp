@@ -495,6 +495,25 @@ void TextWindow::showCursor()
     }
  }
 
+void TextWindow::keySelect(bool on)
+ {
+  if( selection_on )
+    {
+     if( !on )
+       {
+        selection_on=false;
+       }
+    }
+  else
+    {
+     if( on )
+       {
+        selection_on=true;
+        selection=cursor;
+       }
+    }
+ }
+
 void TextWindow::moveLeft(ulen delta)
  {
   if( delta==0 || ( cursor.span==0 && cursor.x==0 ) ) return;
@@ -861,12 +880,24 @@ auto TextWindow::toCursor(Point point) -> Cursor
   return {y,span,x};
  }
 
-void TextWindow::startPosCursor(Point point) // TODO
+void TextWindow::startPosCursor(Point point)
  {
-  posCursor(point);
+  Cursor cur=toCursor(point);
+
+  flush();
+
+  cursor=cur;
+  selection_on=true;
+  selection=cur;
+
+  fill();
+
+  redraw();
+
+  showCursor();
  }
 
-void TextWindow::posCursor(Point point) // TODO
+void TextWindow::posCursor(Point point)
  {
   Cursor cur=toCursor(point);
 
@@ -1614,8 +1645,6 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   Point base=draw.getBase(shift_x);
 
-  SmoothDrawArt art(buf);
-
   if( ulen count=text.getLineCount() )
     {
      for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
@@ -1712,54 +1741,70 @@ void TextWindow::react(UserAction action)
   action.dispatch(*this);
  }
 
-void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
  {
   switch( vkey )
     {
      case VKey_Left :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveLeft(repeat);
       }
      break;
 
      case VKey_Right :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveRight(repeat);
       }
      break;
 
      case VKey_Home :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveHome();
       }
      break;
 
      case VKey_End :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveEnd();
       }
      break;
 
      case VKey_Tab :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveTab();
       }
      break;
 
      case VKey_Up :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveUp(repeat);
       }
      break;
 
      case VKey_Down :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        moveDown(repeat);
       }
      break;
 
      case VKey_PageUp :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        if( kmod&KeyMod_Ctrl )
          moveTop();
        else
@@ -1769,6 +1814,8 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
      case VKey_PageDown :
       {
+       keySelect(kmod&KeyMod_Shift);
+
        if( kmod&KeyMod_Ctrl )
          moveBottom();
        else
@@ -1805,7 +1852,7 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     }
  }
 
-void TextWindow::react_Char(Char ch)
+void TextWindow::react_Char(Char ch) // TODO
  {
   if( ch!=' ' ) insChar(ch);
  }

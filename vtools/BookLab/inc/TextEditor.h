@@ -159,6 +159,9 @@ class TextWindow : public SubWindow
 
    Cursor cursor;
 
+   bool selection_on = false ;
+   Cursor selection;
+
    SimpleArray<Char> spanbuf;
    ulen spanlen = 0 ;
 
@@ -268,6 +271,8 @@ class TextWindow : public SubWindow
    void changeSpan(ulen span);
 
    void showCursor();
+
+   void keySelect(bool on);
 
    void moveLeft(ulen delta);
 
