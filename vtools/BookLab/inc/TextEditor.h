@@ -302,23 +302,25 @@ class TextWindow : public SubWindow
 
    void startDrag(Point point);
 
-   static Coord Div(Coord a,Coord b);
-
-   static ulen DragPos(ulen pos,Coord from,Coord to,ulen cap);
-
    void dragTo(Point point);
 
    void endDrag();
 
    void endDrag(Point point);
 
+   static Coord Div(Coord a,Coord b);
+
+   static ulen DragPos(ulen pos,Coord from,Coord to,ulen cap);
+
+   void startPosWindow(Point point);
+
+   void posWindow(Point point);
+
    Cursor toCursor(Point point);
 
+   void startPosCursor(Point point);
+
    void posCursor(Point point);
-
-   void posCursorEnd();
-
-   void posCursorEnd(Point point);
 
   private:
 
