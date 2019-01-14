@@ -1487,6 +1487,7 @@ class TextWindow::Draw : SizeData , NoCopy
    VColor vc_text;
    VColor vc_line;
    VColor vc_alert;
+   VColor vc_select;
 
   public:
 
@@ -1509,6 +1510,7 @@ class TextWindow::Draw : SizeData , NoCopy
      vc_text=+cfg.text;
      vc_line=+cfg.line;
      vc_alert=+cfg.alert;
+     vc_select=+cfg.select;
     }
 
    Point getBase() const
@@ -1626,9 +1628,59 @@ class TextWindow::Draw : SizeData , NoCopy
 
      return p;
     }
+
+   Coord getPosX(Coord base,BookLab::TextLine &line,ulen span,ulen x,bool flag=false)
+    {
+     if( span<line.list.getLen() )
+       {
+        for(ulen i=0; i<span ;i++) base+=line.list[i].dx+space_dx;
+
+        base+=font->text(Range(line.list[span].body),x).dx;
+       }
+     else
+       {
+        base+=line.dx;
+       }
+
+     if( flag ) base+=dxc;
+
+     return base;
+    }
+
+   Coord getPosX(Coord base,BookLab::TextLine &line,bool flag=false)
+    {
+     base+=line.dx;
+
+     if( flag ) base+=dxc;
+
+     return base;
+    }
+
+   Point getPos(Point base,ulen y,BookLab::TextLine &line,ulen span,ulen x,bool flag)
+    {
+     return Point(getPosX(base.x,line,span,x,flag),base.y+Coord(y)*fs.dy);
+    }
+
+   Point getPos(Point base,ulen y)
+    {
+     return Point(base.x,base.y+Coord(y)*fs.dy);
+    }
+
+   void select(Point base,Coord len)
+    {
+     MCoord dx=Fraction(len);
+     MCoord dy=Fraction(fs.dy);
+
+     MCoord x=Fraction(base.x)-delta;
+     MCoord y=Fraction(base.y-fs.by);
+
+     FigureSkew fig(x,x+dx,y,y+dy,skew);
+
+     fig.solid(art,vc_select);
+    }
  };
 
-void TextWindow::draw(DrawBuf buf,bool) const // TODO
+void TextWindow::draw(DrawBuf buf,bool) const
  {
   if( !cache() )
     {
@@ -1649,12 +1701,61 @@ void TextWindow::draw(DrawBuf buf,bool) const // TODO
        {
         Cursor from=selection;
         Cursor to=cursor;
+        bool flag=false;
 
-        if( from>to ) Swap(from,to);
+        if( from>to )
+          {
+           Swap(from,to);
+
+           flag=true;
+          }
 
         if( from<to )
           {
-           // TODO
+           if( from.y<to.y )
+             {
+              if( from.y<count && from.y>=sy.pos && from.y-sy.pos<sy.page )
+                {
+                 BookLab::TextLine &line=text.getLine(from.y);
+
+                 Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,flag);
+                 Coord b=draw.getPosX(base.x,line,flag);
+
+                 draw.select(a,b-a.x);
+                }
+
+              if( to.y<count && to.y>=sy.pos && to.y-sy.pos<sy.page )
+                {
+                 BookLab::TextLine &line=text.getLine(to.y);
+
+                 Point a=draw.getPos(base,to.y-sy.pos);
+                 Coord b=draw.getPosX(base.x,line,to.span,to.x);
+
+                 draw.select(a,b-a.x);
+                }
+
+              for(ulen ind=Max_cast(sy.pos,from.y+1); ind<to.y && ind-sy.pos<sy.page ;ind++)
+                {
+                 BookLab::TextLine &line=text.getLine(ind);
+
+                 Point a=draw.getPos(base,ind-sy.pos);
+                 Coord b=draw.getPosX(base.x,line);
+
+                 draw.select(a,b-a.x);
+                }
+             }
+           else
+             {
+              if( from.y<count && from.y>=sy.pos && from.y-sy.pos<sy.page )
+                {
+                 BookLab::TextLine &line=text.getLine(from.y);
+
+                 Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,flag);
+                 Coord b=draw.getPosX(base.x,line,to.span,to.x,flag);
+
+                 draw.select(a,b-a.x);
+                }
+             }
           }
        }
 
