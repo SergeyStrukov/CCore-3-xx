@@ -372,6 +372,18 @@ class TextWindow : public SubWindow
 
    class Draw;
 
+  private:
+
+   void delSel();
+
+   void delSelection();
+
+   void cut();
+
+   void copy();
+
+   void past();
+
   public:
 
    TextWindow(SubWindowHost &host,const Config &cfg);

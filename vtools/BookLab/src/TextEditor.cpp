@@ -968,16 +968,17 @@ void TextWindow::insSpanChar(BookLab::TextLine &line,Char ch)
      cursor.x++;
 
      Replace_max(data.text_dx,updateCache(line));
-
-     changed.assert();
-
-     showCursor();
     }
  }
 
 void TextWindow::insChar(Char ch)
  {
   if( !SymCharIsPrintable(ch) ) return;
+
+  if( selection_on && selection!=cursor )
+    {
+     delSel();
+    }
 
   makeNonEmpty();
 
@@ -1002,6 +1003,10 @@ void TextWindow::insChar(Char ch)
         insSpanChar(line,ch);
        }
     }
+
+  changed.assert();
+
+  showCursor();
  }
 
 void TextWindow::delSpanChar(BookLab::TextLine &line)
@@ -1327,6 +1332,34 @@ void TextWindow::splitLine()
         showCursor();
        }
     }
+ }
+
+void TextWindow::delSel() // TODO
+ {
+
+
+  selection_on=false;
+ }
+
+void TextWindow::delSelection()
+ {
+  delSel();
+
+  changed.assert();
+
+  showCursor();
+ }
+
+void TextWindow::cut() // TODO
+ {
+ }
+
+void TextWindow::copy() // TODO
+ {
+ }
+
+void TextWindow::past() // TODO
+ {
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -1853,7 +1886,7 @@ void TextWindow::react(UserAction action)
   action.dispatch(*this);
  }
 
-void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
+void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
  {
   switch( vkey )
     {
@@ -1952,19 +1985,57 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat) // TODO
 
      case VKey_Delete :
       {
-       delChar(false);
+       if( selection_on && selection!=cursor )
+         {
+          if( kmod&KeyMod_Shift )
+            cut();
+          else
+            delSelection();
+         }
+       else
+         {
+          delChar(false);
+         }
       }
      break;
 
      case VKey_BackSpace :
       {
-       delChar(true);
+       if( selection_on && selection!=cursor )
+         {
+          delSelection();
+         }
+       else
+         {
+          delChar(true);
+         }
+      }
+     break;
+
+     case VKey_c :
+      {
+       if( kmod&KeyMod_Ctrl ) copy();
+      }
+     break;
+
+     case VKey_v :
+      {
+       if( kmod&KeyMod_Ctrl ) past();
+      }
+     break;
+
+     case VKey_Insert :
+      {
+       if( kmod&KeyMod_Ctrl )
+         copy();
+       else if( kmod&KeyMod_Shift )
+         past();
       }
      break;
     }
  }
 
-void TextWindow::react_Char(Char ch) // TODO
+void TextWindow::react_Char(Char ch)
  {
   if( ch!=' ' ) insChar(ch);
  }
