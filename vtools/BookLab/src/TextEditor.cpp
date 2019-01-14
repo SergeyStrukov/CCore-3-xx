@@ -880,36 +880,34 @@ auto TextWindow::toCursor(Point point) -> Cursor
   return {y,span,x};
  }
 
-void TextWindow::startPosCursor(Point point)
+void TextWindow::posCursor(Cursor cur)
  {
-  Cursor cur=toCursor(point);
+  bool chg = ( cur.y!=cursor.y || cur.span!=cursor.span ) ;
 
-  flush();
+  if( chg ) flush();
 
   cursor=cur;
-  selection_on=true;
-  selection=cur;
 
-  fill();
+  if( chg ) fill();
 
   redraw();
 
   showCursor();
  }
 
-void TextWindow::posCursor(Point point)
+void TextWindow::startPosCursor(Point point)
  {
   Cursor cur=toCursor(point);
 
-  flush();
+  selection_on=true;
+  selection=cur;
 
-  cursor=cur;
+  posCursor(cur);
+ }
 
-  fill();
-
-  redraw();
-
-  showCursor();
+void TextWindow::posCursor(Point point)
+ {
+  posCursor(toCursor(point));
  }
 
 void TextWindow::makeNonEmpty()
@@ -1630,7 +1628,7 @@ class TextWindow::Draw : SizeData , NoCopy
     }
  };
 
-void TextWindow::draw(DrawBuf buf,bool) const
+void TextWindow::draw(DrawBuf buf,bool) const // TODO
  {
   if( !cache() )
     {
@@ -1647,6 +1645,19 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   if( ulen count=text.getLineCount() )
     {
+     if( selection_on )
+       {
+        Cursor from=selection;
+        Cursor to=cursor;
+
+        if( from>to ) Swap(from,to);
+
+        if( from<to )
+          {
+           // TODO
+          }
+       }
+
      for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
        {
         if( i>=count ) break;

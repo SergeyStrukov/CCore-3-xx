@@ -16,6 +16,8 @@
 
 #include <inc/BookLab.h>
 
+#include <CCore/inc/Cmp.h>
+
 namespace App {
 
 /* classes */
@@ -150,11 +152,22 @@ class TextWindow : public SubWindow
    bool focus = false ;
    bool cursor_on = false ;
 
-   struct Cursor
+   struct Cursor : CmpComparable<Cursor>
     {
      ulen y = 0 ;
      ulen span = 0 ;
      ulen x = 0 ;
+
+     Cursor() {}
+
+     Cursor(ulen y_,ulen span_,ulen x_) : y(y_),span(span_),x(x_) {}
+
+     // cmp objects
+
+     CmpResult objCmp(const Cursor &obj) const
+      {
+       return AlphaCmp(y,obj.y,span,obj.span,x,obj.x);
+      }
     };
 
    Cursor cursor;
@@ -322,6 +335,8 @@ class TextWindow : public SubWindow
    void posWindow(Point point);
 
    Cursor toCursor(Point point);
+
+   void posCursor(Cursor cur);
 
    void startPosCursor(Point point);
 
