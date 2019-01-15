@@ -65,6 +65,8 @@ class TextBuf : NoCopy
 
    void delLine(ulen index);
 
+   void delRange(ulen ind,ulen lim);
+
    // methods
 
    void blank();
@@ -373,6 +375,18 @@ class TextWindow : public SubWindow
    class Draw;
 
   private:
+
+   static StrLen Substr(StrLen str,ulen from,ulen to);
+
+   static StrLen Substr(StrLen str,ulen from);
+
+   static void Del(String &str,ulen from,ulen to);
+
+   static void Del(String &str,ulen from);
+
+   static void Del(BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x);
+
+   static void Del(BookLab::TextLine &line,ulen from,ulen from_x);
 
    void delSel();
 

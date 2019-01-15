@@ -40,18 +40,30 @@ auto InsAt(A &array,ulen ind)
   return r.ptr;
  }
 
+/* DelRange() */
+
+template <class A>
+void DelRange(A &array,ulen ind,ulen lim)
+ {
+  Replace_min(lim,array.getLen());
+
+  if( ind>=lim ) return;
+
+  ulen delta=lim-ind;
+
+  auto *base=array.getPtr();
+
+  for(ulen i : IndLim(ind,lim) ) Swap(base[i],base[i+delta]);
+
+  array.shrink(delta);
+ }
+
 /* DelPrefix() */
 
 template <class A>
 void DelPrefix(A &array,ulen delta)
  {
-  auto *base=array.getPtr();
-
-  ulen len=array.getLen()-delta;
-
-  for(ulen i : IndLim(len) ) base[i]=base[i+delta];
-
-  array.shrink(delta);
+  DelRange(array,0,delta);
  }
 
 /* class TextBuf */
@@ -71,9 +83,12 @@ BookLab::TextLine * TextBuf::insLine(ulen index)
 
 void TextBuf::delLine(ulen index)
  {
-  RangeSwapDel(Range(*pad),index);
+  DelRange(*pad,index,index+1);
+ }
 
-  pad->shrink_one();
+void TextBuf::delRange(ulen ind,ulen lim)
+ {
+  DelRange(*pad,ind,lim);
  }
 
 void TextBuf::blank()
@@ -797,7 +812,7 @@ void TextWindow::posWindow(Point point)
            DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
 
-auto TextWindow::toCursor(Point point) -> Cursor
+auto TextWindow::toCursor(Point point) -> Cursor // TODO
  {
   if( !cache() ) return {};
 
@@ -880,19 +895,32 @@ auto TextWindow::toCursor(Point point) -> Cursor
   return {y,span,x};
  }
 
-void TextWindow::posCursor(Cursor cur)
+void TextWindow::posCursor(Cursor cur) // TODO
  {
-  bool chg = ( cur.y!=cursor.y || cur.span!=cursor.span ) ;
+  if( cur.y!=cursor.y || cur.span!=cursor.span )
+    {
+     flush();
 
-  if( chg ) flush();
+     cursor=cur;
 
-  cursor=cur;
+     fill();
 
-  if( chg ) fill();
+     redraw();
 
-  redraw();
+     showCursor();
+    }
+  else
+    {
+     flush();
 
-  showCursor();
+     cursor=cur;
+
+     fill();
+
+     redraw();
+
+     showCursor();
+    }
  }
 
 void TextWindow::startPosCursor(Point point)
@@ -1334,9 +1362,120 @@ void TextWindow::splitLine()
     }
  }
 
-void TextWindow::delSel() // TODO
+StrLen TextWindow::Substr(StrLen str,ulen from,ulen to)
  {
+  if( from>=to ) return Null;
 
+  ulen len=to-from;
+
+#ifdef CCORE_UTF8
+
+  str=Utf8Move(str,from);
+
+  return str.prefix(Utf8Move(str,len));
+
+#else
+
+  return str.safe_part(from,len);
+
+#endif
+ }
+
+StrLen TextWindow::Substr(StrLen str,ulen from)
+ {
+#ifdef CCORE_UTF8
+
+  return Utf8Move(str,from);
+
+#else
+
+  return str.safe_part(from);
+
+#endif
+ }
+
+void TextWindow::Del(String &str,ulen from,ulen to)
+ {
+  str=Substr(Range(str),from,to);
+ }
+
+void TextWindow::Del(String &str,ulen from)
+ {
+  str=Substr(Range(str),from);
+ }
+
+void TextWindow::Del(BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x)
+ {
+  ulen count=line.list.getLen();
+
+  if( from<to )
+    {
+     if( from<count )
+       {
+        Del(line.list[from].body,from_x);
+       }
+
+     if( to<count )
+       {
+        Del(line.list[to].body,0,to_x);
+       }
+
+     DelRange(line.list,from+1,to);
+    }
+  else
+    {
+     if( from<count )
+       {
+        Del(line.list[from].body,from_x,to_x);
+       }
+    }
+ }
+
+void TextWindow::Del(BookLab::TextLine &line,ulen from,ulen from_x)
+ {
+  ulen count=line.list.getLen();
+
+  if( from<count )
+    {
+     Del(line.list[from].body,from_x);
+    }
+
+  DelRange(line.list,from+1,count);
+ }
+
+void TextWindow::delSel()
+ {
+  flush();
+
+  Cursor from=cursor;
+  Cursor to=selection;
+
+  if( from>to )
+    {
+     Swap(from,to);
+
+     cursor=selection;
+    }
+
+  ulen count=text.getLineCount();
+
+  if( to.y<count )
+    {
+     if( from.y<to.y )
+       {
+        Del(text.getLine(from.y),from.span,from.x);
+
+        Del(text.getLine(to.y),0,0,to.span,to.x);
+
+        text.delRange(from.y+1,to.y);
+       }
+     else
+       {
+        Del(text.getLine(to.y),from.span,from.x,to.span,to.x);
+       }
+    }
+
+  fill();
 
   selection_on=false;
  }
@@ -1350,8 +1489,14 @@ void TextWindow::delSelection()
   showCursor();
  }
 
-void TextWindow::cut() // TODO
+void TextWindow::cut()
  {
+  if( selection_on && selection!=cursor )
+    {
+     copy();
+
+     delSelection();
+    }
  }
 
 void TextWindow::copy() // TODO
