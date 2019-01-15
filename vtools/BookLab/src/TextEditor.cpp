@@ -758,9 +758,12 @@ void TextWindow::flushDX()
 
         span.body=String(getCurSpan());
 
-        Cache(font,span);
+        if( ok )
+          {
+           Cache(font,span);
 
-        Cache(line,data.space_dx);
+           Cache(line,data.space_dx);
+          }
        }
     }
  }
