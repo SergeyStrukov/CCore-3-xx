@@ -20,7 +20,6 @@
 #include <CCore/inc/video/FigureLib.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
-#include <CCore/inc/RangeDel.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -31,6 +30,8 @@ namespace App {
 template <class A>
 auto InsAt(A &array,ulen ind)
  {
+  GuardIndex(ind,array.getLen());
+
   array.append_default();
 
   auto r=Range(array).part(ind);
@@ -78,16 +79,22 @@ TextBuf::~TextBuf()
 
 BookLab::TextLine * TextBuf::insLine(ulen index)
  {
+  if( !pad ) GuardIndex(index,0);
+
   return InsAt(*pad,index);
  }
 
 void TextBuf::delLine(ulen index)
  {
+  if( !pad ) return;
+
   DelRange(*pad,index,index+1);
  }
 
 void TextBuf::delRange(ulen ind,ulen lim)
  {
+  if( !pad ) return;
+
   DelRange(*pad,ind,lim);
  }
 
@@ -107,63 +114,42 @@ void TextBuf::save() const
 
 /* class TextWindow */
 
-void TextWindow::addXPos(ulen delta)
+void TextWindow::SizeData::prepare(const Font &font)
  {
-  sx.add(delta);
+  fs=font->getSize();
 
-  scroll_x.assert(sx.pos);
+  space_dx=font->text(" "_c).dx;
 
-  redraw();
+  text_dx=0;
  }
 
-void TextWindow::subXPos(ulen delta)
+void TextWindow::SizeData::update(const Font &font,BookLab::TextLine &line)
  {
-  sx.sub(delta);
-
-  scroll_x.assert(sx.pos);
-
-  redraw();
+  Replace_max(text_dx,Cache(font,line,space_dx));
  }
 
-void TextWindow::addYPos(ulen delta)
+void TextWindow::SizeData::update(const Font &font,BookLab::TextLine &line,ulen spanind,PtrLen<const Char> curspan)
  {
-  sy.add(delta);
-
-  scroll_y.assert(sy.pos);
-
-  redraw();
+  Replace_max(text_dx,Cache(font,line,space_dx,spanind,curspan));
  }
 
-void TextWindow::subYPos(ulen delta)
+void TextWindow::SizeData::update(BookLab::TextLine &line)
  {
-  sy.sub(delta);
-
-  scroll_y.assert(sy.pos);
-
-  redraw();
- }
-
-void TextWindow::clean()
- {
-  block_cache=false;
-  ok=false;
-
-  sx.beg();
-  sy.beg();
-
-  cursor={};
-  spanlen=0;
+  Replace_max(text_dx,Cache(line,space_dx));
  }
 
 Coord TextWindow::Cache(const Font &font,BookLab::Span &span)
  {
-  TextSize ts=font->text(Range(span.body));
-
-  Coord ret=ts.dx;
+  Coord ret=font->text(Range(span.body)).dx;
 
   span.dx=ret;
 
   return ret;
+ }
+
+Coord TextWindow::Cache(const Font &font,PtrLen<const Char> curspan)
+ {
+  return font->text(curspan).dx;
  }
 
 Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
@@ -176,6 +162,34 @@ Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx)
        {
         dx=AddSize(dx,Cache(font,span));
        }
+
+     line.dx=dx;
+
+     return dx;
+    }
+  else
+    {
+     line.dx=0;
+
+     return 0;
+    }
+ }
+
+Coord TextWindow::Cache(const Font &font,BookLab::TextLine &line,Coord space_dx,ulen spanind,PtrLen<const Char> curspan)
+ {
+  if( ulen count=line.list.getLen() )
+    {
+     Coord dx=MulSize(count-1,space_dx);
+
+     for(ulen ind : IndLim(count) )
+       if( ind==spanind )
+         {
+          dx=AddSize(dx,Cache(font,curspan));
+         }
+       else
+         {
+          dx=AddSize(dx,Cache(font,line.list[ind]));
+         }
 
      line.dx=dx;
 
@@ -212,23 +226,55 @@ Coord TextWindow::Cache(BookLab::TextLine &line,Coord space_dx)
     }
  }
 
-void TextWindow::SizeData::prepare(const Font &font)
+void TextWindow::addSXPos(ulen delta)
  {
-  fs=font->getSize();
+  sx.add(delta);
 
-  space_dx=font->text(" "_c).dx;
+  scroll_x.assert(sx.pos);
 
-  text_dx=0;
+  redraw();
  }
 
-void TextWindow::SizeData::update(const Font &font,BookLab::TextLine &line)
+void TextWindow::subSXPos(ulen delta)
  {
-  Replace_max(text_dx,Cache(font,line,space_dx));
+  sx.sub(delta);
+
+  scroll_x.assert(sx.pos);
+
+  redraw();
  }
 
-void TextWindow::SizeData::update(BookLab::TextLine &line)
+void TextWindow::addSYPos(ulen delta)
  {
-  Replace_max(text_dx,Cache(line,space_dx));
+  sy.add(delta);
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void TextWindow::subSYPos(ulen delta)
+ {
+  sy.sub(delta);
+
+  scroll_y.assert(sy.pos);
+
+  redraw();
+ }
+
+void TextWindow::clean()
+ {
+  block_cache=false;
+  ok=false;
+
+  sx.beg();
+  sy.beg();
+
+  cursor={};
+
+  selection_on=false;
+
+  spanlen=0;
  }
 
 [[nodiscard]] bool TextWindow::cache() const
@@ -248,7 +294,13 @@ void TextWindow::SizeData::update(BookLab::TextLine &line)
 
         ulen count=text.getLineCount();
 
-        for(ulen i : IndLim(count) ) data.update(font,text.getLine(i));
+        for(ulen i : IndLim(count) )
+          {
+           if( i==cursor.y )
+             data.update(font,text.getLine(i),cursor.span,getCurSpan());
+           else
+             data.update(font,text.getLine(i));
+          }
 
         ok=true;
        }
@@ -263,14 +315,14 @@ void TextWindow::SizeData::update(BookLab::TextLine &line)
     }
  }
 
-void TextWindow::posX(ulen pos)
+void TextWindow::posSX(ulen pos)
  {
   sx.setPos(pos);
 
   redraw();
  }
 
-void TextWindow::posY(ulen pos)
+void TextWindow::posSY(ulen pos)
  {
   sy.setPos(pos);
 
@@ -399,7 +451,7 @@ void TextWindow::fill()
     }
  }
 
-void TextWindow::setPosX(ulen x)
+void TextWindow::setPosSX(ulen x)
  {
   sx.setPos(x);
 
@@ -408,7 +460,7 @@ void TextWindow::setPosX(ulen x)
   redraw();
  }
 
-void TextWindow::setPosY(ulen y)
+void TextWindow::setPosSY(ulen y)
  {
   sy.setPos(y);
 
@@ -417,7 +469,7 @@ void TextWindow::setPosY(ulen y)
   redraw();
  }
 
-void TextWindow::setPosXY(ulen x,ulen y)
+void TextWindow::setPosSXY(ulen x,ulen y)
  {
   sx.setPos(x);
   sy.setPos(y);
@@ -451,6 +503,8 @@ struct TextWindow::Split
    }
  };
 
+ // TODO 1
+
 void TextWindow::changeSpan(ulen span)
  {
   flush();
@@ -464,11 +518,11 @@ void TextWindow::showCursor()
  {
   if( cursor.y<sy.pos )
     {
-     setPosY(cursor.y);
+     setPosSY(cursor.y);
     }
   else if( cursor.y>=sy.pos+sy.page )
     {
-     setPosY(cursor.y-sy.page+1);
+     setPosSY(cursor.y-sy.page+1);
     }
 
   const Font &font=cfg.font.get();
@@ -502,11 +556,11 @@ void TextWindow::showCursor()
 
   if( X<sx.pos )
     {
-     setPosX(PosSub(X,(ulen)dxc));
+     setPosSX(PosSub(X,(ulen)dxc));
     }
   else if( X>=sx.pos+sx.page )
     {
-     setPosX(X-sx.page+1+(ulen)dxc+(ulen)data.space_dx);
+     setPosSX(X-sx.page+1+(ulen)dxc+(ulen)data.space_dx);
     }
  }
 
@@ -665,6 +719,8 @@ void TextWindow::moveTab()
   redraw();
  }
 
+ // TODO 1 end
+
 ulen TextWindow::getPosX() const
  {
   if( cursor.y<text.getLineCount() )
@@ -690,9 +746,29 @@ ulen TextWindow::getPosX() const
     }
  }
 
+void TextWindow::flushDX()
+ {
+  ulen count=text.getLineCount();
+
+  if( cursor.y<count )
+    {
+     BookLab::TextLine &line=text.getLine(cursor.y);
+
+     if( cursor.span<line.list.getLen() )
+       {
+        const Font &font=cfg.font.get();
+
+        Cache(font,line.list[cursor.span]);
+
+        Cache(line,data.space_dx);
+       }
+    }
+ }
+
 void TextWindow::setPos(ulen x,ulen y)
  {
   flush();
+  flushDX();
 
   cursor.y=y;
   cursor.span=0;
@@ -780,6 +856,8 @@ void TextWindow::endDrag(Point point)
   dragTo(point);
  }
 
+ // TODO 2
+
 Coord TextWindow::Div(Coord a,Coord b)
  {
   if( a>0 ) return a/b;
@@ -808,7 +886,7 @@ void TextWindow::posWindow(Point point)
   Coord dxc=+cfg.cursor_dx;
   Coord div=data.fs.dy;
 
-  setPosXY(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
+  setPosSXY(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
            DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
 
@@ -1507,14 +1585,16 @@ void TextWindow::past() // TODO
  {
  }
 
+ // TODO 2 end
+
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
 
    spanbuf(1_KByte),
 
-   connector_posX(this,&TextWindow::posX),
-   connector_posY(this,&TextWindow::posY),
+   connector_posX(this,&TextWindow::posSX),
+   connector_posY(this,&TextWindow::posSY),
 
    connector_updated(this,&TextWindow::updated,host.getFrame()->updated),
 
@@ -1635,6 +1715,8 @@ void TextWindow::layout()
   sx.adjustPos();
   sy.adjustPos();
  }
+
+ // TODO 3
 
 bool TextWindow::HasSpec(BookLab::Span &span)
  {
@@ -1971,6 +2053,8 @@ void TextWindow::draw(DrawBuf buf,bool) const
     }
  }
 
+ // TODO 3 end
+
  // base
 
 void TextWindow::open()
@@ -2229,16 +2313,16 @@ void TextWindow::react_Wheel(Point,MouseKey mkey,Coord delta_)
      delta*=data.fs.medDX();
 
      if( delta_>0 )
-       subXPos(delta);
+       subSXPos(delta);
      else
-       addXPos(delta);
+       addSXPos(delta);
     }
   else
     {
      if( delta_>0 )
-       subYPos(delta);
+       subSYPos(delta);
      else
-       addYPos(delta);
+       addSYPos(delta);
     }
  }
 

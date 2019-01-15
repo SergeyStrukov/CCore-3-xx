@@ -195,6 +195,8 @@ class TextWindow : public SubWindow
 
      void update(const Font &font,BookLab::TextLine &line);
 
+     void update(const Font &font,BookLab::TextLine &line,ulen spanind,PtrLen<const Char> curspan);
+
      void update(BookLab::TextLine &line);
     };
 
@@ -202,23 +204,29 @@ class TextWindow : public SubWindow
 
   private:
 
-   void addXPos(ulen delta);
+   static Coord Cache(const Font &font,BookLab::Span &span);
 
-   void subXPos(ulen delta);
+   static Coord Cache(const Font &font,PtrLen<const Char> curspan);
 
-   void addYPos(ulen delta);
+   static Coord Cache(const Font &font,BookLab::TextLine &line,Coord space_dx);
 
-   void subYPos(ulen delta);
+   static Coord Cache(const Font &font,BookLab::TextLine &line,Coord space_dx,ulen spanind,PtrLen<const Char> curspan);
+
+   static Coord Cache(BookLab::TextLine &line,Coord space_dx);
+
+  private:
+
+   void addSXPos(ulen delta);
+
+   void subSXPos(ulen delta);
+
+   void addSYPos(ulen delta);
+
+   void subSYPos(ulen delta);
 
   private:
 
    void clean();
-
-   static Coord Cache(const Font &font,BookLab::Span &span);
-
-   static Coord Cache(const Font &font,BookLab::TextLine &line,Coord space_dx);
-
-   static Coord Cache(BookLab::TextLine &line,Coord space_dx);
 
    [[nodiscard]] bool cache() const;
 
@@ -228,9 +236,9 @@ class TextWindow : public SubWindow
 
   private:
 
-   void posX(ulen pos);
+   void posSX(ulen pos);
 
-   void posY(ulen pos);
+   void posSY(ulen pos);
 
    SignalConnector<TextWindow,ulen> connector_posX;
    SignalConnector<TextWindow,ulen> connector_posY;
@@ -273,11 +281,11 @@ class TextWindow : public SubWindow
 
   private:
 
-   void setPosX(ulen x);
+   void setPosSX(ulen x);
 
-   void setPosY(ulen y);
+   void setPosSY(ulen y);
 
-   void setPosXY(ulen x,ulen y);
+   void setPosSXY(ulen x,ulen y);
 
    ulen getSpanCount() const;
 
@@ -300,6 +308,8 @@ class TextWindow : public SubWindow
    void moveTab();
 
    ulen getPosX() const;
+
+   void flushDX();
 
    void setPos(ulen x,ulen y);
 
