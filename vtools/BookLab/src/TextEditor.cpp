@@ -451,7 +451,7 @@ void TextWindow::fill()
     }
  }
 
-void TextWindow::setPosSX(ulen x)
+void TextWindow::setSXPos(ulen x)
  {
   sx.setPos(x);
 
@@ -460,7 +460,7 @@ void TextWindow::setPosSX(ulen x)
   redraw();
  }
 
-void TextWindow::setPosSY(ulen y)
+void TextWindow::setSYPos(ulen y)
  {
   sy.setPos(y);
 
@@ -469,7 +469,7 @@ void TextWindow::setPosSY(ulen y)
   redraw();
  }
 
-void TextWindow::setPosSXY(ulen x,ulen y)
+void TextWindow::setSXYPos(ulen x,ulen y)
  {
   sx.setPos(x);
   sy.setPos(y);
@@ -505,29 +505,40 @@ struct TextWindow::Split
 
 void TextWindow::changeSpan(ulen span)
  {
-  flushDX();
+  applyToSpan( [&] (BookLab::Span &span)
+                   {
+                    span.body=String(getCurSpan());
+
+                    if( ok )
+                      {
+                       const Font &font=cfg.font.get();
+
+                       Cache(font,span);
+                      }
+
+                   } );
 
   cursor.span=span;
 
   fill();
  }
 
-void TextWindow::showCursor() // TODO
+void TextWindow::showCursor()
  {
   if( cursor.y<sy.pos )
     {
-     setPosSY(cursor.y);
+     setSYPos(cursor.y);
     }
   else if( cursor.y>=sy.pos+sy.page )
     {
-     setPosSY(cursor.y-sy.page+1);
+     setSYPos(cursor.y-sy.page+1);
     }
+
+  if( !cache() ) return;
 
   const Font &font=cfg.font.get();
 
-  Coord dxc=+cfg.cursor_dx;
-
-  Coord x=data.fs.dx0+dxc;
+  Coord x=data.fs.dx0;
 
   if( cursor.y<text.getLineCount() )
     {
@@ -554,11 +565,17 @@ void TextWindow::showCursor() // TODO
 
   if( X<sx.pos )
     {
-     setPosSX(PosSub(X,(ulen)dxc));
+     setSXPos(X);
     }
-  else if( X>=sx.pos+sx.page )
+  else
     {
-     setPosSX(X-sx.page+1+(ulen)dxc+(ulen)data.space_dx);
+     X-=sx.pos;
+
+     Coord dxc=+cfg.cursor_dx;
+
+     X+=3*(ulen)dxc+data.space_dx;
+
+     if( X>sx.page ) addSXPos(X-sx.page);
     }
  }
 
@@ -754,12 +771,12 @@ void TextWindow::flushDX()
        {
         BookLab::Span &span=line.list[cursor.span];
 
-        const Font &font=cfg.font.get();
-
         span.body=String(getCurSpan());
 
         if( ok )
           {
+           const Font &font=cfg.font.get();
+
            Cache(font,span);
 
            Cache(line,data.space_dx);
@@ -888,8 +905,8 @@ void TextWindow::posWindow(Point point)
   Coord dxc=+cfg.cursor_dx;
   Coord div=data.fs.dy;
 
-  setPosSXY(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
-           DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
+  setSXYPos(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
+            DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
 
 auto TextWindow::toCursor(Point point) -> Cursor // TODO

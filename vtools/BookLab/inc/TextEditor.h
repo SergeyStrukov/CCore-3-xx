@@ -281,11 +281,11 @@ class TextWindow : public SubWindow
 
   private:
 
-   void setPosSX(ulen x);
+   void setSXPos(ulen x);
 
-   void setPosSY(ulen y);
+   void setSYPos(ulen y);
 
-   void setPosSXY(ulen x,ulen y);
+   void setSXYPos(ulen x,ulen y);
 
    ulen getSpanCount() const;
 
