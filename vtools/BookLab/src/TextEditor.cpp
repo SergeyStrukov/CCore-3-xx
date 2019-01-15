@@ -503,18 +503,16 @@ struct TextWindow::Split
    }
  };
 
- // TODO 1
-
 void TextWindow::changeSpan(ulen span)
  {
-  flush();
+  flushDX();
 
   cursor.span=span;
 
   fill();
  }
 
-void TextWindow::showCursor()
+void TextWindow::showCursor() // TODO
  {
   if( cursor.y<sy.pos )
     {
@@ -719,8 +717,6 @@ void TextWindow::moveTab()
   redraw();
  }
 
- // TODO 1 end
-
 ulen TextWindow::getPosX() const
  {
   if( cursor.y<text.getLineCount() )
@@ -756,9 +752,13 @@ void TextWindow::flushDX()
 
      if( cursor.span<line.list.getLen() )
        {
+        BookLab::Span &span=line.list[cursor.span];
+
         const Font &font=cfg.font.get();
 
-        Cache(font,line.list[cursor.span]);
+        span.body=String(getCurSpan());
+
+        Cache(font,span);
 
         Cache(line,data.space_dx);
        }
@@ -767,7 +767,6 @@ void TextWindow::flushDX()
 
 void TextWindow::setPos(ulen x,ulen y)
  {
-  flush();
   flushDX();
 
   cursor.y=y;
