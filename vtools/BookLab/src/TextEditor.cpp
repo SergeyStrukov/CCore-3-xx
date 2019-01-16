@@ -1336,8 +1336,6 @@ void TextWindow::delChar(bool prev)
     }
  }
 
- // TODO 2
-
 void TextWindow::splitSpan()
  {
   makeNonEmpty();
@@ -1416,6 +1414,9 @@ void TextWindow::splitLine()
 
            Split split(getCurSpan(),cursor.x);
 
+           String str1=split.str1;
+           String str2=split.str2;
+
            BookLab::Span &old=line2.list[cursor.span];
 
            if( cursor.span>0 )
@@ -1427,11 +1428,11 @@ void TextWindow::splitLine()
 
            BookLab::Span *span=line1.list.append_default();
 
-           span->body=String(split.str1);
+           span->body=str1;
            span->format=old.format;
            span->ref=old.ref;
 
-           old.body=String(split.str2);
+           old.body=str2;
 
            const Font &font=cfg.font.get();
 
@@ -1474,8 +1475,6 @@ void TextWindow::splitLine()
        }
     }
  }
-
- // TODO 2 end
 
 StrLen TextWindow::Prefix(StrLen str,ulen len)
  {
