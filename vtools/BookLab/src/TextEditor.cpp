@@ -64,6 +64,9 @@ void DelRange(A &array,ulen ind,ulen lim)
   array.shrink(delta);
  }
 
+template <class A>
+void DelRange(A &array,ulen ind) { DelRange(array,ind,ind+1); }
+
 /* DelPrefix() */
 
 template <class A>
@@ -93,7 +96,7 @@ void TextBuf::delLine(ulen index)
  {
   if( !pad ) return;
 
-  DelRange(*pad,index,index+1);
+  DelRange(*pad,index);
  }
 
 void TextBuf::delRange(ulen ind,ulen lim)
@@ -1046,8 +1049,6 @@ void TextWindow::posCursor(Point point) // TODO
 
  // TODO 2 end
 
- // TODO 3
-
 void TextWindow::makeNonEmpty()
  {
   if( !text.getLineCount() ) text.addLine();
@@ -1188,7 +1189,7 @@ void TextWindow::delEmptyLine(bool prev)
 
   ulen count=text.getLineCount();
 
-  if( prev || cursor.y>=count-1 )
+  if( prev || cursor.y>=count )
     {
      if( cursor.y==0 )
        {
@@ -1242,7 +1243,7 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
        {
         if( cursor.y )
           {
-           flush();
+           flushDX();
 
            cursor.y--;
 
@@ -1277,9 +1278,7 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
 
      extend(Range(span2.body));
 
-     RangeSwapDel(Range(line.list),cursor.span+1);
-
-     line.list.shrink_one();
+     DelRange(line.list,cursor.span+1);
 
      updateData(line);
 
@@ -1289,6 +1288,8 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
     }
   else
     {
+     flushDX();
+
      joinLine();
     }
  }
@@ -1334,6 +1335,8 @@ void TextWindow::delChar(bool prev)
        }
     }
  }
+
+ // TODO 3
 
 void TextWindow::splitSpan()
  {
