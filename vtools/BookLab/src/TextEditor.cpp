@@ -915,7 +915,7 @@ void TextWindow::posWindow(Point point)
             DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
 
- // TODO 2
+ // TODO 1
 
 auto TextWindow::toCursor(Point point) -> Cursor // TODO
  {
@@ -1047,7 +1047,7 @@ void TextWindow::posCursor(Point point) // TODO
   posCursor(toCursor(point));
  }
 
- // TODO 2 end
+ // TODO 1 end
 
 void TextWindow::makeNonEmpty()
  {
@@ -1336,7 +1336,7 @@ void TextWindow::delChar(bool prev)
     }
  }
 
- // TODO 3
+ // TODO 2
 
 void TextWindow::splitSpan()
  {
@@ -1475,7 +1475,7 @@ void TextWindow::splitLine()
     }
  }
 
- // TODO 3 end
+ // TODO 2 end
 
 StrLen TextWindow::Prefix(StrLen str,ulen len)
  {
