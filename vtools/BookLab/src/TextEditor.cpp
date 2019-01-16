@@ -46,15 +46,20 @@ auto InsAt(A &array,ulen ind)
 template <class A>
 void DelRange(A &array,ulen ind,ulen lim)
  {
-  Replace_min(lim,array.getLen());
+  ulen len=array.getLen();
+
+  Replace_min(lim,len);
 
   if( ind>=lim ) return;
 
   ulen delta=lim-ind;
 
-  auto *base=array.getPtr();
+  if( ulen count=len-lim )
+    {
+     auto *base=array.getPtr();
 
-  for(ulen i : IndLim(ind,lim) ) Swap(base[i],base[i+delta]);
+     for(ulen i : IndLim(ind,ind+count) ) Swap(base[i],base[i+delta]);
+    }
 
   array.shrink(delta);
  }
@@ -529,7 +534,7 @@ void TextWindow::showCursor()
     {
      setSYPos(cursor.y);
     }
-  else if( cursor.y>=sy.pos+sy.page )
+  else if( cursor.y-sy.pos>=sy.page )
     {
      setSYPos(cursor.y-sy.page+1);
     }
@@ -573,7 +578,7 @@ void TextWindow::showCursor()
 
      Coord dxc=+cfg.cursor_dx;
 
-     X+=3*(ulen)dxc+data.space_dx;
+     X+=ulen(3*dxc+data.fs.dx1+data.space_dx);
 
      if( X>sx.page ) addSXPos(X-sx.page);
     }
@@ -875,8 +880,6 @@ void TextWindow::endDrag(Point point)
   dragTo(point);
  }
 
- // TODO 2
-
 Coord TextWindow::Div(Coord a,Coord b)
  {
   if( a>0 ) return a/b;
@@ -908,6 +911,8 @@ void TextWindow::posWindow(Point point)
   setSXYPos(DragPos(posx_base,drag_base.x,point.x,sx.getMaxPos()),
             DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
+
+ // TODO 2
 
 auto TextWindow::toCursor(Point point) -> Cursor // TODO
  {
@@ -1020,8 +1025,10 @@ void TextWindow::posCursor(Cursor cur) // TODO
     }
  }
 
-void TextWindow::startPosCursor(Point point)
+void TextWindow::startPosCursor(Point point) // TODO
  {
+  return;
+
   Cursor cur=toCursor(point);
 
   selection_on=true;
@@ -1030,10 +1037,16 @@ void TextWindow::startPosCursor(Point point)
   posCursor(cur);
  }
 
-void TextWindow::posCursor(Point point)
+void TextWindow::posCursor(Point point) // TODO
  {
+  return;
+
   posCursor(toCursor(point));
  }
+
+ // TODO 2 end
+
+ // TODO 3
 
 void TextWindow::makeNonEmpty()
  {
@@ -1459,90 +1472,105 @@ void TextWindow::splitLine()
     }
  }
 
-StrLen TextWindow::Substr(StrLen str,ulen from,ulen to)
+ // TODO 3 end
+
+StrLen TextWindow::Prefix(StrLen str,ulen len)
  {
-  if( from>=to ) return Null;
-
-  ulen len=to-from;
-
 #ifdef CCORE_UTF8
-
-  str=Utf8Move(str,from);
 
   return str.prefix(Utf8Move(str,len));
 
 #else
 
-  return str.safe_part(from,len);
+  return str.safe_part(0,len);
 
 #endif
  }
 
-StrLen TextWindow::Substr(StrLen str,ulen from)
+StrLen TextWindow::Part(StrLen str,ulen len)
  {
 #ifdef CCORE_UTF8
 
-  return Utf8Move(str,from);
+  return Utf8Move(str,len);
 
 #else
 
-  return str.safe_part(from);
+  return str.safe_part(len);
 
 #endif
  }
 
 void TextWindow::Del(String &str,ulen from,ulen to)
  {
-  str=Substr(Range(str),from,to);
+  auto text=Range(str);
+
+  str=StringCat(Prefix(text,from),Part(text,to));
  }
 
 void TextWindow::Del(String &str,ulen from)
  {
-  str=Substr(Range(str),from);
+  str=Prefix(Range(str),from);
  }
 
-void TextWindow::Del(BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x)
+void TextWindow::Del(const Font &font,BookLab::Span &span,ulen from,ulen to)
  {
-  ulen count=line.list.getLen();
+  Del(span.body,from,to);
 
-  if( from<to )
-    {
-     if( from<count )
-       {
-        Del(line.list[from].body,from_x);
-       }
-
-     if( to<count )
-       {
-        Del(line.list[to].body,0,to_x);
-       }
-
-     DelRange(line.list,from+1,to);
-    }
-  else
-    {
-     if( from<count )
-       {
-        Del(line.list[from].body,from_x,to_x);
-       }
-    }
+  Cache(font,span);
  }
 
-void TextWindow::Del(BookLab::TextLine &line,ulen from,ulen from_x)
+void TextWindow::Del(const Font &font,BookLab::Span &span,ulen from)
+ {
+  Del(span.body,from);
+
+  Cache(font,span);
+ }
+
+void TextWindow::Del(const Font &font,Coord space_dx,BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x)
  {
   ulen count=line.list.getLen();
 
   if( from<count )
     {
-     Del(line.list[from].body,from_x);
-    }
+     if( from<to )
+       {
+        Del(font,line.list[from],from_x);
 
-  DelRange(line.list,from+1,count);
+        if( to<count )
+          {
+           Del(font,line.list[to],0,to_x);
+          }
+
+        DelRange(line.list,from+1,to);
+       }
+     else
+       {
+        Del(font,line.list[from],from_x,to_x);
+       }
+
+     Cache(line,space_dx);
+    }
+ }
+
+void TextWindow::Del(const Font &font,Coord space_dx,BookLab::TextLine &line,ulen from,ulen from_x)
+ {
+  ulen count=line.list.getLen();
+
+  if( from<count )
+    {
+     Del(font,line.list[from],from_x);
+
+     DelRange(line.list,from+1,count);
+
+     Cache(line,space_dx);
+    }
  }
 
 void TextWindow::delSel()
  {
-  flush();
+  selection_on=false;
+
+  flushDX();
 
   Cursor from=cursor;
   Cursor to=selection;
@@ -1558,23 +1586,25 @@ void TextWindow::delSel()
 
   if( to.y<count )
     {
+     const Font &font=cfg.font.get();
+
      if( from.y<to.y )
        {
-        Del(text.getLine(from.y),from.span,from.x);
+        Del(font,data.space_dx,text.getLine(from.y),from.span,from.x);
 
-        Del(text.getLine(to.y),0,0,to.span,to.x);
+        Del(font,data.space_dx,text.getLine(to.y),0,0,to.span,to.x);
 
         text.delRange(from.y+1,to.y);
        }
      else
        {
-        Del(text.getLine(to.y),from.span,from.x,to.span,to.x);
+        Del(font,data.space_dx,text.getLine(to.y),from.span,from.x,to.span,to.x);
        }
+
+     updateData();
     }
 
   fill();
-
-  selection_on=false;
  }
 
 void TextWindow::delSelection()
@@ -1586,16 +1616,6 @@ void TextWindow::delSelection()
   showCursor();
  }
 
-void TextWindow::cut()
- {
-  if( selection_on && selection!=cursor )
-    {
-     copy();
-
-     delSelection();
-    }
- }
-
 void TextWindow::copy() // TODO
  {
  }
@@ -1603,8 +1623,6 @@ void TextWindow::copy() // TODO
 void TextWindow::past() // TODO
  {
  }
-
- // TODO 2 end
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
@@ -1725,7 +1743,7 @@ void TextWindow::layout()
      sy.page=1;
     }
 
-  sx.total=(ulen)AddSize(data.text_dx,data.fs.dx0+data.fs.dx1+2*dxc);
+  sx.total=(ulen)AddSize(data.text_dx,3*dxc+data.fs.dx0+data.fs.dx1);
   sy.total=text.getLineCount();
 
   sx.total+=sx.page/8;
@@ -1734,8 +1752,6 @@ void TextWindow::layout()
   sx.adjustPos();
   sy.adjustPos();
  }
-
- // TODO 3
 
 bool TextWindow::HasSpec(BookLab::Span &span)
  {
@@ -1908,6 +1924,69 @@ class TextWindow::Draw : SizeData , NoCopy
      return p;
     }
 
+   Coord getPosX(Coord base,BookLab::TextLine &line,ulen span,ulen x,ulen curind,PtrLen<const Char> curspan,bool flag=false)
+    {
+     if( span<line.list.getLen() )
+       {
+        for(ulen i=0; i<span ;i++)
+          if( i!=curind )
+            {
+             base+=line.list[i].dx+space_dx;
+            }
+          else
+            {
+             base+=text(curspan)+space_dx;
+            }
+
+        if( span!=curind )
+          {
+           base+=font->text(Range(line.list[span].body),x).dx;
+          }
+        else
+          {
+           base+=font->text(curspan,x).dx;
+          }
+       }
+     else
+       {
+        for(ulen i : IndLim(line.list.getLen()) )
+          if( i!=curind )
+            {
+             base+=line.list[i].dx+space_dx;
+            }
+          else
+            {
+             base+=text(curspan)+space_dx;
+            }
+       }
+
+     if( flag ) base+=dxc;
+
+     return base;
+    }
+
+   Coord getPosX(Coord base,BookLab::TextLine &line,ulen curind,PtrLen<const Char> curspan,bool flag)
+    {
+     for(ulen i : IndLim(line.list.getLen()) )
+       if( i!=curind )
+         {
+          base+=line.list[i].dx+space_dx;
+         }
+       else
+         {
+          base+=text(curspan)+space_dx;
+         }
+
+     if( flag ) base+=dxc;
+
+     return base;
+    }
+
+   Point getPos(Point base,ulen y,BookLab::TextLine &line,ulen span,ulen x,ulen curind,PtrLen<const Char> curspan,bool flag)
+    {
+     return Point(getPosX(base.x,line,span,x,curind,curspan,flag),base.y+Coord(y)*fs.dy);
+    }
+
    Coord getPosX(Coord base,BookLab::TextLine &line,ulen span,ulen x,bool flag=false)
     {
      if( span<line.list.getLen() )
@@ -1918,17 +1997,8 @@ class TextWindow::Draw : SizeData , NoCopy
        }
      else
        {
-        base+=line.dx;
+        for(ulen i : IndLim(line.list.getLen()) ) base+=line.list[i].dx+space_dx;
        }
-
-     if( flag ) base+=dxc;
-
-     return base;
-    }
-
-   Coord getPosX(Coord base,BookLab::TextLine &line,bool flag=false)
-    {
-     base+=line.dx;
 
      if( flag ) base+=dxc;
 
@@ -1938,6 +2008,15 @@ class TextWindow::Draw : SizeData , NoCopy
    Point getPos(Point base,ulen y,BookLab::TextLine &line,ulen span,ulen x,bool flag)
     {
      return Point(getPosX(base.x,line,span,x,flag),base.y+Coord(y)*fs.dy);
+    }
+
+   Coord getPosX(Coord base,BookLab::TextLine &line,bool flag=false)
+    {
+     base+=line.dx+space_dx;
+
+     if( flag ) base+=dxc;
+
+     return base;
     }
 
    Point getPos(Point base,ulen y)
@@ -1976,6 +2055,8 @@ void TextWindow::draw(DrawBuf buf,bool) const
 
   if( ulen count=text.getLineCount() )
     {
+     ulen lim=AddMin(sy.pos,sy.page,count);
+
      if( selection_on )
        {
         Cursor from=selection;
@@ -1993,31 +2074,51 @@ void TextWindow::draw(DrawBuf buf,bool) const
           {
            if( from.y<to.y )
              {
-              if( from.y<count && from.y>=sy.pos && from.y-sy.pos<sy.page )
+              if( from.y>=sy.pos && from.y<lim )
                 {
                  BookLab::TextLine &line=text.getLine(from.y);
 
-                 Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,flag);
-                 Coord b=draw.getPosX(base.x,line,flag);
+                 if( from.y==cursor.y )
+                   {
+                    Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,cursor.span,getCurSpan(),flag);
+                    Coord b=draw.getPosX(base.x,line,cursor.span,getCurSpan(),flag);
 
-                 draw.select(a,b-a.x);
+                    draw.select(a,b-a.x);
+                   }
+                 else
+                   {
+                    Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,flag);
+                    Coord b=draw.getPosX(base.x,line,flag);
+
+                    draw.select(a,b-a.x);
+                   }
                 }
 
-              if( to.y<count && to.y>=sy.pos && to.y-sy.pos<sy.page )
+              if( to.y>=sy.pos && to.y<lim )
                 {
                  BookLab::TextLine &line=text.getLine(to.y);
 
-                 Point a=draw.getPos(base,to.y-sy.pos);
-                 Coord b=draw.getPosX(base.x,line,to.span,to.x);
+                 if( to.y==cursor.y )
+                   {
+                    Point a=draw.getPos(base,to.y-sy.pos);
+                    Coord b=draw.getPosX(base.x,line,to.span,to.x,cursor.span,getCurSpan());
 
-                 draw.select(a,b-a.x);
+                    draw.select(a,b-a.x);
+                   }
+                 else
+                   {
+                    Point a=draw.getPos(base,to.y-sy.pos);
+                    Coord b=draw.getPosX(base.x,line,to.span,to.x);
+
+                    draw.select(a,b-a.x);
+                   }
                 }
 
-              for(ulen ind=Max_cast(sy.pos,from.y+1); ind<to.y && ind-sy.pos<sy.page ;ind++)
+              for(ulen i : IndLim(Max_cast(sy.pos,from.y+1),Min(lim,to.y)) )
                 {
-                 BookLab::TextLine &line=text.getLine(ind);
+                 BookLab::TextLine &line=text.getLine(i);
 
-                 Point a=draw.getPos(base,ind-sy.pos);
+                 Point a=draw.getPos(base,i-sy.pos);
                  Coord b=draw.getPosX(base.x,line);
 
                  draw.select(a,b-a.x);
@@ -2025,12 +2126,12 @@ void TextWindow::draw(DrawBuf buf,bool) const
              }
            else
              {
-              if( from.y<count && from.y>=sy.pos && from.y-sy.pos<sy.page )
+              if( from.y>=sy.pos && from.y<lim )
                 {
                  BookLab::TextLine &line=text.getLine(from.y);
 
-                 Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,flag);
-                 Coord b=draw.getPosX(base.x,line,to.span,to.x,flag);
+                 Point a=draw.getPos(base,from.y-sy.pos,line,from.span,from.x,cursor.span,getCurSpan(),flag);
+                 Coord b=draw.getPosX(base.x,line,to.span,to.x,cursor.span,getCurSpan(),flag);
 
                  draw.select(a,b-a.x);
                 }
@@ -2038,10 +2139,8 @@ void TextWindow::draw(DrawBuf buf,bool) const
           }
        }
 
-     for(ulen i : IndLim(sy.pos,sy.pos+sy.page) )
+     for(ulen i : IndLim(sy.pos,lim) )
        {
-        if( i>=count ) break;
-
         BookLab::TextLine &line=text.getLine(i);
 
         if( ulen spancount=line.list.getLen() )
@@ -2071,8 +2170,6 @@ void TextWindow::draw(DrawBuf buf,bool) const
      draw.cursor(base,cursor_on);
     }
  }
-
- // TODO 3 end
 
  // base
 
@@ -2235,10 +2332,9 @@ void TextWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
       {
        if( selection_on && selection!=cursor )
          {
-          if( kmod&KeyMod_Shift )
-            cut();
-          else
-            delSelection();
+          if( kmod&KeyMod_Shift ) copy();
+
+          delSelection();
          }
        else
          {

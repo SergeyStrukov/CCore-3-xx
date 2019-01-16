@@ -338,6 +338,9 @@ class TextWindow : public SubWindow
 
    void endDrag(Point point);
 
+   template <UIntType UInt>
+   static UInt AddMin(UInt a,UInt b,UInt cap) { if( a<cap ) return a+Min_cast(b,cap-a); return cap; }
+
    static Coord Div(Coord a,Coord b);
 
    static ulen DragPos(ulen pos,Coord from,Coord to,ulen cap);
@@ -386,23 +389,25 @@ class TextWindow : public SubWindow
 
   private:
 
-   static StrLen Substr(StrLen str,ulen from,ulen to);
+   static StrLen Prefix(StrLen str,ulen len);
 
-   static StrLen Substr(StrLen str,ulen from);
+   static StrLen Part(StrLen str,ulen len);
 
    static void Del(String &str,ulen from,ulen to);
 
    static void Del(String &str,ulen from);
 
-   static void Del(BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x);
+   static void Del(const Font &font,BookLab::Span &span,ulen from,ulen to);
 
-   static void Del(BookLab::TextLine &line,ulen from,ulen from_x);
+   static void Del(const Font &font,BookLab::Span &span,ulen from);
+
+   static void Del(const Font &font,Coord space_dx,BookLab::TextLine &line,ulen from,ulen from_x,ulen to,ulen to_x);
+
+   static void Del(const Font &font,Coord space_dx,BookLab::TextLine &line,ulen from,ulen from_x);
 
    void delSel();
 
    void delSelection();
-
-   void cut();
 
    void copy();
 
