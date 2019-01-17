@@ -915,9 +915,7 @@ void TextWindow::posWindow(Point point)
             DragPos(posy_base,Div(drag_base.y-dxc,div),Div(point.y-dxc,div),sy.getMaxPos()));
  }
 
- // TODO 1
-
-auto TextWindow::toCursor(Point point) -> Cursor // TODO
+auto TextWindow::toCursor(Point point) -> Cursor
  {
   if( !cache() ) return {};
 
@@ -936,14 +934,12 @@ auto TextWindow::toCursor(Point point) -> Cursor // TODO
 
   if( py>0 )
     {
-     y=AddToCap(sy.pos,(ulen)py,count-1);
+     y=AddMin<ulen>(sy.pos,(ulen)py,count-1);
     }
   else
     {
-     y=PosSub(sy.pos,UIntNeg((ulen)py));
+     y=Min<ulen>(PosSub(sy.pos,UIntNeg((ulen)py)),count-1);
     }
-
-  Replace_min(y,count-1);
 
   // x
 
@@ -951,6 +947,8 @@ auto TextWindow::toCursor(Point point) -> Cursor // TODO
   ulen x=0;
 
   BookLab::TextLine &line=text.getLine(y);
+
+  const Font &font=cfg.font.get();
 
   if( ulen spancount=line.list.getLen() )
     {
@@ -960,30 +958,62 @@ auto TextWindow::toCursor(Point point) -> Cursor // TODO
 
      for(; span<spancount ;span++)
        {
-        BookLab::Span &obj=line.list[span];
-
-        if( px>=obj.dx )
+        if( y==cursor.y && span==cursor.span )
           {
-           px-=obj.dx;
+           Coord dxc=+cfg.cursor_dx;
+           Coord dx=font->text(getCurSpan()).dx+dxc;
 
-           if( px>=data.space_dx )
+           if( px>=dx )
              {
-              px-=data.space_dx;
+              px-=dx;
+
+              if( px>=data.space_dx )
+                {
+                 px-=data.space_dx;
+                }
+              else
+                {
+                 x=spanlen;
+
+                 break;
+                }
              }
            else
              {
-              x=SymLen(Range(obj.body));
+              x=font->position(getCurSpan(),{px,0});
+
+              x=Cap<ulen>(1,x,spanlen+1)-1;
 
               break;
              }
           }
         else
           {
-           const Font &font=cfg.font.get();
+           BookLab::Span &obj=line.list[span];
 
-           x=font->position(Range(obj.body),{px,0})-1;
+           if( px>=obj.dx )
+             {
+              px-=obj.dx;
 
-           break;
+              if( px>=data.space_dx )
+                {
+                 px-=data.space_dx;
+                }
+              else
+                {
+                 x=SymLen(Range(obj.body));
+
+                 break;
+                }
+             }
+           else
+             {
+              x=font->position(Range(obj.body),{px,0});
+
+              x=Cap<ulen>(1,x,SymLen(Range(obj.body))+1)-1;
+
+              break;
+             }
           }
        }
 
@@ -991,20 +1021,27 @@ auto TextWindow::toCursor(Point point) -> Cursor // TODO
        {
         span=spancount-1;
 
-        BookLab::Span &obj=line.list[span];
+        if( y==cursor.y && span==cursor.span )
+          {
+           x=spanlen;
+          }
+        else
+          {
+           BookLab::Span &obj=line.list[span];
 
-        x=SymLen(Range(obj.body));
+           x=SymLen(Range(obj.body));
+          }
        }
     }
 
   return {y,span,x};
  }
 
-void TextWindow::posCursor(Cursor cur) // TODO
+void TextWindow::posCursor(Cursor cur)
  {
   if( cur.y!=cursor.y || cur.span!=cursor.span )
     {
-     flush();
+     flushDX();
 
      cursor=cur;
 
@@ -1016,11 +1053,7 @@ void TextWindow::posCursor(Cursor cur) // TODO
     }
   else
     {
-     flush();
-
      cursor=cur;
-
-     fill();
 
      redraw();
 
@@ -1028,10 +1061,8 @@ void TextWindow::posCursor(Cursor cur) // TODO
     }
  }
 
-void TextWindow::startPosCursor(Point point) // TODO
+void TextWindow::startPosCursor(Point point)
  {
-  return;
-
   Cursor cur=toCursor(point);
 
   selection_on=true;
@@ -1040,14 +1071,10 @@ void TextWindow::startPosCursor(Point point) // TODO
   posCursor(cur);
  }
 
-void TextWindow::posCursor(Point point) // TODO
+void TextWindow::posCursor(Point point)
  {
-  return;
-
   posCursor(toCursor(point));
  }
-
- // TODO 1 end
 
 void TextWindow::makeNonEmpty()
  {
