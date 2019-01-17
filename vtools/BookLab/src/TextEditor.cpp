@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
+#include <CCore/inc/video/PrintDDL.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
 
@@ -1529,6 +1530,13 @@ StrLen TextWindow::Part(StrLen str,ulen len)
 #endif
  }
 
+StrLen TextWindow::Part(StrLen str,ulen from,ulen to)
+ {
+  if( from>=to ) return Null;
+
+  return Prefix(Part(str,from),to-from);
+ }
+
 void TextWindow::Del(String &str,ulen from,ulen to)
  {
   auto text=Range(str);
@@ -1645,12 +1653,125 @@ void TextWindow::delSelection()
   showCursor();
  }
 
-void TextWindow::copy() // TODO
+void TextWindow::copy()
  {
+  if( selection_on && selection!=cursor )
+    {
+     Cursor from=selection;
+     Cursor to=cursor;
+
+     if( from>to ) Swap(from,to);
+
+     ulen count=text.getLineCount();
+
+     if( to.y<count )
+       {
+        struct Builder
+         {
+          PrintString out;
+          bool first = true ;
+
+          Builder()
+           {
+            Putobj(out,"{"_c);
+           }
+
+          void add(StrLen format,StrLen ref,StrLen text)
+           {
+            if( !Change(first,false) ) Putch(out,',');
+
+            Printf(out,"{#;,#;,#;}",DDLPrintableString(text),DDLPrintableString(format),DDLPrintableString(ref));
+           }
+
+          void add(BookLab::Span &span,ulen from)
+           {
+            add(Range(span.format.name),Range(span.ref.name),Part(Range(span.body),from));
+           }
+
+          void add(BookLab::Span &span,ulen from,ulen to)
+           {
+            add(Range(span.format.name),Range(span.ref.name),Part(Range(span.body),from,to));
+           }
+
+          void eol()
+           {
+            Putobj(out,"},{"_c);
+
+            first=true;
+           }
+
+          String complete()
+           {
+            Putobj(out,"}"_c);
+
+            return out.close();
+           }
+         };
+
+        Builder builder;
+
+        flush();
+
+        BookLab::TextLine *line=&text.getLine(from.y);
+        ulen spancount=line->list.getLen();
+
+        for(;;)
+          {
+           if( from.y<to.y )
+             {
+              if( from.span<spancount )
+                {
+                 builder.add(line->list[from.span],from.x);
+
+                 from.span++;
+                 from.x=0;
+                }
+              else
+                {
+                 builder.eol();
+
+                 from.y++;
+                 from.span=0;
+                 from.x=0;
+
+                 line=&text.getLine(from.y);
+                 spancount=line->list.getLen();
+                }
+             }
+           else if( from.span<to.span )
+             {
+              builder.add(line->list[from.span],from.x);
+
+              from.span++;
+              from.x=0;
+             }
+           else
+             {
+              builder.add(line->list[from.span],from.x,to.x);
+
+              break;
+             }
+          }
+
+        String frame=builder.complete();
+
+        getFrameHost()->textToClipboard(Range(frame));
+       }
+    }
  }
 
 void TextWindow::past() // TODO
  {
+  if( selection_on && selection!=cursor )
+    {
+     delSel();
+
+     changed.assert();
+
+     showCursor();
+    }
+
+  // TODO
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)

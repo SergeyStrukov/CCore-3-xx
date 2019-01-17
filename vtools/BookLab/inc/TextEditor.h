@@ -393,6 +393,8 @@ class TextWindow : public SubWindow
 
    static StrLen Part(StrLen str,ulen len);
 
+   static StrLen Part(StrLen str,ulen from,ulen to);
+
    static void Del(String &str,ulen from,ulen to);
 
    static void Del(String &str,ulen from);
