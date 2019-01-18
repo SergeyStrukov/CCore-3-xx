@@ -86,7 +86,7 @@ Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 {
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o27 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o28 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , null } },
@@ -336,6 +336,14 @@ Text o27 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
 }
 
+
+}
+
+ };
+
+Text o28 = { "" , True , { null , null } , { null , null } , 
+
+{
 
 }
 

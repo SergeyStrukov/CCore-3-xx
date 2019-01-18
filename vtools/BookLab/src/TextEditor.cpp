@@ -1142,10 +1142,7 @@ void TextWindow::insChar(Char ch)
  {
   if( !SymCharIsPrintable(ch) ) return;
 
-  if( selection_on && selection!=cursor )
-    {
-     delSel();
-    }
+  if( selection_on ) delSel();
 
   makeNonEmpty();
 
@@ -1324,6 +1321,8 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
 
 void TextWindow::delChar(bool prev)
  {
+  selection_on=false;
+
   if( ulen count=text.getLineCount() )
     {
      if( cursor.y<count )
@@ -1366,6 +1365,13 @@ void TextWindow::delChar(bool prev)
 
 void TextWindow::splitSpan()
  {
+  if( selection_on )
+    {
+     selection_on=false;
+
+     redraw();
+    }
+
   makeNonEmpty();
 
   if( ulen count=text.getLineCount() )
@@ -1421,6 +1427,13 @@ void TextWindow::splitSpan()
 
 void TextWindow::splitLine()
  {
+  if( selection_on )
+    {
+     selection_on=false;
+
+     redraw();
+    }
+
   makeNonEmpty();
 
   if( ulen count=text.getLineCount() )
@@ -1607,6 +1620,8 @@ void TextWindow::delSel()
  {
   selection_on=false;
 
+  if( cursor==selection ) return;
+
   flushDX();
 
   Cursor from=cursor;
@@ -1747,7 +1762,7 @@ void TextWindow::copy()
              }
            else
              {
-              builder.add(line->list[from.span],from.x,to.x);
+              if( from.span<spancount ) builder.add(line->list[from.span],from.x,to.x);
 
               break;
              }
@@ -1767,11 +1782,38 @@ struct TextWindow::PastData : Funchor
     String body;
     String format;
     String ref;
+
+    BookLab::Span build() const
+     {
+      BookLab::Span ret;
+
+      ret.body=body;
+      ret.format.name=format;
+      ret.ref.name=ref;
+
+      return ret;
+     }
    };
 
   struct Line
    {
     DynArray<Span> list;
+
+    BookLab::TextLine build() const
+     {
+      ulen len=list.getLen();
+
+      BookLab::TextLine ret;
+
+      auto r=ret.list.extend_default(len);
+
+      for(ulen i : IndLim(len) )
+        {
+         r[i]=list[i].build();
+        }
+
+      return ret;
+     }
    };
 
   DynArray<Line> list;
@@ -1801,10 +1843,10 @@ struct TextWindow::PastData : Funchor
       {
        char ch=*text;
 
+       ++text;
+
        if( ch=='\\' )
          {
-          ++text;
-
           if( !text ) return false;
 
           ch=*text;
@@ -1963,9 +2005,38 @@ void TextWindow::past() // TODO
 
   if( !data ) return;
 
-  if( selection_on && selection!=cursor ) delSel();
+  if( selection_on ) delSel();
 
-  // TODO
+  if( text.getLineCount() )
+    {
+     // TODO
+    }
+  else
+    {
+     auto dst=text.addLines(data.list.getLen());
+
+     if( +dst )
+       {
+        for(ulen i : IndLim(dst.len) )
+          {
+           dst[i]=data.list[i].build();
+          }
+
+        cursor.y=dst.len-1;
+
+        BookLab::TextLine &line=dst[cursor.y];
+
+        ulen spancount=line.list.getLen();
+
+        cursor.span=PosSub(spancount,1u);
+
+        fill();
+
+        cursor.x=spanlen;
+
+        ok=false;
+       }
+    }
 
   changed.assert();
 

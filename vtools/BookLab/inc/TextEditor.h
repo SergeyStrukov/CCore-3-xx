@@ -61,6 +61,13 @@ class TextBuf : NoCopy
      if( pad ) pad->append_default();
     }
 
+   PtrLen<BookLab::TextLine> addLines(ulen count)
+    {
+     if( pad ) return pad->extend_default(count);
+
+     return Empty;
+    }
+
    BookLab::TextLine * insLine(ulen index);
 
    void delLine(ulen index);
