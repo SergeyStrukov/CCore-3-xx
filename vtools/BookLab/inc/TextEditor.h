@@ -413,6 +413,8 @@ class TextWindow : public SubWindow
 
    void copy();
 
+   struct PastData;
+
    void past();
 
   public:

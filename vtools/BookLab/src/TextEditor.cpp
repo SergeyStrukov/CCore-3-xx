@@ -1760,18 +1760,216 @@ void TextWindow::copy()
     }
  }
 
+struct TextWindow::PastData : Funchor
+ {
+  struct Span
+   {
+    String body;
+    String format;
+    String ref;
+   };
+
+  struct Line
+   {
+    DynArray<Span> list;
+   };
+
+  DynArray<Line> list;
+
+  PastData() {}
+
+  ~PastData() {}
+
+  bool operator ! () const { return !list.getLen(); }
+
+  bool parseChar(StrLen &text,char ch)
+   {
+    if( !text || *text!=ch ) return false;
+
+    ++text;
+
+    return true;
+   }
+
+  bool parseString(StrLen &text,String &ret)
+   {
+    PrintString out;
+
+    if( !parseChar(text,'"') ) return false;
+
+    while( +text )
+      {
+       char ch=*text;
+
+       if( ch=='\\' )
+         {
+          ++text;
+
+          if( !text ) return false;
+
+          ch=*text;
+
+          ++text;
+
+          out.put(ch);
+         }
+       else if( ch=='"' )
+         {
+          ret=out.close();
+
+          return true;
+         }
+       else
+         {
+          out.put(ch);
+         }
+      }
+
+    return false;
+   }
+
+  bool parseSpan(StrLen &text,Span &ret)
+   {
+    if( !parseChar(text,'{') ) return false;
+
+    if( !parseString(text,ret.body) ) return false;
+
+    if( !parseChar(text,',') ) return false;
+
+    if( !parseString(text,ret.format) ) return false;
+
+    if( !parseChar(text,',') ) return false;
+
+    if( !parseString(text,ret.ref) ) return false;
+
+    if( !parseChar(text,'}') ) return false;
+
+    return true;
+   }
+
+  bool parseSpan(StrLen &text,Collector<Span> &buf)
+   {
+    Span obj;
+
+    if( !parseSpan(text,obj) ) return false;
+
+    buf.append_fill(std::move(obj));
+
+    return true;
+   }
+
+  bool parseLine(StrLen &text,Line &ret)
+   {
+    if( !parseChar(text,'{') ) return false;
+
+    if( !text ) return false;
+
+    if( *text=='}' )
+      {
+       ++text;
+
+       return true;
+      }
+
+    Collector<Span> buf;
+
+    if( !parseSpan(text,buf) ) return false;
+
+    while( +text )
+      {
+       char ch=*text;
+
+       if( ch=='}' )
+         {
+          ++text;
+
+          buf.extractTo(ret.list);
+
+          return true;
+         }
+       else if( ch==',' )
+         {
+          ++text;
+
+          if( !parseSpan(text,buf) ) return false;
+         }
+       else
+         {
+          return false;
+         }
+      }
+
+    return false;
+   }
+
+  bool parseLine(StrLen &text,Collector<Line> &buf)
+   {
+    Line obj;
+
+    if( !parseLine(text,obj) ) return false;
+
+    buf.append_fill(std::move(obj));
+
+    return true;
+   }
+
+  bool parseCombo(StrLen text)
+   {
+    if( !text ) return true;
+
+    Collector<Line> buf;
+
+    if( !parseLine(text,buf) ) return false;
+
+    while( +text )
+      {
+       char ch=*text;
+
+       if( ch==',' )
+         {
+          ++text;
+
+          if( !parseLine(text,buf) ) return false;
+         }
+       else
+         {
+          return false;
+         }
+      }
+
+    buf.extractTo(list);
+
+    return true;
+   }
+
+  void parseSimple(StrLen text) // TODO
+   {
+    Used(text);
+   }
+
+  void load(StrLen text)
+   {
+    if( !parseCombo(text) ) parseSimple(text);
+   }
+
+  Function<void (StrLen)> function_load() { return FunctionOf(this,&PastData::load); }
+ };
+
 void TextWindow::past() // TODO
  {
-  if( selection_on && selection!=cursor )
-    {
-     delSel();
+  PastData data;
 
-     changed.assert();
+  getFrameHost()->textFromClipboard(data.function_load());
 
-     showCursor();
-    }
+  if( !data ) return;
+
+  if( selection_on && selection!=cursor ) delSel();
 
   // TODO
+
+  changed.assert();
+
+  showCursor();
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
