@@ -43,6 +43,27 @@ auto InsAt(A &array,ulen ind)
   return r.ptr;
  }
 
+template <class A>
+auto InsAt(A &array,ulen ind,ulen count)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_default(count);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_default(count);
+    }
+ }
+
 /* DelRange() */
 
 template <class A>
@@ -103,22 +124,7 @@ PtrLen<BookLab::TextLine> TextBuf::insLines(ulen index,ulen count)
  {
   guard();
 
-  ulen len=pad->getLen();
-
-  if( index<len )
-    {
-     pad->extend_default(count);
-
-     auto r=Range(*pad).part(index);
-
-     Algon::EuclidRotate_suffix(r,count);
-
-     return r.prefix(count);
-    }
-  else
-    {
-     return pad->extend_default(count);
-    }
+  return InsAt(*pad,index,count);
  }
 
 void TextBuf::delLine(ulen index)
@@ -1846,18 +1852,23 @@ struct TextWindow::PastData : Funchor
 
     BookLab::TextLine build() const
      {
-      ulen len=list.getLen();
-
       BookLab::TextLine ret;
 
-      auto r=ret.list.extend_default(len);
+      extend(ret);
+
+      return ret;
+     }
+
+    void extend(BookLab::TextLine &line) const
+     {
+      ulen len=list.getLen();
+
+      auto r=line.list.extend_default(len);
 
       for(ulen i : IndLim(len) )
         {
          r[i]=list[i].build();
         }
-
-      return ret;
      }
    };
 
@@ -2049,7 +2060,42 @@ struct TextWindow::PastData : Funchor
   Function<void (StrLen)> function_load() { return FunctionOf(this,&PastData::load); }
  };
 
-void TextWindow::past() // TODO
+void TextWindow::past(BookLab::TextLine &line,PastData &data) // TODO
+ {
+  if( data.list.getLen()==1 )
+    {
+     auto &src=data.list[0];
+
+     ulen delta=src.list.getLen();
+
+     auto dst=InsAt(line.list,cursor.span,delta);
+
+     for(ulen i : IndLim(dst.len) ) dst[i]=src.list[i].build();
+
+     cursor.span+=delta;
+    }
+  else
+    {
+     // TODO
+    }
+ }
+
+void TextWindow::pastEnd()
+ {
+  BookLab::TextLine &line=text.getLine(cursor.y);
+
+  ulen spancount=line.list.getLen();
+
+  cursor.span=PosSub(spancount,1u);
+
+  fill();
+
+  cursor.x=spanlen;
+
+  ok=false;
+ }
+
+void TextWindow::past()
  {
   PastData data;
 
@@ -2077,38 +2123,42 @@ void TextWindow::past() // TODO
              }
            else
              {
-              // TODO
+              BookLab::Span *span=InsAt(line.list,cursor.span);
+
+              Split split(getCurSpan(),cursor.x);
+
+              span[0].body=String(split.str1);
+              span[1].body=String(split.str2);
+
+              span[0].format=span[1].format;
+              span[0].ref=span[1].ref;
+
+              cursor.span++;
+              cursor.x=0;
+
+              fill();
+
+              past(line,data);
+
+              ok=false;
              }
           }
         else
           {
-#if 0
+           ulen delta=data.list.getLen();
 
-           auto dst=text.insLines(data.list.getLen());
+           data.list[0].extend(line);
 
-           if( +dst )
+           if( delta>1 )
              {
-              for(ulen i : IndLim(dst.len) )
-                {
-                 dst[i]=data.list[i].build();
-                }
+              auto dst=text.insLines(cursor.y+1,delta-1);
 
-              cursor.y=dst.len-1;
+              for(ulen i : IndLim(dst.len) ) dst[i]=data.list[i+1].build();
 
-              BookLab::TextLine &line=dst[cursor.y];
-
-              ulen spancount=line.list.getLen();
-
-              cursor.span=PosSub(spancount,1u);
-
-              fill();
-
-              cursor.x=spanlen;
-
-              ok=false;
+              cursor.y+=delta-1;
              }
 
-#endif
+           pastEnd();
           }
        }
     }
@@ -2116,27 +2166,11 @@ void TextWindow::past() // TODO
     {
      auto dst=text.addLines(data.list.getLen());
 
-     if( +dst )
-       {
-        for(ulen i : IndLim(dst.len) )
-          {
-           dst[i]=data.list[i].build();
-          }
+     for(ulen i : IndLim(dst.len) ) dst[i]=data.list[i].build();
 
-        cursor.y=dst.len-1;
+     cursor.y=dst.len-1;
 
-        BookLab::TextLine &line=dst[cursor.y];
-
-        ulen spancount=line.list.getLen();
-
-        cursor.span=PosSub(spancount,1u);
-
-        fill();
-
-        cursor.x=spanlen;
-
-        ok=false;
-       }
+     pastEnd();
     }
 
   changed.assert();

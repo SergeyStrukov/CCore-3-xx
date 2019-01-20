@@ -434,6 +434,10 @@ class TextWindow : public SubWindow
 
    struct PastData;
 
+   void past(BookLab::TextLine &line,PastData &data);
+
+   void pastEnd();
+
    void past();
 
   public:
