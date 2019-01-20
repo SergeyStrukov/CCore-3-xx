@@ -1,0 +1,63 @@
+<!--
+/* page_SymPart.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> SymPart</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>SymPart</h2>
+
+<p class="Files">Files <b>CCore/inc/SymPart.h</b> <b>CCore/src/SymPart.cpp</b></p>
+
+<p>
+This part contains functions to cut string parts, based on symbol (not character!) counts.
+All these functions are safe, i.e. return the maximum possible result.
+</p>
+
+<pre>
+
+StrLen <span class="Att">SymPrefix</span>(StrLen str,ulen len);
+
+StrLen <span class="Att">SymPart</span>(StrLen str,ulen off);
+
+StrLen <span class="Att">SymPart</span>(StrLen str,ulen off,ulen len);
+
+</pre>
+
+<p>
+<b>SymPrefix()</b> cuts the string prefix with the given symbol length.
+</p>
+
+<p>
+<b>SymPart(ulen)</b> cuts the string part, starting from the given symbol.
+</p>
+
+<p>
+<b>SymPart(ulen,ulen)</b> cuts the string part, starting from the given symbol and with the given symbol length.
+</p>
+
+</body>
+
+</html>
+

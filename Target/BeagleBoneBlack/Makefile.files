@@ -315,6 +315,7 @@ OBJ_LIST = \
 .obj/StringScan.o \
 .obj/Swap.o \
 .obj/SymCount.o \
+.obj/SymPart.o \
 .obj/Symbol.o \
 .obj/SysAbort.o \
 .obj/SysAsyncFile.o \
@@ -696,6 +697,7 @@ ASM_LIST = \
 .obj/StringScan.s \
 .obj/Swap.s \
 .obj/SymCount.s \
+.obj/SymPart.s \
 .obj/Symbol.s \
 .obj/SysAbort.s \
 .obj/SysAsyncFile.s \
@@ -1077,6 +1079,7 @@ DEP_LIST = \
 .obj/StringScan.dep \
 .obj/Swap.dep \
 .obj/SymCount.dep \
+.obj/SymPart.dep \
 .obj/Symbol.dep \
 .obj/SysAbort.dep \
 .obj/SysAsyncFile.dep \
@@ -2103,6 +2106,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SymCount.o : ../../Simple/CCore/src/./SymCount.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SymPart.o : ../../Simple/CCore/src/./SymPart.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Symbol.o : ../../Simple/CCore/src/./Symbol.cpp
@@ -3241,6 +3247,9 @@ include $(RULES_FILE)
 .obj/SymCount.s : ../../Simple/CCore/src/./SymCount.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SymPart.s : ../../Simple/CCore/src/./SymPart.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Symbol.s : ../../Simple/CCore/src/./Symbol.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4376,6 +4385,9 @@ include $(RULES_FILE)
 
 .obj/SymCount.dep : ../../Simple/CCore/src/./SymCount.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SymCount.o $< -MF $@
+
+.obj/SymPart.dep : ../../Simple/CCore/src/./SymPart.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SymPart.o $< -MF $@
 
 .obj/Symbol.dep : ../../Simple/CCore/src/./Symbol.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Symbol.o $< -MF $@

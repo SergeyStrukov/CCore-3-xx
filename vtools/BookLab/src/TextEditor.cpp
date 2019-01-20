@@ -15,6 +15,7 @@
 
 #include <CCore/inc/CharUtils.h>
 #include <CCore/inc/SymCount.h>
+#include <CCore/inc/SymPart.h>
 
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/video/FigureLib.h>
@@ -1561,49 +1562,23 @@ void TextWindow::splitLine()
     }
  }
 
-StrLen TextWindow::Prefix(StrLen str,ulen len)
- {
-#ifdef CCORE_UTF8
-
-  return str.prefix(Utf8Move(str,len));
-
-#else
-
-  return str.safe_part(0,len);
-
-#endif
- }
-
-StrLen TextWindow::Part(StrLen str,ulen len)
- {
-#ifdef CCORE_UTF8
-
-  return Utf8Move(str,len);
-
-#else
-
-  return str.safe_part(len);
-
-#endif
- }
-
 StrLen TextWindow::Part(StrLen str,ulen from,ulen to)
  {
   if( from>=to ) return Null;
 
-  return Prefix(Part(str,from),to-from);
+  return SymPart(str,from,to-from);
  }
 
 void TextWindow::Del(String &str,ulen from,ulen to)
  {
   auto text=Range(str);
 
-  str=StringCat(Prefix(text,from),Part(text,to));
+  str=StringSum(SymPrefix(text,from),SymPart(text,to));
  }
 
 void TextWindow::Del(String &str,ulen from)
  {
-  str=Prefix(Range(str),from);
+  str=SymPrefix(Range(str),from);
  }
 
 void TextWindow::Del(const Font &font,BookLab::Span &span,ulen from,ulen to)
@@ -1744,7 +1719,7 @@ void TextWindow::copy()
 
           void add(BookLab::Span &span,ulen from)
            {
-            add(Range(span.format.name),Range(span.ref.name),Part(Range(span.body),from));
+            add(Range(span.format.name),Range(span.ref.name),SymPart(Range(span.body),from));
            }
 
           void add(BookLab::Span &span,ulen from,ulen to)
