@@ -21,6 +21,7 @@
 #include <CCore/inc/video/PrintDDL.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
+#include <CCore/inc/algon/EuclidRotate.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -78,6 +79,11 @@ void DelPrefix(A &array,ulen delta)
 
 /* class TextBuf */
 
+void TextBuf::GuardNoObject()
+ {
+  Printf(Exception,"App::TextBuf::guard() : no pad");
+ }
+
 TextBuf::TextBuf()
  {
  }
@@ -88,21 +94,43 @@ TextBuf::~TextBuf()
 
 BookLab::TextLine * TextBuf::insLine(ulen index)
  {
-  if( !pad ) GuardIndex(index,0);
+  guard();
 
   return InsAt(*pad,index);
  }
 
+PtrLen<BookLab::TextLine> TextBuf::insLines(ulen index,ulen count)
+ {
+  guard();
+
+  ulen len=pad->getLen();
+
+  if( index<len )
+    {
+     pad->extend_default(count);
+
+     auto r=Range(*pad).part(index);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return pad->extend_default(count);
+    }
+ }
+
 void TextBuf::delLine(ulen index)
  {
-  if( !pad ) return;
+  guard();
 
   DelRange(*pad,index);
  }
 
 void TextBuf::delRange(ulen ind,ulen lim)
  {
-  if( !pad ) return;
+  guard();
 
   DelRange(*pad,ind,lim);
  }
@@ -423,7 +451,7 @@ void TextWindow::fill(StrLen str)
     }
  }
 
-void TextWindow::extend(StrLen str)
+ulen TextWindow::extend(StrLen str)
  {
   FillCharBuf result(Range(spanbuf).part(spanlen),str);
 
@@ -435,6 +463,20 @@ void TextWindow::extend(StrLen str)
     {
      spanlen+=result.len;
     }
+
+  return result.len;
+ }
+
+void TextWindow::insert(StrLen str)
+ {
+  ulen off=Min(cursor.x,spanlen);
+  ulen delta=extend(str);
+
+  auto r=Range(spanbuf.getPtr(),spanlen).part(off);
+
+  Algon::EuclidRotate_suffix(r,delta);
+
+  cursor.x=off+delta;
  }
 
 void TextWindow::cleanNames()
@@ -1827,6 +1869,13 @@ struct TextWindow::PastData : Funchor
 
   bool operator ! () const { return !list.getLen(); }
 
+  bool isSimple() const
+   {
+    return list.getLen()==1 && list[0].list.getLen()==1 ;
+   }
+
+  StrLen getSimple() const { return Range(list[0].list[0].body); }
+
   bool parseChar(StrLen &text,char ch)
    {
     if( !text || *text!=ch ) return false;
@@ -2010,9 +2059,58 @@ void TextWindow::past() // TODO
 
   if( selection_on ) delSel();
 
-  if( text.getLineCount() )
+  if( ulen count=text.getLineCount() )
     {
-     // TODO
+     if( cursor.y<count )
+       {
+        BookLab::TextLine &line=text.getLine(cursor.y);
+
+        ulen spancount=line.list.getLen();
+
+        if( cursor.span<spancount )
+          {
+           if( data.isSimple() )
+             {
+              insert(data.getSimple());
+
+              Replace_max(this->data.text_dx,updateCache(line));
+             }
+           else
+             {
+              // TODO
+             }
+          }
+        else
+          {
+#if 0
+
+           auto dst=text.insLines(data.list.getLen());
+
+           if( +dst )
+             {
+              for(ulen i : IndLim(dst.len) )
+                {
+                 dst[i]=data.list[i].build();
+                }
+
+              cursor.y=dst.len-1;
+
+              BookLab::TextLine &line=dst[cursor.y];
+
+              ulen spancount=line.list.getLen();
+
+              cursor.span=PosSub(spancount,1u);
+
+              fill();
+
+              cursor.x=spanlen;
+
+              ok=false;
+             }
+
+#endif
+          }
+       }
     }
   else
     {

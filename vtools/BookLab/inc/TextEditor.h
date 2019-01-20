@@ -36,6 +36,10 @@ class TextBuf : NoCopy
  {
    DynArray<BookLab::TextLine> *pad = 0 ;
 
+  private:
+
+   static void GuardNoObject();
+
   public:
 
    TextBuf();
@@ -49,26 +53,32 @@ class TextBuf : NoCopy
      return pad? pad->getLen() : 0 ;
     }
 
+   void guard() const { if( !pad ) GuardNoObject(); }
+
    BookLab::TextLine & getLine(ulen index) const
     {
-     if( !pad ) GuardIndex(index,0);
+     guard();
 
      return pad->at(index);
     }
 
    void addLine()
     {
-     if( pad ) pad->append_default();
+     guard();
+
+     pad->append_default();
     }
 
    PtrLen<BookLab::TextLine> addLines(ulen count)
     {
-     if( pad ) return pad->extend_default(count);
+     guard();
 
-     return Empty;
+     return pad->extend_default(count);
     }
 
    BookLab::TextLine * insLine(ulen index);
+
+   PtrLen<BookLab::TextLine> insLines(ulen index,ulen count);
 
    void delLine(ulen index);
 
@@ -280,7 +290,9 @@ class TextWindow : public SubWindow
 
    void fill(StrLen str);
 
-   void extend(StrLen str);
+   ulen extend(StrLen str);
+
+   void insert(StrLen str);
 
    void cleanNames();
 
