@@ -1047,19 +1047,15 @@ void TextWindow::posCursor(Cursor cur)
      cursor=cur;
 
      fill();
-
-     redraw();
-
-     showCursor();
     }
   else
     {
      cursor=cur;
-
-     redraw();
-
-     showCursor();
     }
+
+  redraw();
+
+  showCursor();
  }
 
 void TextWindow::startPosCursor(Point point)
@@ -1753,17 +1749,24 @@ void TextWindow::copy()
                  spancount=line->list.getLen();
                 }
              }
-           else if( from.span<to.span )
+           else if( from.span<spancount )
              {
-              builder.add(line->list[from.span],from.x);
+              if( from.span<to.span )
+               {
+                builder.add(line->list[from.span],from.x);
 
-              from.span++;
-              from.x=0;
+                from.span++;
+                from.x=0;
+               }
+             else
+               {
+                builder.add(line->list[from.span],from.x,to.x);
+
+                break;
+               }
              }
            else
              {
-              if( from.span<spancount ) builder.add(line->list[from.span],from.x,to.x);
-
               break;
              }
           }
