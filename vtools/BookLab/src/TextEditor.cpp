@@ -2060,9 +2060,9 @@ struct TextWindow::PastData : Funchor
   Function<void (StrLen)> function_load() { return FunctionOf(this,&PastData::load); }
  };
 
-void TextWindow::past(BookLab::TextLine &line,PastData &data) // TODO
+void TextWindow::past(BookLab::TextLine &line,PastData &data)
  {
-  if( data.list.getLen()==1 )
+  if( ulen dlen=data.list.getLen() ; dlen==1 )
     {
      auto &src=data.list[0];
 
@@ -2076,7 +2076,28 @@ void TextWindow::past(BookLab::TextLine &line,PastData &data) // TODO
     }
   else
     {
-     // TODO
+     auto dst=text.insLines(cursor.y+1,dlen-1);
+
+     for(ulen i : IndLim(dlen-1) ) dst[i]=data.list[i+1].build();
+
+     BookLab::TextLine &line1=text.getLine(cursor.y);
+
+     cursor.y+=dlen-1;
+
+     BookLab::TextLine &line2=text.getLine(cursor.y);
+
+     auto r=Range(line1.list).part(cursor.span);
+
+     ulen new_span=line2.list.getLen();
+
+     cursor.span=0;
+
+     line2.list.extend_copy(r);
+     line1.list.shrink(r.len);
+
+     cursor.span=new_span;
+
+     data.list[0].extend(line1);
     }
  }
 
