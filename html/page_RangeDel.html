@@ -34,6 +34,8 @@
 This file contains a set of generic functions to perform a deletion of object from the continuous range.
 </p>
 
+<h4>One-element deletion</h4>
+
 <pre>
 
 bool <span class="Att">RangeCopyDel</span>(NothrowCopyableType list[],ulen len,ulen ind);
@@ -78,6 +80,70 @@ void <span class="Att">RangeSwapDel_guarded</span>(PtrLen&lt;AnyType&gt; range,u
 
 <p>
 These four functions are guarded variants, they throw an exception if the index is out of range.
+</p>
+
+<h4>Range deletion</h4>
+
+<pre>
+
+ulen <span class="Att">RangeCopyDel</span>(NothrowCopyableType list[],ulen len,ulen ind,ulen count);
+
+ulen <span class="Att">RangeCopyDel</span>(PtrLen&lt;NothrowCopyableType&gt; range,ulen ind,ulen count);
+
+</pre>
+
+<p>
+These functions delete the given subrange from the given range. 
+Subrange is given by the index of the first element and the element count.
+If it does not fit the range, it's truncated.
+The count of deleted elements is retuned.
+Elements are copied down to fill the hole.
+Range elements must be nothrow-copyable.
+</p>
+
+<pre>
+
+ulen <span class="Att">RangeSwapDel</span>(AnyType list[],ulen len,ulen ind,ulen count);
+
+ulen <span class="Att">RangeSwapDel</span>(PtrLen&lt;AnyType&gt; range,ulen ind,ulen count);
+
+</pre>
+
+<p>
+These functions delete the given subrange from the given range. 
+Subrange is given by the index of the first element and the element count.
+If it does not fit the range, it's truncated.
+The count of deleted elements is retuned.
+Elements are swapped down to fill the hole.
+Range elements must be <a href="page_Swap.html">swappable</a>.
+</p>
+
+<pre>
+
+void <span class="Att">RangeCopyDel_guarded</span>(NothrowCopyableType list[],ulen len,ulen ind,ulen count);
+
+void <span class="Att">RangeCopyDel_guarded</span>(PtrLen&lt;NothrowCopyableType&gt; range,ulen ind,ulen count);
+
+void <span class="Att">RangeSwapDel_guarded</span>(AnyType list[],ulen len,ulen ind,ulen count);
+
+void <span class="Att">RangeSwapDel_guarded</span>(PtrLen&lt;AnyType&gt; range,ulen ind,ulen count);
+
+</pre>
+
+<p>
+These four functions are guarded variants, they throw an exception if the subrange does not fit the range.
+</p>
+
+<pre>
+
+bool <span class="Att">GuardIndexCount</span>(ulen ind,ulen count,ulen len);
+
+</pre>
+
+<p>
+This function is used to fit the subrange. It returns <b>true</b> if <b>count</b> is zero.
+Otherwise the following condition must be satisfied: <b> ind + count <= len </b>.
+If not, an exception is thrown. If yes, <b>false</b> is returned.
 </p>
 
 </body>

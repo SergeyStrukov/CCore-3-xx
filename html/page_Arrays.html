@@ -1953,6 +1953,32 @@ The last two throw an exception in such case.
 
 <pre>
 
+/* del range functions */
+
+template &lt;class A&gt;
+ulen <span class="Att">ArrayCopyDelRange</span>(A &amp;array,ulen ind,ulen count);
+
+template &lt;class A&gt;
+ulen <span class="Att">ArraySwapDelRange</span>(A &amp;array,ulen ind,ulen count);
+
+template &lt;class A&gt;
+void <span class="Att">ArrayCopyDelRange_guarded</span>(A &amp;array,ulen ind,ulen count);
+
+template &lt;class A&gt;
+void <span class="Att">ArraySwapDelRange_guarded</span>(A &amp;array,ulen ind,ulen count);
+
+</pre>
+
+<p>
+These functions delete a range of elements from the array. 
+The first two return the count of deleted elements.
+The last two throw an exception if the subrange does not fit the array range. 
+<b>CopyDel</b> copies elements, <b>SwapDel</b> uses swapping.
+</p>
+
+
+<pre>
+
 /* ins functions */
 
 template &lt;class A,class ... SS&gt;
@@ -1977,6 +2003,42 @@ The last two throw an exception in such case. They also return the pointer to th
 <b>CopyIns</b> copies elements, <b>SwapIns</b> uses swapping.
 Extra arguments are used to call an element constructor.
 </p>
+
+<pre>
+
+/* ins range functions */
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange_default</span>(A &amp;array,ulen ind,ulen count);
+
+template &lt;class A,class ... SS&gt;
+auto <span class="Att">ArrayInsRange_fill</span>(A &amp;array,ulen ind,ulen count,SS &amp;&amp; ... ss);
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange_copy</span>(A &amp;array,ulen ind,ulen count,const T *src); // const T * == decltype(array.getPtr_const())
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange_copy</span>(A &amp;array,ulen ind,PtrLen&lt;const T&gt; src); // const T == Meta::PtrObjType&lt;decltype(array.getPtr_const())&gt;
+
+template &lt;class A,class S&gt;
+auto <span class="Att">ArrayInsRange_cast</span>(A &amp;array,ulen ind,ulen count,const S src[]);
+
+template &lt;class A,class S&gt;
+auto <span class="Att">ArrayInsRange_cast</span>(A &amp;array,ulen ind,PtrLen&lt;const S&gt; src);
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange_swap</span>(A &amp;array,ulen ind,ulen count,T *objs); // T * == decltype(array.getPtr()) 
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange_swap</span>(A &amp;array,ulen ind,PtrLen&lt;T&gt; objs); // T == Meta::PtrObjType&lt;decltype(array.getPtr())&gt; 
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange</span>(A &amp;array,ulen ind,ulen count,CreatorType&lt;T&gt; creator); // T == Meta::PtrObjType&lt;decltype(array.getPtr())&gt; 
+
+template &lt;class A&gt;
+auto <span class="Att">ArrayInsRange</span>(A &amp;array,ulen ind,BuilderType&lt;T&gt; builder); // T == Meta::PtrObjType&lt;decltype(array.getPtr())&gt; 
+
+</pre>
 
 </body>
 
