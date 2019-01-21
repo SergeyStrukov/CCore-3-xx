@@ -1,7 +1,7 @@
 /* ArrayInsDel.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.60
 //
 //  Tag: Fundamental
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -32,11 +32,11 @@ void ArrayInsRangeGuardOutOfBorder(ulen ind,ulen len);
 /* del functions */
 
 template <class A>
-bool ArrayCopyDel(A &a,ulen ind)
+bool ArrayCopyDel(A &array,ulen ind)
  {
-  if( RangeCopyDel(Range(a),ind) )
+  if( RangeCopyDel(Range(array),ind) )
     {
-     a.shrink_one();
+     array.shrink_one();
 
      return true;
     }
@@ -45,11 +45,11 @@ bool ArrayCopyDel(A &a,ulen ind)
  }
 
 template <class A>
-bool ArraySwapDel(A &a,ulen ind)
+bool ArraySwapDel(A &array,ulen ind)
  {
-  if( RangeSwapDel(Range(a),ind) )
+  if( RangeSwapDel(Range(array),ind) )
     {
-     a.shrink_one();
+     array.shrink_one();
 
      return true;
     }
@@ -58,19 +58,57 @@ bool ArraySwapDel(A &a,ulen ind)
  }
 
 template <class A>
-void ArrayCopyDel_guarded(A &a,ulen ind)
+void ArrayCopyDel_guarded(A &array,ulen ind)
  {
-  RangeCopyDel_guarded(Range(a),ind);
+  RangeCopyDel_guarded(Range(array),ind);
 
-  a.shrink_one();
+  array.shrink_one();
  }
 
 template <class A>
-void ArraySwapDel_guarded(A &a,ulen ind)
+void ArraySwapDel_guarded(A &array,ulen ind)
  {
-  RangeSwapDel_guarded(Range(a),ind);
+  RangeSwapDel_guarded(Range(array),ind);
 
-  a.shrink_one();
+  array.shrink_one();
+ }
+
+/* del range functions */
+
+template <class A>
+ulen ArrayCopyDelRange(A &array,ulen ind,ulen count)
+ {
+  ulen delta=RangeCopyDel(Range(array),ind,count);
+
+  array.shrink(delta);
+
+  return delta;
+ }
+
+template <class A>
+ulen ArraySwapDelRange(A &array,ulen ind,ulen count)
+ {
+  ulen delta=RangeSwapDel(Range(array),ind,count);
+
+  array.shrink(delta);
+
+  return delta;
+ }
+
+template <class A>
+void ArrayCopyDelRange_guarded(A &array,ulen ind,ulen count)
+ {
+  RangeCopyDel_guarded(Range(array),ind,count);
+
+  array.shrink(count);
+ }
+
+template <class A>
+void ArraySwapDelRange_guarded(A &array,ulen ind,ulen count)
+ {
+  RangeSwapDel_guarded(Range(array),ind,count);
+
+  array.shrink(count);
  }
 
 /* CopyRotateRight() */
@@ -104,41 +142,41 @@ inline bool CapIndex(ulen &ind,ulen cap)
 /* ins functions */
 
 template <class A,class ... SS>
-bool ArraySwapIns(A &a,ulen ind,SS && ... ss)
+bool ArraySwapIns(A &array,ulen ind,SS && ... ss)
  {
-  ulen len=a.getLen();
+  ulen len=array.getLen();
   bool ret=CapIndex(ind,len);
 
-  a.append_fill( std::forward<SS>(ss)... );
+  array.append_fill( std::forward<SS>(ss)... );
 
-  Algon::RangeRotateRight(Range(a).part(ind));
+  Algon::RangeRotateRight(Range(array).part(ind));
 
   return ret;
  }
 
 template <class A,class ... SS>
-bool ArrayCopyIns(A &a,ulen ind,SS && ... ss)
+bool ArrayCopyIns(A &array,ulen ind,SS && ... ss)
  {
-  ulen len=a.getLen();
+  ulen len=array.getLen();
   bool ret=CapIndex(ind,len);
 
-  a.append_fill( std::forward<SS>(ss)... );
+  array.append_fill( std::forward<SS>(ss)... );
 
-  CopyRotateRight(Range(a).part(ind));
+  CopyRotateRight(Range(array).part(ind));
 
   return ret;
  }
 
 template <class A,class ... SS>
-auto ArraySwapIns_guarded(A &a,ulen ind,SS && ... ss)
+auto ArraySwapIns_guarded(A &array,ulen ind,SS && ... ss)
  {
-  ulen len=a.getLen();
+  ulen len=array.getLen();
 
   GuardIndex(ind,len+1);
 
-  a.append_fill( std::forward<SS>(ss)... );
+  array.append_fill( std::forward<SS>(ss)... );
 
-  auto r=Range(a).part(ind);
+  auto r=Range(array).part(ind);
 
   Algon::RangeRotateRight(r);
 
@@ -146,22 +184,22 @@ auto ArraySwapIns_guarded(A &a,ulen ind,SS && ... ss)
  }
 
 template <class A,class ... SS>
-auto ArrayCopyIns_guarded(A &a,ulen ind,SS && ... ss)
+auto ArrayCopyIns_guarded(A &array,ulen ind,SS && ... ss)
  {
-  ulen len=a.getLen();
+  ulen len=array.getLen();
 
   GuardIndex(ind,len+1);
 
-  a.append_fill( std::forward<SS>(ss)... );
+  array.append_fill( std::forward<SS>(ss)... );
 
-  auto r=Range(a).part(ind);
+  auto r=Range(array).part(ind);
 
   CopyRotateRight(r);
 
   return r.ptr;
  }
 
-/* range ins prepare functions */
+/* ins range prepare functions */
 
 template <class A>
 void ArrayInsRangeGuard(A &array,ulen ind)
@@ -193,7 +231,7 @@ void ArrayInsRangeFill(A &array,ulen ind,ulen count)
     }
  }
 
-/* range ins functions */
+/* ins range functions */
 
 template <class A>
 auto ArrayInsRange_default(A &array,ulen ind,ulen count)

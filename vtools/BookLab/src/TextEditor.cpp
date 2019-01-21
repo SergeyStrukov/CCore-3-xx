@@ -30,22 +30,7 @@ namespace App {
 template <class A>
 void DelRange(A &array,ulen ind,ulen lim)
  {
-  ulen len=array.getLen();
-
-  Replace_min(lim,len);
-
-  if( ind>=lim ) return;
-
-  ulen delta=lim-ind;
-
-  if( ulen count=len-lim )
-    {
-     auto *base=array.getPtr();
-
-     for(ulen i : IndLim(ind,ind+count) ) Swap(base[i],base[i+delta]);
-    }
-
-  array.shrink(delta);
+  if( ind<lim ) ArraySwapDelRange(array,ind,lim-ind);
  }
 
 /* DelPrefix() */
@@ -53,7 +38,7 @@ void DelRange(A &array,ulen ind,ulen lim)
 template <class A>
 void DelPrefix(A &array,ulen delta)
  {
-  DelRange(array,0,delta);
+  ArraySwapDelRange(array,0,delta);
  }
 
 /* class TextBuf */

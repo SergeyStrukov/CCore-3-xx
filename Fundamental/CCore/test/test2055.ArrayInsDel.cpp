@@ -1,7 +1,7 @@
 /* test2055.ArrayInsDel.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: CCore 3.00
+//  Project: CCore 3.60
 //
 //  Tag: Fundamental
 //
@@ -9,7 +9,7 @@
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
@@ -21,96 +21,6 @@
 namespace App {
 
 namespace Private_2055 {
-
-/* --- */
-
-ulen RangeCopyDel(NothrowCopyableType list[],ulen len,ulen ind,ulen count)
- {
-  if( ind>=len || !count ) return 0;
-
-  ulen rest=len-ind;
-
-  if( count<rest )
-    {
-     for(rest-=count; rest ;rest--,ind++) list[ind]=list[ind+count];
-
-     return count;
-    }
-  else
-    {
-     return rest;
-    }
- }
-
-ulen RangeCopyDel(PtrLen<NothrowCopyableType> range,ulen ind,ulen count)
- {
-  return RangeCopyDel(range.ptr,range.len,ind,count);
- }
-
-ulen RangeSwapDel(AnyType list[],ulen len,ulen ind,ulen count)
- {
-  if( ind>=len || !count ) return 0;
-
-  ulen rest=len-ind;
-
-  if( count<rest )
-    {
-     for(rest-=count; rest ;rest--,ind++) Swap(list[ind],list[ind+count]);
-
-     return count;
-    }
-  else
-    {
-     return rest;
-    }
- }
-
-ulen RangeSwapDel(PtrLen<AnyType> range,ulen ind,ulen count)
- {
-  return RangeSwapDel(range.ptr,range.len,ind,count);
- }
-
-/* del functions */
-
-template <class A>
-ulen ArrayCopyDelRange(A &array,ulen ind,ulen count)
- {
-  ulen delta=RangeCopyDel(Range(array),ind,count);
-
-  array.shrink(delta);
-
-  return delta;
- }
-
-template <class A>
-ulen ArraySwapDelRange(A &array,ulen ind,ulen count)
- {
-  ulen delta=RangeSwapDel(Range(array),ind,count);
-
-  array.shrink(delta);
-
-  return delta;
- }
-
-#if 0
-
-template <class A>
-void ArrayCopyDelRange_guarded(A &array,ulen ind,ulen count)
- {
-  RangeCopyDel_guarded(Range(a),ind);
-
-  a.shrink_one();
- }
-
-template <class A>
-void ArraySwapDelRange_guarded(A &array,ulen ind,ulen count)
- {
-  RangeSwapDel_guarded(Range(a),ind);
-
-  a.shrink_one();
- }
-
-#endif
 
 /* struct OddList */
 
@@ -190,6 +100,17 @@ void test3()
   Printf(Con,"#;\n",PrintSet(Range(a)));
  }
 
+/* test4() */
+
+void test4()
+ {
+  DynArray<int> a{1,2,3,4,5,6,7,8,9,10};
+
+  ArrayCopyDelRange(a,5,3);
+
+  Printf(Con,"#;\n",PrintSet(Range(a)));
+ }
+
 } // namespace Private_2055
 
 using namespace Private_2055;
@@ -204,7 +125,8 @@ bool Testit<2055>::Main()
  {
   //test1();
   //test2();
-  test3();
+  //test3();
+  test4();
 
   return true;
  }
