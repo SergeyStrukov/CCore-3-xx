@@ -21,34 +21,9 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/PrintDDL.h>
 
-#include <CCore/inc/algon/EuclidRotate.h>
-
 #include <CCore/inc/Exception.h>
 
 namespace App {
-
-/* InsAt() */
-
-template <class A>
-auto InsAt(A &array,ulen ind,ulen count)
- {
-  ulen len=array.getLen();
-
-  if( ind<len )
-    {
-     array.extend_default(count);
-
-     auto r=Range(array).part(ind);
-
-     Algon::EuclidRotate_suffix(r,count);
-
-     return r.prefix(count);
-    }
-  else
-    {
-     return array.extend_default(count);
-    }
- }
 
 /* DelRange() */
 
@@ -107,7 +82,7 @@ PtrLen<BookLab::TextLine> TextBuf::insLines(ulen index,ulen count)
  {
   guard();
 
-  return InsAt(*pad,index,count);
+  return ArrayInsRange_default(*pad,index,count);
  }
 
 void TextBuf::delLine(ulen index)
@@ -2025,7 +2000,7 @@ void TextWindow::past(BookLab::TextLine &line,PastData &data)
 
      ulen delta=src.list.getLen();
 
-     auto dst=InsAt(line.list,cursor.span,delta);
+     auto dst=ArrayInsRange_default(line.list,cursor.span,delta);
 
      for(ulen i : IndLim(dst.len) ) dst[i]=src.list[i].build();
 

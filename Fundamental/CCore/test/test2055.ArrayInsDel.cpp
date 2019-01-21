@@ -18,75 +18,120 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/PrintSet.h>
 
-#include <CCore/inc/algon/EuclidRotate.h>
-
 namespace App {
 
 namespace Private_2055 {
 
-template <class A>
-auto ArrayInsRange_default(A &array,ulen ind,ulen count)
+/* --- */
+
+ulen RangeCopyDel(NothrowCopyableType list[],ulen len,ulen ind,ulen count)
  {
-  ulen len=array.getLen();
+  if( ind>=len || !count ) return 0;
 
-  if( ind<len )
+  ulen rest=len-ind;
+
+  if( count<rest )
     {
-     array.extend_default(count);
+     for(rest-=count; rest ;rest--,ind++) list[ind]=list[ind+count];
 
-     auto r=Range(array).part(ind);
-
-     Algon::EuclidRotate_suffix(r,count);
-
-     return r.prefix(count);
+     return count;
     }
   else
     {
-     return array.extend_default(count);
+     return rest;
     }
  }
 
-template <class A,class ... SS>
-auto ArrayInsRange_fill(A &array,ulen ind,ulen count,SS && ... ss)
+ulen RangeCopyDel(PtrLen<NothrowCopyableType> range,ulen ind,ulen count)
  {
-  ulen len=array.getLen();
+  return RangeCopyDel(range.ptr,range.len,ind,count);
+ }
 
-  if( ind<len )
+ulen RangeSwapDel(AnyType list[],ulen len,ulen ind,ulen count)
+ {
+  if( ind>=len || !count ) return 0;
+
+  ulen rest=len-ind;
+
+  if( count<rest )
     {
-     array.extend_fill(count, std::forward<SS>(ss)... );
+     for(rest-=count; rest ;rest--,ind++) Swap(list[ind],list[ind+count]);
 
-     auto r=Range(array).part(ind);
-
-     Algon::EuclidRotate_suffix(r,count);
-
-     return r.prefix(count);
+     return count;
     }
   else
     {
-     return array.extend_fill(count, std::forward<SS>(ss)... );
+     return rest;
     }
+ }
+
+ulen RangeSwapDel(PtrLen<AnyType> range,ulen ind,ulen count)
+ {
+  return RangeSwapDel(range.ptr,range.len,ind,count);
+ }
+
+/* del functions */
+
+template <class A>
+ulen ArrayCopyDelRange(A &array,ulen ind,ulen count)
+ {
+  ulen delta=RangeCopyDel(Range(array),ind,count);
+
+  array.shrink(delta);
+
+  return delta;
+ }
+
+template <class A>
+ulen ArraySwapDelRange(A &array,ulen ind,ulen count)
+ {
+  ulen delta=RangeSwapDel(Range(array),ind,count);
+
+  array.shrink(delta);
+
+  return delta;
  }
 
 #if 0
 
-PtrLen<T> extend_copy(ulen delta_len,const T src[]);
+template <class A>
+void ArrayCopyDelRange_guarded(A &array,ulen ind,ulen count)
+ {
+  RangeCopyDel_guarded(Range(a),ind);
 
-PtrLen<T> extend_copy(PtrLen<const T> src);
+  a.shrink_one();
+ }
 
-template <class S>
-PtrLen<T> extend_cast(ulen delta_len,const S src[]);
+template <class A>
+void ArraySwapDelRange_guarded(A &array,ulen ind,ulen count)
+ {
+  RangeSwapDel_guarded(Range(a),ind);
 
-template <class S>
-PtrLen<T> extend_cast(PtrLen<const S> src);
-
-PtrLen<T> extend_swap(ulen delta_len,T objs[]);
-
-PtrLen<T> extend_swap(PtrLen<T> objs);
-
-PtrLen<T> extend(ulen delta_len,CreatorType<T> creator);
-
-PtrLen<T> extend(BuilderType<T> builder);
+  a.shrink_one();
+ }
 
 #endif
+
+/* struct OddList */
+
+struct OddList
+ {
+  int i,n;
+
+  OddList(int i_,int n_) : i(i_),n(n_) {}
+
+  ulen getLen() const { return n; }
+
+  PtrLen<int> operator () (Place<void> place)
+   {
+    int *base=place;
+    int *ptr=base;
+
+    for(int v=i; v<i+n ;v++) if( v&1 ) *(ptr++)=v;
+
+    return Range(base,ptr);
+   }
+ };
 
 /* test1() */
 
@@ -124,8 +169,23 @@ void test2()
  {
   DynArray<int> a{1,2,3,4,5};
 
-  ArrayInsRange_fill(a,6,3,100);
-  ArrayInsRange_fill(a,2,5,200);
+  ArrayInsRange(a,6,2, Creator_default<int,true>() );
+  ArrayInsRange(a,2, OddList(5,5) );
+
+  Printf(Con,"#;\n",PrintSet(Range(a)));
+ }
+
+/* test3() */
+
+void test3()
+ {
+  DynArray<int> a{1,2,3,4,5};
+
+  //ArrayInsRangeGuard(a,10);
+  //ArrayInsRangeFill(a,10);
+  ArrayInsRangeFill(a,10,5);
+
+  ArrayInsRange_fill(a,10,5,100);
 
   Printf(Con,"#;\n",PrintSet(Range(a)));
  }
@@ -143,7 +203,8 @@ template<>
 bool Testit<2055>::Main()
  {
   //test1();
-  test2();
+  //test2();
+  test3();
 
   return true;
  }

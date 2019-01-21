@@ -19,8 +19,15 @@
 #include <CCore/inc/RangeDel.h>
 
 #include <CCore/inc/algon/SimpleRotate.h>
+#include <CCore/inc/algon/EuclidRotate.h>
+
+#include <CCore/inc/array/ArrayBase.h>
 
 namespace CCore {
+
+/* guard functions */
+
+void ArrayInsRangeGuardOutOfBorder(ulen ind,ulen len);
 
 /* del functions */
 
@@ -152,6 +159,202 @@ auto ArrayCopyIns_guarded(A &a,ulen ind,SS && ... ss)
   CopyRotateRight(r);
 
   return r.ptr;
+ }
+
+/* range ins prepare functions */
+
+template <class A>
+void ArrayInsRangeGuard(A &array,ulen ind)
+ {
+  ulen len=array.getLen();
+
+  if( ind>len ) ArrayInsRangeGuardOutOfBorder(ind,len);
+ }
+
+template <class A>
+void ArrayInsRangeFill(A &array,ulen ind)
+ {
+  ulen len=array.getLen();
+
+  if( ind>len ) array.extend_default(ind-len);
+ }
+
+template <class A>
+void ArrayInsRangeFill(A &array,ulen ind,ulen count)
+ {
+  ulen len=array.getLen();
+
+  if( ind>len )
+    {
+     ind-=len;
+
+     array.reserve(ind+count);
+     array.extend_default(ind);
+    }
+ }
+
+/* range ins functions */
+
+template <class A>
+auto ArrayInsRange_default(A &array,ulen ind,ulen count)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_default(count);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_default(count);
+    }
+ }
+
+template <class A,class ... SS>
+auto ArrayInsRange_fill(A &array,ulen ind,ulen count,SS && ... ss)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_fill(count, std::forward<SS>(ss)... );
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_fill(count, std::forward<SS>(ss)... );
+    }
+ }
+
+template <class A>
+auto ArrayInsRange_copy(A &array,ulen ind,ulen count,decltype(array.getPtr_const()) src)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_copy(count,src);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_copy(count,src);
+    }
+ }
+
+template <class A>
+auto ArrayInsRange_copy(A &array,ulen ind,PtrLen< Meta::PtrObjType<decltype(array.getPtr_const())> > src)
+ {
+  return ArrayInsRange_copy(array,ind,src.len,src.ptr);
+ }
+
+template <class A,class S>
+auto ArrayInsRange_cast(A &array,ulen ind,ulen count,const S src[])
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_cast(count,src);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_cast(count,src);
+    }
+ }
+
+template <class A,class S>
+auto ArrayInsRange_cast(A &array,ulen ind,PtrLen<const S> src) { return ArrayInsRange_cast(array,ind,src.len,src.ptr); }
+
+template <class A>
+auto ArrayInsRange_swap(A &array,ulen ind,ulen count,decltype(array.getPtr()) objs)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend_swap(count,objs);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend_swap(count,objs);
+    }
+ }
+
+template <class A>
+auto ArrayInsRange_swap(A &array,ulen ind,PtrLen< Meta::PtrObjType<decltype(array.getPtr())> > objs)
+ {
+  return ArrayInsRange_swap(array,ind,objs.len,objs.ptr);
+ }
+
+template <class A>
+auto ArrayInsRange(A &array,ulen ind,ulen count,CreatorType< Meta::PtrObjType<decltype(array.getPtr())> > creator)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     array.extend(count,creator);
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend(count,creator);
+    }
+ }
+
+template <class A>
+auto ArrayInsRange(A &array,ulen ind,BuilderType< Meta::PtrObjType<decltype(array.getPtr())> > builder)
+ {
+  ulen len=array.getLen();
+
+  if( ind<len )
+    {
+     ulen count=array.extend(builder).len;
+
+     auto r=Range(array).part(ind);
+
+     Algon::EuclidRotate_suffix(r,count);
+
+     return r.prefix(count);
+    }
+  else
+    {
+     return array.extend(builder);
+    }
  }
 
 } // namespace CCore

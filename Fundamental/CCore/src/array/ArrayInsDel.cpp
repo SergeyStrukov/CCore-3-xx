@@ -15,8 +15,16 @@
 
 #include <CCore/inc/array/ArrayInsDel.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace CCore {
 
+/* guard functions */
+
+void ArrayInsRangeGuardOutOfBorder(ulen ind,ulen len)
+ {
+  Printf(Exception,"CCore::ArrayInsRangeGuard(#;,#;) : out of range",ind,len);
+ }
 
 } // namespace CCore
 
