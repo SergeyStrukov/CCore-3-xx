@@ -123,7 +123,7 @@ bool ArrayCopyIns(A &a,ulen ind,SS && ... ss)
  }
 
 template <class A,class ... SS>
-void ArraySwapIns_guarded(A &a,ulen ind,SS && ... ss)
+auto ArraySwapIns_guarded(A &a,ulen ind,SS && ... ss)
  {
   ulen len=a.getLen();
 
@@ -131,11 +131,15 @@ void ArraySwapIns_guarded(A &a,ulen ind,SS && ... ss)
 
   a.append_fill( std::forward<SS>(ss)... );
 
-  Algon::RangeRotateRight(Range(a).part(ind));
+  auto r=Range(a).part(ind);
+
+  Algon::RangeRotateRight(r);
+
+  return r.ptr;
  }
 
 template <class A,class ... SS>
-void ArrayCopyIns_guarded(A &a,ulen ind,SS && ... ss)
+auto ArrayCopyIns_guarded(A &a,ulen ind,SS && ... ss)
  {
   ulen len=a.getLen();
 
@@ -143,7 +147,11 @@ void ArrayCopyIns_guarded(A &a,ulen ind,SS && ... ss)
 
   a.append_fill( std::forward<SS>(ss)... );
 
-  CopyRotateRight(Range(a).part(ind));
+  auto r=Range(a).part(ind);
+
+  CopyRotateRight(r);
+
+  return r.ptr;
  }
 
 } // namespace CCore

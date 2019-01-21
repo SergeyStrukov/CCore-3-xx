@@ -19,7 +19,7 @@ namespace CCore {
 
 /* class DefaultAtomicRefArrayHeader */
 
-AtomicRefArrayHeader DefaultAtomicRefArrayHeader::DefaultObject={0,0,{1}};
+ExtStaticSpace<AtomicRefArrayHeader> DefaultAtomicRefArrayHeader::DefaultObject={};
 
 } // namespace CCore
 

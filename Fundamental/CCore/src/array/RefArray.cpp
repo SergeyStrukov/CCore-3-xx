@@ -19,7 +19,7 @@ namespace CCore {
 
 /* class DefaultRefArrayHeader */
 
-RefArrayHeader DefaultRefArrayHeader::DefaultObject={0,0,0};
+ExtStaticSpace<RefArrayHeader> DefaultRefArrayHeader::DefaultObject={};
 
 } // namespace CCore
 

@@ -54,9 +54,11 @@ struct CollectorHeader
 
 class DefaultCollectorHeader
  {
-   static CollectorHeader DefaultObject;
+   static ExtStaticSpace<CollectorHeader> DefaultObject;
 
    template <class T,class Algo> friend class Collector;
+
+   static CollectorHeader * Get() { return &DefaultObject.obj; }
  };
 
 /* class Collector<T,Algo> */
@@ -135,7 +137,7 @@ class Collector : NoCopy
        }
      else
        {
-        cur=&DefaultCollectorHeader::DefaultObject;
+        cur=DefaultCollectorHeader::Get();
 
         return false;
        }
@@ -151,7 +153,7 @@ class Collector : NoCopy
 
      if( cur->maxlen )
        {
-        work.ins_last(Replace(cur,&DefaultCollectorHeader::DefaultObject));
+        work.ins_last(Replace(cur,DefaultCollectorHeader::Get()));
        }
 
      PtrLen<T> ret(place,len);
@@ -222,7 +224,7 @@ class Collector : NoCopy
     : block_len(Max(MinBlockLen,block_len_)),
       list_len(0)
     {
-     cur=&DefaultCollectorHeader::DefaultObject;
+     cur=DefaultCollectorHeader::Get();
     }
 
    ~Collector()
@@ -239,7 +241,7 @@ class Collector : NoCopy
      block_len=obj.block_len;
      list=Replace_null(obj.list);
      list_len=Replace_null(obj.list_len);
-     cur=Replace(obj.cur,&DefaultCollectorHeader::DefaultObject);
+     cur=Replace(obj.cur,DefaultCollectorHeader::Get());
     }
 
    Collector<T,Algo> & operator = (Collector<T,Algo> &&obj) noexcept
@@ -252,7 +254,7 @@ class Collector : NoCopy
 
         todel.list=Replace(list,Replace_null(obj.list));
         todel.list_len=Replace(list_len,Replace_null(obj.list_len));
-        todel.cur=Replace(cur,Replace(obj.cur,&DefaultCollectorHeader::DefaultObject));
+        todel.cur=Replace(cur,Replace(obj.cur,DefaultCollectorHeader::Get()));
        }
 
      return *this;
@@ -344,7 +346,7 @@ class Collector : NoCopy
 
      list_len=0;
 
-     cur=&DefaultCollectorHeader::DefaultObject;
+     cur=DefaultCollectorHeader::Get();
 
      return ret;
     }
@@ -461,7 +463,7 @@ class Collector : NoCopy
     : block_len(obj->block_len),
       list(Replace_null(obj->list)),
       list_len(obj->list_len),
-      cur(Replace(obj->cur,&DefaultCollectorHeader::DefaultObject))
+      cur(Replace(obj->cur,DefaultCollectorHeader::Get()))
     {
     }
  };

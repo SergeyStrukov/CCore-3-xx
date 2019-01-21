@@ -54,6 +54,8 @@ concept bool BuilderType = requires(Meta::ToConst<Builder> &cobj)
 
 template <int Sw> class DoSomething;
 
+template <class T> union ExtStaticSpace;
+
 template <class T,ArrayHeaderType H,class Algo> struct ArrayBase;
 
 /* class DoSomething<int Sw> */
@@ -86,6 +88,15 @@ using DoCast = DoSomething<4> ;
 using DoSwap = DoSomething<5> ;
 
 using DoCreate = DoSomething<6> ;
+
+/* union ExtStaticSpace<T> */
+
+template <class T>
+union ExtStaticSpace
+ {
+  T obj = {} ;
+  char space[Align(sizeof (T))];
+ };
 
 /* struct ArrayBase<T,H,Algo> */
 

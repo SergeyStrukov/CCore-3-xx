@@ -54,9 +54,11 @@ struct DynArrayHeader
 
 class DefaultDynArrayHeader
  {
-   static DynArrayHeader DefaultObject;
+   static ExtStaticSpace<DynArrayHeader> DefaultObject;
 
    template <class T,class Algo> friend class DynArrayBase;
+
+   static DynArrayHeader * Get() { return &DefaultObject.obj; }
  };
 
 /* class DynArrayBase<T,Algo> */
@@ -76,12 +78,12 @@ class DynArrayBase : NoCopy
 
    DynArrayBase()
     {
-     ptr=&DefaultDynArrayHeader::DefaultObject;
+     ptr=DefaultDynArrayHeader::Get();
     }
 
    explicit DynArrayBase(DynArrayHeader *&ptr_)
     {
-     ptr=Replace(ptr_,&DefaultDynArrayHeader::DefaultObject);
+     ptr=Replace(ptr_,DefaultDynArrayHeader::Get());
     }
 
    explicit DynArrayBase(ulen maxlen)
@@ -105,7 +107,7 @@ class DynArrayBase : NoCopy
     {
      if( this!=&obj )
        {
-        Base::Destroy(Replace(ptr,Replace(obj.ptr,&DefaultDynArrayHeader::DefaultObject)));
+        Base::Destroy(Replace(ptr,Replace(obj.ptr,DefaultDynArrayHeader::Get())));
        }
 
      return *this;

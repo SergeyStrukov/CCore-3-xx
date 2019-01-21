@@ -42,7 +42,7 @@ struct AtomicRefArrayHeader
  {
   ulen len;
   ulen maxlen;
-  Sys::Atomic refs;
+  Sys::Atomic refs = {1} ;
 
   void init(ulen maxlen_)
    {
@@ -66,9 +66,11 @@ struct AtomicRefArrayHeader
 
 class DefaultAtomicRefArrayHeader
  {
-   static AtomicRefArrayHeader DefaultObject;
+   static ExtStaticSpace<AtomicRefArrayHeader> DefaultObject;
 
    template <class T,class Algo> friend class AtomicRefArrayBase;
+
+   static AtomicRefArrayHeader * Get() { return &DefaultObject.obj; }
  };
 
 /* class AtomicRefArrayBase<T,Algo> */
@@ -96,7 +98,7 @@ class AtomicRefArrayBase
    // constructors
 
    AtomicRefArrayBase()
-    : ptr(&DefaultAtomicRefArrayHeader::DefaultObject)
+    : ptr(DefaultAtomicRefArrayHeader::Get())
     {
      ptr->incRef();
     }

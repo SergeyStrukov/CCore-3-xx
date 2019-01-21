@@ -21,7 +21,6 @@
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/PrintDDL.h>
 
-#include <CCore/inc/algon/SimpleRotate.h>
 #include <CCore/inc/algon/EuclidRotate.h>
 
 #include <CCore/inc/Exception.h>
@@ -29,20 +28,6 @@
 namespace App {
 
 /* InsAt() */
-
-template <class A>
-auto InsAt(A &array,ulen ind)
- {
-  GuardIndex(ind,array.getLen());
-
-  array.append_default();
-
-  auto r=Range(array).part(ind);
-
-  Algon::RangeRotateRight(r);
-
-  return r.ptr;
- }
 
 template <class A>
 auto InsAt(A &array,ulen ind,ulen count)
@@ -88,9 +73,6 @@ void DelRange(A &array,ulen ind,ulen lim)
   array.shrink(delta);
  }
 
-template <class A>
-void DelRange(A &array,ulen ind) { DelRange(array,ind,ind+1); }
-
 /* DelPrefix() */
 
 template <class A>
@@ -118,7 +100,7 @@ BookLab::TextLine * TextBuf::insLine(ulen index)
  {
   guard();
 
-  return InsAt(*pad,index);
+  return ArraySwapIns_guarded(*pad,index);
  }
 
 PtrLen<BookLab::TextLine> TextBuf::insLines(ulen index,ulen count)
@@ -132,7 +114,7 @@ void TextBuf::delLine(ulen index)
  {
   guard();
 
-  DelRange(*pad,index);
+  ArraySwapDel_guarded(*pad,index);
  }
 
 void TextBuf::delRange(ulen ind,ulen lim)
@@ -1348,7 +1330,7 @@ void TextWindow::joinSpan(BookLab::TextLine &line,bool prev)
 
      extend(Range(span2.body));
 
-     DelRange(line.list,cursor.span+1);
+     ArraySwapDel_guarded(line.list,cursor.span+1);
 
      updateData(line);
 
@@ -1429,7 +1411,7 @@ void TextWindow::splitSpan()
           {
            if( cursor.span>=spancount ) return;
 
-           BookLab::Span *span=InsAt(line.list,cursor.span);
+           BookLab::Span *span=ArraySwapIns_guarded(line.list,cursor.span);
 
            Split split(getCurSpan(),cursor.x);
 
@@ -2119,7 +2101,7 @@ void TextWindow::past()
              }
            else
              {
-              BookLab::Span *span=InsAt(line.list,cursor.span);
+              BookLab::Span *span=ArraySwapIns_guarded(line.list,cursor.span);
 
               Split split(getCurSpan(),cursor.x);
 

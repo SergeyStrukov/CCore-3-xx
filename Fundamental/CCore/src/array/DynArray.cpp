@@ -19,7 +19,7 @@ namespace CCore {
 
 /* class DefaultDynArrayHeader */
 
-DynArrayHeader DefaultDynArrayHeader::DefaultObject={0,0};
+ExtStaticSpace<DynArrayHeader> DefaultDynArrayHeader::DefaultObject={};
 
 } // namespace CCore
 

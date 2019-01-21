@@ -1923,7 +1923,7 @@ The return value is never used.
 Insert or delete array elements in the middle of the array are not natural array methods. 
 They have a linear complexity.
 But sometimes they are necessary.
-These algorithms are implemented as a free functions.
+These algorithms are implemented as free functions.
 </p>
 
 <pre>
@@ -1962,10 +1962,10 @@ template &lt;class A,class ... SS&gt;
 bool <span class="Att">ArrayCopyIns</span>(A &amp;a,ulen ind,SS &amp;&amp; ... ss);
 
 template &lt;class A,class ... SS&gt;
-void <span class="Att">ArraySwapIns_guarded</span>(A &amp;a,ulen ind,SS &amp;&amp; ... ss);
+auto <span class="Att">ArraySwapIns_guarded</span>(A &amp;a,ulen ind,SS &amp;&amp; ... ss);
 
 template &lt;class A,class ... SS&gt;
-void <span class="Att">ArrayCopyIns_guarded</span>(A &amp;a,ulen ind,SS &amp;&amp; ... ss);
+auto <span class="Att">ArrayCopyIns_guarded</span>(A &amp;a,ulen ind,SS &amp;&amp; ... ss);
 
 </pre>
 
@@ -1973,7 +1973,7 @@ void <span class="Att">ArrayCopyIns_guarded</span>(A &amp;a,ulen ind,SS &amp;&am
 These functions insert an element to the array at the given index. 
 The valid index range is <b>[0,len]</b>, where <b>len</b> is the array length. 
 The first two cap the index and return <b>false</b> if the index is out of range.
-The last two throw an exception in such case. 
+The last two throw an exception in such case. They also return the pointer to the inserted object.
 <b>CopyIns</b> copies elements, <b>SwapIns</b> uses swapping.
 Extra arguments are used to call an element constructor.
 </p>

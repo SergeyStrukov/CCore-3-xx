@@ -64,9 +64,11 @@ struct RefArrayHeader
 
 class DefaultRefArrayHeader
  {
-   static RefArrayHeader DefaultObject;
+   static ExtStaticSpace<RefArrayHeader> DefaultObject;
 
    template <class T,class Algo> friend class RefArrayBase;
+
+   static RefArrayHeader * Get() { return &DefaultObject.obj; }
  };
 
 /* class RefArrayBase<T,Algo> */
@@ -94,7 +96,7 @@ class RefArrayBase
    // constructors
 
    RefArrayBase()
-    : ptr(&DefaultRefArrayHeader::DefaultObject)
+    : ptr(DefaultRefArrayHeader::Get())
     {
     }
 

@@ -19,7 +19,7 @@ namespace CCore {
 
 /* class DefaultCollectorHeader */
 
-CollectorHeader DefaultCollectorHeader::DefaultObject={0,0,{0,0}};
+ExtStaticSpace<CollectorHeader> DefaultCollectorHeader::DefaultObject={};
 
 } // namespace CCore
 
