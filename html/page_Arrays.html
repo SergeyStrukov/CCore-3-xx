@@ -2040,6 +2040,42 @@ auto <span class="Att">ArrayInsRange</span>(A &amp;array,ulen ind,BuilderType&lt
 
 </pre>
 
+<p>
+All these functions insert a range of elements into the array. 
+<b>ind</b> determines the index of insertion.
+The range (as <b>PtrLen</b>) of created elements if returned.
+If <b>ind</b> exceeds the array length, elements are created at the end of the array.
+</p>
+
+<pre>
+
+/* ins range prepare functions */
+
+template &lt;class A&gt;
+void <span class="Att">ArrayInsRangeGuard</span>(A &amp;array,ulen ind);
+
+template &lt;class A&gt;
+void <span class="Att">ArrayInsRangeFill</span>(A &amp;array,ulen ind);
+
+template &lt;class A&gt;
+void <span class="Att">ArrayInsRangeFill</span>(A &amp;array,ulen ind,ulen count);
+
+</pre>
+
+<p>
+These functions can be used to "prepare" the array for an element insertion.
+They are intended to be used with conjunction of insertion functions.
+</p>
+
+<p>
+<b>ArrayInsRangeGuard()</b> throws an exception if <b>ind</b> exceeds the array length.
+</p>
+
+<p>
+<b>ArrayInsRangeFill()</b> extends the array if <b>ind</b> exceeds the array length to equalize them.
+The second variant reserves additional memory behind for further extension by <b>count</b> elements.
+</p>
+
 </body>
 
 </html>
