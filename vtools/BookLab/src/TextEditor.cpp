@@ -1743,7 +1743,6 @@ void TextWindow::copy()
     }
  }
 
-
 void TextWindow::past(BookLab::TextLine &line,PastData &data)
  {
   if( ulen dlen=data.list.getLen() ; dlen==1 )
@@ -1941,12 +1940,12 @@ void TextWindow::flush()
 
 void TextWindow::setFormat(String name)
  {
-  applyToSpan( [&] (BookLab::Span &span) { span.format.setName(name); } );
+  applyToSpan( [&] (BookLab::Span &span) { span.format.setName(name); redraw(); } );
  }
 
 void TextWindow::setLink(String name)
  {
-  applyToSpan( [&] (BookLab::Span &span) { span.ref.setName(name); } );
+  applyToSpan( [&] (BookLab::Span &span) { span.ref.setName(name); redraw(); } );
  }
 
 void TextWindow::link()
@@ -2782,6 +2781,52 @@ void TextEditor::show_link(String name,bool alert)
   edit_link.alert(alert);
  }
 
+void TextEditor::setFormat(String name)
+ {
+  if( !name.getLen() ) return;
+
+  edit_text.setFormat(name);
+
+  edit_format.setText(Range(name));
+  edit_format.alert(true);
+
+  modified.assert();
+ }
+
+void TextEditor::setB()
+ {
+  setFormat(edit_B.getString());
+ }
+
+void TextEditor::setU()
+ {
+  setFormat(edit_U.getString());
+ }
+
+void TextEditor::setI()
+ {
+  setFormat(edit_I.getString());
+ }
+
+void TextEditor::setQ()
+ {
+  setFormat(edit_Q.getString());
+ }
+
+void TextEditor::setE()
+ {
+  setFormat(edit_E.getString());
+ }
+
+void TextEditor::setD()
+ {
+  setFormat(edit_D.getString());
+ }
+
+void TextEditor::pastCPP() // TODO
+ {
+ }
+
 TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -2820,6 +2865,16 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
 
    connector_show_format(this,&TextEditor::show_format,edit_text.showFormat),
    connector_show_link(this,&TextEditor::show_link,edit_text.showLink),
+
+   connector_B_pressed(this,&TextEditor::setB,btn_B.pressed),
+   connector_U_pressed(this,&TextEditor::setU,btn_U.pressed),
+   connector_I_pressed(this,&TextEditor::setI,btn_I.pressed),
+
+   connector_Q_pressed(this,&TextEditor::setQ,btn_Q.pressed),
+   connector_E_pressed(this,&TextEditor::setE,btn_E.pressed),
+   connector_D_pressed(this,&TextEditor::setD,btn_D.pressed),
+
+   connector_CPP_pressed(this,&TextEditor::pastCPP,btn_CPP.pressed),
 
    modified(edit_text.modified)
  {
@@ -2911,6 +2966,32 @@ void TextEditor::layout()
 void TextEditor::drawBack(DrawBuf buf,bool) const
  {
   buf.erase(+cfg.back);
+ }
+
+ // user input
+
+void TextEditor::react(UserAction action)
+ {
+  action.dispatch(*this, [&] (UserAction action) { wlist.react(action); } );
+ }
+
+void TextEditor::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  if( kmod&KeyMod_Alt )
+    {
+     switch( vkey )
+       {
+        case VKey_b : setB(); return;
+        case VKey_u : setU(); return;
+        case VKey_i : setI(); return;
+
+        case VKey_q : setQ(); return;
+        case VKey_e : setE(); return;
+        case VKey_d : setD(); return;
+       }
+    }
+
+  wlist.put_Key(vkey,kmod,repeat);
  }
 
 } // namespace App

@@ -683,6 +683,27 @@ class TextEditor : public ComboWindow
    SignalConnector<TextEditor,String,bool> connector_show_format;
    SignalConnector<TextEditor,String,bool> connector_show_link;
 
+   void setFormat(String name);
+
+   void setB();
+   void setU();
+   void setI();
+   void setQ();
+   void setE();
+   void setD();
+
+   SignalConnector<TextEditor> connector_B_pressed;
+   SignalConnector<TextEditor> connector_U_pressed;
+   SignalConnector<TextEditor> connector_I_pressed;
+
+   SignalConnector<TextEditor> connector_Q_pressed;
+   SignalConnector<TextEditor> connector_E_pressed;
+   SignalConnector<TextEditor> connector_D_pressed;
+
+   void pastCPP();
+
+   SignalConnector<TextEditor> connector_CPP_pressed;
+
   public:
 
    TextEditor(SubWindowHost &host,const Config &cfg);
@@ -710,6 +731,12 @@ class TextEditor : public ComboWindow
    virtual void layout();
 
    virtual void drawBack(DrawBuf buf,bool drag_active) const;
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
 
    // signals
 
