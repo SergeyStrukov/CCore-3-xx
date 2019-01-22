@@ -14,7 +14,7 @@
 #ifndef TextEditor_h
 #define TextEditor_h
 
-#include <inc/BookLab.h>
+#include <inc/PastData.h>
 
 #include <CCore/inc/Cmp.h>
 
@@ -427,8 +427,6 @@ class TextWindow : public SubWindow
    void delSelection();
 
    void copy();
-
-   struct PastData;
 
    void past(BookLab::TextLine &line,PastData &data);
 

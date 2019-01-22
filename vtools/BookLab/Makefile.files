@@ -14,6 +14,7 @@ OBJ_LIST = \
 .obj/FieldEditor.o \
 .obj/InsWindow.o \
 .obj/Linker.o \
+.obj/PastData.o \
 .obj/Resolver.o \
 .obj/SingleRoom.o \
 .obj/TempWindow.o \
@@ -37,6 +38,7 @@ ASM_LIST = \
 .obj/FieldEditor.s \
 .obj/InsWindow.s \
 .obj/Linker.s \
+.obj/PastData.s \
 .obj/Resolver.s \
 .obj/SingleRoom.s \
 .obj/TempWindow.s \
@@ -60,6 +62,7 @@ DEP_LIST = \
 .obj/FieldEditor.dep \
 .obj/InsWindow.dep \
 .obj/Linker.dep \
+.obj/PastData.dep \
 .obj/Resolver.dep \
 .obj/SingleRoom.dep \
 .obj/TempWindow.dep \
@@ -116,6 +119,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Linker.o : src/./Linker.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/PastData.o : src/./PastData.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Resolver.o : src/./Resolver.cpp
@@ -180,6 +186,9 @@ include $(RULES_FILE)
 .obj/Linker.s : src/./Linker.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/PastData.s : src/./PastData.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Resolver.s : src/./Resolver.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -241,6 +250,9 @@ include $(RULES_FILE)
 
 .obj/Linker.dep : src/./Linker.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Linker.o $< -MF $@
+
+.obj/PastData.dep : src/./PastData.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/PastData.o $< -MF $@
 
 .obj/Resolver.dep : src/./Resolver.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Resolver.o $< -MF $@
