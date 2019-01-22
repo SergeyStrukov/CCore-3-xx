@@ -97,9 +97,15 @@ class PastData : public Funchor
 
    static bool ParseLine(StrLen &text,Collector<Line> &buf);
 
-   static bool ParseCombo(StrLen &text,Collector<Line> &buf);
+   static bool ParseCombo(StrLen text,Collector<Line> &buf);
 
    bool parseCombo(StrLen text);
+
+   static void ParseSimpleLine(StrLen text,Collector<Span> &buf);
+
+   static void ParseSimpleLine(StrLen text,Line &ret);
+
+   static void ParseSimple(StrLen text,Collector<Line> &buf);
 
    void parseSimple(StrLen text);
 

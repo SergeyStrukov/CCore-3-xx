@@ -634,6 +634,29 @@ class TextEditor : public ComboWindow
 
    const Config &cfg;
 
+   ButtonWindow btn_B;
+   LineEditWindow edit_B;
+
+   ButtonWindow btn_U;
+   LineEditWindow edit_U;
+
+   ButtonWindow btn_I;
+   LineEditWindow edit_I;
+
+
+   ButtonWindow btn_Q;
+   LineEditWindow edit_Q;
+
+   ButtonWindow btn_E;
+   LineEditWindow edit_E;
+
+   ButtonWindow btn_D;
+   LineEditWindow edit_D;
+
+
+   ButtonWindow btn_CPP;
+
+
    ButtonWindow btn_format;
    ButtonWindow btn_link;
 

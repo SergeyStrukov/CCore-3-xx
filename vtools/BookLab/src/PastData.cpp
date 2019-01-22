@@ -13,6 +13,8 @@
 
 #include <inc/PastData.h>
 
+#include <CCore/inc/CharProp.h>
+
 namespace App {
 
 /* class PastData */
@@ -148,7 +150,7 @@ bool PastData::ParseLine(StrLen &text,Collector<Line> &buf)
   return true;
  }
 
-bool PastData::ParseCombo(StrLen &text,Collector<Line> &buf)
+bool PastData::ParseCombo(StrLen text,Collector<Line> &buf)
  {
   if( !ParseLine(text,buf) ) return false;
 
@@ -184,9 +186,56 @@ bool PastData::parseCombo(StrLen text)
   return true;
  }
 
-void PastData::parseSimple(StrLen text) // TODO
+void PastData::ParseSimpleLine(StrLen text,Collector<Span> &buf)
  {
-  Used(text);
+  for(;;)
+    {
+     SkipSpace(text);
+
+     if( !text ) break;
+
+     StrLen span=text;
+
+     SkipNonSpace(text);
+
+     Span obj;
+
+     obj.body=StrLen(span.prefix(text));
+
+     buf.append_fill(std::move(obj));
+    }
+ }
+
+void PastData::ParseSimpleLine(StrLen text,Line &ret)
+ {
+  Collector<Span> buf;
+
+  ParseSimpleLine(text,buf);
+
+  buf.extractTo(ret.list);
+ }
+
+void PastData::ParseSimple(StrLen text,Collector<Line> &buf)
+ {
+  while( +text )
+    {
+     StrLen line=CutLine(text);
+
+     Line obj;
+
+     ParseSimpleLine(line,obj);
+
+     buf.append_fill(std::move(obj));
+    }
+ }
+
+void PastData::parseSimple(StrLen text)
+ {
+  Collector<Line> buf;
+
+  ParseSimple(text,buf);
+
+  buf.extractTo(list);
  }
 
 void PastData::load(StrLen text)

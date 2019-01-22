@@ -2786,6 +2786,26 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
+   btn_B(wlist,cfg.btn_cfg,"B"_def),
+   edit_B(wlist,cfg.edit_cfg),
+
+   btn_U(wlist,cfg.btn_cfg,"U"_def),
+   edit_U(wlist,cfg.edit_cfg),
+
+   btn_I(wlist,cfg.btn_cfg,"I"_def),
+   edit_I(wlist,cfg.edit_cfg),
+
+   btn_Q(wlist,cfg.btn_cfg,"Q"_def),
+   edit_Q(wlist,cfg.edit_cfg),
+
+   btn_E(wlist,cfg.btn_cfg,"E"_def),
+   edit_E(wlist,cfg.edit_cfg),
+
+   btn_D(wlist,cfg.btn_cfg,"D"_def),
+   edit_D(wlist,cfg.edit_cfg),
+
+   btn_CPP(wlist,cfg.btn_cfg,"C++"_def),
+
    btn_format(wlist,cfg.btn_cfg,"Format"_def),
    btn_link(wlist,cfg.btn_cfg,"Link"_def),
 
@@ -2803,10 +2823,24 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
 
    modified(edit_text.modified)
  {
-  wlist.insTop(btn_format,edit_format,btn_link,edit_link,edit_text,cont);
+  wlist.insTop(btn_B,edit_B,btn_U,edit_U,btn_I,edit_I,
+               btn_Q,edit_Q,btn_E,edit_E,btn_D,edit_D,
+               btn_CPP,
+               btn_format,edit_format,btn_link,edit_link,edit_text,cont);
 
   edit_format.hideInactiveCursor();
   edit_link.hideInactiveCursor();
+
+  edit_B.hideInactiveCursor();
+  edit_U.hideInactiveCursor();
+  edit_I.hideInactiveCursor();
+  edit_Q.hideInactiveCursor();
+  edit_E.hideInactiveCursor();
+  edit_D.hideInactiveCursor();
+
+  edit_B.setText("fmt_bold"_c);
+  edit_U.setText("fmt_underline"_c);
+  edit_I.setText("fmt_italic"_c);
 
   wlist.enableTabFocus(false);
  }
@@ -2821,13 +2855,17 @@ Point TextEditor::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(btn_format),Lay(edit_format)};
+  LayToRightCenter lay1{Lay(btn_B),Lay(edit_B),Lay(btn_U),Lay(edit_U),Lay(btn_I),LayLeft(edit_I)};
 
-  LayToRightCenter lay2{Lay(btn_link),Lay(edit_link)};
+  LayToRightCenter lay2{Lay(btn_Q),Lay(edit_Q),Lay(btn_E),Lay(edit_E),Lay(btn_D),LayLeft(edit_D)};
 
-  LayInner lay3{cont,Lay{edit_text}};
+  LayToRightCenter lay4{Lay(btn_format),Lay(edit_format)};
 
-  LayToBottom lay{lay1,lay2,lay3};
+  LayToRightCenter lay5{Lay(btn_link),Lay(edit_link)};
+
+  LayInner lay6{cont,Lay{edit_text}};
+
+  LayToBottom lay{lay1,lay2,LayLeft(btn_CPP),lay4,lay5,lay6};
 
   return lay.getMinSize(space);
  }
@@ -2855,13 +2893,17 @@ void TextEditor::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRightCenter lay1{Lay(btn_format),Lay(edit_format)};
+  LayToRightCenter lay1{Lay(btn_B),Lay(edit_B),Lay(btn_U),Lay(edit_U),Lay(btn_I),LayLeft(edit_I)};
 
-  LayToRightCenter lay2{Lay(btn_link),Lay(edit_link)};
+  LayToRightCenter lay2{Lay(btn_Q),Lay(edit_Q),Lay(btn_E),Lay(edit_E),Lay(btn_D),LayLeft(edit_D)};
 
-  LayInner lay3{cont,Lay{edit_text}};
+  LayToRightCenter lay4{Lay(btn_format),Lay(edit_format)};
 
-  LayToBottom lay{lay1,lay2,lay3};
+  LayToRightCenter lay5{Lay(btn_link),Lay(edit_link)};
+
+  LayInner lay6{cont,Lay{edit_text}};
+
+  LayToBottom lay{lay1,lay2,LayLeft(btn_CPP),lay4,lay5,lay6};
 
   lay.setPlace(getPane(),space);
  }
