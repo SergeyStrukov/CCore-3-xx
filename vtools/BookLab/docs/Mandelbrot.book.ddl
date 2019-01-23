@@ -48,6 +48,19 @@ Page page1 = { "Manual" ,
 ,{ & ANONYM4 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM5 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM6 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM7 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM8 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM9 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM10 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM11 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM12 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM13 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , null , null } ;
 
@@ -224,6 +237,340 @@ Text ANONYM6 = {
 ,{ "the" , null , null }
 ,{ "key" , null , null }
 ,{ "Home." , & fmt_bold , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM7 = {
+{
+{ "Software" , null , null }
+,{ "options" , null , null }
+}
+, & fmt_h2 , & align_h2 } ;
+
+Text ANONYM8 = {
+{
+{ "The" , null , null }
+,{ "menu" , null , null }
+,{ "Options" , & fmt_italic , null }
+,{ "contains" , null , null }
+,{ "three" , null , null }
+,{ "submenus:" , null , null }
+,{ "Global," , & fmt_italic , null }
+,{ "Application," , & fmt_italic , null }
+,{ "Colors." , & fmt_italic , null }
+,{ "" , null , null }
+,{ "The" , null , null }
+,{ "first" , null , null }
+,{ "submenu" , null , null }
+,{ "opens" , null , null }
+,{ "the" , null , null }
+,{ "dialog" , null , null }
+,{ "to" , null , null }
+,{ "edit" , null , null }
+,{ "preferences," , null , null }
+,{ "shared" , null , null }
+,{ "by" , null , null }
+,{ "all" , null , null }
+,{ "applications." , null , null }
+,{ "" , null , null }
+,{ "The" , null , null }
+,{ "second" , null , null }
+,{ "submenu" , null , null }
+,{ "opens" , null , null }
+,{ "the" , null , null }
+,{ "dialog" , null , null }
+,{ "to" , null , null }
+,{ "edit" , null , null }
+,{ "preferences," , null , null }
+,{ "specific" , null , null }
+,{ "to" , null , null }
+,{ "the" , null , null }
+,{ "application." , null , null }
+,{ "" , null , null }
+,{ "The" , null , null }
+,{ "submenu" , null , null }
+,{ "Colors" , & fmt_italic , null }
+,{ "opens" , null , null }
+,{ "the" , null , null }
+,{ "dialog," , null , null }
+,{ "used" , null , null }
+,{ "to" , null , null }
+,{ "change" , null , null }
+,{ "the" , null , null }
+,{ "color" , null , null }
+,{ "palette" , null , null }
+,{ "and" , null , null }
+,{ "the" , null , null }
+,{ "depth" , null , null }
+,{ "of" , null , null }
+,{ "the" , null , null }
+,{ "calculation." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Bitmap ANONYM9 = { "Colors.zipmap" } ;
+
+Text ANONYM10 = {
+{
+{ "There" , null , null }
+,{ "are" , null , null }
+,{ "several" , null , null }
+,{ "configuration" , null , null }
+,{ "options" , null , null }
+,{ "on" , null , null }
+,{ "this" , null , null }
+,{ "dialog." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM11 = {
+{
+{ "The" , null , null }
+,{ "spinor" , null , null }
+,{ "Cap" , & fmt_bold , null }
+,{ "controls" , null , null }
+,{ "the" , null , null }
+,{ "calculation" , null , null }
+,{ "depth." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM12 = {
+{
+{ "The" , null , null }
+,{ "spinor" , null , null }
+,{ "Len" , & fmt_bold , null }
+,{ "determines" , null , null }
+,{ "the" , null , null }
+,{ "number" , null , null }
+,{ "of" , null , null }
+,{ "colors" , null , null }
+,{ "between" , null , null }
+,{ "pivot" , null , null }
+,{ "colors." , null , null }
+,{ "" , null , null }
+,{ "The" , null , null }
+,{ "full" , null , null }
+,{ "color" , null , null }
+,{ "palette" , null , null }
+,{ "is" , null , null }
+,{ "built" , null , null }
+,{ "upon" , null , null }
+,{ "the" , null , null }
+,{ "pivot" , null , null }
+,{ "color" , null , null }
+,{ "list." , null , null }
+,{ "" , null , null }
+,{ "Between" , null , null }
+,{ "two" , null , null }
+,{ "consecutive" , null , null }
+,{ "pivot" , null , null }
+,{ "colors" , null , null }
+,{ "a" , null , null }
+,{ "number" , null , null }
+,{ "of" , null , null }
+,{ "intermediate" , null , null }
+,{ "colors" , null , null }
+,{ "are" , null , null }
+,{ "inserted," , null , null }
+,{ "using" , null , null }
+,{ "progressive" , null , null }
+,{ "blending" , null , null }
+,{ "of" , null , null }
+,{ "edge" , null , null }
+,{ "colors." , null , null }
+,{ "" , null , null }
+,{ "The" , null , null }
+,{ "pivot" , null , null }
+,{ "list" , null , null }
+,{ "is" , null , null }
+,{ "cycled," , null , null }
+,{ "when" , null , null }
+,{ "needed," , null , null }
+,{ "except" , null , null }
+,{ "the" , null , null }
+,{ "first" , null , null }
+,{ "pivot" , null , null }
+,{ "color," , null , null }
+,{ "which" , null , null }
+,{ "is" , null , null }
+,{ "usually" , null , null }
+,{ "Blue." , & fmt_bold , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM13 = {
+{
+{ "The" , null , null }
+,{ "full" , null , null }
+,{ "color" , null , null }
+,{ "palette" , null , null }
+,{ "is" , null , null }
+,{ "shown" , null , null }
+,{ "on" , null , null }
+,{ "the" , null , null }
+,{ "bottom" , null , null }
+,{ "part" , null , null }
+,{ "of" , null , null }
+,{ "the" , null , null }
+,{ "dialog." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM14 = {
+{
+{ "The" , null , null }
+,{ "list" , null , null }
+,{ "of" , null , null }
+,{ "pivot" , null , null }
+,{ "colors" , null , null }
+,{ "is" , null , null }
+,{ "presented" , null , null }
+,{ "in" , null , null }
+,{ "the" , null , null }
+,{ "middle" , null , null }
+,{ "left" , null , null }
+,{ "part" , null , null }
+,{ "of" , null , null }
+,{ "the" , null , null }
+,{ "dialog." , null , null }
+,{ "" , null , null }
+,{ "You" , null , null }
+,{ "can" , null , null }
+,{ "insert" , null , null }
+,{ "a" , null , null }
+,{ "new" , null , null }
+,{ "element" , null , null }
+,{ "or" , null , null }
+,{ "delete" , null , null }
+,{ "an" , null , null }
+,{ "existing" , null , null }
+,{ "element" , null , null }
+,{ "from" , null , null }
+,{ "the" , null , null }
+,{ "list" , null , null }
+,{ "using" , null , null }
+,{ "buttons" , null , null }
+,{ "or" , null , null }
+,{ "keys" , null , null }
+,{ "Insert" , & fmt_bold , null }
+,{ "and" , null , null }
+,{ "Delete." , & fmt_bold , null }
+,{ "" , null , null }
+,{ "You" , null , null }
+,{ "can" , null , null }
+,{ "also" , null , null }
+,{ "change" , null , null }
+,{ "the" , null , null }
+,{ "selected" , null , null }
+,{ "color" , null , null }
+,{ "using" , null , null }
+,{ "RGB" , null , null }
+,{ "spinors" , null , null }
+,{ "or" , null , null }
+,{ "the" , null , null }
+,{ "color" , null , null }
+,{ "cube." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM15 = {
+{
+{ "System" , null , null }
+,{ "requirements" , null , null }
+}
+, & fmt_h2 , & align_h2 } ;
+
+Text ANONYM16 = {
+{
+{ "To" , null , null }
+,{ "run" , null , null }
+,{ "this" , null , null }
+,{ "software" , null , null }
+,{ "you" , null , null }
+,{ "will" , null , null }
+,{ "need" , null , null }
+,{ "a" , null , null }
+,{ "quit" , null , null }
+,{ "fast" , null , null }
+,{ "PC" , null , null }
+,{ "with" , null , null }
+,{ "GPU" , null , null }
+,{ "(or" , null , null }
+,{ "another" , null , null }
+,{ "OpenCL" , null , null }
+,{ "accelerator)." , null , null }
+,{ "" , null , null }
+,{ "Operating" , null , null }
+,{ "system" , null , null }
+,{ "Windows" , null , null }
+,{ "10" , null , null }
+,{ "is" , null , null }
+,{ "required," , null , null }
+,{ "but" , null , null }
+,{ "you" , null , null }
+,{ "may" , null , null }
+,{ "try" , null , null }
+,{ "earlier" , null , null }
+,{ "versions" , null , null }
+,{ "(not" , null , null }
+,{ "guaranteed)." , null , null }
+,{ "" , null , null }
+,{ "To" , null , null }
+,{ "perform" , null , null }
+,{ "calculation" , null , null }
+,{ "an" , null , null }
+,{ "OpenCL" , null , null }
+,{ "provider" , null , null }
+,{ "is" , null , null }
+,{ "required." , null , null }
+,{ "" , null , null }
+,{ "It" , null , null }
+,{ "is" , null , null }
+,{ "installed" , null , null }
+,{ "automatically" , null , null }
+,{ "with" , null , null }
+,{ "modern" , null , null }
+,{ "GPU" , null , null }
+,{ "drivers." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM17 = {
+{
+{ "Copyright" , null , null }
+,{ "notes" , null , null }
+}
+, & fmt_h2 , & align_h2 } ;
+
+Text ANONYM18 = {
+{
+{ "Copyright" , null , null }
+,{ "(c)" , null , null }
+,{ "2017" , null , null }
+,{ "Sergey" , null , null }
+,{ "Strukov." , null , null }
+,{ "All" , null , null }
+,{ "rights" , null , null }
+,{ "reserved." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM19 = {
+{
+{ "This" , null , null }
+,{ "software" , null , null }
+,{ "is" , null , null }
+,{ "distributed" , null , null }
+,{ "under" , null , null }
+,{ "the" , null , null }
+,{ "commercial" , null , null }
+,{ "license," , null , null }
+,{ "see" , null , null }
+,{ "the" , null , null }
+,{ "License.txt" , & fmt_bold , null }
+,{ "for" , null , null }
+,{ "details." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
