@@ -1799,14 +1799,8 @@ void TextWindow::pastEnd()
   ok=false;
  }
 
-void TextWindow::past()
+void TextWindow::past(PastData &data)
  {
-  PastData data;
-
-  getFrameHost()->textFromClipboard(data.function_load());
-
-  if( !data ) return;
-
   if( selection_on ) delSel();
 
   if( ulen count=text.getLineCount() )
@@ -1880,6 +1874,17 @@ void TextWindow::past()
   changed.assert();
 
   showCursor();
+ }
+
+void TextWindow::past()
+ {
+  PastData data;
+
+  getFrameHost()->textFromClipboard(data.function_load());
+
+  if( !data ) return;
+
+  past(data);
  }
 
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
@@ -1958,6 +1963,17 @@ void TextWindow::link()
                    } );
 
   redraw();
+ }
+
+void TextWindow::pastCPP()
+ {
+  PastData data;
+
+  getFrameHost()->textFromClipboard(data.function_loadCPP());
+
+  if( !data ) return;
+
+  past(data);
  }
 
  // drawing
@@ -2823,8 +2839,9 @@ void TextEditor::setD()
   setFormat(edit_D.getString());
  }
 
-void TextEditor::pastCPP() // TODO
+void TextEditor::pastCPP()
  {
+  edit_text.pastCPP();
  }
 
 TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)

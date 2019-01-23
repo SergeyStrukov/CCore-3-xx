@@ -243,5 +243,9 @@ void PastData::load(StrLen text)
   if( !parseCombo(text) ) parseSimple(text);
  }
 
+void PastData::loadCPP(StrLen text) // TODO
+ {
+ }
+
 } // namespace App
 

@@ -432,6 +432,8 @@ class TextWindow : public SubWindow
 
    void pastEnd();
 
+   void past(PastData &data);
+
    void past();
 
   public:
@@ -471,6 +473,8 @@ class TextWindow : public SubWindow
    void setLink(String name);
 
    void link();
+
+   void pastCPP();
 
    // drawing
 
@@ -570,6 +574,8 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
    void flush() { window.flush(); }
 
    void link() { window.link(); }
+
+   void pastCPP() { window.pastCPP(); }
 
    // signals
 

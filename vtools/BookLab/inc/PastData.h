@@ -83,6 +83,8 @@ class PastData : public Funchor
 
    Function<void (StrLen)> function_load() { return FunctionOf(this,&PastData::load); }
 
+   Function<void (StrLen)> function_loadCPP() { return FunctionOf(this,&PastData::loadCPP); }
+
   private:
 
    static bool ParseChar(StrLen &text,char ch);
@@ -110,6 +112,10 @@ class PastData : public Funchor
    void parseSimple(StrLen text);
 
    void load(StrLen text);
+
+  private:
+
+   void loadCPP(StrLen text);
  };
 
 } // namespace App
