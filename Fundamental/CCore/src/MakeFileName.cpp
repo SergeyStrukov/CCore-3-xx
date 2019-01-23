@@ -31,9 +31,16 @@ bool MakeFileName::HasNoExt(StrLen file_name)
 
 void MakeFileName::make(StrLen dir_name,StrLen file_name)
  {
-  if( +dir_name && PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
+  if( +dir_name )
+    {
+     if( PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
 
-  add(dir_name,'/',file_name);
+     add(dir_name,'/',file_name);
+    }
+  else
+    {
+     add(file_name);
+    }
 
   if( !(*this) )
     {
@@ -43,12 +50,22 @@ void MakeFileName::make(StrLen dir_name,StrLen file_name)
 
 void MakeFileName::make(StrLen dir_name,StrLen file_name,StrLen auto_ext)
  {
-  if( +dir_name && PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
+  if( +dir_name )
+    {
+     if( PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
 
-  if( +auto_ext && HasNoExt(file_name) )
-    add(dir_name,'/',file_name,auto_ext);
+     if( +auto_ext && HasNoExt(file_name) )
+       add(dir_name,'/',file_name,auto_ext);
+     else
+       add(dir_name,'/',file_name);
+    }
   else
-    add(dir_name,'/',file_name);
+    {
+     if( +auto_ext && HasNoExt(file_name) )
+       add(file_name,auto_ext);
+     else
+       add(file_name);
+    }
 
   if( !(*this) )
     {

@@ -61,19 +61,19 @@ Font o11 = { "font_italic" , False , "Times New Roman" , 22 , { False , False } 
 
 Font o12 = { "font_bullet" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
 
-Format o13 = { "h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
+Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
 
-Format o14 = { "h2" , False , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
+Format o14 = { "fmt_h2" , False , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
 
 OneLine o15 = { "align_h1" , False , { False , 2 } };
 
 OneLine o16 = { "align_h2" , False , { False , 2 } };
 
-Format o17 = { "bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o17 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o18 = { "italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o18 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o19 = { "under" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
+Format o19 = { "fmt_underline" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
 
 Page o20 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
@@ -83,13 +83,12 @@ Page o20 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o23 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o24 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o25 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o27 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } }
 }
 
- , 6 } };
+ , 2 } };
 
-Text o21 = { "" , True , { "align_h1" , null } , { "h1" , null } , 
+Text o21 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -104,7 +103,7 @@ Text o21 = { "" , True , { "align_h1" , null } , { "h1" , null } ,
 
  };
 
-Text o22 = { "" , True , { "align_h2" , null } , { "h2" , null } , 
+Text o22 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -118,14 +117,16 @@ Text o22 = { "" , True , { "align_h2" , null } , { "h2" , null } ,
 
  };
 
-Text o23 = { "" , True , { null , null } , { null , null } , 
+Bitmap o23 = { "" , "Mandelbrot.png" };
+
+Text o24 = { "" , True , { null , null } , { null , null } , 
 
 {
 
 
 {
-{ "Mandelbrot" , { "bold" , null } , { null , null } },
-{ "scope" , { "bold" , null } , { null , null } },
+{ "Mandelbrot" , { "fmt_bold" , null } , { null , null } },
+{ "scope" , { "fmt_bold" , null } , { null , null } },
 { "(MScope.exe)" , { null , null } , { null , null } },
 { "is" , { null , null } , { null , null } },
 { "a" , { null , null } , { null , null } },
@@ -161,7 +162,7 @@ Text o23 = { "" , True , { null , null } , { null , null } ,
 { "been" , { null , null } , { null , null } },
 { "discovered" , { null , null } , { null , null } },
 { "by" , { null , null } , { null , null } },
-{ "Benoit B. Mandelbrot" , { null , null } , { null , null } },
+{ "Benoit B. Mandelbrot" , { "fmt_underline" , null } , { null , null } },
 { "." , { null , null } , { null , null } }
 }
 
@@ -286,7 +287,7 @@ Text o23 = { "" , True , { null , null } , { null , null } ,
 { "depth" , { null , null } , { null , null } },
 { "in" , { null , null } , { null , null } },
 { "the" , { null , null } , { null , null } },
-{ "Options" , { null , null } , { null , null } },
+{ "Options" , { "fmt_italic" , null } , { null , null } },
 { "menu." , { null , null } , { null , null } }
 }
 
@@ -320,17 +321,15 @@ Text o23 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o24 = { "" , True , { null , null } , { null , null } , 
+Text o25 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
+
+{
+{ "Navigation" , { null , null } , { null , null } }
 }
 
- };
-
-Text o25 = { "" , True , { null , null } , { null , null } , 
-
-{
 
 }
 
@@ -340,13 +339,51 @@ Text o26 = { "" , True , { null , null } , { null , null } ,
 
 {
 
-}
-
- };
-
-Text o27 = { "" , True , { null , null } , { null , null } , 
 
 {
+{ "To" , { null , null } , { null , null } },
+{ "move" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "picture" , { null , null } , { null , null } },
+{ "drag" , { null , null } , { null , null } },
+{ "it" , { null , null } , { null , null } },
+{ "by" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "mouse." , { null , null } , { null , null } },
+{ "" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "To" , { null , null } , { null , null } },
+{ "zoom/unzoom" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "picture" , { null , null } , { null , null } },
+{ "use" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "mouse" , { null , null } , { null , null } },
+{ "wheel." , { null , null } , { null , null } },
+{ "" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "To" , { null , null } , { null , null } },
+{ "return" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "top" , { null , null } , { null , null } },
+{ "view" , { null , null } , { null , null } },
+{ "use" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "key" , { null , null } , { null , null } },
+{ "Home." , { "fmt_bold" , null } , { null , null } }
+}
+
 
 }
 

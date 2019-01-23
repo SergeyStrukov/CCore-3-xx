@@ -26,29 +26,28 @@ Font font_italic = { "Times New Roman" , 22 , False , True , 0 } ;
 
 Font font_bullet = { "Times New Roman" , 22 , True , False , 0 } ;
 
-Format h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
+Format fmt_h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
 
-Format h2 = { & font_h2 , NoColor , 06400h , 0 } ;
+Format fmt_h2 = { & font_h2 , NoColor , 06400h , 0 } ;
 
 OneLine align_h1 = { 2 } ;
 
 OneLine align_h2 = { 2 } ;
 
-Format bold = { & font_bold , NoColor , NoColor , 0 } ;
+Format fmt_bold = { & font_bold , NoColor , NoColor , 0 } ;
 
-Format italic = { & font_italic , NoColor , NoColor , 0 } ;
+Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
 
-Format under = { & font , NoColor , NoColor , 1 } ;
+Format fmt_underline = { & font , NoColor , NoColor , 1 } ;
 
 Page page1 = { "Manual" ,
 {
 { & ANONYM1 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM2 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM3 , null , DefaultInner , DefaultOuter , NoColor }
-,{ null , null , DefaultInner , DefaultOuter , NoColor }
-,{ null , null , DefaultInner , DefaultOuter , NoColor }
-,{ null , null , DefaultInner , DefaultOuter , NoColor }
-,{ null , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM4 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM5 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & ANONYM6 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , null , null } ;
 
@@ -57,18 +56,20 @@ Text ANONYM1 = {
 { "Mandelbrot" , null , null }
 ,{ "scope" , null , null }
 }
-, & h1 , & align_h1 } ;
+, & fmt_h1 , & align_h1 } ;
 
 Text ANONYM2 = {
 {
 { "Introduction" , null , null }
 }
-, & h2 , & align_h2 } ;
+, & fmt_h2 , & align_h2 } ;
 
-Text ANONYM3 = {
+Bitmap ANONYM3 = { "Mandelbrot.png" } ;
+
+Text ANONYM4 = {
 {
-{ "Mandelbrot" , & bold , null }
-,{ "scope" , & bold , null }
+{ "Mandelbrot" , & fmt_bold , null }
+,{ "scope" , & fmt_bold , null }
 ,{ "(MScope.exe)" , null , null }
 ,{ "is" , null , null }
 ,{ "a" , null , null }
@@ -92,7 +93,7 @@ Text ANONYM3 = {
 ,{ "been" , null , null }
 ,{ "discovered" , null , null }
 ,{ "by" , null , null }
-,{ "Benoit B. Mandelbrot" , null , null }
+,{ "Benoit B. Mandelbrot" , & fmt_underline , null }
 ,{ "." , null , null }
 ,{ "The" , null , null }
 ,{ "Mandelbrot" , null , null }
@@ -169,7 +170,7 @@ Text ANONYM3 = {
 ,{ "depth" , null , null }
 ,{ "in" , null , null }
 ,{ "the" , null , null }
-,{ "Options" , null , null }
+,{ "Options" , & fmt_italic , null }
 ,{ "menu." , null , null }
 ,{ "You" , null , null }
 ,{ "can" , null , null }
@@ -183,6 +184,46 @@ Text ANONYM3 = {
 ,{ "the" , null , null }
 ,{ "outer" , null , null }
 ,{ "part." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM5 = {
+{
+{ "Navigation" , null , null }
+}
+, & fmt_h2 , & align_h2 } ;
+
+Text ANONYM6 = {
+{
+{ "To" , null , null }
+,{ "move" , null , null }
+,{ "the" , null , null }
+,{ "picture" , null , null }
+,{ "drag" , null , null }
+,{ "it" , null , null }
+,{ "by" , null , null }
+,{ "the" , null , null }
+,{ "mouse." , null , null }
+,{ "" , null , null }
+,{ "To" , null , null }
+,{ "zoom/unzoom" , null , null }
+,{ "the" , null , null }
+,{ "picture" , null , null }
+,{ "use" , null , null }
+,{ "the" , null , null }
+,{ "mouse" , null , null }
+,{ "wheel." , null , null }
+,{ "" , null , null }
+,{ "To" , null , null }
+,{ "return" , null , null }
+,{ "to" , null , null }
+,{ "the" , null , null }
+,{ "top" , null , null }
+,{ "view" , null , null }
+,{ "use" , null , null }
+,{ "the" , null , null }
+,{ "key" , null , null }
+,{ "Home." , & fmt_bold , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
