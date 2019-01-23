@@ -64,7 +64,7 @@ Text ANONYM2 = {
 }
 , & fmt_h2 , & align_h2 } ;
 
-Bitmap ANONYM3 = { "Mandelbrot.png" } ;
+Bitmap ANONYM3 = { "Mandelbrot.zipmap" } ;
 
 Text ANONYM4 = {
 {
