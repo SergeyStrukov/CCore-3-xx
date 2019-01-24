@@ -17,17 +17,17 @@
 #include <CCore/inc/FileToMem.h>
 #include <CCore/inc/Print.h>
 
+#include <inc/CppToken.h>
+
 namespace App {
-
-/* using */
-
-using namespace CCore;
 
 /* Process() */
 
 void Process(StrLen text,PrintBase &out)
  {
-  Putobj(out,text);
+  SrcCursor cur(text);
+
+  for(; +cur ;++cur) Printf(out,"#;\n",*cur);
  }
 
 void Process(StrLen src_file_name,StrLen dst_file_name)
@@ -72,4 +72,3 @@ int main()
      return 1;
     }
  }
-
