@@ -23,6 +23,8 @@ namespace App {
 
 /* Process() */
 
+//void \u0410\u0411\u0412(int a) {}
+
 void Process(StrLen text,PrintBase &out)
  {
   SrcCursor cur(text);

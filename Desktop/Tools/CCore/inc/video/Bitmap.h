@@ -91,6 +91,8 @@ class Bitmap
 
   public:
 
+   Bitmap() noexcept;
+
    explicit Bitmap(StrLen file_name);
 
    Bitmap(StrLen dir,StrLen file_name);

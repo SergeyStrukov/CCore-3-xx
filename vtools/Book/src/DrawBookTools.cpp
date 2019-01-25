@@ -116,6 +116,20 @@ Font FontMap::operator () (Book::TypeDef::Font *obj,Font fallback)
 
 /* class BitmapMap */
 
+Bitmap * BitmapMap::append(StrLen file_name)
+ {
+  map.reserve(1);
+
+  try
+    {
+     return map.append_fill(Range(root),file_name);
+    }
+  catch(...)
+    {
+     return map.append_default();
+    }
+ }
+
 void BitmapMap::setRoot(StrLen file_name)
  {
   SplitPath split1(file_name);
@@ -138,7 +152,7 @@ const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *obj)
        }
      else
        {
-        Bitmap *ret=map.append_fill(Range(root),obj->file_name);
+        Bitmap *ret=append(obj->file_name);
 
         obj->ext=map.getLen();
 

@@ -294,6 +294,13 @@ void Bitmap::load(StrLen file_name)
     }
  }
 
+Bitmap::Bitmap() noexcept
+ {
+  dx=0;
+  dy=0;
+  dline=0;
+ }
+
 Bitmap::Bitmap(StrLen file_name)
  {
   load(file_name);

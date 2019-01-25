@@ -219,6 +219,10 @@ class BitmapMap : NoCopy
 
    String root;
 
+  private:
+
+   Bitmap * append(StrLen file_name);
+
   public:
 
    BitmapMap() {}
