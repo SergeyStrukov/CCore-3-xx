@@ -1725,7 +1725,7 @@ void FieldWindow::setFieldCtrl(W &sub,BookLab::OptDataBase<T> *pad)
 
   sub.setFocus();
 
-  check_def.check(*def_pad);
+  check_def.check(false);
  }
 
 void FieldWindow::setField(bool *pad)
@@ -1795,7 +1795,7 @@ void FieldWindow::setField(BookLab::NamedPtr<TT...> *pad)
 
   field_Named.setField(pad);
 
-  check_def.check(pad->isDef());
+  check_def.check(false);
  }
 
 template <class T>
@@ -1805,7 +1805,7 @@ void FieldWindow::setField(IntObjPtr<T> *pad)
 
   field_Unnamed.setField(pad);
 
-  check_def.check(!*pad);
+  check_def.check(false);
  }
 
 template <class ... TT>
@@ -1815,7 +1815,7 @@ void FieldWindow::setField(IntAnyObjPtr<TT...> *pad)
 
   field_Unnamed.setField(pad);
 
-  check_def.check(!*pad);
+  check_def.check(false);
  }
 
 void FieldWindow::setField(BookLab::Element *pad)
