@@ -30,6 +30,12 @@ struct SrcChar;
 
 class SrcCursor;
 
+//enum TokFlags;
+
+struct TokChar;
+
+class TokCursor;
+
 /* struct SrcChar */
 
 struct SrcChar
@@ -94,6 +100,44 @@ class SrcCursor
    bool operator ! () const { return !cur; }
 
    SrcChar operator * () const { return cur; }
+
+   void operator ++ ();
+ };
+
+/* enum TokFlags */
+
+enum TokFlags : unsigned
+ {
+ };
+
+inline TokFlags operator | (TokFlags a,TokFlags b) { return TokFlags(unsigned(a)|b); }
+
+inline TokFlags operator |= (TokFlags &a,TokFlags b) { a=a|b; return a; }
+
+/* struct TokChar */
+
+struct TokChar : SrcChar
+ {
+  TokFlags flags;
+ };
+
+/* class TokCursor */
+
+class TokCursor : NoCopy
+ {
+   SrcCursor src;
+
+
+
+  public:
+
+   explicit TokCursor(StrLen text);
+
+   bool operator + () const { return ; }
+
+   bool operator ! () const { return ; }
+
+   TokChar operator * () const { return ; }
 
    void operator ++ ();
  };
