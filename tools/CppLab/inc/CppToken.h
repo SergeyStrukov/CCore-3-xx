@@ -146,7 +146,9 @@ class TokCursor : NoCopy
  {
    SrcCursor src;
 
-   TokChar buf[16];
+   static constexpr unsigned Len = 16 ;
+
+   TokChar buf[Len];
 
    unsigned off = 0 ;
    unsigned lim = 0 ;

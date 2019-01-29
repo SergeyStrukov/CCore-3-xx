@@ -144,8 +144,14 @@ bool TokCursor::provide()
 
 bool TokCursor::provide(unsigned count) // TODO
  {
-  if( lim-off<count )
+  if( unsigned len=lim-off; len<count )
     {
+     if( Len-off<count )
+       {
+        for(unsigned i : IndLim() ) buf[i]=buf[i+off];
+       }
+
+
     }
 
   return lim-off>=count;
