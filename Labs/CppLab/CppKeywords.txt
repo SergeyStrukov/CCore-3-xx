@@ -1,0 +1,1107 @@
+AtomClass Atom::GetWordClass(StrLen str)
+ {
+  if( !str ) return Atom_Name;
+
+  switch( str[0] )
+    {
+     case 'a' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'l' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'i' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 'g' :
+                     {
+                      ++str;
+
+                      if( !str ) return Atom_Name;
+
+                      switch( str[0] )
+                        {
+                         case 'n' :
+                          {
+                           ++str;
+
+                           if( !str ) return Atom_Name;
+
+                           switch( str[0] )
+                             {
+                              case 'a' :
+                               {
+                                ++str;
+
+                                if( str.len==1 && str[0]=='s' ) return Atom_alignas; else return Atom_Name;
+                               }
+
+                              case 'o' :
+                               {
+                                ++str;
+
+                                if( str.len==1 && str[0]=='f' ) return Atom_alignof; else return Atom_Name;
+                               }
+
+                              default: return Atom_Name;
+                             }
+                          }
+
+                         default: return Atom_Name;
+                        }
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 's' :
+           {
+            ++str;
+
+            if( str.len==1 && str[0]=='m' ) return Atom_asm; else return Atom_Name;
+           }
+
+          case 'u' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='t' && str[1]=='o' ) return Atom_auto; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'b' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'o' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='o' && str[1]=='l' ) return Atom_bool; else return Atom_Name;
+           }
+
+          case 'r' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='e' && str[1]=='a' && str[2]=='k' ) return Atom_break; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'c' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'a' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 's' :
+                {
+                 ++str;
+
+                 if( str.len==1 && str[0]=='e' ) return Atom_case; else return Atom_Name;
+                }
+
+               case 't' :
+                {
+                 ++str;
+
+                 if( str.len==2 && str[0]=='c' && str[1]=='h' ) return Atom_catch; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'h' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'a' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 'r' :
+                     {
+                      ++str;
+
+                      if( !str ) return Atom_char;
+
+                      switch( str[0] )
+                        {
+                         case '1' :
+                          {
+                           ++str;
+
+                           if( str.len==3 && str[0]=='6' && str[1]=='_' && str[2]=='t' ) return Atom_char16_t; else return Atom_Name;
+                          }
+
+                         case '3' :
+                          {
+                           ++str;
+
+                           if( str.len==3 && str[0]=='2' && str[1]=='_' && str[2]=='t' ) return Atom_char32_t; else return Atom_Name;
+                          }
+
+                         default: return Atom_Name;
+                        }
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'l' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='a' && str[1]=='s' && str[2]=='s' ) return Atom_class; else return Atom_Name;
+           }
+
+          case 'o' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'n' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 's' :
+                     {
+                      ++str;
+
+                      if( !str ) return Atom_Name;
+
+                      switch( str[0] )
+                        {
+                         case 't' :
+                          {
+                           ++str;
+
+                           if( !str ) return Atom_const;
+
+                           switch( str[0] )
+                             {
+                              case '_' :
+                               {
+                                ++str;
+
+                                if( str.len==4 && str[0]=='c' && str[1]=='a' && str[2]=='s' && str[3]=='t' ) return Atom_const_cast; else return Atom_Name;
+                               }
+
+                              case 'e' :
+                               {
+                                ++str;
+
+                                if( str.len==3 && str[0]=='x' && str[1]=='p' && str[2]=='r' ) return Atom_constexpr; else return Atom_Name;
+                               }
+
+                              default: return Atom_Name;
+                             }
+                          }
+
+                         default: return Atom_Name;
+                        }
+                     }
+
+                    case 't' :
+                     {
+                      ++str;
+
+                      if( str.len==4 && str[0]=='i' && str[1]=='n' && str[2]=='u' && str[3]=='e' ) return Atom_continue; else return Atom_Name;
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'd' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'e' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'c' :
+                {
+                 ++str;
+
+                 if( str.len==5 && str[0]=='l' && str[1]=='t' && str[2]=='y' && str[3]=='p' && str[4]=='e' ) return Atom_decltype; else return Atom_Name;
+                }
+
+               case 'f' :
+                {
+                 ++str;
+
+                 if( str.len==4 && str[0]=='a' && str[1]=='u' && str[2]=='l' && str[3]=='t' ) return Atom_default; else return Atom_Name;
+                }
+
+               case 'l' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='e' && str[1]=='t' && str[2]=='e' ) return Atom_delete; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'o' :
+           {
+            ++str;
+
+            if( !str ) return Atom_do;
+
+            switch( str[0] )
+              {
+               case 'u' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='b' && str[1]=='l' && str[2]=='e' ) return Atom_double; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'y' :
+           {
+            ++str;
+
+            if( str.len==10 && str[0]=='n' && str[1]=='a' && str[2]=='m' && str[3]=='i' && str[4]=='c' && str[5]=='_' && str[6]=='c' && str[7]=='a' && str[8]=='s' && str[9]=='t' ) return Atom_dynamic_cast; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'e' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'l' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='s' && str[1]=='e' ) return Atom_else; else return Atom_Name;
+           }
+
+          case 'n' :
+           {
+            ++str;
+
+            if( str.len==2 && str[0]=='u' && str[1]=='m' ) return Atom_enum; else return Atom_Name;
+           }
+
+          case 'x' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'p' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 'l' :
+                     {
+                      ++str;
+
+                      if( str.len==4 && str[0]=='i' && str[1]=='c' && str[2]=='i' && str[3]=='t' ) return Atom_explicit; else return Atom_Name;
+                     }
+
+                    case 'o' :
+                     {
+                      ++str;
+
+                      if( str.len==2 && str[0]=='r' && str[1]=='t' ) return Atom_export; else return Atom_Name;
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               case 't' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='e' && str[1]=='r' && str[2]=='n' ) return Atom_extern; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'f' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'a' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='l' && str[1]=='s' && str[2]=='e' ) return Atom_false; else return Atom_Name;
+           }
+
+          case 'i' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='n' && str[1]=='a' && str[2]=='l' ) return Atom_final; else return Atom_Name;
+           }
+
+          case 'l' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='o' && str[1]=='a' && str[2]=='t' ) return Atom_float; else return Atom_Name;
+           }
+
+          case 'o' :
+           {
+            ++str;
+
+            if( str.len==1 && str[0]=='r' ) return Atom_for; else return Atom_Name;
+           }
+
+          case 'r' :
+           {
+            ++str;
+
+            if( str.len==4 && str[0]=='i' && str[1]=='e' && str[2]=='n' && str[3]=='d' ) return Atom_friend; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'g' :
+      {
+       ++str;
+
+       if( str.len==3 && str[0]=='o' && str[1]=='t' && str[2]=='o' ) return Atom_goto; else return Atom_Name;
+      }
+
+     case 'i' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'f' :
+           {
+            ++str;
+
+            if( str.len==0 ) return Atom_if; else return Atom_Name;
+           }
+
+          case 'n' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'l' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='i' && str[1]=='n' && str[2]=='e' ) return Atom_inline; else return Atom_Name;
+                }
+
+               case 't' :
+                {
+                 ++str;
+
+                 if( str.len==0 ) return Atom_int; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'l' :
+      {
+       ++str;
+
+       if( str.len==3 && str[0]=='o' && str[1]=='n' && str[2]=='g' ) return Atom_long; else return Atom_Name;
+      }
+
+     case 'm' :
+      {
+       ++str;
+
+       if( str.len==6 && str[0]=='u' && str[1]=='t' && str[2]=='a' && str[3]=='b' && str[4]=='l' && str[5]=='e' ) return Atom_mutable; else return Atom_Name;
+      }
+
+     case 'n' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'a' :
+           {
+            ++str;
+
+            if( str.len==7 && str[0]=='m' && str[1]=='e' && str[2]=='s' && str[3]=='p' && str[4]=='a' && str[5]=='c' && str[6]=='e' ) return Atom_namespace; else return Atom_Name;
+           }
+
+          case 'e' :
+           {
+            ++str;
+
+            if( str.len==1 && str[0]=='w' ) return Atom_new; else return Atom_Name;
+           }
+
+          case 'o' :
+           {
+            ++str;
+
+            if( str.len==6 && str[0]=='e' && str[1]=='x' && str[2]=='c' && str[3]=='e' && str[4]=='p' && str[5]=='t' ) return Atom_noexcept; else return Atom_Name;
+           }
+
+          case 'u' :
+           {
+            ++str;
+
+            if( str.len==5 && str[0]=='l' && str[1]=='l' && str[2]=='p' && str[3]=='t' && str[4]=='r' ) return Atom_nullptr; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'o' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'p' :
+           {
+            ++str;
+
+            if( str.len==6 && str[0]=='e' && str[1]=='r' && str[2]=='a' && str[3]=='t' && str[4]=='o' && str[5]=='r' ) return Atom_operator; else return Atom_Name;
+           }
+
+          case 'v' :
+           {
+            ++str;
+
+            if( str.len==6 && str[0]=='e' && str[1]=='r' && str[2]=='r' && str[3]=='i' && str[4]=='d' && str[5]=='e' ) return Atom_override; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'p' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'r' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'i' :
+                {
+                 ++str;
+
+                 if( str.len==4 && str[0]=='v' && str[1]=='a' && str[2]=='t' && str[3]=='e' ) return Atom_private; else return Atom_Name;
+                }
+
+               case 'o' :
+                {
+                 ++str;
+
+                 if( str.len==6 && str[0]=='t' && str[1]=='e' && str[2]=='c' && str[3]=='t' && str[4]=='e' && str[5]=='d' ) return Atom_protected; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'u' :
+           {
+            ++str;
+
+            if( str.len==4 && str[0]=='b' && str[1]=='l' && str[2]=='i' && str[3]=='c' ) return Atom_public; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'r' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'e' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'g' :
+                {
+                 ++str;
+
+                 if( str.len==5 && str[0]=='i' && str[1]=='s' && str[2]=='t' && str[3]=='e' && str[4]=='r' ) return Atom_register; else return Atom_Name;
+                }
+
+               case 'i' :
+                {
+                 ++str;
+
+                 if( str.len==13 && str[0]=='n' && str[1]=='t' && str[2]=='e' && str[3]=='r' && str[4]=='p' && str[5]=='r' && str[6]=='e' && str[7]=='t' && str[8]=='_' && str[9]=='c' && str[10]=='a' && str[11]=='s' && str[12]=='t' ) return Atom_reinterpret_cast; else return Atom_Name;
+                }
+
+               case 't' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='u' && str[1]=='r' && str[2]=='n' ) return Atom_return; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 's' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'h' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='o' && str[1]=='r' && str[2]=='t' ) return Atom_short; else return Atom_Name;
+           }
+
+          case 'i' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'g' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='n' && str[1]=='e' && str[2]=='d' ) return Atom_signed; else return Atom_Name;
+                }
+
+               case 'z' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='e' && str[1]=='o' && str[2]=='f' ) return Atom_sizeof; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 't' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'a' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 't' :
+                     {
+                      ++str;
+
+                      if( !str ) return Atom_Name;
+
+                      switch( str[0] )
+                        {
+                         case 'i' :
+                          {
+                           ++str;
+
+                           if( !str ) return Atom_Name;
+
+                           switch( str[0] )
+                             {
+                              case 'c' :
+                               {
+                                ++str;
+
+                                if( !str ) return Atom_static;
+
+                                switch( str[0] )
+                                  {
+                                   case '_' :
+                                    {
+                                     ++str;
+
+                                     if( !str ) return Atom_Name;
+
+                                     switch( str[0] )
+                                       {
+                                        case 'a' :
+                                         {
+                                          ++str;
+
+                                          if( str.len==5 && str[0]=='s' && str[1]=='s' && str[2]=='e' && str[3]=='r' && str[4]=='t' ) return Atom_static_assert; else return Atom_Name;
+                                         }
+
+                                        case 'c' :
+                                         {
+                                          ++str;
+
+                                          if( str.len==3 && str[0]=='a' && str[1]=='s' && str[2]=='t' ) return Atom_static_cast; else return Atom_Name;
+                                         }
+
+                                        default: return Atom_Name;
+                                       }
+                                    }
+
+                                   default: return Atom_Name;
+                                  }
+                               }
+
+                              default: return Atom_Name;
+                             }
+                          }
+
+                         default: return Atom_Name;
+                        }
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               case 'r' :
+                {
+                 ++str;
+
+                 if( str.len==3 && str[0]=='u' && str[1]=='c' && str[2]=='t' ) return Atom_struct; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'w' :
+           {
+            ++str;
+
+            if( str.len==4 && str[0]=='i' && str[1]=='t' && str[2]=='c' && str[3]=='h' ) return Atom_switch; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 't' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'e' :
+           {
+            ++str;
+
+            if( str.len==6 && str[0]=='m' && str[1]=='p' && str[2]=='l' && str[3]=='a' && str[4]=='t' && str[5]=='e' ) return Atom_template; else return Atom_Name;
+           }
+
+          case 'h' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'i' :
+                {
+                 ++str;
+
+                 if( str.len==1 && str[0]=='s' ) return Atom_this; else return Atom_Name;
+                }
+
+               case 'r' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 'e' :
+                     {
+                      ++str;
+
+                      if( str.len==8 && str[0]=='a' && str[1]=='d' && str[2]=='_' && str[3]=='l' && str[4]=='o' && str[5]=='c' && str[6]=='a' && str[7]=='l' ) return Atom_thread_local; else return Atom_Name;
+                     }
+
+                    case 'o' :
+                     {
+                      ++str;
+
+                      if( str.len==1 && str[0]=='w' ) return Atom_throw; else return Atom_Name;
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'r' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'u' :
+                {
+                 ++str;
+
+                 if( str.len==1 && str[0]=='e' ) return Atom_true; else return Atom_Name;
+                }
+
+               case 'y' :
+                {
+                 ++str;
+
+                 if( str.len==0 ) return Atom_try; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 'y' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'p' :
+                {
+                 ++str;
+
+                 if( !str ) return Atom_Name;
+
+                 switch( str[0] )
+                   {
+                    case 'e' :
+                     {
+                      ++str;
+
+                      if( !str ) return Atom_Name;
+
+                      switch( str[0] )
+                        {
+                         case 'd' :
+                          {
+                           ++str;
+
+                           if( str.len==2 && str[0]=='e' && str[1]=='f' ) return Atom_typedef; else return Atom_Name;
+                          }
+
+                         case 'i' :
+                          {
+                           ++str;
+
+                           if( str.len==1 && str[0]=='d' ) return Atom_typeid; else return Atom_Name;
+                          }
+
+                         case 'n' :
+                          {
+                           ++str;
+
+                           if( str.len==3 && str[0]=='a' && str[1]=='m' && str[2]=='e' ) return Atom_typename; else return Atom_Name;
+                          }
+
+                         default: return Atom_Name;
+                        }
+                     }
+
+                    default: return Atom_Name;
+                   }
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'u' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'n' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'i' :
+                {
+                 ++str;
+
+                 if( str.len==2 && str[0]=='o' && str[1]=='n' ) return Atom_union; else return Atom_Name;
+                }
+
+               case 's' :
+                {
+                 ++str;
+
+                 if( str.len==5 && str[0]=='i' && str[1]=='g' && str[2]=='n' && str[3]=='e' && str[4]=='d' ) return Atom_unsigned; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          case 's' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='i' && str[1]=='n' && str[2]=='g' ) return Atom_using; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'v' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'i' :
+           {
+            ++str;
+
+            if( str.len==5 && str[0]=='r' && str[1]=='t' && str[2]=='u' && str[3]=='a' && str[4]=='l' ) return Atom_virtual; else return Atom_Name;
+           }
+
+          case 'o' :
+           {
+            ++str;
+
+            if( !str ) return Atom_Name;
+
+            switch( str[0] )
+              {
+               case 'i' :
+                {
+                 ++str;
+
+                 if( str.len==1 && str[0]=='d' ) return Atom_void; else return Atom_Name;
+                }
+
+               case 'l' :
+                {
+                 ++str;
+
+                 if( str.len==5 && str[0]=='a' && str[1]=='t' && str[2]=='i' && str[3]=='l' && str[4]=='e' ) return Atom_volatile; else return Atom_Name;
+                }
+
+               default: return Atom_Name;
+              }
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     case 'w' :
+      {
+       ++str;
+
+       if( !str ) return Atom_Name;
+
+       switch( str[0] )
+         {
+          case 'c' :
+           {
+            ++str;
+
+            if( str.len==5 && str[0]=='h' && str[1]=='a' && str[2]=='r' && str[3]=='_' && str[4]=='t' ) return Atom_wchar_t; else return Atom_Name;
+           }
+
+          case 'h' :
+           {
+            ++str;
+
+            if( str.len==3 && str[0]=='i' && str[1]=='l' && str[2]=='e' ) return Atom_while; else return Atom_Name;
+           }
+
+          default: return Atom_Name;
+         }
+      }
+
+     default: return Atom_Name;
+    }
+ }
+

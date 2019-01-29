@@ -18,6 +18,128 @@
 
 namespace App {
 
+/* namespace CppText */
+
+namespace CppText {
+
+/* classes */
+
+//enum CharFlags;
+
+class FlagTable;
+
+struct FlagChar;
+
+//enum TokenClass;
+
+struct Token;
+
+class Tokenizer;
+
+/* enum CharFlags */
+
+enum CharFlags : unsigned
+ {
+  CharNull   = 0,
+
+  CharLetter = Bit(0),
+  CharDigit  = Bit(1),
+  CharPunct  = Bit(2),
+  CharHex    = Bit(3),
+  CharSpace  = Bit(4)
+ };
+
+inline CharFlags operator | (CharFlags a,CharFlags b) { return CharFlags(unsigned(a)|b); }
+
+inline CharFlags operator |= (CharFlags &a,CharFlags b) { a=a|b; return a; }
+
+/* class FlagTable */
+
+class FlagTable
+ {
+   CharFlags table[128];
+
+  private:
+
+   void set(unsigned char ch,CharFlags flags) { table[ch]|=flags; }
+
+   void set(const char *zstr,CharFlags flags);
+
+  public:
+
+   FlagTable();
+
+   CharFlags operator [] (unsigned char ch) const;
+
+   static FlagTable Object;
+ };
+
+/* struct FlagChar */
+
+struct FlagChar
+ {
+  CharFlags flags;
+  char ch;
+
+  FlagChar(char ch_) : flags(FlagTable::Object[ch_]),ch(ch_) {}
+
+  operator CharFlags() const { return flags; }
+ };
+
+/* enum TokenClass; */
+
+enum TokenClass
+ {
+  TokenNull = 0,
+
+  TokenId,
+  TokenKeyword,
+  TokenNumber,
+  TokenOp,
+  TokenString,
+  TokenChar,
+
+  TokenSpace,
+  TokenEOL,
+  TokenShortComment,
+  TokenLongComment
+ };
+
+/* struct Token */
+
+struct Token
+ {
+  StrLen str;
+  TokenClass tc = TokenNull ;
+ };
+
+/* class Tokenizer */
+
+class Tokenizer
+ {
+   StrLen text;
+
+  private:
+
+   static StrLen ScanId(StrLen text);
+
+   static bool TestKeyword(StrLen str);
+
+  private:
+
+   StrLen cut(StrLen suffix);
+
+   Token nextId();
+
+  public:
+
+   explicit Tokenizer(StrLen text_) : text(text_) {}
+
+   Token next();
+ };
+
+} // namespace CppText
+
 /* classes */
 
 class PastData;

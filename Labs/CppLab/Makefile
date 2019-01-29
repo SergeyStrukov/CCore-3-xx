@@ -28,3 +28,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET)
 
+.PHONY : kwd
+
+kwd:
+	$(HOME)/bin/CCore-Keywords.exe CppKeywords.ddl CppKeywords.txt
