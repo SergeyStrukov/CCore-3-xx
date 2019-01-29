@@ -51,6 +51,8 @@ struct SrcChar
 
   bool operator ! () const { return code==Eof; }
 
+  bool is(unsigned char ch) const { return code==ch; }
+
   // print object
 
   void print(PrinterType &out) const
@@ -108,6 +110,17 @@ class SrcCursor
 
 enum TokFlags : unsigned
  {
+  TokNull   = 0,
+
+  TokLetter = 1,
+  TokDigit  = 2,
+  TokPunct  = 4,
+  TokHex    = 8,
+  TokExt = 0x10,
+
+  TokDel = 0x20,
+  TokU4  = 0x40,
+  TokU8  = 0x80
  };
 
 inline TokFlags operator | (TokFlags a,TokFlags b) { return TokFlags(unsigned(a)|b); }
@@ -119,6 +132,12 @@ inline TokFlags operator |= (TokFlags &a,TokFlags b) { a=a|b; return a; }
 struct TokChar : SrcChar
  {
   TokFlags flags;
+
+  TokChar() {}
+
+  TokChar(SrcChar ch) : SrcChar(ch),flags(Flags(ch.code)) {}
+
+  static TokFlags Flags(Unicode ch);
  };
 
 /* class TokCursor */
@@ -127,17 +146,32 @@ class TokCursor : NoCopy
  {
    SrcCursor src;
 
+   TokChar buf[16];
 
+   unsigned off = 0 ;
+   unsigned lim = 0 ;
+
+  private:
+
+   bool provide();
+
+   bool provide(unsigned count);
+
+   void setFlags(unsigned count,TokFlags flags);
+
+   bool testHex(unsigned base,unsigned len) const;
+
+   void next();
 
   public:
 
    explicit TokCursor(StrLen text);
 
-   bool operator + () const { return ; }
+   bool operator + () const { return off<lim; }
 
-   bool operator ! () const { return ; }
+   bool operator ! () const { return off>=lim; }
 
-   TokChar operator * () const { return ; }
+   TokChar operator * () const { return buf[off]; }
 
    void operator ++ ();
  };

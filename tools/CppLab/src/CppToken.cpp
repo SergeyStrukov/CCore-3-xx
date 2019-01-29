@@ -13,6 +13,8 @@
 
 #include <inc/CppToken.h>
 
+#include <CCore/inc/ForLoop.h>
+
 namespace App {
 
 /* class SrcCursor */
@@ -106,6 +108,104 @@ void SrcCursor::operator ++ ()
     {
      next();
     }
+ }
+
+/* struct TokChar */
+
+TokFlags TokChar::Flags(Unicode ch) // TODO
+ {
+  return TokNull;
+ }
+
+/* class TokCursor */
+
+bool TokCursor::provide()
+ {
+  if( off>=lim )
+    {
+     off=0;
+
+     if( +src )
+       {
+        buf[0]=*src;
+
+        ++src;
+
+        lim=1;
+       }
+     else
+       {
+        lim=0;
+       }
+    }
+
+  return off<lim;
+ }
+
+bool TokCursor::provide(unsigned count) // TODO
+ {
+  if( lim-off<count )
+    {
+    }
+
+  return lim-off>=count;
+ }
+
+void TokCursor::setFlags(unsigned count,TokFlags flags)
+ {
+  for(unsigned i : IndLim(count) ) buf[off+i].flags|=flags;
+ }
+
+bool TokCursor::testHex(unsigned base,unsigned len) const
+ {
+  for(unsigned i : IndLim(base,base+len) ) if( !(buf[off+i].flags&TokHex) ) return false;
+
+  return true;
+ }
+
+void TokCursor::next()
+ {
+  // \EOL
+  // \uHHHH
+  // \UHHHHHHHH
+
+  if( provide() )
+    {
+     if( buf[off].is('\\') && provide(2) )
+       {
+        if( buf[off+1].is('\n') )
+          {
+           setFlags(2,TokDel);
+          }
+        else if( buf[off+1].is('u') )
+          {
+           if( provide(6) && testHex(2,4) )
+             {
+              setFlags(6,TokU4);
+             }
+          }
+        else if( buf[off+1].is('U') )
+          {
+           if( provide(10) && testHex(2,8) )
+             {
+              setFlags(10,TokU8);
+             }
+          }
+       }
+    }
+ }
+
+TokCursor::TokCursor(StrLen text)
+ : src(text)
+ {
+  next();
+ }
+
+void TokCursor::operator ++ ()
+ {
+  off++;
+
+  next();
  }
 
 } // namespace App
