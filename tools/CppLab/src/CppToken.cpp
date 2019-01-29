@@ -14,6 +14,7 @@
 #include <inc/CppToken.h>
 
 #include <CCore/inc/ForLoop.h>
+#include <CCore/inc/Exception.h>
 
 namespace App {
 
@@ -52,29 +53,21 @@ void SrcCursor::next()
 
      nextSym();
 
+     if( new_line )
+       {
+        cur.line++;
+        cur.pos=1;
+       }
+     else
+       {
+        cur.pos++;
+       }
+
      if( cur.code=='\r' )
        {
         if( +text && *text=='\n' ) ++text;
 
         cur.code='\n';
-
-        cur.pos++;
-       }
-     else if( cur.code=='\n' )
-       {
-        cur.pos++;
-       }
-     else
-       {
-        if( new_line )
-          {
-           cur.line++;
-           cur.pos=1;
-          }
-        else
-          {
-           cur.pos++;
-          }
        }
     }
   else
@@ -110,11 +103,34 @@ void SrcCursor::operator ++ ()
     }
  }
 
-/* struct TokChar */
+/* class FlagTable */
 
-TokFlags TokChar::Flags(Unicode ch) // TODO
+FlagTable FlagTable::Object;
+
+void FlagTable::set(const char *zstr,TokFlags flags)
  {
-  return TokNull;
+  for(; char ch=*zstr ;++zstr) set(ch,flags);
+ }
+
+FlagTable::FlagTable()
+ {
+  Range(table).set(TokNull);
+
+  set("abcdefghijklmnopqrstuvwxyz",TokLetter);
+  set("ABCDEFGHIJKLMNOPQRSTUVWXYZ_",TokLetter);
+  set("0123456789",TokDigit);
+  set("{}[]#()<>%:;.?*+-/^&|~!=,\\\"’",TokPunct);
+  set("0123456789abcdefABCDEF",TokHex);
+  set(" \n\b\t\v\f",TokSpace);
+ }
+
+TokFlags FlagTable::operator [] (Unicode ch) const
+ {
+  if( ch==SrcChar::Broken ) return TokNull;
+
+  if( ch>=128 ) return TokExt;
+
+  return table[ch];
  }
 
 /* class TokCursor */
@@ -142,16 +158,31 @@ bool TokCursor::provide()
   return off<lim;
  }
 
-bool TokCursor::provide(unsigned count) // TODO
+bool TokCursor::provide(unsigned count)
  {
-  if( unsigned len=lim-off; len<count )
+  if( count>Len )
+    {
+     Printf(Exception,"App::TokCursor::provide(#;) : internal",count);
+    }
+
+  if( unsigned len=lim-off ; len<count )
     {
      if( Len-off<count )
        {
-        for(unsigned i : IndLim() ) buf[i]=buf[i+off];
+        for(unsigned i : IndLim(len) ) buf[i]=buf[i+off];
+
+        off=0;
+        lim=len;
        }
 
+     unsigned stop=off+count;
 
+     while( lim<stop && +src )
+       {
+        buf[lim++]=*src;
+
+        ++src;
+       }
     }
 
   return lim-off>=count;

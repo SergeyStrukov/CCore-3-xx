@@ -16,7 +16,7 @@
 
 #include <CCore/inc/Utf8.h>
 #include <CCore/inc/CharProp.h>
-#include <CCore/inc/Printf.h>
+#include <CCore/inc/PrintBits.h>
 
 namespace App {
 
@@ -31,6 +31,8 @@ struct SrcChar;
 class SrcCursor;
 
 //enum TokFlags;
+
+class FlagTable;
 
 struct TokChar;
 
@@ -112,20 +114,43 @@ enum TokFlags : unsigned
  {
   TokNull   = 0,
 
-  TokLetter = 1,
-  TokDigit  = 2,
-  TokPunct  = 4,
-  TokHex    = 8,
-  TokExt = 0x10,
+  TokLetter = Bit(0),
+  TokDigit  = Bit(1),
+  TokPunct  = Bit(2),
+  TokHex    = Bit(3),
 
-  TokDel = 0x20,
-  TokU4  = 0x40,
-  TokU8  = 0x80
+  TokSpace  = Bit(4),
+  TokExt    = Bit(5),
+
+  TokDel    = Bit(6),
+  TokU4     = Bit(7),
+  TokU8     = Bit(8)
  };
 
 inline TokFlags operator | (TokFlags a,TokFlags b) { return TokFlags(unsigned(a)|b); }
 
 inline TokFlags operator |= (TokFlags &a,TokFlags b) { a=a|b; return a; }
+
+/* class FlagTable */
+
+class FlagTable
+ {
+   TokFlags table[128];
+
+  private:
+
+   void set(unsigned char ch,TokFlags flags) { table[ch]|=flags; }
+
+   void set(const char *zstr,TokFlags flags);
+
+  public:
+
+   FlagTable();
+
+   TokFlags operator [] (Unicode ch) const;
+
+   static FlagTable Object;
+ };
 
 /* struct TokChar */
 
@@ -133,11 +158,32 @@ struct TokChar : SrcChar
  {
   TokFlags flags;
 
+  static TokFlags Flags(Unicode ch) { return FlagTable::Object[ch]; }
+
   TokChar() {}
 
   TokChar(SrcChar ch) : SrcChar(ch),flags(Flags(ch.code)) {}
 
-  static TokFlags Flags(Unicode ch);
+  // print object
+
+  void print(PrinterType &out) const
+   {
+    SrcChar::print(out);
+
+    Putobj(out," : "_c);
+
+    PrintBits<unsigned>(out,flags)
+                       (TokLetter,"Letter"_c)
+                       (TokDigit,"Digit"_c)
+                       (TokPunct,"Punct"_c)
+                       (TokHex,"Hex"_c)
+                       (TokSpace,"Space"_c)
+                       (TokExt,"Ext"_c)
+                       (TokDel,"Del"_c)
+                       (TokU4,"U4"_c)
+                       (TokU8,"U8"_c)
+                       .complete();
+   }
  };
 
 /* class TokCursor */

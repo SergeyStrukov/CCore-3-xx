@@ -23,11 +23,12 @@ namespace App {
 
 /* Process() */
 
-//void \u0410\u0411\u0412(int a) {}
+//void \u0410\u0411\u0412\
+\U00000413(int a) {}
 
 void Process(StrLen text,PrintBase &out)
  {
-  SrcCursor cur(text);
+  TokCursor cur(text);
 
   for(; +cur ;++cur) Printf(out,"#;\n",*cur);
  }
