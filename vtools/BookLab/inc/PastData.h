@@ -45,9 +45,13 @@ enum CharFlags : unsigned
   CharLetter = Bit(0),
   CharDigit  = Bit(1),
   CharPunct  = Bit(2),
-  CharHex    = Bit(3),
-  CharSpace  = Bit(4),
-  CharEOL    = Bit(5)
+  CharQuote  = Bit(3),
+  CharHex    = Bit(4),
+  CharSpace  = Bit(5),
+  CharEOL    = Bit(6),
+
+  CharPunct2 = Bit(7),
+  CharPunct3 = Bit(8)
  };
 
 inline CharFlags operator | (CharFlags a,CharFlags b) { return CharFlags(unsigned(a)|b); }
@@ -84,7 +88,7 @@ struct FlagChar
 
   FlagChar(char ch_) : flags(FlagTable::Object[ch_]),ch(ch_) {}
 
-  operator CharFlags() const { return flags; }
+  auto test(CharFlags f) const { return flags&f; }
  };
 
 /* enum TokenClass; */
@@ -124,6 +128,8 @@ class Tokenizer
   private:
 
    static StrLen ScanId(StrLen text);
+
+   static bool IsSign(char ch) { return ch=='+' || ch=='-' ; }
 
    static StrLen ScanNumber(StrLen text);
 

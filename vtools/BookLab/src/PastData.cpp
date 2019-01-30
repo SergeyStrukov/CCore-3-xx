@@ -37,10 +37,14 @@ FlagTable::FlagTable()
   set("abcdefghijklmnopqrstuvwxyz",CharLetter);
   set("ABCDEFGHIJKLMNOPQRSTUVWXYZ_",CharLetter);
   set("0123456789",CharDigit);
-  set("{}[]#()<>%:;.?*+-/^&|~!=,\\\"’",CharPunct);
+  set("{}[]()#;:?.,+-*/%^&|~!=<>",CharPunct);
+  set("\"’",CharQuote);
   set("0123456789abcdefABCDEF",CharHex);
   set(" \t\v\f",CharSpace);
   set("\r\n",CharEOL);
+
+  set("+-*/%^&|<>=!",CharPunct2);
+  set("&|<>+-:#",CharPunct3);
  }
 
 CharFlags FlagTable::operator [] (unsigned char ch) const
@@ -56,17 +60,144 @@ StrLen Tokenizer::ScanId(StrLen text)
  {
   ++text;
 
-  while( +text && (FlagChar(*text)&(CharLetter|CharDigit)) ) ++text;
+  while( +text && FlagChar(*text).test(CharLetter|CharDigit) ) ++text;
 
   return text;
  }
 
 StrLen Tokenizer::ScanNumber(StrLen text)
  {
+  if( *text=='.' )
+    text+=2;
+  else
+    ++text;
+
+  while( +text )
+    {
+     switch( char ch=*text )
+       {
+        case '.' : ++text; break;
+
+        case 'e' : case 'E' : case 'p' : case 'P' :
+         {
+          if( text.len>=2 && IsSign(text[1]) )
+            text+=2;
+          else
+            ++text;
+         }
+        break;
+
+        case '\'' :
+         {
+          if( text.len>=2 && FlagChar(text[1]).test(CharLetter|CharDigit) )
+            text+=2;
+          else
+            return text;
+         }
+        break;
+
+        default:
+         {
+          if( FlagChar(ch).test(CharLetter|CharDigit) )
+            {
+             ++text;
+            }
+          else
+            {
+             return text;
+            }
+         }
+       }
+    }
+
+  return text;
  }
 
 StrLen Tokenizer::ScanOp(StrLen text)
  {
+  //
+  // { } [ ] ( ) #
+  // ; : ? . , + - * / % ^ & | ~ ! = < >
+  //
+
+  if( text.len==1 ) return text.part(1);
+
+  char ch=text[0];
+
+  //
+  // += -= *= /= %= ^= &= |= <= >= == !=
+  //
+
+  if( text[1]=='=' )
+    {
+     if( FlagChar(ch).test(CharPunct2) )
+       return text.part(2);
+     else
+       return text.part(1);
+    }
+
+  //
+  // .* ->
+  //
+  // ... ->*
+  //
+
+  switch( ch )
+    {
+     case '.' :
+      {
+       switch( text[1] )
+         {
+          case '*' :
+           {
+            return text.part(2);
+           }
+          break;
+
+          case '.' :
+           {
+            if( text.len>=3 && text[2]=='.' ) return text.part(3);
+           }
+          break;
+         }
+
+       return text.part(1);
+      }
+     break;
+
+     case '-' :
+      {
+       if( text[1]=='>' )
+         {
+          if( text.len>=3 && text[2]=='*' )
+            return text.part(3);
+          else
+            return text.part(2);
+         }
+
+       return text.part(1);
+      }
+     break;
+    }
+
+  //
+  // && || << >> ++ -- :: ##
+  //
+  // <<= >>=
+  //
+
+  if( text[1]==ch )
+    {
+     if( FlagChar(ch).test(CharPunct3) )
+       {
+        if( text.len>=3 && text[2]=='=' && ( ch=='<' || ch=='>' ) )
+          return text.part(3);
+        else
+          return text.part(2);
+       }
+    }
+
+  return text.part(1);
  }
 
 StrLen Tokenizer::ScanChar(StrLen text)
@@ -81,7 +212,7 @@ StrLen Tokenizer::ScanShortComment(StrLen text)
  {
   text+=2;
 
-  while( +text && !(FlagChar(*text)&CharEOL) ) ++text;
+  while( +text && !FlagChar(*text).test(CharEOL) ) ++text;
 
   return text;
  }
@@ -109,7 +240,7 @@ StrLen Tokenizer::ScanSpace(StrLen text)
  {
   ++text;
 
-  while( +text && (FlagChar(*text)&CharSpace) ) ++text;
+  while( +text && FlagChar(*text).test(CharSpace) ) ++text;
 
   return text;
  }
@@ -134,9 +265,9 @@ StrLen Tokenizer::ScanOther(StrLen text)
  {
   ++text;
 
-  const CharFlags flags=CharLetter|CharDigit|CharPunct|CharSpace|CharEOL;
+  const CharFlags flags=CharLetter|CharDigit|CharPunct|CharQuote|CharSpace|CharEOL;
 
-  while( +text && !(FlagChar(*text)&flags) ) ++text;
+  while( +text && !FlagChar(*text).test(flags) ) ++text;
 
   return text;
  }
@@ -1333,15 +1464,15 @@ Token Tokenizer::next()
 
   FlagChar fc(*text);
 
-  if( fc&CharLetter )
+  if( fc.test(CharLetter) )
     {
      return nextId();
     }
-  else if( fc&CharDigit )
+  else if( fc.test(CharDigit) )
     {
      return nextNumber();
     }
-  else if( fc&CharPunct )
+  else if( fc.test(CharPunct) )
     {
      if( fc.ch=='/' )
        {
@@ -1358,25 +1489,28 @@ Token Tokenizer::next()
        {
         if( text.len>1 )
           {
-           if( FlagChar(text[1])&CharDigit ) return nextNumber();
+           if( FlagChar(text[1]).test(CharDigit) ) return nextNumber();
           }
-       }
-     else if( fc.ch=='\'' )
-       {
-        return nextChar();
-       }
-     else if( fc.ch=='"' )
-       {
-        return nextString();
        }
 
      return nextOp();
     }
-  else if( fc&CharSpace )
+  else if( fc.test(CharQuote) )
+    {
+     if( fc.ch=='"' )
+       {
+        return nextString();
+       }
+     else
+       {
+        return nextChar();
+       }
+    }
+  else if( fc.test(CharSpace) )
     {
      return nextSpace();
     }
-  else if( fc&CharEOL )
+  else if( fc.test(CharEOL) )
     {
      return nextEOL();
     }
