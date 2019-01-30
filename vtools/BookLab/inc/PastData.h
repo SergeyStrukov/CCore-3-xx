@@ -46,7 +46,8 @@ enum CharFlags : unsigned
   CharDigit  = Bit(1),
   CharPunct  = Bit(2),
   CharHex    = Bit(3),
-  CharSpace  = Bit(4)
+  CharSpace  = Bit(4),
+  CharEOL    = Bit(5)
  };
 
 inline CharFlags operator | (CharFlags a,CharFlags b) { return CharFlags(unsigned(a)|b); }
@@ -57,7 +58,7 @@ inline CharFlags operator |= (CharFlags &a,CharFlags b) { a=a|b; return a; }
 
 class FlagTable
  {
-   CharFlags table[128];
+   CharFlags table[256];
 
   private:
 
@@ -102,7 +103,8 @@ enum TokenClass
   TokenSpace,
   TokenEOL,
   TokenShortComment,
-  TokenLongComment
+  TokenLongComment,
+  TokenOther
  };
 
 /* struct Token */
@@ -123,6 +125,24 @@ class Tokenizer
 
    static StrLen ScanId(StrLen text);
 
+   static StrLen ScanNumber(StrLen text);
+
+   static StrLen ScanOp(StrLen text);
+
+   static StrLen ScanChar(StrLen text);
+
+   static StrLen ScanString(StrLen text);
+
+   static StrLen ScanShortComment(StrLen text);
+
+   static StrLen ScanLongComment(StrLen text);
+
+   static StrLen ScanSpace(StrLen text);
+
+   static StrLen ScanEOL(StrLen text);
+
+   static StrLen ScanOther(StrLen text);
+
    static bool TestKeyword(StrLen str);
 
   private:
@@ -130,6 +150,24 @@ class Tokenizer
    StrLen cut(StrLen suffix);
 
    Token nextId();
+
+   Token nextNumber();
+
+   Token nextOp();
+
+   Token nextChar();
+
+   Token nextString();
+
+   Token nextShortComment();
+
+   Token nextLongComment();
+
+   Token nextSpace();
+
+   Token nextEOL();
+
+   Token nextOther();
 
   public:
 

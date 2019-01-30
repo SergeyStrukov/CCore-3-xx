@@ -39,12 +39,13 @@ FlagTable::FlagTable()
   set("0123456789",CharDigit);
   set("{}[]#()<>%:;.?*+-/^&|~!=,\\\"’",CharPunct);
   set("0123456789abcdefABCDEF",CharHex);
-  set(" \n\b\t\v\f",CharSpace);
+  set(" \t\v\f",CharSpace);
+  set("\r\n",CharEOL);
  }
 
 CharFlags FlagTable::operator [] (unsigned char ch) const
  {
-  if( ch>=128 ) return CharNull;
+  if( ch>=DimOf(table) ) return CharNull;
 
   return table[ch];
  }
@@ -56,6 +57,86 @@ StrLen Tokenizer::ScanId(StrLen text)
   ++text;
 
   while( +text && (FlagChar(*text)&(CharLetter|CharDigit)) ) ++text;
+
+  return text;
+ }
+
+StrLen Tokenizer::ScanNumber(StrLen text)
+ {
+ }
+
+StrLen Tokenizer::ScanOp(StrLen text)
+ {
+ }
+
+StrLen Tokenizer::ScanChar(StrLen text)
+ {
+ }
+
+StrLen Tokenizer::ScanString(StrLen text)
+ {
+ }
+
+StrLen Tokenizer::ScanShortComment(StrLen text)
+ {
+  text+=2;
+
+  while( +text && !(FlagChar(*text)&CharEOL) ) ++text;
+
+  return text;
+ }
+
+StrLen Tokenizer::ScanLongComment(StrLen text)
+ {
+  text+=2;
+
+  while( text.len>=2 )
+    if( text[0]=='*' && text[1]=='/' )
+      {
+       text+=2;
+
+       return text;
+      }
+    else
+      {
+       ++text;
+      }
+
+  return text;
+ }
+
+StrLen Tokenizer::ScanSpace(StrLen text)
+ {
+  ++text;
+
+  while( +text && (FlagChar(*text)&CharSpace) ) ++text;
+
+  return text;
+ }
+
+StrLen Tokenizer::ScanEOL(StrLen text)
+ {
+  if( *text=='\r' )
+    {
+     ++text;
+
+     if( +text && *text=='\n' ) ++text;
+    }
+  else
+    {
+     ++text;
+    }
+
+  return text;
+ }
+
+StrLen Tokenizer::ScanOther(StrLen text)
+ {
+  ++text;
+
+  const CharFlags flags=CharLetter|CharDigit|CharPunct|CharSpace|CharEOL;
+
+  while( +text && !(FlagChar(*text)&flags) ) ++text;
 
   return text;
  }
@@ -1176,11 +1257,74 @@ StrLen Tokenizer::cut(StrLen suffix)
   return str;
  }
 
-Token Tokenizer::nextId()
+Token Tokenizer::nextId() // L...
  {
   StrLen str=cut(ScanId(text));
 
   return {str,TestKeyword(str)?TokenKeyword:TokenId};
+ }
+
+Token Tokenizer::nextNumber() // D...  .D...
+ {
+  StrLen str=cut(ScanNumber(text));
+
+  return {str,TokenNumber};
+ }
+
+Token Tokenizer::nextOp() // P...
+ {
+  StrLen str=cut(ScanOp(text));
+
+  return {str,TokenOp};
+ }
+
+Token Tokenizer::nextChar() // '...
+ {
+  StrLen str=cut(ScanChar(text));
+
+  return {str,TokenChar};
+ }
+
+Token Tokenizer::nextString() // "...
+ {
+  StrLen str=cut(ScanString(text));
+
+  return {str,TokenString};
+ }
+
+Token Tokenizer::nextShortComment() // //...
+ {
+  StrLen str=cut(ScanShortComment(text));
+
+  return {str,TokenShortComment};
+ }
+
+Token Tokenizer::nextLongComment() // /*...
+ {
+  StrLen str=cut(ScanLongComment(text));
+
+  return {str,TokenLongComment};
+ }
+
+Token Tokenizer::nextSpace() // S...
+ {
+  StrLen str=cut(ScanSpace(text));
+
+  return {str,TokenSpace};
+ }
+
+Token Tokenizer::nextEOL() // N...
+ {
+  StrLen str=cut(ScanEOL(text));
+
+  return {str,TokenEOL};
+ }
+
+Token Tokenizer::nextOther()
+ {
+  StrLen str=cut(ScanOther(text));
+
+  return {str,TokenOther};
  }
 
 Token Tokenizer::next()
@@ -1189,21 +1333,56 @@ Token Tokenizer::next()
 
   FlagChar fc(*text);
 
-  if( fc.flags&CharLetter )
+  if( fc&CharLetter )
     {
      return nextId();
     }
-  else if( fc.flags&CharDigit )
+  else if( fc&CharDigit )
     {
+     return nextNumber();
     }
-  else if( fc.flags&CharPunct )
+  else if( fc&CharPunct )
     {
+     if( fc.ch=='/' )
+       {
+        if( text.len>1 )
+          {
+           switch( text[1] )
+             {
+              case '/' : return nextShortComment();
+              case '*' : return nextLongComment();
+             }
+          }
+       }
+     else if( fc.ch=='.' )
+       {
+        if( text.len>1 )
+          {
+           if( FlagChar(text[1])&CharDigit ) return nextNumber();
+          }
+       }
+     else if( fc.ch=='\'' )
+       {
+        return nextChar();
+       }
+     else if( fc.ch=='"' )
+       {
+        return nextString();
+       }
+
+     return nextOp();
     }
-  else if( fc.flags&CharSpace )
+  else if( fc&CharSpace )
     {
+     return nextSpace();
+    }
+  else if( fc&CharEOL )
+    {
+     return nextEOL();
     }
   else
     {
+     return nextOther();
     }
  }
 
