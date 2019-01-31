@@ -38,7 +38,7 @@ FlagTable::FlagTable()
   set("ABCDEFGHIJKLMNOPQRSTUVWXYZ_",CharLetter);
   set("0123456789",CharDigit);
   set("{}[]()#;:?.,+-*/%^&|~!=<>",CharPunct);
-  set("\"’",CharQuote);
+  set("\"'",CharQuote);
   set(" \t\v\f",CharSpace);
   set("\r\n",CharEOL);
 
