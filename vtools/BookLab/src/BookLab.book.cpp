@@ -773,11 +773,7 @@ class Book::BookContext : NextIndex
        {
         if( !Change(first,false) ) putstr(","_c);
 
-        putstr("{\n");
-
         elem(Range(line.list));
-
-        putstr("}\n");
        }
 
      putstr("}\n"_c);
