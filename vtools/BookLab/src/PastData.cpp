@@ -1865,8 +1865,112 @@ class PastData::TokenBuilder
      buf.append_fill(std::move(obj));
     }
 
-   void addLong(StrLen body,StrLen format) // TODO
+   enum LineTokenClass
     {
+     LineTokenNull = 0,
+
+     LineTokenText,
+     LineTokenEOL
+    };
+
+   struct LineToken
+    {
+     StrLen str;
+     LineTokenClass tc = LineTokenNull ;
+    };
+
+   class LineParser
+    {
+      StrLen text;
+
+     private:
+
+      static StrLen ScanEOL(StrLen text)
+       {
+        if( *text=='\r' )
+          {
+           ++text;
+
+           if( +text && *text=='\n' ) ++text;
+          }
+        else
+          {
+           ++text;
+          }
+
+        return text;
+       }
+
+      static bool IsEOL(char ch) { return ch=='\r' || ch=='\n' ; }
+
+      static StrLen ScanText(StrLen text)
+       {
+        while( +text && !IsEOL(*text) ) ++text;
+
+        return text;
+       }
+
+     private:
+
+      StrLen cut(StrLen suffix)
+       {
+        StrLen str=text.prefix(suffix);
+
+        text=suffix;
+
+        return str;
+       }
+
+      LineToken nextEOL()
+       {
+        StrLen str=cut(ScanEOL(text));
+
+        return {str,LineTokenEOL};
+       }
+
+      LineToken nextText()
+       {
+        StrLen str=cut(ScanText(text));
+
+        return {str,LineTokenText};
+       }
+
+     public:
+
+      explicit LineParser(StrLen text_) : text(text_) {}
+
+      LineToken next()
+       {
+        if( !text ) return {};
+
+        char ch=*text;
+
+        if( ch=='\n' || ch=='\r' )
+          return nextEOL();
+        else
+          return nextText();
+       }
+    };
+
+   void addLong(StrLen body,StrLen format)
+    {
+     LineParser parser(body);
+
+     for(;;)
+       {
+        LineToken token=parser.next();
+
+        if( !token.tc ) break;
+
+        if( token.tc==LineTokenEOL )
+          {
+           eol();
+          }
+        else
+          {
+           add(token.str,format);
+          }
+       }
     }
 
   public:
