@@ -39,9 +39,11 @@ FlagTable::FlagTable()
   set("0123456789",CharDigit);
   set("{}[]()#;:?.,+-*/%^&|~!=<>",CharPunct);
   set("\"’",CharQuote);
-  set("0123456789abcdefABCDEF",CharHex);
   set(" \t\v\f",CharSpace);
   set("\r\n",CharEOL);
+
+  set("0123456789abcdefABCDEF",CharHex);
+  set("01234567",CharOct);
 
   set("+-*/%^&|<>=!",CharPunct2);
   set("&|<>+-:#",CharPunct3);
@@ -200,12 +202,106 @@ StrLen Tokenizer::ScanOp(StrLen text)
   return text.part(1);
  }
 
+StrLen Tokenizer::ScanEscape(StrLen text)
+ {
+  if( !text ) return text;
+
+  char ch=*text;
+
+  ++text;
+
+  if( ch=='x' )
+    {
+     while( +text && FlagChar(*text).test(CharHex) ) ++text;
+    }
+  else if( FlagChar(ch).test(CharOct) )
+    {
+     unsigned count=2;
+
+     while( count && +text && FlagChar(*text).test(CharOct) ) ++text,count--;
+    }
+
+  return text;
+ }
+
 StrLen Tokenizer::ScanChar(StrLen text)
  {
+  ++text;
+
+  while( +text )
+    {
+     switch( *text )
+       {
+        case '\'' :
+         {
+          ++text;
+
+          return text;
+         }
+        break;
+
+        case '\\' :
+         {
+          ++text;
+
+          text=ScanEscape(text);
+         }
+        break;
+
+        case '\r' : case '\n' :
+         {
+          return text;
+         }
+        break;
+
+        default:
+         {
+          ++text;
+         }
+       }
+    }
+
+  return text;
  }
 
 StrLen Tokenizer::ScanString(StrLen text)
  {
+  ++text;
+
+  while( +text )
+    {
+     switch( *text )
+       {
+        case '"' :
+         {
+          ++text;
+
+          return text;
+         }
+        break;
+
+        case '\\' :
+         {
+          ++text;
+
+          text=ScanEscape(text);
+         }
+        break;
+
+        case '\r' : case '\n' :
+         {
+          return text;
+         }
+        break;
+
+        default:
+         {
+          ++text;
+         }
+       }
+    }
+
+  return text;
  }
 
 StrLen Tokenizer::ScanShortComment(StrLen text)
@@ -1748,9 +1844,89 @@ void PastData::load(StrLen text)
   if( !parseCombo(text) ) parseSimple(text);
  }
 
-void PastData::loadCPP(StrLen text) // TODO
+class PastData::TokenBuilder
  {
-  Used(text);
+   Collector<Line> buf;
+   Collector<Span> spanbuf;
+
+  private:
+
+   void add(StrLen body,StrLen format)
+    {
+     spanbuf.append_copy({body,format});
+    }
+
+   void eol()
+    {
+     Line obj;
+
+     spanbuf.extractTo(obj.list);
+
+     buf.append_fill(std::move(obj));
+    }
+
+   void addLong(StrLen body,StrLen format) // TODO
+    {
+    }
+
+  public:
+
+   TokenBuilder() {}
+
+   ~TokenBuilder() {}
+
+   void add(CppText::Token token)
+    {
+     switch( token.tc )
+       {
+        case CppText::TokenId : add(token.str,"cfmt_name"_c); break;
+
+        case CppText::TokenKeyword : add(token.str,"cfmt_keyword"_c); break;
+
+        case CppText::TokenNumber : add(token.str,"cfmt_number"_c); break;
+
+        case CppText::TokenOp : add(token.str,"cfmt_op"_c); break;
+
+        case CppText::TokenString : add(token.str,"cfmt_string"_c); break;
+
+        case CppText::TokenChar : add(token.str,"cfmt_char"_c); break;
+
+        case CppText::TokenSpace : add(token.str,"cfmt"_c); break;
+
+        case CppText::TokenEOL : eol(); break;
+
+        case CppText::TokenShortComment : add(token.str,"cfmt_short_comment"_c); break;
+
+        case CppText::TokenLongComment : addLong(token.str,"cfmt_long_comment"_c); break;
+
+        case CppText::TokenOther : add(token.str,"cfmt_other"_c); break;
+       }
+    }
+
+   void complete(DynArray<Line> &list)
+    {
+     if( spanbuf.getLen() ) eol();
+
+     buf.extractTo(list);
+    }
+ };
+
+void PastData::loadCPP(StrLen text)
+ {
+  CppText::Tokenizer tokenizer(text);
+
+  TokenBuilder builder;
+
+  for(;;)
+    {
+     CppText::Token token=tokenizer.next();
+
+     if( !token.tc ) break;
+
+     builder.add(token);
+    }
+
+  builder.complete(list);
  }
 
 } // namespace App

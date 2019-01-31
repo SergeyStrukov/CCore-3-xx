@@ -46,12 +46,14 @@ enum CharFlags : unsigned
   CharDigit  = Bit(1),
   CharPunct  = Bit(2),
   CharQuote  = Bit(3),
-  CharHex    = Bit(4),
-  CharSpace  = Bit(5),
-  CharEOL    = Bit(6),
+  CharSpace  = Bit(4),
+  CharEOL    = Bit(5),
 
-  CharPunct2 = Bit(7),
-  CharPunct3 = Bit(8)
+  CharHex    = Bit(6),
+  CharOct    = Bit(7),
+
+  CharPunct2 = Bit(8),
+  CharPunct3 = Bit(9)
  };
 
 inline CharFlags operator | (CharFlags a,CharFlags b) { return CharFlags(unsigned(a)|b); }
@@ -134,6 +136,8 @@ class Tokenizer
    static StrLen ScanNumber(StrLen text);
 
    static StrLen ScanOp(StrLen text);
+
+   static StrLen ScanEscape(StrLen text);
 
    static StrLen ScanChar(StrLen text);
 
@@ -280,6 +284,8 @@ class PastData : public Funchor
    void load(StrLen text);
 
   private:
+
+   class TokenBuilder;
 
    void loadCPP(StrLen text);
  };
