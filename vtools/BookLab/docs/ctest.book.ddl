@@ -4,13 +4,19 @@ Book Data = { .title = "C++ test" , .start = & #Doc#page1 } ;
 
 scope Doc {
 
+Point DefaultInner = { 10 , 10 } ;
+
+Point DefaultOuter = { 5 , 5 } ;
+
+DoubleLine line = { { 3 , 2 } , 0808080h , 0E6E6FAh } ;
+
 Font cfont = { "Anonymous Pro" , 22 , False , False , 0 } ;
 
 Font cfont_bold = { "Anonymous Pro" , 22 , True , False , 0 } ;
 
 Format cfmt = { & cfont , NoColor , NoColor , 0 } ;
 
-Format cfmt_long_comment = { & cfont , NoColor , 06400h , 0 } ;
+Format cfmt_long_comment = { & cfont , 0F5DEB3h , 06400h , 0 } ;
 
 Format cfmt_keyword = { & cfont , NoColor , 0CDh , 0 } ;
 
@@ -20,7 +26,13 @@ Format cfmt_number = { & cfont , NoColor , 0800000h , 0 } ;
 
 Format cfmt_op = { & cfont_bold , NoColor , NoColor , 0 } ;
 
-FixedText sample = {
+Format cfmt_string = { & cfont , 087CEEBh , 0800000h , 0 } ;
+
+Format cfmt_short_comment = { & cfont , 0F5DEB3h , 06400h , 1 } ;
+
+Format cfmt_char = { & cfont , 0FFFFh , 0800000h , 0 } ;
+
+FixedText sample1 = {
 {
 {
 { "/* enum CharFlags */" , & cfmt_long_comment , null }
@@ -258,13 +270,228 @@ FixedText sample = {
 }
 , & cfmt } ;
 
+FixedText sample2 = {
+{
+{
+{ "/* test.cpp */" , & cfmt_long_comment , null }
+}
+,{
+{ "/*----------------------------------------------------------------------------------------" , & cfmt_long_comment , null }
+}
+,{
+{ "//" , & cfmt_long_comment , null }
+}
+,{
+{ "//  Project: BookLab 1.00" , & cfmt_long_comment , null }
+}
+,{
+{ "//" , & cfmt_long_comment , null }
+}
+,{
+{ "//  License: Boost Software License - Version 1.0 - August 17th, 2003" , & cfmt_long_comment , null }
+}
+,{
+{ "//" , & cfmt_long_comment , null }
+}
+,{
+{ "//            see http://www.boost.org/LICENSE_1_0.txt or the local copy" , & cfmt_long_comment , null }
+}
+,{
+{ "//" , & cfmt_long_comment , null }
+}
+,{
+{ "//  Copyright (c) 2019 Sergey Strukov. All rights reserved." , & cfmt_long_comment , null }
+}
+,{
+{ "//" , & cfmt_long_comment , null }
+}
+,{
+{ "//--------------------------------------------------------------------------------------*/" , & cfmt_long_comment , null }
+}
+,{
+}
+,{
+{ "namespace" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "CppText" , & cfmt_name , null }
+,{ " " , & cfmt , null }
+,{ "{" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "int" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "X" , & cfmt_name , null }
+,{ "=" , & cfmt_op , null }
+,{ "12345" , & cfmt_number , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "const" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "char" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "*" , & cfmt_op , null }
+,{ "S" , & cfmt_name , null }
+,{ "=" , & cfmt_op , null }
+,{ "\"abcdefghijklmnopqrstuvwxyz\\n\\r\\t\\\"\\?\\123\\xABCDE\"" , & cfmt_string , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "char" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "C" , & cfmt_name , null }
+,{ "=" , & cfmt_op , null }
+,{ "'\\x12BC'" , & cfmt_char , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "{" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "}" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "[" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "]" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "(" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "#" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ ";" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ":" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "?" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "." , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "," , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "+" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "-" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "*" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "/" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "%" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "^" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "&" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "|" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "~" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "!" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "<" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ">" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "+=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "-=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "*=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "/=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "%=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "^=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "&=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "|=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "<=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ">=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "==" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "!=" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ ".*" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "->" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "..." , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "->*" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "&&" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "||" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "<<" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ">>" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "++" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "-" , & cfmt_op , null }
+,{ "-" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "::" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "##" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "<<=" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ ">>=" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "}" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "// namespace CppText" , & cfmt_short_comment , null }
+}
+,{
+}
+}
+, & cfmt } ;
+
 Page page1 = { "sample" ,
 {
-{ & sample , & ANONYM1 , { 10 , 10 } , { 5 , 5 } , NoColor }
+{ & sample1 , & line , DefaultInner , DefaultOuter , NoColor }
+,{ & sample2 , & line , DefaultInner , DefaultOuter , NoColor }
 }
 , 0C0C0C0h , 00h , null , null , null } ;
-
-DoubleLine ANONYM1 = { { 3 , 2 } , 0808080h , 0E6E6FAh } ;
 
 
 }
