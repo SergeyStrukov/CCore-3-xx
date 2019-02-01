@@ -20,6 +20,9 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ElementPool.h>
 
+#include <CCore/inc/CompactMap.h>
+#include <CCore/inc/StrKey.h>
+
 #include <CCore/inc/video/FontLookup.h>
 #include <CCore/inc/video/Bitmap.h>
 
@@ -106,6 +109,8 @@ template <class T> struct MatrixSpan;
 
 struct Config;
 
+class FontReplace;
+
 class FontMap;
 
 class BitmapMap;
@@ -166,6 +171,23 @@ struct Config
   Config() noexcept {}
  };
 
+/* class FontReplace */
+
+class FontReplace : NoCopy
+ {
+   CompactRBTreeMap<StringKey,String,StrKey> map;
+
+  public:
+
+   FontReplace();
+
+   ~FontReplace();
+
+   StrLen operator () (StrLen face) const;
+
+   void addNotFound(StrLen face);
+ };
+
 /* class FontMap */
 
 class FontMap : NoCopy
@@ -182,6 +204,8 @@ class FontMap : NoCopy
    Ratio scale = Ratio(1,0) ;
 
    FontLookup lookup;
+
+   FontReplace replace;
 
   private:
 

@@ -32,13 +32,43 @@ bool InsSpace(StrLen text)
     }
  }
 
+/* class FontReplace */
+
+FontReplace::FontReplace()
+ {
+ }
+
+FontReplace::~FontReplace()
+ {
+ }
+
+StrLen FontReplace::operator () (StrLen face) const
+ {
+  StrKey key(face);
+
+  if( const String *obj=map.find(key) ) return Range(*obj);
+
+  return face;
+ }
+
+void FontReplace::addNotFound(StrLen face)
+ {
+ }
+
 /* class FontMap */
 
 auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
  {
-  const FontInfo *info=lookup.find(face,bold,italic);
+  const FontInfo *info=lookup.find(replace(face),bold,italic);
 
-  if( !info ) return {fallback,true,true};
+  if( !info )
+    {
+     Printf(NoException,"Font #.q; is not found",face);
+
+     replace.addNotFound(face);
+
+     return {fallback,true,true};
+    }
 
   try
     {
