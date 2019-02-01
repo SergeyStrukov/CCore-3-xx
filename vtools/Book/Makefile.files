@@ -6,6 +6,7 @@ OBJ_LIST = \
 .obj/Client.o \
 .obj/DrawBook.o \
 .obj/DrawBookTools.o \
+.obj/FontReplace.o \
 .obj/SelectFrames.o \
 .obj/SpanLenEngine.o \
 .obj/main.o \
@@ -19,6 +20,7 @@ ASM_LIST = \
 .obj/Client.s \
 .obj/DrawBook.s \
 .obj/DrawBookTools.s \
+.obj/FontReplace.s \
 .obj/SelectFrames.s \
 .obj/SpanLenEngine.s \
 .obj/main.s \
@@ -32,6 +34,7 @@ DEP_LIST = \
 .obj/Client.dep \
 .obj/DrawBook.dep \
 .obj/DrawBookTools.dep \
+.obj/FontReplace.dep \
 .obj/SelectFrames.dep \
 .obj/SpanLenEngine.dep \
 .obj/main.dep \
@@ -62,6 +65,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DrawBookTools.o : src/./DrawBookTools.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FontReplace.o : src/./FontReplace.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SelectFrames.o : src/./SelectFrames.cpp
@@ -96,6 +102,9 @@ include $(RULES_FILE)
 .obj/DrawBookTools.s : src/./DrawBookTools.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FontReplace.s : src/./FontReplace.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SelectFrames.s : src/./SelectFrames.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -127,6 +136,9 @@ include $(RULES_FILE)
 
 .obj/DrawBookTools.dep : src/./DrawBookTools.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DrawBookTools.o $< -MF $@
+
+.obj/FontReplace.dep : src/./FontReplace.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FontReplace.o $< -MF $@
 
 .obj/SelectFrames.dep : src/./SelectFrames.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SelectFrames.o $< -MF $@

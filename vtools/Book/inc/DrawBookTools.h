@@ -14,14 +14,11 @@
 #ifndef DrawBookTools_h
 #define DrawBookTools_h
 
-#include <inc/Book.h>
+#include <inc/FontReplace.h>
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ElementPool.h>
-
-#include <CCore/inc/CompactMap.h>
-#include <CCore/inc/StrKey.h>
 
 #include <CCore/inc/video/FontLookup.h>
 #include <CCore/inc/video/Bitmap.h>
@@ -109,8 +106,6 @@ template <class T> struct MatrixSpan;
 
 struct Config;
 
-class FontReplace;
-
 class FontMap;
 
 class BitmapMap;
@@ -169,23 +164,6 @@ struct Config
   RefVal<Font> codefont;
 
   Config() noexcept {}
- };
-
-/* class FontReplace */
-
-class FontReplace : NoCopy
- {
-   CompactRBTreeMap<StringKey,String,StrKey> map;
-
-  public:
-
-   FontReplace();
-
-   ~FontReplace();
-
-   StrLen operator () (StrLen face) const;
-
-   void addNotFound(StrLen face);
  };
 
 /* class FontMap */
