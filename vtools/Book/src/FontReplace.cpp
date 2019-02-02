@@ -13,9 +13,115 @@
 
 #include <inc/FontReplace.h>
 
+#include <CCore/inc/video/DesktopKey.h>
+#include <CCore/inc/video/HomeFile.h>
+
+#include <CCore/inc/ddl/DDLEngine.h>
+#include <CCore/inc/ddl/DDLTypeSet.h>
+#include <CCore/inc/FileName.h>
+#include <CCore/inc/FileToMem.h>
+
+#include <CCore/inc/Print.h>
+#include <CCore/inc/Exception.h>
+
+#include <CCore/inc/video/PrintDDL.h>
+#include <CCore/inc/PrintStem.h>
+
 namespace App {
 
+namespace FontMap {
+
+#include "FontMap.TypeDef.gen.h"
+#include "FontMap.TypeSet.gen.h"
+
+} // namespace FontMap
+
 /* class FontReplace */
+
+StrLen FontReplace::ReplaceFile() { return "/FontReplace.ddl"_c; }
+
+StrLen FontReplace::Pretext()
+ {
+  return
+"struct Entry\n"
+" {\n"
+"  text face;\n"
+"  text replace;\n"
+" };\n"
+"\n"
+"struct Map\n"
+" {\n"
+"  Entry[] list;\n"
+" };\n"_c;
+ }
+
+void FontReplace::loadDDL(StrLen file_name)
+ {
+  map.erase();
+
+  char temp[512];
+  PrintBuf eout(Range(temp));
+  DDL::FileEngine<FileName,FileToMem> engine(eout);
+
+  auto result=engine.process(file_name,Pretext());
+
+  if( !result )
+    {
+     Printf(Exception,"App::FontReplace::loadDDL(#.q;) : input file processing error\n#;",file_name,eout.close());
+    }
+  else
+    {
+     DDL::TypedMap<FontMap::TypeSet> map(result);
+     MemAllocGuard guard(map.getLen());
+
+     map(guard);
+
+     // populate
+
+     FontMap::TypeDef::Map obj=map.takeConst<FontMap::TypeDef::Map>("Data");
+
+     for(auto entry : obj.list.getRange() ) add(entry.face,entry.replace);
+    }
+ }
+
+void FontReplace::saveDDL(StrLen file_name) const
+ {
+  PrintFile out(file_name);
+
+  Putobj(out,"Map Data={{"_c);
+
+  PrintFirst stem(""_c,","_c);
+
+  map.applyIncr( [&] (const StringKey &key,const String &val)
+                     {
+                      Printf(out,"#;\n{ #; , #; }",stem,DDLPrintableString(key.str),DDLPrintableString(val));
+                     } );
+
+  Putobj(out,"\n}};"_c);
+ }
+
+void FontReplace::load(StrLen dir,StrLen file)
+ {
+  HomeFile home_file(dir,file);
+
+  if( home_file.exist() ) loadDDL(home_file.get());
+ }
+
+void FontReplace::save(StrLen dir,StrLen file) const
+ {
+  HomeFile home_file(dir,file);
+
+  home_file.createDir();
+
+  saveDDL(home_file.get());
+ }
+
+void FontReplace::add(StrLen face,StrLen replace)
+ {
+  StrKey key(face);
+
+  map.find_or_add(key,replace);
+ }
 
 FontReplace::FontReplace()
  {
@@ -44,12 +150,15 @@ void FontReplace::addNotFound(StrLen face)
   map.find_or_add(key);
  }
 
-void FontReplace::load()
+void FontReplace::load() noexcept
  {
+  try { load(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
-void FontReplace::save()
+void FontReplace::save() const noexcept
  {
+  try { save(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
 } // namespace App
+

@@ -31,6 +31,22 @@ class FontReplace : NoCopy
  {
    CompactRBTreeMap<StringKey,String,StrKey> map;
 
+  private:
+
+   static StrLen ReplaceFile();
+
+   static StrLen Pretext();
+
+   void loadDDL(StrLen file_name);
+
+   void saveDDL(StrLen file_name) const;
+
+   void load(StrLen dir,StrLen file);
+
+   void save(StrLen dir,StrLen file) const;
+
+   void add(StrLen face,StrLen replace);
+
   public:
 
    FontReplace();
@@ -41,9 +57,9 @@ class FontReplace : NoCopy
 
    void addNotFound(StrLen face);
 
-   void load();
+   void load() noexcept;
 
-   void save();
+   void save() const noexcept;
  };
 
 } // namespace App

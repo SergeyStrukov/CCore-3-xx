@@ -199,6 +199,8 @@ class FontMap : NoCopy
 
    ~FontMap() {}
 
+   void load() { replace.load(); }
+
    void cache(FontLookup::Incremental &inc,bool use_cache=true) { lookup.cache(inc,use_cache); }
 
    void erase()
@@ -411,6 +413,8 @@ class ExtMap : NoCopy
    ExtMap() {}
 
    ~ExtMap() {}
+
+   void load() { font.load(); }
 
    void cache(FontLookup::Incremental &inc,bool use_cache=true) { font.cache(inc,use_cache); }
 

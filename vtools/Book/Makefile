@@ -39,3 +39,8 @@ inc/Book1.TypeDef.gen.h : docs/Book1.ddl
 
 src/./Book1.Pretext.gen.h : docs/Book1.ddl
 	$(MakeString) -s docs/Book1.ddl src/Book1.Pretext.gen.h
+
+.PHONY: font
+
+font:
+	$(TypeSet) src/FontMap.ddl src/FontMap.TypeDef.gen.h src/FontMap.TypeSet.gen.h

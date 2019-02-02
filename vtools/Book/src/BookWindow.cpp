@@ -1240,6 +1240,8 @@ void BookWindow::open()
  {
   ComboWindow::open();
 
+  ext_map.load();
+
   if( font_flag )
     {
      ext_map.cache(font_inc);

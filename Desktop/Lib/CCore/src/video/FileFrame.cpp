@@ -190,22 +190,36 @@ void DirHitList::saveDDL(StrLen file_name) const
   Putobj(out,"\n  }\n };\n\n");
  }
 
-void DirHitList::load(StrLen hit_file)
+void DirHitList::load(StrLen hit_file) noexcept
  {
-  if( !hit_file ) return;
+  if( !hit_file )
+    {
+     hit_len=0;
+     last_len=0;
+
+     return;
+    }
 
   try
     {
      HomeFile file(HomeKey(),hit_file);
 
-     loadDDL(file.get());
+     if( file.exist() )
+       {
+        loadDDL(file.get());
+       }
+     else
+       {
+        hit_len=0;
+        last_len=0;
+       }
     }
   catch(...)
     {
     }
  }
 
-void DirHitList::save(StrLen hit_file) const
+void DirHitList::save(StrLen hit_file) const noexcept
  {
   if( !hit_file ) return;
 

@@ -86,9 +86,9 @@ class DirHitList : NoCopy
 
    void saveDDL(StrLen file_name) const;
 
-   void load(StrLen hit_file);
+   void load(StrLen hit_file) noexcept;
 
-   void save(StrLen hit_file) const;
+   void save(StrLen hit_file) const noexcept;
 
    void add(StrLen dir_name);
 
