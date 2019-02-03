@@ -210,6 +210,8 @@ class FontReplaceWindow : public ComboWindow
 
    Point getMinSize() const;
 
+   void update();
+
    // drawing
 
    virtual void layout();
@@ -297,6 +299,8 @@ class FontReplaceFrame : public DragFrame
    virtual ~FontReplaceFrame();
 
    // methods
+
+   void update() { client.update(); }
 
    // base
 
