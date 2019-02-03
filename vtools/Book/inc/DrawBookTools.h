@@ -183,7 +183,7 @@ class FontMap : NoCopy
 
    FontLookup lookup;
 
-   FontReplace replace;
+   FontReplace &replace;
 
   private:
 
@@ -195,11 +195,9 @@ class FontMap : NoCopy
 
   public:
 
-   FontMap() : lookup(FontLookup::None) {}
+   explicit FontMap(FontReplace &replace_) : lookup(FontLookup::None),replace(replace_) {}
 
    ~FontMap() {}
-
-   void load() { replace.load(); }
 
    void cache(FontLookup::Incremental &inc,bool use_cache=true) { lookup.cache(inc,use_cache); }
 
@@ -410,11 +408,9 @@ class ExtMap : NoCopy
 
   public:
 
-   ExtMap() {}
+   explicit ExtMap(FontReplace &replace) : font(replace) {}
 
    ~ExtMap() {}
-
-   void load() { font.load(); }
 
    void cache(FontLookup::Incremental &inc,bool use_cache=true) { font.cache(inc,use_cache); }
 

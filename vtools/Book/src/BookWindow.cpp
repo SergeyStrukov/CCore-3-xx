@@ -45,6 +45,8 @@ bool InnerBookWindow::cache() const
 
            Point ds=shape.set(cfg,map,scale,frames[i],i,wdx,s.y);
 
+           updateReplace.assert();
+
            s=StackYSize_guarded(s,ds);
           }
 
@@ -621,7 +623,8 @@ DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,D
    connector_changed(this,&DisplayBookWindow::changed,window.changed),
 
    link(window.link),
-   hint(window.hint)
+   hint(window.hint),
+   updateReplace(window.updateReplace)
  {
  }
 
@@ -675,7 +678,9 @@ void DisplayBookWindow::setScale(Ratio scale)
 DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,DrawBook::ExtMap &map,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
-   client(*this,cfg.book_cfg,map)
+   client(*this,cfg.book_cfg,map),
+
+   updateReplace(client.updateReplace)
  {
   bindClient(client);
  }
@@ -858,7 +863,8 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,line2,spinor,line3,back_btn,fore_btn,book);
+     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,
+                  line2,spinor,line3,knob_replace,line4,back_btn,fore_btn,book);
 
      book.setFocus();
 
@@ -1013,10 +1019,26 @@ void BookWindow::setScale(int scale_)
   popup.setScale(scale);
  }
 
+void BookWindow::updateReplace()
+ {
+  replace_frame.update();
+ }
+
+void BookWindow::openReplace()
+ {
+  if( replace_frame.isDead() ) replace_frame.create(getFrame());
+ }
+
+void BookWindow::replaceApply() // TODO
+ {
+ }
+
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
    opt(opt_),
+
+   ext_map(replace),
 
    label_title(wlist,cfg.label_cfg,cfg.text_Title),
    text_title(wlist,cfg.text_cfg),
@@ -1036,6 +1058,10 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    line3(wlist,cfg.line_cfg),
 
+   knob_replace(wlist,cfg.knob_cfg,KnobShape::FaceAsterisk),
+
+   line4(wlist,cfg.line_cfg),
+
    back_btn(wlist,cfg.back_cfg,BackShape::BackDir),
    fore_btn(wlist,cfg.back_cfg,BackShape::ForeDir),
 
@@ -1045,6 +1071,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    msg(host.getFrameDesktop(),cfg.msg_cfg,update),
 
    popup(host.getFrameDesktop(),cfg.popup_cfg,ext_map,update),
+
+   replace_frame(host.getFrameDesktop(),cfg.replace_cfg,replace,update),
 
    progress_control(progress),
    font_inc(progress_control),
@@ -1061,7 +1089,11 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    connector_up_pressed(this,&BookWindow::gotoUp,knob_up.pressed),
    connector_next_pressed(this,&BookWindow::gotoNext,knob_next.pressed),
 
-   connector_scale_changed(this,&BookWindow::setScale,spinor.changed)
+   connector_scale_changed(this,&BookWindow::setScale,spinor.changed),
+   connector_book_updateReplace(this,&BookWindow::updateReplace,book.updateReplace),
+   connector_popup_updateReplace(this,&BookWindow::updateReplace,popup.updateReplace),
+   connector_knob_replace_pressed(this,&BookWindow::openReplace,knob_replace.pressed),
+   connector_replace_apply(this,&BookWindow::replaceApply,replace_frame.apply)
  {
   wlist.insTop(progress);
 
@@ -1097,7 +1129,8 @@ Point BookWindow::getMinSize() const
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
+                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),Lay(line4),
+                  LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -1206,7 +1239,8 @@ void BookWindow::layout()
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
+                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),Lay(line4),
+                  LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
 
@@ -1240,7 +1274,9 @@ void BookWindow::open()
  {
   ComboWindow::open();
 
-  ext_map.load();
+  replace.load();
+
+  replace_frame.update();
 
   if( font_flag )
     {

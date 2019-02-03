@@ -236,6 +236,7 @@ class InnerBookWindow : public SubWindow
    Signal<Book::TypeDef::Link,RefArray<ulen> > link;
    Signal<Book::TypeDef::Page *> hint;
    Signal<> changed;
+   mutable Signal<> updateReplace;
  };
 
 /* class DisplayBookWindow */
@@ -288,6 +289,7 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    Signal<Book::TypeDef::Link,RefArray<ulen> > &link;
    Signal<Book::TypeDef::Page *> &hint;
+   Signal<> &updateReplace;
  };
 
 /* class DisplayBookFrame */
@@ -369,6 +371,10 @@ class DisplayBookFrame : public DragFrame
    // base
 
    virtual void dying();
+
+   // signals
+
+   Signal<> &updateReplace;
  };
 
 /* class BackShape */
@@ -493,11 +499,14 @@ class BookWindow : public ComboWindow
 
      BackButtonWindow::ConfigType back_cfg;
 
+     FontReplaceFrame::ConfigType replace_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref),
         popup_cfg(user_pref,app_pref,book_cfg),
-        back_cfg(user_pref,app_pref)
+        back_cfg(user_pref,app_pref),
+        replace_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -547,6 +556,8 @@ class BookWindow : public ComboWindow
 
    // data
 
+   FontReplace replace;
+
    Book::BookMap book_map;
    DrawBook::ExtMap ext_map;
 
@@ -575,6 +586,10 @@ class BookWindow : public ComboWindow
 
    YDoubleLineWindow line3;
 
+   KnobWindow knob_replace;
+
+   YDoubleLineWindow line4;
+
    BackButtonWindow back_btn;
    BackButtonWindow fore_btn;
 
@@ -587,6 +602,8 @@ class BookWindow : public ComboWindow
    MessageFrame msg;
 
    DisplayBookFrame popup;
+
+   FontReplaceFrame replace_frame;
 
    // incremental
 
@@ -659,6 +676,20 @@ class BookWindow : public ComboWindow
    void setScale(int scale);
 
    SignalConnector<BookWindow,int> connector_scale_changed;
+
+   void updateReplace();
+
+   SignalConnector<BookWindow> connector_book_updateReplace;
+
+   SignalConnector<BookWindow> connector_popup_updateReplace;
+
+   void openReplace();
+
+   SignalConnector<BookWindow> connector_knob_replace_pressed;
+
+   void replaceApply();
+
+   SignalConnector<BookWindow> connector_replace_apply;
 
   public:
 

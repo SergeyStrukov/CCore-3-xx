@@ -71,6 +71,10 @@ struct AppPreferenceBag : ConfigItemHost
 
   Coord back_dy = 30 ;
 
+  // replace
+
+  DefString replace_title = "Font replace"_def ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -112,6 +116,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("hint_Scale"_c,ptr->hint_Scale);
   func("hint_GotoBack"_c,ptr->hint_GotoBack);
   func("hint_GotoFore"_c,ptr->hint_GotoFore);
+  func("replace_title"_c,ptr->replace_title);
  }
 
 /* struct AppProp */

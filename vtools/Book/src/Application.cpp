@@ -54,6 +54,10 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
     binder.item("picture"_def,back_pict);
     binder.item("height"_def,back_dy);
+
+  binder.group("Font replace"_def);
+
+    binder.item("title"_def,replace_title);
  }
 
 void AppPreferenceBag::findFonts()
