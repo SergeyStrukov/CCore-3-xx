@@ -160,5 +160,113 @@ void FontReplace::save() const noexcept
   try { save(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
+/* class FontMapWindow */
+
+FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace_)
+ : SubWindow(host),
+   cfg(cfg_),
+
+   replace(replace_)
+ {
+ }
+
+FontMapWindow::~FontMapWindow()
+ {
+ }
+
+ // methods
+
+Point FontMapWindow::getMinSize() const
+ {
+  return Point(100,100);
+ }
+
+ // drawing
+
+void FontMapWindow::layout()
+ {
+ }
+
+void FontMapWindow::draw(DrawBuf buf,bool) const
+ {
+  Used(buf);
+ }
+
+ // keyboard
+
+void FontMapWindow::gainFocus()
+ {
+ }
+
+void FontMapWindow::looseFocus()
+ {
+ }
+
+ // user input
+
+void FontMapWindow::react(UserAction action)
+ {
+  action.dispatch(*this);
+ }
+
+void FontMapWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
+ {
+  Used(vkey);
+  Used(kmod);
+  Used(repeat);
+ }
+
+void FontMapWindow::react_LeftClick(Point point,MouseKey mkey)
+ {
+  Used(point);
+  Used(mkey);
+ }
+
+void FontMapWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
+ {
+  Used(point);
+  Used(mkey);
+  Used(delta);
+ }
+
+/* class FontReplaceWindow */
+
+FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   replace(replace_)
+ {
+ }
+
+FontReplaceWindow::~FontReplaceWindow()
+ {
+ }
+
+ // methods
+
+Point FontReplaceWindow::getMinSize() const
+ {
+  return Point(100,100);
+ }
+
+ // drawing
+
+void FontReplaceWindow::layout()
+ {
+ }
+
+void FontReplaceWindow::drawBack(DrawBuf buf,bool) const
+ {
+  buf.erase(+cfg.back);
+ }
+
+ // user input
+
+void FontReplaceWindow::react(UserAction action)
+ {
+  wlist.react(action);
+ }
+
 } // namespace App
 
