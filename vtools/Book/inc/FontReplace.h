@@ -36,6 +36,7 @@ class FontReplaceFrame;
 class FontReplace : NoCopy
  {
    CompactRBTreeMap<StringKey,String,StrKey> map;
+   bool modified = false ;
 
   private:
 
@@ -66,6 +67,8 @@ class FontReplace : NoCopy
    void load() noexcept;
 
    void save() const noexcept;
+
+   bool testModified() { return Change(modified,false); }
  };
 
 /* class FontMapWindow */
@@ -119,6 +122,8 @@ class FontMapWindow : public SubWindow
 
    Point getMinSize() const;
 
+   void update();
+
    // drawing
 
    virtual void layout();
@@ -160,9 +165,15 @@ class FontReplaceWindow : public ComboWindow
      RefVal<VColor> back = Silver ;
 
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
 
      // app
+
+     RefVal<DefString> text_Find    = "Find"_def ;
+     RefVal<DefString> text_Replace = "Replace"_def ;
+     RefVal<DefString> text_Save    = "Save"_def ;
+     RefVal<DefString> text_Apply   = "Apply"_def ;
 
      FontMapWindow::ConfigType map_cfg;
 
@@ -182,11 +193,12 @@ class FontReplaceWindow : public ComboWindow
        back.bind(bag.back);
 
        btn_cfg.bind(proxy);
+       knob_cfg.bind(proxy);
        edit_cfg.bind(proxy);
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag)
+     void bindApp(const Bag &bag) // TODO
       {
        Used(bag);
       }
@@ -199,6 +211,18 @@ class FontReplaceWindow : public ComboWindow
    const Config &cfg;
 
    FontReplace &replace;
+
+   RefButtonWindow btn_find;
+   LineEditWindow edit_face;
+   KnobWindow knob_del;
+
+   RefButtonWindow btn_replace;
+   LineEditWindow edit_replace;
+
+   FontMapWindow map;
+
+   RefButtonWindow btn_save;
+   RefButtonWindow btn_apply;
 
   public:
 

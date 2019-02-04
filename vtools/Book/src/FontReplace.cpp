@@ -27,6 +27,8 @@
 #include <CCore/inc/video/PrintDDL.h>
 #include <CCore/inc/PrintStem.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+
 namespace App {
 
 namespace FontMap {
@@ -148,11 +150,15 @@ void FontReplace::addNotFound(StrLen face)
   StrKey key(face);
 
   map.find_or_add(key);
+
+  modified=true;
  }
 
 void FontReplace::load() noexcept
  {
   try { load(HomeKey(),ReplaceFile()); } catch(...) {}
+
+  modified=true;
  }
 
 void FontReplace::save() const noexcept
@@ -181,6 +187,10 @@ Point FontMapWindow::getMinSize() const
   return Point(100,100);
  }
 
+void FontMapWindow::update()
+ {
+ }
+
  // drawing
 
 void FontMapWindow::layout()
@@ -189,7 +199,7 @@ void FontMapWindow::layout()
 
 void FontMapWindow::draw(DrawBuf buf,bool) const
  {
-  Used(buf);
+  buf.erase(Black);
  }
 
  // keyboard
@@ -235,8 +245,24 @@ FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,Font
  : ComboWindow(host),
    cfg(cfg_),
 
-   replace(replace_)
+   replace(replace_),
+
+   btn_find(wlist,cfg.btn_cfg,cfg.text_Find),
+   edit_face(wlist,cfg.edit_cfg),
+   knob_del(wlist,cfg.knob_cfg,KnobShape::FaceCross),
+
+   btn_replace(wlist,cfg.btn_cfg,cfg.text_Replace),
+   edit_replace(wlist,cfg.edit_cfg),
+
+   map(wlist,cfg.map_cfg,replace),
+
+   btn_save(wlist,cfg.btn_cfg,cfg.text_Save),
+   btn_apply(wlist,cfg.btn_cfg,cfg.text_Apply)
  {
+  wlist.insTop(btn_find,edit_face,knob_del,btn_replace,edit_replace,map,btn_save,btn_apply);
+
+  edit_face.hideInactiveCursor();
+  edit_replace.hideInactiveCursor();
  }
 
 FontReplaceWindow::~FontReplaceWindow()
@@ -247,17 +273,49 @@ FontReplaceWindow::~FontReplaceWindow()
 
 Point FontReplaceWindow::getMinSize() const
  {
-  return Point(100,100);
+  Coord space=+cfg.space_dxy;
+
+  LayToLeftCenter lay1{Lay(knob_del),LayToRightCenter(Lay(btn_find),Lay(edit_face))};
+
+  LayToRightCenter lay2{Lay(btn_replace),Lay(edit_replace)};
+
+  LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
+
+  LayToLeft lay4{lay3,Lay(map)};
+
+  LayToBottom lay{lay1,lay2,lay4};
+
+  return ExtLay(lay).getMinSize(space);
  }
 
 void FontReplaceWindow::update()
  {
+  if( replace.testModified() )
+    {
+     edit_face.setTextLen(0);
+     edit_replace.setTextLen(0);
+
+     map.update();
+    }
  }
 
  // drawing
 
 void FontReplaceWindow::layout()
  {
+  Coord space=+cfg.space_dxy;
+
+  LayToLeftCenter lay1{Lay(knob_del),LayToRightCenter(Lay(btn_find),Lay(edit_face))};
+
+  LayToRightCenter lay2{Lay(btn_replace),Lay(edit_replace)};
+
+  LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
+
+  LayToLeft lay4{lay3,Lay(map)};
+
+  LayToBottom lay{lay1,lay2,lay4};
+
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void FontReplaceWindow::drawBack(DrawBuf buf,bool) const
