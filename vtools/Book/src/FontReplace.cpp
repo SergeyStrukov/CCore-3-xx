@@ -187,7 +187,20 @@ Point FontMapWindow::getMinSize() const
   return Point(100,100);
  }
 
-void FontMapWindow::update()
+void FontMapWindow::update() // TODO
+ {
+ }
+
+StrLen FontMapWindow::find(StrLen face) // TODO
+ {
+  return ""_c;
+ }
+
+void FontMapWindow::del(StrLen face) // TODO
+ {
+ }
+
+void FontMapWindow::set(StrLen face,String replace) // TODO
  {
  }
 
@@ -241,11 +254,42 @@ void FontMapWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
 
 /* class FontReplaceWindow */
 
-FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace_)
+void FontReplaceWindow::findFace()
+ {
+  edit_replace.setText(map.find(cache_face.getText()));
+ }
+
+void FontReplaceWindow::delEntry()
+ {
+  map.del(cache_face.getText());
+
+  edit_replace.setTextLen(0);
+ }
+
+void FontReplaceWindow::replaceFace()
+ {
+  map.set(cache_face.getText(),edit_replace.getString());
+ }
+
+void FontReplaceWindow::saveMap()
+ {
+  map.save();
+ }
+
+void FontReplaceWindow::applyMap()
+ {
+  apply.assert();
+ }
+
+void FontReplaceWindow::setEdit(StrLen face,StrLen replace)
+ {
+  edit_face.setText(face);
+  edit_replace.setText(replace);
+ }
+
+FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace)
  : ComboWindow(host),
    cfg(cfg_),
-
-   replace(replace_),
 
    btn_find(wlist,cfg.btn_cfg,cfg.text_Find),
    edit_face(wlist,cfg.edit_cfg),
@@ -257,7 +301,17 @@ FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,Font
    map(wlist,cfg.map_cfg,replace),
 
    btn_save(wlist,cfg.btn_cfg,cfg.text_Save),
-   btn_apply(wlist,cfg.btn_cfg,cfg.text_Apply)
+   btn_apply(wlist,cfg.btn_cfg,cfg.text_Apply),
+
+   cache_face(edit_face),
+
+   connector_find_pressed(this,&FontReplaceWindow::findFace,btn_find.pressed),
+   connector_del_pressed(this,&FontReplaceWindow::delEntry,knob_del.pressed),
+   connector_replace_pressed(this,&FontReplaceWindow::replaceFace,btn_replace.pressed),
+   connector_save_pressed(this,&FontReplaceWindow::saveMap,btn_save.pressed),
+   connector_apply_pressed(this,&FontReplaceWindow::applyMap,btn_apply.pressed),
+
+   connector_map_selected(this,&FontReplaceWindow::setEdit,map.selected)
  {
   wlist.insTop(btn_find,edit_face,knob_del,btn_replace,edit_replace,map,btn_save,btn_apply);
 
@@ -290,7 +344,7 @@ Point FontReplaceWindow::getMinSize() const
 
 void FontReplaceWindow::update()
  {
-  if( replace.testModified() )
+  if( map.testModified() )
     {
      edit_face.setTextLen(0);
      edit_replace.setTextLen(0);

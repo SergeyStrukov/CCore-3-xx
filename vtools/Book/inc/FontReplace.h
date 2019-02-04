@@ -122,7 +122,17 @@ class FontMapWindow : public SubWindow
 
    Point getMinSize() const;
 
+   bool testModified() { return replace.testModified(); }
+
    void update();
+
+   void save() { replace.save(); }
+
+   StrLen find(StrLen face);
+
+   void del(StrLen face);
+
+   void set(StrLen face,String replace);
 
    // drawing
 
@@ -148,6 +158,7 @@ class FontMapWindow : public SubWindow
 
    // signals
 
+   Signal<StrLen,StrLen> selected;
  };
 
 /* class FontReplaceWindow */
@@ -210,8 +221,6 @@ class FontReplaceWindow : public ComboWindow
 
    const Config &cfg;
 
-   FontReplace &replace;
-
    RefButtonWindow btn_find;
    LineEditWindow edit_face;
    KnobWindow knob_del;
@@ -223,6 +232,30 @@ class FontReplaceWindow : public ComboWindow
 
    RefButtonWindow btn_save;
    RefButtonWindow btn_apply;
+
+   CacheText<LineEditWindow> cache_face;
+
+  private:
+
+   void findFace();
+
+   void delEntry();
+
+   void replaceFace();
+
+   void saveMap();
+
+   void applyMap();
+
+   SignalConnector<FontReplaceWindow> connector_find_pressed;
+   SignalConnector<FontReplaceWindow> connector_del_pressed;
+   SignalConnector<FontReplaceWindow> connector_replace_pressed;
+   SignalConnector<FontReplaceWindow> connector_save_pressed;
+   SignalConnector<FontReplaceWindow> connector_apply_pressed;
+
+   void setEdit(StrLen face,StrLen replace);
+
+   SignalConnector<FontReplaceWindow,StrLen,StrLen> connector_map_selected;
 
   public:
 
