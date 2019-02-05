@@ -12,7 +12,7 @@ DoubleLine line = { { 3 , 2 } , 0808080h , 0E6E6FAh } ;
 
 Font cfont = { "Fixed" , 22 , False , False , 0 } ;
 
-Font cfont_bold = { "Anonymous Pro" , 22 , True , False , 0 } ;
+Font cfont_bold = { "Fixed" , 22 , True , False , 0 } ;
 
 Format cfmt = { & cfont , NoColor , NoColor , 0 } ;
 
@@ -35,6 +35,9 @@ Format cfmt_char = { & cfont , 0FFFFh , 0800000h , 0 } ;
 FixedText sample1 = {
 {
 {
+{ "hint" , & cfmt_long_comment , & page2 }
+}
+,{
 { "/* enum CharFlags */" , & cfmt_long_comment , null }
 }
 ,{
@@ -492,6 +495,12 @@ Page page1 = { "sample" ,
 ,{ & sample2 , & line , DefaultInner , DefaultOuter , NoColor }
 }
 , 0C0C0C0h , 00h , null , null , null } ;
+
+Page page2 = { "" ,
+{
+{ & sample2 , null , DefaultInner , DefaultOuter , NoColor }
+}
+, NoColor , NoColor , null , null , null } ;
 
 
 }

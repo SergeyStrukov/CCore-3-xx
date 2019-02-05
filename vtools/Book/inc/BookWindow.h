@@ -589,6 +589,7 @@ class BookWindow : public ComboWindow
    YDoubleLineWindow line3;
 
    KnobWindow knob_replace;
+   KnobWindow knob_reload;
 
    YDoubleLineWindow line4;
 
@@ -692,6 +693,8 @@ class BookWindow : public ComboWindow
    void replaceApply();
 
    SignalConnector<BookWindow> connector_replace_apply;
+
+   SignalConnector<BookWindow> connector_knob_reload_pressed;
 
   public:
 

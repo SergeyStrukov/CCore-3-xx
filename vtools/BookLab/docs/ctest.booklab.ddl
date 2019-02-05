@@ -4,7 +4,8 @@ Doc Data = { "C++ test" , { True , NoColor } , { True , NoColor } , { "page1" , 
 & o1,
 & o2,
 & o3,
-& o4
+& o4,
+& o5
 }
 
  };
@@ -12,7 +13,6 @@ Doc Data = { "C++ test" , { True , NoColor } , { True , NoColor } , { "page1" , 
 Section o1 = { True , "Style" , 
 
 {
-& o5,
 & o6,
 & o7,
 & o8,
@@ -23,7 +23,8 @@ Section o1 = { True , "Style" ,
 & o13,
 & o14,
 & o15,
-& o16
+& o16,
+& o17
 }
 
  };
@@ -31,6 +32,13 @@ Section o1 = { True , "Style" ,
 FixedText o2 = { "sample1" , True , { "cfmt" , null } , 
 
 {
+
+
+{
+{ "hint" , { "cfmt_long_comment" , null } , { "page2" , null } }
+}
+
+,
 
 
 {
@@ -754,27 +762,35 @@ Page o4 = { "page1" , True , "sample" , { False , 0C0C0C0h } , { False , 00h } ,
 
  , 1 } };
 
-DoubleLine o5 = { "line" , True , { False , { 3 , 2 } } , { False , 0808080h } , { False , 0E6E6FAh } };
+Page o5 = { "page2" , True , "" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
-Font o6 = { "cfont" , True , "Anonymous Pro" , 22 , { False , False } , { False , False } , { False , 0 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { "sample2" , null } }
+}
 
-Font o7 = { "cfont_bold" , True , "Anonymous Pro" , 22 , { False , True } , { False , False } , { False , 0 } };
+ , 0 } };
 
-Format o8 = { "cfmt" , True , { "cfont" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+DoubleLine o6 = { "line" , True , { False , { 3 , 2 } } , { False , 0808080h } , { False , 0E6E6FAh } };
 
-Format o9 = { "cfmt_long_comment" , True , { "cfont" , null } , { False , 0F5DEB3h } , { False , 06400h } , { True , 0 } };
+Font o7 = { "cfont" , True , "Fixed" , 22 , { False , False } , { False , False } , { False , 0 } };
 
-Format o10 = { "cfmt_keyword" , True , { "cfont" , null } , { True , NoColor } , { False , 0CDh } , { True , 0 } };
+Font o8 = { "cfont_bold" , True , "Fixed" , 22 , { False , True } , { False , False } , { False , 0 } };
 
-Format o11 = { "cfmt_name" , True , { "cfont" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o9 = { "cfmt" , True , { "cfont" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o12 = { "cfmt_number" , True , { "cfont" , null } , { True , NoColor } , { False , 0800000h } , { True , 0 } };
+Format o10 = { "cfmt_long_comment" , True , { "cfont" , null } , { False , 0F5DEB3h } , { False , 06400h } , { True , 0 } };
 
-Format o13 = { "cfmt_op" , True , { "cfont_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o11 = { "cfmt_keyword" , True , { "cfont" , null } , { True , NoColor } , { False , 0CDh } , { True , 0 } };
 
-Format o14 = { "cfmt_string" , True , { "cfont" , null } , { False , 087CEEBh } , { False , 0800000h } , { True , 0 } };
+Format o12 = { "cfmt_name" , True , { "cfont" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o15 = { "cfmt_short_comment" , True , { "cfont" , null } , { False , 0F5DEB3h } , { False , 06400h } , { False , 1 } };
+Format o13 = { "cfmt_number" , True , { "cfont" , null } , { True , NoColor } , { False , 0800000h } , { True , 0 } };
 
-Format o16 = { "cfmt_char" , True , { "cfont" , null } , { False , 0FFFFh } , { False , 0800000h } , { True , 0 } };
+Format o14 = { "cfmt_op" , True , { "cfont_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o15 = { "cfmt_string" , True , { "cfont" , null } , { False , 087CEEBh } , { False , 0800000h } , { True , 0 } };
+
+Format o16 = { "cfmt_short_comment" , True , { "cfont" , null } , { False , 0F5DEB3h } , { False , 06400h } , { False , 1 } };
+
+Format o17 = { "cfmt_char" , True , { "cfont" , null } , { False , 0FFFFh } , { False , 0800000h } , { True , 0 } };
 

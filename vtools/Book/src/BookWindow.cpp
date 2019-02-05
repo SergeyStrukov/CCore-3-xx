@@ -864,7 +864,7 @@ void BookWindow::font_completed(bool ok)
      wlist.del(progress);
 
      wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,
-                  line2,spinor,line3,knob_replace,line4,back_btn,fore_btn,book);
+                  line2,spinor,line3,knob_replace,knob_reload,line4,back_btn,fore_btn,book);
 
      book.setFocus();
 
@@ -1060,6 +1060,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    line3(wlist,cfg.line_cfg),
 
    knob_replace(wlist,cfg.knob_cfg,KnobShape::FaceAsterisk),
+   knob_reload(wlist,cfg.knob_cfg,KnobShape::FaceExclamation),
 
    line4(wlist,cfg.line_cfg),
 
@@ -1094,7 +1095,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    connector_book_updateReplace(this,&BookWindow::updateReplace,book.updateReplace),
    connector_popup_updateReplace(this,&BookWindow::updateReplace,popup.updateReplace),
    connector_knob_replace_pressed(this,&BookWindow::openReplace,knob_replace.pressed),
-   connector_replace_apply(this,&BookWindow::replaceApply,replace_frame.apply)
+   connector_replace_apply(this,&BookWindow::replaceApply,replace_frame.apply),
+   connector_knob_reload_pressed(this,&BookWindow::reload,knob_reload.pressed)
  {
   wlist.insTop(progress);
 
@@ -1130,7 +1132,7 @@ Point BookWindow::getMinSize() const
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),Lay(line4),
+                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
@@ -1247,7 +1249,7 @@ void BookWindow::layout()
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),Lay(line4),
+                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
