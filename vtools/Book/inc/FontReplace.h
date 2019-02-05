@@ -69,6 +69,12 @@ class FontReplace : NoCopy
    void save() const noexcept;
 
    bool testModified() { return Change(modified,false); }
+
+   StrLen find(StrLen face) const;
+
+   void del(StrLen face);
+
+   void set(StrLen face,String replace);
  };
 
 /* class FontMapWindow */
@@ -209,9 +215,12 @@ class FontReplaceWindow : public ComboWindow
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag) // TODO
+     void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text_Find.bind(bag.text_Find);
+       text_Replace.bind(bag.text_Replace);
+       text_Save.bind(bag.text_Save);
+       text_Apply.bind(bag.text_Apply);
       }
     };
 

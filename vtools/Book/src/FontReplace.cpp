@@ -166,6 +166,31 @@ void FontReplace::save() const noexcept
   try { save(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
+StrLen FontReplace::find(StrLen face) const
+ {
+  StrKey key(face);
+
+  if( const String *obj=map.find(key) ) return Range(*obj);
+
+  return Null;
+ }
+
+void FontReplace::del(StrLen face)
+ {
+  StrKey key(face);
+
+  map.del(key);
+ }
+
+void FontReplace::set(StrLen face,String replace)
+ {
+  StrKey key(face);
+
+  auto result=map.find_or_add(key,replace);
+
+  if( !result.new_flag ) *result.obj=replace;
+ }
+
 /* class FontMapWindow */
 
 FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace_)
@@ -187,21 +212,23 @@ Point FontMapWindow::getMinSize() const
   return Point(100,100);
  }
 
-void FontMapWindow::update() // TODO
+void FontMapWindow::update()
  {
  }
 
-StrLen FontMapWindow::find(StrLen face) // TODO
+StrLen FontMapWindow::find(StrLen face)
  {
-  return ""_c;
+  return replace.find(face);
  }
 
-void FontMapWindow::del(StrLen face) // TODO
+void FontMapWindow::del(StrLen face)
  {
+  replace.del(face);
  }
 
-void FontMapWindow::set(StrLen face,String replace) // TODO
+void FontMapWindow::set(StrLen face,String value)
  {
+  replace.set(face,value);
  }
 
  // drawing

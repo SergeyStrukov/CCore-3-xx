@@ -10,7 +10,7 @@ Point DefaultOuter = { 5 , 5 } ;
 
 DoubleLine line = { { 3 , 2 } , 0808080h , 0E6E6FAh } ;
 
-Font cfont = { "Anonymous Pro XXX" , 22 , False , False , 0 } ;
+Font cfont = { "Fixed" , 22 , False , False , 0 } ;
 
 Font cfont_bold = { "Anonymous Pro" , 22 , True , False , 0 } ;
 
