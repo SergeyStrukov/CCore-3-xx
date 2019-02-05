@@ -556,6 +556,8 @@ class BookWindow : public ComboWindow
 
    // data
 
+   String source_file;
+
    FontReplace replace;
 
    Book::BookMap book_map;
@@ -703,7 +705,9 @@ class BookWindow : public ComboWindow
 
    void blank();
 
-   void load(StrLen file_name);
+   void load(StrLen file_name,bool set_source=true);
+
+   void reload();
 
    // drawing
 

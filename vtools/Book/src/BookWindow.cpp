@@ -1029,8 +1029,9 @@ void BookWindow::openReplace()
   if( replace_frame.isDead() ) replace_frame.create(getFrame());
  }
 
-void BookWindow::replaceApply() // TODO
+void BookWindow::replaceApply()
  {
+  reload();
  }
 
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
@@ -1172,7 +1173,7 @@ void BookWindow::blank()
   redraw();
  }
 
-void BookWindow::load(StrLen file_name)
+void BookWindow::load(StrLen file_name,bool set_source)
  {
   if( font_flag )
     {
@@ -1182,6 +1183,8 @@ void BookWindow::load(StrLen file_name)
     }
 
   blank();
+
+  if( set_source ) source_file=file_name;
 
   SimpleArray<char> temp(64_KByte);
 
@@ -1229,6 +1232,11 @@ void BookWindow::load(StrLen file_name)
     {
      error(DefString(result.etext));
     }
+ }
+
+void BookWindow::reload()
+ {
+  load(Range(source_file),false);
  }
 
  // drawing
