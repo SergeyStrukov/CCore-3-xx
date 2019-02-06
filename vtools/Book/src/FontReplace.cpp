@@ -29,6 +29,10 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/Cmp.h>
+#include <CCore/inc/Sort.h>
+#include <CCore/inc/ForLoop.h>
+
 namespace App {
 
 namespace FontMap {
@@ -202,12 +206,55 @@ bool FontReplace::set(StrLen face,String replace)
 
 /* class FontMapWindow */
 
+void FontMapWindow::InfoBase::add(StrLen face,StrLen replace)
+ {
+  StrLen text=pool.cat(face," -> "_c,replace);
+
+  list.append_fill(text,face.len,replace.len);
+ }
+
 FontMapWindow::InfoBase::InfoBase() noexcept
  {
  }
 
-FontMapWindow::InfoBase::InfoBase(FontReplace &replace) // TODO
+FontMapWindow::InfoBase::InfoBase(FontReplace &replace)
  {
+  pool.erase();
+  list.erase();
+
+  struct Temp
+   {
+    StrLen face;
+    StrLen replace;
+    ulen *index;
+
+    Temp(StrLen face_,StrLen replace_,ulen *index_) : face(face_),replace(replace_),index(index_) {}
+
+    bool operator < (const Temp &obj) const { return StrLess(face,obj.face); }
+
+    void set(ulen ind) { *index=ind; }
+   };
+
+  DynArray<Temp> temp(DoReserve,replace.getCount());
+
+  replace.apply( [&] (StrLen face,StrLen replace,ulen &index) { temp.append_fill(face,replace,&index); } );
+
+  auto r=Range(temp);
+
+  Sort(r);
+
+  list.reserve(r.len);
+
+  for(ulen i : IndLim(r.len) )
+    {
+     auto &obj=r[i];
+
+     obj.set(i);
+
+     add(obj.face,obj.replace);
+    }
+
+  pool.shrink_extra();
  }
 
 FontMapWindow::InfoBase::~InfoBase()
@@ -274,7 +321,9 @@ FontMapWindow::~FontMapWindow()
 
 void FontMapWindow::update()
  {
-  setInfo(Info(replace));
+  info=Info(replace);
+
+  setInfo(info);
  }
 
 StrLen FontMapWindow::find(StrLen face)

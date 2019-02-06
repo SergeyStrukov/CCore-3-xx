@@ -71,6 +71,8 @@ class FontReplace : NoCopy
 
    ~FontReplace();
 
+   ulen getCount() const { return map.getCount(); }
+
    StrLen operator () (StrLen face) const;
 
    void addNotFound(StrLen face);
@@ -92,6 +94,12 @@ class FontReplace : NoCopy
    void del(StrLen face);
 
    bool set(StrLen face,String replace); // new entry
+
+   template <FuncArgType<StrLen,StrLen,ulen &> Func>
+   void apply(Func func)
+    {
+     map.applyIncr( [&] (const StringKey &key,Rec &rec) { func(Range(key.str),Range(rec.str),rec.index); } );
+    }
  };
 
 /* class FontMapWindow */
@@ -108,6 +116,8 @@ class FontMapWindow : public ScrollListWindow
      ulen face;
      ulen replace;
 
+     Rec(StrLen text_,ulen face_,ulen replace_) : text(text_),face(face_),replace(replace_) {}
+
      ComboInfoItem item() const { return {ComboInfoText,text}; }
 
      StrLen getFace() const { return text.prefix(face); }
@@ -120,6 +130,10 @@ class FontMapWindow : public ScrollListWindow
       ElementPool pool;
 
       DynArray<Rec> list;
+
+     private:
+
+      void add(StrLen face,StrLen replace);
 
      public:
 
