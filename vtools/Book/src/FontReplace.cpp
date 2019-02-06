@@ -186,7 +186,7 @@ void FontReplace::del(StrLen face)
   map.del(key);
  }
 
-bool FontReplace::set(StrLen face,String replace)
+ulen FontReplace::set(StrLen face,String replace)
  {
   StrKey key(face);
 
@@ -194,21 +194,29 @@ bool FontReplace::set(StrLen face,String replace)
 
   if( result.new_flag )
     {
-     return true;
+     return MaxULen;
     }
   else
     {
-     *result.obj=replace;
+     result.obj->str=replace;
 
-     return false;
+     return result.obj->index;
     }
  }
 
 /* class FontMapWindow */
 
+void FontMapWindow::Rec::update(StrLen replace_)
+ {
+  String text_=StringCat(getFace()," -> "_c,replace_);
+
+  text=text_;
+  replace=replace_.len;
+ }
+
 void FontMapWindow::InfoBase::add(StrLen face,StrLen replace)
  {
-  StrLen text=pool.cat(face," -> "_c,replace);
+  String text=StringCat(face," -> "_c,replace);
 
   list.append_fill(text,face.len,replace.len);
  }
@@ -219,7 +227,6 @@ FontMapWindow::InfoBase::InfoBase() noexcept
 
 FontMapWindow::InfoBase::InfoBase(FontReplace &replace)
  {
-  pool.erase();
   list.erase();
 
   struct Temp
@@ -253,8 +260,6 @@ FontMapWindow::InfoBase::InfoBase(FontReplace &replace)
 
      add(obj.face,obj.replace);
     }
-
-  pool.shrink_extra();
  }
 
 FontMapWindow::InfoBase::~InfoBase()
@@ -276,6 +281,11 @@ auto FontMapWindow::InfoBase::get(ulen index) const -> Rec
   return list.at(index);
  }
 
+void FontMapWindow::InfoBase::update(ulen index,StrLen replace)
+ {
+  list.at(index).update(replace);
+ }
+
 FontMapWindow::Info::Info()
  : ComboInfo(new InfoBase())
  {
@@ -295,6 +305,13 @@ auto FontMapWindow::Info::get(ulen index) const -> Rec
   InfoBase *base=castPtr<InfoBase>();
 
   return base->get(index);
+ }
+
+void FontMapWindow::Info::update(ulen index,StrLen replace)
+ {
+  InfoBase *base=castPtr<InfoBase>();
+
+  base->update(index,replace);
  }
 
 void FontMapWindow::set(ulen index)
@@ -335,18 +352,25 @@ StrLen FontMapWindow::find(StrLen face)
   return result.str;
  }
 
-void FontMapWindow::del(StrLen face) // TODO
+void FontMapWindow::del(StrLen face)
  {
   replace.del(face);
 
   update();
  }
 
-void FontMapWindow::set(StrLen face,String value) // TODO
+void FontMapWindow::set(StrLen face,String value)
  {
-  replace.set(face,value);
+  if( ulen index=replace.set(face,value) ; index==MaxULen )
+    {
+     update();
+    }
+  else
+    {
+     info.update(index,Range(value));
 
-  update();
+     ScrollListWindow::update();
+    }
  }
 
 /* class FontReplaceWindow */

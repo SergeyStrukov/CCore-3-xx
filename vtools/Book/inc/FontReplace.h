@@ -18,7 +18,6 @@
 
 #include <CCore/inc/CompactMap.h>
 #include <CCore/inc/StrKey.h>
-#include <CCore/inc/ElementPool.h>
 
 namespace App {
 
@@ -93,7 +92,7 @@ class FontReplace : NoCopy
 
    void del(StrLen face);
 
-   bool set(StrLen face,String replace); // new entry
+   ulen set(StrLen face,String replace); // MaxULen if new
 
    template <FuncArgType<StrLen,StrLen,ulen &> Func>
    void apply(Func func)
@@ -112,23 +111,23 @@ class FontMapWindow : public ScrollListWindow
 
    struct Rec
     {
-     StrLen text;
+     String text;
      ulen face;
      ulen replace;
 
-     Rec(StrLen text_,ulen face_,ulen replace_) : text(text_),face(face_),replace(replace_) {}
+     Rec(const String &text_,ulen face_,ulen replace_) : text(text_),face(face_),replace(replace_) {}
 
-     ComboInfoItem item() const { return {ComboInfoText,text}; }
+     ComboInfoItem item() const { return {ComboInfoText,Range(text)}; }
 
-     StrLen getFace() const { return text.prefix(face); }
+     StrLen getFace() const { return Range(text).prefix(face); }
 
-     StrLen getReplace() const { return text.suffix(replace); }
+     StrLen getReplace() const { return Range(text).suffix(replace); }
+
+     void update(StrLen replace);
     };
 
    class InfoBase : public ComboInfoBase
     {
-      ElementPool pool;
-
       DynArray<Rec> list;
 
      private:
@@ -152,6 +151,8 @@ class FontMapWindow : public ScrollListWindow
       // methods
 
       Rec get(ulen index) const;
+
+      void update(ulen index,StrLen replace);
     };
 
    class Info : public ComboInfo
@@ -167,6 +168,8 @@ class FontMapWindow : public ScrollListWindow
       // methods
 
       Rec get(ulen index) const;
+
+      void update(ulen index,StrLen replace);
     };
 
    Info info;
