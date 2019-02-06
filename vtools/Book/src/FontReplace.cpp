@@ -341,6 +341,8 @@ void FontMapWindow::update()
   info=Info(replace);
 
   setInfo(info);
+
+  ping();
  }
 
 StrLen FontMapWindow::find(StrLen face)
@@ -356,20 +358,40 @@ void FontMapWindow::del(StrLen face)
  {
   replace.del(face);
 
+  ulen sel=getSelect();
+
   update();
+
+  if( sel!=MaxULen )
+    {
+     select(sel);
+
+     ping();
+    }
  }
 
 void FontMapWindow::set(StrLen face,String value)
  {
   if( ulen index=replace.set(face,value) ; index==MaxULen )
     {
+     ulen sel=getSelect();
+
      update();
+
+     if( sel!=MaxULen )
+       {
+        select(sel);
+
+        ping();
+       }
     }
   else
     {
      info.update(index,Range(value));
 
      ScrollListWindow::update();
+
+     select(index);
     }
  }
 
@@ -383,8 +405,6 @@ void FontReplaceWindow::findFace()
 void FontReplaceWindow::delEntry()
  {
   map.del(cache_face.getText());
-
-  edit_replace.setTextLen(0);
  }
 
 void FontReplaceWindow::replaceFace()
