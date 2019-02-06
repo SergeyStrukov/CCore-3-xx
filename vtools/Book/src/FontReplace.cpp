@@ -94,9 +94,9 @@ void FontReplace::saveDDL(StrLen file_name) const
 
   PrintFirst stem(""_c,","_c);
 
-  map.applyIncr( [&] (const StringKey &key,const String &val)
+  map.applyIncr( [&] (const StringKey &key,const Rec &val)
                      {
-                      Printf(out,"#;\n{ #; , #; }",stem,DDLPrintableString(key.str),DDLPrintableString(val));
+                      Printf(out,"#;\n{ #; , #; }",stem,DDLPrintableString(key.str),DDLPrintableString(val.str));
                      } );
 
   Putobj(out,"\n}};"_c);
@@ -137,9 +137,9 @@ StrLen FontReplace::operator () (StrLen face) const
  {
   StrKey key(face);
 
-  if( const String *obj=map.find(key) )
+  if( const Rec *obj=map.find(key) )
     {
-     if( StrLen ret=Range(*obj) ; +ret ) return ret;
+     if( StrLen ret=Range(obj->str) ; +ret ) return ret;
     }
 
   return face;
@@ -166,13 +166,13 @@ void FontReplace::save() const noexcept
   try { save(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
-StrLen FontReplace::find(StrLen face) const
+auto FontReplace::find(StrLen face) const -> FindResult
  {
   StrKey key(face);
 
-  if( const String *obj=map.find(key) ) return Range(*obj);
+  if( const Rec *obj=map.find(key) ) return {Range(obj->str),obj->index};
 
-  return Null;
+  return {};
  }
 
 void FontReplace::del(StrLen face)
@@ -182,22 +182,87 @@ void FontReplace::del(StrLen face)
   map.del(key);
  }
 
-void FontReplace::set(StrLen face,String replace)
+bool FontReplace::set(StrLen face,String replace)
  {
   StrKey key(face);
 
   auto result=map.find_or_add(key,replace);
 
-  if( !result.new_flag ) *result.obj=replace;
+  if( result.new_flag )
+    {
+     return true;
+    }
+  else
+    {
+     *result.obj=replace;
+
+     return false;
+    }
  }
 
 /* class FontMapWindow */
 
-FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace_)
- : SubWindow(host),
-   cfg(cfg_),
+FontMapWindow::InfoBase::InfoBase() noexcept
+ {
+ }
 
-   replace(replace_)
+FontMapWindow::InfoBase::InfoBase(FontReplace &replace) // TODO
+ {
+ }
+
+FontMapWindow::InfoBase::~InfoBase()
+ {
+ }
+
+ulen FontMapWindow::InfoBase::getLineCount() const
+ {
+  return list.getLen();
+ }
+
+ComboInfoItem FontMapWindow::InfoBase::getLine(ulen index) const
+ {
+  return list.at(index).item();
+ }
+
+auto FontMapWindow::InfoBase::get(ulen index) const -> Rec
+ {
+  return list.at(index);
+ }
+
+FontMapWindow::Info::Info()
+ : ComboInfo(new InfoBase())
+ {
+ }
+
+FontMapWindow::Info::Info(FontReplace &replace)
+ : ComboInfo(new InfoBase(replace))
+ {
+ }
+
+FontMapWindow::Info::~Info()
+ {
+ }
+
+auto FontMapWindow::Info::get(ulen index) const -> Rec
+ {
+  InfoBase *base=castPtr<InfoBase>();
+
+  return base->get(index);
+ }
+
+void FontMapWindow::set(ulen index)
+ {
+  auto rec=info.get(index);
+
+  selected.assert(rec.getFace(),rec.getReplace());
+ }
+
+FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace_)
+ : ScrollListWindow(host,cfg),
+
+   replace(replace_),
+
+   connector_selected(this,&FontMapWindow::set,ScrollListWindow::selected)
  {
  }
 
@@ -207,76 +272,32 @@ FontMapWindow::~FontMapWindow()
 
  // methods
 
-Point FontMapWindow::getMinSize() const
- {
-  return Point(100,100);
- }
-
 void FontMapWindow::update()
  {
+  setInfo(Info(replace));
  }
 
 StrLen FontMapWindow::find(StrLen face)
  {
-  return replace.find(face);
+  auto result=replace.find(face);
+
+  if( result.index!=MaxULen ) select(result.index);
+
+  return result.str;
  }
 
-void FontMapWindow::del(StrLen face)
+void FontMapWindow::del(StrLen face) // TODO
  {
   replace.del(face);
+
+  update();
  }
 
-void FontMapWindow::set(StrLen face,String value)
+void FontMapWindow::set(StrLen face,String value) // TODO
  {
   replace.set(face,value);
- }
 
- // drawing
-
-void FontMapWindow::layout()
- {
- }
-
-void FontMapWindow::draw(DrawBuf buf,bool) const
- {
-  buf.erase(Black);
- }
-
- // keyboard
-
-void FontMapWindow::gainFocus()
- {
- }
-
-void FontMapWindow::looseFocus()
- {
- }
-
- // user input
-
-void FontMapWindow::react(UserAction action)
- {
-  action.dispatch(*this);
- }
-
-void FontMapWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
- {
-  Used(vkey);
-  Used(kmod);
-  Used(repeat);
- }
-
-void FontMapWindow::react_LeftClick(Point point,MouseKey mkey)
- {
-  Used(point);
-  Used(mkey);
- }
-
-void FontMapWindow::react_Wheel(Point point,MouseKey mkey,Coord delta)
- {
-  Used(point);
-  Used(mkey);
-  Used(delta);
+  update();
  }
 
 /* class FontReplaceWindow */
@@ -362,7 +383,7 @@ Point FontReplaceWindow::getMinSize() const
 
   LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
 
-  LayToLeft lay4{lay3,Lay(map)};
+  LayToLeft lay4{lay3,LaySpecial(map,10)};
 
   LayToBottom lay{lay1,lay2,lay4};
 
@@ -392,7 +413,7 @@ void FontReplaceWindow::layout()
 
   LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
 
-  LayToLeft lay4{lay3,Lay(map)};
+  LayToLeft lay4{lay3,LaySpecial(map,10)};
 
   LayToBottom lay{lay1,lay2,lay4};
 

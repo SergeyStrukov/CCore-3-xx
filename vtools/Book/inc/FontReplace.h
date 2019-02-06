@@ -18,6 +18,7 @@
 
 #include <CCore/inc/CompactMap.h>
 #include <CCore/inc/StrKey.h>
+#include <CCore/inc/ElementPool.h>
 
 namespace App {
 
@@ -35,7 +36,17 @@ class FontReplaceFrame;
 
 class FontReplace : NoCopy
  {
-   CompactRBTreeMap<StringKey,String,StrKey> map;
+   struct Rec
+    {
+     String str;
+     ulen index = 0 ;
+
+     Rec() noexcept {}
+
+     Rec(String str_) : str(str_) {}
+    };
+
+   CompactRBTreeMap<StringKey,Rec,StrKey> map;
    bool modified = false ;
 
   private:
@@ -70,53 +81,87 @@ class FontReplace : NoCopy
 
    bool testModified() { return Change(modified,false); }
 
-   StrLen find(StrLen face) const;
+   struct FindResult
+    {
+     StrLen str;
+     ulen index = MaxULen ;
+    };
+
+   FindResult find(StrLen face) const;
 
    void del(StrLen face);
 
-   void set(StrLen face,String replace);
+   bool set(StrLen face,String replace); // new entry
  };
 
 /* class FontMapWindow */
 
-class FontMapWindow : public SubWindow
+class FontMapWindow : public ScrollListWindow
  {
-  public:
-
-   struct Config
-    {
-     // user
-
-     // app
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       Used(bag);
-       Used(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       Used(bag);
-      }
-    };
-
-   using ConfigType = Config ;
+   FontReplace &replace;
 
   private:
 
-   const Config &cfg;
+   struct Rec
+    {
+     StrLen text;
+     ulen face;
+     ulen replace;
 
-   FontReplace &replace;
+     ComboInfoItem item() const { return {ComboInfoText,text}; }
+
+     StrLen getFace() const { return text.prefix(face); }
+
+     StrLen getReplace() const { return text.suffix(replace); }
+    };
+
+   class InfoBase : public ComboInfoBase
+    {
+      ElementPool pool;
+
+      DynArray<Rec> list;
+
+     public:
+
+      InfoBase() noexcept;
+
+      explicit InfoBase(FontReplace &replace);
+
+      virtual ~InfoBase();
+
+      // AbstractComboInfo
+
+      virtual ulen getLineCount() const;
+
+      virtual ComboInfoItem getLine(ulen index) const;
+
+      // methods
+
+      Rec get(ulen index) const;
+    };
+
+   class Info : public ComboInfo
+    {
+     public:
+
+      Info();
+
+      explicit Info(FontReplace &replace);
+
+      ~Info();
+
+      // methods
+
+      Rec get(ulen index) const;
+    };
+
+   Info info;
+
+  private:
+
+   void set(ulen index);
+
+   SignalConnector<FontMapWindow,ulen> connector_selected;
 
   public:
 
@@ -125,8 +170,6 @@ class FontMapWindow : public SubWindow
    virtual ~FontMapWindow();
 
    // methods
-
-   Point getMinSize() const;
 
    bool testModified() { return replace.testModified(); }
 
@@ -140,31 +183,9 @@ class FontMapWindow : public SubWindow
 
    void set(StrLen face,String replace);
 
-   // drawing
-
-   virtual void layout();
-
-   virtual void draw(DrawBuf buf,bool drag_active) const;
-
-   // keyboard
-
-   virtual void gainFocus();
-
-   virtual void looseFocus();
-
-   // user input
-
-   virtual void react(UserAction action);
-
-   void react_Key(VKey vkey,KeyMod kmod,unsigned repeat);
-
-   void react_LeftClick(Point point,MouseKey mkey);
-
-   void react_Wheel(Point point,MouseKey mkey,Coord delta);
-
    // signals
 
-   Signal<StrLen,StrLen> selected;
+   Signal<StrLen,StrLen> selected; // face , replace
  };
 
 /* class FontReplaceWindow */
@@ -184,6 +205,7 @@ class FontReplaceWindow : public ComboWindow
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<FontMapWindow::ConfigType> map_cfg;
 
      // app
 
@@ -192,11 +214,8 @@ class FontReplaceWindow : public ComboWindow
      RefVal<DefString> text_Save    = "Save"_def ;
      RefVal<DefString> text_Apply   = "Apply"_def ;
 
-     FontMapWindow::ConfigType map_cfg;
-
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : map_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -212,6 +231,7 @@ class FontReplaceWindow : public ComboWindow
        btn_cfg.bind(proxy);
        knob_cfg.bind(proxy);
        edit_cfg.bind(proxy);
+       map_cfg.bind(proxy);
       }
 
      template <class Bag>
