@@ -527,39 +527,15 @@ void FontReplaceWindow::react(UserAction action)
 
 /* class FontReplaceFrame */
 
-FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg_,FontReplace &replace,Signal<> &update)
- : DragFrame(desktop,cfg_.frame_cfg,update),
-   cfg(cfg_),
-
-   client(*this,cfg.client_cfg,replace),
+FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplace &replace,Signal<> &update)
+ : FrameOf<FontReplaceWindow>(desktop,cfg,update,replace),
 
    apply(client.apply)
  {
-  bindClient(client);
  }
 
 FontReplaceFrame::~FontReplaceFrame()
  {
- }
-
- // base
-
-void FontReplaceFrame::dying()
- {
-  DragFrame::dying();
-
-  place.set(host->getPlace());
- }
-
- // create
-
-Pane FontReplaceFrame::getPane(StrLen title) const
- {
-  if( place.ok ) return place.place;
-
-  Point size=getMinSize(false,title,client.getMinSize());
-
-  return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
 
 } // namespace App

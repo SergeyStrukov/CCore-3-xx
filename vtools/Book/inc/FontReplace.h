@@ -15,6 +15,7 @@
 #define FontReplace_h
 
 #include <inc/Book.h>
+#include <inc/FrameOf.h>
 
 #include <CCore/inc/CompactMap.h>
 #include <CCore/inc/StrKey.h>
@@ -211,6 +212,17 @@ class FontReplaceWindow : public ComboWindow
  {
   public:
 
+   struct FrameConfigApp
+    {
+     RefVal<DefString> title = "Font replace"_def ;
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       title.bind(bag.replace_title);
+      }
+    };
+
    struct Config
     {
      // user
@@ -332,69 +344,8 @@ class FontReplaceWindow : public ComboWindow
 
 /* class FontReplaceFrame */
 
-class FontReplaceFrame : public DragFrame
+class FontReplaceFrame : public FrameOf<FontReplaceWindow>
  {
-  public:
-
-   struct Config
-    {
-     // user
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     // app
-
-     RefVal<DefString> title = "Font replace"_def ;
-
-     FontReplaceWindow::ConfigType client_cfg;
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       title.bind(bag.replace_title);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   FontReplaceWindow client;
-
-   struct FramePlace
-    {
-     Pane place;
-     bool ok = false ;
-
-     void set(Pane pane)
-      {
-       place=pane;
-       ok=true;
-      }
-    };
-
-   FramePlace place;
-
   public:
 
    FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplace &replace,Signal<> &update);
@@ -404,21 +355,6 @@ class FontReplaceFrame : public DragFrame
    // methods
 
    void update() { client.update(); }
-
-   // base
-
-   virtual void dying();
-
-   // create
-
-   Pane getPane(StrLen title) const;
-
-   void create(FrameWindow *parent)
-    {
-     DefString title=+cfg.title;
-
-     DragFrame::create(parent,getPane(title.str()),title);
-    }
 
    // signals
 
