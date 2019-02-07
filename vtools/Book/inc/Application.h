@@ -80,6 +80,12 @@ struct AppPreferenceBag : ConfigItemHost
   DefString text_Save    = "Save"_def ;
   DefString text_Apply   = "Apply"_def ;
 
+  // font selection
+
+  DefString font_selection_title = "Font selection"_def ;
+
+  DefString text_Select = "Select"_def ;
+
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -126,6 +132,8 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Replace"_c,ptr->text_Replace);
   func("text_Save"_c,ptr->text_Save);
   func("text_Apply"_c,ptr->text_Apply);
+  func("font_selection_title"_c,ptr->font_selection_title);
+  func("text_Select"_c,ptr->text_Select);
  }
 
 /* struct AppProp */

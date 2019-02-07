@@ -62,6 +62,11 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Replace'"_def,text_Replace);
     binder.item("'Save'"_def,text_Save);
     binder.item("'Apply'"_def,text_Apply);
+
+  binder.group("Font selection"_def);
+
+    binder.item("title"_def,font_selection_title);
+    binder.item("'Select'"_def,text_Select);
  }
 
 void AppPreferenceBag::findFonts()

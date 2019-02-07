@@ -29,6 +29,10 @@ class FontReplace;
 
 class FontMapWindow;
 
+class FontSelectWindow;
+
+class FontSelectFrame;
+
 class FontReplaceWindow;
 
 class FontReplaceFrame;
@@ -207,6 +211,118 @@ class FontMapWindow : public ScrollListWindow
    Signal<StrLen,StrLen> selected; // face , replace
  };
 
+/* class FontSelectWindow */
+
+class FontSelectWindow : public ComboWindow
+ {
+  public:
+
+   struct FrameConfigApp
+    {
+     RefVal<DefString> title = "Font selection"_def ;
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       title.bind(bag.font_selection_title);
+      }
+    };
+
+   struct Config
+    {
+     // user
+
+     RefVal<Coord> space_dxy = 10 ;
+
+     RefVal<VColor> back = Silver ;
+
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<FontEditWindow::ConfigType> fontedit_cfg;
+
+     // app
+
+     RefVal<DefString> text_Select = "Select"_def ;
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       space_dxy.bind(bag.space_dxy);
+
+       back.bind(bag.back);
+
+       btn_cfg.bind(proxy);
+       fontedit_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       text_Select.bind(bag.text_Select);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   RefButtonWindow btn_select;
+   FontEditWindow fontedit;
+
+  private:
+
+   void selectFont();
+
+   SignalConnector<FontSelectWindow> btn_pressed;
+
+  public:
+
+   FontSelectWindow(SubWindowHost &host,const Config &cfg);
+
+   virtual ~FontSelectWindow();
+
+   // methods
+
+   Point getMinSize() const;
+
+   // drawing
+
+   virtual void layout();
+
+   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+
+   // user input
+
+   virtual void react(UserAction action);
+
+   // signals
+
+   Signal<StrLen> selected;
+ };
+
+/* class FontSelectFrame */
+
+class FontSelectFrame : public FrameOf<FontSelectWindow>
+ {
+  public:
+
+   FontSelectFrame(Desktop *desktop,const Config &cfg,Signal<> &update);
+
+   virtual ~FontSelectFrame();
+
+   // signals
+
+   Signal<StrLen> &selected;
+ };
+
 /* class FontReplaceWindow */
 
 class FontReplaceWindow : public ComboWindow
@@ -244,8 +360,11 @@ class FontReplaceWindow : public ComboWindow
      RefVal<DefString> text_Save    = "Save"_def ;
      RefVal<DefString> text_Apply   = "Apply"_def ;
 
+     CtorRefVal<FontSelectFrame::ConfigType> select_cfg;
+
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : select_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -286,6 +405,7 @@ class FontReplaceWindow : public ComboWindow
 
    RefButtonWindow btn_replace;
    LineEditWindow edit_replace;
+   KnobWindow knob_font;
 
    FontMapWindow map;
 
@@ -293,6 +413,8 @@ class FontReplaceWindow : public ComboWindow
    RefButtonWindow btn_apply;
 
    CacheText<LineEditWindow> cache_face;
+
+   FontSelectFrame select_frame;
 
   private:
 
@@ -316,9 +438,17 @@ class FontReplaceWindow : public ComboWindow
 
    SignalConnector<FontReplaceWindow,StrLen,StrLen> connector_map_selected;
 
+   void openFont();
+
+   SignalConnector<FontReplaceWindow> connector_font_pressed;
+
+   void fontSelected(StrLen replace);
+
+   SignalConnector<FontReplaceWindow,StrLen> connector_font_selected;
+
   public:
 
-   FontReplaceWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace);
+   FontReplaceWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace,Signal<> &update);
 
    virtual ~FontReplaceWindow();
 

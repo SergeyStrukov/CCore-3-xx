@@ -395,6 +395,80 @@ void FontMapWindow::set(StrLen face,String value)
     }
  }
 
+/* class FontSelectWindow */
+
+void FontSelectWindow::selectFont()
+ {
+  FreeTypeFont font;
+
+  (Font &)font=fontedit.getFont();
+
+  selected.assert(font.getFamily());
+ }
+
+FontSelectWindow::FontSelectWindow(SubWindowHost &host,const Config &cfg_)
+ : ComboWindow(host),
+   cfg(cfg_),
+
+   btn_select(wlist,cfg.btn_cfg,cfg.text_Select),
+   fontedit(wlist,cfg.fontedit_cfg),
+
+   btn_pressed(this,&FontSelectWindow::selectFont,btn_select.pressed)
+ {
+  wlist.insTop(btn_select,fontedit);
+ }
+
+FontSelectWindow::~FontSelectWindow()
+ {
+ }
+
+ // methods
+
+Point FontSelectWindow::getMinSize() const
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToTop lay{LayCenterX(btn_select),Lay(fontedit)};
+
+  return lay.getMinSize(space);
+ }
+
+ // drawing
+
+void FontSelectWindow::layout()
+ {
+  Coord space=+cfg.space_dxy;
+
+  LayToTop lay{LayCenterX(btn_select),Lay(fontedit)};
+
+  ExtLay(lay).setPlace(getPane(),space);
+ }
+
+void FontSelectWindow::drawBack(DrawBuf buf,bool) const
+ {
+  buf.erase(+cfg.back);
+ }
+
+ // user input
+
+void FontSelectWindow::react(UserAction action)
+ {
+  wlist.react(action);
+ }
+
+/* class FontSelectFrame */
+
+FontSelectFrame::FontSelectFrame(Desktop *desktop,const Config &cfg,Signal<> &update)
+ : FrameOf<FontSelectWindow>(desktop,cfg,update),
+
+   selected(client.selected)
+ {
+ }
+
+FontSelectFrame::~FontSelectFrame()
+ {
+ }
+
 /* class FontReplaceWindow */
 
 void FontReplaceWindow::findFace()
@@ -428,7 +502,19 @@ void FontReplaceWindow::setEdit(StrLen face,StrLen replace)
   edit_replace.setText(replace);
  }
 
-FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace)
+void FontReplaceWindow::openFont()
+ {
+  if( select_frame.isDead() ) select_frame.create(getFrame());
+ }
+
+void FontReplaceWindow::fontSelected(StrLen replace)
+ {
+  map.set(cache_face.getText(),replace);
+
+  edit_replace.setText(replace);
+ }
+
+FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -438,6 +524,7 @@ FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,Font
 
    btn_replace(wlist,cfg.btn_cfg,cfg.text_Replace),
    edit_replace(wlist,cfg.edit_cfg),
+   knob_font(wlist,cfg.knob_cfg,KnobShape::FacePlus),
 
    map(wlist,cfg.map_cfg,replace),
 
@@ -446,15 +533,20 @@ FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,Font
 
    cache_face(edit_face),
 
+   select_frame(host.getFrameDesktop(),cfg.select_cfg,update),
+
    connector_find_pressed(this,&FontReplaceWindow::findFace,btn_find.pressed),
    connector_del_pressed(this,&FontReplaceWindow::delEntry,knob_del.pressed),
    connector_replace_pressed(this,&FontReplaceWindow::replaceFace,btn_replace.pressed),
    connector_save_pressed(this,&FontReplaceWindow::saveMap,btn_save.pressed),
    connector_apply_pressed(this,&FontReplaceWindow::applyMap,btn_apply.pressed),
 
-   connector_map_selected(this,&FontReplaceWindow::setEdit,map.selected)
+   connector_map_selected(this,&FontReplaceWindow::setEdit,map.selected),
+
+   connector_font_pressed(this,&FontReplaceWindow::openFont,knob_font.pressed),
+   connector_font_selected(this,&FontReplaceWindow::fontSelected,select_frame.selected)
  {
-  wlist.insTop(btn_find,edit_face,knob_del,btn_replace,edit_replace,map,btn_save,btn_apply);
+  wlist.insTop(btn_find,edit_face,knob_del,btn_replace,edit_replace,knob_font,map,btn_save,btn_apply);
 
   edit_face.hideInactiveCursor();
   edit_replace.hideInactiveCursor();
@@ -472,7 +564,7 @@ Point FontReplaceWindow::getMinSize() const
 
   LayToLeftCenter lay1{Lay(knob_del),LayToRightCenter(Lay(btn_find),Lay(edit_face))};
 
-  LayToRightCenter lay2{Lay(btn_replace),Lay(edit_replace)};
+  LayToLeftCenter lay2{Lay(knob_font),LayToRightCenter(Lay(btn_replace),Lay(edit_replace))};
 
   LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
 
@@ -502,7 +594,7 @@ void FontReplaceWindow::layout()
 
   LayToLeftCenter lay1{Lay(knob_del),LayToRightCenter(Lay(btn_find),Lay(edit_face))};
 
-  LayToRightCenter lay2{Lay(btn_replace),Lay(edit_replace)};
+  LayToLeftCenter lay2{Lay(knob_font),LayToRightCenter(Lay(btn_replace),Lay(edit_replace))};
 
   LayToBottom lay3{Lay(btn_save),LayTop(btn_apply)};
 
@@ -528,7 +620,7 @@ void FontReplaceWindow::react(UserAction action)
 /* class FontReplaceFrame */
 
 FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplace &replace,Signal<> &update)
- : FrameOf<FontReplaceWindow>(desktop,cfg,update,replace),
+ : FrameOf<FontReplaceWindow>(desktop,cfg,update,replace,update),
 
    apply(client.apply)
  {
