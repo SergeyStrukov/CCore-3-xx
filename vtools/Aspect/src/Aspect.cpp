@@ -1018,7 +1018,7 @@ void DataWindow::update_scroll()
  }
 
 DataWindow::DataWindow(SubWindowHost &host,const ConfigType &cfg,AspectData &data)
- : Base(host,cfg,data),
+ : ScrollableWindow<InnerDataWindow>(host,cfg,data),
 
    connector_update_scroll(this,&DataWindow::update_scroll,window.update_scroll),
 

@@ -243,26 +243,6 @@ class InnerBookWindow : public SubWindow
 
 class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
  {
-  public:
-
-   using Base = ScrollableWindow<InnerBookWindow> ;
-
-   struct Config : Base::Config
-    {
-     Config() noexcept {}
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : Base::Config(user_pref,app_pref)
-      {
-       bindScroll(user_pref.get(),user_pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
    void changed();
 
    SignalConnector<DisplayBookWindow> connector_changed;

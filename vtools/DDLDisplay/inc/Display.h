@@ -637,26 +637,6 @@ class DDLInnerWindow : public SubWindow
 
 class DDLWindow : public ScrollableWindow<DDLInnerWindow>
  {
-  public:
-
-   using BaseConfig = ScrollableWindow<DDLInnerWindow>::ConfigType ;
-
-   struct Config : BaseConfig
-    {
-     Config() noexcept {}
-
-     template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref)
-      : BaseConfig(pref,app_pref)
-      {
-       bindScroll(pref.get(),pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
    const DDLFile &file;
 
   private:

@@ -818,7 +818,7 @@ void BookLabWindow::changed()
  }
 
 BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> &update)
- : Base(host,cfg,update),
+ : ScrollableWindow<InnerBookLabWindow>(host,cfg,update),
 
    connector_changed(this,&BookLabWindow::changed,window.changed),
 

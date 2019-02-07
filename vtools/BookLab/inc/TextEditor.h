@@ -533,24 +533,6 @@ class TextWindow : public SubWindow
 
 class ScrollTextWindow : public ScrollableWindow<TextWindow>
  {
-  public:
-
-   using Base = ScrollableWindow<TextWindow> ;
-
-   struct Config : Base::Config
-    {
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : Base::Config(user_pref,app_pref)
-      {
-       bindScroll(user_pref.get(),user_pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
    void changed();
 
    SignalConnector<ScrollTextWindow> connector_changed;

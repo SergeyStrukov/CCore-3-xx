@@ -131,6 +131,7 @@ OBJ_LIST = \
 .obj/Forget.o \
 .obj/FrameBase.o \
 .obj/FrameBuf.o \
+.obj/FrameOf.o \
 .obj/FrameWindow.o \
 .obj/FreeType.o \
 .obj/FreeTypeFont.o \
@@ -597,6 +598,7 @@ ASM_LIST = \
 .obj/Forget.s \
 .obj/FrameBase.s \
 .obj/FrameBuf.s \
+.obj/FrameOf.s \
 .obj/FrameWindow.s \
 .obj/FreeType.s \
 .obj/FreeTypeFont.s \
@@ -1063,6 +1065,7 @@ DEP_LIST = \
 .obj/Forget.dep \
 .obj/FrameBase.dep \
 .obj/FrameBuf.dep \
+.obj/FrameOf.dep \
 .obj/FrameWindow.dep \
 .obj/FreeType.dep \
 .obj/FreeTypeFont.dep \
@@ -1803,6 +1806,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FrameBuf.o : ../../Applied/CCore/src/./video/FrameBuf.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FrameOf.o : ../../Desktop/Lib/CCore/src/./video/FrameOf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FrameWindow.o : ../../Desktop/Core/CCore/src/./video/FrameWindow.cpp
@@ -3196,6 +3202,9 @@ include $(RULES_FILE)
 .obj/FrameBuf.s : ../../Applied/CCore/src/./video/FrameBuf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FrameOf.s : ../../Desktop/Lib/CCore/src/./video/FrameOf.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/FrameWindow.s : ../../Desktop/Core/CCore/src/./video/FrameWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4586,6 +4595,9 @@ include $(RULES_FILE)
 
 .obj/FrameBuf.dep : ../../Applied/CCore/src/./video/FrameBuf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FrameBuf.o $< -MF $@
+
+.obj/FrameOf.dep : ../../Desktop/Lib/CCore/src/./video/FrameOf.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FrameOf.o $< -MF $@
 
 .obj/FrameWindow.dep : ../../Desktop/Core/CCore/src/./video/FrameWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FrameWindow.o $< -MF $@

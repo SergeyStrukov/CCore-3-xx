@@ -1,7 +1,9 @@
 /* FrameOf.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,19 +13,19 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef FrameOf_h
-#define FrameOf_h
+#ifndef CCore_inc_video_FrameOf_h
+#define CCore_inc_video_FrameOf_h
 
-#include <inc/App.h>
+#include <CCore/inc/video/WindowLib.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
 
 /* classes */
 
 struct FramePlace;
 
-template <class W>
-class FrameOf;
+template <class W,class P=FramePlace> class FrameOf;
 
 /* struct FramePlace */
 
@@ -37,11 +39,39 @@ struct FramePlace
     place=pane;
     ok=true;
    }
+
+  template <class T>
+  void set(T data)
+   {
+    if( data.ok )
+      {
+       place.x=data.x;
+       place.y=data.y;
+       place.dx=data.dx;
+       place.dy=data.dy;
+
+       ok=true;
+      }
+    else
+      {
+       ok=false;
+      }
+   }
+
+  Pane get(Point size) const { Used(size); return place; }
+
+  void print(PrinterType &out) const
+   {
+    if( ok )
+      Printf(out,"{ #; , #; , #; , #; , True }",place.x,place.y,place.dx,place.dy);
+    else
+      Putobj(out,"{ .ok = False }"_c);
+   }
  };
 
-/* class FrameOf<W> */
+/* class FrameOf<W,P> */
 
-template <class W>
+template <class W,class P>
 class FrameOf : public DragFrame
  {
   public:
@@ -58,13 +88,9 @@ class FrameOf : public DragFrame
 
      typename W::ConfigType client_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       this->bindApp(app_pref.get());
-      }
+     // lib
+
+     Config() noexcept {}
 
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
@@ -72,6 +98,24 @@ class FrameOf : public DragFrame
        pos_ry.bind(bag.frame_pos_ry);
 
        frame_cfg.bind(proxy);
+      }
+
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy)
+      {
+       BindBagProxy(client_cfg,bag,proxy);
+
+       bindUser(bag,proxy);
+      }
+
+     // app
+
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
+      : client_cfg(user_pref,app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       this->bindApp(app_pref.get());
       }
     };
 
@@ -82,8 +126,7 @@ class FrameOf : public DragFrame
    const Config &cfg;
 
    W client;
-
-   FramePlace place;
+   P place;
 
   public:
 
@@ -111,6 +154,20 @@ class FrameOf : public DragFrame
     {
     }
 
+   // methods
+
+   void prepare(const P &state)
+    {
+     place=state;
+    }
+
+   void save(P &state)
+    {
+     if( isAlive() ) place.set(host->getPlace());
+
+     state=place;
+    }
+
    // base
 
    virtual void dying()
@@ -124,9 +181,9 @@ class FrameOf : public DragFrame
 
    Pane getPane(StrLen title) const
     {
-     if( place.ok ) return place.place;
-
      Point size=getMinSize(false,title,client.getMinSize());
+
+     if( place.ok ) return place.get(size);
 
      return GetWindowPlace(desktop,+cfg.pos_ry,size);
     }
@@ -139,6 +196,7 @@ class FrameOf : public DragFrame
     }
  };
 
-} // namespace App
+} // namespace Video
+} // namespace CCore
 
 #endif

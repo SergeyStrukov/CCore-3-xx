@@ -618,7 +618,7 @@ void DisplayBookWindow::changed()
  }
 
 DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,DrawBook::ExtMap &map)
- : Base(host,cfg,map),
+ : ScrollableWindow<InnerBookWindow>(host,cfg,map),
 
    connector_changed(this,&DisplayBookWindow::changed,window.changed),
 

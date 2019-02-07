@@ -315,24 +315,6 @@ class InnerBookLabWindow : public SubWindow
 
 class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
  {
-  public:
-
-   using Base = ScrollableWindow<InnerBookLabWindow> ;
-
-   struct Config : Base::Config
-    {
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : Base::Config(user_pref,app_pref)
-      {
-       bindScroll(user_pref.get(),user_pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
    void changed();
 
    SignalConnector<BookLabWindow> connector_changed;

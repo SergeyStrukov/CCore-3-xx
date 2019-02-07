@@ -521,26 +521,6 @@ class InnerDataWindow : public SubWindow
 
 class DataWindow : public ScrollableWindow<InnerDataWindow>
  {
-  public:
-
-   using Base = ScrollableWindow<InnerDataWindow> ;
-
-   struct Config : Base::Config
-    {
-     Config() noexcept {}
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : Base::Config(user_pref,app_pref)
-      {
-       bindScroll(user_pref.get(),user_pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
    void update_scroll();
 
    SignalConnector<DataWindow> connector_update_scroll;

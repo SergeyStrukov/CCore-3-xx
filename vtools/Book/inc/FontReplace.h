@@ -15,7 +15,8 @@
 #define FontReplace_h
 
 #include <inc/Book.h>
-#include <inc/FrameOf.h>
+
+#include <CCore/inc/video/FrameOf.h>
 
 #include <CCore/inc/CompactMap.h>
 #include <CCore/inc/StrKey.h>

@@ -81,16 +81,13 @@ class ScrollableWindow : public ComboWindow
      CtorRefVal<typename XShape::Config> x_cfg;
      CtorRefVal<typename YShape::Config> y_cfg;
 
+     // lib
+
      Config() noexcept {}
 
-     template <class ... TT>
-     explicit Config(TT && ... tt) : window_cfg( std::forward<TT>(tt)... ) {}
-
      template <class Bag,class Proxy>
-     void bindScroll(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &,Proxy proxy)
       {
-       Used(bag);
-
        x_cfg.bind(proxy);
        y_cfg.bind(proxy);
       }
@@ -100,8 +97,16 @@ class ScrollableWindow : public ComboWindow
       {
        BindBagProxy(window_cfg,bag,proxy);
 
-       x_cfg.bind(proxy);
-       y_cfg.bind(proxy);
+       bindUser(bag,proxy);
+      }
+
+     // app
+
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
+      : window_cfg(user_pref,app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
       }
     };
 
