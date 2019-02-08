@@ -59,11 +59,11 @@ void FontInfo::fill(Font &font,bool &is_font)
  {
   if( is_font )
     {
-     family=font.getFamily();
-     style=font.getStyle();
-     font_class=font.getClass();
+     family=GetFontFamily(font);
+     style=GetFontStyle(font);
+     font_class=GetFontClass(font);
 
-     auto flags=font.getStyleFlags();
+     auto flags=GetFontStyleFlags(font);
 
      scalable=flags.scalable;
      monospace=flags.monospace;

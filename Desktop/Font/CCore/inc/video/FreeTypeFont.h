@@ -31,6 +31,8 @@ namespace Video {
 
 class CharMapHook;
 
+struct AbstractExtFont;
+
 class FreeTypeFont;
 
 class ProbeFreeTypeFont;
@@ -73,6 +75,50 @@ class CharMapHook : AutoGlobal<CharMapTable>::Lock
    Unicode toUnicode(CharCodeType ch) const { return (*Object)(ch); }
  };
 
+/* struct AbstractExtFont */
+
+struct AbstractExtFont
+ {
+  struct StyleFlags
+   {
+    bool scalable;
+    bool monospace;
+    bool italic;
+    bool bold;
+   };
+
+  struct Config
+   {
+    FontHintType fht = FontHintAuto ;
+    FontSmoothType fsm = FontSmoothLCD_RGB ;
+    bool use_kerning = true ;
+    int strength = 0 ;
+    double gamma_order = 0 ;
+
+    Config() noexcept {}
+   };
+
+  // set params
+
+  virtual void setSize(Coord dx,Coord dy) = 0 ;
+
+  virtual void setFixedSize(ulen index) = 0 ;
+
+  virtual void setConfig(const Config &cfg) = 0 ;
+
+  // get props
+
+  virtual StyleFlags getStyleFlags() const = 0 ;
+
+  virtual Config getConfig() const = 0 ;
+
+  virtual StrLen getFamily() const = 0 ;
+
+  virtual StrLen getStyle() const = 0 ;
+
+  virtual void getSizeList(Function<void (Coord dx,Coord dy)> func) const = 0 ;
+ };
+
 /* class FreeTypeFont */
 
 class FreeTypeFont : public Font
@@ -85,30 +131,7 @@ class FreeTypeFont : public Font
 
    friend class ProbeFreeTypeFont;
 
-  private:
-
-   Base * getBase() const;
-
   public:
-
-   struct Config
-    {
-     FontHintType fht = FontHintAuto ;
-     FontSmoothType fsm = FontSmoothLCD_RGB ;
-     bool use_kerning = true ;
-     int strength = 0 ;
-     double gamma_order = 0 ;
-
-     Config() noexcept {}
-    };
-
-   struct StyleFlags
-    {
-     bool scalable;
-     bool monospace;
-     bool italic;
-     bool bold;
-    };
 
    // constructors
 
@@ -121,33 +144,33 @@ class FreeTypeFont : public Font
    FreeTypeFont(StrLen dir,StrLen file_name); // dir/file_name
 
    ~FreeTypeFont() {}
-
-   // set params
-
-   void setSize(Coord dx,Coord dy);
-
-   void setSize(Point size) { setSize(size.x,size.y); }
-
-   void setSize(Coord dxy) { setSize(dxy,dxy); }
-
-   void setFixedSize(ulen index);
-
-   void setConfig(const Config &cfg);
-
-   // get props
-
-   StyleFlags getStyleFlags() const;
-
-   Config getConfig() const;
-
-   FontClass getClass() const { return (*this)->getFontClass(); }
-
-   StrLen getFamily() const;
-
-   StrLen getStyle() const;
-
-   void getSizeList(Function<void (Coord dx,Coord dy)> func) const;
  };
+
+ // set params
+
+void SetFontSize(const Font &font,Coord dx,Coord dy);
+
+inline void SetFontSize(const Font &font,Point size) { SetFontSize(font,size.x,size.y); }
+
+inline void SetFontSize(const Font &font,Coord dxy) { SetFontSize(font,dxy,dxy); }
+
+void SetFixedFontSize(const Font &font,ulen index);
+
+void SetFontConfig(const Font &font,const AbstractExtFont::Config &cfg);
+
+ // get props
+
+AbstractExtFont::StyleFlags GetFontStyleFlags(const Font &font);
+
+AbstractExtFont::Config GetFontConfig(const Font &font);
+
+inline FontClass GetFontClass(const Font &font) { return font->getFontClass(); }
+
+StrLen GetFontFamily(const Font &font);
+
+StrLen GetFontStyle(const Font &font);
+
+void GetFontSizeList(const Font &font,Function<void (Coord dx,Coord dy)> func);
 
 /* class ProbeFreeTypeFont */
 
@@ -163,14 +186,26 @@ class ProbeFreeTypeFont : NoCopy
 
    ~ProbeFreeTypeFont();
 
+   // get props
+
    FontClass getClass() const;
 
    StrLen getFamily() const;
 
    StrLen getStyle() const;
 
-   FreeTypeFont::StyleFlags getStyleFlags() const;
+   AbstractExtFont::StyleFlags getStyleFlags() const;
  };
+
+ // get props
+
+inline FontClass GetFontClass(const ProbeFreeTypeFont &font) { return font.getClass(); }
+
+inline StrLen GetFontFamily(const ProbeFreeTypeFont &font) { return font.getFamily(); }
+
+inline StrLen GetFontStyle(const ProbeFreeTypeFont &font) { return font.getStyle(); }
+
+inline AbstractExtFont::StyleFlags GetFontStyleFlags(const ProbeFreeTypeFont &font) { return font.getStyleFlags(); }
 
 } // namespace Video
 } // namespace CCore

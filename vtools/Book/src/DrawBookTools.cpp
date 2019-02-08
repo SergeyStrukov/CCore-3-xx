@@ -51,13 +51,13 @@ auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Fon
     {
      FreeTypeFont font(Range(info->file_name));
 
-     font.setSize(size);
+     SetFontSize(font,size);
 
-     FreeTypeFont::Config cfg;
+     AbstractExtFont::Config cfg;
 
      cfg.strength=strength;
 
-     font.setConfig(cfg);
+     SetFontConfig(font,cfg);
 
      return {font,true,false};
     }
@@ -72,11 +72,9 @@ auto FontMap::find(Book::TypeDef::Font *obj,Font fallback) -> Rec
   return find(obj->face,scale*CastCoord(obj->size),obj->strength,obj->bold,obj->italic,fallback);
  }
 
-void FontMap::SetSize(Font &font_,Coord size)
+void FontMap::SetSize(Font &font,Coord size)
  {
-  FreeTypeFont &font=static_cast<FreeTypeFont &>(font_);
-
-  font.setSize(size);
+  SetFontSize(font,size);
  }
 
 void FontMap::setScale(Ratio scale_)

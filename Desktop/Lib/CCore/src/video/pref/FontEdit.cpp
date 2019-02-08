@@ -410,7 +410,7 @@ int FontEditWindow::GetMaxIndex(Font font_)
 
      auto temp=ToFunction<void (Coord dx,Coord dy)>( [&count] (Coord,Coord) { count++; } );
 
-     font.getSizeList(temp.function());
+     GetFontSizeList(font,temp.function());
 
      return (count>0)?count-1:0;
     }

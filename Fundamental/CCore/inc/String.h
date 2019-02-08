@@ -70,6 +70,10 @@ class String
 
    // methods
 
+   bool isEmpty() const { return data.isEmpty(); }
+
+   bool notEmpty() const { return data.notEmpty(); }
+
    PtrLen<char> modify() { return data.modify(); }
 
    // range access

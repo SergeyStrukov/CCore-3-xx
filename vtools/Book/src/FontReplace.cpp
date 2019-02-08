@@ -399,11 +399,7 @@ void FontMapWindow::set(StrLen face,String value)
 
 void FontSelectWindow::selectFont()
  {
-  FreeTypeFont font;
-
-  (Font &)font=fontedit.getFont();
-
-  selected.assert(font.getFamily());
+  selected.assert(GetFontFamily(fontedit.getFont()));
  }
 
 FontSelectWindow::FontSelectWindow(SubWindowHost &host,const Config &cfg_)

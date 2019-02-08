@@ -1492,18 +1492,14 @@ void FieldElement::font_selected()
 
         if( couple.param.engine_type==FontParam::EngineFreeType )
           {
-           FreeTypeFont ftfont;
-
-           (Font &)ftfont=couple.font;
-
-           ptr->face=String(ftfont.getFamily());
+           ptr->face=GetFontFamily(couple.font);
 
            if( couple.param.size_type==FontParam::SizeXY )
              {
               ptr->size=couple.param.set_size.size_xy;
              }
 
-           auto style=ftfont.getStyleFlags();
+           auto style=GetFontStyleFlags(couple.font);
 
            ptr->bold.set(style.bold);
            ptr->italic.set(style.italic);

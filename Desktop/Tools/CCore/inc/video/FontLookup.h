@@ -59,7 +59,7 @@ inline FontId operator | (FontId id,ItalicType) { id.italic=true; return id; }
 
 /* struct Bolder */
 
-struct Bolder : FreeTypeFont::Config
+struct Bolder : AbstractExtFont::Config
  {
   explicit Bolder(int strength_) { strength=strength_; }
  };
@@ -73,7 +73,7 @@ class FontLookup : NoCopy
 
   private:
 
-   static FontCouple Build(const FontInfo *info,Coord font_size,const FreeTypeFont::Config &font_config);
+   static FontCouple Build(const FontInfo *info,Coord font_size,const AbstractExtFont::Config &font_config);
 
    void buildIndex();
 
@@ -123,9 +123,9 @@ class FontLookup : NoCopy
 
    const FontInfo * find(FontId id) const { return find(id.family,id.bold,id.italic); }
 
-   FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config={}) const; // noexcept
+   FontCouple build(StrLen family,bool bold,bool italic,Coord font_size,const AbstractExtFont::Config &font_config={}) const; // noexcept
 
-   FontCouple build(FontId id,Coord font_size,const FreeTypeFont::Config &font_config={}) const { return build(id.family,id.bold,id.italic,font_size,font_config); }
+   FontCouple build(FontId id,Coord font_size,const AbstractExtFont::Config &font_config={}) const { return build(id.family,id.bold,id.italic,font_size,font_config); }
  };
 
 /* class DialogFontLookup */

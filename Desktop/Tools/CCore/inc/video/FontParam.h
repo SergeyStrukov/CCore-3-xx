@@ -77,7 +77,7 @@ struct FontParam
 
   // cfg
 
-  FreeTypeFont::Config cfg;
+  AbstractExtFont::Config cfg;
 
   // constructors
 

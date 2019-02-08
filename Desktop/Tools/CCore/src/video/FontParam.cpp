@@ -68,19 +68,19 @@ Font FontParam::create() const
          {
           case SizeXY :
            {
-            ret.setSize(set_size.size_xy);
+            SetFontSize(ret,set_size.size_xy);
            }
           break;
 
           case SizePoint :
            {
-            ret.setSize(set_size.size);
+            SetFontSize(ret,set_size.size);
            }
           break;
 
           case SizeIndex :
            {
-            ret.setFixedSize(set_size.index);
+            SetFixedFontSize(ret,set_size.index);
            }
           break;
 
@@ -90,7 +90,7 @@ Font FontParam::create() const
            }
          }
 
-       ret.setConfig(cfg);
+       SetFontConfig(ret,cfg);
 
        return ret;
       }

@@ -52,7 +52,7 @@ void FontLookup::Step::erase() noexcept
 
 /* class FontLookup */
 
-FontCouple FontLookup::Build(const FontInfo *info,Coord font_size,const FreeTypeFont::Config &font_config)
+FontCouple FontLookup::Build(const FontInfo *info,Coord font_size,const AbstractExtFont::Config &font_config)
  {
   try
     {
@@ -113,7 +113,7 @@ const FontInfo * FontLookup::find(StrLen family,bool bold,bool italic) const
                                                                  obj.italic,italic); } );
  }
 
-FontCouple FontLookup::build(StrLen family,bool bold,bool italic,Coord font_size,const FreeTypeFont::Config &font_config) const
+FontCouple FontLookup::build(StrLen family,bool bold,bool italic,Coord font_size,const AbstractExtFont::Config &font_config) const
  {
   const FontInfo *info=find(family,bold,italic);
 

@@ -533,9 +533,6 @@ class Font
 
    explicit Font(FontBase *font) : ptr(font) {}
 
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
-
   public:
 
    Font() noexcept; // default font
@@ -545,6 +542,11 @@ class Font
    const AbstractFont * getPtr() const { return ptr.getPtr(); }
 
    const AbstractFont * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template <class T>
+   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
  };
 
 /* class DotFontBase<FontShape> */

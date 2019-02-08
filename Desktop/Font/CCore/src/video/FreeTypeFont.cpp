@@ -123,7 +123,7 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
 
   mutable FreeType::Face face;
   mutable bool use_strength = true ;
-  Config cfg;
+  AbstractExtFont::Config cfg;
   GammaTable gamma_table;
 
   FontSize font_size;
@@ -482,7 +482,7 @@ AutoGlobal<FreeTypeFont::Global> FreeTypeFont::Inner::Object CCORE_INITPRI_3 ;
 
 /* class FreeTypeFont::Base */
 
-class FreeTypeFont::Base : public FontBase , Inner
+class FreeTypeFont::Base : public FontBase , Inner , public AbstractExtFont
  {
   private:
 
@@ -867,23 +867,25 @@ class FreeTypeFont::Base : public FontBase , Inner
      text(buf.cutRebase(pane),pane.dx,pane.dy,place,str,func);
     }
 
-   // set params
+   // AbstractExtFont
 
-   void setSize(Coord dx,Coord dy)
+    // set params
+
+   virtual void setSize(Coord dx,Coord dy)
     {
      face.setPixelSize(dx,dy);
 
      updateFontSize();
     }
 
-   void setFixedSize(ulen index)
+   virtual void setFixedSize(ulen index)
     {
      face.setFixedSize((FT_Int)index);
 
      updateFontSize();
     }
 
-   void setConfig(const Config &cfg_)
+   virtual void setConfig(const Config &cfg_)
     {
      cfg=cfg_;
 
@@ -892,9 +894,9 @@ class FreeTypeFont::Base : public FontBase , Inner
      if( cfg.gamma_order!=gamma_table.getOrder() ) gamma_table.fill(cfg.gamma_order);
     }
 
-   // get props
+    // get props
 
-   StyleFlags getStyleFlags() const
+   virtual StyleFlags getStyleFlags() const
     {
      StyleFlags ret;
 
@@ -906,33 +908,28 @@ class FreeTypeFont::Base : public FontBase , Inner
      return ret;
     }
 
-   Config getConfig() const
+   virtual Config getConfig() const
     {
      return cfg;
     }
 
-   StrLen getFamily() const
+   virtual StrLen getFamily() const
     {
      return face.getFamily();
     }
 
-   StrLen getStyle() const
+   virtual StrLen getStyle() const
     {
      return face.getStyle();
     }
 
-   void getSizeList(Function<void (Coord dx,Coord dy)> func) const
+   virtual void getSizeList(Function<void (Coord dx,Coord dy)> func) const
     {
      for(auto size : face.getSizeList() ) func(size.width,size.height);
     }
  };
 
 /* class FreeTypeFont */
-
-auto FreeTypeFont::getBase() const -> Base *
- {
-  return castPtr<Base>();
- }
 
  // constructors
 
@@ -953,54 +950,54 @@ FreeTypeFont::FreeTypeFont(StrLen dir,StrLen file_name)
 
  // set params
 
-void FreeTypeFont::setSize(Coord dx,Coord dy)
+void SetFontSize(const Font &font,Coord dx,Coord dy)
  {
-  if( Base *base=getBase() ) base->setSize(dx,dy);
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->setSize(dx,dy);
  }
 
-void FreeTypeFont::setFixedSize(ulen index)
+void SetFixedFontSize(const Font &font,ulen index)
  {
-  if( Base *base=getBase() ) base->setFixedSize(index);
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->setFixedSize(index);
  }
 
-void FreeTypeFont::setConfig(const Config &cfg)
+void SetFontConfig(const Font &font,const AbstractExtFont::Config &cfg)
  {
-  if( Base *base=getBase() ) base->setConfig(cfg);
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->setConfig(cfg);
  }
 
  // get props
 
-auto FreeTypeFont::getStyleFlags() const -> StyleFlags
+AbstractExtFont::StyleFlags GetFontStyleFlags(const Font &font)
  {
-  if( Base *base=getBase() ) return base->getStyleFlags();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getStyleFlags();
 
   return {};
  }
 
-auto FreeTypeFont::getConfig() const -> Config
+AbstractExtFont::Config GetFontConfig(const Font &font)
  {
-  if( Base *base=getBase() ) return base->getConfig();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getConfig();
 
   return {};
  }
 
-StrLen FreeTypeFont::getFamily() const
+StrLen GetFontFamily(const Font &font)
  {
-  if( Base *base=getBase() ) return base->getFamily();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getFamily();
 
   return "Unknown"_c;
  }
 
-StrLen FreeTypeFont::getStyle() const
+StrLen GetFontStyle(const Font &font)
  {
-  if( Base *base=getBase() ) return base->getStyle();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getStyle();
 
   return Null;
  }
 
-void FreeTypeFont::getSizeList(Function<void (Coord dx,Coord dy)> func) const
+void GetFontSizeList(const Font &font,Function<void (Coord dx,Coord dy)> func)
  {
-  if( Base *base=getBase() ) base->getSizeList(func);
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getSizeList(func);
  }
 
 /* class ProbeFreeTypeFont::Inner */
@@ -1021,7 +1018,7 @@ class ProbeFreeTypeFont::Inner : public MemBase_nocopy , AutoGlobal<FreeTypeFont
 
    StrLen getStyle() const;
 
-   FreeTypeFont::StyleFlags getStyleFlags() const;
+   AbstractExtFont::StyleFlags getStyleFlags() const;
  };
 
 ProbeFreeTypeFont::Inner::Inner(StrLen file_name,bool &is_font)
@@ -1049,9 +1046,9 @@ StrLen ProbeFreeTypeFont::Inner::getStyle() const
   return face.getStyle();
  }
 
-FreeTypeFont::StyleFlags ProbeFreeTypeFont::Inner::getStyleFlags() const
+AbstractExtFont::StyleFlags ProbeFreeTypeFont::Inner::getStyleFlags() const
  {
-  FreeTypeFont::StyleFlags ret;
+  AbstractExtFont::StyleFlags ret;
 
   ret.scalable=face.isScalable();
   ret.monospace=face.isMonospace();
@@ -1088,7 +1085,7 @@ StrLen ProbeFreeTypeFont::getStyle() const
   return ptr->getStyle();
  }
 
-FreeTypeFont::StyleFlags ProbeFreeTypeFont::getStyleFlags() const
+AbstractExtFont::StyleFlags ProbeFreeTypeFont::getStyleFlags() const
  {
   return ptr->getStyleFlags();
  }

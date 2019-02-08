@@ -44,11 +44,11 @@ class <span class="Att">String</span>
    
   public: 
   
-   String() noexcept {}
+   String() noexcept;
    
-   String(NothingType) noexcept {}
+   String(NothingType) noexcept;
 
-   String(StrLen str) : data(DoCopy(str.len),str.ptr) {}
+   String(StrLen str);
    
 #ifdef CCORE_UTF8
 
@@ -62,15 +62,19 @@ class <span class="Att">String</span>
    
    // methods
 
-   PtrLen&lt;char&gt; modify() { return data.modify(); }
+   bool isEmpty() const;
+
+   bool notEmpty() const;
+
+   PtrLen&lt;char&gt; modify();
 
    // range access
    
-   const char * getPtr() const { return data.getPtr(); }
+   const char * getPtr() const;
    
-   const char * getPtr_const() const { return data.getPtr(); }
+   const char * getPtr_const() const;
    
-   ulen getLen() const { return data.getLen(); }
+   ulen getLen() const;
    
    // print object
    
