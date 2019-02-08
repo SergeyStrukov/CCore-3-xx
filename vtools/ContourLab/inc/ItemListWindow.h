@@ -508,10 +508,6 @@ class ItemListWindow : public ComboWindow
    void updateList()
     {
      list.update();
-
-     list.layout();
-
-     list.redraw();
     }
 
    void setCheck(bool show,bool gray,bool name);

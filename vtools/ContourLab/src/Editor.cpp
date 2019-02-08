@@ -233,9 +233,9 @@ void EditorWindow::pad_up(ulen ind)
  {
   if( geom.contour.padUp(ind) )
     {
-     list_pad.select(ind-1);
-
      list_pad.updateList();
+
+     list_pad.select(ind-1);
 
      list_pad.ping();
 
@@ -247,9 +247,9 @@ void EditorWindow::pad_down(ulen ind)
  {
   if( geom.contour.padDown(ind) )
     {
-     list_pad.select(ind+1);
-
      list_pad.updateList();
+
+     list_pad.select(ind+1);
 
      list_pad.ping();
 
@@ -261,16 +261,14 @@ void EditorWindow::pad_del(ulen ind)
  {
   if( geom.contour.padDel(ind) )
     {
-     if( list_pad.reselect() )
-       {
-        list_pad.updateList();
+     list_pad.updateList();
 
+     if( list_pad.select(ind) )
+       {
         list_pad.ping();
        }
      else
        {
-        list_pad.updateList();
-
         unselectPad();
        }
 
@@ -286,9 +284,9 @@ void EditorWindow::pad_add(ulen ind)
 
   if( geom.contour.padAdd(ind,list_pad.getText()) )
     {
-     list_pad.select(ind);
-
      list_pad.updateList();
+
+     list_pad.select(ind);
 
      list_pad.ping();
 
@@ -359,9 +357,9 @@ void EditorWindow::formula_up(ulen ind)
  {
   if( geom.contour.formulaUp(ind) )
     {
-     list_formula.select(ind-1);
-
      list_formula.updateList();
+
+     list_formula.select(ind-1);
 
      list_formula.ping();
 
@@ -373,9 +371,9 @@ void EditorWindow::formula_down(ulen ind)
  {
   if( geom.contour.formulaDown(ind) )
     {
-     list_formula.select(ind+1);
-
      list_formula.updateList();
+
+     list_formula.select(ind+1);
 
      list_formula.ping();
 
@@ -387,16 +385,14 @@ void EditorWindow::formula_del(ulen ind)
  {
   if( geom.contour.formulaDel(ind) )
     {
-     if( list_formula.reselect() )
-       {
-        list_formula.updateList();
+     list_formula.updateList();
 
+     if( list_formula.select(ind) )
+       {
         list_formula.ping();
        }
      else
        {
-        list_formula.updateList();
-
         unselectFormula();
        }
 
@@ -412,9 +408,9 @@ void EditorWindow::formula_add(ulen ind)
 
   if( geom.contour.formulaAdd(ind,list_formula.getText()) )
     {
-     list_formula.select(ind);
-
      list_formula.updateList();
+
+     list_formula.select(ind);
 
      list_formula.ping();
 
