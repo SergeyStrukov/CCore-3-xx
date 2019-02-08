@@ -1116,6 +1116,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
   knob_next.bindHint(cfg.hint_NextPage);
 
   spinor.bindHint(cfg.hint_Scale);
+  knob_replace.bindHint(cfg.hint_Font);
+  knob_reload.bindHint(cfg.hint_Reload);
   back_btn.bindHint(cfg.hint_GotoBack);
   fore_btn.bindHint(cfg.hint_GotoFore);
  }

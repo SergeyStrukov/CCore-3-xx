@@ -470,6 +470,8 @@ class BookWindow : public ComboWindow
      RefVal<DefString> hint_ParentPage = "Go to the parent page"_def ;
      RefVal<DefString> hint_NextPage   = "Go to the next page"_def ;
      RefVal<DefString> hint_Scale      = "Set the display scale"_def ;
+     RefVal<DefString> hint_Font       = "Font replacement table"_def ;
+     RefVal<DefString> hint_Reload     = "Reload book"_def ;
      RefVal<DefString> hint_GotoBack   = "Jump back"_def ;
      RefVal<DefString> hint_GotoFore   = "Jump fore"_def ;
 
@@ -521,6 +523,8 @@ class BookWindow : public ComboWindow
        hint_ParentPage.bind(bag.hint_ParentPage);
        hint_NextPage.bind(bag.hint_NextPage);
        hint_Scale.bind(bag.hint_Scale);
+       hint_Font.bind(bag.hint_Font);
+       hint_Reload.bind(bag.hint_Reload);
        hint_GotoBack.bind(bag.hint_GotoBack);
        hint_GotoFore.bind(bag.hint_GotoFore);
       }

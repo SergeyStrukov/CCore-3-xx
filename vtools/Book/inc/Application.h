@@ -62,6 +62,8 @@ struct AppPreferenceBag : ConfigItemHost
   DefString hint_ParentPage = "Go to the parent page"_def ;
   DefString hint_NextPage   = "Go to the next page"_def ;
   DefString hint_Scale      = "Set the display scale"_def ;
+  DefString hint_Font       = "Font replacement table"_def ;
+  DefString hint_Reload     = "Reload book"_def ;
   DefString hint_GotoBack   = "Jump back"_def ;
   DefString hint_GotoFore   = "Jump fore"_def ;
 
@@ -125,6 +127,8 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("hint_ParentPage"_c,ptr->hint_ParentPage);
   func("hint_NextPage"_c,ptr->hint_NextPage);
   func("hint_Scale"_c,ptr->hint_Scale);
+  func("hint_Font"_c,ptr->hint_Font);
+  func("hint_Reload"_c,ptr->hint_Reload);
   func("hint_GotoBack"_c,ptr->hint_GotoBack);
   func("hint_GotoFore"_c,ptr->hint_GotoFore);
   func("replace_title"_c,ptr->replace_title);

@@ -47,6 +47,8 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("'Parent page'"_def,hint_ParentPage);
     binder.item("'Next page'"_def,hint_NextPage);
     binder.item("'Scale'"_def,hint_Scale);
+    binder.item("'Font'"_def,hint_Font);
+    binder.item("'Reload'"_def,hint_Reload);
     binder.item("'Back'"_def,hint_GotoBack);
     binder.item("'Fore'"_def,hint_GotoFore);
 
