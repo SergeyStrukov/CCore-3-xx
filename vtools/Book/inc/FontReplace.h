@@ -182,6 +182,8 @@ class FontMapWindow : public ScrollListWindow
 
   private:
 
+   void updatePreserve();
+
    void set(ulen index);
 
    SignalConnector<FontMapWindow,ulen> connector_selected;

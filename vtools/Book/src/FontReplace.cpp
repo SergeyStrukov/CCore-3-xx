@@ -314,6 +314,19 @@ void FontMapWindow::Info::update(ulen index,StrLen replace)
   base->update(index,replace);
  }
 
+void FontMapWindow::updatePreserve()
+ {
+  ulen sel=getSelect();
+
+  info=Info(replace);
+
+  setInfo(info);
+
+  if( sel!=MaxULen ) select(sel);
+
+  ping();
+ }
+
 void FontMapWindow::set(ulen index)
  {
   auto rec=info.get(index);
@@ -358,32 +371,14 @@ void FontMapWindow::del(StrLen face)
  {
   replace.del(face);
 
-  ulen sel=getSelect();
-
-  update();
-
-  if( sel!=MaxULen )
-    {
-     select(sel);
-
-     ping();
-    }
+  updatePreserve();
  }
 
 void FontMapWindow::set(StrLen face,String value)
  {
   if( ulen index=replace.set(face,value) ; index==MaxULen )
     {
-     ulen sel=getSelect();
-
-     update();
-
-     if( sel!=MaxULen )
-       {
-        select(sel);
-
-        ping();
-       }
+     updatePreserve();
     }
   else
     {
