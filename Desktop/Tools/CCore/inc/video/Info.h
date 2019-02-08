@@ -78,9 +78,6 @@ class Info
 
    explicit Info(InfoBase *info) : ptr(info) {}
 
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
-
   public:
 
    Info() noexcept;
@@ -90,29 +87,18 @@ class Info
    const AbstractInfo * getPtr() const { return ptr.getPtr(); }
 
    const AbstractInfo * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template <class T>
+   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
  };
 
 /* class InfoFromString */
 
 class InfoFromString : public Info
  {
-   class StringSet : public InfoBase
-    {
-      DefString str;
-      DynArray<StrLen> list;
-
-     public:
-
-      explicit StringSet(const DefString &str);
-
-      virtual ~StringSet();
-
-      // AbstractInfo
-
-      virtual ulen getLineCount() const;
-
-      virtual StrLen getLine(ulen index) const;
-    };
+   class StringSet;
 
   public:
 
@@ -180,9 +166,6 @@ class ComboInfo
 
    explicit ComboInfo(ComboInfoBase *info) : ptr(info) {}
 
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
-
   public:
 
    ComboInfo() noexcept;
@@ -192,6 +175,11 @@ class ComboInfo
    const AbstractComboInfo * getPtr() const { return ptr.getPtr(); }
 
    const AbstractComboInfo * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template <class T>
+   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
  };
 
 /* class ComboInfoBuilder */

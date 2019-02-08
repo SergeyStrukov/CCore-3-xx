@@ -89,9 +89,6 @@ class Picture
 
    explicit Picture(PictureBase *pict) : ptr(pict) {}
 
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
-
   public:
 
    Picture() noexcept; // empty picture
@@ -101,6 +98,11 @@ class Picture
    const AbstractPicture * getPtr() const { return ptr.getPtr(); }
 
    const AbstractPicture * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template <class T>
+   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
  };
 
 /* class DefaultAppIcon */

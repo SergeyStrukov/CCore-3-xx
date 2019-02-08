@@ -68,37 +68,49 @@ Info::Info() noexcept
   ptr->incRef();
  }
 
-/* class InfoFromString */
+/* class InfoFromString::StringSet */
 
-InfoFromString::StringSet::StringSet(const DefString &str_)
- : str(str_),
-   list(DoReserve,100)
+class InfoFromString::StringSet : public InfoBase
  {
-  StrLen total=str.str();
+   DefString str;
+   DynArray<StrLen> list;
 
-  while( +total )
+  public:
+
+   explicit StringSet(const DefString &str_)
+    : str(str_),
+      list(DoReserve,100)
     {
-     StrLen line=CutLine(total);
+     StrLen total=str.str();
 
-     list.append_fill(line);
+     while( +total )
+       {
+        StrLen line=CutLine(total);
+
+        list.append_fill(line);
+       }
+
+     list.shrink_extra();
     }
 
-  list.shrink_extra();
- }
+   virtual ~StringSet()
+    {
+    }
 
-InfoFromString::StringSet::~StringSet()
- {
- }
+   // AbstractInfo
 
-ulen InfoFromString::StringSet::getLineCount() const
- {
-  return list.getLen();
- }
+   virtual ulen getLineCount() const
+    {
+     return list.getLen();
+    }
 
-StrLen InfoFromString::StringSet::getLine(ulen index) const
- {
-  return list.at(index);
- }
+   virtual StrLen getLine(ulen index) const
+    {
+     return list.at(index);
+    }
+ };
+
+/* class InfoFromString */
 
 InfoFromString::InfoFromString(const DefString &str)
  : Info(new StringSet(str))
