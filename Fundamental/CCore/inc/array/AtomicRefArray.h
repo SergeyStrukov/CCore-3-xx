@@ -318,6 +318,10 @@ class AtomicRefArray : AtomicRefArrayBase<T,Algo>
 
    // methods
 
+   bool isEmpty() const { return getLen()==0; }
+
+   bool notEmpty() const { return getLen()!=0; }
+
    PtrLen<T> modify()
     {
      if( ptr->isShared() ) unshare();

@@ -73,6 +73,10 @@ class SimpleArray : NoCopy
 
    // methods
 
+   bool isEmpty() const { return getLen()==0; }
+
+   bool notEmpty() const { return getLen()!=0; }
+
    void erase()
     {
      SimpleArray<T,Algo> temp;

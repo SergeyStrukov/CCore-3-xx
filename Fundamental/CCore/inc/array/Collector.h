@@ -262,6 +262,10 @@ class Collector : NoCopy
 
    // methods
 
+   bool isEmpty() const { return getLen()==0; }
+
+   bool notEmpty() const { return getLen()!=0; }
+
    ulen getLen() const
     {
      return list_len+cur->len;

@@ -261,6 +261,10 @@ class DynArray : DynArrayBase<T,Algo>
 
    // methods
 
+   bool isEmpty() const { return getLen()==0; }
+
+   bool notEmpty() const { return getLen()!=0; }
+
    void cloneTo(DynArray<T,Algo> &ret) const
     {
      DynArray<T,Algo> temp(DoCopy(getLen(),getMaxLen()),getPtr());

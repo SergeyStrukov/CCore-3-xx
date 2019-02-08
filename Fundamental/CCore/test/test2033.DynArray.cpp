@@ -32,9 +32,13 @@ bool Testit<2033>::Main()
 
   DynArray<int> a;
 
+  Printf(Con,"#; #;\n",a.isEmpty(),a.notEmpty());
+
   Show(a);
 
   Printf(Con,"#;\n",PrintSet(a.extend_default(2)));
+
+  Printf(Con,"#; #;\n",a.isEmpty(),a.notEmpty());
 
   Show(a);
 

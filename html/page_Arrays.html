@@ -175,6 +175,10 @@ class <span class="Att">TempArray</span> : NoCopy
    
    // methods
    
+   bool isEmpty() const;
+
+   bool notEmpty() const;
+
    void provide(ulen len);
    
    void reset(ulen len);
@@ -287,6 +291,10 @@ class <span class="Att">SimpleArray</span> : NoCopy
    SimpleArray&lt;T,Algo&gt; &amp; operator = (SimpleArray&lt;T,Algo&gt; &amp;&amp;obj) noexcept;
 
    // methods
+
+   bool isEmpty() const;
+
+   bool notEmpty() const;
 
    void erase();
 
@@ -519,6 +527,10 @@ Range access and index access methods are standard. Two additional methods repor
 
    // methods
    
+   bool isEmpty() const;
+
+   bool notEmpty() const;
+
    void cloneTo(DynArray&lt;T,Algo&gt; &amp;ret) const;
     
    void reserve(ulen extra_len);
@@ -526,6 +538,14 @@ Range access and index access methods are standard. Two additional methods repor
    void erase();
     
 </pre>
+
+<p>
+<b>isEmpty()</b> returns <b>true</b> iff the array is empty.
+</p>
+
+<p>
+<b>notEmpty()</b> returns <b>true</b> iff the array is not empty.
+</p>
 
 <p>
 <b>cloneTo()</b> clones the array. The reserved length is also preserved. The type <b>T</b> must be copyable. 
@@ -807,6 +827,10 @@ class <span class="Att">RefArray</span>
    
    // methods
    
+   bool isEmpty() const;
+
+   bool notEmpty() const;
+
    PtrLen&lt;T&gt; modify();
    
    PtrLenReverse&lt;T&gt; modifyReverse() { return RangeReverse(modify()); }
@@ -1000,6 +1024,10 @@ The default value is 1024.
 
    // methods
    
+   bool isEmpty() const;
+
+   bool notEmpty() const;
+
    ulen getLen() const; 
    
    void erase();
@@ -1026,6 +1054,14 @@ The default value is 1024.
 
 <p>
 <b>Collector</b> does not provide a direct access to its content.
+</p>
+
+<p>
+<b>isEmpty()</b> returns <b>true</b> iff the array is empty.
+</p>
+
+<p>
+<b>notEmpty()</b> returns <b>true</b> iff the array is not empty.
 </p>
 
 <p>
