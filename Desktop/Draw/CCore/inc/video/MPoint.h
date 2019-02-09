@@ -70,6 +70,10 @@ struct MPoint;
 
 struct Ratio;
 
+struct Anchor;
+
+struct AnchorMap;
+
 /* struct Fraction */
 
 struct Fraction
@@ -251,6 +255,34 @@ inline Ratio YdivX(Point size) { return Div(size.y,size.x); }
 inline Ratio XdivY(MPoint size) { return Div(size.x,size.y); }
 
 inline Ratio YdivX(MPoint size) { return Div(size.y,size.x); }
+
+/* struct Anchor */
+
+struct Anchor
+ {
+  MPoint o;
+  MCoord h;
+
+  Anchor(MPoint o_,MCoord h_) : o(o_),h(h_) {}
+
+  Anchor(MPoint o_,MPoint top) : o(o_),h(o_.y-top.y) {}
+ };
+
+/* struct AnchorMap */
+
+struct AnchorMap
+ {
+  Ratio A;
+  MPoint B;
+
+  AnchorMap(Anchor from,Anchor to)
+   {
+    A=Div(to.h,from.h);
+    B=to.o-A*from.o;
+   }
+
+  MPoint operator () (MPoint p) const { return A*p+B; }
+ };
 
 /* AdjustAspect() */
 

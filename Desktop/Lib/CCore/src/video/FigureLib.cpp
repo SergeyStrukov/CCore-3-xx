@@ -733,10 +733,6 @@ PolyFigureQuestion::PolyFigureQuestion(MCoord x,MCoord y,MCoord h)
 
 FigureReload::FigureReload(MCoord x,MCoord y,MCoord h)
  {
-  Ratio A=Div(h,325632-137899);
-
-  MPoint B=MPoint(x,y)-A*MPoint(373760,325632);
-
   static const SmoothDot Contour[37]=
    {
     { { 450560 , 325632 } , Smooth::DotBreak },
@@ -780,7 +776,10 @@ FigureReload::FigureReload(MCoord x,MCoord y,MCoord h)
 
   copy(Contour);
 
-  transformPoint( [A,B] (MPoint point) -> MPoint { return A*point+B; } );
+  Anchor from({373760,325632},{0,137899});
+  Anchor to({x,y},h);
+
+  transformPoint(AnchorMap(from,to));
  }
 
 } // namespace Video

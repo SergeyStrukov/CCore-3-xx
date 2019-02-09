@@ -824,7 +824,7 @@ struct Contour::PrintContour
     {
      Printf(out,"/*\n\n");
 
-     Printf(out,"SmoothDot Contour_#;[]=\n {",name);
+     Printf(out,"SmoothDot Contour_#;[#;]=\n {",name,dots.len);
 
      PrintFirst stem("\n  ",",\n  ");
 

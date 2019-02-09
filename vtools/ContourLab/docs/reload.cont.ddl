@@ -337,7 +337,7 @@ Loop Contour_baseloop=
 
 /*
 
-SmoothDot Contour_baseloop[]=
+SmoothDot Contour_baseloop[2]=
  {
   { { 373760 , 325632 } , Smooth::DotSimple },
   { { 373760 , 137899 } , Smooth::DotSimple }
@@ -391,7 +391,7 @@ Loop Contour_loop=
 
 /*
 
-SmoothDot Contour_loop[]=
+SmoothDot Contour_loop[37]=
  {
   { { 450560 , 325632 } , Smooth::DotBreak },
   { { 447253 , 347926 } , Smooth::DotSimple },
