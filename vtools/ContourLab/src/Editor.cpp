@@ -565,8 +565,8 @@ EditorWindow::EditorWindow(SubWindowHost &host,const Config &cfg_)
   builder.add("Point Meet(Line m,Line n)"_c,"Meet(?,?)"_c);
   builder.add("Couple Meet(Line m,Circle cir)"_c,"MeetCircle(?,?)"_c);
   builder.add("Couple Meet(Circle cir1,Circle cir2)"_c,"MeetCircles(?,?)"_c);
-  builder.add("Point Rotate(Point O,Angle alpha,Point A)"_c,"Rotate(?,?,?)"_c);
-  builder.add("Point RotateOrt(Point O,Point A)"_c,"RotateOrt(?,?)"_c);
+  builder.add("Point Rotate(Point O,Angle alpha,Point A)"_c,"Rot(?,?,?)"_c);
+  builder.add("Point RotateOrt(Point O,Point A)"_c,"RotOrt(?,?)"_c);
   builder.add("Point Move(Point A,Point B,Point P)"_c,"Move(?,?,?)"_c);
   builder.add("Point MoveLen(Line m,Length len,Point A)"_c,"MoveLen(?,?,?)"_c);
   builder.add("Point Mirror(Line m,Point A)"_c,"Mirror(?,?)"_c);
@@ -581,7 +581,7 @@ EditorWindow::EditorWindow(SubWindowHost &host,const Config &cfg_)
   builder.add("Loop(Point A1,Point A2,...)"_c,"Loop(?..)"_c);
   builder.add("Path(Step s1,Step s2,...)"_c,"BPath(?..)"_c);
   builder.add("Loop(Step s1,Step s2,...)"_c,"BLoop(?..)"_c);
-  builder.add("Solid(Loop loop)"_c,"SolidOf(?)"_c);
+  builder.add("Solid(Loop loop)"_c,"Solid(?)"_c);
 
   list_formula.set(builder.complete());
 

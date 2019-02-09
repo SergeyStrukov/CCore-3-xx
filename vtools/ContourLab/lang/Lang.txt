@@ -1,0 +1,61 @@
+/* Lang.txt */
+
+//--- Pad --------------------------------------------
+
+//--- Numbers
+
+123.456
+
+123.456p  length
+
+123.456g  angle
+
+//--- Points
+
+point P(123,456)
+
+P(123,456)
+
+//--- Length
+
+len width = 123
+
+len width = 123p
+
+width = 123p
+
+//--- Angle
+
+angle alpha = 45
+
+angle alpha = 45g
+
+alpha = 45g
+
+//--- Ratio
+
+ratio lambda = 1.5
+
+lambda = 1.5
+
+//--- Formula ----------------------------------------
+
+line = Line(A,B)
+
+//--- functions 
+
+Len(A,B)
+
+Angle(A,O,B)
+
+Cir(A,len)
+
+OCir(A,B,C)
+
+Mid(A,B)
+
+
+
+
+
+ 

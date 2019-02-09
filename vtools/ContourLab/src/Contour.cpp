@@ -617,7 +617,7 @@ class Contour::FormulaTestContext : public NoCopyBase<CreateOp>
 
    bool angle(ExprType &ret,PtrLen<const Char> number)
     {
-     ret=Pad<Angle>::Create(StrToReal(number));
+     ret=Pad<Angle>::Create(GradToRadian(StrToReal(number)));
 
      return true;
     }
