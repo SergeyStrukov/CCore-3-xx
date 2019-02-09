@@ -367,6 +367,14 @@ void KnobShape::draw(const DrawBuf &buf) const
        fig2.curveSolid(art,fc);
       }
      break;
+
+     case FaceReload :
+      {
+       FigureReload fig(center.x,center.y,Div(5,6)*radius);
+
+       fig.curveSolid(art,fc);
+      }
+     break;
     }
 
   // border

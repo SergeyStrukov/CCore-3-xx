@@ -729,6 +729,60 @@ PolyFigureQuestion::PolyFigureQuestion(MCoord x,MCoord y,MCoord h)
   fig.transformPoint( [A,B] (MPoint point) -> MPoint { return A*point+B; } );
  }
 
+/* class FigureReload */
+
+FigureReload::FigureReload(MCoord x,MCoord y,MCoord h)
+ {
+  Ratio A=Div(h,325632-137899);
+
+  MPoint B=MPoint(x,y)-A*MPoint(373760,325632);
+
+  static const SmoothDot Contour[37]=
+   {
+    { { 450560 , 325632 } , Smooth::DotBreak },
+    { { 447253 , 347926 } , Smooth::DotSimple },
+    { { 437617 , 368300 } , Smooth::DotSimple },
+    { { 422481 , 384999 } , Smooth::DotSimple },
+    { { 403150 , 396586 } , Smooth::DotSimple },
+    { { 381288 , 402062 } , Smooth::DotSimple },
+    { { 358777 , 400956 } , Smooth::DotSimple },
+    { { 337557 , 393364 } , Smooth::DotSimple },
+    { { 319454 , 379938 } , Smooth::DotSimple },
+    { { 306028 , 361835 } , Smooth::DotSimple },
+    { { 298436 , 340615 } , Smooth::DotSimple },
+    { { 297330 , 318104 } , Smooth::DotSimple },
+    { { 302806 , 296242 } , Smooth::DotSimple },
+    { { 314393 , 276911 } , Smooth::DotSimple },
+    { { 331092 , 261775 } , Smooth::DotSimple },
+    { { 351466 , 252139 } , Smooth::DotSimple },
+    { { 373760 , 248832 } , Smooth::DotBreak },
+    { { 373760 , 293205 } , Smooth::DotBreak },
+    { { 451413 , 215552 } , Smooth::DotBreak },
+    { { 373760 , 137899 } , Smooth::DotBreak },
+    { { 373760 , 182272 } , Smooth::DotBreak },
+    { { 332145 , 188445 } , Smooth::DotSimple },
+    { { 294113 , 206433 } , Smooth::DotSimple },
+    { { 262941 , 234685 } , Smooth::DotSimple },
+    { { 241313 , 270771 } , Smooth::DotSimple },
+    { { 231090 , 311580 } , Smooth::DotSimple },
+    { { 233155 , 353600 } , Smooth::DotSimple },
+    { { 247328 , 393211 } , Smooth::DotSimple },
+    { { 272389 , 427003 } , Smooth::DotSimple },
+    { { 306181 , 452064 } , Smooth::DotSimple },
+    { { 345792 , 466237 } , Smooth::DotSimple },
+    { { 387812 , 468302 } , Smooth::DotSimple },
+    { { 428621 , 458079 } , Smooth::DotSimple },
+    { { 464707 , 436451 } , Smooth::DotSimple },
+    { { 492959 , 405279 } , Smooth::DotSimple },
+    { { 510947 , 367247 } , Smooth::DotSimple },
+    { { 517120 , 325632 } , Smooth::DotBreak }
+   };
+
+  copy(Contour);
+
+  transformPoint( [A,B] (MPoint point) -> MPoint { return A*point+B; } );
+ }
+
 } // namespace Video
 } // namespace CCore
 

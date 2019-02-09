@@ -190,6 +190,7 @@ class KnobShape : public ButtonState
      FaceStop,
      FaceRightRight,
      FaceLeftLeft,
+     FaceReload,
 
      FaceLim
     };

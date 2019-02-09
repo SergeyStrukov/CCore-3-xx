@@ -81,6 +81,8 @@ class PolyFigureExclamation;
 
 class PolyFigureQuestion;
 
+class FigureReload;
+
 /* struct MPane */
 
 struct MPane
@@ -899,6 +901,15 @@ class PolyFigureQuestion
 
      fig.curveSolid(art,vc);
     }
+ };
+
+/* class FigureReload */
+
+class FigureReload : public FigureDots<37>
+ {
+  public:
+
+   FigureReload(MCoord x,MCoord y,MCoord h);
  };
 
 } // namespace Video

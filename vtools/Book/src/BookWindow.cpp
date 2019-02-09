@@ -1060,7 +1060,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    line3(wlist,cfg.line_cfg),
 
    knob_replace(wlist,cfg.knob_cfg,KnobShape::FaceAsterisk),
-   knob_reload(wlist,cfg.knob_cfg,KnobShape::FaceExclamation),
+   knob_reload(wlist,cfg.knob_cfg,KnobShape::FaceReload),
 
    line4(wlist,cfg.line_cfg),
 
