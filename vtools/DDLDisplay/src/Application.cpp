@@ -19,16 +19,16 @@ namespace App {
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
  {
-  binder.group("DDL"_def);
+  binder.group("DDL"_str);
 
-   binder.item("title"_def,title);
-   binder.item("space length"_def,space_dxy);
-   binder.item("text space"_def,space);
-   binder.item("text"_def,text);
-   binder.item("pointer"_def,ptr);
-   binder.item("select"_def,select);
-   binder.item("title font"_def,title_font);
-   binder.item("text font"_def,font);
+   binder.item("title"_str,title);
+   binder.item("space length"_str,space_dxy);
+   binder.item("text space"_str,space);
+   binder.item("text"_str,text);
+   binder.item("pointer"_str,ptr);
+   binder.item("select"_str,select);
+   binder.item("title font"_str,title_font);
+   binder.item("text font"_str,font);
  }
 
 } // namespace App

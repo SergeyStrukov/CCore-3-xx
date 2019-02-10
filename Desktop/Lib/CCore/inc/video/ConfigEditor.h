@@ -46,29 +46,29 @@ class ConfigEditorWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_all      =         "All"_def ;
-     RefVal<String> text_Coord    =        "size"_def ;
-     RefVal<String> text_MCoord   =  "milli-size"_def ;
-     RefVal<String> text_VColor   =       "color"_def ;
-     RefVal<String> text_Clr      = "color pitch"_def ;
-     RefVal<String> text_unsigned =       "count"_def ;
-     RefVal<String> text_String   =        "text"_def ;
-     RefVal<String> text_Point    =       "point"_def ;
-     RefVal<String> text_Font     =        "font"_def ;
-     RefVal<String> text_bool     =        "bool"_def ;
-     RefVal<String> text_Ratio    =       "ratio"_def ;
+     RefVal<String> text_all      =         "All"_str ;
+     RefVal<String> text_Coord    =        "size"_str ;
+     RefVal<String> text_MCoord   =  "milli-size"_str ;
+     RefVal<String> text_VColor   =       "color"_str ;
+     RefVal<String> text_Clr      = "color pitch"_str ;
+     RefVal<String> text_unsigned =       "count"_str ;
+     RefVal<String> text_String   =        "text"_str ;
+     RefVal<String> text_Point    =       "point"_str ;
+     RefVal<String> text_Font     =        "font"_str ;
+     RefVal<String> text_bool     =        "bool"_str ;
+     RefVal<String> text_Ratio    =       "ratio"_str ;
 
-     RefVal<String> text_Set  =           "Set"_def ;
-     RefVal<String> text_Back =          "Back"_def ;
-     RefVal<String> text_Save =          "Save"_def ;
-     RefVal<String> text_Self = "Apply to self"_def ;
+     RefVal<String> text_Set  =           "Set"_str ;
+     RefVal<String> text_Back =          "Back"_str ;
+     RefVal<String> text_Save =          "Save"_str ;
+     RefVal<String> text_Self = "Apply to self"_str ;
 
-     RefVal<String> hint_list = "Configuration parameters list"_def ;
+     RefVal<String> hint_list = "Configuration parameters list"_str ;
 
-     RefVal<String> hint_Set  = "Set the parameter"_def ;
-     RefVal<String> hint_Back = "Revert back the parameter"_def ;
-     RefVal<String> hint_Save = "Save the current settings"_def ;
-     RefVal<String> hint_Self = "Apply parameters to this window"_def ;
+     RefVal<String> hint_Set  = "Set the parameter"_str ;
+     RefVal<String> hint_Back = "Revert back the parameter"_str ;
+     RefVal<String> hint_Save = "Save the current settings"_str ;
+     RefVal<String> hint_Self = "Apply parameters to this window"_str ;
 
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
      CtorRefVal<CheckWindow::ConfigType> check_cfg;

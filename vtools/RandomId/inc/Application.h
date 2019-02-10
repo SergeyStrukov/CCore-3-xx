@@ -32,22 +32,22 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  String title = "RandomId"_def ;
+  String title = "RandomId"_str ;
 
   // menu
 
-  String menu_File    = "@File"_def ;
-  String menu_Options = "@Options"_def ;
-  String menu_Exit    = "E@xit"_def ;
-  String menu_Global  = "@Global"_def ;
-  String menu_App     = "@Application"_def ;
+  String menu_File    = "@File"_str ;
+  String menu_Options = "@Options"_str ;
+  String menu_Exit    = "E@xit"_str ;
+  String menu_Global  = "@Global"_str ;
+  String menu_App     = "@Application"_str ;
 
   // text
 
-  String text_Unid = "Unid"_def ;
-  String text_Raw  = "Raw"_def ;
-  String text_Roll = "Roll"_def ;
-  String text_Copy = "Copy"_def ;
+  String text_Unid = "Unid"_str ;
+  String text_Raw  = "Raw"_str ;
+  String text_Roll = "Roll"_str ;
+  String text_Copy = "Copy"_str ;
 
   // constructors
 

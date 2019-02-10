@@ -2848,28 +2848,28 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   btn_B(wlist,cfg.btn_cfg,"B"_def),
+   btn_B(wlist,cfg.btn_cfg,"B"_str),
    edit_B(wlist,cfg.edit_cfg),
 
-   btn_U(wlist,cfg.btn_cfg,"U"_def),
+   btn_U(wlist,cfg.btn_cfg,"U"_str),
    edit_U(wlist,cfg.edit_cfg),
 
-   btn_I(wlist,cfg.btn_cfg,"I"_def),
+   btn_I(wlist,cfg.btn_cfg,"I"_str),
    edit_I(wlist,cfg.edit_cfg),
 
-   btn_Q(wlist,cfg.btn_cfg,"Q"_def),
+   btn_Q(wlist,cfg.btn_cfg,"Q"_str),
    edit_Q(wlist,cfg.edit_cfg),
 
-   btn_E(wlist,cfg.btn_cfg,"E"_def),
+   btn_E(wlist,cfg.btn_cfg,"E"_str),
    edit_E(wlist,cfg.edit_cfg),
 
-   btn_D(wlist,cfg.btn_cfg,"D"_def),
+   btn_D(wlist,cfg.btn_cfg,"D"_str),
    edit_D(wlist,cfg.edit_cfg),
 
-   btn_CPP(wlist,cfg.btn_cfg,"C++"_def),
+   btn_CPP(wlist,cfg.btn_cfg,"C++"_str),
 
-   btn_format(wlist,cfg.btn_cfg,"Format"_def),
-   btn_link(wlist,cfg.btn_cfg,"Link"_def),
+   btn_format(wlist,cfg.btn_cfg,"Format"_str),
+   btn_link(wlist,cfg.btn_cfg,"Link"_str),
 
    edit_format(wlist,cfg.edit_cfg),
    edit_link(wlist,cfg.edit_cfg),

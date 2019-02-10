@@ -935,7 +935,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    book(wlist,cfg.book_cfg,update),
 
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg,update),
-   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_def},update),
+   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_str},update),
 
    connector_book_modified(this,&EditWindow::book_modified,book.modified),
    connector_save_pressed(this,&EditWindow::save_pressed,btn_save.pressed),

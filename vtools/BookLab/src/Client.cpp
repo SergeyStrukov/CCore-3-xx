@@ -296,7 +296,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName op
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
    sub_win(wlist,cfg.sub_win_cfg,update),
-   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".booklab.ddl"_def}),
+   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".booklab.ddl"_str}),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),

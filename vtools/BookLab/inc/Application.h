@@ -32,33 +32,33 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  String title = "BookLab"_def ;
+  String title = "BookLab"_str ;
 
   // menu
 
-  String menu_File    = "@File"_def ;
-  String menu_Options = "@Options"_def ;
-  String menu_New     = "@New"_def ;
-  String menu_Open    = "@Open"_def ;
-  String menu_Save    = "@Save"_def ;
-  String menu_SaveAs  = "Save @as"_def ;
-  String menu_Exit    = "E@xit"_def ;
-  String menu_Global  = "@Global"_def ;
-  String menu_App     = "@Application"_def ;
+  String menu_File    = "@File"_str ;
+  String menu_Options = "@Options"_str ;
+  String menu_New     = "@New"_str ;
+  String menu_Open    = "@Open"_str ;
+  String menu_Save    = "@Save"_str ;
+  String menu_SaveAs  = "Save @as"_str ;
+  String menu_Exit    = "E@xit"_str ;
+  String menu_Global  = "@Global"_str ;
+  String menu_App     = "@Application"_str ;
 
   // book
 
-  String text_NoFile = "<No file>"_def ;
-  String text_File = "File"_def ;
-  String text_Save = "Save"_def ;
-  String text_Link = "Link"_def ;
-  String text_Book = "Book"_def ;
-  String text_Temp = "Temp"_def ;
+  String text_NoFile = "<No file>"_str ;
+  String text_File = "File"_str ;
+  String text_Save = "Save"_str ;
+  String text_Link = "Link"_str ;
+  String text_Book = "Book"_str ;
+  String text_Temp = "Temp"_str ;
 
-  String text_Copy = "Copy"_def ;
-  String text_Past = "Past"_def ;
-  String text_Del  =  "Del"_def ;
-  String text_Name = "Name"_def ;
+  String text_Copy = "Copy"_str ;
+  String text_Past = "Past"_str ;
+  String text_Del  =  "Del"_str ;
+  String text_Name = "Name"_str ;
 
   Coord border_dxy = 5 ;
 
@@ -90,9 +90,9 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple comment_font;
   FontCouple textedit_font;
 
-  String ins_title = "Select element"_def ;
-  String field_title = "Edit field"_def ;
-  String temp_title = "Temp pad"_def ;
+  String ins_title = "Select element"_str ;
+  String field_title = "Edit field"_str ;
+  String temp_title = "Temp pad"_str ;
 
   // constructors
 

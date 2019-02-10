@@ -30,7 +30,7 @@ struct AppProp;
 
 struct AppPreferenceBag : ConfigItemHost
  {
-  String title = "DDLDisplay"_def ;
+  String title = "DDLDisplay"_str ;
 
   Coord space_dxy = 3 ;
 

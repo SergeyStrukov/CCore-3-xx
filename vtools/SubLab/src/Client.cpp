@@ -227,61 +227,61 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
     {
      using namespace Subs;
 
-     add("Decorative"_def);
+     add("Decorative"_str);
 
-       add("XSingleLine"_def,Create<XSingleLineWindow>);
-       add("YSingleLine"_def,Create<YSingleLineWindow>);
-       add("XDoubleLine"_def,Create<XDoubleLineWindow>);
-       add("YDoubleLine"_def,Create<YDoubleLineWindow>);
-       add("Contour"_def,Create<ContourWindow>);
-       add("TextContour left"_def,Create<TextContourWindow_Left>);
-       add("TextContour right"_def,Create<TextContourWindow_Right>);
-       add("TextContour center"_def,Create<TextContourWindow_Center>);
-       add("Draw"_def,Create_def<DrawWindow>);
-       add("Layout"_def,CreateCombo<LayoutWindow>);
+       add("XSingleLine"_str,Create<XSingleLineWindow>);
+       add("YSingleLine"_str,Create<YSingleLineWindow>);
+       add("XDoubleLine"_str,Create<XDoubleLineWindow>);
+       add("YDoubleLine"_str,Create<YDoubleLineWindow>);
+       add("Contour"_str,Create<ContourWindow>);
+       add("TextContour left"_str,Create<TextContourWindow_Left>);
+       add("TextContour right"_str,Create<TextContourWindow_Right>);
+       add("TextContour center"_str,Create<TextContourWindow_Center>);
+       add("Draw"_str,Create_def<DrawWindow>);
+       add("Layout"_str,CreateCombo<LayoutWindow>);
 
-     add("Button"_def);
+     add("Button"_str);
 
-       add("Button"_def,CreateCombo<ButtonWindow_Button>);
-       add("Knob"_def,Create<KnobWindow_Asterisk>);
-       add("Knob auto"_def,Create<KnobWindow_auto>);
-       add("FireButton"_def,CreateCombo<FireButtonWindow_Sample>);
-       add("RunButton"_def,CreateCombo<RunButtonWindow_Sample>);
+       add("Button"_str,CreateCombo<ButtonWindow_Button>);
+       add("Knob"_str,Create<KnobWindow_Asterisk>);
+       add("Knob auto"_str,Create<KnobWindow_auto>);
+       add("FireButton"_str,CreateCombo<FireButtonWindow_Sample>);
+       add("RunButton"_str,CreateCombo<RunButtonWindow_Sample>);
 
-     add("Box"_def);
+     add("Box"_str);
 
-       add("Check"_def,Create<CheckWindow>);
-       add("Switch"_def,Create<SwitchWindow>);
-       add("XSwitch"_def,Create<XShiftSwitchWindow>);
-       add("YSwitch"_def,Create<YShiftSwitchWindow>);
-       add("RadioLight"_def,CreateCombo<RadioLightWindow>);
-       add("Alt"_def,CreateCombo<AltWindow_Sample>);
+       add("Check"_str,Create<CheckWindow>);
+       add("Switch"_str,Create<SwitchWindow>);
+       add("XSwitch"_str,Create<XShiftSwitchWindow>);
+       add("YSwitch"_str,Create<YShiftSwitchWindow>);
+       add("RadioLight"_str,CreateCombo<RadioLightWindow>);
+       add("Alt"_str,CreateCombo<AltWindow_Sample>);
 
-     add("Line"_def);
+     add("Line"_str);
 
-       add("Label"_def,Create<LabelWindow_Label>);
-       add("Text"_def,Create<TextWindow_SampleText>);
-       add("Label align"_def,CreateCombo<AlignWindow<LabelWindow_Label> >);
-       add("Text align"_def,CreateCombo<AlignWindow<TextWindow_SampleText> >);
-       add("TextLine"_def,Create<TextLineWindow_SampleText>);
-       add("Progress"_def,Create<ProgressWindow_Sample>);
-       add("ArrowProgress"_def,Create<ArrowProgressWindow_Sample>);
-       add("LineEdit"_def,Create<LineEditWindow>);
-       add("XScroll"_def,Create<XScrollWindow_Sample>);
-       add("YScroll"_def,Create<YScrollWindow_Sample>);
-       add("Spinor"_def,Create<SpinorWindow_Sample>);
-       add("XSlider"_def,CreateCombo<XSliderWindow_Sample>);
-       add("YSlider"_def,CreateCombo<YSliderWindow_Sample>);
+       add("Label"_str,Create<LabelWindow_Label>);
+       add("Text"_str,Create<TextWindow_SampleText>);
+       add("Label align"_str,CreateCombo<AlignWindow<LabelWindow_Label> >);
+       add("Text align"_str,CreateCombo<AlignWindow<TextWindow_SampleText> >);
+       add("TextLine"_str,Create<TextLineWindow_SampleText>);
+       add("Progress"_str,Create<ProgressWindow_Sample>);
+       add("ArrowProgress"_str,Create<ArrowProgressWindow_Sample>);
+       add("LineEdit"_str,Create<LineEditWindow>);
+       add("XScroll"_str,Create<XScrollWindow_Sample>);
+       add("YScroll"_str,Create<YScrollWindow_Sample>);
+       add("Spinor"_str,Create<SpinorWindow_Sample>);
+       add("XSlider"_str,CreateCombo<XSliderWindow_Sample>);
+       add("YSlider"_str,CreateCombo<YSliderWindow_Sample>);
 
-     add("Pane"_def);
+     add("Pane"_str);
 
-       add("Info"_def,Create<InfoWindow_SampleInfo>);
-       add("Message knob"_def,Create<MessageWindow_knob>);
-       add("Message ok"_def,Create<MessageWindow_ok>);
-       add("Message yes/no"_def,Create<MessageWindow_yes_no>);
-       add("SimpleTextList"_def,Create<SimpleTextListWindow_SampleList>);
+       add("Info"_str,Create<InfoWindow_SampleInfo>);
+       add("Message knob"_str,Create<MessageWindow_knob>);
+       add("Message ok"_str,Create<MessageWindow_ok>);
+       add("Message yes/no"_str,Create<MessageWindow_yes_no>);
+       add("SimpleTextList"_str,Create<SimpleTextListWindow_SampleList>);
 
-       //add(""_def,Create<>);
+       //add(""_str,Create<>);
     }
 
    virtual ~Base()
@@ -378,7 +378,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const UserPref
    pref(pref_),
 
    check_wheat(wlist,cfg.check_cfg,false),
-   label_wheat(wlist,cfg.label_cfg,"Wheat"_def),
+   label_wheat(wlist,cfg.label_cfg,"Wheat"_str),
    list_type(wlist,cfg.list_cfg,info),
    space(wlist,cfg.space_cfg),
 

@@ -48,16 +48,16 @@ class DirWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Ok       = "Ok"_def ;
-     RefVal<String> text_Cancel   = "Cancel"_def ;
+     RefVal<String> text_Ok       = "Ok"_str ;
+     RefVal<String> text_Cancel   = "Cancel"_str ;
 
-     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_def ;
-     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
-     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_def ;
-     RefVal<String> hint_FileCurdir    = "Current directory"_def ;
-     RefVal<String> hint_FileDirList   = "Subdirectory list"_def ;
-     RefVal<String> hint_FileMakeDir   = "Create a new directory"_def ;
-     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_def ;
+     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_str ;
+     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_str ;
+     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_str ;
+     RefVal<String> hint_FileCurdir    = "Current directory"_str ;
+     RefVal<String> hint_FileDirList   = "Subdirectory list"_str ;
+     RefVal<String> hint_FileMakeDir   = "Create a new directory"_str ;
+     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_str ;
 
      CtorRefVal<DirEditWindow::ConfigType> edit_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;

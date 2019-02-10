@@ -39,8 +39,8 @@ class PointEditWindow : public ComboWindow
 
      RefVal<Coord> space_dxy = 10 ;
 
-     RefVal<String> hint_x = "Select x coordinate"_def ;
-     RefVal<String> hint_y = "Select y coordinate"_def ;
+     RefVal<String> hint_x = "Select x coordinate"_str ;
+     RefVal<String> hint_y = "Select y coordinate"_str ;
 
      CtorRefVal<SpinorWindow::ConfigType> spin_cfg;
 

@@ -205,10 +205,10 @@ class TempWindow : public ComboWindow
 
      // app
 
-     RefVal<String> text_Copy = "Copy"_def ;
-     RefVal<String> text_Past = "Past"_def ;
-     RefVal<String> text_Del  =  "Del"_def ;
-     RefVal<String> text_Name = "Name"_def ;
+     RefVal<String> text_Copy = "Copy"_str ;
+     RefVal<String> text_Past = "Past"_str ;
+     RefVal<String> text_Del  =  "Del"_str ;
+     RefVal<String> text_Name = "Name"_str ;
 
      SlotWindow::ConfigType slot_cfg;
 
@@ -343,7 +343,7 @@ class TempFrame : public DragFrame
 
      // app
 
-     RefVal<String> title = "Temp pad"_def ;
+     RefVal<String> title = "Temp pad"_str ;
 
      TempWindow::ConfigType client_cfg;
 

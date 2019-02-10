@@ -32,7 +32,7 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  String title = "ContourLab"_def ;
+  String title = "ContourLab"_str ;
 
   Fraction arrow_size = Fraction(5) ;
 
@@ -80,46 +80,46 @@ struct AppPreferenceBag : ConfigItemHost
 
   // item list
 
-  String text_show = "show"_def ;
-  String text_gray = "gray"_def ;
-  String text_name = "name"_def ;
+  String text_show = "show"_str ;
+  String text_gray = "gray"_str ;
+  String text_name = "name"_str ;
 
-  String title_Ins = "Function list"_def ;
+  String title_Ins = "Function list"_str ;
 
   // menu
 
-  String menu_File    = "@File"_def ;
-  String menu_Options = "@Options"_def ;
-  String menu_New     = "@New"_def ;
-  String menu_Open    = "@Open ..."_def ;
-  String menu_Save    = "@Save"_def ;
-  String menu_SaveAs  = "Save @as ..."_def ;
-  String menu_Exit    = "E@xit"_def ;
-  String menu_Global  = "@Global ..."_def ;
-  String menu_App     = "@Application ..."_def ;
+  String menu_File    = "@File"_str ;
+  String menu_Options = "@Options"_str ;
+  String menu_New     = "@New"_str ;
+  String menu_Open    = "@Open ..."_str ;
+  String menu_Save    = "@Save"_str ;
+  String menu_SaveAs  = "Save @as ..."_str ;
+  String menu_Exit    = "E@xit"_str ;
+  String menu_Global  = "@Global ..."_str ;
+  String menu_App     = "@Application ..."_str ;
 
   // hints
 
-  String hint_File   = "The current file"_def ;
-  String hint_Angle  = "Set the selected angle"_def ;
-  String hint_Length = "Set the selected length"_def ;
-  String hint_Ratio  = "Set the selected ratio"_def ;
-  String hint_Geom   = "Draw of elements, use to set the selected point"_def ;
+  String hint_File   = "The current file"_str ;
+  String hint_Angle  = "Set the selected angle"_str ;
+  String hint_Length = "Set the selected length"_str ;
+  String hint_Ratio  = "Set the selected ratio"_str ;
+  String hint_Geom   = "Draw of elements, use to set the selected point"_str ;
 
-  String hint_function_List = "Select a function to be inserted into the cursor position"_def ;
+  String hint_function_List = "Select a function to be inserted into the cursor position"_str ;
 
-  String hint_item_List = "Geometry object list"_def ;
-  String hint_item_Edit = "Enter a formula to create a new object"_def ;
+  String hint_item_List = "Geometry object list"_str ;
+  String hint_item_Edit = "Enter a formula to create a new object"_str ;
 
-  String hint_item_Down = "Move the object down in the list"_def ;
-  String hint_item_Up   = "Move the object up in the list"_def ;
-  String hint_item_Del  = "Delete the object"_def ;
-  String hint_item_Add  = "Add a new object"_def ;
-  String hint_item_Ins  = "Open the Function list window"_def ;
+  String hint_item_Down = "Move the object down in the list"_str ;
+  String hint_item_Up   = "Move the object up in the list"_str ;
+  String hint_item_Del  = "Delete the object"_str ;
+  String hint_item_Add  = "Add a new object"_str ;
+  String hint_item_Ins  = "Open the Function list window"_str ;
 
-  String hint_item_Show = "Show this object"_def ;
-  String hint_item_Gray = "Gray this object if not selected"_def ;
-  String hint_item_Name = "Show the name of this object"_def ;
+  String hint_item_Show = "Show this object"_str ;
+  String hint_item_Gray = "Gray this object if not selected"_str ;
+  String hint_item_Name = "Show the name of this object"_str ;
 
   // constructors
 

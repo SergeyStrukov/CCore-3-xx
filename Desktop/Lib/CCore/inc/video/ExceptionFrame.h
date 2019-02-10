@@ -38,7 +38,7 @@ class ExceptionBuf : NoCopy
 
    struct Config
     {
-     RefVal<String> title = "Error"_def ;
+     RefVal<String> title = "Error"_str ;
 
      CtorRefVal<MessageFrame::AlertConfigType> frame_cfg;
 

@@ -44,15 +44,15 @@ class InsWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Close  = "Close"_def ;
-     RefVal<String> text_Insert = "Insert"_def ;
+     RefVal<String> text_Close  = "Close"_str ;
+     RefVal<String> text_Insert = "Insert"_str ;
 
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
 
      // app
 
-     RefVal<String> hint_List = "Select a function to be inserted into the cursor position"_def ;
+     RefVal<String> hint_List = "Select a function to be inserted into the cursor position"_str ;
 
      Config() noexcept {}
 
@@ -349,24 +349,24 @@ class ItemListWindow : public ComboWindow
      CtorRefVal<EditFormulaWindow::ConfigType> edit_cfg;
      CtorRefVal<InsFrame::ConfigType> ins_cfg;
 
-     RefVal<String> text_show = "show"_def ;
-     RefVal<String> text_gray = "gray"_def ;
-     RefVal<String> text_name = "name"_def ;
+     RefVal<String> text_show = "show"_str ;
+     RefVal<String> text_gray = "gray"_str ;
+     RefVal<String> text_name = "name"_str ;
 
-     RefVal<String> title_Ins = "Function list"_def ;
+     RefVal<String> title_Ins = "Function list"_str ;
 
-     RefVal<String> hint_List = "Geometry object list"_def ;
-     RefVal<String> hint_Edit = "Enter a formula to create a new object"_def ;
+     RefVal<String> hint_List = "Geometry object list"_str ;
+     RefVal<String> hint_Edit = "Enter a formula to create a new object"_str ;
 
-     RefVal<String> hint_Down = "Move the object down in the list"_def ;
-     RefVal<String> hint_Up   = "Move the object up in the list"_def ;
-     RefVal<String> hint_Del  = "Delete the object"_def ;
-     RefVal<String> hint_Add  = "Add a new object"_def ;
-     RefVal<String> hint_Ins  = "Open the Function list window"_def ;
+     RefVal<String> hint_Down = "Move the object down in the list"_str ;
+     RefVal<String> hint_Up   = "Move the object up in the list"_str ;
+     RefVal<String> hint_Del  = "Delete the object"_str ;
+     RefVal<String> hint_Add  = "Add a new object"_str ;
+     RefVal<String> hint_Ins  = "Open the Function list window"_str ;
 
-     RefVal<String> hint_Show = "Show this object"_def ;
-     RefVal<String> hint_Gray = "Gray this object if not selected"_def ;
-     RefVal<String> hint_Name = "Show the name of this object"_def ;
+     RefVal<String> hint_Show = "Show this object"_str ;
+     RefVal<String> hint_Gray = "Gray this object if not selected"_str ;
+     RefVal<String> hint_Name = "Show the name of this object"_str ;
 
      Config() noexcept {}
 

@@ -58,77 +58,77 @@ void InsWindow::typeChanged(int new_id,int)
   checkName();
 
   if( new_id==BookLab::ElementSection )
-    lab_text.setText("Comment"_def);
+    lab_text.setText("Comment"_str);
   else
-    lab_text.setText("Name"_def);
+    lab_text.setText("Name"_str);
  }
 
 InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_before(wlist,cfg.lab_cfg,"before"_def,AlignX_Left),
+   lab_before(wlist,cfg.lab_cfg,"before"_str,AlignX_Left),
    rad_before(wlist,BookLab::InsBefore,cfg.rad_cfg),
-   lab_after(wlist,cfg.lab_cfg,"after"_def,AlignX_Left),
+   lab_after(wlist,cfg.lab_cfg,"after"_str,AlignX_Left),
    rad_after(wlist,BookLab::InsAfter,cfg.rad_cfg),
-   lab_inside(wlist,cfg.lab_cfg,"inside"_def,AlignX_Left),
+   lab_inside(wlist,cfg.lab_cfg,"inside"_str,AlignX_Left),
    rad_inside(wlist,BookLab::InsInside,cfg.rad_cfg),
 
-   lab_text(wlist,cfg.lab_cfg,"Name/Comment"_def,AlignX_Left),
+   lab_text(wlist,cfg.lab_cfg,"Name/Comment"_str,AlignX_Left),
    edit_text(wlist,cfg.edit_cfg),
 
-   lab1(wlist,cfg.lab_cfg,"Font"_def,AlignX_Left),
+   lab1(wlist,cfg.lab_cfg,"Font"_str,AlignX_Left),
    rad1(wlist,BookLab::ElementFont,cfg.rad_cfg),
 
-   lab2(wlist,cfg.lab_cfg,"Format"_def,AlignX_Left),
+   lab2(wlist,cfg.lab_cfg,"Format"_str,AlignX_Left),
    rad2(wlist,BookLab::ElementFormat,cfg.rad_cfg),
 
-   lab3(wlist,cfg.lab_cfg,"SingleLine"_def,AlignX_Left),
+   lab3(wlist,cfg.lab_cfg,"SingleLine"_str,AlignX_Left),
    rad3(wlist,BookLab::ElementSingleLine,cfg.rad_cfg),
 
-   lab4(wlist,cfg.lab_cfg,"DoubleLine"_def,AlignX_Left),
+   lab4(wlist,cfg.lab_cfg,"DoubleLine"_str,AlignX_Left),
    rad4(wlist,BookLab::ElementDoubleLine,cfg.rad_cfg),
 
-   lab5(wlist,cfg.lab_cfg,"Page"_def,AlignX_Left),
+   lab5(wlist,cfg.lab_cfg,"Page"_str,AlignX_Left),
    rad5(wlist,BookLab::ElementPage,cfg.rad_cfg),
 
-   lab6(wlist,cfg.lab_cfg,"Scope"_def,AlignX_Left),
+   lab6(wlist,cfg.lab_cfg,"Scope"_str,AlignX_Left),
    rad6(wlist,BookLab::ElementScope,cfg.rad_cfg),
 
-   lab7(wlist,cfg.lab_cfg,"Section"_def,AlignX_Left),
+   lab7(wlist,cfg.lab_cfg,"Section"_str,AlignX_Left),
    rad7(wlist,BookLab::ElementSection,cfg.rad_cfg),
 
-   lab8(wlist,cfg.lab_cfg,"Bitmap"_def,AlignX_Left),
+   lab8(wlist,cfg.lab_cfg,"Bitmap"_str,AlignX_Left),
    rad8(wlist,BookLab::ElementBitmap,cfg.rad_cfg),
 
-   lab9(wlist,cfg.lab_cfg,"Collapse"_def,AlignX_Left),
+   lab9(wlist,cfg.lab_cfg,"Collapse"_str,AlignX_Left),
    rad9(wlist,BookLab::ElementCollapse,cfg.rad_cfg),
 
-   lab10(wlist,cfg.lab_cfg,"TextList"_def,AlignX_Left),
+   lab10(wlist,cfg.lab_cfg,"TextList"_str,AlignX_Left),
    rad10(wlist,BookLab::ElementTextList,cfg.rad_cfg),
 
-   lab11(wlist,cfg.lab_cfg,"Border"_def,AlignX_Left),
+   lab11(wlist,cfg.lab_cfg,"Border"_str,AlignX_Left),
    rad11(wlist,BookLab::ElementBorder,cfg.rad_cfg),
 
-   lab12(wlist,cfg.lab_cfg,"Cell"_def,AlignX_Left),
+   lab12(wlist,cfg.lab_cfg,"Cell"_str,AlignX_Left),
    rad12(wlist,BookLab::ElementCell,cfg.rad_cfg),
 
-   lab13(wlist,cfg.lab_cfg,"Table"_def,AlignX_Left),
+   lab13(wlist,cfg.lab_cfg,"Table"_str,AlignX_Left),
    rad13(wlist,BookLab::ElementTable,cfg.rad_cfg),
 
-   lab14(wlist,cfg.lab_cfg,"Link"_def,AlignX_Left),
+   lab14(wlist,cfg.lab_cfg,"Link"_str,AlignX_Left),
    rad14(wlist,BookLab::ElementLink,cfg.rad_cfg),
 
-   lab15(wlist,cfg.lab_cfg,"FixedText"_def,AlignX_Left),
+   lab15(wlist,cfg.lab_cfg,"FixedText"_str,AlignX_Left),
    rad15(wlist,BookLab::ElementFixedText,cfg.rad_cfg),
 
-   lab16(wlist,cfg.lab_cfg,"OneLine"_def,AlignX_Left),
+   lab16(wlist,cfg.lab_cfg,"OneLine"_str,AlignX_Left),
    rad16(wlist,BookLab::ElementOneLine,cfg.rad_cfg),
 
-   lab17(wlist,cfg.lab_cfg,"MultiLine"_def,AlignX_Left),
+   lab17(wlist,cfg.lab_cfg,"MultiLine"_str,AlignX_Left),
    rad17(wlist,BookLab::ElementMultiLine,cfg.rad_cfg),
 
-   lab18(wlist,cfg.lab_cfg,"Text"_def,AlignX_Left),
+   lab18(wlist,cfg.lab_cfg,"Text"_str,AlignX_Left),
    rad18(wlist,BookLab::ElementText,cfg.rad_cfg),
 
    line1(wlist,cfg.dline_cfg),

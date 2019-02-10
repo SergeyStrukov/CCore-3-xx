@@ -1077,7 +1077,7 @@ void AspectWindow::clearAspect()
  {
   aspect_file_name=Null;
 
-  text_aspect.setText(""_def);
+  text_aspect.setText(""_str);
 
   has_file=false;
 
@@ -1229,7 +1229,7 @@ void AspectWindow::load(StrLen file_name)
     }
   else
     {
-     text_path.setText(""_def);
+     text_path.setText(""_str);
 
      clearAspect();
 

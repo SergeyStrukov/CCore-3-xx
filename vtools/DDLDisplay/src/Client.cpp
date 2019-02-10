@@ -58,7 +58,7 @@ void ClientWindow::cascade_menu_selected(int id,Point base)
       {
        if( open_file.isDead() )
          {
-          open_file.create(getFrame(),base,"Select a DDL file"_def);
+          open_file.create(getFrame(),base,"Select a DDL file"_str);
          }
       }
      break;
@@ -67,7 +67,7 @@ void ClientWindow::cascade_menu_selected(int id,Point base)
       {
        if( open_pretext.isDead() )
          {
-          open_pretext.create(getFrame(),base,"Select a DDL pretext"_def);
+          open_pretext.create(getFrame(),base,"Select a DDL pretext"_str);
          }
       }
      break;
@@ -147,17 +147,17 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
 
   wlist.enableTabFocus(false);
 
-  menu_data("@File"_def,Cmd_File)
-           ("@Options"_def,Cmd_Options);
+  menu_data("@File"_str,Cmd_File)
+           ("@Options"_str,Cmd_Options);
 
-  menu_file_data("@Open ..."_def,Cmd_Open)
+  menu_file_data("@Open ..."_str,Cmd_Open)
                 (MenuSeparator)
-                ("E@xit"_def,Cmd_Exit);
+                ("E@xit"_str,Cmd_Exit);
 
-  menu_options_data("@Pretext ..."_def,Cmd_Pretext)
-                   ("@No Pretext"_def,Cmd_NoPretext)
-                   ("@User preferences"_def,Cmd_UserPref)
-                   ("@Application preferences"_def,Cmd_AppPref);
+  menu_options_data("@Pretext ..."_str,Cmd_Pretext)
+                   ("@No Pretext"_str,Cmd_NoPretext)
+                   ("@User preferences"_str,Cmd_UserPref)
+                   ("@Application preferences"_str,Cmd_AppPref);
 
   open_file.addFilter("*.ddl"_c);
   open_file.addFilter("*"_c,false);

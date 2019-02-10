@@ -19,24 +19,24 @@ namespace App {
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
  {
-  binder.group("Common"_def);
+  binder.group("Common"_str);
 
-    binder.item("title"_def,title);
+    binder.item("title"_str,title);
 
-  binder.group("Menu"_def);
+  binder.group("Menu"_str);
 
-    binder.item("File"_def,menu_File);
-    binder.item("Options"_def,menu_Options);
-    binder.item("Exit"_def,menu_Exit);
-    binder.item("Global"_def,menu_Global);
-    binder.item("App"_def,menu_App);
+    binder.item("File"_str,menu_File);
+    binder.item("Options"_str,menu_Options);
+    binder.item("Exit"_str,menu_Exit);
+    binder.item("Global"_str,menu_Global);
+    binder.item("App"_str,menu_App);
 
-  binder.group("Text"_def);
+  binder.group("Text"_str);
 
-    binder.item("'Unid'"_def,text_Unid);
-    binder.item("'Raw'"_def,text_Raw);
-    binder.item("'Roll'"_def,text_Roll);
-    binder.item("'Copy'"_def,text_Copy);
+    binder.item("'Unid'"_str,text_Unid);
+    binder.item("'Raw'"_str,text_Raw);
+    binder.item("'Roll'"_str,text_Roll);
+    binder.item("'Copy'"_str,text_Copy);
  }
 
 } // namespace App

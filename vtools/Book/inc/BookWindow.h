@@ -448,7 +448,7 @@ class BookWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Error = "Error"_def ;
+     RefVal<String> text_Error = "Error"_str ;
 
      CtorRefVal<LabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
@@ -462,21 +462,21 @@ class BookWindow : public ComboWindow
 
      // app
 
-     RefVal<String> text_Title = "Title"_def ;
-     RefVal<String> text_Page = "Page"_def ;
-     RefVal<String> text_NotReady = "Font database is not ready yet"_def ;
-     RefVal<String> text_Font = "Fonts"_def ;
+     RefVal<String> text_Title = "Title"_str ;
+     RefVal<String> text_Page = "Page"_str ;
+     RefVal<String> text_NotReady = "Font database is not ready yet"_str ;
+     RefVal<String> text_Font = "Fonts"_str ;
 
      RefVal<Ratio> defscale = Ratio(1,0) ;
 
-     RefVal<String> hint_PrevPage   = "Go to the previous page"_def ;
-     RefVal<String> hint_ParentPage = "Go to the parent page"_def ;
-     RefVal<String> hint_NextPage   = "Go to the next page"_def ;
-     RefVal<String> hint_Scale      = "Set the display scale"_def ;
-     RefVal<String> hint_Font       = "Font replacement table"_def ;
-     RefVal<String> hint_Reload     = "Reload book"_def ;
-     RefVal<String> hint_GotoBack   = "Jump back"_def ;
-     RefVal<String> hint_GotoFore   = "Jump fore"_def ;
+     RefVal<String> hint_PrevPage   = "Go to the previous page"_str ;
+     RefVal<String> hint_ParentPage = "Go to the parent page"_str ;
+     RefVal<String> hint_NextPage   = "Go to the next page"_str ;
+     RefVal<String> hint_Scale      = "Set the display scale"_str ;
+     RefVal<String> hint_Font       = "Font replacement table"_str ;
+     RefVal<String> hint_Reload     = "Reload book"_str ;
+     RefVal<String> hint_GotoBack   = "Jump back"_str ;
+     RefVal<String> hint_GotoFore   = "Jump fore"_str ;
 
      DisplayBookWindow::ConfigType book_cfg;
 

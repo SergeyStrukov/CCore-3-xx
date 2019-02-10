@@ -141,9 +141,9 @@ class FileFilterWindow : public ComboWindow
 
    struct Config
     {
-     RefVal<String> hint_FileEnableFilter = "Enable/disable this filter"_def ;
-     RefVal<String> hint_FileDelFilter = "Delete this filter"_def ;
-     RefVal<String> hint_FileFilter = "Filename filter, use * or ?"_def ;
+     RefVal<String> hint_FileEnableFilter = "Enable/disable this filter"_str ;
+     RefVal<String> hint_FileDelFilter = "Delete this filter"_str ;
+     RefVal<String> hint_FileFilter = "Filename filter, use * or ?"_str ;
 
      CtorRefVal<CheckWindow::ConfigType> check_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
@@ -245,7 +245,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    struct Config : FileFilterWindow::ConfigType
     {
-     RefVal<String> hint_FileAddFilter = "Add a filter"_def ;
+     RefVal<String> hint_FileAddFilter = "Add a filter"_str ;
 
      Config() noexcept {}
 
@@ -407,19 +407,19 @@ class FileWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Ok       = "Ok"_def ;
-     RefVal<String> text_Cancel   = "Cancel"_def ;
-     RefVal<String> text_New_file = "New file"_def ;
+     RefVal<String> text_Ok       = "Ok"_str ;
+     RefVal<String> text_Cancel   = "Cancel"_str ;
+     RefVal<String> text_New_file = "New file"_str ;
 
-     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_def ;
-     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
-     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_def ;
-     RefVal<String> hint_FileCurdir    = "Current directory"_def ;
-     RefVal<String> hint_FileDirList   = "Subdirectory list"_def ;
-     RefVal<String> hint_FileList      = "File list"_def ;
-     RefVal<String> hint_FileMakeDir   = "Create a new directory"_def ;
-     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_def ;
-     RefVal<String> hint_FileAlt       = "Choose between a new file or an existing file"_def ;
+     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_str ;
+     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_str ;
+     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_str ;
+     RefVal<String> hint_FileCurdir    = "Current directory"_str ;
+     RefVal<String> hint_FileDirList   = "Subdirectory list"_str ;
+     RefVal<String> hint_FileList      = "File list"_str ;
+     RefVal<String> hint_FileMakeDir   = "Create a new directory"_str ;
+     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_str ;
+     RefVal<String> hint_FileAlt       = "Choose between a new file or an existing file"_str ;
 
      CtorRefVal<DirEditWindow::ConfigType> edit_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;

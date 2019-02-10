@@ -38,8 +38,8 @@ class InsWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Ok     = "Ok"_def ;
-     RefVal<String> text_Cancel = "Cancel"_def ;
+     RefVal<String> text_Ok     = "Ok"_str ;
+     RefVal<String> text_Cancel = "Cancel"_str ;
 
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
      CtorRefVal<LabelWindow::ConfigType> lab_cfg;
@@ -224,7 +224,7 @@ class InsFrame : public DragFrame
 
      // app
 
-     RefVal<String> title = "Select element"_def ;
+     RefVal<String> title = "Select element"_str ;
 
      InsWindow::ConfigType client_cfg;
 

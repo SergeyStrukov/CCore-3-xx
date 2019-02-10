@@ -26,7 +26,7 @@ String TestWindow::InfoText()
   return
 "This is a test control panel.\n"
 "You can see user preferences here.\n"
-"Use main window to adjust sizes, colors etc..."_def;
+"Use main window to adjust sizes, colors etc..."_str;
  }
 
 String TestWindow::ListText()
@@ -38,7 +38,7 @@ String TestWindow::ListText()
 "text line\n"
 "light\n"
 "scroll\n"
-"line edit"_def;
+"line edit"_str;
  }
 
 void TestWindow::changeColor(int new_id,int)
@@ -108,7 +108,7 @@ void TestWindow::push()
 
 void TestWindow::shade()
  {
-  if( enable_frame.isDead() ) enable_frame.create(getFrame(),"TestFrame enable"_def);
+  if( enable_frame.isDead() ) enable_frame.create(getFrame(),"TestFrame enable"_str);
 
   disableFrameReact();
  }
@@ -122,7 +122,7 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
  : ComboWindow(host),
    pref(pref_),
 
-   btn(wlist,pref.getSmartConfig(),"Push"_def),
+   btn(wlist,pref.getSmartConfig(),"Push"_str),
    knob(wlist,pref.getSmartConfig(),KnobShape::FaceOk),
    check(wlist,pref.getSmartConfig()),
    swtch(wlist,pref.getSmartConfig(),true),
@@ -137,20 +137,20 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
    edit(wlist,pref.getSmartConfig()),
    text_list(wlist,pref.getSmartConfig(),InfoFromString(ListText())),
 
-   label1(wlist,pref.getSmartConfig(),"Red"_def,AlignX_Left),
-   label2(wlist,pref.getSmartConfig(),"Green"_def,AlignX_Left),
-   label3(wlist,pref.getSmartConfig(),"Blue"_def,AlignX_Left),
-   label(wlist,pref.getSmartConfig(),"On/Off"_def,AlignX_Left),
-   text(wlist,pref.getSmartConfig(),"<none>"_def),
+   label1(wlist,pref.getSmartConfig(),"Red"_str,AlignX_Left),
+   label2(wlist,pref.getSmartConfig(),"Green"_str,AlignX_Left),
+   label3(wlist,pref.getSmartConfig(),"Blue"_str,AlignX_Left),
+   label(wlist,pref.getSmartConfig(),"On/Off"_str,AlignX_Left),
+   text(wlist,pref.getSmartConfig(),"<none>"_str),
    xsingle(wlist,pref.getSmartConfig()),
    ysingle(wlist,pref.getSmartConfig()),
    xdouble(wlist,pref.getSmartConfig()),
    ydouble(wlist,pref.getSmartConfig()),
    contour(wlist,pref.getSmartConfig()),
-   text_contour(wlist,pref.getSmartConfig(),"Select color"_def),
+   text_contour(wlist,pref.getSmartConfig(),"Select color"_str),
    light(wlist,pref.getSmartConfig(),Red),
    progress(wlist,pref.getSmartConfig()),
-   btn_shade(wlist,pref.getSmartConfig(),"Shade"_def),
+   btn_shade(wlist,pref.getSmartConfig(),"Shade"_str),
 
    enable_frame(host.getFrameDesktop(),pref.getSmartConfig(),pref.updated),
 
@@ -174,7 +174,7 @@ TestWindow::TestWindow(SubWindowHost &host,const UserPreference &pref_)
 
   edit.setText("To find our long-forgotten gold."_c);
 
-  enable_frame.add("Ok"_def,Button_Ok).setInfo(InfoFromString("Press Ok to enable"_def));
+  enable_frame.add("Ok"_str,Button_Ok).setInfo(InfoFromString("Press Ok to enable"_str));
  }
 
 TestWindow::~TestWindow()
@@ -292,7 +292,7 @@ void TestClient::cascade_menu_selected(int id,Point point)
          {
           file_window.setNewFile(true);
 
-          file_window.create(point,"Select file"_def);
+          file_window.create(point,"Select file"_str);
          }
       }
      break;
@@ -303,7 +303,7 @@ void TestClient::cascade_menu_selected(int id,Point point)
          {
           file_window.setNewFile(false);
 
-          file_window.create(point,"Select file"_def);
+          file_window.create(point,"Select file"_str);
          }
       }
      break;
@@ -339,37 +339,37 @@ TestClient::TestClient(SubWindowHost &host,const UserPreference &pref,Signal<> &
 
   wlist.enableTabFocus(false);
 
-  menu_data("@File"_def,1)
-           ("@Edit"_def,2)
+  menu_data("@File"_str,1)
+           ("@Edit"_str,2)
            (MenuSeparator)
-           ("@Options"_def,3)
-           (MenuDisabled,"@Modules"_def,4)
-           ("@Window"_def,5)
-           ("@Long menu"_def,6);
+           ("@Options"_str,3)
+           (MenuDisabled,"@Modules"_str,4)
+           ("@Window"_str,5)
+           ("@Long menu"_str,6);
 
-  menu_file_data("@New"_def,101)
-                ("@Open"_def,102)
-                (MenuDisabled,"@Save"_def,103)
-                (MenuDisabled,"Save @as"_def,104)
+  menu_file_data("@New"_str,101)
+                ("@Open"_str,102)
+                (MenuDisabled,"@Save"_str,103)
+                (MenuDisabled,"Save @as"_str,104)
                 (MenuSeparator)
-                ("E@xit"_def,105);
+                ("E@xit"_str,105);
 
-  menu_edit_data("@Undo"_def,201)
-                ("@Check"_def,202)
+  menu_edit_data("@Undo"_str,201)
+                ("@Check"_str,202)
                 (MenuSeparator)
-                ("Cut"_def,203)
-                ("Copy"_def,204)
-                ("Paste"_def,205)
+                ("Cut"_str,203)
+                ("Copy"_str,204)
+                ("Paste"_str,205)
                 (MenuSeparator)
-                ("@Run"_def,206);
+                ("@Run"_str,206);
 
-  menu_options_data("@Colors"_def,301)
-                   ("@Fonts"_def,302)
-                   ("@Targets"_def,303);
+  menu_options_data("@Colors"_str,301)
+                   ("@Fonts"_str,302)
+                   ("@Targets"_str,303);
 
-  menu_window_data("@Split"_def,501)
-                  ("@Close all"_def,502)
-                  ("S@tack"_def,503);
+  menu_window_data("@Split"_str,501)
+                  ("@Close all"_str,502)
+                  ("S@tack"_str,503);
 
   for(int i=1; i<100 ;i++)
     {

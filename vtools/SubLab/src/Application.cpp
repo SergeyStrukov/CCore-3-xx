@@ -82,7 +82,7 @@ class Application : public ApplicationBase
 
    virtual void prepare()
     {
-     main_frame.createMain(cmd_display,"SubLab"_def);
+     main_frame.createMain(cmd_display,"SubLab"_str);
     }
 
    virtual void beforeLoop() noexcept

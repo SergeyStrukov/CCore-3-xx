@@ -288,7 +288,7 @@ class WindowReportBase : public ExceptionStore , public ReportException
 template <class Frame>
 struct WindowReportConfigOf : Frame::ConfigType
  {
-  RefVal<String> text_Fatal_error = "Fatal error"_def ;
+  RefVal<String> text_Fatal_error = "Fatal error"_str ;
 
   WindowReportConfigOf() noexcept {}
 

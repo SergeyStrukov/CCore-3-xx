@@ -72,8 +72,8 @@ class HideControl : public ComboWindow
 
      RefVal<Coord> status_dxy = 30 ;
 
-     RefVal<String> text_Hide    = "Hide"_def ;
-     RefVal<String> text_ShowAll = "Show all"_def ;
+     RefVal<String> text_Hide    = "Hide"_str ;
+     RefVal<String> text_ShowAll = "Show all"_str ;
 
      RefVal<VColor> status_New    = SkyBlue ;
      RefVal<VColor> status_Ignore = Gray ;
@@ -561,7 +561,7 @@ class AspectWindow : public ComboWindow
 
      RefVal<Coord> space_dxy = 10 ;
 
-     RefVal<String> text_Error = "Error"_def ;
+     RefVal<String> text_Error = "Error"_str ;
 
      CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
@@ -571,11 +571,11 @@ class AspectWindow : public ComboWindow
 
      // app
 
-     RefVal<String> text_Path   = "Path"_def ;
-     RefVal<String> text_Aspect = "Aspect"_def ;
+     RefVal<String> text_Path   = "Path"_str ;
+     RefVal<String> text_Aspect = "Aspect"_str ;
 
-     RefVal<String> text_Nothing = "Nothing to save!"_def ;
-     RefVal<String> text_Save    = "Save"_def ;
+     RefVal<String> text_Nothing = "Nothing to save!"_str ;
+     RefVal<String> text_Save    = "Save"_str ;
 
      HideControl::ConfigType hide_cfg;
      CountControl::ConfigType count_cfg;

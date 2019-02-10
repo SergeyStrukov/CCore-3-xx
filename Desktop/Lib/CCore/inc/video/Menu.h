@@ -84,7 +84,7 @@ struct MenuPoint
 
   // constructors
 
-  MenuPoint() noexcept : type(MenuHidden),text("<not defined>"_def),hotindex(0),hotkey(0),id(-1) {}
+  MenuPoint() noexcept : type(MenuHidden),text("<not defined>"_str),hotindex(0),hotkey(0),id(-1) {}
 
   MenuPoint(const String &text_,int id_) noexcept : type(MenuText),text(text_),id(id_) { pickhot(); }
 

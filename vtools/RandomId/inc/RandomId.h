@@ -47,10 +47,10 @@ class RandomIdWindow : public ComboWindow
 
      // app
 
-     RefVal<String> text_Unid = "Unid"_def ;
-     RefVal<String> text_Raw  = "Raw"_def ;
-     RefVal<String> text_Roll = "Roll"_def ;
-     RefVal<String> text_Copy = "Copy"_def ;
+     RefVal<String> text_Unid = "Unid"_str ;
+     RefVal<String> text_Raw  = "Raw"_str ;
+     RefVal<String> text_Roll = "Roll"_str ;
+     RefVal<String> text_Copy = "Copy"_str ;
 
      Config() noexcept {}
 

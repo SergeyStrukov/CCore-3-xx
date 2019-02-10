@@ -21,65 +21,65 @@ namespace App {
 
 void AppPreferenceBag::bind(ConfigItemBind &binder)
  {
-  binder.group("Common"_def);
+  binder.group("Common"_str);
 
-    binder.item("title"_def,title);
+    binder.item("title"_str,title);
 
-  binder.group("Menu"_def);
+  binder.group("Menu"_str);
 
-    binder.item("File"_def,menu_File);
-    binder.item("Options"_def,menu_Options);
-    binder.item("New"_def,menu_New);
-    binder.item("Open"_def,menu_Open);
-    binder.item("Save"_def,menu_Save);
-    binder.item("SaveAs"_def,menu_SaveAs);
-    binder.item("Exit"_def,menu_Exit);
-    binder.item("Global"_def,menu_Global);
-    binder.item("App"_def,menu_App);
+    binder.item("File"_str,menu_File);
+    binder.item("Options"_str,menu_Options);
+    binder.item("New"_str,menu_New);
+    binder.item("Open"_str,menu_Open);
+    binder.item("Save"_str,menu_Save);
+    binder.item("SaveAs"_str,menu_SaveAs);
+    binder.item("Exit"_str,menu_Exit);
+    binder.item("Global"_str,menu_Global);
+    binder.item("App"_str,menu_App);
 
-  binder.group("Book"_def);
+  binder.group("Book"_str);
 
-    binder.item("'No file'"_def,text_NoFile);
-    binder.item("'File'"_def,text_File);
-    binder.item("'Save'"_def,text_Save);
-    binder.item("'Link'"_def,text_Link);
-    binder.item("'Book'"_def,text_Book);
-    binder.item("'Temp'"_def,text_Temp);
-    binder.item("'Copy'"_def,text_Copy);
-    binder.item("'Past'"_def,text_Past);
-    binder.item("'Del'"_def,text_Del);
-    binder.item("'Name'"_def,text_Name);
+    binder.item("'No file'"_str,text_NoFile);
+    binder.item("'File'"_str,text_File);
+    binder.item("'Save'"_str,text_Save);
+    binder.item("'Link'"_str,text_Link);
+    binder.item("'Book'"_str,text_Book);
+    binder.item("'Temp'"_str,text_Temp);
+    binder.item("'Copy'"_str,text_Copy);
+    binder.item("'Past'"_str,text_Past);
+    binder.item("'Del'"_str,text_Del);
+    binder.item("'Name'"_str,text_Name);
 
-    binder.item("table line width"_def,line_width);
-    binder.item("border width"_def,border_dxy);
-    binder.item("table width"_def,table_dxy);
-    binder.item("element space"_def,element_space);
-    binder.item("knob len"_def,knob_dxy);
-    binder.item("back"_def,back);
-    binder.item("cursor"_def,cursor);
-    binder.item("gray cursor"_def,gray_cursor);
-    binder.item("table"_def,table);
-    binder.item("text"_def,text);
-    binder.item("element"_def,element);
-    binder.item("comment"_def,comment);
-    binder.item("text font"_def,text_font);
-    binder.item("element font"_def,element_font);
-    binder.item("comment font"_def,comment_font);
+    binder.item("table line width"_str,line_width);
+    binder.item("border width"_str,border_dxy);
+    binder.item("table width"_str,table_dxy);
+    binder.item("element space"_str,element_space);
+    binder.item("knob len"_str,knob_dxy);
+    binder.item("back"_str,back);
+    binder.item("cursor"_str,cursor);
+    binder.item("gray cursor"_str,gray_cursor);
+    binder.item("table"_str,table);
+    binder.item("text"_str,text);
+    binder.item("element"_str,element);
+    binder.item("comment"_str,comment);
+    binder.item("text font"_str,text_font);
+    binder.item("element font"_str,element_font);
+    binder.item("comment font"_str,comment_font);
 
-    binder.item("ins title"_def,ins_title);
-    binder.item("field title"_def,field_title);
-    binder.item("temp title"_def,temp_title);
+    binder.item("ins title"_str,ins_title);
+    binder.item("field title"_str,field_title);
+    binder.item("temp title"_str,temp_title);
 
-  binder.group("Text editor"_def);
+  binder.group("Text editor"_str);
 
-    binder.item("font"_def,textedit_font);
-    binder.item("line width"_def,textedit_width);
-    binder.item("text"_def,textedit_text);
-    binder.item("endspan"_def,textedit_endspan);
-    binder.item("line"_def,textedit_line);
-    binder.item("alert"_def,textedit_alert);
-    binder.item("cursor"_def,textedit_cursor);
-    binder.item("select"_def,textedit_select);
+    binder.item("font"_str,textedit_font);
+    binder.item("line width"_str,textedit_width);
+    binder.item("text"_str,textedit_text);
+    binder.item("endspan"_str,textedit_endspan);
+    binder.item("line"_str,textedit_line);
+    binder.item("alert"_str,textedit_alert);
+    binder.item("cursor"_str,textedit_cursor);
+    binder.item("select"_str,textedit_select);
  }
 
 void AppPreferenceBag::findFonts()

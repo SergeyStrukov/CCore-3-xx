@@ -913,46 +913,46 @@ template <class T>
 String GetTypeName();
 
 template <>
-inline String GetTypeName<BookLab::Font>() { return "Font"_def; }
+inline String GetTypeName<BookLab::Font>() { return "Font"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Page>() { return "Page"_def; }
+inline String GetTypeName<BookLab::Page>() { return "Page"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Format>() { return "Format"_def; }
+inline String GetTypeName<BookLab::Format>() { return "Format"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Border>() { return "Border"_def; }
+inline String GetTypeName<BookLab::Border>() { return "Border"_str; }
 
 template <>
-inline String GetTypeName<BookLab::OneLine>() { return "OneLine"_def; }
+inline String GetTypeName<BookLab::OneLine>() { return "OneLine"_str; }
 
 template <>
-inline String GetTypeName<BookLab::MultiLine>() { return "MultiLine"_def; }
+inline String GetTypeName<BookLab::MultiLine>() { return "MultiLine"_str; }
 
 template <>
-inline String GetTypeName<BookLab::SingleLine>() { return "SingleLine"_def; }
+inline String GetTypeName<BookLab::SingleLine>() { return "SingleLine"_str; }
 
 template <>
-inline String GetTypeName<BookLab::DoubleLine>() { return "DoubleLine"_def; }
+inline String GetTypeName<BookLab::DoubleLine>() { return "DoubleLine"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Bitmap>() { return "Bitmap"_def; }
+inline String GetTypeName<BookLab::Bitmap>() { return "Bitmap"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Collapse>() { return "Collapse"_def; }
+inline String GetTypeName<BookLab::Collapse>() { return "Collapse"_str; }
 
 template <>
-inline String GetTypeName<BookLab::TextList>() { return "TextList"_def; }
+inline String GetTypeName<BookLab::TextList>() { return "TextList"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Table>() { return "Table"_def; }
+inline String GetTypeName<BookLab::Table>() { return "Table"_str; }
 
 template <>
-inline String GetTypeName<BookLab::Text>() { return "Text"_def; }
+inline String GetTypeName<BookLab::Text>() { return "Text"_str; }
 
 template <>
-inline String GetTypeName<BookLab::FixedText>() { return "FixedText"_def; }
+inline String GetTypeName<BookLab::FixedText>() { return "FixedText"_str; }
 
 /* class FieldNamed */
 
@@ -1557,7 +1557,7 @@ class FieldFrame : public DragFrame
 
      // app
 
-     RefVal<String> title = "Edit field"_def ;
+     RefVal<String> title = "Edit field"_str ;
 
      FieldWindow::ConfigType client_cfg;
 

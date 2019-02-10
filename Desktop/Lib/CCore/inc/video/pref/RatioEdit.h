@@ -41,8 +41,8 @@ class RatioEditWindow : public ComboWindow
 
      RefVal<Coord> space_dxy = 10 ;
 
-     RefVal<String> hint_a = "Select divisible"_def ;
-     RefVal<String> hint_b = "Select divider"_def ;
+     RefVal<String> hint_a = "Select divisible"_str ;
+     RefVal<String> hint_b = "Select divider"_str ;
 
      CtorRefVal<SpinorWindow::ConfigType> spin_cfg;
 

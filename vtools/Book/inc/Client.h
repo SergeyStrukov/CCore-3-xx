@@ -34,15 +34,15 @@ class ClientWindow : public ComboWindow
     {
      // user
 
-     RefVal<String> text_LoadFile = "Select a file to load from"_def ;
-     RefVal<String> text_SaveFile = "Select a file to save to"_def ;
+     RefVal<String> text_LoadFile = "Select a file to load from"_str ;
+     RefVal<String> text_SaveFile = "Select a file to save to"_str ;
 
-     RefVal<String> text_Alert   = "Alert"_def ;
-     RefVal<String> text_AskSave = "Save modifications?"_def ;
+     RefVal<String> text_Alert   = "Alert"_str ;
+     RefVal<String> text_AskSave = "Save modifications?"_str ;
 
-     RefVal<String> text_Yes    = "Yes"_def ;
-     RefVal<String> text_No     = "No"_def ;
-     RefVal<String> text_Cancel = "Cancel"_def ;
+     RefVal<String> text_Yes    = "Yes"_str ;
+     RefVal<String> text_No     = "No"_str ;
+     RefVal<String> text_Cancel = "Cancel"_str ;
 
      CtorRefVal<FileFrame::ConfigType> file_cfg;
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
@@ -50,13 +50,13 @@ class ClientWindow : public ComboWindow
 
      // app
 
-     RefVal<String> menu_File    = "@File"_def ;
-     RefVal<String> menu_Options = "@Options"_def ;
-     RefVal<String> menu_New     = "@New"_def ;
-     RefVal<String> menu_Open    = "@Open"_def ;
-     RefVal<String> menu_Exit    = "E@xit"_def ;
-     RefVal<String> menu_Global  = "@Global"_def ;
-     RefVal<String> menu_App     = "@Application"_def ;
+     RefVal<String> menu_File    = "@File"_str ;
+     RefVal<String> menu_Options = "@Options"_str ;
+     RefVal<String> menu_New     = "@New"_str ;
+     RefVal<String> menu_Open    = "@Open"_str ;
+     RefVal<String> menu_Exit    = "E@xit"_str ;
+     RefVal<String> menu_Global  = "@Global"_str ;
+     RefVal<String> menu_App     = "@Application"_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 

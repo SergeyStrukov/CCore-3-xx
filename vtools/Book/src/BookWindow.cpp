@@ -1163,8 +1163,8 @@ void BookWindow::blank()
   book_map.blank();
   ext_map.blank();
 
-  text_title.setText(""_def);
-  text_page.setText(""_def);
+  text_title.setText(""_str);
+  text_page.setText(""_str);
 
   spinor.setValue( (+cfg.defscale)*Coord(100) );
 
@@ -1219,7 +1219,7 @@ void BookWindow::load(StrLen file_name,bool set_source)
        }
      else
        {
-        text_page.setText(""_def);
+        text_page.setText(""_str);
 
         setNav(0);
 

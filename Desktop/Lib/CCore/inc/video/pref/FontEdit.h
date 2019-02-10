@@ -143,35 +143,35 @@ class FontEditWindow : public ComboWindow
      RefVal<Coord> check_dxy = 20 ;
      RefVal<Coord> light_dxy = 20 ;
 
-     RefVal<String> text_none = "<none>"_def ;
+     RefVal<String> text_none = "<none>"_str ;
 
-     RefVal<String> text_scalable    = "scalable"_def ;
-     RefVal<String> text_monospace   = "monospace"_def ;
-     RefVal<String> text_bold        = "bold"_def ;
-     RefVal<String> text_italic      = "italic"_def ;
+     RefVal<String> text_scalable    = "scalable"_str ;
+     RefVal<String> text_monospace   = "monospace"_str ;
+     RefVal<String> text_bold        = "bold"_str ;
+     RefVal<String> text_italic      = "italic"_str ;
 
-     RefVal<String> text_Hint = "Hint"_def ;
+     RefVal<String> text_Hint = "Hint"_str ;
 
-     RefVal<String> text_no_hint     = "No hint"_def ;
-     RefVal<String> text_native_hint = "Native hint"_def ;
-     RefVal<String> text_auto_hint   = "Auto hint"_def ;
+     RefVal<String> text_no_hint     = "No hint"_str ;
+     RefVal<String> text_native_hint = "Native hint"_str ;
+     RefVal<String> text_auto_hint   = "Auto hint"_str ;
 
-     RefVal<String> text_Smooth = "Smooth"_def ;
+     RefVal<String> text_Smooth = "Smooth"_str ;
 
-     RefVal<String> text_no_smooth   = "No smooth"_def ;
-     RefVal<String> text_smooth      = "Smooth"_def ;
-     RefVal<String> text_RGB         = "LCD RGB"_def ;
-     RefVal<String> text_BGR         = "LCD BGR"_def ;
+     RefVal<String> text_no_smooth   = "No smooth"_str ;
+     RefVal<String> text_smooth      = "Smooth"_str ;
+     RefVal<String> text_RGB         = "LCD RGB"_str ;
+     RefVal<String> text_BGR         = "LCD BGR"_str ;
 
-     RefVal<String> text_kerning     = "Kerning"_def ;
-     RefVal<String> text_strength    = "Strength"_def ;
-     RefVal<String> text_sample      = "sample"_def ;
-     RefVal<String> text_table       = "table"_def ;
+     RefVal<String> text_kerning     = "Kerning"_str ;
+     RefVal<String> text_strength    = "Strength"_str ;
+     RefVal<String> text_sample      = "sample"_str ;
+     RefVal<String> text_table       = "table"_str ;
 
-     RefVal<String> hint_list          = "Font file list"_def ;
-     RefVal<String> hint_height        = "Font height"_def ;
-     RefVal<String> hint_length_enable = "Enable font length"_def ;
-     RefVal<String> hint_length        = "Font length"_def ;
+     RefVal<String> hint_list          = "Font file list"_str ;
+     RefVal<String> hint_height        = "Font height"_str ;
+     RefVal<String> hint_length_enable = "Enable font length"_str ;
+     RefVal<String> hint_length        = "Font length"_str ;
 
      CtorRefVal<ProgressWindow::ConfigType> progress_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;

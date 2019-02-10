@@ -235,7 +235,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
      String name;
      const FontInfo *info = 0 ;
 
-     Rec() noexcept : name("-- Default --"_def) {}
+     Rec() noexcept : name("-- Default --"_str) {}
 
      explicit Rec(const FontInfo &obj)
       {
@@ -395,7 +395,7 @@ String FontEditWindow::TestText()
    "Far over the misty mountains cold\n"
    "To dungeons deep and caverns old\n"
    "We must away ere break of day,\n"
-   "To find our long-forgotten gold.\n"_def;
+   "To find our long-forgotten gold.\n"_str;
  }
 
 int FontEditWindow::GetMaxIndex(Font font_)

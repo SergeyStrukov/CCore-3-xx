@@ -26,7 +26,7 @@ FieldBool::FieldBool(SubWindowHost &host,const Config &cfg_)
    cfg(cfg_),
 
    check_true(wlist,cfg.check_cfg),
-   lab_true(wlist,cfg.lab_cfg,"True"_def)
+   lab_true(wlist,cfg.lab_cfg,"True"_str)
  {
   wlist.insTop(check_true,lab_true);
  }
@@ -502,9 +502,9 @@ FieldAlign::FieldAlign(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_left(wlist,cfg.lab_cfg,"Left"_def),
-   lab_right(wlist,cfg.lab_cfg,"Right"_def),
-   lab_center(wlist,cfg.lab_cfg,"Center"_def),
+   lab_left(wlist,cfg.lab_cfg,"Left"_str),
+   lab_right(wlist,cfg.lab_cfg,"Right"_str),
+   lab_center(wlist,cfg.lab_cfg,"Center"_str),
 
    rad_left(wlist,BookLab::Left,cfg.rad_cfg),
    rad_right(wlist,BookLab::Right,cfg.rad_cfg),
@@ -598,9 +598,9 @@ FieldEffect::FieldEffect(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_none(wlist,cfg.lab_cfg,"None"_def),
-   lab_under(wlist,cfg.lab_cfg,"Underline"_def),
-   lab_strike(wlist,cfg.lab_cfg,"Strikeout"_def),
+   lab_none(wlist,cfg.lab_cfg,"None"_str),
+   lab_under(wlist,cfg.lab_cfg,"Underline"_str),
+   lab_strike(wlist,cfg.lab_cfg,"Strikeout"_str),
 
    rad_none(wlist,BookLab::NoEffect,cfg.rad_cfg),
    rad_under(wlist,BookLab::Underline,cfg.rad_cfg),
@@ -749,9 +749,9 @@ FieldPoint::FieldPoint(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_point(wlist,cfg.lab_cfg,"Point (x,y)"_def),
-   lab_x(wlist,cfg.lab_cfg,"x"_def),
-   lab_y(wlist,cfg.lab_cfg,"y"_def),
+   lab_point(wlist,cfg.lab_cfg,"Point (x,y)"_str),
+   lab_x(wlist,cfg.lab_cfg,"x"_str),
+   lab_y(wlist,cfg.lab_cfg,"y"_str),
    edit_x(wlist,cfg.edit_cfg),
    edit_y(wlist,cfg.edit_cfg)
  {
@@ -836,9 +836,9 @@ FieldRatio::FieldRatio(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   lab_ratio(wlist,cfg.lab_cfg,"Ratio a/b"_def),
-   lab_a(wlist,cfg.lab_cfg,"a"_def),
-   lab_b(wlist,cfg.lab_cfg,"/b"_def),
+   lab_ratio(wlist,cfg.lab_cfg,"Ratio a/b"_str),
+   lab_a(wlist,cfg.lab_cfg,"a"_str),
+   lab_b(wlist,cfg.lab_cfg,"/b"_str),
    edit_a(wlist,cfg.edit_cfg),
    edit_b(wlist,cfg.edit_cfg)
  {
@@ -1115,7 +1115,7 @@ FieldNamed::FieldNamed(SubWindowHost &host,const Config &cfg_,BookLab::Book &boo
 
    book(book_),
 
-   lab_edit(wlist,cfg.lab_cfg,"named"_def),
+   lab_edit(wlist,cfg.lab_cfg,"named"_str),
    edit(wlist,cfg.edit_cfg),
 
    variants(DoReserve,10)
@@ -1518,7 +1518,7 @@ FieldElement::FieldElement(SubWindowHost &host,const Config &cfg_,Signal<bool> &
    modified(modified_),
 
    edit(wlist,cfg.edit_cfg),
-   btn_select(wlist,cfg.btn_cfg,"Select font"_def),
+   btn_select(wlist,cfg.btn_cfg,"Select font"_str),
    font(wlist,cfg.font_cfg),
 
    connector_edit_changed(this,&FieldElement::edit_changed,edit.changed),
@@ -1848,9 +1848,9 @@ FieldWindow::FieldWindow(SubWindowHost &host,const Config &cfg_,BookLab::Book &b
  : ComboWindow(host),
    cfg(cfg_),
 
-   btn_set(wlist,cfg.btn_cfg,"Set"_def),
+   btn_set(wlist,cfg.btn_cfg,"Set"_str),
    check_def(wlist,cfg.check_cfg),
-   lab_def(wlist,cfg.lab_cfg,"default"_def),
+   lab_def(wlist,cfg.lab_cfg,"default"_str),
 
    field_bool(wlist,cfg.field_bool_cfg),
    field_Coord(wlist,cfg.field_Coord_cfg),

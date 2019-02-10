@@ -71,7 +71,7 @@ class FrameShapeBase
      RefVal<unsigned> time   = 3_sectick ;
      RefVal<unsigned> period =    3_tick ;
 
-     RefVal<String> text_No_hint = "<No hint available>"_def ;
+     RefVal<String> text_No_hint = "<No hint available>"_str ;
 
      ConfigBase() noexcept {}
 

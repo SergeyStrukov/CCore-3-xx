@@ -586,7 +586,7 @@ class FireButtonWindow_Sample : public ComboWindow
  {
    LightWindow light;
 
-   RefVal<String> name = "Fire"_def ;
+   RefVal<String> name = "Fire"_str ;
 
    RefFireButtonWindow btn;
 
@@ -655,8 +655,8 @@ class RunButtonWindow_Sample : public ComboWindow
  {
    LightWindow light;
 
-   RefVal<String> name_off =  "Run"_def ;
-   RefVal<String> name_on  = "Stop"_def ;
+   RefVal<String> name_off =  "Run"_str ;
+   RefVal<String> name_on  = "Stop"_str ;
 
    RefRunButtonWindow btn;
 

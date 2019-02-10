@@ -427,7 +427,7 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,const OptFileN
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
    aspect(wlist,cfg.aspect_cfg,opt),
-   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".aspect.ddl"_def}),
+   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".aspect.ddl"_str}),
    dir_frame(host.getFrameDesktop(),cfg.dir_cfg),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),
 

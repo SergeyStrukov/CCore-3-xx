@@ -80,7 +80,7 @@ auto DDLFile::open(StrLen file_name) -> OpenResult
 
      erase();
 
-     return {"Exception"_def,false};
+     return {"Exception"_str,false};
     }
  }
 
@@ -123,7 +123,7 @@ auto DDLFile::openPretext(StrLen file_name) -> OpenResult
 
      updated.assert();
 
-     return {"Exception"_def,false};
+     return {"Exception"_str,false};
     }
  }
 
@@ -1800,7 +1800,7 @@ void DisplayWindow::error(StrLen str)
  {
   msg_frame.setInfo(String(str));
 
-  if( msg_frame.isDead() ) msg_frame.create(getFrame(),"Error"_def);
+  if( msg_frame.isDead() ) msg_frame.create(getFrame(),"Error"_str);
  }
 
 void DisplayWindow::setPretextFileName(StrLen file_name)
@@ -1817,8 +1817,8 @@ DisplayWindow::DisplayWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
 
-   label_pretext(wlist,cfg.label_cfg,"Pretext"_def),
-   label_file(wlist,cfg.label_cfg,"File"_def),
+   label_pretext(wlist,cfg.label_cfg,"Pretext"_str),
+   label_file(wlist,cfg.label_cfg,"File"_str),
    text_pretext(wlist,cfg.textline_cfg),
    text_file(wlist,cfg.textline_cfg),
    dline(wlist,cfg.dline_cfg),

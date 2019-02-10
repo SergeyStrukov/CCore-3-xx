@@ -32,38 +32,38 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  String title = "Aspect"_def ;
+  String title = "Aspect"_str ;
 
-  String text_Path   = "Path"_def ;
-  String text_Aspect = "Aspect"_def ;
+  String text_Path   = "Path"_str ;
+  String text_Aspect = "Aspect"_str ;
 
-  String text_Nothing = "Nothing to save!"_def ;
-  String text_Save    = "Save"_def ;
+  String text_Nothing = "Nothing to save!"_str ;
+  String text_Save    = "Save"_str ;
 
   // menu
 
-  String text_SelectPath = "Select a project path"_def ;
+  String text_SelectPath = "Select a project path"_str ;
 
-  String menu_File    = "@File"_def ;
-  String menu_Actions = "@Actions"_def ;
-  String menu_Options = "@Options"_def ;
-  String menu_Recent  = "@Recent"_def ;
+  String menu_File    = "@File"_str ;
+  String menu_Actions = "@Actions"_str ;
+  String menu_Options = "@Options"_str ;
+  String menu_Recent  = "@Recent"_str ;
 
-  String menu_New     = "@New ..."_def ;
-  String menu_Open    = "@Open ..."_def ;
-  String menu_Save    = "@Save"_def ;
-  String menu_SaveAs  = "Save @as ..."_def ;
-  String menu_Exit    = "E@xit"_def ;
-  String menu_Collect = "@Collect"_def ;
-  String menu_Global  = "@Global ..."_def ;
-  String menu_App     = "@Application ..."_def ;
+  String menu_New     = "@New ..."_str ;
+  String menu_Open    = "@Open ..."_str ;
+  String menu_Save    = "@Save"_str ;
+  String menu_SaveAs  = "Save @as ..."_str ;
+  String menu_Exit    = "E@xit"_str ;
+  String menu_Collect = "@Collect"_str ;
+  String menu_Global  = "@Global ..."_str ;
+  String menu_App     = "@Application ..."_str ;
 
   // hide
 
   Coord status_dxy = 30 ;
 
-  String text_Hide    = "Hide"_def ;
-  String text_ShowAll = "Show all"_def ;
+  String text_Hide    = "Hide"_str ;
+  String text_ShowAll = "Show all"_str ;
 
   // count
 

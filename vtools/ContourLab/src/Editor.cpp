@@ -607,7 +607,7 @@ Point EditorWindow::getMinSize() const
 
 void EditorWindow::blank()
  {
-  text_file.setText(""_def);
+  text_file.setText(""_str);
   setModified();
   has_file=false;
 

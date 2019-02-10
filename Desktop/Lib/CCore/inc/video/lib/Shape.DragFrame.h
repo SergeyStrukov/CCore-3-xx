@@ -46,20 +46,20 @@ class DragFrameShape : public FrameShapeBase
      RefVal<Coord> btn_dx    = 26 ;
      RefVal<Coord> btn_dy    = 24 ;
 
-     RefVal<String> hint_ResizeTopLeft     = "Resize top-left"_def ;
-     RefVal<String> hint_ResizeLeft        = "Resize left"_def ;
-     RefVal<String> hint_ResizeBottomLeft  = "Resize bottom-left"_def ;
-     RefVal<String> hint_ResizeBottom      = "Resize bottom"_def ;
-     RefVal<String> hint_ResizeBottomRight = "Resize bottom-right"_def ;
-     RefVal<String> hint_ResizeRight       = "Resize right"_def ;
-     RefVal<String> hint_ResizeTopRight    = "Resize top-right"_def ;
+     RefVal<String> hint_ResizeTopLeft     = "Resize top-left"_str ;
+     RefVal<String> hint_ResizeLeft        = "Resize left"_str ;
+     RefVal<String> hint_ResizeBottomLeft  = "Resize bottom-left"_str ;
+     RefVal<String> hint_ResizeBottom      = "Resize bottom"_str ;
+     RefVal<String> hint_ResizeBottomRight = "Resize bottom-right"_str ;
+     RefVal<String> hint_ResizeRight       = "Resize right"_str ;
+     RefVal<String> hint_ResizeTopRight    = "Resize top-right"_str ;
 
-     RefVal<String> hint_Alert    = "Open/close alert view"_def ;
-     RefVal<String> hint_Help     = "Help on/off"_def ;
-     RefVal<String> hint_Minimize = "Minimize"_def ;
-     RefVal<String> hint_Maximize = "Maximize"_def ;
-     RefVal<String> hint_Restore  = "Restore"_def ;
-     RefVal<String> hint_Close    = "Close"_def ;
+     RefVal<String> hint_Alert    = "Open/close alert view"_str ;
+     RefVal<String> hint_Help     = "Help on/off"_str ;
+     RefVal<String> hint_Minimize = "Minimize"_str ;
+     RefVal<String> hint_Maximize = "Maximize"_str ;
+     RefVal<String> hint_Restore  = "Restore"_str ;
+     RefVal<String> hint_Close    = "Close"_str ;
 
      Config() noexcept {}
 

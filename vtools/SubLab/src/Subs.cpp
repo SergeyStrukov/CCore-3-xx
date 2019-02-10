@@ -42,21 +42,21 @@ void DrawShape::draw(const DrawBuf &buf) const
 /* class TextContourWindow_Left */
 
 TextContourWindow_Left::TextContourWindow_Left(SubWindowHost &host,const ConfigType &cfg)
- : TextContourWindow(host,cfg,"Title left"_def,AlignX_Left)
+ : TextContourWindow(host,cfg,"Title left"_str,AlignX_Left)
  {
  }
 
 /* class TextContourWindow_Right */
 
 TextContourWindow_Right::TextContourWindow_Right(SubWindowHost &host,const ConfigType &cfg)
- : TextContourWindow(host,cfg,"Title right"_def,AlignX_Right)
+ : TextContourWindow(host,cfg,"Title right"_str,AlignX_Right)
  {
  }
 
 /* class TextContourWindow_Center */
 
 TextContourWindow_Center::TextContourWindow_Center(SubWindowHost &host,const ConfigType &cfg)
- : TextContourWindow(host,cfg,"Title center"_def,AlignX_Center)
+ : TextContourWindow(host,cfg,"Title center"_str,AlignX_Center)
  {
  }
 
@@ -70,7 +70,7 @@ void ButtonWindow_Button::testException()
  }
 
 ButtonWindow_Button::ButtonWindow_Button(SubWindowHost &host,const UserPreference &pref)
- : ButtonWindow(host,pref.getSmartConfig(),"Button"_def),
+ : ButtonWindow(host,pref.getSmartConfig(),"Button"_str),
    exbuf(getFrame(),pref.getSmartConfig()),
 
    connector_pressed(this,&ButtonWindow_Button::testException,pressed)
@@ -146,21 +146,21 @@ KnobWindow_auto::KnobWindow_auto(SubWindowHost &host,const ConfigType &cfg)
 /* class LabelWindow_Label */
 
 LabelWindow_Label::LabelWindow_Label(SubWindowHost &host,const ConfigType &cfg)
- : LabelWindow(host,cfg,"Label"_def,AlignX_Center,AlignY_Center)
+ : LabelWindow(host,cfg,"Label"_str,AlignX_Center,AlignY_Center)
  {
  }
 
 /* class TextWindow_SampleText */
 
 TextWindow_SampleText::TextWindow_SampleText(SubWindowHost &host,const ConfigType &cfg)
- : TextWindow(host,cfg,"Sample text line"_def,AlignX_Center,AlignY_Center)
+ : TextWindow(host,cfg,"Sample text line"_str,AlignX_Center,AlignY_Center)
  {
  }
 
 /* class TextLineWindow_SampleText */
 
 TextLineWindow_SampleText::TextLineWindow_SampleText(SubWindowHost &host,const ConfigType &cfg)
- : TextLineWindow(host,cfg,"Sample text long line 1234567890"_def)
+ : TextLineWindow(host,cfg,"Sample text long line 1234567890"_str)
  {
  }
 
@@ -317,7 +317,7 @@ String InfoWindow_SampleInfo::Sample()
   "\r\n"
   "  Arg[] args;\r\n"
   " };\r\n"
-  "\r\n"_def;
+  "\r\n"_str;
  }
 
 InfoWindow_SampleInfo::InfoWindow_SampleInfo(SubWindowHost &host,const ConfigType &cfg)
@@ -330,7 +330,7 @@ InfoWindow_SampleInfo::InfoWindow_SampleInfo(SubWindowHost &host,const ConfigTyp
 MessageWindow_knob::MessageWindow_knob(SubWindowHost &host,const ConfigType &cfg)
  : MessageWindow(host,cfg)
  {
-  setInfo("Knob message window"_def);
+  setInfo("Knob message window"_str);
  }
 
 /* class MessageWindow_ok */
@@ -338,7 +338,7 @@ MessageWindow_knob::MessageWindow_knob(SubWindowHost &host,const ConfigType &cfg
 MessageWindow_ok::MessageWindow_ok(SubWindowHost &host,const ConfigType &cfg)
  : MessageWindow(host,cfg)
  {
-  add("Ok"_def,Button_Ok).setInfo("Ok message window"_def);
+  add("Ok"_str,Button_Ok).setInfo("Ok message window"_str);
  }
 
 /* class MessageWindow_yes_no */
@@ -346,7 +346,7 @@ MessageWindow_ok::MessageWindow_ok(SubWindowHost &host,const ConfigType &cfg)
 MessageWindow_yes_no::MessageWindow_yes_no(SubWindowHost &host,const ConfigType &cfg)
  : MessageWindow(host,cfg)
  {
-  add("Yes"_def,Button_Yes).add("No"_def,Button_No).setInfo("Yes/No message window"_def);
+  add("Yes"_str,Button_Yes).add("No"_str,Button_No).setInfo("Yes/No message window"_str);
  }
 
 /* class SimpleTextListWindow_SampleList */
@@ -361,7 +361,7 @@ String SimpleTextListWindow_SampleList::List()
   "Contour\r\n"
   "TextContour left\r\n"
   "TextContour right\r\n"
-  "TextContour center\r\n"_def;
+  "TextContour center\r\n"_str;
  }
 
 SimpleTextListWindow_SampleList::SimpleTextListWindow_SampleList(SubWindowHost &host,const ConfigType &cfg)

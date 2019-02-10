@@ -40,7 +40,7 @@ class EditorWindow : public ComboWindow
 
      RefVal<Coord> space_dxy = 10 ;
 
-     RefVal<String> text_Error = "Error"_def ;
+     RefVal<String> text_Error = "Error"_str ;
 
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<XSplitWindow::ConfigType> split_cfg;
@@ -48,11 +48,11 @@ class EditorWindow : public ComboWindow
 
      // app
 
-     RefVal<String> hint_File   = "The current file"_def ;
-     RefVal<String> hint_Angle  = "Set the selected angle"_def ;
-     RefVal<String> hint_Length = "Set the selected length"_def ;
-     RefVal<String> hint_Ratio  = "Set the selected ratio"_def ;
-     RefVal<String> hint_Geom   = "Draw of elements, use to set the selected point"_def ;
+     RefVal<String> hint_File   = "The current file"_str ;
+     RefVal<String> hint_Angle  = "Set the selected angle"_str ;
+     RefVal<String> hint_Length = "Set the selected length"_str ;
+     RefVal<String> hint_Ratio  = "Set the selected ratio"_str ;
+     RefVal<String> hint_Geom   = "Draw of elements, use to set the selected point"_str ;
 
      CtorRefVal<EditAngleWindow::ConfigType> edit_angle_cfg;
      CtorRefVal<EditLengthWindow::ConfigType> edit_length_cfg;

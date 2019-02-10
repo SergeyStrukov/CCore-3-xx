@@ -41,15 +41,15 @@ class ClientWindow : public ComboWindow
 
      // app
 
-     RefVal<String> menu_File    = "@File"_def ;
-     RefVal<String> menu_Options = "@Options"_def ;
-     RefVal<String> menu_New     = "@New"_def ;
-     RefVal<String> menu_Open    = "@Open"_def ;
-     RefVal<String> menu_Save    = "@Save"_def ;
-     RefVal<String> menu_SaveAs  = "Save @as"_def ;
-     RefVal<String> menu_Exit    = "E@xit"_def ;
-     RefVal<String> menu_Global  = "@Global"_def ;
-     RefVal<String> menu_App     = "@Application"_def ;
+     RefVal<String> menu_File    = "@File"_str ;
+     RefVal<String> menu_Options = "@Options"_str ;
+     RefVal<String> menu_New     = "@New"_str ;
+     RefVal<String> menu_Open    = "@Open"_str ;
+     RefVal<String> menu_Save    = "@Save"_str ;
+     RefVal<String> menu_SaveAs  = "Save @as"_str ;
+     RefVal<String> menu_Exit    = "E@xit"_str ;
+     RefVal<String> menu_Global  = "@Global"_str ;
+     RefVal<String> menu_App     = "@Application"_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 
