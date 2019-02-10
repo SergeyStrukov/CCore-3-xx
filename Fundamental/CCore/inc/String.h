@@ -139,6 +139,14 @@ class String::StaticObject
 template <char ... CC>
 String::StaticObject<CC...> String::StaticObject<CC...>::Object CCORE_INITPRI_3 ;
 
+/* String literal */
+
+template <IsType<char> T,T ... CC>
+const String & operator "" _str ()
+ {
+  return String::StaticObject<CC...>::Object;
+ }
+
 /* class PrintString */
 
 class PrintString : public PrintBase

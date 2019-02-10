@@ -29,6 +29,8 @@ bool Testit<2017>::Main()
  {
   ReportException report;
 
+  Printf(Con,"#.q;\n","This is a static string."_str);
+
   String a("string_a");
   String b("string_b");
   String c("string_c");
