@@ -81,7 +81,7 @@ class InfoFromString::StringSet : public InfoBase
     : str(str_),
       list(DoReserve,100)
     {
-     StrLen total=str.str();
+     StrLen total=Range(str);
 
      while( +total )
        {

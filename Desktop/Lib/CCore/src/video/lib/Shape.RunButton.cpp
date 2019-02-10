@@ -29,8 +29,8 @@ MCoord RunButtonShape::FigEX(Coord fdy,MCoord width)
 
 Point RunButtonShape::getMinSize() const
  {
-  TextSize ts1=cfg.font->text(face_off.str());
-  TextSize ts2=cfg.font->text(face_on.str());
+  TextSize ts1=cfg.font->text(Range(face_off));
+  TextSize ts2=cfg.font->text(Range(face_on));
 
   MCoord width=+cfg.width;
 
@@ -95,9 +95,9 @@ void RunButtonShape::draw(const DrawBuf &buf) const
    VColor text = enable? +cfg.text : gray ;
 
    if( on )
-     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),face_on.str(),text);
+     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_on),text);
    else
-     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),face_off.str(),text);
+     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_off),text);
   }
 
   // border

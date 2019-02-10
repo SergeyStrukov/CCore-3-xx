@@ -646,7 +646,7 @@ void WindowReportBase::boxShow() noexcept
               } );
   }
 
-  ErrorMsgBox(out.close(),getTitle().str());
+  ErrorMsgBox(out.close(),Range(getTitle()));
  }
 
 class WindowReportBase::TempQueue : DeferCallQueue

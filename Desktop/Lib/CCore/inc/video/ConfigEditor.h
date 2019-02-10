@@ -325,7 +325,7 @@ class ConfigEditorWindow : public ComboWindow
 
       virtual void propagate(DefString val)
        {
-        editor.setText(val.str());
+        editor.setText(Range(val));
        }
 
      public:
@@ -589,27 +589,27 @@ class ConfigEditorFrame : public DragFrame
 
    void create(Point base,const DefString &title)
     {
-     DragFrame::create(getPane(title.str(),base),title);
+     DragFrame::create(getPane(Range(title),base),title);
     }
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     DragFrame::create(parent,getPane(title.str(),base),title);
+     DragFrame::create(parent,getPane(Range(title),base),title);
     }
 
    void create(const DefString &title)
     {
-     DragFrame::create(getPane(false,title.str()),title);
+     DragFrame::create(getPane(false,Range(title)),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     DragFrame::create(parent,getPane(false,title.str()),title);
+     DragFrame::create(parent,getPane(false,Range(title)),title);
     }
 
    void createMain(const DefString &title)
     {
-     DragFrame::createMain(CmdDisplay_Normal,getPane(true,title.str()),title);
+     DragFrame::createMain(CmdDisplay_Normal,getPane(true,Range(title)),title);
     }
 
    void createMain(CmdDisplay cmd_display,Pane pane,const DefString &title)

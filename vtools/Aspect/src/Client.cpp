@@ -58,14 +58,14 @@ StrLen RecentList::get(int id) const
 
   if( ind>=list.getLen() ) return Null;
 
-  return list[ind].text.str();
+  return Range(list[ind].text);
  }
 
 void RecentList::save(DynArray<String> &ret) const
  {
   ret.erase();
 
-  for(const MenuPoint &point : list ) ret.append_copy(point.text.getDynamic());
+  for(const MenuPoint &point : list ) ret.append_copy(point.text);
  }
 
 /* class ClientWindow */

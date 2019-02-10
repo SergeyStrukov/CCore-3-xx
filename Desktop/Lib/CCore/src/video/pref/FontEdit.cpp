@@ -267,7 +267,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
 
        if( !info ) return true;
 
-       return StrLess(name.str(),obj.name.str());
+       return StrLessOf(name,obj.name);
       }
     };
 
@@ -347,7 +347,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
 
      if( rec.is_font_class ) return {ComboInfoTitle,StrLen(GetTextDesc(rec.fc))};
 
-     return {ComboInfoText,rec.name.str()};
+     return {ComboInfoText,Range(rec.name)};
     }
  };
 

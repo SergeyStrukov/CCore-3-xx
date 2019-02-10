@@ -58,7 +58,7 @@ void RandomIdWindow::roll()
 
 void RandomIdWindow::copy()
  {
-  getFrameHost()->textToClipboard(text.getText().str());
+  getFrameHost()->textToClipboard(Range(text.getText()));
  }
 
 RandomIdWindow::RandomIdWindow(SubWindowHost &host,const Config &cfg_)

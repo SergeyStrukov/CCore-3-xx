@@ -173,7 +173,7 @@ void ToolFrame::createMain(Pane pane,const DefString &title)
   has_focus=false;
 
   host->createMain(pane,pane.getSize());
-  host->setTitle(title.str());
+  host->setTitle(Range(title));
   host->display(CmdDisplay_Normal);
  }
 

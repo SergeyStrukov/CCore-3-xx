@@ -108,7 +108,7 @@ class ConfigItem : NoCopy
 
      void print(const DefString &obj)
       {
-       Putobj(out,DDLString(obj.str()));
+       Putobj(out,DDLString(obj));
       }
 
      void print(const FontParam &obj)

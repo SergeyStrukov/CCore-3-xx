@@ -54,7 +54,7 @@ MCoord TextLineShape::FigEX(Coord fdy,MCoord width)
 
 Point TextLineShape::getMinSize() const
  {
-  cache(cfg,text.str());
+  cache(cfg,Range(text));
 
   return 2*Point(cache.inner_dx,cache.inner_dy)+Point(cache.text_dx,cache.text_dy)+(+cfg.space);
  }
@@ -75,7 +75,7 @@ Point TextLineShape::getMinSize(StrLen text) const
 
 void TextLineShape::layout()
  {
-  cache(cfg,text.str());
+  cache(cfg,Range(text));
 
   Pane inner=pane.shrink(cache.inner_dx,cache.inner_dy);
 
@@ -105,7 +105,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
   MCoord width=+cfg.width;
 
-  cache(cfg,text.str());
+  cache(cfg,Range(text));
 
   if( cache.btn_ex>p.dx/3 )
     {
@@ -129,7 +129,7 @@ void TextLineShape::draw(const DrawBuf &buf) const
 
    Coord pos_x=cache.font_dx0-xoff;
 
-   font->text(buf,inner,TextPlace(pos_x,AlignY_Center),this->text.str(), enable? text : +cfg.inactive );
+   font->text(buf,inner,TextPlace(pos_x,AlignY_Center),Range(this->text), enable? text : +cfg.inactive );
   }
 
   // border

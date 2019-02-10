@@ -198,7 +198,7 @@ class DragFrameShape : public FrameShapeBase
 
    Point getMinSize(Point size=Point(10,10)) const
     {
-     StrLen str=title.str();
+     StrLen str=Range(title);
 
      Replace_min(str.len,10);
 

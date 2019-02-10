@@ -638,7 +638,7 @@ void EditorWindow::load(StrLen file_name_)
 
   ErrorText etext;
 
-  geom.contour.load(text_file.getText().str(),etext);
+  geom.contour.load(Range(text_file.getText()),etext);
 
   if( !etext )
     {
@@ -662,7 +662,7 @@ bool EditorWindow::save()
 
   ErrorText etext;
 
-  geom.contour.save(text_file.getText().str(),etext);
+  geom.contour.save(Range(text_file.getText()),etext);
 
   if( !etext )
     {

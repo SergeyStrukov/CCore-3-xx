@@ -73,7 +73,7 @@ void ContourShape::draw(const DrawBuf &buf) const
 
 Point TextContourShape::getMinSize() const
  {
-  TextSize ts=cfg.font->text(title.str());
+  TextSize ts=cfg.font->text(Range(title));
 
   Coord dxy=cfg.width.get().roundUp();
 
@@ -82,7 +82,7 @@ Point TextContourShape::getMinSize() const
 
 Point TextContourShape::getMinSize(Point inner_size) const
  {
-  TextSize ts=cfg.font->text(title.str());
+  TextSize ts=cfg.font->text(Range(title));
 
   Coord dxy=cfg.width.get().roundUp();
 
@@ -117,7 +117,7 @@ void TextContourShape::draw(const DrawBuf &buf) const
 
   const Font &font=cfg.font.get();
 
-  TextSize ts=font->text(title.str());
+  TextSize ts=font->text(Range(title));
 
   Coord ty=Min(ts.dy,pane.dy);
   Coord tx=Min_cast(ty,pane.dx/2);
@@ -189,7 +189,7 @@ void TextContourShape::draw(const DrawBuf &buf) const
 
   // title
 
-  font->text(buf,Pane(pane.x+tx,pane.y,len,ty),TextPlace(align_x,AlignY_Center),title.str(),+cfg.text);
+  font->text(buf,Pane(pane.x+tx,pane.y,len,ty),TextPlace(align_x,AlignY_Center),Range(title),+cfg.text);
  }
 
 /* class RefTextContourShape */

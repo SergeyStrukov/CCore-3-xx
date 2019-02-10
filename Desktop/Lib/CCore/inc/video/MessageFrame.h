@@ -243,17 +243,17 @@ class MessageFrame : public FixedFrame
 
    void createMain(const DefString &title)
     {
-     FixedFrame::createMain(getPane(true,title.str()),title);
+     FixedFrame::createMain(getPane(true,Range(title)),title);
     }
 
    void create(const DefString &title)
     {
-     FixedFrame::create(getPane(false,title.str()),title);
+     FixedFrame::create(getPane(false,Range(title)),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     FixedFrame::create(parent,getPane(false,title.str()),title);
+     FixedFrame::create(parent,getPane(false,Range(title)),title);
     }
  };
 

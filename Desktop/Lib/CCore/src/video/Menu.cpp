@@ -36,7 +36,7 @@ void MenuPoint::pickhot()
     }
   else
     {
-     StrLen str=text.str();
+     StrLen str=Range(text);
 
      if( str.len )
        for(ulen i=0,lim=str.len-1; i<lim ;i++)
@@ -114,7 +114,7 @@ Coord MenuShapeBase::GetDX(const MenuPoint &point,const Font &font,Coord space)
      case MenuText :
      case MenuDisabled :
       {
-       StrLen str=point.text.str();
+       StrLen str=Range(point.text);
 
        if( ulen s=point.hotindex )
          {
@@ -168,7 +168,7 @@ VColor MenuShapeBase::HotFunc::hot(ulen index_,Char,Point,Point)
 
 void MenuShapeBase::drawText(const DrawBuf &buf,const MenuPoint &point,Pane pane,const Font &font,AlignX align_x,VColor vc,bool showhot) const
  {
-  StrLen str=point.text.str();
+  StrLen str=Range(point.text);
 
   if( ulen s=point.hotindex )
     {

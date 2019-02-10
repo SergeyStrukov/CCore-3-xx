@@ -29,7 +29,7 @@ MCoord TextShape::FigEX(Coord fdy,MCoord width)
 
 Point TextShape::getMinSize() const
  {
-  return getMinSize(text.str());
+  return getMinSize(Range(text));
  }
 
 Point TextShape::getMinSize(StrLen text) const
@@ -82,7 +82,7 @@ void TextShape::draw(const DrawBuf &buf) const
   Coord dx=RoundUpLen(ex);
   Coord dy=RoundUpLen(width);
 
-  font->text(buf,pane.shrink(dx,dy),TextPlace(align_x,align_y),text.str(), enable? +cfg.text : +cfg.inactive );
+  font->text(buf,pane.shrink(dx,dy),TextPlace(align_x,align_y),Range(text), enable? +cfg.text : +cfg.inactive );
 
   // border
 

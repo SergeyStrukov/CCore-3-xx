@@ -224,7 +224,7 @@ class DialogFontLookup::Frame : public FixedFrame
 
    void create()
     {
-     Point size=getMinSize(true,title.str(),client.getMinSize());
+     Point size=getMinSize(true,Range(title),client.getMinSize());
 
      Pane pane=GetWindowPlace(desktop,Div(5,12),size);
 

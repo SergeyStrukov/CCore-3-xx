@@ -784,7 +784,7 @@ void FileWindow::buildFilePath()
  {
   if( param.new_file && alt_new_file.isChecked() )
     {
-     file_path=file_buf(cache_dir.getText(),cache_new_file.getText(),param.auto_ext.str());
+     file_path=file_buf(cache_dir.getText(),cache_new_file.getText(),Range(param.auto_ext));
     }
   else
     {
@@ -845,7 +845,7 @@ bool FileWindow::isGoodFileName(StrLen file_name)
  {
   if( !file_name ) return false;
 
-  MakeFileName temp(cache_dir.getText(),file_name,param.auto_ext.str());
+  MakeFileName temp(cache_dir.getText(),file_name,Range(param.auto_ext));
 
   return param.file_boss->getFileType(temp.get())==FileType_none;
  }

@@ -1876,7 +1876,7 @@ void DisplayWindow::open(StrLen file_name)
 
      redraw();
 
-     error(result.etext.str());
+     error(Range(result.etext));
     }
  }
 
@@ -1893,7 +1893,7 @@ void DisplayWindow::openPretext(StrLen file_name)
     }
   else
     {
-     error(result.etext.str());
+     error(Range(result.etext));
     }
  }
 

@@ -29,7 +29,7 @@ MCoord ButtonShape::FigEX(Coord fdy,MCoord width)
 
 Point ButtonShape::getMinSize() const
  {
-  TextSize ts=cfg.font->text(face.str());
+  TextSize ts=cfg.font->text(Range(face));
 
   MCoord width=+cfg.width;
 
@@ -95,7 +95,7 @@ void ButtonShape::draw(const DrawBuf &buf) const
 
    VColor text = enable? +cfg.text : gray ;
 
-   font->text(buf,pane.shrink(dx,dy)+shift,TextPlace(AlignX_Center,AlignY_Center),face.str(),text);
+   font->text(buf,pane.shrink(dx,dy)+shift,TextPlace(AlignX_Center,AlignY_Center),Range(face),text);
   }
 
   // border

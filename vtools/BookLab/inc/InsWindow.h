@@ -286,7 +286,7 @@ class InsFrame : public DragFrame
     {
      DefString title=+cfg.title;
 
-     DragFrame::create(parent,getPane(title.str()),title);
+     DragFrame::create(parent,getPane(Range(title)),title);
     }
  };
 

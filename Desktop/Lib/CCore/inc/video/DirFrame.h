@@ -286,22 +286,22 @@ class DirFrame : public DragFrame
 
    void create(Point base,const DefString &title)
     {
-     DragFrame::create(getPane(title.str(),base),title);
+     DragFrame::create(getPane(Range(title),base),title);
     }
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     DragFrame::create(parent,getPane(title.str(),base),title);
+     DragFrame::create(parent,getPane(Range(title),base),title);
     }
 
    void create(const DefString &title)
     {
-     DragFrame::create(getPane(title.str()),title);
+     DragFrame::create(getPane(Range(title)),title);
     }
 
    void create(FrameWindow *parent,const DefString &title)
     {
-     DragFrame::create(parent,getPane(title.str()),title);
+     DragFrame::create(parent,getPane(Range(title)),title);
     }
  };
 

@@ -1032,7 +1032,7 @@ bool EditWindow::save()
  {
   if( !has_file ) return false;
 
-  return saveFile(text_file.getText().str());
+  return saveFile(Range(text_file.getText()));
  }
 
 void EditWindow::save(StrLen file_name)

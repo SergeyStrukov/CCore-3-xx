@@ -304,11 +304,11 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
     {
      switch( rec.type )
        {
-        case Var_Title : return {ComboInfoTitle,rec.name.str()};
+        case Var_Title : return {ComboInfoTitle,Range(rec.name)};
 
         case Var_Separator : return {ComboInfoSeparator,Empty};
 
-        default: return {ComboInfoText,rec.name.str()};
+        default: return {ComboInfoText,Range(rec.name)};
        }
     }
 

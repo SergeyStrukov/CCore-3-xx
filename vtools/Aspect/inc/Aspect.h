@@ -670,7 +670,7 @@ class AspectWindow : public ComboWindow
 
    void errorMsg(StrLen text);
 
-   void errorMsg(const DefString &text) { errorMsg(text.str()); }
+   void errorMsg(const DefString &text) { errorMsg(Range(text)); }
 
    void msg_destroyed();
 

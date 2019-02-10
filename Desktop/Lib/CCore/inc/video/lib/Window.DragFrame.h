@@ -630,7 +630,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      shape.reset(title,true, cmd_display!=CmdDisplay_Maximized );
 
      host->createMain(max_size);
-     host->setTitle(title.str());
+     host->setTitle(Range(title));
      host->display(cmd_display);
     }
 
@@ -642,7 +642,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      shape.reset(title,true, cmd_display!=CmdDisplay_Maximized );
 
      host->createMain(pane,max_size);
-     host->setTitle(title.str());
+     host->setTitle(Range(title));
      host->display(cmd_display);
     }
 
@@ -704,7 +704,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      shape.reset(title,true);
 
      host->createMain(pane,pane.getSize());
-     host->setTitle(title.str());
+     host->setTitle(Range(title));
      host->display(CmdDisplay_Normal);
     }
 
@@ -759,7 +759,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
     {
      shape.title=title;
 
-     host->setTitle(title.str());
+     host->setTitle(Range(title));
 
      redrawFrame();
     }

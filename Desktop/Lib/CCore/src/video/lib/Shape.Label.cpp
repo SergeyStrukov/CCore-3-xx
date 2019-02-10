@@ -22,7 +22,7 @@ namespace Video {
 
 Point LabelShape::getMinSize() const
  {
-  return getMinSize(text.str());
+  return getMinSize(Range(text));
  }
 
 Point LabelShape::getMinSize(StrLen text) const
@@ -34,7 +34,7 @@ Point LabelShape::getMinSize(StrLen text) const
 
 void LabelShape::draw(const DrawBuf &buf) const
  {
-  cfg.font->text(buf,pane,TextPlace(align_x,align_y),text.str(), enable? +cfg.text : +cfg.inactive );
+  cfg.font->text(buf,pane,TextPlace(align_x,align_y),Range(text), enable? +cfg.text : +cfg.inactive );
  }
 
 /* class RefLabelShape */

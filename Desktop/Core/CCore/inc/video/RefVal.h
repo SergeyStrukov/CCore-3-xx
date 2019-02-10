@@ -33,57 +33,19 @@ void GuardCtorRefValLock();
 
 /* classes */
 
-class DefString;
-
 template <class T> class RefVal;
 
 template <class T> class CtorRefVal;
 
-/* class DefString */
+/* DefString */
 
-class DefString
+using DefString = String ;
+
+template <IsType<char> T,T ... CC>
+const DefString & operator "" _def ()
  {
-   StrLen def_const;
-   String dynamic_str;
-
-  public:
-
-   // constructors
-
-   DefString() noexcept {}
-
-   DefString(NothingType) noexcept {}
-
-   DefString(const char *persistent_str,ulen str_len) noexcept : def_const(persistent_str,str_len) {}
-
-   DefString(const String &obj) noexcept : dynamic_str(obj) {}
-
-   ~DefString() {}
-
-   // methods
-
-   const String & getDynamic() const noexcept { return dynamic_str; }
-
-   StrLen str() const noexcept
-    {
-     if( +def_const ) return def_const;
-
-     return Range(dynamic_str);
-    }
-
-   // print object
-
-   using PrintOptType = StrPrintOpt ;
-
-   void print(PrinterType &out,const PrintOptType &opt) const
-    {
-     Putobj(out,BindOpt(opt,str()));
-    }
- };
-
-/* DefString literal */
-
-inline DefString operator "" _def (const char *str,ulen len) { return DefString(str,len); }
+  return String::StaticObject<CC...>::Object;
+ }
 
 /* SafeString() */
 

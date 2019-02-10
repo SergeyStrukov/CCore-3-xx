@@ -203,7 +203,7 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
      operator ComboInfoItem() const
       {
-       return ComboInfoItem(type,name.str());
+       return ComboInfoItem(type,Range(name));
       }
     };
 

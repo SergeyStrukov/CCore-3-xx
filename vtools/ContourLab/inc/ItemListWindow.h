@@ -224,7 +224,7 @@ class InsFrame : public DragFrame
 
    void create(FrameWindow *parent,Point base,const DefString &title)
     {
-     create(parent,getPane(title.str(),base),title);
+     create(parent,getPane(Range(title),base),title);
     }
 
    // signals
