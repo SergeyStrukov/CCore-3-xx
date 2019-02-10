@@ -71,9 +71,9 @@ class TextWindowOf : public SubWindow
      if( Change(shape.alert,on) ) redraw();
     }
 
-   DefString getText() const requires( IsType<decltype(shape.text),DefString> ) { return shape.text; }
+   String getText() const requires( IsType<decltype(shape.text),String> ) { return shape.text; }
 
-   void setText(const DefString &text) requires( IsType<decltype(shape.text),DefString> )
+   void setText(const String &text) requires( IsType<decltype(shape.text),String> )
     {
      shape.text=text;
 

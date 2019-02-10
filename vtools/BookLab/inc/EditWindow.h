@@ -372,17 +372,17 @@ class EditWindow : public ComboWindow
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<FileFrame::ConfigType> file_cfg;
 
-     RefVal<DefString> text_Error = "Error"_def ;
-     RefVal<DefString> text_SaveFile = "Select a file to save to"_def ;
+     RefVal<String> text_Error = "Error"_def ;
+     RefVal<String> text_SaveFile = "Select a file to save to"_def ;
 
      // app
 
-     RefVal<DefString> text_NoFile = "<No file>"_def ;
-     RefVal<DefString> text_File = "File"_def ;
-     RefVal<DefString> text_Save = "Save"_def ;
-     RefVal<DefString> text_Link = "Link"_def ;
-     RefVal<DefString> text_Book = "Book"_def ;
-     RefVal<DefString> text_Temp = "Temp"_def ;
+     RefVal<String> text_NoFile = "<No file>"_def ;
+     RefVal<String> text_File = "File"_def ;
+     RefVal<String> text_Save = "Save"_def ;
+     RefVal<String> text_Link = "Link"_def ;
+     RefVal<String> text_Book = "Book"_def ;
+     RefVal<String> text_Temp = "Temp"_def ;
 
      BookLabWindow::ConfigType book_cfg;
 

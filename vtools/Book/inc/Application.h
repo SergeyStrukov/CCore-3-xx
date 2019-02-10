@@ -32,17 +32,17 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  DefString title = "Book"_def ;
+  String title = "Book"_def ;
 
   // menu
 
-  DefString menu_File    = "@File"_def ;
-  DefString menu_Options = "@Options"_def ;
-  DefString menu_New     = "@New"_def ;
-  DefString menu_Open    = "@Open"_def ;
-  DefString menu_Exit    = "E@xit"_def ;
-  DefString menu_Global  = "@Global"_def ;
-  DefString menu_App     = "@Application"_def ;
+  String menu_File    = "@File"_def ;
+  String menu_Options = "@Options"_def ;
+  String menu_New     = "@New"_def ;
+  String menu_Open    = "@Open"_def ;
+  String menu_Exit    = "E@xit"_def ;
+  String menu_Global  = "@Global"_def ;
+  String menu_App     = "@Application"_def ;
 
   // book
 
@@ -53,21 +53,21 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple codefont;
   FontCouple decorfont;
 
-  DefString text_Title = "Title"_def ;
-  DefString text_Page = "Page"_def ;
-  DefString text_NotReady = "Font database is not ready yet"_def ;
-  DefString text_Font = "Fonts"_def ;
+  String text_Title = "Title"_def ;
+  String text_Page = "Page"_def ;
+  String text_NotReady = "Font database is not ready yet"_def ;
+  String text_Font = "Fonts"_def ;
 
   Ratio defscale = Ratio(1,0) ;
 
-  DefString hint_PrevPage   = "Go to the previous page"_def ;
-  DefString hint_ParentPage = "Go to the parent page"_def ;
-  DefString hint_NextPage   = "Go to the next page"_def ;
-  DefString hint_Scale      = "Set the display scale"_def ;
-  DefString hint_Font       = "Font replacement table"_def ;
-  DefString hint_Reload     = "Reload book"_def ;
-  DefString hint_GotoBack   = "Jump back"_def ;
-  DefString hint_GotoFore   = "Jump fore"_def ;
+  String hint_PrevPage   = "Go to the previous page"_def ;
+  String hint_ParentPage = "Go to the parent page"_def ;
+  String hint_NextPage   = "Go to the next page"_def ;
+  String hint_Scale      = "Set the display scale"_def ;
+  String hint_Font       = "Font replacement table"_def ;
+  String hint_Reload     = "Reload book"_def ;
+  String hint_GotoBack   = "Jump back"_def ;
+  String hint_GotoFore   = "Jump fore"_def ;
 
   // back
 
@@ -77,18 +77,18 @@ struct AppPreferenceBag : ConfigItemHost
 
   // replace
 
-  DefString replace_title = "Font replace"_def ;
+  String replace_title = "Font replace"_def ;
 
-  DefString text_Find    = "Find"_def ;
-  DefString text_Replace = "Replace"_def ;
-  DefString text_Save    = "Save"_def ;
-  DefString text_Apply   = "Apply"_def ;
+  String text_Find    = "Find"_def ;
+  String text_Replace = "Replace"_def ;
+  String text_Save    = "Save"_def ;
+  String text_Apply   = "Apply"_def ;
 
   // font selection
 
-  DefString font_selection_title = "Font selection"_def ;
+  String font_selection_title = "Font selection"_def ;
 
-  DefString text_Select = "Select"_def ;
+  String text_Select = "Select"_def ;
 
   // constructors
 

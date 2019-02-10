@@ -36,29 +36,29 @@ template <class Bag,class ... TT> class ConfigBinder;
 
 struct ConfigItemBind
  {
-  virtual void group(DefString name)=0;
+  virtual void group(String name)=0;
 
   virtual void space()=0;
 
-  virtual void item(DefString name,unsigned &var)=0;
+  virtual void item(String name,unsigned &var)=0;
 
-  virtual void item(DefString name,Coord &var)=0;
+  virtual void item(String name,Coord &var)=0;
 
-  virtual void item(DefString name,Fraction &var)=0;
+  virtual void item(String name,Fraction &var)=0;
 
-  virtual void item(DefString name,VColor &var)=0;
+  virtual void item(String name,VColor &var)=0;
 
-  virtual void item(DefString name,Clr &var)=0;
+  virtual void item(String name,Clr &var)=0;
 
-  virtual void item(DefString name,Point &var)=0;
+  virtual void item(String name,Point &var)=0;
 
-  virtual void item(DefString name,DefString &var)=0;
+  virtual void item(String name,String &var)=0;
 
-  virtual void item(DefString name,FontCouple &var)=0;
+  virtual void item(String name,FontCouple &var)=0;
 
-  virtual void item(DefString name,bool &var)=0;
+  virtual void item(String name,bool &var)=0;
 
-  virtual void item(DefString name,Ratio &var)=0;
+  virtual void item(String name,Ratio &var)=0;
  };
 
 /* struct ConfigItemHost */

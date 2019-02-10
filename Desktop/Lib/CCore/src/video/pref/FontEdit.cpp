@@ -232,7 +232,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
      bool is_font_class = false ;
      FontClass fc = FontHasNoClass ;
 
-     DefString name;
+     String name;
      const FontInfo *info = 0 ;
 
      Rec() noexcept : name("-- Default --"_def) {}
@@ -318,7 +318,7 @@ class FontEditWindow::FDBInfo::Base : public ComboInfoBase
      return 0;
     }
 
-   DefString getFamily(ulen index) const
+   String getFamily(ulen index) const
     {
      if( index<list.getLen() ) return list[index].name;
 
@@ -377,7 +377,7 @@ const FontInfo * FontEditWindow::FDBInfo::get(ulen index) const
   return getBase()->get(index);
  }
 
-DefString FontEditWindow::FDBInfo::getFamily(ulen index) const
+String FontEditWindow::FDBInfo::getFamily(ulen index) const
  {
   return getBase()->getFamily(index);
  }
@@ -389,7 +389,7 @@ ulen FontEditWindow::FDBInfo::getIndex(StrLen file_name) const
 
 /* class FontEditWindow */
 
-DefString FontEditWindow::TestText()
+String FontEditWindow::TestText()
  {
   return
    "Far over the misty mountains cold\n"

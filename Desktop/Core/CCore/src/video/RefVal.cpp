@@ -29,7 +29,7 @@ void GuardCtorRefValLock()
 
 /* SafeString() */
 
-DefString SafeString(StrLen str,DefString out_of_memory)
+String SafeString(StrLen str,String out_of_memory)
  {
   try
     {
@@ -41,7 +41,7 @@ DefString SafeString(StrLen str,DefString out_of_memory)
     }
  }
 
-DefString SafeString(StrLen str)
+String SafeString(StrLen str)
  {
   return SafeString(str,"<out-of-memory>"_def);
  }

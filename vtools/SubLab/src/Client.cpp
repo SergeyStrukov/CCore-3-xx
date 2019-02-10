@@ -184,17 +184,17 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
    struct Item
     {
      ComboInfoType type;
-     DefString name;
+     String name;
      SubFactory factory;
 
-     explicit Item(const DefString &title)
+     explicit Item(const String &title)
       : type(ComboInfoTitle),
         name(title),
         factory(0)
       {
       }
 
-     Item(const DefString &name_,SubFactory factory_)
+     Item(const String &name_,SubFactory factory_)
       : type(ComboInfoText),
         name(name_),
         factory(factory_)
@@ -211,12 +211,12 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
 
   private:
 
-   void add(const DefString &title)
+   void add(const String &title)
     {
      list.append_fill(title);
     }
 
-   void add(const DefString &name,SubFactory factory)
+   void add(const String &name,SubFactory factory)
     {
      list.append_fill(name,factory);
     }

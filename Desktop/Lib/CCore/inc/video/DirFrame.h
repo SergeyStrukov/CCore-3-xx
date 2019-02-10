@@ -48,16 +48,16 @@ class DirWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<DefString> text_Ok       = "Ok"_def ;
-     RefVal<DefString> text_Cancel   = "Cancel"_def ;
+     RefVal<String> text_Ok       = "Ok"_def ;
+     RefVal<String> text_Cancel   = "Cancel"_def ;
 
-     RefVal<DefString> hint_FileHitList   = "Open/close the hit directory list"_def ;
-     RefVal<DefString> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
-     RefVal<DefString> hint_FileUpdir     = "Goto the parent directory"_def ;
-     RefVal<DefString> hint_FileCurdir    = "Current directory"_def ;
-     RefVal<DefString> hint_FileDirList   = "Subdirectory list"_def ;
-     RefVal<DefString> hint_FileMakeDir   = "Create a new directory"_def ;
-     RefVal<DefString> hint_FileRemoveDir = "Delete the selected directory"_def ;
+     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_def ;
+     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
+     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_def ;
+     RefVal<String> hint_FileCurdir    = "Current directory"_def ;
+     RefVal<String> hint_FileDirList   = "Subdirectory list"_def ;
+     RefVal<String> hint_FileMakeDir   = "Create a new directory"_def ;
+     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_def ;
 
      CtorRefVal<DirEditWindow::ConfigType> edit_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
@@ -284,22 +284,22 @@ class DirFrame : public DragFrame
 
    Pane getPane(StrLen title) const;
 
-   void create(Point base,const DefString &title)
+   void create(Point base,const String &title)
     {
      DragFrame::create(getPane(Range(title),base),title);
     }
 
-   void create(FrameWindow *parent,Point base,const DefString &title)
+   void create(FrameWindow *parent,Point base,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title),base),title);
     }
 
-   void create(const DefString &title)
+   void create(const String &title)
     {
      DragFrame::create(getPane(Range(title)),title);
     }
 
-   void create(FrameWindow *parent,const DefString &title)
+   void create(FrameWindow *parent,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title)),title);
     }

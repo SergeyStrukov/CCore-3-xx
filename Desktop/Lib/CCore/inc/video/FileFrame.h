@@ -141,9 +141,9 @@ class FileFilterWindow : public ComboWindow
 
    struct Config
     {
-     RefVal<DefString> hint_FileEnableFilter = "Enable/disable this filter"_def ;
-     RefVal<DefString> hint_FileDelFilter = "Delete this filter"_def ;
-     RefVal<DefString> hint_FileFilter = "Filename filter, use * or ?"_def ;
+     RefVal<String> hint_FileEnableFilter = "Enable/disable this filter"_def ;
+     RefVal<String> hint_FileDelFilter = "Delete this filter"_def ;
+     RefVal<String> hint_FileFilter = "Filename filter, use * or ?"_def ;
 
      CtorRefVal<CheckWindow::ConfigType> check_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
@@ -245,7 +245,7 @@ class FileFilterListWindow : public ComboWindow , FileFilterWindow::SignalPad
 
    struct Config : FileFilterWindow::ConfigType
     {
-     RefVal<DefString> hint_FileAddFilter = "Add a filter"_def ;
+     RefVal<String> hint_FileAddFilter = "Add a filter"_def ;
 
      Config() noexcept {}
 
@@ -389,7 +389,7 @@ class FileCheckShape
 struct FileWindowParam
  {
   bool new_file = false ;
-  DefString auto_ext;
+  String auto_ext;
   FileBoss file_boss;
  };
 
@@ -407,19 +407,19 @@ class FileWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<DefString> text_Ok       = "Ok"_def ;
-     RefVal<DefString> text_Cancel   = "Cancel"_def ;
-     RefVal<DefString> text_New_file = "New file"_def ;
+     RefVal<String> text_Ok       = "Ok"_def ;
+     RefVal<String> text_Cancel   = "Cancel"_def ;
+     RefVal<String> text_New_file = "New file"_def ;
 
-     RefVal<DefString> hint_FileHitList   = "Open/close the hit directory list"_def ;
-     RefVal<DefString> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
-     RefVal<DefString> hint_FileUpdir     = "Goto the parent directory"_def ;
-     RefVal<DefString> hint_FileCurdir    = "Current directory"_def ;
-     RefVal<DefString> hint_FileDirList   = "Subdirectory list"_def ;
-     RefVal<DefString> hint_FileList      = "File list"_def ;
-     RefVal<DefString> hint_FileMakeDir   = "Create a new directory"_def ;
-     RefVal<DefString> hint_FileRemoveDir = "Delete the selected directory"_def ;
-     RefVal<DefString> hint_FileAlt       = "Choose between a new file or an existing file"_def ;
+     RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_def ;
+     RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_def ;
+     RefVal<String> hint_FileUpdir     = "Goto the parent directory"_def ;
+     RefVal<String> hint_FileCurdir    = "Current directory"_def ;
+     RefVal<String> hint_FileDirList   = "Subdirectory list"_def ;
+     RefVal<String> hint_FileList      = "File list"_def ;
+     RefVal<String> hint_FileMakeDir   = "Create a new directory"_def ;
+     RefVal<String> hint_FileRemoveDir = "Delete the selected directory"_def ;
+     RefVal<String> hint_FileAlt       = "Choose between a new file or an existing file"_def ;
 
      CtorRefVal<DirEditWindow::ConfigType> edit_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
@@ -647,7 +647,7 @@ class FileWindow : public ComboWindow
 
    StrLen getFilePath() const { return file_path; }
 
-   void setNewFile(bool on,DefString auto_ext);
+   void setNewFile(bool on,String auto_ext);
 
    void setNewFile(bool on);
 
@@ -709,7 +709,7 @@ class FileFrame : public DragFrame
 
    // methods
 
-   void setNewFile(bool on,DefString auto_ext) { sub_win.setNewFile(on,auto_ext); }
+   void setNewFile(bool on,String auto_ext) { sub_win.setNewFile(on,auto_ext); }
 
    void setNewFile(bool on) { sub_win.setNewFile(on); }
 
@@ -729,22 +729,22 @@ class FileFrame : public DragFrame
 
    Pane getPane(StrLen title) const;
 
-   void create(Point base,const DefString &title)
+   void create(Point base,const String &title)
     {
      DragFrame::create(getPane(Range(title),base),title);
     }
 
-   void create(FrameWindow *parent,Point base,const DefString &title)
+   void create(FrameWindow *parent,Point base,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title),base),title);
     }
 
-   void create(const DefString &title)
+   void create(const String &title)
     {
      DragFrame::create(getPane(Range(title)),title);
     }
 
-   void create(FrameWindow *parent,const DefString &title)
+   void create(FrameWindow *parent,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title)),title);
     }

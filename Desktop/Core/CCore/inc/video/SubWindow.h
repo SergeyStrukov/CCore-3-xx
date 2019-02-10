@@ -110,13 +110,13 @@ struct AliveControl
 struct Hint
  {
   Pane pane;
-  DefString text;
+  String text;
 
   Hint() noexcept {}
 
   Hint(NothingType) noexcept {}
 
-  Hint(const Pane &pane_,const DefString &text_) : pane(pane_),text(text_) {}
+  Hint(const Pane &pane_,const String &text_) : pane(pane_),text(text_) {}
 
   bool operator + () const { return +pane; }
 
@@ -134,7 +134,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    SubWindowHost &host;
 
-   const RefVal<DefString> * hint_text = 0 ;
+   const RefVal<String> * hint_text = 0 ;
 
    friend class SubWindowHost;
    friend class WindowList;
@@ -202,7 +202,7 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    // hint
 
-   void bindHint(const RefVal<DefString> &str)
+   void bindHint(const RefVal<String> &str)
     {
      hint_text=&str;
     }

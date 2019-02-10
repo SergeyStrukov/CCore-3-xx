@@ -912,7 +912,7 @@ void FieldRatio::layout()
 
 /* class FieldNamed */
 
-FieldNamed::Item::Item(FieldNamed *obj,int radio_id,const DefString &name)
+FieldNamed::Item::Item(FieldNamed *obj,int radio_id,const String &name)
  : lab_type(obj->wlist,obj->cfg.lab_cfg,name),
    rad_type(obj->wlist,radio_id,obj->cfg.rad_cfg)
  {
@@ -1199,7 +1199,7 @@ void FieldNamed::layout()
 
 /* class FieldUnnamed */
 
-FieldUnnamed::Item::Item(FieldUnnamed *obj,int radio_id,const DefString &name)
+FieldUnnamed::Item::Item(FieldUnnamed *obj,int radio_id,const String &name)
  : lab_type(obj->wlist,obj->cfg.lab_cfg,name),
    rad_type(obj->wlist,radio_id,obj->cfg.rad_cfg)
  {

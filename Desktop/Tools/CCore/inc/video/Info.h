@@ -102,7 +102,7 @@ class InfoFromString : public Info
 
   public:
 
-   explicit InfoFromString(const DefString &str);
+   explicit InfoFromString(const String &str);
 
    ~InfoFromString();
  };

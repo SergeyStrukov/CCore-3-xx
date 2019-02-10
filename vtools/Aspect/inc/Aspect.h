@@ -72,8 +72,8 @@ class HideControl : public ComboWindow
 
      RefVal<Coord> status_dxy = 30 ;
 
-     RefVal<DefString> text_Hide    = "Hide"_def ;
-     RefVal<DefString> text_ShowAll = "Show all"_def ;
+     RefVal<String> text_Hide    = "Hide"_def ;
+     RefVal<String> text_ShowAll = "Show all"_def ;
 
      RefVal<VColor> status_New    = SkyBlue ;
      RefVal<VColor> status_Ignore = Gray ;
@@ -561,7 +561,7 @@ class AspectWindow : public ComboWindow
 
      RefVal<Coord> space_dxy = 10 ;
 
-     RefVal<DefString> text_Error = "Error"_def ;
+     RefVal<String> text_Error = "Error"_def ;
 
      CtorRefVal<RefLabelWindow::ConfigType> label_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
@@ -571,11 +571,11 @@ class AspectWindow : public ComboWindow
 
      // app
 
-     RefVal<DefString> text_Path   = "Path"_def ;
-     RefVal<DefString> text_Aspect = "Aspect"_def ;
+     RefVal<String> text_Path   = "Path"_def ;
+     RefVal<String> text_Aspect = "Aspect"_def ;
 
-     RefVal<DefString> text_Nothing = "Nothing to save!"_def ;
-     RefVal<DefString> text_Save    = "Save"_def ;
+     RefVal<String> text_Nothing = "Nothing to save!"_def ;
+     RefVal<String> text_Save    = "Save"_def ;
 
      HideControl::ConfigType hide_cfg;
      CountControl::ConfigType count_cfg;
@@ -670,7 +670,7 @@ class AspectWindow : public ComboWindow
 
    void errorMsg(StrLen text);
 
-   void errorMsg(const DefString &text) { errorMsg(Range(text)); }
+   void errorMsg(const String &text) { errorMsg(Range(text)); }
 
    void msg_destroyed();
 

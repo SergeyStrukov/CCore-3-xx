@@ -72,12 +72,12 @@ Info::Info() noexcept
 
 class InfoFromString::StringSet : public InfoBase
  {
-   DefString str;
+   String str;
    DynArray<StrLen> list;
 
   public:
 
-   explicit StringSet(const DefString &str_)
+   explicit StringSet(const String &str_)
     : str(str_),
       list(DoReserve,100)
     {
@@ -112,7 +112,7 @@ class InfoFromString::StringSet : public InfoBase
 
 /* class InfoFromString */
 
-InfoFromString::InfoFromString(const DefString &str)
+InfoFromString::InfoFromString(const String &str)
  : Info(new StringSet(str))
  {
  }

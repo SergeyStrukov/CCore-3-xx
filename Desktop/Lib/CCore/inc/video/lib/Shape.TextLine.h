@@ -93,13 +93,13 @@ class TextLineShape : public TextLineState
     };
 
    const Config &cfg;
-   DefString text;
+   String text;
    Pane pane;
    unsigned update_mask = LayoutUpdate ;
 
    // methods
 
-   TextLineShape(const Config &cfg_,const DefString &text_) : cfg(cfg_),text(text_) {}
+   TextLineShape(const Config &cfg_,const String &text_) : cfg(cfg_),text(text_) {}
 
    explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
 

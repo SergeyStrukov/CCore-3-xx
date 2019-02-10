@@ -45,7 +45,7 @@ Info ExceptionBuf::prepare()
   return builder.complete();
  }
 
-ExceptionBuf::ExceptionBuf(FrameWindow *parent_,const RefVal<DefString> &title_,const MessageFrame::ConfigType &cfg,ulen buf_len)
+ExceptionBuf::ExceptionBuf(FrameWindow *parent_,const RefVal<String> &title_,const MessageFrame::ConfigType &cfg,ulen buf_len)
  : buf(buf_len),
    parent(parent_),
    title(title_),

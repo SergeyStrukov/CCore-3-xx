@@ -99,7 +99,7 @@ class MessageWindow : public ComboWindow
 
      public:
 
-      Btn(SubWindowHost &host,const ButtonWindow::ConfigType &cfg,const DefString &name,int btn_id,MessageWindow *owner);
+      Btn(SubWindowHost &host,const ButtonWindow::ConfigType &cfg,const String &name,int btn_id,MessageWindow *owner);
 
       virtual ~Btn();
     };
@@ -139,9 +139,9 @@ class MessageWindow : public ComboWindow
 
    MessageWindow & setInfo(const Info &info);
 
-   MessageWindow & setInfo(const DefString &str) { return setInfo(InfoFromString(str)); }
+   MessageWindow & setInfo(const String &str) { return setInfo(InfoFromString(str)); }
 
-   MessageWindow & add(const DefString &name,int btn_id);
+   MessageWindow & add(const String &name,int btn_id);
 
    // drawing
 
@@ -227,9 +227,9 @@ class MessageFrame : public FixedFrame
 
    MessageFrame & setInfo(const Info &info) { client.setInfo(info); return *this; }
 
-   MessageFrame & setInfo(const DefString &str) { return setInfo(InfoFromString(str)); }
+   MessageFrame & setInfo(const String &str) { return setInfo(InfoFromString(str)); }
 
-   MessageFrame & add(const DefString &name,int btn_id) { client.add(name,btn_id); return *this; }
+   MessageFrame & add(const String &name,int btn_id) { client.add(name,btn_id); return *this; }
 
    int getButtonId() const { return btn_id; } // available after the signal "destroyed"
 
@@ -241,17 +241,17 @@ class MessageFrame : public FixedFrame
 
    Pane getPane(bool is_main,StrLen title) const;
 
-   void createMain(const DefString &title)
+   void createMain(const String &title)
     {
      FixedFrame::createMain(getPane(true,Range(title)),title);
     }
 
-   void create(const DefString &title)
+   void create(const String &title)
     {
      FixedFrame::create(getPane(false,Range(title)),title);
     }
 
-   void create(FrameWindow *parent,const DefString &title)
+   void create(FrameWindow *parent,const String &title)
     {
      FixedFrame::create(parent,getPane(false,Range(title)),title);
     }

@@ -56,7 +56,7 @@ class LabelShape
     };
 
    const Config &cfg;
-   DefString text;
+   String text;
    AlignX align_x;
    AlignY align_y;
    Pane pane;
@@ -67,7 +67,7 @@ class LabelShape
 
    // methods
 
-   LabelShape(const Config &cfg_,const DefString &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
+   LabelShape(const Config &cfg_,const String &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
     : cfg(cfg_),text(text_),align_x(align_x_),align_y(align_y_) {}
 
    Point getMinSize() const;
@@ -88,7 +88,7 @@ class RefLabelShape
    using Config = LabelShape::Config ;
 
    const Config &cfg;
-   const RefVal<DefString> &text;
+   const RefVal<String> &text;
    AlignX align_x;
    AlignY align_y;
    Pane pane;
@@ -99,7 +99,7 @@ class RefLabelShape
 
    // methods
 
-   RefLabelShape(const Config &cfg_,const RefVal<DefString> &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
+   RefLabelShape(const Config &cfg_,const RefVal<String> &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
     : cfg(cfg_),text(text_),align_x(align_x_),align_y(align_y_) {}
 
    Point getMinSize() const;

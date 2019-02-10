@@ -45,7 +45,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
    struct Rec
     {
-     DefString name;
+     String name;
      VarType type;
 
      union Ref
@@ -55,7 +55,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
        VColor     *of_VColor;
        Clr        *of_Clr;
        unsigned   *of_unsigned;
-       DefString  *of_String;
+       String  *of_String;
        Point      *of_Point;
        FontCouple *of_Font;
        bool       *of_bool;
@@ -73,7 +73,7 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
        Ref(Clr &var) : of_Clr{&var} {}
 
-       Ref(DefString &var) : of_String{&var} {}
+       Ref(String &var) : of_String{&var} {}
 
        Ref(Point &var) : of_Point{&var} {}
 
@@ -88,72 +88,72 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
      Rec() noexcept : type(Var_Separator) {}
 
-     Rec(DefString name_) : name(name_),type(Var_Title) {}
+     Rec(String name_) : name(name_),type(Var_Title) {}
 
-     Rec(DefString name_,Coord &var)
+     Rec(String name_,Coord &var)
       : name(name_),
         type(Var_Coord),
         ref(var)
       {
       }
 
-     Rec(DefString name_,Fraction &var)
+     Rec(String name_,Fraction &var)
       : name(name_),
         type(Var_MCoord),
         ref(var)
       {
       }
 
-     Rec(DefString name_,VColor &var)
+     Rec(String name_,VColor &var)
       : name(name_),
         type(Var_VColor),
         ref(var)
       {
       }
 
-     Rec(DefString name_,Clr &var)
+     Rec(String name_,Clr &var)
       : name(name_),
         type(Var_Clr),
         ref(var)
       {
       }
 
-     Rec(DefString name_,unsigned &var)
+     Rec(String name_,unsigned &var)
       : name(name_),
         type(Var_unsigned),
         ref(var)
       {
       }
 
-     Rec(DefString name_,DefString &var)
+     Rec(String name_,String &var)
       : name(name_),
         type(Var_String),
         ref(var)
       {
       }
 
-     Rec(DefString name_,Point &var)
+     Rec(String name_,Point &var)
       : name(name_),
         type(Var_Point),
         ref(var)
       {
       }
 
-     Rec(DefString name_,FontCouple &var)
+     Rec(String name_,FontCouple &var)
       : name(name_),
         type(Var_Font),
         ref(var)
       {
       }
 
-     Rec(DefString name_,bool &var)
+     Rec(String name_,bool &var)
       : name(name_),
         type(Var_bool),
         ref(var)
       {
       }
 
-     Rec(DefString name_,Ratio &var)
+     Rec(String name_,Ratio &var)
       : name(name_),
         type(Var_Ratio),
         ref(var)
@@ -335,29 +335,29 @@ class ConfigEditorWindow::PrefInfo::Base : public ComboInfoBase
 
    // add...()
 
-   void addTitle(DefString name) { list.append_fill(name); }
+   void addTitle(String name) { list.append_fill(name); }
 
    void addSeparator() { list.append_fill(); }
 
-   void add(DefString name,Coord &var) { list.append_fill(name,var); }
+   void add(String name,Coord &var) { list.append_fill(name,var); }
 
-   void add(DefString name,Fraction &var) { list.append_fill(name,var); }
+   void add(String name,Fraction &var) { list.append_fill(name,var); }
 
-   void add(DefString name,VColor &var) { list.append_fill(name,var); }
+   void add(String name,VColor &var) { list.append_fill(name,var); }
 
-   void add(DefString name,Clr &var) { list.append_fill(name,var); }
+   void add(String name,Clr &var) { list.append_fill(name,var); }
 
-   void add(DefString name,unsigned &var) { list.append_fill(name,var); }
+   void add(String name,unsigned &var) { list.append_fill(name,var); }
 
-   void add(DefString name,DefString &var) { list.append_fill(name,var); }
+   void add(String name,String &var) { list.append_fill(name,var); }
 
-   void add(DefString name,Point &var) { list.append_fill(name,var); }
+   void add(String name,Point &var) { list.append_fill(name,var); }
 
-   void add(DefString name,FontCouple &var) { list.append_fill(name,var); }
+   void add(String name,FontCouple &var) { list.append_fill(name,var); }
 
-   void add(DefString name,bool &var) { list.append_fill(name,var); }
+   void add(String name,bool &var) { list.append_fill(name,var); }
 
-   void add(DefString name,Ratio &var) { list.append_fill(name,var); }
+   void add(String name,Ratio &var) { list.append_fill(name,var); }
 
    // enable...()
 
@@ -450,29 +450,29 @@ class ConfigEditorWindow::PrefInfo::Binder : public ConfigItemBind
 
    // ConfigItemBind
 
-   virtual void group(DefString name) { base->addTitle(name); }
+   virtual void group(String name) { base->addTitle(name); }
 
    virtual void space() { base->addSeparator(); }
 
-   virtual void item(DefString name,Coord &var) { base->add(name,var); }
+   virtual void item(String name,Coord &var) { base->add(name,var); }
 
-   virtual void item(DefString name,Fraction &var) { base->add(name,var); }
+   virtual void item(String name,Fraction &var) { base->add(name,var); }
 
-   virtual void item(DefString name,VColor &var) { base->add(name,var); }
+   virtual void item(String name,VColor &var) { base->add(name,var); }
 
-   virtual void item(DefString name,Clr &var) { base->add(name,var); }
+   virtual void item(String name,Clr &var) { base->add(name,var); }
 
-   virtual void item(DefString name,unsigned &var) { base->add(name,var); }
+   virtual void item(String name,unsigned &var) { base->add(name,var); }
 
-   virtual void item(DefString name,DefString &var) { base->add(name,var); }
+   virtual void item(String name,String &var) { base->add(name,var); }
 
-   virtual void item(DefString name,Point &var) { base->add(name,var); }
+   virtual void item(String name,Point &var) { base->add(name,var); }
 
-   virtual void item(DefString name,FontCouple &var) { base->add(name,var); }
+   virtual void item(String name,FontCouple &var) { base->add(name,var); }
 
-   virtual void item(DefString name,bool &var) { base->add(name,var); }
+   virtual void item(String name,bool &var) { base->add(name,var); }
 
-   virtual void item(DefString name,Ratio &var) { base->add(name,var); }
+   virtual void item(String name,Ratio &var) { base->add(name,var); }
  };
 
 /* class ConfigEditorWindow::PrefInfo */
@@ -744,7 +744,7 @@ void ConfigEditorWindow::select(unsigned &var)
   switchTo(unsigned_edit,unsigned_pad);
  }
 
-void ConfigEditorWindow::select(DefString &var)
+void ConfigEditorWindow::select(String &var)
  {
   string_pad.bind(var);
 

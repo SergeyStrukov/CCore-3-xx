@@ -109,13 +109,13 @@ class TextContourShape
     };
 
    const Config &cfg;
-   DefString title;
+   String title;
    AlignX align_x;
    Pane pane;
 
    // methods
 
-   TextContourShape(const Config &cfg_,const DefString &title_,AlignX align_x_=AlignX_Left) : cfg(cfg_),title(title_),align_x(align_x_) {}
+   TextContourShape(const Config &cfg_,const String &title_,AlignX align_x_=AlignX_Left) : cfg(cfg_),title(title_),align_x(align_x_) {}
 
    Point getMinSize() const;
 
@@ -141,13 +141,13 @@ class RefTextContourShape
    using Config = TextContourShape::Config ;
 
    const Config &cfg;
-   const RefVal<DefString> &title;
+   const RefVal<String> &title;
    AlignX align_x;
    Pane pane;
 
    // methods
 
-   RefTextContourShape(const Config &cfg_,const RefVal<DefString> &title_,AlignX align_x_=AlignX_Left) : cfg(cfg_),title(title_),align_x(align_x_) {}
+   RefTextContourShape(const Config &cfg_,const RefVal<String> &title_,AlignX align_x_=AlignX_Left) : cfg(cfg_),title(title_),align_x(align_x_) {}
 
    Point getMinSize() const;
 

@@ -246,7 +246,7 @@ void ArrowProgressWindow_Sample::close()
 
 /* class InfoWindow_SampleInfo */
 
-DefString InfoWindow_SampleInfo::Sample()
+String InfoWindow_SampleInfo::Sample()
  {
   return
   "type AtomIndex = uint32 ;\r\n"
@@ -351,7 +351,7 @@ MessageWindow_yes_no::MessageWindow_yes_no(SubWindowHost &host,const ConfigType 
 
 /* class SimpleTextListWindow_SampleList */
 
-DefString SimpleTextListWindow_SampleList::List()
+String SimpleTextListWindow_SampleList::List()
  {
   return
   "XSingleLine\r\n"

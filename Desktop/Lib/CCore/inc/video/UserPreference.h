@@ -75,28 +75,28 @@ struct UserPreferenceBag : ConfigItemHost
   VColor mark     =     Black ;
   VColor alert    =      Pink ;
 
-  DefString text_Yes    = "Yes"_def ;
-  DefString text_No     = "No"_def ;
+  String text_Yes    = "Yes"_def ;
+  String text_No     = "No"_def ;
 
-  DefString text_Ok     = "Ok"_def ;
-  DefString text_Cancel = "Cancel"_def ;
+  String text_Ok     = "Ok"_def ;
+  String text_Cancel = "Cancel"_def ;
 
-  DefString text_LoadFile = "Select a file to load from"_def ;
-  DefString text_SaveFile = "Select a file to save to"_def ;
+  String text_LoadFile = "Select a file to load from"_def ;
+  String text_SaveFile = "Select a file to save to"_def ;
 
-  DefString text_Alert   = "Alert"_def ;
-  DefString text_AskSave = "Save modifications?"_def ;
+  String text_Alert   = "Alert"_def ;
+  String text_AskSave = "Save modifications?"_def ;
 
-  DefString text_Error   = "Error"_def ;
-  DefString text_Warning = "Warning"_def ;
+  String text_Error   = "Error"_def ;
+  String text_Warning = "Warning"_def ;
 
-  DefString text_Close   = "Close"_def ;
-  DefString text_Insert  = "Insert"_def ;
+  String text_Close   = "Close"_def ;
+  String text_Insert  = "Insert"_def ;
 
-  DefString title_UserPref = "User preferences"_def ;
-  DefString title_AppPref = "Application preferences"_def ;
+  String title_UserPref = "User preferences"_def ;
+  String title_AppPref = "Application preferences"_def ;
 
-  DefString text_none = "<none>"_def ;
+  String text_none = "<none>"_def ;
 
   // text
 
@@ -243,23 +243,23 @@ struct UserPreferenceBag : ConfigItemHost
   VColor shadeColor = Violet ;
   Clr    shadeAlpha =     64 ;
 
-  DefString text_Fatal_error = "Fatal error"_def ;
-  DefString text_No_hint     = "<No hint available>"_def ;
+  String text_Fatal_error = "Fatal error"_def ;
+  String text_No_hint     = "<No hint available>"_def ;
 
-  DefString hint_ResizeTopLeft     = "Resize top-left"_def ;
-  DefString hint_ResizeLeft        = "Resize left"_def ;
-  DefString hint_ResizeBottomLeft  = "Resize bottom-left"_def ;
-  DefString hint_ResizeBottom      = "Resize bottom"_def ;
-  DefString hint_ResizeBottomRight = "Resize bottom-right"_def ;
-  DefString hint_ResizeRight       = "Resize right"_def ;
-  DefString hint_ResizeTopRight    = "Resize top-right"_def ;
+  String hint_ResizeTopLeft     = "Resize top-left"_def ;
+  String hint_ResizeLeft        = "Resize left"_def ;
+  String hint_ResizeBottomLeft  = "Resize bottom-left"_def ;
+  String hint_ResizeBottom      = "Resize bottom"_def ;
+  String hint_ResizeBottomRight = "Resize bottom-right"_def ;
+  String hint_ResizeRight       = "Resize right"_def ;
+  String hint_ResizeTopRight    = "Resize top-right"_def ;
 
-  DefString hint_Alert    = "Open/close alert view"_def ;
-  DefString hint_Help     = "Help on/off"_def ;
-  DefString hint_Minimize = "Minimize"_def ;
-  DefString hint_Maximize = "Maximize"_def ;
-  DefString hint_Restore  = "Restore"_def ;
-  DefString hint_Close    = "Close"_def ;
+  String hint_Alert    = "Open/close alert view"_def ;
+  String hint_Help     = "Help on/off"_def ;
+  String hint_Minimize = "Minimize"_def ;
+  String hint_Maximize = "Maximize"_def ;
+  String hint_Restore  = "Restore"_def ;
+  String hint_Close    = "Close"_def ;
 
   // Exception
 
@@ -283,23 +283,23 @@ struct UserPreferenceBag : ConfigItemHost
 
   FontCouple file_filter_font;
 
-  DefString text_New_file = "New file"_def ;
+  String text_New_file = "New file"_def ;
 
-  DefString hint_FileHitList   = "Open/close the hit directory list"_def ;
-  DefString hint_FileAddHit    = "Add the current directory to the hit list"_def ;
-  DefString hint_FileUpdir     = "Goto the parent directory"_def ;
-  DefString hint_FileCurdir    = "Current directory"_def ;
-  DefString hint_FileDirList   = "Subdirectory list"_def ;
-  DefString hint_FileList      = "File list"_def ;
-  DefString hint_FileMakeDir   = "Create a new directory"_def ;
-  DefString hint_FileRemoveDir = "Delete the selected directory"_def ;
-  DefString hint_FileAlt       = "Choose between a new file or an existing file"_def ;
+  String hint_FileHitList   = "Open/close the hit directory list"_def ;
+  String hint_FileAddHit    = "Add the current directory to the hit list"_def ;
+  String hint_FileUpdir     = "Goto the parent directory"_def ;
+  String hint_FileCurdir    = "Current directory"_def ;
+  String hint_FileDirList   = "Subdirectory list"_def ;
+  String hint_FileList      = "File list"_def ;
+  String hint_FileMakeDir   = "Create a new directory"_def ;
+  String hint_FileRemoveDir = "Delete the selected directory"_def ;
+  String hint_FileAlt       = "Choose between a new file or an existing file"_def ;
 
-  DefString hint_FileEnableFilter = "Enable/disable this filter"_def ;
-  DefString hint_FileDelFilter    = "Delete this filter"_def ;
-  DefString hint_FileFilter       = "Filename filter, use * or ?"_def ;
+  String hint_FileEnableFilter = "Enable/disable this filter"_def ;
+  String hint_FileDelFilter    = "Delete this filter"_def ;
+  String hint_FileFilter       = "Filename filter, use * or ?"_def ;
 
-  DefString hint_FileAddFilter = "Add a filter"_def ;
+  String hint_FileAddFilter = "Add a filter"_def ;
 
   // ConfigEditor
 
@@ -314,64 +314,64 @@ struct UserPreferenceBag : ConfigItemHost
   Coord cfg_white_len = 250 ;
   unsigned cfg_pal_len = 10 ;
 
-  DefString text_cfg_all      =         "All"_def ;
-  DefString text_cfg_Coord    =        "size"_def ;
-  DefString text_cfg_MCoord   =  "milli-size"_def ;
-  DefString text_cfg_VColor   =       "color"_def ;
-  DefString text_cfg_Clr      = "color pitch"_def ;
-  DefString text_cfg_unsigned =       "count"_def ;
-  DefString text_cfg_String   =        "text"_def ;
-  DefString text_cfg_Point    =       "point"_def ;
-  DefString text_cfg_Font     =        "font"_def ;
-  DefString text_cfg_bool     =        "bool"_def ;
-  DefString text_cfg_Ratio    =       "ratio"_def ;
+  String text_cfg_all      =         "All"_def ;
+  String text_cfg_Coord    =        "size"_def ;
+  String text_cfg_MCoord   =  "milli-size"_def ;
+  String text_cfg_VColor   =       "color"_def ;
+  String text_cfg_Clr      = "color pitch"_def ;
+  String text_cfg_unsigned =       "count"_def ;
+  String text_cfg_String   =        "text"_def ;
+  String text_cfg_Point    =       "point"_def ;
+  String text_cfg_Font     =        "font"_def ;
+  String text_cfg_bool     =        "bool"_def ;
+  String text_cfg_Ratio    =       "ratio"_def ;
 
-  DefString text_cfg_Set  =           "Set"_def ;
-  DefString text_cfg_Back =          "Back"_def ;
-  DefString text_cfg_Save =          "Save"_def ;
-  DefString text_cfg_Self = "Apply to self"_def ;
+  String text_cfg_Set  =           "Set"_def ;
+  String text_cfg_Back =          "Back"_def ;
+  String text_cfg_Save =          "Save"_def ;
+  String text_cfg_Self = "Apply to self"_def ;
 
-  DefString hint_cfg_list = "Configuration parameters list"_def ;
+  String hint_cfg_list = "Configuration parameters list"_def ;
 
-  DefString hint_cfg_Set  = "Set the parameter"_def ;
-  DefString hint_cfg_Back = "Revert back the parameter"_def ;
-  DefString hint_cfg_Save = "Save the current settings"_def ;
-  DefString hint_cfg_Self = "Apply parameters to this window"_def ;
+  String hint_cfg_Set  = "Set the parameter"_def ;
+  String hint_cfg_Back = "Revert back the parameter"_def ;
+  String hint_cfg_Save = "Save the current settings"_def ;
+  String hint_cfg_Self = "Apply parameters to this window"_def ;
 
-  DefString hint_cfg_x = "Select x coordinate"_def ;
-  DefString hint_cfg_y = "Select y coordinate"_def ;
-  DefString hint_cfg_a = "Select divisible"_def ;
-  DefString hint_cfg_b = "Select divider"_def ;
+  String hint_cfg_x = "Select x coordinate"_def ;
+  String hint_cfg_y = "Select y coordinate"_def ;
+  String hint_cfg_a = "Select divisible"_def ;
+  String hint_cfg_b = "Select divider"_def ;
 
-  DefString text_cfg_scalable    = "scalable"_def ;
-  DefString text_cfg_monospace   = "monospace"_def ;
-  DefString text_cfg_bold        = "bold"_def ;
-  DefString text_cfg_italic      = "italic"_def ;
+  String text_cfg_scalable    = "scalable"_def ;
+  String text_cfg_monospace   = "monospace"_def ;
+  String text_cfg_bold        = "bold"_def ;
+  String text_cfg_italic      = "italic"_def ;
 
-  DefString text_cfg_Hint = "Hint"_def ;
+  String text_cfg_Hint = "Hint"_def ;
 
-  DefString text_cfg_no_hint     = "No hint"_def ;
-  DefString text_cfg_native_hint = "Native hint"_def ;
-  DefString text_cfg_auto_hint   = "Auto hint"_def ;
+  String text_cfg_no_hint     = "No hint"_def ;
+  String text_cfg_native_hint = "Native hint"_def ;
+  String text_cfg_auto_hint   = "Auto hint"_def ;
 
-  DefString text_cfg_Smooth = "Smooth"_def ;
+  String text_cfg_Smooth = "Smooth"_def ;
 
-  DefString text_cfg_no_smooth   = "No smooth"_def ;
-  DefString text_cfg_smooth      = "Smooth"_def ;
-  DefString text_cfg_RGB         = "LCD RGB"_def ;
-  DefString text_cfg_BGR         = "LCD BGR"_def ;
+  String text_cfg_no_smooth   = "No smooth"_def ;
+  String text_cfg_smooth      = "Smooth"_def ;
+  String text_cfg_RGB         = "LCD RGB"_def ;
+  String text_cfg_BGR         = "LCD BGR"_def ;
 
-  DefString text_cfg_kerning     = "Kerning"_def ;
-  DefString text_cfg_strength    = "Strength"_def ;
-  DefString text_cfg_sample      = "sample"_def ;
-  DefString text_cfg_table       = "table"_def ;
+  String text_cfg_kerning     = "Kerning"_def ;
+  String text_cfg_strength    = "Strength"_def ;
+  String text_cfg_sample      = "sample"_def ;
+  String text_cfg_table       = "table"_def ;
 
-  DefString hint_cfg_font_list     = "Font file list"_def ;
-  DefString hint_cfg_height        = "Font height"_def ;
-  DefString hint_cfg_length_enable = "Enable font length"_def ;
-  DefString hint_cfg_length        = "Font length"_def ;
+  String hint_cfg_font_list     = "Font file list"_def ;
+  String hint_cfg_height        = "Font height"_def ;
+  String hint_cfg_length_enable = "Enable font length"_def ;
+  String hint_cfg_length        = "Font length"_def ;
 
-  DefString hint_cfg_color = "Left click to select, right click to copy selected to"_def ;
+  String hint_cfg_color = "Left click to select, right click to copy selected to"_def ;
 
   // constructors
 

@@ -104,7 +104,7 @@ class ToolFrame : public FrameWindow , public SubWindowHost
 
    void connectUpdate(Signal<> &update);
 
-   void createMain(Pane pane,const DefString &title);
+   void createMain(Pane pane,const String &title);
 
    void create(Pane pane);
 

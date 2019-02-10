@@ -71,7 +71,7 @@ class FrameShapeBase
      RefVal<unsigned> time   = 3_sectick ;
      RefVal<unsigned> period =    3_tick ;
 
-     RefVal<DefString> text_No_hint = "<No hint available>"_def ;
+     RefVal<String> text_No_hint = "<No hint available>"_def ;
 
      ConfigBase() noexcept {}
 
@@ -168,7 +168,7 @@ class FrameShapeBase
    bool help = false ;
    bool has_good_size = true ;
 
-   DefString title;
+   String title;
 
    unsigned time = 0 ;
 
@@ -176,7 +176,7 @@ class FrameShapeBase
 
    explicit FrameShapeBase(const ConfigBase &cfg_) : cfg(cfg_) {}
 
-   void reset(const DefString &title,bool is_main);
+   void reset(const String &title,bool is_main);
 
    void shade(FrameBuf<DesktopColor> &buf) const
     {

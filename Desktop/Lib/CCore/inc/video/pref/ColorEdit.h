@@ -52,7 +52,7 @@ class ColorEditWindow : public SubWindow
 
      RefVal<Font> font;
 
-     RefVal<DefString> hint_color = "Left click to select, right click to copy selected to"_def ;
+     RefVal<String> hint_color = "Left click to select, right click to copy selected to"_def ;
 
      Config() noexcept {}
 

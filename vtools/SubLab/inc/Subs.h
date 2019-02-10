@@ -251,7 +251,7 @@ class ArrowProgressWindow_Sample : public ArrowProgressWindow
 
 class InfoWindow_SampleInfo : public InfoWindow
  {
-   static DefString Sample();
+   static String Sample();
 
   public:
 
@@ -289,7 +289,7 @@ class MessageWindow_yes_no : public MessageWindow
 
 class SimpleTextListWindow_SampleList : public SimpleTextListWindow
  {
-   static DefString List();
+   static String List();
 
   public:
 
@@ -586,7 +586,7 @@ class FireButtonWindow_Sample : public ComboWindow
  {
    LightWindow light;
 
-   RefVal<DefString> name = "Fire"_def ;
+   RefVal<String> name = "Fire"_def ;
 
    RefFireButtonWindow btn;
 
@@ -655,8 +655,8 @@ class RunButtonWindow_Sample : public ComboWindow
  {
    LightWindow light;
 
-   RefVal<DefString> name_off =  "Run"_def ;
-   RefVal<DefString> name_on  = "Stop"_def ;
+   RefVal<String> name_off =  "Run"_def ;
+   RefVal<String> name_on  = "Stop"_def ;
 
    RefRunButtonWindow btn;
 

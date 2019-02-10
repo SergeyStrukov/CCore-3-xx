@@ -143,35 +143,35 @@ class FontEditWindow : public ComboWindow
      RefVal<Coord> check_dxy = 20 ;
      RefVal<Coord> light_dxy = 20 ;
 
-     RefVal<DefString> text_none = "<none>"_def ;
+     RefVal<String> text_none = "<none>"_def ;
 
-     RefVal<DefString> text_scalable    = "scalable"_def ;
-     RefVal<DefString> text_monospace   = "monospace"_def ;
-     RefVal<DefString> text_bold        = "bold"_def ;
-     RefVal<DefString> text_italic      = "italic"_def ;
+     RefVal<String> text_scalable    = "scalable"_def ;
+     RefVal<String> text_monospace   = "monospace"_def ;
+     RefVal<String> text_bold        = "bold"_def ;
+     RefVal<String> text_italic      = "italic"_def ;
 
-     RefVal<DefString> text_Hint = "Hint"_def ;
+     RefVal<String> text_Hint = "Hint"_def ;
 
-     RefVal<DefString> text_no_hint     = "No hint"_def ;
-     RefVal<DefString> text_native_hint = "Native hint"_def ;
-     RefVal<DefString> text_auto_hint   = "Auto hint"_def ;
+     RefVal<String> text_no_hint     = "No hint"_def ;
+     RefVal<String> text_native_hint = "Native hint"_def ;
+     RefVal<String> text_auto_hint   = "Auto hint"_def ;
 
-     RefVal<DefString> text_Smooth = "Smooth"_def ;
+     RefVal<String> text_Smooth = "Smooth"_def ;
 
-     RefVal<DefString> text_no_smooth   = "No smooth"_def ;
-     RefVal<DefString> text_smooth      = "Smooth"_def ;
-     RefVal<DefString> text_RGB         = "LCD RGB"_def ;
-     RefVal<DefString> text_BGR         = "LCD BGR"_def ;
+     RefVal<String> text_no_smooth   = "No smooth"_def ;
+     RefVal<String> text_smooth      = "Smooth"_def ;
+     RefVal<String> text_RGB         = "LCD RGB"_def ;
+     RefVal<String> text_BGR         = "LCD BGR"_def ;
 
-     RefVal<DefString> text_kerning     = "Kerning"_def ;
-     RefVal<DefString> text_strength    = "Strength"_def ;
-     RefVal<DefString> text_sample      = "sample"_def ;
-     RefVal<DefString> text_table       = "table"_def ;
+     RefVal<String> text_kerning     = "Kerning"_def ;
+     RefVal<String> text_strength    = "Strength"_def ;
+     RefVal<String> text_sample      = "sample"_def ;
+     RefVal<String> text_table       = "table"_def ;
 
-     RefVal<DefString> hint_list          = "Font file list"_def ;
-     RefVal<DefString> hint_height        = "Font height"_def ;
-     RefVal<DefString> hint_length_enable = "Enable font length"_def ;
-     RefVal<DefString> hint_length        = "Font length"_def ;
+     RefVal<String> hint_list          = "Font file list"_def ;
+     RefVal<String> hint_height        = "Font height"_def ;
+     RefVal<String> hint_length_enable = "Enable font length"_def ;
+     RefVal<String> hint_length        = "Font length"_def ;
 
      CtorRefVal<ProgressWindow::ConfigType> progress_cfg;
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
@@ -248,7 +248,7 @@ class FontEditWindow : public ComboWindow
 
   private:
 
-   static DefString TestText();
+   static String TestText();
 
    const Config &cfg;
 
@@ -281,7 +281,7 @@ class FontEditWindow : public ComboWindow
 
       const FontInfo * get(ulen index) const;
 
-      DefString getFamily(ulen index) const;
+      String getFamily(ulen index) const;
 
       ulen getIndex(StrLen file_name) const;
     };

@@ -623,7 +623,7 @@ Coord FrameShapeBase::getMinTitleDX(StrLen title,Coord dy) const
   return dx;
  }
 
-void FrameShapeBase::reset(const DefString &title_,bool is_main_)
+void FrameShapeBase::reset(const String &title_,bool is_main_)
  {
   has_focus=false;
   is_main=is_main_;

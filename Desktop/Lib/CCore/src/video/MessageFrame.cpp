@@ -29,7 +29,7 @@ void MessageWindow::Btn::assertOwner()
   owner->pressed.assert(btn_id);
  }
 
-MessageWindow::Btn::Btn(SubWindowHost &host,const ButtonWindow::ConfigType &cfg,const DefString &name,int btn_id_,MessageWindow *owner_)
+MessageWindow::Btn::Btn(SubWindowHost &host,const ButtonWindow::ConfigType &cfg,const String &name,int btn_id_,MessageWindow *owner_)
  : ButtonWindow(host,cfg,name),
 
    btn_id(btn_id_),
@@ -125,7 +125,7 @@ MessageWindow & MessageWindow::setInfo(const Info &info_)
   return *this;
  }
 
-MessageWindow & MessageWindow::add(const DefString &name,int btn_id)
+MessageWindow & MessageWindow::add(const String &name,int btn_id)
  {
   btn_list.append_fill(OwnPtr<Btn>( new Btn(wlist,btn_cfg,name,btn_id,this) ));
 

@@ -32,33 +32,33 @@ struct AppPreferenceBag : ConfigItemHost
  {
   // common
 
-  DefString title = "BookLab"_def ;
+  String title = "BookLab"_def ;
 
   // menu
 
-  DefString menu_File    = "@File"_def ;
-  DefString menu_Options = "@Options"_def ;
-  DefString menu_New     = "@New"_def ;
-  DefString menu_Open    = "@Open"_def ;
-  DefString menu_Save    = "@Save"_def ;
-  DefString menu_SaveAs  = "Save @as"_def ;
-  DefString menu_Exit    = "E@xit"_def ;
-  DefString menu_Global  = "@Global"_def ;
-  DefString menu_App     = "@Application"_def ;
+  String menu_File    = "@File"_def ;
+  String menu_Options = "@Options"_def ;
+  String menu_New     = "@New"_def ;
+  String menu_Open    = "@Open"_def ;
+  String menu_Save    = "@Save"_def ;
+  String menu_SaveAs  = "Save @as"_def ;
+  String menu_Exit    = "E@xit"_def ;
+  String menu_Global  = "@Global"_def ;
+  String menu_App     = "@Application"_def ;
 
   // book
 
-  DefString text_NoFile = "<No file>"_def ;
-  DefString text_File = "File"_def ;
-  DefString text_Save = "Save"_def ;
-  DefString text_Link = "Link"_def ;
-  DefString text_Book = "Book"_def ;
-  DefString text_Temp = "Temp"_def ;
+  String text_NoFile = "<No file>"_def ;
+  String text_File = "File"_def ;
+  String text_Save = "Save"_def ;
+  String text_Link = "Link"_def ;
+  String text_Book = "Book"_def ;
+  String text_Temp = "Temp"_def ;
 
-  DefString text_Copy = "Copy"_def ;
-  DefString text_Past = "Past"_def ;
-  DefString text_Del  =  "Del"_def ;
-  DefString text_Name = "Name"_def ;
+  String text_Copy = "Copy"_def ;
+  String text_Past = "Past"_def ;
+  String text_Del  =  "Del"_def ;
+  String text_Name = "Name"_def ;
 
   Coord border_dxy = 5 ;
 
@@ -90,9 +90,9 @@ struct AppPreferenceBag : ConfigItemHost
   FontCouple comment_font;
   FontCouple textedit_font;
 
-  DefString ins_title = "Select element"_def ;
-  DefString field_title = "Edit field"_def ;
-  DefString temp_title = "Temp pad"_def ;
+  String ins_title = "Select element"_def ;
+  String field_title = "Edit field"_def ;
+  String temp_title = "Temp pad"_def ;
 
   // constructors
 

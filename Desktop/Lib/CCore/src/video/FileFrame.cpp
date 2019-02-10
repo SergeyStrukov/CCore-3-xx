@@ -1228,7 +1228,7 @@ Point FileWindow::getMinSize() const
     }
  }
 
-void FileWindow::setNewFile(bool on,DefString auto_ext)
+void FileWindow::setNewFile(bool on,String auto_ext)
  {
   param.auto_ext=auto_ext;
 

@@ -45,10 +45,10 @@ class FixedFrameShape : public FrameShapeBase
      RefVal<Coord> btn_dx    = 26 ;
      RefVal<Coord> btn_dy    = 24 ;
 
-     RefVal<DefString> hint_Alert    = "Open/close alert view"_def ;
-     RefVal<DefString> hint_Help     = "Help on/off"_def ;
-     RefVal<DefString> hint_Minimize = "Minimize"_def ;
-     RefVal<DefString> hint_Close    = "Close"_def ;
+     RefVal<String> hint_Alert    = "Open/close alert view"_def ;
+     RefVal<String> hint_Help     = "Help on/off"_def ;
+     RefVal<String> hint_Minimize = "Minimize"_def ;
+     RefVal<String> hint_Close    = "Close"_def ;
 
      Config() noexcept {}
 

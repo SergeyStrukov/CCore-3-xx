@@ -94,7 +94,7 @@ class DDLFile : NoCopy
 
    struct OpenResult
     {
-     DefString etext;
+     String etext;
      bool ok;
     };
 

@@ -132,7 +132,7 @@ class RunButtonShape : public RunButtonState
 
    // parameters
 
-   using FaceType = DefString ;
+   using FaceType = String ;
 
    const Config &cfg;
    FaceType face_off;
@@ -167,7 +167,7 @@ class RefRunButtonShape : public RunButtonState
 
    // parameters
 
-   using FaceType = const RefVal<DefString> & ;
+   using FaceType = const RefVal<String> & ;
 
    const Config &cfg;
    FaceType face_off;

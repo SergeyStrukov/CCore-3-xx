@@ -165,7 +165,7 @@ void ToolFrame::connectUpdate(Signal<> &update)
   connector_update.connect(update);
  }
 
-void ToolFrame::createMain(Pane pane,const DefString &title)
+void ToolFrame::createMain(Pane pane,const String &title)
  {
   guardClient();
   guardDead();

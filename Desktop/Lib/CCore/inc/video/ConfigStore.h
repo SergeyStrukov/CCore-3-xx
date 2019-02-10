@@ -54,7 +54,7 @@ using ConfigTypeList = Meta::CaseList<
                                        Meta::Case<int,4,VColor> ,
                                        Meta::Case<int,5,Clr> ,
                                        Meta::Case<int,6,Point> ,
-                                       Meta::Case<int,7,DefString> ,
+                                       Meta::Case<int,7,String> ,
                                        Meta::Case<int,8,FontParam> ,
                                        Meta::Case<int,9,bool> ,
                                        Meta::Case<int,10,Ratio>
@@ -63,7 +63,7 @@ using ConfigTypeList = Meta::CaseList<
 /* concept ConfigType<T> */
 
 template <class T>
-concept bool ConfigType = OneOfTypes<T,unsigned,Coord,Fraction,VColor,Clr,Point,DefString,FontParam,bool,Ratio> ;
+concept bool ConfigType = OneOfTypes<T,unsigned,Coord,Fraction,VColor,Clr,Point,String,FontParam,bool,Ratio> ;
 
 /* class ConfigItem */
 
@@ -106,7 +106,7 @@ class ConfigItem : NoCopy
        Putobj(out,DDLPoint(obj));
       }
 
-     void print(const DefString &obj)
+     void print(const String &obj)
       {
        Putobj(out,DDLString(obj));
       }

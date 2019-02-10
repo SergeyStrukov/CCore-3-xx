@@ -38,7 +38,7 @@ class ExceptionBuf : NoCopy
 
    struct Config
     {
-     RefVal<DefString> title = "Error"_def ;
+     RefVal<String> title = "Error"_def ;
 
      CtorRefVal<MessageFrame::AlertConfigType> frame_cfg;
 
@@ -65,7 +65,7 @@ class ExceptionBuf : NoCopy
    // frame
 
    FrameWindow *parent;
-   const RefVal<DefString> &title;
+   const RefVal<String> &title;
 
   private:
 
@@ -77,7 +77,7 @@ class ExceptionBuf : NoCopy
 
    static constexpr ulen DefaultLen = 4_KByte ;
 
-   ExceptionBuf(FrameWindow *parent,const RefVal<DefString> &title,const MessageFrame::ConfigType &cfg,ulen buf_len=DefaultLen);
+   ExceptionBuf(FrameWindow *parent,const RefVal<String> &title,const MessageFrame::ConfigType &cfg,ulen buf_len=DefaultLen);
 
    ExceptionBuf(FrameWindow *parent,const ConfigType &cfg,ulen buf_len=DefaultLen);
 

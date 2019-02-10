@@ -71,7 +71,7 @@ struct MenuPoint
   static constexpr char Hot = '@' ;
 
   MenuType type;
-  DefString text;
+  String text;
   ulen hotindex;
   Char hotkey;
   int id;
@@ -86,9 +86,9 @@ struct MenuPoint
 
   MenuPoint() noexcept : type(MenuHidden),text("<not defined>"_def),hotindex(0),hotkey(0),id(-1) {}
 
-  MenuPoint(const DefString &text_,int id_) noexcept : type(MenuText),text(text_),id(id_) { pickhot(); }
+  MenuPoint(const String &text_,int id_) noexcept : type(MenuText),text(text_),id(id_) { pickhot(); }
 
-  MenuPoint(MenuType type_,const DefString &text_,int id_) noexcept : type(type_),text(text_),id(id_) { pickhot(); }
+  MenuPoint(MenuType type_,const String &text_,int id_) noexcept : type(type_),text(text_),id(id_) { pickhot(); }
 
   MenuPoint(MenuType type_) noexcept : MenuPoint() { type=type_; }
 

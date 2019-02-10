@@ -123,9 +123,9 @@ class TextLineWindowOf : public SubWindow
      if( Change(shape.alert,on) ) redraw();
     }
 
-   DefString getText() const { return shape.text; }
+   String getText() const { return shape.text; }
 
-   void setText(const DefString &text)
+   void setText(const String &text)
     {
      shape.text=text;
 

@@ -190,7 +190,7 @@ class FrameOf : public DragFrame
 
    void create(FrameWindow *parent)
     {
-     DefString title=+cfg.title;
+     String title=+cfg.title;
 
      DragFrame::create(parent,getPane(Range(title)),title);
     }

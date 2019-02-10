@@ -115,7 +115,7 @@ void DragFrameShape::draw_Close(const DrawBuf &buf) const
   drawClose(buf,btnClose);
  }
 
-void DragFrameShape::reset(const DefString &title_,bool is_main_,bool max_button_)
+void DragFrameShape::reset(const String &title_,bool is_main_,bool max_button_)
  {
   FrameShapeBase::reset(title_,is_main_);
 

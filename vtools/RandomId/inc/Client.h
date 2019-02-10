@@ -39,11 +39,11 @@ class ClientWindow : public ComboWindow
 
      // app
 
-     RefVal<DefString> menu_File    = "@File"_def ;
-     RefVal<DefString> menu_Options = "@Options"_def ;
-     RefVal<DefString> menu_Exit    = "E@xit"_def ;
-     RefVal<DefString> menu_Global  = "@Global"_def ;
-     RefVal<DefString> menu_App     = "@Application"_def ;
+     RefVal<String> menu_File    = "@File"_def ;
+     RefVal<String> menu_Options = "@Options"_def ;
+     RefVal<String> menu_Exit    = "E@xit"_def ;
+     RefVal<String> menu_Global  = "@Global"_def ;
+     RefVal<String> menu_App     = "@Application"_def ;
 
      RandomIdWindow::ConfigType random_id_cfg;
 

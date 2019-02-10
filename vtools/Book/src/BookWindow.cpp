@@ -816,7 +816,7 @@ void BackShape::draw(const DrawBuf &buf) const
 
 /* class BookWindow */
 
-void BookWindow::error(DefString etext)
+void BookWindow::error(String etext)
  {
   if( msg.isDead() )
     {
@@ -910,7 +910,7 @@ void BookWindow::link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_lis
     {
      if( page!=cur )
        {
-        text_page.setText(DefString(page->name.getStr()));
+        text_page.setText(String(page->name.getStr()));
 
         setNav(page);
 
@@ -1198,14 +1198,14 @@ void BookWindow::load(StrLen file_name,bool set_source)
     {
      auto *ptr=book_map.get();
 
-     text_title.setText(DefString(ptr->title.getStr()));
+     text_title.setText(String(ptr->title.getStr()));
 
      VColor book_back=DrawBook::CastColor(ptr->back);
      VColor book_fore=DrawBook::CastColor(ptr->fore);
 
      if( auto *page=ptr->start.getPtr() )
        {
-        text_page.setText(DefString(page->name.getStr()));
+        text_page.setText(String(page->name.getStr()));
 
         setNav(page);
 
@@ -1234,7 +1234,7 @@ void BookWindow::load(StrLen file_name,bool set_source)
     }
   else
     {
-     error(DefString(result.etext));
+     error(String(result.etext));
     }
  }
 

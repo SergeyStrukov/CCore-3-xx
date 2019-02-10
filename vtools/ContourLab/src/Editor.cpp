@@ -630,7 +630,7 @@ void EditorWindow::blank()
 
 void EditorWindow::load(StrLen file_name_)
  {
-  DefString file_name(file_name_);
+  String file_name(file_name_);
 
   text_file.setText(file_name);
   clearModified();
@@ -678,7 +678,7 @@ bool EditorWindow::save()
 
 void EditorWindow::save(StrLen file_name_)
  {
-  DefString file_name(file_name_);
+  String file_name(file_name_);
 
   text_file.setText(file_name);
   setModified();

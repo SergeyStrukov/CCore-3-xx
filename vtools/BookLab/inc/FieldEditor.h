@@ -910,49 +910,49 @@ class FieldRatio : public ComboWindow , public FieldControl
 /* GetTypeName() */
 
 template <class T>
-DefString GetTypeName();
+String GetTypeName();
 
 template <>
-inline DefString GetTypeName<BookLab::Font>() { return "Font"_def; }
+inline String GetTypeName<BookLab::Font>() { return "Font"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Page>() { return "Page"_def; }
+inline String GetTypeName<BookLab::Page>() { return "Page"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Format>() { return "Format"_def; }
+inline String GetTypeName<BookLab::Format>() { return "Format"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Border>() { return "Border"_def; }
+inline String GetTypeName<BookLab::Border>() { return "Border"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::OneLine>() { return "OneLine"_def; }
+inline String GetTypeName<BookLab::OneLine>() { return "OneLine"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::MultiLine>() { return "MultiLine"_def; }
+inline String GetTypeName<BookLab::MultiLine>() { return "MultiLine"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::SingleLine>() { return "SingleLine"_def; }
+inline String GetTypeName<BookLab::SingleLine>() { return "SingleLine"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::DoubleLine>() { return "DoubleLine"_def; }
+inline String GetTypeName<BookLab::DoubleLine>() { return "DoubleLine"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Bitmap>() { return "Bitmap"_def; }
+inline String GetTypeName<BookLab::Bitmap>() { return "Bitmap"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Collapse>() { return "Collapse"_def; }
+inline String GetTypeName<BookLab::Collapse>() { return "Collapse"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::TextList>() { return "TextList"_def; }
+inline String GetTypeName<BookLab::TextList>() { return "TextList"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Table>() { return "Table"_def; }
+inline String GetTypeName<BookLab::Table>() { return "Table"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::Text>() { return "Text"_def; }
+inline String GetTypeName<BookLab::Text>() { return "Text"_def; }
 
 template <>
-inline DefString GetTypeName<BookLab::FixedText>() { return "FixedText"_def; }
+inline String GetTypeName<BookLab::FixedText>() { return "FixedText"_def; }
 
 /* class FieldNamed */
 
@@ -1031,7 +1031,7 @@ class FieldNamed : public ComboWindow , public FieldControl
      LabelWindow lab_type;
      RadioWindow rad_type;
 
-     Item(FieldNamed *obj,int radio_id,const DefString &name);
+     Item(FieldNamed *obj,int radio_id,const String &name);
     };
 
    struct ItemRange;
@@ -1153,7 +1153,7 @@ class FieldUnnamed : public ComboWindow , public FieldControl
      LabelWindow lab_type;
      RadioWindow rad_type;
 
-     Item(FieldUnnamed *obj,int radio_id,const DefString &name);
+     Item(FieldUnnamed *obj,int radio_id,const String &name);
     };
 
    struct ItemRange;
@@ -1557,7 +1557,7 @@ class FieldFrame : public DragFrame
 
      // app
 
-     RefVal<DefString> title = "Edit field"_def ;
+     RefVal<String> title = "Edit field"_def ;
 
      FieldWindow::ConfigType client_cfg;
 
@@ -1622,7 +1622,7 @@ class FieldFrame : public DragFrame
 
    void create(FrameWindow *parent)
     {
-     DefString title=+cfg.title;
+     String title=+cfg.title;
 
      DragFrame::create(parent,getPane(Range(title)),title);
     }

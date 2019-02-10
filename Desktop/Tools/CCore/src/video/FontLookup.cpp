@@ -209,7 +209,7 @@ class DialogFontLookup::Frame : public FixedFrame
  {
    Window client;
 
-   DefString title = "Font lookup in progress, please, standby ! "_def ;
+   String title = "Font lookup in progress, please, standby ! "_def ;
 
   public:
 

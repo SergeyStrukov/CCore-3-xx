@@ -46,29 +46,29 @@ class ConfigEditorWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<DefString> text_all      =         "All"_def ;
-     RefVal<DefString> text_Coord    =        "size"_def ;
-     RefVal<DefString> text_MCoord   =  "milli-size"_def ;
-     RefVal<DefString> text_VColor   =       "color"_def ;
-     RefVal<DefString> text_Clr      = "color pitch"_def ;
-     RefVal<DefString> text_unsigned =       "count"_def ;
-     RefVal<DefString> text_String   =        "text"_def ;
-     RefVal<DefString> text_Point    =       "point"_def ;
-     RefVal<DefString> text_Font     =        "font"_def ;
-     RefVal<DefString> text_bool     =        "bool"_def ;
-     RefVal<DefString> text_Ratio    =       "ratio"_def ;
+     RefVal<String> text_all      =         "All"_def ;
+     RefVal<String> text_Coord    =        "size"_def ;
+     RefVal<String> text_MCoord   =  "milli-size"_def ;
+     RefVal<String> text_VColor   =       "color"_def ;
+     RefVal<String> text_Clr      = "color pitch"_def ;
+     RefVal<String> text_unsigned =       "count"_def ;
+     RefVal<String> text_String   =        "text"_def ;
+     RefVal<String> text_Point    =       "point"_def ;
+     RefVal<String> text_Font     =        "font"_def ;
+     RefVal<String> text_bool     =        "bool"_def ;
+     RefVal<String> text_Ratio    =       "ratio"_def ;
 
-     RefVal<DefString> text_Set  =           "Set"_def ;
-     RefVal<DefString> text_Back =          "Back"_def ;
-     RefVal<DefString> text_Save =          "Save"_def ;
-     RefVal<DefString> text_Self = "Apply to self"_def ;
+     RefVal<String> text_Set  =           "Set"_def ;
+     RefVal<String> text_Back =          "Back"_def ;
+     RefVal<String> text_Save =          "Save"_def ;
+     RefVal<String> text_Self = "Apply to self"_def ;
 
-     RefVal<DefString> hint_list = "Configuration parameters list"_def ;
+     RefVal<String> hint_list = "Configuration parameters list"_def ;
 
-     RefVal<DefString> hint_Set  = "Set the parameter"_def ;
-     RefVal<DefString> hint_Back = "Revert back the parameter"_def ;
-     RefVal<DefString> hint_Save = "Save the current settings"_def ;
-     RefVal<DefString> hint_Self = "Apply parameters to this window"_def ;
+     RefVal<String> hint_Set  = "Set the parameter"_def ;
+     RefVal<String> hint_Back = "Revert back the parameter"_def ;
+     RefVal<String> hint_Save = "Save the current settings"_def ;
+     RefVal<String> hint_Self = "Apply parameters to this window"_def ;
 
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
      CtorRefVal<CheckWindow::ConfigType> check_cfg;
@@ -317,13 +317,13 @@ class ConfigEditorWindow : public ComboWindow
       explicit BackPad(E &editor_) : editor(editor_) {}
     };
 
-   class BackPad_string : public BackPadBase<DefString>
+   class BackPad_string : public BackPadBase<String>
     {
       LineEditWindow &editor;
 
      private:
 
-      virtual void propagate(DefString val)
+      virtual void propagate(String val)
        {
         editor.setText(Range(val));
        }
@@ -450,7 +450,7 @@ class ConfigEditorWindow : public ComboWindow
 
    void select(unsigned &var);
 
-   void select(DefString &var);
+   void select(String &var);
 
    void select(Point &var);
 
@@ -587,32 +587,32 @@ class ConfigEditorFrame : public DragFrame
 
    Pane getPane(bool is_main,StrLen title) const;
 
-   void create(Point base,const DefString &title)
+   void create(Point base,const String &title)
     {
      DragFrame::create(getPane(Range(title),base),title);
     }
 
-   void create(FrameWindow *parent,Point base,const DefString &title)
+   void create(FrameWindow *parent,Point base,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title),base),title);
     }
 
-   void create(const DefString &title)
+   void create(const String &title)
     {
      DragFrame::create(getPane(false,Range(title)),title);
     }
 
-   void create(FrameWindow *parent,const DefString &title)
+   void create(FrameWindow *parent,const String &title)
     {
      DragFrame::create(parent,getPane(false,Range(title)),title);
     }
 
-   void createMain(const DefString &title)
+   void createMain(const String &title)
     {
      DragFrame::createMain(CmdDisplay_Normal,getPane(true,Range(title)),title);
     }
 
-   void createMain(CmdDisplay cmd_display,Pane pane,const DefString &title)
+   void createMain(CmdDisplay cmd_display,Pane pane,const String &title)
     {
      DragFrame::createMain(cmd_display,pane,title);
     }

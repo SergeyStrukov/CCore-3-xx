@@ -93,7 +93,7 @@ template <>
 auto ConfigItem::DDLTypeNameCtx::call<Point>() -> RetType { return "Point"_c; }
 
 template <>
-auto ConfigItem::DDLTypeNameCtx::call<DefString>() -> RetType { return "text"_c; }
+auto ConfigItem::DDLTypeNameCtx::call<String>() -> RetType { return "text"_c; }
 
 template <>
 auto ConfigItem::DDLTypeNameCtx::call<FontParam>() -> RetType { return "Font"_c; }
@@ -413,7 +413,7 @@ void ConfigMap::add(StrLen name,const ConfigType &value)
 
 void ConfigMap::add_uint(StrLen name,unsigned value) { add(name,value); }
 
-void ConfigMap::add_text(StrLen name,StrLen value) { add(name,DefString(value)); }
+void ConfigMap::add_text(StrLen name,StrLen value) { add(name,String(value)); }
 
 void ConfigMap::add_Coord(StrLen name,Coord value) { add(name,value); }
 

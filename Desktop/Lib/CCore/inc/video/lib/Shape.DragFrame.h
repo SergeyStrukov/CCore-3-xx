@@ -46,20 +46,20 @@ class DragFrameShape : public FrameShapeBase
      RefVal<Coord> btn_dx    = 26 ;
      RefVal<Coord> btn_dy    = 24 ;
 
-     RefVal<DefString> hint_ResizeTopLeft     = "Resize top-left"_def ;
-     RefVal<DefString> hint_ResizeLeft        = "Resize left"_def ;
-     RefVal<DefString> hint_ResizeBottomLeft  = "Resize bottom-left"_def ;
-     RefVal<DefString> hint_ResizeBottom      = "Resize bottom"_def ;
-     RefVal<DefString> hint_ResizeBottomRight = "Resize bottom-right"_def ;
-     RefVal<DefString> hint_ResizeRight       = "Resize right"_def ;
-     RefVal<DefString> hint_ResizeTopRight    = "Resize top-right"_def ;
+     RefVal<String> hint_ResizeTopLeft     = "Resize top-left"_def ;
+     RefVal<String> hint_ResizeLeft        = "Resize left"_def ;
+     RefVal<String> hint_ResizeBottomLeft  = "Resize bottom-left"_def ;
+     RefVal<String> hint_ResizeBottom      = "Resize bottom"_def ;
+     RefVal<String> hint_ResizeBottomRight = "Resize bottom-right"_def ;
+     RefVal<String> hint_ResizeRight       = "Resize right"_def ;
+     RefVal<String> hint_ResizeTopRight    = "Resize top-right"_def ;
 
-     RefVal<DefString> hint_Alert    = "Open/close alert view"_def ;
-     RefVal<DefString> hint_Help     = "Help on/off"_def ;
-     RefVal<DefString> hint_Minimize = "Minimize"_def ;
-     RefVal<DefString> hint_Maximize = "Maximize"_def ;
-     RefVal<DefString> hint_Restore  = "Restore"_def ;
-     RefVal<DefString> hint_Close    = "Close"_def ;
+     RefVal<String> hint_Alert    = "Open/close alert view"_def ;
+     RefVal<String> hint_Help     = "Help on/off"_def ;
+     RefVal<String> hint_Minimize = "Minimize"_def ;
+     RefVal<String> hint_Maximize = "Maximize"_def ;
+     RefVal<String> hint_Restore  = "Restore"_def ;
+     RefVal<String> hint_Close    = "Close"_def ;
 
      Config() noexcept {}
 
@@ -181,7 +181,7 @@ class DragFrameShape : public FrameShapeBase
 
    explicit DragFrameShape(const Config &cfg_) : FrameShapeBase(cfg_),cfg(cfg_) {}
 
-   void reset(const DefString &title,bool is_main,bool max_button);
+   void reset(const String &title,bool is_main,bool max_button);
 
    void layout(Point size);
 

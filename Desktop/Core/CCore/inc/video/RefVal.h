@@ -37,21 +37,11 @@ template <class T> class RefVal;
 
 template <class T> class CtorRefVal;
 
-/* DefString */
-
-using DefString = String ;
-
-template <IsType<char> T,T ... CC>
-const DefString & operator "" _def ()
- {
-  return String::StaticObject<CC...>::Object;
- }
-
 /* SafeString() */
 
-DefString SafeString(StrLen str,DefString out_of_memory);
+String SafeString(StrLen str,String out_of_memory);
 
-DefString SafeString(StrLen str);
+String SafeString(StrLen str);
 
 /* class RefVal<T> */
 

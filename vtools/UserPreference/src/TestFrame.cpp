@@ -21,7 +21,7 @@ namespace App {
 
 /* class TestWindow */
 
-DefString TestWindow::InfoText()
+String TestWindow::InfoText()
  {
   return
 "This is a test control panel.\n"
@@ -29,7 +29,7 @@ DefString TestWindow::InfoText()
 "Use main window to adjust sizes, colors etc..."_def;
  }
 
-DefString TestWindow::ListText()
+String TestWindow::ListText()
  {
   return
 "button\n"

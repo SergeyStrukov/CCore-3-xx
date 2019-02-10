@@ -34,15 +34,15 @@ class ClientWindow : public ComboWindow , public AliveControl
     {
      // user
 
-     RefVal<DefString> text_LoadFile = "Select a file to load from"_def ;
-     RefVal<DefString> text_SaveFile = "Select a file to save to"_def ;
+     RefVal<String> text_LoadFile = "Select a file to load from"_def ;
+     RefVal<String> text_SaveFile = "Select a file to save to"_def ;
 
-     RefVal<DefString> text_Alert   = "Alert"_def ;
-     RefVal<DefString> text_AskSave = "Save modifications?"_def ;
+     RefVal<String> text_Alert   = "Alert"_def ;
+     RefVal<String> text_AskSave = "Save modifications?"_def ;
 
-     RefVal<DefString> text_Yes    = "Yes"_def ;
-     RefVal<DefString> text_No     = "No"_def ;
-     RefVal<DefString> text_Cancel = "Cancel"_def ;
+     RefVal<String> text_Yes    = "Yes"_def ;
+     RefVal<String> text_No     = "No"_def ;
+     RefVal<String> text_Cancel = "Cancel"_def ;
 
      CtorRefVal<FileFrame::ConfigType> file_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
@@ -51,15 +51,15 @@ class ClientWindow : public ComboWindow , public AliveControl
 
      // app
 
-     RefVal<DefString> menu_File    = "@File"_def ;
-     RefVal<DefString> menu_Options = "@Options"_def ;
-     RefVal<DefString> menu_New     = "@New"_def ;
-     RefVal<DefString> menu_Open    = "@Open ..."_def ;
-     RefVal<DefString> menu_Save    = "@Save"_def ;
-     RefVal<DefString> menu_SaveAs  = "Save @as ..."_def ;
-     RefVal<DefString> menu_Exit    = "E@xit"_def ;
-     RefVal<DefString> menu_Global  = "@Global ..."_def ;
-     RefVal<DefString> menu_App     = "@Application ..."_def ;
+     RefVal<String> menu_File    = "@File"_def ;
+     RefVal<String> menu_Options = "@Options"_def ;
+     RefVal<String> menu_New     = "@New"_def ;
+     RefVal<String> menu_Open    = "@Open ..."_def ;
+     RefVal<String> menu_Save    = "@Save"_def ;
+     RefVal<String> menu_SaveAs  = "Save @as ..."_def ;
+     RefVal<String> menu_Exit    = "E@xit"_def ;
+     RefVal<String> menu_Global  = "@Global ..."_def ;
+     RefVal<String> menu_App     = "@Application ..."_def ;
 
      EditorWindow::ConfigType editor_cfg;
 

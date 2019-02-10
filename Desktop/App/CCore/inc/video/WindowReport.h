@@ -260,7 +260,7 @@ class WindowReportBase : public ExceptionStore , public ReportException
 
    void boxShow() noexcept;
 
-   virtual DefString getTitle()=0;
+   virtual String getTitle()=0;
 
    virtual void modalLoop()=0;
 
@@ -288,7 +288,7 @@ class WindowReportBase : public ExceptionStore , public ReportException
 template <class Frame>
 struct WindowReportConfigOf : Frame::ConfigType
  {
-  RefVal<DefString> text_Fatal_error = "Fatal error"_def ;
+  RefVal<String> text_Fatal_error = "Fatal error"_def ;
 
   WindowReportConfigOf() noexcept {}
 
@@ -332,7 +332,7 @@ class WindowReportOf : public WindowReportBase
 
   private:
 
-   virtual DefString getTitle();
+   virtual String getTitle();
 
    virtual void modalLoop();
 
@@ -352,7 +352,7 @@ class WindowReportOf : public WindowReportBase
  };
 
 template <class Frame>
-DefString WindowReportOf<Frame>::getTitle()
+String WindowReportOf<Frame>::getTitle()
  {
   return report_cfg.text_Fatal_error.get();
  }

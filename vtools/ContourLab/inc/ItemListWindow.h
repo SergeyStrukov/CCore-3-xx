@@ -44,15 +44,15 @@ class InsWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<DefString> text_Close  = "Close"_def ;
-     RefVal<DefString> text_Insert = "Insert"_def ;
+     RefVal<String> text_Close  = "Close"_def ;
+     RefVal<String> text_Insert = "Insert"_def ;
 
      CtorRefVal<ScrollListWindow::ConfigType> list_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
 
      // app
 
-     RefVal<DefString> hint_List = "Select a function to be inserted into the cursor position"_def ;
+     RefVal<String> hint_List = "Select a function to be inserted into the cursor position"_def ;
 
      Config() noexcept {}
 
@@ -222,7 +222,7 @@ class InsFrame : public DragFrame
 
    using DragFrame::create;
 
-   void create(FrameWindow *parent,Point base,const DefString &title)
+   void create(FrameWindow *parent,Point base,const String &title)
     {
      create(parent,getPane(Range(title),base),title);
     }
@@ -349,24 +349,24 @@ class ItemListWindow : public ComboWindow
      CtorRefVal<EditFormulaWindow::ConfigType> edit_cfg;
      CtorRefVal<InsFrame::ConfigType> ins_cfg;
 
-     RefVal<DefString> text_show = "show"_def ;
-     RefVal<DefString> text_gray = "gray"_def ;
-     RefVal<DefString> text_name = "name"_def ;
+     RefVal<String> text_show = "show"_def ;
+     RefVal<String> text_gray = "gray"_def ;
+     RefVal<String> text_name = "name"_def ;
 
-     RefVal<DefString> title_Ins = "Function list"_def ;
+     RefVal<String> title_Ins = "Function list"_def ;
 
-     RefVal<DefString> hint_List = "Geometry object list"_def ;
-     RefVal<DefString> hint_Edit = "Enter a formula to create a new object"_def ;
+     RefVal<String> hint_List = "Geometry object list"_def ;
+     RefVal<String> hint_Edit = "Enter a formula to create a new object"_def ;
 
-     RefVal<DefString> hint_Down = "Move the object down in the list"_def ;
-     RefVal<DefString> hint_Up   = "Move the object up in the list"_def ;
-     RefVal<DefString> hint_Del  = "Delete the object"_def ;
-     RefVal<DefString> hint_Add  = "Add a new object"_def ;
-     RefVal<DefString> hint_Ins  = "Open the Function list window"_def ;
+     RefVal<String> hint_Down = "Move the object down in the list"_def ;
+     RefVal<String> hint_Up   = "Move the object up in the list"_def ;
+     RefVal<String> hint_Del  = "Delete the object"_def ;
+     RefVal<String> hint_Add  = "Add a new object"_def ;
+     RefVal<String> hint_Ins  = "Open the Function list window"_def ;
 
-     RefVal<DefString> hint_Show = "Show this object"_def ;
-     RefVal<DefString> hint_Gray = "Gray this object if not selected"_def ;
-     RefVal<DefString> hint_Name = "Show the name of this object"_def ;
+     RefVal<String> hint_Show = "Show this object"_def ;
+     RefVal<String> hint_Gray = "Gray this object if not selected"_def ;
+     RefVal<String> hint_Name = "Show the name of this object"_def ;
 
      Config() noexcept {}
 

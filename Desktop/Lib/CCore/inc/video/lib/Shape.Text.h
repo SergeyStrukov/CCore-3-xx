@@ -70,7 +70,7 @@ class TextShape
     };
 
    const Config &cfg;
-   DefString text;
+   String text;
    AlignX align_x;
    AlignY align_y;
    Pane pane;
@@ -82,7 +82,7 @@ class TextShape
 
    // methods
 
-   TextShape(const Config &cfg_,const DefString &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
+   TextShape(const Config &cfg_,const String &text_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)
     : cfg(cfg_),text(text_),align_x(align_x_),align_y(align_y_) {}
 
    explicit TextShape(const Config &cfg_,AlignX align_x_=AlignX_Center,AlignY align_y_=AlignY_Center)

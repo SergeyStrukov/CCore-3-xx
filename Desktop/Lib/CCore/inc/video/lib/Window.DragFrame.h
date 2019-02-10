@@ -622,7 +622,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      connector_alert.connect(update);
     }
 
-   void createMain(CmdDisplay cmd_display,Point max_size,const DefString &title) requires ( !Shape::EnableFixed )
+   void createMain(CmdDisplay cmd_display,Point max_size,const String &title) requires ( !Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -634,7 +634,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->display(cmd_display);
     }
 
-   void createMain(CmdDisplay cmd_display,Pane pane,Point max_size,const DefString &title) requires ( !Shape::EnableFixed )
+   void createMain(CmdDisplay cmd_display,Pane pane,Point max_size,const String &title) requires ( !Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -646,21 +646,21 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->display(cmd_display);
     }
 
-   void createMain(CmdDisplay cmd_display,const DefString &title) requires ( !Shape::EnableFixed )
+   void createMain(CmdDisplay cmd_display,const String &title) requires ( !Shape::EnableFixed )
     {
      Point max_size=getScreenSize();
 
      createMain(cmd_display,max_size,title);
     }
 
-   void createMain(CmdDisplay cmd_display,Pane pane,const DefString &title) requires ( !Shape::EnableFixed )
+   void createMain(CmdDisplay cmd_display,Pane pane,const String &title) requires ( !Shape::EnableFixed )
     {
      Point max_size=getScreenSize();
 
      createMain(cmd_display,pane,max_size,title);
     }
 
-   void create(Pane pane,Point max_size,const DefString &title) requires ( !Shape::EnableFixed )
+   void create(Pane pane,Point max_size,const String &title) requires ( !Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -671,7 +671,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->show();
     }
 
-   void create(FrameWindow *parent,Pane pane,Point max_size,const DefString &title) requires ( !Shape::EnableFixed )
+   void create(FrameWindow *parent,Pane pane,Point max_size,const String &title) requires ( !Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -682,21 +682,21 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->show();
     }
 
-   void create(Pane pane,const DefString &title) requires ( !Shape::EnableFixed )
+   void create(Pane pane,const String &title) requires ( !Shape::EnableFixed )
     {
      Point max_size=getScreenSize();
 
      create(pane,max_size,title);
     }
 
-   void create(FrameWindow *parent,Pane pane,const DefString &title) requires ( !Shape::EnableFixed )
+   void create(FrameWindow *parent,Pane pane,const String &title) requires ( !Shape::EnableFixed )
     {
      Point max_size=getScreenSize();
 
      create(parent,pane,max_size,title);
     }
 
-   void createMain(Pane pane,const DefString &title) requires ( Shape::EnableFixed )
+   void createMain(Pane pane,const String &title) requires ( Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -708,7 +708,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->display(CmdDisplay_Normal);
     }
 
-   void create(Pane pane,const DefString &title) requires ( Shape::EnableFixed )
+   void create(Pane pane,const String &title) requires ( Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -719,7 +719,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      host->show();
     }
 
-   void create(FrameWindow *parent,Pane pane,const DefString &title) requires ( Shape::EnableFixed )
+   void create(FrameWindow *parent,Pane pane,const String &title) requires ( Shape::EnableFixed )
     {
      guardClient();
      guardDead();
@@ -755,7 +755,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
        }
     }
 
-   void setTitle(const DefString &title)
+   void setTitle(const String &title)
     {
      shape.title=title;
 

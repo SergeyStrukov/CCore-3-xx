@@ -91,7 +91,7 @@ class ButtonShape : public ButtonState
 
    // parameters
 
-   using FaceType = DefString ;
+   using FaceType = String ;
 
    const Config &cfg;
    FaceType face;
@@ -118,7 +118,7 @@ class RefButtonShape : public ButtonState
 
    // parameters
 
-   using FaceType = const RefVal<DefString> & ;
+   using FaceType = const RefVal<String> & ;
 
    const Config &cfg;
    FaceType face;

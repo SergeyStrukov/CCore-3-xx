@@ -221,7 +221,7 @@ class FontSelectWindow : public ComboWindow
 
    struct FrameConfigApp
     {
-     RefVal<DefString> title = "Font selection"_def ;
+     RefVal<String> title = "Font selection"_def ;
 
      template <class Bag>
      void bindApp(const Bag &bag)
@@ -243,7 +243,7 @@ class FontSelectWindow : public ComboWindow
 
      // app
 
-     RefVal<DefString> text_Select = "Select"_def ;
+     RefVal<String> text_Select = "Select"_def ;
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
@@ -333,7 +333,7 @@ class FontReplaceWindow : public ComboWindow
 
    struct FrameConfigApp
     {
-     RefVal<DefString> title = "Font replace"_def ;
+     RefVal<String> title = "Font replace"_def ;
 
      template <class Bag>
      void bindApp(const Bag &bag)
@@ -357,10 +357,10 @@ class FontReplaceWindow : public ComboWindow
 
      // app
 
-     RefVal<DefString> text_Find    = "Find"_def ;
-     RefVal<DefString> text_Replace = "Replace"_def ;
-     RefVal<DefString> text_Save    = "Save"_def ;
-     RefVal<DefString> text_Apply   = "Apply"_def ;
+     RefVal<String> text_Find    = "Find"_def ;
+     RefVal<String> text_Replace = "Replace"_def ;
+     RefVal<String> text_Save    = "Save"_def ;
+     RefVal<String> text_Apply   = "Apply"_def ;
 
      CtorRefVal<FontSelectFrame::ConfigType> select_cfg;
 

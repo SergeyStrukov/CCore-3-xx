@@ -249,7 +249,7 @@ class Application : public ApplicationBase
 
    void prepareMain() requires ( AppProp::Prepare==PrepareCenter )
     {
-     DefString title=param.app_pref.get().title;
+     String title=param.app_pref.get().title;
      Ratio frame_pos_ry=param.user_pref.get().frame_pos_ry;
 
      Point size=main_frame.getMinSize(true,Range(title),client.getMinSize());
