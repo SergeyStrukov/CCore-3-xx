@@ -83,8 +83,6 @@ class PolyFigureQuestion;
 
 class FigureReload;
 
-class FigureFont;
-
 /* struct MPane */
 
 struct MPane
@@ -912,15 +910,6 @@ class FigureReload : public FigureDots<37>
   public:
 
    FigureReload(MCoord x,MCoord y,MCoord h);
- };
-
-/* class FigureFont */
-
-class FigureFont : public FigurePoints<12>
- {
-  public:
-
-   FigureFont(MCoord x,MCoord y,MCoord h);
  };
 
 } // namespace Video

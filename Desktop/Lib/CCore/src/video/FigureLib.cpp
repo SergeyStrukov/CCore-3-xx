@@ -782,34 +782,6 @@ FigureReload::FigureReload(MCoord x,MCoord y,MCoord h)
   transformPoint(AnchorMap(from,to));
  }
 
-/* class FigureFont */
-
-FigureFont::FigureFont(MCoord x,MCoord y,MCoord h)
- {
-  static const MPoint Contour[12]=
-   {
-    {269312,609280},
-    {315112,177999},
-    {573160,177999},
-    {596992,146432},
-    {581637,291027},
-    {564509,259460},
-    {388381,259460},
-    {380133,337125},
-    {472293,337125},
-    {463643,418587},
-    {371483,418587},
-    {351232,609280},
-   };
-
-  copy(Contour);
-
-  Anchor from({433152,377856},{318464,146432});
-  Anchor to({x,y},h);
-
-  transform(AnchorMap(from,to));
- }
-
 } // namespace Video
 } // namespace CCore
 

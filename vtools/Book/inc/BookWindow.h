@@ -458,11 +458,14 @@ class BookWindow : public ComboWindow
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
      CtorRefVal<YDoubleLineWindow::ConfigType> line_cfg;
 
+     RefButtonWindow::ConfigType btn_cfg;
+
      // app
 
      RefVal<DefString> text_Title = "Title"_def ;
      RefVal<DefString> text_Page = "Page"_def ;
      RefVal<DefString> text_NotReady = "Font database is not ready yet"_def ;
+     RefVal<DefString> text_Font = "Fonts"_def ;
 
      RefVal<Ratio> defscale = Ratio(1,0) ;
 
@@ -509,6 +512,8 @@ class BookWindow : public ComboWindow
        knob_cfg.bind(proxy);
        spinor_cfg.bind(proxy);
        line_cfg.bind(proxy);
+
+       btn_cfg.bind(bag);
       }
 
      template <class Bag>
@@ -517,6 +522,8 @@ class BookWindow : public ComboWindow
        text_Title.bind(bag.text_Title);
        text_Page.bind(bag.text_Page);
        text_NotReady.bind(bag.text_NotReady);
+       text_Font.bind(bag.text_Font);
+
        defscale.bind(bag.defscale);
 
        hint_PrevPage.bind(bag.hint_PrevPage);
@@ -527,6 +534,8 @@ class BookWindow : public ComboWindow
        hint_Reload.bind(bag.hint_Reload);
        hint_GotoBack.bind(bag.hint_GotoBack);
        hint_GotoFore.bind(bag.hint_GotoFore);
+
+       btn_cfg.font.bind(bag.decorfont.font);
       }
     };
 
@@ -572,7 +581,7 @@ class BookWindow : public ComboWindow
 
    YDoubleLineWindow line3;
 
-   KnobWindow knob_replace;
+   RefButtonWindow btn_replace;
    KnobWindow knob_reload;
 
    YDoubleLineWindow line4;

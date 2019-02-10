@@ -191,7 +191,6 @@ class KnobShape : public ButtonState
      FaceRightRight,
      FaceLeftLeft,
      FaceReload,
-     FaceFont,
 
      FaceLim
     };

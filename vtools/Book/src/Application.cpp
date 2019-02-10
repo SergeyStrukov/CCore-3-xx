@@ -39,9 +39,11 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
     binder.item("fore"_def,fore);
     binder.item("font"_def,font);
     binder.item("codefont"_def,codefont);
+    binder.item("decorfont"_def,decorfont);
     binder.item("'Title'"_def,text_Title);
     binder.item("'Page'"_def,text_Page);
     binder.item("'Not ready'"_def,text_NotReady);
+    binder.item("'Fonts'"_def,text_Font);
     binder.item("default scale"_def,defscale);
     binder.item("'Previuos page'"_def,hint_PrevPage);
     binder.item("'Parent page'"_def,hint_ParentPage);
@@ -77,6 +79,7 @@ void AppPreferenceBag::findFonts()
 
   font=dev.build("Times New Roman"_c,22);
   codefont=dev.build("Anonymous Pro"_c,22);
+  decorfont=dev.build("Georgia"_c|Bold|Italic,20);
  }
 
 } // namespace App

@@ -864,7 +864,7 @@ void BookWindow::font_completed(bool ok)
      wlist.del(progress);
 
      wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,
-                  line2,spinor,line3,knob_replace,knob_reload,line4,back_btn,fore_btn,book);
+                  line2,spinor,line3,btn_replace,knob_reload,line4,back_btn,fore_btn,book);
 
      book.setFocus();
 
@@ -1059,7 +1059,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    line3(wlist,cfg.line_cfg),
 
-   knob_replace(wlist,cfg.knob_cfg,KnobShape::FaceFont),
+   btn_replace(wlist,cfg.btn_cfg,cfg.text_Font),
    knob_reload(wlist,cfg.knob_cfg,KnobShape::FaceReload),
 
    line4(wlist,cfg.line_cfg),
@@ -1094,7 +1094,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    connector_scale_changed(this,&BookWindow::setScale,spinor.changed),
    connector_book_updateReplace(this,&BookWindow::updateReplace,book.updateReplace),
    connector_popup_updateReplace(this,&BookWindow::updateReplace,popup.updateReplace),
-   connector_knob_replace_pressed(this,&BookWindow::openReplace,knob_replace.pressed),
+   connector_knob_replace_pressed(this,&BookWindow::openReplace,btn_replace.pressed),
    connector_replace_apply(this,&BookWindow::replaceApply,replace_frame.apply),
    connector_knob_reload_pressed(this,&BookWindow::reload,knob_reload.pressed)
  {
@@ -1116,7 +1116,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
   knob_next.bindHint(cfg.hint_NextPage);
 
   spinor.bindHint(cfg.hint_Scale);
-  knob_replace.bindHint(cfg.hint_Font);
+  btn_replace.bindHint(cfg.hint_Font);
   knob_reload.bindHint(cfg.hint_Reload);
   back_btn.bindHint(cfg.hint_GotoBack);
   fore_btn.bindHint(cfg.hint_GotoFore);
@@ -1134,7 +1134,7 @@ Point BookWindow::getMinSize() const
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),LayCenterY(knob_reload),Lay(line4),
+                  LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
@@ -1251,7 +1251,7 @@ void BookWindow::layout()
 
   LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
                   LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
-                  LayCenterY(spinor),Lay(line3),LayCenterY(knob_replace),LayCenterY(knob_reload),Lay(line4),
+                  LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
   LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};

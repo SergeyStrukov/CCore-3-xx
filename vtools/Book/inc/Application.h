@@ -51,10 +51,12 @@ struct AppPreferenceBag : ConfigItemHost
 
   FontCouple font;
   FontCouple codefont;
+  FontCouple decorfont;
 
   DefString text_Title = "Title"_def ;
   DefString text_Page = "Page"_def ;
   DefString text_NotReady = "Font database is not ready yet"_def ;
+  DefString text_Font = "Fonts"_def ;
 
   Ratio defscale = Ratio(1,0) ;
 
@@ -117,9 +119,11 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("fore"_c,ptr->fore);
   func("font"_c,ptr->font);
   func("codefont"_c,ptr->codefont);
+  func("decorfont"_c,ptr->decorfont);
   func("text_Title"_c,ptr->text_Title);
   func("text_Page"_c,ptr->text_Page);
   func("text_NotReady"_c,ptr->text_NotReady);
+  func("text_Font"_c,ptr->text_Font);
   func("defscale"_c,ptr->defscale);
   func("back_pict"_c,ptr->back_pict);
   func("back_dy"_c,ptr->back_dy);
