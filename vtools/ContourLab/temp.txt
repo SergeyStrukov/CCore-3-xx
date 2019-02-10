@@ -1,0 +1,5 @@
+path1=BLoop(Step(A),Step(B1),Step(C1),Step(AA),Step(C3),Step(C2),Step(Meet(l3,h4)),Step(A1))
+
+path2=BLoop(Step(A),Step(B1),Step(C1),Step(AA),Step(C3),Step(C2),Step(Meet(l3,h4)),Step(Meet(l3,h5)),Step(E1),Step(E2),Step(Meet(l3,h6)),Step(A1))
+
+

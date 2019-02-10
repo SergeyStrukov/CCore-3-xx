@@ -375,6 +375,14 @@ void KnobShape::draw(const DrawBuf &buf) const
        fig.curveSolid(art,fc);
       }
      break;
+
+     case FaceFont :
+      {
+       FigureFont fig(center.x,center.y,Div(6,10)*radius);
+
+       fig.solid(art,fc);
+      }
+     break;
     }
 
   // border
