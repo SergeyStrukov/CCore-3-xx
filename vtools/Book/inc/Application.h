@@ -14,9 +14,11 @@
 #ifndef Application_h
 #define Application_h
 
+#include <inc/App.h>
+
 #include <CCore/inc/video/AppMain.h>
 
-#include <inc/Client.h>
+#include <CCore/inc/video/book/BookClient.h>
 
 namespace App {
 
@@ -132,7 +134,7 @@ struct AppProp
 
   using PreferenceBag = AppPreferenceBag ;
 
-  using ClientWindow = App::ClientWindow ;
+  using ClientWindow = Book::ClientWindow ;
 
   using Opt = OptFileName ;
 

@@ -1,22 +1,28 @@
-/* Client.h */
+/* BookClient.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef Client_h
-#define Client_h
+#ifndef CCore_inc_video_book_Client_h
+#define CCore_inc_video_book_Client_h
 
-#include <inc/BookWindow.h>
+#include <CCore/inc/video/book/BookWindow.h>
 
-namespace App {
+#include <CCore/inc/video/FileFrame.h>
+
+namespace CCore {
+namespace Video {
+namespace Book {
 
 /* classes */
 
@@ -60,8 +66,8 @@ class ClientWindow : public ComboWindow
 
      SubWinType::ConfigType sub_win_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       : sub_win_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
@@ -214,7 +220,9 @@ class ClientWindow : public ComboWindow
    Signal<Point> doAppPref;
  };
 
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 #endif
 

@@ -1,21 +1,25 @@
-/* Client.cpp */
+/* BookClient.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Client.h>
+#include <CCore/inc/video/book/BookClient.h>
 
 #include <CCore/inc/video/LayoutCombo.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
 
 /* class ClientWindow */
 
@@ -271,5 +275,7 @@ void ClientWindow::react_other(UserAction action)
   wlist.react(action);
  }
 
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 

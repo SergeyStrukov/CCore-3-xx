@@ -34,6 +34,7 @@ OBJ_LIST = \
 .obj/BlockCipher.o \
 .obj/BlockFifo.o \
 .obj/Book.o \
+.obj/BookClient.o \
 .obj/BookWindow.o \
 .obj/Bridge.o \
 .obj/ButtonId.o \
@@ -508,6 +509,7 @@ ASM_LIST = \
 .obj/BlockCipher.s \
 .obj/BlockFifo.s \
 .obj/Book.s \
+.obj/BookClient.s \
 .obj/BookWindow.s \
 .obj/Bridge.s \
 .obj/ButtonId.s \
@@ -982,6 +984,7 @@ DEP_LIST = \
 .obj/BlockCipher.dep \
 .obj/BlockFifo.dep \
 .obj/Book.dep \
+.obj/BookClient.dep \
 .obj/BookWindow.dep \
 .obj/Bridge.dep \
 .obj/ButtonId.dep \
@@ -1536,6 +1539,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Book.o : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BookClient.o : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BookWindow.o : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
@@ -2953,6 +2959,9 @@ include $(RULES_FILE)
 .obj/Book.s : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BookClient.s : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BookWindow.s : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4367,6 +4376,9 @@ include $(RULES_FILE)
 
 .obj/Book.dep : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Book.o $< -MF $@
+
+.obj/BookClient.dep : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookClient.o $< -MF $@
 
 .obj/BookWindow.dep : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookWindow.o $< -MF $@
