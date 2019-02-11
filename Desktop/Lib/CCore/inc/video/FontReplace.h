@@ -195,54 +195,41 @@ class FontSelectWindow : public ComboWindow
  {
   public:
 
-   struct FrameConfigApp
+   struct FrameConfig
     {
      RefVal<String> title = "Font selection"_str ;
 
-     template <class Bag>
-     void bindApp(const Bag &bag)
+     template <class Bag,class Proxy>
+     void bindUserFrame(const Bag &bag,Proxy)
       {
-       title.bind(bag.font_selection_title);
+       title.bind(bag.font_select_title);
       }
     };
 
    struct Config
     {
-     // user
-
      RefVal<Coord> space_dxy = 10 ;
 
      RefVal<VColor> back = Silver ;
 
+     RefVal<String> text_Select = "Select"_str ;
+
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
      CtorRefVal<FontEditWindow::ConfigType> fontedit_cfg;
 
-     // app
-
-     RefVal<String> text_Select = "Select"_str ;
-
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
+     Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
+     void bind(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
 
        back.bind(bag.back);
 
+       text_Select.bind(bag.text_Select);
+
        btn_cfg.bind(proxy);
        fontedit_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       text_Select.bind(bag.text_Select);
       }
     };
 
@@ -307,67 +294,53 @@ class FontReplaceWindow : public ComboWindow
  {
   public:
 
-   struct FrameConfigApp
+   struct FrameConfig
     {
      RefVal<String> title = "Font replace"_str ;
 
-     template <class Bag>
-     void bindApp(const Bag &bag)
+     template <class Bag,class Proxy>
+     void bindUserFrame(const Bag &bag,Proxy)
       {
-       title.bind(bag.replace_title);
+       title.bind(bag.font_replace_title);
       }
     };
 
    struct Config
     {
-     // user
-
      RefVal<Coord> space_dxy = 10 ;
 
      RefVal<VColor> back = Silver ;
-
-     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
-     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
-     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
-     CtorRefVal<FontMapWindow::ConfigType> map_cfg;
-
-     // app
 
      RefVal<String> text_Find    = "Find"_str ;
      RefVal<String> text_Replace = "Replace"_str ;
      RefVal<String> text_Save    = "Save"_str ;
      RefVal<String> text_Apply   = "Apply"_str ;
 
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<FontMapWindow::ConfigType> map_cfg;
      CtorRefVal<FontSelectFrame::ConfigType> select_cfg;
 
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      : select_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
+     Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
+     void bind(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
 
        back.bind(bag.back);
 
-       btn_cfg.bind(proxy);
-       knob_cfg.bind(proxy);
-       edit_cfg.bind(proxy);
-       map_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
        text_Find.bind(bag.text_Find);
        text_Replace.bind(bag.text_Replace);
        text_Save.bind(bag.text_Save);
        text_Apply.bind(bag.text_Apply);
+
+       btn_cfg.bind(proxy);
+       knob_cfg.bind(proxy);
+       edit_cfg.bind(proxy);
+       map_cfg.bind(proxy);
+       select_cfg.bind(proxy);
       }
     };
 

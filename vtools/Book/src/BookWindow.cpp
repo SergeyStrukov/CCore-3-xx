@@ -1039,7 +1039,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    cfg(cfg_),
    opt(opt_),
 
-   ext_map(replace),
+   ext_map(replace_map),
 
    label_title(wlist,cfg.label_cfg,cfg.text_Title),
    text_title(wlist,cfg.text_cfg),
@@ -1074,7 +1074,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    popup(host.getFrameDesktop(),cfg.popup_cfg,ext_map,update),
 
-   replace_frame(host.getFrameDesktop(),cfg.replace_cfg,replace,update),
+   replace_frame(host.getFrameDesktop(),cfg.replace_cfg,replace_map,update),
 
    progress_control(progress),
    font_inc(progress_control),
@@ -1286,7 +1286,7 @@ void BookWindow::open()
  {
   ComboWindow::open();
 
-  replace.load();
+  replace_map.load();
 
   replace_frame.update();
 

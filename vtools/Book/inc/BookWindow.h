@@ -457,6 +457,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
      CtorRefVal<YDoubleLineWindow::ConfigType> line_cfg;
+     CtorRefVal<FontReplaceFrame::ConfigType> replace_cfg;
 
      RefButtonWindow::ConfigType btn_cfg;
 
@@ -484,14 +485,11 @@ class BookWindow : public ComboWindow
 
      BackButtonWindow::ConfigType back_cfg;
 
-     FontReplaceFrame::ConfigType replace_cfg;
-
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref),
         popup_cfg(user_pref,app_pref,book_cfg),
-        back_cfg(user_pref,app_pref),
-        replace_cfg(user_pref,app_pref)
+        back_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -512,6 +510,7 @@ class BookWindow : public ComboWindow
        knob_cfg.bind(proxy);
        spinor_cfg.bind(proxy);
        line_cfg.bind(proxy);
+       replace_cfg.bind(proxy);
 
        btn_cfg.bind(bag);
       }
@@ -551,7 +550,7 @@ class BookWindow : public ComboWindow
 
    String source_file;
 
-   FontReplace replace;
+   FontReplaceMap replace_map;
 
    Book::BookMap book_map;
    DrawBook::ExtMap ext_map;

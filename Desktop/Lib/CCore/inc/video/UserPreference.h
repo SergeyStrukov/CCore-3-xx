@@ -29,6 +29,7 @@
 #include <CCore/inc/video/DirFrame.h>
 #include <CCore/inc/video/ConfigEditor.h>
 #include <CCore/inc/video/ExceptionFrame.h>
+#include <CCore/inc/video/FontReplace.h>
 
 namespace CCore {
 namespace Video {
@@ -92,6 +93,12 @@ struct UserPreferenceBag : ConfigItemHost
 
   String text_Close   = "Close"_str ;
   String text_Insert  = "Insert"_str ;
+
+  String text_Select  = "Select"_str ;
+  String text_Find    = "Find"_str ;
+  String text_Replace = "Replace"_str ;
+  String text_Save    = "Save"_str ;
+  String text_Apply   = "Apply"_str ;
 
   String title_UserPref = "User preferences"_str ;
   String title_AppPref = "Application preferences"_str ;
@@ -373,6 +380,14 @@ struct UserPreferenceBag : ConfigItemHost
 
   String hint_cfg_color = "Left click to select, right click to copy selected to"_str ;
 
+  // FontSelect
+
+  String font_select_title = "Font selection"_str ;
+
+  // FontReplace
+
+  String font_replace_title = "Font replace"_str ;
+
   // constructors
 
   UserPreferenceBag() noexcept {}
@@ -450,7 +465,9 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            ConfigEditorWindow::ConfigType,
                                            ConfigEditorFrame::ConfigType,
 
-                                           ExceptionBuf::ConfigType
+                                           ExceptionBuf::ConfigType,
+                                           FontSelectFrame::ConfigType,
+                                           FontReplaceFrame::ConfigType
                                           >
  {
    static StrLen PrefFile();

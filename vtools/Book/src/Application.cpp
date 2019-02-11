@@ -58,19 +58,6 @@ void AppPreferenceBag::bind(ConfigItemBind &binder)
 
     binder.item("picture"_str,back_pict);
     binder.item("height"_str,back_dy);
-
-  binder.group("Font replace"_str);
-
-    binder.item("title"_str,replace_title);
-    binder.item("'Find'"_str,text_Find);
-    binder.item("'Replace'"_str,text_Replace);
-    binder.item("'Save'"_str,text_Save);
-    binder.item("'Apply'"_str,text_Apply);
-
-  binder.group("Font selection"_str);
-
-    binder.item("title"_str,font_selection_title);
-    binder.item("'Select'"_str,text_Select);
  }
 
 void AppPreferenceBag::findFonts()

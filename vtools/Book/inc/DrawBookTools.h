@@ -14,7 +14,7 @@
 #ifndef DrawBookTools_h
 #define DrawBookTools_h
 
-#include <inc/FontReplace.h>
+#include <inc/Book.h>
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Array.h>
@@ -183,7 +183,7 @@ class FontMap : NoCopy
 
    FontLookup lookup;
 
-   FontReplace &replace;
+   FontReplaceMap &replace;
 
   private:
 
@@ -195,7 +195,7 @@ class FontMap : NoCopy
 
   public:
 
-   explicit FontMap(FontReplace &replace_) : lookup(FontLookup::None),replace(replace_) {}
+   explicit FontMap(FontReplaceMap &replace_) : lookup(FontLookup::None),replace(replace_) {}
 
    ~FontMap() {}
 
@@ -408,7 +408,7 @@ class ExtMap : NoCopy
 
   public:
 
-   explicit ExtMap(FontReplace &replace) : font(replace) {}
+   explicit ExtMap(FontReplaceMap &replace) : font(replace) {}
 
    ~ExtMap() {}
 

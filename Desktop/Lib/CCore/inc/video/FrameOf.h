@@ -76,15 +76,11 @@ class FrameOf : public DragFrame
  {
   public:
 
-   struct Config : W::FrameConfigApp
+   struct Config : W::FrameConfig
     {
-     // user
-
      RefVal<Ratio> pos_ry = Div(5,12) ;
 
      CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     // app
 
      typename W::ConfigType client_cfg;
 
@@ -106,6 +102,8 @@ class FrameOf : public DragFrame
        BindBagProxy(client_cfg,bag,proxy);
 
        bindUser(bag,proxy);
+
+       this->bindUserFrame(bag,proxy);
       }
 
      // app
@@ -115,7 +113,7 @@ class FrameOf : public DragFrame
       : client_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
-       this->bindApp(app_pref.get());
+       this->bindAppFrame(app_pref.get());
       }
     };
 

@@ -76,6 +76,12 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("text_Close"_c,ptr->text_Close);
   func("text_Insert"_c,ptr->text_Insert);
 
+  func("text_Select"_c,ptr->text_Select);
+  func("text_Find"_c,ptr->text_Find);
+  func("text_Replace"_c,ptr->text_Replace);
+  func("text_Save"_c,ptr->text_Save);
+  func("text_Apply"_c,ptr->text_Apply);
+
   func("title_UserPref"_c,ptr->title_UserPref);
   func("title_AppPref"_c,ptr->title_AppPref);
 
@@ -353,6 +359,14 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("hint_cfg_length"_c,ptr->hint_cfg_length);
 
   func("hint_cfg_color"_c,ptr->hint_cfg_color);
+
+  // FontSelect
+
+  func("font_select_title"_c,ptr->font_select_title);
+
+  // FontReplace
+
+  func("font_replace_title"_c,ptr->font_replace_title);
  }
 
 void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
@@ -401,6 +415,11 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("'Warning'"_str,text_Warning);
    binder.item("'Close'"_str,text_Close);
    binder.item("'Insert'"_str,text_Insert);
+   binder.item("'Select'"_str,text_Select);
+   binder.item("'Find'"_str,text_Find);
+   binder.item("'Replace'"_str,text_Replace);
+   binder.item("'Save'"_str,text_Save);
+   binder.item("'Apply'"_str,text_Apply);
    binder.item("'UserPref'"_str,title_UserPref);
    binder.item("'AppPref'"_str,title_AppPref);
    binder.item("'<none>'"_str,text_none);
@@ -673,6 +692,14 @@ void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
    binder.item("?'Font length'"_str,hint_cfg_length);
    binder.space();
    binder.item("?'Color hint'"_str,hint_cfg_color);
+
+  binder.group("FontSelect window"_str);
+
+   binder.item("frame title"_str,font_select_title);
+
+  binder.group("FontReplace window"_str);
+
+   binder.item("frame title"_str,font_replace_title);
  }
 
 void UserPreferenceBag::findFonts() // Update fonts here

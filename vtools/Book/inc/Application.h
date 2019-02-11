@@ -75,21 +75,6 @@ struct AppPreferenceBag : ConfigItemHost
 
   Coord back_dy = 30 ;
 
-  // replace
-
-  String replace_title = "Font replace"_str ;
-
-  String text_Find    = "Find"_str ;
-  String text_Replace = "Replace"_str ;
-  String text_Save    = "Save"_str ;
-  String text_Apply   = "Apply"_str ;
-
-  // font selection
-
-  String font_selection_title = "Font selection"_str ;
-
-  String text_Select = "Select"_str ;
-
   // constructors
 
   AppPreferenceBag() noexcept {}
@@ -135,13 +120,6 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("hint_Reload"_c,ptr->hint_Reload);
   func("hint_GotoBack"_c,ptr->hint_GotoBack);
   func("hint_GotoFore"_c,ptr->hint_GotoFore);
-  func("replace_title"_c,ptr->replace_title);
-  func("text_Find"_c,ptr->text_Find);
-  func("text_Replace"_c,ptr->text_Replace);
-  func("text_Save"_c,ptr->text_Save);
-  func("text_Apply"_c,ptr->text_Apply);
-  func("font_selection_title"_c,ptr->font_selection_title);
-  func("text_Select"_c,ptr->text_Select);
  }
 
 /* struct AppProp */
