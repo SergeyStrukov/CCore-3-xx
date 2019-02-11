@@ -1,7 +1,9 @@
 /* FontReplace.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,42 +13,44 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/FontReplace.h>
+#include <CCore/inc/video/FontReplace.h>
 
-#include <CCore/inc/video/DesktopKey.h>
-#include <CCore/inc/video/HomeFile.h>
+#include <CCore/inc/Cmp.h>
+#include <CCore/inc/Sort.h>
+#include <CCore/inc/ForLoop.h>
+#include <CCore/inc/PrintStem.h>
+#include <CCore/inc/Array.h>
 
 #include <CCore/inc/ddl/DDLEngine.h>
 #include <CCore/inc/ddl/DDLTypeSet.h>
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
 
+#include <CCore/inc/video/LayoutCombo.h>
+#include <CCore/inc/video/DesktopKey.h>
+#include <CCore/inc/video/HomeFile.h>
+#include <CCore/inc/video/PrintDDL.h>
+
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
-#include <CCore/inc/video/PrintDDL.h>
-#include <CCore/inc/PrintStem.h>
+namespace CCore {
+namespace Video {
 
-#include <CCore/inc/video/LayoutCombo.h>
-
-#include <CCore/inc/Cmp.h>
-#include <CCore/inc/Sort.h>
-#include <CCore/inc/ForLoop.h>
-
-namespace App {
-
-namespace FontMap {
+namespace Private_FontReplace {
 
 #include "FontMap.TypeDef.gen.h"
 #include "FontMap.TypeSet.gen.h"
 
-} // namespace FontMap
+} // namespace Private_FontReplace
 
-/* class FontReplace */
+using namespace Private_FontReplace;
 
-StrLen FontReplace::ReplaceFile() { return "/FontReplace.ddl"_c; }
+/* class FontReplaceMap */
 
-StrLen FontReplace::Pretext()
+StrLen FontReplaceMap::ReplaceFile() { return "/FontReplaceMap.ddl"_c; }
+
+StrLen FontReplaceMap::Pretext()
  {
   return
 "struct Entry\n"
@@ -61,7 +65,7 @@ StrLen FontReplace::Pretext()
 " };\n"_c;
  }
 
-void FontReplace::loadDDL(StrLen file_name)
+void FontReplaceMap::loadDDL(StrLen file_name)
  {
   map.erase();
 
@@ -73,24 +77,24 @@ void FontReplace::loadDDL(StrLen file_name)
 
   if( !result )
     {
-     Printf(Exception,"App::FontReplace::loadDDL(#.q;) : input file processing error\n#;",file_name,eout.close());
+     Printf(Exception,"App::FontReplaceMap::loadDDL(#.q;) : input file processing error\n#;",file_name,eout.close());
     }
   else
     {
-     DDL::TypedMap<FontMap::TypeSet> map(result);
+     DDL::TypedMap<TypeSet> map(result);
      MemAllocGuard guard(map.getLen());
 
      map(guard);
 
      // populate
 
-     FontMap::TypeDef::Map obj=map.takeConst<FontMap::TypeDef::Map>("Data");
+     TypeDef::Map obj=map.takeConst<TypeDef::Map>("Data");
 
      for(auto entry : obj.list.getRange() ) add(entry.face,entry.replace);
     }
  }
 
-void FontReplace::saveDDL(StrLen file_name) const
+void FontReplaceMap::saveDDL(StrLen file_name) const
  {
   PrintFile out(file_name);
 
@@ -106,14 +110,14 @@ void FontReplace::saveDDL(StrLen file_name) const
   Putobj(out,"\n}};"_c);
  }
 
-void FontReplace::load(StrLen dir,StrLen file)
+void FontReplaceMap::load(StrLen dir,StrLen file)
  {
   HomeFile home_file(dir,file);
 
   if( home_file.exist() ) loadDDL(home_file.get());
  }
 
-void FontReplace::save(StrLen dir,StrLen file) const
+void FontReplaceMap::save(StrLen dir,StrLen file) const
  {
   HomeFile home_file(dir,file);
 
@@ -122,22 +126,22 @@ void FontReplace::save(StrLen dir,StrLen file) const
   saveDDL(home_file.get());
  }
 
-void FontReplace::add(StrLen face,StrLen replace)
+void FontReplaceMap::add(StrLen face,StrLen replace)
  {
   StrKey key(face);
 
   map.find_or_add(key,replace);
  }
 
-FontReplace::FontReplace()
+FontReplaceMap::FontReplaceMap()
  {
  }
 
-FontReplace::~FontReplace()
+FontReplaceMap::~FontReplaceMap()
  {
  }
 
-StrLen FontReplace::operator () (StrLen face) const
+StrLen FontReplaceMap::operator () (StrLen face) const
  {
   StrKey key(face);
 
@@ -149,7 +153,7 @@ StrLen FontReplace::operator () (StrLen face) const
   return face;
  }
 
-void FontReplace::addNotFound(StrLen face)
+void FontReplaceMap::addNotFound(StrLen face)
  {
   StrKey key(face);
 
@@ -158,19 +162,19 @@ void FontReplace::addNotFound(StrLen face)
   modified=true;
  }
 
-void FontReplace::load() noexcept
+void FontReplaceMap::load() noexcept
  {
   try { load(HomeKey(),ReplaceFile()); } catch(...) {}
 
   modified=true;
  }
 
-void FontReplace::save() const noexcept
+void FontReplaceMap::save() const noexcept
  {
   try { save(HomeKey(),ReplaceFile()); } catch(...) {}
  }
 
-auto FontReplace::find(StrLen face) const -> FindResult
+auto FontReplaceMap::find(StrLen face) const -> FindResult
  {
   StrKey key(face);
 
@@ -179,14 +183,14 @@ auto FontReplace::find(StrLen face) const -> FindResult
   return {};
  }
 
-void FontReplace::del(StrLen face)
+void FontReplaceMap::del(StrLen face)
  {
   StrKey key(face);
 
   map.del(key);
  }
 
-ulen FontReplace::set(StrLen face,String replace)
+ulen FontReplaceMap::set(StrLen face,String replace)
  {
   StrKey key(face);
 
@@ -204,28 +208,64 @@ ulen FontReplace::set(StrLen face,String replace)
     }
  }
 
-/* class FontMapWindow */
+/* class FontMapWindow::InfoBase */
+
+FontMapWindow::Rec::Rec(StrLen face_,StrLen replace_)
+ {
+  text=StringCat(face_," -> "_c,replace_);
+
+  face=face_.len;
+  replace=replace_.len;
+ }
 
 void FontMapWindow::Rec::update(StrLen replace_)
  {
   String text_=StringCat(getFace()," -> "_c,replace_);
 
   text=text_;
+
   replace=replace_.len;
  }
 
+class FontMapWindow::InfoBase : public ComboInfoBase
+ {
+   DynArray<Rec> list;
+
+  private:
+
+   void add(StrLen face,StrLen replace);
+
+  public:
+
+   InfoBase() noexcept;
+
+   explicit InfoBase(FontReplaceMap &map);
+
+   virtual ~InfoBase();
+
+   // AbstractComboInfo
+
+   virtual ulen getLineCount() const;
+
+   virtual ComboInfoItem getLine(ulen index) const;
+
+   // methods
+
+   Rec get(ulen index) const;
+
+   void update(ulen index,StrLen replace);
+ };
+
 void FontMapWindow::InfoBase::add(StrLen face,StrLen replace)
  {
-  String text=StringCat(face," -> "_c,replace);
-
-  list.append_fill(text,face.len,replace.len);
+  list.append_fill(face,replace);
  }
 
 FontMapWindow::InfoBase::InfoBase() noexcept
  {
  }
 
-FontMapWindow::InfoBase::InfoBase(FontReplace &replace)
+FontMapWindow::InfoBase::InfoBase(FontReplaceMap &map)
  {
   list.erase();
 
@@ -242,9 +282,9 @@ FontMapWindow::InfoBase::InfoBase(FontReplace &replace)
     void set(ulen ind) { *index=ind; }
    };
 
-  DynArray<Temp> temp(DoReserve,replace.getCount());
+  DynArray<Temp> temp(DoReserve,map.getCount());
 
-  replace.apply( [&] (StrLen face,StrLen replace,ulen &index) { temp.append_fill(face,replace,&index); } );
+  map.apply( [&] (StrLen face,StrLen replace,ulen &index) { temp.append_fill(face,replace,&index); } );
 
   auto r=Range(temp);
 
@@ -286,13 +326,15 @@ void FontMapWindow::InfoBase::update(ulen index,StrLen replace)
   list.at(index).update(replace);
  }
 
+/* class FontMapWindow */
+
 FontMapWindow::Info::Info()
  : ComboInfo(new InfoBase())
  {
  }
 
-FontMapWindow::Info::Info(FontReplace &replace)
- : ComboInfo(new InfoBase(replace))
+FontMapWindow::Info::Info(FontReplaceMap &map)
+ : ComboInfo(new InfoBase(map))
  {
  }
 
@@ -318,7 +360,7 @@ void FontMapWindow::updatePreserve()
  {
   ulen sel=getSelect();
 
-  info=Info(replace);
+  info=Info(map);
 
   setInfo(info);
 
@@ -334,10 +376,10 @@ void FontMapWindow::set(ulen index)
   selected.assert(rec.getFace(),rec.getReplace());
  }
 
-FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace_)
+FontMapWindow::FontMapWindow(SubWindowHost &host,const Config &cfg,FontReplaceMap &map_)
  : ScrollListWindow(host,cfg),
 
-   replace(replace_),
+   map(map_),
 
    connector_selected(this,&FontMapWindow::set,ScrollListWindow::selected)
  {
@@ -351,7 +393,7 @@ FontMapWindow::~FontMapWindow()
 
 void FontMapWindow::update()
  {
-  info=Info(replace);
+  info=Info(map);
 
   setInfo(info);
 
@@ -360,7 +402,7 @@ void FontMapWindow::update()
 
 StrLen FontMapWindow::find(StrLen face)
  {
-  auto result=replace.find(face);
+  auto result=map.find(face);
 
   if( result.index!=MaxULen ) select(result.index);
 
@@ -369,20 +411,20 @@ StrLen FontMapWindow::find(StrLen face)
 
 void FontMapWindow::del(StrLen face)
  {
-  replace.del(face);
+  map.del(face);
 
   updatePreserve();
  }
 
-void FontMapWindow::set(StrLen face,String value)
+void FontMapWindow::set(StrLen face,String replace)
  {
-  if( ulen index=replace.set(face,value) ; index==MaxULen )
+  if( ulen index=map.set(face,replace) ; index==MaxULen )
     {
      updatePreserve();
     }
   else
     {
-     info.update(index,Range(value));
+     info.update(index,Range(replace));
 
      ScrollListWindow::update();
 
@@ -505,7 +547,7 @@ void FontReplaceWindow::fontSelected(StrLen replace)
   edit_replace.setText(replace);
  }
 
-FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplace &replace,Signal<> &update)
+FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,FontReplaceMap &map_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
 
@@ -517,7 +559,7 @@ FontReplaceWindow::FontReplaceWindow(SubWindowHost &host,const Config &cfg_,Font
    edit_replace(wlist,cfg.edit_cfg),
    knob_font(wlist,cfg.knob_cfg,KnobShape::FacePlus),
 
-   map(wlist,cfg.map_cfg,replace),
+   map(wlist,cfg.map_cfg,map_),
 
    btn_save(wlist,cfg.btn_cfg,cfg.text_Save),
    btn_apply(wlist,cfg.btn_cfg,cfg.text_Apply),
@@ -610,8 +652,8 @@ void FontReplaceWindow::react(UserAction action)
 
 /* class FontReplaceFrame */
 
-FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplace &replace,Signal<> &update)
- : FrameOf<FontReplaceWindow>(desktop,cfg,update,replace,update),
+FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplaceMap &map,Signal<> &update)
+ : FrameOf<FontReplaceWindow>(desktop,cfg,update,map,update),
 
    apply(client.apply)
  {
@@ -621,5 +663,6 @@ FontReplaceFrame::~FontReplaceFrame()
  {
  }
 
-} // namespace App
+} // namespace Video
+} // namespace CCore
 

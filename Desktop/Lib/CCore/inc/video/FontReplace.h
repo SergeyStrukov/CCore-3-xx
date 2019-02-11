@@ -1,7 +1,9 @@
 /* FontReplace.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,21 +13,22 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef FontReplace_h
-#define FontReplace_h
+#ifndef CCore_inc_video_FontReplace_h
+#define CCore_inc_video_FontReplace_h
 
-#include <inc/Book.h>
+#include <CCore/inc/StrKey.h>
+#include <CCore/inc/CompactMap.h>
 
 #include <CCore/inc/video/FrameOf.h>
 
-#include <CCore/inc/CompactMap.h>
-#include <CCore/inc/StrKey.h>
+#include <CCore/inc/video/pref/FontEdit.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
 
 /* classes */
 
-class FontReplace;
+class FontReplaceMap;
 
 class FontMapWindow;
 
@@ -37,9 +40,9 @@ class FontReplaceWindow;
 
 class FontReplaceFrame;
 
-/* class FontReplace */
+/* class FontReplaceMap */
 
-class FontReplace : NoCopy
+class FontReplaceMap : NoCopy
  {
    struct Rec
     {
@@ -48,7 +51,7 @@ class FontReplace : NoCopy
 
      Rec() noexcept {}
 
-     Rec(String str_) : str(str_) {}
+     Rec(const String &str_) : str(str_) {}
     };
 
    CompactRBTreeMap<StringKey,Rec,StrKey> map;
@@ -72,9 +75,9 @@ class FontReplace : NoCopy
 
   public:
 
-   FontReplace();
+   FontReplaceMap();
 
-   ~FontReplace();
+   ~FontReplaceMap();
 
    ulen getCount() const { return map.getCount(); }
 
@@ -111,7 +114,7 @@ class FontReplace : NoCopy
 
 class FontMapWindow : public ScrollListWindow
  {
-   FontReplace &replace;
+   FontReplaceMap &map;
 
   private:
 
@@ -121,7 +124,7 @@ class FontMapWindow : public ScrollListWindow
      ulen face;
      ulen replace;
 
-     Rec(const String &text_,ulen face_,ulen replace_) : text(text_),face(face_),replace(replace_) {}
+     Rec(StrLen face,StrLen replace);
 
      ComboInfoItem item() const { return {ComboInfoText,Range(text)}; }
 
@@ -129,37 +132,10 @@ class FontMapWindow : public ScrollListWindow
 
      StrLen getReplace() const { return Range(text).suffix(replace); }
 
-     void update(StrLen replace);
+     void update(StrLen new_replace);
     };
 
-   class InfoBase : public ComboInfoBase
-    {
-      DynArray<Rec> list;
-
-     private:
-
-      void add(StrLen face,StrLen replace);
-
-     public:
-
-      InfoBase() noexcept;
-
-      explicit InfoBase(FontReplace &replace);
-
-      virtual ~InfoBase();
-
-      // AbstractComboInfo
-
-      virtual ulen getLineCount() const;
-
-      virtual ComboInfoItem getLine(ulen index) const;
-
-      // methods
-
-      Rec get(ulen index) const;
-
-      void update(ulen index,StrLen replace);
-    };
+   class InfoBase;
 
    class Info : public ComboInfo
     {
@@ -167,7 +143,7 @@ class FontMapWindow : public ScrollListWindow
 
       Info();
 
-      explicit Info(FontReplace &replace);
+      explicit Info(FontReplaceMap &map);
 
       ~Info();
 
@@ -190,17 +166,17 @@ class FontMapWindow : public ScrollListWindow
 
   public:
 
-   FontMapWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace);
+   FontMapWindow(SubWindowHost &host,const Config &cfg,FontReplaceMap &map);
 
    virtual ~FontMapWindow();
 
    // methods
 
-   bool testModified() { return replace.testModified(); }
+   bool testModified() { return map.testModified(); }
 
    void update();
 
-   void save() { replace.save(); }
+   void save() { map.save(); }
 
    StrLen find(StrLen face);
 
@@ -245,8 +221,8 @@ class FontSelectWindow : public ComboWindow
 
      RefVal<String> text_Select = "Select"_str ;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -364,8 +340,8 @@ class FontReplaceWindow : public ComboWindow
 
      CtorRefVal<FontSelectFrame::ConfigType> select_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       : select_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
@@ -450,7 +426,7 @@ class FontReplaceWindow : public ComboWindow
 
   public:
 
-   FontReplaceWindow(SubWindowHost &host,const Config &cfg,FontReplace &replace,Signal<> &update);
+   FontReplaceWindow(SubWindowHost &host,const Config &cfg,FontReplaceMap &map,Signal<> &update);
 
    virtual ~FontReplaceWindow();
 
@@ -481,7 +457,7 @@ class FontReplaceFrame : public FrameOf<FontReplaceWindow>
  {
   public:
 
-   FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplace &replace,Signal<> &update);
+   FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplaceMap &map,Signal<> &update);
 
    virtual ~FontReplaceFrame();
 
@@ -494,7 +470,8 @@ class FontReplaceFrame : public FrameOf<FontReplaceWindow>
    Signal<> &apply;
  };
 
-} // namespace App
+} // namespace Video
+} // namespace CCore
 
 #endif
 
