@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------------------
 
 #include <CCore/inc/video/book/BookWindow.h>
+#include <CCore/inc/video/book/DrawBook.h>
 
 #include <CCore/inc/Scope.h>
 
@@ -26,6 +27,13 @@ namespace Video {
 namespace Book {
 
 /* class InnerBookWindow */
+
+class InnerBookWindow::Shape : public DrawBook::Shape
+ {
+  public:
+
+   Shape() noexcept {}
+ };
 
 bool InnerBookWindow::cache() const
  {
@@ -70,20 +78,20 @@ bool InnerBookWindow::cache() const
     }
  }
 
-PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const
+auto InnerBookWindow::getVisibleShapes(Coord off,Coord lim) const -> PtrLen<const Shape>
  {
-  PtrLen<const DrawBook::Shape> r=Range(shapes);
+  PtrLen<const Shape> r=Range(shapes);
 
-  r=Algon::BinarySearch_if(r, [lim] (const DrawBook::Shape &shape) { return shape.getDown() >= lim ; } );
+  r=Algon::BinarySearch_if(r, [lim] (const Shape &shape) { return shape.getDown() >= lim ; } );
 
-  auto s=Algon::BinarySearch_if(r, [off] (const DrawBook::Shape &shape) { return shape.getDown() > off ; } );
+  auto s=Algon::BinarySearch_if(r, [off] (const Shape &shape) { return shape.getDown() > off ; } );
 
   if( +s ) --r;
 
   return r;
  }
 
-PtrLen<const DrawBook::Shape> InnerBookWindow::getVisibleShapes() const
+auto InnerBookWindow::getVisibleShapes() const -> PtrLen<const Shape>
  {
   Coord wdy=(Coord)sy.page;
   Coord pos_y=(Coord)sy.getPos();

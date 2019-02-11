@@ -16,7 +16,7 @@
 #ifndef CCore_inc_video_book_BookWindow_h
 #define CCore_inc_video_book_BookWindow_h
 
-#include <CCore/inc/video/book/DrawBook.h>
+#include <CCore/inc/video/book/DrawBookTools.h>
 
 #include <CCore/inc/video/MessageFrame.h>
 
@@ -53,8 +53,6 @@ class InnerBookWindow : public SubWindow
 
      RefVal<VColor> back = Silver ;
      RefVal<VColor> fore = Black ;
-
-     Config() noexcept {}
 
      template <class UserPref,class AppPref>
      Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
@@ -114,7 +112,9 @@ class InnerBookWindow : public SubWindow
 
    // layout
 
-   mutable DynArray<DrawBook::Shape> shapes;
+   class Shape;
+
+   mutable DynArray<Shape> shapes;
 
    mutable Point size;
 
@@ -127,9 +127,9 @@ class InnerBookWindow : public SubWindow
 
    [[nodiscard]] bool cache() const;
 
-   PtrLen<const DrawBook::Shape> getVisibleShapes(Coord off,Coord lim) const;
+   PtrLen<const Shape> getVisibleShapes(Coord off,Coord lim) const;
 
-   PtrLen<const DrawBook::Shape> getVisibleShapes() const;
+   PtrLen<const Shape> getVisibleShapes() const;
 
    DrawBook::RefList getRef(Point point) const;
 
@@ -303,17 +303,14 @@ class DisplayBookFrame : public DragFrame
       }
 
      template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &,Proxy proxy)
       {
-       Used(bag);
-
        frame_cfg.bind(proxy);
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag)
+     void bindApp(const Bag &)
       {
-       Used(bag);
       }
     };
 
