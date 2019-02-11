@@ -1,25 +1,30 @@
 /* SelectFrames.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/SelectFrames.h>
+#include <CCore/inc/video/book/SelectFrames.h>
 
 #include <CCore/inc/algon/BinarySearch.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
+namespace DrawBook {
 
 /* struct SelectFrames */
 
-SelectFrames::SelectFrames(PtrLen<const Coord> downs,Coord base,Coord clip,Coord clipLen)
+SelectFrames::SelectFrames(PtrLen<const Coord> downs,Coord base,Coord clip,Coord clip_len)
  {
   //
   // ind <= downs.len
@@ -41,7 +46,7 @@ SelectFrames::SelectFrames(PtrLen<const Coord> downs,Coord base,Coord clip,Coord
   // lim -> min : base+downs[lim-1] >= clip+clipLen
   //
 
-  cut+=clipLen;
+  cut+=clip_len;
 
   auto ret2=Algon::BinarySearch_if(downs, [cut] (Coord down) { return down >= cut ; } );
 
@@ -55,6 +60,9 @@ SelectFrames::SelectFrames(PtrLen<const Coord> downs,Coord base,Coord clip,Coord
     }
  }
 
-} // namespace App
+} // namespace DrawBook
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 

@@ -1,17 +1,19 @@
 /* Book.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/Book.h>
+#include <CCore/inc/video/book/Book.h>
 
 #include <CCore/inc/ddl/DDLEngine.h>
 #include <CCore/inc/ddl/DDLTypeSet.h>
@@ -23,7 +25,10 @@
 #include <CCore/inc/Volume.h>
 #include <CCore/inc/RawFileToRead.h>
 
-namespace App {
+#include <CCore/inc/Exception.h>
+
+namespace CCore {
+namespace Video {
 namespace Book {
 
 #include "Book1.TypeSet.gen.h"
@@ -57,7 +62,7 @@ class BookMap::Pretext : public PretextMap
    static Pretext Object;
  };
 
-BookMap::Pretext BookMap::Pretext::Object;
+BookMap::Pretext BookMap::Pretext::Object CCORE_INITPRI_3 ;
 
 /* class BookMap::FromFS */
 
@@ -185,4 +190,5 @@ ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
  }
 
 } // namespace Book
-} // namespace App
+} // namespace Video
+} // namespace CCore

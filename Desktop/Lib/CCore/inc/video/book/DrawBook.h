@@ -1,24 +1,28 @@
 /* DrawBook.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef DrawBook_h
-#define DrawBook_h
+#ifndef CCore_inc_video_book_DrawBook_h
+#define CCore_inc_video_book_DrawBook_h
 
-#include <inc/DrawBookTools.h>
+#include <CCore/inc/video/book/DrawBookTools.h>
 
 #include <CCore/inc/IntervalTree.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
 namespace DrawBook {
 
 /* classes */
@@ -537,9 +541,19 @@ class Shape
 
    Coord getDown() const { return down; }
 
-   Coord getDown(ExtMap &map,PtrLen<const UIntType> index_list) const;
+   Coord getDown(ExtMap &map,PtrLen<const UIntType> index_list) const
+    {
+     Goto ctx(map,down,index_list);
 
-   bool open(PtrLen<const UIntType> index_list) const;
+     return ctx(frame);
+    }
+
+   bool open(PtrLen<const UIntType> index_list) const
+    {
+     Open ctx(index_list);
+
+     return ctx(frame);
+    }
 
    Point getSize() const { return size; }
 
@@ -552,22 +566,10 @@ class Shape
    RefList getRef(Point point,Coord pos_x,Coord pos_y) const;
  };
 
-Coord Shape::getDown(ExtMap &map,PtrLen<const UIntType> index_list) const
- {
-  Goto ctx(map,down,index_list);
-
-  return ctx(frame);
- }
-
-bool Shape::open(PtrLen<const UIntType> index_list) const
- {
-  Open ctx(index_list);
-
-  return ctx(frame);
- }
-
 } // namespace DrawBook
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 #endif
 

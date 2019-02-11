@@ -1,26 +1,29 @@
 /* Book.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/App.h>
+#ifndef CCore_inc_video_book_Book_h
+#define CCore_inc_video_book_Book_h
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
+#include <CCore/inc/video/Color.h>
+
 #include <CCore/inc/ErrorText.h>
 
-#ifndef Book_h
-#define Book_h
-
-namespace App {
+namespace CCore {
+namespace Video {
 namespace Book {
 
 /* namespace TypeDef */
@@ -82,6 +85,7 @@ class BookMap : NoCopy
  };
 
 } // namespace Book
-} // namespace App
+} // namespace Video
+} // namespace CCore
 
 #endif

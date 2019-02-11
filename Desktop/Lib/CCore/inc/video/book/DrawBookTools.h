@@ -1,20 +1,22 @@
 /* DrawBookTools.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef DrawBookTools_h
-#define DrawBookTools_h
+#ifndef CCore_inc_video_book_DrawBookTools_h
+#define CCore_inc_video_book_DrawBookTools_h
 
-#include <inc/Book.h>
+#include <CCore/inc/video/book/Book.h>
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Array.h>
@@ -22,8 +24,12 @@
 
 #include <CCore/inc/video/FontLookup.h>
 #include <CCore/inc/video/Bitmap.h>
+#include <CCore/inc/video/MPoint.h>
+#include <CCore/inc/video/FontReplace.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
 namespace DrawBook {
 
 /* types */
@@ -183,7 +189,7 @@ class FontMap : NoCopy
 
    FontLookup lookup;
 
-   FontReplaceMap &replace;
+   FontReplaceMap &replace_map;
 
   private:
 
@@ -195,7 +201,7 @@ class FontMap : NoCopy
 
   public:
 
-   explicit FontMap(FontReplaceMap &replace_) : lookup(FontLookup::None),replace(replace_) {}
+   explicit FontMap(FontReplaceMap &replace_map_) : lookup(FontLookup::None),replace_map(replace_map_) {}
 
    ~FontMap() {}
 
@@ -240,7 +246,7 @@ class BitmapMap : NoCopy
 
 /* struct FrameExt */
 
-struct FrameExt
+struct FrameExt : NoCopy
  {
   Point outer;
   Point inner;
@@ -408,7 +414,7 @@ class ExtMap : NoCopy
 
   public:
 
-   explicit ExtMap(FontReplaceMap &replace) : font(replace) {}
+   explicit ExtMap(FontReplaceMap &replace_map) : font(replace_map) {}
 
    ~ExtMap() {}
 
@@ -458,7 +464,9 @@ struct RefPane
  };
 
 } // namespace DrawBook
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 #endif
 

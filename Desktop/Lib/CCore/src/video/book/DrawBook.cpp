@@ -1,23 +1,28 @@
 /* DrawBook.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/DrawBook.h>
-#include <inc/SpanLenEngine.h>
-#include <inc/SelectFrames.h>
+#include <CCore/inc/video/book/DrawBook.h>
+
+#include <CCore/inc/video/book/SpanLenEngine.h>
+#include <CCore/inc/video/book/SelectFrames.h>
 
 #include <CCore/inc/video/FigureLib.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
 namespace DrawBook {
 
 /* struct Prepare */
@@ -1885,5 +1890,7 @@ RefList Shape::getRef(Point point,Coord pos_x,Coord pos_y) const
  }
 
 } // namespace DrawBook
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 

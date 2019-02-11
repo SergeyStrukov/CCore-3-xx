@@ -1,31 +1,46 @@
+/* Book1.TypeDef.gen.h */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+
 /* struct TypeDefCore */
 
 struct TypeDefCore
  {
   // types
 
-  struct S1; // #Book 
-  struct S2; // #Point 
-  struct S3; // #Frame 
-  struct S4; // #Page 
-  struct S5; // #Ratio 
-  struct S6; // #DoubleLine 
-  struct S7; // #SingleLine 
-  struct S8; // #Table 
-  struct S9; // #Border 
-  struct S10; // #Cell 
-  struct S11; // #Collapse 
-  struct S12; // #ListItem 
-  struct S13; // #TextList 
-  struct S14; // #Bitmap 
-  struct S15; // #Span 
-  struct S16; // #FixedText 
-  struct S17; // #Text 
-  struct S18; // #MultiLine 
-  struct S19; // #OneLine 
-  struct S20; // #Link 
-  struct S21; // #Format 
-  struct S22; // #Font 
+  struct S1; // #Book
+  struct S2; // #Point
+  struct S3; // #Frame
+  struct S4; // #Page
+  struct S5; // #Ratio
+  struct S6; // #DoubleLine
+  struct S7; // #SingleLine
+  struct S8; // #Table
+  struct S9; // #Border
+  struct S10; // #Cell
+  struct S11; // #Collapse
+  struct S12; // #ListItem
+  struct S13; // #TextList
+  struct S14; // #Bitmap
+  struct S15; // #Span
+  struct S16; // #FixedText
+  struct S17; // #Text
+  struct S18; // #MultiLine
+  struct S19; // #OneLine
+  struct S20; // #Link
+  struct S21; // #Format
+  struct S22; // #Font
 
   using A1 = DDL::MapRange< S15 > ; // #Line
   using A2 = uint8 ; // #OneLine#Align

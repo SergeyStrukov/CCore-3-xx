@@ -1,24 +1,30 @@
 /* BookWindow.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef BookWindow_h
-#define BookWindow_h
+#ifndef CCore_inc_video_book_BookWindow_h
+#define CCore_inc_video_book_BookWindow_h
 
-#include <inc/DrawBook.h>
+#include <CCore/inc/video/book/DrawBook.h>
+
+#include <CCore/inc/video/MessageFrame.h>
 
 #include <CCore/inc/video/AppOpt.h>
 
-namespace App {
+namespace CCore {
+namespace Video {
+namespace Book {
 
 /* classes */
 
@@ -50,8 +56,8 @@ class InnerBookWindow : public SubWindow
 
      Config() noexcept {}
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -288,8 +294,8 @@ class DisplayBookFrame : public DragFrame
 
      DisplayBookWindow::ConfigType &book_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref,DisplayBookWindow::ConfigType &book_cfg_) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref,DisplayBookWindow::ConfigType &book_cfg_) noexcept
       : book_cfg(book_cfg_)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
@@ -383,8 +389,8 @@ class BackShape : public ButtonState
 
      RefVal<Coord> dy = 30 ;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref)
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -485,8 +491,8 @@ class BookWindow : public ComboWindow
 
      BackButtonWindow::ConfigType back_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref),
         popup_cfg(user_pref,app_pref,book_cfg),
         back_cfg(user_pref,app_pref)
@@ -721,7 +727,9 @@ class BookWindow : public ComboWindow
    void react_Key(VKey vkey,KeyMod kmod);
  };
 
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 #endif
 

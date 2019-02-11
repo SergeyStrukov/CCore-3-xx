@@ -33,6 +33,8 @@ OBJ_LIST = \
 .obj/Bitmap.o \
 .obj/BlockCipher.o \
 .obj/BlockFifo.o \
+.obj/Book.o \
+.obj/BookWindow.o \
 .obj/Bridge.o \
 .obj/ButtonId.o \
 .obj/CancelPacketList.o \
@@ -94,6 +96,8 @@ OBJ_LIST = \
 .obj/DetectProxy.o \
 .obj/DirFrame.o \
 .obj/DirTreeRun.o \
+.obj/DrawBook.o \
+.obj/DrawBookTools.o \
 .obj/DrawBuf.o \
 .obj/DrawTools.o \
 .obj/DynArray.o \
@@ -327,6 +331,7 @@ OBJ_LIST = \
 .obj/Scanf.o \
 .obj/Scope.o \
 .obj/ScopeGuard.o \
+.obj/SelectFrames.o \
 .obj/Sem.o \
 .obj/Shape.Button.o \
 .obj/Shape.Check.o \
@@ -368,6 +373,7 @@ OBJ_LIST = \
 .obj/Sort.o \
 .obj/SortUnique.o \
 .obj/Space.o \
+.obj/SpanLenEngine.o \
 .obj/StartStop.o \
 .obj/Starter.o \
 .obj/StepEval.o \
@@ -502,6 +508,8 @@ ASM_LIST = \
 .obj/Bitmap.s \
 .obj/BlockCipher.s \
 .obj/BlockFifo.s \
+.obj/Book.s \
+.obj/BookWindow.s \
 .obj/Bridge.s \
 .obj/ButtonId.s \
 .obj/CancelPacketList.s \
@@ -563,6 +571,8 @@ ASM_LIST = \
 .obj/DetectProxy.s \
 .obj/DirFrame.s \
 .obj/DirTreeRun.s \
+.obj/DrawBook.s \
+.obj/DrawBookTools.s \
 .obj/DrawBuf.s \
 .obj/DrawTools.s \
 .obj/DynArray.s \
@@ -796,6 +806,7 @@ ASM_LIST = \
 .obj/Scanf.s \
 .obj/Scope.s \
 .obj/ScopeGuard.s \
+.obj/SelectFrames.s \
 .obj/Sem.s \
 .obj/Shape.Button.s \
 .obj/Shape.Check.s \
@@ -837,6 +848,7 @@ ASM_LIST = \
 .obj/Sort.s \
 .obj/SortUnique.s \
 .obj/Space.s \
+.obj/SpanLenEngine.s \
 .obj/StartStop.s \
 .obj/Starter.s \
 .obj/StepEval.s \
@@ -971,6 +983,8 @@ DEP_LIST = \
 .obj/Bitmap.dep \
 .obj/BlockCipher.dep \
 .obj/BlockFifo.dep \
+.obj/Book.dep \
+.obj/BookWindow.dep \
 .obj/Bridge.dep \
 .obj/ButtonId.dep \
 .obj/CancelPacketList.dep \
@@ -1032,6 +1046,8 @@ DEP_LIST = \
 .obj/DetectProxy.dep \
 .obj/DirFrame.dep \
 .obj/DirTreeRun.dep \
+.obj/DrawBook.dep \
+.obj/DrawBookTools.dep \
 .obj/DrawBuf.dep \
 .obj/DrawTools.dep \
 .obj/DynArray.dep \
@@ -1265,6 +1281,7 @@ DEP_LIST = \
 .obj/Scanf.dep \
 .obj/Scope.dep \
 .obj/ScopeGuard.dep \
+.obj/SelectFrames.dep \
 .obj/Sem.dep \
 .obj/Shape.Button.dep \
 .obj/Shape.Check.dep \
@@ -1306,6 +1323,7 @@ DEP_LIST = \
 .obj/Sort.dep \
 .obj/SortUnique.dep \
 .obj/Space.dep \
+.obj/SpanLenEngine.dep \
 .obj/StartStop.dep \
 .obj/Starter.dep \
 .obj/StepEval.dep \
@@ -1520,6 +1538,12 @@ include $(RULES_FILE)
 .obj/BlockFifo.o : ../../Simple/CCore/src/./BlockFifo.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Book.o : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BookWindow.o : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Bridge.o : ../../Applied/CCore/src/./net/Bridge.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1701,6 +1725,12 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DirTreeRun.o : ../../HCore/CCore/src/./DirTreeRun.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/DrawBook.o : ../../Desktop/Lib/CCore/src/./video/book/DrawBook.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/DrawBookTools.o : ../../Desktop/Lib/CCore/src/./video/book/DrawBookTools.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/DrawBuf.o : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
@@ -2402,6 +2432,9 @@ include $(RULES_FILE)
 .obj/ScopeGuard.o : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/SelectFrames.o : ../../Desktop/Lib/CCore/src/./video/book/SelectFrames.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Sem.o : ../../HCore/CCore/src/./task/Sem.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2523,6 +2556,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Space.o : ../../Simple/CCore/src/./gadget/Space.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SpanLenEngine.o : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/StartStop.o : ../../Simple/CCore/src/./StartStop.cpp
@@ -2920,6 +2956,12 @@ include $(RULES_FILE)
 .obj/BlockFifo.s : ../../Simple/CCore/src/./BlockFifo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Book.s : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/BookWindow.s : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Bridge.s : ../../Applied/CCore/src/./net/Bridge.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3101,6 +3143,12 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/DirTreeRun.s : ../../HCore/CCore/src/./DirTreeRun.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/DrawBook.s : ../../Desktop/Lib/CCore/src/./video/book/DrawBook.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/DrawBookTools.s : ../../Desktop/Lib/CCore/src/./video/book/DrawBookTools.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/DrawBuf.s : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
@@ -3802,6 +3850,9 @@ include $(RULES_FILE)
 .obj/ScopeGuard.s : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SelectFrames.s : ../../Desktop/Lib/CCore/src/./video/book/SelectFrames.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Sem.s : ../../HCore/CCore/src/./task/Sem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3923,6 +3974,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Space.s : ../../Simple/CCore/src/./gadget/Space.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SpanLenEngine.s : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/StartStop.s : ../../Simple/CCore/src/./StartStop.cpp
@@ -4320,6 +4374,12 @@ include $(RULES_FILE)
 .obj/BlockFifo.dep : ../../Simple/CCore/src/./BlockFifo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BlockFifo.o $< -MF $@
 
+.obj/Book.dep : ../../Desktop/Lib/CCore/src/./video/book/Book.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Book.o $< -MF $@
+
+.obj/BookWindow.dep : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookWindow.o $< -MF $@
+
 .obj/Bridge.dep : ../../Applied/CCore/src/./net/Bridge.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Bridge.o $< -MF $@
 
@@ -4502,6 +4562,12 @@ include $(RULES_FILE)
 
 .obj/DirTreeRun.dep : ../../HCore/CCore/src/./DirTreeRun.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DirTreeRun.o $< -MF $@
+
+.obj/DrawBook.dep : ../../Desktop/Lib/CCore/src/./video/book/DrawBook.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DrawBook.o $< -MF $@
+
+.obj/DrawBookTools.dep : ../../Desktop/Lib/CCore/src/./video/book/DrawBookTools.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DrawBookTools.o $< -MF $@
 
 .obj/DrawBuf.dep : ../../Desktop/Core/CCore/src/./video/DrawBuf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/DrawBuf.o $< -MF $@
@@ -5202,6 +5268,9 @@ include $(RULES_FILE)
 .obj/ScopeGuard.dep : ../../Simple/CCore/src/./gadget/ScopeGuard.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ScopeGuard.o $< -MF $@
 
+.obj/SelectFrames.dep : ../../Desktop/Lib/CCore/src/./video/book/SelectFrames.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SelectFrames.o $< -MF $@
+
 .obj/Sem.dep : ../../HCore/CCore/src/./task/Sem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Sem.o $< -MF $@
 
@@ -5324,6 +5393,9 @@ include $(RULES_FILE)
 
 .obj/Space.dep : ../../Simple/CCore/src/./gadget/Space.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Space.o $< -MF $@
+
+.obj/SpanLenEngine.dep : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SpanLenEngine.o $< -MF $@
 
 .obj/StartStop.dep : ../../Simple/CCore/src/./StartStop.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/StartStop.o $< -MF $@

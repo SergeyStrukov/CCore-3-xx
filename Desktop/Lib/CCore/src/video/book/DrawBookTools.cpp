@@ -1,21 +1,27 @@
 /* DrawBookTools.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: Book 1.00
+//  Project: CCore 3.60
+//
+//  Tag: Desktop
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
 //            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 //
-//  Copyright (c) 2018 Sergey Strukov. All rights reserved.
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/DrawBookTools.h>
+#include <CCore/inc/video/book/DrawBookTools.h>
 
 #include <CCore/inc/Path.h>
 
-namespace App {
+#include <CCore/inc/Exception.h>
+
+namespace CCore {
+namespace Video {
+namespace Book {
 namespace DrawBook {
 
 /* functions */
@@ -36,13 +42,13 @@ bool InsSpace(StrLen text)
 
 auto FontMap::find(StrLen face,Coord size,int strength,bool bold,bool italic,Font fallback) -> Rec
  {
-  const FontInfo *info=lookup.find(replace(face),bold,italic);
+  const FontInfo *info=lookup.find(replace_map(face),bold,italic);
 
   if( !info )
     {
      Printf(NoException,"Font #.q; is not found",face);
 
-     replace.addNotFound(face);
+     replace_map.addNotFound(face);
 
      return {fallback,true,true};
     }
@@ -294,6 +300,8 @@ FrameExt * FrameMap::operator () (Book::TypeDef::Frame *obj)
  }
 
 } // namespace DrawBook
-} // namespace App
+} // namespace Book
+} // namespace Video
+} // namespace CCore
 
 
