@@ -48,7 +48,7 @@ using namespace Private_FontReplace;
 
 /* class FontReplaceMap */
 
-StrLen FontReplaceMap::ReplaceFile() { return "/FontReplaceMap.ddl"_c; }
+StrLen FontReplaceMap::ReplaceFile() { return "/FontReplace.ddl"_c; }
 
 StrLen FontReplaceMap::Pretext()
  {
