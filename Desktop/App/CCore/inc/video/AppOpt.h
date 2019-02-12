@@ -33,6 +33,8 @@ struct PersistNone;
 
 struct OptNone
  {
+  OptNone() noexcept {}
+
   OptNone(int argc,const char *argv[])
    {
     Used(argc);
@@ -46,6 +48,8 @@ struct OptFileName
  {
   StrLen file_name;
   bool ok;
+
+  OptFileName() noexcept { ok=false; }
 
   OptFileName(int argc,const char *argv[])
    {

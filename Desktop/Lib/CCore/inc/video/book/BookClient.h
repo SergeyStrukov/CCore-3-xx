@@ -46,7 +46,7 @@ class ClientWindow : public ComboWindow
 
      String menu_File    = "@File"_str ;
      String menu_Options = "@Options"_str ;
-     String menu_New     = "@New"_str ;
+     String menu_New     = "@Empty"_str ;
      String menu_Open    = "@Open"_str ;
      String menu_Exit    = "E@xit"_str ;
      String menu_Global  = "@Global"_str ;
@@ -83,14 +83,6 @@ class ClientWindow : public ComboWindow
      // user
 
      RefVal<String> text_LoadFile = "Select a file to load from"_str ;
-     RefVal<String> text_SaveFile = "Select a file to save to"_str ;
-
-     RefVal<String> text_Alert   = "Alert"_str ;
-     RefVal<String> text_AskSave = "Save modifications?"_str ;
-
-     RefVal<String> text_Yes    = "Yes"_str ;
-     RefVal<String> text_No     = "No"_str ;
-     RefVal<String> text_Cancel = "Cancel"_str ;
 
      CtorRefVal<FileFrame::ConfigType> file_cfg;
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
@@ -100,7 +92,7 @@ class ClientWindow : public ComboWindow
 
      RefVal<String> menu_File    = "@File"_str ;
      RefVal<String> menu_Options = "@Options"_str ;
-     RefVal<String> menu_New     = "@New"_str ;
+     RefVal<String> menu_New     = "@Empty"_str ;
      RefVal<String> menu_Open    = "@Open"_str ;
      RefVal<String> menu_Exit    = "E@xit"_str ;
      RefVal<String> menu_Global  = "@Global"_str ;
@@ -120,14 +112,6 @@ class ClientWindow : public ComboWindow
      void bindUser(const Bag &bag,Proxy proxy)
       {
        text_LoadFile.bind(bag.text_LoadFile);
-       text_SaveFile.bind(bag.text_SaveFile);
-
-       text_Alert.bind(bag.text_Alert);
-       text_AskSave.bind(bag.text_AskSave);
-
-       text_Yes.bind(bag.text_Yes);
-       text_No.bind(bag.text_No);
-       text_Cancel.bind(bag.text_Cancel);
 
        file_cfg.bind(proxy);
        menu_cfg.bind(proxy);

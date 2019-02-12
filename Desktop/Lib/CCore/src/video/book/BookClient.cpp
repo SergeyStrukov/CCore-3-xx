@@ -33,11 +33,11 @@ void ClientWindow::ClientBag::bindItems(ConfigItemBind &binder)
 
     binder.item("File"_str,menu_File);
     binder.item("Options"_str,menu_Options);
-    binder.item("New"_str,menu_New);
+    binder.item("Empty"_str,menu_New);
     binder.item("Open"_str,menu_Open);
     binder.item("Exit"_str,menu_Exit);
     binder.item("Global"_str,menu_Global);
-    binder.item("App"_str,menu_App);
+    binder.item("Book"_str,menu_App);
  }
 
 void ClientWindow::menuOff()
