@@ -35,6 +35,7 @@ OBJ_LIST = \
 .obj/BlockFifo.o \
 .obj/Book.o \
 .obj/BookClient.o \
+.obj/BookFrame.o \
 .obj/BookWindow.o \
 .obj/Bridge.o \
 .obj/ButtonId.o \
@@ -510,6 +511,7 @@ ASM_LIST = \
 .obj/BlockFifo.s \
 .obj/Book.s \
 .obj/BookClient.s \
+.obj/BookFrame.s \
 .obj/BookWindow.s \
 .obj/Bridge.s \
 .obj/ButtonId.s \
@@ -985,6 +987,7 @@ DEP_LIST = \
 .obj/BlockFifo.dep \
 .obj/Book.dep \
 .obj/BookClient.dep \
+.obj/BookFrame.dep \
 .obj/BookWindow.dep \
 .obj/Bridge.dep \
 .obj/ButtonId.dep \
@@ -1542,6 +1545,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BookClient.o : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BookFrame.o : ../../Desktop/Lib/CCore/src/./video/BookFrame.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BookWindow.o : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
@@ -2962,6 +2968,9 @@ include $(RULES_FILE)
 .obj/BookClient.s : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BookFrame.s : ../../Desktop/Lib/CCore/src/./video/BookFrame.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BookWindow.s : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4379,6 +4388,9 @@ include $(RULES_FILE)
 
 .obj/BookClient.dep : ../../Desktop/Lib/CCore/src/./video/book/BookClient.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookClient.o $< -MF $@
+
+.obj/BookFrame.dep : ../../Desktop/Lib/CCore/src/./video/BookFrame.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BookFrame.o $< -MF $@
 
 .obj/BookWindow.dep : ../../Desktop/Lib/CCore/src/./video/book/BookWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BookWindow.o $< -MF $@
