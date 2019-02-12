@@ -23,9 +23,28 @@ namespace Video {
 
 /* classes */
 
+class BookPreference;
+
 class ShowBookClient;
 
 class BookFrame;
+
+/* class BookPreference */
+
+class BookPreference : public ConfigBinder<Book::ClientWindow::AppBag>
+ {
+  public:
+
+   static StrLen File();
+
+   BookPreference() noexcept;
+
+   ~BookPreference();
+
+   void sync() noexcept;
+
+   void update() noexcept;
+ };
 
 /* class ShowBookClient */
 
@@ -46,16 +65,16 @@ class ShowBookClient : public ComboWindow
 
      RefVal<String> menu_Options = "@Options"_str ;
      RefVal<String> menu_Global  = "@Global"_str ;
-     RefVal<String> menu_App     = "@Book"_str ;
+     RefVal<String> menu_Book    = "@Book"_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      : sub_win_cfg(user_pref,app_pref)
+     template <class UserPref,class BookPref>
+     Config(const UserPref &user_pref,const BookPref &book_pref) noexcept
+      : sub_win_cfg(user_pref,book_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
+       bindApp(book_pref.get());
       }
 
      template <class Bag,class Proxy>
@@ -70,7 +89,7 @@ class ShowBookClient : public ComboWindow
       {
        menu_Options.bind(bag.menu_Options);
        menu_Global.bind(bag.menu_Global);
-       menu_App.bind(bag.menu_App);
+       menu_Book.bind(bag.menu_Book);
       }
     };
 
@@ -102,7 +121,7 @@ class ShowBookClient : public ComboWindow
      MenuOptions = 2,
 
      MenuOptionsUserPref = 201,
-     MenuOptionsAppPref  = 202
+     MenuOptionsBookPref = 202
     };
 
    void menuAction(int id,Point point);
@@ -154,7 +173,7 @@ class ShowBookClient : public ComboWindow
    // signals
 
    Signal<Point> doUserPref;
-   Signal<Point> doAppPref;
+   Signal<Point> doBookPref;
  };
 
 /* class BookFrame */
@@ -175,12 +194,12 @@ class BookFrame : public DragFrame
 
      ShowBookClient::ConfigType client_cfg;
 
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
+     template <class UserPref,class BookPref>
+     Config(const UserPref &user_pref,const BookPref &book_pref) noexcept
+      : client_cfg(user_pref,book_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
+       bindApp(book_pref.get());
       }
 
      template <class Bag,class Proxy>
@@ -218,6 +237,13 @@ class BookFrame : public DragFrame
    void create(FrameWindow *parent,const String &title);
 
    void load(StrLen file_name) { client.load(file_name); }
+
+   void loadLaunch(StrLen file_name);
+
+   // signals
+
+   Signal<Point> &doUserPref;
+   Signal<Point> &doBookPref;
  };
 
 } // namespace Video

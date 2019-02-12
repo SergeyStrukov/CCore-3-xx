@@ -18,7 +18,7 @@
 
 #include <CCore/inc/video/AppMain.h>
 
-#include <CCore/inc/video/book/BookClient.h>
+#include <CCore/inc/video/BookFrame.h>
 
 #include <CCore/inc/video/DesktopKey.h>
 
@@ -34,7 +34,7 @@ struct AppProp
  {
   static StrLen Key() { return HomeKey(); }
 
-  static StrLen File() { return "/BookPreferences.ddl"_c; }
+  static StrLen File() { return BookPreference::File(); }
 
   static Picture Icon() { return DefaultAppIcon(); }
 

@@ -33,11 +33,11 @@ void ClientWindow::ClientBag::bindItems(ConfigItemBind &binder)
 
     binder.item("File"_str,menu_File);
     binder.item("Options"_str,menu_Options);
-    binder.item("Empty"_str,menu_New);
+    binder.item("Empty"_str,menu_Empty);
     binder.item("Open"_str,menu_Open);
     binder.item("Exit"_str,menu_Exit);
     binder.item("Global"_str,menu_Global);
-    binder.item("Book"_str,menu_App);
+    binder.item("Book"_str,menu_Book);
  }
 
 void ClientWindow::menuOff()
@@ -72,7 +72,7 @@ void ClientWindow::menuAction(int id,Point point)
  {
   switch( id )
     {
-     case MenuFileNew :
+     case MenuFileEmpty :
       {
        sub_win.blank();
       }
@@ -96,7 +96,7 @@ void ClientWindow::menuAction(int id,Point point)
       }
      break;
 
-     case MenuOptionsAppPref :
+     case MenuOptionsBookPref :
       {
        doAppPref.assert(point);
       }
@@ -185,13 +185,13 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptFileName op
   menu_data(+cfg.menu_File,MenuFile)
            (+cfg.menu_Options,MenuOptions);
 
-  menu_file_data(+cfg.menu_New,MenuFileNew)
+  menu_file_data(+cfg.menu_Empty,MenuFileEmpty)
                 (+cfg.menu_Open,MenuFileOpen)
                 (MenuSeparator)
                 (+cfg.menu_Exit,MenuFileExit);
 
   menu_opt_data(+cfg.menu_Global,MenuOptionsUserPref)
-               (+cfg.menu_App,MenuOptionsAppPref);
+               (+cfg.menu_Book,MenuOptionsBookPref);
 
   // file frame
 

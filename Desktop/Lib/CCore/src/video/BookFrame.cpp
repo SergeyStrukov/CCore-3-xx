@@ -15,10 +15,41 @@
 
 #include <CCore/inc/video/BookFrame.h>
 
+#include <CCore/inc/LaunchPath.h>
+#include <CCore/inc/MakeFileName.h>
+
+#include <CCore/inc/video/DesktopKey.h>
 #include <CCore/inc/video/LayoutCombo.h>
 
 namespace CCore {
 namespace Video {
+
+/* class BookPreference */
+
+StrLen BookPreference::File() { return "/BookPreferences.ddl"_c; }
+
+BookPreference::BookPreference() noexcept
+ {
+ }
+
+BookPreference::~BookPreference()
+ {
+ }
+
+void BookPreference::sync() noexcept
+ {
+  if( !syncHome(HomeKey(),File()) )
+    {
+     ref().findFonts();
+
+     update();
+    }
+ }
+
+void BookPreference::update() noexcept
+ {
+  updateHome(HomeKey(),File());
+ }
 
 /* class ShowBookClient */
 
@@ -39,9 +70,9 @@ void ShowBookClient::menuAction(int id,Point point)
       }
      break;
 
-     case MenuOptionsAppPref :
+     case MenuOptionsBookPref :
       {
-       doAppPref.assert(point);
+       doBookPref.assert(point);
       }
      break;
     }
@@ -96,7 +127,7 @@ ShowBookClient::ShowBookClient(SubWindowHost &host,const Config &cfg_,Signal<> &
   menu_data(+cfg.menu_Options,MenuOptions);
 
   menu_opt_data(+cfg.menu_Global,MenuOptionsUserPref)
-               (+cfg.menu_App,MenuOptionsAppPref);
+               (+cfg.menu_Book,MenuOptionsBookPref);
  }
 
 ShowBookClient::~ShowBookClient()
@@ -195,7 +226,10 @@ BookFrame::BookFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
 
    cfg(cfg_),
 
-   client(*this,cfg.client_cfg,update)
+   client(*this,cfg.client_cfg,update),
+
+   doUserPref(client.doUserPref),
+   doBookPref(client.doBookPref)
  {
   bindClient(client);
  }
@@ -207,6 +241,14 @@ BookFrame::~BookFrame()
 void BookFrame::create(FrameWindow *parent,const String &title)
  {
   DragFrame::create(parent,getPane(Range(title)),title);
+ }
+
+void BookFrame::loadLaunch(StrLen file_name)
+ {
+  LaunchPath path;
+  MakeFileName full(path.getDir(),file_name);
+
+  load(full.get());
  }
 
 } // namespace Video

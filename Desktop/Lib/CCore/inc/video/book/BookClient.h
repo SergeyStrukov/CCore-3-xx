@@ -46,11 +46,11 @@ class ClientWindow : public ComboWindow
 
      String menu_File    = "@File"_str ;
      String menu_Options = "@Options"_str ;
-     String menu_New     = "@Empty"_str ;
+     String menu_Empty   = "@Empty"_str ;
      String menu_Open    = "@Open"_str ;
      String menu_Exit    = "E@xit"_str ;
      String menu_Global  = "@Global"_str ;
-     String menu_App     = "@Book"_str ;
+     String menu_Book    = "@Book"_str ;
 
      // constructors
 
@@ -64,11 +64,11 @@ class ClientWindow : public ComboWindow
        func("title"_c,ptr->title);
        func("menu_File"_c,ptr->menu_File);
        func("menu_Options"_c,ptr->menu_Options);
-       func("menu_New"_c,ptr->menu_New);
+       func("menu_Empty"_c,ptr->menu_Empty);
        func("menu_Open"_c,ptr->menu_Open);
        func("menu_Exit"_c,ptr->menu_Exit);
        func("menu_Global"_c,ptr->menu_Global);
-       func("menu_App"_c,ptr->menu_App);
+       func("menu_Book"_c,ptr->menu_Book);
       }
 
      void bindItems(ConfigItemBind &binder);
@@ -92,11 +92,11 @@ class ClientWindow : public ComboWindow
 
      RefVal<String> menu_File    = "@File"_str ;
      RefVal<String> menu_Options = "@Options"_str ;
-     RefVal<String> menu_New     = "@Empty"_str ;
+     RefVal<String> menu_Empty   = "@Empty"_str ;
      RefVal<String> menu_Open    = "@Open"_str ;
      RefVal<String> menu_Exit    = "E@xit"_str ;
      RefVal<String> menu_Global  = "@Global"_str ;
-     RefVal<String> menu_App     = "@Book"_str ;
+     RefVal<String> menu_Book    = "@Book"_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 
@@ -123,11 +123,11 @@ class ClientWindow : public ComboWindow
       {
        menu_File.bind(bag.menu_File);
        menu_Options.bind(bag.menu_Options);
-       menu_New.bind(bag.menu_New);
+       menu_Empty.bind(bag.menu_Empty);
        menu_Open.bind(bag.menu_Open);
        menu_Exit.bind(bag.menu_Exit);
        menu_Global.bind(bag.menu_Global);
-       menu_App.bind(bag.menu_App);
+       menu_Book.bind(bag.menu_Book);
       }
     };
 
@@ -181,14 +181,14 @@ class ClientWindow : public ComboWindow
     {
      MenuFile = 1,
 
-     MenuFileNew    = 101,
+     MenuFileEmpty  = 101,
      MenuFileOpen   = 102,
      MenuFileExit   = 110,
 
      MenuOptions = 2,
 
      MenuOptionsUserPref = 201,
-     MenuOptionsAppPref  = 202
+     MenuOptionsBookPref = 202
     };
 
    void menuAction(int id,Point point);
