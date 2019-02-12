@@ -28,7 +28,7 @@ struct AppProp;
 
 /* struct AppPreferenceBag */
 
-struct AppPreferenceBag : ConfigItemHost
+struct AppPreferenceBag
  {
   // common
 
@@ -58,7 +58,7 @@ struct AppPreferenceBag : ConfigItemHost
   template <class Ptr,class Func>
   static void Members(Ptr ptr,Func func);
 
-  virtual void bind(ConfigItemBind &binder);
+  virtual void bindItems(ConfigItemBind &binder);
  };
 
 template <class Ptr,class Func>

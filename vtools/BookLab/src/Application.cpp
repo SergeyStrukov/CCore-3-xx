@@ -19,7 +19,7 @@ namespace App {
 
 /* struct AppPreferenceBag */
 
-void AppPreferenceBag::bind(ConfigItemBind &binder)
+void AppPreferenceBag::bindItems(ConfigItemBind &binder)
  {
   binder.group("Common"_str);
 

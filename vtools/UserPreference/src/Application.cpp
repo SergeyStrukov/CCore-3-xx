@@ -89,7 +89,7 @@ class Application : public ApplicationBase
     {
      pref.sync();
 
-     main_frame.bindConfig(pref.ref());
+     main_frame.bindConfig(pref);
 
      Point size=desktop->getScreenSize();
 
