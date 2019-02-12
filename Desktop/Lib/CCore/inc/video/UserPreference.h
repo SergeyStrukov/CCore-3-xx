@@ -42,7 +42,7 @@ class UserPreference;
 
 /* struct UserPreferenceBag */
 
-struct UserPreferenceBag : ConfigItemHost
+struct UserPreferenceBag
  {
   // common
 
@@ -397,7 +397,7 @@ struct UserPreferenceBag : ConfigItemHost
   template <class Ptr,class Func>
   static void Members(Ptr ptr,Func func);
 
-  virtual void bind(ConfigItemBind &binder);
+  void bindItems(ConfigItemBind &binder);
 
   void findFonts();
  };

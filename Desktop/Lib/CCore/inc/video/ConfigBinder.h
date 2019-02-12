@@ -30,6 +30,8 @@ struct ConfigItemHost;
 
 struct HomeSyncBase;
 
+template <class ... TT> struct CombineBags;
+
 template <class Bag,class ... TT> class ConfigBinder;
 
 /* struct ConfigItemBind */
@@ -81,10 +83,34 @@ struct HomeSyncBase
   void updateHome(StrLen home_dir,StrLen cfg_file) const noexcept; // "/dir" "/file"
  };
 
+/* struct CombineBags<TT...> */
+
+template <class ... TT>
+struct CombineBags : TT...
+ {
+  CombineBags() noexcept {}
+
+  template <class Ptr,class Func>
+  static void Members(Ptr ptr,Func func)
+   {
+    ( TT::Members(ptr,func) , ... );
+   }
+
+  void bindItems(ConfigItemBind &binder)
+   {
+    ( TT::bindItems(binder) , ... );
+   }
+
+  void findFonts()
+   {
+    ( TT::findFonts() , ... );
+   }
+ };
+
 /* class ConfigBinder<Bag,TT> */
 
 template <class Bag,class ... TT>
-class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase
+class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase , public ConfigItemHost
  {
    template <class T>
    struct Item
@@ -137,6 +163,11 @@ class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase
    virtual void updateMap(ConfigMap &map) const
     {
      Bag::Members(this, [&map] (StrLen name,auto &obj) { map.update(name,obj); } );
+    }
+
+   virtual void bind(ConfigItemBind &binder)
+    {
+     this->bindItems(binder);
     }
 
    // getSmartConfig()

@@ -369,7 +369,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("font_replace_title"_c,ptr->font_replace_title);
  }
 
-void UserPreferenceBag::bind(ConfigItemBind &binder) // Update here
+void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
  {
   binder.group("Common"_str);
 

@@ -322,10 +322,10 @@ class Application : public ApplicationBase
 
      editor_pref.ref()=param.user_pref.get();
 
-     user_frame.bindConfig(param.user_pref.ref());
+     user_frame.bindConfig(param.user_pref);
      user_frame.connectUpdate(editor_pref.updated);
 
-     app_frame.bindConfig(param.app_pref.ref());
+     app_frame.bindConfig(param.app_pref);
      app_frame.connectUpdate(param.user_pref.updated);
     }
 
