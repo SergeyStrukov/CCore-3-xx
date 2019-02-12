@@ -50,7 +50,7 @@ class ClientWindow : public ComboWindow
      String menu_Open    = "@Open"_str ;
      String menu_Exit    = "E@xit"_str ;
      String menu_Global  = "@Global"_str ;
-     String menu_App     = "@Application"_str ;
+     String menu_App     = "@Book"_str ;
 
      // constructors
 
@@ -104,7 +104,7 @@ class ClientWindow : public ComboWindow
      RefVal<String> menu_Open    = "@Open"_str ;
      RefVal<String> menu_Exit    = "E@xit"_str ;
      RefVal<String> menu_Global  = "@Global"_str ;
-     RefVal<String> menu_App     = "@Application"_str ;
+     RefVal<String> menu_App     = "@Book"_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 

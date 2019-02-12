@@ -54,6 +54,11 @@ struct AppProp
     return "/AppName-Unid"_c;
    }
 
+  static StrLen File() // opt
+   {
+    return "/FileName.ddl"_c;
+   }
+
   static Picture Icon() { return DefaultAppIcon(); }
 
   using PreferenceBag = ??? ;
@@ -74,12 +79,22 @@ struct AppProp
 template <class Bag>
 concept bool FindFontsBagType = requires(Bag &bag) { bag.findFonts(); } ;
 
+/* concept AppPropHasFile<AppProp> */
+
+template <class AppProp>
+concept bool AppPropHasFile = requires() { { AppProp::File() } -> StrLen ; } ;
+
 /* class AppPreference<AppProp> */
 
 template <class AppProp>
 class AppPreference : public ConfigBinder<typename AppProp::PreferenceBag>
  {
-   static StrLen File()
+   StrLen File() requires( AppPropHasFile<AppProp> )
+    {
+     return AppProp::File();
+    }
+
+   StrLen File() requires( !AppPropHasFile<AppProp> )
     {
      return "/AppPreference.ddl"_c;
     }

@@ -23,10 +23,6 @@ namespace App {
 using namespace CCore;
 using namespace CCore::Video;
 
-/* AppKey() */
-
-StrLen AppKey();
-
 } // namespace App
 
 #endif

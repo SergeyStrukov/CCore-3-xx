@@ -34,6 +34,8 @@ struct AppProp
  {
   static StrLen Key() { return HomeKey(); }
 
+  static StrLen File() { return "/BookPreferences.ddl"_c; }
+
   static Picture Icon() { return DefaultAppIcon(); }
 
   using PreferenceBag = Book::ClientWindow::AppBag ;

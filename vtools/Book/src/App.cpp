@@ -15,11 +15,5 @@
 
 namespace App {
 
-/* AppKey() */
-
-StrLen AppKey()
- {
-  return "/Book-630403447ED45D098D40FEA499F5A9DF3BABC69BCBF40ED8B4D5A89EA0E19D3E"_c;
- }
 
 } // namespace App
