@@ -159,17 +159,65 @@ class ShowBookClient : public ComboWindow
 
 /* class BookFrame */
 
-class BookFrame : NoCopy
+class BookFrame : public DragFrame
  {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<Ratio> pos_ry = Div(5,12) ;
+
+     CtorRefVal<DragFrame::ConfigType> frame_cfg;
+
+     // app
+
+     ShowBookClient::ConfigType client_cfg;
+
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
+      : client_cfg(user_pref,app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy proxy)
+      {
+       pos_ry.bind(bag.frame_pos_ry);
+
+       frame_cfg.bind(proxy);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &)
+      {
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
    ShowBookClient client;
 
-   DragFrame frame;
+  private:
+
+   Pane getPane(StrLen title) const;
 
   public:
 
-   BookFrame();
+   BookFrame(Desktop *desktop,const Config &cfg,Signal<> &update);
 
-   ~BookFrame();
+   virtual ~BookFrame();
+
+   void create(FrameWindow *parent,const String &title);
+
+   void load(StrLen file_name) { client.load(file_name); }
  };
 
 } // namespace Video

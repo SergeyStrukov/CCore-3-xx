@@ -183,6 +183,31 @@ void ShowBookClient::react_other(UserAction action)
 
 /* class BookFrame */
 
+Pane BookFrame::getPane(StrLen title) const
+ {
+  Point size=getMinSize(false,title,client.getMinSize());
+
+  return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
+ }
+
+BookFrame::BookFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
+ : DragFrame(desktop,cfg_.frame_cfg,update),
+
+   cfg(cfg_),
+
+   client(*this,cfg.client_cfg,update)
+ {
+  bindClient(client);
+ }
+
+BookFrame::~BookFrame()
+ {
+ }
+
+void BookFrame::create(FrameWindow *parent,const String &title)
+ {
+  DragFrame::create(parent,getPane(Range(title)),title);
+ }
 
 } // namespace Video
 } // namespace CCore
