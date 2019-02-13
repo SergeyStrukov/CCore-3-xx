@@ -54,7 +54,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
      RefVal<String> menu_File    = "@File"_str ;
      RefVal<String> menu_Options = "@Options"_str ;
-     RefVal<String> menu_Help    = "@Help"_str ; // TODO
+     RefVal<String> menu_Help    = "@Help"_str ;
      RefVal<String> menu_New     = "@New"_str ;
      RefVal<String> menu_Open    = "@Open ..."_str ;
      RefVal<String> menu_Save    = "@Save"_str ;
@@ -62,10 +62,10 @@ class ClientWindow : public ComboWindow , public AliveControl
      RefVal<String> menu_Exit    = "E@xit"_str ;
      RefVal<String> menu_Global  = "@Global ..."_str ;
      RefVal<String> menu_App     = "@Application ..."_str ;
-     RefVal<String> menu_Book    = "@Book ..."_str ; // TODO
-     RefVal<String> menu_Manual  = "@Manual ..."_str ; // TODO
+     RefVal<String> menu_Book    = "@Book ..."_str ;
+     RefVal<String> menu_Manual  = "@Manual ..."_str ;
 
-     RefVal<String> title_Manual  = "Book: ContourLab manual"_str ; // TODO
+     RefVal<String> title_Manual  = "Book: ContourLab manual"_str ;
 
      EditorWindow::ConfigType editor_cfg;
 
@@ -104,6 +104,7 @@ class ClientWindow : public ComboWindow , public AliveControl
       {
        menu_File.bind(bag.menu_File);
        menu_Options.bind(bag.menu_Options);
+       menu_Help.bind(bag.menu_Help);
        menu_New.bind(bag.menu_New);
        menu_Open.bind(bag.menu_Open);
        menu_Save.bind(bag.menu_Save);
@@ -111,6 +112,9 @@ class ClientWindow : public ComboWindow , public AliveControl
        menu_Exit.bind(bag.menu_Exit);
        menu_Global.bind(bag.menu_Global);
        menu_App.bind(bag.menu_App);
+       menu_Book.bind(bag.menu_Book);
+       menu_Manual.bind(bag.menu_Manual);
+       title_Manual.bind(bag.title_Manual);
       }
     };
 

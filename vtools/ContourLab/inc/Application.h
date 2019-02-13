@@ -90,6 +90,7 @@ struct AppPreferenceBag
 
   String menu_File    = "@File"_str ;
   String menu_Options = "@Options"_str ;
+  String menu_Help    = "@Help"_str ;
   String menu_New     = "@New"_str ;
   String menu_Open    = "@Open ..."_str ;
   String menu_Save    = "@Save"_str ;
@@ -97,6 +98,10 @@ struct AppPreferenceBag
   String menu_Exit    = "E@xit"_str ;
   String menu_Global  = "@Global ..."_str ;
   String menu_App     = "@Application ..."_str ;
+  String menu_Book    = "@Book ..."_str ;
+  String menu_Manual  = "@Manual ..."_str ;
+
+  String title_Manual  = "Book: ContourLab manual"_str ;
 
   // hints
 
@@ -180,6 +185,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
 
   func("menu_File"_c,ptr->menu_File);
   func("menu_Options"_c,ptr->menu_Options);
+  func("menu_Help"_c,ptr->menu_Help);
   func("menu_New"_c,ptr->menu_New);
   func("menu_Open"_c,ptr->menu_Open);
   func("menu_Save"_c,ptr->menu_Save);
@@ -187,6 +193,10 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+  func("menu_Book"_c,ptr->menu_Book);
+  func("menu_Manual"_c,ptr->menu_Manual);
+
+  func("title_Manual"_c,ptr->title_Manual);
 
   func("hint_File"_c,ptr->hint_File);
   func("hint_Angle"_c,ptr->hint_Angle);
