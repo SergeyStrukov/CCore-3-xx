@@ -101,7 +101,8 @@ struct UserPreferenceBag
   String text_Apply   = "Apply"_str ;
 
   String title_UserPref = "User preferences"_str ;
-  String title_AppPref = "Application preferences"_str ;
+  String title_AppPref  = "Application preferences"_str ;
+  String title_BookPref = "Book preferences"_str ;
 
   String text_none = "<none>"_str ;
 

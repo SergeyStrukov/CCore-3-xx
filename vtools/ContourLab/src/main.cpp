@@ -25,7 +25,7 @@ const AbortMsgFuncType CCore::AbortMsgFunc = AbortMsgBox ;
 
 int main(int argc,const char *argv[])
  {
-  return AppMain<AppProp>(StartDisplay(),argc,argv);
+  return BookAppMain<AppProp>(StartDisplay(),argc,argv);
  }
 
 

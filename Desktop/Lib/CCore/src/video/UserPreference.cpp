@@ -84,6 +84,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("title_UserPref"_c,ptr->title_UserPref);
   func("title_AppPref"_c,ptr->title_AppPref);
+  func("title_BookPref"_c,ptr->title_BookPref);
 
   func("text_none"_c,ptr->text_none);
 
@@ -422,6 +423,7 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("'Apply'"_str,text_Apply);
    binder.item("'UserPref'"_str,title_UserPref);
    binder.item("'AppPref'"_str,title_AppPref);
+   binder.item("'BookPref'"_str,title_BookPref);
    binder.item("'<none>'"_str,text_none);
 
   binder.group("Text"_str);

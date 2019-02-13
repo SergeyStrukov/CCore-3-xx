@@ -144,6 +144,23 @@ void ClientWindow::menuAction(int id,Point point)
        doAppPref.assert(point);
       }
      break;
+
+     case MenuOptionsBookPref :
+      {
+       doBookPref.assert(point);
+      }
+     break;
+
+     case MenuManual :
+      {
+       if( book_frame.isDead() )
+         {
+          book_frame.create(getFrame(),+cfg.title_Manual);
+
+          book_frame.loadLaunch("manual.book.ddl"_c);
+         }
+      }
+     break;
     }
  }
 
@@ -167,6 +184,12 @@ void ClientWindow::menu_selected(int id,Point point)
      case MenuOptions :
       {
        cascade_menu.create(getFrame(),menu_opt_data,point);
+      }
+     break;
+
+     case MenuHelp :
+      {
+       cascade_menu.create(getFrame(),menu_help_data,point);
       }
      break;
     }
@@ -257,6 +280,16 @@ void ClientWindow::msg_destroyed()
     }
  }
 
+void ClientWindow::book_doUserPref(Point point)
+ {
+  doUserPref.assert(point);
+ }
+
+void ClientWindow::book_doBookPref(Point point)
+ {
+  doBookPref.assert(point);
+ }
+
 ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
@@ -264,14 +297,19 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
    menu(wlist,cfg.menu_cfg,menu_data),
    cascade_menu(host.getFrameDesktop(),cfg.cascade_menu_cfg),
    editor(wlist,cfg.editor_cfg),
+
    file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".cont.ddl"_str}),
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg),
+   book_frame(host.getFrameDesktop(),cfg.book_cfg,update),
 
    connector_menu_selected(this,&ClientWindow::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&ClientWindow::cascade_menu_selected,cascade_menu.selected),
    connector_cascade_menu_pressed(this,&ClientWindow::cascade_menu_pressed,cascade_menu.pressed),
    connector_file_destroyed(this,&ClientWindow::file_destroyed,file_frame.destroyed),
-   connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed)
+   connector_msg_destroyed(this,&ClientWindow::msg_destroyed,msg_frame.destroyed),
+
+   connector_book_doUserPref(this,&ClientWindow::book_doUserPref,book_frame.doUserPref),
+   connector_book_doBookPref(this,&ClientWindow::book_doBookPref,book_frame.doBookPref)
  {
   cascade_menu.connectUpdate(update);
 
@@ -282,7 +320,8 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
   // menu
 
   menu_data(+cfg.menu_File,MenuFile)
-           (+cfg.menu_Options,MenuOptions);
+           (+cfg.menu_Options,MenuOptions)
+           (+cfg.menu_Help,MenuHelp);
 
   menu_file_data(+cfg.menu_New,MenuFileNew)
                 (+cfg.menu_Open,MenuFileOpen)
@@ -293,7 +332,10 @@ ClientWindow::ClientWindow(SubWindowHost &host,const Config &cfg_,OptNone,Signal
                 (+cfg.menu_Exit,MenuFileExit);
 
   menu_opt_data(+cfg.menu_Global,MenuOptionsUserPref)
-               (+cfg.menu_App,MenuOptionsAppPref);
+               (+cfg.menu_App,MenuOptionsAppPref)
+               (+cfg.menu_Book,MenuOptionsBookPref);
+
+  menu_help_data(+cfg.menu_Manual,MenuManual);
 
   // file frame
 

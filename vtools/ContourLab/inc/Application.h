@@ -14,7 +14,7 @@
 #ifndef Application_h
 #define Application_h
 
-#include <CCore/inc/video/AppMain.h>
+#include <CCore/inc/video/BookAppMain.h>
 
 #include <inc/Client.h>
 

@@ -43,6 +43,10 @@ template <class AppProp> class AppPreference;
 
 template <class AppProp> struct AppParam;
 
+template <class AppProp,class Param> class ApplicationOf;
+
+template <class AppProp> class Application;
+
 /* struct AppProp */
 
 #if 0
@@ -164,14 +168,22 @@ struct AppParam
      client_cfg(user_pref,app_pref)
    {
    }
+
+  void sync()
+   {
+    user_pref.sync();
+    app_pref.sync();
+   }
  };
 
-/* class Application<AppProp> */
+/* class ApplicationOf<AppProp,Param> */
 
-template <class AppProp>
-class Application : public ApplicationBase
+template <class AppProp,class Param>
+class ApplicationOf : public ApplicationBase
  {
-   AppParam<AppProp> &param;
+  protected:
+
+   Param &param;
 
    const CmdDisplay cmd_display;
 
@@ -184,61 +196,6 @@ class Application : public ApplicationBase
    UserPreference editor_pref;
    ConfigEditorFrame user_frame;
    ConfigEditorFrame app_frame;
-
-  private:
-
-   void userPref(Point base)
-    {
-     if( user_frame.isDead() )
-       {
-        user_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_UserPref);
-       }
-    }
-
-   void appPref(Point base)
-    {
-     if( app_frame.isDead() )
-       {
-        app_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_AppPref);
-       }
-    }
-
-   SignalConnector<Application,Point> connector_userPref;
-   SignalConnector<Application,Point> connector_appPref;
-
-   void appUpdated()
-    {
-     param.user_pref.updated.assert();
-    }
-
-   void appSave()
-    {
-     param.app_pref.update();
-    }
-
-   SignalConnector<Application> connector_app_updated;
-   SignalConnector<Application> connector_app_save;
-
-   void userUpdate()
-    {
-     param.user_pref.updated.assert();
-    }
-
-   void userSave()
-    {
-     param.user_pref.update();
-    }
-
-   void userSelf()
-    {
-     editor_pref.ref()=param.user_pref.get();
-
-     editor_pref.updated.assert();
-    }
-
-   SignalConnector<Application> connector_user_updated;
-   SignalConnector<Application> connector_user_save;
-   SignalConnector<Application> connector_user_self;
 
   private:
 
@@ -259,7 +216,9 @@ class Application : public ApplicationBase
 
    void prepareMain() requires ( AppProp::Prepare==PrepareRandom )
     {
-     main_frame.createMain(cmd_display,param.app_pref.get().title);
+     String title=param.app_pref.get().title;
+
+     main_frame.createMain(cmd_display,title);
     }
 
    void prepareMain() requires ( AppProp::Prepare==PrepareCenter )
@@ -271,22 +230,24 @@ class Application : public ApplicationBase
 
      Pane pane=GetWindowPlace(desktop,frame_pos_ry,size);
 
-     main_frame.createMain(cmd_display,pane,param.app_pref.get().title);
+     main_frame.createMain(cmd_display,pane,title);
     }
 
    void prepareMain() requires ( AppProp::Prepare==PreparePersist )
     {
+     String title=param.app_pref.get().title;
+
      typename AppProp::Persist persist;
 
      if( persist.load() )
        {
         client.prepare(persist);
 
-        main_frame.createMain(cmd_display,persist.place,param.app_pref.get().title);
+        main_frame.createMain(cmd_display,persist.place,title);
        }
      else
        {
-        main_frame.createMain(cmd_display,param.app_pref.get().title);
+        main_frame.createMain(cmd_display,title);
        }
     }
 
@@ -310,27 +271,86 @@ class Application : public ApplicationBase
      // do nothing
     }
 
+  private:
+
+   void userPref(Point base)
+    {
+     if( user_frame.isDead() )
+       {
+        user_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_UserPref);
+       }
+    }
+
+   void appPref(Point base)
+    {
+     if( app_frame.isDead() )
+       {
+        app_frame.create(main_frame.getFrame(),base,param.user_pref.get().title_AppPref);
+       }
+    }
+
+   SignalConnector<ApplicationOf,Point> connector_userPref;
+   SignalConnector<ApplicationOf,Point> connector_appPref;
+
+   void appUpdated()
+    {
+     param.user_pref.updated.assert();
+    }
+
+   void appSave()
+    {
+     param.app_pref.update();
+    }
+
+   SignalConnector<ApplicationOf> connector_app_updated;
+   SignalConnector<ApplicationOf> connector_app_save;
+
+   void userUpdate()
+    {
+     param.user_pref.updated.assert();
+    }
+
+   void userSave()
+    {
+     param.user_pref.update();
+    }
+
+   void userSelf()
+    {
+     editor_pref.ref()=param.user_pref.get();
+
+     editor_pref.updated.assert();
+    }
+
+   SignalConnector<ApplicationOf> connector_user_updated;
+   SignalConnector<ApplicationOf> connector_user_save;
+   SignalConnector<ApplicationOf> connector_user_self;
+
   public:
 
    using Opt = typename AppProp::Opt ;
 
-   explicit Application(WindowReportBase &report,AppParam<AppProp> &param_,CmdDisplay cmd_display_,const Opt &opt)
+   ApplicationOf(WindowReportBase &report,Param &param_,CmdDisplay cmd_display_,const Opt &opt)
     : ApplicationBase(param_.desktop,param_.tick_period),
+
       param(param_),
       cmd_display(cmd_display_),
+
       main_frame(param.desktop,param.frame_cfg,param.user_pref.updated),
       exception_client(main_frame,param.exception_cfg,report),
       client(main_frame,param.client_cfg,opt,param.user_pref.updated),
       user_frame(param.desktop,editor_pref.getSmartConfig(),true),
       app_frame(param.desktop,param.user_pref.getSmartConfig(),false),
 
-      connector_userPref(this,&Application::userPref,client.doUserPref),
-      connector_appPref(this,&Application::appPref,client.doAppPref),
-      connector_app_updated(this,&Application::appUpdated,app_frame.updated),
-      connector_app_save(this,&Application::appSave,app_frame.doSave),
-      connector_user_updated(this,&Application::userUpdate,user_frame.updated),
-      connector_user_save(this,&Application::userSave,user_frame.doSave),
-      connector_user_self(this,&Application::userSelf,user_frame.doSelf)
+      connector_userPref(this,&ApplicationOf::userPref,client.doUserPref),
+      connector_appPref(this,&ApplicationOf::appPref,client.doAppPref),
+
+      connector_app_updated(this,&ApplicationOf::appUpdated,app_frame.updated),
+      connector_app_save(this,&ApplicationOf::appSave,app_frame.doSave),
+
+      connector_user_updated(this,&ApplicationOf::userUpdate,user_frame.updated),
+      connector_user_save(this,&ApplicationOf::userSave,user_frame.doSave),
+      connector_user_self(this,&ApplicationOf::userSelf,user_frame.doSelf)
     {
      main_frame.bindAlertClient(exception_client);
      main_frame.bindClient(client);
@@ -344,31 +364,40 @@ class Application : public ApplicationBase
      app_frame.connectUpdate(param.user_pref.updated);
     }
 
-   ~Application()
+   ~ApplicationOf()
     {
     }
  };
 
-/* AppMain() */
+/* class Application<AppProp> */
 
 template <class AppProp>
-int AppMain(CmdDisplay cmd_display,int argc,const char *argv[])
+class Application : public ApplicationOf<AppProp,AppParam<AppProp> >
+ {
+  public:
+
+   using ApplicationOf<AppProp,AppParam<AppProp> >::ApplicationOf;
+ };
+
+/* AppMainOf() */
+
+template <class AppProp,class Param,class Application>
+int AppMainOf(CmdDisplay cmd_display,int argc,const char *argv[])
  {
   try
     {
      TaskMemStack tms(64_KByte);
 
-     AppParam<AppProp> param;
+     Param param;
      WindowReport report(param);
 
      SetAppIcon(AppProp::Icon());
 
-     param.user_pref.sync();
-     param.app_pref.sync();
+     param.sync();
 
      using Opt = typename AppProp::Opt ;
 
-     Application<AppProp> app(report,param,cmd_display,Opt(argc,argv));
+     Application app(report,param,cmd_display,Opt(argc,argv));
 
      return app.run();
     }
@@ -376,6 +405,14 @@ int AppMain(CmdDisplay cmd_display,int argc,const char *argv[])
     {
      return 1;
     }
+ }
+
+/* AppMain() */
+
+template <class AppProp>
+int AppMain(CmdDisplay cmd_display,int argc,const char *argv[])
+ {
+  return AppMainOf<AppProp,AppParam<AppProp>,Application<AppProp> >(cmd_display,argc,argv);
  }
 
 } // namespace Video

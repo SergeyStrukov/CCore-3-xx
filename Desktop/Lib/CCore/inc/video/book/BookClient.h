@@ -47,10 +47,10 @@ class ClientWindow : public ComboWindow
      String menu_File    = "@File"_str ;
      String menu_Options = "@Options"_str ;
      String menu_Empty   = "@Empty"_str ;
-     String menu_Open    = "@Open"_str ;
+     String menu_Open    = "@Open ..."_str ;
      String menu_Exit    = "E@xit"_str ;
-     String menu_Global  = "@Global"_str ;
-     String menu_Book    = "@Book"_str ;
+     String menu_Global  = "@Global ..."_str ;
+     String menu_Book    = "@Book ..."_str ;
 
      // constructors
 
@@ -93,10 +93,10 @@ class ClientWindow : public ComboWindow
      RefVal<String> menu_File    = "@File"_str ;
      RefVal<String> menu_Options = "@Options"_str ;
      RefVal<String> menu_Empty   = "@Empty"_str ;
-     RefVal<String> menu_Open    = "@Open"_str ;
+     RefVal<String> menu_Open    = "@Open ..."_str ;
      RefVal<String> menu_Exit    = "E@xit"_str ;
-     RefVal<String> menu_Global  = "@Global"_str ;
-     RefVal<String> menu_Book    = "@Book"_str ;
+     RefVal<String> menu_Global  = "@Global ..."_str ;
+     RefVal<String> menu_Book    = "@Book ..."_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 

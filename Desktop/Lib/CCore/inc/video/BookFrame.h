@@ -64,8 +64,8 @@ class ShowBookClient : public ComboWindow
      // app
 
      RefVal<String> menu_Options = "@Options"_str ;
-     RefVal<String> menu_Global  = "@Global"_str ;
-     RefVal<String> menu_Book    = "@Book"_str ;
+     RefVal<String> menu_Global  = "@Global ..."_str ;
+     RefVal<String> menu_Book    = "@Book ..."_str ;
 
      SubWinType::ConfigType sub_win_cfg;
 
@@ -118,10 +118,10 @@ class ShowBookClient : public ComboWindow
 
    enum MenuId
     {
-     MenuOptions = 2,
+     MenuOptions = 1,
 
-     MenuOptionsUserPref = 201,
-     MenuOptionsBookPref = 202
+     MenuOptionsUserPref = 101,
+     MenuOptionsBookPref = 102
     };
 
    void menuAction(int id,Point point);

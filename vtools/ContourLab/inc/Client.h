@@ -15,6 +15,7 @@
 #define Client_h
 
 #include <CCore/inc/video/AppOpt.h>
+#include <CCore/inc/video/BookFrame.h>
 
 #include <inc/Editor.h>
 
@@ -53,6 +54,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
      RefVal<String> menu_File    = "@File"_str ;
      RefVal<String> menu_Options = "@Options"_str ;
+     RefVal<String> menu_Help    = "@Help"_str ; // TODO
      RefVal<String> menu_New     = "@New"_str ;
      RefVal<String> menu_Open    = "@Open ..."_str ;
      RefVal<String> menu_Save    = "@Save"_str ;
@@ -60,16 +62,21 @@ class ClientWindow : public ComboWindow , public AliveControl
      RefVal<String> menu_Exit    = "E@xit"_str ;
      RefVal<String> menu_Global  = "@Global ..."_str ;
      RefVal<String> menu_App     = "@Application ..."_str ;
+     RefVal<String> menu_Book    = "@Book ..."_str ; // TODO
+     RefVal<String> menu_Manual  = "@Manual ..."_str ; // TODO
+
+     RefVal<String> title_Manual  = "Book: ContourLab manual"_str ; // TODO
 
      EditorWindow::ConfigType editor_cfg;
 
-     Config() noexcept {}
+     BookFrame::ConfigType book_cfg;
 
-     template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
-      : editor_cfg(pref,app_pref)
+     template <class AppPref,class BookPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref,const BookPref &book_pref) noexcept
+      : editor_cfg(user_pref,app_pref),
+        book_cfg(user_pref,book_pref)
       {
-       bindUser(pref.get(),pref.getSmartConfig());
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
       }
 
@@ -119,6 +126,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    MenuData menu_file_data;
    MenuData menu_opt_data;
+   MenuData menu_help_data;
 
    SimpleTopMenuWindow menu;
    SimpleCascadeMenu cascade_menu;
@@ -131,6 +139,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    FileFrame file_frame;
    MessageFrame msg_frame;
+   BookFrame book_frame;
 
    // continuation
 
@@ -178,7 +187,12 @@ class ClientWindow : public ComboWindow , public AliveControl
      MenuOptions = 2,
 
      MenuOptionsUserPref = 201,
-     MenuOptionsAppPref  = 202
+     MenuOptionsAppPref  = 202,
+     MenuOptionsBookPref = 203,
+
+     MenuHelp = 3,
+
+     MenuManual = 301
     };
 
    void menuAction(int id,Point point);
@@ -202,6 +216,13 @@ class ClientWindow : public ComboWindow , public AliveControl
    SignalConnector<ClientWindow,VKey,KeyMod> connector_cascade_menu_pressed;
    SignalConnector<ClientWindow> connector_file_destroyed;
    SignalConnector<ClientWindow> connector_msg_destroyed;
+
+   void book_doUserPref(Point point);
+
+   void book_doBookPref(Point point);
+
+   SignalConnector<ClientWindow,Point> connector_book_doUserPref;
+   SignalConnector<ClientWindow,Point> connector_book_doBookPref;
 
   public:
 
@@ -237,6 +258,7 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    Signal<Point> doUserPref;
    Signal<Point> doAppPref;
+   Signal<Point> doBookPref;
  };
 
 } // namespace App
