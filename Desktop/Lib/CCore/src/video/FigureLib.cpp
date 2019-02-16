@@ -782,6 +782,36 @@ FigureReload::FigureReload(MCoord x,MCoord y,MCoord h)
   transformPoint(AnchorMap(from,to));
  }
 
+/* class FigureLove */
+
+FigureLove::FigureLove(MCoord x,MCoord y,MCoord h)
+ {
+  static const SmoothDot Contour[14]=
+   {
+    { { 490496 , 192512 } , Smooth::DotBreak },
+    { { 436224 , 156672 } , Smooth::DotSimple },
+    { { 350208 , 165888 } , Smooth::DotSimple },
+    { { 303104 , 226304 } , Smooth::DotSimple },
+    { { 307200 , 309248 } , Smooth::DotSimple },
+    { { 367616 , 392192 } , Smooth::DotSimple },
+    { { 431104 , 451584 } , Smooth::DotSimple },
+    { { 490496 , 537600 } , Smooth::DotBreak },
+    { { 549888 , 451584 } , Smooth::DotSimple },
+    { { 613376 , 392192 } , Smooth::DotSimple },
+    { { 673792 , 309248 } , Smooth::DotSimple },
+    { { 677888 , 226304 } , Smooth::DotSimple },
+    { { 630784 , 165888 } , Smooth::DotSimple },
+    { { 544768 , 156672 } , Smooth::DotSimple }
+   };
+
+  copy(Contour);
+
+  Anchor from({490496,340992},{490496,105984});
+  Anchor to({x,y},h);
+
+  transformPoint(AnchorMap(from,to));
+ }
+
 } // namespace Video
 } // namespace CCore
 

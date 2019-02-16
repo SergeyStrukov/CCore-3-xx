@@ -83,6 +83,10 @@ class PolyFigureQuestion;
 
 class FigureReload;
 
+class FigureLove;
+
+class FigureCog;
+
 /* struct MPane */
 
 struct MPane
@@ -910,6 +914,21 @@ class FigureReload : public FigureDots<37>
   public:
 
    FigureReload(MCoord x,MCoord y,MCoord h);
+ };
+
+/* class FigureLove */
+
+class FigureLove : public FigureDots<14>
+ {
+  public:
+
+   FigureLove(MCoord x,MCoord y,MCoord h);
+ };
+
+/* class FigureCog */
+
+class FigureCog
+ {
  };
 
 } // namespace Video

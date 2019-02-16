@@ -191,6 +191,8 @@ class KnobShape : public ButtonState
      FaceRightRight,
      FaceLeftLeft,
      FaceReload,
+     FaceLove,
+     FaceCog,
 
      FaceLim
     };

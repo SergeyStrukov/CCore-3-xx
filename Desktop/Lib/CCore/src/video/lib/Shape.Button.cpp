@@ -375,6 +375,19 @@ void KnobShape::draw(const DrawBuf &buf) const
        fig.curveSolid(art,fc);
       }
      break;
+
+     case FaceLove :
+      {
+       FigureLove fig(center.x,center.y,Div(3,4)*radius);
+
+       fig.curveSolid(art,fc);
+      }
+     break;
+
+     case FaceCog :
+      {
+      }
+     break;
     }
 
   // border
