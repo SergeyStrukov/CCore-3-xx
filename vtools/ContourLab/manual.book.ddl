@@ -57,6 +57,7 @@ Text ANONYM3 = {
 ,{ "a" , null , null }
 ,{ "tool" , null , null }
 ,{ "for" , null , null }
+,{ "the" , null , null }
 ,{ "geometrical" , null , null }
 ,{ "drawing." , null , null }
 }

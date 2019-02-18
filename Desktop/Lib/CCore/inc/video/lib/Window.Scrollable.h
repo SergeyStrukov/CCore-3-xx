@@ -23,6 +23,24 @@
 namespace CCore {
 namespace Video {
 
+/* consts */
+
+enum DockYBar
+ {
+  DockLeft,
+  DockRight,
+
+  DockYBarDefault = DockRight
+ };
+
+enum DockXBar
+ {
+  DockTop,
+  DockBottom,
+
+  DockXBarDefault = DockBottom
+ };
+
 /* classes */
 
 template <class Window,class XShape=XScrollShape,class YShape=YScrollShape> class ScrollableWindow;
@@ -118,6 +136,9 @@ class ScrollableWindow : public ComboWindow
    ScrollWindowOf<XShape> scroll_x;
    ScrollWindowOf<YShape> scroll_y;
 
+   DockXBar dockX = DockXBarDefault ;
+   DockYBar dockY = DockYBarDefault ;
+
   private:
 
    void setScroll()
@@ -125,6 +146,22 @@ class ScrollableWindow : public ComboWindow
      if( scroll_x.isListed() ) scroll_x.setRange(window.getScrollXRange());
 
      if( scroll_y.isListed() ) scroll_y.setRange(window.getScrollYRange());
+    }
+
+   Pane splitX(Pane &pane,Coord delta) const
+    {
+     if( dockY==DockRight )
+       return SplitX(pane,delta);
+     else
+       return SplitX(delta,pane);
+    }
+
+   Pane splitY(Pane &pane,Coord delta) const
+    {
+     if( dockX==DockBottom )
+       return SplitY(pane,delta);
+     else
+       return SplitY(delta,pane);
     }
 
   private:
@@ -176,6 +213,32 @@ class ScrollableWindow : public ComboWindow
      return window.getMinSize(arg)+delta;
     }
 
+   // doc
+
+   bool getDockX() const { return dockX; }
+
+   bool getDockY() const { return dockY; }
+
+   void setDockX(DockXBar val,bool update=true)
+    {
+     if( Change(dockX,val) && update )
+       {
+        layout();
+
+        redraw();
+       }
+    }
+
+   void setDockY(DockYBar val,bool update=true)
+    {
+     if( Change(dockY,val) && update )
+       {
+        layout();
+
+        redraw();
+       }
+    }
+
    // drawing
 
    virtual void layout()
@@ -190,7 +253,7 @@ class ScrollableWindow : public ComboWindow
 
      if( window.shortDY() )
        {
-        Pane py=SplitX(pane,delta_x);
+        Pane py=splitX(pane,delta_x);
 
         window.setPlace(pane);
         scroll_y.setPlace(py);
@@ -199,7 +262,7 @@ class ScrollableWindow : public ComboWindow
 
         if( window.shortDX() )
           {
-           Pane px=SplitY(pane,delta_y);
+           Pane px=splitY(pane,delta_y);
 
            window.setPlace(pane);
            scroll_x.setPlace(px);
@@ -215,15 +278,15 @@ class ScrollableWindow : public ComboWindow
        {
         if( window.shortDX() )
           {
-           Pane px=SplitY(pane,delta_y);
+           Pane px=splitY(pane,delta_y);
 
            window.setPlace(pane);
 
            if( window.shortDY() )
              {
               pane=all;
-              Pane py=SplitX(pane,delta_x);
-              Pane px=SplitY(pane,delta_y);
+              Pane py=splitX(pane,delta_x);
+              Pane px=splitY(pane,delta_y);
 
               window.setPlace(pane);
               scroll_x.setPlace(px);

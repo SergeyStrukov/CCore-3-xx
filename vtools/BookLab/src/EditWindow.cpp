@@ -827,6 +827,8 @@ BookLabWindow::BookLabWindow(SubWindowHost &host,const ConfigType &cfg,Signal<> 
  {
   wlist.enableTabFocus(false);
   wlist.enableClickFocus(false);
+
+  setDockY(DockLeft,false);
  }
 
 BookLabWindow::~BookLabWindow()

@@ -113,6 +113,7 @@ Text o18 = { "" , True , { null , null } , { "fmt" , null } ,
 { "a" , { null , null } , { null , null } },
 { "tool" , { null , null } , { null , null } },
 { "for" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
 { "geometrical" , { null , null } , { null , null } },
 { "drawing." , { null , null } , { null , null } }
 }
