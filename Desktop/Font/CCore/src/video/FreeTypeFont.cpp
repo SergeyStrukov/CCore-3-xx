@@ -969,28 +969,28 @@ void SetFontConfig(const Font &font,const AbstractExtFont::Config &cfg)
 
 AbstractExtFont::StyleFlags GetFontStyleFlags(const Font &font)
  {
-  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getStyleFlags();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) return ptr->getStyleFlags();
 
   return {};
  }
 
 AbstractExtFont::Config GetFontConfig(const Font &font)
  {
-  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getConfig();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) return ptr->getConfig();
 
   return {};
  }
 
 StrLen GetFontFamily(const Font &font)
  {
-  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getFamily();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) return ptr->getFamily();
 
   return "Unknown"_c;
  }
 
 StrLen GetFontStyle(const Font &font)
  {
-  if( auto *ptr=font.castPtr<AbstractExtFont>() ) ptr->getStyle();
+  if( auto *ptr=font.castPtr<AbstractExtFont>() ) return ptr->getStyle();
 
   return Null;
  }
