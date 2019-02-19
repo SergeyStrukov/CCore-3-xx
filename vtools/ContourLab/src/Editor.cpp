@@ -565,8 +565,8 @@ EditorWindow::EditorWindow(SubWindowHost &host,const Config &cfg_)
   builder.add("Point Meet(Line m,Line n)"_c,"Meet(?,?)"_c);
   builder.add("Couple Meet(Line m,Circle cir)"_c,"MeetCircle(?,?)"_c);
   builder.add("Couple Meet(Circle cir1,Circle cir2)"_c,"MeetCircles(?,?)"_c);
-  builder.add("Point Rotate(Point O,Angle alpha,Point A)"_c,"Rot(?,?,?)"_c);
-  builder.add("Point RotateOrt(Point O,Point A)"_c,"RotOrt(?,?)"_c);
+  builder.add("Point Rotate(Point O,Angle alpha,Point P)"_c,"Rot(?,?,?)"_c);
+  builder.add("Point RotateOrt(Point O,Point P)"_c,"RotOrt(?,?)"_c);
   builder.add("Point Move(Point A,Point B,Point P)"_c,"Move(?,?,?)"_c);
   builder.add("Point MoveLen(Line m,Length len,Point A)"_c,"MoveLen(?,?,?)"_c);
   builder.add("Point Mirror(Line m,Point A)"_c,"Mirror(?,?)"_c);

@@ -44,15 +44,86 @@ line = Line(A,B)
 
 //--- functions 
 
+ ------
+
 Len(A,B)
 
 Angle(A,O,B)
+
+AngleC(a,b,c)
+
+ ------
+
+Mid(A,B)
+
+Part(A,B,ratio)
+
+Move(A,B,P)
+
+MoveLen(line,len,P)
+
+Proj(line,P)
+
+Mirror(line,P)
+
+ ------
+ 
+Up(len,P)
+
+Down(len,P)
+
+Left(len,P)
+
+Right(len,P)
+
+ ------
+ 
+Rotate(O,angle,P)
+ 
+RotateOrt(O,P)
+
+ ------
+
+Line(A,B)
+
+MidOrt(A,B)
 
 Cir(A,len)
 
 OCir(A,B,C)
 
-Mid(A,B)
+ ------
+ 
+Meet(line,line)
+
+Meet(line,cir)
+
+Meet(cir,cir)
+
+First(couple)
+
+Second(couple)
+
+ ------
+
+Path(A...)
+
+Loop(A...) 
+ 
+ ------
+ 
+Step(A...)
+
+BPath(step...)
+
+BLoop(step...)
+ 
+ ------
+
+Solid(loop)
+
+ ------
+
 
 
 
