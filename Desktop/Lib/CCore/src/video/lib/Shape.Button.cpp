@@ -386,6 +386,9 @@ void KnobShape::draw(const DrawBuf &buf) const
 
      case FaceCog :
       {
+       FigureCog fig(center.x,center.y,Div(3,4)*radius);
+
+       fig.curveSolid(art,fc);
       }
      break;
     }

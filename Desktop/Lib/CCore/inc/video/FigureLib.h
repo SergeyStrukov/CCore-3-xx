@@ -927,8 +927,11 @@ class FigureLove : public FigureDots<14>
 
 /* class FigureCog */
 
-class FigureCog
+class FigureCog : public FigureDots<62>
  {
+  public:
+
+   FigureCog(MCoord x,MCoord y,MCoord h);
  };
 
 } // namespace Video

@@ -340,7 +340,7 @@ FixedText o22 = { "formulas" , True , { "fmt_fixed" , null } ,
 
 
 {
-{ "Rotate(O,angle,P)" , { null , null } , { null , null } }
+{ "Rot(O,angle,P)" , { null , null } , { null , null } }
 }
 
 ,
@@ -354,7 +354,7 @@ FixedText o22 = { "formulas" , True , { "fmt_fixed" , null } ,
 
 
 {
-{ "RotateOrt(O,P)" , { null , null } , { null , null } }
+{ "RotOrt(O,P)" , { null , null } , { null , null } }
 }
 
 ,

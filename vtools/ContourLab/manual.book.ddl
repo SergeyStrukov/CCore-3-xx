@@ -224,12 +224,12 @@ FixedText formulas = {
 ,{
 }
 ,{
-{ "Rotate(O,angle,P)" , null , null }
+{ "Rot(O,angle,P)" , null , null }
 }
 ,{
 }
 ,{
-{ "RotateOrt(O,P)" , null , null }
+{ "RotOrt(O,P)" , null , null }
 }
 ,{
 }

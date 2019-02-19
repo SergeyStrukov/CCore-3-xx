@@ -812,6 +812,84 @@ FigureLove::FigureLove(MCoord x,MCoord y,MCoord h)
   transformPoint(AnchorMap(from,to));
  }
 
+/* class FigureCog */
+
+FigureCog::FigureCog(MCoord x,MCoord y,MCoord h)
+ {
+  static const SmoothDot Contour[62]=
+   {
+    { { 374028 , 659680 } , Smooth::DotBreak },
+    { { 398440 , 627865 } , Smooth::DotSimple },
+    { { 432633 , 606911 } , Smooth::DotSimple },
+    { { 472064 , 599603 } , Smooth::DotSimple },
+    { { 511495 , 606911 } , Smooth::DotSimple },
+    { { 545688 , 627865 } , Smooth::DotSimple },
+    { { 570100 , 659680 } , Smooth::DotBreak },
+    { { 613067 , 639488 } , Smooth::DotSimple },
+    { { 652037 , 612374 } , Smooth::DotBreak },
+    { { 636690 , 575324 } , Smooth::DotSimple },
+    { { 635641 , 535236 } , Smooth::DotSimple },
+    { { 649027 , 497434 } , Smooth::DotSimple },
+    { { 675071 , 466940 } , Smooth::DotSimple },
+    { { 710314 , 447804 } , Smooth::DotSimple },
+    { { 750073 , 442570 } , Smooth::DotBreak },
+    { { 754069 , 395264 } , Smooth::DotSimple },
+    { { 750073 , 347958 } , Smooth::DotBreak },
+    { { 710314 , 342724 } , Smooth::DotSimple },
+    { { 675071 , 323588 } , Smooth::DotSimple },
+    { { 649027 , 293094 } , Smooth::DotSimple },
+    { { 635641 , 255292 } , Smooth::DotSimple },
+    { { 636690 , 215204 } , Smooth::DotSimple },
+    { { 652037 , 178154 } , Smooth::DotBreak },
+    { { 613067 , 151040 } , Smooth::DotSimple },
+    { { 570100 , 130848 } , Smooth::DotBreak },
+    { { 545688 , 162663 } , Smooth::DotSimple },
+    { { 511495 , 183617 } , Smooth::DotSimple },
+    { { 472064 , 190925 } , Smooth::DotBreak },
+    { { 472064 , 297346 } , Smooth::DotBreak },
+    { { 521023 , 310465 } , Smooth::DotSimple },
+    { { 556863 , 346305 } , Smooth::DotSimple },
+    { { 569982 , 395264 } , Smooth::DotSimple },
+    { { 556863 , 444223 } , Smooth::DotSimple },
+    { { 521023 , 480063 } , Smooth::DotSimple },
+    { { 472064 , 493182 } , Smooth::DotSimple },
+    { { 423105 , 480063 } , Smooth::DotSimple },
+    { { 387265 , 444223 } , Smooth::DotSimple },
+    { { 374146 , 395264 } , Smooth::DotSimple },
+    { { 387265 , 346305 } , Smooth::DotSimple },
+    { { 423105 , 310465 } , Smooth::DotSimple },
+    { { 472064 , 297346 } , Smooth::DotBreak },
+    { { 472064 , 190925 } , Smooth::DotBreak },
+    { { 432633 , 183617 } , Smooth::DotSimple },
+    { { 398440 , 162663 } , Smooth::DotSimple },
+    { { 374028 , 130848 } , Smooth::DotBreak },
+    { { 331061 , 151040 } , Smooth::DotSimple },
+    { { 292091 , 178154 } , Smooth::DotBreak },
+    { { 307438 , 215204 } , Smooth::DotSimple },
+    { { 308487 , 255292 } , Smooth::DotSimple },
+    { { 295101 , 293094 } , Smooth::DotSimple },
+    { { 269057 , 323588 } , Smooth::DotSimple },
+    { { 233814 , 342724 } , Smooth::DotSimple },
+    { { 194055 , 347958 } , Smooth::DotBreak },
+    { { 190059 , 395264 } , Smooth::DotSimple },
+    { { 194055 , 442570 } , Smooth::DotBreak },
+    { { 233814 , 447804 } , Smooth::DotSimple },
+    { { 269057 , 466940 } , Smooth::DotSimple },
+    { { 295101 , 497434 } , Smooth::DotSimple },
+    { { 308487 , 535236 } , Smooth::DotSimple },
+    { { 307438 , 575324 } , Smooth::DotSimple },
+    { { 292091 , 612374 } , Smooth::DotBreak },
+    { { 331061 , 639488 } , Smooth::DotSimple }
+   };
+
+  copy(Contour);
+
+  Anchor from({472064,395264},{570100,130848});
+  Anchor to({x,y},h);
+
+  transformPoint(AnchorMap(from,to));
+ }
+
 } // namespace Video
 } // namespace CCore
 
