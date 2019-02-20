@@ -69,8 +69,6 @@ class CharString;
 
 struct AbstractFont;
 
-class Font;
-
 template <class FontShape> class DotFontBase;
 
 /* enum FontClass */
@@ -523,31 +521,13 @@ struct AbstractFont
 
 using FontBase = RefObjectBase<AbstractFont> ;
 
-/* class Font */
+/* GetNullFontPtr() */
 
-class Font
- {
-   RefPtr<FontBase> ptr;
+FontBase * GetNullFontPtr();
 
-  protected:
+/* type Font */
 
-   explicit Font(FontBase *font) : ptr(font) {}
-
-  public:
-
-   Font() noexcept; // default font
-
-   ~Font() {}
-
-   const AbstractFont * getPtr() const { return ptr.getPtr(); }
-
-   const AbstractFont * operator -> () const { return ptr.getPtr(); }
-
-   // extra
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
- };
+using Font = RefObjectHook<FontBase,AbstractFont,GetNullFontPtr> ;
 
 /* class DotFontBase<FontShape> */
 

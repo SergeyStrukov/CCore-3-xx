@@ -29,8 +29,6 @@ namespace Video {
 
 struct AbstractPicture;
 
-class Picture;
-
 class DefaultAppIcon;
 
 /* struct AbstractPicture */
@@ -79,31 +77,13 @@ struct AbstractPicture
 
 using PictureBase = RefObjectBase<AbstractPicture> ;
 
-/* class Picture */
+/* GetNullPicturePtr() */
 
-class Picture
- {
-   RefPtr<PictureBase> ptr;
+PictureBase * GetNullPicturePtr();
 
-  protected:
+/* type Picture */
 
-   explicit Picture(PictureBase *pict) : ptr(pict) {}
-
-  public:
-
-   Picture() noexcept; // empty picture
-
-   ~Picture() {}
-
-   const AbstractPicture * getPtr() const { return ptr.getPtr(); }
-
-   const AbstractPicture * operator -> () const { return ptr.getPtr(); }
-
-   // extra
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
- };
+using Picture = RefObjectHook<PictureBase,AbstractPicture,GetNullPicturePtr> ;
 
 /* class DefaultAppIcon */
 

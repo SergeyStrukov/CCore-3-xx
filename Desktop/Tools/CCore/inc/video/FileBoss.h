@@ -26,8 +26,6 @@ namespace Video {
 
 struct AbstractFileBoss;
 
-class FileBoss;
-
 /* struct AbstractFileBoss */
 
 struct AbstractFileBoss
@@ -49,29 +47,13 @@ struct AbstractFileBoss
 
 using FileBossBase = RefObjectBase<AbstractFileBoss> ;
 
-/* class FileBoss */
+/* GetNullFileBossPtr() */
 
-class FileBoss
- {
-   RefPtr<FileBossBase> ptr;
+FileBossBase * GetNullFileBossPtr();
 
-  protected:
+/* type FileBoss */
 
-   explicit FileBoss(FileBossBase *info) : ptr(info) {}
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
-
-  public:
-
-   FileBoss() noexcept;
-
-   ~FileBoss() {}
-
-   FileBossBase * getPtr() const { return ptr.getPtr(); }
-
-   FileBossBase * operator -> () const { return ptr.getPtr(); }
- };
+using FileBoss = RefObjectHook<FileBossBase,AbstractFileBoss,GetNullFileBossPtr> ;
 
 } // namespace Video
 } // namespace CCore

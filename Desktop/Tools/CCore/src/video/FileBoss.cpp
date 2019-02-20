@@ -85,13 +85,9 @@ DefBoss Object CCORE_INITPRI_3 ;
 
 using namespace Private_FileBoss;
 
-/* class FileBoss */
+/* GetNullFileBossPtr() */
 
-FileBoss::FileBoss() noexcept
- : ptr(&Object)
- {
-  ptr->incRef();
- }
+FileBossBase * GetNullFileBossPtr() { return &Object; }
 
 } // namespace Video
 } // namespace CCore

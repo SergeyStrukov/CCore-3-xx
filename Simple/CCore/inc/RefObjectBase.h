@@ -26,6 +26,8 @@ namespace CCore {
 
 template <class ... TT> class RefObjectBase;
 
+template <class Base,class F,Base * NullObjectPtr()> class RefObjectHook;
+
 /* class RefObjectBase<TT> */
 
 template <class ... TT>
@@ -44,6 +46,37 @@ class RefObjectBase : public NoCopyBase<MemBase,TT...>
    bool decRef() { return (refs--)==1; }
 
    void destroy() noexcept { delete this; }
+ };
+
+/* class RefObjectHook<Base,F,Base * NullObjectPtr()> */
+
+template <class Base,class F,Base * NullObjectPtr()>
+class RefObjectHook
+ {
+   RefPtr<Base> ptr;
+
+  protected:
+
+   explicit RefObjectHook(Base *info) : ptr(info) {}
+
+  public:
+
+   RefObjectHook() noexcept
+    : ptr(NullObjectPtr())
+    {
+     ptr->incRef();
+    }
+
+   ~RefObjectHook() {}
+
+   F * getPtr() const { return ptr.getPtr(); }
+
+   F * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template <class T>
+   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
  };
 
 } // namespace CCore

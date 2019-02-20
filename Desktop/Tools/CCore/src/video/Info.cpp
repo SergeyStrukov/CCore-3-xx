@@ -60,13 +60,13 @@ DefComboInfo ComboObject CCORE_INITPRI_3 ;
 
 using namespace Private_Info;
 
-/* class Info */
+/* GetNullInfoPtr() */
 
-Info::Info() noexcept
- : ptr(&Object)
- {
-  ptr->incRef();
- }
+InfoBase * GetNullInfoPtr() noexcept { return &Object; }
+
+/* GetNullComboInfoPtr() */
+
+ComboInfoBase * GetNullComboInfoPtr() { return &ComboObject; }
 
 /* class InfoFromString::StringSet */
 
@@ -188,14 +188,6 @@ void InfoBuilder::add(StrLen line)
 Info InfoBuilder::complete()
  {
   return PoolInfo(pool,list);
- }
-
-/* class ComboInfo */
-
-ComboInfo::ComboInfo() noexcept
- : ptr(&ComboObject)
- {
-  ptr->incRef();
  }
 
 /* class ComboInfoBuilder::PoolInfo */

@@ -41,8 +41,6 @@ enum ComboInfoType
 
 struct AbstractInfo;
 
-class Info;
-
 class InfoFromString;
 
 class InfoBuilder;
@@ -50,8 +48,6 @@ class InfoBuilder;
 struct ComboInfoItem;
 
 struct AbstractComboInfo;
-
-class ComboInfo;
 
 class ComboInfoBuilder;
 
@@ -68,31 +64,13 @@ struct AbstractInfo
 
 using InfoBase = RefObjectBase<AbstractInfo> ;
 
-/* class Info */
+/* GetNullInfoPtr() */
 
-class Info
- {
-   RefPtr<InfoBase> ptr;
+InfoBase * GetNullInfoPtr() noexcept;
 
-  protected:
+/* type Info */
 
-   explicit Info(InfoBase *info) : ptr(info) {}
-
-  public:
-
-   Info() noexcept;
-
-   ~Info() {}
-
-   const AbstractInfo * getPtr() const { return ptr.getPtr(); }
-
-   const AbstractInfo * operator -> () const { return ptr.getPtr(); }
-
-   // extra
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
- };
+using Info = RefObjectHook<InfoBase,AbstractInfo,GetNullInfoPtr> ;
 
 /* class InfoFromString */
 
@@ -156,31 +134,13 @@ struct AbstractComboInfo
 
 using ComboInfoBase = RefObjectBase<AbstractComboInfo> ;
 
-/* class ComboInfo */
+/* GetNullComboInfoPtr() */
 
-class ComboInfo
- {
-   RefPtr<ComboInfoBase> ptr;
+ComboInfoBase * GetNullComboInfoPtr();
 
-  protected:
+/* type ComboInfo */
 
-   explicit ComboInfo(ComboInfoBase *info) : ptr(info) {}
-
-  public:
-
-   ComboInfo() noexcept;
-
-   ~ComboInfo() {}
-
-   const AbstractComboInfo * getPtr() const { return ptr.getPtr(); }
-
-   const AbstractComboInfo * operator -> () const { return ptr.getPtr(); }
-
-   // extra
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
- };
+using ComboInfo = RefObjectHook<ComboInfoBase,AbstractComboInfo,GetNullComboInfoPtr> ;
 
 /* class ComboInfoBuilder */
 

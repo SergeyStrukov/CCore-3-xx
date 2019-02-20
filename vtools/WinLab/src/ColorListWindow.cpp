@@ -18,7 +18,7 @@
 namespace CCore {
 namespace Video {
 
-/* class ColorListWindow */
+/* class ColorListShape */
 
 
 

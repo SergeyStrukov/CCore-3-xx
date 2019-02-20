@@ -45,6 +45,10 @@ class EmptyPicture : public PictureBase
 
 EmptyPicture Object CCORE_INITPRI_3 ;
 
+/* GetNullPicturePtr() */
+
+PictureBase * GetNullPicturePtr() { return &Object; }
+
 /* class DefPicture */
 
 class DefPicture : public PictureBase
@@ -119,14 +123,6 @@ DefPicture DefObject CCORE_INITPRI_3 ;
 } // namespace Private_Picture
 
 using namespace Private_Picture;
-
-/* class Picture */
-
-Picture::Picture() noexcept
- : ptr(&Object)
- {
-  ptr->incRef();
- }
 
 /* class DefaultAppIcon */
 

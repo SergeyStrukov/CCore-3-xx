@@ -56,6 +56,10 @@ DefFont Object CCORE_INITPRI_3 ;
 
 using namespace Private_Font;
 
+/* GetNullFontPtr() */
+
+FontBase * GetNullFontPtr() { return &Object; }
+
 /* enum FontClass */
 
 FontClass Correct(FontClass fc)
@@ -545,14 +549,6 @@ void CharString::cutSuffix(ulen len)
  }
 
 #endif
-
-/* class Font */
-
-Font::Font() noexcept
- : ptr(&Object)
- {
-  ptr->incRef();
- }
 
 } // namespace Video
 } // namespace CCore
