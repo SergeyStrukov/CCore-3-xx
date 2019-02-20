@@ -106,6 +106,8 @@ class ScrollListShape : public ScrollListState
       }
     };
 
+   using InfoType = ComboInfo ;
+
    // parameters
 
    const Config &cfg;
@@ -130,6 +132,10 @@ class ScrollListShape : public ScrollListState
    void layout();
 
    void initSelect();
+
+   ulen getLineCount() const { return info->getLineCount(); }
+
+   bool isSelectable(ulen index) const { return info->getLine(index).type==ComboInfoText; }
 
    bool setSelectDown(ulen pos);
 

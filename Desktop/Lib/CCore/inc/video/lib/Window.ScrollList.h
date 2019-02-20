@@ -114,7 +114,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void selectLast()
     {
-     ulen count=shape.info->getLineCount();
+     ulen count=shape.getLineCount();
 
      if( count && shape.setSelectUp(count-1) )
        {
@@ -130,7 +130,7 @@ class ScrollListInnerWindowOf : public SubWindow
     {
      if( shape.select==MaxULen ) return;
 
-     if( ulen count=shape.info->getLineCount() )
+     if( ulen count=shape.getLineCount() )
        {
         if( shape.setSelectDown( AddToCap(shape.select,delta,count-1) ) )
           {
@@ -167,7 +167,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void setSelect(ulen index)
     {
-     if( ulen count=shape.info->getLineCount() )
+     if( ulen count=shape.getLineCount() )
        {
         if( shape.setSelectDown( Min_cast(index,count-1) ) )
           {
@@ -203,6 +203,8 @@ class ScrollListInnerWindowOf : public SubWindow
 
    using ShapeType = Shape ;
    using ConfigType = typename ShapeType::Config ;
+
+   using InfoType = typename Shape::InfoType ;
 
    template <class ... TT>
    ScrollListInnerWindowOf(SubWindowHost &host,const ConfigType &cfg,ScrollListWindowBase *outer_,TT && ... tt)
@@ -260,9 +262,9 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void disable() { enable(false); }
 
-   const ComboInfo & getInfo() const { return shape.info; }
+   const InfoType & getInfo() const { return shape.info; }
 
-   void setInfo(const ComboInfo &info)
+   void setInfo(const InfoType &info)
     {
      shape.info=info;
 
@@ -286,7 +288,7 @@ class ScrollListInnerWindowOf : public SubWindow
 
    bool select(ulen index)
     {
-     if( ulen count=shape.info->getLineCount() )
+     if( ulen count=shape.getLineCount() )
        {
         if( shape.setSelectDown( Min_cast(index,count-1) ) )
           {
@@ -298,7 +300,7 @@ class ScrollListInnerWindowOf : public SubWindow
           }
         else
           {
-           if( shape.select<count && shape.info->getLine(shape.select).type==ComboInfoText )
+           if( shape.select<count && shape.isSelectable(shape.select) )
              {
               return true;
              }
@@ -317,9 +319,9 @@ class ScrollListInnerWindowOf : public SubWindow
 
    void ping()
     {
-     ulen count=shape.info->getLineCount();
+     ulen count=shape.getLineCount();
 
-     if( shape.select<count && shape.info->getLine(shape.select).type==ComboInfoText )
+     if( shape.select<count && shape.isSelectable(shape.select) )
        {
         outer->selected.assert(shape.select);
        }
@@ -543,6 +545,8 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
 
    using ShapeType = Shape ;
 
+   using InfoType = typename Shape::InfoType ;
+
    template <class ... TT>
    ScrollListWindowOf(SubWindowHost &host,const typename Base::ConfigType &cfg,TT && ... tt)
     : Base(host,cfg,(ScrollListWindowBase *)this, std::forward<TT>(tt)... )
@@ -564,9 +568,9 @@ class ScrollListWindowOf : public ScrollListWindowBase , public ScrollableWindow
 
    void disable() { enable(false); }
 
-   const ComboInfo & getInfo() const { return window.getInfo(); }
+   const InfoType & getInfo() const { return window.getInfo(); }
 
-   void setInfo(const ComboInfo &info)
+   void setInfo(const InfoType &info)
     {
      window.setInfo(info);
 
