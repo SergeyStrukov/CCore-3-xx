@@ -27,18 +27,14 @@ struct NamedColor;
 
 struct AbstractColorInfo;
 
-class ColorInfo;
-
 class ColorListShape;
-
-class ColorListWindow;
 
 /* struct NamedColor */
 
 struct NamedColor
  {
   String name;
-  VColor vc;
+  VColor vc = Black ;
  };
 
 /* struct AbstractColorInfo */
@@ -54,31 +50,13 @@ struct AbstractColorInfo
 
 using ColorInfoBase = RefObjectBase<AbstractColorInfo> ;
 
-/* class ColorInfo */
+/* GetNullColorInfoPtr() */
 
-class ColorInfo
- {
-   RefPtr<ColorInfoBase> ptr;
+ColorInfoBase * GetNullColorInfoPtr();
 
-  protected:
+/* type ColorInfo */
 
-   explicit ColorInfo(ComboInfoBase *info) : ptr(info) {}
-
-  public:
-
-   ColorInfo() noexcept;
-
-   ~ColorInfo() {}
-
-   const AbstractColorInfo * getPtr() const { return ptr.getPtr(); }
-
-   const AbstractColorInfo * operator -> () const { return ptr.getPtr(); }
-
-   // extra
-
-   template <class T>
-   T * castPtr() const { return dynamic_cast<T *>(ptr.getPtr()); }
- };
+using ColorInfo = RefObjectHook<ColorInfoBase,AbstractColorInfo,GetNullColorInfoPtr> ;
 
 /* class ColorListShape */
 
@@ -158,7 +136,7 @@ class ColorListShape : public ScrollListState
 
    ulen getLineCount() const { return info->getLineCount(); }
 
-   bool isSelectable(ulen index) const { return info->getLine(index).type==ComboInfoText; }
+   bool isSelectable(ulen) const { return true; }
 
    bool setSelectDown(ulen pos);
 
@@ -169,6 +147,20 @@ class ColorListShape : public ScrollListState
    ulen getPosition(Point point) const;
 
    void draw(const DrawBuf &buf) const;
+
+  private:
+
+   struct Cache
+    {
+     Coord info_dx = 0 ;
+     Coord line_dy = 0 ;
+     Coord med_dx = 0 ;
+     bool ok = false ;
+
+     void operator () (const Config &cfg,const ColorInfo &info);
+    };
+
+   mutable Cache cache;
  };
 
 /* type ColorListWindow */

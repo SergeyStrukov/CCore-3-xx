@@ -18,6 +18,33 @@
 namespace CCore {
 namespace Video {
 
+namespace Private_ColorListWindow {
+
+class DefList : public ColorInfoBase
+ {
+  public:
+
+   DefList() {}
+
+   virtual ~DefList() {}
+
+   // AbstractColorInfo
+
+   virtual ulen getLineCount() const { return 0; }
+
+   virtual NamedColor getLine(ulen) const { return {}; }
+ };
+
+DefList Object CCORE_INITPRI_3 ;
+
+} // namespace Private_ColorListWindow
+
+using namespace Private_ColorListWindow;
+
+/* GetNullColorInfoPtr() */
+
+ColorInfoBase * GetNullColorInfoPtr() { return &Object; }
+
 /* class ColorListShape */
 
 
