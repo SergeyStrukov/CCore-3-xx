@@ -13,9 +13,10 @@
 
 OPT = -j 8
 
-LIST = MakeList Keywords CondLangLR1/Main CondLangLR1/Gen DDLShow DDLTypeSet EllipticPi EchoServer \
-       PTPEchoServer PTPServerProc PTPServer PTPSecureServerProc PTPSecureServer PTPSecureClient \
-       exectest PSecEchoServer Regen Volume MakeString
+LIST = exectest Keywords MakeList MakeString Regen Volume EllipticPi \
+       EchoServer PSecEchoServer PTPEchoServer PTPServerProc PTPServer PTPSecureServerProc PTPSecureServer PTPSecureClient \
+       DDLShow DDLTypeSet \
+       CondLangLR1/Main CondLangLR1/Gen
 
 include ../Target/Makefile.list
 

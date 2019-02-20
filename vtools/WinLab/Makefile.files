@@ -1,0 +1,89 @@
+OBJ_LIST = \
+.obj/App.o \
+.obj/Application.o \
+.obj/Client.o \
+.obj/LabWindow.o \
+.obj/main.o \
+
+
+ASM_LIST = \
+.obj/App.s \
+.obj/Application.s \
+.obj/Client.s \
+.obj/LabWindow.s \
+.obj/main.s \
+
+
+DEP_LIST = \
+.obj/App.dep \
+.obj/Application.dep \
+.obj/Client.dep \
+.obj/LabWindow.dep \
+.obj/main.dep \
+
+
+ASM_OBJ_LIST = \
+
+
+include $(RULES_FILE)
+
+
+.obj/App.o : src/./App.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Application.o : src/./Application.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Client.o : src/./Client.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/LabWindow.o : src/./LabWindow.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/main.o : src/./main.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+
+
+.obj/App.s : src/./App.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Application.s : src/./Application.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Client.s : src/./Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/LabWindow.s : src/./LabWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/main.s : src/./main.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+
+
+.obj/App.dep : src/./App.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/App.o $< -MF $@
+
+.obj/Application.dep : src/./Application.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Application.o $< -MF $@
+
+.obj/Client.dep : src/./Client.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
+
+.obj/LabWindow.dep : src/./LabWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/LabWindow.o $< -MF $@
+
+.obj/main.dep : src/./main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
+
+
+
+
+
+ifneq ($(MAKECMDGOALS),clean)
+
+-include $(DEP_FILE)
+
+endif
+

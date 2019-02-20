@@ -1,19 +1,34 @@
 # Makefile
 #----------------------------------------------------------------------------------------
 #
-#  Project: CCore 3.01
+#  Project: WinLab 1.00
 #
 #  License: Boost Software License - Version 1.0 - August 17th, 2003 
 #
 #            see http://www.boost.org/LICENSE_1_0.txt or the local copy
 #
-#  Copyright (c) 2017 Sergey Strukov. All rights reserved.
+#  Copyright (c) 2019 Sergey Strukov. All rights reserved.
 #
 #----------------------------------------------------------------------------------------
 
-OPT = -j 8
+CCORE_ROOT = ../..
 
-LIST = Aspect Book BookLab ContourLab DDLDisplay RandomId Sample SubLab UserPreference Zipmap WinLab
+include $(CCORE_ROOT)/Makefile.host
 
-include ../Target/Makefile.list
+SRC_PATH_LIST = src
+
+TARGET = ./WinLab.exe
+
+CCOPT_EXTRA = -I.
+
+TARGET_DESKTOP = yes
+
+include $(CCORE_ROOT)/Target/Makefile.app
+
+.PHONY : run
+
+run: $(TARGET)
+	$(TARGET)
+
+
 
