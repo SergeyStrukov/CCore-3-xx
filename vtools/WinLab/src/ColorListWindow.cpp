@@ -345,9 +345,12 @@ void ColorListShape::draw(const DrawBuf &buf) const
 
                      tart.path(width,net,a,b);
 
+                     return a;
+
                     } ;
 
-   hline(cell.getBase());
+   MPoint A=hline(cell.getBase());
+   MPoint B=A;
 
    for(; index<count && cell.y<=lim ;index++,cell.y+=line.y)
      {
@@ -370,10 +373,22 @@ void ColorListShape::draw(const DrawBuf &buf) const
        tart.block(pane.shrink(ext),item.vc);
       }
 
-      hline(cell.addDY());
+      B=hline(cell.addDY());
      }
 
+   tart.path(width,net,A,B);
 
+   auto vline = [&] (Coord dx)
+                    {
+                     MCoord mx=Fraction(dx);
+
+                     tart.path(width,net,A.addX(mx),B.addX(mx));
+
+                    } ;
+
+   vline(tx);
+
+   vline(cell.dx);
   }
  }
 
