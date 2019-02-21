@@ -27,6 +27,8 @@ struct NamedColor;
 
 struct AbstractColorInfo;
 
+class ColorSet;
+
 class ColorListShape;
 
 /* struct NamedColor */
@@ -57,6 +59,19 @@ ColorInfoBase * GetNullColorInfoPtr();
 /* type ColorInfo */
 
 using ColorInfo = RefObjectHook<ColorInfoBase,AbstractColorInfo,GetNullColorInfoPtr> ;
+
+/* class ColorSet */
+
+class ColorSet : public ColorInfo
+ {
+   class Base;
+
+  public:
+
+   ColorSet();
+
+   ~ColorSet();
+ };
 
 /* class ColorListShape */
 

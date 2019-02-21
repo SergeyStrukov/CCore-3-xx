@@ -53,6 +53,7 @@ OBJ_LIST = \
 .obj/Color.o \
 .obj/ColorEdit.o \
 .obj/ColorField.o \
+.obj/ColorListWindow.o \
 .obj/CommonIntAlgo.o \
 .obj/CompactList.o \
 .obj/CompactMap.o \
@@ -526,6 +527,7 @@ ASM_LIST = \
 .obj/Color.s \
 .obj/ColorEdit.s \
 .obj/ColorField.s \
+.obj/ColorListWindow.s \
 .obj/CommonIntAlgo.s \
 .obj/CompactList.s \
 .obj/CompactMap.s \
@@ -999,6 +1001,7 @@ DEP_LIST = \
 .obj/Color.dep \
 .obj/ColorEdit.dep \
 .obj/ColorField.dep \
+.obj/ColorListWindow.dep \
 .obj/CommonIntAlgo.dep \
 .obj/CompactList.dep \
 .obj/CompactMap.dep \
@@ -1587,6 +1590,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ColorField.o : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/ColorListWindow.o : ../../Desktop/Lib/CCore/src/./video/pref/ColorListWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/CommonIntAlgo.o : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
@@ -3001,6 +3007,9 @@ include $(RULES_FILE)
 .obj/ColorField.s : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ColorListWindow.s : ../../Desktop/Lib/CCore/src/./video/pref/ColorListWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/CommonIntAlgo.s : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4412,6 +4421,9 @@ include $(RULES_FILE)
 
 .obj/ColorField.dep : ../../Desktop/Draw/CCore/src/./video/ColorField.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ColorField.o $< -MF $@
+
+.obj/ColorListWindow.dep : ../../Desktop/Lib/CCore/src/./video/pref/ColorListWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ColorListWindow.o $< -MF $@
 
 .obj/CommonIntAlgo.dep : ../../Fundamental/CCore/src/./algon/CommonIntAlgo.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/CommonIntAlgo.o $< -MF $@

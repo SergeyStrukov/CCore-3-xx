@@ -16,28 +16,13 @@
 
 #include <inc/App.h>
 
-#include <inc/ColorListWindow.h>
+#include <CCore/inc/video/pref/ColorListWindow.h>
 
 namespace App {
 
 /* classes */
 
-class ColorSet;
-
 class LabWindow;
-
-/* class ColorSet */
-
-class ColorSet : public ColorInfo
- {
-   class Base;
-
-  public:
-
-   ColorSet();
-
-   ~ColorSet();
- };
 
 /* class LabWindow */
 
