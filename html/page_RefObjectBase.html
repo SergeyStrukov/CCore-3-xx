@@ -57,6 +57,55 @@ class <span class="Att">RefObjectBase</span> : public NoCopyBase&lt;MemBase,TT..
 
 </pre>
 
+<p>
+<b>RefObjectHook</b> is an implementation of such smart pointer.
+</p>
+
+<pre>
+
+template &lt;class Base,class F,Base * NullObjectPtr()&gt;
+class <span class="Att">RefObjectHook</span>
+ {
+   RefPtr&lt;Base&gt; ptr;
+
+  protected:
+
+   explicit RefObjectHook(Base *info) : ptr(info) {}
+
+  public:
+
+   RefObjectHook() noexcept
+    : ptr(NullObjectPtr())
+    {
+     ptr->incRef();
+    }
+
+   ~RefObjectHook() {}
+
+   F * getPtr() const { return ptr.getPtr(); }
+
+   F * operator -> () const { return ptr.getPtr(); }
+
+   // extra
+
+   template &lt;class T&gt;
+   T * castPtr() const { return dynamic_cast&lt;T *&gt;(ptr.getPtr()); }
+ };
+
+</pre>
+
+<p>
+<b>Base</b> is a base, built using the <b>RefObjectBase</b> template.
+</b>
+
+<p>
+<b>F</b> is an interface type, usually it is one of the template parameters of the <b>Base</b>.
+</b>
+
+<p>
+<b>NullObjectPtr()</b> is a function, used to obtain the pointer to the static "null" object. 
+</b>
+
 </body>
 
 </html>
