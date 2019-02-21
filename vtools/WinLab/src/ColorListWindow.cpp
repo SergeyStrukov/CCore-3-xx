@@ -15,6 +15,10 @@
 
 #include <inc/ColorListWindow.h>
 
+#include <CCore/inc/ForLoop.h>
+
+#include <CCore/inc/video/FigureLib.h>
+
 namespace CCore {
 namespace Video {
 
@@ -47,16 +51,98 @@ ColorInfoBase * GetNullColorInfoPtr() { return &Object; }
 
 /* class ColorListShape */
 
-Point ColorListShape::getMinSize(Point cap) const // TODO
+StrLen ColorListShape::SampleLine()
  {
+  return "Sample color"_c;
  }
 
-Point ColorListShape::getMinSize(unsigned lines) const // TODO
+Point ColorListShape::LineSize(Font font,Point space,const ColorInfo &info)
  {
+  FontSize fs=font->getSize();
+
+  Coord max_dx=0;
+
+  for(ulen index : IndLim(info->getLineCount()) )
+    {
+     Coord dx=font->text(Range(info->getLine(index).name)).full_dx;
+
+     Replace_max(max_dx,dx);
+    }
+
+  Coord dy=fs.dy+space.y;
+
+  return Point(max_dx+space.x+2*dy,dy);
  }
 
-void ColorListShape::layout() // TODO
+void ColorListShape::Cache::operator () (const Config &cfg,const ColorInfo &info)
  {
+  if( !ok )
+    {
+     const Font &font=cfg.font.get();
+
+     FontSize fs=font->getSize();
+
+     Point space=+cfg.space;
+
+     med_dx=fs.medDX();
+
+     line=LineSize(font,space,info);
+
+     ok=true;
+    }
+ }
+
+Point ColorListShape::getMinSize(Point cap) const
+ {
+  const Font &font=cfg.font.get();
+
+  Point space=+cfg.space;
+
+  Point line=LineSize(font,space,info);
+
+  Coord dy=MulSize(info->getLineCount(),line.y);
+
+  return 2*space+Inf(Point(line.x,dy),cap-2*space);
+ }
+
+Point ColorListShape::getMinSize(unsigned lines) const
+ {
+  const Font &font=cfg.font.get();
+
+  Point space=+cfg.space;
+
+  Point ts=font->text(SampleLine()).getSize();
+
+  Coord dy=ts.y+space.y;
+
+  Point line(ts.x+space.x+2*dy,dy);
+
+  return Point(line.x,MulSize(lines,line.y));
+ }
+
+void ColorListShape::layout()
+ {
+  cache(cfg,info);
+
+  Pane inner=pane.shrink(+cfg.space);
+
+  if( +inner )
+    {
+     xoff_max=PlusSub(cache.line.x,inner.dx);
+
+     dxoff=cache.med_dx;
+
+     page=ulen(inner.dy/cache.line.y);
+
+     yoff_max=PlusSub(info->getLineCount(),page);
+    }
+  else
+    {
+     xoff_max=0;
+     dxoff=0;
+     page=0;
+     yoff_max=0;
+    }
  }
 
 void ColorListShape::initSelect()
@@ -113,9 +199,10 @@ bool ColorListShape::showSelect()
   return false;
  }
 
-ulen ColorListShape::getPosition(Point point) const // TODO
+ulen ColorListShape::getPosition(Point point) const
  {
-  Pane inner=pane.shrink(+cfg.space);
+  Point space=+cfg.space;
+  Pane inner=pane.shrink(space);
 
   if( !inner ) return 0;
 
@@ -125,11 +212,109 @@ ulen ColorListShape::getPosition(Point point) const // TODO
 
   FontSize fs=cfg.font->getSize();
 
-  return yoff+ulen((point.y-inner.y)/fs.dy);
+  Coord dy=fs.dy+space.y;
+
+  return yoff+ulen((point.y-inner.y)/dy);
  }
 
 void ColorListShape::draw(const DrawBuf &buf) const // TODO
  {
+  if( !pane ) return;
+
+  cache(cfg,info);
+
+  SmoothDrawArt art(buf.cut(pane));
+
+  art.block(pane,+cfg.back);
+
+  VColor text = enable? +cfg.text : +cfg.inactive ;
+  VColor gray=+cfg.gray;
+  VColor snow=+cfg.snow;
+
+  Point space=+cfg.space;
+
+  // decor
+
+  {
+   MPane p(pane);
+
+   MCoord width=+cfg.width;
+
+   MPoint s(space);
+
+   FigureTopBorder fig_top(p,width);
+
+   fig_top.solid(art,gray);
+
+   FigureBottomBorder fig_bottom(p,width);
+
+   fig_bottom.solid(art,snow);
+
+   if( focus )
+     {
+      FigureBox fig(p.shrink(s/2));
+
+      fig.loop(art,width,+cfg.focus);
+     }
+
+   MCoord dx=s.x-width;
+   MCoord dy=s.y-width;
+
+   if( xoff>0 )
+     {
+      FigureLeftMark fig(p,dx);
+
+      fig.solid(art,text);
+     }
+
+   if( xoff<xoff_max )
+     {
+      FigureRightMark fig(p,dx);
+
+      fig.solid(art,text);
+     }
+
+   if( yoff>0 )
+     {
+      FigureUpMark fig(p,dy);
+
+      fig.solid(art,text);
+     }
+
+   if( yoff<yoff_max )
+     {
+      FigureDownMark fig(p,dy);
+
+      fig.solid(art,text);
+     }
+  }
+
+  // table
+
+  {
+   Pane inner=pane.shrink(space);
+
+   if( !inner ) return;
+
+   ulen count=info->getLineCount();
+   ulen index=yoff;
+
+   if( !count ) return;
+
+   const Font &font=cfg.font.get();
+
+   FontSize fs=font->getSize();
+
+   DrawBuf tbuf=buf.cut(inner);
+
+   SmoothDrawArt tart(tbuf);
+
+   if( fs.dy>inner.dy ) return;
+
+   Point line=cache.line;
+
+
+  }
  }
 
 } // namespace Video

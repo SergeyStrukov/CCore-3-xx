@@ -74,9 +74,6 @@ class ColorListShape : public ScrollListState
      RefVal<VColor> snow         =      Snow ;
      RefVal<VColor> inactive     =      Gray ;
      RefVal<VColor> select       =    Yellow ;
-     RefVal<VColor> title        =      Navy ;
-     RefVal<VColor> titleTop     =      Aqua ;
-     RefVal<VColor> titleBottom  =      Gray ;
      RefVal<VColor> text         =     Black ;
 
      RefVal<Point> space = Point(8,8) ;
@@ -100,10 +97,6 @@ class ColorListShape : public ScrollListState
        text.bind(bag.list_text);
        space.bind(bag.list_space);
        font.bind(bag.list_font.font);
-
-       title.bind(bag.scroll_list_title);
-       titleTop.bind(bag.scroll_list_titleTop);
-       titleBottom.bind(bag.scroll_list_titleBottom);
       }
     };
 
@@ -150,10 +143,14 @@ class ColorListShape : public ScrollListState
 
   private:
 
+   static StrLen SampleLine();
+
+   static Point LineSize(Font font,Point space,const ColorInfo &info);
+
    struct Cache
     {
-     Coord info_dx = 0 ;
-     Coord line_dy = 0 ;
+     Point line;
+
      Coord med_dx = 0 ;
      bool ok = false ;
 
