@@ -66,6 +66,28 @@ NamedColor ColorSet::Base::Table[140]=
   {"Cornsilk"_str,VColor(0xFFF8DC)},
   {"Crimson"_str,VColor(0xDC143C)},
 
+  {"Cyan"_str,VColor(0x00FFFF)},
+  {"DarkBlue"_str,VColor(0x00008B)},
+  {"DarkCyan"_str,VColor(0x008B8B)},
+  {"DarkGoldenRod"_str,VColor(0xB8860B)},
+  {"DarkGray"_str,VColor(0xA9A9A9)},
+  {"DarkGreen"_str,VColor(0x006400)},
+  {"DarkKhaki"_str,VColor(0xBDB76B)},
+  {"DarkMagenta"_str,VColor(0x8B008B)},
+  {"DarkOliveGreen"_str,VColor(0x556B2F)},
+  {"DarkOrange"_str,VColor(0xFF8C00)},
+
+  {"DarkOrchid"_str,VColor(0x9932CC)},
+  {"DarkRed"_str,VColor(0x8B0000)},
+  {"DarkSalmon"_str,VColor(0xE9967A)},
+  {"DarkSeaGreen"_str,VColor(0x8FBC8F)},
+  {"DarkSlateBlue"_str,VColor(0x483D8B)},
+  {"DarkSlateGray"_str,VColor(0x2F4F4F)},
+  {"DarkTurquoise"_str,VColor(0x00CED1)},
+  {"DarkViolet"_str,VColor(0x9400D3)},
+  {"DeepPink"_str,VColor(0xFF1493)},
+  {"DeepSkyBlue"_str,VColor(0x00BFFF)},
+
 #if 0
 
   {""_str,VColor(0x)},
@@ -84,28 +106,6 @@ NamedColor ColorSet::Base::Table[140]=
 
 #if 0
 
-Cyan    #00FFFF     Shades  Mix
-DarkBlue    #00008B     Shades  Mix
-DarkCyan    #008B8B     Shades  Mix
-DarkGoldenRod   #B8860B     Shades  Mix
-DarkGray    #A9A9A9     Shades  Mix
-DarkGrey    #A9A9A9     Shades  Mix
-DarkGreen   #006400     Shades  Mix
-DarkKhaki   #BDB76B     Shades  Mix
-DarkMagenta     #8B008B     Shades  Mix
-DarkOliveGreen  #556B2F     Shades  Mix
-DarkOrange  #FF8C00     Shades  Mix
-DarkOrchid  #9932CC     Shades  Mix
-DarkRed     #8B0000     Shades  Mix
-DarkSalmon  #E9967A     Shades  Mix
-DarkSeaGreen    #8FBC8F     Shades  Mix
-DarkSlateBlue   #483D8B     Shades  Mix
-DarkSlateGray   #2F4F4F     Shades  Mix
-DarkSlateGrey   #2F4F4F     Shades  Mix
-DarkTurquoise   #00CED1     Shades  Mix
-DarkViolet  #9400D3     Shades  Mix
-DeepPink    #FF1493     Shades  Mix
-DeepSkyBlue     #00BFFF     Shades  Mix
 DimGray     #696969     Shades  Mix
 DimGrey     #696969     Shades  Mix
 DodgerBlue  #1E90FF     Shades  Mix
