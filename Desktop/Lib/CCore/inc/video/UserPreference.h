@@ -177,6 +177,10 @@ struct UserPreferenceBag
 
   Coord line_edit_ex = 3 ;
 
+  // list
+
+  VColor list_net = Black ;
+
   // scroll_list
 
   VColor scroll_list_title       = Navy ;

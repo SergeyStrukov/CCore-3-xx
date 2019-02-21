@@ -45,6 +45,19 @@ class LabWindow : public ColorListWindow
  {
   public:
 
+   struct Config : public ColorListWindow::ConfigType
+    {
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &) noexcept
+      {
+       bind(user_pref.get(),user_pref.getSmartConfig());
+      }
+    };
+
+   using ConfigType = Config ;
+
+  public:
+
    LabWindow(SubWindowHost &host,const Config &cfg);
 
    virtual ~LabWindow();

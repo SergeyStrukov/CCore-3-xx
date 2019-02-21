@@ -159,6 +159,10 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
 
   func("line_edit_ex"_c,ptr->line_edit_ex);
 
+  // list
+
+  func("list_net"_c,ptr->list_net);
+
   // scroll_list
 
   func("scroll_list_title"_c,ptr->scroll_list_title);
@@ -490,6 +494,10 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
   binder.group("Scroll"_str);
 
    binder.item("speedUp period"_str,scroll_speedUpPeriod);
+
+  binder.group("List"_str);
+
+   binder.item("net"_str,list_net);
 
   binder.group("Line editor"_str);
 

@@ -83,14 +83,8 @@ class ColorListShape : public ScrollListState
 
      Config() noexcept {}
 
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &) noexcept
-      {
-       bind(user_pref.get());
-      }
-
      template <class Bag>
-     void bind(const Bag &bag) // TODO
+     void bind(const Bag &bag)
       {
        width.bind(bag.width);
        back.bind(bag.back);
@@ -102,6 +96,7 @@ class ColorListShape : public ScrollListState
        select.bind(bag.text_select);
 
        text.bind(bag.list_text);
+       net.bind(bag.list_net);
        space.bind(bag.list_space);
        font.bind(bag.list_font.font);
       }
