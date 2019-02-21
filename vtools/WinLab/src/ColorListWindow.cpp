@@ -74,6 +74,16 @@ Point ColorListShape::LineSize(Font font,Point space,const ColorInfo &info)
   return Point(max_dx+space.x+2*dy,dy);
  }
 
+Point ColorListShape::ExtSpace(const Config &cfg)
+ {
+  Point space=+cfg.space;
+  MCoord width=+cfg.width;
+
+  Coord ext=RoundUpLen(width);
+
+  return space.addXY(2*ext);
+ }
+
 void ColorListShape::Cache::operator () (const Config &cfg,const ColorInfo &info)
  {
   if( !ok )
@@ -96,9 +106,9 @@ Point ColorListShape::getMinSize(Point cap) const
  {
   const Font &font=cfg.font.get();
 
-  Point space=+cfg.space;
+  Point space=ExtSpace(cfg);
 
-  Point line=LineSize(font,space,info);
+  Point line=LineSize(font,+cfg.space,info);
 
   Coord dy=MulSize(info->getLineCount(),line.y);
 
@@ -110,6 +120,9 @@ Point ColorListShape::getMinSize(unsigned lines) const
   const Font &font=cfg.font.get();
 
   Point space=+cfg.space;
+  MCoord width=+cfg.width;
+
+  Coord ext=RoundUpLen(width);
 
   Point ts=font->text(SampleLine()).getSize();
 
@@ -117,14 +130,14 @@ Point ColorListShape::getMinSize(unsigned lines) const
 
   Point line(ts.x+space.x+2*dy,dy);
 
-  return Point(line.x,MulSize(lines,line.y));
+  return Point(line.x,MulSize(lines,line.y)).addXY(2*ext);
  }
 
 void ColorListShape::layout()
  {
   cache(cfg,info);
 
-  Pane inner=pane.shrink(+cfg.space);
+  Pane inner=pane.shrink(ExtSpace(cfg));
 
   if( +inner )
     {
@@ -201,8 +214,7 @@ bool ColorListShape::showSelect()
 
 ulen ColorListShape::getPosition(Point point) const
  {
-  Point space=+cfg.space;
-  Pane inner=pane.shrink(space);
+  Pane inner=pane.shrink(ExtSpace(cfg));
 
   if( !inner ) return 0;
 
@@ -212,12 +224,14 @@ ulen ColorListShape::getPosition(Point point) const
 
   FontSize fs=cfg.font->getSize();
 
+  Point space=+cfg.space;
+
   Coord dy=fs.dy+space.y;
 
   return yoff+ulen((point.y-inner.y)/dy);
  }
 
-void ColorListShape::draw(const DrawBuf &buf) const // TODO
+void ColorListShape::draw(const DrawBuf &buf) const
  {
   if( !pane ) return;
 
@@ -303,15 +317,61 @@ void ColorListShape::draw(const DrawBuf &buf) const // TODO
 
    const Font &font=cfg.font.get();
 
-   FontSize fs=font->getSize();
+   Point line=cache.line;
+
+   if( line.y>inner.dy ) return;
 
    DrawBuf tbuf=buf.cut(inner);
 
    SmoothDrawArt tart(tbuf);
 
-   if( fs.dy>inner.dy ) return;
+   MCoord width=+cfg.width;
+   VColor net=+cfg.net;
 
-   Point line=cache.line;
+   Coord ext=RoundUpLen(width);
+
+   Pane cell(inner.x-xoff+ext,inner.y+ext,line.x,line.y);
+
+   Coord lim=cell.y+(inner.dy-line.y);
+   Coord tx=line.x-2*line.y;
+
+   auto hline = [&] (Point p)
+                    {
+                     MPoint a=p;
+
+                     a=a.subXY(MPoint::Half);
+
+                     MPoint b=a.addX(Fraction(cell.dx));
+
+                     tart.path(width,net,a,b);
+
+                    } ;
+
+   hline(cell.getBase());
+
+   for(; index<count && cell.y<=lim ;index++,cell.y+=line.y)
+     {
+      if( enable && index==select )
+        {
+         Pane pane=cell;
+
+         pane.dx=tx;
+
+         tart.block(pane.shrink(ext),+cfg.select);
+        }
+
+      NamedColor item=info->getLine(index);
+
+      font->text(tbuf,cell.pushLeft(space.x/2),TextPlace(AlignX_Left,AlignY_Center),Range(item.name),text);
+
+      {
+       Pane pane=cell.pushLeft(tx);
+
+       tart.block(pane.shrink(ext),item.vc);
+      }
+
+      hline(cell.addDY());
+     }
 
 
   }

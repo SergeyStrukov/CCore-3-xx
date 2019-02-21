@@ -75,6 +75,7 @@ class ColorListShape : public ScrollListState
      RefVal<VColor> inactive     =      Gray ;
      RefVal<VColor> select       =    Yellow ;
      RefVal<VColor> text         =     Black ;
+     RefVal<VColor> net          =     Black ;
 
      RefVal<Point> space = Point(8,8) ;
 
@@ -82,8 +83,14 @@ class ColorListShape : public ScrollListState
 
      Config() noexcept {}
 
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &) noexcept
+      {
+       bind(user_pref.get());
+      }
+
      template <class Bag>
-     void bind(const Bag &bag)
+     void bind(const Bag &bag) // TODO
       {
        width.bind(bag.width);
        back.bind(bag.back);
@@ -146,6 +153,8 @@ class ColorListShape : public ScrollListState
    static StrLen SampleLine();
 
    static Point LineSize(Font font,Point space,const ColorInfo &info);
+
+   static Point ExtSpace(const Config &cfg);
 
    struct Cache
     {

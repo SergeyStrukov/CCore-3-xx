@@ -16,62 +16,38 @@
 
 #include <inc/App.h>
 
+#include <inc/ColorListWindow.h>
+
 namespace App {
 
 /* classes */
 
+class ColorSet;
+
 class LabWindow;
+
+/* class ColorSet */
+
+class ColorSet : public ColorInfo
+ {
+   class Base;
+
+  public:
+
+   ColorSet();
+
+   ~ColorSet();
+ };
 
 /* class LabWindow */
 
-class LabWindow : public SubWindow
+class LabWindow : public ColorListWindow
  {
-  public:
-
-   struct Config
-    {
-     Config() noexcept {}
-
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       Used(bag);
-       Used(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       Used(bag);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
   public:
 
    LabWindow(SubWindowHost &host,const Config &cfg);
 
    virtual ~LabWindow();
-
-   // methods
-
-   Point getMinSize() const;
-
-   // drawing
-
-   virtual void layout();
  };
 
 } // namespace App
