@@ -95,7 +95,7 @@ void ButtonShape::draw(const DrawBuf &buf,DrawParam) const
 
    VColor text = enable? +cfg.text : gray ;
 
-   font->text(buf,pane.shrink(dx,dy)+shift,TextPlace(AlignX_Center,AlignY_Center),Range(face),text);
+   font->textOn(art,pane.shrink(dx,dy)+shift,TextPlace(AlignX_Center,AlignY_Center),Range(face),text);
   }
 
   // border

@@ -515,6 +515,12 @@ struct AbstractFont
    }
 
 #endif
+
+  template <class T,class ... TT>
+  void textOn(T &obj,TT && ... tt) const
+   {
+    text(obj.getBuf(), std::forward<TT>(tt)... );
+   }
  };
 
 /* type FontBase */
