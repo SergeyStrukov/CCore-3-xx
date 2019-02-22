@@ -284,7 +284,7 @@ class SimpleTopMenuShape : public MenuShapeBase
 
    void layout();
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class SimpleTopMenuWindowOf<Shape> */
@@ -488,9 +488,9 @@ class SimpleTopMenuWindowOf : public SubWindow
      shape.layout();
     }
 
-   virtual void draw(DrawBuf buf,bool) const
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const
     {
-     shape.draw(buf);
+     shape.draw(buf,draw_param);
     }
 
    // base
@@ -662,7 +662,7 @@ class SimpleCascadeMenuShape : public MenuShapeBase
 
    void layout();
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class SimpleCascadeMenuWindowOf<Shape> */
@@ -888,9 +888,9 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      shape.layout();
     }
 
-   virtual void draw(DrawBuf buf,bool) const
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const
     {
-     shape.draw(buf);
+     shape.draw(buf,draw_param);
     }
 
    // base

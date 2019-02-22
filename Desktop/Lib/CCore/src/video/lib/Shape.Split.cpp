@@ -29,7 +29,7 @@ SizeXSpace XSplitShape::getMinSize() const
   return 2*dxy;
  }
 
-void XSplitShape::draw(const DrawBuf &buf) const
+void XSplitShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -60,7 +60,7 @@ SizeYSpace YSplitShape::getMinSize() const
   return 2*dxy;
  }
 
-void YSplitShape::draw(const DrawBuf &buf) const
+void YSplitShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

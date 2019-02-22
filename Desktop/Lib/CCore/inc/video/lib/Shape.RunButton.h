@@ -154,7 +154,7 @@ class RunButtonShape : public RunButtonState
 
    bool tick() { return RunButtonState::tick(+cfg.period); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class RefRunButtonShape */
@@ -189,7 +189,7 @@ class RefRunButtonShape : public RunButtonState
 
    bool tick() { return RunButtonState::tick(+cfg.period); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

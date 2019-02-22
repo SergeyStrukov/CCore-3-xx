@@ -107,7 +107,7 @@ ulen SimpleTextListShape::getPosition(Point point) const
   return yoff+ulen( (point.y-inner.y)/fs.dy );
  }
 
-void SimpleTextListShape::draw(const DrawBuf &buf) const
+void SimpleTextListShape::draw(const DrawBuf &buf,DrawParam) const
  {
   if( !pane ) return;
 

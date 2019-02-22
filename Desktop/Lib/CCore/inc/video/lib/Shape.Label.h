@@ -76,7 +76,7 @@ class LabelShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class RefLabelShape */
@@ -108,7 +108,7 @@ class RefLabelShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

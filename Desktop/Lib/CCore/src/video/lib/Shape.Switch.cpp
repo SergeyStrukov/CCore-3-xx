@@ -57,7 +57,7 @@ SizeBox SwitchShape::getMinSize() const
   return +cfg.dxy;
  }
 
-void SwitchShape::draw(const DrawBuf &buf) const
+void SwitchShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

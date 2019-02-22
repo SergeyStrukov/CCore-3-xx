@@ -91,7 +91,7 @@ void TextLineShape::layout()
     }
  }
 
-void TextLineShape::draw(const DrawBuf &buf) const
+void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

@@ -238,7 +238,7 @@ ulen ScrollListShape::getPosition(Point point) const
   return yoff+ulen((point.y-inner.y)/fs.dy);
  }
 
-void ScrollListShape::draw(const DrawBuf &buf) const
+void ScrollListShape::draw(const DrawBuf &buf,DrawParam) const
  {
   if( !pane ) return;
 

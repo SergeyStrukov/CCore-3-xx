@@ -27,7 +27,7 @@ SizeBox RadioShape::getMinSize() const
   return +cfg.dxy;
  }
 
-void RadioShape::draw(const DrawBuf &buf) const
+void RadioShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

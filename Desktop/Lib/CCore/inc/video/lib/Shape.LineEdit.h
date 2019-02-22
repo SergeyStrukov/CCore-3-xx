@@ -170,7 +170,7 @@ class LineEditShape : public LineEditState
 
    virtual void drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen off,VColor vc) const;
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

@@ -375,7 +375,7 @@ void MixColorWindow::layout()
   }
  }
 
-void MixColorWindow::draw(DrawBuf buf,bool) const
+void MixColorWindow::draw(DrawBuf buf,DrawParam) const
  {
   MCoord width=+cfg.width;
   Coord radius=+cfg.radius;

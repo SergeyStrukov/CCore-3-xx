@@ -118,7 +118,7 @@ class XSliderShape : public SliderShape
 
    unsigned getPos(Point point) const;
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YSliderShape */
@@ -143,7 +143,7 @@ class YSliderShape : public SliderShape
 
    unsigned getPos(Point point) const;
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

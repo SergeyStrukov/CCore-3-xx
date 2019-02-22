@@ -26,6 +26,8 @@ namespace Video {
 
 class DrawBuf;
 
+struct DrawParam;
+
 /* class DrawBuf */
 
 class DrawBuf
@@ -85,6 +87,37 @@ class DrawBuf
    T map(T obj) const { return obj+origin; }
 
    PointMap getMapper() const { return PointMap(origin); }
+ };
+
+/* struct DrawParam */
+
+struct DrawParam
+ {
+  bool drag_active;
+  bool back_done = false ;
+  VColor back = Black ;
+
+  DrawParam(bool drag_active_=false) : drag_active(drag_active_) {}
+
+  void erase(DrawBuf buf,VColor back_)
+   {
+    if( back_done && back==back_ ) return;
+
+    buf.erase(back_);
+
+    back_done=true;
+    back=back_;
+   }
+
+  void erase(DrawBuf buf,Pane pane,VColor back_)
+   {
+    if( back_done && back==back_ ) return;
+
+    buf.erase(pane,back_);
+
+    back_done=true;
+    back=back_;
+   }
  };
 
 } // namespace Video

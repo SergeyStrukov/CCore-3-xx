@@ -41,7 +41,7 @@ Point ButtonShape::getMinSize() const
   return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
-void ButtonShape::draw(const DrawBuf &buf) const
+void ButtonShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -125,7 +125,7 @@ Point RefButtonShape::getMinSize() const
   return temp.getMinSize();
  }
 
-void RefButtonShape::draw(const DrawBuf &buf) const
+void RefButtonShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   ButtonShape temp(cfg,face.get());
 
@@ -138,7 +138,7 @@ void RefButtonShape::draw(const DrawBuf &buf) const
 
   temp.mouse=mouse;
 
-  temp.draw(buf);
+  temp.draw(buf,draw_param);
  }
 
 /* class KnobShape */
@@ -148,7 +148,7 @@ SizeBox KnobShape::getMinSize() const
   return +cfg.dxy;
  }
 
-void KnobShape::draw(const DrawBuf &buf) const
+void KnobShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

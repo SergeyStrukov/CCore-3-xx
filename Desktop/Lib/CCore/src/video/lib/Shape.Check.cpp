@@ -27,7 +27,7 @@ SizeBox CheckShape::getMinSize() const
   return +cfg.dxy;
  }
 
-void CheckShape::draw(const DrawBuf &buf) const
+void CheckShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

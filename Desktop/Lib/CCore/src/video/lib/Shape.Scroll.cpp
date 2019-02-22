@@ -118,7 +118,7 @@ ScrollType XScrollShape::getType(MPoint point) const
   return ScrollType_Drag;
  }
 
-void XScrollShape::draw(const DrawBuf &buf) const
+void XScrollShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   MPane p(pane);
 
@@ -130,13 +130,14 @@ void XScrollShape::draw(const DrawBuf &buf) const
 
   if( p.dx/5 < h )
     {
-     art.block(pane,+cfg.gray);
+     draw_param.erase(buf,pane,+cfg.gray);
+
      art.block(pane.shrink(0,pane.dy/3),+cfg.face);
 
      return;
     }
 
-  art.block(pane,+cfg.back);
+  draw_param.erase(buf,pane,+cfg.back);
 
   // layout
 
@@ -403,7 +404,7 @@ ScrollType YScrollShape::getType(MPoint point) const
   return ScrollType_Drag;
  }
 
-void YScrollShape::draw(const DrawBuf &buf) const
+void YScrollShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   MPane p(pane);
 
@@ -415,13 +416,14 @@ void YScrollShape::draw(const DrawBuf &buf) const
 
   if( p.dy/5 < h )
     {
-     art.block(pane,+cfg.gray);
+     draw_param.erase(buf,pane,+cfg.gray);
+
      art.block(pane.shrink(pane.dx/3,0),+cfg.face);
 
      return;
     }
 
-  art.block(pane,+cfg.back);
+  draw_param.erase(buf,pane,+cfg.back);
 
   MCoord x0=p.x;
   MCoord x1=p.ex;

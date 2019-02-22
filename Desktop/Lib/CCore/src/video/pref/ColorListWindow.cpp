@@ -276,7 +276,7 @@ ulen ColorListShape::getPosition(Point point) const
   return yoff+ulen(y/dy);
  }
 
-void ColorListShape::draw(const DrawBuf &buf) const
+void ColorListShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   if( !pane ) return;
 
@@ -284,7 +284,7 @@ void ColorListShape::draw(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf.cut(pane));
 
-  art.block(pane,+cfg.back);
+  draw_param.erase(buf,pane,+cfg.back);
 
   VColor text = enable? +cfg.text : +cfg.inactive ;
   VColor gray=+cfg.gray;

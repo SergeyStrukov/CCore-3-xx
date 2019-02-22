@@ -49,7 +49,7 @@ unsigned XSliderShape::getPos(Point point) const
   return UIntMulDiv<unsigned>(X-A,cap,B-A);
  }
 
-void XSliderShape::draw(const DrawBuf &buf) const
+void XSliderShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -167,7 +167,7 @@ unsigned YSliderShape::getPos(Point point) const
   return UIntMulDiv<unsigned>(A-Y,cap,A-B);
  }
 
-void YSliderShape::draw(const DrawBuf &buf) const
+void YSliderShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

@@ -29,7 +29,7 @@ SizeY XSingleLineShape::getMinSize() const
   return dy;
  }
 
-void XSingleLineShape::draw(const DrawBuf &buf) const
+void XSingleLineShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -51,7 +51,7 @@ SizeX YSingleLineShape::getMinSize() const
   return dx;
  }
 
-void YSingleLineShape::draw(const DrawBuf &buf) const
+void YSingleLineShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -73,7 +73,7 @@ SizeY XDoubleLineShape::getMinSize() const
   return 2*dy;
  }
 
-void XDoubleLineShape::draw(const DrawBuf &buf) const
+void XDoubleLineShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -100,7 +100,7 @@ SizeX YDoubleLineShape::getMinSize() const
   return 2*dx;
  }
 
-void YDoubleLineShape::draw(const DrawBuf &buf) const
+void YDoubleLineShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

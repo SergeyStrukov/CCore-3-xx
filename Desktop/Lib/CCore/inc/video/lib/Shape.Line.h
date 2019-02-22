@@ -82,7 +82,7 @@ class XSingleLineShape : public SingleLineShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YSingleLineShape */
@@ -99,7 +99,7 @@ class YSingleLineShape : public SingleLineShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class DoubleLineShape */
@@ -148,7 +148,7 @@ class XDoubleLineShape : public DoubleLineShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YDoubleLineShape */
@@ -165,7 +165,7 @@ class YDoubleLineShape : public DoubleLineShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

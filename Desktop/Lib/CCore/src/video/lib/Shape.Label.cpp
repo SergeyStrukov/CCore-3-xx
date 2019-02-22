@@ -32,7 +32,7 @@ Point LabelShape::getMinSize(StrLen text) const
   return ts.getSize().addXY(2);
  }
 
-void LabelShape::draw(const DrawBuf &buf) const
+void LabelShape::draw(const DrawBuf &buf,DrawParam) const
  {
   cfg.font->text(buf,pane,TextPlace(align_x,align_y),Range(text), enable? +cfg.text : +cfg.inactive );
  }
@@ -61,7 +61,7 @@ Point RefLabelShape::getMinSize(StrLen text_) const
   return temp.getMinSize(text_);
  }
 
-void RefLabelShape::draw(const DrawBuf &buf) const
+void RefLabelShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   LabelShape temp(cfg,text.get(),align_x,align_y);
 
@@ -69,7 +69,7 @@ void RefLabelShape::draw(const DrawBuf &buf) const
 
   temp.enable=enable;
 
-  temp.draw(buf);
+  temp.draw(buf,draw_param);
  }
 
 } // namespace Video

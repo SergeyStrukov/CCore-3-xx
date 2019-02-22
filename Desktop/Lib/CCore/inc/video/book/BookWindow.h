@@ -208,7 +208,7 @@ class InnerBookWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool drag_active) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
    // base
 
@@ -432,7 +432,7 @@ class BackShape : public ButtonState
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 using BackButtonWindow = ButtonWindowOf<BackShape> ;

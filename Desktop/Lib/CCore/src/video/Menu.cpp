@@ -283,7 +283,7 @@ void SimpleTopMenuShape::layout()
   Replace_min(xoff,xoff_max);
  }
 
-void SimpleTopMenuShape::draw(const DrawBuf &buf) const
+void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   MCoord width=+cfg.width;
 
@@ -586,7 +586,7 @@ void SimpleCascadeMenuShape::layout()
   Replace_min(yoff,yoff_max);
  }
 
-void SimpleCascadeMenuShape::draw(const DrawBuf &buf) const
+void SimpleCascadeMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   drawFrame(buf.cut(pane));
 

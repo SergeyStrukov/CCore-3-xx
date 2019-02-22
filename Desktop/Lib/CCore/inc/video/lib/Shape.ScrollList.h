@@ -145,7 +145,7 @@ class ScrollListShape : public ScrollListState
 
    ulen getPosition(Point point) const;
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
 
   private:
 

@@ -180,7 +180,7 @@ class ProgressShape : public ProgressState
 
    bool tick() { return ProgressState::tick(+cfg.period); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class ArrowProgressShape */
@@ -248,7 +248,7 @@ class ArrowProgressShape : public ProgressState
 
    bool tick() { return ProgressState::tick(+cfg.period); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

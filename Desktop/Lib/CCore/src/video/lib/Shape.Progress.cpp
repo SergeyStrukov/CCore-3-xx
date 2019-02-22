@@ -27,7 +27,7 @@ SizeY ProgressShape::getMinSize() const
   return +cfg.dy;
  }
 
-void ProgressShape::draw(const DrawBuf &buf) const
+void ProgressShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -95,7 +95,7 @@ SizeY ArrowProgressShape::getMinSize() const
   return +cfg.dy;
  }
 
-void ArrowProgressShape::draw(const DrawBuf &buf) const
+void ArrowProgressShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

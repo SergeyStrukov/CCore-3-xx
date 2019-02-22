@@ -355,14 +355,14 @@ bool WindowList::hasGoodSize() const
   return true;
  }
 
-void WindowList::draw(const DrawBuf &buf,bool drag_active) const
+void WindowList::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
-  for(auto cur=list.start_rev(); +cur ;++cur) cur->forward_draw(buf,drag_active);
+  for(auto cur=list.start_rev(); +cur ;++cur) cur->forward_draw(buf,draw_param);
  }
 
-void WindowList::draw(const DrawBuf &buf,Pane pane,bool drag_active) const
+void WindowList::draw(const DrawBuf &buf,Pane pane,DrawParam draw_param) const
  {
-  for(auto cur=list.start_rev(); +cur ;++cur) cur->forward_draw(buf,pane,drag_active);
+  for(auto cur=list.start_rev(); +cur ;++cur) cur->forward_draw(buf,pane,draw_param);
  }
 
  // SubWindowHost

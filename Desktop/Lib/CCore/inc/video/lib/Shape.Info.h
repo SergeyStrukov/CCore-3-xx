@@ -107,7 +107,7 @@ class InfoShape : public InfoState
 
    void layout();
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
 
   private:
 

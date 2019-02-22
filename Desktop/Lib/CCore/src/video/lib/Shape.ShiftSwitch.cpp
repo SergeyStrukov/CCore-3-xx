@@ -29,7 +29,7 @@ Point XShiftSwitchShape::getMinSize() const
   return Point(dx,YdivX(Aspect)*dx);
  }
 
-void XShiftSwitchShape::draw(const DrawBuf &buf) const
+void XShiftSwitchShape::draw(const DrawBuf &buf,DrawParam) const
  {
   Pane pane=AdjustAspect(Aspect,this->pane);
 
@@ -126,7 +126,7 @@ Point YShiftSwitchShape::getMinSize() const
   return Point(XdivY(Aspect)*dy,dy);
  }
 
-void YShiftSwitchShape::draw(const DrawBuf &buf) const
+void YShiftSwitchShape::draw(const DrawBuf &buf,DrawParam) const
  {
   Pane pane=AdjustAspect(Aspect,this->pane);
 

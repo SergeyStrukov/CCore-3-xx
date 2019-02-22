@@ -46,7 +46,7 @@ Point TextShape::getMinSize(StrLen text) const
   return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
-void TextShape::draw(const DrawBuf &buf) const
+void TextShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

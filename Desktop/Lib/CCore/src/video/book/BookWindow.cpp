@@ -409,11 +409,11 @@ void InnerBookWindow::layout()
   sy.adjustPos();
  }
 
-void InnerBookWindow::draw(DrawBuf buf,bool) const
+void InnerBookWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
   if( !cache() )
     {
-     buf.erase(Black);
+     draw_param.erase(buf,Black);
 
      return;
     }
@@ -433,7 +433,7 @@ void InnerBookWindow::draw(DrawBuf buf,bool) const
   VColor back=DrawBook::Combine(this->back,+cfg.back);
   VColor fore=DrawBook::Combine(this->fore,+cfg.fore);
 
-  art.erase(back);
+  draw_param.erase(buf,back);
 
   // border
 
@@ -740,7 +740,7 @@ Point BackShape::getMinSize() const
   return Point(XdivY(Aspect)*dy,dy);
  }
 
-void BackShape::draw(const DrawBuf &buf) const
+void BackShape::draw(const DrawBuf &buf,DrawParam) const
  {
   Pane pane=AdjustAspect(Aspect,this->pane);
 

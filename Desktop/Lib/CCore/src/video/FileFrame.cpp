@@ -569,7 +569,7 @@ SizeBox FileCheckShape::getMinSize() const
   return +cfg.dxy;
  }
 
-void FileCheckShape::draw(const DrawBuf &buf) const
+void FileCheckShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   KnobShape::Config temp_cfg;
 
@@ -589,7 +589,7 @@ void FileCheckShape::draw(const DrawBuf &buf) const
   temp.focus=focus;
   temp.mover=mover;
 
-  temp.draw(buf);
+  temp.draw(buf,draw_param);
  }
 
 /* class FileWindow::Distributor */

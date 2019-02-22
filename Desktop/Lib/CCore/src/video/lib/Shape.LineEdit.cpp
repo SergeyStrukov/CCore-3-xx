@@ -192,7 +192,7 @@ void LineEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace pl
   font->text(buf,pane,place,text,vc);
  }
 
-void LineEditShape::draw(const DrawBuf &buf) const
+void LineEditShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

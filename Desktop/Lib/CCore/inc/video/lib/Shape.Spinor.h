@@ -147,7 +147,7 @@ class SpinorShape : public SpinorState
 
    void tickStart() { SpinorState::tickStart(+cfg.period); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

@@ -42,7 +42,7 @@ Point RunButtonShape::getMinSize() const
   return 2*Point(dx,dy)+Point(Max(ts1.full_dx,ts2.full_dx),ts1.dy)+(+cfg.space);
  }
 
-void RunButtonShape::draw(const DrawBuf &buf) const
+void RunButtonShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -127,7 +127,7 @@ Point RefRunButtonShape::getMinSize() const
   return temp.getMinSize();
  }
 
-void RefRunButtonShape::draw(const DrawBuf &buf) const
+void RefRunButtonShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   RunButtonShape temp(cfg,face_off.get(),face_on.get());
 
@@ -140,7 +140,7 @@ void RefRunButtonShape::draw(const DrawBuf &buf) const
 
   temp.pos=pos;
 
-  temp.draw(buf);
+  temp.draw(buf,draw_param);
  }
 
 } // namespace Video

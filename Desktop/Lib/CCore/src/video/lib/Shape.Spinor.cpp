@@ -60,7 +60,7 @@ SpinType SpinorShape::getZone(Point point) const
   return SpinType_None;
  }
 
-void SpinorShape::draw(const DrawBuf &buf) const
+void SpinorShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 

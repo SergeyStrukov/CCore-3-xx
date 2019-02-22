@@ -75,7 +75,7 @@ class ContourShape
 
    Point getCap(Point cap) const { return cap-getDelta(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class TextContourShape */
@@ -129,7 +129,7 @@ class TextContourShape
 
    Point getCap(Point cap) const { return cap-getDelta(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class RefTextContourShape */
@@ -161,7 +161,7 @@ class RefTextContourShape
 
    Point getCap(Point cap) const { return cap-getDelta(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

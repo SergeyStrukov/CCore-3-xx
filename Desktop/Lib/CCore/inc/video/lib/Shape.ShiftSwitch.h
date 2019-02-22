@@ -95,7 +95,7 @@ class XShiftSwitchShape : public ShiftSwitchShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YShiftSwitchShape */
@@ -112,7 +112,7 @@ class YShiftSwitchShape : public ShiftSwitchShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

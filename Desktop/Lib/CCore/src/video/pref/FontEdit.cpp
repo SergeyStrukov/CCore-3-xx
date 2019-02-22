@@ -110,7 +110,7 @@ void CharTableWindow::layout()
   Replace_min(off.y,max_off.y);
  }
 
-void CharTableWindow::draw(DrawBuf buf,bool) const
+void CharTableWindow::draw(DrawBuf buf,DrawParam) const
  {
   MCoord width=+cfg.width;
   VColor text=+cfg.text;

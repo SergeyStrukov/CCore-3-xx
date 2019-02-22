@@ -74,7 +74,7 @@ void InfoShape::layout()
     }
  }
 
-void InfoShape::draw(const DrawBuf &buf) const
+void InfoShape::draw(const DrawBuf &buf,DrawParam) const
  {
   if( !pane ) return;
 

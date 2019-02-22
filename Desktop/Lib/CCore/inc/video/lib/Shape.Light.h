@@ -78,7 +78,7 @@ class LightShape : public LightState
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

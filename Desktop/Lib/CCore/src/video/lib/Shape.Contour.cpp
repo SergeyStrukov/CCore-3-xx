@@ -50,7 +50,7 @@ Point ContourShape::getDelta() const
   return Point::Diag(2*dxy);
  }
 
-void ContourShape::draw(const DrawBuf &buf) const
+void ContourShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -107,7 +107,7 @@ Point TextContourShape::getDelta() const
   return Point(2*dxy,dxy+fs.dy);
  }
 
-void TextContourShape::draw(const DrawBuf &buf) const
+void TextContourShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -230,13 +230,13 @@ Point RefTextContourShape::getDelta() const
   return temp.getDelta();
  }
 
-void RefTextContourShape::draw(const DrawBuf &buf) const
+void RefTextContourShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   TextContourShape temp(cfg,+title,align_x);
 
   temp.pane=pane;
 
-  temp.draw(buf);
+  temp.draw(buf,draw_param);
  }
 
 } // namespace Video

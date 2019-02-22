@@ -232,16 +232,16 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
     {
     }
 
-   virtual void draw(DrawBuf buf,bool drag_active) const
-    {
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const = 0;
+    /*{
      buf.erase(drag_active?Gray:Black);
-    }
+    }*/
 
-   virtual void draw(DrawBuf buf,Pane pane,bool drag_active) const
+   virtual void draw(DrawBuf buf,Pane pane,DrawParam draw_param) const
     {
      Used(pane);
 
-     draw(buf,drag_active);
+     draw(buf,draw_param);
     }
 
    // base
@@ -316,20 +316,20 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
 
    // forward
 
-   void forward_draw(const DrawBuf &buf,bool drag_active) const
+   void forward_draw(const DrawBuf &buf,DrawParam draw_param) const
     {
      DrawBuf sub_buf=buf.cutRebase(place);
 
-     if( +sub_buf ) try { draw(sub_buf,drag_active); } catch(...) {}
+     if( +sub_buf ) try { draw(sub_buf,draw_param); } catch(...) {}
     }
 
-   void forward_draw(const DrawBuf &buf,Pane pane,bool drag_active) const
+   void forward_draw(const DrawBuf &buf,Pane pane,DrawParam draw_param) const
     {
      DrawBuf sub_buf=buf.cutRebase(place);
 
      pane=Inf(place,pane);
 
-     if( +sub_buf && +pane ) try { draw(sub_buf,pane-place.getBase(),drag_active); } catch(...) {}
+     if( +sub_buf && +pane ) try { draw(sub_buf,pane-place.getBase(),draw_param); } catch(...) {}
     }
 
    void forward_react(UserAction action)
@@ -529,9 +529,9 @@ class WindowList : public NoCopyBase<SubWindowHost,UserInput>
 
    bool hasGoodSize() const;
 
-   void draw(const DrawBuf &buf,bool drag_active) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
 
-   void draw(const DrawBuf &buf,Pane pane,bool drag_active) const;
+   void draw(const DrawBuf &buf,Pane pane,DrawParam draw_param) const;
 
    // SubWindowHost
 
@@ -894,31 +894,31 @@ class ComboWindow : public SubWindow
      return wlist.hasGoodSize();
     }
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const
     {
      Used(buf);
-     Used(drag_active);
+     Used(draw_param);
     }
 
-   virtual void drawBack(DrawBuf buf,Pane pane,bool drag_active) const
+   virtual void drawBack(DrawBuf buf,Pane pane,DrawParam &draw_param) const
     {
      Used(pane);
 
-     drawBack(buf,drag_active);
+     drawBack(buf,draw_param);
     }
 
-   virtual void draw(DrawBuf buf,bool drag_active) const
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const
     {
-     drawBack(buf,drag_active);
+     drawBack(buf,draw_param);
 
-     wlist.draw(buf,drag_active);
+     wlist.draw(buf,draw_param);
     }
 
-   virtual void draw(DrawBuf buf,Pane pane,bool drag_active) const
+   virtual void draw(DrawBuf buf,Pane pane,DrawParam draw_param) const
     {
-     drawBack(buf,pane,drag_active);
+     drawBack(buf,pane,draw_param);
 
-     wlist.draw(buf,pane,drag_active);
+     wlist.draw(buf,pane,draw_param);
     }
 
    // base

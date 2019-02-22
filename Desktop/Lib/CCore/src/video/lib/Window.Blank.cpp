@@ -41,9 +41,9 @@ void BlankWindow::layout()
  {
  }
 
-void BlankWindow::draw(DrawBuf buf,bool) const
+void BlankWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
-  buf.erase(back);
+  draw_param.erase(buf,back);
  }
 
  // keyboard

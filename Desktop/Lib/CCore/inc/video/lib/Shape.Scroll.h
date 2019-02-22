@@ -246,7 +246,7 @@ class XScrollShape : public ScrollShape
 
    void drag(Point point) { dragPos(drag_base.x,point.x,pane.dx,pane.dy); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YScrollShape */
@@ -271,7 +271,7 @@ class YScrollShape : public ScrollShape
 
    void drag(Point point) { dragPos(drag_base.y,point.y,pane.dy,pane.dx); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

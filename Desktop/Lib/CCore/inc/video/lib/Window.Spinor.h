@@ -233,9 +233,9 @@ class SpinorWindowOf : public SubWindow
      shape.pane=getPane();
     }
 
-   virtual void draw(DrawBuf buf,bool) const
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const
     {
-     shape.draw(buf);
+     shape.draw(buf,draw_param);
     }
 
    // base
