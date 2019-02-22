@@ -19,6 +19,8 @@
 
 #include <CCore/inc/video/FigureLib.h>
 
+#include <CCore/inc/Print.h>
+
 namespace CCore {
 namespace Video {
 
@@ -117,7 +119,7 @@ Point ColorListShape::ExtSpace(const Config &cfg)
 
   Coord ext=RoundUpLen(width);
 
-  return space.addXY(2*ext);
+  return space.addXY(ext);
  }
 
 void ColorListShape::Cache::operator () (const Config &cfg,const ColorInfo &info)
@@ -165,7 +167,7 @@ Point ColorListShape::getMinSize(unsigned lines) const
   Coord dy=ts.y+space.y;
   Coord dx=ts.x+space.x+2*dy;
 
-  return 2*space+Point(dx,MulSize(lines,dy)).addXY(2*ext);
+  return 2*space.addXY(ext)+Point(dx,MulSize(lines,dy));
  }
 
 void ColorListShape::layout()
@@ -249,21 +251,29 @@ bool ColorListShape::showSelect()
 
 ulen ColorListShape::getPosition(Point point) const
  {
-  Pane inner=pane.shrink(ExtSpace(cfg));
+  Point space=+cfg.space;
+
+  Pane inner=pane.shrink(space);
 
   if( !inner ) return 0;
 
-  if( point.y<inner.y ) return yoff?yoff-1:0;
+  MCoord width=+cfg.width;
 
-  if( point.y>=inner.y+inner.dy ) return yoff+page;
+  Coord ext=RoundUpLen(width);
+
+  Coord y=point.y-inner.y-ext;
+
+  if( y<0 ) return yoff?yoff-1:0;
+
+  if( y>=inner.dy ) return yoff+page;
 
   FontSize fs=cfg.font->getSize();
 
-  Point space=+cfg.space;
-
   Coord dy=fs.dy+space.y;
 
-  return yoff+ulen((point.y-inner.y)/dy);
+  Printf(Con,"#; #; #; #;\n",space,ext,y,dy);
+
+  return yoff+ulen(y/dy);
  }
 
 void ColorListShape::draw(const DrawBuf &buf) const

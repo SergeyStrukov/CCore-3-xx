@@ -216,6 +216,7 @@ OBJ_LIST = \
 .obj/Meta.o \
 .obj/MetaList.o \
 .obj/MinSizeType.o \
+.obj/MixColorWindow.o \
 .obj/ModEngine.o \
 .obj/Mouse.o \
 .obj/Move.o \
@@ -690,6 +691,7 @@ ASM_LIST = \
 .obj/Meta.s \
 .obj/MetaList.s \
 .obj/MinSizeType.s \
+.obj/MixColorWindow.s \
 .obj/ModEngine.s \
 .obj/Mouse.s \
 .obj/Move.s \
@@ -1164,6 +1166,7 @@ DEP_LIST = \
 .obj/Meta.dep \
 .obj/MetaList.dep \
 .obj/MinSizeType.dep \
+.obj/MixColorWindow.dep \
 .obj/ModEngine.dep \
 .obj/Mouse.dep \
 .obj/Move.dep \
@@ -2079,6 +2082,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/MinSizeType.o : ../../Desktop/Lib/CCore/src/./video/MinSizeType.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/MixColorWindow.o : ../../Desktop/Lib/CCore/src/./video/pref/MixColorWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ModEngine.o : ../../Applied/CCore/src/./math/ModEngine.cpp
@@ -3496,6 +3502,9 @@ include $(RULES_FILE)
 .obj/MinSizeType.s : ../../Desktop/Lib/CCore/src/./video/MinSizeType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/MixColorWindow.s : ../../Desktop/Lib/CCore/src/./video/pref/MixColorWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ModEngine.s : ../../Applied/CCore/src/./math/ModEngine.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4910,6 +4919,9 @@ include $(RULES_FILE)
 
 .obj/MinSizeType.dep : ../../Desktop/Lib/CCore/src/./video/MinSizeType.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/MinSizeType.o $< -MF $@
+
+.obj/MixColorWindow.dep : ../../Desktop/Lib/CCore/src/./video/pref/MixColorWindow.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/MixColorWindow.o $< -MF $@
 
 .obj/ModEngine.dep : ../../Applied/CCore/src/./math/ModEngine.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ModEngine.o $< -MF $@

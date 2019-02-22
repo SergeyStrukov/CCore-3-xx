@@ -463,6 +463,8 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            CoordEditWindow::ConfigType,
                                            MCoordEditWindow::ConfigType,
                                            PointEditWindow::ConfigType,
+                                           MixColorWindow::ConfigType,
+                                           ColorListWindow::ConfigType,
                                            ColorEditWindow::ConfigType,
                                            FontEditWindow::ConfigType,
                                            RatioEditWindow::ConfigType,

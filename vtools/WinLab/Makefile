@@ -21,7 +21,7 @@ TARGET = ./WinLab.exe
 
 CCOPT_EXTRA = -I.
 
-TARGET_DESKTOP = yes
+# TARGET_DESKTOP = yes
 
 include $(CCORE_ROOT)/Target/Makefile.app
 

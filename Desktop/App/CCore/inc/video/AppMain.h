@@ -355,10 +355,12 @@ class ApplicationOf : public ApplicationBase
      main_frame.bindAlertClient(exception_client);
      main_frame.bindClient(client);
 
-     editor_pref.ref()=param.user_pref.get();
-
      user_frame.bindConfig(param.user_pref);
      user_frame.connectUpdate(editor_pref.updated);
+
+     editor_pref.ref()=param.user_pref.get();
+
+     editor_pref.updated.assert();
 
      app_frame.bindConfig(param.app_pref);
      app_frame.connectUpdate(param.user_pref.updated);
