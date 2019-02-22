@@ -683,9 +683,9 @@ class SomeWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool drag_active) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
-   virtual void draw(DrawBuf buf,Pane pane,bool drag_active) const;
+   virtual void draw(DrawBuf buf,Pane pane,DrawParam draw_param) const;
 
    // base
 
@@ -754,18 +754,18 @@ void SomeWindow::layout()
   // TODO
  }
 
-void SomeWindow::draw(DrawBuf buf,bool drag_active) const
+void SomeWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
   // TODO
 
-  wlist.draw(buf,drag_active);
+  wlist.draw(buf,draw_param);
  }
 
-void SomeWindow::draw(DrawBuf buf,Pane pane,bool drag_active) const
+void SomeWindow::draw(DrawBuf buf,Pane pane,DrawParam draw_param) const
  {
   // TODO
 
-  wlist.draw(buf,pane,drag_active);
+  wlist.draw(buf,pane,draw_param);
  }
 
  // base
