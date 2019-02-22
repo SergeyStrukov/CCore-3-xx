@@ -205,7 +205,7 @@ class InsWindow : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
  };
 
 /* class InsFrame */

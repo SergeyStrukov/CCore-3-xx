@@ -763,9 +763,9 @@ void EditorWindow::layout()
   }
  }
 
-void EditorWindow::drawBack(DrawBuf buf,bool) const
+void EditorWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
 } // namespace App

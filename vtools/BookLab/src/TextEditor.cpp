@@ -2312,7 +2312,7 @@ class TextWindow::Draw : SizeData , NoCopy
     }
  };
 
-void TextWindow::draw(DrawBuf buf,bool) const
+void TextWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( !cache() )
     {
@@ -2980,9 +2980,9 @@ void TextEditor::layout()
   lay.setPlace(getPane(),space);
  }
 
-void TextEditor::drawBack(DrawBuf buf,bool) const
+void TextEditor::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // user input

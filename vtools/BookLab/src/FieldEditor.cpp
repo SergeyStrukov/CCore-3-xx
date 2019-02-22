@@ -1935,9 +1935,9 @@ void FieldWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void FieldWindow::drawBack(DrawBuf buf,bool) const
+void FieldWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // user input

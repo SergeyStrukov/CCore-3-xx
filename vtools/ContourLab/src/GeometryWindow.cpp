@@ -670,7 +670,7 @@ void GeometryWindow::layout()
   shade2=Pane(size.x,s,s,size.y-s);
  }
 
-void GeometryWindow::draw(DrawBuf buf,bool) const
+void GeometryWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( pane.dx<10 || pane.dy<10 ) return;
 

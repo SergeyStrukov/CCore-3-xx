@@ -1685,7 +1685,7 @@ class DDLInnerWindow::DrawProc : ClipProc
     }
  };
 
-void DDLInnerWindow::draw(DrawBuf buf,bool) const
+void DDLInnerWindow::draw(DrawBuf buf,DrawParam) const
  {
   buf.erase(+cfg.back);
 
@@ -1928,9 +1928,9 @@ void DisplayWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void DisplayWindow::drawBack(DrawBuf buf,bool) const
+void DisplayWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
 } // namespace App

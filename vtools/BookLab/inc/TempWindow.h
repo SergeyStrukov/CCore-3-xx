@@ -161,7 +161,7 @@ class SlotWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool drag_active) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
    // keyboard
 
@@ -312,7 +312,7 @@ class TempWindow : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
 
    // user input
 

@@ -232,7 +232,7 @@ void SlotWindow::layout()
   reposed.assert({count,len,off});
  }
 
-void SlotWindow::draw(DrawBuf buf,bool) const
+void SlotWindow::draw(DrawBuf buf,DrawParam) const
  {
   Fraction line_width=+cfg.line_width;
   Coord table_dxy=+cfg.table_dxy;
@@ -553,9 +553,9 @@ void TempWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void TempWindow::drawBack(DrawBuf buf,bool) const
+void TempWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // user input

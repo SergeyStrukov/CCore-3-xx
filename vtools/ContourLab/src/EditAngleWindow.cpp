@@ -85,7 +85,7 @@ void EditAngleWindow::layout()
   text_minus=Pane(0,len/12,len,len/3);
  }
 
-void EditAngleWindow::draw(DrawBuf buf,bool) const
+void EditAngleWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( len<10 ) return;
 

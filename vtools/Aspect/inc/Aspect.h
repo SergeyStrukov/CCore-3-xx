@@ -176,7 +176,7 @@ class HideControl : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
 
    // signals
 
@@ -256,7 +256,7 @@ class CountControl : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
  };
 
 /* class InnerDataWindow */
@@ -475,7 +475,7 @@ class InnerDataWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
    // base
 
@@ -726,7 +726,7 @@ class AspectWindow : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
  };
 
 } // namespace App

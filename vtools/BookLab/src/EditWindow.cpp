@@ -568,7 +568,7 @@ void InnerBookLabWindow::layout()
   sy.adjustPos();
  }
 
-void InnerBookLabWindow::draw(DrawBuf buf,bool) const
+void InnerBookLabWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( !cache() )
     {
@@ -1093,7 +1093,7 @@ void EditWindow::layout()
   lay.setPlace(getPane(),space);
  }
 
-void EditWindow::drawBack(DrawBuf buf,bool) const
+void EditWindow::drawBack(DrawBuf buf,DrawParam &) const
  {
   VColor back=+cfg.back;
 

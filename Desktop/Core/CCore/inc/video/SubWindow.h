@@ -232,10 +232,10 @@ class SubWindow : public NoCopyBase<MemBase,UserInput,InterfaceHost>
     {
     }
 
-   virtual void draw(DrawBuf buf,DrawParam draw_param) const = 0;
-    /*{
-     buf.erase(drag_active?Gray:Black);
-    }*/
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const
+    {
+     draw_param.erase(buf,draw_param.drag_active?Gray:Black);
+    }
 
    virtual void draw(DrawBuf buf,Pane pane,DrawParam draw_param) const
     {

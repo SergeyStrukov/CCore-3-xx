@@ -136,7 +136,7 @@ void EditRatioWindow::layout()
   text=Pane(0,base.y+size.y/12,size.x,size.y/3);
  }
 
-void EditRatioWindow::draw(DrawBuf buf,bool) const
+void EditRatioWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( pane.dx<10 || pane.dy<10 ) return;
 

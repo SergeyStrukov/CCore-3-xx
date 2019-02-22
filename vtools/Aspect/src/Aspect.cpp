@@ -163,7 +163,7 @@ void HideControl::layout()
   check_Green.setPlace(Inner(place_Green,dxy));
  }
 
-void HideControl::drawBack(DrawBuf buf,bool) const
+void HideControl::drawBack(DrawBuf buf,DrawParam &) const
  {
   SmoothDrawArt art(buf);
 
@@ -229,7 +229,7 @@ void CountControl::layout()
   pane.place(AlignCenterY(text));
  }
 
-void CountControl::drawBack(DrawBuf buf,bool) const
+void CountControl::drawBack(DrawBuf buf,DrawParam &) const
  {
   SmoothDrawArt art(buf);
 
@@ -337,7 +337,7 @@ class InnerDataWindow::DrawItem : NoCopy
      shape.pane=pane.shrink(rin);
      shape.mover=mover;
 
-     shape.draw(buf);
+     shape.draw(buf,false);
     }
 
    void drawFile(const DrawBuf &buf,Pane pane,const ItemData &item,PressType hilight) const
@@ -889,7 +889,7 @@ void InnerDataWindow::layout()
   setMax();
  }
 
-void InnerDataWindow::draw(DrawBuf buf,bool) const
+void InnerDataWindow::draw(DrawBuf buf,DrawParam) const
  {
   DrawItem draw(cfg,getSize());
 
@@ -1341,9 +1341,9 @@ void AspectWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void AspectWindow::drawBack(DrawBuf buf,bool) const
+void AspectWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
 } // namespace App

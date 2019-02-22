@@ -273,7 +273,7 @@ class InnerBookLabWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool drag_active) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
    // base
 
@@ -519,7 +519,7 @@ class EditWindow : public ComboWindow
 
    virtual void layout();
 
-   virtual void drawBack(DrawBuf buf,bool drag_active) const;
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
 
    // base
 
