@@ -224,11 +224,11 @@ void TestWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void TestWindow::drawBack(DrawBuf buf,bool) const
+void TestWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
   VColor back=pref.get().back;
 
-  buf.erase(back);
+  draw_param.erase(buf,back);
  }
 
 /* class TestClient */

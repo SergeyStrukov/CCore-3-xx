@@ -77,7 +77,7 @@ class DrawShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* type DrawWindow */
@@ -564,7 +564,7 @@ class AltShape
 
    CheckType getZone(Point point) const;
 
-   void draw(const DrawBuf &buf) const;
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class AltWindow_Sample */
@@ -693,7 +693,7 @@ class LayoutWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
  };
 
 } // namespace Subs

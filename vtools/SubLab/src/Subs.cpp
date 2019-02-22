@@ -22,7 +22,7 @@ namespace Subs {
 
 /* class DrawShape */
 
-void DrawShape::draw(const DrawBuf &buf) const
+void DrawShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -488,7 +488,7 @@ auto AltShape::getZone(Point point) const -> CheckType
   return point.x-pane.x > pane.dx/2 ;
  }
 
-void AltShape::draw(const DrawBuf &buf) const
+void AltShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -738,7 +738,7 @@ void LayoutWindow::layout()
   blue=*place;
  }
 
-void LayoutWindow::draw(DrawBuf buf,bool) const
+void LayoutWindow::draw(DrawBuf buf,DrawParam) const
  {
   Coord width=Fraction(6,4);
 

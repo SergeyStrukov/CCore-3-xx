@@ -81,7 +81,7 @@ void SpaceWindow::layout()
   // do nothing
  }
 
-void SpaceWindow::draw(DrawBuf buf,bool) const
+void SpaceWindow::draw(DrawBuf buf,DrawParam) const
  {
   Pane pane(Null,getSize());
 
@@ -456,9 +456,9 @@ void ClientWindow::layout()
     }
  }
 
-void ClientWindow::drawBack(DrawBuf buf,bool) const
+void ClientWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(getBack());
+  draw_param.erase(buf,getBack());
  }
 
  // base

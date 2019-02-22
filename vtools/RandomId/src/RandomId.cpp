@@ -143,9 +143,9 @@ void RandomIdWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void RandomIdWindow::drawBack(DrawBuf buf,bool) const
+void RandomIdWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
 } // namespace App
