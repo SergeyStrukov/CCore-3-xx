@@ -151,7 +151,7 @@ void RatioEditWindow::layout()
   pos=Point(dx,2*s.y);
  }
 
-void RatioEditWindow::drawBack(DrawBuf buf,bool) const
+void RatioEditWindow::drawBack(DrawBuf buf,DrawParam &) const
  {
   Coord mark_dy=+cfg.mark_dy;
   MCoord width=+cfg.width;

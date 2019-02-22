@@ -646,7 +646,7 @@ class SimpleCascadeMenuShape : public MenuShapeBase
 
   private:
 
-   void drawFrame(const DrawBuf &buf) const;
+   void drawFrame(const DrawBuf &buf,DrawParam draw_param) const;
 
    void drawMenu(const DrawBuf &buf) const;
 

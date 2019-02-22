@@ -215,7 +215,7 @@ class ExceptionWindow : public SubWindow
 
    virtual void layout();
 
-   virtual void draw(DrawBuf buf,bool drag_active) const;
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
 
    // base
 

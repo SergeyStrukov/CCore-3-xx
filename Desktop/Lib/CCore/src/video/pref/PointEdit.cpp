@@ -102,7 +102,7 @@ void PointEditWindow::layout()
   pos=Point(dx,s.y+dx);
  }
 
-void PointEditWindow::drawBack(DrawBuf buf,bool) const
+void PointEditWindow::drawBack(DrawBuf buf,DrawParam &) const
  {
   SmoothDrawArt art(buf);
 

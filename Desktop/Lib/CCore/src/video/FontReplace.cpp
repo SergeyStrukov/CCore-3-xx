@@ -477,9 +477,9 @@ void FontSelectWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void FontSelectWindow::drawBack(DrawBuf buf,bool) const
+void FontSelectWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // user input
@@ -638,9 +638,9 @@ void FontReplaceWindow::layout()
   ExtLay(lay).setPlace(getPane(),space);
  }
 
-void FontReplaceWindow::drawBack(DrawBuf buf,bool) const
+void FontReplaceWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // user input

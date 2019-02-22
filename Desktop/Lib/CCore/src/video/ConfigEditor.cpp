@@ -1167,9 +1167,9 @@ void ConfigEditorWindow::layout()
   pane.placeMin(ratio_edit);
  }
 
-void ConfigEditorWindow::drawBack(DrawBuf buf,bool) const
+void ConfigEditorWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
 /* class ConfigEditorFrame */

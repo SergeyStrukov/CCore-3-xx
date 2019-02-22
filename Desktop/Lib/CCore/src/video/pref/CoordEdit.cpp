@@ -72,7 +72,7 @@ void CoordEditWindow::layout()
   pos.y=Div(3,4)*size.y;
  }
 
-void CoordEditWindow::drawBack(DrawBuf buf,bool) const
+void CoordEditWindow::drawBack(DrawBuf buf,DrawParam &) const
  {
   Coord mark_dy=+cfg.mark_dy;
   MCoord width=+cfg.width;

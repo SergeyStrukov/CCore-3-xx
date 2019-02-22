@@ -152,9 +152,9 @@ void MessageWindow::layout()
     }
  }
 
-void MessageWindow::drawBack(DrawBuf buf,bool) const
+void MessageWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
  }
 
  // base

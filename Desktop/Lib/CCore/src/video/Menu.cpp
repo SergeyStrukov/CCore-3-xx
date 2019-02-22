@@ -299,7 +299,7 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
   // back
 
   {
-   art.block(pane,+cfg.back);
+   draw_param.erase(buf,pane,+cfg.back);
 
    MPane p(pane);
 
@@ -385,11 +385,11 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
 /* class SimpleCascadeMenuShape */
 
-void SimpleCascadeMenuShape::drawFrame(const DrawBuf &buf) const
+void SimpleCascadeMenuShape::drawFrame(const DrawBuf &buf,DrawParam draw_param) const
  {
   SmoothDrawArt art(buf);
 
-  art.block(pane,+cfg.back);
+  draw_param.erase(buf,pane,+cfg.back);
 
   FigureTopBorder(pane,+cfg.width).solid(art,+cfg.snow);
 
@@ -588,7 +588,7 @@ void SimpleCascadeMenuShape::layout()
 
 void SimpleCascadeMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
-  drawFrame(buf.cut(pane));
+  drawFrame(buf.cut(pane),draw_param);
 
   Coord delta=cfg.width.get().roundUp();
 

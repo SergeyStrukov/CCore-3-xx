@@ -197,9 +197,9 @@ class DialogFontLookup::Window : public ComboWindow
      progress.setPlace(pane.shrink(space));
     }
 
-   virtual void drawBack(DrawBuf buf,bool) const
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const
     {
-     buf.erase(back);
+     draw_param.erase(buf,back);
     }
  };
 

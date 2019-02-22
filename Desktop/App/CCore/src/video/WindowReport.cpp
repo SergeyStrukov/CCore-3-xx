@@ -449,15 +449,15 @@ void ExceptionWindow::layout()
   setLines();
  }
 
-void ExceptionWindow::draw(DrawBuf buf,bool drag_active) const
+void ExceptionWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
 
   Coord xoff=Coord(xscroll.getPos());
 
   drawText(buf.cut(ptext),ptext,xoff);
 
-  wlist.draw(buf,drag_active);
+  wlist.draw(buf,draw_param);
  }
 
  // base

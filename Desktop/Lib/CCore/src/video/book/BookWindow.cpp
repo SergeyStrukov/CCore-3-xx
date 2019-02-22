@@ -1311,7 +1311,7 @@ void BookWindow::layout()
   lay.setPlace(getPane(),space);
  }
 
-void BookWindow::drawBack(DrawBuf buf,bool) const
+void BookWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
   VColor back=+cfg.back;
 
@@ -1326,7 +1326,7 @@ void BookWindow::drawBack(DrawBuf buf,bool) const
     }
   else
     {
-     buf.erase(back);
+     draw_param.erase(buf,back);
     }
  }
 
