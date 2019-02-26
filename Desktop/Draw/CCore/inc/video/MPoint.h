@@ -121,6 +121,8 @@ struct Fraction
   Coord roundUp() const { return RoundUp(value); }
  };
 
+/* functions */
+
 inline Coord RoundUpLen(MCoord dx) { return Fraction::RoundUp(dx); }
 
 /* struct MPoint */
@@ -163,6 +165,20 @@ struct MPoint : BasePoint<MPoint,MCoord>
 
   MPoint round() const { return MPoint(Round(x),Round(y)); }
  };
+
+/* functions */
+
+inline MCoord MCoordDown(Coord x) { return MPoint::LShift(x)-MPoint::Half; }
+
+inline MCoord MCoordUp(Coord x) { return MPoint::LShift(x)+MPoint::Half; }
+
+inline MPoint MPointTopLeft(Point p) { return MPoint(MCoordDown(p.x),MCoordDown(p.y)); }
+
+inline MPoint MPointTopRight(Point p) { return MPoint(MCoordUp(p.x),MCoordDown(p.y)); }
+
+inline MPoint MPointBottomLeft(Point p) { return MPoint(MCoordDown(p.x),MCoordUp(p.y)); }
+
+inline MPoint MPointBottomRight(Point p) { return MPoint(MCoordUp(p.x),MCoordUp(p.y)); }
 
 /* struct Ratio */
 

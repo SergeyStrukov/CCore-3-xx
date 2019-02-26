@@ -109,8 +109,9 @@ struct MPane
    {
     if( +pane )
       {
-       x=MPoint::LShift(pane.x)-MPoint::Half;
-       y=MPoint::LShift(pane.y)-MPoint::Half;
+       x=MCoordDown(pane.x);
+       y=MCoordDown(pane.y);
+
        dx=MPoint::LShift(pane.dx);
        dy=MPoint::LShift(pane.dy);
 
@@ -864,6 +865,10 @@ struct FigureCursor : FigurePoints<12>
  {
   FigureCursor(MCoord x0,MCoord y0,MCoord y1,MCoord width,MCoord skew);
  };
+
+ //
+ // solid figures
+ //
 
 /* class PolyFigureExclamation */
 

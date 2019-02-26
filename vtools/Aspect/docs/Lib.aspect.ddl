@@ -65,7 +65,7 @@ Dir Dir3=
     { "ConfigStore.h" , New },
     { "DirFrame.h" , New },
     { "ExceptionFrame.h" , New },
-    { "FigureLib.h" , New },
+    { "FigureLib.h" , Green },
     { "FileFrame.h" , New },
     { "FontReplace.h" , New },
     { "FrameBase.h" , New },
@@ -75,10 +75,10 @@ Dir Dir3=
     { "Menu.h" , New },
     { "MessageFrame.h" , New },
     { "MinSizeType.h" , New },
-    { "ShapeLib.h" , New },
+    { "ShapeLib.h" , Ignore },
     { "ToolFrame.h" , New },
     { "UserPreference.h" , New },
-    { "WindowLib.h" , New }
+    { "WindowLib.h" , Ignore }
    }
   };
 
@@ -190,7 +190,7 @@ Dir Dir4=
     { "ConfigStore.cpp" , New },
     { "DirFrame.cpp" , New },
     { "ExceptionFrame.cpp" , New },
-    { "FigureLib.cpp" , New },
+    { "FigureLib.cpp" , Green },
     { "FileFrame.cpp" , New },
     { "FontReplace.cpp" , New },
     { "FrameBase.cpp" , New },
@@ -200,10 +200,10 @@ Dir Dir4=
     { "Menu.cpp" , New },
     { "MessageFrame.cpp" , New },
     { "MinSizeType.cpp" , New },
-    { "ShapeLib.cpp" , New },
+    { "ShapeLib.cpp" , Ignore },
     { "ToolFrame.cpp" , New },
     { "UserPreference.cpp" , New },
-    { "WindowLib.cpp" , New },
+    { "WindowLib.cpp" , Ignore },
     { "ConfigTypes.ddl" , Ignore },
     { "FontMap.ddl" , Ignore },
     { "HitDirs.ddl" , Ignore },
