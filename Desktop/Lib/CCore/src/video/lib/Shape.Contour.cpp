@@ -189,7 +189,7 @@ void TextContourShape::draw(const DrawBuf &buf,DrawParam) const
 
   // title
 
-  font->text(buf,Pane(pane.x+tx,pane.y,len,ty),TextPlace(align_x,AlignY_Center),Range(title),+cfg.text);
+  font->textOn(art,Pane(pane.x+tx,pane.y,len,ty),TextPlace(align_x,AlignY_Center),Range(title),+cfg.text);
  }
 
 /* class RefTextContourShape */

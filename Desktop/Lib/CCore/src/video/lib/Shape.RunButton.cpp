@@ -95,9 +95,9 @@ void RunButtonShape::draw(const DrawBuf &buf,DrawParam) const
    VColor text = enable? +cfg.text : gray ;
 
    if( on )
-     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_on),text);
+     font->textOn(art,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_on),text);
    else
-     font->text(buf,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_off),text);
+     font->textOn(art,pane.shrink(dx,dy),TextPlace(AlignX_Center,AlignY_Center),Range(face_off),text);
   }
 
   // border
