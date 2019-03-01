@@ -885,7 +885,7 @@ class Book::PrepareContext : NoCopy
 
      Point s2=size(ptr->list);
 
-     Point s=StackYSize_guarded(StackYSize_guarded(s1,s2),Point(0,element_space));
+     Point s=StackYSize_guarded(s1,s2,Point(0,element_space));
 
      ptr->size=s;
 
@@ -918,9 +918,17 @@ class Book::PrepareContext : NoCopy
 
      if( s1.y<s2.y )
        {
+#if 0
+
         Coord delta=s2.y-s1.y;
 
         addListRef(Pane(base.addY(delta/2),s1),ptr);
+
+#else
+
+        addListRef(Pane(base,s1),ptr);
+
+#endif
 
         placeTable(base.addX(s1.x),ptr);
        }
@@ -964,7 +972,7 @@ class Book::PrepareContext : NoCopy
 
      Point s3=prepare(Point(0,dy),doc->list);
 
-     return {StackYSize_guarded(StackYSize_guarded(s1,s2),s3),erase_cursor};
+     return {StackYSize_guarded(s1,s2,s3),erase_cursor};
     }
  };
 
@@ -1680,9 +1688,17 @@ class Book::DrawContext : NoCopy
 
      if( s1.y<s2.y )
        {
+#if 0
+
         Coord delta=s2.y-s1.y;
 
         drawListBtn(base.addY(delta/2),ptr);
+
+#else
+
+        drawListBtn(base,ptr);
+
+#endif
 
         drawTable(base.addX(s1.x),ptr);
        }

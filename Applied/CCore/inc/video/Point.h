@@ -253,6 +253,31 @@ inline Point StackYSize_guarded(Point a,Point b)
   return Point( Sup(a.x,b.x) , AddSize(a.y,b.y) );
  }
 
+
+template <class ... TT>
+Point StackXSize(Point a,Point b,TT ... tt) requires ( sizeof ... (TT) > 0 )
+ {
+  return StackXSize(StackXSize(a,b),tt...);
+ }
+
+template <class ... TT>
+Point StackYSize(Point a,Point b,TT ... tt) requires ( sizeof ... (TT) > 0 )
+ {
+  return StackYSize(StackYSize(a,b),tt...);
+ }
+
+template <class ... TT>
+Point StackXSize_guarded(Point a,Point b,TT ... tt) requires ( sizeof ... (TT) > 0 )
+ {
+  return StackXSize_guarded(StackXSize_guarded(a,b),tt...);
+ }
+
+template <class ... TT>
+Point StackYSize_guarded(Point a,Point b,TT ... tt) requires ( sizeof ... (TT) > 0 )
+ {
+  return StackYSize_guarded(StackYSize_guarded(a,b),tt...);
+ }
+
 /* struct Pane */
 
 struct Pane
