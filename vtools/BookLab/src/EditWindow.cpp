@@ -549,7 +549,7 @@ void InnerBookLabWindow::layout()
 
   if( s>Null )
     {
-     sx.total=(ulen)size.x;
+     sx.total=(ulen)AddSize(size.x,size.x/2);
      sx.page=(ulen)s.x;
 
      sy.total=(ulen)AddSize(size.y,s.y/2);
@@ -568,7 +568,7 @@ void InnerBookLabWindow::layout()
   sy.adjustPos();
  }
 
-void InnerBookLabWindow::draw(DrawBuf buf,DrawParam) const
+void InnerBookLabWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
   if( !cache() )
     {
@@ -576,6 +576,8 @@ void InnerBookLabWindow::draw(DrawBuf buf,DrawParam) const
 
      return;
     }
+
+  draw_param.erase(buf,+cfg.back);
 
   Point base=getBase();
 
@@ -586,8 +588,6 @@ void InnerBookLabWindow::draw(DrawBuf buf,DrawParam) const
   // back
 
   MCoord width=+cfg.width;
-
-  art.erase(+cfg.back);
 
   // border
 

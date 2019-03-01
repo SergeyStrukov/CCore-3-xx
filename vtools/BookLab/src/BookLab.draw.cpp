@@ -673,15 +673,31 @@ class Book::PrepareContext : NoCopy
      placeBody(base.addY(dy),ptr);
     }
 
+   Point sizeElement(Scope *ptr)
+    {
+     ShowName show(ptr);
+
+     TextSize ts=element_font->text(show.get());
+
+     Coord dy=BoxExt(efs.dy)+efs.dy;
+
+     Point s=sizeBody(ptr);
+
+     return StackYSize(s,Point(ts.full_dx,dy));
+    }
+
    Point sizeElement(Section *ptr)
     {
      Coord dxy=cfs.dy;
+     Coord edxy=BoxExt(dxy);
+
+     TextSize ts=comment_font->text(Range(ptr->comment));
+
+     Coord tx=AddSize(edxy,ts.full_dx);
 
      if( ptr->open )
        {
-        TextSize ts=comment_font->text(Range(ptr->comment));
-
-        Point s1(AddSize(BoxExt(dxy),ts.full_dx),BoxExt(dxy));
+        Point s1(tx,edxy+dxy);
 
         Point s2=size(ptr->list);
 
@@ -689,9 +705,7 @@ class Book::PrepareContext : NoCopy
        }
      else
        {
-        TextSize ts=comment_font->text(Range(ptr->comment));
-
-        return Point(AddSize(BoxExt(dxy),ts.full_dx),dxy);
+        return Point(tx,2*dxy);
        }
     }
 
