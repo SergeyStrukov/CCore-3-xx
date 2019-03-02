@@ -40,6 +40,8 @@ Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
 
 Format fmt_underline = { & font , NoColor , NoColor , 1 } ;
 
+Font font_test = { "Anonymous Pro" , 22 , True , False , 0 } ;
+
 Page page1 = { "Manual" ,
 {
 { & ANONYM1 , null , DefaultInner , DefaultOuter , NoColor }
@@ -61,6 +63,7 @@ Page page1 = { "Manual" ,
 ,{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
 ,{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & test , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , null , null } ;
 
@@ -573,6 +576,37 @@ Text ANONYM19 = {
 ,{ "details." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
+
+FixedText test = {
+{
+{
+{ "void PastData::ParseFixedLine(StrLen text,Line &ret)" , null , null }
+}
+,{
+{ " {" , null , null }
+}
+,{
+{ "  Span span;" , null , null }
+}
+,{
+{ "" , null , null }
+}
+,{
+{ "  span.body=text;" , null , null }
+}
+,{
+{ "" , null , null }
+}
+,{
+{ "  ret.list.append_fill(std::move(span));" , null , null }
+}
+,{
+{ " }" , null , null }
+}
+}
+, & ANONYM20 } ;
+
+Format ANONYM20 = { & font_test , 08Bh , 0FFFF00h , 0 } ;
 
 }
 

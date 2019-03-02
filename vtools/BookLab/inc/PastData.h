@@ -253,6 +253,8 @@ class PastData : public Funchor
 
    Function<void (StrLen)> function_load() { return FunctionOf(this,&PastData::load); }
 
+   Function<void (StrLen)> function_loadFixed() { return FunctionOf(this,&PastData::loadFixed); }
+
    Function<void (StrLen)> function_loadCPP() { return FunctionOf(this,&PastData::loadCPP); }
 
   private:
@@ -282,6 +284,14 @@ class PastData : public Funchor
    void parseSimple(StrLen text);
 
    void load(StrLen text);
+
+  private:
+
+   static void ParseFixedLine(StrLen text,Line &ret);
+
+   static void ParseFixed(StrLen text,Collector<Line> &buf);
+
+   void loadFixed(StrLen text);
 
   private:
 

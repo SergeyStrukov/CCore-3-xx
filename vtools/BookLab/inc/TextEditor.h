@@ -434,8 +434,6 @@ class TextWindow : public SubWindow
 
    void past(PastData &data);
 
-   void past();
-
   public:
 
    TextWindow(SubWindowHost &host,const Config &cfg);
@@ -473,6 +471,10 @@ class TextWindow : public SubWindow
    void setLink(String name);
 
    void link();
+
+   void past();
+
+   void pastFixed();
 
    void pastCPP();
 
@@ -556,6 +558,10 @@ class ScrollTextWindow : public ScrollableWindow<TextWindow>
    void flush() { window.flush(); }
 
    void link() { window.link(); }
+
+   void past() { window.past(); }
+
+   void pastFixed() { window.pastFixed(); }
 
    void pastCPP() { window.pastCPP(); }
 
@@ -642,7 +648,9 @@ class TextEditor : public ComboWindow
    LineEditWindow edit_D;
 
 
-   ButtonWindow btn_CPP;
+   ButtonWindow btn_past;
+   ButtonWindow btn_past_fixed;
+   ButtonWindow btn_past_cpp;
 
 
    ButtonWindow btn_format;
@@ -688,9 +696,9 @@ class TextEditor : public ComboWindow
    SignalConnector<TextEditor> connector_E_pressed;
    SignalConnector<TextEditor> connector_D_pressed;
 
-   void pastCPP();
-
-   SignalConnector<TextEditor> connector_CPP_pressed;
+   SignalConnector<ScrollTextWindow> connector_past_pressed;
+   SignalConnector<ScrollTextWindow> connector_past_fixed_pressed;
+   SignalConnector<ScrollTextWindow> connector_past_cpp_pressed;
 
   public:
 

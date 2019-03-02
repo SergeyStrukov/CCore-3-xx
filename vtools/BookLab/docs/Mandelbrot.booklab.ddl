@@ -1,38 +1,30 @@
 Doc Data = { "Mandelbrot scope" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { True , { 5 , 5 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
 
 {
-& o1,
-& o2
+& o1
 }
 
  };
 
-Scope o1 = { "Pages" , False , { { False , { 10 , 10 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , & o3 , null , & o4 , null , & o5 } , 
+Scope o1 = { "Pages" , True , { { False , { 10 , 10 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , & o2 , null , & o3 , null , & o4 } , 
 
 {
-& o6,
-& o7
+& o5,
+& o6
 }
 
  };
 
-Scope o2 = { "Pages1" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Format o2 = { "" , False , { "font_bullet" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o3 = { "" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+MultiLine o4 = { "" , False , { False , { 1 , 1 } } , { False , { 2 , 1 } } };
+
+Section o5 = { True , "Style" , 
 
 {
-
-}
-
- };
-
-Format o3 = { "" , False , { "font_bullet" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-Format o4 = { "" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-MultiLine o5 = { "" , False , { False , { 1 , 1 } } , { False , { 2 , 1 } } };
-
-Section o6 = { False , "Style" , 
-
-{
+& o7,
 & o8,
 & o9,
 & o10,
@@ -50,44 +42,46 @@ Section o6 = { False , "Style" ,
 
  };
 
-Section o7 = { True , "Text" , 
+Section o6 = { True , "Text" , 
 
 {
-& o21
+& o21,
+& o22
 }
 
  };
 
-Font o8 = { "font" , False , "Times New Roman" , 22 , { False , False } , { False , False } , { False , 0 } };
+Font o7 = { "font" , False , "Times New Roman" , 22 , { False , False } , { False , False } , { False , 0 } };
 
-Font o9 = { "font_h1" , False , "Times New Roman" , 56 , { False , True } , { False , False } , { False , 0 } };
+Font o8 = { "font_h1" , False , "Times New Roman" , 56 , { False , True } , { False , False } , { False , 0 } };
 
-Font o10 = { "font_h2" , False , "Times New Roman" , 32 , { False , True } , { False , False } , { False , 0 } };
+Font o9 = { "font_h2" , False , "Times New Roman" , 32 , { False , True } , { False , False } , { False , 0 } };
 
-Font o11 = { "font_bold" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
+Font o10 = { "font_bold" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
 
-Font o12 = { "font_italic" , False , "Times New Roman" , 22 , { False , False } , { False , True } , { False , 0 } };
+Font o11 = { "font_italic" , False , "Times New Roman" , 22 , { False , False } , { False , True } , { False , 0 } };
 
-Font o13 = { "font_bullet" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
+Font o12 = { "font_bullet" , False , "Times New Roman" , 22 , { False , True } , { False , False } , { False , 0 } };
 
-Format o14 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
+Format o13 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
 
-Format o15 = { "fmt_h2" , False , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
+Format o14 = { "fmt_h2" , False , { "font_h2" , null } , { True , NoColor } , { False , 06400h } , { True , 0 } };
 
-OneLine o16 = { "align_h1" , False , { False , 2 } };
+OneLine o15 = { "align_h1" , False , { False , 2 } };
 
-OneLine o17 = { "align_h2" , False , { False , 2 } };
+OneLine o16 = { "align_h2" , False , { False , 2 } };
 
-Format o18 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o17 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o19 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o18 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o20 = { "fmt_underline" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
+Format o19 = { "fmt_underline" , False , { "font" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
+
+Font o20 = { "font_test" , True , "Anonymous Pro" , 22 , { False , True } , { False , False } , { False , 0 } };
 
 Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o22 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o23 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o24 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o25 } },
@@ -105,12 +99,77 @@ Page o21 = { "page1" , True , "Manual" , { True , NoColor } , { True , NoColor }
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o37 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o38 } },
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o39 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o40 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o40 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o41 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { "test" , null } }
 }
 
- , 18 } };
+ , 19 } };
 
-Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+FixedText o22 = { "test" , True , { null , & o42 } , 
+
+{
+
+
+{
+{ "void PastData::ParseFixedLine(StrLen text,Line &ret)" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ " {" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "  Span span;" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "  span.body=text;" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "  ret.list.append_fill(std::move(span));" , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ " }" , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Text o23 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -125,7 +184,7 @@ Text o22 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o24 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -139,9 +198,9 @@ Text o23 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Bitmap o24 = { "" , "Mandelbrot.zipmap" };
+Bitmap o25 = { "" , "Mandelbrot.zipmap" };
 
-Text o25 = { "" , True , { null , null } , { null , null } , 
+Text o26 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -343,7 +402,7 @@ Text o25 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o26 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o27 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -357,7 +416,7 @@ Text o26 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o27 = { "" , True , { null , null } , { null , null } , 
+Text o28 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -411,7 +470,7 @@ Text o27 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o28 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o29 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -426,7 +485,7 @@ Text o28 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o29 = { "" , True , { null , null } , { null , null } , 
+Text o30 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -513,9 +572,9 @@ Text o29 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Bitmap o30 = { "" , "Colors.zipmap" };
+Bitmap o31 = { "" , "Colors.zipmap" };
 
-Text o31 = { "" , True , { null , null } , { null , null } , 
+Text o32 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -536,7 +595,7 @@ Text o31 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o32 = { "" , True , { null , null } , { null , null } , 
+Text o33 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -556,7 +615,7 @@ Text o32 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o33 = { "" , True , { null , null } , { null , null } , 
+Text o34 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -646,7 +705,7 @@ Text o33 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o34 = { "" , True , { null , null } , { null , null } , 
+Text o35 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -672,7 +731,7 @@ Text o34 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o35 = { "" , True , { null , null } , { null , null } , 
+Text o36 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -749,7 +808,7 @@ Text o35 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o36 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o37 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -764,7 +823,7 @@ Text o36 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o37 = { "" , True , { null , null } , { null , null } , 
+Text o38 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -852,7 +911,7 @@ Text o37 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o38 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o39 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -867,7 +926,7 @@ Text o38 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o39 = { "" , True , { null , null } , { null , null } , 
+Text o40 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -888,7 +947,7 @@ Text o39 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o40 = { "" , True , { null , null } , { null , null } , 
+Text o41 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -913,4 +972,6 @@ Text o40 = { "" , True , { null , null } , { null , null } ,
 }
 
  };
+
+Format o42 = { "" , True , { "font_test" , null } , { False , 08Bh } , { False , 0FFFF00h } , { True , 0 } };
 

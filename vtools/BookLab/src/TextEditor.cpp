@@ -1876,17 +1876,6 @@ void TextWindow::past(PastData &data)
   showCursor();
  }
 
-void TextWindow::past()
- {
-  PastData data;
-
-  getFrameHost()->textFromClipboard(data.function_load());
-
-  if( !data ) return;
-
-  past(data);
- }
-
 TextWindow::TextWindow(SubWindowHost &host,const Config &cfg_)
  : SubWindow(host),
    cfg(cfg_),
@@ -1963,6 +1952,28 @@ void TextWindow::link()
                    } );
 
   redraw();
+ }
+
+void TextWindow::past()
+ {
+  PastData data;
+
+  getFrameHost()->textFromClipboard(data.function_load());
+
+  if( !data ) return;
+
+  past(data);
+ }
+
+void TextWindow::pastFixed()
+ {
+  PastData data;
+
+  getFrameHost()->textFromClipboard(data.function_loadFixed());
+
+  if( !data ) return;
+
+  past(data);
  }
 
 void TextWindow::pastCPP()
@@ -2839,11 +2850,6 @@ void TextEditor::setD()
   setFormat(edit_D.getString());
  }
 
-void TextEditor::pastCPP()
- {
-  edit_text.pastCPP();
- }
-
 TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -2866,7 +2872,9 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
    btn_D(wlist,cfg.btn_cfg,"D"_str),
    edit_D(wlist,cfg.edit_cfg),
 
-   btn_CPP(wlist,cfg.btn_cfg,"C++"_str),
+   btn_past(wlist,cfg.btn_cfg,"Past"_str),
+   btn_past_fixed(wlist,cfg.btn_cfg,"Past fixed"_str),
+   btn_past_cpp(wlist,cfg.btn_cfg,"Past C++"_str),
 
    btn_format(wlist,cfg.btn_cfg,"Format"_str),
    btn_link(wlist,cfg.btn_cfg,"Link"_str),
@@ -2891,13 +2899,15 @@ TextEditor::TextEditor(SubWindowHost &host,const Config &cfg_)
    connector_E_pressed(this,&TextEditor::setE,btn_E.pressed),
    connector_D_pressed(this,&TextEditor::setD,btn_D.pressed),
 
-   connector_CPP_pressed(this,&TextEditor::pastCPP,btn_CPP.pressed),
+   connector_past_pressed(&edit_text,&ScrollTextWindow::past,btn_past.pressed),
+   connector_past_fixed_pressed(&edit_text,&ScrollTextWindow::pastFixed,btn_past_fixed.pressed),
+   connector_past_cpp_pressed(&edit_text,&ScrollTextWindow::pastCPP,btn_past_cpp.pressed),
 
    modified(edit_text.modified)
  {
   wlist.insTop(btn_B,edit_B,btn_U,edit_U,btn_I,edit_I,
                btn_Q,edit_Q,btn_E,edit_E,btn_D,edit_D,
-               btn_CPP,
+               btn_past,btn_past_fixed,btn_past_cpp,
                btn_format,edit_format,btn_link,edit_link,edit_text,cont);
 
   edit_format.hideInactiveCursor();
@@ -2931,13 +2941,15 @@ Point TextEditor::getMinSize() const
 
   LayToRightCenter lay2{Lay(btn_Q),Lay(edit_Q),Lay(btn_E),Lay(edit_E),Lay(btn_D),LayLeft(edit_D)};
 
+  LayToRightCenter lay3{Lay(btn_past),Lay(btn_past_fixed),LayLeft(btn_past_cpp)};
+
   LayToRightCenter lay4{Lay(btn_format),Lay(edit_format)};
 
   LayToRightCenter lay5{Lay(btn_link),Lay(edit_link)};
 
   LayInner lay6{cont,Lay{edit_text}};
 
-  LayToBottom lay{lay1,lay2,LayLeft(btn_CPP),lay4,lay5,lay6};
+  LayToBottom lay{lay1,lay2,lay3,lay4,lay5,lay6};
 
   return lay.getMinSize(space);
  }
@@ -2969,13 +2981,15 @@ void TextEditor::layout()
 
   LayToRightCenter lay2{Lay(btn_Q),Lay(edit_Q),Lay(btn_E),Lay(edit_E),Lay(btn_D),LayLeft(edit_D)};
 
+  LayToRightCenter lay3{Lay(btn_past),Lay(btn_past_fixed),LayLeft(btn_past_cpp)};
+
   LayToRightCenter lay4{Lay(btn_format),Lay(edit_format)};
 
   LayToRightCenter lay5{Lay(btn_link),Lay(edit_link)};
 
   LayInner lay6{cont,Lay{edit_text}};
 
-  LayToBottom lay{lay1,lay2,LayLeft(btn_CPP),lay4,lay5,lay6};
+  LayToBottom lay{lay1,lay2,lay3,lay4,lay5,lay6};
 
   lay.setPlace(getPane(),space);
  }

@@ -1844,6 +1844,38 @@ void PastData::load(StrLen text)
   if( !parseCombo(text) ) parseSimple(text);
  }
 
+void PastData::ParseFixedLine(StrLen text,Line &ret)
+ {
+  Span span;
+
+  span.body=text;
+
+  ret.list.append_fill(std::move(span));
+ }
+
+void PastData::ParseFixed(StrLen text,Collector<Line> &buf)
+ {
+  while( +text )
+    {
+     StrLen line=CutLine(text);
+
+     Line obj;
+
+     ParseFixedLine(line,obj);
+
+     buf.append_fill(std::move(obj));
+    }
+ }
+
+void PastData::loadFixed(StrLen text)
+ {
+  Collector<Line> buf;
+
+  ParseFixed(text,buf);
+
+  buf.extractTo(list);
+ }
+
 class PastData::TokenBuilder
  {
    Collector<Line> buf;
