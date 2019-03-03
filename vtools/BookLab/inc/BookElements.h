@@ -765,6 +765,10 @@ struct ElementList : NoCopy
 
   Element * del(Element *ptr);
 
+  bool movePrev(Element *ptr);
+
+  bool moveNext(Element *ptr);
+
   void append(IntObjPtr<Element> elem)
    {
     IntObjPtr<Element> prev=end;

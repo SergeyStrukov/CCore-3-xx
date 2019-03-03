@@ -142,10 +142,6 @@ class InnerBookLabWindow : public SubWindow
 
    void insFirstElement();
 
-   void insItem();
-
-   void delItem();
-
    void listPrev();
 
    void listNext();
@@ -153,10 +149,6 @@ class InnerBookLabWindow : public SubWindow
    void listBeg();
 
    void listEnd();
-
-   void movePrev();
-
-   void moveNext();
 
   private:
 
@@ -253,6 +245,14 @@ class InnerBookLabWindow : public SubWindow
 
    void showTemp();
 
+   void insItem();
+
+   void delItem();
+
+   void upItem();
+
+   void downItem();
+
    // special methods
 
    bool shortDX() const { return sx.tooShort(); }
@@ -345,6 +345,14 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    void showTemp() { window.showTemp(); }
 
+   void insItem() { window.insItem(); }
+
+   void upItem() { window.upItem(); }
+
+   void downItem() { window.downItem(); }
+
+   void delItem() { window.delItem(); }
+
    // signals
 
    Signal<> &modified;
@@ -369,6 +377,7 @@ class EditWindow : public ComboWindow
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<YDoubleLineWindow::ConfigType> dline_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<FileFrame::ConfigType> file_cfg;
 
@@ -406,6 +415,7 @@ class EditWindow : public ComboWindow
        text_cfg.bind(proxy);
        dline_cfg.bind(proxy);
        btn_cfg.bind(proxy);
+       knob_cfg.bind(proxy);
        msg_cfg.bind(proxy);
        file_cfg.bind(proxy);
       }
@@ -430,11 +440,22 @@ class EditWindow : public ComboWindow
 
    RefLabelWindow label_file;
    TextLineWindow text_file;
+
    RefButtonWindow btn_save;
    RefButtonWindow btn_link;
    RefButtonWindow btn_book;
 
    YDoubleLineWindow line1;
+
+   KnobWindow knob_ins;
+   KnobWindow knob_up;
+   KnobWindow knob_down;
+
+   YDoubleLineWindow line2;
+
+   KnobWindow knob_del;
+
+   YDoubleLineWindow line3;
 
    RefButtonWindow btn_temp;
 
@@ -486,6 +507,13 @@ class EditWindow : public ComboWindow
    void tick();
 
    DeferTick defer_tick;
+
+  private:
+
+   SignalConnector<BookLabWindow> connector_ins_pressed;
+   SignalConnector<BookLabWindow> connector_up_pressed;
+   SignalConnector<BookLabWindow> connector_down_pressed;
+   SignalConnector<BookLabWindow> connector_del_pressed;
 
   public:
 

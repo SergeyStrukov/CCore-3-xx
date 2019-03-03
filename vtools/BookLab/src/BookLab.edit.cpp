@@ -185,6 +185,13 @@ HandleResult PaneRef::handleListEnd()
 
 HandleResult PaneRef::handleMovePrev()
  {
+  if( ElementList *list=getElementList() )
+    {
+     Element *elem=getElement();
+
+     return list->movePrev(elem)?HandleUpdate:HandleNone;
+    }
+
   HandleResult ret=HandleNone;
 
   ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleMovePrev(ptr); } );
@@ -194,6 +201,13 @@ HandleResult PaneRef::handleMovePrev()
 
 HandleResult PaneRef::handleMoveNext()
  {
+  if( ElementList *list=getElementList() )
+    {
+     Element *elem=getElement();
+
+     return list->moveNext(elem)?HandleUpdate:HandleNone;
+    }
+
   HandleResult ret=HandleNone;
 
   ref.pad.apply( [&] (auto *ptr) { if( ptr ) ret=handleMoveNext(ptr); } );

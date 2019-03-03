@@ -105,6 +105,38 @@ Element * ElementList::del(Element *ptr)
   return 0;
  }
 
+bool ElementList::movePrev(Element *ptr)
+ {
+  ExtObjPtr<Element> prev=ptr->prev;
+
+  if( +prev )
+    {
+     del(prev.getPtr());
+
+     insAfter(ptr,prev);
+
+     return true;
+    }
+
+  return false;
+ }
+
+bool ElementList::moveNext(Element *ptr)
+ {
+  IntObjPtr<Element> next=ptr->next;
+
+  if( +next )
+    {
+     del(next.getPtr());
+
+     insBefore(ptr,next);
+
+     return true;
+    }
+
+  return false;
+ }
+
 /* struct LastDefaults */
 
 LastDefaults::LastDefaults(ObjectDomain &domain)
