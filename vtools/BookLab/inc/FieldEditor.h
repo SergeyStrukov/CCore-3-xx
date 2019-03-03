@@ -1489,6 +1489,25 @@ class FieldWindow : public ComboWindow
 
    void setField(DynArray<BookLab::TextLine> *pad);
 
+   template <class T>
+   void setFrameField(T *ptr);
+
+   void setFrameField(BookLab::Text *ptr);
+
+   void setFrameField(BookLab::FixedText *ptr);
+
+   template <class ... TT>
+   void setFrameField(IntAnyObjPtr<TT...> &ptr);
+
+   template <class ... TT>
+   void setFrameField(BookLab::NamedPtr<TT...> &body);
+
+   void setField(BookLab::FrameList *pad);
+
+   void setItemField(BookLab::FrameList &list);
+
+   void setField(BookLab::ItemList *pad);
+
   private:
 
    void set_pressed();

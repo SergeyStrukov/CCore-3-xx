@@ -1824,6 +1824,90 @@ void FieldWindow::setField(DynArray<BookLab::TextLine> *pad)
   setFieldCtrl(field_Text,pad);
  }
 
+template <class T>
+void FieldWindow::setFrameField(T *)
+ {
+  noField();
+ }
+
+void FieldWindow::setFrameField(BookLab::Text *ptr)
+ {
+  setField(&ptr->list);
+ }
+
+void FieldWindow::setFrameField(BookLab::FixedText *ptr)
+ {
+  setField(&ptr->list);
+ }
+
+template <class ... TT>
+void FieldWindow::setFrameField(IntAnyObjPtr<TT...> &ptr)
+ {
+  if( +ptr )
+    {
+     ptr.getPtr().apply( [&] (auto *ptr) { setFrameField(ptr); } );
+    }
+  else
+    {
+     noField();
+    }
+ }
+
+template <class ... TT>
+void FieldWindow::setFrameField(BookLab::NamedPtr<TT...> &body)
+ {
+  if( body.isAnonym() )
+    {
+     setFrameField(body.ptr);
+    }
+  else
+    {
+     setField(&body);
+    }
+ }
+
+void FieldWindow::setField(BookLab::FrameList *pad)
+ {
+  IntObjPtr<BookLab::Frame> frame=pad->cur;
+
+  if( +frame )
+    {
+     setFrameField(frame->body);
+    }
+  else
+    {
+     noField();
+    }
+ }
+
+void FieldWindow::setItemField(BookLab::FrameList &list)
+ {
+  IntObjPtr<BookLab::Frame> frame=list.beg;
+
+  if( +frame )
+    {
+     setFrameField(frame->body);
+    }
+  else
+    {
+     noField();
+    }
+ }
+
+void FieldWindow::setField(BookLab::ItemList *pad)
+ {
+  IntObjPtr<BookLab::Item> frame=pad->cur;
+
+  if( +frame )
+    {
+     setItemField(frame->list);
+    }
+  else
+    {
+     noField();
+    }
+ }
+
 void FieldWindow::set_pressed()
  {
   if( field_ctrl )
