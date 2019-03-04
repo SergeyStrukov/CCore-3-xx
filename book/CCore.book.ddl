@@ -123,7 +123,7 @@ OneLine ANONYM10 = { 2 } ;
 Page content = { "Content" ,
 {
 { & ANONYM11 , null , { 10 , 30 } , DefaultOuter , NoColor }
-,{ & List#list , null , DefaultInner , DefaultOuter , NoColor }
+,{ & List#list , & ANONYM12 , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , & cover , null } ;
 
@@ -133,13 +133,17 @@ Text ANONYM11 = {
 ,{ "of" , null , null }
 ,{ "content" , null , null }
 }
-, & fmt_h1 , & ANONYM12 } ;
+, & fmt_h1 , & ANONYM13 } ;
 
-OneLine ANONYM12 = { 2 } ;
+SingleLine ANONYM12 = { { 1 , 1 } , 0EE82EEh } ;
+
+OneLine ANONYM13 = { 2 } ;
 
 scope List {
 
 Point DefaultInner = { 0 , 0 } ;
+
+Format DefaultCollapseFormat = { & font_list , NoColor , NoColor , 0 } ;
 
 Format DefaultBulletFormat = { & font_list , NoColor , NoColor , 0 } ;
 
@@ -151,41 +155,39 @@ TextList list = {
 {
 { "1." ,
 {
-{ & ANONYM13 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & List2#list3 , null , { 5 , 5 } , DefaultOuter , NoColor }
+{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , 10 , 10 } ;
 
-Text ANONYM13 = {
+Text ANONYM14 = {
 {
 { "Introduction." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM14 = {
+Text ANONYM15 = {
 {
 { "Installation." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM15 = {
+Collapse ANONYM16 = { "Preliminary considerations" ,
 {
-{ "Preliminary" , null , null }
-,{ "considerations" , null , null }
+{ & List2#list3 , null , DefaultInner , DefaultOuter , NoColor }
 }
-, &DefaultFormat , &DefaultPlacement } ;
+, &DefaultCollapseFormat , False , False } ;
 
 scope List2 {
 
@@ -197,43 +199,43 @@ TextList list3 = {
 {
 { "1." ,
 {
-{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , 5 , 5 } ;
 
-Text ANONYM16 = {
+Text ANONYM17 = {
 {
 { "Metaphysics" , null , null }
 ,{ "of" , null , null }
 ,{ "the" , null , null }
-,{ "programming" , null , null }
-}
-, &DefaultFormat , &DefaultPlacement } ;
-
-Text ANONYM17 = {
-{
-{ "Taxonomy" , null , null }
-,{ "of" , null , null }
-,{ "classes" , null , null }
+,{ "programming." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
 Text ANONYM18 = {
 {
+{ "Taxonomy" , null , null }
+,{ "of" , null , null }
+,{ "classes." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text ANONYM19 = {
+{
 { "CCore" , null , null }
-,{ "general" , null , null }
+,{ "general." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
