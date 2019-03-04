@@ -487,7 +487,7 @@ class FieldColor : public ComboWindow , public FieldControl
 
    VColor getValue() const { return edit.getColor(); }
 
-   void setValue(VColor val) { edit.setColor(val); }
+   void setValue(VColor val) { edit.setColor( (val==BookLab::NoColor)?Black:val ); }
 
    virtual void set(bool *def_pad,bool def);
 

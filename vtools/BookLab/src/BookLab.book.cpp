@@ -614,8 +614,8 @@ class Book::BookContext : NextIndex
      elem(ptr->list);
 
      printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultBulletFormat"_c),
-                                     OptDef(ptr->bullet_space,"&DefaultBulletSpace"_c),
-                                     OptDef(ptr->item_space,"&DefaultItemSpace"_c));
+                                     OptDef(ptr->bullet_space,"DefaultBulletSpace"_c),
+                                     OptDef(ptr->item_space,"DefaultItemSpace"_c));
     }
 
    void elem(NameType name,Border *ptr)
