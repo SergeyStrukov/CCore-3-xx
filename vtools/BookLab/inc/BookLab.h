@@ -604,6 +604,14 @@ struct InsData
   ElementType type = ElementNone ;
   InsPlace place = InsAfter ;
   String text; // name OR comment
+  bool extern_flag = false ;
+
+  void reset()
+   {
+    type=ElementNone;
+    place=InsAfter;
+    text=Null;
+   }
  };
 
 /* struct Config */
@@ -727,6 +735,15 @@ class Book : NoCopy
    class LinkContext;
 
   private:
+
+   template <class T,class ... TT>
+   static void TrySet(IntAnyObjPtr<TT...> &ret,const ExtObjPtr<T> &obj) requires( Meta::OneOf<T,TT...> ) ;
+
+   template <class T,class ... TT>
+   static void TrySet(IntAnyObjPtr<TT...> &ret,const ExtObjPtr<T> &obj) requires( !Meta::OneOf<T,TT...> ) ;
+
+   template <class ... TT>
+   void create(IntAnyObjPtr<TT...> &ret,InsData data);
 
    ExtObjPtr<Element> create(InsData data);
 

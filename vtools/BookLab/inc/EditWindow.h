@@ -142,6 +142,11 @@ class InnerBookLabWindow : public SubWindow
 
    void insFirstElement();
 
+   template <class T>
+   bool insExtern(T *) { return false; }
+
+   bool insExtern(BookLab::Element *ptr);
+
    void listPrev();
 
    void listNext();
@@ -247,6 +252,8 @@ class InnerBookLabWindow : public SubWindow
 
    void insItem();
 
+   void insExtern();
+
    void delItem();
 
    void upItem();
@@ -347,6 +354,8 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    void insItem() { window.insItem(); }
 
+   void insExtern() { window.insExtern(); }
+
    void upItem() { window.upItem(); }
 
    void downItem() { window.downItem(); }
@@ -381,17 +390,18 @@ class EditWindow : public ComboWindow
      CtorRefVal<MessageFrame::AlertConfigType> msg_cfg;
      CtorRefVal<FileFrame::ConfigType> file_cfg;
 
-     RefVal<String> text_Error = "Error"_str ;
+     RefVal<String> text_Error    = "Error"_str ;
      RefVal<String> text_SaveFile = "Select a file to save to"_str ;
 
      // app
 
      RefVal<String> text_NoFile = "<No file>"_str ;
-     RefVal<String> text_File = "File"_str ;
-     RefVal<String> text_Save = "Save"_str ;
-     RefVal<String> text_Link = "Link"_str ;
-     RefVal<String> text_Book = "Book"_str ;
-     RefVal<String> text_Temp = "Temp"_str ;
+     RefVal<String> text_File   = "File"_str ;
+     RefVal<String> text_Save   = "Save"_str ;
+     RefVal<String> text_Link   = "Link"_str ;
+     RefVal<String> text_Book   = "Book"_str ;
+     RefVal<String> text_Extern = "Extern"_str ;
+     RefVal<String> text_Temp   = "Temp"_str ;
 
      BookLabWindow::ConfigType book_cfg;
 
@@ -428,6 +438,7 @@ class EditWindow : public ComboWindow
        text_Save.bind(bag.text_Save);
        text_Link.bind(bag.text_Link);
        text_Book.bind(bag.text_Book);
+       text_Extern.bind(bag.text_Extern);
        text_Temp.bind(bag.text_Temp);
       }
     };
@@ -457,6 +468,7 @@ class EditWindow : public ComboWindow
 
    YDoubleLineWindow line3;
 
+   RefButtonWindow btn_extern;
    RefButtonWindow btn_temp;
 
    BookLabWindow book;
@@ -491,6 +503,8 @@ class EditWindow : public ComboWindow
    SignalConnector<EditWindow> connector_link_pressed;
 
    SignalConnector<EditWindow> connector_book_pressed;
+
+   SignalConnector<BookLabWindow> connector_extern_pressed;
 
    SignalConnector<BookLabWindow> connector_temp_pressed;
 

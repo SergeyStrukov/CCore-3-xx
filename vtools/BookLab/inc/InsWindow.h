@@ -196,7 +196,7 @@ class InsWindow : public ComboWindow
 
    Point getMinSize() const;
 
-   void enablePlace(bool all,bool inside);
+   void enablePlace(bool all,bool inside,bool extern_flag);
 
    BookLab::InsData getData() const { return data; }
 
@@ -273,7 +273,7 @@ class InsFrame : public DragFrame
 
    // methods
 
-   void enablePlace(bool all,bool inside) { client.enablePlace(all,inside); }
+   void enablePlace(bool all,bool inside,bool extern_flag) { client.enablePlace(all,inside,extern_flag); }
 
    BookLab::InsData getData() const { return client.getData(); }
 

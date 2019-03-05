@@ -175,9 +175,9 @@ TextList list = {
 
 Text ANONYM13 = {
 {
-{ "Introduction." , null , null }
+{ "Introduction." , null , & #Doc#Pages#link_Introduction }
 }
-, &DefaultFormat , &DefaultPlacement } ;
+, & ANONYM16 , &DefaultPlacement } ;
 
 Text ANONYM14 = {
 {
@@ -190,6 +190,8 @@ Collapse ANONYM15 = { "Preliminary considerations" ,
 { & List2#list3 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , &DefaultCollapseFormat , False , False } ;
+
+Format ANONYM16 = { & font_list , NoColor , NoColor , 1 } ;
 
 scope List2 {
 
@@ -205,23 +207,23 @@ TextList list3 = {
 {
 { "1." ,
 {
-{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ANONYM16 = {
+Text ANONYM17 = {
 {
 { "Metaphysics" , null , null }
 ,{ "of" , null , null }
@@ -230,7 +232,7 @@ Text ANONYM16 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM17 = {
+Text ANONYM18 = {
 {
 { "Taxonomy" , null , null }
 ,{ "of" , null , null }
@@ -238,7 +240,7 @@ Text ANONYM17 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM18 = {
+Text ANONYM19 = {
 {
 { "CCore" , null , null }
 ,{ "general." , null , null }

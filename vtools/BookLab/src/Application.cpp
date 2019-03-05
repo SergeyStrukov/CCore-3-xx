@@ -44,6 +44,7 @@ void AppPreferenceBag::bindItems(ConfigItemBind &binder)
     binder.item("'Save'"_str,text_Save);
     binder.item("'Link'"_str,text_Link);
     binder.item("'Book'"_str,text_Book);
+    binder.item("'Extern'"_str,text_Extern);
     binder.item("'Temp'"_str,text_Temp);
     binder.item("'Copy'"_str,text_Copy);
     binder.item("'Past'"_str,text_Past);

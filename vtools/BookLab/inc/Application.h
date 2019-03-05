@@ -49,11 +49,12 @@ struct AppPreferenceBag
   // book
 
   String text_NoFile = "<No file>"_str ;
-  String text_File = "File"_str ;
-  String text_Save = "Save"_str ;
-  String text_Link = "Link"_str ;
-  String text_Book = "Book"_str ;
-  String text_Temp = "Temp"_str ;
+  String text_File   = "File"_str ;
+  String text_Save   = "Save"_str ;
+  String text_Link   = "Link"_str ;
+  String text_Book   = "Book"_str ;
+  String text_Extern = "Extern"_str ;
+  String text_Temp   = "Temp"_str ;
 
   String text_Copy = "Copy"_str ;
   String text_Past = "Past"_str ;
@@ -126,6 +127,7 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("text_Save"_c,ptr->text_Save);
   func("text_Link"_c,ptr->text_Link);
   func("text_Book"_c,ptr->text_Book);
+  func("text_Extern"_c,ptr->text_Extern);
   func("text_Temp"_c,ptr->text_Temp);
   func("text_Copy"_c,ptr->text_Copy);
   func("text_Past"_c,ptr->text_Past);

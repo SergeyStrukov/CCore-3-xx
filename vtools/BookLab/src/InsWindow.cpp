@@ -220,8 +220,10 @@ Point InsWindow::getMinSize() const
   return ExtLay(lay).getMinSize(space);
  }
 
-void InsWindow::enablePlace(bool all,bool inside)
+void InsWindow::enablePlace(bool all,bool inside,bool extern_flag)
  {
+  data.extern_flag=extern_flag;
+
   if( all )
     {
      lab_before.enable();
@@ -249,6 +251,18 @@ void InsWindow::enablePlace(bool all,bool inside)
      lab_inside.disable();
      rad_inside.disable();
     }
+
+  lab6.enable(!extern_flag);
+  rad6.enable(!extern_flag);
+
+  lab7.enable(!extern_flag);
+  rad7.enable(!extern_flag);
+
+  lab8.enable(!extern_flag);
+  rad8.enable(!extern_flag);
+
+  lab19.enable(!extern_flag);
+  rad19.enable(!extern_flag);
  }
 
  // base
@@ -257,7 +271,7 @@ void InsWindow::open()
  {
   ComboWindow::open();
 
-  data={};
+  data.reset();
 
   typeChanged(group_type.getRadioId(),-1);
  }

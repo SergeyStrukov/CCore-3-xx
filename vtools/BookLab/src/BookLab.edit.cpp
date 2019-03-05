@@ -16,7 +16,6 @@
 #include <CCore/inc/CompactList.h>
 
 #include <CCore/inc/Exception.h>
-#include <CCore/inc/Print.h>
 
 #include <CCore/inc/video/PrintDDL.h>
 
@@ -275,10 +274,20 @@ HandleResult Book::insFirst()
   return HandleNone;
  }
 
-ExtObjPtr<Element> Book::create(InsData data)
+template <class T,class ... TT>
+void Book::TrySet(IntAnyObjPtr<TT...> &ret,const ExtObjPtr<T> &obj) requires( Meta::OneOf<T,TT...> )
  {
-  ExtObjPtr<Element> ret(domain);
+  ret=obj;
+ }
 
+template <class T,class ... TT>
+void Book::TrySet(IntAnyObjPtr<TT...> &,const ExtObjPtr<T> &) requires( !Meta::OneOf<T,TT...> )
+ {
+ }
+
+template <class ... TT>
+void Book::create(IntAnyObjPtr<TT...> &ret,InsData data)
+ {
   switch( data.type )
     {
      case ElementFont :
@@ -287,7 +296,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -297,7 +306,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -307,7 +316,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -317,7 +326,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -327,7 +336,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -337,7 +346,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -347,7 +356,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->comment=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -357,7 +366,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -367,7 +376,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -377,7 +386,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -387,7 +396,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -397,7 +406,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -407,7 +416,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -417,7 +426,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -427,7 +436,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -437,7 +446,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -447,7 +456,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -457,7 +466,7 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
 
@@ -467,9 +476,27 @@ ExtObjPtr<Element> Book::create(InsData data)
 
        ptr->file_name=data.text;
 
-       ret->ptr=ptr;
+       TrySet(ret,ptr);
       }
      break;
+    }
+ }
+
+ExtObjPtr<Element> Book::create(InsData data)
+ {
+  ExtObjPtr<Element> ret(domain);
+
+  if( data.extern_flag )
+    {
+     ExtObjPtr<Extern> ptr(domain);
+
+     ret->ptr=ptr;
+
+     create(ptr->ptr,data);
+    }
+  else
+    {
+     create(ret->ptr,data);
     }
 
   return ret;

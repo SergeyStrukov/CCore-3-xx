@@ -186,7 +186,7 @@ bool InnerBookLabWindow::insItem(BookLab::Element *ptr)
     {
      auto anyptr=ptr->ptr.getPtr();
 
-     ins_frame.enablePlace(true, anyptr.hasType<BookLab::Scope>() || anyptr.hasType<BookLab::Section>() );
+     ins_frame.enablePlace(true, anyptr.hasType<BookLab::Scope>() || anyptr.hasType<BookLab::Section>() ,false);
 
      ins_frame.create(getFrame());
 
@@ -200,12 +200,28 @@ void InnerBookLabWindow::insFirstElement()
  {
   if( ins_frame.isDead() )
     {
-     ins_frame.enablePlace(false,false);
+     ins_frame.enablePlace(false,false,false);
 
      ins_frame.create(getFrame());
 
      disableFrameReact();
     }
+ }
+
+bool InnerBookLabWindow::insExtern(BookLab::Element *ptr)
+ {
+  if( ins_frame.isDead() )
+    {
+     auto anyptr=ptr->ptr.getPtr();
+
+     ins_frame.enablePlace(true, anyptr.hasType<BookLab::Scope>() || anyptr.hasType<BookLab::Section>() ,true);
+
+     ins_frame.create(getFrame());
+
+     disableFrameReact();
+    }
+
+  return false;
  }
 
 void InnerBookLabWindow::listPrev()
@@ -506,6 +522,21 @@ void InnerBookLabWindow::insItem()
     }
  }
 
+void InnerBookLabWindow::insExtern()
+ {
+  bool ret=false;
+
+  if( cursor.isPad() )
+    {
+     cursor.applyToPad( [&] (auto *ptr) { if( ptr ) ret=insExtern(ptr); } );
+    }
+
+  if( ret )
+    {
+     update(true);
+    }
+ }
+
 void InnerBookLabWindow::delItem()
  {
   temp_frame.copy(cursor.ref);
@@ -658,7 +689,10 @@ void InnerBookLabWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
     {
      case VKey_Insert :
       {
-       insItem();
+       if( kmod&KeyMod_Alt )
+         insExtern();
+       else
+         insItem();
       }
      break;
 
@@ -943,6 +977,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
    line3(wlist,cfg.dline_cfg),
 
+   btn_extern(wlist,cfg.btn_cfg,cfg.text_Extern),
    btn_temp(wlist,cfg.btn_cfg,cfg.text_Temp),
 
    book(wlist,cfg.book_cfg,update),
@@ -954,6 +989,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    connector_save_pressed(this,&EditWindow::save_pressed,btn_save.pressed),
    connector_link_pressed(this,&EditWindow::link_pressed,btn_link.pressed),
    connector_book_pressed(this,&EditWindow::saveBook,btn_book.pressed),
+   connector_extern_pressed(&book,&BookLabWindow::insExtern,btn_extern.pressed),
    connector_temp_pressed(&book,&BookLabWindow::showTemp,btn_temp.pressed),
    connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
    connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed),
@@ -969,7 +1005,7 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
  {
   defer_tick=input.create(&EditWindow::tick);
 
-  wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,line1,knob_ins,knob_up,knob_down,line2,knob_del,line3,btn_temp,book);
+  wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,line1,knob_ins,knob_up,knob_down,line2,knob_del,line3,btn_extern,btn_temp,book);
 
   // file_frame
 
@@ -992,7 +1028,7 @@ Point EditWindow::getMinSize() const
   LayToRight lay2{LayCenterY(btn_save),LayCenterY(btn_link),LayCenterY(btn_book),Lay(line1),
                   LayCenterY(knob_ins),LayCenterY(knob_up),LayCenterY(knob_down),Lay(line2),
                   LayCenterY(knob_del),Lay(line3),
-                  LayAlignLeft(LayCenterY{btn_temp})};
+                  LayCenterY(btn_extern),LayAlignLeft(LayCenterY{btn_temp})};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
@@ -1108,7 +1144,7 @@ void EditWindow::layout()
   LayToRight lay2{LayCenterY(btn_save),LayCenterY(btn_link),LayCenterY(btn_book),Lay(line1),
                   LayCenterY(knob_ins),LayCenterY(knob_up),LayCenterY(knob_down),Lay(line2),
                   LayCenterY(knob_del),Lay(line3),
-                  LayAlignLeft(LayCenterY{btn_temp})};
+                  LayCenterY(btn_extern),LayAlignLeft(LayCenterY{btn_temp})};
 
   LayToBottom lay{ExtLayNoSpace{LayToBottom{lay1,lay2}},Lay(book)};
 
