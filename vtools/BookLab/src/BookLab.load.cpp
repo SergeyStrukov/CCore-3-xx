@@ -88,6 +88,9 @@ struct Book::LoadType<TypeDef::Text> : Meta::DefType<Text> {};
 template <>
 struct Book::LoadType<TypeDef::Include> : Meta::DefType<Include> {};
 
+template <>
+struct Book::LoadType<TypeDef::Extern> : Meta::DefType<Extern> {};
+
 #if 0
 
 template <>
@@ -427,6 +430,11 @@ class Book::LoadContext : NoCopy
    void init(Include *ret,const TypeDef::Include *ptr)
     {
      Cast(ret->file_name,ptr->file_name);
+    }
+
+   void init(Extern *ret,const TypeDef::Extern *ptr)
+    {
+     create(ret->ptr,ptr->ptr);
     }
 
   private:

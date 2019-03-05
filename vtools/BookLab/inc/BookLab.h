@@ -851,6 +851,8 @@ class Book : NoCopy
 
    ExtObjPtr<Include> clone(Include *ptr);
 
+   ExtObjPtr<Extern> clone(Extern *ptr);
+
    ExtObjPtr<Element> clone(Element *ptr);
 
    // del

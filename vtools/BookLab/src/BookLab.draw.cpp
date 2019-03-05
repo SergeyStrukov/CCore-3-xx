@@ -182,6 +182,88 @@ class Book::ShowName : NoCopy
      Printf(out,"include <#;>",ptr->file_name);
     }
 
+   void showExtern(Font *ptr)
+    {
+     Printf(out,"extern Font #; ;",ptr->name);
+    }
+
+   void showExtern(Format *ptr)
+    {
+     Printf(out,"extern Format #; ;",ptr->name);
+    }
+
+   void showExtern(SingleLine *ptr)
+    {
+     Printf(out,"extern SingleLine #; ;",ptr->name);
+    }
+
+   void showExtern(DoubleLine *ptr)
+    {
+     Printf(out,"extern DoubleLine #; ;",ptr->name);
+    }
+
+   void showExtern(Page *ptr)
+    {
+     Printf(out,"extern Page #; ;",ptr->name);
+    }
+
+   void showExtern(Collapse *ptr)
+    {
+     Printf(out,"extern Collapse #; ;",ptr->name);
+    }
+
+   void showExtern(TextList *ptr)
+    {
+     Printf(out,"extern TextList #; ;",ptr->name);
+    }
+
+   void showExtern(Border *ptr)
+    {
+     Printf(out,"extern Border #; ;",ptr->name);
+    }
+
+   void showExtern(Cell *ptr)
+    {
+     Printf(out,"extern Cell #; ;",ptr->name);
+    }
+
+   void showExtern(Table *ptr)
+    {
+     Printf(out,"extern Table #; ;",ptr->name);
+    }
+
+   void showExtern(Link *ptr)
+    {
+     Printf(out,"extern Link #; ;",ptr->name);
+    }
+
+   void showExtern(FixedText *ptr)
+    {
+     Printf(out,"extern FixedText #; ;",ptr->name);
+    }
+
+   void showExtern(OneLine *ptr)
+    {
+     Printf(out,"extern OneLine #; ;",ptr->name);
+    }
+
+   void showExtern(MultiLine *ptr)
+    {
+     Printf(out,"extern MultiLine #; ;",ptr->name);
+    }
+
+   void showExtern(Text *ptr)
+    {
+     Printf(out,"extern Text #; ;",ptr->name);
+    }
+
+   void show(Extern *ptr)
+    {
+     auto &anyptr=ptr->ptr;
+
+     if( +anyptr ) anyptr.getPtr().apply( [&] (auto *ptr) { showExtern(ptr); } );
+    }
+
   public:
 
    template <class T>
@@ -769,18 +851,13 @@ class Book::PrepareContext : NoCopy
      placeTable(base,ptr);
     }
 
-   Point sizeBody(Include *ptr)
-    {
-     Used(ptr);
+   Point sizeBody(Include *) { return Null; }
 
-     return Null;
-    }
+   void placeBody(Point,Include *) {}
 
-   void placeBody(Point base,Include *ptr)
-    {
-     Used(base);
-     Used(ptr);
-    }
+   Point sizeBody(Extern *) { return Null; }
+
+   void placeBody(Point,Extern *) {}
 
   private:
 
@@ -1678,11 +1755,9 @@ class Book::DrawContext : NoCopy
      drawTable(base,ptr);
     }
 
-   void drawBody(Point base,Include *ptr)
-    {
-     Used(base);
-     Used(ptr);
-    }
+   void drawBody(Point,Include *) {}
+
+   void drawBody(Point,Extern *) {}
 
   private:
 

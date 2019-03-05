@@ -519,6 +519,13 @@ class Book::BookContext : NextIndex
      elem(ptr->list);
     }
 
+   void elem(Include *ptr)
+    {
+     printf("include <#;>\n\n",ptr->file_name);
+    }
+
+   void elem(Extern *) {}
+
    void elem(NameType name,Font *ptr)
     {
      printf("Font #; = { #; , #; , #; , #; , #; } ;\n\n",name,
@@ -693,11 +700,6 @@ class Book::BookContext : NextIndex
 
      printf(", #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultFormat"_c),
                                 Named(this,ptr->placement,"&DefaultPlacement"_c));
-    }
-
-   void elem(Include *ptr)
-    {
-     printf("include <#;>\n\n",ptr->file_name);
     }
 
    void elem(FrameList &list)

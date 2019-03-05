@@ -143,6 +143,8 @@ struct Text;
 
 struct Include;
 
+struct Extern;
+
 /* struct Ratio */
 
 struct Ratio
@@ -733,7 +735,7 @@ struct Element : NoCopy
   // data
 
   IntAnyObjPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include> ptr;
+               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include,Extern> ptr;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -1422,6 +1424,26 @@ struct Include : NoCopy
   void keepAlive(Keeper keeper)
    {
     keeper(scope);
+   }
+ };
+
+/* struct Extern */
+
+struct Extern : NoCopy
+ {
+  // obj
+
+  IntAnyObjPtr<Scope,Doc> scope;
+
+  // data
+
+  IntAnyObjPtr<Font,Format,SingleLine,DoubleLine,Page,Collapse,TextList,
+               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ptr;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(scope,ptr);
    }
  };
 

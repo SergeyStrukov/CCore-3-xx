@@ -171,7 +171,7 @@ struct Defaults
  }; 
 
 type Element = {Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-                Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include} * ;
+                Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include,Extern} * ;
 
 struct Doc
  {
@@ -417,5 +417,10 @@ struct Include
   text file_name;
  };
 
+struct Extern
+ {
+  {Font,Format,SingleLine,DoubleLine,Page,Collapse,TextList,
+   Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text} *ptr;
+ };
 
  

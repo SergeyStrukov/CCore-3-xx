@@ -1273,12 +1273,30 @@ class FieldElement : public ComboWindow , public FieldControl
 
    static GetNameResult GetName(BookLab::Include *ptr) { return {Range(ptr->file_name),false}; }
 
+   static GetNameResult GetName(BookLab::Extern *ptr)
+    {
+     GetNameResult ret;
+
+     auto &anyptr=ptr->ptr;
+
+     if( +anyptr ) anyptr.getPtr().apply( [&] (auto *ptr) { ret=GetName(ptr); } );
+
+     return ret;
+    }
+
    template <class T>
    static void SetName(T *ptr,String name) { if( BookLab::TestName(Range(name)) ) ptr->name=name; }
 
    static void SetName(BookLab::Section *ptr,String name) { ptr->comment=name; }
 
    static void SetName(BookLab::Include *ptr,String name) { ptr->file_name=name; }
+
+   static void SetName(BookLab::Extern *ptr,String name)
+    {
+     auto &anyptr=ptr->ptr;
+
+     if( +anyptr ) anyptr.getPtr().apply( [&] (auto *ptr) { SetName(ptr,name); } );
+    }
 
   private:
 

@@ -4,55 +4,56 @@ struct TypeDefCore
  {
   // types
 
-  struct S1; // #Include 
-  struct S2; // #PlacementPtr 
-  struct S3; // #FormatPtr 
-  struct S4; // #RefPtr 
-  struct S5; // #Span 
-  struct S6; // #Text 
-  struct S7; // #Ratio 
-  struct S8; // #OptRatio 
-  struct S9; // #MultiLine 
-  struct S10; // #OptAlign 
-  struct S11; // #OneLine 
-  struct S12; // #FixedText 
-  struct S13; // #Link 
-  struct S14; // #BorderPtr 
-  struct S15; // #OptBool 
-  struct S16; // #CellPtr 
-  struct S17; // #Table 
-  struct S18; // #OptULen 
-  struct S19; // #Point 
-  struct S20; // #OptPoint 
-  struct S21; // #OptColor 
-  struct S22; // #LinePtr 
-  struct S23; // #BodyPtr 
-  struct S24; // #Frame 
-  struct S25; // #FrameList 
-  struct S26; // #Cell 
-  struct S27; // #OptCoord 
-  struct S28; // #Border 
-  struct S29; // #Item 
-  struct S30; // #ItemList 
-  struct S31; // #TextList 
-  struct S32; // #Collapse 
-  struct S33; // #Bitmap 
-  struct S34; // #Section 
-  struct S35; // #Defaults 
-  struct S36; // #Scope 
-  struct S37; // #PagePtr 
-  struct S38; // #Page 
-  struct S39; // #DoubleLine 
-  struct S40; // #SingleLine 
-  struct S41; // #FontPtr 
-  struct S42; // #OptEffect 
-  struct S43; // #Format 
-  struct S44; // #OptInt 
-  struct S45; // #Font 
-  struct S46; // #Doc 
+  struct S1; // #Extern 
+  struct S2; // #Include 
+  struct S3; // #PlacementPtr 
+  struct S4; // #FormatPtr 
+  struct S5; // #RefPtr 
+  struct S6; // #Span 
+  struct S7; // #Text 
+  struct S8; // #Ratio 
+  struct S9; // #OptRatio 
+  struct S10; // #MultiLine 
+  struct S11; // #OptAlign 
+  struct S12; // #OneLine 
+  struct S13; // #FixedText 
+  struct S14; // #Link 
+  struct S15; // #BorderPtr 
+  struct S16; // #OptBool 
+  struct S17; // #CellPtr 
+  struct S18; // #Table 
+  struct S19; // #OptULen 
+  struct S20; // #Point 
+  struct S21; // #OptPoint 
+  struct S22; // #OptColor 
+  struct S23; // #LinePtr 
+  struct S24; // #BodyPtr 
+  struct S25; // #Frame 
+  struct S26; // #FrameList 
+  struct S27; // #Cell 
+  struct S28; // #OptCoord 
+  struct S29; // #Border 
+  struct S30; // #Item 
+  struct S31; // #ItemList 
+  struct S32; // #TextList 
+  struct S33; // #Collapse 
+  struct S34; // #Bitmap 
+  struct S35; // #Section 
+  struct S36; // #Defaults 
+  struct S37; // #Scope 
+  struct S38; // #PagePtr 
+  struct S39; // #Page 
+  struct S40; // #DoubleLine 
+  struct S41; // #SingleLine 
+  struct S42; // #FontPtr 
+  struct S43; // #OptEffect 
+  struct S44; // #Format 
+  struct S45; // #OptInt 
+  struct S46; // #Font 
+  struct S47; // #Doc 
 
-  using A1 = DDL::MapRange< S5 > ; // #TextLine
-  using A2 = DDL::MapPolyPtr< S45 , S43 , S40 , S39 , S38 , S36 , S34 , S33 , S32 , S31 , S28 , S26 , S17 , S13 , S12 , S11 , S9 , S6 , S1 > ; // #Element
+  using A1 = DDL::MapRange< S6 > ; // #TextLine
+  using A2 = DDL::MapPolyPtr< S46 , S44 , S41 , S40 , S39 , S37 , S35 , S34 , S33 , S32 , S29 , S27 , S18 , S14 , S13 , S12 , S10 , S7 , S2 , S1 > ; // #Element
   using A3 = uint8 ; // #Align
   using A4 = uint8 ; // #Effect
   using A5 = sint32 ; // #Coord
@@ -66,15 +67,14 @@ struct TypeDefCore
 
   struct S1
    {
-    DDL::MapText file_name;
+    DDL::MapPolyPtr< S46 , S44 , S41 , S40 , S39 , S33 , S32 , S29 , S27 , S18 , S14 , S13 , S12 , S10 , S7 > ptr;
 
     struct Ext;
    };
 
   struct S2
    {
-    DDL::MapText name;
-    DDL::MapPolyPtr< S11 , S9 > ptr;
+    DDL::MapText file_name;
 
     struct Ext;
    };
@@ -82,7 +82,7 @@ struct TypeDefCore
   struct S3
    {
     DDL::MapText name;
-    DDL::MapPtr< S43 > ptr;
+    DDL::MapPolyPtr< S12 , S10 > ptr;
 
     struct Ext;
    };
@@ -90,32 +90,40 @@ struct TypeDefCore
   struct S4
    {
     DDL::MapText name;
-    DDL::MapPolyPtr< S13 , S38 > ptr;
+    DDL::MapPtr< S44 > ptr;
 
     struct Ext;
    };
 
   struct S5
    {
-    DDL::MapText body;
-    S3 format;
-    S4 ref;
+    DDL::MapText name;
+    DDL::MapPolyPtr< S14 , S39 > ptr;
 
     struct Ext;
    };
 
   struct S6
    {
-    DDL::MapText name;
-    A7 open;
-    S2 placement;
-    S3 format;
-    DDL::MapRange< A1 > list;
+    DDL::MapText body;
+    S4 format;
+    S5 ref;
 
     struct Ext;
    };
 
   struct S7
+   {
+    DDL::MapText name;
+    A7 open;
+    S3 placement;
+    S4 format;
+    DDL::MapRange< A1 > list;
+
+    struct Ext;
+   };
+
+  struct S8
    {
     A5 a;
     A5 b;
@@ -123,37 +131,28 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S8
-   {
-    A7 def;
-    S7 data;
-
-    struct Ext;
-   };
-
   struct S9
    {
-    DDL::MapText name;
-    A7 open;
-    S8 line_space;
-    S8 first_line_space;
+    A7 def;
+    S8 data;
 
     struct Ext;
    };
 
   struct S10
    {
-    A7 def;
-    A3 data;
+    DDL::MapText name;
+    A7 open;
+    S9 line_space;
+    S9 first_line_space;
 
     struct Ext;
    };
 
   struct S11
    {
-    DDL::MapText name;
-    A7 open;
-    S10 align;
+    A7 def;
+    A3 data;
 
     struct Ext;
    };
@@ -162,8 +161,7 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    S3 format;
-    DDL::MapRange< A1 > list;
+    S11 align;
 
     struct Ext;
    };
@@ -172,7 +170,8 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    DDL::MapPtr< S24 > frame;
+    S4 format;
+    DDL::MapRange< A1 > list;
 
     struct Ext;
    };
@@ -180,12 +179,21 @@ struct TypeDefCore
   struct S14
    {
     DDL::MapText name;
-    DDL::MapPtr< S28 > ptr;
+    A7 open;
+    DDL::MapPtr< S25 > frame;
 
     struct Ext;
    };
 
   struct S15
+   {
+    DDL::MapText name;
+    DDL::MapPtr< S29 > ptr;
+
+    struct Ext;
+   };
+
+  struct S16
    {
     A7 def;
     A7 data;
@@ -193,27 +201,27 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S16
-   {
-    DDL::MapText name;
-    DDL::MapPtr< S26 > ptr;
-
-    struct Ext;
-   };
-
   struct S17
    {
     DDL::MapText name;
-    A7 open;
-    S14 border;
-    S15 hard;
-    DDL::MapRange< A5 > width;
-    DDL::MapRange< S16 > table;
+    DDL::MapPtr< S27 > ptr;
 
     struct Ext;
    };
 
   struct S18
+   {
+    DDL::MapText name;
+    A7 open;
+    S15 border;
+    S16 hard;
+    DDL::MapRange< A5 > width;
+    DDL::MapRange< S17 > table;
+
+    struct Ext;
+   };
+
+  struct S19
    {
     A7 def;
     DDL::ulen_type data;
@@ -221,7 +229,7 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S19
+  struct S20
    {
     A5 x;
     A5 y;
@@ -229,15 +237,15 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S20
+  struct S21
    {
     A7 def;
-    S19 data;
+    S20 data;
 
     struct Ext;
    };
 
-  struct S21
+  struct S22
    {
     A7 def;
     A6 data;
@@ -245,55 +253,55 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S22
-   {
-    DDL::MapText name;
-    DDL::MapPolyPtr< S40 , S39 > ptr;
-
-    struct Ext;
-   };
-
   struct S23
    {
     DDL::MapText name;
-    DDL::MapPolyPtr< S33 , S32 , S31 , S17 , S6 , S12 > ptr;
+    DDL::MapPolyPtr< S41 , S40 > ptr;
 
     struct Ext;
    };
 
   struct S24
    {
-    S20 inner;
-    S20 outer;
-    S21 col;
-    S22 line;
-    S23 body;
+    DDL::MapText name;
+    DDL::MapPolyPtr< S34 , S33 , S32 , S18 , S7 , S13 > ptr;
+
+    struct Ext;
+   };
+
+  struct S25
+   {
+    S21 inner;
+    S21 outer;
+    S22 col;
+    S23 line;
+    S24 body;
 
     struct Ext;
 
     ulen ext;
    };
 
-  struct S25
+  struct S26
    {
-    DDL::MapRange< S24 > list;
+    DDL::MapRange< S25 > list;
     DDL::ulen_type cur;
 
     struct Ext;
    };
 
-  struct S26
+  struct S27
    {
     DDL::MapText name;
     A7 open;
-    S18 span_x;
-    S18 span_y;
-    S25 list;
+    S19 span_x;
+    S19 span_y;
+    S26 list;
 
     struct Ext;
    };
 
-  struct S27
+  struct S28
    {
     A7 def;
     A5 data;
@@ -301,41 +309,29 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S28
+  struct S29
    {
     DDL::MapText name;
     A7 open;
-    S27 space;
-    S8 width;
-    S21 line;
-
-    struct Ext;
-   };
-
-  struct S29
-   {
-    DDL::MapText bullet;
-    S25 list;
+    S28 space;
+    S9 width;
+    S22 line;
 
     struct Ext;
    };
 
   struct S30
    {
-    DDL::MapRange< S29 > list;
-    DDL::ulen_type cur;
+    DDL::MapText bullet;
+    S26 list;
 
     struct Ext;
    };
 
   struct S31
    {
-    DDL::MapText name;
-    A7 open;
-    S3 format;
-    S27 bullet_space;
-    S27 item_space;
-    S30 list;
+    DDL::MapRange< S30 > list;
+    DDL::ulen_type cur;
 
     struct Ext;
    };
@@ -344,11 +340,10 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    DDL::MapText title;
-    S3 format;
-    A7 openlist;
-    S15 hide;
-    S25 list;
+    S4 format;
+    S28 bullet_space;
+    S28 item_space;
+    S31 list;
 
     struct Ext;
    };
@@ -356,12 +351,25 @@ struct TypeDefCore
   struct S33
    {
     DDL::MapText name;
-    DDL::MapText file_name;
+    A7 open;
+    DDL::MapText title;
+    S4 format;
+    A7 openlist;
+    S16 hide;
+    S26 list;
 
     struct Ext;
    };
 
   struct S34
+   {
+    DDL::MapText name;
+    DDL::MapText file_name;
+
+    struct Ext;
+   };
+
+  struct S35
    {
     A7 open;
     DDL::MapText comment;
@@ -370,28 +378,18 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S35
-   {
-    S20 inner;
-    S20 outer;
-    S27 bulletSpace;
-    S27 itemSpace;
-    DDL::MapPtr< S43 > collapseFormat;
-    DDL::MapPtr< S43 > bulletFormat;
-    DDL::MapPtr< S28 > border;
-    DDL::MapPtr< S43 > textFormat;
-    DDL::MapPtr< S43 > fixedFormat;
-    DDL::MapPolyPtr< S11 , S9 > placement;
-
-    struct Ext;
-   };
-
   struct S36
    {
-    DDL::MapText name;
-    A7 open;
-    S35 defs;
-    DDL::MapRange< A2 > list;
+    S21 inner;
+    S21 outer;
+    S28 bulletSpace;
+    S28 itemSpace;
+    DDL::MapPtr< S44 > collapseFormat;
+    DDL::MapPtr< S44 > bulletFormat;
+    DDL::MapPtr< S29 > border;
+    DDL::MapPtr< S44 > textFormat;
+    DDL::MapPtr< S44 > fixedFormat;
+    DDL::MapPolyPtr< S12 , S10 > placement;
 
     struct Ext;
    };
@@ -399,7 +397,9 @@ struct TypeDefCore
   struct S37
    {
     DDL::MapText name;
-    DDL::MapPtr< S38 > ptr;
+    A7 open;
+    S36 defs;
+    DDL::MapRange< A2 > list;
 
     struct Ext;
    };
@@ -407,14 +407,7 @@ struct TypeDefCore
   struct S38
    {
     DDL::MapText name;
-    A7 open;
-    DDL::MapText title;
-    S21 back;
-    S21 fore;
-    S37 up;
-    S37 prev;
-    S37 next;
-    S25 list;
+    DDL::MapPtr< S39 > ptr;
 
     struct Ext;
    };
@@ -423,9 +416,13 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    S8 width;
-    S21 gray;
-    S21 snow;
+    DDL::MapText title;
+    S22 back;
+    S22 fore;
+    S38 up;
+    S38 prev;
+    S38 next;
+    S26 list;
 
     struct Ext;
    };
@@ -434,8 +431,9 @@ struct TypeDefCore
    {
     DDL::MapText name;
     A7 open;
-    S8 width;
-    S21 line;
+    S9 width;
+    S22 gray;
+    S22 snow;
 
     struct Ext;
    };
@@ -443,12 +441,22 @@ struct TypeDefCore
   struct S41
    {
     DDL::MapText name;
-    DDL::MapPtr< S45 > ptr;
+    A7 open;
+    S9 width;
+    S22 line;
 
     struct Ext;
    };
 
   struct S42
+   {
+    DDL::MapText name;
+    DDL::MapPtr< S46 > ptr;
+
+    struct Ext;
+   };
+
+  struct S43
    {
     A7 def;
     A4 data;
@@ -456,19 +464,19 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S43
+  struct S44
    {
     DDL::MapText name;
     A7 open;
-    S41 font;
-    S21 back;
-    S21 fore;
-    S42 effect;
+    S42 font;
+    S22 back;
+    S22 fore;
+    S43 effect;
 
     struct Ext;
    };
 
-  struct S44
+  struct S45
    {
     A7 def;
     DDL::sint_type data;
@@ -476,26 +484,26 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S45
+  struct S46
    {
     DDL::MapText name;
     A7 open;
     DDL::MapText face;
     A5 size;
-    S15 bold;
-    S15 italic;
-    S44 strength;
+    S16 bold;
+    S16 italic;
+    S45 strength;
 
     struct Ext;
    };
 
-  struct S46
+  struct S47
    {
     DDL::MapText title;
-    S21 back;
-    S21 fore;
-    S37 start;
-    S35 defs;
+    S22 back;
+    S22 fore;
+    S38 start;
+    S36 defs;
     DDL::MapRange< A2 > list;
 
     struct Ext;
@@ -516,52 +524,53 @@ namespace TypeDef {
     using VColor = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A6 ;
     using Align = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A3 ;
     using Coord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A5 ;
-    using Doc = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S46 ;
-    using PagePtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S37 ;
-    using OneLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
-    using ItemList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S30 ;
-    using Section = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S34 ;
-    using RefPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S4 ;
-    using Cell = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S26 ;
-    using Font = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S45 ;
-    using Item = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S29 ;
-    using Link = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S13 ;
-    using SingleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S40 ;
-    using Page = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S38 ;
-    using OptColor = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S21 ;
-    using OptCoord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S27 ;
-    using PlacementPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
-    using Bitmap = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S33 ;
-    using Span = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
-    using OptAlign = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
-    using Text = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
-    using OptRatio = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
-    using Border = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S28 ;
-    using OptPoint = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S20 ;
-    using BorderPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S14 ;
-    using OptEffect = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S42 ;
-    using DoubleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S39 ;
-    using OptInt = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S44 ;
-    using Include = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
-    using BodyPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S23 ;
-    using FormatPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S3 ;
-    using LinePtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S22 ;
-    using CellPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S16 ;
-    using TextList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S31 ;
-    using Defaults = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S35 ;
-    using FixedText = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S12 ;
-    using FrameList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S25 ;
-    using FontPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S41 ;
-    using OptBool = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S15 ;
-    using Collapse = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S32 ;
-    using Format = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S43 ;
-    using OptULen = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S18 ;
-    using Scope = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S36 ;
-    using Table = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S17 ;
-    using Ratio = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
-    using MultiLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
-    using Point = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S19 ;
-    using Frame = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S24 ;
+    using Doc = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S47 ;
+    using PagePtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S38 ;
+    using OneLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S12 ;
+    using ItemList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S31 ;
+    using Extern = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
+    using Section = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S35 ;
+    using RefPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
+    using Cell = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S27 ;
+    using Font = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S46 ;
+    using Item = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S30 ;
+    using Link = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S14 ;
+    using SingleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S41 ;
+    using Page = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S39 ;
+    using OptColor = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S22 ;
+    using OptCoord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S28 ;
+    using PlacementPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S3 ;
+    using Bitmap = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S34 ;
+    using Span = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
+    using OptAlign = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
+    using Text = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
+    using OptRatio = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
+    using Border = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S29 ;
+    using OptPoint = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S21 ;
+    using BorderPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S15 ;
+    using OptEffect = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S43 ;
+    using DoubleLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S40 ;
+    using OptInt = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S45 ;
+    using Include = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
+    using BodyPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S24 ;
+    using FormatPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S4 ;
+    using LinePtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S23 ;
+    using CellPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S17 ;
+    using TextList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S32 ;
+    using Defaults = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S36 ;
+    using FixedText = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S13 ;
+    using FrameList = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S26 ;
+    using FontPtr = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S42 ;
+    using OptBool = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S16 ;
+    using Collapse = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S33 ;
+    using Format = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S44 ;
+    using OptULen = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S19 ;
+    using Scope = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S37 ;
+    using Table = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S18 ;
+    using Ratio = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
+    using MultiLine = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
+    using Point = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S20 ;
+    using Frame = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S25 ;
 
 } // namespace TypeDef
 

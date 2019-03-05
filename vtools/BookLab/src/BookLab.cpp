@@ -895,6 +895,11 @@ class Book::ScopeContext : NoCopy
     {
     }
 
+   void subs(IntAnyObjPtr<Scope,Doc> scope,Extern *ptr)
+    {
+     set(scope,ptr->ptr);
+    }
+
   private:
 
    template <class T>
@@ -1069,10 +1074,7 @@ class Book::LinkContext : NoCopy
      addName(ptr->scope,Range(ptr->name),ptr);
     }
 
-   void add(IntObjPtr<Include> ptr)
-    {
-     Used(ptr);
-    }
+   void add(IntObjPtr<Include>) {}
 
   private:
 
@@ -1225,6 +1227,11 @@ class Book::LinkContext : NoCopy
    void elem(IntAnyObjPtr<TT...> ptr)
     {
      ptr.apply( [&] (auto ptr) { elem(ptr); } );
+    }
+
+   void elem(IntObjPtr<Extern> ptr)
+    {
+     if( +ptr ) elem_null(ptr->ptr);
     }
 
    void set(ElementList &list)
@@ -1729,6 +1736,15 @@ ExtObjPtr<Include> Book::clone(Include *ptr)
   ExtObjPtr<Include> ret(domain);
 
   ret->file_name=ptr->file_name;
+
+  return ret;
+ }
+
+ExtObjPtr<Extern> Book::clone(Extern *ptr)
+ {
+  ExtObjPtr<Extern> ret(domain);
+
+  clone(ret->ptr,ptr->ptr);
 
   return ret;
  }

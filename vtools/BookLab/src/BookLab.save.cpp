@@ -434,6 +434,32 @@ struct Adapter<BindCtx<Ctx,Span> >
    }
  };
 
+template <class Ctx,class ... TT>
+struct Adapter<BindCtx<Ctx,IntAnyObjPtr<TT...> > >
+ {
+  const BindCtx<Ctx,IntAnyObjPtr<TT...> > &bind;
+
+  explicit Adapter(const BindCtx<Ctx,IntAnyObjPtr<TT...> > &bind_) : bind(bind_) {}
+
+  void print(PrinterType &out) const
+   {
+    auto &ptr=bind.obj;
+
+    if( +ptr )
+      {
+       Index index=bind.ctx->getIndex();
+
+       AdaptPrintf(out,"& #;",index);
+
+       bind.ctx->queueCast(index,ptr.getPtr());
+      }
+    else
+      {
+       AdaptPrintf(out,"null");
+      }
+   }
+ };
+
 } // namespace SaveAdapter
 
 /* class Book::SaveLinkContext */
@@ -587,7 +613,7 @@ class Book::SaveContext : public NextIndex
    PrintBase &out;
 
    using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-                         Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include> ;
+                         Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include,Extern> ;
 
    struct Rec
     {
@@ -901,6 +927,12 @@ class Book::SaveContext : public NextIndex
     {
      printf("Include #; = { #; };\n\n",index
                                       ,ptr->file_name);
+    }
+
+   void print(Index index,Extern *ptr)
+    {
+     printf("Extern #; = { #; };\n\n",index
+                                     ,bind(ptr->ptr));
     }
 
   public:
