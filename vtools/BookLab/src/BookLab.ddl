@@ -162,8 +162,6 @@ struct Defaults
   OptCoord bulletSpace;
   OptCoord itemSpace;
 
-  SingleLine *singleLine;
-  DoubleLine *doubleLine;
   Format *collapseFormat;
   Format *bulletFormat;
   Border *border;
@@ -173,7 +171,7 @@ struct Defaults
  }; 
 
 type Element = {Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-                Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text} * ;
+                Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include} * ;
 
 struct Doc
  {
@@ -414,4 +412,10 @@ struct Text
   TextLine[] list;  
  };
  
+struct Include
+ {
+  text file_name;
+ };
+
+
  

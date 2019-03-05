@@ -177,6 +177,11 @@ class Book::ShowName : NoCopy
      Printf(out,"Text #; = ",ptr->name);
     }
 
+   void show(Include *ptr)
+    {
+     Printf(out,"include <#;>",ptr->file_name);
+    }
+
   public:
 
    template <class T>
@@ -762,6 +767,19 @@ class Book::PrepareContext : NoCopy
    void placeBody(Point base,Bitmap *ptr)
     {
      placeTable(base,ptr);
+    }
+
+   Point sizeBody(Include *ptr)
+    {
+     Used(ptr);
+
+     return Null;
+    }
+
+   void placeBody(Point base,Include *ptr)
+    {
+     Used(base);
+     Used(ptr);
     }
 
   private:
@@ -1658,6 +1676,12 @@ class Book::DrawContext : NoCopy
    void drawBody(Point base,Bitmap *ptr)
     {
      drawTable(base,ptr);
+    }
+
+   void drawBody(Point base,Include *ptr)
+    {
+     Used(base);
+     Used(ptr);
     }
 
   private:

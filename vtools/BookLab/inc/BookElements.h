@@ -141,6 +141,8 @@ struct MultiLine;
 
 struct Text;
 
+struct Include;
+
 /* struct Ratio */
 
 struct Ratio
@@ -731,7 +733,7 @@ struct Element : NoCopy
   // data
 
   IntAnyObjPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ptr;
+               Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include> ptr;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
@@ -801,8 +803,6 @@ struct Defaults : NoCopy
   OptData<Coord> bulletSpace;
   OptData<Coord> itemSpace;
 
-  IntObjPtr<SingleLine> singleLine;
-  IntObjPtr<DoubleLine> doubleLine;
   IntObjPtr<Format> collapseFormat;
   IntObjPtr<Format> bulletFormat;
   IntObjPtr<Border> border;
@@ -813,25 +813,23 @@ struct Defaults : NoCopy
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
+    keeper(collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
    }
 
   // layout
 
-  TableLayout<12> layout;
+  TableLayout<10> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[12]=
+    Row table[10]=
      {
       {"Point"_c,"inner = "_c,If(inner)},
       {"Point"_c,"outer = "_c,If(outer)},
       {"Coord"_c,"bulletSpace = "_c,If(bulletSpace)},
       {"Coord"_c,"itemSpace = "_c,If(itemSpace)},
 
-      {"SingleLine"_c,"singleLine = "_c,If(singleLine)},
-      {"DoubleLine"_c,"doubleLine = "_c,If(doubleLine)},
       {"Format"_c,"collapseFormat = "_c,If(collapseFormat)},
       {"Format"_c,"bulletFormat = "_c,If(bulletFormat)},
       {"Border"_c,"border = "_c,If(border)},
@@ -853,8 +851,6 @@ struct LastDefaults : NoCopy
   Coord bulletSpace = 5 ;                    // DefaultBulletSpace
   Coord itemSpace = 0 ;                      // DefaultItemSpace
 
-  IntObjPtr<SingleLine> singleLine;          // DefaultSingleLine
-  IntObjPtr<DoubleLine> doubleLine;          // DefalutDoubleLine
   IntObjPtr<Format> collapseFormat;          // DefaultCollapseFormat
   IntObjPtr<Format> bulletFormat;            // DefaultBulletFormat
   IntObjPtr<Border> border;                  // DefaultBorder
@@ -867,7 +863,7 @@ struct LastDefaults : NoCopy
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(singleLine,doubleLine,collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
+    keeper(collapseFormat,bulletFormat,border,textFormat,fixedFormat,placement);
    }
  };
 
@@ -1407,6 +1403,25 @@ struct Text : NamedObj
      };
 
     func(Range(table),layout);
+   }
+ };
+
+/* struct Include */
+
+struct Include : NoCopy
+ {
+  // obj
+
+  IntAnyObjPtr<Scope,Doc> scope;
+
+  // data
+
+  String file_name;
+
+  template <class Keeper>
+  void keepAlive(Keeper keeper)
+   {
+    keeper(scope);
    }
  };
 

@@ -588,7 +588,8 @@ enum ElementType
   ElementFixedText,
   ElementOneLine,
   ElementMultiLine,
-  ElementText
+  ElementText,
+  ElementInclude
  };
 
 enum InsPlace
@@ -847,6 +848,8 @@ class Book : NoCopy
    ExtObjPtr<MultiLine> clone(MultiLine *ptr);
 
    ExtObjPtr<Text> clone(Text *ptr);
+
+   ExtObjPtr<Include> clone(Include *ptr);
 
    ExtObjPtr<Element> clone(Element *ptr);
 

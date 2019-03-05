@@ -1271,10 +1271,14 @@ class FieldElement : public ComboWindow , public FieldControl
 
    static GetNameResult GetName(BookLab::Section *ptr) { return {Range(ptr->comment),false}; }
 
+   static GetNameResult GetName(BookLab::Include *ptr) { return {Range(ptr->file_name),false}; }
+
    template <class T>
    static void SetName(T *ptr,String name) { if( BookLab::TestName(Range(name)) ) ptr->name=name; }
 
    static void SetName(BookLab::Section *ptr,String name) { ptr->comment=name; }
+
+   static void SetName(BookLab::Include *ptr,String name) { ptr->file_name=name; }
 
   private:
 

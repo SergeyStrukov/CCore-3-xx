@@ -460,6 +460,16 @@ ExtObjPtr<Element> Book::create(InsData data)
        ret->ptr=ptr;
       }
      break;
+
+     case ElementInclude :
+      {
+       ExtObjPtr<Include> ptr(domain);
+
+       ptr->file_name=data.text;
+
+       ret->ptr=ptr;
+      }
+     break;
     }
 
   return ret;

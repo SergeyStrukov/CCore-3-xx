@@ -891,6 +891,10 @@ class Book::ScopeContext : NoCopy
      set(scope,ptr->list);
     }
 
+   void subs(IntAnyObjPtr<Scope,Doc>,Include *)
+    {
+    }
+
   private:
 
    template <class T>
@@ -943,8 +947,6 @@ class Book::ScopeContext : NoCopy
 
    void set(IntAnyObjPtr<Scope,Doc> scope,Defaults &obj)
     {
-     set(scope,obj.singleLine);
-     set(scope,obj.doubleLine);
      set(scope,obj.collapseFormat);
      set(scope,obj.bulletFormat);
      set(scope,obj.border);
@@ -1065,6 +1067,11 @@ class Book::LinkContext : NoCopy
    void add(IntObjPtr<Bitmap> ptr)
     {
      addName(ptr->scope,Range(ptr->name),ptr);
+    }
+
+   void add(IntObjPtr<Include> ptr)
+    {
+     Used(ptr);
     }
 
   private:
@@ -1253,8 +1260,6 @@ class Book::LinkContext : NoCopy
 
    void set(Defaults &defs)
     {
-     elem_null(defs.singleLine);
-     elem_null(defs.doubleLine);
      elem_null(defs.collapseFormat);
      elem_null(defs.bulletFormat);
      elem_null(defs.border);
@@ -1416,8 +1421,6 @@ void Book::clone(Defaults &dst,Defaults &src)
   dst.bulletSpace=src.bulletSpace;
   dst.itemSpace=src.itemSpace;
 
-  dst.singleLine=clone(src.singleLine);
-  dst.doubleLine=clone(src.doubleLine);
   dst.collapseFormat=clone(src.collapseFormat);
   dst.bulletFormat=clone(src.bulletFormat);
   dst.border=clone(src.border);
@@ -1717,6 +1720,15 @@ ExtObjPtr<Text> Book::clone(Text *ptr)
   ret->format=clone(ptr->format);
 
   clone(ret->list,ptr->list);
+
+  return ret;
+ }
+
+ExtObjPtr<Include> Book::clone(Include *ptr)
+ {
+  ExtObjPtr<Include> ret(domain);
+
+  ret->file_name=ptr->file_name;
 
   return ret;
  }

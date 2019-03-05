@@ -12,21 +12,21 @@ Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
 
 MultiLine DefaultPlacement = { { 1 , 1 } , { 2 , 1 } } ;
 
-Font font_text = { "Times New Roman" , 24 , False , False , 0 } ;
+Font font_text = { "Bookman Old Style" , 20 , False , False , 0 } ;
 
 Format fmt_text = { & font_text , NoColor , NoColor , 0 } ;
 
-Font font_title = { "Times New Roman" , 100 , False , False , 0 } ;
+Font font_title = { "Bookman Old Style" , 80 , False , False , 0 } ;
 
 Format fmt_title = { & font_title , NoColor , NoColor , 0 } ;
 
-Font font_h1 = { "Times New Roman" , 40 , True , False , 0 } ;
+Font font_h1 = { "Bookman Old Style" , 32 , False , False , 0 } ;
 
 Format fmt_h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
 
-Font font_list = { "Times New Roman" , 24 , False , False , 0 } ;
+Font font_list = { "Bookman Old Style" , 20 , False , False , 0 } ;
 
-Font font_list2 = { "Times New Roman" , 20 , False , False , 0 } ;
+Font font_list2 = { "Bookman Old Style" , 18 , False , False , 0 } ;
 
 Page cover = { "Cover" ,
 {
@@ -123,7 +123,7 @@ OneLine ANONYM10 = { 2 } ;
 Page content = { "Content" ,
 {
 { & ANONYM11 , null , { 10 , 30 } , DefaultOuter , NoColor }
-,{ & List#list , & ANONYM12 , DefaultInner , DefaultOuter , NoColor }
+,{ & List#list , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , & cover , null } ;
 
@@ -133,15 +133,17 @@ Text ANONYM11 = {
 ,{ "of" , null , null }
 ,{ "content" , null , null }
 }
-, & fmt_h1 , & ANONYM13 } ;
+, & fmt_h1 , & ANONYM12 } ;
 
-SingleLine ANONYM12 = { { 1 , 1 } , 0EE82EEh } ;
-
-OneLine ANONYM13 = { 2 } ;
+OneLine ANONYM12 = { 2 } ;
 
 scope List {
 
 Point DefaultInner = { 0 , 0 } ;
+
+Coord DefaultBulletSpace = 10 ;
+
+Coord DefaultItemSpace = 10 ;
 
 Format DefaultCollapseFormat = { & font_list , NoColor , NoColor , 0 } ;
 
@@ -155,41 +157,45 @@ TextList list = {
 {
 { "1." ,
 {
-{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM13 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
-, &DefaultBulletFormat , 10 , 10 } ;
+, &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ANONYM14 = {
+Text ANONYM13 = {
 {
 { "Introduction." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM15 = {
+Text ANONYM14 = {
 {
 { "Installation." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Collapse ANONYM16 = { "Preliminary considerations" ,
+Collapse ANONYM15 = { "Preliminary considerations" ,
 {
 { & List2#list3 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , &DefaultCollapseFormat , False , False } ;
 
 scope List2 {
+
+Coord DefaultBulletSpace = 5 ;
+
+Coord DefaultItemSpace = 5 ;
 
 Format DefaultBulletFormat = { & font_list2 , NoColor , NoColor , 0 } ;
 
@@ -199,23 +205,23 @@ TextList list3 = {
 {
 { "1." ,
 {
-{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
-, &DefaultBulletFormat , 5 , 5 } ;
+, &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ANONYM17 = {
+Text ANONYM16 = {
 {
 { "Metaphysics" , null , null }
 ,{ "of" , null , null }
@@ -224,7 +230,7 @@ Text ANONYM17 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM18 = {
+Text ANONYM17 = {
 {
 { "Taxonomy" , null , null }
 ,{ "of" , null , null }
@@ -232,7 +238,7 @@ Text ANONYM18 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM19 = {
+Text ANONYM18 = {
 {
 { "CCore" , null , null }
 ,{ "general." , null , null }
@@ -242,6 +248,12 @@ Text ANONYM19 = {
 }
 
 }
+
+}
+
+scope Pages {
+
+include <page_Introduction.bookinc.ddl>
 
 }
 

@@ -269,14 +269,6 @@ struct Adapter<BindCtx<Ctx,Defaults> >
                                             ,defs.bulletSpace
                                             ,defs.itemSpace);
 
-    printPtr(out,SafePtr(defs.singleLine));
-
-    Putobj(out," , "_c);
-
-    printPtr(out,SafePtr(defs.doubleLine));
-
-    Putobj(out," , "_c);
-
     printPtr(out,SafePtr(defs.collapseFormat));
 
     Putobj(out," , "_c);
@@ -595,7 +587,7 @@ class Book::SaveContext : public NextIndex
    PrintBase &out;
 
    using ObjPtr = AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Section,Bitmap,Collapse,TextList,
-                         Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ;
+                         Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text,Include> ;
 
    struct Rec
     {
@@ -903,6 +895,12 @@ class Book::SaveContext : public NextIndex
      printRangeBind(Range(ptr->list));
 
      printf(" };\n\n");
+    }
+
+   void print(Index index,Include *ptr)
+    {
+     printf("Include #; = { #; };\n\n",index
+                                      ,ptr->file_name);
     }
 
   public:

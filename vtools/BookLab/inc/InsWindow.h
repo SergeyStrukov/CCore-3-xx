@@ -160,6 +160,9 @@ class InsWindow : public ComboWindow
    LabelWindow lab18;
    RadioWindow rad18;
 
+   LabelWindow lab19;
+   RadioWindow rad19;
+
    XDoubleLineWindow line1;
 
    RefButtonWindow btn_Ok;

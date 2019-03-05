@@ -85,6 +85,9 @@ struct Book::LoadType<TypeDef::MultiLine> : Meta::DefType<MultiLine> {};
 template <>
 struct Book::LoadType<TypeDef::Text> : Meta::DefType<Text> {};
 
+template <>
+struct Book::LoadType<TypeDef::Include> : Meta::DefType<Include> {};
+
 #if 0
 
 template <>
@@ -421,6 +424,11 @@ class Book::LoadContext : NoCopy
      cast(ret->list,ptr->list);
     }
 
+   void init(Include *ret,const TypeDef::Include *ptr)
+    {
+     Cast(ret->file_name,ptr->file_name);
+    }
+
   private:
 
    template <class T,class S>
@@ -542,8 +550,6 @@ class Book::LoadContext : NoCopy
      Cast(ret.bulletSpace,obj.bulletSpace);
      Cast(ret.itemSpace,obj.itemSpace);
 
-     create(ret.singleLine,obj.singleLine);
-     create(ret.doubleLine,obj.doubleLine);
      create(ret.collapseFormat,obj.collapseFormat);
      create(ret.bulletFormat,obj.bulletFormat);
      create(ret.border,obj.border);

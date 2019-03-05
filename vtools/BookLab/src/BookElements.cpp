@@ -141,8 +141,6 @@ bool ElementList::moveNext(Element *ptr)
 
 LastDefaults::LastDefaults(ObjectDomain &domain)
  {
-  singleLine.create(domain);
-  doubleLine.create(domain);
   collapseFormat.create(domain);
   bulletFormat.create(domain);
   border.create(domain);

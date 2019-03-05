@@ -454,16 +454,6 @@ class Book::BookContext : NextIndex
        }
 
 
-     if( +defs.singleLine )
-       {
-        elem("DefaultSingleLine"_c,defs.singleLine.getPtr());
-       }
-
-     if( +defs.doubleLine )
-       {
-        elem("DefalutDoubleLine"_c,defs.doubleLine.getPtr());
-       }
-
      if( +defs.collapseFormat )
        {
         elem("DefaultCollapseFormat"_c,defs.collapseFormat.getPtr());
@@ -703,6 +693,11 @@ class Book::BookContext : NextIndex
 
      printf(", #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultFormat"_c),
                                 Named(this,ptr->placement,"&DefaultPlacement"_c));
+    }
+
+   void elem(Include *ptr)
+    {
+     printf("include <#;>\n\n",ptr->file_name);
     }
 
    void elem(FrameList &list)

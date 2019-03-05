@@ -39,7 +39,9 @@ void InsWindow::checkName()
  {
   bool ok;
 
-  if( group_type.getRadioId()==BookLab::ElementSection )
+  int id=group_type.getRadioId();
+
+  if( id==BookLab::ElementSection || id==BookLab::ElementInclude )
     {
      ok=true;
     }
@@ -131,6 +133,9 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
    lab18(wlist,cfg.lab_cfg,"Text"_str,AlignX_Left),
    rad18(wlist,BookLab::ElementText,cfg.rad_cfg),
 
+   lab19(wlist,cfg.lab_cfg,"Include"_str,AlignX_Left),
+   rad19(wlist,BookLab::ElementInclude,cfg.rad_cfg),
+
    line1(wlist,cfg.dline_cfg),
 
    btn_Ok(wlist,cfg.btn_cfg,cfg.text_Ok),
@@ -161,11 +166,12 @@ InsWindow::InsWindow(SubWindowHost &host,const Config &cfg_)
                lab16,rad16,
                lab17,rad17,
                lab18,rad18,
+               lab19,rad19,
                line1,btn_Ok,btn_Cancel);
 
   group_place.add(rad_after,rad_before,rad_inside);
 
-  group_type.add(rad1,rad2,rad3,rad4,rad5,rad6,rad7,rad8,rad9,rad10,rad11,rad12,rad13,rad14,rad15,rad16,rad17,rad18);
+  group_type.add(rad1,rad2,rad3,rad4,rad5,rad6,rad7,rad8,rad9,rad10,rad11,rad12,rad13,rad14,rad15,rad16,rad17,rad18,rad19);
  }
 
 InsWindow::~InsWindow()
@@ -200,8 +206,9 @@ Point InsWindow::getMinSize() const
   LayToRightCenter lay16{LayBox(rad16),LayLeft(lab16)};
   LayToRightCenter lay17{LayBox(rad17),LayLeft(lab17)};
   LayToRightCenter lay18{LayBox(rad18),LayLeft(lab18)};
+  LayToRightCenter lay19{LayBox(rad19),LayLeft(lab19)};
 
-  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,LayAlignTop(lay9)};
+  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,lay9,LayAlignTop(lay19)};
   LayToBottom col2{lay10,lay11,lay12,lay13,lay14,lay15,lay16,lay17,LayAlignTop(lay18)};
 
   LayToRight rad{col1,LayAlignLeft(col2)};
@@ -283,8 +290,9 @@ void InsWindow::layout()
   LayToRightCenter lay16{LayBox(rad16),LayLeft(lab16)};
   LayToRightCenter lay17{LayBox(rad17),LayLeft(lab17)};
   LayToRightCenter lay18{LayBox(rad18),LayLeft(lab18)};
+  LayToRightCenter lay19{LayBox(rad19),LayLeft(lab19)};
 
-  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,LayAlignTop(lay9)};
+  LayToBottom col1{lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,lay9,LayAlignTop(lay19)};
   LayToBottom col2{lay10,lay11,lay12,lay13,lay14,lay15,lay16,lay17,LayAlignTop(lay18)};
 
   LayToRight rad{col1,LayAlignLeft(col2)};
