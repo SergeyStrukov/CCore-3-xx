@@ -10,6 +10,12 @@ Point DefaultInner = { 10 , 2 } ;
 
 Point DefaultOuter = { 10 , 10 } ;
 
+Coord DefaultBulletSpace = 10 ;
+
+Coord DefaultItemSpace = 5 ;
+
+Format DefaultBulletFormat = { & font_text , NoColor , NoColor , 0 } ;
+
 Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
 
 MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
@@ -288,6 +294,8 @@ Format fmt_bold = { & font_bold , NoColor , NoColor , 0 } ;
 Font font_italic = { "Bookman Old Style" , 20 , False , True , 0 } ;
 
 Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
+
+Format fmt_ext = { & font_text , NoColor , 0FFh , 1 } ;
 
 include <page_Introduction.bookinc.ddl>
 

@@ -4,25 +4,28 @@ scope Content {
 
 Page page_Introduction = { "Introduction" ,
 {
-{ & Ahd4QxxprE3KFM1 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & Ahd4QxxprE3KFM2 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & Ahd4QxxprE3KFM3 , null , DefaultInner , DefaultOuter , NoColor }
+{ & A0pzacnEMRLfxM1 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A0pzacnEMRLfxM2 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A0pzacnEMRLfxM3 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A0pzacnEMRLfxM4 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A0pzacnEMRLfxM5 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A0pzacnEMRLfxM6 , null , { 0 , 0 } , { 40 , 0 } , NoColor }
 }
 , NoColor , NoColor , & Content#content , null , null } ;
 
-Text Ahd4QxxprE3KFM1 = {
+Text A0pzacnEMRLfxM1 = {
 {
 { "Introduction" , null , null }
 }
 , & fmt_h1 , & align_h1 } ;
 
-Text Ahd4QxxprE3KFM2 = {
+Text A0pzacnEMRLfxM2 = {
 {
 { "Disclaimer" , null , null }
 }
 , & fmt_h2 , & align_h2 } ;
 
-Text Ahd4QxxprE3KFM3 = {
+Text A0pzacnEMRLfxM3 = {
 {
 { "CCore" , & fmt_bold , null }
 ,{ "is" , null , null }
@@ -132,7 +135,148 @@ Text Ahd4QxxprE3KFM3 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Link link_Introduction = { Ahd4QxxprE3KFM4 , { 0 } } ;
+Text A0pzacnEMRLfxM4 = {
+{
+{ "Overview" , null , null }
+}
+, & fmt_h2 , & align_h2 } ;
 
-Page * Ahd4QxxprE3KFM4 = & page_Introduction ;
+Text A0pzacnEMRLfxM5 = {
+{
+{ "CCore" , & fmt_bold , null }
+,{ "is" , null , null }
+,{ "a" , null , null }
+,{ "platform" , & fmt_italic , null }
+,{ "mainly" , null , null }
+,{ "for" , null , null }
+,{ "the" , null , null }
+,{ "development" , null , null }
+,{ "of" , null , null }
+,{ "real-time" , null , null }
+,{ "applications." , null , null }
+,{ "It" , null , null }
+,{ "is" , null , null }
+,{ "distributed" , null , null }
+,{ "under" , null , null }
+,{ "the" , null , null }
+,{ "Boost Software License." , & fmt_ext , null }
+,{ "You" , null , null }
+,{ "can" , null , null }
+,{ "use" , null , null }
+,{ "CCore" , & fmt_bold , null }
+,{ "to" , null , null }
+,{ "build" , null , null }
+,{ "host" , null , null }
+,{ "applications" , null , null }
+,{ "also," , null , null }
+,{ "but" , null , null }
+,{ "without" , null , null }
+,{ "any" , null , null }
+,{ "real-time" , null , null }
+,{ "properties." , null , null }
+,{ "We" , null , null }
+,{ "use" , null , null }
+,{ "the" , null , null }
+,{ "term" , null , null }
+,{ "\"host" , null , null }
+,{ "application\"" , null , null }
+,{ "to" , null , null }
+,{ "designate" , null , null }
+,{ "an" , null , null }
+,{ "application," , null , null }
+,{ "running" , null , null }
+,{ "on" , null , null }
+,{ "a" , null , null }
+,{ "host" , null , null }
+,{ "machine." , null , null }
+,{ "\"Stand-alone" , null , null }
+,{ "application\"" , null , null }
+,{ "means" , null , null }
+,{ "an" , null , null }
+,{ "application," , null , null }
+,{ "running" , null , null }
+,{ "on" , null , null }
+,{ "a" , null , null }
+,{ "stand-alone" , null , null }
+,{ "device." , null , null }
+,{ "CCore" , & fmt_bold , null }
+,{ "is" , null , null }
+,{ "a" , null , null }
+,{ "multi-target" , null , null }
+,{ "platform," , null , null }
+,{ "you" , null , null }
+,{ "can" , null , null }
+,{ "(and," , null , null }
+,{ "in" , null , null }
+,{ "fact," , null , null }
+,{ "must!)" , null , null }
+,{ "develop" , null , null }
+,{ "your" , null , null }
+,{ "own" , null , null }
+,{ "target" , null , null }
+,{ "(host" , null , null }
+,{ "or" , null , null }
+,{ "stand-alone)" , null , null }
+,{ "for" , null , null }
+,{ "your" , null , null }
+,{ "specific" , null , null }
+,{ "target" , null , null }
+,{ "device." , null , null }
+,{ "The" , null , null }
+,{ "installation" , null , null }
+,{ "of" , null , null }
+,{ "CCore" , & fmt_bold , null }
+,{ "provides" , null , null }
+,{ "the" , null , null }
+,{ "following" , null , null }
+,{ "targets:" , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+TextList A0pzacnEMRLfxM6 = {
+{
+{ "•" ,
+{
+{ & A0pzacnEMRLfxM7 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+}
+}
+,{ "•" ,
+{
+{ & A0pzacnEMRLfxM8 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+}
+}
+}
+, &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
+
+Text A0pzacnEMRLfxM7 = {
+{
+{ "WIN32" , & fmt_bold , null }
+,{ "—" , null , null }
+,{ "default" , null , null }
+,{ "host" , null , null }
+,{ "target," , null , null }
+,{ "based" , null , null }
+,{ "on" , null , null }
+,{ "cygwin," , & fmt_ext , null }
+}
+, &DefaultFormat , & A0pzacnEMRLfxM9 } ;
+
+Text A0pzacnEMRLfxM8 = {
+{
+{ "WIN64" , & fmt_bold , null }
+,{ "—" , null , null }
+,{ "host" , null , null }
+,{ "target" , null , null }
+,{ "for" , null , null }
+,{ "cygwin64," , & fmt_ext , null }
+}
+, &DefaultFormat , & A0pzacnEMRLfxM10 } ;
+
+OneLine A0pzacnEMRLfxM9 = { 0 } ;
+
+OneLine A0pzacnEMRLfxM10 = { 0 } ;
+
+Link link_Introduction = { A0pzacnEMRLfxM11 , { 0 } } ;
+
+Page * A0pzacnEMRLfxM11 = & page_Introduction ;
 

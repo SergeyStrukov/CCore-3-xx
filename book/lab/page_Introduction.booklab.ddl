@@ -3,57 +3,62 @@ Doc Data = { "" , { True , 00h } , { True , 00h } , { null , null } , { { True ,
 {
 & o1,
 & o2,
-& o3,
+& o3
+}
+
+ };
+
+Section o1 = { True , "Style" , 
+
+{
 & o4,
 & o5,
 & o6,
 & o7,
-& o8
+& o8,
+& o9,
+& o10,
+& o11
 }
 
  };
 
-Extern o1 = { & o9 };
-
-Extern o2 = { & o10 };
-
-Extern o3 = { & o11 };
-
-Extern o4 = { & o12 };
-
-Extern o5 = { & o13 };
-
-Scope o6 = { "Content" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
+Page o2 = { "page_Introduction" , True , "Introduction" , { True , NoColor } , { True , NoColor } , { "Content#content" , null } , { null , null } , { null , null } , {
 
 {
-& o14
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o12 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o13 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o14 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o15 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o16 } },
+{ { False , { 0 , 0 } } , { False , { 40 , 0 } } , { True , NoColor } , { null , null } , { null , & o17 } }
+}
+
+ , 5 } };
+
+Extern o4 = { & o18 };
+
+Extern o5 = { & o19 };
+
+Extern o6 = { & o20 };
+
+Extern o7 = { & o21 };
+
+Extern o8 = { & o22 };
+
+Extern o9 = { & o23 };
+
+Extern o10 = { & o24 };
+
+Scope o11 = { "Content" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
+
+{
+& o25
 }
 
  };
 
-Page o7 = { "page_Introduction" , True , "Introduction" , { True , NoColor } , { True , NoColor } , { "Content#content" , null } , { null , null } , { null , null } , {
-
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o15 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o16 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o17 } }
-}
-
- , 2 } };
-
-Format o9 = { "fmt_h1" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-OneLine o10 = { "align_h1" , True , { True , 0 } };
-
-Format o11 = { "fmt_h2" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-OneLine o12 = { "align_h2" , True , { True , 0 } };
-
-Format o13 = { "fmt_bold" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-Extern o14 = { & o18 };
-
-Text o15 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+Text o12 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -67,7 +72,7 @@ Text o15 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o16 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o13 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -81,7 +86,7 @@ Text o16 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o17 = { "" , True , { null , null } , { null , null } , 
+Text o14 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -229,7 +234,234 @@ Text o17 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Page o18 = { "content" , True , "" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
+Text o15 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+
+{
+
+
+{
+{ "Overview" , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Text o16 = { "" , True , { null , null } , { null , null } , 
+
+{
+
+
+{
+{ "CCore" , { "fmt_bold" , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "platform" , { "fmt_italic" , null } , { null , null } },
+{ "mainly" , { null , null } , { null , null } },
+{ "for" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "development" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "real-time" , { null , null } , { null , null } },
+{ "applications." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "It" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "distributed" , { null , null } , { null , null } },
+{ "under" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "Boost Software License." , { "fmt_ext" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "You" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "use" , { null , null } , { null , null } },
+{ "CCore" , { "fmt_bold" , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "build" , { null , null } , { null , null } },
+{ "host" , { null , null } , { null , null } },
+{ "applications" , { null , null } , { null , null } },
+{ "also," , { null , null } , { null , null } },
+{ "but" , { null , null } , { null , null } },
+{ "without" , { null , null } , { null , null } },
+{ "any" , { null , null } , { null , null } },
+{ "real-time" , { null , null } , { null , null } },
+{ "properties." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "We" , { null , null } , { null , null } },
+{ "use" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "term" , { null , null } , { null , null } },
+{ "\"host" , { null , null } , { null , null } },
+{ "application\"" , { null , null } , { null , null } },
+{ "to" , { null , null } , { null , null } },
+{ "designate" , { null , null } , { null , null } },
+{ "an" , { null , null } , { null , null } },
+{ "application," , { null , null } , { null , null } },
+{ "running" , { null , null } , { null , null } },
+{ "on" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "host" , { null , null } , { null , null } },
+{ "machine." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "\"Stand-alone" , { null , null } , { null , null } },
+{ "application\"" , { null , null } , { null , null } },
+{ "means" , { null , null } , { null , null } },
+{ "an" , { null , null } , { null , null } },
+{ "application," , { null , null } , { null , null } },
+{ "running" , { null , null } , { null , null } },
+{ "on" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "stand-alone" , { null , null } , { null , null } },
+{ "device." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "CCore" , { "fmt_bold" , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "multi-target" , { null , null } , { null , null } },
+{ "platform," , { null , null } , { null , null } },
+{ "you" , { null , null } , { null , null } },
+{ "can" , { null , null } , { null , null } },
+{ "(and," , { null , null } , { null , null } },
+{ "in" , { null , null } , { null , null } },
+{ "fact," , { null , null } , { null , null } },
+{ "must!)" , { null , null } , { null , null } },
+{ "develop" , { null , null } , { null , null } },
+{ "your" , { null , null } , { null , null } },
+{ "own" , { null , null } , { null , null } },
+{ "target" , { null , null } , { null , null } },
+{ "(host" , { null , null } , { null , null } },
+{ "or" , { null , null } , { null , null } },
+{ "stand-alone)" , { null , null } , { null , null } },
+{ "for" , { null , null } , { null , null } },
+{ "your" , { null , null } , { null , null } },
+{ "specific" , { null , null } , { null , null } },
+{ "target" , { null , null } , { null , null } },
+{ "device." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "The" , { null , null } , { null , null } },
+{ "installation" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "CCore" , { "fmt_bold" , null } , { null , null } },
+{ "provides" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "following" , { null , null } , { null , null } },
+{ "targets:" , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+TextList o17 = { "" , True , { null , null } , { True , 0 } , { True , 0 } , {
+
+{
+{ "•" , {
+
+{
+{ { False , { 0 , 0 } } , { False , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } }
+}
+
+ , 0 } },
+{ "•" , {
+
+{
+{ { False , { 0 , 0 } } , { False , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o27 } }
+}
+
+ , 0 } }
+}
+
+ , 1 } };
+
+Format o18 = { "fmt_h1" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+OneLine o19 = { "align_h1" , True , { True , 0 } };
+
+Format o20 = { "fmt_h2" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+OneLine o21 = { "align_h2" , True , { True , 0 } };
+
+Format o22 = { "fmt_bold" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o23 = { "fmt_italic" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o24 = { "fmt_ext" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Extern o25 = { & o28 };
+
+Text o26 = { "" , True , { null , & o29 } , { null , null } , 
+
+{
+
+
+{
+{ "WIN32" , { "fmt_bold" , null } , { null , null } },
+{ "—" , { null , null } , { null , null } },
+{ "default" , { null , null } , { null , null } },
+{ "host" , { null , null } , { null , null } },
+{ "target," , { null , null } , { null , null } },
+{ "based" , { null , null } , { null , null } },
+{ "on" , { null , null } , { null , null } },
+{ "cygwin," , { "fmt_ext" , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Text o27 = { "" , True , { null , & o30 } , { null , null } , 
+
+{
+
+
+{
+{ "WIN64" , { "fmt_bold" , null } , { null , null } },
+{ "—" , { null , null } , { null , null } },
+{ "host" , { null , null } , { null , null } },
+{ "target" , { null , null } , { null , null } },
+{ "for" , { null , null } , { null , null } },
+{ "cygwin64," , { "fmt_ext" , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Page o28 = { "content" , True , "" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
 {
 
@@ -237,7 +469,11 @@ Page o18 = { "content" , True , "" , { True , NoColor } , { True , NoColor } , {
 
  , 0 } };
 
-Link o8 = { "link_Introduction" , False , f1 };
+OneLine o29 = { "" , True , { False , 0 } };
 
-Frame *f1 = o7.list.list+0 ;
+OneLine o30 = { "" , True , { False , 0 } };
+
+Link o3 = { "link_Introduction" , True , f1 };
+
+Frame *f1 = o2.list.list+0 ;
 

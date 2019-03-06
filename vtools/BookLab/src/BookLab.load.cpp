@@ -281,9 +281,9 @@ class Book::LoadContext : NoCopy
      Cast(ret->back,ptr->back);
      Cast(ret->fore,ptr->fore);
 
-     CastName(ret->up.name,ptr->up.name);
-     CastName(ret->prev.name,ptr->prev.name);
-     CastName(ret->next.name,ptr->next.name);
+     Cast(ret->up.name,ptr->up.name);
+     Cast(ret->prev.name,ptr->prev.name);
+     Cast(ret->next.name,ptr->next.name);
 
      cast(ret->list,ptr->list);
     }

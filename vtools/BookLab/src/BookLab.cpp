@@ -406,7 +406,7 @@ void NextIndex::genKey()
     {
      static const char List[]="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-     ch=List[random.select(DimOf(List))];
+     ch=List[random.select(DimOf(List)-1)];
     }
 
   key_len=DimOf(key);
