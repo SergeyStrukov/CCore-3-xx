@@ -925,6 +925,44 @@ ErrorText Book::book(StrLen file_name,PtrLen<char> ebuf) const
     }
  }
 
+ErrorText Book::bookinc(StrLen file_name,PtrLen<char> ebuf) const // TODO
+ {
+  PrintBuf eout(ebuf);
+  ReportExceptionTo report(eout);
+
+  try
+    {
+     if( !linked )
+       {
+        Printf(Exception,"App::BookLab::Book::bookinc(...) : not linked");
+       }
+
+     Printf(Exception,"App::BookLab::Book::bookinc(...) : not implemented");
+
+#if 0
+
+     PrintFile out(file_name);
+     BookContext ctx(out);
+
+     if( +doc )
+       ctx.print(doc.getPtr());
+     else
+       ctx.printEmpty();
+
+#endif
+
+     report.guard();
+
+     return Success;
+    }
+  catch(CatchType)
+    {
+     Printf(eout,"\n@ #.q;",file_name);
+
+     return eout.close();
+    }
+ }
+
 } // namespace BookLab
 } // namespace App
 

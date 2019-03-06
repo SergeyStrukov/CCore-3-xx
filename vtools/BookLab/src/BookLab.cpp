@@ -1472,6 +1472,13 @@ void Book::blank()
   domain.collect();
  }
 
+bool Book::hasStartPage() const
+ {
+  if( +doc ) return doc->start.hasName();
+
+  return false;
+ }
+
 ExtObjPtr<Font> Book::clone(Font *ptr)
  {
   ExtObjPtr<Font> ret(domain);

@@ -222,6 +222,8 @@ class InnerBookLabWindow : public SubWindow
 
    // methods
 
+   bool hasStartPage() const { return book.hasStartPage(); }
+
    void prepare(const AppState &app_state)
     {
      field_frame.prepare(app_state);
@@ -247,6 +249,8 @@ class InnerBookLabWindow : public SubWindow
    ErrorText link(PtrLen<char> ebuf);
 
    ErrorText bookTo(StrLen file_name,PtrLen<char> ebuf) const;
+
+   ErrorText bookincTo(StrLen file_name,PtrLen<char> ebuf) const;
 
    void showTemp();
 
@@ -334,6 +338,8 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    // methods
 
+   bool hasStartPage() const { return window.hasStartPage(); }
+
    void prepare(const AppState &app_state) { window.prepare(app_state); }
 
    void save(AppState &app_state) { window.save(app_state); }
@@ -349,6 +355,8 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
    ErrorText link(PtrLen<char> ebuf) { return window.link(ebuf); }
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const { return window.bookTo(file_name,ebuf); }
+
+   ErrorText bookinc(StrLen file_name,PtrLen<char> ebuf) const { return window.bookincTo(file_name,ebuf); }
 
    void showTemp() { window.showTemp(); }
 
@@ -480,7 +488,8 @@ class EditWindow : public ComboWindow
    // frames
 
    MessageFrame msg_frame;
-   FileFrame file_frame;
+   FileFrame book_frame;
+   FileFrame bookinc_frame;
 
   private:
 
@@ -512,9 +521,12 @@ class EditWindow : public ComboWindow
 
    SignalConnector<EditWindow> connector_msg_destroyed;
 
-   void file_destroyed();
+   void book_destroyed();
 
-   SignalConnector<EditWindow> connector_file_destroyed;
+   void bookinc_destroyed();
+
+   SignalConnector<EditWindow> connector_book_destroyed;
+   SignalConnector<EditWindow> connector_bookinc_destroyed;
 
    DeferInput<EditWindow> input;
 

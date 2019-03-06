@@ -807,11 +807,15 @@ class Book : NoCopy
 
    bool isLinked() const { return linked; }
 
+   bool hasStartPage() const;
+
    void unlink() { linked=false; }
 
    ErrorText link(PtrLen<char> ebuf);
 
    ErrorText book(StrLen file_name,PtrLen<char> ebuf) const;
+
+   ErrorText bookinc(StrLen file_name,PtrLen<char> ebuf) const;
 
    struct PrepareResult
     {

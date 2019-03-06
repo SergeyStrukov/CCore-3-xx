@@ -488,6 +488,11 @@ ErrorText InnerBookLabWindow::bookTo(StrLen file_name,PtrLen<char> ebuf) const
   return book.book(file_name,ebuf);
  }
 
+ErrorText InnerBookLabWindow::bookincTo(StrLen file_name,PtrLen<char> ebuf) const
+ {
+  return book.bookinc(file_name,ebuf);
+ }
+
 void InnerBookLabWindow::showTemp()
  {
   if( temp_frame.isDead() ) temp_frame.create(getFrame());
@@ -923,17 +928,36 @@ void EditWindow::msg_destroyed()
   enableFrameReact();
  }
 
-void EditWindow::file_destroyed()
+void EditWindow::book_destroyed()
  {
   enableFrameReact();
 
-  StrLen file_name=file_frame.getFilePath();
+  StrLen file_name=book_frame.getFilePath();
 
   if( +file_name )
     {
      SimpleArray<char> temp(64_KByte);
 
      auto result=book.book(file_name,Range(temp));
+
+     if( !result.ok )
+       {
+        errorMsg(result.etext);
+       }
+    }
+ }
+
+void EditWindow::bookinc_destroyed()
+ {
+  enableFrameReact();
+
+  StrLen file_name=bookinc_frame.getFilePath();
+
+  if( +file_name )
+    {
+     SimpleArray<char> temp(64_KByte);
+
+     auto result=book.bookinc(file_name,Range(temp));
 
      if( !result.ok )
        {
@@ -983,7 +1007,8 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    book(wlist,cfg.book_cfg,update),
 
    msg_frame(host.getFrameDesktop(),cfg.msg_cfg,update),
-   file_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_str},update),
+   book_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".book.ddl"_str},update),
+   bookinc_frame(host.getFrameDesktop(),cfg.file_cfg,{true,".bookinc.ddl"_str},update),
 
    connector_book_modified(this,&EditWindow::book_modified,book.modified),
    connector_save_pressed(this,&EditWindow::save_pressed,btn_save.pressed),
@@ -992,7 +1017,8 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
    connector_extern_pressed(&book,&BookLabWindow::insExtern,btn_extern.pressed),
    connector_temp_pressed(&book,&BookLabWindow::showTemp,btn_temp.pressed),
    connector_msg_destroyed(this,&EditWindow::msg_destroyed,msg_frame.destroyed),
-   connector_file_destroyed(this,&EditWindow::file_destroyed,file_frame.destroyed),
+   connector_book_destroyed(this,&EditWindow::book_destroyed,book_frame.destroyed),
+   connector_bookinc_destroyed(this,&EditWindow::bookinc_destroyed,bookinc_frame.destroyed),
 
    input(this),
 
@@ -1007,10 +1033,15 @@ EditWindow::EditWindow(SubWindowHost &host,const Config &cfg_,Signal<> &update)
 
   wlist.insTop(label_file,text_file,btn_save,btn_link,btn_book,line1,knob_ins,knob_up,knob_down,line2,knob_del,line3,btn_extern,btn_temp,book);
 
-  // file_frame
+  // book_frame
 
-  file_frame.addFilter("*.book.ddl"_c);
-  file_frame.addFilter("*"_c,false);
+  book_frame.addFilter("*.book.ddl"_c);
+  book_frame.addFilter("*"_c,false);
+
+  // bookinc_frame
+
+  bookinc_frame.addFilter("*.bookinc.ddl"_c);
+  bookinc_frame.addFilter("*"_c,false);
  }
 
 EditWindow::~EditWindow()
@@ -1128,7 +1159,14 @@ void EditWindow::saveBook()
  {
   if( !link() ) return;
 
-  file_frame.create(getFrame(),+cfg.text_SaveFile);
+  if( book.hasStartPage() )
+    {
+     book_frame.create(getFrame(),+cfg.text_SaveFile);
+    }
+  else
+    {
+     bookinc_frame.create(getFrame(),+cfg.text_SaveFile);
+    }
 
   disableFrameReact();
  }
