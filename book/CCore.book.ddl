@@ -1,8 +1,18 @@
 include <pretext:/Book1.ddl>
 
-Book Data = { .title = "CCore 3-xx" , .start = & #Doc#Content#cover , .back = 0FFEFD5h , .fore = 00h } ;
+Book Data = { .title = "CCore 3-xx" , .start = & #Doc#Pages#Content#cover , .back = 0FFEFD5h , .fore = 00h } ;
 
 scope Doc {
+
+scope Pages {
+
+Point DefaultInner = { 10 , 2 } ;
+
+Point DefaultOuter = { 10 , 10 } ;
+
+Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
+
+MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
 scope Content {
 
@@ -120,28 +130,30 @@ OneLine ANONYM9 = { 2 } ;
 
 OneLine ANONYM10 = { 2 } ;
 
-Link test = { ANONYM11 , { 5 } } ;
+Link test = { null , {  } } ;
 
 Page content = { "Content" ,
 {
-{ & ANONYM12 , null , { 10 , 30 } , DefaultOuter , NoColor }
+{ & ANONYM11 , null , { 10 , 30 } , DefaultOuter , NoColor }
 ,{ & List#list , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , null , & cover , null } ;
 
-Text ANONYM12 = {
+Text ANONYM11 = {
 {
 { "Table" , null , null }
 ,{ "of" , null , null }
 ,{ "content" , null , null }
 }
-, & fmt_h1 , & ANONYM13 } ;
+, & fmt_h1 , & ANONYM12 } ;
 
-OneLine ANONYM13 = { 2 } ;
+OneLine ANONYM12 = { 2 } ;
 
 scope List {
 
 Point DefaultInner = { 0 , 0 } ;
+
+Point DefaultOuter = { 0 , 0 } ;
 
 Coord DefaultBulletSpace = 10 ;
 
@@ -159,41 +171,41 @@ TextList list = {
 {
 { "1." ,
 {
-{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM13 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM14 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM16 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM15 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ANONYM14 = {
+Text ANONYM13 = {
 {
 { "Introduction." , null , & #Doc#Pages#link_Introduction }
 }
-, & ANONYM17 , &DefaultPlacement } ;
+, & ANONYM16 , &DefaultPlacement } ;
 
-Text ANONYM15 = {
+Text ANONYM14 = {
 {
 { "Installation." , null , null }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Collapse ANONYM16 = { "Preliminary considerations" ,
+Collapse ANONYM15 = { "Preliminary considerations" ,
 {
 { & List2#list3 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , &DefaultCollapseFormat , False , False } ;
 
-Format ANONYM17 = { & font_list , NoColor , NoColor , 1 } ;
+Format ANONYM16 = { & font_list , NoColor , NoColor , 1 } ;
 
 scope List2 {
 
@@ -209,23 +221,23 @@ TextList list3 = {
 {
 { "1." ,
 {
-{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM17 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "2." ,
 {
-{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM18 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 ,{ "3." ,
 {
-{ & ANONYM20 , null , DefaultInner , DefaultOuter , NoColor }
+{ & ANONYM19 , null , DefaultInner , DefaultOuter , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ANONYM18 = {
+Text ANONYM17 = {
 {
 { "Metaphysics" , null , null }
 ,{ "of" , null , null }
@@ -234,7 +246,7 @@ Text ANONYM18 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM19 = {
+Text ANONYM18 = {
 {
 { "Taxonomy" , null , null }
 ,{ "of" , null , null }
@@ -242,7 +254,7 @@ Text ANONYM19 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ANONYM20 = {
+Text ANONYM19 = {
 {
 { "CCore" , null , null }
 ,{ "general." , null , null }
@@ -255,23 +267,27 @@ Text ANONYM20 = {
 
 }
 
-scope Pages {
-
-Point DefaultInner = { 10 , 10 } ;
-
-Point DefaultOuter = { 10 , 10 } ;
-
-Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
-
-MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
-
 Font font_text = { "Bookman Old Style" , 20 , False , False , 0 } ;
 
-Font font_h1 = { "Bookman Old Style" , 32 , True , False , 0 } ;
+Font font_h1 = { "Bookman Old Style" , 40 , True , False , 0 } ;
 
-Format fmt_h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
+Format fmt_h1 = { & font_h1 , 0A9A9A9h , 0FFh , 0 } ;
 
 OneLine align_h1 = { 2 } ;
+
+Font font_h2 = { "Bookman Old Style" , 30 , False , False , 0 } ;
+
+Format fmt_h2 = { & font_h2 , 0F5DEB3h , 06400h , 0 } ;
+
+OneLine align_h2 = { 0 } ;
+
+Font font_bold = { "Bookman Old Style" , 20 , True , False , 0 } ;
+
+Format fmt_bold = { & font_bold , NoColor , NoColor , 0 } ;
+
+Font font_italic = { "Bookman Old Style" , 20 , False , True , 0 } ;
+
+Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
 
 include <page_Introduction.bookinc.ddl>
 
@@ -279,6 +295,4 @@ include <page_Introduction.bookinc.ddl>
 
 
 }
-
-Page * ANONYM11 = & #Doc#Content#cover ;
 
