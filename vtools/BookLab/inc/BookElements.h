@@ -1081,26 +1081,36 @@ struct TextList : NamedObj
   OptData<Coord> bullet_space; // default: ?DefaultBulletSpace
   OptData<Coord> item_space;   // default: ?DefaultItemSpace
 
+  OptData<Point> frame_inner;
+  OptData<Point> frame_outer;
+
+  NamedPtr<Format> text_format;
+  NamedPtr<OneLine,MultiLine> placement;
+
   ItemList list;
 
   template <class Keeper>
   void keepAlive(Keeper keeper)
    {
-    keeper(getBase(),format,list);
+    keeper(getBase(),format,text_format,placement,list);
    }
 
   // layout
 
-  TableLayout<4> layout;
+  TableLayout<8> layout;
 
   template <class Row,template <class T> class If,class Func>
   void apply(Func func)
    {
-    Row table[4]=
+    Row table[8]=
      {
-      {"Format"_c,"format = "_c,If(format)},
+      {"Format"_c,"bullet_format = "_c,If(format)},
       {"Coord"_c,"bullet_space = "_c,If(bullet_space)},
       {"Coord"_c,"item_space = "_c,If(item_space)},
+      {"Point"_c,"frame_inner = "_c,If(frame_inner)},
+      {"Point"_c,"frame_outer = "_c,If(frame_outer)},
+      {"Format"_c,"text_format = "_c,If(text_format)},
+      {"{OneLine,MultiLine}"_c,"placement = "_c,If(placement)},
       {"Item[]"_c,"list = "_c,If(list)}
      };
 

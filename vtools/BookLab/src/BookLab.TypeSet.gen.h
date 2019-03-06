@@ -254,6 +254,10 @@ struct TypeSet : TypeDefCore
                                "format",offsetof(S32,format),
                                "bullet_space",offsetof(S32,bullet_space),
                                "item_space",offsetof(S32,item_space),
+                               "frame_inner",offsetof(S32,frame_inner),
+                               "frame_outer",offsetof(S32,frame_outer),
+                               "text_format",offsetof(S32,text_format),
+                               "placement",offsetof(S32,placement),
                                "list",offsetof(S32,list)
                               );
         }
@@ -931,6 +935,10 @@ struct TypeSet : TypeDefCore
                                S4,
                                S28,
                                S28,
+                               S21,
+                               S21,
+                               S4,
+                               S3,
                                S31
                               >(*this,struct_node);
         }

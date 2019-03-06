@@ -343,6 +343,10 @@ struct TypeDefCore
     S4 format;
     S28 bullet_space;
     S28 item_space;
+    S21 frame_inner;
+    S21 frame_outer;
+    S4 text_format;
+    S3 placement;
     S31 list;
 
     struct Ext;

@@ -23,22 +23,22 @@ Format o3 = { "" , False , { "font_text" , null } , { True , NoColor } , { True 
 
 MultiLine o4 = { "" , False , { False , { 12 , 10 } } , { False , { 2 , 1 } } };
 
-Scope o5 = { "Content" , False , { { False , { 10 , 10 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , & o9 , null , & o10 } , 
+Scope o5 = { "Content" , True , { { False , { 10 , 10 } } , { False , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , & o9 , null , & o10 } , 
 
 {
 & o11,
 & o12,
 & o13,
 & o14,
-& o15
+& o15,
+& o16
 }
 
  };
 
-Section o6 = { True , "Style" , 
+Section o6 = { False , "Style" , 
 
 {
-& o16,
 & o17,
 & o18,
 & o19,
@@ -49,30 +49,35 @@ Section o6 = { True , "Style" ,
 & o24,
 & o25,
 & o26,
-& o27
+& o27,
+& o28,
+& o29
 }
 
  };
 
 Include o7 = { "page_Introduction.bookinc.ddl" };
 
-Extern o8 = { & o28 };
+Extern o8 = { & o30 };
 
 Format o9 = { "" , False , { "font_text" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
 MultiLine o10 = { "" , False , { False , { 1 , 1 } } , { False , { 2 , 1 } } };
 
-Section o11 = { False , "Style" , 
+Section o11 = { True , "Style" , 
 
 {
-& o29,
-& o30,
 & o31,
 & o32,
 & o33,
 & o34,
 & o35,
-& o36
+& o36,
+& o37,
+& o38,
+& o39,
+& o40,
+& o41
 }
 
  };
@@ -80,12 +85,12 @@ Section o11 = { False , "Style" ,
 Page o12 = { "cover" , False , "Cover" , { False , 0FFFFFFh } , { False , 00h } , { null , null } , { null , null } , { "content" , null } , {
 
 {
-{ { False , { 50 , 50 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o37 } },
-{ { True , { 10 , 10 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o38 } },
-{ { False , { 0 , 200 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o39 } },
-{ { False , { 10 , 50 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o40 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o41 } },
-{ { False , { 50 , 20 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o42 } }
+{ { False , { 10 , 50 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o42 } },
+{ { True , { 10 , 10 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o43 } },
+{ { False , { 0 , 200 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o44 } },
+{ { False , { 10 , 50 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o45 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o46 } },
+{ { False , { 50 , 20 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o47 } }
 }
 
  , 5 } };
@@ -95,64 +100,119 @@ Link o13 = { "test" , False , null };
 Page o14 = { "content" , False , "Content" , { True , NoColor } , { True , NoColor } , { null , null } , { "cover" , null } , { null , null } , {
 
 {
-{ { False , { 10 , 30 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o43 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { "List#list" , null } }
+{ { False , { 10 , 30 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o48 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { "list" , null } }
 }
 
- , 0 } };
+ , 1 } };
 
-Scope o15 = { "List" , True , { { False , { 0 , 0 } } , { False , { 0 , 0 } } , { False , 10 } , { False , 10 } , & o44 , & o45 , null , & o46 , null , & o47 } , 
+TextList o15 = { "list" , True , { "fmt_list" , null } , { False , 10 } , { False , 10 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { "fmt_list" , null } , { null , & o49 } , {
 
 {
-& o48,
-& o49
+{ "1." , {
+
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o50 } }
 }
 
- };
+ , 0 } },
+{ "2." , {
 
-Font o16 = { "font_text" , False , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o51 } }
+}
 
-Font o17 = { "font_h1" , False , "Bookman Old Style" , 40 , { False , True } , { False , False } , { False , 0 } };
+ , 0 } },
+{ "3." , {
 
-Format o18 = { "fmt_h1" , False , { "font_h1" , null } , { False , 0A9A9A9h } , { False , 0FFh } , { True , 0 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o52 } }
+}
 
-OneLine o19 = { "align_h1" , False , { False , 2 } };
+ , 0 } }
+}
 
-Font o20 = { "font_h2" , False , "Bookman Old Style" , 30 , { False , False } , { False , False } , { False , 0 } };
+ , 2 } };
 
-Format o21 = { "fmt_h2" , False , { "font_h2" , null } , { False , 0F5DEB3h } , { False , 06400h } , { True , 0 } };
+TextList o16 = { "list3" , False , { "fmt_list2" , null } , { False , 5 } , { False , 5 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { "fmt_list2" , null } , { null , & o53 } , {
 
-OneLine o22 = { "align_h2" , False , { False , 0 } };
+{
+{ "1." , {
 
-Font o23 = { "font_bold" , False , "Bookman Old Style" , 20 , { False , True } , { False , False } , { False , 0 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o54 } }
+}
 
-Format o24 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+ , 0 } },
+{ "2." , {
 
-Font o25 = { "font_italic" , False , "Bookman Old Style" , 20 , { False , False } , { False , True } , { False , 0 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o55 } }
+}
 
-Format o26 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+ , 0 } },
+{ "3." , {
 
-Format o27 = { "fmt_ext" , False , { "font_text" , null } , { True , NoColor } , { False , 0FFh } , { False , 1 } };
+{
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o56 } }
+}
 
-Link o28 = { "link_Introduction" , True , null };
+ , 0 } }
+}
 
-Font o29 = { "font_text" , True , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
+ , 2 } };
 
-Format o30 = { "fmt_text" , False , { "font_text" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Font o17 = { "font_text" , False , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
 
-Font o31 = { "font_title" , True , "Bookman Old Style" , 80 , { False , False } , { False , False } , { False , 0 } };
+Font o18 = { "font_h1" , False , "Bookman Old Style" , 40 , { False , True } , { False , False } , { False , 0 } };
 
-Format o32 = { "fmt_title" , False , { "font_title" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+Format o19 = { "fmt_h1" , False , { "font_h1" , null } , { False , 0A9A9A9h } , { False , 0FFh } , { True , 0 } };
 
-Font o33 = { "font_h1" , True , "Bookman Old Style" , 32 , { False , False } , { False , False } , { False , 0 } };
+OneLine o20 = { "align_h1" , False , { False , 2 } };
 
-Format o34 = { "fmt_h1" , True , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
+Font o21 = { "font_h2" , False , "Bookman Old Style" , 30 , { False , False } , { False , False } , { False , 0 } };
 
-Font o35 = { "font_list" , True , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
+Format o22 = { "fmt_h2" , False , { "font_h2" , null } , { False , 0F5DEB3h } , { False , 06400h } , { True , 0 } };
 
-Font o36 = { "font_list2" , True , "Bookman Old Style" , 18 , { False , False } , { False , False } , { False , 0 } };
+OneLine o23 = { "align_h2" , False , { False , 0 } };
 
-Text o37 = { "" , True , { null , & o50 } , { "fmt_title" , null } , 
+Font o24 = { "font_bold" , False , "Bookman Old Style" , 20 , { False , True } , { False , False } , { False , 0 } };
+
+Format o25 = { "fmt_bold" , False , { "font_bold" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Font o26 = { "font_italic" , False , "Bookman Old Style" , 20 , { False , False } , { False , True } , { False , 0 } };
+
+Format o27 = { "fmt_italic" , False , { "font_italic" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o28 = { "fmt_ext" , False , { "font_text" , null } , { True , NoColor } , { False , 0FFh } , { False , 1 } };
+
+Format o29 = { "fmt_red" , False , { "font_text" , null } , { True , NoColor } , { False , 0FF0000h } , { False , 0 } };
+
+Link o30 = { "link_Introduction" , True , null };
+
+Font o31 = { "font_text" , False , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
+
+Format o32 = { "fmt_text" , False , { "font_text" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Font o33 = { "font_title" , False , "Bookman Old Style" , 80 , { False , False } , { False , False } , { False , 0 } };
+
+Format o34 = { "fmt_title" , False , { "font_title" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Font o35 = { "font_h1" , False , "Bookman Old Style" , 32 , { False , False } , { False , False } , { False , 0 } };
+
+Format o36 = { "fmt_h1" , False , { "font_h1" , null } , { True , NoColor } , { False , 0FFh } , { True , 0 } };
+
+Font o37 = { "font_list" , False , "Bookman Old Style" , 20 , { False , False } , { False , False } , { False , 0 } };
+
+Format o38 = { "fmt_list" , True , { "font_list" , null } , { True , 0EE82EEh } , { True , NoColor } , { True , 0 } };
+
+Format o39 = { "fmt_underline" , False , { "font_list" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
+
+Font o40 = { "font_list2" , False , "Bookman Old Style" , 18 , { False , False } , { False , False } , { False , 0 } };
+
+Format o41 = { "fmt_list2" , False , { "font_list2" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Text o42 = { "" , True , { null , & o57 } , { "fmt_title" , null } , 
 
 {
 
@@ -166,7 +226,7 @@ Text o37 = { "" , True , { null , & o50 } , { "fmt_title" , null } ,
 
  };
 
-Text o38 = { "" , True , { null , & o51 } , { null , null } , 
+Text o43 = { "" , True , { null , & o58 } , { null , null } , 
 
 {
 
@@ -185,7 +245,7 @@ Text o38 = { "" , True , { null , & o51 } , { null , null } ,
 
  };
 
-Text o39 = { "" , True , { null , null } , { null , null } , 
+Text o44 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -193,7 +253,7 @@ Text o39 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o40 = { "" , True , { null , & o52 } , { null , null } , 
+Text o45 = { "" , True , { null , & o59 } , { null , null } , 
 
 {
 
@@ -211,7 +271,7 @@ Text o40 = { "" , True , { null , & o52 } , { null , null } ,
 
  };
 
-Text o41 = { "" , True , { null , & o53 } , { null , null } , 
+Text o46 = { "" , True , { null , & o60 } , { null , null } , 
 
 {
 
@@ -232,7 +292,7 @@ Text o41 = { "" , True , { null , & o53 } , { null , null } ,
 
  };
 
-Text o42 = { "" , True , { null , null } , { null , null } , 
+Text o47 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -274,7 +334,7 @@ Text o42 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o43 = { "" , True , { null , & o54 } , { "fmt_h1" , null } , 
+Text o48 = { "" , True , { null , & o61 } , { "fmt_h1" , null } , 
 
 {
 
@@ -290,131 +350,47 @@ Text o43 = { "" , True , { null , & o54 } , { "fmt_h1" , null } ,
 
  };
 
-Format o44 = { "" , False , { "font_list" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+OneLine o49 = { "" , False , { False , 0 } };
 
-Format o45 = { "" , False , { "font_list" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-Format o46 = { "" , False , { "font_list" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-OneLine o47 = { "" , False , { False , 0 } };
-
-TextList o48 = { "list" , False , { null , null } , { True , 10 } , { True , 10 } , {
+Text o50 = { "" , True , { null , null } , { null , null } , 
 
 {
-{ "1." , {
+
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o55 } }
+{ "Introduction." , { "fmt_underline" , null } , { "#Pages#link_Introduction" , null } }
 }
 
- , 0 } },
-{ "2." , {
 
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o56 } }
 }
 
- , 0 } },
-{ "3." , {
+ };
+
+Text o51 = { "" , True , { null , null } , { null , null } , 
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o57 } }
+
+
+{
+{ "Installation." , { "fmt_underline" , null } , { null , null } }
 }
 
- , 0 } }
+
+}
+
+ };
+
+Collapse o52 = { "" , True , "Preliminary considerations" , { "fmt_list" , null } , False , { False , False } , {
+
+{
+{ { False , { 5 , 5 } } , { False , { 0 , 0 } } , { True , NoColor } , { null , null } , { "list3" , null } }
 }
 
  , 0 } };
 
-Scope o49 = { "List2" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { False , 5 } , { False , 5 } , null , & o58 , null , & o59 , null , null } , 
+OneLine o53 = { "" , True , { False , 0 } };
 
-{
-& o60
-}
-
- };
-
-OneLine o50 = { "" , True , { False , 2 } };
-
-OneLine o51 = { "" , True , { False , 2 } };
-
-OneLine o52 = { "" , True , { False , 2 } };
-
-OneLine o53 = { "" , True , { False , 2 } };
-
-OneLine o54 = { "" , True , { False , 2 } };
-
-Text o55 = { "" , True , { null , null } , { null , & o61 } , 
-
-{
-
-
-{
-{ "Introduction." , { null , null } , { "#Pages#link_Introduction" , null } }
-}
-
-
-}
-
- };
-
-Text o56 = { "" , False , { null , null } , { null , null } , 
-
-{
-
-
-{
-{ "Installation." , { null , null } , { null , null } }
-}
-
-
-}
-
- };
-
-Collapse o57 = { "" , True , "Preliminary considerations" , { null , null } , False , { False , False } , {
-
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { "List2#list3" , null } }
-}
-
- , 0 } };
-
-Format o58 = { "" , False , { "font_list2" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-Format o59 = { "" , False , { "font_list2" , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
-
-TextList o60 = { "list3" , False , { null , null } , { True , 5 } , { True , 5 } , {
-
-{
-{ "1." , {
-
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o62 } }
-}
-
- , 0 } },
-{ "2." , {
-
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o63 } }
-}
-
- , 0 } },
-{ "3." , {
-
-{
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o64 } }
-}
-
- , 0 } }
-}
-
- , 2 } };
-
-Format o61 = { "" , True , { "font_list" , null } , { True , NoColor } , { True , NoColor } , { False , 1 } };
-
-Text o62 = { "" , True , { null , null } , { null , null } , 
+Text o54 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -431,7 +407,7 @@ Text o62 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o63 = { "" , True , { null , null } , { null , null } , 
+Text o55 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -447,7 +423,7 @@ Text o63 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o64 = { "" , True , { null , null } , { null , null } , 
+Text o56 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -461,4 +437,14 @@ Text o64 = { "" , True , { null , null } , { null , null } ,
 }
 
  };
+
+OneLine o57 = { "" , True , { False , 2 } };
+
+OneLine o58 = { "" , True , { False , 2 } };
+
+OneLine o59 = { "" , True , { False , 2 } };
+
+OneLine o60 = { "" , True , { False , 2 } };
+
+OneLine o61 = { "" , True , { False , 2 } };
 

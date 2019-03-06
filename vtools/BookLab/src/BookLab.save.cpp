@@ -814,13 +814,17 @@ class Book::SaveContext : public NextIndex
 
    void print(Index index,TextList *ptr)
     {
-     printf("TextList #; = { #; , #; , #; , #; , #; , #; };\n\n",index
-                                                                ,ptr->name
-                                                                ,ptr->open
-                                                                ,bind(ptr->format)
-                                                                ,ptr->bullet_space
-                                                                ,ptr->item_space
-                                                                ,bind(ptr->list));
+     printf("TextList #; = { #; , #; , #; , #; , #; , #; , #; , #; , #; , #; };\n\n",index
+                                                                                    ,ptr->name
+                                                                                    ,ptr->open
+                                                                                    ,bind(ptr->format)
+                                                                                    ,ptr->bullet_space
+                                                                                    ,ptr->item_space
+                                                                                    ,ptr->frame_inner
+                                                                                    ,ptr->frame_outer
+                                                                                    ,bind(ptr->text_format)
+                                                                                    ,bind(ptr->placement)
+                                                                                    ,bind(ptr->list));
 
      addList(index,ptr->list);
     }

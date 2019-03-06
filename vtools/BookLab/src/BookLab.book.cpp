@@ -170,6 +170,7 @@ class Book::BookContext : NextIndex
      Index index;
      AnyPtr<Font,Format,SingleLine,DoubleLine,Page,Scope,Bitmap,Collapse,TextList,
             Border,Cell,Table,Link,FixedText,OneLine,MultiLine,Text> ptr;
+     TextList *opt = 0 ;
     };
 
    CompactList2<Rec> list;
@@ -201,6 +202,8 @@ class Book::BookContext : NextIndex
 
      OptDef(OptDataBase<T> data_,StrLen def_) : data(data_),def(def_) {}
 
+     OptDef(OptDataBase<T> data_,OptDataBase<T> back,StrLen def_) : data( data_.def?back:data_ ),def(def_) {}
+
      void print(PrinterType &out) const
       {
        if( data.def )
@@ -224,6 +227,8 @@ class Book::BookContext : NextIndex
      StrLen def;
 
      Named(BookContext *ctx_,NamedPtr<TT...> ptr_,StrLen def_="null"_c) : ctx(ctx_),ptr(ptr_),def(def_) {}
+
+     Named(BookContext *ctx_,NamedPtr<TT...> ptr_,NamedPtr<TT...> back,StrLen def_="null"_c) : ctx(ctx_),ptr( ptr_.isDef()?back:ptr_ ),def(def_) {}
 
      void print(PrinterType &out) const
       {
@@ -251,6 +256,45 @@ class Book::BookContext : NextIndex
        else
          {
           Putobj(out,def);
+         }
+      }
+    };
+
+   template <class T,class ... TT>
+   struct NamedOpt
+    {
+     BookContext *ctx;
+     NamedPtr<TT...> ptr;
+     T *opt;
+
+     NamedOpt(BookContext *ctx_,NamedPtr<TT...> ptr_,T *opt_) : ctx(ctx_),ptr(ptr_),opt(opt_) {}
+
+     void print(PrinterType &out) const
+      {
+       if( ptr.hasName() )
+         {
+          StrLen name=Range(ptr.name);
+
+          if( IsAbs(name) )
+            {
+             AdaptPrintf(out,"& ##Doc#;",name);
+            }
+          else
+            {
+             AdaptPrintf(out,"& #;",name);
+            }
+         }
+       else if( ptr.hasObj() )
+         {
+          Index index=ctx->getIndex();
+
+          AdaptPrintf(out,"& #;",index);
+
+          ctx->addAnonym(index,ptr.ptr.getPtr(),opt);
+         }
+       else
+         {
+          Putobj(out,"null"_c);
          }
       }
     };
@@ -303,15 +347,37 @@ class Book::BookContext : NextIndex
      list.insLast(Rec{index,ptr});
     }
 
+   template <class T,class S>
+   void addAnonym(Index index,T *ptr,S *opt)
+    {
+     list.insLast(Rec{index,ptr,opt});
+    }
+
    template <class ... TT>
    void addAnonym(Index index,AnyPtr<TT...> ptr)
     {
      ptr.apply( [&] (auto *ptr) { addAnonym(index,ptr); } );
     }
 
-   template <class ... TT>
-   void printAnonym(Index index,AnyPtr<TT...> ptr)
+   template <class T,class ... TT>
+   void addAnonym(Index index,AnyPtr<TT...> ptr,T *opt)
     {
+     ptr.apply( [&] (auto *ptr) { addAnonym(index,ptr,opt); } );
+    }
+
+   template <class ... TT>
+   void printAnonym(Index index,AnyPtr<TT...> ptr,TextList *opt)
+    {
+     if( opt )
+       {
+        if( Text *text=ptr.template castPtr<Text>() )
+          {
+           elem(index,text,opt);
+
+           return;
+          }
+       }
+
      ptr.apply( [&] (auto *ptr) { elem(index,ptr); } );
     }
 
@@ -319,7 +385,7 @@ class Book::BookContext : NextIndex
     {
      while( Rec *rec=list.getFirst() )
        {
-        printAnonym(rec->index,rec->ptr);
+        printAnonym(rec->index,rec->ptr,rec->opt);
 
         list.delFirst();
        }
@@ -664,7 +730,7 @@ class Book::BookContext : NextIndex
     {
      printf("TextList #; = {\n",name);
 
-     elem(ptr->list);
+     elem(ptr->list,ptr);
 
      printf(", #; , #; , #; } ;\n\n",Named(this,ptr->format,"&DefaultBulletFormat"_c),
                                      OptDef(ptr->bullet_space,"DefaultBulletSpace"_c),
@@ -758,6 +824,16 @@ class Book::BookContext : NextIndex
                                 Named(this,ptr->placement,"&DefaultPlacement"_c));
     }
 
+   void elem(NameType name,Text *ptr,TextList *opt)
+    {
+     printf("Text #; = {\n",name);
+
+     elemText(Range(ptr->list));
+
+     printf(", #; , #; } ;\n\n",Named(this,ptr->format,opt->text_format,"&DefaultFormat"_c),
+                                Named(this,ptr->placement,opt->placement,"&DefaultPlacement"_c));
+    }
+
    void elem(FrameList &list)
     {
      putstr("{\n"_c);
@@ -778,7 +854,27 @@ class Book::BookContext : NextIndex
      putstr("}\n"_c);
     }
 
-   void elem(ItemList &list)
+   void elem(FrameList &list,TextList *ptr)
+    {
+     putstr("{\n"_c);
+
+     bool first=true;
+
+     for(Frame &frame : ForIntList(list) )
+       {
+        if( !Change(first,false) ) putstr(","_c);
+
+        printf("{ #; , #; , #; , #; , #; }\n",NamedOpt(this,frame.body,ptr),
+                                              Named(this,frame.line),
+                                              OptDef(frame.inner,ptr->frame_inner,"DefaultInner"_c),
+                                              OptDef(frame.outer,ptr->frame_outer,"DefaultOuter"_c),
+                                              frame.col.get());
+       }
+
+     putstr("}\n"_c);
+    }
+
+   void elem(ItemList &list,TextList *ptr)
     {
      putstr("{\n"_c);
 
@@ -790,7 +886,7 @@ class Book::BookContext : NextIndex
 
         printf("{ #; ,\n",DDLPrintableString(item.bullet));
 
-        elem(item.list);
+        elem(item.list,ptr);
 
         putstr("}\n");
        }

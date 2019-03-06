@@ -1177,6 +1177,9 @@ class Book::LinkContext : NoCopy
     {
      add(ptr->scope,ptr->format);
 
+     add(ptr->scope,ptr->text_format);
+     add(ptr->scope,ptr->placement);
+
      set(ptr->scope,ptr->list);
     }
 
@@ -1633,6 +1636,13 @@ ExtObjPtr<TextList> Book::clone(TextList *ptr)
   ret->format=clone(ptr->format);
   ret->bullet_space=ptr->bullet_space;
   ret->item_space=ptr->item_space;
+
+  ret->frame_inner=ptr->frame_inner;
+  ret->frame_outer=ptr->frame_outer;
+
+  ret->text_format=clone(ptr->text_format);
+
+  clone(ret->placement,ptr->placement);
 
   clone(ret->list,ptr->list);
 

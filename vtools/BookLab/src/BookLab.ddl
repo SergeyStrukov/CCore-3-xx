@@ -321,6 +321,11 @@ struct TextList
   OptCoord bullet_space;
   OptCoord item_space;
   
+  OptPoint frame_inner;
+  OptPoint frame_outer;
+  FormatPtr text_format;
+  PlacementPtr placement;
+  
   ItemList list;
  };
 

@@ -347,6 +347,13 @@ class Book::LoadContext : NoCopy
      Cast(ret->item_space,ptr->item_space);
 
      cast(ret->format,ptr->format);
+
+     Cast(ret->frame_inner,ptr->frame_inner);
+     Cast(ret->frame_outer,ptr->frame_outer);
+
+     cast(ret->text_format,ptr->text_format);
+     cast(ret->placement,ptr->placement);
+
      cast(ret->list,ptr->list);
     }
 
