@@ -49,7 +49,14 @@ struct Adapter<Index>
 
   void print(PrinterType &out) const
    {
-    Printf(out,"ANONYM#;",data.index);
+    if( !data.key )
+      {
+       Printf(out,"ANONYM#;",data.index);
+      }
+    else
+      {
+       Printf(out,"A#;M#;",data.key,data.index);
+      }
    }
  };
 
@@ -320,21 +327,33 @@ class Book::BookContext : NextIndex
 
   private:
 
-   Collector<Page *> links;
+   struct LinkRec
+    {
+     Index index;
+     Page *page;
+
+     LinkRec(Index index_,Page *page_) : index(index_),page(page_) {}
+    };
+
+   Collector<LinkRec> links;
 
    struct PageName
     {
      String name;
      Page *page;
+
+     PageName(const String &name_,Page *page_) : name(name_),page(page_) {}
     };
 
    Collector<PageName> pages;
 
-   ulen addLink(Page *page)
-    {
-     ulen ret=links.getLen();
+   bool rel_pages = false ;
 
-     links.append_copy(page);
+   Index addLink(Page *page)
+    {
+     Index ret=getIndex();
+
+     links.append_fill(ret,page);
 
      return ret;
     }
@@ -355,7 +374,7 @@ class Book::BookContext : NextIndex
 
      public:
 
-      explicit ScopeCursor(IntAnyObjPtr<Scope,Doc> scope) { set(scope); }
+      ScopeCursor(IntAnyObjPtr<Scope,Doc> scope) { set(scope); }
 
       Scope * operator + () const { return ptr; }
 
@@ -364,35 +383,53 @@ class Book::BookContext : NextIndex
       void operator ++ () { set(ptr->scope); }
     };
 
+   class ScopePath : NoCopy
+    {
+      TempArray<String *,10> temp;
+
+     private:
+
+      static ulen CountItems(ScopeCursor cur)
+       {
+        ulen count=0;
+
+        for(String *name : ForLoop(cur) )
+          {
+           Used(name);
+
+           count++;
+          }
+
+        return count;
+       }
+
+     public:
+
+      explicit ScopePath(ScopeCursor cur)
+       : temp(CountItems(cur))
+       {
+        auto rev=RangeReverse(temp);
+
+        for(String *name : ForLoop(cur) )
+          {
+           *rev=name;
+
+           ++rev;
+          }
+       }
+
+      auto getRange() const { return Range(temp); }
+    };
+
    static String MakeName(IntAnyObjPtr<Scope,Doc> scope,NameType page_name)
     {
-     ScopeCursor cur(scope);
-
-     ulen count=0;
-
-     for(String *name : ForLoop(cur) )
-       {
-        Used(name);
-
-        count++;
-       }
-
-     TempArray<String *,10> temp(count);
-
-     auto rev=RangeReverse(temp);
-
-     for(String *name : ForLoop(cur) )
-       {
-        *rev=name;
-
-        ++rev;
-       }
+     ScopePath path(scope);
 
      PrintString out;
 
      Putobj(out,"#Doc"_c);
 
-     for(String *name : temp )
+     for(String *name : path.getRange() )
        {
         Printf(out,"###;",*name);
        }
@@ -402,19 +439,38 @@ class Book::BookContext : NextIndex
      return out.close();
     }
 
-   void addPage(NameType name,Page *page)
+   static String MakeRelName(IntAnyObjPtr<Scope,Doc> scope,NameType page_name)
     {
-     pages.append_copy({MakeName(page->scope,name),page});
+     ScopePath path(scope);
+
+     PrintString out;
+
+     for(String *name : path.getRange() )
+       {
+        Printf(out,"#;##",*name);
+       }
+
+     AdaptPrintf(out,"#;",page_name);
+
+     return out.close();
     }
 
-   void printLink(ulen ind,Page *page,PtrLen<PageName> page_list)
+   void addPage(NameType name,Page *page)
     {
-     ulen index=page->index;
+     if( rel_pages )
+       pages.append_fill(MakeRelName(page->scope,name),page);
+     else
+       pages.append_fill(MakeName(page->scope,name),page);
+    }
+
+   void printLink(LinkRec &rec,PtrLen<PageName> page_list)
+    {
+     ulen index=rec.page->index;
 
      if( index<page_list.len )
-       printf("Page * link#; = & #; ;\n\n",ind,page_list[index].name);
+       printf("Page * #; = & #; ;\n\n",rec.index,page_list[index].name);
      else
-       putstr("Page * link#; = null ;\n\n");
+       printf("Page * #; = null ;\n\n",rec.index);
     }
 
    void printLinks()
@@ -422,11 +478,11 @@ class Book::BookContext : NextIndex
      auto link_list=links.flat();
      auto page_list=pages.flat();
 
-     for(Page *page : link_list ) page->index=MaxULen;
+     for(LinkRec &rec : link_list ) rec.page->index=MaxULen;
 
      for(ulen ind=0; ind<page_list.len ;ind++) page_list[ind].page->index=ind;
 
-     for(ulen ind=0; ind<link_list.len ;ind++) printLink(ind,link_list[ind],page_list);
+     for(LinkRec &rec : link_list ) printLink(rec,page_list);
     }
 
   private:
@@ -654,9 +710,9 @@ class Book::BookContext : NextIndex
 
      if( +ptr->page )
        {
-        ulen ind=addLink(ptr->page.getPtr());
+        Index ind=addLink(ptr->page.getPtr());
 
-        printf("##link#;",ind);
+        printf("#;",ind);
        }
      else
        {
@@ -883,6 +939,17 @@ class Book::BookContext : NextIndex
      printLinks();
     }
 
+   void printInc(Doc *doc)
+    {
+     rel_pages=true;
+
+     genKey();
+
+     elem(doc->list);
+
+     printLinks();
+    }
+
    void printEmpty()
     {
      putstr("include <pretext:/Book1.ddl>\n\n"_c);
@@ -925,7 +992,7 @@ ErrorText Book::book(StrLen file_name,PtrLen<char> ebuf) const
     }
  }
 
-ErrorText Book::bookinc(StrLen file_name,PtrLen<char> ebuf) const // TODO
+ErrorText Book::bookinc(StrLen file_name,PtrLen<char> ebuf) const
  {
   PrintBuf eout(ebuf);
   ReportExceptionTo report(eout);
@@ -937,19 +1004,11 @@ ErrorText Book::bookinc(StrLen file_name,PtrLen<char> ebuf) const // TODO
         Printf(Exception,"App::BookLab::Book::bookinc(...) : not linked");
        }
 
-     Printf(Exception,"App::BookLab::Book::bookinc(...) : not implemented");
-
-#if 0
-
      PrintFile out(file_name);
      BookContext ctx(out);
 
      if( +doc )
-       ctx.print(doc.getPtr());
-     else
-       ctx.printEmpty();
-
-#endif
+       ctx.printInc(doc.getPtr());
 
      report.guard();
 

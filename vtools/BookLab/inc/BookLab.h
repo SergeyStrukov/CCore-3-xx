@@ -130,6 +130,7 @@ auto ForIntList(IntList &list) { return ForLoop(IntListCur(list)); }
 
 struct Index
  {
+  StrLen key;
   unsigned index;
  };
 
@@ -139,9 +140,14 @@ class NextIndex : NoCopy
  {
    unsigned next_index = 1 ;
 
+   char key[12];
+   ulen key_len = 0 ;
+
   public:
 
    NextIndex() {}
+
+   void genKey();
 
    Index getIndex();
  };

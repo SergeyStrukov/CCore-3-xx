@@ -22,6 +22,8 @@
 
 #include <CCore/inc/video/PrintDDL.h>
 
+#include <CCore/inc/PlatformRandom.h>
+
 namespace App {
 namespace BookLab {
 
@@ -396,6 +398,20 @@ PropTable PropTable::Object;
 
 /* class NextIndex */
 
+void NextIndex::genKey()
+ {
+  PlatformRandom random;
+
+  for(char &ch : key )
+    {
+     static const char List[]="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+     ch=List[random.select(DimOf(List))];
+    }
+
+  key_len=DimOf(key);
+ }
+
 Index NextIndex::getIndex()
  {
   unsigned ret=next_index;
@@ -407,7 +423,7 @@ Index NextIndex::getIndex()
 
   next_index++;
 
-  return {ret};
+  return {Range(key,key_len),ret};
  }
 
 /* class TempData */
