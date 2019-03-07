@@ -341,8 +341,13 @@ class TempData : NoCopy
 
   private:
 
-   template <class T>
-   static StrLen GetTypeName(T *) { return Null; }
+   // print
+
+   template <OneOfTypes<bool,Coord,String,ulen,VColor,Strength,Align,Effect,Point,Ratio> T>
+   static void Print(PrinterType &out,T *ptr)
+    {
+     Putobj(out,GetTypeName(ptr));
+    }
 
    static StrLen GetTypeName(bool *) { return "bool"_c; }
 
@@ -364,9 +369,67 @@ class TempData : NoCopy
 
    static StrLen GetTypeName(Ratio *) { return "Ratio"_c; }
 
-   static StrLen GetTypeName(ExtObjPtr<Element> *) { return "Element"_c; }
+   template <class T>
+   static StrLen GetNameOf(T *ptr)
+    {
+     return Range(ptr->name);
+    }
 
-   static StrLen GetTypeName(ExtObjPtr<Frame> *) { return "Frame link"_c; }
+   template <OneOfTypes<Include,Extern,Section> T>
+   static StrLen GetNameOf(T *)
+    {
+     return ""_c;
+    }
+
+   static void Print(PrinterType &out,ExtObjPtr<Element> *elem)
+    {
+     (*elem)->ptr.getPtr().apply( [&] (auto *ptr)
+                                      {
+                                       if( ptr )
+                                         Print(out,GetNameOf(ptr),GetNamedTypeName(ptr));
+                                       else
+                                         Putobj(out,GetNamedTypeName(ptr));
+
+                                      } );
+    }
+
+   static void Print(PrinterType &out,ExtObjPtr<Frame> *)
+    {
+     Putobj(out,"Frame link"_c);
+    }
+
+   static void Print(PrinterType &out,APtr *aptr)
+    {
+     aptr->getPtr().apply( [&] (auto *ptr)
+                               {
+                                if( ptr )
+                                  {
+                                   Print(out,Range(ptr->name),GetTypeName(ptr));
+                                  }
+                                else
+                                  {
+                                   Putobj(out,GetTypeName(ptr));
+                                  }
+
+                               } );
+    }
+
+   static void Print(PrinterType &out,NPtr *nptr)
+    {
+     nptr->ptr.getPtr().apply( [&] (auto *ptr)
+                                   {
+                                    Print(out,Range(nptr->name),GetNamedTypeName(ptr));
+
+                                   } );
+    }
+
+   static void Print(PrinterType &out,StrLen name,StrLen type)
+    {
+     if( +name )
+       Printf(out,"#; #;",type,name);
+     else
+       Printf(out,"#;",type);
+    }
 
    static StrLen GetTypeName(SingleLine *) { return "SingleLine"_c; }
 
@@ -380,38 +443,49 @@ class TempData : NoCopy
 
    static StrLen GetTypeName(MultiLine *) { return "MultiLine"_c; }
 
-   static StrLen GetTypeName(APtr *ptr);
 
-   static StrLen GetNamedTypeName(Font *) { return "Named Font"_c; }
+   static StrLen GetNamedTypeName(Font *) { return "Font"_c; }
 
-   static StrLen GetNamedTypeName(Page *) { return "Named Page"_c; }
+   static StrLen GetNamedTypeName(Page *) { return "Page"_c; }
 
-   static StrLen GetNamedTypeName(Format *) { return "Named Format"_c; }
+   static StrLen GetNamedTypeName(Format *) { return "Format"_c; }
 
-   static StrLen GetNamedTypeName(Border *) { return "Named Border"_c; }
+   static StrLen GetNamedTypeName(Border *) { return "Border"_c; }
 
-   static StrLen GetNamedTypeName(OneLine *) { return "Named OneLine"_c; }
+   static StrLen GetNamedTypeName(OneLine *) { return "OneLine"_c; }
 
-   static StrLen GetNamedTypeName(MultiLine *) { return "Named MultiLine"_c; }
+   static StrLen GetNamedTypeName(MultiLine *) { return "MultiLine"_c; }
 
-   static StrLen GetNamedTypeName(SingleLine *) { return "Named SingleLine"_c; }
+   static StrLen GetNamedTypeName(SingleLine *) { return "SingleLine"_c; }
 
-   static StrLen GetNamedTypeName(DoubleLine *) { return "Named DoubleLine"_c; }
+   static StrLen GetNamedTypeName(DoubleLine *) { return "DoubleLine"_c; }
 
-   static StrLen GetNamedTypeName(Bitmap *) { return "Named Bitmap"_c; }
+   static StrLen GetNamedTypeName(Bitmap *) { return "Bitmap"_c; }
 
-   static StrLen GetNamedTypeName(Collapse *) { return "Named Collapse"_c; }
+   static StrLen GetNamedTypeName(Collapse *) { return "Collapse"_c; }
 
-   static StrLen GetNamedTypeName(TextList *) { return "Named TextList"_c; }
+   static StrLen GetNamedTypeName(TextList *) { return "TextList"_c; }
 
-   static StrLen GetNamedTypeName(Table *) { return "Named Table"_c; }
+   static StrLen GetNamedTypeName(Table *) { return "Table"_c; }
 
-   static StrLen GetNamedTypeName(Text *) { return "Named Text"_c; }
+   static StrLen GetNamedTypeName(Text *) { return "Text"_c; }
 
-   static StrLen GetNamedTypeName(FixedText *) { return "Named FixedText"_c; }
+   static StrLen GetNamedTypeName(FixedText *) { return "FixedText"_c; }
 
-   static StrLen GetTypeName(NPtr *ptr);
 
+   static StrLen GetNamedTypeName(Scope *) { return "Scope"_c; }
+
+   static StrLen GetNamedTypeName(Section *) { return "Section"_c; }
+
+   static StrLen GetNamedTypeName(Cell *) { return "Cell"_c; }
+
+   static StrLen GetNamedTypeName(Link *) { return "Link"_c; }
+
+   static StrLen GetNamedTypeName(Include *) { return "Include"_c; }
+
+   static StrLen GetNamedTypeName(Extern *) { return "Extern"_c; }
+
+   // copy
 
    template <class T>
    bool copy(T *,ModeType,bool) { return false; }
@@ -459,6 +533,7 @@ class TempData : NoCopy
    template <class ... TT>
    bool copy(NamedPtr<TT...> *ptr,ModeType mode,bool act);
 
+   // past
 
    template <class T>
    bool past(T *,ModeType,bool) { return false; }
@@ -546,8 +621,6 @@ class TempData : NoCopy
    template <class ... TT>
    bool past(NamedPtr<TT...> *ptr,ModeType mode,bool act);
 
-   StrLen getShowName() const;
-
   public:
 
    explicit TempData(Book &book);
@@ -574,7 +647,7 @@ class TempData : NoCopy
 
    void print(PrinterType &out) const
     {
-     Putobj(out,getShowName());
+     data.getPtr().apply( [&] (auto *ptr) { if( ptr ) Print(out,ptr); } );
     }
  };
 

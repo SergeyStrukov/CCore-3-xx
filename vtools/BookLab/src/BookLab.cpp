@@ -428,24 +428,7 @@ Index NextIndex::getIndex()
 
 /* class TempData */
 
-StrLen TempData::GetTypeName(APtr *ptr)
- {
-  StrLen ret=Null;
-
-  ptr->getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
-
-  return ret;
- }
-
-StrLen TempData::GetTypeName(NPtr *ptr)
- {
-  StrLen ret="Named type"_c;
-
-  ptr->ptr.getPtr().apply( [&] (auto *ptr) { ret=GetNamedTypeName(ptr); } );
-
-  return ret;
- }
-
+ // copy
 
 bool TempData::copy(Element *ptr,ModeType,bool act)
  {
@@ -558,6 +541,7 @@ bool TempData::copy(NamedPtr<TT...> *ptr,ModeType,bool act)
   return ret;
  }
 
+ // past
 
 void TempData::past(Element *ptr,ElementList *list,ExtObjPtr<Element> obj)
  {
@@ -755,15 +739,6 @@ bool TempData::past(NamedPtr<TT...> *ptr,ModeType,bool act)
     }
 
   return false;
- }
-
-StrLen TempData::getShowName() const
- {
-  StrLen ret;
-
-  data.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
-
-  return ret;
  }
 
 TempData::TempData(Book &book_)

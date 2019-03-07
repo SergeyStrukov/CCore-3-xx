@@ -571,11 +571,16 @@ Text ANONYM19 = {
 ,{ "License.txt" , & fmt_bold , null }
 ,{ "for" , null , null }
 ,{ "details." , null , null }
+,{ "Goto top" , null , & test }
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
+Link test = { ANONYM20 , { 0 } } ;
+
 }
 
 
 }
+
+Page * ANONYM20 = & #Doc#Pages#page1 ;
 
