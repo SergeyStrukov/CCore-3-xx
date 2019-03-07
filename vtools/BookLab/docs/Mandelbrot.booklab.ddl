@@ -1,4 +1,4 @@
-Doc Data = { "Mandelbrot scope" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { True , { 5 , 5 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Doc Data = { "Mandelbrot scope" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { True , { 5 , 5 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
 & o1
@@ -6,7 +6,7 @@ Doc Data = { "Mandelbrot scope" , { False , 0C0C0C0h } , { False , 00h } , { "Pa
 
  };
 
-Scope o1 = { "Pages" , True , { { False , { 10 , 10 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , & o2 , null , & o3 , null , & o4 } , 
+Scope o1 = { "Pages" , True , { { False , { 10 , 10 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , & o2 , null , &o3 , null , & o4 } , 
 
 {
 & o5,

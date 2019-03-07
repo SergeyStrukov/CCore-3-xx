@@ -6,7 +6,7 @@ Doc Data = { 'test' , { False , 0FF0000h } , { True , 0 } , { null , &start } ,
  { True , 0 },
  { True , 0 },
  null,null,null,null,
- null,null,null,null
+ null,null
 } ,
 
 {
@@ -34,7 +34,7 @@ Font font4 = { 'font_bi' , True , 'Times New Roman' , 24 , { False , True } , { 
 
 Format fmt1 = { 'fmt' , True , { null , &font1 } , { True , 0 } , { True , 0 } , { True , 0 } } ;
 
-TextList list1 = { 'menu' , True , { 'fmt' } , { True } , { True } , { 
+TextList list1 = { 'menu' , True , { 'fmt' } , { True } , { True } , {True} ,{True},{},{}, { 
 
 { 
 
@@ -74,7 +74,7 @@ Scope scope1 = { 'page1' , True ,
  { True , 0 },
  { True , 0 },
  null,null,null,null,
- null,null,null,null
+ null,null
 } ,
 
 {

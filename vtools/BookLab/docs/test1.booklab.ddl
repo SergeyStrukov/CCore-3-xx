@@ -1,4 +1,4 @@
-Doc Data = { "test" , { False , 16711680 } , { True , 0 } , { null , & o1 } , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Doc Data = { "test" , { False , 16711680 } , { True , 0 } , { null , & o1 } , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
 & o2,
@@ -25,7 +25,7 @@ Page o1 = { "start" , True , "test page" , { True , 0 } , { True , 0 } , { "cont
 
  , 1 } };
 
-Scope o2 = { "page1" , True , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Scope o2 = { "page1" , True , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
 & o12,
@@ -131,7 +131,7 @@ Font o19 = { "font_bi" , False , "Times New Roman" , 24 , { False , True } , { F
 
 Format o20 = { "fmt" , False , { null , & o23 } , { True , 0 } , { True , 0 } , { True , 0 } };
 
-TextList o21 = { "menu" , True , { "fmt" , null } , { True , 0 } , { True , 0 } , {
+TextList o21 = { "menu" , True , { "fmt" , null } , { True , 0 } , { True , 0 } , {True},{True},{},{}, {
 
 {
 { "item1" , {

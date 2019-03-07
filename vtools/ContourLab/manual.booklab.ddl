@@ -1,4 +1,4 @@
-Doc Data = { "ContourLab manual" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Doc Data = { "ContourLab manual" , { False , 0C0C0C0h } , { False , 00h } , { "Pages#page1" , null } , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
 & o1
@@ -6,7 +6,7 @@ Doc Data = { "ContourLab manual" , { False , 0C0C0C0h } , { False , 00h } , { "P
 
  };
 
-Scope o1 = { "Pages" , True , { { True , { 0 , 0 } } , { False , { 5 , 5 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , & o2 } , 
+Scope o1 = { "Pages" , True , { { True , { 0 , 0 } } , { False , { 5 , 5 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , & o2 } , 
 
 {
 & o3,
@@ -1048,7 +1048,7 @@ Text o28 = { "" , True , { null , null } , { "fmt" , null } ,
 
  };
 
-TextList o29 = { "" , True , { "fmt_bullet1" , null } , { False , 5 } , { False , 5 } , {
+TextList o29 = { "" , True , { "fmt_bullet1" , null } , { False , 5 } , { False , 5 } , {True},{True},{},{}, {
 
 {
 { "•" , {
