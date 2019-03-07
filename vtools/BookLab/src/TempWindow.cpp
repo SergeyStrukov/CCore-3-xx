@@ -214,7 +214,12 @@ void SlotWindow::layout()
 
   for(OwnPtr<TempSlot> &ptr : list )
     {
-     TextSize ts=font->text(ptr->data.getTypeName());
+     char temp[TextBufLen];
+     PrintBuf out(Range(temp));
+
+     Putobj(out,ptr->data);
+
+     TextSize ts=font->text(out.close());
 
      Replace_max(cell_dx,ts.full_dx);
     }
@@ -304,7 +309,12 @@ void SlotWindow::draw(DrawBuf buf,DrawParam) const
 
       TempSlot *slot=list[i].getPtr();
 
-      font->text(buf,Pane(a,cell_dx,cell_dy),TextPlace(AlignX_Left,AlignY_Top),slot->data.getTypeName(),text);
+      char temp[TextBufLen];
+      PrintBuf out(Range(temp));
+
+      Putobj(out,slot->data);
+
+      font->text(buf,Pane(a,cell_dx,cell_dy),TextPlace(AlignX_Left,AlignY_Top),out.close(),text);
       font->text(buf,Pane(b,name_dx,cell_dy),TextPlace(AlignX_Left,AlignY_Top),Range(slot->name),text);
 
       a.y+=delta;

@@ -757,6 +757,15 @@ bool TempData::past(NamedPtr<TT...> *ptr,ModeType,bool act)
   return false;
  }
 
+StrLen TempData::getShowName() const
+ {
+  StrLen ret;
+
+  data.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
+
+  return ret;
+ }
+
 TempData::TempData(Book &book_)
  : book(book_)
  {
@@ -764,15 +773,6 @@ TempData::TempData(Book &book_)
 
 TempData::~TempData()
  {
- }
-
-StrLen TempData::getTypeName() const
- {
-  StrLen ret;
-
-  data.getPtr().apply( [&] (auto *ptr) { ret=GetTypeName(ptr); } );
-
-  return ret;
  }
 
 bool TempData::copy(Ref cursor)

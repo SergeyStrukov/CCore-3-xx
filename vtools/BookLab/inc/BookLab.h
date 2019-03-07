@@ -546,6 +546,8 @@ class TempData : NoCopy
    template <class ... TT>
    bool past(NamedPtr<TT...> *ptr,ModeType mode,bool act);
 
+   StrLen getShowName() const;
+
   public:
 
    explicit TempData(Book &book);
@@ -553,8 +555,6 @@ class TempData : NoCopy
    ~TempData();
 
    bool notEmpty() const { return +data; }
-
-   StrLen getTypeName() const;
 
    bool copy(Ref cursor);
 
@@ -569,6 +569,13 @@ class TempData : NoCopy
     };
 
    ProbeResult probe(Ref cursor);
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Putobj(out,getShowName());
+    }
  };
 
 /* struct InsData */
