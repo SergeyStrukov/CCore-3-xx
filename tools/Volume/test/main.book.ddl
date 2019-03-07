@@ -22,13 +22,13 @@ Text o2 = { {
 {"page1",null,&page2}
 } , &fmt_li , &align_li } ;
 
-Link link1 = {&page2,0} ;
+Link link1 = {&page2,{0}} ;
 
 Text o4 = { {
 {"page2",null,&page3}
 } , &fmt_li , &align_li } ;
 
-Link link2 = {&page3,0} ;
+Link link2 = {&page3,{0}} ;
 
 Bitmap bmp1 = { "img/Mandelbrot" + '.bitmap'  };
 
