@@ -1,4 +1,6 @@
-Doc Data = { "C++ test" , { True , NoColor } , { True , NoColor } , { "page1" , null } , { { False , { 10 , 10 } } , { False , { 5 , 5 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null , null , null } , 
+Doc Data = { "C++ test" , { True , NoColor } , { True , NoColor } , { "page1" , null } , 
+
+{ { False , { 10 , 10 } } , { False , { 5 , 5 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
 & o1,

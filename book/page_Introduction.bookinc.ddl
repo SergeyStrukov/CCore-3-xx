@@ -4,30 +4,32 @@ scope Content {
 
 Page page_Introduction = { "Introduction" ,
 {
-{ & ALur4Wu5Q6OlcM1 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM2 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM3 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM4 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM5 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM6 , null , { 0 , 0 } , { 40 , 0 } , NoColor }
-,{ & ALur4Wu5Q6OlcM7 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ALur4Wu5Q6OlcM8 , null , DefaultInner , DefaultOuter , NoColor }
+{ & A4tl6YLbTXaxeM1 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM2 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM3 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM4 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM5 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM6 , null , { 0 , 0 } , { 40 , 0 } , NoColor }
+,{ & A4tl6YLbTXaxeM7 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM8 , null , DefaultInner , DefaultOuter , NoColor }
+,{ & A4tl6YLbTXaxeM9 , & A4tl6YLbTXaxeM10 , DefaultInner , { 30 , 10 } , NoColor }
+,{ & A4tl6YLbTXaxeM11 , null , DefaultInner , DefaultOuter , NoColor }
 }
 , NoColor , NoColor , & Content#content , null , null } ;
 
-Text ALur4Wu5Q6OlcM1 = {
+Text A4tl6YLbTXaxeM1 = {
 {
 { "Introduction" , null , null }
 }
 , & fmt_h1 , & align_h1 } ;
 
-Text ALur4Wu5Q6OlcM2 = {
+Text A4tl6YLbTXaxeM2 = {
 {
 { "Disclaimer" , null , null }
 }
 , & fmt_h2 , & align_h2 } ;
 
-Text ALur4Wu5Q6OlcM3 = {
+Text A4tl6YLbTXaxeM3 = {
 {
 { "CCore" , & fmt_bold , null }
 ,{ "is" , null , null }
@@ -137,13 +139,13 @@ Text ALur4Wu5Q6OlcM3 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ALur4Wu5Q6OlcM4 = {
+Text A4tl6YLbTXaxeM4 = {
 {
 { "Overview" , null , null }
 }
 , & fmt_h2 , & align_h2 } ;
 
-Text ALur4Wu5Q6OlcM5 = {
+Text A4tl6YLbTXaxeM5 = {
 {
 { "CCore" , & fmt_bold , null }
 ,{ "is" , null , null }
@@ -235,42 +237,42 @@ Text ALur4Wu5Q6OlcM5 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-TextList ALur4Wu5Q6OlcM6 = {
+TextList A4tl6YLbTXaxeM6 = {
 {
 { "•" ,
 {
-{ & ALur4Wu5Q6OlcM9 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM12 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 ,{ "•" ,
 {
-{ & ALur4Wu5Q6OlcM10 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM13 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 ,{ "•" ,
 {
-{ & ALur4Wu5Q6OlcM11 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM14 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 ,{ "•" ,
 {
-{ & ALur4Wu5Q6OlcM12 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM15 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 ,{ "•" ,
 {
-{ & ALur4Wu5Q6OlcM13 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM16 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 ,{ "•" ,
 {
-{ & ALur4Wu5Q6OlcM14 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
+{ & A4tl6YLbTXaxeM17 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
 }
 }
 }
 , &DefaultBulletFormat , DefaultBulletSpace , DefaultItemSpace } ;
 
-Text ALur4Wu5Q6OlcM7 = {
+Text A4tl6YLbTXaxeM7 = {
 {
 { "Target" , & fmt_bold , null }
 ,{ "includes" , null , null }
@@ -353,7 +355,7 @@ Text ALur4Wu5Q6OlcM7 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ALur4Wu5Q6OlcM8 = {
+Text A4tl6YLbTXaxeM8 = {
 {
 { "CCore" , & fmt_bold , null }
 ,{ "is" , null , null }
@@ -527,7 +529,256 @@ Text ALur4Wu5Q6OlcM8 = {
 }
 , &DefaultFormat , &DefaultPlacement } ;
 
-Text ALur4Wu5Q6OlcM9 = {
+FixedText A4tl6YLbTXaxeM9 = {
+{
+{
+{ "" , null , null }
+}
+,{
+{ "/* functions */" , & cfmt_long_comment , null }
+}
+,{
+}
+,{
+{ "bool" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "IsIntContext" , & cfmt_red , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "noexcept" , & cfmt_keyword , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "/* classes */" , & cfmt_long_comment , null }
+,{ " " , & cfmt , null }
+}
+,{
+}
+,{
+{ "class" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "IntLock" , & cfmt_name , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "/* class IntLock */" , & cfmt_long_comment , null }
+,{ " " , & cfmt , null }
+}
+,{
+}
+,{
+{ "class" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "IntLock" , & cfmt_name , null }
+,{ " " , & cfmt , null }
+,{ ":" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "NoCopy" , & cfmt_name , null }
+}
+,{
+{ " " , & cfmt , null }
+,{ "{" , & cfmt_op , null }
+}
+,{
+{ "   " , & cfmt , null }
+,{ "bool" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "enable" , & cfmt_name , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "  " , & cfmt , null }
+,{ "public" , & cfmt_keyword , null }
+,{ ":" , & cfmt_op , null }
+}
+,{
+}
+,{
+{ "   " , & cfmt , null }
+,{ "IntLock" , & cfmt_name , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "{" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "enable" , & cfmt_name , null }
+,{ "=" , & cfmt_op , null }
+,{ "Internal" , & cfmt_name , null }
+,{ "::" , & cfmt_op , null }
+,{ "Disable" , & cfmt_red , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ ";" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "}" , & cfmt_op , null }
+}
+,{
+{ " " , & cfmt , null }
+}
+,{
+{ "   " , & cfmt , null }
+,{ "~" , & cfmt_op , null }
+,{ "IntLock" , & cfmt_name , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "{" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "if" , & cfmt_keyword , null }
+,{ "(" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "enable" , & cfmt_name , null }
+,{ " " , & cfmt , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "Internal" , & cfmt_name , null }
+,{ "::" , & cfmt_op , null }
+,{ "Enable" , & cfmt_red , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ ";" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "}            " , & cfmt_op , null }
+}
+,{
+{ "   " , & cfmt , null }
+}
+,{
+{ "   " , & cfmt , null }
+,{ "struct" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "Internal" , & cfmt_name , null }
+}
+,{
+{ "    " , & cfmt , null }
+,{ "{" , & cfmt_op , null }
+}
+,{
+{ "     " , & cfmt , null }
+,{ "static" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "bool" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "Disable" , & cfmt_name , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "noexcept" , & cfmt_keyword , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+{ "     " , & cfmt , null }
+}
+,{
+{ "     " , & cfmt , null }
+,{ "static" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "void" , & cfmt_keyword , null }
+,{ " " , & cfmt , null }
+,{ "Enable" , & cfmt_name , null }
+,{ "(" , & cfmt_op , null }
+,{ ")" , & cfmt_op , null }
+,{ " " , & cfmt , null }
+,{ "noexcept" , & cfmt_keyword , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+{ "    " , & cfmt , null }
+,{ "}" , & cfmt_op , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+{ " " , & cfmt , null }
+,{ "}" , & cfmt_op , null }
+,{ ";" , & cfmt_op , null }
+}
+,{
+{ "" , & cfmt_op , null }
+}
+}
+, & cfmt } ;
+
+DoubleLine A4tl6YLbTXaxeM10 = { { 3 , 2 } , 0808080h , 0FFFAFAh } ;
+
+Text A4tl6YLbTXaxeM11 = {
+{
+{ "CCore" , & fmt_bold , null }
+,{ "is" , null , null }
+,{ "designed" , null , null }
+,{ "as" , null , null }
+,{ "a" , null , null }
+,{ "compliant" , null , null }
+,{ "C++17 + concepts" , & fmt_ext , null }
+,{ "library." , null , null }
+,{ "There" , null , null }
+,{ "are" , null , null }
+,{ "a" , null , null }
+,{ "few" , null , null }
+,{ "places" , null , null }
+,{ "where" , null , null }
+,{ "we" , null , null }
+,{ "are" , null , null }
+,{ "using" , null , null }
+,{ "non-standard" , null , null }
+,{ "language" , null , null }
+,{ "extensions." , null , null }
+,{ "In" , null , null }
+,{ "fact," , null , null }
+,{ "we" , null , null }
+,{ "need" , null , null }
+,{ "only" , null , null }
+,{ "two" , null , null }
+,{ "of" , null , null }
+,{ "them:" , null , null }
+,{ "restrict" , & fmt_bold , null }
+,{ "and" , null , null }
+,{ "initialization" , null , null }
+,{ "priority" , null , null }
+,{ "attributes" , null , null }
+,{ "for" , null , null }
+,{ "static" , null , null }
+,{ "objects," , null , null }
+,{ "supported" , null , null }
+,{ "in" , null , null }
+,{ "gcc" , & fmt_bold , null }
+,{ "family" , null , null }
+,{ "of" , null , null }
+,{ "compilers." , null , null }
+,{ "As" , null , null }
+,{ "the" , null , null }
+,{ "result," , null , null }
+,{ "there" , null , null }
+,{ "is" , null , null }
+,{ "no" , null , null }
+,{ "restriction" , null , null }
+,{ "on" , null , null }
+,{ "the" , null , null }
+,{ "compiler" , null , null }
+,{ "optimization" , null , null }
+,{ "level," , null , null }
+,{ "unlike" , null , null }
+,{ "other" , null , null }
+,{ "OS" , null , null }
+,{ "cores." , null , null }
+,{ "Another" , null , null }
+,{ "advantage" , null , null }
+,{ "is" , null , null }
+,{ "the" , null , null }
+,{ "platform-independence" , null , null }
+,{ "of" , null , null }
+,{ "the" , null , null }
+,{ "code." , null , null }
+}
+, &DefaultFormat , &DefaultPlacement } ;
+
+Text A4tl6YLbTXaxeM12 = {
 {
 { "WIN32" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -538,9 +789,9 @@ Text ALur4Wu5Q6OlcM9 = {
 ,{ "on" , null , null }
 ,{ "cygwin," , & fmt_ext , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM15 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM18 } ;
 
-Text ALur4Wu5Q6OlcM10 = {
+Text A4tl6YLbTXaxeM13 = {
 {
 { "WIN64" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -549,9 +800,9 @@ Text ALur4Wu5Q6OlcM10 = {
 ,{ "for" , null , null }
 ,{ "cygwin64," , & fmt_ext , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM16 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM19 } ;
 
-Text ALur4Wu5Q6OlcM11 = {
+Text A4tl6YLbTXaxeM14 = {
 {
 { "LIN64" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -561,9 +812,9 @@ Text ALur4Wu5Q6OlcM11 = {
 ,{ "64-bits" , null , null }
 ,{ "Linux," , null , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM17 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM20 } ;
 
-Text ALur4Wu5Q6OlcM12 = {
+Text A4tl6YLbTXaxeM15 = {
 {
 { "BeagleBoneBlack" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -574,9 +825,9 @@ Text ALur4Wu5Q6OlcM12 = {
 ,{ "BeagleBone Black" , & fmt_ext , null }
 ,{ "device," , null , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM18 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM21 } ;
 
-Text ALur4Wu5Q6OlcM13 = {
+Text A4tl6YLbTXaxeM16 = {
 {
 { "Vanilla-H" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -584,9 +835,9 @@ Text ALur4Wu5Q6OlcM13 = {
 ,{ "target" , null , null }
 ,{ "template," , null , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM19 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM22 } ;
 
-Text ALur4Wu5Q6OlcM14 = {
+Text A4tl6YLbTXaxeM17 = {
 {
 { "Vanilla-X" , & fmt_bold , null }
 ,{ "—" , null , null }
@@ -594,21 +845,21 @@ Text ALur4Wu5Q6OlcM14 = {
 ,{ "target" , null , null }
 ,{ "template." , null , null }
 }
-, &DefaultFormat , & ALur4Wu5Q6OlcM20 } ;
+, &DefaultFormat , & A4tl6YLbTXaxeM23 } ;
 
-OneLine ALur4Wu5Q6OlcM15 = { 0 } ;
+OneLine A4tl6YLbTXaxeM18 = { 0 } ;
 
-OneLine ALur4Wu5Q6OlcM16 = { 0 } ;
+OneLine A4tl6YLbTXaxeM19 = { 0 } ;
 
-OneLine ALur4Wu5Q6OlcM17 = { 0 } ;
+OneLine A4tl6YLbTXaxeM20 = { 0 } ;
 
-OneLine ALur4Wu5Q6OlcM18 = { 0 } ;
+OneLine A4tl6YLbTXaxeM21 = { 0 } ;
 
-OneLine ALur4Wu5Q6OlcM19 = { 0 } ;
+OneLine A4tl6YLbTXaxeM22 = { 0 } ;
 
-OneLine ALur4Wu5Q6OlcM20 = { 0 } ;
+OneLine A4tl6YLbTXaxeM23 = { 0 } ;
 
-Link link_Introduction = { ALur4Wu5Q6OlcM21 , { 0 } } ;
+Link link_Introduction = { A4tl6YLbTXaxeM24 , { 0 } } ;
 
-Page * ALur4Wu5Q6OlcM21 = & page_Introduction ;
+Page * A4tl6YLbTXaxeM24 = & page_Introduction ;
 

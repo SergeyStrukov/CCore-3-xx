@@ -8,7 +8,7 @@ Doc Data = { "" , { True , 00h } , { True , 00h } , { null , null } , { { True ,
 
  };
 
-Section o1 = { True , "Style" , 
+Section o1 = { False , "Style" , 
 
 {
 & o4,
@@ -19,7 +19,13 @@ Section o1 = { True , "Style" ,
 & o9,
 & o10,
 & o11,
-& o12
+& o12,
+& o13,
+& o14,
+& o15,
+& o16,
+& o17,
+& o18
 }
 
  };
@@ -27,43 +33,57 @@ Section o1 = { True , "Style" ,
 Page o2 = { "page_Introduction" , True , "Introduction" , { True , NoColor } , { True , NoColor } , { "Content#content" , null } , { null , null } , { null , null } , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o13 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o14 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o15 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o16 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o17 } },
-{ { False , { 0 , 0 } } , { False , { 40 , 0 } } , { True , NoColor } , { null , null } , { null , & o18 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o19 } },
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o20 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o19 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0A9A9A9h } , { null , null } , { null , & o20 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o21 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o22 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o23 } },
+{ { False , { 0 , 0 } } , { False , { 40 , 0 } } , { True , NoColor } , { null , null } , { null , & o24 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o25 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o26 } },
+{ { True , { 0 , 0 } } , { False , { 30 , 10 } } , { True , 0C0C0C0h } , { null , & o27 } , { null , & o28 } },
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o29 } }
 }
 
- , 7 } };
+ , 8 } };
 
-Extern o4 = { & o21 };
+Extern o4 = { & o30 };
 
-Extern o5 = { & o22 };
+Extern o5 = { & o31 };
 
-Extern o6 = { & o23 };
+Extern o6 = { & o32 };
 
-Extern o7 = { & o24 };
+Extern o7 = { & o33 };
 
-Extern o8 = { & o25 };
+Extern o8 = { & o34 };
 
-Extern o9 = { & o26 };
+Extern o9 = { & o35 };
 
-Extern o10 = { & o27 };
+Extern o10 = { & o36 };
 
-Extern o11 = { & o28 };
+Extern o11 = { & o37 };
 
-Scope o12 = { "Content" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
+Extern o12 = { & o38 };
+
+Extern o13 = { & o39 };
+
+Extern o14 = { & o40 };
+
+Extern o15 = { & o41 };
+
+Extern o16 = { & o42 };
+
+Extern o17 = { & o43 };
+
+Scope o18 = { "Content" , False , { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , 0 } , { True , 0 } , null , null , null , null , null , null } , 
 
 {
-& o29
+& o44
 }
 
  };
 
-Text o13 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
+Text o19 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } , 
 
 {
 
@@ -77,7 +97,7 @@ Text o13 = { "" , True , { "align_h1" , null } , { "fmt_h1" , null } ,
 
  };
 
-Text o14 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o20 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -91,7 +111,7 @@ Text o14 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o15 = { "" , True , { null , null } , { null , null } , 
+Text o21 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -239,7 +259,7 @@ Text o15 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o16 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
+Text o22 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } , 
 
 {
 
@@ -253,7 +273,7 @@ Text o16 = { "" , True , { "align_h2" , null } , { "fmt_h2" , null } ,
 
  };
 
-Text o17 = { "" , True , { null , null } , { null , null } , 
+Text o23 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -389,48 +409,48 @@ Text o17 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-TextList o18 = { "" , False , { null , null } , { True , 0 } , { True , 0 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { null , null } , { null , & o30 } , {
+TextList o24 = { "" , False , { null , null } , { True , 0 } , { True , 0 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { null , null } , { null , & o45 } , {
 
 {
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o31 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o46 } }
 }
 
  , 0 } },
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o32 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o47 } }
 }
 
  , 0 } },
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o33 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o48 } }
 }
 
  , 0 } },
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o34 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o49 } }
 }
 
  , 0 } },
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o35 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o50 } }
 }
 
  , 0 } },
 { "•" , {
 
 {
-{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o36 } }
+{ { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o51 } }
 }
 
  , 0 } }
@@ -438,7 +458,7 @@ TextList o18 = { "" , False , { null , null } , { True , 0 } , { True , 0 } , { 
 
  , 5 } };
 
-Text o19 = { "" , True , { null , null } , { null , null } , 
+Text o25 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -559,7 +579,7 @@ Text o19 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o20 = { "" , True , { null , null } , { null , null } , 
+Text o26 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -813,27 +833,445 @@ Text o20 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Format o21 = { "fmt_h1" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+DoubleLine o27 = { "" , True , { False , { 3 , 2 } } , { False , 0808080h } , { False , 0FFFAFAh } };
 
-OneLine o22 = { "align_h1" , True , { True , 0 } };
+FixedText o28 = { "" , True , { "cfmt" , null } , 
 
-Format o23 = { "fmt_h2" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+{
 
-OneLine o24 = { "align_h2" , True , { True , 0 } };
 
-Format o25 = { "fmt_bold" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+{
+{ "" , { null , null } , { null , null } }
+}
 
-Format o26 = { "fmt_italic" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+,
 
-Format o27 = { "fmt_ext" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
 
-Format o28 = { "fmt_red" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+{
+{ "/* functions */" , { "cfmt_long_comment" , null } , { null , null } }
+}
 
-Extern o29 = { & o37 };
+,
 
-OneLine o30 = { "" , True , { False , 0 } };
 
-Text o31 = { "" , True , { null , null } , { null , null } , 
+{
+
+}
+
+,
+
+
+{
+{ "bool" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "IsIntContext" , { "cfmt_red" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "noexcept" , { "cfmt_keyword" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "/* classes */" , { "cfmt_long_comment" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "class" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "IntLock" , { "cfmt_name" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "/* class IntLock */" , { "cfmt_long_comment" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "class" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "IntLock" , { "cfmt_name" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ ":" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "NoCopy" , { "cfmt_name" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ " " , { "cfmt" , null } , { null , null } },
+{ "{" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "   " , { "cfmt" , null } , { null , null } },
+{ "bool" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "enable" , { "cfmt_name" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "  " , { "cfmt" , null } , { null , null } },
+{ "public" , { "cfmt_keyword" , null } , { null , null } },
+{ ":" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+
+}
+
+,
+
+
+{
+{ "   " , { "cfmt" , null } , { null , null } },
+{ "IntLock" , { "cfmt_name" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "{" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "enable" , { "cfmt_name" , null } , { null , null } },
+{ "=" , { "cfmt_op" , null } , { null , null } },
+{ "Internal" , { "cfmt_name" , null } , { null , null } },
+{ "::" , { "cfmt_op" , null } , { null , null } },
+{ "Disable" , { "cfmt_red" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "}" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ " " , { "cfmt" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "   " , { "cfmt" , null } , { null , null } },
+{ "~" , { "cfmt_op" , null } , { null , null } },
+{ "IntLock" , { "cfmt_name" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "{" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "if" , { "cfmt_keyword" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "enable" , { "cfmt_name" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "Internal" , { "cfmt_name" , null } , { null , null } },
+{ "::" , { "cfmt_op" , null } , { null , null } },
+{ "Enable" , { "cfmt_red" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "}            " , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "   " , { "cfmt" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "   " , { "cfmt" , null } , { null , null } },
+{ "struct" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "Internal" , { "cfmt_name" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "    " , { "cfmt" , null } , { null , null } },
+{ "{" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "     " , { "cfmt" , null } , { null , null } },
+{ "static" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "bool" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "Disable" , { "cfmt_name" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "noexcept" , { "cfmt_keyword" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "     " , { "cfmt" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "     " , { "cfmt" , null } , { null , null } },
+{ "static" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "void" , { "cfmt_keyword" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "Enable" , { "cfmt_name" , null } , { null , null } },
+{ "(" , { "cfmt_op" , null } , { null , null } },
+{ ")" , { "cfmt_op" , null } , { null , null } },
+{ " " , { "cfmt" , null } , { null , null } },
+{ "noexcept" , { "cfmt_keyword" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "    " , { "cfmt" , null } , { null , null } },
+{ "}" , { "cfmt_op" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ " " , { "cfmt" , null } , { null , null } },
+{ "}" , { "cfmt_op" , null } , { null , null } },
+{ ";" , { "cfmt_op" , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "" , { "cfmt_op" , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Text o29 = { "" , True , { null , null } , { null , null } , 
+
+{
+
+
+{
+{ "CCore" , { "fmt_bold" , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "designed" , { null , null } , { null , null } },
+{ "as" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "compliant" , { null , null } , { null , null } },
+{ "C++17 + concepts" , { "fmt_ext" , null } , { null , null } },
+{ "library." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "There" , { null , null } , { null , null } },
+{ "are" , { null , null } , { null , null } },
+{ "a" , { null , null } , { null , null } },
+{ "few" , { null , null } , { null , null } },
+{ "places" , { null , null } , { null , null } },
+{ "where" , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "are" , { null , null } , { null , null } },
+{ "using" , { null , null } , { null , null } },
+{ "non-standard" , { null , null } , { null , null } },
+{ "language" , { null , null } , { null , null } },
+{ "extensions." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "In" , { null , null } , { null , null } },
+{ "fact," , { null , null } , { null , null } },
+{ "we" , { null , null } , { null , null } },
+{ "need" , { null , null } , { null , null } },
+{ "only" , { null , null } , { null , null } },
+{ "two" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "them:" , { null , null } , { null , null } },
+{ "restrict" , { "fmt_bold" , null } , { null , null } },
+{ "and" , { null , null } , { null , null } },
+{ "initialization" , { null , null } , { null , null } },
+{ "priority" , { null , null } , { null , null } },
+{ "attributes" , { null , null } , { null , null } },
+{ "for" , { null , null } , { null , null } },
+{ "static" , { null , null } , { null , null } },
+{ "objects," , { null , null } , { null , null } },
+{ "supported" , { null , null } , { null , null } },
+{ "in" , { null , null } , { null , null } },
+{ "gcc" , { "fmt_bold" , null } , { null , null } },
+{ "family" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "compilers." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "As" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "result," , { null , null } , { null , null } },
+{ "there" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "no" , { null , null } , { null , null } },
+{ "restriction" , { null , null } , { null , null } },
+{ "on" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "compiler" , { null , null } , { null , null } },
+{ "optimization" , { null , null } , { null , null } },
+{ "level," , { null , null } , { null , null } },
+{ "unlike" , { null , null } , { null , null } },
+{ "other" , { null , null } , { null , null } },
+{ "OS" , { null , null } , { null , null } },
+{ "cores." , { null , null } , { null , null } }
+}
+
+,
+
+
+{
+{ "Another" , { null , null } , { null , null } },
+{ "advantage" , { null , null } , { null , null } },
+{ "is" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "platform-independence" , { null , null } , { null , null } },
+{ "of" , { null , null } , { null , null } },
+{ "the" , { null , null } , { null , null } },
+{ "code." , { null , null } , { null , null } }
+}
+
+
+}
+
+ };
+
+Format o30 = { "fmt_h1" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+OneLine o31 = { "align_h1" , True , { True , 0 } };
+
+Format o32 = { "fmt_h2" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+OneLine o33 = { "align_h2" , True , { True , 0 } };
+
+Format o34 = { "fmt_bold" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o35 = { "fmt_italic" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o36 = { "fmt_ext" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o37 = { "fmt_red" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o38 = { "cfmt" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o39 = { "cfmt_name" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o40 = { "cfmt_keyword" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o41 = { "cfmt_op" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o42 = { "cfmt_long_comment" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Format o43 = { "cfmt_red" , True , { null , null } , { True , NoColor } , { True , NoColor } , { True , 0 } };
+
+Extern o44 = { & o52 };
+
+OneLine o45 = { "" , True , { False , 0 } };
+
+Text o46 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -854,7 +1292,7 @@ Text o31 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o32 = { "" , True , { null , null } , { null , null } , 
+Text o47 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -873,7 +1311,7 @@ Text o32 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o33 = { "" , True , { null , null } , { null , null } , 
+Text o48 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -893,7 +1331,7 @@ Text o33 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o34 = { "" , True , { null , null } , { null , null } , 
+Text o49 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -914,7 +1352,7 @@ Text o34 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o35 = { "" , True , { null , null } , { null , null } , 
+Text o50 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -932,7 +1370,7 @@ Text o35 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Text o36 = { "" , True , { null , null } , { null , null } , 
+Text o51 = { "" , True , { null , null } , { null , null } , 
 
 {
 
@@ -950,7 +1388,7 @@ Text o36 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-Page o37 = { "content" , True , "" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
+Page o52 = { "content" , True , "" , { True , NoColor } , { True , NoColor } , { null , null } , { null , null } , { null , null } , {
 
 {
 

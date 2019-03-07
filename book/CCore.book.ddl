@@ -283,6 +283,30 @@ Format fmt_ext = { & font_text , NoColor , 0FFh , 1 } ;
 
 Format fmt_red = { & font_text , NoColor , 0FF0000h , 0 } ;
 
+Font cfont = { "Fixed" , 22 , False , False , 0 } ;
+
+Font cfont_bold = { "Fixed" , 22 , True , False , 0 } ;
+
+Format cfmt = { & cfont , 0C0C0C0h , NoColor , 0 } ;
+
+Format cfmt_long_comment = { & cfont , 0F5DEB3h , 06400h , 0 } ;
+
+Format cfmt_keyword = { & cfont , NoColor , 0CDh , 0 } ;
+
+Format cfmt_name = { & cfont , NoColor , NoColor , 0 } ;
+
+Format cfmt_number = { & cfont , NoColor , 0800000h , 0 } ;
+
+Format cfmt_op = { & cfont_bold , NoColor , NoColor , 0 } ;
+
+Format cfmt_string = { & cfont , 087CEEBh , 0800000h , 0 } ;
+
+Format cfmt_short_comment = { & cfont , 0F5DEB3h , 06400h , 1 } ;
+
+Format cfmt_char = { & cfont , 0FFFFh , 0800000h , 0 } ;
+
+Format cfmt_red = { & cfont , NoColor , 0FF0000h , 0 } ;
+
 include <page_Introduction.bookinc.ddl>
 
 }
