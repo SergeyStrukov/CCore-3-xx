@@ -1,0 +1,146 @@
+<!--
+/* page_BinFileToRead.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> BinFileToRead</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>BinFileToRead</h2>
+
+<p class="Files">Files <b>CCore/inc/BinFileToRead.h</b> <b>CCore/src/BinFileToRead.cpp</b></p>
+
+<p>
+This part provides an abstract way to read from an abstract file system.
+</p>
+
+<pre>
+
+class <span class="Att">AbstractBinFileToRead</span> : NoCopy
+ {
+  protected:
+
+   bool is_opened = false ;
+   FilePosType file_len = 0 ;
+
+  protected:
+
+   void reset()
+    {
+     is_opened=false;
+     file_len=0;
+    }
+
+  public:
+
+   virtual void open(StrLen file_name,FileOpenFlags oflags=Open_Read) =0;
+
+   virtual void close() =0;
+
+   bool isOpened() const { return is_opened; }
+
+   FilePosType getLen() const { return file_len; }
+
+   virtual ulen read(FilePosType off,uint8 *buf,ulen len) =0;
+
+   virtual void read_all(FilePosType off,uint8 *buf,ulen len) =0;
+ };
+
+</pre>
+
+<p>
+<b>AbstractBinFileToRead</b> is an abstract interface to read raw data from a file using <a href="page_Files.html#AltSet">the alternative set of operations</a>.
+</p>
+
+<p>
+<b>is_opened</b> is a protected field, it shows if the file is opened. 
+A derived class is responsible for setting this field.
+</p>
+
+<p>
+<b>file_len</b> is a protected field, it shows the file length. 
+A derived class is responsible for setting this field during the method <b>open()</b>.
+</p>
+
+<p>
+<b>reset()</b> is a protected method, it resets fileds to its default values.
+</p>
+
+<p>
+<b>isOpened()</b> reads the field <b>is_opened</b>.
+</p>
+
+<p>
+<b>getLen()</b> reads the field <b>file_len</b>;
+</p>
+
+<p>
+<b>open()</b> opens the file with the given filename and open flags (in most cases must have default value).
+If the file is already opened or other error has happened an exception is thrown.
+</p>
+
+<p>
+<b>clase()</b> closes the file.
+If the file is already closed or other error has happened a error is reported.
+</p>
+
+<p>
+<b>read()</b> reads the opened file at the given position to the given octet buffer.
+The number of transferred bytes is returned.
+An exception is thrown in case of error.
+</p>
+
+<p>
+<b>read_all()</b> reads the opened file at the given position to the given octet buffer.
+If there is no enough data to fill the buffer an exception is thrown.
+An exception is thrown in case of error.
+</p>
+
+<pre>
+
+/* type BinFileToReadBase */
+
+using <span class="Att">BinFileToReadBase</span> = RefObjectBase&lt;AbstractBinFileToRead&gt; ;
+
+/* GetNullBinFileToReadPtr() */
+
+BinFileToReadBase * GetNullBinFileToReadPtr();
+
+/* type BinFileToRead */
+
+using <span class="Att">BinFileToRead</span> = RefObjectHook&lt;BinFileToReadBase,AbstractBinFileToRead,GetNullBinFileToReadPtr&gt; ;
+
+</pre>
+
+<p>
+<b>BinFileToRead</b> is a reference-counting smart pointer to a <b>AbstractBinFileToRead</b> class.
+</p>
+
+<p>
+<b>BinFileToReadBase</b> is a base class to <a href="page_RefObjectBase.html">build an implementation</a>.
+</p>
+
+</body>
+
+</html>
+
