@@ -18,6 +18,8 @@
 
 #include <CCore/inc/scan/ScanFile.h>
 
+#include <CCore/inc/BinFileToRead.h>
+
 #include <CCore/inc/SaveLoad.h>
 
 namespace CCore {
@@ -25,6 +27,8 @@ namespace CCore {
 /* classes */
 
 class DecodeFile;
+
+class DecodeBinFile;
 
 /* class DecodeFile */
 
@@ -40,6 +44,8 @@ class DecodeFile : public NoCopyBase< GetDevBase<DecodeFile> >
   private:
 
    void reset() { cur=Null; }
+
+   uint8 * getBase() { return MutatePtr<uint8>(buf.getPtr()); }
 
    void underflow();
 
@@ -64,6 +70,56 @@ class DecodeFile : public NoCopyBase< GetDevBase<DecodeFile> >
    void soft_close(FileMultiError &errout);
 
    void close();
+
+   // pump raw data
+
+   bool more() { return +cur || underflow_eof() ; }
+
+   PtrLen<const uint8> pump() { return Replace_null(cur); }
+
+   // get
+
+   uint8 do_get()
+    {
+     if( !cur ) underflow();
+
+     uint8 ret=*cur;
+
+     ++cur;
+
+     return ret;
+    }
+
+   void do_get(uint8 *ptr,ulen len);
+ };
+
+/* class DecodeBinFile */
+
+class DecodeBinFile : public NoCopyBase< GetDevBase<DecodeBinFile> >
+ {
+   static constexpr ulen BufLen = 64_KByte ;
+
+   BinFileToRead file;
+   SafeBuf buf;
+   FilePosType off = 0 ;
+
+   PtrLen<const uint8> cur;
+
+  private:
+
+   uint8 * getBase() { return MutatePtr<uint8>(buf.getPtr()); }
+
+   void underflow();
+
+   bool underflow_eof();
+
+  public:
+
+   // constructors
+
+   DecodeBinFile(const BinFileToRead &file,StrLen file_name);
+
+   ~DecodeBinFile();
 
    // pump raw data
 

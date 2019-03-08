@@ -23,7 +23,7 @@ namespace CCore {
 
 void DecodeFile::underflow()
  {
-  uint8 *ptr=MutatePtr<uint8>(buf.getPtr());
+  uint8 *ptr=getBase();
 
   auto result=file.read(ptr,buf.getLen());
 
@@ -43,7 +43,7 @@ void DecodeFile::underflow()
 
 bool DecodeFile::underflow_eof()
  {
-  uint8 *ptr=MutatePtr<uint8>(buf.getPtr());
+  uint8 *ptr=getBase();
 
   auto result=file.read(ptr,buf.getLen());
 
@@ -129,9 +129,81 @@ void DecodeFile::close()
     }
  }
 
- // extract data methods
+ // get
 
 void DecodeFile::do_get(uint8 *ptr,ulen len)
+ {
+  while( len )
+    {
+     if( !cur ) underflow();
+
+     ulen delta=Min(len,cur.len);
+
+     Range(ptr,delta).copy(cur.ptr);
+
+     cur+=delta;
+     ptr+=delta;
+     len-=delta;
+    }
+ }
+
+/* class DecodeBinFile */
+
+void DecodeBinFile::underflow()
+ {
+  uint8 *ptr=getBase();
+
+  ulen len=file->read(off,ptr,buf.getLen());
+
+  if( !len )
+    {
+     Printf(Exception,"CCore::DecodeBinFile::underflow() : EOF");
+    }
+  else
+    {
+     cur=Range_const(ptr,len);
+
+     off+=len;
+    }
+ }
+
+bool DecodeBinFile::underflow_eof()
+ {
+  uint8 *ptr=getBase();
+
+  ulen len=file->read(off,ptr,buf.getLen());
+
+  if( !len )
+    {
+     return false;
+    }
+  else
+    {
+     cur=Range_const(ptr,len);
+
+     off+=len;
+
+     return true;
+    }
+ }
+
+ // constructors
+
+DecodeBinFile::DecodeBinFile(const BinFileToRead &file_,StrLen file_name)
+ : file(file_),
+   buf(BufLen)
+ {
+  file->open(file_name);
+ }
+
+DecodeBinFile::~DecodeBinFile()
+ {
+  file->close();
+ }
+
+ // get
+
+void DecodeBinFile::do_get(uint8 *ptr,ulen len)
  {
   while( len )
     {

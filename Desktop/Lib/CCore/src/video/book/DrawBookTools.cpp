@@ -133,7 +133,7 @@ Bitmap * BitmapMap::append(StrLen file_name)
 
   try
     {
-     return map.append_fill(Range(root),file_name);
+     return map.append_fill(file,root,file_name);
     }
   catch(...)
     {
@@ -148,7 +148,32 @@ void BitmapMap::setRoot(StrLen file_name)
 
   file_name.len-=split2.name.len;
 
-  root=String(file_name);
+  root=file_name;
+ }
+
+BitmapMap::BitmapMap()
+ {
+ }
+
+BitmapMap::~BitmapMap()
+ {
+ }
+
+void BitmapMap::erase()
+ {
+  map.erase();
+
+  file={};
+  file_name=Empty;
+  root=Null;
+ }
+
+void BitmapMap::setSource(const BinFileToRead &file_,const String &file_name_)
+ {
+  file=file_;
+  file_name=file_name_;
+
+  setRoot(Range(file_name));
  }
 
 const Bitmap * BitmapMap::operator () (Book::TypeDef::Bitmap *obj)

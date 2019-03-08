@@ -1261,7 +1261,7 @@ void BookWindow::load(StrLen file_name,bool set_source)
 
         layout();
 
-        ext_map.setRoot(file_name);
+        ext_map.setSource(book_map.getFile(),book_map.getFileName());
 
         popup.setPage(book_back,book_fore);
 

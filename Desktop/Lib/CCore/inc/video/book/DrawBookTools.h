@@ -27,6 +27,9 @@
 #include <CCore/inc/video/MPoint.h>
 #include <CCore/inc/video/FontReplace.h>
 
+#include <CCore/inc/BinFileToRead.h>
+#include <CCore/inc/String.h>
+
 namespace CCore {
 namespace Video {
 namespace Book {
@@ -225,21 +228,25 @@ class BitmapMap : NoCopy
  {
    DynArray<Bitmap> map;
 
-   String root;
+   BinFileToRead file;
+   String file_name;
+   StrLen root;
 
   private:
 
    Bitmap * append(StrLen file_name);
 
+   void setRoot(StrLen file_name);
+
   public:
 
-   BitmapMap() {}
+   BitmapMap();
 
-   ~BitmapMap() {}
+   ~BitmapMap();
 
-   void erase() { map.erase(); root=Null; }
+   void erase();
 
-   void setRoot(StrLen file_name);
+   void setSource(const BinFileToRead &file,const String &file_name);
 
    const Bitmap * operator () (Book::TypeDef::Bitmap *obj); // may return 0
  };
@@ -432,9 +439,9 @@ class ExtMap : NoCopy
      font.setScale(scale);
     }
 
-   void setRoot(StrLen file_name)
+   void setSource(const BinFileToRead &file,const String &file_name)
     {
-     bmp.setRoot(file_name);
+     bmp.setSource(file,file_name);
     }
 
    Font operator () (Book::TypeDef::Font *obj,Font fallback) { return font(obj,fallback); }

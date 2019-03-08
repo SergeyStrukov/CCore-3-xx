@@ -15,8 +15,8 @@
 
 #include <CCore/inc/video/Bitmap.h>
 
-#include <CCore/inc/DecodeFile.h>
 #include <CCore/inc/BinaryFile.h>
+#include <CCore/inc/DecodeFile.h>
 #include <CCore/inc/Deflate.h>
 
 #include <CCore/inc/MakeFileName.h>
@@ -78,18 +78,31 @@ void BitmapData::AddPlane(PtrLen<uint32> map,const uint8 *plane,unsigned shift)
 
  // load/save
 
-void BitmapData::loadBitmap(StrLen file_name)
+template <class Dev>
+void BitmapData::loadBitmap(Dev &dev)
  {
-  DecodeFile file(file_name);
-
-  file.use<BeOrder>(dx,dy);
+  dev.template use<BeOrder>(dx,dy);
 
   ulen len=LenOf(dy,dx);
 
   map.erase();
   map.extend_raw(len);
 
-  for(uint32 &x : map ) file.use<BeOrder>(x);
+  for(uint32 &x : map ) dev.template use<BeOrder>(x);
+ }
+
+void BitmapData::loadBitmap(StrLen file_name)
+ {
+  DecodeFile file(file_name);
+
+  loadBitmap(file);
+ }
+
+void BitmapData::loadBitmap(BinFileToRead binfile,StrLen file_name)
+ {
+  DecodeBinFile file(binfile,file_name);
+
+  loadBitmap(file);
  }
 
 void BitmapData::saveBitmap(StrLen file_name) const
@@ -101,11 +114,10 @@ void BitmapData::saveBitmap(StrLen file_name) const
   for(uint32 x : map ) file.use<BeOrder>(x);
  }
 
-void BitmapData::loadZipmap(StrLen file_name)
+template <class Dev>
+void BitmapData::loadZipmap(Dev &file)
  {
-  DecodeFile file(file_name);
-
-  file.use<BeOrder>(dx,dy);
+  file.template use<BeOrder>(dx,dy);
 
   ulen len=LenOf(dy,dx);
 
@@ -165,6 +177,20 @@ void BitmapData::loadZipmap(StrLen file_name)
   while( file.more() ) unzip.put(file.pump());
 
   unzip.complete();
+ }
+
+void BitmapData::loadZipmap(StrLen file_name)
+ {
+  DecodeFile file(file_name);
+
+  loadZipmap(file);
+ }
+
+void BitmapData::loadZipmap(BinFileToRead binfile,StrLen file_name)
+ {
+  DecodeBinFile file(binfile,file_name);
+
+  loadZipmap(file);
  }
 
 void BitmapData::saveZipmap(StrLen file_name) const
@@ -294,6 +320,27 @@ void Bitmap::load(StrLen file_name)
     }
  }
 
+void Bitmap::load(BinFileToRead binfile,StrLen file_name)
+ {
+  if( file_name.hasSuffix(".zipmap"_c) )
+    {
+     BitmapData data;
+
+     data.loadZipmap(binfile,file_name);
+
+     load(data);
+    }
+  else
+    {
+     DecodeBinFile file(binfile,file_name);
+
+     dx=Next(file);
+     dy=Next(file);
+
+     fill( [&file] () { return Next(file); } );
+    }
+ }
+
 Bitmap::Bitmap() noexcept
  {
   dx=0;
@@ -311,6 +358,13 @@ Bitmap::Bitmap(StrLen dir,StrLen file_name)
   MakeFileName temp(dir,file_name);
 
   load(temp.get());
+ }
+
+Bitmap::Bitmap(BinFileToRead file,StrLen dir,StrLen file_name)
+ {
+  MakeFileName temp(dir,file_name);
+
+  load(file,temp.get());
  }
 
 void Bitmap::draw(DrawBuf buf,Pane pane) const

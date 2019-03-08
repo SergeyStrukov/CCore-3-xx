@@ -22,6 +22,9 @@
 
 #include <CCore/inc/ErrorText.h>
 
+#include <CCore/inc/BinFileToRead.h>
+#include <CCore/inc/String.h>
+
 namespace CCore {
 namespace Video {
 namespace Book {
@@ -60,16 +63,16 @@ class BookMap : NoCopy
 
    TypeDef::Book *book;
 
+   BinFileToRead file;
+   String file_name;
+
   private:
 
    class Pretext;
 
-   class FromFS;
+   void prepare(StrLen book_file_name);
 
-   class FromVolume;
-
-   template <class Engine>
-   ErrorText loadFrom(StrLen file_name,PtrLen<char> ebuf);
+   ErrorText load(PtrLen<char> ebuf);
 
   public:
 
@@ -79,9 +82,13 @@ class BookMap : NoCopy
 
    void blank();
 
-   ErrorText load(StrLen file_name,PtrLen<char> ebuf);
+   ErrorText load(StrLen book_file_name,PtrLen<char> ebuf);
 
    TypeDef::Book * get() const { return book; } // null on blank, non-null on successful load
+
+   const BinFileToRead & getFile() const { return file; }
+
+   const String & getFileName() const { return file_name; }
  };
 
 } // namespace Book

@@ -17,6 +17,7 @@
 #define CCore_inc_video_Bitmap_h
 
 #include <CCore/inc/Array.h>
+#include <CCore/inc/BinFileToRead.h>
 
 #include <CCore/inc/video/DrawBuf.h>
 
@@ -40,11 +41,21 @@ struct BitmapData
 
   // load/save
 
+  template <class Dev>
+  void loadBitmap(Dev &dev);
+
   void loadBitmap(StrLen file_name);
+
+  void loadBitmap(BinFileToRead file,StrLen file_name);
 
   void saveBitmap(StrLen file_name) const;
 
+  template <class Dev>
+  void loadZipmap(Dev &file);
+
   void loadZipmap(StrLen file_name);
+
+  void loadZipmap(BinFileToRead file,StrLen file_name);
 
   void saveZipmap(StrLen file_name) const;
 
@@ -87,6 +98,8 @@ class Bitmap
 
    void load(StrLen file_name);
 
+   void load(BinFileToRead file,StrLen file_name);
+
    const Raw * getPtr() const { return buf.getPtr(); }
 
   public:
@@ -96,6 +109,8 @@ class Bitmap
    explicit Bitmap(StrLen file_name);
 
    Bitmap(StrLen dir,StrLen file_name);
+
+   Bitmap(BinFileToRead file,StrLen dir,StrLen file_name);
 
    ulen dX() const { return dx; }
 

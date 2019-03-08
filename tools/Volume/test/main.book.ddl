@@ -30,7 +30,7 @@ Text o4 = { {
 
 Link link2 = {&page3,{0}} ;
 
-Bitmap bmp1 = { "img/Mandelbrot" + '.bitmap'  };
+Bitmap bmp1 = { "img/Mandelbrot" + '.zipmap'  };
 
 /* page2 */
 
