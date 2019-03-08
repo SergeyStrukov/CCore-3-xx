@@ -184,9 +184,14 @@ ErrorText BookMap::load(StrLen file_name,PtrLen<char> ebuf)
  {
   blank();
 
-  if( SuffixExt(file_name).equal(".vol"_c) ) return loadFrom<FromVolume>(file_name,ebuf);
-
-  return loadFrom<FromFS>(file_name,ebuf);
+  if( SuffixExt(file_name).equal(".vol"_c) )
+    {
+     return loadFrom<FromVolume>(file_name,ebuf);
+    }
+  else
+    {
+     return loadFrom<FromFS>(file_name,ebuf);
+    }
  }
 
 } // namespace Book

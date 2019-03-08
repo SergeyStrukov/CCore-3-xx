@@ -25,6 +25,7 @@ OBJ_LIST = \
 .obj/AutoText.o \
 .obj/BaseRangeAlgo.o \
 .obj/BestSearch.o \
+.obj/BinFileToRead.o \
 .obj/BinaryFile.o \
 .obj/BinarySearch.o \
 .obj/BlockCipher.o \
@@ -407,6 +408,7 @@ ASM_LIST = \
 .obj/AutoText.s \
 .obj/BaseRangeAlgo.s \
 .obj/BestSearch.s \
+.obj/BinFileToRead.s \
 .obj/BinaryFile.s \
 .obj/BinarySearch.s \
 .obj/BlockCipher.s \
@@ -789,6 +791,7 @@ DEP_LIST = \
 .obj/AutoText.dep \
 .obj/BaseRangeAlgo.dep \
 .obj/BestSearch.dep \
+.obj/BinFileToRead.dep \
 .obj/BinaryFile.dep \
 .obj/BinarySearch.dep \
 .obj/BlockCipher.dep \
@@ -1236,6 +1239,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BestSearch.o : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/BinFileToRead.o : ../../Fundamental/CCore/src/./BinFileToRead.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/BinaryFile.o : ../../XCore/CCore/src/./BinaryFile.cpp
@@ -2377,6 +2383,9 @@ include $(RULES_FILE)
 .obj/BestSearch.s : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BinFileToRead.s : ../../Fundamental/CCore/src/./BinFileToRead.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BinaryFile.s : ../../XCore/CCore/src/./BinaryFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3515,6 +3524,9 @@ include $(RULES_FILE)
 
 .obj/BestSearch.dep : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BestSearch.o $< -MF $@
+
+.obj/BinFileToRead.dep : ../../Fundamental/CCore/src/./BinFileToRead.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BinFileToRead.o $< -MF $@
 
 .obj/BinaryFile.dep : ../../XCore/CCore/src/./BinaryFile.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BinaryFile.o $< -MF $@

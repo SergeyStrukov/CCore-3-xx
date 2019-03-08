@@ -27,6 +27,7 @@ OBJ_LIST = \
 .obj/AutoGlobal.o \
 .obj/BaseRangeAlgo.o \
 .obj/BestSearch.o \
+.obj/BinFileToRead.o \
 .obj/BinaryFile.o \
 .obj/BinarySearch.o \
 .obj/BindBagProxy.o \
@@ -130,6 +131,7 @@ OBJ_LIST = \
 .obj/FileNameMatch.o \
 .obj/FileSystem.o \
 .obj/FileToMem.o \
+.obj/FileToRead.o \
 .obj/Font.o \
 .obj/FontDatabase.o \
 .obj/FontEdit.o \
@@ -506,6 +508,7 @@ ASM_LIST = \
 .obj/AutoGlobal.s \
 .obj/BaseRangeAlgo.s \
 .obj/BestSearch.s \
+.obj/BinFileToRead.s \
 .obj/BinaryFile.s \
 .obj/BinarySearch.s \
 .obj/BindBagProxy.s \
@@ -609,6 +612,7 @@ ASM_LIST = \
 .obj/FileNameMatch.s \
 .obj/FileSystem.s \
 .obj/FileToMem.s \
+.obj/FileToRead.s \
 .obj/Font.s \
 .obj/FontDatabase.s \
 .obj/FontEdit.s \
@@ -985,6 +989,7 @@ DEP_LIST = \
 .obj/AutoGlobal.dep \
 .obj/BaseRangeAlgo.dep \
 .obj/BestSearch.dep \
+.obj/BinFileToRead.dep \
 .obj/BinaryFile.dep \
 .obj/BinarySearch.dep \
 .obj/BindBagProxy.dep \
@@ -1088,6 +1093,7 @@ DEP_LIST = \
 .obj/FileNameMatch.dep \
 .obj/FileSystem.dep \
 .obj/FileToMem.dep \
+.obj/FileToRead.dep \
 .obj/Font.dep \
 .obj/FontDatabase.dep \
 .obj/FontEdit.dep \
@@ -1533,6 +1539,9 @@ include $(RULES_FILE)
 .obj/BestSearch.o : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/BinFileToRead.o : ../../Fundamental/CCore/src/./BinFileToRead.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/BinaryFile.o : ../../HCore/CCore/src/./BinaryFile.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -1840,6 +1849,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FileToMem.o : ../../HCore/CCore/src/./FileToMem.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FileToRead.o : ../../HCore/CCore/src/./FileToRead.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Font.o : ../../Desktop/Font/CCore/src/./video/Font.cpp
@@ -2963,6 +2975,9 @@ include $(RULES_FILE)
 .obj/BestSearch.s : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/BinFileToRead.s : ../../Fundamental/CCore/src/./BinFileToRead.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/BinaryFile.s : ../../HCore/CCore/src/./BinaryFile.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -3270,6 +3285,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/FileToMem.s : ../../HCore/CCore/src/./FileToMem.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/FileToRead.s : ../../HCore/CCore/src/./FileToRead.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Font.s : ../../Desktop/Font/CCore/src/./video/Font.cpp
@@ -4393,6 +4411,9 @@ include $(RULES_FILE)
 .obj/BestSearch.dep : ../../Fundamental/CCore/src/./algon/BestSearch.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BestSearch.o $< -MF $@
 
+.obj/BinFileToRead.dep : ../../Fundamental/CCore/src/./BinFileToRead.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/BinFileToRead.o $< -MF $@
+
 .obj/BinaryFile.dep : ../../HCore/CCore/src/./BinaryFile.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BinaryFile.o $< -MF $@
 
@@ -4701,6 +4722,9 @@ include $(RULES_FILE)
 
 .obj/FileToMem.dep : ../../HCore/CCore/src/./FileToMem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FileToMem.o $< -MF $@
+
+.obj/FileToRead.dep : ../../HCore/CCore/src/./FileToRead.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FileToRead.o $< -MF $@
 
 .obj/Font.dep : ../../Desktop/Font/CCore/src/./video/Font.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Font.o $< -MF $@
