@@ -30,6 +30,8 @@
 
 <p class="Files">Files <b>CCore/inc/DecodeFile.h</b> <b>CCore/src/DecodeFile.cpp</b></p>
 
+<h4>DecodeFile</h4>
+
 <p>
 A <b>DecodeFile</b> object can be used as a <a href="page_SaveLoad.html#Devices">serialization input device</a>.
 It gets data bytes from the input file. 
@@ -117,6 +119,41 @@ To read the file contetnt you can use serialization methods, but you can also us
 <p>
 <b>pump()</b> returns the next data chunk. This range is valid until a next object method call.
 </p>
+
+<h4>DecodeBinFile</h4>
+
+<p>
+<b>DecodeBinFile</b> is a similar class, but it uses <a href="page_BinFileToRead.html">BinFileToRead</a> to read data from the file.
+</p>
+
+<pre>
+
+class <span class="Att">DecodeBinFile</span> : public NoCopyBase&lt; GetDevBase&lt;DecodeBinFile&gt; &gt;
+ {
+   ....
+
+  public:
+
+   // constructors
+
+   DecodeBinFile(const BinFileToRead &amp;file,StrLen file_name);
+
+   ~DecodeBinFile();
+
+   // pump raw data
+
+   bool more();
+
+   PtrLen&lt;const uint8&gt; pump();
+
+   // get
+
+   uint8 do_get();
+
+   void do_get(uint8 *ptr,ulen len);
+ };
+
+</pre>
 
 </body>
 

@@ -34,6 +34,8 @@
 This part provides an abstract way to read from an abstract file system.
 </p>
 
+<h3>BinFileToRead</h3>
+
 <pre>
 
 class <span class="Att">AbstractBinFileToRead</span> : NoCopy
@@ -139,6 +141,40 @@ using <span class="Att">BinFileToRead</span> = RefObjectHook&lt;BinFileToReadBas
 <p>
 <b>BinFileToReadBase</b> is a base class to <a href="page_RefObjectBase.html">build an implementation</a>.
 </p>
+
+<h3>BinFileToMem</h3>
+
+<p>
+<b>BinFileToMem</b> is similar to the <a href="page_FileToMem.html">FileToMem</a> class. 
+The only difference it uses <b>BinFileToRead</b> class to read data from the file.
+</p>
+
+<pre>
+
+class <span class="Att">BinFileToMem</span> : public ToMemBase
+ {
+  public:
+
+   BinFileToMem() noexcept {}
+
+   BinFileToMem(BinFileToRead file,StrLen file_name,ulen max_len=MaxULen);
+
+   ~BinFileToMem() {}
+
+   // std move
+
+   BinFileToMem(BinFileToMem &amp;&amp;obj) noexcept = default ;
+
+   BinFileToMem & operator = (BinFileToMem &amp;&amp;obj) noexcept = default ;
+
+   // swap/move objects
+
+   void objSwap(BinFileToMem &amp;obj);
+
+   explicit BinFileToMem(ToMoveCtor&lt;BinFileToMem&gt; obj);
+ };
+
+</pre>
 
 </body>
 

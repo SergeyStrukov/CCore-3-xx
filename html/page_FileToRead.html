@@ -1,0 +1,79 @@
+<!--
+/* page_FileToRead.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> FileToRead</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>FileToRead</h2>
+
+<p class="Files">Files <b>CCore/inc/FileToRead.h</b> <b>CCore/src/FileToRead.cpp</b></p>
+
+<p>
+This part provides two <a href="page_BinFileToRead.html">BinFileToRead</a> classes for host targets. 
+These classes uses host OS file IO functions to read raw data from files.
+</p>
+
+<pre>
+
+/* class DefBinFileToRead */
+
+class <span class="Att">DefBinFileToRead</span> : public BinFileToRead
+ {
+   class Base;
+
+  public:
+
+   DefBinFileToRead();
+
+   ~DefBinFileToRead();
+ };
+
+/* class VolumeBinFileToRead */
+
+class <span class="Att">VolumeBinFileToRead</span> : public BinFileToRead
+ {
+   class Base;
+
+  public:
+
+   explicit VolumeBinFileToRead(StrLen file_name,FileOpenFlags oflags=Open_Read);
+
+   ~VolumeBinFileToRead();
+ };
+
+</pre>
+
+<p>
+<b>DefBinFileToRead</b> access files of the host file system.
+</p>
+
+<p>
+<b>VolumeBinFileToRead</b> access files of the <a href="page_Volume.html">volume</a>.
+</p>
+
+</body>
+
+</html>
+
