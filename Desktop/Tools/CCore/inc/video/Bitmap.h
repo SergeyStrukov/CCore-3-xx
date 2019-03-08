@@ -46,7 +46,7 @@ struct BitmapData
 
   void loadBitmap(StrLen file_name);
 
-  void loadBitmap(BinFileToRead file,StrLen file_name);
+  void loadBitmap(const BinFileToRead &file,StrLen file_name);
 
   void saveBitmap(StrLen file_name) const;
 
@@ -55,7 +55,7 @@ struct BitmapData
 
   void loadZipmap(StrLen file_name);
 
-  void loadZipmap(BinFileToRead file,StrLen file_name);
+  void loadZipmap(const BinFileToRead &file,StrLen file_name);
 
   void saveZipmap(StrLen file_name) const;
 
@@ -98,7 +98,7 @@ class Bitmap
 
    void load(StrLen file_name);
 
-   void load(BinFileToRead file,StrLen file_name);
+   void load(const BinFileToRead &file,StrLen file_name);
 
    const Raw * getPtr() const { return buf.getPtr(); }
 
@@ -110,7 +110,7 @@ class Bitmap
 
    Bitmap(StrLen dir,StrLen file_name);
 
-   Bitmap(BinFileToRead file,StrLen dir,StrLen file_name);
+   Bitmap(const BinFileToRead &file,StrLen dir,StrLen file_name);
 
    ulen dX() const { return dx; }
 

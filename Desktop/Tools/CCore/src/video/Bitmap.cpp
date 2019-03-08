@@ -98,7 +98,7 @@ void BitmapData::loadBitmap(StrLen file_name)
   loadBitmap(file);
  }
 
-void BitmapData::loadBitmap(BinFileToRead binfile,StrLen file_name)
+void BitmapData::loadBitmap(const BinFileToRead &binfile,StrLen file_name)
  {
   DecodeBinFile file(binfile,file_name);
 
@@ -186,7 +186,7 @@ void BitmapData::loadZipmap(StrLen file_name)
   loadZipmap(file);
  }
 
-void BitmapData::loadZipmap(BinFileToRead binfile,StrLen file_name)
+void BitmapData::loadZipmap(const BinFileToRead &binfile,StrLen file_name)
  {
   DecodeBinFile file(binfile,file_name);
 
@@ -320,7 +320,7 @@ void Bitmap::load(StrLen file_name)
     }
  }
 
-void Bitmap::load(BinFileToRead binfile,StrLen file_name)
+void Bitmap::load(const BinFileToRead &binfile,StrLen file_name)
  {
   if( file_name.hasSuffix(".zipmap"_c) )
     {
@@ -360,7 +360,7 @@ Bitmap::Bitmap(StrLen dir,StrLen file_name)
   load(temp.get());
  }
 
-Bitmap::Bitmap(BinFileToRead file,StrLen dir,StrLen file_name)
+Bitmap::Bitmap(const BinFileToRead &file,StrLen dir,StrLen file_name)
  {
   MakeFileName temp(dir,file_name);
 
