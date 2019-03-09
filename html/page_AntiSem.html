@@ -90,7 +90,7 @@ class <span class="Att">AntiSem</span> : public Funchor_nocopy
 
 <p>
 The constructor argument <b>level</b> is a sensitive level of the <b>AntiSem</b>. The object is opened if
-<b>counter <= level</b>. It has zero value by default.
+<b>counter &lt;= level</b>. It has zero value by default.
 </p>
 
 <p>
@@ -99,7 +99,7 @@ The constructor argument <b>level</b> is a sensitive level of the <b>AntiSem</b>
 
 <p>
 <b>sub()</b> decreases the counter by the given value. If the underflow happens, the <b>Abort()</b> is called.
-If the counter value becomes <b><= level</b>, all blocked on the <b>AntiSem</b> threads are released.
+If the counter value becomes <b>&lt;= level</b>, all blocked on the <b>AntiSem</b> threads are released.
 </p>
 
 <p>

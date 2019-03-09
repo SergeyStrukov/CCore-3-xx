@@ -16,17 +16,62 @@
 
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/FileSystem.h>
+#include <CCore/inc/MakeFileName.h>
+
 namespace App {
 
 /* Main() */
 
-void Main(StrLen input_file_name,StrLen output_file_name)
+int Main(StrLen input_file_name,StrLen output_file_name)
  {
   Source src(input_file_name);
 
   TestConvert convert(output_file_name);
 
-  src.run(convert);
+  return !src.run(convert);
+ }
+
+/* Test() */
+
+bool Test(StrLen dir,StrLen file_name)
+ {
+  MakeFileName path(dir,file_name);
+
+  Source src(path.get());
+
+  TestConvert convert;
+
+  return src.run(convert);
+ }
+
+/* Main() */
+
+int Main()
+ {
+  FileSystem fs;
+
+  StrLen dir="../../../html"_c;
+
+  FileSystem::DirCursor cur(fs,dir);
+
+  int ret=0;
+
+  cur.apply( [&] (StrLen file_name,FileType file_type)
+                 {
+                  if( file_type==FileType_file && file_name.hasSuffix(".html"_c) )
+                    {
+                     if( !Test(dir,file_name) )
+                       {
+                        Printf(Con,"@ #;\n",file_name);
+
+                        ret=1;
+                       }
+                    }
+
+                 } );
+
+  return ret;
  }
 
 } // namespace App
@@ -41,22 +86,30 @@ int main(int argc,const char *argv[])
     {
      ReportException report;
 
+     int ret;
+
      {
       Putobj(Con,"--- Book Convertor 1.00 ---\n--- Copyright (c) 2018 Sergey Strukov. All rights reserved. ---\n\n");
 
-      if( argc<3 )
+      if( argc==1 )
+        {
+         ret=Main();
+        }
+      else if( argc==3 )
+        {
+         ret=Main(argv[1],argv[2]);
+        }
+      else
         {
          Putobj(Con,"Usage: Convertor <input-file-name> <output-file-name>\n");
 
          return 1;
         }
-
-      Main(argv[1],argv[2]);
      }
 
      report.guard();
 
-     return 0;
+     return ret;
     }
   catch(CatchType)
     {

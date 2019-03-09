@@ -270,7 +270,7 @@ class Source : NoCopy
     }
 
    template <class Proc>
-   void run(Proc &proc)
+   bool run(Proc &proc)
     {
      while( next(proc) );
 
@@ -282,6 +282,12 @@ class Source : NoCopy
           Printf(Con,"Failed at #; : #;\n",inp.getTextPos(),err);
         else
           Printf(Con,"Failed at #; : scanning failed\n",inp.getTextPos());
+
+        return false;
+       }
+     else
+       {
+        return true;
        }
     }
  };
@@ -291,6 +297,8 @@ class Source : NoCopy
 class TestConvert
  {
   public:
+
+   TestConvert() {}
 
    explicit TestConvert(StrLen output_file_name) { Used(output_file_name); }
 
