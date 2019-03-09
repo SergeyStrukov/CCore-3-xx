@@ -385,6 +385,36 @@ bool Convert::tagPend()
   return pop<TextBuilder>(TextP);
  }
 
+bool Convert::tagP(String pclass) // TODO
+ {
+  Used(pclass);
+
+  return tagP();
+ }
+
+bool Convert::tagPRE() // TODO
+ {
+  return tagP();
+ }
+
+bool Convert::tagPREend() // TODO
+ {
+  return tagPend();
+ }
+
+bool Convert::tagSPAN(String pclass) // TODO
+ {
+  Used(pclass);
+
+  return true;
+ }
+
+bool Convert::tagSPANend() // TODO
+ {
+  return true;
+ }
+
+
  // format
 
 bool Convert::tagB()

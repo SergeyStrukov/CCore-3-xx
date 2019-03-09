@@ -650,6 +650,16 @@ class Convert : NoCopy
 
    bool tagPend();
 
+   bool tagP(String pclass);
+
+   bool tagPRE();
+
+   bool tagPREend();
+
+   bool tagSPAN(String pclass);
+
+   bool tagSPANend();
+
    // format
 
    bool tagB();

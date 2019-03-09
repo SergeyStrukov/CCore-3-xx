@@ -29,5 +29,83 @@ StrLen SourceErrorId::Func(int code)
     }
  }
 
+/* class TestConvert */
+
+ // word
+
+bool TestConvert::word(String) { return true; }
+
+ // text
+
+bool TestConvert::tagH1() { return true; }
+
+bool TestConvert::tagH1end() { return true; }
+
+bool TestConvert::tagH2() { return true; }
+
+bool TestConvert::tagH2end() { return true; }
+
+bool TestConvert::tagH3() { return true; }
+
+bool TestConvert::tagH3end() { return true; }
+
+bool TestConvert::tagH4() { return true; }
+
+bool TestConvert::tagH4end() { return true; }
+
+bool TestConvert::tagH5() { return true; }
+
+bool TestConvert::tagH5end() { return true; }
+
+bool TestConvert::tagP() { return true; }
+
+bool TestConvert::tagPend() { return true; }
+
+bool TestConvert::tagP(String) { return true; }
+
+bool TestConvert::tagPRE() { return true; }
+
+bool TestConvert::tagPREend() { return true; }
+
+bool TestConvert::tagSPAN(String) { return true; }
+
+bool TestConvert::tagSPANend() { return true; }
+
+ // format
+
+bool TestConvert::tagB() { return true; }
+
+bool TestConvert::tagBend() { return true; }
+
+bool TestConvert::tagI() { return true; }
+
+bool TestConvert::tagIend() { return true; }
+
+ // hyperlink
+
+bool TestConvert::tagA(String) { return true; }
+
+bool TestConvert::tagAname(String) { return true; }
+
+bool TestConvert::tagAend() { return true; }
+
+ // list
+
+bool TestConvert::tagOL() { return true; }
+
+bool TestConvert::tagOLend() { return true; }
+
+bool TestConvert::tagLI() { return true; }
+
+bool TestConvert::tagLIend() { return true; }
+
+ // image
+
+bool TestConvert::tagImg(String) { return true; }
+
+ // complete
+
+bool TestConvert::complete() { return true; }
+
 } // namespace App
 

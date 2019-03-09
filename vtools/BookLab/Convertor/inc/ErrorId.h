@@ -47,6 +47,8 @@ class ErrorId
 
    explicit ErrorId(bool ok) : ErrorId(!ok,BoolFunc) {}
 
+   // methods
+
    bool operator + () const { return code!=0; }
 
    bool operator ! () const { return code==0; }

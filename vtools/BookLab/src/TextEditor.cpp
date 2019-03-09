@@ -1454,22 +1454,35 @@ void TextWindow::splitLine()
               line1.list.extend_copy(cursor.span,line2.list.getPtr());
              }
 
-           BookLab::Span *span=line1.list.append_default();
-
-           span->body=str1;
-           span->format=old.format;
-           span->ref=old.ref;
-
-           old.body=str2;
-
            const Font &font=cfg.font.get();
 
-           Cache(font,line1.list[cursor.span]);
-           Cache(font,line2.list[cursor.span]);
-
-           if( cursor.span>0 )
+           if( str1.notEmpty() )
              {
-              DelPrefix(line2.list,cursor.span);
+              BookLab::Span *span=line1.list.append_default();
+
+              span->body=str1;
+              span->format=old.format;
+              span->ref=old.ref;
+
+              Cache(font,line1.list[cursor.span]);
+             }
+
+           if( str2.notEmpty() )
+             {
+              old.body=str2;
+
+              Cache(font,old);
+
+              if( cursor.span>0 )
+                {
+                 DelPrefix(line2.list,cursor.span);
+
+                 cursor.span=0;
+                }
+             }
+           else
+             {
+              DelPrefix(line2.list,cursor.span+1);
 
               cursor.span=0;
              }
