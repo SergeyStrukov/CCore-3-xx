@@ -394,10 +394,10 @@ FilePosType /* file_len */
 
 void close(bool preserve_file=false);                           // if( preserve_file ) ignore(Open_AutoDelete);
 
-void read(FilePosType off,byte *buf,ulen len);                  // requires Open_Read , off+len<=file_len
+void read(FilePosType off,byte *buf,ulen len);                  // requires Open_Read , off+len&lt;=file_len
 
 FilePosType /* file_len */ 
- write(FilePosType off,const byte *data,ulen len);              // requires Open_Write , if( off>file_len ) [file_len,off) is unspecified filled
+ write(FilePosType off,const byte *data,ulen len);              // requires Open_Write , if( off&gt;file_len ) [file_len,off) is unspecified filled
 
 </pre>
 

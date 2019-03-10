@@ -111,6 +111,7 @@ class Source : NoCopy
 
         if( inp.isFailed() ) return step(UnknownTag);
 
+        String type;
         String param;
         bool has_param=false;
 
@@ -132,7 +133,18 @@ class Source : NoCopy
 
            case 17 : // <a
             {
-             Scanf(inp," #; = #.q; >",atype,param);
+             Scanf(inp," #; = #.q;",atype,param);
+
+             if( atype==3 )
+               {
+                type=param;
+
+                Scanf(inp," href = #.q; >",param);
+               }
+             else
+               {
+                Scanf(inp," >");
+               }
             }
            break;
 
@@ -182,7 +194,18 @@ class Source : NoCopy
            case 15 : return step( proc.tagI() );
            case 16 : return step( proc.tagIend() );
 
-           case 17 : return (atype==1)?step( proc.tagA(param) ):step( proc.tagAname(param) );
+           case 17 :
+            {
+             switch( atype )
+              {
+               case 1 : return step( proc.tagA(param) );
+               case 2 : return step( proc.tagAname(param) );
+               case 3 : return step( proc.tagA(type,param) );
+              }
+
+             return false;
+            }
+           break;
 
            case 18 : return step( proc.tagAend() );
 
@@ -201,6 +224,18 @@ class Source : NoCopy
 
            case 27 : return step( proc.tagSPAN(param) );
            case 28 : return step( proc.tagSPANend() );
+
+           case 29 : return step( proc.tagSUB() );
+           case 30 : return step( proc.tagSUBend() );
+
+           case 31 : return step( proc.tagSUP() );
+           case 32 : return step( proc.tagSUPend() );
+
+           case 33 : return step( proc.tagUL() );
+           case 34 : return step( proc.tagULend() );
+
+           case 35 : return step( proc.tagU() );
+           case 36 : return step( proc.tagUend() );
 
            default: return step(UnknownTag);
           }
@@ -234,8 +269,13 @@ class Source : NoCopy
            "li","/li",
            "img","/body",
            "pre","/pre",
-           "span","/span"},
-      atype{"href","name"}
+           "span","/span",
+           "sub","/sub",
+           "sup","/sup",
+           "ul","/ul",
+           "u","/u"},
+
+      atype{"href","name","type"}
     {
     }
 
@@ -338,10 +378,6 @@ class TestConvert
 
    bool tagPREend();
 
-   bool tagSPAN(String pclass);
-
-   bool tagSPANend();
-
    // format
 
    bool tagB();
@@ -352,9 +388,27 @@ class TestConvert
 
    bool tagIend();
 
+   bool tagU();
+
+   bool tagUend();
+
+   bool tagSUB();
+
+   bool tagSUBend();
+
+   bool tagSUP();
+
+   bool tagSUPend();
+
+   bool tagSPAN(String pclass);
+
+   bool tagSPANend();
+
    // hyperlink
 
    bool tagA(String url);
+
+   bool tagA(String type,String url);
 
    bool tagAname(String name);
 
@@ -365,6 +419,10 @@ class TestConvert
    bool tagOL();
 
    bool tagOLend();
+
+   bool tagUL();
+
+   bool tagULend();
 
    bool tagLI();
 

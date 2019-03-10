@@ -281,7 +281,7 @@ To get a speed benefit you have to start it.
 
 Job::Init job_init;
 
-ParaQuickSort<....>::Sort(....);
+ParaQuickSort&lt;....&gt;::Sort(....);
 
 </pre>
 
@@ -350,7 +350,7 @@ void <span class="Att">Sort</span>(PtrLenReverse&lt;T&gt; range);
 
 <p>
 The order of sorting is a native reverse range order. I.e. after the <b>Sort()</b> the following is true:
-<b>range[0] < range[1] < range[2] < ...</b>.
+<b>range[0] &lt; range[1] &lt; range[2] &lt; ...</b>.
 </p>
 
 <p>

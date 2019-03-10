@@ -314,7 +314,7 @@ concept bool <span class="Att">OpCmpType</span> = requires(Meta::ToConst&lt;T&gt
 </pre>
 
 <p>
-<b>OpLessType</b> covers types, comparable by the <b><</b>.
+<b>OpLessType</b> covers types, comparable by the <b>&lt;</b>.
 </p>
 
 <p>
@@ -354,19 +354,19 @@ concept bool <span class="Att">OpGreaterEqualTypes</span> = requires(Meta::ToCon
 </pre>
 
 <p>
-<b>OpLessTypes</b> covers couples of types, comparable by the <b><</b>.
+<b>OpLessTypes</b> covers couples of types, comparable by the <b>&lt;</b>.
 </p>
 
 <p>
-<b>OpLessEqualTypes</b> covers couples of types, comparable by the <b><=</b>.
+<b>OpLessEqualTypes</b> covers couples of types, comparable by the <b>&lt;=</b>.
 </p>
 
 <p>
-<b>OpGreaterTypes</b> covers couples of types, comparable by the <b>></b>.
+<b>OpGreaterTypes</b> covers couples of types, comparable by the <b>&gt;</b>.
 </p>
 
 <p>
-<b>OpGreaterEqualTypes</b> covers couples of types, comparable by the <b>>=</b>.
+<b>OpGreaterEqualTypes</b> covers couples of types, comparable by the <b>&gt;=</b>.
 </p>
 
 <pre>
@@ -682,11 +682,11 @@ concept bool <span class="Att">PtrToOpLessFuncType</span> = ToOpLessFuncType&lt;
 </p>
 
 <p>
-<b>ToOpLessFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator <</b>.
+<b>ToOpLessFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator &lt;</b>.
 </p>
 
 <p>
-<b>PtrToOpLessFuncType&lt;Ptr&gt;</b> covers functors with arguments <b>const T &</b>, where <b>T</b> is <b>*Ptr</b>, and with return value, comparable with the <b>operator <</b>.
+<b>PtrToOpLessFuncType&lt;Ptr&gt;</b> covers functors with arguments <b>const T &amp;</b>, where <b>T</b> is <b>*Ptr</b>, and with return value, comparable with the <b>operator &lt;</b>.
 </p>
 
 <pre>

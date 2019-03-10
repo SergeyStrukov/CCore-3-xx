@@ -99,7 +99,7 @@ void <span class="Att">GuardLenOfOverflow</span>(ulen count,ulen size_of,ulen ex
 </pre>
 
 <p>
-<b>GuardLen()</b> is another guard function. It ensures the condition <b>len<=maxlen</b>.
+<b>GuardLen()</b> is another guard function. It ensures the condition <b>len&lt;=maxlen</b>.
 The function <b>GuardLenFailed()</b> throws an exception.
 </p>
 
@@ -141,7 +141,7 @@ constexpr ulen <span class="Att">Align</span>(ulen len,ulen A=MaxAlign);
  
 constexpr ulen <span class="Att">AlignDown</span>(ulen len,ulen A=MaxAlign);
  
-bool <span class="Att">TryAlign</span>(ulen &len,ulen A=MaxAlign);
+bool <span class="Att">TryAlign</span>(ulen &amp;len,ulen A=MaxAlign);
 
 </pre>
 

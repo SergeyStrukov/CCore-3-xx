@@ -93,7 +93,7 @@ const FlagType FileType_dir  = 2 ; // == GenFile def
    
 struct Path
  {
-  LenType len : len<=MaxPathLen ;
+  LenType len : len&lt;=MaxPathLen ;
   uint8 path[len];
  };
     
@@ -158,7 +158,7 @@ struct ReadInput
 struct ReadOutput
  {
   FileLenType off;
-  LenType len : len<=MaxReadDataLen ;
+  LenType len : len&lt;=MaxReadDataLen ;
   uint8 data[len];
  };
 
@@ -181,7 +181,7 @@ struct WriteInput
  {
   FileId file_id;
   FileLenType off;
-  LenType len : len<=MaxWriteDataLen ;
+  LenType len : len&lt;=MaxWriteDataLen ;
   uint8 data[len];
  };
     

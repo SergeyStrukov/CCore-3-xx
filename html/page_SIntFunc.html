@@ -89,11 +89,11 @@ represented as <b>UInt</b> type.
 </pre>
 
 <p>
-<b>PosAbs()</b> returns <b>+abs</b> as <b>SInt</b> value. It is assumed, that <b>abs<=MaxPositiveAbs</b>.
+<b>PosAbs()</b> returns <b>+abs</b> as <b>SInt</b> value. It is assumed, that <b>abs&lt;=MaxPositiveAbs</b>.
 </p>
 
 <p>
-<b>NegAbs()</b> returns <b>-abs</b> as <b>SInt</b> value. It is assumed, that <b>abs<=MinNegativeAbs</b>.
+<b>NegAbs()</b> returns <b>-abs</b> as <b>SInt</b> value. It is assumed, that <b>abs&lt;=MinNegativeAbs</b>.
 </p>
 
 <pre>
@@ -130,7 +130,7 @@ represented as <b>UInt</b> type.
   
   // dist/move
   
-  static UInt <span class="Att">Dist</span>(SInt a,SInt b); // a <= b 
+  static UInt <span class="Att">Dist</span>(SInt a,SInt b); // a &lt;= b 
 
   static SInt <span class="Att">MovePos</span>(SInt a,UInt delta); 
   
@@ -142,24 +142,24 @@ represented as <b>UInt</b> type.
 </pre>
 
 <p>
-<b>Dist()</b> returns the distance from <b>a</b> to <b>b</b>, it is assumed, that <b>a <= b</b>. 
+<b>Dist()</b> returns the distance from <b>a</b> to <b>b</b>, it is assumed, that <b>a &lt;= b</b>. 
 The return value is represented by the <b>UInt</b>.
 </p>
 
 <p>
 <b>MovePos()</b> moves the argument <b>a</b> to the positive direction by the distance <b>delta</b>.
-It is assumed, that the upper <b>SInt</b> value bound is not crossed. I.e. if <b>a <= b</b>, then
+It is assumed, that the upper <b>SInt</b> value bound is not crossed. I.e. if <b>a &lt;= b</b>, then
 <b>MovePos(a,Dist(a,b)) == b</b>.
 </p>
 
 <p>
 <b>MoveNeg()</b> moves the argument <b>a</b> to the negative direction by the distance <b>delta</b>.
-It is assumed, that the lower <b>SInt</b> value bound is not crossed. I.e. if <b>a <= b</b>, then
+It is assumed, that the lower <b>SInt</b> value bound is not crossed. I.e. if <b>a &lt;= b</b>, then
 <b>MoveNeg(b,Dist(a,b)) == a</b>.
 </p>
 
 <p>
-<b>Move()</b> moves the argument <b>a</b> to the positive direction by the distance <b>delta</b> if <b>e > 0</b>,
+<b>Move()</b> moves the argument <b>a</b> to the positive direction by the distance <b>delta</b> if <b>e &gt; 0</b>,
 otherwise it moves <b>a</b> to the negative direction by the distance <b>delta</b>.
 </p>
 

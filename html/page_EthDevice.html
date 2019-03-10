@@ -45,9 +45,9 @@ struct <span class="Att">EthDevice</span>
  
   virtual MACAddress getAddress() const =0;
   
-  virtual PacketFormat getTxFormat() const =0; // max_data <= MaxUInt&lt;IPLen&gt;
+  virtual PacketFormat getTxFormat() const =0; // max_data &lt;= MaxUInt&lt;IPLen&gt;
   
-  virtual PacketFormat getRxFormat() const =0; // max_data <= MaxUInt&lt;IPLen&gt;
+  virtual PacketFormat getRxFormat() const =0; // max_data &lt;= MaxUInt&lt;IPLen&gt;
   
   // attach/detach
   

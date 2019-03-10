@@ -210,7 +210,7 @@ It makes these operations UTF8-compatible. To compare single characters the foll
 
 inline CmpResult <span class="Att">CharCmp</span>(char a,char b) { return LessCmp((unsigned char)a,(unsigned char)b); }
 
-inline bool <span class="Att">CharLess</span>(char a,char b) { return (unsigned char)a<(unsigned char)b; }
+inline bool <span class="Att">CharLess</span>(char a,char b) { return (unsigned char)a&lt;(unsigned char)b; }
 
 </pre>
 
@@ -315,7 +315,7 @@ class C : public LessComparable&lt;C&gt; // provides all comparison operators fo
  {
   public:
 
-   bool operator < (const C &obj) const { .... }
+   bool operator &lt; (const C &amp;obj) const { .... }
  }; 
 
 // Cmp() uses LessCmp() for this class
@@ -328,11 +328,11 @@ class C : public LessComparable&lt;C&gt; // provides all comparison operators fo
  {
   public:
 
-   bool operator < (const C &obj) const { .... }
+   bool operator &lt; (const C &amp;obj) const { .... }
 
-   bool operator == (const C &obj) const { .... } // for efficiency
+   bool operator == (const C &amp;obj) const { .... } // for efficiency
 
-   bool operator != (const C &obj) const { .... } // for efficiency
+   bool operator != (const C &amp;obj) const { .... } // for efficiency
  };
 
 </pre>

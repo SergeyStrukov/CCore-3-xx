@@ -67,10 +67,6 @@ bool TestConvert::tagPRE() { return true; }
 
 bool TestConvert::tagPREend() { return true; }
 
-bool TestConvert::tagSPAN(String) { return true; }
-
-bool TestConvert::tagSPANend() { return true; }
-
  // format
 
 bool TestConvert::tagB() { return true; }
@@ -81,9 +77,27 @@ bool TestConvert::tagI() { return true; }
 
 bool TestConvert::tagIend() { return true; }
 
+bool TestConvert::tagU() { return true; }
+
+bool TestConvert::tagUend() { return true; }
+
+bool TestConvert::tagSUB() { return true; }
+
+bool TestConvert::tagSUBend() { return true; }
+
+bool TestConvert::tagSUP() { return true; }
+
+bool TestConvert::tagSUPend() { return true; }
+
+bool TestConvert::tagSPAN(String) { return true; }
+
+bool TestConvert::tagSPANend() { return true; }
+
  // hyperlink
 
 bool TestConvert::tagA(String) { return true; }
+
+bool TestConvert::tagA(String,String) { return true; }
 
 bool TestConvert::tagAname(String) { return true; }
 
@@ -94,6 +108,10 @@ bool TestConvert::tagAend() { return true; }
 bool TestConvert::tagOL() { return true; }
 
 bool TestConvert::tagOLend() { return true; }
+
+bool TestConvert::tagUL() { return true; }
+
+bool TestConvert::tagULend() { return true; }
 
 bool TestConvert::tagLI() { return true; }
 

@@ -223,7 +223,7 @@ for(auto r=Range(....); r.fit(10) ;)
 
 for(auto r=Range(....);;)
   {
-   auto prefix=r.takeup(10); // first <=10 element subrange
+   auto prefix=r.takeup(10); // first &lt;=10 element subrange
 
    if( !prefix ) break; // r was empty
 
@@ -322,9 +322,9 @@ Methods <b>fit()</b> can be used to check the length of the range.
 
   // fit
    
-  bool fit(ulen length) const { return length<=len; }
+  bool fit(ulen length) const { return length&lt;=len; }
   
-  bool fit(ulen off,ulen length) const { return off<=len && length<=(len-off) ; }
+  bool fit(ulen off,ulen length) const { return off&lt;=len && length&lt;=(len-off) ; }
 
 </pre>
 

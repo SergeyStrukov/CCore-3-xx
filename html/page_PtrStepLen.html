@@ -93,7 +93,7 @@ Cursor methods:
   
   void operator -- () { ptr-=step; len++; } // back
   
-  PtrStepLen&lt;T&gt; operator += (ulen delta); // assume delta<=len, advance on delta
+  PtrStepLen&lt;T&gt; operator += (ulen delta); // assume delta&lt;=len, advance on delta
    
   PtrStepLen&lt;T&gt; takeup(ulen delta); // advance up to delta elements
   
@@ -111,9 +111,9 @@ Methods <b>fit()</b> can be used to check the length of the range:
   
   // fit
    
-  bool fit(ulen length) const { return length<=len; }
+  bool fit(ulen length) const { return length&lt;=len; }
   
-  bool fit(ulen off,ulen length) const { return off<=len && length<=(len-off) ; }
+  bool fit(ulen off,ulen length) const { return off&lt;=len && length&lt;=(len-off) ; }
 
 </pre>
 

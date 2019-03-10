@@ -212,7 +212,7 @@ ClockTimeType GetClockTime() noexcept
 
 void ClockDelay(ClockTimeType clocks) noexcept
  {
-  for(auto start=GetClockTime(); GetClockTime()-start<=clocks ;);
+  for(auto start=GetClockTime(); GetClockTime()-start&lt;=clocks ;);
  }
 
 } // namespace Sys

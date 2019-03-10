@@ -117,9 +117,9 @@ enum <span class="Att">LenStatus</span>
 
 void <span class="Att">GuardLenSubTooShort</span>(const char *name,ulen len,ulen delta);
 
-inline ulen <span class="Att">LenSub</span>(const char *name,ulen len,ulen delta) // always > 0 
+inline ulen <span class="Att">LenSub</span>(const char *name,ulen len,ulen delta) // always &gt; 0 
  {
-  if( len<=delta ) GuardLenSubTooShort(name,len,delta);
+  if( len&lt;=delta ) GuardLenSubTooShort(name,len,delta);
   
   return len-delta;
  }

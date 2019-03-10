@@ -46,11 +46,11 @@ struct <span class="Att">Algon::BaseRangeAlgo</span>
 
   static LenType GetLen(R r);
   
-  static R GetPrefix(R r,LenType len); // len <= GetLen(r)
+  static R GetPrefix(R r,LenType len); // len &lt;= GetLen(r)
    
-  static R GetSuffix(R r,LenType len); // len <= GetLen(r)
+  static R GetSuffix(R r,LenType len); // len &lt;= GetLen(r)
   
-  static R Split(R &amp;r,LenType prefix); // prefix <= GetLen(r)
+  static R Split(R &amp;r,LenType prefix); // prefix &lt;= GetLen(r)
   
   static R GetPrefix(R r,R suffix); // suffix is an r suffix
 

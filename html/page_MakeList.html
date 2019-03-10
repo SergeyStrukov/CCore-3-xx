@@ -92,17 +92,17 @@ include $(RULES_FILE)
 
 
 obj/main.o : ./main.cpp
-	$(CC) $(CCOPT) $< -o $@
+	$(CC) $(CCOPT) $&lt; -o $@
 
 
 
 obj/main.s : ./main.cpp
-	$(CC) -S $(CCOPT) $< -o $@
+	$(CC) -S $(CCOPT) $&lt; -o $@
 
 
 
 obj/main.dep : ./main.cpp
-	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@
+	$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $&lt; -MF $@
 
 
 

@@ -99,7 +99,7 @@ struct WriteInput
  {
   IndexType index;
   AddressType off;
-  LenType len : len<=MaxWriteDataLen ;
+  LenType len : len&lt;=MaxWriteDataLen ;
   uint8 data[len];
  };
     

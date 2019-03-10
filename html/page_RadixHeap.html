@@ -43,7 +43,7 @@ When a block is allocated, it is stamped by the "magic number". This stamp is us
 It makes the heap protected from incorrect operations (not 100%).
 </p>
 
-<img src="RadixHeap.png" />
+<img src="RadixHeap.png">
 
 <p>
 <b>RadixHeapStore</b> manages free heap blocks. The efficiency of this class is a key to the efficiency of the heap
@@ -63,7 +63,7 @@ class <span class="Att">RadixHeap</span> : NoCopy
   public:
   
    template &lt;class ... SS&gt;
-   explicit RadixHeap(SS && ... ss);
+   explicit RadixHeap(SS &amp;&amp; ... ss);
    
    ~RadixHeap();
  
@@ -143,13 +143,13 @@ class Mem
    ulen getMaxStoreLen() const { return max_store_len; }
 
    RadixHeapBlock * alloc(ulen blen);            // blen aligned 
-                                                 // ( blen<=max_store_len ) => ( ret->len<=max_store_len )
+                                                 // ( blen&lt;=max_store_len ) =&gt; ( ret->len&lt;=max_store_len )
 
    void free(RadixHeapBlock *block);             // block!=0
 
-   bool extend(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen>block->len
+   bool extend(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen&gt;block-&gt;len
 
-   ulen shrink(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen<=block->len , return delta
+   ulen shrink(RadixHeapBlock *block,ulen blen); // block!=0, blen aligned, blen&lt;=block-&gt;len , return delta
  };
 
 </pre>

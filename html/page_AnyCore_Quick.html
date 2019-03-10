@@ -291,14 +291,14 @@ of the product and the <b>lo</b> is the lower part of the product.
 
 <p>
 <b>Div()</b> performs the division of the double-size value, given by the arguments <b>hi</b> and 
-<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi < den</b>, in such case
+<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi &lt; den</b>, in such case
 the result is represented by the single-size value. Otherwise the behavior is unspecified (it
 may cause hardware trap). 
 </p>
 
 <p>
 <b>Mod()</b> calculates the remainder of the division of the double-size value, given by the arguments <b>hi</b> and 
-<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi < den</b>. Otherwise the behavior is unspecified (it
+<b>lo</b>, by the third argument <b>den</b>. It is assumed, that <b>hi &lt; den</b>. Otherwise the behavior is unspecified (it
 may cause hardware trap).
 </p>
 
@@ -315,13 +315,13 @@ in the fields <b>div</b> and <b>mod</b>.
 
 <p>
 <b>ModMul()</b> calculates the product of the <b>a</b> and <b>b</b> by the module <b>mod</b>.
-It is assumed, that <b>a</b> and <b>b < mod</b>, otherwise the behavior is unspecified (it
+It is assumed, that <b>a</b> and <b>b &lt; mod</b>, otherwise the behavior is unspecified (it
 may cause hardware trap). The result is less than <b>mod</b>.
 </p>
 
 <p>
 <b>ModMac()</b> calculates the expression <b>s+a*b</b> by the module <b>mod</b>.
-It is assumed, that <b>a</b>, <b>b</b> and <b>s < mod</b>, otherwise the behavior is unspecified (it
+It is assumed, that <b>a</b>, <b>b</b> and <b>s &lt; mod</b>, otherwise the behavior is unspecified (it
 may cause hardware trap). The result is less than <b>mod</b>.
 </p>
 

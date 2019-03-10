@@ -127,7 +127,7 @@ struct TransId
 
 struct Info
  {
-  uint32 len : len<=MaxInfoLen ; 
+  uint32 len : len&lt;=MaxInfoLen ; 
   uint8 data[len];
  };
 
@@ -434,9 +434,9 @@ class <span class="Att">ClientDevice</span> : public ObjBase
    
    void getStat(ClientStatInfo &ret);
    
-   ulen getMaxOutboundInfoLen(); // always > 0 , <= MaxInfoLen
+   ulen getMaxOutboundInfoLen(); // always &gt; 0 , &lt;= MaxInfoLen
    
-   ulen getMaxInboundInfoLen(); // always > 0 , <= MaxInfoLen
+   ulen getMaxInboundInfoLen(); // always &gt; 0 , &lt;= MaxInfoLen
    
    // generic transactions
    

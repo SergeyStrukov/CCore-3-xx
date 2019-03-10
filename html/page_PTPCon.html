@@ -56,7 +56,7 @@ Protocol types and constants:
 
 struct Name
  {
-  LenType len : len<=MaxNameLen ;
+  LenType len : len&lt;=MaxNameLen ;
   uint8 name[len];
  };
     
@@ -87,7 +87,7 @@ struct OpenInput
   uint32 read_timeout_msec;
   uint32 trigger_mask[8];
      
-  void setbit(uint8 ch) { trigger_mask[ch>>5]|=(uint32(1)<<(ch&31u)); }
+  void setbit(uint8 ch) { trigger_mask[ch&gt;&gt;5]|=(uint32(1)&lt;&lt;(ch&amp;31u)); }
      
   Name name;
  };
@@ -134,7 +134,7 @@ struct ReadInput
 struct ReadOutput
  {
   uint32 number;
-  LenType len : len<=MaxReadDataLen ;
+  LenType len : len&lt;=MaxReadDataLen ;
   uint8 data[len];
  };
 
@@ -156,7 +156,7 @@ struct WriteInput
  {
   ConId con_id;
   uint32 number;
-  LenType len : len<=MaxWriteDataLen ;
+  LenType len : len&lt;=MaxWriteDataLen ;
   uint8 data[len];
  };
     
