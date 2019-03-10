@@ -13,6 +13,7 @@
 
 #include <inc/Source.h>
 #include <inc/Convert.h>
+#include <inc/TagTest.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -40,7 +41,7 @@ bool Test(StrLen dir,StrLen file_name)
 
   Source src(path.get());
 
-  TestConvert convert;
+  TagTest convert;
 
   return src.run(convert);
  }

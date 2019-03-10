@@ -28,9 +28,31 @@ class TagTest;
 
 class TagTest : NoCopy
  {
+  public:
+
+   enum ErrorCode
+    {
+     Error_NoBlock = 1,
+     Error_BlockMismatch,
+     Error_InBlock
+    };
+
+   static StrLen ToString(int code);
+
+   class TagErrorId : public ErrorId
+    {
+     public:
+
+      TagErrorId() {}
+
+      TagErrorId(ErrorCode code) : ErrorId(code,ToString) {}
+    };
+
+  private:
+
    enum BlockType
     {
-     NoBlock,
+     NoBlock = 0,
 
      Block_H1,
      Block_H2,
@@ -45,23 +67,15 @@ class TagTest : NoCopy
 
    BlockType block = NoBlock ;
 
+  private:
+
+   TagErrorId open(BlockType bt);
+
+   TagErrorId close(BlockType bt);
+
+   static bool TestSpace(StrLen str);
+
   public:
-
-   enum ErrorCode
-    {
-     Error_NoBlock = 1,
-    };
-
-   static StrLen ToString(int code);
-
-   class TagErrorId : public ErrorId
-    {
-     public:
-
-      TagErrorId() {}
-
-      TagErrorId(ErrorCode code) : ErrorId(code,ToString) {}
-    };
 
    TagTest() {}
 
