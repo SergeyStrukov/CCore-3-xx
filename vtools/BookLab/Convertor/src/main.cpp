@@ -27,7 +27,7 @@ int Main(StrLen input_file_name,StrLen output_file_name)
  {
   Source src(input_file_name);
 
-  TestConvert convert(output_file_name);
+  LogConvert convert(output_file_name);
 
   return !src.run(convert);
  }

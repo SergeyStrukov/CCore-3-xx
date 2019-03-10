@@ -29,6 +29,8 @@ class Source;
 
 class TestConvert;
 
+class LogConvert;
+
 /* class SourceErrorId */
 
 enum SourceErrorCode
@@ -61,10 +63,7 @@ class Source : NoCopy
 
   private:
 
-   static bool CharStop(char ch)
-    {
-     return CharIsSpace(ch) || ch=='<' ;
-    }
+   static bool CharStop(char ch) { return ch=='<' ; }
 
    static bool ProbeStr(CharStreamType &inp,StrLen str)
     {
@@ -150,13 +149,19 @@ class Source : NoCopy
 
            case 23 : // <img
             {
-             Scanf(inp," src = #.q; >",param);
+             Scanf(inp," src = #.q; />",param);
             }
            break;
 
            case 27 : // <span
             {
              Scanf(inp," class = #.q; >",param);
+            }
+           break;
+
+           case 37 : // <br
+            {
+             Scanf(inp," />");
             }
            break;
 
@@ -185,7 +190,19 @@ class Source : NoCopy
            case 9  : return step( proc.tagH5() );
            case 10 : return step( proc.tagH5end() );
 
-           case 11 : return has_param?step( proc.tagP(param) ):step( proc.tagP() );
+           case 11 :
+            {
+             if( has_param )
+               {
+                return step( proc.tagP(param) );
+               }
+             else
+               {
+                return step( proc.tagP() );
+               }
+            }
+           break;
+
            case 12 : return step( proc.tagPend() );
 
            case 13 : return step( proc.tagB() );
@@ -237,6 +254,8 @@ class Source : NoCopy
            case 35 : return step( proc.tagU() );
            case 36 : return step( proc.tagUend() );
 
+           case 37 : return step( proc.tagBR() );
+
            default: return step(UnknownTag);
           }
        }
@@ -246,9 +265,7 @@ class Source : NoCopy
 
         for(char ch; +inp && !CharStop(ch=*inp) ;++inp) out.put(ch);
 
-        String word=out.close();
-
-        return step( proc.word(word) );
+        return step( proc.frame(out.close()) );
        }
     }
 
@@ -273,7 +290,8 @@ class Source : NoCopy
            "sub","/sub",
            "sup","/sup",
            "ul","/ul",
-           "u","/u"},
+           "u","/u",
+           "br"},
 
       atype{"href","name","type"}
     {
@@ -284,8 +302,6 @@ class Source : NoCopy
    template <class Proc>
    bool next(Proc &proc)
     {
-     SkipSpace(inp);
-
      if( !inp ) return false;
 
      if( body_on )
@@ -342,9 +358,9 @@ class TestConvert
 
    explicit TestConvert(StrLen output_file_name) { Used(output_file_name); }
 
-   // word
+   // frame
 
-   bool word(String word);
+   bool frame(String str);
 
    // text
 
@@ -372,13 +388,15 @@ class TestConvert
 
    bool tagPend();
 
-   bool tagP(String pclass);
+   bool tagP(String tclass);
 
    bool tagPRE();
 
    bool tagPREend();
 
    // format
+
+   bool tagBR();
 
    bool tagB();
 
@@ -400,7 +418,114 @@ class TestConvert
 
    bool tagSUPend();
 
-   bool tagSPAN(String pclass);
+   bool tagSPAN(String tclass);
+
+   bool tagSPANend();
+
+   // hyperlink
+
+   bool tagA(String url);
+
+   bool tagA(String type,String url);
+
+   bool tagAname(String name);
+
+   bool tagAend();
+
+   // list
+
+   bool tagOL();
+
+   bool tagOLend();
+
+   bool tagUL();
+
+   bool tagULend();
+
+   bool tagLI();
+
+   bool tagLIend();
+
+   // image
+
+   bool tagImg(String file_name);
+
+   // complete
+
+   bool complete();
+ };
+
+/* class LogConvert */
+
+class LogConvert
+ {
+   PrintFile out;
+
+  public:
+
+   explicit LogConvert(StrLen output_file_name) : out(output_file_name) {}
+
+   // frame
+
+   bool frame(String str);
+
+   // text
+
+   bool tagH1();
+
+   bool tagH1end();
+
+   bool tagH2();
+
+   bool tagH2end();
+
+   bool tagH3();
+
+   bool tagH3end();
+
+   bool tagH4();
+
+   bool tagH4end();
+
+   bool tagH5();
+
+   bool tagH5end();
+
+   bool tagP();
+
+   bool tagPend();
+
+   bool tagP(String tclass);
+
+   bool tagPRE();
+
+   bool tagPREend();
+
+   // format
+
+   bool tagBR();
+
+   bool tagB();
+
+   bool tagBend();
+
+   bool tagI();
+
+   bool tagIend();
+
+   bool tagU();
+
+   bool tagUend();
+
+   bool tagSUB();
+
+   bool tagSUBend();
+
+   bool tagSUP();
+
+   bool tagSUPend();
+
+   bool tagSPAN(String tclass);
 
    bool tagSPANend();
 

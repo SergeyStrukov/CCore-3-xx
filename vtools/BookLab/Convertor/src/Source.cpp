@@ -31,9 +31,9 @@ StrLen SourceErrorId::Func(int code)
 
 /* class TestConvert */
 
- // word
+ // frame
 
-bool TestConvert::word(String) { return true; }
+bool TestConvert::frame(String) { return true; }
 
  // text
 
@@ -68,6 +68,8 @@ bool TestConvert::tagPRE() { return true; }
 bool TestConvert::tagPREend() { return true; }
 
  // format
+
+bool TestConvert::tagBR() { return true; }
 
 bool TestConvert::tagB() { return true; }
 
@@ -124,6 +126,309 @@ bool TestConvert::tagImg(String) { return true; }
  // complete
 
 bool TestConvert::complete() { return true; }
+
+/* class LogConvert */
+
+ // frame
+
+bool LogConvert::frame(String str)
+ {
+  Printf(out,"<frame>\n#;\n</frame>\n",str);
+
+  return true;
+ }
+
+ // text
+
+bool LogConvert::tagH1()
+ {
+  Putobj(out,"<h1>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH1end()
+ {
+  Putobj(out,"</h1>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH2()
+ {
+  Putobj(out,"<h2>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH2end()
+ {
+  Putobj(out,"</h2>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH3()
+ {
+  Putobj(out,"<h3>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH3end()
+ {
+  Putobj(out,"</h3>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH4()
+ {
+  Putobj(out,"<h4>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH4end()
+ {
+  Putobj(out,"</h4>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH5()
+ {
+  Putobj(out,"<h5>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagH5end()
+ {
+  Putobj(out,"</h5>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagP()
+ {
+  Putobj(out,"<p>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagPend()
+ {
+  Putobj(out,"</p>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagP(String tclass)
+ {
+  Printf(out,"<p class=#.q; >\n",tclass);
+
+  return true;
+ }
+
+bool LogConvert::tagPRE()
+ {
+  Putobj(out,"<pre>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagPREend()
+ {
+  Putobj(out,"</pre>\n"_c);
+
+  return true;
+ }
+
+ // format
+
+bool LogConvert::tagBR()
+ {
+  Putobj(out,"<br />\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagB()
+ {
+  Putobj(out,"<b>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagBend()
+ {
+  Putobj(out,"</b>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagI()
+ {
+  Putobj(out,"<i>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagIend()
+ {
+  Putobj(out,"</i>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagU()
+ {
+  Putobj(out,"<u>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagUend()
+ {
+  Putobj(out,"</u>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagSUB()
+ {
+  Putobj(out,"<sub>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagSUBend()
+ {
+  Putobj(out,"</sub>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagSUP()
+ {
+  Putobj(out,"<sup>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagSUPend()
+ {
+  Putobj(out,"</sup>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagSPAN(String tclass)
+ {
+  Printf(out,"<span class=#.q; >\n",tclass);
+
+  return true;
+ }
+
+bool LogConvert::tagSPANend()
+ {
+  Putobj(out,"</span>\n"_c);
+
+  return true;
+ }
+
+ // hyperlink
+
+bool LogConvert::tagA(String url)
+ {
+  Printf(out,"<a href=#.q; >\n",url);
+
+  return true;
+ }
+
+bool LogConvert::tagA(String type,String url)
+ {
+  Printf(out,"<a type=#.q; href=#.q; >\n",type,url);
+
+  return true;
+ }
+
+bool LogConvert::tagAname(String name)
+ {
+  Printf(out,"<a name=#.q; >\n",name);
+
+  return true;
+ }
+
+bool LogConvert::tagAend()
+ {
+  Putobj(out,"</a>\n"_c);
+
+  return true;
+ }
+
+ // list
+
+bool LogConvert::tagOL()
+ {
+  Putobj(out,"<ol>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagOLend()
+ {
+  Putobj(out,"</ol>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagUL()
+ {
+  Putobj(out,"<ul>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagULend()
+ {
+  Putobj(out,"</ul>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagLI()
+ {
+  Putobj(out,"<li>\n"_c);
+
+  return true;
+ }
+
+bool LogConvert::tagLIend()
+ {
+  Putobj(out,"</li>\n"_c);
+
+  return true;
+ }
+
+ // image
+
+bool LogConvert::tagImg(String file_name)
+ {
+  Printf(out,"<img src=#.q; />\n",file_name);
+
+  return true;
+ }
+
+ // complete
+
+bool LogConvert::complete()
+ {
+  Putobj(out,"<END />\n"_c);
+
+  return true;
+ }
 
 } // namespace App
 
