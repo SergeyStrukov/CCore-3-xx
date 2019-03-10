@@ -34,7 +34,13 @@ class TagTest : NoCopy
     {
      Error_NoBlock = 1,
      Error_BlockMismatch,
-     Error_InBlock
+     Error_InBlock,
+     Error_NotList,
+     Error_NotItem,
+     Error_ItemNotClosed,
+
+     Error_HasFmt,
+     Error_NoFmt
     };
 
    static StrLen ToString(int code);
@@ -61,17 +67,39 @@ class TagTest : NoCopy
      Block_H5,
      Block_P,
      Block_PRE,
+
      Block_OL,
      Block_UL
     };
 
    BlockType block = NoBlock ;
+   bool item = false ;
+
+   bool fmt_b = false ;
+   bool fmt_i = false ;
+   bool fmt_u = false ;
+   bool fmt_sub = false ;
+   bool fmt_sup = false ;
+   bool fmt_span = false ;
+
+   bool fmt_a = false ;
+   bool fmt_aname = false ;
 
   private:
+
+   bool inList() const { return block>=Block_OL ; }
+
+   bool notOpened() const { return !block || ( inList() && !item ) ; }
+
+   TagErrorId noFormat() const;
 
    TagErrorId open(BlockType bt);
 
    TagErrorId close(BlockType bt);
+
+   TagErrorId setFmt(bool &flag);
+
+   TagErrorId clearFmt(bool &flag);
 
    static bool TestSpace(StrLen str);
 

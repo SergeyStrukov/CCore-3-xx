@@ -23,14 +23,37 @@ StrLen TagTest::ToString(int code)
  {
   switch( code )
     {
-     case Error_NoBlock : return "No text block"_c;
+     case Error_NoBlock : return "No opened text block"_c;
 
      case Error_BlockMismatch : return "Text block mismatch"_c;
 
      case Error_InBlock : return "Text block is opened"_c;
 
+     case Error_NotList : return "Not a list"_c;
+
+     case Error_NotItem : return "Not a list item"_c;
+
+     case Error_ItemNotClosed : return "List item is not closed"_c;
+
+     case Error_HasFmt : return "Format flag is active"_c;
+
+     case Error_NoFmt : return "Format flag is not active"_c;
+
      default: return "???"_c;
     }
+ }
+
+auto TagTest::noFormat() const -> TagErrorId
+ {
+  if( fmt_b ) return Error_HasFmt;
+  if( fmt_i ) return Error_HasFmt;
+  if( fmt_u ) return Error_HasFmt;
+  if( fmt_sub ) return Error_HasFmt;
+  if( fmt_sup ) return Error_HasFmt;
+  if( fmt_span ) return Error_HasFmt;
+  if( fmt_a ) return Error_HasFmt;
+
+  return {};
  }
 
 auto TagTest::open(BlockType bt) -> TagErrorId
@@ -51,10 +74,30 @@ auto TagTest::close(BlockType bt) -> TagErrorId
     {
      block=NoBlock;
 
-     return {};
+     return noFormat();
     }
 
   return block?Error_BlockMismatch:Error_NoBlock;
+ }
+
+auto TagTest::setFmt(bool &flag) -> TagErrorId
+ {
+  if( notOpened() ) return Error_NoBlock;
+
+  if( flag ) return Error_HasFmt;
+
+  flag=true;
+
+  return {};
+ }
+
+auto TagTest::clearFmt(bool &flag) -> TagErrorId
+ {
+  if( !flag ) return Error_NoFmt;
+
+  flag=false;
+
+  return {};
  }
 
 bool TagTest::TestSpace(StrLen str)
@@ -68,7 +111,7 @@ bool TagTest::TestSpace(StrLen str)
 
 auto TagTest::frame(String str) -> TagErrorId
  {
-  if( !block && !TestSpace(Range(str)) ) return Error_NoBlock;
+  if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
 
   return {};
  }
@@ -157,86 +200,95 @@ auto TagTest::tagBR() -> TagErrorId // TODO
   return {};
  }
 
-auto TagTest::tagB() -> TagErrorId // TODO
+auto TagTest::tagB() -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_b);
  }
 
-auto TagTest::tagBend() -> TagErrorId // TODO
+auto TagTest::tagBend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_b);
  }
 
-auto TagTest::tagI() -> TagErrorId // TODO
+auto TagTest::tagI() -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_i);
  }
 
-auto TagTest::tagIend() -> TagErrorId // TODO
+auto TagTest::tagIend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_i);
  }
 
-auto TagTest::tagU() -> TagErrorId // TODO
+auto TagTest::tagU() -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_u);
  }
 
-auto TagTest::tagUend() -> TagErrorId // TODO
+auto TagTest::tagUend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_u);
  }
 
-auto TagTest::tagSUB() -> TagErrorId // TODO
+auto TagTest::tagSUB() -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_sub);
  }
 
-auto TagTest::tagSUBend() -> TagErrorId // TODO
+auto TagTest::tagSUBend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_sub);
  }
 
-auto TagTest::tagSUP() -> TagErrorId // TODO
+auto TagTest::tagSUP() -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_sup);
  }
 
-auto TagTest::tagSUPend() -> TagErrorId // TODO
+auto TagTest::tagSUPend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_sup);
  }
 
-auto TagTest::tagSPAN(String) -> TagErrorId // TODO
+auto TagTest::tagSPAN(String) -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_span);
  }
 
-auto TagTest::tagSPANend() -> TagErrorId // TODO
+auto TagTest::tagSPANend() -> TagErrorId
  {
-  return {};
+  return clearFmt(fmt_span);
  }
 
  // hyperlink
 
-auto TagTest::tagA(String) -> TagErrorId // TODO
+auto TagTest::tagA(String) -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_a);
  }
 
-auto TagTest::tagA(String,String) -> TagErrorId // TODO
+auto TagTest::tagA(String,String) -> TagErrorId
  {
-  return {};
+  return setFmt(fmt_a);
  }
 
 auto TagTest::tagAname(String) -> TagErrorId // TODO
  {
+  fmt_aname=true;
+
   return {};
  }
 
 auto TagTest::tagAend() -> TagErrorId // TODO
  {
-  return {};
+  if( fmt_aname )
+    {
+     fmt_aname=false;
+
+     return {};
+    }
+
+  return clearFmt(fmt_a);
  }
 
  // list
@@ -248,6 +300,8 @@ auto TagTest::tagOL() -> TagErrorId
 
 auto TagTest::tagOLend() -> TagErrorId
  {
+  if( item ) return Error_ItemNotClosed;
+
   return close(Block_OL);
  }
 
@@ -258,17 +312,33 @@ auto TagTest::tagUL() -> TagErrorId
 
 auto TagTest::tagULend() -> TagErrorId
  {
+  if( item ) return Error_ItemNotClosed;
+
   return close(Block_UL);
  }
 
-auto TagTest::tagLI() -> TagErrorId // TODO
+auto TagTest::tagLI() -> TagErrorId
  {
-  return {};
+  if( inList() && !item )
+    {
+     item=true;
+
+     return {};
+    }
+
+  return Error_NotList;
  }
 
-auto TagTest::tagLIend() -> TagErrorId // TODO
+auto TagTest::tagLIend() -> TagErrorId
  {
-  return {};
+  if( inList() && item )
+    {
+     item=false;
+
+     return noFormat();
+    }
+
+  return Error_NotItem;
  }
 
  // image
