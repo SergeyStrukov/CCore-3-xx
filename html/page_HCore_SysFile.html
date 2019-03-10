@@ -710,12 +710,13 @@ is started with this token and it is finished. The return value has the type
 one of the negative special values. Two variants of <b>wait()</b> accepts timeouts of different kinds:
 as a <b>MSec</b> or as a <b>TimeScope</b>.
 The special return values have the following meanings:
+</p>
+
 <ol>
  <li><b>Wait_error</b> &mdash; the function has failed for some reason,</li>
  <li><b>Wait_timeout</b> &mdash; the wait is terminated by timeout,</li>
  <li><b>Wait_interrupt</b> &mdash; the wait is terminated by the <b>interrupt().</b></li>
 </ol>
-</p>
 
 <p>
 <b>interrupt()</b> is a special method. This method can be used to interrupt the <b>wait()</b>.

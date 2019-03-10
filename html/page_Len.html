@@ -35,6 +35,8 @@
 uses the type <b>ulen</b> to represent a length. This is a substitute for the standard type <b>size_t</b>.
 <b>ulen</b> is defined in the target header <b>PlatformBase.h</b>.
 This type is introduced by several reasons: 
+</p>
+
 <ol>
 <li>it has a better name, more simpler to type,</li>
 <li>target can assign a more suitable type to <b>ulen</b>, than <b>size_t</b>, for example, 
@@ -42,7 +44,6 @@ compiler can define <b>size_t</b> as <b>unsigned long</b>, but if it has the sam
 then there is no point in such definition, so the target can define <b>ulen</b> as <b>unsigned</b>.
 </li>
 </ol>
-</p>
 
 <h3>Constants</h3> 
 
