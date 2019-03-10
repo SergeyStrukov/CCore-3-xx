@@ -39,6 +39,8 @@ StrLen TagTest::ToString(int code)
 
      case Error_NoFmt : return "Format flag is not active"_c;
 
+     case Error_BR : return "BR tag"_c;
+
      default: return "???"_c;
     }
  }
@@ -195,9 +197,9 @@ auto TagTest::tagPREend() -> TagErrorId
 
  // format
 
-auto TagTest::tagBR() -> TagErrorId // TODO
+auto TagTest::tagBR() -> TagErrorId
  {
-  return {};
+  return Error_BR;
  }
 
 auto TagTest::tagB() -> TagErrorId
@@ -272,23 +274,27 @@ auto TagTest::tagA(String,String) -> TagErrorId
   return setFmt(fmt_a);
  }
 
-auto TagTest::tagAname(String) -> TagErrorId // TODO
+auto TagTest::tagAname(String) -> TagErrorId
  {
+  if( block ) return Error_InBlock;
+
+  if( fmt_aname ) return Error_HasFmt;
+
   fmt_aname=true;
 
   return {};
  }
 
-auto TagTest::tagAend() -> TagErrorId // TODO
+auto TagTest::tagAend() -> TagErrorId
  {
-  if( fmt_aname )
+  if( block )
     {
-     fmt_aname=false;
-
-     return {};
+     return clearFmt(fmt_a);
     }
-
-  return clearFmt(fmt_a);
+  else
+    {
+     return clearFmt(fmt_aname);
+    }
  }
 
  // list

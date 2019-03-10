@@ -40,7 +40,9 @@ class TagTest : NoCopy
      Error_ItemNotClosed,
 
      Error_HasFmt,
-     Error_NoFmt
+     Error_NoFmt,
+
+     Error_BR
     };
 
    static StrLen ToString(int code);
