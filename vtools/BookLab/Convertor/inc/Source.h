@@ -414,9 +414,9 @@ class TestConvert
 
    bool tagP();
 
-   bool tagPend();
-
    bool tagP(String tclass);
+
+   bool tagPend();
 
    bool tagPRE();
 
@@ -519,9 +519,9 @@ class LogConvert
 
    bool tagP();
 
-   bool tagPend();
-
    bool tagP(String tclass);
+
+   bool tagPend();
 
    bool tagPRE();
 

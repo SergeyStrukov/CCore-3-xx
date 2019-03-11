@@ -40,10 +40,7 @@ class TagTest : NoCopy
      Error_ItemNotClosed,
 
      Error_HasFmt,
-     Error_NoFmt,
-
-     Error_BR,
-     Error_A
+     Error_NoFmt
     };
 
    static StrLen ToString(int code);
@@ -86,7 +83,6 @@ class TagTest : NoCopy
    bool fmt_span = false ;
 
    bool fmt_a = false ;
-   bool fmt_aname = false ;
 
   private:
 
@@ -109,6 +105,8 @@ class TagTest : NoCopy
   public:
 
    TagTest() {}
+
+   void setId(String id);
 
    // frame
 
@@ -138,17 +136,15 @@ class TagTest : NoCopy
 
    TagErrorId tagP();
 
-   TagErrorId tagPend();
-
    TagErrorId tagP(String tclass);
+
+   TagErrorId tagPend();
 
    TagErrorId tagPRE();
 
    TagErrorId tagPREend();
 
    // format
-
-   TagErrorId tagBR();
 
    TagErrorId tagB();
 
@@ -179,8 +175,6 @@ class TagTest : NoCopy
    TagErrorId tagA(String url);
 
    TagErrorId tagA(String type,String url);
-
-   TagErrorId tagAname(String name);
 
    TagErrorId tagAend();
 

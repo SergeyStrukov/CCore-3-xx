@@ -39,10 +39,6 @@ StrLen TagTest::ToString(int code)
 
      case Error_NoFmt : return "Format flag is not active"_c;
 
-     case Error_BR : return "BR tag"_c;
-
-     case Error_A : return "A tag"_c;
-
      default: return "???"_c;
     }
  }
@@ -111,6 +107,10 @@ bool TagTest::TestSpace(StrLen str)
   return true;
  }
 
+void TagTest::setId(String)
+ {
+ }
+
  // frame
 
 auto TagTest::frame(String str) -> TagErrorId
@@ -177,14 +177,14 @@ auto TagTest::tagP() -> TagErrorId
   return open(Block_P);
  }
 
-auto TagTest::tagPend() -> TagErrorId
- {
-  return close(Block_P);
- }
-
 auto TagTest::tagP(String) -> TagErrorId
  {
   return open(Block_P);
+ }
+
+auto TagTest::tagPend() -> TagErrorId
+ {
+  return close(Block_P);
  }
 
 auto TagTest::tagPRE() -> TagErrorId
@@ -198,11 +198,6 @@ auto TagTest::tagPREend() -> TagErrorId
  }
 
  // format
-
-auto TagTest::tagBR() -> TagErrorId
- {
-  return Error_BR;
- }
 
 auto TagTest::tagB() -> TagErrorId
  {
@@ -276,29 +271,9 @@ auto TagTest::tagA(String,String) -> TagErrorId
   return setFmt(fmt_a);
  }
 
-auto TagTest::tagAname(String) -> TagErrorId
- {
-  return Error_A;
-
-  if( block ) return Error_InBlock;
-
-  if( fmt_aname ) return Error_HasFmt;
-
-  fmt_aname=true;
-
-  return {};
- }
-
 auto TagTest::tagAend() -> TagErrorId
  {
-  if( block )
-    {
-     return clearFmt(fmt_a);
-    }
-  else
-    {
-     return clearFmt(fmt_aname);
-    }
+  return clearFmt(fmt_a);
  }
 
  // list

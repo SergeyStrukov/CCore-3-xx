@@ -59,9 +59,9 @@ bool TestConvert::tagH5end() { return true; }
 
 bool TestConvert::tagP() { return true; }
 
-bool TestConvert::tagPend() { return true; }
-
 bool TestConvert::tagP(String) { return true; }
+
+bool TestConvert::tagPend() { return true; }
 
 bool TestConvert::tagPRE() { return true; }
 
@@ -218,16 +218,16 @@ bool LogConvert::tagP()
   return true;
  }
 
-bool LogConvert::tagPend()
+bool LogConvert::tagP(String tclass)
  {
-  Putobj(out,"</p>\n"_c);
+  Printf(out,"<p class=#.q; >\n",tclass);
 
   return true;
  }
 
-bool LogConvert::tagP(String tclass)
+bool LogConvert::tagPend()
  {
-  Printf(out,"<p class=#.q; >\n",tclass);
+  Putobj(out,"</p>\n"_c);
 
   return true;
  }

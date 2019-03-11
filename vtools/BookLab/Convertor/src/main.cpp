@@ -41,7 +41,7 @@ bool Test(StrLen dir,StrLen file_name)
 
   Source src(path.get());
 
-  TestConvert convert;
+  TagTest convert;
 
   return src.run(convert);
  }
