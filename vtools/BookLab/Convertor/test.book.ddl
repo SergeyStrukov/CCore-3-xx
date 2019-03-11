@@ -22,7 +22,19 @@ MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
 /* format */
 
+ // text
+
 Font font_text = { "Bookman Old Style" , 20 } ;
+
+Format fmt_text = DefaultFormat ;
+
+Point inner_text = DefaultInner ;
+
+Point outer_text = DefaultOuter ;
+
+VColor back_text = NoColor ;
+
+MultiLine align_text = DefaultPlacement ;
 
  // h1
 

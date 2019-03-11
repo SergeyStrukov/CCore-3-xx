@@ -17,8 +17,9 @@
 #include <inc/ErrorId.h>
 
 #include <CCore/inc/String.h>
-#include <CCore/inc/AnyPtr.h>
-#include <CCore/inc/PrintStem.h>
+#include <CCore/inc/CompactList.h>
+
+//#include <CCore/inc/PrintStem.h>
 
 namespace App {
 
@@ -47,13 +48,35 @@ class Book : NoCopy
    PrintBase &out;
    PageParam param;
 
-   ulen frame_count = 0 ;
+   struct Frame
+    {
+     StrLen kind;
+
+     explicit Frame(StrLen kind_) : kind(kind_) {}
+    };
+
+   CompactList2<Frame> frames;
+
+   StrLen kind;
+   ulen spanind = 0 ;
+
+  private:
+
+   void addSpan(StrLen str);
 
   public:
 
    Book(PrintBase &out,const PageParam &param);
 
    ~Book();
+
+   // text
+
+   void openText(StrLen kind);
+
+   void addText(StrLen frame);
+
+   void closeText();
  };
 
 /* class Convert */
@@ -135,6 +158,12 @@ class Convert : NoCopy
    TagErrorId clearFmt(bool &flag);
 
    static bool TestSpace(StrLen str);
+
+  private:
+
+   TagErrorId openText(BlockType bt,StrLen kind);
+
+   TagErrorId closeText(BlockType bt);
 
   public:
 

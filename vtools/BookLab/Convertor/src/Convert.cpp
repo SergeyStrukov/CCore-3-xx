@@ -13,6 +13,8 @@
 
 #include <inc/Convert.h>
 
+#include <CCore/inc/scanf/ScanTools.h>
+
 namespace App {
 
 namespace Private_Convert {
@@ -21,15 +23,15 @@ namespace Private_Convert {
 
 class PrintPtr
  {
-   String str;
+   StrLen str;
 
   public:
 
-   explicit PrintPtr(const String &str_) : str(str_) {}
+   explicit PrintPtr(const String &str_) : str(Range(str_)) {}
 
    void print(PrinterType &out) const
     {
-     if( str.isEmpty() )
+     if( !str )
        {
         Putobj(out,"null"_c);
        }
@@ -40,11 +42,116 @@ class PrintPtr
     }
  };
 
+/* class PrintSpan */
+
+class PrintSpan
+ {
+   StrLen str;
+
+  private:
+
+   static void PrintAmp(PrinterType &out,StrLen text)
+    {
+     if( text.equal("lt"_c) )
+       {
+        out.put('<');
+
+        return;
+       }
+
+     if( text.equal("gt"_c) )
+       {
+        out.put('>');
+
+        return;
+       }
+
+     if( text.equal("amp"_c) )
+       {
+        out.put('&');
+
+        return;
+       }
+
+     out.put('$');
+    }
+
+   static void PrintChar(PrinterType &out,StrLen &text)
+    {
+     char ch=*text;
+
+     ++text;
+
+     if( ch=='&' )
+       {
+        StrLen next=text;
+
+        for(; +next && *next!=';' ;++next);
+
+        if( !next )
+          {
+           out.put('$');
+
+           text=Empty;
+          }
+        else
+          {
+           PrintAmp(out,text.prefix(next));
+
+           ++next;
+
+           text=next;
+          }
+       }
+     else
+       {
+        if( CharIsSpecial(ch) )
+          {
+           out.put('$');
+          }
+        else
+          {
+           if( ch!='"' )
+             {
+              out.put(ch);
+             }
+           else
+             {
+              out.put('\\');
+              out.put('"');
+             }
+          }
+       }
+    }
+
+  public:
+
+   explicit PrintSpan(StrLen str_) : str(str_) {}
+
+   void print(PrinterType &out) const
+    {
+     out.put('\"');
+
+     for(StrLen text=str; +text ;) PrintChar(out,text);
+
+     out.put('\"');
+    }
+ };
+
 } // namespace Private_Convert
 
 using namespace Private_Convert;
 
 /* class Book */
+
+void Book::addSpan(StrLen str)
+ {
+  if( spanind ) out.put(',');
+
+  Printf(out,"{ #; }\n",PrintSpan(str));
+
+  spanind++;
+ }
 
 Book::Book(PrintBase &out_,const PageParam &param_)
  : out(out_),param(param_)
@@ -53,13 +160,61 @@ Book::Book(PrintBase &out_,const PageParam &param_)
 
 Book::~Book()
  {
-  Printf(out,"Page page = { #.q; ,\n{",param.name);
+  Printf(out,"Page page = { #.q; ,\n{\n",param.name);
 
-  if( frame_count ) Printf(out,"f0\n");
+  ulen ind = 0 ;
 
-  for(ulen i=1; i<frame_count ;i++) Printf(out,",f#;\n",i);
+  frames.apply( [&] (const Frame &frame)
+                    {
+                     out.put(' ');
+
+                     if( ind ) out.put(',');
+
+                     Printf(out,"{ &b#; , null , inner_#; , outer_#; , back_#; }\n",ind,frame.kind,frame.kind,frame.kind);
+
+                     ind++;
+
+                    } );
 
   Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
+ }
+
+ // text
+
+void Book::openText(StrLen kind)
+ {
+  ulen ind=frames.getCount();
+
+  frames.insLast(kind);
+
+  Printf(out,"Text b#; = { {\n",ind);
+
+  this->kind=kind;
+
+  spanind=0;
+ }
+
+void Book::addText(StrLen frame)
+ {
+  for(;;)
+    {
+     SkipSpace(frame);
+
+     if( !frame ) return;
+
+     StrLen next=frame;
+
+     SkipNonSpace(next);
+
+     addSpan(frame.prefix(next));
+
+     frame=next;
+    }
+ }
+
+void Book::closeText()
+ {
+  Printf(out,"} , &fmt_#; , &align_#; } ;\n\n",kind,kind);
  }
 
 /* class Convert */
@@ -152,6 +307,34 @@ bool Convert::TestSpace(StrLen str)
   return true;
  }
 
+auto Convert::openText(BlockType bt,StrLen kind) -> TagErrorId
+ {
+  if( block==NoBlock )
+    {
+     block=bt;
+
+     book.openText(kind);
+
+     return {};
+    }
+
+  return Error_InBlock;
+ }
+
+auto Convert::closeText(BlockType bt) -> TagErrorId
+ {
+  if( block==bt )
+    {
+     block=NoBlock;
+
+     book.closeText();
+
+     return noFormat();
+    }
+
+  return block?Error_BlockMismatch:Error_NoBlock;
+ }
+
 Convert::Convert(PrintBase &out,const PageParam &param)
  : book(out,param)
  {
@@ -170,6 +353,11 @@ void Convert::setId(String)
 auto Convert::frame(String str) -> TagErrorId
  {
   if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
+
+  if( block==Block_P )
+    {
+     book.addText(Range(str));
+    }
 
   return {};
  }
@@ -228,17 +416,17 @@ auto Convert::tagH5end() -> TagErrorId
 
 auto Convert::tagP() -> TagErrorId
  {
-  return open(Block_P);
+  return openText(Block_P,"text"_c);
  }
 
 auto Convert::tagP(String) -> TagErrorId
  {
-  return open(Block_P);
+  return openText(Block_P,"text"_c);
  }
 
 auto Convert::tagPend() -> TagErrorId
  {
-  return close(Block_P);
+  return closeText(Block_P);
  }
 
 auto Convert::tagPRE() -> TagErrorId
