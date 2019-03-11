@@ -13,500 +13,353 @@
 
 #include <inc/Convert.h>
 
-#include <CCore/inc/Path.h>
-
 namespace App {
 
-/* class OName */
+/* class Book */
 
-ulen OName::Next = 1 ;
-
-/* class Span */
-
-StrLen Span::GetTail(SpanType type)
+Book::Book(PrintBase &out_)
+ : out(out_)
  {
-  if( type.bold )
-    {
-     if( type.italic )
-       {
-        switch( type.effect )
-          {
-           case Underline : return ",&fmt_biu"_c;
-           case Strikeout : return ",&fmt_bis"_c;
-           case Hyperlink : return ",&fmt_bih"_c;
-           default: return ",&fmt_bi"_c;
-          }
-       }
-     else
-       {
-        switch( type.effect )
-          {
-           case Underline : return ",&fmt_bu"_c;
-           case Strikeout : return ",&fmt_bs"_c;
-           case Hyperlink : return ",&fmt_bh"_c;
-           default: return ",&fmt_b"_c;
-          }
-       }
-    }
-  else
-    {
-     if( type.italic )
-       {
-        switch( type.effect )
-          {
-           case Underline : return ",&fmt_iu"_c;
-           case Strikeout : return ",&fmt_is"_c;
-           case Hyperlink : return ",&fmt_ih"_c;
-           default: return ",&fmt_i"_c;
-          }
-       }
-     else
-       {
-        switch( type.effect )
-          {
-           case Underline : return ",&fmt_u"_c;
-           case Strikeout : return ",&fmt_s"_c;
-           case Hyperlink : return ",&fmt_h"_c;
-           default: return ""_c;
-          }
-       }
-    }
  }
 
-/* class Text */
-
-StrLen Text::GetTail(TextType type)
+Book::~Book()
  {
-  switch( type )
-    {
-     case TextH1 : return " , &fmt_h1 , &align_h1 "_c;
-     case TextH2 : return " , &fmt_h2 , &align_h2 "_c;
-     case TextH3 : return " , &fmt_h3 , &align_h3 "_c;
-     case TextH4 : return " , &fmt_h4 , &align_h4 "_c;
-     case TextH5 : return " , &fmt_h5 , &align_h5 "_c;
-     case TextLI : return " , &fmt_li , &align_li "_c;
-
-     default: return Null;
-    }
- }
-
-/* class Image */
-
-StrLen Image::GetFileName(StrLen file_name)
- {
-  SplitPath split1(file_name);
-  SplitName split2(split1.path);
-  SplitExt split3(split2.name);
-
-  file_name.len-=split3.ext.len;
-
-  return file_name;
- }
-
-/* class Frame */
-
-OName Frame::getName() const
- {
-  OName ret(Nothing);
-
-  ptr.apply(GetName{ret});
-
-  return ret;
- }
-
- // print object
-
-void Frame::print(PrintBase &out) const
- {
-  ptr.apply(Print{out});
- }
-
-/* class Convert::Builder */
-
-struct Convert::Builder::Elaborate
- {
-  BuilderPtr &ret;
-
-  template <class T>
-  void operator () (T &obj)
-   {
-    ret=&obj;
-   }
- };
-
-auto Convert::Builder::elaborate() -> BuilderPtr
- {
-  BuilderPtr ret;
-
-  ptr.apply(Elaborate{ret});
-
-  return ret;
- }
-
-template <class T,class S> requires( CanPopTypes<T,S> )
-void Convert::Builder::Add(T *obj,S *top)
- {
-  if( obj && top )
-    {
-     obj->add(top->complete());
-    }
- }
-
-template <class T>
-void Convert::Builder::Add(T *obj,Builder &top)
- {
-  top.elaborate().apply( [obj] (auto *top) { Add(obj,top); } );
- }
-
-template <class T,class ... SS>
-bool Convert::Builder::check(SS && ... ss)
- {
-  bool ret=false;
-
-  elaborate().applyFor<T>( [&] (T *obj) { if( obj ) ret=obj->check( std::forward<SS>(ss)... ); } );
-
-  return ret;
- }
-
-template <class T>
-bool Convert::Builder::canPop()
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { ret=CanPopTypes<std::decay_t<decltype(*obj)>,T>; } );
-
-  return ret;
- }
-
-void Convert::Builder::pop(Builder &top)
- {
-  elaborate().apply( [&] (auto *obj) { Add(obj,top); } );
-
-  top=std::move(*this);
- }
-
-bool Convert::Builder::word(String word)
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->word(word); } );
-
-  return ret;
- }
-
-bool Convert::Builder::tagB()
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagB(); } );
-
-  return ret;
- }
-
-bool Convert::Builder::tagBend()
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagBend(); } );
-
-  return ret;
- }
-
-bool Convert::Builder::tagI()
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagI(); } );
-
-  return ret;
- }
-
-bool Convert::Builder::tagIend()
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagIend(); } );
-
-  return ret;
- }
-
-bool Convert::Builder::tagImg(String file_name)
- {
-  bool ret=false;
-
-  elaborate().apply( [&] (auto *obj) { if( obj ) ret=obj->tagImg(file_name); } );
-
-  return ret;
- }
-
-template <class T>
-T * Convert::Builder::getOf()
- {
-  return elaborate().castPtr<T>();
  }
 
 /* class Convert */
 
-void Convert::start()
+StrLen Convert::ToString(int code)
  {
-  Printf(out,"/* #;.book.ddl */\n\n",name);
-
-  Printf(out,"include <#;.style.ddl>\n\n",name);
-
-  Putobj(out,"scope Pages {\n\n");
- }
-
-void Convert::complete(FrameList list)
- {
-  Printf(out,"Page page1 = { Pages##PageName , #; };\n\n",list);
-
-  Putobj(out,list.getFrames());
-
-  Putobj(out,"} // scope Pages\n\n");
-
-  Putobj(out,"Book Data = { Pages#BookName , {&Pages#page1} , Pages#Back , Pages#Fore } ;\n\n");
- }
-
-template <class T,class ... SS>
-bool Convert::push(SS && ... ss)
- {
-  if( top.canPop<T>() )
+  switch( code )
     {
-     stack.append_fill( std::move(top) );
+     case Error_NoBlock : return "No opened text block"_c;
 
-     top=Builder( T( std::forward<SS>(ss)... ) );
+     case Error_BlockMismatch : return "Text block mismatch"_c;
 
-     return true;
+     case Error_InBlock : return "Text block is opened"_c;
+
+     case Error_NotList : return "Not a list"_c;
+
+     case Error_NotItem : return "Not a list item"_c;
+
+     case Error_ItemNotClosed : return "List item is not closed"_c;
+
+     case Error_HasFmt : return "Format flag is active"_c;
+
+     case Error_NoFmt : return "Format flag is not active"_c;
+
+     default: return "???"_c;
+    }
+ }
+
+auto Convert::noFormat() const -> TagErrorId
+ {
+  if( fmt_b ) return Error_HasFmt;
+  if( fmt_i ) return Error_HasFmt;
+  if( fmt_u ) return Error_HasFmt;
+  if( fmt_sub ) return Error_HasFmt;
+  if( fmt_sup ) return Error_HasFmt;
+  if( fmt_span ) return Error_HasFmt;
+  if( fmt_a ) return Error_HasFmt;
+
+  return {};
+ }
+
+auto Convert::open(BlockType bt) -> TagErrorId
+ {
+  if( block==NoBlock )
+    {
+     block=bt;
+
+     return {};
     }
 
-  return false;
+  return Error_InBlock;
  }
 
-template <class T,class ... SS>
-bool Convert::pop(SS && ... ss)
+auto Convert::close(BlockType bt) -> TagErrorId
  {
-  if( top.check<T>( std::forward<SS>(ss)... ) )
+  if( block==bt )
     {
-     if( ulen len=stack.getLen() )
-       {
-        len--;
+     block=NoBlock;
 
-        stack[len].pop(top);
-
-        stack.shrink_one();
-
-        return true;
-       }
+     return noFormat();
     }
 
-  return false;
+  return block?Error_BlockMismatch:Error_NoBlock;
  }
 
-Convert::Convert(StrLen output_file_name)
- : out(output_file_name),
-
-   top(FrameListBuilder())
+auto Convert::setFmt(bool &flag) -> TagErrorId
  {
-  SplitPath split1(output_file_name);
-  SplitName split2(split1.path);
-  SplitFullExt split3(split2.name);
+  if( notOpened() ) return Error_NoBlock;
 
-  name=String(split3.name);
+  if( flag ) return Error_HasFmt;
 
-  start();
+  flag=true;
+
+  return {};
  }
 
- // word
-
-bool Convert::word(String word)
+auto Convert::clearFmt(bool &flag) -> TagErrorId
  {
-  return top.word(word);
+  if( !flag ) return Error_NoFmt;
+
+  flag=false;
+
+  return {};
+ }
+
+bool Convert::TestSpace(StrLen str)
+ {
+  for(char ch : str ) if( !CharIsSpace(ch) ) return false;
+
+  return true;
+ }
+
+Convert::Convert(PrintBase &out)
+ : book(out)
+ {
+ }
+
+Convert::~Convert()
+ {
+ }
+
+void Convert::setId(String)
+ {
+ }
+
+ // frame
+
+auto Convert::frame(String str) -> TagErrorId
+ {
+  if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
+
+  return {};
  }
 
  // text
 
-bool Convert::tagH1()
+auto Convert::tagH1() -> TagErrorId
  {
-  return push<TextBuilder>(TextH1);
+  return open(Block_H1);
  }
 
-bool Convert::tagH1end()
+auto Convert::tagH1end() -> TagErrorId
  {
-  return pop<TextBuilder>(TextH1);
+  return close(Block_H1);
  }
 
-bool Convert::tagH2()
+auto Convert::tagH2() -> TagErrorId
  {
-  return push<TextBuilder>(TextH2);
+  return open(Block_H2);
  }
 
-bool Convert::tagH2end()
+auto Convert::tagH2end() -> TagErrorId
  {
-  return pop<TextBuilder>(TextH2);
+  return close(Block_H2);
  }
 
-bool Convert::tagH3()
+auto Convert::tagH3() -> TagErrorId
  {
-  return push<TextBuilder>(TextH3);
+  return open(Block_H3);
  }
 
-bool Convert::tagH3end()
+auto Convert::tagH3end() -> TagErrorId
  {
-  return pop<TextBuilder>(TextH3);
+  return close(Block_H3);
  }
 
-bool Convert::tagH4()
+auto Convert::tagH4() -> TagErrorId
  {
-  return push<TextBuilder>(TextH4);
+  return open(Block_H4);
  }
 
-bool Convert::tagH4end()
+auto Convert::tagH4end() -> TagErrorId
  {
-  return pop<TextBuilder>(TextH4);
+  return close(Block_H4);
  }
 
-bool Convert::tagH5()
+auto Convert::tagH5() -> TagErrorId
  {
-  return push<TextBuilder>(TextH5);
+  return open(Block_H5);
  }
 
-bool Convert::tagH5end()
+auto Convert::tagH5end() -> TagErrorId
  {
-  return pop<TextBuilder>(TextH5);
+  return close(Block_H5);
  }
 
-bool Convert::tagP()
+auto Convert::tagP() -> TagErrorId
  {
-  return push<TextBuilder>(TextP);
+  return open(Block_P);
  }
 
-bool Convert::tagPend()
+auto Convert::tagP(String) -> TagErrorId
  {
-  return pop<TextBuilder>(TextP);
+  return open(Block_P);
  }
 
-bool Convert::tagP(String pclass) // TODO
+auto Convert::tagPend() -> TagErrorId
  {
-  Used(pclass);
-
-  return tagP();
+  return close(Block_P);
  }
 
-bool Convert::tagPRE() // TODO
+auto Convert::tagPRE() -> TagErrorId
  {
-  return tagP();
+  return open(Block_PRE);
  }
 
-bool Convert::tagPREend() // TODO
+auto Convert::tagPREend() -> TagErrorId
  {
-  return tagPend();
+  return close(Block_PRE);
  }
-
-bool Convert::tagSPAN(String pclass) // TODO
- {
-  Used(pclass);
-
-  return true;
- }
-
-bool Convert::tagSPANend() // TODO
- {
-  return true;
- }
-
 
  // format
 
-bool Convert::tagB()
+auto Convert::tagB() -> TagErrorId
  {
-  return top.tagB();
+  return setFmt(fmt_b);
  }
 
-bool Convert::tagBend()
+auto Convert::tagBend() -> TagErrorId
  {
-  return top.tagBend();
+  return clearFmt(fmt_b);
  }
 
-bool Convert::tagI()
+auto Convert::tagI() -> TagErrorId
  {
-  return top.tagI();
+  return setFmt(fmt_i);
  }
 
-bool Convert::tagIend()
+auto Convert::tagIend() -> TagErrorId
  {
-  return top.tagIend();
+  return clearFmt(fmt_i);
+ }
+
+auto Convert::tagU() -> TagErrorId
+ {
+  return setFmt(fmt_u);
+ }
+
+auto Convert::tagUend() -> TagErrorId
+ {
+  return clearFmt(fmt_u);
+ }
+
+auto Convert::tagSUB() -> TagErrorId
+ {
+  return setFmt(fmt_sub);
+ }
+
+auto Convert::tagSUBend() -> TagErrorId
+ {
+  return clearFmt(fmt_sub);
+ }
+
+auto Convert::tagSUP() -> TagErrorId
+ {
+  return setFmt(fmt_sup);
+ }
+
+auto Convert::tagSUPend() -> TagErrorId
+ {
+  return clearFmt(fmt_sup);
+ }
+
+auto Convert::tagSPAN(String) -> TagErrorId
+ {
+  return setFmt(fmt_span);
+ }
+
+auto Convert::tagSPANend() -> TagErrorId
+ {
+  return clearFmt(fmt_span);
  }
 
  // hyperlink
 
-bool Convert::tagA(String url)
+auto Convert::tagA(String) -> TagErrorId
  {
-  if( TextBuilder *text=top.getOf<TextBuilder>() )
-    {
-     return push<ABuilder>(url,text->getSpanType());
-    }
-
-  if( ListItemBuilder *item=top.getOf<ListItemBuilder>() )
-    {
-     return push<ABuilder>(url,item->getSpanType());
-    }
-
-  return false;
+  return setFmt(fmt_a);
  }
 
-bool Convert::tagAend()
+auto Convert::tagA(String,String) -> TagErrorId
  {
-  return pop<ABuilder>();
+  return setFmt(fmt_a);
+ }
+
+auto Convert::tagAend() -> TagErrorId
+ {
+  return clearFmt(fmt_a);
  }
 
  // list
 
-bool Convert::tagOL()
+auto Convert::tagOL() -> TagErrorId
  {
-  return push<TextListBuilder>();
+  return open(Block_OL);
  }
 
-bool Convert::tagOLend()
+auto Convert::tagOLend() -> TagErrorId
  {
-  return pop<TextListBuilder>();
+  if( item ) return Error_ItemNotClosed;
+
+  return close(Block_OL);
  }
 
-bool Convert::tagLI()
+auto Convert::tagUL() -> TagErrorId
  {
-  if( TextListBuilder *list=top.getOf<TextListBuilder>() )
+  return open(Block_UL);
+ }
+
+auto Convert::tagULend() -> TagErrorId
+ {
+  if( item ) return Error_ItemNotClosed;
+
+  return close(Block_UL);
+ }
+
+auto Convert::tagLI() -> TagErrorId
+ {
+  if( inList() && !item )
     {
-     return push<ListItemBuilder>(list->nextIndex());
+     item=true;
+
+     return {};
     }
 
-  return false;
+  return Error_NotList;
  }
 
-bool Convert::tagLIend()
+auto Convert::tagLIend() -> TagErrorId
  {
-  return pop<ListItemBuilder>();
+  if( inList() && item )
+    {
+     item=false;
+
+     return noFormat();
+    }
+
+  return Error_NotItem;
  }
 
  // image
 
-bool Convert::tagImg(String file_name)
+auto Convert::tagImg(String) -> TagErrorId
  {
-  return top.tagImg(file_name);
+  if( block ) return Error_InBlock;
+
+  return {};
  }
 
  // complete
 
-bool Convert::complete()
+auto Convert::complete() -> TagErrorId
  {
-  if( stack.getLen() ) return false;
+  if( block ) return Error_InBlock;
 
-  if( FrameListBuilder *obj=top.getOf<FrameListBuilder>() )
-    {
-     complete(obj->complete());
-
-     return true;
-    }
-
-  return false;
+  return {};
  }
 
 } // namespace App

@@ -1,5 +1,4 @@
 OBJ_LIST = \
-.obj/AnyObjectPtr.o \
 .obj/Convert.o \
 .obj/ErrorId.o \
 .obj/Source.o \
@@ -8,7 +7,6 @@ OBJ_LIST = \
 
 
 ASM_LIST = \
-.obj/AnyObjectPtr.s \
 .obj/Convert.s \
 .obj/ErrorId.s \
 .obj/Source.s \
@@ -17,7 +15,6 @@ ASM_LIST = \
 
 
 DEP_LIST = \
-.obj/AnyObjectPtr.dep \
 .obj/Convert.dep \
 .obj/ErrorId.dep \
 .obj/Source.dep \
@@ -30,9 +27,6 @@ ASM_OBJ_LIST = \
 
 include $(RULES_FILE)
 
-
-.obj/AnyObjectPtr.o : src/./AnyObjectPtr.cpp
-	$(CC) $(CCOPT) $< -o $@
 
 .obj/Convert.o : src/./Convert.cpp
 	$(CC) $(CCOPT) $< -o $@
@@ -51,9 +45,6 @@ include $(RULES_FILE)
 
 
 
-.obj/AnyObjectPtr.s : src/./AnyObjectPtr.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/Convert.s : src/./Convert.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -70,9 +61,6 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 
-
-.obj/AnyObjectPtr.dep : src/./AnyObjectPtr.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/AnyObjectPtr.o $< -MF $@
 
 .obj/Convert.dep : src/./Convert.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Convert.o $< -MF $@
