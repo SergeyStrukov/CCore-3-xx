@@ -128,6 +128,8 @@ class PrintSpan
 
    explicit PrintSpan(StrLen str_) : str(str_) {}
 
+   explicit PrintSpan(const String &str_) : str(Range(str_)) {}
+
    void print(PrinterType &out) const
     {
      out.put('\"');
@@ -160,7 +162,7 @@ Book::Book(PrintBase &out_,const PageParam &param_)
 
 Book::~Book()
  {
-  Printf(out,"Page page = { #.q; ,\n{\n",param.name);
+  Printf(out,"Page page = { #; ,\n{\n",PrintSpan(param.name));
 
   ulen ind = 0 ;
 
@@ -181,7 +183,7 @@ Book::~Book()
 
  // text
 
-void Book::openText(StrLen kind)
+void Book::openText(const String &kind)
  {
   ulen ind=frames.getCount();
 
@@ -307,7 +309,7 @@ bool Convert::TestSpace(StrLen str)
   return true;
  }
 
-auto Convert::openText(BlockType bt,StrLen kind) -> TagErrorId
+auto Convert::openText(BlockType bt,const String &kind) -> TagErrorId
  {
   if( block==NoBlock )
     {
@@ -344,17 +346,17 @@ Convert::~Convert()
  {
  }
 
-void Convert::setId(String)
+void Convert::setId(String) // TODO
  {
  }
 
  // frame
 
-auto Convert::frame(String str) -> TagErrorId
+auto Convert::frame(String str) -> TagErrorId // TODO
  {
   if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
 
-  if( block==Block_P )
+  if( inText() )
     {
      book.addText(Range(str));
     }
@@ -366,62 +368,62 @@ auto Convert::frame(String str) -> TagErrorId
 
 auto Convert::tagH1() -> TagErrorId
  {
-  return open(Block_H1);
+  return openText(Block_H1,"h1"_str);
  }
 
 auto Convert::tagH1end() -> TagErrorId
  {
-  return close(Block_H1);
+  return closeText(Block_H1);
  }
 
 auto Convert::tagH2() -> TagErrorId
  {
-  return open(Block_H2);
+  return openText(Block_H2,"h2"_str);
  }
 
 auto Convert::tagH2end() -> TagErrorId
  {
-  return close(Block_H2);
+  return closeText(Block_H2);
  }
 
 auto Convert::tagH3() -> TagErrorId
  {
-  return open(Block_H3);
+  return openText(Block_H3,"h3"_str);
  }
 
 auto Convert::tagH3end() -> TagErrorId
  {
-  return close(Block_H3);
+  return closeText(Block_H3);
  }
 
 auto Convert::tagH4() -> TagErrorId
  {
-  return open(Block_H4);
+  return openText(Block_H4,"h4"_str);
  }
 
 auto Convert::tagH4end() -> TagErrorId
  {
-  return close(Block_H4);
+  return closeText(Block_H4);
  }
 
 auto Convert::tagH5() -> TagErrorId
  {
-  return open(Block_H5);
+  return openText(Block_H5,"h5"_str);
  }
 
 auto Convert::tagH5end() -> TagErrorId
  {
-  return close(Block_H5);
+  return closeText(Block_H5);
  }
 
 auto Convert::tagP() -> TagErrorId
  {
-  return openText(Block_P,"text"_c);
+  return openText(Block_P,"text"_str);
  }
 
-auto Convert::tagP(String) -> TagErrorId
+auto Convert::tagP(String tclass) -> TagErrorId
  {
-  return openText(Block_P,"text"_c);
+  return openText(Block_P,"text_"_str+tclass);
  }
 
 auto Convert::tagPend() -> TagErrorId
@@ -429,12 +431,12 @@ auto Convert::tagPend() -> TagErrorId
   return closeText(Block_P);
  }
 
-auto Convert::tagPRE() -> TagErrorId
+auto Convert::tagPRE() -> TagErrorId // TODO
  {
   return open(Block_PRE);
  }
 
-auto Convert::tagPREend() -> TagErrorId
+auto Convert::tagPREend() -> TagErrorId // TODO
  {
   return close(Block_PRE);
  }

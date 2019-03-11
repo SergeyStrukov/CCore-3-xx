@@ -50,14 +50,14 @@ class Book : NoCopy
 
    struct Frame
     {
-     StrLen kind;
+     String kind;
 
-     explicit Frame(StrLen kind_) : kind(kind_) {}
+     explicit Frame(const String &kind_) : kind(kind_) {}
     };
 
    CompactList2<Frame> frames;
 
-   StrLen kind;
+   String kind;
    ulen spanind = 0 ;
 
   private:
@@ -72,7 +72,7 @@ class Book : NoCopy
 
    // text
 
-   void openText(StrLen kind);
+   void openText(const String &kind);
 
    void addText(StrLen frame);
 
@@ -123,6 +123,7 @@ class Convert : NoCopy
      Block_H4,
      Block_H5,
      Block_P,
+
      Block_PRE,
 
      Block_OL,
@@ -147,6 +148,8 @@ class Convert : NoCopy
 
    bool notOpened() const { return !block || ( inList() && !item ) ; }
 
+   bool inText() const { return block>=Block_H1 && block<=Block_P ; }
+
    TagErrorId noFormat() const;
 
    TagErrorId open(BlockType bt);
@@ -161,7 +164,7 @@ class Convert : NoCopy
 
   private:
 
-   TagErrorId openText(BlockType bt,StrLen kind);
+   TagErrorId openText(BlockType bt,const String &kind);
 
    TagErrorId closeText(BlockType bt);
 
