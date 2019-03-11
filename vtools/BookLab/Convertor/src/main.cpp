@@ -30,7 +30,11 @@ int Main(StrLen input_file_name,StrLen output_file_name)
 
   PrintFile out(output_file_name);
 
-  Convert convert(out);
+  PageParam param;
+
+  param.name="test"_c;
+
+  Convert convert(out,param);
 
   return !src.run(convert);
  }

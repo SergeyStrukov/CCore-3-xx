@@ -15,15 +15,51 @@
 
 namespace App {
 
+namespace Private_Convert {
+
+/* class PrintPtr */
+
+class PrintPtr
+ {
+   String str;
+
+  public:
+
+   explicit PrintPtr(const String &str_) : str(str_) {}
+
+   void print(PrinterType &out) const
+    {
+     if( str.isEmpty() )
+       {
+        Putobj(out,"null"_c);
+       }
+     else
+       {
+        Printf(out,"& #;",str);
+       }
+    }
+ };
+
+} // namespace Private_Convert
+
+using namespace Private_Convert;
+
 /* class Book */
 
-Book::Book(PrintBase &out_)
- : out(out_)
+Book::Book(PrintBase &out_,const PageParam &param_)
+ : out(out_),param(param_)
  {
  }
 
 Book::~Book()
  {
+  Printf(out,"Page page = { #.q; ,\n{",param.name);
+
+  if( frame_count ) Printf(out,"f0\n");
+
+  for(ulen i=1; i<frame_count ;i++) Printf(out,",f#;\n",i);
+
+  Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
  }
 
 /* class Convert */
@@ -116,8 +152,8 @@ bool Convert::TestSpace(StrLen str)
   return true;
  }
 
-Convert::Convert(PrintBase &out)
- : book(out)
+Convert::Convert(PrintBase &out,const PageParam &param)
+ : book(out,param)
  {
  }
 

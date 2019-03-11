@@ -66,19 +66,23 @@ TextList list = {
 
 OneLine align_item = { OneLine#Left } ;
 
-Text item1 = { { { "item1" , null , &link1 } } , null , &align_item } ;
+Text item1 = { { { "item1" , null , &link1 } } , null , & align_item } ;
 
-Text item2 = { { { "item2" , null , null } } , null , &align_item } ;
+Text item2 = { { { "item2" , null , null } } , null , & align_item } ;
 
-Text item3 = { { { "item3" , null , null } } , null , &align_item } ;
+Text item3 = { { { "item3" , null , null } } , null , & align_item } ;
 
-Link link1 = { &page1 } ;
+Link link1 = { & Page1#page } ;
+
+scope Page1 {
 
 include <test.bookinc.ddl>
 
 }
 
-Book Data = { .title = "CCore 3-xx" , .start = & Pages#content , .back = 0FFEFD5h , .fore = 00h } ;
+}
+
+Book Data = { .title = "CCore 3-xx" , .start = & Pages#Page1#page , .back = 0FFEFD5h , .fore = 00h } ;
 
 
 

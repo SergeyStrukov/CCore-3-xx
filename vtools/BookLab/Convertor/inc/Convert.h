@@ -24,19 +24,34 @@ namespace App {
 
 /* classes */
 
+struct PageParam;
+
 class Book;
 
 class Convert;
+
+/* struct PageParam */
+
+struct PageParam
+ {
+  String name;
+  String up;
+  String prev;
+  String next;
+ };
 
 /* class Book */
 
 class Book : NoCopy
  {
    PrintBase &out;
+   PageParam param;
+
+   ulen frame_count = 0 ;
 
   public:
 
-   explicit Book(PrintBase &out);
+   Book(PrintBase &out,const PageParam &param);
 
    ~Book();
  };
@@ -123,7 +138,7 @@ class Convert : NoCopy
 
   public:
 
-   explicit Convert(PrintBase &out);
+   Convert(PrintBase &out,const PageParam &param);
 
    ~Convert();
 
