@@ -69,8 +69,6 @@ bool TestConvert::tagPREend() { return true; }
 
  // format
 
-bool TestConvert::tagBR() { return true; }
-
 bool TestConvert::tagB() { return true; }
 
 bool TestConvert::tagBend() { return true; }
@@ -101,8 +99,6 @@ bool TestConvert::tagA(String) { return true; }
 
 bool TestConvert::tagA(String,String) { return true; }
 
-bool TestConvert::tagAname(String) { return true; }
-
 bool TestConvert::tagAend() { return true; }
 
  // list
@@ -128,6 +124,11 @@ bool TestConvert::tagImg(String) { return true; }
 bool TestConvert::complete() { return true; }
 
 /* class LogConvert */
+
+void LogConvert::setId(String id)
+ {
+  Printf(out,"id = #.q;\n",id);
+ }
 
  // frame
 
@@ -247,13 +248,6 @@ bool LogConvert::tagPREend()
 
  // format
 
-bool LogConvert::tagBR()
- {
-  Putobj(out,"<br />\n"_c);
-
-  return true;
- }
-
 bool LogConvert::tagB()
  {
   Putobj(out,"<b>\n"_c);
@@ -350,13 +344,6 @@ bool LogConvert::tagA(String url)
 bool LogConvert::tagA(String type,String url)
  {
   Printf(out,"<a type=#.q; href=#.q; >\n",type,url);
-
-  return true;
- }
-
-bool LogConvert::tagAname(String name)
- {
-  Printf(out,"<a name=#.q; >\n",name);
 
   return true;
  }

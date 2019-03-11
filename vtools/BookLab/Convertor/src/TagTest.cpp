@@ -41,6 +41,8 @@ StrLen TagTest::ToString(int code)
 
      case Error_BR : return "BR tag"_c;
 
+     case Error_A : return "A tag"_c;
+
      default: return "???"_c;
     }
  }
@@ -276,6 +278,8 @@ auto TagTest::tagA(String,String) -> TagErrorId
 
 auto TagTest::tagAname(String) -> TagErrorId
  {
+  return Error_A;
+
   if( block ) return Error_InBlock;
 
   if( fmt_aname ) return Error_HasFmt;

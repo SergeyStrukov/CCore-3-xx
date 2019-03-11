@@ -37,7 +37,7 @@ There are several "client" classes to work with files and performes file system 
 file system devices.
 </p>
 
-<a name="AsyncFile"><h4>AsyncFile</h4></a>
+<h4 id="AsyncFile">AsyncFile</h4>
 
 <p>
 <b>AsyncFile</b> can perform read/write operation on a file, using an async file device. 
@@ -231,7 +231,7 @@ void complete_function(PacketHeader *packet_)
 
 </pre>
 
-<a name="AsyncFileSystem"><h4>AsyncFileSystem</h4></a>
+<h4 id="AsyncFileSystem">AsyncFileSystem</h4>
 
 <p>
 This class is built upon the <b>Sys::AsyncFileSystem</b> and can perform file system
@@ -315,7 +315,7 @@ Static methods do the following: they split the file name (or path), create a te
 object and use it to perform the operation. If several file names are involved then its devices must be the same.
 </p>
 
-<a name="AsyncFileToMem"><h4>AsyncFileToMem</h4></a>
+<h4 id="AsyncFileToMem">AsyncFileToMem</h4>
 
 <p>
 This class loads the given file from an async file device to the memory.
@@ -375,7 +375,7 @@ The second constructor takes the device name and the file name as first two argu
 <b>AsyncFileToMem</b> is swappable and movable.
 </p>
 
-<a name="PartAsyncFileToMem"><h4>PartAsyncFileToMem</h4></a>
+<h4 id="PartAsyncFileToMem">PartAsyncFileToMem</h4>
 
 <p>
 <b>PartAsyncFileToMem</b> can be used to load parts of a file into a memory buffer. This class loads file parts sequentially.

@@ -254,7 +254,7 @@ The new content is not initialized. An exception is thrown if there is no memory
 Other methods are standard array methods.
 </p>
 
-<a name="SimpleArray"><h4>SimpleArray</h4></a>
+<h4 id="SimpleArray">SimpleArray</h4>
 
 <p>
 <b>SimpleArray</b> is another "simple array". It is applicable to (almost) any types.
@@ -353,7 +353,7 @@ class <span class="Att">SimpleArray</span> : NoCopy
 Unlike <b>TempArray</b>, <b>SimpleArray</b> is swappable and movable.
 </p>
 
-<a name="DynArray"><h4>DynArray</h4></a>
+<h4 id="DynArray">DynArray</h4>
 
 <p>
 <b>DynArray</b> is the "main" of <b>Array</b>s. It stores elements in a memory space with some
@@ -747,7 +747,7 @@ The return value is a pointer to the created element.
 <b>DynArray</b> is swappable and movable.
 </p>
 
-<a name="RefArray"><h4>RefArray and AtomicRefArray</h4></a>
+<h4 id="RefArray">RefArray and AtomicRefArray</h4>
 
 <p>
 <b>RefArray</b> and <b>AtomicRefArray</b> are copyable arrays with efficient copy constructors.
@@ -1163,7 +1163,7 @@ modifying operations).
 <b>Collector</b> is swappable and movable.
 </p>
 
-<a name="ArrayAlgo"><h3>Array algorithms</h3></a>
+<h3 id="ArrayAlgo">Array algorithms</h3>
 
 <p>
 <b>CCore</b> <b>Array</b> implementation is based on the <b>Array Algorithm Package</b>s.
@@ -1436,7 +1436,7 @@ using <span class="Att">MiniDynArray</span> = DynArray&lt;T,ArrayAlgo_mini&lt;T&
 
 </pre>
 
-<a name="ArrayAlgoBase"><h4>ArrayAlgoBase</h4></a>
+<h4 id="ArrayAlgoBase">ArrayAlgoBase</h4>
 
 <p>
 <b>ArrayAlgoBase</b> is a common package for all <b>ArrayAlgo</b>s. 
@@ -1681,7 +1681,7 @@ struct <span class="Att">ArrayAlgoBase_nodtor</span> : ArrayAlgoMemBase
 
 </pre>
 
-<a name="Creator"><h4>Creators and Builders</h4></a>
+<h4 id="Creator">Creators and Builders</h4>
 
 <p>
 <b>Creator</b> is a functor, creating objects. It looks like this:
@@ -1740,9 +1740,9 @@ class Creator // copy efficient functor initializer
 You may use a <b>Creator</b> in a generic array "Creator" constructors and methods.
 </p>
 
-<a name="Builder"><p>
+<p id="Builder">
 <b>Builder</b> is a functor, creating a range of objects. It looks like:
-</p></a>
+</p>
 
 <pre>
 

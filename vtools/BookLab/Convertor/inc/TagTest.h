@@ -42,7 +42,8 @@ class TagTest : NoCopy
      Error_HasFmt,
      Error_NoFmt,
 
-     Error_BR
+     Error_BR,
+     Error_A
     };
 
    static StrLen ToString(int code);

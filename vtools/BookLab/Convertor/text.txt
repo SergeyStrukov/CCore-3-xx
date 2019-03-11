@@ -965,13 +965,12 @@ Other methods are standard array methods.
 
 
 </frame>
-<a name="SimpleArray" >
+id = "SimpleArray"
 <h4>
 <frame>
 SimpleArray
 </frame>
 </h4>
-</a>
 <frame>
 
 
@@ -1218,13 +1217,12 @@ SimpleArray
 
 
 </frame>
-<a name="DynArray" >
+id = "DynArray"
 <h4>
 <frame>
 DynArray
 </frame>
 </h4>
-</a>
 <frame>
 
 
@@ -2710,13 +2708,12 @@ DynArray
 
 
 </frame>
-<a name="RefArray" >
+id = "RefArray"
 <h4>
 <frame>
 RefArray and AtomicRefArray
 </frame>
 </h4>
-</a>
 <frame>
 
 
@@ -3816,13 +3813,12 @@ Collector
 
 
 </frame>
-<a name="ArrayAlgo" >
+id = "ArrayAlgo"
 <h3>
 <frame>
 Array algorithms
 </frame>
 </h3>
-</a>
 <frame>
 
 
@@ -4845,13 +4841,12 @@ MiniDynArray
 
 
 </frame>
-<a name="ArrayAlgoBase" >
+id = "ArrayAlgoBase"
 <h4>
 <frame>
 ArrayAlgoBase
 </frame>
 </h4>
-</a>
 <frame>
 
 
@@ -5524,13 +5519,12 @@ ArrayAlgoBase_nodtor
 
 
 </frame>
-<a name="Creator" >
+id = "Creator"
 <h4>
 <frame>
 Creators and Builders
 </frame>
 </h4>
-</a>
 <frame>
 
 
@@ -5649,18 +5643,17 @@ Creator
 
 
 </frame>
+id = "Builder"
 <p>
 <frame>
 
 
 </frame>
-<a name="Builder" >
 <b>
 <frame>
 Builder
 </frame>
 </b>
-</a>
 <frame>
  is a functor, creating a range of objects. It looks like:
 

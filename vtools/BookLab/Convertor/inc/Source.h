@@ -58,6 +58,7 @@ class Source : NoCopy
    StringSetScan tags;
 
    StringSetScan atype;
+   StringSetScan ptype;
 
    bool body_on = false ;
 
@@ -116,16 +117,49 @@ class Source : NoCopy
 
         switch( tags )
           {
+           case 1 :
+           case 3 :
+           case 5 :
+           case 7 :
+           case 9 :
+           case 25 :
+            {
+             if( !ProbeClose(inp) )
+               {
+                String id;
+
+                Scanf(inp," id = #.q; >",id);
+
+                proc.setId(id);
+               }
+            }
+           break;
+
            case 11 : // <p
             {
-             if( ProbeClose(inp) )
+             if( !ProbeClose(inp) )
                {
-               }
-             else
-               {
-                Scanf(inp," class = #.q; >",param);
+                Scanf(inp," #; = #.q;",ptype,param);
 
-                has_param=true;
+                if( ptype==2 )
+                  {
+                   proc.setId(param);
+
+                   Scanf(inp," >");
+                  }
+                else
+                  {
+                   has_param=true;
+
+                   if( !ProbeClose(inp) )
+                     {
+                      String id;
+
+                      Scanf(inp," id = #.q; >",id);
+
+                      proc.setId(id);
+                     }
+                  }
                }
             }
            break;
@@ -134,7 +168,7 @@ class Source : NoCopy
             {
              Scanf(inp," #; = #.q;",atype,param);
 
-             if( atype==3 )
+             if( atype==2 )
                {
                 type=param;
 
@@ -156,12 +190,6 @@ class Source : NoCopy
            case 27 : // <span
             {
              Scanf(inp," class = #.q; >",param);
-            }
-           break;
-
-           case 37 : // <br
-            {
-             Scanf(inp," />");
             }
            break;
 
@@ -216,8 +244,7 @@ class Source : NoCopy
              switch( atype )
               {
                case 1 : return step( proc.tagA(param) );
-               case 2 : return step( proc.tagAname(param) );
-               case 3 : return step( proc.tagA(type,param) );
+               case 2 : return step( proc.tagA(type,param) );
               }
 
              return false;
@@ -254,8 +281,6 @@ class Source : NoCopy
            case 35 : return step( proc.tagU() );
            case 36 : return step( proc.tagUend() );
 
-           case 37 : return step( proc.tagBR() );
-
            default: return step(UnknownTag);
           }
        }
@@ -290,10 +315,11 @@ class Source : NoCopy
            "sub","/sub",
            "sup","/sup",
            "ul","/ul",
-           "u","/u",
-           "br"},
+           "u","/u"},
 
-      atype{"href","name","type"}
+      atype{"href","type"},
+
+      ptype{"class","id"}
     {
     }
 
@@ -358,6 +384,8 @@ class TestConvert
 
    explicit TestConvert(StrLen output_file_name) { Used(output_file_name); }
 
+   void setId(String) {}
+
    // frame
 
    bool frame(String str);
@@ -396,8 +424,6 @@ class TestConvert
 
    // format
 
-   bool tagBR();
-
    bool tagB();
 
    bool tagBend();
@@ -427,8 +453,6 @@ class TestConvert
    bool tagA(String url);
 
    bool tagA(String type,String url);
-
-   bool tagAname(String name);
 
    bool tagAend();
 
@@ -465,6 +489,8 @@ class LogConvert
 
    explicit LogConvert(StrLen output_file_name) : out(output_file_name) {}
 
+   void setId(String id);
+
    // frame
 
    bool frame(String str);
@@ -503,8 +529,6 @@ class LogConvert
 
    // format
 
-   bool tagBR();
-
    bool tagB();
 
    bool tagBend();
@@ -534,8 +558,6 @@ class LogConvert
    bool tagA(String url);
 
    bool tagA(String type,String url);
-
-   bool tagAname(String name);
 
    bool tagAend();
 

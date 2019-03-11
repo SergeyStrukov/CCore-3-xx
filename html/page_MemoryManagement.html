@@ -205,7 +205,7 @@ struct <span class="Att">MemStatData</span>
 To get a heap statistic information there are two <b>Class-function</b>s:
 </p>
 
-<a name="MemStat"><pre>
+<pre id="MemStat">
 
 /* struct MemStat */
 
@@ -221,7 +221,7 @@ struct <span class="Att">MemPeak</span> : MemStatData
   MemPeak();
  };
  
-</pre></a> 
+</pre>
 
 <p>
 <b>MemStat</b> returns the current heap usage, while <b>MemPeak</b> &mdash; the peak usage.
@@ -258,7 +258,7 @@ This class is useful for the catching memory leaks.
 Another helpful <b>Property Type</b> class is the <b>MemBase</b>:
 </p>
 
-<a name="MemBase"><pre>
+<pre id="MemBase">
 
 struct <span class="Att">MemBase</span>
  {
@@ -288,7 +288,7 @@ struct <span class="Att">MemBase</span>
   void operator delete(void *mem,ulen,ulen) { MemFree(mem); }
  };
 
-</pre></a>
+</pre>
 
 <p>
 This class redefines the <b>new/delete</b> operators to use the <b>CCore</b> heap. Specify this class as the base class to make sure
