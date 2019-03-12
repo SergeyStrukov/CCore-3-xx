@@ -263,14 +263,16 @@ ulen Book::insFrame(const String &kind)
  }
 
 Book::Book(PrintBase &out_,const PageParam &param_)
- : out(out_),param(param_)
+ : out(out_),
+   param(param_),
+   title("untitled"_str)
  {
   Printf(out,"scope #; {\n\n",param.name);
  }
 
 Book::~Book()
  {
-  Printf(out,"Page page = { #; ,\n{\n",PrintSpan(param.name));
+  Printf(out,"Page page = { \"#;\" ,\n{\n",PrintText(title));
 
   ulen ind = 0 ;
 
@@ -291,6 +293,13 @@ Book::~Book()
   Putobj(out,"Link link = { &page , {0} } ;\n\n"_c);
 
   Putobj(out,"}\n\n"_c);
+ }
+
+ // title
+
+void Book::setTitle(const String &str)
+ {
+  title=str;
  }
 
  // text
@@ -635,6 +644,17 @@ Convert::Convert(PrintBase &out,const PageParam &param)
 Convert::~Convert()
  {
  }
+
+ // title
+
+void Convert::setTitle(String str)
+ {
+  title=str;
+
+  book.setTitle(str);
+ }
+
+ // id
 
 void Convert::setId(String id)
  {

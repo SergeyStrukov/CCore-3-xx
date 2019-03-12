@@ -25,6 +25,8 @@ StrLen SourceErrorId::Func(int code)
 
      case BadTagText : return "Bad tag text"_c;
 
+     case BrokenTitle : return "Broken title"_c;
+
      default: return "???"_c;
     }
  }

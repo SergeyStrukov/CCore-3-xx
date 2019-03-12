@@ -47,6 +47,7 @@ class Book : NoCopy
  {
    PrintBase &out;
    PageParam param;
+   String title;
 
    struct Frame
     {
@@ -80,6 +81,10 @@ class Book : NoCopy
    Book(PrintBase &out,const PageParam &param);
 
    ~Book();
+
+   // title
+
+   void setTitle(const String &str);
 
    // text
 
@@ -150,6 +155,8 @@ class Convert : NoCopy
 
   private:
 
+   String title;
+
    enum BlockType
     {
      NoBlock = 0,
@@ -218,6 +225,14 @@ class Convert : NoCopy
    Convert(PrintBase &out,const PageParam &param);
 
    ~Convert();
+
+   // title
+
+   const String & getTitle() const { return title; }
+
+   void setTitle(String str);
+
+   // id
 
    void setId(String id);
 

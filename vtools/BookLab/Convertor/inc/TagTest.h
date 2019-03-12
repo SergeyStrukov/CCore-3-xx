@@ -106,6 +106,12 @@ class TagTest : NoCopy
 
    TagTest() {}
 
+   // title
+
+   void setTitle(String) {}
+
+   // id
+
    void setId(String id);
 
    // frame

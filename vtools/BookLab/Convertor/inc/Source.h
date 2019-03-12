@@ -36,7 +36,8 @@ class LogConvert;
 enum SourceErrorCode
  {
   UnknownTag = 1,
-  BadTagText
+  BadTagText,
+  BrokenTitle
  };
 
 class SourceErrorId : public ErrorId
@@ -100,6 +101,37 @@ class Source : NoCopy
    bool step(bool ok)
     {
      return step(ErrorId(ok));
+    }
+
+   template <class Proc>
+   bool setTitle(Proc &proc)
+    {
+     PrintString out;
+
+     for(; +inp ;++inp)
+       {
+        char ch=*inp;
+
+        if( ch=='<' )
+          {
+           if( ProbeStr(inp,"</title>"_c) )
+             {
+              proc.setTitle(out.close());
+
+              return true;
+             }
+           else
+             {
+              return step(BrokenTitle);
+             }
+          }
+        else
+          {
+           out.put(ch);
+          }
+       }
+
+     return step(BrokenTitle);
     }
 
    template <class Proc>
@@ -336,7 +368,11 @@ class Source : NoCopy
        }
      else
        {
-        if( ProbeStr(inp,"<body>"_c) )
+        if( ProbeStr(inp,"<title>"_c) )
+          {
+           return setTitle(proc);
+          }
+        else if( ProbeStr(inp,"<body>"_c) )
           {
            body_on=true;
 
@@ -383,6 +419,12 @@ class TestConvert
    TestConvert() {}
 
    explicit TestConvert(StrLen output_file_name) { Used(output_file_name); }
+
+   // title
+
+   void setTitle(String) {}
+
+   // id
 
    void setId(String) {}
 
@@ -488,6 +530,12 @@ class LogConvert
   public:
 
    explicit LogConvert(StrLen output_file_name) : out(output_file_name) {}
+
+   // title
+
+   void setTitle(String) {}
+
+   // id
 
    void setId(String id);
 
