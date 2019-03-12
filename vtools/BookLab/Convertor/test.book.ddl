@@ -40,6 +40,10 @@ VColor back_text = NoColor ;
 
 MultiLine align_text = DefaultPlacement ;
 
+Font font_text_b = { face , 20 , True } ;
+
+Format fmt_text_b = { & font_text_b } ;
+
  // text_Files
 
 Font font_text_Files = { "Fixed" , 22 } ;
@@ -53,6 +57,10 @@ Point outer_text_Files = DefaultOuter ;
 VColor back_text_Files = NoColor ;
 
 OneLine align_text_Files = { OneLine#Left } ;
+
+Font font_text_Files_b = { "Fixed" , 22 , True } ;
+
+Format fmt_text_Files_b = { & font_text_Files_b , 0FFFFh } ;
 
  // h1
 

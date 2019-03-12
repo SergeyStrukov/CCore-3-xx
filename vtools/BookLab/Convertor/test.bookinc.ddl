@@ -1,22 +1,22 @@
 Text b0 = { {
 { "Arrays" }
-} , &fmt_h2 , &align_h2 } ;
+} , & fmt_h2 , & align_h2 } ;
 
 Text b1 = { {
 { "Files" }
-,{ "CCore/inc/Array.h" }
-,{ "CCore/src/Array.cpp" }
-} , &fmt_text_Files , &align_text_Files } ;
+,{ "CCore/inc/Array.h" , & fmt_text_Files_b }
+,{ "CCore/src/Array.cpp" , & fmt_text_Files_b }
+} , & fmt_text_Files , & align_text_Files } ;
 
 Text b2 = { {
 { "Subfolders" }
-,{ "CCore/inc/array" }
-,{ "CCore/src/array" }
-} , &fmt_text_Files , &align_text_Files } ;
+,{ "CCore/inc/array" , & fmt_text_Files_b }
+,{ "CCore/src/array" , & fmt_text_Files_b }
+} , & fmt_text_Files , & align_text_Files } ;
 
 Text b3 = { {
 { "Helpers" }
-} , &fmt_h3 , &align_h3 } ;
+} , & fmt_h3 , & align_h3 } ;
 
 Text b4 = { {
 { "There" }
@@ -31,14 +31,14 @@ Text b4 = { {
 ,{ "the" }
 ,{ "constructor" }
 ,{ "behavior." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b5 = { {
-{ "DoBuild" }
+{ "DoBuild" , & fmt_text_b }
 ,{ "and" }
-,{ "DoReserve" }
+,{ "DoReserve" , & fmt_text_b }
 ,{ "are" }
-,{ "word" }
+,{ "word" , & fmt_text_b }
 ,{ "s." }
 ,{ "They" }
 ,{ "designate" }
@@ -52,28 +52,28 @@ Text b5 = { {
 ,{ "the" }
 ,{ "constructor" }
 ,{ "respectively." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b6 = { {
-{ "DoRaw" }
+{ "DoRaw" , & fmt_text_b }
 ,{ "," }
-,{ "DoFill" }
+,{ "DoFill" , & fmt_text_b }
 ,{ "," }
-,{ "DoCopy" }
+,{ "DoCopy" , & fmt_text_b }
 ,{ "," }
-,{ "DoCast" }
+,{ "DoCast" , & fmt_text_b }
 ,{ "," }
-,{ "DoSwap" }
+,{ "DoSwap" , & fmt_text_b }
 ,{ "," }
-,{ "DoCreate" }
+,{ "DoCreate" , & fmt_text_b }
 ,{ "are" }
 ,{ "not" }
-,{ "word" }
+,{ "word" , & fmt_text_b }
 ,{ "s," }
 ,{ "but" }
-,{ "Small" }
-,{ "Data" }
-,{ "Type" }
+,{ "Small" , & fmt_text_b }
+,{ "Data" , & fmt_text_b }
+,{ "Type" , & fmt_text_b }
 ,{ "s." }
 ,{ "They" }
 ,{ "designate" }
@@ -126,20 +126,20 @@ Text b6 = { {
 ,{ "is" }
 ,{ "thrown," }
 ,{ "if" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "is" }
 ,{ "greater" }
 ,{ "than" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b7 = { {
 { "Arrays" }
-} , &fmt_h3 , &align_h3 } ;
+} , & fmt_h3 , & align_h3 } ;
 
 Text b8 = { {
-{ "Array" }
+{ "Array" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "container," }
@@ -160,7 +160,7 @@ Text b8 = { {
 ,{ "type" }
 ,{ "\"array" }
 ,{ "of\"" }
-,{ "T[Len]" }
+,{ "T[Len]" , & fmt_text_b }
 ,{ "." }
 ,{ "Unfortunately," }
 ,{ "this" }
@@ -177,13 +177,13 @@ Text b8 = { {
 ,{ "a" }
 ,{ "variety" }
 ,{ "of" }
-,{ "Array" }
+,{ "Array" , & fmt_text_b }
 ,{ "s." }
 ,{ "We" }
 ,{ "don't" }
 ,{ "use" }
 ,{ "STL" }
-,{ "vector" }
+,{ "vector" , & fmt_text_b }
 ,{ "," }
 ,{ "because" }
 ,{ "it" }
@@ -191,12 +191,12 @@ Text b8 = { {
 ,{ "has" }
 ,{ "many" }
 ,{ "deficiencies." }
-,{ "CCore" }
-,{ "Array" }
+,{ "CCore" , & fmt_text_b }
+,{ "Array" , & fmt_text_b }
 ,{ "s" }
 ,{ "use" }
 ,{ "the" }
-,{ "CCore" }
+,{ "CCore" , & fmt_text_b }
 ,{ "heap" }
 ,{ "with" }
 ,{ "its" }
@@ -207,21 +207,21 @@ Text b8 = { {
 ,{ "customizable" }
 ,{ "using" }
 ,{ "an" }
-,{ "Algorithm" }
-,{ "Package" }
+,{ "Algorithm" , & fmt_text_b }
+,{ "Package" , & fmt_text_b }
 ,{ "of" }
 ,{ "array" }
 ,{ "algorithms." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b9 = { {
-{ "CCore" }
-,{ "Array" }
+{ "CCore" , & fmt_text_b }
+,{ "Array" , & fmt_text_b }
 ,{ "s" }
 ,{ "implement" }
-,{ "Range" }
-,{ "Access" }
-,{ "Interface" }
+,{ "Range" , & fmt_text_b }
+,{ "Access" , & fmt_text_b }
+,{ "Interface" , & fmt_text_b }
 ,{ "." }
 ,{ "They" }
 ,{ "also" }
@@ -234,8 +234,8 @@ Text b9 = { {
 ,{ "through" }
 ,{ "the" }
 ,{ "overloaded" }
-,{ "operator" }
-,{ "[]" }
+,{ "operator" , & fmt_text_b }
+,{ "[]" , & fmt_text_b }
 ,{ "and" }
 ,{ "the" }
 ,{ "checked" }
@@ -244,14 +244,14 @@ Text b9 = { {
 ,{ "with" }
 ,{ "the" }
 ,{ "method" }
-,{ "at()" }
+,{ "at()" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b10 = { {
 { "Constant" }
-,{ "CCore" }
-,{ "Array" }
+,{ "CCore" , & fmt_text_b }
+,{ "Array" , & fmt_text_b }
 ,{ "s" }
 ,{ "give" }
 ,{ "constant" }
@@ -259,7 +259,7 @@ Text b10 = { {
 ,{ "to" }
 ,{ "its" }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b11 = { {
 { "Allocation" }
@@ -274,20 +274,20 @@ Text b11 = { {
 ,{ "constructors" }
 ,{ "are" }
 ,{ "no-throw." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b12 = { {
 { "The" }
 ,{ "method" }
-,{ "apply()" }
+,{ "apply()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -305,7 +305,7 @@ Text b12 = { {
 ,{ "too." }
 ,{ "The" }
 ,{ "variant" }
-,{ "apply_const()" }
+,{ "apply_const()" , & fmt_text_b }
 ,{ "also" }
 ,{ "enforces" }
 ,{ "constantness." }
@@ -317,20 +317,20 @@ Text b12 = { {
 ,{ "functor" }
 ,{ "result" }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b13 = { {
 { "The" }
 ,{ "method" }
-,{ "applyReverse()" }
+,{ "applyReverse()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -352,14 +352,14 @@ Text b13 = { {
 ,{ "too." }
 ,{ "The" }
 ,{ "variant" }
-,{ "applyReverse_const()" }
+,{ "applyReverse_const()" , & fmt_text_b }
 ,{ "also" }
 ,{ "enforces" }
 ,{ "constantness." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b14 = { {
-{ "Array" }
+{ "Array" , & fmt_text_b }
 ,{ "s" }
 ,{ "can" }
 ,{ "be" }
@@ -397,39 +397,39 @@ Text b14 = { {
 ,{ "example," }
 ,{ "to" }
 ,{ "use" }
-,{ "cloneTo()" }
+,{ "cloneTo()" , & fmt_text_b }
 ,{ "methods" }
 ,{ "the" }
 ,{ "type" }
 ,{ "must" }
 ,{ "be" }
 ,{ "copyable." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b15 = { {
 { "All" }
-,{ "CCore" }
-,{ "Array" }
+,{ "CCore" , & fmt_text_b }
+,{ "Array" , & fmt_text_b }
 ,{ "s" }
 ,{ "available" }
 ,{ "through" }
 ,{ "the" }
 ,{ "header" }
-,{ "CCore/inc/Array.h" }
+,{ "CCore/inc/Array.h" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b16 = { {
 { "TempArray" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b17 = { {
-{ "TempArray" }
+{ "TempArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "simplest" }
 ,{ "of" }
-,{ "Array" }
+,{ "Array" , & fmt_text_b }
 ,{ "s." }
 ,{ "It" }
 ,{ "is" }
@@ -458,7 +458,7 @@ Text b17 = { {
 ,{ "lengths." }
 ,{ "Use" }
 ,{ "this" }
-,{ "Array" }
+,{ "Array" , & fmt_text_b }
 ,{ "if" }
 ,{ "you" }
 ,{ "need" }
@@ -473,7 +473,7 @@ Text b17 = { {
 ,{ "the" }
 ,{ "most" }
 ,{ "cases." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b18 = { {
 { "If" }
@@ -484,10 +484,10 @@ Text b18 = { {
 ,{ "not" }
 ,{ "greater" }
 ,{ "than" }
-,{ "StackLen" }
+,{ "StackLen" , & fmt_text_b }
 ,{ "," }
 ,{ "then" }
-,{ "TempArray" }
+,{ "TempArray" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "internal" }
@@ -500,10 +500,10 @@ Text b18 = { {
 ,{ "is" }
 ,{ "dynamically" }
 ,{ "allocated." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b19 = { {
-{ "provide()" }
+{ "provide()" , & fmt_text_b }
 ,{ "ensures" }
 ,{ "the" }
 ,{ "array" }
@@ -530,10 +530,10 @@ Text b19 = { {
 ,{ "is" }
 ,{ "not" }
 ,{ "initialized." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b20 = { {
-{ "reset()" }
+{ "reset()" , & fmt_text_b }
 ,{ "recreates" }
 ,{ "the" }
 ,{ "array" }
@@ -558,10 +558,10 @@ Text b20 = { {
 ,{ "is" }
 ,{ "not" }
 ,{ "initialized." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b21 = { {
-{ "extend()" }
+{ "extend()" , & fmt_text_b }
 ,{ "extends" }
 ,{ "the" }
 ,{ "array" }
@@ -571,7 +571,7 @@ Text b21 = { {
 ,{ "given" }
 ,{ "length." }
 ,{ "If" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "is" }
 ,{ "less" }
 ,{ "or" }
@@ -587,7 +587,7 @@ Text b21 = { {
 ,{ "nothing" }
 ,{ "and" }
 ,{ "returns" }
-,{ "false" }
+,{ "false" , & fmt_text_b }
 ,{ "." }
 ,{ "Otherwise" }
 ,{ "it" }
@@ -600,7 +600,7 @@ Text b21 = { {
 ,{ "content," }
 ,{ "and" }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "." }
 ,{ "The" }
 ,{ "new" }
@@ -617,14 +617,14 @@ Text b21 = { {
 ,{ "is" }
 ,{ "no" }
 ,{ "memory." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b22 = { {
-{ "erase()" }
+{ "erase()" , & fmt_text_b }
 ,{ "erases" }
 ,{ "the" }
 ,{ "array." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b23 = { {
 { "Other" }
@@ -633,14 +633,14 @@ Text b23 = { {
 ,{ "standard" }
 ,{ "array" }
 ,{ "methods." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b24 = { {
 { "SimpleArray" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b25 = { {
-{ "SimpleArray" }
+{ "SimpleArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "another" }
 ,{ "\"simple" }
@@ -652,7 +652,7 @@ Text b25 = { {
 ,{ "(almost)" }
 ,{ "any" }
 ,{ "types." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b26 = { {
 { "The" }
@@ -660,40 +660,40 @@ Text b26 = { {
 ,{ "template" }
 ,{ "argument" }
 ,{ "of" }
-,{ "SimpleArray" }
+,{ "SimpleArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "an" }
-,{ "Algorithm" }
-,{ "Package" }
+,{ "Algorithm" , & fmt_text_b }
+,{ "Package" , & fmt_text_b }
 ,{ "of" }
 ,{ "array" }
 ,{ "algorithms." }
-,{ "SimpleArray" }
+,{ "SimpleArray" , & fmt_text_b }
 ,{ "uses" }
 ,{ "only" }
 ,{ "two" }
 ,{ "of" }
 ,{ "them:" }
-,{ "Create_default()" }
+,{ "Create_default()" , & fmt_text_b }
 ,{ "and" }
-,{ "Destroy()" }
+,{ "Destroy()" , & fmt_text_b }
 ,{ "." }
 ,{ "See" }
 ,{ "below" }
 ,{ "about" }
 ,{ "array" }
 ,{ "algorithms." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b27 = { {
-{ "SimpleArray" }
+{ "SimpleArray" , & fmt_text_b }
 ,{ "allocates" }
 ,{ "space" }
 ,{ "dynamically." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b28 = { {
-{ "SimpleArray" }
+{ "SimpleArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "std" }
 ,{ "movable." }
@@ -705,30 +705,30 @@ Text b28 = { {
 ,{ "during" }
 ,{ "the" }
 ,{ "move." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b29 = { {
 { "Unlike" }
-,{ "TempArray" }
+,{ "TempArray" , & fmt_text_b }
 ,{ "," }
-,{ "SimpleArray" }
+,{ "SimpleArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "swappable" }
 ,{ "and" }
 ,{ "movable." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b30 = { {
 { "DynArray" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b31 = { {
-{ "DynArray" }
+{ "DynArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "\"main\"" }
 ,{ "of" }
-,{ "Array" }
+,{ "Array" , & fmt_text_b }
 ,{ "s." }
 ,{ "It" }
 ,{ "stores" }
@@ -760,7 +760,7 @@ Text b31 = { {
 ,{ "and" }
 ,{ "the" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "supports" }
 ,{ "moving" }
 ,{ "," }
@@ -778,7 +778,7 @@ Text b31 = { {
 ,{ "block" }
 ,{ "extension" }
 ,{ "(using" }
-,{ "MemExtend()" }
+,{ "MemExtend()" , & fmt_text_b }
 ,{ ")" }
 ,{ "or" }
 ,{ "the" }
@@ -812,19 +812,19 @@ Text b31 = { {
 ,{ "which" }
 ,{ "is" }
 ,{ "an" }
-,{ "Algorithm" }
-,{ "Package" }
+,{ "Algorithm" , & fmt_text_b }
+,{ "Package" , & fmt_text_b }
 ,{ "of" }
 ,{ "array" }
 ,{ "algorithms." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b32 = { {
 { "Alone" }
 ,{ "with" }
 ,{ "standard" }
 ,{ "methods," }
-,{ "DynArray" }
+,{ "DynArray" , & fmt_text_b }
 ,{ "has" }
 ,{ "a" }
 ,{ "bunch" }
@@ -837,7 +837,7 @@ Text b32 = { {
 ,{ "the" }
 ,{ "array" }
 ,{ "content." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b33 = { {
 { "Non-default" }
@@ -850,10 +850,10 @@ Text b33 = { {
 ,{ "some" }
 ,{ "elements." }
 ,{ "The" }
-,{ "DoRaw" }
+,{ "DoRaw" , & fmt_text_b }
 ,{ "," }
 ,{ "...," }
-,{ "DoCreate" }
+,{ "DoCreate" , & fmt_text_b }
 ,{ "arguments" }
 ,{ "carry" }
 ,{ "the" }
@@ -868,7 +868,7 @@ Text b33 = { {
 ,{ "to" }
 ,{ "be" }
 ,{ "used." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b34 = { {
 { "Non-default" }
@@ -880,13 +880,13 @@ Text b34 = { {
 ,{ "as" }
 ,{ "the" }
 ,{ "correspondent" }
-,{ "extend...()" }
+,{ "extend...()" , & fmt_text_b }
 ,{ "methods." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b35 = { {
-{ "DynArray(std::initializer_list<S>" }
-,{ "il)" }
+{ "DynArray(std::initializer_list<S>" , & fmt_text_b }
+,{ "il)" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "initialization" }
@@ -897,28 +897,28 @@ Text b35 = { {
 ,{ "from" }
 ,{ "the" }
 ,{ "given." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b36 = { {
-{ "DynArray(ulen" }
-,{ "len)" }
+{ "DynArray(ulen" , & fmt_text_b }
+,{ "len)" , & fmt_text_b }
 ,{ "creates" }
 ,{ "the" }
 ,{ "array" }
 ,{ "of" }
 ,{ "the" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "elements" }
 ,{ "using" }
 ,{ "the" }
 ,{ "default" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b37 = { {
-{ "DynArray(ulen" }
-,{ "len,ulen" }
-,{ "maxlen)" }
+{ "DynArray(ulen" , & fmt_text_b }
+,{ "len,ulen" , & fmt_text_b }
+,{ "maxlen)" , & fmt_text_b }
 ,{ "also" }
 ,{ "performs" }
 ,{ "the" }
@@ -926,7 +926,7 @@ Text b37 = { {
 ,{ "initialization" }
 ,{ "of" }
 ,{ "the" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "elements," }
 ,{ "but" }
 ,{ "reserves" }
@@ -934,40 +934,40 @@ Text b37 = { {
 ,{ "space" }
 ,{ "for" }
 ,{ "the" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "elements." }
 ,{ "An" }
 ,{ "exception" }
 ,{ "is" }
 ,{ "thrown," }
 ,{ "if" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "is" }
 ,{ "greater" }
 ,{ "than" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b38 = { {
-{ "DynArray(DoReserveType,ulen" }
-,{ "maxlen)" }
+{ "DynArray(DoReserveType,ulen" , & fmt_text_b }
+,{ "maxlen)" , & fmt_text_b }
 ,{ "just" }
 ,{ "reserves" }
 ,{ "a" }
 ,{ "space." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b39 = { {
-{ "DynArray(DoRaw" }
-,{ "dotype)" }
+{ "DynArray(DoRaw" , & fmt_text_b }
+,{ "dotype)" , & fmt_text_b }
 ,{ "performs" }
 ,{ "the" }
 ,{ "\"raw\"" }
 ,{ "initialization." }
 ,{ "If" }
 ,{ "the" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "POD" }
@@ -983,14 +983,14 @@ Text b39 = { {
 ,{ "initialization" }
 ,{ "is" }
 ,{ "performed." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b40 = { {
-{ "DynArray(DoFill" }
-,{ "dotype,SS" }
-,{ "&&" }
-,{ "..." }
-,{ "ss)" }
+{ "DynArray(DoFill" , & fmt_text_b }
+,{ "dotype,SS" , & fmt_text_b }
+,{ "&&" , & fmt_text_b }
+,{ "..." , & fmt_text_b }
+,{ "ss)" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1005,13 +1005,13 @@ Text b40 = { {
 ,{ "to" }
 ,{ "this" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b41 = { {
-{ "DynArray(DoCopy" }
-,{ "dotype,const" }
-,{ "T" }
-,{ "src[])" }
+{ "DynArray(DoCopy" , & fmt_text_b }
+,{ "dotype,const" , & fmt_text_b }
+,{ "T" , & fmt_text_b }
+,{ "src[])" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1019,26 +1019,26 @@ Text b41 = { {
 ,{ "the" }
 ,{ "copy" }
 ,{ "constructor," }
-,{ "src" }
+,{ "src" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "range" }
 ,{ "of" }
 ,{ "length" }
-,{ "dotype.getLen()" }
+,{ "dotype.getLen()" , & fmt_text_b }
 ,{ "," }
 ,{ "its" }
 ,{ "members" }
 ,{ "are" }
 ,{ "copied" }
 ,{ "memberwise." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b42 = { {
-{ "DynArray(DoCast" }
-,{ "dotype,const" }
-,{ "S" }
-,{ "src[])" }
+{ "DynArray(DoCast" , & fmt_text_b }
+,{ "dotype,const" , & fmt_text_b }
+,{ "S" , & fmt_text_b }
+,{ "src[])" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1046,25 +1046,25 @@ Text b42 = { {
 ,{ "the" }
 ,{ "\"cast\"" }
 ,{ "constructor," }
-,{ "src" }
+,{ "src" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "range" }
 ,{ "of" }
 ,{ "length" }
-,{ "dotype.getLen()" }
+,{ "dotype.getLen()" , & fmt_text_b }
 ,{ "," }
 ,{ "its" }
 ,{ "members" }
 ,{ "are" }
 ,{ "casted" }
 ,{ "memberwise." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b43 = { {
-{ "DynArray(DoSwap" }
-,{ "dotype,T" }
-,{ "objs[])" }
+{ "DynArray(DoSwap" , & fmt_text_b }
+,{ "dotype,T" , & fmt_text_b }
+,{ "objs[])" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1089,41 +1089,41 @@ Text b43 = { {
 ,{ "of" }
 ,{ "the" }
 ,{ "range" }
-,{ "objs" }
+,{ "objs" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b44 = { {
-{ "DynArray(DoCreate" }
-,{ "dotype,CreatorType<T>" }
-,{ "creator)" }
+{ "DynArray(DoCreate" , & fmt_text_b }
+,{ "dotype,CreatorType<T>" , & fmt_text_b }
+,{ "creator)" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "given" }
-,{ "Creator" }
+,{ "Creator" , & fmt_text_b }
 ,{ "object" }
 ,{ "to" }
 ,{ "create" }
 ,{ "new" }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b45 = { {
-{ "DynArray(DoBuildType,BuilderType<T>" }
-,{ "builder)" }
+{ "DynArray(DoBuildType,BuilderType<T>" , & fmt_text_b }
+,{ "builder)" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "given" }
-,{ "Builder" }
+,{ "Builder" , & fmt_text_b }
 ,{ "object" }
 ,{ "to" }
 ,{ "create" }
 ,{ "new" }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b46 = { {
-{ "DynArray" }
+{ "DynArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "std" }
 ,{ "movable." }
@@ -1135,7 +1135,7 @@ Text b46 = { {
 ,{ "during" }
 ,{ "the" }
 ,{ "move." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b47 = { {
 { "Range" }
@@ -1152,10 +1152,10 @@ Text b47 = { {
 ,{ "report" }
 ,{ "memory" }
 ,{ "allocation." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b48 = { {
-{ "getMaxLen()" }
+{ "getMaxLen()" , & fmt_text_b }
 ,{ "returns" }
 ,{ "the" }
 ,{ "reserved" }
@@ -1163,10 +1163,10 @@ Text b48 = { {
 ,{ "length" }
 ,{ "(in" }
 ,{ "objects)." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b49 = { {
-{ "getExtraLen()" }
+{ "getExtraLen()" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "extra" }
@@ -1174,33 +1174,33 @@ Text b49 = { {
 ,{ "available" }
 ,{ "(in" }
 ,{ "objects)." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b50 = { {
-{ "isEmpty()" }
+{ "isEmpty()" , & fmt_text_b }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "iff" }
 ,{ "the" }
 ,{ "array" }
 ,{ "is" }
 ,{ "empty." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b51 = { {
-{ "notEmpty()" }
+{ "notEmpty()" , & fmt_text_b }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "iff" }
 ,{ "the" }
 ,{ "array" }
 ,{ "is" }
 ,{ "not" }
 ,{ "empty." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b52 = { {
-{ "cloneTo()" }
+{ "cloneTo()" , & fmt_text_b }
 ,{ "clones" }
 ,{ "the" }
 ,{ "array." }
@@ -1212,24 +1212,24 @@ Text b52 = { {
 ,{ "preserved." }
 ,{ "The" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "must" }
 ,{ "be" }
 ,{ "copyable." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b53 = { {
-{ "reserve()" }
+{ "reserve()" , & fmt_text_b }
 ,{ "reserves" }
 ,{ "the" }
 ,{ "space" }
 ,{ "for" }
-,{ "extra_len" }
+,{ "extra_len" , & fmt_text_b }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b54 = { {
-{ "erase()" }
+{ "erase()" , & fmt_text_b }
 ,{ "erases" }
 ,{ "the" }
 ,{ "array," }
@@ -1246,16 +1246,16 @@ Text b54 = { {
 ,{ "no" }
 ,{ "memory" }
 ,{ "allocated." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b55 = { {
-{ "shrink()" }
+{ "shrink()" , & fmt_text_b }
 ,{ "destroys" }
 ,{ "the" }
 ,{ "last" }
 ,{ "up" }
 ,{ "to" }
-,{ "delta_len" }
+,{ "delta_len" , & fmt_text_b }
 ,{ "elements" }
 ,{ "of" }
 ,{ "the" }
@@ -1267,10 +1267,10 @@ Text b55 = { {
 ,{ "of" }
 ,{ "elements" }
 ,{ "destroyed." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b56 = { {
-{ "shrink_one()" }
+{ "shrink_one()" , & fmt_text_b }
 ,{ "destroys" }
 ,{ "the" }
 ,{ "last" }
@@ -1279,7 +1279,7 @@ Text b56 = { {
 ,{ "any)." }
 ,{ "It" }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "," }
 ,{ "if" }
 ,{ "the" }
@@ -1287,16 +1287,16 @@ Text b56 = { {
 ,{ "is" }
 ,{ "destroyed," }
 ,{ "and" }
-,{ "false" }
+,{ "false" , & fmt_text_b }
 ,{ "if" }
 ,{ "the" }
 ,{ "array" }
 ,{ "is" }
 ,{ "empty." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b57 = { {
-{ "shrink_all()" }
+{ "shrink_all()" , & fmt_text_b }
 ,{ "destroys" }
 ,{ "all" }
 ,{ "array" }
@@ -1308,7 +1308,7 @@ Text b57 = { {
 ,{ "of" }
 ,{ "elements" }
 ,{ "destroyed." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b58 = { {
 { "These" }
@@ -1320,10 +1320,10 @@ Text b58 = { {
 ,{ "reserved" }
 ,{ "array" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b59 = { {
-{ "shrink_extra()" }
+{ "shrink_extra()" , & fmt_text_b }
 ,{ "shrinks" }
 ,{ "the" }
 ,{ "memory" }
@@ -1348,11 +1348,11 @@ Text b59 = { {
 ,{ "the" }
 ,{ "array" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b60 = { {
-{ "shrink_reserve(ulen" }
-,{ "maxlen)" }
+{ "shrink_reserve(ulen" , & fmt_text_b }
+,{ "maxlen)" , & fmt_text_b }
 ,{ "may" }
 ,{ "shrink" }
 ,{ "the" }
@@ -1384,20 +1384,20 @@ Text b60 = { {
 ,{ "natural" }
 ,{ "condition" }
 ,{ "satisfied:" }
-,{ "maxlen<getMaxLen()" }
+,{ "maxlen<getMaxLen()" , & fmt_text_b }
 ,{ "and" }
-,{ "maxlen>=getLen()" }
+,{ "maxlen>=getLen()" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b61 = { {
-{ "shrink_reserve()" }
+{ "shrink_reserve()" , & fmt_text_b }
 ,{ "works" }
 ,{ "as" }
-,{ "shrink_reserve(ulen" }
-,{ "maxlen)" }
+,{ "shrink_reserve(ulen" , & fmt_text_b }
+,{ "maxlen)" , & fmt_text_b }
 ,{ "with" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "equals" }
 ,{ "\"double" }
 ,{ "size\"" }
@@ -1406,10 +1406,10 @@ Text b61 = { {
 ,{ "actual" }
 ,{ "array" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b62 = { {
-{ "extend...()" }
+{ "extend...()" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "family" }
@@ -1438,7 +1438,7 @@ Text b62 = { {
 ,{ "the" }
 ,{ "first" }
 ,{ "argument" }
-,{ "delta_len" }
+,{ "delta_len" , & fmt_text_b }
 ,{ "," }
 ,{ "which" }
 ,{ "is" }
@@ -1457,7 +1457,7 @@ Text b62 = { {
 ,{ "these" }
 ,{ "new" }
 ,{ "elements." }
-,{ "extend...()" }
+,{ "extend...()" , & fmt_text_b }
 ,{ "are" }
 ,{ "transactional," }
 ,{ "i.e." }
@@ -1478,10 +1478,10 @@ Text b62 = { {
 ,{ "exception" }
 ,{ "is" }
 ,{ "thrown." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b63 = { {
-{ "extend_raw()" }
+{ "extend_raw()" , & fmt_text_b }
 ,{ "for" }
 ,{ "POD" }
 ,{ "types" }
@@ -1495,12 +1495,12 @@ Text b63 = { {
 ,{ "it" }
 ,{ "works" }
 ,{ "like" }
-,{ "extend_default()" }
+,{ "extend_default()" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b64 = { {
-{ "extend_default()" }
+{ "extend_default()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1508,10 +1508,10 @@ Text b64 = { {
 ,{ "the" }
 ,{ "default" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b65 = { {
-{ "extend_fill()" }
+{ "extend_fill()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1526,10 +1526,10 @@ Text b65 = { {
 ,{ "to" }
 ,{ "this" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b66 = { {
-{ "extend_copy()" }
+{ "extend_copy()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1537,23 +1537,23 @@ Text b66 = { {
 ,{ "the" }
 ,{ "copy" }
 ,{ "constructor," }
-,{ "src" }
+,{ "src" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "range" }
 ,{ "of" }
 ,{ "length" }
-,{ "delta_len" }
+,{ "delta_len" , & fmt_text_b }
 ,{ "," }
 ,{ "its" }
 ,{ "members" }
 ,{ "are" }
 ,{ "copied" }
 ,{ "memberwise." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b67 = { {
-{ "extend_cast()" }
+{ "extend_cast()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1561,23 +1561,23 @@ Text b67 = { {
 ,{ "the" }
 ,{ "\"cast\"" }
 ,{ "constructor," }
-,{ "src" }
+,{ "src" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "range" }
 ,{ "of" }
 ,{ "length" }
-,{ "delta_len" }
+,{ "delta_len" , & fmt_text_b }
 ,{ "," }
 ,{ "its" }
 ,{ "members" }
 ,{ "are" }
 ,{ "casted" }
 ,{ "memberwise." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b68 = { {
-{ "extend_swap()" }
+{ "extend_swap()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "new" }
 ,{ "elements" }
@@ -1602,14 +1602,14 @@ Text b68 = { {
 ,{ "of" }
 ,{ "the" }
 ,{ "range" }
-,{ "objs" }
+,{ "objs" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b69 = { {
 { "Two" }
 ,{ "final" }
-,{ "extend()" }
+,{ "extend()" , & fmt_text_b }
 ,{ "are" }
 ,{ "generic." }
 ,{ "The" }
@@ -1619,7 +1619,7 @@ Text b69 = { {
 ,{ "uses" }
 ,{ "the" }
 ,{ "given" }
-,{ "Creator" }
+,{ "Creator" , & fmt_text_b }
 ,{ "object" }
 ,{ "to" }
 ,{ "create" }
@@ -1630,21 +1630,21 @@ Text b69 = { {
 ,{ "second" }
 ,{ "uses" }
 ,{ "the" }
-,{ "Builder" }
+,{ "Builder" , & fmt_text_b }
 ,{ "." }
 ,{ "See" }
 ,{ "below" }
 ,{ "explanations" }
 ,{ "about" }
-,{ "Creator" }
+,{ "Creator" , & fmt_text_b }
 ,{ "s" }
 ,{ "and" }
-,{ "Builder" }
+,{ "Builder" , & fmt_text_b }
 ,{ "s." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b70 = { {
-{ "append...()" }
+{ "append...()" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "family" }
@@ -1663,7 +1663,7 @@ Text b70 = { {
 ,{ "to" }
 ,{ "the" }
 ,{ "correspondent" }
-,{ "extend...()" }
+,{ "extend...()" , & fmt_text_b }
 ,{ "methods" }
 ,{ "and" }
 ,{ "do" }
@@ -1671,7 +1671,7 @@ Text b70 = { {
 ,{ "the" }
 ,{ "same" }
 ,{ "with" }
-,{ "delta_len" }
+,{ "delta_len" , & fmt_text_b }
 ,{ "equals" }
 ,{ "1." }
 ,{ "The" }
@@ -1684,33 +1684,33 @@ Text b70 = { {
 ,{ "the" }
 ,{ "created" }
 ,{ "element." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b71 = { {
-{ "apply...()" }
+{ "apply...()" , & fmt_text_b }
 ,{ "methods" }
 ,{ "are" }
 ,{ "standard." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b72 = { {
-{ "DynArray" }
+{ "DynArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "swappable" }
 ,{ "and" }
 ,{ "movable." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b73 = { {
 { "RefArray" }
 ,{ "and" }
 ,{ "AtomicRefArray" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b74 = { {
-{ "RefArray" }
+{ "RefArray" , & fmt_text_b }
 ,{ "and" }
-,{ "AtomicRefArray" }
+,{ "AtomicRefArray" , & fmt_text_b }
 ,{ "are" }
 ,{ "copyable" }
 ,{ "arrays" }
@@ -1722,7 +1722,7 @@ Text b74 = { {
 ,{ "assumed," }
 ,{ "the" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "is" }
 ,{ "copyable." }
 ,{ "Multiple" }
@@ -1751,9 +1751,9 @@ Text b74 = { {
 ,{ "only" }
 ,{ "difference" }
 ,{ "between" }
-,{ "RefArray" }
+,{ "RefArray" , & fmt_text_b }
 ,{ "and" }
-,{ "AtomicRefArray" }
+,{ "AtomicRefArray" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "former" }
@@ -1769,10 +1769,10 @@ Text b74 = { {
 ,{ "a" }
 ,{ "multi-threaded" }
 ,{ "environment." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b75 = { {
-{ "RefArray" }
+{ "RefArray" , & fmt_text_b }
 ,{ "has" }
 ,{ "a" }
 ,{ "simulated" }
@@ -1801,7 +1801,7 @@ Text b75 = { {
 ,{ "That" }
 ,{ "is" }
 ,{ "because" }
-,{ "RefArray" }
+,{ "RefArray" , & fmt_text_b }
 ,{ "provides" }
 ,{ "only" }
 ,{ "a" }
@@ -1840,9 +1840,9 @@ Text b75 = { {
 ,{ "call" }
 ,{ "the" }
 ,{ "method" }
-,{ "modify()" }
+,{ "modify()" , & fmt_text_b }
 ,{ "(or" }
-,{ "modifyReverse()" }
+,{ "modifyReverse()" , & fmt_text_b }
 ,{ ")." }
 ,{ "This" }
 ,{ "method" }
@@ -1858,14 +1858,14 @@ Text b75 = { {
 ,{ "access" }
 ,{ "to" }
 ,{ "elements." }
-,{ "modifyReverse()" }
+,{ "modifyReverse()" , & fmt_text_b }
 ,{ "is" }
 ,{ "doing" }
 ,{ "the" }
 ,{ "same" }
 ,{ "thing" }
 ,{ "as" }
-,{ "modify()" }
+,{ "modify()" , & fmt_text_b }
 ,{ "," }
 ,{ "but" }
 ,{ "gives" }
@@ -1874,18 +1874,18 @@ Text b75 = { {
 ,{ "range" }
 ,{ "of" }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b76 = { {
 { "The" }
-,{ "RefArray" }
+,{ "RefArray" , & fmt_text_b }
 ,{ "methods" }
 ,{ "are" }
 ,{ "mostly" }
 ,{ "the" }
 ,{ "same" }
 ,{ "as" }
-,{ "DynArray" }
+,{ "DynArray" , & fmt_text_b }
 ,{ "methods." }
 ,{ "The" }
 ,{ "differences" }
@@ -1904,22 +1904,22 @@ Text b76 = { {
 ,{ "new" }
 ,{ "class-specific" }
 ,{ "methods" }
-,{ "modify()" }
+,{ "modify()" , & fmt_text_b }
 ,{ "and" }
-,{ "modifyReverse()" }
+,{ "modifyReverse()" , & fmt_text_b }
 ,{ "exist." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b77 = { {
-{ "apply_modify()" }
+{ "apply_modify()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -1929,18 +1929,18 @@ Text b77 = { {
 ,{ "is" }
 ,{ "unshared" }
 ,{ "first." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b78 = { {
-{ "applyReverse_modify()" }
+{ "applyReverse_modify()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -1954,18 +1954,18 @@ Text b78 = { {
 ,{ "is" }
 ,{ "unshared" }
 ,{ "first." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b79 = { {
-{ "apply()" }
+{ "apply()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -1975,18 +1975,18 @@ Text b79 = { {
 ,{ "a" }
 ,{ "constant" }
 ,{ "method." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b80 = { {
-{ "applyReverse()" }
+{ "applyReverse()" , & fmt_text_b }
 ,{ "applies" }
 ,{ "the" }
 ,{ "functor," }
 ,{ "given" }
 ,{ "by" }
 ,{ "a" }
-,{ "Functor" }
-,{ "Init" }
+,{ "Functor" , & fmt_text_b }
+,{ "Init" , & fmt_text_b }
 ,{ "," }
 ,{ "to" }
 ,{ "array" }
@@ -2000,14 +2000,14 @@ Text b80 = { {
 ,{ "a" }
 ,{ "constant" }
 ,{ "method." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b81 = { {
-{ "AtomicRefArray" }
+{ "AtomicRefArray" , & fmt_text_b }
 ,{ "methods" }
-,{ "shrink_extra()" }
+,{ "shrink_extra()" , & fmt_text_b }
 ,{ "and" }
-,{ "shrink_reserve()" }
+,{ "shrink_reserve()" , & fmt_text_b }
 ,{ "are" }
 ,{ "not" }
 ,{ "working," }
@@ -2016,16 +2016,16 @@ Text b81 = { {
 ,{ "array" }
 ,{ "is" }
 ,{ "shared." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b82 = { {
-{ "AtomicRefArray" }
+{ "AtomicRefArray" , & fmt_text_b }
 ,{ "has" }
 ,{ "an" }
 ,{ "extra" }
 ,{ "special" }
 ,{ "constructor" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b83 = { {
 { "This" }
@@ -2037,13 +2037,13 @@ Text b83 = { {
 ,{ "create" }
 ,{ "a" }
 ,{ "static" }
-,{ "AtomicRefArray" }
+,{ "AtomicRefArray" , & fmt_text_b }
 ,{ "with" }
 ,{ "unlimited" }
 ,{ "life-time." }
 ,{ "The" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "must" }
 ,{ "have" }
 ,{ "a" }
@@ -2085,7 +2085,7 @@ Text b83 = { {
 ,{ "the" }
 ,{ "meta" }
 ,{ "constant" }
-,{ "StaticMemLen" }
+,{ "StaticMemLen" , & fmt_text_b }
 ,{ "." }
 ,{ "The" }
 ,{ "object" }
@@ -2108,14 +2108,14 @@ Text b83 = { {
 ,{ "given" }
 ,{ "intializer" }
 ,{ "list." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b84 = { {
 { "Collector" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b85 = { {
-{ "Collector" }
+{ "Collector" , & fmt_text_b }
 ,{ "is" }
 ,{ "not" }
 ,{ "an" }
@@ -2172,16 +2172,16 @@ Text b85 = { {
 ,{ "can" }
 ,{ "\"flat\"" }
 ,{ "the" }
-,{ "Collector" }
+,{ "Collector" , & fmt_text_b }
 ,{ "itself." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b86 = { {
 { "The" }
 ,{ "argument" }
 ,{ "of" }
 ,{ "the" }
-,{ "Collector" }
+,{ "Collector" , & fmt_text_b }
 ,{ "constructor" }
 ,{ "is" }
 ,{ "the" }
@@ -2198,10 +2198,10 @@ Text b86 = { {
 ,{ "value" }
 ,{ "is" }
 ,{ "1024." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b87 = { {
-{ "Collector" }
+{ "Collector" , & fmt_text_b }
 ,{ "is" }
 ,{ "std" }
 ,{ "movable." }
@@ -2213,10 +2213,10 @@ Text b87 = { {
 ,{ "during" }
 ,{ "the" }
 ,{ "move." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b88 = { {
-{ "Collector" }
+{ "Collector" , & fmt_text_b }
 ,{ "does" }
 ,{ "not" }
 ,{ "provide" }
@@ -2226,33 +2226,33 @@ Text b88 = { {
 ,{ "to" }
 ,{ "its" }
 ,{ "content." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b89 = { {
-{ "isEmpty()" }
+{ "isEmpty()" , & fmt_text_b }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "iff" }
 ,{ "the" }
 ,{ "array" }
 ,{ "is" }
 ,{ "empty." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b90 = { {
-{ "notEmpty()" }
+{ "notEmpty()" , & fmt_text_b }
 ,{ "returns" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "iff" }
 ,{ "the" }
 ,{ "array" }
 ,{ "is" }
 ,{ "not" }
 ,{ "empty." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b91 = { {
-{ "getLen()" }
+{ "getLen()" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "number" }
@@ -2260,10 +2260,10 @@ Text b91 = { {
 ,{ "the" }
 ,{ "collected" }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b92 = { {
-{ "erase()" }
+{ "erase()" , & fmt_text_b }
 ,{ "cleanup" }
 ,{ "the" }
 ,{ "container" }
@@ -2274,10 +2274,10 @@ Text b92 = { {
 ,{ "the" }
 ,{ "null" }
 ,{ "state." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b93 = { {
-{ "extractTo()" }
+{ "extractTo()" , & fmt_text_b }
 ,{ "moves" }
 ,{ "the" }
 ,{ "content" }
@@ -2291,18 +2291,18 @@ Text b93 = { {
 ,{ "must" }
 ,{ "have" }
 ,{ "the" }
-,{ "Build" }
+,{ "Build" , & fmt_text_b }
 ,{ "constructor." }
-,{ "Collector" }
+,{ "Collector" , & fmt_text_b }
 ,{ "becomes" }
 ,{ "empty" }
 ,{ "after" }
 ,{ "this" }
 ,{ "operation." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b94 = { {
-{ "copyTo()" }
+{ "copyTo()" , & fmt_text_b }
 ,{ "copies" }
 ,{ "the" }
 ,{ "content" }
@@ -2316,12 +2316,12 @@ Text b94 = { {
 ,{ "must" }
 ,{ "have" }
 ,{ "the" }
-,{ "Build" }
+,{ "Build" , & fmt_text_b }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b95 = { {
-{ "flat()" }
+{ "flat()" , & fmt_text_b }
 ,{ "rebuilds" }
 ,{ "the" }
 ,{ "internal" }
@@ -2354,57 +2354,57 @@ Text b95 = { {
 ,{ "other" }
 ,{ "modifying" }
 ,{ "operations)." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b96 = { {
-{ "shrink...()" }
+{ "shrink...()" , & fmt_text_b }
 ,{ "," }
-,{ "extend...()" }
+,{ "extend...()" , & fmt_text_b }
 ,{ "and" }
-,{ "append...()" }
+,{ "append...()" , & fmt_text_b }
 ,{ "methods" }
 ,{ "are" }
 ,{ "the" }
 ,{ "same" }
 ,{ "as" }
 ,{ "for" }
-,{ "DynArray" }
+,{ "DynArray" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b97 = { {
-{ "Collector" }
+{ "Collector" , & fmt_text_b }
 ,{ "is" }
 ,{ "swappable" }
 ,{ "and" }
 ,{ "movable." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b98 = { {
 { "Array" }
 ,{ "algorithms" }
-} , &fmt_h3 , &align_h3 } ;
+} , & fmt_h3 , & align_h3 } ;
 
 Text b99 = { {
-{ "CCore" }
-,{ "Array" }
+{ "CCore" , & fmt_text_b }
+,{ "Array" , & fmt_text_b }
 ,{ "implementation" }
 ,{ "is" }
 ,{ "based" }
 ,{ "on" }
 ,{ "the" }
-,{ "Array" }
-,{ "Algorithm" }
-,{ "Package" }
+,{ "Array" , & fmt_text_b }
+,{ "Algorithm" , & fmt_text_b }
+,{ "Package" , & fmt_text_b }
 ,{ "s." }
 ,{ "The" }
 ,{ "default" }
 ,{ "package" }
 ,{ "is" }
 ,{ "the" }
-,{ "ArrayAlgo" }
+,{ "ArrayAlgo" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b100 = { {
 { "The" }
@@ -2415,20 +2415,20 @@ Text b100 = { {
 ,{ "the" }
 ,{ "kind" }
 ,{ "of" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b101 = { {
 { "If" }
 ,{ "the" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "defines" }
 ,{ "the" }
 ,{ "inner" }
 ,{ "type" }
-,{ "ArrayAlgoType" }
+,{ "ArrayAlgoType" , & fmt_text_b }
 ,{ "," }
 ,{ "then" }
 ,{ "this" }
@@ -2439,7 +2439,7 @@ Text b101 = { {
 ,{ "as" }
 ,{ "the" }
 ,{ "package." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b102 = { {
 { "Otherwise" }
@@ -2458,14 +2458,14 @@ Text b102 = { {
 ,{ "other" }
 ,{ "(class)" }
 ,{ "types." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b103 = { {
 { "ArrayAlgo_class" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b104 = { {
-{ "ArrayAlgo_class" }
+{ "ArrayAlgo_class" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "generic" }
@@ -2474,18 +2474,18 @@ Text b104 = { {
 ,{ "The" }
 ,{ "template" }
 ,{ "argument" }
-,{ "Flags" }
+,{ "Flags" , & fmt_text_b }
 ,{ "provides" }
 ,{ "two" }
 ,{ "flags:" }
-,{ "Default_no_throw" }
+,{ "Default_no_throw" , & fmt_text_b }
 ,{ "and" }
-,{ "Copy_no_throw" }
+,{ "Copy_no_throw" , & fmt_text_b }
 ,{ "." }
 ,{ "The" }
 ,{ "flag" }
 ,{ "is" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "," }
 ,{ "if" }
 ,{ "the" }
@@ -2495,7 +2495,7 @@ Text b104 = { {
 ,{ "or" }
 ,{ "copy)" }
 ,{ "is" }
-,{ "no-throw" }
+,{ "no-throw" , & fmt_text_b }
 ,{ "or" }
 ,{ "does" }
 ,{ "not" }
@@ -2508,9 +2508,9 @@ Text b104 = { {
 ,{ "class." }
 ,{ "The" }
 ,{ "flag" }
-,{ "MoveTo_exist" }
+,{ "MoveTo_exist" , & fmt_text_b }
 ,{ "is" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "for" }
 ,{ "replaceable" }
 ,{ "types." }
@@ -2527,7 +2527,7 @@ Text b104 = { {
 ,{ "memory" }
 ,{ "allocation" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b105 = { {
 { "The" }
@@ -2536,33 +2536,33 @@ Text b105 = { {
 ,{ "the" }
 ,{ "following" }
 ,{ "members." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b106 = { {
 { "Flags" }
-,{ "Default_no_throw" }
+,{ "Default_no_throw" , & fmt_text_b }
 ,{ "and" }
-,{ "Copy_no_throw" }
+,{ "Copy_no_throw" , & fmt_text_b }
 ,{ "are" }
 ,{ "copied" }
 ,{ "from" }
 ,{ "the" }
-,{ "Flags" }
+,{ "Flags" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b107 = { {
 { "Flag" }
-,{ "MoveTo_exist" }
+,{ "MoveTo_exist" , & fmt_text_b }
 ,{ "is" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "for" }
 ,{ "replaceable" }
 ,{ "types." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b108 = { {
-{ "Create_...()" }
+{ "Create_...()" , & fmt_text_b }
 ,{ "creates" }
 ,{ "a" }
 ,{ "range" }
@@ -2571,7 +2571,7 @@ Text b108 = { {
 ,{ "of" }
 ,{ "the" }
 ,{ "type" }
-,{ "T" }
+,{ "T" , & fmt_text_b }
 ,{ "at" }
 ,{ "the" }
 ,{ "given" }
@@ -2655,20 +2655,20 @@ Text b108 = { {
 ,{ "number" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b109 = { {
-{ "Create_raw()" }
+{ "Create_raw()" , & fmt_text_b }
 ,{ "and" }
-,{ "Create_default()" }
+,{ "Create_default()" , & fmt_text_b }
 ,{ "use" }
 ,{ "the" }
 ,{ "default" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b110 = { {
-{ "Create_fill()" }
+{ "Create_fill()" , & fmt_text_b }
 ,{ "uses" }
 ,{ "a" }
 ,{ "constructor" }
@@ -2681,10 +2681,10 @@ Text b110 = { {
 ,{ "for" }
 ,{ "each" }
 ,{ "object." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b111 = { {
-{ "Create_copy()" }
+{ "Create_copy()" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "copy" }
@@ -2700,10 +2700,10 @@ Text b111 = { {
 ,{ "range" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b112 = { {
-{ "Create_cast()" }
+{ "Create_cast()" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "\"cast\"" }
@@ -2719,10 +2719,10 @@ Text b112 = { {
 ,{ "range" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b113 = { {
-{ "Create_swap()" }
+{ "Create_swap()" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "default" }
@@ -2748,21 +2748,21 @@ Text b113 = { {
 ,{ "range" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b114 = { {
 { "The" }
 ,{ "single" }
-,{ "Create_swap()" }
+,{ "Create_swap()" , & fmt_text_b }
 ,{ "function" }
 ,{ "\"creates-swap\"" }
 ,{ "a" }
 ,{ "single" }
 ,{ "object." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b115 = { {
-{ "ProvideLen()" }
+{ "ProvideLen()" , & fmt_text_b }
 ,{ "is" }
 ,{ "used" }
 ,{ "to" }
@@ -2783,13 +2783,13 @@ Text b115 = { {
 ,{ "the" }
 ,{ "array." }
 ,{ "The" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "array" }
 ,{ "length," }
 ,{ "the" }
-,{ "extra_len" }
+,{ "extra_len" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "number" }
@@ -2800,7 +2800,7 @@ Text b115 = { {
 ,{ "be" }
 ,{ "constructed," }
 ,{ "the" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "allocated" }
@@ -2820,7 +2820,7 @@ Text b115 = { {
 ,{ "double" }
 ,{ "of" }
 ,{ "the" }
-,{ "maxlen" }
+,{ "maxlen" , & fmt_text_b }
 ,{ "." }
 ,{ "An" }
 ,{ "exception" }
@@ -2830,10 +2830,10 @@ Text b115 = { {
 ,{ "case" }
 ,{ "of" }
 ,{ "overflow." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b116 = { {
-{ "MoveTo()" }
+{ "MoveTo()" , & fmt_text_b }
 ,{ "moves" }
 ,{ "the" }
 ,{ "given" }
@@ -2856,7 +2856,7 @@ Text b116 = { {
 ,{ "objects" }
 ,{ "is" }
 ,{ "returned." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b117 = { {
 { "Other" }
@@ -2865,37 +2865,37 @@ Text b117 = { {
 ,{ "inherited" }
 ,{ "from" }
 ,{ "the" }
-,{ "ArrayAlgoBase<T>" }
+,{ "ArrayAlgoBase<T>" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b118 = { {
 { "ArrayAlgo_pod" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b119 = { {
-{ "ArrayAlgo_pod" }
+{ "ArrayAlgo_pod" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "POD" }
 ,{ "variant." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b120 = { {
 { "Flags" }
-,{ "Default_no_throw" }
+,{ "Default_no_throw" , & fmt_text_b }
 ,{ "," }
-,{ "Copy_no_throw" }
+,{ "Copy_no_throw" , & fmt_text_b }
 ,{ "and" }
-,{ "MoveTo_exist" }
+,{ "MoveTo_exist" , & fmt_text_b }
 ,{ "are" }
 ,{ "all" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b121 = { {
-{ "Create_raw()" }
+{ "Create_raw()" , & fmt_text_b }
 ,{ "is" }
 ,{ "not" }
 ,{ "using" }
@@ -2906,7 +2906,7 @@ Text b121 = { {
 ,{ "the" }
 ,{ "memory" }
 ,{ "uninitialized." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b122 = { {
 { "Other" }
@@ -2915,16 +2915,16 @@ Text b122 = { {
 ,{ "inherited" }
 ,{ "from" }
 ,{ "the" }
-,{ "ArrayAlgoBase_nodtor<T>" }
+,{ "ArrayAlgoBase_nodtor<T>" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b123 = { {
 { "ArrayAlgo_mini" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b124 = { {
-{ "ArrayAlgo_mini" }
+{ "ArrayAlgo_mini" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "mini" }
@@ -2939,9 +2939,9 @@ Text b124 = { {
 ,{ "that" }
 ,{ "the" }
 ,{ "destructor" }
-,{ "~T()" }
+,{ "~T()" , & fmt_text_b }
 ,{ "is" }
-,{ "no-throw" }
+,{ "no-throw" , & fmt_text_b }
 ,{ "." }
 ,{ "Swap" }
 ,{ "and" }
@@ -2949,16 +2949,16 @@ Text b124 = { {
 ,{ "are" }
 ,{ "not" }
 ,{ "used." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b125 = { {
 { "The" }
 ,{ "flag" }
-,{ "MoveTo_exist" }
+,{ "MoveTo_exist" , & fmt_text_b }
 ,{ "is" }
-,{ "false" }
+,{ "false" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b126 = { {
 { "Other" }
@@ -2967,19 +2967,19 @@ Text b126 = { {
 ,{ "inherited" }
 ,{ "from" }
 ,{ "the" }
-,{ "ArrayAlgoBase<T>" }
+,{ "ArrayAlgoBase<T>" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b127 = { {
 { "The" }
 ,{ "following" }
 ,{ "functions:" }
-,{ "Create_swap()" }
+,{ "Create_swap()" , & fmt_text_b }
 ,{ "," }
-,{ "ProvideLen()" }
+,{ "ProvideLen()" , & fmt_text_b }
 ,{ "," }
-,{ "MoveTo()" }
+,{ "MoveTo()" , & fmt_text_b }
 ,{ "are" }
 ,{ "omitted." }
 ,{ "Array," }
@@ -2997,7 +2997,7 @@ Text b127 = { {
 ,{ "memory" }
 ,{ "allocation" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b128 = { {
 { "To" }
@@ -3006,28 +3006,28 @@ Text b128 = { {
 ,{ "package" }
 ,{ "with" }
 ,{ "the" }
-,{ "DynArray" }
+,{ "DynArray" , & fmt_text_b }
 ,{ "you" }
 ,{ "can" }
 ,{ "use" }
 ,{ "the" }
 ,{ "following" }
 ,{ "type:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b129 = { {
 { "ArrayAlgoBase" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b130 = { {
-{ "ArrayAlgoBase" }
+{ "ArrayAlgoBase" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "common" }
 ,{ "package" }
 ,{ "for" }
 ,{ "all" }
-,{ "ArrayAlgo" }
+,{ "ArrayAlgo" , & fmt_text_b }
 ,{ "s." }
 ,{ "It" }
 ,{ "has" }
@@ -3036,17 +3036,17 @@ Text b130 = { {
 ,{ "common" }
 ,{ "and" }
 ,{ "specialized" }
-,{ "ArrayAlgoBase_nodtor" }
+,{ "ArrayAlgoBase_nodtor" , & fmt_text_b }
 ,{ "for" }
 ,{ "types" }
 ,{ "with" }
 ,{ "the" }
 ,{ "trivial" }
 ,{ "destructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b131 = { {
-{ "Create()" }
+{ "Create()" , & fmt_text_b }
 ,{ "uses" }
 ,{ "the" }
 ,{ "given" }
@@ -3059,11 +3059,11 @@ Text b131 = { {
 ,{ "below" }
 ,{ "about" }
 ,{ "creators." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b132 = { {
 { "Single" }
-,{ "Destroy()" }
+,{ "Destroy()" , & fmt_text_b }
 ,{ "destroys" }
 ,{ "the" }
 ,{ "object" }
@@ -3072,18 +3072,18 @@ Text b132 = { {
 ,{ "free" }
 ,{ "the" }
 ,{ "memory)." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b133 = { {
 { "Range" }
-,{ "Destroy()" }
+,{ "Destroy()" , & fmt_text_b }
 ,{ "destroys" }
 ,{ "the" }
 ,{ "given" }
 ,{ "range" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b134 = { {
 { "There" }
@@ -3112,10 +3112,10 @@ Text b134 = { {
 ,{ "case" }
 ,{ "of" }
 ,{ "failure." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b135 = { {
-{ "BuildGuard" }
+{ "BuildGuard" , & fmt_text_b }
 ,{ "is" }
 ,{ "used" }
 ,{ "to" }
@@ -3150,10 +3150,10 @@ Text b135 = { {
 ,{ "store" }
 ,{ "the" }
 ,{ "range." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b136 = { {
-{ "at()" }
+{ "at()" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "current" }
@@ -3162,12 +3162,12 @@ Text b136 = { {
 ,{ "the" }
 ,{ "object" }
 ,{ "creation." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b137 = { {
-{ "operator" }
-,{ "++" }
-,{ "()" }
+{ "operator" , & fmt_text_b }
+,{ "++" , & fmt_text_b }
+,{ "()" , & fmt_text_b }
 ,{ "must" }
 ,{ "be" }
 ,{ "called" }
@@ -3189,10 +3189,10 @@ Text b137 = { {
 ,{ "next" }
 ,{ "object" }
 ,{ "position." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b138 = { {
-{ "disarm()" }
+{ "disarm()" , & fmt_text_b }
 ,{ "is" }
 ,{ "called" }
 ,{ "after" }
@@ -3212,11 +3212,11 @@ Text b138 = { {
 ,{ "the" }
 ,{ "created" }
 ,{ "range." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b139 = { {
 { "The" }
-,{ "BuildGuard" }
+,{ "BuildGuard" , & fmt_text_b }
 ,{ "destructor" }
 ,{ "destroys" }
 ,{ "the" }
@@ -3230,10 +3230,10 @@ Text b139 = { {
 ,{ "prevent" }
 ,{ "the" }
 ,{ "destruction." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b140 = { {
-{ "CreateGuard" }
+{ "CreateGuard" , & fmt_text_b }
 ,{ "is" }
 ,{ "used" }
 ,{ "for" }
@@ -3268,10 +3268,10 @@ Text b140 = { {
 ,{ "same" }
 ,{ "as" }
 ,{ "for" }
-,{ "BuildGuard" }
+,{ "BuildGuard" , & fmt_text_b }
 ,{ "." }
 ,{ "Using" }
-,{ "CreateGuard" }
+,{ "CreateGuard" , & fmt_text_b }
 ,{ "you" }
 ,{ "must" }
 ,{ "create" }
@@ -3280,17 +3280,17 @@ Text b140 = { {
 ,{ "number" }
 ,{ "of" }
 ,{ "objects." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b141 = { {
-{ "CreateGuard_nothrow" }
+{ "CreateGuard_nothrow" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "\"no-throw\"" }
 ,{ "variant" }
 ,{ "of" }
 ,{ "the" }
-,{ "CreateGuard" }
+,{ "CreateGuard" , & fmt_text_b }
 ,{ "." }
 ,{ "It" }
 ,{ "is" }
@@ -3317,26 +3317,26 @@ Text b141 = { {
 ,{ "the" }
 ,{ "objects" }
 ,{ "construction." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b142 = { {
-{ "CreateGuardNoThrow" }
+{ "CreateGuardNoThrow" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "one" }
 ,{ "of" }
 ,{ "the" }
-,{ "CreateGuard" }
+,{ "CreateGuard" , & fmt_text_b }
 ,{ "and" }
-,{ "CreateGuard_nothrow" }
+,{ "CreateGuard_nothrow" , & fmt_text_b }
 ,{ "," }
 ,{ "depending" }
 ,{ "on" }
 ,{ "the" }
-,{ "no_throw" }
+,{ "no_throw" , & fmt_text_b }
 ,{ "template" }
 ,{ "parameter." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b143 = { {
 { "Below" }
@@ -3346,17 +3346,17 @@ Text b143 = { {
 ,{ "of" }
 ,{ "the" }
 ,{ "generic" }
-,{ "Create" }
+,{ "Create" , & fmt_text_b }
 ,{ "," }
 ,{ "it" }
 ,{ "uses" }
 ,{ "the" }
-,{ "CreateGuardNoThrow" }
+,{ "CreateGuardNoThrow" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b144 = { {
-{ "ArrayAlgoBase_nodtor<T>" }
+{ "ArrayAlgoBase_nodtor<T>" , & fmt_text_b }
 ,{ "provides" }
 ,{ "the" }
 ,{ "same" }
@@ -3370,16 +3370,16 @@ Text b144 = { {
 ,{ "to" }
 ,{ "destructor" }
 ,{ "triviality." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b145 = { {
 { "Creators" }
 ,{ "and" }
 ,{ "Builders" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b146 = { {
-{ "Creator" }
+{ "Creator" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "functor," }
@@ -3389,20 +3389,20 @@ Text b146 = { {
 ,{ "looks" }
 ,{ "like" }
 ,{ "this:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b147 = { {
 { "Or" }
 ,{ "like" }
 ,{ "this:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b148 = { {
 { "You" }
 ,{ "may" }
 ,{ "use" }
 ,{ "a" }
-,{ "Creator" }
+,{ "Creator" , & fmt_text_b }
 ,{ "in" }
 ,{ "a" }
 ,{ "generic" }
@@ -3411,10 +3411,10 @@ Text b148 = { {
 ,{ "constructors" }
 ,{ "and" }
 ,{ "methods." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b149 = { {
-{ "Builder" }
+{ "Builder" , & fmt_text_b }
 ,{ "is" }
 ,{ "a" }
 ,{ "functor," }
@@ -3426,16 +3426,16 @@ Text b149 = { {
 ,{ "It" }
 ,{ "looks" }
 ,{ "like:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b150 = { {
 { "Or" }
 ,{ "like" }
 ,{ "this:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b151 = { {
-{ "Builder" }
+{ "Builder" , & fmt_text_b }
 ,{ "reports" }
 ,{ "the" }
 ,{ "maximum" }
@@ -3447,10 +3447,10 @@ Text b151 = { {
 ,{ "through" }
 ,{ "the" }
 ,{ "method" }
-,{ "getLen()" }
+,{ "getLen()" , & fmt_text_b }
 ,{ "." }
-,{ "operator" }
-,{ "()" }
+,{ "operator" , & fmt_text_b }
+,{ "()" , & fmt_text_b }
 ,{ "gets" }
 ,{ "the" }
 ,{ "place" }
@@ -3458,7 +3458,7 @@ Text b151 = { {
 ,{ "the" }
 ,{ "range" }
 ,{ "of" }
-,{ "getLen()" }
+,{ "getLen()" , & fmt_text_b }
 ,{ "elements," }
 ,{ "it" }
 ,{ "either" }
@@ -3483,14 +3483,14 @@ Text b151 = { {
 ,{ "throws" }
 ,{ "an" }
 ,{ "exception." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b152 = { {
 { "You" }
 ,{ "may" }
 ,{ "use" }
 ,{ "a" }
-,{ "Builder" }
+,{ "Builder" , & fmt_text_b }
 ,{ "in" }
 ,{ "a" }
 ,{ "generic" }
@@ -3499,7 +3499,7 @@ Text b152 = { {
 ,{ "constructors" }
 ,{ "and" }
 ,{ "methods." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b153 = { {
 { "There" }
@@ -3510,12 +3510,12 @@ Text b153 = { {
 ,{ "creators" }
 ,{ "and" }
 ,{ "builders:" }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b154 = { {
 { "Standard" }
 ,{ "creators" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b155 = { {
 { "There" }
@@ -3525,12 +3525,12 @@ Text b155 = { {
 ,{ "of" }
 ,{ "standard" }
 ,{ "creators." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b156 = { {
 { "Memory" }
 ,{ "management" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b157 = { {
 { "All" }
@@ -3541,9 +3541,9 @@ Text b157 = { {
 ,{ "the" }
 ,{ "base" }
 ,{ "class" }
-,{ "ArrayAlgoMemBase" }
+,{ "ArrayAlgoMemBase" , & fmt_text_b }
 ,{ "." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b158 = { {
 { "This" }
@@ -3584,10 +3584,10 @@ Text b158 = { {
 ,{ "the" }
 ,{ "following" }
 ,{ "semantic." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b159 = { {
-{ "MemAlloc()" }
+{ "MemAlloc()" , & fmt_text_b }
 ,{ "allocates" }
 ,{ "a" }
 ,{ "memory" }
@@ -3608,10 +3608,10 @@ Text b159 = { {
 ,{ "case" }
 ,{ "of" }
 ,{ "error." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b160 = { {
-{ "MemFree()" }
+{ "MemFree()" , & fmt_text_b }
 ,{ "releases" }
 ,{ "the" }
 ,{ "previously" }
@@ -3627,10 +3627,10 @@ Text b160 = { {
 ,{ "the" }
 ,{ "null" }
 ,{ "argument." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b161 = { {
-{ "MemExtend()" }
+{ "MemExtend()" , & fmt_text_b }
 ,{ "tries" }
 ,{ "to" }
 ,{ "extend" }
@@ -3652,17 +3652,17 @@ Text b161 = { {
 ,{ "return" }
 ,{ "value" }
 ,{ "is" }
-,{ "true" }
+,{ "true" , & fmt_text_b }
 ,{ "," }
 ,{ "then" }
 ,{ "the" }
 ,{ "attempt" }
 ,{ "was" }
 ,{ "successful." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b162 = { {
-{ "MemShrink()" }
+{ "MemShrink()" , & fmt_text_b }
 ,{ "shrinks" }
 ,{ "the" }
 ,{ "memory" }
@@ -3681,12 +3681,12 @@ Text b162 = { {
 ,{ "is" }
 ,{ "never" }
 ,{ "used." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b163 = { {
 { "Insert/Delete" }
 ,{ "algorithms" }
-} , &fmt_h4 , &align_h4 } ;
+} , & fmt_h4 , & align_h4 } ;
 
 Text b164 = { {
 { "Insert" }
@@ -3722,7 +3722,7 @@ Text b164 = { {
 ,{ "as" }
 ,{ "free" }
 ,{ "functions." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b165 = { {
 { "These" }
@@ -3741,7 +3741,7 @@ Text b165 = { {
 ,{ "first" }
 ,{ "two" }
 ,{ "return" }
-,{ "false" }
+,{ "false" , & fmt_text_b }
 ,{ "if" }
 ,{ "the" }
 ,{ "index" }
@@ -3756,13 +3756,13 @@ Text b165 = { {
 ,{ "in" }
 ,{ "such" }
 ,{ "case." }
-,{ "CopyDel" }
+,{ "CopyDel" , & fmt_text_b }
 ,{ "copies" }
 ,{ "elements," }
-,{ "SwapDel" }
+,{ "SwapDel" , & fmt_text_b }
 ,{ "uses" }
 ,{ "swapping." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b166 = { {
 { "These" }
@@ -3799,13 +3799,13 @@ Text b166 = { {
 ,{ "the" }
 ,{ "array" }
 ,{ "range." }
-,{ "CopyDel" }
+,{ "CopyDel" , & fmt_text_b }
 ,{ "copies" }
 ,{ "elements," }
-,{ "SwapDel" }
+,{ "SwapDel" , & fmt_text_b }
 ,{ "uses" }
 ,{ "swapping." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b167 = { {
 { "These" }
@@ -3825,10 +3825,10 @@ Text b167 = { {
 ,{ "index" }
 ,{ "range" }
 ,{ "is" }
-,{ "[0,len]" }
+,{ "[0,len]" , & fmt_text_b }
 ,{ "," }
 ,{ "where" }
-,{ "len" }
+,{ "len" , & fmt_text_b }
 ,{ "is" }
 ,{ "the" }
 ,{ "array" }
@@ -3841,7 +3841,7 @@ Text b167 = { {
 ,{ "index" }
 ,{ "and" }
 ,{ "return" }
-,{ "false" }
+,{ "false" , & fmt_text_b }
 ,{ "if" }
 ,{ "the" }
 ,{ "index" }
@@ -3867,10 +3867,10 @@ Text b167 = { {
 ,{ "the" }
 ,{ "inserted" }
 ,{ "object." }
-,{ "CopyIns" }
+,{ "CopyIns" , & fmt_text_b }
 ,{ "copies" }
 ,{ "elements," }
-,{ "SwapIns" }
+,{ "SwapIns" , & fmt_text_b }
 ,{ "uses" }
 ,{ "swapping." }
 ,{ "Extra" }
@@ -3882,7 +3882,7 @@ Text b167 = { {
 ,{ "an" }
 ,{ "element" }
 ,{ "constructor." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b168 = { {
 { "All" }
@@ -3896,7 +3896,7 @@ Text b168 = { {
 ,{ "into" }
 ,{ "the" }
 ,{ "array." }
-,{ "ind" }
+,{ "ind" , & fmt_text_b }
 ,{ "determines" }
 ,{ "the" }
 ,{ "index" }
@@ -3905,7 +3905,7 @@ Text b168 = { {
 ,{ "The" }
 ,{ "range" }
 ,{ "(as" }
-,{ "PtrLen" }
+,{ "PtrLen" , & fmt_text_b }
 ,{ ")" }
 ,{ "of" }
 ,{ "created" }
@@ -3913,7 +3913,7 @@ Text b168 = { {
 ,{ "if" }
 ,{ "returned." }
 ,{ "If" }
-,{ "ind" }
+,{ "ind" , & fmt_text_b }
 ,{ "exceeds" }
 ,{ "the" }
 ,{ "array" }
@@ -3927,7 +3927,7 @@ Text b168 = { {
 ,{ "of" }
 ,{ "the" }
 ,{ "array." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b169 = { {
 { "These" }
@@ -3954,28 +3954,28 @@ Text b169 = { {
 ,{ "of" }
 ,{ "insertion" }
 ,{ "functions." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b170 = { {
-{ "ArrayInsRangeGuard()" }
+{ "ArrayInsRangeGuard()" , & fmt_text_b }
 ,{ "throws" }
 ,{ "an" }
 ,{ "exception" }
 ,{ "if" }
-,{ "ind" }
+,{ "ind" , & fmt_text_b }
 ,{ "exceeds" }
 ,{ "the" }
 ,{ "array" }
 ,{ "length." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Text b171 = { {
-{ "ArrayInsRangeFill()" }
+{ "ArrayInsRangeFill()" , & fmt_text_b }
 ,{ "extends" }
 ,{ "the" }
 ,{ "array" }
 ,{ "if" }
-,{ "ind" }
+,{ "ind" , & fmt_text_b }
 ,{ "exceeds" }
 ,{ "the" }
 ,{ "array" }
@@ -3994,183 +3994,183 @@ Text b171 = { {
 ,{ "further" }
 ,{ "extension" }
 ,{ "by" }
-,{ "count" }
+,{ "count" , & fmt_text_b }
 ,{ "elements." }
-} , &fmt_text , &align_text } ;
+} , & fmt_text , & align_text } ;
 
 Page page = { "test" ,
 {
- { &b0 , null , inner_h2 , outer_h2 , back_h2 }
- ,{ &b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
- ,{ &b2 , null , inner_text_Files , outer_text_Files , back_text_Files }
- ,{ &b3 , null , inner_h3 , outer_h3 , back_h3 }
- ,{ &b4 , null , inner_text , outer_text , back_text }
- ,{ &b5 , null , inner_text , outer_text , back_text }
- ,{ &b6 , null , inner_text , outer_text , back_text }
- ,{ &b7 , null , inner_h3 , outer_h3 , back_h3 }
- ,{ &b8 , null , inner_text , outer_text , back_text }
- ,{ &b9 , null , inner_text , outer_text , back_text }
- ,{ &b10 , null , inner_text , outer_text , back_text }
- ,{ &b11 , null , inner_text , outer_text , back_text }
- ,{ &b12 , null , inner_text , outer_text , back_text }
- ,{ &b13 , null , inner_text , outer_text , back_text }
- ,{ &b14 , null , inner_text , outer_text , back_text }
- ,{ &b15 , null , inner_text , outer_text , back_text }
- ,{ &b16 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b17 , null , inner_text , outer_text , back_text }
- ,{ &b18 , null , inner_text , outer_text , back_text }
- ,{ &b19 , null , inner_text , outer_text , back_text }
- ,{ &b20 , null , inner_text , outer_text , back_text }
- ,{ &b21 , null , inner_text , outer_text , back_text }
- ,{ &b22 , null , inner_text , outer_text , back_text }
- ,{ &b23 , null , inner_text , outer_text , back_text }
- ,{ &b24 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b25 , null , inner_text , outer_text , back_text }
- ,{ &b26 , null , inner_text , outer_text , back_text }
- ,{ &b27 , null , inner_text , outer_text , back_text }
- ,{ &b28 , null , inner_text , outer_text , back_text }
- ,{ &b29 , null , inner_text , outer_text , back_text }
- ,{ &b30 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b31 , null , inner_text , outer_text , back_text }
- ,{ &b32 , null , inner_text , outer_text , back_text }
- ,{ &b33 , null , inner_text , outer_text , back_text }
- ,{ &b34 , null , inner_text , outer_text , back_text }
- ,{ &b35 , null , inner_text , outer_text , back_text }
- ,{ &b36 , null , inner_text , outer_text , back_text }
- ,{ &b37 , null , inner_text , outer_text , back_text }
- ,{ &b38 , null , inner_text , outer_text , back_text }
- ,{ &b39 , null , inner_text , outer_text , back_text }
- ,{ &b40 , null , inner_text , outer_text , back_text }
- ,{ &b41 , null , inner_text , outer_text , back_text }
- ,{ &b42 , null , inner_text , outer_text , back_text }
- ,{ &b43 , null , inner_text , outer_text , back_text }
- ,{ &b44 , null , inner_text , outer_text , back_text }
- ,{ &b45 , null , inner_text , outer_text , back_text }
- ,{ &b46 , null , inner_text , outer_text , back_text }
- ,{ &b47 , null , inner_text , outer_text , back_text }
- ,{ &b48 , null , inner_text , outer_text , back_text }
- ,{ &b49 , null , inner_text , outer_text , back_text }
- ,{ &b50 , null , inner_text , outer_text , back_text }
- ,{ &b51 , null , inner_text , outer_text , back_text }
- ,{ &b52 , null , inner_text , outer_text , back_text }
- ,{ &b53 , null , inner_text , outer_text , back_text }
- ,{ &b54 , null , inner_text , outer_text , back_text }
- ,{ &b55 , null , inner_text , outer_text , back_text }
- ,{ &b56 , null , inner_text , outer_text , back_text }
- ,{ &b57 , null , inner_text , outer_text , back_text }
- ,{ &b58 , null , inner_text , outer_text , back_text }
- ,{ &b59 , null , inner_text , outer_text , back_text }
- ,{ &b60 , null , inner_text , outer_text , back_text }
- ,{ &b61 , null , inner_text , outer_text , back_text }
- ,{ &b62 , null , inner_text , outer_text , back_text }
- ,{ &b63 , null , inner_text , outer_text , back_text }
- ,{ &b64 , null , inner_text , outer_text , back_text }
- ,{ &b65 , null , inner_text , outer_text , back_text }
- ,{ &b66 , null , inner_text , outer_text , back_text }
- ,{ &b67 , null , inner_text , outer_text , back_text }
- ,{ &b68 , null , inner_text , outer_text , back_text }
- ,{ &b69 , null , inner_text , outer_text , back_text }
- ,{ &b70 , null , inner_text , outer_text , back_text }
- ,{ &b71 , null , inner_text , outer_text , back_text }
- ,{ &b72 , null , inner_text , outer_text , back_text }
- ,{ &b73 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b74 , null , inner_text , outer_text , back_text }
- ,{ &b75 , null , inner_text , outer_text , back_text }
- ,{ &b76 , null , inner_text , outer_text , back_text }
- ,{ &b77 , null , inner_text , outer_text , back_text }
- ,{ &b78 , null , inner_text , outer_text , back_text }
- ,{ &b79 , null , inner_text , outer_text , back_text }
- ,{ &b80 , null , inner_text , outer_text , back_text }
- ,{ &b81 , null , inner_text , outer_text , back_text }
- ,{ &b82 , null , inner_text , outer_text , back_text }
- ,{ &b83 , null , inner_text , outer_text , back_text }
- ,{ &b84 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b85 , null , inner_text , outer_text , back_text }
- ,{ &b86 , null , inner_text , outer_text , back_text }
- ,{ &b87 , null , inner_text , outer_text , back_text }
- ,{ &b88 , null , inner_text , outer_text , back_text }
- ,{ &b89 , null , inner_text , outer_text , back_text }
- ,{ &b90 , null , inner_text , outer_text , back_text }
- ,{ &b91 , null , inner_text , outer_text , back_text }
- ,{ &b92 , null , inner_text , outer_text , back_text }
- ,{ &b93 , null , inner_text , outer_text , back_text }
- ,{ &b94 , null , inner_text , outer_text , back_text }
- ,{ &b95 , null , inner_text , outer_text , back_text }
- ,{ &b96 , null , inner_text , outer_text , back_text }
- ,{ &b97 , null , inner_text , outer_text , back_text }
- ,{ &b98 , null , inner_h3 , outer_h3 , back_h3 }
- ,{ &b99 , null , inner_text , outer_text , back_text }
- ,{ &b100 , null , inner_text , outer_text , back_text }
- ,{ &b101 , null , inner_text , outer_text , back_text }
- ,{ &b102 , null , inner_text , outer_text , back_text }
- ,{ &b103 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b104 , null , inner_text , outer_text , back_text }
- ,{ &b105 , null , inner_text , outer_text , back_text }
- ,{ &b106 , null , inner_text , outer_text , back_text }
- ,{ &b107 , null , inner_text , outer_text , back_text }
- ,{ &b108 , null , inner_text , outer_text , back_text }
- ,{ &b109 , null , inner_text , outer_text , back_text }
- ,{ &b110 , null , inner_text , outer_text , back_text }
- ,{ &b111 , null , inner_text , outer_text , back_text }
- ,{ &b112 , null , inner_text , outer_text , back_text }
- ,{ &b113 , null , inner_text , outer_text , back_text }
- ,{ &b114 , null , inner_text , outer_text , back_text }
- ,{ &b115 , null , inner_text , outer_text , back_text }
- ,{ &b116 , null , inner_text , outer_text , back_text }
- ,{ &b117 , null , inner_text , outer_text , back_text }
- ,{ &b118 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b119 , null , inner_text , outer_text , back_text }
- ,{ &b120 , null , inner_text , outer_text , back_text }
- ,{ &b121 , null , inner_text , outer_text , back_text }
- ,{ &b122 , null , inner_text , outer_text , back_text }
- ,{ &b123 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b124 , null , inner_text , outer_text , back_text }
- ,{ &b125 , null , inner_text , outer_text , back_text }
- ,{ &b126 , null , inner_text , outer_text , back_text }
- ,{ &b127 , null , inner_text , outer_text , back_text }
- ,{ &b128 , null , inner_text , outer_text , back_text }
- ,{ &b129 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b130 , null , inner_text , outer_text , back_text }
- ,{ &b131 , null , inner_text , outer_text , back_text }
- ,{ &b132 , null , inner_text , outer_text , back_text }
- ,{ &b133 , null , inner_text , outer_text , back_text }
- ,{ &b134 , null , inner_text , outer_text , back_text }
- ,{ &b135 , null , inner_text , outer_text , back_text }
- ,{ &b136 , null , inner_text , outer_text , back_text }
- ,{ &b137 , null , inner_text , outer_text , back_text }
- ,{ &b138 , null , inner_text , outer_text , back_text }
- ,{ &b139 , null , inner_text , outer_text , back_text }
- ,{ &b140 , null , inner_text , outer_text , back_text }
- ,{ &b141 , null , inner_text , outer_text , back_text }
- ,{ &b142 , null , inner_text , outer_text , back_text }
- ,{ &b143 , null , inner_text , outer_text , back_text }
- ,{ &b144 , null , inner_text , outer_text , back_text }
- ,{ &b145 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b146 , null , inner_text , outer_text , back_text }
- ,{ &b147 , null , inner_text , outer_text , back_text }
- ,{ &b148 , null , inner_text , outer_text , back_text }
- ,{ &b149 , null , inner_text , outer_text , back_text }
- ,{ &b150 , null , inner_text , outer_text , back_text }
- ,{ &b151 , null , inner_text , outer_text , back_text }
- ,{ &b152 , null , inner_text , outer_text , back_text }
- ,{ &b153 , null , inner_text , outer_text , back_text }
- ,{ &b154 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b155 , null , inner_text , outer_text , back_text }
- ,{ &b156 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b157 , null , inner_text , outer_text , back_text }
- ,{ &b158 , null , inner_text , outer_text , back_text }
- ,{ &b159 , null , inner_text , outer_text , back_text }
- ,{ &b160 , null , inner_text , outer_text , back_text }
- ,{ &b161 , null , inner_text , outer_text , back_text }
- ,{ &b162 , null , inner_text , outer_text , back_text }
- ,{ &b163 , null , inner_h4 , outer_h4 , back_h4 }
- ,{ &b164 , null , inner_text , outer_text , back_text }
- ,{ &b165 , null , inner_text , outer_text , back_text }
- ,{ &b166 , null , inner_text , outer_text , back_text }
- ,{ &b167 , null , inner_text , outer_text , back_text }
- ,{ &b168 , null , inner_text , outer_text , back_text }
- ,{ &b169 , null , inner_text , outer_text , back_text }
- ,{ &b170 , null , inner_text , outer_text , back_text }
- ,{ &b171 , null , inner_text , outer_text , back_text }
+ { & b0 , null , inner_h2 , outer_h2 , back_h2 }
+ ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
+ ,{ & b2 , null , inner_text_Files , outer_text_Files , back_text_Files }
+ ,{ & b3 , null , inner_h3 , outer_h3 , back_h3 }
+ ,{ & b4 , null , inner_text , outer_text , back_text }
+ ,{ & b5 , null , inner_text , outer_text , back_text }
+ ,{ & b6 , null , inner_text , outer_text , back_text }
+ ,{ & b7 , null , inner_h3 , outer_h3 , back_h3 }
+ ,{ & b8 , null , inner_text , outer_text , back_text }
+ ,{ & b9 , null , inner_text , outer_text , back_text }
+ ,{ & b10 , null , inner_text , outer_text , back_text }
+ ,{ & b11 , null , inner_text , outer_text , back_text }
+ ,{ & b12 , null , inner_text , outer_text , back_text }
+ ,{ & b13 , null , inner_text , outer_text , back_text }
+ ,{ & b14 , null , inner_text , outer_text , back_text }
+ ,{ & b15 , null , inner_text , outer_text , back_text }
+ ,{ & b16 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b17 , null , inner_text , outer_text , back_text }
+ ,{ & b18 , null , inner_text , outer_text , back_text }
+ ,{ & b19 , null , inner_text , outer_text , back_text }
+ ,{ & b20 , null , inner_text , outer_text , back_text }
+ ,{ & b21 , null , inner_text , outer_text , back_text }
+ ,{ & b22 , null , inner_text , outer_text , back_text }
+ ,{ & b23 , null , inner_text , outer_text , back_text }
+ ,{ & b24 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b25 , null , inner_text , outer_text , back_text }
+ ,{ & b26 , null , inner_text , outer_text , back_text }
+ ,{ & b27 , null , inner_text , outer_text , back_text }
+ ,{ & b28 , null , inner_text , outer_text , back_text }
+ ,{ & b29 , null , inner_text , outer_text , back_text }
+ ,{ & b30 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b31 , null , inner_text , outer_text , back_text }
+ ,{ & b32 , null , inner_text , outer_text , back_text }
+ ,{ & b33 , null , inner_text , outer_text , back_text }
+ ,{ & b34 , null , inner_text , outer_text , back_text }
+ ,{ & b35 , null , inner_text , outer_text , back_text }
+ ,{ & b36 , null , inner_text , outer_text , back_text }
+ ,{ & b37 , null , inner_text , outer_text , back_text }
+ ,{ & b38 , null , inner_text , outer_text , back_text }
+ ,{ & b39 , null , inner_text , outer_text , back_text }
+ ,{ & b40 , null , inner_text , outer_text , back_text }
+ ,{ & b41 , null , inner_text , outer_text , back_text }
+ ,{ & b42 , null , inner_text , outer_text , back_text }
+ ,{ & b43 , null , inner_text , outer_text , back_text }
+ ,{ & b44 , null , inner_text , outer_text , back_text }
+ ,{ & b45 , null , inner_text , outer_text , back_text }
+ ,{ & b46 , null , inner_text , outer_text , back_text }
+ ,{ & b47 , null , inner_text , outer_text , back_text }
+ ,{ & b48 , null , inner_text , outer_text , back_text }
+ ,{ & b49 , null , inner_text , outer_text , back_text }
+ ,{ & b50 , null , inner_text , outer_text , back_text }
+ ,{ & b51 , null , inner_text , outer_text , back_text }
+ ,{ & b52 , null , inner_text , outer_text , back_text }
+ ,{ & b53 , null , inner_text , outer_text , back_text }
+ ,{ & b54 , null , inner_text , outer_text , back_text }
+ ,{ & b55 , null , inner_text , outer_text , back_text }
+ ,{ & b56 , null , inner_text , outer_text , back_text }
+ ,{ & b57 , null , inner_text , outer_text , back_text }
+ ,{ & b58 , null , inner_text , outer_text , back_text }
+ ,{ & b59 , null , inner_text , outer_text , back_text }
+ ,{ & b60 , null , inner_text , outer_text , back_text }
+ ,{ & b61 , null , inner_text , outer_text , back_text }
+ ,{ & b62 , null , inner_text , outer_text , back_text }
+ ,{ & b63 , null , inner_text , outer_text , back_text }
+ ,{ & b64 , null , inner_text , outer_text , back_text }
+ ,{ & b65 , null , inner_text , outer_text , back_text }
+ ,{ & b66 , null , inner_text , outer_text , back_text }
+ ,{ & b67 , null , inner_text , outer_text , back_text }
+ ,{ & b68 , null , inner_text , outer_text , back_text }
+ ,{ & b69 , null , inner_text , outer_text , back_text }
+ ,{ & b70 , null , inner_text , outer_text , back_text }
+ ,{ & b71 , null , inner_text , outer_text , back_text }
+ ,{ & b72 , null , inner_text , outer_text , back_text }
+ ,{ & b73 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b74 , null , inner_text , outer_text , back_text }
+ ,{ & b75 , null , inner_text , outer_text , back_text }
+ ,{ & b76 , null , inner_text , outer_text , back_text }
+ ,{ & b77 , null , inner_text , outer_text , back_text }
+ ,{ & b78 , null , inner_text , outer_text , back_text }
+ ,{ & b79 , null , inner_text , outer_text , back_text }
+ ,{ & b80 , null , inner_text , outer_text , back_text }
+ ,{ & b81 , null , inner_text , outer_text , back_text }
+ ,{ & b82 , null , inner_text , outer_text , back_text }
+ ,{ & b83 , null , inner_text , outer_text , back_text }
+ ,{ & b84 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b85 , null , inner_text , outer_text , back_text }
+ ,{ & b86 , null , inner_text , outer_text , back_text }
+ ,{ & b87 , null , inner_text , outer_text , back_text }
+ ,{ & b88 , null , inner_text , outer_text , back_text }
+ ,{ & b89 , null , inner_text , outer_text , back_text }
+ ,{ & b90 , null , inner_text , outer_text , back_text }
+ ,{ & b91 , null , inner_text , outer_text , back_text }
+ ,{ & b92 , null , inner_text , outer_text , back_text }
+ ,{ & b93 , null , inner_text , outer_text , back_text }
+ ,{ & b94 , null , inner_text , outer_text , back_text }
+ ,{ & b95 , null , inner_text , outer_text , back_text }
+ ,{ & b96 , null , inner_text , outer_text , back_text }
+ ,{ & b97 , null , inner_text , outer_text , back_text }
+ ,{ & b98 , null , inner_h3 , outer_h3 , back_h3 }
+ ,{ & b99 , null , inner_text , outer_text , back_text }
+ ,{ & b100 , null , inner_text , outer_text , back_text }
+ ,{ & b101 , null , inner_text , outer_text , back_text }
+ ,{ & b102 , null , inner_text , outer_text , back_text }
+ ,{ & b103 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b104 , null , inner_text , outer_text , back_text }
+ ,{ & b105 , null , inner_text , outer_text , back_text }
+ ,{ & b106 , null , inner_text , outer_text , back_text }
+ ,{ & b107 , null , inner_text , outer_text , back_text }
+ ,{ & b108 , null , inner_text , outer_text , back_text }
+ ,{ & b109 , null , inner_text , outer_text , back_text }
+ ,{ & b110 , null , inner_text , outer_text , back_text }
+ ,{ & b111 , null , inner_text , outer_text , back_text }
+ ,{ & b112 , null , inner_text , outer_text , back_text }
+ ,{ & b113 , null , inner_text , outer_text , back_text }
+ ,{ & b114 , null , inner_text , outer_text , back_text }
+ ,{ & b115 , null , inner_text , outer_text , back_text }
+ ,{ & b116 , null , inner_text , outer_text , back_text }
+ ,{ & b117 , null , inner_text , outer_text , back_text }
+ ,{ & b118 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b119 , null , inner_text , outer_text , back_text }
+ ,{ & b120 , null , inner_text , outer_text , back_text }
+ ,{ & b121 , null , inner_text , outer_text , back_text }
+ ,{ & b122 , null , inner_text , outer_text , back_text }
+ ,{ & b123 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b124 , null , inner_text , outer_text , back_text }
+ ,{ & b125 , null , inner_text , outer_text , back_text }
+ ,{ & b126 , null , inner_text , outer_text , back_text }
+ ,{ & b127 , null , inner_text , outer_text , back_text }
+ ,{ & b128 , null , inner_text , outer_text , back_text }
+ ,{ & b129 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b130 , null , inner_text , outer_text , back_text }
+ ,{ & b131 , null , inner_text , outer_text , back_text }
+ ,{ & b132 , null , inner_text , outer_text , back_text }
+ ,{ & b133 , null , inner_text , outer_text , back_text }
+ ,{ & b134 , null , inner_text , outer_text , back_text }
+ ,{ & b135 , null , inner_text , outer_text , back_text }
+ ,{ & b136 , null , inner_text , outer_text , back_text }
+ ,{ & b137 , null , inner_text , outer_text , back_text }
+ ,{ & b138 , null , inner_text , outer_text , back_text }
+ ,{ & b139 , null , inner_text , outer_text , back_text }
+ ,{ & b140 , null , inner_text , outer_text , back_text }
+ ,{ & b141 , null , inner_text , outer_text , back_text }
+ ,{ & b142 , null , inner_text , outer_text , back_text }
+ ,{ & b143 , null , inner_text , outer_text , back_text }
+ ,{ & b144 , null , inner_text , outer_text , back_text }
+ ,{ & b145 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b146 , null , inner_text , outer_text , back_text }
+ ,{ & b147 , null , inner_text , outer_text , back_text }
+ ,{ & b148 , null , inner_text , outer_text , back_text }
+ ,{ & b149 , null , inner_text , outer_text , back_text }
+ ,{ & b150 , null , inner_text , outer_text , back_text }
+ ,{ & b151 , null , inner_text , outer_text , back_text }
+ ,{ & b152 , null , inner_text , outer_text , back_text }
+ ,{ & b153 , null , inner_text , outer_text , back_text }
+ ,{ & b154 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b155 , null , inner_text , outer_text , back_text }
+ ,{ & b156 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b157 , null , inner_text , outer_text , back_text }
+ ,{ & b158 , null , inner_text , outer_text , back_text }
+ ,{ & b159 , null , inner_text , outer_text , back_text }
+ ,{ & b160 , null , inner_text , outer_text , back_text }
+ ,{ & b161 , null , inner_text , outer_text , back_text }
+ ,{ & b162 , null , inner_text , outer_text , back_text }
+ ,{ & b163 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b164 , null , inner_text , outer_text , back_text }
+ ,{ & b165 , null , inner_text , outer_text , back_text }
+ ,{ & b166 , null , inner_text , outer_text , back_text }
+ ,{ & b167 , null , inner_text , outer_text , back_text }
+ ,{ & b168 , null , inner_text , outer_text , back_text }
+ ,{ & b169 , null , inner_text , outer_text , back_text }
+ ,{ & b170 , null , inner_text , outer_text , back_text }
+ ,{ & b171 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 

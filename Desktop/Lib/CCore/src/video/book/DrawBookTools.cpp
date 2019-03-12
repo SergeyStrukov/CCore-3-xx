@@ -32,7 +32,7 @@ bool InsSpace(StrLen text)
 
   switch( *text )
     {
-     case '.' : case ',' : case ';' : case ':' : return false;
+     case '.' : case ',' : case ';' : case ':' : case ')' : return false;
 
      default: return true;
     }

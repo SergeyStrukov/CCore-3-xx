@@ -146,11 +146,14 @@ using namespace Private_Convert;
 
 /* class Book */
 
-void Book::addSpan(StrLen str)
+void Book::addSpan(StrLen str,StrLen fmt)
  {
   if( spanind ) out.put(',');
 
-  Printf(out,"{ #; }\n",PrintSpan(str));
+  if( !fmt )
+    Printf(out,"{ #; }\n",PrintSpan(str));
+  else
+    Printf(out,"{ #; , & fmt_#;_#; }\n",PrintSpan(str),kind,fmt);
 
   spanind++;
  }
@@ -172,7 +175,7 @@ Book::~Book()
 
                      if( ind ) out.put(',');
 
-                     Printf(out,"{ &b#; , null , inner_#; , outer_#; , back_#; }\n",ind,frame.kind,frame.kind,frame.kind);
+                     Printf(out,"{ & b#; , null , inner_#; , outer_#; , back_#; }\n",ind,frame.kind,frame.kind,frame.kind);
 
                      ind++;
 
@@ -196,7 +199,7 @@ void Book::openText(const String &kind)
   spanind=0;
  }
 
-void Book::addText(StrLen frame)
+void Book::addText(StrLen frame,StrLen fmt)
  {
   for(;;)
     {
@@ -208,7 +211,7 @@ void Book::addText(StrLen frame)
 
      SkipNonSpace(next);
 
-     addSpan(frame.prefix(next));
+     addSpan(frame.prefix(next),fmt);
 
      frame=next;
     }
@@ -216,7 +219,7 @@ void Book::addText(StrLen frame)
 
 void Book::closeText()
  {
-  Printf(out,"} , &fmt_#; , &align_#; } ;\n\n",kind,kind);
+  Printf(out,"} , & fmt_#; , & align_#; } ;\n\n",kind,kind);
  }
 
 /* class Convert */
@@ -290,6 +293,8 @@ auto Convert::setFmt(bool &flag) -> TagErrorId
 
   flag=true;
 
+  prepareFmt();
+
   return {};
  }
 
@@ -299,6 +304,8 @@ auto Convert::clearFmt(bool &flag) -> TagErrorId
 
   flag=false;
 
+  prepareFmt();
+
   return {};
  }
 
@@ -307,6 +314,35 @@ bool Convert::TestSpace(StrLen str)
   for(char ch : str ) if( !CharIsSpace(ch) ) return false;
 
   return true;
+ }
+
+void Convert::prepareFmt() // TODO
+ {
+  if( fmt_span )
+    {
+     fmt=spanclass;
+    }
+  else
+    {
+     char temp[3];
+     unsigned len=0;
+
+     if( fmt_b ) temp[len++]='b';
+
+     if( fmt_i ) temp[len++]='i';
+
+     if( fmt_u ) temp[len++]='u';
+
+     if( len )
+       fmt=StrLen(temp,len);
+     else
+       fmt=Empty;
+    }
+ }
+
+StrLen Convert::getFmt() const
+ {
+  return Range(fmt);
  }
 
 auto Convert::openText(BlockType bt,const String &kind) -> TagErrorId
@@ -352,13 +388,13 @@ void Convert::setId(String) // TODO
 
  // frame
 
-auto Convert::frame(String str) -> TagErrorId // TODO
+auto Convert::frame(String str) -> TagErrorId
  {
   if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
 
   if( inText() )
     {
-     book.addText(Range(str));
+     book.addText(Range(str),getFmt());
     }
 
   return {};
@@ -493,8 +529,10 @@ auto Convert::tagSUPend() -> TagErrorId
   return clearFmt(fmt_sup);
  }
 
-auto Convert::tagSPAN(String) -> TagErrorId
+auto Convert::tagSPAN(String sclass) -> TagErrorId
  {
+  spanclass=sclass;
+
   return setFmt(fmt_span);
  }
 
@@ -505,48 +543,48 @@ auto Convert::tagSPANend() -> TagErrorId
 
  // hyperlink
 
-auto Convert::tagA(String) -> TagErrorId
+auto Convert::tagA(String) -> TagErrorId // TODO
  {
   return setFmt(fmt_a);
  }
 
-auto Convert::tagA(String,String) -> TagErrorId
+auto Convert::tagA(String,String) -> TagErrorId // TODO
  {
   return setFmt(fmt_a);
  }
 
-auto Convert::tagAend() -> TagErrorId
+auto Convert::tagAend() -> TagErrorId // TODO
  {
   return clearFmt(fmt_a);
  }
 
  // list
 
-auto Convert::tagOL() -> TagErrorId
+auto Convert::tagOL() -> TagErrorId // TODO
  {
   return open(Block_OL);
  }
 
-auto Convert::tagOLend() -> TagErrorId
+auto Convert::tagOLend() -> TagErrorId // TODO
  {
   if( item ) return Error_ItemNotClosed;
 
   return close(Block_OL);
  }
 
-auto Convert::tagUL() -> TagErrorId
+auto Convert::tagUL() -> TagErrorId // TODO
  {
   return open(Block_UL);
  }
 
-auto Convert::tagULend() -> TagErrorId
+auto Convert::tagULend() -> TagErrorId // TODO
  {
   if( item ) return Error_ItemNotClosed;
 
   return close(Block_UL);
  }
 
-auto Convert::tagLI() -> TagErrorId
+auto Convert::tagLI() -> TagErrorId // TODO
  {
   if( inList() && !item )
     {
@@ -558,7 +596,7 @@ auto Convert::tagLI() -> TagErrorId
   return Error_NotList;
  }
 
-auto Convert::tagLIend() -> TagErrorId
+auto Convert::tagLIend() -> TagErrorId // TODO
  {
   if( inList() && item )
     {
@@ -572,7 +610,7 @@ auto Convert::tagLIend() -> TagErrorId
 
  // image
 
-auto Convert::tagImg(String) -> TagErrorId
+auto Convert::tagImg(String) -> TagErrorId // TODO
  {
   if( block ) return Error_InBlock;
 

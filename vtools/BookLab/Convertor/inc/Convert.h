@@ -62,7 +62,7 @@ class Book : NoCopy
 
   private:
 
-   void addSpan(StrLen str);
+   void addSpan(StrLen str,StrLen fmt);
 
   public:
 
@@ -74,7 +74,7 @@ class Book : NoCopy
 
    void openText(const String &kind);
 
-   void addText(StrLen frame);
+   void addText(StrLen frame,StrLen fmt);
 
    void closeText();
  };
@@ -138,9 +138,13 @@ class Convert : NoCopy
    bool fmt_u = false ;
    bool fmt_sub = false ;
    bool fmt_sup = false ;
+
    bool fmt_span = false ;
+   String spanclass;
 
    bool fmt_a = false ;
+
+   String fmt;
 
   private:
 
@@ -163,6 +167,10 @@ class Convert : NoCopy
    static bool TestSpace(StrLen str);
 
   private:
+
+   void prepareFmt();
+
+   StrLen getFmt() const;
 
    TagErrorId openText(BlockType bt,const String &kind);
 
