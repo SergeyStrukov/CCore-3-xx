@@ -243,6 +243,8 @@ TextList list = {
 { "2." , { { & item2 , null , { 0 , 0 } , { 0 , 0 } } } }
 ,
 { "3." , { { & item3 , null , { 0 , 0 } , { 0 , 0 } } } }
+,
+{ "4." , { { & item4 , null , { 0 , 0 } , { 0 , 0 } } } }
 
 }
 
@@ -256,11 +258,15 @@ Text item2 = { { { "Arrays" , null , &link2 } } , null , & align_item } ;
 
 Text item3 = { { { "Lists" , null , &link3 } } , null , & align_item } ;
 
+Text item4 = { { { "EllipticPi" , null , &link4 } } , null , & align_item } ;
+
 Link link1 = { &page_Abort#page } ;
 
 Link link2 = { &page_Arrays#page } ;
 
 Link link3 = { &page_Lists#page } ;
+
+Link link4 = { &page_EllipticPi#page } ;
 
 include <test.bookinc.ddl>
 

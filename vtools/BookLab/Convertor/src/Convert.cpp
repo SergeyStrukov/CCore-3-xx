@@ -84,6 +84,20 @@ class PrintSpan
         return;
        }
 
+     if( text.equal("minus"_c) )
+       {
+        Putobj(out,"−"_c);
+
+        return;
+       }
+
+     if( text.equal("pi"_c) )
+       {
+        Putobj(out,"π"_c);
+
+        return;
+       }
+
      out.put('$');
     }
 
@@ -208,7 +222,7 @@ using namespace Private_Convert;
 
 /* class Book */
 
-void Book::addSpan(StrLen str,StrLen fmt) // TODO
+void Book::addSpan(StrLen str,StrLen fmt)
  {
   out.put(' ');
 
@@ -217,9 +231,9 @@ void Book::addSpan(StrLen str,StrLen fmt) // TODO
   if( has_link )
     {
      if( !fmt )
-       Printf(out,"{ #; , null , & link_#; }\n",PrintSpan(str),link);
+       Printf(out,"{ #; , null , & #; }\n",PrintSpan(str),link);
      else
-       Printf(out,"{ #; , & fmt_#;_#; , & link_#; }\n",PrintSpan(str),kind,fmt,link);
+       Printf(out,"{ #; , & fmt_#;_#; , & #; }\n",PrintSpan(str),kind,fmt,link);
     }
   else
     {
@@ -273,6 +287,8 @@ Book::~Book()
                     } );
 
   Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
+
+  Putobj(out,"Link link = { &page , {0} } ;\n\n"_c);
 
   Putobj(out,"}\n\n"_c);
  }
@@ -400,17 +416,54 @@ void Book::setId(const String &id_)
   has_id=true;
  }
 
-void Book::setLink(const String &url) // TODO
+void Book::setLink(const String &url)
  {
   StrLen str=Range(url);
 
-  if( +str && *str=='#' )
+  if( !str ) return;
+
+  if( *str=='#' )
     {
      ++str;
 
-     link=str;
+     link=StringCat("link_"_c,str);
 
      has_link=true;
+    }
+  else if( str.hasPrefix("page_"_c) )
+    {
+     StrLen name=str;
+
+     for(; +name && *name!='#' ;++name);
+
+     if( +name )
+       {
+        StrLen page=str.prefix(name);
+
+        if( page.hasSuffix(".html"_c) )
+          {
+           page.len-=5;
+
+           ++name;
+
+           link=StringCat("..#"_c,page,"#link_"_c,name);
+
+           has_link=true;
+          }
+       }
+     else
+       {
+        StrLen page=str;
+
+        if( page.hasSuffix(".html"_c) )
+          {
+           page.len-=5;
+
+           link=StringCat("..#"_c,page,"#link"_c);
+
+           has_link=true;
+          }
+       }
     }
  }
 

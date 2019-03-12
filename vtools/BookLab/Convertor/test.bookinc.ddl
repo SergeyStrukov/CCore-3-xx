@@ -16,6 +16,8 @@ Page page = { "page" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Abort {
@@ -185,6 +187,8 @@ Page page = { "page_Abort" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AES {
@@ -220,7 +224,7 @@ Text b4 = { {
  ,{ "of" }
  ,{ "them" }
  ,{ "are" }
- ,{ "BlockCipher<....>" , & fmt_text_a }
+ ,{ "BlockCipher<....>" , & fmt_text_a , & ..#page_BlockCipher#link }
  ,{ "and" }
  ,{ "implement" }
  ,{ "AES" }
@@ -334,6 +338,8 @@ Page page = { "page_AES" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Algon {
@@ -375,6 +381,8 @@ Page page = { "page_Algon" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -741,6 +749,8 @@ Page page = { "page_AntiSem" ,
  ,{ & b15 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b16 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -1149,11 +1159,11 @@ Text b21 = { {
  ,{ "packets" }
  ,{ "in" }
  ,{ "the" }
- ,{ "default" , & fmt_text_a }
- ,{ "packet" , & fmt_text_a }
- ,{ "pool" , & fmt_text_a }
- ,{ "by" , & fmt_text_a }
- ,{ "default" , & fmt_text_a }
+ ,{ "default" , & fmt_text_a , & ..#page_PacketPool#link }
+ ,{ "packet" , & fmt_text_a , & ..#page_PacketPool#link }
+ ,{ "pool" , & fmt_text_a , & ..#page_PacketPool#link }
+ ,{ "by" , & fmt_text_a , & ..#page_PacketPool#link }
+ ,{ "default" , & fmt_text_a , & ..#page_PacketPool#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -1448,6 +1458,8 @@ Page page = { "page_AnyCore_PlatformBase" ,
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -2178,6 +2190,8 @@ Page page = { "page_AnyCore_Quick" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AnyCore_SysAtomic {
@@ -2667,6 +2681,8 @@ Page page = { "page_AnyCore_SysAtomic" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AnyPtr {
@@ -2862,9 +2878,9 @@ Text b9 = { {
  ,{ "functor," }
  ,{ "using" }
  ,{ "the" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "the" }
@@ -3190,6 +3206,8 @@ Page page = { "page_AnyPtr" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ApplyToList {
@@ -3220,7 +3238,7 @@ Text b2 = { {
  ,{ "returned" }
  ,{ "using" }
  ,{ "the" }
- ,{ "GetResult()" , & fmt_text_a }
+ ,{ "GetResult()" , & fmt_text_a , & ..#page_ApplyToRange#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -3230,6 +3248,8 @@ Page page = { "page_ApplyToList" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -3299,9 +3319,9 @@ Text b5 = { {
  ,{ "algorithm" }
  ,{ "uses" }
  ,{ "the" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "." }
  ,{ "The" }
  ,{ "first" }
@@ -3380,6 +3400,8 @@ Page page = { "page_ApplyToRange" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_APRTest {
@@ -3444,7 +3466,7 @@ Text b3 = { {
  ,{ "parameter" }
  ,{ "is" }
  ,{ "an" }
- ,{ "Integer" , & fmt_text_a }
+ ,{ "Integer" , & fmt_text_a , & ..#page_Integer#link }
  ,{ "class." }
  ,{ "This" }
  ,{ "test" }
@@ -3853,7 +3875,7 @@ Text b26 = { {
  ,{ "have" }
  ,{ "to" }
  ,{ "use" }
- ,{ "TaskHeap" , & fmt_text_a }
+ ,{ "TaskHeap" , & fmt_text_a , & ..#page_TaskHeap#link }
  ,{ "." }
  ,{ "Here" }
  ,{ "is" }
@@ -3895,6 +3917,8 @@ Page page = { "page_APRTest" ,
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -4188,8 +4212,8 @@ Text b12 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -4214,10 +4238,10 @@ Text b12 = { {
  ,{ "It" }
  ,{ "also" }
  ,{ "may" }
- ,{ "return" , & fmt_text_a }
- ,{ "a" , & fmt_text_a }
- ,{ "functor" , & fmt_text_a }
- ,{ "result" , & fmt_text_a }
+ ,{ "return" , & fmt_text_a , & ..#page_ApplyToRange#link }
+ ,{ "a" , & fmt_text_a , & ..#page_ApplyToRange#link }
+ ,{ "functor" , & fmt_text_a , & ..#page_ApplyToRange#link }
+ ,{ "result" , & fmt_text_a , & ..#page_ApplyToRange#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -4231,8 +4255,8 @@ Text b13 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -4668,7 +4692,7 @@ Text b31 = { {
  ,{ "type" }
  ,{ "T" , & fmt_text_b }
  ,{ "supports" }
- ,{ "moving" , & fmt_text_a }
+ ,{ "moving" , & fmt_text_a , & ..#page_Move#link }
  ,{ "," }
  ,{ "then" }
  ,{ "the" }
@@ -5826,8 +5850,8 @@ Text b77 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -5847,8 +5871,8 @@ Text b78 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -5872,8 +5896,8 @@ Text b79 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -5893,8 +5917,8 @@ Text b80 = { {
  ,{ "given" }
  ,{ "by" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "to" }
  ,{ "array" }
@@ -8090,6 +8114,8 @@ Page page = { "page_Arrays" ,
  ,{ & b171 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AsyncBinaryFile {
@@ -8113,9 +8139,9 @@ Text b2 = { {
  ,{ "used" }
  ,{ "as" }
  ,{ "a" }
- ,{ "serialization" , & fmt_text_a }
- ,{ "output" , & fmt_text_a }
- ,{ "device" , & fmt_text_a }
+ ,{ "serialization" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "output" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "device" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
  ,{ "." }
  ,{ "It" }
  ,{ "puts" }
@@ -8131,7 +8157,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "PrintAsyncFile" , & fmt_text_a }
+ ,{ "PrintAsyncFile" , & fmt_text_a , & ..#page_PrintDevice#link_PrintAsyncFile }
  ,{ "class," }
  ,{ "but" }
  ,{ "provides" }
@@ -8145,7 +8171,7 @@ Text b2 = { {
  ,{ "contains" }
  ,{ "inside" }
  ,{ "the" }
- ,{ "AsyncFile" , & fmt_text_a }
+ ,{ "AsyncFile" , & fmt_text_a , & ..#page_AsyncFileClients#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -8329,6 +8355,8 @@ Page page = { "page_AsyncBinaryFile" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -9043,7 +9071,7 @@ Text b30 = { {
  ,{ "from" }
  ,{ "the" }
  ,{ "class" }
- ,{ "ToMemBase" , & fmt_text_a }
+ ,{ "ToMemBase" , & fmt_text_a , & ..#page_ToMemBase#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -9459,6 +9487,8 @@ Page page = { "page_AsyncFileClients" ,
  ,{ & b49 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AsyncFileDevice {
@@ -9481,7 +9511,7 @@ Text b2 = { {
  ,{ "file" }
  ,{ "device" }
  ,{ "(" }
- ,{ "AsyncFile" , & fmt_text_a }
+ ,{ "AsyncFile" , & fmt_text_a , & ..#page_AsyncFiles#link }
  ,{ ")." }
  ,{ "It" }
  ,{ "performs" }
@@ -9505,8 +9535,8 @@ Text b2 = { {
  ,{ "in" }
  ,{ "the" }
  ,{ "default" }
- ,{ "object" , & fmt_text_a }
- ,{ "register" , & fmt_text_a }
+ ,{ "object" , & fmt_text_a , & ..#page_ObjectHost#link }
+ ,{ "register" , & fmt_text_a , & ..#page_ObjectHost#link }
  ,{ "." }
  ,{ "After" }
  ,{ "this" }
@@ -9519,7 +9549,7 @@ Text b2 = { {
  ,{ "file" }
  ,{ "input-output" }
  ,{ "like" }
- ,{ "PrintAsyncFile" , & fmt_text_a }
+ ,{ "PrintAsyncFile" , & fmt_text_a , & ..#page_PrintDevice#link_PrintAsyncFile }
  ,{ "to" }
  ,{ "work" }
  ,{ "with" }
@@ -9554,6 +9584,8 @@ Page page = { "page_AsyncFileDevice" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -9608,8 +9640,8 @@ Text b3 = { {
  ,{ "in" }
  ,{ "the" }
  ,{ "default" }
- ,{ "Object" , & fmt_text_a }
- ,{ "Host" , & fmt_text_a }
+ ,{ "Object" , & fmt_text_a , & ..#page_ObjectHost#link }
+ ,{ "Host" , & fmt_text_a , & ..#page_ObjectHost#link }
  ,{ "." }
  ,{ "The" }
  ,{ "name" }
@@ -10517,7 +10549,7 @@ Text b25 = { {
  ,{ "system" }
  ,{ "device." }
  ,{ "See" }
- ,{ "Files" , & fmt_text_a }
+ ,{ "Files" , & fmt_text_a , & ..#page_Files#link_FSO }
  ,{ "for" }
  ,{ "the" }
  ,{ "generic" }
@@ -11071,6 +11103,8 @@ Page page = { "page_AsyncFiles" ,
  ,{ & b43 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AsyncUDPDevice {
@@ -11118,7 +11152,7 @@ Text b2 = { {
  ,{ "usage" }
  ,{ "to" }
  ,{ "the" }
- ,{ "UDPDevice" , & fmt_text_a }
+ ,{ "UDPDevice" , & fmt_text_a , & ..#page_UDPDevice#link }
  ,{ "classes." }
 } , & fmt_text , & align_text } ;
 
@@ -11406,6 +11440,8 @@ Page page = { "page_AsyncUDPDevice" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Atomic {
@@ -11676,7 +11712,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "operator" , & fmt_text_b }
- ,{ "$=" , & fmt_text_b }
+ ,{ "−=" , & fmt_text_b }
  ,{ "decreases" }
  ,{ "the" }
  ,{ "current" }
@@ -11699,7 +11735,7 @@ Text b10 = { {
 Text b11 = { {
  { "postfix" , & fmt_text_b }
  ,{ "operator" , & fmt_text_b }
- ,{ "$$" , & fmt_text_b }
+ ,{ "−−" , & fmt_text_b }
  ,{ "decrements" }
  ,{ "the" }
  ,{ "current" }
@@ -11827,6 +11863,8 @@ Page page = { "page_Atomic" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -12061,6 +12099,8 @@ Page page = { "page_AttachmentHost" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_AutoCast {
@@ -12101,6 +12141,8 @@ Page page = { "page_AutoCast" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -12218,6 +12260,8 @@ Page page = { "page_AutoGlobal" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -12536,6 +12580,8 @@ Page page = { "page_BaseRangeAlgo" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_BestSearch {
@@ -12633,6 +12679,8 @@ Page page = { "page_BestSearch" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_BinaryFile {
@@ -12656,9 +12704,9 @@ Text b2 = { {
  ,{ "used" }
  ,{ "as" }
  ,{ "a" }
- ,{ "serialization" , & fmt_text_a }
- ,{ "output" , & fmt_text_a }
- ,{ "device" , & fmt_text_a }
+ ,{ "serialization" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "output" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "device" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
  ,{ "." }
  ,{ "It" }
  ,{ "puts" }
@@ -12674,7 +12722,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "PrintFile" , & fmt_text_a }
+ ,{ "PrintFile" , & fmt_text_a , & ..#page_PrintDevice#link_PrintFile }
  ,{ "class," }
  ,{ "but" }
  ,{ "provides" }
@@ -12712,8 +12760,8 @@ Text b3 = { {
  ,{ "file" }
  ,{ "name" }
  ,{ "and" }
- ,{ "open" , & fmt_text_a }
- ,{ "flags" , & fmt_text_a }
+ ,{ "open" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "flags" , & fmt_text_a , & ..#page_Files#link }
  ,{ "must" }
  ,{ "be" }
  ,{ "provided." }
@@ -12841,7 +12889,7 @@ Text b8 = { {
  ,{ "errors" }
  ,{ "using" }
  ,{ "the" }
- ,{ "FileMultiError" , & fmt_text_a }
+ ,{ "FileMultiError" , & fmt_text_a , & ..#page_Files#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -12931,6 +12979,8 @@ Page page = { "page_BinaryFile" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -13200,6 +13250,8 @@ Page page = { "page_BinarySearch" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_BinFileToRead {
@@ -13248,11 +13300,11 @@ Text b4 = { {
  ,{ "a" }
  ,{ "file" }
  ,{ "using" }
- ,{ "the" , & fmt_text_a }
- ,{ "alternative" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
- ,{ "of" , & fmt_text_a }
- ,{ "operations" , & fmt_text_a }
+ ,{ "the" , & fmt_text_a , & ..#page_Files#link_AltSet }
+ ,{ "alternative" , & fmt_text_a , & ..#page_Files#link_AltSet }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link_AltSet }
+ ,{ "of" , & fmt_text_a , & ..#page_Files#link_AltSet }
+ ,{ "operations" , & fmt_text_a , & ..#page_Files#link_AltSet }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -13489,9 +13541,9 @@ Text b15 = { {
  ,{ "base" }
  ,{ "class" }
  ,{ "to" }
- ,{ "build" , & fmt_text_a }
- ,{ "an" , & fmt_text_a }
- ,{ "implementation" , & fmt_text_a }
+ ,{ "build" , & fmt_text_a , & ..#page_RefObjectBase#link }
+ ,{ "an" , & fmt_text_a , & ..#page_RefObjectBase#link }
+ ,{ "implementation" , & fmt_text_a , & ..#page_RefObjectBase#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -13505,7 +13557,7 @@ Text b17 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "FileToMem" , & fmt_text_a }
+ ,{ "FileToMem" , & fmt_text_a , & ..#page_FileToMem#link }
  ,{ "class." }
  ,{ "The" }
  ,{ "only" }
@@ -13543,6 +13595,8 @@ Page page = { "page_BinFileToRead" ,
  ,{ & b16 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b17 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -13889,6 +13943,8 @@ Page page = { "page_BlockCipher" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_BlockFifo {
@@ -13922,7 +13978,7 @@ Text b3 = { {
  ,{ "buffer." }
  ,{ "Unlike" }
  ,{ "the" }
- ,{ "Fifo" , & fmt_text_a }
+ ,{ "Fifo" , & fmt_text_a , & ..#page_Fifo#link }
  ,{ "class," }
  ,{ "it" }
  ,{ "provides" }
@@ -14237,6 +14293,8 @@ Page page = { "page_BlockFifo" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Bridge {
@@ -14435,6 +14493,8 @@ Page page = { "page_Bridge" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -14986,6 +15046,8 @@ Page page = { "page_CancelPacketList" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CapString {
@@ -15040,6 +15102,8 @@ Page page = { "page_CapString" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -15767,6 +15831,8 @@ Page page = { "page_CCoreGeneral" ,
  ,{ & b33 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CharProp {
@@ -16436,6 +16502,8 @@ Page page = { "page_CharProp" ,
  ,{ & b42 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CharUtils {
@@ -16574,6 +16642,8 @@ Page page = { "page_CharUtils" ,
  ,{ & b8 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -16715,6 +16785,8 @@ Page page = { "page_CheckedData" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -17545,6 +17617,8 @@ Page page = { "page_Classification" ,
  ,{ & b62 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CmdInput {
@@ -17879,7 +17953,7 @@ Text b13 = { {
  ,{ "report" }
  ,{ "is" }
  ,{ "an" }
- ,{ "ReportException" , & fmt_text_a }
+ ,{ "ReportException" , & fmt_text_a , & ..#page_Exceptions#link }
  ,{ "class." }
 } , & fmt_text , & align_text } ;
 
@@ -18072,6 +18146,8 @@ Page page = { "page_CmdInput" ,
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -18590,6 +18666,8 @@ Page page = { "page_Cmp" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CommonIntAlgo {
@@ -18827,6 +18905,8 @@ Page page = { "page_CommonIntAlgo" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CompactLists {
@@ -18848,8 +18928,8 @@ Text b2 = { {
  ,{ "are" }
  ,{ "variants" }
  ,{ "of" }
- ,{ "traditional" , & fmt_text_a }
- ,{ "lists" , & fmt_text_a }
+ ,{ "traditional" , & fmt_text_a , & ..#page_ContainerLists#link }
+ ,{ "lists" , & fmt_text_a , & ..#page_ContainerLists#link }
  ,{ "." }
  ,{ "They" }
  ,{ "have" }
@@ -18895,9 +18975,9 @@ Text b2 = { {
  ,{ "allocator" }
  ,{ "template" }
  ,{ "parameter:" }
- ,{ "compact" , & fmt_text_a }
- ,{ "node" , & fmt_text_a }
- ,{ "allocator" , & fmt_text_a }
+ ,{ "compact" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
+ ,{ "node" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
+ ,{ "allocator" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
  ,{ "is" }
  ,{ "always" }
  ,{ "used." }
@@ -18921,7 +19001,7 @@ Text b4 = { {
  ,{ "variant" }
  ,{ "of" }
  ,{ "the" }
- ,{ "LinearDList" , & fmt_text_a }
+ ,{ "LinearDList" , & fmt_text_a , & ..#page_ContainerLists#link_LinearDList }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -18936,7 +19016,7 @@ Text b6 = { {
  ,{ "variant" }
  ,{ "of" }
  ,{ "the" }
- ,{ "LinearDList2" , & fmt_text_a }
+ ,{ "LinearDList2" , & fmt_text_a , & ..#page_ContainerLists#link_LinearDList2 }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -18951,7 +19031,7 @@ Text b8 = { {
  ,{ "variant" }
  ,{ "of" }
  ,{ "the" }
- ,{ "CircularDList" , & fmt_text_a }
+ ,{ "CircularDList" , & fmt_text_a , & ..#page_ContainerLists#link_CircularDList }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -18967,6 +19047,8 @@ Page page = { "page_CompactLists" ,
  ,{ & b7 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -18992,8 +19074,8 @@ Text b2 = { {
  ,{ "variants" }
  ,{ "of" }
  ,{ "the" }
- ,{ "traditional" , & fmt_text_a }
- ,{ "maps" , & fmt_text_a }
+ ,{ "traditional" , & fmt_text_a , & ..#page_TreeMaps#link }
+ ,{ "maps" , & fmt_text_a , & ..#page_TreeMaps#link }
  ,{ "." }
  ,{ "They" }
  ,{ "have" }
@@ -19039,9 +19121,9 @@ Text b2 = { {
  ,{ "allocator" }
  ,{ "template" }
  ,{ "parameter:" }
- ,{ "compact" , & fmt_text_a }
- ,{ "node" , & fmt_text_a }
- ,{ "allocator" , & fmt_text_a }
+ ,{ "compact" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
+ ,{ "node" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
+ ,{ "allocator" , & fmt_text_a , & ..#page_CompactNodeAllocator#link }
  ,{ "is" }
  ,{ "always" }
  ,{ "used." }
@@ -19066,7 +19148,7 @@ Text b4 = { {
  ,{ "variant" }
  ,{ "of" }
  ,{ "the" }
- ,{ "RBTreeMap" , & fmt_text_a }
+ ,{ "RBTreeMap" , & fmt_text_a , & ..#page_TreeMaps#link_RBTreeMap }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -19082,7 +19164,7 @@ Text b6 = { {
  ,{ "variant" }
  ,{ "of" }
  ,{ "the" }
- ,{ "RadixTreeMap" , & fmt_text_a }
+ ,{ "RadixTreeMap" , & fmt_text_a , & ..#page_TreeMaps#link_RadixTreeMap }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -19096,6 +19178,8 @@ Page page = { "page_CompactMaps" ,
  ,{ & b5 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -19137,8 +19221,8 @@ Text b2 = { {
  ,{ "is" }
  ,{ "similar" }
  ,{ "to" }
- ,{ "node" , & fmt_text_a }
- ,{ "allocators" , & fmt_text_a }
+ ,{ "node" , & fmt_text_a , & ..#page_NodeAllocators#link }
+ ,{ "allocators" , & fmt_text_a , & ..#page_NodeAllocators#link }
  ,{ "," }
  ,{ "but" }
  ,{ "have" }
@@ -19344,6 +19428,8 @@ Page page = { "page_CompactNodeAllocator" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CompletePacket {
@@ -19434,6 +19520,8 @@ Page page = { "page_CompletePacket" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -21393,6 +21481,8 @@ Page page = { "page_CondLangLR1" ,
  ,{ & b51 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ConsoleInput {
@@ -21856,8 +21946,8 @@ Text b28 = { {
  ,{ "console" }
  ,{ "to" }
  ,{ "a" }
- ,{ "PTP" , & fmt_text_a }
- ,{ "Con" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPCon#link }
+ ,{ "Con" , & fmt_text_a , & ..#page_PTPCon#link }
  ,{ "client" }
  ,{ "device." }
 } , & fmt_text , & align_text } ;
@@ -21984,6 +22074,8 @@ Page page = { "page_ConsoleInput" ,
  ,{ & b33 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ContainerLists {
@@ -22016,9 +22108,9 @@ Text b2 = { {
  ,{ "type" }
  ,{ "and" }
  ,{ "the" }
- ,{ "node" , & fmt_text_a }
- ,{ "allocator" , & fmt_text_a }
- ,{ "type" , & fmt_text_a }
+ ,{ "node" , & fmt_text_a , & ..#page_NodeAllocators#link }
+ ,{ "allocator" , & fmt_text_a , & ..#page_NodeAllocators#link }
+ ,{ "type" , & fmt_text_a , & ..#page_NodeAllocators#link }
  ,{ "," }
  ,{ "which" }
  ,{ "is" }
@@ -22075,8 +22167,8 @@ Text b2 = { {
  ,{ "the" }
  ,{ "NodePoolAllocator" , & fmt_text_b }
  ,{ "or" }
- ,{ "compact" , & fmt_text_a }
- ,{ "lists" , & fmt_text_a }
+ ,{ "compact" , & fmt_text_a , & ..#page_CompactLists#link }
+ ,{ "lists" , & fmt_text_a , & ..#page_CompactLists#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -22400,9 +22492,9 @@ Text b17 = { {
  ,{ "to" }
  ,{ "list" }
  ,{ "elements." }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "is" }
  ,{ "used." }
  ,{ "Double" }
@@ -23657,6 +23749,8 @@ Page page = { "page_ContainerLists" ,
  ,{ & b80 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Counters {
@@ -23847,6 +23941,8 @@ Page page = { "page_Counters" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -24061,6 +24157,8 @@ Page page = { "page_Crc" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_CreateAt {
@@ -24130,6 +24228,8 @@ Page page = { "page_CreateAt" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Crypton {
@@ -24170,6 +24270,8 @@ Page page = { "page_Crypton" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -25389,6 +25491,8 @@ Page page = { "page_DDL" ,
  ,{ & b67 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DDLEngine {
@@ -25804,11 +25908,11 @@ Text b16 = { {
  ,{ "There" }
  ,{ "is" }
  ,{ "a" }
- ,{ "default" , & fmt_text_a }
- ,{ "implementation" , & fmt_text_a }
- ,{ "of" , & fmt_text_a }
- ,{ "this" , & fmt_text_a }
- ,{ "class" , & fmt_text_a }
+ ,{ "default" , & fmt_text_a , & ..#page_FileName#link }
+ ,{ "implementation" , & fmt_text_a , & ..#page_FileName#link }
+ ,{ "of" , & fmt_text_a , & ..#page_FileName#link }
+ ,{ "this" , & fmt_text_a , & ..#page_FileName#link }
+ ,{ "class" , & fmt_text_a , & ..#page_FileName#link }
  ,{ "." }
  ,{ "It" }
  ,{ "is" }
@@ -25863,7 +25967,7 @@ Text b18 = { {
  ,{ "use" }
  ,{ "the" }
  ,{ "class" }
- ,{ "FileToMem" , & fmt_text_a }
+ ,{ "FileToMem" , & fmt_text_a , & ..#page_FileToMem#link }
  ,{ "as" }
  ,{ "the" }
  ,{ "FileText" , & fmt_text_b }
@@ -27415,7 +27519,7 @@ Text b66 = { {
  ,{ "use" }
  ,{ "the" }
  ,{ "utility" }
- ,{ "DDLTypeSet" , & fmt_text_a }
+ ,{ "DDLTypeSet" , & fmt_text_a , & ..#page_DDLTypeSet#link }
  ,{ "to" }
  ,{ "generate" }
  ,{ "the" }
@@ -27924,6 +28028,8 @@ Page page = { "page_DDLEngine" ,
  ,{ & b88 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DDLShow {
@@ -27992,6 +28098,8 @@ Page page = { "page_DDLShow" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DDLTypeSet {
@@ -28021,7 +28129,7 @@ Text b1 = { {
  ,{ "data" }
  ,{ "using" }
  ,{ "the" }
- ,{ "DDL::TypedMap" , & fmt_text_a }
+ ,{ "DDL::TypedMap" , & fmt_text_a , & ..#page_DDLEngine#link_TypedMap }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -28129,6 +28237,8 @@ Page page = { "page_DDLTypeSet" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DecodeFile {
@@ -28156,9 +28266,9 @@ Text b3 = { {
  ,{ "used" }
  ,{ "as" }
  ,{ "a" }
- ,{ "serialization" , & fmt_text_a }
- ,{ "input" , & fmt_text_a }
- ,{ "device" , & fmt_text_a }
+ ,{ "serialization" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "input" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
+ ,{ "device" , & fmt_text_a , & ..#page_SaveLoad#link_Devices }
  ,{ "." }
  ,{ "It" }
  ,{ "gets" }
@@ -28277,7 +28387,7 @@ Text b10 = { {
  ,{ "errors" }
  ,{ "using" }
  ,{ "the" }
- ,{ "FileMultiError" , & fmt_text_a }
+ ,{ "FileMultiError" , & fmt_text_a , & ..#page_Files#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -28347,7 +28457,7 @@ Text b15 = { {
  ,{ "but" }
  ,{ "it" }
  ,{ "uses" }
- ,{ "BinFileToRead" , & fmt_text_a }
+ ,{ "BinFileToRead" , & fmt_text_a , & ..#page_BinFileToRead#link }
  ,{ "to" }
  ,{ "read" }
  ,{ "data" }
@@ -28375,6 +28485,8 @@ Page page = { "page_DecodeFile" ,
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -28501,6 +28613,8 @@ Page page = { "page_DefaultFileDevice" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DefaultTimeout {
@@ -28522,7 +28636,7 @@ Text b2 = { {
  ,{ "10" }
  ,{ "seconds." }
  ,{ "See" }
- ,{ "MSec" , & fmt_text_a }
+ ,{ "MSec" , & fmt_text_a , & ..#page_MSec#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -28532,6 +28646,8 @@ Page page = { "page_DefaultTimeout" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -30401,6 +30517,8 @@ Page page = { "page_DeferCall" ,
  ,{ & b77 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Deflate {
@@ -30657,6 +30775,8 @@ Page page = { "page_Deflate" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DestroyGuard {
@@ -30685,8 +30805,8 @@ Text b2 = { {
  ,{ "used" }
  ,{ "in" }
  ,{ "the" }
- ,{ "signal" , & fmt_text_a }
- ,{ "implementation" , & fmt_text_a }
+ ,{ "signal" , & fmt_text_a , & ..#page_Signal#link }
+ ,{ "implementation" , & fmt_text_a , & ..#page_Signal#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -30779,6 +30899,8 @@ Page page = { "page_DestroyGuard" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -31536,6 +31658,8 @@ Page page = { "page_DHExp" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DirTreeRun {
@@ -31870,6 +31994,8 @@ Page page = { "page_DirTreeRun" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_DynObject {
@@ -31920,7 +32046,7 @@ Text b2 = { {
 } , & fmt_text , & align_text } ;
 
 Text b3 = { {
- { "New()/Delete()" , & fmt_text_a }
+ { "New()/Delete()" , & fmt_text_a , & ..#page_NewDelete#link }
  ,{ "with" }
  ,{ "the" }
  ,{ "DefaultHeapAlloc" , & fmt_text_b }
@@ -31943,7 +32069,7 @@ Text b3 = { {
  ,{ "type" }
  ,{ "from" }
  ,{ "the" }
- ,{ "MemBase" , & fmt_text_a }
+ ,{ "MemBase" , & fmt_text_a , & ..#page_MemoryManagement#link }
  ,{ "." }
  ,{ "Any" }
  ,{ "type" }
@@ -31977,7 +32103,7 @@ Text b4 = { {
 } , & fmt_text , & align_text } ;
 
 Text b5 = { {
- { "NothingType-constructor" , & fmt_text_a }
+ { "NothingType-constructor" , & fmt_text_a , & ..#page_Nothing#link }
  ,{ "creates" }
  ,{ "the" }
  ,{ "pointer" }
@@ -32080,9 +32206,9 @@ Text b8 = { {
  ,{ "difference" }
  ,{ "with" }
  ,{ "the" }
- ,{ "Object" , & fmt_text_a }
- ,{ "Pointer" , & fmt_text_a }
- ,{ "Interface" , & fmt_text_a }
+ ,{ "Object" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
+ ,{ "Pointer" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
+ ,{ "Interface" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
  ,{ "is" }
  ,{ "that" }
  ,{ "the" }
@@ -32119,6 +32245,8 @@ Page page = { "page_DynObject" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -32233,6 +32361,8 @@ Page page = { "page_EchoDevice" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_EchoServer {
@@ -32305,6 +32435,8 @@ Page page = { "page_EchoServer" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -32611,8 +32743,8 @@ Text b14 = { {
  ,{ "as" }
  ,{ "the" }
  ,{ "different" }
- ,{ "Array" , & fmt_text_a }
- ,{ "constructors" , & fmt_text_a }
+ ,{ "Array" , & fmt_text_a , & ..#page_Arrays#link_DynArray }
+ ,{ "constructors" , & fmt_text_a , & ..#page_Arrays#link_DynArray }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -32916,6 +33048,8 @@ Page page = { "page_ElementPool" ,
  ,{ & b28 , null , inner_text , outer_text , back_text }
  ,{ & b29 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -33397,6 +33531,8 @@ Page page = { "page_ELF" ,
  ,{ & b26 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_EllipticPi {
@@ -33410,7 +33546,7 @@ Text b1 = { {
  ,{ "program" }
  ,{ "calculates" }
  ,{ "the" }
- ,{ "$," }
+ ,{ "π," }
  ,{ "using" }
  ,{ "CCore" , & fmt_text_b }
  ,{ "Integer" , & fmt_text_b }
@@ -33469,6 +33605,8 @@ Page page = { "page_EllipticPi" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -33585,6 +33723,8 @@ Page page = { "page_ErrorText" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_EthDevice {
@@ -33683,8 +33823,8 @@ Text b6 = { {
  { "getTxFormat()" , & fmt_text_b }
  ,{ "returns" }
  ,{ "the" }
- ,{ "packet" , & fmt_text_a }
- ,{ "format" , & fmt_text_a }
+ ,{ "packet" , & fmt_text_a , & ..#page_Packet#link_PacketFormat }
+ ,{ "format" , & fmt_text_a , & ..#page_Packet#link_PacketFormat }
  ,{ "for" }
  ,{ "outbound" }
  ,{ "operations." }
@@ -34369,6 +34509,8 @@ Page page = { "page_EthDevice" ,
  ,{ & b36 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_EuclidRotate {
@@ -34535,6 +34677,8 @@ Page page = { "page_EuclidRotate" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -34786,6 +34930,8 @@ Page page = { "page_Event" ,
  ,{ & b11 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -35518,9 +35664,9 @@ Text b28 = { {
  ,{ "to" }
  ,{ "the" }
  ,{ "given" }
- ,{ "binary" , & fmt_text_a }
- ,{ "output" , & fmt_text_a }
- ,{ "device" , & fmt_text_a }
+ ,{ "binary" , & fmt_text_a , & ..#page_SaveLoad#link }
+ ,{ "output" , & fmt_text_a , & ..#page_SaveLoad#link }
+ ,{ "device" , & fmt_text_a , & ..#page_SaveLoad#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -36778,6 +36924,8 @@ Page page = { "page_EventRecord" ,
  ,{ & b77 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Exceptions {
@@ -37351,6 +37499,8 @@ Page page = { "page_Exceptions" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ExceptionType {
@@ -37475,7 +37625,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "See" }
- ,{ "Exceptions" , & fmt_text_a }
+ ,{ "Exceptions" , & fmt_text_a , & ..#page_Exceptions#link }
  ,{ "for" }
  ,{ "more" }
  ,{ "details." }
@@ -37494,6 +37644,8 @@ Page page = { "page_ExceptionType" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -37538,6 +37690,8 @@ Page page = { "page_exectest" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -37728,6 +37882,8 @@ Page page = { "page_FastMutex" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FeedBuf {
@@ -37869,6 +38025,8 @@ Page page = { "page_FeedBuf" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -38326,6 +38484,8 @@ Page page = { "page_Fifo" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FileName {
@@ -38367,7 +38527,7 @@ Text b2 = { {
  ,{ "used" }
  ,{ "with" }
  ,{ "the" }
- ,{ "DDL" , & fmt_text_a }
+ ,{ "DDL" , & fmt_text_a , & ..#page_DDLEngine#link }
  ,{ "Engine." }
 } , & fmt_text , & align_text } ;
 
@@ -38755,6 +38915,8 @@ Page page = { "page_FileName" ,
  ,{ & b24 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FileNameMatch {
@@ -38952,6 +39114,8 @@ Page page = { "page_FileNameMatch" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -40354,6 +40518,8 @@ Page page = { "page_Files" ,
  ,{ & b64 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FileSystem {
@@ -40374,12 +40540,12 @@ Text b2 = { {
  ,{ "FileSystem" , & fmt_text_b }
  ,{ "implements" }
  ,{ "the" }
- ,{ "standard" , & fmt_text_a }
- ,{ "list" , & fmt_text_a }
- ,{ "of" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "system" , & fmt_text_a }
- ,{ "operations" , & fmt_text_a }
+ ,{ "standard" , & fmt_text_a , & ..#page_Files#link_FSO }
+ ,{ "list" , & fmt_text_a , & ..#page_Files#link_FSO }
+ ,{ "of" , & fmt_text_a , & ..#page_Files#link_FSO }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link_FSO }
+ ,{ "system" , & fmt_text_a , & ..#page_Files#link_FSO }
+ ,{ "operations" , & fmt_text_a , & ..#page_Files#link_FSO }
  ,{ "on" }
  ,{ "the" }
  ,{ "local" }
@@ -40587,6 +40753,8 @@ Page page = { "page_FileSystem" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FileToMem {
@@ -40621,7 +40789,7 @@ Text b3 = { {
  ,{ "from" }
  ,{ "the" }
  ,{ "class" }
- ,{ "ToMemBase" , & fmt_text_a }
+ ,{ "ToMemBase" , & fmt_text_a , & ..#page_ToMemBase#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -40821,6 +40989,8 @@ Page page = { "page_FileToMem" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FileToRead {
@@ -40840,7 +41010,7 @@ Text b2 = { {
  ,{ "part" }
  ,{ "provides" }
  ,{ "two" }
- ,{ "BinFileToRead" , & fmt_text_a }
+ ,{ "BinFileToRead" , & fmt_text_a , & ..#page_BinFileToRead#link }
  ,{ "classes" }
  ,{ "for" }
  ,{ "host" }
@@ -40878,7 +41048,7 @@ Text b4 = { {
  ,{ "files" }
  ,{ "of" }
  ,{ "the" }
- ,{ "volume" , & fmt_text_a }
+ ,{ "volume" , & fmt_text_a , & ..#page_Volume#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -40890,6 +41060,8 @@ Page page = { "page_FileToRead" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -41138,6 +41310,8 @@ Page page = { "page_ForcedTimeout" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Forget {
@@ -41289,6 +41463,8 @@ Page page = { "page_Forget" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ForLoop {
@@ -41358,6 +41534,8 @@ Page page = { "page_ForLoop" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FuncTask {
@@ -41390,8 +41568,8 @@ Text b3 = { {
  ,{ "argument" }
  ,{ "is" }
  ,{ "a" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "object." }
  ,{ "The" }
  ,{ "functor" }
@@ -41497,6 +41675,8 @@ Page page = { "page_FuncTask" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -41778,6 +41958,8 @@ Page page = { "page_Function" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_FunctorType {
@@ -42028,6 +42210,8 @@ Page page = { "page_FunctorType" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Gadgets {
@@ -42086,6 +42270,8 @@ Page page = { "page_Gadgets" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_GCDConst {
@@ -42138,6 +42324,8 @@ Page page = { "page_GCDConst" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Handle {
@@ -42186,6 +42374,8 @@ Page page = { "page_Handle" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -42668,6 +42858,8 @@ Page page = { "page_HashFunction" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCoreTargets {
@@ -42740,14 +42932,14 @@ Text b1 = { {
  ,{ "target" }
  ,{ "name" }
  ,{ "as" }
- ,{ "one" , & fmt_text_a }
- ,{ "of" , & fmt_text_a }
- ,{ "the" , & fmt_text_a }
- ,{ "build" , & fmt_text_a }
- ,{ "variable" , & fmt_text_a }
- ,{ "in" , & fmt_text_a }
- ,{ "a" , & fmt_text_a }
- ,{ "makefile" , & fmt_text_a }
+ ,{ "one" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "of" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "the" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "build" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "variable" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "in" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "a" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "makefile" , & fmt_text_a , & ..#page_CCoreGeneral#link }
  ,{ "." }
  ,{ "There" }
  ,{ "is" }
@@ -43342,6 +43534,8 @@ Page page = { "page_HCoreTargets" ,
  ,{ & b36 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_PlanInit_CCore {
@@ -43362,8 +43556,8 @@ Text b2 = { {
  ,{ "is" }
  ,{ "the" }
  ,{ "target" }
- ,{ "plan" , & fmt_text_a }
- ,{ "initalization" , & fmt_text_a }
+ ,{ "plan" , & fmt_text_a , & ..#page_PlanInit#link }
+ ,{ "initalization" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node." }
  ,{ "The" }
  ,{ "node" }
@@ -43397,6 +43591,8 @@ Page page = { "page_HCore_PlanInit_CCore" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -43445,8 +43641,8 @@ Text b2 = { {
  ,{ "using" }
  ,{ "the" }
  ,{ "CCORE_INITPRI_0" , & fmt_text_b }
- ,{ "priority" , & fmt_text_a }
- ,{ "qualifier" , & fmt_text_a }
+ ,{ "priority" , & fmt_text_a , & ..#page_PlanInit#link }
+ ,{ "qualifier" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -43456,6 +43652,8 @@ Page page = { "page_HCore_SysAbort" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -43510,8 +43708,8 @@ Text b3 = { {
  ,{ "using" }
  ,{ "the" }
  ,{ "CCORE_INITPRI_0" , & fmt_text_b }
- ,{ "priority" , & fmt_text_a }
- ,{ "qualifier" , & fmt_text_a }
+ ,{ "priority" , & fmt_text_a , & ..#page_PlanInit#link }
+ ,{ "qualifier" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -43788,6 +43986,8 @@ Page page = { "page_HCore_SysCon" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysError {
@@ -43989,6 +44189,8 @@ Page page = { "page_HCore_SysError" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysFile {
@@ -44018,10 +44220,10 @@ Text b2 = { {
  ,{ "comply" }
  ,{ "with" }
  ,{ "the" }
- ,{ "general" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operation" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
+ ,{ "general" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operation" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -44156,10 +44358,10 @@ Text b7 = { {
  ,{ "described" }
  ,{ "in" }
  ,{ "the" }
- ,{ "general" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operation" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
+ ,{ "general" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operation" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
  ,{ "If" }
  ,{ "the" }
@@ -44798,10 +45000,10 @@ Text b17 = { {
  ,{ "described" }
  ,{ "in" }
  ,{ "the" }
- ,{ "general" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operation" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
+ ,{ "general" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operation" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
  ,{ "If" }
  ,{ "the" }
@@ -45165,10 +45367,10 @@ Text b24 = { {
  ,{ "described" }
  ,{ "in" }
  ,{ "the" }
- ,{ "general" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operation" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
+ ,{ "general" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operation" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
  ,{ "If" }
  ,{ "the" }
@@ -46068,7 +46270,7 @@ Text b42 = { {
  ,{ "has" }
  ,{ "the" }
  ,{ "type" }
- ,{ "WaitResult" , & fmt_text_a }
+ ,{ "WaitResult" , & fmt_text_a , & ..#page_HCore_SysWait#link }
  ,{ "." }
  ,{ "The" }
  ,{ "value" }
@@ -46248,6 +46450,8 @@ Page page = { "page_HCore_SysFile" ,
  ,{ & b44 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysFileSystem {
@@ -46277,10 +46481,10 @@ Text b2 = { {
  ,{ "comply" }
  ,{ "with" }
  ,{ "the" }
- ,{ "general" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operation" , & fmt_text_a }
- ,{ "set" , & fmt_text_a }
+ ,{ "general" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operation" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "set" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -46993,6 +47197,8 @@ Page page = { "page_HCore_SysFileSystem" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysLaunchPath {
@@ -47063,6 +47269,8 @@ Page page = { "page_HCore_SysLaunchPath" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -47475,6 +47683,8 @@ Page page = { "page_HCore_SysMemPage" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysNet {
@@ -47676,7 +47886,7 @@ Text b9 = { {
  ,{ "given" }
  ,{ "timeout." }
  ,{ "The" }
- ,{ "WaitResult" , & fmt_text_a }
+ ,{ "WaitResult" , & fmt_text_a , & ..#page_HCore_SysWait#link }
  ,{ "is" }
  ,{ "returned." }
  ,{ "The" }
@@ -47852,9 +48062,9 @@ Text b12 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "async" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operations" , & fmt_text_a }
+ ,{ "async" , & fmt_text_a , & ..#page_HCore_SysFile#link }
+ ,{ "file" , & fmt_text_a , & ..#page_HCore_SysFile#link }
+ ,{ "operations" , & fmt_text_a , & ..#page_HCore_SysFile#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -48548,7 +48758,7 @@ Text b27 = { {
  ,{ "has" }
  ,{ "the" }
  ,{ "type" }
- ,{ "WaitResult" , & fmt_text_a }
+ ,{ "WaitResult" , & fmt_text_a , & ..#page_HCore_SysWait#link }
  ,{ "." }
  ,{ "The" }
  ,{ "value" }
@@ -48743,6 +48953,8 @@ Page page = { "page_HCore_SysNet" ,
  ,{ & b30 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysPlanInit {
@@ -48766,8 +48978,8 @@ Text b2 = { {
  ,{ "part" }
  ,{ "of" }
  ,{ "the" }
- ,{ "plan" , & fmt_text_a }
- ,{ "initialization" , & fmt_text_a }
+ ,{ "plan" , & fmt_text_a , & ..#page_PlanInit#link }
+ ,{ "initialization" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "sequence." }
  ,{ "The" }
  ,{ "plan" }
@@ -48862,6 +49074,8 @@ Page page = { "page_HCore_SysPlanInit" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysProp {
@@ -48941,6 +49155,8 @@ Page page = { "page_HCore_SysProp" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -49283,6 +49499,8 @@ Page page = { "page_HCore_SysSem" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysTask {
@@ -49495,7 +49713,7 @@ Text b8 = { {
  ,{ "wider" }
  ,{ "than" }
  ,{ "the" }
- ,{ "Atomic::Type" , & fmt_text_a }
+ ,{ "Atomic::Type" , & fmt_text_a , & ..#page_AnyCore_SysAtomic#link }
  ,{ "." }
  ,{ "Task" }
  ,{ "identity" }
@@ -49520,6 +49738,8 @@ Page page = { "page_HCore_SysTask" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -49662,6 +49882,8 @@ Page page = { "page_HCore_SysTime" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -49878,6 +50100,8 @@ Page page = { "page_HCore_SysTlsSlot" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_HCore_SysWait {
@@ -49925,6 +50149,8 @@ Page page = { "page_HCore_SysWait" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -50378,7 +50604,7 @@ Text b18 = { {
  ,{ "returns" }
  ,{ "a" }
  ,{ "null" }
- ,{ "Space" , & fmt_text_a }
+ ,{ "Space" , & fmt_text_a , & ..#page_Space#link }
  ,{ "object." }
  ,{ "Otherwise" }
  ,{ "the" }
@@ -50481,7 +50707,7 @@ Text b22 = { {
  ,{ "nothing." }
  ,{ "The" }
  ,{ "resulting" }
- ,{ "DeltaLen" , & fmt_text_a }
+ ,{ "DeltaLen" , & fmt_text_a , & ..#page_Space#link }
  ,{ "object" }
  ,{ "has" }
  ,{ "the" }
@@ -50608,6 +50834,8 @@ Page page = { "page_HeapEngine" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -50863,6 +51091,8 @@ Page page = { "page_Init" ,
  ,{ & b13 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -51139,6 +51369,8 @@ Page page = { "page_InputUtils" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -51939,6 +52171,8 @@ Page page = { "page_Installation" ,
  ,{ & b32 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_InstanceLock {
@@ -52072,6 +52306,8 @@ Page page = { "page_InstanceLock" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -52535,8 +52771,8 @@ Text b12 = { {
  ,{ "functions." }
  ,{ "See" }
  ,{ "the" }
- ,{ "Array" , & fmt_text_a }
- ,{ "page" , & fmt_text_a }
+ ,{ "Array" , & fmt_text_a , & ..#page_Arrays#link }
+ ,{ "page" , & fmt_text_a , & ..#page_Arrays#link }
  ,{ "for" }
  ,{ "more" }
  ,{ "information" }
@@ -52680,7 +52916,7 @@ Text b18 = { {
  ,{ "uses" }
  ,{ "the" }
  ,{ "provided" }
- ,{ "builder" , & fmt_text_a }
+ ,{ "builder" , & fmt_text_a , & ..#page_Arrays#link_Builder }
  ,{ "to" }
  ,{ "fill" }
  ,{ "the" }
@@ -52766,7 +53002,7 @@ Text b21 = { {
  ,{ "number" }
  ,{ "as" }
  ,{ "the" }
- ,{ "CmpResult" , & fmt_text_a }
+ ,{ "CmpResult" , & fmt_text_a , & ..#page_Cmp#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -53084,9 +53320,9 @@ Text b33 = { {
 Text b34 = { {
  { "objCmp()" , & fmt_text_b }
  ,{ "performs" }
- ,{ "the" , & fmt_text_a }
- ,{ "3-way" , & fmt_text_a }
- ,{ "comparision" , & fmt_text_a }
+ ,{ "the" , & fmt_text_a , & ..#page_Cmp#link }
+ ,{ "3-way" , & fmt_text_a , & ..#page_Cmp#link }
+ ,{ "comparision" , & fmt_text_a , & ..#page_Cmp#link }
  ,{ "with" }
  ,{ "the" }
  ,{ "argument." }
@@ -53535,7 +53771,7 @@ Text b61 = { {
  ,{ "second" }
  ,{ "is" }
  ,{ "some" }
- ,{ "Random" , & fmt_text_a }
+ ,{ "Random" , & fmt_text_a , & ..#page_Random#link }
  ,{ "object." }
  ,{ "An" }
  ,{ "Integer" , & fmt_text_b }
@@ -55114,9 +55350,9 @@ Text b120 = { {
  { "There" }
  ,{ "is" }
  ,{ "a" }
- ,{ "default" , & fmt_text_a }
- ,{ "slow" , & fmt_text_a }
- ,{ "implementaton" , & fmt_text_a }
+ ,{ "default" , & fmt_text_a , & ..#page_IntegerSlowAlgo#link }
+ ,{ "slow" , & fmt_text_a , & ..#page_IntegerSlowAlgo#link }
+ ,{ "implementaton" , & fmt_text_a , & ..#page_IntegerSlowAlgo#link }
  ,{ "of" }
  ,{ "this" }
  ,{ "algorithm" }
@@ -55174,8 +55410,8 @@ Text b121 = { {
  ,{ "must" }
  ,{ "provide" }
  ,{ "the" }
- ,{ "fast" , & fmt_text_a }
- ,{ "implementation" , & fmt_text_a }
+ ,{ "fast" , & fmt_text_a , & ..#page_IntegerFastAlgo#link }
+ ,{ "implementation" , & fmt_text_a , & ..#page_IntegerFastAlgo#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -55305,6 +55541,8 @@ Page page = { "page_Integer" ,
  ,{ & b121 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_IntegerFastAlgo {
@@ -55326,10 +55564,10 @@ Text b2 = { {
  ,{ "implementation" }
  ,{ "of" }
  ,{ "the" }
- ,{ "integer" , & fmt_text_a }
- ,{ "fast" , & fmt_text_a }
- ,{ "algorithm" , & fmt_text_a }
- ,{ "package" , & fmt_text_a }
+ ,{ "integer" , & fmt_text_a , & ..#page_Integer#link_Algo }
+ ,{ "fast" , & fmt_text_a , & ..#page_Integer#link_Algo }
+ ,{ "algorithm" , & fmt_text_a , & ..#page_Integer#link_Algo }
+ ,{ "package" , & fmt_text_a , & ..#page_Integer#link_Algo }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -55379,6 +55617,8 @@ Page page = { "page_IntegerFastAlgo" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_IntegerOctetBuilder {
@@ -55424,7 +55664,7 @@ Text b4 = { {
  ,{ "of" }
  ,{ "the" }
  ,{ "given" }
- ,{ "Integer" , & fmt_text_a }
+ ,{ "Integer" , & fmt_text_a , & ..#page_Integer#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -55494,6 +55734,8 @@ Page page = { "page_IntegerOctetBuilder" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_IntegerSlowAlgo {
@@ -55517,9 +55759,9 @@ Text b2 = { {
  ,{ "of" }
  ,{ "the" }
  ,{ "proper" }
- ,{ "integer" , & fmt_text_a }
- ,{ "algorithm" , & fmt_text_a }
- ,{ "package" , & fmt_text_a }
+ ,{ "integer" , & fmt_text_a , & ..#page_Integer#link_Algo }
+ ,{ "algorithm" , & fmt_text_a , & ..#page_Integer#link_Algo }
+ ,{ "package" , & fmt_text_a , & ..#page_Integer#link_Algo }
  ,{ "." }
  ,{ "You" }
  ,{ "can" }
@@ -55552,6 +55794,8 @@ Page page = { "page_IntegerSlowAlgo" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -55746,8 +55990,8 @@ Text b12 = { {
  { "getTypeNumber()" , & fmt_text_b }
  ,{ "returns" }
  ,{ "the" }
- ,{ "type" , & fmt_text_a }
- ,{ "number" , & fmt_text_a }
+ ,{ "type" , & fmt_text_a , & ..#page_TypeNumber#link }
+ ,{ "number" , & fmt_text_a , & ..#page_TypeNumber#link }
  ,{ "of" }
  ,{ "the" }
  ,{ "requested" }
@@ -55768,7 +56012,7 @@ Text b12 = { {
  ,{ "must" }
  ,{ "assign" }
  ,{ "a" }
- ,{ "Unid" , & fmt_text_a }
+ ,{ "Unid" , & fmt_text_a , & ..#page_Unid#link }
  ,{ "to" }
  ,{ "the" }
  ,{ "interface" }
@@ -55884,6 +56128,8 @@ Page page = { "page_InterfaceHost" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -56105,6 +56351,8 @@ Page page = { "page_IntervalTree" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -56899,7 +57147,7 @@ Text b12_12 = { {
  ,{ "1000000" }
  ,{ "digits" }
  ,{ "of" }
- ,{ "$," }
+ ,{ "π," }
 } , & fmt_list , & align_list } ;
 
 Text b12_13 = { {
@@ -57864,7 +58112,7 @@ Text b45 = { {
 } , & fmt_h2 , & align_h2 } ;
 
 Text b46 = { {
- { "CondLangLR1" , & fmt_text_a }
+ { "CondLangLR1" , & fmt_text_a , & ..#page_CondLangLR1#link }
  ,{ "is" }
  ,{ "a" }
  ,{ "tool" }
@@ -57921,7 +58169,7 @@ Text b47 = { {
 } , & fmt_h2 , & align_h2 } ;
 
 Text b48 = { {
- { "Regen" , & fmt_text_a }
+ { "Regen" , & fmt_text_a , & ..#page_Regen#link }
  ,{ "is" }
  ,{ "a" }
  ,{ "tool" }
@@ -58001,6 +58249,8 @@ Page page = { "page_Introduction" ,
  ,{ & b47 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b48 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -58504,6 +58754,8 @@ Page page = { "page_Job" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Keywords {
@@ -58651,6 +58903,8 @@ Page page = { "page_Keywords" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_LangDataMap {
@@ -58688,7 +58942,7 @@ Text b3 = { {
  ,{ "by" }
  ,{ "the" }
  ,{ "utility" }
- ,{ "CondLangLR1" , & fmt_text_a }
+ ,{ "CondLangLR1" , & fmt_text_a , & ..#page_CondLangLR1#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -59091,6 +59345,8 @@ Page page = { "page_LangDataMap" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_LaunchPath {
@@ -59187,6 +59443,8 @@ Page page = { "page_LaunchPath" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -59650,6 +59908,8 @@ Page page = { "page_Len" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_LineInput {
@@ -59763,6 +60023,8 @@ Page page = { "page_LineInput" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -62540,6 +62802,8 @@ Page page = { "page_Lists" ,
  ,{ & b136 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Locked {
@@ -62619,6 +62883,8 @@ Page page = { "page_Locked" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_LockObject {
@@ -62683,6 +62949,8 @@ Page page = { "page_LockObject" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -62757,6 +63025,8 @@ Page page = { "page_LockUse" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -64237,6 +64507,8 @@ Page page = { "page_Logging" ,
  ,{ & b54 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MakeFileName {
@@ -64264,7 +64536,7 @@ Text b2 = { {
  ,{ "derived" }
  ,{ "from" }
  ,{ "the" }
- ,{ "MakeString<MaxPathLen>" , & fmt_text_a }
+ ,{ "MakeString<MaxPathLen>" , & fmt_text_a , & ..#page_MakeString#link }
  ,{ "and" }
  ,{ "may" }
  ,{ "contain" }
@@ -64391,6 +64663,8 @@ Page page = { "page_MakeFileName" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -64534,6 +64808,8 @@ Page page = { "page_MakeList" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MakeString {
@@ -64676,7 +64952,7 @@ Text b7 = { {
  ,{ "use" }
  ,{ "the" }
  ,{ "argument" }
- ,{ "Null" , & fmt_text_a }
+ ,{ "Null" , & fmt_text_a , & ..#page_Nothing#link }
  ,{ "to" }
  ,{ "do" }
  ,{ "the" }
@@ -64788,6 +65064,8 @@ Page page = { "page_MakeString" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Math {
@@ -64826,6 +65104,8 @@ Page page = { "page_Math" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MD5 {
@@ -64854,7 +65134,7 @@ Text b3 = { {
 Text b4 = { {
  { "The" }
  ,{ "following" }
- ,{ "HashFunction<....>" , & fmt_text_a }
+ ,{ "HashFunction<....>" , & fmt_text_a , & ..#page_HashFunction#link }
  ,{ "class" }
  ,{ "implements" }
  ,{ "the" }
@@ -64866,7 +65146,7 @@ Text b4 = { {
 Text b5 = { {
  { "The" }
  ,{ "following" }
- ,{ "KeyedHashFunction<....>" , & fmt_text_a }
+ ,{ "KeyedHashFunction<....>" , & fmt_text_a , & ..#page_HashFunction#link }
  ,{ "class" }
  ,{ "implements" }
  ,{ "the" }
@@ -64932,6 +65212,8 @@ Page page = { "page_MD5" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -65042,6 +65324,8 @@ Page page = { "page_MemAllocGuard" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -65330,7 +65614,7 @@ Text b8 = { {
  ,{ "maintained" }
  ,{ "by" }
  ,{ "the" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "and" }
  ,{ "derived" }
  ,{ "from" }
@@ -66223,10 +66507,10 @@ Text b41 = { {
  ,{ "class" }
  ,{ "is" }
  ,{ "a" }
- ,{ "primary" , & fmt_text_a }
- ,{ "memory" , & fmt_text_a }
- ,{ "provider" , & fmt_text_a }
- ,{ "class" , & fmt_text_a }
+ ,{ "primary" , & fmt_text_a , & ..#page_RadixHeap#link_Primary }
+ ,{ "memory" , & fmt_text_a , & ..#page_RadixHeap#link_Primary }
+ ,{ "provider" , & fmt_text_a , & ..#page_RadixHeap#link_Primary }
+ ,{ "class" , & fmt_text_a , & ..#page_RadixHeap#link_Primary }
  ,{ "for" }
  ,{ "the" }
  ,{ "RadixHeap" , & fmt_text_b }
@@ -66644,6 +66928,8 @@ Page page = { "page_MemoryManagement" ,
  ,{ & b56 , null , inner_text , outer_text , back_text }
  ,{ & b57 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -67859,6 +68145,8 @@ Page page = { "page_Meta" ,
  ,{ & b67 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MetaList {
@@ -68303,6 +68591,8 @@ Page page = { "page_MetaList" ,
  ,{ & b28 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b29 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -70010,6 +70300,8 @@ Page page = { "page_Metaphysics" ,
  ,{ & b30 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ModEngine {
@@ -70065,7 +70357,7 @@ Text b4 = { {
  ,{ "parameter" }
  ,{ "is" }
  ,{ "the" }
- ,{ "Integer" , & fmt_text_a }
+ ,{ "Integer" , & fmt_text_a , & ..#page_Integer#link }
  ,{ "type." }
 } , & fmt_text , & align_text } ;
 
@@ -70343,6 +70635,8 @@ Page page = { "page_ModEngine" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Move {
@@ -70354,8 +70648,8 @@ Text b0 = { {
  ,{ "(related" }
  ,{ "with" }
  ,{ "the" }
- ,{ "Swap" , & fmt_h2_a }
- ,{ "idiom" , & fmt_h2_a }
+ ,{ "Swap" , & fmt_h2_a , & ..#page_Swap#link }
+ ,{ "idiom" , & fmt_h2_a , & ..#page_Swap#link }
  ,{ ")" }
 } , & fmt_h2 , & align_h2 } ;
 
@@ -71032,6 +71326,8 @@ Page page = { "page_Move" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MSec {
@@ -71132,6 +71428,8 @@ Page page = { "page_MSec" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -71340,6 +71638,8 @@ Page page = { "page_MultiEvent" ,
  ,{ & b9 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -71637,6 +71937,8 @@ Page page = { "page_MultiSem" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_MultiSignal {
@@ -71664,7 +71966,7 @@ Text b2 = { {
  ,{ "using" }
  ,{ "the" }
  ,{ "class" }
- ,{ "Optional" , & fmt_text_a }
+ ,{ "Optional" , & fmt_text_a , & ..#page_Optional#link }
  ,{ "." }
  ,{ "This" }
  ,{ "construction" }
@@ -71818,7 +72120,7 @@ Text b10 = { {
  ,{ "assertion" }
  ,{ "into" }
  ,{ "a" }
- ,{ "DeferCall" , & fmt_text_a }
+ ,{ "DeferCall" , & fmt_text_a , & ..#page_DeferCall#link }
  ,{ "processing" }
  ,{ "loop." }
  ,{ "Remember," }
@@ -71844,6 +72146,8 @@ Page page = { "page_MultiSignal" ,
  ,{ & b9 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -72458,6 +72762,8 @@ Page page = { "page_Mutex" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NanoIPDevice {
@@ -72554,8 +72860,8 @@ Text b3 = { {
  ,{ "to" }
  ,{ "some" }
  ,{ "extent." }
- ,{ "PTP" , & fmt_text_a }
- ,{ "protocol" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTP#link }
+ ,{ "protocol" , & fmt_text_a , & ..#page_PTP#link }
  ,{ "can" }
  ,{ "be" }
  ,{ "attached" }
@@ -72583,8 +72889,8 @@ Text b5 = { {
  ,{ "It" }
  ,{ "is" }
  ,{ "an" }
- ,{ "ObjBased" , & fmt_text_a }
- ,{ "class" , & fmt_text_a }
+ ,{ "ObjBased" , & fmt_text_a , & ..#page_ObjectHost#link }
+ ,{ "class" , & fmt_text_a , & ..#page_ObjectHost#link }
  ,{ "." }
  ,{ "It" }
  ,{ "is" }
@@ -72593,8 +72899,8 @@ Text b5 = { {
  ,{ "attached" }
  ,{ "to" }
  ,{ "some" }
- ,{ "EthDevice" , & fmt_text_a }
- ,{ "device" , & fmt_text_a }
+ ,{ "EthDevice" , & fmt_text_a , & ..#page_EthDevice#link }
+ ,{ "device" , & fmt_text_a , & ..#page_EthDevice#link }
  ,{ "." }
  ,{ "The" }
  ,{ "NanoIPDevice" , & fmt_text_b }
@@ -72774,8 +73080,8 @@ Text b15 = { {
  ,{ "statistics" }
  ,{ "and" }
  ,{ "generates" }
- ,{ "network" , & fmt_text_a }
- ,{ "events" , & fmt_text_a }
+ ,{ "network" , & fmt_text_a , & ..#page_NanoIPDeviceEvents#link }
+ ,{ "events" , & fmt_text_a , & ..#page_NanoIPDeviceEvents#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -72793,8 +73099,8 @@ Text b16 = { {
  ,{ "info" }
  ,{ "block" }
  ,{ "counts" }
- ,{ "network" , & fmt_text_a }
- ,{ "events" , & fmt_text_a }
+ ,{ "network" , & fmt_text_a , & ..#page_NanoIPDeviceEvents#link }
+ ,{ "events" , & fmt_text_a , & ..#page_NanoIPDeviceEvents#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -73508,7 +73814,7 @@ Text b55 = { {
  ,{ "class" }
  ,{ "implements" }
  ,{ "the" }
- ,{ "PacketEndpointDevice" , & fmt_text_a }
+ ,{ "PacketEndpointDevice" , & fmt_text_a , & ..#page_PacketEndpoint#link_PacketEndpointDevice }
  ,{ "interface" }
  ,{ "over" }
  ,{ "a" }
@@ -73575,8 +73881,8 @@ Text b60 = { {
  ,{ "the" }
  ,{ "communication" }
  ,{ "peer" }
- ,{ "UDP" , & fmt_text_a }
- ,{ "address" , & fmt_text_a }
+ ,{ "UDP" , & fmt_text_a , & ..#page_UDPoint#link }
+ ,{ "address" , & fmt_text_a , & ..#page_UDPoint#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -73620,7 +73926,7 @@ Text b65 = { {
  ,{ "class" }
  ,{ "implements" }
  ,{ "the" }
- ,{ "PacketMultipointDevice" , & fmt_text_a }
+ ,{ "PacketMultipointDevice" , & fmt_text_a , & ..#page_PacketEndpoint#link_PacketMultipointDevice }
  ,{ "interface" }
  ,{ "over" }
  ,{ "a" }
@@ -73778,6 +74084,8 @@ Page page = { "page_NanoIPDevice" ,
  ,{ & b71 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NanoIPDeviceEvents {
@@ -73814,6 +74122,8 @@ Page page = { "page_NanoIPDeviceEvents" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -74534,6 +74844,8 @@ Page page = { "page_NanoPackets" ,
  ,{ & b36 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NegBool {
@@ -74634,6 +74946,8 @@ Page page = { "page_NegBool" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -75208,8 +75522,8 @@ Text b47 = { {
  ,{ "address" }
  ,{ "from" }
  ,{ "a" }
- ,{ "character" , & fmt_text_a }
- ,{ "stream" , & fmt_text_a }
+ ,{ "character" , & fmt_text_a , & ..#page_StrParse#link }
+ ,{ "stream" , & fmt_text_a , & ..#page_StrParse#link }
  ,{ "." }
  ,{ "The" }
  ,{ "expected" }
@@ -75989,6 +76303,8 @@ Page page = { "page_NetBase" ,
  ,{ & b88 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NetFork {
@@ -76037,13 +76353,13 @@ Text b2 = { {
  ,{ "working" }
  ,{ "with" }
  ,{ "the" }
- ,{ "PacketEndpointDevice" , & fmt_text_a }
+ ,{ "PacketEndpointDevice" , & fmt_text_a , & ..#page_PacketEndpoint#link_PacketEndpointDevice }
  ,{ "and" }
  ,{ "the" }
  ,{ "second" }
  ,{ "with" }
  ,{ "the" }
- ,{ "PacketMultipointDevice" , & fmt_text_a }
+ ,{ "PacketMultipointDevice" , & fmt_text_a , & ..#page_PacketEndpoint#link_PacketMultipointDevice }
  ,{ "." }
  ,{ "Each" }
  ,{ "of" }
@@ -76157,10 +76473,10 @@ Text b7 = { {
  ,{ "values" }
  ,{ "see" }
  ,{ "the" }
- ,{ "Task" , & fmt_text_a }
- ,{ "object" , & fmt_text_a }
- ,{ "constructor" , & fmt_text_a }
- ,{ "arguments" , & fmt_text_a }
+ ,{ "Task" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "object" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "constructor" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "arguments" , & fmt_text_a , & ..#page_Task#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -76242,10 +76558,10 @@ Text b13 = { {
  ,{ "values" }
  ,{ "see" }
  ,{ "the" }
- ,{ "Task" , & fmt_text_a }
- ,{ "object" , & fmt_text_a }
- ,{ "constructor" , & fmt_text_a }
- ,{ "arguments" , & fmt_text_a }
+ ,{ "Task" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "object" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "constructor" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "arguments" , & fmt_text_a , & ..#page_Task#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -76279,6 +76595,8 @@ Page page = { "page_NetFork" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -76669,6 +76987,8 @@ Page page = { "page_NewDelete" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NoCopy {
@@ -76818,6 +77138,8 @@ Page page = { "page_NoCopy" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -77338,6 +77660,8 @@ Page page = { "page_NodeAllocators" ,
  ,{ & b25 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NoMutex {
@@ -77419,6 +77743,8 @@ Page page = { "page_NoMutex" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NoPrimeTest {
@@ -77449,7 +77775,7 @@ Text b3 = { {
  ,{ "parameter" }
  ,{ "is" }
  ,{ "an" }
- ,{ "Integer" , & fmt_text_a }
+ ,{ "Integer" , & fmt_text_a , & ..#page_Integer#link }
  ,{ "type." }
 } , & fmt_text , & align_text } ;
 
@@ -77533,7 +77859,7 @@ Text b4 = { {
  ,{ "random" , & fmt_text_b }
  ,{ "is" }
  ,{ "a" }
- ,{ "Random" , & fmt_text_a }
+ ,{ "Random" , & fmt_text_a , & ..#page_Random#link }
  ,{ "class." }
 } , & fmt_text , & align_text } ;
 
@@ -77545,6 +77871,8 @@ Page page = { "page_NoPrimeTest" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -77621,6 +77949,8 @@ Page page = { "page_Nothing" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -77806,6 +78136,8 @@ Page page = { "page_NoThrowFlags" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_NullMovePtr {
@@ -77836,9 +78168,9 @@ Text b2 = { {
  ,{ "It" }
  ,{ "implements" }
  ,{ "the" }
- ,{ "Object" , & fmt_text_a }
- ,{ "Pointer" , & fmt_text_a }
- ,{ "Interface" , & fmt_text_a }
+ ,{ "Object" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
+ ,{ "Pointer" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
+ ,{ "Interface" , & fmt_text_a , & ..#page_Taxonomy#link_ObjectPointerInterface }
  ,{ "." }
  ,{ "Default" }
  ,{ "constructor" }
@@ -77877,6 +78209,8 @@ Page page = { "page_NullMovePtr" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -78098,7 +78432,7 @@ Text b5 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "AnyPtr" , & fmt_text_a }
+ ,{ "AnyPtr" , & fmt_text_a , & ..#page_AnyPtr#link }
  ,{ "," }
  ,{ "i.e." }
  ,{ "it" }
@@ -79619,6 +79953,8 @@ Page page = { "page_ObjectDomain" ,
  ,{ & b71 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ObjectHost {
@@ -79720,7 +80056,7 @@ Text b5 = { {
  ,{ "derived" }
  ,{ "from" }
  ,{ "the" }
- ,{ "InterfaceHost" , & fmt_text_a }
+ ,{ "InterfaceHost" , & fmt_text_a , & ..#page_InterfaceHost#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -80438,6 +80774,8 @@ Page page = { "page_ObjectHost" ,
  ,{ & b46 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ObjectHosting {
@@ -80573,6 +80911,8 @@ Page page = { "page_ObjectHosting" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_OpAddHelper {
@@ -80623,6 +80963,8 @@ Page page = { "page_OpAddHelper" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -80817,6 +81159,8 @@ Page page = { "page_Optional" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -81117,6 +81461,8 @@ Page page = { "page_OwnPtr" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -82202,7 +82548,7 @@ Text b45 = { {
  ,{ "feature," }
  ,{ "see" }
  ,{ "the" }
- ,{ "CancelPacketList" , & fmt_text_a }
+ ,{ "CancelPacketList" , & fmt_text_a , & ..#page_CancelPacketList#link }
  ,{ "implementation." }
 } , & fmt_text , & align_text } ;
 
@@ -83222,7 +83568,7 @@ Text b91 = { {
  ,{ "data_len" , & fmt_text_b }
  ,{ "of" }
  ,{ "the" }
- ,{ "ULenSat" , & fmt_text_a }
+ ,{ "ULenSat" , & fmt_text_a , & ..#page_UIntSat#link }
  ,{ "type" }
  ,{ "to" }
  ,{ "fit" }
@@ -84415,6 +84761,8 @@ Page page = { "page_Packet" ,
  ,{ & b135 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PacketEndpoint {
@@ -85084,6 +85432,8 @@ Page page = { "page_PacketEndpoint" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PacketPool {
@@ -85503,6 +85853,8 @@ Page page = { "page_PacketPool" ,
  ,{ & b16 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PacketSet {
@@ -85910,6 +86262,8 @@ Page page = { "page_PacketSet" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ParserGen {
@@ -85933,7 +86287,7 @@ Text b1 = { {
  ,{ "output" }
  ,{ "of" }
  ,{ "the" }
- ,{ "CondLangLR1" , & fmt_text_a }
+ ,{ "CondLangLR1" , & fmt_text_a , & ..#page_CondLangLR1#link }
  ,{ "and" }
  ,{ "generates" }
  ,{ "two" }
@@ -86540,6 +86894,8 @@ Page page = { "page_ParserGen" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Partition {
@@ -86667,6 +87023,8 @@ Page page = { "page_Partition" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -87928,6 +88286,8 @@ Page page = { "page_Paths" ,
  ,{ & b64 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PerTask {
@@ -88046,7 +88406,7 @@ Text b4 = { {
  ,{ "created" }
  ,{ "with" }
  ,{ "the" }
- ,{ "Task" , & fmt_text_a }
+ ,{ "Task" , & fmt_text_a , & ..#page_Task#link }
  ,{ "class" }
  ,{ "help," }
  ,{ "so" }
@@ -88377,6 +88737,8 @@ Page page = { "page_PerTask" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -89711,6 +90073,8 @@ Page page = { "page_PKE" ,
  ,{ & b52 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Place {
@@ -89949,6 +90313,8 @@ Page page = { "page_Place" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -90339,6 +90705,8 @@ Page page = { "page_PlanInit" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PosSub {
@@ -90480,6 +90848,8 @@ Page page = { "page_PosSub" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Pow {
@@ -90554,6 +90924,8 @@ Page page = { "page_Pow" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -90758,6 +91130,8 @@ Page page = { "page_PretextFileToMem" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PrintAbort {
@@ -90800,6 +91174,8 @@ Page page = { "page_PrintAbort" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -90884,6 +91260,8 @@ Page page = { "page_PrintBits" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -91086,7 +91464,7 @@ Text b11 = { {
  ,{ "XCore" , & fmt_text_b }
  ,{ "PrintCon" , & fmt_text_b }
  ,{ "uses" }
- ,{ "NanoPacket" , & fmt_text_a }
+ ,{ "NanoPacket" , & fmt_text_a , & ..#page_NanoPackets#link }
  ,{ "s." }
  ,{ "Methods" }
  ,{ "Print()" , & fmt_text_b }
@@ -91228,8 +91606,8 @@ Text b16 = { {
  ,{ "file" }
  ,{ "name" }
  ,{ "and" }
- ,{ "open" , & fmt_text_a }
- ,{ "flags" , & fmt_text_a }
+ ,{ "open" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "flags" , & fmt_text_a , & ..#page_Files#link }
  ,{ "must" }
  ,{ "be" }
  ,{ "provided." }
@@ -91355,7 +91733,7 @@ Text b21 = { {
  ,{ "errors" }
  ,{ "using" }
  ,{ "the" }
- ,{ "FileMultiError" , & fmt_text_a }
+ ,{ "FileMultiError" , & fmt_text_a , & ..#page_Files#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -91426,7 +91804,7 @@ Text b24 = { {
  ,{ "from" }
  ,{ "two" }
  ,{ "classes:" }
- ,{ "SafeBuf" , & fmt_text_a }
+ ,{ "SafeBuf" , & fmt_text_a , & ..#page_SafeBuf#link }
  ,{ "and" }
  ,{ "RawFileToPrint" , & fmt_text_b }
  ,{ "." }
@@ -91555,7 +91933,7 @@ Text b31 = { {
  ,{ "a" }
  ,{ "file" }
  ,{ "the" }
- ,{ "DefaultFileDevice" , & fmt_text_a }
+ ,{ "DefaultFileDevice" , & fmt_text_a , & ..#page_DefaultFileDevice#link }
  ,{ "is" }
  ,{ "used." }
 } , & fmt_text , & align_text } ;
@@ -91572,7 +91950,7 @@ Text b33 = { {
  ,{ "built" }
  ,{ "using" }
  ,{ "the" }
- ,{ "AsyncFile" , & fmt_text_a }
+ ,{ "AsyncFile" , & fmt_text_a , & ..#page_AsyncFileClients#link }
  ,{ "class." }
  ,{ "Output" }
  ,{ "stream" }
@@ -91721,7 +92099,7 @@ Text b39 = { {
  ,{ "a" }
  ,{ "program." }
  ,{ "Some" }
- ,{ "AsyncFileSystem" , & fmt_text_a }
+ ,{ "AsyncFileSystem" , & fmt_text_a , & ..#page_AsyncFileClients#link_AsyncFileSystem }
  ,{ "object" }
  ,{ "is" }
  ,{ "involved." }
@@ -91865,8 +92243,8 @@ Text b45 = { {
  ,{ "class" }
  ,{ "uses" }
  ,{ "the" }
- ,{ "PTP" , & fmt_text_a }
- ,{ "Console" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPCon#link }
+ ,{ "Console" , & fmt_text_a , & ..#page_PTPCon#link }
  ,{ "protocol" }
  ,{ "to" }
  ,{ "print" }
@@ -91979,8 +92357,8 @@ Text b51 = { {
  ,{ "for" }
  ,{ "printing" }
  ,{ "or" }
- ,{ "console" , & fmt_text_a }
- ,{ "reading" , & fmt_text_a }
+ ,{ "console" , & fmt_text_a , & ..#page_ConsoleInput#link_ReadPTPCon }
+ ,{ "reading" , & fmt_text_a , & ..#page_ConsoleInput#link_ReadPTPCon }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -92040,6 +92418,8 @@ Page page = { "page_PrintDevice" ,
  ,{ & b51 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PrintError {
@@ -92088,6 +92468,8 @@ Page page = { "page_PrintError" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -93810,6 +94192,8 @@ Page page = { "page_Printing" ,
  ,{ & b78 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PrintRatio {
@@ -93874,6 +94258,8 @@ Page page = { "page_PrintRatio" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -93958,6 +94344,8 @@ Page page = { "page_PrintSet" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -94201,6 +94589,8 @@ Page page = { "page_PrintStem" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PrintTime {
@@ -94257,6 +94647,8 @@ Page page = { "page_PrintTime" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PrintTitle {
@@ -94294,7 +94686,7 @@ Text b3 = { {
  ,{ "as" }
  ,{ "the" }
  ,{ "class" }
- ,{ "Title" , & fmt_text_a }
+ ,{ "Title" , & fmt_text_a , & ..#page_Printing#link_Title }
  ,{ "," }
  ,{ "and" }
  ,{ "has" }
@@ -94327,6 +94719,8 @@ Page page = { "page_PrintTitle" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -95697,6 +96091,8 @@ Page page = { "page_PSec" ,
  ,{ & b69 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PSecEchoServer {
@@ -95712,14 +96108,14 @@ Text b1 = { {
  ,{ "simple" }
  ,{ "secure" }
  ,{ "UDP" , & fmt_text_b }
- ,{ "PTP" , & fmt_text_a }
- ,{ "echo" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPEchoTest#link }
+ ,{ "echo" , & fmt_text_a , & ..#page_PTPEchoTest#link }
  ,{ "server." }
  ,{ "It" }
  ,{ "uses" }
- ,{ "PSec" , & fmt_text_a }
+ ,{ "PSec" , & fmt_text_a , & ..#page_PSec#link }
  ,{ "and" }
- ,{ "PKE" , & fmt_text_a }
+ ,{ "PKE" , & fmt_text_a , & ..#page_PKE#link }
  ,{ "protocols" }
  ,{ "to" }
  ,{ "establish" }
@@ -95758,9 +96154,9 @@ Text b1 = { {
  ,{ "functions" }
  ,{ "from" }
  ,{ "the" }
- ,{ "PTP" , & fmt_text_a }
- ,{ "support" , & fmt_text_a }
- ,{ "service" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "support" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "service" , & fmt_text_a , & ..#page_PTPSupport#link }
  ,{ ":" }
  ,{ "Len," }
  ,{ "Seed," }
@@ -95915,6 +96311,8 @@ Page page = { "page_PSecEchoServer" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -97182,9 +97580,9 @@ Text b47 = { {
  ,{ "id." }
  ,{ "See" }
  ,{ "the" }
- ,{ "recommended" , & fmt_text_a }
- ,{ "service/function" , & fmt_text_a }
- ,{ "encoding" , & fmt_text_a }
+ ,{ "recommended" , & fmt_text_a , & ..#page_PTPService#link }
+ ,{ "service/function" , & fmt_text_a , & ..#page_PTPService#link }
+ ,{ "encoding" , & fmt_text_a , & ..#page_PTPService#link }
  ,{ "." }
  ,{ "Serialized" }
  ,{ "InputType" , & fmt_text_b }
@@ -97489,9 +97887,9 @@ Text b57 = { {
  ,{ "approach" }
  ,{ "to" }
  ,{ "perform" }
- ,{ "support" , & fmt_text_a }
- ,{ "service" , & fmt_text_a }
- ,{ "functions" , & fmt_text_a }
+ ,{ "support" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "service" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "functions" , & fmt_text_a , & ..#page_PTPSupport#link }
  ,{ "." }
  ,{ "Below" }
  ,{ "are" }
@@ -98013,6 +98411,8 @@ Page page = { "page_PTP" ,
  ,{ & b76 , null , inner_text , outer_text , back_text }
  ,{ & b77 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -98659,6 +99059,8 @@ Page page = { "page_PTPBoot" ,
  ,{ & b28 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PTPCilentDeviceEvents {
@@ -98670,8 +99072,8 @@ Text b0 = { {
 } , & fmt_h2 , & align_h2 } ;
 
 Text b1 = { {
- { "PTP" , & fmt_text_a }
- ,{ "ClientDevice" , & fmt_text_a }
+ { "PTP" , & fmt_text_a , & ..#page_PTP#link_ClientDevice }
+ ,{ "ClientDevice" , & fmt_text_a , & ..#page_PTP#link_ClientDevice }
  ,{ "generates" }
  ,{ "protocol" }
  ,{ "events" }
@@ -98729,6 +99131,8 @@ Page page = { "page_PTPCilentDeviceEvents" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -99423,6 +99827,8 @@ Page page = { "page_PTPCon" ,
  ,{ & b35 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PTPEchoServer {
@@ -99437,8 +99843,8 @@ Text b1 = { {
  ,{ "a" }
  ,{ "simple" }
  ,{ "UDP" , & fmt_text_b }
- ,{ "PTP" , & fmt_text_a }
- ,{ "echo" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPEchoTest#link }
+ ,{ "echo" , & fmt_text_a , & ..#page_PTPEchoTest#link }
  ,{ "server." }
  ,{ "It" }
  ,{ "occupies" }
@@ -99458,9 +99864,9 @@ Text b1 = { {
  ,{ "functions" }
  ,{ "from" }
  ,{ "the" }
- ,{ "PTP" , & fmt_text_a }
- ,{ "support" , & fmt_text_a }
- ,{ "service" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "support" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "service" , & fmt_text_a , & ..#page_PTPSupport#link }
  ,{ ":" }
  ,{ "Len," }
  ,{ "Seed," }
@@ -99497,6 +99903,8 @@ Page page = { "page_PTPEchoServer" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -99652,8 +100060,8 @@ Text b7 = { {
  ,{ "PTP::ClientDevice" , & fmt_text_b }
  ,{ "," }
  ,{ "using" }
- ,{ "Ext" , & fmt_text_a }
- ,{ "extension" , & fmt_text_a }
+ ,{ "Ext" , & fmt_text_a , & ..#page_PTP#link_Ext }
+ ,{ "extension" , & fmt_text_a , & ..#page_PTP#link_Ext }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -99668,6 +100076,8 @@ Page page = { "page_PTPEchoTest" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -99743,9 +100153,9 @@ Text b5 = { {
  ,{ "system" }
  ,{ "operations" }
  ,{ "according" }
- ,{ "General" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "operations" , & fmt_text_a }
+ ,{ "General" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "operations" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
  ,{ "To" }
  ,{ "identify" }
@@ -99777,11 +100187,11 @@ Text b7 = { {
  ,{ "and" }
  ,{ "meaning" }
  ,{ "as" }
- ,{ "General" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "data" , & fmt_text_a }
- ,{ "and" , & fmt_text_a }
- ,{ "constants" , & fmt_text_a }
+ ,{ "General" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "file" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "data" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "and" , & fmt_text_a , & ..#page_Files#link }
+ ,{ "constants" , & fmt_text_a , & ..#page_Files#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -100376,8 +100786,8 @@ Text b43 = { {
  ,{ "with" }
  ,{ "the" }
  ,{ "proper" }
- ,{ "Ext" , & fmt_text_a }
- ,{ "extension" , & fmt_text_a }
+ ,{ "Ext" , & fmt_text_a , & ..#page_PTP#link_Ext }
+ ,{ "extension" , & fmt_text_a , & ..#page_PTP#link_Ext }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -100397,12 +100807,12 @@ Text b45 = { {
  ,{ "." }
  ,{ "It" }
  ,{ "implements" }
- ,{ "async" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "and" , & fmt_text_a }
- ,{ "file" , & fmt_text_a }
- ,{ "system" , & fmt_text_a }
- ,{ "interfaces" , & fmt_text_a }
+ ,{ "async" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "file" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "and" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "file" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "system" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "interfaces" , & fmt_text_a , & ..#page_AsyncFiles#link }
  ,{ "over" }
  ,{ "a" }
  ,{ "PTP" , & fmt_text_b }
@@ -100487,6 +100897,8 @@ Page page = { "page_PTPHFS" ,
  ,{ & b47 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PTPSecureClient {
@@ -100503,7 +100915,7 @@ Text b1 = { {
  ,{ "to" }
  ,{ "connect" }
  ,{ "to" }
- ,{ "PTPSecureServer" , & fmt_text_a }
+ ,{ "PTPSecureServer" , & fmt_text_a , & ..#page_PTPSecureServer#link }
  ,{ "and" }
  ,{ "execute" }
  ,{ "some" }
@@ -100539,7 +100951,7 @@ Text b2 = { {
  ,{ "This" }
  ,{ "file" }
  ,{ "uses" }
- ,{ "DDL" , & fmt_text_a }
+ ,{ "DDL" , & fmt_text_a , & ..#page_DDL#link }
  ,{ "to" }
  ,{ "describe" }
  ,{ "various" }
@@ -101031,6 +101443,8 @@ Page page = { "page_PTPSecureClient" ,
  ,{ & b32 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PTPSecureServer {
@@ -101088,7 +101502,7 @@ Text b2 = { {
  ,{ "This" }
  ,{ "file" }
  ,{ "uses" }
- ,{ "DDL" , & fmt_text_a }
+ ,{ "DDL" , & fmt_text_a , & ..#page_DDL#link }
  ,{ "to" }
  ,{ "describe" }
  ,{ "various" }
@@ -101453,8 +101867,8 @@ Text b24 = { {
  ,{ "channel" }
  ,{ "to" }
  ,{ "perform" }
- ,{ "PTP" , & fmt_text_a }
- ,{ "HFS" , & fmt_text_a }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTP#link }
+ ,{ "HFS" , & fmt_text_a , & ..#page_PTPHFS#link }
  ,{ "transactions" }
  ,{ "with" }
  ,{ "the" }
@@ -101502,6 +101916,8 @@ Page page = { "page_PTPSecureServer" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
  ,{ & b24 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -101655,12 +102071,12 @@ Text b8 = { {
  ,{ "you" }
  ,{ "may" }
  ,{ "use" }
- ,{ "HFS" , & fmt_text_a }
+ ,{ "HFS" , & fmt_text_a , & ..#page_PTPHFS#link }
  ,{ "," }
- ,{ "PTPCon" , & fmt_text_a }
+ ,{ "PTPCon" , & fmt_text_a , & ..#page_PTPCon#link }
  ,{ "," }
- ,{ "PTPSupport" , & fmt_text_a }
- ,{ "PTP" , & fmt_text_a }
+ ,{ "PTPSupport" , & fmt_text_a , & ..#page_PTPSupport#link }
+ ,{ "PTP" , & fmt_text_a , & ..#page_PTP#link }
  ,{ "services." }
 } , & fmt_text , & align_text } ;
 
@@ -101677,6 +102093,8 @@ Page page = { "page_PTPServer" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PTPServerDeviceEvents {
@@ -101688,8 +102106,8 @@ Text b0 = { {
 } , & fmt_h2 , & align_h2 } ;
 
 Text b1 = { {
- { "PTP" , & fmt_text_a }
- ,{ "ServerDevice" , & fmt_text_a }
+ { "PTP" , & fmt_text_a , & ..#page_PTP#link_ServerDevice }
+ ,{ "ServerDevice" , & fmt_text_a , & ..#page_PTP#link_ServerDevice }
  ,{ "generates" }
  ,{ "protocol" }
  ,{ "events" }
@@ -101747,6 +102165,8 @@ Page page = { "page_PTPServerDeviceEvents" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -102042,6 +102462,8 @@ Page page = { "page_PTPService" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -102692,6 +103114,8 @@ Page page = { "page_PTPSupport" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
  ,{ & b32 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -104264,6 +104688,8 @@ Page page = { "page_PtrLen" ,
  ,{ & b63 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PtrLenReverse {
@@ -104310,7 +104736,7 @@ Text b3 = { {
  ,{ "are" }
  ,{ "similar" }
  ,{ "to" }
- ,{ "PtrLen" , & fmt_text_a }
+ ,{ "PtrLen" , & fmt_text_a , & ..#page_PtrLen#link }
  ,{ "methods." }
 } , & fmt_text , & align_text } ;
 
@@ -104721,6 +105147,8 @@ Page page = { "page_PtrLenReverse" ,
  ,{ & b27 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_PtrStepLen {
@@ -104741,7 +105169,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "PtrLen" , & fmt_text_a }
+ ,{ "PtrLen" , & fmt_text_a , & ..#page_PtrLen#link }
  ,{ "." }
  ,{ "It" }
  ,{ "represents" }
@@ -104985,6 +105413,8 @@ Page page = { "page_PtrStepLen" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -105271,7 +105701,7 @@ Text b7 = { {
  ,{ "returns" }
  ,{ "a" }
  ,{ "null" }
- ,{ "Space" , & fmt_text_a }
+ ,{ "Space" , & fmt_text_a , & ..#page_Space#link }
  ,{ "object." }
  ,{ "Otherwise" }
  ,{ "the" }
@@ -105374,7 +105804,7 @@ Text b11 = { {
  ,{ "nothing." }
  ,{ "The" }
  ,{ "resulting" }
- ,{ "DeltaLen" , & fmt_text_a }
+ ,{ "DeltaLen" , & fmt_text_a , & ..#page_Space#link }
  ,{ "object" }
  ,{ "has" }
  ,{ "the" }
@@ -105918,6 +106348,8 @@ Page page = { "page_RadixHeap" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -106758,6 +107190,8 @@ Page page = { "page_Random" ,
  ,{ & b32 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_RangeDel {
@@ -106859,7 +107293,7 @@ Text b5 = { {
  ,{ "elements" }
  ,{ "must" }
  ,{ "be" }
- ,{ "swappable" , & fmt_text_a }
+ ,{ "swappable" , & fmt_text_a , & ..#page_Swap#link }
  ,{ "." }
  ,{ "If" }
  ,{ "the" }
@@ -107019,7 +107453,7 @@ Text b9 = { {
  ,{ "elements" }
  ,{ "must" }
  ,{ "be" }
- ,{ "swappable" , & fmt_text_a }
+ ,{ "swappable" , & fmt_text_a , & ..#page_Swap#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -107102,6 +107536,8 @@ Page page = { "page_RangeDel" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_RawFileToRead {
@@ -107149,11 +107585,11 @@ Text b3 = { {
  ,{ "used" }
  ,{ "in" }
  ,{ "the" }
- ,{ "FileToMem" , & fmt_text_a }
+ ,{ "FileToMem" , & fmt_text_a , & ..#page_FileToMem#link }
  ,{ "constructor." }
  ,{ "See" }
  ,{ "also" }
- ,{ "PrintFile" , & fmt_text_a }
+ ,{ "PrintFile" , & fmt_text_a , & ..#page_PrintDevice#link_PrintFile }
  ,{ "about" }
  ,{ "file" }
  ,{ "writing" }
@@ -107319,6 +107755,8 @@ Page page = { "page_RawFileToRead" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_RefObjectBase {
@@ -107359,7 +107797,7 @@ Text b2 = { {
  ,{ "with" }
  ,{ "the" }
  ,{ "class" }
- ,{ "RefPtr" , & fmt_text_a }
+ ,{ "RefPtr" , & fmt_text_a , & ..#page_RefPtr#link }
  ,{ "to" }
  ,{ "build" }
  ,{ "a" }
@@ -107438,6 +107876,8 @@ Page page = { "page_RefObjectBase" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -107739,6 +108179,8 @@ Page page = { "page_RefPtr" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -108472,6 +108914,8 @@ Page page = { "page_Regen" ,
  ,{ & b26 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Replace {
@@ -108577,6 +109021,8 @@ Page page = { "page_Replace" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -108994,6 +109440,8 @@ Page page = { "page_ResSem" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Rot {
@@ -109219,6 +109667,8 @@ Page page = { "page_Rot" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SafeBuf {
@@ -109271,6 +109721,8 @@ Page page = { "page_SafeBuf" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -109909,7 +110361,7 @@ Text b30 = { {
  ,{ "number" }
  ,{ "the" }
  ,{ "type" }
- ,{ "ULenSat" , & fmt_text_a }
+ ,{ "ULenSat" , & fmt_text_a , & ..#page_UIntSat#link }
  ,{ "is" }
  ,{ "used." }
 } , & fmt_text , & align_text } ;
@@ -110252,6 +110704,8 @@ Page page = { "page_SaveLoad" ,
  ,{ & b46 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ScanBit {
@@ -110573,6 +111027,8 @@ Page page = { "page_ScanBit" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ScanDevice {
@@ -110601,7 +111057,7 @@ Text b3 = { {
  ,{ "classes" }
  ,{ "for" }
  ,{ "the" }
- ,{ "scanning" , & fmt_text_a }
+ ,{ "scanning" , & fmt_text_a , & ..#page_Scanning#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -110618,8 +111074,8 @@ Text b5 = { {
  ,{ "used" }
  ,{ "to" }
  ,{ "scan" }
- ,{ "async" , & fmt_text_a }
- ,{ "files" , & fmt_text_a }
+ ,{ "async" , & fmt_text_a , & ..#page_AsyncFiles#link }
+ ,{ "files" , & fmt_text_a , & ..#page_AsyncFiles#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -110814,7 +111270,7 @@ Text b13 = { {
  ,{ "errors" }
  ,{ "using" }
  ,{ "the" }
- ,{ "FileMultiError" , & fmt_text_a }
+ ,{ "FileMultiError" , & fmt_text_a , & ..#page_Files#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -111034,7 +111490,7 @@ Text b22 = { {
  ,{ "errors" }
  ,{ "using" }
  ,{ "the" }
- ,{ "FileMultiError" , & fmt_text_a }
+ ,{ "FileMultiError" , & fmt_text_a , & ..#page_Files#link }
  ,{ "object." }
 } , & fmt_text , & align_text } ;
 
@@ -111142,6 +111598,8 @@ Page page = { "page_ScanDevice" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -111952,7 +112410,7 @@ Text b28 = { {
  ,{ "=" , & fmt_text_b }
  ,{ ">" , & fmt_text_b }
  ,{ "?" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "@" , & fmt_text_b }
  ,{ "[" , & fmt_text_b }
  ,{ "\\" , & fmt_text_b }
  ,{ "]" , & fmt_text_b }
@@ -112655,6 +113113,8 @@ Page page = { "page_Scanning" ,
  ,{ & b56 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Scope {
@@ -112730,6 +113190,8 @@ Page page = { "page_Scope" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_ScopeGuard {
@@ -112788,6 +113250,8 @@ Page page = { "page_ScopeGuard" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -113144,6 +113608,8 @@ Page page = { "page_Sem" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SHA {
@@ -113172,7 +113638,7 @@ Text b3 = { {
 Text b4 = { {
  { "The" }
  ,{ "following" }
- ,{ "HashFunction<....>" , & fmt_text_a }
+ ,{ "HashFunction<....>" , & fmt_text_a , & ..#page_HashFunction#link }
  ,{ "classes" }
  ,{ "implement" }
  ,{ "the" }
@@ -113193,7 +113659,7 @@ Text b5 = { {
 Text b6 = { {
  { "The" }
  ,{ "following" }
- ,{ "KeyedHashFunction<....>" , & fmt_text_a }
+ ,{ "KeyedHashFunction<....>" , & fmt_text_a , & ..#page_HashFunction#link }
  ,{ "classes" }
  ,{ "implement" }
  ,{ "the" }
@@ -113273,6 +113739,8 @@ Page page = { "page_SHA" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -113599,9 +114067,9 @@ Text b19 = { {
  ,{ "a" }
  ,{ "functor," }
  ,{ "using" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "," }
  ,{ "and" }
  ,{ "applies" }
@@ -113675,6 +114143,8 @@ Page page = { "page_Signal" ,
  ,{ & b20 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b21 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -113759,6 +114229,8 @@ Page page = { "page_SimpleRotate" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SingleBridge {
@@ -113780,7 +114252,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "Bridge" , & fmt_text_a }
+ ,{ "Bridge" , & fmt_text_a , & ..#page_Bridge#link }
  ,{ "," }
  ,{ "but" }
  ,{ "implements" }
@@ -113936,6 +114408,8 @@ Page page = { "page_SingleBridge" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SingleEchoDevice {
@@ -113957,7 +114431,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "EchoDevice" , & fmt_text_a }
+ ,{ "EchoDevice" , & fmt_text_a , & ..#page_EchoDevice#link }
  ,{ "." }
  ,{ "But" }
  ,{ "it" }
@@ -114046,6 +114520,8 @@ Page page = { "page_SingleEchoDevice" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -114413,6 +114889,8 @@ Page page = { "page_SingleHost" ,
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -114797,6 +115275,8 @@ Page page = { "page_SIntFunc" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SlowSem {
@@ -114870,6 +115350,8 @@ Page page = { "page_SlowSem" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SmallPrimes {
@@ -114906,6 +115388,8 @@ Page page = { "page_SmallPrimes" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -115719,9 +116203,9 @@ Text b27 = { {
  ,{ "ParaQuickSort" , & fmt_text_b }
  ,{ "uses" }
  ,{ "a" }
- ,{ "working" , & fmt_text_a }
- ,{ "thread" , & fmt_text_a }
- ,{ "pool" , & fmt_text_a }
+ ,{ "working" , & fmt_text_a , & ..#page_Job#link }
+ ,{ "thread" , & fmt_text_a , & ..#page_Job#link }
+ ,{ "pool" , & fmt_text_a , & ..#page_Job#link }
  ,{ "." }
  ,{ "To" }
  ,{ "get" }
@@ -115876,6 +116360,8 @@ Page page = { "page_Sort" ,
  ,{ & b34 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SortUnique {
@@ -115983,9 +116469,9 @@ Text b3 = { {
  ,{ "BaseRangeAlgo<R>" , & fmt_text_b }
  ,{ "." }
  ,{ "The" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "is" }
  ,{ "used" }
  ,{ "to" }
@@ -116213,6 +116699,8 @@ Page page = { "page_SortUnique" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Space {
@@ -116232,6 +116720,8 @@ Page page = { "page_Space" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -116300,9 +116790,9 @@ Text b3 = { {
  ,{ "thread" }
  ,{ "properties" }
  ,{ "(see" }
- ,{ "Task" , & fmt_text_a }
- ,{ "constructor" , & fmt_text_a }
- ,{ "arguments" , & fmt_text_a }
+ ,{ "Task" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "constructor" , & fmt_text_a , & ..#page_Task#link }
+ ,{ "arguments" , & fmt_text_a , & ..#page_Task#link }
  ,{ ")." }
 } , & fmt_text , & align_text } ;
 
@@ -116432,6 +116922,8 @@ Page page = { "page_StartStop" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_StepEval {
@@ -116530,8 +117022,8 @@ Text b3 = { {
  ,{ "must" }
  ,{ "return" }
  ,{ "some" }
- ,{ "alloc" , & fmt_text_a }
- ,{ "class" , & fmt_text_a }
+ ,{ "alloc" , & fmt_text_a , & ..#page_NewDelete#link }
+ ,{ "class" , & fmt_text_a , & ..#page_NewDelete#link }
  ,{ "object" }
  ,{ "to" }
  ,{ "be" }
@@ -116577,8 +117069,8 @@ Text b4 = { {
  ,{ "argument" }
  ,{ "is" }
  ,{ "a" }
- ,{ "functor" , & fmt_text_a }
- ,{ "init" , & fmt_text_a }
+ ,{ "functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "init" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "object." }
  ,{ "The" }
  ,{ "optional" }
@@ -117063,7 +117555,7 @@ Text b13 = { {
  ,{ "set" }
  ,{ "using" }
  ,{ "the" }
- ,{ "AnyPtr" , & fmt_text_a }
+ ,{ "AnyPtr" , & fmt_text_a , & ..#page_AnyPtr#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -117428,6 +117920,8 @@ Page page = { "page_StepEval" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_String {
@@ -117464,7 +117958,7 @@ Text b2 = { {
  ,{ "because" }
  ,{ "it" }
  ,{ "uses" }
- ,{ "AtomicRefArray" , & fmt_text_a }
+ ,{ "AtomicRefArray" , & fmt_text_a , & ..#page_Arrays#link_RefArray }
  ,{ "." }
  ,{ "The" }
  ,{ "String" , & fmt_text_b }
@@ -117816,6 +118310,8 @@ Page page = { "page_String" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_StrKey {
@@ -117933,6 +118429,8 @@ Page page = { "page_StrKey" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -118212,6 +118710,8 @@ Page page = { "page_StrMap" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -118701,8 +119201,8 @@ Text b31 = { {
  { "This" }
  ,{ "function" }
  ,{ "extracts" }
- ,{ "space" , & fmt_text_a }
- ,{ "characters" , & fmt_text_a }
+ ,{ "space" , & fmt_text_a , & ..#page_CharProp#link_Prop }
+ ,{ "characters" , & fmt_text_a , & ..#page_CharProp#link_Prop }
  ,{ "up" }
  ,{ "to" }
  ,{ "the" }
@@ -118752,6 +119252,8 @@ Page page = { "page_StrParse" ,
  ,{ & b30 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -118834,6 +119336,8 @@ Page page = { "page_StrToChar" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -119204,6 +119708,8 @@ Page page = { "page_Swap" ,
  ,{ & b8 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -119606,6 +120112,8 @@ Page page = { "page_Symbol" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SymCount {
@@ -119771,6 +120279,8 @@ Page page = { "page_SymCount" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_SymPart {
@@ -119868,6 +120378,8 @@ Page page = { "page_SymPart" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Sync {
@@ -119933,7 +120445,7 @@ Text b2 = { {
  ,{ "constructor," }
  ,{ "using" }
  ,{ "a" }
- ,{ "TextLabel" , & fmt_text_a }
+ ,{ "TextLabel" , & fmt_text_a , & ..#page_TextLabel#link }
  ,{ "." }
  ,{ "If" }
  ,{ "the" }
@@ -120007,12 +120519,12 @@ Text b3 = { {
  ,{ "variants" }
  ,{ "with" }
  ,{ "the" }
- ,{ "MSec" , & fmt_text_a }
+ ,{ "MSec" , & fmt_text_a , & ..#page_MSec#link }
  ,{ "timeout" }
  ,{ "and" }
  ,{ "with" }
  ,{ "the" }
- ,{ "TimeScope" , & fmt_text_a }
+ ,{ "TimeScope" , & fmt_text_a , & ..#page_TimeScope#link }
  ,{ "timeout." }
  ,{ "The" }
  ,{ "variant" }
@@ -120090,7 +120602,7 @@ Text b5 = { {
  ,{ "which" }
  ,{ "return" }
  ,{ "a" }
- ,{ "Function" , & fmt_text_a }
+ ,{ "Function" , & fmt_text_a , & ..#page_Function#link }
  ,{ "object," }
  ,{ "bound" }
  ,{ "with" }
@@ -120180,6 +120692,8 @@ Page page = { "page_Sync" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -120660,6 +121174,8 @@ Page page = { "page_SysLog" ,
  ,{ & b23 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b24 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -121630,6 +122146,8 @@ Page page = { "page_Task" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_TaskHeap {
@@ -121655,7 +122173,7 @@ Text b2 = { {
  ,{ "is" }
  ,{ "based" }
  ,{ "on" }
- ,{ "PerTask" , & fmt_text_a }
+ ,{ "PerTask" , & fmt_text_a , & ..#page_PerTask#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -121716,9 +122234,9 @@ Text b4 = { {
  ,{ "semantic" }
  ,{ "of" }
  ,{ "the" }
- ,{ "global" , & fmt_text_a }
- ,{ "heap" , & fmt_text_a }
- ,{ "functions" , & fmt_text_a }
+ ,{ "global" , & fmt_text_a , & ..#page_MemoryManagement#link }
+ ,{ "heap" , & fmt_text_a , & ..#page_MemoryManagement#link }
+ ,{ "functions" , & fmt_text_a , & ..#page_MemoryManagement#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -121999,7 +122517,7 @@ Text b13 = { {
  ,{ "arrays" }
  ,{ "instead" }
  ,{ "of" }
- ,{ "ArrayAlgo" , & fmt_text_a }
+ ,{ "ArrayAlgo" , & fmt_text_a , & ..#page_Arrays#link_ArrayAlgo }
  ,{ "to" }
  ,{ "utilize" }
  ,{ "the" }
@@ -122041,6 +122559,8 @@ Page page = { "page_TaskHeap" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -122452,7 +122972,7 @@ Text b24 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "SimpleArray" , & fmt_text_a }
+ ,{ "SimpleArray" , & fmt_text_a , & ..#page_Arrays#link_SimpleArray }
  ,{ "class." }
  ,{ "The" }
  ,{ "only" }
@@ -122522,6 +123042,8 @@ Page page = { "page_TaskMemStack" ,
  ,{ & b23 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b24 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -122905,6 +123427,8 @@ Page page = { "page_TaskMonitor" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Taxonomy {
@@ -123001,7 +123525,7 @@ Text b4 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "Swap" , & fmt_text_a }
+ ,{ "Swap" , & fmt_text_a , & ..#page_Swap#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -123055,7 +123579,7 @@ Text b7 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "Nothing" , & fmt_text_a }
+ ,{ "Nothing" , & fmt_text_a , & ..#page_Nothing#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -123084,7 +123608,7 @@ Text b9 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "GuardIndex()" , & fmt_text_a }
+ ,{ "GuardIndex()" , & fmt_text_a , & ..#page_PtrLen#link }
  ,{ "." }
  ,{ "Usually," }
  ,{ "we" }
@@ -123124,7 +123648,7 @@ Text b12 = { {
  ,{ "message." }
  ,{ "For" }
  ,{ "example," }
- ,{ "NoObjectAbort()" , & fmt_text_a }
+ ,{ "NoObjectAbort()" , & fmt_text_a , & ..#page_Init#link }
  ,{ "is" }
  ,{ "called" }
  ,{ "when" }
@@ -123265,7 +123789,7 @@ Text b16 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "ToMemBase" , & fmt_text_a }
+ ,{ "ToMemBase" , & fmt_text_a , & ..#page_ToMemBase#link }
  ,{ "." }
  ,{ "Such" }
  ,{ "classes" }
@@ -123337,7 +123861,7 @@ Text b20 = { {
  ,{ "is" }
  ,{ "the" }
  ,{ "class" }
- ,{ "String" , & fmt_text_a }
+ ,{ "String" , & fmt_text_a , & ..#page_String#link }
  ,{ "." }
  ,{ "The" }
  ,{ "purpose" }
@@ -123795,9 +124319,9 @@ Text b43 = { {
  ,{ "For" }
  ,{ "example," }
  ,{ "see" }
- ,{ "NoCopy" , & fmt_text_a }
+ ,{ "NoCopy" , & fmt_text_a , & ..#page_NoCopy#link }
  ,{ "or" }
- ,{ "MemBase" , & fmt_text_a }
+ ,{ "MemBase" , & fmt_text_a , & ..#page_MemoryManagement#link_MemBase }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -123830,7 +124354,7 @@ Text b45 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "PrintSet" , & fmt_text_a }
+ ,{ "PrintSet" , & fmt_text_a , & ..#page_PrintSet#link }
  ,{ "." }
  ,{ "Helper" , & fmt_text_b }
  ,{ "Type" , & fmt_text_b }
@@ -124025,7 +124549,7 @@ Text b51 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "OwnAlgo" , & fmt_text_a }
+ ,{ "OwnAlgo" , & fmt_text_a , & ..#page_OwnPtr#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -124072,7 +124596,7 @@ Text b53 = { {
  ,{ "See," }
  ,{ "for" }
  ,{ "example," }
- ,{ "MemStat" , & fmt_text_a }
+ ,{ "MemStat" , & fmt_text_a , & ..#page_MemoryManagement#link_MemStat }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -124238,6 +124762,8 @@ Page page = { "page_Taxonomy" ,
  ,{ & b61 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_TextLabel {
@@ -124353,7 +124879,7 @@ Text b3 = { {
  ,{ "of" }
  ,{ "the" }
  ,{ "length" }
- ,{ "TextBufLen" , & fmt_text_a }
+ ,{ "TextBufLen" , & fmt_text_a , & ..#page_Len#link }
  ,{ "." }
  ,{ "We" }
  ,{ "assume" }
@@ -124528,6 +125054,8 @@ Page page = { "page_TextLabel" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -125031,6 +125559,8 @@ Page page = { "page_TextTools" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Tick {
@@ -125368,6 +125898,8 @@ Page page = { "page_Tick" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Ticker {
@@ -125397,7 +125929,7 @@ Text b3 = { {
  ,{ "upon" }
  ,{ "the" }
  ,{ "class" }
- ,{ "TickJob" , & fmt_text_a }
+ ,{ "TickJob" , & fmt_text_a , & ..#page_Tick#link }
  ,{ "and" }
  ,{ "should" }
  ,{ "be" }
@@ -125619,6 +126151,8 @@ Page page = { "page_Ticker" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -125853,6 +126387,8 @@ Page page = { "page_Timer" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -126213,6 +126749,8 @@ Page page = { "page_TimeScope" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_TlsSlot {
@@ -126242,7 +126780,7 @@ Text b2 = { {
  ,{ "integrated" }
  ,{ "with" }
  ,{ "the" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "subsystem." }
 } , & fmt_text , & align_text } ;
 
@@ -126332,7 +126870,7 @@ Text b5 = { {
  ,{ "thread," }
  ,{ "using" }
  ,{ "the" }
- ,{ "Task" , & fmt_text_a }
+ ,{ "Task" , & fmt_text_a , & ..#page_Task#link }
  ,{ "object" }
  ,{ "and" }
  ,{ "functions," }
@@ -126363,7 +126901,7 @@ Text b5 = { {
  ,{ "also" }
  ,{ "use" }
  ,{ "the" }
- ,{ "PerTask" , & fmt_text_a }
+ ,{ "PerTask" , & fmt_text_a , & ..#page_PerTask#link }
  ,{ "tool." }
 } , & fmt_text , & align_text } ;
 
@@ -126376,6 +126914,8 @@ Page page = { "page_TlsSlot" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -126485,6 +127025,8 @@ Page page = { "page_ToMemBase" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_tool_MakeString {
@@ -126552,6 +127094,8 @@ Page page = { "page_tool_MakeString" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_TreeMaps {
@@ -126574,11 +127118,11 @@ Text b2 = { {
  ,{ "maps," }
  ,{ "built" }
  ,{ "on" }
- ,{ "red-black" , & fmt_text_a }
- ,{ "tree" , & fmt_text_a }
- ,{ "and" , & fmt_text_a }
- ,{ "radix" , & fmt_text_a }
- ,{ "tree" , & fmt_text_a }
+ ,{ "red-black" , & fmt_text_a , & ..#page_Trees#link }
+ ,{ "tree" , & fmt_text_a , & ..#page_Trees#link }
+ ,{ "and" , & fmt_text_a , & ..#page_Trees#link }
+ ,{ "radix" , & fmt_text_a , & ..#page_Trees#link }
+ ,{ "tree" , & fmt_text_a , & ..#page_Trees#link }
  ,{ "algorithms." }
  ,{ "They" }
  ,{ "are" }
@@ -126589,8 +127133,8 @@ Text b2 = { {
  ,{ "type," }
  ,{ "object" }
  ,{ "type," }
- ,{ "node" , & fmt_text_a }
- ,{ "allocator" , & fmt_text_a }
+ ,{ "node" , & fmt_text_a , & ..#page_NodeAllocators#link }
+ ,{ "allocator" , & fmt_text_a , & ..#page_NodeAllocators#link }
  ,{ "type." }
  ,{ "Node" }
  ,{ "allocator" }
@@ -126616,8 +127160,8 @@ Text b2 = { {
  ,{ "There" }
  ,{ "are" }
  ,{ "also" }
- ,{ "compact" , & fmt_text_a }
- ,{ "variants" , & fmt_text_a }
+ ,{ "compact" , & fmt_text_a , & ..#page_CompactMaps#link }
+ ,{ "variants" , & fmt_text_a , & ..#page_CompactMaps#link }
  ,{ "of" }
  ,{ "these" }
  ,{ "maps." }
@@ -127388,6 +127932,8 @@ Page page = { "page_TreeMaps" ,
  ,{ & b38 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Trees {
@@ -127414,6 +127960,8 @@ Page page = { "page_Trees" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text_Files , outer_text_Files , back_text_Files }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -127537,9 +128085,9 @@ Text b5 = { {
  ,{ "classes" }
  ,{ "use" }
  ,{ "the" }
- ,{ "Functor" , & fmt_text_a }
- ,{ "Init" , & fmt_text_a }
- ,{ "Pattern" , & fmt_text_a }
+ ,{ "Functor" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Init" , & fmt_text_a , & ..#page_FunctorType#link }
+ ,{ "Pattern" , & fmt_text_a , & ..#page_FunctorType#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -127595,6 +128143,8 @@ Page page = { "page_Tuple" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -127654,7 +128204,7 @@ Text b2 = { {
  ,{ "have" }
  ,{ "an" }
  ,{ "associated" }
- ,{ "Unid" , & fmt_text_a }
+ ,{ "Unid" , & fmt_text_a , & ..#page_Unid#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -127744,6 +128294,8 @@ Page page = { "page_TypeNumber" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -127974,6 +128526,8 @@ Page page = { "page_TypeSwitch" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -128293,6 +128847,8 @@ Page page = { "page_UDPDevice" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_UDPoint {
@@ -128495,8 +129051,8 @@ Text b13 = { {
  ,{ "UDPoint" , & fmt_text_b }
  ,{ "from" }
  ,{ "a" }
- ,{ "character" , & fmt_text_a }
- ,{ "stream" , & fmt_text_a }
+ ,{ "character" , & fmt_text_a , & ..#page_StrParse#link }
+ ,{ "stream" , & fmt_text_a , & ..#page_StrParse#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -128517,6 +129073,8 @@ Page page = { "page_UDPoint" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -129452,6 +130010,8 @@ Page page = { "page_UIntFunc" ,
  ,{ & b48 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_UIntSat {
@@ -129670,6 +130230,8 @@ Page page = { "page_UIntSat" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -130114,6 +130676,8 @@ Page page = { "page_UIntSlowMulAlgo" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_UIntSplit {
@@ -130266,6 +130830,8 @@ Page page = { "page_UIntSplit" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Unid {
@@ -130415,6 +130981,8 @@ Page page = { "page_Unid" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -131051,6 +131619,8 @@ Page page = { "page_Utf8" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_UtilFunc {
@@ -131675,6 +132245,8 @@ Page page = { "page_UtilFunc" ,
  ,{ & b38 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_UtilVolume {
@@ -131692,7 +132264,7 @@ Text b1 = { {
  ,{ "to" }
  ,{ "work" }
  ,{ "with" }
- ,{ "volumes" , & fmt_text_a }
+ ,{ "volumes" , & fmt_text_a , & ..#page_Volume#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -131799,6 +132371,8 @@ Page page = { "page_UtilVolume" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_Volume {
@@ -131848,7 +132422,7 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "AltFileToRead" , & fmt_text_a }
+ ,{ "AltFileToRead" , & fmt_text_a , & ..#page_RawFileToRead#link_AltFileToRead }
  ,{ "," }
  ,{ "to" }
  ,{ "read" }
@@ -131961,7 +132535,7 @@ Text b9 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "AltFileToRead" , & fmt_text_a }
+ ,{ "AltFileToRead" , & fmt_text_a , & ..#page_RawFileToRead#link_AltFileToRead }
  ,{ "," }
  ,{ "to" }
  ,{ "read" }
@@ -131992,7 +132566,7 @@ Text b11 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "the" }
- ,{ "FileToMem" , & fmt_text_a }
+ ,{ "FileToMem" , & fmt_text_a , & ..#page_FileToMem#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -132011,6 +132585,8 @@ Page page = { "page_Volume" ,
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -132056,7 +132632,7 @@ Text b3 = { {
  { "GetPlanInitNode_SysCon" , & fmt_text_b }
  ,{ "is" }
  ,{ "a" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node" }
  ,{ "of" }
  ,{ "the" }
@@ -132094,7 +132670,7 @@ Text b5 = { {
  { "ConInputFunction" , & fmt_text_b }
  ,{ "is" }
  ,{ "a" }
- ,{ "Function" , & fmt_text_a }
+ ,{ "Function" , & fmt_text_a , & ..#page_Function#link }
  ,{ "." }
  ,{ "It" }
  ,{ "is" }
@@ -132110,7 +132686,7 @@ Text b6 = { {
  { "ConOutputFunction" , & fmt_text_b }
  ,{ "is" }
  ,{ "a" }
- ,{ "Function" , & fmt_text_a }
+ ,{ "Function" , & fmt_text_a , & ..#page_Function#link }
  ,{ "." }
  ,{ "It" }
  ,{ "is" }
@@ -132120,7 +132696,7 @@ Text b6 = { {
  ,{ "an" }
  ,{ "output" }
  ,{ "character" }
- ,{ "NanoPacket" , & fmt_text_a }
+ ,{ "NanoPacket" , & fmt_text_a , & ..#page_NanoPackets#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -132428,7 +133004,7 @@ Text b16 = { {
  ,{ "the" }
  ,{ "ConBase::GetObject()" , & fmt_text_b }
  ,{ "method." }
- ,{ "Here" , & fmt_text_a }
+ ,{ "Here" , & fmt_text_a , & ..#page_XCore_SysCon#link }
  ,{ "is" }
  ,{ "a" }
  ,{ "pattern" }
@@ -132802,6 +133378,8 @@ Page page = { "page_XCoreConsole" ,
  ,{ & b27 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCoreTargets {
@@ -132893,14 +133471,14 @@ Text b1 = { {
  ,{ "target" }
  ,{ "name" }
  ,{ "as" }
- ,{ "one" , & fmt_text_a }
- ,{ "of" , & fmt_text_a }
- ,{ "the" , & fmt_text_a }
- ,{ "build" , & fmt_text_a }
- ,{ "variable" , & fmt_text_a }
- ,{ "in" , & fmt_text_a }
- ,{ "a" , & fmt_text_a }
- ,{ "makefile" , & fmt_text_a }
+ ,{ "one" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "of" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "the" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "build" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "variable" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "in" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "a" , & fmt_text_a , & ..#page_CCoreGeneral#link }
+ ,{ "makefile" , & fmt_text_a , & ..#page_CCoreGeneral#link }
  ,{ "." }
  ,{ "There" }
  ,{ "is" }
@@ -133466,6 +134044,8 @@ Page page = { "page_XCoreTargets" ,
  ,{ & b33 , null , inner_text , outer_text , back_text }
  ,{ & b34 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -135093,6 +135673,8 @@ Page page = { "page_XCoreTaskEvents" ,
  ,{ & b89 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_atexit {
@@ -135211,6 +135793,8 @@ Page page = { "page_XCore_atexit" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_BinaryFile {
@@ -135233,13 +135817,13 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "HCore" , & fmt_text_b }
- ,{ "one" , & fmt_text_a }
+ ,{ "one" , & fmt_text_a , & ..#page_BinaryFile#link }
  ,{ "," }
  ,{ "but" }
  ,{ "built" }
  ,{ "on" }
  ,{ "the" }
- ,{ "AsyncBinaryFile" , & fmt_text_a }
+ ,{ "AsyncBinaryFile" , & fmt_text_a , & ..#page_AsyncBinaryFile#link }
  ,{ "class." }
 } , & fmt_text , & align_text } ;
 
@@ -135249,7 +135833,7 @@ Text b3 = { {
  ,{ "a" }
  ,{ "file" }
  ,{ "the" }
- ,{ "DefaultFileDevice" , & fmt_text_a }
+ ,{ "DefaultFileDevice" , & fmt_text_a , & ..#page_DefaultFileDevice#link }
  ,{ "is" }
  ,{ "used." }
 } , & fmt_text , & align_text } ;
@@ -135261,6 +135845,8 @@ Page page = { "page_XCore_BinaryFile" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -135596,6 +136182,8 @@ Page page = { "page_XCore_CBase" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_DevInt {
@@ -135773,6 +136361,8 @@ Page page = { "page_XCore_DevInt" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -135952,7 +136542,7 @@ Text b4 = { {
  { "It" }
  ,{ "has" }
  ,{ "the" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node" }
  ,{ "function" }
  ,{ "GetPlanInitNode_DevIntHandle()" , & fmt_text_b }
@@ -136158,6 +136748,8 @@ Page page = { "page_XCore_DevIntHandle" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_DevPlanInit {
@@ -136178,7 +136770,7 @@ Text b2 = { {
  ,{ "part" }
  ,{ "is" }
  ,{ "a" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node" }
  ,{ "for" }
  ,{ "the" }
@@ -136249,6 +136841,8 @@ Page page = { "page_XCore_DevPlanInit" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_DevTick {
@@ -136275,8 +136869,8 @@ Text b2 = { {
  ,{ "tick" }
  ,{ "frequency." }
  ,{ "A" }
- ,{ "timer" , & fmt_text_a }
- ,{ "implementation" , & fmt_text_a }
+ ,{ "timer" , & fmt_text_a , & ..#page_XCore_SysTime#link }
+ ,{ "implementation" , & fmt_text_a , & ..#page_XCore_SysTime#link }
  ,{ "must" }
  ,{ "ensure" }
  ,{ "the" }
@@ -136311,6 +136905,8 @@ Page page = { "page_XCore_DevTick" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -136384,6 +136980,8 @@ Page page = { "page_XCore_DevWaitForInterrupt" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_FileToMem {
@@ -136408,14 +137006,14 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "HCore" , & fmt_text_b }
- ,{ "ones" , & fmt_text_a }
+ ,{ "ones" , & fmt_text_a , & ..#page_FileToMem#link }
  ,{ "," }
  ,{ "but" }
  ,{ "built" }
  ,{ "on" }
- ,{ "AsyncFileToMem" , & fmt_text_a }
+ ,{ "AsyncFileToMem" , & fmt_text_a , & ..#page_AsyncFileClients#link_AsyncFileToMem }
  ,{ "and" }
- ,{ "PartAsyncFileToMem" , & fmt_text_a }
+ ,{ "PartAsyncFileToMem" , & fmt_text_a , & ..#page_AsyncFileClients#link_PartAsyncFileToMem }
  ,{ "classes." }
 } , & fmt_text , & align_text } ;
 
@@ -136425,7 +137023,7 @@ Text b3 = { {
  ,{ "a" }
  ,{ "file" }
  ,{ "the" }
- ,{ "DefaultFileDevice" , & fmt_text_a }
+ ,{ "DefaultFileDevice" , & fmt_text_a , & ..#page_DefaultFileDevice#link }
  ,{ "is" }
  ,{ "used." }
 } , & fmt_text , & align_text } ;
@@ -136437,6 +137035,8 @@ Page page = { "page_XCore_FileToMem" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -137319,6 +137919,8 @@ Page page = { "page_XCore_gcc" ,
  ,{ & b25 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_PlanInit_CCore {
@@ -137342,7 +137944,7 @@ Text b2 = { {
  ,{ "of" }
  ,{ "the" }
  ,{ "CCore" , & fmt_text_b }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node." }
 } , & fmt_text , & align_text } ;
 
@@ -137364,6 +137966,8 @@ Page page = { "page_XCore_PlanInit_CCore" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -137388,7 +137992,7 @@ Text b2 = { {
  ,{ "the" }
  ,{ "same" }
  ,{ "as" }
- ,{ "AnyCore" , & fmt_text_a }
+ ,{ "AnyCore" , & fmt_text_a , & ..#page_AnyCore_PlatformBase#link }
  ,{ "," }
  ,{ "except" }
  ,{ "it" }
@@ -137431,6 +138035,8 @@ Page page = { "page_XCore_PlatformBase" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_RawFileToRead {
@@ -137453,12 +138059,12 @@ Text b2 = { {
  ,{ "similar" }
  ,{ "to" }
  ,{ "HCore" , & fmt_text_b }
- ,{ "ones" , & fmt_text_a }
+ ,{ "ones" , & fmt_text_a , & ..#page_RawFileToRead#link }
  ,{ "," }
  ,{ "but" }
  ,{ "built" }
  ,{ "on" }
- ,{ "AsyncFile" , & fmt_text_a }
+ ,{ "AsyncFile" , & fmt_text_a , & ..#page_AsyncFileClients#link_AsyncFile }
  ,{ "class." }
 } , & fmt_text , & align_text } ;
 
@@ -137468,7 +138074,7 @@ Text b3 = { {
  ,{ "a" }
  ,{ "file" }
  ,{ "the" }
- ,{ "DefaultFileDevice" , & fmt_text_a }
+ ,{ "DefaultFileDevice" , & fmt_text_a , & ..#page_DefaultFileDevice#link }
  ,{ "is" }
  ,{ "used." }
 } , & fmt_text , & align_text } ;
@@ -137480,6 +138086,8 @@ Page page = { "page_XCore_RawFileToRead" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -137992,7 +138600,7 @@ Text b23 = { {
  ,{ "target," }
  ,{ "in" }
  ,{ "the" }
- ,{ "__std_init.cpp" , & fmt_text_a }
+ ,{ "__std_init.cpp" , & fmt_text_a , & ..#page_XCore_stdinit#link }
  ,{ "file." }
 } , & fmt_text , & align_text } ;
 
@@ -138752,6 +139360,8 @@ Page page = { "page_XCore_STD" ,
  ,{ & b50 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_stdinit {
@@ -139015,6 +139625,8 @@ Page page = { "page_XCore_stdinit" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_SysAbort {
@@ -139075,8 +139687,8 @@ Text b2 = { {
  ,{ "using" }
  ,{ "the" }
  ,{ "CCORE_INITPRI_0" , & fmt_text_b }
- ,{ "priority" , & fmt_text_a }
- ,{ "qualifier" , & fmt_text_a }
+ ,{ "priority" , & fmt_text_a , & ..#page_PlanInit#link }
+ ,{ "qualifier" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "." }
  ,{ "But" }
  ,{ "normally" }
@@ -139109,6 +139721,8 @@ Page page = { "page_XCore_SysAbort" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -139170,7 +139784,7 @@ Text b3 = { {
  ,{ "first" }
  ,{ "is" }
  ,{ "a" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node" }
  ,{ "function." }
  ,{ "The" }
@@ -139185,7 +139799,7 @@ Text b3 = { {
  ,{ "the" }
  ,{ "abstract" }
  ,{ "base" }
- ,{ "ConBase" , & fmt_text_a }
+ ,{ "ConBase" , & fmt_text_a , & ..#page_XCoreConsole#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -139393,6 +140007,8 @@ Page page = { "page_XCore_SysCon" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_SysMemSpace {
@@ -139553,6 +140169,8 @@ Page page = { "page_XCore_SysMemSpace" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_SysPlanInit {
@@ -139574,7 +140192,7 @@ Text b2 = { {
  ,{ "is" }
  ,{ "the" }
  ,{ "Sys" , & fmt_text_b }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "node." }
  ,{ "It" }
  ,{ "must" }
@@ -139595,6 +140213,8 @@ Page page = { "page_XCore_SysPlanInit" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -139801,6 +140421,8 @@ Page page = { "page_XCore_sysroot" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
 
+Link link = { &page , {0} } ;
+
 }
 
 scope page_XCore_SysTime {
@@ -139856,7 +140478,7 @@ Text b3 = { {
  ,{ "controlled" }
  ,{ "by" }
  ,{ "the" }
- ,{ "PlanInit" , & fmt_text_a }
+ ,{ "PlanInit" , & fmt_text_a , & ..#page_PlanInit#link }
  ,{ "," }
  ,{ "the" }
  ,{ "correspondent" }
@@ -140118,6 +140740,8 @@ Page page = { "page_XCore_SysTime" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
@@ -140501,6 +141125,8 @@ Page page = { "page_XCore_TaskContext" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , null , null , null };
+
+Link link = { &page , {0} } ;
 
 }
 
