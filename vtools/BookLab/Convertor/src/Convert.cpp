@@ -244,6 +244,7 @@ ulen Book::insFrame(const String &kind)
 Book::Book(PrintBase &out_,const PageParam &param_)
  : out(out_),param(param_)
  {
+  Printf(out,"scope #; {\n\n",param.name);
  }
 
 Book::~Book()
@@ -265,6 +266,8 @@ Book::~Book()
                     } );
 
   Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
+
+  Putobj(out,"}\n\n"_c);
  }
 
  // text

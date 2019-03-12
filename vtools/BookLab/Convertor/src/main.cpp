@@ -19,24 +19,48 @@
 
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/MakeFileName.h>
+#include <CCore/inc/Path.h>
 
 namespace App {
 
 /* Main() */
 
-int Main(StrLen input_file_name,StrLen output_file_name)
+int Main(StrLen input_dir_name,StrLen output_file_name)
  {
-  Source src(input_file_name);
+  FileSystem fs;
+  FileSystem::DirCursor cur(fs,input_dir_name);
 
   PrintFile out(output_file_name);
 
-  PageParam param;
+  int ret=0;
 
-  param.name="test"_c;
+  cur.apply( [&] (StrLen file_name,FileType file_type)
+                 {
+                  if( file_type==FileType_file && file_name.hasSuffix(".html"_c) )
+                    {
+                     MakeFileName path(input_dir_name,file_name);
 
-  Convert convert(out,param);
+                     SplitFullExt split(file_name);
 
-  return !src.run(convert);
+                     Source src(path.get());
+
+                     PageParam param;
+
+                     param.name=split.name;
+
+                     Convert convert(out,param);
+
+                     if( !src.run(convert) )
+                       {
+                        Printf(Con,"@ #;\n",file_name);
+
+                        ret=1;
+                       }
+                    }
+
+                 } );
+
+  return ret;
  }
 
 /* Test() */
@@ -108,7 +132,7 @@ int main(int argc,const char *argv[])
         }
       else
         {
-         Putobj(Con,"Usage: Convertor <input-file-name> <output-file-name>\n");
+         Putobj(Con,"Usage: Convertor <input-dir-name> <output-file-name>\n");
 
          return 1;
         }
