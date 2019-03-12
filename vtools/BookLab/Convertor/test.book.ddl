@@ -138,6 +138,18 @@ Point ItemOuter = { 0 , 0 } ;
 
 Format fmt_list_b = fmt_text_b ;
 
+ // img
+
+Point inner_img = DefaultInner ;
+
+Point outer_img = DefaultOuter ;
+
+VColor back_img = NoColor ;
+
+ // a
+
+Format fmt_text_a = { & font_text , NoColor , 0FFh , Format#Underline } ;
+
 /* content */
 
 Page content = { "Content" ,

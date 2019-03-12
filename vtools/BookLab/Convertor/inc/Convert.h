@@ -63,9 +63,17 @@ class Book : NoCopy
    ulen listind = 0 ;
    ulen itemind = 0 ;
 
+   String id;
+   bool has_id = false ;
+
+   String link;
+   bool has_link = false ;
+
   private:
 
    void addSpan(StrLen str,StrLen fmt);
+
+   ulen insFrame(const String &kind);
 
   public:
 
@@ -94,6 +102,18 @@ class Book : NoCopy
    void openItem();
 
    void closeItem();
+
+   // image
+
+   void insImage(const String &kind,StrLen file_name);
+
+   // links
+
+   void setId(const String &id);
+
+   void setLink(const String &url);
+
+   void clearLink();
  };
 
 /* class Convert */

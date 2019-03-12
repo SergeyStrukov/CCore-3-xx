@@ -17,6 +17,8 @@
 
 #include <CCore/inc/ForLoop.h>
 
+#include <CCore/inc/Path.h>
+
 namespace App {
 
 namespace Private_Convert {
@@ -147,24 +149,96 @@ class PrintSpan
     }
  };
 
+/* class PrintText */
+
+class PrintText
+ {
+   StrLen str;
+
+  private:
+
+   static void PrintChar(PrinterType &out,char ch)
+    {
+     switch( ch )
+       {
+        case '"' :
+        case '\\' :
+         {
+          out.put('\\');
+          out.put(ch);
+         }
+        break;
+
+        default:
+         {
+          if( CharIsSpecial(ch) )
+            {
+             out.put('$');
+            }
+          else
+            {
+             out.put(ch);
+            }
+         }
+       }
+    }
+
+  public:
+
+   explicit PrintText(StrLen str_) : str(str_) {}
+
+   explicit PrintText(const String &str_) : str(Range(str_)) {}
+
+   void print(PrinterType &out) const
+    {
+     for(char ch : str ) PrintChar(out,ch);
+    }
+ };
+
 } // namespace Private_Convert
 
 using namespace Private_Convert;
 
 /* class Book */
 
-void Book::addSpan(StrLen str,StrLen fmt)
+void Book::addSpan(StrLen str,StrLen fmt) // TODO
  {
   out.put(' ');
 
   if( spanind ) out.put(',');
 
-  if( !fmt )
-    Printf(out,"{ #; }\n",PrintSpan(str));
+  if( has_link )
+    {
+     if( !fmt )
+       Printf(out,"{ #; , null , & link_#; }\n",PrintSpan(str),link);
+     else
+       Printf(out,"{ #; , & fmt_#;_#; , & link_#; }\n",PrintSpan(str),kind,fmt,link);
+    }
   else
-    Printf(out,"{ #; , & fmt_#;_#; }\n",PrintSpan(str),kind,fmt);
+    {
+     if( !fmt )
+       Printf(out,"{ #; }\n",PrintSpan(str));
+     else
+       Printf(out,"{ #; , & fmt_#;_#; }\n",PrintSpan(str),kind,fmt);
+    }
 
   spanind++;
+ }
+
+ulen Book::insFrame(const String &kind)
+ {
+  ulen ind=frames.getCount();
+
+  frames.insLast(kind);
+
+  if( Change(has_id,false) )
+    {
+     Printf(out,"Link link_#; = { & page , { #; } } ;\n\n",id,ind);
+
+     id=Empty;
+    }
+
+  return ind;
  }
 
 Book::Book(PrintBase &out_,const PageParam &param_)
@@ -197,9 +271,7 @@ Book::~Book()
 
 void Book::openText(const String &kind)
  {
-  ulen ind=frames.getCount();
-
-  frames.insLast(kind);
+  ulen ind=insFrame(kind);
 
   Printf(out,"Text b#; = { {\n",ind);
 
@@ -235,9 +307,7 @@ void Book::closeText()
 
 void Book::openUList(const String &kind)
  {
-  ulen ind=frames.getCount();
-
-  frames.insLast(kind);
+  ulen ind=insFrame(kind);
 
   this->kind=kind;
 
@@ -263,9 +333,7 @@ void Book::closeUList()
 
 void Book::openOList(const String &kind)
  {
-  ulen ind=frames.getCount();
-
-  frames.insLast(kind);
+  ulen ind=insFrame(kind);
 
   this->kind=kind;
 
@@ -301,6 +369,44 @@ void Book::closeItem()
   Printf(out,"} , & fmt_#; , & align_#; } ;\n\n",kind,kind);
 
   itemind++;
+ }
+
+ // image
+
+void Book::insImage(const String &kind,StrLen file_name)
+ {
+  ulen ind=insFrame(kind);
+
+  SplitFullExt split(file_name);
+
+  Printf(out,"Bitmap b#; = { \"#;.zipmap\" } ;\n\n",ind,PrintText(split.name));
+ }
+
+ // links
+
+void Book::setId(const String &id_)
+ {
+  id=id_;
+  has_id=true;
+ }
+
+void Book::setLink(const String &url) // TODO
+ {
+  StrLen str=Range(url);
+
+  if( +str && *str=='#' )
+    {
+     ++str;
+
+     link=str;
+
+     has_link=true;
+    }
+ }
+
+void Book::clearLink()
+ {
+  has_link=false;
  }
 
 /* class Convert */
@@ -397,9 +503,13 @@ bool Convert::TestSpace(StrLen str)
   return true;
  }
 
-void Convert::prepareFmt() // TODO
+void Convert::prepareFmt()
  {
-  if( fmt_span )
+  if( fmt_a )
+    {
+     fmt="a"_str;
+    }
+  else if( fmt_span )
     {
      fmt=spanclass;
     }
@@ -463,8 +573,9 @@ Convert::~Convert()
  {
  }
 
-void Convert::setId(String) // TODO
+void Convert::setId(String id)
  {
+  book.setId(id);
  }
 
  // frame
@@ -624,18 +735,22 @@ auto Convert::tagSPANend() -> TagErrorId
 
  // hyperlink
 
-auto Convert::tagA(String) -> TagErrorId // TODO
+auto Convert::tagA(String url) -> TagErrorId
+ {
+  book.setLink(url);
+
+  return setFmt(fmt_a);
+ }
+
+auto Convert::tagA(String,String) -> TagErrorId
  {
   return setFmt(fmt_a);
  }
 
-auto Convert::tagA(String,String) -> TagErrorId // TODO
+auto Convert::tagAend() -> TagErrorId
  {
-  return setFmt(fmt_a);
- }
+  book.clearLink();
 
-auto Convert::tagAend() -> TagErrorId // TODO
- {
   return clearFmt(fmt_a);
  }
 
@@ -731,9 +846,11 @@ auto Convert::tagLIend() -> TagErrorId
 
  // image
 
-auto Convert::tagImg(String) -> TagErrorId // TODO
+auto Convert::tagImg(String file_name) -> TagErrorId
  {
   if( block ) return Error_InBlock;
+
+  book.insImage("img"_str,Range(file_name));
 
   return {};
  }
