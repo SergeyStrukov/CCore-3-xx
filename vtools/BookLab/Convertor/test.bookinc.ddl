@@ -61,7 +61,7 @@ Text b3 = { {
  ,{ "StrLen" , & fmt_text_b }
  ,{ "argument," }
  ,{ "second" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "as" }
  ,{ "a" }
  ,{ "zero-terminated" }
@@ -13616,7 +13616,7 @@ Text b2 = { {
  ,{ "has" }
  ,{ "a" }
  ,{ "parameter" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "key," }
  ,{ "which" }
@@ -15463,7 +15463,7 @@ Text b18 = { {
 
 Text b19 = { {
  { "SRC_PATH_LIST" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "list" }
  ,{ "of" }
@@ -15479,7 +15479,7 @@ Text b19 = { {
 
 Text b20 = { {
  { "CCOPT_EXTRA" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "additional" }
  ,{ "options" }
  ,{ "for" }
@@ -15495,7 +15495,7 @@ Text b20 = { {
 
 Text b21 = { {
  { "LDOPT_EXTRA" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "additional" }
  ,{ "options" }
  ,{ "for" }
@@ -15685,7 +15685,7 @@ Text b33 = { {
  ,{ "a" }
  ,{ "special" }
  ,{ "state" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "\"null\"" }
  ,{ "state." }
  ,{ "Usually" }
@@ -15889,7 +15889,7 @@ Text b6 = { {
 
 Text b7 = { {
  { "isSpecial()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "special," }
  ,{ "i.e." }
  ,{ "not" }
@@ -15902,7 +15902,7 @@ Text b7 = { {
 
 Text b8 = { {
  { "isVisible()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "visible," }
  ,{ "i.e." }
  ,{ "printable" }
@@ -15914,7 +15914,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "isPrintable()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "printable," }
  ,{ "i.e." }
  ,{ "not" }
@@ -15924,7 +15924,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "isSpace()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "space" }
  ,{ "and" }
  ,{ "some" }
@@ -15935,14 +15935,14 @@ Text b10 = { {
 
 Text b11 = { {
  { "isPunct()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "punctuation" }
  ,{ "characters." }
 } , & fmt_text , & align_text } ;
 
 Text b12 = { {
  { "isSpaceOrPunct()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "equivalent" }
  ,{ "of" }
  ,{ "isSpace()" , & fmt_text_b }
@@ -15953,7 +15953,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "decValue()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "decimal" }
  ,{ "value" }
  ,{ "of" }
@@ -15970,7 +15970,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "hexValue()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "hexadecimal" }
  ,{ "value" }
  ,{ "of" }
@@ -16133,7 +16133,7 @@ Text b23 = { {
 
 Text b24 = { {
  { "CharIsSpecial()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "special," }
  ,{ "i.e." }
  ,{ "not" }
@@ -16146,7 +16146,7 @@ Text b24 = { {
 
 Text b25 = { {
  { "CharIsVisible()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "visible," }
  ,{ "i.e." }
  ,{ "printable" }
@@ -16158,7 +16158,7 @@ Text b25 = { {
 
 Text b26 = { {
  { "CharIsPrintable()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "printable," }
  ,{ "i.e." }
  ,{ "not" }
@@ -16168,7 +16168,7 @@ Text b26 = { {
 
 Text b27 = { {
  { "CharIsSpace()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "space" }
  ,{ "and" }
  ,{ "some" }
@@ -16194,14 +16194,14 @@ Text b27 = { {
 
 Text b28 = { {
  { "CharIsPunct()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "punctuation" }
  ,{ "characters." }
 } , & fmt_text , & align_text } ;
 
 Text b29 = { {
  { "CharIsSpaceOrPunct()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "equivalent" }
  ,{ "of" }
  ,{ "CharIsSpace()" , & fmt_text_b }
@@ -16212,7 +16212,7 @@ Text b29 = { {
 
 Text b30 = { {
  { "CharDecValue()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "decimal" }
  ,{ "value" }
  ,{ "of" }
@@ -16229,7 +16229,7 @@ Text b30 = { {
 
 Text b31 = { {
  { "CharHexValue()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "hexadecimal" }
  ,{ "value" }
  ,{ "of" }
@@ -16280,7 +16280,7 @@ Text b34 = { {
 
 Text b35 = { {
  { "GetSpaceChars()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "\"traditional\"" }
  ,{ "C-space" }
  ,{ "characters." }
@@ -16288,28 +16288,28 @@ Text b35 = { {
 
 Text b36 = { {
  { "GetPunctChars()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "punctuation" }
  ,{ "characters." }
 } , & fmt_text , & align_text } ;
 
 Text b37 = { {
  { "GetDigitChars()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "decimal" }
  ,{ "digits." }
 } , & fmt_text , & align_text } ;
 
 Text b38 = { {
  { "GetHexDigitChars()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "hexadecimal" }
  ,{ "digits." }
 } , & fmt_text , & align_text } ;
 
 Text b39 = { {
  { "GetCLetterChars()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "C-letters," }
  ,{ "including" }
  ,{ "underscore." }
@@ -19389,7 +19389,7 @@ Text b2 = { {
  ,{ "high" }
  ,{ "priority" }
  ,{ "task" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "Complete" , & fmt_text_b }
  ,{ "Task" , & fmt_text_b }
  ,{ "," }
@@ -21720,7 +21720,7 @@ Text b18 = { {
 
 Text b19 = { {
  { "Con_Drop" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "character" }
  ,{ "must" }
  ,{ "be" }
@@ -21731,7 +21731,7 @@ Text b19 = { {
 
 Text b20 = { {
  { "Con_Echo" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "character" }
  ,{ "must" }
  ,{ "be" }
@@ -21740,7 +21740,7 @@ Text b20 = { {
 
 Text b21 = { {
  { "Con_NoEcho" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "character" }
  ,{ "must" }
  ,{ "not" }
@@ -21750,7 +21750,7 @@ Text b21 = { {
 
 Text b22 = { {
  { "Con_EOL" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "character" }
  ,{ "must" }
  ,{ "be" }
@@ -25000,7 +25000,7 @@ Text b51 = { {
  ,{ "basic" }
  ,{ "type," }
  ,{ "compound" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "for" }
  ,{ "structures" }
  ,{ "and" }
@@ -26552,7 +26552,7 @@ Text b41 = { {
  ,{ "name" }
  ,{ "and" }
  ,{ "type_node" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "field" }
  ,{ "type." }
@@ -28194,7 +28194,7 @@ Text b5 = { {
  ,{ "with" }
  ,{ "the" }
  ,{ "argument" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "file" }
  ,{ "name." }
@@ -38407,7 +38407,7 @@ Text b4 = { {
 
 Text b5 = { {
  { "extname" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "non-empty" }
  ,{ "file" }
  ,{ "name," }
@@ -38430,7 +38430,7 @@ Text b5 = { {
 
 Text b6 = { {
  { "name" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "a" }
  ,{ "regular" }
  ,{ "file" }
@@ -39159,7 +39159,7 @@ Text b7 = { {
 
 Text b8 = { {
  { "Open_Read" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "read" }
  ,{ "operations" }
  ,{ "must" }
@@ -39172,7 +39172,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "Open_Write" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "write" }
  ,{ "operations" }
  ,{ "must" }
@@ -39185,7 +39185,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "Open_Pos" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "position" }
  ,{ "operations" }
  ,{ "must" }
@@ -39220,7 +39220,7 @@ Text b10 = { {
 
 Text b11 = { {
  { "Open_Create" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "create" }
  ,{ "a" }
  ,{ "new" }
@@ -39256,7 +39256,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "Open_Erase" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "erase" }
  ,{ "the" }
  ,{ "file," }
@@ -39267,7 +39267,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "Open_New" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "file" }
  ,{ "must" }
@@ -39303,7 +39303,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "Open_AutoDelete" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "delete" }
  ,{ "the" }
  ,{ "file" }
@@ -39328,7 +39328,7 @@ Text b14 = { {
 
 Text b15 = { {
  { "Open_PosEnd" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "file" }
  ,{ "position" }
@@ -40156,7 +40156,7 @@ Text b56 = { {
 
 Text b57 = { {
  { "file_name" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "name" }
  ,{ "of" }
@@ -40169,7 +40169,7 @@ Text b57 = { {
 
 Text b58 = { {
  { "len" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "length" }
  ,{ "of" }
@@ -40180,7 +40180,7 @@ Text b58 = { {
 
 Text b59 = { {
  { "type" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "type" }
  ,{ "of" }
@@ -40193,7 +40193,7 @@ Text b59 = { {
 
 Text b60 = { {
  { "error" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "error" }
  ,{ "code," }
  ,{ "if" }
@@ -41611,7 +41611,7 @@ Text b4 = { {
  ,{ "call" }
  ,{ "the" }
  ,{ "function" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "there" }
  ,{ "is" }
  ,{ "no" }
@@ -42533,7 +42533,7 @@ Text b15 = { {
  ,{ "the" }
  ,{ "additional" }
  ,{ "argument" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "key." }
 } , & fmt_text , & align_text } ;
@@ -42907,7 +42907,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "ECHO" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -42917,7 +42917,7 @@ Text b10 = { {
 
 Text b11 = { {
  { "FIND" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -42927,7 +42927,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "MKDIR" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -42937,7 +42937,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "CAT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -42947,7 +42947,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "TOUCH" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -42957,32 +42957,32 @@ Text b14 = { {
 
 Text b15 = { {
  { "CC" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "C++" }
  ,{ "compiler." }
 } , & fmt_text , & align_text } ;
 
 Text b16 = { {
  { "LD" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "linker." }
 } , & fmt_text , & align_text } ;
 
 Text b17 = { {
  { "AS" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "assembler." }
 } , & fmt_text , & align_text } ;
 
 Text b18 = { {
  { "AR" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "librarian." }
 } , & fmt_text , & align_text } ;
 
 Text b19 = { {
  { "RM" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "file" }
  ,{ "delete" }
  ,{ "command." }
@@ -42990,7 +42990,7 @@ Text b19 = { {
 
 Text b20 = { {
  { "CCOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }
@@ -43031,7 +43031,7 @@ Text b20 = { {
 
 Text b21 = { {
  { "ASOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }
@@ -43040,7 +43040,7 @@ Text b21 = { {
 
 Text b22 = { {
  { "LDOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }
@@ -43734,7 +43734,7 @@ Text b7 = { {
  ,{ "second" }
  ,{ "and" }
  ,{ "third" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "up" }
  ,{ "to" }
  ,{ "the" }
@@ -46116,7 +46116,7 @@ Text b42 = { {
 
 Text b43_0 = { {
  { "Wait_error" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "function" }
  ,{ "has" }
@@ -46128,7 +46128,7 @@ Text b43_0 = { {
 
 Text b43_1 = { {
  { "Wait_timeout" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "wait" }
  ,{ "is" }
@@ -46139,7 +46139,7 @@ Text b43_1 = { {
 
 Text b43_2 = { {
  { "Wait_interrupt" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "wait" }
  ,{ "is" }
@@ -48596,7 +48596,7 @@ Text b27 = { {
 
 Text b28_0 = { {
  { "Wait_error" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "function" }
  ,{ "has" }
@@ -48608,7 +48608,7 @@ Text b28_0 = { {
 
 Text b28_1 = { {
  { "Wait_timeout" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "wait" }
  ,{ "is" }
@@ -48619,7 +48619,7 @@ Text b28_1 = { {
 
 Text b28_2 = { {
  { "Wait_interrupt" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "wait" }
  ,{ "is" }
@@ -48701,7 +48701,7 @@ Text b30 = { {
  ,{ "has" }
  ,{ "happened." }
  ,{ "Otherwise" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "one" }
  ,{ "of" }
  ,{ "special" }
@@ -49413,7 +49413,7 @@ Text b4 = { {
  ,{ "with" }
  ,{ "the" }
  ,{ "argument" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "pointer" }
  ,{ "to" }
@@ -50085,7 +50085,7 @@ Text b8 = { {
  ,{ "address," }
  ,{ "on" }
  ,{ "failure" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "null." }
  ,{ "Even" }
  ,{ "if" }
@@ -51369,7 +51369,7 @@ Text b8 = { {
 
 Text b9_0 = { {
  { "make" , & fmt_list_Cmd }
- ,{ "$" }
+ ,{ "—" }
  ,{ "to" }
  ,{ "build" }
  ,{ "all," }
@@ -51378,7 +51378,7 @@ Text b9_0 = { {
 Text b9_1 = { {
  { "make" , & fmt_list_Cmd }
  ,{ "clean" , & fmt_list_Cmd }
- ,{ "$" }
+ ,{ "—" }
  ,{ "to" }
  ,{ "clean," }
 } , & fmt_list , & align_list } ;
@@ -51386,7 +51386,7 @@ Text b9_1 = { {
 Text b9_2 = { {
  { "make" , & fmt_list_Cmd }
  ,{ "list" , & fmt_list_Cmd }
- ,{ "$" }
+ ,{ "—" }
  ,{ "to" }
  ,{ "build" }
  ,{ "source" }
@@ -52174,7 +52174,7 @@ Text b9 = { {
  ,{ "unsigned" }
  ,{ "integral" }
  ,{ "type" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "unit" }
  ,{ "type." }
@@ -56325,7 +56325,7 @@ Text b4 = { {
 
 Text b5_0 = { {
  { "WIN32" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "default" }
  ,{ "host" }
  ,{ "target," }
@@ -56337,7 +56337,7 @@ Text b5_0 = { {
 
 Text b5_1 = { {
  { "WIN64" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "host" }
  ,{ "target" }
  ,{ "for" }
@@ -56347,7 +56347,7 @@ Text b5_1 = { {
 
 Text b5_2 = { {
  { "LIN64" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "host" }
  ,{ "target" }
  ,{ "for" }
@@ -56357,7 +56357,7 @@ Text b5_2 = { {
 
 Text b5_3 = { {
  { "BeagleBoneBlack" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "stand-alone" }
  ,{ "target" }
  ,{ "for" }
@@ -56369,7 +56369,7 @@ Text b5_3 = { {
 
 Text b5_4 = { {
  { "Vanilla-H" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "host" }
  ,{ "target" }
  ,{ "template," }
@@ -56377,7 +56377,7 @@ Text b5_4 = { {
 
 Text b5_5 = { {
  { "Vanilla-X" , & fmt_list_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "stand-alone" }
  ,{ "target" }
  ,{ "template." }
@@ -57581,7 +57581,7 @@ Text b36 = { {
 
 Text b37 = { {
  { "PTP" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "packet" }
  ,{ "transaction" }
  ,{ "protocol." }
@@ -57758,7 +57758,7 @@ Text b40 = { {
 
 Text b41 = { {
  { "PTPServer" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "a" }
  ,{ "PTP" }
  ,{ "server" }
@@ -57787,7 +57787,7 @@ Text b42 = { {
 
 Text b43 = { {
  { "DDL" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "data" }
  ,{ "definition" }
  ,{ "language." }
@@ -62131,7 +62131,7 @@ Text b126 = { {
  ,{ "given" }
  ,{ "position." }
  ,{ "ins_before(RevCur" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&cur,T" , & fmt_text_b }
  ,{ "*obj)" , & fmt_text_b }
  ,{ "modifies" }
  ,{ "the" }
@@ -62156,7 +62156,7 @@ Text b127 = { {
  ,{ "given" }
  ,{ "position." }
  ,{ "ins_after(Cur" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&cur,T" , & fmt_text_b }
  ,{ "*obj)" , & fmt_text_b }
  ,{ "modifies" }
  ,{ "the" }
@@ -65830,7 +65830,7 @@ Text b22 = { {
  ,{ "two" }
  ,{ "fields:" }
  ,{ "block_count" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "number" }
  ,{ "of" }
@@ -65838,7 +65838,7 @@ Text b22 = { {
  ,{ "blocks," }
  ,{ "and" }
  ,{ "len_count" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "total" }
  ,{ "length" }
@@ -65907,7 +65907,7 @@ Text b24 = { {
  ,{ "usage," }
  ,{ "while" }
  ,{ "MemPeak" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "peak" }
  ,{ "usage." }
@@ -67352,7 +67352,7 @@ Text b44 = { {
  ,{ "two" }
  ,{ "types:" }
  ,{ "SType" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "original" }
  ,{ "type" }
@@ -67360,7 +67360,7 @@ Text b44 = { {
  ,{ "equivalent)" }
  ,{ "and" }
  ,{ "UType" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "correspondent" }
  ,{ "unsigned" }
@@ -69385,7 +69385,7 @@ Text b20 = { {
 Text b21 = { {
  { "The" }
  ,{ "second" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "no" }
  ,{ "fat." }
  ,{ "Use" }
@@ -69406,7 +69406,7 @@ Text b21 = { {
 
 Text b22 = { {
  { "Third" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "leave" }
  ,{ "to" }
  ,{ "the" }
@@ -77571,7 +77571,7 @@ Text b2 = { {
  ,{ "Empty" , & fmt_text_b }
  ,{ "," }
  ,{ "Default" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "are" }
  ,{ "Word" , & fmt_text_b }
  ,{ "s" }
@@ -80852,7 +80852,7 @@ Text b3 = { {
  ,{ "one" }
  ,{ "data" }
  ,{ "member" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "pointer" }
  ,{ "to" }
  ,{ "the" }
@@ -86950,7 +86950,7 @@ Text b20 = { {
 
 Text b21_0 = { {
  { "Name" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "a" }
  ,{ "regular" }
  ,{ "file" }
@@ -86959,7 +86959,7 @@ Text b21_0 = { {
 
 Text b21_1 = { {
  { "EmptyName" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "empty" }
  ,{ "name" }
@@ -86967,7 +86967,7 @@ Text b21_1 = { {
 
 Text b21_2 = { {
  { "DotName" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "single" }
  ,{ "dot" }
@@ -86976,7 +86976,7 @@ Text b21_2 = { {
 
 Text b21_3 = { {
  { "DotDotName" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "double" }
  ,{ "dot" }
@@ -87812,7 +87812,7 @@ Text b62 = { {
  ,{ "the" }
  ,{ "rootDir()" , & fmt_text_b }
  ,{ "state" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "an" }
  ,{ "exception" }
  ,{ "will" }
@@ -87839,7 +87839,7 @@ Text b63 = { {
  ,{ "assumed" }
  ,{ "absolute," }
  ,{ "otherwise" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "relative" }
  ,{ "to" }
  ,{ "the" }
@@ -93174,10 +93174,10 @@ Text b48 = { {
  ,{ "the" }
  ,{ "string," }
  ,{ "right" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "before," }
  ,{ "center" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "both" }
  ,{ "before" }
  ,{ "and" }
@@ -96061,7 +96061,7 @@ Text b7 = { {
  ,{ "returns" }
  ,{ "a" }
  ,{ "result" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "another" }
  ,{ "byte" }
  ,{ "range." }
@@ -96112,7 +96112,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "MaxPacketLen" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "maximum" }
  ,{ "packet" }
  ,{ "length." }
@@ -96136,7 +96136,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "DeltaInfoLen" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "maximum" }
  ,{ "delta" }
  ,{ "between" }
@@ -96149,7 +96149,7 @@ Text b10 = { {
 
 Text b11 = { {
  { "MaxInfoLen" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "maximum" }
  ,{ "information" }
  ,{ "length." }
@@ -96157,7 +96157,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "MinTimeout" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "minimum" }
  ,{ "timeout" }
  ,{ "value." }
@@ -96165,7 +96165,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "MaxTimeout" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "maximum" }
  ,{ "timeout" }
  ,{ "value." }
@@ -96173,7 +96173,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "DeltaTimeout" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "timeout" }
  ,{ "increment." }
  ,{ "Each" }
@@ -101867,14 +101867,14 @@ Text b10 = { {
 
 Text b11 = { {
  { "NoError" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "no" }
  ,{ "error." }
 } , & fmt_text , & align_text } ;
 
 Text b12 = { {
  { "BadInput" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "input" }
  ,{ "data" }
@@ -101884,7 +101884,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "NoFunction" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "function" }
  ,{ "or" }
@@ -101896,7 +101896,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "Exhausted" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "server" }
  ,{ "has" }
  ,{ "not" }
@@ -101910,7 +101910,7 @@ Text b14 = { {
 
 Text b15 = { {
  { "Unknown" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "any" }
  ,{ "error." }
 } , & fmt_text , & align_text } ;
@@ -103005,7 +103005,7 @@ Text b8 = { {
  ,{ "extension" }
  ,{ "to" }
  ,{ "C++" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "keyword" }
  ,{ "restrict" , & fmt_text_b }
  ,{ "." }
@@ -103934,7 +103934,7 @@ Text b50 = { {
  ,{ "to" }
  ,{ "select" }
  ,{ "types" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "range" }
  ,{ "providers." }
  ,{ "I.e." }
@@ -103954,7 +103954,7 @@ Text b50 = { {
 
 Text b51 = { {
  { "RangeableType" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "can" }
  ,{ "be" }
  ,{ "used" }
@@ -103985,7 +103985,7 @@ Text b52 = { {
 
 Text b53 = { {
  { "ConstRangeableType" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "const" , & fmt_text_b }
  ,{ "type" }
  ,{ "can" }
@@ -106414,7 +106414,7 @@ Text b23 = { {
  ,{ "generic" }
  ,{ "algorithm," }
  ,{ "MT19937" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "it's" }
  ,{ "particular" }
  ,{ "version." }
@@ -107472,7 +107472,7 @@ Text b3 = { {
  ,{ "one" }
  ,{ "data" }
  ,{ "member" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "non-null" }
  ,{ "pointer" }
  ,{ "to" }
@@ -107562,14 +107562,14 @@ Text b3 = { {
  ,{ "called," }
  ,{ "to" }
  ,{ "decrement" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "decRef()" , & fmt_text_b }
  ,{ "and" }
  ,{ "to" }
  ,{ "destroy" }
  ,{ "the" }
  ,{ "object" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "method" }
  ,{ "destroy()" , & fmt_text_b }
@@ -108146,12 +108146,12 @@ Text b8 = { {
  ,{ "generated:" }
  ,{ "enum" , & fmt_text_b }
  ,{ "Bits_CTRL" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "register" }
  ,{ "bits," }
  ,{ "enum" , & fmt_text_b }
  ,{ "Field_CTRL_MODE" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "values" }
  ,{ "for" }
  ,{ "the" }
@@ -108409,7 +108409,7 @@ Text b23 = { {
  ,{ "the" }
  ,{ "additional" }
  ,{ "argument" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "register" }
  ,{ "index." }
@@ -116495,7 +116495,7 @@ Text b3 = { {
  ,{ "its" }
  ,{ "template" }
  ,{ "parameter" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "Ctx" , & fmt_text_b }
  ,{ "," }
  ,{ "which" }
@@ -123933,7 +123933,7 @@ Text b49 = { {
  ,{ "devices." }
  ,{ "Another" }
  ,{ "example" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "packet" }
  ,{ "processing" }
  ,{ "devices," }
@@ -124567,7 +124567,7 @@ Text b3 = { {
 
 Text b4 = { {
  { "CharIsEOL()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "end-of-line" }
  ,{ "character," }
  ,{ "one" }
@@ -124579,7 +124579,7 @@ Text b4 = { {
 
 Text b5 = { {
  { "CharIsBin()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "char" }
  ,{ "is" }
  ,{ "a" }
@@ -124589,7 +124589,7 @@ Text b5 = { {
 
 Text b6 = { {
  { "CharIsDec()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "char" }
  ,{ "is" }
  ,{ "a" }
@@ -124599,7 +124599,7 @@ Text b6 = { {
 
 Text b7 = { {
  { "CharIsHex()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "char" }
  ,{ "is" }
  ,{ "a" }
@@ -124609,7 +124609,7 @@ Text b7 = { {
 
 Text b8 = { {
  { "CharBinValue()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "binary" }
  ,{ "value" }
  ,{ "of" }
@@ -125802,7 +125802,7 @@ Text b11 = { {
  ,{ "different" }
  ,{ "time" }
  ,{ "resolutions" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "millisecond," }
  ,{ "second," }
  ,{ "and" }
@@ -126794,7 +126794,7 @@ Text b10 = { {
 Text b11 = { {
  { "find(KRef" , & fmt_text_b }
  ,{ "key)" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "element" }
  ,{ "with" }
  ,{ "the" }
@@ -126804,7 +126804,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "findMin()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "element" }
  ,{ "with" }
  ,{ "the" }
@@ -126815,7 +126815,7 @@ Text b12 = { {
 Text b13 = { {
  { "findMin(KRef" , & fmt_text_b }
  ,{ "key)" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "element" }
  ,{ "with" }
  ,{ "the" }
@@ -126831,7 +126831,7 @@ Text b13 = { {
 
 Text b14 = { {
  { "findMax()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "element" }
  ,{ "with" }
  ,{ "the" }
@@ -126842,7 +126842,7 @@ Text b14 = { {
 Text b15 = { {
  { "findMin(KRef" , & fmt_text_b }
  ,{ "key)" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "element" }
  ,{ "with" }
  ,{ "the" }
@@ -128378,7 +128378,7 @@ Text b5 = { {
 
 Text b6 = { {
  { "EchoUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "UDP" }
@@ -128388,7 +128388,7 @@ Text b6 = { {
 
 Text b7 = { {
  { "PTPServerUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PTP" }
  ,{ "over" }
  ,{ "UDP" }
@@ -128404,7 +128404,7 @@ Text b7 = { {
 
 Text b8 = { {
  { "PTPClientUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PTP" }
  ,{ "over" }
  ,{ "UDP" }
@@ -128420,7 +128420,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "PKEClientUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PKE" }
  ,{ "over" }
  ,{ "UDP" }
@@ -128436,7 +128436,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "PSecClientUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PSec" }
  ,{ "over" }
  ,{ "UDP" }
@@ -128452,7 +128452,7 @@ Text b10 = { {
 
 Text b11 = { {
  { "PKEServerUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PKE" }
  ,{ "over" }
  ,{ "UDP" }
@@ -128468,7 +128468,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "PSecServerUDPort" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "PSec" }
  ,{ "over" }
  ,{ "UDP" }
@@ -131099,7 +131099,7 @@ Text b5 = { {
 
 Text b6 = { {
  { "Min()/Max()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "these" }
  ,{ "functions" }
  ,{ "are" }
@@ -131128,7 +131128,7 @@ Text b6 = { {
 
 Text b7 = { {
  { "Min_cast()/Max_cast()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "are" }
  ,{ "multi-argument" }
  ,{ "min/max" }
@@ -131319,7 +131319,7 @@ Text b18 = { {
  ,{ "true" , & fmt_text_b }
  ,{ "," }
  ,{ "otherwise" }
- ,{ "$" }
+ ,{ "—" }
  ,{ "false" , & fmt_text_b }
  ,{ "." }
 } , & fmt_text , & align_text } ;
@@ -131517,7 +131517,7 @@ Text b31 = { {
 
 Text b32 = { {
  { "Bit...()" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "four" }
  ,{ "bit" }
  ,{ "manipulation" }
@@ -133067,7 +133067,7 @@ Text b8 = { {
 
 Text b9 = { {
  { "ECHO" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -133077,7 +133077,7 @@ Text b9 = { {
 
 Text b10 = { {
  { "FIND" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -133087,7 +133087,7 @@ Text b10 = { {
 
 Text b11 = { {
  { "MKDIR" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -133097,7 +133097,7 @@ Text b11 = { {
 
 Text b12 = { {
  { "CAT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -133107,7 +133107,7 @@ Text b12 = { {
 
 Text b13 = { {
  { "TOUCH" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "the" }
  ,{ "standard" }
  ,{ "Unix" }
@@ -133117,32 +133117,32 @@ Text b13 = { {
 
 Text b14 = { {
  { "CC" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "C++" }
  ,{ "cross-compiler." }
 } , & fmt_text , & align_text } ;
 
 Text b15 = { {
  { "LD" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "cross-linker." }
 } , & fmt_text , & align_text } ;
 
 Text b16 = { {
  { "AS" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "cross-assembler." }
 } , & fmt_text , & align_text } ;
 
 Text b17 = { {
  { "AR" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "cross-librarian." }
 } , & fmt_text , & align_text } ;
 
 Text b18 = { {
  { "RM" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "file" }
  ,{ "delete" }
  ,{ "command." }
@@ -133150,7 +133150,7 @@ Text b18 = { {
 
 Text b19 = { {
  { "CCOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }
@@ -133184,7 +133184,7 @@ Text b19 = { {
 
 Text b20 = { {
  { "ASOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }
@@ -133193,7 +133193,7 @@ Text b20 = { {
 
 Text b21 = { {
  { "LDOPT" , & fmt_text_b }
- ,{ "$" }
+ ,{ "—" }
  ,{ "options" }
  ,{ "for" }
  ,{ "the" }

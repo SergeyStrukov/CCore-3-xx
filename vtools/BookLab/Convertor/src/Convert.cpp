@@ -77,6 +77,13 @@ class PrintSpan
         return;
        }
 
+     if( text.equal("mdash"_c) )
+       {
+        Putobj(out,"—"_c);
+
+        return;
+       }
+
      out.put('$');
     }
 
