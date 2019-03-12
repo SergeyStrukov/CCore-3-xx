@@ -290,7 +290,7 @@ Book::~Book()
 
   Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
 
-  Putobj(out,"Link link = { &page , {0} } ;\n\n"_c);
+  Putobj(out,"Link link = { &page } ;\n\n"_c);
 
   Putobj(out,"}\n\n"_c);
  }

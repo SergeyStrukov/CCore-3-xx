@@ -61,6 +61,7 @@ class Source : NoCopy
    StringSetScan atype;
    StringSetScan ptype;
 
+   bool probe_title = true ;
    bool body_on = false ;
 
   private:
@@ -368,21 +369,35 @@ class Source : NoCopy
        }
      else
        {
-        if( ProbeStr(inp,"<title>"_c) )
+        if( probe_title )
           {
-           return setTitle(proc);
-          }
-        else if( ProbeStr(inp,"<body>"_c) )
-          {
-           body_on=true;
+           if( ProbeStr(inp,"<title>"_c) )
+             {
+              probe_title=false;
 
-           return true;
+              return setTitle(proc);
+             }
+           else
+             {
+              ++inp;
+
+              return true;
+             }
           }
         else
           {
-           ++inp;
+           if( ProbeStr(inp,"<body>"_c) )
+             {
+              body_on=true;
 
-           return true;
+              return true;
+             }
+           else
+             {
+              ++inp;
+
+              return true;
+             }
           }
        }
     }

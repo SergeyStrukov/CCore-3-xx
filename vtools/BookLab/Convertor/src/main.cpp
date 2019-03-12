@@ -20,6 +20,7 @@
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/Path.h>
+#include <CCore/inc/CompactList.h>
 
 namespace App {
 
@@ -31,6 +32,16 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
   FileSystem::DirCursor cur(fs,input_dir_name);
 
   PrintFile out(output_file_name);
+
+  struct Rec
+   {
+    String name;
+    String title;
+
+    Rec(const String &name_,const String &title_) : name(name_),title(title_) {}
+   };
+
+  CompactList2<Rec> page_list;
 
   int ret=0;
 
@@ -56,9 +67,38 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
                         ret=1;
                        }
+
+                     page_list.insLast(param.name,convert.getTitle());
                     }
 
                  } );
+
+  ulen ind=1;
+
+  page_list.apply( [&] (const Rec &rec)
+                       {
+                        Printf(out,"Text item#; = { { { #.q; , null , &link#; } } , null , & align_item } ;\n\n",ind,rec.title,ind);
+
+                        Printf(out,"Link link#; = { &#;##page } ;\n\n",ind,rec.name);
+
+                        ind++;
+
+                       } );
+
+  Putobj(out,"TextList list = { {\n"_c);
+
+  for(ulen i=0,count=page_list.getCount(); i<count ;i++)
+    {
+     ulen ind=i+1;
+
+     out.put(' ');
+
+     if( i ) out.put(',');
+
+     Printf(out,"{ '#;.' , { { & item#; , null , { 0 , 0 } , { 0 , 0 } } } }",ind,ind);
+    }
+
+  Putobj(out,"} } ;\n\n"_c);
 
   return ret;
  }
