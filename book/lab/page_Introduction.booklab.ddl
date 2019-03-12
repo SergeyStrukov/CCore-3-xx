@@ -45,7 +45,7 @@ Page o2 = { "page_Introduction" , True , "Introduction" , { True , NoColor } , {
 { { True , { 0 , 0 } } , { True , { 0 , 0 } } , { True , NoColor } , { null , null } , { null , & o29 } }
 }
 
- , 8 } };
+ , 5 } };
 
 Extern o4 = { & o30 };
 
@@ -409,7 +409,7 @@ Text o23 = { "" , True , { null , null } , { null , null } ,
 
  };
 
-TextList o24 = { "" , False , { null , null } , { True , 0 } , { True , 0 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { null , null } , { null , & o45 } , {
+TextList o24 = { "" , True , { null , null } , { True , 0 } , { True , 0 } , { False , { 0 , 0 } } , { False , { 0 , 0 } } , { null , null } , { null , & o45 } , {
 
 {
 { "•" , {

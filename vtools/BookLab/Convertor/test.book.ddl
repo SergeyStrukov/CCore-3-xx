@@ -14,9 +14,9 @@ Coord DefaultBulletSpace = 10 ;
 
 Coord DefaultItemSpace = 5 ;
 
-Format DefaultBulletFormat = { & font_text } ;
+Format DefaultBulletFormat = DefaultFormat ;
 
-Format DefaultFormat = { & font_text } ;
+Format DefaultFormat = fmt_text ;
 
 MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
@@ -26,11 +26,13 @@ MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
 text face = "Bookman Old Style" ;
 
+text fixed = "Fixed" ;
+
  // text
 
 Font font_text = { face , 20 } ;
 
-Format fmt_text = DefaultFormat ;
+Format fmt_text = { & font_text } ;
 
 Point inner_text = DefaultInner ;
 
@@ -40,13 +42,13 @@ VColor back_text = NoColor ;
 
 MultiLine align_text = DefaultPlacement ;
 
-Font font_text_b = { face , 20 , True } ;
+Font font_text_b = font_text { .bold = True  } ;
 
 Format fmt_text_b = { & font_text_b } ;
 
  // text_Files
 
-Font font_text_Files = { "Fixed" , 22 } ;
+Font font_text_Files = { fixed , 22 } ;
 
 Format fmt_text_Files = { & font_text_Files , 0FFFFh } ;
 
@@ -58,7 +60,7 @@ VColor back_text_Files = NoColor ;
 
 OneLine align_text_Files = { OneLine#Left } ;
 
-Font font_text_Files_b = { "Fixed" , 22 , True } ;
+Font font_text_Files_b = font_text_Files { .bold = True  } ;
 
 Format fmt_text_Files_b = { & font_text_Files_b , 0FFFFh } ;
 
@@ -117,6 +119,24 @@ Point outer_h4 = DefaultOuter ;
 VColor back_h4 = NoColor ;
 
 OneLine align_h4 = { OneLine#Left } ;
+
+ // list
+
+Format fmt_list = fmt_text ;
+
+Point inner_list = { 0 , 0 } ;
+
+Point outer_list = { 40 , 0 } ;
+
+VColor back_list = NoColor ;
+
+OneLine align_list = { OneLine#Left } ;
+
+Point ItemInner = { 2 , 2 } ;
+
+Point ItemOuter = { 0 , 0 } ;
+
+Format fmt_list_b = fmt_text_b ;
 
 /* content */
 

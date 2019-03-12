@@ -15,6 +15,8 @@
 
 #include <CCore/inc/scanf/ScanTools.h>
 
+#include <CCore/inc/ForLoop.h>
+
 namespace App {
 
 namespace Private_Convert {
@@ -82,45 +84,50 @@ class PrintSpan
 
      ++text;
 
-     if( ch=='&' )
+     switch( ch )
        {
-        StrLen next=text;
+        case '&' :
+         {
+          StrLen next=text;
 
-        for(; +next && *next!=';' ;++next);
+          for(; +next && *next!=';' ;++next);
 
-        if( !next )
-          {
-           out.put('$');
+          if( !next )
+            {
+             out.put('$');
 
-           text=Empty;
-          }
-        else
-          {
-           PrintAmp(out,text.prefix(next));
+             text=Empty;
+            }
+          else
+            {
+             PrintAmp(out,text.prefix(next));
 
-           ++next;
+             ++next;
 
-           text=next;
-          }
-       }
-     else
-       {
-        if( CharIsSpecial(ch) )
-          {
-           out.put('$');
-          }
-        else
-          {
-           if( ch!='"' )
-             {
-              out.put(ch);
-             }
-           else
-             {
-              out.put('\\');
-              out.put('"');
-             }
-          }
+             text=next;
+            }
+         }
+        break;
+
+        case '"' :
+        case '\\' :
+         {
+          out.put('\\');
+          out.put(ch);
+         }
+        break;
+
+        default:
+         {
+          if( CharIsSpecial(ch) )
+            {
+             out.put('$');
+            }
+          else
+            {
+             out.put(ch);
+            }
+         }
        }
     }
 
@@ -148,6 +155,8 @@ using namespace Private_Convert;
 
 void Book::addSpan(StrLen str,StrLen fmt)
  {
+  out.put(' ');
+
   if( spanind ) out.put(',');
 
   if( !fmt )
@@ -220,6 +229,78 @@ void Book::addText(StrLen frame,StrLen fmt)
 void Book::closeText()
  {
   Printf(out,"} , & fmt_#; , & align_#; } ;\n\n",kind,kind);
+ }
+
+ // list
+
+void Book::openUList(const String &kind)
+ {
+  ulen ind=frames.getCount();
+
+  frames.insLast(kind);
+
+  this->kind=kind;
+
+  listind=ind;
+  itemind=0;
+ }
+
+void Book::closeUList()
+ {
+  Printf(out,"TextList b#; = { {\n",listind);
+
+  for(ulen i : IndLim(itemind) )
+    {
+     out.put(' ');
+
+     if( i ) out.put(',');
+
+     Printf(out,"{ '•' , { { & b#;_#; , null , ItemInner , ItemOuter } } }\n",listind,i);
+    }
+
+  Printf(out,"} } ;\n\n");
+ }
+
+void Book::openOList(const String &kind)
+ {
+  ulen ind=frames.getCount();
+
+  frames.insLast(kind);
+
+  this->kind=kind;
+
+  listind=ind;
+  itemind=0;
+ }
+
+void Book::closeOList()
+ {
+  Printf(out,"TextList b#; = { {\n",listind);
+
+  for(ulen i : IndLim(itemind) )
+    {
+     out.put(' ');
+
+     if( i ) out.put(',');
+
+     Printf(out,"{ '#;.' , { { & b#;_#; , null , ItemInner , ItemOuter } } }\n",i+1,listind,i);
+    }
+
+  Printf(out,"} } ;\n\n");
+ }
+
+void Book::openItem()
+ {
+  Printf(out,"Text b#;_#; = { {\n",listind,itemind);
+
+  spanind=0;
+ }
+
+void Book::closeItem()
+ {
+  Printf(out,"} , & fmt_#; , & align_#; } ;\n\n",kind,kind);
+
+  itemind++;
  }
 
 /* class Convert */
@@ -560,35 +641,73 @@ auto Convert::tagAend() -> TagErrorId // TODO
 
  // list
 
-auto Convert::tagOL() -> TagErrorId // TODO
+auto Convert::tagOL() -> TagErrorId
  {
-  return open(Block_OL);
+  if( block==NoBlock )
+    {
+     block=Block_OL;
+
+     book.openOList("list"_str);
+
+     return {};
+    }
+
+  return Error_InBlock;
  }
 
-auto Convert::tagOLend() -> TagErrorId // TODO
- {
-  if( item ) return Error_ItemNotClosed;
-
-  return close(Block_OL);
- }
-
-auto Convert::tagUL() -> TagErrorId // TODO
- {
-  return open(Block_UL);
- }
-
-auto Convert::tagULend() -> TagErrorId // TODO
+auto Convert::tagOLend() -> TagErrorId
  {
   if( item ) return Error_ItemNotClosed;
 
-  return close(Block_UL);
+  if( block==Block_OL )
+    {
+     block=NoBlock;
+
+     book.closeOList();
+
+     return noFormat();
+    }
+
+  return block?Error_BlockMismatch:Error_NoBlock;
  }
 
-auto Convert::tagLI() -> TagErrorId // TODO
+auto Convert::tagUL() -> TagErrorId
+ {
+  if( block==NoBlock )
+    {
+     block=Block_UL;
+
+     book.openUList("list"_str);
+
+     return {};
+    }
+
+  return Error_InBlock;
+ }
+
+auto Convert::tagULend() -> TagErrorId
+ {
+  if( item ) return Error_ItemNotClosed;
+
+  if( block==Block_UL )
+    {
+     block=NoBlock;
+
+     book.closeUList();
+
+     return noFormat();
+    }
+
+  return block?Error_BlockMismatch:Error_NoBlock;
+ }
+
+auto Convert::tagLI() -> TagErrorId
  {
   if( inList() && !item )
     {
      item=true;
+
+     book.openItem();
 
      return {};
     }
@@ -596,11 +715,13 @@ auto Convert::tagLI() -> TagErrorId // TODO
   return Error_NotList;
  }
 
-auto Convert::tagLIend() -> TagErrorId // TODO
+auto Convert::tagLIend() -> TagErrorId
  {
   if( inList() && item )
     {
      item=false;
+
+     book.closeItem();
 
      return noFormat();
     }

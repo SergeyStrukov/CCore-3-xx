@@ -60,6 +60,9 @@ class Book : NoCopy
    String kind;
    ulen spanind = 0 ;
 
+   ulen listind = 0 ;
+   ulen itemind = 0 ;
+
   private:
 
    void addSpan(StrLen str,StrLen fmt);
@@ -77,6 +80,20 @@ class Book : NoCopy
    void addText(StrLen frame,StrLen fmt);
 
    void closeText();
+
+   // list
+
+   void openUList(const String &kind);
+
+   void closeUList();
+
+   void openOList(const String &kind);
+
+   void closeOList();
+
+   void openItem();
+
+   void closeItem();
  };
 
 /* class Convert */
@@ -152,7 +169,7 @@ class Convert : NoCopy
 
    bool notOpened() const { return !block || ( inList() && !item ) ; }
 
-   bool inText() const { return block>=Block_H1 && block<=Block_P ; }
+   bool inText() const { return ( block>=Block_H1 && block<=Block_P ) || item ; }
 
    TagErrorId noFormat() const;
 
