@@ -19,8 +19,6 @@
 #include <CCore/inc/String.h>
 #include <CCore/inc/CompactList.h>
 
-//#include <CCore/inc/PrintStem.h>
-
 namespace App {
 
 /* classes */

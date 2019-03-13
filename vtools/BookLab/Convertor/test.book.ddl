@@ -2,6 +2,8 @@
 
 include <pretext:/Book1.ddl>
 
+include <ColorSet.ddl>
+
 scope Pages {
 
 /* defaults */
@@ -22,29 +24,15 @@ MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
 /* format */
 
- // color names
-
-VColor White = 0FFFFFFh ;
-
-VColor Black = 0 ;
-
-VColor Red = 0FF0000h ;
-
-VColor Blue = 0FFh ;
-
-VColor DarkGreen = 06400h ;
-
-VColor Aqua = 0FFFFh ;
-
  // colors
 
 VColor vc_h1 = Blue ;
 
-VColor vc_h1_back = 0A9A9A9h ;
+VColor vc_h1_back = DarkGray ;
 
 VColor vc_h2 = DarkGreen ;
 
-VColor vc_h2_back = 0F5DEB3h ;
+VColor vc_h2_back = Wheat ;
 
 VColor vc_h3 = DarkGreen ;
 
@@ -234,7 +222,7 @@ include <test.bookinc.ddl>
 
 }
 
-Book Data = { .title = "CCore 3-xx" , .start = & Pages#content , .back = 0FFEFD5h , .fore = 00h } ;
+Book Data = { .title = "CCore 3-xx" , .start = & Pages#content , .back = PapayaWhip , .fore = Black } ;
 
 
 

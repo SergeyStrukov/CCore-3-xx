@@ -15,6 +15,10 @@
 
 #include <CCore/test/test.h>
 
+#include <CCore/inc/video/pref/ColorListWindow.h>
+#include <CCore/inc/Print.h>
+#include <CCore/inc/ForLoop.h>
+
 namespace App {
 
 namespace Private_2999 {
@@ -32,6 +36,17 @@ const char *const Testit<2999>::Name="Test2999 Blank";
 template<>
 bool Testit<2999>::Main()
  {
+  PrintFile out("ColorSet.ddl");
+
+  Video::ColorSet set;
+
+  for(ulen i : IndLim(set->getLineCount()) )
+    {
+     auto line=set->getLine(i);
+
+     Printf(out,"VColor #16l; = #8.hi; ;\n",line.name,line.vc);
+    }
+
   return true;
  }
 
