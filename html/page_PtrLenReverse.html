@@ -123,7 +123,7 @@ The set of cursor methods:
    
   PtrLenReverse&lt;T&gt; takeup(ulen delta); // advance up to delta elements
   
-  T & take(); // take first element and advance
+  T &amp; take(); // take first element and advance
 
   PtrLenReverse&lt;T&gt; getFinal() const;
   
@@ -156,7 +156,7 @@ Methods <b>fit()</b> can be used to check the length of the range.
    
   bool fit(ulen length) const { return length&lt;=len; }
   
-  bool fit(ulen off,ulen length) const { return off&lt;=len && length&lt;=(len-off) ; }
+  bool fit(ulen off,ulen length) const { return off&lt;=len &amp;&amp; length&lt;=(len-off) ; }
 
 </pre>  
 
@@ -210,11 +210,11 @@ You can pick an element of the range based on its index:
 
   // index access
   
-  T & operator [] (ulen index) const;
+  T &amp; operator [] (ulen index) const;
    
-  T & at(ulen index) const;
+  T &amp; at(ulen index) const;
   
-  T & back(ulen index) const; // 1 is the last
+  T &amp; back(ulen index) const; // 1 is the last
    
 </pre>
 

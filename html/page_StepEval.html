@@ -441,7 +441,7 @@ struct Context::ExprStep
   void operator () (Eval &amp;eval,StepId dep,Expr::Var *ptr)
    {
     ulen index=ptr->index;
-    Var &var=eval->table[index];
+    Var &amp;var=eval->table[index];
     
     var.gate->createStep(GetVarStep(var.value,ret),dep);
    }

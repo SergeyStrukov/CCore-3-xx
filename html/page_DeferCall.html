@@ -126,7 +126,7 @@ class Window
       
      public:
     
-      void put(char ch) { try_post(&Window::put,ch); }
+      void put(char ch) { try_post(&amp;Window::put,ch); }
     };
    
    Input input;
@@ -134,7 +134,7 @@ class Window
    Window() 
     : input(this)
     {
-     defer_tick=input.create(&Window::tick);
+     defer_tick=input.create(&amp;Window::tick);
 
      defer_tick.start();
     }

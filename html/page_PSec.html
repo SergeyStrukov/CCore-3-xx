@@ -519,7 +519,7 @@ class <span class="Att">MultipointDevice</span> : public ObjBase , public Packet
 
    // EndpointManager
 
-   virtual OpenErrorCode open(XPoint point,const MasterKey &skey,ClientProfilePtr &amp;&amp;client_profile);
+   virtual OpenErrorCode open(XPoint point,const MasterKey &amp;skey,ClientProfilePtr &amp;&amp;client_profile);
 
    virtual bool close(XPoint point);
 

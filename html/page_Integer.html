@@ -636,7 +636,7 @@ class <span class="Att">RandomInteger</span> : public Integer
   public:
   
    template &lt;RandomType Random&gt;
-   RandomInteger(ulen n,Random &random);
+   RandomInteger(ulen n,Random &amp;random);
    
    ~RandomInteger();
  };
@@ -659,7 +659,7 @@ class <span class="Att">GCDiv</span> : public Integer
  {
   public:
 
-   GCDiv(const Integer &a,const Integer &b);
+   GCDiv(const Integer &amp;a,const Integer &amp;b);
  };
 
 template &lt;class Integer&gt;
@@ -891,7 +891,7 @@ but returned by the function.
   
   static void RShift(Unit *restrict b,const Unit *a,ulen nab,unsigned shift); // 0&lt;shift&lt;UnitBits
 
-  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&ltUnitBits
+  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0&lt;shift&lt;UnitBits
 
 </pre>
 

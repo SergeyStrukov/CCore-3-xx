@@ -146,7 +146,7 @@ Conditional grammar is an alternative way. Instead defining of new non-terminals
 
   EXPR + EXPR.a   : if( a&gt;=M ) opAdd  = A
 
-  EXPR.a * EXPR.b : if( a&gt;=P & b&gt;=M ) opMul  = M
+  EXPR.a * EXPR.b : if( a&gt;=P &amp; b&gt;=M ) opMul  = M
  }
 
 </pre>
@@ -277,7 +277,7 @@ RULE-COND <b>=</b> if ( COND-EXPR )
 
 <p>
 A condition expression is an expression, built from prime expressions using the logical operations
-<b>&</b> (logical AND), <b>|</b> (logical OR) and <b>!</b> (logical NOT). <b>&</b> has a higher priority 
+<b>&amp;</b> (logical AND), <b>|</b> (logical OR) and <b>!</b> (logical NOT). <b>&amp;</b> has a higher priority 
 than <b>|</b>. Brackets can be used to specify the order of evaluation.
 </p>
 
@@ -303,7 +303,7 @@ Variables are introduced in the rule element list as the dot-suffix of the synt 
 
 <pre>
 
-  EXPR.a * EXPR.b : if( a&gt;=P & b&gt;=M ) opMul  = M
+  EXPR.a * EXPR.b : if( a&gt;=P &amp; b&gt;=M ) opMul  = M
 
 </pre>
 
@@ -582,7 +582,7 @@ The section <b>Rules</b> with rule descriptions.
   Atom(0,A("("))  Synt(0,EXPR)  Atom(1,A(")"))
 2) EXPR::opAdd -> EXPR.A if( @2 >= M(1) )
   Synt(0,EXPR)  Atom(3,A("+"))  Synt(0,EXPR)
-3) EXPR::opMul -> EXPR.M if( ( @0 >= P(2) & @2 >= M(1) ) )
+3) EXPR::opMul -> EXPR.M if( ( @0 >= P(2) &amp; @2 >= M(1) ) )
   Synt(0,EXPR)  Atom(2,A("*"))  Synt(0,EXPR)
 
 </pre>

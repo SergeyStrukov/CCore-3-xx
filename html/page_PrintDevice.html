@@ -319,7 +319,7 @@ struct <span class="Att">Sys::File</span>
   
   FileError open(StrLen file_name,FileOpenFlags oflags) noexcept;
  
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept; 
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept; 
   
   void close() noexcept; 
    
@@ -407,9 +407,9 @@ class <span class="Att">PrintAsyncFile</span> : public PrintBase
 
    void exec2(StrLen dir,StrLen program,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
    
-   void exec2(AsyncFileSystem &fs,StrLen dev_dir,StrLen dev_program);
+   void exec2(AsyncFileSystem &amp;fs,StrLen dev_dir,StrLen dev_program);
    
-   void soft_close(FileMultiError &errout);
+   void soft_close(FileMultiError &amp;errout);
    
    void close();
    
@@ -529,7 +529,7 @@ class <span class="Att">PTPConOpenClose</span> : NoCopy
    
    // constructors
   
-   PTPConOpenClose(StrLen con_dev_name,StrLen name,const Net::PTPCon::Cfg &cfg=Net::PTPCon::Cfg());
+   PTPConOpenClose(StrLen con_dev_name,StrLen name,const Net::PTPCon::Cfg &amp;cfg=Net::PTPCon::Cfg());
    
    ~PTPConOpenClose();
    

@@ -360,7 +360,7 @@ You may add the <b>run</b> target to use a boot program to start the application
 <pre>
 
 run: $(TARGET)
-        ~/bin/CCore-BeagleBoot.exe r 192.168.99.10 $(TARGET) && cd root && ~/bin/CCore-PTPServer.exe c
+        ~/bin/CCore-BeagleBoot.exe r 192.168.99.10 $(TARGET) &amp;&amp; cd root &amp;&amp; ~/bin/CCore-PTPServer.exe c
 
 </pre>
 

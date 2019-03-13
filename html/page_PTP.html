@@ -432,7 +432,7 @@ class <span class="Att">ClientDevice</span> : public ObjBase
 
    using StatInfo = ClientStatInfo ;
    
-   void getStat(ClientStatInfo &ret);
+   void getStat(ClientStatInfo &amp;ret);
    
    ulen getMaxOutboundInfoLen(); // always &gt; 0 , &lt;= MaxInfoLen
    
@@ -572,7 +572,7 @@ struct <span class="Att">Ext</span> : ExtBase&lt;ServiceId,FunctionId&gt;
   using InputType = .... ;
   using OutputType = .... ;
   
-  void done(const OutputType &output)
+  void done(const OutputType &amp;output)
    {
     ....
    }
@@ -622,7 +622,7 @@ struct <span class="Att">ExtBase</span>
 
   // methods
   
-  bool isOk() const { return !result && !error_id ; }
+  bool isOk() const { return !result &amp;&amp; !error_id ; }
   
   void reset();
 
@@ -686,7 +686,7 @@ struct <span class="Att">PTPSupport::LenExt</span> : ExtBase&lt;PTPSupport::Serv
   ulen max_outbound_info_len;
   ulen max_inbound_info_len;
   
-  void done(const OutputType &output);
+  void done(const OutputType &amp;output);
  };
  
 /* struct PTPSupport::SeedExt */  
@@ -699,7 +699,7 @@ struct <span class="Att">PTPSupport::SeedExt</span> : ExtBase&lt;PTPSupport::Ser
   uint64 seed1;
   uint64 seed2;
   
-  void done(const OutputType &output);
+  void done(const OutputType &amp;output);
  };
  
 /* struct PTPSupport::SessionExt */ 
@@ -709,7 +709,7 @@ struct <span class="Att">PTPSupport::SessionExt</span> : ExtBase&lt;PTPSupport::
   using InputType = SessionInput ;
   uisng OutputType = SessionOutput ;
   
-  void done(const OutputType &);
+  void done(const OutputType &amp;);
  };
  
 /* struct PTPSupport::EchoExt */ 
@@ -721,7 +721,7 @@ struct <span class="Att">PTPSupport::EchoExt</span> : ExtBase&lt;PTPSupport::Ser
   
   PtrLen&lt;const uint8&gt; data;
   
-  void done(const OutputType &output);
+  void done(const OutputType &amp;output);
  };
  
 /* struct PTPSupport::ErrorDescExt */ 
@@ -733,7 +733,7 @@ struct <span class="Att">PTPSupport::ErrorDescExt</span> : ExtBase&lt;PTPSupport
   
   PtrLen&lt;const uint8&gt; desc;
   
-  void done(const OutputType &output);
+  void done(const OutputType &amp;output);
  };
  
 /* struct PTPSupport::ExistExt */  
@@ -745,7 +745,7 @@ struct <span class="Att">PTPSupport::ExistExt</span> : ExtBase&lt;PTPSupport::Se
   
   bool exist;
   
-  void done(const OutputType &output);
+  void done(const OutputType &amp;output);
  };
 
 </pre>

@@ -113,7 +113,7 @@ Methods <b>fit()</b> can be used to check the length of the range:
    
   bool fit(ulen length) const { return length&lt;=len; }
   
-  bool fit(ulen off,ulen length) const { return off&lt;=len && length&lt;=(len-off) ; }
+  bool fit(ulen off,ulen length) const { return off&lt;=len &amp;&amp; length&lt;=(len-off) ; }
 
 </pre>
 

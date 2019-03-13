@@ -177,7 +177,7 @@ The last two functions are <b>DimOf()</b> and <b>Dist()</b>:
 <pre>
 
 template &lt;class T,ulen Len&gt;
-ulen <span class="Att">DimOf</span>(T (&)[Len]) { return Len; }
+ulen <span class="Att">DimOf</span>(T (&amp;)[Len]) { return Len; }
  
 template &lt;class T&gt;
 ulen <span class="Att">Dist</span>(const T *from,const T *to) { return ulen(to-from); }

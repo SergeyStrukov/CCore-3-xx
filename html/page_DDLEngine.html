@@ -89,7 +89,7 @@ class <span class="Att">TextEngine</span> : NoCopy
 
   public: 
    
-   TextEngine(PrintBase &msg,StrLen text,StrLen pretext=Empty);
+   TextEngine(PrintBase &amp;msg,StrLen text,StrLen pretext=Empty);
    
    ~TextEngine();
    
@@ -121,7 +121,7 @@ class <span class="Att">FileEngine</span> : NoCopy
    static constexpr ulen DefaultMaxIncludes = 100 ;
    static constexpr ulen DefaultMaxFileLen  = MaxULen ;
   
-   explicit FileEngine(const SS & ... args,PrintBase &msg,ulen mem_cap=MaxULen,
+   explicit FileEngine(const SS &amp; ... args,PrintBase &amp;msg,ulen mem_cap=MaxULen,
                                            ulen max_files=DefaultMaxFiles,
                                            ulen max_inc=DefaultMaxIncludes,
                                            ulen max_file_len=DefaultMaxFileLen);
@@ -260,7 +260,7 @@ struct <span class="Att">LenResult</span>
   
   void set(LenNode *node,ulen_type value);
  
-  void print(PrinterType &out) const;
+  void print(PrinterType &amp;out) const;
  };
 
 </pre>
@@ -706,9 +706,9 @@ class <span class="Att">Map</span> : NoCopy
   
    void operator () (void *mem);
   
-   bool findStruct(StrLen name,const TypeDesc &desc); 
+   bool findStruct(StrLen name,const TypeDesc &amp;desc); 
   
-   void * findConst(StrLen name,const TypeDesc &desc);
+   void * findConst(StrLen name,const TypeDesc &amp;desc);
  };
 
 </pre>
@@ -737,7 +737,7 @@ class <span class="Att">MapBase</span> : NoCopy
   public:
 
    template &lt;class Map&gt;
-   explicit MapBase(Map &map)
+   explicit MapBase(Map &amp;map)
     {
      mem=MemAlloc(map.getLen());
      
@@ -894,7 +894,7 @@ and the array length.
 
 struct <span class="Att">TypeDesc_array_getlen</span> : TypeDesc
  {
-  const TypeDesc &type;
+  const TypeDesc &amp;type;
   mutable ulen_type len; // filled by findConst() method
   
   explicit TypeDesc_array_getlen(const TypeDesc &amp;type);

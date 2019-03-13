@@ -84,7 +84,7 @@ struct <span class="Att">File</span>
   
   FileError open(StrLen file_name,FileOpenFlags oflags) noexcept;
  
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept;
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept;
   
   void close() noexcept; 
    
@@ -119,7 +119,7 @@ struct <span class="Att">AltFile</span>
   
   Result open(StrLen file_name,FileOpenFlags oflags) noexcept;
  
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept;
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept;
   
   void close() noexcept; 
    
@@ -160,7 +160,7 @@ struct <span class="Att">AltAsyncFile</span>
   
   Result open(StrLen file_name,FileOpenFlags oflags) noexcept;
   
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept; 
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept; 
   
   void close() noexcept; 
   
@@ -249,7 +249,7 @@ struct <span class="Att">File</span>
   
   FileError open(StrLen file_name,FileOpenFlags oflags) noexcept;
  
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept;
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept;
   
   void close() noexcept; 
    
@@ -356,7 +356,7 @@ struct <span class="Att">AltFile</span>
   
   Result open(StrLen file_name,FileOpenFlags oflags) noexcept;
  
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept;
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept;
   
   void close() noexcept; 
    
@@ -444,7 +444,7 @@ struct <span class="Att">AltAsyncFile</span>
   
   Result open(StrLen file_name,FileOpenFlags oflags) noexcept;
   
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept; 
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept; 
   
   void close() noexcept; 
   

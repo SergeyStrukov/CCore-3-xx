@@ -233,7 +233,7 @@ class <span class="Att">EventRecorderHost</span> : NoCopy
       
      public: 
       
-      StartStop(EventRecorderHost &host,Recorder *recorder); 
+      StartStop(EventRecorderHost &amp;host,Recorder *recorder); 
       
       ~StartStop(); 
     };
@@ -288,7 +288,7 @@ class <span class="Att">EventRecorder</span> : NoCopy
    template &lt;class T,class ... SS&gt;
    void add(SS &amp;&amp; ... ss) requires ( EventInitArg&lt;T,SS...&gt; ) ;
    
-   template &lt;FuncInitArgType&lt;const EventRecorder &,const EventDesc &,void *&gt; FuncInit&gt;
+   template &lt;FuncInitArgType&lt;const EventRecorder &amp;,const EventDesc &amp;,void *&gt; FuncInit&gt;
    void parse(FuncInit func_init) const
    
    // save/load object
@@ -448,7 +448,7 @@ struct SomeEvent
     ....
    }
 
-  static void Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc);
+  static void Register(EventMetaInfo &amp;info,EventMetaInfo::EventDesc &amp;desc);
  };
 
 </pre>
@@ -551,15 +551,15 @@ You may use the following methods to add a field description:
 
 <pre>
 
-StructDesc & addField_uint8(const String &name,OffsetFunc offset);
-StructDesc & addField_uint16(const String &name,OffsetFunc offset);
-StructDesc & addField_uint32(const String &name,OffsetFunc offset);
+StructDesc &amp; addField_uint8(const String &amp;name,OffsetFunc offset);
+StructDesc &amp; addField_uint16(const String &amp;name,OffsetFunc offset);
+StructDesc &amp; addField_uint32(const String &amp;name,OffsetFunc offset);
 
-StructDesc & addField_enum_uint8(EventIdType id,const String &name,OffsetFunc offset);
-StructDesc & addField_enum_uint16(EventIdType id,const String &name,OffsetFunc offset);
-StructDesc & addField_enum_uint32(EventIdType id,const String &name,OffsetFunc offset);
+StructDesc &amp; addField_enum_uint8(EventIdType id,const String &amp;name,OffsetFunc offset);
+StructDesc &amp; addField_enum_uint16(EventIdType id,const String &amp;name,OffsetFunc offset);
+StructDesc &amp; addField_enum_uint32(EventIdType id,const String &amp;name,OffsetFunc offset);
       
-StructDesc & addField_struct(EventIdType id,const String &name,OffsetFunc offset);
+StructDesc &amp; addField_struct(EventIdType id,const String &amp;name,OffsetFunc offset);
 
 </pre>
 
@@ -618,7 +618,7 @@ You may specify an "append" function for enum:
 
 <pre>
 
-using AppendFunc = void (*)(EnumDesc &desc) ;
+using AppendFunc = void (*)(EnumDesc &amp;desc) ;
 
 EnumDesc &amp; setAppendFunc(AppendFunc append_func);
 
@@ -649,7 +649,7 @@ The structure <b>TypeReg</b> provides a registration method:
 
 struct TypeReg
  {
-  static EventIdType Register(EventMetaInfo &info)
+  static EventIdType Register(EventMetaInfo &amp;info)
    {
     return info.addEnum_uint8("Enum name")
 
@@ -798,7 +798,7 @@ class <span class="Att">EventEnumValue</span>
    operator ValueType() const;
    
    template &lt;class Desc&gt;
-   static void Append(Desc &desc);
+   static void Append(Desc &amp;desc);
  };
 
 </pre>

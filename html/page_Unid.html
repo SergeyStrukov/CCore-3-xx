@@ -90,7 +90,7 @@ concept bool <span class="Att">UnidType</span> = requires()
 template &lt;UnidType T&gt;
 struct <span class="Att">UnidOf</span>
  {
-  static const Unid & Get() { return T::TypeUnid; }
+  static const Unid &amp; Get() { return T::TypeUnid; }
  };
 
 </pre>

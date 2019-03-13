@@ -105,7 +105,7 @@ Pay attention, that <b>x</b> is a middle argument!
 <pre>
 
 template &lt;class T&gt;
-constexpr bool <span class="Att">Fit</span>(T a,T x,T b) { return a&lt;=x && x&lt;=b; }
+constexpr bool <span class="Att">Fit</span>(T a,T x,T b) { return a&lt;=x &amp;&amp; x&lt;=b; }
 
 </pre>
 
@@ -288,10 +288,10 @@ The second function rounds down the first argument to be divisible by the second
 <pre>
 
 template &lt;UIntType UInt,class S&gt;
-void <span class="Att">BitSet</span>(UInt &t,S bits); // set bits
+void <span class="Att">BitSet</span>(UInt &amp;t,S bits); // set bits
 
 template &lt;UIntType UInt,class S&gt;
-void <span class="Att">BitClear</span>(UInt &t,S bits); // clear bits
+void <span class="Att">BitClear</span>(UInt &amp;t,S bits); // clear bits
  
 template &lt;UIntType UInt,class S&gt;
 UInt <span class="Att">BitTest</span>(UInt t,S bits); // check if at least one of bits is set

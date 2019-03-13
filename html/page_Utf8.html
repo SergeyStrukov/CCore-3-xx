@@ -176,19 +176,19 @@ Ret <span class="Att">PeekUtf8_gen</span>(StrLen text); // +text
 
 Utf8Code <span class="Att">PeekUtf8</span>(StrLen text); // +text
 
-Utf8Code <span class="Att">CutUtf8</span>(StrLen &text); // +text
+Utf8Code <span class="Att">CutUtf8</span>(StrLen &amp;text); // +text
 
 Utf8Code <span class="Att">PeekUtf8_guarded</span>(StrLen text); // +text
 
-Utf8Code <span class="Att">CutUtf8_guarded</span>(StrLen &text); // +text
+Utf8Code <span class="Att">CutUtf8_guarded</span>(StrLen &amp;text); // +text
 
 Unicode <span class="Att">PeekUtf8_unicode</span>(StrLen text); // +text , Unicode(-1) on error
 
-Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &text); // +text , Unicode(-1) on error
+Unicode <span class="Att">CutUtf8_unicode</span>(StrLen &amp;text); // +text , Unicode(-1) on error
 
 Unicode <span class="Att">PeekUtf8_unicode_guarded</span>(StrLen text); // +text
 
-Unicode <span class="Att">CutUtf8_unicode_guarded</span>(StrLen &text); // +text
+Unicode <span class="Att">CutUtf8_unicode_guarded</span>(StrLen &amp;text); // +text
 
 </pre>
 
@@ -260,7 +260,7 @@ It throws an exception in case of error.
 
 <pre>
 
-void <span class="Att">TrimUtf8End</span>(StrLen &text); // removes non-complete trailing sequence
+void <span class="Att">TrimUtf8End</span>(StrLen &amp;text); // removes non-complete trailing sequence
 
 </pre>
 

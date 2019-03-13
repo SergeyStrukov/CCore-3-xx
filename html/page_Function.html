@@ -64,7 +64,7 @@ class <span class="Att">Function</span>&lt;R (AA...)&gt;
    bool operator ! () const; // is null
 
    template &lt;class ... TT&gt;
-   R operator () (TT && ... tt); // do call
+   R operator () (TT &amp;&amp; ... tt); // do call
  };
 
 </pre>
@@ -115,7 +115,7 @@ class C : public Funchor
 
    void method();
 
-   Function&lt;void (void)&gt; function_method() { return FunctionOf(this,&C::method); }
+   Function&lt;void (void)&gt; function_method() { return FunctionOf(this,&amp;C::method); }
  };
 
 </pre>

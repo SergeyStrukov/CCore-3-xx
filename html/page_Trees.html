@@ -429,7 +429,7 @@ return <b>locate...()</b> results.
     void del(T *node) { Del(&amp;root,node); }
 
     template &lt;FuncType&lt;bool,T *&gt; TestFunc,FuncArgType&lt;T *&gt; DelFunc&gt;
-    void delIf(TestFunc test_func,DelFunc del_func) { DelIf(&root,test_func,del_func); }
+    void delIf(TestFunc test_func,DelFunc del_func) { DelIf(&amp;root,test_func,del_func); }
    };
  };
 
@@ -622,7 +622,7 @@ Again, the family of <b>Del...()</b> functions is the same.
 
     bool operator ! () const { return !ptr; }
 
-    T & operator * () const { return *ptr; }
+    T &amp; operator * () const { return *ptr; }
 
     T * operator -&gt; () const { return ptr; }
 
@@ -651,7 +651,7 @@ Again, the family of <b>Del...()</b> functions is the same.
 
     bool operator ! () const { return !ptr; }
 
-    T & operator * () const { return *ptr; }
+    T &amp; operator * () const { return *ptr; }
 
     T * operator -&gt; () const { return ptr; }
 
@@ -710,17 +710,17 @@ Again, the family of <b>Del...()</b> functions is the same.
     
     // del
     
-    T * del(KRef key) { return Del(&root,key); }
+    T * del(KRef key) { return Del(&amp;root,key); }
     
-    T * delMin() { return DelMin(&root); }
+    T * delMin() { return DelMin(&amp;root); }
     
-    T * delMin(KRef key) { return DelMin(&root,key); }
+    T * delMin(KRef key) { return DelMin(&amp;root,key); }
     
-    T * delMax() { return DelMax(&root); }
+    T * delMax() { return DelMax(&amp;root); }
     
-    T * delMax(KRef key) { return DelMax(&root,key); }
+    T * delMax(KRef key) { return DelMax(&amp;root,key); }
     
-    void del(T *node) { Del(&root,node); }
+    void del(T *node) { Del(&amp;root,node); }
     
     // replace
     
@@ -753,11 +753,11 @@ struct <span class="Att">RadixAlgo</span> : BinAlgo
   
   // Ins
 
-  static void Ins(BinAlgo::Root &root,T *node,K kmin,K kmax);
+  static void Ins(BinAlgo::Root &amp;root,T *node,K kmin,K kmax);
   
   static void Ins(T **root_ptr,T *node,K kmin,K kmax);
 
-  static void Ins(BinAlgo::Root &root,T *node);
+  static void Ins(BinAlgo::Root &amp;root,T *node);
   
   static void Ins(T **root_ptr,T *node);
   
@@ -773,11 +773,11 @@ struct <span class="Att">RadixAlgo</span> : BinAlgo
    
      PrepareIns(T **root_ptr,K key);
     
-     PrepareIns(BinAlgo::Root &root,K key);
+     PrepareIns(BinAlgo::Root &amp;root,K key);
     
      PrepareIns(T **root_ptr,K key,K kmin,K kmax);
     
-     PrepareIns(BinAlgo::Root &root,K key,K kmin,K kmax);
+     PrepareIns(BinAlgo::Root &amp;root,K key,K kmin,K kmax);
     
      void complete(T *node);
    };
@@ -929,7 +929,7 @@ struct <span class="Att">BaseAlgo</span>
 
     bool operator ! () const { return !ptr; }
 
-    T & operator * () const { return *ptr; }
+    T &amp; operator * () const { return *ptr; }
 
     T * operator -&gt; () const { return ptr; }
 
@@ -958,7 +958,7 @@ struct <span class="Att">BaseAlgo</span>
 
     bool operator ! () const { return !ptr; }
 
-    T & operator * () const { return *ptr; }
+    T &amp; operator * () const { return *ptr; }
 
     T * operator -&gt; () const { return ptr; }
 

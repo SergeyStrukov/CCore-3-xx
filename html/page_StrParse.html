@@ -99,7 +99,7 @@ class <span class="Att">StrParse</span>
      bool nok;
      char ch;
     
-     explicit Peek(StrParse &dev);
+     explicit Peek(StrParse &amp;dev);
       
      bool operator ! () const { return nok; }
      
@@ -161,7 +161,7 @@ class <span class="Att">Dev</span>
     {
      ....
     
-     explicit Peek(Dev &dev);
+     explicit Peek(Dev &amp;dev);
       
      bool operator ! () const { return nok; }
      

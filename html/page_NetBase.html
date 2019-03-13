@@ -408,7 +408,7 @@ struct <span class="Att">IPAddress</span>
 
   friend bool operator != (IPAddress a,IPAddress b);
   
-  IPAddress getNet(IPAddress net_mask) const { return IPAddress(address&net_mask.address); }
+  IPAddress getNet(IPAddress net_mask) const { return IPAddress(address&amp;net_mask.address); }
   
   bool sameNet(IPAddress obj,IPAddress net_mask) const { return getNet(net_mask)==obj.getNet(net_mask); }
   
@@ -463,7 +463,7 @@ The class may participate in save/load operations. It is also printable and scan
 <pre>
 
 template &lt;CharPeekType Dev&gt;
-void <span class="Att">ParseIPAddress</span>(Dev &dev,IPAddress &ret);
+void <span class="Att">ParseIPAddress</span>(Dev &amp;dev,IPAddress &amp;ret);
 
 </pre>
 
@@ -519,7 +519,7 @@ struct <span class="Att">EthHeader</span>
     //
     
     template &lt;CharPeekType Dev&gt;
-    static void ParseInbound(Dev &dev,bool &amp;inbound);
+    static void ParseInbound(Dev &amp;dev,bool &amp;inbound);
    }; 
    
   void print(PrinterType &amp;out,PrintOptType opt) const;

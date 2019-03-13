@@ -58,7 +58,7 @@ class <span class="Att">NullMovePtr</span> : NoCopy
 
    NullMovePtr(NullMovePtr&lt;T&gt; &amp;&amp;obj) noexcept : ptr(<span class="Att">Replace_null</span>(obj.ptr)) {}
 
-   NullMovePtr&lt;T&gt; & operator = (NullMovePtr&lt;T&gt; &amp;&amp;obj) noexcept
+   NullMovePtr&lt;T&gt; &amp; operator = (NullMovePtr&lt;T&gt; &amp;&amp;obj) noexcept
     {
      if( this!=&amp;obj )
        {

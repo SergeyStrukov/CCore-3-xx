@@ -148,7 +148,7 @@ class SomeClass
 </pre>
 
 <p>
-In this case the <b>SomeClass::ScanProxyType &</b> must be castable from the type <b>SomeClass</b>. For example:
+In this case the <b>SomeClass::ScanProxyType &amp;</b> must be castable from the type <b>SomeClass</b>. For example:
 </p>
 
 <pre>
@@ -159,7 +159,7 @@ struct S
   
   using SomeClass = int ;
   
-  operator int & () { return val; }
+  operator int &amp; () { return val; }
  };
 
 </pre>
@@ -246,7 +246,7 @@ class IDev
  {
   public:
 
-   using ScanInpType = IDev & ;
+   using ScanInpType = IDev &amp; ;
    
    ScanInpType scanRef() { return *this; }
    
@@ -705,7 +705,7 @@ This word can be scanned. It fails the scanner if it is not empty.
 <pre>
 
 template &lt;class T,class ProxySet&gt;
-struct <span class="Att">ScanProxySet</span> : ScanOptAdapter&ltProxySet&gt;
+struct <span class="Att">ScanProxySet</span> : ScanOptAdapter&lt;ProxySet&gt;
  {
   struct ProxyType
    {

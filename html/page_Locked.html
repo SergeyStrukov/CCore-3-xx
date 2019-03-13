@@ -44,7 +44,7 @@ class <span class="Att">Locked</span> : Mutex::Lock
  
   public:
  
-   Locked(Mutex &mutex,T &amp;obj_) : Mutex::Lock(mutex),obj(obj_) {}
+   Locked(Mutex &amp;mutex,T &amp;obj_) : Mutex::Lock(mutex),obj(obj_) {}
    
    ~Locked() {}
    

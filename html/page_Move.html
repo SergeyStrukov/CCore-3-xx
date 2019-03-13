@@ -58,7 +58,7 @@ the implementation point for it.
 <pre>
 
 template &lt;class T&gt;
-concept bool <span class="Att">SwapMovableType</span> = NothrowDefaultCtorType&lt;T&gt; && Has_objSwap&lt;T&gt; ;
+concept bool <span class="Att">SwapMovableType</span> = NothrowDefaultCtorType&lt;T&gt; &amp;&amp; Has_objSwap&lt;T&gt; ;
 
 template &lt;class T&gt;
 concept bool <span class="Att">ReplaceableType</span> = Has_objMove&lt;T&gt; || Has_ToMoveCtor&lt;T&gt; || MoveCtorType&lt;T&gt; || SwapMovableType&lt;T&gt; || CopyCtorType&lt;T&gt; ;

@@ -44,7 +44,7 @@ For example, to return a result from a function:
 
 <pre>
 
-void func(T &ret)
+void func(T &amp;ret)
  {
   T result;
 
@@ -137,13 +137,13 @@ template &lt;class T&gt;
 concept bool <span class="Att">SwappableType</span> = Has_objSwap&lt;T&gt; || MovableType&lt;T&gt; || CopyableType&lt;T&gt; ;
 
 template &lt;CopyableType T&gt;
-void <span class="Att">CopySwap</span>(T &a,T &b) noexcept;
+void <span class="Att">CopySwap</span>(T &amp;a,T &amp;b) noexcept;
 
 template &lt;MovableType T&gt;
-void <span class="Att">MoveSwap</span>(T &a,T &b) noexcept;
+void <span class="Att">MoveSwap</span>(T &amp;a,T &amp;b) noexcept;
 
 template &lt;SwappableType T&gt;
-void <span class="Att">Swap</span>(T &a,T &b) noexcept;
+void <span class="Att">Swap</span>(T &amp;a,T &amp;b) noexcept;
 
 </pre>
 
@@ -176,7 +176,7 @@ void <span class="Att">NullBySwap</span>(T &amp;obj)
 template &lt;NothrowDefaultCtorType T&gt;
 void <span class="Att">MoveBySwap</span>(T &amp;dst,T &amp;src)
  {
-  if( &dst!=&src )
+  if( &amp;dst!=&amp;src )
     {
      Swap(dst,src);
 

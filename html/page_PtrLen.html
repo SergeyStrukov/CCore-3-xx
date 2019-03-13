@@ -180,7 +180,7 @@ it advances in the ascending order. I.e. after <b>(ptr,len)</b> the <b>(ptr+1,le
    
   PtrLen&lt;T&gt; takeup(ulen delta); // advance up to delta elements
   
-  T & take(); // take first element and advance
+  T &amp; take(); // take first element and advance
 
   PtrLen&lt;T&gt; getFinal() const { return {ptr+len,0}; }
 
@@ -324,7 +324,7 @@ Methods <b>fit()</b> can be used to check the length of the range.
    
   bool fit(ulen length) const { return length&lt;=len; }
   
-  bool fit(ulen off,ulen length) const { return off&lt;=len && length&lt;=(len-off) ; }
+  bool fit(ulen off,ulen length) const { return off&lt;=len &amp;&amp; length&lt;=(len-off) ; }
 
 </pre>
 
@@ -372,11 +372,11 @@ You can pick an element of the range based on its index:
    
   // index access
   
-  T & operator [] (ulen index) const;
+  T &amp; operator [] (ulen index) const;
    
-  T & at(ulen index) const; // with the index guard
+  T &amp; at(ulen index) const; // with the index guard
   
-  T & back(ulen index) const; // reverse order, index 1 means the last element
+  T &amp; back(ulen index) const; // reverse order, index 1 means the last element
    
 </pre>
 
@@ -525,7 +525,7 @@ template &lt;class T&gt;
 PtrLen&lt;T&gt; <span class="Att">Range</span>(PtrLen&lt;T&gt; a);
  
 template &lt;class T,ulen Len&gt;
-PtrLen&lt;T&gt; <span class="Att">Range</span>(T (&buf)[Len]);
+PtrLen&lt;T&gt; <span class="Att">Range</span>(T (&amp;buf)[Len]);
  
 template &lt;class T&gt;
 PtrLen&lt;T&gt; <span class="Att">Range</span>(T *ptr,ulen len);
@@ -545,7 +545,7 @@ template &lt;class T&gt;
 PtrLen&lt;const T&gt; <span class="Att">Range_const</span>(PtrLen&lt;T&gt; a);
  
 template &lt;class T,ulen Len&gt;
-PtrLen&lt;const T&gt; <span class="Att">Range_const</span>(T (&buf)[Len]);
+PtrLen&lt;const T&gt; <span class="Att">Range_const</span>(T (&amp;buf)[Len]);
  
 template &lt;class T&gt;
 PtrLen&lt;const T&gt; <span class="Att">Range_const</span>(T *ptr,ulen len);
@@ -577,9 +577,9 @@ Finally, there exists two generic functions <b>Range()</b> and <b>Range_const()<
 
 <pre>
 
-auto <span class="Att">Range</span>(RangeAccessType &&src);
+auto <span class="Att">Range</span>(RangeAccessType &amp;&amp;src);
  
-auto <span class="Att">Range_const</span>(const RangeAccessType &src);
+auto <span class="Att">Range_const</span>(const RangeAccessType &amp;src);
 
 </pre>
 
@@ -643,7 +643,7 @@ concept bool <span class="Att">ConstRangeableType</span> = requires(Meta::ToCons
 /* concept TypeRangeableType&lt;T,S&gt; */
 
 template &lt;class T,class S&gt; // T ref extended
-concept bool <span class="Att">ConstTypeRangeableType</span> = ConstRangeableType&lt;T&gt; && requires(Meta::ToConst&lt;T&gt; &amp;cobj) { { Range_const(cobj) } -> PtrLen&lt;const S&gt; ; } ;
+concept bool <span class="Att">ConstTypeRangeableType</span> = ConstRangeableType&lt;T&gt; &amp;&amp; requires(Meta::ToConst&lt;T&gt; &amp;cobj) { { Range_const(cobj) } -> PtrLen&lt;const S&gt; ; } ;
 
 </pre>
 

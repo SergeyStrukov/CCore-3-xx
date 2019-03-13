@@ -67,11 +67,11 @@ struct <span class="Att">IntegerSlowAlgo</span>
 
   // private functions
   
-  static Unit/* c */ Add(Unit &b,Unit a,Unit carry); // carry = 0,1 
+  static Unit/* c */ Add(Unit &amp;b,Unit a,Unit carry); // carry = 0,1 
    
-  static Unit/* c */ Sub(Unit &b,Unit a,Unit carry); // carry = 0,1 
+  static Unit/* c */ Sub(Unit &amp;b,Unit a,Unit carry); // carry = 0,1 
   
-  static Unit/* c */ RevSub(Unit &b,Unit a,Unit carry); // carry = 0,1
+  static Unit/* c */ RevSub(Unit &amp;b,Unit a,Unit carry); // carry = 0,1
    
   static Unit LShift(Unit hi,Unit lo,unsigned shift); // 0&lt;shift&lt;UnitBits
  

@@ -87,13 +87,13 @@ class <span class="Att">ReadConBase</span> : NoCopy
 
    // get
 
-   bool try_get(Symbol &ret);
+   bool try_get(Symbol &amp;ret);
 
    Symbol get();
 
-   bool get(MSec timeout,Symbol &ret);
+   bool get(MSec timeout,Symbol &amp;ret);
 
-   bool get(TimeScope time_scope,Symbol &ret);
+   bool get(TimeScope time_scope,Symbol &amp;ret);
  };
 
 </pre>
@@ -123,7 +123,7 @@ class <span class="Att">SymbolParser</span> : NoCopy
 
    void reset();
 
-   bool feed(StrLen &text);
+   bool feed(StrLen &amp;text);
 
    Symbol get();
  };

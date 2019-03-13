@@ -41518,7 +41518,7 @@ FixedText b16 = { {
   { "" }
  }
  ,{
-  { "  EXPR.a * EXPR.b : if( a>=P & b&gt;=M ) opMul  = M" }
+  { "  EXPR.a * EXPR.b : if( a>=P & b>=M ) opMul  = M" }
  }
  ,{
   { " }" }
@@ -42453,7 +42453,7 @@ FixedText b41 = { {
   { "" }
  }
  ,{
-  { "  EXPR.a * EXPR.b : if( a>=P & b&gt;=M ) opMul  = M" }
+  { "  EXPR.a * EXPR.b : if( a>=P & b>=M ) opMul  = M" }
  }
  ,{
   { "" }
@@ -66832,7 +66832,7 @@ FixedText b7 = { {
   { "   " }
  }
  ,{
-  { "   DynObject<T> & operator = (const DynObject&lt;T> &obj) = delete ;" }
+  { "   DynObject<T> & operator = (const DynObject<T> &obj) = delete ;" }
  }
  ,{
   { "   " }
@@ -73010,7 +73010,7 @@ FixedText b30 = { {
   { "   " }
  }
  ,{
-  { "   template <FuncInitArgType<const EventRecorder &,const EventDesc &,void *&gt; FuncInit>" }
+  { "   template <FuncInitArgType<const EventRecorder &,const EventDesc &,void *> FuncInit>" }
  }
  ,{
   { "   void parse(FuncInit func_init) const" }
@@ -77973,7 +77973,7 @@ FixedText b9 = { {
  ,{
   { "bool /* underflow */ " }
   ,{ "Pumpup" , & fmt_cpp_Att }
-  ,{ "(PtrLen<T> &dst,PtrLen&lt;const T> &src);" }
+  ,{ "(PtrLen<T> &dst,PtrLen<const T> &src);" }
  }
  ,{
   { "" }
@@ -105513,7 +105513,7 @@ FixedText b108 = { {
   { "" }
  }
  ,{
-  { "  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0<shift&ltUnitBits" }
+  { "  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0<shift<UnitBits" }
  }
  ,{
   { "" }
@@ -119469,7 +119469,7 @@ FixedText b3 = { {
   { " " }
  }
  ,{
-  { "   Locked(Mutex &mutex,T &amp;obj_) : Mutex::Lock(mutex),obj(obj_) {}" }
+  { "   Locked(Mutex &mutex,T &obj_) : Mutex::Lock(mutex),obj(obj_) {}" }
  }
  ,{
   { "   " }
@@ -127011,7 +127011,7 @@ FixedText b22 = { {
   { "" }
  }
  ,{
-  { "ToConst<T &&gt; == const T &" }
+  { "ToConst<T &> == const T &" }
  }
  ,{
   { "" }
@@ -128325,7 +128325,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsCopyable" , & fmt_cpp_Att }
-  ,{ " = std::is_copy_constructible<T>::value && std::is_copy_assignable&lt;T>::value ;" }
+  ,{ " = std::is_copy_constructible<T>::value && std::is_copy_assignable<T>::value ;" }
  }
  ,{
   { "" }
@@ -128342,7 +128342,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsNothrowCopyable" , & fmt_cpp_Att }
-  ,{ " = std::is_nothrow_copy_constructible<T>::value && std::is_nothrow_copy_assignable&lt;T>::value ;" }
+  ,{ " = std::is_nothrow_copy_constructible<T>::value && std::is_nothrow_copy_assignable<T>::value ;" }
  }
  ,{
   { "" }
@@ -128359,7 +128359,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsMovable" , & fmt_cpp_Att }
-  ,{ " = std::is_move_constructible<T>::value && std::is_move_assignable&lt;T>::value ;" }
+  ,{ " = std::is_move_constructible<T>::value && std::is_move_assignable<T>::value ;" }
  }
  ,{
   { "" }
@@ -132448,7 +132448,7 @@ FixedText b7 = { {
  ,{
   { "concept bool " }
   ,{ "SwapMovableType" , & fmt_cpp_Att }
-  ,{ " = NothrowDefaultCtorType<T> && Has_objSwap&lt;T> ;" }
+  ,{ " = NothrowDefaultCtorType<T> && Has_objSwap<T> ;" }
  }
  ,{
   { "" }
@@ -141683,7 +141683,7 @@ FixedText b60 = { {
   { "    template <CharPeekType Dev>" }
  }
  ,{
-  { "    static void ParseInbound(Dev &dev,bool &amp;inbound);" }
+  { "    static void ParseInbound(Dev &dev,bool &inbound);" }
  }
  ,{
   { "   }; " }
@@ -146870,7 +146870,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "   NullMovePtr<T> & operator = (NullMovePtr&lt;T> &&obj) noexcept" }
+  { "   NullMovePtr<T> & operator = (NullMovePtr<T> &&obj) noexcept" }
  }
  ,{
   { "    {" }
@@ -147996,7 +147996,7 @@ FixedText b33 = { {
   { "template <class ... SS>" }
  }
  ,{
-  { "explicit SomePtr(ObjectDomain &domain,SS &amp;& ... ss);" }
+  { "explicit SomePtr(ObjectDomain &domain,SS && ... ss);" }
  }
  ,{
   { "" }
@@ -148210,7 +148210,7 @@ FixedText b39 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit ExtPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit ExtPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -148516,7 +148516,7 @@ FixedText b46 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit IntPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit IntPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -148796,7 +148796,7 @@ FixedText b52 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit WeakPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit WeakPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -149072,7 +149072,7 @@ FixedText b58 = { {
   { "   " }
  }
  ,{
-  { "   template &ltclass T,class ... SS&gt;" }
+  { "   template <class T,class ... SS>" }
  }
  ,{
   { "   void create(SS && ... ss);" }
@@ -149651,7 +149651,7 @@ FixedText b73 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   ExtDelObjPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   ExtDelObjPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -149959,7 +149959,7 @@ FixedText b80 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   IntDelObjPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   IntDelObjPtr(ObjectDomain &domain,SS && ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -154764,7 +154764,7 @@ FixedText b60 = { {
   { "   template <class T,class ... SS>" }
  }
  ,{
-  { "   T * pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType&lt;T,SS...> ) ;" }
+  { "   T * pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType<T,SS...> ) ;" }
  }
  ,{
   { "   " }
@@ -156000,7 +156000,7 @@ FixedText b100 = { {
   { "   template <class T,class ... SS>" }
  }
  ,{
-  { "   Packet<POD,TT...,T> pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType&lt;T,SS...> )" }
+  { "   Packet<POD,TT...,T> pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType<T,SS...> )" }
  }
  ,{
   { "    { " }
@@ -156285,13 +156285,13 @@ FixedText b107 = { {
   { "   " }
  }
  ,{
-  { "   void attach(PacketBuf &pbuf) { packet-&gt;attach(pbuf); }" }
+  { "   void attach(PacketBuf &pbuf) { packet->attach(pbuf); }" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   void detach(PacketBuf &pbuf) { packet-&gt;detach(pbuf); }" }
+  { "   void detach(PacketBuf &pbuf) { packet->detach(pbuf); }" }
  }
  ,{
   { "   " }
@@ -179211,7 +179211,7 @@ FixedText b72 = { {
   { "" }
  }
  ,{
-  { "   virtual OpenErrorCode open(XPoint point,const MasterKey &skey,ClientProfilePtr &amp;&client_profile);" }
+  { "   virtual OpenErrorCode open(XPoint point,const MasterKey &skey,ClientProfilePtr &&client_profile);" }
  }
  ,{
   { "" }
@@ -194198,7 +194198,7 @@ FixedText b43 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length<=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -195378,7 +195378,7 @@ FixedText b82 = { {
  ,{
   { "concept bool " }
   ,{ "ConstTypeRangeableType" , & fmt_cpp_Att }
-  ,{ " = ConstRangeableType<T> && requires(Meta::ToConst&lt;T> &cobj) { { Range_const(cobj) } -> PtrLen<const S> ; } ;" }
+  ,{ " = ConstRangeableType<T> && requires(Meta::ToConst<T> &cobj) { { Range_const(cobj) } -> PtrLen<const S> ; } ;" }
  }
  ,{
   { "" }
@@ -196350,7 +196350,7 @@ FixedText b21 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length<=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -197240,7 +197240,7 @@ FixedText b10 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length<=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -201494,7 +201494,7 @@ FixedText b3 = { {
   { "    " }
  }
  ,{
-  { "   RefPtr<T,Algo> & operator = (const RefPtr&lt;T,Algo> &obj);" }
+  { "   RefPtr<T,Algo> & operator = (const RefPtr<T,Algo> &obj);" }
  }
  ,{
   { "    " }
@@ -211807,7 +211807,7 @@ FixedText b82 = { {
  ,{
   { "struct " }
   ,{ "ScanProxySet" , & fmt_cpp_Att }
-  ,{ " : ScanOptAdapter&ltProxySet&gt;" }
+  ,{ " : ScanOptAdapter<ProxySet>" }
  }
  ,{
   { " {" }
@@ -212223,7 +212223,7 @@ FixedText b3 = { {
   { "   template <class P>" }
  }
  ,{
-  { "   static bool Print(P &&out);" }
+  { "   static bool Print(P &out);" }
  }
  ,{
   { " };" }
@@ -212307,7 +212307,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "template <class T> requires ( NothrowDefaultCtorType<T> && NothrowCopyableType&lt;T> )" }
+  { "template <class T> requires ( NothrowDefaultCtorType<T> && NothrowCopyableType<T> )" }
  }
  ,{
   { "class " }
@@ -243699,7 +243699,7 @@ FixedText b5 = { {
   { "" }
  }
  ,{
-  { "  friend UIntSat<UInt> operator += (UIntSat<UInt> &a,UIntSat&lt;UInt> b);" }
+  { "  friend UIntSat<UInt> operator += (UIntSat<UInt> &a,UIntSat<UInt> b);" }
  }
  ,{
   { "    " }
@@ -246793,7 +246793,7 @@ FixedText b16 = { {
  ,{
   { "constexpr bool " }
   ,{ "Fit" , & fmt_cpp_Att }
-  ,{ "(T a,T x,T b) { return a<=x && x&lt;=b; }" }
+  ,{ "(T a,T x,T b) { return a<=x && x<=b; }" }
  }
  ,{
   { "" }

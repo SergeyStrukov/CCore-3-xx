@@ -740,7 +740,7 @@ In fact, it may be any element or null pointer.
        
     void ins_after(Cur cur,T *obj); // +cur, obj!=0 unlinked
 
-    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked
+    void replace(Cur &amp;cur,T *obj); // +cur, obj!=0 unlinked
       
     // delete object
        
@@ -850,9 +850,9 @@ moves the cursor to the next element. The pointer to the object is returned.
        
     void ins_after(RevCur cur,T *obj); // +cur, obj!=0 unlinked
 
-    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked
+    void replace(Cur &amp;cur,T *obj); // +cur, obj!=0 unlinked
 
-    void replace(RevCur &cur,T *obj); // +cur, obj!=0 unlinked
+    void replace(RevCur &amp;cur,T *obj); // +cur, obj!=0 unlinked
        
     // delete object
       
@@ -1180,15 +1180,15 @@ after (before with respect to the cursor direction) the current (non-null) posit
 
     void ins_before(Cur cur,T *obj); // +cur, obj!=0 unlinked
       
-    void ins_after(Cur &cur,T *obj); // +cur, obj!=0 unlinked
+    void ins_after(Cur &amp;cur,T *obj); // +cur, obj!=0 unlinked
       
-    void ins_before(RevCur &cur,T *obj); // +cur, obj!=0 unlinked
+    void ins_before(RevCur &amp;cur,T *obj); // +cur, obj!=0 unlinked
        
     void ins_after(RevCur cur,T *obj); // +cur, obj!=0 unlinked
 
-    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked
+    void replace(Cur &amp;cur,T *obj); // +cur, obj!=0 unlinked
 
-    void replace(RevCur &cur,T *obj); // +cur, obj!=0 unlinked
+    void replace(RevCur &amp;cur,T *obj); // +cur, obj!=0 unlinked
       
     // delete object
       
@@ -1198,9 +1198,9 @@ after (before with respect to the cursor direction) the current (non-null) posit
        
     T * del_last();
        
-    T * del_and_move(Cur &cur); // +cur
+    T * del_and_move(Cur &amp;cur); // +cur
        
-    T * del_and_move(RevCur &cur); // +cur
+    T * del_and_move(RevCur &amp;cur); // +cur
        
     // rotate
       

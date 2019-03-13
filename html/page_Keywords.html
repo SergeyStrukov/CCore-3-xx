@@ -90,7 +90,7 @@ AtomClass Atom::GetWordClass(StrLen str)
       {
        ++str;
 
-       if( str.len==4 && str[0]=='o' && str[1]=='n' && str[2]=='s' && str[3]=='t' ) return Atom_const; else return Atom_Name;
+       if( str.len==4 &amp;&amp; str[0]=='o' &amp;&amp; str[1]=='n' &amp;&amp; str[2]=='s' &amp;&amp; str[3]=='t' ) return Atom_const; else return Atom_Name;
       }
 
      case 'i' :

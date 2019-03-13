@@ -281,7 +281,7 @@ template &lt;class ... SS&gt;
 explicit SomePtr(ObjectDomain *domain,SS &amp;&amp; ... ss);
 
 template &lt;class ... SS&gt;
-explicit SomePtr(ObjectDomain &domain,SS &amp;&amp; ... ss);
+explicit SomePtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss);
 
 </pre>
 
@@ -332,7 +332,7 @@ class <span class="Att">ObjectDomain::ExtPtr</span>
    explicit ExtPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
    template &lt;class ... SS&gt;
-   explicit ExtPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+   explicit ExtPtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
 
    ~ExtPtr();
    
@@ -419,7 +419,7 @@ class <span class="Att">ObjectDomain::IntPtr</span> // default copying
    explicit IntPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
   
    template &lt;class ... SS&gt;
-   explicit IntPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+   explicit IntPtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
 
    void nullify();
    
@@ -491,7 +491,7 @@ class <span class="Att">ObjectDomain::WeakPtr</span> // default copying
    explicit WeakPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
   
    template &lt;class ... SS&gt;
-   explicit WeakPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+   explicit WeakPtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
 
    void nullify();
    
@@ -567,7 +567,7 @@ class <span class="Att">ObjectDomain::IntAnyPtr</span> // default copying
 
    void nullify();
    
-   template &ltclass T,class ... SS&gt;
+   template &lt;class T,class ... SS&gt;
    void create(SS &amp;&amp; ... ss);
 
    // methods
@@ -726,7 +726,7 @@ class <span class="Att">ExtDelObjPtr</span>
    ExtDelObjPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
    template &lt;class ... SS&gt;
-   ExtDelObjPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+   ExtDelObjPtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
 
    ~ExtDelObjPtr();
    
@@ -804,7 +804,7 @@ class <span class="Att">IntDelObjPtr</span> // default copying
    IntDelObjPtr(ObjectDomain *domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
    
    template &lt;class ... SS&gt;
-   IntDelObjPtr(ObjectDomain &domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
+   IntDelObjPtr(ObjectDomain &amp;domain,SS &amp;&amp; ... ss) requires ( ConstructibleType&lt;T,SS..&gt; ) ;
 
    void nullify();
    

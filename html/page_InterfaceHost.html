@@ -99,7 +99,7 @@ class SomeClass : public SomeBase
 
 struct <span class="Att">InterfaceHost</span>
  {
-  virtual void requestInterface(InterfaceCaster &caster) { caster.cast(this); }
+  virtual void requestInterface(InterfaceCaster &amp;caster) { caster.cast(this); }
   
   template &lt;UnidType T&gt;
   T * pickInterface()
@@ -164,7 +164,7 @@ class AdvancedClass : public InterfaceHost
 
   public:
 
-   virtual void requestInterface(InterfaceCaster &caster) { caster.cast(&inner); }
+   virtual void requestInterface(InterfaceCaster &amp;caster) { caster.cast(&amp;inner); }
  };
 
 //
@@ -185,11 +185,11 @@ class MultiClass : public InterfaceHost
 
   public:
 
-   virtual void requestInterface(InterfaceCaster &caster) 
+   virtual void requestInterface(InterfaceCaster &amp;caster) 
     {
      if( caster.getTypeNumber().oneOf&lt;SomeInterface&gt;() )
        {
-        caster.cast(&inner); 
+        caster.cast(&amp;inner); 
        }
      else
        {

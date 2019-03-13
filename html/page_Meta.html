@@ -135,7 +135,7 @@ using <span class="Att">ToConst</span> = .... ;
 
 ToConst&lt;T&gt; == const T
 
-ToConst&lt;T &&gt; == const T &
+ToConst&lt;T &amp;&gt; == const T &amp;
 
 </pre>
 
@@ -449,17 +449,17 @@ inline constexpr bool <span class="Att">HasMoveCtor</span> = std::is_move_constr
 /* const IsCopyable&lt;T&gt; */
 
 template &lt;class T&gt;
-inline constexpr bool <span class="Att">IsCopyable</span> = std::is_copy_constructible&lt;T&gt;::value && std::is_copy_assignable&lt;T&gt;::value ;
+inline constexpr bool <span class="Att">IsCopyable</span> = std::is_copy_constructible&lt;T&gt;::value &amp;&amp; std::is_copy_assignable&lt;T&gt;::value ;
 
 /* const IsNothrowCopyable&lt;T&gt; */
 
 template &lt;class T&gt;
-inline constexpr bool <span class="Att">IsNothrowCopyable</span> = std::is_nothrow_copy_constructible&lt;T&gt;::value && std::is_nothrow_copy_assignable&lt;T&gt;::value ;
+inline constexpr bool <span class="Att">IsNothrowCopyable</span> = std::is_nothrow_copy_constructible&lt;T&gt;::value &amp;&amp; std::is_nothrow_copy_assignable&lt;T&gt;::value ;
 
 /* const IsMovable&lt;T&gt; */
 
 template &lt;class T&gt;
-inline constexpr bool <span class="Att">IsMovable</span> = std::is_move_constructible&lt;T&gt;::value && std::is_move_assignable&lt;T&gt;::value ;
+inline constexpr bool <span class="Att">IsMovable</span> = std::is_move_constructible&lt;T&gt;::value &amp;&amp; std::is_move_assignable&lt;T&gt;::value ;
 
 /* const IsBaseOf&lt;B,D&gt; */
 

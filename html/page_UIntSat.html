@@ -64,7 +64,7 @@ struct <span class="Att">UIntSat</span>
 
   friend constexpr UIntSat&lt;UInt&gt; operator + (UIntSat&lt;UInt&gt; a,UIntSat&lt;UInt&gt; b);
 
-  friend UIntSat&lt;UInt&gt; operator += (UIntSat&lt;UInt&gt; &a,UIntSat&lt;UInt&gt; b);
+  friend UIntSat&lt;UInt&gt; operator += (UIntSat&lt;UInt&gt; &amp;a,UIntSat&lt;UInt&gt; b);
     
   bool operator &lt; (UInt lim) const;
   

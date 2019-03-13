@@ -458,7 +458,7 @@ and the second is a desired life-time.
    // ext
    
    template &lt;class T,class ... SS&gt;
-   T * pushExt(SS &amp;&amp; ... ss) requires ( NothrowDtorType&lt;T&gt; && ConstructibleType&lt;T,SS...&gt; ) ;
+   T * pushExt(SS &amp;&amp; ... ss) requires ( NothrowDtorType&lt;T&gt; &amp;&amp; ConstructibleType&lt;T,SS...&gt; ) ;
    
    template &lt;class T&gt;
    T * getExt();
@@ -780,7 +780,7 @@ These methods are the packet time-stamp methods.
    // ext
    
    template &lt;class T,class ... SS&gt;
-   Packet&lt;POD,TT...,T&gt; pushExt(SS &amp;&amp; ... ss) requires ( NothrowDtorType&lt;T&gt; && ConstructibleType&lt;T,SS...&gt; )
+   Packet&lt;POD,TT...,T&gt; pushExt(SS &amp;&amp; ... ss) requires ( NothrowDtorType&lt;T&gt; &amp;&amp; ConstructibleType&lt;T,SS...&gt; )
     { 
      PacketHeader *ret=<span class="Att">Replace_null(packet)</span>;
      
@@ -857,9 +857,9 @@ of the proper type.
  
    void detach() { packet-&gt;detach(); }
    
-   void attach(PacketBuf &pbuf) { packet-&gt;attach(pbuf); }
+   void attach(PacketBuf &amp;pbuf) { packet-&gt;attach(pbuf); }
    
-   void detach(PacketBuf &pbuf) { packet-&gt;detach(pbuf); }
+   void detach(PacketBuf &amp;pbuf) { packet-&gt;detach(pbuf); }
    
    void detach(PacketHeader *dst) { packet-&gt;detach(dst); }
    
@@ -1335,7 +1335,7 @@ class Submitter : public Funchor_nocopy
      packet.popExt().complete();
     }
 
-   PacketFunction function_complete() { return FunctionOf(this,&Submitter::complete); }
+   PacketFunction function_complete() { return FunctionOf(this,&amp;Submitter::complete); }
 
   public:
 

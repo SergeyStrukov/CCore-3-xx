@@ -57,9 +57,9 @@ class <span class="Att">ReadCon</span> : NoCopy
    
    Symbol get();
    
-   bool get(MSec timeout,Symbol &ret);
+   bool get(MSec timeout,Symbol &amp;ret);
    
-   bool get(TimeScope time_scope,Symbol &ret);
+   bool get(TimeScope time_scope,Symbol &amp;ret);
    
    // put
    
@@ -83,12 +83,12 @@ class <span class="Att">ReadCon</span> : NoCopy
 </p>
 
 <p>
-<b>get(MSec,char &)</b> returns the next symbol from the console, but waits up to time-out.
+<b>get(MSec,char &amp;)</b> returns the next symbol from the console, but waits up to time-out.
 The return value is <b>true</b> iff the character was received.
 </p>
 
 <p>
-<b>get(TimeScope,char &)</b> the same as previous, time-out is given as the <b>TimeScope</b>.
+<b>get(TimeScope,char &amp;)</b> the same as previous, time-out is given as the <b>TimeScope</b>.
 </p>
 
 <p>
@@ -276,7 +276,7 @@ class <span class="Att">RedirectPTPCon</span> : NoCopy
     
   public:  
   
-   RedirectPTPCon(StrLen con_device_name,StrLen name,const Net::PTPCon::Cfg &cfg=Net::PTPCon::Cfg());
+   RedirectPTPCon(StrLen con_device_name,StrLen name,const Net::PTPCon::Cfg &amp;cfg=Net::PTPCon::Cfg());
    
    ~RedirectPTPCon();
  };
@@ -309,7 +309,7 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
    
    // constructors
    
-   explicit ReadPTPCon(PTPConOpenClose &con_openclose,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+   explicit ReadPTPCon(PTPConOpenClose &amp;con_openclose,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
    
    ~ReadPTPCon();
    
@@ -317,9 +317,9 @@ class <span class="Att">ReadPTPCon</span> : NoCopy
   
    Symbol get();
    
-   bool get(MSec timeout,Symbol &ret);
+   bool get(MSec timeout,Symbol &amp;ret);
    
-   bool get(TimeScope time_scope,Symbol &ret);
+   bool get(TimeScope time_scope,Symbol &amp;ret);
    
    // put, ignore errors
    

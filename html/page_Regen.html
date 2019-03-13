@@ -272,9 +272,9 @@ The group of set methods can be used to set the value to the register bar or to 
  
   Type_CTRL &amp; setbitIf(bool cond,Bits_CTRL bits) { if( cond ) value|=Type(bits); return *this; }
  
-  Type_CTRL &amp; clearbit(Bits_CTRL bits) { value&=~Type(bits); return *this; }
+  Type_CTRL &amp; clearbit(Bits_CTRL bits) { value&amp;=~Type(bits); return *this; }
  
-  Type_CTRL &amp; clearbitIf(bool cond,Bits_CTRL bits) { if( cond ) value&=~Type(bits); return *this; }
+  Type_CTRL &amp; clearbitIf(bool cond,Bits_CTRL bits) { if( cond ) value&amp;=~Type(bits); return *this; }
  
   Type maskbit(Bits_CTRL bits) const { return value&amp;bits; }
  

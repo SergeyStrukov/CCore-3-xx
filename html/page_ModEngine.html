@@ -113,22 +113,22 @@ class <span class="Att">ModEngine</span> : NoCopy
 
    const Integer &amp; getModule() const { return M; }
    
-   Integer prepare(const Integer &a) const; // a &gt;= 0
+   Integer prepare(const Integer &amp;a) const; // a &gt;= 0
    
    Integer mod(Integer a) const; // a &gt;= 0 , a &lt; M^2
 
-   Integer mul(const Integer &a,const Integer &b) const; // a,b &gt;= 0 , a,b &lt; M
+   Integer mul(const Integer &amp;a,const Integer &amp;b) const; // a,b &gt;= 0 , a,b &lt; M
    
-   Integer sq(const Integer &a) const; // a &gt;= 0 , a &lt; M
+   Integer sq(const Integer &amp;a) const; // a &gt;= 0 , a &lt; M
    
-   Integer mac(const Integer &s,const Integer &a,const Integer &b) const; // s,a,b &gt;= 0 , s,a,b &lt; M
+   Integer mac(const Integer &amp;s,const Integer &amp;a,const Integer &amp;b) const; // s,a,b &gt;= 0 , s,a,b &lt; M
    
-   Integer squac(const Integer &s,const Integer &a) const; // s,a &gt;= 0 , s,a &lt; M
+   Integer squac(const Integer &amp;s,const Integer &amp;a) const; // s,a &gt;= 0 , s,a &lt; M
    
    template &lt;UIntType UInt&gt;
-   Integer pow(const Integer &a,UInt d) const; // a &gt;=0 , a &lt; M , M &gt; 1
+   Integer pow(const Integer &amp;a,UInt d) const; // a &gt;=0 , a &lt; M , M &gt; 1
    
-   Integer pow(const Integer &a,const Integer &d) const; // a,d &gt;=0 , a &lt; M , M &gt; 1
+   Integer pow(const Integer &amp;a,const Integer &amp;d) const; // a,d &gt;=0 , a &lt; M , M &gt; 1
  };
 
 </pre>

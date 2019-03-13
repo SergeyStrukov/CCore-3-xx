@@ -36,7 +36,7 @@ This file provides two "scope guard" classes.
 
 <pre>
 
-template &lt;class T&gt; requires ( NothrowDefaultCtorType&lt;T&gt; && NothrowCopyableType&lt;T&gt; )
+template &lt;class T&gt; requires ( NothrowDefaultCtorType&lt;T&gt; &amp;&amp; NothrowCopyableType&lt;T&gt; )
 class <span class="Att">DefaultGuard</span> : NoCopy
  {
    T &amp;obj;
