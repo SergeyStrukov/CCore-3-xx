@@ -219,6 +219,34 @@ class PrintText
 
 using namespace Private_Convert;
 
+/* struct SplitLine */
+
+SplitLine::SplitLine(StrLen text)
+ {
+  for(StrLen next=text; +next ;++next)
+    {
+     char ch=*next;
+
+     if( ch=='\r' || ch=='\n' )
+       {
+        line=text.prefix(next);
+
+        ++next;
+
+        if( ch=='\r' && +next && *next=='\n' ) ++next;
+
+        rest=next;
+        eol=true;
+
+        return;
+       }
+    }
+
+  line=text;
+  rest=Empty;
+  eol=false;
+ }
+
 /* class Book */
 
 void Book::addSpan(StrLen str,StrLen fmt)
@@ -259,6 +287,37 @@ ulen Book::insFrame(const String &kind)
     }
 
   return ind;
+ }
+
+void Book::openLine()
+ {
+  out.put(' ');
+
+  if( lineind ) out.put(',');
+
+  Putobj(out,"{\n"_c);
+
+  spanind=0;
+ }
+
+void Book::extLine(StrLen line,StrLen fmt)
+ {
+  out.put(' ');
+
+  addSpan(line,fmt);
+ }
+
+void Book::breakLine()
+ {
+  closeLine();
+  openLine();
+ }
+
+void Book::closeLine()
+ {
+  Putobj(out," }\n"_c);
+
+  lineind++;
  }
 
 Book::Book(PrintBase &out_,const PageParam &param_)
@@ -335,6 +394,48 @@ void Book::addText(StrLen frame,StrLen fmt)
 void Book::closeText()
  {
   Printf(out,"} , & fmt_#; , & align_#; } ;\n\n",kind,kind);
+ }
+
+ // fixed
+
+void Book::openFixed(const String &kind)
+ {
+  ulen ind=insFrame(kind);
+
+  Printf(out,"FixedText b#; = { {\n",ind);
+
+  this->kind=kind;
+
+  lineind=0;
+
+  openLine();
+ }
+
+void Book::addFixed(StrLen frame,StrLen fmt)
+ {
+  while( +frame )
+    {
+     SplitLine split(frame);
+
+     extLine(split.line,fmt);
+
+     if( split.eol )
+       {
+        breakLine();
+        frame=split.rest;
+       }
+     else
+       {
+        break;
+       }
+    }
+ }
+
+void Book::closeFixed()
+ {
+  closeLine();
+
+  Printf(out,"} , & fmt_#; } ;\n\n",kind);
  }
 
  // list
@@ -670,6 +771,10 @@ auto Convert::frame(String str) -> TagErrorId
     {
      book.addText(Range(str),getFmt());
     }
+  else if( inFixed() )
+    {
+     book.addFixed(Range(str),getFmt());
+    }
 
   return {};
  }
@@ -741,14 +846,32 @@ auto Convert::tagPend() -> TagErrorId
   return closeText(Block_P);
  }
 
-auto Convert::tagPRE() -> TagErrorId // TODO
+auto Convert::tagPRE() -> TagErrorId
  {
-  return open(Block_PRE);
+  if( block==NoBlock )
+    {
+     block=Block_PRE;
+
+     book.openFixed("cpp"_str);
+
+     return {};
+    }
+
+  return Error_InBlock;
  }
 
-auto Convert::tagPREend() -> TagErrorId // TODO
+auto Convert::tagPREend() -> TagErrorId
  {
-  return close(Block_PRE);
+  if( block==Block_PRE )
+    {
+     block=NoBlock;
+
+     book.closeFixed();
+
+     return noFormat();
+    }
+
+  return block?Error_BlockMismatch:Error_NoBlock;
  }
 
  // format

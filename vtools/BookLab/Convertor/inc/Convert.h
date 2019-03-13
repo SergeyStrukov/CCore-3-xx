@@ -23,11 +23,24 @@ namespace App {
 
 /* classes */
 
+struct SplitLine;
+
 struct PageParam;
 
 class Book;
 
 class Convert;
+
+/* struct SplitLine */
+
+struct SplitLine
+ {
+  StrLen line;
+  StrLen rest;
+  bool eol;
+
+  explicit SplitLine(StrLen text);
+ };
 
 /* struct PageParam */
 
@@ -58,6 +71,7 @@ class Book : NoCopy
 
    String kind;
    ulen spanind = 0 ;
+   ulen lineind = 0 ;
 
    ulen listind = 0 ;
    ulen itemind = 0 ;
@@ -73,6 +87,16 @@ class Book : NoCopy
    void addSpan(StrLen str,StrLen fmt);
 
    ulen insFrame(const String &kind);
+
+  private:
+
+   void openLine();
+
+   void extLine(StrLen line,StrLen fmt);
+
+   void breakLine();
+
+   void closeLine();
 
   public:
 
@@ -91,6 +115,14 @@ class Book : NoCopy
    void addText(StrLen frame,StrLen fmt);
 
    void closeText();
+
+   // fixed
+
+   void openFixed(const String &kind);
+
+   void addFixed(StrLen frame,StrLen fmt);
+
+   void closeFixed();
 
    // list
 
@@ -195,6 +227,8 @@ class Convert : NoCopy
    bool notOpened() const { return !block || ( inList() && !item ) ; }
 
    bool inText() const { return ( block>=Block_H1 && block<=Block_P ) || item ; }
+
+   bool inFixed() const { return block==Block_PRE; }
 
    TagErrorId noFormat() const;
 

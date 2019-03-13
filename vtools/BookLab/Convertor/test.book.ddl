@@ -48,6 +48,8 @@ VColor vc_Att = Blue ;
 
 VColor vc_Files = Aqua ;
 
+VColor vc_cpp = Silver ;
+
  // font faces
 
 text face = "Bookman Old Style" ;
@@ -77,6 +79,32 @@ Font font_text_i = font_text { .italic = True  } ;
 Format fmt_text_i = { & font_text_i } ;
 
 Format fmt_text_u = fmt_text { .effect=Format#Underline } ;
+
+ // text_cpp
+
+Font font_cpp = { fixed , 22 } ;
+
+Format fmt_cpp = { & font_cpp , vc_cpp } ;
+
+Point inner_cpp = DefaultInner ;
+
+Point outer_cpp = DefaultOuter ;
+
+VColor back_cpp = NoColor ;
+
+Font font_cpp_b = font_cpp { .bold = True } ;
+
+Format fmt_cpp_b = fmt_cpp { .font = & font_cpp_b } ;
+
+Font font_cpp_i = font_cpp { .italic = True } ;
+
+Format fmt_cpp_i = fmt_cpp { .font = & font_cpp_i } ;
+
+Format fmt_cpp_Att = fmt_cpp { .fore = vc_Att } ; 
+
+Format fmt_cpp_a = fmt_cpp { .fore = vc_a , .effect = Format#Underline } ; 
+
+Format fmt_cpp_Alert = fmt_cpp { .fore = vc_Alert } ; 
 
  // text_Files
 
@@ -198,7 +226,7 @@ Format fmt_list_Alert = fmt_list { .fore = vc_Alert } ;
 
 Font font_Cmd = { fixed , 22 } ;
 
-Format fmt_list_Cmd = { &font_Cmd , White , Black } ;
+Format fmt_list_Cmd = { & font_Cmd , White , Black } ;
 
  // img
 
