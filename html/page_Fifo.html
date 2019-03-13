@@ -187,7 +187,7 @@ class StringFifo
 
    ~StringFifo() {}
 
-   void put(const String &obj)
+   void put(const String &amp;obj)
     {
      if( !fifo.put(obj) )
        {

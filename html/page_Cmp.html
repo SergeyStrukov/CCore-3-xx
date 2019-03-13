@@ -98,7 +98,7 @@ struct S
 
   // cmp objects
 
-  CmpResult <span class="Att">objCmp</span>(const S &obj) const
+  CmpResult <span class="Att">objCmp</span>(const S &amp;obj) const
    {
     return <span class="Att">AlphaCmp</span>(a,obj.a,b,obj.b,c,obj.c);
    }
@@ -112,7 +112,7 @@ The function <b>AlphaCmp()</b> expects any number of pairs of arguments:
 
 <pre>
 
-CmpResult <span class="Att">AlphaCmp</span>(const T<sub>1</sub> &a<sub>1</sub>,const T<sub>1</sub> &b<sub>1</sub>,const T<sub>2</sub> &a<sub>2</sub>,const T<sub>2</sub> &b<sub>2</sub>,...,const T<sub>n</sub> &a<sub>n</sub>,const T<sub>n</sub> &b<sub>n</sub>);
+CmpResult <span class="Att">AlphaCmp</span>(const T<sub>1</sub> &amp;a<sub>1</sub>,const T<sub>1</sub> &amp;b<sub>1</sub>,const T<sub>2</sub> &amp;a<sub>2</sub>,const T<sub>2</sub> &amp;b<sub>2</sub>,...,const T<sub>n</sub> &amp;a<sub>n</sub>,const T<sub>n</sub> &amp;b<sub>n</sub>);
 
 </pre>
 
@@ -124,7 +124,7 @@ You may also use instead of pair a single <b>CmpResult</b> value.
 
 CmpResult cmp=....;
 
-CmpResult <span class="Att">AlphaCmp</span>(const T<sub>1</sub> &a<sub>1</sub>,const T<sub>1</sub> &b<sub>1</sub>,const T<sub>2</sub> &a<sub>2</sub>,const T<sub>2</sub> &b<sub>2</sub>,...,cmp,...,const T<sub>n</sub> &a<sub>n</sub>,const T<sub>n</sub> &b<sub>n</sub>);
+CmpResult <span class="Att">AlphaCmp</span>(const T<sub>1</sub> &amp;a<sub>1</sub>,const T<sub>1</sub> &amp;b<sub>1</sub>,const T<sub>2</sub> &amp;a<sub>2</sub>,const T<sub>2</sub> &amp;b<sub>2</sub>,...,cmp,...,const T<sub>n</sub> &amp;a<sub>n</sub>,const T<sub>n</sub> &amp;b<sub>n</sub>);
 
 </pre>
 
@@ -235,17 +235,17 @@ class <span class="Att">CmpAsStr</span>
 
    CmpResult objCmp(CmpAsStr obj) const { return StrCmp(str,obj.str); }
 
-   friend bool operator &lt; (const CmpAsStr &a,const CmpAsStr &b) { return StrLess(a.str,b.str); }
+   friend bool operator &lt; (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return StrLess(a.str,b.str); }
 
-   friend bool operator &gt; (const CmpAsStr &a,const CmpAsStr &b) { return StrLess(b.str,a.str); }
+   friend bool operator &gt; (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return StrLess(b.str,a.str); }
 
-   friend bool operator &lt;= (const CmpAsStr &a,const CmpAsStr &b) { return !StrLess(b.str,a.str); }
+   friend bool operator &lt;= (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return !StrLess(b.str,a.str); }
 
-   friend bool operator &gt;= (const CmpAsStr &a,const CmpAsStr &b) { return !StrLess(a.str,b.str); }
+   friend bool operator &gt;= (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return !StrLess(a.str,b.str); }
 
-   friend bool operator == (const CmpAsStr &a,const CmpAsStr &b) { return StrCmp(a.str,b.str)==0; }
+   friend bool operator == (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return StrCmp(a.str,b.str)==0; }
 
-   friend bool operator != (const CmpAsStr &a,const CmpAsStr &b) { return StrCmp(a.str,b.str)!=0; }
+   friend bool operator != (const CmpAsStr &amp;a,const CmpAsStr &amp;b) { return StrCmp(a.str,b.str)!=0; }
  };
 
 </pre>
@@ -261,15 +261,15 @@ There are two <b>Property Type</b> classes <b>LessComparable</b> and <b>CmpCompa
 template &lt;class T&gt;
 struct <span class="Att">LessComparable</span>
  {
-  friend bool operator &gt; (const T &a,const T &b) requires ( OpLessType&lt;T&gt; ) { return b&lt;a; }
+  friend bool operator &gt; (const T &amp;a,const T &amp;b) requires ( OpLessType&lt;T&gt; ) { return b&lt;a; }
   
-  friend bool operator &lt;= (const T &a,const T &b) requires ( OpLessType&lt;T&gt; ) { return !(b&lt;a); }
+  friend bool operator &lt;= (const T &amp;a,const T &amp;b) requires ( OpLessType&lt;T&gt; ) { return !(b&lt;a); }
   
-  friend bool operator &gt;= (const T &a,const T &b) requires ( OpLessType&lt;T&gt; ) { return !(a&lt;b); }
+  friend bool operator &gt;= (const T &amp;a,const T &amp;b) requires ( OpLessType&lt;T&gt; ) { return !(a&lt;b); }
   
-  friend bool operator == (const T &a,const T &b) requires ( OpLessType&lt;T&gt; && !OpEqualType&lt;T&gt; ) { return !( a&lt;b || b&lt;a ); }
+  friend bool operator == (const T &amp;a,const T &amp;b) requires ( OpLessType&lt;T&gt; &amp;&amp; !OpEqualType&lt;T&gt; ) { return !( a&lt;b || b&lt;a ); }
   
-  friend bool operator != (const T &a,const T &b) requires ( OpLessType&lt;T&gt; && !OpEqualType&lt;T&gt; ) { return ( a&lt;b || b&lt;a ); }
+  friend bool operator != (const T &amp;a,const T &amp;b) requires ( OpLessType&lt;T&gt; &amp;&amp; !OpEqualType&lt;T&gt; ) { return ( a&lt;b || b&lt;a ); }
  };
   
 /* struct CmpComparable&lt;T&gt; */ 
@@ -277,17 +277,17 @@ struct <span class="Att">LessComparable</span>
 template &lt;class T&gt;
 struct <span class="Att">CmpComparable</span>
  {
-  friend bool operator &lt; (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&lt;0; }
+  friend bool operator &lt; (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&lt;0; }
   
-  friend bool operator &gt; (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&gt;0; }
+  friend bool operator &gt; (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&gt;0; }
   
-  friend bool operator &lt;= (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&lt;=0; }
+  friend bool operator &lt;= (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&lt;=0; }
   
-  friend bool operator &gt;= (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&gt;=0; }
+  friend bool operator &gt;= (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)&gt;=0; }
   
-  friend bool operator == (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)==0; }
+  friend bool operator == (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)==0; }
   
-  friend bool operator != (const T &a,const T &b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)!=0; }
+  friend bool operator != (const T &amp;a,const T &amp;b) requires ( Has_objCmp&lt;T&gt; ) { return a.objCmp(b)!=0; }
  };
 
 </pre>
@@ -304,7 +304,7 @@ class C : public CmpComparable&lt;C&gt; // provides all comparison operators for
 
    // cmp objects
 
-   CmpResult objCmp(const C &obj) const { .... }
+   CmpResult objCmp(const C &amp;obj) const { .... }
  };
 
 </pre>

@@ -211,7 +211,7 @@ class <span class="Att">LogFilterAccess</span> : FastMutexBase::Lock
    
    LogFilter * getPtr() const { return filter; }
    
-   LogFilter & operator * () const { return *getPtr(); }
+   LogFilter &amp; operator * () const { return *getPtr(); }
    
    LogFilter * operator -> () const { return getPtr(); }
  };

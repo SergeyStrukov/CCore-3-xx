@@ -72,17 +72,17 @@ class DoSomething
    ulen getMaxLen() const { return maxlen; }
  };
  
-typedef DoSomething&lt;1&gt; <span class="Att">DoRaw</span>;
+using <span class="Att">DoRaw</span> = DoSomething&lt;1&gt; ;
 
-typedef DoSomething&lt;2&gt; <span class="Att">DoFill</span>; 
+using <span class="Att">DoFill</span> = DoSomething&lt;2&gt; ; 
 
-typedef DoSomething&lt;3&gt; <span class="Att">DoCopy</span>; 
+using <span class="Att">DoCopy</span> = DoSomething&lt;3&gt; ; 
 
-typedef DoSomething&lt;4&gt; <span class="Att">DoCast</span>; 
+using <span class="Att">DoCast</span> = DoSomething&lt;4&gt; ; 
 
-typedef DoSomething&lt;5&gt; <span class="Att">DoSwap</span>; 
+using <span class="Att">DoSwap</span> = DoSomething&lt;5&gt; ; 
 
-typedef DoSomething&lt;6&gt; <span class="Att">DoCreate</span>; 
+using <span class="Att">DoCreate</span> = DoSomething&lt;6&gt; ; 
 
 </pre>
 
@@ -821,9 +821,9 @@ class <span class="Att">RefArray</span>
    
    // index access
    
-   const T & operator [] (ulen index) const;
+   const T &amp; operator [] (ulen index) const;
    
-   const T & at(ulen index) const;
+   const T &amp; at(ulen index) const;
    
    // methods
    

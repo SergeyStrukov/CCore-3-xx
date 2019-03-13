@@ -106,7 +106,7 @@ The class counts some events and the event statistic is available through the me
 
 <pre>
 
-void <span class="Att">CancelPacketList::getStat</span>(StatInfo &ret)
+void <span class="Att">CancelPacketList::getStat</span>(StatInfo &amp;ret)
  {
   Mutex::Lock lock(mutex); // mutex protected region
   
@@ -126,7 +126,7 @@ The class can serve multiple packet lists. To put a packet to the list there are
 
 <pre>
 
-void <span class="Att">CancelPacketList::put</span>(PacketList &list,PacketHeader *packet)
+void <span class="Att">CancelPacketList::put</span>(PacketList &amp;list,PacketHeader *packet)
  {
   if( !try_put(list,packet) ) packet->complete(); // if the packet is cancelled, complete it
  }
@@ -142,13 +142,13 @@ during the <b>try_put()</b> processing), the packet is not placed into the list 
 
 <pre>
 
-bool <span class="Att">CancelPacketList::try_put</span>(PacketList &list,PacketHeader *packet)
+bool <span class="Att">CancelPacketList::try_put</span>(PacketList &amp;list,PacketHeader *packet)
  {
   Mutex::Lock lock(mutex); // mutex protected region
 
   if( packet->setCancelFunction(function_cancel())==Packet_NoCancelFunction )
     {
-     packet->pushExt&lt;PacketList *&gt;(&list);
+     packet->pushExt&lt;PacketList *&gt;(&amp;list);
       
      list.put(packet);
        
@@ -203,7 +203,7 @@ To extract a packet from the list the method <b>get()</b> is used.
 
 <pre>
 
-PacketHeader * <span class="Att">CancelPacketList::get</span>(PacketList &list)
+PacketHeader * <span class="Att">CancelPacketList::get</span>(PacketList &amp;list)
  {
   for(;;)
     {
@@ -244,7 +244,7 @@ The last two methods are helpers.
 </p>
 
 <p>
-<b>get(PacketList &list,PacketList &dst)</b> moves all not canceled packets from the list to another list for 
+<b>get(PacketList &amp;list,PacketList &amp;dst)</b> moves all not canceled packets from the list to another list for 
 a further processing.
 </p>
 

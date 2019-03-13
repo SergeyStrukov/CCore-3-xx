@@ -206,7 +206,7 @@ class Cursor
 
    // reference variant, can be read-only
 
-   T & operator * () const; // the current object, precondition( +(*this) )
+   T &amp; operator * () const; // the current object, precondition( +(*this) )
 
    T * operator -> () const; // the current object, precondition( +(*this) )
 
@@ -274,7 +274,7 @@ class SomeClass
   
    T * getPtr() const; // the current object, precondition( +(*this) )
    
-   T & operator * () const; // the current object, precondition( +(*this) )
+   T &amp; operator * () const; // the current object, precondition( +(*this) )
    
    T * operator -> () const; // the current object, precondition( +(*this) )
  };

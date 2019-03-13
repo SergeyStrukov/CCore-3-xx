@@ -63,7 +63,7 @@ template &lt;class T&gt;
 concept bool <span class="Att">SIntType</span> = Meta::IsSInt&lt;T&gt; ;
 
 template &lt;class T&gt;
-concept bool <span class="Att">S2sIntType</span> = SIntType&lt;T&gt; && Is2sComplementArithmetic ;
+concept bool <span class="Att">S2sIntType</span> = SIntType&lt;T&gt; &amp;&amp; Is2sComplementArithmetic ;
 
 template &lt;class T&gt;
 concept bool <span class="Att">SUIntType</span> = SIntType&lt;T&gt; || UIntType&lt;T&gt; ;
@@ -170,7 +170,7 @@ template &lt;class T&gt;
 concept bool <span class="Att">NothrowDtorType</span> = Meta::HasNothrowDtor&lt;T&gt; ;
 
 template &lt;class T&gt;
-concept bool <span class="Att">TrivDtorType</span> = NothrowDtorType&lt;T&gt; && Meta::HasTrivDtor&lt;T&gt; ;
+concept bool <span class="Att">TrivDtorType</span> = NothrowDtorType&lt;T&gt; &amp;&amp; Meta::HasTrivDtor&lt;T&gt; ;
 
 </pre>
 
@@ -179,7 +179,7 @@ concept bool <span class="Att">TrivDtorType</span> = NothrowDtorType&lt;T&gt; &&
 </p>
 
 <p>
-<b>TrivDtorType</b> covers types with trivial destructor. <b>TrivDtorType</b> => <b>NothrowDtorType</b>
+<b>TrivDtorType</b> covers types with trivial destructor. <b>TrivDtorType</b> =&gt; <b>NothrowDtorType</b>
 </p>
 
 <pre>
@@ -188,7 +188,7 @@ template &lt;class T&gt;
 concept bool <span class="Att">DefaultCtorType</span> = Meta::HasDefaultCtor&lt;T&gt; ;
 
 template &lt;class T&gt;
-concept bool <span class="Att">NothrowDefaultCtorType</span> = DefaultCtorType&lt;T&gt; && Meta::HasNothrowDefaultCtor&lt;T&gt; ;
+concept bool <span class="Att">NothrowDefaultCtorType</span> = DefaultCtorType&lt;T&gt; &amp;&amp; Meta::HasNothrowDefaultCtor&lt;T&gt; ;
 
 template &lt;class T&gt;
 concept bool <span class="Att">MoveCtorType</span> = Meta::HasMoveCtor&lt;T&gt; ;
@@ -197,7 +197,7 @@ template &lt;class T&gt;
 concept bool <span class="Att">CopyCtorType</span> = Meta::HasCopyCtor&lt;T&gt; ;
 
 template &lt;class T&gt;
-concept bool <span class="Att">NothrowCopyCtorType</span> = CopyCtorType&lt;T&gt; && Meta::HasNothrowCopyCtor&lt;T&gt; ;
+concept bool <span class="Att">NothrowCopyCtorType</span> = CopyCtorType&lt;T&gt; &amp;&amp; Meta::HasNothrowCopyCtor&lt;T&gt; ;
 
 </pre>
 
@@ -206,7 +206,7 @@ concept bool <span class="Att">NothrowCopyCtorType</span> = CopyCtorType&lt;T&gt
 </p>
 
 <p>
-<b>NothrowDefaultCtorType</b> covers types with nothrow default constructor. <b>NothrowDefaultCtorType</b> => <b>DefaultCtorType</b>.
+<b>NothrowDefaultCtorType</b> covers types with nothrow default constructor. <b>NothrowDefaultCtorType</b> =&gt; <b>DefaultCtorType</b>.
 </p>
 
 <p>
@@ -218,7 +218,7 @@ concept bool <span class="Att">NothrowCopyCtorType</span> = CopyCtorType&lt;T&gt
 </p>
 
 <p>
-<b>NothrowCopyCtorType</b> covers types with nothrow copy constructor. <b>NothrowCopyCtorType</b> => <b>CopyCtorType</b>.
+<b>NothrowCopyCtorType</b> covers types with nothrow copy constructor. <b>NothrowCopyCtorType</b> =&gt; <b>CopyCtorType</b>.
 </p>
 
 <pre>
@@ -230,7 +230,7 @@ template &lt;class T&gt;
 concept bool <span class="Att">CopyableType</span> = Meta::IsCopyable&lt;T&gt; ;
 
 template &lt;class T&gt;
-concept bool <span class="Att">NothrowCopyableType</span> = CopyableType&lt;T&gt; && Meta::IsNothrowCopyable&lt;T&gt; ;
+concept bool <span class="Att">NothrowCopyableType</span> = CopyableType&lt;T&gt; &amp;&amp; Meta::IsNothrowCopyable&lt;T&gt; ;
 
 </pre>
 
@@ -263,7 +263,7 @@ concept bool <span class="Att">FuncArgType</span> = requires(Func func,AA &amp;&
 /* concept FuncType&lt;Func,R,AA&gt; */
 
 template &lt;class Func,class R,class ... AA&gt;
-concept bool <span class="Att">FuncType</span> = FuncArgType&lt;Func,AA...&gt; && requires(Func func,AA &amp;&amp; ... aa) { { func( std::forward&lt;AA&gt;(aa)... ) } -&gt; R ; } ;
+concept bool <span class="Att">FuncType</span> = FuncArgType&lt;Func,AA...&gt; &amp;&amp; requires(Func func,AA &amp;&amp; ... aa) { { func( std::forward&lt;AA&gt;(aa)... ) } -&gt; R ; } ;
 
 </pre>
 
@@ -513,9 +513,9 @@ class C
    boolable operator ! () const;
 
 
-   C(const C &) noexcept;
+   C(const C &amp;) noexcept;
 
-   ??? operator = (const C &) noexcept;
+   ??? operator = (const C &amp;) noexcept;
 
 
    ??? operator * () const;
@@ -528,7 +528,7 @@ class C
 </pre>
 
 <p>
-<b>CursorType</b> => <b>NothrowCopyableType</b> && <b>NullableType</b>.
+<b>CursorType</b> => <b>NothrowCopyableType</b> &amp;&amp; <b>NullableType</b>.
 </p>
 
 <p>
@@ -584,9 +584,9 @@ class C
    boolable operator ! () const;
 
 
-   C(const C &) noexcept;
+   C(const C &amp;) noexcept;
 
-   ??? operator = (const C &) noexcept;
+   ??? operator = (const C &amp;) noexcept;
 
 
    ??? operator * () const;
@@ -678,11 +678,11 @@ concept bool <span class="Att">PtrToOpLessFuncType</span> = ToOpLessFuncType&lt;
 </pre>
 
 <p>
-<b>ToOpNotEqualFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator !=</b>.
+<b>ToOpNotEqualFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &amp;</b> and with return value, comparable with the <b>operator !=</b>.
 </p>
 
 <p>
-<b>ToOpLessFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &</b> and with return value, comparable with the <b>operator &lt;</b>.
+<b>ToOpLessFuncType&lt;T&gt;</b> covers functors with arguments <b>const T &amp;</b> and with return value, comparable with the <b>operator &lt;</b>.
 </p>
 
 <p>

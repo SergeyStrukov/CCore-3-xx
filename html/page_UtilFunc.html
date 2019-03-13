@@ -206,7 +206,7 @@ T <span class="Att">AddToCap</span>(T val,T delta,T cap)
 <pre>
 
 template &lt;class T,class S&gt;
-void <span class="Att">CapDown</span>(T &obj,S cap)
+void <span class="Att">CapDown</span>(T &amp;obj,S cap)
  {
   if( obj>cap ) obj=(T)cap;
  }

@@ -18,6 +18,8 @@
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Path.h>
 
+#include <CCore/inc/Print.h>
+
 namespace App {
 
 namespace Private_Convert {
@@ -45,7 +47,11 @@ class PrintPtr
     }
  };
 
+#define SOFTAMP
+
 /* class PrintSpan */
+
+PrintFile log("amplog.txt");
 
 class PrintSpan
  {
@@ -97,7 +103,21 @@ class PrintSpan
         return;
        }
 
-     out.put('$');
+#ifdef SOFTAMP
+
+     out.put('&');
+
+     Putobj(out,text);
+
+     out.put(';');
+
+     Printf(log,"&#;;\n",text);
+
+#else
+
+     Putobj(out,"$@$"_c);
+
+#endif
     }
 
    static void PrintChar(PrinterType &out,StrLen &text)
@@ -116,7 +136,19 @@ class PrintSpan
 
           if( !next )
             {
-             out.put('$');
+#ifdef SOFTAMP
+
+             out.put('&');
+
+             Putobj(out,text);
+
+             Printf(log,"&#;`\n",text);
+
+#else
+
+             Putobj(out,"$@$"_c);
+
+#endif
 
              text=Empty;
             }
@@ -143,7 +175,7 @@ class PrintSpan
          {
           if( CharIsSpecial(ch) )
             {
-             out.put('$');
+             Putobj(out,"$@$"_c);
             }
           else
             {
@@ -193,7 +225,7 @@ class PrintText
          {
           if( CharIsSpecial(ch) )
             {
-             out.put('$');
+             Putobj(out,"$@$"_c);
             }
           else
             {

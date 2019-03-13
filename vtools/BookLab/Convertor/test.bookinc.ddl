@@ -5483,7 +5483,7 @@ FixedText b20 = { {
   { "  " }
  }
  ,{
-  { "  operator Type() const { return Get($ }" }
+  { "  operator Type() const { return Get(&atomic); }" }
  }
  ,{
   { "  " }
@@ -5495,37 +5495,37 @@ FixedText b20 = { {
   { "  " }
  }
  ,{
-  { "  Type operator  = (Type value) { return Set($ }" }
+  { "  Type operator  = (Type value) { return Set(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator += (Type value) { return Add($ }" }
+  { "  Type operator += (Type value) { return Add(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator -= (Type value) { return Sub($ }" }
+  { "  Type operator -= (Type value) { return Sub(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator ++ (int) { return Inc($ }" }
+  { "  Type operator ++ (int) { return Inc(&atomic); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator -- (int) { return Dec($ }" }
+  { "  Type operator -- (int) { return Dec(&atomic); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type trySet(Type old_value,Type new_value) { return TrySet($ }" }
+  { "  Type trySet(Type old_value,Type new_value) { return TrySet(&atomic,old_value,new_value); }" }
  }
  ,{
   { " };" }
@@ -5867,7 +5867,7 @@ FixedText b4 = { {
   { "   template <class FuncInit,class ... SS>" }
  }
  ,{
-  { "   void apply(FuncInit func_init,SS $" }
+  { "   void apply(FuncInit func_init,SS && ... ss) const;" }
  }
  ,{
   { "   " }
@@ -6010,7 +6010,7 @@ FixedText b4 = { {
   { "   template <class FuncInit,class ... SS>" }
  }
  ,{
-  { "   void apply(FuncInit func_init,SS $" }
+  { "   void apply(FuncInit func_init,SS && ... ss) const;" }
  }
  ,{
   { "   " }
@@ -6597,7 +6597,7 @@ FixedText b21 = { {
  ,{
   { "void " }
   ,{ "ElaborateAnyPtr" , & fmt_cpp_Att }
-  ,{ "(T $" }
+  ,{ "(T &obj,SS && ... ss);" }
  }
  ,{
   { "" }
@@ -7277,7 +7277,7 @@ FixedText b3 = { {
   { "   template <class Report>" }
  }
  ,{
-  { "   TestResult operator () (Integer N,Report $" }
+  { "   TestResult operator () (Integer N,Report &report) const;" }
  }
  ,{
   { " };" }
@@ -7505,7 +7505,7 @@ FixedText b8 = { {
   { "   template <class Integer>" }
  }
  ,{
-  { "   void start(const Integer $ }" }
+  { "   void start(const Integer &N) { Used(N); }" }
  }
  ,{
   { "   " }
@@ -7538,7 +7538,7 @@ FixedText b8 = { {
   { "   template <class Integer>" }
  }
  ,{
-  { "   void cappa(PtrLen<const Integer> cappa,const Integer $ Used(Nminus1); }" }
+  { "   void cappa(PtrLen<const Integer> cappa,const Integer &Nminus1) { Used(cappa); Used(Nminus1); }" }
  }
  ,{
   { "   " }
@@ -7547,7 +7547,7 @@ FixedText b8 = { {
   { "   template <class Integer>" }
  }
  ,{
-  { "   void cappa2(const Integer $ Used(Nminus1); }" }
+  { "   void cappa2(const Integer &cappa,const Integer &Nminus1) { Used(cappa); Used(Nminus1); }" }
  }
  ,{
   { "   " }
@@ -7562,7 +7562,7 @@ FixedText b8 = { {
   { "   template <class Integer>" }
  }
  ,{
-  { "   void probe(const Integer $ }" }
+  { "   void probe(const Integer &cnt) { Used(cnt); }" }
  }
  ,{
   { "   " }
@@ -7571,7 +7571,7 @@ FixedText b8 = { {
   { "   template <class Integer>" }
  }
  ,{
-  { "   void div(const Integer $ }" }
+  { "   void div(const Integer &D) { Used(D); }" }
  }
  ,{
   { "   " }
@@ -7928,7 +7928,7 @@ FixedText b29 = { {
   { "" }
  }
  ,{
-  { "template <class Integer,template <class T,class F=GetNoThrowFlags<T> > class ArrayAlgo$" }
+  { "template <class Integer,template <class T,class F=GetNoThrowFlags<T> > class ArrayAlgo>" }
  }
  ,{
   { "class " }
@@ -7960,7 +7960,7 @@ FixedText b29 = { {
   { "   template <class Report>" }
  }
  ,{
-  { "   TestResult operator () (Integer N,Report $" }
+  { "   TestResult operator () (Integer N,Report &report) const;" }
  }
  ,{
   { " };" }
@@ -8272,49 +8272,49 @@ FixedText b7 = { {
   { " " }
  }
  ,{
-  { "typedef DoSomething<1> " }
+  { "using " }
   ,{ "DoRaw" , & fmt_cpp_Att }
-  ,{ ";" }
+  ,{ " = DoSomething<1> ;" }
  }
  ,{
   { "" }
  }
  ,{
-  { "typedef DoSomething<2> " }
+  { "using " }
   ,{ "DoFill" , & fmt_cpp_Att }
-  ,{ "; " }
+  ,{ " = DoSomething<2> ; " }
  }
  ,{
   { "" }
  }
  ,{
-  { "typedef DoSomething<3> " }
+  { "using " }
   ,{ "DoCopy" , & fmt_cpp_Att }
-  ,{ "; " }
+  ,{ " = DoSomething<3> ; " }
  }
  ,{
   { "" }
  }
  ,{
-  { "typedef DoSomething<4> " }
+  { "using " }
   ,{ "DoCast" , & fmt_cpp_Att }
-  ,{ "; " }
+  ,{ " = DoSomething<4> ; " }
  }
  ,{
   { "" }
  }
  ,{
-  { "typedef DoSomething<5> " }
+  { "using " }
   ,{ "DoSwap" , & fmt_cpp_Att }
-  ,{ "; " }
+  ,{ " = DoSomething<5> ; " }
  }
  ,{
   { "" }
  }
  ,{
-  { "typedef DoSomething<6> " }
+  { "using " }
   ,{ "DoCreate" , & fmt_cpp_Att }
-  ,{ "; " }
+  ,{ " = DoSomething<6> ; " }
  }
  ,{
   { "" }
@@ -11324,13 +11324,13 @@ FixedText b88 = { {
   { "   " }
  }
  ,{
-  { "   const T $" }
+  { "   const T & operator [] (ulen index) const;" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   const T $" }
+  { "   const T & at(ulen index) const;" }
  }
  ,{
   { "   " }
@@ -18715,7 +18715,7 @@ FixedText b3 = { {
   { "  " }
  }
  ,{
-  { "   virtual Sys::AsyncFileState * createState(const ObjHook $" }
+  { "   virtual Sys::AsyncFileState * createState(const ObjHook &hook) noexcept ;" }
  }
  ,{
   { " };" }
@@ -18842,7 +18842,7 @@ FixedText b5 = { {
   { "  " }
  }
  ,{
-  { "  void close(FileMultiError $ " }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept; " }
  }
  ,{
   { "  " }
@@ -19157,7 +19157,7 @@ FixedText b6 = { {
   { "" }
  }
  ,{
-  { "  virtual Sys::AsyncFileState * createState(const ObjHook $" }
+  { "  virtual Sys::AsyncFileState * createState(const ObjHook &hook) noexcept =0;" }
  }
  ,{
   { " };" }
@@ -20731,7 +20731,7 @@ FixedText b34 = { {
   { "  " }
  }
  ,{
-  { "  virtual void getFileList(ObjHook $uint8,Sys::AsyncFileSystem::FileExt> packet,StrLen dir_name)=0;" }
+  { "  virtual void getFileList(ObjHook &hook,Packet<uint8,Sys::AsyncFileSystem::FileExt> packet,StrLen dir_name)=0;" }
  }
  ,{
   { "  " }
@@ -20779,7 +20779,7 @@ FixedText b34 = { {
   { "  " }
  }
  ,{
-  { "  virtual void exec2(ObjHook $uint8,Sys::AsyncFileSystem::FileExt> packet,StrLen dir,StrLen program)=0;" }
+  { "  virtual void exec2(ObjHook &hook,Packet<uint8,Sys::AsyncFileSystem::FileExt> packet,StrLen dir,StrLen program)=0;" }
  }
  ,{
   { " };" }
@@ -23636,7 +23636,7 @@ FixedText b19 = { {
   { "  " }
  }
  ,{
-  { "  operator Type() const { return Get($ }" }
+  { "  operator Type() const { return Get(&atomic); }" }
  }
  ,{
   { "  " }
@@ -23648,37 +23648,37 @@ FixedText b19 = { {
   { "  " }
  }
  ,{
-  { "  Type operator  = (Type value) { return Set($ }" }
+  { "  Type operator  = (Type value) { return Set(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator += (Type value) { return Add($ }" }
+  { "  Type operator += (Type value) { return Add(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator -= (Type value) { return Sub($ }" }
+  { "  Type operator -= (Type value) { return Sub(&atomic,value); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator ++ (int) { return Inc($ }" }
+  { "  Type operator ++ (int) { return Inc(&atomic); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type operator -- (int) { return Dec($ }" }
+  { "  Type operator -- (int) { return Dec(&atomic); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  Type trySet(Type old_value,Type new_value) { return TrySet($ }" }
+  { "  Type trySet(Type old_value,Type new_value) { return TrySet(&atomic,old_value,new_value); }" }
  }
  ,{
   { " };" }
@@ -25011,7 +25011,7 @@ FixedText b16 = { {
   { "  " }
  }
  ,{
-  { "  static PtrLenReverse<T> Split(PtrLenReverse<T> $ }" }
+  { "  static PtrLenReverse<T> Split(PtrLenReverse<T> &r,LenType prefix) { return r+=prefix; }" }
  }
  ,{
   { "  " }
@@ -26724,7 +26724,7 @@ FixedText b20 = { {
   { "" }
  }
  ,{
-  { "   BinFileToMem $&obj) noexcept = default ;" }
+  { "   BinFileToMem & operator = (BinFileToMem &&obj) noexcept = default ;" }
  }
  ,{
   { "" }
@@ -28489,7 +28489,7 @@ FixedText b6 = { {
  ,{
   { "void " }
   ,{ "CancelPacketList::getStat" , & fmt_cpp_Att }
-  ,{ "(StatInfo $" }
+  ,{ "(StatInfo &ret)" }
  }
  ,{
   { " {" }
@@ -28563,7 +28563,7 @@ FixedText b9 = { {
  ,{
   { "void " }
   ,{ "CancelPacketList::put" , & fmt_cpp_Att }
-  ,{ "(PacketList $" }
+  ,{ "(PacketList &list,PacketHeader *packet)" }
  }
  ,{
   { " {" }
@@ -28664,7 +28664,7 @@ FixedText b11 = { {
  ,{
   { "bool " }
   ,{ "CancelPacketList::try_put" , & fmt_cpp_Att }
-  ,{ "(PacketList $" }
+  ,{ "(PacketList &list,PacketHeader *packet)" }
  }
  ,{
   { " {" }
@@ -28682,7 +28682,7 @@ FixedText b11 = { {
   { "    {" }
  }
  ,{
-  { "     packet->pushExt<PacketList *>($" }
+  { "     packet->pushExt<PacketList *>(&list);" }
  }
  ,{
   { "      " }
@@ -28930,7 +28930,7 @@ FixedText b17 = { {
  ,{
   { "PacketHeader * " }
   ,{ "CancelPacketList::get" , & fmt_cpp_Att }
-  ,{ "(PacketList $" }
+  ,{ "(PacketList &list)" }
  }
  ,{
   { " {" }
@@ -29166,8 +29166,8 @@ Text b19 = { {
 
 Text b20 = { {
  { "get(PacketList" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&list,PacketList" , & fmt_text_b }
+ ,{ "&dst)" , & fmt_text_b }
  ,{ "moves" }
  ,{ "all" }
  ,{ "not" }
@@ -29698,7 +29698,7 @@ FixedText b12 = { {
   { "run: $(TARGET)" }
  }
  ,{
-  { "$$(TARGET)" }
+  { "        $(TARGET)" }
  }
  ,{
   { "" }
@@ -31394,7 +31394,7 @@ FixedText b40 = { {
  ,{
   { "inline const char * " }
   ,{ "GetPunctChars" , & fmt_cpp_Att }
-  ,{ "() { return \"!\\\"#$%$<=>?@[\\\\]^`{|}~\"; } " }
+  ,{ "() { return \"!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^`{|}~\"; } " }
  }
  ,{
   { "" }
@@ -32353,7 +32353,7 @@ FixedText b7 = { {
  ,{
   { "concept bool " }
   ,{ "S2sIntType" , & fmt_cpp_Att }
-  ,{ " = SIntType<T> $" }
+  ,{ " = SIntType<T> && Is2sComplementArithmetic ;" }
  }
  ,{
   { "" }
@@ -32690,7 +32690,7 @@ FixedText b24 = { {
  ,{
   { "concept bool " }
   ,{ "TrivDtorType" , & fmt_cpp_Att }
-  ,{ " = NothrowDtorType<T> $T> ;" }
+  ,{ " = NothrowDtorType<T> && Meta::HasTrivDtor<T> ;" }
  }
  ,{
   { "" }
@@ -32744,7 +32744,7 @@ FixedText b27 = { {
  ,{
   { "concept bool " }
   ,{ "NothrowDefaultCtorType" , & fmt_cpp_Att }
-  ,{ " = DefaultCtorType<T> $T> ;" }
+  ,{ " = DefaultCtorType<T> && Meta::HasNothrowDefaultCtor<T> ;" }
  }
  ,{
   { "" }
@@ -32777,7 +32777,7 @@ FixedText b27 = { {
  ,{
   { "concept bool " }
   ,{ "NothrowCopyCtorType" , & fmt_cpp_Att }
-  ,{ " = CopyCtorType<T> $T> ;" }
+  ,{ " = CopyCtorType<T> && Meta::HasNothrowCopyCtor<T> ;" }
  }
  ,{
   { "" }
@@ -32876,7 +32876,7 @@ FixedText b33 = { {
  ,{
   { "concept bool " }
   ,{ "NothrowCopyableType" , & fmt_cpp_Att }
-  ,{ " = CopyableType<T> $T> ;" }
+  ,{ " = CopyableType<T> && Meta::IsNothrowCopyable<T> ;" }
  }
  ,{
   { "" }
@@ -32969,7 +32969,7 @@ FixedText b38 = { {
  ,{
   { "concept bool " }
   ,{ "FuncType" , & fmt_cpp_Att }
-  ,{ " = FuncArgType<Func,AA...> $& ... aa) { { func( std::forward<AA>(aa)... ) } -> R ; } ;" }
+  ,{ " = FuncArgType<Func,AA...> && requires(Func func,AA && ... aa) { { func( std::forward<AA>(aa)... ) } -> R ; } ;" }
  }
  ,{
   { "" }
@@ -33785,13 +33785,13 @@ FixedText b64 = { {
   { "" }
  }
  ,{
-  { "   C(const C $" }
+  { "   C(const C &) noexcept;" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   ??? operator = (const C $" }
+  { "   ??? operator = (const C &) noexcept;" }
  }
  ,{
   { "" }
@@ -33828,7 +33828,7 @@ Text b65 = { {
  { "CursorType" , & fmt_text_b }
  ,{ "=>" }
  ,{ "NothrowCopyableType" , & fmt_text_b }
- ,{ "$" }
+ ,{ "&&" }
  ,{ "NullableType" , & fmt_text_b }
  ,{ "." }
 } , & fmt_text , & align_text } ;
@@ -33998,13 +33998,13 @@ FixedText b70 = { {
   { "" }
  }
  ,{
-  { "   C(const C $" }
+  { "   C(const C &) noexcept;" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   ??? operator = (const C $" }
+  { "   ??? operator = (const C &) noexcept;" }
  }
  ,{
   { "" }
@@ -34287,7 +34287,7 @@ Text b79 = { {
  ,{ "arguments" }
  ,{ "const" , & fmt_text_b }
  ,{ "T" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "and" }
  ,{ "with" }
  ,{ "return" }
@@ -34308,7 +34308,7 @@ Text b80 = { {
  ,{ "arguments" }
  ,{ "const" , & fmt_text_b }
  ,{ "T" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "and" }
  ,{ "with" }
  ,{ "return" }
@@ -35084,7 +35084,7 @@ FixedText b6 = { {
   { "   " }
  }
  ,{
-  { "   virtual void buildCmdList(CmdInput $" }
+  { "   virtual void buildCmdList(CmdInput &input)" }
  }
  ,{
   { "    {" }
@@ -35345,7 +35345,7 @@ Text b15 = { {
  ,{ "()" , & fmt_text_b }
  ,{ "(StrLen" , & fmt_text_b }
  ,{ "arg,Report" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&report)" , & fmt_text_b }
  ,{ "does" }
  ,{ "the" }
  ,{ "call" }
@@ -36144,7 +36144,7 @@ FixedText b10 = { {
  ,{
   { "  CmpResult " }
   ,{ "objCmp" , & fmt_cpp_Att }
-  ,{ "(const S $" }
+  ,{ "(const S &obj) const" }
  }
  ,{
   { "   {" }
@@ -36192,27 +36192,27 @@ FixedText b12 = { {
   ,{ "AlphaCmp" , & fmt_cpp_Att }
   ,{ "(const T" }
   ,{ "1" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "1" }
   ,{ ",const T" }
   ,{ "1" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "1" }
   ,{ ",const T" }
   ,{ "2" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "2" }
   ,{ ",const T" }
   ,{ "2" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "2" }
   ,{ ",...,const T" }
   ,{ "n" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "n" }
   ,{ ",const T" }
   ,{ "n" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "n" }
   ,{ ");" }
  }
@@ -36255,27 +36255,27 @@ FixedText b14 = { {
   ,{ "AlphaCmp" , & fmt_cpp_Att }
   ,{ "(const T" }
   ,{ "1" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "1" }
   ,{ ",const T" }
   ,{ "1" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "1" }
   ,{ ",const T" }
   ,{ "2" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "2" }
   ,{ ",const T" }
   ,{ "2" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "2" }
   ,{ ",...,cmp,...,const T" }
   ,{ "n" }
-  ,{ " $" }
+  ,{ " &a" }
   ,{ "n" }
   ,{ ",const T" }
   ,{ "n" }
-  ,{ " $" }
+  ,{ " &b" }
   ,{ "n" }
   ,{ ");" }
  }
@@ -36691,37 +36691,37 @@ FixedText b26 = { {
   { "" }
  }
  ,{
-  { "   friend bool operator < (const CmpAsStr $ }" }
+  { "   friend bool operator < (const CmpAsStr &a,const CmpAsStr &b) { return StrLess(a.str,b.str); }" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   friend bool operator > (const CmpAsStr $ }" }
+  { "   friend bool operator > (const CmpAsStr &a,const CmpAsStr &b) { return StrLess(b.str,a.str); }" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   friend bool operator <= (const CmpAsStr $ }" }
+  { "   friend bool operator <= (const CmpAsStr &a,const CmpAsStr &b) { return !StrLess(b.str,a.str); }" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   friend bool operator >= (const CmpAsStr $ }" }
+  { "   friend bool operator >= (const CmpAsStr &a,const CmpAsStr &b) { return !StrLess(a.str,b.str); }" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   friend bool operator == (const CmpAsStr $ }" }
+  { "   friend bool operator == (const CmpAsStr &a,const CmpAsStr &b) { return StrCmp(a.str,b.str)==0; }" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   friend bool operator != (const CmpAsStr $ }" }
+  { "   friend bool operator != (const CmpAsStr &a,const CmpAsStr &b) { return StrCmp(a.str,b.str)!=0; }" }
  }
  ,{
   { " };" }
@@ -36771,31 +36771,31 @@ FixedText b28 = { {
   { " {" }
  }
  ,{
-  { "  friend bool operator > (const T $T> ) { return b<a; }" }
+  { "  friend bool operator > (const T &a,const T &b) requires ( OpLessType<T> ) { return b<a; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator <= (const T $T> ) { return !(b<a); }" }
+  { "  friend bool operator <= (const T &a,const T &b) requires ( OpLessType<T> ) { return !(b<a); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator >= (const T $T> ) { return !(a<b); }" }
+  { "  friend bool operator >= (const T &a,const T &b) requires ( OpLessType<T> ) { return !(a<b); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator == (const T $T> $T> ) { return !( a<b || b<a ); }" }
+  { "  friend bool operator == (const T &a,const T &b) requires ( OpLessType<T> && !OpEqualType<T> ) { return !( a<b || b<a ); }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator != (const T $T> $T> ) { return ( a<b || b<a ); }" }
+  { "  friend bool operator != (const T &a,const T &b) requires ( OpLessType<T> && !OpEqualType<T> ) { return ( a<b || b<a ); }" }
  }
  ,{
   { " };" }
@@ -36821,37 +36821,37 @@ FixedText b28 = { {
   { " {" }
  }
  ,{
-  { "  friend bool operator < (const T $T> ) { return a.objCmp(b)<0; }" }
+  { "  friend bool operator < (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)<0; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator > (const T $T> ) { return a.objCmp(b)>0; }" }
+  { "  friend bool operator > (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)>0; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator <= (const T $T> ) { return a.objCmp(b)<=0; }" }
+  { "  friend bool operator <= (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)<=0; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator >= (const T $T> ) { return a.objCmp(b)>=0; }" }
+  { "  friend bool operator >= (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)>=0; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator == (const T $T> ) { return a.objCmp(b)==0; }" }
+  { "  friend bool operator == (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)==0; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  friend bool operator != (const T $T> ) { return a.objCmp(b)!=0; }" }
+  { "  friend bool operator != (const T &a,const T &b) requires ( Has_objCmp<T> ) { return a.objCmp(b)!=0; }" }
  }
  ,{
   { " };" }
@@ -36904,7 +36904,7 @@ FixedText b30 = { {
   { "" }
  }
  ,{
-  { "   CmpResult objCmp(const C $" }
+  { "   CmpResult objCmp(const C &obj) const { .... }" }
  }
  ,{
   { " };" }
@@ -41256,7 +41256,7 @@ FixedText b8 = { {
   { "" }
  }
  ,{
-  { "  EXPR.a * EXPR.b : if( a>=P $=M ) opMul  = M" }
+  { "  EXPR.a * EXPR.b : if( a>=P & b>=M ) opMul  = M" }
  }
  ,{
   { " }" }
@@ -41518,7 +41518,7 @@ FixedText b16 = { {
   { "" }
  }
  ,{
-  { "  EXPR.a * EXPR.b : if( a>=P $=M ) opMul  = M" }
+  { "  EXPR.a * EXPR.b : if( a>=P & b&gt;=M ) opMul  = M" }
  }
  ,{
   { " }" }
@@ -42312,7 +42312,7 @@ Text b37 = { {
  ,{ "the" }
  ,{ "logical" }
  ,{ "operations" }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "(logical" }
  ,{ "AND)," }
  ,{ "|" , & fmt_text_b }
@@ -42322,7 +42322,7 @@ Text b37 = { {
  ,{ "!" , & fmt_text_b }
  ,{ "(logical" }
  ,{ "NOT)." }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "has" }
  ,{ "a" }
  ,{ "higher" }
@@ -42453,7 +42453,7 @@ FixedText b41 = { {
   { "" }
  }
  ,{
-  { "  EXPR.a * EXPR.b : if( a>=P $=M ) opMul  = M" }
+  { "  EXPR.a * EXPR.b : if( a>=P & b&gt;=M ) opMul  = M" }
  }
  ,{
   { "" }
@@ -43802,7 +43802,7 @@ FixedText b65 = { {
   { "  Synt(0,EXPR)  Atom(3,A(\"+\"))  Synt(0,EXPR)" }
  }
  ,{
-  { "3) EXPR::opMul -> EXPR.M if( ( @0 >= P(2) $" }
+  { "3) EXPR::opMul -> EXPR.M if( ( @0 >= P(2) & @2 >= M(1) ) )" }
  }
  ,{
   { "  Synt(0,EXPR)  Atom(2,A(\"*\"))  Synt(0,EXPR)" }
@@ -44435,13 +44435,13 @@ FixedText b4 = { {
   { "   " }
  }
  ,{
-  { "   bool get(MSec timeout,Symbol $" }
+  { "   bool get(MSec timeout,Symbol &ret);" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   bool get(TimeScope time_scope,Symbol $" }
+  { "   bool get(TimeScope time_scope,Symbol &ret);" }
  }
  ,{
   { "   " }
@@ -44512,7 +44512,7 @@ Text b6 = { {
 
 Text b7 = { {
  { "get(MSec,char" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&)" , & fmt_text_b }
  ,{ "returns" }
  ,{ "the" }
  ,{ "next" }
@@ -44539,7 +44539,7 @@ Text b7 = { {
 
 Text b8 = { {
  { "get(TimeScope,char" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&)" , & fmt_text_b }
  ,{ "the" }
  ,{ "same" }
  ,{ "as" }
@@ -45192,7 +45192,7 @@ FixedText b34 = { {
   { "  " }
  }
  ,{
-  { "   RedirectPTPCon(StrLen con_device_name,StrLen name,const Net::PTPCon::Cfg $" }
+  { "   RedirectPTPCon(StrLen con_device_name,StrLen name,const Net::PTPCon::Cfg &cfg=Net::PTPCon::Cfg());" }
  }
  ,{
   { "   " }
@@ -45309,7 +45309,7 @@ FixedText b39 = { {
   { "   " }
  }
  ,{
-  { "   explicit ReadPTPCon(PTPConOpenClose $" }
+  { "   explicit ReadPTPCon(PTPConOpenClose &con_openclose,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);" }
  }
  ,{
   { "   " }
@@ -45333,13 +45333,13 @@ FixedText b39 = { {
   { "   " }
  }
  ,{
-  { "   bool get(MSec timeout,Symbol $" }
+  { "   bool get(MSec timeout,Symbol &ret);" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   bool get(TimeScope time_scope,Symbol $" }
+  { "   bool get(TimeScope time_scope,Symbol &ret);" }
  }
  ,{
   { "   " }
@@ -51730,7 +51730,7 @@ FixedText b12 = { {
   { "" }
  }
  ,{
-  { "int * pa = $" }
+  { "int * pa = &a ;" }
  }
  ,{
   { "" }
@@ -53964,13 +53964,13 @@ FixedText b100 = { {
   { "" }
  }
  ,{
-  { "Ptr ptr_a = $ " }
+  { "Ptr ptr_a = &a ; " }
  }
  ,{
   { "" }
  }
  ,{
-  { "Ptr ptr_b = $" }
+  { "Ptr ptr_b = &b ;" }
  }
  ,{
   { "" }
@@ -54461,7 +54461,7 @@ FixedText b13 = { {
   { "   " }
  }
  ,{
-  { "   TextEngine(PrintBase $" }
+  { "   TextEngine(PrintBase &msg,StrLen text,StrLen pretext=Empty);" }
  }
  ,{
   { "   " }
@@ -54605,7 +54605,7 @@ FixedText b15 = { {
   { "  " }
  }
  ,{
-  { "   explicit FileEngine(const SS $" }
+  { "   explicit FileEngine(const SS & ... args,PrintBase &msg,ulen mem_cap=MaxULen," }
  }
  ,{
   { "                                           ulen max_files=DefaultMaxFiles," }
@@ -55241,7 +55241,7 @@ FixedText b29 = { {
   { " " }
  }
  ,{
-  { "  void print(PrinterType $" }
+  { "  void print(PrinterType &out) const;" }
  }
  ,{
   { " };" }
@@ -56847,13 +56847,13 @@ FixedText b64 = { {
   { "  " }
  }
  ,{
-  { "   bool findStruct(StrLen name,const TypeDesc $ " }
+  { "   bool findStruct(StrLen name,const TypeDesc &desc); " }
  }
  ,{
   { "  " }
  }
  ,{
-  { "   void * findConst(StrLen name,const TypeDesc $" }
+  { "   void * findConst(StrLen name,const TypeDesc &desc);" }
  }
  ,{
   { " };" }
@@ -57037,7 +57037,7 @@ FixedText b67 = { {
   { "   template <class Map>" }
  }
  ,{
-  { "   explicit MapBase(Map $" }
+  { "   explicit MapBase(Map &map)" }
  }
  ,{
   { "    {" }
@@ -57580,7 +57580,7 @@ FixedText b80 = { {
   { " {" }
  }
  ,{
-  { "  const TypeDesc $" }
+  { "  const TypeDesc &type;" }
  }
  ,{
   { "  mutable ulen_type len; // filled by findConst() method" }
@@ -61700,7 +61700,7 @@ FixedText b11 = { {
   { "    " }
  }
  ,{
-  { "      void put(char ch) { try_post($ }" }
+  { "      void put(char ch) { try_post(&Window::put,ch); }" }
  }
  ,{
   { "    };" }
@@ -61724,7 +61724,7 @@ FixedText b11 = { {
   { "    {" }
  }
  ,{
-  { "     defer_tick=input.create($" }
+  { "     defer_tick=input.create(&Window::tick);" }
  }
  ,{
   { "" }
@@ -66242,7 +66242,7 @@ FixedText b3 = { {
   { "   " }
  }
  ,{
-  { "   void apply(DirTreeProcType $" }
+  { "   void apply(DirTreeProcType &proc);" }
  }
  ,{
   { " };" }
@@ -66826,13 +66826,13 @@ FixedText b7 = { {
   { "   " }
  }
  ,{
-  { "   DynObject(const DynObject<T> $" }
+  { "   DynObject(const DynObject<T> &obj) = delete ;" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   DynObject<T> $T> &obj) = delete ;" }
+  { "   DynObject<T> & operator = (const DynObject&lt;T> &obj) = delete ;" }
  }
  ,{
   { "   " }
@@ -67296,7 +67296,7 @@ FixedText b3 = { {
   { "   " }
  }
  ,{
-  { "   void getStat(StatInfo $" }
+  { "   void getStat(StatInfo &ret);" }
  }
  ,{
   { "   " }
@@ -70822,7 +70822,7 @@ FixedText b38 = { {
   { "  " }
  }
  ,{
-  { "  void print(PrinterType $" }
+  { "  void print(PrinterType &out) const;" }
  }
  ,{
   { " };" }
@@ -70931,7 +70931,7 @@ FixedText b41 = { {
   { "  " }
  }
  ,{
-  { "  void print(PrinterType $" }
+  { "  void print(PrinterType &out) const;" }
  }
  ,{
   { " };" }
@@ -72797,7 +72797,7 @@ FixedText b24 = { {
   { "      " }
  }
  ,{
-  { "      StartStop(EventRecorderHost $ " }
+  { "      StartStop(EventRecorderHost &host,Recorder *recorder); " }
  }
  ,{
   { "      " }
@@ -73010,7 +73010,7 @@ FixedText b30 = { {
   { "   " }
  }
  ,{
-  { "   template <FuncInitArgType<const EventRecorder $ FuncInit>" }
+  { "   template <FuncInitArgType<const EventRecorder &,const EventDesc &,void *&gt; FuncInit>" }
  }
  ,{
   { "   void parse(FuncInit func_init) const" }
@@ -73627,7 +73627,7 @@ FixedText b52 = { {
   { "" }
  }
  ,{
-  { "  static void Register(EventMetaInfo $" }
+  { "  static void Register(EventMetaInfo &info,EventMetaInfo::EventDesc &desc);" }
  }
  ,{
   { " };" }
@@ -73999,31 +73999,31 @@ FixedText b61 = { {
   { "" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_uint8(const String &name,OffsetFunc offset);" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_uint16(const String &name,OffsetFunc offset);" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_uint32(const String &name,OffsetFunc offset);" }
  }
  ,{
   { "" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_enum_uint8(EventIdType id,const String &name,OffsetFunc offset);" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_enum_uint16(EventIdType id,const String &name,OffsetFunc offset);" }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_enum_uint32(EventIdType id,const String &name,OffsetFunc offset);" }
  }
  ,{
   { "      " }
  }
  ,{
-  { "StructDesc $" }
+  { "StructDesc & addField_struct(EventIdType id,const String &name,OffsetFunc offset);" }
  }
  ,{
   { "" }
@@ -74254,7 +74254,7 @@ FixedText b70 = { {
   { "" }
  }
  ,{
-  { "using AppendFunc = void (*)(EnumDesc $" }
+  { "using AppendFunc = void (*)(EnumDesc &desc) ;" }
  }
  ,{
   { "" }
@@ -74373,7 +74373,7 @@ FixedText b75 = { {
   { " {" }
  }
  ,{
-  { "  static EventIdType Register(EventMetaInfo $" }
+  { "  static EventIdType Register(EventMetaInfo &info)" }
  }
  ,{
   { "   {" }
@@ -74927,7 +74927,7 @@ FixedText b93 = { {
   { "   template <class Desc>" }
  }
  ,{
-  { "   static void Append(Desc $" }
+  { "   static void Append(Desc &desc);" }
  }
  ,{
   { " };" }
@@ -77362,7 +77362,7 @@ FixedText b3 = { {
   { "    " }
  }
  ,{
-  { "     explicit Lock(FastMutexBase $" }
+  { "     explicit Lock(FastMutexBase &obj);" }
  }
  ,{
   { "     " }
@@ -77623,7 +77623,7 @@ FixedText b11 = { {
   { "   {" }
  }
  ,{
-  { "     FastMutex $" }
+  { "     FastMutex &mutex;" }
  }
  ,{
   { "     " }
@@ -77635,7 +77635,7 @@ FixedText b11 = { {
   { "    " }
  }
  ,{
-  { "     explicit Lock(FastMutexBase $ }" }
+  { "     explicit Lock(FastMutexBase &obj) : mutex(obj.mutex) { mutex.lock(); }" }
  }
  ,{
   { "     " }
@@ -77717,7 +77717,7 @@ FixedText b14 = { {
   { "    " }
  }
  ,{
-  { "     explicit Lock(FastMutexBase $" }
+  { "     explicit Lock(FastMutexBase &) {}" }
  }
  ,{
   { "     " }
@@ -77973,7 +77973,7 @@ FixedText b9 = { {
  ,{
   { "bool /* underflow */ " }
   ,{ "Pumpup" , & fmt_cpp_Att }
-  ,{ "(PtrLen<T> $const T> &src);" }
+  ,{ "(PtrLen<T> &dst,PtrLen&lt;const T> &src);" }
  }
  ,{
   { "" }
@@ -78682,7 +78682,7 @@ FixedText b24 = { {
   { "" }
  }
  ,{
-  { "   void put(const String $" }
+  { "   void put(const String &obj)" }
  }
  ,{
   { "    {" }
@@ -79052,7 +79052,7 @@ FixedText b9 = { {
   { "" }
  }
  ,{
-  { "$(dev:)" }
+  { "        (dev:)" }
   ,{ "opt" }
   ,{ "(/)" }
   ,{ "opt" }
@@ -79081,7 +79081,7 @@ FixedText b11 = { {
   { "" }
  }
  ,{
-  { "$(dev:)" }
+  { "        (dev:)" }
   ,{ "opt" }
   ,{ "(/)" }
   ,{ "opt" }
@@ -79090,7 +79090,7 @@ FixedText b11 = { {
   ,{ "name" }
  }
  ,{
-  { "$(dev:)" }
+  { "        (dev:)" }
   ,{ "opt" }
   ,{ "(../)" }
   ,{ "1.." }
@@ -79118,14 +79118,14 @@ FixedText b13 = { {
   { "" }
  }
  ,{
-  { "$(dev:)" }
+  { "        (dev:)" }
   ,{ "opt" }
   ,{ "/(name/)" }
   ,{ "*" }
   ,{ "name" }
  }
  ,{
-  { "$dev:(name/)" }
+  { "        dev:(name/)" }
   ,{ "*" }
   ,{ "name" }
  }
@@ -79149,7 +79149,7 @@ FixedText b15 = { {
   { "" }
  }
  ,{
-  { "$(name/)" }
+  { "        (name/)" }
   ,{ "*" }
   ,{ "name" }
  }
@@ -84561,7 +84561,7 @@ FixedText b3 = { {
   { "   template <class ... TT>" }
  }
  ,{
-  { "   R operator () (TT $ // do call" }
+  { "   R operator () (TT && ... tt); // do call" }
  }
  ,{
   { " };" }
@@ -84775,7 +84775,7 @@ FixedText b11 = { {
   { "" }
  }
  ,{
-  { "   Function<void (void)> function_method() { return FunctionOf(this,$ }" }
+  { "   Function<void (void)> function_method() { return FunctionOf(this,&C::method); }" }
  }
  ,{
   { " };" }
@@ -84836,7 +84836,7 @@ FixedText b14 = { {
  ,{
   { "auto " }
   ,{ "ToFunction" , & fmt_cpp_Att }
-  ,{ "(const T $" }
+  ,{ "(const T &obj);" }
  }
  ,{
   { "" }
@@ -87834,7 +87834,7 @@ FixedText b40 = { {
   { "run: main.exe" }
  }
  ,{
-  { "$./main.exe" }
+  { "        ./main.exe" }
  }
  ,{
   { "" }
@@ -89573,7 +89573,7 @@ FixedText b3 = { {
   { " " }
  }
  ,{
-  { "  void close(FileMultiError $" }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept;" }
  }
  ,{
   { "  " }
@@ -89680,7 +89680,7 @@ FixedText b3 = { {
   { " " }
  }
  ,{
-  { "  void close(FileMultiError $" }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept;" }
  }
  ,{
   { "  " }
@@ -89805,7 +89805,7 @@ FixedText b3 = { {
   { "  " }
  }
  ,{
-  { "  void close(FileMultiError $ " }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept; " }
  }
  ,{
   { "  " }
@@ -90079,7 +90079,7 @@ FixedText b7 = { {
   { " " }
  }
  ,{
-  { "  void close(FileMultiError $" }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept;" }
  }
  ,{
   { "  " }
@@ -90796,7 +90796,7 @@ FixedText b18 = { {
   { " " }
  }
  ,{
-  { "  void close(FileMultiError $" }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept;" }
  }
  ,{
   { "  " }
@@ -91293,7 +91293,7 @@ FixedText b26 = { {
   { "  " }
  }
  ,{
-  { "  void close(FileMultiError $ " }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept; " }
  }
  ,{
   { "  " }
@@ -100145,7 +100145,7 @@ FixedText b12 = { {
   { "  " }
  }
  ,{
-  { "  T $ }" }
+  { "  T & operator * () const { return *getPtr(); }" }
  }
  ,{
   { "  " }
@@ -100587,7 +100587,7 @@ FixedText b9 = { {
   { "" }
  }
  ,{
-  { "   bool try_get(Symbol $" }
+  { "   bool try_get(Symbol &ret);" }
  }
  ,{
   { "" }
@@ -100599,13 +100599,13 @@ FixedText b9 = { {
   { "" }
  }
  ,{
-  { "   bool get(MSec timeout,Symbol $" }
+  { "   bool get(MSec timeout,Symbol &ret);" }
  }
  ,{
   { "" }
  }
  ,{
-  { "   bool get(TimeScope time_scope,Symbol $" }
+  { "   bool get(TimeScope time_scope,Symbol &ret);" }
  }
  ,{
   { " };" }
@@ -100723,7 +100723,7 @@ FixedText b13 = { {
   { "" }
  }
  ,{
-  { "   bool feed(StrLen $" }
+  { "   bool feed(StrLen &text);" }
  }
  ,{
   { "" }
@@ -104424,7 +104424,7 @@ FixedText b72 = { {
   { "   template <RandomType Random>" }
  }
  ,{
-  { "   RandomInteger(ulen n,Random $" }
+  { "   RandomInteger(ulen n,Random &random);" }
  }
  ,{
   { "   " }
@@ -104524,7 +104524,7 @@ FixedText b75 = { {
   { "" }
  }
  ,{
-  { "   GCDiv(const Integer $" }
+  { "   GCDiv(const Integer &a,const Integer &b);" }
  }
  ,{
   { " };" }
@@ -105513,7 +105513,7 @@ FixedText b108 = { {
   { "" }
  }
  ,{
-  { "  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0<shift$" }
+  { "  static void ShiftDown(Unit *a,ulen na,ulen delta,unsigned shift); // a[na+delta] , 0<shift&ltUnitBits" }
  }
  ,{
   { "" }
@@ -107332,19 +107332,19 @@ FixedText b3 = { {
   { "  " }
  }
  ,{
-  { "  static Unit/* c */ Add(Unit $ // carry = 0,1 " }
+  { "  static Unit/* c */ Add(Unit &b,Unit a,Unit carry); // carry = 0,1 " }
  }
  ,{
   { "   " }
  }
  ,{
-  { "  static Unit/* c */ Sub(Unit $ // carry = 0,1 " }
+  { "  static Unit/* c */ Sub(Unit &b,Unit a,Unit carry); // carry = 0,1 " }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  static Unit/* c */ RevSub(Unit $ // carry = 0,1" }
+  { "  static Unit/* c */ RevSub(Unit &b,Unit a,Unit carry); // carry = 0,1" }
  }
  ,{
   { "   " }
@@ -107988,7 +107988,7 @@ FixedText b11 = { {
   { " {" }
  }
  ,{
-  { "  virtual void requestInterface(InterfaceCaster $ }" }
+  { "  virtual void requestInterface(InterfaceCaster &caster) { caster.cast(this); }" }
  }
  ,{
   { "  " }
@@ -108207,7 +108207,7 @@ FixedText b14 = { {
   { "" }
  }
  ,{
-  { "   virtual void requestInterface(InterfaceCaster $ }" }
+  { "   virtual void requestInterface(InterfaceCaster &caster) { caster.cast(&inner); }" }
  }
  ,{
   { " };" }
@@ -108270,7 +108270,7 @@ FixedText b14 = { {
   { "" }
  }
  ,{
-  { "   virtual void requestInterface(InterfaceCaster $" }
+  { "   virtual void requestInterface(InterfaceCaster &caster) " }
  }
  ,{
   { "    {" }
@@ -108282,7 +108282,7 @@ FixedText b14 = { {
   { "       {" }
  }
  ,{
-  { "        caster.cast($ " }
+  { "        caster.cast(&inner); " }
  }
  ,{
   { "       }" }
@@ -112032,7 +112032,7 @@ FixedText b18 = { {
   { "     " }
  }
  ,{
-  { "   explicit Run(Starter<T> $ " }
+  { "   explicit Run(Starter<T> &starter); " }
  }
  ,{
   { "      " }
@@ -112139,7 +112139,7 @@ FixedText b23 = { {
   { "     " }
  }
  ,{
-  { "   Start(Starter<T> *starter,const T $ " }
+  { "   Start(Starter<T> *starter,const T &obj); " }
  }
  ,{
   { "    " }
@@ -112495,7 +112495,7 @@ FixedText b6 = { {
   { "" }
  }
  ,{
-  { "       if( str.len==4 $ else return Atom_Name;" }
+  { "       if( str.len==4 && str[0]=='o' && str[1]=='n' && str[2]=='s' && str[3]=='t' ) return Atom_const; else return Atom_Name;" }
  }
  ,{
   { "      }" }
@@ -114147,7 +114147,7 @@ FixedText b29 = { {
  ,{
   { "ulen " }
   ,{ "DimOf" , & fmt_cpp_Att }
-  ,{ "(T ($ }" }
+  ,{ "(T (&)[Len]) { return Len; }" }
  }
  ,{
   { " " }
@@ -114360,7 +114360,7 @@ FixedText b3 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit LineInput(SS $" }
+  { "   explicit LineInput(SS && ... ss);" }
  }
  ,{
   { "   " }
@@ -117056,7 +117056,7 @@ FixedText b86 = { {
   { "" }
  }
  ,{
-  { "    void replace(Cur $ // +cur, obj!=0 unlinked" }
+  { "    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "      " }
@@ -117464,13 +117464,13 @@ FixedText b99 = { {
   { "" }
  }
  ,{
-  { "    void replace(Cur $ // +cur, obj!=0 unlinked" }
+  { "    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "" }
  }
  ,{
-  { "    void replace(RevCur $ // +cur, obj!=0 unlinked" }
+  { "    void replace(RevCur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "       " }
@@ -118741,13 +118741,13 @@ FixedText b137 = { {
   { "      " }
  }
  ,{
-  { "    void ins_after(Cur $ // +cur, obj!=0 unlinked" }
+  { "    void ins_after(Cur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "      " }
  }
  ,{
-  { "    void ins_before(RevCur $ // +cur, obj!=0 unlinked" }
+  { "    void ins_before(RevCur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "       " }
@@ -118759,13 +118759,13 @@ FixedText b137 = { {
   { "" }
  }
  ,{
-  { "    void replace(Cur $ // +cur, obj!=0 unlinked" }
+  { "    void replace(Cur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "" }
  }
  ,{
-  { "    void replace(RevCur $ // +cur, obj!=0 unlinked" }
+  { "    void replace(RevCur &cur,T *obj); // +cur, obj!=0 unlinked" }
  }
  ,{
   { "      " }
@@ -118795,13 +118795,13 @@ FixedText b137 = { {
   { "       " }
  }
  ,{
-  { "    T * del_and_move(Cur $ // +cur" }
+  { "    T * del_and_move(Cur &cur); // +cur" }
  }
  ,{
   { "       " }
  }
  ,{
-  { "    T * del_and_move(RevCur $ // +cur" }
+  { "    T * del_and_move(RevCur &cur); // +cur" }
  }
  ,{
   { "       " }
@@ -119469,7 +119469,7 @@ FixedText b3 = { {
   { " " }
  }
  ,{
-  { "   Locked(Mutex $obj_) : Mutex::Lock(mutex),obj(obj_) {}" }
+  { "   Locked(Mutex &mutex,T &amp;obj_) : Mutex::Lock(mutex),obj(obj_) {}" }
  }
  ,{
   { "   " }
@@ -121118,7 +121118,7 @@ FixedText b29 = { {
   { "  " }
  }
  ,{
-  { "   LogMsg(Cat cat,const char *format_,const TT $" }
+  { "   LogMsg(Cat cat,const char *format_,const TT & ... tt)" }
  }
  ,{
   { "    : LogMsgBase<Cat,Stamp>(cat),format(format_),data(tt...) {}" }
@@ -123075,7 +123075,7 @@ FixedText b10 = { {
   { "obj/main.o : ./main.cpp" }
  }
  ,{
-  { "$$(CC) $(CCOPT) $< -o $@" }
+  { "        $(CC) $(CCOPT) $< -o $@" }
  }
  ,{
   { "" }
@@ -123090,7 +123090,7 @@ FixedText b10 = { {
   { "obj/main.s : ./main.cpp" }
  }
  ,{
-  { "$$(CC) -S $(CCOPT) $< -o $@" }
+  { "        $(CC) -S $(CCOPT) $< -o $@" }
  }
  ,{
   { "" }
@@ -123105,7 +123105,7 @@ FixedText b10 = { {
   { "obj/main.dep : ./main.cpp" }
  }
  ,{
-  { "$$(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@" }
+  { "        $(CC) $(CCOPT) -MM -MT $(OBJ_PATH)/main.o $< -MF $@" }
  }
  ,{
   { "" }
@@ -123316,7 +123316,7 @@ FixedText b3 = { {
   { "   template <class ... TT>" }
  }
  ,{
-  { "   MakeString $" }
+  { "   MakeString & add(TT ... tt) requires ( sizeof ... (TT) > 1 ) ;" }
  }
  ,{
   { "" }
@@ -127011,7 +127011,7 @@ FixedText b22 = { {
   { "" }
  }
  ,{
-  { "ToConst<T $ == const T $" }
+  { "ToConst<T &&gt; == const T &" }
  }
  ,{
   { "" }
@@ -128325,7 +128325,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsCopyable" , & fmt_cpp_Att }
-  ,{ " = std::is_copy_constructible<T>::value $T>::value ;" }
+  ,{ " = std::is_copy_constructible<T>::value && std::is_copy_assignable&lt;T>::value ;" }
  }
  ,{
   { "" }
@@ -128342,7 +128342,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsNothrowCopyable" , & fmt_cpp_Att }
-  ,{ " = std::is_nothrow_copy_constructible<T>::value $T>::value ;" }
+  ,{ " = std::is_nothrow_copy_constructible<T>::value && std::is_nothrow_copy_assignable&lt;T>::value ;" }
  }
  ,{
   { "" }
@@ -128359,7 +128359,7 @@ FixedText b73 = { {
  ,{
   { "inline constexpr bool " }
   ,{ "IsMovable" , & fmt_cpp_Att }
-  ,{ " = std::is_move_constructible<T>::value $T>::value ;" }
+  ,{ " = std::is_move_constructible<T>::value && std::is_move_assignable&lt;T>::value ;" }
  }
  ,{
   { "" }
@@ -131968,7 +131968,7 @@ FixedText b12 = { {
   { "   " }
  }
  ,{
-  { "   Integer prepare(const Integer $ // a >= 0" }
+  { "   Integer prepare(const Integer &a) const; // a >= 0" }
  }
  ,{
   { "   " }
@@ -131980,25 +131980,25 @@ FixedText b12 = { {
   { "" }
  }
  ,{
-  { "   Integer mul(const Integer $ // a,b >= 0 , a,b < M" }
+  { "   Integer mul(const Integer &a,const Integer &b) const; // a,b >= 0 , a,b < M" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   Integer sq(const Integer $ // a >= 0 , a < M" }
+  { "   Integer sq(const Integer &a) const; // a >= 0 , a < M" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   Integer mac(const Integer $ // s,a,b >= 0 , s,a,b < M" }
+  { "   Integer mac(const Integer &s,const Integer &a,const Integer &b) const; // s,a,b >= 0 , s,a,b < M" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   Integer squac(const Integer $ // s,a >= 0 , s,a < M" }
+  { "   Integer squac(const Integer &s,const Integer &a) const; // s,a >= 0 , s,a < M" }
  }
  ,{
   { "   " }
@@ -132007,13 +132007,13 @@ FixedText b12 = { {
   { "   template <UIntType UInt>" }
  }
  ,{
-  { "   Integer pow(const Integer $ // a >=0 , a < M , M > 1" }
+  { "   Integer pow(const Integer &a,UInt d) const; // a >=0 , a < M , M > 1" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   Integer pow(const Integer $ // a,d >=0 , a < M , M > 1" }
+  { "   Integer pow(const Integer &a,const Integer &d) const; // a,d >=0 , a < M , M > 1" }
  }
  ,{
   { " };" }
@@ -132448,7 +132448,7 @@ FixedText b7 = { {
  ,{
   { "concept bool " }
   ,{ "SwapMovableType" , & fmt_cpp_Att }
-  ,{ " = NothrowDefaultCtorType<T> $T> ;" }
+  ,{ " = NothrowDefaultCtorType<T> && Has_objSwap&lt;T> ;" }
  }
  ,{
   { "" }
@@ -132711,7 +132711,7 @@ FixedText b10 = { {
  ,{
   { "  void " }
   ,{ "objSwap" , & fmt_cpp_Att }
-  ,{ "(S $" }
+  ,{ "(S &obj)" }
  }
  ,{
   { "   {" }
@@ -132984,7 +132984,7 @@ FixedText b14 = { {
   { " " }
  }
  ,{
-  { "  explicit ToMoveCtor(T $obj_; }" }
+  { "  explicit ToMoveCtor(T &obj_) { obj=&obj_; }" }
  }
  ,{
   { "  " }
@@ -141321,7 +141321,7 @@ FixedText b48 = { {
   { "  " }
  }
  ,{
-  { "  IPAddress getNet(IPAddress net_mask) const { return IPAddress(address$ }" }
+  { "  IPAddress getNet(IPAddress net_mask) const { return IPAddress(address&net_mask.address); }" }
  }
  ,{
   { "  " }
@@ -141508,7 +141508,7 @@ FixedText b56 = { {
  ,{
   { "void " }
   ,{ "ParseIPAddress" , & fmt_cpp_Att }
-  ,{ "(Dev $" }
+  ,{ "(Dev &dev,IPAddress &ret);" }
  }
  ,{
   { "" }
@@ -141683,7 +141683,7 @@ FixedText b60 = { {
   { "    template <CharPeekType Dev>" }
  }
  ,{
-  { "    static void ParseInbound(Dev $inbound);" }
+  { "    static void ParseInbound(Dev &dev,bool &amp;inbound);" }
  }
  ,{
   { "   }; " }
@@ -146030,7 +146030,7 @@ FixedText b3 = { {
   { "    {" }
  }
  ,{
-  { "     explicit Lock(NoMutex $" }
+  { "     explicit Lock(NoMutex &) {}" }
  }
  ,{
   { "    };" }
@@ -146659,7 +146659,7 @@ FixedText b8 = { {
   { "" }
  }
  ,{
-  { "   SomeClass(const SomeClass $" }
+  { "   SomeClass(const SomeClass &obj) noexcept;" }
  }
  ,{
   { " };" }
@@ -146870,7 +146870,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "   NullMovePtr<T> $T> &&obj) noexcept" }
+  { "   NullMovePtr<T> & operator = (NullMovePtr&lt;T> &&obj) noexcept" }
  }
  ,{
   { "    {" }
@@ -147996,7 +147996,7 @@ FixedText b33 = { {
   { "template <class ... SS>" }
  }
  ,{
-  { "explicit SomePtr(ObjectDomain $& ... ss);" }
+  { "explicit SomePtr(ObjectDomain &domain,SS &amp;& ... ss);" }
  }
  ,{
   { "" }
@@ -148210,7 +148210,7 @@ FixedText b39 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit ExtPtr(ObjectDomain $& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit ExtPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -148516,7 +148516,7 @@ FixedText b46 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit IntPtr(ObjectDomain $& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit IntPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -148796,7 +148796,7 @@ FixedText b52 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   explicit WeakPtr(ObjectDomain $& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   explicit WeakPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -149072,7 +149072,7 @@ FixedText b58 = { {
   { "   " }
  }
  ,{
-  { "   template $" }
+  { "   template &ltclass T,class ... SS&gt;" }
  }
  ,{
   { "   void create(SS && ... ss);" }
@@ -149651,7 +149651,7 @@ FixedText b73 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   ExtDelObjPtr(ObjectDomain $& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   ExtDelObjPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -149959,7 +149959,7 @@ FixedText b80 = { {
   { "   template <class ... SS>" }
  }
  ,{
-  { "   IntDelObjPtr(ObjectDomain $& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
+  { "   IntDelObjPtr(ObjectDomain &domain,SS &amp;& ... ss) requires ( ConstructibleType<T,SS..> ) ;" }
  }
  ,{
   { "" }
@@ -152878,7 +152878,7 @@ FixedText b14 = { {
   { "" }
  }
  ,{
-  { "void func(OwnPtr<C> $" }
+  { "void func(OwnPtr<C> &ret)" }
  }
  ,{
   { " {" }
@@ -154764,7 +154764,7 @@ FixedText b60 = { {
   { "   template <class T,class ... SS>" }
  }
  ,{
-  { "   T * pushExt(SS && ... ss) requires ( NothrowDtorType<T> $T,SS...> ) ;" }
+  { "   T * pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType&lt;T,SS...> ) ;" }
  }
  ,{
   { "   " }
@@ -156000,7 +156000,7 @@ FixedText b100 = { {
   { "   template <class T,class ... SS>" }
  }
  ,{
-  { "   Packet<POD,TT...,T> pushExt(SS && ... ss) requires ( NothrowDtorType<T> $T,SS...> )" }
+  { "   Packet<POD,TT...,T> pushExt(SS && ... ss) requires ( NothrowDtorType<T> && ConstructibleType&lt;T,SS...> )" }
  }
  ,{
   { "    { " }
@@ -156285,13 +156285,13 @@ FixedText b107 = { {
   { "   " }
  }
  ,{
-  { "   void attach(PacketBuf $attach(pbuf); }" }
+  { "   void attach(PacketBuf &pbuf) { packet-&gt;attach(pbuf); }" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   void detach(PacketBuf $detach(pbuf); }" }
+  { "   void detach(PacketBuf &pbuf) { packet-&gt;detach(pbuf); }" }
  }
  ,{
   { "   " }
@@ -158155,7 +158155,7 @@ FixedText b165 = { {
   { "" }
  }
  ,{
-  { "   PacketFunction function_complete() { return FunctionOf(this,$ }" }
+  { "   PacketFunction function_complete() { return FunctionOf(this,&Submitter::complete); }" }
  }
  ,{
   { "" }
@@ -162816,13 +162816,13 @@ FixedText b18 = { {
   { "  " }
  }
  ,{
-  { "  static bool IsDot(StrLen name) { return name.len==1 $ }" }
+  { "  static bool IsDot(StrLen name) { return name.len==1 && name[0]=='.' ; }" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  static bool IsDotDot(StrLen name) { return name.len==2 $ }" }
+  { "  static bool IsDotDot(StrLen name) { return name.len==2 && name[0]=='.' && name[1]=='.' ; }" }
  }
  ,{
   { "  " }
@@ -162834,7 +162834,7 @@ FixedText b18 = { {
   { "" }
  }
  ,{
-  { "  static bool IsTilde(StrLen name) { return name.len==1 $ }" }
+  { "  static bool IsTilde(StrLen name) { return name.len==1 && name[0]=='~' ; }" }
  }
  ,{
   { "  " }
@@ -166611,7 +166611,7 @@ FixedText b31 = { {
   { "" }
  }
  ,{
-  { "   void map(CryptID $" }
+  { "   void map(CryptID &ret) const;" }
  }
  ,{
   { " };" }
@@ -166685,7 +166685,7 @@ FixedText b31 = { {
   { "" }
  }
  ,{
-  { "   void map(HashID $" }
+  { "   void map(HashID &ret) const;" }
  }
  ,{
   { " };" }
@@ -166750,7 +166750,7 @@ FixedText b31 = { {
   { "" }
  }
  ,{
-  { "   void map(DHGroupID $" }
+  { "   void map(DHGroupID &ret) const;" }
  }
  ,{
   { " };" }
@@ -169041,7 +169041,7 @@ FixedText b13 = { {
   { "  " }
  }
  ,{
-  { "   T $" }
+  { "   T & operator * () const;" }
  }
  ,{
   { "  " }
@@ -171569,7 +171569,7 @@ FixedText b35 = { {
   { " " }
  }
  ,{
-  { "  void close(FileMultiError $ " }
+  { "  void close(FileMultiError &errout,bool preserve_file=false) noexcept; " }
  }
  ,{
   { "  " }
@@ -171859,13 +171859,13 @@ FixedText b43 = { {
   { "   " }
  }
  ,{
-  { "   void exec2(AsyncFileSystem $" }
+  { "   void exec2(AsyncFileSystem &fs,StrLen dev_dir,StrLen dev_program);" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "   void soft_close(FileMultiError $" }
+  { "   void soft_close(FileMultiError &errout);" }
  }
  ,{
   { "   " }
@@ -172339,7 +172339,7 @@ FixedText b61 = { {
   { "  " }
  }
  ,{
-  { "   PTPConOpenClose(StrLen con_dev_name,StrLen name,const Net::PTPCon::Cfg $" }
+  { "   PTPConOpenClose(StrLen con_dev_name,StrLen name,const Net::PTPCon::Cfg &cfg=Net::PTPCon::Cfg());" }
  }
  ,{
   { "   " }
@@ -176419,7 +176419,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "   void print(PrinterType $" }
+  { "   void print(PrinterType &out,PrintOptType opt) const;" }
  }
  ,{
   { " };" }
@@ -179211,7 +179211,7 @@ FixedText b72 = { {
   { "" }
  }
  ,{
-  { "   virtual OpenErrorCode open(XPoint point,const MasterKey $&client_profile);" }
+  { "   virtual OpenErrorCode open(XPoint point,const MasterKey &skey,ClientProfilePtr &amp;&client_profile);" }
  }
  ,{
   { "" }
@@ -181690,7 +181690,7 @@ FixedText b49 = { {
   { "   " }
  }
  ,{
-  { "   void getStat(ClientStatInfo $" }
+  { "   void getStat(ClientStatInfo &ret);" }
  }
  ,{
   { "   " }
@@ -182236,7 +182236,7 @@ FixedText b58 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output)" }
  }
  ,{
   { "   {" }
@@ -182446,7 +182446,7 @@ FixedText b62 = { {
   { "  " }
  }
  ,{
-  { "  bool isOk() const { return !result $ }" }
+  { "  bool isOk() const { return !result && !error_id ; }" }
  }
  ,{
   { "  " }
@@ -182727,7 +182727,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output);" }
  }
  ,{
   { " };" }
@@ -182768,7 +182768,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output);" }
  }
  ,{
   { " };" }
@@ -182800,7 +182800,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &);" }
  }
  ,{
   { " };" }
@@ -182838,7 +182838,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output);" }
  }
  ,{
   { " };" }
@@ -182876,7 +182876,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output);" }
  }
  ,{
   { " };" }
@@ -182914,7 +182914,7 @@ FixedText b71 = { {
   { "  " }
  }
  ,{
-  { "  void done(const OutputType $" }
+  { "  void done(const OutputType &output);" }
  }
  ,{
   { " };" }
@@ -193706,7 +193706,7 @@ FixedText b22 = { {
   { "  " }
  }
  ,{
-  { "  T $ } // first element" }
+  { "  T & operator * () const { return *ptr; } // first element" }
  }
  ,{
   { "  " }
@@ -193742,7 +193742,7 @@ FixedText b22 = { {
   { "  " }
  }
  ,{
-  { "  T $ // take first element and advance" }
+  { "  T & take(); // take first element and advance" }
  }
  ,{
   { "" }
@@ -194198,7 +194198,7 @@ FixedText b43 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len $=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -194377,19 +194377,19 @@ FixedText b49 = { {
   { "  " }
  }
  ,{
-  { "  T $" }
+  { "  T & operator [] (ulen index) const;" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "  T $ // with the index guard" }
+  { "  T & at(ulen index) const; // with the index guard" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  T $ // reverse order, index 1 means the last element" }
+  { "  T & back(ulen index) const; // reverse order, index 1 means the last element" }
  }
  ,{
   { "   " }
@@ -194944,7 +194944,7 @@ FixedText b69 = { {
  ,{
   { "PtrLen<T> " }
   ,{ "Range" , & fmt_cpp_Att }
-  ,{ "(T ($" }
+  ,{ "(T (&buf)[Len]);" }
  }
  ,{
   { " " }
@@ -195006,7 +195006,7 @@ FixedText b71 = { {
  ,{
   { "PtrLen<const T> " }
   ,{ "Range_const" , & fmt_cpp_Att }
-  ,{ "(T ($" }
+  ,{ "(T (&buf)[Len]);" }
  }
  ,{
   { " " }
@@ -195148,7 +195148,7 @@ FixedText b75 = { {
  ,{
   { "auto " }
   ,{ "Range" , & fmt_cpp_Att }
-  ,{ "(RangeAccessType $" }
+  ,{ "(RangeAccessType &&src);" }
  }
  ,{
   { " " }
@@ -195156,7 +195156,7 @@ FixedText b75 = { {
  ,{
   { "auto " }
   ,{ "Range_const" , & fmt_cpp_Att }
-  ,{ "(const RangeAccessType $" }
+  ,{ "(const RangeAccessType &src);" }
  }
  ,{
   { "" }
@@ -195378,7 +195378,7 @@ FixedText b82 = { {
  ,{
   { "concept bool " }
   ,{ "ConstTypeRangeableType" , & fmt_cpp_Att }
-  ,{ " = ConstRangeableType<T> $T> &cobj) { { Range_const(cobj) } -> PtrLen<const S> ; } ;" }
+  ,{ " = ConstRangeableType<T> && requires(Meta::ToConst&lt;T> &cobj) { { Range_const(cobj) } -> PtrLen<const S> ; } ;" }
  }
  ,{
   { "" }
@@ -196184,7 +196184,7 @@ FixedText b15 = { {
   { "  " }
  }
  ,{
-  { "  T $ } // first element" }
+  { "  T & operator * () const { return ptr[-1]; } // first element" }
  }
  ,{
   { "  " }
@@ -196220,7 +196220,7 @@ FixedText b15 = { {
   { "  " }
  }
  ,{
-  { "  T $ // take first element and advance" }
+  { "  T & take(); // take first element and advance" }
  }
  ,{
   { "" }
@@ -196350,7 +196350,7 @@ FixedText b21 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len $=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -196542,19 +196542,19 @@ FixedText b28 = { {
   { "  " }
  }
  ,{
-  { "  T $" }
+  { "  T & operator [] (ulen index) const;" }
  }
  ,{
   { "   " }
  }
  ,{
-  { "  T $" }
+  { "  T & at(ulen index) const;" }
  }
  ,{
   { "  " }
  }
  ,{
-  { "  T $ // 1 is the last" }
+  { "  T & back(ulen index) const; // 1 is the last" }
  }
  ,{
   { "   " }
@@ -197240,7 +197240,7 @@ FixedText b10 = { {
   { "  " }
  }
  ,{
-  { "  bool fit(ulen off,ulen length) const { return off<=len $=(len-off) ; }" }
+  { "  bool fit(ulen off,ulen length) const { return off<=len && length&lt;=(len-off) ; }" }
  }
  ,{
   { "" }
@@ -201494,7 +201494,7 @@ FixedText b3 = { {
   { "    " }
  }
  ,{
-  { "   RefPtr<T,Algo> $T,Algo> &obj);" }
+  { "   RefPtr<T,Algo> & operator = (const RefPtr&lt;T,Algo> &obj);" }
  }
  ,{
   { "    " }
@@ -201554,7 +201554,7 @@ FixedText b3 = { {
   { "   " }
  }
  ,{
-  { "   void objSwap(RefPtr<T,Algo> $ }" }
+  { "   void objSwap(RefPtr<T,Algo> &obj) { Swap(ptr,obj.ptr); }" }
  }
  ,{
   { "    " }
@@ -202850,13 +202850,13 @@ FixedText b17 = { {
   { " " }
  }
  ,{
-  { "  Type_CTRL & clearbit(Bits_CTRL bits) { value$ return *this; }" }
+  { "  Type_CTRL & clearbit(Bits_CTRL bits) { value&=~Type(bits); return *this; }" }
  }
  ,{
   { " " }
  }
  ,{
-  { "  Type_CTRL & clearbitIf(bool cond,Bits_CTRL bits) { if( cond ) value$ return *this; }" }
+  { "  Type_CTRL & clearbitIf(bool cond,Bits_CTRL bits) { if( cond ) value&=~Type(bits); return *this; }" }
  }
  ,{
   { " " }
@@ -209596,7 +209596,7 @@ Text b19 = { {
  ,{ "case" }
  ,{ "the" }
  ,{ "SomeClass::ScanProxyType" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "must" }
  ,{ "be" }
  ,{ "castable" }
@@ -209635,7 +209635,7 @@ FixedText b20 = { {
   { "  " }
  }
  ,{
-  { "  operator int $ }" }
+  { "  operator int & () { return val; }" }
  }
  ,{
   { " };" }
@@ -209961,7 +209961,7 @@ FixedText b30 = { {
   { "" }
  }
  ,{
-  { "   using ScanInpType = IDev $" }
+  { "   using ScanInpType = IDev & ;" }
  }
  ,{
   { "   " }
@@ -211807,7 +211807,7 @@ FixedText b82 = { {
  ,{
   { "struct " }
   ,{ "ScanProxySet" , & fmt_cpp_Att }
-  ,{ " : ScanOptAdapter$" }
+  ,{ " : ScanOptAdapter&ltProxySet&gt;" }
  }
  ,{
   { " {" }
@@ -212223,7 +212223,7 @@ FixedText b3 = { {
   { "   template <class P>" }
  }
  ,{
-  { "   static bool Print(P $" }
+  { "   static bool Print(P &&out);" }
  }
  ,{
   { " };" }
@@ -212307,7 +212307,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "template <class T> requires ( NothrowDefaultCtorType<T> $T> )" }
+  { "template <class T> requires ( NothrowDefaultCtorType<T> && NothrowCopyableType&lt;T> )" }
  }
  ,{
   { "class " }
@@ -214184,7 +214184,7 @@ FixedText b19 = { {
   { "" }
  }
  ,{
-  { "   Subscriber() : connector(this,$" }
+  { "   Subscriber() : connector(this,&Subscriber::method) {}" }
  }
  ,{
   { " };" }
@@ -219301,7 +219301,7 @@ FixedText b3 = { {
   { "   template <class ... TT>" }
  }
  ,{
-  { "   StartStopObject(T $" }
+  { "   StartStopObject(T &obj,TT ... tt);" }
  }
  ,{
   { "   " }
@@ -221430,7 +221430,7 @@ FixedText b26 = { {
   { "    ulen index=ptr->index;" }
  }
  ,{
-  { "    Var $" }
+  { "    Var &var=eval->table[index];" }
  }
  ,{
   { "    " }
@@ -222143,7 +222143,7 @@ FixedText b3 = { {
   { "   " }
  }
  ,{
-  { "   void print(PrinterType $" }
+  { "   void print(PrinterType &obj,PrintOptType opt) const;" }
  }
  ,{
   { "   " }
@@ -222194,7 +222194,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "      operator const String $ }" }
+  { "      operator const String & () const { return str; }" }
  }
  ,{
   { "" }
@@ -223640,7 +223640,7 @@ FixedText b12 = { {
   { "    " }
  }
  ,{
-  { "     explicit Peek(StrParse $" }
+  { "     explicit Peek(StrParse &dev);" }
  }
  ,{
   { "      " }
@@ -223838,7 +223838,7 @@ FixedText b22 = { {
   { "    " }
  }
  ,{
-  { "     explicit Peek(Dev $" }
+  { "     explicit Peek(Dev &dev);" }
  }
  ,{
   { "      " }
@@ -224690,7 +224690,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "void func(T $" }
+  { "void func(T &ret)" }
  }
  ,{
   { " {" }
@@ -224826,7 +224826,7 @@ FixedText b5 = { {
  ,{
   { "  void " }
   ,{ "objSwap" , & fmt_cpp_Att }
-  ,{ "(S $" }
+  ,{ "(S &obj) // efficient combination of efficient parts" }
  }
  ,{
   { "   {" }
@@ -224927,7 +224927,7 @@ FixedText b7 = { {
  ,{
   { "   void " }
   ,{ "objSwap" , & fmt_cpp_Att }
-  ,{ "(S $" }
+  ,{ "(S &obj) // efficient" }
  }
  ,{
   { "    {" }
@@ -224996,7 +224996,7 @@ FixedText b10 = { {
  ,{
   { "void " }
   ,{ "CopySwap" , & fmt_cpp_Att }
-  ,{ "(T $" }
+  ,{ "(T &a,T &b) noexcept;" }
  }
  ,{
   { "" }
@@ -225007,7 +225007,7 @@ FixedText b10 = { {
  ,{
   { "void " }
   ,{ "MoveSwap" , & fmt_cpp_Att }
-  ,{ "(T $" }
+  ,{ "(T &a,T &b) noexcept;" }
  }
  ,{
   { "" }
@@ -225018,7 +225018,7 @@ FixedText b10 = { {
  ,{
   { "void " }
   ,{ "Swap" , & fmt_cpp_Att }
-  ,{ "(T $" }
+  ,{ "(T &a,T &b) noexcept;" }
  }
  ,{
   { "" }
@@ -225217,7 +225217,7 @@ FixedText b13 = { {
   { " {" }
  }
  ,{
-  { "  if( $" }
+  { "  if( &dst!=&src )" }
  }
  ,{
   { "    {" }
@@ -225426,7 +225426,7 @@ FixedText b6 = { {
  ,{
   { "StrLen " }
   ,{ "SymbolRange" , & fmt_cpp_Att }
-  ,{ "(const Symbol $" }
+  ,{ "(const Symbol &ch);" }
  }
  ,{
   { "" }
@@ -225612,7 +225612,7 @@ FixedText b15 = { {
  ,{
   { "StrLen " }
   ,{ "SymbolRange" , & fmt_cpp_Att }
-  ,{ "(const char $" }
+  ,{ "(const char &ch);" }
  }
  ,{
   { "" }
@@ -225727,7 +225727,7 @@ FixedText b19 = { {
  ,{
   { "Char " }
   ,{ "CutChar" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text" }
+  ,{ "(StrLen &text); // +text" }
  }
  ,{
   { "" }
@@ -225743,7 +225743,7 @@ FixedText b19 = { {
  ,{
   { "Char " }
   ,{ "CutChar_guarded" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text" }
+  ,{ "(StrLen &text); // +text" }
  }
  ,{
   { "" }
@@ -227471,7 +227471,7 @@ FixedText b25 = { {
   { "   " }
  }
  ,{
-  { "   LogFilter $ }" }
+  { "   LogFilter & operator * () const { return *getPtr(); }" }
  }
  ,{
   { "   " }
@@ -232275,7 +232275,7 @@ FixedText b37 = { {
   { "" }
  }
  ,{
-  { "   T $ // the current object, precondition( +(*this) )" }
+  { "   T & operator * () const; // the current object, precondition( +(*this) )" }
  }
  ,{
   { "" }
@@ -232491,7 +232491,7 @@ FixedText b46 = { {
   { "   " }
  }
  ,{
-  { "   T $ // the current object, precondition( +(*this) )" }
+  { "   T & operator * () const; // the current object, precondition( +(*this) )" }
  }
  ,{
   { "   " }
@@ -232544,7 +232544,7 @@ FixedText b48 = { {
   { "   " }
  }
  ,{
-  { "   T $ // the current object" }
+  { "   T & operator * () const; // the current object" }
  }
  ,{
   { "   " }
@@ -233579,7 +233579,7 @@ FixedText b12 = { {
  ,{
   { "unsigned " }
   ,{ "GetTextLabelNumber" , & fmt_cpp_Att }
-  ,{ "(unsigned $" }
+  ,{ "(unsigned &Next);" }
  }
  ,{
   { "" }
@@ -236967,7 +236967,7 @@ FixedText b3 = { {
   { "" }
  }
  ,{
-  { "   void objSwap(ToMemBase $" }
+  { "   void objSwap(ToMemBase &obj);" }
  }
  ,{
   { "   " }
@@ -237384,7 +237384,7 @@ Text b5 = { {
  ,{ "the" }
  ,{ "const" , & fmt_text_b }
  ,{ "K" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&" , & fmt_text_b }
  ,{ "." }
 } , & fmt_text , & align_text } ;
 
@@ -238318,7 +238318,7 @@ Text b25 = { {
  ,{ "void" , & fmt_text_b }
  ,{ "(K" , & fmt_text_b }
  ,{ "key,T" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&obj)" , & fmt_text_b }
  ,{ "for" }
  ,{ "non-constant" }
  ,{ "operations" }
@@ -238327,7 +238327,7 @@ Text b25 = { {
  ,{ "(K" , & fmt_text_b }
  ,{ "key,const" , & fmt_text_b }
  ,{ "T" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&obj)" , & fmt_text_b }
  ,{ "for" }
  ,{ "constant" }
  ,{ "ones." }
@@ -239159,7 +239159,7 @@ Text b41 = { {
  ,{ "boolable" , & fmt_text_b }
  ,{ "(K" , & fmt_text_b }
  ,{ "key,T" , & fmt_text_b }
- ,{ "$" , & fmt_text_b }
+ ,{ "&obj)" , & fmt_text_b }
  ,{ "." }
  ,{ "If" }
  ,{ "it" }
@@ -243699,7 +243699,7 @@ FixedText b5 = { {
   { "" }
  }
  ,{
-  { "  friend UIntSat<UInt> operator += (UIntSat<UInt> $UInt> b);" }
+  { "  friend UIntSat<UInt> operator += (UIntSat<UInt> &a,UIntSat&lt;UInt> b);" }
  }
  ,{
   { "    " }
@@ -244773,7 +244773,7 @@ FixedText b3 = { {
   { " " }
  }
  ,{
-  { "   UIntSmall $ }" }
+  { "   UIntSmall & operator [] (unsigned index) { return buf[index]; }" }
  }
  ,{
   { "   " }
@@ -245259,7 +245259,7 @@ FixedText b7 = { {
   { " {" }
  }
  ,{
-  { "  static const Unid $ }" }
+  { "  static const Unid & Get() { return T::TypeUnid; }" }
  }
  ,{
   { " };" }
@@ -245913,7 +245913,7 @@ FixedText b24 = { {
  ,{
   { "Utf8Code " }
   ,{ "CutUtf8" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text" }
+  ,{ "(StrLen &text); // +text" }
  }
  ,{
   { "" }
@@ -245929,7 +245929,7 @@ FixedText b24 = { {
  ,{
   { "Utf8Code " }
   ,{ "CutUtf8_guarded" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text" }
+  ,{ "(StrLen &text); // +text" }
  }
  ,{
   { "" }
@@ -245945,7 +245945,7 @@ FixedText b24 = { {
  ,{
   { "Unicode " }
   ,{ "CutUtf8_unicode" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text , Unicode(-1) on error" }
+  ,{ "(StrLen &text); // +text , Unicode(-1) on error" }
  }
  ,{
   { "" }
@@ -245961,7 +245961,7 @@ FixedText b24 = { {
  ,{
   { "Unicode " }
   ,{ "CutUtf8_unicode_guarded" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // +text" }
+  ,{ "(StrLen &text); // +text" }
  }
  ,{
   { "" }
@@ -246314,7 +246314,7 @@ FixedText b35 = { {
  ,{
   { "void " }
   ,{ "TrimUtf8End" , & fmt_cpp_Att }
-  ,{ "(StrLen $ // removes non-complete trailing sequence" }
+  ,{ "(StrLen &text); // removes non-complete trailing sequence" }
  }
  ,{
   { "" }
@@ -246793,7 +246793,7 @@ FixedText b16 = { {
  ,{
   { "constexpr bool " }
   ,{ "Fit" , & fmt_cpp_Att }
-  ,{ "(T a,T x,T b) { return a<=x $=b; }" }
+  ,{ "(T a,T x,T b) { return a<=x && x&lt;=b; }" }
  }
  ,{
   { "" }
@@ -247114,7 +247114,7 @@ FixedText b33 = { {
  ,{
   { "void " }
   ,{ "CapDown" , & fmt_cpp_Att }
-  ,{ "(T $" }
+  ,{ "(T &obj,S cap)" }
  }
  ,{
   { " {" }
@@ -247416,7 +247416,7 @@ FixedText b46 = { {
  ,{
   { "void " }
   ,{ "BitSet" , & fmt_cpp_Att }
-  ,{ "(UInt $ // set bits" }
+  ,{ "(UInt &t,S bits); // set bits" }
  }
  ,{
   { "" }
@@ -247427,7 +247427,7 @@ FixedText b46 = { {
  ,{
   { "void " }
   ,{ "BitClear" , & fmt_cpp_Att }
-  ,{ "(UInt $ // clear bits" }
+  ,{ "(UInt &t,S bits); // clear bits" }
  }
  ,{
   { " " }
@@ -250843,7 +250843,7 @@ FixedText b43 = { {
   { "run: $(TARGET)" }
  }
  ,{
-  { "$~/bin/CCore-BeagleBoot.exe r 192.168.99.10 $(TARGET) $" }
+  { "        ~/bin/CCore-BeagleBoot.exe r 192.168.99.10 $(TARGET) && cd root && ~/bin/CCore-PTPServer.exe c" }
  }
  ,{
   { "" }
@@ -253867,13 +253867,13 @@ FixedText b7 = { {
   { "" }
  }
  ,{
-  { "bool FuncBlock::Push(const Func $" }
+  { "bool FuncBlock::Push(const Func &func);" }
  }
  ,{
   { "" }
  }
  ,{
-  { "bool FuncBlock::Pop(Func $" }
+  { "bool FuncBlock::Pop(Func &ret);" }
  }
  ,{
   { "" }
@@ -256624,7 +256624,7 @@ FixedText b5 = { {
  ,{
   { "PlanInitNode * " }
   ,{ "GetPlanInitNode_Dev" , & fmt_cpp_Att }
-  ,{ "() { return $ }" }
+  ,{ "() { return &Object; }" }
  }
  ,{
   { "" }
@@ -257430,7 +257430,7 @@ FixedText b6 = { {
   { "all:" }
  }
  ,{
-  { "$$(CONFIGURE) $(OPT) --target=$(TARGET)" }
+  { "        $(CONFIGURE) $(OPT) --target=$(TARGET)" }
  }
  ,{
   { "" }
@@ -257919,7 +257919,7 @@ FixedText b18 = { {
   { "all:" }
  }
  ,{
-  { "$$(CONFIGURE) $(OPT) --target=$(TARGET) " }
+  { "        $(CONFIGURE) $(OPT) --target=$(TARGET) " }
  }
  ,{
   { "" }
@@ -258260,7 +258260,7 @@ FixedText b29 = { {
   { "" }
  }
  ,{
-  { "# if 0 // defined (__UINT_LEAST16_TYPE__) $" }
+  { "# if 0 // defined (__UINT_LEAST16_TYPE__) && defined(__UINT_LEAST32_TYPE__)" }
  }
  ,{
   { "" }
@@ -258643,7 +258643,7 @@ FixedText b4 = { {
  ,{
   { "PlanInitNode * " }
   ,{ "GetPlanInitNode_CCore" , & fmt_cpp_Att }
-  ,{ "() { return $ }" }
+  ,{ "() { return &Object; }" }
  }
  ,{
   { "" }

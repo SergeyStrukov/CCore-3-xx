@@ -46,7 +46,7 @@ struct <span class="Att">FastMutexBase</span> : NoCopy
      
     public: 
     
-     explicit Lock(FastMutexBase &obj);
+     explicit Lock(FastMutexBase &amp;obj);
      
      ~Lock();
    };
@@ -124,7 +124,7 @@ struct <span class="Att">FastMutexBase</span> : NoCopy
      
     public: 
     
-     explicit Lock(FastMutexBase &obj) : mutex(obj.mutex) { mutex.lock(); }
+     explicit Lock(FastMutexBase &amp;obj) : mutex(obj.mutex) { mutex.lock(); }
      
      ~Lock() { mutex.unlock(); }
    };

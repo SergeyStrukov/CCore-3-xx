@@ -1,0 +1,195 @@
+& b&gt;
+&`
+&`
+& b&gt;
+& @2 >= M(1) ) )`
+&ret);
+&ret);
+&)`
+&)`
+&cfg=Net::PTPCon::Cfg());
+&con_openclose,MSec timeout=DefaultTimeout,ulen max_packets=DefaultMaxPackets);
+&ret);
+&ret);
+&a ;
+&a ;
+&b ;
+&msg,StrLen text,StrLen pretext=Empty);
+& ... args,PrintBase &msg,ulen mem_cap=MaxULen,`
+&out) const;
+&desc);
+&desc);
+&map)`
+&type;
+&Window::put,ch);
+&Window::tick);
+&proc);
+& operator = (const DynObject&lt;
+&ret);
+&out) const;
+&out) const;
+&host,Recorder *recorder);
+&,const EventDesc &,void *&gt;
+&info,EventMetaInfo::EventDesc &desc);
+& addField_uint8(const String &name,OffsetFunc offset);
+& addField_uint16(const String &name,OffsetFunc offset);
+& addField_uint32(const String &name,OffsetFunc offset);
+& addField_enum_uint8(EventIdType id,const String &name,OffsetFunc offset);
+& addField_enum_uint16(EventIdType id,const String &name,OffsetFunc offset);
+& addField_enum_uint32(EventIdType id,const String &name,OffsetFunc offset);
+& addField_struct(EventIdType id,const String &name,OffsetFunc offset);
+&desc) ;
+&info)`
+&desc);
+&mutex;
+&) {}`
+&dst,PtrLen&lt;
+&& ... tt);
+&C::method);
+&errout,bool preserve_file=false) noexcept;
+&errout,bool preserve_file=false) noexcept;
+&errout,bool preserve_file=false) noexcept;
+&errout,bool preserve_file=false) noexcept;
+&errout,bool preserve_file=false) noexcept;
+&errout,bool preserve_file=false) noexcept;
+&ret);
+&ret);
+&ret);
+&text);
+&random);
+&a,const Integer &b);
+&ltUnitBits`
+&b,Unit a,Unit carry);
+&b,Unit a,Unit carry);
+&b,Unit a,Unit carry);
+&caster) { caster.cast(this);
+&caster) { caster.cast(&inner);
+&caster) `
+&inner);
+&starter);
+&& str[0]=='o' && str[1]=='n' && str[2]=='s' && str[3]=='t' ) return Atom_const;
+&)[Len]) { return Len;
+&& ... ss);
+&cur,T *obj);
+&cur,T *obj);
+&cur,T *obj);
+&cur,T *obj);
+&cur,T *obj);
+&cur,T *obj);
+&cur,T *obj);
+&cur);
+&cur);
+&mutex,T &amp;
+& ... tt)`
+& add(TT ... tt) requires ( sizeof ... (TT) > 1 ) ;
+&&gt;
+&`
+&& std::is_copy_assignable&lt;
+&& std::is_nothrow_copy_assignable&lt;
+&& std::is_move_assignable&lt;
+&a) const;
+&a,const Integer &b) const;
+&a) const;
+&s,const Integer &a,const Integer &b) const;
+&s,const Integer &a) const;
+&a,UInt d) const;
+&a,const Integer &d) const;
+&& Has_objSwap&lt;
+&net_mask.address);
+&dev,IPAddress &ret);
+&dev,bool &amp;
+&) {}`
+& operator = (NullMovePtr&lt;
+&domain,SS &amp;
+&domain,SS &amp;
+&domain,SS &amp;
+&domain,SS &amp;
+&ltclass T,class ... SS&gt;
+&domain,SS &amp;
+&domain,SS &amp;
+&ret)`
+&& ConstructibleType&lt;
+&& ConstructibleType&lt;
+&pbuf) { packet-&gt;
+&pbuf) { packet-&gt;
+&Submitter::complete);
+&& name[0]=='.' ;
+&& name[0]=='.' && name[1]=='.' ;
+&& name[0]=='~' ;
+&ret) const;
+&ret) const;
+&ret) const;
+&errout,bool preserve_file=false) noexcept;
+&fs,StrLen dev_dir,StrLen dev_program);
+&errout);
+&cfg=Net::PTPCon::Cfg());
+&out,PrintOptType opt) const;
+&skey,ClientProfilePtr &amp;
+&ret);
+&output)`
+&& !error_id ;
+&output);
+&output);
+&);
+&output);
+&output);
+&output);
+& take();
+&& length&lt;
+& operator [] (ulen index) const;
+& at(ulen index) const;
+& back(ulen index) const;
+&buf)[Len]);
+&buf)[Len]);
+&&src);
+&src);
+&& requires(Meta::ToConst&lt;
+& take();
+&& length&lt;
+& operator [] (ulen index) const;
+& at(ulen index) const;
+& back(ulen index) const;
+&& length&lt;
+& operator = (const RefPtr&lt;
+&=~Type(bits);
+&=~Type(bits);
+&`
+& () { return val;
+& ;
+&ltProxySet&gt;
+&&out);
+&& NothrowCopyableType&lt;
+&Subscriber::method) {}`
+&var=eval->table[index];
+& () const { return str;
+&dev);
+&dev);
+&ret)`
+&a,T &b) noexcept;
+&a,T &b) noexcept;
+&a,T &b) noexcept;
+&dst!=&src )`
+&ch);
+&ch);
+&text);
+&text);
+& operator * () const;
+&Next);
+&`
+&a,UIntSat&lt;
+& operator [] (unsigned index) { return buf[index];
+& Get() { return T::TypeUnid;
+&text);
+&text);
+&text);
+&text);
+&text);
+&& x&lt;
+&t,S bits);
+&t,S bits);
+&& cd root && ~/bin/CCore-PTPServer.exe c`
+&func);
+&ret);
+&Object;
+&& defined(__UINT_LEAST32_TYPE__)`
+&Object;

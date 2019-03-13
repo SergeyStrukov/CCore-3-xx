@@ -85,7 +85,7 @@ struct S
 
   // swap objects
 
-  void <span class="Att">objSwap</span>(S &obj) // efficient combination of efficient parts
+  void <span class="Att">objSwap</span>(S &amp;obj) // efficient combination of efficient parts
    {
     Swap(a,obj.a);
     Swap(b,obj.b);
@@ -117,7 +117,7 @@ class H : NoCopy
 
    // swap objects
 
-   void <span class="Att">objSwap</span>(S &obj) // efficient
+   void <span class="Att">objSwap</span>(S &amp;obj) // efficient
     {
      Swap(h,obj.h);
     }

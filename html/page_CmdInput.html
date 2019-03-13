@@ -122,7 +122,7 @@ class <span class="Att">Target</span> : public NoCopyBase&lt;CmdInput::Target&gt
 
    void exit(StrLen arg);
    
-   virtual void buildCmdList(CmdInput &input)
+   virtual void buildCmdList(CmdInput &amp;input)
     {
      addCommand(input,"",&amp;Target::empty);
      addCommand(input,"help",&amp;Target::help);
@@ -176,7 +176,7 @@ the auto-completion.
 <b>finish()</b> checks if the input is a command. The return value is non-null in this case and can be used
 to call the correspondent target method to execute the command. There are two variants of the call.
 The first <b>operator () (StrLen arg)</b> is to call the method with the argument.
-The second <b>operator () (StrLen arg,Report &report)</b> does the call inside a try-catch block,
+The second <b>operator () (StrLen arg,Report &amp;report)</b> does the call inside a try-catch block,
 report is an <a href="page_Exceptions.html"><b>ReportException</b></a> class.
 </p>
 

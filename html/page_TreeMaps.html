@@ -308,7 +308,7 @@ Extra arguments are forwarded to the object constructor. Exception is thrown in 
 
 <p>
 <b>apply...()</b> methods apply the functor to map elements. The functor signature 
-is <b>void (K key,T &obj)</b> for non-constant operations and <b>void (K key,const T &obj)</b> for constant ones.
+is <b>void (K key,T &amp;obj)</b> for non-constant operations and <b>void (K key,const T &amp;obj)</b> for constant ones.
 </p>
 
 <p>
@@ -565,7 +565,7 @@ class <span class="Att">RadixTreeMap</span> : NoCopy
 
 <p>
 <b>delIf()</b> performs the massive delete operation. 
-The functor signature is <b>boolable (K key,T &obj)</b>. If it returns <b>true</b>, the object is deleted.
+The functor signature is <b>boolable (K key,T &amp;obj)</b>. If it returns <b>true</b>, the object is deleted.
 </p>
 
 </body>

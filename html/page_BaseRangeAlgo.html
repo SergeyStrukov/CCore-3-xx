@@ -155,7 +155,7 @@ struct <span class="Att">Algon::BaseRangeAlgo&lt;PtrLenReverse&lt;T&gt; &gt;</sp
    
   static PtrLenReverse&lt;T&gt; GetSuffix(PtrLenReverse&lt;T&gt; r,LenType len) { return r.suffix(len); }
   
-  static PtrLenReverse&lt;T&gt; Split(PtrLenReverse&lt;T&gt; &r,LenType prefix) { return r+=prefix; }
+  static PtrLenReverse&lt;T&gt; Split(PtrLenReverse&lt;T&gt; &amp;r,LenType prefix) { return r+=prefix; }
   
   static PtrLenReverse&lt;T&gt; GetPrefix(PtrLenReverse&lt;T&gt; r,PtrLenReverse&lt;T&gt; suffix) { return r.prefix(suffix); }
   

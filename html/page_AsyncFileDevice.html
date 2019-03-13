@@ -54,7 +54,7 @@ class <span class="Att">AsyncFileDevice</span> : public ObjBase , public Sys::As
    
    // Sys::AsyncFileDevice
   
-   virtual Sys::AsyncFileState * createState(const ObjHook &hook) noexcept ;
+   virtual Sys::AsyncFileState * createState(const ObjHook &amp;hook) noexcept ;
  };
 
 </pre>
@@ -94,7 +94,7 @@ struct <span class="Att">Sys::AltAsyncFile</span>
  
   Result open(StrLen file_name,FileOpenFlags oflags) noexcept;
   
-  void close(FileMultiError &errout,bool preserve_file=false) noexcept; 
+  void close(FileMultiError &amp;errout,bool preserve_file=false) noexcept; 
   
   void close() noexcept; 
   

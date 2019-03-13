@@ -83,7 +83,7 @@ class <span class="Att">RefPtr</span>
  
    // swap/move objects
    
-   void objSwap(RefPtr&lt;T,Algo&gt; &obj) { Swap(ptr,obj.ptr); }
+   void objSwap(RefPtr&lt;T,Algo&gt; &amp;obj) { Swap(ptr,obj.ptr); }
     
    explicit RefPtr(ToMoveCtor&lt;RefPtr&lt;T,Algo&gt; &gt; obj);
    

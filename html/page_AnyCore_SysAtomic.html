@@ -222,21 +222,21 @@ struct <span class="Att">Atomic</span>
   
   void set_null() { atomic=0; }
   
-  operator Type() const { return Get(&atomic); }
+  operator Type() const { return Get(&amp;atomic); }
   
   // return previous value, memory fence is used
   
-  Type operator  = (Type value) { return Set(&atomic,value); }
+  Type operator  = (Type value) { return Set(&amp;atomic,value); }
   
-  Type operator += (Type value) { return Add(&atomic,value); }
+  Type operator += (Type value) { return Add(&amp;atomic,value); }
   
-  Type operator -= (Type value) { return Sub(&atomic,value); }
+  Type operator -= (Type value) { return Sub(&amp;atomic,value); }
   
-  Type operator ++ (int) { return Inc(&atomic); }
+  Type operator ++ (int) { return Inc(&amp;atomic); }
   
-  Type operator -- (int) { return Dec(&atomic); }
+  Type operator -- (int) { return Dec(&amp;atomic); }
   
-  Type trySet(Type old_value,Type new_value) { return TrySet(&atomic,old_value,new_value); }
+  Type trySet(Type old_value,Type new_value) { return TrySet(&amp;atomic,old_value,new_value); }
  };
  
 </pre>

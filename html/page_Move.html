@@ -108,7 +108,7 @@ struct S
 
   // swap/move objects
    
-  void <span class="Att">objSwap</span>(S &obj)
+  void <span class="Att">objSwap</span>(S &amp;obj)
    {
     Swap(a,obj.a);
     Swap(b,obj.b);
@@ -178,7 +178,7 @@ struct <span class="Att">ToMoveCtor</span>
  {
   T *obj;
  
-  explicit ToMoveCtor(T &obj_) { obj=&amp;obj_; }
+  explicit ToMoveCtor(T &amp;obj_) { obj=&amp;obj_; }
   
   T * operator -> () const { return obj; }
   

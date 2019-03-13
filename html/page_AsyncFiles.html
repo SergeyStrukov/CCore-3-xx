@@ -54,7 +54,7 @@ struct <span class="Att">Sys::AsyncFileDevice</span>
  {
   static const Unid TypeUnid;
 
-  virtual Sys::AsyncFileState * createState(const ObjHook &hook) noexcept =0;
+  virtual Sys::AsyncFileState * createState(const ObjHook &amp;hook) noexcept =0;
  };
 
 </pre>
@@ -410,7 +410,7 @@ struct <span class="Att">Sys::AsyncFileSystemDevice</span>
 
   virtual void getFileUpdateTime(Packet&lt;uint8,Sys::AsyncFileSystem::CmpFileTimeExt&gt; packet,StrLen path)=0;
   
-  virtual void getFileList(ObjHook &hook,Packet&lt;uint8,Sys::AsyncFileSystem::FileExt&gt; packet,StrLen dir_name)=0;
+  virtual void getFileList(ObjHook &amp;hook,Packet&lt;uint8,Sys::AsyncFileSystem::FileExt&gt; packet,StrLen dir_name)=0;
   
   virtual void createFile(Packet&lt;uint8,Sys::AsyncFileSystem::ErrorExt&gt; packet,StrLen file_name)=0;
   
@@ -426,7 +426,7 @@ struct <span class="Att">Sys::AsyncFileSystemDevice</span>
   
   virtual void exec(Packet&lt;uint8,Sys::AsyncFileSystem::ErrorExt&gt; packet,StrLen dir,StrLen program,StrLen arg)=0;
   
-  virtual void exec2(ObjHook &hook,Packet&lt;uint8,Sys::AsyncFileSystem::FileExt&gt; packet,StrLen dir,StrLen program)=0;
+  virtual void exec2(ObjHook &amp;hook,Packet&lt;uint8,Sys::AsyncFileSystem::FileExt&gt; packet,StrLen dir,StrLen program)=0;
  };
 
 </pre>

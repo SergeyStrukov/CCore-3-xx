@@ -46,7 +46,7 @@ class <span class="Att">StartStopObject</span> : NoCopy
   public:
   
    template &lt;class ... TT&gt;
-   StartStopObject(T &obj,TT ... tt);
+   StartStopObject(T &amp;obj,TT ... tt);
    
    ~StartStopObject(); 
  };

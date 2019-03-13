@@ -71,7 +71,7 @@ class <span class="Att">AnyPtr</span>
    T * castPtr() const;
 
    template &lt;class FuncInit,class ... SS&gt;
-   void apply(FuncInit func_init,SS && ... ss) const;
+   void apply(FuncInit func_init,SS &amp;&amp; ... ss) const;
    
    template &lt;class T,class FuncInit&gt;
    void applyFor(FuncInit func_init) const;
@@ -118,7 +118,7 @@ class <span class="Att">AnyPtr_const</span>
    const T * castPtr() const;
    
    template &lt;class FuncInit,class ... SS&gt;
-   void apply(FuncInit func_init,SS && ... ss) const;
+   void apply(FuncInit func_init,SS &amp;&amp; ... ss) const;
    
    template &lt;class T,class FuncInit&gt;
    void applyFor(FuncInit func_init) const;
@@ -253,7 +253,7 @@ The global function <b>ElaborateAnyPtr</b> is another great way to demultiplex a
 <pre>
 
 template &lt;class T,class ... SS&gt;
-void <span class="Att">ElaborateAnyPtr</span>(T &obj,SS && ... ss);
+void <span class="Att">ElaborateAnyPtr</span>(T &amp;obj,SS &amp;&amp; ... ss);
 
 </pre>
 
