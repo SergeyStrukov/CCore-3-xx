@@ -42,6 +42,34 @@ StrLen CutLine(StrLen &text)
   return Replace_null(text);
  }
 
+/* struct SplitLine */
+
+SplitLine::SplitLine(StrLen text)
+ {
+  for(StrLen next=text; +next ;++next)
+    {
+     char ch=*next;
+
+     if( ch=='\r' || ch=='\n' )
+       {
+        line=text.prefix(next);
+
+        ++next;
+
+        if( ch=='\r' && +next && *next=='\n' ) ++next;
+
+        rest=next;
+        eol=true;
+
+        return;
+       }
+    }
+
+  line=text;
+  rest=Empty;
+  eol=false;
+ }
+
 /* class ASCIICode */
 
 const bool ASCIICode::IsSpaceTable[256]=

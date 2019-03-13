@@ -169,11 +169,11 @@ class <span class="Att">ExtCharCode</span>
 
   public:
 
-   explicit ExtCharCode(const Utf8Code &code_) : code(code_) {}
+   explicit ExtCharCode(const Utf8Code &amp;code_) : code(code_) {}
 
    explicit ExtCharCode(Unicode ch) : code(ToUtf8(ch)) {}
 
-   void print(PrinterType &out) const;
+   void print(PrinterType &amp;out) const;
  };
 
 #else
@@ -337,7 +337,7 @@ The following function can be used to split the given text into lines:
 
 <pre>
 
-StrLen <span class="Att">CutLine</span>(StrLen &text);
+StrLen <span class="Att">CutLine</span>(StrLen &amp;text);
 
 </pre>
 
@@ -346,6 +346,37 @@ The function performs a text search for the line-end dividers: <b>"\r", "\n", "\
 If a divider is found, the part before the divider is returned and <b>text</b> is changed to the part
 after the divider.
 Otherwise, the entire <b>text</b> is returned and <b>text</b> is changed to the null value. 
+</p>
+
+<h4>Line splitting</h4>
+
+<p>
+The following <a href="page_Taxonomy.html#ClassFunction">Class-function</a> can be used to split-up the given text into the first line and the rest part of the text:
+</p>
+
+<pre>
+
+struct <span class="Att">SplitLine</span>
+ {
+  StrLen line;
+  StrLen rest;
+  bool eol;
+
+  explicit SplitLine(StrLen text);
+ };
+
+</pre>
+
+<p>
+<b>line</b> is the first line of the <b>text</b>, end-of-line is not included.
+</p>
+
+<p>
+<b>rest</b> is the rest of the <b>text</b>, started from the next line, or empty, if there is no one.
+</p>
+
+<p>
+<b>eol</b> is <b>true</b> iff the end-of-line character sequence has been found.
 </p>
 
 </body>

@@ -35,9 +35,22 @@ StrLen CutLine(StrLen &text);
 
 /* classes */
 
+struct SplitLine;
+
 class ASCIICode;
 
 class PrintCString;
+
+/* struct SplitLine */
+
+struct SplitLine
+ {
+  StrLen line;
+  StrLen rest;
+  bool eol;
+
+  explicit SplitLine(StrLen text);
+ };
 
 /* class ASCIICode */
 

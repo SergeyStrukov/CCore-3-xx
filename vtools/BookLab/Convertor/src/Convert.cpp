@@ -219,34 +219,6 @@ class PrintText
 
 using namespace Private_Convert;
 
-/* struct SplitLine */
-
-SplitLine::SplitLine(StrLen text)
- {
-  for(StrLen next=text; +next ;++next)
-    {
-     char ch=*next;
-
-     if( ch=='\r' || ch=='\n' )
-       {
-        line=text.prefix(next);
-
-        ++next;
-
-        if( ch=='\r' && +next && *next=='\n' ) ++next;
-
-        rest=next;
-        eol=true;
-
-        return;
-       }
-    }
-
-  line=text;
-  rest=Empty;
-  eol=false;
- }
-
 /* class Book */
 
 void Book::addSpan(StrLen str,StrLen fmt)

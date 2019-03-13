@@ -30938,7 +30938,7 @@ FixedText b21 = { {
   { "" }
  }
  ,{
-  { "   explicit ExtCharCode(const Utf8Code $" }
+  { "   explicit ExtCharCode(const Utf8Code &code_) : code(code_) {}" }
  }
  ,{
   { "" }
@@ -30950,7 +30950,7 @@ FixedText b21 = { {
   { "" }
  }
  ,{
-  { "   void print(PrinterType $" }
+  { "   void print(PrinterType &out) const;" }
  }
  ,{
   { " };" }
@@ -31495,7 +31495,7 @@ FixedText b48 = { {
  ,{
   { "StrLen " }
   ,{ "CutLine" , & fmt_cpp_Att }
-  ,{ "(StrLen $" }
+  ,{ "(StrLen &text);" }
  }
  ,{
   { "" }
@@ -31557,6 +31557,129 @@ Text b49 = { {
  ,{ "value." }
 } , & fmt_text , & align_text } ;
 
+Text b50 = { {
+ { "Line" }
+ ,{ "splitting" }
+} , & fmt_h4 , & align_h4 } ;
+
+Text b51 = { {
+ { "The" }
+ ,{ "following" }
+ ,{ "Class-function" , & fmt_text_a , & ..#page_Taxonomy#link_ClassFunction }
+ ,{ "can" }
+ ,{ "be" }
+ ,{ "used" }
+ ,{ "to" }
+ ,{ "split-up" }
+ ,{ "the" }
+ ,{ "given" }
+ ,{ "text" }
+ ,{ "into" }
+ ,{ "the" }
+ ,{ "first" }
+ ,{ "line" }
+ ,{ "and" }
+ ,{ "the" }
+ ,{ "rest" }
+ ,{ "part" }
+ ,{ "of" }
+ ,{ "the" }
+ ,{ "text:" }
+} , & fmt_text , & align_text } ;
+
+FixedText b52 = { {
+ {
+  { "" }
+ }
+ ,{
+  { "" }
+ }
+ ,{
+  { "struct " }
+  ,{ "SplitLine" , & fmt_cpp_Att }
+  ,{ "" }
+ }
+ ,{
+  { " {" }
+ }
+ ,{
+  { "  StrLen line;" }
+ }
+ ,{
+  { "  StrLen rest;" }
+ }
+ ,{
+  { "  bool eol;" }
+ }
+ ,{
+  { "" }
+ }
+ ,{
+  { "  explicit SplitLine(StrLen text);" }
+ }
+ ,{
+  { " };" }
+ }
+ ,{
+  { "" }
+ }
+ ,{
+ }
+} , & fmt_cpp } ;
+
+Text b53 = { {
+ { "line" , & fmt_text_b }
+ ,{ "is" }
+ ,{ "the" }
+ ,{ "first" }
+ ,{ "line" }
+ ,{ "of" }
+ ,{ "the" }
+ ,{ "text" , & fmt_text_b }
+ ,{ "," }
+ ,{ "end-of-line" }
+ ,{ "is" }
+ ,{ "not" }
+ ,{ "included." }
+} , & fmt_text , & align_text } ;
+
+Text b54 = { {
+ { "rest" , & fmt_text_b }
+ ,{ "is" }
+ ,{ "the" }
+ ,{ "rest" }
+ ,{ "of" }
+ ,{ "the" }
+ ,{ "text" , & fmt_text_b }
+ ,{ "," }
+ ,{ "started" }
+ ,{ "from" }
+ ,{ "the" }
+ ,{ "next" }
+ ,{ "line," }
+ ,{ "or" }
+ ,{ "empty," }
+ ,{ "if" }
+ ,{ "there" }
+ ,{ "is" }
+ ,{ "no" }
+ ,{ "one." }
+} , & fmt_text , & align_text } ;
+
+Text b55 = { {
+ { "eol" , & fmt_text_b }
+ ,{ "is" }
+ ,{ "true" , & fmt_text_b }
+ ,{ "iff" }
+ ,{ "the" }
+ ,{ "end-of-line" }
+ ,{ "character" }
+ ,{ "sequence" }
+ ,{ "has" }
+ ,{ "been" }
+ ,{ "found." }
+} , & fmt_text , & align_text } ;
+
 Page page = { "CCore -> Basic character properties" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
@@ -31609,6 +31732,12 @@ Page page = { "CCore -> Basic character properties" ,
  ,{ & b47 , null , inner_text , outer_text , back_text }
  ,{ & b48 , null , inner_cpp , outer_cpp , back_cpp }
  ,{ & b49 , null , inner_text , outer_text , back_text }
+ ,{ & b50 , null , inner_h4 , outer_h4 , back_h4 }
+ ,{ & b51 , null , inner_text , outer_text , back_text }
+ ,{ & b52 , null , inner_cpp , outer_cpp , back_cpp }
+ ,{ & b53 , null , inner_text , outer_text , back_text }
+ ,{ & b54 , null , inner_text , outer_text , back_text }
+ ,{ & b55 , null , inner_text , outer_text , back_text }
 } , NoColor , NoColor , & content , & page_CCoreGeneral#page , & page_CharUtils#page };
 
 Link link = { &page } ;
@@ -232713,6 +232842,8 @@ Text b59 = { {
  ,{ "OwnAlgo" , & fmt_text_a , & ..#page_OwnPtr#link }
  ,{ "." }
 } , & fmt_text , & align_text } ;
+
+Link link_ClassFunction = { & page , { 60 } } ;
 
 Text b60 = { {
  { "Class-function" }

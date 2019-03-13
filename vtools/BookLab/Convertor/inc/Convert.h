@@ -23,24 +23,11 @@ namespace App {
 
 /* classes */
 
-struct SplitLine;
-
 struct PageParam;
 
 class Book;
 
 class Convert;
-
-/* struct SplitLine */
-
-struct SplitLine
- {
-  StrLen line;
-  StrLen rest;
-  bool eol;
-
-  explicit SplitLine(StrLen text);
- };
 
 /* struct PageParam */
 
