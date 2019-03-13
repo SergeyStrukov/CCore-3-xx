@@ -16,7 +16,6 @@
 #include <CCore/inc/scanf/ScanTools.h>
 
 #include <CCore/inc/ForLoop.h>
-
 #include <CCore/inc/Path.h>
 
 namespace App {

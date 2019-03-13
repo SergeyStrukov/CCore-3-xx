@@ -19,75 +19,139 @@
 
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/MakeFileName.h>
+#include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Path.h>
-#include <CCore/inc/CompactList.h>
+#include <CCore/inc/Array.h>
 
 namespace App {
 
+/* class FileList */
+
+class FileList : NoCopy
+ {
+  public:
+
+   struct Rec
+    {
+     String file_name;
+     String path;
+     String page_name;
+
+     Rec(StrLen dir,StrLen file)
+      {
+       file_name=file;
+
+       MakeFileName temp(dir,file);
+
+       path=temp.get();
+
+       SplitFullExt split(file);
+
+       page_name=split.name;
+      }
+    };
+
+  private:
+
+   Collector<Rec> list;
+
+   PtrLen<const Rec> range;
+
+  public:
+
+   explicit FileList(StrLen dir)
+    {
+     FileSystem fs;
+     FileSystem::DirCursor cur(fs,dir);
+
+     cur.apply( [&] (StrLen file_name,FileType file_type)
+                    {
+                     if( file_type==FileType_file && file_name.hasSuffix(".html"_c) )
+                       {
+                        list.append_fill(dir,file_name);
+                       }
+
+                    } );
+
+     range=list.flat();
+    }
+
+   ~FileList()
+    {
+    }
+
+   auto getRange() const { return range; }
+ };
+
 /* Main() */
+
+StrLen CutTitle(const String &title)
+ {
+  StrLen str=Range(title);
+
+  StrLen prefix="CCore -> "_c;
+
+  if( str.hasPrefix(prefix) ) return str.part(prefix.len);
+
+  return str;
+ }
 
 int Main(StrLen input_dir_name,StrLen output_file_name)
  {
-  FileSystem fs;
-  FileSystem::DirCursor cur(fs,input_dir_name);
+  FileList file_list(input_dir_name);
+  auto list=file_list.getRange();
 
   PrintFile out(output_file_name);
 
-  struct Rec
-   {
-    String name;
-    String title;
+  DynArray<String> title(list.len);
 
-    Rec(const String &name_,const String &title_) : name(name_),title(title_) {}
-   };
+  // 1
 
-  CompactList2<Rec> page_list;
+  for(ulen i : IndLim(list.len) )
+    {
+     auto &rec=list[i];
 
-  int ret=0;
+     Source src(Range(rec.path));
 
-  cur.apply( [&] (StrLen file_name,FileType file_type)
-                 {
-                  if( file_type==FileType_file && file_name.hasSuffix(".html"_c) )
-                    {
-                     MakeFileName path(input_dir_name,file_name);
+     PageParam param;
 
-                     SplitFullExt split(file_name);
+     param.name=rec.page_name;
 
-                     Source src(path.get());
+     param.up="content"_str;
 
-                     PageParam param;
+     if( i>0 ) param.prev=list[i-1].page_name+"#page"_c;
 
-                     param.name=split.name;
+     if( i+1<list.len ) param.next=list[i+1].page_name+"#page"_c;
 
-                     Convert convert(out,param);
+     Convert convert(out,param);
 
-                     if( !src.run(convert) )
-                       {
-                        Printf(Con,"@ #;\n",file_name);
+     if( !src.run(convert) )
+       {
+        Printf(Con,"@ #;\n",rec.file_name);
 
-                        ret=1;
-                       }
+        return 1;
+       }
 
-                     page_list.insLast(param.name,convert.getTitle());
-                    }
+     title[i]=convert.getTitle();
+    }
 
-                 } );
+  // 2
 
-  ulen ind=1;
+  for(ulen i : IndLim(list.len) )
+    {
+     auto &rec=list[i];
+     ulen ind=i+1;
 
-  page_list.apply( [&] (const Rec &rec)
-                       {
-                        Printf(out,"Text item#; = { { { #.q; , null , &link#; } } , null , & align_item } ;\n\n",ind,rec.title,ind);
+     Printf(out,"Text item#; = { { { #.q; , null , &link#; } } , null , & align_item } ;\n\n",ind,CutTitle(title[i]),ind);
 
-                        Printf(out,"Link link#; = { &#;##page } ;\n\n",ind,rec.name);
+     Printf(out,"Link link#; = { &#;##page } ;\n\n",ind,rec.page_name);
+    }
 
-                        ind++;
-
-                       } );
+  // 3
 
   Putobj(out,"TextList list = { {\n"_c);
 
-  for(ulen i=0,count=page_list.getCount(); i<count ;i++)
+  for(ulen i : IndLim(list.len) )
     {
      ulen ind=i+1;
 
@@ -100,7 +164,7 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
   Putobj(out,"} } ;\n\n"_c);
 
-  return ret;
+  return 0;
  }
 
 /* Test() */

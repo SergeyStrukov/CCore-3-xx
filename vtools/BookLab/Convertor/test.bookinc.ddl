@@ -14,7 +14,7 @@ Page page = { "CCore -> XXX" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , null , & page_Abort#page };
 
 Link link = { &page } ;
 
@@ -185,7 +185,7 @@ Page page = { "CCore -> Abort" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page#page , & page_AES#page };
 
 Link link = { &page } ;
 
@@ -336,7 +336,7 @@ Page page = { "CCore -> AES" ,
  ,{ & b11 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Abort#page , & page_Algon#page };
 
 Link link = { &page } ;
 
@@ -380,7 +380,7 @@ Page page = { "CCore -> Algon" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AES#page , & page_AntiSem#page };
 
 Link link = { &page } ;
 
@@ -748,7 +748,7 @@ Page page = { "CCore -> AntiSem" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b16 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Algon#page , & page_AnyCore_PlatformBase#page };
 
 Link link = { &page } ;
 
@@ -1457,7 +1457,7 @@ Page page = { "CCore -> AnyCore PlatformBase" ,
  ,{ & b29 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AntiSem#page , & page_AnyCore_Quick#page };
 
 Link link = { &page } ;
 
@@ -2188,7 +2188,7 @@ Page page = { "CCore -> AnyCore Quick" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AnyCore_PlatformBase#page , & page_AnyCore_SysAtomic#page };
 
 Link link = { &page } ;
 
@@ -2679,7 +2679,7 @@ Page page = { "CCore -> AnyCore SysAtomic" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AnyCore_Quick#page , & page_AnyPtr#page };
 
 Link link = { &page } ;
 
@@ -3204,7 +3204,7 @@ Page page = { "CCore -> AnyPtr" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AnyCore_SysAtomic#page , & page_ApplyToList#page };
 
 Link link = { &page } ;
 
@@ -3247,7 +3247,7 @@ Page page = { "CCore -> ApplyToList" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AnyPtr#page , & page_ApplyToRange#page };
 
 Link link = { &page } ;
 
@@ -3398,7 +3398,7 @@ Page page = { "CCore -> ApplyToRange" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ApplyToList#page , & page_APRTest#page };
 
 Link link = { &page } ;
 
@@ -3916,7 +3916,7 @@ Page page = { "CCore -> APRTest" ,
  ,{ & b24 , null , inner_text , outer_text , back_text }
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ApplyToRange#page , & page_Arrays#page };
 
 Link link = { &page } ;
 
@@ -8112,7 +8112,7 @@ Page page = { "CCore -> Arrays" ,
  ,{ & b169 , null , inner_text , outer_text , back_text }
  ,{ & b170 , null , inner_text , outer_text , back_text }
  ,{ & b171 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_APRTest#page , & page_AsyncBinaryFile#page };
 
 Link link = { &page } ;
 
@@ -8354,7 +8354,7 @@ Page page = { "CCore -> AsyncBinaryFile" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Arrays#page , & page_AsyncFileClients#page };
 
 Link link = { &page } ;
 
@@ -9485,7 +9485,7 @@ Page page = { "CCore -> AsyncFile Clients" ,
  ,{ & b47 , null , inner_text , outer_text , back_text }
  ,{ & b48 , null , inner_text , outer_text , back_text }
  ,{ & b49 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AsyncBinaryFile#page , & page_AsyncFileDevice#page };
 
 Link link = { &page } ;
 
@@ -9583,7 +9583,7 @@ Page page = { "CCore -> AsyncFileDevice" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AsyncFileClients#page , & page_AsyncFiles#page };
 
 Link link = { &page } ;
 
@@ -11101,7 +11101,7 @@ Page page = { "CCore -> Async Files" ,
  ,{ & b41 , null , inner_text , outer_text , back_text }
  ,{ & b42 , null , inner_text , outer_text , back_text }
  ,{ & b43 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AsyncFileDevice#page , & page_AsyncUDPDevice#page };
 
 Link link = { &page } ;
 
@@ -11438,7 +11438,7 @@ Page page = { "CCore -> (HCore) AsyncUDPDevice" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AsyncFiles#page , & page_Atomic#page };
 
 Link link = { &page } ;
 
@@ -11862,7 +11862,7 @@ Page page = { "CCore -> Atomic" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AsyncUDPDevice#page , & page_AttachmentHost#page };
 
 Link link = { &page } ;
 
@@ -12097,7 +12097,7 @@ Page page = { "CCore -> AttachmentHost" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Atomic#page , & page_AutoCast#page };
 
 Link link = { &page } ;
 
@@ -12140,7 +12140,7 @@ Page page = { "CCore -> AutoCast" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AttachmentHost#page , & page_AutoGlobal#page };
 
 Link link = { &page } ;
 
@@ -12259,7 +12259,7 @@ Page page = { "CCore -> AutoGlobal" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AutoCast#page , & page_BaseRangeAlgo#page };
 
 Link link = { &page } ;
 
@@ -12578,7 +12578,7 @@ Page page = { "CCore -> BaseRangeAlgo" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_AutoGlobal#page , & page_BestSearch#page };
 
 Link link = { &page } ;
 
@@ -12677,7 +12677,7 @@ Page page = { "CCore -> BestSearch" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BaseRangeAlgo#page , & page_BinaryFile#page };
 
 Link link = { &page } ;
 
@@ -12978,7 +12978,7 @@ Page page = { "CCore -> BinaryFile" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BestSearch#page , & page_BinarySearch#page };
 
 Link link = { &page } ;
 
@@ -13248,7 +13248,7 @@ Page page = { "CCore -> BinarySearch" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BinaryFile#page , & page_BinFileToRead#page };
 
 Link link = { &page } ;
 
@@ -13594,7 +13594,7 @@ Page page = { "CCore -> BinFileToRead" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b17 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BinarySearch#page , & page_BlockCipher#page };
 
 Link link = { &page } ;
 
@@ -13941,7 +13941,7 @@ Page page = { "CCore -> BlockCipher" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BinFileToRead#page , & page_BlockFifo#page };
 
 Link link = { &page } ;
 
@@ -14291,7 +14291,7 @@ Page page = { "CCore -> BlockFifo" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BlockCipher#page , & page_Bridge#page };
 
 Link link = { &page } ;
 
@@ -14492,7 +14492,7 @@ Page page = { "CCore -> Bridge" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_BlockFifo#page , & page_CancelPacketList#page };
 
 Link link = { &page } ;
 
@@ -15044,7 +15044,7 @@ Page page = { "CCore -> CancelPacketList" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Bridge#page , & page_CapString#page };
 
 Link link = { &page } ;
 
@@ -15101,7 +15101,7 @@ Page page = { "CCore -> CapString" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CancelPacketList#page , & page_CCoreGeneral#page };
 
 Link link = { &page } ;
 
@@ -15829,7 +15829,7 @@ Page page = { "CCore -> CCore General" ,
  ,{ & b31 , null , inner_text , outer_text , back_text }
  ,{ & b32 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b33 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CapString#page , & page_CharProp#page };
 
 Link link = { &page } ;
 
@@ -16500,7 +16500,7 @@ Page page = { "CCore -> Basic character properties" ,
  ,{ & b40 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b41 , null , inner_text , outer_text , back_text }
  ,{ & b42 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CCoreGeneral#page , & page_CharUtils#page };
 
 Link link = { &page } ;
 
@@ -16641,7 +16641,7 @@ Page page = { "CCore -> CharUtils" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CharProp#page , & page_CheckedData#page };
 
 Link link = { &page } ;
 
@@ -16784,7 +16784,7 @@ Page page = { "CCore -> CheckedData" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CharUtils#page , & page_Classification#page };
 
 Link link = { &page } ;
 
@@ -17615,7 +17615,7 @@ Page page = { "CCore -> Classification" ,
  ,{ & b60 , null , inner_text , outer_text , back_text }
  ,{ & b61 , null , inner_text , outer_text , back_text }
  ,{ & b62 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CheckedData#page , & page_CmdInput#page };
 
 Link link = { &page } ;
 
@@ -18145,7 +18145,7 @@ Page page = { "CCore -> CmdInput" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Classification#page , & page_Cmp#page };
 
 Link link = { &page } ;
 
@@ -18664,7 +18664,7 @@ Page page = { "CCore -> Cmp" ,
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CmdInput#page , & page_CommonIntAlgo#page };
 
 Link link = { &page } ;
 
@@ -18903,7 +18903,7 @@ Page page = { "CCore -> CommonIntAlgo" ,
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Cmp#page , & page_CompactLists#page };
 
 Link link = { &page } ;
 
@@ -19046,7 +19046,7 @@ Page page = { "CCore -> Compact lists" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CommonIntAlgo#page , & page_CompactMaps#page };
 
 Link link = { &page } ;
 
@@ -19177,7 +19177,7 @@ Page page = { "CCore -> Compact maps" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CompactLists#page , & page_CompactNodeAllocator#page };
 
 Link link = { &page } ;
 
@@ -19426,7 +19426,7 @@ Page page = { "CCore -> Compact node allocator" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CompactMaps#page , & page_CompletePacket#page };
 
 Link link = { &page } ;
 
@@ -19519,7 +19519,7 @@ Page page = { "CCore -> (XCore) CompletePacket" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CompactNodeAllocator#page , & page_CondLangLR1#page };
 
 Link link = { &page } ;
 
@@ -21479,7 +21479,7 @@ Page page = { "CCore -> CondLangLR1" ,
  ,{ & b49 , null , inner_text , outer_text , back_text }
  ,{ & b50 , null , inner_text , outer_text , back_text }
  ,{ & b51 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CompletePacket#page , & page_ConsoleInput#page };
 
 Link link = { &page } ;
 
@@ -22072,7 +22072,7 @@ Page page = { "CCore -> Console input" ,
  ,{ & b31 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b32 , null , inner_text , outer_text , back_text }
  ,{ & b33 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CondLangLR1#page , & page_ContainerLists#page };
 
 Link link = { &page } ;
 
@@ -23747,7 +23747,7 @@ Page page = { "CCore -> Container lists" ,
  ,{ & b78 , null , inner_text , outer_text , back_text }
  ,{ & b79 , null , inner_text , outer_text , back_text }
  ,{ & b80 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ConsoleInput#page , & page_Counters#page };
 
 Link link = { &page } ;
 
@@ -23940,7 +23940,7 @@ Page page = { "CCore -> Counters" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ContainerLists#page , & page_Crc#page };
 
 Link link = { &page } ;
 
@@ -24155,7 +24155,7 @@ Page page = { "CCore -> Crc" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Counters#page , & page_CreateAt#page };
 
 Link link = { &page } ;
 
@@ -24226,7 +24226,7 @@ Page page = { "CCore -> CreateAt" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Crc#page , & page_Crypton#page };
 
 Link link = { &page } ;
 
@@ -24269,7 +24269,7 @@ Page page = { "CCore -> Crypton" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_CreateAt#page , & page_DDL#page };
 
 Link link = { &page } ;
 
@@ -25489,7 +25489,7 @@ Page page = { "CCore -> DDL (v.2)" ,
  ,{ & b65 , null , inner_text , outer_text , back_text }
  ,{ & b66 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b67 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Crypton#page , & page_DDLEngine#page };
 
 Link link = { &page } ;
 
@@ -28026,7 +28026,7 @@ Page page = { "CCore -> DDLEngine" ,
  ,{ & b86 , null , inner_text , outer_text , back_text }
  ,{ & b87 , null , inner_text , outer_text , back_text }
  ,{ & b88 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DDL#page , & page_DDLShow#page };
 
 Link link = { &page } ;
 
@@ -28096,7 +28096,7 @@ Page page = { "CCore -> DDLShow" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DDLEngine#page , & page_DDLTypeSet#page };
 
 Link link = { &page } ;
 
@@ -28235,7 +28235,7 @@ Page page = { "CCore -> DDLTypeSet" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DDLShow#page , & page_DecodeFile#page };
 
 Link link = { &page } ;
 
@@ -28484,7 +28484,7 @@ Page page = { "CCore -> DecodeFile" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DDLTypeSet#page , & page_DefaultFileDevice#page };
 
 Link link = { &page } ;
 
@@ -28611,7 +28611,7 @@ Page page = { "CCore -> (XCore) DefaultFileDevice" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DecodeFile#page , & page_DefaultTimeout#page };
 
 Link link = { &page } ;
 
@@ -28645,7 +28645,7 @@ Page page = { "CCore -> DefaultTimeout" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DefaultFileDevice#page , & page_DeferCall#page };
 
 Link link = { &page } ;
 
@@ -30515,7 +30515,7 @@ Page page = { "CCore -> DeferCalls" ,
  ,{ & b75 , null , inner_text , outer_text , back_text }
  ,{ & b76 , null , inner_text , outer_text , back_text }
  ,{ & b77 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DefaultTimeout#page , & page_Deflate#page };
 
 Link link = { &page } ;
 
@@ -30773,7 +30773,7 @@ Page page = { "CCore -> Defalte" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DeferCall#page , & page_DestroyGuard#page };
 
 Link link = { &page } ;
 
@@ -30898,7 +30898,7 @@ Page page = { "CCore -> DestroyGuard" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Deflate#page , & page_DHExp#page };
 
 Link link = { &page } ;
 
@@ -31656,7 +31656,7 @@ Page page = { "CCore -> DHExp" ,
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DestroyGuard#page , & page_DirTreeRun#page };
 
 Link link = { &page } ;
 
@@ -31992,7 +31992,7 @@ Page page = { "CCore -> DirTreeRun" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DHExp#page , & page_DynObject#page };
 
 Link link = { &page } ;
 
@@ -32244,7 +32244,7 @@ Page page = { "CCore -> DynObject" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DirTreeRun#page , & page_EchoDevice#page };
 
 Link link = { &page } ;
 
@@ -32359,7 +32359,7 @@ Page page = { "CCore -> EchoDevice" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_DynObject#page , & page_EchoServer#page };
 
 Link link = { &page } ;
 
@@ -32434,7 +32434,7 @@ Page page = { "CCore -> EchoServer" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EchoDevice#page , & page_ElementPool#page };
 
 Link link = { &page } ;
 
@@ -33047,7 +33047,7 @@ Page page = { "CCore -> Element pool" ,
  ,{ & b27 , null , inner_text , outer_text , back_text }
  ,{ & b28 , null , inner_text , outer_text , back_text }
  ,{ & b29 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EchoServer#page , & page_ELF#page };
 
 Link link = { &page } ;
 
@@ -33529,7 +33529,7 @@ Page page = { "CCore -> ELF" ,
  ,{ & b24 , null , inner_text , outer_text , back_text }
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ElementPool#page , & page_EllipticPi#page };
 
 Link link = { &page } ;
 
@@ -33604,7 +33604,7 @@ Page page = { "CCore -> EllipticPi" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ELF#page , & page_ErrorText#page };
 
 Link link = { &page } ;
 
@@ -33721,7 +33721,7 @@ Page page = { "CCore -> ErrorText" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EllipticPi#page , & page_EthDevice#page };
 
 Link link = { &page } ;
 
@@ -34507,7 +34507,7 @@ Page page = { "CCore -> EthDevice" ,
  ,{ & b34 , null , inner_text , outer_text , back_text }
  ,{ & b35 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b36 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ErrorText#page , & page_EuclidRotate#page };
 
 Link link = { &page } ;
 
@@ -34676,7 +34676,7 @@ Page page = { "CCore -> EuclidRotate" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EthDevice#page , & page_Event#page };
 
 Link link = { &page } ;
 
@@ -34929,7 +34929,7 @@ Page page = { "CCore -> Event" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EuclidRotate#page , & page_EventRecord#page };
 
 Link link = { &page } ;
 
@@ -36922,7 +36922,7 @@ Page page = { "CCore -> Event Recording" ,
  ,{ & b75 , null , inner_text , outer_text , back_text }
  ,{ & b76 , null , inner_text , outer_text , back_text }
  ,{ & b77 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Event#page , & page_Exceptions#page };
 
 Link link = { &page } ;
 
@@ -37497,7 +37497,7 @@ Page page = { "CCore -> Exceptions" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_EventRecord#page , & page_ExceptionType#page };
 
 Link link = { &page } ;
 
@@ -37643,7 +37643,7 @@ Page page = { "CCore -> ExceptionType" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Exceptions#page , & page_exectest#page };
 
 Link link = { &page } ;
 
@@ -37689,7 +37689,7 @@ Page page = { "CCore -> exectest" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ExceptionType#page , & page_FastMutex#page };
 
 Link link = { &page } ;
 
@@ -37880,7 +37880,7 @@ Page page = { "CCore -> FastMutex" ,
  ,{ & b8 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_exectest#page , & page_FeedBuf#page };
 
 Link link = { &page } ;
 
@@ -38024,7 +38024,7 @@ Page page = { "CCore -> FeedBuf" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FastMutex#page , & page_Fifo#page };
 
 Link link = { &page } ;
 
@@ -38482,7 +38482,7 @@ Page page = { "CCore -> Fifo" ,
  ,{ & b19 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FeedBuf#page , & page_FileName#page };
 
 Link link = { &page } ;
 
@@ -38913,7 +38913,7 @@ Page page = { "CCore -> FileName" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
  ,{ & b24 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Fifo#page , & page_FileNameMatch#page };
 
 Link link = { &page } ;
 
@@ -39113,7 +39113,7 @@ Page page = { "CCore -> FileNameMatch" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FileName#page , & page_Files#page };
 
 Link link = { &page } ;
 
@@ -40516,7 +40516,7 @@ Page page = { "CCore -> Files" ,
  ,{ & b62 , null , inner_text , outer_text , back_text }
  ,{ & b63 , null , inner_text , outer_text , back_text }
  ,{ & b64 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FileNameMatch#page , & page_FileSystem#page };
 
 Link link = { &page } ;
 
@@ -40751,7 +40751,7 @@ Page page = { "CCore -> FileSystem" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Files#page , & page_FileToMem#page };
 
 Link link = { &page } ;
 
@@ -40987,7 +40987,7 @@ Page page = { "CCore -> FileToMem" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FileSystem#page , & page_FileToRead#page };
 
 Link link = { &page } ;
 
@@ -41059,7 +41059,7 @@ Page page = { "CCore -> FileToRead" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FileToMem#page , & page_ForcedTimeout#page };
 
 Link link = { &page } ;
 
@@ -41308,7 +41308,7 @@ Page page = { "CCore -> ForcedTimeout" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FileToRead#page , & page_Forget#page };
 
 Link link = { &page } ;
 
@@ -41461,7 +41461,7 @@ Page page = { "CCore -> Forget" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ForcedTimeout#page , & page_ForLoop#page };
 
 Link link = { &page } ;
 
@@ -41532,7 +41532,7 @@ Page page = { "CCore -> ForLoop" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Forget#page , & page_FuncTask#page };
 
 Link link = { &page } ;
 
@@ -41674,7 +41674,7 @@ Page page = { "CCore -> FuncTask" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ForLoop#page , & page_Function#page };
 
 Link link = { &page } ;
 
@@ -41956,7 +41956,7 @@ Page page = { "CCore -> Function" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FuncTask#page , & page_FunctorType#page };
 
 Link link = { &page } ;
 
@@ -42208,7 +42208,7 @@ Page page = { "CCore -> FunctorType" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Function#page , & page_Gadgets#page };
 
 Link link = { &page } ;
 
@@ -42268,7 +42268,7 @@ Page page = { "CCore -> Gadgets" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_FunctorType#page , & page_GCDConst#page };
 
 Link link = { &page } ;
 
@@ -42322,7 +42322,7 @@ Page page = { "CCore -> GCDConst" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Gadgets#page , & page_Handle#page };
 
 Link link = { &page } ;
 
@@ -42373,7 +42373,7 @@ Page page = { "CCore -> Handle" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_GCDConst#page , & page_HashFunction#page };
 
 Link link = { &page } ;
 
@@ -42856,7 +42856,7 @@ Page page = { "CCore -> HashFunction" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Handle#page , & page_HCoreTargets#page };
 
 Link link = { &page } ;
 
@@ -43532,7 +43532,7 @@ Page page = { "CCore -> HCore Targets" ,
  ,{ & b34 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b35 , null , inner_text , outer_text , back_text }
  ,{ & b36 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HashFunction#page , & page_HCore_PlanInit_CCore#page };
 
 Link link = { &page } ;
 
@@ -43590,7 +43590,7 @@ Page page = { "CCore -> HCore PlanInit_CCore" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCoreTargets#page , & page_HCore_SysAbort#page };
 
 Link link = { &page } ;
 
@@ -43651,7 +43651,7 @@ Page page = { "CCore -> HCore SysAbort" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_PlanInit_CCore#page , & page_HCore_SysCon#page };
 
 Link link = { &page } ;
 
@@ -43984,7 +43984,7 @@ Page page = { "CCore -> HCore SysCon" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysAbort#page , & page_HCore_SysError#page };
 
 Link link = { &page } ;
 
@@ -44187,7 +44187,7 @@ Page page = { "CCore -> HCore SysError" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysCon#page , & page_HCore_SysFile#page };
 
 Link link = { &page } ;
 
@@ -46448,7 +46448,7 @@ Page page = { "CCore -> HCore SysFile" ,
  ,{ & b42 , null , inner_text , outer_text , back_text }
  ,{ & b43 , null , inner_list , outer_list , back_list }
  ,{ & b44 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysError#page , & page_HCore_SysFileSystem#page };
 
 Link link = { &page } ;
 
@@ -47195,7 +47195,7 @@ Page page = { "CCore -> HCore SysFileSystem" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysFile#page , & page_HCore_SysLaunchPath#page };
 
 Link link = { &page } ;
 
@@ -47268,7 +47268,7 @@ Page page = { "CCore -> HCore SysLaunchPath" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysFileSystem#page , & page_HCore_SysMemPage#page };
 
 Link link = { &page } ;
 
@@ -47681,7 +47681,7 @@ Page page = { "CCore -> HCore SysMemPage" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysLaunchPath#page , & page_HCore_SysNet#page };
 
 Link link = { &page } ;
 
@@ -48951,7 +48951,7 @@ Page page = { "CCore -> HCore SysNet" ,
  ,{ & b28 , null , inner_list , outer_list , back_list }
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysMemPage#page , & page_HCore_SysPlanInit#page };
 
 Link link = { &page } ;
 
@@ -49072,7 +49072,7 @@ Page page = { "CCore -> HCore SysPlanInit" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_list , outer_list , back_list }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysNet#page , & page_HCore_SysProp#page };
 
 Link link = { &page } ;
 
@@ -49154,7 +49154,7 @@ Page page = { "CCore -> HCore SysProp" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysPlanInit#page , & page_HCore_SysSem#page };
 
 Link link = { &page } ;
 
@@ -49497,7 +49497,7 @@ Page page = { "CCore -> HCore SysSem" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysProp#page , & page_HCore_SysTask#page };
 
 Link link = { &page } ;
 
@@ -49737,7 +49737,7 @@ Page page = { "CCore -> HCore SysTask" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysSem#page , & page_HCore_SysTime#page };
 
 Link link = { &page } ;
 
@@ -49881,7 +49881,7 @@ Page page = { "CCore -> HCore SysTime" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysTask#page , & page_HCore_SysTlsSlot#page };
 
 Link link = { &page } ;
 
@@ -50098,7 +50098,7 @@ Page page = { "CCore -> HCore SysTlsSlot" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysTime#page , & page_HCore_SysWait#page };
 
 Link link = { &page } ;
 
@@ -50148,7 +50148,7 @@ Page page = { "CCore -> HCore SysWait" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysTlsSlot#page , & page_HeapEngine#page };
 
 Link link = { &page } ;
 
@@ -50833,7 +50833,7 @@ Page page = { "CCore -> HeapEngine" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HCore_SysWait#page , & page_Init#page };
 
 Link link = { &page } ;
 
@@ -51090,7 +51090,7 @@ Page page = { "CCore -> Init" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_HeapEngine#page , & page_InputUtils#page };
 
 Link link = { &page } ;
 
@@ -51368,7 +51368,7 @@ Page page = { "CCore -> InputUtils" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Init#page , & page_Installation#page };
 
 Link link = { &page } ;
 
@@ -52169,7 +52169,7 @@ Page page = { "CCore -> Installation" ,
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b32 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_InputUtils#page , & page_InstanceLock#page };
 
 Link link = { &page } ;
 
@@ -52305,7 +52305,7 @@ Page page = { "CCore -> InstanceLock" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Installation#page , & page_Integer#page };
 
 Link link = { &page } ;
 
@@ -55539,7 +55539,7 @@ Page page = { "CCore -> Integer" ,
  ,{ & b119 , null , inner_text , outer_text , back_text }
  ,{ & b120 , null , inner_text , outer_text , back_text }
  ,{ & b121 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_InstanceLock#page , & page_IntegerFastAlgo#page };
 
 Link link = { &page } ;
 
@@ -55615,7 +55615,7 @@ Page page = { "CCore -> IntegerFastAlgo" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Integer#page , & page_IntegerOctetBuilder#page };
 
 Link link = { &page } ;
 
@@ -55732,7 +55732,7 @@ Page page = { "CCore -> IntegerOctetBuilder" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_IntegerFastAlgo#page , & page_IntegerSlowAlgo#page };
 
 Link link = { &page } ;
 
@@ -55793,7 +55793,7 @@ Page page = { "CCore -> IntegerSlowAlgo" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_IntegerOctetBuilder#page , & page_InterfaceHost#page };
 
 Link link = { &page } ;
 
@@ -56127,7 +56127,7 @@ Page page = { "CCore -> InterfaceHost" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_IntegerSlowAlgo#page , & page_IntervalTree#page };
 
 Link link = { &page } ;
 
@@ -56350,7 +56350,7 @@ Page page = { "CCore -> IntervalTree" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_InterfaceHost#page , & page_Introduction#page };
 
 Link link = { &page } ;
 
@@ -58248,7 +58248,7 @@ Page page = { "CCore -> Introduction" ,
  ,{ & b46 , null , inner_text , outer_text , back_text }
  ,{ & b47 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b48 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_IntervalTree#page , & page_Job#page };
 
 Link link = { &page } ;
 
@@ -58752,7 +58752,7 @@ Page page = { "CCore -> Job" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Introduction#page , & page_Keywords#page };
 
 Link link = { &page } ;
 
@@ -58901,7 +58901,7 @@ Page page = { "CCore -> Keywords" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Job#page , & page_LangDataMap#page };
 
 Link link = { &page } ;
 
@@ -59343,7 +59343,7 @@ Page page = { "CCore -> LangDataMap" ,
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Keywords#page , & page_LaunchPath#page };
 
 Link link = { &page } ;
 
@@ -59442,7 +59442,7 @@ Page page = { "CCore -> LaunchPath" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_LangDataMap#page , & page_Len#page };
 
 Link link = { &page } ;
 
@@ -59906,7 +59906,7 @@ Page page = { "CCore -> Len" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_LaunchPath#page , & page_LineInput#page };
 
 Link link = { &page } ;
 
@@ -60022,7 +60022,7 @@ Page page = { "CCore -> LineInput" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Len#page , & page_Lists#page };
 
 Link link = { &page } ;
 
@@ -62800,7 +62800,7 @@ Page page = { "CCore -> Lists" ,
  ,{ & b134 , null , inner_text , outer_text , back_text }
  ,{ & b135 , null , inner_text , outer_text , back_text }
  ,{ & b136 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_LineInput#page , & page_Locked#page };
 
 Link link = { &page } ;
 
@@ -62881,7 +62881,7 @@ Page page = { "CCore -> Locked" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Lists#page , & page_LockObject#page };
 
 Link link = { &page } ;
 
@@ -62948,7 +62948,7 @@ Page page = { "CCore -> LockObject" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Locked#page , & page_LockUse#page };
 
 Link link = { &page } ;
 
@@ -63024,7 +63024,7 @@ Page page = { "CCore -> LockUse" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_LockObject#page , & page_Logging#page };
 
 Link link = { &page } ;
 
@@ -64505,7 +64505,7 @@ Page page = { "CCore -> Logging" ,
  ,{ & b52 , null , inner_text , outer_text , back_text }
  ,{ & b53 , null , inner_text , outer_text , back_text }
  ,{ & b54 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_LockUse#page , & page_MakeFileName#page };
 
 Link link = { &page } ;
 
@@ -64662,7 +64662,7 @@ Page page = { "CCore -> MakeFileName" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Logging#page , & page_MakeList#page };
 
 Link link = { &page } ;
 
@@ -64806,7 +64806,7 @@ Page page = { "CCore -> MakeList" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MakeFileName#page , & page_MakeString#page };
 
 Link link = { &page } ;
 
@@ -65062,7 +65062,7 @@ Page page = { "CCore -> MakeString" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MakeList#page , & page_Math#page };
 
 Link link = { &page } ;
 
@@ -65102,7 +65102,7 @@ Page page = { "CCore -> Math" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MakeString#page , & page_MD5#page };
 
 Link link = { &page } ;
 
@@ -65211,7 +65211,7 @@ Page page = { "CCore -> MD5" ,
  ,{ & b6 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Math#page , & page_MemAllocGuard#page };
 
 Link link = { &page } ;
 
@@ -65323,7 +65323,7 @@ Page page = { "CCore -> MemAllocGuard" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MD5#page , & page_MemoryManagement#page };
 
 Link link = { &page } ;
 
@@ -66927,7 +66927,7 @@ Page page = { "CCore -> Memory Management" ,
  ,{ & b55 , null , inner_text , outer_text , back_text }
  ,{ & b56 , null , inner_text , outer_text , back_text }
  ,{ & b57 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MemAllocGuard#page , & page_Meta#page };
 
 Link link = { &page } ;
 
@@ -68143,7 +68143,7 @@ Page page = { "CCore -> Meta" ,
  ,{ & b65 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b66 , null , inner_text , outer_text , back_text }
  ,{ & b67 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MemoryManagement#page , & page_MetaList#page };
 
 Link link = { &page } ;
 
@@ -68590,7 +68590,7 @@ Page page = { "CCore -> MetaList" ,
  ,{ & b27 , null , inner_text , outer_text , back_text }
  ,{ & b28 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b29 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Meta#page , & page_Metaphysics#page };
 
 Link link = { &page } ;
 
@@ -70298,7 +70298,7 @@ Page page = { "CCore -> Metaphisics" ,
  ,{ & b28 , null , inner_text , outer_text , back_text }
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MetaList#page , & page_ModEngine#page };
 
 Link link = { &page } ;
 
@@ -70633,7 +70633,7 @@ Page page = { "CCore -> ModEngine" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
  ,{ & b17 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Metaphysics#page , & page_Move#page };
 
 Link link = { &page } ;
 
@@ -71324,7 +71324,7 @@ Page page = { "CCore -> Move" ,
  ,{ & b18 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ModEngine#page , & page_MSec#page };
 
 Link link = { &page } ;
 
@@ -71427,7 +71427,7 @@ Page page = { "CCore -> MSec" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Move#page , & page_MultiEvent#page };
 
 Link link = { &page } ;
 
@@ -71637,7 +71637,7 @@ Page page = { "CCore -> MultiEvent" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MSec#page , & page_MultiSem#page };
 
 Link link = { &page } ;
 
@@ -71935,7 +71935,7 @@ Page page = { "CCore -> MultiSem" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MultiEvent#page , & page_MultiSignal#page };
 
 Link link = { &page } ;
 
@@ -72145,7 +72145,7 @@ Page page = { "CCore -> MultiSignals" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MultiSem#page , & page_Mutex#page };
 
 Link link = { &page } ;
 
@@ -72760,7 +72760,7 @@ Page page = { "CCore -> Mutex" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_MultiSignal#page , & page_NanoIPDevice#page };
 
 Link link = { &page } ;
 
@@ -74082,7 +74082,7 @@ Page page = { "CCore -> NanoIPDevice" ,
  ,{ & b69 , null , inner_text , outer_text , back_text }
  ,{ & b70 , null , inner_text , outer_text , back_text }
  ,{ & b71 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Mutex#page , & page_NanoIPDeviceEvents#page };
 
 Link link = { &page } ;
 
@@ -74121,7 +74121,7 @@ Page page = { "CCore -> NanoIPDevice events" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NanoIPDevice#page , & page_NanoPackets#page };
 
 Link link = { &page } ;
 
@@ -74842,7 +74842,7 @@ Page page = { "CCore -> NanoPackets" ,
  ,{ & b34 , null , inner_text , outer_text , back_text }
  ,{ & b35 , null , inner_text , outer_text , back_text }
  ,{ & b36 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NanoIPDeviceEvents#page , & page_NegBool#page };
 
 Link link = { &page } ;
 
@@ -74945,7 +74945,7 @@ Page page = { "CCore -> NegBool" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NanoPackets#page , & page_NetBase#page };
 
 Link link = { &page } ;
 
@@ -76301,7 +76301,7 @@ Page page = { "CCore -> NetBase" ,
  ,{ & b86 , null , inner_text , outer_text , back_text }
  ,{ & b87 , null , inner_text , outer_text , back_text }
  ,{ & b88 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NegBool#page , & page_NetFork#page };
 
 Link link = { &page } ;
 
@@ -76594,7 +76594,7 @@ Page page = { "CCore -> NetFork" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NetBase#page , & page_NewDelete#page };
 
 Link link = { &page } ;
 
@@ -76985,7 +76985,7 @@ Page page = { "CCore -> NewDelete" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
  ,{ & b17 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NetFork#page , & page_NoCopy#page };
 
 Link link = { &page } ;
 
@@ -77137,7 +77137,7 @@ Page page = { "CCore -> NoCopy" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NewDelete#page , & page_NodeAllocators#page };
 
 Link link = { &page } ;
 
@@ -77658,7 +77658,7 @@ Page page = { "CCore -> Node allocators" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
  ,{ & b24 , null , inner_text , outer_text , back_text }
  ,{ & b25 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NoCopy#page , & page_NoMutex#page };
 
 Link link = { &page } ;
 
@@ -77741,7 +77741,7 @@ Page page = { "CCore -> NoMutex" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NodeAllocators#page , & page_NoPrimeTest#page };
 
 Link link = { &page } ;
 
@@ -77870,7 +77870,7 @@ Page page = { "CCore -> NoPrimeTest" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NoMutex#page , & page_Nothing#page };
 
 Link link = { &page } ;
 
@@ -77948,7 +77948,7 @@ Page page = { "CCore -> Nothing" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NoPrimeTest#page , & page_NoThrowFlags#page };
 
 Link link = { &page } ;
 
@@ -78134,7 +78134,7 @@ Page page = { "CCore -> NoThrowFlags" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Nothing#page , & page_NullMovePtr#page };
 
 Link link = { &page } ;
 
@@ -78208,7 +78208,7 @@ Page page = { "CCore -> NullMovePtr" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NoThrowFlags#page , & page_ObjectDomain#page };
 
 Link link = { &page } ;
 
@@ -79951,7 +79951,7 @@ Page page = { "CCore -> Object Domain" ,
  ,{ & b69 , null , inner_text , outer_text , back_text }
  ,{ & b70 , null , inner_text , outer_text , back_text }
  ,{ & b71 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_NullMovePtr#page , & page_ObjectHost#page };
 
 Link link = { &page } ;
 
@@ -80772,7 +80772,7 @@ Page page = { "CCore -> ObjectHost" ,
  ,{ & b44 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b45 , null , inner_text , outer_text , back_text }
  ,{ & b46 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ObjectDomain#page , & page_ObjectHosting#page };
 
 Link link = { &page } ;
 
@@ -80909,7 +80909,7 @@ Page page = { "CCore -> ObjectHosting" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ObjectHost#page , & page_OpAddHelper#page };
 
 Link link = { &page } ;
 
@@ -80962,7 +80962,7 @@ Page page = { "CCore -> OpAddHelper" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ObjectHosting#page , & page_Optional#page };
 
 Link link = { &page } ;
 
@@ -81158,7 +81158,7 @@ Page page = { "CCore -> Optional" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_OpAddHelper#page , & page_OwnPtr#page };
 
 Link link = { &page } ;
 
@@ -81460,7 +81460,7 @@ Page page = { "CCore -> OwnPtr" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Optional#page , & page_Packet#page };
 
 Link link = { &page } ;
 
@@ -84759,7 +84759,7 @@ Page page = { "CCore -> Packet" ,
  ,{ & b133 , null , inner_text , outer_text , back_text }
  ,{ & b134 , null , inner_text , outer_text , back_text }
  ,{ & b135 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_OwnPtr#page , & page_PacketEndpoint#page };
 
 Link link = { &page } ;
 
@@ -85430,7 +85430,7 @@ Page page = { "CCore -> Packet endpoint" ,
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Packet#page , & page_PacketPool#page };
 
 Link link = { &page } ;
 
@@ -85851,7 +85851,7 @@ Page page = { "CCore -> PacketPool" ,
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PacketEndpoint#page , & page_PacketSet#page };
 
 Link link = { &page } ;
 
@@ -86260,7 +86260,7 @@ Page page = { "CCore -> PacketSet" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PacketPool#page , & page_ParserGen#page };
 
 Link link = { &page } ;
 
@@ -86892,7 +86892,7 @@ Page page = { "CCore -> ParserGen" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PacketSet#page , & page_Partition#page };
 
 Link link = { &page } ;
 
@@ -87022,7 +87022,7 @@ Page page = { "CCore -> Partition" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ParserGen#page , & page_Paths#page };
 
 Link link = { &page } ;
 
@@ -88284,7 +88284,7 @@ Page page = { "CCore -> Paths" ,
  ,{ & b62 , null , inner_text , outer_text , back_text }
  ,{ & b63 , null , inner_text , outer_text , back_text }
  ,{ & b64 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Partition#page , & page_PerTask#page };
 
 Link link = { &page } ;
 
@@ -88736,7 +88736,7 @@ Page page = { "CCore -> PerTask" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Paths#page , & page_PKE#page };
 
 Link link = { &page } ;
 
@@ -90071,7 +90071,7 @@ Page page = { "CCore -> PKE" ,
  ,{ & b50 , null , inner_text , outer_text , back_text }
  ,{ & b51 , null , inner_text , outer_text , back_text }
  ,{ & b52 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PerTask#page , & page_Place#page };
 
 Link link = { &page } ;
 
@@ -90312,7 +90312,7 @@ Page page = { "CCore -> Place" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PKE#page , & page_PlanInit#page };
 
 Link link = { &page } ;
 
@@ -90703,7 +90703,7 @@ Page page = { "CCore -> PlanInit" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Place#page , & page_PosSub#page };
 
 Link link = { &page } ;
 
@@ -90846,7 +90846,7 @@ Page page = { "CCore -> PosSub" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PlanInit#page , & page_Pow#page };
 
 Link link = { &page } ;
 
@@ -90923,7 +90923,7 @@ Page page = { "CCore -> Pow" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PosSub#page , & page_PretextFileToMem#page };
 
 Link link = { &page } ;
 
@@ -91128,7 +91128,7 @@ Page page = { "CCore -> PretextFileToMem" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Pow#page , & page_PrintAbort#page };
 
 Link link = { &page } ;
 
@@ -91173,7 +91173,7 @@ Page page = { "CCore -> PrintAbort" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PretextFileToMem#page , & page_PrintBits#page };
 
 Link link = { &page } ;
 
@@ -91259,7 +91259,7 @@ Page page = { "CCore -> PrintBits" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintAbort#page , & page_PrintDevice#page };
 
 Link link = { &page } ;
 
@@ -92416,7 +92416,7 @@ Page page = { "CCore -> Printing devices" ,
  ,{ & b49 , null , inner_text , outer_text , back_text }
  ,{ & b50 , null , inner_text , outer_text , back_text }
  ,{ & b51 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintBits#page , & page_PrintError#page };
 
 Link link = { &page } ;
 
@@ -92467,7 +92467,7 @@ Page page = { "CCore -> PrintError" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintDevice#page , & page_Printing#page };
 
 Link link = { &page } ;
 
@@ -94190,7 +94190,7 @@ Page page = { "CCore -> Printing" ,
  ,{ & b76 , null , inner_text , outer_text , back_text }
  ,{ & b77 , null , inner_text , outer_text , back_text }
  ,{ & b78 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintError#page , & page_PrintRatio#page };
 
 Link link = { &page } ;
 
@@ -94257,7 +94257,7 @@ Page page = { "CCore -> PrintRatio" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Printing#page , & page_PrintSet#page };
 
 Link link = { &page } ;
 
@@ -94343,7 +94343,7 @@ Page page = { "CCore -> PrintSet" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintRatio#page , & page_PrintStem#page };
 
 Link link = { &page } ;
 
@@ -94587,7 +94587,7 @@ Page page = { "CCore -> PrintStem" ,
  ,{ & b7 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintSet#page , & page_PrintTime#page };
 
 Link link = { &page } ;
 
@@ -94645,7 +94645,7 @@ Page page = { "CCore -> PrintTime" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintStem#page , & page_PrintTitle#page };
 
 Link link = { &page } ;
 
@@ -94718,7 +94718,7 @@ Page page = { "CCore -> PrintTitle" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintTime#page , & page_PSec#page };
 
 Link link = { &page } ;
 
@@ -96089,7 +96089,7 @@ Page page = { "CCore -> PSec" ,
  ,{ & b67 , null , inner_text , outer_text , back_text }
  ,{ & b68 , null , inner_text , outer_text , back_text }
  ,{ & b69 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PrintTitle#page , & page_PSecEchoServer#page };
 
 Link link = { &page } ;
 
@@ -96310,7 +96310,7 @@ Page page = { "CCore -> PSecEchoServer" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PSec#page , & page_PTP#page };
 
 Link link = { &page } ;
 
@@ -98410,7 +98410,7 @@ Page page = { "CCore -> PTP" ,
  ,{ & b75 , null , inner_text , outer_text , back_text }
  ,{ & b76 , null , inner_text , outer_text , back_text }
  ,{ & b77 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PSecEchoServer#page , & page_PTPBoot#page };
 
 Link link = { &page } ;
 
@@ -99057,7 +99057,7 @@ Page page = { "CCore -> PTP Boot" ,
  ,{ & b26 , null , inner_text , outer_text , back_text }
  ,{ & b27 , null , inner_text , outer_text , back_text }
  ,{ & b28 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTP#page , & page_PTPCilentDeviceEvents#page };
 
 Link link = { &page } ;
 
@@ -99130,7 +99130,7 @@ Page page = { "CCore -> PTP ClientDevice events" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPBoot#page , & page_PTPCon#page };
 
 Link link = { &page } ;
 
@@ -99825,7 +99825,7 @@ Page page = { "CCore -> PTP Console" ,
  ,{ & b33 , null , inner_text , outer_text , back_text }
  ,{ & b34 , null , inner_text , outer_text , back_text }
  ,{ & b35 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPCilentDeviceEvents#page , & page_PTPEchoServer#page };
 
 Link link = { &page } ;
 
@@ -99902,7 +99902,7 @@ Page page = { "CCore -> PTPEchoServer" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPCon#page , & page_PTPEchoTest#page };
 
 Link link = { &page } ;
 
@@ -100075,7 +100075,7 @@ Page page = { "CCore -> PTP echo test" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPEchoServer#page , & page_PTPHFS#page };
 
 Link link = { &page } ;
 
@@ -100895,7 +100895,7 @@ Page page = { "CCore -> HFS" ,
  ,{ & b45 , null , inner_text , outer_text , back_text }
  ,{ & b46 , null , inner_text , outer_text , back_text }
  ,{ & b47 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPEchoTest#page , & page_PTPSecureClient#page };
 
 Link link = { &page } ;
 
@@ -101441,7 +101441,7 @@ Page page = { "CCore -> PTPSecureClient" ,
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
  ,{ & b32 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPHFS#page , & page_PTPSecureServer#page };
 
 Link link = { &page } ;
 
@@ -101915,7 +101915,7 @@ Page page = { "CCore -> PTPSecureServer" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
  ,{ & b24 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPSecureClient#page , & page_PTPServer#page };
 
 Link link = { &page } ;
 
@@ -102091,7 +102091,7 @@ Page page = { "CCore -> PTPServer" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPSecureServer#page , & page_PTPServerDeviceEvents#page };
 
 Link link = { &page } ;
 
@@ -102164,7 +102164,7 @@ Page page = { "CCore -> PTP ServerDevice events" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPServer#page , & page_PTPService#page };
 
 Link link = { &page } ;
 
@@ -102461,7 +102461,7 @@ Page page = { "CCore -> PTP Service" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPServerDeviceEvents#page , & page_PTPSupport#page };
 
 Link link = { &page } ;
 
@@ -103113,7 +103113,7 @@ Page page = { "CCore -> PTP Support" ,
  ,{ & b30 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b31 , null , inner_text , outer_text , back_text }
  ,{ & b32 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPService#page , & page_PtrLen#page };
 
 Link link = { &page } ;
 
@@ -104686,7 +104686,7 @@ Page page = { "CCore -> PtrLen" ,
  ,{ & b61 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b62 , null , inner_text , outer_text , back_text }
  ,{ & b63 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PTPSupport#page , & page_PtrLenReverse#page };
 
 Link link = { &page } ;
 
@@ -105145,7 +105145,7 @@ Page page = { "CCore -> PtrLenReverse" ,
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
  ,{ & b27 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PtrLen#page , & page_PtrStepLen#page };
 
 Link link = { &page } ;
 
@@ -105412,7 +105412,7 @@ Page page = { "CCore -> PtrStepLen" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PtrLenReverse#page , & page_RadixHeap#page };
 
 Link link = { &page } ;
 
@@ -106347,7 +106347,7 @@ Page page = { "CCore -> RadixHeap" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_PtrStepLen#page , & page_Random#page };
 
 Link link = { &page } ;
 
@@ -107188,7 +107188,7 @@ Page page = { "CCore -> Random" ,
  ,{ & b30 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b31 , null , inner_text , outer_text , back_text }
  ,{ & b32 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_RadixHeap#page , & page_RangeDel#page };
 
 Link link = { &page } ;
 
@@ -107534,7 +107534,7 @@ Page page = { "CCore -> RangeDel" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Random#page , & page_RawFileToRead#page };
 
 Link link = { &page } ;
 
@@ -107753,7 +107753,7 @@ Page page = { "CCore -> RawFileToRead and AltFileToRead" ,
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_RangeDel#page , & page_RefObjectBase#page };
 
 Link link = { &page } ;
 
@@ -107875,7 +107875,7 @@ Page page = { "CCore -> RefObjectBase" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_RawFileToRead#page , & page_RefPtr#page };
 
 Link link = { &page } ;
 
@@ -108178,7 +108178,7 @@ Page page = { "CCore -> RefPtr" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_RefObjectBase#page , & page_Regen#page };
 
 Link link = { &page } ;
 
@@ -108912,7 +108912,7 @@ Page page = { "CCore -> Regen" ,
  ,{ & b24 , null , inner_text , outer_text , back_text }
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_RefPtr#page , & page_Replace#page };
 
 Link link = { &page } ;
 
@@ -109020,7 +109020,7 @@ Page page = { "CCore -> Replace" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Regen#page , & page_ResSem#page };
 
 Link link = { &page } ;
 
@@ -109438,7 +109438,7 @@ Page page = { "CCore -> ResSem" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Replace#page , & page_Rot#page };
 
 Link link = { &page } ;
 
@@ -109665,7 +109665,7 @@ Page page = { "CCore -> Rot" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ResSem#page , & page_SafeBuf#page };
 
 Link link = { &page } ;
 
@@ -109720,7 +109720,7 @@ Page page = { "CCore -> SafeBuf" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Rot#page , & page_SaveLoad#page };
 
 Link link = { &page } ;
 
@@ -110702,7 +110702,7 @@ Page page = { "CCore -> SaveLoad" ,
  ,{ & b44 , null , inner_text , outer_text , back_text }
  ,{ & b45 , null , inner_text , outer_text , back_text }
  ,{ & b46 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SafeBuf#page , & page_ScanBit#page };
 
 Link link = { &page } ;
 
@@ -111025,7 +111025,7 @@ Page page = { "CCore -> ScanBit" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SaveLoad#page , & page_ScanDevice#page };
 
 Link link = { &page } ;
 
@@ -111597,7 +111597,7 @@ Page page = { "CCore -> Scannig devices" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ScanBit#page , & page_Scanning#page };
 
 Link link = { &page } ;
 
@@ -113111,7 +113111,7 @@ Page page = { "CCore -> Scanning" ,
  ,{ & b54 , null , inner_text , outer_text , back_text }
  ,{ & b55 , null , inner_text , outer_text , back_text }
  ,{ & b56 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ScanDevice#page , & page_Scope#page };
 
 Link link = { &page } ;
 
@@ -113188,7 +113188,7 @@ Page page = { "CCore -> Scope" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Scanning#page , & page_ScopeGuard#page };
 
 Link link = { &page } ;
 
@@ -113249,7 +113249,7 @@ Page page = { "CCore -> ScopeGuard" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Scope#page , & page_Sem#page };
 
 Link link = { &page } ;
 
@@ -113606,7 +113606,7 @@ Page page = { "CCore -> Sem" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ScopeGuard#page , & page_SHA#page };
 
 Link link = { &page } ;
 
@@ -113738,7 +113738,7 @@ Page page = { "CCore -> SHA" ,
  ,{ & b8 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Sem#page , & page_Signal#page };
 
 Link link = { &page } ;
 
@@ -114142,7 +114142,7 @@ Page page = { "CCore -> Signals" ,
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b21 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SHA#page , & page_SimpleRotate#page };
 
 Link link = { &page } ;
 
@@ -114227,7 +114227,7 @@ Page page = { "CCore -> SimpleRotate" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Signal#page , & page_SingleBridge#page };
 
 Link link = { &page } ;
 
@@ -114406,7 +114406,7 @@ Page page = { "CCore -> SingleBridge" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SimpleRotate#page , & page_SingleEchoDevice#page };
 
 Link link = { &page } ;
 
@@ -114519,7 +114519,7 @@ Page page = { "CCore -> SingleEchoDevice" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SingleBridge#page , & page_SingleHost#page };
 
 Link link = { &page } ;
 
@@ -114888,7 +114888,7 @@ Page page = { "CCore -> SingleHost" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SingleEchoDevice#page , & page_SIntFunc#page };
 
 Link link = { &page } ;
 
@@ -115273,7 +115273,7 @@ Page page = { "CCore -> SIntFunc" ,
  ,{ & b15 , null , inner_text , outer_text , back_text }
  ,{ & b16 , null , inner_text , outer_text , back_text }
  ,{ & b17 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SingleHost#page , & page_SlowSem#page };
 
 Link link = { &page } ;
 
@@ -115348,7 +115348,7 @@ Page page = { "CCore -> SlowSem" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SIntFunc#page , & page_SmallPrimes#page };
 
 Link link = { &page } ;
 
@@ -115387,7 +115387,7 @@ Page page = { "CCore -> SmallPrimes" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SlowSem#page , & page_Sort#page };
 
 Link link = { &page } ;
 
@@ -116358,7 +116358,7 @@ Page page = { "CCore -> Sort" ,
  ,{ & b32 , null , inner_text , outer_text , back_text }
  ,{ & b33 , null , inner_text , outer_text , back_text }
  ,{ & b34 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SmallPrimes#page , & page_SortUnique#page };
 
 Link link = { &page } ;
 
@@ -116697,7 +116697,7 @@ Page page = { "CCore -> SortUnique" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Sort#page , & page_Space#page };
 
 Link link = { &page } ;
 
@@ -116719,7 +116719,7 @@ Page page = { "CCore -> Space" ,
 {
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SortUnique#page , & page_StartStop#page };
 
 Link link = { &page } ;
 
@@ -116920,7 +116920,7 @@ Page page = { "CCore -> StartStop" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Space#page , & page_StepEval#page };
 
 Link link = { &page } ;
 
@@ -117918,7 +117918,7 @@ Page page = { "CCore -> StepEval" ,
  ,{ & b20 , null , inner_text , outer_text , back_text }
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StartStop#page , & page_String#page };
 
 Link link = { &page } ;
 
@@ -118308,7 +118308,7 @@ Page page = { "CCore -> Strings" ,
  ,{ & b18 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StepEval#page , & page_StrKey#page };
 
 Link link = { &page } ;
 
@@ -118428,7 +118428,7 @@ Page page = { "CCore -> StrKey" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_String#page , & page_StrMap#page };
 
 Link link = { &page } ;
 
@@ -118709,7 +118709,7 @@ Page page = { "CCore -> StrMap" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StrKey#page , & page_StrParse#page };
 
 Link link = { &page } ;
 
@@ -119251,7 +119251,7 @@ Page page = { "CCore -> Simple string parsing" ,
  ,{ & b29 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b30 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StrMap#page , & page_StrToChar#page };
 
 Link link = { &page } ;
 
@@ -119335,7 +119335,7 @@ Page page = { "CCore -> StrToChar" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StrParse#page , & page_Swap#page };
 
 Link link = { &page } ;
 
@@ -119707,7 +119707,7 @@ Page page = { "CCore -> Swap" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_StrToChar#page , & page_Symbol#page };
 
 Link link = { &page } ;
 
@@ -120110,7 +120110,7 @@ Page page = { "CCore -> Symbol" ,
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Swap#page , & page_SymCount#page };
 
 Link link = { &page } ;
 
@@ -120277,7 +120277,7 @@ Page page = { "CCore -> SymCount" ,
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Symbol#page , & page_SymPart#page };
 
 Link link = { &page } ;
 
@@ -120376,7 +120376,7 @@ Page page = { "CCore -> SymPart" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SymCount#page , & page_Sync#page };
 
 Link link = { &page } ;
 
@@ -120691,7 +120691,7 @@ Page page = { "CCore -> Synchronization objects" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SymPart#page , & page_SysLog#page };
 
 Link link = { &page } ;
 
@@ -121173,7 +121173,7 @@ Page page = { "CCore -> (XCore) SysLog" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b24 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Sync#page , & page_Task#page };
 
 Link link = { &page } ;
 
@@ -122144,7 +122144,7 @@ Page page = { "CCore -> Tasks" ,
  ,{ & b21 , null , inner_text , outer_text , back_text }
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_SysLog#page , & page_TaskHeap#page };
 
 Link link = { &page } ;
 
@@ -122558,7 +122558,7 @@ Page page = { "CCore -> TaskHeap" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Task#page , & page_TaskMemStack#page };
 
 Link link = { &page } ;
 
@@ -123041,7 +123041,7 @@ Page page = { "CCore -> TaskMemStack" ,
  ,{ & b22 , null , inner_text , outer_text , back_text }
  ,{ & b23 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b24 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TaskHeap#page , & page_TaskMonitor#page };
 
 Link link = { &page } ;
 
@@ -123425,7 +123425,7 @@ Page page = { "CCore -> TaskMonitor" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TaskMemStack#page , & page_Taxonomy#page };
 
 Link link = { &page } ;
 
@@ -124760,7 +124760,7 @@ Page page = { "CCore -> Taxonomy of classes" ,
  ,{ & b59 , null , inner_text , outer_text , back_text }
  ,{ & b60 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b61 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TaskMonitor#page , & page_TextLabel#page };
 
 Link link = { &page } ;
 
@@ -125053,7 +125053,7 @@ Page page = { "CCore -> TextLabel" ,
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Taxonomy#page , & page_TextTools#page };
 
 Link link = { &page } ;
 
@@ -125557,7 +125557,7 @@ Page page = { "CCore -> Text tools" ,
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TextLabel#page , & page_Tick#page };
 
 Link link = { &page } ;
 
@@ -125896,7 +125896,7 @@ Page page = { "CCore -> TickCount and TickJob" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TextTools#page , & page_Ticker#page };
 
 Link link = { &page } ;
 
@@ -126150,7 +126150,7 @@ Page page = { "CCore -> Ticker and TimedTrigger" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Tick#page , & page_Timer#page };
 
 Link link = { &page } ;
 
@@ -126386,7 +126386,7 @@ Page page = { "CCore -> Timer" ,
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Ticker#page , & page_TimeScope#page };
 
 Link link = { &page } ;
 
@@ -126747,7 +126747,7 @@ Page page = { "CCore -> TimeScope" ,
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
  ,{ & b9 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Timer#page , & page_TlsSlot#page };
 
 Link link = { &page } ;
 
@@ -126913,7 +126913,7 @@ Page page = { "CCore -> TlsSlot" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TimeScope#page , & page_ToMemBase#page };
 
 Link link = { &page } ;
 
@@ -127023,7 +127023,7 @@ Page page = { "CCore -> ToMemBase" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TlsSlot#page , & page_tool_MakeString#page };
 
 Link link = { &page } ;
 
@@ -127092,7 +127092,7 @@ Page page = { "CCore -> MakeString" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_ToMemBase#page , & page_TreeMaps#page };
 
 Link link = { &page } ;
 
@@ -127930,7 +127930,7 @@ Page page = { "CCore -> Tree maps" ,
  ,{ & b36 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b37 , null , inner_text , outer_text , back_text }
  ,{ & b38 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_tool_MakeString#page , & page_Trees#page };
 
 Link link = { &page } ;
 
@@ -127959,7 +127959,7 @@ Page page = { "CCore -> Trees" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text_Files , outer_text_Files , back_text_Files }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TreeMaps#page , & page_Tuple#page };
 
 Link link = { &page } ;
 
@@ -128142,7 +128142,7 @@ Page page = { "CCore -> Tuple" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Trees#page , & page_TypeNumber#page };
 
 Link link = { &page } ;
 
@@ -128293,7 +128293,7 @@ Page page = { "CCore -> TypeNumber" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Tuple#page , & page_TypeSwitch#page };
 
 Link link = { &page } ;
 
@@ -128525,7 +128525,7 @@ Page page = { "CCore -> TypeSwitch" ,
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TypeNumber#page , & page_UDPDevice#page };
 
 Link link = { &page } ;
 
@@ -128845,7 +128845,7 @@ Page page = { "CCore -> (HCore) UDPDevice" ,
  ,{ & b17 , null , inner_text , outer_text , back_text }
  ,{ & b18 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b19 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_TypeSwitch#page , & page_UDPoint#page };
 
 Link link = { &page } ;
 
@@ -129072,7 +129072,7 @@ Page page = { "CCore -> UDPoint" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UDPDevice#page , & page_UIntFunc#page };
 
 Link link = { &page } ;
 
@@ -130008,7 +130008,7 @@ Page page = { "CCore -> UIntFunc" ,
  ,{ & b46 , null , inner_text , outer_text , back_text }
  ,{ & b47 , null , inner_text , outer_text , back_text }
  ,{ & b48 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UDPoint#page , & page_UIntSat#page };
 
 Link link = { &page } ;
 
@@ -130229,7 +130229,7 @@ Page page = { "CCore -> UIntSat" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UIntFunc#page , & page_UIntSlowMulAlgo#page };
 
 Link link = { &page } ;
 
@@ -130674,7 +130674,7 @@ Page page = { "CCore -> Unsigned multiplication and division" ,
  ,{ & b11 , null , inner_text , outer_text , back_text }
  ,{ & b12 , null , inner_text , outer_text , back_text }
  ,{ & b13 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UIntSat#page , & page_UIntSplit#page };
 
 Link link = { &page } ;
 
@@ -130828,7 +130828,7 @@ Page page = { "CCore -> UIntSplit" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UIntSlowMulAlgo#page , & page_Unid#page };
 
 Link link = { &page } ;
 
@@ -130980,7 +130980,7 @@ Page page = { "CCore -> Unid" ,
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UIntSplit#page , & page_Utf8#page };
 
 Link link = { &page } ;
 
@@ -131617,7 +131617,7 @@ Page page = { "CCore -> Utf8" ,
  ,{ & b29 , null , inner_text , outer_text , back_text }
  ,{ & b30 , null , inner_text , outer_text , back_text }
  ,{ & b31 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Unid#page , & page_UtilFunc#page };
 
 Link link = { &page } ;
 
@@ -132243,7 +132243,7 @@ Page page = { "CCore -> UtilFunc" ,
  ,{ & b36 , null , inner_text , outer_text , back_text }
  ,{ & b37 , null , inner_text , outer_text , back_text }
  ,{ & b38 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Utf8#page , & page_UtilVolume#page };
 
 Link link = { &page } ;
 
@@ -132369,7 +132369,7 @@ Page page = { "CCore -> Volume" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UtilFunc#page , & page_Volume#page };
 
 Link link = { &page } ;
 
@@ -132584,7 +132584,7 @@ Page page = { "CCore -> Volume" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_h4 , outer_h4 , back_h4 }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_UtilVolume#page , & page_XCoreConsole#page };
 
 Link link = { &page } ;
 
@@ -133376,7 +133376,7 @@ Page page = { "CCore -> XCore console" ,
  ,{ & b25 , null , inner_text , outer_text , back_text }
  ,{ & b26 , null , inner_text , outer_text , back_text }
  ,{ & b27 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_Volume#page , & page_XCoreTargets#page };
 
 Link link = { &page } ;
 
@@ -134043,7 +134043,7 @@ Page page = { "CCore -> XCore Targets" ,
  ,{ & b32 , null , inner_text , outer_text , back_text }
  ,{ & b33 , null , inner_text , outer_text , back_text }
  ,{ & b34 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCoreConsole#page , & page_XCoreTaskEvents#page };
 
 Link link = { &page } ;
 
@@ -135671,7 +135671,7 @@ Page page = { "CCore -> XCore task events" ,
  ,{ & b87 , null , inner_text , outer_text , back_text }
  ,{ & b88 , null , inner_text , outer_text , back_text }
  ,{ & b89 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCoreTargets#page , & page_XCore_atexit#page };
 
 Link link = { &page } ;
 
@@ -135791,7 +135791,7 @@ Page page = { "CCore -> XCore atexit" ,
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
  ,{ & b5 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCoreTaskEvents#page , & page_XCore_BinaryFile#page };
 
 Link link = { &page } ;
 
@@ -135844,7 +135844,7 @@ Page page = { "CCore -> (XCore) BinaryFile" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_atexit#page , & page_XCore_CBase#page };
 
 Link link = { &page } ;
 
@@ -136180,7 +136180,7 @@ Page page = { "CCore -> XCore CBase" ,
  ,{ & b18 , null , inner_text , outer_text , back_text }
  ,{ & b19 , null , inner_text , outer_text , back_text }
  ,{ & b20 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_BinaryFile#page , & page_XCore_DevInt#page };
 
 Link link = { &page } ;
 
@@ -136360,7 +136360,7 @@ Page page = { "CCore -> XCore DevInt" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_CBase#page , & page_XCore_DevIntHandle#page };
 
 Link link = { &page } ;
 
@@ -136746,7 +136746,7 @@ Page page = { "CCore -> XCore DevIntHandle" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_DevInt#page , & page_XCore_DevPlanInit#page };
 
 Link link = { &page } ;
 
@@ -136839,7 +136839,7 @@ Page page = { "CCore -> XCore DevPlanInit" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_DevIntHandle#page , & page_XCore_DevTick#page };
 
 Link link = { &page } ;
 
@@ -136904,7 +136904,7 @@ Page page = { "CCore -> XCore DevTick" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_DevPlanInit#page , & page_XCore_DevWaitForInterrupt#page };
 
 Link link = { &page } ;
 
@@ -136978,7 +136978,7 @@ Page page = { "CCore -> XCore DevWaitForInterrupt" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_DevTick#page , & page_XCore_FileToMem#page };
 
 Link link = { &page } ;
 
@@ -137034,7 +137034,7 @@ Page page = { "CCore -> (XCore) FileToMem" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_DevWaitForInterrupt#page , & page_XCore_gcc#page };
 
 Link link = { &page } ;
 
@@ -137917,7 +137917,7 @@ Page page = { "CCore -> XCore gcc" ,
  ,{ & b23 , null , inner_text , outer_text , back_text }
  ,{ & b24 , null , inner_text , outer_text , back_text }
  ,{ & b25 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_FileToMem#page , & page_XCore_PlanInit_CCore#page };
 
 Link link = { &page } ;
 
@@ -137965,7 +137965,7 @@ Page page = { "CCore -> XCore PlanInit_CCore" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_gcc#page , & page_XCore_PlatformBase#page };
 
 Link link = { &page } ;
 
@@ -138033,7 +138033,7 @@ Page page = { "CCore -> XCore PlatformBase" ,
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
  ,{ & b4 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_PlanInit_CCore#page , & page_XCore_RawFileToRead#page };
 
 Link link = { &page } ;
 
@@ -138085,7 +138085,7 @@ Page page = { "CCore -> (XCore) RawFileToRead" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_PlatformBase#page , & page_XCore_STD#page };
 
 Link link = { &page } ;
 
@@ -139358,7 +139358,7 @@ Page page = { "CCore -> XCore target STD implementation" ,
  ,{ & b48 , null , inner_text , outer_text , back_text }
  ,{ & b49 , null , inner_text , outer_text , back_text }
  ,{ & b50 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_RawFileToRead#page , & page_XCore_stdinit#page };
 
 Link link = { &page } ;
 
@@ -139623,7 +139623,7 @@ Page page = { "CCore -> XCore __std_init" ,
  ,{ & b5 , null , inner_text , outer_text , back_text }
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_STD#page , & page_XCore_SysAbort#page };
 
 Link link = { &page } ;
 
@@ -139720,7 +139720,7 @@ Page page = { "CCore -> XCore SysAbort" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_stdinit#page , & page_XCore_SysCon#page };
 
 Link link = { &page } ;
 
@@ -140005,7 +140005,7 @@ Page page = { "CCore -> XCore SysCon" ,
  ,{ & b9 , null , inner_text , outer_text , back_text }
  ,{ & b10 , null , inner_text , outer_text , back_text }
  ,{ & b11 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_SysAbort#page , & page_XCore_SysMemSpace#page };
 
 Link link = { &page } ;
 
@@ -140167,7 +140167,7 @@ Page page = { "CCore -> XCore SysMemSpace" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_SysCon#page , & page_XCore_SysPlanInit#page };
 
 Link link = { &page } ;
 
@@ -140212,7 +140212,7 @@ Page page = { "CCore -> XCore SysPlanInit" ,
  { & b0 , null , inner_h2 , outer_h2 , back_h2 }
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_SysMemSpace#page , & page_XCore_sysroot#page };
 
 Link link = { &page } ;
 
@@ -140419,7 +140419,7 @@ Page page = { "CCore -> XCore sysroot" ,
  ,{ & b1 , null , inner_text , outer_text , back_text }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_SysPlanInit#page , & page_XCore_SysTime#page };
 
 Link link = { &page } ;
 
@@ -140739,7 +140739,7 @@ Page page = { "CCore -> XCore SysTime" ,
  ,{ & b13 , null , inner_text , outer_text , back_text }
  ,{ & b14 , null , inner_text , outer_text , back_text }
  ,{ & b15 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_sysroot#page , & page_XCore_TaskContext#page };
 
 Link link = { &page } ;
 
@@ -141124,1261 +141124,1261 @@ Page page = { "CCore -> XCore TaskContext" ,
  ,{ & b6 , null , inner_text , outer_text , back_text }
  ,{ & b7 , null , inner_text , outer_text , back_text }
  ,{ & b8 , null , inner_text , outer_text , back_text }
-} , NoColor , NoColor , null , null , null };
+} , NoColor , NoColor , & content , & page_XCore_SysTime#page , null };
 
 Link link = { &page } ;
 
 }
 
-Text item1 = { { { "CCore -> XXX" , null , &link1 } } , null , & align_item } ;
+Text item1 = { { { "XXX" , null , &link1 } } , null , & align_item } ;
 
 Link link1 = { &page#page } ;
 
-Text item2 = { { { "CCore -> Abort" , null , &link2 } } , null , & align_item } ;
+Text item2 = { { { "Abort" , null , &link2 } } , null , & align_item } ;
 
 Link link2 = { &page_Abort#page } ;
 
-Text item3 = { { { "CCore -> AES" , null , &link3 } } , null , & align_item } ;
+Text item3 = { { { "AES" , null , &link3 } } , null , & align_item } ;
 
 Link link3 = { &page_AES#page } ;
 
-Text item4 = { { { "CCore -> Algon" , null , &link4 } } , null , & align_item } ;
+Text item4 = { { { "Algon" , null , &link4 } } , null , & align_item } ;
 
 Link link4 = { &page_Algon#page } ;
 
-Text item5 = { { { "CCore -> AntiSem" , null , &link5 } } , null , & align_item } ;
+Text item5 = { { { "AntiSem" , null , &link5 } } , null , & align_item } ;
 
 Link link5 = { &page_AntiSem#page } ;
 
-Text item6 = { { { "CCore -> AnyCore PlatformBase" , null , &link6 } } , null , & align_item } ;
+Text item6 = { { { "AnyCore PlatformBase" , null , &link6 } } , null , & align_item } ;
 
 Link link6 = { &page_AnyCore_PlatformBase#page } ;
 
-Text item7 = { { { "CCore -> AnyCore Quick" , null , &link7 } } , null , & align_item } ;
+Text item7 = { { { "AnyCore Quick" , null , &link7 } } , null , & align_item } ;
 
 Link link7 = { &page_AnyCore_Quick#page } ;
 
-Text item8 = { { { "CCore -> AnyCore SysAtomic" , null , &link8 } } , null , & align_item } ;
+Text item8 = { { { "AnyCore SysAtomic" , null , &link8 } } , null , & align_item } ;
 
 Link link8 = { &page_AnyCore_SysAtomic#page } ;
 
-Text item9 = { { { "CCore -> AnyPtr" , null , &link9 } } , null , & align_item } ;
+Text item9 = { { { "AnyPtr" , null , &link9 } } , null , & align_item } ;
 
 Link link9 = { &page_AnyPtr#page } ;
 
-Text item10 = { { { "CCore -> ApplyToList" , null , &link10 } } , null , & align_item } ;
+Text item10 = { { { "ApplyToList" , null , &link10 } } , null , & align_item } ;
 
 Link link10 = { &page_ApplyToList#page } ;
 
-Text item11 = { { { "CCore -> ApplyToRange" , null , &link11 } } , null , & align_item } ;
+Text item11 = { { { "ApplyToRange" , null , &link11 } } , null , & align_item } ;
 
 Link link11 = { &page_ApplyToRange#page } ;
 
-Text item12 = { { { "CCore -> APRTest" , null , &link12 } } , null , & align_item } ;
+Text item12 = { { { "APRTest" , null , &link12 } } , null , & align_item } ;
 
 Link link12 = { &page_APRTest#page } ;
 
-Text item13 = { { { "CCore -> Arrays" , null , &link13 } } , null , & align_item } ;
+Text item13 = { { { "Arrays" , null , &link13 } } , null , & align_item } ;
 
 Link link13 = { &page_Arrays#page } ;
 
-Text item14 = { { { "CCore -> AsyncBinaryFile" , null , &link14 } } , null , & align_item } ;
+Text item14 = { { { "AsyncBinaryFile" , null , &link14 } } , null , & align_item } ;
 
 Link link14 = { &page_AsyncBinaryFile#page } ;
 
-Text item15 = { { { "CCore -> AsyncFile Clients" , null , &link15 } } , null , & align_item } ;
+Text item15 = { { { "AsyncFile Clients" , null , &link15 } } , null , & align_item } ;
 
 Link link15 = { &page_AsyncFileClients#page } ;
 
-Text item16 = { { { "CCore -> AsyncFileDevice" , null , &link16 } } , null , & align_item } ;
+Text item16 = { { { "AsyncFileDevice" , null , &link16 } } , null , & align_item } ;
 
 Link link16 = { &page_AsyncFileDevice#page } ;
 
-Text item17 = { { { "CCore -> Async Files" , null , &link17 } } , null , & align_item } ;
+Text item17 = { { { "Async Files" , null , &link17 } } , null , & align_item } ;
 
 Link link17 = { &page_AsyncFiles#page } ;
 
-Text item18 = { { { "CCore -> (HCore) AsyncUDPDevice" , null , &link18 } } , null , & align_item } ;
+Text item18 = { { { "(HCore) AsyncUDPDevice" , null , &link18 } } , null , & align_item } ;
 
 Link link18 = { &page_AsyncUDPDevice#page } ;
 
-Text item19 = { { { "CCore -> Atomic" , null , &link19 } } , null , & align_item } ;
+Text item19 = { { { "Atomic" , null , &link19 } } , null , & align_item } ;
 
 Link link19 = { &page_Atomic#page } ;
 
-Text item20 = { { { "CCore -> AttachmentHost" , null , &link20 } } , null , & align_item } ;
+Text item20 = { { { "AttachmentHost" , null , &link20 } } , null , & align_item } ;
 
 Link link20 = { &page_AttachmentHost#page } ;
 
-Text item21 = { { { "CCore -> AutoCast" , null , &link21 } } , null , & align_item } ;
+Text item21 = { { { "AutoCast" , null , &link21 } } , null , & align_item } ;
 
 Link link21 = { &page_AutoCast#page } ;
 
-Text item22 = { { { "CCore -> AutoGlobal" , null , &link22 } } , null , & align_item } ;
+Text item22 = { { { "AutoGlobal" , null , &link22 } } , null , & align_item } ;
 
 Link link22 = { &page_AutoGlobal#page } ;
 
-Text item23 = { { { "CCore -> BaseRangeAlgo" , null , &link23 } } , null , & align_item } ;
+Text item23 = { { { "BaseRangeAlgo" , null , &link23 } } , null , & align_item } ;
 
 Link link23 = { &page_BaseRangeAlgo#page } ;
 
-Text item24 = { { { "CCore -> BestSearch" , null , &link24 } } , null , & align_item } ;
+Text item24 = { { { "BestSearch" , null , &link24 } } , null , & align_item } ;
 
 Link link24 = { &page_BestSearch#page } ;
 
-Text item25 = { { { "CCore -> BinaryFile" , null , &link25 } } , null , & align_item } ;
+Text item25 = { { { "BinaryFile" , null , &link25 } } , null , & align_item } ;
 
 Link link25 = { &page_BinaryFile#page } ;
 
-Text item26 = { { { "CCore -> BinarySearch" , null , &link26 } } , null , & align_item } ;
+Text item26 = { { { "BinarySearch" , null , &link26 } } , null , & align_item } ;
 
 Link link26 = { &page_BinarySearch#page } ;
 
-Text item27 = { { { "CCore -> BinFileToRead" , null , &link27 } } , null , & align_item } ;
+Text item27 = { { { "BinFileToRead" , null , &link27 } } , null , & align_item } ;
 
 Link link27 = { &page_BinFileToRead#page } ;
 
-Text item28 = { { { "CCore -> BlockCipher" , null , &link28 } } , null , & align_item } ;
+Text item28 = { { { "BlockCipher" , null , &link28 } } , null , & align_item } ;
 
 Link link28 = { &page_BlockCipher#page } ;
 
-Text item29 = { { { "CCore -> BlockFifo" , null , &link29 } } , null , & align_item } ;
+Text item29 = { { { "BlockFifo" , null , &link29 } } , null , & align_item } ;
 
 Link link29 = { &page_BlockFifo#page } ;
 
-Text item30 = { { { "CCore -> Bridge" , null , &link30 } } , null , & align_item } ;
+Text item30 = { { { "Bridge" , null , &link30 } } , null , & align_item } ;
 
 Link link30 = { &page_Bridge#page } ;
 
-Text item31 = { { { "CCore -> CancelPacketList" , null , &link31 } } , null , & align_item } ;
+Text item31 = { { { "CancelPacketList" , null , &link31 } } , null , & align_item } ;
 
 Link link31 = { &page_CancelPacketList#page } ;
 
-Text item32 = { { { "CCore -> CapString" , null , &link32 } } , null , & align_item } ;
+Text item32 = { { { "CapString" , null , &link32 } } , null , & align_item } ;
 
 Link link32 = { &page_CapString#page } ;
 
-Text item33 = { { { "CCore -> CCore General" , null , &link33 } } , null , & align_item } ;
+Text item33 = { { { "CCore General" , null , &link33 } } , null , & align_item } ;
 
 Link link33 = { &page_CCoreGeneral#page } ;
 
-Text item34 = { { { "CCore -> Basic character properties" , null , &link34 } } , null , & align_item } ;
+Text item34 = { { { "Basic character properties" , null , &link34 } } , null , & align_item } ;
 
 Link link34 = { &page_CharProp#page } ;
 
-Text item35 = { { { "CCore -> CharUtils" , null , &link35 } } , null , & align_item } ;
+Text item35 = { { { "CharUtils" , null , &link35 } } , null , & align_item } ;
 
 Link link35 = { &page_CharUtils#page } ;
 
-Text item36 = { { { "CCore -> CheckedData" , null , &link36 } } , null , & align_item } ;
+Text item36 = { { { "CheckedData" , null , &link36 } } , null , & align_item } ;
 
 Link link36 = { &page_CheckedData#page } ;
 
-Text item37 = { { { "CCore -> Classification" , null , &link37 } } , null , & align_item } ;
+Text item37 = { { { "Classification" , null , &link37 } } , null , & align_item } ;
 
 Link link37 = { &page_Classification#page } ;
 
-Text item38 = { { { "CCore -> CmdInput" , null , &link38 } } , null , & align_item } ;
+Text item38 = { { { "CmdInput" , null , &link38 } } , null , & align_item } ;
 
 Link link38 = { &page_CmdInput#page } ;
 
-Text item39 = { { { "CCore -> Cmp" , null , &link39 } } , null , & align_item } ;
+Text item39 = { { { "Cmp" , null , &link39 } } , null , & align_item } ;
 
 Link link39 = { &page_Cmp#page } ;
 
-Text item40 = { { { "CCore -> CommonIntAlgo" , null , &link40 } } , null , & align_item } ;
+Text item40 = { { { "CommonIntAlgo" , null , &link40 } } , null , & align_item } ;
 
 Link link40 = { &page_CommonIntAlgo#page } ;
 
-Text item41 = { { { "CCore -> Compact lists" , null , &link41 } } , null , & align_item } ;
+Text item41 = { { { "Compact lists" , null , &link41 } } , null , & align_item } ;
 
 Link link41 = { &page_CompactLists#page } ;
 
-Text item42 = { { { "CCore -> Compact maps" , null , &link42 } } , null , & align_item } ;
+Text item42 = { { { "Compact maps" , null , &link42 } } , null , & align_item } ;
 
 Link link42 = { &page_CompactMaps#page } ;
 
-Text item43 = { { { "CCore -> Compact node allocator" , null , &link43 } } , null , & align_item } ;
+Text item43 = { { { "Compact node allocator" , null , &link43 } } , null , & align_item } ;
 
 Link link43 = { &page_CompactNodeAllocator#page } ;
 
-Text item44 = { { { "CCore -> (XCore) CompletePacket" , null , &link44 } } , null , & align_item } ;
+Text item44 = { { { "(XCore) CompletePacket" , null , &link44 } } , null , & align_item } ;
 
 Link link44 = { &page_CompletePacket#page } ;
 
-Text item45 = { { { "CCore -> CondLangLR1" , null , &link45 } } , null , & align_item } ;
+Text item45 = { { { "CondLangLR1" , null , &link45 } } , null , & align_item } ;
 
 Link link45 = { &page_CondLangLR1#page } ;
 
-Text item46 = { { { "CCore -> Console input" , null , &link46 } } , null , & align_item } ;
+Text item46 = { { { "Console input" , null , &link46 } } , null , & align_item } ;
 
 Link link46 = { &page_ConsoleInput#page } ;
 
-Text item47 = { { { "CCore -> Container lists" , null , &link47 } } , null , & align_item } ;
+Text item47 = { { { "Container lists" , null , &link47 } } , null , & align_item } ;
 
 Link link47 = { &page_ContainerLists#page } ;
 
-Text item48 = { { { "CCore -> Counters" , null , &link48 } } , null , & align_item } ;
+Text item48 = { { { "Counters" , null , &link48 } } , null , & align_item } ;
 
 Link link48 = { &page_Counters#page } ;
 
-Text item49 = { { { "CCore -> Crc" , null , &link49 } } , null , & align_item } ;
+Text item49 = { { { "Crc" , null , &link49 } } , null , & align_item } ;
 
 Link link49 = { &page_Crc#page } ;
 
-Text item50 = { { { "CCore -> CreateAt" , null , &link50 } } , null , & align_item } ;
+Text item50 = { { { "CreateAt" , null , &link50 } } , null , & align_item } ;
 
 Link link50 = { &page_CreateAt#page } ;
 
-Text item51 = { { { "CCore -> Crypton" , null , &link51 } } , null , & align_item } ;
+Text item51 = { { { "Crypton" , null , &link51 } } , null , & align_item } ;
 
 Link link51 = { &page_Crypton#page } ;
 
-Text item52 = { { { "CCore -> DDL (v.2)" , null , &link52 } } , null , & align_item } ;
+Text item52 = { { { "DDL (v.2)" , null , &link52 } } , null , & align_item } ;
 
 Link link52 = { &page_DDL#page } ;
 
-Text item53 = { { { "CCore -> DDLEngine" , null , &link53 } } , null , & align_item } ;
+Text item53 = { { { "DDLEngine" , null , &link53 } } , null , & align_item } ;
 
 Link link53 = { &page_DDLEngine#page } ;
 
-Text item54 = { { { "CCore -> DDLShow" , null , &link54 } } , null , & align_item } ;
+Text item54 = { { { "DDLShow" , null , &link54 } } , null , & align_item } ;
 
 Link link54 = { &page_DDLShow#page } ;
 
-Text item55 = { { { "CCore -> DDLTypeSet" , null , &link55 } } , null , & align_item } ;
+Text item55 = { { { "DDLTypeSet" , null , &link55 } } , null , & align_item } ;
 
 Link link55 = { &page_DDLTypeSet#page } ;
 
-Text item56 = { { { "CCore -> DecodeFile" , null , &link56 } } , null , & align_item } ;
+Text item56 = { { { "DecodeFile" , null , &link56 } } , null , & align_item } ;
 
 Link link56 = { &page_DecodeFile#page } ;
 
-Text item57 = { { { "CCore -> (XCore) DefaultFileDevice" , null , &link57 } } , null , & align_item } ;
+Text item57 = { { { "(XCore) DefaultFileDevice" , null , &link57 } } , null , & align_item } ;
 
 Link link57 = { &page_DefaultFileDevice#page } ;
 
-Text item58 = { { { "CCore -> DefaultTimeout" , null , &link58 } } , null , & align_item } ;
+Text item58 = { { { "DefaultTimeout" , null , &link58 } } , null , & align_item } ;
 
 Link link58 = { &page_DefaultTimeout#page } ;
 
-Text item59 = { { { "CCore -> DeferCalls" , null , &link59 } } , null , & align_item } ;
+Text item59 = { { { "DeferCalls" , null , &link59 } } , null , & align_item } ;
 
 Link link59 = { &page_DeferCall#page } ;
 
-Text item60 = { { { "CCore -> Defalte" , null , &link60 } } , null , & align_item } ;
+Text item60 = { { { "Defalte" , null , &link60 } } , null , & align_item } ;
 
 Link link60 = { &page_Deflate#page } ;
 
-Text item61 = { { { "CCore -> DestroyGuard" , null , &link61 } } , null , & align_item } ;
+Text item61 = { { { "DestroyGuard" , null , &link61 } } , null , & align_item } ;
 
 Link link61 = { &page_DestroyGuard#page } ;
 
-Text item62 = { { { "CCore -> DHExp" , null , &link62 } } , null , & align_item } ;
+Text item62 = { { { "DHExp" , null , &link62 } } , null , & align_item } ;
 
 Link link62 = { &page_DHExp#page } ;
 
-Text item63 = { { { "CCore -> DirTreeRun" , null , &link63 } } , null , & align_item } ;
+Text item63 = { { { "DirTreeRun" , null , &link63 } } , null , & align_item } ;
 
 Link link63 = { &page_DirTreeRun#page } ;
 
-Text item64 = { { { "CCore -> DynObject" , null , &link64 } } , null , & align_item } ;
+Text item64 = { { { "DynObject" , null , &link64 } } , null , & align_item } ;
 
 Link link64 = { &page_DynObject#page } ;
 
-Text item65 = { { { "CCore -> EchoDevice" , null , &link65 } } , null , & align_item } ;
+Text item65 = { { { "EchoDevice" , null , &link65 } } , null , & align_item } ;
 
 Link link65 = { &page_EchoDevice#page } ;
 
-Text item66 = { { { "CCore -> EchoServer" , null , &link66 } } , null , & align_item } ;
+Text item66 = { { { "EchoServer" , null , &link66 } } , null , & align_item } ;
 
 Link link66 = { &page_EchoServer#page } ;
 
-Text item67 = { { { "CCore -> Element pool" , null , &link67 } } , null , & align_item } ;
+Text item67 = { { { "Element pool" , null , &link67 } } , null , & align_item } ;
 
 Link link67 = { &page_ElementPool#page } ;
 
-Text item68 = { { { "CCore -> ELF" , null , &link68 } } , null , & align_item } ;
+Text item68 = { { { "ELF" , null , &link68 } } , null , & align_item } ;
 
 Link link68 = { &page_ELF#page } ;
 
-Text item69 = { { { "CCore -> EllipticPi" , null , &link69 } } , null , & align_item } ;
+Text item69 = { { { "EllipticPi" , null , &link69 } } , null , & align_item } ;
 
 Link link69 = { &page_EllipticPi#page } ;
 
-Text item70 = { { { "CCore -> ErrorText" , null , &link70 } } , null , & align_item } ;
+Text item70 = { { { "ErrorText" , null , &link70 } } , null , & align_item } ;
 
 Link link70 = { &page_ErrorText#page } ;
 
-Text item71 = { { { "CCore -> EthDevice" , null , &link71 } } , null , & align_item } ;
+Text item71 = { { { "EthDevice" , null , &link71 } } , null , & align_item } ;
 
 Link link71 = { &page_EthDevice#page } ;
 
-Text item72 = { { { "CCore -> EuclidRotate" , null , &link72 } } , null , & align_item } ;
+Text item72 = { { { "EuclidRotate" , null , &link72 } } , null , & align_item } ;
 
 Link link72 = { &page_EuclidRotate#page } ;
 
-Text item73 = { { { "CCore -> Event" , null , &link73 } } , null , & align_item } ;
+Text item73 = { { { "Event" , null , &link73 } } , null , & align_item } ;
 
 Link link73 = { &page_Event#page } ;
 
-Text item74 = { { { "CCore -> Event Recording" , null , &link74 } } , null , & align_item } ;
+Text item74 = { { { "Event Recording" , null , &link74 } } , null , & align_item } ;
 
 Link link74 = { &page_EventRecord#page } ;
 
-Text item75 = { { { "CCore -> Exceptions" , null , &link75 } } , null , & align_item } ;
+Text item75 = { { { "Exceptions" , null , &link75 } } , null , & align_item } ;
 
 Link link75 = { &page_Exceptions#page } ;
 
-Text item76 = { { { "CCore -> ExceptionType" , null , &link76 } } , null , & align_item } ;
+Text item76 = { { { "ExceptionType" , null , &link76 } } , null , & align_item } ;
 
 Link link76 = { &page_ExceptionType#page } ;
 
-Text item77 = { { { "CCore -> exectest" , null , &link77 } } , null , & align_item } ;
+Text item77 = { { { "exectest" , null , &link77 } } , null , & align_item } ;
 
 Link link77 = { &page_exectest#page } ;
 
-Text item78 = { { { "CCore -> FastMutex" , null , &link78 } } , null , & align_item } ;
+Text item78 = { { { "FastMutex" , null , &link78 } } , null , & align_item } ;
 
 Link link78 = { &page_FastMutex#page } ;
 
-Text item79 = { { { "CCore -> FeedBuf" , null , &link79 } } , null , & align_item } ;
+Text item79 = { { { "FeedBuf" , null , &link79 } } , null , & align_item } ;
 
 Link link79 = { &page_FeedBuf#page } ;
 
-Text item80 = { { { "CCore -> Fifo" , null , &link80 } } , null , & align_item } ;
+Text item80 = { { { "Fifo" , null , &link80 } } , null , & align_item } ;
 
 Link link80 = { &page_Fifo#page } ;
 
-Text item81 = { { { "CCore -> FileName" , null , &link81 } } , null , & align_item } ;
+Text item81 = { { { "FileName" , null , &link81 } } , null , & align_item } ;
 
 Link link81 = { &page_FileName#page } ;
 
-Text item82 = { { { "CCore -> FileNameMatch" , null , &link82 } } , null , & align_item } ;
+Text item82 = { { { "FileNameMatch" , null , &link82 } } , null , & align_item } ;
 
 Link link82 = { &page_FileNameMatch#page } ;
 
-Text item83 = { { { "CCore -> Files" , null , &link83 } } , null , & align_item } ;
+Text item83 = { { { "Files" , null , &link83 } } , null , & align_item } ;
 
 Link link83 = { &page_Files#page } ;
 
-Text item84 = { { { "CCore -> FileSystem" , null , &link84 } } , null , & align_item } ;
+Text item84 = { { { "FileSystem" , null , &link84 } } , null , & align_item } ;
 
 Link link84 = { &page_FileSystem#page } ;
 
-Text item85 = { { { "CCore -> FileToMem" , null , &link85 } } , null , & align_item } ;
+Text item85 = { { { "FileToMem" , null , &link85 } } , null , & align_item } ;
 
 Link link85 = { &page_FileToMem#page } ;
 
-Text item86 = { { { "CCore -> FileToRead" , null , &link86 } } , null , & align_item } ;
+Text item86 = { { { "FileToRead" , null , &link86 } } , null , & align_item } ;
 
 Link link86 = { &page_FileToRead#page } ;
 
-Text item87 = { { { "CCore -> ForcedTimeout" , null , &link87 } } , null , & align_item } ;
+Text item87 = { { { "ForcedTimeout" , null , &link87 } } , null , & align_item } ;
 
 Link link87 = { &page_ForcedTimeout#page } ;
 
-Text item88 = { { { "CCore -> Forget" , null , &link88 } } , null , & align_item } ;
+Text item88 = { { { "Forget" , null , &link88 } } , null , & align_item } ;
 
 Link link88 = { &page_Forget#page } ;
 
-Text item89 = { { { "CCore -> ForLoop" , null , &link89 } } , null , & align_item } ;
+Text item89 = { { { "ForLoop" , null , &link89 } } , null , & align_item } ;
 
 Link link89 = { &page_ForLoop#page } ;
 
-Text item90 = { { { "CCore -> FuncTask" , null , &link90 } } , null , & align_item } ;
+Text item90 = { { { "FuncTask" , null , &link90 } } , null , & align_item } ;
 
 Link link90 = { &page_FuncTask#page } ;
 
-Text item91 = { { { "CCore -> Function" , null , &link91 } } , null , & align_item } ;
+Text item91 = { { { "Function" , null , &link91 } } , null , & align_item } ;
 
 Link link91 = { &page_Function#page } ;
 
-Text item92 = { { { "CCore -> FunctorType" , null , &link92 } } , null , & align_item } ;
+Text item92 = { { { "FunctorType" , null , &link92 } } , null , & align_item } ;
 
 Link link92 = { &page_FunctorType#page } ;
 
-Text item93 = { { { "CCore -> Gadgets" , null , &link93 } } , null , & align_item } ;
+Text item93 = { { { "Gadgets" , null , &link93 } } , null , & align_item } ;
 
 Link link93 = { &page_Gadgets#page } ;
 
-Text item94 = { { { "CCore -> GCDConst" , null , &link94 } } , null , & align_item } ;
+Text item94 = { { { "GCDConst" , null , &link94 } } , null , & align_item } ;
 
 Link link94 = { &page_GCDConst#page } ;
 
-Text item95 = { { { "CCore -> Handle" , null , &link95 } } , null , & align_item } ;
+Text item95 = { { { "Handle" , null , &link95 } } , null , & align_item } ;
 
 Link link95 = { &page_Handle#page } ;
 
-Text item96 = { { { "CCore -> HashFunction" , null , &link96 } } , null , & align_item } ;
+Text item96 = { { { "HashFunction" , null , &link96 } } , null , & align_item } ;
 
 Link link96 = { &page_HashFunction#page } ;
 
-Text item97 = { { { "CCore -> HCore Targets" , null , &link97 } } , null , & align_item } ;
+Text item97 = { { { "HCore Targets" , null , &link97 } } , null , & align_item } ;
 
 Link link97 = { &page_HCoreTargets#page } ;
 
-Text item98 = { { { "CCore -> HCore PlanInit_CCore" , null , &link98 } } , null , & align_item } ;
+Text item98 = { { { "HCore PlanInit_CCore" , null , &link98 } } , null , & align_item } ;
 
 Link link98 = { &page_HCore_PlanInit_CCore#page } ;
 
-Text item99 = { { { "CCore -> HCore SysAbort" , null , &link99 } } , null , & align_item } ;
+Text item99 = { { { "HCore SysAbort" , null , &link99 } } , null , & align_item } ;
 
 Link link99 = { &page_HCore_SysAbort#page } ;
 
-Text item100 = { { { "CCore -> HCore SysCon" , null , &link100 } } , null , & align_item } ;
+Text item100 = { { { "HCore SysCon" , null , &link100 } } , null , & align_item } ;
 
 Link link100 = { &page_HCore_SysCon#page } ;
 
-Text item101 = { { { "CCore -> HCore SysError" , null , &link101 } } , null , & align_item } ;
+Text item101 = { { { "HCore SysError" , null , &link101 } } , null , & align_item } ;
 
 Link link101 = { &page_HCore_SysError#page } ;
 
-Text item102 = { { { "CCore -> HCore SysFile" , null , &link102 } } , null , & align_item } ;
+Text item102 = { { { "HCore SysFile" , null , &link102 } } , null , & align_item } ;
 
 Link link102 = { &page_HCore_SysFile#page } ;
 
-Text item103 = { { { "CCore -> HCore SysFileSystem" , null , &link103 } } , null , & align_item } ;
+Text item103 = { { { "HCore SysFileSystem" , null , &link103 } } , null , & align_item } ;
 
 Link link103 = { &page_HCore_SysFileSystem#page } ;
 
-Text item104 = { { { "CCore -> HCore SysLaunchPath" , null , &link104 } } , null , & align_item } ;
+Text item104 = { { { "HCore SysLaunchPath" , null , &link104 } } , null , & align_item } ;
 
 Link link104 = { &page_HCore_SysLaunchPath#page } ;
 
-Text item105 = { { { "CCore -> HCore SysMemPage" , null , &link105 } } , null , & align_item } ;
+Text item105 = { { { "HCore SysMemPage" , null , &link105 } } , null , & align_item } ;
 
 Link link105 = { &page_HCore_SysMemPage#page } ;
 
-Text item106 = { { { "CCore -> HCore SysNet" , null , &link106 } } , null , & align_item } ;
+Text item106 = { { { "HCore SysNet" , null , &link106 } } , null , & align_item } ;
 
 Link link106 = { &page_HCore_SysNet#page } ;
 
-Text item107 = { { { "CCore -> HCore SysPlanInit" , null , &link107 } } , null , & align_item } ;
+Text item107 = { { { "HCore SysPlanInit" , null , &link107 } } , null , & align_item } ;
 
 Link link107 = { &page_HCore_SysPlanInit#page } ;
 
-Text item108 = { { { "CCore -> HCore SysProp" , null , &link108 } } , null , & align_item } ;
+Text item108 = { { { "HCore SysProp" , null , &link108 } } , null , & align_item } ;
 
 Link link108 = { &page_HCore_SysProp#page } ;
 
-Text item109 = { { { "CCore -> HCore SysSem" , null , &link109 } } , null , & align_item } ;
+Text item109 = { { { "HCore SysSem" , null , &link109 } } , null , & align_item } ;
 
 Link link109 = { &page_HCore_SysSem#page } ;
 
-Text item110 = { { { "CCore -> HCore SysTask" , null , &link110 } } , null , & align_item } ;
+Text item110 = { { { "HCore SysTask" , null , &link110 } } , null , & align_item } ;
 
 Link link110 = { &page_HCore_SysTask#page } ;
 
-Text item111 = { { { "CCore -> HCore SysTime" , null , &link111 } } , null , & align_item } ;
+Text item111 = { { { "HCore SysTime" , null , &link111 } } , null , & align_item } ;
 
 Link link111 = { &page_HCore_SysTime#page } ;
 
-Text item112 = { { { "CCore -> HCore SysTlsSlot" , null , &link112 } } , null , & align_item } ;
+Text item112 = { { { "HCore SysTlsSlot" , null , &link112 } } , null , & align_item } ;
 
 Link link112 = { &page_HCore_SysTlsSlot#page } ;
 
-Text item113 = { { { "CCore -> HCore SysWait" , null , &link113 } } , null , & align_item } ;
+Text item113 = { { { "HCore SysWait" , null , &link113 } } , null , & align_item } ;
 
 Link link113 = { &page_HCore_SysWait#page } ;
 
-Text item114 = { { { "CCore -> HeapEngine" , null , &link114 } } , null , & align_item } ;
+Text item114 = { { { "HeapEngine" , null , &link114 } } , null , & align_item } ;
 
 Link link114 = { &page_HeapEngine#page } ;
 
-Text item115 = { { { "CCore -> Init" , null , &link115 } } , null , & align_item } ;
+Text item115 = { { { "Init" , null , &link115 } } , null , & align_item } ;
 
 Link link115 = { &page_Init#page } ;
 
-Text item116 = { { { "CCore -> InputUtils" , null , &link116 } } , null , & align_item } ;
+Text item116 = { { { "InputUtils" , null , &link116 } } , null , & align_item } ;
 
 Link link116 = { &page_InputUtils#page } ;
 
-Text item117 = { { { "CCore -> Installation" , null , &link117 } } , null , & align_item } ;
+Text item117 = { { { "Installation" , null , &link117 } } , null , & align_item } ;
 
 Link link117 = { &page_Installation#page } ;
 
-Text item118 = { { { "CCore -> InstanceLock" , null , &link118 } } , null , & align_item } ;
+Text item118 = { { { "InstanceLock" , null , &link118 } } , null , & align_item } ;
 
 Link link118 = { &page_InstanceLock#page } ;
 
-Text item119 = { { { "CCore -> Integer" , null , &link119 } } , null , & align_item } ;
+Text item119 = { { { "Integer" , null , &link119 } } , null , & align_item } ;
 
 Link link119 = { &page_Integer#page } ;
 
-Text item120 = { { { "CCore -> IntegerFastAlgo" , null , &link120 } } , null , & align_item } ;
+Text item120 = { { { "IntegerFastAlgo" , null , &link120 } } , null , & align_item } ;
 
 Link link120 = { &page_IntegerFastAlgo#page } ;
 
-Text item121 = { { { "CCore -> IntegerOctetBuilder" , null , &link121 } } , null , & align_item } ;
+Text item121 = { { { "IntegerOctetBuilder" , null , &link121 } } , null , & align_item } ;
 
 Link link121 = { &page_IntegerOctetBuilder#page } ;
 
-Text item122 = { { { "CCore -> IntegerSlowAlgo" , null , &link122 } } , null , & align_item } ;
+Text item122 = { { { "IntegerSlowAlgo" , null , &link122 } } , null , & align_item } ;
 
 Link link122 = { &page_IntegerSlowAlgo#page } ;
 
-Text item123 = { { { "CCore -> InterfaceHost" , null , &link123 } } , null , & align_item } ;
+Text item123 = { { { "InterfaceHost" , null , &link123 } } , null , & align_item } ;
 
 Link link123 = { &page_InterfaceHost#page } ;
 
-Text item124 = { { { "CCore -> IntervalTree" , null , &link124 } } , null , & align_item } ;
+Text item124 = { { { "IntervalTree" , null , &link124 } } , null , & align_item } ;
 
 Link link124 = { &page_IntervalTree#page } ;
 
-Text item125 = { { { "CCore -> Introduction" , null , &link125 } } , null , & align_item } ;
+Text item125 = { { { "Introduction" , null , &link125 } } , null , & align_item } ;
 
 Link link125 = { &page_Introduction#page } ;
 
-Text item126 = { { { "CCore -> Job" , null , &link126 } } , null , & align_item } ;
+Text item126 = { { { "Job" , null , &link126 } } , null , & align_item } ;
 
 Link link126 = { &page_Job#page } ;
 
-Text item127 = { { { "CCore -> Keywords" , null , &link127 } } , null , & align_item } ;
+Text item127 = { { { "Keywords" , null , &link127 } } , null , & align_item } ;
 
 Link link127 = { &page_Keywords#page } ;
 
-Text item128 = { { { "CCore -> LangDataMap" , null , &link128 } } , null , & align_item } ;
+Text item128 = { { { "LangDataMap" , null , &link128 } } , null , & align_item } ;
 
 Link link128 = { &page_LangDataMap#page } ;
 
-Text item129 = { { { "CCore -> LaunchPath" , null , &link129 } } , null , & align_item } ;
+Text item129 = { { { "LaunchPath" , null , &link129 } } , null , & align_item } ;
 
 Link link129 = { &page_LaunchPath#page } ;
 
-Text item130 = { { { "CCore -> Len" , null , &link130 } } , null , & align_item } ;
+Text item130 = { { { "Len" , null , &link130 } } , null , & align_item } ;
 
 Link link130 = { &page_Len#page } ;
 
-Text item131 = { { { "CCore -> LineInput" , null , &link131 } } , null , & align_item } ;
+Text item131 = { { { "LineInput" , null , &link131 } } , null , & align_item } ;
 
 Link link131 = { &page_LineInput#page } ;
 
-Text item132 = { { { "CCore -> Lists" , null , &link132 } } , null , & align_item } ;
+Text item132 = { { { "Lists" , null , &link132 } } , null , & align_item } ;
 
 Link link132 = { &page_Lists#page } ;
 
-Text item133 = { { { "CCore -> Locked" , null , &link133 } } , null , & align_item } ;
+Text item133 = { { { "Locked" , null , &link133 } } , null , & align_item } ;
 
 Link link133 = { &page_Locked#page } ;
 
-Text item134 = { { { "CCore -> LockObject" , null , &link134 } } , null , & align_item } ;
+Text item134 = { { { "LockObject" , null , &link134 } } , null , & align_item } ;
 
 Link link134 = { &page_LockObject#page } ;
 
-Text item135 = { { { "CCore -> LockUse" , null , &link135 } } , null , & align_item } ;
+Text item135 = { { { "LockUse" , null , &link135 } } , null , & align_item } ;
 
 Link link135 = { &page_LockUse#page } ;
 
-Text item136 = { { { "CCore -> Logging" , null , &link136 } } , null , & align_item } ;
+Text item136 = { { { "Logging" , null , &link136 } } , null , & align_item } ;
 
 Link link136 = { &page_Logging#page } ;
 
-Text item137 = { { { "CCore -> MakeFileName" , null , &link137 } } , null , & align_item } ;
+Text item137 = { { { "MakeFileName" , null , &link137 } } , null , & align_item } ;
 
 Link link137 = { &page_MakeFileName#page } ;
 
-Text item138 = { { { "CCore -> MakeList" , null , &link138 } } , null , & align_item } ;
+Text item138 = { { { "MakeList" , null , &link138 } } , null , & align_item } ;
 
 Link link138 = { &page_MakeList#page } ;
 
-Text item139 = { { { "CCore -> MakeString" , null , &link139 } } , null , & align_item } ;
+Text item139 = { { { "MakeString" , null , &link139 } } , null , & align_item } ;
 
 Link link139 = { &page_MakeString#page } ;
 
-Text item140 = { { { "CCore -> Math" , null , &link140 } } , null , & align_item } ;
+Text item140 = { { { "Math" , null , &link140 } } , null , & align_item } ;
 
 Link link140 = { &page_Math#page } ;
 
-Text item141 = { { { "CCore -> MD5" , null , &link141 } } , null , & align_item } ;
+Text item141 = { { { "MD5" , null , &link141 } } , null , & align_item } ;
 
 Link link141 = { &page_MD5#page } ;
 
-Text item142 = { { { "CCore -> MemAllocGuard" , null , &link142 } } , null , & align_item } ;
+Text item142 = { { { "MemAllocGuard" , null , &link142 } } , null , & align_item } ;
 
 Link link142 = { &page_MemAllocGuard#page } ;
 
-Text item143 = { { { "CCore -> Memory Management" , null , &link143 } } , null , & align_item } ;
+Text item143 = { { { "Memory Management" , null , &link143 } } , null , & align_item } ;
 
 Link link143 = { &page_MemoryManagement#page } ;
 
-Text item144 = { { { "CCore -> Meta" , null , &link144 } } , null , & align_item } ;
+Text item144 = { { { "Meta" , null , &link144 } } , null , & align_item } ;
 
 Link link144 = { &page_Meta#page } ;
 
-Text item145 = { { { "CCore -> MetaList" , null , &link145 } } , null , & align_item } ;
+Text item145 = { { { "MetaList" , null , &link145 } } , null , & align_item } ;
 
 Link link145 = { &page_MetaList#page } ;
 
-Text item146 = { { { "CCore -> Metaphisics" , null , &link146 } } , null , & align_item } ;
+Text item146 = { { { "Metaphisics" , null , &link146 } } , null , & align_item } ;
 
 Link link146 = { &page_Metaphysics#page } ;
 
-Text item147 = { { { "CCore -> ModEngine" , null , &link147 } } , null , & align_item } ;
+Text item147 = { { { "ModEngine" , null , &link147 } } , null , & align_item } ;
 
 Link link147 = { &page_ModEngine#page } ;
 
-Text item148 = { { { "CCore -> Move" , null , &link148 } } , null , & align_item } ;
+Text item148 = { { { "Move" , null , &link148 } } , null , & align_item } ;
 
 Link link148 = { &page_Move#page } ;
 
-Text item149 = { { { "CCore -> MSec" , null , &link149 } } , null , & align_item } ;
+Text item149 = { { { "MSec" , null , &link149 } } , null , & align_item } ;
 
 Link link149 = { &page_MSec#page } ;
 
-Text item150 = { { { "CCore -> MultiEvent" , null , &link150 } } , null , & align_item } ;
+Text item150 = { { { "MultiEvent" , null , &link150 } } , null , & align_item } ;
 
 Link link150 = { &page_MultiEvent#page } ;
 
-Text item151 = { { { "CCore -> MultiSem" , null , &link151 } } , null , & align_item } ;
+Text item151 = { { { "MultiSem" , null , &link151 } } , null , & align_item } ;
 
 Link link151 = { &page_MultiSem#page } ;
 
-Text item152 = { { { "CCore -> MultiSignals" , null , &link152 } } , null , & align_item } ;
+Text item152 = { { { "MultiSignals" , null , &link152 } } , null , & align_item } ;
 
 Link link152 = { &page_MultiSignal#page } ;
 
-Text item153 = { { { "CCore -> Mutex" , null , &link153 } } , null , & align_item } ;
+Text item153 = { { { "Mutex" , null , &link153 } } , null , & align_item } ;
 
 Link link153 = { &page_Mutex#page } ;
 
-Text item154 = { { { "CCore -> NanoIPDevice" , null , &link154 } } , null , & align_item } ;
+Text item154 = { { { "NanoIPDevice" , null , &link154 } } , null , & align_item } ;
 
 Link link154 = { &page_NanoIPDevice#page } ;
 
-Text item155 = { { { "CCore -> NanoIPDevice events" , null , &link155 } } , null , & align_item } ;
+Text item155 = { { { "NanoIPDevice events" , null , &link155 } } , null , & align_item } ;
 
 Link link155 = { &page_NanoIPDeviceEvents#page } ;
 
-Text item156 = { { { "CCore -> NanoPackets" , null , &link156 } } , null , & align_item } ;
+Text item156 = { { { "NanoPackets" , null , &link156 } } , null , & align_item } ;
 
 Link link156 = { &page_NanoPackets#page } ;
 
-Text item157 = { { { "CCore -> NegBool" , null , &link157 } } , null , & align_item } ;
+Text item157 = { { { "NegBool" , null , &link157 } } , null , & align_item } ;
 
 Link link157 = { &page_NegBool#page } ;
 
-Text item158 = { { { "CCore -> NetBase" , null , &link158 } } , null , & align_item } ;
+Text item158 = { { { "NetBase" , null , &link158 } } , null , & align_item } ;
 
 Link link158 = { &page_NetBase#page } ;
 
-Text item159 = { { { "CCore -> NetFork" , null , &link159 } } , null , & align_item } ;
+Text item159 = { { { "NetFork" , null , &link159 } } , null , & align_item } ;
 
 Link link159 = { &page_NetFork#page } ;
 
-Text item160 = { { { "CCore -> NewDelete" , null , &link160 } } , null , & align_item } ;
+Text item160 = { { { "NewDelete" , null , &link160 } } , null , & align_item } ;
 
 Link link160 = { &page_NewDelete#page } ;
 
-Text item161 = { { { "CCore -> NoCopy" , null , &link161 } } , null , & align_item } ;
+Text item161 = { { { "NoCopy" , null , &link161 } } , null , & align_item } ;
 
 Link link161 = { &page_NoCopy#page } ;
 
-Text item162 = { { { "CCore -> Node allocators" , null , &link162 } } , null , & align_item } ;
+Text item162 = { { { "Node allocators" , null , &link162 } } , null , & align_item } ;
 
 Link link162 = { &page_NodeAllocators#page } ;
 
-Text item163 = { { { "CCore -> NoMutex" , null , &link163 } } , null , & align_item } ;
+Text item163 = { { { "NoMutex" , null , &link163 } } , null , & align_item } ;
 
 Link link163 = { &page_NoMutex#page } ;
 
-Text item164 = { { { "CCore -> NoPrimeTest" , null , &link164 } } , null , & align_item } ;
+Text item164 = { { { "NoPrimeTest" , null , &link164 } } , null , & align_item } ;
 
 Link link164 = { &page_NoPrimeTest#page } ;
 
-Text item165 = { { { "CCore -> Nothing" , null , &link165 } } , null , & align_item } ;
+Text item165 = { { { "Nothing" , null , &link165 } } , null , & align_item } ;
 
 Link link165 = { &page_Nothing#page } ;
 
-Text item166 = { { { "CCore -> NoThrowFlags" , null , &link166 } } , null , & align_item } ;
+Text item166 = { { { "NoThrowFlags" , null , &link166 } } , null , & align_item } ;
 
 Link link166 = { &page_NoThrowFlags#page } ;
 
-Text item167 = { { { "CCore -> NullMovePtr" , null , &link167 } } , null , & align_item } ;
+Text item167 = { { { "NullMovePtr" , null , &link167 } } , null , & align_item } ;
 
 Link link167 = { &page_NullMovePtr#page } ;
 
-Text item168 = { { { "CCore -> Object Domain" , null , &link168 } } , null , & align_item } ;
+Text item168 = { { { "Object Domain" , null , &link168 } } , null , & align_item } ;
 
 Link link168 = { &page_ObjectDomain#page } ;
 
-Text item169 = { { { "CCore -> ObjectHost" , null , &link169 } } , null , & align_item } ;
+Text item169 = { { { "ObjectHost" , null , &link169 } } , null , & align_item } ;
 
 Link link169 = { &page_ObjectHost#page } ;
 
-Text item170 = { { { "CCore -> ObjectHosting" , null , &link170 } } , null , & align_item } ;
+Text item170 = { { { "ObjectHosting" , null , &link170 } } , null , & align_item } ;
 
 Link link170 = { &page_ObjectHosting#page } ;
 
-Text item171 = { { { "CCore -> OpAddHelper" , null , &link171 } } , null , & align_item } ;
+Text item171 = { { { "OpAddHelper" , null , &link171 } } , null , & align_item } ;
 
 Link link171 = { &page_OpAddHelper#page } ;
 
-Text item172 = { { { "CCore -> Optional" , null , &link172 } } , null , & align_item } ;
+Text item172 = { { { "Optional" , null , &link172 } } , null , & align_item } ;
 
 Link link172 = { &page_Optional#page } ;
 
-Text item173 = { { { "CCore -> OwnPtr" , null , &link173 } } , null , & align_item } ;
+Text item173 = { { { "OwnPtr" , null , &link173 } } , null , & align_item } ;
 
 Link link173 = { &page_OwnPtr#page } ;
 
-Text item174 = { { { "CCore -> Packet" , null , &link174 } } , null , & align_item } ;
+Text item174 = { { { "Packet" , null , &link174 } } , null , & align_item } ;
 
 Link link174 = { &page_Packet#page } ;
 
-Text item175 = { { { "CCore -> Packet endpoint" , null , &link175 } } , null , & align_item } ;
+Text item175 = { { { "Packet endpoint" , null , &link175 } } , null , & align_item } ;
 
 Link link175 = { &page_PacketEndpoint#page } ;
 
-Text item176 = { { { "CCore -> PacketPool" , null , &link176 } } , null , & align_item } ;
+Text item176 = { { { "PacketPool" , null , &link176 } } , null , & align_item } ;
 
 Link link176 = { &page_PacketPool#page } ;
 
-Text item177 = { { { "CCore -> PacketSet" , null , &link177 } } , null , & align_item } ;
+Text item177 = { { { "PacketSet" , null , &link177 } } , null , & align_item } ;
 
 Link link177 = { &page_PacketSet#page } ;
 
-Text item178 = { { { "CCore -> ParserGen" , null , &link178 } } , null , & align_item } ;
+Text item178 = { { { "ParserGen" , null , &link178 } } , null , & align_item } ;
 
 Link link178 = { &page_ParserGen#page } ;
 
-Text item179 = { { { "CCore -> Partition" , null , &link179 } } , null , & align_item } ;
+Text item179 = { { { "Partition" , null , &link179 } } , null , & align_item } ;
 
 Link link179 = { &page_Partition#page } ;
 
-Text item180 = { { { "CCore -> Paths" , null , &link180 } } , null , & align_item } ;
+Text item180 = { { { "Paths" , null , &link180 } } , null , & align_item } ;
 
 Link link180 = { &page_Paths#page } ;
 
-Text item181 = { { { "CCore -> PerTask" , null , &link181 } } , null , & align_item } ;
+Text item181 = { { { "PerTask" , null , &link181 } } , null , & align_item } ;
 
 Link link181 = { &page_PerTask#page } ;
 
-Text item182 = { { { "CCore -> PKE" , null , &link182 } } , null , & align_item } ;
+Text item182 = { { { "PKE" , null , &link182 } } , null , & align_item } ;
 
 Link link182 = { &page_PKE#page } ;
 
-Text item183 = { { { "CCore -> Place" , null , &link183 } } , null , & align_item } ;
+Text item183 = { { { "Place" , null , &link183 } } , null , & align_item } ;
 
 Link link183 = { &page_Place#page } ;
 
-Text item184 = { { { "CCore -> PlanInit" , null , &link184 } } , null , & align_item } ;
+Text item184 = { { { "PlanInit" , null , &link184 } } , null , & align_item } ;
 
 Link link184 = { &page_PlanInit#page } ;
 
-Text item185 = { { { "CCore -> PosSub" , null , &link185 } } , null , & align_item } ;
+Text item185 = { { { "PosSub" , null , &link185 } } , null , & align_item } ;
 
 Link link185 = { &page_PosSub#page } ;
 
-Text item186 = { { { "CCore -> Pow" , null , &link186 } } , null , & align_item } ;
+Text item186 = { { { "Pow" , null , &link186 } } , null , & align_item } ;
 
 Link link186 = { &page_Pow#page } ;
 
-Text item187 = { { { "CCore -> PretextFileToMem" , null , &link187 } } , null , & align_item } ;
+Text item187 = { { { "PretextFileToMem" , null , &link187 } } , null , & align_item } ;
 
 Link link187 = { &page_PretextFileToMem#page } ;
 
-Text item188 = { { { "CCore -> PrintAbort" , null , &link188 } } , null , & align_item } ;
+Text item188 = { { { "PrintAbort" , null , &link188 } } , null , & align_item } ;
 
 Link link188 = { &page_PrintAbort#page } ;
 
-Text item189 = { { { "CCore -> PrintBits" , null , &link189 } } , null , & align_item } ;
+Text item189 = { { { "PrintBits" , null , &link189 } } , null , & align_item } ;
 
 Link link189 = { &page_PrintBits#page } ;
 
-Text item190 = { { { "CCore -> Printing devices" , null , &link190 } } , null , & align_item } ;
+Text item190 = { { { "Printing devices" , null , &link190 } } , null , & align_item } ;
 
 Link link190 = { &page_PrintDevice#page } ;
 
-Text item191 = { { { "CCore -> PrintError" , null , &link191 } } , null , & align_item } ;
+Text item191 = { { { "PrintError" , null , &link191 } } , null , & align_item } ;
 
 Link link191 = { &page_PrintError#page } ;
 
-Text item192 = { { { "CCore -> Printing" , null , &link192 } } , null , & align_item } ;
+Text item192 = { { { "Printing" , null , &link192 } } , null , & align_item } ;
 
 Link link192 = { &page_Printing#page } ;
 
-Text item193 = { { { "CCore -> PrintRatio" , null , &link193 } } , null , & align_item } ;
+Text item193 = { { { "PrintRatio" , null , &link193 } } , null , & align_item } ;
 
 Link link193 = { &page_PrintRatio#page } ;
 
-Text item194 = { { { "CCore -> PrintSet" , null , &link194 } } , null , & align_item } ;
+Text item194 = { { { "PrintSet" , null , &link194 } } , null , & align_item } ;
 
 Link link194 = { &page_PrintSet#page } ;
 
-Text item195 = { { { "CCore -> PrintStem" , null , &link195 } } , null , & align_item } ;
+Text item195 = { { { "PrintStem" , null , &link195 } } , null , & align_item } ;
 
 Link link195 = { &page_PrintStem#page } ;
 
-Text item196 = { { { "CCore -> PrintTime" , null , &link196 } } , null , & align_item } ;
+Text item196 = { { { "PrintTime" , null , &link196 } } , null , & align_item } ;
 
 Link link196 = { &page_PrintTime#page } ;
 
-Text item197 = { { { "CCore -> PrintTitle" , null , &link197 } } , null , & align_item } ;
+Text item197 = { { { "PrintTitle" , null , &link197 } } , null , & align_item } ;
 
 Link link197 = { &page_PrintTitle#page } ;
 
-Text item198 = { { { "CCore -> PSec" , null , &link198 } } , null , & align_item } ;
+Text item198 = { { { "PSec" , null , &link198 } } , null , & align_item } ;
 
 Link link198 = { &page_PSec#page } ;
 
-Text item199 = { { { "CCore -> PSecEchoServer" , null , &link199 } } , null , & align_item } ;
+Text item199 = { { { "PSecEchoServer" , null , &link199 } } , null , & align_item } ;
 
 Link link199 = { &page_PSecEchoServer#page } ;
 
-Text item200 = { { { "CCore -> PTP" , null , &link200 } } , null , & align_item } ;
+Text item200 = { { { "PTP" , null , &link200 } } , null , & align_item } ;
 
 Link link200 = { &page_PTP#page } ;
 
-Text item201 = { { { "CCore -> PTP Boot" , null , &link201 } } , null , & align_item } ;
+Text item201 = { { { "PTP Boot" , null , &link201 } } , null , & align_item } ;
 
 Link link201 = { &page_PTPBoot#page } ;
 
-Text item202 = { { { "CCore -> PTP ClientDevice events" , null , &link202 } } , null , & align_item } ;
+Text item202 = { { { "PTP ClientDevice events" , null , &link202 } } , null , & align_item } ;
 
 Link link202 = { &page_PTPCilentDeviceEvents#page } ;
 
-Text item203 = { { { "CCore -> PTP Console" , null , &link203 } } , null , & align_item } ;
+Text item203 = { { { "PTP Console" , null , &link203 } } , null , & align_item } ;
 
 Link link203 = { &page_PTPCon#page } ;
 
-Text item204 = { { { "CCore -> PTPEchoServer" , null , &link204 } } , null , & align_item } ;
+Text item204 = { { { "PTPEchoServer" , null , &link204 } } , null , & align_item } ;
 
 Link link204 = { &page_PTPEchoServer#page } ;
 
-Text item205 = { { { "CCore -> PTP echo test" , null , &link205 } } , null , & align_item } ;
+Text item205 = { { { "PTP echo test" , null , &link205 } } , null , & align_item } ;
 
 Link link205 = { &page_PTPEchoTest#page } ;
 
-Text item206 = { { { "CCore -> HFS" , null , &link206 } } , null , & align_item } ;
+Text item206 = { { { "HFS" , null , &link206 } } , null , & align_item } ;
 
 Link link206 = { &page_PTPHFS#page } ;
 
-Text item207 = { { { "CCore -> PTPSecureClient" , null , &link207 } } , null , & align_item } ;
+Text item207 = { { { "PTPSecureClient" , null , &link207 } } , null , & align_item } ;
 
 Link link207 = { &page_PTPSecureClient#page } ;
 
-Text item208 = { { { "CCore -> PTPSecureServer" , null , &link208 } } , null , & align_item } ;
+Text item208 = { { { "PTPSecureServer" , null , &link208 } } , null , & align_item } ;
 
 Link link208 = { &page_PTPSecureServer#page } ;
 
-Text item209 = { { { "CCore -> PTPServer" , null , &link209 } } , null , & align_item } ;
+Text item209 = { { { "PTPServer" , null , &link209 } } , null , & align_item } ;
 
 Link link209 = { &page_PTPServer#page } ;
 
-Text item210 = { { { "CCore -> PTP ServerDevice events" , null , &link210 } } , null , & align_item } ;
+Text item210 = { { { "PTP ServerDevice events" , null , &link210 } } , null , & align_item } ;
 
 Link link210 = { &page_PTPServerDeviceEvents#page } ;
 
-Text item211 = { { { "CCore -> PTP Service" , null , &link211 } } , null , & align_item } ;
+Text item211 = { { { "PTP Service" , null , &link211 } } , null , & align_item } ;
 
 Link link211 = { &page_PTPService#page } ;
 
-Text item212 = { { { "CCore -> PTP Support" , null , &link212 } } , null , & align_item } ;
+Text item212 = { { { "PTP Support" , null , &link212 } } , null , & align_item } ;
 
 Link link212 = { &page_PTPSupport#page } ;
 
-Text item213 = { { { "CCore -> PtrLen" , null , &link213 } } , null , & align_item } ;
+Text item213 = { { { "PtrLen" , null , &link213 } } , null , & align_item } ;
 
 Link link213 = { &page_PtrLen#page } ;
 
-Text item214 = { { { "CCore -> PtrLenReverse" , null , &link214 } } , null , & align_item } ;
+Text item214 = { { { "PtrLenReverse" , null , &link214 } } , null , & align_item } ;
 
 Link link214 = { &page_PtrLenReverse#page } ;
 
-Text item215 = { { { "CCore -> PtrStepLen" , null , &link215 } } , null , & align_item } ;
+Text item215 = { { { "PtrStepLen" , null , &link215 } } , null , & align_item } ;
 
 Link link215 = { &page_PtrStepLen#page } ;
 
-Text item216 = { { { "CCore -> RadixHeap" , null , &link216 } } , null , & align_item } ;
+Text item216 = { { { "RadixHeap" , null , &link216 } } , null , & align_item } ;
 
 Link link216 = { &page_RadixHeap#page } ;
 
-Text item217 = { { { "CCore -> Random" , null , &link217 } } , null , & align_item } ;
+Text item217 = { { { "Random" , null , &link217 } } , null , & align_item } ;
 
 Link link217 = { &page_Random#page } ;
 
-Text item218 = { { { "CCore -> RangeDel" , null , &link218 } } , null , & align_item } ;
+Text item218 = { { { "RangeDel" , null , &link218 } } , null , & align_item } ;
 
 Link link218 = { &page_RangeDel#page } ;
 
-Text item219 = { { { "CCore -> RawFileToRead and AltFileToRead" , null , &link219 } } , null , & align_item } ;
+Text item219 = { { { "RawFileToRead and AltFileToRead" , null , &link219 } } , null , & align_item } ;
 
 Link link219 = { &page_RawFileToRead#page } ;
 
-Text item220 = { { { "CCore -> RefObjectBase" , null , &link220 } } , null , & align_item } ;
+Text item220 = { { { "RefObjectBase" , null , &link220 } } , null , & align_item } ;
 
 Link link220 = { &page_RefObjectBase#page } ;
 
-Text item221 = { { { "CCore -> RefPtr" , null , &link221 } } , null , & align_item } ;
+Text item221 = { { { "RefPtr" , null , &link221 } } , null , & align_item } ;
 
 Link link221 = { &page_RefPtr#page } ;
 
-Text item222 = { { { "CCore -> Regen" , null , &link222 } } , null , & align_item } ;
+Text item222 = { { { "Regen" , null , &link222 } } , null , & align_item } ;
 
 Link link222 = { &page_Regen#page } ;
 
-Text item223 = { { { "CCore -> Replace" , null , &link223 } } , null , & align_item } ;
+Text item223 = { { { "Replace" , null , &link223 } } , null , & align_item } ;
 
 Link link223 = { &page_Replace#page } ;
 
-Text item224 = { { { "CCore -> ResSem" , null , &link224 } } , null , & align_item } ;
+Text item224 = { { { "ResSem" , null , &link224 } } , null , & align_item } ;
 
 Link link224 = { &page_ResSem#page } ;
 
-Text item225 = { { { "CCore -> Rot" , null , &link225 } } , null , & align_item } ;
+Text item225 = { { { "Rot" , null , &link225 } } , null , & align_item } ;
 
 Link link225 = { &page_Rot#page } ;
 
-Text item226 = { { { "CCore -> SafeBuf" , null , &link226 } } , null , & align_item } ;
+Text item226 = { { { "SafeBuf" , null , &link226 } } , null , & align_item } ;
 
 Link link226 = { &page_SafeBuf#page } ;
 
-Text item227 = { { { "CCore -> SaveLoad" , null , &link227 } } , null , & align_item } ;
+Text item227 = { { { "SaveLoad" , null , &link227 } } , null , & align_item } ;
 
 Link link227 = { &page_SaveLoad#page } ;
 
-Text item228 = { { { "CCore -> ScanBit" , null , &link228 } } , null , & align_item } ;
+Text item228 = { { { "ScanBit" , null , &link228 } } , null , & align_item } ;
 
 Link link228 = { &page_ScanBit#page } ;
 
-Text item229 = { { { "CCore -> Scannig devices" , null , &link229 } } , null , & align_item } ;
+Text item229 = { { { "Scannig devices" , null , &link229 } } , null , & align_item } ;
 
 Link link229 = { &page_ScanDevice#page } ;
 
-Text item230 = { { { "CCore -> Scanning" , null , &link230 } } , null , & align_item } ;
+Text item230 = { { { "Scanning" , null , &link230 } } , null , & align_item } ;
 
 Link link230 = { &page_Scanning#page } ;
 
-Text item231 = { { { "CCore -> Scope" , null , &link231 } } , null , & align_item } ;
+Text item231 = { { { "Scope" , null , &link231 } } , null , & align_item } ;
 
 Link link231 = { &page_Scope#page } ;
 
-Text item232 = { { { "CCore -> ScopeGuard" , null , &link232 } } , null , & align_item } ;
+Text item232 = { { { "ScopeGuard" , null , &link232 } } , null , & align_item } ;
 
 Link link232 = { &page_ScopeGuard#page } ;
 
-Text item233 = { { { "CCore -> Sem" , null , &link233 } } , null , & align_item } ;
+Text item233 = { { { "Sem" , null , &link233 } } , null , & align_item } ;
 
 Link link233 = { &page_Sem#page } ;
 
-Text item234 = { { { "CCore -> SHA" , null , &link234 } } , null , & align_item } ;
+Text item234 = { { { "SHA" , null , &link234 } } , null , & align_item } ;
 
 Link link234 = { &page_SHA#page } ;
 
-Text item235 = { { { "CCore -> Signals" , null , &link235 } } , null , & align_item } ;
+Text item235 = { { { "Signals" , null , &link235 } } , null , & align_item } ;
 
 Link link235 = { &page_Signal#page } ;
 
-Text item236 = { { { "CCore -> SimpleRotate" , null , &link236 } } , null , & align_item } ;
+Text item236 = { { { "SimpleRotate" , null , &link236 } } , null , & align_item } ;
 
 Link link236 = { &page_SimpleRotate#page } ;
 
-Text item237 = { { { "CCore -> SingleBridge" , null , &link237 } } , null , & align_item } ;
+Text item237 = { { { "SingleBridge" , null , &link237 } } , null , & align_item } ;
 
 Link link237 = { &page_SingleBridge#page } ;
 
-Text item238 = { { { "CCore -> SingleEchoDevice" , null , &link238 } } , null , & align_item } ;
+Text item238 = { { { "SingleEchoDevice" , null , &link238 } } , null , & align_item } ;
 
 Link link238 = { &page_SingleEchoDevice#page } ;
 
-Text item239 = { { { "CCore -> SingleHost" , null , &link239 } } , null , & align_item } ;
+Text item239 = { { { "SingleHost" , null , &link239 } } , null , & align_item } ;
 
 Link link239 = { &page_SingleHost#page } ;
 
-Text item240 = { { { "CCore -> SIntFunc" , null , &link240 } } , null , & align_item } ;
+Text item240 = { { { "SIntFunc" , null , &link240 } } , null , & align_item } ;
 
 Link link240 = { &page_SIntFunc#page } ;
 
-Text item241 = { { { "CCore -> SlowSem" , null , &link241 } } , null , & align_item } ;
+Text item241 = { { { "SlowSem" , null , &link241 } } , null , & align_item } ;
 
 Link link241 = { &page_SlowSem#page } ;
 
-Text item242 = { { { "CCore -> SmallPrimes" , null , &link242 } } , null , & align_item } ;
+Text item242 = { { { "SmallPrimes" , null , &link242 } } , null , & align_item } ;
 
 Link link242 = { &page_SmallPrimes#page } ;
 
-Text item243 = { { { "CCore -> Sort" , null , &link243 } } , null , & align_item } ;
+Text item243 = { { { "Sort" , null , &link243 } } , null , & align_item } ;
 
 Link link243 = { &page_Sort#page } ;
 
-Text item244 = { { { "CCore -> SortUnique" , null , &link244 } } , null , & align_item } ;
+Text item244 = { { { "SortUnique" , null , &link244 } } , null , & align_item } ;
 
 Link link244 = { &page_SortUnique#page } ;
 
-Text item245 = { { { "CCore -> Space" , null , &link245 } } , null , & align_item } ;
+Text item245 = { { { "Space" , null , &link245 } } , null , & align_item } ;
 
 Link link245 = { &page_Space#page } ;
 
-Text item246 = { { { "CCore -> StartStop" , null , &link246 } } , null , & align_item } ;
+Text item246 = { { { "StartStop" , null , &link246 } } , null , & align_item } ;
 
 Link link246 = { &page_StartStop#page } ;
 
-Text item247 = { { { "CCore -> StepEval" , null , &link247 } } , null , & align_item } ;
+Text item247 = { { { "StepEval" , null , &link247 } } , null , & align_item } ;
 
 Link link247 = { &page_StepEval#page } ;
 
-Text item248 = { { { "CCore -> Strings" , null , &link248 } } , null , & align_item } ;
+Text item248 = { { { "Strings" , null , &link248 } } , null , & align_item } ;
 
 Link link248 = { &page_String#page } ;
 
-Text item249 = { { { "CCore -> StrKey" , null , &link249 } } , null , & align_item } ;
+Text item249 = { { { "StrKey" , null , &link249 } } , null , & align_item } ;
 
 Link link249 = { &page_StrKey#page } ;
 
-Text item250 = { { { "CCore -> StrMap" , null , &link250 } } , null , & align_item } ;
+Text item250 = { { { "StrMap" , null , &link250 } } , null , & align_item } ;
 
 Link link250 = { &page_StrMap#page } ;
 
-Text item251 = { { { "CCore -> Simple string parsing" , null , &link251 } } , null , & align_item } ;
+Text item251 = { { { "Simple string parsing" , null , &link251 } } , null , & align_item } ;
 
 Link link251 = { &page_StrParse#page } ;
 
-Text item252 = { { { "CCore -> StrToChar" , null , &link252 } } , null , & align_item } ;
+Text item252 = { { { "StrToChar" , null , &link252 } } , null , & align_item } ;
 
 Link link252 = { &page_StrToChar#page } ;
 
-Text item253 = { { { "CCore -> Swap" , null , &link253 } } , null , & align_item } ;
+Text item253 = { { { "Swap" , null , &link253 } } , null , & align_item } ;
 
 Link link253 = { &page_Swap#page } ;
 
-Text item254 = { { { "CCore -> Symbol" , null , &link254 } } , null , & align_item } ;
+Text item254 = { { { "Symbol" , null , &link254 } } , null , & align_item } ;
 
 Link link254 = { &page_Symbol#page } ;
 
-Text item255 = { { { "CCore -> SymCount" , null , &link255 } } , null , & align_item } ;
+Text item255 = { { { "SymCount" , null , &link255 } } , null , & align_item } ;
 
 Link link255 = { &page_SymCount#page } ;
 
-Text item256 = { { { "CCore -> SymPart" , null , &link256 } } , null , & align_item } ;
+Text item256 = { { { "SymPart" , null , &link256 } } , null , & align_item } ;
 
 Link link256 = { &page_SymPart#page } ;
 
-Text item257 = { { { "CCore -> Synchronization objects" , null , &link257 } } , null , & align_item } ;
+Text item257 = { { { "Synchronization objects" , null , &link257 } } , null , & align_item } ;
 
 Link link257 = { &page_Sync#page } ;
 
-Text item258 = { { { "CCore -> (XCore) SysLog" , null , &link258 } } , null , & align_item } ;
+Text item258 = { { { "(XCore) SysLog" , null , &link258 } } , null , & align_item } ;
 
 Link link258 = { &page_SysLog#page } ;
 
-Text item259 = { { { "CCore -> Tasks" , null , &link259 } } , null , & align_item } ;
+Text item259 = { { { "Tasks" , null , &link259 } } , null , & align_item } ;
 
 Link link259 = { &page_Task#page } ;
 
-Text item260 = { { { "CCore -> TaskHeap" , null , &link260 } } , null , & align_item } ;
+Text item260 = { { { "TaskHeap" , null , &link260 } } , null , & align_item } ;
 
 Link link260 = { &page_TaskHeap#page } ;
 
-Text item261 = { { { "CCore -> TaskMemStack" , null , &link261 } } , null , & align_item } ;
+Text item261 = { { { "TaskMemStack" , null , &link261 } } , null , & align_item } ;
 
 Link link261 = { &page_TaskMemStack#page } ;
 
-Text item262 = { { { "CCore -> TaskMonitor" , null , &link262 } } , null , & align_item } ;
+Text item262 = { { { "TaskMonitor" , null , &link262 } } , null , & align_item } ;
 
 Link link262 = { &page_TaskMonitor#page } ;
 
-Text item263 = { { { "CCore -> Taxonomy of classes" , null , &link263 } } , null , & align_item } ;
+Text item263 = { { { "Taxonomy of classes" , null , &link263 } } , null , & align_item } ;
 
 Link link263 = { &page_Taxonomy#page } ;
 
-Text item264 = { { { "CCore -> TextLabel" , null , &link264 } } , null , & align_item } ;
+Text item264 = { { { "TextLabel" , null , &link264 } } , null , & align_item } ;
 
 Link link264 = { &page_TextLabel#page } ;
 
-Text item265 = { { { "CCore -> Text tools" , null , &link265 } } , null , & align_item } ;
+Text item265 = { { { "Text tools" , null , &link265 } } , null , & align_item } ;
 
 Link link265 = { &page_TextTools#page } ;
 
-Text item266 = { { { "CCore -> TickCount and TickJob" , null , &link266 } } , null , & align_item } ;
+Text item266 = { { { "TickCount and TickJob" , null , &link266 } } , null , & align_item } ;
 
 Link link266 = { &page_Tick#page } ;
 
-Text item267 = { { { "CCore -> Ticker and TimedTrigger" , null , &link267 } } , null , & align_item } ;
+Text item267 = { { { "Ticker and TimedTrigger" , null , &link267 } } , null , & align_item } ;
 
 Link link267 = { &page_Ticker#page } ;
 
-Text item268 = { { { "CCore -> Timer" , null , &link268 } } , null , & align_item } ;
+Text item268 = { { { "Timer" , null , &link268 } } , null , & align_item } ;
 
 Link link268 = { &page_Timer#page } ;
 
-Text item269 = { { { "CCore -> TimeScope" , null , &link269 } } , null , & align_item } ;
+Text item269 = { { { "TimeScope" , null , &link269 } } , null , & align_item } ;
 
 Link link269 = { &page_TimeScope#page } ;
 
-Text item270 = { { { "CCore -> TlsSlot" , null , &link270 } } , null , & align_item } ;
+Text item270 = { { { "TlsSlot" , null , &link270 } } , null , & align_item } ;
 
 Link link270 = { &page_TlsSlot#page } ;
 
-Text item271 = { { { "CCore -> ToMemBase" , null , &link271 } } , null , & align_item } ;
+Text item271 = { { { "ToMemBase" , null , &link271 } } , null , & align_item } ;
 
 Link link271 = { &page_ToMemBase#page } ;
 
-Text item272 = { { { "CCore -> MakeString" , null , &link272 } } , null , & align_item } ;
+Text item272 = { { { "MakeString" , null , &link272 } } , null , & align_item } ;
 
 Link link272 = { &page_tool_MakeString#page } ;
 
-Text item273 = { { { "CCore -> Tree maps" , null , &link273 } } , null , & align_item } ;
+Text item273 = { { { "Tree maps" , null , &link273 } } , null , & align_item } ;
 
 Link link273 = { &page_TreeMaps#page } ;
 
-Text item274 = { { { "CCore -> Trees" , null , &link274 } } , null , & align_item } ;
+Text item274 = { { { "Trees" , null , &link274 } } , null , & align_item } ;
 
 Link link274 = { &page_Trees#page } ;
 
-Text item275 = { { { "CCore -> Tuple" , null , &link275 } } , null , & align_item } ;
+Text item275 = { { { "Tuple" , null , &link275 } } , null , & align_item } ;
 
 Link link275 = { &page_Tuple#page } ;
 
-Text item276 = { { { "CCore -> TypeNumber" , null , &link276 } } , null , & align_item } ;
+Text item276 = { { { "TypeNumber" , null , &link276 } } , null , & align_item } ;
 
 Link link276 = { &page_TypeNumber#page } ;
 
-Text item277 = { { { "CCore -> TypeSwitch" , null , &link277 } } , null , & align_item } ;
+Text item277 = { { { "TypeSwitch" , null , &link277 } } , null , & align_item } ;
 
 Link link277 = { &page_TypeSwitch#page } ;
 
-Text item278 = { { { "CCore -> (HCore) UDPDevice" , null , &link278 } } , null , & align_item } ;
+Text item278 = { { { "(HCore) UDPDevice" , null , &link278 } } , null , & align_item } ;
 
 Link link278 = { &page_UDPDevice#page } ;
 
-Text item279 = { { { "CCore -> UDPoint" , null , &link279 } } , null , & align_item } ;
+Text item279 = { { { "UDPoint" , null , &link279 } } , null , & align_item } ;
 
 Link link279 = { &page_UDPoint#page } ;
 
-Text item280 = { { { "CCore -> UIntFunc" , null , &link280 } } , null , & align_item } ;
+Text item280 = { { { "UIntFunc" , null , &link280 } } , null , & align_item } ;
 
 Link link280 = { &page_UIntFunc#page } ;
 
-Text item281 = { { { "CCore -> UIntSat" , null , &link281 } } , null , & align_item } ;
+Text item281 = { { { "UIntSat" , null , &link281 } } , null , & align_item } ;
 
 Link link281 = { &page_UIntSat#page } ;
 
-Text item282 = { { { "CCore -> Unsigned multiplication and division" , null , &link282 } } , null , & align_item } ;
+Text item282 = { { { "Unsigned multiplication and division" , null , &link282 } } , null , & align_item } ;
 
 Link link282 = { &page_UIntSlowMulAlgo#page } ;
 
-Text item283 = { { { "CCore -> UIntSplit" , null , &link283 } } , null , & align_item } ;
+Text item283 = { { { "UIntSplit" , null , &link283 } } , null , & align_item } ;
 
 Link link283 = { &page_UIntSplit#page } ;
 
-Text item284 = { { { "CCore -> Unid" , null , &link284 } } , null , & align_item } ;
+Text item284 = { { { "Unid" , null , &link284 } } , null , & align_item } ;
 
 Link link284 = { &page_Unid#page } ;
 
-Text item285 = { { { "CCore -> Utf8" , null , &link285 } } , null , & align_item } ;
+Text item285 = { { { "Utf8" , null , &link285 } } , null , & align_item } ;
 
 Link link285 = { &page_Utf8#page } ;
 
-Text item286 = { { { "CCore -> UtilFunc" , null , &link286 } } , null , & align_item } ;
+Text item286 = { { { "UtilFunc" , null , &link286 } } , null , & align_item } ;
 
 Link link286 = { &page_UtilFunc#page } ;
 
-Text item287 = { { { "CCore -> Volume" , null , &link287 } } , null , & align_item } ;
+Text item287 = { { { "Volume" , null , &link287 } } , null , & align_item } ;
 
 Link link287 = { &page_UtilVolume#page } ;
 
-Text item288 = { { { "CCore -> Volume" , null , &link288 } } , null , & align_item } ;
+Text item288 = { { { "Volume" , null , &link288 } } , null , & align_item } ;
 
 Link link288 = { &page_Volume#page } ;
 
-Text item289 = { { { "CCore -> XCore console" , null , &link289 } } , null , & align_item } ;
+Text item289 = { { { "XCore console" , null , &link289 } } , null , & align_item } ;
 
 Link link289 = { &page_XCoreConsole#page } ;
 
-Text item290 = { { { "CCore -> XCore Targets" , null , &link290 } } , null , & align_item } ;
+Text item290 = { { { "XCore Targets" , null , &link290 } } , null , & align_item } ;
 
 Link link290 = { &page_XCoreTargets#page } ;
 
-Text item291 = { { { "CCore -> XCore task events" , null , &link291 } } , null , & align_item } ;
+Text item291 = { { { "XCore task events" , null , &link291 } } , null , & align_item } ;
 
 Link link291 = { &page_XCoreTaskEvents#page } ;
 
-Text item292 = { { { "CCore -> XCore atexit" , null , &link292 } } , null , & align_item } ;
+Text item292 = { { { "XCore atexit" , null , &link292 } } , null , & align_item } ;
 
 Link link292 = { &page_XCore_atexit#page } ;
 
-Text item293 = { { { "CCore -> (XCore) BinaryFile" , null , &link293 } } , null , & align_item } ;
+Text item293 = { { { "(XCore) BinaryFile" , null , &link293 } } , null , & align_item } ;
 
 Link link293 = { &page_XCore_BinaryFile#page } ;
 
-Text item294 = { { { "CCore -> XCore CBase" , null , &link294 } } , null , & align_item } ;
+Text item294 = { { { "XCore CBase" , null , &link294 } } , null , & align_item } ;
 
 Link link294 = { &page_XCore_CBase#page } ;
 
-Text item295 = { { { "CCore -> XCore DevInt" , null , &link295 } } , null , & align_item } ;
+Text item295 = { { { "XCore DevInt" , null , &link295 } } , null , & align_item } ;
 
 Link link295 = { &page_XCore_DevInt#page } ;
 
-Text item296 = { { { "CCore -> XCore DevIntHandle" , null , &link296 } } , null , & align_item } ;
+Text item296 = { { { "XCore DevIntHandle" , null , &link296 } } , null , & align_item } ;
 
 Link link296 = { &page_XCore_DevIntHandle#page } ;
 
-Text item297 = { { { "CCore -> XCore DevPlanInit" , null , &link297 } } , null , & align_item } ;
+Text item297 = { { { "XCore DevPlanInit" , null , &link297 } } , null , & align_item } ;
 
 Link link297 = { &page_XCore_DevPlanInit#page } ;
 
-Text item298 = { { { "CCore -> XCore DevTick" , null , &link298 } } , null , & align_item } ;
+Text item298 = { { { "XCore DevTick" , null , &link298 } } , null , & align_item } ;
 
 Link link298 = { &page_XCore_DevTick#page } ;
 
-Text item299 = { { { "CCore -> XCore DevWaitForInterrupt" , null , &link299 } } , null , & align_item } ;
+Text item299 = { { { "XCore DevWaitForInterrupt" , null , &link299 } } , null , & align_item } ;
 
 Link link299 = { &page_XCore_DevWaitForInterrupt#page } ;
 
-Text item300 = { { { "CCore -> (XCore) FileToMem" , null , &link300 } } , null , & align_item } ;
+Text item300 = { { { "(XCore) FileToMem" , null , &link300 } } , null , & align_item } ;
 
 Link link300 = { &page_XCore_FileToMem#page } ;
 
-Text item301 = { { { "CCore -> XCore gcc" , null , &link301 } } , null , & align_item } ;
+Text item301 = { { { "XCore gcc" , null , &link301 } } , null , & align_item } ;
 
 Link link301 = { &page_XCore_gcc#page } ;
 
-Text item302 = { { { "CCore -> XCore PlanInit_CCore" , null , &link302 } } , null , & align_item } ;
+Text item302 = { { { "XCore PlanInit_CCore" , null , &link302 } } , null , & align_item } ;
 
 Link link302 = { &page_XCore_PlanInit_CCore#page } ;
 
-Text item303 = { { { "CCore -> XCore PlatformBase" , null , &link303 } } , null , & align_item } ;
+Text item303 = { { { "XCore PlatformBase" , null , &link303 } } , null , & align_item } ;
 
 Link link303 = { &page_XCore_PlatformBase#page } ;
 
-Text item304 = { { { "CCore -> (XCore) RawFileToRead" , null , &link304 } } , null , & align_item } ;
+Text item304 = { { { "(XCore) RawFileToRead" , null , &link304 } } , null , & align_item } ;
 
 Link link304 = { &page_XCore_RawFileToRead#page } ;
 
-Text item305 = { { { "CCore -> XCore target STD implementation" , null , &link305 } } , null , & align_item } ;
+Text item305 = { { { "XCore target STD implementation" , null , &link305 } } , null , & align_item } ;
 
 Link link305 = { &page_XCore_STD#page } ;
 
-Text item306 = { { { "CCore -> XCore __std_init" , null , &link306 } } , null , & align_item } ;
+Text item306 = { { { "XCore __std_init" , null , &link306 } } , null , & align_item } ;
 
 Link link306 = { &page_XCore_stdinit#page } ;
 
-Text item307 = { { { "CCore -> XCore SysAbort" , null , &link307 } } , null , & align_item } ;
+Text item307 = { { { "XCore SysAbort" , null , &link307 } } , null , & align_item } ;
 
 Link link307 = { &page_XCore_SysAbort#page } ;
 
-Text item308 = { { { "CCore -> XCore SysCon" , null , &link308 } } , null , & align_item } ;
+Text item308 = { { { "XCore SysCon" , null , &link308 } } , null , & align_item } ;
 
 Link link308 = { &page_XCore_SysCon#page } ;
 
-Text item309 = { { { "CCore -> XCore SysMemSpace" , null , &link309 } } , null , & align_item } ;
+Text item309 = { { { "XCore SysMemSpace" , null , &link309 } } , null , & align_item } ;
 
 Link link309 = { &page_XCore_SysMemSpace#page } ;
 
-Text item310 = { { { "CCore -> XCore SysPlanInit" , null , &link310 } } , null , & align_item } ;
+Text item310 = { { { "XCore SysPlanInit" , null , &link310 } } , null , & align_item } ;
 
 Link link310 = { &page_XCore_SysPlanInit#page } ;
 
-Text item311 = { { { "CCore -> XCore sysroot" , null , &link311 } } , null , & align_item } ;
+Text item311 = { { { "XCore sysroot" , null , &link311 } } , null , & align_item } ;
 
 Link link311 = { &page_XCore_sysroot#page } ;
 
-Text item312 = { { { "CCore -> XCore SysTime" , null , &link312 } } , null , & align_item } ;
+Text item312 = { { { "XCore SysTime" , null , &link312 } } , null , & align_item } ;
 
 Link link312 = { &page_XCore_SysTime#page } ;
 
-Text item313 = { { { "CCore -> XCore TaskContext" , null , &link313 } } , null , & align_item } ;
+Text item313 = { { { "XCore TaskContext" , null , &link313 } } , null , & align_item } ;
 
 Link link313 = { &page_XCore_TaskContext#page } ;
 

@@ -369,6 +369,23 @@ void InnerBookWindow::setScale(Ratio scale_)
   ok=false;
  }
 
+ulen InnerBookWindow::getFrameIndex() const
+ {
+  if( !cache() ) return 0;
+
+  Coord pos_y=(Coord)sy.getPos();
+
+  PtrLen<const Shape> r=Range(shapes);
+
+  auto s=Algon::BinarySearch_if(r, [off=pos_y] (const Shape &shape) { return shape.getDown() > off ; } );
+
+  if( +s ) --r;
+
+  if( !r ) return 0;
+
+  return Dist(shapes.getPtr(),r.ptr);
+ }
+
  // drawing
 
 void InnerBookWindow::layout()
@@ -685,6 +702,11 @@ void DisplayBookWindow::setScale(Ratio scale)
   redraw();
  }
 
+ulen DisplayBookWindow::getFrameIndex() const
+ {
+  return window.getFrameIndex();
+ }
+
 /* class DisplayBookFrame */
 
 DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,DrawBook::ExtMap &map,Signal<> &update)
@@ -954,7 +976,7 @@ void BookWindow::push(Book::TypeDef::Page *page,RefArray<ulen> index_list)
     }
  }
 
-void BookWindow::link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list)
+void BookWindow::goTo(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list)
  {
   if( page )
     {
@@ -985,13 +1007,25 @@ void BookWindow::link(Book::TypeDef::Link dst,RefArray<ulen> index_list)
     {
      push(cur,index_list);
 
-     link(page,Range_const(dst.index_list.getRange()));
+     goTo(page,Range_const(dst.index_list.getRange()));
+    }
+ }
+
+void BookWindow::link(Book::TypeDef::Page *page)
+ {
+  if( page )
+    {
+     RefArray<ulen> index_list(DoFill(1),book.getFrameIndex());
+
+     push(cur,index_list);
+
+     goTo<ulen>(page,Empty);
     }
  }
 
 void BookWindow::link(History obj)
  {
-  link(obj.page,Range_const(obj.index_list));
+  goTo(obj.page,Range_const(obj.index_list));
  }
 
 void BookWindow::back()
@@ -1046,17 +1080,17 @@ void BookWindow::hint(Book::TypeDef::Page *page)
 
 void BookWindow::gotoPrev()
  {
-  link<ulen>(prev,{});
+  link(prev);
  }
 
 void BookWindow::gotoUp()
  {
-  link<ulen>(up,{});
+  link(up);
  }
 
 void BookWindow::gotoNext()
  {
-  link<ulen>(next,{});
+  link(next);
  }
 
 void BookWindow::setScale(int scale_)
@@ -1372,6 +1406,12 @@ void BookWindow::react_Key(VKey vkey,KeyMod kmod)
      case VKey_F7 :
       {
        gotoNext();
+      }
+     break;
+
+     case VKey_BackSpace :
+      {
+       back();
       }
      break;
 

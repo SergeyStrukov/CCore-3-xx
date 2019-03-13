@@ -188,6 +188,8 @@ class InnerBookWindow : public SubWindow
 
    void setScale(Ratio scale); // no layout/redraw
 
+   ulen getFrameIndex() const;
+
    // special methods
 
    bool shortDX() const { return sx.tooShort(); }
@@ -270,6 +272,8 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
    void posFrame(PtrLen<const UIntType> index_list); // no redraw
 
    void setScale(Ratio scale);
+
+   ulen getFrameIndex() const;
 
    // signals
 
@@ -461,13 +465,13 @@ class BookWindow : public ComboWindow
 
      Ratio defscale = Ratio(1,0) ;
 
-     String hint_PrevPage   = "Go to the previous page"_str ;
-     String hint_ParentPage = "Go to the parent page"_str ;
-     String hint_NextPage   = "Go to the next page"_str ;
+     String hint_PrevPage   = "Go to the previous page (F5)"_str ;
+     String hint_ParentPage = "Go to the parent page (F6)"_str ;
+     String hint_NextPage   = "Go to the next page (F7)"_str ;
      String hint_Scale      = "Set the display scale"_str ;
      String hint_Font       = "Font replacement table"_str ;
      String hint_Reload     = "Reload book"_str ;
-     String hint_GotoBack   = "Jump back"_str ;
+     String hint_GotoBack   = "Jump back (BS)"_str ;
      String hint_GotoFore   = "Jump fore"_str ;
 
      // back
@@ -542,13 +546,13 @@ class BookWindow : public ComboWindow
 
      RefVal<Ratio> defscale = Ratio(1,0) ;
 
-     RefVal<String> hint_PrevPage   = "Go to the previous page"_str ;
-     RefVal<String> hint_ParentPage = "Go to the parent page"_str ;
-     RefVal<String> hint_NextPage   = "Go to the next page"_str ;
+     RefVal<String> hint_PrevPage   = "Go to the previous page (F5)"_str ;
+     RefVal<String> hint_ParentPage = "Go to the parent page (F6)"_str ;
+     RefVal<String> hint_NextPage   = "Go to the next page (F7)"_str ;
      RefVal<String> hint_Scale      = "Set the display scale"_str ;
      RefVal<String> hint_Font       = "Font replacement table"_str ;
      RefVal<String> hint_Reload     = "Reload book"_str ;
-     RefVal<String> hint_GotoBack   = "Jump back"_str ;
+     RefVal<String> hint_GotoBack   = "Jump back (BS)"_str ;
      RefVal<String> hint_GotoFore   = "Jump fore"_str ;
 
      DisplayBookWindow::ConfigType book_cfg;
@@ -708,9 +712,11 @@ class BookWindow : public ComboWindow
 
    void push(Book::TypeDef::Page *page,RefArray<ulen> index_list);
 
-   void link(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list);
+   void goTo(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list);
 
    void link(Book::TypeDef::Link dst,RefArray<ulen> index_list);
+
+   void link(Book::TypeDef::Page *page);
 
    SignalConnector<BookWindow,Book::TypeDef::Link,RefArray<ulen> > connector_link;
 
