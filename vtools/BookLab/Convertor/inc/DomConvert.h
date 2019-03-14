@@ -17,31 +17,227 @@
 #include <inc/ErrorId.h>
 
 #include <CCore/inc/String.h>
+#include <CCore/inc/AnyPtr.h>
+#include <CCore/inc/List.h>
+#include <CCore/inc/ElementPool.h>
 
 namespace App {
 
+/* namespace Dom */
+
+namespace Dom {
+
 /* classes */
 
-class Dom;
+template <class T> class List;
 
-class DomConvert;
+class Text;
 
-/* class Dom */
+class Fixed;
 
-class Dom : NoCopy
+class TList;
+
+struct ElemH1;
+
+struct ElemH2;
+
+struct ElemH3;
+
+struct ElemH4;
+
+struct ElemH5;
+
+struct ElemP;
+
+struct ElemPRE;
+
+struct ElemOL;
+
+struct ElemUL;
+
+struct ElemLI;
+
+struct ElemImg;
+
+class Builder;
+
+/* class List<T> */
+
+template <class T>
+class List : NoCopy
  {
+   struct Node : NoCopy
+    {
+     SLink<Node> link;
+
+     T obj;
+
+     explicit Node(const T &obj_) : obj(obj_) {}
+    };
+
+   using Algo = typename SLink<Node>::template LinearAlgo<&Node::link> ;
+
+   typename Algo::FirstLast list;
+
   public:
 
-   Dom();
+   List() {}
 
-   ~Dom();
+   void add(ElementPool &pool,const T &obj)
+    {
+     Node *node=pool.create<Node>(obj);
 
+     list.ins_last(node);
+    }
  };
+
+/* class Text */
+
+class Text : NoCopy // TODO
+ {
+ };
+
+/* class Fixed */
+
+class Fixed : NoCopy // TODO
+ {
+ };
+
+/* class TList */
+
+class TList : NoCopy // TODO
+ {
+ };
+
+/* struct ElemH1 */
+
+struct ElemH1 : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemH2 */
+
+struct ElemH2 : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemH3 */
+
+struct ElemH3 : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemH4 */
+
+struct ElemH4 : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemH5 */
+
+struct ElemH5 : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemP */
+
+struct ElemP : NoCopy
+ {
+  StrLen id;
+  StrLen elem_class;
+  Text text;
+ };
+
+/* struct ElemPRE */
+
+struct ElemPRE : NoCopy
+ {
+  StrLen id;
+  Text text;
+ };
+
+/* struct ElemOL */
+
+struct ElemOL : NoCopy
+ {
+  StrLen id;
+  TList list;
+ };
+
+/* struct ElemUL */
+
+struct ElemUL : NoCopy
+ {
+  StrLen id;
+  TList list;
+ };
+
+/* struct ElemLI */
+
+struct ElemLI : NoCopy // TODO
+ {
+ };
+
+/* struct ElemImg */
+
+struct ElemImg : NoCopy
+ {
+  StrLen id;
+  StrLen file_name;
+ };
+
+/* class Builder */
+
+using BlockPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemImg> ;
+
+class Builder : NoCopy
+ {
+   ElementPool pool;
+
+   List<BlockPtr> blocks;
+
+  public:
+
+   Builder() {}
+
+   ~Builder() {}
+
+   // common
+
+   template <class T>
+   T * create() { return pool.create<T>(); }
+
+   StrLen dup(StrLen str) { return pool.dup(str); }
+
+   StrLen dup(const String &str) { return pool.dup(Range(str)); }
+
+   // add
+
+   void add(BlockPtr ptr) { blocks.add(pool,ptr); }
+ };
+
+} // namespace Dom
+
+/* classes */
+
+class DomConvert;
 
 /* class DomConvert */
 
 class DomConvert : NoCopy
  {
+   Dom::Builder builder;
+
   public:
 
    enum ErrorCode

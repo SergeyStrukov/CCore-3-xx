@@ -17,6 +17,13 @@
 
 namespace App {
 
+/* namespace Dom */
+
+namespace Dom {
+
+
+} // namespace Dom
+
 /* class DomConvert */
 
 StrLen DomConvert::ToString(int code)
