@@ -23,15 +23,6 @@ namespace App {
 
 namespace Dom {
 
-/* TestSpace() */
-
-bool TestSpace(StrLen str)
- {
-  for(char ch : str ) if( !CharIsSpace(ch) ) return false;
-
-  return true;
- }
-
 /* enum ErrorCode */
 
 StrLen ToString(int code)
@@ -39,6 +30,8 @@ StrLen ToString(int code)
   switch( code )
     {
      case Error_NoElem : return "Element is not opened"_c;
+
+     case Error_NotClosed : return "Element is not closed"_c;
 
      case Error_Top : return "Must be a top-level element"_c;
 
@@ -111,11 +104,79 @@ DomErrorId Format::clearFmt(bool &flag)
   return {};
  }
 
+void Format::setLink(Builder &builder,StrLen str)
+ {
+  if( !str ) return;
+
+  if( *str=='#' )
+    {
+     ++str;
+
+     link=builder.cat("link_"_c,str);
+
+     has_link=true;
+    }
+  else if( str.hasPrefix("page_"_c) )
+    {
+     StrLen name=str;
+
+     for(; +name && *name!='#' ;++name);
+
+     if( +name )
+       {
+        StrLen page=str.prefix(name);
+
+        if( page.hasSuffix(".html"_c) )
+          {
+           page.len-=5;
+
+           ++name;
+
+           link=builder.cat("..#"_c,page,"#link_"_c,name);
+
+           has_link=true;
+          }
+       }
+     else
+       {
+        StrLen page=str;
+
+        if( page.hasSuffix(".html"_c) )
+          {
+           page.len-=5;
+
+           link=builder.cat("..#"_c,page,"#link"_c);
+
+           has_link=true;
+          }
+       }
+    }
+ }
+
 DomErrorId Format::setSPAN(Builder &builder,const String &str)
  {
   spanclass=builder.dup(str);
 
   return setFmt(fmt_span);
+ }
+
+DomErrorId Format::setA()
+ {
+  return setFmt(fmt_a);
+ }
+
+DomErrorId Format::setA(Builder &builder,const String &str)
+ {
+  setLink(builder,Range(str));
+
+  return setFmt(fmt_a);
+ }
+
+DomErrorId Format::endA()
+ {
+  has_link=false;
+
+  return clearFmt(fmt_a);
  }
 
 DomErrorId Format::noFormat() const
@@ -140,19 +201,34 @@ void GuardStackEmpty()
   Printf(Exception,"App::Stack<...>::top() : stack is empty");
  }
 
+/* TestSpace() */
+
+bool TestSpace(StrLen str)
+ {
+  for(char ch : str ) if( !CharIsSpace(ch) ) return false;
+
+  return true;
+ }
+
 /* class DomConvert */
 
-template <class Elem,class Func>
-auto DomConvert::openBlock(Func func) -> EId
+template <class Elem>
+void DomConvert::setId(Elem *elem)
  {
-  auto *elem=builder.create<Elem>();
-
   if( Change(has_id,false) )
     {
      elem->id=builder.dup(id);
 
      id=Empty;
     }
+ }
+
+template <class Elem,class Func>
+auto DomConvert::openBlock(Func func) -> EId
+ {
+  auto *elem=builder.create<Elem>();
+
+  setId(elem);
 
   func(elem);
 
@@ -219,6 +295,19 @@ auto DomConvert::setFormat(Func func) ->EId
   return ret;
  }
 
+template <class T>
+auto DomConvert::frame(T &text,StrLen str) -> EId
+ {
+  return text.frame(builder,str);
+ }
+
+auto DomConvert::frame(NothingType,StrLen str) -> EId
+ {
+  if( TestSpace(str) ) return {};
+
+  return Dom::Error_NoText;
+ }
+
 DomConvert::DomConvert()
  {
  }
@@ -250,14 +339,14 @@ auto DomConvert::frame(String str_) -> EId
 
   if( stack.isEmpty() )
     {
-     if( Dom::TestSpace(str) ) return {};
+     if( TestSpace(str) ) return {};
 
      return Dom::Error_NoElem;
     }
 
   EId ret;
 
-  stack.top().apply( [&] (auto *elem) { ret=elem->frame(builder,str); } );
+  stack.top().apply( [&] (auto *elem) { ret=frame(elem->refText(),str); } );
 
   return ret;
  }
@@ -407,17 +496,17 @@ auto DomConvert::tagSPANend() -> EId
 
 auto DomConvert::tagA(String url) -> EId
  {
-  return setFmt(fmt_a);
+  return setFormat( [&] (Dom::Format &format) { return format.setSPAN(builder,url); } );
  }
 
-auto DomConvert::tagA(String type,String url) -> EId
+auto DomConvert::tagA(String,String) -> EId
  {
-  return setFmt(fmt_a);
+  return setFormat( [] (Dom::Format &format) { return format.setA(); } );
  }
 
 auto DomConvert::tagAend() -> EId
  {
-  return clearFmt(fmt_a);
+  return setFormat( [] (Dom::Format &format) { return format.endA(); } );
  }
 
  // list
@@ -474,18 +563,29 @@ auto DomConvert::tagLIend() -> EId
 
 auto DomConvert::tagImg(String file_name) -> EId
  {
-  if( block ) return Error_InBlock;
+  if( stack.isEmpty() )
+    {
+     auto *elem=builder.create<Dom::ElemImg>();
 
-  return {};
+     setId(elem);
+
+     elem->file_name=builder.dup(file_name);
+
+     builder.add(elem);
+
+     return {};
+    }
+
+  return Dom::Error_NotClosed;
  }
 
  // complete
 
 auto DomConvert::complete() -> EId
  {
-  if( block ) return Error_InBlock;
+  if( stack.isEmpty() ) return {};
 
-  return {};
+  return Dom::Error_NotClosed;
  }
 
 } // namespace App

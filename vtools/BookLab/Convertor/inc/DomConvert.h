@@ -28,10 +28,6 @@ namespace App {
 
 namespace Dom {
 
-/* TestSpace() */
-
-bool TestSpace(StrLen str);
-
 /* classes */
 
 template <class T> class List;
@@ -111,6 +107,7 @@ class List : NoCopy
 enum ErrorCode
  {
   Error_NoElem = 1,
+  Error_NotClosed,
 
   Error_Top,
   Error_NoTop,
@@ -155,6 +152,9 @@ class Format : NoCopy
 
    StrLen fmt;
 
+   StrLen link;
+   bool has_link = false ;
+
   private:
 
    void prepareFmt();
@@ -162,6 +162,8 @@ class Format : NoCopy
    DomErrorId setFmt(bool &flag);
 
    DomErrorId clearFmt(bool &flag);
+
+   void setLink(Builder &builder,StrLen str);
 
   public:
 
@@ -191,7 +193,17 @@ class Format : NoCopy
 
    DomErrorId endSPAN() { return clearFmt(fmt_span); }
 
+   DomErrorId setA();
+
+   DomErrorId setA(Builder &builder,const String &str);
+
+   DomErrorId endA();
+
    StrLen getFmt() const { return fmt; }
+
+   bool hasLink() const { return has_link; }
+
+   StrLen getLink() const { return link; }
 
    DomErrorId noFormat() const;
  };
@@ -232,9 +244,7 @@ class TList : NoCopy // TODO
  {
   public:
 
-  DomErrorId frame(Builder &builder,StrLen str);
-
-  DomErrorId complete();
+   DomErrorId complete();
  };
 
 /* struct TextBase */
@@ -245,7 +255,7 @@ struct TextBase : NoCopy
 
   Format & refFormat() { return text.refFormat(); }
 
-  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
+  Text & refText() { return text; }
 
   DomErrorId complete() { return text.complete(); }
  };
@@ -302,7 +312,7 @@ struct ElemPRE : NoCopy
 
   Format & refFormat() { return text.refFormat(); }
 
-  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
+  Fixed & refText() { return text; }
 
   DomErrorId complete() { return text.complete(); }
  };
@@ -315,7 +325,7 @@ struct TListBase
 
   auto refFormat() { return Nothing; }
 
-  DomErrorId frame(Builder &,StrLen str) { if( TestSpace(str) ) return {}; return Error_NoText; }
+  auto refText() { return Nothing; }
 
   DomErrorId complete() { return list.complete(); }
  };
@@ -340,7 +350,7 @@ struct ElemLI : NoCopy // TODO
  {
   Format & refFormat();
 
-  DomErrorId frame(Builder &builder,StrLen str);
+  Text & refText();
 
   DomErrorId complete();
  };
@@ -382,6 +392,9 @@ class Builder : NoCopy
 
    StrLen dup(const String &str) { return pool.dup(Range(str)); }
 
+   template <class ... TT>
+   StrLen cat(TT ... tt) { return pool.cat(tt...); }
+
    // add
 
    void setTitle(StrLen title_) { title=title_; }
@@ -390,6 +403,10 @@ class Builder : NoCopy
  };
 
 } // namespace Dom
+
+/* guard functions */
+
+void GuardStackEmpty();
 
 /* functions */
 
@@ -425,9 +442,9 @@ bool TryCastAnyPtr(T &dst,S src)
   return ret;
  }
 
-/* guard functions */
+/* TestSpace() */
 
-void GuardStackEmpty();
+bool TestSpace(StrLen str);
 
 /* classes */
 
@@ -491,6 +508,9 @@ class DomConvert : NoCopy
 
   private:
 
+   template <class Elem>
+   void setId(Elem *elem);
+
    template <class Elem,class Func>
    EId openBlock(Func func);
 
@@ -508,6 +528,11 @@ class DomConvert : NoCopy
 
    template <class Func>
    EId setFormat(Func func);
+
+   template <class T>
+   EId frame(T &text,StrLen str);
+
+   EId frame(NothingType,StrLen str);
 
   public:
 
