@@ -83,6 +83,32 @@ class FileList : NoCopy
    auto getRange() const { return range; }
  };
 
+/* Index() */
+
+int Index(PrintBase &out,StrLen input_dir_name)
+ {
+  StrLen file_name="../index.html"_c;
+
+  MakeFileName temp(input_dir_name,file_name);
+
+  Source src(temp.get());
+
+  PageParam param;
+
+  param.name="Index"_str;
+
+  IndexConvert convert(out,param);
+
+  if( !src.run(convert) )
+    {
+     Printf(Con,"@ #;\n",file_name);
+
+     return 1;
+    }
+
+  return 0;
+ }
+
 /* Main() */
 
 StrLen CutTitle(const String &title)
@@ -98,10 +124,12 @@ StrLen CutTitle(const String &title)
 
 int Main(StrLen input_dir_name,StrLen output_file_name)
  {
+  PrintFile out(output_file_name);
+
+  return Index(out,input_dir_name);
+
   FileList file_list(input_dir_name);
   auto list=file_list.getRange();
-
-  PrintFile out(output_file_name);
 
   DynArray<String> title(list.len);
 

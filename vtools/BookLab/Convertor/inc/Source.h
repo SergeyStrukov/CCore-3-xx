@@ -214,6 +214,17 @@ class Source : NoCopy
             }
            break;
 
+           case 19 : // <ol
+            {
+             if( !ProbeClose(inp) )
+               {
+                Scanf(inp," class = #.q; >",param);
+
+                has_param=true;
+               }
+            }
+           break;
+
            case 23 : // <img
             {
              Scanf(inp," src = #.q; />",param);

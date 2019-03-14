@@ -29,6 +29,8 @@ class Book;
 
 class Convert;
 
+class IndexConvert;
+
 /* struct PageParam */
 
 struct PageParam
@@ -219,10 +221,6 @@ class Convert : NoCopy
 
    TagErrorId noFormat() const;
 
-   TagErrorId open(BlockType bt);
-
-   TagErrorId close(BlockType bt);
-
    TagErrorId setFmt(bool &flag);
 
    TagErrorId clearFmt(bool &flag);
@@ -248,6 +246,208 @@ class Convert : NoCopy
    // title
 
    const String & getTitle() const { return title; }
+
+   void setTitle(String str);
+
+   // id
+
+   void setId(String id);
+
+   // frame
+
+   TagErrorId frame(String str);
+
+   // text
+
+   TagErrorId tagH1();
+
+   TagErrorId tagH1end();
+
+   TagErrorId tagH2();
+
+   TagErrorId tagH2end();
+
+   TagErrorId tagH3();
+
+   TagErrorId tagH3end();
+
+   TagErrorId tagH4();
+
+   TagErrorId tagH4end();
+
+   TagErrorId tagH5();
+
+   TagErrorId tagH5end();
+
+   TagErrorId tagP();
+
+   TagErrorId tagP(String tclass);
+
+   TagErrorId tagPend();
+
+   TagErrorId tagPRE();
+
+   TagErrorId tagPREend();
+
+   // format
+
+   TagErrorId tagB();
+
+   TagErrorId tagBend();
+
+   TagErrorId tagI();
+
+   TagErrorId tagIend();
+
+   TagErrorId tagU();
+
+   TagErrorId tagUend();
+
+   TagErrorId tagSUB();
+
+   TagErrorId tagSUBend();
+
+   TagErrorId tagSUP();
+
+   TagErrorId tagSUPend();
+
+   TagErrorId tagSPAN(String tclass);
+
+   TagErrorId tagSPANend();
+
+   // hyperlink
+
+   TagErrorId tagA(String url);
+
+   TagErrorId tagA(String type,String url);
+
+   TagErrorId tagAend();
+
+   // list
+
+   TagErrorId tagOL();
+
+   TagErrorId tagOLend();
+
+   TagErrorId tagUL();
+
+   TagErrorId tagULend();
+
+   TagErrorId tagLI();
+
+   TagErrorId tagLIend();
+
+   // image
+
+   TagErrorId tagImg(String file_name);
+
+   // complete
+
+   TagErrorId complete();
+ };
+
+/* class IndexConvert */
+
+class IndexConvert : NoCopy
+ {
+   Book book;
+
+  public:
+
+   enum ErrorCode
+    {
+     Error_NoBlock = 1,
+     Error_BlockMismatch,
+     Error_InBlock,
+     Error_NotList,
+     Error_NotItem,
+     Error_ItemNotClosed,
+
+     Error_HasFmt,
+     Error_NoFmt
+    };
+
+   static StrLen ToString(int code);
+
+   class TagErrorId : public ErrorId
+    {
+     public:
+
+      TagErrorId() {}
+
+      TagErrorId(ErrorCode code) : ErrorId(code,ToString) {}
+    };
+
+  private:
+
+   enum BlockType
+    {
+     NoBlock = 0,
+
+     Block_H1,
+     Block_H2,
+     Block_H3,
+     Block_H4,
+     Block_H5,
+     Block_P,
+
+     Block_PRE,
+
+     Block_OL,
+     Block_UL
+    };
+
+   BlockType block = NoBlock ;
+   bool item = false ;
+
+   bool fmt_b = false ;
+   bool fmt_i = false ;
+   bool fmt_u = false ;
+   bool fmt_sub = false ;
+   bool fmt_sup = false ;
+
+   bool fmt_span = false ;
+   String spanclass;
+
+   bool fmt_a = false ;
+
+   String fmt;
+
+  private:
+
+   bool inList() const { return block>=Block_OL ; }
+
+   bool notOpened() const { return !block || ( inList() && !item ) ; }
+
+   bool inText() const { return ( block>=Block_H1 && block<=Block_P ) || item ; }
+
+   bool inFixed() const { return block==Block_PRE; }
+
+   TagErrorId noFormat() const;
+
+   TagErrorId setFmt(bool &flag);
+
+   TagErrorId clearFmt(bool &flag);
+
+   static bool TestSpace(StrLen str);
+
+  private:
+
+   void prepareFmt();
+
+   StrLen getFmt() const;
+
+   TagErrorId openText(BlockType bt,const String &kind);
+
+   TagErrorId closeText(BlockType bt);
+
+  public:
+
+   IndexConvert(PrintBase &out,const PageParam &param);
+
+   ~IndexConvert();
+
+   // title
 
    void setTitle(String str);
 
