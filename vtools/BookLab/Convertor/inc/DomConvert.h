@@ -40,6 +40,8 @@ template <class T> class List;
 
 class DomErrorId;
 
+class Format;
+
 class Text;
 
 class Fixed;
@@ -113,7 +115,11 @@ enum ErrorCode
   Error_Top,
   Error_NoTop,
   Error_TagMismatch,
-  Error_NoText
+  Error_NoText,
+  Error_NoFormat,
+
+  Error_HasFmt,
+  Error_NoFmt
  };
 
 StrLen ToString(int code);
@@ -129,11 +135,76 @@ class DomErrorId : public ErrorId
    DomErrorId(ErrorCode code) : ErrorId(code,ToString) {}
  };
 
+/* class Format */
+
+class Format : NoCopy
+ {
+   char temp[3];
+
+   bool fmt_b = false ;
+   bool fmt_i = false ;
+   bool fmt_u = false ;
+
+   bool fmt_sub = false ;
+   bool fmt_sup = false ;
+
+   bool fmt_span = false ;
+   StrLen spanclass;
+
+   bool fmt_a = false ;
+
+   StrLen fmt;
+
+  private:
+
+   void prepareFmt();
+
+   DomErrorId setFmt(bool &flag);
+
+   DomErrorId clearFmt(bool &flag);
+
+  public:
+
+   Format() {}
+
+   DomErrorId setB() { return setFmt(fmt_b); }
+
+   DomErrorId endB() { return clearFmt(fmt_b); }
+
+   DomErrorId setI() { return setFmt(fmt_i); }
+
+   DomErrorId endI() { return clearFmt(fmt_i); }
+
+   DomErrorId setU() { return setFmt(fmt_u); }
+
+   DomErrorId endU() { return clearFmt(fmt_u); }
+
+   DomErrorId setSUB() { return setFmt(fmt_sub); }
+
+   DomErrorId endSUB() { return clearFmt(fmt_sub); }
+
+   DomErrorId setSUP() { return setFmt(fmt_sup); }
+
+   DomErrorId endSUP() { return clearFmt(fmt_sup); }
+
+   DomErrorId setSPAN(Builder &builder,const String &str);
+
+   DomErrorId endSPAN() { return clearFmt(fmt_span); }
+
+   StrLen getFmt() const { return fmt; }
+
+   DomErrorId noFormat() const;
+ };
+
 /* class Text */
 
 class Text : NoCopy // TODO
  {
+   Format format;
+
   public:
+
+   Format & refFormat() { return format; }
 
    DomErrorId frame(Builder &builder,StrLen str);
 
@@ -144,7 +215,11 @@ class Text : NoCopy // TODO
 
 class Fixed : NoCopy // TODO
  {
+   Format format;
+
   public:
+
+   Format & refFormat() { return format; }
 
    DomErrorId frame(Builder &builder,StrLen str);
 
@@ -167,6 +242,8 @@ class TList : NoCopy // TODO
 struct TextBase : NoCopy
  {
   Text text;
+
+  Format & refFormat() { return text.refFormat(); }
 
   DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
@@ -223,6 +300,8 @@ struct ElemPRE : NoCopy
   StrLen id;
   Fixed text;
 
+  Format & refFormat() { return text.refFormat(); }
+
   DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
   DomErrorId complete() { return text.complete(); }
@@ -233,6 +312,8 @@ struct ElemPRE : NoCopy
 struct TListBase
  {
   TList list;
+
+  auto refFormat() { return Nothing; }
 
   DomErrorId frame(Builder &,StrLen str) { if( TestSpace(str) ) return {}; return Error_NoText; }
 
@@ -257,7 +338,11 @@ struct ElemUL : TListBase
 
 struct ElemLI : NoCopy // TODO
  {
+  Format & refFormat();
+
   DomErrorId frame(Builder &builder,StrLen str);
+
+  DomErrorId complete();
  };
 
 /* struct ElemImg */
@@ -414,6 +499,15 @@ class DomConvert : NoCopy
 
    template <class Elem>
    EId closeBlock();
+
+   template <class Func>
+   static EId SetFormat(Dom::Format &format,Func func);
+
+   template <class Func>
+   static EId SetFormat(NothingType,Func func);
+
+   template <class Func>
+   EId setFormat(Func func);
 
   public:
 

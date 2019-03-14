@@ -48,10 +48,87 @@ StrLen ToString(int code)
 
      case Error_NoText : return "Text is not allowed in this element"_c;
 
+     case Error_NoFormat : return "Format tags are not allowed in this element"_c;
+
+     case Error_HasFmt : return "Format flag is active"_c;
+
+     case Error_NoFmt : return "Format flag is not active"_c;
+
      //case  : return ""_c;
 
      default: return "???"_c;
     }
+ }
+
+/* class Format */
+
+void Format::prepareFmt()
+ {
+  if( fmt_a )
+    {
+     fmt="a"_c;
+    }
+  else if( fmt_span )
+    {
+     fmt=spanclass;
+    }
+  else
+    {
+     unsigned len=0;
+
+     if( fmt_b ) temp[len++]='b';
+
+     if( fmt_i ) temp[len++]='i';
+
+     if( fmt_u ) temp[len++]='u';
+
+     if( len )
+       fmt=StrLen(temp,len);
+     else
+       fmt=Empty;
+    }
+ }
+
+DomErrorId Format::setFmt(bool &flag)
+ {
+  if( flag ) return Error_HasFmt;
+
+  flag=true;
+
+  prepareFmt();
+
+  return {};
+ }
+
+DomErrorId Format::clearFmt(bool &flag)
+ {
+  if( !flag ) return Error_NoFmt;
+
+  flag=false;
+
+  prepareFmt();
+
+  return {};
+ }
+
+DomErrorId Format::setSPAN(Builder &builder,const String &str)
+ {
+  spanclass=builder.dup(str);
+
+  return setFmt(fmt_span);
+ }
+
+DomErrorId Format::noFormat() const
+ {
+  if( fmt_b ) return Error_HasFmt;
+  if( fmt_i ) return Error_HasFmt;
+  if( fmt_u ) return Error_HasFmt;
+  if( fmt_sub ) return Error_HasFmt;
+  if( fmt_sup ) return Error_HasFmt;
+  if( fmt_span ) return Error_HasFmt;
+  if( fmt_a ) return Error_HasFmt;
+
+  return {};
  }
 
 } // namespace Dom
@@ -118,6 +195,29 @@ auto DomConvert::closeBlock() -> EId
     }
  }
 
+template <class Func>
+auto DomConvert::SetFormat(Dom::Format &format,Func func) -> EId
+ {
+  return func(format);
+ }
+
+template <class Func>
+auto DomConvert::SetFormat(NothingType,Func) -> EId
+ {
+  return Dom::Error_NoFormat;
+ }
+
+template <class Func>
+auto DomConvert::setFormat(Func func) ->EId
+ {
+  if( stack.isEmpty() ) return Dom::Error_NoElem;
+
+  EId ret;
+
+  stack.pop().apply( [&] (auto *elem) { ret=SetFormat(elem->refFormat(),func); } );
+
+  return ret;
+ }
 
 DomConvert::DomConvert()
  {
@@ -245,62 +345,62 @@ auto DomConvert::tagPREend() -> EId
 
 auto DomConvert::tagB() -> EId
  {
-  return setFmt(fmt_b);
+  return setFormat( [] (Dom::Format &format) { return format.setB(); } );
  }
 
 auto DomConvert::tagBend() -> EId
  {
-  return clearFmt(fmt_b);
+  return setFormat( [] (Dom::Format &format) { return format.endB(); } );
  }
 
 auto DomConvert::tagI() -> EId
  {
-  return setFmt(fmt_i);
+  return setFormat( [] (Dom::Format &format) { return format.setI(); } );
  }
 
 auto DomConvert::tagIend() -> EId
  {
-  return clearFmt(fmt_i);
+  return setFormat( [] (Dom::Format &format) { return format.endI(); } );
  }
 
 auto DomConvert::tagU() -> EId
  {
-  return setFmt(fmt_u);
+  return setFormat( [] (Dom::Format &format) { return format.setU(); } );
  }
 
 auto DomConvert::tagUend() -> EId
  {
-  return clearFmt(fmt_u);
+  return setFormat( [] (Dom::Format &format) { return format.endU(); } );
  }
 
 auto DomConvert::tagSUB() -> EId
  {
-  return setFmt(fmt_sub);
+  return setFormat( [] (Dom::Format &format) { return format.setSUB(); } );
  }
 
 auto DomConvert::tagSUBend() -> EId
  {
-  return clearFmt(fmt_sub);
+  return setFormat( [] (Dom::Format &format) { return format.endSUB(); } );
  }
 
 auto DomConvert::tagSUP() -> EId
  {
-  return setFmt(fmt_sup);
+  return setFormat( [] (Dom::Format &format) { return format.setSUP(); } );
  }
 
 auto DomConvert::tagSUPend() -> EId
  {
-  return clearFmt(fmt_sup);
+  return setFormat( [] (Dom::Format &format) { return format.endSUP(); } );
  }
 
 auto DomConvert::tagSPAN(String tclass) -> EId
  {
-  return setFmt(fmt_span);
+  return setFormat( [&] (Dom::Format &format) { return format.setSPAN(builder,tclass); } );
  }
 
 auto DomConvert::tagSPANend() -> EId
  {
-  return clearFmt(fmt_span);
+  return setFormat( [] (Dom::Format &format) { return format.endSPAN(); } );
  }
 
  // hyperlink
