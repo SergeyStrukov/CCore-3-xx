@@ -38,11 +38,11 @@ class DomErrorId;
 
 class Format;
 
+struct Span;
+
 class Text;
 
 class Fixed;
-
-class TList;
 
 struct TextBase;
 
@@ -94,9 +94,10 @@ class List : NoCopy
 
    List() {}
 
-   void add(ElementPool &pool,const T &obj)
+   template <class Pool>
+   void add(Pool &pool,const T &obj)
     {
-     Node *node=pool.create<Node>(obj);
+     Node *node=pool.template create<Node>(obj);
 
      list.ins_last(node);
     }
@@ -109,11 +110,12 @@ enum ErrorCode
   Error_NoElem = 1,
   Error_NotClosed,
 
-  Error_Top,
   Error_NoTop,
   Error_TagMismatch,
   Error_NoText,
   Error_NoFormat,
+
+  Error_CannotAdd,
 
   Error_HasFmt,
   Error_NoFmt
@@ -136,8 +138,6 @@ class DomErrorId : public ErrorId
 
 class Format : NoCopy
  {
-   char temp[3];
-
    bool fmt_b = false ;
    bool fmt_i = false ;
    bool fmt_u = false ;
@@ -208,11 +208,30 @@ class Format : NoCopy
    DomErrorId noFormat() const;
  };
 
+/* struct Span */
+
+struct Span
+ {
+  StrLen text;
+  StrLen fmt;
+
+  StrLen link;
+  bool has_link = false ;
+ };
+
+void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str);
+
 /* class Text */
 
-class Text : NoCopy // TODO
+class Text : NoCopy
  {
    Format format;
+
+   List<Span> spans;
+
+  private:
+
+   void addSpan(Builder &builder,StrLen str);
 
   public:
 
@@ -221,28 +240,38 @@ class Text : NoCopy // TODO
    DomErrorId frame(Builder &builder,StrLen str);
 
    DomErrorId complete();
+ };
+
+/* struct Line */
+
+struct Line : NoCopy
+ {
+  List<Span> spans;
  };
 
 /* class Fixed */
 
-class Fixed : NoCopy // TODO
+class Fixed : NoCopy
  {
    Format format;
+
+   List<Line *> lines;
+
+   Line * cur = 0 ;
+
+  private:
+
+   void provideLine(Builder &builder);
+
+   void breakLine(Builder &builder);
+
+   void extLine(Builder &builder,StrLen str);
 
   public:
 
    Format & refFormat() { return format; }
 
    DomErrorId frame(Builder &builder,StrLen str);
-
-   DomErrorId complete();
- };
-
-/* class TList */
-
-class TList : NoCopy // TODO
- {
-  public:
 
    DomErrorId complete();
  };
@@ -255,7 +284,7 @@ struct TextBase : NoCopy
 
   Format & refFormat() { return text.refFormat(); }
 
-  Text & refText() { return text; }
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
   DomErrorId complete() { return text.complete(); }
  };
@@ -312,22 +341,26 @@ struct ElemPRE : NoCopy
 
   Format & refFormat() { return text.refFormat(); }
 
-  Fixed & refText() { return text; }
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
   DomErrorId complete() { return text.complete(); }
  };
 
 /* struct TListBase */
 
-struct TListBase
+struct TListBase : NoCopy // TODO
  {
-  TList list;
+  Text text;
 
-  auto refFormat() { return Nothing; }
+  Format & refFormat() { return text.format; }
 
-  auto refText() { return Nothing; }
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
-  DomErrorId complete() { return list.complete(); }
+  List<ElemLI *> list;
+
+  DomErrorId add(Builder &builder,ElemLI *elem);
+
+  DomErrorId complete() { return {}; }
  };
 
 /* struct ElemOL */
@@ -348,9 +381,15 @@ struct ElemUL : TListBase
 
 struct ElemLI : NoCopy // TODO
  {
-  Format & refFormat();
+  Text text;
 
-  Text & refText();
+  Format & refFormat() { return text.format; }
+
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
+
+  DomErrorId add(Builder &builder,ElemOL *elem);
+
+  DomErrorId add(Builder &builder,ElemUL *elem);
 
   DomErrorId complete();
  };
@@ -365,9 +404,9 @@ struct ElemImg : NoCopy
 
 /* class Builder */
 
-using BlockPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemImg> ;
+using TopPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemImg> ;
 
-using ElemPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemLI> ;
+using BuildPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemLI> ;
 
 class Builder : NoCopy
  {
@@ -375,7 +414,7 @@ class Builder : NoCopy
 
    StrLen title;
 
-   List<BlockPtr> blocks;
+   List<TopPtr> elems;
 
   public:
 
@@ -385,8 +424,8 @@ class Builder : NoCopy
 
    // common
 
-   template <class T>
-   T * create() { return pool.create<T>(); }
+   template <class T,class ... SS>
+   T * create(SS && ... ss) { return pool.create<T>( std::forward<SS>(ss)... ); }
 
    StrLen dup(StrLen str) { return pool.dup(str); }
 
@@ -399,8 +438,28 @@ class Builder : NoCopy
 
    void setTitle(StrLen title_) { title=title_; }
 
-   void add(BlockPtr ptr) { blocks.add(pool,ptr); }
+   void add(TopPtr ptr) { elems.add(pool,ptr); }
  };
+
+/* concept Has_id<T> */
+
+template <class T>
+concept bool Has_id = requires(T &obj,StrLen str) { obj.id=str; } ;
+
+/* concept CanAdd<Elem,Base> */
+
+template <class Elem,class Base>
+concept bool CanAdd = requires(Base *base,Elem *elem,Builder &builder) { base->add(builder,elem); } ;
+
+/* concept Has_frame<T> */
+
+template <class T>
+concept bool Has_frame = requires(T &obj,Builder &builder,StrLen str) { obj.frame(builder,str); } ;
+
+/* concept Has_refFormat<T> */
+
+template <class T>
+concept bool Has_refFormat = requires(T &obj) { obj.refFormat(); } ;
 
 } // namespace Dom
 
@@ -497,7 +556,7 @@ class DomConvert : NoCopy
  {
    Dom::Builder builder;
 
-   Stack<Dom::ElemPtr> stack;
+   Stack<Dom::BuildPtr> stack;
 
    String id;
    bool has_id = false ;
@@ -511,28 +570,38 @@ class DomConvert : NoCopy
    template <class Elem>
    void setId(Elem *elem);
 
+   template <Dom::Has_id Elem>
+   void setId(Elem *elem);
+
    template <class Elem,class Func>
-   EId openBlock(Func func);
+   EId openElem(Func func);
 
    template <class Elem>
-   EId openBlock() { return openBlock<Elem>( [] (Elem *) {} ); }
+   EId openElem() { return openElem<Elem>( [] (Elem *) {} ); }
+
+   template <class Base,class Elem>
+   EId addElem(Base *base,Elem *elem);
+
+   template <class Base,Dom::CanAdd<Base> Elem>
+   EId addElem(Base *base,Elem *elem);
 
    template <class Elem>
-   EId closeBlock();
+   EId closeElem();
 
-   template <class Func>
-   static EId SetFormat(Dom::Format &format,Func func);
+   template <class Elem,class Func>
+   static EId SetFormat(Elem *elem,Func func);
 
-   template <class Func>
-   static EId SetFormat(NothingType,Func func);
+   template <Dom::Has_refFormat Elem,class Func>
+   static EId SetFormat(Elem *elem,Func func);
 
    template <class Func>
    EId setFormat(Func func);
 
-   template <class T>
-   EId frame(T &text,StrLen str);
+   template <class Elem>
+   EId frame(Elem *elem,StrLen str);
 
-   EId frame(NothingType,StrLen str);
+   template <Dom::Has_frame Elem>
+   EId frame(Elem *elem,StrLen str);
 
   public:
 

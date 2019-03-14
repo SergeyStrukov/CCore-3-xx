@@ -14,6 +14,7 @@
 #include <inc/DomConvert.h>
 
 #include <CCore/inc/CharProp.h>
+#include <CCore/inc/scanf/ScanTools.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -33,8 +34,6 @@ StrLen ToString(int code)
 
      case Error_NotClosed : return "Element is not closed"_c;
 
-     case Error_Top : return "Must be a top-level element"_c;
-
      case Error_NoTop : return "Not a top-level element"_c;
 
      case Error_TagMismatch : return "Open/close element tags mismatch"_c;
@@ -42,6 +41,8 @@ StrLen ToString(int code)
      case Error_NoText : return "Text is not allowed in this element"_c;
 
      case Error_NoFormat : return "Format tags are not allowed in this element"_c;
+
+     case Error_CannotAdd : return "Cannot add this element into those parent element"_c;
 
      case Error_HasFmt : return "Format flag is active"_c;
 
@@ -67,18 +68,40 @@ void Format::prepareFmt()
     }
   else
     {
-     unsigned len=0;
-
-     if( fmt_b ) temp[len++]='b';
-
-     if( fmt_i ) temp[len++]='i';
-
-     if( fmt_u ) temp[len++]='u';
-
-     if( len )
-       fmt=StrLen(temp,len);
+     if( fmt_b )
+       {
+        if( fmt_i )
+          {
+           if( fmt_u )
+             fmt="biu"_c;
+           else
+             fmt="bi"_c;
+          }
+        else
+          {
+           if( fmt_u )
+             fmt="bu"_c;
+           else
+             fmt="b"_c;
+          }
+       }
      else
-       fmt=Empty;
+       {
+        if( fmt_i )
+          {
+           if( fmt_u )
+             fmt="iu"_c;
+           else
+             fmt="i"_c;
+          }
+        else
+          {
+           if( fmt_u )
+             fmt="u"_c;
+           else
+             fmt=""_c;
+          }
+       }
     }
  }
 
@@ -192,6 +215,139 @@ DomErrorId Format::noFormat() const
   return {};
  }
 
+/* struct Span */
+
+void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str)
+ {
+  StrLen fmt=format.getFmt();
+
+  if( format.hasLink() )
+    {
+     spans.add(builder,Span{str,fmt,format.getLink(),true});
+    }
+  else
+    {
+     spans.add(builder,Span{str,fmt});
+    }
+ }
+
+/* class Text */
+
+void Text::addSpan(Builder &builder,StrLen str)
+ {
+  AddSpan(spans,builder,format,str);
+ }
+
+DomErrorId Text::frame(Builder &builder,StrLen str)
+ {
+  for(;;)
+    {
+     SkipSpace(str);
+
+     if( !str ) return {};
+
+     StrLen next=str;
+
+     SkipNonSpace(next);
+
+     addSpan(builder,str.prefix(next));
+
+     str=next;
+    }
+ }
+
+DomErrorId Text::complete()
+ {
+  return format.noFormat();
+ }
+
+/* class Fixed */
+
+void Fixed::provideLine(Builder &builder)
+ {
+  if( !cur )
+    {
+     cur=builder.create<Line>();
+
+     lines.add(builder,cur);
+    }
+ }
+
+void Fixed::breakLine(Builder &builder)
+ {
+  provideLine(builder);
+
+  cur=0;
+
+  provideLine(builder);
+ }
+
+void Fixed::extLine(Builder &builder,StrLen str)
+ {
+  provideLine(builder);
+
+  AddSpan(cur->spans,builder,format,str);
+ }
+
+DomErrorId Fixed::frame(Builder &builder,StrLen str)
+ {
+  while( +str )
+    {
+     SplitLine split(str);
+
+     extLine(builder,split.line);
+
+     if( split.eol )
+       {
+        breakLine(builder);
+        str=split.rest;
+       }
+     else
+       {
+        break;
+       }
+    }
+
+  return {};
+ }
+
+DomErrorId Fixed::complete()
+ {
+  return format.noFormat();
+ }
+
+/* struct TListBase */
+
+DomErrorId TListBase::add(Builder &builder,ElemLI *elem)
+ {
+  list.add(builder,elem);
+
+  return {};
+ }
+
+/* struct ElemLI */
+
+DomErrorId ElemLI::add(Builder &builder,ElemOL *elem)
+ {
+  Used(builder);
+  Used(elem);
+
+  return {};
+ }
+
+DomErrorId ElemLI::add(Builder &builder,ElemUL *elem)
+ {
+  Used(builder);
+  Used(elem);
+
+  return {};
+ }
+
+DomErrorId ElemLI::complete()
+ {
+  return text.complete();
+ }
+
 } // namespace Dom
 
 /* guard functions */
@@ -213,6 +369,15 @@ bool TestSpace(StrLen str)
 /* class DomConvert */
 
 template <class Elem>
+void DomConvert::setId(Elem *)
+ {
+  if( Change(has_id,false) )
+    {
+     id=Empty;
+    }
+ }
+
+template <Dom::Has_id Elem>
 void DomConvert::setId(Elem *elem)
  {
   if( Change(has_id,false) )
@@ -224,7 +389,7 @@ void DomConvert::setId(Elem *elem)
  }
 
 template <class Elem,class Func>
-auto DomConvert::openBlock(Func func) -> EId
+auto DomConvert::openElem(Func func) -> EId
  {
   auto *elem=builder.create<Elem>();
 
@@ -237,26 +402,36 @@ auto DomConvert::openBlock(Func func) -> EId
   return {};
  }
 
+template <class Base,class Elem>
+auto DomConvert::addElem(Base *,Elem *) -> EId
+ {
+  return Dom::Error_CannotAdd;
+ }
+
+template <class Base,Dom::CanAdd<Base> Elem>
+auto DomConvert::addElem(Base *base,Elem *elem) -> EId
+ {
+  return base->add(builder,elem);
+ }
+
 template <class Elem>
-auto DomConvert::closeBlock() -> EId
+auto DomConvert::closeElem() -> EId
  {
   if( stack.isEmpty() ) return Dom::Error_NoElem;
 
-  auto ptr=stack.pop();
+  auto *elem=stack.pop().castPtr<Elem>();
+
+  if( !elem ) return Dom::Error_TagMismatch;
 
   if( stack.isEmpty() )
     {
-     auto *elem=ptr.castPtr<Elem>();
+     Dom::TopPtr ptr;
 
-     if( !elem ) return Dom::Error_TagMismatch;
-
-     Dom::BlockPtr bptr;
-
-     if( TrySetAnyPtr(bptr,elem) )
+     if( TrySetAnyPtr(ptr,elem) )
        {
         EId ret=elem->complete();
 
-        builder.add(bptr);
+        builder.add(ptr);
 
         return ret;
        }
@@ -267,20 +442,24 @@ auto DomConvert::closeBlock() -> EId
     }
   else
     {
-     return Dom::Error_Top;
+     EId ret;
+
+     stack.top().apply( [&] (auto *base) { ret=addElem(base,elem); } );
+
+     return ret;
     }
  }
 
-template <class Func>
-auto DomConvert::SetFormat(Dom::Format &format,Func func) -> EId
- {
-  return func(format);
- }
-
-template <class Func>
-auto DomConvert::SetFormat(NothingType,Func) -> EId
+template <class Elem,class Func>
+auto DomConvert::SetFormat(Elem *,Func) -> EId
  {
   return Dom::Error_NoFormat;
+ }
+
+template <Dom::Has_refFormat Elem,class Func>
+auto DomConvert::SetFormat(Elem *elem,Func func) -> EId
+ {
+  return func(elem->refFormat());
  }
 
 template <class Func>
@@ -290,22 +469,23 @@ auto DomConvert::setFormat(Func func) ->EId
 
   EId ret;
 
-  stack.pop().apply( [&] (auto *elem) { ret=SetFormat(elem->refFormat(),func); } );
+  stack.top().apply( [&] (auto *elem) { ret=SetFormat(elem,func); } );
 
   return ret;
  }
 
-template <class T>
-auto DomConvert::frame(T &text,StrLen str) -> EId
- {
-  return text.frame(builder,str);
- }
-
-auto DomConvert::frame(NothingType,StrLen str) -> EId
+template <class Elem>
+auto DomConvert::frame(Elem *,StrLen str) -> EId
  {
   if( TestSpace(str) ) return {};
 
   return Dom::Error_NoText;
+ }
+
+template <Dom::Has_frame Elem>
+auto DomConvert::frame(Elem *elem,StrLen str) -> EId
+ {
+  return elem->frame(builder,str);
  }
 
 DomConvert::DomConvert()
@@ -346,7 +526,7 @@ auto DomConvert::frame(String str_) -> EId
 
   EId ret;
 
-  stack.top().apply( [&] (auto *elem) { ret=frame(elem->refText(),str); } );
+  stack.top().apply( [&] (auto *elem) { ret=frame(elem,str); } );
 
   return ret;
  }
@@ -355,79 +535,79 @@ auto DomConvert::frame(String str_) -> EId
 
 auto DomConvert::tagH1() -> EId
  {
-  return openBlock<Dom::ElemH1>();
+  return openElem<Dom::ElemH1>();
  }
 
 auto DomConvert::tagH1end() -> EId
  {
-  return closeBlock<Dom::ElemH1>();
+  return closeElem<Dom::ElemH1>();
  }
 
 auto DomConvert::tagH2() -> EId
  {
-  return openBlock<Dom::ElemH2>();
+  return openElem<Dom::ElemH2>();
  }
 
 auto DomConvert::tagH2end() -> EId
  {
-  return closeBlock<Dom::ElemH2>();
+  return closeElem<Dom::ElemH2>();
  }
 
 auto DomConvert::tagH3() -> EId
  {
-  return openBlock<Dom::ElemH3>();
+  return openElem<Dom::ElemH3>();
  }
 
 auto DomConvert::tagH3end() -> EId
  {
-  return closeBlock<Dom::ElemH3>();
+  return closeElem<Dom::ElemH3>();
  }
 
 auto DomConvert::tagH4() -> EId
  {
-  return openBlock<Dom::ElemH4>();
+  return openElem<Dom::ElemH4>();
  }
 
 auto DomConvert::tagH4end() -> EId
  {
-  return closeBlock<Dom::ElemH4>();
+  return closeElem<Dom::ElemH4>();
  }
 
 auto DomConvert::tagH5() -> EId
  {
-  return openBlock<Dom::ElemH5>();
+  return openElem<Dom::ElemH5>();
  }
 
 auto DomConvert::tagH5end() -> EId
  {
-  return closeBlock<Dom::ElemH5>();
+  return closeElem<Dom::ElemH5>();
  }
 
 auto DomConvert::tagP() -> EId
  {
-  return openBlock<Dom::ElemP>();
+  return openElem<Dom::ElemP>();
  }
 
 auto DomConvert::tagP(String elem_class) -> EId
  {
   auto str=builder.dup(elem_class);
 
-  return openBlock<Dom::ElemP>( [=] (Dom::ElemP *elem) { elem->elem_class=str; } );
+  return openElem<Dom::ElemP>( [=] (Dom::ElemP *elem) { elem->elem_class=str; } );
  }
 
 auto DomConvert::tagPend() -> EId
  {
-  return closeBlock<Dom::ElemP>();
+  return closeElem<Dom::ElemP>();
  }
 
 auto DomConvert::tagPRE() -> EId
  {
-  return openBlock<Dom::ElemPRE>();
+  return openElem<Dom::ElemPRE>();
  }
 
 auto DomConvert::tagPREend() -> EId
  {
-  return closeBlock<Dom::ElemPRE>();
+  return closeElem<Dom::ElemPRE>();
  }
 
  // format
@@ -496,7 +676,7 @@ auto DomConvert::tagSPANend() -> EId
 
 auto DomConvert::tagA(String url) -> EId
  {
-  return setFormat( [&] (Dom::Format &format) { return format.setSPAN(builder,url); } );
+  return setFormat( [&] (Dom::Format &format) { return format.setA(builder,url); } );
  }
 
 auto DomConvert::tagA(String,String) -> EId
@@ -513,50 +693,32 @@ auto DomConvert::tagAend() -> EId
 
 auto DomConvert::tagOL() -> EId
  {
-  return open(Block_OL);
+  return openElem<Dom::ElemOL>();
  }
 
 auto DomConvert::tagOLend() -> EId
  {
-  if( item ) return Error_ItemNotClosed;
-
-  return close(Block_OL);
+  return closeElem<Dom::ElemOL>();
  }
 
 auto DomConvert::tagUL() -> EId
  {
-  return open(Block_UL);
+  return openElem<Dom::ElemUL>();
  }
 
 auto DomConvert::tagULend() -> EId
  {
-  if( item ) return Error_ItemNotClosed;
-
-  return close(Block_UL);
+  return closeElem<Dom::ElemUL>();
  }
 
 auto DomConvert::tagLI() -> EId
  {
-  if( inList() && !item )
-    {
-     item=true;
-
-     return {};
-    }
-
-  return Error_NotList;
+  return openElem<Dom::ElemLI>();
  }
 
 auto DomConvert::tagLIend() -> EId
  {
-  if( inList() && item )
-    {
-     item=false;
-
-     return noFormat();
-    }
-
-  return Error_NotItem;
+  return closeElem<Dom::ElemLI>();
  }
 
  // image
