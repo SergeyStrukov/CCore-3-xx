@@ -15,104 +15,109 @@
 
 #include <CCore/inc/CharProp.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 /* namespace Dom */
 
 namespace Dom {
 
+/* TestSpace() */
 
-} // namespace Dom
-
-/* class DomConvert */
-
-StrLen DomConvert::ToString(int code)
- {
-  switch( code )
-    {
-     case Error_NoBlock : return "No opened text block"_c;
-
-     case Error_BlockMismatch : return "Text block mismatch"_c;
-
-     case Error_InBlock : return "Text block is opened"_c;
-
-     case Error_NotList : return "Not a list"_c;
-
-     case Error_NotItem : return "Not a list item"_c;
-
-     case Error_ItemNotClosed : return "List item is not closed"_c;
-
-     case Error_HasFmt : return "Format flag is active"_c;
-
-     case Error_NoFmt : return "Format flag is not active"_c;
-
-     default: return "???"_c;
-    }
- }
-
-auto DomConvert::noFormat() const -> TagErrorId
- {
-  if( fmt_b ) return Error_HasFmt;
-  if( fmt_i ) return Error_HasFmt;
-  if( fmt_u ) return Error_HasFmt;
-  if( fmt_sub ) return Error_HasFmt;
-  if( fmt_sup ) return Error_HasFmt;
-  if( fmt_span ) return Error_HasFmt;
-  if( fmt_a ) return Error_HasFmt;
-
-  return {};
- }
-
-auto DomConvert::open(BlockType bt) -> TagErrorId
- {
-  if( block==NoBlock )
-    {
-     block=bt;
-
-     return {};
-    }
-
-  return Error_InBlock;
- }
-
-auto DomConvert::close(BlockType bt) -> TagErrorId
- {
-  if( block==bt )
-    {
-     block=NoBlock;
-
-     return noFormat();
-    }
-
-  return block?Error_BlockMismatch:Error_NoBlock;
- }
-
-auto DomConvert::setFmt(bool &flag) -> TagErrorId
- {
-  if( notOpened() ) return Error_NoBlock;
-
-  if( flag ) return Error_HasFmt;
-
-  flag=true;
-
-  return {};
- }
-
-auto DomConvert::clearFmt(bool &flag) -> TagErrorId
- {
-  if( !flag ) return Error_NoFmt;
-
-  flag=false;
-
-  return {};
- }
-
-bool DomConvert::TestSpace(StrLen str)
+bool TestSpace(StrLen str)
  {
   for(char ch : str ) if( !CharIsSpace(ch) ) return false;
 
   return true;
  }
+
+/* enum ErrorCode */
+
+StrLen ToString(int code)
+ {
+  switch( code )
+    {
+     case Error_NoElem : return "Element is not opened"_c;
+
+     case Error_Top : return "Must be a top-level element"_c;
+
+     case Error_NoTop : return "Not a top-level element"_c;
+
+     case Error_TagMismatch : return "Open/close element tags mismatch"_c;
+
+     case Error_NoText : return "Text is not allowed in this element"_c;
+
+     //case  : return ""_c;
+
+     default: return "???"_c;
+    }
+ }
+
+} // namespace Dom
+
+/* guard functions */
+
+void GuardStackEmpty()
+ {
+  Printf(Exception,"App::Stack<...>::top() : stack is empty");
+ }
+
+/* class DomConvert */
+
+template <class Elem,class Func>
+auto DomConvert::openBlock(Func func) -> EId
+ {
+  auto *elem=builder.create<Elem>();
+
+  if( Change(has_id,false) )
+    {
+     elem->id=builder.dup(id);
+
+     id=Empty;
+    }
+
+  func(elem);
+
+  stack.push(elem);
+
+  return {};
+ }
+
+template <class Elem>
+auto DomConvert::closeBlock() -> EId
+ {
+  if( stack.isEmpty() ) return Dom::Error_NoElem;
+
+  auto ptr=stack.pop();
+
+  if( stack.isEmpty() )
+    {
+     auto *elem=ptr.castPtr<Elem>();
+
+     if( !elem ) return Dom::Error_TagMismatch;
+
+     Dom::BlockPtr bptr;
+
+     if( TrySetAnyPtr(bptr,elem) )
+       {
+        EId ret=elem->complete();
+
+        builder.add(bptr);
+
+        return ret;
+       }
+     else
+       {
+        return Dom::Error_NoTop;
+       }
+    }
+  else
+    {
+     return Dom::Error_Top;
+    }
+ }
+
 
 DomConvert::DomConvert()
  {
@@ -126,206 +131,222 @@ DomConvert::~DomConvert()
 
 void DomConvert::setTitle(String title)
  {
+  builder.setTitle(builder.dup(title));
  }
 
  // id
 
-void DomConvert::setId(String id)
+void DomConvert::setId(String id_)
  {
+  id=id_;
+  has_id=true;
  }
 
  // frame
 
-auto DomConvert::frame(String str) -> TagErrorId
+auto DomConvert::frame(String str_) -> EId
  {
-  if( notOpened() && !TestSpace(Range(str)) ) return Error_NoBlock;
+  StrLen str=Range(str_);
 
-  return {};
+  if( stack.isEmpty() )
+    {
+     if( Dom::TestSpace(str) ) return {};
+
+     return Dom::Error_NoElem;
+    }
+
+  EId ret;
+
+  stack.top().apply( [&] (auto *elem) { ret=elem->frame(builder,str); } );
+
+  return ret;
  }
 
  // text
 
-auto DomConvert::tagH1() -> TagErrorId
+auto DomConvert::tagH1() -> EId
  {
-  return open(Block_H1);
+  return openBlock<Dom::ElemH1>();
  }
 
-auto DomConvert::tagH1end() -> TagErrorId
+auto DomConvert::tagH1end() -> EId
  {
-  return close(Block_H1);
+  return closeBlock<Dom::ElemH1>();
  }
 
-auto DomConvert::tagH2() -> TagErrorId
+auto DomConvert::tagH2() -> EId
  {
-  return open(Block_H2);
+  return openBlock<Dom::ElemH2>();
  }
 
-auto DomConvert::tagH2end() -> TagErrorId
+auto DomConvert::tagH2end() -> EId
  {
-  return close(Block_H2);
+  return closeBlock<Dom::ElemH2>();
  }
 
-auto DomConvert::tagH3() -> TagErrorId
+auto DomConvert::tagH3() -> EId
  {
-  return open(Block_H3);
+  return openBlock<Dom::ElemH3>();
  }
 
-auto DomConvert::tagH3end() -> TagErrorId
+auto DomConvert::tagH3end() -> EId
  {
-  return close(Block_H3);
+  return closeBlock<Dom::ElemH3>();
  }
 
-auto DomConvert::tagH4() -> TagErrorId
+auto DomConvert::tagH4() -> EId
  {
-  return open(Block_H4);
+  return openBlock<Dom::ElemH4>();
  }
 
-auto DomConvert::tagH4end() -> TagErrorId
+auto DomConvert::tagH4end() -> EId
  {
-  return close(Block_H4);
+  return closeBlock<Dom::ElemH4>();
  }
 
-auto DomConvert::tagH5() -> TagErrorId
+auto DomConvert::tagH5() -> EId
  {
-  return open(Block_H5);
+  return openBlock<Dom::ElemH5>();
  }
 
-auto DomConvert::tagH5end() -> TagErrorId
+auto DomConvert::tagH5end() -> EId
  {
-  return close(Block_H5);
+  return closeBlock<Dom::ElemH5>();
  }
 
-auto DomConvert::tagP() -> TagErrorId
+auto DomConvert::tagP() -> EId
  {
-  return open(Block_P);
+  return openBlock<Dom::ElemP>();
  }
 
-auto DomConvert::tagP(String) -> TagErrorId
+auto DomConvert::tagP(String elem_class) -> EId
  {
-  return open(Block_P);
+  auto str=builder.dup(elem_class);
+
+  return openBlock<Dom::ElemP>( [=] (Dom::ElemP *elem) { elem->elem_class=str; } );
  }
 
-auto DomConvert::tagPend() -> TagErrorId
+auto DomConvert::tagPend() -> EId
  {
-  return close(Block_P);
+  return closeBlock<Dom::ElemP>();
  }
 
-auto DomConvert::tagPRE() -> TagErrorId
+auto DomConvert::tagPRE() -> EId
  {
-  return open(Block_PRE);
+  return openBlock<Dom::ElemPRE>();
  }
 
-auto DomConvert::tagPREend() -> TagErrorId
+auto DomConvert::tagPREend() -> EId
  {
-  return close(Block_PRE);
+  return closeBlock<Dom::ElemPRE>();
  }
 
  // format
 
-auto DomConvert::tagB() -> TagErrorId
+auto DomConvert::tagB() -> EId
  {
   return setFmt(fmt_b);
  }
 
-auto DomConvert::tagBend() -> TagErrorId
+auto DomConvert::tagBend() -> EId
  {
   return clearFmt(fmt_b);
  }
 
-auto DomConvert::tagI() -> TagErrorId
+auto DomConvert::tagI() -> EId
  {
   return setFmt(fmt_i);
  }
 
-auto DomConvert::tagIend() -> TagErrorId
+auto DomConvert::tagIend() -> EId
  {
   return clearFmt(fmt_i);
  }
 
-auto DomConvert::tagU() -> TagErrorId
+auto DomConvert::tagU() -> EId
  {
   return setFmt(fmt_u);
  }
 
-auto DomConvert::tagUend() -> TagErrorId
+auto DomConvert::tagUend() -> EId
  {
   return clearFmt(fmt_u);
  }
 
-auto DomConvert::tagSUB() -> TagErrorId
+auto DomConvert::tagSUB() -> EId
  {
   return setFmt(fmt_sub);
  }
 
-auto DomConvert::tagSUBend() -> TagErrorId
+auto DomConvert::tagSUBend() -> EId
  {
   return clearFmt(fmt_sub);
  }
 
-auto DomConvert::tagSUP() -> TagErrorId
+auto DomConvert::tagSUP() -> EId
  {
   return setFmt(fmt_sup);
  }
 
-auto DomConvert::tagSUPend() -> TagErrorId
+auto DomConvert::tagSUPend() -> EId
  {
   return clearFmt(fmt_sup);
  }
 
-auto DomConvert::tagSPAN(String tclass) -> TagErrorId
+auto DomConvert::tagSPAN(String tclass) -> EId
  {
   return setFmt(fmt_span);
  }
 
-auto DomConvert::tagSPANend() -> TagErrorId
+auto DomConvert::tagSPANend() -> EId
  {
   return clearFmt(fmt_span);
  }
 
  // hyperlink
 
-auto DomConvert::tagA(String url) -> TagErrorId
+auto DomConvert::tagA(String url) -> EId
  {
   return setFmt(fmt_a);
  }
 
-auto DomConvert::tagA(String type,String url) -> TagErrorId
+auto DomConvert::tagA(String type,String url) -> EId
  {
   return setFmt(fmt_a);
  }
 
-auto DomConvert::tagAend() -> TagErrorId
+auto DomConvert::tagAend() -> EId
  {
   return clearFmt(fmt_a);
  }
 
  // list
 
-auto DomConvert::tagOL() -> TagErrorId
+auto DomConvert::tagOL() -> EId
  {
   return open(Block_OL);
  }
 
-auto DomConvert::tagOLend() -> TagErrorId
+auto DomConvert::tagOLend() -> EId
  {
   if( item ) return Error_ItemNotClosed;
 
   return close(Block_OL);
  }
 
-auto DomConvert::tagUL() -> TagErrorId
+auto DomConvert::tagUL() -> EId
  {
   return open(Block_UL);
  }
 
-auto DomConvert::tagULend() -> TagErrorId
+auto DomConvert::tagULend() -> EId
  {
   if( item ) return Error_ItemNotClosed;
 
   return close(Block_UL);
  }
 
-auto DomConvert::tagLI() -> TagErrorId
+auto DomConvert::tagLI() -> EId
  {
   if( inList() && !item )
     {
@@ -337,7 +358,7 @@ auto DomConvert::tagLI() -> TagErrorId
   return Error_NotList;
  }
 
-auto DomConvert::tagLIend() -> TagErrorId
+auto DomConvert::tagLIend() -> EId
  {
   if( inList() && item )
     {
@@ -351,7 +372,7 @@ auto DomConvert::tagLIend() -> TagErrorId
 
  // image
 
-auto DomConvert::tagImg(String file_name) -> TagErrorId
+auto DomConvert::tagImg(String file_name) -> EId
  {
   if( block ) return Error_InBlock;
 
@@ -360,7 +381,7 @@ auto DomConvert::tagImg(String file_name) -> TagErrorId
 
  // complete
 
-auto DomConvert::complete() -> TagErrorId
+auto DomConvert::complete() -> EId
  {
   if( block ) return Error_InBlock;
 

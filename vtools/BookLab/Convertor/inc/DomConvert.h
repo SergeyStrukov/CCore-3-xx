@@ -19,6 +19,7 @@
 #include <CCore/inc/String.h>
 #include <CCore/inc/AnyPtr.h>
 #include <CCore/inc/List.h>
+#include <CCore/inc/Array.h>
 #include <CCore/inc/ElementPool.h>
 
 namespace App {
@@ -27,15 +28,25 @@ namespace App {
 
 namespace Dom {
 
+/* TestSpace() */
+
+bool TestSpace(StrLen str);
+
 /* classes */
 
 template <class T> class List;
+
+//enum ErrorCode;
+
+class DomErrorId;
 
 class Text;
 
 class Fixed;
 
 class TList;
+
+struct TextBase;
 
 struct ElemH1;
 
@@ -50,6 +61,8 @@ struct ElemH5;
 struct ElemP;
 
 struct ElemPRE;
+
+struct TListBase;
 
 struct ElemOL;
 
@@ -91,71 +104,116 @@ class List : NoCopy
     }
  };
 
+/* enum ErrorCode */
+
+enum ErrorCode
+ {
+  Error_NoElem = 1,
+
+  Error_Top,
+  Error_NoTop,
+  Error_TagMismatch,
+  Error_NoText
+ };
+
+StrLen ToString(int code);
+
+/* class DomErrorId */
+
+class DomErrorId : public ErrorId
+ {
+  public:
+
+   DomErrorId() {}
+
+   DomErrorId(ErrorCode code) : ErrorId(code,ToString) {}
+ };
+
 /* class Text */
 
 class Text : NoCopy // TODO
  {
+  public:
+
+   DomErrorId frame(Builder &builder,StrLen str);
+
+   DomErrorId complete();
  };
 
 /* class Fixed */
 
 class Fixed : NoCopy // TODO
  {
+  public:
+
+   DomErrorId frame(Builder &builder,StrLen str);
+
+   DomErrorId complete();
  };
 
 /* class TList */
 
 class TList : NoCopy // TODO
  {
+  public:
+
+  DomErrorId frame(Builder &builder,StrLen str);
+
+  DomErrorId complete();
+ };
+
+/* struct TextBase */
+
+struct TextBase : NoCopy
+ {
+  Text text;
+
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
+
+  DomErrorId complete() { return text.complete(); }
  };
 
 /* struct ElemH1 */
 
-struct ElemH1 : NoCopy
+struct ElemH1 : TextBase
  {
   StrLen id;
-  Text text;
  };
 
 /* struct ElemH2 */
 
-struct ElemH2 : NoCopy
+struct ElemH2 : TextBase
  {
   StrLen id;
-  Text text;
  };
 
 /* struct ElemH3 */
 
-struct ElemH3 : NoCopy
+struct ElemH3 : TextBase
  {
   StrLen id;
-  Text text;
  };
 
 /* struct ElemH4 */
 
-struct ElemH4 : NoCopy
+struct ElemH4 : TextBase
  {
   StrLen id;
-  Text text;
  };
 
 /* struct ElemH5 */
 
-struct ElemH5 : NoCopy
+struct ElemH5 : TextBase
  {
   StrLen id;
-  Text text;
  };
 
 /* struct ElemP */
 
-struct ElemP : NoCopy
+struct ElemP : TextBase
  {
   StrLen id;
   StrLen elem_class;
-  Text text;
  };
 
 /* struct ElemPRE */
@@ -163,29 +221,43 @@ struct ElemP : NoCopy
 struct ElemPRE : NoCopy
  {
   StrLen id;
-  Text text;
+  Fixed text;
+
+  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
+
+  DomErrorId complete() { return text.complete(); }
+ };
+
+/* struct TListBase */
+
+struct TListBase
+ {
+  TList list;
+
+  DomErrorId frame(Builder &,StrLen str) { if( TestSpace(str) ) return {}; return Error_NoText; }
+
+  DomErrorId complete() { return list.complete(); }
  };
 
 /* struct ElemOL */
 
-struct ElemOL : NoCopy
+struct ElemOL : TListBase
  {
   StrLen id;
-  TList list;
  };
 
 /* struct ElemUL */
 
-struct ElemUL : NoCopy
+struct ElemUL : TListBase
  {
   StrLen id;
-  TList list;
  };
 
 /* struct ElemLI */
 
 struct ElemLI : NoCopy // TODO
  {
+  DomErrorId frame(Builder &builder,StrLen str);
  };
 
 /* struct ElemImg */
@@ -200,9 +272,13 @@ struct ElemImg : NoCopy
 
 using BlockPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemImg> ;
 
+using ElemPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemLI> ;
+
 class Builder : NoCopy
  {
    ElementPool pool;
+
+   StrLen title;
 
    List<BlockPtr> blocks;
 
@@ -223,14 +299,95 @@ class Builder : NoCopy
 
    // add
 
+   void setTitle(StrLen title_) { title=title_; }
+
    void add(BlockPtr ptr) { blocks.add(pool,ptr); }
  };
 
 } // namespace Dom
 
+/* functions */
+
+template <class T,class ... TT>
+bool TrySetAnyPtr(AnyPtr<TT...> &dst,T *ptr) requires ( OneOfTypes<T,TT...> )
+ {
+  dst=ptr;
+
+  return true;
+ }
+
+template <class T,class Ptr>
+bool TrySetAnyPtr(T &,Ptr)
+ {
+  return false;
+ }
+
+template <class T,class S>
+bool TryCastAnyPtr(T &dst,S src)
+ {
+  bool null=true;
+  bool ret=false;
+
+  src.apply( [&] (auto *ptr) { ret=TrySetAnyPtr(dst,ptr); null=false; } );
+
+  if( null )
+    {
+     dst=Null;
+
+     return true;
+    }
+
+  return ret;
+ }
+
+/* guard functions */
+
+void GuardStackEmpty();
+
 /* classes */
 
+template <class T> class Stack;
+
 class DomConvert;
+
+/* class Stack<T> */
+
+template <class T>
+class Stack : NoCopy
+ {
+   DynArray<T> buf;
+
+  public:
+
+   Stack() : buf(DoReserve,100) {}
+
+   ~Stack() {}
+
+   bool isEmpty() const { return buf.isEmpty(); }
+
+   T top() const
+    {
+     ulen len=buf.getLen();
+
+     if( !len ) GuardStackEmpty();
+
+     return buf[len-1];
+    }
+
+   void push(const T &obj)
+    {
+     buf.append_copy(obj);
+    }
+
+   T pop()
+    {
+     T ret=top();
+
+     buf.shrink_one();
+
+     return ret;
+    }
+ };
 
 /* class DomConvert */
 
@@ -238,79 +395,25 @@ class DomConvert : NoCopy
  {
    Dom::Builder builder;
 
+   Stack<Dom::ElemPtr> stack;
+
+   String id;
+   bool has_id = false ;
+
   public:
 
-   enum ErrorCode
-    {
-     Error_NoBlock = 1,
-     Error_BlockMismatch,
-     Error_InBlock,
-     Error_NotList,
-     Error_NotItem,
-     Error_ItemNotClosed,
-
-     Error_HasFmt,
-     Error_NoFmt
-    };
-
-   static StrLen ToString(int code);
-
-   class TagErrorId : public ErrorId
-    {
-     public:
-
-      TagErrorId() {}
-
-      TagErrorId(ErrorCode code) : ErrorId(code,ToString) {}
-    };
+   using EId = Dom::DomErrorId ;
 
   private:
 
-   enum BlockType
-    {
-     NoBlock = 0,
+   template <class Elem,class Func>
+   EId openBlock(Func func);
 
-     Block_H1,
-     Block_H2,
-     Block_H3,
-     Block_H4,
-     Block_H5,
-     Block_P,
-     Block_PRE,
+   template <class Elem>
+   EId openBlock() { return openBlock<Elem>( [] (Elem *) {} ); }
 
-     Block_OL,
-     Block_UL
-    };
-
-   BlockType block = NoBlock ;
-   bool item = false ;
-
-   bool fmt_b = false ;
-   bool fmt_i = false ;
-   bool fmt_u = false ;
-   bool fmt_sub = false ;
-   bool fmt_sup = false ;
-   bool fmt_span = false ;
-
-   bool fmt_a = false ;
-
-  private:
-
-   bool inList() const { return block>=Block_OL ; }
-
-   bool notOpened() const { return !block || ( inList() && !item ) ; }
-
-   TagErrorId noFormat() const;
-
-   TagErrorId open(BlockType bt);
-
-   TagErrorId close(BlockType bt);
-
-   TagErrorId setFmt(bool &flag);
-
-   TagErrorId clearFmt(bool &flag);
-
-   static bool TestSpace(StrLen str);
+   template <class Elem>
+   EId closeBlock();
 
   public:
 
@@ -328,95 +431,95 @@ class DomConvert : NoCopy
 
    // frame
 
-   TagErrorId frame(String str);
+   EId frame(String str);
 
    // text
 
-   TagErrorId tagH1();
+   EId tagH1();
 
-   TagErrorId tagH1end();
+   EId tagH1end();
 
-   TagErrorId tagH2();
+   EId tagH2();
 
-   TagErrorId tagH2end();
+   EId tagH2end();
 
-   TagErrorId tagH3();
+   EId tagH3();
 
-   TagErrorId tagH3end();
+   EId tagH3end();
 
-   TagErrorId tagH4();
+   EId tagH4();
 
-   TagErrorId tagH4end();
+   EId tagH4end();
 
-   TagErrorId tagH5();
+   EId tagH5();
 
-   TagErrorId tagH5end();
+   EId tagH5end();
 
-   TagErrorId tagP();
+   EId tagP();
 
-   TagErrorId tagP(String tclass);
+   EId tagP(String tclass);
 
-   TagErrorId tagPend();
+   EId tagPend();
 
-   TagErrorId tagPRE();
+   EId tagPRE();
 
-   TagErrorId tagPREend();
+   EId tagPREend();
 
    // format
 
-   TagErrorId tagB();
+   EId tagB();
 
-   TagErrorId tagBend();
+   EId tagBend();
 
-   TagErrorId tagI();
+   EId tagI();
 
-   TagErrorId tagIend();
+   EId tagIend();
 
-   TagErrorId tagU();
+   EId tagU();
 
-   TagErrorId tagUend();
+   EId tagUend();
 
-   TagErrorId tagSUB();
+   EId tagSUB();
 
-   TagErrorId tagSUBend();
+   EId tagSUBend();
 
-   TagErrorId tagSUP();
+   EId tagSUP();
 
-   TagErrorId tagSUPend();
+   EId tagSUPend();
 
-   TagErrorId tagSPAN(String tclass);
+   EId tagSPAN(String tclass);
 
-   TagErrorId tagSPANend();
+   EId tagSPANend();
 
    // hyperlink
 
-   TagErrorId tagA(String url);
+   EId tagA(String url);
 
-   TagErrorId tagA(String type,String url);
+   EId tagA(String type,String url);
 
-   TagErrorId tagAend();
+   EId tagAend();
 
    // list
 
-   TagErrorId tagOL();
+   EId tagOL();
 
-   TagErrorId tagOLend();
+   EId tagOLend();
 
-   TagErrorId tagUL();
+   EId tagUL();
 
-   TagErrorId tagULend();
+   EId tagULend();
 
-   TagErrorId tagLI();
+   EId tagLI();
 
-   TagErrorId tagLIend();
+   EId tagLIend();
 
    // image
 
-   TagErrorId tagImg(String file_name);
+   EId tagImg(String file_name);
 
    // complete
 
-   TagErrorId complete();
+   EId complete();
  };
 
 } // namespace App
