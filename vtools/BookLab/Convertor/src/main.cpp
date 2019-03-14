@@ -13,6 +13,7 @@
 
 #include <inc/Source.h>
 #include <inc/Convert.h>
+#include <inc/DomConvert.h>
 #include <inc/TagTest.h>
 
 #include <CCore/inc/Exception.h>
@@ -93,11 +94,7 @@ int Index(PrintBase &out,StrLen input_dir_name)
 
   Source src(temp.get());
 
-  PageParam param;
-
-  param.name="Index"_str;
-
-  IndexConvert convert(out,param);
+  DomConvert convert;
 
   if( !src.run(convert) )
     {

@@ -1,5 +1,6 @@
 OBJ_LIST = \
 .obj/Convert.o \
+.obj/DomConvert.o \
 .obj/ErrorId.o \
 .obj/Source.o \
 .obj/TagTest.o \
@@ -8,6 +9,7 @@ OBJ_LIST = \
 
 ASM_LIST = \
 .obj/Convert.s \
+.obj/DomConvert.s \
 .obj/ErrorId.s \
 .obj/Source.s \
 .obj/TagTest.s \
@@ -16,6 +18,7 @@ ASM_LIST = \
 
 DEP_LIST = \
 .obj/Convert.dep \
+.obj/DomConvert.dep \
 .obj/ErrorId.dep \
 .obj/Source.dep \
 .obj/TagTest.dep \
@@ -29,6 +32,9 @@ include $(RULES_FILE)
 
 
 .obj/Convert.o : src/./Convert.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/DomConvert.o : src/./DomConvert.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ErrorId.o : src/./ErrorId.cpp
@@ -48,6 +54,9 @@ include $(RULES_FILE)
 .obj/Convert.s : src/./Convert.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/DomConvert.s : src/./DomConvert.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ErrorId.s : src/./ErrorId.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -64,6 +73,9 @@ include $(RULES_FILE)
 
 .obj/Convert.dep : src/./Convert.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Convert.o $< -MF $@
+
+.obj/DomConvert.dep : src/./DomConvert.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/DomConvert.o $< -MF $@
 
 .obj/ErrorId.dep : src/./ErrorId.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ErrorId.o $< -MF $@

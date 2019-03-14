@@ -1,4 +1,4 @@
-/* Convert.h */
+/* DomConvert.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: Book Convertor 1.00
@@ -11,139 +11,37 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef App_Convert_h
-#define App_Convert_h
+#ifndef App_DomConvert_h
+#define App_DomConvert_h
 
 #include <inc/ErrorId.h>
 
 #include <CCore/inc/String.h>
-#include <CCore/inc/CompactList.h>
 
 namespace App {
 
 /* classes */
 
-struct PageParam;
+class Dom;
 
-class Book;
+class DomConvert;
 
-class Convert;
+/* class Dom */
 
-/* struct PageParam */
-
-struct PageParam
+class Dom : NoCopy
  {
-  String name;
-  String up;
-  String prev;
-  String next;
- };
-
-/* class Book */
-
-class Book : NoCopy
- {
-   PrintBase &out;
-   PageParam param;
-   String title;
-
-   struct Frame
-    {
-     String kind;
-
-     explicit Frame(const String &kind_) : kind(kind_) {}
-    };
-
-   CompactList2<Frame> frames;
-
-   String kind;
-   ulen spanind = 0 ;
-   ulen lineind = 0 ;
-
-   ulen listind = 0 ;
-   ulen itemind = 0 ;
-
-   String id;
-   bool has_id = false ;
-
-   String link;
-   bool has_link = false ;
-
-  private:
-
-   void addSpan(StrLen str,StrLen fmt);
-
-   ulen insFrame(const String &kind);
-
-  private:
-
-   void openLine();
-
-   void extLine(StrLen line,StrLen fmt);
-
-   void breakLine();
-
-   void closeLine();
-
   public:
 
-   Book(PrintBase &out,const PageParam &param);
+   Dom();
 
-   ~Book();
+   ~Dom();
 
-   // title
-
-   void setTitle(const String &str);
-
-   // text
-
-   void openText(const String &kind);
-
-   void addText(StrLen frame,StrLen fmt);
-
-   void closeText();
-
-   // fixed
-
-   void openFixed(const String &kind);
-
-   void addFixed(StrLen frame,StrLen fmt);
-
-   void closeFixed();
-
-   // list
-
-   void openUList(const String &kind);
-
-   void closeUList();
-
-   void openOList(const String &kind);
-
-   void closeOList();
-
-   void openItem();
-
-   void closeItem();
-
-   // image
-
-   void insImage(const String &kind,StrLen file_name);
-
-   // links
-
-   void setId(const String &id);
-
-   void setLink(const String &url);
-
-   void clearLink();
  };
 
-/* class Convert */
+/* class DomConvert */
 
-class Convert : NoCopy
+class DomConvert : NoCopy
  {
-   Book book;
-
   public:
 
    enum ErrorCode
@@ -172,8 +70,6 @@ class Convert : NoCopy
 
   private:
 
-   String title;
-
    enum BlockType
     {
      NoBlock = 0,
@@ -184,7 +80,6 @@ class Convert : NoCopy
      Block_H4,
      Block_H5,
      Block_P,
-
      Block_PRE,
 
      Block_OL,
@@ -199,13 +94,9 @@ class Convert : NoCopy
    bool fmt_u = false ;
    bool fmt_sub = false ;
    bool fmt_sup = false ;
-
    bool fmt_span = false ;
-   String spanclass;
 
    bool fmt_a = false ;
-
-   String fmt;
 
   private:
 
@@ -213,11 +104,11 @@ class Convert : NoCopy
 
    bool notOpened() const { return !block || ( inList() && !item ) ; }
 
-   bool inText() const { return ( block>=Block_H1 && block<=Block_P ) || item ; }
-
-   bool inFixed() const { return block==Block_PRE; }
-
    TagErrorId noFormat() const;
+
+   TagErrorId open(BlockType bt);
+
+   TagErrorId close(BlockType bt);
 
    TagErrorId setFmt(bool &flag);
 
@@ -225,27 +116,15 @@ class Convert : NoCopy
 
    static bool TestSpace(StrLen str);
 
-  private:
-
-   void prepareFmt();
-
-   StrLen getFmt() const;
-
-   TagErrorId openText(BlockType bt,const String &kind);
-
-   TagErrorId closeText(BlockType bt);
-
   public:
 
-   Convert(PrintBase &out,const PageParam &param);
+   DomConvert();
 
-   ~Convert();
+   ~DomConvert();
 
    // title
 
-   const String & getTitle() const { return title; }
-
-   void setTitle(String str);
+   void setTitle(String title);
 
    // id
 
@@ -347,4 +226,6 @@ class Convert : NoCopy
 } // namespace App
 
 #endif
+
+
 
