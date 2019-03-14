@@ -350,12 +350,6 @@ struct ElemPRE : NoCopy
 
 struct TListBase : NoCopy // TODO
  {
-  Text text;
-
-  Format & refFormat() { return text.format; }
-
-  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
-
   List<ElemLI *> list;
 
   DomErrorId add(Builder &builder,ElemLI *elem);

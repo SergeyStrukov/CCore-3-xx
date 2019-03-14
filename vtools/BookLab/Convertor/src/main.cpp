@@ -123,7 +123,7 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
  {
   PrintFile out(output_file_name);
 
-  return Index(out,input_dir_name);
+  //return Index(out,input_dir_name);
 
   FileList file_list(input_dir_name);
   auto list=file_list.getRange();
@@ -148,7 +148,8 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
      if( i+1<list.len ) param.next=list[i+1].page_name+"#page"_c;
 
-     Convert convert(out,param);
+     //Convert convert(out,param);
+     DomConvert convert;
 
      if( !src.run(convert) )
        {
@@ -157,7 +158,7 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
         return 1;
        }
 
-     title[i]=convert.getTitle();
+     //title[i]=convert.getTitle();
     }
 
   // 2

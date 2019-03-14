@@ -332,7 +332,7 @@ DomErrorId ElemLI::add(Builder &builder,ElemOL *elem)
   Used(builder);
   Used(elem);
 
-  return {};
+  return Error_CannotAdd;
  }
 
 DomErrorId ElemLI::add(Builder &builder,ElemUL *elem)
@@ -340,7 +340,7 @@ DomErrorId ElemLI::add(Builder &builder,ElemUL *elem)
   Used(builder);
   Used(elem);
 
-  return {};
+  return Error_CannotAdd;
  }
 
 DomErrorId ElemLI::complete()
