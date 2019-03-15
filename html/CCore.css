@@ -80,6 +80,21 @@ p.Red
  text-indent: 32pt ;
 }
 
+p.c1
+{
+ font-size: 40pt ;
+ text-align: center ;
+}
+
+p.c2
+{
+ text-align: center ;
+}
+
+p.c3
+{
+}
+
 p.Files
 {
  font-family: monospace ;

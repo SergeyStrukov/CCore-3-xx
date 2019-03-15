@@ -4,7 +4,12 @@ Text b0 = { {
   { "CCore" }
 } , & fmt_h1 , & align_h1 } ;
 
-TextList b1 = { {
+Text b1 = { {
+  { "CCore" , & fmt_text_a , & ..#page_CCoreCover#link }
+ ,{ "cover" , & fmt_text_a , & ..#page_CCoreCover#link }
+} , & fmt_text , & align_text } ;
+
+TextList b2 = { {
   { '1.' , {
   { & o0 , null , ItemInner , ItemOuter }
 } }
@@ -2651,7 +2656,8 @@ Text o376 = { {
 Page page = { "CCore 3-xx table of content" ,
 {
   { & b0 , null , inner_h1 , outer_h1 , back_h1 }
- ,{ & b1 , null , inner_list , outer_list , back_list }
+ ,{ & b1 , null , inner_text , outer_text , back_text }
+ ,{ & b2 , null , inner_list , outer_list , back_list }
 } , NoColor , NoColor , & Index#page , null , & page#page };
 
 Link link = { &page } ;
@@ -36285,7 +36291,83 @@ Page page = { "CCore -> CapString" ,
  ,{ & b1 , null , inner_text_Files , outer_text_Files , back_text_Files }
  ,{ & b2 , null , inner_text , outer_text , back_text }
  ,{ & b3 , null , inner_cpp , outer_cpp , back_cpp }
-} , NoColor , NoColor , & Index#page , & page_CancelPacketList#page , & page_CCoreGeneral#page };
+} , NoColor , NoColor , & Index#page , & page_CancelPacketList#page , & page_CCoreCover#page };
+
+Link link = { &page } ;
+
+}
+
+scope page_CCoreCover {
+
+Text b0 = { {
+  { "CCore" }
+} , & fmt_text_c1 , & align_text_c1 } ;
+
+Text b1 = { {
+  { "multi-target" }
+ ,{ "development" }
+ ,{ "platform" }
+ ,{ "with" }
+ ,{ "real-time" }
+ ,{ "support" }
+} , & fmt_text_c2 , & align_text_c2 } ;
+
+Text b2 = { {
+} , & fmt_text_c3 , & align_text_c3 } ;
+
+Text b3 = { {
+  { "Sergey" }
+ ,{ "Strukov" }
+ ,{ "2019," }
+ ,{ "version" }
+ ,{ "3-xx" }
+} , & fmt_text_c2 , & align_text_c2 } ;
+
+Text b4 = { {
+  { "Copyright" }
+ ,{ "©" }
+ ,{ "2019," }
+ ,{ "Sergey" }
+ ,{ "Strukov." }
+ ,{ "All" }
+ ,{ "rights" }
+ ,{ "reserved." }
+} , & fmt_text_c2 , & align_text_c2 } ;
+
+Text b5 = { {
+  { "This" }
+ ,{ "document" }
+ ,{ "is" }
+ ,{ "public." }
+ ,{ "You" }
+ ,{ "may" }
+ ,{ "freely" }
+ ,{ "distribute" }
+ ,{ "it" }
+ ,{ "free" }
+ ,{ "of" }
+ ,{ "charge" }
+ ,{ "as" }
+ ,{ "far" }
+ ,{ "it's" }
+ ,{ "content," }
+ ,{ "copyright" }
+ ,{ "notice" }
+ ,{ "and" }
+ ,{ "authorship" }
+ ,{ "is" }
+ ,{ "unchanged." }
+} , & fmt_text , & align_text } ;
+
+Page page = { "Cover" ,
+{
+  { & b0 , null , inner_text_c1 , outer_text_c1 , back_text_c1 }
+ ,{ & b1 , null , inner_text_c2 , outer_text_c2 , back_text_c2 }
+ ,{ & b2 , null , inner_text_c3 , outer_text_c3 , back_text_c3 }
+ ,{ & b3 , null , inner_text_c2 , outer_text_c2 , back_text_c2 }
+ ,{ & b4 , null , inner_text_c2 , outer_text_c2 , back_text_c2 }
+ ,{ & b5 , null , inner_text , outer_text , back_text }
+} , NoColor , NoColor , & Index#page , & page_CapString#page , & page_CCoreGeneral#page };
 
 Link link = { &page } ;
 
@@ -37481,7 +37563,7 @@ Page page = { "CCore -> CCore General" ,
  ,{ & b41 , null , inner_h3 , outer_h3 , back_h3 }
  ,{ & b42 , null , inner_text , outer_text , back_text }
  ,{ & b43 , null , inner_cpp , outer_cpp , back_cpp }
-} , NoColor , NoColor , & Index#page , & page_CapString#page , & page_CharProp#page };
+} , NoColor , NoColor , & Index#page , & page_CCoreCover#page , & page_CharProp#page };
 
 Link link = { &page } ;
 
@@ -303839,1129 +303921,1133 @@ Text item33 = { { { "CapString" , null , &link33 } } , null , & align_item } ;
 
 Link link33 = { &page_CapString#page } ;
 
-Text item34 = { { { "CCore General" , null , &link34 } } , null , & align_item } ;
+Text item34 = { { { "Cover" , null , &link34 } } , null , & align_item } ;
 
-Link link34 = { &page_CCoreGeneral#page } ;
+Link link34 = { &page_CCoreCover#page } ;
 
-Text item35 = { { { "Basic character properties" , null , &link35 } } , null , & align_item } ;
+Text item35 = { { { "CCore General" , null , &link35 } } , null , & align_item } ;
 
-Link link35 = { &page_CharProp#page } ;
+Link link35 = { &page_CCoreGeneral#page } ;
 
-Text item36 = { { { "CharUtils" , null , &link36 } } , null , & align_item } ;
+Text item36 = { { { "Basic character properties" , null , &link36 } } , null , & align_item } ;
 
-Link link36 = { &page_CharUtils#page } ;
+Link link36 = { &page_CharProp#page } ;
 
-Text item37 = { { { "CheckedData" , null , &link37 } } , null , & align_item } ;
+Text item37 = { { { "CharUtils" , null , &link37 } } , null , & align_item } ;
 
-Link link37 = { &page_CheckedData#page } ;
+Link link37 = { &page_CharUtils#page } ;
 
-Text item38 = { { { "Classification" , null , &link38 } } , null , & align_item } ;
+Text item38 = { { { "CheckedData" , null , &link38 } } , null , & align_item } ;
 
-Link link38 = { &page_Classification#page } ;
+Link link38 = { &page_CheckedData#page } ;
 
-Text item39 = { { { "CmdInput" , null , &link39 } } , null , & align_item } ;
+Text item39 = { { { "Classification" , null , &link39 } } , null , & align_item } ;
 
-Link link39 = { &page_CmdInput#page } ;
+Link link39 = { &page_Classification#page } ;
 
-Text item40 = { { { "Cmp" , null , &link40 } } , null , & align_item } ;
+Text item40 = { { { "CmdInput" , null , &link40 } } , null , & align_item } ;
 
-Link link40 = { &page_Cmp#page } ;
+Link link40 = { &page_CmdInput#page } ;
 
-Text item41 = { { { "CommonIntAlgo" , null , &link41 } } , null , & align_item } ;
+Text item41 = { { { "Cmp" , null , &link41 } } , null , & align_item } ;
 
-Link link41 = { &page_CommonIntAlgo#page } ;
+Link link41 = { &page_Cmp#page } ;
 
-Text item42 = { { { "Compact lists" , null , &link42 } } , null , & align_item } ;
+Text item42 = { { { "CommonIntAlgo" , null , &link42 } } , null , & align_item } ;
 
-Link link42 = { &page_CompactLists#page } ;
+Link link42 = { &page_CommonIntAlgo#page } ;
 
-Text item43 = { { { "Compact maps" , null , &link43 } } , null , & align_item } ;
+Text item43 = { { { "Compact lists" , null , &link43 } } , null , & align_item } ;
 
-Link link43 = { &page_CompactMaps#page } ;
+Link link43 = { &page_CompactLists#page } ;
 
-Text item44 = { { { "Compact node allocator" , null , &link44 } } , null , & align_item } ;
+Text item44 = { { { "Compact maps" , null , &link44 } } , null , & align_item } ;
 
-Link link44 = { &page_CompactNodeAllocator#page } ;
+Link link44 = { &page_CompactMaps#page } ;
 
-Text item45 = { { { "(XCore) CompletePacket" , null , &link45 } } , null , & align_item } ;
+Text item45 = { { { "Compact node allocator" , null , &link45 } } , null , & align_item } ;
 
-Link link45 = { &page_CompletePacket#page } ;
+Link link45 = { &page_CompactNodeAllocator#page } ;
 
-Text item46 = { { { "CondLangLR1" , null , &link46 } } , null , & align_item } ;
+Text item46 = { { { "(XCore) CompletePacket" , null , &link46 } } , null , & align_item } ;
 
-Link link46 = { &page_CondLangLR1#page } ;
+Link link46 = { &page_CompletePacket#page } ;
 
-Text item47 = { { { "Console input" , null , &link47 } } , null , & align_item } ;
+Text item47 = { { { "CondLangLR1" , null , &link47 } } , null , & align_item } ;
 
-Link link47 = { &page_ConsoleInput#page } ;
+Link link47 = { &page_CondLangLR1#page } ;
 
-Text item48 = { { { "Container lists" , null , &link48 } } , null , & align_item } ;
+Text item48 = { { { "Console input" , null , &link48 } } , null , & align_item } ;
 
-Link link48 = { &page_ContainerLists#page } ;
+Link link48 = { &page_ConsoleInput#page } ;
 
-Text item49 = { { { "Counters" , null , &link49 } } , null , & align_item } ;
+Text item49 = { { { "Container lists" , null , &link49 } } , null , & align_item } ;
 
-Link link49 = { &page_Counters#page } ;
+Link link49 = { &page_ContainerLists#page } ;
 
-Text item50 = { { { "Crc" , null , &link50 } } , null , & align_item } ;
+Text item50 = { { { "Counters" , null , &link50 } } , null , & align_item } ;
 
-Link link50 = { &page_Crc#page } ;
+Link link50 = { &page_Counters#page } ;
 
-Text item51 = { { { "CreateAt" , null , &link51 } } , null , & align_item } ;
+Text item51 = { { { "Crc" , null , &link51 } } , null , & align_item } ;
 
-Link link51 = { &page_CreateAt#page } ;
+Link link51 = { &page_Crc#page } ;
 
-Text item52 = { { { "Crypton" , null , &link52 } } , null , & align_item } ;
+Text item52 = { { { "CreateAt" , null , &link52 } } , null , & align_item } ;
 
-Link link52 = { &page_Crypton#page } ;
+Link link52 = { &page_CreateAt#page } ;
 
-Text item53 = { { { "DDL (v.2)" , null , &link53 } } , null , & align_item } ;
+Text item53 = { { { "Crypton" , null , &link53 } } , null , & align_item } ;
 
-Link link53 = { &page_DDL#page } ;
+Link link53 = { &page_Crypton#page } ;
 
-Text item54 = { { { "DDLEngine" , null , &link54 } } , null , & align_item } ;
+Text item54 = { { { "DDL (v.2)" , null , &link54 } } , null , & align_item } ;
 
-Link link54 = { &page_DDLEngine#page } ;
+Link link54 = { &page_DDL#page } ;
 
-Text item55 = { { { "DDLShow" , null , &link55 } } , null , & align_item } ;
+Text item55 = { { { "DDLEngine" , null , &link55 } } , null , & align_item } ;
 
-Link link55 = { &page_DDLShow#page } ;
+Link link55 = { &page_DDLEngine#page } ;
 
-Text item56 = { { { "DDLTypeSet" , null , &link56 } } , null , & align_item } ;
+Text item56 = { { { "DDLShow" , null , &link56 } } , null , & align_item } ;
 
-Link link56 = { &page_DDLTypeSet#page } ;
+Link link56 = { &page_DDLShow#page } ;
 
-Text item57 = { { { "DecodeFile" , null , &link57 } } , null , & align_item } ;
+Text item57 = { { { "DDLTypeSet" , null , &link57 } } , null , & align_item } ;
 
-Link link57 = { &page_DecodeFile#page } ;
+Link link57 = { &page_DDLTypeSet#page } ;
 
-Text item58 = { { { "(XCore) DefaultFileDevice" , null , &link58 } } , null , & align_item } ;
+Text item58 = { { { "DecodeFile" , null , &link58 } } , null , & align_item } ;
 
-Link link58 = { &page_DefaultFileDevice#page } ;
+Link link58 = { &page_DecodeFile#page } ;
 
-Text item59 = { { { "DefaultTimeout" , null , &link59 } } , null , & align_item } ;
+Text item59 = { { { "(XCore) DefaultFileDevice" , null , &link59 } } , null , & align_item } ;
 
-Link link59 = { &page_DefaultTimeout#page } ;
+Link link59 = { &page_DefaultFileDevice#page } ;
 
-Text item60 = { { { "DeferCalls" , null , &link60 } } , null , & align_item } ;
+Text item60 = { { { "DefaultTimeout" , null , &link60 } } , null , & align_item } ;
 
-Link link60 = { &page_DeferCall#page } ;
+Link link60 = { &page_DefaultTimeout#page } ;
 
-Text item61 = { { { "Defalte" , null , &link61 } } , null , & align_item } ;
+Text item61 = { { { "DeferCalls" , null , &link61 } } , null , & align_item } ;
 
-Link link61 = { &page_Deflate#page } ;
+Link link61 = { &page_DeferCall#page } ;
 
-Text item62 = { { { "DestroyGuard" , null , &link62 } } , null , & align_item } ;
+Text item62 = { { { "Defalte" , null , &link62 } } , null , & align_item } ;
 
-Link link62 = { &page_DestroyGuard#page } ;
+Link link62 = { &page_Deflate#page } ;
 
-Text item63 = { { { "DHExp" , null , &link63 } } , null , & align_item } ;
+Text item63 = { { { "DestroyGuard" , null , &link63 } } , null , & align_item } ;
 
-Link link63 = { &page_DHExp#page } ;
+Link link63 = { &page_DestroyGuard#page } ;
 
-Text item64 = { { { "DirTreeRun" , null , &link64 } } , null , & align_item } ;
+Text item64 = { { { "DHExp" , null , &link64 } } , null , & align_item } ;
 
-Link link64 = { &page_DirTreeRun#page } ;
+Link link64 = { &page_DHExp#page } ;
 
-Text item65 = { { { "DynObject" , null , &link65 } } , null , & align_item } ;
+Text item65 = { { { "DirTreeRun" , null , &link65 } } , null , & align_item } ;
 
-Link link65 = { &page_DynObject#page } ;
+Link link65 = { &page_DirTreeRun#page } ;
 
-Text item66 = { { { "EchoDevice" , null , &link66 } } , null , & align_item } ;
+Text item66 = { { { "DynObject" , null , &link66 } } , null , & align_item } ;
 
-Link link66 = { &page_EchoDevice#page } ;
+Link link66 = { &page_DynObject#page } ;
 
-Text item67 = { { { "EchoServer" , null , &link67 } } , null , & align_item } ;
+Text item67 = { { { "EchoDevice" , null , &link67 } } , null , & align_item } ;
 
-Link link67 = { &page_EchoServer#page } ;
+Link link67 = { &page_EchoDevice#page } ;
 
-Text item68 = { { { "Element pool" , null , &link68 } } , null , & align_item } ;
+Text item68 = { { { "EchoServer" , null , &link68 } } , null , & align_item } ;
 
-Link link68 = { &page_ElementPool#page } ;
+Link link68 = { &page_EchoServer#page } ;
 
-Text item69 = { { { "ELF" , null , &link69 } } , null , & align_item } ;
+Text item69 = { { { "Element pool" , null , &link69 } } , null , & align_item } ;
 
-Link link69 = { &page_ELF#page } ;
+Link link69 = { &page_ElementPool#page } ;
 
-Text item70 = { { { "EllipticPi" , null , &link70 } } , null , & align_item } ;
+Text item70 = { { { "ELF" , null , &link70 } } , null , & align_item } ;
 
-Link link70 = { &page_EllipticPi#page } ;
+Link link70 = { &page_ELF#page } ;
 
-Text item71 = { { { "ErrorText" , null , &link71 } } , null , & align_item } ;
+Text item71 = { { { "EllipticPi" , null , &link71 } } , null , & align_item } ;
 
-Link link71 = { &page_ErrorText#page } ;
+Link link71 = { &page_EllipticPi#page } ;
 
-Text item72 = { { { "EthDevice" , null , &link72 } } , null , & align_item } ;
+Text item72 = { { { "ErrorText" , null , &link72 } } , null , & align_item } ;
 
-Link link72 = { &page_EthDevice#page } ;
+Link link72 = { &page_ErrorText#page } ;
 
-Text item73 = { { { "EuclidRotate" , null , &link73 } } , null , & align_item } ;
+Text item73 = { { { "EthDevice" , null , &link73 } } , null , & align_item } ;
 
-Link link73 = { &page_EuclidRotate#page } ;
+Link link73 = { &page_EthDevice#page } ;
 
-Text item74 = { { { "Event" , null , &link74 } } , null , & align_item } ;
+Text item74 = { { { "EuclidRotate" , null , &link74 } } , null , & align_item } ;
 
-Link link74 = { &page_Event#page } ;
+Link link74 = { &page_EuclidRotate#page } ;
 
-Text item75 = { { { "Event Recording" , null , &link75 } } , null , & align_item } ;
+Text item75 = { { { "Event" , null , &link75 } } , null , & align_item } ;
 
-Link link75 = { &page_EventRecord#page } ;
+Link link75 = { &page_Event#page } ;
 
-Text item76 = { { { "Exceptions" , null , &link76 } } , null , & align_item } ;
+Text item76 = { { { "Event Recording" , null , &link76 } } , null , & align_item } ;
 
-Link link76 = { &page_Exceptions#page } ;
+Link link76 = { &page_EventRecord#page } ;
 
-Text item77 = { { { "ExceptionType" , null , &link77 } } , null , & align_item } ;
+Text item77 = { { { "Exceptions" , null , &link77 } } , null , & align_item } ;
 
-Link link77 = { &page_ExceptionType#page } ;
+Link link77 = { &page_Exceptions#page } ;
 
-Text item78 = { { { "exectest" , null , &link78 } } , null , & align_item } ;
+Text item78 = { { { "ExceptionType" , null , &link78 } } , null , & align_item } ;
 
-Link link78 = { &page_exectest#page } ;
+Link link78 = { &page_ExceptionType#page } ;
 
-Text item79 = { { { "FastMutex" , null , &link79 } } , null , & align_item } ;
+Text item79 = { { { "exectest" , null , &link79 } } , null , & align_item } ;
 
-Link link79 = { &page_FastMutex#page } ;
+Link link79 = { &page_exectest#page } ;
 
-Text item80 = { { { "FeedBuf" , null , &link80 } } , null , & align_item } ;
+Text item80 = { { { "FastMutex" , null , &link80 } } , null , & align_item } ;
 
-Link link80 = { &page_FeedBuf#page } ;
+Link link80 = { &page_FastMutex#page } ;
 
-Text item81 = { { { "Fifo" , null , &link81 } } , null , & align_item } ;
+Text item81 = { { { "FeedBuf" , null , &link81 } } , null , & align_item } ;
 
-Link link81 = { &page_Fifo#page } ;
+Link link81 = { &page_FeedBuf#page } ;
 
-Text item82 = { { { "FileName" , null , &link82 } } , null , & align_item } ;
+Text item82 = { { { "Fifo" , null , &link82 } } , null , & align_item } ;
 
-Link link82 = { &page_FileName#page } ;
+Link link82 = { &page_Fifo#page } ;
 
-Text item83 = { { { "FileNameMatch" , null , &link83 } } , null , & align_item } ;
+Text item83 = { { { "FileName" , null , &link83 } } , null , & align_item } ;
 
-Link link83 = { &page_FileNameMatch#page } ;
+Link link83 = { &page_FileName#page } ;
 
-Text item84 = { { { "Files" , null , &link84 } } , null , & align_item } ;
+Text item84 = { { { "FileNameMatch" , null , &link84 } } , null , & align_item } ;
 
-Link link84 = { &page_Files#page } ;
+Link link84 = { &page_FileNameMatch#page } ;
 
-Text item85 = { { { "FileSystem" , null , &link85 } } , null , & align_item } ;
+Text item85 = { { { "Files" , null , &link85 } } , null , & align_item } ;
 
-Link link85 = { &page_FileSystem#page } ;
+Link link85 = { &page_Files#page } ;
 
-Text item86 = { { { "FileToMem" , null , &link86 } } , null , & align_item } ;
+Text item86 = { { { "FileSystem" , null , &link86 } } , null , & align_item } ;
 
-Link link86 = { &page_FileToMem#page } ;
+Link link86 = { &page_FileSystem#page } ;
 
-Text item87 = { { { "FileToRead" , null , &link87 } } , null , & align_item } ;
+Text item87 = { { { "FileToMem" , null , &link87 } } , null , & align_item } ;
 
-Link link87 = { &page_FileToRead#page } ;
+Link link87 = { &page_FileToMem#page } ;
 
-Text item88 = { { { "ForcedTimeout" , null , &link88 } } , null , & align_item } ;
+Text item88 = { { { "FileToRead" , null , &link88 } } , null , & align_item } ;
 
-Link link88 = { &page_ForcedTimeout#page } ;
+Link link88 = { &page_FileToRead#page } ;
 
-Text item89 = { { { "Forget" , null , &link89 } } , null , & align_item } ;
+Text item89 = { { { "ForcedTimeout" , null , &link89 } } , null , & align_item } ;
 
-Link link89 = { &page_Forget#page } ;
+Link link89 = { &page_ForcedTimeout#page } ;
 
-Text item90 = { { { "ForLoop" , null , &link90 } } , null , & align_item } ;
+Text item90 = { { { "Forget" , null , &link90 } } , null , & align_item } ;
 
-Link link90 = { &page_ForLoop#page } ;
+Link link90 = { &page_Forget#page } ;
 
-Text item91 = { { { "FuncTask" , null , &link91 } } , null , & align_item } ;
+Text item91 = { { { "ForLoop" , null , &link91 } } , null , & align_item } ;
 
-Link link91 = { &page_FuncTask#page } ;
+Link link91 = { &page_ForLoop#page } ;
 
-Text item92 = { { { "Function" , null , &link92 } } , null , & align_item } ;
+Text item92 = { { { "FuncTask" , null , &link92 } } , null , & align_item } ;
 
-Link link92 = { &page_Function#page } ;
+Link link92 = { &page_FuncTask#page } ;
 
-Text item93 = { { { "FunctorType" , null , &link93 } } , null , & align_item } ;
+Text item93 = { { { "Function" , null , &link93 } } , null , & align_item } ;
 
-Link link93 = { &page_FunctorType#page } ;
+Link link93 = { &page_Function#page } ;
 
-Text item94 = { { { "Gadgets" , null , &link94 } } , null , & align_item } ;
+Text item94 = { { { "FunctorType" , null , &link94 } } , null , & align_item } ;
 
-Link link94 = { &page_Gadgets#page } ;
+Link link94 = { &page_FunctorType#page } ;
 
-Text item95 = { { { "GCDConst" , null , &link95 } } , null , & align_item } ;
+Text item95 = { { { "Gadgets" , null , &link95 } } , null , & align_item } ;
 
-Link link95 = { &page_GCDConst#page } ;
+Link link95 = { &page_Gadgets#page } ;
 
-Text item96 = { { { "Handle" , null , &link96 } } , null , & align_item } ;
+Text item96 = { { { "GCDConst" , null , &link96 } } , null , & align_item } ;
 
-Link link96 = { &page_Handle#page } ;
+Link link96 = { &page_GCDConst#page } ;
 
-Text item97 = { { { "HashFunction" , null , &link97 } } , null , & align_item } ;
+Text item97 = { { { "Handle" , null , &link97 } } , null , & align_item } ;
 
-Link link97 = { &page_HashFunction#page } ;
+Link link97 = { &page_Handle#page } ;
 
-Text item98 = { { { "HCore Targets" , null , &link98 } } , null , & align_item } ;
+Text item98 = { { { "HashFunction" , null , &link98 } } , null , & align_item } ;
 
-Link link98 = { &page_HCoreTargets#page } ;
+Link link98 = { &page_HashFunction#page } ;
 
-Text item99 = { { { "HCore PlanInit_CCore" , null , &link99 } } , null , & align_item } ;
+Text item99 = { { { "HCore Targets" , null , &link99 } } , null , & align_item } ;
 
-Link link99 = { &page_HCore_PlanInit_CCore#page } ;
+Link link99 = { &page_HCoreTargets#page } ;
 
-Text item100 = { { { "HCore SysAbort" , null , &link100 } } , null , & align_item } ;
+Text item100 = { { { "HCore PlanInit_CCore" , null , &link100 } } , null , & align_item } ;
 
-Link link100 = { &page_HCore_SysAbort#page } ;
+Link link100 = { &page_HCore_PlanInit_CCore#page } ;
 
-Text item101 = { { { "HCore SysCon" , null , &link101 } } , null , & align_item } ;
+Text item101 = { { { "HCore SysAbort" , null , &link101 } } , null , & align_item } ;
 
-Link link101 = { &page_HCore_SysCon#page } ;
+Link link101 = { &page_HCore_SysAbort#page } ;
 
-Text item102 = { { { "HCore SysError" , null , &link102 } } , null , & align_item } ;
+Text item102 = { { { "HCore SysCon" , null , &link102 } } , null , & align_item } ;
 
-Link link102 = { &page_HCore_SysError#page } ;
+Link link102 = { &page_HCore_SysCon#page } ;
 
-Text item103 = { { { "HCore SysFile" , null , &link103 } } , null , & align_item } ;
+Text item103 = { { { "HCore SysError" , null , &link103 } } , null , & align_item } ;
 
-Link link103 = { &page_HCore_SysFile#page } ;
+Link link103 = { &page_HCore_SysError#page } ;
 
-Text item104 = { { { "HCore SysFileSystem" , null , &link104 } } , null , & align_item } ;
+Text item104 = { { { "HCore SysFile" , null , &link104 } } , null , & align_item } ;
 
-Link link104 = { &page_HCore_SysFileSystem#page } ;
+Link link104 = { &page_HCore_SysFile#page } ;
 
-Text item105 = { { { "HCore SysLaunchPath" , null , &link105 } } , null , & align_item } ;
+Text item105 = { { { "HCore SysFileSystem" , null , &link105 } } , null , & align_item } ;
 
-Link link105 = { &page_HCore_SysLaunchPath#page } ;
+Link link105 = { &page_HCore_SysFileSystem#page } ;
 
-Text item106 = { { { "HCore SysMemPage" , null , &link106 } } , null , & align_item } ;
+Text item106 = { { { "HCore SysLaunchPath" , null , &link106 } } , null , & align_item } ;
 
-Link link106 = { &page_HCore_SysMemPage#page } ;
+Link link106 = { &page_HCore_SysLaunchPath#page } ;
 
-Text item107 = { { { "HCore SysNet" , null , &link107 } } , null , & align_item } ;
+Text item107 = { { { "HCore SysMemPage" , null , &link107 } } , null , & align_item } ;
 
-Link link107 = { &page_HCore_SysNet#page } ;
+Link link107 = { &page_HCore_SysMemPage#page } ;
 
-Text item108 = { { { "HCore SysPlanInit" , null , &link108 } } , null , & align_item } ;
+Text item108 = { { { "HCore SysNet" , null , &link108 } } , null , & align_item } ;
 
-Link link108 = { &page_HCore_SysPlanInit#page } ;
+Link link108 = { &page_HCore_SysNet#page } ;
 
-Text item109 = { { { "HCore SysProp" , null , &link109 } } , null , & align_item } ;
+Text item109 = { { { "HCore SysPlanInit" , null , &link109 } } , null , & align_item } ;
 
-Link link109 = { &page_HCore_SysProp#page } ;
+Link link109 = { &page_HCore_SysPlanInit#page } ;
 
-Text item110 = { { { "HCore SysSem" , null , &link110 } } , null , & align_item } ;
+Text item110 = { { { "HCore SysProp" , null , &link110 } } , null , & align_item } ;
 
-Link link110 = { &page_HCore_SysSem#page } ;
+Link link110 = { &page_HCore_SysProp#page } ;
 
-Text item111 = { { { "HCore SysTask" , null , &link111 } } , null , & align_item } ;
+Text item111 = { { { "HCore SysSem" , null , &link111 } } , null , & align_item } ;
 
-Link link111 = { &page_HCore_SysTask#page } ;
+Link link111 = { &page_HCore_SysSem#page } ;
 
-Text item112 = { { { "HCore SysTime" , null , &link112 } } , null , & align_item } ;
+Text item112 = { { { "HCore SysTask" , null , &link112 } } , null , & align_item } ;
 
-Link link112 = { &page_HCore_SysTime#page } ;
+Link link112 = { &page_HCore_SysTask#page } ;
 
-Text item113 = { { { "HCore SysTlsSlot" , null , &link113 } } , null , & align_item } ;
+Text item113 = { { { "HCore SysTime" , null , &link113 } } , null , & align_item } ;
 
-Link link113 = { &page_HCore_SysTlsSlot#page } ;
+Link link113 = { &page_HCore_SysTime#page } ;
 
-Text item114 = { { { "HCore SysWait" , null , &link114 } } , null , & align_item } ;
+Text item114 = { { { "HCore SysTlsSlot" , null , &link114 } } , null , & align_item } ;
 
-Link link114 = { &page_HCore_SysWait#page } ;
+Link link114 = { &page_HCore_SysTlsSlot#page } ;
 
-Text item115 = { { { "HeapEngine" , null , &link115 } } , null , & align_item } ;
+Text item115 = { { { "HCore SysWait" , null , &link115 } } , null , & align_item } ;
 
-Link link115 = { &page_HeapEngine#page } ;
+Link link115 = { &page_HCore_SysWait#page } ;
 
-Text item116 = { { { "Init" , null , &link116 } } , null , & align_item } ;
+Text item116 = { { { "HeapEngine" , null , &link116 } } , null , & align_item } ;
 
-Link link116 = { &page_Init#page } ;
+Link link116 = { &page_HeapEngine#page } ;
 
-Text item117 = { { { "InputUtils" , null , &link117 } } , null , & align_item } ;
+Text item117 = { { { "Init" , null , &link117 } } , null , & align_item } ;
 
-Link link117 = { &page_InputUtils#page } ;
+Link link117 = { &page_Init#page } ;
 
-Text item118 = { { { "Installation" , null , &link118 } } , null , & align_item } ;
+Text item118 = { { { "InputUtils" , null , &link118 } } , null , & align_item } ;
 
-Link link118 = { &page_Installation#page } ;
+Link link118 = { &page_InputUtils#page } ;
 
-Text item119 = { { { "InstanceLock" , null , &link119 } } , null , & align_item } ;
+Text item119 = { { { "Installation" , null , &link119 } } , null , & align_item } ;
 
-Link link119 = { &page_InstanceLock#page } ;
+Link link119 = { &page_Installation#page } ;
 
-Text item120 = { { { "Integer" , null , &link120 } } , null , & align_item } ;
+Text item120 = { { { "InstanceLock" , null , &link120 } } , null , & align_item } ;
 
-Link link120 = { &page_Integer#page } ;
+Link link120 = { &page_InstanceLock#page } ;
 
-Text item121 = { { { "IntegerFastAlgo" , null , &link121 } } , null , & align_item } ;
+Text item121 = { { { "Integer" , null , &link121 } } , null , & align_item } ;
 
-Link link121 = { &page_IntegerFastAlgo#page } ;
+Link link121 = { &page_Integer#page } ;
 
-Text item122 = { { { "IntegerOctetBuilder" , null , &link122 } } , null , & align_item } ;
+Text item122 = { { { "IntegerFastAlgo" , null , &link122 } } , null , & align_item } ;
 
-Link link122 = { &page_IntegerOctetBuilder#page } ;
+Link link122 = { &page_IntegerFastAlgo#page } ;
 
-Text item123 = { { { "IntegerSlowAlgo" , null , &link123 } } , null , & align_item } ;
+Text item123 = { { { "IntegerOctetBuilder" , null , &link123 } } , null , & align_item } ;
 
-Link link123 = { &page_IntegerSlowAlgo#page } ;
+Link link123 = { &page_IntegerOctetBuilder#page } ;
 
-Text item124 = { { { "InterfaceHost" , null , &link124 } } , null , & align_item } ;
+Text item124 = { { { "IntegerSlowAlgo" , null , &link124 } } , null , & align_item } ;
 
-Link link124 = { &page_InterfaceHost#page } ;
+Link link124 = { &page_IntegerSlowAlgo#page } ;
 
-Text item125 = { { { "IntervalTree" , null , &link125 } } , null , & align_item } ;
+Text item125 = { { { "InterfaceHost" , null , &link125 } } , null , & align_item } ;
 
-Link link125 = { &page_IntervalTree#page } ;
+Link link125 = { &page_InterfaceHost#page } ;
 
-Text item126 = { { { "Introduction" , null , &link126 } } , null , & align_item } ;
+Text item126 = { { { "IntervalTree" , null , &link126 } } , null , & align_item } ;
 
-Link link126 = { &page_Introduction#page } ;
+Link link126 = { &page_IntervalTree#page } ;
 
-Text item127 = { { { "Job" , null , &link127 } } , null , & align_item } ;
+Text item127 = { { { "Introduction" , null , &link127 } } , null , & align_item } ;
 
-Link link127 = { &page_Job#page } ;
+Link link127 = { &page_Introduction#page } ;
 
-Text item128 = { { { "Keywords" , null , &link128 } } , null , & align_item } ;
+Text item128 = { { { "Job" , null , &link128 } } , null , & align_item } ;
 
-Link link128 = { &page_Keywords#page } ;
+Link link128 = { &page_Job#page } ;
 
-Text item129 = { { { "LangDataMap" , null , &link129 } } , null , & align_item } ;
+Text item129 = { { { "Keywords" , null , &link129 } } , null , & align_item } ;
 
-Link link129 = { &page_LangDataMap#page } ;
+Link link129 = { &page_Keywords#page } ;
 
-Text item130 = { { { "LaunchPath" , null , &link130 } } , null , & align_item } ;
+Text item130 = { { { "LangDataMap" , null , &link130 } } , null , & align_item } ;
 
-Link link130 = { &page_LaunchPath#page } ;
+Link link130 = { &page_LangDataMap#page } ;
 
-Text item131 = { { { "Len" , null , &link131 } } , null , & align_item } ;
+Text item131 = { { { "LaunchPath" , null , &link131 } } , null , & align_item } ;
 
-Link link131 = { &page_Len#page } ;
+Link link131 = { &page_LaunchPath#page } ;
 
-Text item132 = { { { "LineInput" , null , &link132 } } , null , & align_item } ;
+Text item132 = { { { "Len" , null , &link132 } } , null , & align_item } ;
 
-Link link132 = { &page_LineInput#page } ;
+Link link132 = { &page_Len#page } ;
 
-Text item133 = { { { "Lists" , null , &link133 } } , null , & align_item } ;
+Text item133 = { { { "LineInput" , null , &link133 } } , null , & align_item } ;
 
-Link link133 = { &page_Lists#page } ;
+Link link133 = { &page_LineInput#page } ;
 
-Text item134 = { { { "Locked" , null , &link134 } } , null , & align_item } ;
+Text item134 = { { { "Lists" , null , &link134 } } , null , & align_item } ;
 
-Link link134 = { &page_Locked#page } ;
+Link link134 = { &page_Lists#page } ;
 
-Text item135 = { { { "LockObject" , null , &link135 } } , null , & align_item } ;
+Text item135 = { { { "Locked" , null , &link135 } } , null , & align_item } ;
 
-Link link135 = { &page_LockObject#page } ;
+Link link135 = { &page_Locked#page } ;
 
-Text item136 = { { { "LockUse" , null , &link136 } } , null , & align_item } ;
+Text item136 = { { { "LockObject" , null , &link136 } } , null , & align_item } ;
 
-Link link136 = { &page_LockUse#page } ;
+Link link136 = { &page_LockObject#page } ;
 
-Text item137 = { { { "Logging" , null , &link137 } } , null , & align_item } ;
+Text item137 = { { { "LockUse" , null , &link137 } } , null , & align_item } ;
 
-Link link137 = { &page_Logging#page } ;
+Link link137 = { &page_LockUse#page } ;
 
-Text item138 = { { { "MakeFileName" , null , &link138 } } , null , & align_item } ;
+Text item138 = { { { "Logging" , null , &link138 } } , null , & align_item } ;
 
-Link link138 = { &page_MakeFileName#page } ;
+Link link138 = { &page_Logging#page } ;
 
-Text item139 = { { { "MakeList" , null , &link139 } } , null , & align_item } ;
+Text item139 = { { { "MakeFileName" , null , &link139 } } , null , & align_item } ;
 
-Link link139 = { &page_MakeList#page } ;
+Link link139 = { &page_MakeFileName#page } ;
 
-Text item140 = { { { "MakeString" , null , &link140 } } , null , & align_item } ;
+Text item140 = { { { "MakeList" , null , &link140 } } , null , & align_item } ;
 
-Link link140 = { &page_MakeString#page } ;
+Link link140 = { &page_MakeList#page } ;
 
-Text item141 = { { { "Math" , null , &link141 } } , null , & align_item } ;
+Text item141 = { { { "MakeString" , null , &link141 } } , null , & align_item } ;
 
-Link link141 = { &page_Math#page } ;
+Link link141 = { &page_MakeString#page } ;
 
-Text item142 = { { { "MD5" , null , &link142 } } , null , & align_item } ;
+Text item142 = { { { "Math" , null , &link142 } } , null , & align_item } ;
 
-Link link142 = { &page_MD5#page } ;
+Link link142 = { &page_Math#page } ;
 
-Text item143 = { { { "MemAllocGuard" , null , &link143 } } , null , & align_item } ;
+Text item143 = { { { "MD5" , null , &link143 } } , null , & align_item } ;
 
-Link link143 = { &page_MemAllocGuard#page } ;
+Link link143 = { &page_MD5#page } ;
 
-Text item144 = { { { "Memory Management" , null , &link144 } } , null , & align_item } ;
+Text item144 = { { { "MemAllocGuard" , null , &link144 } } , null , & align_item } ;
 
-Link link144 = { &page_MemoryManagement#page } ;
+Link link144 = { &page_MemAllocGuard#page } ;
 
-Text item145 = { { { "Meta" , null , &link145 } } , null , & align_item } ;
+Text item145 = { { { "Memory Management" , null , &link145 } } , null , & align_item } ;
 
-Link link145 = { &page_Meta#page } ;
+Link link145 = { &page_MemoryManagement#page } ;
 
-Text item146 = { { { "MetaList" , null , &link146 } } , null , & align_item } ;
+Text item146 = { { { "Meta" , null , &link146 } } , null , & align_item } ;
 
-Link link146 = { &page_MetaList#page } ;
+Link link146 = { &page_Meta#page } ;
 
-Text item147 = { { { "Metaphisics" , null , &link147 } } , null , & align_item } ;
+Text item147 = { { { "MetaList" , null , &link147 } } , null , & align_item } ;
 
-Link link147 = { &page_Metaphysics#page } ;
+Link link147 = { &page_MetaList#page } ;
 
-Text item148 = { { { "ModEngine" , null , &link148 } } , null , & align_item } ;
+Text item148 = { { { "Metaphisics" , null , &link148 } } , null , & align_item } ;
 
-Link link148 = { &page_ModEngine#page } ;
+Link link148 = { &page_Metaphysics#page } ;
 
-Text item149 = { { { "Move" , null , &link149 } } , null , & align_item } ;
+Text item149 = { { { "ModEngine" , null , &link149 } } , null , & align_item } ;
 
-Link link149 = { &page_Move#page } ;
+Link link149 = { &page_ModEngine#page } ;
 
-Text item150 = { { { "MSec" , null , &link150 } } , null , & align_item } ;
+Text item150 = { { { "Move" , null , &link150 } } , null , & align_item } ;
 
-Link link150 = { &page_MSec#page } ;
+Link link150 = { &page_Move#page } ;
 
-Text item151 = { { { "MultiEvent" , null , &link151 } } , null , & align_item } ;
+Text item151 = { { { "MSec" , null , &link151 } } , null , & align_item } ;
 
-Link link151 = { &page_MultiEvent#page } ;
+Link link151 = { &page_MSec#page } ;
 
-Text item152 = { { { "MultiSem" , null , &link152 } } , null , & align_item } ;
+Text item152 = { { { "MultiEvent" , null , &link152 } } , null , & align_item } ;
 
-Link link152 = { &page_MultiSem#page } ;
+Link link152 = { &page_MultiEvent#page } ;
 
-Text item153 = { { { "MultiSignals" , null , &link153 } } , null , & align_item } ;
+Text item153 = { { { "MultiSem" , null , &link153 } } , null , & align_item } ;
 
-Link link153 = { &page_MultiSignal#page } ;
+Link link153 = { &page_MultiSem#page } ;
 
-Text item154 = { { { "Mutex" , null , &link154 } } , null , & align_item } ;
+Text item154 = { { { "MultiSignals" , null , &link154 } } , null , & align_item } ;
 
-Link link154 = { &page_Mutex#page } ;
+Link link154 = { &page_MultiSignal#page } ;
 
-Text item155 = { { { "NanoIPDevice" , null , &link155 } } , null , & align_item } ;
+Text item155 = { { { "Mutex" , null , &link155 } } , null , & align_item } ;
 
-Link link155 = { &page_NanoIPDevice#page } ;
+Link link155 = { &page_Mutex#page } ;
 
-Text item156 = { { { "NanoIPDevice events" , null , &link156 } } , null , & align_item } ;
+Text item156 = { { { "NanoIPDevice" , null , &link156 } } , null , & align_item } ;
 
-Link link156 = { &page_NanoIPDeviceEvents#page } ;
+Link link156 = { &page_NanoIPDevice#page } ;
 
-Text item157 = { { { "NanoPackets" , null , &link157 } } , null , & align_item } ;
+Text item157 = { { { "NanoIPDevice events" , null , &link157 } } , null , & align_item } ;
 
-Link link157 = { &page_NanoPackets#page } ;
+Link link157 = { &page_NanoIPDeviceEvents#page } ;
 
-Text item158 = { { { "NegBool" , null , &link158 } } , null , & align_item } ;
+Text item158 = { { { "NanoPackets" , null , &link158 } } , null , & align_item } ;
 
-Link link158 = { &page_NegBool#page } ;
+Link link158 = { &page_NanoPackets#page } ;
 
-Text item159 = { { { "NetBase" , null , &link159 } } , null , & align_item } ;
+Text item159 = { { { "NegBool" , null , &link159 } } , null , & align_item } ;
 
-Link link159 = { &page_NetBase#page } ;
+Link link159 = { &page_NegBool#page } ;
 
-Text item160 = { { { "NetFork" , null , &link160 } } , null , & align_item } ;
+Text item160 = { { { "NetBase" , null , &link160 } } , null , & align_item } ;
 
-Link link160 = { &page_NetFork#page } ;
+Link link160 = { &page_NetBase#page } ;
 
-Text item161 = { { { "NewDelete" , null , &link161 } } , null , & align_item } ;
+Text item161 = { { { "NetFork" , null , &link161 } } , null , & align_item } ;
 
-Link link161 = { &page_NewDelete#page } ;
+Link link161 = { &page_NetFork#page } ;
 
-Text item162 = { { { "NoCopy" , null , &link162 } } , null , & align_item } ;
+Text item162 = { { { "NewDelete" , null , &link162 } } , null , & align_item } ;
 
-Link link162 = { &page_NoCopy#page } ;
+Link link162 = { &page_NewDelete#page } ;
 
-Text item163 = { { { "Node allocators" , null , &link163 } } , null , & align_item } ;
+Text item163 = { { { "NoCopy" , null , &link163 } } , null , & align_item } ;
 
-Link link163 = { &page_NodeAllocators#page } ;
+Link link163 = { &page_NoCopy#page } ;
 
-Text item164 = { { { "NoMutex" , null , &link164 } } , null , & align_item } ;
+Text item164 = { { { "Node allocators" , null , &link164 } } , null , & align_item } ;
 
-Link link164 = { &page_NoMutex#page } ;
+Link link164 = { &page_NodeAllocators#page } ;
 
-Text item165 = { { { "NoPrimeTest" , null , &link165 } } , null , & align_item } ;
+Text item165 = { { { "NoMutex" , null , &link165 } } , null , & align_item } ;
 
-Link link165 = { &page_NoPrimeTest#page } ;
+Link link165 = { &page_NoMutex#page } ;
 
-Text item166 = { { { "Nothing" , null , &link166 } } , null , & align_item } ;
+Text item166 = { { { "NoPrimeTest" , null , &link166 } } , null , & align_item } ;
 
-Link link166 = { &page_Nothing#page } ;
+Link link166 = { &page_NoPrimeTest#page } ;
 
-Text item167 = { { { "NoThrowFlags" , null , &link167 } } , null , & align_item } ;
+Text item167 = { { { "Nothing" , null , &link167 } } , null , & align_item } ;
 
-Link link167 = { &page_NoThrowFlags#page } ;
+Link link167 = { &page_Nothing#page } ;
 
-Text item168 = { { { "NullMovePtr" , null , &link168 } } , null , & align_item } ;
+Text item168 = { { { "NoThrowFlags" , null , &link168 } } , null , & align_item } ;
 
-Link link168 = { &page_NullMovePtr#page } ;
+Link link168 = { &page_NoThrowFlags#page } ;
 
-Text item169 = { { { "Object Domain" , null , &link169 } } , null , & align_item } ;
+Text item169 = { { { "NullMovePtr" , null , &link169 } } , null , & align_item } ;
 
-Link link169 = { &page_ObjectDomain#page } ;
+Link link169 = { &page_NullMovePtr#page } ;
 
-Text item170 = { { { "ObjectHost" , null , &link170 } } , null , & align_item } ;
+Text item170 = { { { "Object Domain" , null , &link170 } } , null , & align_item } ;
 
-Link link170 = { &page_ObjectHost#page } ;
+Link link170 = { &page_ObjectDomain#page } ;
 
-Text item171 = { { { "ObjectHosting" , null , &link171 } } , null , & align_item } ;
+Text item171 = { { { "ObjectHost" , null , &link171 } } , null , & align_item } ;
 
-Link link171 = { &page_ObjectHosting#page } ;
+Link link171 = { &page_ObjectHost#page } ;
 
-Text item172 = { { { "OpAddHelper" , null , &link172 } } , null , & align_item } ;
+Text item172 = { { { "ObjectHosting" , null , &link172 } } , null , & align_item } ;
 
-Link link172 = { &page_OpAddHelper#page } ;
+Link link172 = { &page_ObjectHosting#page } ;
 
-Text item173 = { { { "Optional" , null , &link173 } } , null , & align_item } ;
+Text item173 = { { { "OpAddHelper" , null , &link173 } } , null , & align_item } ;
 
-Link link173 = { &page_Optional#page } ;
+Link link173 = { &page_OpAddHelper#page } ;
 
-Text item174 = { { { "OwnPtr" , null , &link174 } } , null , & align_item } ;
+Text item174 = { { { "Optional" , null , &link174 } } , null , & align_item } ;
 
-Link link174 = { &page_OwnPtr#page } ;
+Link link174 = { &page_Optional#page } ;
 
-Text item175 = { { { "Packet" , null , &link175 } } , null , & align_item } ;
+Text item175 = { { { "OwnPtr" , null , &link175 } } , null , & align_item } ;
 
-Link link175 = { &page_Packet#page } ;
+Link link175 = { &page_OwnPtr#page } ;
 
-Text item176 = { { { "Packet endpoint" , null , &link176 } } , null , & align_item } ;
+Text item176 = { { { "Packet" , null , &link176 } } , null , & align_item } ;
 
-Link link176 = { &page_PacketEndpoint#page } ;
+Link link176 = { &page_Packet#page } ;
 
-Text item177 = { { { "PacketPool" , null , &link177 } } , null , & align_item } ;
+Text item177 = { { { "Packet endpoint" , null , &link177 } } , null , & align_item } ;
 
-Link link177 = { &page_PacketPool#page } ;
+Link link177 = { &page_PacketEndpoint#page } ;
 
-Text item178 = { { { "PacketSet" , null , &link178 } } , null , & align_item } ;
+Text item178 = { { { "PacketPool" , null , &link178 } } , null , & align_item } ;
 
-Link link178 = { &page_PacketSet#page } ;
+Link link178 = { &page_PacketPool#page } ;
 
-Text item179 = { { { "ParserGen" , null , &link179 } } , null , & align_item } ;
+Text item179 = { { { "PacketSet" , null , &link179 } } , null , & align_item } ;
 
-Link link179 = { &page_ParserGen#page } ;
+Link link179 = { &page_PacketSet#page } ;
 
-Text item180 = { { { "Partition" , null , &link180 } } , null , & align_item } ;
+Text item180 = { { { "ParserGen" , null , &link180 } } , null , & align_item } ;
 
-Link link180 = { &page_Partition#page } ;
+Link link180 = { &page_ParserGen#page } ;
 
-Text item181 = { { { "Paths" , null , &link181 } } , null , & align_item } ;
+Text item181 = { { { "Partition" , null , &link181 } } , null , & align_item } ;
 
-Link link181 = { &page_Paths#page } ;
+Link link181 = { &page_Partition#page } ;
 
-Text item182 = { { { "PerTask" , null , &link182 } } , null , & align_item } ;
+Text item182 = { { { "Paths" , null , &link182 } } , null , & align_item } ;
 
-Link link182 = { &page_PerTask#page } ;
+Link link182 = { &page_Paths#page } ;
 
-Text item183 = { { { "PKE" , null , &link183 } } , null , & align_item } ;
+Text item183 = { { { "PerTask" , null , &link183 } } , null , & align_item } ;
 
-Link link183 = { &page_PKE#page } ;
+Link link183 = { &page_PerTask#page } ;
 
-Text item184 = { { { "Place" , null , &link184 } } , null , & align_item } ;
+Text item184 = { { { "PKE" , null , &link184 } } , null , & align_item } ;
 
-Link link184 = { &page_Place#page } ;
+Link link184 = { &page_PKE#page } ;
 
-Text item185 = { { { "PlanInit" , null , &link185 } } , null , & align_item } ;
+Text item185 = { { { "Place" , null , &link185 } } , null , & align_item } ;
 
-Link link185 = { &page_PlanInit#page } ;
+Link link185 = { &page_Place#page } ;
 
-Text item186 = { { { "PosSub" , null , &link186 } } , null , & align_item } ;
+Text item186 = { { { "PlanInit" , null , &link186 } } , null , & align_item } ;
 
-Link link186 = { &page_PosSub#page } ;
+Link link186 = { &page_PlanInit#page } ;
 
-Text item187 = { { { "Pow" , null , &link187 } } , null , & align_item } ;
+Text item187 = { { { "PosSub" , null , &link187 } } , null , & align_item } ;
 
-Link link187 = { &page_Pow#page } ;
+Link link187 = { &page_PosSub#page } ;
 
-Text item188 = { { { "PretextFileToMem" , null , &link188 } } , null , & align_item } ;
+Text item188 = { { { "Pow" , null , &link188 } } , null , & align_item } ;
 
-Link link188 = { &page_PretextFileToMem#page } ;
+Link link188 = { &page_Pow#page } ;
 
-Text item189 = { { { "PrintAbort" , null , &link189 } } , null , & align_item } ;
+Text item189 = { { { "PretextFileToMem" , null , &link189 } } , null , & align_item } ;
 
-Link link189 = { &page_PrintAbort#page } ;
+Link link189 = { &page_PretextFileToMem#page } ;
 
-Text item190 = { { { "PrintBits" , null , &link190 } } , null , & align_item } ;
+Text item190 = { { { "PrintAbort" , null , &link190 } } , null , & align_item } ;
 
-Link link190 = { &page_PrintBits#page } ;
+Link link190 = { &page_PrintAbort#page } ;
 
-Text item191 = { { { "Printing devices" , null , &link191 } } , null , & align_item } ;
+Text item191 = { { { "PrintBits" , null , &link191 } } , null , & align_item } ;
 
-Link link191 = { &page_PrintDevice#page } ;
+Link link191 = { &page_PrintBits#page } ;
 
-Text item192 = { { { "PrintError" , null , &link192 } } , null , & align_item } ;
+Text item192 = { { { "Printing devices" , null , &link192 } } , null , & align_item } ;
 
-Link link192 = { &page_PrintError#page } ;
+Link link192 = { &page_PrintDevice#page } ;
 
-Text item193 = { { { "Printing" , null , &link193 } } , null , & align_item } ;
+Text item193 = { { { "PrintError" , null , &link193 } } , null , & align_item } ;
 
-Link link193 = { &page_Printing#page } ;
+Link link193 = { &page_PrintError#page } ;
 
-Text item194 = { { { "PrintRatio" , null , &link194 } } , null , & align_item } ;
+Text item194 = { { { "Printing" , null , &link194 } } , null , & align_item } ;
 
-Link link194 = { &page_PrintRatio#page } ;
+Link link194 = { &page_Printing#page } ;
 
-Text item195 = { { { "PrintSet" , null , &link195 } } , null , & align_item } ;
+Text item195 = { { { "PrintRatio" , null , &link195 } } , null , & align_item } ;
 
-Link link195 = { &page_PrintSet#page } ;
+Link link195 = { &page_PrintRatio#page } ;
 
-Text item196 = { { { "PrintStem" , null , &link196 } } , null , & align_item } ;
+Text item196 = { { { "PrintSet" , null , &link196 } } , null , & align_item } ;
 
-Link link196 = { &page_PrintStem#page } ;
+Link link196 = { &page_PrintSet#page } ;
 
-Text item197 = { { { "PrintTime" , null , &link197 } } , null , & align_item } ;
+Text item197 = { { { "PrintStem" , null , &link197 } } , null , & align_item } ;
 
-Link link197 = { &page_PrintTime#page } ;
+Link link197 = { &page_PrintStem#page } ;
 
-Text item198 = { { { "PrintTitle" , null , &link198 } } , null , & align_item } ;
+Text item198 = { { { "PrintTime" , null , &link198 } } , null , & align_item } ;
 
-Link link198 = { &page_PrintTitle#page } ;
+Link link198 = { &page_PrintTime#page } ;
 
-Text item199 = { { { "PSec" , null , &link199 } } , null , & align_item } ;
+Text item199 = { { { "PrintTitle" , null , &link199 } } , null , & align_item } ;
 
-Link link199 = { &page_PSec#page } ;
+Link link199 = { &page_PrintTitle#page } ;
 
-Text item200 = { { { "PSecEchoServer" , null , &link200 } } , null , & align_item } ;
+Text item200 = { { { "PSec" , null , &link200 } } , null , & align_item } ;
 
-Link link200 = { &page_PSecEchoServer#page } ;
+Link link200 = { &page_PSec#page } ;
 
-Text item201 = { { { "PTP" , null , &link201 } } , null , & align_item } ;
+Text item201 = { { { "PSecEchoServer" , null , &link201 } } , null , & align_item } ;
 
-Link link201 = { &page_PTP#page } ;
+Link link201 = { &page_PSecEchoServer#page } ;
 
-Text item202 = { { { "PTP Boot" , null , &link202 } } , null , & align_item } ;
+Text item202 = { { { "PTP" , null , &link202 } } , null , & align_item } ;
 
-Link link202 = { &page_PTPBoot#page } ;
+Link link202 = { &page_PTP#page } ;
 
-Text item203 = { { { "PTP ClientDevice events" , null , &link203 } } , null , & align_item } ;
+Text item203 = { { { "PTP Boot" , null , &link203 } } , null , & align_item } ;
 
-Link link203 = { &page_PTPCilentDeviceEvents#page } ;
+Link link203 = { &page_PTPBoot#page } ;
 
-Text item204 = { { { "PTP Console" , null , &link204 } } , null , & align_item } ;
+Text item204 = { { { "PTP ClientDevice events" , null , &link204 } } , null , & align_item } ;
 
-Link link204 = { &page_PTPCon#page } ;
+Link link204 = { &page_PTPCilentDeviceEvents#page } ;
 
-Text item205 = { { { "PTPEchoServer" , null , &link205 } } , null , & align_item } ;
+Text item205 = { { { "PTP Console" , null , &link205 } } , null , & align_item } ;
 
-Link link205 = { &page_PTPEchoServer#page } ;
+Link link205 = { &page_PTPCon#page } ;
 
-Text item206 = { { { "PTP echo test" , null , &link206 } } , null , & align_item } ;
+Text item206 = { { { "PTPEchoServer" , null , &link206 } } , null , & align_item } ;
 
-Link link206 = { &page_PTPEchoTest#page } ;
+Link link206 = { &page_PTPEchoServer#page } ;
 
-Text item207 = { { { "HFS" , null , &link207 } } , null , & align_item } ;
+Text item207 = { { { "PTP echo test" , null , &link207 } } , null , & align_item } ;
 
-Link link207 = { &page_PTPHFS#page } ;
+Link link207 = { &page_PTPEchoTest#page } ;
 
-Text item208 = { { { "PTPSecureClient" , null , &link208 } } , null , & align_item } ;
+Text item208 = { { { "HFS" , null , &link208 } } , null , & align_item } ;
 
-Link link208 = { &page_PTPSecureClient#page } ;
+Link link208 = { &page_PTPHFS#page } ;
 
-Text item209 = { { { "PTPSecureServer" , null , &link209 } } , null , & align_item } ;
+Text item209 = { { { "PTPSecureClient" , null , &link209 } } , null , & align_item } ;
 
-Link link209 = { &page_PTPSecureServer#page } ;
+Link link209 = { &page_PTPSecureClient#page } ;
 
-Text item210 = { { { "PTPServer" , null , &link210 } } , null , & align_item } ;
+Text item210 = { { { "PTPSecureServer" , null , &link210 } } , null , & align_item } ;
 
-Link link210 = { &page_PTPServer#page } ;
+Link link210 = { &page_PTPSecureServer#page } ;
 
-Text item211 = { { { "PTP ServerDevice events" , null , &link211 } } , null , & align_item } ;
+Text item211 = { { { "PTPServer" , null , &link211 } } , null , & align_item } ;
 
-Link link211 = { &page_PTPServerDeviceEvents#page } ;
+Link link211 = { &page_PTPServer#page } ;
 
-Text item212 = { { { "PTP Service" , null , &link212 } } , null , & align_item } ;
+Text item212 = { { { "PTP ServerDevice events" , null , &link212 } } , null , & align_item } ;
 
-Link link212 = { &page_PTPService#page } ;
+Link link212 = { &page_PTPServerDeviceEvents#page } ;
 
-Text item213 = { { { "PTP Support" , null , &link213 } } , null , & align_item } ;
+Text item213 = { { { "PTP Service" , null , &link213 } } , null , & align_item } ;
 
-Link link213 = { &page_PTPSupport#page } ;
+Link link213 = { &page_PTPService#page } ;
 
-Text item214 = { { { "PtrLen" , null , &link214 } } , null , & align_item } ;
+Text item214 = { { { "PTP Support" , null , &link214 } } , null , & align_item } ;
 
-Link link214 = { &page_PtrLen#page } ;
+Link link214 = { &page_PTPSupport#page } ;
 
-Text item215 = { { { "PtrLenReverse" , null , &link215 } } , null , & align_item } ;
+Text item215 = { { { "PtrLen" , null , &link215 } } , null , & align_item } ;
 
-Link link215 = { &page_PtrLenReverse#page } ;
+Link link215 = { &page_PtrLen#page } ;
 
-Text item216 = { { { "PtrStepLen" , null , &link216 } } , null , & align_item } ;
+Text item216 = { { { "PtrLenReverse" , null , &link216 } } , null , & align_item } ;
 
-Link link216 = { &page_PtrStepLen#page } ;
+Link link216 = { &page_PtrLenReverse#page } ;
 
-Text item217 = { { { "RadixHeap" , null , &link217 } } , null , & align_item } ;
+Text item217 = { { { "PtrStepLen" , null , &link217 } } , null , & align_item } ;
 
-Link link217 = { &page_RadixHeap#page } ;
+Link link217 = { &page_PtrStepLen#page } ;
 
-Text item218 = { { { "Random" , null , &link218 } } , null , & align_item } ;
+Text item218 = { { { "RadixHeap" , null , &link218 } } , null , & align_item } ;
 
-Link link218 = { &page_Random#page } ;
+Link link218 = { &page_RadixHeap#page } ;
 
-Text item219 = { { { "RangeDel" , null , &link219 } } , null , & align_item } ;
+Text item219 = { { { "Random" , null , &link219 } } , null , & align_item } ;
 
-Link link219 = { &page_RangeDel#page } ;
+Link link219 = { &page_Random#page } ;
 
-Text item220 = { { { "RawFileToRead and AltFileToRead" , null , &link220 } } , null , & align_item } ;
+Text item220 = { { { "RangeDel" , null , &link220 } } , null , & align_item } ;
 
-Link link220 = { &page_RawFileToRead#page } ;
+Link link220 = { &page_RangeDel#page } ;
 
-Text item221 = { { { "RefObjectBase" , null , &link221 } } , null , & align_item } ;
+Text item221 = { { { "RawFileToRead and AltFileToRead" , null , &link221 } } , null , & align_item } ;
 
-Link link221 = { &page_RefObjectBase#page } ;
+Link link221 = { &page_RawFileToRead#page } ;
 
-Text item222 = { { { "RefPtr" , null , &link222 } } , null , & align_item } ;
+Text item222 = { { { "RefObjectBase" , null , &link222 } } , null , & align_item } ;
 
-Link link222 = { &page_RefPtr#page } ;
+Link link222 = { &page_RefObjectBase#page } ;
 
-Text item223 = { { { "Regen" , null , &link223 } } , null , & align_item } ;
+Text item223 = { { { "RefPtr" , null , &link223 } } , null , & align_item } ;
 
-Link link223 = { &page_Regen#page } ;
+Link link223 = { &page_RefPtr#page } ;
 
-Text item224 = { { { "Replace" , null , &link224 } } , null , & align_item } ;
+Text item224 = { { { "Regen" , null , &link224 } } , null , & align_item } ;
 
-Link link224 = { &page_Replace#page } ;
+Link link224 = { &page_Regen#page } ;
 
-Text item225 = { { { "ResSem" , null , &link225 } } , null , & align_item } ;
+Text item225 = { { { "Replace" , null , &link225 } } , null , & align_item } ;
 
-Link link225 = { &page_ResSem#page } ;
+Link link225 = { &page_Replace#page } ;
 
-Text item226 = { { { "Rot" , null , &link226 } } , null , & align_item } ;
+Text item226 = { { { "ResSem" , null , &link226 } } , null , & align_item } ;
 
-Link link226 = { &page_Rot#page } ;
+Link link226 = { &page_ResSem#page } ;
 
-Text item227 = { { { "SafeBuf" , null , &link227 } } , null , & align_item } ;
+Text item227 = { { { "Rot" , null , &link227 } } , null , & align_item } ;
 
-Link link227 = { &page_SafeBuf#page } ;
+Link link227 = { &page_Rot#page } ;
 
-Text item228 = { { { "SaveLoad" , null , &link228 } } , null , & align_item } ;
+Text item228 = { { { "SafeBuf" , null , &link228 } } , null , & align_item } ;
 
-Link link228 = { &page_SaveLoad#page } ;
+Link link228 = { &page_SafeBuf#page } ;
 
-Text item229 = { { { "ScanBit" , null , &link229 } } , null , & align_item } ;
+Text item229 = { { { "SaveLoad" , null , &link229 } } , null , & align_item } ;
 
-Link link229 = { &page_ScanBit#page } ;
+Link link229 = { &page_SaveLoad#page } ;
 
-Text item230 = { { { "Scannig devices" , null , &link230 } } , null , & align_item } ;
+Text item230 = { { { "ScanBit" , null , &link230 } } , null , & align_item } ;
 
-Link link230 = { &page_ScanDevice#page } ;
+Link link230 = { &page_ScanBit#page } ;
 
-Text item231 = { { { "Scanning" , null , &link231 } } , null , & align_item } ;
+Text item231 = { { { "Scannig devices" , null , &link231 } } , null , & align_item } ;
 
-Link link231 = { &page_Scanning#page } ;
+Link link231 = { &page_ScanDevice#page } ;
 
-Text item232 = { { { "Scope" , null , &link232 } } , null , & align_item } ;
+Text item232 = { { { "Scanning" , null , &link232 } } , null , & align_item } ;
 
-Link link232 = { &page_Scope#page } ;
+Link link232 = { &page_Scanning#page } ;
 
-Text item233 = { { { "ScopeGuard" , null , &link233 } } , null , & align_item } ;
+Text item233 = { { { "Scope" , null , &link233 } } , null , & align_item } ;
 
-Link link233 = { &page_ScopeGuard#page } ;
+Link link233 = { &page_Scope#page } ;
 
-Text item234 = { { { "Sem" , null , &link234 } } , null , & align_item } ;
+Text item234 = { { { "ScopeGuard" , null , &link234 } } , null , & align_item } ;
 
-Link link234 = { &page_Sem#page } ;
+Link link234 = { &page_ScopeGuard#page } ;
 
-Text item235 = { { { "SHA" , null , &link235 } } , null , & align_item } ;
+Text item235 = { { { "Sem" , null , &link235 } } , null , & align_item } ;
 
-Link link235 = { &page_SHA#page } ;
+Link link235 = { &page_Sem#page } ;
 
-Text item236 = { { { "Signals" , null , &link236 } } , null , & align_item } ;
+Text item236 = { { { "SHA" , null , &link236 } } , null , & align_item } ;
 
-Link link236 = { &page_Signal#page } ;
+Link link236 = { &page_SHA#page } ;
 
-Text item237 = { { { "SimpleRotate" , null , &link237 } } , null , & align_item } ;
+Text item237 = { { { "Signals" , null , &link237 } } , null , & align_item } ;
 
-Link link237 = { &page_SimpleRotate#page } ;
+Link link237 = { &page_Signal#page } ;
 
-Text item238 = { { { "SingleBridge" , null , &link238 } } , null , & align_item } ;
+Text item238 = { { { "SimpleRotate" , null , &link238 } } , null , & align_item } ;
 
-Link link238 = { &page_SingleBridge#page } ;
+Link link238 = { &page_SimpleRotate#page } ;
 
-Text item239 = { { { "SingleEchoDevice" , null , &link239 } } , null , & align_item } ;
+Text item239 = { { { "SingleBridge" , null , &link239 } } , null , & align_item } ;
 
-Link link239 = { &page_SingleEchoDevice#page } ;
+Link link239 = { &page_SingleBridge#page } ;
 
-Text item240 = { { { "SingleHost" , null , &link240 } } , null , & align_item } ;
+Text item240 = { { { "SingleEchoDevice" , null , &link240 } } , null , & align_item } ;
 
-Link link240 = { &page_SingleHost#page } ;
+Link link240 = { &page_SingleEchoDevice#page } ;
 
-Text item241 = { { { "SIntFunc" , null , &link241 } } , null , & align_item } ;
+Text item241 = { { { "SingleHost" , null , &link241 } } , null , & align_item } ;
 
-Link link241 = { &page_SIntFunc#page } ;
+Link link241 = { &page_SingleHost#page } ;
 
-Text item242 = { { { "SlowSem" , null , &link242 } } , null , & align_item } ;
+Text item242 = { { { "SIntFunc" , null , &link242 } } , null , & align_item } ;
 
-Link link242 = { &page_SlowSem#page } ;
+Link link242 = { &page_SIntFunc#page } ;
 
-Text item243 = { { { "SmallPrimes" , null , &link243 } } , null , & align_item } ;
+Text item243 = { { { "SlowSem" , null , &link243 } } , null , & align_item } ;
 
-Link link243 = { &page_SmallPrimes#page } ;
+Link link243 = { &page_SlowSem#page } ;
 
-Text item244 = { { { "Sort" , null , &link244 } } , null , & align_item } ;
+Text item244 = { { { "SmallPrimes" , null , &link244 } } , null , & align_item } ;
 
-Link link244 = { &page_Sort#page } ;
+Link link244 = { &page_SmallPrimes#page } ;
 
-Text item245 = { { { "SortUnique" , null , &link245 } } , null , & align_item } ;
+Text item245 = { { { "Sort" , null , &link245 } } , null , & align_item } ;
 
-Link link245 = { &page_SortUnique#page } ;
+Link link245 = { &page_Sort#page } ;
 
-Text item246 = { { { "Space" , null , &link246 } } , null , & align_item } ;
+Text item246 = { { { "SortUnique" , null , &link246 } } , null , & align_item } ;
 
-Link link246 = { &page_Space#page } ;
+Link link246 = { &page_SortUnique#page } ;
 
-Text item247 = { { { "StartStop" , null , &link247 } } , null , & align_item } ;
+Text item247 = { { { "Space" , null , &link247 } } , null , & align_item } ;
 
-Link link247 = { &page_StartStop#page } ;
+Link link247 = { &page_Space#page } ;
 
-Text item248 = { { { "StepEval" , null , &link248 } } , null , & align_item } ;
+Text item248 = { { { "StartStop" , null , &link248 } } , null , & align_item } ;
 
-Link link248 = { &page_StepEval#page } ;
+Link link248 = { &page_StartStop#page } ;
 
-Text item249 = { { { "Strings" , null , &link249 } } , null , & align_item } ;
+Text item249 = { { { "StepEval" , null , &link249 } } , null , & align_item } ;
 
-Link link249 = { &page_String#page } ;
+Link link249 = { &page_StepEval#page } ;
 
-Text item250 = { { { "StrKey" , null , &link250 } } , null , & align_item } ;
+Text item250 = { { { "Strings" , null , &link250 } } , null , & align_item } ;
 
-Link link250 = { &page_StrKey#page } ;
+Link link250 = { &page_String#page } ;
 
-Text item251 = { { { "StrMap" , null , &link251 } } , null , & align_item } ;
+Text item251 = { { { "StrKey" , null , &link251 } } , null , & align_item } ;
 
-Link link251 = { &page_StrMap#page } ;
+Link link251 = { &page_StrKey#page } ;
 
-Text item252 = { { { "Simple string parsing" , null , &link252 } } , null , & align_item } ;
+Text item252 = { { { "StrMap" , null , &link252 } } , null , & align_item } ;
 
-Link link252 = { &page_StrParse#page } ;
+Link link252 = { &page_StrMap#page } ;
 
-Text item253 = { { { "StrToChar" , null , &link253 } } , null , & align_item } ;
+Text item253 = { { { "Simple string parsing" , null , &link253 } } , null , & align_item } ;
 
-Link link253 = { &page_StrToChar#page } ;
+Link link253 = { &page_StrParse#page } ;
 
-Text item254 = { { { "Swap" , null , &link254 } } , null , & align_item } ;
+Text item254 = { { { "StrToChar" , null , &link254 } } , null , & align_item } ;
 
-Link link254 = { &page_Swap#page } ;
+Link link254 = { &page_StrToChar#page } ;
 
-Text item255 = { { { "Symbol" , null , &link255 } } , null , & align_item } ;
+Text item255 = { { { "Swap" , null , &link255 } } , null , & align_item } ;
 
-Link link255 = { &page_Symbol#page } ;
+Link link255 = { &page_Swap#page } ;
 
-Text item256 = { { { "SymCount" , null , &link256 } } , null , & align_item } ;
+Text item256 = { { { "Symbol" , null , &link256 } } , null , & align_item } ;
 
-Link link256 = { &page_SymCount#page } ;
+Link link256 = { &page_Symbol#page } ;
 
-Text item257 = { { { "SymPart" , null , &link257 } } , null , & align_item } ;
+Text item257 = { { { "SymCount" , null , &link257 } } , null , & align_item } ;
 
-Link link257 = { &page_SymPart#page } ;
+Link link257 = { &page_SymCount#page } ;
 
-Text item258 = { { { "Synchronization objects" , null , &link258 } } , null , & align_item } ;
+Text item258 = { { { "SymPart" , null , &link258 } } , null , & align_item } ;
 
-Link link258 = { &page_Sync#page } ;
+Link link258 = { &page_SymPart#page } ;
 
-Text item259 = { { { "(XCore) SysLog" , null , &link259 } } , null , & align_item } ;
+Text item259 = { { { "Synchronization objects" , null , &link259 } } , null , & align_item } ;
 
-Link link259 = { &page_SysLog#page } ;
+Link link259 = { &page_Sync#page } ;
 
-Text item260 = { { { "Tasks" , null , &link260 } } , null , & align_item } ;
+Text item260 = { { { "(XCore) SysLog" , null , &link260 } } , null , & align_item } ;
 
-Link link260 = { &page_Task#page } ;
+Link link260 = { &page_SysLog#page } ;
 
-Text item261 = { { { "TaskHeap" , null , &link261 } } , null , & align_item } ;
+Text item261 = { { { "Tasks" , null , &link261 } } , null , & align_item } ;
 
-Link link261 = { &page_TaskHeap#page } ;
+Link link261 = { &page_Task#page } ;
 
-Text item262 = { { { "TaskMemStack" , null , &link262 } } , null , & align_item } ;
+Text item262 = { { { "TaskHeap" , null , &link262 } } , null , & align_item } ;
 
-Link link262 = { &page_TaskMemStack#page } ;
+Link link262 = { &page_TaskHeap#page } ;
 
-Text item263 = { { { "TaskMonitor" , null , &link263 } } , null , & align_item } ;
+Text item263 = { { { "TaskMemStack" , null , &link263 } } , null , & align_item } ;
 
-Link link263 = { &page_TaskMonitor#page } ;
+Link link263 = { &page_TaskMemStack#page } ;
 
-Text item264 = { { { "Taxonomy of classes" , null , &link264 } } , null , & align_item } ;
+Text item264 = { { { "TaskMonitor" , null , &link264 } } , null , & align_item } ;
 
-Link link264 = { &page_Taxonomy#page } ;
+Link link264 = { &page_TaskMonitor#page } ;
 
-Text item265 = { { { "TextLabel" , null , &link265 } } , null , & align_item } ;
+Text item265 = { { { "Taxonomy of classes" , null , &link265 } } , null , & align_item } ;
 
-Link link265 = { &page_TextLabel#page } ;
+Link link265 = { &page_Taxonomy#page } ;
 
-Text item266 = { { { "Text tools" , null , &link266 } } , null , & align_item } ;
+Text item266 = { { { "TextLabel" , null , &link266 } } , null , & align_item } ;
 
-Link link266 = { &page_TextTools#page } ;
+Link link266 = { &page_TextLabel#page } ;
 
-Text item267 = { { { "TickCount and TickJob" , null , &link267 } } , null , & align_item } ;
+Text item267 = { { { "Text tools" , null , &link267 } } , null , & align_item } ;
 
-Link link267 = { &page_Tick#page } ;
+Link link267 = { &page_TextTools#page } ;
 
-Text item268 = { { { "Ticker and TimedTrigger" , null , &link268 } } , null , & align_item } ;
+Text item268 = { { { "TickCount and TickJob" , null , &link268 } } , null , & align_item } ;
 
-Link link268 = { &page_Ticker#page } ;
+Link link268 = { &page_Tick#page } ;
 
-Text item269 = { { { "Timer" , null , &link269 } } , null , & align_item } ;
+Text item269 = { { { "Ticker and TimedTrigger" , null , &link269 } } , null , & align_item } ;
 
-Link link269 = { &page_Timer#page } ;
+Link link269 = { &page_Ticker#page } ;
 
-Text item270 = { { { "TimeScope" , null , &link270 } } , null , & align_item } ;
+Text item270 = { { { "Timer" , null , &link270 } } , null , & align_item } ;
 
-Link link270 = { &page_TimeScope#page } ;
+Link link270 = { &page_Timer#page } ;
 
-Text item271 = { { { "TlsSlot" , null , &link271 } } , null , & align_item } ;
+Text item271 = { { { "TimeScope" , null , &link271 } } , null , & align_item } ;
 
-Link link271 = { &page_TlsSlot#page } ;
+Link link271 = { &page_TimeScope#page } ;
 
-Text item272 = { { { "ToMemBase" , null , &link272 } } , null , & align_item } ;
+Text item272 = { { { "TlsSlot" , null , &link272 } } , null , & align_item } ;
 
-Link link272 = { &page_ToMemBase#page } ;
+Link link272 = { &page_TlsSlot#page } ;
 
-Text item273 = { { { "MakeString" , null , &link273 } } , null , & align_item } ;
+Text item273 = { { { "ToMemBase" , null , &link273 } } , null , & align_item } ;
 
-Link link273 = { &page_tool_MakeString#page } ;
+Link link273 = { &page_ToMemBase#page } ;
 
-Text item274 = { { { "Tree maps" , null , &link274 } } , null , & align_item } ;
+Text item274 = { { { "MakeString" , null , &link274 } } , null , & align_item } ;
 
-Link link274 = { &page_TreeMaps#page } ;
+Link link274 = { &page_tool_MakeString#page } ;
 
-Text item275 = { { { "Trees" , null , &link275 } } , null , & align_item } ;
+Text item275 = { { { "Tree maps" , null , &link275 } } , null , & align_item } ;
 
-Link link275 = { &page_Trees#page } ;
+Link link275 = { &page_TreeMaps#page } ;
 
-Text item276 = { { { "Tuple" , null , &link276 } } , null , & align_item } ;
+Text item276 = { { { "Trees" , null , &link276 } } , null , & align_item } ;
 
-Link link276 = { &page_Tuple#page } ;
+Link link276 = { &page_Trees#page } ;
 
-Text item277 = { { { "TypeNumber" , null , &link277 } } , null , & align_item } ;
+Text item277 = { { { "Tuple" , null , &link277 } } , null , & align_item } ;
 
-Link link277 = { &page_TypeNumber#page } ;
+Link link277 = { &page_Tuple#page } ;
 
-Text item278 = { { { "TypeSwitch" , null , &link278 } } , null , & align_item } ;
+Text item278 = { { { "TypeNumber" , null , &link278 } } , null , & align_item } ;
 
-Link link278 = { &page_TypeSwitch#page } ;
+Link link278 = { &page_TypeNumber#page } ;
 
-Text item279 = { { { "(HCore) UDPDevice" , null , &link279 } } , null , & align_item } ;
+Text item279 = { { { "TypeSwitch" , null , &link279 } } , null , & align_item } ;
 
-Link link279 = { &page_UDPDevice#page } ;
+Link link279 = { &page_TypeSwitch#page } ;
 
-Text item280 = { { { "UDPoint" , null , &link280 } } , null , & align_item } ;
+Text item280 = { { { "(HCore) UDPDevice" , null , &link280 } } , null , & align_item } ;
 
-Link link280 = { &page_UDPoint#page } ;
+Link link280 = { &page_UDPDevice#page } ;
 
-Text item281 = { { { "UIntFunc" , null , &link281 } } , null , & align_item } ;
+Text item281 = { { { "UDPoint" , null , &link281 } } , null , & align_item } ;
 
-Link link281 = { &page_UIntFunc#page } ;
+Link link281 = { &page_UDPoint#page } ;
 
-Text item282 = { { { "UIntSat" , null , &link282 } } , null , & align_item } ;
+Text item282 = { { { "UIntFunc" , null , &link282 } } , null , & align_item } ;
 
-Link link282 = { &page_UIntSat#page } ;
+Link link282 = { &page_UIntFunc#page } ;
 
-Text item283 = { { { "Unsigned multiplication and division" , null , &link283 } } , null , & align_item } ;
+Text item283 = { { { "UIntSat" , null , &link283 } } , null , & align_item } ;
 
-Link link283 = { &page_UIntSlowMulAlgo#page } ;
+Link link283 = { &page_UIntSat#page } ;
 
-Text item284 = { { { "UIntSplit" , null , &link284 } } , null , & align_item } ;
+Text item284 = { { { "Unsigned multiplication and division" , null , &link284 } } , null , & align_item } ;
 
-Link link284 = { &page_UIntSplit#page } ;
+Link link284 = { &page_UIntSlowMulAlgo#page } ;
 
-Text item285 = { { { "Unid" , null , &link285 } } , null , & align_item } ;
+Text item285 = { { { "UIntSplit" , null , &link285 } } , null , & align_item } ;
 
-Link link285 = { &page_Unid#page } ;
+Link link285 = { &page_UIntSplit#page } ;
 
-Text item286 = { { { "Utf8" , null , &link286 } } , null , & align_item } ;
+Text item286 = { { { "Unid" , null , &link286 } } , null , & align_item } ;
 
-Link link286 = { &page_Utf8#page } ;
+Link link286 = { &page_Unid#page } ;
 
-Text item287 = { { { "UtilFunc" , null , &link287 } } , null , & align_item } ;
+Text item287 = { { { "Utf8" , null , &link287 } } , null , & align_item } ;
 
-Link link287 = { &page_UtilFunc#page } ;
+Link link287 = { &page_Utf8#page } ;
 
-Text item288 = { { { "Volume" , null , &link288 } } , null , & align_item } ;
+Text item288 = { { { "UtilFunc" , null , &link288 } } , null , & align_item } ;
 
-Link link288 = { &page_UtilVolume#page } ;
+Link link288 = { &page_UtilFunc#page } ;
 
 Text item289 = { { { "Volume" , null , &link289 } } , null , & align_item } ;
 
-Link link289 = { &page_Volume#page } ;
+Link link289 = { &page_UtilVolume#page } ;
 
-Text item290 = { { { "XCore console" , null , &link290 } } , null , & align_item } ;
+Text item290 = { { { "Volume" , null , &link290 } } , null , & align_item } ;
 
-Link link290 = { &page_XCoreConsole#page } ;
+Link link290 = { &page_Volume#page } ;
 
-Text item291 = { { { "XCore Targets" , null , &link291 } } , null , & align_item } ;
+Text item291 = { { { "XCore console" , null , &link291 } } , null , & align_item } ;
 
-Link link291 = { &page_XCoreTargets#page } ;
+Link link291 = { &page_XCoreConsole#page } ;
 
-Text item292 = { { { "XCore task events" , null , &link292 } } , null , & align_item } ;
+Text item292 = { { { "XCore Targets" , null , &link292 } } , null , & align_item } ;
 
-Link link292 = { &page_XCoreTaskEvents#page } ;
+Link link292 = { &page_XCoreTargets#page } ;
 
-Text item293 = { { { "XCore atexit" , null , &link293 } } , null , & align_item } ;
+Text item293 = { { { "XCore task events" , null , &link293 } } , null , & align_item } ;
 
-Link link293 = { &page_XCore_atexit#page } ;
+Link link293 = { &page_XCoreTaskEvents#page } ;
 
-Text item294 = { { { "(XCore) BinaryFile" , null , &link294 } } , null , & align_item } ;
+Text item294 = { { { "XCore atexit" , null , &link294 } } , null , & align_item } ;
 
-Link link294 = { &page_XCore_BinaryFile#page } ;
+Link link294 = { &page_XCore_atexit#page } ;
 
-Text item295 = { { { "XCore CBase" , null , &link295 } } , null , & align_item } ;
+Text item295 = { { { "(XCore) BinaryFile" , null , &link295 } } , null , & align_item } ;
 
-Link link295 = { &page_XCore_CBase#page } ;
+Link link295 = { &page_XCore_BinaryFile#page } ;
 
-Text item296 = { { { "XCore DevInt" , null , &link296 } } , null , & align_item } ;
+Text item296 = { { { "XCore CBase" , null , &link296 } } , null , & align_item } ;
 
-Link link296 = { &page_XCore_DevInt#page } ;
+Link link296 = { &page_XCore_CBase#page } ;
 
-Text item297 = { { { "XCore DevIntHandle" , null , &link297 } } , null , & align_item } ;
+Text item297 = { { { "XCore DevInt" , null , &link297 } } , null , & align_item } ;
 
-Link link297 = { &page_XCore_DevIntHandle#page } ;
+Link link297 = { &page_XCore_DevInt#page } ;
 
-Text item298 = { { { "XCore DevPlanInit" , null , &link298 } } , null , & align_item } ;
+Text item298 = { { { "XCore DevIntHandle" , null , &link298 } } , null , & align_item } ;
 
-Link link298 = { &page_XCore_DevPlanInit#page } ;
+Link link298 = { &page_XCore_DevIntHandle#page } ;
 
-Text item299 = { { { "XCore DevTick" , null , &link299 } } , null , & align_item } ;
+Text item299 = { { { "XCore DevPlanInit" , null , &link299 } } , null , & align_item } ;
 
-Link link299 = { &page_XCore_DevTick#page } ;
+Link link299 = { &page_XCore_DevPlanInit#page } ;
 
-Text item300 = { { { "XCore DevWaitForInterrupt" , null , &link300 } } , null , & align_item } ;
+Text item300 = { { { "XCore DevTick" , null , &link300 } } , null , & align_item } ;
 
-Link link300 = { &page_XCore_DevWaitForInterrupt#page } ;
+Link link300 = { &page_XCore_DevTick#page } ;
 
-Text item301 = { { { "(XCore) FileToMem" , null , &link301 } } , null , & align_item } ;
+Text item301 = { { { "XCore DevWaitForInterrupt" , null , &link301 } } , null , & align_item } ;
 
-Link link301 = { &page_XCore_FileToMem#page } ;
+Link link301 = { &page_XCore_DevWaitForInterrupt#page } ;
 
-Text item302 = { { { "XCore gcc" , null , &link302 } } , null , & align_item } ;
+Text item302 = { { { "(XCore) FileToMem" , null , &link302 } } , null , & align_item } ;
 
-Link link302 = { &page_XCore_gcc#page } ;
+Link link302 = { &page_XCore_FileToMem#page } ;
 
-Text item303 = { { { "XCore PlanInit_CCore" , null , &link303 } } , null , & align_item } ;
+Text item303 = { { { "XCore gcc" , null , &link303 } } , null , & align_item } ;
 
-Link link303 = { &page_XCore_PlanInit_CCore#page } ;
+Link link303 = { &page_XCore_gcc#page } ;
 
-Text item304 = { { { "XCore PlatformBase" , null , &link304 } } , null , & align_item } ;
+Text item304 = { { { "XCore PlanInit_CCore" , null , &link304 } } , null , & align_item } ;
 
-Link link304 = { &page_XCore_PlatformBase#page } ;
+Link link304 = { &page_XCore_PlanInit_CCore#page } ;
 
-Text item305 = { { { "(XCore) RawFileToRead" , null , &link305 } } , null , & align_item } ;
+Text item305 = { { { "XCore PlatformBase" , null , &link305 } } , null , & align_item } ;
 
-Link link305 = { &page_XCore_RawFileToRead#page } ;
+Link link305 = { &page_XCore_PlatformBase#page } ;
 
-Text item306 = { { { "XCore target STD implementation" , null , &link306 } } , null , & align_item } ;
+Text item306 = { { { "(XCore) RawFileToRead" , null , &link306 } } , null , & align_item } ;
 
-Link link306 = { &page_XCore_STD#page } ;
+Link link306 = { &page_XCore_RawFileToRead#page } ;
 
-Text item307 = { { { "XCore __std_init" , null , &link307 } } , null , & align_item } ;
+Text item307 = { { { "XCore target STD implementation" , null , &link307 } } , null , & align_item } ;
 
-Link link307 = { &page_XCore_stdinit#page } ;
+Link link307 = { &page_XCore_STD#page } ;
 
-Text item308 = { { { "XCore SysAbort" , null , &link308 } } , null , & align_item } ;
+Text item308 = { { { "XCore __std_init" , null , &link308 } } , null , & align_item } ;
 
-Link link308 = { &page_XCore_SysAbort#page } ;
+Link link308 = { &page_XCore_stdinit#page } ;
 
-Text item309 = { { { "XCore SysCon" , null , &link309 } } , null , & align_item } ;
+Text item309 = { { { "XCore SysAbort" , null , &link309 } } , null , & align_item } ;
 
-Link link309 = { &page_XCore_SysCon#page } ;
+Link link309 = { &page_XCore_SysAbort#page } ;
 
-Text item310 = { { { "XCore SysMemSpace" , null , &link310 } } , null , & align_item } ;
+Text item310 = { { { "XCore SysCon" , null , &link310 } } , null , & align_item } ;
 
-Link link310 = { &page_XCore_SysMemSpace#page } ;
+Link link310 = { &page_XCore_SysCon#page } ;
 
-Text item311 = { { { "XCore SysPlanInit" , null , &link311 } } , null , & align_item } ;
+Text item311 = { { { "XCore SysMemSpace" , null , &link311 } } , null , & align_item } ;
 
-Link link311 = { &page_XCore_SysPlanInit#page } ;
+Link link311 = { &page_XCore_SysMemSpace#page } ;
 
-Text item312 = { { { "XCore sysroot" , null , &link312 } } , null , & align_item } ;
+Text item312 = { { { "XCore SysPlanInit" , null , &link312 } } , null , & align_item } ;
 
-Link link312 = { &page_XCore_sysroot#page } ;
+Link link312 = { &page_XCore_SysPlanInit#page } ;
 
-Text item313 = { { { "XCore SysTime" , null , &link313 } } , null , & align_item } ;
+Text item313 = { { { "XCore sysroot" , null , &link313 } } , null , & align_item } ;
 
-Link link313 = { &page_XCore_SysTime#page } ;
+Link link313 = { &page_XCore_sysroot#page } ;
 
-Text item314 = { { { "XCore TaskContext" , null , &link314 } } , null , & align_item } ;
+Text item314 = { { { "XCore SysTime" , null , &link314 } } , null , & align_item } ;
 
-Link link314 = { &page_XCore_TaskContext#page } ;
+Link link314 = { &page_XCore_SysTime#page } ;
+
+Text item315 = { { { "XCore TaskContext" , null , &link315 } } , null , & align_item } ;
+
+Link link315 = { &page_XCore_TaskContext#page } ;
 
 TextList list = { {
  { '1.' , { { & item1 , null , { 0 , 0 } , { 0 , 0 } } } }
@@ -305278,6 +305364,7 @@ TextList list = { {
  ,{ '312.' , { { & item312 , null , { 0 , 0 } , { 0 , 0 } } } }
  ,{ '313.' , { { & item313 , null , { 0 , 0 } , { 0 , 0 } } } }
  ,{ '314.' , { { & item314 , null , { 0 , 0 } , { 0 , 0 } } } }
+ ,{ '315.' , { { & item315 , null , { 0 , 0 } , { 0 , 0 } } } }
 } } ;
 
 Page *start = & Index#page ;

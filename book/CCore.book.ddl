@@ -36,7 +36,7 @@ VColor vc_h2_back = Wheat ;
 
 VColor vc_h3 = DarkGreen ;
 
-VColor vc_h4 = Blue ;
+VColor vc_h4 = Indigo ;
 
 VColor vc_a = Blue ;
 
@@ -79,6 +79,44 @@ Font font_text_i = font_text { .italic = True  } ;
 Format fmt_text_i = { & font_text_i } ;
 
 Format fmt_text_u = fmt_text { .effect=Format#Underline } ;
+
+ // text_c1
+
+Font font_text_c1 = { face , 80 } ;
+
+Format fmt_text_c1 = { & font_text_c1 } ;
+
+Point inner_text_c1 = { 10 , 50 } ;
+
+Point outer_text_c1 = DefaultOuter ;
+
+VColor back_text_c1 = NoColor ;
+
+OneLine align_text_c1 = { OneLine#Center } ;
+
+ // text_c2
+
+Format fmt_text_c2 = fmt_text ;
+
+Point inner_text_c2 = DefaultInner ;
+
+Point outer_text_c2 = DefaultOuter ;
+
+VColor back_text_c2 = NoColor ;
+
+OneLine align_text_c2 = { OneLine#Center } ;
+
+ // text_c3
+
+Format fmt_text_c3 = fmt_text ;
+
+Point inner_text_c3 = { 10 , 200 } ;
+
+Point outer_text_c3 = DefaultOuter ;
+
+VColor back_text_c3 = NoColor ;
+
+MultiLine align_text_c3 = DefaultPlacement ;
 
  // text_cpp
 
@@ -138,7 +176,7 @@ Format fmt_text_Att = fmt_text { .fore = vc_Att } ;
 
  // h1
 
-Font font_h1 = { face , 50 , True } ;
+Font font_h1 = { face , 60 } ;
 
 Format fmt_h1 = { & font_h1 , vc_h1_back , vc_h1 } ; 
 
