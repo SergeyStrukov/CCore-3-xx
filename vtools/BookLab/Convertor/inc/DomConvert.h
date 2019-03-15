@@ -76,6 +76,8 @@ struct ElemLI;
 
 struct ElemImg;
 
+class PrintBook;
+
 class Builder;
 
 /* class List<T> */
@@ -258,24 +260,7 @@ struct Span
 void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str);
 
 template <class Kind>
-void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans)
- {
-  Printf(out,"{\n");
-
-  spans.apply( [&] (ulen ind,const Span &span)
-                   {
-                    out.put(' ');
-
-                    if( ind ) out.put(','); else out.put(' ');
-
-                    span.printKind(out,kind);
-
-                    out.put('\n');
-
-                   } );
-
-  Printf(out,"}");
- }
+void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans);
 
 /* class Text */
 
@@ -298,10 +283,7 @@ class Text : NoCopy
    DomErrorId complete();
 
    template <class Kind>
-   void printKind(PrintBase &out,Kind kind) const
-    {
-     PrintSpanList(out,kind,spans);
-    }
+   void printKind(PrintBase &out,Kind kind) const;
  };
 
 /* struct Line */
@@ -311,10 +293,7 @@ struct Line : NoCopy
   List<Span> spans;
 
   template <class Kind>
-  void printKind(PrintBase &out,Kind kind) const
-   {
-    PrintSpanList(out,kind,spans);
-   }
+  void printKind(PrintBase &out,Kind kind) const;
  };
 
 /* class Fixed */
@@ -344,26 +323,7 @@ class Fixed : NoCopy
    DomErrorId complete();
 
    template <class Kind>
-   void printKind(PrintBase &out,Kind kind) const
-    {
-     Printf(out,"{\n");
-
-     lines.apply( [&] (ulen ind,Line *line)
-                      {
-                       if( ind )
-                         {
-                          out.put(',');
-                          out.put('\n');
-                         }
-
-                       line->printKind(out,kind);
-
-                       out.put('\n');
-
-                      } );
-
-     Printf(out,"}");
-    }
+   void printKind(PrintBase &out,Kind kind) const;
  };
 
 /* struct TextBase */
@@ -381,14 +341,7 @@ struct TextBase : NoCopy
   StrLen getType() const { return "Text"_c; }
 
   template <class Kind>
-  void printKind(PrintBase &out,Kind kind) const
-   {
-    Putobj(out,"{ "_c);
-
-    text.printKind(out,kind);
-
-    Printf(out," , & fmt_#; , & align_#; }",kind,kind);
-   }
+  void printKind(PrintBase &out,Kind kind) const;
  };
 
 /* struct ElemH1 */
@@ -497,14 +450,7 @@ struct ElemPRE : NoCopy
   StrLen getType() const { return "FixedText"_c; }
 
   template <class Kind>
-  void printKind(PrintBase &out,Kind kind) const
-   {
-    Putobj(out,"{ "_c);
-
-    text.printKind(out,kind);
-
-    Printf(out," , & fmt_#; }",kind);
-   }
+  void printKind(PrintBase &out,Kind kind) const;
 
   void print(PrintBase &out) const { printKind(out,getKind()); }
  };
@@ -567,6 +513,9 @@ class TextMix : NoCopy
 
      return {};
     }
+
+   template <class Func>
+   void apply(Func func) const { list.apply(func); }
  };
 
 /* struct TListBase */
@@ -585,7 +534,16 @@ struct ElemOL : TListBase
 
   StrLen getType() const { return "TextList"_c; }
 
-  void print(PrintBase &out) const;
+  template <class Kind>
+  static void PrintItem(PrintBook &book,Text *text,Kind kind,ulen &bullet);
+
+  template <class Kind>
+  static void PrintItem(PrintBook &book,ElemLI *elem,Kind kind,ulen &bullet);
+
+  template <class Kind>
+  void printKind(PrintBook &book,Kind kind) const;
+
+  void print(PrintBook &book) const { printKind(book,getKind()); }
  };
 
 /* struct ElemUL */
@@ -598,13 +556,24 @@ struct ElemUL : TListBase
 
   StrLen getType() const { return "TextList"_c; }
 
-  void print(PrintBase &out) const;
+  template <class Kind>
+  static void PrintItem(PrintBook &book,Text *text,Kind kind);
+
+  template <class Kind>
+  static void PrintItem(PrintBook &book,ElemLI *elem,Kind kind);
+
+  template <class Kind>
+  void printKind(PrintBook &book,Kind kind) const;
+
+  void print(PrintBook &book) const { printKind(book,getKind()); }
  };
 
 /* struct ElemLI */
 
 struct ElemLI : TextMix<ElemOL,ElemUL>
  {
+  template <class Kind>
+  void printKind(PrintBook &book,Kind kind) const;
  };
 
 /* struct ElemImg */
@@ -621,11 +590,64 @@ struct ElemImg : NoCopy
   void print(PrintBase &out) const;
  };
 
-/* class Builder */
+/* Ptr types */
 
 using TopPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemImg> ;
 
 using BuildPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,ElemUL,ElemLI> ;
+
+/* concept ExtPrint<T> */
+
+template <class T>
+concept bool ExtPrint = requires(T &obj,PrintBook &book) { obj.print(book); } ;
+
+/* class PrintBook */
+
+class PrintBook : NoCopy
+ {
+   PrintBase &out;
+
+   ulen extind = 0 ;
+
+  private:
+
+   template <class Elem>
+   void print(ulen ind,Elem *elem);
+
+   template <ExtPrint Elem>
+   void print(ulen ind,Elem *elem);
+
+  public:
+
+   explicit PrintBook(PrintBase &out_) : out(out_) {}
+
+   ulen getExtInd() { return extind++; }
+
+   template <class Elem,class Kind>
+   void addExt(ulen extind,Elem *elem,Kind kind);
+
+   void pump();
+
+   // common
+
+   void print(ulen ind,TopPtr aptr);
+
+   template <class ... TT>
+   void printf(const char *format,const TT & ... tt)
+    {
+     Printf(out,format,tt...);
+    }
+
+   template <class ... TT>
+   void putobj(const TT & ... tt)
+    {
+     Putobj(out,tt...);
+    }
+
+   void put(char ch) { out.put(ch); }
+ };
+
+/* class Builder */
 
 class Builder : NoCopy
  {

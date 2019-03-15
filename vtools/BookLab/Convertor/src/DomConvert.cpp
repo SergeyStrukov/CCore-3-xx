@@ -242,6 +242,26 @@ void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str)
     }
  }
 
+template <class Kind>
+void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans)
+ {
+  Printf(out,"{\n");
+
+  spans.apply( [&] (ulen ind,const Span &span)
+                   {
+                    out.put(' ');
+
+                    if( ind ) out.put(','); else out.put(' ');
+
+                    span.printKind(out,kind);
+
+                    out.put('\n');
+
+                   } );
+
+  Printf(out,"}");
+ }
+
 /* class Text */
 
 void Text::addSpan(Builder &builder,StrLen str)
@@ -270,6 +290,20 @@ DomErrorId Text::frame(Builder &builder,StrLen str)
 DomErrorId Text::complete()
  {
   return format.noFormat();
+ }
+
+template <class Kind>
+void Text::printKind(PrintBase &out,Kind kind) const
+ {
+  PrintSpanList(out,kind,spans);
+ }
+
+/* struct Line */
+
+template <class Kind>
+void Line::printKind(PrintBase &out,Kind kind) const
+ {
+  PrintSpanList(out,kind,spans);
  }
 
 /* class Fixed */
@@ -327,18 +361,147 @@ DomErrorId Fixed::complete()
   return format.noFormat();
  }
 
+template <class Kind>
+void Fixed::printKind(PrintBase &out,Kind kind) const
+ {
+  Printf(out,"{\n");
+
+  lines.apply( [&] (ulen ind,Line *line)
+                   {
+                    if( ind )
+                      {
+                       out.put(',');
+                       out.put('\n');
+                      }
+
+                    line->printKind(out,kind);
+
+                    out.put('\n');
+
+                   } );
+
+  Printf(out,"}");
+ }
+
+/* struct TextBase */
+
+template <class Kind>
+void TextBase::printKind(PrintBase &out,Kind kind) const
+ {
+  Putobj(out,"{ "_c);
+
+  text.printKind(out,kind);
+
+  Printf(out," , & fmt_#; , & align_#; }",kind,kind);
+ }
+
+/* struct ElemPRE */
+
+template <class Kind>
+void ElemPRE::printKind(PrintBase &out,Kind kind) const
+ {
+  Putobj(out,"{ "_c);
+
+  text.printKind(out,kind);
+
+  Printf(out," , & fmt_#; }",kind);
+ }
+
 /* struct ElemOL */
 
-void ElemOL::print(PrintBase &out) const // TODO
+template <class Kind>
+void ElemOL::PrintItem(PrintBook &book,Text *text,Kind kind,ulen &)
  {
-  Putobj(out,"{ }"_c);
+  ulen extind=book.getExtInd();
+
+  book.printf("{ '' , { { & o#; , null , ItemInner , ItemOuter } } }",extind);
+
+  book.addExt(extind,text,kind);
+ }
+
+template <class Kind>
+void ElemOL::PrintItem(PrintBook &book,ElemLI *elem,Kind kind,ulen &bullet)
+ {
+  book.printf("{ '#;.' , ",bullet++);
+
+  elem->printKind(book,kind);
+
+  book.putobj(" }"_c);
+ }
+
+template <class Kind>
+void ElemOL::printKind(PrintBook &book,Kind kind) const
+ {
+  book.putobj("{ {\n"_c);
+
+  ulen bullet=1;
+
+  apply( [&] (ulen ind,auto aptr)
+             {
+              book.put(' ');
+
+              if( ind ) book.put(','); else book.put(' ');
+
+              aptr.apply( [&] (auto *ptr) { PrintItem(book,ptr,kind,bullet); } );
+
+              book.put('\n');
+
+             } );
+
+  book.putobj("} }"_c);
  }
 
 /* struct ElemUL */
 
-void ElemUL::print(PrintBase &out) const // TODO
+template <class Kind>
+void ElemUL::PrintItem(PrintBook &book,Text *text,Kind kind)
  {
-  Putobj(out,"{ }"_c);
+  ulen extind=book.getExtInd();
+
+  book.printf("{ '' , { { & o#; , null , ItemInner , ItemOuter } } }",extind);
+
+  book.addExt(extind,text,kind);
+ }
+
+template <class Kind>
+void ElemUL::PrintItem(PrintBook &book,ElemLI *elem,Kind kind)
+ {
+  book.putobj("{ '•' , "_c);
+
+  elem->printKind(book,kind);
+
+  book.putobj(" }"_c);
+ }
+
+template <class Kind>
+void ElemUL::printKind(PrintBook &book,Kind kind) const
+ {
+  book.putobj("{ {\n"_c);
+
+  apply( [&] (ulen ind,auto aptr)
+             {
+              book.put(' ');
+
+              if( ind ) book.put(','); else book.put(' ');
+
+              aptr.apply( [&] (auto *ptr) { PrintItem(book,ptr,kind); } );
+
+              book.put('\n');
+
+             } );
+
+  book.putobj("} }"_c);
+ }
+
+/* struct ElemLI */
+
+template <class Kind>
+void ElemLI::printKind(PrintBook &book,Kind kind) const // TODO
+ {
+  Used(book);
+  Used(kind);
+
+  // { { & o#; , null , ItemInner , ItemOuter } }
  }
 
 /* struct ElemImg */
@@ -350,25 +513,64 @@ void ElemImg::print(PrintBase &out) const
   Printf(out,"{ \"#;.zipmap\" }",PrintText(split.name));
  }
 
+/* class PrintBook */
+
+template <class Elem>
+void PrintBook::print(ulen ind,Elem *elem)
+ {
+  StrLen type=elem->getType();
+  StrLen id=elem->id;
+
+  Printf(out,"#; b#; = #; ;\n\n",type,ind,*elem);
+
+  if( +id )
+    Printf(out,"Link link_#; = { & page , { #; } } ;\n\n",id,ind);
+ }
+
+template <ExtPrint Elem>
+void PrintBook::print(ulen ind,Elem *elem)
+ {
+  StrLen type=elem->getType();
+  StrLen id=elem->id;
+
+  Printf(out,"#; b#; = ",type,ind);
+
+  elem->print(*this);
+
+  Putobj(out," ;\n\n"_c);
+
+  if( +id )
+    Printf(out,"Link link_#; = { & page , { #; } } ;\n\n",id,ind);
+ }
+
+template <class Elem,class Kind>
+void PrintBook::addExt(ulen extind,Elem *elem,Kind kind) // TODO
+ {
+  Used(extind);
+  Used(elem);
+  Used(kind);
+ }
+
+void PrintBook::pump() // TODO
+ {
+ }
+
+void PrintBook::print(ulen ind,TopPtr aptr)
+ {
+  aptr.apply( [&] (auto *elem) { print(ind,elem); } );
+
+  pump();
+ }
+
 /* class Builder */
 
 void Builder::print(PrintBase &out,PageParam param) const
  {
   Printf(out,"scope #; {\n\n",param.name);
 
-  elems.apply( [&] (ulen ind,TopPtr aptr)
-                   {
-                    StrLen type;
-                    StrLen id;
+  PrintBook book(out);
 
-                    aptr.apply( [&] (auto *ptr) { type=ptr->getType(); id=ptr->id; } );
-
-                    Printf(out,"#; b#; = #; ;\n\n",type,ind,aptr);
-
-                    if( +id )
-                      Printf(out,"Link link_#; = { & page , { #; } } ;\n\n",id,ind);
-
-                   } );
+  elems.apply( [&] (ulen ind,TopPtr aptr) { book.print(ind,aptr); } );
 
   Printf(out,"Page page = { \"#;\" ,\n{\n",PrintText(title));
 
