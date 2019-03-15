@@ -140,6 +140,10 @@ void Format::setLink(Builder &builder,StrLen str)
  {
   if( !str ) return;
 
+  StrLen beg="html/"_c;
+
+  if( str.hasPrefix(beg) ) str+=beg.len;
+
   if( *str=='#' )
     {
      ++str;
@@ -154,13 +158,15 @@ void Format::setLink(Builder &builder,StrLen str)
 
      for(; +name && *name!='#' ;++name);
 
+     StrLen end=".html"_c;
+
      if( +name )
        {
         StrLen page=str.prefix(name);
 
-        if( page.hasSuffix(".html"_c) )
+        if( page.hasSuffix(end) )
           {
-           page.len-=5;
+           page.len-=end.len;
 
            ++name;
 
@@ -173,9 +179,9 @@ void Format::setLink(Builder &builder,StrLen str)
        {
         StrLen page=str;
 
-        if( page.hasSuffix(".html"_c) )
+        if( page.hasSuffix(end) )
           {
-           page.len-=5;
+           page.len-=end.len;
 
            link=builder.cat("..#"_c,page,"#link"_c);
 
@@ -496,7 +502,7 @@ void ElemLI::PrintItem(PrintBook &book,Text *text,Kind kind)
  {
   auto name=book.addExt(text,kind);
 
-  book.printf("{ { & #; , null , ItemInner , ItemOuter } }",name);
+  book.printf("{ & #; , null , ItemInner , ItemOuter }",name);
  }
 
 template <class Elem,class Kind>
@@ -504,7 +510,7 @@ void ElemLI::PrintItem(PrintBook &book,Elem *elem,Kind)
  {
   auto name=book.addExt(elem,elem->getKind());
 
-  book.printf("{ { & #; , null , ItemInner , ItemOuter } }",name);
+  book.printf("{ & #; , null , ItemInner , ItemOuter }",name);
  }
 
 template <class Kind>
@@ -577,9 +583,42 @@ void PrintBook::process(RecBase *rec)
   rec->print(*this);
  }
 
+template <class Kind>
+void PrintBook::print(ExtName name,Text *text,Kind kind)
+ {
+  Printf(out,"Text #; = ",name);
+
+  Putobj(out,"{ "_c);
+
+  text->printKind(out,kind);
+
+  Printf(out," , & fmt_#; , & align_#; }",kind,kind);
+
+  Putobj(out," ;\n\n"_c);
+ }
+
 template <class Elem,class Kind>
 void PrintBook::print(ExtName name,Elem *elem,Kind kind)
  {
+  StrLen type=elem->getType();
+
+  Printf(out,"#; #; = ",type,name);
+
+  elem->printKind(out,kind);
+
+  Putobj(out," ;\n\n"_c);
+ }
+
+template <ExtPrint Elem,class Kind>
+void PrintBook::print(ExtName name,Elem *elem,Kind kind)
+ {
+  StrLen type=elem->getType();
+
+  Printf(out,"#; #; = ",type,name);
+
+  elem->printKind(*this,kind);
+
+  Putobj(out," ;\n\n"_c);
  }
 
 template <class Elem,class Kind>

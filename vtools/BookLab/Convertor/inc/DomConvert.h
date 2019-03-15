@@ -673,7 +673,13 @@ class PrintBook : NoCopy
 
    void process(RecBase *rec);
 
+   template <class Kind>
+   void print(ExtName name,Text *text,Kind kind);
+
    template <class Elem,class Kind>
+   void print(ExtName name,Elem *elem,Kind kind);
+
+   template <ExtPrint Elem,class Kind>
    void print(ExtName name,Elem *elem,Kind kind);
 
   public:

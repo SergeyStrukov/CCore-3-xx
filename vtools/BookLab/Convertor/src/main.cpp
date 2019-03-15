@@ -49,6 +49,17 @@ class FileList : NoCopy
 
        page_name=split.name;
       }
+
+     Rec(StrLen dir,StrLen file,StrLen page_name_)
+      {
+       file_name=file;
+
+       MakeFileName temp(dir,file);
+
+       path=temp.get();
+
+       page_name=page_name_;
+      }
     };
 
   private:
@@ -61,6 +72,8 @@ class FileList : NoCopy
 
    explicit FileList(StrLen dir)
     {
+     list.append_fill(dir,"../index.html"_c,"Index"_c);
+
      FileSystem fs;
      FileSystem::DirCursor cur(fs,dir);
 
@@ -87,13 +100,15 @@ class FileList : NoCopy
 
 int Index(PrintBase &out,StrLen input_dir_name)
  {
-  Used(out);
-
   StrLen file_name="../index.html"_c;
 
   MakeFileName temp(input_dir_name,file_name);
 
   Source src(temp.get());
+
+  PageParam param;
+
+  param.name="Index"_str;
 
   DomConvert convert;
 
@@ -103,6 +118,8 @@ int Index(PrintBase &out,StrLen input_dir_name)
 
      return 1;
     }
+
+  convert.print(out,param);
 
   return 0;
  }
