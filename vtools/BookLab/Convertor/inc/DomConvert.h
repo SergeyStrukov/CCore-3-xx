@@ -19,6 +19,8 @@
 
 #include <CCore/inc/AnyPtr.h>
 #include <CCore/inc/List.h>
+#include <CCore/inc/CompactList.h>
+#include <CCore/inc/OwnPtr.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/ElementPool.h>
 
@@ -75,6 +77,8 @@ struct ElemUL;
 struct ElemLI;
 
 struct ElemImg;
+
+struct ExtName;
 
 class PrintBook;
 
@@ -573,6 +577,12 @@ struct ElemUL : TListBase
 struct ElemLI : TextMix<ElemOL,ElemUL>
  {
   template <class Kind>
+  static void PrintItem(PrintBook &book,Text *text,Kind kind);
+
+  template <class Elem,class Kind>
+  static void PrintItem(PrintBook &book,Elem *elem,Kind kind);
+
+  template <class Kind>
   void printKind(PrintBook &book,Kind kind) const;
  };
 
@@ -601,6 +611,15 @@ using BuildPtr = AnyPtr<ElemH1,ElemH2,ElemH3,ElemH4,ElemH5,ElemP,ElemPRE,ElemOL,
 template <class T>
 concept bool ExtPrint = requires(T &obj,PrintBook &book) { obj.print(book); } ;
 
+/* struct ExtName */
+
+struct ExtName
+ {
+  ulen ind;
+
+  void print(PrinterType &out) const { Printf(out,"o#;",ind); }
+ };
+
 /* class PrintBook */
 
 class PrintBook : NoCopy
@@ -617,14 +636,52 @@ class PrintBook : NoCopy
    template <ExtPrint Elem>
    void print(ulen ind,Elem *elem);
 
+   ExtName getExtName() { return {extind++}; }
+
+  private:
+
+   struct RecBase : MemBase
+    {
+     RecBase() {}
+
+     virtual ~RecBase() {}
+
+     virtual void print(PrintBook &book) const = 0 ;
+    };
+
+   template <class Elem,class Kind>
+   struct Rec : RecBase
+    {
+     ExtName name;
+     Elem *elem;
+     Kind kind;
+
+     Rec(ExtName name_,Elem *elem_,Kind kind_) : name(name_),elem(elem_),kind(kind_) {}
+
+     virtual ~Rec() {}
+
+     virtual void print(PrintBook &book) const
+      {
+       book.print(name,elem,kind);
+      }
+    };
+
+   CompactList2<OwnPtr<RecBase> > defer_list;
+
+   template <class Elem,class Kind>
+   void addRec(ExtName name,Elem *elem,Kind kind);
+
+   void process(RecBase *rec);
+
+   template <class Elem,class Kind>
+   void print(ExtName name,Elem *elem,Kind kind);
+
   public:
 
    explicit PrintBook(PrintBase &out_) : out(out_) {}
 
-   ulen getExtInd() { return extind++; }
-
    template <class Elem,class Kind>
-   void addExt(ulen extind,Elem *elem,Kind kind);
+   ExtName addExt(Elem *elem,Kind kind);
 
    void pump();
 

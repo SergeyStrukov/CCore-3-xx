@@ -412,11 +412,9 @@ void ElemPRE::printKind(PrintBase &out,Kind kind) const
 template <class Kind>
 void ElemOL::PrintItem(PrintBook &book,Text *text,Kind kind,ulen &)
  {
-  ulen extind=book.getExtInd();
+  auto name=book.addExt(text,kind);
 
-  book.printf("{ '' , { { & o#; , null , ItemInner , ItemOuter } } }",extind);
-
-  book.addExt(extind,text,kind);
+  book.printf("{ '' , { { & #; , null , ItemInner , ItemOuter } } }",name);
  }
 
 template <class Kind>
@@ -456,11 +454,9 @@ void ElemOL::printKind(PrintBook &book,Kind kind) const
 template <class Kind>
 void ElemUL::PrintItem(PrintBook &book,Text *text,Kind kind)
  {
-  ulen extind=book.getExtInd();
+  auto name=book.addExt(text,kind);
 
-  book.printf("{ '' , { { & o#; , null , ItemInner , ItemOuter } } }",extind);
-
-  book.addExt(extind,text,kind);
+  book.printf("{ '' , { { & #; , null , ItemInner , ItemOuter } } }",name);
  }
 
 template <class Kind>
@@ -496,12 +492,39 @@ void ElemUL::printKind(PrintBook &book,Kind kind) const
 /* struct ElemLI */
 
 template <class Kind>
-void ElemLI::printKind(PrintBook &book,Kind kind) const // TODO
+void ElemLI::PrintItem(PrintBook &book,Text *text,Kind kind)
  {
-  Used(book);
-  Used(kind);
+  auto name=book.addExt(text,kind);
 
-  // { { & o#; , null , ItemInner , ItemOuter } }
+  book.printf("{ { & #; , null , ItemInner , ItemOuter } }",name);
+ }
+
+template <class Elem,class Kind>
+void ElemLI::PrintItem(PrintBook &book,Elem *elem,Kind)
+ {
+  auto name=book.addExt(elem,elem->getKind());
+
+  book.printf("{ { & #; , null , ItemInner , ItemOuter } }",name);
+ }
+
+template <class Kind>
+void ElemLI::printKind(PrintBook &book,Kind kind) const
+ {
+  book.putobj("{\n"_c);
+
+  apply( [&] (ulen ind,auto aptr)
+             {
+              book.put(' ');
+
+              if( ind ) book.put(','); else book.put(' ');
+
+              aptr.apply( [&] (auto *ptr) { PrintItem(book,ptr,kind); } );
+
+              book.put('\n');
+
+             } );
+
+  book.putobj("}"_c);
  }
 
 /* struct ElemImg */
@@ -544,15 +567,37 @@ void PrintBook::print(ulen ind,Elem *elem)
  }
 
 template <class Elem,class Kind>
-void PrintBook::addExt(ulen extind,Elem *elem,Kind kind) // TODO
+void PrintBook::addRec(ExtName name,Elem *elem,Kind kind)
  {
-  Used(extind);
-  Used(elem);
-  Used(kind);
+  defer_list.insLast( OwnPtr<RecBase>(new Rec<Elem,Kind>(name,elem,kind)) );
  }
 
-void PrintBook::pump() // TODO
+void PrintBook::process(RecBase *rec)
  {
+  rec->print(*this);
+ }
+
+template <class Elem,class Kind>
+void PrintBook::print(ExtName name,Elem *elem,Kind kind)
+ {
+ }
+
+template <class Elem,class Kind>
+ExtName PrintBook::addExt(Elem *elem,Kind kind)
+ {
+  ExtName name=getExtName();
+
+  addRec(name,elem,kind);
+
+  return name;
+ }
+
+void PrintBook::pump()
+ {
+  for(; +defer_list ;defer_list.delFirst())
+    {
+     process(defer_list.getFirst()->getPtr());
+    }
  }
 
 void PrintBook::print(ulen ind,TopPtr aptr)

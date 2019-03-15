@@ -106647,7 +106647,17 @@ Text b49 = { {
  ,{ "meanings:" }
 } , & fmt_text , & align_text } ;
 
-TextList b50 = { } ;
+TextList b50 = { {
+  { '1.' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '3.' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b51 = { {
   { "interrupt()" , & fmt_text_b }
@@ -110803,7 +110813,17 @@ Text b31 = { {
  ,{ "meanings:" }
 } , & fmt_text , & align_text } ;
 
-TextList b32 = { } ;
+TextList b32 = { {
+  { '1.' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '3.' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b33 = { {
   { "interrupt()" , & fmt_text_b }
@@ -111056,7 +111076,29 @@ Text b4 = { {
  ,{ "initialization:" }
 } , & fmt_text , & align_text } ;
 
-TextList b5 = { } ;
+TextList b5 = { {
+  { '1.' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '3.' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '4.' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '5.' , {
+  { { & o4 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '6.' , {
+  { { & o5 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '7.' , {
+  { { & o6 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b6 = { {
   { "See" }
@@ -115557,7 +115599,17 @@ Text b2 = { {
  ,{ "required:" }
 } , & fmt_text , & align_text } ;
 
-TextList b3 = { } ;
+TextList b3 = { {
+  { '•' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b4 = { {
   { "Install" }
@@ -115721,7 +115773,17 @@ Text b8 = { {
  ,{ "installation:" }
 } , & fmt_text , & align_text } ;
 
-TextList b9 = { } ;
+TextList b9 = { {
+  { '•' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o4 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o5 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b10 = { {
   { "Post-install" }
@@ -124608,7 +124670,26 @@ Text b4 = { {
  ,{ "targets:" }
 } , & fmt_text , & align_text } ;
 
-TextList b5 = { } ;
+TextList b5 = { {
+  { '•' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o4 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o5 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b6 = { {
   { "Target" , & fmt_text_b }
@@ -125123,7 +125204,62 @@ Text b12 = { {
  ,{ "contains:" }
 } , & fmt_text , & align_text } ;
 
-TextList b13 = { } ;
+TextList b13 = { {
+  { '1.' , {
+  { { & o6 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o7 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '3.' , {
+  { { & o8 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '4.' , {
+  { { & o9 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '5.' , {
+  { { & o10 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '6.' , {
+  { { & o11 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '7.' , {
+  { { & o12 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '8.' , {
+  { { & o13 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '9.' , {
+  { { & o14 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '10.' , {
+  { { & o15 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '11.' , {
+  { { & o16 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '12.' , {
+  { { & o17 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '13.' , {
+  { { & o18 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '14.' , {
+  { { & o19 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '15.' , {
+  { { & o20 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '16.' , {
+  { { & o21 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '17.' , {
+  { { & o22 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '18.' , {
+  { { & o23 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b14 = { {
   { "Starting" }
@@ -125166,7 +125302,20 @@ Text b14 = { {
  ,{ "included:" }
 } , & fmt_text , & align_text } ;
 
-TextList b15 = { } ;
+TextList b15 = { {
+  { '•' , {
+  { { & o24 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o25 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o26 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o27 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b16 = { {
   { "XCore" }
@@ -125202,7 +125351,29 @@ Text b18 = { {
  ,{ ":" }
 } , & fmt_text , & align_text } ;
 
-TextList b19 = { } ;
+TextList b19 = { {
+  { '1.' , {
+  { { & o28 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o29 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '3.' , {
+  { { & o30 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '4.' , {
+  { { & o31 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '5.' , {
+  { { & o32 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '6.' , {
+  { { & o33 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '7.' , {
+  { { & o34 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b20 = { {
   { "Task" }
@@ -126164,7 +126335,20 @@ Text b35 = { {
  ,{ "advantages:" }
 } , & fmt_text , & align_text } ;
 
-TextList b36 = { } ;
+TextList b36 = { {
+  { '•' , {
+  { { & o35 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o36 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o37 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o38 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b37 = { {
   { "CCore" , & fmt_text_b }
@@ -126319,7 +126503,17 @@ Text b42 = { {
  ,{ "TCP:" }
 } , & fmt_text , & align_text } ;
 
-TextList b43 = { } ;
+TextList b43 = { {
+  { '•' , {
+  { { & o39 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o40 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o41 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b44 = { {
   { "PTP" , & fmt_text_b }
@@ -129089,7 +129283,14 @@ Text b2 = { {
  ,{ "reasons:" }
 } , & fmt_text , & align_text } ;
 
-TextList b3 = { } ;
+TextList b3 = { {
+  { '1.' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '2.' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b4 = { {
   { "Constants" }
@@ -141046,7 +141247,23 @@ Text b5 = { {
  ,{ "namely:" }
 } , & fmt_text , & align_text } ;
 
-TextList b6 = { } ;
+TextList b6 = { {
+  { '•' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o4 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b7 = { {
   { "The" }
@@ -184198,7 +184415,20 @@ Text b2 = { {
  ,{ "components:" }
 } , & fmt_text , & align_text } ;
 
-TextList b3 = { } ;
+TextList b3 = { {
+  { '•' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b4 = { {
   { "A" }
@@ -184906,7 +185136,20 @@ Text b27 = { {
  ,{ "answers:" }
 } , & fmt_text , & align_text } ;
 
-TextList b28 = { } ;
+TextList b28 = { {
+  { '•' , {
+  { { & o4 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o5 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o6 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o7 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b29 = { {
   { "The" }
@@ -191103,7 +191346,20 @@ Text b2 = { {
  ,{ "following:" }
 } , & fmt_text , & align_text } ;
 
-TextList b3 = { } ;
+TextList b3 = { {
+  { '•' , {
+  { { & o0 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o1 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o2 , null , ItemInner , ItemOuter } }
+} }
+ ,{ '•' , {
+  { { & o3 , null , ItemInner , ItemOuter } }
+} }
+} } ;
 
 Text b4 = { {
   { "Here" }
