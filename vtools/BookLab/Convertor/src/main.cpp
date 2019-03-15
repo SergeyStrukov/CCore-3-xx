@@ -96,43 +96,13 @@ class FileList : NoCopy
    auto getRange() const { return range; }
  };
 
-/* Index() */
-
-int Index(PrintBase &out,StrLen input_dir_name)
- {
-  StrLen file_name="../index.html"_c;
-
-  MakeFileName temp(input_dir_name,file_name);
-
-  Source src(temp.get());
-
-  PageParam param;
-
-  param.name="Index"_str;
-
-  DomConvert convert;
-
-  if( !src.run(convert) )
-    {
-     Printf(Con,"@ #;\n",file_name);
-
-     return 1;
-    }
-
-  convert.print(out,param);
-
-  return 0;
- }
-
 /* Main() */
 
 StrLen CutTitle(const String &title)
  {
   StrLen str=Range(title);
 
-  StrLen prefix="CCore -> "_c;
-
-  if( str.hasPrefix(prefix) ) return str.part(prefix.len);
+  SkipPrefix(str,"CCore -> "_c);
 
   return str;
  }
@@ -141,12 +111,13 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
  {
   PrintFile out(output_file_name);
 
-  //return Index(out,input_dir_name);
-
   FileList file_list(input_dir_name);
+
   auto list=file_list.getRange();
 
   DynArray<String> title(list.len);
+
+  String up=list[0].page_name+"#page"_c;
 
   // 1
 
@@ -160,9 +131,9 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
      param.name=rec.page_name;
 
-     param.up="content"_str;
+     param.up=up;
 
-     if( i>0 ) param.prev=list[i-1].page_name+"#page"_c;
+     if( i>1 ) param.prev=list[i-1].page_name+"#page"_c;
 
      if( i+1<list.len ) param.next=list[i+1].page_name+"#page"_c;
 
@@ -204,10 +175,12 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
      if( i ) out.put(',');
 
-     Printf(out,"{ '#;.' , { { & item#; , null , { 0 , 0 } , { 0 , 0 } } } }",ind,ind);
+     Printf(out,"{ '#;.' , { { & item#; , null , { 0 , 0 } , { 0 , 0 } } } }\n",ind,ind);
     }
 
   Putobj(out,"} } ;\n\n"_c);
+
+  Printf(out,"Page *start = & #; ;\n\n",up);
 
   return 0;
  }

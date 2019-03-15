@@ -140,9 +140,7 @@ void Format::setLink(Builder &builder,StrLen str)
  {
   if( !str ) return;
 
-  StrLen beg="html/"_c;
-
-  if( str.hasPrefix(beg) ) str+=beg.len;
+  SkipPrefix(str,"html/"_c);
 
   if( *str=='#' )
     {
@@ -158,16 +156,12 @@ void Format::setLink(Builder &builder,StrLen str)
 
      for(; +name && *name!='#' ;++name);
 
-     StrLen end=".html"_c;
-
      if( +name )
        {
         StrLen page=str.prefix(name);
 
-        if( page.hasSuffix(end) )
+        if( SkipSuffix(page,".html"_c) )
           {
-           page.len-=end.len;
-
            ++name;
 
            link=builder.cat("..#"_c,page,"#link_"_c,name);
@@ -179,10 +173,8 @@ void Format::setLink(Builder &builder,StrLen str)
        {
         StrLen page=str;
 
-        if( page.hasSuffix(end) )
+        if( SkipSuffix(page,".html"_c) )
           {
-           page.len-=end.len;
-
            link=builder.cat("..#"_c,page,"#link"_c);
 
            has_link=true;

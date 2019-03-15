@@ -1,10 +1,12 @@
+/* test.book.ddl */
+
 include <pretext:/Book1.ddl>
 
-Book Data = { .title = "CCore 3-xx" , .start = & #Doc#Pages#Content#cover , .back = 0FFEFD5h , .fore = 00h } ;
-
-scope Doc {
+include <ColorSet.ddl>
 
 scope Pages {
+
+/* defaults */
 
 Point DefaultInner = { 10 , 2 } ;
 
@@ -14,303 +16,243 @@ Coord DefaultBulletSpace = 10 ;
 
 Coord DefaultItemSpace = 5 ;
 
-Format DefaultBulletFormat = { & font_text , NoColor , NoColor , 0 } ;
+Format DefaultBulletFormat = DefaultFormat ;
 
-Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
+Format DefaultFormat = fmt_text ;
 
 MultiLine DefaultPlacement = { { 12 , 10 } , { 2 , 1 } } ;
 
-scope Content {
+/* format */
 
-Point DefaultInner = { 10 , 10 } ;
+ // colors
 
-Point DefaultOuter = { 0 , 0 } ;
+VColor vc_h1 = Blue ;
 
-Format DefaultFormat = { & font_text , NoColor , NoColor , 0 } ;
+VColor vc_h1_back = DarkGray ;
 
-MultiLine DefaultPlacement = { { 1 , 1 } , { 2 , 1 } } ;
+VColor vc_h2 = DarkGreen ;
 
-Font font_text = { "Bookman Old Style" , 20 , False , False , 0 } ;
+VColor vc_h2_back = Wheat ;
 
-Format fmt_text = { & font_text , NoColor , NoColor , 0 } ;
+VColor vc_h3 = DarkGreen ;
 
-Font font_title = { "Bookman Old Style" , 80 , False , False , 0 } ;
+VColor vc_h4 = Blue ;
 
-Format fmt_title = { & font_title , NoColor , NoColor , 0 } ;
+VColor vc_a = Blue ;
 
-Font font_h1 = { "Bookman Old Style" , 32 , False , False , 0 } ;
+VColor vc_Alert = Red ;
 
-Format fmt_h1 = { & font_h1 , NoColor , 0FFh , 0 } ;
+VColor vc_Hint = Blue ;
 
-Font font_list = { "Bookman Old Style" , 20 , False , False , 0 } ;
+VColor vc_Att = Blue ;
 
-Format fmt_list = { & font_list , NoColor , NoColor , 0 } ;
+VColor vc_Files = Aqua ;
 
-Format fmt_underline = { & font_list , NoColor , NoColor , 1 } ;
+VColor vc_cpp = Silver ;
 
-Font font_list2 = { "Bookman Old Style" , 18 , False , False , 0 } ;
+ // font faces
 
-Format fmt_list2 = { & font_list2 , NoColor , NoColor , 0 } ;
+text face = "Bookman Old Style" ;
 
-Page cover = { "Cover" ,
-{
-{ & ANONYM1 , null , { 10 , 50 } , DefaultOuter , NoColor }
-,{ & ANONYM2 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ANONYM3 , null , { 0 , 200 } , DefaultOuter , NoColor }
-,{ & ANONYM4 , null , { 10 , 50 } , DefaultOuter , NoColor }
-,{ & ANONYM5 , null , DefaultInner , DefaultOuter , NoColor }
-,{ & ANONYM6 , null , { 50 , 20 } , DefaultOuter , NoColor }
-}
-, 0FFFFFFh , 00h , null , null , & content } ;
+text fixed = "Fixed" ;
 
-Text ANONYM1 = {
-{
-{ "CCore" , null , null }
-}
-, & fmt_title , & ANONYM7 } ;
+ // text
 
-Text ANONYM2 = {
-{
-{ "multi-target" , null , null }
-,{ "development" , null , null }
-,{ "platform" , null , null }
-,{ "with" , null , null }
-,{ "real-time" , null , null }
-,{ "support" , null , null }
-}
-, &DefaultFormat , & ANONYM8 } ;
+Font font_text = { face , 20 } ;
 
-Text ANONYM3 = {
-{
-}
-, &DefaultFormat , &DefaultPlacement } ;
+Format fmt_text = { & font_text } ;
 
-Text ANONYM4 = {
-{
-{ "Sergey" , null , null }
-,{ "Strukov" , null , null }
-,{ "2019," , null , null }
-,{ "version" , null , null }
-,{ "3-xx" , null , null }
-}
-, &DefaultFormat , & ANONYM9 } ;
+Point inner_text = DefaultInner ;
 
-Text ANONYM5 = {
-{
-{ "Copyright" , null , null }
-,{ "©" , null , null }
-,{ "2019" , null , null }
-,{ "Sergey" , null , null }
-,{ "Strukov." , null , null }
-,{ "All" , null , null }
-,{ "rights" , null , null }
-,{ "reserved." , null , null }
-}
-, &DefaultFormat , & ANONYM10 } ;
+Point outer_text = DefaultOuter ;
 
-Text ANONYM6 = {
-{
-{ "This" , null , null }
-,{ "document" , null , null }
-,{ "is" , null , null }
-,{ "public." , null , null }
-,{ "You" , null , null }
-,{ "may" , null , null }
-,{ "freely" , null , null }
-,{ "distribute" , null , null }
-,{ "it" , null , null }
-,{ "free" , null , null }
-,{ "of" , null , null }
-,{ "charge" , null , null }
-,{ "as" , null , null }
-,{ "far" , null , null }
-,{ "as" , null , null }
-,{ "it's" , null , null }
-,{ "content," , null , null }
-,{ "copyright" , null , null }
-,{ "notice" , null , null }
-,{ "and" , null , null }
-,{ "authorship" , null , null }
-,{ "is" , null , null }
-,{ "unchanged." , null , null }
-}
-, &DefaultFormat , &DefaultPlacement } ;
+VColor back_text = NoColor ;
 
-OneLine ANONYM7 = { 2 } ;
+MultiLine align_text = DefaultPlacement ;
 
-OneLine ANONYM8 = { 2 } ;
+Font font_text_b = font_text { .bold = True  } ;
 
-OneLine ANONYM9 = { 2 } ;
+Format fmt_text_b = { & font_text_b } ;
 
-OneLine ANONYM10 = { 2 } ;
+Font font_text_i = font_text { .italic = True  } ;
 
-Link test = { null , {  } } ;
+Format fmt_text_i = { & font_text_i } ;
 
-Page content = { "Content" ,
-{
-{ & ANONYM11 , null , { 10 , 30 } , DefaultOuter , NoColor }
-,{ & list , null , DefaultInner , DefaultOuter , NoColor }
-}
-, NoColor , NoColor , null , & cover , null } ;
+Format fmt_text_u = fmt_text { .effect=Format#Underline } ;
 
-Text ANONYM11 = {
-{
-{ "Table" , null , null }
-,{ "of" , null , null }
-,{ "content" , null , null }
-}
-, & fmt_h1 , & ANONYM12 } ;
+ // text_cpp
 
-OneLine ANONYM12 = { 2 } ;
+Font font_cpp = { fixed , 22 } ;
 
-TextList list = {
-{
-{ "1." ,
-{
-{ & ANONYM13 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-,{ "2." ,
-{
-{ & ANONYM14 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-,{ "3." ,
-{
-{ & ANONYM15 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-}
-, & fmt_list , 10 , 10 } ;
+Format fmt_cpp = { & font_cpp , vc_cpp } ;
 
-Text ANONYM13 = {
-{
-{ "Introduction." , & fmt_underline , & #Doc#Pages#link_Introduction }
-}
-, & fmt_list , & ANONYM16 } ;
+Point inner_cpp = DefaultInner ;
 
-Text ANONYM14 = {
-{
-{ "Installation." , & fmt_underline , null }
-}
-, & fmt_list , & ANONYM17 } ;
+Point outer_cpp = DefaultOuter ;
 
-Collapse ANONYM15 = { "Preliminary considerations" ,
-{
-{ & list3 , null , { 5 , 5 } , { 0 , 0 } , NoColor }
-}
-, & fmt_list , False , False } ;
+VColor back_cpp = NoColor ;
 
-OneLine ANONYM16 = { 0 } ;
+Font font_cpp_b = font_cpp { .bold = True } ;
 
-OneLine ANONYM17 = { 0 } ;
+Format fmt_cpp_b = fmt_cpp { .font = & font_cpp_b } ;
 
-TextList list3 = {
-{
-{ "1." ,
-{
-{ & ANONYM18 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-,{ "2." ,
-{
-{ & ANONYM19 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-,{ "3." ,
-{
-{ & ANONYM20 , null , { 0 , 0 } , { 0 , 0 } , NoColor }
-}
-}
-}
-, & fmt_list2 , 5 , 5 } ;
+Font font_cpp_i = font_cpp { .italic = True } ;
 
-Text ANONYM18 = {
-{
-{ "Metaphysics" , null , null }
-,{ "of" , null , null }
-,{ "the" , null , null }
-,{ "programming." , null , null }
-}
-, & fmt_list2 , & ANONYM21 } ;
+Format fmt_cpp_i = fmt_cpp { .font = & font_cpp_i } ;
 
-Text ANONYM19 = {
-{
-{ "Taxonomy" , null , null }
-,{ "of" , null , null }
-,{ "classes." , null , null }
-}
-, & fmt_list2 , & ANONYM22 } ;
+Format fmt_cpp_Att = fmt_cpp { .fore = vc_Att } ; 
 
-Text ANONYM20 = {
-{
-{ "CCore" , null , null }
-,{ "general." , null , null }
-}
-, & fmt_list2 , & ANONYM23 } ;
+Format fmt_cpp_a = fmt_cpp { .fore = vc_a , .effect = Format#Underline } ; 
 
-OneLine ANONYM21 = { 0 } ;
+Format fmt_cpp_Alert = fmt_cpp { .fore = vc_Alert } ; 
 
-OneLine ANONYM22 = { 0 } ;
+ // text_Files
 
-OneLine ANONYM23 = { 0 } ;
+Font font_text_Files = { fixed , 22 } ;
+
+Format fmt_text_Files = { & font_text_Files , vc_Files } ;
+
+Point inner_text_Files = DefaultInner ;
+
+Point outer_text_Files = DefaultOuter ;
+
+VColor back_text_Files = NoColor ;
+
+OneLine align_text_Files = { OneLine#Left } ;
+
+Font font_text_Files_b = font_text_Files { .bold = True  } ;
+
+Format fmt_text_Files_b = fmt_text_Files { .font = & font_text_Files_b } ;
+
+ // text_Alert
+
+Format fmt_text_Alert = fmt_text { .fore = vc_Alert } ;
+
+ // text_Hint
+
+Format fmt_text_Hint = fmt_text { .fore = vc_Hint } ;
+
+ // text_Att
+
+Format fmt_text_Att = fmt_text { .fore = vc_Att } ;
+
+ // h1
+
+Font font_h1 = { face , 50 , True } ;
+
+Format fmt_h1 = { & font_h1 , vc_h1_back , vc_h1 } ; 
+
+Point inner_h1 = DefaultInner ;
+
+Point outer_h1 = DefaultOuter ;
+
+VColor back_h1 = NoColor ;
+
+OneLine align_h1 = { OneLine#Center } ;
+
+ // h2
+
+Font font_h2 = { face , 36 } ;
+
+Format fmt_h2 = { & font_h2 , vc_h2_back , vc_h2 } ;
+
+Point inner_h2 = DefaultInner ;
+
+Point outer_h2 = DefaultOuter ;
+
+VColor back_h2 = NoColor ;
+
+OneLine align_h2 = { OneLine#Left } ;
+
+Format fmt_h2_a = fmt_h2 { .fore = vc_a , .effect = Format#Underline } ;
+
+ // h3
+
+Font font_h3 = { face , 30 } ;
+
+Format fmt_h3 = { & font_h3 , NoColor , vc_h3 , Format#Underline } ;
+
+Point inner_h3 = DefaultInner ;
+
+Point outer_h3 = DefaultOuter ;
+
+VColor back_h3 = NoColor ;
+
+OneLine align_h3 = { OneLine#Left } ;
+
+Font font_h3_i = font_h3 { .italic = True } ;
+
+Format fmt_h3_i =  fmt_h3 { .font = & font_h3_i } ;
+
+Font font_h3_b = font_h3 { .bold = True } ;
+
+Format fmt_h3_b =  fmt_h3 { .font = & font_h3_b } ;
+
+ // h4
+
+Font font_h4 = { face , 24 } ;
+
+Format fmt_h4 = { & font_h4 , NoColor , vc_h4 , Format#Underline } ;
+
+Point inner_h4 = DefaultInner ;
+
+Point outer_h4 = DefaultOuter ;
+
+VColor back_h4 = NoColor ;
+
+OneLine align_h4 = { OneLine#Left } ;
+
+ // list
+
+Format fmt_list = fmt_text ;
+
+Point inner_list = { 0 , 0 } ;
+
+Point outer_list = { 40 , 0 } ;
+
+VColor back_list = NoColor ;
+
+OneLine align_list = { OneLine#Left } ;
+
+Point ItemInner = { 2 , 2 } ;
+
+Point ItemOuter = { 0 , 0 } ;
+
+Format fmt_list_b = fmt_text_b ;
+
+Format fmt_list_a = fmt_list { .fore = vc_a , .effect = Format#Underline } ;
+
+Format fmt_list_Alert = fmt_list { .fore = vc_Alert } ;
+
+Font font_Cmd = { fixed , 22 } ;
+
+Format fmt_list_Cmd = { & font_Cmd , White , Black } ;
+
+ // img
+
+Point inner_img = DefaultInner ;
+
+Point outer_img = DefaultOuter ;
+
+VColor back_img = NoColor ;
+
+ // a
+
+Format fmt_text_a = fmt_text { .fore = vc_a , .effect = Format#Underline } ;
+
+/* content */
+
+Page content = { "Content" , { { & list } } } ;
+
+OneLine align_item = { OneLine#Left } ;
+
+include <CCore.bookinc.ddl>
 
 }
 
-Font font_text = { "Bookman Old Style" , 20 , False , False , 0 } ;
-
-Font font_h1 = { "Bookman Old Style" , 40 , True , False , 0 } ;
-
-Format fmt_h1 = { & font_h1 , 0A9A9A9h , 0FFh , 0 } ;
-
-OneLine align_h1 = { 2 } ;
-
-Font font_h2 = { "Bookman Old Style" , 30 , False , False , 0 } ;
-
-Format fmt_h2 = { & font_h2 , 0F5DEB3h , 06400h , 0 } ;
-
-OneLine align_h2 = { 0 } ;
-
-Font font_bold = { "Bookman Old Style" , 20 , True , False , 0 } ;
-
-Format fmt_bold = { & font_bold , NoColor , NoColor , 0 } ;
-
-Font font_italic = { "Bookman Old Style" , 20 , False , True , 0 } ;
-
-Format fmt_italic = { & font_italic , NoColor , NoColor , 0 } ;
-
-Format fmt_ext = { & font_text , NoColor , 0FFh , 1 } ;
-
-Format fmt_red = { & font_text , NoColor , 0FF0000h , 0 } ;
-
-Font cfont = { "Fixed" , 22 , False , False , 0 } ;
-
-Font cfont_bold = { "Fixed" , 22 , True , False , 0 } ;
-
-Format cfmt = { & cfont , 0C0C0C0h , NoColor , 0 } ;
-
-Format cfmt_long_comment = { & cfont , 0F5DEB3h , 06400h , 0 } ;
-
-Format cfmt_keyword = { & cfont , NoColor , 0CDh , 0 } ;
-
-Format cfmt_name = { & cfont , NoColor , NoColor , 0 } ;
-
-Format cfmt_number = { & cfont , NoColor , 0800000h , 0 } ;
-
-Format cfmt_op = { & cfont_bold , NoColor , NoColor , 0 } ;
-
-Format cfmt_string = { & cfont , 087CEEBh , 0800000h , 0 } ;
-
-Format cfmt_short_comment = { & cfont , 0F5DEB3h , 06400h , 1 } ;
-
-Format cfmt_char = { & cfont , 0FFFFh , 0800000h , 0 } ;
-
-Format cfmt_red = { & cfont , NoColor , 0FF0000h , 0 } ;
-
-include <page_Introduction.bookinc.ddl>
-
-}
+Book Data = { .title = "CCore 3-xx" , .start = Pages#start , .back = PapayaWhip , .fore = Black } ;
 
 
-}
+
+
 

@@ -25,6 +25,32 @@ namespace App {
 
 using namespace CCore;
 
+/* functions */
+
+inline bool SkipPrefix(StrLen &str,StrLen beg)
+ {
+  if( str.hasPrefix(beg) )
+    {
+     str+=beg.len;
+
+     return true;
+    }
+
+  return false;
+ }
+
+inline bool SkipSuffix(StrLen &str,StrLen end)
+ {
+  if( str.hasSuffix(end) )
+    {
+     str.len-=end.len;
+
+     return true;
+    }
+
+  return false;
+ }
+
 /* classes */
 
 struct PageParam;

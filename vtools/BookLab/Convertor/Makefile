@@ -26,7 +26,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET) 
-	$(TARGET) ../../../html test.bookinc.ddl
+	$(TARGET) ../../../html ../../../book/CCore.bookinc.ddl
 
 
 

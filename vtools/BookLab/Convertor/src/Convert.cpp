@@ -322,10 +322,8 @@ void Book::setLink(const String &url)
        {
         StrLen page=str.prefix(name);
 
-        if( page.hasSuffix(".html"_c) )
+        if( SkipSuffix(page,".html"_c) )
           {
-           page.len-=5;
-
            ++name;
 
            link=StringCat("..#"_c,page,"#link_"_c,name);
@@ -337,10 +335,8 @@ void Book::setLink(const String &url)
        {
         StrLen page=str;
 
-        if( page.hasSuffix(".html"_c) )
+        if( SkipSuffix(page,".html"_c) )
           {
-           page.len-=5;
-
            link=StringCat("..#"_c,page,"#link"_c);
 
            has_link=true;
