@@ -13,8 +13,8 @@
 
 #include <inc/DomConvert.h>
 
-#include <CCore/inc/CharProp.h>
 #include <CCore/inc/scanf/ScanTools.h>
+#include <CCore/inc/Path.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -23,6 +23,15 @@ namespace App {
 /* namespace Dom */
 
 namespace Dom {
+
+/* IsSpace() */
+
+bool IsSpace(StrLen str)
+ {
+  for(char ch : str ) if( !CharIsSpace(ch) ) return false;
+
+  return true;
+ }
 
 /* enum ErrorCode */
 
@@ -219,6 +228,8 @@ DomErrorId Format::noFormat() const
 
 void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str)
  {
+  str=builder.dup(str);
+
   StrLen fmt=format.getFmt();
 
   if( format.hasLink() )
@@ -316,36 +327,72 @@ DomErrorId Fixed::complete()
   return format.noFormat();
  }
 
-/* struct TListBase */
+/* struct ElemOL */
 
-DomErrorId TListBase::add(Builder &builder,ElemLI *elem)
+void ElemOL::print(PrintBase &out) const // TODO
  {
-  list.add(builder,elem);
-
-  return {};
+  Putobj(out,"{ }"_c);
  }
 
-/* struct ElemLI */
+/* struct ElemUL */
 
-DomErrorId ElemLI::add(Builder &builder,ElemOL *elem)
+void ElemUL::print(PrintBase &out) const // TODO
  {
-  Used(builder);
-  Used(elem);
-
-  return Error_CannotAdd;
+  Putobj(out,"{ }"_c);
  }
 
-DomErrorId ElemLI::add(Builder &builder,ElemUL *elem)
- {
-  Used(builder);
-  Used(elem);
+/* struct ElemImg */
 
-  return Error_CannotAdd;
+void ElemImg::print(PrintBase &out) const
+ {
+  SplitFullExt split(file_name);
+
+  Printf(out,"{ \"#;.zipmap\" }",PrintText(split.name));
  }
 
-DomErrorId ElemLI::complete()
+/* class Builder */
+
+void Builder::print(PrintBase &out,PageParam param) const
  {
-  return text.complete();
+  Printf(out,"scope #; {\n\n",param.name);
+
+  elems.apply( [&] (ulen ind,TopPtr aptr)
+                   {
+                    StrLen type;
+                    StrLen id;
+
+                    aptr.apply( [&] (auto *ptr) { type=ptr->getType(); id=ptr->id; } );
+
+                    Printf(out,"#; b#; = #; ;\n\n",type,ind,aptr);
+
+                    if( +id )
+                      Printf(out,"Link link_#; = { & page , { #; } } ;\n\n",id,ind);
+
+                   } );
+
+  Printf(out,"Page page = { \"#;\" ,\n{\n",PrintText(title));
+
+  elems.apply( [&] (ulen ind,TopPtr aptr)
+                   {
+                    out.put(' ');
+
+                    if( ind ) out.put(','); else out.put(' ');
+
+                    aptr.apply( [&] (auto *ptr)
+                                    {
+                                     auto kind=ptr->getKind();
+
+                                     Printf(out,"{ & b#; , null , inner_#; , outer_#; , back_#; }\n",ind,kind,kind,kind);
+
+                                    } );
+
+                   } );
+
+  Printf(out,"} , NoColor , NoColor , #; , #; , #; };\n\n",PrintPtr(param.up),PrintPtr(param.prev),PrintPtr(param.next));
+
+  Putobj(out,"Link link = { &page } ;\n\n"_c);
+
+  Putobj(out,"}\n\n"_c);
  }
 
 } // namespace Dom
@@ -355,15 +402,6 @@ DomErrorId ElemLI::complete()
 void GuardStackEmpty()
  {
   Printf(Exception,"App::Stack<...>::top() : stack is empty");
- }
-
-/* TestSpace() */
-
-bool TestSpace(StrLen str)
- {
-  for(char ch : str ) if( !CharIsSpace(ch) ) return false;
-
-  return true;
  }
 
 /* class DomConvert */
@@ -451,15 +489,15 @@ auto DomConvert::closeElem() -> EId
  }
 
 template <class Elem,class Func>
-auto DomConvert::SetFormat(Elem *,Func) -> EId
+auto DomConvert::setFormat(Elem *,Func) -> EId
  {
   return Dom::Error_NoFormat;
  }
 
 template <Dom::Has_refFormat Elem,class Func>
-auto DomConvert::SetFormat(Elem *elem,Func func) -> EId
+auto DomConvert::setFormat(Elem *elem,Func func) -> EId
  {
-  return func(elem->refFormat());
+  return func(elem->refFormat(builder));
  }
 
 template <class Func>
@@ -469,7 +507,7 @@ auto DomConvert::setFormat(Func func) ->EId
 
   EId ret;
 
-  stack.top().apply( [&] (auto *elem) { ret=SetFormat(elem,func); } );
+  stack.top().apply( [&] (auto *elem) { ret=setFormat(elem,func); } );
 
   return ret;
  }
@@ -477,7 +515,7 @@ auto DomConvert::setFormat(Func func) ->EId
 template <class Elem>
 auto DomConvert::frame(Elem *,StrLen str) -> EId
  {
-  if( TestSpace(str) ) return {};
+  if( Dom::IsSpace(str) ) return {};
 
   return Dom::Error_NoText;
  }
@@ -519,7 +557,7 @@ auto DomConvert::frame(String str_) -> EId
 
   if( stack.isEmpty() )
     {
-     if( TestSpace(str) ) return {};
+     if( Dom::IsSpace(str) ) return {};
 
      return Dom::Error_NoElem;
     }
@@ -592,7 +630,7 @@ auto DomConvert::tagP(String elem_class) -> EId
  {
   auto str=builder.dup(elem_class);
 
-  return openElem<Dom::ElemP>( [=] (Dom::ElemP *elem) { elem->elem_class=str; } );
+  return openElem<Dom::ElemP>( [=] (Dom::ElemP *elem) { elem->kind.set(str); } );
  }
 
 auto DomConvert::tagPend() -> EId

@@ -15,8 +15,8 @@
 #define App_DomConvert_h
 
 #include <inc/ErrorId.h>
+#include <inc/PrintPage.h>
 
-#include <CCore/inc/String.h>
 #include <CCore/inc/AnyPtr.h>
 #include <CCore/inc/List.h>
 #include <CCore/inc/Array.h>
@@ -27,6 +27,10 @@ namespace App {
 /* namespace Dom */
 
 namespace Dom {
+
+/* IsSpace() */
+
+bool IsSpace(StrLen str);
 
 /* classes */
 
@@ -59,6 +63,8 @@ struct ElemH5;
 struct ElemP;
 
 struct ElemPRE;
+
+template <class ... TT> class TextMix;
 
 struct TListBase;
 
@@ -100,6 +106,17 @@ class List : NoCopy
      Node *node=pool.template create<Node>(obj);
 
      list.ins_last(node);
+    }
+
+   template <class Func>
+   void apply(Func func) const
+    {
+     ulen ind=0;
+
+     for(auto cur=list.start(); +cur ;++cur,++ind)
+       {
+        func(ind,cur->obj);
+       }
     }
  };
 
@@ -217,9 +234,48 @@ struct Span
 
   StrLen link;
   bool has_link = false ;
+
+  template <class Kind>
+  void printKind(PrintBase &out,Kind kind) const
+   {
+    if( has_link )
+      {
+       if( !fmt )
+         Printf(out,"{ #; , null , & #; }",PrintSpan(text),link);
+       else
+         Printf(out,"{ #; , & fmt_#;_#; , & #; }",PrintSpan(text),kind,fmt,link);
+      }
+    else
+      {
+       if( !fmt )
+         Printf(out,"{ #; }",PrintSpan(text));
+       else
+         Printf(out,"{ #; , & fmt_#;_#; }",PrintSpan(text),kind,fmt);
+      }
+   }
  };
 
 void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str);
+
+template <class Kind>
+void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans)
+ {
+  Printf(out,"{\n");
+
+  spans.apply( [&] (ulen ind,const Span &span)
+                   {
+                    out.put(' ');
+
+                    if( ind ) out.put(','); else out.put(' ');
+
+                    span.printKind(out,kind);
+
+                    out.put('\n');
+
+                   } );
+
+  Printf(out,"}");
+ }
 
 /* class Text */
 
@@ -240,6 +296,12 @@ class Text : NoCopy
    DomErrorId frame(Builder &builder,StrLen str);
 
    DomErrorId complete();
+
+   template <class Kind>
+   void printKind(PrintBase &out,Kind kind) const
+    {
+     PrintSpanList(out,kind,spans);
+    }
  };
 
 /* struct Line */
@@ -247,6 +309,12 @@ class Text : NoCopy
 struct Line : NoCopy
  {
   List<Span> spans;
+
+  template <class Kind>
+  void printKind(PrintBase &out,Kind kind) const
+   {
+    PrintSpanList(out,kind,spans);
+   }
  };
 
 /* class Fixed */
@@ -274,6 +342,28 @@ class Fixed : NoCopy
    DomErrorId frame(Builder &builder,StrLen str);
 
    DomErrorId complete();
+
+   template <class Kind>
+   void printKind(PrintBase &out,Kind kind) const
+    {
+     Printf(out,"{\n");
+
+     lines.apply( [&] (ulen ind,Line *line)
+                      {
+                       if( ind )
+                         {
+                          out.put(',');
+                          out.put('\n');
+                         }
+
+                       line->printKind(out,kind);
+
+                       out.put('\n');
+
+                      } );
+
+     Printf(out,"}");
+    }
  };
 
 /* struct TextBase */
@@ -282,11 +372,23 @@ struct TextBase : NoCopy
  {
   Text text;
 
-  Format & refFormat() { return text.refFormat(); }
+  Format & refFormat(Builder &) { return text.refFormat(); }
 
   DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
   DomErrorId complete() { return text.complete(); }
+
+  StrLen getType() const { return "Text"_c; }
+
+  template <class Kind>
+  void printKind(PrintBase &out,Kind kind) const
+   {
+    Putobj(out,"{ "_c);
+
+    text.printKind(out,kind);
+
+    Printf(out," , & fmt_#; , & align_#; }",kind,kind);
+   }
  };
 
 /* struct ElemH1 */
@@ -294,6 +396,10 @@ struct TextBase : NoCopy
 struct ElemH1 : TextBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "h1"_c; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemH2 */
@@ -301,6 +407,10 @@ struct ElemH1 : TextBase
 struct ElemH2 : TextBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "h2"_c; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemH3 */
@@ -308,6 +418,10 @@ struct ElemH2 : TextBase
 struct ElemH3 : TextBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "h3"_c; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemH4 */
@@ -315,6 +429,10 @@ struct ElemH3 : TextBase
 struct ElemH4 : TextBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "h4"_c; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemH5 */
@@ -322,6 +440,10 @@ struct ElemH4 : TextBase
 struct ElemH5 : TextBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "h5"_c; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemP */
@@ -329,7 +451,32 @@ struct ElemH5 : TextBase
 struct ElemP : TextBase
  {
   StrLen id;
-  StrLen elem_class;
+
+  struct Kind
+   {
+    StrLen name;
+    bool has = false ;
+
+    void set(StrLen name_)
+     {
+      name=name_;
+      has=true;
+     }
+
+    void print(PrinterType &out) const
+     {
+      if( has )
+        Printf(out,"text_#;",name);
+      else
+        Putobj(out,"text"_c);
+     }
+   };
+
+  Kind kind;
+
+  auto getKind() const { return kind; }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
  };
 
 /* struct ElemPRE */
@@ -339,22 +486,93 @@ struct ElemPRE : NoCopy
   StrLen id;
   Fixed text;
 
-  Format & refFormat() { return text.refFormat(); }
+  Format & refFormat(Builder &) { return text.refFormat(); }
 
   DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
 
   DomErrorId complete() { return text.complete(); }
+
+  StrLen getKind() const { return "cpp"_c; }
+
+  StrLen getType() const { return "FixedText"_c; }
+
+  template <class Kind>
+  void printKind(PrintBase &out,Kind kind) const
+   {
+    Putobj(out,"{ "_c);
+
+    text.printKind(out,kind);
+
+    Printf(out," , & fmt_#; }",kind);
+   }
+
+  void print(PrintBase &out) const { printKind(out,getKind()); }
+ };
+
+/* class TextMix<TT> */
+
+template <class ... TT>
+class TextMix : NoCopy
+ {
+   using APtr = AnyPtr<Text,TT...> ;
+
+   List<APtr> list;
+
+   Text * cur = 0 ;
+
+  private:
+
+   void provideText(Builder &builder);
+
+  public:
+
+   TextMix() {}
+
+   Format & refFormat(Builder &builder)
+    {
+     provideText(builder);
+
+     return cur->refFormat();
+    }
+
+   DomErrorId frame(Builder &builder,StrLen str)
+    {
+     if( IsSpace(str) ) return {};
+
+     provideText(builder);
+
+     return cur->frame(builder,str);
+    }
+
+   template <OneOfTypes<TT...> T>
+   DomErrorId add(Builder &builder,T *elem)
+    {
+     DomErrorId ret;
+
+     if( cur )
+       {
+        ret=cur->complete();
+
+        cur=0;
+       }
+
+     list.add(builder,elem);
+
+     return ret;
+    }
+
+   DomErrorId complete()
+    {
+     if( cur ) return cur->complete();
+
+     return {};
+    }
  };
 
 /* struct TListBase */
 
-struct TListBase : NoCopy // TODO
+struct TListBase : TextMix<ElemLI>
  {
-  List<ElemLI *> list;
-
-  DomErrorId add(Builder &builder,ElemLI *elem);
-
-  DomErrorId complete() { return {}; }
  };
 
 /* struct ElemOL */
@@ -362,6 +580,12 @@ struct TListBase : NoCopy // TODO
 struct ElemOL : TListBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "list"_c; }
+
+  StrLen getType() const { return "TextList"_c; }
+
+  void print(PrintBase &out) const;
  };
 
 /* struct ElemUL */
@@ -369,23 +593,18 @@ struct ElemOL : TListBase
 struct ElemUL : TListBase
  {
   StrLen id;
+
+  StrLen getKind() const { return "list"_c; }
+
+  StrLen getType() const { return "TextList"_c; }
+
+  void print(PrintBase &out) const;
  };
 
 /* struct ElemLI */
 
-struct ElemLI : NoCopy // TODO
+struct ElemLI : TextMix<ElemOL,ElemUL>
  {
-  Text text;
-
-  Format & refFormat() { return text.format; }
-
-  DomErrorId frame(Builder &builder,StrLen str) { return text.frame(builder,str); }
-
-  DomErrorId add(Builder &builder,ElemOL *elem);
-
-  DomErrorId add(Builder &builder,ElemUL *elem);
-
-  DomErrorId complete();
  };
 
 /* struct ElemImg */
@@ -394,6 +613,12 @@ struct ElemImg : NoCopy
  {
   StrLen id;
   StrLen file_name;
+
+  StrLen getKind() const { return "img"_c; }
+
+  StrLen getType() const { return "Bitmap"_c; }
+
+  void print(PrintBase &out) const;
  };
 
 /* class Builder */
@@ -412,7 +637,7 @@ class Builder : NoCopy
 
   public:
 
-   Builder() {}
+   Builder() : title("untitled"_c) {}
 
    ~Builder() {}
 
@@ -430,10 +655,27 @@ class Builder : NoCopy
 
    // add
 
+   StrLen getTitle() const { return title; }
+
    void setTitle(StrLen title_) { title=title_; }
 
    void add(TopPtr ptr) { elems.add(pool,ptr); }
+
+   // print
+
+   void print(PrintBase &out,PageParam param) const;
  };
+
+template <class ... TT>
+void TextMix<TT...>::provideText(Builder &builder)
+ {
+  if( !cur )
+    {
+     cur=builder.create<Text>();
+
+     list.add(builder,cur);
+    }
+ }
 
 /* concept Has_id<T> */
 
@@ -453,7 +695,7 @@ concept bool Has_frame = requires(T &obj,Builder &builder,StrLen str) { obj.fram
 /* concept Has_refFormat<T> */
 
 template <class T>
-concept bool Has_refFormat = requires(T &obj) { obj.refFormat(); } ;
+concept bool Has_refFormat = requires(T &obj,Builder &builder) { obj.refFormat(builder); } ;
 
 } // namespace Dom
 
@@ -494,10 +736,6 @@ bool TryCastAnyPtr(T &dst,S src)
 
   return ret;
  }
-
-/* TestSpace() */
-
-bool TestSpace(StrLen str);
 
 /* classes */
 
@@ -583,10 +821,10 @@ class DomConvert : NoCopy
    EId closeElem();
 
    template <class Elem,class Func>
-   static EId SetFormat(Elem *elem,Func func);
+   EId setFormat(Elem *elem,Func func);
 
    template <Dom::Has_refFormat Elem,class Func>
-   static EId SetFormat(Elem *elem,Func func);
+   EId setFormat(Elem *elem,Func func);
 
    template <class Func>
    EId setFormat(Func func);
@@ -604,6 +842,8 @@ class DomConvert : NoCopy
    ~DomConvert();
 
    // title
+
+   StrLen getTitle() const { return builder.getTitle(); }
 
    void setTitle(String title);
 
@@ -702,6 +942,10 @@ class DomConvert : NoCopy
    // complete
 
    EId complete();
+
+   // print
+
+   void print(PrintBase &out,PageParam param) const { builder.print(out,param); }
  };
 
 } // namespace App

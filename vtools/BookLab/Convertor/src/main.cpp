@@ -12,7 +12,6 @@
 //----------------------------------------------------------------------------------------
 
 #include <inc/Source.h>
-#include <inc/Convert.h>
 #include <inc/DomConvert.h>
 #include <inc/TagTest.h>
 
@@ -88,6 +87,8 @@ class FileList : NoCopy
 
 int Index(PrintBase &out,StrLen input_dir_name)
  {
+  Used(out);
+
   StrLen file_name="../index.html"_c;
 
   MakeFileName temp(input_dir_name,file_name);
@@ -148,7 +149,6 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
      if( i+1<list.len ) param.next=list[i+1].page_name+"#page"_c;
 
-     //Convert convert(out,param);
      DomConvert convert;
 
      if( !src.run(convert) )
@@ -158,7 +158,9 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
         return 1;
        }
 
-     //title[i]=convert.getTitle();
+     convert.print(out,param);
+
+     title[i]=convert.getTitle();
     }
 
   // 2

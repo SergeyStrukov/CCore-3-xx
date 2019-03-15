@@ -15,29 +15,17 @@
 #define App_Convert_h
 
 #include <inc/ErrorId.h>
+#include <inc/PrintPage.h>
 
-#include <CCore/inc/String.h>
 #include <CCore/inc/CompactList.h>
 
 namespace App {
 
 /* classes */
 
-struct PageParam;
-
 class Book;
 
 class Convert;
-
-/* struct PageParam */
-
-struct PageParam
- {
-  String name;
-  String up;
-  String prev;
-  String next;
- };
 
 /* class Book */
 
