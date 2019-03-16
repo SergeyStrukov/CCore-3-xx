@@ -15,6 +15,7 @@
 #define App_Source_h
 
 #include <inc/ErrorId.h>
+#include <inc/PrintPage.h>
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Scan.h>
@@ -330,11 +331,11 @@ class Source : NoCopy
        }
      else
        {
-        PrintString out;
+        TransformInput dev;
 
-        for(char ch; +inp && !CharStop(ch=*inp) ;++inp) out.put(ch);
+        for(char ch; +inp && !CharStop(ch=*inp) ;++inp) dev.put(ch);
 
-        return step( proc.frame(out.close()) );
+        return step( proc.frame(dev.close()) );
        }
     }
 

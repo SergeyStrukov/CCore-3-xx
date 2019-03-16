@@ -16,6 +16,7 @@
 
 #include <inc/ErrorId.h>
 #include <inc/PrintPage.h>
+#include <inc/CppText.h>
 
 #include <CCore/inc/AnyPtr.h>
 #include <CCore/inc/List.h>
@@ -265,6 +266,8 @@ struct Span
 
 void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str);
 
+void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen cfmt,StrLen str);
+
 template <class Kind>
 void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans);
 
@@ -308,11 +311,15 @@ class Fixed : NoCopy
  {
    Format format;
 
+   CppText::Tokenizer tokenizer;
+
    List<Line *> lines;
 
    Line * cur = 0 ;
 
   private:
+
+   static StrLen CFmt(CppText::TokenClass tc);
 
    void provideLine(Builder &builder);
 

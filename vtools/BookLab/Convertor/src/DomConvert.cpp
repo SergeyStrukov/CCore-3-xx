@@ -244,6 +244,24 @@ void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen str)
     }
  }
 
+void AddSpan(List<Span> &spans,Builder &builder,const Format &format,StrLen cfmt,StrLen str)
+ {
+  str=builder.dup(str);
+
+  StrLen fmt=format.getFmt();
+
+  if( !fmt ) fmt=cfmt;
+
+  if( format.hasLink() )
+    {
+     spans.add(builder,Span{str,fmt,format.getLink(),true});
+    }
+  else
+    {
+     spans.add(builder,Span{str,fmt});
+    }
+ }
+
 template <class Kind>
 void PrintSpanList(PrintBase &out,Kind kind,const List<Span> &spans)
  {
@@ -310,6 +328,34 @@ void Line::printKind(PrintBase &out,Kind kind) const
 
 /* class Fixed */
 
+StrLen Fixed::CFmt(CppText::TokenClass tc)
+ {
+  switch( tc )
+    {
+     case CppText::TokenId : return "cfmt_name"_c;
+
+     case CppText::TokenKeyword : return "cfmt_keyword"_c;
+
+     case CppText::TokenNumber : return "cfmt_number"_c;
+
+     case CppText::TokenOp : return "cfmt_op"_c;
+
+     case CppText::TokenString : return "cfmt_string"_c;
+
+     case CppText::TokenChar : return "cfmt_char"_c;
+
+     case CppText::TokenSpace : return "cfmt"_c;
+
+     case CppText::TokenShortComment : return "cfmt_short_comment"_c;
+
+     case CppText::TokenLongComment : return "cfmt_long_comment"_c;
+
+     case CppText::TokenOther : return "cfmt_other"_c;
+
+     default: return Null;
+    }
+ }
+
 void Fixed::provideLine(Builder &builder)
  {
   if( !cur )
@@ -327,13 +373,24 @@ void Fixed::breakLine(Builder &builder)
   cur=0;
 
   provideLine(builder);
+
+  tokenizer.eol();
  }
 
 void Fixed::extLine(Builder &builder,StrLen str)
  {
   provideLine(builder);
 
-  AddSpan(cur->spans,builder,format,str);
+  tokenizer.add(str);
+
+  for(;;)
+    {
+     auto token=tokenizer.next();
+
+     if( !token.tc ) break;
+
+     AddSpan(cur->spans,builder,format,CFmt(token.tc),token.str);
+    }
  }
 
 DomErrorId Fixed::frame(Builder &builder,StrLen str)
@@ -347,6 +404,7 @@ DomErrorId Fixed::frame(Builder &builder,StrLen str)
      if( split.eol )
        {
         breakLine(builder);
+
         str=split.rest;
        }
      else

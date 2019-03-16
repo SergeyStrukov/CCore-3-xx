@@ -57,9 +57,11 @@ struct PageParam;
 
 class PrintPtr;
 
-class PrintSpan;
+class TransformInput;
 
 class PrintText;
+
+class PrintSpan;
 
 /* struct PageParam */
 
@@ -96,156 +98,34 @@ class PrintPtr
     }
  };
 
-/* class PrintSpan */
+/* class TransformInput */
 
-class PrintSpan
+class TransformInput : NoCopy
  {
-   StrLen str;
+   PrintString out;
+
+   static constexpr ulen Len = 10 ;
+
+   char buf[Len];
+   ulen len = 0 ;
 
   private:
 
-   static constexpr bool SoftAmp = true ;
-
    static PrintFile Log;
 
-   static void PrintAmp(PrinterType &out,StrLen text)
-    {
-     if( text.equal("lt"_c) )
-       {
-        out.put('<');
+   void finish();
 
-        return;
-       }
-
-     if( text.equal("gt"_c) )
-       {
-        out.put('>');
-
-        return;
-       }
-
-     if( text.equal("amp"_c) )
-       {
-        out.put('&');
-
-        return;
-       }
-
-     if( text.equal("mdash"_c) )
-       {
-        Putobj(out,"—"_c);
-
-        return;
-       }
-
-     if( text.equal("minus"_c) )
-       {
-        Putobj(out,"−"_c);
-
-        return;
-       }
-
-     if( text.equal("pi"_c) )
-       {
-        Putobj(out,"π"_c);
-
-        return;
-       }
-
-     if constexpr ( SoftAmp )
-       {
-        out.put('&');
-
-        Putobj(out,text);
-
-        out.put(';');
-
-        Printf(Log,"&#;;\n",text);
-       }
-     else
-       {
-        Putobj(out,"$@$"_c);
-       }
-    }
-
-   static void PrintChar(PrinterType &out,StrLen &text)
-    {
-     char ch=*text;
-
-     ++text;
-
-     switch( ch )
-       {
-        case '&' :
-         {
-          StrLen next=text;
-
-          for(; +next && *next!=';' ;++next);
-
-          if( !next )
-            {
-             if constexpr( SoftAmp )
-               {
-                out.put('&');
-
-                Putobj(out,text);
-
-                Printf(Log,"&#;`\n",text);
-               }
-             else
-               {
-                Putobj(out,"$@$"_c);
-               }
-
-             text=next;
-            }
-          else
-            {
-             PrintAmp(out,text.prefix(next));
-
-             ++next;
-
-             text=next;
-            }
-         }
-        break;
-
-        case '"' :
-        case '\\' :
-         {
-          out.put('\\');
-          out.put(ch);
-         }
-        break;
-
-        default:
-         {
-          if( CharIsSpecial(ch) )
-            {
-             Putobj(out,"$@$"_c);
-            }
-          else
-            {
-             out.put(ch);
-            }
-         }
-       }
-    }
+   void amp();
 
   public:
 
-   explicit PrintSpan(StrLen str_) : str(str_) {}
+   TransformInput() {}
 
-   explicit PrintSpan(const String &str_) : str(Range(str_)) {}
+   ~TransformInput() {}
 
-   void print(PrinterType &out) const
-    {
-     out.put('\"');
+   void put(char ch);
 
-     for(StrLen text=str; +text ;) PrintChar(out,text);
-
-     out.put('\"');
-    }
+   String close();
  };
 
 /* class PrintText */
@@ -291,6 +171,28 @@ class PrintText
    void print(PrinterType &out) const
     {
      for(char ch : str ) PrintChar(out,ch);
+    }
+ };
+
+/* class PrintSpan */
+
+class PrintSpan
+ {
+   StrLen str;
+
+  public:
+
+   explicit PrintSpan(StrLen str_) : str(str_) {}
+
+   explicit PrintSpan(const String &str_) : str(Range(str_)) {}
+
+   void print(PrinterType &out) const
+    {
+     out.put('\"');
+
+     Putobj(out,PrintText(str));
+
+     out.put('\"');
     }
  };
 

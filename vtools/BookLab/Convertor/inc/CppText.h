@@ -109,7 +109,6 @@ enum TokenClass
   TokenChar,
 
   TokenSpace,
-  TokenEOL,
   TokenShortComment,
   TokenLongComment,
   TokenOther
@@ -187,15 +186,11 @@ class Tokenizer
 
    Token nextOther();
 
-   // ---
-
    Token nextShortComment();
 
    Token nextLongComment();
 
-   Token nextEOL();
-
-   // ---
+  private:
 
    Token startShortComment();
 

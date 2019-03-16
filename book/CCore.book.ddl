@@ -44,7 +44,7 @@ VColor vc_Alert = Red ;
 
 VColor vc_Hint = Blue ;
 
-VColor vc_Att = Blue ;
+VColor vc_Att = Purple ;
 
 VColor vc_Files = Aqua ;
 
@@ -143,6 +143,27 @@ Format fmt_cpp_Att = fmt_cpp { .fore = vc_Att } ;
 Format fmt_cpp_a = fmt_cpp { .fore = vc_a , .effect = Format#Underline } ; 
 
 Format fmt_cpp_Alert = fmt_cpp { .fore = vc_Alert } ; 
+
+
+Format fmt_cpp_cfmt_name = { & font_cpp , NoColor , NoColor } ;
+
+Format fmt_cpp_cfmt_keyword = { & font_cpp , NoColor , MediumBlue } ;
+
+Format fmt_cpp_cfmt_number = { & font_cpp , NoColor , Maroon } ;
+
+Format fmt_cpp_cfmt_op = { & font_cpp_b , NoColor , MediumBlue } ;
+
+Format fmt_cpp_cfmt_string = { & font_cpp , SkyBlue , Maroon } ;
+
+Format fmt_cpp_cfmt_char = { & font_cpp , Aqua , Maroon } ;
+
+Format fmt_cpp_cfmt = { & font_cpp , NoColor , NoColor } ;
+
+Format fmt_cpp_cfmt_short_comment = { & font_cpp , Wheat , DarkGreen } ;
+
+Format fmt_cpp_cfmt_long_comment = { & font_cpp , Wheat , DarkGreen } ;
+
+Format fmt_cpp_cfmt_other = { & font_cpp , NoColor , Red } ;
 
  // text_Files
 
