@@ -31,6 +31,11 @@ void ColorEditWindow::list_selected(ulen index)
   mix_win.changed.assert(item.vc);
  }
 
+void ColorEditWindow::list_dclicked()
+ {
+  list_win.ping();
+ }
+
 ColorEditWindow::ColorEditWindow(SubWindowHost &host,const Config &cfg_)
  : ComboWindow(host),
 
@@ -40,6 +45,7 @@ ColorEditWindow::ColorEditWindow(SubWindowHost &host,const Config &cfg_)
    list_win(wlist,cfg.list_cfg,ColorSet()),
 
    connector_selected(this,&ColorEditWindow::list_selected,list_win.selected),
+   connector_list_dclicked(this,&ColorEditWindow::list_dclicked,list_win.dclicked),
 
    changed(mix_win.changed)
  {

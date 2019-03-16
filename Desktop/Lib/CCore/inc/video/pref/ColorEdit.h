@@ -66,6 +66,10 @@ class ColorEditWindow : public ComboWindow
 
    SignalConnector<ColorEditWindow,ulen> connector_selected;
 
+   void list_dclicked();
+
+   SignalConnector<ColorEditWindow> connector_list_dclicked;
+
   public:
 
    ColorEditWindow(SubWindowHost &host,const Config &cfg);
