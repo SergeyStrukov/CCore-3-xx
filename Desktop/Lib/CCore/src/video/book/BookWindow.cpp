@@ -935,7 +935,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,line1,knob_prev,knob_up,knob_next,
+     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,
                   line2,spinor,line3,btn_replace,knob_reload,line4,back_btn,fore_btn,book);
 
      book.setFocus();
@@ -1216,14 +1216,15 @@ Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
-                  LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
+  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
+
+  LayToRight lay2{LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
                   LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
-  LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay3{ExtLayNoSpace(lay1),ExtLayNoSpace(lay2),Lay(book)};
 
-  LaySame lay(lay2,ExtLay{LayTop(progress)});
+  LaySame lay(lay3,ExtLay{LayTop(progress)});
 
   return lay.getMinSize(space);
  }
@@ -1333,14 +1334,15 @@ void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page),Lay(line1),
-                  LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
+  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
+
+  LayToRight lay2{LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
                   LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
                   LayCenterY(back_btn),LayAlignLeft(LayCenterY(fore_btn))};
 
-  LayToBottom lay2{ExtLayNoSpace(lay1),Lay(book)};
+  LayToBottom lay3{ExtLayNoSpace(lay1),ExtLayNoSpace(lay2),Lay(book)};
 
-  LaySame lay(lay2,ExtLay{LayTop(progress)});
+  LaySame lay(lay3,ExtLay{LayTop(progress)});
 
   lay.setPlace(getPane(),space);
  }
