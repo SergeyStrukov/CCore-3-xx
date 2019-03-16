@@ -186,7 +186,8 @@ class Format : NoCopy
 
    DomErrorId clearFmt(bool &flag);
 
-   void setLink(Builder &builder,StrLen str);
+   template <class Func>
+   void setLink(Builder &builder,StrLen str,Func func);
 
   public:
 
@@ -218,7 +219,8 @@ class Format : NoCopy
 
    DomErrorId setA();
 
-   DomErrorId setA(Builder &builder,const String &str);
+   template <class Func>
+   DomErrorId setA(Builder &builder,const String &str,Func func);
 
    DomErrorId endA();
 
@@ -878,6 +880,8 @@ class DomConvert : NoCopy
    String id;
    bool has_id = false ;
 
+   Collector<String> page_list;
+
   public:
 
    using EId = Dom::DomErrorId ;
@@ -925,6 +929,17 @@ class DomConvert : NoCopy
    DomConvert();
 
    ~DomConvert();
+
+   // pages
+
+   DynArray<String> getPageList()
+    {
+     DynArray<String> ret;
+
+     page_list.extractTo(ret);
+
+     return ret;
+    }
 
    // title
 

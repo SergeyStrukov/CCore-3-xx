@@ -22,6 +22,8 @@
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Path.h>
 #include <CCore/inc/Array.h>
+#include <CCore/inc/Sort.h>
+#include <CCore/inc/algon/BinarySearch.h>
 
 namespace App {
 
@@ -96,6 +98,91 @@ class FileList : NoCopy
    auto getRange() const { return range; }
  };
 
+/* struct Prop */
+
+struct Prop
+ {
+  String title;
+ };
+
+/* class PageList */
+
+class PageList : NoCopy
+ {
+   DynArray<String> list;
+
+   struct Rec
+    {
+     StrLen page;
+     ulen ind;
+
+     void set(ulen ind_,const String &page_)
+      {
+       ind=ind_;
+       page=Range(page_);
+      }
+
+     bool operator < (const Rec &obj) const { return StrLess(page,obj.page); }
+    };
+
+   DynArray<Rec> find_list;
+
+  private:
+
+   void prepare()
+    {
+     auto r=Range(list);
+
+     find_list.erase();
+     find_list.extend_default(r.len);
+
+     for(ulen i : IndLim(r.len) ) find_list[i].set(i,r[i]);
+
+     Sort(Range(find_list));
+    }
+
+   bool find(ulen &ind,StrLen page) const
+    {
+     auto r=Range(find_list);
+
+     Algon::BinarySearch_if(r, [=] (const Rec &obj) { return !StrLess(obj.page,page); } );
+
+     if( +r && r->page.equal(page) )
+       {
+        ind=r->ind;
+
+        return true;
+       }
+
+     return false;
+    }
+
+  public:
+
+   PageList() {}
+
+   ~PageList() {}
+
+   void setList(DynArray<String> &&list_)
+    {
+     list=std::move(list_);
+
+     prepare();
+    }
+
+   void find(String &prev,String &next,const String &page)
+    {
+     ulen ind;
+
+     if( find(ind,Range(page)) )
+       {
+        if( ind>0 ) prev=list[ind-1];
+
+        if( ind+1<list.getLen() ) next=list[ind+1];
+       }
+    }
+ };
+
 /* Main() */
 
 StrLen CutTitle(const String &title)
@@ -115,9 +202,11 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
   auto list=file_list.getRange();
 
-  DynArray<String> title(list.len);
+  DynArray<Prop> props(list.len);
 
-  String up=list[0].page_name+"#page"_c;
+  String up=list[0].page_name;
+
+  PageList page_list;
 
   // 1
 
@@ -131,11 +220,9 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
      param.name=rec.page_name;
 
-     param.up=up;
+     if( i>0 ) param.up=up;
 
-     if( i>1 ) param.prev=list[i-1].page_name+"#page"_c;
-
-     if( i+1<list.len ) param.next=list[i+1].page_name+"#page"_c;
+     page_list.find(param.prev,param.next,param.name);
 
      DomConvert convert;
 
@@ -146,9 +233,14 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
         return 1;
        }
 
+     if( i==0 )
+       {
+        page_list.setList(convert.getPageList());
+       }
+
      convert.print(out,param);
 
-     title[i]=convert.getTitle();
+     props[i].title=convert.getTitle();
     }
 
   // 2
@@ -158,7 +250,7 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
      auto &rec=list[i];
      ulen ind=i+1;
 
-     Printf(out,"Text item#; = { { { #.q; , null , &link#; } } , null , & align_item } ;\n\n",ind,CutTitle(title[i]),ind);
+     Printf(out,"Text item#; = { { { #.q; , null , &link#; } } , null , & align_item } ;\n\n",ind,CutTitle(props[i].title),ind);
 
      Printf(out,"Link link#; = { &#;##page } ;\n\n",ind,rec.page_name);
     }
@@ -180,7 +272,7 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
 
   Putobj(out,"} } ;\n\n"_c);
 
-  Printf(out,"Page *start = & #; ;\n\n",up);
+  Printf(out,"Page *start = #; ;\n\n",PrintPtr(up));
 
   return 0;
  }

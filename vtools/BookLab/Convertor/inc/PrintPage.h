@@ -91,7 +91,7 @@ class PrintPtr
        }
      else
        {
-        Printf(out,"& #;",str);
+        Printf(out,"& #;##page",str);
        }
     }
  };

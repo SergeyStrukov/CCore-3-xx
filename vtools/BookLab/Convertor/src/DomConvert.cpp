@@ -136,7 +136,8 @@ DomErrorId Format::clearFmt(bool &flag)
   return {};
  }
 
-void Format::setLink(Builder &builder,StrLen str)
+template <class Func>
+void Format::setLink(Builder &builder,StrLen str,Func func)
  {
   if( !str ) return;
 
@@ -175,6 +176,8 @@ void Format::setLink(Builder &builder,StrLen str)
 
         if( SkipSuffix(page,".html"_c) )
           {
+           func(page);
+
            link=builder.cat("..#"_c,page,"#link"_c);
 
            has_link=true;
@@ -195,9 +198,10 @@ DomErrorId Format::setA()
   return setFmt(fmt_a);
  }
 
-DomErrorId Format::setA(Builder &builder,const String &str)
+template <class Func>
+DomErrorId Format::setA(Builder &builder,const String &str,Func func)
  {
-  setLink(builder,Range(str));
+  setLink(builder,Range(str),func);
 
   return setFmt(fmt_a);
  }
@@ -992,7 +996,11 @@ auto DomConvert::tagSPANend() -> EId
 
 auto DomConvert::tagA(String url) -> EId
  {
-  return setFormat( [&] (Dom::Format &format) { return format.setA(builder,url); } );
+  return setFormat( [&] (Dom::Format &format)
+                        {
+                         return format.setA(builder,url, [&] (StrLen page) { page_list.append_fill(page); } );
+
+                        } );
  }
 
 auto DomConvert::tagA(String,String) -> EId
