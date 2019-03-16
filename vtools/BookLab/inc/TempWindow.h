@@ -380,6 +380,10 @@ class TempFrame : public DragFrame
 
    FramePlace place;
 
+  private:
+
+   void setPlace();
+
   public:
 
    TempFrame(Desktop *desktop,const Config &cfg,BookLab::Book &book,Signal<> &update);
@@ -390,7 +394,7 @@ class TempFrame : public DragFrame
 
    void prepare(const AppState &app_state) { place=app_state.temp_place; }
 
-   void save(AppState &app_state) { if( isAlive() ) place.set(host->getPlace()); app_state.temp_place=place; }
+   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.temp_place=place; }
 
    bool copy(BookLab::Ref cursor) { return client.copy(cursor); }
 

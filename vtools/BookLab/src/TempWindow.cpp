@@ -591,6 +591,11 @@ void TempWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 /* class TempFrame */
 
+void TempFrame::setPlace()
+ {
+  if( notMaximized() ) place.set(host->getPlace());
+ }
+
 TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
@@ -614,7 +619,7 @@ void TempFrame::dying()
  {
   DragFrame::dying();
 
-  place.set(host->getPlace());
+  setPlace();
  }
 
  // create

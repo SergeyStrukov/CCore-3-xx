@@ -735,6 +735,11 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      if( shape.is_main ) host->display(CmdDisplay_Minimized);
     }
 
+   bool notMaximized() const requires ( Shape::EnableMaximize )
+    {
+     return shape.max_button;
+    }
+
    void maximize() requires ( Shape::EnableMaximize )
     {
      if( shape.max_button )

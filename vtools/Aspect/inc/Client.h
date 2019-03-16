@@ -277,6 +277,8 @@ class ClientWindow : public ComboWindow , public AliveControl
 
    // methods
 
+   Point getMinSize() const { return {100,100}; }
+
    void prepare(const AppState &app_state);
 
    // base

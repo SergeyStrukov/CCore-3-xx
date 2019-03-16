@@ -243,7 +243,14 @@ class ApplicationOf : public ApplicationBase
        {
         client.prepare(persist);
 
-        main_frame.createMain(cmd_display,persist.place,title);
+        Point size=main_frame.getMinSize(true,Range(title),client.getMinSize());
+
+        Pane pane=persist.place;
+
+        if( pane.getSize()>=size )
+          main_frame.createMain(cmd_display,pane,title);
+        else
+          main_frame.createMain(cmd_display,title);
        }
      else
        {

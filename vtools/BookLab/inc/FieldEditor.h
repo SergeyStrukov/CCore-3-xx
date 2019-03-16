@@ -1635,6 +1635,10 @@ class FieldFrame : public DragFrame
 
    FramePlace place;
 
+  private:
+
+   void setPlace();
+
   public:
 
    FieldFrame(Desktop *desktop,const Config &cfg,BookLab::Book &book,Signal<> &update);
@@ -1645,7 +1649,7 @@ class FieldFrame : public DragFrame
 
    void prepare(const AppState &app_state) { place=app_state.edit_place; }
 
-   void save(AppState &app_state) { if( isAlive() ) place.set(host->getPlace()); app_state.edit_place=place; }
+   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.edit_place=place; }
 
    void setField(BookLab::PadType pad) { client.setField(pad); }
 

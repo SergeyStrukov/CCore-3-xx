@@ -2052,6 +2052,11 @@ void FieldWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 /* class FieldFrame */
 
+void FieldFrame::setPlace()
+ {
+  if( notMaximized() ) place.set(host->getPlace());
+ }
+
 FieldFrame::FieldFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
  : DragFrame(desktop,cfg_.frame_cfg,update),
    cfg(cfg_),
@@ -2074,7 +2079,7 @@ void FieldFrame::dying()
  {
   DragFrame::dying();
 
-  place.set(host->getPlace());
+  setPlace();
  }
 
  // create
