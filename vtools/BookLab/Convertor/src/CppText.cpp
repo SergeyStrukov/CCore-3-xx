@@ -312,7 +312,7 @@ StrLen Tokenizer::ScanOther(StrLen text)
  {
   ++text;
 
-  const CharFlags flags=CharLetter|CharDigit|CharPunct|CharQuote|CharSpace|CharEOL;
+  const CharFlags flags=CharLetter|CharDigit|CharPunct|CharQuote|CharSpace;
 
   while( +text && !FlagChar(*text).test(flags) ) ++text;
 
@@ -1426,53 +1426,29 @@ bool Tokenizer::TestKeyword(StrLen str)
     }
  }
 
- // ---
-
-StrLen Tokenizer::ScanShortComment(StrLen text)
+auto Tokenizer::ScanLongComment(StrLen text) -> OptText
  {
   text+=2;
 
-  while( +text && !FlagChar(*text).test(CharEOL) ) ++text;
-
-  return text;
+  return ScanLongCommentEnd(text);
  }
 
-StrLen Tokenizer::ScanLongComment(StrLen text)
+auto Tokenizer::ScanLongCommentEnd(StrLen text) -> OptText
  {
-  text+=2;
-
   while( text.len>=2 )
     if( text[0]=='*' && text[1]=='/' )
       {
        text+=2;
 
-       return text;
+       return {text,true};
       }
     else
       {
        ++text;
       }
 
-  return text;
+  return {Null,false};
  }
-
-StrLen Tokenizer::ScanEOL(StrLen text)
- {
-  if( *text=='\r' )
-    {
-     ++text;
-
-     if( +text && *text=='\n' ) ++text;
-    }
-  else
-    {
-     ++text;
-    }
-
-  return text;
- }
-
- // ---
 
 StrLen Tokenizer::cut(StrLen suffix)
  {
@@ -1532,32 +1508,59 @@ Token Tokenizer::nextOther()
   return {str,TokenOther};
  }
 
- // ---
-
 Token Tokenizer::nextShortComment() // //...
  {
-  StrLen str=cut(ScanShortComment(text));
+  state=InShortComment;
 
-  return {str,TokenShortComment};
+  return {Replace_null(text),TokenShortComment};
  }
 
 Token Tokenizer::nextLongComment() // /*...
  {
-  StrLen str=cut(ScanLongComment(text));
+  auto result=ScanLongComment(text);
 
-  return {str,TokenLongComment};
+  if( result.ok )
+    {
+     StrLen str=cut(result.text);
+
+     return {str,TokenLongComment};
+    }
+  else
+    {
+     state=InLongComment;
+
+     return {Replace_null(text),TokenLongComment};
+    }
  }
 
-Token Tokenizer::nextEOL() // N...
+Token Tokenizer::startShortComment()
  {
-  StrLen str=cut(ScanEOL(text));
+  if( !text ) return {};
 
-  return {str,TokenEOL};
+  return {Replace_null(text),TokenShortComment};
  }
 
- // ---
+Token Tokenizer::startLongComment()
+ {
+  if( !text ) return {};
 
-Token Tokenizer::next()
+  auto result=ScanLongCommentEnd(text);
+
+  if( result.ok )
+    {
+     state=InText;
+
+     StrLen str=cut(result.text);
+
+     return {str,TokenLongComment};
+    }
+  else
+    {
+     return {Replace_null(text),TokenLongComment};
+    }
+ }
+
+Token Tokenizer::startText()
  {
   if( !text ) return {};
 
@@ -1609,13 +1612,26 @@ Token Tokenizer::next()
     {
      return nextSpace();
     }
-  else if( fc.test(CharEOL) )
-    {
-     return nextEOL();
-    }
   else
     {
      return nextOther();
+    }
+ }
+
+void Tokenizer::eol()
+ {
+  if( state==InShortComment ) state=InText;
+ }
+
+Token Tokenizer::next()
+ {
+  switch( state )
+    {
+     case InShortComment : return startShortComment();
+
+     case InLongComment : return startLongComment();
+
+     default: return startText();
     }
  }
 

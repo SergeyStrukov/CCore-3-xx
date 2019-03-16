@@ -36,8 +36,6 @@ struct FlagChar;
 
 struct Token;
 
-//enum TokenizerState;
-
 class Tokenizer;
 
 /* enum CharFlags */
@@ -125,22 +123,19 @@ struct Token
   TokenClass tc = TokenNull ;
  };
 
-/* enum TokenizerState */
-
-enum TokenizerState
- {
-  Tokenizer_InText = 0,
-
-  Tokenizer_InShortComment,
-  Tokenizer_InLongComment
- };
-
 /* class Tokenizer */
 
 class Tokenizer
  {
+   enum State
+    {
+     InText,
+     InShortComment,
+     InLongComment
+    };
+
    StrLen text;
-   TokenizerState state;
+   State state = InText ;
 
   private:
 
@@ -164,13 +159,15 @@ class Tokenizer
 
    static bool TestKeyword(StrLen str);
 
-   // ---
+   struct OptText
+    {
+     StrLen text;
+     bool ok;
+    };
 
-   static StrLen ScanShortComment(StrLen text);
+   static OptText ScanLongComment(StrLen text);
 
-   static StrLen ScanLongComment(StrLen text);
-
-   static StrLen ScanEOL(StrLen text);
+   static OptText ScanLongCommentEnd(StrLen text);
 
   private:
 
@@ -198,11 +195,21 @@ class Tokenizer
 
    Token nextEOL();
 
+   // ---
+
+   Token startShortComment();
+
+   Token startLongComment();
+
+   Token startText();
+
   public:
 
-   Tokenizer(StrLen text_,TokenizerState state_) : text(text_),state(state_) {}
+   Tokenizer() {}
 
-   TokenizerState getState() const { return state; }
+   void add(StrLen text_) { text=text_; }
+
+   void eol();
 
    Token next();
  };
