@@ -60,7 +60,13 @@ class ColorEditWindow : public ComboWindow
    MixColorWindow mix_win;
    ColorListWindow list_win;
 
+   NamedColor named_color;
+
   private:
+
+   void mix_changed(VColor vc);
+
+   SignalConnector<ColorEditWindow,VColor> connector_mix_changed;
 
    void list_selected(ulen index);
 
@@ -80,9 +86,16 @@ class ColorEditWindow : public ComboWindow
 
    Point getMinSize(Point cap=Point::Max()) const;
 
-   VColor getColor() const { return mix_win.getColor(); }
+   VColor getColor() const { return named_color.vc; }
 
-   void setColor(VColor value) { mix_win.setColor(value); }
+   NamedColor getNamedColor() const { return named_color; }
+
+   void setColor(VColor value)
+    {
+     named_color={Empty,value};
+
+     mix_win.setColor(value);
+    }
 
    // drawing
 
@@ -90,7 +103,7 @@ class ColorEditWindow : public ComboWindow
 
    // signals
 
-   Signal<VColor> &changed; // value
+   Signal<NamedColor> changed; // value
  };
 
 } // namespace Video

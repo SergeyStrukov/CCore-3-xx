@@ -845,9 +845,9 @@ void ConfigEditorWindow::point_edit_changed(Point value)
   if( point_pad.update(value) ) changed();
  }
 
-void ConfigEditorWindow::color_edit_changed(VColor value)
+void ConfigEditorWindow::color_edit_changed(NamedColor value)
  {
-  if( color_pad.update(value) ) changed();
+  if( color_pad.update(value.vc) ) changed();
  }
 
 void ConfigEditorWindow::bool_edit_changed(bool value)

@@ -500,9 +500,9 @@ class ConfigEditorWindow : public ComboWindow
 
    SignalConnector<ConfigEditorWindow,Point> connector_point_edit_changed;
 
-   void color_edit_changed(VColor value);
+   void color_edit_changed(NamedColor value);
 
-   SignalConnector<ConfigEditorWindow,VColor> connector_color_edit_changed;
+   SignalConnector<ConfigEditorWindow,NamedColor> connector_color_edit_changed;
 
    void bool_edit_changed(bool value);
 
