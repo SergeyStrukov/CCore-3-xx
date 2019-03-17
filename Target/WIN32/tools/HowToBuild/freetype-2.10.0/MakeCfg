@@ -1,0 +1,13 @@
+# MakeCfg
+
+VER = 2.10.0
+
+CONFIGURE = ../../freetype-$(VER)/configure
+
+OPT = --prefix=/usr \
+      --without-harfbuzz \
+
+
+all:
+	$(CONFIGURE) $(OPT)
+

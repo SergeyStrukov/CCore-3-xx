@@ -111,6 +111,7 @@ const char * Error::GetDesc(FT_Error error)
 /* class Lib */
 
 Lib::Lib()
+ : lib{}
  {
   if( FT_Error error = FT_Init_FreeType(&lib) )
     {
@@ -130,14 +131,21 @@ void Lib::setLCDFilter(FT_LcdFilter filter)
  {
   if( FT_Error error = FT_Library_SetLcdFilter(lib,filter) )
     {
+     Used(error);
+
+#if 0
+
      Printf(Exception,"CCore::Video::FreeType::Lib::setLCDFilter(...) : #;",Error(error));
+
+#endif
     }
  }
 
 /* class Face */
 
 Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,FT_Long index)
- : mutex(mutex_)
+ : mutex(mutex_),
+   face{}
  {
   MakeString<MaxPathLen+1> out;
 
@@ -161,7 +169,8 @@ Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,FT_Long index)
  }
 
 Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,bool &is_font,FT_Long index) noexcept
- : mutex(mutex_)
+ : mutex(mutex_),
+   face{}
  {
   is_font=false;
 
@@ -195,7 +204,8 @@ Face::Face(FT_Library lib,Mutex &mutex_,StrLen file_name,bool &is_font,FT_Long i
  }
 
 Face::Face(FT_Library lib,Mutex &mutex_,StrLen dir,StrLen file_name,FT_Long index)
- : mutex(mutex_)
+ : mutex(mutex_),
+   face{}
  {
   MakeString<MaxPathLen+1> out;
 
@@ -258,7 +268,7 @@ void Face::setFixedSize(FT_Int index)
 
 FT_Vector Face::getKerning(FT_UInt prev_index,FT_UInt next_index,FT_UInt mode) const
  {
-  FT_Vector ret;
+  FT_Vector ret{};
 
   if( FT_Error error = FT_Get_Kerning(face,prev_index,next_index,mode,&ret) )
     {

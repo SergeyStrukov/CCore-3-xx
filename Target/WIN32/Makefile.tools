@@ -87,5 +87,5 @@ LDOPT_DESKTOP =
 
 endif
 
-LDOPT = -Wl,-s $(LDOPT_DESKTOP) $(LDOPT_EXTRA) $(CCORELIB) -lws2_32 -lgmp -lgdi32 -lfreetype 
+LDOPT = -Wl,-s $(LDOPT_DESKTOP) $(LDOPT_EXTRA) $(CCORELIB) -lws2_32 -lgmp -lgdi32 -lfreetype -lz
 
