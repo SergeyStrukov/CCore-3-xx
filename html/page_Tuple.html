@@ -31,7 +31,8 @@
 <p class="Files">Files <b>CCore/inc/Tuple.h</b> <b>CCore/src/Tuple.cpp</b></p>
 
 <p>
-Classes <b>Tuple</b> and <b>ForwardTuple</b> have a spartan design in <b>CCore</b>, because they were introduced to solve some particular problems.
+Classes <b>Tuple</b>, <b>ForwardTuple</b> and <b>ConstTuple</b> have a spartan design in <b>CCore</b>, 
+because they were introduced to solve some particular problems.
 </p>
 
 <pre>
@@ -161,6 +162,40 @@ struct Creator_fill
  };
  
 </pre>
+
+<p>
+<b>ConstTuple</b> is a simpler variant of the <b>Tuple</b>, designed to be used in <b>constexpr</b> calculations.
+</p>
+
+<pre>
+
+template &lt;class ... TT&gt;
+struct <span class="Att">ConstTuple</span>
+ {
+  ....
+
+  explicit constexpr ConstTuple(const TT &amp; ... tt);
+
+  template &lt;int I&gt;
+  constexpr decltype(auto) get() const;
+
+  template &lt;class Func&gt;
+  constexpr decltype(auto) call(Func func) const;
+ };
+
+</pre>
+
+<p>
+The method <b>get()</b> returns the particular tuple member with the given 1-based index.
+</p>
+
+<p>
+The method <b>call()</b> can be used to call the given functor with the tuple members as arguments and returns the result of this call.
+</p>
+
+<p>
+All methods are <b>constexpr</b>, i.e. they can be used in <b>constexpr</b> expressions.
+</p>
 
 </body>
 
