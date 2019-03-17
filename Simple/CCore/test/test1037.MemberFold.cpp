@@ -36,11 +36,26 @@ struct Test1
    }
  };
 
-void SetNull(int &a) { a=0; }
+void SetNull(int &a)
+ {
+  Printf(Con,"int\n");
 
-void SetNull(double &a) { a=0; }
+  a=0;
+ }
 
-void SetNull(int (&a)[10]) { a[0]=0; }
+void SetNull(double &a)
+ {
+  Printf(Con,"double\n");
+
+  a=0;
+ }
+
+void SetNull(int (&a)[10])
+ {
+  Printf(Con,"int [10]\n");
+
+  for(int &x : a ) x=0;
+ }
 
 struct SumSizeof
  {
@@ -68,6 +83,8 @@ bool Testit<1037>::Main()
   Test1 obj1{};
 
   members(&obj1, [] (auto & ... x) { ( ... , SetNull(x) ); } );
+
+  members.per(&obj1, [] (auto &x) { SetNull(x); } );
 
   ulen len1=members(&obj1, [] (auto & ... x) { return ( ... + sizeof x ); } );
 

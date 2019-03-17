@@ -30,6 +30,10 @@ template <class IList,class ... TT> struct ForwardTupleFactory;
 
 template <class ... TT> struct ForwardTuple;
 
+template <class IList,class ... TT> struct ConstTupleFactory;
+
+template <class ... TT> struct ConstTuple;
+
 /* struct TupleFactory<TT> */
 
 template <class ... TT,int ... IList>
@@ -146,6 +150,48 @@ struct ForwardTuple : ForwardTupleAlias<TT...>
  {
   using ForwardTupleAlias<TT...>::ForwardTupleAlias;
  };
+
+/* struct ConstTupleFactory<TT> */
+
+template <class ... TT,int ... IList>
+struct ConstTupleFactory<Meta::IndexListBox<IList...>,TT...>
+ {
+  template <int Ind,class T>
+  struct Field
+   {
+    T field;
+
+    explicit constexpr Field(const T &t) : field(t) {}
+   };
+
+  template <int I,class T>
+  static constexpr const Field<I,T> * Cast(const Field<I,T> *ptr) { return ptr; }
+
+  struct Tuple : Field<IList,TT>...
+   {
+    explicit constexpr Tuple(const TT & ... tt) : Field<IList,TT>(tt)... {}
+
+    template <int I>
+    constexpr decltype(auto) get() const { return Cast<I>(this)->field; }
+
+    template <class Func>
+    constexpr decltype(auto) call(Func func) const { return func( get<IList>()... ); }
+   };
+ };
+
+/* struct ConstTuple<TT> */
+
+template <class ... TT>
+using ConstTupleAlias = typename ConstTupleFactory< Meta::IndexList<1,TT...> ,TT...>::Tuple ;
+
+template <class ... TT>
+struct ConstTuple : ConstTupleAlias<TT...>
+ {
+  using ConstTupleAlias<TT...>::ConstTupleAlias;
+ };
+
+template <class ... TT>
+ConstTuple(const TT & ... tt) -> ConstTuple<TT...> ;
 
 } // namespace CCore
 

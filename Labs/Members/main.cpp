@@ -4,6 +4,8 @@
 
 using namespace CCore;
 
+/* struct ConstTupleFactory<TT> */
+
 template <class IList,class ... TT> struct ConstTupleFactory;
 
 template <class ... TT,int ... IList>
@@ -25,25 +27,44 @@ struct ConstTupleFactory<Meta::IndexListBox<IList...>,TT...>
     explicit constexpr Tuple(const TT & ... tt) : Field<IList,TT>(tt)... {}
 
     template <int I>
-    constexpr auto get() const { return Cast<I>(this)->field; }
+    constexpr decltype(auto) get() const { return Cast<I>(this)->field; }
 
     template <class Func>
-    constexpr auto call(Func func) const { return func( get<IList>()... ); }
+    constexpr decltype(auto) call(Func func) const { return func( get<IList>()... ); }
    };
  };
 
+/* struct ConstTuple<TT> */
+
 template <class ... TT>
+using ConstTupleAlias = typename ConstTupleFactory< Meta::IndexList<1,TT...> ,TT...>::Tuple ;
+
+template <class ... TT>
+struct ConstTuple : ConstTupleAlias<TT...>
+ {
+  using ConstTupleAlias<TT...>::ConstTupleAlias;
+ };
+
+template <class ... TT>
+ConstTuple(const TT & ... tt) -> ConstTuple<TT...> ;
+
+/* struct MemberList<MM> */
+
+template <class ... MM>
 struct MemberList
  {
-  using ListType = typename ConstTupleFactory< Meta::IndexList<1,TT...> ,TT...>::Tuple ;
+  ConstTuple<MM...> list;
 
-  ListType list;
-
-  constexpr MemberList(TT ... tt) : list(tt...) {}
+  constexpr MemberList(const MM & ... mm) : list(mm...) {}
 
   decltype(auto) operator () (auto *ptr,auto func) const
    {
     return list.call( [&] (auto ... mm) { return func( (ptr->*mm)... ); } );
+   }
+
+  void per(auto *ptr,auto func) const
+   {
+    operator () (ptr, [&] (auto & ... x) { ( ... , func(x) ); } );
    }
 
   template <class Func>
@@ -65,62 +86,58 @@ struct MemberList
    }
  };
 
+/* MembersOf<T>() */
+
+template <class T>
+constexpr auto MembersOf()
+ {
+  return T::template Fold<MemberList,T>();
+ }
+
+/* const Members<T> */
+
+template <class T>
+inline constexpr auto Members = MembersOf<T>() ;
+
+/* test */
+
+/* struct Test1 */
+
 struct Test1
  {
   int a;
   int b[10];
-  long c;
+  double c;
 
-  // way1
-
-  decltype(auto) members(auto func) const
+  template <template <class ...> class Ret,class T>
+  static constexpr auto Fold()
    {
-    return func(a,b,c);
-   }
-
-  decltype(auto) members(auto func)
-   {
-    return func(a,b,c);
-   }
-
-  // way2
-
-  friend decltype(auto) Members(OneOfTypes<Test1,const Test1> *ptr,auto func)
-   {
-    return func(ptr->a,ptr->b,ptr->c);
-   }
-
-  // way3
-
-  static constexpr auto Members()
-   {
-    using This = Test1 ;
-
-    return MemberList( &This::a , &This::b , &This::c );
+    return Ret(&T::a,&T::b,&T::c);
    }
  };
 
-struct Test2
+void SetNull(int &a)
  {
-  double a;
-  Test1 b;
+  Printf(Con,"int\n");
 
-  friend decltype(auto) Members(OneOfTypes<Test2,const Test2> *ptr,auto func)
-   {
-    return func(ptr->a,ptr->b);
-   }
- };
+  a=0;
+ }
+
+void SetNull(double &a)
+ {
+  Printf(Con,"double\n");
+
+  a=0;
+ }
+
+void SetNull(int (&a)[10])
+ {
+  Printf(Con,"int [10]\n");
+
+  for(int &x : a ) x=0;
+ }
 
 struct SumSizeof
- {
-  template <class ... TT>
-  ulen operator () (TT & ... tt)
-   {
-    return ( ... + sizeof tt );
-   }
- };
-
-struct SumSizeof1
  {
   template <class ... TT>
   constexpr ulen operator () ()
@@ -131,20 +148,23 @@ struct SumSizeof1
 
 /* main() */
 
-inline constexpr ulen Len = Test1::Members()( SumSizeof1() );
-
 int main()
  {
-  Test1 test1;
-  Test2 test2;
+  constexpr auto members=Members<Test1>;
 
-  Printf(Con,"sum sizeof = #;\n",test1.members( SumSizeof() ));
+  Test1 obj1{};
 
-  Printf(Con,"sum sizeof = #;\n",Test1::Members()( &test1 , SumSizeof() ));
+  members(&obj1, [] (auto & ... x) { ( ... , SetNull(x) ); } );
 
-  Printf(Con,"sum sizeof = #;\n",Len);
+  members.per(&obj1, [] (auto &x) { SetNull(x); } );
 
-  Printf(Con,"sum sizeof = #;\n",Members( &test2 , SumSizeof() ));
+  ulen len1=members(&obj1, [] (auto & ... x) { return ( ... + sizeof x ); } );
+
+  Printf(Con,"sum sizeof = #;\n",len1);
+
+  constexpr ulen len2=Members<Test1>(SumSizeof());
+
+  Printf(Con,"sum sizeof = #;\n",len2);
 
   return 0;
  }
