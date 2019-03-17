@@ -1,23 +1,8 @@
-/* test2999.Blank.cpp */
-//----------------------------------------------------------------------------------------
-//
-//  Project: CCore 2.00
-//
-//  Tag: Fundamental Mini
-//
-//  License: Boost Software License - Version 1.0 - August 17th, 2003
-//
-//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
-//
-//  Copyright (c) 2015 Sergey Strukov. All rights reserved.
-//
-//----------------------------------------------------------------------------------------
+/* main.cpp */
 
-#include <CCore/test/test.h>
+#include <CCore/inc/Print.h>
 
-namespace App {
-
-namespace Private_2999 {
+using namespace CCore;
 
 template <class IList,class ... TT> struct ConstTupleFactory;
 
@@ -144,19 +129,11 @@ struct SumSizeof1
    }
  };
 
-} // namespace Private_2999
-
-using namespace Private_2999;
-
-/* Testit<2999> */
-
-template<>
-const char *const Testit<2999>::Name="Test2999 Blank";
+/* main() */
 
 inline constexpr ulen Len = Test1::Members()( SumSizeof1() );
 
-template<>
-bool Testit<2999>::Main()
+int main()
  {
   Test1 test1;
   Test2 test2;
@@ -169,8 +146,5 @@ bool Testit<2999>::Main()
 
   Printf(Con,"sum sizeof = #;\n",Members( &test2 , SumSizeof() ));
 
-  return true;
+  return 0;
  }
-
-} // namespace App
-
