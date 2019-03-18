@@ -1,4 +1,4 @@
-/* CCore.book.ddl */
+/* main.book.ddl */
 
 include <pretext:/Book1.ddl>
 
