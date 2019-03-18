@@ -45,7 +45,7 @@ The following ingredients are required:</p>
 <p>
 Install <b>cygwin</b> first. Include <b>make</b>, <b>bash</b> and <b>g++</b> in your installation.
 If you are not familiar with this platform, spend some time to learn it.
-To work with the current version of <b>CCore</b> <b>gcc-7.1.0</b> is required.
+To work with the current version of <b>CCore</b> <b>gcc-8.1.0</b> is required.
 </p>
 <p>
 
@@ -74,6 +74,75 @@ Go to the <b>CCore root</b> directory. The following commands are used to prepar
 <li><span class="Cmd">make list</span> &mdash; to build source file lists; you will need this command if you alter source file set,
 <span class="Alert">before using it you have, however, to build <b>CCore</b> tools</span>.</li>
 </ul>
+
+<h2>Host platform tunning</h2>
+
+<p>
+In order to use <b>CCore</b> the latest C++ compiler is required. 
+On UNIX-like platforms (including <b>cygwin</b>) you can build <b>gcc</b> from sources. 
+You may find useful makefiles in the directory <b>CCORE_ROOT/Target/WIN32/tools/HowToBuild</b> to help with building <b>gcc</b>.
+It can be done in 3 commands:
+</p>
+
+<pre>
+
+make -f MakeCfg
+
+make
+
+make install
+
+</pre>
+
+<p>
+Issue these commands from the build directory. 
+Make sure the path in the <b>MakeCfg</b> <b>CONFIGURE</b> is correct.
+Personally I have the directory <b>Source</b> with various source file subdirectories (like <b>gcc-8.3.0</b>).
+And the <b>Source/Build</b> directory with the same named subdirectories to build various tools.
+</p>
+
+<pre>
+
+Source
+
+Source/gcc-8.3.0  -- contains gcc sources
+
+Source/Build
+
+Source/Build/gcc-8.3.0  -- build directory for gcc
+
+Source/Build/gcc-8.3.0/MakeCfg  -- copy from <b>CCORE_ROOT/Target/WIN32/tools/HowToBuild/gcc-8.3.0</b>
+
+</pre>
+
+<h3>FreeType</h3>
+
+<p>
+This version of <b>CCore</b> uses <a href="https://www.freetype.org">FreeType</a> for GUI development.
+There are several issues in proper installation and configuration of this library.
+<b>CCore</b> includes <b>FreeType</b> headers in the file <b>CCORE_ROOT/Desktop/Font/CCore/inc/video/FreeType.h</b>
+</p>
+
+<pre>
+
+#include &lt;ft2build.h&gt;
+#include FT_FREETYPE_H
+#include FT_OUTLINE_H
+#include FT_LCD_FILTER_H
+#include FT_TRUETYPE_TABLES_H
+
+</pre>
+
+<p>
+The problem is <b>FreeType</b> installer puts headers in <b>freetype2</b> subdirectory and it breaks include macros.
+So I just move headers from <b>/usr/include/freetype2</b> to <b>/usr/include</b> to fix it.
+You may also add <b>-Ipath</b> option in the Target <b>Makefile.tools</b> file to deal with it.
+</p>
+
+<p>
+<b>FreeType</b> may use system <b>zlib</b>. In this case you have to add <b>-lz</b> linker option
+in the Target <b>Makefile.tools</b> file.
+</p>
 
 <h2>Post-install notes</h2>
 
@@ -112,7 +181,7 @@ Correct variables <b>CYGWIN</b> and <b>CYGWIN64</b> to point to <b>cygwin</b> an
 <p>
 Place <b>CCore</b> at a desired directory. You need <b>/bin</b> subdirectory 
 in your home directory for tools, it must be included in the <b>cygwin64</b> search path. 
-You have to edit the file <b>Makefile.host</b>:
+You have to edit the file <b>Makefile.host</b> in the <b>CCORE_ROOT</b> directory:
 change it from 
 </p>
 
@@ -145,7 +214,7 @@ To deploy <b>CCore</b> on Linux, you need to install some additional developers 
 </p>
 
 <p>
-First, you need <b>gcc-7.1.0</b> or later. 
+First, you need <b>gcc-8.1.0</b> or later. 
 </p>
 
 <p>
