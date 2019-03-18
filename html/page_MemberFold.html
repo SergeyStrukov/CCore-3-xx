@@ -1,0 +1,140 @@
+<!--
+/* page_MemberFold.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> MemberFold</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>MemberFold</h2>
+
+<p class="Files">Files <b>CCore/inc/MemberFold.h</b> <b>CCore/src/MemberFold.cpp</b></p>
+
+<p>
+<b>MemberFold</b> is designed to capture field pointers of some class. 
+You can use it then to call functors with arguments &mdash; fields of some object of this class.
+</p>
+
+<pre>
+
+template &lt;class ... MM&gt;
+struct <span class="Att">MemberList</span>
+ {
+  ConstTuple&lt;MM...&gt; list;
+
+  constexpr MemberList(const MM &amp; ... mm);
+
+  decltype(auto) operator () (auto *ptr,auto func) const;
+
+  void per(auto *ptr,auto func) const;
+
+  constexpr decltype(auto) operator () (auto func) const;
+ };
+
+</pre>
+
+<p>
+Consider an example. Lets <b>Type</b> be some class with public members <b>a</b>, <b>b</b> and <b>c</b>:
+</p>
+
+<pre>
+
+struct Type
+ {
+  A a;
+  B b;
+  C c;
+ };
+
+</pre>
+
+<p>
+Then you may capture its fields:
+</p>
+
+<pre>
+
+constexpr auto members=MemberList(&amp;Type::a,&amp;Type::b,&amp;Type::c);
+
+</pre>
+
+<p>
+Using it you can do the following calls:
+</p>
+
+<pre>
+
+[const] Type *ptr = .... ;
+
+members(ptr,func)  equvivalent  func(ptr-&gt;a,ptr-&gt;b,ptr-&gt;c)
+
+members.per(ptr,func)  does  func(ptr-&gt;a)  func(ptr-&gt;b)  func(ptr-&gt;c)
+
+members(func)  equvivalent  func&lt;A,B,C&gt;()
+
+</pre>
+
+<p>
+The following <b>Meta-const</b> helps member capture:
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+constexpr auto <span class="Att">MembersOf</span>()
+ {
+  return T::template Fold&lt;MemberList,T&gt;();
+ }
+
+template &lt;class T&gt;
+inline constexpr auto <span class="Att">Members</span> = MembersOf&lt;T&gt;() ;
+
+</pre>
+
+<p>
+To use it do the following:
+</p>
+
+<pre>
+
+struct Type
+ {
+  A a;
+  B b;
+  C c;
+
+  template &lt;template &lt;class ...&gt; class Ret,class T&gt;
+  static constexpr auto Fold()
+   {
+    return Ret(&amp;T::a,&amp;T::b,&amp;T::c);
+   }
+ };
+
+constexpr auto members=Members&lt;Type&gt;;
+
+</pre>
+
+</body>
+
+</html>
+
