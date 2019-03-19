@@ -151,6 +151,15 @@ void PrimeBuilder::setLSBits(ulen value)
   clean();
  }
 
+void PrimeBuilder::setBits(ulen nbits_,ulen msbits_,ulen lsbits_)
+ {
+  nbits=Cap<ulen>(MinNBits,nbits_,MaxNBits);
+  msbits=Cap<ulen>(MinGuardBits,msbits_,MaxGuardBits);
+  lsbits=Cap<ulen>(MinGuardBits,lsbits_,MaxGuardBits);
+
+  clean();
+ }
+
  // get (digits only)
 
 String PrimeBuilder::getBin() const

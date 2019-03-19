@@ -11,8 +11,8 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef TruePrime_h
-#define TruePrime_h
+#ifndef PrimeBuilder_h
+#define PrimeBuilder_h
 
 #include <CCore/inc/Task.h>
 #include <CCore/inc/String.h>
@@ -114,6 +114,8 @@ class PrimeBuilder : NoCopy
    void setMSBits(ulen nbits);
 
    void setLSBits(ulen nbits);
+
+   void setBits(ulen nbits,ulen msbits,ulen lsbits);
 
    // get (digits only)
 
