@@ -1,0 +1,119 @@
+/* PrimeBuilder.h */
+//----------------------------------------------------------------------------------------
+//
+//  Project: TruePrime 1.00
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+
+#ifndef TruePrime_h
+#define TruePrime_h
+
+#include <CCore/inc/Task.h>
+#include <CCore/inc/String.h>
+#include <CCore/inc/PlatformRandom.h>
+
+namespace App {
+
+/* using */
+
+using namespace CCore;
+
+/* consts */
+
+enum BuilderLimits
+ {
+  MinNBits =  100,
+  MaxNBits = 9020,
+
+  MinGuardBits =  2,
+  MaxGuardBits = 32
+ };
+
+/* classes */
+
+//enum BuilderState;
+
+class PrimeBuilder;
+
+/* enum BuilderState */
+
+enum BuilderState
+ {
+  BuilderReady,
+
+  BuilderRunning,
+
+  BuilderDoneIsPrime,
+  BuilderDoneReject
+ };
+
+/* class PrimeBuilder */
+
+class PrimeBuilder : NoCopy
+ {
+   PlatformRandom random;
+
+  private:
+
+   Function<void (void)> async_interrupt;
+
+   Mutex mutex;
+
+   BuilderState state = BuilderReady ;
+   String text;
+   bool status_ok = true ;
+
+  private:
+
+   void setStatus(BuilderState state,const String &text);
+
+  public:
+
+   explicit PrimeBuilder(Function<void (void)> async_interrupt);
+
+   ~PrimeBuilder();
+
+   // set
+
+   void setBits(ulen nbits); // up to 9020
+
+   void setMSBits(ulen nbits);
+
+   void setLSBits(ulen nbits);
+
+   // get (digits only)
+
+   String getBin() const;
+
+   String getDec() const;
+
+   String getHex() const;
+
+   // methods
+
+   void gen();
+
+   void runTest();
+
+   void cancelTest();
+
+   struct Status
+    {
+     BuilderState state;
+     String text;
+     bool ok;
+    };
+
+   Status getStatus();
+ };
+
+} // namespace App
+
+#endif
+
