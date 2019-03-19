@@ -30,7 +30,7 @@ void ApplicationBase::forward(TimeScope time_scope)
 
      desktop->wait(time_scope);
 
-     afterWait();
+     desktop->wakeup.assert();
 
      if( !desktop->pump() ) stop();
 
@@ -48,11 +48,6 @@ void ApplicationBase::idle(TimeScope time_scope)
  {
   Used(time_scope);
 
-  // do nothing
- }
-
-void ApplicationBase::afterWait()
- {
   // do nothing
  }
 

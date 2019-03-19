@@ -101,6 +101,8 @@ struct Desktop
   virtual void wait(TimeScope time_scope)=0;
 
   virtual void interrupt()=0; // async
+
+  Signal<> wakeup;
  };
 
 /* class InterruptFunction */

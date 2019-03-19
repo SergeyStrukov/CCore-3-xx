@@ -16,6 +16,7 @@
 
 #include <CCore/inc/Task.h>
 #include <CCore/inc/String.h>
+#include <CCore/inc/Array.h>
 #include <CCore/inc/PlatformRandom.h>
 
 namespace App {
@@ -59,6 +60,18 @@ class PrimeBuilder : NoCopy
  {
    PlatformRandom random;
 
+   SimpleArray<uint8> buf;
+
+   ulen nbits = MinNBits ;
+   ulen msbits = MinGuardBits ;
+   ulen lsbits = MinGuardBits ;
+
+   bool buf_ok = false ;
+
+  private:
+
+   void clean();
+
   private:
 
    Function<void (void)> async_interrupt;
@@ -67,7 +80,7 @@ class PrimeBuilder : NoCopy
 
    BuilderState state = BuilderReady ;
    String text;
-   bool status_ok = true ;
+   bool status_ok = false ;
 
   private:
 
@@ -81,7 +94,7 @@ class PrimeBuilder : NoCopy
 
    // set
 
-   void setBits(ulen nbits); // up to 9020
+   void setBits(ulen nbits);
 
    void setMSBits(ulen nbits);
 

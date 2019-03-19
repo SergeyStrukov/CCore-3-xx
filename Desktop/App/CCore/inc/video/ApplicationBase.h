@@ -68,10 +68,6 @@ class ApplicationBase : public DeferCallQueue
 
    virtual void idle(TimeScope time_scope);
 
-   void interrupt() { desktop->interrupt(); }
-
-   virtual void afterWait();
-
   public:
 
    explicit ApplicationBase(Desktop *desktop,MSec tick_period);
