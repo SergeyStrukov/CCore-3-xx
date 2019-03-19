@@ -183,7 +183,7 @@ class PageList : NoCopy
     }
  };
 
-/* Main() */
+/* CCoreBook() */
 
 StrLen CutTitle(const String &title)
  {
@@ -194,7 +194,7 @@ StrLen CutTitle(const String &title)
   return str;
  }
 
-int Main(StrLen input_dir_name,StrLen output_file_name)
+int CCoreBook(StrLen input_dir_name,StrLen output_file_name)
  {
   PrintFile out(output_file_name);
 
@@ -277,6 +277,41 @@ int Main(StrLen input_dir_name,StrLen output_file_name)
   return 0;
  }
 
+/* Page() */
+
+StrLen GetPageName(StrLen input_file_name)
+ {
+  SplitPath split1(input_file_name);
+  SplitName split2(split1.path);
+  SplitFullExt split3(split2.name);
+
+  return split3.name;
+ }
+
+int Page(StrLen input_file_name,StrLen output_file_name)
+ {
+  PrintFile out(output_file_name);
+
+  Source src(input_file_name);
+
+  PageParam param;
+
+  param.name=GetPageName(input_file_name);
+
+  DomConvert convert;
+
+  if( !src.run(convert) )
+    {
+     Printf(Con,"@ #;\n",input_file_name);
+
+     return 1;
+    }
+
+  convert.print(out,param);
+
+  return 0;
+ }
+
 /* Test() */
 
 bool Test(StrLen dir,StrLen file_name)
@@ -290,33 +325,40 @@ bool Test(StrLen dir,StrLen file_name)
   return src.run(convert);
  }
 
-/* Main() */
+/* Test() */
 
-int Main()
+bool Test(StrLen input_dir_name)
  {
   FileSystem fs;
 
-  StrLen dir="../../../html"_c;
+  FileSystem::DirCursor cur(fs,input_dir_name);
 
-  FileSystem::DirCursor cur(fs,dir);
-
-  int ret=0;
+  bool ret=true;
 
   cur.apply( [&] (StrLen file_name,FileType file_type)
                  {
                   if( file_type==FileType_file && file_name.hasSuffix(".html"_c) )
                     {
-                     if( !Test(dir,file_name) )
+                     if( !Test(input_dir_name,file_name) )
                        {
                         Printf(Con,"@ #;\n",file_name);
 
-                        ret=1;
+                        ret=false;
                        }
                     }
 
                  } );
 
   return ret;
+ }
+
+/* Test() */
+
+int Test()
+ {
+  if( Test("../../../html"_c) ) return 0;
+
+  return 1;
  }
 
 } // namespace App
@@ -338,15 +380,15 @@ int main(int argc,const char *argv[])
 
       if( argc==1 )
         {
-         ret=Main();
+         ret=CCoreBook("../../../html"_c,"../../../book/files/CCore.bookinc.ddl"_c);
         }
       else if( argc==3 )
         {
-         ret=Main(argv[1],argv[2]);
+         ret=Page(argv[1],argv[2]);
         }
       else
         {
-         Putobj(Con,"Usage: Convertor <input-dir-name> <output-file-name>\n");
+         Putobj(Con,"Usage: Convertor <input-file-name> <output-file-name>\n");
 
          return 1;
         }

@@ -136,13 +136,25 @@ There are several issues in proper installation and configuration of this librar
 <p>
 The problem is <b>FreeType</b> installer puts headers in <b>freetype2</b> subdirectory and it breaks include macros.
 So I just move headers from <b>/usr/include/freetype2</b> to <b>/usr/include</b> to fix it.
-You may also add <b>-Ipath</b> option in the Target <b>Makefile.tools</b> file to deal with it.
+You may also add <b>-I/usr/include/freetype2</b> option in the Target <b>Makefile.tools</b> file to deal with it.
 </p>
+
+<pre>
+
+CCOPT = -c -std=c++17 -fconcepts -fwrapv -O3 $(CCCPU) -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) <span class="Alert">-I/usr/include/freetype2</span>
+
+</pre>
 
 <p>
 <b>FreeType</b> may use system <b>zlib</b>. In this case you have to add <b>-lz</b> linker option
 in the Target <b>Makefile.tools</b> file.
 </p>
+
+<pre>
+
+LDOPT = -Wl,-s $(LDOPT_DESKTOP) $(LDOPT_EXTRA) $(CCORELIB) -lws2_32 -lgmp -lgdi32 -lfreetype <span class="Alert">-lz</span>
+
+</pre>
 
 <h2>Post-install notes</h2>
 
