@@ -70,7 +70,22 @@ class PrimeBuilder : NoCopy
 
   private:
 
+   static auto MaskLo(ulen n) { return (1u<<n)-1; }
+
+   static auto MaskHi(ulen n) { return 0xFF00u >> n ; }
+
+   static void SetLSB(PtrLen<uint8> r,ulen lsbits);
+
+   static void SetMSB(PtrLen<uint8> r,ulen msbits);
+
+   void fill();
+
+   void mask();
+
    void clean();
+
+   template <class Int>
+   auto getInteger() const;
 
   private:
 
