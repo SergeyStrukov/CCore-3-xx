@@ -17,6 +17,8 @@
 
 #include <CCore/inc/video/LayoutCombo.h>
 
+#include <CCore/inc/video/FigureLib.h>
+
 namespace App {
 
 /* class NumberWindow */
@@ -87,9 +89,85 @@ void NumberWindow::layout()
 
 void NumberWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
-  Used(draw_param);
+  draw_param.erase(buf,+cfg.back);
 
-  buf.erase(Black);
+  MPane p(getPane());
+
+  if( !p ) return;
+
+  SmoothDrawArt art(buf);
+
+  MCoord width=+cfg.width;
+
+  // decor
+
+  {
+   FigureTopBorder fig1(p,width);
+
+   FigureBottomBorder fig2(p,width);
+
+   fig1.solid(art,+cfg.gray);
+
+   fig2.solid(art,+cfg.snow);
+  }
+
+  // number
+
+  if( number.isEmpty() ) return;
+
+  {
+   Pane pane=getPane();
+
+   DrawBuf tbuf=buf.cut(pane.shrink(RoundUpLen(width)));
+
+   const Font &font=cfg.font.get();
+
+   VColor text=+cfg.text;
+   Point space=+cfg.space;
+
+   FontSize fs=font->getSize();
+
+   Point size; // TODO
+   unsigned line = 8 ; // TODO
+
+   auto printSpan = [&] (Point pos,StrLen str) { font->text(tbuf,pane,pos,str,text); } ;
+
+   Point pos=space.addY(fs.by);
+
+   StrLen str=Range(number);
+
+   ulen ns=str.len/max_span;
+   ulen es=str.len%max_span;
+
+   if( es )
+     {
+     }
+   else
+     {
+      ulen off=str.len;
+
+      unsigned i=0;
+
+      while( Replace_sub(off,max_span) )
+        {
+         printSpan(pos,str.part(off,max_span));
+
+         i++;
+
+         if( i<line )
+           {
+            pos.x+=size.x;
+           }
+         else
+           {
+            i=0;
+
+            pos.x=space.x;
+            pos.y+=size.y;
+           }
+        }
+     }
+  }
  }
 
  // keyboard

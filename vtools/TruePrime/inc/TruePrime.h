@@ -35,9 +35,19 @@ class NumberWindow : public SubWindow
     {
      // user
 
+     RefVal<Fraction> width = Fraction(6,2) ;
+
      RefVal<VColor> back = Silver ;
+     RefVal<VColor> gray =   Gray ;
+     RefVal<VColor> snow =   Snow ;
 
      // app
+
+     RefVal<VColor> text = Black ;
+
+     RefVal<Point> space = Point(8,8) ;
+
+     RefVal<Font> font;
 
      Config() noexcept {}
 
@@ -51,11 +61,14 @@ class NumberWindow : public SubWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy)
       {
+       width.bind(bag.width);
        back.bind(bag.back);
+       gray.bind(bag.gray);
+       snow.bind(bag.snow);
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag)
+     void bindApp(const Bag &bag) // TODO
       {
        Used(bag);
       }
