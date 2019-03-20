@@ -13,6 +13,8 @@
 
 #include <inc/Application.h>
 
+#include <CCore/inc/video/FontLookup.h>
+
 namespace App {
 
 /* struct AppPreferenceBag */
@@ -31,8 +33,18 @@ void AppPreferenceBag::bindItems(ConfigItemBind &binder)
     binder.item("Global"_str,menu_Global);
     binder.item("App"_str,menu_App);
 
-  binder.group("Text"_str);
+  binder.group("Number"_str);
 
+    binder.item("text"_str,number_text);
+    binder.item("space"_str,number_space);
+    binder.item("font"_str,number_font);
+ }
+
+void AppPreferenceBag::findFonts()
+ {
+  DialogFontLookup dev;
+
+  number_font=dev.build("Anonymous Pro"_c,22);
  }
 
 } // namespace App

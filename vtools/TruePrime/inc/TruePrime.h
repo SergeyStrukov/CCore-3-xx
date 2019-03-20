@@ -68,9 +68,11 @@ class NumberWindow : public SubWindow
       }
 
      template <class Bag>
-     void bindApp(const Bag &bag) // TODO
+     void bindApp(const Bag &bag)
       {
-       Used(bag);
+       text.bind(bag.number_text);
+       space.bind(bag.number_space);
+       font.bind(bag.number_font.font);
       }
     };
 
@@ -83,6 +85,14 @@ class NumberWindow : public SubWindow
    String number;
    unsigned max_span = 8 ;
    unsigned max_line = 8 ;
+
+   // draw
+
+   class Cursor;
+
+   unsigned line = 8 ;
+   Point base;
+   Point delta;
 
   public:
 

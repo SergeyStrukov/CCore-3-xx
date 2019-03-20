@@ -14,6 +14,7 @@
 #include <inc/TruePrime.h>
 
 #include <CCore/inc/Tuple.h>
+#include <CCore/inc/ForLoop.h>
 
 #include <CCore/inc/video/LayoutCombo.h>
 
@@ -37,7 +38,15 @@ NumberWindow::~NumberWindow()
 
 Point NumberWindow::getMinSize() const
  {
-  return {200,40};
+  const Font &font=cfg.font.get();
+
+  Coord dx=font->text("12345678 "_c).full_dx;
+
+  Coord dy=font->getSize().dy;
+
+  Point space=+cfg.space;
+
+  return 2*space+Point(8*dx,9*dy);
  }
 
 void NumberWindow::setBin(const String &number_)
@@ -83,8 +92,76 @@ bool NumberWindow::isGoodSize(Point size) const
   return size>=getMinSize();
  }
 
+class NumberWindow::Cursor
+ {
+   const char *ptr;
+   unsigned span;
+   ulen count;
+   ulen rest;
+
+  public:
+
+   Cursor(StrLen text,unsigned span_)
+    : span(span_)
+    {
+     ptr=text.ptr;
+     count=text.len/span;
+     rest=text.len%span;
+    }
+
+   ulen operator + () const { return count|rest; }
+
+   StrLen operator * () const
+    {
+     if( rest ) return StrLen(ptr,rest);
+
+     return StrLen(ptr,span);
+    }
+
+   void operator ++ ()
+    {
+     if( rest )
+       {
+        ptr+=rest;
+
+        rest=0;
+       }
+     else
+       {
+        ptr+=span;
+
+        count--;
+       }
+    }
+ };
+
 void NumberWindow::layout()
  {
+  const Font &font=cfg.font.get();
+
+  delta.x=0;
+
+  for(StrLen str : ForLoop(Cursor(Range(number),max_span)) )
+    {
+     Coord dx=font->text(str," "_c).full_dx;
+
+     Replace_max(delta.x,dx);
+    }
+
+  FontSize fs=font->getSize();
+
+  delta.y=fs.dy;
+
+  Point space=+cfg.space;
+
+  base=space+Point(fs.dx0,fs.by);
+
+  Coord dx=getSize().x-2*space.x;
+
+  if( dx<delta.x )
+    line=1;
+  else
+    line=Cap<unsigned>(1,dx/delta.x,max_line);
  }
 
 void NumberWindow::draw(DrawBuf buf,DrawParam draw_param) const
@@ -123,48 +200,37 @@ void NumberWindow::draw(DrawBuf buf,DrawParam draw_param) const
    const Font &font=cfg.font.get();
 
    VColor text=+cfg.text;
-   Point space=+cfg.space;
 
-   FontSize fs=font->getSize();
+   auto printSpan = [&] (Point pos,StrLen str)
+                        {
+                         Coord dx=font->text(str," "_c).full_dx;
 
-   Point size; // TODO
-   unsigned line = 8 ; // TODO
+                         pos.x+=delta.x-dx;
 
-   auto printSpan = [&] (Point pos,StrLen str) { font->text(tbuf,pane,pos,str,text); } ;
+                         font->text(tbuf,pane,pos,str,text);
 
-   Point pos=space.addY(fs.by);
+                        } ;
 
-   StrLen str=Range(number);
+   Point pos=base;
 
-   ulen ns=str.len/max_span;
-   ulen es=str.len%max_span;
+   unsigned i=0;
 
-   if( es )
+   for(StrLen str : ForLoop(Cursor(Range(number),max_span)) )
      {
-     }
-   else
-     {
-      ulen off=str.len;
+      printSpan(pos,str);
 
-      unsigned i=0;
+      i++;
 
-      while( Replace_sub(off,max_span) )
+      if( i<line )
         {
-         printSpan(pos,str.part(off,max_span));
+         pos.x+=delta.x;
+        }
+      else
+        {
+         i=0;
 
-         i++;
-
-         if( i<line )
-           {
-            pos.x+=size.x;
-           }
-         else
-           {
-            i=0;
-
-            pos.x=space.x;
-            pos.y+=size.y;
-           }
+         pos.x=base.x;
+         pos.y+=delta.y;
         }
      }
   }
@@ -269,7 +335,7 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
   wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,
-               line1,lab_bin,rad_bin,lab_dec,rad_dec,lab_hex,rad_hex,num_win);
+               line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win);
 
   group_base.add(rad_bin,rad_dec,rad_hex);
 
@@ -298,9 +364,9 @@ Point TruePrimeWindow::getMinSize() const
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
-  LayToRightCenter lay5{Lay(lab_bin),Lay(rad_bin),
-                        Lay(lab_dec),Lay(rad_dec),
-                        Lay(lab_hex),LayLeft(rad_hex)};
+  LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
+                        LayBox(rad_dec),Lay(lab_dec),
+                        LayBox(rad_hex),LayLeft(lab_hex)};
 
   LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
 
@@ -330,9 +396,9 @@ void TruePrimeWindow::layout()
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
-  LayToRightCenter lay5{Lay(lab_bin),Lay(rad_bin),
-                        Lay(lab_dec),Lay(rad_dec),
-                        Lay(lab_hex),LayLeft(rad_hex)};
+  LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
+                        LayBox(rad_dec),Lay(lab_dec),
+                        LayBox(rad_hex),LayLeft(lab_hex)};
 
   LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
 

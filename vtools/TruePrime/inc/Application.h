@@ -42,8 +42,13 @@ struct AppPreferenceBag
   String menu_Global  = "@Global"_str ;
   String menu_App     = "@Application"_str ;
 
-  // text
+  // number
 
+  VColor number_text = Black ;
+
+  Point number_space = Point(8,8) ;
+
+  FontCouple number_font;
 
   // constructors
 
@@ -55,6 +60,8 @@ struct AppPreferenceBag
   static void Members(Ptr ptr,Func func);
 
   virtual void bindItems(ConfigItemBind &binder);
+
+  void findFonts();
  };
 
 template <class Ptr,class Func>
@@ -66,6 +73,10 @@ void AppPreferenceBag::Members(Ptr ptr,Func func)
   func("menu_Exit"_c,ptr->menu_Exit);
   func("menu_Global"_c,ptr->menu_Global);
   func("menu_App"_c,ptr->menu_App);
+
+  func("number_text"_c,ptr->number_text);
+  func("number_space"_c,ptr->number_space);
+  func("number_font"_c,ptr->number_font);
  }
 
 /* struct AppProp */
