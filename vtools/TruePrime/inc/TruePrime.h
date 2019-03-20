@@ -207,6 +207,8 @@ class TruePrimeWindow : public ComboWindow
 
    LightWindow light;
 
+   ButtonWindow btn_copy;
+
    XDoubleLineWindow line1;
 
    LabelWindow lab_bin;
@@ -265,6 +267,10 @@ class TruePrimeWindow : public ComboWindow
    void test_changed(bool on);
 
    SignalConnector<TruePrimeWindow,bool> connector_test_changed;
+
+   void copy_pressed();
+
+   SignalConnector<TruePrimeWindow> connector_copy_pressed;
 
    void wakeup();
 

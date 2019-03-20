@@ -264,11 +264,18 @@ void TruePrimeWindow::showStatus(BuilderState state,String text)
      restart=true;
     }
 
+  if( state==BuilderDoneIsPrime )
+    {
+     btn_copy.enable();
+    }
+
   info.setInfo(InfoFromString(text));
  }
 
 void TruePrimeWindow::nbits_changed(int)
  {
+  btn_copy.disable();
+
   builder.setBits(getNBits());
 
   updateShow();
@@ -276,6 +283,8 @@ void TruePrimeWindow::nbits_changed(int)
 
 void TruePrimeWindow::msbits_changed(int)
  {
+  btn_copy.disable();
+
   builder.setMSBits(getMSBits());
 
   updateShow();
@@ -283,6 +292,8 @@ void TruePrimeWindow::msbits_changed(int)
 
 void TruePrimeWindow::lsbits_changed(int)
  {
+  btn_copy.disable();
+
   builder.setLSBits(getLSBits());
 
   updateShow();
@@ -290,6 +301,8 @@ void TruePrimeWindow::lsbits_changed(int)
 
 void TruePrimeWindow::gen_pressed()
  {
+  btn_copy.disable();
+
   builder.gen();
 
   updateShow();
@@ -316,6 +329,13 @@ void TruePrimeWindow::test_changed(bool on)
     {
      builder.cancelTest();
     }
+ }
+
+void TruePrimeWindow::copy_pressed()
+ {
+  String text=builder.getOctBuf();
+
+  getFrameHost()->textToClipboard(Range(text));
  }
 
 void TruePrimeWindow::wakeup()
@@ -370,6 +390,8 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    light(wlist,cfg.light_cfg,Red),
 
+   btn_copy(wlist,cfg.btn_cfg,"Copy"_str),
+
    line1(wlist,cfg.dline_cfg),
 
    lab_bin(wlist,cfg.lab_cfg,"bin"_str),
@@ -393,9 +415,11 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    connector_test_changed(this,&TruePrimeWindow::test_changed,run_test.changed),
 
+   connector_copy_pressed(this,&TruePrimeWindow::copy_pressed,btn_copy.pressed),
+
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
-  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,light,
+  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,light,btn_copy,
                line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win,info);
 
   group_base.add(rad_bin,rad_dec,rad_hex);
@@ -424,7 +448,7 @@ Point TruePrimeWindow::getMinSize() const
   LayToRightCenter lay1{laymax.get<1>(),LayLeft(spinor_nbits)};
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
-  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),LayLeft(light)};
+  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),Lay(light),LayLeft(btn_copy)};
   LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
@@ -442,6 +466,10 @@ void TruePrimeWindow::open()
  {
   ComboWindow::open();
 
+  run_test.setFocus();
+
+  btn_copy.disable();
+
   builder.setBits(getNBits(),getMSBits(),getLSBits());
 
   updateShow();
@@ -458,7 +486,7 @@ void TruePrimeWindow::layout()
   LayToRightCenter lay1{laymax.get<1>(),LayLeft(spinor_nbits)};
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
-  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),LayLeft(light)};
+  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),Lay(light),LayLeft(btn_copy)};
   LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};

@@ -152,6 +152,8 @@ class PrimeBuilder : public Funchor_nocopy
 
    String getHex() const;
 
+   String getOctBuf() const;
+
    // methods
 
    void gen();

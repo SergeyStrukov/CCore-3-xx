@@ -13,6 +13,8 @@
 
 #include <inc/PrimeBuilder.h>
 
+#include <CCore/inc/Timer.h>
+#include <CCore/inc/PrintTime.h>
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/math/NoPrimeTest.h>
@@ -249,6 +251,8 @@ class PrimeBuilder::Report : NoCopy
 template <class Int>
 void PrimeBuilder::work1(Int number)
  {
+  SecTimer timer;
+
   setStatus(BuilderRunning,"No-prime test is being performed ..."_str);
 
   if( Math::NoPrimeTest<Int>::RandomTest(number,100,random) )
@@ -269,7 +273,7 @@ void PrimeBuilder::work1(Int number)
         if( result )
           Printf(out,"Rejected: #;!",result);
         else
-          Putobj(out,"Prime."_c);
+          Printf(out,"Prime. Time = #;.",PrintTime(timer.get()));
 
         setStatus((result?BuilderDoneReject:BuilderDoneIsPrime),out.close());
        }
@@ -424,6 +428,44 @@ String PrimeBuilder::getHex() const
     {
      Putobj(out,"0"_c);
     }
+
+  return out.close();
+ }
+
+String PrimeBuilder::getOctBuf() const
+ {
+  if( !buf_ok ) return Empty;
+
+  PrintString out;
+
+  auto r=Range(buf);
+
+  Printf(out,"\n {\n");
+
+  ulen ind=0;
+
+  for(uint8 octet : r )
+    {
+     if( ind&15 )
+       {
+        Putobj(out,", "_c);
+
+        if( (ind&3)==0 ) Putch(out,' ');
+       }
+     else
+       {
+        if( ind==0 )
+          Putobj(out,"  "_c);
+        else
+          Putobj(out,",\n  "_c);
+       }
+
+     Printf(out,"#4.xi;",octet);
+
+     ind++;
+    }
+
+  Printf(out,"\n }");
 
   return out.close();
  }
