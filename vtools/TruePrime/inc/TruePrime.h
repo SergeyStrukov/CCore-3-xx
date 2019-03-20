@@ -144,6 +144,7 @@ class TruePrimeWindow : public ComboWindow
      CtorRefVal<RadioWindow::ConfigType> rad_cfg;
      CtorRefVal<LightWindow::ConfigType> light_cfg;
      CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
+     CtorRefVal<InfoWindow::ConfigType> info_cfg;
 
      // app
 
@@ -172,6 +173,7 @@ class TruePrimeWindow : public ComboWindow
        rad_cfg.bind(proxy);
        light_cfg.bind(proxy);
        dline_cfg.bind(proxy);
+       info_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -225,6 +227,10 @@ class TruePrimeWindow : public ComboWindow
    RadioWindow rad_hex;
 
    NumberWindow num_win;
+
+   InfoWindow info;
+
+   bool restart = false ;
 
   private:
 

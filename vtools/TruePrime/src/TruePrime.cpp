@@ -257,10 +257,14 @@ void TruePrimeWindow::updateShow()
     }
  }
 
-void TruePrimeWindow::showStatus(BuilderState state,String text) // TODO
+void TruePrimeWindow::showStatus(BuilderState state,String text)
  {
-  Used(state);
-  Used(text);
+  if( state==BuilderDoneReject )
+    {
+     restart=true;
+    }
+
+  info.setInfo(InfoFromString(text));
  }
 
 void TruePrimeWindow::nbits_changed(int)
@@ -302,6 +306,8 @@ void TruePrimeWindow::test_changed(bool on)
 
   if( on )
     {
+     restart=false;
+
      builder.runTest();
     }
   else
@@ -314,18 +320,29 @@ void TruePrimeWindow::wakeup()
  {
   auto status=builder.getStatus();
 
+  if( status.ok )
+    {
+     showStatus(status.state,status.text);
+    }
+
   light.turn(status.running);
 
   if( run_test.isOn() && !status.running )
     {
-     run_test.turn(false);
+     if( Change(restart,false) )
+       {
+        builder.gen();
 
-     btn_gen.enable();
-    }
+        updateShow();
 
-  if( status.ok )
-    {
-     showStatus(status.state,status.text);
+        builder.runTest();
+       }
+     else
+       {
+        run_test.turn(false);
+
+        btn_gen.enable();
+       }
     }
  }
 
@@ -360,6 +377,7 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
    rad_hex(wlist,ShowHex,cfg.rad_cfg),
 
    num_win(wlist,cfg.num_cfg),
+   info(wlist,cfg.info_cfg),
 
    connector_nbits_changed(this,&TruePrimeWindow::nbits_changed,spinor_nbits.changed),
    connector_msbits_changed(this,&TruePrimeWindow::msbits_changed,spinor_msbits.changed),
@@ -374,7 +392,7 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
   wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,light,
-               line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win);
+               line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win,info);
 
   group_base.add(rad_bin,rad_dec,rad_hex);
 
@@ -407,7 +425,7 @@ Point TruePrimeWindow::getMinSize() const
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,LayDivY(Lay(num_win),Lay(info),Div(1,2))};
 
   return ExtLay(lay).getMinSize(space);
  }
@@ -439,7 +457,7 @@ void TruePrimeWindow::layout()
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,LayDivY(Lay(num_win),Lay(info),Div(1,2))};
 
   ExtLay(lay).setPlace(getPane(),space);
  }

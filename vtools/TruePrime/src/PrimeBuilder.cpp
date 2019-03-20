@@ -121,6 +121,11 @@ void PrimeBuilder::setStatus(BuilderState state_,const String &text_)
   async_interrupt();
  }
 
+void PrimeBuilder::setStatusCancel()
+ {
+  setStatus(BuilderDoneReject,"Cancelled!"_str);
+ }
+
 void PrimeBuilder::setException(StrLen text) noexcept
  {
   try
@@ -133,14 +138,126 @@ void PrimeBuilder::setException(StrLen text) noexcept
     }
  }
 
-template <class Int>
-void PrimeBuilder::work1(Int number) // TODO
+class PrimeBuilder::Report : NoCopy
  {
-  setStatus(BuilderRunning,"No prime test is being performed"_str);
+   PrimeBuilder *obj;
+
+  private:
+
+   void testStop()
+    {
+     if( obj->stop_flag ) throw Cancel;
+    }
+
+  public:
+
+   enum CancelType { Cancel };
+
+   explicit Report(PrimeBuilder *obj_) : obj(obj_) {}
+
+   template <class Integer>
+   void start(const Integer &) {}
+
+   void sanity(const char *msg)
+    {
+     PrintString out;
+
+     Printf(out,"sanity #;",msg);
+
+     obj->setStatus(BuilderRunning,out.close());
+    }
+
+   void isSmallPrime() {}
+
+   void testP(unsigned prime_p)
+    {
+     testStop();
+
+     PrintString out;
+
+     Printf(out,"test P #;",prime_p);
+
+     obj->setStatus(BuilderRunning,out.close());
+    }
+
+   void testQ(Math::APRTest::QType)
+    {
+     testStop();
+    }
+
+   template <class Integer>
+   void cappa(PtrLen<const Integer>,const Integer &)
+    {
+     testStop();
+    }
+
+   template <class Integer>
+   void cappa2(const Integer &,const Integer &)
+    {
+     testStop();
+    }
+
+   void startProbe()
+    {
+     testStop();
+
+     obj->setStatus(BuilderRunning,"start probe"_str);
+    }
+
+   template <class Integer>
+   void probe(const Integer &cnt)
+    {
+     Used(cnt);
+
+     testStop();
+    }
+
+   template <class Integer>
+   void div(const Integer &D)
+    {
+     Used(D);
+
+     testStop();
+    }
+
+   void hard() {}
+
+   void isPrime() {}
+
+   void noPrime() {}
+ };
+
+template <class Int>
+void PrimeBuilder::work1(Int number)
+ {
+  setStatus(BuilderRunning,"No-prime test is being performed"_str);
 
   if( Math::NoPrimeTest<Int>::RandomTest(number,100,random) )
     {
      setStatus(BuilderRunning,"Probable prime"_str);
+
+     if( stop_flag ) return setStatusCancel();
+
+     try
+       {
+        Math::APRTest::TestEngine<Int> test;
+        Report report(this);
+
+        auto result=test(number,report);
+
+        PrintString out;
+
+        if( result )
+          Printf(out,"Rejected: #;",result);
+        else
+          Putobj(out,"Prime."_c);
+
+        setStatus((result?BuilderDoneReject:BuilderDoneIsPrime),out.close());
+       }
+     catch(Report::CancelType)
+       {
+        return setStatusCancel();
+       }
     }
   else
     {

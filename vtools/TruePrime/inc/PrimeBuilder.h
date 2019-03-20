@@ -101,6 +101,8 @@ class PrimeBuilder : public Funchor_nocopy
 
    void setStatus(BuilderState state,const String &text);
 
+   void setStatusCancel();
+
    void setException(StrLen text) noexcept;
 
   private:
@@ -113,6 +115,8 @@ class PrimeBuilder : public Funchor_nocopy
    Sem stop_sem;
 
   private:
+
+   class Report;
 
    template <class Int>
    void work1(Int number);
