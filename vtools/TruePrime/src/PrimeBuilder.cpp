@@ -248,9 +248,12 @@ class PrimeBuilder::Report : NoCopy
    void noPrime() {}
  };
 
-template <class Int>
-void PrimeBuilder::work1(Int number)
+void PrimeBuilder::work1(PtrLen<const uint8> number_)
  {
+  using Int = Math::Integer<Math::IntegerFastAlgo> ;
+
+  Math::OctetInteger<Int> number(number_);
+
   SecTimer timer;
 
   setStatus(BuilderRunning,"No-prime test is being performed ..."_str);
@@ -288,8 +291,7 @@ void PrimeBuilder::work1(Int number)
     }
  }
 
-template <class Int>
-void PrimeBuilder::work(Int number)
+void PrimeBuilder::work(PtrLen<const uint8> number)
  {
   SimpleArray<char> buf(4_KByte);
   PrintBuf out(Range(buf));
@@ -319,6 +321,40 @@ void PrimeBuilder::exit()
 
   stop_sem.give();
  }
+
+class PrimeBuilder::Work : public Task
+ {
+   PrimeBuilder *obj;
+
+   DynArray<uint8> number;
+
+  private:
+
+   virtual void entry()
+    {
+     obj->work(Range(number));
+    }
+
+   virtual void exit()
+    {
+     PrimeBuilder *temp=obj;
+
+     delete this;
+
+     temp->exit();
+    }
+
+  public:
+
+   explicit Work(PrimeBuilder *obj_)
+    {
+     obj=obj_;
+
+     number.extend_copy(Range(obj->buf));
+    }
+
+   virtual ~Work() {}
+ };
 
 PrimeBuilder::PrimeBuilder(Function<void (void)> async_interrupt_)
  : async_interrupt(async_interrupt_)
@@ -491,9 +527,15 @@ void PrimeBuilder::runTest()
 
   stop_flag=false;
   stopping=false;
+
+  Work *ptr=new Work(this);
+
   running=true;
 
-  RunFuncTask( [&,number] () { work(number); } ,function_exit());
+  if( !ptr->run_or_exit() )
+    {
+     Printf(Exception,"App::PrimeBuilder::runTest() : cannot start a task");
+    }
  }
 
 void PrimeBuilder::cancelTest()

@@ -56,7 +56,7 @@ enum BuilderState
 
 /* class PrimeBuilder */
 
-class PrimeBuilder : public Funchor_nocopy
+class PrimeBuilder : NoCopy
  {
    PlatformRandom random;
 
@@ -118,15 +118,13 @@ class PrimeBuilder : public Funchor_nocopy
 
    class Report;
 
-   template <class Int>
-   void work1(Int number);
+   void work1(PtrLen<const uint8> number);
 
-   template <class Int>
-   void work(Int number);
+   void work(PtrLen<const uint8> number);
 
    void exit();
 
-   Function<void (void)> function_exit() { return FunctionOf(this,&PrimeBuilder::exit); }
+   class Work;
 
   public:
 
