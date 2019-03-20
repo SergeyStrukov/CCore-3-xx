@@ -56,7 +56,7 @@ enum BuilderState
 
 /* class PrimeBuilder */
 
-class PrimeBuilder : NoCopy
+class PrimeBuilder : public Funchor_nocopy
  {
    PlatformRandom random;
 
@@ -101,6 +101,29 @@ class PrimeBuilder : NoCopy
 
    void setStatus(BuilderState state,const String &text);
 
+   void setException(StrLen text) noexcept;
+
+  private:
+
+   bool running=false;
+
+   Atomic stop_flag;
+   Atomic stopping;
+
+   Sem stop_sem;
+
+  private:
+
+   template <class Int>
+   void work1(Int number);
+
+   template <class Int>
+   void work(Int number);
+
+   void exit();
+
+   Function<void (void)> function_exit() { return FunctionOf(this,&PrimeBuilder::exit); }
+
   public:
 
    explicit PrimeBuilder(Function<void (void)> async_interrupt);
@@ -137,6 +160,7 @@ class PrimeBuilder : NoCopy
     {
      BuilderState state;
      String text;
+     bool running;
      bool ok;
     };
 

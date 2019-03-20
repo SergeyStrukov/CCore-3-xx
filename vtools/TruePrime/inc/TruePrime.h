@@ -142,6 +142,7 @@ class TruePrimeWindow : public ComboWindow
      CtorRefVal<LabelWindow::ConfigType> lab_cfg;
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
      CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+     CtorRefVal<LightWindow::ConfigType> light_cfg;
      CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
 
      // app
@@ -169,6 +170,7 @@ class TruePrimeWindow : public ComboWindow
        lab_cfg.bind(proxy);
        spinor_cfg.bind(proxy);
        rad_cfg.bind(proxy);
+       light_cfg.bind(proxy);
        dline_cfg.bind(proxy);
       }
 
@@ -201,6 +203,8 @@ class TruePrimeWindow : public ComboWindow
    ButtonWindow btn_gen;
    RunButtonWindow run_test;
 
+   LightWindow light;
+
    XDoubleLineWindow line1;
 
    LabelWindow lab_bin;
@@ -232,6 +236,8 @@ class TruePrimeWindow : public ComboWindow
 
    void updateShow();
 
+   void showStatus(BuilderState state,String text);
+
    void nbits_changed(int value);
 
    void msbits_changed(int value);
@@ -249,6 +255,10 @@ class TruePrimeWindow : public ComboWindow
    void base_changed(int new_id,int prev_id);
 
    SignalConnector<TruePrimeWindow,int,int> connector_base_changed;
+
+   void test_changed(bool on);
+
+   SignalConnector<TruePrimeWindow,bool> connector_test_changed;
 
    void wakeup();
 

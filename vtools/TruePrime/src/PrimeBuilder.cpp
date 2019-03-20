@@ -13,6 +13,8 @@
 
 #include <inc/PrimeBuilder.h>
 
+#include <CCore/inc/Exception.h>
+
 #include <CCore/inc/math/NoPrimeTest.h>
 #include <CCore/inc/math/APRTest.h>
 #include <CCore/inc/math/IntegerFastAlgo.h>
@@ -119,6 +121,65 @@ void PrimeBuilder::setStatus(BuilderState state_,const String &text_)
   async_interrupt();
  }
 
+void PrimeBuilder::setException(StrLen text) noexcept
+ {
+  try
+    {
+     setStatus(BuilderDoneReject,text);
+    }
+  catch(...)
+    {
+     setStatus(BuilderDoneReject,"No memory"_str);
+    }
+ }
+
+template <class Int>
+void PrimeBuilder::work1(Int number) // TODO
+ {
+  setStatus(BuilderRunning,"No prime test is being performed"_str);
+
+  if( Math::NoPrimeTest<Int>::RandomTest(number,100,random) )
+    {
+     setStatus(BuilderRunning,"Probable prime"_str);
+    }
+  else
+    {
+     setStatus(BuilderDoneReject,"Not a prime!"_str);
+    }
+ }
+
+template <class Int>
+void PrimeBuilder::work(Int number)
+ {
+  SimpleArray<char> buf(4_KByte);
+  PrintBuf out(Range(buf));
+  ReportExceptionTo report(out);
+
+  try
+    {
+     work1(number);
+
+     report.guard();
+
+     async_interrupt();
+    }
+  catch(CatchType)
+    {
+     setException(out.close());
+    }
+  catch(...)
+    {
+     setException("Unknown exception"_c);
+    }
+ }
+
+void PrimeBuilder::exit()
+ {
+  stopping=true;
+
+  stop_sem.give();
+ }
+
 PrimeBuilder::PrimeBuilder(Function<void (void)> async_interrupt_)
  : async_interrupt(async_interrupt_)
  {
@@ -126,6 +187,12 @@ PrimeBuilder::PrimeBuilder(Function<void (void)> async_interrupt_)
 
 PrimeBuilder::~PrimeBuilder()
  {
+  if( running )
+    {
+     stop_flag=true;
+
+     stop_sem.take();
+    }
  }
 
  // set
@@ -236,19 +303,36 @@ void PrimeBuilder::gen()
   mask();
  }
 
-void PrimeBuilder::runTest() // TODO
+void PrimeBuilder::runTest()
  {
+  if( running ) return;
+
+  using Int = Math::Integer<Math::IntegerFastAlgo> ;
+
+  Int number=getInteger<Int>();
+
+  stop_flag=false;
+  stopping=false;
+  running=true;
+
+  RunFuncTask( [&,number] () { work(number); } ,function_exit());
  }
 
-void PrimeBuilder::cancelTest() // TODO
+void PrimeBuilder::cancelTest()
  {
+  stop_flag=true;
  }
 
 auto PrimeBuilder::getStatus() -> Status
  {
+  if( running && stopping )
+    {
+     if( stop_sem.take(1_sec) ) running=false;
+    }
+
   Mutex::Lock lock(mutex);
 
-  return Status{state,text,Replace_null(status_ok)};
+  return Status{state,text,running,Replace_null(status_ok)};
  }
 
 } // namespace App

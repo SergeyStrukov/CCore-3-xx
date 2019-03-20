@@ -109,6 +109,8 @@ class RunButtonWindowOf : public SubWindow
 
    bool isEnabled() const { return shape.enable; }
 
+   bool isOn() const { return shape.on; }
+
    void enable(bool enable=true)
     {
      if( Change(shape.enable,enable) ) redraw();

@@ -257,6 +257,12 @@ void TruePrimeWindow::updateShow()
     }
  }
 
+void TruePrimeWindow::showStatus(BuilderState state,String text) // TODO
+ {
+  Used(state);
+  Used(text);
+ }
+
 void TruePrimeWindow::nbits_changed(int)
  {
   builder.setBits(getNBits());
@@ -290,8 +296,37 @@ void TruePrimeWindow::base_changed(int,int)
   updateShow();
  }
 
-void TruePrimeWindow::wakeup() // TODO
+void TruePrimeWindow::test_changed(bool on)
  {
+  btn_gen.enable(!on);
+
+  if( on )
+    {
+     builder.runTest();
+    }
+  else
+    {
+     builder.cancelTest();
+    }
+ }
+
+void TruePrimeWindow::wakeup()
+ {
+  auto status=builder.getStatus();
+
+  light.turn(status.running);
+
+  if( run_test.isOn() && !status.running )
+    {
+     run_test.turn(false);
+
+     btn_gen.enable();
+    }
+
+  if( status.ok )
+    {
+     showStatus(status.state,status.text);
+    }
  }
 
 TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
@@ -311,6 +346,8 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    btn_gen(wlist,cfg.btn_cfg,"Gen"_str),
    run_test(wlist,cfg.run_cfg,"Run"_str,"Cancel"_str),
+
+   light(wlist,cfg.light_cfg,Red),
 
    line1(wlist,cfg.dline_cfg),
 
@@ -332,9 +369,11 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    connector_base_changed(this,&TruePrimeWindow::base_changed,group_base.changed),
 
+   connector_test_changed(this,&TruePrimeWindow::test_changed,run_test.changed),
+
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
-  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,
+  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,light,
                line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win);
 
   group_base.add(rad_bin,rad_dec,rad_hex);
@@ -363,7 +402,7 @@ Point TruePrimeWindow::getMinSize() const
   LayToRightCenter lay1{laymax.get<1>(),LayLeft(spinor_nbits)};
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
-  LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
+  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),LayLeft(light)};
   LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
@@ -395,7 +434,7 @@ void TruePrimeWindow::layout()
   LayToRightCenter lay1{laymax.get<1>(),LayLeft(spinor_nbits)};
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
-  LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
+  LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),LayLeft(light)};
   LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
