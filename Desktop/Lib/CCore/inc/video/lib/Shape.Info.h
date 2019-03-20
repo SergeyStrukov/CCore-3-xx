@@ -103,6 +103,8 @@ class InfoShape : public InfoState
 
    Point getMinSize(Point cap=Point::Max()) const;
 
+   Point getMinSize(unsigned lines) const;
+
    bool isGoodSize(Point size,Point cap=Point::Max()) const { return size>=getMinSize(cap); }
 
    void layout();

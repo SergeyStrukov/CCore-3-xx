@@ -50,6 +50,19 @@ Point InfoShape::getMinSize(Point cap) const
   return 3*space+Inf(InfoSize(font,info),cap-3*space);
  }
 
+Point InfoShape::getMinSize(unsigned lines) const
+ {
+  const Font &font=cfg.font.get();
+
+  Point space=+cfg.space;
+
+  Point size=font->text("This is a long test line 1234567890."_c).getSize();
+
+  size.y=MulSize(lines,size.y);
+
+  return 3*space+size;
+ }
+
 void InfoShape::layout()
  {
   cache(cfg,info);

@@ -309,6 +309,8 @@ void TruePrimeWindow::test_changed(bool on)
      restart=false;
 
      builder.runTest();
+
+     light.turnOn();
     }
   else
     {
@@ -336,6 +338,8 @@ void TruePrimeWindow::wakeup()
         updateShow();
 
         builder.runTest();
+
+        light.turnOn();
        }
      else
        {
@@ -425,7 +429,9 @@ Point TruePrimeWindow::getMinSize() const
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,LayDivY(Lay(num_win),Lay(info),Div(1,2))};
+  LayToTop lay6{LaySpecial(info,5),Lay(num_win)};
+
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,lay6};
 
   return ExtLay(lay).getMinSize(space);
  }
@@ -457,7 +463,9 @@ void TruePrimeWindow::layout()
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,LayDivY(Lay(num_win),Lay(info),Div(1,2))};
+  LayToTop lay6{LaySpecial(info,5),Lay(num_win)};
+
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,lay6};
 
   ExtLay(lay).setPlace(getPane(),space);
  }

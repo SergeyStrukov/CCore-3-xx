@@ -120,6 +120,8 @@ class InfoWindowOf : public SubWindow
 
    auto getMinSize(Point cap=Point::Max()) const { return shape.getMinSize(cap); }
 
+   auto getMinSize(unsigned lines) const { return shape.getMinSize(lines); }
+
    bool isEnabled() const { return shape.enable; }
 
    void enable(bool enable=true)

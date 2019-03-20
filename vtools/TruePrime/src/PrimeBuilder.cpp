@@ -130,17 +130,27 @@ void PrimeBuilder::setException(StrLen text) noexcept
  {
   try
     {
-     setStatus(BuilderDoneReject,text);
+     PrintString out;
+
+     Printf(out,"Exception: #;",text);
+
+     setStatus(BuilderDoneReject,out.close());
     }
   catch(...)
     {
-     setStatus(BuilderDoneReject,"No memory"_str);
+     setStatus(BuilderDoneReject,"Exception: no memory"_str);
     }
  }
 
 class PrimeBuilder::Report : NoCopy
  {
    PrimeBuilder *obj;
+
+   static constexpr unsigned Count = 1000 ;
+
+   unsigned count = 0 ;
+
+   unsigned P = 0 ;
 
   private:
 
@@ -158,14 +168,7 @@ class PrimeBuilder::Report : NoCopy
    template <class Integer>
    void start(const Integer &) {}
 
-   void sanity(const char *msg)
-    {
-     PrintString out;
-
-     Printf(out,"sanity #;",msg);
-
-     obj->setStatus(BuilderRunning,out.close());
-    }
+   void sanity(const char *) {}
 
    void isSmallPrime() {}
 
@@ -173,16 +176,24 @@ class PrimeBuilder::Report : NoCopy
     {
      testStop();
 
+     P=prime_p;
+
      PrintString out;
 
-     Printf(out,"test P #;",prime_p);
+     Printf(out,"Test P = #;",prime_p);
 
      obj->setStatus(BuilderRunning,out.close());
     }
 
-   void testQ(Math::APRTest::QType)
+   void testQ(Math::APRTest::QType prime_q)
     {
      testStop();
+
+     PrintString out;
+
+     Printf(out,"Test P = #;\n  Q = #;",P,prime_q);
+
+     obj->setStatus(BuilderRunning,out.close());
     }
 
    template <class Integer>
@@ -201,24 +212,32 @@ class PrimeBuilder::Report : NoCopy
     {
      testStop();
 
-     obj->setStatus(BuilderRunning,"start probe"_str);
+     obj->setStatus(BuilderRunning,"Start probe"_str);
     }
 
    template <class Integer>
    void probe(const Integer &cnt)
     {
-     Used(cnt);
-
      testStop();
+
+     if( count )
+       {
+        count--;
+       }
+     else
+       {
+        count=Count;
+
+        PrintString out;
+
+        Printf(out,"Probe #;",cnt);
+
+        obj->setStatus(BuilderRunning,out.close());
+       }
     }
 
    template <class Integer>
-   void div(const Integer &D)
-    {
-     Used(D);
-
-     testStop();
-    }
+   void div(const Integer &) {}
 
    void hard() {}
 
@@ -230,11 +249,11 @@ class PrimeBuilder::Report : NoCopy
 template <class Int>
 void PrimeBuilder::work1(Int number)
  {
-  setStatus(BuilderRunning,"No-prime test is being performed"_str);
+  setStatus(BuilderRunning,"No-prime test is being performed ..."_str);
 
   if( Math::NoPrimeTest<Int>::RandomTest(number,100,random) )
     {
-     setStatus(BuilderRunning,"Probable prime"_str);
+     setStatus(BuilderRunning,"Probable prime ..."_str);
 
      if( stop_flag ) return setStatusCancel();
 
@@ -248,7 +267,7 @@ void PrimeBuilder::work1(Int number)
         PrintString out;
 
         if( result )
-          Printf(out,"Rejected: #;",result);
+          Printf(out,"Rejected: #;!",result);
         else
           Putobj(out,"Prime."_c);
 
