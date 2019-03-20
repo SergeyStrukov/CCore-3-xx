@@ -21,7 +21,84 @@ namespace App {
 
 /* classes */
 
+class NumberWindow;
+
 class TruePrimeWindow;
+
+/* class NumberWindow */
+
+class NumberWindow : public SubWindow
+ {
+  public:
+
+   struct Config
+    {
+     // user
+
+     RefVal<VColor> back = Silver ;
+
+     // app
+
+     Config() noexcept {}
+
+     template <class AppPref>
+     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
+       bindApp(app_pref.get());
+      }
+
+     template <class Bag,class Proxy>
+     void bindUser(const Bag &bag,Proxy)
+      {
+       back.bind(bag.back);
+      }
+
+     template <class Bag>
+     void bindApp(const Bag &bag)
+      {
+       Used(bag);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   String number;
+   unsigned max_span = 8 ;
+   unsigned max_line = 8 ;
+
+  public:
+
+   NumberWindow(SubWindowHost &host,const Config &cfg);
+
+   virtual ~NumberWindow();
+
+   // methods
+
+   Point getMinSize() const;
+
+   void setBin(const String &number);
+
+   void setDec(const String &number);
+
+   void setHex(const String &number);
+
+   // drawing
+
+   virtual bool isGoodSize(Point size) const;
+
+   virtual void layout();
+
+   virtual void draw(DrawBuf buf,DrawParam draw_param) const;
+
+   // keyboard
+
+   virtual FocusType askFocus() const;
+ };
 
 /* class TruePrimeWindow */
 
@@ -41,14 +118,18 @@ class TruePrimeWindow : public ComboWindow
      CtorRefVal<RunButtonWindow::ConfigType> run_cfg;
      CtorRefVal<LabelWindow::ConfigType> lab_cfg;
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
+     CtorRefVal<RadioWindow::ConfigType> rad_cfg;
+     CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
 
      // app
 
+     NumberWindow::ConfigType num_cfg;
 
      Config() noexcept {}
 
      template <class AppPref>
      Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
+      : num_cfg(user_pref,app_pref)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -64,6 +145,8 @@ class TruePrimeWindow : public ComboWindow
        run_cfg.bind(proxy);
        lab_cfg.bind(proxy);
        spinor_cfg.bind(proxy);
+       rad_cfg.bind(proxy);
+       dline_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -95,9 +178,26 @@ class TruePrimeWindow : public ComboWindow
    ButtonWindow btn_gen;
    RunButtonWindow run_test;
 
-   BlankWindow blank;
+   XDoubleLineWindow line1;
 
-   template <class ... WW> class LayMax;
+   LabelWindow lab_bin;
+   LabelWindow lab_dec;
+   LabelWindow lab_hex;
+
+   enum ShowBase
+    {
+     ShowBin,
+     ShowDec,
+     ShowHex
+    };
+
+   RadioGroup group_base;
+
+   RadioWindow rad_bin;
+   RadioWindow rad_dec;
+   RadioWindow rad_hex;
+
+   NumberWindow num_win;
 
   private:
 
@@ -122,6 +222,10 @@ class TruePrimeWindow : public ComboWindow
    void gen_pressed();
 
    SignalConnector<TruePrimeWindow> connector_gen_pressed;
+
+   void base_changed(int new_id,int prev_id);
+
+   SignalConnector<TruePrimeWindow,int,int> connector_base_changed;
 
    void wakeup();
 

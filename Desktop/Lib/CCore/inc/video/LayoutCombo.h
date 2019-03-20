@@ -174,6 +174,10 @@ template <class W,class L> class LayInner;
 
 template <class W,class L> class LayInnerSpace;
 
+template <class W> class LaySize;
+
+template <class ... WW> class LayMax;
+
 /* class LaySet<LL> */
 
 template <class ... LL>
@@ -1918,6 +1922,42 @@ class LayInnerSpace
      obj.setPlace(pane);
 
      lay.setPlace(obj.getInner().shrink(inner_space),space);
+    }
+ };
+
+/* class LaySize<W> */
+
+template <class W>
+class LaySize
+ {
+   W &obj;
+   Point size;
+
+  public:
+
+   LaySize(W &obj_,Point size_) : obj(obj_),size(size_) {}
+
+   Point getMinSize(Coord) const { return size; }
+
+   void setPlace(Pane pane,Coord) const { obj.setPlace(pane); }
+ };
+
+/* class LayMax<WW> */
+
+template <class ... WW>
+class LayMax
+ {
+   Tuple<WW & ...> list;
+   Point size;
+
+  public:
+
+   explicit LayMax(WW & ... ww) : list(ww...) { size=SupMinSize(ww...); }
+
+   template <int Ind>
+   auto get()
+    {
+     return LaySize(list.template ref<Ind>(),size);
     }
  };
 

@@ -19,10 +19,98 @@
 
 namespace App {
 
+/* class NumberWindow */
+
+NumberWindow::NumberWindow(SubWindowHost &host,const Config &cfg_)
+ : SubWindow(host),
+   cfg(cfg_)
+ {
+ }
+
+NumberWindow::~NumberWindow()
+ {
+ }
+
+ // methods
+
+Point NumberWindow::getMinSize() const
+ {
+  return {200,40};
+ }
+
+void NumberWindow::setBin(const String &number_)
+ {
+  number=number_;
+
+  max_span=8;
+  max_line=8;
+
+  layout();
+
+  redraw();
+ }
+
+void NumberWindow::setDec(const String &number_)
+ {
+  number=number_;
+
+  max_span=5;
+  max_line=10;
+
+  layout();
+
+  redraw();
+ }
+
+void NumberWindow::setHex(const String &number_)
+ {
+  number=number_;
+
+  max_span=4;
+  max_line=16;
+
+  layout();
+
+  redraw();
+ }
+
+ // drawing
+
+bool NumberWindow::isGoodSize(Point size) const
+ {
+  return size>=getMinSize();
+ }
+
+void NumberWindow::layout()
+ {
+ }
+
+void NumberWindow::draw(DrawBuf buf,DrawParam draw_param) const
+ {
+  Used(draw_param);
+
+  buf.erase(Black);
+ }
+
+ // keyboard
+
+FocusType NumberWindow::askFocus() const
+ {
+  return NoFocus;
+ }
+
 /* class TruePrimeWindow */
 
-void TruePrimeWindow::updateShow() // TODO
+void TruePrimeWindow::updateShow()
  {
+  switch( group_base.getRadioId() )
+    {
+     case ShowBin : num_win.setBin(builder.getBin()); break;
+
+     case ShowDec : num_win.setDec(builder.getDec()); break;
+
+     case ShowHex : num_win.setHex(builder.getHex()); break;
+    }
  }
 
 void TruePrimeWindow::nbits_changed(int)
@@ -53,6 +141,11 @@ void TruePrimeWindow::gen_pressed()
   updateShow();
  }
 
+void TruePrimeWindow::base_changed(int,int)
+ {
+  updateShow();
+ }
+
 void TruePrimeWindow::wakeup() // TODO
  {
  }
@@ -75,7 +168,17 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
    btn_gen(wlist,cfg.btn_cfg,"Gen"_str),
    run_test(wlist,cfg.run_cfg,"Run"_str,"Cancel"_str),
 
-   blank(wlist,Black),
+   line1(wlist,cfg.dline_cfg),
+
+   lab_bin(wlist,cfg.lab_cfg,"bin"_str),
+   lab_dec(wlist,cfg.lab_cfg,"dec"_str),
+   lab_hex(wlist,cfg.lab_cfg,"hex"_str),
+
+   rad_bin(wlist,ShowBin,cfg.rad_cfg),
+   rad_dec(wlist,ShowDec,cfg.rad_cfg),
+   rad_hex(wlist,ShowHex,cfg.rad_cfg),
+
+   num_win(wlist,cfg.num_cfg),
 
    connector_nbits_changed(this,&TruePrimeWindow::nbits_changed,spinor_nbits.changed),
    connector_msbits_changed(this,&TruePrimeWindow::msbits_changed,spinor_msbits.changed),
@@ -83,9 +186,14 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    connector_gen_pressed(this,&TruePrimeWindow::gen_pressed,btn_gen.pressed),
 
+   connector_base_changed(this,&TruePrimeWindow::base_changed,group_base.changed),
+
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
-  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,blank);
+  wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,
+               line1,lab_bin,rad_bin,lab_dec,rad_dec,lab_hex,rad_hex,num_win);
+
+  group_base.add(rad_bin,rad_dec,rad_hex);
 
   spinor_nbits.setRange(MinNBits,MaxNBits);
   spinor_msbits.setRange(MinGuardBits,MaxGuardBits);
@@ -102,42 +210,6 @@ TruePrimeWindow::~TruePrimeWindow()
 
  // methods
 
-template <class ... WW>
-class TruePrimeWindow::LayMax
- {
-   Tuple<WW & ...> list;
-   Point size;
-
-  public:
-
-   explicit LayMax(WW & ... ww)
-    : list(ww...)
-    {
-     size=Sup( ww.getMinSize() ... );
-    }
-
-   template <class W>
-   class Item
-    {
-      W &obj;
-      Point size;
-
-     public:
-
-      Item(W &obj_,Point size_) : obj(obj_),size(size_) {}
-
-      Point getMinSize(Coord) const { return size; }
-
-      void setPlace(Pane pane,Coord) const { obj.setPlace(pane); }
-    };
-
-   template <int Ind>
-   auto get()
-    {
-     return Item(list.template ref<Ind>(),size);
-    }
- };
-
 Point TruePrimeWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
@@ -148,8 +220,11 @@ Point TruePrimeWindow::getMinSize() const
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
+  LayToRightCenter lay5{Lay(lab_bin),Lay(rad_bin),
+                        Lay(lab_dec),Lay(rad_dec),
+                        Lay(lab_hex),LayLeft(rad_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(blank)};
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
 
   return ExtLay(lay).getMinSize(space);
  }
@@ -177,8 +252,11 @@ void TruePrimeWindow::layout()
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),LayLeft(run_test)};
+  LayToRightCenter lay5{Lay(lab_bin),Lay(rad_bin),
+                        Lay(lab_dec),Lay(rad_dec),
+                        Lay(lab_hex),LayLeft(rad_hex)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(blank)};
+  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,Lay(num_win)};
 
   ExtLay(lay).setPlace(getPane(),space);
  }
