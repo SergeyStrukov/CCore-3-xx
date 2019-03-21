@@ -27,6 +27,8 @@ struct TypeDefCore
     DDL::MapRange< DDL::MapPtr< S1 > > sub;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S2
@@ -97,6 +99,8 @@ struct TypeDefCore
     DDL::MapText file;
 
     struct Ext;
+
+    ulen ext;
    };
 
   // extra

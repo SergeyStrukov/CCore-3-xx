@@ -268,6 +268,27 @@ struct TypeSet : TypeDefCore
        default: Printf(Exception,"Unknown structure");
       }
    }
+
+  void erase(Place<void> place,DDL::StructNode *struct_node) const
+   {
+    switch( ind_map[struct_node->index] )
+      {
+       case 1 :
+        {
+         S1 *obj=place;
+
+         obj->ext=0;
+        }
+       break;
+       case 9 :
+        {
+         S9 *obj=place;
+
+         obj->ext=0;
+        }
+       break;
+      }
+   }
  };
 
 template <class T>

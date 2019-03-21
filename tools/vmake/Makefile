@@ -35,7 +35,7 @@ TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 MakeString = $(HOME)/bin/CCore-MakeString.exe
 
 inc/vmake.TypeDef.gen.h : src/vmake.ddl
-	$(TypeSet) src/vmake.ddl inc/vmake.TypeDef.gen.h src/vmake.TypeSet.gen.h
+	$(TypeSet) src/vmake.ddl inc/vmake.TypeDef.gen.h src/vmake.TypeSet.gen.h Target MenuItem
 
 src/./vmake.Pretext.gen.h : src/vmake.ddl
 	$(MakeString) -s src/vmake.ddl src/vmake.Pretext.gen.h
