@@ -98,7 +98,8 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "file",offsetof(S5,file),
                                "target",offsetof(S5,target),
-                               "wdir",offsetof(S5,wdir)
+                               "wdir",offsetof(S5,wdir),
+                               "echo",offsetof(S5,echo)
                               );
         }
        return ret;
@@ -113,7 +114,8 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "cmdline",offsetof(S7,cmdline),
                                "wdir",offsetof(S7,wdir),
-                               "env",offsetof(S7,env)
+                               "env",offsetof(S7,env),
+                               "echo",offsetof(S7,echo)
                               );
         }
        return ret;
@@ -129,7 +131,8 @@ struct TypeSet : TypeDefCore
                                "exe",offsetof(S8,exe),
                                "cmdline",offsetof(S8,cmdline),
                                "wdir",offsetof(S8,wdir),
-                               "env",offsetof(S8,env)
+                               "env",offsetof(S8,env),
+                               "echo",offsetof(S8,echo)
                               );
         }
        return ret;
@@ -142,7 +145,7 @@ struct TypeSet : TypeDefCore
          ret.set<S6>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "var",offsetof(S6,var),
+                               "name",offsetof(S6,name),
                                "value",offsetof(S6,value)
                               );
         }
@@ -216,6 +219,7 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapText,
                                DDL::MapText,
+                               DDL::MapText,
                                DDL::MapText
                               >(*this,struct_node);
         }
@@ -226,7 +230,8 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapText,
                                DDL::MapText,
-                               DDL::MapRange< S6 >
+                               DDL::MapRange< S6 >,
+                               DDL::MapText
                               >(*this,struct_node);
         }
        break;
@@ -237,7 +242,8 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,
-                               DDL::MapRange< S6 >
+                               DDL::MapRange< S6 >,
+                               DDL::MapText
                               >(*this,struct_node);
         }
        break;

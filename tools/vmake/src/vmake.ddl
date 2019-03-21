@@ -18,7 +18,7 @@ struct Target
  
 struct Env
  {
-  text var;
+  text name;
   text value;
  }; 
  
@@ -26,29 +26,32 @@ struct Exe
  {
   text exe;
   text cmdline;
-  text wdir = null ;
-  Env[] env = null ;
+  text wdir;
+  Env[] env;
+  text echo; 
  };
  
 struct Cmd
  {
   text cmdline;
-  text wdir = null ;
-  Env[] env = null ;
+  text wdir;
+  Env[] env;
+  text echo; 
  };
  
 struct VMake
  {
   text file;
   text target = 'main' ;
-  text wdir = null ;
+  text wdir;
+  text echo; 
  };
  
 struct Rule
  {
   Target * [] src; 
   Target * [] dst;
-  {Exe,Cmd,VMake} * [] cmd; 
+  {Exe,Cmd,VMake} * [] cmd;
  };
  
 struct Dep
@@ -62,7 +65,7 @@ struct MenuItem
   Target *dst;
   text desc;
   
-  MenuItem * [] sub;  
+  MenuItem * [] sub = {} ;  
  };
  
 struct Menu

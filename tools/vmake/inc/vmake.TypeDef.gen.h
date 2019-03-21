@@ -58,13 +58,14 @@ struct TypeDefCore
     DDL::MapText file;
     DDL::MapText target;
     DDL::MapText wdir;
+    DDL::MapText echo;
 
     struct Ext;
    };
 
   struct S6
    {
-    DDL::MapText var;
+    DDL::MapText name;
     DDL::MapText value;
 
     struct Ext;
@@ -75,6 +76,7 @@ struct TypeDefCore
     DDL::MapText cmdline;
     DDL::MapText wdir;
     DDL::MapRange< S6 > env;
+    DDL::MapText echo;
 
     struct Ext;
    };
@@ -85,6 +87,7 @@ struct TypeDefCore
     DDL::MapText cmdline;
     DDL::MapText wdir;
     DDL::MapRange< S6 > env;
+    DDL::MapText echo;
 
     struct Ext;
    };
