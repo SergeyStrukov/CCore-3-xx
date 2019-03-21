@@ -25,127 +25,29 @@
 
 namespace App {
 
-/* class Activator */
+/* class PrimeTest */
 
-void Activator::exit()
+void PrimeTest::setStatusCancel()
  {
-  stopping=true;
-
-  stop_sem.give();
+  setStatus(BuilderDoneReject,"Cancelled!"_str);
  }
 
-Activator::Activator()
+void PrimeTest::setException(StrLen text) noexcept
  {
- }
-
-Activator::~Activator()
- {
- }
-
-void Activator::stop()
- {
-  if( running )
+  try
     {
-     stop_flag.flag=true;
-
-     stop_sem.take();
-
-     running=false;
+     setStatus(BuilderDoneReject,String(text));
+    }
+  catch(...)
+    {
+     setStatus(BuilderDoneReject,"Exception: no memory"_str);
     }
  }
 
-bool Activator::waitStop(MSec timeout)
- {
-  if( running && stopping )
-    {
-     if( stop_sem.take(timeout) )
-       {
-        running=false;
-
-        return true;
-       }
-    }
-
-  return false;
- }
-
-/* class PrimeBuilder::Work */
-
-class PrimeBuilder::Work : NoCopy
+class PrimeTest::Report : NoCopy
  {
    StopFlag &stop_flag;
-
-   PrimeBuilder *obj;
-   DynArray<uint8> number;
-   bool para;
-
-  private:
-
-   void interrupt() { obj->async_interrupt(); }
-
-   void setStatus(BuilderState state,const String &text)
-    {
-     obj->setStatus(state,text);
-    }
-
-   void setStatusCancel()
-    {
-     setStatus(BuilderDoneReject,"Cancelled!"_str);
-    }
-
-   void setException(StrLen text) noexcept
-    {
-     try
-       {
-        PrintString out;
-
-        Printf(out,"#;",text);
-
-        setStatus(BuilderDoneReject,out.close());
-       }
-     catch(...)
-       {
-        setStatus(BuilderDoneReject,"Exception: no memory"_str);
-       }
-    }
-
-  private:
-
-   class Report;
-
-   template <class Int,class Engine>
-   void work_engine(PtrLen<const uint8> number);
-
-   void work_single(PtrLen<const uint8> number);
-
-   void work_para(PtrLen<const uint8> number);
-
-   void work(PtrLen<const uint8> number,bool para);
-
-  public:
-
-   Work(StopFlag &stop_flag_,PrimeBuilder *obj_,PtrLen<uint8> number_,bool para_)
-    : stop_flag(stop_flag_),
-      obj(obj_),
-      number(DoCopy(number_.len),number_.ptr),
-      para(para_)
-    {
-    }
-
-   ~Work()
-    {
-    }
-
-   void operator () ()
-    {
-     work(Range(number),para);
-    }
- };
-
-class PrimeBuilder::Work::Report : NoCopy
- {
-   StopFlag &stop_flag;
-   Work *obj;
+   PrimeTest *obj;
 
    Atomic cancel;
 
@@ -165,7 +67,7 @@ class PrimeBuilder::Work::Report : NoCopy
 
    enum CancelType { Cancel };
 
-   Report(StopFlag &stop_flag_,Work *obj_) : stop_flag(stop_flag_),obj(obj_) {}
+   Report(StopFlag &stop_flag_,PrimeTest *obj_) : stop_flag(stop_flag_),obj(obj_) {}
 
    void guard() const
     {
@@ -246,7 +148,7 @@ class PrimeBuilder::Work::Report : NoCopy
  };
 
 template <class Int,class Engine>
-void PrimeBuilder::Work::work_engine(PtrLen<const uint8> number_)
+void PrimeTest::work_engine(PtrLen<const uint8> number_)
  {
   PlatformRandom random;
 
@@ -291,7 +193,7 @@ void PrimeBuilder::Work::work_engine(PtrLen<const uint8> number_)
     }
  }
 
-void PrimeBuilder::Work::work_single(PtrLen<const uint8> number)
+void PrimeTest::work_single(PtrLen<const uint8> number)
  {
   using Int = Math::Integer<Math::IntegerFastAlgo> ;
 
@@ -300,7 +202,7 @@ void PrimeBuilder::Work::work_single(PtrLen<const uint8> number)
   work_engine<Int,Engine>(number);
  }
 
-void PrimeBuilder::Work::work_para(PtrLen<const uint8> number)
+void PrimeTest::work_para(PtrLen<const uint8> number)
  {
   TaskHeap task_heap;
 
@@ -311,22 +213,36 @@ void PrimeBuilder::Work::work_para(PtrLen<const uint8> number)
   work_engine<Int,Engine>(number);
  }
 
-void PrimeBuilder::Work::work(PtrLen<const uint8> number,bool para)
+void PrimeTest::work(PtrLen<const uint8> number,bool para)
  {
-  SimpleArray<char> buf(4_KByte);
-  PrintBuf out(Range(buf));
+  if( para )
+    work_para(number);
+  else
+    work_single(number);
+ }
+
+PrimeTest::PrimeTest(StopFlag &stop_flag_,PtrLen<uint8> number_,bool para_)
+ : stop_flag(stop_flag_),
+   number(DoCopy(number_.len),number_.ptr),
+   para(para_),
+   exbuf(4_KByte)
+ {
+ }
+
+PrimeTest::~PrimeTest()
+ {
+ }
+
+void PrimeTest::operator () ()
+ {
+  PrintBuf out(Range(exbuf));
   ReportExceptionTo report(out);
 
   try
     {
-     if( para )
-       work_para(number);
-     else
-       work_single(number);
+     work(Range(number),para);
 
      report.guard();
-
-     interrupt();
     }
   catch(CatchType)
     {
@@ -337,6 +253,32 @@ void PrimeBuilder::Work::work(PtrLen<const uint8> number,bool para)
      setException("Unknown exception"_c);
     }
  }
+
+/* class PrimeBuilder::Work */
+
+class PrimeBuilder::Work : public PrimeTest
+ {
+   PrimeBuilder *obj;
+
+  private:
+
+   virtual void setStatus(BuilderState state,const String &text)
+    {
+     obj->setStatus(state,text);
+    }
+
+  public:
+
+   Work(StopFlag &stop_flag,PrimeBuilder *obj_,PtrLen<uint8> number,bool para)
+    : PrimeTest(stop_flag,number,para),
+      obj(obj_)
+    {
+    }
+
+   ~Work()
+    {
+    }
+ };
 
 /* class PrimeBuilder */
 

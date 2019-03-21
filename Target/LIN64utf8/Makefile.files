@@ -4,6 +4,7 @@ OBJ_LIST = \
 .obj/APRTestData.gen.o \
 .obj/Abort.o \
 .obj/AbortMsgFunc.o \
+.obj/Activator.o \
 .obj/AntiSem.o \
 .obj/AnyPtr.o \
 .obj/AppMain.o \
@@ -485,6 +486,7 @@ ASM_LIST = \
 .obj/APRTestData.gen.s \
 .obj/Abort.s \
 .obj/AbortMsgFunc.s \
+.obj/Activator.s \
 .obj/AntiSem.s \
 .obj/AnyPtr.s \
 .obj/AppMain.s \
@@ -966,6 +968,7 @@ DEP_LIST = \
 .obj/APRTestData.gen.dep \
 .obj/Abort.dep \
 .obj/AbortMsgFunc.dep \
+.obj/Activator.dep \
 .obj/AntiSem.dep \
 .obj/AnyPtr.dep \
 .obj/AppMain.dep \
@@ -1467,6 +1470,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/AbortMsgFunc.o : ../../Simple/CCore/src/./AbortMsgFunc.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Activator.o : ../../Desktop/Tools/CCore/src/./video/Activator.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/AntiSem.o : ../../HCore/CCore/src/./task/AntiSem.cpp
@@ -2905,6 +2911,9 @@ include $(RULES_FILE)
 .obj/AbortMsgFunc.s : ../../Simple/CCore/src/./AbortMsgFunc.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Activator.s : ../../Desktop/Tools/CCore/src/./video/Activator.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/AntiSem.s : ../../HCore/CCore/src/./task/AntiSem.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4340,6 +4349,9 @@ include $(RULES_FILE)
 
 .obj/AbortMsgFunc.dep : ../../Simple/CCore/src/./AbortMsgFunc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AbortMsgFunc.o $< -MF $@
+
+.obj/Activator.dep : ../../Desktop/Tools/CCore/src/./video/Activator.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Activator.o $< -MF $@
 
 .obj/AntiSem.dep : ../../HCore/CCore/src/./task/AntiSem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/AntiSem.o $< -MF $@
