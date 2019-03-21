@@ -92,7 +92,7 @@ class ConReport
 
    void testP(unsigned p) const { Printf(Con,"p = #;\n",p); }
 
-   void testQ(Math::APRTest::QType q) const{ if( full ) Printf(Con,"  q = #;\n",q); }
+   void testQ(unsigned,Math::APRTest::QType q) const{ if( full ) Printf(Con,"  q = #;\n",q); }
 
    template <class Integer>
    static Integer Fix(const Integer &a,const Integer &Nminus1)
@@ -247,7 +247,7 @@ class FileReport
 
    void testP(unsigned p) { Printf(out,"p = #;\n",p); last_p=p; }
 
-   void testQ(Math::APRTest::QType q) { Printf(out,"  q = #;\n",q); last_q=q; }
+   void testQ(unsigned,Math::APRTest::QType q) { Printf(out,"  q = #;\n",q); last_q=q; }
 
    template <class Integer>
    static Integer Fix(const Integer &a,const Integer &Nminus1)

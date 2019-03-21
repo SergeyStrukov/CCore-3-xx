@@ -135,7 +135,7 @@ class <span class="Att">NoReport</span>
    
    void testP(unsigned prime_p) { Used(prime_p); }
    
-   void testQ(QType prime_q) { Used(prime_q); }
+   void testQ(unsigned prime_p,QType prime_q) { Used(prime_p); Used(prime_q); }
    
    template &lt;class Integer&gt;
    void cappa(PtrLen&lt;const Integer&gt; cappa,const Integer &amp;Nminus1) { Used(cappa); Used(Nminus1); }

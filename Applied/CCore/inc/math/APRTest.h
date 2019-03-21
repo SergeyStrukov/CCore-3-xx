@@ -634,7 +634,7 @@ class NoReport
 
    void testP(unsigned prime_p) { Used(prime_p); }
 
-   void testQ(QType prime_q) { Used(prime_q); }
+   void testQ(unsigned prime_p,QType prime_q) { Used(prime_p); Used(prime_q); }
 
    template <class Integer>
    void cappa(PtrLen<const Integer> cappa,const Integer &Nminus1) { Used(cappa); Used(Nminus1); }
@@ -898,7 +898,7 @@ class TestEngine : TestData
 
         for(ulen k=0; k<tset.jset.len && tset.jset[k].set_number<=set_number ;k++)
           {
-           report.testQ(tset.jset[k].prime_q);
+           report.testQ(tset.prime_p,tset.jset[k].prime_q);
 
            switch( test(tset.prime_p,tset.jset[k],report) )
              {
@@ -1321,7 +1321,7 @@ class ParaTestEngine : TestData
 
         for(ulen k=0; k<tset.jset.len && tset.jset[k].set_number<=set_number ;k++)
           {
-           report.testQ(tset.jset[k].prime_q);
+           report.testQ(tset.prime_p,tset.jset[k].prime_q);
 
            switch( test(tset.prime_p,tset.jset[k],report) )
              {

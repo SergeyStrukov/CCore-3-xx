@@ -149,12 +149,6 @@ class PrimeBuilder::Report : NoCopy
  {
    PrimeBuilder *obj;
 
-   static constexpr unsigned Count = 1000 ;
-
-   unsigned count = 0 ;
-
-   unsigned P = 0 ;
-
   private:
 
    void testStop()
@@ -179,8 +173,6 @@ class PrimeBuilder::Report : NoCopy
     {
      testStop();
 
-     P=prime_p;
-
      PrintString out;
 
      Printf(out,"Test P = #;",prime_p);
@@ -188,13 +180,13 @@ class PrimeBuilder::Report : NoCopy
      obj->setStatus(BuilderRunning,out.close());
     }
 
-   void testQ(Math::APRTest::QType prime_q)
+   void testQ(unsigned prime_p,Math::APRTest::QType prime_q)
     {
      testStop();
 
      PrintString out;
 
-     Printf(out,"Test P = #;\n  Q = #;",P,prime_q);
+     Printf(out,"Test P = #;\n  Q = #;",prime_p,prime_q);
 
      obj->setStatus(BuilderRunning,out.close());
     }
@@ -223,14 +215,8 @@ class PrimeBuilder::Report : NoCopy
     {
      testStop();
 
-     if( count )
+     if( (cnt.template cast<unsigned>()%1024)==0 )
        {
-        count--;
-       }
-     else
-       {
-        count=Count;
-
         PrintString out;
 
         Printf(out,"Probe #;",cnt);
