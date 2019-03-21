@@ -13,24 +13,35 @@
 
 struct Target
  {
-  text file;
+  text file = null ;
  };
+ 
+struct Env
+ {
+  text var;
+  text value;
+ }; 
  
 struct Exe
  {
   text exe;
   text cmdline;
+  text wdir = null ;
+  Env[] env = null ;
  };
  
 struct Cmd
  {
   text cmdline;
+  text wdir = null ;
+  Env[] env = null ;
  };
  
 struct VMake
  {
   text file;
   text target = 'main' ;
+  text wdir = null ;
  };
  
 struct Rule
@@ -46,4 +57,19 @@ struct Dep
   Target * [] dst;
  };
 
-   
+struct MenuItem
+ {
+  Target *dst;
+  text desc;
+  
+  MenuItem * [] sub;  
+ };
+ 
+struct Menu
+ {
+  MenuItem[] list;
+ };
+
+// menu OR auto
+
+    
