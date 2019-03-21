@@ -15,6 +15,7 @@
 
 #include <CCore/inc/Timer.h>
 #include <CCore/inc/PrintTime.h>
+#include <CCore/inc/TaskHeap.h>
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/math/NoPrimeTest.h>
@@ -134,7 +135,7 @@ void PrimeBuilder::setException(StrLen text) noexcept
     {
      PrintString out;
 
-     Printf(out,"Exception: #;",text);
+     Printf(out,"#;",text);
 
      setStatus(BuilderDoneReject,out.close());
     }
@@ -248,10 +249,9 @@ class PrimeBuilder::Report : NoCopy
    void noPrime() {}
  };
 
-void PrimeBuilder::work1(PtrLen<const uint8> number_)
+template <class Int,class Engine>
+void PrimeBuilder::work_engine(PtrLen<const uint8> number_)
  {
-  using Int = Math::Integer<Math::IntegerFastAlgo> ;
-
   Math::OctetInteger<Int> number(number_);
 
   SecTimer timer;
@@ -266,7 +266,7 @@ void PrimeBuilder::work1(PtrLen<const uint8> number_)
 
      try
        {
-        Math::APRTest::TestEngine<Int> test;
+        Engine test;
         Report report(this);
 
         auto result=test(number,report);
@@ -291,7 +291,27 @@ void PrimeBuilder::work1(PtrLen<const uint8> number_)
     }
  }
 
-void PrimeBuilder::work(PtrLen<const uint8> number)
+void PrimeBuilder::work_single(PtrLen<const uint8> number)
+ {
+  using Int = Math::Integer<Math::IntegerFastAlgo> ;
+
+  using Engine = Math::APRTest::TestEngine<Int> ;
+
+  work_engine<Int,Engine>(number);
+ }
+
+void PrimeBuilder::work_para(PtrLen<const uint8> number)
+ {
+  TaskHeap task_heap;
+
+  using Int = Math::Integer<Math::IntegerFastAlgo,RefArray,TaskHeapArrayAlgo> ;
+
+  using Engine = Math::APRTest::ParaTestEngine<Int,TaskHeapArrayAlgo> ;
+
+  work_engine<Int,Engine>(number);
+ }
+
+void PrimeBuilder::work(PtrLen<const uint8> number,bool para)
  {
   SimpleArray<char> buf(4_KByte);
   PrintBuf out(Range(buf));
@@ -299,7 +319,10 @@ void PrimeBuilder::work(PtrLen<const uint8> number)
 
   try
     {
-     work1(number);
+     if( para )
+       work_para(number);
+     else
+       work_single(number);
 
      report.guard();
 
@@ -325,6 +348,7 @@ void PrimeBuilder::exit()
 class PrimeBuilder::Work : public Task
  {
    PrimeBuilder *obj;
+   bool para;
 
    DynArray<uint8> number;
 
@@ -332,7 +356,7 @@ class PrimeBuilder::Work : public Task
 
    virtual void entry()
     {
-     obj->work(Range(number));
+     obj->work(Range(number),para);
     }
 
    virtual void exit()
@@ -346,10 +370,10 @@ class PrimeBuilder::Work : public Task
 
   public:
 
-   explicit Work(PrimeBuilder *obj_)
+   Work(PrimeBuilder *obj_,bool para_)
+    : obj(obj_),
+      para(para_)
     {
-     obj=obj_;
-
      number.extend_copy(Range(obj->buf));
     }
 
@@ -517,7 +541,7 @@ void PrimeBuilder::gen()
   mask();
  }
 
-void PrimeBuilder::runTest()
+void PrimeBuilder::runTest(bool para)
  {
   if( running ) return;
 
@@ -528,7 +552,7 @@ void PrimeBuilder::runTest()
   stop_flag=false;
   stopping=false;
 
-  Work *ptr=new Work(this);
+  Work *ptr=new Work(this,para);
 
   running=true;
 

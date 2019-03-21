@@ -18,6 +18,8 @@
 
 #include <CCore/inc/video/AppOpt.h>
 
+#include <CCore/inc/Job.h>
+
 namespace App {
 
 /* classes */
@@ -80,6 +82,8 @@ class ClientWindow : public ComboWindow
    using ConfigType = Config ;
 
   private:
+
+   Job::Init job_init;
 
    const Config &cfg;
 

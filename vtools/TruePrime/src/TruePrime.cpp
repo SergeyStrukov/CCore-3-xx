@@ -257,6 +257,11 @@ void TruePrimeWindow::updateShow()
     }
  }
 
+void TruePrimeWindow::runTest()
+ {
+  builder.runTest(check_para.isChecked());
+ }
+
 void TruePrimeWindow::showStatus(BuilderState state,String text)
  {
   if( state==BuilderDoneReject )
@@ -321,7 +326,7 @@ void TruePrimeWindow::test_changed(bool on)
     {
      restart=false;
 
-     builder.runTest();
+     runTest();
 
      light.turnOn();
     }
@@ -357,7 +362,7 @@ void TruePrimeWindow::wakeup()
 
         updateShow();
 
-        builder.runTest();
+        runTest();
 
         light.turnOn();
        }
@@ -390,6 +395,9 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
 
    light(wlist,cfg.light_cfg,Red),
 
+   check_para(wlist,cfg.check_cfg),
+   lab_para(wlist,cfg.lab_cfg,"parallel"_str),
+
    btn_copy(wlist,cfg.btn_cfg,"Copy"_str),
 
    line1(wlist,cfg.dline_cfg),
@@ -420,6 +428,7 @@ TruePrimeWindow::TruePrimeWindow(SubWindowHost &host,const Config &cfg_)
    connector_wakeup(this,&TruePrimeWindow::wakeup,host.getFrameDesktop()->wakeup)
  {
   wlist.insTop(lab_nbits,spinor_nbits,lab_msbits,spinor_msbits,lab_lsbits,spinor_lsbits,btn_gen,run_test,light,btn_copy,
+               check_para,lab_para,
                line1,rad_bin,lab_bin,rad_dec,lab_dec,rad_hex,lab_hex,num_win,info);
 
   group_base.add(rad_bin,rad_dec,rad_hex);
@@ -449,13 +458,14 @@ Point TruePrimeWindow::getMinSize() const
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),Lay(light),LayLeft(btn_copy)};
-  LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
+  LayToRightCenter lay5{LayBox{check_para},LayLeft(lab_para)};
+  LayToRightCenter lay6{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToTop lay6{LaySpecial(info,5),Lay(num_win)};
+  LayToTop lay7{LaySpecial(info,5),Lay(num_win)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,lay6};
+  LayToBottom lay{lay1,lay2,lay3,lay4,lay5,Lay(line1),lay6,lay7};
 
   return ExtLay(lay).getMinSize(space);
  }
@@ -487,13 +497,14 @@ void TruePrimeWindow::layout()
   LayToRightCenter lay2{laymax.get<2>(),LayLeft(spinor_msbits)};
   LayToRightCenter lay3{laymax.get<3>(),LayLeft(spinor_lsbits)};
   LayToRightCenter lay4{Lay(btn_gen),Lay(run_test),Lay(light),LayLeft(btn_copy)};
-  LayToRightCenter lay5{LayBox(rad_bin),Lay(lab_bin),
+  LayToRightCenter lay5{LayBox{check_para},LayLeft(lab_para)};
+  LayToRightCenter lay6{LayBox(rad_bin),Lay(lab_bin),
                         LayBox(rad_dec),Lay(lab_dec),
                         LayBox(rad_hex),LayLeft(lab_hex)};
 
-  LayToTop lay6{LaySpecial(info,5),Lay(num_win)};
+  LayToTop lay7{LaySpecial(info,5),Lay(num_win)};
 
-  LayToBottom lay{lay1,lay2,lay3,lay4,Lay(line1),lay5,lay6};
+  LayToBottom lay{lay1,lay2,lay3,lay4,lay5,Lay(line1),lay6,lay7};
 
   ExtLay(lay).setPlace(getPane(),space);
  }

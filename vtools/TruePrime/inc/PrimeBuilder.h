@@ -118,9 +118,14 @@ class PrimeBuilder : NoCopy
 
    class Report;
 
-   void work1(PtrLen<const uint8> number);
+   template <class Int,class Engine>
+   void work_engine(PtrLen<const uint8> number);
 
-   void work(PtrLen<const uint8> number);
+   void work_single(PtrLen<const uint8> number);
+
+   void work_para(PtrLen<const uint8> number);
+
+   void work(PtrLen<const uint8> number,bool para);
 
    void exit();
 
@@ -156,7 +161,7 @@ class PrimeBuilder : NoCopy
 
    void gen();
 
-   void runTest();
+   void runTest(bool para);
 
    void cancelTest();
 

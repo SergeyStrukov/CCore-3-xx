@@ -145,6 +145,7 @@ class TruePrimeWindow : public ComboWindow
      CtorRefVal<LightWindow::ConfigType> light_cfg;
      CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
      CtorRefVal<InfoWindow::ConfigType> info_cfg;
+     CtorRefVal<CheckWindow::ConfigType> check_cfg;
 
      // app
 
@@ -174,6 +175,7 @@ class TruePrimeWindow : public ComboWindow
        light_cfg.bind(proxy);
        dline_cfg.bind(proxy);
        info_cfg.bind(proxy);
+       check_cfg.bind(proxy);
       }
 
      template <class Bag>
@@ -206,6 +208,9 @@ class TruePrimeWindow : public ComboWindow
    RunButtonWindow run_test;
 
    LightWindow light;
+
+   CheckWindow check_para;
+   LabelWindow lab_para;
 
    ButtonWindow btn_copy;
 
@@ -243,6 +248,8 @@ class TruePrimeWindow : public ComboWindow
    ulen getLSBits() const { return (ulen)spinor_lsbits.getValue(); }
 
    void updateShow();
+
+   void runTest();
 
    void showStatus(BuilderState state,String text);
 
