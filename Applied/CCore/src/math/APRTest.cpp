@@ -68,6 +68,7 @@ const char * GetTextDesc(TestResult res)
      case HasDivisor : return "Has divisor";
      case HardCase   : return "Hard case";
      case TooLarge   : return "Too large";
+     case ExFlag     : return "Exception";
 
      default: return "???";
     }

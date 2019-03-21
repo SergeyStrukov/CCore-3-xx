@@ -147,11 +147,18 @@ class PrimeBuilder::Work::Report : NoCopy
    StopFlag &stop_flag;
    Work *obj;
 
+   Atomic cancel;
+
   private:
 
    void testStop()
     {
-     if( stop_flag ) throw Cancel;
+     if( stop_flag )
+       {
+        cancel=true;
+
+        throw Cancel;
+       }
     }
 
   public:
@@ -159,6 +166,11 @@ class PrimeBuilder::Work::Report : NoCopy
    enum CancelType { Cancel };
 
    Report(StopFlag &stop_flag_,Work *obj_) : stop_flag(stop_flag_),obj(obj_) {}
+
+   void guard() const
+    {
+     if( cancel ) throw Cancel;
+    }
 
    template <class Integer>
    void start(const Integer &) {}
@@ -233,7 +245,6 @@ class PrimeBuilder::Work::Report : NoCopy
    void noPrime() {}
  };
 
-
 template <class Int,class Engine>
 void PrimeBuilder::Work::work_engine(PtrLen<const uint8> number_)
  {
@@ -264,6 +275,8 @@ void PrimeBuilder::Work::work_engine(PtrLen<const uint8> number_)
           Printf(out,"Rejected: #;!",result);
         else
           Printf(out,"Prime. Time = #;.",PrintTime(timer.get()));
+
+        if( result==Math::APRTest::ExFlag ) report.guard();
 
         setStatus((result?BuilderDoneReject:BuilderDoneIsPrime),out.close());
        }

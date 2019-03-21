@@ -23,6 +23,7 @@
 #include <CCore/inc/FunctorType.h>
 #include <CCore/inc/PrintSet.h>
 #include <CCore/inc/Job.h>
+#include <CCore/inc/Exception.h>
 
 namespace CCore {
 namespace Math {
@@ -79,7 +80,9 @@ enum TestResult
   NoPrime,
   HasDivisor,
   HardCase,
-  TooLarge
+  TooLarge,
+
+  ExFlag
  };
 
 const char * GetTextDesc(TestResult res);
@@ -1436,7 +1439,7 @@ class ParaTestEngine : TestData
       ulen cur = 0 ;
 
       TestResult result = IsPrime ;
-      bool no_memory = false ;
+      bool ex_flag = false ;
 
      private:
 
@@ -1444,6 +1447,8 @@ class ParaTestEngine : TestData
 
       void job()
        {
+        SilentReportException exreport;
+
         try
           {
            Integer N_;
@@ -1461,7 +1466,7 @@ class ParaTestEngine : TestData
               {
                Mutex::Lock lock(mutex);
 
-               if( no_memory || result!=IsPrime || cur>=ListLen ) return;
+               if( ex_flag || result!=IsPrime || cur>=ListLen ) return;
 
                i=cur++;
               }
@@ -1492,7 +1497,7 @@ class ParaTestEngine : TestData
           {
            Mutex::Lock lock(mutex);
 
-           no_memory=true;
+           ex_flag=true;
           }
        }
 
@@ -1530,7 +1535,7 @@ class ParaTestEngine : TestData
 
       TestResult getResult() const { return result; }
 
-      bool getNoMemory() const { return no_memory; }
+      bool getExFlag() const { return ex_flag; }
     };
 
    template <class Report>
@@ -1544,7 +1549,7 @@ class ParaTestEngine : TestData
       Job run_job(control.function_job());
      }
 
-     if( control.getNoMemory() ) GuardNoMemory();
+     if( control.getExFlag() ) return ExFlag;
 
      TestResult ret=control.getResult();
 
@@ -1568,12 +1573,14 @@ class ParaTestEngine : TestData
 
       unsigned cur = 1 ;
       bool no_prime = false ;
-      bool no_memory = false ;
+      bool ex_flag = false ;
 
      private:
 
       void job()
        {
+        SilentReportException exreport;
+
         try
           {
            Integer N_;
@@ -1587,7 +1594,7 @@ class ParaTestEngine : TestData
               {
                Mutex::Lock lock(mutex);
 
-               if( no_prime || no_memory || cur>=set_number+2 ) return;
+               if( no_prime || ex_flag || cur>=set_number+2 ) return;
 
                i=cur++;
               }
@@ -1610,7 +1617,7 @@ class ParaTestEngine : TestData
           {
            Mutex::Lock lock(mutex);
 
-           no_memory=true;
+           ex_flag=true;
           }
        }
 
@@ -1631,7 +1638,7 @@ class ParaTestEngine : TestData
 
       bool getNoPrime() const { return no_prime; }
 
-      bool getNoMemory() const { return no_memory; }
+      bool getExFlag() const { return ex_flag; }
     };
 
   public:
@@ -1698,7 +1705,7 @@ class ParaTestEngine : TestData
        Job run_job(control.function_job());
       }
 
-      if( control.getNoMemory() ) GuardNoMemory();
+      if( control.getExFlag() ) return ExFlag;
 
       if( control.getNoPrime() ) return NoPrime;
      }
