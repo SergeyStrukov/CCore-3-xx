@@ -420,6 +420,8 @@ class TypedMap : NoCopy
 
    template <class T>
    T takeConst(StrLen name);
+
+   void * constPlace(ulen index); // special!
  };
 
 template <class TypeSet>
@@ -986,6 +988,12 @@ T TypedMap<TypeSet>::takeConst(StrLen name)
   T *ptr=base+rec->off;
 
   return *ptr;
+ }
+
+template <class TypeSet>
+void * TypedMap<TypeSet>::constPlace(ulen index)
+ {
+  return base+const_buf[index].off;
  }
 
 } // namespace DDL

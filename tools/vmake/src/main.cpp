@@ -26,6 +26,18 @@ int Main(StrLen file_name,StrLen target)
  {
   Printf(Con,"#; @ #;\n\n",file_name,target);
 
+  VMake::DataFile file(file_name,target);
+
+  for(VMake::TypeDef::Dep *dep : file.getDeps() )
+    {
+     for(VMake::TypeDef::Target *ptr : dep->src.getRange() )
+       {
+        Printf(Con,"#; ",ptr->file.getStr());
+       }
+
+     Putch(Con,'\n');
+    }
+
   return 1;
  }
 

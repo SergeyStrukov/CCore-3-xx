@@ -73,6 +73,4 @@ struct Menu
   MenuItem[] list;
  };
 
-// menu OR auto
-
     
