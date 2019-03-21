@@ -1,0 +1,53 @@
+OBJ_LIST = \
+.obj/VMakeProc.o \
+.obj/main.o \
+
+
+ASM_LIST = \
+.obj/VMakeProc.s \
+.obj/main.s \
+
+
+DEP_LIST = \
+.obj/VMakeProc.dep \
+.obj/main.dep \
+
+
+ASM_OBJ_LIST = \
+
+
+include $(RULES_FILE)
+
+
+.obj/VMakeProc.o : src/./VMakeProc.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/main.o : src/./main.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+
+
+.obj/VMakeProc.s : src/./VMakeProc.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/main.s : src/./main.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+
+
+.obj/VMakeProc.dep : src/./VMakeProc.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/VMakeProc.o $< -MF $@
+
+.obj/main.dep : src/./main.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
+
+
+
+
+
+ifneq ($(MAKECMDGOALS),clean)
+
+-include $(DEP_FILE)
+
+endif
+
