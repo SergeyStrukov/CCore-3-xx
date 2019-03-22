@@ -168,9 +168,9 @@ class FileProc : NoCopy
 
    ~FileProc();
 
-   bool checkNotExist(StrLen dst);
+   bool checkNotExist(StrLen wdir,StrLen dst);
 
-   bool checkOlder(StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
+   bool checkOlder(StrLen wdir,StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
  };
 
 /* class DataProc */

@@ -109,10 +109,12 @@ void DataProc::applyToSrc(TypeDef::Target *obj,Func func)
 
 bool DataProc::checkNotExist(StrLen dst)
  {
+  return file_proc.checkNotExist(Range(wdir),dst);
  }
 
 bool DataProc::checkOlder(StrLen dst,StrLen src)
  {
+  return file_proc.checkOlder(Range(wdir),dst,src);
  }
 
 bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src)
@@ -261,6 +263,10 @@ void DataProc::buildWorkTree()
 void DataProc::addWork(TypeDef::Target *obj) // TODO
  {
   Used(obj);
+
+  StrLen file=obj->file;
+
+  Printf(Con,"rebuild #;\n",file);
  }
 
 DataProc::DataProc(FileProc &file_proc,StrLen file_name,StrLen target)
