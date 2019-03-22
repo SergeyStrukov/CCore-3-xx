@@ -66,49 +66,28 @@ DataFile::DataFile(StrLen file_name,StrLen target_name)
 
   mem=guard.disarm();
 
-  target=map.findConst<TypeDef::Target>(target_name);
-
   // extract
 
-  Collector<TypeDef::Rule *> rule_list;
-  Collector<TypeDef::Dep *> dep_list;
+  target=map.findConst<TypeDef::Target>(target_name);
 
-  auto list=Range(result.eval->const_table);
+  struct Func
+   {
+    Collector<TypeDef::Rule *> rule_list;
+    Collector<TypeDef::Dep *> dep_list;
 
-  for(ulen ind : IndLim(list.len) )
-    {
-     DDL::ConstResult &item=list[ind];
+    void operator () (TypeDef::Rule *ptr) { rule_list.append_copy(ptr); }
 
-     if( DDL::StructNode *node=DDL::IsStructType(item.type) )
-       {
-        if( node->depth==0 )
-          {
-           StrLen name=node->name.name.str;
+    void operator () (TypeDef::Dep *ptr) { dep_list.append_copy(ptr); }
+   };
 
-           if( name.equal("Rule"_c) )
-             {
-              StrLen objname=item.node->name.name.str;
+  Func func;
 
-              rule_list.append_copy(static_cast<TypeDef::Rule *>(map.constPlace(ind)));
-
-              Printf(Con,"Rule #;\n",objname);
-             }
-           else if( name.equal("Dep"_c) )
-             {
-              StrLen objname=item.node->name.name.str;
-
-              dep_list.append_copy(static_cast<TypeDef::Dep *>(map.constPlace(ind)));
-
-              Printf(Con,"Dep #;\n",objname);
-             }
-          }
-       }
-    }
+  map.applyFor(map.getFilter<TypeDef::Rule,TypeDef::Dep>(),FunctorRef(func));
 
   // build tables
 
-  rule_list.extractTo(rules);
-  dep_list.extractTo(deps);
+  func.rule_list.extractTo(rules);
+  func.dep_list.extractTo(deps);
  }
 
 DataFile::~DataFile()

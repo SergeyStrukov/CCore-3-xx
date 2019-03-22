@@ -20,6 +20,8 @@
 #include <CCore/inc/ddl/DDLMapTools.h>
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
+#include <CCore/inc/algon/ApplyToRange.h>
+
 namespace CCore {
 namespace DDL {
 
@@ -267,21 +269,21 @@ auto EraseExtField(TypeSet &type_set,Place<void> place,StructNode *struct_node,N
 
 /* class TypedMap<TypeSet> */
 
-//
-// class TypeSet : NoCopy
-//  {
-//   public:
-//
-//    explicit TypeSet(ulen struct_count);
-//
-//    MapSizeInfo structSizeInfo(StructNode *struct_node); // fill field_node.index with offset
-//
-//    template <class T>
-//    bool isStruct(StructNode *struct_node) const;
-//
-//    void guardFieldTypes(StructNode *struct_node) const;
-//  };
-//
+ //
+ // class TypeSet : NoCopy
+ //  {
+ //   public:
+ //
+ //    explicit TypeSet(ulen struct_count);
+ //
+ //    MapSizeInfo structSizeInfo(StructNode *struct_node); // fill field_node.index with offset
+ //
+ //    template <class T>
+ //    bool isStruct(StructNode *struct_node) const;
+ //
+ //    void guardFieldTypes(StructNode *struct_node) const;
+ //  };
+ //
 
 template <class TypeSet>
 class TypedMap : NoCopy
@@ -416,12 +418,21 @@ class TypedMap : NoCopy
    void operator () (void *mem);
 
    template <class T>
-   T * findConst(StrLen name);
+   T * findConst(StrLen name) const;
 
    template <class T>
-   T takeConst(StrLen name);
+   T takeConst(StrLen name) const;
 
-   void * constPlace(ulen index); // special!
+   template <class T,class FuncInit>
+   auto applyForType(FuncInit func_init) const;
+
+   template <class ... TT> class Filter;
+
+   template <class ... TT>
+   auto getFilter() const;
+
+   template <class F,class FuncInit>
+   auto applyFor(F filter,FuncInit func_init) const;
  };
 
 template <class TypeSet>
@@ -962,7 +973,7 @@ void TypedMap<TypeSet>::operator () (void *mem)
 
 template <class TypeSet>
 template <class T>
-T * TypedMap<TypeSet>::findConst(StrLen name)
+T * TypedMap<TypeSet>::findConst(StrLen name) const
  {
   NameKey key(name);
 
@@ -975,7 +986,7 @@ T * TypedMap<TypeSet>::findConst(StrLen name)
 
 template <class TypeSet>
 template <class T>
-T TypedMap<TypeSet>::takeConst(StrLen name)
+T TypedMap<TypeSet>::takeConst(StrLen name) const
  {
   NameKey key(name);
 
@@ -991,9 +1002,76 @@ T TypedMap<TypeSet>::takeConst(StrLen name)
  }
 
 template <class TypeSet>
-void * TypedMap<TypeSet>::constPlace(ulen index)
+template <class T,class FuncInit>
+auto TypedMap<TypeSet>::applyForType(FuncInit func_init) const
  {
-  return base+const_buf[index].off;
+  FunctorTypeOf<FuncInit> func(func_init);
+
+  for(auto &rec : const_buf )
+    {
+     if( MapTypeCheck<T>::Match(type_set,rec.type) )
+       {
+        T *ptr=base+rec.off;
+
+        func(ptr);
+       }
+    }
+
+  return Algon::GetResult(func);
+ }
+
+template <class TypeSet>
+template <class ... TT>
+class TypedMap<TypeSet>::Filter
+ {
+   const TypeSet &type_set;
+
+   Place<void> base;
+
+  private:
+
+   template <class T,class Rec,class Func>
+   bool step(Rec &rec,Func &func) const
+    {
+     if( MapTypeCheck<T>::Match(type_set,rec.type) )
+       {
+        T *ptr=base+rec.off;
+
+        func(ptr);
+
+        return true;
+       }
+
+     return false;
+    }
+
+  public:
+
+   Filter(const TypeSet &type_set_,Place<void> base_) : type_set(type_set_),base(base_) {}
+
+   template <class Rec,class Func>
+   void operator () (Rec &rec,Func &func) const
+    {
+     ( step<TT>(rec,func) || ... );
+    }
+ };
+
+template <class TypeSet>
+template <class ... TT>
+auto TypedMap<TypeSet>::getFilter() const
+ {
+  return Filter<TT...>(type_set,base);
+ }
+
+template <class TypeSet>
+template <class F,class FuncInit>
+auto TypedMap<TypeSet>::applyFor(F filter,FuncInit func_init) const
+ {
+  FunctorTypeOf<FuncInit> func(func_init);
+
+  for(auto &rec : const_buf ) filter(rec,func);
+
+  return Algon::GetResult(func);
  }
 
 } // namespace DDL

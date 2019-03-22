@@ -41,10 +41,10 @@ class DataFile : NoCopy
  {
    void *mem = 0 ;
 
+   TypeDef::Target *target = 0 ;
+
    DynArray<TypeDef::Rule *> rules;
    DynArray<TypeDef::Dep *> deps;
-
-   TypeDef::Target *target;
 
   private:
 
