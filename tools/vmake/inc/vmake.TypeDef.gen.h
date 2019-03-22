@@ -57,10 +57,10 @@ struct TypeDefCore
 
   struct S5
    {
+    DDL::MapText echo;
     DDL::MapText file;
     DDL::MapText target;
     DDL::MapText wdir;
-    DDL::MapText echo;
 
     struct Ext;
    };
@@ -75,21 +75,21 @@ struct TypeDefCore
 
   struct S7
    {
+    DDL::MapText echo;
     DDL::MapText cmdline;
     DDL::MapText wdir;
     DDL::MapRange< S6 > env;
-    DDL::MapText echo;
 
     struct Ext;
    };
 
   struct S8
    {
+    DDL::MapText echo;
     DDL::MapText exe;
     DDL::MapText cmdline;
     DDL::MapText wdir;
     DDL::MapRange< S6 > env;
-    DDL::MapText echo;
 
     struct Ext;
    };

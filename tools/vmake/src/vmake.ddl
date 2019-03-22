@@ -25,27 +25,27 @@ struct Env
  
 struct Exe
  {
+  text echo; 
   text exe;
   text cmdline;
   text wdir;
   Env[] env;
-  text echo; 
  };
  
 struct Cmd
  {
+  text echo; 
   text cmdline;
   text wdir;
   Env[] env;
-  text echo; 
  };
  
 struct VMake
  {
+  text echo; 
   text file;
   text target = 'main' ;
   text wdir;
-  text echo; 
  };
  
 struct Rule

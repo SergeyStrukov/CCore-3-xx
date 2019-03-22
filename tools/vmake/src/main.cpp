@@ -30,7 +30,7 @@ int Main(StrLen file_name,StrLen target)
 
   VMake::DataProc proc(file_proc,file_name,target);
 
-  return 1;
+  return proc.make();
  }
 
 } // namespace App

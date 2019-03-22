@@ -1,23 +1,38 @@
 /* default.vm.ddl */
 
-Rule r1 = {} ;
+/* targets */
 
-Dep dep1 = { {&a1} } ;
+Target main = { "main" } ;
 
-Target main = {} ;
+Target exe = { "exe" , "test.exe" } ;
 
-Target a1 = { 'a1' } ;
+Target obj1 = { "obj1" , "test1.o" } ;
 
-Target a2 = { 'a2' } ;
+Target obj2 = { "obj2" , "test2.o" } ;
 
-Target a3 = { 'a3' } ;
+Target cpp1 = { "cpp1" , "test1.cpp" } ;
 
-type XXX = Dep ;
+Target cpp2 = { "cpp2" , "test2.cpp" } ;
 
-XXX dep2 = { {&a2} } ;
+Target h1 = { "h1" , "test.h" } ;
 
-scope Inner {
+/* rules */
 
-Dep dep3 = { {&a3} } ;
+Rule cc1 = { {&cpp1} , {&obj1} , {&cmd1} } ;
 
-}
+Cmd cmd1 = { "CC test1.cpp" , "g++ -c test1.cpp -o test1.o" } ;
+
+Rule cc2 = { {&cpp2} , {&obj2} , {&cmd2} } ;
+
+Cmd cmd2 = { "CC test2.cpp" , "g++ -c test2.cpp -o test2.o" } ;
+
+Rule ld1 = { {&obj1,&obj2} , {&exe} , {&cmd3} } ;
+
+Cmd cmd3 = { "LD test.exe" , "g++ test1.o test2.o -o test.exe" } ;
+
+/* deps */
+
+Dep dep1 = { {&h1} , {&obj1,&obj2} } ;
+
+Dep dep2 = { {&exe} , {&main} } ;
+

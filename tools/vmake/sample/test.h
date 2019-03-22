@@ -1,0 +1,3 @@
+/* test.h */
+
+int func();
