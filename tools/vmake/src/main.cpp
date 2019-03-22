@@ -26,6 +26,9 @@ int Main(StrLen file_name,StrLen target)
  {
   Printf(Con,"#; @ #;\n\n",file_name,target);
 
+  VMake::FileProc file_proc;
+
+  VMake::DataProc proc(file_proc,file_name,target);
 
   return 1;
  }

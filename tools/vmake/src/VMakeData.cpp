@@ -49,11 +49,11 @@ DataFile::DataFile(StrLen file_name,StrLen target_name)
 
   auto result=engine.process(Range(file_name),Pretext());
 
+  eout.flush();
+
   if( !result )
     {
-     eout.flush();
-
-     Printf(Exception,"App::VMake::DataFile::DataFile(#.q;) : load failed",file_name);
+     Printf(Exception,"vmake file #.q; : load failed",file_name);
     }
 
   // map
@@ -63,11 +63,14 @@ DataFile::DataFile(StrLen file_name,StrLen target_name)
 
   map(guard);
 
-  mem=guard.disarm();
-
   // extract
 
   target=map.findConst<TypeDef::Target>(target_name);
+
+  if( !target )
+    {
+     Printf(Exception,"vmake file #.q; : no target #.q;",file_name,target_name);
+    }
 
   struct Func
    {
@@ -87,6 +90,8 @@ DataFile::DataFile(StrLen file_name,StrLen target_name)
 
   func.rule_list.extractTo(rules);
   func.dep_list.extractTo(deps);
+
+  mem=guard.disarm();
  }
 
 DataFile::~DataFile()

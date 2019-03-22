@@ -14,10 +14,15 @@
 #ifndef App_VMakeProc_h
 #define App_VMakeProc_h
 
+#include <CCore/inc/Path.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
+#include <CCore/inc/List.h>
+#include <CCore/inc/ElementPool.h>
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
+
+#include <CCore/inc/FileSystem.h>
 
 namespace App {
 
@@ -29,9 +34,19 @@ namespace VMake {
 
 #include "vmake.TypeDef.gen.h"
 
+/* guard functions */
+
+void GuardStackEmpty();
+
 /* classes */
 
 class DataFile;
+
+template <class T> class List;
+
+template <class T> class Stack;
+
+class FileProc;
 
 class DataProc;
 
@@ -63,22 +78,184 @@ class DataFile : NoCopy
    PtrLen<TypeDef::Dep *const> getDeps() const { return Range(deps); }
  };
 
+/* class List<T> */
+
+template <class T>
+class List : NoCopy
+ {
+   struct Node : NoCopy
+    {
+     SLink<Node> link;
+
+     T obj;
+
+     explicit Node(const T &obj_) : obj(obj_) {}
+    };
+
+   using Algo = typename SLink<Node>::template LinearAlgo<&Node::link> ;
+
+   typename Algo::Top list;
+
+  public:
+
+   List() {}
+
+   template <class Pool>
+   void add(Pool &pool,const T &obj)
+    {
+     Node *node=pool.template create<Node>(obj);
+
+     list.ins(node);
+    }
+
+   template <class Func>
+   void apply(Func func) const
+    {
+     for(auto cur=list.start(); +cur ;++cur)
+       {
+        func(cur->obj);
+       }
+    }
+ };
+
+/* class Stack<T> */
+
+template <class T>
+class Stack : NoCopy
+ {
+   DynArray<T> buf;
+
+  private:
+
+   void guardEmpty()
+    {
+     if( isEmpty() ) GuardStackEmpty();
+    }
+
+  public:
+
+   Stack() : buf(DoReserve,1000) {}
+
+   ~Stack() {}
+
+   bool isEmpty() const { return buf.isEmpty(); }
+
+   bool notEmpty() const { return buf.notEmpty(); }
+
+   void push(const T &obj) { buf.append_copy(obj); }
+
+   T top()
+    {
+     guardEmpty();
+
+     ulen len=buf.getLen();
+
+     return buf[len-1];
+    }
+
+   void pop() { buf.shrink_one(); }
+ };
+
+/* class FileProc */
+
+class FileProc : NoCopy
+ {
+   FileSystem fs;
+
+  public:
+
+   FileProc();
+
+   ~FileProc();
+
+   bool checkNotExist(StrLen dst);
+
+   bool checkOlder(StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
+ };
+
 /* class DataProc */
 
 class DataProc : NoCopy
  {
+   FileProc &file_proc;
+
    DataFile data;
-   String wdir;
+
+   ElementPool pool;
+   StrLen file_name;
+   StrLen wdir;
+
+   enum State
+    {
+     StateInitial,
+     StateLocked,
+     StateOk,
+     StateRebuild
+    };
+
+   struct TRec : NoCopy
+    {
+     TypeDef::Rule *rule = 0 ;
+
+     List<TypeDef::Dep *> deps;
+
+     State state = StateInitial ;
+    };
+
+   DynArray<TRec *> trecs;
+
+  private:
+
+   TRec * getRec(TypeDef::Target *obj);
+
+   void add(TypeDef::Target *dst,TypeDef::Rule *rule);
+
+   void add(TypeDef::Target *dst,TypeDef::Dep *dep);
+
+   void prepare(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj);
+
+   void prepare();
+
+  private:
+
+   TypeDef::Rule * getRule(TypeDef::Target *obj);
+
+   template <class Func>
+   void applyToDeps(TypeDef::Target *obj,Func func);
+
+   template <class Func>
+   static void ApplyToSrc(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj,Func func);
+
+   template <class Func>
+   void applyToSrc(TypeDef::Target *obj,Func func);
+
+  private:
+
+   bool checkNotExist(StrLen dst);
+
+   bool checkOlder(StrLen dst,StrLen src);
+
+   bool checkOlder(TypeDef::Target *dst,TypeDef::Target *src);
+
+   bool checkSelf(TypeDef::Target *dst);
+
+   void finish(TypeDef::Target *obj);
+
+   void buildWorkTree();
+
+  private:
+
+   void addWork(TypeDef::Target *obj);
 
   public:
 
-   DataProc(StrLen file_name,StrLen target);
+   DataProc(FileProc &file_proc,StrLen file_name,StrLen target);
 
-   DataProc(StrLen file_name,StrLen target,StrLen wdir);
+   DataProc(FileProc &file_proc,StrLen file_name,StrLen target,StrLen wdir);
 
    ~DataProc();
 
-   int make();
+   int make(); // one-time call
  };
 
 } // namespace VMake
