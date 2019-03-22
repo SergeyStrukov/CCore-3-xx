@@ -211,14 +211,9 @@ class DataProc : NoCopy
      List<TypeDef::Dep *> deps;
 
      State state = StateInitial ;
-
-     bool done = false ;
     };
 
    DynArray<TRec *> trecs;
-
-   bool check_flag = false ;
-   int check_result = 0 ;
 
   private:
 
@@ -262,8 +257,6 @@ class DataProc : NoCopy
   private:
 
    void addWork(TypeDef::Target *obj);
-
-   void addWork(TypeDef::Target *obj,TypeDef::Rule *rule);
 
    int commit();
 

@@ -117,7 +117,7 @@ bool DataProc::checkOlder(StrLen dst,StrLen src)
   return file_proc.checkOlder(Range(wdir),dst,src);
  }
 
-bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src) // TODO
+bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src)
  {
   StrLen dst_file=dst->file;
   StrLen src_file=src->file;
@@ -264,59 +264,13 @@ void DataProc::addWork(TypeDef::Target *obj) // TODO
  {
   Printf(Con,"rebuild #.q;\n",GetDesc(obj));
 
-  if( check_flag )
-    {
-     if( check_result ) return;
 
-     StrLen file=obj->file;
-
-     if( +file )
-       {
-        Printf(NoException,"vmake : target #.q; is sill dependent",GetDesc(obj));
-
-        check_result=1;
-       }
-     else
-       {
-        TRec *rec=getRec(obj);
-
-        if( rec->done )
-          {
-           rec->state=StateOk;
-          }
-        else
-          {
-           Printf(NoException,"vmake : target #.q; is sill dependent",GetDesc(obj));
-
-           check_result=1;
-          }
-       }
-    }
-  else
-    {
-     StrLen file=obj->file;
-
-     TRec *rec=getRec(obj);
-
-     if( !rec->rule && +file )
-       {
-        Printf(Exception,"vmake : file target #.q; has no rule",GetDesc(obj));
-       }
-     else
-       {
-        addWork(obj,rec->rule);
-       }
-    }
- }
-
-void DataProc::addWork(TypeDef::Target *obj,TypeDef::Rule *rule) // TODO
- {
-  Used(obj);
-  Used(rule);
  }
 
 int DataProc::commit() // TODO
  {
+
+
   return 1;
  }
 
@@ -341,19 +295,9 @@ DataProc::~DataProc()
 
 int DataProc::make()
  {
-  if( check_flag ) return check_result;
-
   buildWorkTree();
 
-  if( int ret=commit() ) return ret;
-
-  for(TRec *ptr : trecs ) ptr->state=StateInitial;
-
-  check_flag=true;
-
-  buildWorkTree();
-
-  return check_result;
+  return commit();
  }
 
 } // namespace VMake
