@@ -13,6 +13,7 @@
 "\n"
 "struct Target\n"
 " {\n"
+"  text desc;\n"
 "  text file = null ;\n"
 " };\n"
 " \n"

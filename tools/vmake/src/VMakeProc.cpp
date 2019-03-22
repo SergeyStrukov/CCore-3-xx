@@ -49,7 +49,7 @@ void DataProc::add(TypeDef::Target *dst,TypeDef::Rule *rule)
 
   if( rec->rule )
     {
-     Printf(Exception,"vmake file #.q; : multiple rules for a target",file_name);
+     Printf(Exception,"vmake file #.q; : multiple rules for a target #.q;",file_name,GetDesc(dst));
     }
 
   rec->rule=rule;
@@ -223,7 +223,7 @@ void DataProc::buildWorkTree()
 
                                   case StateLocked :
                                    {
-                                    Printf(Exception,"vmake file #.q; : dependency loop detected",file_name);
+                                    Printf(Exception,"vmake file #.q; : dependency loop detected #.q; #.q;",file_name,GetDesc(obj),GetDesc(src));
                                    }
                                   break;
                                  }
@@ -264,9 +264,7 @@ void DataProc::addWork(TypeDef::Target *obj) // TODO
  {
   Used(obj);
 
-  StrLen file=obj->file;
-
-  Printf(Con,"rebuild #;\n",file);
+  Printf(Con,"rebuild #.q;\n",GetDesc(obj));
  }
 
 DataProc::DataProc(FileProc &file_proc,StrLen file_name,StrLen target)

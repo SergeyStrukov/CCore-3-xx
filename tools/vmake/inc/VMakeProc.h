@@ -38,6 +38,17 @@ namespace VMake {
 
 void GuardStackEmpty();
 
+/* functions */
+
+inline StrLen GetDesc(TypeDef::Target *ptr)
+ {
+  StrLen ret=ptr->desc;
+
+  if( !ret ) return "???"_c;
+
+  return ret;
+ }
+
 /* classes */
 
 class DataFile;

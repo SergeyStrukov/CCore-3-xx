@@ -159,6 +159,7 @@ struct TypeSet : TypeDefCore
          ret.set<S9>();
 
          DDL::SetFieldOffsets(struct_node,
+                               "desc",offsetof(S9,desc),
                                "file",offsetof(S9,file)
                               );
         }
@@ -260,6 +261,7 @@ struct TypeSet : TypeDefCore
        case 9 :
         {
          DDL::GuardFieldTypes<
+                               DDL::MapText,
                                DDL::MapText
                               >(*this,struct_node);
         }

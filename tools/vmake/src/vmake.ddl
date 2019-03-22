@@ -13,6 +13,7 @@
 
 struct Target
  {
+  text desc;
   text file = null ;
  };
  

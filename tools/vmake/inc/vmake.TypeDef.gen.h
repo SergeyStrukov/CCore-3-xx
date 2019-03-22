@@ -96,6 +96,7 @@ struct TypeDefCore
 
   struct S9
    {
+    DDL::MapText desc;
     DDL::MapText file;
 
     struct Ext;
