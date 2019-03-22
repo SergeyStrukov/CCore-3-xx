@@ -67,6 +67,9 @@ class DataFile : NoCopy
 
 class DataProc : NoCopy
  {
+   DataFile data;
+   String wdir;
+
   public:
 
    DataProc(StrLen file_name,StrLen target);

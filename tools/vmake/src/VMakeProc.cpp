@@ -13,89 +13,35 @@
 
 #include <inc/VMakeProc.h>
 
-#include <CCore/inc/FileName.h>
-#include <CCore/inc/FileToMem.h>
-
-#include <CCore/inc/ForLoop.h>
+#include <CCore/inc/Path.h>
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
-
-#include <CCore/inc/ddl/DDLEngine.h>
-#include <CCore/inc/ddl/DDLTypeSet.h>
 
 namespace App {
 
 namespace VMake {
 
-#include "vmake.TypeSet.gen.h"
-
-/* class DataFile */
-
-StrLen DataFile::Pretext()
- {
-  return
-
-#include "vmake.Pretext.gen.h"
-
-  ""_c;
- }
-
-DataFile::DataFile(StrLen file_name,StrLen target_name)
- {
-  // process
-
-  PrintCon eout;
-
-  DDL::FileEngine<FileName,FileToMem> engine(eout);
-
-  auto result=engine.process(Range(file_name),Pretext());
-
-  if( !result )
-    {
-     eout.flush();
-
-     Printf(Exception,"App::VMake::DataFile::DataFile(#.q;) : load failed",file_name);
-    }
-
-  // map
-
-  DDL::TypedMap<TypeSet> map(result);
-  MemAllocGuard guard(map.getLen());
-
-  map(guard);
-
-  mem=guard.disarm();
-
-  // extract
-
-  target=map.findConst<TypeDef::Target>(target_name);
-
-  struct Func
-   {
-    Collector<TypeDef::Rule *> rule_list;
-    Collector<TypeDef::Dep *> dep_list;
-
-    void operator () (TypeDef::Rule *ptr) { rule_list.append_copy(ptr); }
-
-    void operator () (TypeDef::Dep *ptr) { dep_list.append_copy(ptr); }
-   };
-
-  Func func;
-
-  map.applyFor(map.getFilter<TypeDef::Rule,TypeDef::Dep>(),FunctorRef(func));
-
-  // build tables
-
-  func.rule_list.extractTo(rules);
-  func.dep_list.extractTo(deps);
- }
-
-DataFile::~DataFile()
- {
-  MemFree(Replace_null(mem));
- }
-
 /* class DataProc */
+
+DataProc::DataProc(StrLen file_name,StrLen target)
+ : DataProc(file_name,target,PrefixPath(file_name))
+ {
+ }
+
+DataProc::DataProc(StrLen file_name,StrLen target,StrLen wdir_)
+ : data(file_name,target),
+   wdir(wdir_)
+ {
+ }
+
+DataProc::~DataProc()
+ {
+ }
+
+int DataProc::make()
+ {
+  return 1;
+ }
 
 } // namespace VMake
 
