@@ -423,7 +423,7 @@ class TypedMap : NoCopy
    template <class T>
    T takeConst(StrLen name) const;
 
-   template <class T,class FuncInit>
+   template <class T,FuncInitArgType<T *> FuncInit>
    auto applyForType(FuncInit func_init) const;
 
    template <class ... TT> class Filter;
@@ -1002,7 +1002,7 @@ T TypedMap<TypeSet>::takeConst(StrLen name) const
  }
 
 template <class TypeSet>
-template <class T,class FuncInit>
+template <class T,FuncInitArgType<T *> FuncInit>
 auto TypedMap<TypeSet>::applyForType(FuncInit func_init) const
  {
   FunctorTypeOf<FuncInit> func(func_init);
