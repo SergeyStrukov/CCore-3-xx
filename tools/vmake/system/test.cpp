@@ -14,32 +14,59 @@
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/MemBase.h>
+
+#include "SpawnProcess.h"
+
 #include <unistd.h>
 #include <spawn.h>
 #include <sys/wait.h>
 
-using namespace CCore;
+#include <string.h>
+#include <stdlib.h>
 
-/* test() */
+using namespace App;
 
-void test()
+/* test1() */
+
+void test1()
  {
   int pid;
 
   const char * args[]={"sh",0};
 
-  if( posix_spawnp(&pid,"/bin/sh",0,0,(char *const *)args,environ) )
+  char *temp=(char *)MemAlloc(80);
+
+  strcpy(temp,"/bin/sh");
+
+  if( posix_spawnp(&pid,temp,0,0,(char *const *)args,environ) ) // "/bin/sh"
     {
      Printf(Con,"spawn failed\n");
+    }
+  else
+    {
+     int result=0;
 
-     return;
+     int ret=waitpid(pid,&result,0);
+
+     Printf(Con,"pid = #; result = #;\n",ret,result);
     }
 
-  int result=0;
+  MemFree(temp);
+ }
 
-  int ret=waitpid(pid,&result,0);
+/* test2() */
 
-  Printf(Con,"pid = #; result = #;\n",ret,result);
+void test2()
+ {
+  FileSystem fs;
+  VMake::SpawnProcess spawn(fs,""_c,"/bin/sh"_c);
+
+  spawn.addArg("sh"_c);
+
+  spawn.spawn();
+
+  spawn.wait();
  }
 
 /* main() */
@@ -50,7 +77,7 @@ int main()
     {
      ReportException report;
 
-     test();
+     test1();
 
      report.guard();
 
