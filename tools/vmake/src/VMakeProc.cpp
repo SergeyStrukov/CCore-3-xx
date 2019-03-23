@@ -30,17 +30,23 @@ void GuardStackEmpty()
 
 /* class DataProc */
 
-auto DataProc::getRec(TypeDef::Target *obj) -> TRec *
+template <class T,class R>
+R * DataProc::getRec(T *obj,DynArray<R *> &list)
  {
-  if( ulen ext=obj->ext ) return trecs[ext-1];
+  if( ulen ext=obj->ext ) return list[ext-1];
 
-  TRec *ret=pool.create<TRec>();
+  R *ret=pool.create<R>();
 
-  trecs.append_copy(ret);
+  list.append_copy(ret);
 
-  obj->ext=trecs.getLen();
+  obj->ext=list.getLen();
 
   return ret;
+ }
+
+auto DataProc::getRec(TypeDef::Target *obj) -> TRec *
+ {
+  return getRec(obj,trecs);
  }
 
 void DataProc::add(TypeDef::Target *dst,TypeDef::Rule *rule)
@@ -78,6 +84,8 @@ void DataProc::prepare()
   trecs.shrink_extra();
 
   pool.shrink_extra();
+
+  works.reserve(trecs.getLen());
  }
 
 TypeDef::Rule * DataProc::getRule(TypeDef::Target *obj)
@@ -92,24 +100,29 @@ void DataProc::applyToDeps(TypeDef::Target *obj,Func func)
  }
 
 template <class Func>
-void DataProc::ApplyToSrc(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj,Func func)
+bool DataProc::ApplyToSrc(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj,Func func)
  {
-  for(TypeDef::Target *ptr : obj->src.getRange() ) if( ptr ) func(ptr);
+  for(TypeDef::Target *ptr : obj->src.getRange() ) if( ptr ) if( !func(ptr) ) return false;
+
+  return true;
  }
 
 template <class Func>
-void DataProc::applyToSrc(TypeDef::Target *obj,Func func)
+bool DataProc::applyToSrc(TypeDef::Target *obj,Func func)
  {
   TRec *rec=getRec(obj);
 
-  if( rec->rule ) ApplyToSrc(rec->rule,func);
+  if( rec->rule )
+    {
+     if( !ApplyToSrc(rec->rule,func) ) return false;
+    }
 
-  rec->deps.apply( [&] (TypeDef::Dep *obj) { ApplyToSrc(obj,func); } );
+  return rec->deps.applyWhile( [&] (TypeDef::Dep *obj) { return ApplyToSrc(obj,func); } );
  }
 
-bool DataProc::checkNotExist(StrLen dst)
+bool DataProc::checkExist(StrLen dst)
  {
-  return file_proc.checkNotExist(Range(wdir),dst);
+  return file_proc.checkExist(Range(wdir),dst);
  }
 
 bool DataProc::checkOlder(StrLen dst,StrLen src)
@@ -117,7 +130,7 @@ bool DataProc::checkOlder(StrLen dst,StrLen src)
   return file_proc.checkOlder(Range(wdir),dst,src);
  }
 
-bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src)
+bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile)
  {
   StrLen dst_file=dst->file;
   StrLen src_file=src->file;
@@ -130,7 +143,7 @@ bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src)
     {
      if( !src_file )
        {
-        return true;
+        return nofile;
        }
      else
        {
@@ -145,52 +158,48 @@ bool DataProc::checkSelf(TypeDef::Target *dst)
 
   if( !dst_file )
     {
-     return true;
+     return false;
     }
   else
     {
-     return checkNotExist(dst_file);
+     return checkExist(dst_file);
     }
  }
 
-void DataProc::finish(TypeDef::Target *obj)
+bool DataProc::checkOlderSrc(TypeDef::Target *dst,bool nofile)
  {
-  bool rebuild=checkSelf(obj);
+  return
 
-  applyToSrc(obj, [&] (TypeDef::Target *src)
+  applyToSrc(dst, [&] (TypeDef::Target *src)
                       {
                        switch( getRec(src)->state )
                          {
-                          case StateOk :
-                           {
-                            if( !rebuild ) rebuild=checkOlder(obj,src);
-                           }
-                          break;
+                          case StateOk : return !checkOlder(dst,src,nofile);
 
-                          case StateRebuild :
-                           {
-                            rebuild=true;
-                           }
-                          break;
+                          case StateRebuild : return false;
 
                           default:
                            {
                             Printf(Exception,"vmake internal : unexpected src state");
-                           }
 
+                            return false;
+                           }
                          }
 
-                      } );
+                      } ) ;
+ }
 
-  if( rebuild )
+void DataProc::finish(TypeDef::Target *obj)
+ {
+  if( checkSelf(obj) && checkOlderSrc(obj,true) )
+    {
+     getRec(obj)->state=StateOk;
+    }
+  else
     {
      getRec(obj)->state=StateRebuild;
 
      addWork(obj);
-    }
-  else
-    {
-     getRec(obj)->state=StateOk;
     }
  }
 
@@ -228,6 +237,8 @@ void DataProc::buildWorkTree()
                                   break;
                                  }
 
+                               return true;
+
                               } );
          }
         break;
@@ -260,18 +271,138 @@ void DataProc::buildWorkTree()
     }
  }
 
-void DataProc::addWork(TypeDef::Target *obj) // TODO
+auto DataProc::getRec(TypeDef::Rule *obj) -> RRec *
+ {
+  return getRec(obj,rrecs);
+ }
+
+void DataProc::addWork(TypeDef::Target *obj) // Printf(Con
  {
   Printf(Con,"rebuild #.q;\n",GetDesc(obj));
 
-
+  works.append_copy(obj);
  }
 
-int DataProc::commit() // TODO
+bool DataProc::dstReady(TypeDef::Target *obj)
  {
+  return applyToSrc(obj, [&] (TypeDef::Target *src) { return getRec(src)->state==StateOk; } );
+ }
 
+bool DataProc::canRun(TypeDef::Rule *obj)
+ {
+  for(TypeDef::Target *ptr : obj->dst.getRange() ) if( ptr && !dstReady(ptr) ) return false;
 
-  return 1;
+  return true;
+ }
+
+bool DataProc::checkRebuild(TypeDef::Target *obj)
+ {
+  StrLen dst_file=obj->file;
+
+  if( !dst_file ) return dstReady(obj);
+
+  return checkExist(dst_file) && checkOlderSrc(obj,false) ;
+ }
+
+bool DataProc::checkRebuild(TypeDef::Target *obj,TRec *rec)
+ {
+  if( checkRebuild(obj) )
+    {
+     rec->state=StateOk;
+
+     return true;
+    }
+
+  return false;
+ }
+
+int DataProc::exeRule(TypeDef::Rule *rule)
+ {
+  return file_proc.exeRule(Range(wdir),rule);
+ }
+
+void DataProc::completeRule(TypeDef::Target *obj)
+ {
+  StrLen dst_file=obj->file;
+
+  if( !dst_file || ( checkExist(dst_file) && checkOlderSrc(obj,false) ) )
+    {
+     getRec(obj)->state=StateOk;
+    }
+ }
+
+void DataProc::completeRule(TypeDef::Rule *rule)
+ {
+  for(TypeDef::Target *ptr : rule->dst.getRange() ) if( ptr ) completeRule(ptr);
+ }
+
+bool DataProc::commit(TypeDef::Target *obj)
+ {
+  TRec *rec=getRec(obj);
+
+  if( rec->state==StateRebuild )
+    {
+     if( TypeDef::Rule *rule=rec->rule )
+       {
+        RRec *rule_rec=getRec(rule);
+
+        if( rule_rec->done )
+          {
+           return false;
+          }
+        else
+          {
+           if( canRun(rule) )
+             {
+              int result=exeRule(rule);
+
+              rule_rec->done=true;
+
+              if( result==0 )
+                {
+                 completeRule(rule);
+
+                 return rec->state==StateOk;
+                }
+             }
+
+           return false;
+          }
+       }
+     else
+       {
+        return checkRebuild(obj,rec);
+       }
+    }
+
+  return true;
+ }
+
+int DataProc::commit()
+ {
+  rrecs.reserve(1000);
+
+  auto list=Range(works);
+
+  while( +list )
+    {
+     auto save=list.ptr;
+
+     for(TypeDef::Target *obj : list )
+       if( !commit(obj) )
+         {
+          *(save++)=obj;
+         }
+
+     if( !Change(list.len,Dist(list.ptr,save)) )
+       {
+        Printf(NoException,"vmake : rebuild failed");
+
+        return 1;
+       }
+    }
+
+  return 0;
  }
 
 DataProc::DataProc(FileProc &file_proc,StrLen file_name,StrLen target)

@@ -53,6 +53,8 @@ struct TypeDefCore
     DDL::MapRange< DDL::MapPolyPtr< S8 , S7 , S5 > > cmd;
 
     struct Ext;
+
+    ulen ext;
    };
 
   struct S5

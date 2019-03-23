@@ -127,6 +127,17 @@ class List : NoCopy
         func(cur->obj);
        }
     }
+
+   template <class Func>
+   bool applyWhile(Func func) const
+    {
+     for(auto cur=list.start(); +cur ;++cur)
+       {
+        if( !func(cur->obj) ) return false;
+       }
+
+     return true;
+    }
  };
 
 /* class Stack<T> */
@@ -173,15 +184,31 @@ class FileProc : NoCopy
  {
    FileSystem fs;
 
+  private:
+
+   int command(StrLen wdir,StrLen cmdline);
+
   public:
 
    FileProc();
 
    ~FileProc();
 
-   bool checkNotExist(StrLen wdir,StrLen dst);
+   // check
+
+   bool checkExist(StrLen wdir,StrLen dst);
 
    bool checkOlder(StrLen wdir,StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
+
+   // exe
+
+   int exeCmd(StrLen wdir,TypeDef::Exe *cmd);
+
+   int exeCmd(StrLen wdir,TypeDef::Cmd *cmd);
+
+   int exeCmd(StrLen wdir,TypeDef::VMake *cmd);
+
+   int exeRule(StrLen wdir,TypeDef::Rule *rule);
  };
 
 /* class DataProc */
@@ -235,20 +262,22 @@ class DataProc : NoCopy
    void applyToDeps(TypeDef::Target *obj,Func func);
 
    template <class Func>
-   static void ApplyToSrc(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj,Func func);
+   static bool ApplyToSrc(OneOfTypes<TypeDef::Rule,TypeDef::Dep> *obj,Func func);
 
    template <class Func>
-   void applyToSrc(TypeDef::Target *obj,Func func);
+   bool applyToSrc(TypeDef::Target *obj,Func func);
 
   private:
 
-   bool checkNotExist(StrLen dst);
+   bool checkExist(StrLen dst);
 
    bool checkOlder(StrLen dst,StrLen src);
 
-   bool checkOlder(TypeDef::Target *dst,TypeDef::Target *src);
+   bool checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile);
 
    bool checkSelf(TypeDef::Target *dst);
+
+   bool checkOlderSrc(TypeDef::Target *dst,bool nofile);
 
    void finish(TypeDef::Target *obj);
 
@@ -256,7 +285,39 @@ class DataProc : NoCopy
 
   private:
 
+   struct RRec : NoCopy
+    {
+     bool done = false ;
+    };
+
+   DynArray<RRec *> rrecs;
+
+   DynArray<TypeDef::Target *> works;
+
+  private:
+
+   template <class T,class R>
+   R * getRec(T *obj,DynArray<R *> &list);
+
+   RRec * getRec(TypeDef::Rule *obj);
+
    void addWork(TypeDef::Target *obj);
+
+   bool dstReady(TypeDef::Target *obj);
+
+   bool canRun(TypeDef::Rule *obj);
+
+   bool checkRebuild(TypeDef::Target *obj);
+
+   bool checkRebuild(TypeDef::Target *obj,TRec *rec);
+
+   int exeRule(TypeDef::Rule *rule);
+
+   void completeRule(TypeDef::Target *obj);
+
+   void completeRule(TypeDef::Rule *rule);
+
+   bool commit(TypeDef::Target *obj);
 
    int commit();
 

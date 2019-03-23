@@ -77,7 +77,7 @@ int main(int argc,const char *argv[])
            if( NoDefFile() )
              ret=usage();
            else
-             ret=Main(DefTarget,DefFile);
+             ret=Main(DefFile,DefTarget);
           }
          break;
 
@@ -86,7 +86,7 @@ int main(int argc,const char *argv[])
            if( NoDefFile() )
              ret=usage();
            else
-             ret=Main(argv[1],DefFile);
+             ret=Main(DefFile,argv[1]);
           }
          break;
 

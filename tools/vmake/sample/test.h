@@ -1,4 +1,3 @@
 /* test.h */
 
 int func();
-

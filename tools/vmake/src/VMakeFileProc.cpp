@@ -14,12 +14,24 @@
 #include <inc/VMakeProc.h>
 
 #include <CCore/inc/MakeFileName.h>
+#include <CCore/inc/CapString.h>
+
+#include <CCore/inc/Print.h>
+
+#include <cstdlib>
 
 namespace App {
 
 namespace VMake {
 
 /* class FileProc */
+
+int FileProc::command(StrLen wdir,StrLen cmdline)
+ {
+  CapString<1024> temp(cmdline);
+
+  return std::system(temp);
+ }
 
 FileProc::FileProc()
  {
@@ -29,11 +41,13 @@ FileProc::~FileProc()
  {
  }
 
-bool FileProc::checkNotExist(StrLen wdir,StrLen dst)
+ // check
+
+bool FileProc::checkExist(StrLen wdir,StrLen dst)
  {
   MakeFileName dst1(wdir,dst);
 
-  return fs.getFileType(dst1.get())!=FileType_file;
+  return fs.getFileType(dst1.get())==FileType_file;
  }
 
 bool FileProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
@@ -45,6 +59,51 @@ bool FileProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
   auto src_time=fs.getFileUpdateTime(src1.get());
 
   return dst_time<src_time;
+ }
+
+ // exe
+
+int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
+ {
+  Used(wdir);
+  Used(cmd);
+
+  return 1;
+ }
+
+int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
+ {
+  StrLen echo=cmd->echo;
+
+  Printf(Con,"#;\n",echo);
+
+  StrLen cmdline=cmd->cmdline;
+
+  // cmd->wdir cmd->env
+
+  return command(wdir,cmdline);
+ }
+
+int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
+ {
+  Used(wdir);
+  Used(cmd);
+
+  return 1;
+ }
+
+int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
+ {
+  for(auto cmd : rule->cmd.getRange() )
+    {
+     int ret=0;
+
+     cmd.getPtr().apply( [&] (auto *ptr) { if( ptr ) ret=exeCmd(wdir,ptr); } );
+
+     if( ret ) return ret;
+    }
+
+  return 0;
  }
 
 } // namespace VMake

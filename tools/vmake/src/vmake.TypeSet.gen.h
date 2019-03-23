@@ -282,6 +282,13 @@ struct TypeSet : TypeDefCore
          obj->ext=0;
         }
        break;
+       case 4 :
+        {
+         S4 *obj=place;
+
+         obj->ext=0;
+        }
+       break;
        case 9 :
         {
          S9 *obj=place;

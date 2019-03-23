@@ -17,7 +17,9 @@ include $(CCORE_ROOT)/Makefile.host
 
 SRC_PATH_LIST = src
 
-TARGET = $(HOME)/bin/vmake.exe
+TARGET = sample/vmake.exe 
+
+# $(HOME)/bin/vmake.exe
 
 CCOPT_EXTRA = -I.
 
@@ -35,7 +37,7 @@ TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 MakeString = $(HOME)/bin/CCore-MakeString.exe
 
 inc/vmake.TypeDef.gen.h : src/vmake.ddl
-	$(TypeSet) src/vmake.ddl inc/vmake.TypeDef.gen.h src/vmake.TypeSet.gen.h Target MenuItem
+	$(TypeSet) src/vmake.ddl inc/vmake.TypeDef.gen.h src/vmake.TypeSet.gen.h Target Rule MenuItem
 
 src/./vmake.Pretext.gen.h : src/vmake.ddl
 	$(MakeString) -s src/vmake.ddl src/vmake.Pretext.gen.h
