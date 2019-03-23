@@ -18,8 +18,6 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Cmp.h>
 
-#include <CCore/inc/FileSystem.h>
-
 namespace App {
 
 /* using */
@@ -51,40 +49,122 @@ class CmdLineParser
 
 class SpawnProcess : NoCopy
  {
-   String exe_name;
+   class Pool : NoCopy
+    {
+      struct Node
+       {
+        SLink<Node> link;
+       };
 
-   DynArray<String> args;
+      static constexpr ulen Delta = Align(sizeof (Node)) ;
+      static constexpr ulen MaxLen = AlignDown(MaxULen)-Delta ;
+
+      using Algo = SLink<Node>::LinearAlgo<&Node::link> ;
+
+     private:
+
+      ulen block_len;
+
+      Algo::Top list;
+
+      Place<void> block;
+      Place<void> cur;
+      ulen avail;
+
+     private:
+
+      Place<void> allocBlock(ulen alloc_len);
+
+      void newBlock();
+
+     private:
+
+      void * allocMem(ulen len);
+
+      struct Out
+       {
+        char *ptr;
+
+        explicit Out(char *ptr_) : ptr(ptr_) {}
+
+        Out & operator += (StrLen str)
+         {
+          str.copyTo(ptr);
+
+          ptr+=str.len;
+
+          return *this;
+         }
+       };
+
+      template <class ... TT>
+      char * catStrLen(TT ... tt)
+       {
+        ulen len=LenAdd( tt.len ... );
+        char *base=alloc<char>(len);
+
+        Out out(base);
+
+        ( out += ... += tt );
+
+        return base;
+       }
+
+     public:
+
+      Pool();
+
+      ~Pool();
+
+      template <PODType T>
+      T * alloc(ulen len)
+       {
+        return static_cast<T *>(allocMem(LenOf(len,sizeof (T))));
+       }
+
+      template <class ... TT>
+      char * cat(TT ... tt)
+       {
+        return catStrLen( StrLen(tt)... ,"\0"_c);
+       }
+    };
+
+  private:
+
+   Pool pool;
+
+   char *wdir = 0 ;
+   char *exe_name;
+
+   DynArray<char *> args;
 
    struct EnvRec
     {
-     String str;
-     StrLen name;
+     char *str;
+     ulen name_len;
      ulen ind;
 
-     EnvRec(String &&str_,ulen name_len,ulen ind_)
-      : str(std::move(str_)),
-        name(Range(str).prefix(name_len)),
-        ind(ind_)
-      {
-      }
+     EnvRec(char *str_,ulen name_len_,ulen ind_) : str(str_),name_len(name_len_),ind(ind_) {}
+
+     StrLen getName() const { return StrLen(str,name_len); }
 
      bool operator < (const EnvRec &obj) const
       {
-       if( CmpResult cmp=StrCmp(name,obj.name) ) return cmp<0;
+       if( CmpResult cmp=StrCmp(getName(),obj.getName()) ) return cmp<0;
 
        return ind<obj.ind;
       }
 
-     bool operator != (const EnvRec &obj) const { return StrCmp(name,obj.name)!=0; }
+     bool operator != (const EnvRec &obj) const { return StrCmp(getName(),obj.getName())!=0; }
     };
 
    DynArray<EnvRec> envs;
 
-   int pid;
+   int pid = 0 ;
 
   public:
 
-   SpawnProcess(FileSystem &fs,StrLen wdir,StrLen exe_name);
+   SpawnProcess(StrLen wdir,StrLen exe_name);
 
    ~SpawnProcess();
 

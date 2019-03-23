@@ -24,7 +24,7 @@ int FileProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
   try
     {
-     SpawnProcess spawn(fs,wdir,"/bin/sh"_c);
+     SpawnProcess spawn(wdir,"/bin/sh"_c);
 
      spawn.addArg("sh"_c);
      spawn.addArg("-c"_c);

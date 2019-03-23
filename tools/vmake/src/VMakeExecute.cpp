@@ -24,7 +24,7 @@ int FileProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef:
  {
   try
     {
-     SpawnProcess spawn(fs,wdir,exe_file);
+     SpawnProcess spawn(wdir,exe_file);
 
      spawn.addArg(exe_file);
 

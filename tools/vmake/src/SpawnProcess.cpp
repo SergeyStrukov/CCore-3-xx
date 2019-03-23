@@ -13,18 +13,55 @@
 
 #include <inc/SpawnProcess.h>
 
-#include <CCore/inc/Sort.h>
 #include <CCore/inc/CharProp.h>
 
 #include <CCore/inc/algon/SortUnique.h>
 
-#include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
-#include <ctype.h>
-#include <unistd.h>
-#include <spawn.h>
+#define _GNU_SOURCE
+#define _DEFAULT_SOURCE
+
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
+
+/* ext_spawn() */
+
+static int ext_spawn(pid_t *pid,char *wdir,char *path,char **argv,char **envp)
+ {
+  volatile int error=0;
+
+  int p=vfork();
+
+  switch(p)
+    {
+     case -1 : return errno;
+
+     case 0 :
+      {
+       if( wdir ) chdir(wdir);
+
+       execvpe(path,argv,envp);
+
+       error=errno;
+
+       _exit(127);
+      }
+
+     default:
+      {
+       if( error )
+         waitpid(p,0,WNOHANG);
+       else
+         *pid=p;
+
+       return error;
+      }
+    }
+ }
 
 namespace App {
 
@@ -68,52 +105,77 @@ StrLen CmdLineParser::next()
     }
  }
 
+/* class SpawnProcess::Pool */
+
+Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
+ {
+  Place<void> ptr=PlaceAt(malloc(alloc_len));
+
+  list.ins(new(ptr) Node);
+
+  return ptr;
+ }
+
+void SpawnProcess::Pool::newBlock()
+ {
+  Place<void> new_block=allocBlock(block_len);
+
+  block=new_block;
+  cur=new_block+Delta;
+  avail=block_len-Delta;
+ }
+
+void * SpawnProcess::Pool::allocMem(ulen len)
+ {
+  if( len>MaxLen ) GuardNoMem(len);
+
+  len=Align(len);
+
+  if( !len ) len=MaxAlign;
+
+  if( avail<len )
+    {
+     if( avail>block_len/2 || len+Delta>block_len )
+       {
+        auto ret=allocBlock(len+Delta)+Delta;
+
+        return ret;
+       }
+
+     newBlock();
+    }
+
+  avail-=len;
+
+  return cur+=len;
+ }
+
+SpawnProcess::Pool::Pool()
+ : block(0),
+   cur(0),
+   avail(0)
+ {
+  constexpr ulen BLen=AlignDown(4_KByte);
+
+  static_assert( BLen>Delta );
+
+  block_len=BLen;
+ }
+
+SpawnProcess::Pool::~Pool()
+ {
+  while( Node *node=list.del() ) free(node);
+ }
+
 /* class SpawnProcess */
 
-inline bool CharIsDev(char ch)
- {
-  return ( ch>='a' && ch<='z' ) || ( ch>='A' && ch<='Z' ) ;
- }
-
-inline char LowerDev(char ch)
- {
-  return (char)tolower(ch);
- }
-
-SpawnProcess::SpawnProcess(FileSystem &fs,StrLen wdir,StrLen exe_name_)
+SpawnProcess::SpawnProcess(StrLen wdir_,StrLen exe_name_)
  : args(DoReserve,100),
    envs(DoReserve,100)
  {
-  exe_name=StringSum(exe_name_,"\0"_c);
+  if( +wdir_ ) wdir=pool.cat(wdir_);
 
-  if( +wdir )
-    {
-     char temp[MaxPathLen+1];
-
-     StrLen path=fs.pathOf(wdir,temp);
-
-     if( +path )
-       {
-        char ch=*path;
-
-        if( ch=='/' )
-          {
-           addEnv("PWD"_c,path);
-          }
-        else if( CharIsDev(ch) && ( path.len>=2 && path[1]==':' ) )
-          {
-           char dev[3]={'!',ch,':'};
-
-           addEnv(Range(dev),path);
-
-           char cygdev[1]={LowerDev(ch)};
-
-           String cygpath=StringSum("/cygdrive/"_c,Range(cygdev),path.part(2));
-
-           addEnv("PWD"_c,Range(cygpath));
-          }
-       }
-    }
+  exe_name=pool.cat(exe_name_);
  }
 
 SpawnProcess::~SpawnProcess()
@@ -122,7 +184,7 @@ SpawnProcess::~SpawnProcess()
 
 void SpawnProcess::addArg(StrLen str)
  {
-  args.append_fill(StringSum(str,"\0"_c));
+  args.append_copy(pool.cat(str));
  }
 
 void SpawnProcess::addCmdline(StrLen cmdline)
@@ -143,7 +205,7 @@ void SpawnProcess::addEnv(StrLen name,StrLen value)
  {
   ulen ind=envs.getLen();
 
-  envs.append_fill(StringSum(name,"="_c,value,"\0"_c),name.len,ind);
+  envs.append_fill(pool.cat(name,"="_c,value),name.len,ind);
  }
 
 void SpawnProcess::addEnv(StrLen str)
@@ -154,7 +216,7 @@ void SpawnProcess::addEnv(StrLen str)
        ulen name_len=str.len-t.len;
        ulen ind=envs.getLen();
 
-       envs.append_fill(StringSum(str,"\0"_c),name_len,ind);
+       envs.append_fill(pool.cat(str),name_len,ind);
 
        break;
       }
@@ -162,55 +224,35 @@ void SpawnProcess::addEnv(StrLen str)
 
 void SpawnProcess::spawn()
  {
-  DynArray<const char *> arglist;
+  char **arglist=pool.alloc<char *>(LenAdd(args.getLen(),1u));
 
   {
-   arglist.reserve(arglist.getLen()+1);
+   auto out=arglist;
 
-   for(String &arg : args ) arglist.append_copy(arg.getPtr());
+   for(char *arg : args ) *(out++)=arg;
 
-   arglist.append_copy(0);
+   *(out++)=0;
   }
 
-  DynArray<const char *> envlist;
+  char **envlist;
 
   {
    for(auto e=environ; const char *zstr=(*e) ;e++) addEnv(zstr);
 
    auto list=Range(envs);
 
-   envlist.reserve(list.len);
+   envlist=pool.alloc<char *>(LenAdd(list.len,1u));
 
-   Algon::SortThenApplyUnique(list, [&] (EnvRec &env) { envlist.append_copy(env.str.getPtr()); } );
+   auto out=envlist;
 
-   envlist.append_copy(0);
+   Algon::SortThenApplyUnique(list, [&] (EnvRec &env) { *(out++)=env.str; } );
+
+   *(out++)=0;
   }
 
-  PrintFile out("spawn.txt");
-
-  Printf(out,"#;\n\n",exe_name.getPtr());
-
-  {
-   auto p=(char *const *)arglist.getPtr();
-
-   for(; auto s=(*p) ;p++) Printf(out,"#;\n",s);
-  }
-
-  Putch(out,'\n');
-
-  {
-   auto p=(char *const *)envlist.getPtr();
-
-   for(; auto s=(*p) ;p++) Printf(out,"#;\n",s);
-  }
-
-  if( posix_spawnp(&pid,exe_name.getPtr(),0,0,(char *const *)arglist.getPtr(),environ/*(char *const *)envlist.getPtr()*/) )
+  if( ext_spawn(&pid,wdir,exe_name,arglist,envlist) )
     {
      Printf(Exception,"vmake : failed to spawn a process");
-    }
-  else
-    {
-     Printf(Con,"vmake : spawned #;\n",pid);
     }
  }
 
@@ -219,8 +261,6 @@ int SpawnProcess::wait()
   int result=0;
 
   int ret=waitpid(pid,&result,0);
-
-  Printf(Con,"pid = #; result = #;\n",ret,result);
 
   if( ret==-1 || ret!=pid ) return 1000;
 

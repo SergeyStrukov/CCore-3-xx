@@ -20,4 +20,4 @@ TARGET = ./test.exe
 include $(CCORE_ROOT)/Target/Makefile.app
 
 run: $(TARGET)
-	set ABRA = CODABRA ; $(TARGET) name "long name"
+	export ABRA=CODABRA ; $(TARGET) name "long name"

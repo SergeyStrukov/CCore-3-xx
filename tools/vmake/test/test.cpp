@@ -16,12 +16,6 @@
 
 #include <unistd.h>
 
-//
-// std::getenv
-//
-// Win32::GetEnvironmentVariableW
-//
-
 /* main() */
 
 using namespace CCore;
