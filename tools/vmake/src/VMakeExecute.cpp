@@ -20,14 +20,26 @@ namespace VMake {
 
 /* class FileProc */
 
-int FileProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env) // TODO
+int FileProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
-  Used(exe_file);
-  Used(wdir);
-  Used(cmdline);
-  Used(env);
+  try
+    {
+     SpawnProcess spawn(fs,wdir,exe_file);
 
-  return 1;
+     spawn.addArg(exe_file);
+
+     spawn.addCmdline(cmdline);
+
+     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+     spawn.spawn();
+
+     return spawn.wait();
+    }
+  catch(CatchType)
+    {
+     return 1000;
+    }
  }
 
 } // namespace VMake
