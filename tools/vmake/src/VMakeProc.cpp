@@ -380,11 +380,11 @@ bool DataProc::commit(TypeDef::Target *obj)
 
 int DataProc::commit() // Printf(Con
  {
-  Printf(Con,"\ncommit\n\n");
-
   rrecs.reserve(1000);
 
   auto list=Range(works);
+
+  if( +list ) Printf(Con,"\ncommit\n\n");
 
   while( +list )
     {
