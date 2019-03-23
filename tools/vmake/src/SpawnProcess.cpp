@@ -19,49 +19,19 @@
 
 #include <CCore/inc/Exception.h>
 
-#define _GNU_SOURCE
-#define _DEFAULT_SOURCE
+#include <CCore/inc/Print.h>
 
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+/* sys functions */
 
-/* ext_spawn() */
+static void * mem_alloc(size_t len);
 
-static int ext_spawn(pid_t *pid,char *wdir,char *path,char **argv,char **envp)
- {
-  volatile int error=0;
+static void mem_free(void *ptr);
 
-  int p=vfork();
+static char ** get_environ();
 
-  switch(p)
-    {
-     case -1 : return errno;
+static int ext_spawn(int *pid,char *wdir,char *path,char **argv,char **envp);
 
-     case 0 :
-      {
-       if( wdir ) chdir(wdir);
-
-       execvpe(path,argv,envp);
-
-       error=errno;
-
-       _exit(127);
-      }
-
-     default:
-      {
-       if( error )
-         waitpid(p,0,WNOHANG);
-       else
-         *pid=p;
-
-       return error;
-      }
-    }
- }
+static int wait_child(int pid);
 
 namespace App {
 
@@ -109,7 +79,7 @@ StrLen CmdLineParser::next()
 
 Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
  {
-  Place<void> ptr=PlaceAt(malloc(alloc_len));
+  Place<void> ptr=PlaceAt(mem_alloc(alloc_len));
 
   list.ins(new(ptr) Node);
 
@@ -164,7 +134,7 @@ SpawnProcess::Pool::Pool()
 
 SpawnProcess::Pool::~Pool()
  {
-  while( Node *node=list.del() ) free(node);
+  while( Node *node=list.del() ) mem_free(node);
  }
 
 /* class SpawnProcess */
@@ -237,7 +207,7 @@ void SpawnProcess::spawn()
   char **envlist;
 
   {
-   for(auto e=environ; const char *zstr=(*e) ;e++) addEnv(zstr);
+   for(auto e=get_environ(); const char *zstr=(*e) ;e++) addEnv(zstr);
 
    auto list=Range(envs);
 
@@ -258,6 +228,63 @@ void SpawnProcess::spawn()
 
 int SpawnProcess::wait()
  {
+  return wait_child(pid);
+ }
+
+} // namespace VMake
+
+} // namespace App
+
+/* sys functions */
+
+#define _GNU_SOURCE
+#define _DEFAULT_SOURCE
+
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+static void * mem_alloc(size_t len) { return malloc(len); }
+
+static void mem_free(void *ptr) { free(ptr); }
+
+static char ** get_environ() { return environ; }
+
+static int ext_spawn(int *pid,char *wdir,char *path,char **argv,char **envp)
+ {
+  volatile int error=0;
+
+  switch( int p=vfork() )
+    {
+     case -1 : return errno;
+
+     case 0 :
+      {
+       if( wdir ) chdir(wdir);
+
+       execvpe(path,argv,envp);
+
+       error=errno;
+
+       _exit(127);
+      }
+
+     default:
+      {
+       if( error )
+         waitpid(p,0,WNOHANG);
+       else
+         *pid=p;
+
+       return error;
+      }
+    }
+ }
+
+static int wait_child(int pid)
+ {
   int result=0;
 
   int ret=waitpid(pid,&result,0);
@@ -266,8 +293,3 @@ int SpawnProcess::wait()
 
   return result;
  }
-
-} // namespace VMake
-
-} // namespace App
-
