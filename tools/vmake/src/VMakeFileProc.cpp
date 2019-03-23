@@ -28,9 +28,19 @@ namespace VMake {
 
 int FileProc::command(StrLen wdir,StrLen cmdline)
  {
-  CapString<1024> temp(cmdline);
+  char buf[1024];
+  PrintBuf out(Range(buf));
 
-  return std::system(temp);
+  if( +wdir )
+    {
+     Printf(out,"START /D '#;' '#;'",wdir,cmdline);
+    }
+  else
+    {
+     Putobj(out,cmdline);
+    }
+
+  return std::system(out.closeZStr());
  }
 
 FileProc::FileProc()

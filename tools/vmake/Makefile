@@ -17,9 +17,7 @@ include $(CCORE_ROOT)/Makefile.host
 
 SRC_PATH_LIST = src
 
-TARGET = sample/vmake.exe 
-
-# $(HOME)/bin/vmake.exe
+TARGET = $(HOME)/bin/vmake.exe
 
 CCOPT_EXTRA = -I.
 
