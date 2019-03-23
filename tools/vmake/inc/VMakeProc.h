@@ -184,9 +184,15 @@ class FileProc : NoCopy
  {
    FileSystem fs;
 
+   unsigned level = 100 ;
+
   private:
 
-   int command(StrLen wdir,StrLen cmdline);
+   int command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
+
+   int execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
+
+   class BuildFileName;
 
   public:
 

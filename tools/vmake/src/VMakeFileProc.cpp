@@ -14,34 +14,62 @@
 #include <inc/VMakeProc.h>
 
 #include <CCore/inc/MakeFileName.h>
-#include <CCore/inc/CapString.h>
+#include <CCore/inc/Path.h>
 
 #include <CCore/inc/Print.h>
-
-#include <cstdlib>
+#include <CCore/inc/Exception.h>
 
 namespace App {
 
 namespace VMake {
 
-/* class FileProc */
+/* class FileProc::BuildFileName */
 
-int FileProc::command(StrLen wdir,StrLen cmdline)
+class FileProc::BuildFileName : NoCopy
  {
-  char buf[1024];
-  PrintBuf out(Range(buf));
+   MakeFileName buf;
 
-  if( +wdir )
+   StrLen result;
+
+  private:
+
+   static bool IsRooted(StrLen name)
     {
-     Printf(out,"START /D '#;' '#;'",wdir,cmdline);
-    }
-  else
-    {
-     Putobj(out,cmdline);
+     return name.len && PathBase::IsSlash(name[0]) ;
     }
 
-  return std::system(out.closeZStr());
- }
+   static bool IsRel(StrLen file)
+    {
+     SplitDev split_dev(file);
+
+     return !split_dev && !IsRooted(file) ;
+    }
+
+  public:
+
+   BuildFileName(StrLen wdir,StrLen file)
+    {
+     if( !wdir )
+       {
+        result=file;
+       }
+     else
+       {
+        if( IsRel(file) )
+          {
+           result=buf(wdir,file);
+          }
+        else
+          {
+           result=file;
+          }
+       }
+    }
+
+   StrLen get() const { return result; }
+ };
+
+/* class FileProc */
 
 FileProc::FileProc()
  {
@@ -55,15 +83,15 @@ FileProc::~FileProc()
 
 bool FileProc::checkExist(StrLen wdir,StrLen dst)
  {
-  MakeFileName dst1(wdir,dst);
+  BuildFileName dst1(wdir,dst);
 
   return fs.getFileType(dst1.get())==FileType_file;
  }
 
 bool FileProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
  {
-  MakeFileName dst1(wdir,dst);
-  MakeFileName src1(wdir,src);
+  BuildFileName dst1(wdir,dst);
+  BuildFileName src1(wdir,src);
 
   auto dst_time=fs.getFileUpdateTime(dst1.get());
   auto src_time=fs.getFileUpdateTime(src1.get());
@@ -75,10 +103,32 @@ bool FileProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
  {
-  Used(wdir);
-  Used(cmd);
+  StrLen echo=cmd->echo;
 
-  return 1;
+  Printf(Con,"#;\n",echo);
+
+  StrLen exe_file=cmd->exe;
+  StrLen cmdline=cmd->cmdline;
+  StrLen new_wdir=cmd->wdir;
+  PtrLen<TypeDef::Env> env=cmd->env;
+
+  if( +new_wdir )
+    {
+     try
+       {
+        BuildFileName wdir1(wdir,new_wdir);
+
+        return execute(exe_file,wdir1.get(),cmdline,env);
+       }
+     catch(CatchType)
+       {
+        return 1;
+       }
+    }
+  else
+    {
+     return execute(exe_file,wdir,cmdline,env);
+    }
  }
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
@@ -88,18 +138,70 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
   Printf(Con,"#;\n",echo);
 
   StrLen cmdline=cmd->cmdline;
+  StrLen new_wdir=cmd->wdir;
+  PtrLen<TypeDef::Env> env=cmd->env;
 
-  // cmd->wdir cmd->env
+  if( +new_wdir )
+    {
+     try
+       {
+        BuildFileName wdir1(wdir,new_wdir);
 
-  return command(wdir,cmdline);
+        return command(wdir1.get(),cmdline,env);
+       }
+     catch(CatchType)
+       {
+        return 1;
+       }
+    }
+  else
+    {
+     return command(wdir,cmdline,env);
+    }
  }
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
  {
-  Used(wdir);
-  Used(cmd);
+  StrLen echo=cmd->echo;
 
-  return 1;
+  Printf(Con,"#;\n",echo);
+
+  StrLen file_name=cmd->file;
+  StrLen target=cmd->target;
+  StrLen new_wdir=cmd->wdir;
+
+  if( +new_wdir )
+    {
+     try
+       {
+        LockUse lock(level);
+
+        BuildFileName wdir1(wdir,new_wdir);
+
+        DataProc proc(*this,file_name,target,wdir1.get());
+
+        return proc.make();
+       }
+     catch(CatchType)
+       {
+        return 1;
+       }
+    }
+  else
+    {
+     try
+       {
+        LockUse lock(level);
+
+        DataProc proc(*this,file_name,target,wdir);
+
+        return proc.make();
+       }
+     catch(CatchType)
+       {
+        return 1;
+       }
+    }
  }
 
 int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)

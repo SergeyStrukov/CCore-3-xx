@@ -137,7 +137,7 @@ bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile)
 
   if( !dst_file )
     {
-     return true;
+     return false;
     }
   else
     {
@@ -158,7 +158,7 @@ bool DataProc::checkSelf(TypeDef::Target *dst)
 
   if( !dst_file )
     {
-     return false;
+     return getRec(dst)->rule==0;
     }
   else
     {
