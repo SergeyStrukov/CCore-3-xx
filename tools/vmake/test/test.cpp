@@ -27,6 +27,8 @@ int main(int argc,const char *argv[])
      ReportException report;
 
      {
+      Printf(Con,"self = #.q;\n",argv[0]);
+
       PrintFile out("args.txt");
 
       for(int i=0; i<argc ;i++) Printf(out,"argv[#;] = #.q;\n",i,argv[i]);

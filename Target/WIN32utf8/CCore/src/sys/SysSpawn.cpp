@@ -69,7 +69,15 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
 
      case 0 :
       {
-       if( wdir ) chdir(wdir);
+       if( wdir )
+         {
+          if( chdir(wdir) )
+            {
+             error=Error_Spawn;
+
+             _exit(1000);
+            }
+         }
 
        execvpe(path,argv,envp);
 

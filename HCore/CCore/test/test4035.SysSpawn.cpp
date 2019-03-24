@@ -76,7 +76,7 @@ bool Testit<4035>::Main()
 
   char * argv[]={name,0};
 
-  TempStr wdir(".."_c);
+  TempStr wdir("nodir"_c);
 
   Sys::SpawnChild obj;
 
