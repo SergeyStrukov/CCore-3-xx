@@ -18,6 +18,8 @@ Target h1 = { "h1" , "test.h" } ;
 
 Target test = { "test" } ;
 
+Target shell = { "test shell" } ;
+
 /* rules */
 
 Rule cc1 = { {&cpp1} , {&obj1} , {&cmd1} } ;
@@ -36,7 +38,9 @@ Rule test1 = { {} , {&test} , {&cmd_test} } ;
 
 Exe cmd_test = { "test" , "../test/test.exe" , "1 2 3" , "" , {{"ABRA","CODABRA"}} } ;
 
-//Exe cmd_test = { "test" , "/bin/sh" , "" , "" , {{"ABRA","CODABRA"}} } ;
+Rule test2 = { {} , {&shell} , {&cmd_test_shell} } ;
+
+Cmd cmd_test_shell = { "shell" , "echo $ABRA\nps\necho $HOME" , "" , {{"ABRA","CODABRA"}} } ;
 
 /* deps */
 
