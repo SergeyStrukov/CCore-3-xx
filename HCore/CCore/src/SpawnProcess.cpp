@@ -1,7 +1,9 @@
 /* SpawnProcess.cpp */
 //----------------------------------------------------------------------------------------
 //
-//  Project: vmake 1.00
+//  Project: CCore 3.60
+//
+//  Tag: HCore
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,29 +13,17 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/SpawnProcess.h>
+#include <CCore/inc/SpawnProcess.h>
 
 #include <CCore/inc/CharProp.h>
 
 #include <CCore/inc/algon/SortUnique.h>
 
+#include <CCore/inc/PrintError.h>
+
 #include <CCore/inc/Exception.h>
 
-/* sys functions */
-
-static void * mem_alloc(size_t len);
-
-static void mem_free(void *ptr);
-
-static char ** get_environ();
-
-static int ext_spawn(int *pid,char *wdir,char *path,char **argv,char **envp);
-
-static int wait_child(int pid);
-
-namespace App {
-
-namespace VMake {
+namespace CCore {
 
 /* class CmdLineParser */
 
@@ -77,7 +67,7 @@ StrLen CmdLineParser::next()
 
 Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
  {
-  Place<void> ptr=PlaceAt(mem_alloc(alloc_len));
+  Place<void> ptr=PlaceAt(Sys::SpawnChild::MemAlloc(alloc_len));
 
   list.ins(new(ptr) Node);
 
@@ -132,10 +122,40 @@ SpawnProcess::Pool::Pool()
 
 SpawnProcess::Pool::~Pool()
  {
-  while( Node *node=list.del() ) mem_free(node);
+  while( Node *node=list.del() ) Sys::SpawnChild::MemFree(node);
  }
 
 /* class SpawnProcess */
+
+char ** SpawnProcess::buildArgv()
+ {
+  char **ret=pool.alloc<char *>(LenAdd(args.getLen(),1u));
+
+  auto out=ret;
+
+  for(char *arg : args ) *(out++)=arg;
+
+  *(out++)=0;
+
+  return ret;
+ }
+
+char ** SpawnProcess::buildEnvp()
+ {
+  for(auto e=Sys::GetEnviron(); const char *zstr=(*e) ;e++) addEnv(zstr);
+
+  auto list=Range(envs);
+
+  char **ret=pool.alloc<char *>(LenAdd(list.len,1u));
+
+  auto out=ret;
+
+  Algon::SortThenApplyUnique(list, [&] (EnvRec &env) { *(out++)=env.str; } );
+
+  *(out++)=0;
+
+  return ret;
+ }
 
 SpawnProcess::SpawnProcess(StrLen wdir_,StrLen exe_name_)
  : args(DoReserve,100),
@@ -148,6 +168,10 @@ SpawnProcess::SpawnProcess(StrLen wdir_,StrLen exe_name_)
 
 SpawnProcess::~SpawnProcess()
  {
+  if( state==2 )
+    {
+     Printf(NoException,"CCore::SpawnProcess::~SpawnProcess() : not waited");
+    }
  }
 
 void SpawnProcess::addArg(StrLen str)
@@ -192,102 +216,43 @@ void SpawnProcess::addEnv(StrLen str)
 
 void SpawnProcess::spawn()
  {
-  char **arglist=pool.alloc<char *>(LenAdd(args.getLen(),1u));
-
-  {
-   auto out=arglist;
-
-   for(char *arg : args ) *(out++)=arg;
-
-   *(out++)=0;
-  }
-
-  char **envlist;
-
-  {
-   for(auto e=get_environ(); const char *zstr=(*e) ;e++) addEnv(zstr);
-
-   auto list=Range(envs);
-
-   envlist=pool.alloc<char *>(LenAdd(list.len,1u));
-
-   auto out=envlist;
-
-   Algon::SortThenApplyUnique(list, [&] (EnvRec &env) { *(out++)=env.str; } );
-
-   *(out++)=0;
-  }
-
-  if( ext_spawn(&pid,wdir,exe_name,arglist,envlist) )
+  if( state!=0 )
     {
-     Printf(Exception,"vmake : failed to spawn a process");
+     Printf(Exception,"CCore::SpawnProcess::spawn() : already spawned");
     }
+
+  state=1;
+
+  char **argv=buildArgv();
+
+  char **envp=buildEnvp();
+
+  if( auto error=sys_spawn.spawn(wdir,exe_name,argv,envp) )
+    {
+     Printf(Exception,"CCore::SpawnProcess::spawn() : #;",PrintError(error));
+    }
+
+  state=2;
  }
 
 int SpawnProcess::wait()
  {
-  return wait_child(pid);
- }
-
-} // namespace VMake
-
-} // namespace App
-
-/* sys functions */
-
-#define _GNU_SOURCE
-#define _DEFAULT_SOURCE
-
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-static void * mem_alloc(size_t len) { return malloc(len); }
-
-static void mem_free(void *ptr) { free(ptr); }
-
-static char ** get_environ() { return environ; }
-
-static int ext_spawn(int *pid,char *wdir,char *path,char **argv,char **envp)
- {
-  volatile int error=0;
-
-  switch( int p=vfork() )
+  if( state!=2 )
     {
-     case -1 : return errno;
-
-     case 0 :
-      {
-       if( wdir ) chdir(wdir);
-
-       execvpe(path,argv,envp);
-
-       error=errno;
-
-       _exit(127);
-      }
-
-     default:
-      {
-       if( error )
-         waitpid(p,0,WNOHANG);
-       else
-         *pid=p;
-
-       return error;
-      }
+     Printf(Exception,"CCore::SpawnProcess::wait() : not spawned");
     }
+
+  state=3;
+
+  auto result=sys_spawn.wait();
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::SpawnProcess::wait() : #;",PrintError(result.error));
+    }
+
+  return result.status;
  }
 
-static int wait_child(int pid)
- {
-  int result=0;
+} // namespace CCore
 
-  int ret=waitpid(pid,&result,0);
-
-  if( ret==-1 || ret!=pid ) return 1000;
-
-  return result;
- }

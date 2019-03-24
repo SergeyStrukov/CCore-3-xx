@@ -1,7 +1,9 @@
 /* SpawnProcess.h */
 //----------------------------------------------------------------------------------------
 //
-//  Project: vmake 1.00
+//  Project: CCore 3.60
+//
+//  Tag: HCore
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -11,20 +13,16 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef App_SpawnProcess_h
-#define App_SpawnProcess_h
+#ifndef CCore_inc_SpawnProcess_h
+#define CCore_inc_SpawnProcess_h
 
-#include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
+#include <CCore/inc/List.h>
 #include <CCore/inc/Cmp.h>
 
-namespace App {
+#include <CCore/inc/sys/SysSpawn.h>
 
-/* using */
-
-using namespace CCore;
-
-namespace VMake {
+namespace CCore {
 
 /* classes */
 
@@ -134,7 +132,7 @@ class SpawnProcess : NoCopy
    Pool pool;
 
    char *wdir = 0 ;
-   char *exe_name;
+   char *exe_name = 0 ;
 
    DynArray<char *> args;
 
@@ -160,7 +158,15 @@ class SpawnProcess : NoCopy
 
    DynArray<EnvRec> envs;
 
-   int pid = 0 ;
+   Sys::SpawnChild sys_spawn;
+
+   int state = 0 ;
+
+  private:
+
+   char ** buildArgv();
+
+   char ** buildEnvp();
 
   public:
 
@@ -181,8 +187,7 @@ class SpawnProcess : NoCopy
    int wait();
  };
 
-} // namespace VMake
-
-} // namespace App
+} // namespace CCore
 
 #endif
+

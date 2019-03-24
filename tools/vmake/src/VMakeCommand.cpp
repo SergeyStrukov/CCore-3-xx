@@ -12,11 +12,9 @@
 //----------------------------------------------------------------------------------------
 
 #include <inc/VMakeProc.h>
-#include <inc/SpawnProcess.h>
 
 #include <CCore/inc/Path.h>
-
-#include <stdlib.h>
+#include <CCore/inc/SpawnProcess.h>
 
 namespace App {
 
@@ -28,11 +26,7 @@ int FileProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
   try
     {
-     const char *shell=getenv("SHELL");
-
-     if( !shell ) shell="/bin/sh";
-
-     StrLen exe_name(shell);
+     StrLen exe_name=Sys::GetShell();
 
      SpawnProcess spawn(wdir,exe_name);
 

@@ -12,7 +12,8 @@
 //----------------------------------------------------------------------------------------
 
 #include <inc/VMakeProc.h>
-#include <inc/SpawnProcess.h>
+
+#include <CCore/inc/SpawnProcess.h>
 
 namespace App {
 

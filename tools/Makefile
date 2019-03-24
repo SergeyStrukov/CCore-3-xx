@@ -16,7 +16,8 @@ OPT = -j 8
 LIST = exectest Keywords MakeList MakeString Regen Volume EllipticPi \
        EchoServer PSecEchoServer PTPEchoServer PTPServerProc PTPServer PTPSecureServerProc PTPSecureServer PTPSecureClient \
        DDLShow DDLTypeSet \
-       CondLangLR1/Main CondLangLR1/Gen
+       CondLangLR1/Main CondLangLR1/Gen \
+       vmake
 
 include ../Target/Makefile.list
 

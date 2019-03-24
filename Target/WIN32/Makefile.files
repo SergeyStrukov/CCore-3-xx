@@ -380,6 +380,7 @@ OBJ_LIST = \
 .obj/SortUnique.o \
 .obj/Space.o \
 .obj/SpanLenEngine.o \
+.obj/SpawnProcess.o \
 .obj/StartStop.o \
 .obj/Starter.o \
 .obj/StepEval.o \
@@ -860,6 +861,7 @@ ASM_LIST = \
 .obj/SortUnique.s \
 .obj/Space.s \
 .obj/SpanLenEngine.s \
+.obj/SpawnProcess.s \
 .obj/StartStop.s \
 .obj/Starter.s \
 .obj/StepEval.s \
@@ -1340,6 +1342,7 @@ DEP_LIST = \
 .obj/SortUnique.dep \
 .obj/Space.dep \
 .obj/SpanLenEngine.dep \
+.obj/SpawnProcess.dep \
 .obj/StartStop.dep \
 .obj/Starter.dep \
 .obj/StepEval.dep \
@@ -2589,6 +2592,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SpanLenEngine.o : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SpawnProcess.o : ../../HCore/CCore/src/./SpawnProcess.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/StartStop.o : ../../Simple/CCore/src/./StartStop.cpp
@@ -4024,6 +4030,9 @@ include $(RULES_FILE)
 .obj/SpanLenEngine.s : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SpawnProcess.s : ../../HCore/CCore/src/./SpawnProcess.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/StartStop.s : ../../Simple/CCore/src/./StartStop.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5456,6 +5465,9 @@ include $(RULES_FILE)
 
 .obj/SpanLenEngine.dep : ../../Desktop/Lib/CCore/src/./video/book/SpanLenEngine.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SpanLenEngine.o $< -MF $@
+
+.obj/SpawnProcess.dep : ../../HCore/CCore/src/./SpawnProcess.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SpawnProcess.o $< -MF $@
 
 .obj/StartStop.dep : ../../Simple/CCore/src/./StartStop.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/StartStop.o $< -MF $@
