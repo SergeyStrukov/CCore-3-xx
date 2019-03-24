@@ -19,8 +19,6 @@
 
 #include <CCore/inc/Exception.h>
 
-#include <CCore/inc/Print.h>
-
 /* sys functions */
 
 static void * mem_alloc(size_t len);

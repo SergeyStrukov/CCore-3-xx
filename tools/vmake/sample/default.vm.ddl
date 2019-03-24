@@ -34,9 +34,9 @@ Cmd cmd3 = { "LD test.exe" , "g++ test1.o test2.o -o test.exe" } ;
 
 Rule test1 = { {} , {&test} , {&cmd_test} } ;
 
-//Exe cmd_test = { "test" , "../test/test.exe" , "1 2 3" , "" , {{"ABRA","CODABRA"}} } ;
+Exe cmd_test = { "test" , "../test/test.exe" , "1 2 3" , "" , {{"ABRA","CODABRA"}} } ;
 
-Exe cmd_test = { "test" , "/bin/sh" , "" , "" , {{"ABRA","CODABRA"}} } ;
+//Exe cmd_test = { "test" , "/bin/sh" , "" , "" , {{"ABRA","CODABRA"}} } ;
 
 /* deps */
 

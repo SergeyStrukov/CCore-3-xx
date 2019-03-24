@@ -14,6 +14,10 @@
 #include <inc/VMakeProc.h>
 #include <inc/SpawnProcess.h>
 
+#include <CCore/inc/Path.h>
+
+#include <stdlib.h>
+
 namespace App {
 
 namespace VMake {
@@ -24,9 +28,18 @@ int FileProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
   try
     {
-     SpawnProcess spawn(wdir,"/bin/sh"_c);
+     const char *shell=getenv("SHELL");
 
-     spawn.addArg("sh"_c);
+     if( !shell ) shell="/bin/sh";
+
+     StrLen exe_name(shell);
+
+     SpawnProcess spawn(wdir,exe_name);
+
+     SplitPath split1(exe_name);
+     SplitName split2(split1.path);
+
+     spawn.addArg(split2.name);
      spawn.addArg("-c"_c);
      spawn.addArg(cmdline);
 
