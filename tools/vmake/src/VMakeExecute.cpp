@@ -33,9 +33,11 @@ int FileProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef:
 
      for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
 
-     spawn.spawn();
+     SpawnSlot slot;
 
-     return spawn.wait();
+     spawn.spawn(slot);
+
+     return slot.wait();
     }
   catch(CatchType)
     {

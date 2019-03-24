@@ -23,10 +23,13 @@ CCOPT_EXTRA = -I.
 
 include $(CCORE_ROOT)/Target/Makefile.app
 
-.PHONY : run
+.PHONY : run , test
 
 run: $(TARGET)
 	$(TARGET) main sample/default.vm.ddl
+
+test: $(TARGET)
+	$(TARGET) test sample/default.vm.ddl
 
 #----------------------------------------------------------------------------------------
 

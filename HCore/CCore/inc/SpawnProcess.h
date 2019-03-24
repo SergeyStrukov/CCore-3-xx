@@ -28,6 +28,8 @@ namespace CCore {
 
 class CmdLineParser;
 
+class SpawnSlot;
+
 class SpawnProcess;
 
 /* class CmdLineParser */
@@ -41,6 +43,34 @@ class CmdLineParser
    explicit CmdLineParser(StrLen text_) : text(text_) {}
 
    StrLen next();
+ };
+
+/* class SpawnSlot */
+
+class SpawnSlot : NoCopy
+ {
+   Sys::SpawnChild sys_spawn;
+
+   int state = 0 ;
+
+   friend class SpawnProcess;
+
+  public:
+
+   SpawnSlot();
+
+   ~SpawnSlot();
+
+   int wait();
+
+   bool clean()
+    {
+     if( state==2 ) return false;
+
+     state=0;
+
+     return true;
+    }
  };
 
 /* class SpawnProcess */
@@ -158,9 +188,7 @@ class SpawnProcess : NoCopy
 
    DynArray<EnvRec> envs;
 
-   Sys::SpawnChild sys_spawn;
-
-   int state = 0 ;
+   bool used = false ;
 
   private:
 
@@ -182,9 +210,7 @@ class SpawnProcess : NoCopy
 
    void addEnv(StrLen str);
 
-   void spawn();
-
-   int wait();
+   void spawn(SpawnSlot &slot);
  };
 
 } // namespace CCore

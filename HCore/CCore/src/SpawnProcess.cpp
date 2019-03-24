@@ -125,6 +125,39 @@ SpawnProcess::Pool::~Pool()
   while( Node *node=list.del() ) Sys::SpawnChild::MemFree(node);
  }
 
+/* class SpawnSlot */
+
+SpawnSlot::SpawnSlot()
+ {
+ }
+
+SpawnSlot::~SpawnSlot()
+ {
+  if( state==2 )
+    {
+     Printf(NoException,"CCore::SpawnSlot::~SpawnSlot() : not waited");
+    }
+ }
+
+int SpawnSlot::wait()
+ {
+  if( state!=2 )
+    {
+     Printf(Exception,"CCore::SpawnSlot::wait() : not spawned");
+    }
+
+  state=3;
+
+  auto result=sys_spawn.wait();
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::SpawnSlot::wait() : #;",PrintError(result.error));
+    }
+
+  return result.status;
+ }
+
 /* class SpawnProcess */
 
 char ** SpawnProcess::buildArgv()
@@ -168,10 +201,6 @@ SpawnProcess::SpawnProcess(StrLen wdir_,StrLen exe_name_)
 
 SpawnProcess::~SpawnProcess()
  {
-  if( state==2 )
-    {
-     Printf(NoException,"CCore::SpawnProcess::~SpawnProcess() : not waited");
-    }
  }
 
 void SpawnProcess::addArg(StrLen str)
@@ -214,44 +243,32 @@ void SpawnProcess::addEnv(StrLen str)
       }
  }
 
-void SpawnProcess::spawn()
+void SpawnProcess::spawn(SpawnSlot &slot)
  {
-  if( state!=0 )
+  if( slot.state!=0 )
     {
-     Printf(Exception,"CCore::SpawnProcess::spawn() : already spawned");
+     Printf(Exception,"CCore::SpawnProcess::spawn() : slot is already spawned");
     }
 
-  state=1;
+  if( used )
+    {
+     Printf(Exception,"CCore::SpawnProcess::spawn() : used");
+    }
+
+  used=true;
+
+  slot.state=1;
 
   char **argv=buildArgv();
 
   char **envp=buildEnvp();
 
-  if( auto error=sys_spawn.spawn(wdir,exe_name,argv,envp) )
+  if( auto error=slot.sys_spawn.spawn(wdir,exe_name,argv,envp) )
     {
      Printf(Exception,"CCore::SpawnProcess::spawn() : #;",PrintError(error));
     }
 
-  state=2;
- }
-
-int SpawnProcess::wait()
- {
-  if( state!=2 )
-    {
-     Printf(Exception,"CCore::SpawnProcess::wait() : not spawned");
-    }
-
-  state=3;
-
-  auto result=sys_spawn.wait();
-
-  if( result.error )
-    {
-     Printf(Exception,"CCore::SpawnProcess::wait() : #;",PrintError(result.error));
-    }
-
-  return result.status;
+  slot.state=2;
  }
 
 } // namespace CCore
