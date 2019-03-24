@@ -313,6 +313,11 @@ bool DataProc::checkRebuild(TypeDef::Target *obj,TRec *rec)
      return true;
     }
 
+  StrLen file=obj->file;
+
+  if( +file )
+    Printf(NoException,"vmake : target #.q; is still not built, no rule is bound",GetDesc(obj));
+
   return false;
  }
 
@@ -329,6 +334,10 @@ void DataProc::completeRule(TypeDef::Target *obj)
     {
      getRec(obj)->state=StateOk;
     }
+  else
+    {
+     Printf(NoException,"vmake : target #.q; is still not built",GetDesc(obj));
+    }
  }
 
 void DataProc::completeRule(TypeDef::Rule *rule)
@@ -336,7 +345,7 @@ void DataProc::completeRule(TypeDef::Rule *rule)
   for(TypeDef::Target *ptr : rule->dst.getRange() ) if( ptr ) completeRule(ptr);
  }
 
-bool DataProc::commit(TypeDef::Target *obj)
+bool DataProc::commit(TypeDef::Target *obj) // Printf(Con
  {
   TRec *rec=getRec(obj);
 
@@ -363,6 +372,10 @@ bool DataProc::commit(TypeDef::Target *obj)
                  completeRule(rule);
 
                  return rec->state==StateOk;
+                }
+              else
+                {
+                 Printf(NoException,"vmake : rule failed #;\n",result);
                 }
              }
 
