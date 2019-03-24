@@ -41,6 +41,8 @@ int main(int argc,const char *argv[])
         }
      }
 
+     sleep(10);
+
      report.guard();
 
      return 0;
