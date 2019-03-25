@@ -6,6 +6,8 @@ Target main = { "main" } ;
 
 Target exe = { "exe" , "test.exe" } ;
 
+Target map = { "map" , "map.txt" } ;
+
 Target obj1 = { "obj1" , "test1.o" } ;
 
 Target obj2 = { "obj2" , "test2.o" } ;
@@ -32,9 +34,9 @@ Rule cc2 = { {&cpp2} , {&obj2} , {&cmd2} } ;
 
 Cmd cmd2 = { "CC test2.cpp" , "g++ -c test2.cpp -o test2.o" } ;
 
-Rule ld1 = { {&obj1,&obj2} , {&exe} , {&cmd3} } ;
+Rule ld1 = { {&obj1,&obj2} , {&exe,&map} , {&cmd3} } ;
 
-Cmd cmd3 = { "LD test.exe" , "g++ test1.o test2.o -o test.exe" } ;
+Cmd cmd3 = { "LD test.exe" , "g++ test1.o test2.o -o test.exe -Wl,-Map=map.txt" } ;
 
 Rule test1 = { {} , {&test} , {&cmd_test} } ;
 
@@ -52,5 +54,7 @@ Exe cmd_test_sh = { "sh" , "/bin/sh" , "" , ".." , {{"ABRA","CODABRA"}} } ;
 
 Dep dep1 = { {&h1} , {&obj1,&obj2} } ;
 
-Dep dep2 = { {&exe} , {&main} } ;
+Dep dep2 = { {&exe,&map} , {&main} } ;
+
+
 

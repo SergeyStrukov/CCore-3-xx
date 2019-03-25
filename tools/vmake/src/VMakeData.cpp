@@ -69,7 +69,7 @@ DataFile::DataFile(StrLen file_name,StrLen target_name)
 
   if( !target )
     {
-     Printf(Exception,"vmake file #.q; : no target #.q;",file_name,target_name);
+     Printf(Exception,"vmake file #.q; : no target variable #.q;",file_name,target_name);
     }
 
   struct Func

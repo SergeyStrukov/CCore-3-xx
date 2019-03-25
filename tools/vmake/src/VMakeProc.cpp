@@ -55,7 +55,7 @@ void DataProc::add(TypeDef::Target *dst,TypeDef::Rule *rule)
 
   if( rec->rule )
     {
-     Printf(Exception,"vmake file #.q; : multiple rules for a target #.q;",file_name,GetDesc(dst));
+     Printf(Exception,"vmake file #.q; : multiple rules for target #.q;",file_name,GetDesc(dst));
     }
 
   rec->rule=rule;
@@ -276,7 +276,7 @@ auto DataProc::getRec(TypeDef::Rule *obj) -> RRec *
   return getRec(obj,rrecs);
  }
 
-void DataProc::addWork(TypeDef::Target *obj) // Printf(Con
+void DataProc::addWork(TypeDef::Target *obj)
  {
   Printf(Con,"rebuild #.q;\n",GetDesc(obj));
 

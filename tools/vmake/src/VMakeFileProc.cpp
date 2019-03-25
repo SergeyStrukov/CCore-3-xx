@@ -132,7 +132,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
        }
      catch(CatchType)
        {
-        return 1;
+        return 1000;
        }
     }
   else
@@ -161,7 +161,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
        }
      catch(CatchType)
        {
-        return 1;
+        return 1000;
        }
     }
   else
@@ -194,7 +194,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
        }
      catch(CatchType)
        {
-        return 1;
+        return 1000;
        }
     }
   else
@@ -209,7 +209,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
        }
      catch(CatchType)
        {
-        return 1;
+        return 1000;
        }
     }
  }
