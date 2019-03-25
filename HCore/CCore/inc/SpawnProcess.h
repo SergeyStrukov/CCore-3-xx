@@ -57,7 +57,7 @@ class SpawnSlot : NoCopy
 
   public:
 
-   SpawnSlot();
+   SpawnSlot() noexcept;
 
    ~SpawnSlot();
 

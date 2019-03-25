@@ -71,24 +71,6 @@ class FileProc::BuildFileName : NoCopy
 
 /* class FileProc */
 
-FileProc::FileProc()
- {
- }
-
-FileProc::~FileProc()
- {
- }
-
-void FileProc::prepare(unsigned pcap_) // TODO
- {
-  pcap=Cap<unsigned>(0,pcap_,100);
-
-  if( usePExe() )
-    {
-     // TODO
-    }
- }
-
  // check
 
 bool FileProc::checkExist(StrLen wdir,StrLen dst)
@@ -230,7 +212,74 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
  // pexe
 
-void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,Function<void (TypeDef::Rule *rule,int status)> complete) // TODO
+void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
+ {
+  Slot *slot=waitFree(complete.complete);
+
+  StrLen echo=cmd->echo;
+
+  Printf(Con,"#;\n",echo);
+
+  StrLen exe_file=cmd->exe;
+  StrLen cmdline=cmd->cmdline;
+  StrLen new_wdir=cmd->wdir;
+  PtrLen<TypeDef::Env> env=cmd->env;
+
+  if( +new_wdir )
+    {
+     try
+       {
+        BuildFileName wdir1(wdir,new_wdir);
+
+        execute(slot,exe_file,wdir1.get(),cmdline,env,complete);
+       }
+     catch(CatchType)
+       {
+        complete(1000);
+       }
+    }
+  else
+    {
+     execute(slot,exe_file,wdir,cmdline,env,complete);
+    }
+ }
+
+void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
+ {
+  Slot *slot=waitFree(complete.complete);
+
+  StrLen echo=cmd->echo;
+
+  Printf(Con,"#;\n",echo);
+
+  StrLen cmdline=cmd->cmdline;
+  StrLen new_wdir=cmd->wdir;
+  PtrLen<TypeDef::Env> env=cmd->env;
+
+  if( +new_wdir )
+    {
+     try
+       {
+        BuildFileName wdir1(wdir,new_wdir);
+
+        return command(slot,wdir1.get(),cmdline,env,complete);
+       }
+     catch(CatchType)
+       {
+        complete(1000);
+       }
+    }
+  else
+    {
+     command(slot,wdir,cmdline,env,complete);
+    }
+ }
+
+void FileProc::CompleteExe::operator () (int status) // TODO
+ {
+ }
+
+void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete) // TODO
  {
   if( !list ) return;
 

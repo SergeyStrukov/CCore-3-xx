@@ -178,6 +178,10 @@ class Stack : NoCopy
    void pop() { buf.shrink_one(); }
  };
 
+/* type CompleteFunction */
+
+using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
+
 /* class FileProc */
 
 class FileProc : NoCopy
@@ -186,6 +190,10 @@ class FileProc : NoCopy
 
    unsigned level = 100 ;
 
+   struct Slot;
+
+   SimpleArray<Slot> slots;
+
    unsigned pcap = 0 ;
 
   private:
@@ -193,6 +201,20 @@ class FileProc : NoCopy
    int command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
 
    int execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
+
+  public:
+
+   struct CompleteExe;
+
+  private:
+
+   Slot * waitFree(CompleteFunction complete);
+
+   void setRunning(Slot *slot,CompleteExe complete);
+
+   void command(Slot *slot,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
+
+   void execute(Slot *slot,StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
 
    class BuildFileName;
 
@@ -226,15 +248,38 @@ class FileProc : NoCopy
 
    struct ExeRule : NoCopy
     {
-     TypeDef::Rule *rule;
+     TypeDef::Rule *rule = 0 ;
+
+     PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake> > list;
+     bool ready = true ;
 
      void set(TypeDef::Rule *rule_)
       {
        rule=rule_;
+
+       list=rule->cmd.getRange();
+
+       ready=true;
       }
     };
 
-   void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,Function<void (TypeDef::Rule *rule,int status)> complete);
+   struct CompleteExe
+    {
+     ExeRule *obj;
+     CompleteFunction complete;
+
+     CompleteExe(ExeRule *obj_,CompleteFunction complete_) : obj(obj_),complete(complete_) {}
+
+     void operator () (int status);
+    };
+
+   void startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete);
+
+   void startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete);
+
+   void waitAll(CompleteFunction complete);
+
+   void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete);
  };
 
 /* class DataProc */
@@ -357,7 +402,7 @@ class DataProc : public Funchor_nocopy
 
    void finishRule(TypeDef::Rule *rule,int status);
 
-   Function<void (TypeDef::Rule *rule,int status)> function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
+   CompleteFunction function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
 
    void exeRuleList(PtrLen<FileProc::ExeRule> rules);
 

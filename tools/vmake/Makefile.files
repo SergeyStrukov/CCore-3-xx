@@ -3,6 +3,7 @@ OBJ_LIST = \
 .obj/VMakeData.o \
 .obj/VMakeExecute.o \
 .obj/VMakeFileProc.o \
+.obj/VMakePExe.o \
 .obj/VMakeProc.o \
 .obj/main.o \
 
@@ -12,6 +13,7 @@ ASM_LIST = \
 .obj/VMakeData.s \
 .obj/VMakeExecute.s \
 .obj/VMakeFileProc.s \
+.obj/VMakePExe.s \
 .obj/VMakeProc.s \
 .obj/main.s \
 
@@ -21,6 +23,7 @@ DEP_LIST = \
 .obj/VMakeData.dep \
 .obj/VMakeExecute.dep \
 .obj/VMakeFileProc.dep \
+.obj/VMakePExe.dep \
 .obj/VMakeProc.dep \
 .obj/main.dep \
 
@@ -43,6 +46,9 @@ include $(RULES_FILE)
 .obj/VMakeFileProc.o : src/./VMakeFileProc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/VMakePExe.o : src/./VMakePExe.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/VMakeProc.o : src/./VMakeProc.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -61,6 +67,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/VMakeFileProc.s : src/./VMakeFileProc.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/VMakePExe.s : src/./VMakePExe.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/VMakeProc.s : src/./VMakeProc.cpp
@@ -82,6 +91,9 @@ include $(RULES_FILE)
 
 .obj/VMakeFileProc.dep : src/./VMakeFileProc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VMakeFileProc.o $< -MF $@
+
+.obj/VMakePExe.dep : src/./VMakePExe.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/VMakePExe.o $< -MF $@
 
 .obj/VMakeProc.dep : src/./VMakeProc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VMakeProc.o $< -MF $@

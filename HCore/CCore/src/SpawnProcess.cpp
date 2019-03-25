@@ -127,7 +127,7 @@ SpawnProcess::Pool::~Pool()
 
 /* class SpawnSlot */
 
-SpawnSlot::SpawnSlot()
+SpawnSlot::SpawnSlot() noexcept
  {
  }
 
