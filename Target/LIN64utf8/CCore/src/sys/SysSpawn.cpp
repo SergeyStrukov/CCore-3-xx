@@ -66,13 +66,13 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
 
      case 0 :
       {
-       if( wdir ) 
+       if( wdir )
          {
           if( chdir(wdir) )
             {
              error=NonNullError();
 
-             _exit(1000);
+             _exit(125);
             }
          }
 
@@ -80,7 +80,7 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
 
        error=NonNullError();
 
-       _exit(1000);
+       _exit( ( error==ENOENT )? 126 : 127 );
       }
 
      default:
@@ -99,21 +99,32 @@ auto SpawnChild::wait() -> WaitResult
  {
   WaitResult ret;
 
-  Type child_pid=waitpid(pid,&ret.status,0);
+  int status;
+
+  Type child_pid=waitpid(pid,&status,0);
 
   if( child_pid==-1 )
     {
      ret.status=1000;
      ret.error=NonNullError();
     }
-  if( child_pid!=pid )
+  else if( child_pid!=pid )
     {
      ret.status=1000;
      ret.error=ErrorType(EFAULT);
-    } 
+    }
   else
     {
-     ret.error=NoError;
+     if( WIFEXITED(status) )
+       {
+        ret.status=WEXITSTATUS(status);
+        ret.error=NoError;
+       }
+     else
+       {
+        ret.status=status;
+        ret.error=ErrorType(EFAULT);
+       }
     }
 
   return ret;
