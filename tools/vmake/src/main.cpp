@@ -16,13 +16,31 @@
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
+#include <CCore/inc/Scanf.h>
+
 #include <CCore/inc/FileSystem.h>
 
 namespace App {
 
+/* struct OptP */
+
+struct OptP
+ {
+  unsigned cap = 0 ;
+
+  explicit OptP(StrLen arg)
+   {
+    ScanString inp(arg);
+
+    Scanf(inp,"-p#;#;",cap,EndOfScan);
+
+    if( inp.isFailed() ) cap=0;
+   }
+ };
+
 /* Main() */
 
-int Main(StrLen file_name,StrLen target)
+int Main(unsigned pcap,StrLen file_name,StrLen target)
  {
   Printf(Con,"#; @ #;\n\n",file_name,target);
 
@@ -50,58 +68,75 @@ bool NoDefFile()
   return fs.getFileType(DefFile)!=FileType_file;
  }
 
+bool IsOpt(const char *str) { return *str=='-' ; }
+
 int usage()
  {
-  Putobj(Con,"Usage: vmake\n");
-  Putobj(Con,"OR     vmake <target>\n");
-  Putobj(Con,"OR     vmake <target> <vmake-file>\n");
+  Putobj(Con,"Usage: vmake [-pNNN]\n");
+  Putobj(Con,"OR     vmake [-pNNN] <target>\n");
+  Putobj(Con,"OR     vmake [-pNNN] <target> <vmake-file>\n");
 
   return 1;
  }
 
-int main(int argc,const char *argv[])
+int inner_main(int argc,const char **argv)
+ {
+  Putobj(Con,"--- vmake 1.00 ---\n--- Copyright (c) 2019 Sergey Strukov. All rights reserved. ---\n\n"_c);
+
+  unsigned pcap=0;
+
+  if( argc>1 && IsOpt(argv[1]) )
+    {
+     OptP opt(argv[1]);
+
+     if( opt.cap==0 ) return usage();
+
+     pcap=opt.cap;
+
+     argc--;
+     argv++;
+    }
+
+  switch( argc )
+    {
+     case 1 :
+      {
+       if( NoDefFile() )
+         return usage();
+       else
+         return Main(pcap,DefFile,DefTarget);
+      }
+     break;
+
+     case 2 :
+      {
+       if( NoDefFile() )
+         return usage();
+       else
+         return Main(pcap,DefFile,argv[1]);
+      }
+     break;
+
+     case 3 :
+      {
+       return Main(pcap,argv[2],argv[1]);
+      }
+     break;
+
+     default:
+      {
+       return usage();
+      }
+    }
+ }
+
+int main(int argc,const char **argv)
  {
   try
     {
      ReportException report;
 
-     int ret;
-
-     {
-      Putobj(Con,"--- vmake 1.00 ---\n--- Copyright (c) 2019 Sergey Strukov. All rights reserved. ---\n\n"_c);
-
-      switch( argc )
-        {
-         case 1 :
-          {
-           if( NoDefFile() )
-             ret=usage();
-           else
-             ret=Main(DefFile,DefTarget);
-          }
-         break;
-
-         case 2 :
-          {
-           if( NoDefFile() )
-             ret=usage();
-           else
-             ret=Main(DefFile,argv[1]);
-          }
-         break;
-
-         case 3 :
-          {
-           ret=Main(argv[2],argv[1]);
-          }
-         break;
-
-         default:
-          {
-           ret=usage();
-          }
-        }
-     }
+     int ret=inner_main(argc,argv);
 
      report.guard();
 
