@@ -224,7 +224,17 @@ class FileProc : NoCopy
 
    // pexe
 
-   void exeRuleList(StrLen wdir,PtrLen<TypeDef::Rule *> rules,Function<void (TypeDef::Rule *rule,int status)> complete);
+   struct ExeRule : NoCopy
+    {
+     TypeDef::Rule *rule;
+
+     void set(TypeDef::Rule *rule_)
+      {
+       rule=rule_;
+      }
+    };
+
+   void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,Function<void (TypeDef::Rule *rule,int status)> complete);
  };
 
 /* class DataProc */
@@ -349,7 +359,7 @@ class DataProc : public Funchor_nocopy
 
    Function<void (TypeDef::Rule *rule,int status)> function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
 
-   void exeRuleList(PtrLen<TypeDef::Rule *> rules);
+   void exeRuleList(PtrLen<FileProc::ExeRule> rules);
 
    int commitPExe();
 

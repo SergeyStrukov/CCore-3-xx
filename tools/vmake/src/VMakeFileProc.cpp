@@ -230,17 +230,17 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
  // pexe
 
-void FileProc::exeRuleList(StrLen wdir,PtrLen<TypeDef::Rule *> rules,Function<void (TypeDef::Rule *rule,int status)> complete) // TODO
+void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,Function<void (TypeDef::Rule *rule,int status)> complete) // TODO
  {
-  if( !rules ) return;
+  if( !list ) return;
 
-  Printf(Con,"vmake : start #; rules\n",rules.len);
+  Printf(Con,"vmake : start #; rules\n",list.len);
 
-  for(auto rule : rules )
+  for(auto &obj : list )
     {
-     int status=exeRule(wdir,rule);
+     int status=exeRule(wdir,obj.rule);
 
-     complete(rule,status);
+     complete(obj.rule,status);
     }
  }
 

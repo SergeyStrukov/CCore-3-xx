@@ -456,7 +456,7 @@ void DataProc::finishRule(TypeDef::Rule *rule,int status)
     }
  }
 
-void DataProc::exeRuleList(PtrLen<TypeDef::Rule *> rules)
+void DataProc::exeRuleList(PtrLen<FileProc::ExeRule> rules)
  {
   file_proc.exeRuleList(Range(wdir),rules,function_finishRule());
  }
@@ -476,7 +476,7 @@ int DataProc::commitPExe()
 
   Printf(Con,"\nCommit ...\n\n");
 
-  SimpleArray<TypeDef::Rule *> rule_buf(list.len);
+  SimpleArray<FileProc::ExeRule> rule_buf(list.len);
 
   auto passFunc = [&] ()
                       {
@@ -490,7 +490,9 @@ int DataProc::commitPExe()
 
                           if( result.rule )
                             {
-                             *(out++)=result.rule;
+                             out->set(result.rule);
+
+                             out++;
                             }
                           else if( !result.commit )
                             {
