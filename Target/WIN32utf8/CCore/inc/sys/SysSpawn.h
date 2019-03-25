@@ -27,7 +27,7 @@ StrLen GetShell(); // unsafe, beware eniron modification!
 
 /* GetEnviron() */
 
-char ** GetEnviron(); // environ is a global!
+char ** GetEnviron(); // environ is global!
 
 /* classes */
 
