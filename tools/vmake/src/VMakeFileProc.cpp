@@ -79,6 +79,16 @@ FileProc::~FileProc()
  {
  }
 
+void FileProc::prepare(unsigned pcap)
+ {
+  Used(pcap);
+ }
+
+bool FileProc::usePExe() const
+ {
+  return false;
+ }
+
  // check
 
 bool FileProc::checkExist(StrLen wdir,StrLen dst)
@@ -217,6 +227,10 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
   return 0;
  }
+
+ // pexe
+
+
 
 } // namespace VMake
 

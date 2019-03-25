@@ -200,6 +200,10 @@ class FileProc : NoCopy
 
    ~FileProc();
 
+   void prepare(unsigned pcap);
+
+   bool usePExe() const;
+
    // check
 
    bool checkExist(StrLen wdir,StrLen dst);
@@ -215,6 +219,9 @@ class FileProc : NoCopy
    int exeCmd(StrLen wdir,TypeDef::VMake *cmd);
 
    int exeRule(StrLen wdir,TypeDef::Rule *rule);
+
+   // pexe
+
  };
 
 /* class DataProc */

@@ -97,7 +97,7 @@ class Main : NoCopy
      ok=true;
     }
 
-   int run() // TODO
+   int run()
     {
      if( !ok ) return Usage();
 
@@ -106,7 +106,7 @@ class Main : NoCopy
      else
        Printf(Con,"#; @ #;\n\n",file_name,target);
 
-     return 666;
+     file_proc.prepare(pcap);
 
      VMake::DataProc proc(file_proc,file_name,target);
 
