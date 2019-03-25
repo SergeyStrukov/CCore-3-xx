@@ -56,5 +56,6 @@ Dep dep1 = { {&h1} , {&obj1,&obj2} } ;
 
 Dep dep2 = { {&exe,&map} , {&main} } ;
 
+//Dep dep3 = { {&exe} , {&map} } ;
 
 

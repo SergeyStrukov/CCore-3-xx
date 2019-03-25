@@ -316,7 +316,7 @@ bool DataProc::checkRebuild(TypeDef::Target *obj,TRec *rec)
   StrLen file=obj->file;
 
   if( +file )
-    Printf(NoException,"vmake : target #.q; is still not built, no rule is bound",GetDesc(obj));
+    Printf(Con,"vmake : target #.q; is still not built, no rule is found\n",GetDesc(obj));
 
   return false;
  }
@@ -336,7 +336,7 @@ void DataProc::completeRule(TypeDef::Target *obj)
     }
   else
     {
-     Printf(NoException,"vmake : target #.q; is still not built",GetDesc(obj));
+     Printf(Con,"vmake : target #.q; is still not built\n",GetDesc(obj));
     }
  }
 
@@ -345,59 +345,67 @@ void DataProc::completeRule(TypeDef::Rule *rule)
   for(TypeDef::Target *ptr : rule->dst.getRange() ) if( ptr ) completeRule(ptr);
  }
 
-bool DataProc::commit(TypeDef::Target *obj) // Printf(Con
+bool DataProc::commit(TypeDef::Target *obj)
  {
   TRec *rec=getRec(obj);
 
-  if( rec->state==StateRebuild )
+  if( rec->state==StateOk ) return true;
+
+  if( TypeDef::Rule *rule=rec->rule )
     {
-     if( TypeDef::Rule *rule=rec->rule )
+     RRec *rule_rec=getRec(rule);
+
+     if( rule_rec->done )
        {
-        RRec *rule_rec=getRec(rule);
-
-        if( rule_rec->done )
-          {
-           return false;
-          }
-        else
-          {
-           if( canRun(rule) )
-             {
-              int result=exeRule(rule);
-
-              rule_rec->done=true;
-
-              if( result==0 )
-                {
-                 completeRule(rule);
-
-                 return rec->state==StateOk;
-                }
-              else
-                {
-                 Printf(NoException,"vmake : rule failed #;\n",result);
-                }
-             }
-
-           return false;
-          }
+        return false;
        }
      else
        {
-        return checkRebuild(obj,rec);
+        if( canRun(rule) )
+          {
+           int status=exeRule(rule);
+
+           rule_rec->done=true;
+
+           if( status==0 )
+             {
+              completeRule(rule);
+
+              return rec->state==StateOk;
+             }
+           else
+             {
+              Printf(Con,"vmake : rule failed #;\n",status);
+
+              return false;
+             }
+          }
+        else
+          {
+           return false;
+          }
        }
     }
-
-  return true;
+  else
+    {
+     return checkRebuild(obj,rec);
+    }
  }
 
-int DataProc::commit() // Printf(Con
+int DataProc::commit()
  {
   rrecs.reserve(1000);
 
   auto list=Range(works);
 
-  if( +list ) Printf(Con,"\ncommit\n\n");
+  if( !list )
+    {
+     Putobj(Con,"\nAll done.\n\n");
+
+     return 0;
+    }
+
+  Printf(Con,"\nCommit ...\n\n");
 
   while( +list )
     {
@@ -411,11 +419,13 @@ int DataProc::commit() // Printf(Con
 
      if( !Change(list.len,Dist(list.ptr,save)) )
        {
-        Printf(NoException,"vmake : rebuild failed");
+        Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
 
-        return 1;
+        return 1000;
        }
     }
+
+  Putobj(Con,"\nSuccess!\n\n");
 
   return 0;
  }
