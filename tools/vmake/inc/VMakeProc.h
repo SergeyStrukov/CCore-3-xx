@@ -196,6 +196,9 @@ class FileProc : NoCopy
 
    unsigned pcap = 0 ;
 
+   SimpleArray<Slot *> slotptrs;
+   ulen free = 0 ;
+
   private:
 
    int command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
@@ -208,13 +211,25 @@ class FileProc : NoCopy
 
   private:
 
-   Slot * waitFree(CompleteFunction complete);
+   struct WaitResult
+    {
+     ulen ind;
+     int status;
+    };
+
+   static WaitResult Wait(PtrLen<Slot *> list);
+
+   void movetoFree(ulen ind);
+
+   void waitOne(CompleteFunction complete);
+
+   void waitFree(CompleteFunction complete);
 
    void setRunning(Slot *slot,CompleteExe complete);
 
-   void command(Slot *slot,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
+   void command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
 
-   void execute(Slot *slot,StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
+   void execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
 
    class BuildFileName;
 

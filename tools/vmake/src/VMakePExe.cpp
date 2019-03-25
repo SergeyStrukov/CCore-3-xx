@@ -16,6 +16,8 @@
 #include <CCore/inc/Path.h>
 #include <CCore/inc/SpawnProcess.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 namespace VMake {
@@ -46,28 +48,76 @@ void FileProc::prepare(unsigned pcap_)
   if( usePExe() )
     {
      slots=SimpleArray<Slot>(pcap);
+     slotptrs=SimpleArray<Slot *>(pcap);
+
+     auto out=slotptrs.getPtr();
+
+     for(Slot &s : slots ) (*out++)=&s;
+
+     free=pcap;
     }
  }
 
  // pexe
 
-auto FileProc::waitFree(CompleteFunction complete) -> Slot * // TODO
+auto FileProc::Wait(PtrLen<Slot *> list) -> WaitResult // TODO
  {
+  Used(list);
+
+  return {0,0};
  }
 
-void FileProc::waitAll(CompleteFunction complete) // TODO
+void FileProc::movetoFree(ulen ind)
  {
+  if( free<ind )
+    {
+     Swap(slotptrs[free],slotptrs[ind]);
+    }
+
+  free++;
  }
 
-void FileProc::setRunning(Slot *slot,CompleteExe complete) // TODO
+void FileProc::waitOne(CompleteFunction complete)
+ {
+  auto result=Wait(Range(slotptrs).part(free));
+
+  ulen ind=free+result.ind;
+
+  Slot *slot=slotptrs[ind];
+
+  movetoFree(ind);
+
+  CompleteExe temp(Replace_null(slot->obj),complete);
+
+  temp(result.status);
+ }
+
+void FileProc::waitFree(CompleteFunction complete)
+ {
+  if( !free ) waitOne(complete);
+ }
+
+void FileProc::waitAll(CompleteFunction complete)
+ {
+  while( free<pcap ) waitOne(complete);
+ }
+
+void FileProc::setRunning(Slot *slot,CompleteExe complete)
  {
   slot->obj=complete.obj;
 
-
+  free--;
  }
 
-void FileProc::command(Slot *slot,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
+void FileProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
  {
+  if( !free )
+    {
+     Printf(Exception,"vmake internal : no free slot");
+    }
+
+  Slot *slot=slotptrs[free-1];
+
   try
     {
      StrLen exe_name=Sys::GetShell();
@@ -93,8 +143,15 @@ void FileProc::command(Slot *slot,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env
     }
  }
 
-void FileProc::execute(Slot *slot,StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
+void FileProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
  {
+  if( !free )
+    {
+     Printf(Exception,"vmake internal : no free slot");
+    }
+
+  Slot *slot=slotptrs[free-1];
+
   try
     {
      SpawnProcess spawn(wdir,exe_file);

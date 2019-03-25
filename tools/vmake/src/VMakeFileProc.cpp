@@ -214,7 +214,7 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
 void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
  {
-  Slot *slot=waitFree(complete.complete);
+  waitFree(complete.complete);
 
   StrLen echo=cmd->echo;
 
@@ -231,7 +231,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        execute(slot,exe_file,wdir1.get(),cmdline,env,complete);
+        execute(exe_file,wdir1.get(),cmdline,env,complete);
        }
      catch(CatchType)
        {
@@ -240,13 +240,13 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
     }
   else
     {
-     execute(slot,exe_file,wdir,cmdline,env,complete);
+     execute(exe_file,wdir,cmdline,env,complete);
     }
  }
 
 void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
  {
-  Slot *slot=waitFree(complete.complete);
+  waitFree(complete.complete);
 
   StrLen echo=cmd->echo;
 
@@ -262,7 +262,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        return command(slot,wdir1.get(),cmdline,env,complete);
+        return command(wdir1.get(),cmdline,env,complete);
        }
      catch(CatchType)
        {
@@ -271,7 +271,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
     }
   else
     {
-     command(slot,wdir,cmdline,env,complete);
+     command(wdir,cmdline,env,complete);
     }
  }
 
