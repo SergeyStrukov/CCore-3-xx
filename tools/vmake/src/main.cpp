@@ -22,34 +22,97 @@
 
 namespace App {
 
-/* struct OptP */
+/* class Main */
 
-struct OptP
+class Main : NoCopy
  {
-  unsigned cap = 0 ;
+   unsigned pcap = 0 ;
+   StrLen file_name = "default.vm.ddl"_c ;
+   StrLen target = "main"_c ;
 
-  explicit OptP(StrLen arg)
-   {
-    ScanString inp(arg);
+   bool ok = false ;
 
-    Scanf(inp,"-p#;#;",cap,EndOfScan);
+   VMake::FileProc file_proc;
 
-    if( inp.isFailed() ) cap=0;
-   }
+  private:
+
+   static int Usage()
+    {
+     Putobj(Con,"Usage: vmake [-pNNN]\n");
+     Putobj(Con,"OR     vmake [-pNNN] <target>\n");
+     Putobj(Con,"OR     vmake [-pNNN] <target> <vmake-file>\n\n");
+
+     return 1;
+    }
+
+   static bool IsOpt(const char *str) { return *str=='-' ; }
+
+   bool getP(StrLen arg)
+    {
+     ScanString inp(arg);
+
+     Scanf(inp,"-p#;#;",pcap,EndOfScan);
+
+     return inp.isOk();
+    }
+
+  public:
+
+   Main(int argc,const char **argv)
+    {
+     if( argc<1 ) return;
+
+     auto list=Range(argv+1,argc-1);
+
+     if( +list && IsOpt(*list) )
+       {
+        if( !getP(*list) ) return;
+
+        ++list;
+       }
+
+     if( +list )
+       {
+        target=*list;
+
+        ++list;
+       }
+
+     if( +list )
+       {
+        file_name=*list;
+
+        ++list;
+       }
+
+     if( +list ) return;
+
+     if( !file_proc.checkExist(""_c,file_name) )
+       {
+        Printf(Con,"#.q; does not exist\n\n",file_name);
+
+        return;
+       }
+
+     ok=true;
+    }
+
+   int run() // TODO
+    {
+     if( !ok ) return Usage();
+
+     if( pcap )
+       Printf(Con,"#; @ #; -p #;\n\n",file_name,target,pcap);
+     else
+       Printf(Con,"#; @ #;\n\n",file_name,target);
+
+     return 666;
+
+     VMake::DataProc proc(file_proc,file_name,target);
+
+     return proc.make();
+    }
  };
-
-/* Main() */
-
-int Main(unsigned pcap,StrLen file_name,StrLen target)
- {
-  Printf(Con,"#; @ #;\n\n",file_name,target);
-
-  VMake::FileProc file_proc;
-
-  VMake::DataProc proc(file_proc,file_name,target);
-
-  return proc.make();
- }
 
 } // namespace App
 
@@ -57,86 +120,17 @@ int Main(unsigned pcap,StrLen file_name,StrLen target)
 
 using namespace App;
 
-const StrLen DefTarget = "main"_c ;
-
-const StrLen DefFile = "default.vm.ddl"_c ;
-
-bool NoDefFile()
- {
-  FileSystem fs;
-
-  return fs.getFileType(DefFile)!=FileType_file;
- }
-
-bool IsOpt(const char *str) { return *str=='-' ; }
-
-int usage()
- {
-  Putobj(Con,"Usage: vmake [-pNNN]\n");
-  Putobj(Con,"OR     vmake [-pNNN] <target>\n");
-  Putobj(Con,"OR     vmake [-pNNN] <target> <vmake-file>\n");
-
-  return 1;
- }
-
-int inner_main(int argc,const char **argv)
- {
-  Putobj(Con,"--- vmake 1.00 ---\n--- Copyright (c) 2019 Sergey Strukov. All rights reserved. ---\n\n"_c);
-
-  unsigned pcap=0;
-
-  if( argc>1 && IsOpt(argv[1]) )
-    {
-     OptP opt(argv[1]);
-
-     if( opt.cap==0 ) return usage();
-
-     pcap=opt.cap;
-
-     argc--;
-     argv++;
-    }
-
-  switch( argc )
-    {
-     case 1 :
-      {
-       if( NoDefFile() )
-         return usage();
-       else
-         return Main(pcap,DefFile,DefTarget);
-      }
-     break;
-
-     case 2 :
-      {
-       if( NoDefFile() )
-         return usage();
-       else
-         return Main(pcap,DefFile,argv[1]);
-      }
-     break;
-
-     case 3 :
-      {
-       return Main(pcap,argv[2],argv[1]);
-      }
-     break;
-
-     default:
-      {
-       return usage();
-      }
-    }
- }
-
 int main(int argc,const char **argv)
  {
   try
     {
      ReportException report;
 
-     int ret=inner_main(argc,argv);
+     Putobj(Con,"--- vmake 1.00 ---\n--- Copyright (c) 2019 Sergey Strukov. All rights reserved. ---\n\n"_c);
+
+     Main obj(argc,argv);
+
+     int ret=obj.run();
 
      report.guard();
 
