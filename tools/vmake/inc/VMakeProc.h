@@ -186,6 +186,8 @@ class FileProc : NoCopy
 
    unsigned level = 100 ;
 
+   unsigned pcap = 0 ;
+
   private:
 
    int command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
@@ -202,7 +204,7 @@ class FileProc : NoCopy
 
    void prepare(unsigned pcap);
 
-   bool usePExe() const;
+   bool usePExe() const { return pcap>1; }
 
    // check
 
@@ -222,11 +224,12 @@ class FileProc : NoCopy
 
    // pexe
 
+   void exeRuleList(StrLen wdir,PtrLen<TypeDef::Rule *> rules,Function<void (TypeDef::Rule *rule,int status)> complete);
  };
 
 /* class DataProc */
 
-class DataProc : NoCopy
+class DataProc : public Funchor_nocopy
  {
    FileProc &file_proc;
 
@@ -330,9 +333,25 @@ class DataProc : NoCopy
 
    void completeRule(TypeDef::Rule *rule);
 
+   struct GetRuleResult
+    {
+     bool commit;
+     TypeDef::Rule *rule;
+    };
+
+   GetRuleResult tryCommit(TypeDef::Target *obj);
+
    bool commit(TypeDef::Target *obj);
 
    int commit();
+
+   void finishRule(TypeDef::Rule *rule,int status);
+
+   Function<void (TypeDef::Rule *rule,int status)> function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
+
+   void exeRuleList(PtrLen<TypeDef::Rule *> rules);
+
+   int commitPExe();
 
   public:
 

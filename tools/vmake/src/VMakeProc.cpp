@@ -345,11 +345,11 @@ void DataProc::completeRule(TypeDef::Rule *rule)
   for(TypeDef::Target *ptr : rule->dst.getRange() ) if( ptr ) completeRule(ptr);
  }
 
-bool DataProc::commit(TypeDef::Target *obj)
+auto DataProc::tryCommit(TypeDef::Target *obj) -> GetRuleResult
  {
   TRec *rec=getRec(obj);
 
-  if( rec->state==StateOk ) return true;
+  if( rec->state==StateOk ) return {true,0};
 
   if( TypeDef::Rule *rule=rec->rule )
     {
@@ -357,38 +357,52 @@ bool DataProc::commit(TypeDef::Target *obj)
 
      if( rule_rec->done )
        {
-        return false;
+        return {false,0};
        }
      else
        {
         if( canRun(rule) )
           {
-           int status=exeRule(rule);
-
            rule_rec->done=true;
 
-           if( status==0 )
-             {
-              completeRule(rule);
-
-              return rec->state==StateOk;
-             }
-           else
-             {
-              Printf(Con,"vmake : rule failed #;\n",status);
-
-              return false;
-             }
+           return {false,rule};
           }
         else
           {
-           return false;
+           return {false,0};
           }
        }
     }
   else
     {
-     return checkRebuild(obj,rec);
+     return {checkRebuild(obj,rec),0};
+    }
+ }
+
+bool DataProc::commit(TypeDef::Target *obj)
+ {
+  auto result=tryCommit(obj);
+
+  if( result.rule )
+    {
+     int status=exeRule(result.rule);
+
+     if( status==0 )
+       {
+        completeRule(result.rule);
+
+        return getRec(obj)->state==StateOk;
+       }
+     else
+       {
+        Printf(Con,"vmake : rule failed #;\n",status);
+
+        return false;
+       }
+    }
+  else
+    {
+     return result.commit;
     }
  }
 
@@ -430,6 +444,83 @@ int DataProc::commit()
   return 0;
  }
 
+void DataProc::finishRule(TypeDef::Rule *rule,int status)
+ {
+  if( status==0 )
+    {
+     completeRule(rule);
+    }
+  else
+    {
+     Printf(Con,"vmake : rule failed #;\n",status);
+    }
+ }
+
+void DataProc::exeRuleList(PtrLen<TypeDef::Rule *> rules)
+ {
+  file_proc.exeRuleList(Range(wdir),rules,function_finishRule());
+ }
+
+int DataProc::commitPExe()
+ {
+  rrecs.reserve(1000);
+
+  auto list=Range(works);
+
+  if( !list )
+    {
+     Putobj(Con,"\nAll done.\n\n");
+
+     return 0;
+    }
+
+  Printf(Con,"\nCommit ...\n\n");
+
+  SimpleArray<TypeDef::Rule *> rule_buf(list.len);
+
+  auto passFunc = [&] ()
+                      {
+                       auto save=list.ptr;
+
+                       auto out=rule_buf.getPtr();
+
+                       for(TypeDef::Target *obj : list )
+                         {
+                          auto result=tryCommit(obj);
+
+                          if( result.rule )
+                            {
+                             *(out++)=result.rule;
+                            }
+                          else if( !result.commit )
+                            {
+                             *(save++)=obj;
+                            }
+                         }
+
+                       bool ret=Change(list.len,Dist(list.ptr,save));
+
+                       exeRuleList(Range(rule_buf.getPtr(),out));
+
+                       return ret;
+
+                      } ;
+
+  while( +list )
+    {
+     if( !passFunc() && !passFunc() )
+       {
+        Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
+
+        return 1000;
+       }
+    }
+
+  Putobj(Con,"\nSuccess!\n\n");
+
+  return 0;
+ }
+
 DataProc::DataProc(FileProc &file_proc,StrLen file_name,StrLen target)
  : DataProc(file_proc,file_name,target,PrefixPath(file_name))
  {
@@ -453,7 +544,14 @@ int DataProc::make()
  {
   buildWorkTree();
 
-  return commit();
+  if( file_proc.usePExe() )
+    {
+     return commitPExe();
+    }
+  else
+    {
+     return commit();
+    }
  }
 
 } // namespace VMake

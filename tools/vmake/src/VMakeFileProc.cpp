@@ -79,14 +79,14 @@ FileProc::~FileProc()
  {
  }
 
-void FileProc::prepare(unsigned pcap)
+void FileProc::prepare(unsigned pcap_) // TODO
  {
-  Used(pcap);
- }
+  pcap=Cap<unsigned>(0,pcap_,100);
 
-bool FileProc::usePExe() const
- {
-  return false;
+  if( usePExe() )
+    {
+     // TODO
+    }
  }
 
  // check
@@ -230,7 +230,19 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
  // pexe
 
+void FileProc::exeRuleList(StrLen wdir,PtrLen<TypeDef::Rule *> rules,Function<void (TypeDef::Rule *rule,int status)> complete) // TODO
+ {
+  if( !rules ) return;
 
+  Printf(Con,"vmake : start #; rules\n",rules.len);
+
+  for(auto rule : rules )
+    {
+     int status=exeRule(wdir,rule);
+
+     complete(rule,status);
+    }
+ }
 
 } // namespace VMake
 
