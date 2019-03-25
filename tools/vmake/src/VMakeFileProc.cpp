@@ -214,7 +214,7 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
 void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
  {
-  waitFree(complete.complete);
+  waitFree(complete.ctx);
 
   StrLen echo=cmd->echo;
 
@@ -246,7 +246,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
 
 void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
  {
-  waitFree(complete.complete);
+  waitFree(complete.ctx);
 
   StrLen echo=cmd->echo;
 
@@ -277,6 +277,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
 
 void FileProc::CompleteExe::operator () (int status) // TODO
  {
+  Used(status);
  }
 
 void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete) // TODO
@@ -284,6 +285,16 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction com
   if( !list ) return;
 
   Printf(Con,"vmake : start #; rules\n",list.len);
+
+  try
+    {
+    }
+  catch(...)
+    {
+     waitAll();
+
+     throw;
+    }
 
   for(auto &obj : list )
     {

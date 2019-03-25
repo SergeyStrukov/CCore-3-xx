@@ -28,7 +28,7 @@ struct FileProc::Slot : NoCopy
  {
   SpawnSlot spawn_slot;
 
-  ExeRule *obj = 0 ;
+  CompleteArg arg;
 
   Slot() noexcept {}
  };
@@ -77,7 +77,7 @@ void FileProc::movetoFree(ulen ind)
   free++;
  }
 
-void FileProc::waitOne(CompleteFunction complete)
+auto FileProc::waitOne() -> WaitOneResult
  {
   auto result=Wait(Range(slotptrs).part(free));
 
@@ -87,24 +87,39 @@ void FileProc::waitOne(CompleteFunction complete)
 
   movetoFree(ind);
 
-  CompleteExe temp(Replace_null(slot->obj),complete);
+  return {slot,result.status};
+ }
+
+void FileProc::waitOne(CompleteCtx ctx)
+ {
+  auto result=waitOne();
+
+  CompleteExe temp(Replace_null(result.slot->arg),ctx);
 
   temp(result.status);
  }
 
-void FileProc::waitFree(CompleteFunction complete)
+void FileProc::waitFree(CompleteCtx ctx)
  {
-  if( !free ) waitOne(complete);
+  if( !free ) waitOne(ctx);
  }
 
-void FileProc::waitAll(CompleteFunction complete)
+void FileProc::waitAll(CompleteCtx ctx)
  {
-  while( free<pcap ) waitOne(complete);
+  while( free<pcap ) waitOne(ctx);
+ }
+
+void FileProc::waitAll() noexcept
+ {
+  while( free<pcap )
+    {
+     waitOne().slot->arg={};
+    }
  }
 
 void FileProc::setRunning(Slot *slot,CompleteExe complete)
  {
-  slot->obj=complete.obj;
+  slot->arg=complete.arg;
 
   free--;
  }

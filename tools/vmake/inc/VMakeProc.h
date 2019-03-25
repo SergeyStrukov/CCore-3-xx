@@ -207,6 +207,8 @@ class FileProc : NoCopy
 
   public:
 
+   struct CompleteCtx;
+
    struct CompleteExe;
 
   private:
@@ -221,9 +223,17 @@ class FileProc : NoCopy
 
    void movetoFree(ulen ind);
 
-   void waitOne(CompleteFunction complete);
+   struct WaitOneResult
+    {
+     Slot *slot;
+     int status;
+    };
 
-   void waitFree(CompleteFunction complete);
+   WaitOneResult waitOne();
+
+   void waitOne(CompleteCtx ctx);
+
+   void waitFree(CompleteCtx ctx);
 
    void setRunning(Slot *slot,CompleteExe complete);
 
@@ -278,12 +288,22 @@ class FileProc : NoCopy
       }
     };
 
+   struct CompleteArg
+    {
+     ExeRule *obj = 0 ;
+    };
+
+   struct CompleteCtx
+    {
+     CompleteFunction complete;
+    };
+
    struct CompleteExe
     {
-     ExeRule *obj;
-     CompleteFunction complete;
+     CompleteArg arg;
+     CompleteCtx ctx;
 
-     CompleteExe(ExeRule *obj_,CompleteFunction complete_) : obj(obj_),complete(complete_) {}
+     CompleteExe(CompleteArg arg_,CompleteCtx ctx_) : arg(arg_),ctx(ctx_) {}
 
      void operator () (int status);
     };
@@ -292,7 +312,9 @@ class FileProc : NoCopy
 
    void startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete);
 
-   void waitAll(CompleteFunction complete);
+   void waitAll(CompleteCtx ctx);
+
+   void waitAll() noexcept;
 
    void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete);
  };
