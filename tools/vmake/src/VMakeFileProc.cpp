@@ -23,13 +23,6 @@
 namespace App {
 namespace VMake {
 
-/* class OptMember<T> */
-
-void GuardNoObject()
- {
-  Printf(Exception,"OptMember<...>::getPtr() : no object");
- }
-
 /* struct ExeRule */
 
 template <class Func>

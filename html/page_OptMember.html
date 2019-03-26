@@ -1,0 +1,101 @@
+<!--
+/* page_OptMember.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> OptMember</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>OptMember</h2>
+
+<p class="Files">Files <b>CCore/inc/OptMember.h</b> <b>CCore/src/OptMember.cpp</b></p>
+
+<p>
+<b>OptMember</b> is a container class for a single object of the given type.
+The memory for the object is reserved inside.
+</p>
+
+<pre>
+
+template &lt;class T&gt;
+class <span class="Att">OptMember</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   OptMember();
+
+   ~OptMember();
+
+   // object ptr
+
+   T * operator + () const;
+
+   bool operator ! () const;
+
+   T * getPtr_unsafe() const;
+
+   T * getPtr() const;
+
+   T &amp; operator * () const;
+
+   T * operator -> () const;
+
+   // create/destroy
+
+   template &lt;class ... SS&gt;
+   void create(SS &amp;&amp; ... ss);
+
+   void destroy();
+ };
+
+</pre>
+
+<p>
+The default constructor creates an empty object.  
+</p>
+
+<p>
+<b>create()</b> creates the object inside, using the provided arguments for the constructor.
+If the object already exists, this method has no effect.
+</p>
+
+<p>
+<b>destroy()</b> destroys the object inside.
+If the object does not exist, this method has no effect.
+</p>
+
+<p>
+To access the object the <b>Object Pointer Interface</b> is implemented.
+</p>
+
+<p>
+<b>getPtr_unsafe()</b> must be used only if the container is full. 
+Other access methods throw an exception if the container is empty.
+</p>
+
+</body>
+
+</html>
+

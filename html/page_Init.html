@@ -54,12 +54,6 @@ struct <span class="Att">InitExitObject</span>
 You should not touch data members directly.
 </p>
 
-<p>
-Method <b>init()</b> creates the object, <b>exit()</b> destroys it. Using these methods you can manually
-control the life-time of the object and recreate it if necessary. To use <b>InitExitObject</b> the prior
-value initialization is required. You can do it using the default initialization or using the method <b>clean()</b>.
-</p>
-
 <pre>
 
   // public
@@ -72,6 +66,14 @@ value initialization is required. You can do it using the default initialization
   void exit();
 
 </pre>
+
+<p>
+Method <b>init()</b> creates the object, <b>exit()</b> destroys it. Using these methods you can manually
+control the life-time of the object and recreate it if necessary. To use <b>InitExitObject</b> the prior
+value initialization is required. You can do it using the default initialization or using the method <b>clean()</b>.
+If the object is constructed, <b>init()</b> has no effect.            
+If the object is destroyed, <b>exit()</b> has no effect.
+</p>
 
 <p>
 For example, you can create a global variable:
@@ -88,7 +90,7 @@ and then initialize it using the method <b>init()</b>.
 </p>
 
 <p>
-<b>InitExitObject</b> implements the <b>Object-Pointer Interface</b> to check the state of the object
+<b>InitExitObject</b> implements the <b>Object Pointer Interface</b> to check the state of the object
 and access it:
 </p>
 

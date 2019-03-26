@@ -14,6 +14,7 @@
 #ifndef App_VMakeFileProc_h
 #define App_VMakeFileProc_h
 
+#include <CCore/inc/OptMember.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/SpawnProcess.h>
@@ -41,8 +42,6 @@ using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
 
 /* classes */
 
-template <class T> class OptMember;
-
 struct ExeRule;
 
 class ExeList;
@@ -50,60 +49,6 @@ class ExeList;
 class PExeProc;
 
 class FileProc;
-
-/* class OptMember<T> */
-
-void GuardNoObject();
-
-template <class T>
-class OptMember : NoCopy
- {
-   InitExitObject<T> obj;
-
-  public:
-
-   OptMember()
-    : obj{}
-    {
-    }
-
-   ~OptMember()
-    {
-     obj.exit();
-    }
-
-   // object ptr
-
-   T * operator + () const { return +obj; }
-
-   bool operator ! () const { return !obj; }
-
-   T * getPtr_unsafe() const { return obj.getPtr_unsafe(); }
-
-   T * getPtr() const
-    {
-     if( !obj ) GuardNoObject();
-
-     return obj.getPtr_unsafe();
-    }
-
-   T & operator * () const { return *getPtr(); }
-
-   T * operator -> () const { return getPtr(); }
-
-   // create/destroy
-
-   template <class ... SS>
-   void create(SS && ... ss)
-    {
-     obj.init( std::forward<SS>(ss)... );
-    }
-
-   void destroy()
-    {
-     obj.exit();
-    }
- };
 
 /* struct ExeRule */
 

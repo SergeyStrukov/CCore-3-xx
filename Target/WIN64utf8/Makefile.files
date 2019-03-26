@@ -248,6 +248,7 @@ OBJ_LIST = \
 .obj/ObjHost.o \
 .obj/ObjectDomain.o \
 .obj/OpAddHelper.o \
+.obj/OptMember.o \
 .obj/Optional.o \
 .obj/OwnPtr.o \
 .obj/PKE.o \
@@ -733,6 +734,7 @@ ASM_LIST = \
 .obj/ObjHost.s \
 .obj/ObjectDomain.s \
 .obj/OpAddHelper.s \
+.obj/OptMember.s \
 .obj/Optional.s \
 .obj/OwnPtr.s \
 .obj/PKE.s \
@@ -1218,6 +1220,7 @@ DEP_LIST = \
 .obj/ObjHost.dep \
 .obj/ObjectDomain.dep \
 .obj/OpAddHelper.dep \
+.obj/OptMember.dep \
 .obj/Optional.dep \
 .obj/OwnPtr.dep \
 .obj/PKE.dep \
@@ -2211,6 +2214,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/OpAddHelper.o : ../../Simple/CCore/src/./gadget/OpAddHelper.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/OptMember.o : ../../Simple/CCore/src/./OptMember.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Optional.o : ../../Fundamental/CCore/src/./Optional.cpp
@@ -3661,6 +3667,9 @@ include $(RULES_FILE)
 .obj/OpAddHelper.s : ../../Simple/CCore/src/./gadget/OpAddHelper.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/OptMember.s : ../../Simple/CCore/src/./OptMember.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Optional.s : ../../Fundamental/CCore/src/./Optional.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5108,6 +5117,9 @@ include $(RULES_FILE)
 
 .obj/OpAddHelper.dep : ../../Simple/CCore/src/./gadget/OpAddHelper.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/OpAddHelper.o $< -MF $@
+
+.obj/OptMember.dep : ../../Simple/CCore/src/./OptMember.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/OptMember.o $< -MF $@
 
 .obj/Optional.dep : ../../Fundamental/CCore/src/./Optional.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Optional.o $< -MF $@
