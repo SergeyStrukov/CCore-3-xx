@@ -33,6 +33,8 @@ char ** GetEnviron(); // environ is global!
 
 struct SpawnChild;
 
+struct SpawnWaitList;
+
 /* struct SpawnChild */
 
 struct SpawnChild
@@ -58,6 +60,36 @@ struct SpawnChild
   static void MemFree(void *mem);
 
   ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+
+  WaitResult wait();
+ };
+
+/* struct SpawnWaitList */
+
+struct SpawnWaitList
+ {
+  // public
+
+  struct WaitResult
+   {
+    void *arg;
+    int status;
+    ErrorType error;
+   };
+
+  // private data
+
+  class Engine;
+
+  Engine *engine;
+
+  // public
+
+  ErrorType init(ulen reserve);
+
+  ErrorType exit();
+
+  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
 
   WaitResult wait();
  };

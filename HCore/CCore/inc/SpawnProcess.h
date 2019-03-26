@@ -30,6 +30,8 @@ class CmdLineParser;
 
 class SpawnSlot;
 
+class SpawnSet;
+
 class SpawnProcess;
 
 /* class CmdLineParser */
@@ -54,6 +56,7 @@ class SpawnSlot : NoCopy
    int state = 0 ;
 
    friend class SpawnProcess;
+   friend class SpawnSet;
 
   public:
 
@@ -71,6 +74,29 @@ class SpawnSlot : NoCopy
 
      return true;
     }
+ };
+
+/* class SpawnSet */
+
+class SpawnSet : NoCopy
+ {
+   Sys::SpawnWaitList list;
+
+  public:
+
+   explicit SpawnSet(ulen reserve);
+
+   ~SpawnSet();
+
+   void add(SpawnSlot *slot);
+
+   struct WaitResult
+    {
+     SpawnSlot *slot;
+     int status;
+    };
+
+   WaitResult wait();
  };
 
 /* class SpawnProcess */

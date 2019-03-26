@@ -158,6 +158,53 @@ int SpawnSlot::wait()
   return result.status;
  }
 
+/* class SpawnSet */
+
+SpawnSet::SpawnSet(ulen reserve)
+ {
+  if( auto error=list.init(reserve) )
+    {
+     Printf(Exception,"CCore::SpawnSet::SpawnSet(#;) : #;",reserve,PrintError(error));
+    }
+ }
+
+SpawnSet::~SpawnSet()
+ {
+  if( auto error=list.exit() )
+    {
+     Printf(NoException,"CCore::SpawnSet::~SpawnSet() : #;",PrintError(error));
+    }
+ }
+
+void SpawnSet::add(SpawnSlot *slot)
+ {
+  if( slot->state!=2 )
+    {
+     Printf(Exception,"CCore::SpawnSet::add(...) : not spawned");
+    }
+
+  if( auto error=list.add(&slot->sys_spawn,slot) )
+    {
+     Printf(Exception,"CCore::SpawnSet::add(...) : #;",PrintError(error));
+    }
+ }
+
+auto SpawnSet::wait() -> WaitResult
+ {
+  auto result=list.wait();
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::SpawnSet::wait() : #;",PrintError(result.error));
+    }
+
+  SpawnSlot *slot=static_cast<SpawnSlot *>(result.arg);
+
+  if( slot ) slot->state=3;
+
+  return {slot,result.status};
+ }
+
 /* class SpawnProcess */
 
 char ** SpawnProcess::buildArgv()
