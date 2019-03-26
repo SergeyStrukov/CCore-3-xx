@@ -31,7 +31,8 @@ enum ErrorType : int
   Error_Task          = -2,
   Error_Socket        = -3,
   Error_BrokenUtf8    = -4,
-  Error_Spawn         = -5
+  Error_Spawn         = -5,
+  Error_Running       = -6
  };
 
 /* private functions */

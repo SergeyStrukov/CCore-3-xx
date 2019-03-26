@@ -67,7 +67,11 @@ StrLen CmdLineParser::next()
 
 Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
  {
-  Place<void> ptr=PlaceAt(Sys::SpawnChild::MemAlloc(alloc_len));
+  void *mem=Sys::SpawnChild::MemAlloc(alloc_len);
+
+  if( !mem ) GuardNoMem(alloc_len);
+
+  Place<void> ptr=PlaceAt(mem);
 
   list.ins(new(ptr) Node);
 
@@ -152,7 +156,7 @@ int SpawnSlot::wait()
 
   if( result.error )
     {
-     Printf(Exception,"CCore::SpawnSlot::wait() : #;",PrintError(result.error));
+     Printf(Exception,"CCore::SpawnSlot::wait() : #; status = #;",PrintError(result.error),result.status);
     }
 
   return result.status;
@@ -193,14 +197,14 @@ auto SpawnSet::wait() -> WaitResult
  {
   auto result=list.wait();
 
-  if( result.error )
-    {
-     Printf(Exception,"CCore::SpawnSet::wait() : #;",PrintError(result.error));
-    }
-
   SpawnSlot *slot=static_cast<SpawnSlot *>(result.arg);
 
   if( slot ) slot->state=3;
+
+  if( result.error )
+    {
+     Printf(Exception,"CCore::SpawnSet::wait() : #; status = #;",PrintError(result.error),result.status);
+    }
 
   return {slot,result.status};
  }

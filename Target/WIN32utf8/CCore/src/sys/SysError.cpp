@@ -53,6 +53,8 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
      case Error_BrokenUtf8    : return set("Broken UTF8 argument"_c);
 
      case Error_Spawn         : return set("Child process spawn failed"_c);
+
+     case Error_Running       : return set("Child process still running"_c);
     }
 
   Win32::flags_t flags=Win32::FormatMessageFromSystem
