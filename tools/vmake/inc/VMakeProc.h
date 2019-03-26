@@ -266,7 +266,7 @@ class DataProc : public Funchor_nocopy
 
    CompleteFunction function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
 
-   void exeRuleList(PtrLen<PExeProc::ExeRule> rules);
+   void exeRuleList(PtrLen<ExeRule> rules,ExeRule * buf[]);
 
    int commitPExe();
 

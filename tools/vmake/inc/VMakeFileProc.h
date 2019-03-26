@@ -43,6 +43,10 @@ using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
 
 template <class T> class OptMember;
 
+struct ExeRule;
+
+class ExeList;
+
 class PExeProc;
 
 class FileProc;
@@ -101,38 +105,90 @@ class OptMember : NoCopy
     }
  };
 
+/* struct ExeRule */
+
+struct ExeRule : NoCopy
+ {
+  ulen ind = 0 ;
+
+  TypeDef::Rule *rule = 0 ;
+
+  int status = 0 ;
+  PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake> > list;
+
+  void set(TypeDef::Rule *rule_)
+   {
+    rule=rule_;
+
+    status=0;
+    list=rule->cmd.getRange();
+   }
+
+  template <class Func>
+  bool start(Func func);
+
+  TypeDef::VMake * getVMake();
+ };
+
+/* class ExeList */
+
+class ExeList : NoCopy
+ {
+   ExeRule **buf;
+   ulen running;
+   ulen ready;
+   ulen count;
+   CompleteFunction complete;
+
+  private:
+
+   void swap(ulen a,ulen b);
+
+   void moveOut(ulen ind);
+
+   void moveToRunning(ulen ind);
+
+   void moveToVMake(ulen ind);
+
+   void moveToReady(ulen ind);
+
+   template <class Func>
+   void step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd> *cmd,Func func);
+
+   template <class Func>
+   void step(ulen ind,ExeRule *exeobj,TypeDef::VMake *cmd,Func func);
+
+   template <class Func>
+   void step(ulen ind,Func func); // ind in [running,ready)
+
+  public:
+
+   ExeList(PtrLen<ExeRule> list,ExeRule * buf[],CompleteFunction complete);
+
+   ulen notEmpty() const { return count; }
+
+   ulen hasReady() const { return ready; }
+
+   ulen hasRunning() const { return running; }
+
+   template <class Func>
+   void loop(Func func); // func(ExeRule *,{TypeDef::Exe,TypeDef::Cmd} *)
+
+   template <class Func>
+   void vmake(Func func); // func(TypeDef::VMake *)
+
+   void completeObj(ExeRule *exeobj,int status);
+ };
+
 /* class PExeProc */
 
 class PExeProc : NoCopy
  {
   public:
 
-   struct ExeRule : NoCopy
-    {
-     TypeDef::Rule *rule = 0 ;
+   using CompleteArg = ExeRule * ;
 
-     PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake> > list;
-     bool ready = true ;
-
-     void set(TypeDef::Rule *rule_)
-      {
-       rule=rule_;
-
-       list=rule->cmd.getRange();
-
-       ready=true;
-      }
-    };
-
-   struct CompleteArg
-    {
-     ExeRule *obj = 0 ;
-    };
-
-   struct CompleteCtx
-    {
-     CompleteFunction complete;
-    };
+   using CompleteCtx = ExeList * ;
 
    struct CompleteExe
     {
@@ -141,14 +197,14 @@ class PExeProc : NoCopy
 
      CompleteExe(CompleteArg arg_,CompleteCtx ctx_) : arg(arg_),ctx(ctx_) {}
 
-     void operator () (int status);
+     void operator () (int status) { ctx->completeObj(arg,status); }
     };
 
   private:
 
    struct Slot : SpawnSlot
     {
-     CompleteArg arg;
+     CompleteArg arg = {} ;
 
      ulen ind = 0 ;
 
@@ -175,8 +231,6 @@ class PExeProc : NoCopy
 
    WaitOneResult waitOne();
 
-   void waitOne(CompleteCtx ctx);
-
    void setRunning(Slot *slot,CompleteExe complete);
 
   public:
@@ -186,6 +240,8 @@ class PExeProc : NoCopy
    ~PExeProc();
 
    void waitFree(CompleteCtx ctx);
+
+   void waitOne(CompleteCtx ctx);
 
    void waitAll(CompleteCtx ctx);
 
@@ -248,7 +304,7 @@ class FileProc : NoCopy
 
    void startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe complete);
 
-   void exeRuleList(StrLen wdir,PtrLen<PExeProc::ExeRule> list,CompleteFunction complete);
+   void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],CompleteFunction complete);
  };
 
 } // namespace VMake

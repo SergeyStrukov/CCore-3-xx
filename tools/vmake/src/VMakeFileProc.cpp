@@ -30,6 +30,154 @@ void GuardNoObject()
   Printf(Exception,"OptMember<...>::getPtr() : no object");
  }
 
+/* struct ExeRule */
+
+template <class Func>
+bool ExeRule::start(Func func)
+ {
+  if( status ) return false;
+
+  while( +list )
+    {
+     auto aptr=list->getPtr();
+
+     ++list;
+
+     bool ret=false;
+
+     aptr.apply( [&] (auto *cmd) { if( cmd ) { func(cmd); ret=true; } } );
+
+     if( ret ) return ret;
+    }
+
+  return false;
+ }
+
+TypeDef::VMake * ExeRule::getVMake()
+ {
+  if( status || !list ) return 0;
+
+  auto aptr=list->getPtr();
+
+  if( TypeDef::VMake *ret=aptr.castPtr<TypeDef::VMake>() )
+    {
+     ++list;
+
+     return ret;
+    }
+
+  return 0;
+ }
+
+/* class ExeList */
+
+void ExeList::swap(ulen a,ulen b)
+ {
+  if( a!=b )
+    {
+     Swap(buf[a],buf[b]);
+
+     buf[a]->ind=a;
+     buf[b]->ind=b;
+    }
+ }
+
+void ExeList::moveOut(ulen ind)
+ {
+  swap(ind,--ready);
+
+  swap(ready,--count);
+ }
+
+void ExeList::moveToRunning(ulen ind)
+ {
+  swap(running++,ind);
+ }
+
+void ExeList::moveToVMake(ulen ind)
+ {
+  swap(ind,--ready);
+ }
+
+void ExeList::moveToReady(ulen ind)
+ {
+  swap(ind,--running);
+ }
+
+template <class Func>
+void ExeList::step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd> *cmd,Func func)
+ {
+  moveToRunning(ind);
+
+  func(exeobj,cmd);
+ }
+
+template <class Func>
+void ExeList::step(ulen ind,ExeRule *exeobj,TypeDef::VMake *,Func)
+ {
+  --(exeobj->list);
+
+  moveToVMake(ind);
+ }
+
+template <class Func>
+void ExeList::step(ulen ind,Func func)
+ {
+  ExeRule *exeobj=buf[ind];
+
+  if( !exeobj->start( [&] (auto *cmd) { step(ind,exeobj,cmd,func); } ) )
+    {
+     TypeDef::Rule *rule=exeobj->rule;
+
+     moveOut(ind);
+
+     complete(rule,exeobj->status);
+    }
+ }
+
+ExeList::ExeList(PtrLen<ExeRule> list,ExeRule * buf_[],CompleteFunction complete_)
+ : buf(buf_),
+   running(0),
+   ready(list.len),
+   count(list.len),
+   complete(complete_)
+ {
+  for(ulen ind : IndLim(count) )
+    {
+     ExeRule &obj=list[ind];
+
+     buf[ind]=&obj;
+
+     obj.ind=ind;
+    }
+ }
+
+template <class Func>
+void ExeList::loop(Func func)
+ {
+  while( running<ready ) step(running,func);
+ }
+
+template <class Func>
+void ExeList::vmake(Func func)
+ {
+  if( ready<count )
+    {
+     TypeDef::VMake *cmd=buf[ready]->getVMake();
+
+     func(cmd);
+    }
+ }
+
+void ExeList::completeObj(ExeRule *exeobj,int status)
+ {
+  ulen ind=exeobj->ind;
+
+  exeobj->status=status;
+
+  moveToReady(ind);
+ }
+
 /* class PExeProc */
 
 void PExeProc::movetoFree(ulen ind)
@@ -64,6 +212,11 @@ auto PExeProc::waitOne() -> WaitOneResult
     }
  }
 
+void PExeProc::waitFree(CompleteCtx ctx)
+ {
+  if( !free ) waitOne(ctx);
+ }
+
 void PExeProc::waitOne(CompleteCtx ctx)
  {
   auto result=waitOne();
@@ -71,11 +224,6 @@ void PExeProc::waitOne(CompleteCtx ctx)
   CompleteExe temp(Replace_null(result.slot->arg),ctx);
 
   temp(result.status);
- }
-
-void PExeProc::waitFree(CompleteCtx ctx)
- {
-  if( !free ) waitOne(ctx);
  }
 
 void PExeProc::waitAll(CompleteCtx ctx)
@@ -428,7 +576,7 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
     {
      int ret=0;
 
-     cmd.getPtr().apply( [&] (auto *ptr) { if( ptr ) ret=exeCmd(wdir,ptr); } );
+     cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) ret=exeCmd(wdir,cmd); } );
 
      if( ret ) return ret;
     }
@@ -497,16 +645,11 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe comp
     }
   else
     {
-    pexe->command(wdir,cmdline,env,complete);
+     pexe->command(wdir,cmdline,env,complete);
     }
  }
 
-void PExeProc::CompleteExe::operator () (int status) // TODO
- {
-  Used(status);
- }
-
-void FileProc::exeRuleList(StrLen wdir,PtrLen<PExeProc::ExeRule> list,CompleteFunction complete) // TODO
+void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],CompleteFunction complete)
  {
   if( !list ) return;
 
@@ -514,6 +657,19 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<PExeProc::ExeRule> list,CompleteFu
 
   try
     {
+     ExeList exelist(list,buf,complete);
+
+     while( exelist.notEmpty() )
+       {
+        while( exelist.hasReady() )
+          {
+           exelist.loop( [&] (ExeRule *obj,auto *cmd) { startCmd(wdir,cmd,{obj,&exelist}); } );
+
+           if( exelist.hasRunning() ) pexe->waitOne(&exelist);
+          }
+
+        exelist.vmake( [&] (TypeDef::VMake *cmd) { exeCmd(wdir,cmd); } );
+       }
     }
   catch(...)
     {
@@ -522,12 +678,16 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<PExeProc::ExeRule> list,CompleteFu
      throw;
     }
 
+#if 0
+
   for(auto &obj : list )
     {
      int status=exeRule(wdir,obj.rule);
 
      complete(obj.rule,status);
     }
+
+#endif
  }
 
 } // namespace VMake
