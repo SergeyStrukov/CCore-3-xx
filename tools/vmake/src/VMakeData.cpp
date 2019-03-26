@@ -11,7 +11,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/VMakeProc.h>
+#include <inc/VMakeData.h>
 
 #include <CCore/inc/FileName.h>
 #include <CCore/inc/FileToMem.h>
@@ -23,7 +23,6 @@
 #include <CCore/inc/ddl/DDLTypeSet.h>
 
 namespace App {
-
 namespace VMake {
 
 #include "vmake.TypeSet.gen.h"
@@ -100,7 +99,6 @@ DataFile::~DataFile()
  }
 
 } // namespace VMake
-
 } // namespace App
 
 

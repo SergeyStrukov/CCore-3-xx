@@ -14,6 +14,9 @@
 #ifndef App_VMakeProc_h
 #define App_VMakeProc_h
 
+#include <inc/VMakeData.h>
+#include <inc/VMakeFileProc.h>
+
 #include <CCore/inc/Path.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
@@ -25,14 +28,7 @@
 #include <CCore/inc/FileSystem.h>
 
 namespace App {
-
-/* using */
-
-using namespace CCore;
-
 namespace VMake {
-
-#include "vmake.TypeDef.gen.h"
 
 /* guard functions */
 
@@ -51,8 +47,6 @@ inline StrLen GetDesc(TypeDef::Target *ptr)
 
 /* classes */
 
-class DataFile;
-
 template <class T> class List;
 
 template <class T> class Stack;
@@ -60,34 +54,6 @@ template <class T> class Stack;
 class FileProc;
 
 class DataProc;
-
-/* class DataFile */
-
-class DataFile : NoCopy
- {
-   void *mem = 0 ;
-
-   TypeDef::Target *target = 0 ;
-
-   DynArray<TypeDef::Rule *> rules;
-   DynArray<TypeDef::Dep *> deps;
-
-  private:
-
-   static StrLen Pretext();
-
-  public:
-
-   DataFile(StrLen file_name,StrLen target_name);
-
-   ~DataFile();
-
-   TypeDef::Target * getTarget() const { return target; }
-
-   PtrLen<TypeDef::Rule *const> getRules() const { return Range(rules); }
-
-   PtrLen<TypeDef::Dep *const> getDeps() const { return Range(deps); }
- };
 
 /* class List<T> */
 
@@ -176,147 +142,6 @@ class Stack : NoCopy
     }
 
    void pop() { buf.shrink_one(); }
- };
-
-/* type CompleteFunction */
-
-using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
-
-/* class FileProc */
-
-class FileProc : NoCopy
- {
-   FileSystem fs;
-
-   unsigned level = 100 ;
-
-   struct Slot;
-
-   SimpleArray<Slot> slots;
-
-   unsigned pcap = 0 ;
-
-   SimpleArray<Slot *> slotptrs;
-   ulen free = 0 ;
-
-  private:
-
-   int command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
-
-   int execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
-
-  public:
-
-   struct CompleteCtx;
-
-   struct CompleteExe;
-
-  private:
-
-   struct WaitResult
-    {
-     ulen ind;
-     int status;
-    };
-
-   static WaitResult Wait(PtrLen<Slot *> list);
-
-   void movetoFree(ulen ind);
-
-   struct WaitOneResult
-    {
-     Slot *slot;
-     int status;
-    };
-
-   WaitOneResult waitOne();
-
-   void waitOne(CompleteCtx ctx);
-
-   void waitFree(CompleteCtx ctx);
-
-   void setRunning(Slot *slot,CompleteExe complete);
-
-   void command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
-
-   void execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
-
-   class BuildFileName;
-
-  public:
-
-   FileProc();
-
-   ~FileProc();
-
-   void prepare(unsigned pcap);
-
-   bool usePExe() const { return pcap>1; }
-
-   // check
-
-   bool checkExist(StrLen wdir,StrLen dst);
-
-   bool checkOlder(StrLen wdir,StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
-
-   // exe
-
-   int exeCmd(StrLen wdir,TypeDef::Exe *cmd);
-
-   int exeCmd(StrLen wdir,TypeDef::Cmd *cmd);
-
-   int exeCmd(StrLen wdir,TypeDef::VMake *cmd);
-
-   int exeRule(StrLen wdir,TypeDef::Rule *rule);
-
-   // pexe
-
-   struct ExeRule : NoCopy
-    {
-     TypeDef::Rule *rule = 0 ;
-
-     PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake> > list;
-     bool ready = true ;
-
-     void set(TypeDef::Rule *rule_)
-      {
-       rule=rule_;
-
-       list=rule->cmd.getRange();
-
-       ready=true;
-      }
-    };
-
-   struct CompleteArg
-    {
-     ExeRule *obj = 0 ;
-    };
-
-   struct CompleteCtx
-    {
-     CompleteFunction complete;
-    };
-
-   struct CompleteExe
-    {
-     CompleteArg arg;
-     CompleteCtx ctx;
-
-     CompleteExe(CompleteArg arg_,CompleteCtx ctx_) : arg(arg_),ctx(ctx_) {}
-
-     void operator () (int status);
-    };
-
-   void startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete);
-
-   void startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete);
-
-   void waitAll(CompleteCtx ctx);
-
-   void waitAll() noexcept;
-
-   void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete);
  };
 
 /* class DataProc */
@@ -441,7 +266,7 @@ class DataProc : public Funchor_nocopy
 
    CompleteFunction function_finishRule() { return FunctionOf(this,&DataProc::finishRule); }
 
-   void exeRuleList(PtrLen<FileProc::ExeRule> rules);
+   void exeRuleList(PtrLen<PExeProc::ExeRule> rules);
 
    int commitPExe();
 
@@ -457,7 +282,6 @@ class DataProc : public Funchor_nocopy
  };
 
 } // namespace VMake
-
 } // namespace App
 
 #endif

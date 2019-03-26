@@ -1,29 +1,20 @@
 OBJ_LIST = \
-.obj/VMakeCommand.o \
 .obj/VMakeData.o \
-.obj/VMakeExecute.o \
 .obj/VMakeFileProc.o \
-.obj/VMakePExe.o \
 .obj/VMakeProc.o \
 .obj/main.o \
 
 
 ASM_LIST = \
-.obj/VMakeCommand.s \
 .obj/VMakeData.s \
-.obj/VMakeExecute.s \
 .obj/VMakeFileProc.s \
-.obj/VMakePExe.s \
 .obj/VMakeProc.s \
 .obj/main.s \
 
 
 DEP_LIST = \
-.obj/VMakeCommand.dep \
 .obj/VMakeData.dep \
-.obj/VMakeExecute.dep \
 .obj/VMakeFileProc.dep \
-.obj/VMakePExe.dep \
 .obj/VMakeProc.dep \
 .obj/main.dep \
 
@@ -34,19 +25,10 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/VMakeCommand.o : src/./VMakeCommand.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/VMakeData.o : src/./VMakeData.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/VMakeExecute.o : src/./VMakeExecute.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/VMakeFileProc.o : src/./VMakeFileProc.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/VMakePExe.o : src/./VMakePExe.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/VMakeProc.o : src/./VMakeProc.cpp
@@ -57,19 +39,10 @@ include $(RULES_FILE)
 
 
 
-.obj/VMakeCommand.s : src/./VMakeCommand.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/VMakeData.s : src/./VMakeData.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/VMakeExecute.s : src/./VMakeExecute.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/VMakeFileProc.s : src/./VMakeFileProc.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/VMakePExe.s : src/./VMakePExe.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/VMakeProc.s : src/./VMakeProc.cpp
@@ -80,20 +53,11 @@ include $(RULES_FILE)
 
 
 
-.obj/VMakeCommand.dep : src/./VMakeCommand.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/VMakeCommand.o $< -MF $@
-
 .obj/VMakeData.dep : src/./VMakeData.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VMakeData.o $< -MF $@
 
-.obj/VMakeExecute.dep : src/./VMakeExecute.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/VMakeExecute.o $< -MF $@
-
 .obj/VMakeFileProc.dep : src/./VMakeFileProc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VMakeFileProc.o $< -MF $@
-
-.obj/VMakePExe.dep : src/./VMakePExe.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/VMakePExe.o $< -MF $@
 
 .obj/VMakeProc.dep : src/./VMakeProc.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/VMakeProc.o $< -MF $@

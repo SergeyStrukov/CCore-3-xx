@@ -11,8 +11,9 @@
 //
 //----------------------------------------------------------------------------------------
 
-#include <inc/VMakeProc.h>
+#include <inc/VMakeFileProc.h>
 
+#include <CCore/inc/ForLoop.h>
 #include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/Path.h>
 
@@ -20,8 +21,171 @@
 #include <CCore/inc/Exception.h>
 
 namespace App {
-
 namespace VMake {
+
+/* class OptMember<T> */
+
+void GuardNoObject()
+ {
+  Printf(Exception,"OptMember<...>::getPtr() : no object");
+ }
+
+/* class PExeProc */
+
+void PExeProc::movetoFree(ulen ind)
+ {
+  if( free<ind )
+    {
+     Swap(slots[free],slots[ind]);
+
+     slots[free]->ind=free;
+     slots[ind]->ind=ind;
+    }
+
+  free++;
+ }
+
+auto PExeProc::waitOneFinish(Slot *slot,int status) -> WaitOneResult
+ {
+  ulen ind=slot->ind;
+
+  movetoFree(ind);
+
+  return {slot,status};
+ }
+
+auto PExeProc::waitOne() -> WaitOneResult
+ {
+  for(;;)
+    {
+     auto result=waitset.wait();
+
+     if( result.slot ) return waitOneFinish(static_cast<Slot *>(result.slot),result.status);
+    }
+ }
+
+void PExeProc::waitOne(CompleteCtx ctx)
+ {
+  auto result=waitOne();
+
+  CompleteExe temp(Replace_null(result.slot->arg),ctx);
+
+  temp(result.status);
+ }
+
+void PExeProc::waitFree(CompleteCtx ctx)
+ {
+  if( !free ) waitOne(ctx);
+ }
+
+void PExeProc::waitAll(CompleteCtx ctx)
+ {
+  while( free<slots.getLen() ) waitOne(ctx);
+ }
+
+void PExeProc::waitAll() noexcept
+ {
+  while( free<slots.getLen() )
+    {
+     waitOne().slot->arg={};
+    }
+ }
+
+void PExeProc::setRunning(Slot *slot,CompleteExe complete)
+ {
+  slot->arg=complete.arg;
+
+  waitset.add(slot);
+
+  free--;
+ }
+
+void PExeProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
+ {
+  if( !free )
+    {
+     Printf(Exception,"vmake internal : no free slot");
+    }
+
+  Slot *slot=slots[free-1];
+
+  slot->clean();
+
+  try
+    {
+     StrLen exe_name=Sys::GetShell();
+
+     SpawnProcess spawn(wdir,exe_name);
+
+     SplitPath split1(exe_name);
+     SplitName split2(split1.path);
+
+     spawn.addArg(split2.name);
+     spawn.addArg("-c"_c);
+     spawn.addArg(cmdline);
+
+     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+     spawn.spawn(*slot);
+
+     setRunning(slot,complete);
+    }
+  catch(CatchType)
+    {
+     complete(1000);
+    }
+ }
+
+void PExeProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
+ {
+  if( !free )
+    {
+     Printf(Exception,"vmake internal : no free slot");
+    }
+
+  Slot *slot=slots[free-1];
+
+  slot->clean();
+
+  try
+    {
+     SpawnProcess spawn(wdir,exe_file);
+
+     spawn.addArg(exe_file);
+
+     spawn.addCmdline(cmdline);
+
+     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+     spawn.spawn(*slot);
+
+     setRunning(slot,complete);
+    }
+  catch(CatchType)
+    {
+     return complete(1000);
+    }
+ }
+
+PExeProc::PExeProc(ulen pcap)
+ : slotbuf(pcap),
+   slots(pcap),
+   free(pcap),
+   waitset(pcap)
+ {
+  for(ulen ind : IndLim(pcap) )
+    {
+     Slot &slot=slotbuf[ind];
+
+     slot.ind=ind;
+
+     slots[ind]=&slot;
+    }
+ }
+
+PExeProc::~PExeProc()
+ {
+ }
 
 /* class FileProc::BuildFileName */
 
@@ -71,6 +235,72 @@ class FileProc::BuildFileName : NoCopy
 
 /* class FileProc */
 
+int FileProc::Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
+ {
+  try
+    {
+     StrLen exe_name=Sys::GetShell();
+
+     SpawnProcess spawn(wdir,exe_name);
+
+     SplitPath split1(exe_name);
+     SplitName split2(split1.path);
+
+     spawn.addArg(split2.name);
+     spawn.addArg("-c"_c);
+     spawn.addArg(cmdline);
+
+     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+     SpawnSlot slot;
+
+     spawn.spawn(slot);
+
+     return slot.wait();
+    }
+  catch(CatchType)
+    {
+     return 1000;
+    }
+ }
+
+int FileProc::Execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
+ {
+  try
+    {
+     SpawnProcess spawn(wdir,exe_file);
+
+     spawn.addArg(exe_file);
+
+     spawn.addCmdline(cmdline);
+
+     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+     SpawnSlot slot;
+
+     spawn.spawn(slot);
+
+     return slot.wait();
+    }
+  catch(CatchType)
+    {
+     return 1000;
+    }
+ }
+
+FileProc::FileProc()
+ {
+ }
+
+FileProc::~FileProc()
+ {
+ }
+
+void FileProc::prepare(unsigned pcap)
+ {
+  if( pcap>1 ) pexe.create( Cap<unsigned>(0,pcap,100) );
+ }
+
  // check
 
 bool FileProc::checkExist(StrLen wdir,StrLen dst)
@@ -110,7 +340,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        return execute(exe_file,wdir1.get(),cmdline,env);
+        return Execute(exe_file,wdir1.get(),cmdline,env);
        }
      catch(CatchType)
        {
@@ -119,7 +349,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
     }
   else
     {
-     return execute(exe_file,wdir,cmdline,env);
+     return Execute(exe_file,wdir,cmdline,env);
     }
  }
 
@@ -139,7 +369,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        return command(wdir1.get(),cmdline,env);
+        return Command(wdir1.get(),cmdline,env);
        }
      catch(CatchType)
        {
@@ -148,7 +378,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
     }
   else
     {
-     return command(wdir,cmdline,env);
+     return Command(wdir,cmdline,env);
     }
  }
 
@@ -170,9 +400,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
 
         BuildFileName wdir1(wdir,new_wdir);
 
-        DataProc proc(*this,file_name,target,wdir1.get());
-
-        return proc.make();
+        return VMake(*this,file_name,target,wdir1.get());
        }
      catch(CatchType)
        {
@@ -185,9 +413,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
        {
         LockUse lock(level);
 
-        DataProc proc(*this,file_name,target,wdir);
-
-        return proc.make();
+        return VMake(*this,file_name,target,wdir);
        }
      catch(CatchType)
        {
@@ -212,9 +438,9 @@ int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
 
  // pexe
 
-void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
+void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe complete)
  {
-  waitFree(complete.ctx);
+  pexe->waitFree(complete.ctx);
 
   StrLen echo=cmd->echo;
 
@@ -231,7 +457,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        execute(exe_file,wdir1.get(),cmdline,env,complete);
+        pexe->execute(exe_file,wdir1.get(),cmdline,env,complete);
        }
      catch(CatchType)
        {
@@ -240,13 +466,13 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,CompleteExe complete)
     }
   else
     {
-     execute(exe_file,wdir,cmdline,env,complete);
+     pexe->execute(exe_file,wdir,cmdline,env,complete);
     }
  }
 
-void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
+void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe complete)
  {
-  waitFree(complete.ctx);
+  pexe->waitFree(complete.ctx);
 
   StrLen echo=cmd->echo;
 
@@ -262,7 +488,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        return command(wdir1.get(),cmdline,env,complete);
+        return pexe->command(wdir1.get(),cmdline,env,complete);
        }
      catch(CatchType)
        {
@@ -271,16 +497,16 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,CompleteExe complete)
     }
   else
     {
-     command(wdir,cmdline,env,complete);
+    pexe->command(wdir,cmdline,env,complete);
     }
  }
 
-void FileProc::CompleteExe::operator () (int status) // TODO
+void PExeProc::CompleteExe::operator () (int status) // TODO
  {
   Used(status);
  }
 
-void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction complete) // TODO
+void FileProc::exeRuleList(StrLen wdir,PtrLen<PExeProc::ExeRule> list,CompleteFunction complete) // TODO
  {
   if( !list ) return;
 
@@ -291,7 +517,7 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction com
     }
   catch(...)
     {
-     waitAll();
+     pexe->waitAll();
 
      throw;
     }
@@ -305,6 +531,5 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,CompleteFunction com
  }
 
 } // namespace VMake
-
 } // namespace App
 

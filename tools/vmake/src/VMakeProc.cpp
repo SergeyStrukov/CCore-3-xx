@@ -28,6 +28,15 @@ void GuardStackEmpty()
   Printf(Exception,"vmake internal : stack is empty");
  }
 
+/* class FileProc */
+
+int FileProc::VMake(FileProc &file_proc,StrLen file_name,StrLen target,StrLen wdir)
+ {
+  DataProc proc(file_proc,file_name,target,wdir);
+
+  return proc.make();
+ }
+
 /* class DataProc */
 
 template <class T,class R>
@@ -456,7 +465,7 @@ void DataProc::finishRule(TypeDef::Rule *rule,int status)
     }
  }
 
-void DataProc::exeRuleList(PtrLen<FileProc::ExeRule> rules)
+void DataProc::exeRuleList(PtrLen<PExeProc::ExeRule> rules)
  {
   file_proc.exeRuleList(Range(wdir),rules,function_finishRule());
  }
@@ -476,7 +485,7 @@ int DataProc::commitPExe()
 
   Printf(Con,"\nCommit ...\n\n");
 
-  SimpleArray<FileProc::ExeRule> rule_buf(list.len);
+  SimpleArray<PExeProc::ExeRule> rule_buf(list.len);
 
   auto passFunc = [&] ()
                       {
