@@ -16,10 +16,13 @@
 #include <CCore/inc/sys/SysSpawn.h>
 
 #include <CCore/inc/ForLoop.h>
+#include <CCore/inc/MemBase.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/win32/Win32.h>
+
+#if 0 // Unix way
 
 namespace CCore {
 namespace Sys {
@@ -297,3 +300,94 @@ auto SpawnWaitList::Engine::WaitAny() -> WaitAnyResult
 } // namespace Sys
 } // namespace CCore
 
+#else
+
+namespace CCore {
+namespace Sys {
+
+/* GetShell() */
+
+#if 0
+
+StrLen GetShell()
+ {
+  const char *shell=getenv("SHELL");
+
+  if( !shell ) return "/bin/sh"_c;
+
+  return shell;
+ }
+
+/* GetEnviron() */
+
+char ** GetEnviron()
+ {
+  return environ;
+ }
+
+#endif
+
+/* struct SpawnChild */
+
+static_assert( Meta::IsSame<Win32::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
+
+void * SpawnChild::MemAlloc(ulen len)
+ {
+  return TryMemAlloc(len);
+ }
+
+void SpawnChild::MemFree(void *mem)
+ {
+  MemFree(mem);
+ }
+
+ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
+ {
+ }
+
+auto SpawnChild::wait() -> WaitResult
+ {
+  WaitResult ret;
+
+  switch( Win32::WaitForSingleObject(pid,Win32::NoTimeout) )
+    {
+     case Win32::WaitObject_0 :
+      {
+       unsigned exit_code;
+
+       if( Win32::GetExitCodeProcess(pid,&exit_code) )
+         {
+          ret.status=(int)exit_code;
+          ret.error=NoError;
+         }
+       else
+         {
+          ret.status=1000;
+          ret.error=NonNullError();
+         }
+      }
+     break;
+
+     case Win32::WaitFailed :
+      {
+       ret.status=1000;
+       ret.error=NonNullError();
+      }
+     break;
+
+     default:
+      {
+       ret.status=1000;
+       ret.error=Error_Spawn;
+      }
+    }
+
+  Win32::CloseHandle(pid);
+
+  return ret;
+ }
+
+} // namespace Sys
+} // namespace CCore
+
+#endif

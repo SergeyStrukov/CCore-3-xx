@@ -485,6 +485,10 @@ bool_t WIN32_API CreateProcessW(const wchar *program,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
 
+/* GetExitCodeProcess() */
+
+bool_t WIN32_API GetExitCodeProcess(handle_t h_process, unsigned *exit_code);
+
 /*--------------------------------------------------------------------------------------*/
 /* System property functions                                                            */
 /*--------------------------------------------------------------------------------------*/
