@@ -24,6 +24,16 @@
 
 namespace CCore {
 
+/* enum SpawnSlotState */
+
+enum SpawnSlotState
+ {
+  SpawnSlot_Ready,
+  SpawnSlot_Broken,
+  SpawnSlot_Running,
+  SpawnSlot_Stopped
+ };
+
 /* classes */
 
 class SpawnSlot;
@@ -38,7 +48,7 @@ class SpawnSlot : NoCopy
  {
    Sys::SpawnChild sys_spawn;
 
-   int state = 0 ;
+   SpawnSlotState state = SpawnSlot_Ready ;
 
    friend class SpawnProcess;
    friend class SpawnSet;
@@ -49,13 +59,15 @@ class SpawnSlot : NoCopy
 
    ~SpawnSlot();
 
+   SpawnSlotState getState() const { return state; }
+
    int wait();
 
    bool clean()
     {
-     if( state==2 ) return false;
+     if( state==SpawnSlot_Running ) return false;
 
-     state=0;
+     state=SpawnSlot_Ready;
 
      return true;
     }

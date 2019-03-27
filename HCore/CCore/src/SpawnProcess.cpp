@@ -15,10 +15,8 @@
 
 #include <CCore/inc/SpawnProcess.h>
 
-#include <CCore/inc/CharProp.h>
-
+#include <CCore/inc/MemBase.h>
 #include <CCore/inc/algon/SortUnique.h>
-
 #include <CCore/inc/PrintError.h>
 
 #include <CCore/inc/Exception.h>
@@ -99,7 +97,7 @@ SpawnSlot::SpawnSlot() noexcept
 
 SpawnSlot::~SpawnSlot()
  {
-  if( state==2 )
+  if( state==SpawnSlot_Running )
     {
      Printf(NoException,"CCore::SpawnSlot::~SpawnSlot() : not waited");
     }
@@ -107,12 +105,12 @@ SpawnSlot::~SpawnSlot()
 
 int SpawnSlot::wait()
  {
-  if( state!=2 )
+  if( state!=SpawnSlot_Running )
     {
      Printf(Exception,"CCore::SpawnSlot::wait() : not spawned");
     }
 
-  state=3;
+  state=SpawnSlot_Stopped;
 
   auto result=sys_spawn.wait();
 
@@ -144,7 +142,7 @@ SpawnSet::~SpawnSet()
 
 void SpawnSet::add(SpawnSlot *slot)
  {
-  if( slot->state!=2 )
+  if( slot->state!=SpawnSlot_Running )
     {
      Printf(Exception,"CCore::SpawnSet::add(...) : not spawned");
     }
@@ -161,7 +159,7 @@ auto SpawnSet::wait() -> WaitResult
 
   SpawnSlot *slot=static_cast<SpawnSlot *>(result.arg);
 
-  if( slot ) slot->state=3;
+  if( slot ) slot->state=SpawnSlot_Stopped;
 
   if( result.error )
     {
@@ -175,7 +173,7 @@ auto SpawnSet::wait() -> WaitResult
 
 char ** SpawnProcess::buildArgv()
  {
-  char **ret=pool.alloc<char *>(LenAdd(args.getLen(),1u));
+  char **ret=pool.alloc<char *>(LenAdd(args.getLen(),1));
 
   auto out=ret;
 
@@ -192,7 +190,7 @@ char ** SpawnProcess::buildEnvp()
 
   auto list=Range(envs);
 
-  char **ret=pool.alloc<char *>(LenAdd(list.len,1u));
+  char **ret=pool.alloc<char *>(LenAdd(list.len,1));
 
   auto out=ret;
 
@@ -244,7 +242,7 @@ void SpawnProcess::addEnv(StrLen str)
 
 void SpawnProcess::spawn(SpawnSlot &slot)
  {
-  if( slot.state!=0 )
+  if( slot.state!=SpawnSlot_Ready )
     {
      Printf(Exception,"CCore::SpawnProcess::spawn() : slot is already spawned");
     }
@@ -256,7 +254,7 @@ void SpawnProcess::spawn(SpawnSlot &slot)
 
   used=true;
 
-  slot.state=1;
+  slot.state=SpawnSlot_Broken;
 
   char **argv=buildArgv();
 
@@ -267,7 +265,7 @@ void SpawnProcess::spawn(SpawnSlot &slot)
      Printf(Exception,"CCore::SpawnProcess::spawn() : #;",PrintError(error));
     }
 
-  slot.state=2;
+  slot.state=SpawnSlot_Running;
  }
 
 } // namespace CCore

@@ -15,6 +15,7 @@
 #include <CCore/inc/Exception.h>
 
 #include <unistd.h>
+#include <stdlib.h>
 
 /* main() */
 
@@ -35,9 +36,13 @@ int main(int argc,const char *argv[])
 
       Putch(out,'\n');
 
-      for(ulen i=0; const char *str=environ[i] ;i++)
+      for(ulen i=0; const char *str=environ[i] ;i++) Printf(out,"env[#;] = #.q;\n",i,str);
+
+      if( argc>1 )
         {
-         Printf(out,"env[#;] = #.q;\n",i,str);
+         int t=atoi(argv[1]);
+
+         if( t ) sleep(t);
         }
      }
 
