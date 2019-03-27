@@ -15,8 +15,12 @@
 
 #include <CCore/inc/sys/SysUtf8.h>
 
+#include <CCore/inc/win32/Win32.h>
+
 namespace CCore {
 namespace Sys {
+
+static_assert( Meta::IsSame<WChar,Win32::wchar> ,"CCore::Sys : bad WChar");
 
 /* functions */
 

@@ -302,6 +302,8 @@ auto SpawnWaitList::Engine::WaitAny() -> WaitAnyResult
 
 #else
 
+#include <CCore/inc/sys/SysSpawnInternal.h>
+
 namespace CCore {
 namespace Sys {
 
@@ -343,6 +345,9 @@ void SpawnChild::MemFree(void *mem)
 
 ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
  {
+  ProcessSetup setup(wdir,path,argv,envp);
+
+  return setup.create(pid);
  }
 
 auto SpawnChild::wait() -> WaitResult

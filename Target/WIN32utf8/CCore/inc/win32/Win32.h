@@ -387,7 +387,8 @@ ulen_t WIN32_API GetModuleFileNameW(handle_t h_module,
 
 enum ProcessCreationFlags
  {
-  CreateNewConsole = 0x0010
+  CreateNewConsole   = 0x0010,
+  UnicodeEnvironment = 0x0400
  };
 
 /* enum StartupInfoFlags */
@@ -480,7 +481,7 @@ bool_t WIN32_API CreateProcessW(const wchar *program,
                                 SecurityAttributes *,
                                 bool_t inherit_handles,
                                 flags_t process_creation_flags,
-                                void_ptr,
+                                const wchar *envblock,
                                 const wchar *dir,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
