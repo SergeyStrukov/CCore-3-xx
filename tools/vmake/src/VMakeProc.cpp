@@ -152,11 +152,23 @@ bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile)
     {
      if( !src_file )
        {
+        if( nofile )
+          {
+           Printf(Con,"--> nofile target #.q;\n",GetDesc(src));
+          }
+
         return nofile;
        }
      else
        {
-        return checkOlder(dst_file,src_file);
+        if( checkOlder(dst_file,src_file) )
+          {
+           Printf(Con,"--> #.q; < #.q;\n",dst_file,src_file);
+
+           return true;
+          }
+
+        return false;
        }
     }
  }
@@ -167,11 +179,22 @@ bool DataProc::checkSelf(TypeDef::Target *dst)
 
   if( !dst_file )
     {
-     return getRec(dst)->rule==0;
+     if( getRec(dst)->rule )
+       {
+        Putobj(Con,"--> has a rule\n"_c);
+
+        return false;
+       }
+
+     return true;
     }
   else
     {
-     return checkExist(dst_file);
+     if( checkExist(dst_file) ) return true;
+
+     Printf(Con,"--> no file #.q;\n",dst_file);
+
+     return false;
     }
  }
 
@@ -185,7 +208,12 @@ bool DataProc::checkOlderSrc(TypeDef::Target *dst,bool nofile)
                          {
                           case StateOk : return !checkOlder(dst,src,nofile);
 
-                          case StateRebuild : return false;
+                          case StateRebuild :
+                           {
+                            Printf(Con,"--> rebuild #.q;\n",GetDesc(src));
+
+                            return false;
+                           }
 
                           default:
                            {
@@ -304,13 +332,22 @@ bool DataProc::canRun(TypeDef::Rule *obj)
   return true;
  }
 
+bool DataProc::checkSelf(StrLen file)
+ {
+  if( checkExist(file) ) return true;
+
+  Printf(Con,"--> no file #.q;\n",file);
+
+  return false;
+ }
+
 bool DataProc::checkRebuild(TypeDef::Target *obj)
  {
   StrLen dst_file=obj->file;
 
   if( !dst_file ) return dstReady(obj);
 
-  return checkExist(dst_file) && checkOlderSrc(obj,false) ;
+  return checkSelf(dst_file) && checkOlderSrc(obj,false) ;
  }
 
 bool DataProc::checkRebuild(TypeDef::Target *obj,TRec *rec)
@@ -339,7 +376,7 @@ void DataProc::completeRule(TypeDef::Target *obj)
  {
   StrLen dst_file=obj->file;
 
-  if( !dst_file || ( checkExist(dst_file) && checkOlderSrc(obj,false) ) )
+  if( !dst_file || ( checkSelf(dst_file) && checkOlderSrc(obj,false) ) )
     {
      getRec(obj)->state=StateOk;
     }

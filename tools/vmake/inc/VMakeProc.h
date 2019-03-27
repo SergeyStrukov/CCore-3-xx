@@ -240,6 +240,8 @@ class DataProc : public Funchor_nocopy
 
    bool canRun(TypeDef::Rule *obj);
 
+   bool checkSelf(StrLen file);
+
    bool checkRebuild(TypeDef::Target *obj);
 
    bool checkRebuild(TypeDef::Target *obj,TRec *rec);
