@@ -215,6 +215,17 @@ class SpawnProcess : NoCopy
 
    void addArg(StrLen str);
 
+   void addArg(ulen reserve,FuncArgType<char *> func)
+    {
+     char *buf=pool.alloc<char>(LenAdd(reserve,1));
+
+     func(buf);
+
+     buf[reserve]=0;
+
+     args.append_copy(buf);
+    }
+
    void addEnv(StrLen name,StrLen value);
 
    void addEnv(StrLen str);
