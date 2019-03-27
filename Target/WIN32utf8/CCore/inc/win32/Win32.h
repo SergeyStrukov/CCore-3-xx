@@ -447,6 +447,14 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
+/* GetEnvironmentStringsW() */
+
+wchar * WIN32_API GetEnvironmentStringsW(void);
+
+/* FreeEnvironmentStringsW() */
+
+bool_t WIN32_API FreeEnvironmentStringsW(wchar *envblock);
+
 /* GetEnvironmentVariableW() */
 
 ulen_t WIN32_API GetEnvironmentVariableW(const wchar *name,

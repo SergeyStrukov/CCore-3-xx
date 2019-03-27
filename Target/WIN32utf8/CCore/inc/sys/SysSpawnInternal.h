@@ -26,7 +26,40 @@ namespace Sys {
 
 /* classes */
 
+class EnvironHook;
+
 class ProcessSetup;
+
+/* class EnvironHook */
+
+class EnvironHook : NoCopy
+ {
+   WChar *envblock;
+
+  public:
+
+   EnvironHook();
+
+   ~EnvironHook();
+
+   template <class Func>
+   void operator () (Func func)
+    {
+     const WChar *ptr=envblock;
+
+     if( !ptr ) return;
+
+     while( *ptr )
+       {
+        const WChar *str=ptr;
+        const WChar *lim=Sys::ZScan(str);
+
+        ptr=lim+1;
+
+        func(Range(str,lim));
+       }
+    }
+ };
 
 /* class ProcessSetup */
 

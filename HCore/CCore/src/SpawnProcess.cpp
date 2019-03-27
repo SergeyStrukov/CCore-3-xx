@@ -186,7 +186,9 @@ char ** SpawnProcess::buildArgv()
 
 char ** SpawnProcess::buildEnvp()
  {
-  for(auto e=Sys::GetEnviron(); const char *zstr=(*e) ;e++) addEnv(zstr);
+  auto temp=ToFunction<void (StrLen)>( [&] (StrLen env) { addEnv(env); } );
+
+  Sys::GetEnviron(temp.function());
 
   auto list=Range(envs);
 

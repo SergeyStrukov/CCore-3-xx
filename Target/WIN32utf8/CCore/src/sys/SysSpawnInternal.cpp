@@ -23,6 +23,18 @@
 namespace CCore {
 namespace Sys {
 
+/* class EnvironHook */
+
+EnvironHook::EnvironHook()
+ {
+  envblock=Win32::GetEnvironmentStringsW();
+ }
+
+EnvironHook::~EnvironHook()
+ {
+  Win32::FreeEnvironmentStringsW(envblock);
+ }
+
 /* class ProcessSetup */
 
 class ProcessSetup::BuildStr : NoCopy
@@ -198,7 +210,7 @@ ProcessSetup::~ProcessSetup()
  {
  }
 
-ErrorType ProcessSetup::create(int &handle)
+ErrorType ProcessSetup::create(Win32::handle_t &handle)
  {
   if( error ) return error;
 

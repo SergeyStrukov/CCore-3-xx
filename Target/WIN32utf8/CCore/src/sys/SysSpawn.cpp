@@ -320,14 +320,175 @@ StrLen GetShell()
   return shell;
  }
 
+#endif
+
 /* GetEnviron() */
 
-char ** GetEnviron()
+void GetEnviron(Function<void (StrLen)> func)
  {
-  return environ;
+  EnvironHook hook;
+
+  hook( [=] (PtrLen<const WChar> env)
+            {
+             WCharToUtf8Full temp(env);
+
+             if( !temp ) GuardNoMem(temp.getLen());
+
+             func(temp.get());
+
+            } );
  }
 
-#endif
+/* class SpawnWaitList::Engine */
+
+class SpawnWaitList::Engine : MemBase_nocopy
+ {
+   DynArray<SpawnChild::Type> list;
+   DynArray<void *> arglist;
+
+  private:
+
+   static WaitResult Finish(SpawnChild::Type pid,void *arg)
+    {
+     WaitResult ret;
+
+     ret.arg=arg;
+
+     unsigned exit_code;
+
+     if( Win32::GetExitCodeProcess(pid,&exit_code) )
+       {
+        ret.status=(int)exit_code;
+        ret.error=NoError;
+       }
+     else
+       {
+        ret.status=1000;
+        ret.error=NonNullError();
+       }
+
+     Win32::CloseHandle(pid);
+
+     return ret;
+    }
+
+   WaitResult finish(ulen ind)
+    {
+     auto pid=list[ind];
+     auto arg=arglist[ind];
+
+     ulen last=list.getLen()-1;
+
+     if( ind<last )
+       {
+        list[ind]=list[last];
+        arglist[ind]=arglist[last];
+       }
+
+     list.shrink_one();
+     arglist.shrink_one();
+
+     return Finish(pid,arg);
+    }
+
+  public:
+
+   explicit Engine(ulen reserve) : list(DoReserve,reserve),arglist(DoReserve,reserve) {}
+
+   ~Engine() {}
+
+   bool notEmpty() const { return list.notEmpty(); }
+
+   void add(SpawnChild::Type pid,void *arg)
+    {
+     arglist.reserve(1);
+
+     list.append_copy(pid);
+     arglist.append_copy(arg);
+    }
+
+   WaitResult wait()
+    {
+     if( list.isEmpty() ) return {0,0,NoError};
+
+     auto result=WaitAny(Range(list));
+
+     if( result.error ) return {0,0,result.error};
+
+     return finish(result.ind);
+    }
+
+   struct WaitAnyResult
+    {
+     ulen ind;
+     ErrorType error;
+    };
+
+   static WaitAnyResult WaitAny(PtrLen<SpawnChild::Type> list)
+    {
+     auto result=Win32::WaitForMultipleObjects(list.len,list.ptr,false,Win32::NoTimeout);
+
+     if( result==Win32::WaitFailed )
+       {
+        return {0,NonNullError()};
+       }
+
+     if( result>=Win32::WaitObject_0 && ulen(result-Win32::WaitObject_0)<list.len )
+       {
+        return {ulen(result-Win32::WaitObject_0),NoError};
+       }
+
+     return {0,Error_Spawn};
+    }
+ };
+
+/* struct SpawnWaitList */
+
+ErrorType SpawnWaitList::init(ulen reserve)
+ {
+  SilentReportException report;
+
+  try
+    {
+     engine=new Engine(reserve);
+
+     return NoError;
+    }
+  catch(CatchType)
+    {
+     return ErrorType(Win32::ErrorNotEnoughMemory);
+    }
+ }
+
+ErrorType SpawnWaitList::exit()
+ {
+  bool nok=engine->notEmpty();
+
+  delete Replace_null(engine);
+
+  return nok?Error_Running:NoError;
+ }
+
+ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
+ {
+  SilentReportException report;
+
+  try
+    {
+     engine->add(spawn->pid,arg);
+
+     return NoError;
+    }
+  catch(CatchType)
+    {
+     return ErrorType(Win32::ErrorNotEnoughMemory);
+    }
+ }
+
+auto SpawnWaitList::wait() -> WaitResult
+ {
+  return engine->wait();
+ }
 
 /* struct SpawnChild */
 

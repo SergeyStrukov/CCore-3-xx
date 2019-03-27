@@ -23,11 +23,11 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(); // unsafe, beware eniron modification!
+StrLen GetShell();
 
 /* GetEnviron() */
 
-char ** GetEnviron(); // environ is global!
+void GetEnviron(Function<void (StrLen)> func); // beware environ modification!
 
 /* classes */
 

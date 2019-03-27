@@ -15,6 +15,8 @@
 
 #include <CCore/inc/sys/SysUtf8.h>
 
+#include <CCore/inc/MemBase.h>
+
 #include <CCore/inc/win32/Win32.h>
 
 namespace CCore {
@@ -61,6 +63,39 @@ ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
 ulen Full(const WChar *ztext,PtrLen<char> out)
  {
   return Full(Range(ztext,ZLen(ztext)),out);
+ }
+
+/* class WCharToUtf8Full */
+
+void WCharToUtf8Full::longText(ulen len,Unicode sym,PtrLen<const WChar> text) // TODO
+ {
+ }
+
+WCharToUtf8Full::WCharToUtf8Full(PtrLen<const WChar> text)
+ {
+  auto out=Range(small);
+
+  CopySym copy(out);
+
+  while( +text )
+    {
+     Unicode sym=CutUnicode(text);
+
+     if( !copy(sym) )
+       {
+        longText(DimOf(small)-out.len,sym,text);
+
+        return;
+       }
+    }
+
+  ptr=small;
+  len=DimOf(small)-out.len;
+ }
+
+WCharToUtf8Full::~WCharToUtf8Full()
+ {
+  if( ptr && ptr!=small ) MemFree(ptr);
  }
 
 } // namespace Sys
