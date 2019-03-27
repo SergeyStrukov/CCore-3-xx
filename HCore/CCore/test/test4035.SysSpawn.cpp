@@ -108,11 +108,12 @@ bool test2()
   for(SpawnSlot &slot : slots )
     {
      StrLen exe_name="./test.exe"_c;
-     StrLen arg="10"_c;
+     StrLen arg="3"_c;
 
      SpawnProcess spawn(""_c,exe_name);
 
-     spawn.addArg(exe_name);
+     spawn.addArg(exe_name.len, [=] (char *buf) { exe_name.copyTo(buf); } );
+
      spawn.addArg(arg);
 
      spawn.addEnv("ABRA"_c,"CODABRA"_c);
