@@ -26,26 +26,11 @@ namespace CCore {
 
 /* classes */
 
-class CmdLineParser;
-
 class SpawnSlot;
 
 class SpawnSet;
 
 class SpawnProcess;
-
-/* class CmdLineParser */
-
-class CmdLineParser
- {
-   StrLen text;
-
-  public:
-
-   explicit CmdLineParser(StrLen text_) : text(text_) {}
-
-   StrLen next();
- };
 
 /* class SpawnSlot */
 
@@ -229,8 +214,6 @@ class SpawnProcess : NoCopy
    ~SpawnProcess();
 
    void addArg(StrLen str);
-
-   void addCmdline(StrLen cmdline);
 
    void addEnv(StrLen name,StrLen value);
 

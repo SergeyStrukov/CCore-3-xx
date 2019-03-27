@@ -25,44 +25,6 @@
 
 namespace CCore {
 
-/* class CmdLineParser */
-
-StrLen CmdLineParser::next()
- {
-  for(; +text && CharIsSpace(*text) ;++text);
-
-  if( !text ) return Empty;
-
-  switch( char ch=*text )
-    {
-     case '"' :
-     case '\'' :
-      {
-       ++text;
-
-       StrLen line=text;
-
-       for(; +text && *text!=ch ;++text);
-
-       StrLen ret=line.prefix(text);
-
-       if( +text ) ++text;
-
-       return ret;
-      }
-     break;
-
-     default:
-      {
-       StrLen line=text;
-
-       for(; +text && !CharIsSpace(*text) ;++text);
-
-       return line.prefix(text);
-      }
-    }
- }
-
 /* class SpawnProcess::Pool */
 
 Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
@@ -257,20 +219,6 @@ SpawnProcess::~SpawnProcess()
 void SpawnProcess::addArg(StrLen str)
  {
   args.append_copy(pool.cat(str));
- }
-
-void SpawnProcess::addCmdline(StrLen cmdline)
- {
-  CmdLineParser parser(cmdline);
-
-  for(;;)
-    {
-     StrLen str=parser.next();
-
-     if( !str ) break;
-
-     addArg(str);
-    }
  }
 
 void SpawnProcess::addEnv(StrLen name,StrLen value)

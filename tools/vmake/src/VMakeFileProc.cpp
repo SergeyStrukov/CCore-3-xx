@@ -23,6 +23,58 @@
 namespace App {
 namespace VMake {
 
+/* class CmdLineParser */
+
+StrLen CmdLineParser::next()
+ {
+  for(; +text && CharIsSpace(*text) ;++text);
+
+  if( !text ) return Empty;
+
+  switch( char ch=*text )
+    {
+     case '"' :
+     case '\'' :
+      {
+       ++text;
+
+       StrLen line=text;
+
+       for(; +text && *text!=ch ;++text);
+
+       StrLen ret=line.prefix(text);
+
+       if( +text ) ++text;
+
+       return ret;
+      }
+     break;
+
+     default:
+      {
+       StrLen line=text;
+
+       for(; +text && !CharIsSpace(*text) ;++text);
+
+       return line.prefix(text);
+      }
+    }
+ }
+
+void AddCmdLine(SpawnProcess &obj,StrLen cmdline)
+ {
+  CmdLineParser parser(cmdline);
+
+  for(;;)
+    {
+     StrLen str=parser.next();
+
+     if( !str ) break;
+
+     obj.addArg(str);
+    }
+ }
+
 /* struct ExeRule */
 
 template <class Func>
@@ -294,7 +346,7 @@ void PExeProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef
 
      spawn.addArg(exe_file);
 
-     spawn.addCmdline(cmdline);
+     AddCmdLine(spawn,cmdline);
 
      for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
 
@@ -413,7 +465,7 @@ int FileProc::Execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef:
 
      spawn.addArg(exe_file);
 
-     spawn.addCmdline(cmdline);
+     AddCmdLine(spawn,cmdline);
 
      for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
 

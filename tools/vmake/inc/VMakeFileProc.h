@@ -42,6 +42,8 @@ using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
 
 /* classes */
 
+class CmdLineParser;
+
 struct ExeRule;
 
 class ExeList;
@@ -49,6 +51,21 @@ class ExeList;
 class PExeProc;
 
 class FileProc;
+
+/* class CmdLineParser */
+
+class CmdLineParser
+ {
+   StrLen text;
+
+  public:
+
+   explicit CmdLineParser(StrLen text_) : text(text_) {}
+
+   StrLen next();
+ };
+
+void AddCmdLine(SpawnProcess &obj,StrLen cmdline);
 
 /* struct ExeRule */
 
