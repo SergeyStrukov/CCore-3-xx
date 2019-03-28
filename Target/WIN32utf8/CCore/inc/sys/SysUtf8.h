@@ -156,7 +156,9 @@ class WCharToUtf8Full : NoCopy
 
   private:
 
-   void longText(ulen len,Unicode sym,PtrLen<const WChar> text);
+   bool countLen(ulen slen,Unicode sym,PtrLen<const WChar> text);
+
+   void longText(ulen slen,Unicode sym,PtrLen<const WChar> text);
 
   public:
 

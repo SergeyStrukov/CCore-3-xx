@@ -57,7 +57,9 @@ class TempStr : NoCopy
 
 bool test1()
  {
-  StrLen exe_name=Sys::GetShell();
+  //StrLen exe_name=Sys::GetShell();
+
+  StrLen exe_name="C:\\WINDOWS\\system32\\cmd.exe"_c;
 
   Printf(Con,"shell = #.q;\n",exe_name);
 
@@ -66,31 +68,19 @@ bool test1()
   SplitPath split1(exe_name);
   SplitName split2(split1.path);
 
-  TempStr name(split2.name);
+  SpawnProcess spawn(".."_c,exe_name);
 
-  char * argv[]={name,0};
+  spawn.addArg(split2.name);
 
-  TempStr wdir(".."_c);
+  spawn.addEnv("ABRA"_c,"CODABRA"_c);
 
-  Sys::SpawnChild obj;
+  SpawnSlot slot;
 
-  if( auto error=obj.spawn(wdir,path,argv,Sys::GetEnviron()) )
-    {
-     Printf(Con,"spawn: #;\n",PrintError(error));
+  spawn.spawn(slot);
 
-     return false;
-    }
+  int status=slot.wait();
 
-  auto result=obj.wait();
-
-  if( result.error )
-    {
-     Printf(Con,"wait: #;\n",PrintError(result.error));
-
-     return false;
-    }
-
-  Printf(Con,"\nstatus = #;\n",result.status);
+  Printf(Con,"\nstatus = #;\n",status);
 
   return true;
  }
@@ -151,6 +141,7 @@ template<>
 bool Testit<4035>::Main()
  {
   //return test1();
+
   return test2();
  }
 

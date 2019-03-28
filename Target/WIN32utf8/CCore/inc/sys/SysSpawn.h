@@ -23,7 +23,7 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell();
+StrLen GetShell(); // beware environ modification!
 
 /* GetEnviron() */
 

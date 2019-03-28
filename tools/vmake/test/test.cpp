@@ -14,16 +14,7 @@
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
-#include <CCore/inc/sys/SysUtf8.h>
-#include <CCore/inc/win32/Win32.h>
-
-namespace Win32 {
-extern "C" {
-
-wchar * WIN32_API GetEnvironmentStringsW(void);
-
-} // extern "C"
-} // namespace Win32
+#include <CCore/inc/sys/SysSpawn.h>
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -47,30 +38,13 @@ int main(int argc,const char *argv[])
 
       Putch(out,'\n');
 
-      for(ulen i=0; const char *str=environ[i] ;i++) Printf(out,"env[#;] = #.q;\n",i,str);
+      for(ulen i=0; const char *str=environ[i] ;i++) Printf(out,"#;\n",str);
 
       Putch(out,'\n');
 
-      {
-       Win32::wchar *base=Win32::GetEnvironmentStringsW();
+      auto temp=ToFunction<void (StrLen)>( [&] (StrLen env) { Printf(out,"#;\n",env); } );
 
-       if( base )
-         {
-          while( *base )
-            {
-             Win32::wchar *str=base;
-             Win32::wchar *lim=(Win32::wchar *)Sys::ZScan(str);
-
-             base=lim+1;
-
-             char temp[TextBufLen];
-
-             ulen len=Sys::Truncate(Range(str,lim),Range(temp));
-
-             Printf(out,"#.q;\n",StrLen(temp,len));
-            }
-         }
-      }
+      Sys::GetEnviron(temp.function());
 
       if( argc>1 )
         {

@@ -501,7 +501,7 @@ void * SpawnChild::MemAlloc(ulen len)
 
 void SpawnChild::MemFree(void *mem)
  {
-  MemFree(mem);
+  CCore::MemFree(mem);
  }
 
 ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
