@@ -237,6 +237,8 @@ class SpawnProcess : NoCopy
 
   public:
 
+   explicit SpawnProcess(StrLen exe_name) : SpawnProcess(Empty,exe_name) {}
+
    SpawnProcess(StrLen wdir,StrLen exe_name);
 
    ~SpawnProcess();

@@ -129,6 +129,7 @@ class <span class="Att">SpawnSet</span> : NoCopy
 
 <p>
 This class is designed for waiting of multiple child processes.
+It contains inside an expandable wait list.
 When you construct the object, you set the number of reserved wait slots in the wait list.
 The method <b>add()</b> adds the given <b>SpawnSlot</b> to the wait list.
 The slot must be in the state <b>SpawnSlot_Running</b>.
@@ -140,7 +141,7 @@ Once you fill the list, you can call the method <b>wait()</b>.
 It waits while one of the child processes is finished and returns the result.
 The result consists of the pointer to the slot object and the process status.
 The slot is removed from the wait list and set to the state <b>SpawnSlot_Stopped</b>.
-If the wait list is empty, the pair <b>{null,null}</b> is returned.
+If the wait list is empty, the pair <b>{0,0}</b> is returned.
 </p>
 
 <pre id="SpawnProcess">
@@ -150,6 +151,8 @@ class <span class="Att">SpawnProcess</span> : NoCopy
    ....
 
   public:
+
+   explicit SpawnProcess(StrLen exe_name) : SpawnProcess(Empty,exe_name) {}
 
    SpawnProcess(StrLen wdir,StrLen exe_name);
 
@@ -167,6 +170,43 @@ class <span class="Att">SpawnProcess</span> : NoCopy
  };
 
 </pre>
+
+<p>
+This class is used to spawn a child process. Before doing this, however, you must fill the object with data.
+</p>
+
+<p>
+The <b>SpawnProcess()</b> constructor have two arguments: <b>wdir</b> and <b>exe_name</b>.
+The first argument if not empty defines the new working directory for the child process.
+The second is used to find the executable file. The file is searched in the <b>PATH</b> list, if required.
+Exact rules to handle it are target-dependent.
+</p>
+
+<p>
+<b>addArg()</b> adds an argument to the process argument list. 
+You may give an exact string or use a second variant.
+In the second variant you give a size to reserve (without trailing null character) and a function.
+This function is called to fill the allocated buffer.
+Trailing null chracter will be added then after reserved characters, but you may include 
+it early in the filling function to produce a shorter string.
+</p>
+
+<p>
+The child process will inherit the parent evironment, but you may add new, or override old variables.
+</p>
+
+<p>
+<b>addEnv(name,value)</b> adds a new (or overrides an old one) variable with the given name and value.
+</p>
+
+<p>
+<b>arrEnv(str)</b> adds the string of kind <b>NAME=VALUE</b>.
+</p>
+
+<p>
+<b>spawn()</b> can be called once to do the job. 
+The process will be bound with the given <b>SpawnSlot</b> object.
+</p>
 
 </body>
 
