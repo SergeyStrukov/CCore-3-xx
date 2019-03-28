@@ -23,6 +23,45 @@
 namespace App {
 namespace VMake {
 
+/* SpawnCommand() */
+
+void SpawnCommand(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot)
+ {
+  ShellPath shell;
+
+  StrLen exe_name=shell.get();
+
+  SpawnProcess spawn(wdir,exe_name);
+
+  SplitPath split1(exe_name);
+  SplitName split2(split1.path);
+
+  spawn.addArg(split2.name);
+  spawn.addArg("-c"_c);
+  spawn.addArg(cmdline);
+
+  for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+  spawn.spawn(slot);
+ }
+
+/* SpawnExecute() */
+
+void SpawnExecute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot)
+ {
+  SpawnProcess spawn(wdir,exe_file);
+
+  spawn.addArg(exe_file);
+
+  CmdLineParser parser(cmdline);
+
+  parser.addTo(spawn);
+
+  for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
+
+  spawn.spawn(slot);
+ }
+
 /* class CmdLineParser */
 
 StrLen CmdLineParser::next()
@@ -61,13 +100,11 @@ StrLen CmdLineParser::next()
     }
  }
 
-void AddCmdLine(SpawnProcess &obj,StrLen cmdline)
+void CmdLineParser::addTo(SpawnProcess &obj)
  {
-  CmdLineParser parser(cmdline);
-
   for(;;)
     {
-     StrLen str=parser.next();
+     StrLen str=next();
 
      if( !str ) break;
 
@@ -306,20 +343,7 @@ void PExeProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,Compl
 
   try
     {
-     ShellPath shell;
-
-     SpawnProcess spawn(wdir,shell.get());
-
-     SplitPath split1(shell.get());
-     SplitName split2(split1.path);
-
-     spawn.addArg(split2.name);
-     spawn.addArg("-c"_c);
-     spawn.addArg(cmdline);
-
-     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
-
-     spawn.spawn(*slot);
+     SpawnCommand(wdir,cmdline,env,*slot);
 
      setRunning(slot,complete);
     }
@@ -342,15 +366,7 @@ void PExeProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef
 
   try
     {
-     SpawnProcess spawn(wdir,exe_file);
-
-     spawn.addArg(exe_file);
-
-     AddCmdLine(spawn,cmdline);
-
-     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
-
-     spawn.spawn(*slot);
+     SpawnExecute(exe_file,wdir,cmdline,env,*slot);
 
      setRunning(slot,complete);
     }
@@ -432,22 +448,9 @@ int FileProc::Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
   try
     {
-     ShellPath shell;
-
-     SpawnProcess spawn(wdir,shell.get());
-
-     SplitPath split1(shell.get());
-     SplitName split2(split1.path);
-
-     spawn.addArg(split2.name);
-     spawn.addArg("-c"_c);
-     spawn.addArg(cmdline);
-
-     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
-
      SpawnSlot slot;
 
-     spawn.spawn(slot);
+     SpawnCommand(wdir,cmdline,env,slot);
 
      return slot.wait();
     }
@@ -461,17 +464,9 @@ int FileProc::Execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef:
  {
   try
     {
-     SpawnProcess spawn(wdir,exe_file);
-
-     spawn.addArg(exe_file);
-
-     AddCmdLine(spawn,cmdline);
-
-     for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
-
      SpawnSlot slot;
 
-     spawn.spawn(slot);
+     SpawnExecute(exe_file,wdir,cmdline,env,slot);
 
      return slot.wait();
     }

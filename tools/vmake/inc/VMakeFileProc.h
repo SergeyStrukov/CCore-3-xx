@@ -40,6 +40,14 @@ namespace VMake {
 
 using CompleteFunction = Function<void (TypeDef::Rule *rule,int status)> ;
 
+/* SpawnCommand() */
+
+void SpawnCommand(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot);
+
+/* SpawnExecute() */
+
+void SpawnExecute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot);
+
 /* classes */
 
 class CmdLineParser;
@@ -58,11 +66,15 @@ class CmdLineParser
  {
    StrLen text;
 
+  private:
+
+   StrLen next();
+
   public:
 
    explicit CmdLineParser(StrLen text_) : text(text_) {}
 
-   StrLen next();
+   void addTo(SpawnProcess &obj);
  };
 
 void AddCmdLine(SpawnProcess &obj,StrLen cmdline);
