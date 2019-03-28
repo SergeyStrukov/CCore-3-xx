@@ -57,9 +57,9 @@ class TempStr : NoCopy
 
 bool test1()
  {
-  //StrLen exe_name=Sys::GetShell();
+  ShellPath shell;
 
-  StrLen exe_name="C:\\WINDOWS\\system32\\cmd.exe"_c;
+  StrLen exe_name=shell.get();
 
   Printf(Con,"shell = #.q;\n",exe_name);
 
@@ -140,9 +140,9 @@ const char *const Testit<4035>::Name="Test4035 SysSpawn";
 template<>
 bool Testit<4035>::Main()
  {
-  //return test1();
+  return test1();
 
-  return test2();
+  //return test2();
  }
 
 } // namespace App

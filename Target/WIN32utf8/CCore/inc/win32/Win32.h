@@ -162,6 +162,7 @@ enum ErrorCodes
   ErrorInvalidName      = 123,
   ErrorDirNotEmpty      = 145,
   ErrorAlreadyExists    = 183,
+  ErrorEnvNotFound      = 203,
 
   ErrorIOPending        = 997,
   WSAErrorIOPending     = ErrorIOPending

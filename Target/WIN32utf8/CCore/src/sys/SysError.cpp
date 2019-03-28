@@ -55,6 +55,10 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
      case Error_Spawn         : return set("Child process spawn/wait failed"_c);
 
      case Error_Running       : return set("Child process still running"_c);
+
+     case Error_TooLong       : return set("Too long string"_c);
+
+     case Error_NoVariable    : return set("No such variable"_c);
     }
 
   Win32::flags_t flags=Win32::FormatMessageFromSystem

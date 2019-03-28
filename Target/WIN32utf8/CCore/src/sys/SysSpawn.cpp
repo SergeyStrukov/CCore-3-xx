@@ -15,6 +15,8 @@
 
 #include <CCore/inc/sys/SysSpawn.h>
 
+#include <CCore/inc/sys/SysEnv.h>
+
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/MemBase.h>
 #include <CCore/inc/Array.h>
@@ -309,18 +311,34 @@ namespace Sys {
 
 /* GetShell() */
 
-#if 0
-
-StrLen GetShell()
+StrLen GetShell(char buf[MaxPathLen+1])
  {
-  const char *shell=getenv("SHELL");
+  // 1 try
 
-  if( !shell ) return "/bin/sh"_c;
+  {
+   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"WINSHELL");
 
-  return shell;
+   if( tryget.ok ) return tryget.str;
+  }
+
+  // 2 try
+
+  {
+   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"ComSpec");
+
+   if( tryget.ok ) return tryget.str;
+  }
+
+  // 3 try
+
+  {
+   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"COMSPEC");
+
+   if( tryget.ok ) return tryget.str;
+  }
+
+  return "C:\\WINDOWS\\system32\\cmd.exe"_c;
  }
-
-#endif
 
 /* GetEnviron() */
 

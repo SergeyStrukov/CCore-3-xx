@@ -153,6 +153,59 @@ WCharToUtf8Full::~WCharToUtf8Full()
   if( ptr && ptr!=small ) MemFree(ptr);
  }
 
+/* struct ToWChar */
+
+ToWChar::ToWChar(PtrLen<WChar> out,StrLen text)
+ {
+  ulen start=out.len;
+
+  while( +text )
+    {
+     Unicode ch=CutUtf8_unicode(text);
+
+     if( ch==Unicode(-1) )
+       {
+        broken=true;
+
+        break;
+       }
+     else
+       {
+        if( IsSurrogate(ch) )
+          {
+           SurrogateCouple couple(ch);
+
+           if( out.len<2 )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           out[0]=couple.hi;
+           out[1]=couple.lo;
+
+           out+=2;
+          }
+        else
+          {
+           if( !out.len )
+             {
+              overflow=true;
+
+              break;
+             }
+
+           *out=WChar(ch);
+
+           ++out;
+          }
+       }
+    }
+
+  len=start-out.len;
+ }
+
 } // namespace Sys
 } // namespace CCore
 

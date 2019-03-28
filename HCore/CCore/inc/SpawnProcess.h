@@ -36,11 +36,27 @@ enum SpawnSlotState
 
 /* classes */
 
+class ShellPath;
+
 class SpawnSlot;
 
 class SpawnSet;
 
 class SpawnProcess;
+
+/* class ShellPath */
+
+class ShellPath
+ {
+   char buf[MaxPathLen+1];
+   StrLen path;
+
+  public:
+
+   ShellPath() { path=Sys::GetShell(buf); }
+
+   StrLen get() const { return path; }
+ };
 
 /* class SpawnSlot */
 

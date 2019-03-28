@@ -17,6 +17,8 @@
 
 #include <CCore/inc/TextTools.h>
 
+#include <CCore/inc/sys/SysEnv.h>
+
 #include <CCore/inc/video/InternalUtils.h>
 #include <CCore/inc/video/InternalDesktop.h>
 
@@ -79,11 +81,18 @@ Char ToLowerCase(Char ch)
 
 void ShellVerb(StrLen verb_,StrLen file_name_)
  {
-  Internal::WCharString<> verb(verb_);
-  Internal::WCharString<MaxPathLen> file_name(file_name_);
+  Sys::WCharString<> verb(verb_);
+  Sys::WCharString<MaxPathLen> file_name(file_name_);
 
-  verb.guard("CCore::Video::ShellVerb(...)");
-  file_name.guard("CCore::Video::ShellVerb(...)");
+  if( auto error=verb.getError() )
+    {
+     Printf(Exception,"CCore::Video::ShellVerb(verb,...) : #;",error);
+    }
+
+  if( auto error=file_name.getError() )
+    {
+     Printf(Exception,"CCore::Video::ShellVerb(...,file_name) : #;",error);
+    }
 
   Win32::ShellExecuteW(0,verb,file_name,0,0,Win32::CmdShow_Show);
  }
@@ -114,7 +123,12 @@ CharMapTable::CharMapTable()
 
 SystemFontDirs::SystemFontDirs()
  {
-  Internal::GetEnv<32,MaxPathLen> data("WINDIR");
+  Sys::GetEnv<32,MaxPathLen> data("WINDIR");
+
+  if( auto error=data.getError() )
+    {
+     Printf(Exception,"CCore::Video::SystemFontDirs::SystemFontDirs() : #; , WINDIR",error);
+    }
 
   ulen len=data.full(Range(buf));
 
@@ -139,7 +153,12 @@ SystemFontDirs::SystemFontDirs()
 
 HomeDir::HomeDir()
  {
-  Internal::GetEnv<32,MaxPathLen> data("LOCALAPPDATA");
+  Sys::GetEnv<32,MaxPathLen> data("LOCALAPPDATA");
+
+  if( auto error=data.getError() )
+    {
+     Printf(Exception,"CCore::Video::HomeDir::HomeDir() : #; , LOCALAPPDATA",error);
+    }
 
   ulen len=data.full(Range(buf));
 

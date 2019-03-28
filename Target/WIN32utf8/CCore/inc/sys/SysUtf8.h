@@ -18,6 +18,8 @@
 
 #include <CCore/inc/Utf8.h>
 
+#include <CCore/inc/sys/SysError.h>
+
 namespace CCore {
 namespace Sys {
 
@@ -123,6 +125,10 @@ struct SurrogateCouple;
 
 template <ulen Len> struct WCharToUtf8;
 
+struct ToWChar;
+
+template <ulen MaxLen=TextBufLen> class WCharString;
+
 /* struct CopySym */
 
 struct CopySym
@@ -204,6 +210,46 @@ struct WCharToUtf8 : NoCopy
   ulen truncate(PtrLen<char> out) const { return Truncate(Range(buf,len),out); }
 
   ulen full(PtrLen<char> out) const { return Full(Range(buf,len),out); } // MaxULen on overflow
+ };
+
+/* struct ToWChar */
+
+struct ToWChar
+ {
+  ulen len;
+  bool overflow = false ;
+  bool broken = false ;
+
+  ToWChar(PtrLen<WChar> out,StrLen text);
+ };
+
+/* class WCharString<MaxLen> */
+
+template <ulen MaxLen>
+class WCharString : NoCopy
+ {
+   WChar buf[MaxLen+1];
+   ErrorType error;
+
+  public:
+
+   explicit WCharString(StrLen text)
+    {
+     ToWChar to(Range(buf,MaxLen),text);
+
+     buf[to.len]=0;
+
+     if( to.overflow )
+       error=Error_TooLong;
+     else if( to.broken )
+       error=Error_BrokenUtf8;
+     else
+       error=NoError;
+    }
+
+   ErrorType getError() const { return error; }
+
+   operator const WChar * () const { return buf; }
  };
 
 } // namespace Sys

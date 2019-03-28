@@ -32,7 +32,9 @@ enum ErrorType : int
   Error_Socket        = -3,
   Error_BrokenUtf8    = -4,
   Error_Spawn         = -5,
-  Error_Running       = -6
+  Error_Running       = -6,
+  Error_TooLong       = -7,
+  Error_NoVariable    = -8
  };
 
 /* private functions */

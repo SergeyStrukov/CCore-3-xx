@@ -405,6 +405,7 @@ OBJ_LIST = \
 .obj/SysAsyncFileSystem.o \
 .obj/SysAtomic.o \
 .obj/SysCon.o \
+.obj/SysEnv.o \
 .obj/SysError.o \
 .obj/SysFile.o \
 .obj/SysFileInternal.o \
@@ -892,6 +893,7 @@ ASM_LIST = \
 .obj/SysAsyncFileSystem.s \
 .obj/SysAtomic.s \
 .obj/SysCon.s \
+.obj/SysEnv.s \
 .obj/SysError.s \
 .obj/SysFile.s \
 .obj/SysFileInternal.s \
@@ -1379,6 +1381,7 @@ DEP_LIST = \
 .obj/SysAsyncFileSystem.dep \
 .obj/SysAtomic.dep \
 .obj/SysCon.dep \
+.obj/SysEnv.dep \
 .obj/SysError.dep \
 .obj/SysFile.dep \
 .obj/SysFileInternal.dep \
@@ -2689,6 +2692,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysCon.o : ../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysEnv.o : ../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysError.o : ../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp
@@ -4145,6 +4151,9 @@ include $(RULES_FILE)
 .obj/SysCon.s : ../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SysEnv.s : ../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SysError.s : ../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5598,6 +5607,9 @@ include $(RULES_FILE)
 
 .obj/SysCon.dep : ../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysCon.o $< -MF $@
+
+.obj/SysEnv.dep : ../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SysEnv.o $< -MF $@
 
 .obj/SysError.dep : ../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysError.o $< -MF $@

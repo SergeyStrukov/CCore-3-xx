@@ -16,6 +16,8 @@
 #ifndef CCore_inc_sys_SysSpawn_h
 #define CCore_inc_sys_SysSpawn_h
 
+#include <CCore/inc/GenFile.h>
+
 #include <CCore/inc/sys/SysError.h>
 
 namespace CCore {
@@ -23,11 +25,11 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(); // beware environ modification!
+StrLen GetShell(char buf[MaxPathLen+1]);
 
 /* GetEnviron() */
 
-void GetEnviron(Function<void (StrLen)> func); // beware environ modification!
+void GetEnviron(Function<void (StrLen)> func);
 
 /* classes */
 

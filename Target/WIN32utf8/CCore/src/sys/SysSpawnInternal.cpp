@@ -127,7 +127,7 @@ void ProcessSetup::makeDir(char *wdir)
 
      if( !len ) throw NonNullError();
 
-     if( len>MaxPathLen ) throw ErrorType(Win32::ErrorOutOfMemory);
+     if( len>MaxPathLen ) throw Error_TooLong;
 
      dir.erase();
 

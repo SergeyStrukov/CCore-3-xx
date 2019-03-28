@@ -306,11 +306,11 @@ void PExeProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,Compl
 
   try
     {
-     StrLen exe_name=Sys::GetShell();
+     ShellPath shell;
 
-     SpawnProcess spawn(wdir,exe_name);
+     SpawnProcess spawn(wdir,shell.get());
 
-     SplitPath split1(exe_name);
+     SplitPath split1(shell.get());
      SplitName split2(split1.path);
 
      spawn.addArg(split2.name);
@@ -432,11 +432,11 @@ int FileProc::Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
  {
   try
     {
-     StrLen exe_name=Sys::GetShell();
+     ShellPath shell;
 
-     SpawnProcess spawn(wdir,exe_name);
+     SpawnProcess spawn(wdir,shell.get());
 
-     SplitPath split1(exe_name);
+     SplitPath split1(shell.get());
      SplitName split2(split1.path);
 
      spawn.addArg(split2.name);
