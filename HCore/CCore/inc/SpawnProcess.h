@@ -46,7 +46,7 @@ class SpawnProcess;
 
 /* class ShellPath */
 
-class ShellPath
+class ShellPath : NoCopy
  {
    char buf[MaxPathLen+1];
    StrLen path;

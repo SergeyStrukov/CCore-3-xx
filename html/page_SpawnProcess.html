@@ -30,8 +30,146 @@
 
 <p class="Files">Files <b>CCore/inc/SpawnProcess.h</b> <b>CCore/src/SpawnProcess.cpp</b></p>
 
+<p>
+This part is a collection of tools to spawn child processes. 
+</p>
+
+<pre>
+
+class <span class="Att">ShellPath</span> : NoCopy
+ {
+   char buf[MaxPathLen+1];
+   StrLen path;
+
+  public:
+
+   ShellPath();
+
+   StrLen get() const { return path; }
+ };
+
+</pre>
+
+<p>
+This class construct a system shell path. Exact details, how it obtains this information are target-dependent.
+</p>
+
+<pre>
+
+/* enum SpawnSlotState */
+
+enum <span class="Att">SpawnSlotState</span>
+ {
+  SpawnSlot_Ready,
+  SpawnSlot_Broken,
+  SpawnSlot_Running,
+  SpawnSlot_Stopped
+ };
+
+/* class SpawnSlot */
+
+class <span class="Att">SpawnSlot</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   SpawnSlot() noexcept;
+
+   ~SpawnSlot();
+
+   SpawnSlotState getState() const;
+
+   int wait();
+
+   bool clean();
+ };
+
+</pre>
+
+<p>
+This class is used to wait a child process completion. 
+Once the object of this class is created, it is in the <b>SpawnSlot_Ready</b> state.
+In this state it can be used to spawn a child process with the help of the class <b>SpawnProcess</b> (see <a href="#SpawnProcess">below</a>).
+After that the object state changes to <b>SpawnSlot_Broken</b> or <b>SpawnSlot_Running</b>.
+If the object has the state <b>SpawnSlot_Running</b>, it can be waited either by using the method <b>wait()</b>,
+or by the help of the class <b>SpawnSet</b> (see <a href="#SpawnSet">below</a>).
+The method <b>wait()</b> waits for the child process completion, then returns the process status.
+The object state is changed to the <b>SpawnSlot_Stopped</b>.
+The method <b>clean()</b> can be used to set the state of the object to the <b>SpawnSlot_Ready</b>, 
+unless the state of the object is <b>SpawnSlot_Running</b>. 
+In this case the method does nothing and returns <b>false</b>.
+<b>SpawnSlot</b> destructor generates the error, if the state of the object is <b>SpawnSlot_Running</b>.
+</p>
+
+<pre id="SpawnSet">
+
+class <span class="Att">SpawnSet</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit SpawnSet(ulen reserve);
+
+   ~SpawnSet();
+
+   void add(SpawnSlot *slot);
+
+   struct WaitResult
+    {
+     SpawnSlot *slot;
+     int status;
+    };
+
+   WaitResult wait();
+ };
+
+</pre>
+
+<p>
+This class is designed for waiting of multiple child processes.
+When you construct the object, you set the number of reserved wait slots in the wait list.
+The method <b>add()</b> adds the given <b>SpawnSlot</b> to the wait list.
+The slot must be in the state <b>SpawnSlot_Running</b>.
+After that the slot cannot use it's own method <b>wait()</b>.
+The slot occupies one wait slot. 
+If the wait list cannot be expanded a no-memory exception is thrown.
+Using the initial reservation you may prevent this case.
+Once you fill the list, you can call the method <b>wait()</b>.
+It waits while one of the child processes is finished and returns the result.
+The result consists of the pointer to the slot object and the process status.
+The slot is removed from the wait list and set to the state <b>SpawnSlot_Stopped</b>.
+If the wait list is empty, the pair <b>{null,null}</b> is returned.
+</p>
+
+<pre id="SpawnProcess">
+
+class <span class="Att">SpawnProcess</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   SpawnProcess(StrLen wdir,StrLen exe_name);
+
+   ~SpawnProcess();
+
+   void addArg(StrLen str);
+
+   void addArg(ulen reserve,FuncArgType&lt;char *&gt; func);
+
+   void addEnv(StrLen name,StrLen value);
+
+   void addEnv(StrLen str);
+
+   void spawn(SpawnSlot &amp;slot);
+ };
+
+</pre>
 
 </body>
 
 </html>
+
 
