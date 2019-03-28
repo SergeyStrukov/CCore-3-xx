@@ -30,6 +30,140 @@
 
 <p class="Files">Files <b>CCore/inc/sys/SysSpawn.h</b> <b>CCore/src/sys/SysSpawn.cpp</b></p>
 
+<p>
+<b>HCore</b> target support for the child process spawning includes the following components:
+</p>
+
+<h4>SpawnChild</h4>
+
+<pre>
+
+struct <span class="Att">SpawnChild</span>
+ {
+  // public
+
+  struct WaitResult
+   {
+    int status;
+    ErrorType error;
+   };
+
+  // private data
+
+  ....
+
+  // public
+
+  static void * MemAlloc(ulen len);
+
+  static void MemFree(void *mem);
+
+  ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+
+  WaitResult wait();
+ };
+
+</pre>
+
+<p>
+This struct is used to spawn a child process. 
+Initially it is dirty.
+Using the method <b>spawn()</b> on a dirty object you may spawn a new child process.
+The first argument is a new working directory for the child process, it may be null.
+The second is a path of executable file.
+The third is an argument list.
+The last is an environment list.
+Both lists are terminated with a null pointer.
+All strings here are null-terminated.
+If the spawn is successful, it makes the object initialized.
+You may call the method <b>wait()</b> on such object.
+</p>
+
+<p>
+<b>wait()</b> waits for the child process completion then returns the process status.
+It also makes the object dirty again. Don't call the <b>wait()</b> twice, even in case of error!
+</p>
+
+<p>
+If you need a dynamic memory allocation to prepare one of the <b>spawn()</b> argument, then use the provided memory allocation functions.
+</p>
+
+<h4>SpawnWaitList</h4>
+
+<pre>
+
+struct <span class="Att">SpawnWaitList</span>
+ {
+  // public
+
+  struct WaitResult
+   {
+    void *arg;
+    int status;
+    ErrorType error;
+   };
+
+  // private data
+
+  ....
+
+  // public
+
+  ErrorType init(ulen reserve);
+
+  ErrorType exit();
+
+  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
+
+  WaitResult wait();
+ };
+
+</pre>
+
+<p>
+This struct implements a process wait list. 
+As usual, you have to construct the object using the method <b>init()</b> and destroy it after use by the method <b>exit()</b>.
+The argument of the <b>init()</b> reserve a space for the given number of wait slots.
+</p>
+
+<p>
+<b>add()</b> adds the initialized process with the given opaque data pointer to the wait list.
+The spawn struct becomes dirty after this call.
+</p>
+
+<p>
+<b>wait()</b> waits for the processes, included in the list. 
+Once one of them is finished, it returns the process status with the process data pointer.
+The process is removed from the list. 
+If the wait list is empty, the function does not wait, but returns nulls.
+If the <b>arg</b> is not null, it indicates, that the correspondent process is removed from the list,
+even if the <b>error</b> is not null.
+</p>
+
+<h4>GetShell</h4>
+
+<pre>
+
+StrLen <span class="Att">GetShell</span>(char buf[MaxPathLen+1]);
+
+</pre>
+
+<p>
+This function returns the system shell path. It may use (or may not) the provided buffer.
+</p>
+
+<h4>GetEnviron</h4>
+
+<pre>
+
+void <span class="Att">GetEnviron</span>(Function&lt;void (StrLen)&gt; func);
+
+</pre>
+
+<p>
+This function calls the given callback function per each environment entry.
+Each entry has a form <b>"NAME=VALUE"</b> by the agreement.
+</p>
 
 </body>
 
