@@ -16,6 +16,7 @@
 #include <CCore/inc/sys/SysSpawn.h>
 
 #include <CCore/inc/sys/SysEnv.h>
+#include <CCore/inc/sys/SysSpawnInternal.h>
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/MemBase.h>
@@ -304,8 +305,6 @@ auto SpawnWaitList::Engine::WaitAny() -> WaitAnyResult
 
 #else
 
-#include <CCore/inc/sys/SysSpawnInternal.h>
-
 namespace CCore {
 namespace Sys {
 
@@ -357,6 +356,69 @@ void GetEnviron(Function<void (StrLen)> func)
             } );
  }
 
+/* struct SpawnChild */
+
+static_assert( Meta::IsSame<Win32::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
+
+void * SpawnChild::MemAlloc(ulen len)
+ {
+  return TryMemAlloc(len);
+ }
+
+void SpawnChild::MemFree(void *mem)
+ {
+  CCore::MemFree(mem);
+ }
+
+ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
+ {
+  ProcessSetup setup(wdir,path,argv,envp);
+
+  return setup.create(handle);
+ }
+
+auto SpawnChild::wait() -> WaitResult
+ {
+  WaitResult ret;
+
+  switch( Win32::WaitForSingleObject(handle,Win32::NoTimeout) )
+    {
+     case Win32::WaitObject_0 :
+      {
+       unsigned exit_code;
+
+       if( Win32::GetExitCodeProcess(handle,&exit_code) )
+         {
+          ret.status=(int)exit_code;
+          ret.error=NoError;
+         }
+       else
+         {
+          ret.status=1000;
+          ret.error=NonNullError();
+         }
+      }
+     break;
+
+     case Win32::WaitFailed :
+      {
+       ret.status=1000;
+       ret.error=NonNullError();
+      }
+     break;
+
+     default:
+      {
+       ret.status=1000;
+       ret.error=Error_Spawn;
+      }
+    }
+
+  Win32::CloseHandle(handle);
+
+  return ret;
+ }
+
 /* class SpawnWaitList::Engine */
 
 class SpawnWaitList::Engine : MemBase_nocopy
@@ -366,7 +428,7 @@ class SpawnWaitList::Engine : MemBase_nocopy
 
   private:
 
-   static WaitResult Finish(SpawnChild::Type pid,void *arg)
+   static WaitResult Finish(SpawnChild::Type handle,void *arg)
     {
      WaitResult ret;
 
@@ -374,7 +436,7 @@ class SpawnWaitList::Engine : MemBase_nocopy
 
      unsigned exit_code;
 
-     if( Win32::GetExitCodeProcess(pid,&exit_code) )
+     if( Win32::GetExitCodeProcess(handle,&exit_code) )
        {
         ret.status=(int)exit_code;
         ret.error=NoError;
@@ -385,14 +447,14 @@ class SpawnWaitList::Engine : MemBase_nocopy
         ret.error=NonNullError();
        }
 
-     Win32::CloseHandle(pid);
+     Win32::CloseHandle(handle);
 
      return ret;
     }
 
    WaitResult finish(ulen ind)
     {
-     auto pid=list[ind];
+     auto handle=list[ind];
      auto arg=arglist[ind];
 
      ulen last=list.getLen()-1;
@@ -406,7 +468,7 @@ class SpawnWaitList::Engine : MemBase_nocopy
      list.shrink_one();
      arglist.shrink_one();
 
-     return Finish(pid,arg);
+     return Finish(handle,arg);
     }
 
   public:
@@ -417,11 +479,11 @@ class SpawnWaitList::Engine : MemBase_nocopy
 
    bool notEmpty() const { return list.notEmpty(); }
 
-   void add(SpawnChild::Type pid,void *arg)
+   void add(SpawnChild::Type handle,void *arg)
     {
      arglist.reserve(1);
 
-     list.append_copy(pid);
+     list.append_copy(handle);
      arglist.append_copy(arg);
     }
 
@@ -493,7 +555,7 @@ ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
 
   try
     {
-     engine->add(spawn->pid,arg);
+     engine->add(spawn->handle,arg);
 
      return NoError;
     }
@@ -506,69 +568,6 @@ ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
 auto SpawnWaitList::wait() -> WaitResult
  {
   return engine->wait();
- }
-
-/* struct SpawnChild */
-
-static_assert( Meta::IsSame<Win32::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
-
-void * SpawnChild::MemAlloc(ulen len)
- {
-  return TryMemAlloc(len);
- }
-
-void SpawnChild::MemFree(void *mem)
- {
-  CCore::MemFree(mem);
- }
-
-ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
- {
-  ProcessSetup setup(wdir,path,argv,envp);
-
-  return setup.create(pid);
- }
-
-auto SpawnChild::wait() -> WaitResult
- {
-  WaitResult ret;
-
-  switch( Win32::WaitForSingleObject(pid,Win32::NoTimeout) )
-    {
-     case Win32::WaitObject_0 :
-      {
-       unsigned exit_code;
-
-       if( Win32::GetExitCodeProcess(pid,&exit_code) )
-         {
-          ret.status=(int)exit_code;
-          ret.error=NoError;
-         }
-       else
-         {
-          ret.status=1000;
-          ret.error=NonNullError();
-         }
-      }
-     break;
-
-     case Win32::WaitFailed :
-      {
-       ret.status=1000;
-       ret.error=NonNullError();
-      }
-     break;
-
-     default:
-      {
-       ret.status=1000;
-       ret.error=Error_Spawn;
-      }
-    }
-
-  Win32::CloseHandle(pid);
-
-  return ret;
  }
 
 } // namespace Sys

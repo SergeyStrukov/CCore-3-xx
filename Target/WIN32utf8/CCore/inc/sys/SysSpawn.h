@@ -53,7 +53,7 @@ struct SpawnChild
 
   using Type = int ;
 
-  Type pid;
+  Type handle;
 
   // public
 

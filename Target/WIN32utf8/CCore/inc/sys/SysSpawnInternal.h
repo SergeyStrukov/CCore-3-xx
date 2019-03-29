@@ -52,7 +52,7 @@ class EnvironHook : NoCopy
      while( *ptr )
        {
         const WChar *str=ptr;
-        const WChar *lim=Sys::ZScan(str);
+        const WChar *lim=ZScan(str);
 
         ptr=lim+1;
 

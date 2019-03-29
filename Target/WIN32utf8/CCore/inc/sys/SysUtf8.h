@@ -117,17 +117,33 @@ ulen Full(const WChar *ztext,PtrLen<char> out); // MaxULen on overflow
 
 /* classes */
 
+struct SurrogateCouple;
+
 struct CopySym;
 
 class WCharToUtf8Full;
-
-struct SurrogateCouple;
 
 template <ulen Len> struct WCharToUtf8;
 
 struct ToWChar;
 
 template <ulen MaxLen=TextBufLen> class WCharString;
+
+/* struct SurrogateCouple */
+
+struct SurrogateCouple
+ {
+  WChar hi;
+  WChar lo;
+
+  explicit SurrogateCouple(Unicode sym)
+   {
+    sym-=0x10000u;
+
+    hi=WChar( 0xD800u|((sym>>10)&0x3FFu) );
+    lo=WChar( 0xDC00u|(sym&0x3FFu) );
+   }
+ };
 
 /* struct CopySym */
 
@@ -179,22 +195,6 @@ class WCharToUtf8Full : NoCopy
    ulen getLen() const { return len; }
 
    StrLen get() const { return StrLen(ptr,len); }
- };
-
-/* struct SurrogateCouple */
-
-struct SurrogateCouple
- {
-  WChar hi;
-  WChar lo;
-
-  explicit SurrogateCouple(Unicode sym)
-   {
-    sym-=0x10000u;
-
-    hi=WChar( 0xD800u|((sym>>10)&0x3FFu) );
-    lo=WChar( 0xDC00u|(sym&0x3FFu) );
-   }
  };
 
 /* struct WCharToUtf8<ulen Len> */

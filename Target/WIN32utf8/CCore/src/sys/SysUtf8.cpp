@@ -109,7 +109,7 @@ void WCharToUtf8Full::longText(ulen slen,Unicode sym,PtrLen<const WChar> text)
 
   // build
 
-  ptr=static_cast<char *>(TryMemAlloc(len));
+  ptr=PlaceAt(TryMemAlloc(len));
 
   if( !ptr ) return;
 

@@ -32,7 +32,7 @@ EnvironHook::EnvironHook()
 
 EnvironHook::~EnvironHook()
  {
-  Win32::FreeEnvironmentStringsW(envblock);
+  if( envblock ) Win32::FreeEnvironmentStringsW(envblock);
  }
 
 /* class ProcessSetup */
