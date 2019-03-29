@@ -141,11 +141,13 @@ auto SpawnWaitList::wait() -> WaitResult
 } // namespace Sys
 } // namespace CCore
 
+#include <limits.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <string.h>
 
 namespace CCore {
 namespace Sys {
@@ -200,6 +202,23 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
 
      case 0 :
       {
+       char temp[PATH_MAX+1];
+       char *path1=path;
+
+       if( *path!='/' && strchr(path,'/') )
+         {
+          if( char *result=realpath(path,temp) )
+            {
+             path1=result;
+            }
+          else
+            {
+             error=NonNullError();
+
+             _exit(124);
+            }
+         }
+
        if( wdir )
          {
           if( chdir(wdir) )
@@ -210,7 +229,7 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
             }
          }
 
-       execvpe(path,argv,envp);
+       execvpe(path1,argv,envp);
 
        error=NonNullError();
 

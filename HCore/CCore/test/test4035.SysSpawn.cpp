@@ -103,6 +103,9 @@ bool test3()
  {
   SpawnProcess spawn(".."_c,"../test.exe"_c);
 
+  spawn.addArg("./test.exe"_c);
+  spawn.addArg("10"_c);
+
   SpawnSlot slot;
 
   spawn.spawn(slot);
