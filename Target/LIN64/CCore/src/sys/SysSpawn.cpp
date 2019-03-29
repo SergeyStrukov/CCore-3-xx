@@ -15,18 +15,146 @@
 
 #include <CCore/inc/sys/SysSpawn.h>
 
+#include <CCore/inc/ForLoop.h>
+#include <CCore/inc/MemBase.h>
+#include <CCore/inc/Array.h>
+#include <CCore/inc/Exception.h>
+
+namespace CCore {
+namespace Sys {
+
+/* class SpawnWaitList::Engine */
+
+class SpawnWaitList::Engine : MemBase_nocopy
+ {
+   struct Rec
+    {
+     SpawnChild::Type pid;
+     void *arg;
+    };
+
+   DynArray<Rec> list;
+
+  private:
+
+   WaitResult finish(ulen ind,int status,ErrorType error)
+    {
+     WaitResult ret{list[ind].arg,status,error};
+
+     ulen last=list.getLen()-1;
+
+     if( ind<last ) list[ind]=list[last];
+
+     list.shrink_one();
+
+     return ret;
+    }
+
+  public:
+
+   explicit Engine(ulen reserve) : list(DoReserve,reserve) {}
+
+   ~Engine() {}
+
+   bool notEmpty() const { return list.notEmpty(); }
+
+   void add(SpawnChild::Type pid,void *arg) { list.append_copy({pid,arg}); }
+
+   WaitResult wait()
+    {
+     if( list.isEmpty() ) return {0,0,NoError};
+
+     auto result=WaitAny();
+
+     if( result.pid==-1 )
+       {
+        return {0,result.status,result.error};
+       }
+
+     for(ulen ind : IndLim(list.getLen()) )
+       if( list[ind].pid==result.pid )
+         {
+          return finish(ind,result.status,result.error);
+         }
+
+     return {0,0,NoError};
+    }
+
+   struct WaitAnyResult
+    {
+     SpawnChild::Type pid;
+     int status;
+     ErrorType error;
+    };
+
+   static WaitAnyResult WaitAny();
+ };
+
+/* struct SpawnWaitList */
+
+ErrorType SpawnWaitList::init(ulen reserve)
+ {
+  SilentReportException report;
+
+  try
+    {
+     engine=new Engine(reserve);
+
+     return NoError;
+    }
+  catch(CatchType)
+    {
+     return Error_NoMem;
+    }
+ }
+
+ErrorType SpawnWaitList::exit()
+ {
+  bool nok=engine->notEmpty();
+
+  delete Replace_null(engine);
+
+  return nok?Error_Running:NoError;
+ }
+
+ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
+ {
+  SilentReportException report;
+
+  try
+    {
+     engine->add(spawn->pid,arg);
+
+     return NoError;
+    }
+  catch(CatchType)
+    {
+     return Error_NoMem;
+    }
+ }
+
+auto SpawnWaitList::wait() -> WaitResult
+ {
+  return engine->wait();
+ }
+
+} // namespace Sys
+} // namespace CCore
+
+#include <limits.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <string.h>
 
 namespace CCore {
 namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell()
+StrLen GetShell(char [MaxPathLen+1])
  {
   const char *shell=getenv("SHELL");
 
@@ -37,9 +165,17 @@ StrLen GetShell()
 
 /* GetEnviron() */
 
-char ** GetEnviron()
+void GetEnviron(Function<void (StrLen)> func)
  {
-  return environ;
+  char **envp=environ;
+
+  if( envp )
+    {
+     for(; char *str=*envp ;envp++)
+       {
+        func(StrLen(str));
+       }
+    }
  }
 
 /* struct SpawnChild */
@@ -66,21 +202,38 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
 
      case 0 :
       {
-       if( wdir ) 
+       char temp[PATH_MAX+1];
+       char *path1=path;
+
+       if( *path!='/' && strchr(path,'/') )
+         {
+          if( char *result=realpath(path,temp) )
+            {
+             path1=result;
+            }
+          else
+            {
+             error=NonNullError();
+
+             _exit(124);
+            }
+         }
+
+       if( wdir )
          {
           if( chdir(wdir) )
             {
              error=NonNullError();
 
-             _exit(1000);
+             _exit(125);
             }
          }
 
-       execvpe(path,argv,envp);
+       execvpe(path1,argv,envp);
 
        error=NonNullError();
 
-       _exit(1000);
+       _exit( ( error==ENOENT )? 126 : 127 );
       }
 
      default:
@@ -99,21 +252,67 @@ auto SpawnChild::wait() -> WaitResult
  {
   WaitResult ret;
 
-  Type child_pid=waitpid(pid,&ret.status,0);
+  int status;
+
+  Type child_pid=waitpid(pid,&status,0);
 
   if( child_pid==-1 )
     {
      ret.status=1000;
      ret.error=NonNullError();
     }
-  if( child_pid!=pid )
+  else if( child_pid!=pid )
     {
      ret.status=1000;
-     ret.error=ErrorType(EFAULT);
-    } 
+     ret.error=Error_Spawn;
+    }
   else
     {
-     ret.error=NoError;
+     if( WIFEXITED(status) )
+       {
+        ret.status=WEXITSTATUS(status);
+        ret.error=NoError;
+       }
+     else
+       {
+        ret.status=status;
+        ret.error=Error_Spawn;
+       }
+    }
+
+  return ret;
+ }
+
+/* class SpawnWaitList::Engine */
+
+auto SpawnWaitList::Engine::WaitAny() -> WaitAnyResult
+ {
+  WaitAnyResult ret;
+
+  int status;
+
+  SpawnChild::Type child_pid=waitpid(0,&status,0);
+
+  if( child_pid==-1 )
+    {
+     ret.pid=-1;
+     ret.status=1000;
+     ret.error=NonNullError();
+    }
+  else
+    {
+     if( WIFEXITED(status) )
+       {
+        ret.pid=child_pid;
+        ret.status=WEXITSTATUS(status);
+        ret.error=NoError;
+       }
+     else
+       {
+        ret.pid=child_pid;
+        ret.status=status;
+        ret.error=Error_Spawn;
+       }
     }
 
   return ret;
