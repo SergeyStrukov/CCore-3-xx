@@ -20,7 +20,7 @@ namespace Sys {
 
 /* struct LaunchPath */
 
-LaunchPath::LaunchPath(char buf[MaxPathLen+1])
+LaunchPath::LaunchPath(char /*buf*/[MaxPathLen+1])
  {
   // TODO
  }

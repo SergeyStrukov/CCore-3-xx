@@ -31,6 +31,10 @@
 
 #define CCORE_NOINLINE __attribute__((noinline))
 
+/* UTF8 claim */
+
+#define CCORE_UTF8
+
 /* includes */
 
 #include <cstddef>
