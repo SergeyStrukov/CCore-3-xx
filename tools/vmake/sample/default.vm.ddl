@@ -40,7 +40,7 @@ Cmd cmd3 = { "LD test.exe" , "g++ test1.o test2.o -o test.exe \"-Wl,-Map=map 123
 
 Rule test1 = { {} , {&test} , {&cmd_test} } ;
 
-Exe cmd_test = { "test" , "../test/test.exe" , "1 2 3" , ".." , {{"ABRA","CODABRA"}} } ;
+Exe cmd_test = { "test" , "../test/test.exe" , {"1","2","3"} , ".." , {{"ABRA","CODABRA"}} } ;
 
 Rule test2 = { {} , {&shell} , {&cmd_test_shell} } ;
 
@@ -48,7 +48,7 @@ Cmd cmd_test_shell = { "shell" , "echo $ABRA\nps\necho $HOME" , "" , {{"ABRA","C
 
 Rule test3 = { {} , {&sh} , {&cmd_test_sh} } ;
 
-Exe cmd_test_sh = { "sh" , "sh" , "" , ".." , {{"ABRA","CODABRA"}} } ;
+Exe cmd_test_sh = { "sh" , "sh" , {} , ".." , {{"ABRA","CODABRA"}} } ;
 
 /* deps */
 

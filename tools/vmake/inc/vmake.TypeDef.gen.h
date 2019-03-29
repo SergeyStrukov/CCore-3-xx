@@ -89,7 +89,7 @@ struct TypeDefCore
    {
     DDL::MapText echo;
     DDL::MapText exe;
-    DDL::MapText cmdline;
+    DDL::MapRange< DDL::MapText > args;
     DDL::MapText wdir;
     DDL::MapRange< S6 > env;
 

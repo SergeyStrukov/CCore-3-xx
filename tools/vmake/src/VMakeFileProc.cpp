@@ -47,69 +47,17 @@ void SpawnCommand(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot 
 
 /* SpawnExecute() */
 
-void SpawnExecute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot)
+void SpawnExecute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env,SpawnSlot &slot)
  {
   SpawnProcess spawn(wdir,exe_file);
 
   spawn.addArg(exe_file);
 
-  CmdLineParser parser(cmdline);
-
-  parser.addTo(spawn);
+  for(auto arg : args ) spawn.addArg(arg);
 
   for(TypeDef::Env obj : env ) spawn.addEnv(obj.name,obj.value);
 
   spawn.spawn(slot);
- }
-
-/* class CmdLineParser */
-
-StrLen CmdLineParser::next()
- {
-  for(; +text && CharIsSpace(*text) ;++text);
-
-  if( !text ) return Empty;
-
-  switch( char ch=*text )
-    {
-     case '"' :
-     case '\'' :
-      {
-       ++text;
-
-       StrLen line=text;
-
-       for(; +text && *text!=ch ;++text);
-
-       StrLen ret=line.prefix(text);
-
-       if( +text ) ++text;
-
-       return ret;
-      }
-     break;
-
-     default:
-      {
-       StrLen line=text;
-
-       for(; +text && !CharIsSpace(*text) ;++text);
-
-       return line.prefix(text);
-      }
-    }
- }
-
-void CmdLineParser::addTo(SpawnProcess &obj)
- {
-  for(;;)
-    {
-     StrLen str=next();
-
-     if( !str ) break;
-
-     obj.addArg(str);
-    }
  }
 
 /* struct ExeRule */
@@ -353,7 +301,7 @@ void PExeProc::command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,Compl
     }
  }
 
-void PExeProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete)
+void PExeProc::execute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env,CompleteExe complete)
  {
   if( !free )
     {
@@ -366,7 +314,7 @@ void PExeProc::execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef
 
   try
     {
-     SpawnExecute(exe_file,wdir,cmdline,env,*slot);
+     SpawnExecute(exe_file,wdir,args,env,*slot);
 
      setRunning(slot,complete);
     }
@@ -460,13 +408,13 @@ int FileProc::Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
     }
  }
 
-int FileProc::Execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
+int FileProc::Execute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env)
  {
   try
     {
      SpawnSlot slot;
 
-     SpawnExecute(exe_file,wdir,cmdline,env,slot);
+     SpawnExecute(exe_file,wdir,args,env,slot);
 
      return slot.wait();
     }
@@ -518,7 +466,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
   Printf(Con,"#;\n",echo);
 
   StrLen exe_file=cmd->exe;
-  StrLen cmdline=cmd->cmdline;
+  PtrLen<DDL::MapText> args=cmd->args;
   StrLen new_wdir=cmd->wdir;
   PtrLen<TypeDef::Env> env=cmd->env;
 
@@ -528,7 +476,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        return Execute(exe_file,wdir1.get(),cmdline,env);
+        return Execute(exe_file,wdir1.get(),args,env);
        }
      catch(CatchType)
        {
@@ -537,7 +485,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
     }
   else
     {
-     return Execute(exe_file,wdir,cmdline,env);
+     return Execute(exe_file,wdir,args,env);
     }
  }
 
@@ -635,7 +583,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe comp
   Printf(Con,"#;\n",echo);
 
   StrLen exe_file=cmd->exe;
-  StrLen cmdline=cmd->cmdline;
+  PtrLen<DDL::MapText> args=cmd->args;
   StrLen new_wdir=cmd->wdir;
   PtrLen<TypeDef::Env> env=cmd->env;
 
@@ -645,7 +593,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe comp
        {
         BuildFileName wdir1(wdir,new_wdir);
 
-        pexe->execute(exe_file,wdir1.get(),cmdline,env,complete);
+        pexe->execute(exe_file,wdir1.get(),args,env,complete);
        }
      catch(CatchType)
        {
@@ -654,7 +602,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe comp
     }
   else
     {
-     pexe->execute(exe_file,wdir,cmdline,env,complete);
+     pexe->execute(exe_file,wdir,args,env,complete);
     }
  }
 

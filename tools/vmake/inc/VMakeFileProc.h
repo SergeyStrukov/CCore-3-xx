@@ -46,7 +46,7 @@ void SpawnCommand(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot 
 
 /* SpawnExecute() */
 
-void SpawnExecute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,SpawnSlot &slot);
+void SpawnExecute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env,SpawnSlot &slot);
 
 /* classes */
 
@@ -59,25 +59,6 @@ class ExeList;
 class PExeProc;
 
 class FileProc;
-
-/* class CmdLineParser */
-
-class CmdLineParser
- {
-   StrLen text;
-
-  private:
-
-   StrLen next();
-
-  public:
-
-   explicit CmdLineParser(StrLen text_) : text(text_) {}
-
-   void addTo(SpawnProcess &obj);
- };
-
-void AddCmdLine(SpawnProcess &obj,StrLen cmdline);
 
 /* struct ExeRule */
 
@@ -223,7 +204,7 @@ class PExeProc : NoCopy
 
    void command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
 
-   void execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env,CompleteExe complete);
+   void execute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env,CompleteExe complete);
  };
 
 /* class FileProc */
@@ -240,7 +221,7 @@ class FileProc : NoCopy
 
    static int Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
 
-   static int Execute(StrLen exe_file,StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env);
+   static int Execute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<TypeDef::Env> env);
 
    static int VMake(FileProc &file_proc,StrLen file_name,StrLen target,StrLen wdir);
 

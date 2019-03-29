@@ -27,7 +27,7 @@ struct Exe
  {
   text echo; 
   text exe;
-  text cmdline;
+  text[] args;
   text wdir;
   Env[] env;
  };

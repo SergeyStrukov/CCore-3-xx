@@ -130,7 +130,7 @@ struct TypeSet : TypeDefCore
          DDL::SetFieldOffsets(struct_node,
                                "echo",offsetof(S8,echo),
                                "exe",offsetof(S8,exe),
-                               "cmdline",offsetof(S8,cmdline),
+                               "args",offsetof(S8,args),
                                "wdir",offsetof(S8,wdir),
                                "env",offsetof(S8,env)
                               );
@@ -242,7 +242,7 @@ struct TypeSet : TypeDefCore
          DDL::GuardFieldTypes<
                                DDL::MapText,
                                DDL::MapText,
-                               DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
                                DDL::MapText,
                                DDL::MapRange< S6 >
                               >(*this,struct_node);

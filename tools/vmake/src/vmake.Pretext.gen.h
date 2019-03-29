@@ -27,7 +27,7 @@
 " {\n"
 "  text echo; \n"
 "  text exe;\n"
-"  text cmdline;\n"
+"  text[] args;\n"
 "  text wdir;\n"
 "  Env[] env;\n"
 " };\n"
