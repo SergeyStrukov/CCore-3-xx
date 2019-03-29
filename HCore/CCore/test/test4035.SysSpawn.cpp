@@ -24,35 +24,6 @@ namespace App {
 
 namespace Private_4035 {
 
-/* class TempStr */
-
-class TempStr : NoCopy
- {
-   char *str;
-
-  public:
-
-   explicit TempStr(StrLen text)
-    {
-     ulen len=LenAdd(text.len,1);
-
-     str=(char *)Sys::SpawnChild::MemAlloc(len);
-
-     if( !str ) GuardNoMem(len);
-
-     text.copyTo(str);
-
-     str[text.len]=0;
-    }
-
-   ~TempStr()
-    {
-     Sys::SpawnChild::MemFree(str);
-    }
-
-   operator char * () const { return str; }
- };
-
 /* test1() */
 
 bool test1()
@@ -62,8 +33,6 @@ bool test1()
   StrLen exe_name=shell.get();
 
   Printf(Con,"shell = #.q;\n",exe_name);
-
-  TempStr path(exe_name);
 
   SplitPath split1(exe_name);
   SplitName split2(split1.path);
@@ -128,6 +97,23 @@ bool test2()
   return true;
  }
 
+/* test3() */
+
+bool test3()
+ {
+  SpawnProcess spawn(".."_c,"../test.exe"_c);
+
+  SpawnSlot slot;
+
+  spawn.spawn(slot);
+
+  int status=slot.wait();
+
+  Printf(Con,"\nstatus = #;\n",status);
+
+  return true;
+ }
+
 } // namespace Private_4035
 
 using namespace Private_4035;
@@ -140,9 +126,11 @@ const char *const Testit<4035>::Name="Test4035 SysSpawn";
 template<>
 bool Testit<4035>::Main()
  {
-  return test1();
+  //return test1();
 
   //return test2();
+
+  return test3();
  }
 
 } // namespace App
