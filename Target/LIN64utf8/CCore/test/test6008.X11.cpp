@@ -384,6 +384,7 @@ class TestWindow : NoCopy
          {
           Printf(Con,"-> PropertyNotify\n");
          }
+        break;
 
         case ReparentNotify :
          {

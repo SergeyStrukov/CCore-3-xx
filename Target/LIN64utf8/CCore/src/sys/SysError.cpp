@@ -57,7 +57,14 @@ bool ErrorDesc::init(ErrorType error,PtrLen<char> buf) noexcept
   switch( error )
     {
      case Error_SysErrorFault : return set("System failed to report error"_c);
+
      case Error_Socket        : return set("System socket failure"_c);
+
+     case Error_NoMem         : return set("No memory"_c);
+
+     case Error_Running       : return set("Child process still running"_c);
+
+     case Error_Spawn         : return set("Child process spawn/wait failed"_c);
     }
 
 #if (_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE

@@ -16,6 +16,8 @@
 #ifndef CCore_inc_sys_SysSpawn_h
 #define CCore_inc_sys_SysSpawn_h
 
+#include <CCore/inc/GenFile.h>
+
 #include <CCore/inc/sys/SysError.h>
 
 namespace CCore {
@@ -23,11 +25,11 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(); // unsafe, beware eniron modification!
+StrLen GetShell(char buf[MaxPathLen+1]);
 
 /* GetEnviron() */
 
-char ** GetEnviron(); // environ is global!
+void GetEnviron(Function<void (StrLen)> func);
 
 /* classes */
 
@@ -58,6 +60,36 @@ struct SpawnChild
   static void MemFree(void *mem);
 
   ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+
+  WaitResult wait();
+ };
+
+/* struct SpawnWaitList */
+
+struct SpawnWaitList
+ {
+  // public
+
+  struct WaitResult
+   {
+    void *arg;
+    int status;
+    ErrorType error;
+   };
+
+  // private data
+
+  class Engine;
+
+  Engine *engine;
+
+  // public
+
+  ErrorType init(ulen reserve);
+
+  ErrorType exit();
+
+  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
 
   WaitResult wait();
  };

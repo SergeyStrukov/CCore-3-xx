@@ -28,7 +28,10 @@ enum ErrorType : int
   NoError = 0,
 
   Error_SysErrorFault = -1,
-  Error_Socket        = -2
+  Error_Socket        = -2,
+  Error_NoMem         = -3,
+  Error_Running       = -4,
+  Error_Spawn         = -5
  };
 
 /* private functions */
