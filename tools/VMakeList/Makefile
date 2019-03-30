@@ -15,6 +15,10 @@ CCORE_ROOT = ../..
 
 include $(CCORE_ROOT)/Makefile.host
 
+SRC_PATH_LIST = src
+
+CCOPT_EXTRA = -I.
+
 TARGET = $(HOME)/bin/CCore-VMakeList.exe
 
 include $(CCORE_ROOT)/Target/Makefile.app

@@ -1,0 +1,3 @@
+/**/
+
+Target main = { "main" } ;
