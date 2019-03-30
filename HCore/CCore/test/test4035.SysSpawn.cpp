@@ -106,6 +106,10 @@ bool test3()
   spawn.addArg("./test.exe"_c);
   spawn.addArg("10"_c);
 
+  spawn.addArg(30, [] (char *buf) { StrLen str="some-word"_c; str.copyTo(buf); buf[str.len]=0; } );
+
+  spawn.addEnv("ABRA"_c,"CODABRA"_c);
+
   SpawnSlot slot;
 
   spawn.spawn(slot);
