@@ -13,19 +13,19 @@
 
 struct Param
  {
-  text CCORE_ROOT = '' ;
+  text CCORE_ROOT = "" ;
 
-  text CCORE_TARGET = '' ;
+  text CCORE_TARGET = "" ;
 
-  text OBJ_PATH = '.obj' ;
+  text OBJ_PATH = ".obj" ;
 
-  text[] SRC_PATH_LIST = {'.'} ;
+  text[] SRC_PATH_LIST = {"."} ;
 
   text[] CCOPT_EXTRA = {} ;
 
   text[] LDOPT_EXTRA = {} ;
   
-  text TARGET = './main.exe' ;
+  text TARGET = "./main.exe" ;
  };
  
  

@@ -187,6 +187,34 @@ class Line : NoCopy
    void operator ++ () { next(); }
  };
 
+/* PrintChar() */
+
+void PrintChar(PrinterType &out,char ch)
+ {
+  if( CharIsPrintable(ch) )
+    {
+     switch( ch )
+       {
+        case '"' :
+        case '\\' :
+         {
+          out.put('\\');
+          out.put(ch);
+         }
+        break;
+
+        default:
+         {
+          out.put(ch);
+         }
+       }
+    }
+  else
+    {
+     out.put(' ');
+    }
+ }
+
 /* ProcStrip() */
 
 void ProcStrip(StrLen input_file_name,StrLen output_file_name)
@@ -203,17 +231,7 @@ void ProcStrip(StrLen input_file_name,StrLen output_file_name)
     {
      Putch(out,'"');
 
-     for(char ch; (ch=*line)!='\n' ;++line)
-       {
-        if( CharIsPrintable(ch) )
-          {
-           Putch(out,ch);
-          }
-        else
-          {
-           Putch(out,' ');
-          }
-       }
+     for(char ch; (ch=*line)!='\n' ;++line) PrintChar(out,ch);
 
      Putobj(out,"\\n\"\n"_c);
     }
@@ -235,17 +253,7 @@ void Proc(StrLen input_file_name,StrLen output_file_name)
 
      Putch(out,'"');
 
-     for(char ch : line )
-       {
-        if( CharIsPrintable(ch) )
-          {
-           Putch(out,ch);
-          }
-        else
-          {
-           Putch(out,' ');
-          }
-       }
+     for(char ch : line ) PrintChar(out,ch);
 
      Putobj(out,"\\n\"\n"_c);
     }
