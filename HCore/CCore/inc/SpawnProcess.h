@@ -16,6 +16,7 @@
 #ifndef CCore_inc_SpawnProcess_h
 #define CCore_inc_SpawnProcess_h
 
+#include <CCore/inc/ElementPool.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/List.h>
 #include <CCore/inc/Cmp.h>
@@ -116,89 +117,7 @@ class SpawnSet : NoCopy
 
 class SpawnProcess : NoCopy
  {
-   class Pool : NoCopy
-    {
-      struct Node
-       {
-        SLink<Node> link;
-       };
-
-      static constexpr ulen Delta = Align(sizeof (Node)) ;
-      static constexpr ulen MaxLen = AlignDown(MaxULen)-Delta ;
-
-      using Algo = SLink<Node>::LinearAlgo<&Node::link> ;
-
-     private:
-
-      ulen block_len;
-
-      Algo::Top list;
-
-      Place<void> block;
-      Place<void> cur;
-      ulen avail;
-
-     private:
-
-      Place<void> allocBlock(ulen alloc_len);
-
-      void newBlock();
-
-     private:
-
-      void * allocMem(ulen len);
-
-      struct Out
-       {
-        char *ptr;
-
-        explicit Out(char *ptr_) : ptr(ptr_) {}
-
-        Out & operator += (StrLen str)
-         {
-          str.copyTo(ptr);
-
-          ptr+=str.len;
-
-          return *this;
-         }
-       };
-
-      template <class ... TT>
-      char * catStrLen(TT ... tt)
-       {
-        ulen len=LenAdd( tt.len ... );
-        char *base=alloc<char>(len);
-
-        Out out(base);
-
-        ( out += ... += tt );
-
-        return base;
-       }
-
-     public:
-
-      Pool();
-
-      ~Pool();
-
-      template <PODType T>
-      T * alloc(ulen len)
-       {
-        return static_cast<T *>(allocMem(LenOf(len,sizeof (T))));
-       }
-
-      template <class ... TT>
-      char * cat(TT ... tt)
-       {
-        return catStrLen( StrLen(tt)... ,"\0"_c);
-       }
-    };
-
-  private:
-
-   Pool pool;
+   ElementPool pool;
 
    char *wdir = 0 ;
    char *exe_name = 0 ;
@@ -231,6 +150,13 @@ class SpawnProcess : NoCopy
 
   private:
 
+   template <class ... TT>
+   char * cat(TT ... tt);
+
+   char ** alloc(ulen len);
+
+   char * allocBuf(ulen len);
+
    char ** buildArgv();
 
    char ** buildEnvp();
@@ -247,7 +173,7 @@ class SpawnProcess : NoCopy
 
    void addArg(ulen reserve,FuncArgType<char *> func)
     {
-     char *buf=pool.alloc<char>(LenAdd(reserve,1));
+     char *buf=allocBuf(reserve);
 
      func(buf);
 

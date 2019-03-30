@@ -51,10 +51,6 @@ struct SpawnChild
 
   // public
 
-  static void * MemAlloc(ulen len);
-
-  static void MemFree(void *mem);
-
   ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
 
   WaitResult wait();

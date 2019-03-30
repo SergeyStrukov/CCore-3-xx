@@ -54,10 +54,6 @@ struct <span class="Att">SpawnChild</span>
 
   // public
 
-  static void * MemAlloc(ulen len);
-
-  static void MemFree(void *mem);
-
   ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
 
   WaitResult wait();
@@ -82,10 +78,6 @@ You may call the method <b>wait()</b> on such object.
 <p>
 <b>wait()</b> waits for the child process completion then returns the process status.
 It also makes the object dirty again. Don't call the <b>wait()</b> twice, even in case of error!
-</p>
-
-<p>
-If you need a dynamic memory allocation to prepare one of the <b>spawn()</b> argument, then use the provided memory allocation functions.
 </p>
 
 <h4>SpawnWaitList</h4>

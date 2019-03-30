@@ -182,16 +182,6 @@ void GetEnviron(Function<void (StrLen)> func)
 
 static_assert( Meta::IsSame<pid_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
 
-void * SpawnChild::MemAlloc(ulen len)
- {
-  return malloc(len);
- }
-
-void SpawnChild::MemFree(void *mem)
- {
-  free(mem);
- }
-
 ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
  {
   volatile ErrorType error=NoError;

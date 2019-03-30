@@ -36,18 +36,6 @@ void GetEnviron(Function<void (StrLen)> /*func*/)
 
 /* struct SpawnChild */
 
-void * SpawnChild::MemAlloc(ulen /*len*/)
- {
-  // TODO
-
-  return 0;
- }
-
-void SpawnChild::MemFree(void * /*mem*/)
- {
-  // TODO
- }
-
 ErrorType SpawnChild::spawn(char * /*wdir*/,char * /*path*/,char ** /*argv*/,char ** /*envp*/)
  {
   // TODO

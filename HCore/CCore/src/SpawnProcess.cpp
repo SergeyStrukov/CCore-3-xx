@@ -15,79 +15,12 @@
 
 #include <CCore/inc/SpawnProcess.h>
 
-#include <CCore/inc/MemBase.h>
 #include <CCore/inc/algon/SortUnique.h>
 #include <CCore/inc/PrintError.h>
 
 #include <CCore/inc/Exception.h>
 
 namespace CCore {
-
-/* class SpawnProcess::Pool */
-
-Place<void> SpawnProcess::Pool::allocBlock(ulen alloc_len)
- {
-  void *mem=Sys::SpawnChild::MemAlloc(alloc_len);
-
-  if( !mem ) GuardNoMem(alloc_len);
-
-  Place<void> ptr=PlaceAt(mem);
-
-  list.ins(new(ptr) Node);
-
-  return ptr;
- }
-
-void SpawnProcess::Pool::newBlock()
- {
-  Place<void> new_block=allocBlock(block_len);
-
-  block=new_block;
-  cur=new_block+Delta;
-  avail=block_len-Delta;
- }
-
-void * SpawnProcess::Pool::allocMem(ulen len)
- {
-  if( len>MaxLen ) GuardNoMem(len);
-
-  len=Align(len);
-
-  if( !len ) len=MaxAlign;
-
-  if( avail<len )
-    {
-     if( avail>block_len/2 || len+Delta>block_len )
-       {
-        auto ret=allocBlock(len+Delta)+Delta;
-
-        return ret;
-       }
-
-     newBlock();
-    }
-
-  avail-=len;
-
-  return cur+=len;
- }
-
-SpawnProcess::Pool::Pool()
- : block(0),
-   cur(0),
-   avail(0)
- {
-  constexpr ulen BLen=AlignDown(4_KByte);
-
-  static_assert( BLen>Delta );
-
-  block_len=BLen;
- }
-
-SpawnProcess::Pool::~Pool()
- {
-  while( Node *node=list.del() ) Sys::SpawnChild::MemFree(node);
- }
 
 /* class SpawnSlot */
 
@@ -171,9 +104,27 @@ auto SpawnSet::wait() -> WaitResult
 
 /* class SpawnProcess */
 
+template <class ... TT>
+char * SpawnProcess::cat(TT ... tt)
+ {
+  StrLen str=pool.cat(tt...,"\0"_c);
+
+  return const_cast<char *>(str.ptr);
+ }
+
+char ** SpawnProcess::alloc(ulen len)
+ {
+  return pool.createArray_raw<char *>(LenAdd(len,1)).ptr;
+ }
+
+char * SpawnProcess::allocBuf(ulen len)
+ {
+  return pool.createArray_raw<char>(LenAdd(len,1)).ptr;
+ }
+
 char ** SpawnProcess::buildArgv()
  {
-  char **ret=pool.alloc<char *>(LenAdd(args.getLen(),1));
+  char **ret=alloc(args.getLen());
 
   auto out=ret;
 
@@ -192,7 +143,7 @@ char ** SpawnProcess::buildEnvp()
 
   auto list=Range(envs);
 
-  char **ret=pool.alloc<char *>(LenAdd(list.len,1));
+  char **ret=alloc(list.len);
 
   auto out=ret;
 
@@ -204,12 +155,13 @@ char ** SpawnProcess::buildEnvp()
  }
 
 SpawnProcess::SpawnProcess(StrLen wdir_,StrLen exe_name_)
- : args(DoReserve,100),
+ : pool(4_KByte),
+   args(DoReserve,100),
    envs(DoReserve,100)
  {
-  if( +wdir_ ) wdir=pool.cat(wdir_);
+  if( +wdir_ ) wdir=cat(wdir_);
 
-  exe_name=pool.cat(exe_name_);
+  exe_name=cat(exe_name_);
  }
 
 SpawnProcess::~SpawnProcess()
@@ -218,14 +170,14 @@ SpawnProcess::~SpawnProcess()
 
 void SpawnProcess::addArg(StrLen str)
  {
-  args.append_copy(pool.cat(str));
+  args.append_copy(cat(str));
  }
 
 void SpawnProcess::addEnv(StrLen name,StrLen value)
  {
   ulen ind=envs.getLen();
 
-  envs.append_fill(pool.cat(name,"="_c,value),name.len,ind);
+  envs.append_fill(cat(name,"="_c,value),name.len,ind);
  }
 
 void SpawnProcess::addEnv(StrLen str)
@@ -236,7 +188,7 @@ void SpawnProcess::addEnv(StrLen str)
        ulen name_len=str.len-t.len;
        ulen ind=envs.getLen();
 
-       envs.append_fill(pool.cat(str),name_len,ind);
+       envs.append_fill(cat(str),name_len,ind);
 
        break;
       }

@@ -79,16 +79,6 @@ void GetEnviron(Function<void (StrLen)> func)
 
 static_assert( Meta::IsSame<Win32::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
 
-void * SpawnChild::MemAlloc(ulen len)
- {
-  return TryMemAlloc(len);
- }
-
-void SpawnChild::MemFree(void *mem)
- {
-  CCore::MemFree(mem);
- }
-
 ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
  {
   ProcessSetup setup(wdir,path,argv,envp);
