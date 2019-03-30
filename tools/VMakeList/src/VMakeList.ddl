@@ -1,4 +1,4 @@
-/* default.vm.ddl */
+/* VMakeList.ddl */
 //----------------------------------------------------------------------------------------
 //
 //  Project: VMakeList 1.00
@@ -11,16 +11,21 @@
 //
 //----------------------------------------------------------------------------------------
 
-Target main = { "main" } ;
+struct Param
+ {
+  text CCORE_ROOT = '' ;
 
-Target list = { "list" , "proj.vm.ddl" } ;
+  text CCORE_TARGET = '' ;
 
-Target desc = { "desc" , "default.vml.ddl" } ;
+  text OBJ_PATH = '.obj' ;
 
-Rule r1 = { {&desc} , {&list} , {&r1exe} } ;
+  text[] SRC_PATH_LIST = {'.'} ;
 
-Exe r1exe = { "LIST" , "CCore-VMakeList.exe" , { "default.vml.ddl" , "proj.vm.ddl" } } ;
+  text[] CCOPT_EXTRA = {} ;
 
-Rule r2 = { {&list} , {&main} , {&r2vmake} } ; 
-
-VMake r2vmake = { "PROJ" , "proj.vm.ddl" } ;
+  text[] LDOPT_EXTRA = {} ;
+  
+  text TARGET = './main.exe' ;
+ };
+ 
+ 

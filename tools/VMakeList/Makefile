@@ -26,7 +26,19 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET)
+	$(TARGET) default.vml.ddl proj.vm.ddl
+
+#----------------------------------------------------------------------------------------
+
+TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
+
+MakeString = $(HOME)/bin/CCore-MakeString.exe
+
+inc/VMakeList.TypeDef.gen.h : src/VMakeList.ddl
+	$(TypeSet) src/VMakeList.ddl inc/VMakeList.TypeDef.gen.h src/VMakeList.TypeSet.gen.h 
+
+src/./VMakeList.Pretext.gen.h : src/VMakeList.ddl
+	$(MakeString) -s src/VMakeList.ddl src/VMakeList.Pretext.gen.h
 
 
 

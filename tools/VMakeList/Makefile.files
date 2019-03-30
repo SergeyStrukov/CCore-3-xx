@@ -1,12 +1,15 @@
 OBJ_LIST = \
+.obj/VMakeList.o \
 .obj/main.o \
 
 
 ASM_LIST = \
+.obj/VMakeList.s \
 .obj/main.s \
 
 
 DEP_LIST = \
+.obj/VMakeList.dep \
 .obj/main.dep \
 
 
@@ -16,15 +19,24 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
+.obj/VMakeList.o : src/./VMakeList.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 
 
+.obj/VMakeList.s : src/./VMakeList.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/main.s : src/./main.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 
+
+.obj/VMakeList.dep : src/./VMakeList.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/VMakeList.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
