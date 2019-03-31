@@ -2,7 +2,7 @@
 
 struct TypeSet : TypeDefCore
  {
-  ulen indexes[1];
+  ulen indexes[2];
   DynArray<ulen> ind_map;
 
   DDL::FindNodeMap map;
@@ -12,7 +12,8 @@ struct TypeSet : TypeDefCore
    {
     Range(indexes).set(ulen(-1));
 
-    map.add(1,"Param");
+    map.add(1,"Tools");
+    map.add(2,"Param");
 
     map.complete();
    }
@@ -31,13 +32,37 @@ struct TypeSet : TypeDefCore
          ret.set<S1>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "CCORE_ROOT",offsetof(S1,CCORE_ROOT),
-                               "CCORE_TARGET",offsetof(S1,CCORE_TARGET),
-                               "OBJ_PATH",offsetof(S1,OBJ_PATH),
-                               "SRC_PATH_LIST",offsetof(S1,SRC_PATH_LIST),
-                               "CCOPT_EXTRA",offsetof(S1,CCOPT_EXTRA),
-                               "LDOPT_EXTRA",offsetof(S1,LDOPT_EXTRA),
-                               "TARGET",offsetof(S1,TARGET)
+                               "CC",offsetof(S1,CC),
+                               "LD",offsetof(S1,LD),
+                               "AS",offsetof(S1,AS),
+                               "AR",offsetof(S1,AR),
+                               "RM",offsetof(S1,RM),
+                               "CCOPT",offsetof(S1,CCOPT),
+                               "LDOPT",offsetof(S1,LDOPT),
+                               "ASOPT",offsetof(S1,ASOPT),
+                               "LDOPT_DESKTOP",offsetof(S1,LDOPT_DESKTOP),
+                               "CORELIB",offsetof(S1,CORELIB)
+                              );
+        }
+       return ret;
+
+       case 2 :
+        {
+         indexes[1]=struct_node->index;
+         ind_map[struct_node->index]=2;
+
+         ret.set<S2>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "CCORE_ROOT",offsetof(S2,CCORE_ROOT),
+                               "CCORE_TARGET",offsetof(S2,CCORE_TARGET),
+                               "OBJ_PATH",offsetof(S2,OBJ_PATH),
+                               "SRC_PATH_LIST",offsetof(S2,SRC_PATH_LIST),
+                               "CCOPT_EXTRA",offsetof(S2,CCOPT_EXTRA),
+                               "LDOPT_EXTRA",offsetof(S2,LDOPT_EXTRA),
+                               "TARGET",offsetof(S2,TARGET),
+                               "target",offsetof(S2,target),
+                               "tools",offsetof(S2,tools)
                               );
         }
        return ret;
@@ -61,10 +86,29 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,
                                DDL::MapText
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 2 :
+        {
+         DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
+                               DDL::MapRange< DDL::MapText >,
+                               DDL::MapRange< DDL::MapText >,
+                               DDL::MapText,
+                               DDL::sint_type,
+                               DDL::MapPtr< S1 >
                               >(*this,struct_node);
         }
        break;
@@ -84,5 +128,11 @@ template <>
 struct TypeSet::IsStruct<TypeDefCore::S1>
  {
   static bool Do(const ulen *indexes,ulen index) { return index==indexes[0]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S2>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[1]; }
  };
 

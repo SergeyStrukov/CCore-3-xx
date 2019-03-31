@@ -4,7 +4,8 @@ struct TypeDefCore
  {
   // types
 
-  struct S1; // #Param 
+  struct S1; // #Tools 
+  struct S2; // #Param 
 
 
 
@@ -14,6 +15,22 @@ struct TypeDefCore
 
   struct S1
    {
+    DDL::MapText CC;
+    DDL::MapText LD;
+    DDL::MapText AS;
+    DDL::MapText AR;
+    DDL::MapText RM;
+    DDL::MapRange< DDL::MapText > CCOPT;
+    DDL::MapRange< DDL::MapText > LDOPT;
+    DDL::MapRange< DDL::MapText > ASOPT;
+    DDL::MapRange< DDL::MapText > LDOPT_DESKTOP;
+    DDL::MapText CORELIB;
+
+    struct Ext;
+   };
+
+  struct S2
+   {
     DDL::MapText CCORE_ROOT;
     DDL::MapText CCORE_TARGET;
     DDL::MapText OBJ_PATH;
@@ -21,6 +38,8 @@ struct TypeDefCore
     DDL::MapRange< DDL::MapText > CCOPT_EXTRA;
     DDL::MapRange< DDL::MapText > LDOPT_EXTRA;
     DDL::MapText TARGET;
+    DDL::sint_type target;
+    DDL::MapPtr< S1 > tools;
 
     struct Ext;
    };
@@ -33,7 +52,8 @@ using XXX212CD757_09B3_4D89_BE20_65C1E4E5A819 = TypeDefCore ;
 
 namespace TypeDef {
 
-    using Param = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
+    using Param = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
+    using Tools = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
 
 } // namespace TypeDef
 

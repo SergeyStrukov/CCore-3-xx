@@ -1,4 +1,4 @@
-/* VMakeList.h */
+/* Engine.h */
 //----------------------------------------------------------------------------------------
 //
 //  Project: VMakeList 1.00
@@ -11,8 +11,8 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef App_VMakeList_h
-#define App_VMakeList_h
+#ifndef App_Engine_h
+#define App_Engine_h
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
@@ -29,31 +29,22 @@ using namespace CCore;
 
 /* classes */
 
-class DataFile;
+class Engine;
 
-/* class DataFile */
+/* class Engine */
 
-class DataFile : NoCopy
+class Engine : NoCopy
  {
-   void *mem = 0 ;
-
-   TypeDef::Param * param = 0 ;
-
-  private:
-
-   static StrLen Pretext();
-
   public:
 
-   explicit DataFile(StrLen file_name);
+   Engine(TypeDef::Param *param,StrLen root,StrLen target,TypeDef::Tools *tools,StrLen dst_file_name);
 
-   ~DataFile();
+   ~Engine();
 
-   TypeDef::Param * getParam() const { return param; }
+   int run();
  };
 
 } // namespace App
 
 #endif
-
 

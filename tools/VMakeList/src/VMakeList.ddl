@@ -11,6 +11,11 @@
 //
 //----------------------------------------------------------------------------------------
 
+int TargetConsole = 1 ;
+int TargetDesktop = 2 ;
+int TargetLib     = 3 ;
+int TargetCCore   = 4 ;
+
 struct Param
  {
   text CCORE_ROOT = "" ;
@@ -26,6 +31,29 @@ struct Param
   text[] LDOPT_EXTRA = {} ;
   
   text TARGET = "./main.exe" ;
+  
+  int target;
+  
+  Tools * tools = null ;
  };
  
- 
+struct Tools
+ {
+  text CC = "g++" ;
+  text LD = "g++" ;
+  text AS = "as" ;
+  text AR = "ar" ;
+  text RM = "rm -f" ;
+  
+  text[] CCOPT;
+  text[] LDOPT;
+  text[] ASOPT;
+  
+  text[] LDOPT_DESKTOP;
+  
+  text CORELIB;
+ };
+
+
+
+
