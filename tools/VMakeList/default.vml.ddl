@@ -83,7 +83,11 @@ Tools ToolsData = {
           "-I#CCORE_ROOT;/Desktop/Tools",
           "-I#CCORE_ROOT;/Desktop/App",
           
-          "#CCOPT_EXTRA;"
+          "#CCOPT_EXTRA;",
+          
+          "#SRC;",
+          "-o",
+          "#DST;"
          },
 
 .LDOPT = {
