@@ -41,8 +41,8 @@ Tools ToolsData = {
 
 //-----------------------------------------------
 
-.CC = "/opt/gcc-8.3.0/bin/g++-8.3.0" ,
-.LD = "/opt/gcc-8.3.0/bin/g++-8.3.0" ,
+.CC = "#ROOT;/opt/gcc-8.3.0/bin/g++-8.3.0" ,
+.LD = "#ROOT;/opt/gcc-8.3.0/bin/g++-8.3.0" ,
   
 //-----------------------------------------------
 
@@ -89,8 +89,16 @@ Tools ToolsData = {
           "-o",
           "#DST;"
          },
+         
+.ASOPT = {
+          "#SRC;",
+          "-o",
+          "#DST;"
+         },         
 
 .LDOPT = {
+          "#SRC;",
+          
           "-Wl,-s",
           "#LDOPT_DESKTOP;",
           "#LDOPT_EXTRA;",
@@ -98,7 +106,10 @@ Tools ToolsData = {
           "-lws2_32",
           "-lgmp",
           "-lgdi32",
-          "-lfreetype"
+          "-lfreetype",
+          
+          "-o",
+          "#DST;"
          },
   
 .LDOPT_DESKTOP = {"-Wl,--subsystem,windows"}

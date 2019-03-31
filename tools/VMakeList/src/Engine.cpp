@@ -15,6 +15,8 @@
 
 #include <CCore/inc/PrintStem.h>
 
+#include <CCore/inc/video/Desktop.h>
+
 #include <CCore/inc/Exception.h>
 
 namespace App {
@@ -109,7 +111,7 @@ void FindFiles::appendFile(StrLen path,StrLen name)
     }
   else if( name.hasSuffix(".s"_c) )
     {
-     s_list.append_fill(pool.cat(path,"/"_c,name),name.len);
+     asm_list.append_fill(pool.cat(path,"/"_c,name),name.len);
     }
  }
 
@@ -180,7 +182,7 @@ void Engine::printSubList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psr
  {
   for(ulen i : IndLim(list.len) )
     {
-     if( i ) Putobj(out,"\n, "_c);
+     if( i ) Putobj(out,"\n ,"_c);
 
      StrLen str=list[i];
 
@@ -255,6 +257,20 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
      return;
     }
 
+  if( str.equal("ROOT"_c) ) // TODO
+    {
+     printFrame("D:/cygwin"_c);
+
+     return;
+    }
+
+  if( str.equal("HOME"_c) ) // TODO
+    {
+     printFrame("D:/active/home"_c);
+
+     return;
+    }
+
   if( str.equal("SRC"_c) )
     {
      psrc(out);
@@ -322,6 +338,13 @@ void Engine::printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
     }
  }
 
+void Engine::printElem(PrinterType &out,StrLen str)
+ {
+  auto func = [] (auto &) { Printf(Exception,"No SRC or DST here"); } ;
+
+  printElem(out,str,func,func);
+ }
+
 template <class FuncSrc,class FuncDst>
 void Engine::printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst)
  {
@@ -329,7 +352,7 @@ void Engine::printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,F
 
   for(ulen i : IndLim(list.len) )
     {
-     if( i ) Putobj(out,"\n, "_c); else Putobj(out,"\n  "_c);
+     if( i ) Putobj(out,"\n ,"_c); else Putobj(out,"\n  "_c);
 
      StrLen str=list[i];
 
@@ -360,18 +383,40 @@ int Engine::run()
      FindFiles find(param->SRC_PATH_LIST);
 
      FileList cpp_list(find.cpp_list);
-     FileList s_list(find.s_list);
+     FileList asm_list(find.asm_list);
 
      cpp_list.process();
-     s_list.process();
+     asm_list.process();
 
      PrintFile out(dst_file_name);
 
      Printf(out,"text OBJ_PATH = \"#;\" ;\n\n",DDLString(param->OBJ_PATH));
 
-     Printf(out,"text CC = \"#;\" ;\n\n",DDLString(tools->CC));
+     Putobj(out,"text CC = "_c);
 
-     // 1
+     printElem(out,tools->CC);
+
+     Putobj(out," ;\n\n"_c);
+
+     Putobj(out,"text AS = "_c);
+
+     printElem(out,tools->AS);
+
+     Putobj(out," ;\n\n"_c);
+
+     Putobj(out,"text LD = "_c);
+
+     printElem(out,tools->LD);
+
+     Putobj(out," ;\n\n"_c);
+
+     Putobj(out,"text TARGET = "_c);
+
+     printElem(out,param->TARGET);
+
+     Putobj(out," ;\n\n"_c);
+
+     // cpp
 
      {
       cpp_list.apply( [&] (ulen ind,FileName fn)
@@ -395,10 +440,86 @@ int Engine::run()
                           } );
      }
 
-     // 2
+     // asm
 
      {
+      asm_list.apply( [&] (ulen ind,FileName fn)
+                          {
+                           Printf(out,"Target asm#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
+
+                           StrLen cutname=fn.name;
+
+                           Printf(out,"Target oasm#; = { \"#;.o\" , OBJ_PATH+\"/#;.o\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+
+                           Printf(out,"Rule rasm#; = { {&asm#;} , {&oasm#;} , {&exeasm#;} } ;\n",ind,ind,ind,ind);
+
+                           Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , ",ind,DDLString(fn.name));
+
+                           printList(out,tools->ASOPT,
+                                         [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ,
+                                         [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } );
+
+                           Putobj(out," } ;\n\n"_c);
+
+                          } );
      }
+
+     // ld
+
+     if( param->target==TargetConsole || param->target==TargetDesktop )
+       {
+        Putobj(out,"Target main = { 'main' , TARGET } ;\n\n"_c);
+
+        Putobj(out,"Rule rmain = { {"_c);
+
+        PrintFirst stem("\n  "_c,"\n ,"_c);
+
+        cpp_list.apply( [&] (ulen ind,FileName)
+                            {
+                             Printf(out,"#;&ocpp#;",stem,ind);
+
+                            } );
+
+        asm_list.apply( [&] (ulen ind,FileName)
+                            {
+                             Printf(out,"#;&oasm#;",stem,ind);
+
+                            } );
+
+        Putobj(out,"\n} , {&main} , {&exemain} } ;\n\n"_c);
+
+        Putobj(out,"Exe exemain = { 'LD' , LD , "_c);
+
+        printList(out,tools->LDOPT,
+
+                      [&] (auto &out)
+                          {
+                           PrintFirst stem(""_c,"\n ,"_c);
+
+                           cpp_list.apply( [&] (ulen ind,FileName)
+                                               {
+                                                Printf(out,"#;ocpp#;.file",stem,ind);
+
+                                               } );
+
+                           asm_list.apply( [&] (ulen ind,FileName)
+                                               {
+                                                Printf(out,"#;oasm#;.file",stem,ind);
+
+                                               } );
+
+                          } ,
+
+                      [&] (auto &out) { Putobj(out,"TARGET"_c); } );
+
+        Putobj(out," } ;\n\n"_c);
+       }
+
+     // ar
+
+     if( param->target==TargetLib || param->target==TargetCCore )
+       {
+       }
 
      return 0;
     }

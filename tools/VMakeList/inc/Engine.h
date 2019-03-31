@@ -144,7 +144,7 @@ class FindFiles : NoCopy
   public:
 
    Collector<FileName> cpp_list;
-   Collector<FileName> s_list;
+   Collector<FileName> asm_list;
 
    explicit FindFiles(PtrLen<DDL::MapText> dir_list);
  };
@@ -226,6 +226,8 @@ class Engine : NoCopy
 
    template <class FuncSrc,class FuncDst>
    void printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+
+   void printElem(PrinterType &out,StrLen str);
 
    template <class FuncSrc,class FuncDst>
    void printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
