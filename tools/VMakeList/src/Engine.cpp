@@ -13,10 +13,6 @@
 
 #include <inc/Engine.h>
 
-#include <CCore/inc/PrintStem.h>
-
-#include <CCore/inc/video/Desktop.h>
-
 #include <CCore/inc/Exception.h>
 
 namespace App {
@@ -177,82 +173,42 @@ bool Engine::TestSingle(StrLen str)
   return true;
  }
 
-template <class FuncSrc,class FuncDst>
-void Engine::printSubList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst)
+template <class Func>
+void Engine::printBy(PrinterType &,Func)
  {
-  for(ulen i : IndLim(list.len) )
-    {
-     if( i ) Putobj(out,"\n ,"_c);
-
-     StrLen str=list[i];
-
-     printElem(out,str,psrc,pdst);
-    }
+  Printf(Exception,"incompatible variable value");
  }
 
-template <class FuncSrc,class FuncDst>
-bool Engine::printSub(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
+template <FuncArgType<PrintBase &> Func>
+void Engine::printBy(PrinterType &out,Func func)
  {
-  if( !TestSingle(str) ) return false;
-
-  str=str.inner(1,1);
-
-  PtrLen<DDL::MapText> list;
-
-  if( str.equal("CCOPT_EXTRA"_c) )
-    {
-     printSubList(out,param->CCOPT_EXTRA,psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("LDOPT_EXTRA"_c) )
-    {
-     printSubList(out,param->LDOPT_EXTRA,psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("ASOPT_EXTRA"_c) )
-    {
-     printSubList(out,param->ASOPT_EXTRA,psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("LDOPT_DESKTOP"_c) )
-    {
-     if( param->target==TargetDesktop )
-       printSubList(out,tools->LDOPT_DESKTOP,psrc,pdst);
-
-     return true;
-    }
-
-  return false;
+  func(out);
  }
 
 template <class FuncSrc,class FuncDst>
 void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
  {
+  LockUse lock(level);
+
   auto printFrame = [&] (StrLen str) { Printf(out,"\"#;\"",DDLString(str)); } ;
 
   if( str.equal("CCORE_ROOT"_c) )
     {
-     printFrame(param->CCORE_ROOT);
+     printText(out,param->CCORE_ROOT,psrc,pdst);
 
      return;
     }
 
   if( str.equal("CCORE_TARGET"_c) )
     {
-     printFrame(param->CCORE_TARGET);
+     printText(out,param->CCORE_TARGET,psrc,pdst);
 
      return;
     }
 
   if( str.equal("CORELIB"_c) )
     {
-     printElem(out,tools->CORELIB,psrc,pdst);
+     printText(out,tools->CORELIB,psrc,pdst);
 
      return;
     }
@@ -273,14 +229,14 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
 
   if( str.equal("SRC"_c) )
     {
-     psrc(out);
+     printBy(out,psrc);
 
      return;
     }
 
   if( str.equal("DST"_c) )
     {
-     pdst(out);
+     printBy(out,pdst);
 
      return;
     }
@@ -289,8 +245,15 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
  }
 
 template <class FuncSrc,class FuncDst>
-void Engine::printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
+void Engine::printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
  {
+  if( !str )
+    {
+     Putobj(out,"''");
+
+     return;
+    }
+
   PrintFirst stem(""_c,"+"_c);
 
   auto printFrame = [&] (StrLen str) { Printf(out,"#;\"#;\"",stem,DDLString(str)); } ;
@@ -326,6 +289,8 @@ void Engine::printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
            else
              {
               printFrame(str);
+
+              return;
              }
           }
        }
@@ -338,28 +303,116 @@ void Engine::printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
     }
  }
 
-void Engine::printElem(PrinterType &out,StrLen str)
+void Engine::printText(PrinterType &out,StrLen str)
  {
-  auto func = [] (auto &) { Printf(Exception,"No SRC or DST here"); } ;
+  auto psrc = [] (auto &) { Printf(Exception,"unknown variable SRC"); } ;
 
-  printElem(out,str,func,func);
+  auto pdst = [] (auto &) { Printf(Exception,"unknown variable DST"); } ;
+
+  printText(out,str,psrc,pdst);
+ }
+
+void Engine::printText(PrinterType &out,StrLen name,StrLen str)
+ {
+  auto func = [&] (auto &out) { printText(out,str); } ;
+
+  Printf(out,"text #; = #; ;\n\n",name,PrintByFunc(func));
+ }
+
+template <class FuncSrc,class FuncDst>
+void Engine::printSubList(PrinterType &out,PrintFirst &stem,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst)
+ {
+  LockUse lock(level);
+
+  for(StrLen str : list )
+    {
+     if( !printSub(out,stem,str,psrc,pdst) )
+       {
+        Putobj(out,stem);
+
+        printText(out,str,psrc,pdst);
+       }
+    }
+ }
+
+template <class Func>
+void Engine::printBy(PrinterType &out,PrintFirst &stem,Func func)
+ {
+  func(out,stem);
+ }
+
+template <FuncArgType<PrintBase &> Func>
+void Engine::printBy(PrinterType &out,PrintFirst &stem,Func func)
+ {
+  Putobj(out,stem);
+
+  func(out);
+ }
+
+template <class FuncSrc,class FuncDst>
+bool Engine::printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst)
+ {
+  if( !TestSingle(str) ) return false;
+
+  str=str.inner(1,1);
+
+  if( str.equal("CCOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->CCOPT_EXTRA,psrc,pdst);
+
+     return true;
+    }
+
+  if( str.equal("LDOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->LDOPT_EXTRA,psrc,pdst);
+
+     return true;
+    }
+
+  if( str.equal("ASOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->ASOPT_EXTRA,psrc,pdst);
+
+     return true;
+    }
+
+  if( str.equal("LDOPT_DESKTOP"_c) )
+    {
+     if( param->target==TargetDesktop )
+       printSubList(out,stem,tools->LDOPT_DESKTOP,psrc,pdst);
+
+     return true;
+    }
+
+  if( str.equal("SRC"_c) )
+    {
+     printBy(out,stem,psrc);
+
+     return true;
+    }
+
+  if( str.equal("DST"_c) )
+    {
+     printBy(out,stem,pdst);
+
+     return true;
+    }
+
+  return false;
  }
 
 template <class FuncSrc,class FuncDst>
 void Engine::printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst)
  {
-  Putobj(out,"\n{");
+  out.put('{');
 
-  for(ulen i : IndLim(list.len) )
-    {
-     if( i ) Putobj(out,"\n ,"_c); else Putobj(out,"\n  "_c);
+  PrintFirst stem("\n  "_c,"\n ,"_c);
 
-     StrLen str=list[i];
+  printSubList(out,stem,list,psrc,pdst);
 
-     if( !printSub(out,str,psrc,pdst) ) printElem(out,str,psrc,pdst);
-    }
-
-  Putobj(out,"\n}\n");
+  out.put('\n');
+  out.put('}');
  }
 
 Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen dst_file_name_)
@@ -390,31 +443,15 @@ int Engine::run()
 
      PrintFile out(dst_file_name);
 
-     Printf(out,"text OBJ_PATH = \"#;\" ;\n\n",DDLString(param->OBJ_PATH));
+     printText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
-     Putobj(out,"text CC = "_c);
+     printText(out,"CC"_c,tools->CC);
 
-     printElem(out,tools->CC);
+     printText(out,"AS"_c,tools->AS);
 
-     Putobj(out," ;\n\n"_c);
+     printText(out,"LD"_c,tools->LD);
 
-     Putobj(out,"text AS = "_c);
-
-     printElem(out,tools->AS);
-
-     Putobj(out," ;\n\n"_c);
-
-     Putobj(out,"text LD = "_c);
-
-     printElem(out,tools->LD);
-
-     Putobj(out," ;\n\n"_c);
-
-     Putobj(out,"text TARGET = "_c);
-
-     printElem(out,param->TARGET);
-
-     Putobj(out," ;\n\n"_c);
+     printText(out,"TARGET"_c,param->TARGET);
 
      // cpp
 
@@ -429,13 +466,13 @@ int Engine::run()
 
                            Printf(out,"Rule rcpp#; = { {&cpp#;} , {&ocpp#;} , {&execpp#;} } ;\n",ind,ind,ind,ind);
 
-                           Printf(out,"Exe execpp#; = { \"CC #;\" , CC , ",ind,DDLString(fn.name));
+                           auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
 
-                           printList(out,tools->CCOPT,
-                                         [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ,
-                                         [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } );
+                           auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } ;
 
-                           Putobj(out," } ;\n\n"_c);
+                           auto func = [&] (auto &out) { printList(out,tools->CCOPT,psrc,pdst); } ;
+
+                           Printf(out,"Exe execpp#; = { \"CC #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintByFunc(func));
 
                           } );
      }
@@ -453,13 +490,13 @@ int Engine::run()
 
                            Printf(out,"Rule rasm#; = { {&asm#;} , {&oasm#;} , {&exeasm#;} } ;\n",ind,ind,ind,ind);
 
-                           Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , ",ind,DDLString(fn.name));
+                           auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
 
-                           printList(out,tools->ASOPT,
-                                         [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ,
-                                         [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } );
+                           auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } ;
 
-                           Putobj(out," } ;\n\n"_c);
+                           auto func = [&] (auto &out) { printList(out,tools->ASOPT,psrc,pdst); } ;
+
+                           Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , #; } ;\n\n",ind,DDLString(fn.name),PrintByFunc(func));
 
                           } );
      }
@@ -470,49 +507,55 @@ int Engine::run()
        {
         Putobj(out,"Target main = { 'main' , TARGET } ;\n\n"_c);
 
-        Putobj(out,"Rule rmain = { {"_c);
+        auto func1 = [&] (auto &out)
+                         {
+                          out.put('{');
 
-        PrintFirst stem("\n  "_c,"\n ,"_c);
+                          PrintFirst stem("\n  "_c,"\n ,"_c);
 
-        cpp_list.apply( [&] (ulen ind,FileName)
-                            {
-                             Printf(out,"#;&ocpp#;",stem,ind);
+                          cpp_list.apply( [&] (ulen ind,FileName)
+                                              {
+                                               Printf(out,"#;&ocpp#;",stem,ind);
 
-                            } );
+                                              } );
 
-        asm_list.apply( [&] (ulen ind,FileName)
-                            {
-                             Printf(out,"#;&oasm#;",stem,ind);
+                          asm_list.apply( [&] (ulen ind,FileName)
+                                              {
+                                               Printf(out,"#;&oasm#;",stem,ind);
 
-                            } );
+                                              } );
 
-        Putobj(out,"\n} , {&main} , {&exemain} } ;\n\n"_c);
+                          out.put('\n');
+                          out.put('}');
 
-        Putobj(out,"Exe exemain = { 'LD' , LD , "_c);
+                         } ;
 
-        printList(out,tools->LDOPT,
+        Printf(out,"Rule rmain = { #; , {&main} , {&exemain} } ;\n\n",PrintByFunc(func1));
 
-                      [&] (auto &out)
-                          {
-                           PrintFirst stem(""_c,"\n ,"_c);
+        auto func2 = [&] (auto &out)
+                         {
+                          auto psrc = [&] (auto &out,PrintFirst &stem)
+                                          {
+                                           cpp_list.apply( [&] (ulen ind,FileName)
+                                                               {
+                                                                Printf(out,"#;ocpp#;.file",stem,ind);
 
-                           cpp_list.apply( [&] (ulen ind,FileName)
-                                               {
-                                                Printf(out,"#;ocpp#;.file",stem,ind);
+                                                               } );
 
-                                               } );
+                                           asm_list.apply( [&] (ulen ind,FileName)
+                                                               {
+                                                                Printf(out,"#;oasm#;.file",stem,ind);
 
-                           asm_list.apply( [&] (ulen ind,FileName)
-                                               {
-                                                Printf(out,"#;oasm#;.file",stem,ind);
+                                                               } );
+                                          } ;
 
-                                               } );
+                          auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
-                          } ,
+                          printList(out,tools->LDOPT,psrc,pdst);
 
-                      [&] (auto &out) { Putobj(out,"TARGET"_c); } );
+                         } ;
 
-        Putobj(out," } ;\n\n"_c);
+        Printf(out,"Exe exemain = { 'LD' , LD , #; } ;\n\n",PrintByFunc(func2));
        }
 
      // ar

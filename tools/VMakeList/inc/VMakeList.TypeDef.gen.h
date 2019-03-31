@@ -16,13 +16,13 @@ struct TypeDefCore
   struct S1
    {
     DDL::MapText CC;
-    DDL::MapText LD;
     DDL::MapText AS;
+    DDL::MapText LD;
     DDL::MapText AR;
     DDL::MapText RM;
     DDL::MapRange< DDL::MapText > CCOPT;
-    DDL::MapRange< DDL::MapText > LDOPT;
     DDL::MapRange< DDL::MapText > ASOPT;
+    DDL::MapRange< DDL::MapText > LDOPT;
     DDL::MapRange< DDL::MapText > LDOPT_DESKTOP;
     DDL::MapText CORELIB;
 
@@ -36,8 +36,8 @@ struct TypeDefCore
     DDL::MapText OBJ_PATH;
     DDL::MapRange< DDL::MapText > SRC_PATH_LIST;
     DDL::MapRange< DDL::MapText > CCOPT_EXTRA;
-    DDL::MapRange< DDL::MapText > LDOPT_EXTRA;
     DDL::MapRange< DDL::MapText > ASOPT_EXTRA;
+    DDL::MapRange< DDL::MapText > LDOPT_EXTRA;
     DDL::MapText TARGET;
     DDL::sint_type target;
     DDL::MapPtr< S1 > tools;

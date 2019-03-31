@@ -33,13 +33,13 @@ struct TypeSet : TypeDefCore
 
          DDL::SetFieldOffsets(struct_node,
                                "CC",offsetof(S1,CC),
-                               "LD",offsetof(S1,LD),
                                "AS",offsetof(S1,AS),
+                               "LD",offsetof(S1,LD),
                                "AR",offsetof(S1,AR),
                                "RM",offsetof(S1,RM),
                                "CCOPT",offsetof(S1,CCOPT),
-                               "LDOPT",offsetof(S1,LDOPT),
                                "ASOPT",offsetof(S1,ASOPT),
+                               "LDOPT",offsetof(S1,LDOPT),
                                "LDOPT_DESKTOP",offsetof(S1,LDOPT_DESKTOP),
                                "CORELIB",offsetof(S1,CORELIB)
                               );
@@ -59,8 +59,8 @@ struct TypeSet : TypeDefCore
                                "OBJ_PATH",offsetof(S2,OBJ_PATH),
                                "SRC_PATH_LIST",offsetof(S2,SRC_PATH_LIST),
                                "CCOPT_EXTRA",offsetof(S2,CCOPT_EXTRA),
-                               "LDOPT_EXTRA",offsetof(S2,LDOPT_EXTRA),
                                "ASOPT_EXTRA",offsetof(S2,ASOPT_EXTRA),
+                               "LDOPT_EXTRA",offsetof(S2,LDOPT_EXTRA),
                                "TARGET",offsetof(S2,TARGET),
                                "target",offsetof(S2,target),
                                "tools",offsetof(S2,tools)

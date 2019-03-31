@@ -11,8 +11,7 @@ text TARGET = "D:/active/home"+"/bin/CCore-VMakeList.exe" ;
 Target cpp1 = { "Engine.cpp" , "src/Engine.cpp" } ;
 Target ocpp1 = { "Engine.o" , OBJ_PATH+"/Engine.o" } ;
 Rule rcpp1 = { {&cpp1} , {&ocpp1} , {&execpp1} } ;
-Exe execpp1 = { "CC Engine.cpp" , CC , 
-{
+Exe execpp1 = { "CC Engine.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -46,14 +45,12 @@ Exe execpp1 = { "CC Engine.cpp" , CC ,
  ,"src/Engine.cpp"
  ,"-o"
  ,OBJ_PATH+"/Engine.o"
-}
- } ;
+} } ;
 
 Target cpp2 = { "VMakeList.cpp" , "src/VMakeList.cpp" } ;
 Target ocpp2 = { "VMakeList.o" , OBJ_PATH+"/VMakeList.o" } ;
 Rule rcpp2 = { {&cpp2} , {&ocpp2} , {&execpp2} } ;
-Exe execpp2 = { "CC VMakeList.cpp" , CC , 
-{
+Exe execpp2 = { "CC VMakeList.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -87,14 +84,12 @@ Exe execpp2 = { "CC VMakeList.cpp" , CC ,
  ,"src/VMakeList.cpp"
  ,"-o"
  ,OBJ_PATH+"/VMakeList.o"
-}
- } ;
+} } ;
 
 Target cpp3 = { "main.cpp" , "src/main.cpp" } ;
 Target ocpp3 = { "main.o" , OBJ_PATH+"/main.o" } ;
 Rule rcpp3 = { {&cpp3} , {&ocpp3} , {&execpp3} } ;
-Exe execpp3 = { "CC main.cpp" , CC , 
-{
+Exe execpp3 = { "CC main.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -128,8 +123,7 @@ Exe execpp3 = { "CC main.cpp" , CC ,
  ,"src/main.cpp"
  ,"-o"
  ,OBJ_PATH+"/main.o"
-}
- } ;
+} } ;
 
 Target main = { 'main' , TARGET } ;
 
@@ -139,14 +133,11 @@ Rule rmain = { {
  ,&ocpp3
 } , {&main} , {&exemain} } ;
 
-Exe exemain = { 'LD' , LD , 
-{
+Exe exemain = { 'LD' , LD , {
   ocpp1.file
  ,ocpp2.file
  ,ocpp3.file
  ,"-Wl,-s"
- ,
- ,
  ,"../.."+"/Target/"+"WIN32utf8"+"/CCore.a"
  ,"-lws2_32"
  ,"-lgmp"
@@ -154,6 +145,5 @@ Exe exemain = { 'LD' , LD ,
  ,"-lfreetype"
  ,"-o"
  ,TARGET
-}
- } ;
+} } ;
 

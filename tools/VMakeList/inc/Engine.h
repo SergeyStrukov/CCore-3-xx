@@ -21,6 +21,7 @@
 #include <CCore/inc/Path.h>
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/DirTreeRun.h>
+#include <CCore/inc/PrintStem.h>
 #include <CCore/inc/Print.h>
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
@@ -51,6 +52,8 @@ enum TargetType : int
 struct ScanStr;
 
 struct DDLString;
+
+template <class Func> struct PrintByFunc;
 
 class FindFiles;
 
@@ -108,6 +111,23 @@ struct DDLString
   void print(PrinterType &out) const
    {
     for(char ch : str ) PrintChar(out,ch);
+   }
+ };
+
+/* struct PrintByFunc<Func> */
+
+template <class Func>
+struct PrintByFunc
+ {
+  Func func;
+
+  explicit PrintByFunc(const Func &func_) : func(func_) {}
+
+  // print object
+
+  void print(PrinterType &out) const
+   {
+    func(out);
    }
  };
 
@@ -205,6 +225,8 @@ class Engine : NoCopy
    StrLen src_file_name;
    StrLen dst_file_name;
 
+   unsigned level = 100 ;
+
   private:
 
    bool prepareRoot();
@@ -215,19 +237,33 @@ class Engine : NoCopy
 
    static bool TestSingle(StrLen str);
 
-   template <class FuncSrc,class FuncDst>
-   void printSubList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
+   template <class Func>
+   void printBy(PrinterType &out,Func func);
 
-   template <class FuncSrc,class FuncDst>
-   bool printSub(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+   template <FuncArgType<PrintBase &> Func>
+   void printBy(PrinterType &out,Func func);
 
    template <class FuncSrc,class FuncDst>
    void printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
 
    template <class FuncSrc,class FuncDst>
-   void printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+   void printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
 
-   void printElem(PrinterType &out,StrLen str);
+   void printText(PrinterType &out,StrLen str);
+
+   void printText(PrinterType &out,StrLen name,StrLen str);
+
+   template <class FuncSrc,class FuncDst>
+   void printSubList(PrinterType &out,PrintFirst &stem,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
+
+   template <class Func>
+   void printBy(PrinterType &out,PrintFirst &stem,Func func);
+
+   template <FuncArgType<PrintBase &> Func>
+   void printBy(PrinterType &out,PrintFirst &stem,Func func);
+
+   template <class FuncSrc,class FuncDst>
+   bool printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst);
 
    template <class FuncSrc,class FuncDst>
    void printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);

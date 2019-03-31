@@ -28,9 +28,9 @@ struct Param
 
   text[] CCOPT_EXTRA = {} ;
 
-  text[] LDOPT_EXTRA = {} ;
-  
   text[] ASOPT_EXTRA = {} ;
+  
+  text[] LDOPT_EXTRA = {} ;
   
   text TARGET = "./main.exe" ;
   
@@ -42,14 +42,15 @@ struct Param
 struct Tools
  {
   text CC = "g++" ;
+  text AS = "as"  ;
   text LD = "g++" ;
-  text AS = "as" ;
-  text AR = "ar" ;
+  text AR = "ar"  ;
+  
   text RM = "rm -f" ;
   
   text[] CCOPT;
-  text[] LDOPT;
   text[] ASOPT;
+  text[] LDOPT;
   
   text[] LDOPT_DESKTOP;
   
