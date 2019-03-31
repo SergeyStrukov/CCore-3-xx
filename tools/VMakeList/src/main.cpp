@@ -15,57 +15,9 @@
 #include <CCore/inc/Exception.h>
 
 #include <inc/VMakeList.h>
+#include <inc/Engine.h>
 
 namespace App {
-
-/* Main() */
-
-int Main(TypeDef::Param *param,StrLen root,StrLen target,TypeDef::Tools *tools,StrLen dst_file_name)
- {
-  Used(param);
-  Used(root);
-  Used(target);
-  Used(tools);
-  Used(dst_file_name);
-
-  return 1;
- }
-
-/* Main() */
-
-int Main(TypeDef::Param *param,StrLen root,StrLen target,StrLen dst_file_name)
- {
-  TypeDef::Tools *tools=param->tools;
-
-  if( !tools )
-    {
-     // TODO
-
-     return 1;
-    }
-  else
-    {
-     return Main(param,root,target,tools,dst_file_name);
-    }
- }
-
-/* Main() */
-
-int Main(TypeDef::Param *param,StrLen root,StrLen dst_file_name)
- {
-  StrLen target=param->CCORE_TARGET;
-
-  if( !target )
-    {
-     // TODO
-
-     return 1;
-    }
-  else
-    {
-     return Main(param,root,target,dst_file_name);
-    }
- }
 
 /* Main() */
 
@@ -73,20 +25,9 @@ int Main(StrLen src_file_name,StrLen dst_file_name)
  {
   DataFile data(src_file_name);
 
-  TypeDef::Param *param=data.getParam();
+  Engine engine(data.getParam(),src_file_name,dst_file_name);
 
-  StrLen root=param->CCORE_ROOT;
-
-  if( !root )
-    {
-     // TODO
-
-     return 1;
-    }
-  else
-    {
-     return Main(param,root,dst_file_name);
-    }
+  return engine.run();
  }
 
 } // namespace App

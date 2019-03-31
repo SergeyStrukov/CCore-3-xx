@@ -14,6 +14,8 @@
 #ifndef App_Engine_h
 #define App_Engine_h
 
+#include <CCore/inc/Print.h>
+
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
 namespace App {
@@ -35,9 +37,26 @@ class Engine;
 
 class Engine : NoCopy
  {
+   TypeDef::Param *param;
+
+   StrLen root;
+   StrLen target;
+   TypeDef::Tools *tools;
+
+   StrLen src_file_name;
+   StrLen dst_file_name;
+
+  private:
+
+   bool prepareRoot();
+
+   bool prepareTarget();
+
+   bool prepareTools();
+
   public:
 
-   Engine(TypeDef::Param *param,StrLen root,StrLen target,TypeDef::Tools *tools,StrLen dst_file_name);
+   Engine(TypeDef::Param *param,StrLen src_file_name,StrLen dst_file_name);
 
    ~Engine();
 

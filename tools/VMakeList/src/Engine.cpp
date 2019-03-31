@@ -13,17 +13,56 @@
 
 #include <inc/Engine.h>
 
+#include <CCore/inc/Exception.h>
+
 namespace App {
 
 /* class Engine */
 
-Engine::Engine(TypeDef::Param *param,StrLen root,StrLen target,TypeDef::Tools *tools,StrLen dst_file_name)
+bool Engine::prepareRoot()
  {
-  Used(param);
-  Used(root);
-  Used(target);
-  Used(tools);
-  Used(dst_file_name);
+  if( !root )
+    {
+     // TODO
+
+     return false;
+    }
+
+  return true;
+ }
+
+bool Engine::prepareTarget()
+ {
+  if( !target )
+    {
+     // TODO
+
+     return false;
+    }
+
+  return true;
+ }
+
+bool Engine::prepareTools()
+ {
+  if( !tools )
+    {
+     // TODO
+
+     return false;
+    }
+
+  return true;
+ }
+
+Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen dst_file_name_)
+ : param(param_),
+   src_file_name(src_file_name_),
+   dst_file_name(dst_file_name_)
+ {
+  root=param->CCORE_ROOT;
+  target=param->CCORE_TARGET;
+  tools=param->tools;
  }
 
 Engine::~Engine()
@@ -32,6 +71,15 @@ Engine::~Engine()
 
 int Engine::run()
  {
+  if( prepareRoot() && prepareTarget() && prepareTools() )
+    {
+     Printf(Con,"run()\n");
+
+     // TODO
+
+     return 1;
+    }
+
   return 1;
  }
 
