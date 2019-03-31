@@ -60,6 +60,7 @@ struct TypeSet : TypeDefCore
                                "SRC_PATH_LIST",offsetof(S2,SRC_PATH_LIST),
                                "CCOPT_EXTRA",offsetof(S2,CCOPT_EXTRA),
                                "LDOPT_EXTRA",offsetof(S2,LDOPT_EXTRA),
+                               "ASOPT_EXTRA",offsetof(S2,ASOPT_EXTRA),
                                "TARGET",offsetof(S2,TARGET),
                                "target",offsetof(S2,target),
                                "tools",offsetof(S2,tools)
@@ -103,6 +104,7 @@ struct TypeSet : TypeDefCore
                                DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,
                                DDL::MapRange< DDL::MapText >,

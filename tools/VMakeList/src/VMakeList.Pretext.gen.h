@@ -30,6 +30,8 @@
 "\n"
 "  text[] LDOPT_EXTRA = {} ;\n"
 "  \n"
+"  text[] ASOPT_EXTRA = {} ;\n"
+"  \n"
 "  text TARGET = \"./main.exe\" ;\n"
 "  \n"
 "  int target;\n"

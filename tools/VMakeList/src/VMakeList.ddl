@@ -30,6 +30,8 @@ struct Param
 
   text[] LDOPT_EXTRA = {} ;
   
+  text[] ASOPT_EXTRA = {} ;
+  
   text TARGET = "./main.exe" ;
   
   int target;

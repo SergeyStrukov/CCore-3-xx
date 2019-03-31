@@ -36,13 +36,80 @@ using namespace CCore;
 #include "VMakeList.TypeDef.gen.h"
 #endif
 
+/* enum TargetType */
+
+enum TargetType : int
+ {
+  TargetConsole = 1,
+  TargetDesktop = 2,
+  TargetLib     = 3,
+  TargetCCore   = 4
+ };
+
 /* classes */
+
+struct ScanStr;
+
+struct DDLString;
 
 class FindFiles;
 
 class FileList;
 
 class Engine;
+
+/* struct ScanStr */
+
+struct ScanStr
+ {
+  StrLen before;
+  StrLen next; // starts at ch
+
+  ScanStr(StrLen str,char ch);
+ };
+
+/* struct DDLString */
+
+struct DDLString
+ {
+  StrLen str;
+
+  explicit DDLString(StrLen str_) : str(str_) {}
+
+  // print object
+
+  static void PrintChar(PrinterType &out,char ch)
+   {
+    switch( ch )
+      {
+       case '\b' : out.put('\\'); out.put('b'); break;
+
+       case '\t' : out.put('\\'); out.put('t'); break;
+
+       case '\n' : out.put('\\'); out.put('n'); break;
+
+       case '\v' : out.put('\\'); out.put('v'); break;
+
+       case '\f' : out.put('\\'); out.put('f'); break;
+
+       case '\r' : out.put('\\'); out.put('r'); break;
+
+       case '"' : out.put('\\'); out.put('"'); break;
+
+       case '\\' : out.put('\\'); out.put('\\'); break;
+
+       default:
+        {
+         if( CharIsPrintable(ch) ) out.put(ch); else out.put(' ');
+        }
+      }
+   }
+
+  void print(PrinterType &out) const
+   {
+    for(char ch : str ) PrintChar(out,ch);
+   }
+ };
 
 /* struct FileName */
 
@@ -145,6 +212,20 @@ class Engine : NoCopy
    bool prepareTarget();
 
    bool prepareTools();
+
+   static bool TestSingle(StrLen str);
+
+   template <class FuncSrc,class FuncDst>
+   void printSubList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
+
+   template <class FuncSrc,class FuncDst>
+   bool printSub(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+
+   template <class FuncSrc,class FuncDst>
+   void printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+
+   template <class FuncSrc,class FuncDst>
+   void printElem(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
 
    template <class FuncSrc,class FuncDst>
    void printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);

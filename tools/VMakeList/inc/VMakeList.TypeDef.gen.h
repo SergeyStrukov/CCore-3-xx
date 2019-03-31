@@ -37,6 +37,7 @@ struct TypeDefCore
     DDL::MapRange< DDL::MapText > SRC_PATH_LIST;
     DDL::MapRange< DDL::MapText > CCOPT_EXTRA;
     DDL::MapRange< DDL::MapText > LDOPT_EXTRA;
+    DDL::MapRange< DDL::MapText > ASOPT_EXTRA;
     DDL::MapText TARGET;
     DDL::sint_type target;
     DDL::MapPtr< S1 > tools;
