@@ -13,23 +13,13 @@
 
 Param Data = {
 
-//-----------------------------------------------
-
-.CCORE_ROOT = "../.." ,
-
-//-----------------------------------------------
-
 .SRC_PATH_LIST = {"src"} ,
 
 .CCOPT_EXTRA = {"-I."} ,
 
-.TARGET = "#HOME;/bin/CCore-VMakeList.exe",
-
-//-----------------------------------------------
+.TARGET = "#HOME;/bin/CCore-VMakeList.exe" ,
 
 .target = TargetConsole
- 
-//-----------------------------------------------
 
 };
 

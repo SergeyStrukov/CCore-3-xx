@@ -14,6 +14,7 @@
 #include <inc/Engine.h>
 
 #include <CCore/inc/MakeFileName.h>
+#include <CCore/inc/FileSystem.h>
 
 #include <CCore/inc/Exception.h>
 
@@ -128,13 +129,75 @@ FindFiles::FindFiles(PtrLen<DDL::MapText> dir_list)
 
 /* class Engine */
 
+template <class Func>
+bool Engine::Walk(StrLen path,Func func)
+ {
+  SplitPath split(path);
+
+  SplitPathName split1(split.path);
+
+  while( split1.path.len )
+    {
+     if( !func(path.prefix(split.dev.len+split1.path.len)) ) return false;
+
+     split1=SplitPathName(split1.path);
+    }
+
+  if( !split1.no_path )
+    {
+     if( !func(path.prefix(split.dev.len+1)) ) return false;
+    }
+
+  return true;
+ }
+
 void Engine::prepareRoot()
  {
   if( !root )
     {
+     FileSystem fs;
 
+     char temp[MaxPathLen+1];
 
-     // TODO
+     ulen count = 0 ;
+
+     auto func = [&] (StrLen dir)
+                     {
+                      Printf(Con,"try #.q;\n",dir);
+
+                      MakeFileName file(dir,"host.vm.ddl"_c);
+
+                      if( fs.getFileType(file.get())==FileType_file ) return false;
+
+                      count++;
+
+                      return true;
+
+                     } ;
+
+     if( Walk(fs.pathOf(src_file_name,temp),func) )
+       {
+        Printf(Exception,"App : CCORE not found");
+       }
+
+     if( count )
+       {
+        PrintString out;
+
+        Putobj(out,".."_c);
+
+        for(count--; count ;count--) Putobj(out,"/.."_c);
+
+        auto_root=out.close();
+       }
+     else
+       {
+        auto_root="."_c;
+       }
+
+     root=Range(auto_root);
+
+     Printf(Con,"Use auto root #.q;\n",root);
     }
  }
 

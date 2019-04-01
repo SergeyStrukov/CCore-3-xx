@@ -225,10 +225,14 @@ class Engine : NoCopy
    RootDir root_dir;
    HomeDir home_dir;
    String def_target;
+   String auto_root;
 
    OptMember<ToolFile> def_tools;
 
   private:
+
+   template <class Func>
+   static bool Walk(StrLen path,Func func);
 
    void prepareRoot();
 
