@@ -108,7 +108,12 @@ using sem_count_t = int ;
 
 /* struct SecurityAttributes */
 
-struct SecurityAttributes;
+struct SecurityAttributes
+ {
+  ulen_t len;
+  void_ptr desc;
+  bool_t inherit;
+ };
 
 /* struct Overlapped */
 
@@ -396,7 +401,8 @@ enum ProcessCreationFlags
 
 enum StartupInfoFlags
  {
-  StartupInfo_show_window = 0x0001
+  StartupInfo_show_window = 0x0001,
+  StartupInfo_std_handles = 0x0100
  };
 
 /*--------------------------------------------------------------------------------------*/
@@ -664,6 +670,23 @@ bool_t WIN32_API ReadConsoleInputW(handle_t h_con,
                                    ConInputRecord *buf,
                                    ulen_t buf_len,
                                    ulen_t *ret_len);
+
+/*--------------------------------------------------------------------------------------*/
+/* Pipe functions                                                                       */
+/*--------------------------------------------------------------------------------------*/
+
+/* CreatePipe() */
+
+bool_t WIN32_API CreatePipe(handle_t *h_read, handle_t *h_write, SecurityAttributes *sa, ulen_t buf_len);
+
+/* PeekNamedPipe() */
+
+bool_t WIN32_API PeekNamedPipe(handle_t h_read,
+                               void_ptr buf,
+                               ulen_t buf_len,
+                               ulen_t *ret_len,
+                               ulen_t *avail_len,
+                               ulen_t *msgleft_len);
 
 /*--------------------------------------------------------------------------------------*/
 /* File flags and options                                                               */
