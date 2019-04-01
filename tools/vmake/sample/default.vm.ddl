@@ -44,7 +44,7 @@ Exe cmd_test = { "test" , "../test/test.exe" , {"1","2","3"} , ".." , {{"ABRA","
 
 Rule test2 = { {} , {&shell} , {&cmd_test_shell} } ;
 
-Cmd cmd_test_shell = { "shell" , "echo $ABRA\nps\necho $HOME" , "" , {{"ABRA","CODABRA"}} } ;
+Cmd cmd_test_shell = { "shell" , "echo $ABRA\nps\necho $HOME\necho $0" , "" , {{"ABRA","CODABRA"}} } ;
 
 Rule test3 = { {} , {&sh} , {&cmd_test_sh} } ;
 

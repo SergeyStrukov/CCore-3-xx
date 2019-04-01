@@ -13,14 +13,18 @@
 
 Target main = { "main" } ;
 
-Target list = { "list" , "proj.vm.ddl" } ;
+Target proj = { "proj" , "proj.vm.ddl" } ;
 
 Target desc = { "desc" , "default.vml.ddl" } ;
 
-Rule r1 = { {&desc} , {&list} , {&r1exe} } ;
+Rule r1 = { {&desc} , {&proj} , {&r1exe} } ;
 
 Exe r1exe = { "LIST" , "CCore-VMakeList.exe" , { "default.vml.ddl" , "proj.vm.ddl" } } ;
 
-Rule r2 = { {&list} , {&main} , {&r2vmake} } ; 
+Rule r2 = { {&proj} , {&main} , {&r2vmake} } ; 
 
 VMake r2vmake = { "PROJ" , "proj.vm.ddl" } ;
+
+Target list = { "list" } ;
+
+Rule r3 = { {} , {&list} , {&r1exe} } ;

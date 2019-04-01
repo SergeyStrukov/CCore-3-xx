@@ -53,6 +53,8 @@ class <span class="Att">ShellPath</span> : NoCopy
 
 <p>
 This class construct a system shell path. Exact details, how it obtains this information are target-dependent.
+But normally on <b>Linux</b>, it comes from the environment variable <b>SHELL</b>, or fallback to <b>/bin/sh</b>.
+On <b>Windows</b> it comes from the environment variable <b>UNIXSHELL</b>, or fallback to <b>sh.exe</b>.
 </p>
 
 <pre>

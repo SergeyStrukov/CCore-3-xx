@@ -26,6 +26,8 @@
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
+#include <inc/Utils.h>
+
 namespace App {
 
 /* using */
@@ -226,6 +228,9 @@ class Engine : NoCopy
    StrLen dst_file_name;
 
    unsigned level = 100 ;
+
+   RootDir root_dir;
+   HomeDir home_dir;
 
   private:
 

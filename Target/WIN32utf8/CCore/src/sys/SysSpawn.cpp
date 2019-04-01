@@ -31,31 +31,11 @@ namespace Sys {
 
 StrLen GetShell(char buf[MaxPathLen+1])
  {
-  // 1 try
+  TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"UNIXSHELL");
 
-  {
-   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"WINSHELL");
+  if( tryget.ok ) return tryget.str;
 
-   if( tryget.ok ) return tryget.str;
-  }
-
-  // 2 try
-
-  {
-   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"ComSpec");
-
-   if( tryget.ok ) return tryget.str;
-  }
-
-  // 3 try
-
-  {
-   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"COMSPEC");
-
-   if( tryget.ok ) return tryget.str;
-  }
-
-  return "C:\\WINDOWS\\system32\\cmd.exe"_c;
+  return "sh.exe"_c;
  }
 
 /* GetEnviron() */

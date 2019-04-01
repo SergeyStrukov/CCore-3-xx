@@ -176,7 +176,7 @@ bool Engine::TestSingle(StrLen str)
 template <class Func>
 void Engine::printBy(PrinterType &,Func)
  {
-  Printf(Exception,"incompatible variable value");
+  Printf(Exception,"App : incompatible variable value");
  }
 
 template <FuncArgType<PrintBase &> Func>
@@ -213,16 +213,16 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
      return;
     }
 
-  if( str.equal("ROOT"_c) ) // TODO
+  if( str.equal("ROOT"_c) )
     {
-     printFrame("D:/cygwin"_c);
+     printFrame(root_dir.get());
 
      return;
     }
 
-  if( str.equal("HOME"_c) ) // TODO
+  if( str.equal("HOME"_c) )
     {
-     printFrame("D:/active/home"_c);
+     printFrame(home_dir.get());
 
      return;
     }
@@ -241,7 +241,7 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
      return;
     }
 
-  Printf(Exception,"unknown variable #.q;",str);
+  Printf(Exception,"App : unknown variable #.q;",str);
  }
 
 template <class FuncSrc,class FuncDst>
@@ -305,9 +305,9 @@ void Engine::printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
 
 void Engine::printText(PrinterType &out,StrLen str)
  {
-  auto psrc = [] (auto &) { Printf(Exception,"unknown variable SRC"); } ;
+  auto psrc = [] (auto &) { Printf(Exception,"App : unknown variable SRC"); } ;
 
-  auto pdst = [] (auto &) { Printf(Exception,"unknown variable DST"); } ;
+  auto pdst = [] (auto &) { Printf(Exception,"App : unknown variable DST"); } ;
 
   printText(out,str,psrc,pdst);
  }
