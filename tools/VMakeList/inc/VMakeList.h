@@ -22,14 +22,19 @@ namespace App {
 
 using namespace CCore;
 
-#ifndef VMakeList_TypeDef_h
-#define VMakeList_TypeDef_h
 #include "VMakeList.TypeDef.gen.h"
-#endif
+
+/* functions */
+
+StrLen Pretext();
 
 /* classes */
 
 class DataFile;
+
+class ToolFile;
+
+class TargetFile;
 
 /* class DataFile */
 
@@ -39,10 +44,6 @@ class DataFile : NoCopy
 
    TypeDef::Param * param = 0 ;
 
-  private:
-
-   static StrLen Pretext();
-
   public:
 
    explicit DataFile(StrLen file_name);
@@ -50,6 +51,40 @@ class DataFile : NoCopy
    ~DataFile();
 
    TypeDef::Param * getParam() const { return param; }
+ };
+
+/* class ToolFile */
+
+class ToolFile : NoCopy
+ {
+   void *mem = 0 ;
+
+   TypeDef::Tools * tools = 0 ;
+
+  public:
+
+   explicit ToolFile(StrLen file_name);
+
+   ~ToolFile();
+
+   TypeDef::Tools * getTools() const { return tools; }
+ };
+
+/* class TargetFile */
+
+class TargetFile : NoCopy
+ {
+   void *mem = 0 ;
+
+   StrLen target;
+
+  public:
+
+   explicit TargetFile(StrLen file_name);
+
+   ~TargetFile();
+
+   StrLen getTarget() const { return target; }
  };
 
 } // namespace App

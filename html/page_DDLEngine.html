@@ -1261,6 +1261,19 @@ struct <span class="Att">MapRange</span> // layout-compatible with MapRange&lt;c
 Finally, structure types are mapped using C++ structure definitions from the <b>TypeSet</b> class.
 </p>
 
+<p>
+You can use <b>EmptyTypeSet</b> to map files without structures.
+</p>
+
+<pre>
+
+struct <span class="Att">EmptyTypeSet</span> : NoCopy
+ {
+  ....
+ };
+
+</pre>
+
 <h3>Example</h3>
 
 <p>

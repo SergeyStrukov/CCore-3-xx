@@ -26,9 +26,9 @@ namespace App {
 
 #include "VMakeList.TypeSet.gen.h"
 
-/* class DataFile */
+/* functions */
 
-StrLen DataFile::Pretext()
+StrLen Pretext()
  {
   return
 
@@ -36,6 +36,8 @@ StrLen DataFile::Pretext()
 
   ""_c;
  }
+
+/* class DataFile */
 
 DataFile::DataFile(StrLen file_name)
  {
@@ -61,7 +63,7 @@ DataFile::DataFile(StrLen file_name)
 
   map(guard);
 
-  param=map.findConst<TypeDef::Param>("Data");
+  param=map.findConst<TypeDef::Param>("Data"_c);
 
   if( !param )
     {
@@ -72,6 +74,90 @@ DataFile::DataFile(StrLen file_name)
  }
 
 DataFile::~DataFile()
+ {
+  MemFree(Replace_null(mem));
+ }
+
+/* class ToolFile */
+
+ToolFile::ToolFile(StrLen file_name)
+ {
+  // process
+
+  PrintCon eout;
+
+  DDL::FileEngine<FileName,FileToMem> engine(eout);
+
+  auto result=engine.process(Range(file_name),Pretext());
+
+  eout.flush();
+
+  if( !result )
+    {
+     Printf(Exception,"VMakeList tools file #.q; : load failed",file_name);
+    }
+
+  // map
+
+  DDL::TypedMap<TypeSet> map(result);
+  MemAllocGuard guard(map.getLen());
+
+  map(guard);
+
+  tools=map.findConst<TypeDef::Tools>("Data"_c);
+
+  if( !tools )
+    {
+     Printf(Exception,"VMakeList tools file #.q; : no data",file_name);
+    }
+
+  mem=guard.disarm();
+ }
+
+ToolFile::~ToolFile()
+ {
+  MemFree(Replace_null(mem));
+ }
+
+/* class TargetFile */
+
+TargetFile::TargetFile(StrLen file_name)
+ {
+  // process
+
+  PrintCon eout;
+
+  DDL::FileEngine<FileName,FileToMem> engine(eout);
+
+  auto result=engine.process(Range(file_name));
+
+  eout.flush();
+
+  if( !result )
+    {
+     Printf(Exception,"VMakeList target file #.q; : load failed",file_name);
+    }
+
+  // map
+
+  DDL::TypedMap<DDL::EmptyTypeSet> map(result);
+  MemAllocGuard guard(map.getLen());
+
+  map(guard);
+
+  DDL::MapText *ptr=map.findConst<DDL::MapText>("CCORE_TARGET"_c);
+
+  if( !ptr )
+    {
+     Printf(Exception,"VMakeList target file #.q; : no target",file_name);
+    }
+
+  target=*ptr;
+
+  mem=guard.disarm();
+ }
+
+TargetFile::~TargetFile()
  {
   MemFree(Replace_null(mem));
  }

@@ -45,6 +45,8 @@ template <class T> struct MapBaseType;
 
 template <class T,class TypeSet> struct MapTypeFunc;
 
+struct EmptyTypeSet;
+
 template <class TypeSet> class TypedMap;
 
 /* struct MapSizeInfo */
@@ -266,6 +268,20 @@ auto EraseExtField(TypeSet &type_set,Place<void> place,StructNode *struct_node,N
  {
   return type_set.erase(place,struct_node);
  }
+
+/* struct EmptyTypeSet */
+
+struct EmptyTypeSet : NoCopy
+ {
+  explicit EmptyTypeSet(ulen) {}
+
+  DDL::MapSizeInfo structSizeInfo(DDL::StructNode *);
+
+  template <class T>
+  bool isStruct(DDL::StructNode *) const { return false; }
+
+  void guardFieldTypes(DDL::StructNode *) const;
+ };
 
 /* class TypedMap<TypeSet> */
 

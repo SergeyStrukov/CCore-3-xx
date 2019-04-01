@@ -17,8 +17,6 @@ Param Data = {
 
 .CCORE_ROOT = "../.." ,
 
-.CCORE_TARGET = "WIN32utf8" ,
-
 //-----------------------------------------------
 
 .SRC_PATH_LIST = {"src"} ,
@@ -29,91 +27,8 @@ Param Data = {
 
 //-----------------------------------------------
 
-.target = TargetConsole ,
-
-.tools = &ToolsData
+.target = TargetConsole
  
-//-----------------------------------------------
-
-};
-
-Tools ToolsData = {
-
-//-----------------------------------------------
-
-.CC = "#ROOT;/opt/gcc-8.3.0/bin/g++-8.3.0" ,
-.LD = "#ROOT;/opt/gcc-8.3.0/bin/g++-8.3.0" ,
-  
-//-----------------------------------------------
-
-.CORELIB = "#CCORE_ROOT;/Target/#CCORE_TARGET;/CCore.a",
-
-.CCOPT = {
-          "-c",
-          "-std=c++17",
-          "-fconcepts",
-          "-fwrapv",
-          "-O3",
-          
-          "-march=ivybridge",
-          "-mmmx",
-          "-msse",
-          "-msse2",
-          
-          "-Wall",
-          "-Wextra",
-          
-          "-Wno-non-virtual-dtor",
-          "-Wno-switch",
-          "-Wno-type-limits",
-          "-Wno-enum-compare",
-          "-Wno-missing-field-initializers",
-          "-Wno-delete-non-virtual-dtor",
-          "-Wno-misleading-indentation",
-
-          "-I#CCORE_ROOT;/Target/#CCORE_TARGET;",
-          "-I#CCORE_ROOT;/HCore",
-          "-I#CCORE_ROOT;/Simple",
-          "-I#CCORE_ROOT;/Fundamental",
-          "-I#CCORE_ROOT;/Applied",
-          "-I#CCORE_ROOT;/Desktop/Core",
-          "-I#CCORE_ROOT;/Desktop/Draw",
-          "-I#CCORE_ROOT;/Desktop/Font",
-          "-I#CCORE_ROOT;/Desktop/Lib",
-          "-I#CCORE_ROOT;/Desktop/Tools",
-          "-I#CCORE_ROOT;/Desktop/App",
-          
-          "#CCOPT_EXTRA;",
-          
-          "#SRC;",
-          "-o",
-          "#DST;"
-         },
-         
-.ASOPT = {
-          "#SRC;",
-          "-o",
-          "#DST;"
-         },         
-
-.LDOPT = {
-          "#SRC;",
-          
-          "-Wl,-s",
-          "#LDOPT_DESKTOP;",
-          "#LDOPT_EXTRA;",
-          "#CORELIB;",
-          "-lws2_32",
-          "-lgmp",
-          "-lgdi32",
-          "-lfreetype",
-          
-          "-o",
-          "#DST;"
-         },
-  
-.LDOPT_DESKTOP = {"-Wl,--subsystem,windows"}
-
 //-----------------------------------------------
 
 };

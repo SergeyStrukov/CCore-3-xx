@@ -18,7 +18,6 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/CharProp.h>
 
-#include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/win32/Win32.h>

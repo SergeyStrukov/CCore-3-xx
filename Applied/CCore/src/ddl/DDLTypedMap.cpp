@@ -37,6 +37,22 @@ void GuardMapBadConstType(StrLen name)
   Printf(Exception,"CCore::DDL::TypedMap : constant #; has an unexpected type",name);
  }
 
+/* struct EmptyTypeSet */
+
+DDL::MapSizeInfo EmptyTypeSet::structSizeInfo(DDL::StructNode *)
+ {
+  DDL::MapSizeInfo ret;
+
+  Printf(Exception,"Unknown structure");
+
+  return ret;
+ }
+
+void EmptyTypeSet::guardFieldTypes(DDL::StructNode *) const
+ {
+  Printf(Exception,"Unknown structure");
+ }
+
 } // namespace DDL
 } // namespace CCore
 

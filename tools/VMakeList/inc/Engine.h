@@ -14,6 +14,9 @@
 #ifndef App_Engine_h
 #define App_Engine_h
 
+#include <inc/VMakeList.h>
+#include <inc/Utils.h>
+
 #include <CCore/inc/ElementPool.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/Cmp.h>
@@ -22,22 +25,12 @@
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/DirTreeRun.h>
 #include <CCore/inc/PrintStem.h>
+#include <CCore/inc/String.h>
+#include <CCore/inc/OptMember.h>
+
 #include <CCore/inc/Print.h>
 
-#include <CCore/inc/ddl/DDLMapTypes.h>
-
-#include <inc/Utils.h>
-
 namespace App {
-
-/* using */
-
-using namespace CCore;
-
-#ifndef VMakeList_TypeDef_h
-#define VMakeList_TypeDef_h
-#include "VMakeList.TypeDef.gen.h"
-#endif
 
 /* enum TargetType */
 
@@ -231,14 +224,17 @@ class Engine : NoCopy
 
    RootDir root_dir;
    HomeDir home_dir;
+   String def_target;
+
+   OptMember<ToolFile> def_tools;
 
   private:
 
-   bool prepareRoot();
+   void prepareRoot();
 
-   bool prepareTarget();
+   void prepareTarget();
 
-   bool prepareTools();
+   void prepareTools();
 
    static bool TestSingle(StrLen str);
 
