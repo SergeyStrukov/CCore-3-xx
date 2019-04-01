@@ -44,9 +44,9 @@ struct Tools
   text CC = "g++" ;
   text AS = "as"  ;
   text LD = "g++" ;
-  text AR = "ar"  ;
   
   text RM = "rm -f" ;
+  text AR = "ar"  ;
   
   text[] CCOPT;
   text[] ASOPT;

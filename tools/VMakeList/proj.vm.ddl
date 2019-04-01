@@ -6,6 +6,8 @@ text AS = "as" ;
 
 text LD = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
+text AR = "ar" ;
+
 text TARGET = "D:/active/home"+"/bin/CCore-VMakeList.exe" ;
 
 Target cpp1 = { "Engine.cpp" , "src/Engine.cpp" } ;

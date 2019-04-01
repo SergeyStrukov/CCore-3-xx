@@ -258,8 +258,8 @@ class Engine : NoCopy
 
    void printText(PrinterType &out,StrLen name,StrLen str);
 
-   template <class FuncSrc,class FuncDst>
-   void printSubList(PrinterType &out,PrintFirst &stem,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
+   template <class List,class FuncSrc,class FuncDst>
+   void printSubList(PrinterType &out,PrintFirst &stem,List list,FuncSrc psrc,FuncDst pdst);
 
    template <class Func>
    void printBy(PrinterType &out,PrintFirst &stem,Func func);
@@ -270,8 +270,8 @@ class Engine : NoCopy
    template <class FuncSrc,class FuncDst>
    bool printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst);
 
-   template <class FuncSrc,class FuncDst>
-   void printList(PrinterType &out,PtrLen<DDL::MapText> list,FuncSrc psrc,FuncDst pdst);
+   template <class List,class FuncSrc,class FuncDst>
+   void printList(PrinterType &out,List list,FuncSrc psrc,FuncDst pdst);
 
   public:
 

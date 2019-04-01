@@ -18,8 +18,8 @@ struct TypeDefCore
     DDL::MapText CC;
     DDL::MapText AS;
     DDL::MapText LD;
-    DDL::MapText AR;
     DDL::MapText RM;
+    DDL::MapText AR;
     DDL::MapRange< DDL::MapText > CCOPT;
     DDL::MapRange< DDL::MapText > ASOPT;
     DDL::MapRange< DDL::MapText > LDOPT;
