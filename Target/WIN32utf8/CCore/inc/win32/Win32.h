@@ -110,7 +110,8 @@ using sem_count_t = int ;
 
 struct SecurityAttributes
  {
-  ulen_t len;
+  ulen_t cb;
+
   void_ptr desc;
   bool_t inherit;
  };
@@ -162,6 +163,7 @@ enum ErrorCodes
   ErrorHandleEOF        =  38,
   ErrorFileExists       =  80,
   ErrorInvalidParameter =  87,
+  ErrorBrokenPipe       = 109,
   ErrorDiskFull         = 112,
   ErrorSmallBuffer      = 122,
   ErrorInvalidName      = 123,
@@ -304,12 +306,26 @@ bool_t WIN32_API VirtualFree(void_ptr address,
                              flags_t free_flags);
 
 /*--------------------------------------------------------------------------------------*/
+/* Handle constants                                                                     */
+/*--------------------------------------------------------------------------------------*/
+
+enum HandleFlags
+ {
+  HandleInherit = 0x0001,
+  HandleNoClose = 0x0002
+ };
+
+/*--------------------------------------------------------------------------------------*/
 /* Handle functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
 /* CloseHandle() */
 
 bool_t WIN32_API CloseHandle(handle_t h_any);
+
+/* SetHandleInformation() */
+
+bool_t WIN32_API SetHandleInformation(handle_t h_any,flags_t mask,flags_t flags);
 
 /*--------------------------------------------------------------------------------------*/
 /* Global memory constants                                                              */

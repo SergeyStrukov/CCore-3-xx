@@ -34,40 +34,51 @@ class Pipe : NoCopy
    Win32::handle_t h_read;
    Win32::handle_t h_write;
 
+   bool has_read = true ;
+   bool has_write = true ;
+
   public:
 
    Pipe()
     {
-     Win32::SecurityAttributes sa{};
-
-     sa.inherit=true;
-
-     if( !Win32::CreatePipe(&h_read,&h_write,&sa,0) )
+     if( !Win32::CreatePipe(&h_read,&h_write,0,0) )
        {
         Printf(Exception,"App : cannot create pipe");
+       }
+
+     if( !Win32::SetHandleInformation(h_write,Win32::HandleInherit,Win32::HandleInherit) )
+       {
+        Printf(Exception,"App : cannot set inherit");
        }
     }
 
    ~Pipe()
     {
-     Win32::CloseHandle(h_read);
-     Win32::CloseHandle(h_write);
+     if( has_read ) Win32::CloseHandle(h_read);
+     if( has_write ) Win32::CloseHandle(h_write);
     }
 
    Win32::handle_t getHRead() const { return h_read; }
 
    Win32::handle_t getHWrite() const { return h_write; }
+
+   void closeHRead()
+    {
+     if( Change(has_read,false) ) Win32::CloseHandle(h_read);
+    }
+
+   void closeHWrite()
+    {
+     if( Change(has_write,false) ) Win32::CloseHandle(h_write);
+    }
  };
 
 /* class PipeToBuf */
 
-class PipeToBuf : NoCopy
+class PipeToBuf : public Pipe
  {
-   Pipe pipe;
    PtrLen<char> buf;
    PtrLen<char> next;
-
-   ulen bad_count = 0 ;
 
   public:
 
@@ -77,204 +88,186 @@ class PipeToBuf : NoCopy
      next=buf;
     }
 
-   Pipe & getPipe() { return pipe; }
+   ~PipeToBuf()
+    {
+    }
 
    PtrLen<char> getData()
     {
      return buf.prefix(next);
     }
 
-   ulen pump()
+   void pump()
     {
-     Win32::ulen_t avail_len;
-
-     if( !Win32::PeekNamedPipe(pipe.getHRead(),0,0,0,&avail_len,0) )
+     for(;;)
        {
-        Printf(Exception,"App : read pipe failed");
+        if( !next.len )
+          {
+           Printf(Exception,"App : read pipe overflow");
+          }
+
+        Win32::ulen_t ret_len;
+
+        if( !Win32::ReadFile(getHRead(),next.ptr,next.len,&ret_len,0) )
+          {
+           auto error=Sys::NonNullError();
+
+           if( error==Win32::ErrorBrokenPipe ) return;
+
+           Printf(Exception,"App : read pipe failed");
+          }
+
+        if( ret_len>next.len )
+          {
+           Printf(Exception,"App : read pipe bad len");
+          }
+
+        next+=ret_len;
        }
-
-     if( !avail_len )
-       {
-        Win32::Sleep(1);
-
-        bad_count++;
-
-        return 0;
-       }
-
-     Printf(Con,"pump() bad_count = #;",Replace_null(bad_count));
-
-     if( !next.len )
-       {
-        Printf(Exception,"App : read pipe overflow");
-       }
-
-     Win32::ulen_t ret_len;
-
-     if( !Win32::ReadFile(pipe.getHRead(),next.ptr,next.len,&ret_len,0) )
-       {
-        Printf(Exception,"App : read pipe failed");
-       }
-
-     if( ret_len>next.len )
-       {
-        Printf(Exception,"App : read pipe bad len");
-       }
-
-     next+=ret_len;
-
-     Printf(Con," : #;\n",ret_len);
-
-     return ret_len;
-    }
-
-   void pumpRest()
-    {
-     Printf(Con,"pumpRest()");
-
-     while( pump() );
-
-     Printf(Con," bad_count = #;\n",Replace_null(bad_count));
     }
  };
 
-/* struct FromProgram */
+/* class RunProcess */
 
-struct FromProgram
+class RunProcess : NoCopy
  {
-  StrLen str;
-  bool ok = false ;
+   Win32::handle_t h_process = 0 ;
 
-  static DynArray<Sys::WChar> MakeCmdline(StrLen str)
-   {
-    Collector<Sys::WChar> out;
+  public:
 
-    auto put = [&] (Sys::WChar ch) { out.append_copy(ch); } ;
+   RunProcess(Win32::wchar *wcmd,Win32::handle_t h_write)
+    {
+     Win32::flags_t flags=0;
 
-    while( +str )
-      {
-       Unicode sym=CutUtf8_unicode(str);
+     Win32::StartupInfo info{};
 
-       if( sym==Unicode(-1) )
-         {
-          Printf(Exception,"App : broken utf8");
-         }
+     info.cb=sizeof info;
 
-       if( Sys::IsSurrogate(sym) )
-         {
-          Sys::SurrogateCouple couple(sym);
+     info.flags=Win32::StartupInfo_std_handles;
 
-          put(couple.hi);
-          put(couple.lo);
-         }
-       else
-         { // may insert forbidden symbol
-          put(Sys::WChar(sym));
-         }
-      }
+     info.h_stdin=Win32::InvalidFileHandle;
+     info.h_stdout=h_write;
+     info.h_stderr=Win32::InvalidFileHandle;
 
-    put(0);
+     Win32::ProcessInfo pinfo;
 
-    DynArray<Sys::WChar> ret;
+     if( Win32::CreateProcessW(0,wcmd,0,0,true,flags,0,0,&info,&pinfo) )
+       {
+        Win32::CloseHandle(pinfo.h_thread);
 
-    out.extractTo(ret);
+        h_process=pinfo.h_process;
+       }
+     else
+       {
+        Printf(Exception,"App : failed to create a process");
+       }
+    }
 
-    return ret;
-   }
+   ~RunProcess()
+    {
+     Win32::CloseHandle(h_process);
+    }
 
-  static void Pump(Win32::handle_t h_process,PipeToBuf &dev)
-   {
-    Win32::handle_t temp[2]={h_process,dev.getPipe().getHRead()};
+   void wait()
+    {
+     if( Win32::WaitForSingleObject(h_process,Win32::NoTimeout)!=Win32::WaitObject_0 )
+       {
+        Printf(Exception,"App : wait process failed");
+       }
+    }
 
-    for(;;)
-      {
-       switch( Win32::WaitForMultipleObjects(2,temp,false,Win32::NoTimeout) )
-         {
-          case Win32::WaitObject_0 :
-           {
-            dev.pumpRest();
+   unsigned getExitCode()
+    {
+     unsigned exit_code;
 
-            return;
-           }
-          break;
+     if( !Win32::GetExitCodeProcess(h_process,&exit_code) )
+       {
+        Printf(Exception,"App : failed to get exit code");
+       }
 
-          case Win32::WaitObject_0+1 :
-           {
-            dev.pump();
-           }
-          break;
+     return exit_code;
+    }
+ };
 
-          default:
-           {
-            Printf(Exception,"App : pump failed");
-           }
-         }
-      }
-   }
+/* class MakeCmdLine */
 
-  static Win32::handle_t Run(Win32::wchar *wcmd,Win32::handle_t h_write)
-   {
-    Win32::flags_t flags=0;
+class MakeCmdLine : NoCopy
+ {
+   DynArray<Sys::WChar> buf;
 
-    Win32::StartupInfo info{};
+  public:
 
-    info.cb=sizeof info;
+   explicit MakeCmdLine(StrLen str)
+    {
+     Collector<Sys::WChar> out;
 
-    info.flags=Win32::StartupInfo_std_handles;
+     auto put = [&] (Sys::WChar ch) { out.append_copy(ch); } ;
 
-    info.h_stdin=Win32::InvalidFileHandle;
-    info.h_stdout=h_write;
-    info.h_stderr=Win32::InvalidFileHandle;
+     while( +str )
+       {
+        Unicode sym=CutUtf8_unicode(str);
 
-    Win32::ProcessInfo pinfo;
+        if( sym==Unicode(-1) )
+          {
+           Printf(Exception,"App : broken utf8");
+          }
 
-    if( Win32::CreateProcessW(0,wcmd,0,0,true,flags,0,0,&info,&pinfo) )
-      {
-       Win32::CloseHandle(pinfo.h_thread);
+        if( Sys::IsSurrogate(sym) )
+          {
+           Sys::SurrogateCouple couple(sym);
 
-       return pinfo.h_process;
-      }
-    else
-      {
-       Printf(Exception,"App : failed to create a process");
+           put(couple.hi);
+           put(couple.lo);
+          }
+        else
+          { // may insert forbidden symbol
+           put(Sys::WChar(sym));
+          }
+       }
 
-       return 0;
-      }
-   }
+     put(0);
 
-  FromProgram(StrLen cmdline,PtrLen<char> result)
-   {
-    DynArray<Sys::WChar> temp=MakeCmdline(cmdline);
+     out.extractTo(buf);
+    }
 
-    PipeToBuf dev(result);
+   ~MakeCmdLine()
+    {
+    }
 
-    Win32::handle_t h_process=Run(temp.getPtr(),dev.getPipe().getHWrite());
-
-    ScopeGuard guard( [=] () { Win32::CloseHandle(h_process); } );
-
-    Pump(h_process,dev);
-
-    unsigned exit_code;
-
-    if( !Win32::GetExitCodeProcess(h_process,&exit_code) )
-      {
-       Printf(Exception,"App : failed to get exit code");
-      }
-
-    if( exit_code )
-      {
-       Printf(Exception,"App : exit code is nonzero");
-      }
-
-    str=dev.getData();
-
-    ok=true;
-   }
+   Sys::WChar * getPtr() { return buf.getPtr(); }
  };
 
 } // namespace Private_Utils
 
 using namespace Private_Utils;
+
+/* struct FromProgram */
+
+FromProgram::FromProgram(StrLen cmdline_,PtrLen<char> result_buf)
+ {
+  MakeCmdLine cmdline(cmdline_);
+
+  PipeToBuf dev(result_buf);
+
+  RunProcess proc(cmdline.getPtr(),dev.getHWrite());
+
+  dev.closeHWrite();
+
+  dev.pump();
+
+  dev.closeHRead();
+
+  proc.wait();
+
+  if( proc.getExitCode()!=0 )
+    {
+     Printf(Exception,"App : exit code is nonzero");
+    }
+
+  str=dev.getData();
+
+  ok=true;
+ }
 
 /* class RootDir */
 

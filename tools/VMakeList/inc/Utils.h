@@ -24,9 +24,21 @@ using namespace CCore;
 
 /* classes */
 
+struct FromProgram;
+
 class RootDir;
 
 class HomeDir;
+
+/* struct FromProgram */
+
+struct FromProgram
+ {
+  StrLen str;
+  bool ok = false ;
+
+  FromProgram(StrLen cmdline,PtrLen<char> result_buf);
+ };
 
 /* class RootDir */
 
