@@ -218,7 +218,8 @@ class Engine : NoCopy
    TypeDef::Tools *tools;
 
    StrLen src_file_name;
-   StrLen dst_file_name;
+   StrLen proj_file_name;
+   StrLen prep_file_name;
 
    unsigned level = 100 ;
 
@@ -275,7 +276,7 @@ class Engine : NoCopy
 
   public:
 
-   Engine(TypeDef::Param *param,StrLen src_file_name,StrLen dst_file_name);
+   Engine(TypeDef::Param *param,StrLen src_file_name,StrLen proj_file_name,StrLen prep_file_name);
 
    ~Engine();
 

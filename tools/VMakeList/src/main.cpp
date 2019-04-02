@@ -20,11 +20,11 @@ namespace App {
 
 /* Main() */
 
-int Main(StrLen src_file_name,StrLen dst_file_name)
+int Main(StrLen src_file_name,StrLen proj_file_name,StrLen prep_file_name)
  {
   DataFile data(src_file_name);
 
-  Engine engine(data.getParam(),src_file_name,dst_file_name);
+  Engine engine(data.getParam(),src_file_name,proj_file_name,prep_file_name);
 
   return engine.run();
  }
@@ -37,7 +37,7 @@ using namespace App;
 
 int usage()
  {
-  Putobj(Con,"Usage: CCore-VMakeList <src-file-name> <dst-file-name>\n");
+  Putobj(Con,"Usage: CCore-VMakeList <src-file-name> <proj-file-name> <prep-file-name>\n");
 
   return 1;
  }
@@ -53,9 +53,9 @@ int main(int argc,const char * argv[])
      {
       Putobj(Con,"--- VMakeList 1.00 ---\n--- Copyright (c) 2019 Sergey Strukov. All rights reserved. ---\n\n");
 
-      if( argc!=3 ) return usage();
+      if( argc!=4 ) return usage();
 
-      ret=Main(argv[1],argv[2]);
+      ret=Main(argv[1],argv[2],argv[3]);
      }
 
      report.guard();

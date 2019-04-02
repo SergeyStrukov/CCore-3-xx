@@ -491,10 +491,11 @@ void Engine::printList(PrinterType &out,List list,FuncSrc psrc,FuncDst pdst)
   out.put('}');
  }
 
-Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen dst_file_name_)
+Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen proj_file_name_,StrLen prep_file_name_)
  : param(param_),
    src_file_name(src_file_name_),
-   dst_file_name(dst_file_name_)
+   proj_file_name(proj_file_name_),
+   prep_file_name(prep_file_name_)
  {
   root=param->CCORE_ROOT;
   target=param->CCORE_TARGET;
@@ -524,7 +525,7 @@ int Engine::run()
   cpp_list.process();
   asm_list.process();
 
-  PrintFile out(dst_file_name);
+  PrintFile out(proj_file_name);
 
   printText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
@@ -684,6 +685,30 @@ int Engine::run()
 
      Printf(out,"Exe exemain2 = { 'AR' , AR , #; } ;\n\n",PrintByFunc(func2));
     }
+
+  // prep
+
+  PrintFile prep(prep_file_name);
+
+  printText(prep,"OBJ_PATH"_c,param->OBJ_PATH);
+
+  printText(prep,"TARGET"_c,param->TARGET);
+
+  Putobj(prep,"Target obj = { 'obj' , OBJ_PATH+'/empty' } ;\n\n"_c);
+
+  Putobj(prep,"Rule robj = { {} , {&obj} , {&cmdobj} } ;\n\n"_c);
+
+  Printf(prep,"Cmd cmdobj = { 'OBJ' , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
+
+             ,DDLString(tools->MKDIR),DDLString(tools->MKEMPTY));
+
+  Putobj(prep,"Target clean = { 'clean' } ;\n\n"_c);
+
+  Putobj(prep,"Rule rclean = { {} , {&clean} , {&cmdclean} } ;\n\n"_c);
+
+  Printf(prep,"Cmd cmdclean = { 'CLEAN' , \"#; \\\"\"+TARGET+\"\\\" \\\"\"+OBJ_PATH+\"\\\"/*\" } ;\n\n"
+
+             ,DDLString(tools->RM));
 
   return 0;
  }

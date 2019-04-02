@@ -44,9 +44,11 @@ struct Tools
   text CC = "g++" ;
   text AS = "as"  ;
   text LD = "g++" ;
+  text AR = "ar"  ;
   
   text RM = "rm -f" ;
-  text AR = "ar"  ;
+  text MKDIR = "mkdir -p" ;
+  text MKEMPTY = 'echo \"empty file\"' ;
   
   text[] CCOPT;
   text[] ASOPT;

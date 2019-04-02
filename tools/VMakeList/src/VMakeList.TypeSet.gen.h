@@ -35,8 +35,10 @@ struct TypeSet : TypeDefCore
                                "CC",offsetof(S1,CC),
                                "AS",offsetof(S1,AS),
                                "LD",offsetof(S1,LD),
-                               "RM",offsetof(S1,RM),
                                "AR",offsetof(S1,AR),
+                               "RM",offsetof(S1,RM),
+                               "MKDIR",offsetof(S1,MKDIR),
+                               "MKEMPTY",offsetof(S1,MKEMPTY),
                                "CCOPT",offsetof(S1,CCOPT),
                                "ASOPT",offsetof(S1,ASOPT),
                                "LDOPT",offsetof(S1,LDOPT),
@@ -84,6 +86,8 @@ struct TypeSet : TypeDefCore
        case 1 :
         {
          DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,
                                DDL::MapText,

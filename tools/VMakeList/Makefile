@@ -26,7 +26,7 @@ include $(CCORE_ROOT)/Target/Makefile.app
 .PHONY : run
 
 run: $(TARGET)
-	$(TARGET) default.vml.ddl proj.vm.ddl
+	$(TARGET) default.vml.ddl proj.vm.ddl prep.vm.ddl
 
 #----------------------------------------------------------------------------------------
 
