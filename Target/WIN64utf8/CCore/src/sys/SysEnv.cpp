@@ -3,7 +3,7 @@
 //
 //  Project: CCore 3.60
 //
-//  Tag: Target/WIN32utf8
+//  Tag: Target/WIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -15,7 +15,7 @@
 
 #include <CCore/inc/sys/SysEnv.h>
 
-#include <CCore/inc/win32/Win32.h>
+#include <CCore/inc/win64/Win64.h>
 
 #include <cstdlib>
 
@@ -26,13 +26,15 @@ namespace Sys {
 
 NormalGetEnv::NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len)
  {
-  len=Win32::GetEnvironmentVariableW(name,buf,buf_len);
+  Replace_min(buf_len,Win64::MaxUShortLen);
+
+  len=Win64::GetEnvironmentVariableW(name,buf,(Win64::ushortlen_t)buf_len);
 
   if( len==0 )
     {
      error=NonNullError();
 
-     if( error==Win32::ErrorEnvNotFound ) error=Error_NoVariable;
+     if( error==Win64::ErrorEnvNotFound ) error=Error_NoVariable;
     }
   else if( len>=buf_len )
     {

@@ -165,6 +165,7 @@ enum ErrorCodes
   ErrorInvalidName      = 123,
   ErrorDirNotEmpty      = 145,
   ErrorAlreadyExists    = 183,
+  ErrorEnvNotFound      = 203,
 
   ErrorIOPending        = 997,
   WSAErrorIOPending     = ErrorIOPending
@@ -390,7 +391,8 @@ ushortlen_t WIN64_API GetModuleFileNameW(handle_t h_module,
 
 enum ProcessCreationFlags
  {
-  CreateNewConsole = 0x0010
+  CreateNewConsole   = 0x0010,
+  UnicodeEnvironment = 0x0400
  };
 
 /* enum StartupInfoFlags */
@@ -449,6 +451,14 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
+/* GetEnvironmentStringsW() */
+
+wchar * WIN64_API GetEnvironmentStringsW(void);
+
+/* FreeEnvironmentStringsW() */
+
+bool_t WIN64_API FreeEnvironmentStringsW(wchar *envblock);
+
 /* GetEnvironmentVariableW() */
 
 ushortlen_t WIN64_API GetEnvironmentVariableW(const wchar *name,
@@ -483,10 +493,14 @@ bool_t WIN64_API CreateProcessW(const wchar *program,
                                 SecurityAttributes *,
                                 bool_t inherit_handles,
                                 flags_t process_creation_flags,
-                                void_ptr,
+                                void_ptr envblock,
                                 const wchar *dir,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
+
+/* GetExitCodeProcess() */
+
+bool_t WIN64_API GetExitCodeProcess(handle_t h_process, unsigned *exit_code);
 
 /*--------------------------------------------------------------------------------------*/
 /* System property functions                                                            */

@@ -406,6 +406,7 @@ OBJ_LIST = \
 .obj/SysAsyncFileSystem.o \
 .obj/SysAtomic.o \
 .obj/SysCon.o \
+.obj/SysEnv.o \
 .obj/SysError.o \
 .obj/SysFile.o \
 .obj/SysFileInternal.o \
@@ -416,6 +417,8 @@ OBJ_LIST = \
 .obj/SysPlanInit.o \
 .obj/SysProp.o \
 .obj/SysSem.o \
+.obj/SysSpawn.o \
+.obj/SysSpawnInternal.o \
 .obj/SysTask.o \
 .obj/SysTime.o \
 .obj/SysTlsSlot.o \
@@ -893,6 +896,7 @@ ASM_LIST = \
 .obj/SysAsyncFileSystem.s \
 .obj/SysAtomic.s \
 .obj/SysCon.s \
+.obj/SysEnv.s \
 .obj/SysError.s \
 .obj/SysFile.s \
 .obj/SysFileInternal.s \
@@ -903,6 +907,8 @@ ASM_LIST = \
 .obj/SysPlanInit.s \
 .obj/SysProp.s \
 .obj/SysSem.s \
+.obj/SysSpawn.s \
+.obj/SysSpawnInternal.s \
 .obj/SysTask.s \
 .obj/SysTime.s \
 .obj/SysTlsSlot.s \
@@ -1380,6 +1386,7 @@ DEP_LIST = \
 .obj/SysAsyncFileSystem.dep \
 .obj/SysAtomic.dep \
 .obj/SysCon.dep \
+.obj/SysEnv.dep \
 .obj/SysError.dep \
 .obj/SysFile.dep \
 .obj/SysFileInternal.dep \
@@ -1390,6 +1397,8 @@ DEP_LIST = \
 .obj/SysPlanInit.dep \
 .obj/SysProp.dep \
 .obj/SysSem.dep \
+.obj/SysSpawn.dep \
+.obj/SysSpawnInternal.dep \
 .obj/SysTask.dep \
 .obj/SysTime.dep \
 .obj/SysTlsSlot.dep \
@@ -2693,6 +2702,9 @@ include $(RULES_FILE)
 .obj/SysCon.o : ../../Target/WIN64utf8/CCore/src/./sys/SysCon.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/SysEnv.o : ../../Target/WIN64utf8/CCore/src/./sys/SysEnv.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/SysError.o : ../../Target/WIN64utf8/CCore/src/./sys/SysError.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2721,6 +2733,12 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysSem.o : ../../Target/WIN64utf8/CCore/src/./sys/SysSem.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysSpawn.o : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawn.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysSpawnInternal.o : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawnInternal.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysTask.o : ../../Target/WIN64utf8/CCore/src/./sys/SysTask.cpp
@@ -4147,6 +4165,9 @@ include $(RULES_FILE)
 .obj/SysCon.s : ../../Target/WIN64utf8/CCore/src/./sys/SysCon.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SysEnv.s : ../../Target/WIN64utf8/CCore/src/./sys/SysEnv.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SysError.s : ../../Target/WIN64utf8/CCore/src/./sys/SysError.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4175,6 +4196,12 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysSem.s : ../../Target/WIN64utf8/CCore/src/./sys/SysSem.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SysSpawn.s : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawn.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/SysSpawnInternal.s : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawnInternal.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/SysTask.s : ../../Target/WIN64utf8/CCore/src/./sys/SysTask.cpp
@@ -5601,6 +5628,9 @@ include $(RULES_FILE)
 .obj/SysCon.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysCon.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysCon.o $< -MF $@
 
+.obj/SysEnv.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysEnv.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SysEnv.o $< -MF $@
+
 .obj/SysError.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysError.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysError.o $< -MF $@
 
@@ -5630,6 +5660,12 @@ include $(RULES_FILE)
 
 .obj/SysSem.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysSem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysSem.o $< -MF $@
+
+.obj/SysSpawn.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawn.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SysSpawn.o $< -MF $@
+
+.obj/SysSpawnInternal.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysSpawnInternal.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SysSpawnInternal.o $< -MF $@
 
 .obj/SysTask.dep : ../../Target/WIN64utf8/CCore/src/./sys/SysTask.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysTask.o $< -MF $@

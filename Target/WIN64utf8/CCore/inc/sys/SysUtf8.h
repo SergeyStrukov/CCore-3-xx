@@ -18,6 +18,8 @@
 
 #include <CCore/inc/Utf8.h>
 
+#include <CCore/inc/sys/SysError.h>
+
 namespace CCore {
 namespace Sys {
 
@@ -115,11 +117,33 @@ ulen Full(const WChar *ztext,PtrLen<char> out); // MaxULen on overflow
 
 /* classes */
 
-struct CopySym;
-
 struct SurrogateCouple;
 
+struct CopySym;
+
+class WCharToUtf8Full;
+
 template <ulen Len> struct WCharToUtf8;
+
+struct ToWChar;
+
+template <ulen MaxLen=TextBufLen> class WCharString;
+
+/* struct SurrogateCouple */
+
+struct SurrogateCouple
+ {
+  WChar hi;
+  WChar lo;
+
+  explicit SurrogateCouple(Unicode sym)
+   {
+    sym-=0x10000u;
+
+    hi=WChar( 0xD800u|((sym>>10)&0x3FFu) );
+    lo=WChar( 0xDC00u|(sym&0x3FFu) );
+   }
+ };
 
 /* struct CopySym */
 
@@ -143,20 +167,34 @@ struct CopySym
    }
  };
 
-/* struct SurrogateCouple */
+/* class WCharToUtf8Full */
 
-struct SurrogateCouple
+class WCharToUtf8Full : NoCopy
  {
-  WChar hi;
-  WChar lo;
+   char small[TextBufLen];
 
-  explicit SurrogateCouple(Unicode sym)
-   {
-    sym-=0x10000u;
+   char *ptr;
+   ulen len;
 
-    hi=WChar( 0xD800u|((sym>>10)&0x3FFu) );
-    lo=WChar( 0xDC00u|(sym&0x3FFu) );
-   }
+  private:
+
+   bool countLen(ulen slen,Unicode sym,PtrLen<const WChar> text);
+
+   void longText(ulen slen,Unicode sym,PtrLen<const WChar> text);
+
+  public:
+
+   explicit WCharToUtf8Full(PtrLen<const WChar> text);
+
+   explicit WCharToUtf8Full(const WChar *ztext) : WCharToUtf8Full(Range(ztext,ZLen(ztext))) {}
+
+   ~WCharToUtf8Full();
+
+   bool operator ! () const { return !ptr; }
+
+   ulen getLen() const { return len; }
+
+   StrLen get() const { return StrLen(ptr,len); }
  };
 
 /* struct WCharToUtf8<ulen Len> */
@@ -172,6 +210,46 @@ struct WCharToUtf8 : NoCopy
   ulen truncate(PtrLen<char> out) const { return Truncate(Range(buf,len),out); }
 
   ulen full(PtrLen<char> out) const { return Full(Range(buf,len),out); } // MaxULen on overflow
+ };
+
+/* struct ToWChar */
+
+struct ToWChar
+ {
+  ulen len;
+  bool overflow = false ;
+  bool broken = false ;
+
+  ToWChar(PtrLen<WChar> out,StrLen text);
+ };
+
+/* class WCharString<MaxLen> */
+
+template <ulen MaxLen>
+class WCharString : NoCopy
+ {
+   WChar buf[MaxLen+1];
+   ErrorType error;
+
+  public:
+
+   explicit WCharString(StrLen text)
+    {
+     ToWChar to(Range(buf,MaxLen),text);
+
+     buf[to.len]=0;
+
+     if( to.overflow )
+       error=Error_TooLong;
+     else if( to.broken )
+       error=Error_BrokenUtf8;
+     else
+       error=NoError;
+    }
+
+   ErrorType getError() const { return error; }
+
+   operator const WChar * () const { return buf; }
  };
 
 } // namespace Sys
