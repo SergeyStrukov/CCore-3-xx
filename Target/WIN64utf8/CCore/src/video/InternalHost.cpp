@@ -15,6 +15,8 @@
 
 #include <CCore/inc/video/InternalHost.h>
 
+#include <CCore/inc/sys/SysUtf8.h>
+
 #include <CCore/inc/sys/SysFileInternal.h>
 
 #include <CCore/inc/Exception.h>
@@ -53,7 +55,7 @@ void WindowClass::regClass()
   wndcls.hIconSm=hIconSm;
   wndcls.menu_res=0;
 
-  WCharString<> temp("9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost"_c);
+  Sys::WCharString<> temp("9613CA28BE7A78F0-2DD3FC07C7330F49-WindowsHost"_c);
 
   wndcls.class_name=temp;
   wndcls.wnd_proc=WindowsHost::WndProc;
@@ -943,8 +945,8 @@ void WindowsHost::AbortMsgBox(StrLen text)
 
 void WindowsHost::ErrorMsgBox(StrLen text,StrLen title)
  {
-  WCharString<> cap(text);
-  WCharString<> cap_title(title);
+  Sys::WCharString<> cap(text);
+  Sys::WCharString<> cap_title(title);
 
   Win64::MessageBoxW(HMainWindow,cap,cap_title,Win64::MessageBox_Ok|Win64::MessageBox_IconError);
  }
@@ -998,7 +1000,7 @@ void WindowsHost::createMain(Pane pane,Point max_size_)
 
   buf.setSize(max_size_);
 
-  WCharString<16> temp(""_c);
+  Sys::WCharString<16> temp(""_c);
 
   Win64::HWindow hWnd=Win64::CreateWindowExW(0,
                                              Win64::MakeIntAtom(WindowClassObject.getAtom(format)),
@@ -1052,7 +1054,7 @@ void WindowsHost::create(WindowHost *parent,Pane pane,Point max_size_)
      hParent=HMainWindow;
     }
 
-  WCharString<16> temp(""_c);
+  Sys::WCharString<16> temp(""_c);
 
   Win64::HWindow hWnd=Win64::CreateWindowExW(0,
                                              Win64::MakeIntAtom(WindowClassObject.getAtom(format)),
@@ -1078,7 +1080,7 @@ void WindowsHost::destroy()
 
 void WindowsHost::setTitle(StrLen title)
  {
-  WCharString<> cap(title);
+  Sys::WCharString<> cap(title);
 
   const char *format="CCore::Video::Internal::WindowsHost::setTitle(...) : #;";
 
