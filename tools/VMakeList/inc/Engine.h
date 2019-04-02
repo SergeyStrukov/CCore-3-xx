@@ -48,8 +48,6 @@ struct ScanStr;
 
 struct DDLString;
 
-template <class Func> struct PrintByFunc;
-
 class FindFiles;
 
 class FileList;
@@ -106,23 +104,6 @@ struct DDLString
   void print(PrinterType &out) const
    {
     for(char ch : str ) PrintChar(out,ch);
-   }
- };
-
-/* struct PrintByFunc<Func> */
-
-template <class Func>
-struct PrintByFunc
- {
-  Func func;
-
-  explicit PrintByFunc(const Func &func_) : func(func_) {}
-
-  // print object
-
-  void print(PrinterType &out) const
-   {
-    func(out);
    }
  };
 

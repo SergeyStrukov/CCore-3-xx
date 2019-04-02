@@ -41,6 +41,8 @@ inline unsigned long long GetTextDesc(unsigned long long value) { return value; 
 
 /* classes */
 
+template <class Func> struct PrintBy;
+
 template <class T> struct PrintOptAdapter;
 
 template <class T> struct PrintAdapter;
@@ -52,6 +54,20 @@ template <class P> class PrintfDev;
 template <class P> class PutobjDev;
 
 template <class OptType,class T> struct BindOpt;
+
+/* struct PrintBy<Func> */
+
+template <class Func>
+struct PrintBy
+ {
+  Func func;
+
+  explicit PrintBy(const Func &func_) : func(func_) {}
+
+  // print object
+
+  void print(PrinterType &out) const { func(out); }
+ };
 
 /* struct PrintOptAdapter<T> */
 

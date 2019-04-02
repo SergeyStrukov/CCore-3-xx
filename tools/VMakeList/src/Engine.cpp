@@ -392,7 +392,7 @@ void Engine::printText(PrinterType &out,StrLen name,StrLen str)
  {
   auto func = [&] (auto &out) { printText(out,str); } ;
 
-  Printf(out,"text #; = #; ;\n\n",name,PrintByFunc(func));
+  Printf(out,"text #; = #; ;\n\n",name,PrintBy(func));
  }
 
 template <class List,class FuncSrc,class FuncDst>
@@ -558,7 +558,7 @@ int Engine::run()
 
                         auto func = [&] (auto &out) { printList(out,tools->CCOPT.getRange(),psrc,pdst); } ;
 
-                        Printf(out,"Exe execpp#; = { \"CC #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintByFunc(func));
+                        Printf(out,"Exe execpp#; = { \"CC #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
 
                        } );
   }
@@ -582,7 +582,7 @@ int Engine::run()
 
                         auto func = [&] (auto &out) { printList(out,tools->ASOPT.getRange(),psrc,pdst); } ;
 
-                        Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , #; } ;\n\n",ind,DDLString(fn.name),PrintByFunc(func));
+                        Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
 
                        } );
   }
@@ -615,7 +615,7 @@ int Engine::run()
 
                     } ;
 
-   Printf(out,"Rule rmain = { #; , {&main} , ",PrintByFunc(func1));
+   Printf(out,"Rule rmain = { #; , {&main} , ",PrintBy(func1));
   }
 
   // ld
@@ -647,7 +647,7 @@ int Engine::run()
 
                       } ;
 
-     Printf(out,"Exe exemain = { 'LD' , LD , #; } ;\n\n",PrintByFunc(func2));
+     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func2));
     }
 
   // ar
@@ -683,7 +683,7 @@ int Engine::run()
 
                       } ;
 
-     Printf(out,"Exe exemain2 = { 'AR' , AR , #; } ;\n\n",PrintByFunc(func2));
+     Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , #; } ;\n\n",PrintBy(func2));
     }
 
   // prep
@@ -698,7 +698,7 @@ int Engine::run()
 
   Putobj(prep,"Rule robj = { {} , {&obj} , {&cmdobj} } ;\n\n"_c);
 
-  Printf(prep,"Cmd cmdobj = { 'OBJ' , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
+  Printf(prep,"Cmd cmdobj = { 'MKDIR '+OBJ_PATH , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
 
              ,DDLString(tools->MKDIR),DDLString(tools->MKEMPTY));
 

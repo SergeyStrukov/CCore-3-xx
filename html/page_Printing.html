@@ -978,6 +978,29 @@ struct <span class="Att">PrintDumpOptType</span>
 <b>line_len</b> determines the number of integers on the one line.
 </p>
 
+<h3>Print by a functor</h3>
+
+<p>
+This <b>Helper Class</b> can be used to direct printing to a functor. 
+Useful in combination with lambdas. 
+</p>
+
+<pre>
+
+template &lt;class Func&gt;
+struct <span class="Att">PrintBy</span>
+ {
+  Func func;
+
+  explicit PrintBy(const Func &amp;func_) : func(func_) {}
+
+  // print object
+
+  void print(PrinterType &amp;out) const { func(out); }
+ };
+
+</pre>
+
 </body>
 
 </html>

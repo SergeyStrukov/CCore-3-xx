@@ -175,7 +175,7 @@ Rule rmain = { {
  ,&ocpp4
 } , {&main} , {&exemain} } ;
 
-Exe exemain = { 'LD' , LD , {
+Exe exemain = { 'LD '+TARGET , LD , {
   ocpp1.file
  ,ocpp2.file
  ,ocpp3.file
