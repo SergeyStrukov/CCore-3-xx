@@ -44,8 +44,6 @@ enum TargetType : int
 
 /* classes */
 
-struct ScanStr;
-
 struct DDLString;
 
 class FindFiles;
@@ -53,16 +51,6 @@ class FindFiles;
 class FileList;
 
 class Engine;
-
-/* struct ScanStr */
-
-struct ScanStr
- {
-  StrLen before;
-  StrLen next; // starts at ch
-
-  ScanStr(StrLen str,char ch);
- };
 
 /* struct DDLString */
 

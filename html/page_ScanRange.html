@@ -1,0 +1,78 @@
+<!--
+/* page_ScanRange.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ScanRange</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ScanRange</h2>
+
+<p class="Files">Files <b>CCore/inc/ScanRange.h</b> <b>CCore/src/ScanRange.cpp</b></p>
+
+<p>
+This part provides two <b>Class-functions</b> for the range scanning and the string scanning.
+</p>
+
+<pre>
+
+/* struct ScanRange&lt;R&gt; */
+
+template &lt;class R&gt;
+struct <span class="Att">ScanRange</span>
+ {
+  R before;
+  R next; // starts at element satisfies pred
+
+  template &lt;class Pred&gt;
+  ScanRange(R r,Pred pred);
+ };
+
+/* struct ScanStr */
+
+struct <span class="Att">ScanStr</span> : ScanRange&lt;StrLen&gt;
+ {
+  using ScanRange&lt;StrLen&gt;::ScanRange;
+
+  ScanStr(StrLen str,char ch);
+ };
+
+</pre>
+
+<p>
+<b>ScanRange</b> scans the given range <span class="Alert">forward</span> in the search of elements, satisfying the given predicate.
+Once such element is found, it splits the range on two parts: <b>before</b> and <b>next</b>.
+<b>next</b> starts at the found element.
+If no required elements has been found, 
+then <b>before</b> sets to the full range and <b>next</b> to the empty.
+</p>
+
+<p>
+<b>ScanStr</b> is the <b>ScanRange</b> for the <b>StrLen</b> type with one additional constructor:
+it takes the character to search it in the string.
+</p>
+
+</body>
+
+</html>
+

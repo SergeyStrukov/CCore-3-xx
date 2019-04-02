@@ -15,27 +15,11 @@
 
 #include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/FileSystem.h>
+#include <CCore/inc/ScanRange.h>
 
 #include <CCore/inc/Exception.h>
 
 namespace App {
-
-/* struct ScanStr */
-
-ScanStr::ScanStr(StrLen str,char ch)
- {
-  for(StrLen t=str; +t ;++t)
-    if( *t==ch )
-      {
-       before=str.prefix(t);
-       next=t;
-
-       return;
-      }
-
-  before=str;
-  next=Empty;
- }
 
 /* class FindFiles */
 
