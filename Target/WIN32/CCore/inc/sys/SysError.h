@@ -29,7 +29,11 @@ enum ErrorType : int
 
   Error_SysErrorFault = -1,
   Error_Task          = -2,
-  Error_Socket        = -3
+  Error_Socket        = -3,
+  Error_Spawn         = -4,
+  Error_Running       = -5,
+  Error_TooLong       = -6,
+  Error_NoVariable    = -7
  };
 
 /* private functions */

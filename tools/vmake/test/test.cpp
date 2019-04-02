@@ -19,9 +19,63 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include <CCore/inc/win32/Win32.h>
+
+namespace Win32 {
+extern "C" {
+
+/* GetEnvironmentStringsA() */
+
+char * WIN32_API GetEnvironmentStringsA(void);
+
+/* FreeEnvironmentStringsA() */
+
+bool_t WIN32_API FreeEnvironmentStringsA(char *envblock);
+
+}
+}
+
 /* main() */
 
 using namespace CCore;
+
+class EnvironHook : NoCopy
+ {
+   char *envblock;
+
+  public:
+
+   EnvironHook();
+
+   ~EnvironHook();
+
+   template <class Func>
+   void operator () (Func func)
+    {
+     const char *ptr=envblock;
+
+     if( !ptr ) return;
+
+     while( *ptr )
+       {
+        StrLen str(ptr);
+
+        func(str);
+
+        ptr+=str.len+1;
+       }
+    }
+ };
+
+EnvironHook::EnvironHook()
+ {
+  envblock=Win32::GetEnvironmentStringsA();
+ }
+
+EnvironHook::~EnvironHook()
+ {
+  if( envblock ) Win32::FreeEnvironmentStringsA(envblock);
+ }
 
 int main(int argc,const char *argv[])
  {
@@ -45,6 +99,12 @@ int main(int argc,const char *argv[])
       auto temp=ToFunction<void (StrLen)>( [&] (StrLen env) { Printf(out,"#;\n",env); } );
 
       Sys::GetEnviron(temp.function());
+
+      Putch(out,'\n');
+
+      EnvironHook hook;
+
+      hook( [&] (StrLen env) { Printf(out,"#;\n",env); } );
 
       if( argc>1 )
         {

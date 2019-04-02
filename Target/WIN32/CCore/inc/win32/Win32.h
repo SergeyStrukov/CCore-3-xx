@@ -238,6 +238,17 @@ int WIN32_API MultiByteToWideChar(codepage_t codepage,
                                   unicode_t *out,
                                   int out_len);
 
+/* WideCharToMultiByte() */
+
+int WIN32_API WideCharToMultiByte(codepage_t codepage,
+                                  flags_t flags,
+                                  const unicode_t *str,
+                                  int str_len,
+                                  char *out,
+                                  int out_len,
+                                  const char *defchar,
+                                  bool_t *used_def);
+
 /* CharLowerA() */
 
 char * WIN32_API CharLowerA(char *str);
@@ -446,6 +457,14 @@ struct ProcessInfo
 /* Process functions                                                                    */
 /*--------------------------------------------------------------------------------------*/
 
+/* GetEnvironmentStringsW() */
+
+unicode_t * WIN32_API GetEnvironmentStringsW(void);
+
+/* FreeEnvironmentStringsW() */
+
+bool_t WIN32_API FreeEnvironmentStringsW(unicode_t *envblock);
+
 /* GetStartupInfoA() */
 
 void WIN32_API GetStartupInfoA(StartupInfo *info);
@@ -474,10 +493,14 @@ bool_t WIN32_API CreateProcessA(const char *program,
                                 SecurityAttributes *,
                                 bool_t inherit_handles,
                                 flags_t process_creation_flags,
-                                void_ptr,
+                                void_ptr envblock,
                                 const char *dir,
                                 StartupInfo *info,
                                 ProcessInfo *pinfo);
+
+/* GetExitCodeProcess() */
+
+bool_t WIN32_API GetExitCodeProcess(handle_t h_process, unsigned *exit_code);
 
 /*--------------------------------------------------------------------------------------*/
 /* System property functions                                                            */

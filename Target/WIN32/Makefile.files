@@ -414,6 +414,7 @@ OBJ_LIST = \
 .obj/SysProp.o \
 .obj/SysSem.o \
 .obj/SysSpawn.o \
+.obj/SysSpawnInternal.o \
 .obj/SysTask.o \
 .obj/SysTime.o \
 .obj/SysTlsSlot.o \
@@ -897,6 +898,7 @@ ASM_LIST = \
 .obj/SysProp.s \
 .obj/SysSem.s \
 .obj/SysSpawn.s \
+.obj/SysSpawnInternal.s \
 .obj/SysTask.s \
 .obj/SysTime.s \
 .obj/SysTlsSlot.s \
@@ -1380,6 +1382,7 @@ DEP_LIST = \
 .obj/SysProp.dep \
 .obj/SysSem.dep \
 .obj/SysSpawn.dep \
+.obj/SysSpawnInternal.dep \
 .obj/SysTask.dep \
 .obj/SysTime.dep \
 .obj/SysTlsSlot.dep \
@@ -2700,6 +2703,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysSpawn.o : ../../Target/WIN32/CCore/src/./sys/SysSpawn.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/SysSpawnInternal.o : ../../Target/WIN32/CCore/src/./sys/SysSpawnInternal.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/SysTask.o : ../../Target/WIN32/CCore/src/./sys/SysTask.cpp
@@ -4144,6 +4150,9 @@ include $(RULES_FILE)
 .obj/SysSpawn.s : ../../Target/WIN32/CCore/src/./sys/SysSpawn.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/SysSpawnInternal.s : ../../Target/WIN32/CCore/src/./sys/SysSpawnInternal.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/SysTask.s : ../../Target/WIN32/CCore/src/./sys/SysTask.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5585,6 +5594,9 @@ include $(RULES_FILE)
 
 .obj/SysSpawn.dep : ../../Target/WIN32/CCore/src/./sys/SysSpawn.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysSpawn.o $< -MF $@
+
+.obj/SysSpawnInternal.dep : ../../Target/WIN32/CCore/src/./sys/SysSpawnInternal.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/SysSpawnInternal.o $< -MF $@
 
 .obj/SysTask.dep : ../../Target/WIN32/CCore/src/./sys/SysTask.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SysTask.o $< -MF $@
