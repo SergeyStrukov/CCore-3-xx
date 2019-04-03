@@ -148,14 +148,38 @@ This function returns the system shell path. It may use (or may not) the provide
 
 <pre>
 
-void <span class="Att">GetEnviron</span>(Function&lt;void (StrLen)&gt; func);  // MAY except!
+struct <span class="Att">GetEnviron</span>
+ {
+  // public
+
+  struct NextResult
+   {
+    StrLen env;
+    ErrorType error;
+    bool eof;
+   };
+
+  // private data
+
+  ....
+
+  // public
+
+  ErrorType init() noexcept;
+
+  ErrorType exit() noexcept;
+
+  NextResult next() noexcept;
+ };
 
 </pre>
 
 <p>
-This function calls the given callback function per each environment entry.
-Each entry has a form <b>"NAME=VALUE"</b> by the agreement.
-<span class="Alert">This function MAY throw an exception, and its argument <b>func</b> is allowed to do so.</span>
+This structure is a cursor over environment record list. Each record is a string of the form <b>"NAME=VALUE"</b>.
+To iterate you have to create the object, then use the method <b>next()</b> to get subsequent records.
+The <b>NextResult</b> value consists of the string, the error code and the <b>eof</b> flag.
+This flag is set if there in no records anymore.
+The string is temporary and will be destroyed either by the next call of the <b>next()</b>, or <b>exit()</b>.
 </p>
 
 </body>

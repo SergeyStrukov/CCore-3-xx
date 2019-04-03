@@ -27,11 +27,27 @@ StrLen GetShell(char /*buf*/[MaxPathLen+1]) noexcept
   return "C:\\WINDOWS\\system32\\cmd.exe"_c;
  }
 
-/* GetEnviron() */
+/* struct GetEnviron */
 
-void GetEnviron(Function<void (StrLen)> /*func*/)
+ErrorType GetEnviron::init() noexcept
  {
   // TODO
+
+  return NoError;
+ }
+
+ErrorType GetEnviron::exit() noexcept
+ {
+  // TODO
+
+  return NoError;
+ }
+
+auto GetEnviron::next() noexcept -> NextResult
+ {
+  // TODO
+
+  return {};
  }
 
 /* struct SpawnChild */

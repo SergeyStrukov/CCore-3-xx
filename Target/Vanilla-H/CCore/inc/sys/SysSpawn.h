@@ -27,15 +27,35 @@ namespace Sys {
 
 StrLen GetShell(char buf[MaxPathLen+1]) noexcept;
 
-/* GetEnviron() */
-
-void GetEnviron(Function<void (StrLen)> func);
-
 /* classes */
+
+struct GetEnviron;
 
 struct SpawnChild;
 
 struct SpawnWaitList;
+
+/* struct GetEnviron */
+
+struct GetEnviron
+ {
+  // public
+
+  struct NextResult
+   {
+    StrLen env;
+    ErrorType error;
+    bool eof;
+   };
+
+  // public
+
+  ErrorType init() noexcept;
+
+  ErrorType exit() noexcept;
+
+  NextResult next() noexcept;
+ };
 
 /* struct SpawnChild */
 

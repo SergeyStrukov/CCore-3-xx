@@ -35,6 +35,8 @@ This part is a collection of tools to spawn child processes.
 It's implemented using the <a href="page_HCore_SysSpawn.html">target support</a>.
 </p>
 
+<h4>ShellPath</h4>
+
 <pre>
 
 class <span class="Att">ShellPath</span> : NoCopy
@@ -56,6 +58,42 @@ This class construct a system shell path. Exact details, how it obtains this inf
 But normally on <b>Linux</b>, it comes from the environment variable <b>SHELL</b>, or fallback to <b>/bin/sh</b>.
 On <b>Windows</b> it comes from the environment variable <b>UNIXSHELL</b>, or fallback to <b>sh.exe</b>.
 </p>
+
+<h4>GetEnviron</h4>
+
+<p>
+This class can be used to iterate over environment variable records. Each record is a string of the form <b>"NAME=VALUE"</b>.
+</p>
+
+<pre>
+
+class <span class="Att">GetEnviron</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   GetEnviron();
+
+   ~GetEnviron();
+
+   template &lt;FuncInitArgType&lt;StrLen&gt; FuncInit&gt;
+   auto operator () (FuncInit func_init);
+
+   template &lt;FuncInitType&lt;bool,StrLen&gt; FuncInit&gt;
+   auto operator () (FuncInit func_init);
+ };
+
+</pre>
+
+<p>
+Iteration is performed using <b>operator ()</b>. The given functor is called with each record as an argument.
+The generic <a href="page_ApplyToRange.html">functor iteration pattern</a> is used.
+The string is temporary, it must be used inside the functor call.
+If the functor stopped the iteration by the returning <b>false</b>, it may be continued.
+</p>
+
+<h4>SpawnSlot</h4>
 
 <pre>
 
@@ -105,7 +143,9 @@ In this case the method does nothing and returns <b>false</b>.
 <b>SpawnSlot</b> destructor generates the error, if the state of the object is <b>SpawnSlot_Running</b>.
 </p>
 
-<pre id="SpawnSet">
+<h4 id="SpawnSet">SpanSet</h4>
+
+<pre>
 
 class <span class="Att">SpawnSet</span> : NoCopy
  {
@@ -147,7 +187,9 @@ The slot is removed from the wait list and set to the state <b>SpawnSlot_Stopped
 If the wait list is empty, the pair <b>{0,0}</b> is returned.
 </p>
 
-<pre id="SpawnProcess">
+<h4 id="SpawnProcess">SpawnProcess</h4>
+
+<pre>
 
 class <span class="Att">SpawnProcess</span> : NoCopy
  {
