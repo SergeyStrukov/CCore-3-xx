@@ -16,7 +16,7 @@
 #include <CCore/test/test.h>
 
 #include <CCore/inc/Path.h>
-#include <CCore/inc/PrintError.h>
+#include <CCore/inc/Print.h>
 
 #include <CCore/inc/SpawnProcess.h>
 
@@ -121,6 +121,22 @@ bool test3()
   return true;
  }
 
+/* test4() */
+
+bool test4()
+ {
+  PrintFile out("test.txt");
+  GetEnviron get;
+
+  get( [&] (StrLen env) { Printf(out,"#;\n",env); return env.len<30; } );
+
+  Putobj(out,"\n------------\n\n");
+
+  get( [&] (StrLen env) { Printf(out,"#;\n",env); } );
+
+  return true;
+ }
+
 } // namespace Private_4035
 
 using namespace Private_4035;
@@ -137,7 +153,9 @@ bool Testit<4035>::Main()
 
   //return test2();
 
-  return test3();
+  //return test3();
+
+  return test4();
  }
 
 } // namespace App
