@@ -245,8 +245,60 @@ void Engine::printBy(PrinterType &out,Func func)
   func(out);
  }
 
+void Engine::printVarExt(PrinterType &,StrLen str)
+ {
+  Printf(Exception,"App : unknown variable #.q;",str);
+ }
+
 template <class FuncSrc,class FuncDst>
-void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
+void Engine::printVarExt(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
+ {
+  if( str.equal("SRC"_c) )
+    {
+     printBy(out,psrc);
+
+     return;
+    }
+
+  if( str.equal("DST"_c) )
+    {
+     printBy(out,pdst);
+
+     return;
+    }
+
+  Printf(Exception,"App : unknown variable #.q;",str);
+ }
+
+template <class FuncSrc,class FuncDst,class FuncObj>
+void Engine::printVarExt(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst,FuncObj pobj)
+ {
+  if( str.equal("SRC"_c) )
+    {
+     printBy(out,psrc);
+
+     return;
+    }
+
+  if( str.equal("DST"_c) )
+    {
+     printBy(out,pdst);
+
+     return;
+    }
+
+  if( str.equal("OBJ"_c) )
+    {
+     printBy(out,pobj);
+
+     return;
+    }
+
+  Printf(Exception,"App : unknown variable #.q;",str);
+ }
+
+template <class ... TT>
+void Engine::printVar(PrinterType &out,StrLen str,TT ... tt)
  {
   LockUse lock(level);
 
@@ -254,21 +306,21 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
 
   if( str.equal("CCORE_ROOT"_c) )
     {
-     printText(out,root,psrc,pdst);
+     printText(out,root,tt...);
 
      return;
     }
 
   if( str.equal("CCORE_TARGET"_c) )
     {
-     printText(out,target,psrc,pdst);
+     printText(out,target,tt...);
 
      return;
     }
 
   if( str.equal("CORELIB"_c) )
     {
-     printText(out,tools->CORELIB,psrc,pdst);
+     printText(out,tools->CORELIB,tt...);
 
      return;
     }
@@ -287,25 +339,11 @@ void Engine::printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
      return;
     }
 
-  if( str.equal("SRC"_c) )
-    {
-     printBy(out,psrc);
-
-     return;
-    }
-
-  if( str.equal("DST"_c) )
-    {
-     printBy(out,pdst);
-
-     return;
-    }
-
-  Printf(Exception,"App : unknown variable #.q;",str);
+  printVarExt(out,str,tt...);
  }
 
-template <class FuncSrc,class FuncDst>
-void Engine::printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
+template <class ... TT>
+void Engine::printText(PrinterType &out,StrLen str,TT ... tt)
  {
   if( !str )
     {
@@ -342,7 +380,7 @@ void Engine::printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
              {
               Putobj(out,stem);
 
-              printVar(out,scan.before.part(1),psrc,pdst);
+              printVar(out,scan.before.part(1),tt...);
 
               str=scan.next.part(1);
              }
@@ -363,34 +401,25 @@ void Engine::printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst)
     }
  }
 
-void Engine::printText(PrinterType &out,StrLen str)
- {
-  auto psrc = [] (auto &) { Printf(Exception,"App : unknown variable SRC"); } ;
-
-  auto pdst = [] (auto &) { Printf(Exception,"App : unknown variable DST"); } ;
-
-  printText(out,str,psrc,pdst);
- }
-
-void Engine::printText(PrinterType &out,StrLen name,StrLen str)
+void Engine::printDefText(PrinterType &out,StrLen name,StrLen str)
  {
   auto func = [&] (auto &out) { printText(out,str); } ;
 
   Printf(out,"text #; = #; ;\n\n",name,PrintBy(func));
  }
 
-template <class List,class FuncSrc,class FuncDst>
-void Engine::printSubList(PrinterType &out,PrintFirst &stem,List list,FuncSrc psrc,FuncDst pdst)
+template <class List,class ... TT>
+void Engine::printSubList(PrinterType &out,PrintFirst &stem,List list,TT ... tt)
  {
   LockUse lock(level);
 
   for(StrLen str : list )
     {
-     if( !printSub(out,stem,str,psrc,pdst) )
+     if( !printSub(out,stem,str,tt...) )
        {
         Putobj(out,stem);
 
-        printText(out,str,psrc,pdst);
+        printText(out,str,tt...);
        }
     }
  }
@@ -410,41 +439,8 @@ void Engine::printBy(PrinterType &out,PrintFirst &stem,Func func)
  }
 
 template <class FuncSrc,class FuncDst>
-bool Engine::printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst)
+bool Engine::printSubExt(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst)
  {
-  if( !TestSingle(str) ) return false;
-
-  str=str.inner(1,1);
-
-  if( str.equal("CCOPT_EXTRA"_c) )
-    {
-     printSubList(out,stem,param->CCOPT_EXTRA.getRange(),psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("LDOPT_EXTRA"_c) )
-    {
-     printSubList(out,stem,param->LDOPT_EXTRA.getRange(),psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("ASOPT_EXTRA"_c) )
-    {
-     printSubList(out,stem,param->ASOPT_EXTRA.getRange(),psrc,pdst);
-
-     return true;
-    }
-
-  if( str.equal("LDOPT_DESKTOP"_c) )
-    {
-     if( param->target==TargetDesktop )
-       printSubList(out,stem,tools->LDOPT_DESKTOP.getRange(),psrc,pdst);
-
-     return true;
-    }
-
   if( str.equal("SRC"_c) )
     {
      printBy(out,stem,psrc);
@@ -462,14 +458,87 @@ bool Engine::printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,
   return false;
  }
 
-template <class List,class FuncSrc,class FuncDst>
-void Engine::printList(PrinterType &out,List list,FuncSrc psrc,FuncDst pdst)
+template <class FuncSrc,class FuncDst,class FuncObj>
+bool Engine::printSubExt(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst,FuncObj pobj)
+ {
+  if( str.equal("SRC"_c) )
+    {
+     printBy(out,stem,psrc);
+
+     return true;
+    }
+
+  if( str.equal("DST"_c) )
+    {
+     printBy(out,stem,pdst);
+
+     return true;
+    }
+
+  if( str.equal("OBJ"_c) )
+    {
+     printBy(out,stem,pobj);
+
+     return true;
+    }
+
+  return false;
+ }
+
+template <class ... TT>
+bool Engine::printSub(PrinterType &out,PrintFirst &stem,StrLen str,TT ... tt)
+ {
+  if( !TestSingle(str) ) return false;
+
+  str=str.inner(1,1);
+
+  if( str.equal("CCINC"_c) )
+    {
+     printSubList(out,stem,tools->CCINC.getRange(),tt...);
+
+     return true;
+    }
+
+  if( str.equal("CCOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->CCOPT_EXTRA.getRange(),tt...);
+
+     return true;
+    }
+
+  if( str.equal("LDOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->LDOPT_EXTRA.getRange(),tt...);
+
+     return true;
+    }
+
+  if( str.equal("ASOPT_EXTRA"_c) )
+    {
+     printSubList(out,stem,param->ASOPT_EXTRA.getRange(),tt...);
+
+     return true;
+    }
+
+  if( str.equal("LDOPT_DESKTOP"_c) )
+    {
+     if( param->target==TargetDesktop )
+       printSubList(out,stem,tools->LDOPT_DESKTOP.getRange(),tt...);
+
+     return true;
+    }
+
+  return printSubExt(out,stem,str,tt...);
+ }
+
+template <class List,class ... TT>
+void Engine::printList(PrinterType &out,List list,TT ... tt)
  {
   out.put('{');
 
   PrintFirst stem("\n  "_c,"\n ,"_c);
 
-  printSubList(out,stem,list,psrc,pdst);
+  printSubList(out,stem,list,tt...);
 
   out.put('\n');
   out.put('}');
@@ -511,17 +580,17 @@ int Engine::run()
 
   PrintFile out(proj_file_name);
 
-  printText(out,"OBJ_PATH"_c,param->OBJ_PATH);
+  printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
-  printText(out,"CC"_c,tools->CC);
+  printDefText(out,"CC"_c,tools->CC);
 
-  printText(out,"AS"_c,tools->AS);
+  printDefText(out,"AS"_c,tools->AS);
 
-  printText(out,"LD"_c,tools->LD);
+  printDefText(out,"LD"_c,tools->LD);
 
-  printText(out,"AR"_c,tools->AR);
+  printDefText(out,"AR"_c,tools->AR);
 
-  printText(out,"TARGET"_c,param->TARGET);
+  printDefText(out,"TARGET"_c,param->TARGET);
 
   // cpp
 
@@ -670,29 +739,111 @@ int Engine::run()
      Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , #; } ;\n\n",PrintBy(func2));
     }
 
+  // inc dep
+
+  {
+   Printf(out,"include <#;/deps.vm.ddl>\n",StrLen(param->OBJ_PATH));
+  }
+
   // prep
 
   PrintFile prep(prep_file_name);
 
-  printText(prep,"OBJ_PATH"_c,param->OBJ_PATH);
+  printDefText(prep,"CC"_c,tools->CC);
 
-  printText(prep,"TARGET"_c,param->TARGET);
+  printDefText(prep,"VMDEP"_c,tools->VMDEP);
 
-  Putobj(prep,"Target obj = { 'obj' , OBJ_PATH+'/empty' } ;\n\n"_c);
+  printDefText(prep,"CAT"_c,tools->CAT);
 
-  Putobj(prep,"Rule robj = { {} , {&obj} , {&cmdobj} } ;\n\n"_c);
+  printDefText(prep,"OBJ_PATH"_c,param->OBJ_PATH);
 
-  Printf(prep,"Cmd cmdobj = { 'MKDIR '+OBJ_PATH , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
+  printDefText(prep,"TARGET"_c,param->TARGET);
 
-             ,DDLString(tools->MKDIR),DDLString(tools->MKEMPTY));
+  //
 
-  Putobj(prep,"Target clean = { 'clean' } ;\n\n"_c);
+  {
+   Putobj(prep,"text DEP = OBJ_PATH+'/deps.vm.ddl' ;\n\n");
 
-  Putobj(prep,"Rule rclean = { {} , {&clean} , {&cmdclean} } ;\n\n"_c);
+   Putobj(prep,"Target obj = { 'obj' , OBJ_PATH+'/empty' } ;\n\n"_c);
 
-  Printf(prep,"Cmd cmdclean = { 'CLEAN' , \"#; \\\"\"+TARGET+\"\\\" \\\"\"+OBJ_PATH+\"\\\"/*\" } ;\n\n"
+   Putobj(prep,"Rule robj = { {} , {&obj} , {&cmdobj} } ;\n\n"_c);
 
-             ,DDLString(tools->RM));
+   Printf(prep,"Cmd cmdobj = { 'MKDIR '+OBJ_PATH , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
+
+              ,DDLString(tools->MKDIR),DDLString(tools->MKEMPTY));
+
+   Putobj(prep,"Target clean = { 'clean' } ;\n\n"_c);
+
+   Putobj(prep,"Rule rclean = { {} , {&clean} , {&cmdclean} } ;\n\n"_c);
+
+   Printf(prep,"Cmd cmdclean = { 'CLEAN' , \"#; \\\"\"+TARGET+\"\\\" \\\"\"+OBJ_PATH+\"\\\"/*\" } ;\n\n"
+
+              ,DDLString(tools->RM));
+  }
+
+  // dep
+
+  {
+   cpp_list.apply( [&] (ulen ind,FileName fn)
+                       {
+                        Printf(prep,"Target cpp#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
+
+                        StrLen cutname=fn.name.inner(0,4);
+
+                        Printf(prep,"Target dcpp#; = { \"#;.dep\" , OBJ_PATH+\"/#;.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+
+                        Printf(prep,"Rule rdcpp#; = { {&cpp#;,&obj} , {&dcpp#;} , {&execpp#;} } ;\n",ind,ind,ind,ind);
+
+                        auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
+
+                        auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.dep\"",DDLString(cutname)); } ;
+
+                        auto pobj = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } ;
+
+                        auto func = [&] (auto &out) { printList(out,tools->DEPOPT.getRange(),psrc,pdst,pobj); } ;
+
+                        Printf(prep,"Exe execpp#; = { \"CC-DEP #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
+
+                        Printf(prep,"Target vdcpp#; = { \"#;.vm.dep\" , OBJ_PATH+\"/#;.vm.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+
+                        Printf(prep,"Rule rvdcpp#; = { {&dcpp#;} , {&vdcpp#;} , {&exedcpp#;} } ;\n",ind,ind,ind,ind);
+
+                        Printf(prep,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" } } ;\n\n",ind,DDLString(fn.name),DDLString(cutname),DDLString(cutname));
+
+                       } );
+  }
+
+  // cat
+
+  {
+   Putobj(prep,"Target make_dep = { 'make_dep' , DEP } ;\n\n"_c);
+
+   auto func1 = [&] (auto &out)
+                    {
+                     cpp_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"\n,&vdcpp#;",ind);
+
+                                         } );
+
+                    } ;
+
+   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {&cmdmkdep} } ;\n\n",PrintBy(func1));
+
+   auto func2 = [&] (auto &out)
+                    {
+                     cpp_list.apply( [&] (ulen,FileName fn)
+                                         {
+                                          StrLen cutname=fn.name.inner(0,4);
+
+                                          Printf(out,"\n+\" \\\"\"+OBJ_PATH+\"/#;.vm.dep\\\"\"",cutname);
+
+                                         } );
+
+                    } ;
+
+   Printf(prep,"Cmd cmdmkdep = { 'CAT' , CAT#;+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n",PrintBy(func2));
+  }
 
   return 0;
  }

@@ -17,7 +17,7 @@ Target proj = { "proj" , "proj.vm.ddl" } ;
 
 Target prep = { "prep" , "prep.vm.ddl" } ;
 
-Rule r1 = { {&proj,&obj} , {&main} , {&r1vmake} } ; 
+Rule r1 = { {&proj,&obj,&mkdep} , {&main} , {&r1vmake} } ; 
 
 VMake r1vmake = { "-> PROJ" , "proj.vm.ddl" } ;
 
@@ -47,9 +47,25 @@ VMake r4vmake = { "-> OBJ" , "prep.vm.ddl" , "obj" } ;
 
 Target clean = { "clean" } ;
 
-Rule r5 = { {} , {&clean} , {&r5vmake} } ; 
+Rule r5 = { {&prep} , {&clean} , {&r5vmake} } ; 
 
 VMake r5vmake = { "-> CLEAN" , "prep.vm.ddl" , "clean" } ;
+
+//----------------------------------------------------------------------------------------
+
+Target dep = { "dep" } ;
+
+Rule r6 = { {&prep} , {&dep} , {&r6vmake} } ; 
+
+VMake r6vmake = { "-> CLEAN DEP" , "prep.vm.ddl" , "clean_dep" } ;
+
+//----------------------------------------------------------------------------------------
+
+Target mkdep = { "mkdep" } ;
+
+Rule r7 = { {&prep} , {&mkdep} , {&r7vmake} } ; 
+
+VMake r7vmake = { "-> MAKE DEP" , "prep.vm.ddl" , "make_dep" } ;
 
 //----------------------------------------------------------------------------------------
 

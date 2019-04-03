@@ -190,3 +190,4 @@ Exe exemain = { 'LD '+TARGET , LD , {
  ,TARGET
 } } ;
 
+include <.obj/deps.vm.ddl>

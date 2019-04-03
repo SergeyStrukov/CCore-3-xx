@@ -20,7 +20,21 @@ Tools Data = {
   
 //-----------------------------------------------
 
-.CORELIB = "#CCORE_ROOT;/Target/#CCORE_TARGET;/CCore.a",
+.CORELIB = "#CCORE_ROOT;/Target/#CCORE_TARGET;/CCore.a" ,
+
+.CCINC = {
+          "-I#CCORE_ROOT;/Target/#CCORE_TARGET;",
+          "-I#CCORE_ROOT;/HCore",
+          "-I#CCORE_ROOT;/Simple",
+          "-I#CCORE_ROOT;/Fundamental",
+          "-I#CCORE_ROOT;/Applied",
+          "-I#CCORE_ROOT;/Desktop/Core",
+          "-I#CCORE_ROOT;/Desktop/Draw",
+          "-I#CCORE_ROOT;/Desktop/Font",
+          "-I#CCORE_ROOT;/Desktop/Lib",
+          "-I#CCORE_ROOT;/Desktop/Tools",
+          "-I#CCORE_ROOT;/Desktop/App"
+         },
 
 .CCOPT = {
           "-c",
@@ -45,24 +59,25 @@ Tools Data = {
           "-Wno-delete-non-virtual-dtor",
           "-Wno-misleading-indentation",
 
-          "-I#CCORE_ROOT;/Target/#CCORE_TARGET;",
-          "-I#CCORE_ROOT;/HCore",
-          "-I#CCORE_ROOT;/Simple",
-          "-I#CCORE_ROOT;/Fundamental",
-          "-I#CCORE_ROOT;/Applied",
-          "-I#CCORE_ROOT;/Desktop/Core",
-          "-I#CCORE_ROOT;/Desktop/Draw",
-          "-I#CCORE_ROOT;/Desktop/Font",
-          "-I#CCORE_ROOT;/Desktop/Lib",
-          "-I#CCORE_ROOT;/Desktop/Tools",
-          "-I#CCORE_ROOT;/Desktop/App",
-          
+          "#CCINC;",         
           "#CCOPT_EXTRA;",
           
           "#SRC;",
           "-o",
           "#DST;"
          },
+
+.DEPOPT = {
+           "#CCINC;",         
+           "#CCOPT_EXTRA;",
+
+           "-MM",
+           "-MT", 
+           "#OBJ;",
+           "#SRC;",
+           "-MF",
+           "#DST;"
+          },
          
 .ASOPT = {
           "#SRC;",

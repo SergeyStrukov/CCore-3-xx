@@ -218,18 +218,24 @@ class Engine : NoCopy
    template <FuncArgType<PrintBase &> Func>
    void printBy(PrinterType &out,Func func);
 
-   template <class FuncSrc,class FuncDst>
-   void printVar(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+   void printVarExt(PrinterType &out,StrLen str);
 
    template <class FuncSrc,class FuncDst>
-   void printText(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
+   void printVarExt(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst);
 
-   void printText(PrinterType &out,StrLen str);
+   template <class FuncSrc,class FuncDst,class FuncObj>
+   void printVarExt(PrinterType &out,StrLen str,FuncSrc psrc,FuncDst pdst,FuncObj pobj);
 
-   void printText(PrinterType &out,StrLen name,StrLen str);
+   template <class ... TT>
+   void printVar(PrinterType &out,StrLen str,TT ... tt);
 
-   template <class List,class FuncSrc,class FuncDst>
-   void printSubList(PrinterType &out,PrintFirst &stem,List list,FuncSrc psrc,FuncDst pdst);
+   template <class ... TT>
+   void printText(PrinterType &out,StrLen str,TT ... tt);
+
+   void printDefText(PrinterType &out,StrLen name,StrLen str);
+
+   template <class List,class ... TT>
+   void printSubList(PrinterType &out,PrintFirst &stem,List list,TT ... tt);
 
    template <class Func>
    void printBy(PrinterType &out,PrintFirst &stem,Func func);
@@ -238,10 +244,16 @@ class Engine : NoCopy
    void printBy(PrinterType &out,PrintFirst &stem,Func func);
 
    template <class FuncSrc,class FuncDst>
-   bool printSub(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst);
+   bool printSubExt(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst);
 
-   template <class List,class FuncSrc,class FuncDst>
-   void printList(PrinterType &out,List list,FuncSrc psrc,FuncDst pdst);
+   template <class FuncSrc,class FuncDst,class FuncObj>
+   bool printSubExt(PrinterType &out,PrintFirst &stem,StrLen str,FuncSrc psrc,FuncDst pdst,FuncObj pobj);
+
+   template <class ... TT>
+   bool printSub(PrinterType &out,PrintFirst &stem,StrLen str,TT ... tt);
+
+   template <class List,class ... TT>
+   void printList(PrinterType &out,List list,TT ... tt);
 
   public:
 
