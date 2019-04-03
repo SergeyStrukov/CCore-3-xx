@@ -48,7 +48,7 @@ Exe execpp1 = { "CC-DEP Engine.cpp" , CC , {
 
 Target vdcpp1 = { "Engine.vm.dep" , OBJ_PATH+"/Engine.vm.dep" } ;
 Rule rvdcpp1 = { {&dcpp1} , {&vdcpp1} , {&exedcpp1} } ;
-Exe exedcpp1 = { "CC-VM-DEP Engine.cpp" , VMDEP , { OBJ_PATH+"/Engine.dep" , OBJ_PATH+"/Engine.vm.dep" } } ;
+Exe exedcpp1 = { "CC-VM-DEP Engine.cpp" , VMDEP , { OBJ_PATH+"/Engine.dep" , OBJ_PATH+"/Engine.vm.dep" , "1" } } ;
 
 Target cpp2 = { "Utils.cpp" , "src/Utils.cpp" } ;
 Target dcpp2 = { "Utils.dep" , OBJ_PATH+"/Utils.dep" } ;
@@ -76,7 +76,7 @@ Exe execpp2 = { "CC-DEP Utils.cpp" , CC , {
 
 Target vdcpp2 = { "Utils.vm.dep" , OBJ_PATH+"/Utils.vm.dep" } ;
 Rule rvdcpp2 = { {&dcpp2} , {&vdcpp2} , {&exedcpp2} } ;
-Exe exedcpp2 = { "CC-VM-DEP Utils.cpp" , VMDEP , { OBJ_PATH+"/Utils.dep" , OBJ_PATH+"/Utils.vm.dep" } } ;
+Exe exedcpp2 = { "CC-VM-DEP Utils.cpp" , VMDEP , { OBJ_PATH+"/Utils.dep" , OBJ_PATH+"/Utils.vm.dep" , "2" } } ;
 
 Target cpp3 = { "VMakeList.cpp" , "src/VMakeList.cpp" } ;
 Target dcpp3 = { "VMakeList.dep" , OBJ_PATH+"/VMakeList.dep" } ;
@@ -104,7 +104,7 @@ Exe execpp3 = { "CC-DEP VMakeList.cpp" , CC , {
 
 Target vdcpp3 = { "VMakeList.vm.dep" , OBJ_PATH+"/VMakeList.vm.dep" } ;
 Rule rvdcpp3 = { {&dcpp3} , {&vdcpp3} , {&exedcpp3} } ;
-Exe exedcpp3 = { "CC-VM-DEP VMakeList.cpp" , VMDEP , { OBJ_PATH+"/VMakeList.dep" , OBJ_PATH+"/VMakeList.vm.dep" } } ;
+Exe exedcpp3 = { "CC-VM-DEP VMakeList.cpp" , VMDEP , { OBJ_PATH+"/VMakeList.dep" , OBJ_PATH+"/VMakeList.vm.dep" , "3" } } ;
 
 Target cpp4 = { "main.cpp" , "src/main.cpp" } ;
 Target dcpp4 = { "main.dep" , OBJ_PATH+"/main.dep" } ;
@@ -132,7 +132,7 @@ Exe execpp4 = { "CC-DEP main.cpp" , CC , {
 
 Target vdcpp4 = { "main.vm.dep" , OBJ_PATH+"/main.vm.dep" } ;
 Rule rvdcpp4 = { {&dcpp4} , {&vdcpp4} , {&exedcpp4} } ;
-Exe exedcpp4 = { "CC-VM-DEP main.cpp" , VMDEP , { OBJ_PATH+"/main.dep" , OBJ_PATH+"/main.vm.dep" } } ;
+Exe exedcpp4 = { "CC-VM-DEP main.cpp" , VMDEP , { OBJ_PATH+"/main.dep" , OBJ_PATH+"/main.vm.dep" , "4" } } ;
 
 Target make_dep = { 'make_dep' , DEP } ;
 

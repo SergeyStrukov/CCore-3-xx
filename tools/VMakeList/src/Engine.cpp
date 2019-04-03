@@ -808,7 +808,8 @@ int Engine::run()
 
                         Printf(prep,"Rule rvdcpp#; = { {&dcpp#;} , {&vdcpp#;} , {&exedcpp#;} } ;\n",ind,ind,ind,ind);
 
-                        Printf(prep,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" } } ;\n\n",ind,DDLString(fn.name),DDLString(cutname),DDLString(cutname));
+                        Printf(prep,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" , \"#;\" } } ;\n\n"
+                          ,ind,DDLString(fn.name),DDLString(cutname),DDLString(cutname),ind);
 
                        } );
   }
