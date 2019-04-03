@@ -195,7 +195,11 @@ void ExeList::vmake(Func func)
     {
      TypeDef::VMake *cmd=buf[ready]->getVMake();
 
-     func(cmd);
+     int status=func(cmd);
+
+     buf[ready]->status=status;
+
+     ready++;
     }
  }
 
@@ -643,6 +647,8 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],Comp
 
   Printf(Con,"vmake : start #; rules\n",list.len);
 
+#if 1
+
   try
     {
      ExeList exelist(list,buf,complete);
@@ -656,7 +662,7 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],Comp
            if( exelist.hasRunning() ) pexe->waitOne(&exelist);
           }
 
-        exelist.vmake( [&] (TypeDef::VMake *cmd) { exeCmd(wdir,cmd); } );
+        exelist.vmake( [&] (TypeDef::VMake *cmd) { return exeCmd(wdir,cmd); } );
        }
     }
   catch(...)
@@ -666,7 +672,7 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],Comp
      throw;
     }
 
-#if 0
+#else
 
   for(auto &obj : list )
     {

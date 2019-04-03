@@ -17,8 +17,8 @@
 #include <CCore/inc/Exception.h>
 
 #include <CCore/inc/Scanf.h>
-
-#include <CCore/inc/FileSystem.h>
+#include <CCore/inc/Timer.h>
+#include <CCore/inc/PrintTime.h>
 
 namespace App {
 
@@ -26,6 +26,8 @@ namespace App {
 
 class Main : NoCopy
  {
+   SecTimer timer;
+
    unsigned pcap = 0 ;
    StrLen file_name = "default.vm.ddl"_c ;
    StrLen target = "main"_c ;
@@ -110,7 +112,11 @@ class Main : NoCopy
 
      VMake::DataProc proc(file_proc,file_name,target);
 
-     return proc.make();
+     int ret=proc.make();
+
+     Printf(Con,"time = #;\n\n",PrintTime(timer.get()));
+
+     return ret;
     }
  };
 
