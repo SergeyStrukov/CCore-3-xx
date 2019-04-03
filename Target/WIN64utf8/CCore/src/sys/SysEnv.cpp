@@ -24,7 +24,7 @@ namespace Sys {
 
 /* struct NormalGetEnv */
 
-NormalGetEnv::NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len)
+NormalGetEnv::NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len) noexcept
  {
   Replace_min(buf_len,Win64::MaxUShortLen);
 
@@ -44,7 +44,7 @@ NormalGetEnv::NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len)
 
 /* struct BackupGetEnv */
 
-BackupGetEnv::BackupGetEnv(const char *name,WChar *buf,ulen buf_len)
+BackupGetEnv::BackupGetEnv(const char *name,WChar *buf,ulen buf_len) noexcept
  {
   len=0;
 

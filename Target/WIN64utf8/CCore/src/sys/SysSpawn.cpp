@@ -29,7 +29,7 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char buf[MaxPathLen+1])
+StrLen GetShell(char buf[MaxPathLen+1]) noexcept
  {
   TryGetEnv<32,MaxPathLen> tryget(Range(buf,MaxPathLen),"UNIXSHELL");
 
@@ -38,35 +38,109 @@ StrLen GetShell(char buf[MaxPathLen+1])
   return "sh.exe"_c;
  }
 
-/* GetEnviron() */
+/* struct GetEnviron */
 
-void GetEnviron(Function<void (StrLen)> func)
+static_assert( Meta::IsSame<GetEnviron::WChar,Win64::wchar> ,"CCore::Sys::GetEnviron : bad WChar");
+
+auto GetEnviron::transform(ulen slen,Unicode sym,PtrLen<const WChar> text) noexcept -> TransformResult
  {
-  EnvironHook hook;
+  TransformCountLen count(slen,sym,text);
 
-  hook( [=] (PtrLen<const WChar> env)
-            {
-             WCharToUtf8Full temp(env);
+  if( count.ok )
+    {
+     if( char *new_str=PlaceAt(TryMemAlloc(count.len)) )
+       {
+        ulen retlen=FinishTransform(Range(new_str,count.len),Range(str,slen),sym,text);
 
-             if( !temp ) GuardNoMem(temp.getLen());
+        if( str!=small ) MemFree(str);
 
-             func(temp.get());
+        str=new_str;
+        len=count.len;
 
-            } );
+        return {retlen,NoError};
+       }
+    }
+
+  return {0,ErrorType(Win64::ErrorNotEnoughMemory)};
+ }
+
+auto GetEnviron::transform(PtrLen<const WChar> text) noexcept -> TransformResult
+ {
+  if( !str )
+    {
+     str=small;
+     len=DimOf(small);
+    }
+
+  auto out=Range(str,len);
+
+  StartTransform result(text,out);
+
+  if( result.ok )
+    {
+     return {result.len,NoError};
+    }
+  else
+    {
+     return transform(result.len,result.next_sym,result.rest);
+    }
+ }
+
+ErrorType GetEnviron::init() noexcept
+ {
+  envblock=Win64::GetEnvironmentStringsW();
+
+  if( !envblock ) return NonNullError();
+
+  ptr=envblock;
+  str=0;
+
+  return NoError;
+ }
+
+ErrorType GetEnviron::exit() noexcept
+ {
+  if( str && str!=small ) MemFree(Replace_null(str));
+
+  if( !Win64::FreeEnvironmentStringsW(Replace_null(envblock)) ) return NonNullError();
+
+  return NoError;
+ }
+
+auto GetEnviron::next() noexcept -> NextResult
+ {
+  const WChar *wstr=ptr;
+
+  if( *wstr )
+    {
+     const WChar *lim=ZScan(wstr);
+
+     ptr=lim+1;
+
+     auto result=transform(Range(wstr,lim));
+
+     if( result.error ) return {Empty,result.error,false};
+
+     return {StrLen(str,result.len),NoError,false};
+    }
+  else
+    {
+     return {Empty,NoError,true};
+    }
  }
 
 /* struct SpawnChild */
 
 static_assert( Meta::IsSame<Win64::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
 
-ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
+ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp) noexcept
  {
   ProcessSetup setup(wdir,path,argv,envp);
 
   return setup.create(handle);
  }
 
-auto SpawnChild::wait() -> WaitResult
+auto SpawnChild::wait() noexcept -> WaitResult
  {
   WaitResult ret;
 
@@ -213,7 +287,7 @@ class SpawnWaitList::Engine : MemBase_nocopy
 
 /* struct SpawnWaitList */
 
-ErrorType SpawnWaitList::init(ulen reserve)
+ErrorType SpawnWaitList::init(ulen reserve) noexcept
  {
   SilentReportException report;
 
@@ -229,7 +303,7 @@ ErrorType SpawnWaitList::init(ulen reserve)
     }
  }
 
-ErrorType SpawnWaitList::exit()
+ErrorType SpawnWaitList::exit() noexcept
  {
   bool nok=engine->notEmpty();
 
@@ -238,7 +312,7 @@ ErrorType SpawnWaitList::exit()
   return nok?Error_Running:NoError;
  }
 
-ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
+ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg) noexcept
  {
   SilentReportException report;
 
@@ -254,7 +328,7 @@ ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
     }
  }
 
-auto SpawnWaitList::wait() -> WaitResult
+auto SpawnWaitList::wait() noexcept -> WaitResult
  {
   return engine->wait();
  }
