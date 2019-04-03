@@ -590,7 +590,14 @@ int Engine::run()
 
   printDefText(out,"AR"_c,tools->AR);
 
-  printDefText(out,"TARGET"_c,param->TARGET);
+  if( param->target==TargetCCore )
+    {
+     printDefText(out,"TARGET"_c,"CCore.a"_c);
+    }
+  else
+    {
+     printDefText(out,"TARGET"_c,param->TARGET);
+    }
 
   // cpp
 
@@ -829,7 +836,7 @@ int Engine::run()
 
                     } ;
 
-   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {&cmdmkdep} } ;\n\n",PrintBy(func1));
+   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {&exemkdep} } ;\n\n",PrintBy(func1));
 
    auto func2 = [&] (auto &out)
                     {
@@ -843,7 +850,7 @@ int Engine::run()
 
                     } ;
 
-   Printf(prep,"Cmd cmdmkdep = { 'CAT' , CAT#;+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n",PrintBy(func2));
+   Printf(prep,"Cmd exemkdep = { 'CAT' , CAT#;+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n",PrintBy(func2));
   }
 
   return 0;
