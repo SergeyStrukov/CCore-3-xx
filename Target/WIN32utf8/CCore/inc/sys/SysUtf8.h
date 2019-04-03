@@ -39,9 +39,9 @@ inline bool IsSurrogate(Unicode sym) { return sym>=0x10000u; }
 
 /* functions */
 
-const WChar * ZScan(const WChar *ztext);
+const WChar * ZScan(const WChar *ztext) noexcept;
 
-ulen ZLen(const WChar *ztext);
+ulen ZLen(const WChar *ztext) noexcept;
 
 /* functions */
 
@@ -109,17 +109,21 @@ void FeedUnicode(PtrLen<const WChar> text,FuncArgType<Unicode> func)
     }
  }
 
-ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out);
+ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out) noexcept;
 
-ulen Full(PtrLen<const WChar> text,PtrLen<char> out); // MaxULen on overflow
+ulen Full(PtrLen<const WChar> text,PtrLen<char> out) noexcept; // MaxULen on overflow
 
-ulen Full(const WChar *ztext,PtrLen<char> out); // MaxULen on overflow
+ulen Full(const WChar *ztext,PtrLen<char> out) noexcept; // MaxULen on overflow
 
 /* classes */
 
 struct SurrogateCouple;
 
 struct CopySym;
+
+struct StartTransform;
+
+struct TransformCountLen;
 
 class WCharToUtf8Full;
 
@@ -167,6 +171,32 @@ struct CopySym
    }
  };
 
+/* struct StartTransform */
+
+struct StartTransform
+ {
+  ulen len;
+  Unicode next_sym = 0 ;
+  PtrLen<const WChar> rest;
+  bool ok;
+
+  StartTransform(PtrLen<const WChar> text,PtrLen<char> out) noexcept;
+ };
+
+/* struct TransformCountLen */
+
+struct TransformCountLen
+ {
+  ulen len;
+  bool ok;
+
+  TransformCountLen(ulen slen,Unicode sym,PtrLen<const WChar> text) noexcept;
+ };
+
+/* FinishTransform() */
+
+ulen FinishTransform(PtrLen<char> out,PtrLen<const char> str,Unicode sym,PtrLen<const WChar> text) noexcept;
+
 /* class WCharToUtf8Full */
 
 class WCharToUtf8Full : NoCopy
@@ -184,7 +214,7 @@ class WCharToUtf8Full : NoCopy
 
   public:
 
-   explicit WCharToUtf8Full(PtrLen<const WChar> text);
+   explicit WCharToUtf8Full(PtrLen<const WChar> text) noexcept;
 
    explicit WCharToUtf8Full(const WChar *ztext) : WCharToUtf8Full(Range(ztext,ZLen(ztext))) {}
 
@@ -220,7 +250,7 @@ struct ToWChar
   bool overflow = false ;
   bool broken = false ;
 
-  ToWChar(PtrLen<WChar> out,StrLen text);
+  ToWChar(PtrLen<WChar> out,StrLen text) noexcept;
  };
 
 /* class WCharString<MaxLen> */

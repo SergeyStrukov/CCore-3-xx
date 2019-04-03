@@ -26,40 +26,7 @@ namespace Sys {
 
 /* classes */
 
-class EnvironHook;
-
 class ProcessSetup;
-
-/* class EnvironHook */
-
-class EnvironHook : NoCopy
- {
-   WChar *envblock;
-
-  public:
-
-   EnvironHook();
-
-   ~EnvironHook();
-
-   template <class Func>
-   void operator () (Func func)
-    {
-     const WChar *ptr=envblock;
-
-     if( !ptr ) return;
-
-     while( *ptr )
-       {
-        const WChar *str=ptr;
-        const WChar *lim=ZScan(str);
-
-        ptr=lim+1;
-
-        func(Range(str,lim));
-       }
-    }
- };
 
 /* class ProcessSetup */
 
@@ -84,11 +51,11 @@ class ProcessSetup : NoCopy
 
   public:
 
-   ProcessSetup(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+   ProcessSetup(char *wdir,char *path,char **argv,char **envp) noexcept; // path!=0 , argv!=0 , envp!=0
 
    ~ProcessSetup();
 
-   ErrorType create(int &handle);
+   ErrorType create(int &handle) noexcept;
  };
 
 } // namespace Sys

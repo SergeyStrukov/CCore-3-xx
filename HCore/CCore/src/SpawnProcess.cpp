@@ -22,6 +22,29 @@
 
 namespace CCore {
 
+/* class GetEnviron */
+
+void GetEnviron::guardError(Sys::ErrorType error)
+ {
+  Printf(Exception,"CCore::GetEnviron::next() : #;",PrintError(error));
+ }
+
+GetEnviron::GetEnviron()
+ {
+  if( auto error=cur.init() )
+    {
+     Printf(Exception,"CCore::GetEnviron::GetEnviron() : #;",PrintError(error));
+    }
+ }
+
+GetEnviron::~GetEnviron()
+ {
+  if( auto error=cur.exit() )
+    {
+     Printf(NoException,"CCore::GetEnviron::~GetEnviron() : #;",PrintError(error));
+    }
+ }
+
 /* class SpawnSlot */
 
 SpawnSlot::SpawnSlot() noexcept
@@ -137,9 +160,11 @@ char ** SpawnProcess::buildArgv()
 
 char ** SpawnProcess::buildEnvp()
  {
-  auto temp=ToFunction<void (StrLen)>( [&] (StrLen env) { addEnv(env); } );
+  {
+   GetEnviron temp;
 
-  Sys::GetEnviron(temp.function());
+   temp( [&] (StrLen env) { addEnv(env); } );
+  }
 
   auto list=Range(envs);
 

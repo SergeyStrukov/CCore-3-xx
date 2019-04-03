@@ -54,9 +54,9 @@ struct <span class="Att">SpawnChild</span>
 
   // public
 
-  ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+  ErrorType spawn(char *wdir,char *path,char **argv,char **envp) noexcept; // path!=0 , argv!=0 , envp!=0
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 </pre>
@@ -101,13 +101,13 @@ struct <span class="Att">SpawnWaitList</span>
 
   // public
 
-  ErrorType init(ulen reserve);
+  ErrorType init(ulen reserve) noexcept;
 
-  ErrorType exit();
+  ErrorType exit() noexcept;
 
-  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
+  ErrorType add(SpawnChild *spawn,void *arg) noexcept; // makes spawn reusable
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 </pre>
@@ -136,7 +136,7 @@ even if the <b>error</b> is not null.
 
 <pre>
 
-StrLen <span class="Att">GetShell</span>(char buf[MaxPathLen+1]);
+StrLen <span class="Att">GetShell</span>(char buf[MaxPathLen+1]) noexcept;
 
 </pre>
 
@@ -148,13 +148,14 @@ This function returns the system shell path. It may use (or may not) the provide
 
 <pre>
 
-void <span class="Att">GetEnviron</span>(Function&lt;void (StrLen)&gt; func);
+void <span class="Att">GetEnviron</span>(Function&lt;void (StrLen)&gt; func);  // MAY except!
 
 </pre>
 
 <p>
 This function calls the given callback function per each environment entry.
 Each entry has a form <b>"NAME=VALUE"</b> by the agreement.
+<span class="Alert">This function MAY throw an exception, and its argument <b>func</b> is allowed to do so.</span>
 </p>
 
 </body>

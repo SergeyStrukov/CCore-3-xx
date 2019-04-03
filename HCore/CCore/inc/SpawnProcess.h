@@ -39,6 +39,8 @@ enum SpawnSlotState
 
 class ShellPath;
 
+class GetEnviron;
+
 class SpawnSlot;
 
 class SpawnSet;
@@ -57,6 +59,66 @@ class ShellPath : NoCopy
    ShellPath() { path=Sys::GetShell(buf); }
 
    StrLen get() const { return path; }
+ };
+
+/* class GetEnviron */
+
+class GetEnviron : NoCopy
+ {
+   Sys::GetEnviron cur;
+
+  private:
+
+   void guardError(Sys::ErrorType error);
+
+   void guard(Sys::ErrorType error)
+    {
+     if( error ) guardError(error);
+    }
+
+  public:
+
+   GetEnviron();
+
+   ~GetEnviron();
+
+   template <FuncInitArgType<StrLen> FuncInit>
+   auto operator () (FuncInit func_init)
+    {
+     FunctorTypeOf<FuncInit> func(func_init);
+
+     for(;;)
+       {
+        auto result=cur.next();
+
+        guard(result.error);
+
+        if( result.eof ) break;
+
+        func(result.env);
+       }
+
+     return Algon::GetResult(func);
+    }
+
+   template <FuncInitType<bool,StrLen> FuncInit>
+   auto operator () (FuncInit func_init)
+    {
+     FunctorTypeOf<FuncInit> func(func_init);
+
+     for(;;)
+       {
+        auto result=cur.next();
+
+        guard(result.error);
+
+        if( result.eof ) break;
+
+        if( !func(result.env) ) break;
+       }
+
+     return Algon::GetResult(func);
+    }
  };
 
 /* class SpawnSlot */

@@ -25,7 +25,7 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char buf[MaxPathLen+1]);
+StrLen GetShell(char buf[MaxPathLen+1]) noexcept;
 
 /* GetEnviron() */
 
@@ -51,9 +51,9 @@ struct SpawnChild
 
   // public
 
-  ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+  ErrorType spawn(char *wdir,char *path,char **argv,char **envp) noexcept; // path!=0 , argv!=0 , envp!=0
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 /* struct SpawnWaitList */
@@ -71,13 +71,13 @@ struct SpawnWaitList
 
   // public
 
-  ErrorType init(ulen reserve);
+  ErrorType init(ulen reserve) noexcept;
 
-  ErrorType exit();
+  ErrorType exit() noexcept;
 
-  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
+  ErrorType add(SpawnChild *spawn,void *arg) noexcept; // makes spawn reusable
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 } // namespace Sys

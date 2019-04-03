@@ -23,18 +23,6 @@
 namespace CCore {
 namespace Sys {
 
-/* class EnvironHook */
-
-EnvironHook::EnvironHook()
- {
-  envblock=Win32::GetEnvironmentStringsW();
- }
-
-EnvironHook::~EnvironHook()
- {
-  if( envblock ) Win32::FreeEnvironmentStringsW(envblock);
- }
-
 /* class ProcessSetup */
 
 class ProcessSetup::BuildStr : NoCopy
@@ -181,7 +169,7 @@ void ProcessSetup::makeEnvblock(char **envp)
   out.extractTo(envblock);
  }
 
-ProcessSetup::ProcessSetup(char *wdir,char *path,char **argv,char **envp)
+ProcessSetup::ProcessSetup(char *wdir,char *path,char **argv,char **envp) noexcept
  {
   error=ErrorType(Win32::ErrorNotEnoughMemory);
 
@@ -210,7 +198,7 @@ ProcessSetup::~ProcessSetup()
  {
  }
 
-ErrorType ProcessSetup::create(Win32::handle_t &handle)
+ErrorType ProcessSetup::create(Win32::handle_t &handle) noexcept
  {
   if( error ) return error;
 

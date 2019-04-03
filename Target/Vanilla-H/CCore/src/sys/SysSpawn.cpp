@@ -20,7 +20,7 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char /*buf*/[MaxPathLen+1])
+StrLen GetShell(char /*buf*/[MaxPathLen+1]) noexcept
  {
   // TODO
 
@@ -36,14 +36,14 @@ void GetEnviron(Function<void (StrLen)> /*func*/)
 
 /* struct SpawnChild */
 
-ErrorType SpawnChild::spawn(char * /*wdir*/,char * /*path*/,char ** /*argv*/,char ** /*envp*/)
+ErrorType SpawnChild::spawn(char * /*wdir*/,char * /*path*/,char ** /*argv*/,char ** /*envp*/) noexcept
  {
   // TODO
 
   return NoError;
  }
 
-auto SpawnChild::wait() -> WaitResult
+auto SpawnChild::wait() noexcept -> WaitResult
  {
   // TODO
 
@@ -52,28 +52,28 @@ auto SpawnChild::wait() -> WaitResult
 
 /* struct SpawnWaitList */
 
-ErrorType SpawnWaitList::init(ulen /*reserve*/)
+ErrorType SpawnWaitList::init(ulen /*reserve*/) noexcept
  {
   // TODO
 
   return NoError;
  }
 
-ErrorType SpawnWaitList::exit()
+ErrorType SpawnWaitList::exit() noexcept
  {
   // TODO
 
   return NoError;
  }
 
-ErrorType SpawnWaitList::add(SpawnChild * /*spawn*/,void * /*arg*/)
+ErrorType SpawnWaitList::add(SpawnChild * /*spawn*/,void * /*arg*/) noexcept
  {
   // TODO
 
   return NoError;
  }
 
-auto SpawnWaitList::wait() -> WaitResult
+auto SpawnWaitList::wait() noexcept -> WaitResult
  {
   // TODO
 

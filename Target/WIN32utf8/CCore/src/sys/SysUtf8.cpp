@@ -26,21 +26,21 @@ static_assert( Meta::IsSame<WChar,Win32::wchar> ,"CCore::Sys : bad WChar");
 
 /* functions */
 
-const WChar * ZScan(const WChar *ztext)
+const WChar * ZScan(const WChar *ztext) noexcept
  {
   for(; *ztext ;ztext++);
 
   return ztext;
  }
 
-ulen ZLen(const WChar *ztext)
+ulen ZLen(const WChar *ztext) noexcept
  {
   return Dist(ztext,ZScan(ztext));
  }
 
 /* functions */
 
-ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
+ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out) noexcept
  {
   ulen start=out.len;
 
@@ -49,7 +49,7 @@ ulen Truncate(PtrLen<const WChar> text,PtrLen<char> out)
   return start-out.len;
  }
 
-ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
+ulen Full(PtrLen<const WChar> text,PtrLen<char> out) noexcept
  {
   ulen start=out.len;
 
@@ -60,14 +60,41 @@ ulen Full(PtrLen<const WChar> text,PtrLen<char> out)
   return MaxULen;
  }
 
-ulen Full(const WChar *ztext,PtrLen<char> out)
+ulen Full(const WChar *ztext,PtrLen<char> out) noexcept
  {
   return Full(Range(ztext,ZLen(ztext)),out);
  }
 
-/* class WCharToUtf8Full */
+/* struct StartTransform */
 
-bool WCharToUtf8Full::countLen(ulen slen,Unicode sym,PtrLen<const WChar> text)
+StartTransform::StartTransform(PtrLen<const WChar> text,PtrLen<char> out) noexcept
+ {
+  ulen start=out.len;
+
+  CopySym copy(out);
+
+  while( +text )
+    {
+     Unicode sym=CutUnicode(text);
+
+     if( !copy(sym) )
+       {
+        len=start-out.len;
+        next_sym=sym;
+        rest=text;
+        ok=false;
+
+        return;
+       }
+    }
+
+  len=start-out.len;
+  ok=true;
+ }
+
+/* struct TransformCountLen */
+
+TransformCountLen::TransformCountLen(ulen slen,Unicode sym,PtrLen<const WChar> text) noexcept
  {
   struct CountLen
    {
@@ -85,37 +112,36 @@ bool WCharToUtf8Full::countLen(ulen slen,Unicode sym,PtrLen<const WChar> text)
 
   CountLen count{slen};
 
-  count(sym); // cannot overflow here
+  if( count(sym) )
+    {
+     len=MaxULen;
+     ok=false;
+
+     return;
+    }
 
   while( +text )
     if( count(CutUnicode(text)) )
       {
        len=MaxULen;
-       ptr=0;
+       ok=false;
 
-       return false;
+       return;
       }
 
   len=count.result.value;
-
-  return true;
+  ok=true;
  }
 
-void WCharToUtf8Full::longText(ulen slen,Unicode sym,PtrLen<const WChar> text)
+/* FinishTransform() */
+
+ulen FinishTransform(PtrLen<char> out,PtrLen<const char> str,Unicode sym,PtrLen<const WChar> text) noexcept
  {
-  // count len
+  ulen start=out.len;
 
-  if( !countLen(slen,sym,text) ) return;
+  str.copyTo(out.ptr);
 
-  // build
-
-  ptr=PlaceAt(TryMemAlloc(len));
-
-  if( !ptr ) return;
-
-  Range(small,slen).copyTo(ptr);
-
-  auto out=Range(ptr+slen,len-slen);
+  out+=str.len;
 
   CopySym copy(out);
 
@@ -123,29 +149,54 @@ void WCharToUtf8Full::longText(ulen slen,Unicode sym,PtrLen<const WChar> text)
 
   while( +text ) copy(CutUnicode(text));
 
-  len-=out.len;
+  return start-out.len;
  }
 
-WCharToUtf8Full::WCharToUtf8Full(PtrLen<const WChar> text)
+/* class WCharToUtf8Full */
+
+bool WCharToUtf8Full::countLen(ulen slen,Unicode sym,PtrLen<const WChar> text)
  {
-  auto out=Range(small);
+  TransformCountLen result(slen,sym,text);
 
-  CopySym copy(out);
-
-  while( +text )
+  if( result.ok )
     {
-     Unicode sym=CutUnicode(text);
+     len=result.len;
 
-     if( !copy(sym) )
-       {
-        longText(DimOf(small)-out.len,sym,text);
-
-        return;
-       }
+     return true;
     }
+  else
+    {
+     len=MaxULen;
+     ptr=0;
 
-  ptr=small;
-  len=DimOf(small)-out.len;
+     return false;
+    }
+ }
+
+void WCharToUtf8Full::longText(ulen slen,Unicode sym,PtrLen<const WChar> text)
+ {
+  if( !countLen(slen,sym,text) ) return;
+
+  ptr=PlaceAt(TryMemAlloc(len));
+
+  if( !ptr ) return;
+
+  len=FinishTransform(Range(ptr,len),Range(small,slen),sym,text);
+ }
+
+WCharToUtf8Full::WCharToUtf8Full(PtrLen<const WChar> text) noexcept
+ {
+  StartTransform result(text,Range(small));
+
+  if( result.ok )
+    {
+     ptr=small;
+     len=result.len;
+    }
+  else
+    {
+     longText(result.len,result.next_sym,result.rest);
+    }
  }
 
 WCharToUtf8Full::~WCharToUtf8Full()
@@ -155,7 +206,7 @@ WCharToUtf8Full::~WCharToUtf8Full()
 
 /* struct ToWChar */
 
-ToWChar::ToWChar(PtrLen<WChar> out,StrLen text)
+ToWChar::ToWChar(PtrLen<WChar> out,StrLen text) noexcept
  {
   ulen start=out.len;
 

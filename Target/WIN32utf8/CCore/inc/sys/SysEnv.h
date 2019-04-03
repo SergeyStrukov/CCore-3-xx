@@ -39,7 +39,7 @@ struct NormalGetEnv
   ulen len;
   ErrorType error;
 
-  NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len);
+  NormalGetEnv(const WChar *name,WChar *buf,ulen buf_len) noexcept;
  };
 
 /* struct BackupGetEnv */
@@ -49,7 +49,7 @@ struct BackupGetEnv
   ulen len;
   ErrorType error;
 
-  BackupGetEnv(const char *name,WChar *buf,ulen buf_len);
+  BackupGetEnv(const char *name,WChar *buf,ulen buf_len) noexcept;
  };
 
 /* class GetEnv<ulen NameLen,ulen ValueLen> */
