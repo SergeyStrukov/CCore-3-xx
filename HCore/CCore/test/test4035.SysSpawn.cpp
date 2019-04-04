@@ -20,6 +20,8 @@
 
 #include <CCore/inc/SpawnProcess.h>
 
+#include <cstdlib>
+
 namespace App {
 
 namespace Private_4035 {
@@ -104,7 +106,7 @@ bool test3()
   SpawnProcess spawn(".."_c,"../test.exe"_c);
 
   spawn.addArg("./test.exe"_c);
-  spawn.addArg("10"_c);
+  spawn.addArg("3"_c);
 
   spawn.addArg(30, [] (char *buf) { StrLen str="some-word"_c; str.copyTo(buf); buf[str.len]=0; } );
 
@@ -126,6 +128,9 @@ bool test3()
 bool test4()
  {
   PrintFile out("test.txt");
+
+  if( const char *str=std::getenv("RUSTR") ) Printf(out,"RUSTR = #;\n\n",str);
+
   GetEnviron get;
 
   get( [&] (StrLen env) { Printf(out,"#;\n",env); return env.len<30; } );
@@ -174,11 +179,11 @@ bool Testit<4035>::Main()
 
   //return test2();
 
-  //return test3();
+  return test3();
 
   //return test4();
 
-  return test5();
+  //return test5();
  }
 
 } // namespace App

@@ -30,7 +30,7 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char buf[MaxPathLen+1])
+StrLen GetShell(char buf[MaxPathLen+1]) noexcept
  {
   if( const char *str=std::getenv("UNIXSHELL") )
     {
@@ -47,79 +47,110 @@ StrLen GetShell(char buf[MaxPathLen+1])
   return "sh.exe"_c;
  }
 
-/* GetEnviron() */
+/* struct GetEnviron */
 
-void GetEnviron(Function<void (StrLen)> func)
+static_assert( Meta::IsSame<GetEnviron::WChar,Win32::unicode_t> ,"CCore::Sys::GetEnviron : bad WChar");
+
+auto GetEnviron::ZScan(const WChar *ztext) -> const WChar *
  {
-  class FromUnicode : NoCopy
-   {
-     char small[TextBufLen];
+  for(; *ztext ;ztext++);
 
-     char *ptr;
-     ulen len;
+  return ztext;
+ }
 
-    public:
+auto GetEnviron::transform(PtrLen<const WChar> text) noexcept -> TransformResult
+ {
+  if( !str )
+    {
+     str=small;
+     len=DimOf(small);
+    }
 
-     explicit FromUnicode(PtrLen<const Win32::unicode_t> env)
-      {
-       ptr=small;
-       len=0;
+  if( !text ) return {0,NoError};
 
-       if( !env ) return;
+  int result=Win32::WideCharToMultiByte(Win32::CodePageActive,0,text.ptr,text.len,0,0,0,0);
 
-       int result=Win32::WideCharToMultiByte(Win32::CodePageActive,0,env.ptr,env.len,0,0,0,0);
+  if( result==0 ) return {0,NonNullError()};
 
-       if( result<=0 ) return;
+  if( result<0 ) return {0,Error_SysErrorFault};
 
-       len=(ulen)result;
+  ulen buflen=(ulen)result;
 
-       if( len>DimOf(small) )
-         {
-          ptr=static_cast<char *>(TryMemAlloc(len));
+  if( buflen>len )
+    {
+     if( char *new_str=PlaceAt(TryMemAlloc(buflen)) )
+       {
+        if( str!=small ) MemFree(str);
 
-          if( !ptr ) return;
-         }
+        str=new_str;
+        len=buflen;
+       }
+     else
+       {
+        return {0,ErrorType(Win32::ErrorNotEnoughMemory)};
+       }
+    }
 
-       Win32::WideCharToMultiByte(Win32::CodePageActive,0,env.ptr,env.len,ptr,result,0,0);
-      }
+  Win32::WideCharToMultiByte(Win32::CodePageActive,0,text.ptr,text.len,str,result,0,0);
 
-     ~FromUnicode()
-      {
-       if( ptr && ptr!=small ) MemFree(ptr);
-      }
+  return {buflen,NoError};
+ }
 
-     bool operator ! () const { return !ptr; }
+ErrorType GetEnviron::init() noexcept
+ {
+  envblock=Win32::GetEnvironmentStringsW();
 
-     ulen getLen() const { return len; }
+  if( !envblock ) return NonNullError();
 
-     StrLen get() const { return StrLen(ptr,len); }
-   };
+  ptr=envblock;
+  str=0;
 
-  EnvironHook hook;
+  return NoError;
+ }
 
-  hook( [=] (PtrLen<const Win32::unicode_t> env)
-            {
-             FromUnicode temp(env);
+ErrorType GetEnviron::exit() noexcept
+ {
+  if( str && str!=small ) MemFree(Replace_null(str));
 
-             if( !temp ) GuardNoMem(temp.getLen());
+  if( !Win32::FreeEnvironmentStringsW(Replace_null(envblock)) ) return NonNullError();
 
-             func(temp.get());
+  return NoError;
+ }
 
-            } );
+auto GetEnviron::next() noexcept -> NextResult
+ {
+  const WChar *wstr=ptr;
+
+  if( *wstr )
+    {
+     const WChar *lim=ZScan(wstr);
+
+     ptr=lim+1;
+
+     auto result=transform(Range(wstr,lim));
+
+     if( result.error ) return {Empty,result.error,false};
+
+     return {StrLen(str,result.len),NoError,false};
+    }
+  else
+    {
+     return {Empty,NoError,true};
+    }
  }
 
 /* struct SpawnChild */
 
 static_assert( Meta::IsSame<Win32::handle_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
 
-ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
+ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp) noexcept
  {
   ProcessSetup setup(wdir,path,argv,envp);
 
   return setup.create(handle);
  }
 
-auto SpawnChild::wait() -> WaitResult
+auto SpawnChild::wait() noexcept -> WaitResult
  {
   WaitResult ret;
 
@@ -266,7 +297,7 @@ class SpawnWaitList::Engine : MemBase_nocopy
 
 /* struct SpawnWaitList */
 
-ErrorType SpawnWaitList::init(ulen reserve)
+ErrorType SpawnWaitList::init(ulen reserve) noexcept
  {
   SilentReportException report;
 
@@ -282,7 +313,7 @@ ErrorType SpawnWaitList::init(ulen reserve)
     }
  }
 
-ErrorType SpawnWaitList::exit()
+ErrorType SpawnWaitList::exit() noexcept
  {
   bool nok=engine->notEmpty();
 
@@ -291,7 +322,7 @@ ErrorType SpawnWaitList::exit()
   return nok?Error_Running:NoError;
  }
 
-ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
+ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg) noexcept
  {
   SilentReportException report;
 
@@ -307,7 +338,7 @@ ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
     }
  }
 
-auto SpawnWaitList::wait() -> WaitResult
+auto SpawnWaitList::wait() noexcept -> WaitResult
  {
   return engine->wait();
  }

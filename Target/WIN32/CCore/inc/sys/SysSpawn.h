@@ -25,17 +25,60 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char buf[MaxPathLen+1]);
-
-/* GetEnviron() */
-
-void GetEnviron(Function<void (StrLen)> func);
+StrLen GetShell(char buf[MaxPathLen+1]) noexcept;
 
 /* classes */
+
+struct GetEnviron;
 
 struct SpawnChild;
 
 struct SpawnWaitList;
+
+/* struct GetEnviron */
+
+struct GetEnviron
+ {
+  // public
+
+  struct NextResult
+   {
+    StrLen env;
+    ErrorType error;
+    bool eof;
+   };
+
+  // private data
+
+  using WChar = unsigned short ;
+
+  WChar *envblock;
+  const WChar *ptr;
+  char *str;
+  ulen len;
+
+  char small[TextBufLen];
+
+  // private
+
+  const WChar * ZScan(const WChar *ztext);
+
+  struct TransformResult
+   {
+    ulen len;
+    ErrorType error;
+   };
+
+  TransformResult transform(PtrLen<const WChar> text) noexcept;
+
+  // public
+
+  ErrorType init() noexcept;
+
+  ErrorType exit() noexcept;
+
+  NextResult next() noexcept;
+ };
 
 /* struct SpawnChild */
 
@@ -57,9 +100,9 @@ struct SpawnChild
 
   // public
 
-  ErrorType spawn(char *wdir,char *path,char **argv,char **envp); // path!=0 , argv!=0 , envp!=0
+  ErrorType spawn(char *wdir,char *path,char **argv,char **envp) noexcept; // path!=0 , argv!=0 , envp!=0
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 /* struct SpawnWaitList */
@@ -83,13 +126,13 @@ struct SpawnWaitList
 
   // public
 
-  ErrorType init(ulen reserve);
+  ErrorType init(ulen reserve) noexcept;
 
-  ErrorType exit();
+  ErrorType exit() noexcept;
 
-  ErrorType add(SpawnChild *spawn,void *arg); // makes spawn reusable
+  ErrorType add(SpawnChild *spawn,void *arg) noexcept; // makes spawn reusable
 
-  WaitResult wait();
+  WaitResult wait() noexcept;
  };
 
 } // namespace Sys
