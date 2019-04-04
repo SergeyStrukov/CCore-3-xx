@@ -8,7 +8,7 @@ text LD = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
 text AR = "ar" ;
 
-text TARGET = "../.."+"/Target/"+"WIN32utf8"+"/CCore.a" ;
+text TARGET = "CCore.a" ;
 
 Target cpp1 = { "AES.cpp" , "../../Applied/CCore/src/./crypton/AES.cpp" } ;
 Target ocpp1 = { "AES.o" , OBJ_PATH+"/AES.o" } ;

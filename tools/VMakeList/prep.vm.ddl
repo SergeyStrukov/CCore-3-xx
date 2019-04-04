@@ -136,16 +136,22 @@ Exe exedcpp4 = { "CC-VM-DEP main.cpp" , VMDEP , { OBJ_PATH+"/main.dep" , OBJ_PAT
 
 Target make_dep = { 'make_dep' , DEP } ;
 
-Rule rmkdep = { {&obj
-,&vdcpp1
-,&vdcpp2
-,&vdcpp3
-,&vdcpp4} , {&make_dep} , {&cmdmkdep} } ;
-
-Cmd cmdmkdep = { 'CAT' , CAT
+Cmd cmdmkdep1 = { 'CAT' , CAT
 +" \""+OBJ_PATH+"/Engine.vm.dep\""
 +" \""+OBJ_PATH+"/Utils.vm.dep\""
 +" \""+OBJ_PATH+"/VMakeList.vm.dep\""
 +" \""+OBJ_PATH+"/main.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp1\"" } ;
+
+Rule rmkdep = { {&obj
+,&vdcpp1
+,&vdcpp2
+,&vdcpp3
+,&vdcpp4} , {&make_dep} , {
+&cmdmkdep1,
+&cmdmkdep} } ;
+
+Cmd cmdmkdep = { 'CAT' , CAT
++" \""+OBJ_PATH+"/tmp1\""+
 " > \""+DEP+"\"" } ;
 

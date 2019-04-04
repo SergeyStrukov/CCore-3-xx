@@ -13146,6 +13146,639 @@ Exe exedcpp486 = { "CC-VM-DEP XPoint.cpp" , VMDEP , { OBJ_PATH+"/XPoint.dep" , O
 
 Target make_dep = { 'make_dep' , DEP } ;
 
+Cmd cmdmkdep1 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/AES.vm.dep\""
++" \""+OBJ_PATH+"/APRTest.vm.dep\""
++" \""+OBJ_PATH+"/APRTestData.gen.vm.dep\""
++" \""+OBJ_PATH+"/Abort.vm.dep\""
++" \""+OBJ_PATH+"/AbortMsgFunc.vm.dep\""
++" \""+OBJ_PATH+"/Activator.vm.dep\""
++" \""+OBJ_PATH+"/AntiSem.vm.dep\""
++" \""+OBJ_PATH+"/AnyPtr.vm.dep\""
++" \""+OBJ_PATH+"/AppMain.vm.dep\""
++" \""+OBJ_PATH+"/AppOpt.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp1\"" } ;
+
+Cmd cmdmkdep2 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ApplicationBase.vm.dep\""
++" \""+OBJ_PATH+"/ApplyToList.vm.dep\""
++" \""+OBJ_PATH+"/ApplyToRange.vm.dep\""
++" \""+OBJ_PATH+"/Array.vm.dep\""
++" \""+OBJ_PATH+"/ArrayAlgo.vm.dep\""
++" \""+OBJ_PATH+"/ArrayBase.vm.dep\""
++" \""+OBJ_PATH+"/ArrayInsDel.vm.dep\""
++" \""+OBJ_PATH+"/AsyncBinaryFile.vm.dep\""
++" \""+OBJ_PATH+"/AsyncFile.vm.dep\""
++" \""+OBJ_PATH+"/AsyncFileDevice.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp2\"" } ;
+
+Cmd cmdmkdep3 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/AsyncFileToMem.vm.dep\""
++" \""+OBJ_PATH+"/AsyncUDPDevice.vm.dep\""
++" \""+OBJ_PATH+"/Atomic.vm.dep\""
++" \""+OBJ_PATH+"/AtomicRefArray.vm.dep\""
++" \""+OBJ_PATH+"/AttachmentHost.vm.dep\""
++" \""+OBJ_PATH+"/AutoCast.vm.dep\""
++" \""+OBJ_PATH+"/AutoGlobal.vm.dep\""
++" \""+OBJ_PATH+"/BaseRangeAlgo.vm.dep\""
++" \""+OBJ_PATH+"/BestSearch.vm.dep\""
++" \""+OBJ_PATH+"/BinFileToRead.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp3\"" } ;
+
+Cmd cmdmkdep4 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/BinaryFile.vm.dep\""
++" \""+OBJ_PATH+"/BinarySearch.vm.dep\""
++" \""+OBJ_PATH+"/BindBagProxy.vm.dep\""
++" \""+OBJ_PATH+"/Bitmap.vm.dep\""
++" \""+OBJ_PATH+"/BlockCipher.vm.dep\""
++" \""+OBJ_PATH+"/BlockFifo.vm.dep\""
++" \""+OBJ_PATH+"/Book.vm.dep\""
++" \""+OBJ_PATH+"/BookAppMain.vm.dep\""
++" \""+OBJ_PATH+"/BookClient.vm.dep\""
++" \""+OBJ_PATH+"/BookFrame.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp4\"" } ;
+
+Cmd cmdmkdep5 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/BookWindow.vm.dep\""
++" \""+OBJ_PATH+"/Bridge.vm.dep\""
++" \""+OBJ_PATH+"/ButtonId.vm.dep\""
++" \""+OBJ_PATH+"/CancelPacketList.vm.dep\""
++" \""+OBJ_PATH+"/CapString.vm.dep\""
++" \""+OBJ_PATH+"/CharProp.vm.dep\""
++" \""+OBJ_PATH+"/CharUtils.vm.dep\""
++" \""+OBJ_PATH+"/CheckPlatformBase.vm.dep\""
++" \""+OBJ_PATH+"/CheckedData.vm.dep\""
++" \""+OBJ_PATH+"/Classification.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp5\"" } ;
+
+Cmd cmdmkdep6 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/CmdInput.vm.dep\""
++" \""+OBJ_PATH+"/Cmp.vm.dep\""
++" \""+OBJ_PATH+"/Collector.vm.dep\""
++" \""+OBJ_PATH+"/Color.vm.dep\""
++" \""+OBJ_PATH+"/ColorEdit.vm.dep\""
++" \""+OBJ_PATH+"/ColorField.vm.dep\""
++" \""+OBJ_PATH+"/ColorListWindow.vm.dep\""
++" \""+OBJ_PATH+"/CommonIntAlgo.vm.dep\""
++" \""+OBJ_PATH+"/CompactList.vm.dep\""
++" \""+OBJ_PATH+"/CompactMap.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp6\"" } ;
+
+Cmd cmdmkdep7 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/CompactNodeAllocator.vm.dep\""
++" \""+OBJ_PATH+"/ConfigBinder.vm.dep\""
++" \""+OBJ_PATH+"/ConfigEditor.vm.dep\""
++" \""+OBJ_PATH+"/ConfigStore.vm.dep\""
++" \""+OBJ_PATH+"/ContainerList.vm.dep\""
++" \""+OBJ_PATH+"/CoordEdit.vm.dep\""
++" \""+OBJ_PATH+"/Counters.vm.dep\""
++" \""+OBJ_PATH+"/Crc.vm.dep\""
++" \""+OBJ_PATH+"/CreateAt.vm.dep\""
++" \""+OBJ_PATH+"/Creator.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp7\"" } ;
+
+Cmd cmdmkdep8 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/CurveDriver.vm.dep\""
++" \""+OBJ_PATH+"/DDLChar.vm.dep\""
++" \""+OBJ_PATH+"/DDLEngine.vm.dep\""
++" \""+OBJ_PATH+"/DDLErrorMsg.vm.dep\""
++" \""+OBJ_PATH+"/DDLEval.vm.dep\""
++" \""+OBJ_PATH+"/DDLMap.vm.dep\""
++" \""+OBJ_PATH+"/DDLMapBase.vm.dep\""
++" \""+OBJ_PATH+"/DDLMapTools.vm.dep\""
++" \""+OBJ_PATH+"/DDLMapTypes.vm.dep\""
++" \""+OBJ_PATH+"/DDLParser.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp8\"" } ;
+
+Cmd cmdmkdep9 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/DDLParserElements.vm.dep\""
++" \""+OBJ_PATH+"/DDLParserRules.vm.dep\""
++" \""+OBJ_PATH+"/DDLParserTable.vm.dep\""
++" \""+OBJ_PATH+"/DDLPlatformTypes.vm.dep\""
++" \""+OBJ_PATH+"/DDLSemantic.vm.dep\""
++" \""+OBJ_PATH+"/DDLToken.vm.dep\""
++" \""+OBJ_PATH+"/DDLTools.vm.dep\""
++" \""+OBJ_PATH+"/DDLTypeDesc.vm.dep\""
++" \""+OBJ_PATH+"/DDLTypeSet.vm.dep\""
++" \""+OBJ_PATH+"/DDLTypedMap.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp9\"" } ;
+
+Cmd cmdmkdep10 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/DDLTypes.vm.dep\""
++" \""+OBJ_PATH+"/DDLValue.vm.dep\""
++" \""+OBJ_PATH+"/DHExp.vm.dep\""
++" \""+OBJ_PATH+"/DecodeFile.vm.dep\""
++" \""+OBJ_PATH+"/DefaultTimeout.vm.dep\""
++" \""+OBJ_PATH+"/DeferCall.vm.dep\""
++" \""+OBJ_PATH+"/Deflate.vm.dep\""
++" \""+OBJ_PATH+"/Desktop.vm.dep\""
++" \""+OBJ_PATH+"/DesktopKey.vm.dep\""
++" \""+OBJ_PATH+"/DestroyGuard.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp10\"" } ;
+
+Cmd cmdmkdep11 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/DetectProxy.vm.dep\""
++" \""+OBJ_PATH+"/DirFrame.vm.dep\""
++" \""+OBJ_PATH+"/DirTreeRun.vm.dep\""
++" \""+OBJ_PATH+"/DrawBook.vm.dep\""
++" \""+OBJ_PATH+"/DrawBookTools.vm.dep\""
++" \""+OBJ_PATH+"/DrawBuf.vm.dep\""
++" \""+OBJ_PATH+"/DrawTools.vm.dep\""
++" \""+OBJ_PATH+"/DynArray.vm.dep\""
++" \""+OBJ_PATH+"/DynObject.vm.dep\""
++" \""+OBJ_PATH+"/EDID.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp11\"" } ;
+
+Cmd cmdmkdep12 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/EchoDevice.vm.dep\""
++" \""+OBJ_PATH+"/ElementPool.vm.dep\""
++" \""+OBJ_PATH+"/Elf.vm.dep\""
++" \""+OBJ_PATH+"/ErrorText.vm.dep\""
++" \""+OBJ_PATH+"/EthDevice.vm.dep\""
++" \""+OBJ_PATH+"/EuclidRotate.vm.dep\""
++" \""+OBJ_PATH+"/Event.vm.dep\""
++" \""+OBJ_PATH+"/EventRecorder.vm.dep\""
++" \""+OBJ_PATH+"/Exception.vm.dep\""
++" \""+OBJ_PATH+"/ExceptionFrame.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp12\"" } ;
+
+Cmd cmdmkdep13 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ExceptionType.vm.dep\""
++" \""+OBJ_PATH+"/FFTMul.vm.dep\""
++" \""+OBJ_PATH+"/FastMutex.vm.dep\""
++" \""+OBJ_PATH+"/FeedBuf.vm.dep\""
++" \""+OBJ_PATH+"/Fifo.vm.dep\""
++" \""+OBJ_PATH+"/FigureLib.vm.dep\""
++" \""+OBJ_PATH+"/FileBoss.vm.dep\""
++" \""+OBJ_PATH+"/FileFrame.vm.dep\""
++" \""+OBJ_PATH+"/FileName.vm.dep\""
++" \""+OBJ_PATH+"/FileNameCmp.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp13\"" } ;
+
+Cmd cmdmkdep14 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/FileNameMatch.vm.dep\""
++" \""+OBJ_PATH+"/FileSystem.vm.dep\""
++" \""+OBJ_PATH+"/FileToMem.vm.dep\""
++" \""+OBJ_PATH+"/FileToRead.vm.dep\""
++" \""+OBJ_PATH+"/Font.vm.dep\""
++" \""+OBJ_PATH+"/FontDatabase.vm.dep\""
++" \""+OBJ_PATH+"/FontEdit.vm.dep\""
++" \""+OBJ_PATH+"/FontLookup.vm.dep\""
++" \""+OBJ_PATH+"/FontParam.vm.dep\""
++" \""+OBJ_PATH+"/FontReplace.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp14\"" } ;
+
+Cmd cmdmkdep15 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ForLoop.vm.dep\""
++" \""+OBJ_PATH+"/Forget.vm.dep\""
++" \""+OBJ_PATH+"/FrameBase.vm.dep\""
++" \""+OBJ_PATH+"/FrameBuf.vm.dep\""
++" \""+OBJ_PATH+"/FrameOf.vm.dep\""
++" \""+OBJ_PATH+"/FrameWindow.vm.dep\""
++" \""+OBJ_PATH+"/FreeType.vm.dep\""
++" \""+OBJ_PATH+"/FreeTypeFont.vm.dep\""
++" \""+OBJ_PATH+"/FuncTask.vm.dep\""
++" \""+OBJ_PATH+"/Function.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp15\"" } ;
+
+Cmd cmdmkdep16 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/FunctorType.vm.dep\""
++" \""+OBJ_PATH+"/GCDConst.vm.dep\""
++" \""+OBJ_PATH+"/Gadget.vm.dep\""
++" \""+OBJ_PATH+"/Gamma.vm.dep\""
++" \""+OBJ_PATH+"/GammaTable.vm.dep\""
++" \""+OBJ_PATH+"/GenFile.vm.dep\""
++" \""+OBJ_PATH+"/HFSBase.vm.dep\""
++" \""+OBJ_PATH+"/HFSClientDevice.vm.dep\""
++" \""+OBJ_PATH+"/HFSFileSystemDevice.vm.dep\""
++" \""+OBJ_PATH+"/Handle.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp16\"" } ;
+
+Cmd cmdmkdep17 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/HashFunction.vm.dep\""
++" \""+OBJ_PATH+"/HeapEngine.vm.dep\""
++" \""+OBJ_PATH+"/HeapSort.vm.dep\""
++" \""+OBJ_PATH+"/HomeFile.vm.dep\""
++" \""+OBJ_PATH+"/Incremental.vm.dep\""
++" \""+OBJ_PATH+"/Info.vm.dep\""
++" \""+OBJ_PATH+"/InfoSize.vm.dep\""
++" \""+OBJ_PATH+"/Init.vm.dep\""
++" \""+OBJ_PATH+"/InputUtils.vm.dep\""
++" \""+OBJ_PATH+"/InstanceLock.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp17\"" } ;
+
+Cmd cmdmkdep18 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/IntOp.vm.dep\""
++" \""+OBJ_PATH+"/IntPrint.vm.dep\""
++" \""+OBJ_PATH+"/IntScan.vm.dep\""
++" \""+OBJ_PATH+"/Integer.vm.dep\""
++" \""+OBJ_PATH+"/IntegerAlgo.vm.dep\""
++" \""+OBJ_PATH+"/IntegerBuilder.vm.dep\""
++" \""+OBJ_PATH+"/IntegerDivider.vm.dep\""
++" \""+OBJ_PATH+"/IntegerFastAlgo.vm.dep\""
++" \""+OBJ_PATH+"/IntegerFromString.vm.dep\""
++" \""+OBJ_PATH+"/IntegerGCD.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp18\"" } ;
+
+Cmd cmdmkdep19 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/IntegerMulAlgo.vm.dep\""
++" \""+OBJ_PATH+"/IntegerOctetBuilder.vm.dep\""
++" \""+OBJ_PATH+"/IntegerSlowAlgo.vm.dep\""
++" \""+OBJ_PATH+"/IntelAES.vm.dep\""
++" \""+OBJ_PATH+"/IntelCPUID.vm.dep\""
++" \""+OBJ_PATH+"/IntelRandom.vm.dep\""
++" \""+OBJ_PATH+"/InterfaceHost.vm.dep\""
++" \""+OBJ_PATH+"/InternalDesktop.vm.dep\""
++" \""+OBJ_PATH+"/InternalHost.vm.dep\""
++" \""+OBJ_PATH+"/InternalUtils.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp19\"" } ;
+
+Cmd cmdmkdep20 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/IntervalTree.vm.dep\""
++" \""+OBJ_PATH+"/Job.vm.dep\""
++" \""+OBJ_PATH+"/Keyboard.vm.dep\""
++" \""+OBJ_PATH+"/LangDataMap.vm.dep\""
++" \""+OBJ_PATH+"/LaunchPath.vm.dep\""
++" \""+OBJ_PATH+"/Layout.vm.dep\""
++" \""+OBJ_PATH+"/LayoutCombo.vm.dep\""
++" \""+OBJ_PATH+"/Len.vm.dep\""
++" \""+OBJ_PATH+"/LineInput.vm.dep\""
++" \""+OBJ_PATH+"/List.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp20\"" } ;
+
+Cmd cmdmkdep21 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ListCursor.vm.dep\""
++" \""+OBJ_PATH+"/LockObject.vm.dep\""
++" \""+OBJ_PATH+"/LockUse.vm.dep\""
++" \""+OBJ_PATH+"/Locked.vm.dep\""
++" \""+OBJ_PATH+"/Log.vm.dep\""
++" \""+OBJ_PATH+"/MCoordEdit.vm.dep\""
++" \""+OBJ_PATH+"/MD5.vm.dep\""
++" \""+OBJ_PATH+"/MPoint.vm.dep\""
++" \""+OBJ_PATH+"/MSec.vm.dep\""
++" \""+OBJ_PATH+"/MakeFileName.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp21\"" } ;
+
+Cmd cmdmkdep22 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/MakeString.vm.dep\""
++" \""+OBJ_PATH+"/MemAllocGuard.vm.dep\""
++" \""+OBJ_PATH+"/MemBase.vm.dep\""
++" \""+OBJ_PATH+"/MemBase_general.vm.dep\""
++" \""+OBJ_PATH+"/MemPageHeap.vm.dep\""
++" \""+OBJ_PATH+"/MemSpaceHeap.vm.dep\""
++" \""+OBJ_PATH+"/MemberFold.vm.dep\""
++" \""+OBJ_PATH+"/Menu.vm.dep\""
++" \""+OBJ_PATH+"/MergeSort.vm.dep\""
++" \""+OBJ_PATH+"/MersenneTwister.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp22\"" } ;
+
+Cmd cmdmkdep23 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/MessageFrame.vm.dep\""
++" \""+OBJ_PATH+"/Meta.vm.dep\""
++" \""+OBJ_PATH+"/MetaList.vm.dep\""
++" \""+OBJ_PATH+"/MinSizeType.vm.dep\""
++" \""+OBJ_PATH+"/MixColorWindow.vm.dep\""
++" \""+OBJ_PATH+"/ModEngine.vm.dep\""
++" \""+OBJ_PATH+"/Mouse.vm.dep\""
++" \""+OBJ_PATH+"/Move.vm.dep\""
++" \""+OBJ_PATH+"/MultiEvent.vm.dep\""
++" \""+OBJ_PATH+"/MultiSem.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp23\"" } ;
+
+Cmd cmdmkdep24 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/MultiSignal.vm.dep\""
++" \""+OBJ_PATH+"/Mutex.vm.dep\""
++" \""+OBJ_PATH+"/MutexSpinCount.vm.dep\""
++" \""+OBJ_PATH+"/NanoIPDevice.vm.dep\""
++" \""+OBJ_PATH+"/NanoPacket.vm.dep\""
++" \""+OBJ_PATH+"/NegBool.vm.dep\""
++" \""+OBJ_PATH+"/NetBase.vm.dep\""
++" \""+OBJ_PATH+"/NetFork.vm.dep\""
++" \""+OBJ_PATH+"/NewDelete.vm.dep\""
++" \""+OBJ_PATH+"/NoCopy.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp24\"" } ;
+
+Cmd cmdmkdep25 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/NoMutex.vm.dep\""
++" \""+OBJ_PATH+"/NoPrimeTest.vm.dep\""
++" \""+OBJ_PATH+"/NoThrowFlags.vm.dep\""
++" \""+OBJ_PATH+"/NodeAllocator.vm.dep\""
++" \""+OBJ_PATH+"/Nothing.vm.dep\""
++" \""+OBJ_PATH+"/NullMovePtr.vm.dep\""
++" \""+OBJ_PATH+"/ObjHost.vm.dep\""
++" \""+OBJ_PATH+"/ObjectDomain.vm.dep\""
++" \""+OBJ_PATH+"/OpAddHelper.vm.dep\""
++" \""+OBJ_PATH+"/OptMember.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp25\"" } ;
+
+Cmd cmdmkdep26 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Optional.vm.dep\""
++" \""+OBJ_PATH+"/OwnPtr.vm.dep\""
++" \""+OBJ_PATH+"/PKE.vm.dep\""
++" \""+OBJ_PATH+"/PSec.vm.dep\""
++" \""+OBJ_PATH+"/PSecCore.vm.dep\""
++" \""+OBJ_PATH+"/PSecKey.vm.dep\""
++" \""+OBJ_PATH+"/PTPBase.vm.dep\""
++" \""+OBJ_PATH+"/PTPBoot.vm.dep\""
++" \""+OBJ_PATH+"/PTPBootBase.vm.dep\""
++" \""+OBJ_PATH+"/PTPClientDevice.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp26\"" } ;
+
+Cmd cmdmkdep27 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/PTPConBase.vm.dep\""
++" \""+OBJ_PATH+"/PTPConDevice.vm.dep\""
++" \""+OBJ_PATH+"/PTPEchoTest.vm.dep\""
++" \""+OBJ_PATH+"/PTPExtra.vm.dep\""
++" \""+OBJ_PATH+"/PTPServerDevice.vm.dep\""
++" \""+OBJ_PATH+"/PTPSupport.vm.dep\""
++" \""+OBJ_PATH+"/PTPSupportBase.vm.dep\""
++" \""+OBJ_PATH+"/Packet.vm.dep\""
++" \""+OBJ_PATH+"/PacketEndpointDevice.vm.dep\""
++" \""+OBJ_PATH+"/PacketPool.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp27\"" } ;
+
+Cmd cmdmkdep28 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/PacketPool_PacketCount.vm.dep\""
++" \""+OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep\""
++" \""+OBJ_PATH+"/PacketSet.vm.dep\""
++" \""+OBJ_PATH+"/ParaQuickSort.vm.dep\""
++" \""+OBJ_PATH+"/Partition.vm.dep\""
++" \""+OBJ_PATH+"/Path.vm.dep\""
++" \""+OBJ_PATH+"/PerTask.vm.dep\""
++" \""+OBJ_PATH+"/Picture.vm.dep\""
++" \""+OBJ_PATH+"/Place.vm.dep\""
++" \""+OBJ_PATH+"/PlanInit.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp28\"" } ;
+
+Cmd cmdmkdep29 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/PlanInit_CCore.vm.dep\""
++" \""+OBJ_PATH+"/PlatformBase.vm.dep\""
++" \""+OBJ_PATH+"/Point.vm.dep\""
++" \""+OBJ_PATH+"/PointEdit.vm.dep\""
++" \""+OBJ_PATH+"/PosSub.vm.dep\""
++" \""+OBJ_PATH+"/Pow.vm.dep\""
++" \""+OBJ_PATH+"/PretextFileToMem.vm.dep\""
++" \""+OBJ_PATH+"/Print.vm.dep\""
++" \""+OBJ_PATH+"/PrintAbort.vm.dep\""
++" \""+OBJ_PATH+"/PrintAsyncFile.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp29\"" } ;
+
+Cmd cmdmkdep30 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/PrintBase.vm.dep\""
++" \""+OBJ_PATH+"/PrintBits.vm.dep\""
++" \""+OBJ_PATH+"/PrintCon.vm.dep\""
++" \""+OBJ_PATH+"/PrintDDL.vm.dep\""
++" \""+OBJ_PATH+"/PrintError.vm.dep\""
++" \""+OBJ_PATH+"/PrintFile.vm.dep\""
++" \""+OBJ_PATH+"/PrintInteger.vm.dep\""
++" \""+OBJ_PATH+"/PrintPTPCon.vm.dep\""
++" \""+OBJ_PATH+"/PrintProxy.vm.dep\""
++" \""+OBJ_PATH+"/PrintRatio.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp30\"" } ;
+
+Cmd cmdmkdep31 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/PrintSet.vm.dep\""
++" \""+OBJ_PATH+"/PrintStem.vm.dep\""
++" \""+OBJ_PATH+"/PrintTime.vm.dep\""
++" \""+OBJ_PATH+"/PrintTitle.vm.dep\""
++" \""+OBJ_PATH+"/Printf.vm.dep\""
++" \""+OBJ_PATH+"/ProgressScale.vm.dep\""
++" \""+OBJ_PATH+"/PtrLen.vm.dep\""
++" \""+OBJ_PATH+"/PtrLenReverse.vm.dep\""
++" \""+OBJ_PATH+"/PtrStepLen.vm.dep\""
++" \""+OBJ_PATH+"/Quick.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp31\"" } ;
+
+Cmd cmdmkdep32 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/QuickSort.vm.dep\""
++" \""+OBJ_PATH+"/RBTreeBase.vm.dep\""
++" \""+OBJ_PATH+"/RBTreeLink.vm.dep\""
++" \""+OBJ_PATH+"/RBTreeUpLink.vm.dep\""
++" \""+OBJ_PATH+"/RadixHeap.vm.dep\""
++" \""+OBJ_PATH+"/Random.vm.dep\""
++" \""+OBJ_PATH+"/RangeDel.vm.dep\""
++" \""+OBJ_PATH+"/RatioEdit.vm.dep\""
++" \""+OBJ_PATH+"/RawFileToRead.vm.dep\""
++" \""+OBJ_PATH+"/ReadCon.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp32\"" } ;
+
+Cmd cmdmkdep33 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ReadConType.vm.dep\""
++" \""+OBJ_PATH+"/RefArray.vm.dep\""
++" \""+OBJ_PATH+"/RefObjectBase.vm.dep\""
++" \""+OBJ_PATH+"/RefPtr.vm.dep\""
++" \""+OBJ_PATH+"/RefVal.vm.dep\""
++" \""+OBJ_PATH+"/Replace.vm.dep\""
++" \""+OBJ_PATH+"/ResSem.vm.dep\""
++" \""+OBJ_PATH+"/Rot.vm.dep\""
++" \""+OBJ_PATH+"/SHA.vm.dep\""
++" \""+OBJ_PATH+"/SIntFunc.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp33\"" } ;
+
+Cmd cmdmkdep34 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/SafeBuf.vm.dep\""
++" \""+OBJ_PATH+"/SaveLoad.vm.dep\""
++" \""+OBJ_PATH+"/Scan.vm.dep\""
++" \""+OBJ_PATH+"/ScanAsyncFile.vm.dep\""
++" \""+OBJ_PATH+"/ScanBase.vm.dep\""
++" \""+OBJ_PATH+"/ScanBit.vm.dep\""
++" \""+OBJ_PATH+"/ScanFile.vm.dep\""
++" \""+OBJ_PATH+"/ScanProxy.vm.dep\""
++" \""+OBJ_PATH+"/ScanRange.vm.dep\""
++" \""+OBJ_PATH+"/ScanTools.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp34\"" } ;
+
+Cmd cmdmkdep35 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Scanf.vm.dep\""
++" \""+OBJ_PATH+"/Scope.vm.dep\""
++" \""+OBJ_PATH+"/ScopeGuard.vm.dep\""
++" \""+OBJ_PATH+"/SelectFrames.vm.dep\""
++" \""+OBJ_PATH+"/Sem.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Button.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Check.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Contour.vm.dep\""
++" \""+OBJ_PATH+"/Shape.DragFrame.vm.dep\""
++" \""+OBJ_PATH+"/Shape.FixedFrame.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp35\"" } ;
+
+Cmd cmdmkdep36 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Shape.FrameBase.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Info.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Label.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Light.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Line.vm.dep\""
++" \""+OBJ_PATH+"/Shape.LineEdit.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Progress.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Radio.vm.dep\""
++" \""+OBJ_PATH+"/Shape.RunButton.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Scroll.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp36\"" } ;
+
+Cmd cmdmkdep37 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Shape.ScrollList.vm.dep\""
++" \""+OBJ_PATH+"/Shape.ShiftSwitch.vm.dep\""
++" \""+OBJ_PATH+"/Shape.SimpleTextList.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Slider.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Spinor.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Split.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Switch.vm.dep\""
++" \""+OBJ_PATH+"/Shape.Text.vm.dep\""
++" \""+OBJ_PATH+"/Shape.TextLine.vm.dep\""
++" \""+OBJ_PATH+"/ShapeLib.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp37\"" } ;
+
+Cmd cmdmkdep38 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/ShortSort.vm.dep\""
++" \""+OBJ_PATH+"/Signal.vm.dep\""
++" \""+OBJ_PATH+"/SimpleArray.vm.dep\""
++" \""+OBJ_PATH+"/SimpleConsole.vm.dep\""
++" \""+OBJ_PATH+"/SimpleRotate.vm.dep\""
++" \""+OBJ_PATH+"/SingleBridge.vm.dep\""
++" \""+OBJ_PATH+"/SingleEchoDevice.vm.dep\""
++" \""+OBJ_PATH+"/SingleHost.vm.dep\""
++" \""+OBJ_PATH+"/SlowSem.vm.dep\""
++" \""+OBJ_PATH+"/SmallPrimes.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp38\"" } ;
+
+Cmd cmdmkdep39 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/SmoothAlgo.vm.dep\""
++" \""+OBJ_PATH+"/SmoothDrawArt.vm.dep\""
++" \""+OBJ_PATH+"/Sort.vm.dep\""
++" \""+OBJ_PATH+"/SortUnique.vm.dep\""
++" \""+OBJ_PATH+"/Space.vm.dep\""
++" \""+OBJ_PATH+"/SpanLenEngine.vm.dep\""
++" \""+OBJ_PATH+"/SpawnProcess.vm.dep\""
++" \""+OBJ_PATH+"/StartStop.vm.dep\""
++" \""+OBJ_PATH+"/Starter.vm.dep\""
++" \""+OBJ_PATH+"/StepEval.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp39\"" } ;
+
+Cmd cmdmkdep40 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/StrKey.vm.dep\""
++" \""+OBJ_PATH+"/StrMap.vm.dep\""
++" \""+OBJ_PATH+"/StrParse.vm.dep\""
++" \""+OBJ_PATH+"/StrPrint.vm.dep\""
++" \""+OBJ_PATH+"/StrToChar.vm.dep\""
++" \""+OBJ_PATH+"/String.vm.dep\""
++" \""+OBJ_PATH+"/StringScan.vm.dep\""
++" \""+OBJ_PATH+"/SubWindow.vm.dep\""
++" \""+OBJ_PATH+"/Swap.vm.dep\""
++" \""+OBJ_PATH+"/SymCount.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp40\"" } ;
+
+Cmd cmdmkdep41 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/SymPart.vm.dep\""
++" \""+OBJ_PATH+"/Symbol.vm.dep\""
++" \""+OBJ_PATH+"/SysAbort.vm.dep\""
++" \""+OBJ_PATH+"/SysAsyncFile.vm.dep\""
++" \""+OBJ_PATH+"/SysAsyncFileSystem.vm.dep\""
++" \""+OBJ_PATH+"/SysAtomic.vm.dep\""
++" \""+OBJ_PATH+"/SysCon.vm.dep\""
++" \""+OBJ_PATH+"/SysEnv.vm.dep\""
++" \""+OBJ_PATH+"/SysError.vm.dep\""
++" \""+OBJ_PATH+"/SysFile.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp41\"" } ;
+
+Cmd cmdmkdep42 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/SysFileInternal.vm.dep\""
++" \""+OBJ_PATH+"/SysFileSystem.vm.dep\""
++" \""+OBJ_PATH+"/SysLaunchPath.vm.dep\""
++" \""+OBJ_PATH+"/SysMemPage.vm.dep\""
++" \""+OBJ_PATH+"/SysNet.vm.dep\""
++" \""+OBJ_PATH+"/SysPlanInit.vm.dep\""
++" \""+OBJ_PATH+"/SysProp.vm.dep\""
++" \""+OBJ_PATH+"/SysSem.vm.dep\""
++" \""+OBJ_PATH+"/SysSpawn.vm.dep\""
++" \""+OBJ_PATH+"/SysSpawnInternal.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp42\"" } ;
+
+Cmd cmdmkdep43 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/SysTask.vm.dep\""
++" \""+OBJ_PATH+"/SysTime.vm.dep\""
++" \""+OBJ_PATH+"/SysTlsSlot.vm.dep\""
++" \""+OBJ_PATH+"/SysUtf8.vm.dep\""
++" \""+OBJ_PATH+"/SysWait.vm.dep\""
++" \""+OBJ_PATH+"/SysWaitInternal.vm.dep\""
++" \""+OBJ_PATH+"/Task.vm.dep\""
++" \""+OBJ_PATH+"/TaskCore.vm.dep\""
++" \""+OBJ_PATH+"/TaskEvent.vm.dep\""
++" \""+OBJ_PATH+"/TaskHeap.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp43\"" } ;
+
+Cmd cmdmkdep44 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/TaskMemStack.vm.dep\""
++" \""+OBJ_PATH+"/TempArray.vm.dep\""
++" \""+OBJ_PATH+"/TextLabel.vm.dep\""
++" \""+OBJ_PATH+"/TextTools.vm.dep\""
++" \""+OBJ_PATH+"/TimeScope.vm.dep\""
++" \""+OBJ_PATH+"/Timer.vm.dep\""
++" \""+OBJ_PATH+"/TlsSlot.vm.dep\""
++" \""+OBJ_PATH+"/ToMemBase.vm.dep\""
++" \""+OBJ_PATH+"/ToMoveCtor.vm.dep\""
++" \""+OBJ_PATH+"/ToolFrame.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp44\"" } ;
+
+Cmd cmdmkdep45 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Tree.vm.dep\""
++" \""+OBJ_PATH+"/TreeBase.vm.dep\""
++" \""+OBJ_PATH+"/TreeLink.vm.dep\""
++" \""+OBJ_PATH+"/TreeMap.vm.dep\""
++" \""+OBJ_PATH+"/TreeUpLink.vm.dep\""
++" \""+OBJ_PATH+"/Tuple.vm.dep\""
++" \""+OBJ_PATH+"/TypeNumber.vm.dep\""
++" \""+OBJ_PATH+"/TypeSwitch.vm.dep\""
++" \""+OBJ_PATH+"/UDPDevice.vm.dep\""
++" \""+OBJ_PATH+"/UDPoint.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp45\"" } ;
+
+Cmd cmdmkdep46 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/UIntFunc.vm.dep\""
++" \""+OBJ_PATH+"/UIntSat.vm.dep\""
++" \""+OBJ_PATH+"/UIntSlowMulAlgo.vm.dep\""
++" \""+OBJ_PATH+"/UIntSplit.vm.dep\""
++" \""+OBJ_PATH+"/Unid.vm.dep\""
++" \""+OBJ_PATH+"/UserAction.vm.dep\""
++" \""+OBJ_PATH+"/UserPreference.vm.dep\""
++" \""+OBJ_PATH+"/Utf8.vm.dep\""
++" \""+OBJ_PATH+"/UtilFunc.vm.dep\""
++" \""+OBJ_PATH+"/VideoConsole.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp46\"" } ;
+
+Cmd cmdmkdep47 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/VideoDevice.vm.dep\""
++" \""+OBJ_PATH+"/Volume.vm.dep\""
++" \""+OBJ_PATH+"/Window.Blank.vm.dep\""
++" \""+OBJ_PATH+"/Window.Button.vm.dep\""
++" \""+OBJ_PATH+"/Window.Check.vm.dep\""
++" \""+OBJ_PATH+"/Window.Decor.vm.dep\""
++" \""+OBJ_PATH+"/Window.DragFrame.vm.dep\""
++" \""+OBJ_PATH+"/Window.FireButton.vm.dep\""
++" \""+OBJ_PATH+"/Window.Info.vm.dep\""
++" \""+OBJ_PATH+"/Window.Light.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp47\"" } ;
+
+Cmd cmdmkdep48 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Window.LineEdit.vm.dep\""
++" \""+OBJ_PATH+"/Window.Progress.vm.dep\""
++" \""+OBJ_PATH+"/Window.Radio.vm.dep\""
++" \""+OBJ_PATH+"/Window.RunButton.vm.dep\""
++" \""+OBJ_PATH+"/Window.Scroll.vm.dep\""
++" \""+OBJ_PATH+"/Window.ScrollList.vm.dep\""
++" \""+OBJ_PATH+"/Window.Scrollable.vm.dep\""
++" \""+OBJ_PATH+"/Window.SimpleTextList.vm.dep\""
++" \""+OBJ_PATH+"/Window.Slider.vm.dep\""
++" \""+OBJ_PATH+"/Window.Spinor.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp48\"" } ;
+
+Cmd cmdmkdep49 = { 'CAT' , CAT
++" \""+OBJ_PATH+"/Window.Split.vm.dep\""
++" \""+OBJ_PATH+"/Window.Text.vm.dep\""
++" \""+OBJ_PATH+"/Window.TextLine.vm.dep\""
++" \""+OBJ_PATH+"/WindowLib.vm.dep\""
++" \""+OBJ_PATH+"/WindowReport.vm.dep\""
++" \""+OBJ_PATH+"/XPoint.vm.dep\""+
+" > \""+OBJ_PATH+"/tmp49\"" } ;
+
 Rule rmkdep = { {&obj
 ,&vdcpp1
 ,&vdcpp2
@@ -13632,494 +14265,107 @@ Rule rmkdep = { {&obj
 ,&vdcpp483
 ,&vdcpp484
 ,&vdcpp485
-,&vdcpp486} , {&make_dep} , {&exemkdep} } ;
+,&vdcpp486} , {&make_dep} , {
+&cmdmkdep1,
+&cmdmkdep2,
+&cmdmkdep3,
+&cmdmkdep4,
+&cmdmkdep5,
+&cmdmkdep6,
+&cmdmkdep7,
+&cmdmkdep8,
+&cmdmkdep9,
+&cmdmkdep10,
+&cmdmkdep11,
+&cmdmkdep12,
+&cmdmkdep13,
+&cmdmkdep14,
+&cmdmkdep15,
+&cmdmkdep16,
+&cmdmkdep17,
+&cmdmkdep18,
+&cmdmkdep19,
+&cmdmkdep20,
+&cmdmkdep21,
+&cmdmkdep22,
+&cmdmkdep23,
+&cmdmkdep24,
+&cmdmkdep25,
+&cmdmkdep26,
+&cmdmkdep27,
+&cmdmkdep28,
+&cmdmkdep29,
+&cmdmkdep30,
+&cmdmkdep31,
+&cmdmkdep32,
+&cmdmkdep33,
+&cmdmkdep34,
+&cmdmkdep35,
+&cmdmkdep36,
+&cmdmkdep37,
+&cmdmkdep38,
+&cmdmkdep39,
+&cmdmkdep40,
+&cmdmkdep41,
+&cmdmkdep42,
+&cmdmkdep43,
+&cmdmkdep44,
+&cmdmkdep45,
+&cmdmkdep46,
+&cmdmkdep47,
+&cmdmkdep48,
+&cmdmkdep49,
+&cmdmkdep} } ;
 
-Cmd exemkdep = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/AES.vm.dep\""
-+" \""+OBJ_PATH+"/APRTest.vm.dep\""
-+" \""+OBJ_PATH+"/APRTestData.gen.vm.dep\""
-+" \""+OBJ_PATH+"/Abort.vm.dep\""
-+" \""+OBJ_PATH+"/AbortMsgFunc.vm.dep\""
-+" \""+OBJ_PATH+"/Activator.vm.dep\""
-+" \""+OBJ_PATH+"/AntiSem.vm.dep\""
-+" \""+OBJ_PATH+"/AnyPtr.vm.dep\""
-+" \""+OBJ_PATH+"/AppMain.vm.dep\""
-+" \""+OBJ_PATH+"/AppOpt.vm.dep\""
-+" \""+OBJ_PATH+"/ApplicationBase.vm.dep\""
-+" \""+OBJ_PATH+"/ApplyToList.vm.dep\""
-+" \""+OBJ_PATH+"/ApplyToRange.vm.dep\""
-+" \""+OBJ_PATH+"/Array.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayBase.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayInsDel.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncBinaryFile.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncFileDevice.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncFileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncUDPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Atomic.vm.dep\""
-+" \""+OBJ_PATH+"/AtomicRefArray.vm.dep\""
-+" \""+OBJ_PATH+"/AttachmentHost.vm.dep\""
-+" \""+OBJ_PATH+"/AutoCast.vm.dep\""
-+" \""+OBJ_PATH+"/AutoGlobal.vm.dep\""
-+" \""+OBJ_PATH+"/BaseRangeAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/BestSearch.vm.dep\""
-+" \""+OBJ_PATH+"/BinFileToRead.vm.dep\""
-+" \""+OBJ_PATH+"/BinaryFile.vm.dep\""
-+" \""+OBJ_PATH+"/BinarySearch.vm.dep\""
-+" \""+OBJ_PATH+"/BindBagProxy.vm.dep\""
-+" \""+OBJ_PATH+"/Bitmap.vm.dep\""
-+" \""+OBJ_PATH+"/BlockCipher.vm.dep\""
-+" \""+OBJ_PATH+"/BlockFifo.vm.dep\""
-+" \""+OBJ_PATH+"/Book.vm.dep\""
-+" \""+OBJ_PATH+"/BookAppMain.vm.dep\""
-+" \""+OBJ_PATH+"/BookClient.vm.dep\""
-+" \""+OBJ_PATH+"/BookFrame.vm.dep\""
-+" \""+OBJ_PATH+"/BookWindow.vm.dep\""
-+" \""+OBJ_PATH+"/Bridge.vm.dep\""
-+" \""+OBJ_PATH+"/ButtonId.vm.dep\""
-+" \""+OBJ_PATH+"/CancelPacketList.vm.dep\""
-+" \""+OBJ_PATH+"/CapString.vm.dep\""
-+" \""+OBJ_PATH+"/CharProp.vm.dep\""
-+" \""+OBJ_PATH+"/CharUtils.vm.dep\""
-+" \""+OBJ_PATH+"/CheckPlatformBase.vm.dep\""
-+" \""+OBJ_PATH+"/CheckedData.vm.dep\""
-+" \""+OBJ_PATH+"/Classification.vm.dep\""
-+" \""+OBJ_PATH+"/CmdInput.vm.dep\""
-+" \""+OBJ_PATH+"/Cmp.vm.dep\""
-+" \""+OBJ_PATH+"/Collector.vm.dep\""
-+" \""+OBJ_PATH+"/Color.vm.dep\""
-+" \""+OBJ_PATH+"/ColorEdit.vm.dep\""
-+" \""+OBJ_PATH+"/ColorField.vm.dep\""
-+" \""+OBJ_PATH+"/ColorListWindow.vm.dep\""
-+" \""+OBJ_PATH+"/CommonIntAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/CompactList.vm.dep\""
-+" \""+OBJ_PATH+"/CompactMap.vm.dep\""
-+" \""+OBJ_PATH+"/CompactNodeAllocator.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigBinder.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigEditor.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigStore.vm.dep\""
-+" \""+OBJ_PATH+"/ContainerList.vm.dep\""
-+" \""+OBJ_PATH+"/CoordEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Counters.vm.dep\""
-+" \""+OBJ_PATH+"/Crc.vm.dep\""
-+" \""+OBJ_PATH+"/CreateAt.vm.dep\""
-+" \""+OBJ_PATH+"/Creator.vm.dep\""
-+" \""+OBJ_PATH+"/CurveDriver.vm.dep\""
-+" \""+OBJ_PATH+"/DDLChar.vm.dep\""
-+" \""+OBJ_PATH+"/DDLEngine.vm.dep\""
-+" \""+OBJ_PATH+"/DDLErrorMsg.vm.dep\""
-+" \""+OBJ_PATH+"/DDLEval.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMap.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapBase.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapTools.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParser.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParserElements.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParserRules.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParserTable.vm.dep\""
-+" \""+OBJ_PATH+"/DDLPlatformTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLSemantic.vm.dep\""
-+" \""+OBJ_PATH+"/DDLToken.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTools.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypeDesc.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypeSet.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypedMap.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLValue.vm.dep\""
-+" \""+OBJ_PATH+"/DHExp.vm.dep\""
-+" \""+OBJ_PATH+"/DecodeFile.vm.dep\""
-+" \""+OBJ_PATH+"/DefaultTimeout.vm.dep\""
-+" \""+OBJ_PATH+"/DeferCall.vm.dep\""
-+" \""+OBJ_PATH+"/Deflate.vm.dep\""
-+" \""+OBJ_PATH+"/Desktop.vm.dep\""
-+" \""+OBJ_PATH+"/DesktopKey.vm.dep\""
-+" \""+OBJ_PATH+"/DestroyGuard.vm.dep\""
-+" \""+OBJ_PATH+"/DetectProxy.vm.dep\""
-+" \""+OBJ_PATH+"/DirFrame.vm.dep\""
-+" \""+OBJ_PATH+"/DirTreeRun.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBook.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBookTools.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBuf.vm.dep\""
-+" \""+OBJ_PATH+"/DrawTools.vm.dep\""
-+" \""+OBJ_PATH+"/DynArray.vm.dep\""
-+" \""+OBJ_PATH+"/DynObject.vm.dep\""
-+" \""+OBJ_PATH+"/EDID.vm.dep\""
-+" \""+OBJ_PATH+"/EchoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/ElementPool.vm.dep\""
-+" \""+OBJ_PATH+"/Elf.vm.dep\""
-+" \""+OBJ_PATH+"/ErrorText.vm.dep\""
-+" \""+OBJ_PATH+"/EthDevice.vm.dep\""
-+" \""+OBJ_PATH+"/EuclidRotate.vm.dep\""
-+" \""+OBJ_PATH+"/Event.vm.dep\""
-+" \""+OBJ_PATH+"/EventRecorder.vm.dep\""
-+" \""+OBJ_PATH+"/Exception.vm.dep\""
-+" \""+OBJ_PATH+"/ExceptionFrame.vm.dep\""
-+" \""+OBJ_PATH+"/ExceptionType.vm.dep\""
-+" \""+OBJ_PATH+"/FFTMul.vm.dep\""
-+" \""+OBJ_PATH+"/FastMutex.vm.dep\""
-+" \""+OBJ_PATH+"/FeedBuf.vm.dep\""
-+" \""+OBJ_PATH+"/Fifo.vm.dep\""
-+" \""+OBJ_PATH+"/FigureLib.vm.dep\""
-+" \""+OBJ_PATH+"/FileBoss.vm.dep\""
-+" \""+OBJ_PATH+"/FileFrame.vm.dep\""
-+" \""+OBJ_PATH+"/FileName.vm.dep\""
-+" \""+OBJ_PATH+"/FileNameCmp.vm.dep\""
-+" \""+OBJ_PATH+"/FileNameMatch.vm.dep\""
-+" \""+OBJ_PATH+"/FileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/FileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/FileToRead.vm.dep\""
-+" \""+OBJ_PATH+"/Font.vm.dep\""
-+" \""+OBJ_PATH+"/FontDatabase.vm.dep\""
-+" \""+OBJ_PATH+"/FontEdit.vm.dep\""
-+" \""+OBJ_PATH+"/FontLookup.vm.dep\""
-+" \""+OBJ_PATH+"/FontParam.vm.dep\""
-+" \""+OBJ_PATH+"/FontReplace.vm.dep\""
-+" \""+OBJ_PATH+"/ForLoop.vm.dep\""
-+" \""+OBJ_PATH+"/Forget.vm.dep\""
-+" \""+OBJ_PATH+"/FrameBase.vm.dep\""
-+" \""+OBJ_PATH+"/FrameBuf.vm.dep\""
-+" \""+OBJ_PATH+"/FrameOf.vm.dep\""
-+" \""+OBJ_PATH+"/FrameWindow.vm.dep\""
-+" \""+OBJ_PATH+"/FreeType.vm.dep\""
-+" \""+OBJ_PATH+"/FreeTypeFont.vm.dep\""
-+" \""+OBJ_PATH+"/FuncTask.vm.dep\""
-+" \""+OBJ_PATH+"/Function.vm.dep\""
-+" \""+OBJ_PATH+"/FunctorType.vm.dep\""
-+" \""+OBJ_PATH+"/GCDConst.vm.dep\""
-+" \""+OBJ_PATH+"/Gadget.vm.dep\""
-+" \""+OBJ_PATH+"/Gamma.vm.dep\""
-+" \""+OBJ_PATH+"/GammaTable.vm.dep\""
-+" \""+OBJ_PATH+"/GenFile.vm.dep\""
-+" \""+OBJ_PATH+"/HFSBase.vm.dep\""
-+" \""+OBJ_PATH+"/HFSClientDevice.vm.dep\""
-+" \""+OBJ_PATH+"/HFSFileSystemDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Handle.vm.dep\""
-+" \""+OBJ_PATH+"/HashFunction.vm.dep\""
-+" \""+OBJ_PATH+"/HeapEngine.vm.dep\""
-+" \""+OBJ_PATH+"/HeapSort.vm.dep\""
-+" \""+OBJ_PATH+"/HomeFile.vm.dep\""
-+" \""+OBJ_PATH+"/Incremental.vm.dep\""
-+" \""+OBJ_PATH+"/Info.vm.dep\""
-+" \""+OBJ_PATH+"/InfoSize.vm.dep\""
-+" \""+OBJ_PATH+"/Init.vm.dep\""
-+" \""+OBJ_PATH+"/InputUtils.vm.dep\""
-+" \""+OBJ_PATH+"/InstanceLock.vm.dep\""
-+" \""+OBJ_PATH+"/IntOp.vm.dep\""
-+" \""+OBJ_PATH+"/IntPrint.vm.dep\""
-+" \""+OBJ_PATH+"/IntScan.vm.dep\""
-+" \""+OBJ_PATH+"/Integer.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerBuilder.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerDivider.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerFastAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerFromString.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerGCD.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerMulAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerOctetBuilder.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerSlowAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntelAES.vm.dep\""
-+" \""+OBJ_PATH+"/IntelCPUID.vm.dep\""
-+" \""+OBJ_PATH+"/IntelRandom.vm.dep\""
-+" \""+OBJ_PATH+"/InterfaceHost.vm.dep\""
-+" \""+OBJ_PATH+"/InternalDesktop.vm.dep\""
-+" \""+OBJ_PATH+"/InternalHost.vm.dep\""
-+" \""+OBJ_PATH+"/InternalUtils.vm.dep\""
-+" \""+OBJ_PATH+"/IntervalTree.vm.dep\""
-+" \""+OBJ_PATH+"/Job.vm.dep\""
-+" \""+OBJ_PATH+"/Keyboard.vm.dep\""
-+" \""+OBJ_PATH+"/LangDataMap.vm.dep\""
-+" \""+OBJ_PATH+"/LaunchPath.vm.dep\""
-+" \""+OBJ_PATH+"/Layout.vm.dep\""
-+" \""+OBJ_PATH+"/LayoutCombo.vm.dep\""
-+" \""+OBJ_PATH+"/Len.vm.dep\""
-+" \""+OBJ_PATH+"/LineInput.vm.dep\""
-+" \""+OBJ_PATH+"/List.vm.dep\""
-+" \""+OBJ_PATH+"/ListCursor.vm.dep\""
-+" \""+OBJ_PATH+"/LockObject.vm.dep\""
-+" \""+OBJ_PATH+"/LockUse.vm.dep\""
-+" \""+OBJ_PATH+"/Locked.vm.dep\""
-+" \""+OBJ_PATH+"/Log.vm.dep\""
-+" \""+OBJ_PATH+"/MCoordEdit.vm.dep\""
-+" \""+OBJ_PATH+"/MD5.vm.dep\""
-+" \""+OBJ_PATH+"/MPoint.vm.dep\""
-+" \""+OBJ_PATH+"/MSec.vm.dep\""
-+" \""+OBJ_PATH+"/MakeFileName.vm.dep\""
-+" \""+OBJ_PATH+"/MakeString.vm.dep\""
-+" \""+OBJ_PATH+"/MemAllocGuard.vm.dep\""
-+" \""+OBJ_PATH+"/MemBase.vm.dep\""
-+" \""+OBJ_PATH+"/MemBase_general.vm.dep\""
-+" \""+OBJ_PATH+"/MemPageHeap.vm.dep\""
-+" \""+OBJ_PATH+"/MemSpaceHeap.vm.dep\""
-+" \""+OBJ_PATH+"/MemberFold.vm.dep\""
-+" \""+OBJ_PATH+"/Menu.vm.dep\""
-+" \""+OBJ_PATH+"/MergeSort.vm.dep\""
-+" \""+OBJ_PATH+"/MersenneTwister.vm.dep\""
-+" \""+OBJ_PATH+"/MessageFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Meta.vm.dep\""
-+" \""+OBJ_PATH+"/MetaList.vm.dep\""
-+" \""+OBJ_PATH+"/MinSizeType.vm.dep\""
-+" \""+OBJ_PATH+"/MixColorWindow.vm.dep\""
-+" \""+OBJ_PATH+"/ModEngine.vm.dep\""
-+" \""+OBJ_PATH+"/Mouse.vm.dep\""
-+" \""+OBJ_PATH+"/Move.vm.dep\""
-+" \""+OBJ_PATH+"/MultiEvent.vm.dep\""
-+" \""+OBJ_PATH+"/MultiSem.vm.dep\""
-+" \""+OBJ_PATH+"/MultiSignal.vm.dep\""
-+" \""+OBJ_PATH+"/Mutex.vm.dep\""
-+" \""+OBJ_PATH+"/MutexSpinCount.vm.dep\""
-+" \""+OBJ_PATH+"/NanoIPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/NanoPacket.vm.dep\""
-+" \""+OBJ_PATH+"/NegBool.vm.dep\""
-+" \""+OBJ_PATH+"/NetBase.vm.dep\""
-+" \""+OBJ_PATH+"/NetFork.vm.dep\""
-+" \""+OBJ_PATH+"/NewDelete.vm.dep\""
-+" \""+OBJ_PATH+"/NoCopy.vm.dep\""
-+" \""+OBJ_PATH+"/NoMutex.vm.dep\""
-+" \""+OBJ_PATH+"/NoPrimeTest.vm.dep\""
-+" \""+OBJ_PATH+"/NoThrowFlags.vm.dep\""
-+" \""+OBJ_PATH+"/NodeAllocator.vm.dep\""
-+" \""+OBJ_PATH+"/Nothing.vm.dep\""
-+" \""+OBJ_PATH+"/NullMovePtr.vm.dep\""
-+" \""+OBJ_PATH+"/ObjHost.vm.dep\""
-+" \""+OBJ_PATH+"/ObjectDomain.vm.dep\""
-+" \""+OBJ_PATH+"/OpAddHelper.vm.dep\""
-+" \""+OBJ_PATH+"/OptMember.vm.dep\""
-+" \""+OBJ_PATH+"/Optional.vm.dep\""
-+" \""+OBJ_PATH+"/OwnPtr.vm.dep\""
-+" \""+OBJ_PATH+"/PKE.vm.dep\""
-+" \""+OBJ_PATH+"/PSec.vm.dep\""
-+" \""+OBJ_PATH+"/PSecCore.vm.dep\""
-+" \""+OBJ_PATH+"/PSecKey.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBoot.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBootBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPClientDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PTPConBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPConDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PTPEchoTest.vm.dep\""
-+" \""+OBJ_PATH+"/PTPExtra.vm.dep\""
-+" \""+OBJ_PATH+"/PTPServerDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PTPSupport.vm.dep\""
-+" \""+OBJ_PATH+"/PTPSupportBase.vm.dep\""
-+" \""+OBJ_PATH+"/Packet.vm.dep\""
-+" \""+OBJ_PATH+"/PacketEndpointDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PacketPool.vm.dep\""
-+" \""+OBJ_PATH+"/PacketPool_PacketCount.vm.dep\""
-+" \""+OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep\""
-+" \""+OBJ_PATH+"/PacketSet.vm.dep\""
-+" \""+OBJ_PATH+"/ParaQuickSort.vm.dep\""
-+" \""+OBJ_PATH+"/Partition.vm.dep\""
-+" \""+OBJ_PATH+"/Path.vm.dep\""
-+" \""+OBJ_PATH+"/PerTask.vm.dep\""
-+" \""+OBJ_PATH+"/Picture.vm.dep\""
-+" \""+OBJ_PATH+"/Place.vm.dep\""
-+" \""+OBJ_PATH+"/PlanInit.vm.dep\""
-+" \""+OBJ_PATH+"/PlanInit_CCore.vm.dep\""
-+" \""+OBJ_PATH+"/PlatformBase.vm.dep\""
-+" \""+OBJ_PATH+"/Point.vm.dep\""
-+" \""+OBJ_PATH+"/PointEdit.vm.dep\""
-+" \""+OBJ_PATH+"/PosSub.vm.dep\""
-+" \""+OBJ_PATH+"/Pow.vm.dep\""
-+" \""+OBJ_PATH+"/PretextFileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/Print.vm.dep\""
-+" \""+OBJ_PATH+"/PrintAbort.vm.dep\""
-+" \""+OBJ_PATH+"/PrintAsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/PrintBase.vm.dep\""
-+" \""+OBJ_PATH+"/PrintBits.vm.dep\""
-+" \""+OBJ_PATH+"/PrintCon.vm.dep\""
-+" \""+OBJ_PATH+"/PrintDDL.vm.dep\""
-+" \""+OBJ_PATH+"/PrintError.vm.dep\""
-+" \""+OBJ_PATH+"/PrintFile.vm.dep\""
-+" \""+OBJ_PATH+"/PrintInteger.vm.dep\""
-+" \""+OBJ_PATH+"/PrintPTPCon.vm.dep\""
-+" \""+OBJ_PATH+"/PrintProxy.vm.dep\""
-+" \""+OBJ_PATH+"/PrintRatio.vm.dep\""
-+" \""+OBJ_PATH+"/PrintSet.vm.dep\""
-+" \""+OBJ_PATH+"/PrintStem.vm.dep\""
-+" \""+OBJ_PATH+"/PrintTime.vm.dep\""
-+" \""+OBJ_PATH+"/PrintTitle.vm.dep\""
-+" \""+OBJ_PATH+"/Printf.vm.dep\""
-+" \""+OBJ_PATH+"/ProgressScale.vm.dep\""
-+" \""+OBJ_PATH+"/PtrLen.vm.dep\""
-+" \""+OBJ_PATH+"/PtrLenReverse.vm.dep\""
-+" \""+OBJ_PATH+"/PtrStepLen.vm.dep\""
-+" \""+OBJ_PATH+"/Quick.vm.dep\""
-+" \""+OBJ_PATH+"/QuickSort.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeBase.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeLink.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeUpLink.vm.dep\""
-+" \""+OBJ_PATH+"/RadixHeap.vm.dep\""
-+" \""+OBJ_PATH+"/Random.vm.dep\""
-+" \""+OBJ_PATH+"/RangeDel.vm.dep\""
-+" \""+OBJ_PATH+"/RatioEdit.vm.dep\""
-+" \""+OBJ_PATH+"/RawFileToRead.vm.dep\""
-+" \""+OBJ_PATH+"/ReadCon.vm.dep\""
-+" \""+OBJ_PATH+"/ReadConType.vm.dep\""
-+" \""+OBJ_PATH+"/RefArray.vm.dep\""
-+" \""+OBJ_PATH+"/RefObjectBase.vm.dep\""
-+" \""+OBJ_PATH+"/RefPtr.vm.dep\""
-+" \""+OBJ_PATH+"/RefVal.vm.dep\""
-+" \""+OBJ_PATH+"/Replace.vm.dep\""
-+" \""+OBJ_PATH+"/ResSem.vm.dep\""
-+" \""+OBJ_PATH+"/Rot.vm.dep\""
-+" \""+OBJ_PATH+"/SHA.vm.dep\""
-+" \""+OBJ_PATH+"/SIntFunc.vm.dep\""
-+" \""+OBJ_PATH+"/SafeBuf.vm.dep\""
-+" \""+OBJ_PATH+"/SaveLoad.vm.dep\""
-+" \""+OBJ_PATH+"/Scan.vm.dep\""
-+" \""+OBJ_PATH+"/ScanAsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/ScanBase.vm.dep\""
-+" \""+OBJ_PATH+"/ScanBit.vm.dep\""
-+" \""+OBJ_PATH+"/ScanFile.vm.dep\""
-+" \""+OBJ_PATH+"/ScanProxy.vm.dep\""
-+" \""+OBJ_PATH+"/ScanRange.vm.dep\""
-+" \""+OBJ_PATH+"/ScanTools.vm.dep\""
-+" \""+OBJ_PATH+"/Scanf.vm.dep\""
-+" \""+OBJ_PATH+"/Scope.vm.dep\""
-+" \""+OBJ_PATH+"/ScopeGuard.vm.dep\""
-+" \""+OBJ_PATH+"/SelectFrames.vm.dep\""
-+" \""+OBJ_PATH+"/Sem.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Button.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Check.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Contour.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.DragFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.FixedFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.FrameBase.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Info.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Label.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Light.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Line.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.LineEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Progress.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Radio.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.RunButton.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Scroll.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.ScrollList.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.ShiftSwitch.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.SimpleTextList.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Slider.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Spinor.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Split.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Switch.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Text.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.TextLine.vm.dep\""
-+" \""+OBJ_PATH+"/ShapeLib.vm.dep\""
-+" \""+OBJ_PATH+"/ShortSort.vm.dep\""
-+" \""+OBJ_PATH+"/Signal.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleArray.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleConsole.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleRotate.vm.dep\""
-+" \""+OBJ_PATH+"/SingleBridge.vm.dep\""
-+" \""+OBJ_PATH+"/SingleEchoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/SingleHost.vm.dep\""
-+" \""+OBJ_PATH+"/SlowSem.vm.dep\""
-+" \""+OBJ_PATH+"/SmallPrimes.vm.dep\""
-+" \""+OBJ_PATH+"/SmoothAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/SmoothDrawArt.vm.dep\""
-+" \""+OBJ_PATH+"/Sort.vm.dep\""
-+" \""+OBJ_PATH+"/SortUnique.vm.dep\""
-+" \""+OBJ_PATH+"/Space.vm.dep\""
-+" \""+OBJ_PATH+"/SpanLenEngine.vm.dep\""
-+" \""+OBJ_PATH+"/SpawnProcess.vm.dep\""
-+" \""+OBJ_PATH+"/StartStop.vm.dep\""
-+" \""+OBJ_PATH+"/Starter.vm.dep\""
-+" \""+OBJ_PATH+"/StepEval.vm.dep\""
-+" \""+OBJ_PATH+"/StrKey.vm.dep\""
-+" \""+OBJ_PATH+"/StrMap.vm.dep\""
-+" \""+OBJ_PATH+"/StrParse.vm.dep\""
-+" \""+OBJ_PATH+"/StrPrint.vm.dep\""
-+" \""+OBJ_PATH+"/StrToChar.vm.dep\""
-+" \""+OBJ_PATH+"/String.vm.dep\""
-+" \""+OBJ_PATH+"/StringScan.vm.dep\""
-+" \""+OBJ_PATH+"/SubWindow.vm.dep\""
-+" \""+OBJ_PATH+"/Swap.vm.dep\""
-+" \""+OBJ_PATH+"/SymCount.vm.dep\""
-+" \""+OBJ_PATH+"/SymPart.vm.dep\""
-+" \""+OBJ_PATH+"/Symbol.vm.dep\""
-+" \""+OBJ_PATH+"/SysAbort.vm.dep\""
-+" \""+OBJ_PATH+"/SysAsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/SysAsyncFileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/SysAtomic.vm.dep\""
-+" \""+OBJ_PATH+"/SysCon.vm.dep\""
-+" \""+OBJ_PATH+"/SysEnv.vm.dep\""
-+" \""+OBJ_PATH+"/SysError.vm.dep\""
-+" \""+OBJ_PATH+"/SysFile.vm.dep\""
-+" \""+OBJ_PATH+"/SysFileInternal.vm.dep\""
-+" \""+OBJ_PATH+"/SysFileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/SysLaunchPath.vm.dep\""
-+" \""+OBJ_PATH+"/SysMemPage.vm.dep\""
-+" \""+OBJ_PATH+"/SysNet.vm.dep\""
-+" \""+OBJ_PATH+"/SysPlanInit.vm.dep\""
-+" \""+OBJ_PATH+"/SysProp.vm.dep\""
-+" \""+OBJ_PATH+"/SysSem.vm.dep\""
-+" \""+OBJ_PATH+"/SysSpawn.vm.dep\""
-+" \""+OBJ_PATH+"/SysSpawnInternal.vm.dep\""
-+" \""+OBJ_PATH+"/SysTask.vm.dep\""
-+" \""+OBJ_PATH+"/SysTime.vm.dep\""
-+" \""+OBJ_PATH+"/SysTlsSlot.vm.dep\""
-+" \""+OBJ_PATH+"/SysUtf8.vm.dep\""
-+" \""+OBJ_PATH+"/SysWait.vm.dep\""
-+" \""+OBJ_PATH+"/SysWaitInternal.vm.dep\""
-+" \""+OBJ_PATH+"/Task.vm.dep\""
-+" \""+OBJ_PATH+"/TaskCore.vm.dep\""
-+" \""+OBJ_PATH+"/TaskEvent.vm.dep\""
-+" \""+OBJ_PATH+"/TaskHeap.vm.dep\""
-+" \""+OBJ_PATH+"/TaskMemStack.vm.dep\""
-+" \""+OBJ_PATH+"/TempArray.vm.dep\""
-+" \""+OBJ_PATH+"/TextLabel.vm.dep\""
-+" \""+OBJ_PATH+"/TextTools.vm.dep\""
-+" \""+OBJ_PATH+"/TimeScope.vm.dep\""
-+" \""+OBJ_PATH+"/Timer.vm.dep\""
-+" \""+OBJ_PATH+"/TlsSlot.vm.dep\""
-+" \""+OBJ_PATH+"/ToMemBase.vm.dep\""
-+" \""+OBJ_PATH+"/ToMoveCtor.vm.dep\""
-+" \""+OBJ_PATH+"/ToolFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Tree.vm.dep\""
-+" \""+OBJ_PATH+"/TreeBase.vm.dep\""
-+" \""+OBJ_PATH+"/TreeLink.vm.dep\""
-+" \""+OBJ_PATH+"/TreeMap.vm.dep\""
-+" \""+OBJ_PATH+"/TreeUpLink.vm.dep\""
-+" \""+OBJ_PATH+"/Tuple.vm.dep\""
-+" \""+OBJ_PATH+"/TypeNumber.vm.dep\""
-+" \""+OBJ_PATH+"/TypeSwitch.vm.dep\""
-+" \""+OBJ_PATH+"/UDPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/UDPoint.vm.dep\""
-+" \""+OBJ_PATH+"/UIntFunc.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSat.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSlowMulAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSplit.vm.dep\""
-+" \""+OBJ_PATH+"/Unid.vm.dep\""
-+" \""+OBJ_PATH+"/UserAction.vm.dep\""
-+" \""+OBJ_PATH+"/UserPreference.vm.dep\""
-+" \""+OBJ_PATH+"/Utf8.vm.dep\""
-+" \""+OBJ_PATH+"/UtilFunc.vm.dep\""
-+" \""+OBJ_PATH+"/VideoConsole.vm.dep\""
-+" \""+OBJ_PATH+"/VideoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Volume.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Blank.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Button.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Check.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Decor.vm.dep\""
-+" \""+OBJ_PATH+"/Window.DragFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Window.FireButton.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Info.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Light.vm.dep\""
-+" \""+OBJ_PATH+"/Window.LineEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Progress.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Radio.vm.dep\""
-+" \""+OBJ_PATH+"/Window.RunButton.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Scroll.vm.dep\""
-+" \""+OBJ_PATH+"/Window.ScrollList.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Scrollable.vm.dep\""
-+" \""+OBJ_PATH+"/Window.SimpleTextList.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Slider.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Spinor.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Split.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Text.vm.dep\""
-+" \""+OBJ_PATH+"/Window.TextLine.vm.dep\""
-+" \""+OBJ_PATH+"/WindowLib.vm.dep\""
-+" \""+OBJ_PATH+"/WindowReport.vm.dep\""
-+" \""+OBJ_PATH+"/XPoint.vm.dep\""+
+Cmd cmdmkdep = { 'CAT' , CAT
++" \""+OBJ_PATH+"/tmp1\""
++" \""+OBJ_PATH+"/tmp2\""
++" \""+OBJ_PATH+"/tmp3\""
++" \""+OBJ_PATH+"/tmp4\""
++" \""+OBJ_PATH+"/tmp5\""
++" \""+OBJ_PATH+"/tmp6\""
++" \""+OBJ_PATH+"/tmp7\""
++" \""+OBJ_PATH+"/tmp8\""
++" \""+OBJ_PATH+"/tmp9\""
++" \""+OBJ_PATH+"/tmp10\""
++" \""+OBJ_PATH+"/tmp11\""
++" \""+OBJ_PATH+"/tmp12\""
++" \""+OBJ_PATH+"/tmp13\""
++" \""+OBJ_PATH+"/tmp14\""
++" \""+OBJ_PATH+"/tmp15\""
++" \""+OBJ_PATH+"/tmp16\""
++" \""+OBJ_PATH+"/tmp17\""
++" \""+OBJ_PATH+"/tmp18\""
++" \""+OBJ_PATH+"/tmp19\""
++" \""+OBJ_PATH+"/tmp20\""
++" \""+OBJ_PATH+"/tmp21\""
++" \""+OBJ_PATH+"/tmp22\""
++" \""+OBJ_PATH+"/tmp23\""
++" \""+OBJ_PATH+"/tmp24\""
++" \""+OBJ_PATH+"/tmp25\""
++" \""+OBJ_PATH+"/tmp26\""
++" \""+OBJ_PATH+"/tmp27\""
++" \""+OBJ_PATH+"/tmp28\""
++" \""+OBJ_PATH+"/tmp29\""
++" \""+OBJ_PATH+"/tmp30\""
++" \""+OBJ_PATH+"/tmp31\""
++" \""+OBJ_PATH+"/tmp32\""
++" \""+OBJ_PATH+"/tmp33\""
++" \""+OBJ_PATH+"/tmp34\""
++" \""+OBJ_PATH+"/tmp35\""
++" \""+OBJ_PATH+"/tmp36\""
++" \""+OBJ_PATH+"/tmp37\""
++" \""+OBJ_PATH+"/tmp38\""
++" \""+OBJ_PATH+"/tmp39\""
++" \""+OBJ_PATH+"/tmp40\""
++" \""+OBJ_PATH+"/tmp41\""
++" \""+OBJ_PATH+"/tmp42\""
++" \""+OBJ_PATH+"/tmp43\""
++" \""+OBJ_PATH+"/tmp44\""
++" \""+OBJ_PATH+"/tmp45\""
++" \""+OBJ_PATH+"/tmp46\""
++" \""+OBJ_PATH+"/tmp47\""
++" \""+OBJ_PATH+"/tmp48\""
++" \""+OBJ_PATH+"/tmp49\""+
 " > \""+DEP+"\"" } ;
 

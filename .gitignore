@@ -9,6 +9,8 @@ PTPSecureServerLog.txt
 ARMLog.txt
 .eclipse/*
 CCore.book.vol
+deps.vm.ddl
+tmp*
 
 # vtools/Aspect/docs/*
 

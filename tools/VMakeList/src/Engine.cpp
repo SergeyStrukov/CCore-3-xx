@@ -826,31 +826,52 @@ int Engine::run()
   {
    Putobj(prep,"Target make_dep = { 'make_dep' , DEP } ;\n\n"_c);
 
-   auto func1 = [&] (auto &out)
-                    {
-                     cpp_list.apply( [&] (ulen ind,FileName)
-                                         {
-                                          Printf(out,"\n,&vdcpp#;",ind);
+   auto func = [&] (auto &out)
+                   {
+                    cpp_list.apply( [&] (ulen ind,FileName)
+                                        {
+                                         Printf(out,"\n,&vdcpp#;",ind);
 
-                                         } );
+                                        } );
 
-                    } ;
+                   } ;
 
-   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {&exemkdep} } ;\n\n",PrintBy(func1));
+   ulen n=1;
 
-   auto func2 = [&] (auto &out)
-                    {
-                     cpp_list.apply( [&] (ulen,FileName fn)
-                                         {
-                                          StrLen cutname=fn.name.inner(0,4);
+   cpp_list.apply( [&] (ulen ind,FileName fn)
+                       {
+                        if( (ind%10)==1 )
+                          {
+                           if( n>1 )
+                             {
+                              Printf(prep,"+\n\" > \\\"\"+OBJ_PATH+\"/tmp#;\\\"\" } ;\n\n",n-1);
+                             }
 
-                                          Printf(out,"\n+\" \\\"\"+OBJ_PATH+\"/#;.vm.dep\\\"\"",cutname);
+                           Printf(prep,"Cmd cmdmkdep#; = { 'CAT' , CAT",n++);
+                          }
 
-                                         } );
+                        StrLen cutname=fn.name.inner(0,4);
 
-                    } ;
+                        Printf(prep,"\n+\" \\\"\"+OBJ_PATH+\"/#;.vm.dep\\\"\"",cutname);
 
-   Printf(prep,"Cmd exemkdep = { 'CAT' , CAT#;+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n",PrintBy(func2));
+                       } );
+
+   if( n>1 )
+     {
+      Printf(prep,"+\n\" > \\\"\"+OBJ_PATH+\"/tmp#;\\\"\" } ;\n\n",n-1);
+     }
+
+   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {",PrintBy(func));
+
+   for(ulen i=1; i<n ;i++) Printf(prep,"\n&cmdmkdep#;,",i);
+
+   Putobj(prep,"\n&cmdmkdep} } ;\n\n"_c);
+
+   Putobj(prep,"Cmd cmdmkdep = { 'CAT' , CAT"_c);
+
+   for(ulen i=1; i<n ;i++) Printf(prep,"\n+\" \\\"\"+OBJ_PATH+\"/tmp#;\\\"\"",i);
+
+   Putobj(prep,"+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n"_c);
   }
 
   return 0;
