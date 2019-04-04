@@ -14,12 +14,68 @@
 #include <inc/VMakeIntCmd.h>
 
 #include <CCore/inc/Path.h>
+#include <CCore/inc/ScanRange.h>
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/DecodeFile.h>
 
 namespace App {
 namespace VMake {
+
+/* struct CheckWildcard */
+
+CheckWildcard::CheckWildcard(StrLen path)
+ {
+  SplitPath split1(path);
+
+  SplitName split2(split1.path);
+
+  ScanStr scan(split2.name, [] (char ch) { return ch=='*' || ch=='?' ; } );
+
+  if( +scan.next )
+    {
+     dir=path.prefix(split1.dev.len+split2.path.len);
+
+     file=split2.name;
+
+     ok=true;
+    }
+  else
+    {
+     ok=false;
+    }
+ }
+
+/* class WildcardCursor */
+
+WildcardCursor::WildcardCursor(FileSystem &fs,StrLen dir_,StrLen file)
+ : dir(dir_),
+   str(dir,"."_c),
+   cur(fs,str.get()),
+   filter(file)
+ {
+ }
+
+WildcardCursor::~WildcardCursor()
+ {
+ }
+
+bool WildcardCursor::next()
+ {
+  while( cur.next() )
+    {
+     StrLen file=cur.getFileName();
+
+     if( cur.getFileType()==FileType_file && filter(file) )
+       {
+        str(dir,file);
+
+        return true;
+       }
+    }
+
+  return false;
+ }
 
 /* class BuildFileName */
 
@@ -141,7 +197,7 @@ int IntCmdProc::cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile)
     }
  }
 
-int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files) // TODO *.files
+int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files)
  {
   try
     {
@@ -149,7 +205,12 @@ int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files) // TODO *.files
        {
         BuildFileName file1(wdir,file);
 
-        fs.deleteFile(file1.get());
+        ExpandWildcard(fs,file1.get(), [&] (StrLen f)
+                                           {
+                                            fs.deleteFile(f);
+
+                                           } );
+
        }
 
      return 0;

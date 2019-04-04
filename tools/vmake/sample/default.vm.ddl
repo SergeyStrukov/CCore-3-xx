@@ -68,6 +68,16 @@ IntCmd C8 = { 'cat' , &I8 } ;
 
 Cat I8 = { {'dir1/echo1.txt','dir1/echo2.txt'}, 'dir1/echo.txt' } ;
 
+/* int7 */
+
+Target int7 = { 'int7' } ;
+
+Rule R7 = { {} , {&int7} , {&C9} } ;
+
+IntCmd C9 = { 'rm' , &I9 , "dir1" } ;
+
+Rm I9 = { {'*.txt'} } ;
+
 /* targets */
 
 Target main = { "main" } ;
