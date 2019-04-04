@@ -544,42 +544,8 @@ void Engine::printList(PrinterType &out,List list,TT ... tt)
   out.put('}');
  }
 
-Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen proj_file_name_,StrLen prep_file_name_)
- : param(param_),
-   src_file_name(src_file_name_),
-   proj_file_name(proj_file_name_),
-   prep_file_name(prep_file_name_)
+void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
  {
-  root=param->CCORE_ROOT;
-  target=param->CCORE_TARGET;
-  tools=param->tools;
- }
-
-Engine::~Engine()
- {
- }
-
-int Engine::run()
- {
-  if( param->target==0 )
-    {
-     Printf(Exception,"App : target type is not set");
-    }
-
-  prepareRoot();
-  prepareTarget();
-  prepareTools();
-
-  FindFiles find(param->SRC_PATH_LIST);
-
-  FileList cpp_list(find.cpp_list);
-  FileList asm_list(find.asm_list);
-
-  cpp_list.process();
-  asm_list.process();
-
-  PrintFile out(proj_file_name);
-
   printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
   printDefText(out,"CC"_c,tools->CC);
@@ -652,30 +618,30 @@ int Engine::run()
   {
    Putobj(out,"Target main = { 'main' , TARGET } ;\n\n"_c);
 
-   auto func1 = [&] (auto &out)
-                    {
-                     out.put('{');
+   auto func = [&] (auto &out)
+                   {
+                    out.put('{');
 
-                     PrintFirst stem("\n  "_c,"\n ,"_c);
+                    PrintFirst stem("\n  "_c,"\n ,"_c);
 
-                     cpp_list.apply( [&] (ulen ind,FileName)
-                                         {
-                                          Printf(out,"#;&ocpp#;",stem,ind);
+                    cpp_list.apply( [&] (ulen ind,FileName)
+                                        {
+                                         Printf(out,"#;&ocpp#;",stem,ind);
 
-                                         } );
+                                        } );
 
-                     asm_list.apply( [&] (ulen ind,FileName)
-                                         {
-                                          Printf(out,"#;&oasm#;",stem,ind);
+                    asm_list.apply( [&] (ulen ind,FileName)
+                                        {
+                                         Printf(out,"#;&oasm#;",stem,ind);
 
-                                         } );
+                                        } );
 
-                     out.put('\n');
-                     out.put('}');
+                    out.put('\n');
+                    out.put('}');
 
-                    } ;
+                   } ;
 
-   Printf(out,"Rule rmain = { #; , {&main} , ",PrintBy(func1));
+   Printf(out,"Rule rmain = { #; , {&main} , ",PrintBy(func));
   }
 
   // ld
@@ -684,66 +650,68 @@ int Engine::run()
     {
      Putobj(out,"{&exemain} } ;\n\n"_c);
 
-     auto func2 = [&] (auto &out)
-                      {
-                       auto psrc = [&] (auto &out,PrintFirst &stem)
-                                       {
-                                        cpp_list.apply( [&] (ulen ind,FileName)
-                                                            {
-                                                             Printf(out,"#;ocpp#;.file",stem,ind);
+     auto func = [&] (auto &out)
+                     {
+                      auto psrc = [&] (auto &out,PrintFirst &stem)
+                                      {
+                                       cpp_list.apply( [&] (ulen ind,FileName)
+                                                           {
+                                                            Printf(out,"#;ocpp#;.file",stem,ind);
 
-                                                            } );
+                                                           } );
 
-                                        asm_list.apply( [&] (ulen ind,FileName)
-                                                            {
-                                                             Printf(out,"#;oasm#;.file",stem,ind);
+                                       asm_list.apply( [&] (ulen ind,FileName)
+                                                           {
+                                                            Printf(out,"#;oasm#;.file",stem,ind);
 
-                                                            } );
-                                       } ;
+                                                           } );
+                                      } ;
 
-                       auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
+                      auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
-                       printList(out,tools->LDOPT.getRange(),psrc,pdst);
+                      printList(out,tools->LDOPT.getRange(),psrc,pdst);
 
-                      } ;
+                     } ;
 
-     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func2));
+     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func));
     }
 
   // ar
 
   if( param->target==TargetLib || param->target==TargetCCore )
     {
-     Putobj(out,"{&exemain1,&exemain2} } ;\n\n"_c);
+     Putobj(out,"{&intmain1,&exemain2} } ;\n\n"_c);
 
-     Printf(out,"Cmd exemain1 = { 'RM' , \"#; \\\"\"+TARGET+\"\\\"\" } ;\n\n",DDLString(tools->RM));
+     Putobj(out,"IntCmd intmain1 = { 'RM' , &rm1 } ;\n\n"_c);
 
-     auto func2 = [&] (auto &out)
-                      {
-                       auto psrc = [&] (auto &out,PrintFirst &stem)
-                                       {
-                                        cpp_list.apply( [&] (ulen ind,FileName)
-                                                            {
-                                                             Printf(out,"#;ocpp#;.file",stem,ind);
+     Putobj(out,"Rm rm1 = { { TARGET } } ;\n\n"_c);
 
-                                                            } );
+     auto func = [&] (auto &out)
+                     {
+                      auto psrc = [&] (auto &out,PrintFirst &stem)
+                                      {
+                                       cpp_list.apply( [&] (ulen ind,FileName)
+                                                           {
+                                                            Printf(out,"#;ocpp#;.file",stem,ind);
 
-                                        asm_list.apply( [&] (ulen ind,FileName)
-                                                            {
-                                                             Printf(out,"#;oasm#;.file",stem,ind);
+                                                           } );
 
-                                                            } );
-                                       } ;
+                                       asm_list.apply( [&] (ulen ind,FileName)
+                                                           {
+                                                            Printf(out,"#;oasm#;.file",stem,ind);
 
-                       auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
+                                                           } );
+                                      } ;
 
-                       StrLen temp[]={"r"_c,"#DST;"_c,"#SRC;"_c};
+                      auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
-                       printList(out,Range(temp),psrc,pdst);
+                      StrLen temp[]={"r"_c,"#DST;"_c,"#SRC;"_c};
 
-                      } ;
+                      printList(out,Range(temp),psrc,pdst);
 
-     Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , #; } ;\n\n",PrintBy(func2));
+                     } ;
+
+     Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , #; } ;\n\n",PrintBy(func));
     }
 
   // inc dep
@@ -751,55 +719,60 @@ int Engine::run()
   {
    Printf(out,"include <#;/deps.vm.ddl>\n",StrLen(param->OBJ_PATH));
   }
+ }
 
-  // prep
+void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
+ {
+  printDefText(out,"CC"_c,tools->CC);
 
-  PrintFile prep(prep_file_name);
+  printDefText(out,"VMDEP"_c,tools->VMDEP);
 
-  printDefText(prep,"CC"_c,tools->CC);
+  printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
-  printDefText(prep,"VMDEP"_c,tools->VMDEP);
+  printDefText(out,"TARGET"_c,param->TARGET);
 
-  printDefText(prep,"CAT"_c,tools->CAT);
-
-  printDefText(prep,"OBJ_PATH"_c,param->OBJ_PATH);
-
-  printDefText(prep,"TARGET"_c,param->TARGET);
-
-  //
+  // obj
 
   {
-   Putobj(prep,"text DEP = OBJ_PATH+'/deps.vm.ddl' ;\n\n");
+   Putobj(out,"Target obj = { 'obj' , OBJ_PATH+'/empty' } ;\n\n"_c);
 
-   Putobj(prep,"Target obj = { 'obj' , OBJ_PATH+'/empty' } ;\n\n"_c);
+   Putobj(out,"Rule robj = { {} , {&obj} , {&intobj1,&intobj2} } ;\n\n"_c);
 
-   Putobj(prep,"Rule robj = { {} , {&obj} , {&cmdobj} } ;\n\n"_c);
+   Putobj(out,"IntCmd intobj1 = { 'MKDIR' , &mkdir1 } ;\n\n"_c);
 
-   Printf(prep,"Cmd cmdobj = { 'MKDIR '+OBJ_PATH , \"#; \\\"\"+OBJ_PATH+\"\\\" ; #; > \\\"\"+OBJ_PATH+'\"/empty' } ;\n\n"
+   Putobj(out,"Mkdir mkdir1 = { OBJ_PATH } ;\n\n"_c);
 
-              ,DDLString(tools->MKDIR),DDLString(tools->MKEMPTY));
+   Putobj(out,"IntCmd intobj2 = { 'ECHO' , &echo1 } ;\n\n"_c);
 
-   Putobj(prep,"Target clean = { 'clean' } ;\n\n"_c);
+   Putobj(out,"Echo echo1 = { 'empty' , OBJ_PATH+'/empty' } ;\n\n"_c);
+  }
 
-   Putobj(prep,"Rule rclean = { {} , {&clean} , {&cmdclean} } ;\n\n"_c);
+  // clean
 
-   Printf(prep,"Cmd cmdclean = { 'CLEAN' , \"#; \\\"\"+TARGET+\"\\\" \\\"\"+OBJ_PATH+\"\\\"/*\" } ;\n\n"
+  {
+   Putobj(out,"Target clean = { 'clean' } ;\n\n"_c);
 
-              ,DDLString(tools->RM));
+   Putobj(out,"Rule rclean = { {} , {&clean} , {&intclean} } ;\n\n"_c);
+
+   Putobj(out,"IntCmd intclean = { 'CLEAN' , &rm1 } ;\n\n"_c);
+
+   Putobj(out,"Rm rm1 = { { TARGET , OBJ_PATH+\"/*\" } } ;\n\n"_c);
   }
 
   // dep
 
   {
+   Putobj(out,"text DEP = OBJ_PATH+'/deps.vm.ddl' ;\n\n"_c);
+
    cpp_list.apply( [&] (ulen ind,FileName fn)
                        {
-                        Printf(prep,"Target cpp#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
+                        Printf(out,"Target cpp#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
 
                         StrLen cutname=fn.name.inner(0,4);
 
-                        Printf(prep,"Target dcpp#; = { \"#;.dep\" , OBJ_PATH+\"/#;.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+                        Printf(out,"Target dcpp#; = { \"#;.dep\" , OBJ_PATH+\"/#;.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
 
-                        Printf(prep,"Rule rdcpp#; = { {&cpp#;,&obj} , {&dcpp#;} , {&execpp#;} } ;\n",ind,ind,ind,ind);
+                        Printf(out,"Rule rdcpp#; = { {&cpp#;,&obj} , {&dcpp#;} , {&execpp#;} } ;\n",ind,ind,ind,ind);
 
                         auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
 
@@ -809,13 +782,13 @@ int Engine::run()
 
                         auto func = [&] (auto &out) { printList(out,tools->DEPOPT.getRange(),psrc,pdst,pobj); } ;
 
-                        Printf(prep,"Exe execpp#; = { \"CC-DEP #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
+                        Printf(out,"Exe execpp#; = { \"CC-DEP #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
 
-                        Printf(prep,"Target vdcpp#; = { \"#;.vm.dep\" , OBJ_PATH+\"/#;.vm.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+                        Printf(out,"Target vdcpp#; = { \"#;.vm.dep\" , OBJ_PATH+\"/#;.vm.dep\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
 
-                        Printf(prep,"Rule rvdcpp#; = { {&dcpp#;} , {&vdcpp#;} , {&exedcpp#;} } ;\n",ind,ind,ind,ind);
+                        Printf(out,"Rule rvdcpp#; = { {&dcpp#;} , {&vdcpp#;} , {&exedcpp#;} } ;\n",ind,ind,ind,ind);
 
-                        Printf(prep,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" , \"#;\" } } ;\n\n"
+                        Printf(out,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" , \"#;\" } } ;\n\n"
                           ,ind,DDLString(fn.name),DDLString(cutname),DDLString(cutname),ind);
 
                        } );
@@ -824,55 +797,79 @@ int Engine::run()
   // cat
 
   {
-   Putobj(prep,"Target make_dep = { 'make_dep' , DEP } ;\n\n"_c);
+   Putobj(out,"Target make_dep = { 'make_dep' , DEP } ;\n\n"_c);
 
-   auto func = [&] (auto &out)
-                   {
-                    cpp_list.apply( [&] (ulen ind,FileName)
-                                        {
-                                         Printf(out,"\n,&vdcpp#;",ind);
+   auto func1 = [&] (auto &out)
+                    {
+                     cpp_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"\n,&vdcpp#;",ind);
 
-                                        } );
+                                         } );
 
-                   } ;
+                    } ;
 
-   ulen n=1;
+   Printf(out,"Rule rmkdep = { {&obj#;} , {&make_dep} , {&intmkdep} } ; \n\n",PrintBy(func1));
 
-   cpp_list.apply( [&] (ulen ind,FileName fn)
-                       {
-                        if( (ind%10)==1 )
-                          {
-                           if( n>1 )
-                             {
-                              Printf(prep,"+\n\" > \\\"\"+OBJ_PATH+\"/tmp#;\\\"\" } ;\n\n",n-1);
-                             }
+   Putobj(out,"IntCmd intmkdep = { 'CAT' , &cat1 } ;\n\n"_c);
 
-                           Printf(prep,"Cmd cmdmkdep#; = { 'CAT' , CAT",n++);
-                          }
+   auto func2 = [&] (auto &out)
+                    {
+                     cpp_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          if( ind==1 ) Putobj(out,"\n "_c); else Putobj(out,"\n,"_c);
 
-                        StrLen cutname=fn.name.inner(0,4);
+                                          Printf(out,"vdcpp#;.file",ind);
 
-                        Printf(prep,"\n+\" \\\"\"+OBJ_PATH+\"/#;.vm.dep\\\"\"",cutname);
+                                         } );
 
-                       } );
+                    } ;
 
-   if( n>1 )
-     {
-      Printf(prep,"+\n\" > \\\"\"+OBJ_PATH+\"/tmp#;\\\"\" } ;\n\n",n-1);
-     }
-
-   Printf(prep,"Rule rmkdep = { {&obj#;} , {&make_dep} , {",PrintBy(func));
-
-   for(ulen i=1; i<n ;i++) Printf(prep,"\n&cmdmkdep#;,",i);
-
-   Putobj(prep,"\n&cmdmkdep} } ;\n\n"_c);
-
-   Putobj(prep,"Cmd cmdmkdep = { 'CAT' , CAT"_c);
-
-   for(ulen i=1; i<n ;i++) Printf(prep,"\n+\" \\\"\"+OBJ_PATH+\"/tmp#;\\\"\"",i);
-
-   Putobj(prep,"+\n\" > \\\"\"+DEP+\"\\\"\" } ;\n\n"_c);
+   Printf(out,"Cat cat1 = { { #; } , DEP } ;\n\n",PrintBy(func2));
   }
+ }
+
+Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen proj_file_name_,StrLen prep_file_name_)
+ : param(param_),
+   src_file_name(src_file_name_),
+   proj_file_name(proj_file_name_),
+   prep_file_name(prep_file_name_)
+ {
+  root=param->CCORE_ROOT;
+  target=param->CCORE_TARGET;
+  tools=param->tools;
+ }
+
+Engine::~Engine()
+ {
+ }
+
+int Engine::run()
+ {
+  if( param->target==0 )
+    {
+     Printf(Exception,"App : target type is not set");
+    }
+
+  prepareRoot();
+  prepareTarget();
+  prepareTools();
+
+  FindFiles find(param->SRC_PATH_LIST);
+
+  FileList cpp_list(find.cpp_list);
+  FileList asm_list(find.asm_list);
+
+  cpp_list.process();
+  asm_list.process();
+
+  PrintFile proj(proj_file_name);
+
+  genProj(proj,cpp_list,asm_list);
+
+  PrintFile prep(prep_file_name);
+
+  genPrep(prep,cpp_list,asm_list);
 
   return 0;
  }

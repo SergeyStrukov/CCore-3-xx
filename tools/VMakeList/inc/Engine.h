@@ -255,6 +255,12 @@ class Engine : NoCopy
    template <class List,class ... TT>
    void printList(PrinterType &out,List list,TT ... tt);
 
+  private:
+
+   void genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list);
+
+   void genPrep(PrinterType &out,FileList &cpp_list,FileList &asm_list);
+
   public:
 
    Engine(TypeDef::Param *param,StrLen src_file_name,StrLen proj_file_name,StrLen prep_file_name);

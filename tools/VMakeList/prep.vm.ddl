@@ -2,25 +2,31 @@ text CC = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
 text VMDEP = "D:/active/home"+"/bin/CCore-VMakeDep.exe" ;
 
-text CAT = "cat" ;
-
 text OBJ_PATH = ".obj" ;
 
 text TARGET = "D:/active/home"+"/bin/CCore-VMakeList.exe" ;
 
-text DEP = OBJ_PATH+'/deps.vm.ddl' ;
-
 Target obj = { 'obj' , OBJ_PATH+'/empty' } ;
 
-Rule robj = { {} , {&obj} , {&cmdobj} } ;
+Rule robj = { {} , {&obj} , {&intobj1,&intobj2} } ;
 
-Cmd cmdobj = { 'MKDIR '+OBJ_PATH , "mkdir -p \""+OBJ_PATH+"\" ; echo \\\"empty file\\\" > \""+OBJ_PATH+'"/empty' } ;
+IntCmd intobj1 = { 'MKDIR' , &mkdir1 } ;
+
+Mkdir mkdir1 = { OBJ_PATH } ;
+
+IntCmd intobj2 = { 'ECHO' , &echo1 } ;
+
+Echo echo1 = { 'empty' , OBJ_PATH+'/empty' } ;
 
 Target clean = { 'clean' } ;
 
-Rule rclean = { {} , {&clean} , {&cmdclean} } ;
+Rule rclean = { {} , {&clean} , {&intclean} } ;
 
-Cmd cmdclean = { 'CLEAN' , "rm -f \""+TARGET+"\" \""+OBJ_PATH+"\"/*" } ;
+IntCmd intclean = { 'CLEAN' , &rm1 } ;
+
+Rm rm1 = { { TARGET , OBJ_PATH+"/*" } } ;
+
+text DEP = OBJ_PATH+'/deps.vm.ddl' ;
 
 Target cpp1 = { "Engine.cpp" , "src/Engine.cpp" } ;
 Target dcpp1 = { "Engine.dep" , OBJ_PATH+"/Engine.dep" } ;
@@ -136,22 +142,17 @@ Exe exedcpp4 = { "CC-VM-DEP main.cpp" , VMDEP , { OBJ_PATH+"/main.dep" , OBJ_PAT
 
 Target make_dep = { 'make_dep' , DEP } ;
 
-Cmd cmdmkdep1 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Engine.vm.dep\""
-+" \""+OBJ_PATH+"/Utils.vm.dep\""
-+" \""+OBJ_PATH+"/VMakeList.vm.dep\""
-+" \""+OBJ_PATH+"/main.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp1\"" } ;
-
 Rule rmkdep = { {&obj
 ,&vdcpp1
 ,&vdcpp2
 ,&vdcpp3
-,&vdcpp4} , {&make_dep} , {
-&cmdmkdep1,
-&cmdmkdep} } ;
+,&vdcpp4} , {&make_dep} , {&intmkdep} } ; 
 
-Cmd cmdmkdep = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/tmp1\""+
-" > \""+DEP+"\"" } ;
+IntCmd intmkdep = { 'CAT' , &cat1 } ;
+
+Cat cat1 = { { 
+ vdcpp1.file
+,vdcpp2.file
+,vdcpp3.file
+,vdcpp4.file } , DEP } ;
 

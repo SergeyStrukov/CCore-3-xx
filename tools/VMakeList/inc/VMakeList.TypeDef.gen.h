@@ -20,10 +20,6 @@ struct TypeDefCore
     DDL::MapText LD;
     DDL::MapText AR;
     DDL::MapText VMDEP;
-    DDL::MapText RM;
-    DDL::MapText MKDIR;
-    DDL::MapText MKEMPTY;
-    DDL::MapText CAT;
     DDL::MapRange< DDL::MapText > CCINC;
     DDL::MapRange< DDL::MapText > CCOPT;
     DDL::MapRange< DDL::MapText > DEPOPT;

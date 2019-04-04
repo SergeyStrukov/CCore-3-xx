@@ -48,11 +48,6 @@ struct Tools
   
   text VMDEP = "#HOME;/bin/CCore-VMakeDep.exe" ;
   
-  text RM = "rm -f" ;
-  text MKDIR = "mkdir -p" ;
-  text MKEMPTY = 'echo \"empty file\"' ;
-  text CAT = "cat" ;
-  
   text[] CCINC;
   text[] CCOPT;
   text[] DEPOPT;
