@@ -137,6 +137,27 @@ bool test4()
   return true;
  }
 
+/* test5() */
+
+bool test5()
+ {
+  SpawnProcess spawn(".."_c,"../test.exe"_c);
+
+  spawn.addArg("./test.exe"_c);
+
+  for(ulen cnt=10000; cnt ;cnt--) spawn.addArg("$123456789"_c);
+
+  SpawnSlot slot;
+
+  spawn.spawn(slot);
+
+  int status=slot.wait();
+
+  Printf(Con,"\nstatus = #;\n",status);
+
+  return true;
+ }
+
 } // namespace Private_4035
 
 using namespace Private_4035;
@@ -155,7 +176,9 @@ bool Testit<4035>::Main()
 
   //return test3();
 
-  return test4();
+  //return test4();
+
+  return test5();
  }
 
 } // namespace App
