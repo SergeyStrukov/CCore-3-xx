@@ -87,12 +87,12 @@ class SpawnWaitList::Engine : MemBase_nocopy
      ErrorType error;
     };
 
-   static WaitAnyResult WaitAny();
+   static WaitAnyResult WaitAny() noexcept;
  };
 
 /* struct SpawnWaitList */
 
-ErrorType SpawnWaitList::init(ulen reserve)
+ErrorType SpawnWaitList::init(ulen reserve) noexcept
  {
   SilentReportException report;
 
@@ -108,7 +108,7 @@ ErrorType SpawnWaitList::init(ulen reserve)
     }
  }
 
-ErrorType SpawnWaitList::exit()
+ErrorType SpawnWaitList::exit() noexcept
  {
   bool nok=engine->notEmpty();
 
@@ -117,7 +117,7 @@ ErrorType SpawnWaitList::exit()
   return nok?Error_Running:NoError;
  }
 
-ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
+ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg) noexcept
  {
   SilentReportException report;
 
@@ -133,7 +133,7 @@ ErrorType SpawnWaitList::add(SpawnChild *spawn,void *arg)
     }
  }
 
-auto SpawnWaitList::wait() -> WaitResult
+auto SpawnWaitList::wait() noexcept -> WaitResult
  {
   return engine->wait();
  }
@@ -154,35 +154,58 @@ namespace Sys {
 
 /* GetShell() */
 
-StrLen GetShell(char [MaxPathLen+1])
+StrLen GetShell(char buf[MaxPathLen+1]) noexcept
  {
-  const char *shell=getenv("SHELL");
-
-  if( !shell ) return "/bin/sh"_c;
-
-  return shell;
- }
-
-/* GetEnviron() */
-
-void GetEnviron(Function<void (StrLen)> func)
- {
-  char **envp=environ;
-
-  if( envp )
+  if( const char *str=std::getenv("SHELL") )
     {
-     for(; char *str=*envp ;envp++)
+     StrLen text(str);
+
+     if( text.len<=MaxPathLen )
        {
-        func(StrLen(str));
+        text.copyTo(buf);
+
+        return StrLen(buf,text.len);
        }
     }
+
+  return "/bin/sh"_c;
+ }
+
+/* struct GetEnviron */
+
+ErrorType GetEnviron::init() noexcept
+ {
+  envp=environ;
+
+  return NoError;
+ }
+
+ErrorType GetEnviron::exit() noexcept
+ {
+  envp=0;
+
+  return NoError;
+ }
+
+auto GetEnviron::next() noexcept -> NextResult
+ {
+  if( const char *str=*envp )
+    {
+     StrLen env(str);
+
+     envp++;
+
+     return {env,NoError,false};
+    }
+
+  return {Empty,NoError,true};
  }
 
 /* struct SpawnChild */
 
 static_assert( Meta::IsSame<pid_t,SpawnChild::Type> ,"CCore::Sys::SpawnChild : bad Type");
 
-ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
+ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp) noexcept
  {
   volatile ErrorType error=NoError;
 
@@ -238,7 +261,7 @@ ErrorType SpawnChild::spawn(char *wdir,char *path,char **argv,char **envp)
     }
  }
 
-auto SpawnChild::wait() -> WaitResult
+auto SpawnChild::wait() noexcept -> WaitResult
  {
   WaitResult ret;
 
@@ -275,7 +298,7 @@ auto SpawnChild::wait() -> WaitResult
 
 /* class SpawnWaitList::Engine */
 
-auto SpawnWaitList::Engine::WaitAny() -> WaitAnyResult
+auto SpawnWaitList::Engine::WaitAny() noexcept -> WaitAnyResult
  {
   WaitAnyResult ret;
 
