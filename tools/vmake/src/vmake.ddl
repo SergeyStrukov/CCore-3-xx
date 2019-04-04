@@ -74,6 +74,7 @@ struct IntCmd
  {
   text echo;
   {Echo,Cat,Rm,Mkdir} *cmd; 
+  text wdir;
  }; 
  
 struct Rule

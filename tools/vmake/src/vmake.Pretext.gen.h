@@ -74,6 +74,7 @@
 " {\n"
 "  text echo;\n"
 "  {Echo,Cat,Rm,Mkdir} *cmd; \n"
+"  text wdir;\n"
 " }; \n"
 " \n"
 "struct Rule\n"

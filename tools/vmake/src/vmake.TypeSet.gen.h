@@ -102,7 +102,8 @@ struct TypeSet : TypeDefCore
 
          DDL::SetFieldOffsets(struct_node,
                                "echo",offsetof(S5,echo),
-                               "cmd",offsetof(S5,cmd)
+                               "cmd",offsetof(S5,cmd),
+                               "wdir",offsetof(S5,wdir)
                               );
         }
        return ret;
@@ -292,7 +293,8 @@ struct TypeSet : TypeDefCore
         {
          DDL::GuardFieldTypes<
                                DDL::MapText,
-                               DDL::MapPolyPtr< S9 , S8 , S7 , S6 >
+                               DDL::MapPolyPtr< S9 , S8 , S7 , S6 >,
+                               DDL::MapText
                               >(*this,struct_node);
         }
        break;

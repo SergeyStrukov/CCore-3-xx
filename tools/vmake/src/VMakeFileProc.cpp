@@ -521,9 +521,20 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::IntCmd *cmd)
  {
   Printf(Con,"#;\n",StrLen(cmd->echo));
 
+  StrLen new_wdir=cmd->wdir;
+
   int status=0;
 
-  cmd->cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) status=exeCmd(wdir,cmd); } );
+  if( +new_wdir )
+    {
+     BuildFileName wdir1(wdir,new_wdir);
+
+     cmd->cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) status=exeCmd(wdir1.get(),cmd); } );
+    }
+  else
+    {
+     cmd->cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) status=exeCmd(wdir,cmd); } );
+    }
 
   return status;
  }

@@ -66,6 +66,7 @@ struct TypeDefCore
    {
     DDL::MapText echo;
     DDL::MapPolyPtr< S9 , S8 , S7 , S6 > cmd;
+    DDL::MapText wdir;
 
     struct Ext;
    };
