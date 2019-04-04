@@ -13,11 +13,10 @@
 
 #include <inc/VMakeIntCmd.h>
 
-#include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Path.h>
 
 #include <CCore/inc/Print.h>
-#include <CCore/inc/Exception.h>
+#include <CCore/inc/DecodeFile.h>
 
 namespace App {
 namespace VMake {
@@ -89,36 +88,96 @@ bool IntCmdProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
 
 int IntCmdProc::echo(StrLen wdir,StrLen str,StrLen outfile)
  {
-  Used(wdir);
-  Used(str);
-  Used(outfile);
+  try
+    {
+     if( !outfile )
+       {
+        Printf(Con,"#;\n",str);
+       }
+     else
+       {
+        BuildFileName outfile1(wdir,outfile);
 
-  return 1;
+        PrintFile out(outfile1.get());
+
+        Putobj(out,str);
+       }
+
+     return 0;
+    }
+  catch(CatchType)
+    {
+     return 1;
+    }
  }
 
 int IntCmdProc::cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile)
  {
-  Used(wdir);
-  Used(files);
-  Used(outfile);
+  try
+    {
+     BuildFileName outfile1(wdir,outfile);
 
-  return 1;
+     PrintFile out(outfile1.get());
+
+     for(StrLen file : files )
+       {
+        BuildFileName file1(wdir,file);
+
+        DecodeFile inp(file1.get());
+
+        while( inp.more() )
+          {
+           auto r=Mutate<const char>(inp.pump());
+
+           out.put(r.ptr,r.len);
+          }
+       }
+
+     return 0;
+    }
+  catch(CatchType)
+    {
+     return 1;
+    }
  }
 
-int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files)
+int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files) // TODO *.files
  {
-  Used(wdir);
-  Used(files);
+  try
+    {
+     for(StrLen file : files )
+       {
+        BuildFileName file1(wdir,file);
 
-  return 1;
+        fs.deleteFile(file1.get());
+       }
+
+     return 0;
+    }
+  catch(CatchType)
+    {
+     return 1;
+    }
  }
 
 int IntCmdProc::mkdir(StrLen wdir,StrLen path)
  {
-  Used(wdir);
-  Used(path);
+  try
+    {
+     BuildFileName path1(wdir,path);
 
-  return 1;
+     WalkPath(path1.get(), [&] (StrLen dir)
+                               {
+                                if( fs.getFileType(dir)!=FileType_dir ) fs.createDir(dir);
+
+                               } );
+
+     return 0;
+    }
+  catch(CatchType)
+    {
+     return 1;
+    }
  }
 
 } // namespace VMake
