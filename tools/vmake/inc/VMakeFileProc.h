@@ -50,8 +50,6 @@ void SpawnExecute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<T
 
 /* classes */
 
-class CmdLineParser;
-
 struct ExeRule;
 
 class ExeList;
