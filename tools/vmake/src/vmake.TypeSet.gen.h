@@ -2,7 +2,7 @@
 
 struct TypeSet : TypeDefCore
  {
-  ulen indexes[9];
+  ulen indexes[14];
   DynArray<ulen> ind_map;
 
   DDL::FindNodeMap map;
@@ -16,11 +16,16 @@ struct TypeSet : TypeDefCore
     map.add(1,"MenuItem");
     map.add(3,"Dep");
     map.add(4,"Rule");
-    map.add(5,"VMake");
-    map.add(7,"Cmd");
-    map.add(8,"Exe");
-    map.add(6,"Env");
-    map.add(9,"Target");
+    map.add(5,"IntCmd");
+    map.add(6,"Mkdir");
+    map.add(7,"Rm");
+    map.add(8,"Cat");
+    map.add(9,"Echo");
+    map.add(10,"VMake");
+    map.add(12,"Cmd");
+    map.add(13,"Exe");
+    map.add(11,"Env");
+    map.add(14,"Target");
 
     map.complete();
    }
@@ -97,42 +102,7 @@ struct TypeSet : TypeDefCore
 
          DDL::SetFieldOffsets(struct_node,
                                "echo",offsetof(S5,echo),
-                               "file",offsetof(S5,file),
-                               "target",offsetof(S5,target),
-                               "wdir",offsetof(S5,wdir)
-                              );
-        }
-       return ret;
-
-       case 7 :
-        {
-         indexes[6]=struct_node->index;
-         ind_map[struct_node->index]=7;
-
-         ret.set<S7>();
-
-         DDL::SetFieldOffsets(struct_node,
-                               "echo",offsetof(S7,echo),
-                               "cmdline",offsetof(S7,cmdline),
-                               "wdir",offsetof(S7,wdir),
-                               "env",offsetof(S7,env)
-                              );
-        }
-       return ret;
-
-       case 8 :
-        {
-         indexes[7]=struct_node->index;
-         ind_map[struct_node->index]=8;
-
-         ret.set<S8>();
-
-         DDL::SetFieldOffsets(struct_node,
-                               "echo",offsetof(S8,echo),
-                               "exe",offsetof(S8,exe),
-                               "args",offsetof(S8,args),
-                               "wdir",offsetof(S8,wdir),
-                               "env",offsetof(S8,env)
+                               "cmd",offsetof(S5,cmd)
                               );
         }
        return ret;
@@ -145,8 +115,34 @@ struct TypeSet : TypeDefCore
          ret.set<S6>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "name",offsetof(S6,name),
-                               "value",offsetof(S6,value)
+                               "path",offsetof(S6,path)
+                              );
+        }
+       return ret;
+
+       case 7 :
+        {
+         indexes[6]=struct_node->index;
+         ind_map[struct_node->index]=7;
+
+         ret.set<S7>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "files",offsetof(S7,files)
+                              );
+        }
+       return ret;
+
+       case 8 :
+        {
+         indexes[7]=struct_node->index;
+         ind_map[struct_node->index]=8;
+
+         ret.set<S8>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "files",offsetof(S8,files),
+                               "outfile",offsetof(S8,outfile)
                               );
         }
        return ret;
@@ -159,8 +155,85 @@ struct TypeSet : TypeDefCore
          ret.set<S9>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "desc",offsetof(S9,desc),
-                               "file",offsetof(S9,file)
+                               "str",offsetof(S9,str),
+                               "outfile",offsetof(S9,outfile)
+                              );
+        }
+       return ret;
+
+       case 10 :
+        {
+         indexes[9]=struct_node->index;
+         ind_map[struct_node->index]=10;
+
+         ret.set<S10>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "echo",offsetof(S10,echo),
+                               "file",offsetof(S10,file),
+                               "target",offsetof(S10,target),
+                               "wdir",offsetof(S10,wdir)
+                              );
+        }
+       return ret;
+
+       case 12 :
+        {
+         indexes[11]=struct_node->index;
+         ind_map[struct_node->index]=12;
+
+         ret.set<S12>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "echo",offsetof(S12,echo),
+                               "cmdline",offsetof(S12,cmdline),
+                               "wdir",offsetof(S12,wdir),
+                               "env",offsetof(S12,env)
+                              );
+        }
+       return ret;
+
+       case 13 :
+        {
+         indexes[12]=struct_node->index;
+         ind_map[struct_node->index]=13;
+
+         ret.set<S13>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "echo",offsetof(S13,echo),
+                               "exe",offsetof(S13,exe),
+                               "args",offsetof(S13,args),
+                               "wdir",offsetof(S13,wdir),
+                               "env",offsetof(S13,env)
+                              );
+        }
+       return ret;
+
+       case 11 :
+        {
+         indexes[10]=struct_node->index;
+         ind_map[struct_node->index]=11;
+
+         ret.set<S11>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "name",offsetof(S11,name),
+                               "value",offsetof(S11,value)
+                              );
+        }
+       return ret;
+
+       case 14 :
+        {
+         indexes[13]=struct_node->index;
+         ind_map[struct_node->index]=14;
+
+         ret.set<S14>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "desc",offsetof(S14,desc),
+                               "file",offsetof(S14,file)
                               );
         }
        return ret;
@@ -189,7 +262,7 @@ struct TypeSet : TypeDefCore
        case 1 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapPtr< S9 >,
+                               DDL::MapPtr< S14 >,
                                DDL::MapText,
                                DDL::MapRange< DDL::MapPtr< S1 > >
                               >(*this,struct_node);
@@ -199,8 +272,8 @@ struct TypeSet : TypeDefCore
        case 3 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapRange< DDL::MapPtr< S9 > >,
-                               DDL::MapRange< DDL::MapPtr< S9 > >
+                               DDL::MapRange< DDL::MapPtr< S14 > >,
+                               DDL::MapRange< DDL::MapPtr< S14 > >
                               >(*this,struct_node);
         }
        break;
@@ -208,9 +281,9 @@ struct TypeSet : TypeDefCore
        case 4 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapRange< DDL::MapPtr< S9 > >,
-                               DDL::MapRange< DDL::MapPtr< S9 > >,
-                               DDL::MapRange< DDL::MapPolyPtr< S8 , S7 , S5 > >
+                               DDL::MapRange< DDL::MapPtr< S14 > >,
+                               DDL::MapRange< DDL::MapPtr< S14 > >,
+                               DDL::MapRange< DDL::MapPolyPtr< S13 , S12 , S10 , S5 > >
                               >(*this,struct_node);
         }
        break;
@@ -219,8 +292,14 @@ struct TypeSet : TypeDefCore
         {
          DDL::GuardFieldTypes<
                                DDL::MapText,
-                               DDL::MapText,
-                               DDL::MapText,
+                               DDL::MapPolyPtr< S9 , S8 , S7 , S6 >
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 6 :
+        {
+         DDL::GuardFieldTypes<
                                DDL::MapText
                               >(*this,struct_node);
         }
@@ -229,10 +308,7 @@ struct TypeSet : TypeDefCore
        case 7 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapText,
-                               DDL::MapText,
-                               DDL::MapText,
-                               DDL::MapRange< S6 >
+                               DDL::MapRange< DDL::MapText >
                               >(*this,struct_node);
         }
        break;
@@ -240,16 +316,13 @@ struct TypeSet : TypeDefCore
        case 8 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapText,
-                               DDL::MapText,
                                DDL::MapRange< DDL::MapText >,
-                               DDL::MapText,
-                               DDL::MapRange< S6 >
+                               DDL::MapText
                               >(*this,struct_node);
         }
        break;
 
-       case 6 :
+       case 9 :
         {
          DDL::GuardFieldTypes<
                                DDL::MapText,
@@ -258,7 +331,50 @@ struct TypeSet : TypeDefCore
         }
        break;
 
-       case 9 :
+       case 10 :
+        {
+         DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 12 :
+        {
+         DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapRange< S11 >
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 13 :
+        {
+         DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
+                               DDL::MapText,
+                               DDL::MapRange< S11 >
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 11 :
+        {
+         DDL::GuardFieldTypes<
+                               DDL::MapText,
+                               DDL::MapText
+                              >(*this,struct_node);
+        }
+       break;
+
+       case 14 :
         {
          DDL::GuardFieldTypes<
                                DDL::MapText,
@@ -289,9 +405,9 @@ struct TypeSet : TypeDefCore
          obj->ext=0;
         }
        break;
-       case 9 :
+       case 14 :
         {
-         S9 *obj=place;
+         S14 *obj=place;
 
          obj->ext=0;
         }
@@ -337,6 +453,12 @@ struct TypeSet::IsStruct<TypeDefCore::S5>
  };
 
 template <>
+struct TypeSet::IsStruct<TypeDefCore::S6>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[5]; }
+ };
+
+template <>
 struct TypeSet::IsStruct<TypeDefCore::S7>
  {
   static bool Do(const ulen *indexes,ulen index) { return index==indexes[6]; }
@@ -349,14 +471,38 @@ struct TypeSet::IsStruct<TypeDefCore::S8>
  };
 
 template <>
-struct TypeSet::IsStruct<TypeDefCore::S6>
- {
-  static bool Do(const ulen *indexes,ulen index) { return index==indexes[5]; }
- };
-
-template <>
 struct TypeSet::IsStruct<TypeDefCore::S9>
  {
   static bool Do(const ulen *indexes,ulen index) { return index==indexes[8]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S10>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[9]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S12>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[11]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S13>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[12]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S11>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[10]; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S14>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[13]; }
  };
 

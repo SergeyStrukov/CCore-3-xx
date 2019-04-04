@@ -14,6 +14,8 @@
 #ifndef App_VMakeFileProc_h
 #define App_VMakeFileProc_h
 
+#include <inc/VMakeIntCmd.h>
+
 #include <CCore/inc/OptMember.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/FileSystem.h>
@@ -24,8 +26,6 @@
 namespace App {
 
 /* using */
-
-using namespace CCore;
 
 namespace VMake {
 
@@ -67,7 +67,7 @@ struct ExeRule : NoCopy
   TypeDef::Rule *rule = 0 ;
 
   int status = 0 ;
-  PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake> > list;
+  PtrLen<DDL::MapPolyPtr<TypeDef::Exe,TypeDef::Cmd,TypeDef::VMake,TypeDef::IntCmd> > list;
 
   void set(TypeDef::Rule *rule_)
    {
@@ -106,7 +106,7 @@ class ExeList : NoCopy
    void moveToReady(ulen ind);
 
    template <class Func>
-   void step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd> *cmd,Func func);
+   void step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd,TypeDef::IntCmd> *cmd,Func func);
 
    template <class Func>
    void step(ulen ind,ExeRule *exeobj,TypeDef::VMake *cmd,Func func);
@@ -209,7 +209,7 @@ class PExeProc : NoCopy
 
 class FileProc : NoCopy
  {
-   FileSystem fs;
+   IntCmdProc intproc;
 
    unsigned level = 100 ;
 
@@ -223,8 +223,6 @@ class FileProc : NoCopy
 
    static int VMake(FileProc &file_proc,StrLen file_name,StrLen target,StrLen wdir);
 
-   class BuildFileName;
-
   public:
 
    FileProc();
@@ -237,9 +235,25 @@ class FileProc : NoCopy
 
    // check
 
-   bool checkExist(StrLen wdir,StrLen dst);
+   bool checkExist(StrLen wdir,StrLen dst)
+    {
+     return intproc.checkExist(wdir,dst);
+    }
 
-   bool checkOlder(StrLen wdir,StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
+   bool checkOlder(StrLen wdir,StrLen dst,StrLen src) // dst.noexist OR dst.time < src.time
+    {
+     return intproc.checkOlder(wdir,dst,src);
+    }
+
+   // int
+
+   int exeCmd(StrLen wdir,TypeDef::Echo *cmd);
+
+   int exeCmd(StrLen wdir,TypeDef::Cat *cmd);
+
+   int exeCmd(StrLen wdir,TypeDef::Rm *cmd);
+
+   int exeCmd(StrLen wdir,TypeDef::Mkdir *cmd);
 
    // exe
 
@@ -249,6 +263,8 @@ class FileProc : NoCopy
 
    int exeCmd(StrLen wdir,TypeDef::VMake *cmd);
 
+   int exeCmd(StrLen wdir,TypeDef::IntCmd *cmd);
+
    int exeRule(StrLen wdir,TypeDef::Rule *rule);
 
    // pexe
@@ -256,6 +272,8 @@ class FileProc : NoCopy
    void startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe complete);
 
    void startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe complete);
+
+   void startCmd(StrLen wdir,TypeDef::IntCmd *cmd,PExeProc::CompleteExe complete);
 
    void exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],CompleteFunction complete);
  };

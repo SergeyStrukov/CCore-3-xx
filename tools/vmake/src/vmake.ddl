@@ -47,12 +47,40 @@ struct VMake
   text target = 'main' ;
   text wdir;
  };
+
+struct Echo
+ {
+  text str;
+  text outfile;
+ };
+ 
+struct Cat
+ {
+  text[] files;
+  text outfile;
+ };
+ 
+struct Rm
+ {
+  text[] files;
+ };
+ 
+struct Mkdir
+ {
+  text path;
+ };   
+ 
+struct IntCmd
+ {
+  text echo;
+  {Echo,Cat,Rm,Mkdir} *cmd; 
+ }; 
  
 struct Rule
  {
   Target * [] src; 
   Target * [] dst;
-  {Exe,Cmd,VMake} * [] cmd;
+  {Exe,Cmd,VMake,IntCmd} * [] cmd;
  };
  
 struct Dep

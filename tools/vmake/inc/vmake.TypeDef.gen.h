@@ -8,11 +8,16 @@ struct TypeDefCore
   struct S2; // #Menu 
   struct S3; // #Dep 
   struct S4; // #Rule 
-  struct S5; // #VMake 
-  struct S6; // #Env 
-  struct S7; // #Cmd 
-  struct S8; // #Exe 
-  struct S9; // #Target 
+  struct S5; // #IntCmd 
+  struct S6; // #Mkdir 
+  struct S7; // #Rm 
+  struct S8; // #Cat 
+  struct S9; // #Echo 
+  struct S10; // #VMake 
+  struct S11; // #Env 
+  struct S12; // #Cmd 
+  struct S13; // #Exe 
+  struct S14; // #Target 
 
 
 
@@ -22,7 +27,7 @@ struct TypeDefCore
 
   struct S1
    {
-    DDL::MapPtr< S9 > dst;
+    DDL::MapPtr< S14 > dst;
     DDL::MapText desc;
     DDL::MapRange< DDL::MapPtr< S1 > > sub;
 
@@ -40,17 +45,17 @@ struct TypeDefCore
 
   struct S3
    {
-    DDL::MapRange< DDL::MapPtr< S9 > > src;
-    DDL::MapRange< DDL::MapPtr< S9 > > dst;
+    DDL::MapRange< DDL::MapPtr< S14 > > src;
+    DDL::MapRange< DDL::MapPtr< S14 > > dst;
 
     struct Ext;
    };
 
   struct S4
    {
-    DDL::MapRange< DDL::MapPtr< S9 > > src;
-    DDL::MapRange< DDL::MapPtr< S9 > > dst;
-    DDL::MapRange< DDL::MapPolyPtr< S8 , S7 , S5 > > cmd;
+    DDL::MapRange< DDL::MapPtr< S14 > > src;
+    DDL::MapRange< DDL::MapPtr< S14 > > dst;
+    DDL::MapRange< DDL::MapPolyPtr< S13 , S12 , S10 , S5 > > cmd;
 
     struct Ext;
 
@@ -60,6 +65,44 @@ struct TypeDefCore
   struct S5
    {
     DDL::MapText echo;
+    DDL::MapPolyPtr< S9 , S8 , S7 , S6 > cmd;
+
+    struct Ext;
+   };
+
+  struct S6
+   {
+    DDL::MapText path;
+
+    struct Ext;
+   };
+
+  struct S7
+   {
+    DDL::MapRange< DDL::MapText > files;
+
+    struct Ext;
+   };
+
+  struct S8
+   {
+    DDL::MapRange< DDL::MapText > files;
+    DDL::MapText outfile;
+
+    struct Ext;
+   };
+
+  struct S9
+   {
+    DDL::MapText str;
+    DDL::MapText outfile;
+
+    struct Ext;
+   };
+
+  struct S10
+   {
+    DDL::MapText echo;
     DDL::MapText file;
     DDL::MapText target;
     DDL::MapText wdir;
@@ -67,7 +110,7 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S6
+  struct S11
    {
     DDL::MapText name;
     DDL::MapText value;
@@ -75,28 +118,28 @@ struct TypeDefCore
     struct Ext;
    };
 
-  struct S7
+  struct S12
    {
     DDL::MapText echo;
     DDL::MapText cmdline;
     DDL::MapText wdir;
-    DDL::MapRange< S6 > env;
+    DDL::MapRange< S11 > env;
 
     struct Ext;
    };
 
-  struct S8
+  struct S13
    {
     DDL::MapText echo;
     DDL::MapText exe;
     DDL::MapRange< DDL::MapText > args;
     DDL::MapText wdir;
-    DDL::MapRange< S6 > env;
+    DDL::MapRange< S11 > env;
 
     struct Ext;
    };
 
-  struct S9
+  struct S14
    {
     DDL::MapText desc;
     DDL::MapText file;
@@ -114,15 +157,20 @@ using XXX212CD757_09B3_4D89_BE20_65C1E4E5A819 = TypeDefCore ;
 
 namespace TypeDef {
 
-    using Cmd = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
+    using Rm = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S7 ;
+    using Cat = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
+    using Cmd = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S12 ;
     using Dep = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S3 ;
-    using Env = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
-    using Exe = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S8 ;
+    using Env = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S11 ;
+    using Exe = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S13 ;
+    using Echo = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
     using Menu = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
     using Rule = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S4 ;
-    using Target = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S9 ;
-    using VMake = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
+    using Target = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S14 ;
+    using IntCmd = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S5 ;
+    using VMake = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S10 ;
     using MenuItem = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
+    using Mkdir = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S6 ;
 
 } // namespace TypeDef
 

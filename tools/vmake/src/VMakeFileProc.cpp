@@ -14,7 +14,6 @@
 #include <inc/VMakeFileProc.h>
 
 #include <CCore/inc/ForLoop.h>
-#include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/Path.h>
 
 #include <CCore/inc/Print.h>
@@ -135,7 +134,7 @@ void ExeList::moveToReady(ulen ind)
  }
 
 template <class Func>
-void ExeList::step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd> *cmd,Func func)
+void ExeList::step(ulen ind,ExeRule *exeobj,OneOfTypes<TypeDef::Exe,TypeDef::Cmd,TypeDef::IntCmd> *cmd,Func func)
  {
   moveToRunning(ind);
 
@@ -348,52 +347,6 @@ PExeProc::~PExeProc()
  {
  }
 
-/* class FileProc::BuildFileName */
-
-class FileProc::BuildFileName : NoCopy
- {
-   MakeFileName buf;
-
-   StrLen result;
-
-  private:
-
-   static bool IsRooted(StrLen name)
-    {
-     return name.len && PathBase::IsSlash(name[0]) ;
-    }
-
-   static bool IsRel(StrLen file)
-    {
-     SplitDev split_dev(file);
-
-     return !split_dev && !IsRooted(file) ;
-    }
-
-  public:
-
-   BuildFileName(StrLen wdir,StrLen file)
-    {
-     if( !wdir )
-       {
-        result=file;
-       }
-     else
-       {
-        if( IsRel(file) )
-          {
-           result=buf(wdir,file);
-          }
-        else
-          {
-           result=file;
-          }
-       }
-    }
-
-   StrLen get() const { return result; }
- };
-
 /* class FileProc */
 
 int FileProc::Command(StrLen wdir,StrLen cmdline,PtrLen<TypeDef::Env> env)
@@ -441,24 +394,26 @@ void FileProc::prepare(unsigned pcap)
   if( pcap>1 ) pexe.create( Cap<unsigned>(0,pcap,100) );
  }
 
- // check
+ // int
 
-bool FileProc::checkExist(StrLen wdir,StrLen dst)
+int FileProc::exeCmd(StrLen wdir,TypeDef::Echo *cmd)
  {
-  BuildFileName dst1(wdir,dst);
-
-  return fs.getFileType(dst1.get())==FileType_file;
+  return intproc.echo(wdir,cmd->str,cmd->outfile);
  }
 
-bool FileProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
+int FileProc::exeCmd(StrLen wdir,TypeDef::Cat *cmd)
  {
-  BuildFileName dst1(wdir,dst);
-  BuildFileName src1(wdir,src);
+  return intproc.cat(wdir,cmd->files,cmd->outfile);
+ }
 
-  auto dst_time=fs.getFileUpdateTime(dst1.get());
-  auto src_time=fs.getFileUpdateTime(src1.get());
+int FileProc::exeCmd(StrLen wdir,TypeDef::Rm *cmd)
+ {
+  return intproc.rm(wdir,cmd->files);
+ }
 
-  return dst_time<src_time;
+int FileProc::exeCmd(StrLen wdir,TypeDef::Mkdir *cmd)
+ {
+  return intproc.mkdir(wdir,cmd->path);
  }
 
  // exe
@@ -562,6 +517,17 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
     }
  }
 
+int FileProc::exeCmd(StrLen wdir,TypeDef::IntCmd *cmd)
+ {
+  Printf(Con,"#;\n",StrLen(cmd->echo));
+
+  int status=0;
+
+  cmd->cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) status=exeCmd(wdir,cmd); } );
+
+  return status;
+ }
+
 int FileProc::exeRule(StrLen wdir,TypeDef::Rule *rule)
  {
   for(auto cmd : rule->cmd.getRange() )
@@ -639,6 +605,13 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe comp
     {
      pexe->command(wdir,cmdline,env,complete);
     }
+ }
+
+void FileProc::startCmd(StrLen wdir,TypeDef::IntCmd *cmd,PExeProc::CompleteExe complete)
+ {
+  int status=exeCmd(wdir,cmd);
+
+  complete(status);
  }
 
 void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],CompleteFunction complete)
