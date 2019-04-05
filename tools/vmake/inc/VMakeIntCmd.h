@@ -143,13 +143,13 @@ class IntCmdProc : NoCopy
 
    // commands
 
-   int echo(StrLen wdir,StrLen str,StrLen outfile);
+   int echo(StrLen wdir,PtrLen<DDL::MapText> strs,StrLen outfile);
 
    int cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile);
 
    int rm(StrLen wdir,PtrLen<DDL::MapText> files);
 
-   int mkdir(StrLen wdir,StrLen path);
+   int mkdir(StrLen wdir,PtrLen<DDL::MapText> paths);
  };
 
 } // namespace VMake

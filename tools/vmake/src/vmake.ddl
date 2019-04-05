@@ -50,7 +50,7 @@ struct VMake
 
 struct Echo
  {
-  text str;
+  text[] strs;
   text outfile;
  };
  
@@ -67,7 +67,7 @@ struct Rm
  
 struct Mkdir
  {
-  text path;
+  text[] paths;
  };   
  
 struct IntCmd

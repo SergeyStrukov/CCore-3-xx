@@ -398,7 +398,7 @@ void FileProc::prepare(unsigned pcap)
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::Echo *cmd)
  {
-  return intproc.echo(wdir,cmd->str,cmd->outfile);
+  return intproc.echo(wdir,cmd->strs,cmd->outfile);
  }
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::Cat *cmd)
@@ -413,7 +413,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Rm *cmd)
 
 int FileProc::exeCmd(StrLen wdir,TypeDef::Mkdir *cmd)
  {
-  return intproc.mkdir(wdir,cmd->path);
+  return intproc.mkdir(wdir,cmd->paths);
  }
 
  // exe

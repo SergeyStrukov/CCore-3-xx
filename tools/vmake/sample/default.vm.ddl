@@ -6,9 +6,9 @@ Target int1 = { 'int1' } ;
 
 Rule R1 = { {} , {&int1} , {&C1} } ;
 
-IntCmd C1 = { 'echo' , &I1 } ;
+IntCmd C1 = { 'echo1' , &I1 } ;
 
-Echo I1 = { 'int echo' , '' } ;
+Echo I1 = { { 'int echo1','int echo2' } , '' } ;
 
 /* int2 */
 
@@ -18,7 +18,7 @@ Rule R2 = { {} , {&int2} , {&C2} } ;
 
 IntCmd C2 = { 'echo to file' , &I2 } ;
 
-Echo I2 = { 'int echo' , 'echo.txt' } ;
+Echo I2 = { { 'int echo' } , 'echo.txt' } ;
 
 /* int3 */
 
@@ -48,7 +48,7 @@ Rule R5 = { {} , {&int5} , {&C5} } ;
 
 IntCmd C5 = { 'mkdir' , &I5 } ;
 
-Mkdir I5 = {'dir1/dir2/../dir3'} ;
+Mkdir I5 = { { 'dir1/dir2/../dir3' } } ;
 
 /* int6 */
 
@@ -58,11 +58,11 @@ Rule R6 = { {} , {&int6} , {&C5,&C6,&C7,&C8} } ;
 
 IntCmd C6 = { 'echo 1' , &I6 } ;
 
-Echo I6 = { 'echo 1' , 'dir1/echo1.txt' } ;
+Echo I6 = { { 'echo 1' } , 'dir1/echo1.txt' } ;
 
 IntCmd C7 = { 'echo 2' , &I7 } ;
 
-Echo I7 = { 'echo 2' , 'dir1/echo2.txt' } ;
+Echo I7 = { { 'echo 2' } , 'dir1/echo2.txt' } ;
 
 IntCmd C8 = { 'cat' , &I8 } ;
 

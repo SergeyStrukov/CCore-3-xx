@@ -73,7 +73,7 @@ struct TypeDefCore
 
   struct S6
    {
-    DDL::MapText path;
+    DDL::MapRange< DDL::MapText > paths;
 
     struct Ext;
    };
@@ -95,7 +95,7 @@ struct TypeDefCore
 
   struct S9
    {
-    DDL::MapText str;
+    DDL::MapRange< DDL::MapText > strs;
     DDL::MapText outfile;
 
     struct Ext;

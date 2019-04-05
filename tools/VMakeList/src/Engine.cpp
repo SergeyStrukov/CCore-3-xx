@@ -576,7 +576,7 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
                         Printf(out,"Target ocpp#; = { \"#;.o\" , OBJ_PATH+\"/#;.o\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
 
-                        Printf(out,"Rule rcpp#; = { {&cpp#;} , {&ocpp#;} , {&execpp#;} } ;\n",ind,ind,ind,ind);
+                        Printf(out,"Rule rcpp#; = { {&cpp#;} , {&ocpp#;} , {&intdep#;,&execpp#;} } ;\n",ind,ind,ind,ind,ind);
 
                         auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
 
@@ -585,6 +585,10 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
                         auto func = [&] (auto &out) { printList(out,tools->CCOPT.getRange(),psrc,pdst); } ;
 
                         Printf(out,"Exe execpp#; = { \"CC #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
+
+                        Printf(out,"IntCmd intdep#; = { 'RM DEP' , &rmdep#; } ;\n\n",ind,ind);
+
+                        Printf(out,"Rm rmdep#; = { { OBJ_PATH+\"/#;.dep\" } } ;\n\n",ind,DDLString(cutname));
 
                        } );
   }
@@ -620,7 +624,7 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
    auto func1 = [&] (auto &out)
                     {
-                     PrintFirst stem("\n "_c,"\n+"_c);
+                     PrintFirst stem("\n "_c,"\n,"_c);
 
                      cpp_list.apply( [&] (ulen ind,FileName)
                                          {
@@ -635,11 +639,9 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
                                          } );
                     } ;
 
-   Printf(out,"text arglist = #; ;\n\n",PrintBy(func1));
-
    Putobj(out,"IntCmd intargs = { 'ARGS' , &echoargs } ;\n\n"_c);
 
-   Printf(out,"Echo echoargs = { arglist , OBJ_PATH+\'/target.args\' } ;\n\n");
+   Printf(out,"Echo echoargs = { { #; } , OBJ_PATH+'/target.args' } ;\n\n",PrintBy(func1));
 
    Putobj(out,"Target main = { 'main' , TARGET } ;\n\n"_c);
 
@@ -728,11 +730,11 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
 
    Putobj(out,"IntCmd intobj1 = { 'MKDIR' , &mkdir1 } ;\n\n"_c);
 
-   Putobj(out,"Mkdir mkdir1 = { OBJ_PATH } ;\n\n"_c);
+   Putobj(out,"Mkdir mkdir1 = { { OBJ_PATH } } ;\n\n"_c);
 
    Putobj(out,"IntCmd intobj2 = { 'ECHO' , &echo1 } ;\n\n"_c);
 
-   Putobj(out,"Echo echo1 = { 'empty' , OBJ_PATH+'/empty' } ;\n\n"_c);
+   Putobj(out,"Echo echo1 = { { 'empty' } , OBJ_PATH+'/empty' } ;\n\n"_c);
   }
 
   // clean
@@ -744,7 +746,19 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
 
    Putobj(out,"IntCmd intclean = { 'CLEAN' , &rm1 } ;\n\n"_c);
 
-   Putobj(out,"Rm rm1 = { { TARGET , OBJ_PATH+\"/*\" } } ;\n\n"_c);
+   Putobj(out,"Rm rm1 = { { TARGET , OBJ_PATH+'/*' } } ;\n\n"_c);
+  }
+
+  // clean dep
+
+  {
+   Putobj(out,"Target clean_dep = { 'clean dep' } ;\n\n"_c);
+
+   Putobj(out,"Rule rclean_dep = { {} , {&clean_dep} , {&intclean_dep} } ;\n\n"_c);
+
+   Putobj(out,"IntCmd intclean_dep = { 'CLEAN DEP' , &rm2 } ;\n\n"_c);
+
+   Putobj(out,"Rm rm2 = { { DEP , OBJ_PATH+'/*.dep' } } ;\n\n"_c);
   }
 
   // dep
@@ -776,7 +790,7 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
 
                         Printf(out,"Rule rvdcpp#; = { {&dcpp#;} , {&vdcpp#;} , {&exedcpp#;} } ;\n",ind,ind,ind,ind);
 
-                        Printf(out,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" , \"#;\" } } ;\n\n"
+                        Printf(out,"Exe exedcpp#; = { \"CC-VM-DEP #;\" , VMDEP , { OBJ_PATH+\"/#;.dep\" , OBJ_PATH+\"/#;.vm.dep\" , '#;' } } ;\n\n"
                           ,ind,DDLString(fn.name),DDLString(cutname),DDLString(cutname),ind);
 
                        } );

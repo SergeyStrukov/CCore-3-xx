@@ -142,13 +142,13 @@ bool IntCmdProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
 
  // commands
 
-int IntCmdProc::echo(StrLen wdir,StrLen str,StrLen outfile)
+int IntCmdProc::echo(StrLen wdir,PtrLen<DDL::MapText> strs,StrLen outfile)
  {
   try
     {
      if( !outfile )
        {
-        Printf(Con,"#;\n",str);
+        for(StrLen str : strs ) Printf(Con,"#;\n",str);
        }
      else
        {
@@ -156,7 +156,7 @@ int IntCmdProc::echo(StrLen wdir,StrLen str,StrLen outfile)
 
         PrintFile out(outfile1.get());
 
-        Putobj(out,str);
+        for(StrLen str : strs ) Putobj(out,str);
        }
 
      return 0;
@@ -221,17 +221,20 @@ int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files)
     }
  }
 
-int IntCmdProc::mkdir(StrLen wdir,StrLen path)
+int IntCmdProc::mkdir(StrLen wdir,PtrLen<DDL::MapText> paths)
  {
   try
     {
-     BuildFileName path1(wdir,path);
+     for(StrLen path : paths )
+       {
+        BuildFileName path1(wdir,path);
 
-     WalkPath(path1.get(), [&] (StrLen dir)
-                               {
-                                if( fs.getFileType(dir)!=FileType_dir ) fs.createDir(dir);
+        WalkPath(path1.get(), [&] (StrLen dir)
+                                  {
+                                   if( fs.getFileType(dir)!=FileType_dir ) fs.createDir(dir);
 
-                               } );
+                                  } );
+       }
 
      return 0;
     }

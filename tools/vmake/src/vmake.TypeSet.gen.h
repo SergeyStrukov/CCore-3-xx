@@ -116,7 +116,7 @@ struct TypeSet : TypeDefCore
          ret.set<S6>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "path",offsetof(S6,path)
+                               "paths",offsetof(S6,paths)
                               );
         }
        return ret;
@@ -156,7 +156,7 @@ struct TypeSet : TypeDefCore
          ret.set<S9>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "str",offsetof(S9,str),
+                               "strs",offsetof(S9,strs),
                                "outfile",offsetof(S9,outfile)
                               );
         }
@@ -302,7 +302,7 @@ struct TypeSet : TypeDefCore
        case 6 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapText
+                               DDL::MapRange< DDL::MapText >
                               >(*this,struct_node);
         }
        break;
@@ -327,7 +327,7 @@ struct TypeSet : TypeDefCore
        case 9 :
         {
          DDL::GuardFieldTypes<
-                               DDL::MapText,
+                               DDL::MapRange< DDL::MapText >,
                                DDL::MapText
                               >(*this,struct_node);
         }
