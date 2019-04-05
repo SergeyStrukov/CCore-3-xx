@@ -1,4 +1,4 @@
-text OBJ_PATH = ".vmobj" ;
+text OBJ_PATH = ".obj" ;
 
 text CC = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
@@ -21500,4 +21500,4 @@ Exe exemain2 = { 'AR '+TARGET , AR , { 'r' , TARGET , ARGS } } ;
 
 Target *core_ptr = null ;
 
-include <.vmobj/deps.vm.ddl>
+include <.obj/deps.vm.ddl>

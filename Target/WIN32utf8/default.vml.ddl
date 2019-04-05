@@ -17,7 +17,7 @@ text CCoreTarget = "WIN32utf8" ;
 
 Param Data = {
 
-.OBJ_PATH = ".vmobj" ,
+.OBJ_PATH = ".obj" ,
 
 .SRC_PATH_LIST = {
                   CCoreRoot+"/Simple/CCore/src",
