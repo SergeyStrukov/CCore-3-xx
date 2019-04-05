@@ -1,14 +1,14 @@
 text OBJ_PATH = ".obj" ;
 
-text CC = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text CC = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
 text AS = "as" ;
 
-text LD = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text LD = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
 text AR = "ar" ;
 
-text TARGET = "D:/active/home"+"/bin/CCore-VMakeList.exe" ;
+text TARGET = "D:/active/home/bin/CCore-VMakeList.exe" ;
 
 Target cpp1 = { "Engine.cpp" , "src/Engine.cpp" } ;
 Target ocpp1 = { "Engine.o" , OBJ_PATH+"/Engine.o" } ;
@@ -32,17 +32,17 @@ Exe execpp1 = { "CC Engine.cpp" , CC , {
  ,"-Wno-missing-field-initializers"
  ,"-Wno-delete-non-virtual-dtor"
  ,"-Wno-misleading-indentation"
- ,"-I"+"../.."+"/Target/"+"WIN32utf8"
- ,"-I"+"../.."+"/HCore"
- ,"-I"+"../.."+"/Simple"
- ,"-I"+"../.."+"/Fundamental"
- ,"-I"+"../.."+"/Applied"
- ,"-I"+"../.."+"/Desktop/Core"
- ,"-I"+"../.."+"/Desktop/Draw"
- ,"-I"+"../.."+"/Desktop/Font"
- ,"-I"+"../.."+"/Desktop/Lib"
- ,"-I"+"../.."+"/Desktop/Tools"
- ,"-I"+"../.."+"/Desktop/App"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
  ,"-I."
  ,"src/Engine.cpp"
  ,"-o"
@@ -75,17 +75,17 @@ Exe execpp2 = { "CC Utils.cpp" , CC , {
  ,"-Wno-missing-field-initializers"
  ,"-Wno-delete-non-virtual-dtor"
  ,"-Wno-misleading-indentation"
- ,"-I"+"../.."+"/Target/"+"WIN32utf8"
- ,"-I"+"../.."+"/HCore"
- ,"-I"+"../.."+"/Simple"
- ,"-I"+"../.."+"/Fundamental"
- ,"-I"+"../.."+"/Applied"
- ,"-I"+"../.."+"/Desktop/Core"
- ,"-I"+"../.."+"/Desktop/Draw"
- ,"-I"+"../.."+"/Desktop/Font"
- ,"-I"+"../.."+"/Desktop/Lib"
- ,"-I"+"../.."+"/Desktop/Tools"
- ,"-I"+"../.."+"/Desktop/App"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
  ,"-I."
  ,"src/Utils.cpp"
  ,"-o"
@@ -118,17 +118,17 @@ Exe execpp3 = { "CC VMakeList.cpp" , CC , {
  ,"-Wno-missing-field-initializers"
  ,"-Wno-delete-non-virtual-dtor"
  ,"-Wno-misleading-indentation"
- ,"-I"+"../.."+"/Target/"+"WIN32utf8"
- ,"-I"+"../.."+"/HCore"
- ,"-I"+"../.."+"/Simple"
- ,"-I"+"../.."+"/Fundamental"
- ,"-I"+"../.."+"/Applied"
- ,"-I"+"../.."+"/Desktop/Core"
- ,"-I"+"../.."+"/Desktop/Draw"
- ,"-I"+"../.."+"/Desktop/Font"
- ,"-I"+"../.."+"/Desktop/Lib"
- ,"-I"+"../.."+"/Desktop/Tools"
- ,"-I"+"../.."+"/Desktop/App"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
  ,"-I."
  ,"src/VMakeList.cpp"
  ,"-o"
@@ -161,17 +161,17 @@ Exe execpp4 = { "CC main.cpp" , CC , {
  ,"-Wno-missing-field-initializers"
  ,"-Wno-delete-non-virtual-dtor"
  ,"-Wno-misleading-indentation"
- ,"-I"+"../.."+"/Target/"+"WIN32utf8"
- ,"-I"+"../.."+"/HCore"
- ,"-I"+"../.."+"/Simple"
- ,"-I"+"../.."+"/Fundamental"
- ,"-I"+"../.."+"/Applied"
- ,"-I"+"../.."+"/Desktop/Core"
- ,"-I"+"../.."+"/Desktop/Draw"
- ,"-I"+"../.."+"/Desktop/Font"
- ,"-I"+"../.."+"/Desktop/Lib"
- ,"-I"+"../.."+"/Desktop/Tools"
- ,"-I"+"../.."+"/Desktop/App"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
  ,"-I."
  ,"src/main.cpp"
  ,"-o"
@@ -182,38 +182,3 @@ IntCmd intdep4 = { 'RM DEP' , &rmdep4 } ;
 
 Rm rmdep4 = { { OBJ_PATH+"/main.dep" } } ;
 
-text ARGS = '@'+OBJ_PATH+'/target.args' ;
-
-IntCmd intargs = { 'ARGS' , &echoargs } ;
-
-Echo echoargs = { { 
- '"'+ocpp1.file+"\"\n"
-,'"'+ocpp2.file+"\"\n"
-,'"'+ocpp3.file+"\"\n"
-,'"'+ocpp4.file+"\"\n" } , OBJ_PATH+'/target.args' } ;
-
-Target main = { 'main' , TARGET } ;
-
-Rule rmain = { { core_ptr 
-,&ocpp1
-,&ocpp2
-,&ocpp3
-,&ocpp4 } , {&main} , {&intargs,&exemain} } ;
-
-Exe exemain = { 'LD '+TARGET , LD , {
-  ARGS
- ,"-Wl,-s"
- ,"../.."+"/Target/"+"WIN32utf8"+"/CCore.a"
- ,"-lws2_32"
- ,"-lgmp"
- ,"-lgdi32"
- ,"-lfreetype"
- ,"-o"
- ,TARGET
-} } ;
-
-Target core = { 'CCore' , "../.."+"/Target/"+"WIN32utf8"+'/CCore.a' } ;
-
-Target *core_ptr = &core ;
-
-include <.obj/deps.vm.ddl>

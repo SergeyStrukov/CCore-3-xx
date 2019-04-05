@@ -44,7 +44,11 @@ enum TargetType : int
 
 /* classes */
 
-struct DDLString;
+template <PrinterType P> class DDLStringFilter;
+
+template <class Func> class PrintDDLString;
+
+template <class ... TT> class DDLString;
 
 class FindFiles;
 
@@ -52,47 +56,109 @@ class FileList;
 
 class Engine;
 
-/* struct DDLString */
+/* class DDLStringFilter<P> */
 
-struct DDLString
+template <PrinterType P>
+class DDLStringFilter : NoCopy
  {
-  StrLen str;
+   P &out;
 
-  explicit DDLString(StrLen str_) : str(str_) {}
+  public:
 
-  // print object
+   explicit DDLStringFilter(P &out_) : out(out_) {}
 
-  static void PrintChar(PrinterType &out,char ch)
-   {
-    switch( ch )
-      {
-       case '\b' : out.put('\\'); out.put('b'); break;
+   using PrintOutType = DDLStringFilter & ;
 
-       case '\t' : out.put('\\'); out.put('t'); break;
+   PrintOutType printRef() { return *this; }
 
-       case '\n' : out.put('\\'); out.put('n'); break;
+   // put
 
-       case '\v' : out.put('\\'); out.put('v'); break;
+   void put(char ch)
+    {
+     switch( ch )
+       {
+        case '\b' : out.put('\\'); out.put('b'); break;
 
-       case '\f' : out.put('\\'); out.put('f'); break;
+        case '\t' : out.put('\\'); out.put('t'); break;
 
-       case '\r' : out.put('\\'); out.put('r'); break;
+        case '\n' : out.put('\\'); out.put('n'); break;
 
-       case '"' : out.put('\\'); out.put('"'); break;
+        case '\v' : out.put('\\'); out.put('v'); break;
 
-       case '\\' : out.put('\\'); out.put('\\'); break;
+        case '\f' : out.put('\\'); out.put('f'); break;
 
-       default:
-        {
-         if( CharIsPrintable(ch) ) out.put(ch); else out.put(' ');
-        }
-      }
-   }
+        case '\r' : out.put('\\'); out.put('r'); break;
 
-  void print(PrinterType &out) const
-   {
-    for(char ch : str ) PrintChar(out,ch);
-   }
+        case '"' : out.put('\\'); out.put('"'); break;
+
+        case '\\' : out.put('\\'); out.put('\\'); break;
+
+        default:
+         {
+          if( CharIsPrintable(ch) ) out.put(ch); else out.put(' ');
+         }
+       }
+    }
+
+   void put(char ch,ulen len)
+    {
+     for(; len ;len--) put(ch);
+    }
+
+   void put(const char *str,ulen len)
+    {
+     for(char ch : Range(str,len) ) put(ch);
+    }
+
+   void flush()
+    {
+     out.flush();
+    }
+ };
+
+/* class PrintDDLString<Func> */
+
+template <class Func>
+class PrintDDLString
+ {
+   Func func;
+
+  public:
+
+   explicit PrintDDLString(const Func &func_) : func(func_) {}
+
+   // print object
+
+   template <PrinterType P>
+   void print(P &out) const
+    {
+     out.put('"');
+
+     DDLStringFilter<P> filter(out);
+
+     func(filter);
+
+     out.put('"');
+    }
+ };
+
+/* class DDLString<TT> */
+
+template <class ... TT>
+class DDLString
+ {
+   Tuple<TT...> data;
+
+  public:
+
+   explicit DDLString(const TT & ... tt) : data(tt...) {}
+
+   // print object
+
+   void print(PrinterType &out) const
+    {
+     Putobj(out, PrintDDLString( [&] (auto &out) { Putobj(out,data); } ) );
+    }
  };
 
 /* struct FileName */
@@ -232,6 +298,9 @@ class Engine : NoCopy
    template <class ... TT>
    void printText(PrinterType &out,StrLen str,TT ... tt);
 
+   template <class ... TT>
+   void printDDLString(PrinterType &out,StrLen str,TT ... tt); // print string raw chars func
+
    void printDefText(PrinterType &out,StrLen name,StrLen str);
 
    template <class List,class ... TT>
@@ -253,9 +322,13 @@ class Engine : NoCopy
    bool printSub(PrinterType &out,PrintFirst &stem,StrLen str,TT ... tt);
 
    template <class List,class ... TT>
-   void printList(PrinterType &out,List list,TT ... tt);
+   void printList(PrinterType &out,List list,TT ... tt); // print string func
 
   private:
+
+   struct CppItem;
+
+   struct AsmItem;
 
    void genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list);
 

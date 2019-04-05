@@ -32,8 +32,6 @@
 
 <p class="Files">Subfolders <b>CCore/inc/tree</b> <b>CCore/src/tree</b></p>
 
-</body>
-
 <h3>Tree's brief</h3>
 
 <p>
@@ -98,7 +96,7 @@ Then use one of <b>Algorithm Package</b>s to operate on trees:
 
 <pre>
 
-using Algo = TreeLink&lt;Node,unsigned&gt;::RadixAlgo<&amp;Node::link> ;
+using Algo = TreeLink&lt;Node,unsigned&gt;::RadixAlgo&lt;&amp;Node::link&gt; ;
 
 </pre>
 
@@ -131,7 +129,7 @@ struct <span class="Att">TreeLink</span>
 There are two <b>Algorithm Package</b>s: <b>BinAlgo</b> with basic binary tree operations
 and <b>RadixTree</b>, which extends <b>BinAlgo</b> with radix tree operations. The first package has the 
 additional template parameter: <b>KRef</b>. If the <b>K</b> is a lightweight type, then use the default <b>KRef</b>
-equals <b>K</b>. But for more complicated types, you may use <b>const K &</b> instead or even a
+equals <b>K</b>. But for more complicated types, you may use <b>const K &amp;</b> instead or even a
 completely different type. This type is used to pass key arguments. <b>RadixTree</b> requires the <b>K</b> to be
 an unsigned integral type.  
 </p>
@@ -163,7 +161,7 @@ struct <span class="Att">BinAlgo</span>
   
   static T * FindMax(T *root);
 
-  static T * FindMax(T *root,KRef key); // max <= key
+  static T * FindMax(T *root,KRef key); // max &lt;= key
 
 </pre>  
 
@@ -205,11 +203,11 @@ given <b>key</b>.
 
   static T ** LocateMin(T **root_ptr);
 
-  static T ** LocateMin(T **root_ptr,KRef key); // min >= key
+  static T ** LocateMin(T **root_ptr,KRef key); // min &gt;= key
    
   static T ** LocateMax(T **root_ptr);
 
-  static T ** LocateMax(T **root_ptr,KRef key); // max <= key
+  static T ** LocateMax(T **root_ptr,KRef key); // max &lt;= key
    
 </pre>
 
@@ -558,7 +556,7 @@ struct <span class="Att">BinAlgo</span>
    // node!=0
    // root_ptr!=0
  
-  static Node & Link(T *node) { return node->*LinkMember; }
+  static Node &amp; Link(T *node) { return node->*LinkMember; }
   
   // Find
   
@@ -566,11 +564,11 @@ struct <span class="Att">BinAlgo</span>
   
   static T * FindMin(T *root);
   
-  static T * FindMin(T *root,KRef key); // min >= key
+  static T * FindMin(T *root,KRef key); // min &gt;= key
   
   static T * FindMax(T *root);
 
-  static T * FindMax(T *root,KRef key); // max <= key
+  static T * FindMax(T *root,KRef key); // max &lt;= key
   
 </pre>
 
@@ -843,8 +841,6 @@ Two of them are direct calls of the correspondent <b>Ins()</b> functions. Anothe
 argument <b>key</b>. This key is placed into the element link before insertion.
 </p>
 
-<p>
-
 <h4>RBTreeLink</h4>
 
 <p>
@@ -905,11 +901,11 @@ struct <span class="Att">BaseAlgo</span>
   
   static T * FindMin(T *root);
   
-  static T * FindMin(T *root,KRef key); // min >= key
+  static T * FindMin(T *root,KRef key); // min &gt;= key
   
   static T * FindMax(T *root);
 
-  static T * FindMax(T *root,KRef key); // max <= key
+  static T * FindMax(T *root,KRef key); // max &lt;= key
   
   // struct Cur
 
@@ -1170,6 +1166,8 @@ has the additional method <b>replace()</b>.
 <b>replace()</b> replaces the given tree node with another unlinked node. The new node becomes 
 a member of the tree, the old one becomes unlinked. Keys are swapped.
 </p>
+
+</body>
 
 </html>
 

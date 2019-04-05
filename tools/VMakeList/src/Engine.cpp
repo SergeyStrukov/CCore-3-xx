@@ -302,8 +302,6 @@ void Engine::printVar(PrinterType &out,StrLen str,TT ... tt)
  {
   LockUse lock(level);
 
-  auto printFrame = [&] (StrLen str) { Printf(out,"\"#;\"",DDLString(str)); } ;
-
   if( str.equal("CCORE_ROOT"_c) )
     {
      printText(out,root,tt...);
@@ -327,14 +325,14 @@ void Engine::printVar(PrinterType &out,StrLen str,TT ... tt)
 
   if( str.equal("ROOT"_c) )
     {
-     printFrame(root_dir.get());
+     Putobj(out,root_dir.get());
 
      return;
     }
 
   if( str.equal("HOME"_c) )
     {
-     printFrame(home_dir.get());
+     Putobj(out,home_dir.get());
 
      return;
     }
@@ -345,30 +343,19 @@ void Engine::printVar(PrinterType &out,StrLen str,TT ... tt)
 template <class ... TT>
 void Engine::printText(PrinterType &out,StrLen str,TT ... tt)
  {
-  if( !str )
-    {
-     Putobj(out,"''");
-
-     return;
-    }
-
-  PrintFirst stem(""_c,"+"_c);
-
-  auto printFrame = [&] (StrLen str) { Printf(out,"#;\"#;\"",stem,DDLString(str)); } ;
-
   while( +str )
     {
      ScanStr scan(str,'#');
 
      if( +scan.next )
        {
-        if( +scan.before ) printFrame(scan.before);
+        if( +scan.before ) Putobj(out,scan.before);
 
         str=scan.next;
 
         if( str.len>=2 && str[1]=='#' )
           {
-           printFrame("#"_c);
+           Putobj(out,"#"_c);
 
            str+=2;
           }
@@ -378,15 +365,13 @@ void Engine::printText(PrinterType &out,StrLen str,TT ... tt)
 
            if( +scan.next )
              {
-              Putobj(out,stem);
-
               printVar(out,scan.before.part(1),tt...);
 
               str=scan.next.part(1);
              }
            else
              {
-              printFrame(str);
+              Putobj(out,str);
 
               return;
              }
@@ -394,16 +379,29 @@ void Engine::printText(PrinterType &out,StrLen str,TT ... tt)
        }
      else
        {
-        printFrame(str);
+        Putobj(out,str);
 
         return;
        }
     }
  }
 
+template <class ... TT>
+void Engine::printDDLString(PrinterType &out,StrLen str,TT ... tt)
+ {
+  if( !str )
+    {
+     Putobj(out,"''");
+
+     return;
+    }
+
+  Putobj(out, PrintDDLString( [&] (auto &out) { printText(out,str,tt...); } ) );
+ }
+
 void Engine::printDefText(PrinterType &out,StrLen name,StrLen str)
  {
-  auto func = [&] (auto &out) { printText(out,str); } ;
+  auto func = [&] (auto &out) { printDDLString(out,str); } ;
 
   Printf(out,"text #; = #; ;\n\n",name,PrintBy(func));
  }
@@ -419,7 +417,7 @@ void Engine::printSubList(PrinterType &out,PrintFirst &stem,List list,TT ... tt)
        {
         Putobj(out,stem);
 
-        printText(out,str,tt...);
+        printDDLString(out,str,tt...);
        }
     }
  }
@@ -544,6 +542,44 @@ void Engine::printList(PrinterType &out,List list,TT ... tt)
   out.put('}');
  }
 
+struct Engine::CppItem
+ {
+  ulen ind;
+  FileName fn;
+
+  StrLen name;
+
+  CppItem(ulen ind_,const FileName &fn_) : ind(ind_),fn(fn_) { name=fn.name.inner(0,4); }
+
+  auto getCppName() const { return DDLString(fn.name); }
+
+  auto getCppPath() const { return DDLString(fn.path); }
+
+  auto getObjName() const { return DDLString(name,".o"_c); }
+
+  auto getObjPath() const { return DDLString("/"_c,name,".o"_c); } // rel to OBJ_PATH
+
+  auto getDepPath() const { return DDLString("/"_c,name,".dep"_c); } // rel to OBJ_PATH
+ };
+
+struct Engine::AsmItem
+ {
+  ulen ind;
+  FileName fn;
+
+  StrLen name;
+
+  AsmItem(ulen ind_,const FileName &fn_) : ind(ind_),fn(fn_) { name=fn.name; }
+
+  auto getAsmName() const { return DDLString(fn.name); }
+
+  auto getAsmPath() const { return DDLString(fn.path); }
+
+  auto getObjName() const { return DDLString(name,".o"_c); }
+
+  auto getObjPath() const { return DDLString("/"_c,name,".o"_c); } // rel to OBJ_PATH
+ };
+
 void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
  {
   printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
@@ -568,27 +604,37 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
   // cpp
 
   {
-   cpp_list.apply( [&] (ulen ind,FileName fn)
+   cpp_list.apply( [&] (ulen ind,const FileName &fn)
                        {
-                        Printf(out,"Target cpp#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
+                        CppItem item(ind,fn);
 
-                        StrLen cutname=fn.name.inner(0,4);
+                        auto cpp_name=item.getCppName();
 
-                        Printf(out,"Target ocpp#; = { \"#;.o\" , OBJ_PATH+\"/#;.o\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+                        auto cpp_path=item.getCppPath();
+
+                        auto obj_name=item.getObjName();
+
+                        auto obj_path=item.getObjPath();
+
+                        auto dep_path=item.getDepPath();
+
+                        Printf(out,"Target cpp#; = { #; , #; } ;\n",ind,cpp_name,cpp_path);
+
+                        Printf(out,"Target ocpp#; = { #; , OBJ_PATH+#; } ;\n",ind,obj_name,obj_path);
 
                         Printf(out,"Rule rcpp#; = { {&cpp#;} , {&ocpp#;} , {&intdep#;,&execpp#;} } ;\n",ind,ind,ind,ind,ind);
 
-                        auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
+                        auto psrc = [&] (auto &out) { Printf(out,"#;",cpp_path); } ;
 
-                        auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } ;
+                        auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+#;",obj_path); } ;
 
                         auto func = [&] (auto &out) { printList(out,tools->CCOPT.getRange(),psrc,pdst); } ;
 
-                        Printf(out,"Exe execpp#; = { \"CC #;\" , CC , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
+                        Printf(out,"Exe execpp#; = { #; , CC , #; } ;\n\n",ind,DDLString("CC "_c,fn.name),PrintBy(func));
 
                         Printf(out,"IntCmd intdep#; = { 'RM DEP' , &rmdep#; } ;\n\n",ind,ind);
 
-                        Printf(out,"Rm rmdep#; = { { OBJ_PATH+\"/#;.dep\" } } ;\n\n",ind,DDLString(cutname));
+                        Printf(out,"Rm rmdep#; = { { OBJ_PATH+#; } } ;\n\n",ind,dep_path);
 
                        } );
   }
@@ -596,26 +642,36 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
   // asm
 
   {
-   asm_list.apply( [&] (ulen ind,FileName fn)
+   asm_list.apply( [&] (ulen ind,const FileName &fn)
                        {
-                        Printf(out,"Target asm#; = { \"#;\" , \"#;\" } ;\n",ind,DDLString(fn.name),DDLString(fn.path));
+                        AsmItem item(ind,fn);
 
-                        StrLen cutname=fn.name;
+                        auto asm_name=item.getAsmName();
 
-                        Printf(out,"Target oasm#; = { \"#;.o\" , OBJ_PATH+\"/#;.o\" } ;\n",ind,DDLString(cutname),DDLString(cutname));
+                        auto asm_path=item.getAsmPath();
+
+                        auto obj_name=item.getObjName();
+
+                        auto obj_path=item.getObjPath();
+
+                        Printf(out,"Target asm#; = { #; , #; } ;\n",ind,asm_name,asm_path);
+
+                        Printf(out,"Target oasm#; = { #; , OBJ_PATH+#; } ;\n",ind,obj_name,obj_path);
 
                         Printf(out,"Rule rasm#; = { {&asm#;} , {&oasm#;} , {&exeasm#;} } ;\n",ind,ind,ind,ind);
 
-                        auto psrc = [&] (auto &out) { Printf(out,"\"#;\"",DDLString(fn.path)); } ;
+                        auto psrc = [&] (auto &out) { Printf(out,"#;",asm_path); } ;
 
-                        auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+\"/#;.o\"",DDLString(cutname)); } ;
+                        auto pdst = [&] (auto &out) { Printf(out,"OBJ_PATH+#;",obj_path); } ;
 
                         auto func = [&] (auto &out) { printList(out,tools->ASOPT.getRange(),psrc,pdst); } ;
 
-                        Printf(out,"Exe exeasm#; = { \"AS #;\" , AS , #; } ;\n\n",ind,DDLString(fn.name),PrintBy(func));
+                        Printf(out,"Exe exeasm#; = { #; , AS , #; } ;\n\n",ind,DDLString("AS "_c,fn.name),PrintBy(func));
 
                        } );
   }
+
+#if 0
 
   // target
 
@@ -682,7 +738,7 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
      Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func1));
 
-     auto func2 = [&] (auto &out) { printText(out,"#CCORE_ROOT;/Target/#CCORE_TARGET;"); } ;
+     auto func2 = [&] (auto &out) { printDDLString(out,"#CCORE_ROOT;/Target/#CCORE_TARGET;"); } ;
 
      Printf(out,"Target core = { 'CCore' , #;+'/CCore.a' } ;\n\n",PrintBy(func2));
 
@@ -709,6 +765,8 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
   {
    Printf(out,"include <#;/deps.vm.ddl>\n",StrLen(param->OBJ_PATH));
   }
+
+#endif
  }
 
 void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
@@ -720,6 +778,8 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
   printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
   printDefText(out,"TARGET"_c,param->TARGET);
+
+#if 0
 
   // obj
 
@@ -829,6 +889,8 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
 
    Printf(out,"Cat cat1 = { { #; } , DEP } ;\n\n",PrintBy(func2));
   }
+
+#endif
  }
 
 Engine::Engine(TypeDef::Param *param_,StrLen src_file_name_,StrLen proj_file_name_,StrLen prep_file_name_)
