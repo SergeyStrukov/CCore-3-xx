@@ -2,25 +2,31 @@ text CC = "D:/cygwin"+"/opt/gcc-8.3.0/bin/g++-8.3.0" ;
 
 text VMDEP = "D:/active/home"+"/bin/CCore-VMakeDep.exe" ;
 
-text CAT = "cat" ;
-
 text OBJ_PATH = ".vmobj" ;
 
 text TARGET = "./main.exe" ;
 
-text DEP = OBJ_PATH+'/deps.vm.ddl' ;
-
 Target obj = { 'obj' , OBJ_PATH+'/empty' } ;
 
-Rule robj = { {} , {&obj} , {&cmdobj} } ;
+Rule robj = { {} , {&obj} , {&intobj1,&intobj2} } ;
 
-Cmd cmdobj = { 'MKDIR '+OBJ_PATH , "mkdir -p \""+OBJ_PATH+"\" ; echo \\\"empty file\\\" > \""+OBJ_PATH+'"/empty' } ;
+IntCmd intobj1 = { 'MKDIR' , &mkdir1 } ;
+
+Mkdir mkdir1 = { OBJ_PATH } ;
+
+IntCmd intobj2 = { 'ECHO' , &echo1 } ;
+
+Echo echo1 = { 'empty' , OBJ_PATH+'/empty' } ;
 
 Target clean = { 'clean' } ;
 
-Rule rclean = { {} , {&clean} , {&cmdclean} } ;
+Rule rclean = { {} , {&clean} , {&intclean} } ;
 
-Cmd cmdclean = { 'CLEAN' , "rm -f \""+TARGET+"\" \""+OBJ_PATH+"\"/*" } ;
+IntCmd intclean = { 'CLEAN' , &rm1 } ;
+
+Rm rm1 = { { TARGET , OBJ_PATH+"/*" } } ;
+
+text DEP = OBJ_PATH+'/deps.vm.ddl' ;
 
 Target cpp1 = { "AES.cpp" , "../../Applied/CCore/src/./crypton/AES.cpp" } ;
 Target dcpp1 = { "AES.dep" , OBJ_PATH+"/AES.dep" } ;
@@ -2641,7 +2647,7 @@ Target vdcpp97 = { "Deflate.vm.dep" , OBJ_PATH+"/Deflate.vm.dep" } ;
 Rule rvdcpp97 = { {&dcpp97} , {&vdcpp97} , {&exedcpp97} } ;
 Exe exedcpp97 = { "CC-VM-DEP Deflate.cpp" , VMDEP , { OBJ_PATH+"/Deflate.dep" , OBJ_PATH+"/Deflate.vm.dep" , "97" } } ;
 
-Target cpp98 = { "Desktop.cpp" , "../../Target/WIN32utf8/CCore/src/./video/Desktop.cpp" } ;
+Target cpp98 = { "Desktop.cpp" , "CCore/src/./video/Desktop.cpp" } ;
 Target dcpp98 = { "Desktop.dep" , OBJ_PATH+"/Desktop.dep" } ;
 Rule rdcpp98 = { {&cpp98,&obj} , {&dcpp98} , {&execpp98} } ;
 Exe execpp98 = { "CC-DEP Desktop.cpp" , CC , {
@@ -2659,7 +2665,7 @@ Exe execpp98 = { "CC-DEP Desktop.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/Desktop.o"
- ,"../../Target/WIN32utf8/CCore/src/./video/Desktop.cpp"
+ ,"CCore/src/./video/Desktop.cpp"
  ,"-MF"
  ,OBJ_PATH+"/Desktop.dep"
 } } ;
@@ -4801,7 +4807,7 @@ Target vdcpp177 = { "IntegerDivider.vm.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" 
 Rule rvdcpp177 = { {&dcpp177} , {&vdcpp177} , {&exedcpp177} } ;
 Exe exedcpp177 = { "CC-VM-DEP IntegerDivider.cpp" , VMDEP , { OBJ_PATH+"/IntegerDivider.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" , "177" } } ;
 
-Target cpp178 = { "IntegerFastAlgo.cpp" , "../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.cpp" } ;
+Target cpp178 = { "IntegerFastAlgo.cpp" , "CCore/src/./math/IntegerFastAlgo.cpp" } ;
 Target dcpp178 = { "IntegerFastAlgo.dep" , OBJ_PATH+"/IntegerFastAlgo.dep" } ;
 Rule rdcpp178 = { {&cpp178,&obj} , {&dcpp178} , {&execpp178} } ;
 Exe execpp178 = { "CC-DEP IntegerFastAlgo.cpp" , CC , {
@@ -4819,7 +4825,7 @@ Exe execpp178 = { "CC-DEP IntegerFastAlgo.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/IntegerFastAlgo.o"
- ,"../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.cpp"
+ ,"CCore/src/./math/IntegerFastAlgo.cpp"
  ,"-MF"
  ,OBJ_PATH+"/IntegerFastAlgo.dep"
 } } ;
@@ -4963,7 +4969,7 @@ Target vdcpp183 = { "IntegerSlowAlgo.vm.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep
 Rule rvdcpp183 = { {&dcpp183} , {&vdcpp183} , {&exedcpp183} } ;
 Exe exedcpp183 = { "CC-VM-DEP IntegerSlowAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerSlowAlgo.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep" , "183" } } ;
 
-Target cpp184 = { "IntelAES.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp" } ;
+Target cpp184 = { "IntelAES.cpp" , "CCore/src/./crypton/IntelAES.cpp" } ;
 Target dcpp184 = { "IntelAES.dep" , OBJ_PATH+"/IntelAES.dep" } ;
 Rule rdcpp184 = { {&cpp184,&obj} , {&dcpp184} , {&execpp184} } ;
 Exe execpp184 = { "CC-DEP IntelAES.cpp" , CC , {
@@ -4981,7 +4987,7 @@ Exe execpp184 = { "CC-DEP IntelAES.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/IntelAES.o"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp"
+ ,"CCore/src/./crypton/IntelAES.cpp"
  ,"-MF"
  ,OBJ_PATH+"/IntelAES.dep"
 } } ;
@@ -4990,7 +4996,7 @@ Target vdcpp184 = { "IntelAES.vm.dep" , OBJ_PATH+"/IntelAES.vm.dep" } ;
 Rule rvdcpp184 = { {&dcpp184} , {&vdcpp184} , {&exedcpp184} } ;
 Exe exedcpp184 = { "CC-VM-DEP IntelAES.cpp" , VMDEP , { OBJ_PATH+"/IntelAES.dep" , OBJ_PATH+"/IntelAES.vm.dep" , "184" } } ;
 
-Target cpp185 = { "IntelCPUID.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp" } ;
+Target cpp185 = { "IntelCPUID.cpp" , "CCore/src/./crypton/IntelCPUID.cpp" } ;
 Target dcpp185 = { "IntelCPUID.dep" , OBJ_PATH+"/IntelCPUID.dep" } ;
 Rule rdcpp185 = { {&cpp185,&obj} , {&dcpp185} , {&execpp185} } ;
 Exe execpp185 = { "CC-DEP IntelCPUID.cpp" , CC , {
@@ -5008,7 +5014,7 @@ Exe execpp185 = { "CC-DEP IntelCPUID.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/IntelCPUID.o"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp"
+ ,"CCore/src/./crypton/IntelCPUID.cpp"
  ,"-MF"
  ,OBJ_PATH+"/IntelCPUID.dep"
 } } ;
@@ -5017,7 +5023,7 @@ Target vdcpp185 = { "IntelCPUID.vm.dep" , OBJ_PATH+"/IntelCPUID.vm.dep" } ;
 Rule rvdcpp185 = { {&dcpp185} , {&vdcpp185} , {&exedcpp185} } ;
 Exe exedcpp185 = { "CC-VM-DEP IntelCPUID.cpp" , VMDEP , { OBJ_PATH+"/IntelCPUID.dep" , OBJ_PATH+"/IntelCPUID.vm.dep" , "185" } } ;
 
-Target cpp186 = { "IntelRandom.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp" } ;
+Target cpp186 = { "IntelRandom.cpp" , "CCore/src/./crypton/IntelRandom.cpp" } ;
 Target dcpp186 = { "IntelRandom.dep" , OBJ_PATH+"/IntelRandom.dep" } ;
 Rule rdcpp186 = { {&cpp186,&obj} , {&dcpp186} , {&execpp186} } ;
 Exe execpp186 = { "CC-DEP IntelRandom.cpp" , CC , {
@@ -5035,7 +5041,7 @@ Exe execpp186 = { "CC-DEP IntelRandom.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/IntelRandom.o"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp"
+ ,"CCore/src/./crypton/IntelRandom.cpp"
  ,"-MF"
  ,OBJ_PATH+"/IntelRandom.dep"
 } } ;
@@ -5071,7 +5077,7 @@ Target vdcpp187 = { "InterfaceHost.vm.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" } 
 Rule rvdcpp187 = { {&dcpp187} , {&vdcpp187} , {&exedcpp187} } ;
 Exe exedcpp187 = { "CC-VM-DEP InterfaceHost.cpp" , VMDEP , { OBJ_PATH+"/InterfaceHost.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" , "187" } } ;
 
-Target cpp188 = { "InternalDesktop.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalDesktop.cpp" } ;
+Target cpp188 = { "InternalDesktop.cpp" , "CCore/src/./video/InternalDesktop.cpp" } ;
 Target dcpp188 = { "InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.dep" } ;
 Rule rdcpp188 = { {&cpp188,&obj} , {&dcpp188} , {&execpp188} } ;
 Exe execpp188 = { "CC-DEP InternalDesktop.cpp" , CC , {
@@ -5089,7 +5095,7 @@ Exe execpp188 = { "CC-DEP InternalDesktop.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/InternalDesktop.o"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalDesktop.cpp"
+ ,"CCore/src/./video/InternalDesktop.cpp"
  ,"-MF"
  ,OBJ_PATH+"/InternalDesktop.dep"
 } } ;
@@ -5098,7 +5104,7 @@ Target vdcpp188 = { "InternalDesktop.vm.dep" , OBJ_PATH+"/InternalDesktop.vm.dep
 Rule rvdcpp188 = { {&dcpp188} , {&vdcpp188} , {&exedcpp188} } ;
 Exe exedcpp188 = { "CC-VM-DEP InternalDesktop.cpp" , VMDEP , { OBJ_PATH+"/InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.vm.dep" , "188" } } ;
 
-Target cpp189 = { "InternalHost.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalHost.cpp" } ;
+Target cpp189 = { "InternalHost.cpp" , "CCore/src/./video/InternalHost.cpp" } ;
 Target dcpp189 = { "InternalHost.dep" , OBJ_PATH+"/InternalHost.dep" } ;
 Rule rdcpp189 = { {&cpp189,&obj} , {&dcpp189} , {&execpp189} } ;
 Exe execpp189 = { "CC-DEP InternalHost.cpp" , CC , {
@@ -5116,7 +5122,7 @@ Exe execpp189 = { "CC-DEP InternalHost.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/InternalHost.o"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalHost.cpp"
+ ,"CCore/src/./video/InternalHost.cpp"
  ,"-MF"
  ,OBJ_PATH+"/InternalHost.dep"
 } } ;
@@ -5125,7 +5131,7 @@ Target vdcpp189 = { "InternalHost.vm.dep" , OBJ_PATH+"/InternalHost.vm.dep" } ;
 Rule rvdcpp189 = { {&dcpp189} , {&vdcpp189} , {&exedcpp189} } ;
 Exe exedcpp189 = { "CC-VM-DEP InternalHost.cpp" , VMDEP , { OBJ_PATH+"/InternalHost.dep" , OBJ_PATH+"/InternalHost.vm.dep" , "189" } } ;
 
-Target cpp190 = { "InternalUtils.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalUtils.cpp" } ;
+Target cpp190 = { "InternalUtils.cpp" , "CCore/src/./video/InternalUtils.cpp" } ;
 Target dcpp190 = { "InternalUtils.dep" , OBJ_PATH+"/InternalUtils.dep" } ;
 Rule rdcpp190 = { {&cpp190,&obj} , {&dcpp190} , {&execpp190} } ;
 Exe execpp190 = { "CC-DEP InternalUtils.cpp" , CC , {
@@ -5143,7 +5149,7 @@ Exe execpp190 = { "CC-DEP InternalUtils.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/InternalUtils.o"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalUtils.cpp"
+ ,"CCore/src/./video/InternalUtils.cpp"
  ,"-MF"
  ,OBJ_PATH+"/InternalUtils.dep"
 } } ;
@@ -7582,7 +7588,7 @@ Target vdcpp280 = { "PlanInit.vm.dep" , OBJ_PATH+"/PlanInit.vm.dep" } ;
 Rule rvdcpp280 = { {&dcpp280} , {&vdcpp280} , {&exedcpp280} } ;
 Exe exedcpp280 = { "CC-VM-DEP PlanInit.cpp" , VMDEP , { OBJ_PATH+"/PlanInit.dep" , OBJ_PATH+"/PlanInit.vm.dep" , "280" } } ;
 
-Target cpp281 = { "PlanInit_CCore.cpp" , "../../Target/WIN32utf8/CCore/src/PlanInit_CCore.cpp" } ;
+Target cpp281 = { "PlanInit_CCore.cpp" , "CCore/src/PlanInit_CCore.cpp" } ;
 Target dcpp281 = { "PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.dep" } ;
 Rule rdcpp281 = { {&cpp281,&obj} , {&dcpp281} , {&execpp281} } ;
 Exe execpp281 = { "CC-DEP PlanInit_CCore.cpp" , CC , {
@@ -7600,7 +7606,7 @@ Exe execpp281 = { "CC-DEP PlanInit_CCore.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/PlanInit_CCore.o"
- ,"../../Target/WIN32utf8/CCore/src/PlanInit_CCore.cpp"
+ ,"CCore/src/PlanInit_CCore.cpp"
  ,"-MF"
  ,OBJ_PATH+"/PlanInit_CCore.dep"
 } } ;
@@ -7609,7 +7615,7 @@ Target vdcpp281 = { "PlanInit_CCore.vm.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" 
 Rule rvdcpp281 = { {&dcpp281} , {&vdcpp281} , {&exedcpp281} } ;
 Exe exedcpp281 = { "CC-VM-DEP PlanInit_CCore.cpp" , VMDEP , { OBJ_PATH+"/PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" , "281" } } ;
 
-Target cpp282 = { "PlatformBase.cpp" , "../../Target/WIN32utf8/CCore/src/./base/PlatformBase.cpp" } ;
+Target cpp282 = { "PlatformBase.cpp" , "CCore/src/./base/PlatformBase.cpp" } ;
 Target dcpp282 = { "PlatformBase.dep" , OBJ_PATH+"/PlatformBase.dep" } ;
 Rule rdcpp282 = { {&cpp282,&obj} , {&dcpp282} , {&execpp282} } ;
 Exe execpp282 = { "CC-DEP PlatformBase.cpp" , CC , {
@@ -7627,7 +7633,7 @@ Exe execpp282 = { "CC-DEP PlatformBase.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/PlatformBase.o"
- ,"../../Target/WIN32utf8/CCore/src/./base/PlatformBase.cpp"
+ ,"CCore/src/./base/PlatformBase.cpp"
  ,"-MF"
  ,OBJ_PATH+"/PlatformBase.dep"
 } } ;
@@ -8365,7 +8371,7 @@ Target vdcpp309 = { "PtrStepLen.vm.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" } ;
 Rule rvdcpp309 = { {&dcpp309} , {&vdcpp309} , {&exedcpp309} } ;
 Exe exedcpp309 = { "CC-VM-DEP PtrStepLen.cpp" , VMDEP , { OBJ_PATH+"/PtrStepLen.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" , "309" } } ;
 
-Target cpp310 = { "Quick.cpp" , "../../Target/WIN32utf8/CCore/src/./base/Quick.cpp" } ;
+Target cpp310 = { "Quick.cpp" , "CCore/src/./base/Quick.cpp" } ;
 Target dcpp310 = { "Quick.dep" , OBJ_PATH+"/Quick.dep" } ;
 Rule rdcpp310 = { {&cpp310,&obj} , {&dcpp310} , {&execpp310} } ;
 Exe execpp310 = { "CC-DEP Quick.cpp" , CC , {
@@ -8383,7 +8389,7 @@ Exe execpp310 = { "CC-DEP Quick.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/Quick.o"
- ,"../../Target/WIN32utf8/CCore/src/./base/Quick.cpp"
+ ,"CCore/src/./base/Quick.cpp"
  ,"-MF"
  ,OBJ_PATH+"/Quick.dep"
 } } ;
@@ -10876,7 +10882,7 @@ Target vdcpp402 = { "Symbol.vm.dep" , OBJ_PATH+"/Symbol.vm.dep" } ;
 Rule rvdcpp402 = { {&dcpp402} , {&vdcpp402} , {&exedcpp402} } ;
 Exe exedcpp402 = { "CC-VM-DEP Symbol.cpp" , VMDEP , { OBJ_PATH+"/Symbol.dep" , OBJ_PATH+"/Symbol.vm.dep" , "402" } } ;
 
-Target cpp403 = { "SysAbort.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysAbort.cpp" } ;
+Target cpp403 = { "SysAbort.cpp" , "CCore/src/./sys/SysAbort.cpp" } ;
 Target dcpp403 = { "SysAbort.dep" , OBJ_PATH+"/SysAbort.dep" } ;
 Rule rdcpp403 = { {&cpp403,&obj} , {&dcpp403} , {&execpp403} } ;
 Exe execpp403 = { "CC-DEP SysAbort.cpp" , CC , {
@@ -10894,7 +10900,7 @@ Exe execpp403 = { "CC-DEP SysAbort.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysAbort.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysAbort.cpp"
+ ,"CCore/src/./sys/SysAbort.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysAbort.dep"
 } } ;
@@ -10957,7 +10963,7 @@ Target vdcpp405 = { "SysAsyncFileSystem.vm.dep" , OBJ_PATH+"/SysAsyncFileSystem.
 Rule rvdcpp405 = { {&dcpp405} , {&vdcpp405} , {&exedcpp405} } ;
 Exe exedcpp405 = { "CC-VM-DEP SysAsyncFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysAsyncFileSystem.dep" , OBJ_PATH+"/SysAsyncFileSystem.vm.dep" , "405" } } ;
 
-Target cpp406 = { "SysAtomic.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.cpp" } ;
+Target cpp406 = { "SysAtomic.cpp" , "CCore/src/./sys/SysAtomic.cpp" } ;
 Target dcpp406 = { "SysAtomic.dep" , OBJ_PATH+"/SysAtomic.dep" } ;
 Rule rdcpp406 = { {&cpp406,&obj} , {&dcpp406} , {&execpp406} } ;
 Exe execpp406 = { "CC-DEP SysAtomic.cpp" , CC , {
@@ -10975,7 +10981,7 @@ Exe execpp406 = { "CC-DEP SysAtomic.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysAtomic.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.cpp"
+ ,"CCore/src/./sys/SysAtomic.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysAtomic.dep"
 } } ;
@@ -10984,7 +10990,7 @@ Target vdcpp406 = { "SysAtomic.vm.dep" , OBJ_PATH+"/SysAtomic.vm.dep" } ;
 Rule rvdcpp406 = { {&dcpp406} , {&vdcpp406} , {&exedcpp406} } ;
 Exe exedcpp406 = { "CC-VM-DEP SysAtomic.cpp" , VMDEP , { OBJ_PATH+"/SysAtomic.dep" , OBJ_PATH+"/SysAtomic.vm.dep" , "406" } } ;
 
-Target cpp407 = { "SysCon.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp" } ;
+Target cpp407 = { "SysCon.cpp" , "CCore/src/./sys/SysCon.cpp" } ;
 Target dcpp407 = { "SysCon.dep" , OBJ_PATH+"/SysCon.dep" } ;
 Rule rdcpp407 = { {&cpp407,&obj} , {&dcpp407} , {&execpp407} } ;
 Exe execpp407 = { "CC-DEP SysCon.cpp" , CC , {
@@ -11002,7 +11008,7 @@ Exe execpp407 = { "CC-DEP SysCon.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysCon.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp"
+ ,"CCore/src/./sys/SysCon.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysCon.dep"
 } } ;
@@ -11011,7 +11017,7 @@ Target vdcpp407 = { "SysCon.vm.dep" , OBJ_PATH+"/SysCon.vm.dep" } ;
 Rule rvdcpp407 = { {&dcpp407} , {&vdcpp407} , {&exedcpp407} } ;
 Exe exedcpp407 = { "CC-VM-DEP SysCon.cpp" , VMDEP , { OBJ_PATH+"/SysCon.dep" , OBJ_PATH+"/SysCon.vm.dep" , "407" } } ;
 
-Target cpp408 = { "SysEnv.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp" } ;
+Target cpp408 = { "SysEnv.cpp" , "CCore/src/./sys/SysEnv.cpp" } ;
 Target dcpp408 = { "SysEnv.dep" , OBJ_PATH+"/SysEnv.dep" } ;
 Rule rdcpp408 = { {&cpp408,&obj} , {&dcpp408} , {&execpp408} } ;
 Exe execpp408 = { "CC-DEP SysEnv.cpp" , CC , {
@@ -11029,7 +11035,7 @@ Exe execpp408 = { "CC-DEP SysEnv.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysEnv.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp"
+ ,"CCore/src/./sys/SysEnv.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysEnv.dep"
 } } ;
@@ -11038,7 +11044,7 @@ Target vdcpp408 = { "SysEnv.vm.dep" , OBJ_PATH+"/SysEnv.vm.dep" } ;
 Rule rvdcpp408 = { {&dcpp408} , {&vdcpp408} , {&exedcpp408} } ;
 Exe exedcpp408 = { "CC-VM-DEP SysEnv.cpp" , VMDEP , { OBJ_PATH+"/SysEnv.dep" , OBJ_PATH+"/SysEnv.vm.dep" , "408" } } ;
 
-Target cpp409 = { "SysError.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp" } ;
+Target cpp409 = { "SysError.cpp" , "CCore/src/./sys/SysError.cpp" } ;
 Target dcpp409 = { "SysError.dep" , OBJ_PATH+"/SysError.dep" } ;
 Rule rdcpp409 = { {&cpp409,&obj} , {&dcpp409} , {&execpp409} } ;
 Exe execpp409 = { "CC-DEP SysError.cpp" , CC , {
@@ -11056,7 +11062,7 @@ Exe execpp409 = { "CC-DEP SysError.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysError.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp"
+ ,"CCore/src/./sys/SysError.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysError.dep"
 } } ;
@@ -11065,7 +11071,7 @@ Target vdcpp409 = { "SysError.vm.dep" , OBJ_PATH+"/SysError.vm.dep" } ;
 Rule rvdcpp409 = { {&dcpp409} , {&vdcpp409} , {&exedcpp409} } ;
 Exe exedcpp409 = { "CC-VM-DEP SysError.cpp" , VMDEP , { OBJ_PATH+"/SysError.dep" , OBJ_PATH+"/SysError.vm.dep" , "409" } } ;
 
-Target cpp410 = { "SysFile.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFile.cpp" } ;
+Target cpp410 = { "SysFile.cpp" , "CCore/src/./sys/SysFile.cpp" } ;
 Target dcpp410 = { "SysFile.dep" , OBJ_PATH+"/SysFile.dep" } ;
 Rule rdcpp410 = { {&cpp410,&obj} , {&dcpp410} , {&execpp410} } ;
 Exe execpp410 = { "CC-DEP SysFile.cpp" , CC , {
@@ -11083,7 +11089,7 @@ Exe execpp410 = { "CC-DEP SysFile.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysFile.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFile.cpp"
+ ,"CCore/src/./sys/SysFile.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysFile.dep"
 } } ;
@@ -11092,7 +11098,7 @@ Target vdcpp410 = { "SysFile.vm.dep" , OBJ_PATH+"/SysFile.vm.dep" } ;
 Rule rvdcpp410 = { {&dcpp410} , {&vdcpp410} , {&exedcpp410} } ;
 Exe exedcpp410 = { "CC-VM-DEP SysFile.cpp" , VMDEP , { OBJ_PATH+"/SysFile.dep" , OBJ_PATH+"/SysFile.vm.dep" , "410" } } ;
 
-Target cpp411 = { "SysFileInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFileInternal.cpp" } ;
+Target cpp411 = { "SysFileInternal.cpp" , "CCore/src/./sys/SysFileInternal.cpp" } ;
 Target dcpp411 = { "SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.dep" } ;
 Rule rdcpp411 = { {&cpp411,&obj} , {&dcpp411} , {&execpp411} } ;
 Exe execpp411 = { "CC-DEP SysFileInternal.cpp" , CC , {
@@ -11110,7 +11116,7 @@ Exe execpp411 = { "CC-DEP SysFileInternal.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysFileInternal.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFileInternal.cpp"
+ ,"CCore/src/./sys/SysFileInternal.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysFileInternal.dep"
 } } ;
@@ -11119,7 +11125,7 @@ Target vdcpp411 = { "SysFileInternal.vm.dep" , OBJ_PATH+"/SysFileInternal.vm.dep
 Rule rvdcpp411 = { {&dcpp411} , {&vdcpp411} , {&exedcpp411} } ;
 Exe exedcpp411 = { "CC-VM-DEP SysFileInternal.cpp" , VMDEP , { OBJ_PATH+"/SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.vm.dep" , "411" } } ;
 
-Target cpp412 = { "SysFileSystem.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFileSystem.cpp" } ;
+Target cpp412 = { "SysFileSystem.cpp" , "CCore/src/./sys/SysFileSystem.cpp" } ;
 Target dcpp412 = { "SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.dep" } ;
 Rule rdcpp412 = { {&cpp412,&obj} , {&dcpp412} , {&execpp412} } ;
 Exe execpp412 = { "CC-DEP SysFileSystem.cpp" , CC , {
@@ -11137,7 +11143,7 @@ Exe execpp412 = { "CC-DEP SysFileSystem.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysFileSystem.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFileSystem.cpp"
+ ,"CCore/src/./sys/SysFileSystem.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysFileSystem.dep"
 } } ;
@@ -11146,7 +11152,7 @@ Target vdcpp412 = { "SysFileSystem.vm.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" } 
 Rule rvdcpp412 = { {&dcpp412} , {&vdcpp412} , {&exedcpp412} } ;
 Exe exedcpp412 = { "CC-VM-DEP SysFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" , "412" } } ;
 
-Target cpp413 = { "SysLaunchPath.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysLaunchPath.cpp" } ;
+Target cpp413 = { "SysLaunchPath.cpp" , "CCore/src/./sys/SysLaunchPath.cpp" } ;
 Target dcpp413 = { "SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.dep" } ;
 Rule rdcpp413 = { {&cpp413,&obj} , {&dcpp413} , {&execpp413} } ;
 Exe execpp413 = { "CC-DEP SysLaunchPath.cpp" , CC , {
@@ -11164,7 +11170,7 @@ Exe execpp413 = { "CC-DEP SysLaunchPath.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysLaunchPath.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysLaunchPath.cpp"
+ ,"CCore/src/./sys/SysLaunchPath.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysLaunchPath.dep"
 } } ;
@@ -11173,7 +11179,7 @@ Target vdcpp413 = { "SysLaunchPath.vm.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" } 
 Rule rvdcpp413 = { {&dcpp413} , {&vdcpp413} , {&exedcpp413} } ;
 Exe exedcpp413 = { "CC-VM-DEP SysLaunchPath.cpp" , VMDEP , { OBJ_PATH+"/SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" , "413" } } ;
 
-Target cpp414 = { "SysMemPage.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysMemPage.cpp" } ;
+Target cpp414 = { "SysMemPage.cpp" , "CCore/src/./sys/SysMemPage.cpp" } ;
 Target dcpp414 = { "SysMemPage.dep" , OBJ_PATH+"/SysMemPage.dep" } ;
 Rule rdcpp414 = { {&cpp414,&obj} , {&dcpp414} , {&execpp414} } ;
 Exe execpp414 = { "CC-DEP SysMemPage.cpp" , CC , {
@@ -11191,7 +11197,7 @@ Exe execpp414 = { "CC-DEP SysMemPage.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysMemPage.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysMemPage.cpp"
+ ,"CCore/src/./sys/SysMemPage.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysMemPage.dep"
 } } ;
@@ -11200,7 +11206,7 @@ Target vdcpp414 = { "SysMemPage.vm.dep" , OBJ_PATH+"/SysMemPage.vm.dep" } ;
 Rule rvdcpp414 = { {&dcpp414} , {&vdcpp414} , {&exedcpp414} } ;
 Exe exedcpp414 = { "CC-VM-DEP SysMemPage.cpp" , VMDEP , { OBJ_PATH+"/SysMemPage.dep" , OBJ_PATH+"/SysMemPage.vm.dep" , "414" } } ;
 
-Target cpp415 = { "SysNet.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysNet.cpp" } ;
+Target cpp415 = { "SysNet.cpp" , "CCore/src/./sys/SysNet.cpp" } ;
 Target dcpp415 = { "SysNet.dep" , OBJ_PATH+"/SysNet.dep" } ;
 Rule rdcpp415 = { {&cpp415,&obj} , {&dcpp415} , {&execpp415} } ;
 Exe execpp415 = { "CC-DEP SysNet.cpp" , CC , {
@@ -11218,7 +11224,7 @@ Exe execpp415 = { "CC-DEP SysNet.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysNet.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysNet.cpp"
+ ,"CCore/src/./sys/SysNet.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysNet.dep"
 } } ;
@@ -11227,7 +11233,7 @@ Target vdcpp415 = { "SysNet.vm.dep" , OBJ_PATH+"/SysNet.vm.dep" } ;
 Rule rvdcpp415 = { {&dcpp415} , {&vdcpp415} , {&exedcpp415} } ;
 Exe exedcpp415 = { "CC-VM-DEP SysNet.cpp" , VMDEP , { OBJ_PATH+"/SysNet.dep" , OBJ_PATH+"/SysNet.vm.dep" , "415" } } ;
 
-Target cpp416 = { "SysPlanInit.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysPlanInit.cpp" } ;
+Target cpp416 = { "SysPlanInit.cpp" , "CCore/src/./sys/SysPlanInit.cpp" } ;
 Target dcpp416 = { "SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.dep" } ;
 Rule rdcpp416 = { {&cpp416,&obj} , {&dcpp416} , {&execpp416} } ;
 Exe execpp416 = { "CC-DEP SysPlanInit.cpp" , CC , {
@@ -11245,7 +11251,7 @@ Exe execpp416 = { "CC-DEP SysPlanInit.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysPlanInit.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysPlanInit.cpp"
+ ,"CCore/src/./sys/SysPlanInit.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysPlanInit.dep"
 } } ;
@@ -11254,7 +11260,7 @@ Target vdcpp416 = { "SysPlanInit.vm.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" } ;
 Rule rvdcpp416 = { {&dcpp416} , {&vdcpp416} , {&exedcpp416} } ;
 Exe exedcpp416 = { "CC-VM-DEP SysPlanInit.cpp" , VMDEP , { OBJ_PATH+"/SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" , "416" } } ;
 
-Target cpp417 = { "SysProp.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysProp.cpp" } ;
+Target cpp417 = { "SysProp.cpp" , "CCore/src/./sys/SysProp.cpp" } ;
 Target dcpp417 = { "SysProp.dep" , OBJ_PATH+"/SysProp.dep" } ;
 Rule rdcpp417 = { {&cpp417,&obj} , {&dcpp417} , {&execpp417} } ;
 Exe execpp417 = { "CC-DEP SysProp.cpp" , CC , {
@@ -11272,7 +11278,7 @@ Exe execpp417 = { "CC-DEP SysProp.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysProp.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysProp.cpp"
+ ,"CCore/src/./sys/SysProp.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysProp.dep"
 } } ;
@@ -11281,7 +11287,7 @@ Target vdcpp417 = { "SysProp.vm.dep" , OBJ_PATH+"/SysProp.vm.dep" } ;
 Rule rvdcpp417 = { {&dcpp417} , {&vdcpp417} , {&exedcpp417} } ;
 Exe exedcpp417 = { "CC-VM-DEP SysProp.cpp" , VMDEP , { OBJ_PATH+"/SysProp.dep" , OBJ_PATH+"/SysProp.vm.dep" , "417" } } ;
 
-Target cpp418 = { "SysSem.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSem.cpp" } ;
+Target cpp418 = { "SysSem.cpp" , "CCore/src/./sys/SysSem.cpp" } ;
 Target dcpp418 = { "SysSem.dep" , OBJ_PATH+"/SysSem.dep" } ;
 Rule rdcpp418 = { {&cpp418,&obj} , {&dcpp418} , {&execpp418} } ;
 Exe execpp418 = { "CC-DEP SysSem.cpp" , CC , {
@@ -11299,7 +11305,7 @@ Exe execpp418 = { "CC-DEP SysSem.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysSem.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSem.cpp"
+ ,"CCore/src/./sys/SysSem.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysSem.dep"
 } } ;
@@ -11308,7 +11314,7 @@ Target vdcpp418 = { "SysSem.vm.dep" , OBJ_PATH+"/SysSem.vm.dep" } ;
 Rule rvdcpp418 = { {&dcpp418} , {&vdcpp418} , {&exedcpp418} } ;
 Exe exedcpp418 = { "CC-VM-DEP SysSem.cpp" , VMDEP , { OBJ_PATH+"/SysSem.dep" , OBJ_PATH+"/SysSem.vm.dep" , "418" } } ;
 
-Target cpp419 = { "SysSpawn.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSpawn.cpp" } ;
+Target cpp419 = { "SysSpawn.cpp" , "CCore/src/./sys/SysSpawn.cpp" } ;
 Target dcpp419 = { "SysSpawn.dep" , OBJ_PATH+"/SysSpawn.dep" } ;
 Rule rdcpp419 = { {&cpp419,&obj} , {&dcpp419} , {&execpp419} } ;
 Exe execpp419 = { "CC-DEP SysSpawn.cpp" , CC , {
@@ -11326,7 +11332,7 @@ Exe execpp419 = { "CC-DEP SysSpawn.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysSpawn.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSpawn.cpp"
+ ,"CCore/src/./sys/SysSpawn.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysSpawn.dep"
 } } ;
@@ -11335,7 +11341,7 @@ Target vdcpp419 = { "SysSpawn.vm.dep" , OBJ_PATH+"/SysSpawn.vm.dep" } ;
 Rule rvdcpp419 = { {&dcpp419} , {&vdcpp419} , {&exedcpp419} } ;
 Exe exedcpp419 = { "CC-VM-DEP SysSpawn.cpp" , VMDEP , { OBJ_PATH+"/SysSpawn.dep" , OBJ_PATH+"/SysSpawn.vm.dep" , "419" } } ;
 
-Target cpp420 = { "SysSpawnInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSpawnInternal.cpp" } ;
+Target cpp420 = { "SysSpawnInternal.cpp" , "CCore/src/./sys/SysSpawnInternal.cpp" } ;
 Target dcpp420 = { "SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.dep" } ;
 Rule rdcpp420 = { {&cpp420,&obj} , {&dcpp420} , {&execpp420} } ;
 Exe execpp420 = { "CC-DEP SysSpawnInternal.cpp" , CC , {
@@ -11353,7 +11359,7 @@ Exe execpp420 = { "CC-DEP SysSpawnInternal.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysSpawnInternal.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSpawnInternal.cpp"
+ ,"CCore/src/./sys/SysSpawnInternal.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysSpawnInternal.dep"
 } } ;
@@ -11362,7 +11368,7 @@ Target vdcpp420 = { "SysSpawnInternal.vm.dep" , OBJ_PATH+"/SysSpawnInternal.vm.d
 Rule rvdcpp420 = { {&dcpp420} , {&vdcpp420} , {&exedcpp420} } ;
 Exe exedcpp420 = { "CC-VM-DEP SysSpawnInternal.cpp" , VMDEP , { OBJ_PATH+"/SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.vm.dep" , "420" } } ;
 
-Target cpp421 = { "SysTask.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTask.cpp" } ;
+Target cpp421 = { "SysTask.cpp" , "CCore/src/./sys/SysTask.cpp" } ;
 Target dcpp421 = { "SysTask.dep" , OBJ_PATH+"/SysTask.dep" } ;
 Rule rdcpp421 = { {&cpp421,&obj} , {&dcpp421} , {&execpp421} } ;
 Exe execpp421 = { "CC-DEP SysTask.cpp" , CC , {
@@ -11380,7 +11386,7 @@ Exe execpp421 = { "CC-DEP SysTask.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysTask.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTask.cpp"
+ ,"CCore/src/./sys/SysTask.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysTask.dep"
 } } ;
@@ -11389,7 +11395,7 @@ Target vdcpp421 = { "SysTask.vm.dep" , OBJ_PATH+"/SysTask.vm.dep" } ;
 Rule rvdcpp421 = { {&dcpp421} , {&vdcpp421} , {&exedcpp421} } ;
 Exe exedcpp421 = { "CC-VM-DEP SysTask.cpp" , VMDEP , { OBJ_PATH+"/SysTask.dep" , OBJ_PATH+"/SysTask.vm.dep" , "421" } } ;
 
-Target cpp422 = { "SysTime.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTime.cpp" } ;
+Target cpp422 = { "SysTime.cpp" , "CCore/src/./sys/SysTime.cpp" } ;
 Target dcpp422 = { "SysTime.dep" , OBJ_PATH+"/SysTime.dep" } ;
 Rule rdcpp422 = { {&cpp422,&obj} , {&dcpp422} , {&execpp422} } ;
 Exe execpp422 = { "CC-DEP SysTime.cpp" , CC , {
@@ -11407,7 +11413,7 @@ Exe execpp422 = { "CC-DEP SysTime.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysTime.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTime.cpp"
+ ,"CCore/src/./sys/SysTime.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysTime.dep"
 } } ;
@@ -11416,7 +11422,7 @@ Target vdcpp422 = { "SysTime.vm.dep" , OBJ_PATH+"/SysTime.vm.dep" } ;
 Rule rvdcpp422 = { {&dcpp422} , {&vdcpp422} , {&exedcpp422} } ;
 Exe exedcpp422 = { "CC-VM-DEP SysTime.cpp" , VMDEP , { OBJ_PATH+"/SysTime.dep" , OBJ_PATH+"/SysTime.vm.dep" , "422" } } ;
 
-Target cpp423 = { "SysTlsSlot.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTlsSlot.cpp" } ;
+Target cpp423 = { "SysTlsSlot.cpp" , "CCore/src/./sys/SysTlsSlot.cpp" } ;
 Target dcpp423 = { "SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.dep" } ;
 Rule rdcpp423 = { {&cpp423,&obj} , {&dcpp423} , {&execpp423} } ;
 Exe execpp423 = { "CC-DEP SysTlsSlot.cpp" , CC , {
@@ -11434,7 +11440,7 @@ Exe execpp423 = { "CC-DEP SysTlsSlot.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysTlsSlot.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTlsSlot.cpp"
+ ,"CCore/src/./sys/SysTlsSlot.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysTlsSlot.dep"
 } } ;
@@ -11443,7 +11449,7 @@ Target vdcpp423 = { "SysTlsSlot.vm.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" } ;
 Rule rvdcpp423 = { {&dcpp423} , {&vdcpp423} , {&exedcpp423} } ;
 Exe exedcpp423 = { "CC-VM-DEP SysTlsSlot.cpp" , VMDEP , { OBJ_PATH+"/SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" , "423" } } ;
 
-Target cpp424 = { "SysUtf8.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysUtf8.cpp" } ;
+Target cpp424 = { "SysUtf8.cpp" , "CCore/src/./sys/SysUtf8.cpp" } ;
 Target dcpp424 = { "SysUtf8.dep" , OBJ_PATH+"/SysUtf8.dep" } ;
 Rule rdcpp424 = { {&cpp424,&obj} , {&dcpp424} , {&execpp424} } ;
 Exe execpp424 = { "CC-DEP SysUtf8.cpp" , CC , {
@@ -11461,7 +11467,7 @@ Exe execpp424 = { "CC-DEP SysUtf8.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysUtf8.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysUtf8.cpp"
+ ,"CCore/src/./sys/SysUtf8.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysUtf8.dep"
 } } ;
@@ -11470,7 +11476,7 @@ Target vdcpp424 = { "SysUtf8.vm.dep" , OBJ_PATH+"/SysUtf8.vm.dep" } ;
 Rule rvdcpp424 = { {&dcpp424} , {&vdcpp424} , {&exedcpp424} } ;
 Exe exedcpp424 = { "CC-VM-DEP SysUtf8.cpp" , VMDEP , { OBJ_PATH+"/SysUtf8.dep" , OBJ_PATH+"/SysUtf8.vm.dep" , "424" } } ;
 
-Target cpp425 = { "SysWait.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysWait.cpp" } ;
+Target cpp425 = { "SysWait.cpp" , "CCore/src/./sys/SysWait.cpp" } ;
 Target dcpp425 = { "SysWait.dep" , OBJ_PATH+"/SysWait.dep" } ;
 Rule rdcpp425 = { {&cpp425,&obj} , {&dcpp425} , {&execpp425} } ;
 Exe execpp425 = { "CC-DEP SysWait.cpp" , CC , {
@@ -11488,7 +11494,7 @@ Exe execpp425 = { "CC-DEP SysWait.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysWait.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysWait.cpp"
+ ,"CCore/src/./sys/SysWait.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysWait.dep"
 } } ;
@@ -11497,7 +11503,7 @@ Target vdcpp425 = { "SysWait.vm.dep" , OBJ_PATH+"/SysWait.vm.dep" } ;
 Rule rvdcpp425 = { {&dcpp425} , {&vdcpp425} , {&exedcpp425} } ;
 Exe exedcpp425 = { "CC-VM-DEP SysWait.cpp" , VMDEP , { OBJ_PATH+"/SysWait.dep" , OBJ_PATH+"/SysWait.vm.dep" , "425" } } ;
 
-Target cpp426 = { "SysWaitInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysWaitInternal.cpp" } ;
+Target cpp426 = { "SysWaitInternal.cpp" , "CCore/src/./sys/SysWaitInternal.cpp" } ;
 Target dcpp426 = { "SysWaitInternal.dep" , OBJ_PATH+"/SysWaitInternal.dep" } ;
 Rule rdcpp426 = { {&cpp426,&obj} , {&dcpp426} , {&execpp426} } ;
 Exe execpp426 = { "CC-DEP SysWaitInternal.cpp" , CC , {
@@ -11515,7 +11521,7 @@ Exe execpp426 = { "CC-DEP SysWaitInternal.cpp" , CC , {
  ,"-MM"
  ,"-MT"
  ,OBJ_PATH+"/SysWaitInternal.o"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysWaitInternal.cpp"
+ ,"CCore/src/./sys/SysWaitInternal.cpp"
  ,"-MF"
  ,OBJ_PATH+"/SysWaitInternal.dep"
 } } ;
@@ -13146,639 +13152,6 @@ Exe exedcpp486 = { "CC-VM-DEP XPoint.cpp" , VMDEP , { OBJ_PATH+"/XPoint.dep" , O
 
 Target make_dep = { 'make_dep' , DEP } ;
 
-Cmd cmdmkdep1 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/AES.vm.dep\""
-+" \""+OBJ_PATH+"/APRTest.vm.dep\""
-+" \""+OBJ_PATH+"/APRTestData.gen.vm.dep\""
-+" \""+OBJ_PATH+"/Abort.vm.dep\""
-+" \""+OBJ_PATH+"/AbortMsgFunc.vm.dep\""
-+" \""+OBJ_PATH+"/Activator.vm.dep\""
-+" \""+OBJ_PATH+"/AntiSem.vm.dep\""
-+" \""+OBJ_PATH+"/AnyPtr.vm.dep\""
-+" \""+OBJ_PATH+"/AppMain.vm.dep\""
-+" \""+OBJ_PATH+"/AppOpt.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp1\"" } ;
-
-Cmd cmdmkdep2 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ApplicationBase.vm.dep\""
-+" \""+OBJ_PATH+"/ApplyToList.vm.dep\""
-+" \""+OBJ_PATH+"/ApplyToRange.vm.dep\""
-+" \""+OBJ_PATH+"/Array.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayBase.vm.dep\""
-+" \""+OBJ_PATH+"/ArrayInsDel.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncBinaryFile.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncFileDevice.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp2\"" } ;
-
-Cmd cmdmkdep3 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/AsyncFileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/AsyncUDPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Atomic.vm.dep\""
-+" \""+OBJ_PATH+"/AtomicRefArray.vm.dep\""
-+" \""+OBJ_PATH+"/AttachmentHost.vm.dep\""
-+" \""+OBJ_PATH+"/AutoCast.vm.dep\""
-+" \""+OBJ_PATH+"/AutoGlobal.vm.dep\""
-+" \""+OBJ_PATH+"/BaseRangeAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/BestSearch.vm.dep\""
-+" \""+OBJ_PATH+"/BinFileToRead.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp3\"" } ;
-
-Cmd cmdmkdep4 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/BinaryFile.vm.dep\""
-+" \""+OBJ_PATH+"/BinarySearch.vm.dep\""
-+" \""+OBJ_PATH+"/BindBagProxy.vm.dep\""
-+" \""+OBJ_PATH+"/Bitmap.vm.dep\""
-+" \""+OBJ_PATH+"/BlockCipher.vm.dep\""
-+" \""+OBJ_PATH+"/BlockFifo.vm.dep\""
-+" \""+OBJ_PATH+"/Book.vm.dep\""
-+" \""+OBJ_PATH+"/BookAppMain.vm.dep\""
-+" \""+OBJ_PATH+"/BookClient.vm.dep\""
-+" \""+OBJ_PATH+"/BookFrame.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp4\"" } ;
-
-Cmd cmdmkdep5 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/BookWindow.vm.dep\""
-+" \""+OBJ_PATH+"/Bridge.vm.dep\""
-+" \""+OBJ_PATH+"/ButtonId.vm.dep\""
-+" \""+OBJ_PATH+"/CancelPacketList.vm.dep\""
-+" \""+OBJ_PATH+"/CapString.vm.dep\""
-+" \""+OBJ_PATH+"/CharProp.vm.dep\""
-+" \""+OBJ_PATH+"/CharUtils.vm.dep\""
-+" \""+OBJ_PATH+"/CheckPlatformBase.vm.dep\""
-+" \""+OBJ_PATH+"/CheckedData.vm.dep\""
-+" \""+OBJ_PATH+"/Classification.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp5\"" } ;
-
-Cmd cmdmkdep6 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/CmdInput.vm.dep\""
-+" \""+OBJ_PATH+"/Cmp.vm.dep\""
-+" \""+OBJ_PATH+"/Collector.vm.dep\""
-+" \""+OBJ_PATH+"/Color.vm.dep\""
-+" \""+OBJ_PATH+"/ColorEdit.vm.dep\""
-+" \""+OBJ_PATH+"/ColorField.vm.dep\""
-+" \""+OBJ_PATH+"/ColorListWindow.vm.dep\""
-+" \""+OBJ_PATH+"/CommonIntAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/CompactList.vm.dep\""
-+" \""+OBJ_PATH+"/CompactMap.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp6\"" } ;
-
-Cmd cmdmkdep7 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/CompactNodeAllocator.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigBinder.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigEditor.vm.dep\""
-+" \""+OBJ_PATH+"/ConfigStore.vm.dep\""
-+" \""+OBJ_PATH+"/ContainerList.vm.dep\""
-+" \""+OBJ_PATH+"/CoordEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Counters.vm.dep\""
-+" \""+OBJ_PATH+"/Crc.vm.dep\""
-+" \""+OBJ_PATH+"/CreateAt.vm.dep\""
-+" \""+OBJ_PATH+"/Creator.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp7\"" } ;
-
-Cmd cmdmkdep8 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/CurveDriver.vm.dep\""
-+" \""+OBJ_PATH+"/DDLChar.vm.dep\""
-+" \""+OBJ_PATH+"/DDLEngine.vm.dep\""
-+" \""+OBJ_PATH+"/DDLErrorMsg.vm.dep\""
-+" \""+OBJ_PATH+"/DDLEval.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMap.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapBase.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapTools.vm.dep\""
-+" \""+OBJ_PATH+"/DDLMapTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParser.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp8\"" } ;
-
-Cmd cmdmkdep9 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/DDLParserElements.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParserRules.vm.dep\""
-+" \""+OBJ_PATH+"/DDLParserTable.vm.dep\""
-+" \""+OBJ_PATH+"/DDLPlatformTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLSemantic.vm.dep\""
-+" \""+OBJ_PATH+"/DDLToken.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTools.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypeDesc.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypeSet.vm.dep\""
-+" \""+OBJ_PATH+"/DDLTypedMap.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp9\"" } ;
-
-Cmd cmdmkdep10 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/DDLTypes.vm.dep\""
-+" \""+OBJ_PATH+"/DDLValue.vm.dep\""
-+" \""+OBJ_PATH+"/DHExp.vm.dep\""
-+" \""+OBJ_PATH+"/DecodeFile.vm.dep\""
-+" \""+OBJ_PATH+"/DefaultTimeout.vm.dep\""
-+" \""+OBJ_PATH+"/DeferCall.vm.dep\""
-+" \""+OBJ_PATH+"/Deflate.vm.dep\""
-+" \""+OBJ_PATH+"/Desktop.vm.dep\""
-+" \""+OBJ_PATH+"/DesktopKey.vm.dep\""
-+" \""+OBJ_PATH+"/DestroyGuard.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp10\"" } ;
-
-Cmd cmdmkdep11 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/DetectProxy.vm.dep\""
-+" \""+OBJ_PATH+"/DirFrame.vm.dep\""
-+" \""+OBJ_PATH+"/DirTreeRun.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBook.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBookTools.vm.dep\""
-+" \""+OBJ_PATH+"/DrawBuf.vm.dep\""
-+" \""+OBJ_PATH+"/DrawTools.vm.dep\""
-+" \""+OBJ_PATH+"/DynArray.vm.dep\""
-+" \""+OBJ_PATH+"/DynObject.vm.dep\""
-+" \""+OBJ_PATH+"/EDID.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp11\"" } ;
-
-Cmd cmdmkdep12 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/EchoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/ElementPool.vm.dep\""
-+" \""+OBJ_PATH+"/Elf.vm.dep\""
-+" \""+OBJ_PATH+"/ErrorText.vm.dep\""
-+" \""+OBJ_PATH+"/EthDevice.vm.dep\""
-+" \""+OBJ_PATH+"/EuclidRotate.vm.dep\""
-+" \""+OBJ_PATH+"/Event.vm.dep\""
-+" \""+OBJ_PATH+"/EventRecorder.vm.dep\""
-+" \""+OBJ_PATH+"/Exception.vm.dep\""
-+" \""+OBJ_PATH+"/ExceptionFrame.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp12\"" } ;
-
-Cmd cmdmkdep13 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ExceptionType.vm.dep\""
-+" \""+OBJ_PATH+"/FFTMul.vm.dep\""
-+" \""+OBJ_PATH+"/FastMutex.vm.dep\""
-+" \""+OBJ_PATH+"/FeedBuf.vm.dep\""
-+" \""+OBJ_PATH+"/Fifo.vm.dep\""
-+" \""+OBJ_PATH+"/FigureLib.vm.dep\""
-+" \""+OBJ_PATH+"/FileBoss.vm.dep\""
-+" \""+OBJ_PATH+"/FileFrame.vm.dep\""
-+" \""+OBJ_PATH+"/FileName.vm.dep\""
-+" \""+OBJ_PATH+"/FileNameCmp.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp13\"" } ;
-
-Cmd cmdmkdep14 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/FileNameMatch.vm.dep\""
-+" \""+OBJ_PATH+"/FileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/FileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/FileToRead.vm.dep\""
-+" \""+OBJ_PATH+"/Font.vm.dep\""
-+" \""+OBJ_PATH+"/FontDatabase.vm.dep\""
-+" \""+OBJ_PATH+"/FontEdit.vm.dep\""
-+" \""+OBJ_PATH+"/FontLookup.vm.dep\""
-+" \""+OBJ_PATH+"/FontParam.vm.dep\""
-+" \""+OBJ_PATH+"/FontReplace.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp14\"" } ;
-
-Cmd cmdmkdep15 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ForLoop.vm.dep\""
-+" \""+OBJ_PATH+"/Forget.vm.dep\""
-+" \""+OBJ_PATH+"/FrameBase.vm.dep\""
-+" \""+OBJ_PATH+"/FrameBuf.vm.dep\""
-+" \""+OBJ_PATH+"/FrameOf.vm.dep\""
-+" \""+OBJ_PATH+"/FrameWindow.vm.dep\""
-+" \""+OBJ_PATH+"/FreeType.vm.dep\""
-+" \""+OBJ_PATH+"/FreeTypeFont.vm.dep\""
-+" \""+OBJ_PATH+"/FuncTask.vm.dep\""
-+" \""+OBJ_PATH+"/Function.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp15\"" } ;
-
-Cmd cmdmkdep16 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/FunctorType.vm.dep\""
-+" \""+OBJ_PATH+"/GCDConst.vm.dep\""
-+" \""+OBJ_PATH+"/Gadget.vm.dep\""
-+" \""+OBJ_PATH+"/Gamma.vm.dep\""
-+" \""+OBJ_PATH+"/GammaTable.vm.dep\""
-+" \""+OBJ_PATH+"/GenFile.vm.dep\""
-+" \""+OBJ_PATH+"/HFSBase.vm.dep\""
-+" \""+OBJ_PATH+"/HFSClientDevice.vm.dep\""
-+" \""+OBJ_PATH+"/HFSFileSystemDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Handle.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp16\"" } ;
-
-Cmd cmdmkdep17 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/HashFunction.vm.dep\""
-+" \""+OBJ_PATH+"/HeapEngine.vm.dep\""
-+" \""+OBJ_PATH+"/HeapSort.vm.dep\""
-+" \""+OBJ_PATH+"/HomeFile.vm.dep\""
-+" \""+OBJ_PATH+"/Incremental.vm.dep\""
-+" \""+OBJ_PATH+"/Info.vm.dep\""
-+" \""+OBJ_PATH+"/InfoSize.vm.dep\""
-+" \""+OBJ_PATH+"/Init.vm.dep\""
-+" \""+OBJ_PATH+"/InputUtils.vm.dep\""
-+" \""+OBJ_PATH+"/InstanceLock.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp17\"" } ;
-
-Cmd cmdmkdep18 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/IntOp.vm.dep\""
-+" \""+OBJ_PATH+"/IntPrint.vm.dep\""
-+" \""+OBJ_PATH+"/IntScan.vm.dep\""
-+" \""+OBJ_PATH+"/Integer.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerBuilder.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerDivider.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerFastAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerFromString.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerGCD.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp18\"" } ;
-
-Cmd cmdmkdep19 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/IntegerMulAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerOctetBuilder.vm.dep\""
-+" \""+OBJ_PATH+"/IntegerSlowAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/IntelAES.vm.dep\""
-+" \""+OBJ_PATH+"/IntelCPUID.vm.dep\""
-+" \""+OBJ_PATH+"/IntelRandom.vm.dep\""
-+" \""+OBJ_PATH+"/InterfaceHost.vm.dep\""
-+" \""+OBJ_PATH+"/InternalDesktop.vm.dep\""
-+" \""+OBJ_PATH+"/InternalHost.vm.dep\""
-+" \""+OBJ_PATH+"/InternalUtils.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp19\"" } ;
-
-Cmd cmdmkdep20 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/IntervalTree.vm.dep\""
-+" \""+OBJ_PATH+"/Job.vm.dep\""
-+" \""+OBJ_PATH+"/Keyboard.vm.dep\""
-+" \""+OBJ_PATH+"/LangDataMap.vm.dep\""
-+" \""+OBJ_PATH+"/LaunchPath.vm.dep\""
-+" \""+OBJ_PATH+"/Layout.vm.dep\""
-+" \""+OBJ_PATH+"/LayoutCombo.vm.dep\""
-+" \""+OBJ_PATH+"/Len.vm.dep\""
-+" \""+OBJ_PATH+"/LineInput.vm.dep\""
-+" \""+OBJ_PATH+"/List.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp20\"" } ;
-
-Cmd cmdmkdep21 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ListCursor.vm.dep\""
-+" \""+OBJ_PATH+"/LockObject.vm.dep\""
-+" \""+OBJ_PATH+"/LockUse.vm.dep\""
-+" \""+OBJ_PATH+"/Locked.vm.dep\""
-+" \""+OBJ_PATH+"/Log.vm.dep\""
-+" \""+OBJ_PATH+"/MCoordEdit.vm.dep\""
-+" \""+OBJ_PATH+"/MD5.vm.dep\""
-+" \""+OBJ_PATH+"/MPoint.vm.dep\""
-+" \""+OBJ_PATH+"/MSec.vm.dep\""
-+" \""+OBJ_PATH+"/MakeFileName.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp21\"" } ;
-
-Cmd cmdmkdep22 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/MakeString.vm.dep\""
-+" \""+OBJ_PATH+"/MemAllocGuard.vm.dep\""
-+" \""+OBJ_PATH+"/MemBase.vm.dep\""
-+" \""+OBJ_PATH+"/MemBase_general.vm.dep\""
-+" \""+OBJ_PATH+"/MemPageHeap.vm.dep\""
-+" \""+OBJ_PATH+"/MemSpaceHeap.vm.dep\""
-+" \""+OBJ_PATH+"/MemberFold.vm.dep\""
-+" \""+OBJ_PATH+"/Menu.vm.dep\""
-+" \""+OBJ_PATH+"/MergeSort.vm.dep\""
-+" \""+OBJ_PATH+"/MersenneTwister.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp22\"" } ;
-
-Cmd cmdmkdep23 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/MessageFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Meta.vm.dep\""
-+" \""+OBJ_PATH+"/MetaList.vm.dep\""
-+" \""+OBJ_PATH+"/MinSizeType.vm.dep\""
-+" \""+OBJ_PATH+"/MixColorWindow.vm.dep\""
-+" \""+OBJ_PATH+"/ModEngine.vm.dep\""
-+" \""+OBJ_PATH+"/Mouse.vm.dep\""
-+" \""+OBJ_PATH+"/Move.vm.dep\""
-+" \""+OBJ_PATH+"/MultiEvent.vm.dep\""
-+" \""+OBJ_PATH+"/MultiSem.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp23\"" } ;
-
-Cmd cmdmkdep24 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/MultiSignal.vm.dep\""
-+" \""+OBJ_PATH+"/Mutex.vm.dep\""
-+" \""+OBJ_PATH+"/MutexSpinCount.vm.dep\""
-+" \""+OBJ_PATH+"/NanoIPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/NanoPacket.vm.dep\""
-+" \""+OBJ_PATH+"/NegBool.vm.dep\""
-+" \""+OBJ_PATH+"/NetBase.vm.dep\""
-+" \""+OBJ_PATH+"/NetFork.vm.dep\""
-+" \""+OBJ_PATH+"/NewDelete.vm.dep\""
-+" \""+OBJ_PATH+"/NoCopy.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp24\"" } ;
-
-Cmd cmdmkdep25 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/NoMutex.vm.dep\""
-+" \""+OBJ_PATH+"/NoPrimeTest.vm.dep\""
-+" \""+OBJ_PATH+"/NoThrowFlags.vm.dep\""
-+" \""+OBJ_PATH+"/NodeAllocator.vm.dep\""
-+" \""+OBJ_PATH+"/Nothing.vm.dep\""
-+" \""+OBJ_PATH+"/NullMovePtr.vm.dep\""
-+" \""+OBJ_PATH+"/ObjHost.vm.dep\""
-+" \""+OBJ_PATH+"/ObjectDomain.vm.dep\""
-+" \""+OBJ_PATH+"/OpAddHelper.vm.dep\""
-+" \""+OBJ_PATH+"/OptMember.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp25\"" } ;
-
-Cmd cmdmkdep26 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Optional.vm.dep\""
-+" \""+OBJ_PATH+"/OwnPtr.vm.dep\""
-+" \""+OBJ_PATH+"/PKE.vm.dep\""
-+" \""+OBJ_PATH+"/PSec.vm.dep\""
-+" \""+OBJ_PATH+"/PSecCore.vm.dep\""
-+" \""+OBJ_PATH+"/PSecKey.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBoot.vm.dep\""
-+" \""+OBJ_PATH+"/PTPBootBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPClientDevice.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp26\"" } ;
-
-Cmd cmdmkdep27 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/PTPConBase.vm.dep\""
-+" \""+OBJ_PATH+"/PTPConDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PTPEchoTest.vm.dep\""
-+" \""+OBJ_PATH+"/PTPExtra.vm.dep\""
-+" \""+OBJ_PATH+"/PTPServerDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PTPSupport.vm.dep\""
-+" \""+OBJ_PATH+"/PTPSupportBase.vm.dep\""
-+" \""+OBJ_PATH+"/Packet.vm.dep\""
-+" \""+OBJ_PATH+"/PacketEndpointDevice.vm.dep\""
-+" \""+OBJ_PATH+"/PacketPool.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp27\"" } ;
-
-Cmd cmdmkdep28 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/PacketPool_PacketCount.vm.dep\""
-+" \""+OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep\""
-+" \""+OBJ_PATH+"/PacketSet.vm.dep\""
-+" \""+OBJ_PATH+"/ParaQuickSort.vm.dep\""
-+" \""+OBJ_PATH+"/Partition.vm.dep\""
-+" \""+OBJ_PATH+"/Path.vm.dep\""
-+" \""+OBJ_PATH+"/PerTask.vm.dep\""
-+" \""+OBJ_PATH+"/Picture.vm.dep\""
-+" \""+OBJ_PATH+"/Place.vm.dep\""
-+" \""+OBJ_PATH+"/PlanInit.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp28\"" } ;
-
-Cmd cmdmkdep29 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/PlanInit_CCore.vm.dep\""
-+" \""+OBJ_PATH+"/PlatformBase.vm.dep\""
-+" \""+OBJ_PATH+"/Point.vm.dep\""
-+" \""+OBJ_PATH+"/PointEdit.vm.dep\""
-+" \""+OBJ_PATH+"/PosSub.vm.dep\""
-+" \""+OBJ_PATH+"/Pow.vm.dep\""
-+" \""+OBJ_PATH+"/PretextFileToMem.vm.dep\""
-+" \""+OBJ_PATH+"/Print.vm.dep\""
-+" \""+OBJ_PATH+"/PrintAbort.vm.dep\""
-+" \""+OBJ_PATH+"/PrintAsyncFile.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp29\"" } ;
-
-Cmd cmdmkdep30 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/PrintBase.vm.dep\""
-+" \""+OBJ_PATH+"/PrintBits.vm.dep\""
-+" \""+OBJ_PATH+"/PrintCon.vm.dep\""
-+" \""+OBJ_PATH+"/PrintDDL.vm.dep\""
-+" \""+OBJ_PATH+"/PrintError.vm.dep\""
-+" \""+OBJ_PATH+"/PrintFile.vm.dep\""
-+" \""+OBJ_PATH+"/PrintInteger.vm.dep\""
-+" \""+OBJ_PATH+"/PrintPTPCon.vm.dep\""
-+" \""+OBJ_PATH+"/PrintProxy.vm.dep\""
-+" \""+OBJ_PATH+"/PrintRatio.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp30\"" } ;
-
-Cmd cmdmkdep31 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/PrintSet.vm.dep\""
-+" \""+OBJ_PATH+"/PrintStem.vm.dep\""
-+" \""+OBJ_PATH+"/PrintTime.vm.dep\""
-+" \""+OBJ_PATH+"/PrintTitle.vm.dep\""
-+" \""+OBJ_PATH+"/Printf.vm.dep\""
-+" \""+OBJ_PATH+"/ProgressScale.vm.dep\""
-+" \""+OBJ_PATH+"/PtrLen.vm.dep\""
-+" \""+OBJ_PATH+"/PtrLenReverse.vm.dep\""
-+" \""+OBJ_PATH+"/PtrStepLen.vm.dep\""
-+" \""+OBJ_PATH+"/Quick.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp31\"" } ;
-
-Cmd cmdmkdep32 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/QuickSort.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeBase.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeLink.vm.dep\""
-+" \""+OBJ_PATH+"/RBTreeUpLink.vm.dep\""
-+" \""+OBJ_PATH+"/RadixHeap.vm.dep\""
-+" \""+OBJ_PATH+"/Random.vm.dep\""
-+" \""+OBJ_PATH+"/RangeDel.vm.dep\""
-+" \""+OBJ_PATH+"/RatioEdit.vm.dep\""
-+" \""+OBJ_PATH+"/RawFileToRead.vm.dep\""
-+" \""+OBJ_PATH+"/ReadCon.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp32\"" } ;
-
-Cmd cmdmkdep33 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ReadConType.vm.dep\""
-+" \""+OBJ_PATH+"/RefArray.vm.dep\""
-+" \""+OBJ_PATH+"/RefObjectBase.vm.dep\""
-+" \""+OBJ_PATH+"/RefPtr.vm.dep\""
-+" \""+OBJ_PATH+"/RefVal.vm.dep\""
-+" \""+OBJ_PATH+"/Replace.vm.dep\""
-+" \""+OBJ_PATH+"/ResSem.vm.dep\""
-+" \""+OBJ_PATH+"/Rot.vm.dep\""
-+" \""+OBJ_PATH+"/SHA.vm.dep\""
-+" \""+OBJ_PATH+"/SIntFunc.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp33\"" } ;
-
-Cmd cmdmkdep34 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/SafeBuf.vm.dep\""
-+" \""+OBJ_PATH+"/SaveLoad.vm.dep\""
-+" \""+OBJ_PATH+"/Scan.vm.dep\""
-+" \""+OBJ_PATH+"/ScanAsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/ScanBase.vm.dep\""
-+" \""+OBJ_PATH+"/ScanBit.vm.dep\""
-+" \""+OBJ_PATH+"/ScanFile.vm.dep\""
-+" \""+OBJ_PATH+"/ScanProxy.vm.dep\""
-+" \""+OBJ_PATH+"/ScanRange.vm.dep\""
-+" \""+OBJ_PATH+"/ScanTools.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp34\"" } ;
-
-Cmd cmdmkdep35 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Scanf.vm.dep\""
-+" \""+OBJ_PATH+"/Scope.vm.dep\""
-+" \""+OBJ_PATH+"/ScopeGuard.vm.dep\""
-+" \""+OBJ_PATH+"/SelectFrames.vm.dep\""
-+" \""+OBJ_PATH+"/Sem.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Button.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Check.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Contour.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.DragFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.FixedFrame.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp35\"" } ;
-
-Cmd cmdmkdep36 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Shape.FrameBase.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Info.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Label.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Light.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Line.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.LineEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Progress.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Radio.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.RunButton.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Scroll.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp36\"" } ;
-
-Cmd cmdmkdep37 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Shape.ScrollList.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.ShiftSwitch.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.SimpleTextList.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Slider.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Spinor.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Split.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Switch.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.Text.vm.dep\""
-+" \""+OBJ_PATH+"/Shape.TextLine.vm.dep\""
-+" \""+OBJ_PATH+"/ShapeLib.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp37\"" } ;
-
-Cmd cmdmkdep38 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/ShortSort.vm.dep\""
-+" \""+OBJ_PATH+"/Signal.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleArray.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleConsole.vm.dep\""
-+" \""+OBJ_PATH+"/SimpleRotate.vm.dep\""
-+" \""+OBJ_PATH+"/SingleBridge.vm.dep\""
-+" \""+OBJ_PATH+"/SingleEchoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/SingleHost.vm.dep\""
-+" \""+OBJ_PATH+"/SlowSem.vm.dep\""
-+" \""+OBJ_PATH+"/SmallPrimes.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp38\"" } ;
-
-Cmd cmdmkdep39 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/SmoothAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/SmoothDrawArt.vm.dep\""
-+" \""+OBJ_PATH+"/Sort.vm.dep\""
-+" \""+OBJ_PATH+"/SortUnique.vm.dep\""
-+" \""+OBJ_PATH+"/Space.vm.dep\""
-+" \""+OBJ_PATH+"/SpanLenEngine.vm.dep\""
-+" \""+OBJ_PATH+"/SpawnProcess.vm.dep\""
-+" \""+OBJ_PATH+"/StartStop.vm.dep\""
-+" \""+OBJ_PATH+"/Starter.vm.dep\""
-+" \""+OBJ_PATH+"/StepEval.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp39\"" } ;
-
-Cmd cmdmkdep40 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/StrKey.vm.dep\""
-+" \""+OBJ_PATH+"/StrMap.vm.dep\""
-+" \""+OBJ_PATH+"/StrParse.vm.dep\""
-+" \""+OBJ_PATH+"/StrPrint.vm.dep\""
-+" \""+OBJ_PATH+"/StrToChar.vm.dep\""
-+" \""+OBJ_PATH+"/String.vm.dep\""
-+" \""+OBJ_PATH+"/StringScan.vm.dep\""
-+" \""+OBJ_PATH+"/SubWindow.vm.dep\""
-+" \""+OBJ_PATH+"/Swap.vm.dep\""
-+" \""+OBJ_PATH+"/SymCount.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp40\"" } ;
-
-Cmd cmdmkdep41 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/SymPart.vm.dep\""
-+" \""+OBJ_PATH+"/Symbol.vm.dep\""
-+" \""+OBJ_PATH+"/SysAbort.vm.dep\""
-+" \""+OBJ_PATH+"/SysAsyncFile.vm.dep\""
-+" \""+OBJ_PATH+"/SysAsyncFileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/SysAtomic.vm.dep\""
-+" \""+OBJ_PATH+"/SysCon.vm.dep\""
-+" \""+OBJ_PATH+"/SysEnv.vm.dep\""
-+" \""+OBJ_PATH+"/SysError.vm.dep\""
-+" \""+OBJ_PATH+"/SysFile.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp41\"" } ;
-
-Cmd cmdmkdep42 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/SysFileInternal.vm.dep\""
-+" \""+OBJ_PATH+"/SysFileSystem.vm.dep\""
-+" \""+OBJ_PATH+"/SysLaunchPath.vm.dep\""
-+" \""+OBJ_PATH+"/SysMemPage.vm.dep\""
-+" \""+OBJ_PATH+"/SysNet.vm.dep\""
-+" \""+OBJ_PATH+"/SysPlanInit.vm.dep\""
-+" \""+OBJ_PATH+"/SysProp.vm.dep\""
-+" \""+OBJ_PATH+"/SysSem.vm.dep\""
-+" \""+OBJ_PATH+"/SysSpawn.vm.dep\""
-+" \""+OBJ_PATH+"/SysSpawnInternal.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp42\"" } ;
-
-Cmd cmdmkdep43 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/SysTask.vm.dep\""
-+" \""+OBJ_PATH+"/SysTime.vm.dep\""
-+" \""+OBJ_PATH+"/SysTlsSlot.vm.dep\""
-+" \""+OBJ_PATH+"/SysUtf8.vm.dep\""
-+" \""+OBJ_PATH+"/SysWait.vm.dep\""
-+" \""+OBJ_PATH+"/SysWaitInternal.vm.dep\""
-+" \""+OBJ_PATH+"/Task.vm.dep\""
-+" \""+OBJ_PATH+"/TaskCore.vm.dep\""
-+" \""+OBJ_PATH+"/TaskEvent.vm.dep\""
-+" \""+OBJ_PATH+"/TaskHeap.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp43\"" } ;
-
-Cmd cmdmkdep44 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/TaskMemStack.vm.dep\""
-+" \""+OBJ_PATH+"/TempArray.vm.dep\""
-+" \""+OBJ_PATH+"/TextLabel.vm.dep\""
-+" \""+OBJ_PATH+"/TextTools.vm.dep\""
-+" \""+OBJ_PATH+"/TimeScope.vm.dep\""
-+" \""+OBJ_PATH+"/Timer.vm.dep\""
-+" \""+OBJ_PATH+"/TlsSlot.vm.dep\""
-+" \""+OBJ_PATH+"/ToMemBase.vm.dep\""
-+" \""+OBJ_PATH+"/ToMoveCtor.vm.dep\""
-+" \""+OBJ_PATH+"/ToolFrame.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp44\"" } ;
-
-Cmd cmdmkdep45 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Tree.vm.dep\""
-+" \""+OBJ_PATH+"/TreeBase.vm.dep\""
-+" \""+OBJ_PATH+"/TreeLink.vm.dep\""
-+" \""+OBJ_PATH+"/TreeMap.vm.dep\""
-+" \""+OBJ_PATH+"/TreeUpLink.vm.dep\""
-+" \""+OBJ_PATH+"/Tuple.vm.dep\""
-+" \""+OBJ_PATH+"/TypeNumber.vm.dep\""
-+" \""+OBJ_PATH+"/TypeSwitch.vm.dep\""
-+" \""+OBJ_PATH+"/UDPDevice.vm.dep\""
-+" \""+OBJ_PATH+"/UDPoint.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp45\"" } ;
-
-Cmd cmdmkdep46 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/UIntFunc.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSat.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSlowMulAlgo.vm.dep\""
-+" \""+OBJ_PATH+"/UIntSplit.vm.dep\""
-+" \""+OBJ_PATH+"/Unid.vm.dep\""
-+" \""+OBJ_PATH+"/UserAction.vm.dep\""
-+" \""+OBJ_PATH+"/UserPreference.vm.dep\""
-+" \""+OBJ_PATH+"/Utf8.vm.dep\""
-+" \""+OBJ_PATH+"/UtilFunc.vm.dep\""
-+" \""+OBJ_PATH+"/VideoConsole.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp46\"" } ;
-
-Cmd cmdmkdep47 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/VideoDevice.vm.dep\""
-+" \""+OBJ_PATH+"/Volume.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Blank.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Button.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Check.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Decor.vm.dep\""
-+" \""+OBJ_PATH+"/Window.DragFrame.vm.dep\""
-+" \""+OBJ_PATH+"/Window.FireButton.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Info.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Light.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp47\"" } ;
-
-Cmd cmdmkdep48 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Window.LineEdit.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Progress.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Radio.vm.dep\""
-+" \""+OBJ_PATH+"/Window.RunButton.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Scroll.vm.dep\""
-+" \""+OBJ_PATH+"/Window.ScrollList.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Scrollable.vm.dep\""
-+" \""+OBJ_PATH+"/Window.SimpleTextList.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Slider.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Spinor.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp48\"" } ;
-
-Cmd cmdmkdep49 = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/Window.Split.vm.dep\""
-+" \""+OBJ_PATH+"/Window.Text.vm.dep\""
-+" \""+OBJ_PATH+"/Window.TextLine.vm.dep\""
-+" \""+OBJ_PATH+"/WindowLib.vm.dep\""
-+" \""+OBJ_PATH+"/WindowReport.vm.dep\""
-+" \""+OBJ_PATH+"/XPoint.vm.dep\""+
-" > \""+OBJ_PATH+"/tmp49\"" } ;
-
 Rule rmkdep = { {&obj
 ,&vdcpp1
 ,&vdcpp2
@@ -14265,107 +13638,495 @@ Rule rmkdep = { {&obj
 ,&vdcpp483
 ,&vdcpp484
 ,&vdcpp485
-,&vdcpp486} , {&make_dep} , {
-&cmdmkdep1,
-&cmdmkdep2,
-&cmdmkdep3,
-&cmdmkdep4,
-&cmdmkdep5,
-&cmdmkdep6,
-&cmdmkdep7,
-&cmdmkdep8,
-&cmdmkdep9,
-&cmdmkdep10,
-&cmdmkdep11,
-&cmdmkdep12,
-&cmdmkdep13,
-&cmdmkdep14,
-&cmdmkdep15,
-&cmdmkdep16,
-&cmdmkdep17,
-&cmdmkdep18,
-&cmdmkdep19,
-&cmdmkdep20,
-&cmdmkdep21,
-&cmdmkdep22,
-&cmdmkdep23,
-&cmdmkdep24,
-&cmdmkdep25,
-&cmdmkdep26,
-&cmdmkdep27,
-&cmdmkdep28,
-&cmdmkdep29,
-&cmdmkdep30,
-&cmdmkdep31,
-&cmdmkdep32,
-&cmdmkdep33,
-&cmdmkdep34,
-&cmdmkdep35,
-&cmdmkdep36,
-&cmdmkdep37,
-&cmdmkdep38,
-&cmdmkdep39,
-&cmdmkdep40,
-&cmdmkdep41,
-&cmdmkdep42,
-&cmdmkdep43,
-&cmdmkdep44,
-&cmdmkdep45,
-&cmdmkdep46,
-&cmdmkdep47,
-&cmdmkdep48,
-&cmdmkdep49,
-&cmdmkdep} } ;
+,&vdcpp486} , {&make_dep} , {&intmkdep} } ; 
 
-Cmd cmdmkdep = { 'CAT' , CAT
-+" \""+OBJ_PATH+"/tmp1\""
-+" \""+OBJ_PATH+"/tmp2\""
-+" \""+OBJ_PATH+"/tmp3\""
-+" \""+OBJ_PATH+"/tmp4\""
-+" \""+OBJ_PATH+"/tmp5\""
-+" \""+OBJ_PATH+"/tmp6\""
-+" \""+OBJ_PATH+"/tmp7\""
-+" \""+OBJ_PATH+"/tmp8\""
-+" \""+OBJ_PATH+"/tmp9\""
-+" \""+OBJ_PATH+"/tmp10\""
-+" \""+OBJ_PATH+"/tmp11\""
-+" \""+OBJ_PATH+"/tmp12\""
-+" \""+OBJ_PATH+"/tmp13\""
-+" \""+OBJ_PATH+"/tmp14\""
-+" \""+OBJ_PATH+"/tmp15\""
-+" \""+OBJ_PATH+"/tmp16\""
-+" \""+OBJ_PATH+"/tmp17\""
-+" \""+OBJ_PATH+"/tmp18\""
-+" \""+OBJ_PATH+"/tmp19\""
-+" \""+OBJ_PATH+"/tmp20\""
-+" \""+OBJ_PATH+"/tmp21\""
-+" \""+OBJ_PATH+"/tmp22\""
-+" \""+OBJ_PATH+"/tmp23\""
-+" \""+OBJ_PATH+"/tmp24\""
-+" \""+OBJ_PATH+"/tmp25\""
-+" \""+OBJ_PATH+"/tmp26\""
-+" \""+OBJ_PATH+"/tmp27\""
-+" \""+OBJ_PATH+"/tmp28\""
-+" \""+OBJ_PATH+"/tmp29\""
-+" \""+OBJ_PATH+"/tmp30\""
-+" \""+OBJ_PATH+"/tmp31\""
-+" \""+OBJ_PATH+"/tmp32\""
-+" \""+OBJ_PATH+"/tmp33\""
-+" \""+OBJ_PATH+"/tmp34\""
-+" \""+OBJ_PATH+"/tmp35\""
-+" \""+OBJ_PATH+"/tmp36\""
-+" \""+OBJ_PATH+"/tmp37\""
-+" \""+OBJ_PATH+"/tmp38\""
-+" \""+OBJ_PATH+"/tmp39\""
-+" \""+OBJ_PATH+"/tmp40\""
-+" \""+OBJ_PATH+"/tmp41\""
-+" \""+OBJ_PATH+"/tmp42\""
-+" \""+OBJ_PATH+"/tmp43\""
-+" \""+OBJ_PATH+"/tmp44\""
-+" \""+OBJ_PATH+"/tmp45\""
-+" \""+OBJ_PATH+"/tmp46\""
-+" \""+OBJ_PATH+"/tmp47\""
-+" \""+OBJ_PATH+"/tmp48\""
-+" \""+OBJ_PATH+"/tmp49\""+
-" > \""+DEP+"\"" } ;
+IntCmd intmkdep = { 'CAT' , &cat1 } ;
+
+Cat cat1 = { { 
+ vdcpp1.file
+,vdcpp2.file
+,vdcpp3.file
+,vdcpp4.file
+,vdcpp5.file
+,vdcpp6.file
+,vdcpp7.file
+,vdcpp8.file
+,vdcpp9.file
+,vdcpp10.file
+,vdcpp11.file
+,vdcpp12.file
+,vdcpp13.file
+,vdcpp14.file
+,vdcpp15.file
+,vdcpp16.file
+,vdcpp17.file
+,vdcpp18.file
+,vdcpp19.file
+,vdcpp20.file
+,vdcpp21.file
+,vdcpp22.file
+,vdcpp23.file
+,vdcpp24.file
+,vdcpp25.file
+,vdcpp26.file
+,vdcpp27.file
+,vdcpp28.file
+,vdcpp29.file
+,vdcpp30.file
+,vdcpp31.file
+,vdcpp32.file
+,vdcpp33.file
+,vdcpp34.file
+,vdcpp35.file
+,vdcpp36.file
+,vdcpp37.file
+,vdcpp38.file
+,vdcpp39.file
+,vdcpp40.file
+,vdcpp41.file
+,vdcpp42.file
+,vdcpp43.file
+,vdcpp44.file
+,vdcpp45.file
+,vdcpp46.file
+,vdcpp47.file
+,vdcpp48.file
+,vdcpp49.file
+,vdcpp50.file
+,vdcpp51.file
+,vdcpp52.file
+,vdcpp53.file
+,vdcpp54.file
+,vdcpp55.file
+,vdcpp56.file
+,vdcpp57.file
+,vdcpp58.file
+,vdcpp59.file
+,vdcpp60.file
+,vdcpp61.file
+,vdcpp62.file
+,vdcpp63.file
+,vdcpp64.file
+,vdcpp65.file
+,vdcpp66.file
+,vdcpp67.file
+,vdcpp68.file
+,vdcpp69.file
+,vdcpp70.file
+,vdcpp71.file
+,vdcpp72.file
+,vdcpp73.file
+,vdcpp74.file
+,vdcpp75.file
+,vdcpp76.file
+,vdcpp77.file
+,vdcpp78.file
+,vdcpp79.file
+,vdcpp80.file
+,vdcpp81.file
+,vdcpp82.file
+,vdcpp83.file
+,vdcpp84.file
+,vdcpp85.file
+,vdcpp86.file
+,vdcpp87.file
+,vdcpp88.file
+,vdcpp89.file
+,vdcpp90.file
+,vdcpp91.file
+,vdcpp92.file
+,vdcpp93.file
+,vdcpp94.file
+,vdcpp95.file
+,vdcpp96.file
+,vdcpp97.file
+,vdcpp98.file
+,vdcpp99.file
+,vdcpp100.file
+,vdcpp101.file
+,vdcpp102.file
+,vdcpp103.file
+,vdcpp104.file
+,vdcpp105.file
+,vdcpp106.file
+,vdcpp107.file
+,vdcpp108.file
+,vdcpp109.file
+,vdcpp110.file
+,vdcpp111.file
+,vdcpp112.file
+,vdcpp113.file
+,vdcpp114.file
+,vdcpp115.file
+,vdcpp116.file
+,vdcpp117.file
+,vdcpp118.file
+,vdcpp119.file
+,vdcpp120.file
+,vdcpp121.file
+,vdcpp122.file
+,vdcpp123.file
+,vdcpp124.file
+,vdcpp125.file
+,vdcpp126.file
+,vdcpp127.file
+,vdcpp128.file
+,vdcpp129.file
+,vdcpp130.file
+,vdcpp131.file
+,vdcpp132.file
+,vdcpp133.file
+,vdcpp134.file
+,vdcpp135.file
+,vdcpp136.file
+,vdcpp137.file
+,vdcpp138.file
+,vdcpp139.file
+,vdcpp140.file
+,vdcpp141.file
+,vdcpp142.file
+,vdcpp143.file
+,vdcpp144.file
+,vdcpp145.file
+,vdcpp146.file
+,vdcpp147.file
+,vdcpp148.file
+,vdcpp149.file
+,vdcpp150.file
+,vdcpp151.file
+,vdcpp152.file
+,vdcpp153.file
+,vdcpp154.file
+,vdcpp155.file
+,vdcpp156.file
+,vdcpp157.file
+,vdcpp158.file
+,vdcpp159.file
+,vdcpp160.file
+,vdcpp161.file
+,vdcpp162.file
+,vdcpp163.file
+,vdcpp164.file
+,vdcpp165.file
+,vdcpp166.file
+,vdcpp167.file
+,vdcpp168.file
+,vdcpp169.file
+,vdcpp170.file
+,vdcpp171.file
+,vdcpp172.file
+,vdcpp173.file
+,vdcpp174.file
+,vdcpp175.file
+,vdcpp176.file
+,vdcpp177.file
+,vdcpp178.file
+,vdcpp179.file
+,vdcpp180.file
+,vdcpp181.file
+,vdcpp182.file
+,vdcpp183.file
+,vdcpp184.file
+,vdcpp185.file
+,vdcpp186.file
+,vdcpp187.file
+,vdcpp188.file
+,vdcpp189.file
+,vdcpp190.file
+,vdcpp191.file
+,vdcpp192.file
+,vdcpp193.file
+,vdcpp194.file
+,vdcpp195.file
+,vdcpp196.file
+,vdcpp197.file
+,vdcpp198.file
+,vdcpp199.file
+,vdcpp200.file
+,vdcpp201.file
+,vdcpp202.file
+,vdcpp203.file
+,vdcpp204.file
+,vdcpp205.file
+,vdcpp206.file
+,vdcpp207.file
+,vdcpp208.file
+,vdcpp209.file
+,vdcpp210.file
+,vdcpp211.file
+,vdcpp212.file
+,vdcpp213.file
+,vdcpp214.file
+,vdcpp215.file
+,vdcpp216.file
+,vdcpp217.file
+,vdcpp218.file
+,vdcpp219.file
+,vdcpp220.file
+,vdcpp221.file
+,vdcpp222.file
+,vdcpp223.file
+,vdcpp224.file
+,vdcpp225.file
+,vdcpp226.file
+,vdcpp227.file
+,vdcpp228.file
+,vdcpp229.file
+,vdcpp230.file
+,vdcpp231.file
+,vdcpp232.file
+,vdcpp233.file
+,vdcpp234.file
+,vdcpp235.file
+,vdcpp236.file
+,vdcpp237.file
+,vdcpp238.file
+,vdcpp239.file
+,vdcpp240.file
+,vdcpp241.file
+,vdcpp242.file
+,vdcpp243.file
+,vdcpp244.file
+,vdcpp245.file
+,vdcpp246.file
+,vdcpp247.file
+,vdcpp248.file
+,vdcpp249.file
+,vdcpp250.file
+,vdcpp251.file
+,vdcpp252.file
+,vdcpp253.file
+,vdcpp254.file
+,vdcpp255.file
+,vdcpp256.file
+,vdcpp257.file
+,vdcpp258.file
+,vdcpp259.file
+,vdcpp260.file
+,vdcpp261.file
+,vdcpp262.file
+,vdcpp263.file
+,vdcpp264.file
+,vdcpp265.file
+,vdcpp266.file
+,vdcpp267.file
+,vdcpp268.file
+,vdcpp269.file
+,vdcpp270.file
+,vdcpp271.file
+,vdcpp272.file
+,vdcpp273.file
+,vdcpp274.file
+,vdcpp275.file
+,vdcpp276.file
+,vdcpp277.file
+,vdcpp278.file
+,vdcpp279.file
+,vdcpp280.file
+,vdcpp281.file
+,vdcpp282.file
+,vdcpp283.file
+,vdcpp284.file
+,vdcpp285.file
+,vdcpp286.file
+,vdcpp287.file
+,vdcpp288.file
+,vdcpp289.file
+,vdcpp290.file
+,vdcpp291.file
+,vdcpp292.file
+,vdcpp293.file
+,vdcpp294.file
+,vdcpp295.file
+,vdcpp296.file
+,vdcpp297.file
+,vdcpp298.file
+,vdcpp299.file
+,vdcpp300.file
+,vdcpp301.file
+,vdcpp302.file
+,vdcpp303.file
+,vdcpp304.file
+,vdcpp305.file
+,vdcpp306.file
+,vdcpp307.file
+,vdcpp308.file
+,vdcpp309.file
+,vdcpp310.file
+,vdcpp311.file
+,vdcpp312.file
+,vdcpp313.file
+,vdcpp314.file
+,vdcpp315.file
+,vdcpp316.file
+,vdcpp317.file
+,vdcpp318.file
+,vdcpp319.file
+,vdcpp320.file
+,vdcpp321.file
+,vdcpp322.file
+,vdcpp323.file
+,vdcpp324.file
+,vdcpp325.file
+,vdcpp326.file
+,vdcpp327.file
+,vdcpp328.file
+,vdcpp329.file
+,vdcpp330.file
+,vdcpp331.file
+,vdcpp332.file
+,vdcpp333.file
+,vdcpp334.file
+,vdcpp335.file
+,vdcpp336.file
+,vdcpp337.file
+,vdcpp338.file
+,vdcpp339.file
+,vdcpp340.file
+,vdcpp341.file
+,vdcpp342.file
+,vdcpp343.file
+,vdcpp344.file
+,vdcpp345.file
+,vdcpp346.file
+,vdcpp347.file
+,vdcpp348.file
+,vdcpp349.file
+,vdcpp350.file
+,vdcpp351.file
+,vdcpp352.file
+,vdcpp353.file
+,vdcpp354.file
+,vdcpp355.file
+,vdcpp356.file
+,vdcpp357.file
+,vdcpp358.file
+,vdcpp359.file
+,vdcpp360.file
+,vdcpp361.file
+,vdcpp362.file
+,vdcpp363.file
+,vdcpp364.file
+,vdcpp365.file
+,vdcpp366.file
+,vdcpp367.file
+,vdcpp368.file
+,vdcpp369.file
+,vdcpp370.file
+,vdcpp371.file
+,vdcpp372.file
+,vdcpp373.file
+,vdcpp374.file
+,vdcpp375.file
+,vdcpp376.file
+,vdcpp377.file
+,vdcpp378.file
+,vdcpp379.file
+,vdcpp380.file
+,vdcpp381.file
+,vdcpp382.file
+,vdcpp383.file
+,vdcpp384.file
+,vdcpp385.file
+,vdcpp386.file
+,vdcpp387.file
+,vdcpp388.file
+,vdcpp389.file
+,vdcpp390.file
+,vdcpp391.file
+,vdcpp392.file
+,vdcpp393.file
+,vdcpp394.file
+,vdcpp395.file
+,vdcpp396.file
+,vdcpp397.file
+,vdcpp398.file
+,vdcpp399.file
+,vdcpp400.file
+,vdcpp401.file
+,vdcpp402.file
+,vdcpp403.file
+,vdcpp404.file
+,vdcpp405.file
+,vdcpp406.file
+,vdcpp407.file
+,vdcpp408.file
+,vdcpp409.file
+,vdcpp410.file
+,vdcpp411.file
+,vdcpp412.file
+,vdcpp413.file
+,vdcpp414.file
+,vdcpp415.file
+,vdcpp416.file
+,vdcpp417.file
+,vdcpp418.file
+,vdcpp419.file
+,vdcpp420.file
+,vdcpp421.file
+,vdcpp422.file
+,vdcpp423.file
+,vdcpp424.file
+,vdcpp425.file
+,vdcpp426.file
+,vdcpp427.file
+,vdcpp428.file
+,vdcpp429.file
+,vdcpp430.file
+,vdcpp431.file
+,vdcpp432.file
+,vdcpp433.file
+,vdcpp434.file
+,vdcpp435.file
+,vdcpp436.file
+,vdcpp437.file
+,vdcpp438.file
+,vdcpp439.file
+,vdcpp440.file
+,vdcpp441.file
+,vdcpp442.file
+,vdcpp443.file
+,vdcpp444.file
+,vdcpp445.file
+,vdcpp446.file
+,vdcpp447.file
+,vdcpp448.file
+,vdcpp449.file
+,vdcpp450.file
+,vdcpp451.file
+,vdcpp452.file
+,vdcpp453.file
+,vdcpp454.file
+,vdcpp455.file
+,vdcpp456.file
+,vdcpp457.file
+,vdcpp458.file
+,vdcpp459.file
+,vdcpp460.file
+,vdcpp461.file
+,vdcpp462.file
+,vdcpp463.file
+,vdcpp464.file
+,vdcpp465.file
+,vdcpp466.file
+,vdcpp467.file
+,vdcpp468.file
+,vdcpp469.file
+,vdcpp470.file
+,vdcpp471.file
+,vdcpp472.file
+,vdcpp473.file
+,vdcpp474.file
+,vdcpp475.file
+,vdcpp476.file
+,vdcpp477.file
+,vdcpp478.file
+,vdcpp479.file
+,vdcpp480.file
+,vdcpp481.file
+,vdcpp482.file
+,vdcpp483.file
+,vdcpp484.file
+,vdcpp485.file
+,vdcpp486.file } , DEP } ;
 

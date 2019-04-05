@@ -30,7 +30,7 @@ Param Data = {
                   CCoreRoot+"/Desktop/Tools/CCore/src",
                   CCoreRoot+"/Desktop/App/CCore/src",
                   CCoreRoot+"/HCore/CCore/src",
-                  CCoreRoot+"/Target/"+CCoreTarget+"/CCore/src"
+                  "CCore/src"
                  },
 
 .target = TargetCCore

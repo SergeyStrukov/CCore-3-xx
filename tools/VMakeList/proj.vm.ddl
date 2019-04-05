@@ -180,7 +180,7 @@ Echo echoargs = { arglist , OBJ_PATH+'/target.args' } ;
 
 Target main = { 'main' , TARGET } ;
 
-Rule rmain = { { null 
+Rule rmain = { { core_ptr 
 ,&ocpp1
 ,&ocpp2
 ,&ocpp3
@@ -197,5 +197,9 @@ Exe exemain = { 'LD '+TARGET , LD , {
  ,"-o"
  ,TARGET
 } } ;
+
+Target core = { 'CCore' , "../.."+"/Target/"+"WIN32utf8"+'/CCore.a' } ;
+
+Target *core_ptr = &core ;
 
 include <.obj/deps.vm.ddl>

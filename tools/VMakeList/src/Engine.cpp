@@ -659,7 +659,7 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
                     } ;
 
-   Printf(out,"Rule rmain = { { null #; } , {&main} , ",PrintBy(func2));
+   Printf(out,"Rule rmain = { { core_ptr #; } , {&main} , ",PrintBy(func2));
   }
 
   // ld
@@ -668,17 +668,23 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
     {
      Putobj(out,"{&intargs,&exemain} } ;\n\n"_c);
 
-     auto func = [&] (auto &out)
-                     {
-                      auto psrc = [&] (auto &out) { Putobj(out,"ARGS"_c); } ;
+     auto func1 = [&] (auto &out)
+                      {
+                       auto psrc = [&] (auto &out) { Putobj(out,"ARGS"_c); } ;
 
-                      auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
+                       auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
-                      printList(out,tools->LDOPT.getRange(),psrc,pdst);
+                       printList(out,tools->LDOPT.getRange(),psrc,pdst);
 
-                     } ;
+                      } ;
 
-     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func));
+     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func1));
+
+     auto func2 = [&] (auto &out) { printText(out,"#CCORE_ROOT;/Target/#CCORE_TARGET;"); } ;
+
+     Printf(out,"Target core = { 'CCore' , #;+'/CCore.a' } ;\n\n",PrintBy(func2));
+
+     Putobj(out,"Target *core_ptr = &core ;\n\n"_c);
     }
 
   // ar
@@ -692,6 +698,8 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
      Putobj(out,"Rm rm1 = { { TARGET } } ;\n\n"_c);
 
      Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , { 'r' , TARGET , ARGS } } ;\n\n");
+
+     Putobj(out,"Target *core_ptr = null ;\n\n"_c);
     }
 
   // inc dep

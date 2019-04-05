@@ -3696,7 +3696,7 @@ Exe execpp97 = { "CC Deflate.cpp" , CC , {
  ,OBJ_PATH+"/Deflate.o"
 } } ;
 
-Target cpp98 = { "Desktop.cpp" , "../../Target/WIN32utf8/CCore/src/./video/Desktop.cpp" } ;
+Target cpp98 = { "Desktop.cpp" , "CCore/src/./video/Desktop.cpp" } ;
 Target ocpp98 = { "Desktop.o" , OBJ_PATH+"/Desktop.o" } ;
 Rule rcpp98 = { {&cpp98} , {&ocpp98} , {&execpp98} } ;
 Exe execpp98 = { "CC Desktop.cpp" , CC , {
@@ -3729,7 +3729,7 @@ Exe execpp98 = { "CC Desktop.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./video/Desktop.cpp"
+ ,"CCore/src/./video/Desktop.cpp"
  ,"-o"
  ,OBJ_PATH+"/Desktop.o"
 } } ;
@@ -6736,7 +6736,7 @@ Exe execpp177 = { "CC IntegerDivider.cpp" , CC , {
  ,OBJ_PATH+"/IntegerDivider.o"
 } } ;
 
-Target cpp178 = { "IntegerFastAlgo.cpp" , "../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.cpp" } ;
+Target cpp178 = { "IntegerFastAlgo.cpp" , "CCore/src/./math/IntegerFastAlgo.cpp" } ;
 Target ocpp178 = { "IntegerFastAlgo.o" , OBJ_PATH+"/IntegerFastAlgo.o" } ;
 Rule rcpp178 = { {&cpp178} , {&ocpp178} , {&execpp178} } ;
 Exe execpp178 = { "CC IntegerFastAlgo.cpp" , CC , {
@@ -6769,7 +6769,7 @@ Exe execpp178 = { "CC IntegerFastAlgo.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.cpp"
+ ,"CCore/src/./math/IntegerFastAlgo.cpp"
  ,"-o"
  ,OBJ_PATH+"/IntegerFastAlgo.o"
 } } ;
@@ -6964,7 +6964,7 @@ Exe execpp183 = { "CC IntegerSlowAlgo.cpp" , CC , {
  ,OBJ_PATH+"/IntegerSlowAlgo.o"
 } } ;
 
-Target cpp184 = { "IntelAES.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp" } ;
+Target cpp184 = { "IntelAES.cpp" , "CCore/src/./crypton/IntelAES.cpp" } ;
 Target ocpp184 = { "IntelAES.o" , OBJ_PATH+"/IntelAES.o" } ;
 Rule rcpp184 = { {&cpp184} , {&ocpp184} , {&execpp184} } ;
 Exe execpp184 = { "CC IntelAES.cpp" , CC , {
@@ -6997,12 +6997,12 @@ Exe execpp184 = { "CC IntelAES.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.cpp"
+ ,"CCore/src/./crypton/IntelAES.cpp"
  ,"-o"
  ,OBJ_PATH+"/IntelAES.o"
 } } ;
 
-Target cpp185 = { "IntelCPUID.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp" } ;
+Target cpp185 = { "IntelCPUID.cpp" , "CCore/src/./crypton/IntelCPUID.cpp" } ;
 Target ocpp185 = { "IntelCPUID.o" , OBJ_PATH+"/IntelCPUID.o" } ;
 Rule rcpp185 = { {&cpp185} , {&ocpp185} , {&execpp185} } ;
 Exe execpp185 = { "CC IntelCPUID.cpp" , CC , {
@@ -7035,12 +7035,12 @@ Exe execpp185 = { "CC IntelCPUID.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.cpp"
+ ,"CCore/src/./crypton/IntelCPUID.cpp"
  ,"-o"
  ,OBJ_PATH+"/IntelCPUID.o"
 } } ;
 
-Target cpp186 = { "IntelRandom.cpp" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp" } ;
+Target cpp186 = { "IntelRandom.cpp" , "CCore/src/./crypton/IntelRandom.cpp" } ;
 Target ocpp186 = { "IntelRandom.o" , OBJ_PATH+"/IntelRandom.o" } ;
 Rule rcpp186 = { {&cpp186} , {&ocpp186} , {&execpp186} } ;
 Exe execpp186 = { "CC IntelRandom.cpp" , CC , {
@@ -7073,7 +7073,7 @@ Exe execpp186 = { "CC IntelRandom.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.cpp"
+ ,"CCore/src/./crypton/IntelRandom.cpp"
  ,"-o"
  ,OBJ_PATH+"/IntelRandom.o"
 } } ;
@@ -7116,7 +7116,7 @@ Exe execpp187 = { "CC InterfaceHost.cpp" , CC , {
  ,OBJ_PATH+"/InterfaceHost.o"
 } } ;
 
-Target cpp188 = { "InternalDesktop.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalDesktop.cpp" } ;
+Target cpp188 = { "InternalDesktop.cpp" , "CCore/src/./video/InternalDesktop.cpp" } ;
 Target ocpp188 = { "InternalDesktop.o" , OBJ_PATH+"/InternalDesktop.o" } ;
 Rule rcpp188 = { {&cpp188} , {&ocpp188} , {&execpp188} } ;
 Exe execpp188 = { "CC InternalDesktop.cpp" , CC , {
@@ -7149,12 +7149,12 @@ Exe execpp188 = { "CC InternalDesktop.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalDesktop.cpp"
+ ,"CCore/src/./video/InternalDesktop.cpp"
  ,"-o"
  ,OBJ_PATH+"/InternalDesktop.o"
 } } ;
 
-Target cpp189 = { "InternalHost.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalHost.cpp" } ;
+Target cpp189 = { "InternalHost.cpp" , "CCore/src/./video/InternalHost.cpp" } ;
 Target ocpp189 = { "InternalHost.o" , OBJ_PATH+"/InternalHost.o" } ;
 Rule rcpp189 = { {&cpp189} , {&ocpp189} , {&execpp189} } ;
 Exe execpp189 = { "CC InternalHost.cpp" , CC , {
@@ -7187,12 +7187,12 @@ Exe execpp189 = { "CC InternalHost.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalHost.cpp"
+ ,"CCore/src/./video/InternalHost.cpp"
  ,"-o"
  ,OBJ_PATH+"/InternalHost.o"
 } } ;
 
-Target cpp190 = { "InternalUtils.cpp" , "../../Target/WIN32utf8/CCore/src/./video/InternalUtils.cpp" } ;
+Target cpp190 = { "InternalUtils.cpp" , "CCore/src/./video/InternalUtils.cpp" } ;
 Target ocpp190 = { "InternalUtils.o" , OBJ_PATH+"/InternalUtils.o" } ;
 Rule rcpp190 = { {&cpp190} , {&ocpp190} , {&execpp190} } ;
 Exe execpp190 = { "CC InternalUtils.cpp" , CC , {
@@ -7225,7 +7225,7 @@ Exe execpp190 = { "CC InternalUtils.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./video/InternalUtils.cpp"
+ ,"CCore/src/./video/InternalUtils.cpp"
  ,"-o"
  ,OBJ_PATH+"/InternalUtils.o"
 } } ;
@@ -10650,7 +10650,7 @@ Exe execpp280 = { "CC PlanInit.cpp" , CC , {
  ,OBJ_PATH+"/PlanInit.o"
 } } ;
 
-Target cpp281 = { "PlanInit_CCore.cpp" , "../../Target/WIN32utf8/CCore/src/PlanInit_CCore.cpp" } ;
+Target cpp281 = { "PlanInit_CCore.cpp" , "CCore/src/PlanInit_CCore.cpp" } ;
 Target ocpp281 = { "PlanInit_CCore.o" , OBJ_PATH+"/PlanInit_CCore.o" } ;
 Rule rcpp281 = { {&cpp281} , {&ocpp281} , {&execpp281} } ;
 Exe execpp281 = { "CC PlanInit_CCore.cpp" , CC , {
@@ -10683,12 +10683,12 @@ Exe execpp281 = { "CC PlanInit_CCore.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/PlanInit_CCore.cpp"
+ ,"CCore/src/PlanInit_CCore.cpp"
  ,"-o"
  ,OBJ_PATH+"/PlanInit_CCore.o"
 } } ;
 
-Target cpp282 = { "PlatformBase.cpp" , "../../Target/WIN32utf8/CCore/src/./base/PlatformBase.cpp" } ;
+Target cpp282 = { "PlatformBase.cpp" , "CCore/src/./base/PlatformBase.cpp" } ;
 Target ocpp282 = { "PlatformBase.o" , OBJ_PATH+"/PlatformBase.o" } ;
 Rule rcpp282 = { {&cpp282} , {&ocpp282} , {&execpp282} } ;
 Exe execpp282 = { "CC PlatformBase.cpp" , CC , {
@@ -10721,7 +10721,7 @@ Exe execpp282 = { "CC PlatformBase.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./base/PlatformBase.cpp"
+ ,"CCore/src/./base/PlatformBase.cpp"
  ,"-o"
  ,OBJ_PATH+"/PlatformBase.o"
 } } ;
@@ -11752,7 +11752,7 @@ Exe execpp309 = { "CC PtrStepLen.cpp" , CC , {
  ,OBJ_PATH+"/PtrStepLen.o"
 } } ;
 
-Target cpp310 = { "Quick.cpp" , "../../Target/WIN32utf8/CCore/src/./base/Quick.cpp" } ;
+Target cpp310 = { "Quick.cpp" , "CCore/src/./base/Quick.cpp" } ;
 Target ocpp310 = { "Quick.o" , OBJ_PATH+"/Quick.o" } ;
 Rule rcpp310 = { {&cpp310} , {&ocpp310} , {&execpp310} } ;
 Exe execpp310 = { "CC Quick.cpp" , CC , {
@@ -11785,7 +11785,7 @@ Exe execpp310 = { "CC Quick.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./base/Quick.cpp"
+ ,"CCore/src/./base/Quick.cpp"
  ,"-o"
  ,OBJ_PATH+"/Quick.o"
 } } ;
@@ -15286,7 +15286,7 @@ Exe execpp402 = { "CC Symbol.cpp" , CC , {
  ,OBJ_PATH+"/Symbol.o"
 } } ;
 
-Target cpp403 = { "SysAbort.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysAbort.cpp" } ;
+Target cpp403 = { "SysAbort.cpp" , "CCore/src/./sys/SysAbort.cpp" } ;
 Target ocpp403 = { "SysAbort.o" , OBJ_PATH+"/SysAbort.o" } ;
 Rule rcpp403 = { {&cpp403} , {&ocpp403} , {&execpp403} } ;
 Exe execpp403 = { "CC SysAbort.cpp" , CC , {
@@ -15319,7 +15319,7 @@ Exe execpp403 = { "CC SysAbort.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysAbort.cpp"
+ ,"CCore/src/./sys/SysAbort.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysAbort.o"
 } } ;
@@ -15400,7 +15400,7 @@ Exe execpp405 = { "CC SysAsyncFileSystem.cpp" , CC , {
  ,OBJ_PATH+"/SysAsyncFileSystem.o"
 } } ;
 
-Target cpp406 = { "SysAtomic.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.cpp" } ;
+Target cpp406 = { "SysAtomic.cpp" , "CCore/src/./sys/SysAtomic.cpp" } ;
 Target ocpp406 = { "SysAtomic.o" , OBJ_PATH+"/SysAtomic.o" } ;
 Rule rcpp406 = { {&cpp406} , {&ocpp406} , {&execpp406} } ;
 Exe execpp406 = { "CC SysAtomic.cpp" , CC , {
@@ -15433,12 +15433,12 @@ Exe execpp406 = { "CC SysAtomic.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.cpp"
+ ,"CCore/src/./sys/SysAtomic.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysAtomic.o"
 } } ;
 
-Target cpp407 = { "SysCon.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp" } ;
+Target cpp407 = { "SysCon.cpp" , "CCore/src/./sys/SysCon.cpp" } ;
 Target ocpp407 = { "SysCon.o" , OBJ_PATH+"/SysCon.o" } ;
 Rule rcpp407 = { {&cpp407} , {&ocpp407} , {&execpp407} } ;
 Exe execpp407 = { "CC SysCon.cpp" , CC , {
@@ -15471,12 +15471,12 @@ Exe execpp407 = { "CC SysCon.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysCon.cpp"
+ ,"CCore/src/./sys/SysCon.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysCon.o"
 } } ;
 
-Target cpp408 = { "SysEnv.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp" } ;
+Target cpp408 = { "SysEnv.cpp" , "CCore/src/./sys/SysEnv.cpp" } ;
 Target ocpp408 = { "SysEnv.o" , OBJ_PATH+"/SysEnv.o" } ;
 Rule rcpp408 = { {&cpp408} , {&ocpp408} , {&execpp408} } ;
 Exe execpp408 = { "CC SysEnv.cpp" , CC , {
@@ -15509,12 +15509,12 @@ Exe execpp408 = { "CC SysEnv.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysEnv.cpp"
+ ,"CCore/src/./sys/SysEnv.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysEnv.o"
 } } ;
 
-Target cpp409 = { "SysError.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp" } ;
+Target cpp409 = { "SysError.cpp" , "CCore/src/./sys/SysError.cpp" } ;
 Target ocpp409 = { "SysError.o" , OBJ_PATH+"/SysError.o" } ;
 Rule rcpp409 = { {&cpp409} , {&ocpp409} , {&execpp409} } ;
 Exe execpp409 = { "CC SysError.cpp" , CC , {
@@ -15547,12 +15547,12 @@ Exe execpp409 = { "CC SysError.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysError.cpp"
+ ,"CCore/src/./sys/SysError.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysError.o"
 } } ;
 
-Target cpp410 = { "SysFile.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFile.cpp" } ;
+Target cpp410 = { "SysFile.cpp" , "CCore/src/./sys/SysFile.cpp" } ;
 Target ocpp410 = { "SysFile.o" , OBJ_PATH+"/SysFile.o" } ;
 Rule rcpp410 = { {&cpp410} , {&ocpp410} , {&execpp410} } ;
 Exe execpp410 = { "CC SysFile.cpp" , CC , {
@@ -15585,12 +15585,12 @@ Exe execpp410 = { "CC SysFile.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFile.cpp"
+ ,"CCore/src/./sys/SysFile.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysFile.o"
 } } ;
 
-Target cpp411 = { "SysFileInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFileInternal.cpp" } ;
+Target cpp411 = { "SysFileInternal.cpp" , "CCore/src/./sys/SysFileInternal.cpp" } ;
 Target ocpp411 = { "SysFileInternal.o" , OBJ_PATH+"/SysFileInternal.o" } ;
 Rule rcpp411 = { {&cpp411} , {&ocpp411} , {&execpp411} } ;
 Exe execpp411 = { "CC SysFileInternal.cpp" , CC , {
@@ -15623,12 +15623,12 @@ Exe execpp411 = { "CC SysFileInternal.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFileInternal.cpp"
+ ,"CCore/src/./sys/SysFileInternal.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysFileInternal.o"
 } } ;
 
-Target cpp412 = { "SysFileSystem.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysFileSystem.cpp" } ;
+Target cpp412 = { "SysFileSystem.cpp" , "CCore/src/./sys/SysFileSystem.cpp" } ;
 Target ocpp412 = { "SysFileSystem.o" , OBJ_PATH+"/SysFileSystem.o" } ;
 Rule rcpp412 = { {&cpp412} , {&ocpp412} , {&execpp412} } ;
 Exe execpp412 = { "CC SysFileSystem.cpp" , CC , {
@@ -15661,12 +15661,12 @@ Exe execpp412 = { "CC SysFileSystem.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysFileSystem.cpp"
+ ,"CCore/src/./sys/SysFileSystem.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysFileSystem.o"
 } } ;
 
-Target cpp413 = { "SysLaunchPath.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysLaunchPath.cpp" } ;
+Target cpp413 = { "SysLaunchPath.cpp" , "CCore/src/./sys/SysLaunchPath.cpp" } ;
 Target ocpp413 = { "SysLaunchPath.o" , OBJ_PATH+"/SysLaunchPath.o" } ;
 Rule rcpp413 = { {&cpp413} , {&ocpp413} , {&execpp413} } ;
 Exe execpp413 = { "CC SysLaunchPath.cpp" , CC , {
@@ -15699,12 +15699,12 @@ Exe execpp413 = { "CC SysLaunchPath.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysLaunchPath.cpp"
+ ,"CCore/src/./sys/SysLaunchPath.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysLaunchPath.o"
 } } ;
 
-Target cpp414 = { "SysMemPage.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysMemPage.cpp" } ;
+Target cpp414 = { "SysMemPage.cpp" , "CCore/src/./sys/SysMemPage.cpp" } ;
 Target ocpp414 = { "SysMemPage.o" , OBJ_PATH+"/SysMemPage.o" } ;
 Rule rcpp414 = { {&cpp414} , {&ocpp414} , {&execpp414} } ;
 Exe execpp414 = { "CC SysMemPage.cpp" , CC , {
@@ -15737,12 +15737,12 @@ Exe execpp414 = { "CC SysMemPage.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysMemPage.cpp"
+ ,"CCore/src/./sys/SysMemPage.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysMemPage.o"
 } } ;
 
-Target cpp415 = { "SysNet.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysNet.cpp" } ;
+Target cpp415 = { "SysNet.cpp" , "CCore/src/./sys/SysNet.cpp" } ;
 Target ocpp415 = { "SysNet.o" , OBJ_PATH+"/SysNet.o" } ;
 Rule rcpp415 = { {&cpp415} , {&ocpp415} , {&execpp415} } ;
 Exe execpp415 = { "CC SysNet.cpp" , CC , {
@@ -15775,12 +15775,12 @@ Exe execpp415 = { "CC SysNet.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysNet.cpp"
+ ,"CCore/src/./sys/SysNet.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysNet.o"
 } } ;
 
-Target cpp416 = { "SysPlanInit.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysPlanInit.cpp" } ;
+Target cpp416 = { "SysPlanInit.cpp" , "CCore/src/./sys/SysPlanInit.cpp" } ;
 Target ocpp416 = { "SysPlanInit.o" , OBJ_PATH+"/SysPlanInit.o" } ;
 Rule rcpp416 = { {&cpp416} , {&ocpp416} , {&execpp416} } ;
 Exe execpp416 = { "CC SysPlanInit.cpp" , CC , {
@@ -15813,12 +15813,12 @@ Exe execpp416 = { "CC SysPlanInit.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysPlanInit.cpp"
+ ,"CCore/src/./sys/SysPlanInit.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysPlanInit.o"
 } } ;
 
-Target cpp417 = { "SysProp.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysProp.cpp" } ;
+Target cpp417 = { "SysProp.cpp" , "CCore/src/./sys/SysProp.cpp" } ;
 Target ocpp417 = { "SysProp.o" , OBJ_PATH+"/SysProp.o" } ;
 Rule rcpp417 = { {&cpp417} , {&ocpp417} , {&execpp417} } ;
 Exe execpp417 = { "CC SysProp.cpp" , CC , {
@@ -15851,12 +15851,12 @@ Exe execpp417 = { "CC SysProp.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysProp.cpp"
+ ,"CCore/src/./sys/SysProp.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysProp.o"
 } } ;
 
-Target cpp418 = { "SysSem.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSem.cpp" } ;
+Target cpp418 = { "SysSem.cpp" , "CCore/src/./sys/SysSem.cpp" } ;
 Target ocpp418 = { "SysSem.o" , OBJ_PATH+"/SysSem.o" } ;
 Rule rcpp418 = { {&cpp418} , {&ocpp418} , {&execpp418} } ;
 Exe execpp418 = { "CC SysSem.cpp" , CC , {
@@ -15889,12 +15889,12 @@ Exe execpp418 = { "CC SysSem.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSem.cpp"
+ ,"CCore/src/./sys/SysSem.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysSem.o"
 } } ;
 
-Target cpp419 = { "SysSpawn.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSpawn.cpp" } ;
+Target cpp419 = { "SysSpawn.cpp" , "CCore/src/./sys/SysSpawn.cpp" } ;
 Target ocpp419 = { "SysSpawn.o" , OBJ_PATH+"/SysSpawn.o" } ;
 Rule rcpp419 = { {&cpp419} , {&ocpp419} , {&execpp419} } ;
 Exe execpp419 = { "CC SysSpawn.cpp" , CC , {
@@ -15927,12 +15927,12 @@ Exe execpp419 = { "CC SysSpawn.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSpawn.cpp"
+ ,"CCore/src/./sys/SysSpawn.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysSpawn.o"
 } } ;
 
-Target cpp420 = { "SysSpawnInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysSpawnInternal.cpp" } ;
+Target cpp420 = { "SysSpawnInternal.cpp" , "CCore/src/./sys/SysSpawnInternal.cpp" } ;
 Target ocpp420 = { "SysSpawnInternal.o" , OBJ_PATH+"/SysSpawnInternal.o" } ;
 Rule rcpp420 = { {&cpp420} , {&ocpp420} , {&execpp420} } ;
 Exe execpp420 = { "CC SysSpawnInternal.cpp" , CC , {
@@ -15965,12 +15965,12 @@ Exe execpp420 = { "CC SysSpawnInternal.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysSpawnInternal.cpp"
+ ,"CCore/src/./sys/SysSpawnInternal.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysSpawnInternal.o"
 } } ;
 
-Target cpp421 = { "SysTask.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTask.cpp" } ;
+Target cpp421 = { "SysTask.cpp" , "CCore/src/./sys/SysTask.cpp" } ;
 Target ocpp421 = { "SysTask.o" , OBJ_PATH+"/SysTask.o" } ;
 Rule rcpp421 = { {&cpp421} , {&ocpp421} , {&execpp421} } ;
 Exe execpp421 = { "CC SysTask.cpp" , CC , {
@@ -16003,12 +16003,12 @@ Exe execpp421 = { "CC SysTask.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTask.cpp"
+ ,"CCore/src/./sys/SysTask.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysTask.o"
 } } ;
 
-Target cpp422 = { "SysTime.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTime.cpp" } ;
+Target cpp422 = { "SysTime.cpp" , "CCore/src/./sys/SysTime.cpp" } ;
 Target ocpp422 = { "SysTime.o" , OBJ_PATH+"/SysTime.o" } ;
 Rule rcpp422 = { {&cpp422} , {&ocpp422} , {&execpp422} } ;
 Exe execpp422 = { "CC SysTime.cpp" , CC , {
@@ -16041,12 +16041,12 @@ Exe execpp422 = { "CC SysTime.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTime.cpp"
+ ,"CCore/src/./sys/SysTime.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysTime.o"
 } } ;
 
-Target cpp423 = { "SysTlsSlot.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysTlsSlot.cpp" } ;
+Target cpp423 = { "SysTlsSlot.cpp" , "CCore/src/./sys/SysTlsSlot.cpp" } ;
 Target ocpp423 = { "SysTlsSlot.o" , OBJ_PATH+"/SysTlsSlot.o" } ;
 Rule rcpp423 = { {&cpp423} , {&ocpp423} , {&execpp423} } ;
 Exe execpp423 = { "CC SysTlsSlot.cpp" , CC , {
@@ -16079,12 +16079,12 @@ Exe execpp423 = { "CC SysTlsSlot.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysTlsSlot.cpp"
+ ,"CCore/src/./sys/SysTlsSlot.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysTlsSlot.o"
 } } ;
 
-Target cpp424 = { "SysUtf8.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysUtf8.cpp" } ;
+Target cpp424 = { "SysUtf8.cpp" , "CCore/src/./sys/SysUtf8.cpp" } ;
 Target ocpp424 = { "SysUtf8.o" , OBJ_PATH+"/SysUtf8.o" } ;
 Rule rcpp424 = { {&cpp424} , {&ocpp424} , {&execpp424} } ;
 Exe execpp424 = { "CC SysUtf8.cpp" , CC , {
@@ -16117,12 +16117,12 @@ Exe execpp424 = { "CC SysUtf8.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysUtf8.cpp"
+ ,"CCore/src/./sys/SysUtf8.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysUtf8.o"
 } } ;
 
-Target cpp425 = { "SysWait.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysWait.cpp" } ;
+Target cpp425 = { "SysWait.cpp" , "CCore/src/./sys/SysWait.cpp" } ;
 Target ocpp425 = { "SysWait.o" , OBJ_PATH+"/SysWait.o" } ;
 Rule rcpp425 = { {&cpp425} , {&ocpp425} , {&execpp425} } ;
 Exe execpp425 = { "CC SysWait.cpp" , CC , {
@@ -16155,12 +16155,12 @@ Exe execpp425 = { "CC SysWait.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysWait.cpp"
+ ,"CCore/src/./sys/SysWait.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysWait.o"
 } } ;
 
-Target cpp426 = { "SysWaitInternal.cpp" , "../../Target/WIN32utf8/CCore/src/./sys/SysWaitInternal.cpp" } ;
+Target cpp426 = { "SysWaitInternal.cpp" , "CCore/src/./sys/SysWaitInternal.cpp" } ;
 Target ocpp426 = { "SysWaitInternal.o" , OBJ_PATH+"/SysWaitInternal.o" } ;
 Rule rcpp426 = { {&cpp426} , {&ocpp426} , {&execpp426} } ;
 Exe execpp426 = { "CC SysWaitInternal.cpp" , CC , {
@@ -16193,7 +16193,7 @@ Exe execpp426 = { "CC SysWaitInternal.cpp" , CC , {
  ,"-I"+"../.."+"/Desktop/Lib"
  ,"-I"+"../.."+"/Desktop/Tools"
  ,"-I"+"../.."+"/Desktop/App"
- ,"../../Target/WIN32utf8/CCore/src/./sys/SysWaitInternal.cpp"
+ ,"CCore/src/./sys/SysWaitInternal.cpp"
  ,"-o"
  ,OBJ_PATH+"/SysWaitInternal.o"
 } } ;
@@ -18478,1076 +18478,1082 @@ Exe execpp486 = { "CC XPoint.cpp" , CC , {
  ,OBJ_PATH+"/XPoint.o"
 } } ;
 
-Target asm1 = { "IntegerFastAlgo.s" , "../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.s" } ;
+Target asm1 = { "IntegerFastAlgo.s" , "CCore/src/./math/IntegerFastAlgo.s" } ;
 Target oasm1 = { "IntegerFastAlgo.s.o" , OBJ_PATH+"/IntegerFastAlgo.s.o" } ;
 Rule rasm1 = { {&asm1} , {&oasm1} , {&exeasm1} } ;
 Exe exeasm1 = { "AS IntegerFastAlgo.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./math/IntegerFastAlgo.s"
+  "CCore/src/./math/IntegerFastAlgo.s"
  ,"-o"
  ,OBJ_PATH+"/IntegerFastAlgo.s.o"
 } } ;
 
-Target asm2 = { "IntelAES.s" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.s" } ;
+Target asm2 = { "IntelAES.s" , "CCore/src/./crypton/IntelAES.s" } ;
 Target oasm2 = { "IntelAES.s.o" , OBJ_PATH+"/IntelAES.s.o" } ;
 Rule rasm2 = { {&asm2} , {&oasm2} , {&exeasm2} } ;
 Exe exeasm2 = { "AS IntelAES.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./crypton/IntelAES.s"
+  "CCore/src/./crypton/IntelAES.s"
  ,"-o"
  ,OBJ_PATH+"/IntelAES.s.o"
 } } ;
 
-Target asm3 = { "IntelCPUID.s" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.s" } ;
+Target asm3 = { "IntelCPUID.s" , "CCore/src/./crypton/IntelCPUID.s" } ;
 Target oasm3 = { "IntelCPUID.s.o" , OBJ_PATH+"/IntelCPUID.s.o" } ;
 Rule rasm3 = { {&asm3} , {&oasm3} , {&exeasm3} } ;
 Exe exeasm3 = { "AS IntelCPUID.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./crypton/IntelCPUID.s"
+  "CCore/src/./crypton/IntelCPUID.s"
  ,"-o"
  ,OBJ_PATH+"/IntelCPUID.s.o"
 } } ;
 
-Target asm4 = { "IntelRandom.s" , "../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.s" } ;
+Target asm4 = { "IntelRandom.s" , "CCore/src/./crypton/IntelRandom.s" } ;
 Target oasm4 = { "IntelRandom.s.o" , OBJ_PATH+"/IntelRandom.s.o" } ;
 Rule rasm4 = { {&asm4} , {&oasm4} , {&exeasm4} } ;
 Exe exeasm4 = { "AS IntelRandom.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./crypton/IntelRandom.s"
+  "CCore/src/./crypton/IntelRandom.s"
  ,"-o"
  ,OBJ_PATH+"/IntelRandom.s.o"
 } } ;
 
-Target asm5 = { "PlatformBase.s" , "../../Target/WIN32utf8/CCore/src/./base/PlatformBase.s" } ;
+Target asm5 = { "PlatformBase.s" , "CCore/src/./base/PlatformBase.s" } ;
 Target oasm5 = { "PlatformBase.s.o" , OBJ_PATH+"/PlatformBase.s.o" } ;
 Rule rasm5 = { {&asm5} , {&oasm5} , {&exeasm5} } ;
 Exe exeasm5 = { "AS PlatformBase.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./base/PlatformBase.s"
+  "CCore/src/./base/PlatformBase.s"
  ,"-o"
  ,OBJ_PATH+"/PlatformBase.s.o"
 } } ;
 
-Target asm6 = { "Quick.s" , "../../Target/WIN32utf8/CCore/src/./base/Quick.s" } ;
+Target asm6 = { "Quick.s" , "CCore/src/./base/Quick.s" } ;
 Target oasm6 = { "Quick.s.o" , OBJ_PATH+"/Quick.s.o" } ;
 Rule rasm6 = { {&asm6} , {&oasm6} , {&exeasm6} } ;
 Exe exeasm6 = { "AS Quick.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./base/Quick.s"
+  "CCore/src/./base/Quick.s"
  ,"-o"
  ,OBJ_PATH+"/Quick.s.o"
 } } ;
 
-Target asm7 = { "SysAtomic.s" , "../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.s" } ;
+Target asm7 = { "SysAtomic.s" , "CCore/src/./sys/SysAtomic.s" } ;
 Target oasm7 = { "SysAtomic.s.o" , OBJ_PATH+"/SysAtomic.s.o" } ;
 Rule rasm7 = { {&asm7} , {&oasm7} , {&exeasm7} } ;
 Exe exeasm7 = { "AS SysAtomic.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./sys/SysAtomic.s"
+  "CCore/src/./sys/SysAtomic.s"
  ,"-o"
  ,OBJ_PATH+"/SysAtomic.s.o"
 } } ;
 
-Target asm8 = { "SysTime.s" , "../../Target/WIN32utf8/CCore/src/./sys/SysTime.s" } ;
+Target asm8 = { "SysTime.s" , "CCore/src/./sys/SysTime.s" } ;
 Target oasm8 = { "SysTime.s.o" , OBJ_PATH+"/SysTime.s.o" } ;
 Rule rasm8 = { {&asm8} , {&oasm8} , {&exeasm8} } ;
 Exe exeasm8 = { "AS SysTime.s" , AS , {
-  "../../Target/WIN32utf8/CCore/src/./sys/SysTime.s"
+  "CCore/src/./sys/SysTime.s"
  ,"-o"
  ,OBJ_PATH+"/SysTime.s.o"
 } } ;
 
+text ARGS = '@'+OBJ_PATH+'/target.args' ;
+
+text arglist = 
+ '"'+ocpp1.file+"\"\n"
++'"'+ocpp2.file+"\"\n"
++'"'+ocpp3.file+"\"\n"
++'"'+ocpp4.file+"\"\n"
++'"'+ocpp5.file+"\"\n"
++'"'+ocpp6.file+"\"\n"
++'"'+ocpp7.file+"\"\n"
++'"'+ocpp8.file+"\"\n"
++'"'+ocpp9.file+"\"\n"
++'"'+ocpp10.file+"\"\n"
++'"'+ocpp11.file+"\"\n"
++'"'+ocpp12.file+"\"\n"
++'"'+ocpp13.file+"\"\n"
++'"'+ocpp14.file+"\"\n"
++'"'+ocpp15.file+"\"\n"
++'"'+ocpp16.file+"\"\n"
++'"'+ocpp17.file+"\"\n"
++'"'+ocpp18.file+"\"\n"
++'"'+ocpp19.file+"\"\n"
++'"'+ocpp20.file+"\"\n"
++'"'+ocpp21.file+"\"\n"
++'"'+ocpp22.file+"\"\n"
++'"'+ocpp23.file+"\"\n"
++'"'+ocpp24.file+"\"\n"
++'"'+ocpp25.file+"\"\n"
++'"'+ocpp26.file+"\"\n"
++'"'+ocpp27.file+"\"\n"
++'"'+ocpp28.file+"\"\n"
++'"'+ocpp29.file+"\"\n"
++'"'+ocpp30.file+"\"\n"
++'"'+ocpp31.file+"\"\n"
++'"'+ocpp32.file+"\"\n"
++'"'+ocpp33.file+"\"\n"
++'"'+ocpp34.file+"\"\n"
++'"'+ocpp35.file+"\"\n"
++'"'+ocpp36.file+"\"\n"
++'"'+ocpp37.file+"\"\n"
++'"'+ocpp38.file+"\"\n"
++'"'+ocpp39.file+"\"\n"
++'"'+ocpp40.file+"\"\n"
++'"'+ocpp41.file+"\"\n"
++'"'+ocpp42.file+"\"\n"
++'"'+ocpp43.file+"\"\n"
++'"'+ocpp44.file+"\"\n"
++'"'+ocpp45.file+"\"\n"
++'"'+ocpp46.file+"\"\n"
++'"'+ocpp47.file+"\"\n"
++'"'+ocpp48.file+"\"\n"
++'"'+ocpp49.file+"\"\n"
++'"'+ocpp50.file+"\"\n"
++'"'+ocpp51.file+"\"\n"
++'"'+ocpp52.file+"\"\n"
++'"'+ocpp53.file+"\"\n"
++'"'+ocpp54.file+"\"\n"
++'"'+ocpp55.file+"\"\n"
++'"'+ocpp56.file+"\"\n"
++'"'+ocpp57.file+"\"\n"
++'"'+ocpp58.file+"\"\n"
++'"'+ocpp59.file+"\"\n"
++'"'+ocpp60.file+"\"\n"
++'"'+ocpp61.file+"\"\n"
++'"'+ocpp62.file+"\"\n"
++'"'+ocpp63.file+"\"\n"
++'"'+ocpp64.file+"\"\n"
++'"'+ocpp65.file+"\"\n"
++'"'+ocpp66.file+"\"\n"
++'"'+ocpp67.file+"\"\n"
++'"'+ocpp68.file+"\"\n"
++'"'+ocpp69.file+"\"\n"
++'"'+ocpp70.file+"\"\n"
++'"'+ocpp71.file+"\"\n"
++'"'+ocpp72.file+"\"\n"
++'"'+ocpp73.file+"\"\n"
++'"'+ocpp74.file+"\"\n"
++'"'+ocpp75.file+"\"\n"
++'"'+ocpp76.file+"\"\n"
++'"'+ocpp77.file+"\"\n"
++'"'+ocpp78.file+"\"\n"
++'"'+ocpp79.file+"\"\n"
++'"'+ocpp80.file+"\"\n"
++'"'+ocpp81.file+"\"\n"
++'"'+ocpp82.file+"\"\n"
++'"'+ocpp83.file+"\"\n"
++'"'+ocpp84.file+"\"\n"
++'"'+ocpp85.file+"\"\n"
++'"'+ocpp86.file+"\"\n"
++'"'+ocpp87.file+"\"\n"
++'"'+ocpp88.file+"\"\n"
++'"'+ocpp89.file+"\"\n"
++'"'+ocpp90.file+"\"\n"
++'"'+ocpp91.file+"\"\n"
++'"'+ocpp92.file+"\"\n"
++'"'+ocpp93.file+"\"\n"
++'"'+ocpp94.file+"\"\n"
++'"'+ocpp95.file+"\"\n"
++'"'+ocpp96.file+"\"\n"
++'"'+ocpp97.file+"\"\n"
++'"'+ocpp98.file+"\"\n"
++'"'+ocpp99.file+"\"\n"
++'"'+ocpp100.file+"\"\n"
++'"'+ocpp101.file+"\"\n"
++'"'+ocpp102.file+"\"\n"
++'"'+ocpp103.file+"\"\n"
++'"'+ocpp104.file+"\"\n"
++'"'+ocpp105.file+"\"\n"
++'"'+ocpp106.file+"\"\n"
++'"'+ocpp107.file+"\"\n"
++'"'+ocpp108.file+"\"\n"
++'"'+ocpp109.file+"\"\n"
++'"'+ocpp110.file+"\"\n"
++'"'+ocpp111.file+"\"\n"
++'"'+ocpp112.file+"\"\n"
++'"'+ocpp113.file+"\"\n"
++'"'+ocpp114.file+"\"\n"
++'"'+ocpp115.file+"\"\n"
++'"'+ocpp116.file+"\"\n"
++'"'+ocpp117.file+"\"\n"
++'"'+ocpp118.file+"\"\n"
++'"'+ocpp119.file+"\"\n"
++'"'+ocpp120.file+"\"\n"
++'"'+ocpp121.file+"\"\n"
++'"'+ocpp122.file+"\"\n"
++'"'+ocpp123.file+"\"\n"
++'"'+ocpp124.file+"\"\n"
++'"'+ocpp125.file+"\"\n"
++'"'+ocpp126.file+"\"\n"
++'"'+ocpp127.file+"\"\n"
++'"'+ocpp128.file+"\"\n"
++'"'+ocpp129.file+"\"\n"
++'"'+ocpp130.file+"\"\n"
++'"'+ocpp131.file+"\"\n"
++'"'+ocpp132.file+"\"\n"
++'"'+ocpp133.file+"\"\n"
++'"'+ocpp134.file+"\"\n"
++'"'+ocpp135.file+"\"\n"
++'"'+ocpp136.file+"\"\n"
++'"'+ocpp137.file+"\"\n"
++'"'+ocpp138.file+"\"\n"
++'"'+ocpp139.file+"\"\n"
++'"'+ocpp140.file+"\"\n"
++'"'+ocpp141.file+"\"\n"
++'"'+ocpp142.file+"\"\n"
++'"'+ocpp143.file+"\"\n"
++'"'+ocpp144.file+"\"\n"
++'"'+ocpp145.file+"\"\n"
++'"'+ocpp146.file+"\"\n"
++'"'+ocpp147.file+"\"\n"
++'"'+ocpp148.file+"\"\n"
++'"'+ocpp149.file+"\"\n"
++'"'+ocpp150.file+"\"\n"
++'"'+ocpp151.file+"\"\n"
++'"'+ocpp152.file+"\"\n"
++'"'+ocpp153.file+"\"\n"
++'"'+ocpp154.file+"\"\n"
++'"'+ocpp155.file+"\"\n"
++'"'+ocpp156.file+"\"\n"
++'"'+ocpp157.file+"\"\n"
++'"'+ocpp158.file+"\"\n"
++'"'+ocpp159.file+"\"\n"
++'"'+ocpp160.file+"\"\n"
++'"'+ocpp161.file+"\"\n"
++'"'+ocpp162.file+"\"\n"
++'"'+ocpp163.file+"\"\n"
++'"'+ocpp164.file+"\"\n"
++'"'+ocpp165.file+"\"\n"
++'"'+ocpp166.file+"\"\n"
++'"'+ocpp167.file+"\"\n"
++'"'+ocpp168.file+"\"\n"
++'"'+ocpp169.file+"\"\n"
++'"'+ocpp170.file+"\"\n"
++'"'+ocpp171.file+"\"\n"
++'"'+ocpp172.file+"\"\n"
++'"'+ocpp173.file+"\"\n"
++'"'+ocpp174.file+"\"\n"
++'"'+ocpp175.file+"\"\n"
++'"'+ocpp176.file+"\"\n"
++'"'+ocpp177.file+"\"\n"
++'"'+ocpp178.file+"\"\n"
++'"'+ocpp179.file+"\"\n"
++'"'+ocpp180.file+"\"\n"
++'"'+ocpp181.file+"\"\n"
++'"'+ocpp182.file+"\"\n"
++'"'+ocpp183.file+"\"\n"
++'"'+ocpp184.file+"\"\n"
++'"'+ocpp185.file+"\"\n"
++'"'+ocpp186.file+"\"\n"
++'"'+ocpp187.file+"\"\n"
++'"'+ocpp188.file+"\"\n"
++'"'+ocpp189.file+"\"\n"
++'"'+ocpp190.file+"\"\n"
++'"'+ocpp191.file+"\"\n"
++'"'+ocpp192.file+"\"\n"
++'"'+ocpp193.file+"\"\n"
++'"'+ocpp194.file+"\"\n"
++'"'+ocpp195.file+"\"\n"
++'"'+ocpp196.file+"\"\n"
++'"'+ocpp197.file+"\"\n"
++'"'+ocpp198.file+"\"\n"
++'"'+ocpp199.file+"\"\n"
++'"'+ocpp200.file+"\"\n"
++'"'+ocpp201.file+"\"\n"
++'"'+ocpp202.file+"\"\n"
++'"'+ocpp203.file+"\"\n"
++'"'+ocpp204.file+"\"\n"
++'"'+ocpp205.file+"\"\n"
++'"'+ocpp206.file+"\"\n"
++'"'+ocpp207.file+"\"\n"
++'"'+ocpp208.file+"\"\n"
++'"'+ocpp209.file+"\"\n"
++'"'+ocpp210.file+"\"\n"
++'"'+ocpp211.file+"\"\n"
++'"'+ocpp212.file+"\"\n"
++'"'+ocpp213.file+"\"\n"
++'"'+ocpp214.file+"\"\n"
++'"'+ocpp215.file+"\"\n"
++'"'+ocpp216.file+"\"\n"
++'"'+ocpp217.file+"\"\n"
++'"'+ocpp218.file+"\"\n"
++'"'+ocpp219.file+"\"\n"
++'"'+ocpp220.file+"\"\n"
++'"'+ocpp221.file+"\"\n"
++'"'+ocpp222.file+"\"\n"
++'"'+ocpp223.file+"\"\n"
++'"'+ocpp224.file+"\"\n"
++'"'+ocpp225.file+"\"\n"
++'"'+ocpp226.file+"\"\n"
++'"'+ocpp227.file+"\"\n"
++'"'+ocpp228.file+"\"\n"
++'"'+ocpp229.file+"\"\n"
++'"'+ocpp230.file+"\"\n"
++'"'+ocpp231.file+"\"\n"
++'"'+ocpp232.file+"\"\n"
++'"'+ocpp233.file+"\"\n"
++'"'+ocpp234.file+"\"\n"
++'"'+ocpp235.file+"\"\n"
++'"'+ocpp236.file+"\"\n"
++'"'+ocpp237.file+"\"\n"
++'"'+ocpp238.file+"\"\n"
++'"'+ocpp239.file+"\"\n"
++'"'+ocpp240.file+"\"\n"
++'"'+ocpp241.file+"\"\n"
++'"'+ocpp242.file+"\"\n"
++'"'+ocpp243.file+"\"\n"
++'"'+ocpp244.file+"\"\n"
++'"'+ocpp245.file+"\"\n"
++'"'+ocpp246.file+"\"\n"
++'"'+ocpp247.file+"\"\n"
++'"'+ocpp248.file+"\"\n"
++'"'+ocpp249.file+"\"\n"
++'"'+ocpp250.file+"\"\n"
++'"'+ocpp251.file+"\"\n"
++'"'+ocpp252.file+"\"\n"
++'"'+ocpp253.file+"\"\n"
++'"'+ocpp254.file+"\"\n"
++'"'+ocpp255.file+"\"\n"
++'"'+ocpp256.file+"\"\n"
++'"'+ocpp257.file+"\"\n"
++'"'+ocpp258.file+"\"\n"
++'"'+ocpp259.file+"\"\n"
++'"'+ocpp260.file+"\"\n"
++'"'+ocpp261.file+"\"\n"
++'"'+ocpp262.file+"\"\n"
++'"'+ocpp263.file+"\"\n"
++'"'+ocpp264.file+"\"\n"
++'"'+ocpp265.file+"\"\n"
++'"'+ocpp266.file+"\"\n"
++'"'+ocpp267.file+"\"\n"
++'"'+ocpp268.file+"\"\n"
++'"'+ocpp269.file+"\"\n"
++'"'+ocpp270.file+"\"\n"
++'"'+ocpp271.file+"\"\n"
++'"'+ocpp272.file+"\"\n"
++'"'+ocpp273.file+"\"\n"
++'"'+ocpp274.file+"\"\n"
++'"'+ocpp275.file+"\"\n"
++'"'+ocpp276.file+"\"\n"
++'"'+ocpp277.file+"\"\n"
++'"'+ocpp278.file+"\"\n"
++'"'+ocpp279.file+"\"\n"
++'"'+ocpp280.file+"\"\n"
++'"'+ocpp281.file+"\"\n"
++'"'+ocpp282.file+"\"\n"
++'"'+ocpp283.file+"\"\n"
++'"'+ocpp284.file+"\"\n"
++'"'+ocpp285.file+"\"\n"
++'"'+ocpp286.file+"\"\n"
++'"'+ocpp287.file+"\"\n"
++'"'+ocpp288.file+"\"\n"
++'"'+ocpp289.file+"\"\n"
++'"'+ocpp290.file+"\"\n"
++'"'+ocpp291.file+"\"\n"
++'"'+ocpp292.file+"\"\n"
++'"'+ocpp293.file+"\"\n"
++'"'+ocpp294.file+"\"\n"
++'"'+ocpp295.file+"\"\n"
++'"'+ocpp296.file+"\"\n"
++'"'+ocpp297.file+"\"\n"
++'"'+ocpp298.file+"\"\n"
++'"'+ocpp299.file+"\"\n"
++'"'+ocpp300.file+"\"\n"
++'"'+ocpp301.file+"\"\n"
++'"'+ocpp302.file+"\"\n"
++'"'+ocpp303.file+"\"\n"
++'"'+ocpp304.file+"\"\n"
++'"'+ocpp305.file+"\"\n"
++'"'+ocpp306.file+"\"\n"
++'"'+ocpp307.file+"\"\n"
++'"'+ocpp308.file+"\"\n"
++'"'+ocpp309.file+"\"\n"
++'"'+ocpp310.file+"\"\n"
++'"'+ocpp311.file+"\"\n"
++'"'+ocpp312.file+"\"\n"
++'"'+ocpp313.file+"\"\n"
++'"'+ocpp314.file+"\"\n"
++'"'+ocpp315.file+"\"\n"
++'"'+ocpp316.file+"\"\n"
++'"'+ocpp317.file+"\"\n"
++'"'+ocpp318.file+"\"\n"
++'"'+ocpp319.file+"\"\n"
++'"'+ocpp320.file+"\"\n"
++'"'+ocpp321.file+"\"\n"
++'"'+ocpp322.file+"\"\n"
++'"'+ocpp323.file+"\"\n"
++'"'+ocpp324.file+"\"\n"
++'"'+ocpp325.file+"\"\n"
++'"'+ocpp326.file+"\"\n"
++'"'+ocpp327.file+"\"\n"
++'"'+ocpp328.file+"\"\n"
++'"'+ocpp329.file+"\"\n"
++'"'+ocpp330.file+"\"\n"
++'"'+ocpp331.file+"\"\n"
++'"'+ocpp332.file+"\"\n"
++'"'+ocpp333.file+"\"\n"
++'"'+ocpp334.file+"\"\n"
++'"'+ocpp335.file+"\"\n"
++'"'+ocpp336.file+"\"\n"
++'"'+ocpp337.file+"\"\n"
++'"'+ocpp338.file+"\"\n"
++'"'+ocpp339.file+"\"\n"
++'"'+ocpp340.file+"\"\n"
++'"'+ocpp341.file+"\"\n"
++'"'+ocpp342.file+"\"\n"
++'"'+ocpp343.file+"\"\n"
++'"'+ocpp344.file+"\"\n"
++'"'+ocpp345.file+"\"\n"
++'"'+ocpp346.file+"\"\n"
++'"'+ocpp347.file+"\"\n"
++'"'+ocpp348.file+"\"\n"
++'"'+ocpp349.file+"\"\n"
++'"'+ocpp350.file+"\"\n"
++'"'+ocpp351.file+"\"\n"
++'"'+ocpp352.file+"\"\n"
++'"'+ocpp353.file+"\"\n"
++'"'+ocpp354.file+"\"\n"
++'"'+ocpp355.file+"\"\n"
++'"'+ocpp356.file+"\"\n"
++'"'+ocpp357.file+"\"\n"
++'"'+ocpp358.file+"\"\n"
++'"'+ocpp359.file+"\"\n"
++'"'+ocpp360.file+"\"\n"
++'"'+ocpp361.file+"\"\n"
++'"'+ocpp362.file+"\"\n"
++'"'+ocpp363.file+"\"\n"
++'"'+ocpp364.file+"\"\n"
++'"'+ocpp365.file+"\"\n"
++'"'+ocpp366.file+"\"\n"
++'"'+ocpp367.file+"\"\n"
++'"'+ocpp368.file+"\"\n"
++'"'+ocpp369.file+"\"\n"
++'"'+ocpp370.file+"\"\n"
++'"'+ocpp371.file+"\"\n"
++'"'+ocpp372.file+"\"\n"
++'"'+ocpp373.file+"\"\n"
++'"'+ocpp374.file+"\"\n"
++'"'+ocpp375.file+"\"\n"
++'"'+ocpp376.file+"\"\n"
++'"'+ocpp377.file+"\"\n"
++'"'+ocpp378.file+"\"\n"
++'"'+ocpp379.file+"\"\n"
++'"'+ocpp380.file+"\"\n"
++'"'+ocpp381.file+"\"\n"
++'"'+ocpp382.file+"\"\n"
++'"'+ocpp383.file+"\"\n"
++'"'+ocpp384.file+"\"\n"
++'"'+ocpp385.file+"\"\n"
++'"'+ocpp386.file+"\"\n"
++'"'+ocpp387.file+"\"\n"
++'"'+ocpp388.file+"\"\n"
++'"'+ocpp389.file+"\"\n"
++'"'+ocpp390.file+"\"\n"
++'"'+ocpp391.file+"\"\n"
++'"'+ocpp392.file+"\"\n"
++'"'+ocpp393.file+"\"\n"
++'"'+ocpp394.file+"\"\n"
++'"'+ocpp395.file+"\"\n"
++'"'+ocpp396.file+"\"\n"
++'"'+ocpp397.file+"\"\n"
++'"'+ocpp398.file+"\"\n"
++'"'+ocpp399.file+"\"\n"
++'"'+ocpp400.file+"\"\n"
++'"'+ocpp401.file+"\"\n"
++'"'+ocpp402.file+"\"\n"
++'"'+ocpp403.file+"\"\n"
++'"'+ocpp404.file+"\"\n"
++'"'+ocpp405.file+"\"\n"
++'"'+ocpp406.file+"\"\n"
++'"'+ocpp407.file+"\"\n"
++'"'+ocpp408.file+"\"\n"
++'"'+ocpp409.file+"\"\n"
++'"'+ocpp410.file+"\"\n"
++'"'+ocpp411.file+"\"\n"
++'"'+ocpp412.file+"\"\n"
++'"'+ocpp413.file+"\"\n"
++'"'+ocpp414.file+"\"\n"
++'"'+ocpp415.file+"\"\n"
++'"'+ocpp416.file+"\"\n"
++'"'+ocpp417.file+"\"\n"
++'"'+ocpp418.file+"\"\n"
++'"'+ocpp419.file+"\"\n"
++'"'+ocpp420.file+"\"\n"
++'"'+ocpp421.file+"\"\n"
++'"'+ocpp422.file+"\"\n"
++'"'+ocpp423.file+"\"\n"
++'"'+ocpp424.file+"\"\n"
++'"'+ocpp425.file+"\"\n"
++'"'+ocpp426.file+"\"\n"
++'"'+ocpp427.file+"\"\n"
++'"'+ocpp428.file+"\"\n"
++'"'+ocpp429.file+"\"\n"
++'"'+ocpp430.file+"\"\n"
++'"'+ocpp431.file+"\"\n"
++'"'+ocpp432.file+"\"\n"
++'"'+ocpp433.file+"\"\n"
++'"'+ocpp434.file+"\"\n"
++'"'+ocpp435.file+"\"\n"
++'"'+ocpp436.file+"\"\n"
++'"'+ocpp437.file+"\"\n"
++'"'+ocpp438.file+"\"\n"
++'"'+ocpp439.file+"\"\n"
++'"'+ocpp440.file+"\"\n"
++'"'+ocpp441.file+"\"\n"
++'"'+ocpp442.file+"\"\n"
++'"'+ocpp443.file+"\"\n"
++'"'+ocpp444.file+"\"\n"
++'"'+ocpp445.file+"\"\n"
++'"'+ocpp446.file+"\"\n"
++'"'+ocpp447.file+"\"\n"
++'"'+ocpp448.file+"\"\n"
++'"'+ocpp449.file+"\"\n"
++'"'+ocpp450.file+"\"\n"
++'"'+ocpp451.file+"\"\n"
++'"'+ocpp452.file+"\"\n"
++'"'+ocpp453.file+"\"\n"
++'"'+ocpp454.file+"\"\n"
++'"'+ocpp455.file+"\"\n"
++'"'+ocpp456.file+"\"\n"
++'"'+ocpp457.file+"\"\n"
++'"'+ocpp458.file+"\"\n"
++'"'+ocpp459.file+"\"\n"
++'"'+ocpp460.file+"\"\n"
++'"'+ocpp461.file+"\"\n"
++'"'+ocpp462.file+"\"\n"
++'"'+ocpp463.file+"\"\n"
++'"'+ocpp464.file+"\"\n"
++'"'+ocpp465.file+"\"\n"
++'"'+ocpp466.file+"\"\n"
++'"'+ocpp467.file+"\"\n"
++'"'+ocpp468.file+"\"\n"
++'"'+ocpp469.file+"\"\n"
++'"'+ocpp470.file+"\"\n"
++'"'+ocpp471.file+"\"\n"
++'"'+ocpp472.file+"\"\n"
++'"'+ocpp473.file+"\"\n"
++'"'+ocpp474.file+"\"\n"
++'"'+ocpp475.file+"\"\n"
++'"'+ocpp476.file+"\"\n"
++'"'+ocpp477.file+"\"\n"
++'"'+ocpp478.file+"\"\n"
++'"'+ocpp479.file+"\"\n"
++'"'+ocpp480.file+"\"\n"
++'"'+ocpp481.file+"\"\n"
++'"'+ocpp482.file+"\"\n"
++'"'+ocpp483.file+"\"\n"
++'"'+ocpp484.file+"\"\n"
++'"'+ocpp485.file+"\"\n"
++'"'+ocpp486.file+"\"\n"
++'"'+oasm1.file+"\"\n"
++'"'+oasm2.file+"\"\n"
++'"'+oasm3.file+"\"\n"
++'"'+oasm4.file+"\"\n"
++'"'+oasm5.file+"\"\n"
++'"'+oasm6.file+"\"\n"
++'"'+oasm7.file+"\"\n"
++'"'+oasm8.file+"\"\n" ;
+
+IntCmd intargs = { 'ARGS' , &echoargs } ;
+
+Echo echoargs = { arglist , OBJ_PATH+'/target.args' } ;
+
 Target main = { 'main' , TARGET } ;
 
-Rule rmain = { {
-  &ocpp1
- ,&ocpp2
- ,&ocpp3
- ,&ocpp4
- ,&ocpp5
- ,&ocpp6
- ,&ocpp7
- ,&ocpp8
- ,&ocpp9
- ,&ocpp10
- ,&ocpp11
- ,&ocpp12
- ,&ocpp13
- ,&ocpp14
- ,&ocpp15
- ,&ocpp16
- ,&ocpp17
- ,&ocpp18
- ,&ocpp19
- ,&ocpp20
- ,&ocpp21
- ,&ocpp22
- ,&ocpp23
- ,&ocpp24
- ,&ocpp25
- ,&ocpp26
- ,&ocpp27
- ,&ocpp28
- ,&ocpp29
- ,&ocpp30
- ,&ocpp31
- ,&ocpp32
- ,&ocpp33
- ,&ocpp34
- ,&ocpp35
- ,&ocpp36
- ,&ocpp37
- ,&ocpp38
- ,&ocpp39
- ,&ocpp40
- ,&ocpp41
- ,&ocpp42
- ,&ocpp43
- ,&ocpp44
- ,&ocpp45
- ,&ocpp46
- ,&ocpp47
- ,&ocpp48
- ,&ocpp49
- ,&ocpp50
- ,&ocpp51
- ,&ocpp52
- ,&ocpp53
- ,&ocpp54
- ,&ocpp55
- ,&ocpp56
- ,&ocpp57
- ,&ocpp58
- ,&ocpp59
- ,&ocpp60
- ,&ocpp61
- ,&ocpp62
- ,&ocpp63
- ,&ocpp64
- ,&ocpp65
- ,&ocpp66
- ,&ocpp67
- ,&ocpp68
- ,&ocpp69
- ,&ocpp70
- ,&ocpp71
- ,&ocpp72
- ,&ocpp73
- ,&ocpp74
- ,&ocpp75
- ,&ocpp76
- ,&ocpp77
- ,&ocpp78
- ,&ocpp79
- ,&ocpp80
- ,&ocpp81
- ,&ocpp82
- ,&ocpp83
- ,&ocpp84
- ,&ocpp85
- ,&ocpp86
- ,&ocpp87
- ,&ocpp88
- ,&ocpp89
- ,&ocpp90
- ,&ocpp91
- ,&ocpp92
- ,&ocpp93
- ,&ocpp94
- ,&ocpp95
- ,&ocpp96
- ,&ocpp97
- ,&ocpp98
- ,&ocpp99
- ,&ocpp100
- ,&ocpp101
- ,&ocpp102
- ,&ocpp103
- ,&ocpp104
- ,&ocpp105
- ,&ocpp106
- ,&ocpp107
- ,&ocpp108
- ,&ocpp109
- ,&ocpp110
- ,&ocpp111
- ,&ocpp112
- ,&ocpp113
- ,&ocpp114
- ,&ocpp115
- ,&ocpp116
- ,&ocpp117
- ,&ocpp118
- ,&ocpp119
- ,&ocpp120
- ,&ocpp121
- ,&ocpp122
- ,&ocpp123
- ,&ocpp124
- ,&ocpp125
- ,&ocpp126
- ,&ocpp127
- ,&ocpp128
- ,&ocpp129
- ,&ocpp130
- ,&ocpp131
- ,&ocpp132
- ,&ocpp133
- ,&ocpp134
- ,&ocpp135
- ,&ocpp136
- ,&ocpp137
- ,&ocpp138
- ,&ocpp139
- ,&ocpp140
- ,&ocpp141
- ,&ocpp142
- ,&ocpp143
- ,&ocpp144
- ,&ocpp145
- ,&ocpp146
- ,&ocpp147
- ,&ocpp148
- ,&ocpp149
- ,&ocpp150
- ,&ocpp151
- ,&ocpp152
- ,&ocpp153
- ,&ocpp154
- ,&ocpp155
- ,&ocpp156
- ,&ocpp157
- ,&ocpp158
- ,&ocpp159
- ,&ocpp160
- ,&ocpp161
- ,&ocpp162
- ,&ocpp163
- ,&ocpp164
- ,&ocpp165
- ,&ocpp166
- ,&ocpp167
- ,&ocpp168
- ,&ocpp169
- ,&ocpp170
- ,&ocpp171
- ,&ocpp172
- ,&ocpp173
- ,&ocpp174
- ,&ocpp175
- ,&ocpp176
- ,&ocpp177
- ,&ocpp178
- ,&ocpp179
- ,&ocpp180
- ,&ocpp181
- ,&ocpp182
- ,&ocpp183
- ,&ocpp184
- ,&ocpp185
- ,&ocpp186
- ,&ocpp187
- ,&ocpp188
- ,&ocpp189
- ,&ocpp190
- ,&ocpp191
- ,&ocpp192
- ,&ocpp193
- ,&ocpp194
- ,&ocpp195
- ,&ocpp196
- ,&ocpp197
- ,&ocpp198
- ,&ocpp199
- ,&ocpp200
- ,&ocpp201
- ,&ocpp202
- ,&ocpp203
- ,&ocpp204
- ,&ocpp205
- ,&ocpp206
- ,&ocpp207
- ,&ocpp208
- ,&ocpp209
- ,&ocpp210
- ,&ocpp211
- ,&ocpp212
- ,&ocpp213
- ,&ocpp214
- ,&ocpp215
- ,&ocpp216
- ,&ocpp217
- ,&ocpp218
- ,&ocpp219
- ,&ocpp220
- ,&ocpp221
- ,&ocpp222
- ,&ocpp223
- ,&ocpp224
- ,&ocpp225
- ,&ocpp226
- ,&ocpp227
- ,&ocpp228
- ,&ocpp229
- ,&ocpp230
- ,&ocpp231
- ,&ocpp232
- ,&ocpp233
- ,&ocpp234
- ,&ocpp235
- ,&ocpp236
- ,&ocpp237
- ,&ocpp238
- ,&ocpp239
- ,&ocpp240
- ,&ocpp241
- ,&ocpp242
- ,&ocpp243
- ,&ocpp244
- ,&ocpp245
- ,&ocpp246
- ,&ocpp247
- ,&ocpp248
- ,&ocpp249
- ,&ocpp250
- ,&ocpp251
- ,&ocpp252
- ,&ocpp253
- ,&ocpp254
- ,&ocpp255
- ,&ocpp256
- ,&ocpp257
- ,&ocpp258
- ,&ocpp259
- ,&ocpp260
- ,&ocpp261
- ,&ocpp262
- ,&ocpp263
- ,&ocpp264
- ,&ocpp265
- ,&ocpp266
- ,&ocpp267
- ,&ocpp268
- ,&ocpp269
- ,&ocpp270
- ,&ocpp271
- ,&ocpp272
- ,&ocpp273
- ,&ocpp274
- ,&ocpp275
- ,&ocpp276
- ,&ocpp277
- ,&ocpp278
- ,&ocpp279
- ,&ocpp280
- ,&ocpp281
- ,&ocpp282
- ,&ocpp283
- ,&ocpp284
- ,&ocpp285
- ,&ocpp286
- ,&ocpp287
- ,&ocpp288
- ,&ocpp289
- ,&ocpp290
- ,&ocpp291
- ,&ocpp292
- ,&ocpp293
- ,&ocpp294
- ,&ocpp295
- ,&ocpp296
- ,&ocpp297
- ,&ocpp298
- ,&ocpp299
- ,&ocpp300
- ,&ocpp301
- ,&ocpp302
- ,&ocpp303
- ,&ocpp304
- ,&ocpp305
- ,&ocpp306
- ,&ocpp307
- ,&ocpp308
- ,&ocpp309
- ,&ocpp310
- ,&ocpp311
- ,&ocpp312
- ,&ocpp313
- ,&ocpp314
- ,&ocpp315
- ,&ocpp316
- ,&ocpp317
- ,&ocpp318
- ,&ocpp319
- ,&ocpp320
- ,&ocpp321
- ,&ocpp322
- ,&ocpp323
- ,&ocpp324
- ,&ocpp325
- ,&ocpp326
- ,&ocpp327
- ,&ocpp328
- ,&ocpp329
- ,&ocpp330
- ,&ocpp331
- ,&ocpp332
- ,&ocpp333
- ,&ocpp334
- ,&ocpp335
- ,&ocpp336
- ,&ocpp337
- ,&ocpp338
- ,&ocpp339
- ,&ocpp340
- ,&ocpp341
- ,&ocpp342
- ,&ocpp343
- ,&ocpp344
- ,&ocpp345
- ,&ocpp346
- ,&ocpp347
- ,&ocpp348
- ,&ocpp349
- ,&ocpp350
- ,&ocpp351
- ,&ocpp352
- ,&ocpp353
- ,&ocpp354
- ,&ocpp355
- ,&ocpp356
- ,&ocpp357
- ,&ocpp358
- ,&ocpp359
- ,&ocpp360
- ,&ocpp361
- ,&ocpp362
- ,&ocpp363
- ,&ocpp364
- ,&ocpp365
- ,&ocpp366
- ,&ocpp367
- ,&ocpp368
- ,&ocpp369
- ,&ocpp370
- ,&ocpp371
- ,&ocpp372
- ,&ocpp373
- ,&ocpp374
- ,&ocpp375
- ,&ocpp376
- ,&ocpp377
- ,&ocpp378
- ,&ocpp379
- ,&ocpp380
- ,&ocpp381
- ,&ocpp382
- ,&ocpp383
- ,&ocpp384
- ,&ocpp385
- ,&ocpp386
- ,&ocpp387
- ,&ocpp388
- ,&ocpp389
- ,&ocpp390
- ,&ocpp391
- ,&ocpp392
- ,&ocpp393
- ,&ocpp394
- ,&ocpp395
- ,&ocpp396
- ,&ocpp397
- ,&ocpp398
- ,&ocpp399
- ,&ocpp400
- ,&ocpp401
- ,&ocpp402
- ,&ocpp403
- ,&ocpp404
- ,&ocpp405
- ,&ocpp406
- ,&ocpp407
- ,&ocpp408
- ,&ocpp409
- ,&ocpp410
- ,&ocpp411
- ,&ocpp412
- ,&ocpp413
- ,&ocpp414
- ,&ocpp415
- ,&ocpp416
- ,&ocpp417
- ,&ocpp418
- ,&ocpp419
- ,&ocpp420
- ,&ocpp421
- ,&ocpp422
- ,&ocpp423
- ,&ocpp424
- ,&ocpp425
- ,&ocpp426
- ,&ocpp427
- ,&ocpp428
- ,&ocpp429
- ,&ocpp430
- ,&ocpp431
- ,&ocpp432
- ,&ocpp433
- ,&ocpp434
- ,&ocpp435
- ,&ocpp436
- ,&ocpp437
- ,&ocpp438
- ,&ocpp439
- ,&ocpp440
- ,&ocpp441
- ,&ocpp442
- ,&ocpp443
- ,&ocpp444
- ,&ocpp445
- ,&ocpp446
- ,&ocpp447
- ,&ocpp448
- ,&ocpp449
- ,&ocpp450
- ,&ocpp451
- ,&ocpp452
- ,&ocpp453
- ,&ocpp454
- ,&ocpp455
- ,&ocpp456
- ,&ocpp457
- ,&ocpp458
- ,&ocpp459
- ,&ocpp460
- ,&ocpp461
- ,&ocpp462
- ,&ocpp463
- ,&ocpp464
- ,&ocpp465
- ,&ocpp466
- ,&ocpp467
- ,&ocpp468
- ,&ocpp469
- ,&ocpp470
- ,&ocpp471
- ,&ocpp472
- ,&ocpp473
- ,&ocpp474
- ,&ocpp475
- ,&ocpp476
- ,&ocpp477
- ,&ocpp478
- ,&ocpp479
- ,&ocpp480
- ,&ocpp481
- ,&ocpp482
- ,&ocpp483
- ,&ocpp484
- ,&ocpp485
- ,&ocpp486
- ,&oasm1
- ,&oasm2
- ,&oasm3
- ,&oasm4
- ,&oasm5
- ,&oasm6
- ,&oasm7
- ,&oasm8
-} , {&main} , {&exemain1,&exemain2} } ;
+Rule rmain = { { null 
+,&ocpp1
+,&ocpp2
+,&ocpp3
+,&ocpp4
+,&ocpp5
+,&ocpp6
+,&ocpp7
+,&ocpp8
+,&ocpp9
+,&ocpp10
+,&ocpp11
+,&ocpp12
+,&ocpp13
+,&ocpp14
+,&ocpp15
+,&ocpp16
+,&ocpp17
+,&ocpp18
+,&ocpp19
+,&ocpp20
+,&ocpp21
+,&ocpp22
+,&ocpp23
+,&ocpp24
+,&ocpp25
+,&ocpp26
+,&ocpp27
+,&ocpp28
+,&ocpp29
+,&ocpp30
+,&ocpp31
+,&ocpp32
+,&ocpp33
+,&ocpp34
+,&ocpp35
+,&ocpp36
+,&ocpp37
+,&ocpp38
+,&ocpp39
+,&ocpp40
+,&ocpp41
+,&ocpp42
+,&ocpp43
+,&ocpp44
+,&ocpp45
+,&ocpp46
+,&ocpp47
+,&ocpp48
+,&ocpp49
+,&ocpp50
+,&ocpp51
+,&ocpp52
+,&ocpp53
+,&ocpp54
+,&ocpp55
+,&ocpp56
+,&ocpp57
+,&ocpp58
+,&ocpp59
+,&ocpp60
+,&ocpp61
+,&ocpp62
+,&ocpp63
+,&ocpp64
+,&ocpp65
+,&ocpp66
+,&ocpp67
+,&ocpp68
+,&ocpp69
+,&ocpp70
+,&ocpp71
+,&ocpp72
+,&ocpp73
+,&ocpp74
+,&ocpp75
+,&ocpp76
+,&ocpp77
+,&ocpp78
+,&ocpp79
+,&ocpp80
+,&ocpp81
+,&ocpp82
+,&ocpp83
+,&ocpp84
+,&ocpp85
+,&ocpp86
+,&ocpp87
+,&ocpp88
+,&ocpp89
+,&ocpp90
+,&ocpp91
+,&ocpp92
+,&ocpp93
+,&ocpp94
+,&ocpp95
+,&ocpp96
+,&ocpp97
+,&ocpp98
+,&ocpp99
+,&ocpp100
+,&ocpp101
+,&ocpp102
+,&ocpp103
+,&ocpp104
+,&ocpp105
+,&ocpp106
+,&ocpp107
+,&ocpp108
+,&ocpp109
+,&ocpp110
+,&ocpp111
+,&ocpp112
+,&ocpp113
+,&ocpp114
+,&ocpp115
+,&ocpp116
+,&ocpp117
+,&ocpp118
+,&ocpp119
+,&ocpp120
+,&ocpp121
+,&ocpp122
+,&ocpp123
+,&ocpp124
+,&ocpp125
+,&ocpp126
+,&ocpp127
+,&ocpp128
+,&ocpp129
+,&ocpp130
+,&ocpp131
+,&ocpp132
+,&ocpp133
+,&ocpp134
+,&ocpp135
+,&ocpp136
+,&ocpp137
+,&ocpp138
+,&ocpp139
+,&ocpp140
+,&ocpp141
+,&ocpp142
+,&ocpp143
+,&ocpp144
+,&ocpp145
+,&ocpp146
+,&ocpp147
+,&ocpp148
+,&ocpp149
+,&ocpp150
+,&ocpp151
+,&ocpp152
+,&ocpp153
+,&ocpp154
+,&ocpp155
+,&ocpp156
+,&ocpp157
+,&ocpp158
+,&ocpp159
+,&ocpp160
+,&ocpp161
+,&ocpp162
+,&ocpp163
+,&ocpp164
+,&ocpp165
+,&ocpp166
+,&ocpp167
+,&ocpp168
+,&ocpp169
+,&ocpp170
+,&ocpp171
+,&ocpp172
+,&ocpp173
+,&ocpp174
+,&ocpp175
+,&ocpp176
+,&ocpp177
+,&ocpp178
+,&ocpp179
+,&ocpp180
+,&ocpp181
+,&ocpp182
+,&ocpp183
+,&ocpp184
+,&ocpp185
+,&ocpp186
+,&ocpp187
+,&ocpp188
+,&ocpp189
+,&ocpp190
+,&ocpp191
+,&ocpp192
+,&ocpp193
+,&ocpp194
+,&ocpp195
+,&ocpp196
+,&ocpp197
+,&ocpp198
+,&ocpp199
+,&ocpp200
+,&ocpp201
+,&ocpp202
+,&ocpp203
+,&ocpp204
+,&ocpp205
+,&ocpp206
+,&ocpp207
+,&ocpp208
+,&ocpp209
+,&ocpp210
+,&ocpp211
+,&ocpp212
+,&ocpp213
+,&ocpp214
+,&ocpp215
+,&ocpp216
+,&ocpp217
+,&ocpp218
+,&ocpp219
+,&ocpp220
+,&ocpp221
+,&ocpp222
+,&ocpp223
+,&ocpp224
+,&ocpp225
+,&ocpp226
+,&ocpp227
+,&ocpp228
+,&ocpp229
+,&ocpp230
+,&ocpp231
+,&ocpp232
+,&ocpp233
+,&ocpp234
+,&ocpp235
+,&ocpp236
+,&ocpp237
+,&ocpp238
+,&ocpp239
+,&ocpp240
+,&ocpp241
+,&ocpp242
+,&ocpp243
+,&ocpp244
+,&ocpp245
+,&ocpp246
+,&ocpp247
+,&ocpp248
+,&ocpp249
+,&ocpp250
+,&ocpp251
+,&ocpp252
+,&ocpp253
+,&ocpp254
+,&ocpp255
+,&ocpp256
+,&ocpp257
+,&ocpp258
+,&ocpp259
+,&ocpp260
+,&ocpp261
+,&ocpp262
+,&ocpp263
+,&ocpp264
+,&ocpp265
+,&ocpp266
+,&ocpp267
+,&ocpp268
+,&ocpp269
+,&ocpp270
+,&ocpp271
+,&ocpp272
+,&ocpp273
+,&ocpp274
+,&ocpp275
+,&ocpp276
+,&ocpp277
+,&ocpp278
+,&ocpp279
+,&ocpp280
+,&ocpp281
+,&ocpp282
+,&ocpp283
+,&ocpp284
+,&ocpp285
+,&ocpp286
+,&ocpp287
+,&ocpp288
+,&ocpp289
+,&ocpp290
+,&ocpp291
+,&ocpp292
+,&ocpp293
+,&ocpp294
+,&ocpp295
+,&ocpp296
+,&ocpp297
+,&ocpp298
+,&ocpp299
+,&ocpp300
+,&ocpp301
+,&ocpp302
+,&ocpp303
+,&ocpp304
+,&ocpp305
+,&ocpp306
+,&ocpp307
+,&ocpp308
+,&ocpp309
+,&ocpp310
+,&ocpp311
+,&ocpp312
+,&ocpp313
+,&ocpp314
+,&ocpp315
+,&ocpp316
+,&ocpp317
+,&ocpp318
+,&ocpp319
+,&ocpp320
+,&ocpp321
+,&ocpp322
+,&ocpp323
+,&ocpp324
+,&ocpp325
+,&ocpp326
+,&ocpp327
+,&ocpp328
+,&ocpp329
+,&ocpp330
+,&ocpp331
+,&ocpp332
+,&ocpp333
+,&ocpp334
+,&ocpp335
+,&ocpp336
+,&ocpp337
+,&ocpp338
+,&ocpp339
+,&ocpp340
+,&ocpp341
+,&ocpp342
+,&ocpp343
+,&ocpp344
+,&ocpp345
+,&ocpp346
+,&ocpp347
+,&ocpp348
+,&ocpp349
+,&ocpp350
+,&ocpp351
+,&ocpp352
+,&ocpp353
+,&ocpp354
+,&ocpp355
+,&ocpp356
+,&ocpp357
+,&ocpp358
+,&ocpp359
+,&ocpp360
+,&ocpp361
+,&ocpp362
+,&ocpp363
+,&ocpp364
+,&ocpp365
+,&ocpp366
+,&ocpp367
+,&ocpp368
+,&ocpp369
+,&ocpp370
+,&ocpp371
+,&ocpp372
+,&ocpp373
+,&ocpp374
+,&ocpp375
+,&ocpp376
+,&ocpp377
+,&ocpp378
+,&ocpp379
+,&ocpp380
+,&ocpp381
+,&ocpp382
+,&ocpp383
+,&ocpp384
+,&ocpp385
+,&ocpp386
+,&ocpp387
+,&ocpp388
+,&ocpp389
+,&ocpp390
+,&ocpp391
+,&ocpp392
+,&ocpp393
+,&ocpp394
+,&ocpp395
+,&ocpp396
+,&ocpp397
+,&ocpp398
+,&ocpp399
+,&ocpp400
+,&ocpp401
+,&ocpp402
+,&ocpp403
+,&ocpp404
+,&ocpp405
+,&ocpp406
+,&ocpp407
+,&ocpp408
+,&ocpp409
+,&ocpp410
+,&ocpp411
+,&ocpp412
+,&ocpp413
+,&ocpp414
+,&ocpp415
+,&ocpp416
+,&ocpp417
+,&ocpp418
+,&ocpp419
+,&ocpp420
+,&ocpp421
+,&ocpp422
+,&ocpp423
+,&ocpp424
+,&ocpp425
+,&ocpp426
+,&ocpp427
+,&ocpp428
+,&ocpp429
+,&ocpp430
+,&ocpp431
+,&ocpp432
+,&ocpp433
+,&ocpp434
+,&ocpp435
+,&ocpp436
+,&ocpp437
+,&ocpp438
+,&ocpp439
+,&ocpp440
+,&ocpp441
+,&ocpp442
+,&ocpp443
+,&ocpp444
+,&ocpp445
+,&ocpp446
+,&ocpp447
+,&ocpp448
+,&ocpp449
+,&ocpp450
+,&ocpp451
+,&ocpp452
+,&ocpp453
+,&ocpp454
+,&ocpp455
+,&ocpp456
+,&ocpp457
+,&ocpp458
+,&ocpp459
+,&ocpp460
+,&ocpp461
+,&ocpp462
+,&ocpp463
+,&ocpp464
+,&ocpp465
+,&ocpp466
+,&ocpp467
+,&ocpp468
+,&ocpp469
+,&ocpp470
+,&ocpp471
+,&ocpp472
+,&ocpp473
+,&ocpp474
+,&ocpp475
+,&ocpp476
+,&ocpp477
+,&ocpp478
+,&ocpp479
+,&ocpp480
+,&ocpp481
+,&ocpp482
+,&ocpp483
+,&ocpp484
+,&ocpp485
+,&ocpp486
+,&oasm1
+,&oasm2
+,&oasm3
+,&oasm4
+,&oasm5
+,&oasm6
+,&oasm7
+,&oasm8 } , {&main} , {&intargs,&intmain1,&exemain2} } ;
 
-Cmd exemain1 = { 'RM' , "rm -f \""+TARGET+"\"" } ;
+IntCmd intmain1 = { 'RM' , &rm1 } ;
 
-Exe exemain2 = { 'AR '+TARGET , AR , {
-  "r"
- ,TARGET
- ,ocpp1.file
- ,ocpp2.file
- ,ocpp3.file
- ,ocpp4.file
- ,ocpp5.file
- ,ocpp6.file
- ,ocpp7.file
- ,ocpp8.file
- ,ocpp9.file
- ,ocpp10.file
- ,ocpp11.file
- ,ocpp12.file
- ,ocpp13.file
- ,ocpp14.file
- ,ocpp15.file
- ,ocpp16.file
- ,ocpp17.file
- ,ocpp18.file
- ,ocpp19.file
- ,ocpp20.file
- ,ocpp21.file
- ,ocpp22.file
- ,ocpp23.file
- ,ocpp24.file
- ,ocpp25.file
- ,ocpp26.file
- ,ocpp27.file
- ,ocpp28.file
- ,ocpp29.file
- ,ocpp30.file
- ,ocpp31.file
- ,ocpp32.file
- ,ocpp33.file
- ,ocpp34.file
- ,ocpp35.file
- ,ocpp36.file
- ,ocpp37.file
- ,ocpp38.file
- ,ocpp39.file
- ,ocpp40.file
- ,ocpp41.file
- ,ocpp42.file
- ,ocpp43.file
- ,ocpp44.file
- ,ocpp45.file
- ,ocpp46.file
- ,ocpp47.file
- ,ocpp48.file
- ,ocpp49.file
- ,ocpp50.file
- ,ocpp51.file
- ,ocpp52.file
- ,ocpp53.file
- ,ocpp54.file
- ,ocpp55.file
- ,ocpp56.file
- ,ocpp57.file
- ,ocpp58.file
- ,ocpp59.file
- ,ocpp60.file
- ,ocpp61.file
- ,ocpp62.file
- ,ocpp63.file
- ,ocpp64.file
- ,ocpp65.file
- ,ocpp66.file
- ,ocpp67.file
- ,ocpp68.file
- ,ocpp69.file
- ,ocpp70.file
- ,ocpp71.file
- ,ocpp72.file
- ,ocpp73.file
- ,ocpp74.file
- ,ocpp75.file
- ,ocpp76.file
- ,ocpp77.file
- ,ocpp78.file
- ,ocpp79.file
- ,ocpp80.file
- ,ocpp81.file
- ,ocpp82.file
- ,ocpp83.file
- ,ocpp84.file
- ,ocpp85.file
- ,ocpp86.file
- ,ocpp87.file
- ,ocpp88.file
- ,ocpp89.file
- ,ocpp90.file
- ,ocpp91.file
- ,ocpp92.file
- ,ocpp93.file
- ,ocpp94.file
- ,ocpp95.file
- ,ocpp96.file
- ,ocpp97.file
- ,ocpp98.file
- ,ocpp99.file
- ,ocpp100.file
- ,ocpp101.file
- ,ocpp102.file
- ,ocpp103.file
- ,ocpp104.file
- ,ocpp105.file
- ,ocpp106.file
- ,ocpp107.file
- ,ocpp108.file
- ,ocpp109.file
- ,ocpp110.file
- ,ocpp111.file
- ,ocpp112.file
- ,ocpp113.file
- ,ocpp114.file
- ,ocpp115.file
- ,ocpp116.file
- ,ocpp117.file
- ,ocpp118.file
- ,ocpp119.file
- ,ocpp120.file
- ,ocpp121.file
- ,ocpp122.file
- ,ocpp123.file
- ,ocpp124.file
- ,ocpp125.file
- ,ocpp126.file
- ,ocpp127.file
- ,ocpp128.file
- ,ocpp129.file
- ,ocpp130.file
- ,ocpp131.file
- ,ocpp132.file
- ,ocpp133.file
- ,ocpp134.file
- ,ocpp135.file
- ,ocpp136.file
- ,ocpp137.file
- ,ocpp138.file
- ,ocpp139.file
- ,ocpp140.file
- ,ocpp141.file
- ,ocpp142.file
- ,ocpp143.file
- ,ocpp144.file
- ,ocpp145.file
- ,ocpp146.file
- ,ocpp147.file
- ,ocpp148.file
- ,ocpp149.file
- ,ocpp150.file
- ,ocpp151.file
- ,ocpp152.file
- ,ocpp153.file
- ,ocpp154.file
- ,ocpp155.file
- ,ocpp156.file
- ,ocpp157.file
- ,ocpp158.file
- ,ocpp159.file
- ,ocpp160.file
- ,ocpp161.file
- ,ocpp162.file
- ,ocpp163.file
- ,ocpp164.file
- ,ocpp165.file
- ,ocpp166.file
- ,ocpp167.file
- ,ocpp168.file
- ,ocpp169.file
- ,ocpp170.file
- ,ocpp171.file
- ,ocpp172.file
- ,ocpp173.file
- ,ocpp174.file
- ,ocpp175.file
- ,ocpp176.file
- ,ocpp177.file
- ,ocpp178.file
- ,ocpp179.file
- ,ocpp180.file
- ,ocpp181.file
- ,ocpp182.file
- ,ocpp183.file
- ,ocpp184.file
- ,ocpp185.file
- ,ocpp186.file
- ,ocpp187.file
- ,ocpp188.file
- ,ocpp189.file
- ,ocpp190.file
- ,ocpp191.file
- ,ocpp192.file
- ,ocpp193.file
- ,ocpp194.file
- ,ocpp195.file
- ,ocpp196.file
- ,ocpp197.file
- ,ocpp198.file
- ,ocpp199.file
- ,ocpp200.file
- ,ocpp201.file
- ,ocpp202.file
- ,ocpp203.file
- ,ocpp204.file
- ,ocpp205.file
- ,ocpp206.file
- ,ocpp207.file
- ,ocpp208.file
- ,ocpp209.file
- ,ocpp210.file
- ,ocpp211.file
- ,ocpp212.file
- ,ocpp213.file
- ,ocpp214.file
- ,ocpp215.file
- ,ocpp216.file
- ,ocpp217.file
- ,ocpp218.file
- ,ocpp219.file
- ,ocpp220.file
- ,ocpp221.file
- ,ocpp222.file
- ,ocpp223.file
- ,ocpp224.file
- ,ocpp225.file
- ,ocpp226.file
- ,ocpp227.file
- ,ocpp228.file
- ,ocpp229.file
- ,ocpp230.file
- ,ocpp231.file
- ,ocpp232.file
- ,ocpp233.file
- ,ocpp234.file
- ,ocpp235.file
- ,ocpp236.file
- ,ocpp237.file
- ,ocpp238.file
- ,ocpp239.file
- ,ocpp240.file
- ,ocpp241.file
- ,ocpp242.file
- ,ocpp243.file
- ,ocpp244.file
- ,ocpp245.file
- ,ocpp246.file
- ,ocpp247.file
- ,ocpp248.file
- ,ocpp249.file
- ,ocpp250.file
- ,ocpp251.file
- ,ocpp252.file
- ,ocpp253.file
- ,ocpp254.file
- ,ocpp255.file
- ,ocpp256.file
- ,ocpp257.file
- ,ocpp258.file
- ,ocpp259.file
- ,ocpp260.file
- ,ocpp261.file
- ,ocpp262.file
- ,ocpp263.file
- ,ocpp264.file
- ,ocpp265.file
- ,ocpp266.file
- ,ocpp267.file
- ,ocpp268.file
- ,ocpp269.file
- ,ocpp270.file
- ,ocpp271.file
- ,ocpp272.file
- ,ocpp273.file
- ,ocpp274.file
- ,ocpp275.file
- ,ocpp276.file
- ,ocpp277.file
- ,ocpp278.file
- ,ocpp279.file
- ,ocpp280.file
- ,ocpp281.file
- ,ocpp282.file
- ,ocpp283.file
- ,ocpp284.file
- ,ocpp285.file
- ,ocpp286.file
- ,ocpp287.file
- ,ocpp288.file
- ,ocpp289.file
- ,ocpp290.file
- ,ocpp291.file
- ,ocpp292.file
- ,ocpp293.file
- ,ocpp294.file
- ,ocpp295.file
- ,ocpp296.file
- ,ocpp297.file
- ,ocpp298.file
- ,ocpp299.file
- ,ocpp300.file
- ,ocpp301.file
- ,ocpp302.file
- ,ocpp303.file
- ,ocpp304.file
- ,ocpp305.file
- ,ocpp306.file
- ,ocpp307.file
- ,ocpp308.file
- ,ocpp309.file
- ,ocpp310.file
- ,ocpp311.file
- ,ocpp312.file
- ,ocpp313.file
- ,ocpp314.file
- ,ocpp315.file
- ,ocpp316.file
- ,ocpp317.file
- ,ocpp318.file
- ,ocpp319.file
- ,ocpp320.file
- ,ocpp321.file
- ,ocpp322.file
- ,ocpp323.file
- ,ocpp324.file
- ,ocpp325.file
- ,ocpp326.file
- ,ocpp327.file
- ,ocpp328.file
- ,ocpp329.file
- ,ocpp330.file
- ,ocpp331.file
- ,ocpp332.file
- ,ocpp333.file
- ,ocpp334.file
- ,ocpp335.file
- ,ocpp336.file
- ,ocpp337.file
- ,ocpp338.file
- ,ocpp339.file
- ,ocpp340.file
- ,ocpp341.file
- ,ocpp342.file
- ,ocpp343.file
- ,ocpp344.file
- ,ocpp345.file
- ,ocpp346.file
- ,ocpp347.file
- ,ocpp348.file
- ,ocpp349.file
- ,ocpp350.file
- ,ocpp351.file
- ,ocpp352.file
- ,ocpp353.file
- ,ocpp354.file
- ,ocpp355.file
- ,ocpp356.file
- ,ocpp357.file
- ,ocpp358.file
- ,ocpp359.file
- ,ocpp360.file
- ,ocpp361.file
- ,ocpp362.file
- ,ocpp363.file
- ,ocpp364.file
- ,ocpp365.file
- ,ocpp366.file
- ,ocpp367.file
- ,ocpp368.file
- ,ocpp369.file
- ,ocpp370.file
- ,ocpp371.file
- ,ocpp372.file
- ,ocpp373.file
- ,ocpp374.file
- ,ocpp375.file
- ,ocpp376.file
- ,ocpp377.file
- ,ocpp378.file
- ,ocpp379.file
- ,ocpp380.file
- ,ocpp381.file
- ,ocpp382.file
- ,ocpp383.file
- ,ocpp384.file
- ,ocpp385.file
- ,ocpp386.file
- ,ocpp387.file
- ,ocpp388.file
- ,ocpp389.file
- ,ocpp390.file
- ,ocpp391.file
- ,ocpp392.file
- ,ocpp393.file
- ,ocpp394.file
- ,ocpp395.file
- ,ocpp396.file
- ,ocpp397.file
- ,ocpp398.file
- ,ocpp399.file
- ,ocpp400.file
- ,ocpp401.file
- ,ocpp402.file
- ,ocpp403.file
- ,ocpp404.file
- ,ocpp405.file
- ,ocpp406.file
- ,ocpp407.file
- ,ocpp408.file
- ,ocpp409.file
- ,ocpp410.file
- ,ocpp411.file
- ,ocpp412.file
- ,ocpp413.file
- ,ocpp414.file
- ,ocpp415.file
- ,ocpp416.file
- ,ocpp417.file
- ,ocpp418.file
- ,ocpp419.file
- ,ocpp420.file
- ,ocpp421.file
- ,ocpp422.file
- ,ocpp423.file
- ,ocpp424.file
- ,ocpp425.file
- ,ocpp426.file
- ,ocpp427.file
- ,ocpp428.file
- ,ocpp429.file
- ,ocpp430.file
- ,ocpp431.file
- ,ocpp432.file
- ,ocpp433.file
- ,ocpp434.file
- ,ocpp435.file
- ,ocpp436.file
- ,ocpp437.file
- ,ocpp438.file
- ,ocpp439.file
- ,ocpp440.file
- ,ocpp441.file
- ,ocpp442.file
- ,ocpp443.file
- ,ocpp444.file
- ,ocpp445.file
- ,ocpp446.file
- ,ocpp447.file
- ,ocpp448.file
- ,ocpp449.file
- ,ocpp450.file
- ,ocpp451.file
- ,ocpp452.file
- ,ocpp453.file
- ,ocpp454.file
- ,ocpp455.file
- ,ocpp456.file
- ,ocpp457.file
- ,ocpp458.file
- ,ocpp459.file
- ,ocpp460.file
- ,ocpp461.file
- ,ocpp462.file
- ,ocpp463.file
- ,ocpp464.file
- ,ocpp465.file
- ,ocpp466.file
- ,ocpp467.file
- ,ocpp468.file
- ,ocpp469.file
- ,ocpp470.file
- ,ocpp471.file
- ,ocpp472.file
- ,ocpp473.file
- ,ocpp474.file
- ,ocpp475.file
- ,ocpp476.file
- ,ocpp477.file
- ,ocpp478.file
- ,ocpp479.file
- ,ocpp480.file
- ,ocpp481.file
- ,ocpp482.file
- ,ocpp483.file
- ,ocpp484.file
- ,ocpp485.file
- ,ocpp486.file
- ,oasm1.file
- ,oasm2.file
- ,oasm3.file
- ,oasm4.file
- ,oasm5.file
- ,oasm6.file
- ,oasm7.file
- ,oasm8.file
-} } ;
+Rm rm1 = { { TARGET } } ;
+
+Exe exemain2 = { 'AR '+TARGET , AR , { 'r' , TARGET , ARGS } } ;
 
 include <.vmobj/deps.vm.ddl>
