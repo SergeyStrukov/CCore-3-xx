@@ -182,3 +182,38 @@ IntCmd intdep4 = { 'RM DEP' , &rmdep4 } ;
 
 Rm rmdep4 = { { OBJ_PATH+"/main.dep" } } ;
 
+text ARGS = '@'+OBJ_PATH+'/target.args' ;
+
+IntCmd intargs = { 'ARGS' , &echoargs } ;
+
+Echo echoargs = { { 
+ '"'+ocpp1.file+"\"\n"
+,'"'+ocpp2.file+"\"\n"
+,'"'+ocpp3.file+"\"\n"
+,'"'+ocpp4.file+"\"\n" } , OBJ_PATH+'/target.args' } ;
+
+Target main = { 'main' , TARGET } ;
+
+Rule rmain = { { core_ptr 
+,&ocpp1
+,&ocpp2
+,&ocpp3
+,&ocpp4 } , {&main} , {&intargs,&exemain} } ;
+
+Exe exemain = { 'LD '+TARGET , LD , {
+  ARGS
+ ,"-Wl,-s"
+ ,"../../Target/WIN32utf8/CCore.a"
+ ,"-lws2_32"
+ ,"-lgmp"
+ ,"-lgdi32"
+ ,"-lfreetype"
+ ,"-o"
+ ,TARGET
+} } ;
+
+Target core = { 'CCore' , "../../Target/WIN32utf8/CCore.a" } ;
+
+Target *core_ptr = &core ;
+
+include <.obj/deps.vm.ddl>

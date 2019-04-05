@@ -671,8 +671,6 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
                        } );
   }
 
-#if 0
-
   // target
 
   {
@@ -684,13 +682,13 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
                      cpp_list.apply( [&] (ulen ind,FileName)
                                          {
-                                          Printf(out,"#;'\"'+ocpp#;.file+\"\\\"\\n\"",stem,ind);
+                                          Printf(out,"#;'\"'+ocpp#;.file+#;",stem,ind,DDLString("\"\n"_c));
 
                                          } );
 
                      asm_list.apply( [&] (ulen ind,FileName)
                                          {
-                                          Printf(out,"#;'\"'+oasm#;.file+\"\\\"\\n\"",stem,ind);
+                                          Printf(out,"#;'\"'+oasm#;.file+#;",stem,ind,DDLString("\"\n"_c));
 
                                          } );
                     } ;
@@ -726,21 +724,17 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
     {
      Putobj(out,"{&intargs,&exemain} } ;\n\n"_c);
 
-     auto func1 = [&] (auto &out)
-                      {
-                       auto psrc = [&] (auto &out) { Putobj(out,"ARGS"_c); } ;
+     auto psrc = [&] (auto &out) { Putobj(out,"ARGS"_c); } ;
 
-                       auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
+     auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
-                       printList(out,tools->LDOPT.getRange(),psrc,pdst);
+     auto func = [&] (auto &out) { printList(out,tools->LDOPT.getRange(),psrc,pdst); } ;
 
-                      } ;
+     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func));
 
-     Printf(out,"Exe exemain = { 'LD '+TARGET , LD , #; } ;\n\n",PrintBy(func1));
+     auto corefunc = [&] (auto &out) { printDDLString(out,"#CCORE_ROOT;/Target/#CCORE_TARGET;/CCore.a"_c); } ;
 
-     auto func2 = [&] (auto &out) { printDDLString(out,"#CCORE_ROOT;/Target/#CCORE_TARGET;"); } ;
-
-     Printf(out,"Target core = { 'CCore' , #;+'/CCore.a' } ;\n\n",PrintBy(func2));
+     Printf(out,"Target core = { 'CCore' , #; } ;\n\n",PrintBy(corefunc));
 
      Putobj(out,"Target *core_ptr = &core ;\n\n"_c);
     }
@@ -763,10 +757,10 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
   // inc dep
 
   {
-   Printf(out,"include <#;/deps.vm.ddl>\n",StrLen(param->OBJ_PATH));
-  }
+   auto func = [&] (auto &out) { printText(out,StrLen(param->OBJ_PATH)); } ;
 
-#endif
+   Printf(out,"include <#;/deps.vm.ddl>\n",PrintBy(func));
+  }
  }
 
 void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
