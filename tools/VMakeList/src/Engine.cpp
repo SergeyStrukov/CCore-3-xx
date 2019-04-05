@@ -616,56 +616,61 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
   // target
 
   {
+   Putobj(out,"text ARGS = '@'+OBJ_PATH+'/target.args' ;\n\n"_c);
+
+   auto func1 = [&] (auto &out)
+                    {
+                     PrintFirst stem("\n "_c,"\n+"_c);
+
+                     cpp_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"#;'\"'+ocpp#;.file+\"\\\"\\n\"",stem,ind);
+
+                                         } );
+
+                     asm_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"#;'\"'+oasm#;.file+\"\\\"\\n\"",stem,ind);
+
+                                         } );
+                    } ;
+
+   Printf(out,"text arglist = #; ;\n\n",PrintBy(func1));
+
+   Putobj(out,"IntCmd intargs = { 'ARGS' , &echoargs } ;\n\n"_c);
+
+   Printf(out,"Echo echoargs = { arglist , OBJ_PATH+\'/target.args\' } ;\n\n");
+
    Putobj(out,"Target main = { 'main' , TARGET } ;\n\n"_c);
 
-   auto func = [&] (auto &out)
-                   {
-                    out.put('{');
+   auto func2 = [&] (auto &out)
+                    {
+                     cpp_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"\n,&ocpp#;",ind);
 
-                    PrintFirst stem("\n  "_c,"\n ,"_c);
+                                         } );
 
-                    cpp_list.apply( [&] (ulen ind,FileName)
-                                        {
-                                         Printf(out,"#;&ocpp#;",stem,ind);
+                     asm_list.apply( [&] (ulen ind,FileName)
+                                         {
+                                          Printf(out,"\n,&oasm#;",ind);
 
-                                        } );
+                                         } );
 
-                    asm_list.apply( [&] (ulen ind,FileName)
-                                        {
-                                         Printf(out,"#;&oasm#;",stem,ind);
+                    } ;
 
-                                        } );
-
-                    out.put('\n');
-                    out.put('}');
-
-                   } ;
-
-   Printf(out,"Rule rmain = { #; , {&main} , ",PrintBy(func));
+   Printf(out,"Rule rmain = { { null #; } , {&main} , ",PrintBy(func2));
   }
 
   // ld
 
   if( param->target==TargetConsole || param->target==TargetDesktop )
     {
-     Putobj(out,"{&exemain} } ;\n\n"_c);
+     Putobj(out,"{&intargs,&exemain} } ;\n\n"_c);
 
      auto func = [&] (auto &out)
                      {
-                      auto psrc = [&] (auto &out,PrintFirst &stem)
-                                      {
-                                       cpp_list.apply( [&] (ulen ind,FileName)
-                                                           {
-                                                            Printf(out,"#;ocpp#;.file",stem,ind);
-
-                                                           } );
-
-                                       asm_list.apply( [&] (ulen ind,FileName)
-                                                           {
-                                                            Printf(out,"#;oasm#;.file",stem,ind);
-
-                                                           } );
-                                      } ;
+                      auto psrc = [&] (auto &out) { Putobj(out,"ARGS"_c); } ;
 
                       auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
 
@@ -680,38 +685,13 @@ void Engine::genProj(PrinterType &out,FileList &cpp_list,FileList &asm_list)
 
   if( param->target==TargetLib || param->target==TargetCCore )
     {
-     Putobj(out,"{&intmain1,&exemain2} } ;\n\n"_c);
+     Putobj(out,"{&intargs,&intmain1,&exemain2} } ;\n\n"_c);
 
      Putobj(out,"IntCmd intmain1 = { 'RM' , &rm1 } ;\n\n"_c);
 
      Putobj(out,"Rm rm1 = { { TARGET } } ;\n\n"_c);
 
-     auto func = [&] (auto &out)
-                     {
-                      auto psrc = [&] (auto &out,PrintFirst &stem)
-                                      {
-                                       cpp_list.apply( [&] (ulen ind,FileName)
-                                                           {
-                                                            Printf(out,"#;ocpp#;.file",stem,ind);
-
-                                                           } );
-
-                                       asm_list.apply( [&] (ulen ind,FileName)
-                                                           {
-                                                            Printf(out,"#;oasm#;.file",stem,ind);
-
-                                                           } );
-                                      } ;
-
-                      auto pdst = [&] (auto &out) { Putobj(out,"TARGET"_c); } ;
-
-                      StrLen temp[]={"r"_c,"#DST;"_c,"#SRC;"_c};
-
-                      printList(out,Range(temp),psrc,pdst);
-
-                     } ;
-
-     Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , #; } ;\n\n",PrintBy(func));
+     Printf(out,"Exe exemain2 = { 'AR '+TARGET , AR , { 'r' , TARGET , ARGS } } ;\n\n");
     }
 
   // inc dep

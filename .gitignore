@@ -10,6 +10,7 @@ ARMLog.txt
 .eclipse/*
 CCore.book.vol
 deps.vm.ddl
+*.args
 
 # vtools/Aspect/docs/*
 

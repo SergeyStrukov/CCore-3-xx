@@ -166,20 +166,28 @@ Exe execpp4 = { "CC main.cpp" , CC , {
  ,OBJ_PATH+"/main.o"
 } } ;
 
+text ARGS = '@'+OBJ_PATH+'/target.args' ;
+
+text arglist = 
+ '"'+ocpp1.file+"\"\n"
++'"'+ocpp2.file+"\"\n"
++'"'+ocpp3.file+"\"\n"
++'"'+ocpp4.file+"\"\n" ;
+
+IntCmd intargs = { 'ARGS' , &echoargs } ;
+
+Echo echoargs = { arglist , OBJ_PATH+'/target.args' } ;
+
 Target main = { 'main' , TARGET } ;
 
-Rule rmain = { {
-  &ocpp1
- ,&ocpp2
- ,&ocpp3
- ,&ocpp4
-} , {&main} , {&exemain} } ;
+Rule rmain = { { null 
+,&ocpp1
+,&ocpp2
+,&ocpp3
+,&ocpp4 } , {&main} , {&intargs,&exemain} } ;
 
 Exe exemain = { 'LD '+TARGET , LD , {
-  ocpp1.file
- ,ocpp2.file
- ,ocpp3.file
- ,ocpp4.file
+  ARGS
  ,"-Wl,-s"
  ,"../.."+"/Target/"+"WIN32utf8"+"/CCore.a"
  ,"-lws2_32"
