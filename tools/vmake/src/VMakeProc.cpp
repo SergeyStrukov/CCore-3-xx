@@ -139,6 +139,41 @@ bool DataProc::checkOlder(StrLen dst,StrLen src)
   return file_proc.checkOlder(Range(wdir),dst,src);
  }
 
+auto DataProc::findNode(StrLen file) -> TimeNode *
+ {
+  StrKey key(file);
+
+  TreeAlgo::PrepareIns prepare(root,key);
+
+  if( prepare.found ) return prepare.found;
+
+  TimeNode *node=pool.create<TimeNode>();
+
+  node->time=file_proc.getFileTime(Range(wdir),file);
+
+  prepare.complete(node);
+
+  return node;
+ }
+
+CmpFileTimeType DataProc::getFileTime(TypeDef::Target *obj)
+ {
+  auto *rec=getRec(obj);
+
+  if( auto *node=rec->time_node ) return node->time;
+
+  auto *node=findNode(obj->file);
+
+  rec->time_node=node;
+
+  return node->time;
+ }
+
+bool DataProc::checkOlderCache(TypeDef::Target *dst,TypeDef::Target *src)
+ {
+  return getFileTime(dst) < getFileTime(src) ;
+ }
+
 bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile)
  {
   StrLen dst_file=dst->file;
@@ -161,7 +196,7 @@ bool DataProc::checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile)
        }
      else
        {
-        if( checkOlder(dst_file,src_file) )
+        if( nofile? checkOlderCache(dst,src) : checkOlder(dst_file,src_file) )
           {
            Printf(Con,"--> #.q; < #.q;\n",dst_file,src_file);
 

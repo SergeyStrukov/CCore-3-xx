@@ -240,6 +240,11 @@ class FileProc : NoCopy
      return intproc.checkExist(wdir,dst);
     }
 
+   CmpFileTimeType getFileTime(StrLen wdir,StrLen file)
+    {
+     return intproc.getFileTime(wdir,file);
+    }
+
    bool checkOlder(StrLen wdir,StrLen dst,StrLen src) // dst.noexist OR dst.time < src.time
     {
      return intproc.checkOlder(wdir,dst,src);

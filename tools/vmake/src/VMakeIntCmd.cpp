@@ -129,15 +129,16 @@ bool IntCmdProc::checkExist(StrLen wdir,StrLen dst)
   return fs.getFileType(dst1.get())==FileType_file;
  }
 
+CmpFileTimeType IntCmdProc::getFileTime(StrLen wdir,StrLen file)
+ {
+  BuildFileName file1(wdir,file);
+
+  return fs.getFileUpdateTime(file1.get());
+ }
+
 bool IntCmdProc::checkOlder(StrLen wdir,StrLen dst,StrLen src)
  {
-  BuildFileName dst1(wdir,dst);
-  BuildFileName src1(wdir,src);
-
-  auto dst_time=fs.getFileUpdateTime(dst1.get());
-  auto src_time=fs.getFileUpdateTime(src1.get());
-
-  return dst_time<src_time;
+  return getFileTime(wdir,dst) < getFileTime(wdir,src) ;
  }
 
  // commands

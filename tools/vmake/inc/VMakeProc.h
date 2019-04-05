@@ -21,6 +21,8 @@
 #include <CCore/inc/String.h>
 #include <CCore/inc/Array.h>
 #include <CCore/inc/List.h>
+#include <CCore/inc/StrKey.h>
+#include <CCore/inc/Tree.h>
 #include <CCore/inc/ElementPool.h>
 
 #include <CCore/inc/ddl/DDLMapTypes.h>
@@ -156,6 +158,15 @@ class DataProc : public Funchor_nocopy
    StrLen file_name;
    StrLen wdir;
 
+   struct TimeNode : NoCopy
+    {
+     RBTreeLink<TimeNode,StrKey> link;
+
+     CmpFileTimeType time;
+    };
+
+   using TreeAlgo = RBTreeLink<TimeNode,StrKey>::Algo<&TimeNode::link,const StrKey &> ;
+
    enum State
     {
      StateInitial,
@@ -171,9 +182,13 @@ class DataProc : public Funchor_nocopy
      List<TypeDef::Dep *> deps;
 
      State state = StateInitial ;
+
+     TimeNode *time_node = 0 ;
     };
 
    DynArray<TRec *> trecs;
+
+   TreeAlgo::Root root;
 
   private:
 
@@ -205,6 +220,12 @@ class DataProc : public Funchor_nocopy
    bool checkExist(StrLen dst);
 
    bool checkOlder(StrLen dst,StrLen src);
+
+   TimeNode * findNode(StrLen file);
+
+   CmpFileTimeType getFileTime(TypeDef::Target *obj);
+
+   bool checkOlderCache(TypeDef::Target *dst,TypeDef::Target *src);
 
    bool checkOlder(TypeDef::Target *dst,TypeDef::Target *src,bool nofile);
 

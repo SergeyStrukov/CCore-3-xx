@@ -139,6 +139,8 @@ class IntCmdProc : NoCopy
 
    bool checkExist(StrLen wdir,StrLen dst);
 
+   CmpFileTimeType getFileTime(StrLen wdir,StrLen file);
+
    bool checkOlder(StrLen wdir,StrLen dst,StrLen src); // dst.noexist OR dst.time < src.time
 
    // commands
