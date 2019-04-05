@@ -13,8 +13,6 @@
 
 text CCoreRoot = "../.." ;
 
-text CCoreTarget = "WIN32utf8" ;
-
 Param Data = {
 
 .OBJ_PATH = ".obj" ,
