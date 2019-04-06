@@ -25,6 +25,20 @@ namespace Sys {
 
 namespace Private_SysFileSystem {
 
+/* Wildcard() */
+
+StrLen Wildcard(StrLen dir)
+ {
+  if( +dir )
+    {
+     char ch=dir.back(1);
+
+     if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return "*"_c;
+    }
+
+  return "/*"_c;
+ }
+
 /* class EmptyDirEngine */
 
 class EmptyDirEngine : NoCopy
@@ -184,7 +198,7 @@ void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
 
   FileName path;
 
-  if( auto fe=path.prepare(dir_name,"/*"_c) )
+  if( auto fe=path.prepare(dir_name,Wildcard(dir_name)) )
     {
      error=fe;
     }

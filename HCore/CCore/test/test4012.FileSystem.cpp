@@ -133,7 +133,9 @@ void test2()
  {
   FileSystem fs;
 
-  ShowDir(fs,"C:");
+  ShowDir(fs,"E:/");
+  ShowDir(fs,"E:.");
+  ShowDir(fs,"E:");
  }
 
 } // namespace Private_4012
