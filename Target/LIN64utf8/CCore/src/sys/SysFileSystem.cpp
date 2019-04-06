@@ -43,6 +43,13 @@ namespace Sys {
 
 namespace Private_SysFileSystem {
 
+/* functions */
+
+StrLen Dotcard(StrLen dir)
+ {
+  return PathIsBase(dir)? "."_c : ""_c ;
+ }
+
 /* class EmptyDirEngine */
 
 class EmptyDirEngine : NoCopy
@@ -299,6 +306,14 @@ using namespace Private_SysFileSystem;
 
 void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
  {
+  if( !dir_name )
+    {
+     dir=0;
+     error=FileError_BadName;
+
+     return;
+    }
+
   FileName path;
 
   if( path.set(dir_name) )
@@ -474,9 +489,11 @@ FileError FileSystem::createDir(StrLen dir_name) noexcept
 
 FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
  {
+  if( !dir_name ) return FileError_BadName;
+
   FileName path;
 
-  if( !path.set(dir_name) ) return FileError_TooLongPath;
+  if( !path.set(dir_name,Dotcard(dir_name)) ) return FileError_TooLongPath;
 
   if( recursive ) return DeleteDirRecursive(StrLen(path,dir_name.len));
 
