@@ -18,8 +18,25 @@
 
 #include <CCore/inc/MakeString.h>
 #include <CCore/inc/GenFile.h>
+#include <CCore/inc/Path.h>
 
 namespace CCore {
+
+/* DirPlusFile() */
+
+template <class Func>
+auto DirPlusFile(StrLen dir,StrLen file,Func add)
+ {
+  if( !dir ) return add(file);
+
+  char ch=dir.back(1);
+
+  if( PathBase::IsColon(ch) || PathBase::IsSlash(ch) ) return add(dir,file);
+
+  if( PathBase::IsDot(ch) && dir.len>=2 && PathBase::IsSlash(dir.back(2)) ) return add(dir.inner(0,1),file);
+
+  return add(dir,'/',file);
+ };
 
 /* classes */
 

@@ -31,23 +31,19 @@ bool MakeFileName::HasNoExt(StrLen file_name)
 
 void MakeFileName::make(StrLen dir_name,StrLen file_name)
  {
-  if( +dir_name )
-    {
-     char ch=dir_name.back(1);
+  struct AddFunc
+   {
+    MakeFileName *obj;
 
-     if( PathBase::IsColon(ch) || PathBase::IsSlash(ch) )
-       {
-        add(dir_name,file_name);
-       }
-     else
-       {
-        add(dir_name,'/',file_name);
-       }
-    }
-  else
-    {
-     add(file_name);
-    }
+    void operator () (StrLen file) { obj->add(file); }
+
+    void operator () (StrLen dir,StrLen file) { obj->add(dir,file); }
+
+    void operator () (StrLen dir,char ch,StrLen file) { obj->add(dir,ch,file); }
+
+   } addfunc{this};
+
+  DirPlusFile(dir_name,file_name,addfunc);
 
   if( !(*this) )
     {

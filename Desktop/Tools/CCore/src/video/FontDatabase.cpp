@@ -23,7 +23,7 @@
 #include <CCore/inc/PrintStem.h>
 #include <CCore/inc/CharProp.h>
 
-#include <CCore/inc/MakeString.h>
+#include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/DirTreeRun.h>
 #include <CCore/inc/Print.h>
@@ -129,16 +129,17 @@ StrLen FontDatabase::Pretext()
 
 String FontDatabase::CatPath(StrLen path,StrLen name)
  {
-  if( path.len>=2 && PathBase::IsSlash(path.back(2)) && PathBase::IsDot(path.back(1)) )
-    {
-     path.len--;
+  struct AddFunc
+   {
+    String operator () (StrLen file) { return StringSum("/"_c,file); } // bad case, should not happen
 
-     return StringCat(path,name);
-    }
-  else
-    {
-     return StringCat(path,"/"_c,name);
-    }
+    String operator () (StrLen dir,StrLen file) { return StringSum(dir,file); }
+
+    String operator () (StrLen dir,char ch,StrLen file) { return StringSum(dir,Single(ch),file); }
+
+   } addfunc;
+
+  return DirPlusFile(path,name,addfunc);
  }
 
 void FontDatabase::Append(Collector<FontInfo> &obj,StrLen path,StrLen name)
