@@ -42,6 +42,23 @@ StrLen SuffixExt(StrLen file_name)
   return split3.ext;
  }
 
+bool PathIsRooted(StrLen path)
+ {
+  return +path && PathBase::IsSlash(path[0]) ;
+ }
+
+bool PathIsRel(StrLen path)
+ {
+  SplitDev split_dev(path);
+
+  return !split_dev && !PathIsRooted(path) ;
+ }
+
+bool PathIsDev(StrLen path)
+ {
+  return +path && PathBase::IsColon(path.back(1)) ;
+ }
+
 /* struct PathBase */
 
 void PathBase::TurnSlash(PtrLen<char> name)

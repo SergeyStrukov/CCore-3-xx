@@ -15,6 +15,7 @@
 
 #include <CCore/inc/ForLoop.h>
 #include <CCore/inc/Path.h>
+#include <CCore/inc/MakeFileName.h>
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/Exception.h>
@@ -433,7 +434,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Exe *cmd)
     {
      try
        {
-        BuildFileName wdir1(wdir,new_wdir);
+        WDirFileName wdir1(wdir,new_wdir);
 
         return Execute(exe_file,wdir1.get(),args,env);
        }
@@ -462,7 +463,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::Cmd *cmd)
     {
      try
        {
-        BuildFileName wdir1(wdir,new_wdir);
+        WDirFileName wdir1(wdir,new_wdir);
 
         return Command(wdir1.get(),cmdline,env);
        }
@@ -493,7 +494,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::VMake *cmd)
        {
         LockUse lock(level);
 
-        BuildFileName wdir1(wdir,new_wdir);
+        WDirFileName wdir1(wdir,new_wdir);
 
         return VMake(*this,file_name,target,wdir1.get());
        }
@@ -527,7 +528,7 @@ int FileProc::exeCmd(StrLen wdir,TypeDef::IntCmd *cmd)
 
   if( +new_wdir )
     {
-     BuildFileName wdir1(wdir,new_wdir);
+     WDirFileName wdir1(wdir,new_wdir);
 
      cmd->cmd.getPtr().apply( [&] (auto *cmd) { if( cmd ) status=exeCmd(wdir1.get(),cmd); } );
     }
@@ -572,7 +573,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Exe *cmd,PExeProc::CompleteExe comp
     {
      try
        {
-        BuildFileName wdir1(wdir,new_wdir);
+        WDirFileName wdir1(wdir,new_wdir);
 
         pexe->execute(exe_file,wdir1.get(),args,env,complete);
        }
@@ -603,7 +604,7 @@ void FileProc::startCmd(StrLen wdir,TypeDef::Cmd *cmd,PExeProc::CompleteExe comp
     {
      try
        {
-        BuildFileName wdir1(wdir,new_wdir);
+        WDirFileName wdir1(wdir,new_wdir);
 
         return pexe->command(wdir1.get(),cmdline,env,complete);
        }

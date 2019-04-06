@@ -120,6 +120,7 @@ OBJ_LIST = \
 .obj/Exception.o \
 .obj/ExceptionFrame.o \
 .obj/ExceptionType.o \
+.obj/ExpandWildcard.o \
 .obj/FFTMul.o \
 .obj/FastMutex.o \
 .obj/FeedBuf.o \
@@ -610,6 +611,7 @@ ASM_LIST = \
 .obj/Exception.s \
 .obj/ExceptionFrame.s \
 .obj/ExceptionType.s \
+.obj/ExpandWildcard.s \
 .obj/FFTMul.s \
 .obj/FastMutex.s \
 .obj/FeedBuf.s \
@@ -1100,6 +1102,7 @@ DEP_LIST = \
 .obj/Exception.dep \
 .obj/ExceptionFrame.dep \
 .obj/ExceptionType.dep \
+.obj/ExpandWildcard.dep \
 .obj/FFTMul.dep \
 .obj/FastMutex.dep \
 .obj/FeedBuf.dep \
@@ -1842,6 +1845,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ExceptionType.o : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/ExpandWildcard.o : ../../HCore/CCore/src/./ExpandWildcard.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FFTMul.o : ../../Applied/CCore/src/./math/FFTMul.cpp
@@ -3307,6 +3313,9 @@ include $(RULES_FILE)
 .obj/ExceptionType.s : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ExpandWildcard.s : ../../HCore/CCore/src/./ExpandWildcard.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/FFTMul.s : ../../Applied/CCore/src/./math/FFTMul.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4769,6 +4778,9 @@ include $(RULES_FILE)
 
 .obj/ExceptionType.dep : ../../Simple/CCore/src/./gadget/ExceptionType.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ExceptionType.o $< -MF $@
+
+.obj/ExpandWildcard.dep : ../../HCore/CCore/src/./ExpandWildcard.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ExpandWildcard.o $< -MF $@
 
 .obj/FFTMul.dep : ../../Applied/CCore/src/./math/FFTMul.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FFTMul.o $< -MF $@

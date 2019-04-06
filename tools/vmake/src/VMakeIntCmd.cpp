@@ -13,102 +13,14 @@
 
 #include <inc/VMakeIntCmd.h>
 
+#include <CCore/inc/MakeFileName.h>
 #include <CCore/inc/Path.h>
-#include <CCore/inc/ScanRange.h>
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/DecodeFile.h>
 
 namespace App {
 namespace VMake {
-
-/* struct CheckWildcard */
-
-CheckWildcard::CheckWildcard(StrLen path)
- {
-  SplitPath split1(path);
-
-  SplitName split2(split1.path);
-
-  ScanStr scan(split2.name, [] (char ch) { return ch=='*' || ch=='?' ; } );
-
-  if( +scan.next )
-    {
-     dir=path.prefix(split1.dev.len+split2.path.len);
-
-     file=split2.name;
-
-     ok=true;
-    }
-  else
-    {
-     ok=false;
-    }
- }
-
-/* class WildcardCursor */
-
-WildcardCursor::WildcardCursor(FileSystem &fs,StrLen dir_,StrLen file)
- : dir(dir_),
-   str(dir,"."_c),
-   cur(fs,str.get()),
-   filter(file)
- {
- }
-
-WildcardCursor::~WildcardCursor()
- {
- }
-
-bool WildcardCursor::next()
- {
-  while( cur.next() )
-    {
-     StrLen file=cur.getFileName();
-
-     if( cur.getFileType()==FileType_file && filter(file) )
-       {
-        str(dir,file);
-
-        return true;
-       }
-    }
-
-  return false;
- }
-
-/* class BuildFileName */
-
-bool BuildFileName::IsRooted(StrLen name)
- {
-  return name.len && PathBase::IsSlash(name[0]) ;
- }
-
-bool BuildFileName::IsRel(StrLen file)
- {
-  SplitDev split_dev(file);
-
-  return !split_dev && !IsRooted(file) ;
- }
-
-BuildFileName::BuildFileName(StrLen wdir,StrLen file)
- {
-  if( !wdir )
-    {
-     result=file;
-    }
-  else
-    {
-     if( IsRel(file) )
-       {
-        result=buf(wdir,file);
-       }
-     else
-       {
-        result=file;
-       }
-    }
- }
 
 /* class IntCmdProc */
 
@@ -124,14 +36,14 @@ IntCmdProc::~IntCmdProc()
 
 bool IntCmdProc::checkExist(StrLen wdir,StrLen dst)
  {
-  BuildFileName dst1(wdir,dst);
+  WDirFileName dst1(wdir,dst);
 
   return fs.getFileType(dst1.get())==FileType_file;
  }
 
 CmpFileTimeType IntCmdProc::getFileTime(StrLen wdir,StrLen file)
  {
-  BuildFileName file1(wdir,file);
+  WDirFileName file1(wdir,file);
 
   return fs.getFileUpdateTime(file1.get());
  }
@@ -153,7 +65,7 @@ int IntCmdProc::echo(StrLen wdir,PtrLen<DDL::MapText> strs,StrLen outfile)
        }
      else
        {
-        BuildFileName outfile1(wdir,outfile);
+        WDirFileName outfile1(wdir,outfile);
 
         PrintFile out(outfile1.get());
 
@@ -172,13 +84,13 @@ int IntCmdProc::cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile)
  {
   try
     {
-     BuildFileName outfile1(wdir,outfile);
+     WDirFileName outfile1(wdir,outfile);
 
      PrintFile out(outfile1.get());
 
      for(StrLen file : files )
        {
-        BuildFileName file1(wdir,file);
+        WDirFileName file1(wdir,file);
 
         DecodeFile inp(file1.get());
 
@@ -204,7 +116,7 @@ int IntCmdProc::rm(StrLen wdir,PtrLen<DDL::MapText> files)
     {
      for(StrLen file : files )
        {
-        BuildFileName file1(wdir,file);
+        WDirFileName file1(wdir,file);
 
         ExpandWildcard(fs,file1.get(), [&] (StrLen f)
                                            {
@@ -228,7 +140,7 @@ int IntCmdProc::mkdir(StrLen wdir,PtrLen<DDL::MapText> paths)
     {
      for(StrLen path : paths )
        {
-        BuildFileName path1(wdir,path);
+        WDirFileName path1(wdir,path);
 
         WalkPath(path1.get(), [&] (StrLen dir)
                                   {

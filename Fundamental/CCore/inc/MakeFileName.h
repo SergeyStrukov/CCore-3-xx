@@ -25,6 +25,8 @@ namespace CCore {
 
 class MakeFileName;
 
+class WDirFileName;
+
 /* class MakeFileName */
 
 class MakeFileName : public MakeString<MaxPathLen>
@@ -62,6 +64,21 @@ class MakeFileName : public MakeString<MaxPathLen>
 
      return get();
     }
+ };
+
+/* class WDirFileName */
+
+class WDirFileName : NoCopy
+ {
+   MakeFileName buf;
+
+   StrLen result;
+
+  public:
+
+   WDirFileName(StrLen wdir,StrLen file);
+
+   StrLen get() const { return result; }
  };
 
 } // namespace CCore

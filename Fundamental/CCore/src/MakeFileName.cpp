@@ -33,9 +33,16 @@ void MakeFileName::make(StrLen dir_name,StrLen file_name)
  {
   if( +dir_name )
     {
-     if( PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
+     char ch=dir_name.back(1);
 
-     add(dir_name,'/',file_name);
+     if( PathBase::IsColon(ch) || PathBase::IsSlash(ch) )
+       {
+        add(dir_name,file_name);
+       }
+     else
+       {
+        add(dir_name,'/',file_name);
+       }
     }
   else
     {
@@ -50,26 +57,34 @@ void MakeFileName::make(StrLen dir_name,StrLen file_name)
 
 void MakeFileName::make(StrLen dir_name,StrLen file_name,StrLen auto_ext)
  {
-  if( +dir_name )
-    {
-     if( PathBase::IsSlash(dir_name.back(1)) ) dir_name.len--;
+  make(dir_name,file_name);
 
-     if( +auto_ext && HasNoExt(file_name) )
-       add(dir_name,'/',file_name,auto_ext);
-     else
-       add(dir_name,'/',file_name);
-    }
-  else
-    {
-     if( +auto_ext && HasNoExt(file_name) )
-       add(file_name,auto_ext);
-     else
-       add(file_name);
-    }
+  if( +auto_ext && HasNoExt(file_name) ) add(auto_ext);
 
   if( !(*this) )
     {
      Printf(Exception,"CCore::MakeFileName::make(#.q;,#.q;,#.q;) : too long path",dir_name,file_name,auto_ext);
+    }
+ }
+
+/* class WDirFileName */
+
+WDirFileName::WDirFileName(StrLen wdir,StrLen file)
+ {
+  if( !wdir )
+    {
+     result=file;
+    }
+  else
+    {
+     if( PathIsRel(file) )
+       {
+        result=buf(wdir,file);
+       }
+     else
+       {
+        result=file;
+       }
     }
  }
 

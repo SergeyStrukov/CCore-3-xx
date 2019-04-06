@@ -27,6 +27,12 @@ StrLen PrefixPath(StrLen file_name);
 
 StrLen SuffixExt(StrLen file_name);
 
+bool PathIsRooted(StrLen path);
+
+bool PathIsRel(StrLen path);
+
+bool PathIsDev(StrLen path);
+
 /* classes */
 
 struct PathBase;
