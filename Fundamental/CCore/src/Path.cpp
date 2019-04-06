@@ -59,6 +59,18 @@ bool PathIsDev(StrLen path)
   return +path && PathBase::IsColon(path.back(1)) ;
  }
 
+bool PathIsBase(StrLen path)
+ {
+  if( +path )
+    {
+     char ch=path.back(1);
+
+     if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return true;
+    }
+
+  return false;
+ }
+
 /* struct PathBase */
 
 void PathBase::TurnSlash(PtrLen<char> name)

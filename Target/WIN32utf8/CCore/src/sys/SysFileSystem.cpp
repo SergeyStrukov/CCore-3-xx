@@ -25,18 +25,16 @@ namespace Sys {
 
 namespace Private_SysFileSystem {
 
-/* Wildcard() */
+/* functions */
 
 StrLen Wildcard(StrLen dir)
  {
-  if( +dir )
-    {
-     char ch=dir.back(1);
+  return PathIsBase(dir)? "*"_c : "/*"_c ;
+ }
 
-     if( PathBase::IsSlash(ch) || PathBase::IsColon(ch) ) return "*"_c;
-    }
-
-  return "/*"_c;
+StrLen Dotcard(StrLen dir)
+ {
+  return PathIsBase(dir)? "."_c : ""_c ;
  }
 
 /* class EmptyDirEngine */
@@ -195,6 +193,13 @@ using namespace Private_SysFileSystem;
 void FileSystem::DirCursor::init(FileSystem *,StrLen dir_name) noexcept
  {
   is_closed=true;
+
+  if( !dir_name )
+    {
+     error=FileError_BadName;
+
+     return;
+    }
 
   FileName path;
 
@@ -426,9 +431,11 @@ FileError FileSystem::createDir(StrLen dir_name) noexcept
 
 FileError FileSystem::deleteDir(StrLen dir_name,bool recursive) noexcept
  {
+  if( !dir_name ) return FileError_BadName;
+
   FileName path;
 
-  if( auto fe=path.prepare(dir_name) ) return fe;
+  if( auto fe=path.prepare(dir_name,Dotcard(dir_name)) ) return fe;
 
   if( recursive ) return DeleteDirRecursive(path,path.len);
 

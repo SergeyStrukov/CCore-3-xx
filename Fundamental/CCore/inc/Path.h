@@ -33,6 +33,8 @@ bool PathIsRel(StrLen path);
 
 bool PathIsDev(StrLen path);
 
+bool PathIsBase(StrLen path);
+
 /* classes */
 
 struct PathBase;

@@ -124,6 +124,8 @@ bool <span class="Att">PathIsRel</span>(StrLen path);
 
 bool <span class="Att">PathIsDev</span>(StrLen path);
 
+bool <span class="Att">PathIsBase</span>(StrLen path);
+
 </pre>
 
 <p>
@@ -136,6 +138,12 @@ bool <span class="Att">PathIsDev</span>(StrLen path);
 
 <p>
 <b>PathIsDev()</b> returns <b>true</b> iff the path has only device component.
+</p>
+
+<p>
+<b>PathIsBase()</b> returns <b>true</b> iff the path ends with colon or slash.
+Such path must be extended by a file name without additional slash.
+Otherwise to extend the path with a file name you must add slash first.
 </p>
 
 <h4>PathBase</h4>
