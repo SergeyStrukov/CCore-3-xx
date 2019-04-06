@@ -110,6 +110,34 @@ host:d:\exchange\device.1\device.log.txt
 
 </pre>
 
+<h4>Path test functions</h4>
+
+<p>
+The following functions tests the various properties of the given path.
+</p>
+
+<pre>
+
+bool <span class="Att">PathIsRooted</span>(StrLen path);
+
+bool <span class="Att">PathIsRel</span>(StrLen path);
+
+bool <span class="Att">PathIsDev</span>(StrLen path);
+
+</pre>
+
+<p>
+<b>PathIsRooted()</b> returns <b>true</b> iff the path is rooted, i.e. starts with slash.
+</p>
+
+<p>
+<b>PathIsRel()</b> returns <b>true</b> iff the path is relative, i.e. has no device component and is not rooted.
+</p>
+
+<p>
+<b>PathIsDev()</b> returns <b>true</b> iff the path has only device component.
+</p>
+
 <h4>PathBase</h4>
 
 <p>
