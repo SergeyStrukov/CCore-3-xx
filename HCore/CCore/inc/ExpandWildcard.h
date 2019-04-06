@@ -67,6 +67,16 @@ class WildcardCursor : NoCopy
 
      return Algon::GetResult(func);
     }
+
+   template <FuncInitType<bool,StrLen> FuncInit>
+   auto apply(FuncInit func_init)
+    {
+     FunctorTypeOf<FuncInit> func(func_init);
+
+     while( next() ) if( !func(getFileName()) ) break;
+
+     return Algon::GetResult(func);
+    }
  };
 
 /* ExpandWildcard() */

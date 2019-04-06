@@ -1,0 +1,63 @@
+<!--
+/* page_ExpandWildcard.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> ExpandWildcard</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>ExpandWildcard</h2>
+
+<p class="Files">Files <b>CCore/inc/ExpandWildcard.h</b> <b>CCore/src/ExpandWildcard.cpp</b></p>
+
+<pre>
+
+template &lt;FuncInitArgType&lt;StrLen&gt; FuncInit&gt;
+auto <span class="Att">ExpandWildcard</span>(FileSystem &amp;fs,StrLen path,FuncInit func_init);
+
+</pre>
+
+<p>
+<b>ExpandWildcard()</b> calls the given functor on a file set, defined by file name with wildcards.
+Only wildcards in the file name are expanded.
+Functor is applied on each <span class="Alert">existing</span> file, matching the given wildcard name.
+</p>
+
+<pre>
+
+dir/*.txt ->
+
+dir/file1.txt
+dir/file2.txt
+dir/file3.txt
+
+</pre>
+
+<p>
+To call the functor the generic <a href="page_ApplyToRange.html">functor iteration pattern</a> is used.
+</p>
+
+</body>
+
+</html>
+

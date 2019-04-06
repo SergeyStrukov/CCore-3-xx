@@ -30,10 +30,38 @@
 
 <p class="Files">Files <b>CCore/inc/MakeFileName.h</b> <b>CCore/src/MakeFileName.cpp</b></p>
 
+<h4>DirPlusFile()</h4>
+
+<pre>
+
+template &lt;class Func&gt;
+auto <span class="Att">DirPlusFile</span>(StrLen dir,StrLen file,Func add);
+
+</pre>
+
+<p>
+This generic algorithm combines the given directory and the given file name to build a path.
+To do the job it uses the given functor <b>add</b>. 
+It is called with the following arguments to concatenate the path components:
+</p>
+
+<pre>
+
+return add(file);
+
+return add(dir,file);
+
+return add(dir,char ch,file);
+
+</pre>
+
+<h4>MakeFileName</h4>
+
 <p>
 <b>MakeFileName</b> is a simple <b>Helper Type</b>. 
 It is derived from the <a href="page_MakeString.html">MakeString&lt;MaxPathLen&gt;</a> and may contain some file path.
 It should be used to build such path from a directory path and a file name.
+<span class="Alert">File name must be relative.</span>
 </p>
 
 <pre>
@@ -66,6 +94,7 @@ Default constructor creates a null object.
 
 <p>
 <b>MakeFileName(StrLen dir_name,StrLen file_name,StrLen auto_ext)</b> adds the given auto-extension, if the file name has no one.
+<b>auto_ext</b> must starts with dot.
 </p>
 
 <p>
@@ -75,6 +104,32 @@ Default constructor creates a null object.
 <p>
 An exception is thrown in case of overflow.
 </p>
+
+<h4>WDirFileName</h4>
+
+<p>
+<b>WDirFileName</b> combines the given "working directory" and the file name. 
+It may use the internal buffer to store the result.
+If the file name is not relative, or the <b>wdir</b> is empty, the original file name is returned.
+Otherwise it uses <b>MakeFileName</b> to combine the given pathes.
+</p>
+
+<pre>
+
+class <span class="Att">WDirFileName</span> : NoCopy
+ {
+   MakeFileName buf;
+
+   StrLen result;
+
+  public:
+
+   WDirFileName(StrLen wdir,StrLen file);
+
+   StrLen get() const { return result; }
+ };
+
+</pre>
 
 </body>
 

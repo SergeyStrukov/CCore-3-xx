@@ -24,9 +24,10 @@ namespace CCore {
 
 bool MakeFileName::HasNoExt(StrLen file_name)
  {
-  SplitExt split(file_name);
+  SplitName split1(file_name);
+  SplitExt split2(split1.name);
 
-  return !split;
+  return !split2;
  }
 
 void MakeFileName::make(StrLen dir_name,StrLen file_name)
