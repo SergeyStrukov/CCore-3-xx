@@ -45,17 +45,9 @@ void ShowDir(FileSystem &fs,StrLen dir_name)
   Printf(Con,"\n---\n\n");
  }
 
-} // namespace Private_4012
+/* test1() */
 
-using namespace Private_4012;
-
-/* Testit<4012> */
-
-template<>
-const char *const Testit<4012>::Name="Test4012 FileSystem";
-
-template<>
-bool Testit<4012>::Main()
+void test1()
  {
   ReportException report;
 
@@ -133,6 +125,31 @@ bool Testit<4012>::Main()
   fs.createFile("new_dir/new_dir1/new_file");
 
   fs.deleteDir("new_dir",true);
+ }
+
+/* test2() */
+
+void test2()
+ {
+  FileSystem fs;
+
+  ShowDir(fs,"C:");
+ }
+
+} // namespace Private_4012
+
+using namespace Private_4012;
+
+/* Testit<4012> */
+
+template<>
+const char *const Testit<4012>::Name="Test4012 FileSystem";
+
+template<>
+bool Testit<4012>::Main()
+ {
+  //test1();
+  test2();
 
   return true;
  }
