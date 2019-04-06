@@ -94,7 +94,7 @@ template<>
 bool Testit<4013>::Main()
  {
   Proc proc;
-  DirTreeRun run("../CCore");
+  DirTreeRun run("../CCore"_c);
 
   run.apply(proc);
 

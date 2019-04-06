@@ -78,7 +78,7 @@ class DirTreeRun : NoCopyBase<PathBase>
 
   private:
 
-   static bool IsSpecial(StrLen name) { return IsDot(name) || IsDotDot(name) ; }
+   static bool HasDotExt(StrLen path) { return path.len>=2 && IsDot(path.back(1)) && IsSlash(path.back(2)) ; }
 
    void push(StrLen base,StrLen dir,void *data);
 
@@ -98,8 +98,11 @@ class DirTreeRun : NoCopyBase<PathBase>
 class DirTreeRun::Path : NoCopy
  {
    char buf[MaxPathLen];
+   ulen baselen;
    ulen off;
    ulen len;
+
+  private:
 
   public:
 
@@ -107,7 +110,7 @@ class DirTreeRun::Path : NoCopy
 
    StrLen getPath() const { return StrLen(buf,len); }
 
-   StrLen getBase() const { return StrLen(buf,off-1); }
+   StrLen getBase() const { return StrLen(buf,baselen); }
 
    StrLen getDir() const { return StrLen(buf+off,len-off); }
  };
@@ -165,6 +168,8 @@ void DirTreeRun::apply(Proc &proc)
         else
           {
            if( IsSpecial(name) ) continue;
+
+           if( HasDotExt(path) ) path.len-=2;
 
            push(path,name, proc.dir(path,name,parent_data) );
           }

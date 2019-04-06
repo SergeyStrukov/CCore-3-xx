@@ -23,19 +23,38 @@ namespace CCore {
 
 DirTreeRun::Path::Path(StrLen base,StrLen dir)
  {
-  if( base.len>=MaxPathLen || dir.len>=MaxPathLen-base.len )
+  if( PathIsBase(base) )
     {
-     Printf(Exception,"CCore::DirTreeRun::Path::Path(...) : too long path");
+     if( base.len>=MaxPathLen || dir.len>MaxPathLen-base.len )
+       {
+        Printf(Exception,"CCore::DirTreeRun::Path::Path(...) : too long path");
+       }
+
+     baselen=base.len;
+     off=base.len;
+     len=base.len+dir.len;
+
+     base.copyTo(buf);
+
+     dir.copyTo(buf+base.len);
     }
+  else
+    {
+     if( base.len>=MaxPathLen || dir.len>=MaxPathLen-base.len )
+       {
+        Printf(Exception,"CCore::DirTreeRun::Path::Path(...) : too long path");
+       }
 
-  off=base.len+1;
-  len=base.len+1+dir.len;
+     baselen=base.len;
+     off=base.len+1;
+     len=base.len+1+dir.len;
 
-  base.copyTo(buf);
+     base.copyTo(buf);
 
-  buf[base.len]='/';
+     buf[base.len]='/';
 
-  dir.copyTo(buf+base.len+1);
+     dir.copyTo(buf+base.len+1);
+    }
  }
 
 /* class DirTreeRun::Node */

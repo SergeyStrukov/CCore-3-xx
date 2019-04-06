@@ -1,0 +1,452 @@
+path = ../CCore
+dir = .
+   path = ../CCore
+   number = 0
+   dir = inc
+      path = ../CCore/inc
+      number = 1
+      dir = base
+         path = ../CCore/inc/base
+         number = 2
+         file = PlatformBase.h
+         -----
+         path = ../CCore/inc/base
+         number = 2
+         file = Quick.h
+         -----
+      path = ../CCore/inc
+      enddir = base
+      number = 2
+      =====
+      path = ../CCore/inc
+      number = 1
+      dir = crypton
+         path = ../CCore/inc/crypton
+         number = 3
+         file = IntelAES.h
+         -----
+         path = ../CCore/inc/crypton
+         number = 3
+         file = IntelCPUID.h
+         -----
+         path = ../CCore/inc/crypton
+         number = 3
+         file = IntelRandom.h
+         -----
+         path = ../CCore/inc/crypton
+         number = 3
+         file = PlatformAES.h
+         -----
+      path = ../CCore/inc
+      enddir = crypton
+      number = 3
+      =====
+      path = ../CCore/inc
+      number = 1
+      dir = math
+         path = ../CCore/inc/math
+         number = 4
+         file = IntegerFastAlgo.h
+         -----
+      path = ../CCore/inc
+      enddir = math
+      number = 4
+      =====
+      path = ../CCore/inc
+      number = 1
+      file = PlatformRandom.h
+      -----
+      path = ../CCore/inc
+      number = 1
+      dir = sys
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysAbort.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysAtomic.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysCon.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysEnv.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysError.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysFile.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysFileInternal.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysFileSystem.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysLaunchPath.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysMemPage.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysNet.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysPlanInit.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysProp.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysSem.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysSpawn.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysSpawnInternal.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysTask.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysTime.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysTlsSlot.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysUtf8.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysWait.h
+         -----
+         path = ../CCore/inc/sys
+         number = 5
+         file = SysWaitInternal.h
+         -----
+      path = ../CCore/inc
+      enddir = sys
+      number = 5
+      =====
+      path = ../CCore/inc
+      number = 1
+      dir = video
+         path = ../CCore/inc/video
+         number = 6
+         file = Desktop.h
+         -----
+         path = ../CCore/inc/video
+         number = 6
+         file = InternalDesktop.h
+         -----
+         path = ../CCore/inc/video
+         number = 6
+         file = InternalHost.h
+         -----
+         path = ../CCore/inc/video
+         number = 6
+         file = InternalUtils.h
+         -----
+      path = ../CCore/inc
+      enddir = video
+      number = 6
+      =====
+      path = ../CCore/inc
+      number = 1
+      dir = win32
+         path = ../CCore/inc/win32
+         number = 7
+         file = Win32.h
+         -----
+         path = ../CCore/inc/win32
+         number = 7
+         file = Win32gui.h
+         -----
+      path = ../CCore/inc
+      enddir = win32
+      number = 7
+      =====
+   path = ../CCore
+   enddir = inc
+   number = 1
+   =====
+   path = ../CCore
+   number = 0
+   dir = src
+      path = ../CCore/src
+      number = 8
+      dir = base
+         path = ../CCore/src/base
+         number = 9
+         file = PlatformBase.cpp
+         -----
+         path = ../CCore/src/base
+         number = 9
+         file = PlatformBase.s
+         -----
+         path = ../CCore/src/base
+         number = 9
+         file = Quick.cpp
+         -----
+         path = ../CCore/src/base
+         number = 9
+         file = Quick.s
+         -----
+      path = ../CCore/src
+      enddir = base
+      number = 9
+      =====
+      path = ../CCore/src
+      number = 8
+      dir = crypton
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelAES.cpp
+         -----
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelAES.s
+         -----
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelCPUID.cpp
+         -----
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelCPUID.s
+         -----
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelRandom.cpp
+         -----
+         path = ../CCore/src/crypton
+         number = 10
+         file = IntelRandom.s
+         -----
+      path = ../CCore/src
+      enddir = crypton
+      number = 10
+      =====
+      path = ../CCore/src
+      number = 8
+      dir = math
+         path = ../CCore/src/math
+         number = 11
+         file = IntegerFastAlgo.cpp
+         -----
+         path = ../CCore/src/math
+         number = 11
+         file = IntegerFastAlgo.s
+         -----
+      path = ../CCore/src
+      enddir = math
+      number = 11
+      =====
+      path = ../CCore/src
+      number = 8
+      file = PlanInit_CCore.cpp
+      -----
+      path = ../CCore/src
+      number = 8
+      dir = sys
+         path = ../CCore/src/sys
+         number = 12
+         file = SysAbort.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysAtomic.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysAtomic.s
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysCon.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysEnv.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysError.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysFile.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysFileInternal.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysFileSystem.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysLaunchPath.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysMemPage.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysNet.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysPlanInit.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysProp.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysSem.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysSpawn.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysSpawnInternal.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysTask.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysTime.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysTime.s
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysTlsSlot.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysUtf8.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysWait.cpp
+         -----
+         path = ../CCore/src/sys
+         number = 12
+         file = SysWaitInternal.cpp
+         -----
+      path = ../CCore/src
+      enddir = sys
+      number = 12
+      =====
+      path = ../CCore/src
+      number = 8
+      dir = video
+         path = ../CCore/src/video
+         number = 13
+         file = Desktop.cpp
+         -----
+         path = ../CCore/src/video
+         number = 13
+         file = InternalDesktop.cpp
+         -----
+         path = ../CCore/src/video
+         number = 13
+         file = InternalHost.cpp
+         -----
+         path = ../CCore/src/video
+         number = 13
+         file = InternalUtils.cpp
+         -----
+      path = ../CCore/src
+      enddir = video
+      number = 13
+      =====
+   path = ../CCore
+   enddir = src
+   number = 8
+   =====
+   path = ../CCore
+   number = 0
+   dir = test
+      path = ../CCore/test
+      number = 14
+      file = PriorityBoost.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = PriorityBoost.h
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6001.Quick.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6002.SysError.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6003.Char.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6004.IntegerFastAlgo.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6005.IntegerMulAlgo.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6006.IntelRandom.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = test6007.IntelAES.cpp
+      -----
+      path = ../CCore/test
+      number = 14
+      file = TypeName.h
+      -----
+   path = ../CCore
+   enddir = test
+   number = 14
+   =====
+path = ../CCore
+enddir = .
+number = 0
+=====
