@@ -133,6 +133,7 @@ OBJ_LIST = \
 ../.test-obj/test3035.IntegerMulAlgo2.o \
 ../.test-obj/test3036.FFTMul.o \
 ../.test-obj/test3037.AtomicSpeed.o \
+../.test-obj/test3038.CmdlineParser.o \
 ../.test-obj/test5001.Task.o \
 ../.test-obj/test5002.Mutex.o \
 ../.test-obj/test5003.Sem.o \
@@ -307,6 +308,7 @@ ASM_LIST = \
 ../.test-obj/test3035.IntegerMulAlgo2.s \
 ../.test-obj/test3036.FFTMul.s \
 ../.test-obj/test3037.AtomicSpeed.s \
+../.test-obj/test3038.CmdlineParser.s \
 ../.test-obj/test5001.Task.s \
 ../.test-obj/test5002.Mutex.s \
 ../.test-obj/test5003.Sem.s \
@@ -481,6 +483,7 @@ DEP_LIST = \
 ../.test-obj/test3035.IntegerMulAlgo2.dep \
 ../.test-obj/test3036.FFTMul.dep \
 ../.test-obj/test3037.AtomicSpeed.dep \
+../.test-obj/test3038.CmdlineParser.dep \
 ../.test-obj/test5001.Task.dep \
 ../.test-obj/test5002.Mutex.dep \
 ../.test-obj/test5003.Sem.dep \
@@ -926,6 +929,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test3037.AtomicSpeed.o : ../../../Applied/CCore/test/./test3037.AtomicSpeed.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+../.test-obj/test3038.CmdlineParser.o : ../../../Applied/CCore/test/./test3038.CmdlineParser.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 ../.test-obj/test5001.Task.o : ../../../XCore/CCore/test/./test5001.Task.cpp
@@ -1443,6 +1449,9 @@ include $(RULES_FILE)
 ../.test-obj/test3037.AtomicSpeed.s : ../../../Applied/CCore/test/./test3037.AtomicSpeed.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+../.test-obj/test3038.CmdlineParser.s : ../../../Applied/CCore/test/./test3038.CmdlineParser.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 ../.test-obj/test5001.Task.s : ../../../XCore/CCore/test/./test5001.Task.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -1957,6 +1966,9 @@ include $(RULES_FILE)
 
 ../.test-obj/test3037.AtomicSpeed.dep : ../../../Applied/CCore/test/./test3037.AtomicSpeed.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3037.AtomicSpeed.o $< -MF $@
+
+../.test-obj/test3038.CmdlineParser.dep : ../../../Applied/CCore/test/./test3038.CmdlineParser.cpp
+	$(CC) $(CCOPT) -MM -MT ../.test-obj/test3038.CmdlineParser.o $< -MF $@
 
 ../.test-obj/test5001.Task.dep : ../../../XCore/CCore/test/./test5001.Task.cpp
 	$(CC) $(CCOPT) -MM -MT ../.test-obj/test5001.Task.o $< -MF $@

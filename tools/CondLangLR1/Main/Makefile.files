@@ -76,46 +76,46 @@ ASM_OBJ_LIST = \
 include $(RULES_FILE)
 
 
-.obj/BottomLang.o : ././lang/BottomLang.cpp
+.obj/BottomLang.o : ./lang/BottomLang.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/CondLang.o : ././lang/CondLang.cpp
+.obj/CondLang.o : ./lang/CondLang.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/ExtLang.o : ././lang/ExtLang.cpp
+.obj/ExtLang.o : ./lang/ExtLang.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/GoodEstimate.o : ././process/GoodEstimate.cpp
+.obj/GoodEstimate.o : ./process/GoodEstimate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LR1Estimate.o : ././process/LR1Estimate.cpp
+.obj/LR1Estimate.o : ./process/LR1Estimate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LR1Prop.o : ././process/LR1Prop.cpp
+.obj/LR1Prop.o : ./process/LR1Prop.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Lang.o : ././lang/Lang.cpp
+.obj/Lang.o : ./lang/Lang.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LangDiagram.o : ././process/LangDiagram.cpp
+.obj/LangDiagram.o : ./process/LangDiagram.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LangEstimate.o : ././process/LangEstimate.cpp
+.obj/LangEstimate.o : ./process/LangEstimate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LangParser.o : ././lang/LangParser.cpp
+.obj/LangParser.o : ./lang/LangParser.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/LangStateMachine.o : ././process/LangStateMachine.cpp
+.obj/LangStateMachine.o : ./process/LangStateMachine.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/NonEmptyEstimate.o : ././process/NonEmptyEstimate.cpp
+.obj/NonEmptyEstimate.o : ./process/NonEmptyEstimate.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/PrintTools.o : ././PrintTools.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/Process.o : ././process/Process.cpp
+.obj/Process.o : ./process/Process.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Set.o : ././Set.cpp
@@ -124,16 +124,16 @@ include $(RULES_FILE)
 .obj/SparseMatrix.o : ././SparseMatrix.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/StateCompress.o : ././process/StateCompress.cpp
+.obj/StateCompress.o : ./process/StateCompress.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/StateMap.o : ././process/StateMap.cpp
+.obj/StateMap.o : ./process/StateMap.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Tools.o : ././Tools.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/TopLang.o : ././lang/TopLang.cpp
+.obj/TopLang.o : ./lang/TopLang.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/main.o : ././main.cpp
@@ -141,46 +141,46 @@ include $(RULES_FILE)
 
 
 
-.obj/BottomLang.s : ././lang/BottomLang.cpp
+.obj/BottomLang.s : ./lang/BottomLang.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/CondLang.s : ././lang/CondLang.cpp
+.obj/CondLang.s : ./lang/CondLang.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/ExtLang.s : ././lang/ExtLang.cpp
+.obj/ExtLang.s : ./lang/ExtLang.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/GoodEstimate.s : ././process/GoodEstimate.cpp
+.obj/GoodEstimate.s : ./process/GoodEstimate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LR1Estimate.s : ././process/LR1Estimate.cpp
+.obj/LR1Estimate.s : ./process/LR1Estimate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LR1Prop.s : ././process/LR1Prop.cpp
+.obj/LR1Prop.s : ./process/LR1Prop.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Lang.s : ././lang/Lang.cpp
+.obj/Lang.s : ./lang/Lang.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LangDiagram.s : ././process/LangDiagram.cpp
+.obj/LangDiagram.s : ./process/LangDiagram.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LangEstimate.s : ././process/LangEstimate.cpp
+.obj/LangEstimate.s : ./process/LangEstimate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LangParser.s : ././lang/LangParser.cpp
+.obj/LangParser.s : ./lang/LangParser.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/LangStateMachine.s : ././process/LangStateMachine.cpp
+.obj/LangStateMachine.s : ./process/LangStateMachine.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/NonEmptyEstimate.s : ././process/NonEmptyEstimate.cpp
+.obj/NonEmptyEstimate.s : ./process/NonEmptyEstimate.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/PrintTools.s : ././PrintTools.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/Process.s : ././process/Process.cpp
+.obj/Process.s : ./process/Process.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Set.s : ././Set.cpp
@@ -189,16 +189,16 @@ include $(RULES_FILE)
 .obj/SparseMatrix.s : ././SparseMatrix.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/StateCompress.s : ././process/StateCompress.cpp
+.obj/StateCompress.s : ./process/StateCompress.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/StateMap.s : ././process/StateMap.cpp
+.obj/StateMap.s : ./process/StateMap.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Tools.s : ././Tools.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/TopLang.s : ././lang/TopLang.cpp
+.obj/TopLang.s : ./lang/TopLang.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : ././main.cpp
@@ -206,46 +206,46 @@ include $(RULES_FILE)
 
 
 
-.obj/BottomLang.dep : ././lang/BottomLang.cpp
+.obj/BottomLang.dep : ./lang/BottomLang.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/BottomLang.o $< -MF $@
 
-.obj/CondLang.dep : ././lang/CondLang.cpp
+.obj/CondLang.dep : ./lang/CondLang.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/CondLang.o $< -MF $@
 
-.obj/ExtLang.dep : ././lang/ExtLang.cpp
+.obj/ExtLang.dep : ./lang/ExtLang.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ExtLang.o $< -MF $@
 
-.obj/GoodEstimate.dep : ././process/GoodEstimate.cpp
+.obj/GoodEstimate.dep : ./process/GoodEstimate.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/GoodEstimate.o $< -MF $@
 
-.obj/LR1Estimate.dep : ././process/LR1Estimate.cpp
+.obj/LR1Estimate.dep : ./process/LR1Estimate.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LR1Estimate.o $< -MF $@
 
-.obj/LR1Prop.dep : ././process/LR1Prop.cpp
+.obj/LR1Prop.dep : ./process/LR1Prop.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LR1Prop.o $< -MF $@
 
-.obj/Lang.dep : ././lang/Lang.cpp
+.obj/Lang.dep : ./lang/Lang.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Lang.o $< -MF $@
 
-.obj/LangDiagram.dep : ././process/LangDiagram.cpp
+.obj/LangDiagram.dep : ./process/LangDiagram.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LangDiagram.o $< -MF $@
 
-.obj/LangEstimate.dep : ././process/LangEstimate.cpp
+.obj/LangEstimate.dep : ./process/LangEstimate.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LangEstimate.o $< -MF $@
 
-.obj/LangParser.dep : ././lang/LangParser.cpp
+.obj/LangParser.dep : ./lang/LangParser.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LangParser.o $< -MF $@
 
-.obj/LangStateMachine.dep : ././process/LangStateMachine.cpp
+.obj/LangStateMachine.dep : ./process/LangStateMachine.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LangStateMachine.o $< -MF $@
 
-.obj/NonEmptyEstimate.dep : ././process/NonEmptyEstimate.cpp
+.obj/NonEmptyEstimate.dep : ./process/NonEmptyEstimate.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/NonEmptyEstimate.o $< -MF $@
 
 .obj/PrintTools.dep : ././PrintTools.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/PrintTools.o $< -MF $@
 
-.obj/Process.dep : ././process/Process.cpp
+.obj/Process.dep : ./process/Process.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Process.o $< -MF $@
 
 .obj/Set.dep : ././Set.cpp
@@ -254,16 +254,16 @@ include $(RULES_FILE)
 .obj/SparseMatrix.dep : ././SparseMatrix.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/SparseMatrix.o $< -MF $@
 
-.obj/StateCompress.dep : ././process/StateCompress.cpp
+.obj/StateCompress.dep : ./process/StateCompress.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/StateCompress.o $< -MF $@
 
-.obj/StateMap.dep : ././process/StateMap.cpp
+.obj/StateMap.dep : ./process/StateMap.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/StateMap.o $< -MF $@
 
 .obj/Tools.dep : ././Tools.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Tools.o $< -MF $@
 
-.obj/TopLang.dep : ././lang/TopLang.cpp
+.obj/TopLang.dep : ./lang/TopLang.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/TopLang.o $< -MF $@
 
 .obj/main.dep : ././main.cpp
