@@ -1,0 +1,122 @@
+<!--
+/* page_CmdlineParser.html */
+//----------------------------------------------------------------------------------------
+//
+//  Project: CCore 3.60
+//
+//  License: Boost Software License - Version 1.0 - August 17th, 2003 
+//
+//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
+//
+//  Copyright (c) 2019 Sergey Strukov. All rights reserved.
+//
+//----------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <title>CCore -> CmdlineParser</title>
+
+ <link href="CCore.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+<h2>CmdlineParser</h2>
+
+<p class="Files">Files <b>CCore/inc/CmdlineParser.h</b> <b>CCore/src/CmdlineParser.cpp</b></p>
+
+<p>
+<b>CmdlineParser</b> is a tool for extraction arguments from a command line.
+Command line is a string, it's assumed it consists of arguments. Each argument is a substring.
+A simple argument is a string of non-space characters, it is separated by whitespace characters
+from other arguments.
+Quoted argument is an argument, enclosed in quotes.
+You may use single quotes <b>'</b> or double <b>"</b>.
+A text inside double quotes is processed.
+A subsequent pair <b>\</b> <b>\</b> is replaced with a single <b>\</b>.
+A subsequent pair <b>\</b> <b>"</b> is replaced with a single <b>"</b>.
+Any other combinations <b>\</b> <b>ch</b> remains unchanged.
+</p>
+
+<pre>
+
+class <span class="Att">CmdlineParser</span> : NoCopy
+ {
+   ....
+
+  public:
+
+   explicit CmdlineParser(StrLen text);
+
+   class ArgBuilder
+    {
+      ....
+
+     public:
+
+      ....
+
+      bool operator + () const;
+
+      bool operator ! () const;
+
+      ulen getLen() const; 
+
+      PtrLen&lt;char&gt; operator () (char *buf) const;
+    };
+
+   ArgBuilder next();
+ };
+
+</pre>
+
+<p>
+Constructor takes a command line as an argument.
+</p>
+
+<p>
+To extract the next argument you call the method <b>next()</b>.
+It returns an object of some type.
+This object can be null or non-null.
+If it is null, it means the command line is completed. 
+Otherwise you can use the object to construct a string carring the subsequent argument.
+The object class has a shown above interface.
+This type is a <a href="page_Arrays.html#Builder">Builder Type</a>, so you can use it directly to create an array with the required content.
+Or use it other desired ways.
+</p>
+
+<p>
+Here is an example:
+</p>
+
+<pre>
+
+void show(StrLen text)
+ {
+  CmdlineParser parser(text);
+
+  for(;;)
+    {
+     auto builder=parser.next();
+
+     if( !builder ) break;
+
+     DynArray&lt;char&gt; temp(DoBuild,builder);
+
+     Printf(Con,"#.q;\n",StrLen(Range(temp)));
+    }
+
+  Putch(Con,'\n');
+ }
+
+</pre>
+
+</body>
+
+</html>
+
