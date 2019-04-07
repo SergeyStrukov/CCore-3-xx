@@ -22,15 +22,18 @@
 #include <CCore/inc/Array.h>
 #include <CCore/inc/CharProp.h>
 #include <CCore/inc/Path.h>
+#include <CCore/inc/CmdlineParser.h>
 
+#include <limits.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
+#include <string.h>
 #include <dirent.h>
-#include <spawn.h>
 
 #ifndef _DIRENT_HAVE_D_TYPE
 #error "Bad dirent"
@@ -185,16 +188,15 @@ class StrPool : NoCopy
      return buf.ptr;
     }
 
-   char * add(StrLen str1,StrLen str2)
+   char * add(BuilderType<char> builder)
     {
-     auto buf=pool.createArray_raw<char>(LenAdd(str1.len,str2.len,1));
+     char *buf=pool.createArray_raw<char>(LenAdd(builder.getLen(),1)).ptr;
 
-     str1.copyTo(buf.ptr);
-     str2.copyTo(buf.ptr+str1.len);
+     StrLen str=builder(buf);
 
-     buf.back(1)=0;
+     buf[str.len]=0;
 
-     return buf.ptr;
+     return buf;
     }
  };
 
@@ -216,9 +218,9 @@ class StrList : NoCopy
      list.append_copy(pool.add(str));
     }
 
-   void add(StrLen str1,StrLen str2)
+   void add(BuilderType<char> builder)
     {
-     list.append_copy(pool.add(str1,str2));
+     list.append_copy(pool.add(builder));
     }
 
    char ** complete()
@@ -229,72 +231,71 @@ class StrList : NoCopy
     }
 
    void prepareArg(StrLen program,StrLen arg);
-
-   void prepareEnv(StrLen dir);
  };
 
 void StrList::prepareArg(StrLen program,StrLen arg)
  {
   add(program);
 
-  while( +arg )
+  CmdlineParser parser(arg);
+
+  for(;;)
     {
-     for(; +arg && CharIsSpace(*arg) ;++arg);
+     auto builder=parser.next();
 
-     if( !arg ) return;
+     if( !builder ) break;
 
-     if( *arg=='\'' )
-       {
-        ++arg;
-
-        StrLen cur=arg;
-
-        for(; +cur && *cur!='\'' ;++cur);
-
-        add(arg.prefix(cur));
-
-        arg=cur;
-
-        if( +arg ) ++arg;
-       }
-     else if( *arg=='"' )
-       {
-        ++arg;
-
-        StrLen cur=arg;
-
-        for(; +cur && *cur!='"' ;++cur);
-
-        add(arg.prefix(cur));
-
-        arg=cur;
-
-        if( +arg ) ++arg;
-       }
-     else
-       {
-        StrLen cur=arg;
-
-        for(; +cur && !CharIsSpace(*cur) ;++cur);
-
-        add(arg.prefix(cur));
-
-        arg=cur;
-       }
+     add(builder);
     }
  }
 
-void StrList::prepareEnv(StrLen dir)
+FileError Spawn(char *wdir,char *path,char **argv,char **envp)
  {
-  StrLen prefix("PWD=");
+  volatile FileError error=FileError_Ok;
 
-  add(prefix,dir);
-
-  for(char **env=environ; char *str_=*env ;env++)
+  switch( pid_t child_pid=vfork() )
     {
-     StrLen str(str_);
+     case -1 : return MakeError(FileError_OpFault);
 
-     if( !str.hasPrefix(prefix) ) add(str);
+     case 0 :
+      {
+       char temp[PATH_MAX+1];
+       char *path1=path;
+
+       if( *path!='/' && strchr(path,'/') )
+         {
+          if( char *result=realpath(path,temp) )
+            {
+             path1=result;
+            }
+          else
+            {
+             error=MakeError(FileError_OpFault);
+
+             _exit(124);
+            }
+         }
+
+       if( chdir(wdir) )
+         {
+          error=MakeError(FileError_OpFault);
+
+          _exit(125);
+         }
+
+       execvpe(path1,argv,envp);
+
+       error=MakeError(FileError_OpFault);
+
+       _exit( ( error==ENOENT )? 126 : 127 );
+      }
+
+     default:
+      {
+       waitpid(child_pid,0,WNOHANG);
+
+       return error;
+      }
     }
  }
 
@@ -587,25 +588,20 @@ FileError FileSystem::exec(StrLen dir,StrLen program,StrLen arg) noexcept
 
   try
     {
-     StrPool pool;
-     StrList argc(pool);
-     StrList envp(pool);
-
-     const char *path=pool.add(program);
-
-     argc.prepareArg(program,arg);
-
      char temp[MaxPathLen+1];
 
      auto result=pathOf(dir,temp);
 
      if( result.error ) return result.error;
 
-     envp.prepareEnv(result.path);
+     StrPool pool;
+     StrList argc(pool);
 
-     if( int error=posix_spawn(0,path,0,0,argc.complete(),envp.complete())!=0 ) return MakeError(FileError_OpFault,error);
+     char *path=pool.add(program);
 
-     return FileError_Ok;
+     argc.prepareArg(program,arg);
+
+     return Spawn(temp,path,argc.complete(),environ);
     }
   catch(CatchType)
     {
