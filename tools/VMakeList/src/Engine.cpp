@@ -779,7 +779,14 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
 
   printDefText(out,"OBJ_PATH"_c,param->OBJ_PATH);
 
-  printDefText(out,"TARGET"_c,param->TARGET);
+  if( param->target==TargetCCore )
+    {
+     printDefText(out,"TARGET"_c,"CCore.a"_c);
+    }
+  else
+    {
+     printDefText(out,"TARGET"_c,param->TARGET);
+    }
 
   Putobj(out,"text DEP = OBJ_PATH+'/deps.vm.ddl' ;\n\n"_c);
 
