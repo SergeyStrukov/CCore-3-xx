@@ -36,6 +36,14 @@ IntCmd intclean_dep = { 'CLEAN DEP' , &rm2 } ;
 
 Rm rm2 = { { DEP , OBJ_PATH+'/*.dep' } } ;
 
+Target clean_vdep = { 'clean vdep' } ;
+
+Rule rclean_vdep = { {} , {&clean_vdep} , {&intclean_vdep} } ;
+
+IntCmd intclean_vdep = { 'CLEAN VDEP' , &rm3 } ;
+
+Rm rm3 = { { DEP , OBJ_PATH+'/*.vm.dep' } } ;
+
 Target cpp1 = { "Engine.cpp" , "src/Engine.cpp" } ;
 Target dcpp1 = { "Engine.dep" , OBJ_PATH+"/Engine.dep" } ;
 Rule rdcpp1 = { {&cpp1,&obj} , {&dcpp1} , {&execpp1} } ;

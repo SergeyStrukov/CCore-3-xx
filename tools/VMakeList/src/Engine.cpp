@@ -830,6 +830,18 @@ void Engine::genPrep(PrinterType &out,FileList &cpp_list,FileList &)
    Putobj(out,"Rm rm2 = { { DEP , OBJ_PATH+'/*.dep' } } ;\n\n"_c);
   }
 
+  // clean vdep
+
+  {
+   Putobj(out,"Target clean_vdep = { 'clean vdep' } ;\n\n"_c);
+
+   Putobj(out,"Rule rclean_vdep = { {} , {&clean_vdep} , {&intclean_vdep} } ;\n\n"_c);
+
+   Putobj(out,"IntCmd intclean_vdep = { 'CLEAN VDEP' , &rm3 } ;\n\n"_c);
+
+   Putobj(out,"Rm rm3 = { { DEP , OBJ_PATH+'/*.vm.dep' } } ;\n\n"_c);
+  }
+
   // dep
 
   {

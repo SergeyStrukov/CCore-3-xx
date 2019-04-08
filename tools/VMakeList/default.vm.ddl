@@ -1,7 +1,7 @@
 /* default.vm.ddl */
 //----------------------------------------------------------------------------------------
 //
-//  Project: VMakeList 1.00
+//  Project: CCore 3.60
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
@@ -25,15 +25,17 @@ VMake r1vmake = { "-> PROJ" , "proj.vm.ddl" } ;
 
 Target desc = { "desc" , "default.vml.ddl" } ;
 
-Rule r2 = { {&desc} , {&proj,&prep} , {&r2exe} } ;
+Rule r2 = { {&desc} , {&proj,&prep} , {&r2exe,&r8make} } ;
 
 Exe r2exe = { "LIST" , "CCore-VMakeList.exe" , { "default.vml.ddl" , "proj.vm.ddl" , "prep.vm.ddl" } } ;
+
+VMake r8make = { "-> CLEAN VDEP" , "prep.vm.ddl" , "clean_vdep" } ;
 
 //----------------------------------------------------------------------------------------
 
 Target list = { "list" } ;
 
-Rule r3 = { {} , {&list} , {&r2exe} } ;
+Rule r3 = { {} , {&list} , {&r2exe,&r8make} } ;
 
 //----------------------------------------------------------------------------------------
 
