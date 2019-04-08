@@ -345,11 +345,35 @@ struct OpenAltAsyncFile : AltAsyncFile::OpenType
    }
  };
 
+/* FileClose() */
+
+void FileClose(FileMultiError &errout,Win64::handle_t handle,FileOpenFlags oflags,bool preserve_file)
+ {
+  if( oflags&Open_Write )
+    {
+     if( !Win64::FlushFileBuffers(handle) )
+       {
+        preserve_file=false;
+
+        AddErrorIf(errout,FileError_CloseFault,true);
+       }
+    }
+
+  if( preserve_file )
+    {
+     AddErrorIf(errout,FileError_CloseFault, !AutoDelete(handle,false) );
+    }
+
+  AddErrorIf(errout,FileError_CloseFault, !Win64::CloseHandle(handle) );
+ }
+
 } // namespace Private_SysFile
 
 using namespace Private_SysFile;
 
 /* struct File */
+
+static_assert( Meta::IsSame<File::Type,Win64::handle_t> ,"CCore::Sys::File : bad Type");
 
 auto File::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
  {
@@ -362,17 +386,7 @@ auto File::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
 
 void File::Close(FileMultiError &errout,Type handle,FileOpenFlags oflags,bool preserve_file) noexcept
  {
-  if( preserve_file )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !AutoDelete(handle,false) );
-    }
-
-  if( oflags&Open_Write )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !Win64::FlushFileBuffers(handle) );
-    }
-
-  AddErrorIf(errout,FileError_CloseFault, !Win64::CloseHandle(handle) );
+  FileClose(errout,handle,oflags,preserve_file);
  }
 
 auto File::Write(Type handle,FileOpenFlags oflags,const uint8 *buf,ulen len) noexcept -> IOResult
@@ -457,6 +471,8 @@ FileError File::SetPos(Type handle,FileOpenFlags oflags,FilePosType pos) noexcep
 
 /* struct AltFile */
 
+static_assert( Meta::IsSame<AltFile::Type,Win64::handle_t> ,"CCore::Sys::AltFile : bad Type");
+
 auto AltFile::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
  {
   FileName file_name;
@@ -468,17 +484,7 @@ auto AltFile::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> OpenType
 
 void AltFile::Close(FileMultiError &errout,Type handle,EventType h_event,FileOpenFlags oflags,bool preserve_file) noexcept
  {
-  if( preserve_file )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !AutoDelete(handle,false) );
-    }
-
-  if( oflags&Open_Write )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !Win64::FlushFileBuffers(handle) );
-    }
-
-  AddErrorIf(errout,FileError_CloseFault, !Win64::CloseHandle(handle) );
+  FileClose(errout,handle,oflags,preserve_file);
 
   AbortIf( !Win64::CloseHandle(h_event) ,"CCore::Sys::AltFile::Close()");
  }
@@ -611,6 +617,8 @@ FileError AltFile::Read(Type handle,EventType h_event,FileOpenFlags oflags,FileP
 
 /* struct AltAsyncFile */
 
+static_assert( Meta::IsSame<AltAsyncFile::Type,Win64::handle_t> ,"CCore::Sys::AltAsyncFile : bad Type");
+
 struct AltAsyncFile::AsyncState
  {
   Win64::Overlapped olap;
@@ -627,17 +635,7 @@ auto AltAsyncFile::Open(StrLen file_name_,FileOpenFlags oflags) noexcept -> Open
 
 void AltAsyncFile::Close(FileMultiError &errout,Type handle,FileOpenFlags oflags,bool preserve_file) noexcept
  {
-  if( preserve_file )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !AutoDelete(handle,false) );
-    }
-
-  if( oflags&Open_Write )
-    {
-     AddErrorIf(errout,FileError_CloseFault, !Win64::FlushFileBuffers(handle) );
-    }
-
-  AddErrorIf(errout,FileError_CloseFault, !Win64::CloseHandle(handle) );
+  FileClose(errout,handle,oflags,preserve_file);
  }
 
 auto AltAsyncFile::StartRead(Type handle,Async async,FilePosType off,uint8 *buf,ulen len) noexcept -> RWResult
