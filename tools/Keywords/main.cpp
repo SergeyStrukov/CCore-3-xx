@@ -151,7 +151,7 @@ void Engine::gen(PtrLen<StrLen> list,ulen off)
  }
 
 Engine::Engine(StrLen file_name)
- : out(file_name)
+ : out(file_name,Open_ToWrite|Open_AutoDelete)
  {
  }
 
@@ -166,6 +166,8 @@ void Engine::run(PtrLen<StrLen> list) // non-empty
   gen(list);
 
   Printf(out," }\n\n");
+
+  out.preserveFile();
  }
 
 /* Process() */

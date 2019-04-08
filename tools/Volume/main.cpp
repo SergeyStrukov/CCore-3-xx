@@ -305,9 +305,11 @@ void Unpack(StrLen file_name,StrLen dir_name)
 
      CreatePath(file_path);
 
-     BinaryFile dev(file_path);
+     BinaryFile dev(file_path,Open_ToWrite|Open_AutoDelete);
 
      CopyFile(file,dev);
+
+     dev.preserveFile();
     }
 
   Putch(Con,'\n');

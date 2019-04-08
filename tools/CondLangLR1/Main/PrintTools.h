@@ -112,6 +112,8 @@ class PosPrint : NoCopy
    // extra methods
 
    ulen getCol() const { return pos.col; }
+
+   void preserveFile() { out.preserveFile(); }
  };
 
 /* struct Indent */

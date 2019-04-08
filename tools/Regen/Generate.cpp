@@ -551,7 +551,7 @@ using namespace Private_Generate;
 
 void Generate(const Parser &parser,StrLen file_name)
  {
-  PrintFile out(file_name);
+  PrintFile out(file_name,Open_ToWrite|Open_AutoDelete);
 
   SplitPath split_path(file_name);
   SplitName split_name(split_path.path);
@@ -561,6 +561,8 @@ void Generate(const Parser &parser,StrLen file_name)
   for(auto reg=parser.getRegs(); +reg ;++reg) GenerateReg(reg,out);
 
   for(auto bar=parser.getBars(); +bar ;++bar) GenerateBar(bar,out);
+
+  out.preserveFile();
  }
 
 #endif

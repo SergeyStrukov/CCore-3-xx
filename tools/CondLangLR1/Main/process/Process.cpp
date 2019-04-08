@@ -291,12 +291,16 @@ void Process(StrLen file_name)
 
    if( conflicts )
      {
-      String out_name=StringCat(dev_name.dev,path_name.path,name_ext.name,".bad.txt");
-      PrintFile out(Range(out_name));
+      {
+       String out_name=StringCat(dev_name.dev,path_name.path,name_ext.name,".bad.txt");
+       PrintFile out(Range(out_name),Open_ToWrite|Open_AutoDelete);
 
-      Putobj(out,clang);
+       Putobj(out,clang);
 
-      PrintBad(out,ext_top,compress);
+       PrintBad(out,ext_top,compress);
+
+       out.preserveFile();
+      }
 
       Printf(Exception,"#; CONFLICTs detected. Not LR1 language.",conflicts);
      }
@@ -326,28 +330,32 @@ void Process(StrLen file_name)
 
   StateMap map(compress,compress_ne);
 
-  String out_name=StringCat(dev_name.dev,path_name.path,"Result.txt");
-  PrintFile out(Range(out_name));
+  {
+   String out_name=StringCat(dev_name.dev,path_name.path,"Result.txt");
+   PrintFile out(Range(out_name),Open_ToWrite|Open_AutoDelete);
 
-  PrintFibres(out,compress,compress_ne,map);
+   PrintFibres(out,compress,compress_ne,map);
 
-  Putobj(out,BindOpt(ext_top,compress_ne));
+   Putobj(out,BindOpt(ext_top,compress_ne));
+  }
 
 #endif
 
   {
    String out_name=StringCat(dev_name.dev,path_name.path,name_ext.name,".txt");
-   PrintFile out(Range(out_name));
+   PrintFile out(Range(out_name),Open_ToWrite|Open_AutoDelete);
 
    Putobj(out,clang);
 
    Putobj(out,BindOpt(ext_top,compress));
+
+   out.preserveFile();
   }
 
   {
    String out_name=StringCat(dev_name.dev,path_name.path,name_ext.name,".ddl");
 
-   PosPrint<PrintFile> out(Range(out_name));
+   PosPrint<PrintFile> out(Range(out_name),Open_ToWrite|Open_AutoDelete);
 
    Printf(out,"/* #;.ddl */\n\n",name_ext.name);
 
@@ -629,6 +637,8 @@ void Process(StrLen file_name)
    }
 
    Putobj(out,";\n\n");
+
+   out.preserveFile();
   }
 
   TrackStage("Finish");

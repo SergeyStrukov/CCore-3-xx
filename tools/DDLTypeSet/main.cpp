@@ -491,8 +491,8 @@ bool IsExtName(DDL::StructNode *node,PtrLen<const char *> ext_list)
 void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file_name,PtrLen<const char *> ext_list)
  {
   Data data(input_file_name);
-  PrintFile outdef(typedef_file_name);
-  PrintFile outset(typeset_file_name);
+  PrintFile outdef(typedef_file_name,Open_ToWrite|Open_AutoDelete);
+  PrintFile outset(typeset_file_name,Open_ToWrite|Open_AutoDelete);
 
   ulen struct_lim;
   NameDirectory dir;
@@ -798,6 +798,9 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
       Putobj(outset," };\n\n");
      }
   }
+
+  outdef.preserveFile();
+  outset.preserveFile();
  }
 
 } // namespace App
