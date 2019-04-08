@@ -3,7 +3,7 @@
 //
 //  Project: CCore 3.00
 //
-//  Tag: Target/LIN64
+//  Tag: Target/LIN64utf8
 //
 //  License: Boost Software License - Version 1.0 - August 17th, 2003
 //
