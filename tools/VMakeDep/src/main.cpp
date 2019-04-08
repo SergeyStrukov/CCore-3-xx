@@ -26,7 +26,7 @@ using namespace CCore;
 int Main(StrLen src_file_name,StrLen dst_file_name,StrLen ind)
  {
   ScanFile inp(src_file_name);
-  PrintFile out(dst_file_name);
+  PrintFile out(dst_file_name,Open_ToWrite|Open_AutoDelete);
 
   String target;
 
@@ -67,6 +67,8 @@ int Main(StrLen src_file_name,StrLen dst_file_name,StrLen ind)
 
    Printf(out,"\n} , {&ocpp#;} } ;",ind);
   }
+
+  out.preserveFile();
 
   return 0;
  }
