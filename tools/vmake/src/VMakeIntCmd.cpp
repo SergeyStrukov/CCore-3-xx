@@ -67,9 +67,11 @@ int IntCmdProc::echo(StrLen wdir,PtrLen<DDL::MapText> strs,StrLen outfile)
        {
         WDirFileName outfile1(wdir,outfile);
 
-        PrintFile out(outfile1.get());
+        PrintFile out(outfile1.get(),Open_ToWrite|Open_AutoDelete);
 
         for(StrLen str : strs ) Putobj(out,str);
+
+        out.preserveFile();
        }
 
      return 0;
@@ -86,7 +88,7 @@ int IntCmdProc::cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile)
     {
      WDirFileName outfile1(wdir,outfile);
 
-     PrintFile out(outfile1.get());
+     PrintFile out(outfile1.get(),Open_ToWrite|Open_AutoDelete);
 
      for(StrLen file : files )
        {
@@ -101,6 +103,8 @@ int IntCmdProc::cat(StrLen wdir,PtrLen<DDL::MapText> files,StrLen outfile)
            out.put(r.ptr,r.len);
           }
        }
+
+     out.preserveFile();
 
      return 0;
     }

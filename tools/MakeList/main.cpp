@@ -399,7 +399,7 @@ class EngineBase : NoCopy
     : obj_path(obj_path_),
       cpp_list(cpp_list_text),
       s_list(s_list_text),
-      out("Makefile.files")
+      out("Makefile.files",Open_ToWrite|Open_AutoDelete)
     {
      cpp_list.process();
      s_list.process();
@@ -409,7 +409,7 @@ class EngineBase : NoCopy
     : obj_path(obj_path_),
       cpp_list(cpp_src),
       s_list(s_src),
-      out("Makefile.files")
+      out("Makefile.files",Open_ToWrite|Open_AutoDelete)
     {
      cpp_list.process();
      s_list.process();
@@ -437,6 +437,8 @@ class EngineBase : NoCopy
 
                 "endif\n\n"
            );
+
+     out.preserveFile();
 
      return 0;
     }
