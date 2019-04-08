@@ -107,11 +107,13 @@ void BitmapData::loadBitmap(const BinFileToRead &binfile,StrLen file_name)
 
 void BitmapData::saveBitmap(StrLen file_name) const
  {
-  BinaryFile file(file_name);
+  BinaryFile file(file_name,Open_ToWrite|Open_AutoDelete);
 
   file.use<BeOrder>(dx,dy);
 
   for(uint32 x : map ) file.use<BeOrder>(x);
+
+  file.preserveFile();
  }
 
 template <class Dev>
@@ -195,7 +197,7 @@ void BitmapData::loadZipmap(const BinFileToRead &binfile,StrLen file_name)
 
 void BitmapData::saveZipmap(StrLen file_name) const
  {
-  BinaryFile file(file_name);
+  BinaryFile file(file_name,Open_ToWrite|Open_AutoDelete);
 
   file.use<BeOrder>(dx,dy);
 
@@ -223,6 +225,8 @@ void BitmapData::saveZipmap(StrLen file_name) const
 
      zip.complete();
     }
+
+  file.preserveFile();
  }
 
 /* struct Bitmap::Fill */

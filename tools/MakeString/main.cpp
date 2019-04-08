@@ -223,7 +223,7 @@ void ProcStrip(StrLen input_file_name,StrLen output_file_name)
 
   FileToMem input_file(input_file_name);
   StrLen input=Mutate<const char>(Range(input_file));
-  PrintFile out(output_file_name);
+  PrintFile out(output_file_name,Open_ToWrite|Open_AutoDelete);
 
   Line line(input);
 
@@ -235,6 +235,8 @@ void ProcStrip(StrLen input_file_name,StrLen output_file_name)
 
      Putobj(out,"\\n\"\n"_c);
     }
+
+  out.preserveFile();
  }
 
 /* Proc() */
@@ -245,7 +247,7 @@ void Proc(StrLen input_file_name,StrLen output_file_name)
 
   FileToMem input_file(input_file_name);
   StrLen input=Mutate<const char>(Range(input_file));
-  PrintFile out(output_file_name);
+  PrintFile out(output_file_name,Open_ToWrite|Open_AutoDelete);
 
   while( +input )
     {
@@ -257,6 +259,8 @@ void Proc(StrLen input_file_name,StrLen output_file_name)
 
      Putobj(out,"\\n\"\n"_c);
     }
+
+  out.preserveFile();
  }
 
 /* Main() */

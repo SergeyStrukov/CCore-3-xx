@@ -945,13 +945,17 @@ int Engine::run()
   cpp_list.process();
   asm_list.process();
 
-  PrintFile proj(proj_file_name);
+  PrintFile proj(proj_file_name,Open_ToWrite|Open_AutoDelete);
 
   genProj(proj,cpp_list,asm_list);
 
-  PrintFile prep(prep_file_name);
+  proj.preserveFile();
+
+  PrintFile prep(prep_file_name,Open_ToWrite|Open_AutoDelete);
 
   genPrep(prep,cpp_list,asm_list);
+
+  prep.preserveFile();
 
   return 0;
  }

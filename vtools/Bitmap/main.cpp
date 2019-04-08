@@ -29,7 +29,7 @@ struct PrintBmp : BitmapProc
  {
   BinaryFile dev;
 
-  explicit PrintBmp(StrLen output_file_name) : dev(output_file_name) {}
+  explicit PrintBmp(StrLen output_file_name) : dev(output_file_name,Open_ToWrite|Open_AutoDelete) {}
 
   void line(const void *buf,int dx)
    {
@@ -93,6 +93,8 @@ void Main(StrLen input_file_name,StrLen output_file_name)
   PrintBmp out(output_file_name);
 
   out.open(input_file_name.ptr,input_file_name.len);
+
+  out.dev.preserveFile();
  }
 
 } // namespace App
