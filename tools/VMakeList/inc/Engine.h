@@ -15,7 +15,6 @@
 #define App_Engine_h
 
 #include <inc/VMakeList.h>
-#include <inc/Utils.h>
 
 #include <CCore/inc/ElementPool.h>
 #include <CCore/inc/Array.h>
@@ -27,6 +26,7 @@
 #include <CCore/inc/PrintStem.h>
 #include <CCore/inc/String.h>
 #include <CCore/inc/OptMember.h>
+#include <CCore/inc/ProcessUtils.h>
 
 #include <CCore/inc/Print.h>
 
@@ -258,8 +258,8 @@ class Engine : NoCopy
 
    unsigned level = 100 ;
 
-   RootDir root_dir;
-   HomeDir home_dir;
+   UnixRootDir root_dir;
+   UnixHomeDir home_dir;
    String def_target;
    String auto_root;
 
