@@ -60,6 +60,61 @@ void SpawnExecute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrLen<T
   spawn.spawn(slot);
  }
 
+/* class StopFlag */
+
+void StopFlag::input(Symbol sym)
+ {
+  if( ToChar(sym)=='x' )
+    {
+     count++;
+
+     if( count>=3 )
+       {
+        cancel_flag=true;
+        stop_flag=true;
+       }
+    }
+ }
+
+void StopFlag::objRun()
+ {
+  try
+    {
+     while( !stop_flag )
+       {
+        Symbol sym;
+
+        if( con.get(100_msec,sym) ) input(sym);
+       }
+    }
+  catch(...)
+    {
+     cancel_flag=true;
+    }
+ }
+
+StopFlag::StopFlag()
+ {
+  RunFuncTask( [&] () { objRun(); } ,stop_sem.function_give());
+ }
+
+StopFlag::~StopFlag()
+ {
+  //con.interrupt();
+
+  stop_flag=true;
+
+  stop_sem.take();
+ }
+
+void StopFlag::guard()
+ {
+  if( cancel_flag )
+    {
+     Printf(Exception,"App : user interrupt");
+    }
+ }
+
 /* struct ExeRule */
 
 template <class Func>
@@ -642,7 +697,13 @@ void FileProc::exeRuleList(StrLen wdir,PtrLen<ExeRule> list,ExeRule * buf[],Comp
        {
         while( exelist.hasReady() )
           {
-           exelist.loop( [&] (ExeRule *obj,auto *cmd) { startCmd(wdir,cmd,{obj,&exelist}); } );
+           exelist.loop( [&] (ExeRule *obj,auto *cmd)
+                             {
+                              guard();
+
+                              startCmd(wdir,cmd,{obj,&exelist});
+
+                             } );
 
            if( exelist.hasRunning() ) pexe->waitOne(&exelist);
           }

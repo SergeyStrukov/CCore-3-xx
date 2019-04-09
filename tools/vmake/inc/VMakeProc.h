@@ -248,6 +248,8 @@ class DataProc : public Funchor_nocopy
 
    DynArray<TypeDef::Target *> works;
 
+   bool pexe_ok = true ;
+
   private:
 
    template <class T,class R>

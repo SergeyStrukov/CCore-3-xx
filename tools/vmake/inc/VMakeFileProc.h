@@ -21,6 +21,9 @@
 #include <CCore/inc/FileSystem.h>
 #include <CCore/inc/SpawnProcess.h>
 
+#include <CCore/inc/ReadCon.h>
+#include <CCore/inc/Task.h>
+
 #include <CCore/inc/ddl/DDLMapTypes.h>
 
 namespace App {
@@ -57,6 +60,35 @@ class ExeList;
 class PExeProc;
 
 class FileProc;
+
+/* class StopFlag */
+
+class StopFlag : NoCopy
+ {
+   Atomic cancel_flag;
+
+   ReadCon con;
+
+   unsigned count = 0 ;
+
+   Atomic stop_flag;
+
+   Sem stop_sem;
+
+  private:
+
+   void input(Symbol sym);
+
+   void objRun();
+
+  public:
+
+   StopFlag();
+
+   ~StopFlag();
+
+   void guard();
+ };
 
 /* struct ExeRule */
 
@@ -209,6 +241,8 @@ class PExeProc : NoCopy
 
 class FileProc : NoCopy
  {
+   StopFlag stop_flag;
+
    IntCmdProc intproc;
 
    unsigned level = 100 ;
@@ -228,6 +262,8 @@ class FileProc : NoCopy
    FileProc();
 
    ~FileProc();
+
+   void guard() { stop_flag.guard(); }
 
    void prepare(unsigned pcap);
 

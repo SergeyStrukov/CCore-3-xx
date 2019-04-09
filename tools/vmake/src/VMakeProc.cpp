@@ -283,6 +283,8 @@ void DataProc::buildWorkTree()
 
   while( stack.notEmpty() )
     {
+     file_proc.guard();
+
      TypeDef::Target *obj=stack.top();
      TRec *rec=getRec(obj);
 
@@ -417,6 +419,8 @@ void DataProc::completeRule(TypeDef::Target *obj)
     }
   else
     {
+     pexe_ok=false;
+
      Printf(Con,"vmake : target #.q; is still not built\n",GetDesc(obj));
     }
  }
@@ -428,6 +432,8 @@ void DataProc::completeRule(TypeDef::Rule *rule)
 
 auto DataProc::tryCommit(TypeDef::Target *obj) -> GetRuleResult
  {
+  file_proc.guard();
+
   TRec *rec=getRec(obj);
 
   if( rec->state==StateOk ) return {true,0};
@@ -462,6 +468,8 @@ auto DataProc::tryCommit(TypeDef::Target *obj) -> GetRuleResult
 
 bool DataProc::commit(TypeDef::Target *obj)
  {
+  file_proc.guard();
+
   auto result=tryCommit(obj);
 
   if( result.rule )
@@ -533,6 +541,8 @@ void DataProc::finishRule(TypeDef::Rule *rule,int status)
     }
   else
     {
+     pexe_ok=false;
+
      Printf(Con,"vmake : rule failed #;\n",status);
     }
  }
@@ -600,9 +610,14 @@ int DataProc::commitPExe()
        }
     }
 
-  Putobj(Con,"\nSuccess!\n\n");
+  if( pexe_ok )
+    {
+     Putobj(Con,"\nSuccess!\n\n");
 
-  return 0;
+     return 0;
+    }
+
+  return 1000;
  }
 
 DataProc::DataProc(FileProc &file_proc,StrLen file_name,StrLen target)
