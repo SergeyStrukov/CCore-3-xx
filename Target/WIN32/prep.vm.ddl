@@ -36,6 +36,14 @@ IntCmd intclean_dep = { 'CLEAN DEP' , &rm2 } ;
 
 Rm rm2 = { { DEP , OBJ_PATH+'/*.dep' } } ;
 
+Target clean_vdep = { 'clean vdep' } ;
+
+Rule rclean_vdep = { {} , {&clean_vdep} , {&intclean_vdep} } ;
+
+IntCmd intclean_vdep = { 'CLEAN VDEP' , &rm3 } ;
+
+Rm rm3 = { { DEP , OBJ_PATH+'/*.vm.dep' } } ;
+
 Target cpp1 = { "AES.cpp" , "../../Applied/CCore/src/crypton/AES.cpp" } ;
 Target dcpp1 = { "AES.dep" , OBJ_PATH+"/AES.dep" } ;
 Rule rdcpp1 = { {&cpp1,&obj} , {&dcpp1} , {&execpp1} } ;

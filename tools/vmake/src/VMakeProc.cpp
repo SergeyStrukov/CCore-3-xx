@@ -444,9 +444,7 @@ auto DataProc::tryCommit(TypeDef::Target *obj) -> GetRuleResult
 
      if( rule_rec->done )
        {
-        exe_ok=false;
-
-        return {true,0};
+        return {false,0};
        }
      else
        {
@@ -486,6 +484,8 @@ bool DataProc::commit(TypeDef::Target *obj)
        }
      else
        {
+        exe_ok=false;
+
         Printf(Con,"vmake : rule failed #;\n",status);
 
         return false;
@@ -524,7 +524,10 @@ int DataProc::commit()
 
      if( !Change(list.len,Dist(list.ptr,save)) )
        {
-        Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
+        if( exe_ok )
+          {
+           Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
+          }
 
         return 1000;
        }
@@ -592,6 +595,8 @@ int DataProc::commitPExe()
                              out->set(result.rule);
 
                              out++;
+
+                             *(save++)=obj;
                             }
                           else if( !result.commit )
                             {
@@ -611,7 +616,10 @@ int DataProc::commitPExe()
     {
      if( !passFunc() && !passFunc() )
        {
-        Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
+        if( exe_ok )
+          {
+           Printf(Con,"\nRebuild stalled #.q;\n\n",GetDesc(*list));
+          }
 
         return 1000;
        }
