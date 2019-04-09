@@ -26,7 +26,7 @@ using namespace CCore;
 
 void Main(const char *name)
  {
-  Task::Sleep(10_sec);
+  Task::Sleep(3_sec);
 
   Printf(Con,"#;> stop\n\n",name);
  }
