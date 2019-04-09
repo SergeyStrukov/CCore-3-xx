@@ -248,7 +248,7 @@ class DataProc : public Funchor_nocopy
 
    DynArray<TypeDef::Target *> works;
 
-   bool pexe_ok = true ;
+   bool exe_ok = true ;
 
   private:
 

@@ -419,7 +419,7 @@ void DataProc::completeRule(TypeDef::Target *obj)
     }
   else
     {
-     pexe_ok=false;
+     exe_ok=false;
 
      Printf(Con,"vmake : target #.q; is still not built\n",GetDesc(obj));
     }
@@ -444,7 +444,9 @@ auto DataProc::tryCommit(TypeDef::Target *obj) -> GetRuleResult
 
      if( rule_rec->done )
        {
-        return {false,0};
+        exe_ok=false;
+
+        return {true,0};
        }
      else
        {
@@ -528,9 +530,14 @@ int DataProc::commit()
        }
     }
 
-  Putobj(Con,"\nSuccess!\n\n");
+  if( exe_ok )
+    {
+     Putobj(Con,"\nSuccess!\n\n");
 
-  return 0;
+     return 0;
+    }
+
+  return 1000;
  }
 
 void DataProc::finishRule(TypeDef::Rule *rule,int status)
@@ -541,7 +548,7 @@ void DataProc::finishRule(TypeDef::Rule *rule,int status)
     }
   else
     {
-     pexe_ok=false;
+     exe_ok=false;
 
      Printf(Con,"vmake : rule failed #;\n",status);
     }
@@ -610,7 +617,7 @@ int DataProc::commitPExe()
        }
     }
 
-  if( pexe_ok )
+  if( exe_ok )
     {
      Putobj(Con,"\nSuccess!\n\n");
 
