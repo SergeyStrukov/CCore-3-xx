@@ -31,6 +31,8 @@ class StopFlag : NoCopy
  {
    Atomic cancel_flag;
 
+   ReadCon con;
+
    unsigned count = 0 ;
 
    Atomic stop_flag;
@@ -58,7 +60,11 @@ void StopFlag::input(Symbol sym)
     {
      count++;
 
-     if( count>=3 ) cancel_flag=true;
+     if( count>=3 )
+       {
+        cancel_flag=true;
+        stop_flag=true;
+       }
     }
  }
 
@@ -66,9 +72,7 @@ void StopFlag::objRun()
  {
   try
     {
-     ReadCon con;
-
-     while( !stop_flag && !cancel_flag )
+     while( !stop_flag )
        {
         Symbol sym;
 
@@ -88,6 +92,8 @@ StopFlag::StopFlag()
 
 StopFlag::~StopFlag()
  {
+  //con.interrupt();
+
   stop_flag=true;
 
   stop_sem.take();
