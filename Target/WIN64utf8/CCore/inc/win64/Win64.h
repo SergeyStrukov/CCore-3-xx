@@ -160,6 +160,7 @@ enum ErrorCodes
   ErrorHandleEOF        =  38,
   ErrorFileExists       =  80,
   ErrorInvalidParameter =  87,
+  ErrorBrokenPipe       = 109,
   ErrorDiskFull         = 112,
   ErrorSmallBuffer      = 122,
   ErrorInvalidName      = 123,
@@ -302,12 +303,26 @@ bool_t WIN64_API VirtualFree(void_ptr address,
                              flags_t free_flags);
 
 /*--------------------------------------------------------------------------------------*/
+/* Handle constants                                                                     */
+/*--------------------------------------------------------------------------------------*/
+
+enum HandleFlags
+ {
+  HandleInherit = 0x0001,
+  HandleNoClose = 0x0002
+ };
+
+/*--------------------------------------------------------------------------------------*/
 /* Handle functions                                                                     */
 /*--------------------------------------------------------------------------------------*/
 
 /* CloseHandle() */
 
 bool_t WIN64_API CloseHandle(handle_t h_any);
+
+/* SetHandleInformation() */
+
+bool_t WIN64_API SetHandleInformation(handle_t h_any,flags_t mask,flags_t flags);
 
 /*--------------------------------------------------------------------------------------*/
 /* Global memory constants                                                              */
@@ -399,7 +414,8 @@ enum ProcessCreationFlags
 
 enum StartupInfoFlags
  {
-  StartupInfo_show_window = 0x0001
+  StartupInfo_show_window = 0x0001,
+  StartupInfo_std_handles = 0x0100
  };
 
 /*--------------------------------------------------------------------------------------*/
@@ -667,6 +683,14 @@ bool_t WIN64_API ReadConsoleInputW(handle_t h_con,
                                    ConInputRecord *buf,
                                    ushortlen_t buf_len,
                                    ushortlen_t *ret_len);
+
+/*--------------------------------------------------------------------------------------*/
+/* Pipe functions                                                                       */
+/*--------------------------------------------------------------------------------------*/
+
+/* CreatePipe() */
+
+bool_t WIN64_API CreatePipe(handle_t *h_read, handle_t *h_write, SecurityAttributes *sa, ushortlen_t buf_len);
 
 /*--------------------------------------------------------------------------------------*/
 /* File flags and options                                                               */

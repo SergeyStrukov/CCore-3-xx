@@ -306,6 +306,7 @@ OBJ_LIST = \
 .obj/PrintTime.o \
 .obj/PrintTitle.o \
 .obj/Printf.o \
+.obj/ProcessUtils.o \
 .obj/ProgressScale.o \
 .obj/PtrLen.o \
 .obj/PtrLenReverse.o \
@@ -794,6 +795,7 @@ ASM_LIST = \
 .obj/PrintTime.s \
 .obj/PrintTitle.s \
 .obj/Printf.s \
+.obj/ProcessUtils.s \
 .obj/ProgressScale.s \
 .obj/PtrLen.s \
 .obj/PtrLenReverse.s \
@@ -1282,6 +1284,7 @@ DEP_LIST = \
 .obj/PrintTime.dep \
 .obj/PrintTitle.dep \
 .obj/Printf.dep \
+.obj/ProcessUtils.dep \
 .obj/ProgressScale.dep \
 .obj/PtrLen.dep \
 .obj/PtrLenReverse.dep \
@@ -2394,6 +2397,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Printf.o : ../../Fundamental/CCore/src/./Printf.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/ProcessUtils.o : ../../Target/LIN64utf8/CCore/src/./ProcessUtils.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/ProgressScale.o : ../../Desktop/Tools/CCore/src/video/ProgressScale.cpp
@@ -3853,6 +3859,9 @@ include $(RULES_FILE)
 .obj/Printf.s : ../../Fundamental/CCore/src/./Printf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/ProcessUtils.s : ../../Target/LIN64utf8/CCore/src/./ProcessUtils.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/ProgressScale.s : ../../Desktop/Tools/CCore/src/video/ProgressScale.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5309,6 +5318,9 @@ include $(RULES_FILE)
 
 .obj/Printf.dep : ../../Fundamental/CCore/src/./Printf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Printf.o $< -MF $@
+
+.obj/ProcessUtils.dep : ../../Target/LIN64utf8/CCore/src/./ProcessUtils.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/ProcessUtils.o $< -MF $@
 
 .obj/ProgressScale.dep : ../../Desktop/Tools/CCore/src/video/ProgressScale.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/ProgressScale.o $< -MF $@
