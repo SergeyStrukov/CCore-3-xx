@@ -244,9 +244,9 @@ class MakeCmdLine : NoCopy
 
 using namespace Private_ProcessUtils;
 
-/* struct FromProgram */
+/* FromProgram() */
 
-FromProgram::FromProgram(StrLen cmdline_,PtrLen<char> result_buf)
+StrLen FromProgram(StrLen cmdline_,PtrLen<char> result_buf)
  {
   MakeCmdLine cmdline(cmdline_);
 
@@ -264,44 +264,28 @@ FromProgram::FromProgram(StrLen cmdline_,PtrLen<char> result_buf)
 
   if( auto exit_code=proc.getExitCode() )
     {
-     Printf(Exception,"CCore::FromProgram::FromProgram(#.q;,...) : exit code is nonzero #;",cmdline_,exit_code);
+     Printf(Exception,"CCore::FromProgram(#.q;,...) : exit code is nonzero #;",cmdline_,exit_code);
     }
 
-  str=dev.getData();
-
-  ok=true;
+  return dev.getData();
  }
 
 /* class UnixRootDir */
 
 void UnixRootDir::make()
  {
-  FromProgram result("cygpath -m -a --codepage UTF8 /"_c,Range(buf));
+  StrLen result=FromProgram("cygpath -m -a --codepage UTF8 /"_c,Range(buf));
 
-  if( result.ok )
-    {
-     str=CutLine(result.str);
-    }
-  else
-    {
-     Printf(Exception,"UnixRootDir::make() : cannot find root path");
-    }
+  str=CutLine(result);
  }
 
 /* class UnixHomeDir */
 
 void UnixHomeDir::make()
  {
-  FromProgram result("cygpath -m -a --codepage UTF8 ~"_c,Range(buf));
+  StrLen result=FromProgram("cygpath -m -a --codepage UTF8 ~"_c,Range(buf));
 
-  if( result.ok )
-    {
-     str=CutLine(result.str);
-    }
-  else
-    {
-     Printf(Exception,"UnixHomeDir::make() : cannot find home path");
-    }
+  str=CutLine(result);
  }
 
 } // namespace CCore

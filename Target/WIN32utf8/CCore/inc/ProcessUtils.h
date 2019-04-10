@@ -20,23 +20,15 @@
 
 namespace CCore {
 
-/* classes */
+/* FromProgram() */
 
-struct FromProgram;
+StrLen FromProgram(StrLen cmdline,PtrLen<char> result_buf);
+
+/* classes */
 
 class UnixRootDir;
 
 class UnixHomeDir;
-
-/* struct FromProgram */
-
-struct FromProgram
- {
-  StrLen str;
-  bool ok = false ;
-
-  FromProgram(StrLen cmdline,PtrLen<char> result_buf);
- };
 
 /* class UnixRootDir */
 
