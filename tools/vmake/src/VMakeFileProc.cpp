@@ -439,6 +439,16 @@ int FileProc::Execute(StrLen exe_file,StrLen wdir,PtrLen<DDL::MapText> args,PtrL
 
 FileProc::FileProc()
  {
+  try
+    {
+     stop_flag.create();
+    }
+  catch(CatchType)
+    {
+     ReportException::Clear();
+
+     Printf(Con,"App : console interrupt is not available\n\n");
+    }
  }
 
 FileProc::~FileProc()

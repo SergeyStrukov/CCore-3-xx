@@ -241,7 +241,7 @@ class PExeProc : NoCopy
 
 class FileProc : NoCopy
  {
-   StopFlag stop_flag;
+   OptMember<StopFlag> stop_flag;
 
    IntCmdProc intproc;
 
@@ -263,7 +263,7 @@ class FileProc : NoCopy
 
    ~FileProc();
 
-   void guard() { stop_flag.guard(); }
+   void guard() { if( +stop_flag ) stop_flag->guard(); }
 
    void prepare(unsigned pcap);
 
