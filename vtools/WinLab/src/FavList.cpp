@@ -83,10 +83,19 @@ FavList::~FavList()
 
  // methods
 
+void FavList::erase()
+ {
+  list.erase();
+  off=0;
+  cur=0;
+ }
+
  // load/save
 
 bool FavList::load(StrLen file_name)
  {
+  erase();
+
   char buf[TextBufLen];
   PrintBuf eout(Range(buf));
 
@@ -109,15 +118,13 @@ bool FavList::load(StrLen file_name)
 
      TypeDef::FavData data=map.takeConst<TypeDef::FavData>("Data"_c);
 
-     list.erase();
-
      auto r=data.list.getRange();
 
-     list.extend_default(r.len);
+     DynArray<FavRec> new_list(r.len);
 
      for(ulen i : IndLim(r.len) )
        {
-        auto &dst=list[i];
+        auto &dst=new_list[i];
         auto &src=r[i];
 
         dst.title=src.title.getStr();
@@ -125,6 +132,8 @@ bool FavList::load(StrLen file_name)
         dst.section=src.section;
         dst.open=src.open;
        }
+
+     list=std::move(new_list);
 
      off=data.off;
      cur=data.cur;
@@ -176,6 +185,8 @@ bool FavList::load(StrLen key,StrLen file) noexcept
     }
   catch(...)
     {
+     erase();
+
      return false;
     }
  }

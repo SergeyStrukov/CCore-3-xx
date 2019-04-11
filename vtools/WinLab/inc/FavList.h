@@ -59,7 +59,9 @@ class FavList : NoCopy
 
    // methods
 
-   PtrLen<const FavRec> getRange() const { return Range(list).safe_part(off); }
+   void erase();
+
+   PtrLen<const FavRec> getRange(ulen len) const { return Range(list).safe_part(off,len); }
 
    // load/save
 

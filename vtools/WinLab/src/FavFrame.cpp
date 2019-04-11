@@ -26,8 +26,14 @@ Point FavListShape::getMinSize() const
   return Point(100,100);
  }
 
+void FavListShape::layout()
+ {
+ }
+
 void FavListShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
+  Used(buf);
+  Used(draw_param);
  }
 
 } // namespace Video

@@ -87,6 +87,8 @@ class FavListShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
+   void layout();
+
    void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
@@ -115,6 +117,47 @@ class FavListWindowOf : public SubWindow
 
    auto getMinSize() const { return shape.getMinSize(); }
 
+   bool load(StrLen file_name)
+    {
+     bool ret;
+
+     try
+       {
+        ret=shape.fav_list.load(file_name);
+       }
+     catch(...)
+       {
+        ret=false;
+       }
+
+     layout();
+
+     redraw();
+
+     return ret;
+    }
+
+   void save(StrLen file_name) const
+    {
+     shape.fav_list.save(file_name);
+    }
+
+   bool load(StrLen key,StrLen file) noexcept
+    {
+     bool ret=shape.fav_list.load(key,file);
+
+     layout();
+
+     redraw();
+
+     return ret;
+    }
+
+   void save(StrLen key,StrLen file) const noexcept
+    {
+     shape.fav_list.save(key,file);
+    }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const
@@ -125,6 +168,8 @@ class FavListWindowOf : public SubWindow
    virtual void layout()
     {
      shape.pane=getPane();
+
+     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,DrawParam draw_param) const
