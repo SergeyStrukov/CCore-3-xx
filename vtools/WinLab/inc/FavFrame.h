@@ -16,6 +16,9 @@
 #ifndef CCore_inc_video_FavFrame_h
 #define CCore_inc_video_FavFrame_h
 
+//#include <CCore/inc/video/FavList.h>
+#include <inc/FavList.h>
+
 #include <CCore/inc/video/WindowLib.h>
 
 namespace CCore {
@@ -23,7 +26,7 @@ namespace Video {
 
 /* classes */
 
-class FavList;
+class FavListShape;
 
 class FavListWindow;
 

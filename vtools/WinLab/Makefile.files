@@ -2,6 +2,8 @@ OBJ_LIST = \
 .obj/App.o \
 .obj/Application.o \
 .obj/Client.o \
+.obj/FavFrame.o \
+.obj/FavList.o \
 .obj/LabWindow.o \
 .obj/main.o \
 
@@ -10,6 +12,8 @@ ASM_LIST = \
 .obj/App.s \
 .obj/Application.s \
 .obj/Client.s \
+.obj/FavFrame.s \
+.obj/FavList.s \
 .obj/LabWindow.s \
 .obj/main.s \
 
@@ -18,6 +22,8 @@ DEP_LIST = \
 .obj/App.dep \
 .obj/Application.dep \
 .obj/Client.dep \
+.obj/FavFrame.dep \
+.obj/FavList.dep \
 .obj/LabWindow.dep \
 .obj/main.dep \
 
@@ -37,6 +43,12 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/FavFrame.o : src/./FavFrame.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FavList.o : src/./FavList.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/LabWindow.o : src/./LabWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -52,6 +64,12 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Client.s : src/./Client.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/FavFrame.s : src/./FavFrame.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/FavList.s : src/./FavList.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/LabWindow.s : src/./LabWindow.cpp
@@ -70,6 +88,12 @@ include $(RULES_FILE)
 
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
+
+.obj/FavFrame.dep : src/./FavFrame.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FavFrame.o $< -MF $@
+
+.obj/FavList.dep : src/./FavList.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FavList.o $< -MF $@
 
 .obj/LabWindow.dep : src/./LabWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LabWindow.o $< -MF $@
