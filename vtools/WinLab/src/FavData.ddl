@@ -1,4 +1,4 @@
-/* FavFrame.h */
+/* FavData.ddl */
 //----------------------------------------------------------------------------------------
 //
 //  Project: CCore 3.60
@@ -13,27 +13,25 @@
 //
 //----------------------------------------------------------------------------------------
 
-#ifndef CCore_inc_video_FavFrame_h
-#define CCore_inc_video_FavFrame_h
+type Bool = uint8 ;
 
-#include <CCore/inc/video/WindowLib.h>
+Bool True = 1 ;
+Bool False = 0 ;
 
-namespace CCore {
-namespace Video {
+struct FavElement
+ {
+  text title;
+  text path;
+  Bool section = False ;
+  Bool open = True ;
+ };
 
-/* classes */
-
-class FavList;
-
-class FavListWindow;
-
-class FavWindow;
-
-class FavFrame;
-
-
-} // namespace Video
-} // namespace CCore
-
-#endif
-
+struct FavData
+ {
+  FavElement[] list;
+  
+  ulen off = 0 ;
+  ulen cur = 0 ;  
+ };
+ 
+ 
