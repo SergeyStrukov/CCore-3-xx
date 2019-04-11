@@ -19,6 +19,16 @@
 namespace CCore {
 namespace Video {
 
+/* class FavListShape */
+
+Point FavListShape::getMinSize() const
+ {
+  return Point(100,100);
+ }
+
+void FavListShape::draw(const DrawBuf &buf,DrawParam draw_param) const
+ {
+ }
 
 } // namespace Video
 } // namespace CCore
