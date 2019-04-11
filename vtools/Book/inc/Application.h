@@ -26,7 +26,55 @@ namespace App {
 
 /* classes */
 
+struct AppState;
+
+class ClientWindow;
+
 struct AppProp;
+
+/* struct AppState */
+
+struct AppState
+ {
+  Pane place;
+
+  // methods
+
+  static StrLen File();
+
+  static StrLen Pretext();
+
+  AppState();
+
+  ~AppState();
+
+  bool load(StrLen file_name);
+
+  void save(StrLen file_name) const;
+
+  bool load() noexcept;
+
+  void save() const noexcept;
+ };
+
+/* class ClientWindow */
+
+class ClientWindow : public Book::ClientWindow , public AliveControl
+ {
+  public:
+
+   ClientWindow(SubWindowHost &host,const Config &cfg,OptFileName opt,Signal<> &update);
+
+   virtual ~ClientWindow();
+
+   // methods
+
+   void prepare(const AppState &app_state);
+
+   // AliveControl
+
+   virtual void dying();
+ };
 
 /* struct AppProp */
 
@@ -40,11 +88,13 @@ struct AppProp
 
   using PreferenceBag = Book::ClientWindow::AppBag ;
 
-  using ClientWindow = Book::ClientWindow ;
+  using ClientWindow = App::ClientWindow ;
 
   using Opt = OptFileName ;
 
-  static constexpr PrepareOpt Prepare = PrepareRandom ;
+  using Persist = AppState ;
+
+  static constexpr PrepareOpt Prepare = PreparePersist ;
  };
 
 } // namespace App
