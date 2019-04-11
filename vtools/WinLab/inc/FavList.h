@@ -24,21 +24,25 @@ namespace Video {
 
 /* classes */
 
+struct FavRec;
+
 class FavList;
+
+/* struct FavRec */
+
+struct FavRec
+ {
+  String title;
+  String path;
+  bool section = false ;
+  bool open = true ;
+ };
 
 /* class FavList */
 
 class FavList : NoCopy
  {
-   struct Rec
-    {
-     String title;
-     String path;
-     bool section = false ;
-     bool open = true ;
-    };
-
-   DynArray<Rec> list;
+   DynArray<FavRec> list;
 
    ulen off = 0 ;
    ulen cur = 0 ;
@@ -54,6 +58,8 @@ class FavList : NoCopy
    ~FavList();
 
    // methods
+
+   PtrLen<const FavRec> getRange() const { return Range(list).safe_part(off); }
 
    // load/save
 

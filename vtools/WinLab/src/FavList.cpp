@@ -17,6 +17,7 @@
 #include <inc/FavList.h>
 
 #include <CCore/inc/video/HomeFile.h>
+#include <CCore/inc/video/PrintDDL.h>
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/PrintStem.h>
@@ -137,9 +138,32 @@ bool FavList::load(StrLen file_name)
   return false;
  }
 
-void FavList::save(StrLen file_name) const // TODO
+void FavList::save(StrLen file_name) const
  {
   PrintFile out(file_name);
+
+  Putobj(out,"//include <FavData.ddl>\n\n"_c);
+
+  Putobj(out,"FavData Data =\n {\n\n"_c);
+
+  Putobj(out,"  {"_c);
+
+  PrintFirst stem("\n"_c,",\n"_c);
+
+  for(auto &rec : list )
+    {
+     Printf(out,"#;   { #; , #; , #; , #; }",stem,DDLString(rec.title),
+                                                  DDLPrintableString(rec.path),
+                                                  DDLBool(rec.section),
+                                                  DDLBool(rec.open));
+    }
+
+  Putobj(out,"\n  },\n\n"_c);
+
+  Printf(out,"  #;,\n",off);
+  Printf(out,"  #;\n",cur);
+
+  Putobj(out," };\n\n"_c);
  }
 
 bool FavList::load(StrLen key,StrLen file) noexcept
