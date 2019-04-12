@@ -47,7 +47,12 @@ class FavListShape
      RefVal<VColor> border =      Blue ;
      RefVal<VColor> focus  = OrangeRed ;
      RefVal<VColor> gray   =      Gray ;
-     RefVal<VColor> text   =     Black ;
+
+     RefVal<VColor> text        =  Black ;
+     RefVal<VColor> text_select = Yellow ;
+
+     RefVal<VColor> section_text = White ;
+     RefVal<VColor> section_back = Black ;
 
      RefVal<Point> space = Point(8,8) ;
 
@@ -56,15 +61,19 @@ class FavListShape
      Config() noexcept {}
 
      template <class Bag>
-     void bind(const Bag &bag)
+     void bind(const Bag &bag) // TODO
       {
        width.bind(bag.width);
        border.bind(bag.border);
        focus.bind(bag.focus);
        gray.bind(bag.gray);
 
-       text.bind(bag.list_text);
-       space.bind(bag.list_space);
+       // text
+       // text_select
+       // section_text
+       // section_back
+       // font
+
        font.bind(bag.list_font.font);
       }
     };

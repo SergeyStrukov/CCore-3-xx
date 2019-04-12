@@ -21,7 +21,6 @@
 
 #include <CCore/inc/Print.h>
 #include <CCore/inc/PrintStem.h>
-#include <CCore/inc/ForLoop.h>
 
 #include <CCore/inc/ddl/DDLEngine.h>
 #include <CCore/inc/ddl/DDLTypeSet.h>

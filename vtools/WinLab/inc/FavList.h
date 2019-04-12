@@ -18,7 +18,7 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/String.h>
-#include <CCore/inc/ScanRange.h>
+#include <CCore/inc/ForLoop.h>
 
 namespace CCore {
 namespace Video {
@@ -98,21 +98,22 @@ class FavList : NoCopy
 
    bool offDown();
 
-   void apply(ulen count,FuncArgType<StrLen,StrLen,bool,bool> func) const // title path section open
+   void apply(ulen count,FuncArgType<StrLen,StrLen,bool,bool,bool> func) const // title path section open cur
     {
+     if( !count ) return;
+
      auto r=getRange();
 
-     for(; count ;count--)
+     for(ulen ind : IndLim(r.len) )
        {
-        ScanRange scan(r, [] (const FavRec &rec) { return rec.isVisible(); } );
+        auto &obj=r[ind];
 
-        r=scan.next;
+        if( obj.isVisible() )
+          {
+           func(Range(obj.title),Range(obj.path),obj.section,obj.open, off+ind==cur );
 
-        if( !r ) break;
-
-        func(Range(r->title),Range(r->path),r->section,r->open);
-
-        ++r;
+           if( !--count ) return;
+          }
        }
     }
 

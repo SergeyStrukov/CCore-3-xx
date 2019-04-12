@@ -54,11 +54,23 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
      {
       VColor gray=+cfg.gray;
       VColor text=+cfg.text;
+      VColor text_select=+cfg.text_select;
+      VColor section_text=+cfg.section_text;
+      VColor section_back=+cfg.section_back;
 
       FontSize fs=font->getSize();
 
       Coord h=fs.dy+space.y;
       MCoord H=Fraction(h);
+
+      Coord item_offx=0;
+      Coord section_offx=h;
+
+      Pane line=inner;
+
+      line.dy=h;
+
+      line.shrink(space.x/2,RoundUpLen(width/2)+1);
 
       ulen count=inner.dy/h;
 
@@ -67,19 +79,39 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
 
       art.path(width,gray,A,B);
 
-      Point base=inner.getBase().addY(fs.by)+space/2;
-
-      auto drawItem = [&] (StrLen title,StrLen path,bool section,bool open)
+      auto drawItem = [&] (StrLen title,StrLen,bool section,bool open,bool cur)
                           {
-                           font->textOn(art,pane,TextPlace(base),title,text);
+                           if( section )
+                             {
+                              Used(open);
 
-                           Used(path);
-                           Used(section);
-                           Used(open);
+                              Pane tpane=line.pushLeft(section_offx);
+
+                              if( cur )
+                                {
+                                 art.block(tpane,text_select);
+
+                                 font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
+                                }
+                              else
+                                {
+                                 art.block(tpane,section_back);
+
+                                 font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,section_text);
+                                }
+                             }
+                           else
+                             {
+                              Pane tpane=line.pushLeft(item_offx);
+
+                              if( cur ) art.block(tpane,text_select);
+
+                              font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
+                             }
 
                            A=A.addY(H);
                            B=B.addY(H);
-                           base=base.addY(h);
+                           line.y+=h;
 
                            art.path(width,gray,A,B);
                           } ;
