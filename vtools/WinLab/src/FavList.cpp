@@ -73,6 +73,43 @@ StrLen FavList::Pretext()
 ""_c;
  }
 
+void FavList::SetOpenFlags(PtrLen<FavRec> list)
+ {
+  bool open=true;
+
+  for(auto &rec : list )
+    {
+     if( rec.section )
+       {
+        open=rec.open;
+       }
+     else
+       {
+        rec.open=open;
+       }
+    }
+ }
+
+auto FavList::posUp(ulen pos) -> PosResult
+ {
+  auto r=Range(list);
+
+  for(ulen i=pos; i-- ;) if( r[i].isVisible() ) return {i,true};
+
+  return {0,false};
+ }
+
+auto FavList::posDown(ulen pos) -> PosResult
+ {
+  auto r=Range(list);
+
+  if( pos>=r.len ) return {0,false};
+
+  for(ulen i : IndLim(pos+1,r.len) ) if( r[i].isVisible() ) return {i,true};
+
+  return {0,false};
+ }
+
 FavList::FavList()
  {
  }
@@ -88,6 +125,26 @@ void FavList::erase()
   list.erase();
   off=0;
   cur=0;
+ }
+
+bool FavList::curUp()
+ {
+  return posUp(cur).get(cur);
+ }
+
+bool FavList::curDown()
+ {
+  return posDown(cur).get(cur);
+ }
+
+bool FavList::offUp()
+ {
+  return posUp(off).get(off);
+ }
+
+bool FavList::offDown()
+ {
+  return posDown(off).get(off);
  }
 
  // load/save
@@ -134,6 +191,8 @@ bool FavList::load(StrLen file_name)
        }
 
      list=std::move(new_list);
+
+     SetOpenFlags(Range(list));
 
      off=data.off;
      cur=data.cur;

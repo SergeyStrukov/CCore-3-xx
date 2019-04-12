@@ -18,12 +18,24 @@ namespace App {
 /* class LabWindow */
 
 LabWindow::LabWindow(SubWindowHost &host,const Config &cfg)
- : ColorListWindow(host,cfg,ColorSet())
+ : FavListWindow(host,cfg)
  {
  }
 
 LabWindow::~LabWindow()
  {
+ }
+
+ // base
+
+void LabWindow::open()
+ {
+  load("test.ddl");
+ }
+
+void LabWindow::close()
+ {
+  save("test.ddl");
  }
 
 } // namespace App

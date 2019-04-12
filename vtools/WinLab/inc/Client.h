@@ -36,6 +36,8 @@ class ClientWindow : public ComboWindow
     {
      // user
 
+     RefVal<VColor> back = Silver ;
+
      CtorRefVal<SimpleTopMenuWindow::ConfigType> menu_cfg;
      CtorRefVal<SimpleCascadeMenu::ConfigType> cascade_menu_cfg;
 
@@ -64,7 +66,7 @@ class ClientWindow : public ComboWindow
      template <class Bag,class Proxy>
      void bindUser(const Bag &bag,Proxy proxy)
       {
-       Used(bag);
+       back.bind(bag.back);
 
        menu_cfg.bind(proxy);
        cascade_menu_cfg.bind(proxy);
@@ -156,6 +158,8 @@ class ClientWindow : public ComboWindow
    // drawing
 
    virtual void layout();
+
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
 
    // user input
 

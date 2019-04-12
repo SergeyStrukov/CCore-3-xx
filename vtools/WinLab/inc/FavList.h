@@ -18,6 +18,7 @@
 
 #include <CCore/inc/Array.h>
 #include <CCore/inc/String.h>
+#include <CCore/inc/ScanRange.h>
 
 namespace CCore {
 namespace Video {
@@ -36,6 +37,8 @@ struct FavRec
   String path;
   bool section = false ;
   bool open = true ;
+
+  bool isVisible() const { return section || open ; }
  };
 
 /* class FavList */
@@ -51,6 +54,32 @@ class FavList : NoCopy
 
    static StrLen Pretext();
 
+   static void SetOpenFlags(PtrLen<FavRec> list);
+
+   PtrLen<const FavRec> getRange() const { return Range(list).safe_part(off); }
+
+   struct PosResult
+    {
+     ulen pos;
+     bool ok;
+
+     bool get(ulen &var)
+      {
+       if( ok )
+         {
+          var=pos;
+
+          return true;
+         }
+
+       return false;
+      }
+    };
+
+   PosResult posUp(ulen pos);
+
+   PosResult posDown(ulen pos);
+
   public:
 
    FavList();
@@ -61,7 +90,31 @@ class FavList : NoCopy
 
    void erase();
 
-   PtrLen<const FavRec> getRange(ulen len) const { return Range(list).safe_part(off,len); }
+   bool curUp();
+
+   bool curDown();
+
+   bool offUp();
+
+   bool offDown();
+
+   void apply(ulen count,FuncArgType<StrLen,StrLen,bool,bool> func) const // title path section open
+    {
+     auto r=getRange();
+
+     for(; count ;count--)
+       {
+        ScanRange scan(r, [] (const FavRec &rec) { return rec.isVisible(); } );
+
+        r=scan.next;
+
+        if( !r ) break;
+
+        func(Range(r->title),Range(r->path),r->section,r->open);
+
+        ++r;
+       }
+    }
 
    // load/save
 

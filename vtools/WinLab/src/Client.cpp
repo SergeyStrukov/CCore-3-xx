@@ -168,6 +168,11 @@ void ClientWindow::layout()
   lay.setPlace(getPane(),0);
  }
 
+void ClientWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
+ {
+  draw_param.erase(buf,+cfg.back);
+ }
+
  // user input
 
 void ClientWindow::react(UserAction action)

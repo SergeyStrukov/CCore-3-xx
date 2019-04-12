@@ -16,7 +16,8 @@
 
 #include <inc/App.h>
 
-#include <CCore/inc/video/pref/ColorListWindow.h>
+//#include <CCore/inc/video/FavFrame.h>
+#include <inc/FavFrame.h>
 
 namespace App {
 
@@ -26,16 +27,16 @@ class LabWindow;
 
 /* class LabWindow */
 
-class LabWindow : public ColorListWindow
+class LabWindow : public FavListWindow
  {
   public:
 
-   struct Config : public ColorListWindow::ConfigType
+   struct Config : public FavListWindow::ConfigType
     {
      template <class UserPref,class AppPref>
      Config(const UserPref &user_pref,const AppPref &) noexcept
       {
-       bind(user_pref.get(),user_pref.getSmartConfig());
+       bind(user_pref.get()); // ,user_pref.getSmartConfig()
       }
     };
 
@@ -46,6 +47,12 @@ class LabWindow : public ColorListWindow
    LabWindow(SubWindowHost &host,const Config &cfg);
 
    virtual ~LabWindow();
+
+   // base
+
+   virtual void open();
+
+   virtual void close();
  };
 
 } // namespace App

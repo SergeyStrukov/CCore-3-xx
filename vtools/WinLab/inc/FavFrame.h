@@ -183,6 +183,45 @@ class FavListWindowOf : public SubWindow
     {
      return FocusOk;
     }
+
+   // user input
+
+   virtual void react(UserAction action)
+    {
+     action.dispatch(*this);
+    }
+
+   void react_Key(VKey vkey,KeyMod kmod)
+    {
+     switch( vkey )
+       {
+        case VKey_Up :
+         {
+          if( kmod&KeyMod_Shift )
+            {
+             if( shape.fav_list.offUp() ) redraw();
+            }
+          else
+            {
+             if( shape.fav_list.curUp() ) redraw();
+            }
+         }
+        break;
+
+        case VKey_Down :
+         {
+          if( kmod&KeyMod_Shift )
+            {
+             if( shape.fav_list.offDown() ) redraw();
+            }
+          else
+            {
+             if( shape.fav_list.curDown() ) redraw();
+            }
+         }
+        break;
+       }
+    }
  };
 
 /* type FavListWindow */
