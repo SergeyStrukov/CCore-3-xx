@@ -99,7 +99,7 @@ void FavList::SetOpen(PtrLen<FavRec> list,bool flag)
     }
  }
 
-auto FavList::posUp(ulen pos) -> PosResult
+auto FavList::posUp(ulen pos) const -> PosResult
  {
   auto r=Range(list);
 
@@ -108,7 +108,7 @@ auto FavList::posUp(ulen pos) -> PosResult
   return {0,false};
  }
 
-auto FavList::posDown(ulen pos) -> PosResult
+auto FavList::posDown(ulen pos) const -> PosResult
  {
   auto r=Range(list);
 
@@ -146,6 +146,61 @@ bool FavList::curDown()
   return posDown(cur).get(cur);
  }
 
+bool FavList::curBeg()
+ {
+  return Change<ulen>(cur,0);
+ }
+
+bool FavList::curEnd()
+ {
+  auto result=posUp(list.getLen());
+
+  if( result.ok )
+    {
+     return Change(cur,result.pos);
+    }
+  else
+    {
+     return false;
+    }
+ }
+
+bool FavList::curUp(ulen count)
+ {
+  if( !count ) return false;
+
+  ulen pos=cur;
+
+  for(; count ;count--)
+    {
+     auto result=posUp(pos);
+
+     if( !result.ok ) break;
+
+     pos=result.pos;
+    }
+
+  return Change(cur,pos);
+ }
+
+bool FavList::curDown(ulen count)
+ {
+  if( !count ) return false;
+
+  ulen pos=cur;
+
+  for(; count ;count--)
+    {
+     auto result=posDown(pos);
+
+     if( !result.ok ) break;
+
+     pos=result.pos;
+    }
+
+  return Change(cur,pos);
+ }
+
 bool FavList::offUp()
  {
   return posUp(off).get(off);
@@ -158,16 +213,26 @@ bool FavList::offDown()
 
 void FavList::makeVisible(ulen count)
  {
-  if( cur<off )
+  if( cur<off || !count )
     {
      off=cur;
     }
-  else if( cur-off>=count )
+  else
     {
-     if( count )
-       off=cur-count+1;
-     else
-       off=cur;
+     ulen pos=cur;
+
+     for(count--; count ;count--)
+       {
+        auto result=posUp(pos);
+
+        if( !result.ok ) return;
+
+        pos=result.pos;
+
+        if( off>=pos ) return;
+       }
+
+     off=pos;
     }
  }
 

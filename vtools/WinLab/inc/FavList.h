@@ -78,9 +78,9 @@ class FavList : NoCopy
       }
     };
 
-   PosResult posUp(ulen pos);
+   PosResult posUp(ulen pos) const;
 
-   PosResult posDown(ulen pos);
+   PosResult posDown(ulen pos) const;
 
   public:
 
@@ -95,6 +95,14 @@ class FavList : NoCopy
    bool curUp();
 
    bool curDown();
+
+   bool curBeg();
+
+   bool curEnd();
+
+   bool curUp(ulen count);
+
+   bool curDown(ulen count);
 
    bool offUp();
 

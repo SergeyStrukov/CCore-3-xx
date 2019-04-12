@@ -104,6 +104,16 @@ class FavListShape
 
    ulen getPageLen() const;
 
+   bool curPageUp()
+    {
+     return fav_list.curUp(getPageLen());
+    }
+
+   bool curPageDown()
+    {
+     return fav_list.curDown(getPageLen());
+    }
+
    void makeVisible()
     {
      fav_list.makeVisible(getPageLen());
@@ -262,6 +272,50 @@ class FavListWindowOf : public SubWindow
 
                 redraw();
                }
+            }
+         }
+        break;
+
+        case VKey_PageUp :
+         {
+          if( shape.curPageUp() )
+            {
+             shape.makeVisible();
+
+             redraw();
+            }
+         }
+        break;
+
+        case VKey_PageDown :
+         {
+          if( shape.curPageDown() )
+            {
+             shape.makeVisible();
+
+             redraw();
+            }
+         }
+        break;
+
+        case VKey_Home :
+         {
+          if( shape.fav_list.curBeg() )
+            {
+             shape.makeVisible();
+
+             redraw();
+            }
+         }
+        break;
+
+        case VKey_End :
+         {
+          if( shape.fav_list.curEnd() )
+            {
+             shape.makeVisible();
+
+             redraw();
             }
          }
         break;
