@@ -56,6 +56,8 @@ class FavList : NoCopy
 
    static void SetOpenFlags(PtrLen<FavRec> list);
 
+   static void SetOpen(PtrLen<FavRec> list,bool flag);
+
    PtrLen<const FavRec> getRange() const { return Range(list).safe_part(off); }
 
    struct PosResult
@@ -98,7 +100,22 @@ class FavList : NoCopy
 
    bool offDown();
 
-   void apply(ulen count,FuncArgType<StrLen,StrLen,bool,bool,bool> func) const // title path section open cur
+   void makeVisible(ulen count);
+
+   bool curOpen();
+
+   bool curClose();
+
+   struct ActResult
+    {
+     ulen ind;
+     bool section;
+     bool ok;
+    };
+
+   ActResult curAct();
+
+   void apply(ulen count,FuncArgType<ulen,StrLen,StrLen,bool,bool,bool> func) const // ind title path section open cur
     {
      if( !count ) return;
 
@@ -110,7 +127,7 @@ class FavList : NoCopy
 
         if( obj.isVisible() )
           {
-           func(Range(obj.title),Range(obj.path),obj.section,obj.open, off+ind==cur );
+           func(off+ind,Range(obj.title),Range(obj.path),obj.section,obj.open, off+ind==cur );
 
            if( !--count ) return;
           }

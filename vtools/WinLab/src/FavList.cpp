@@ -76,16 +76,26 @@ void FavList::SetOpenFlags(PtrLen<FavRec> list)
  {
   bool open=true;
 
-  for(auto &rec : list )
+  for(auto &obj : list )
     {
-     if( rec.section )
+     if( obj.section )
        {
-        open=rec.open;
+        open=obj.open;
        }
      else
        {
-        rec.open=open;
+        obj.open=open;
        }
+    }
+ }
+
+void FavList::SetOpen(PtrLen<FavRec> list,bool flag)
+ {
+  for(auto &obj : list )
+    {
+     if( obj.section ) return;
+
+     obj.open=flag;
     }
  }
 
@@ -144,6 +154,84 @@ bool FavList::offUp()
 bool FavList::offDown()
  {
   return posDown(off).get(off);
+ }
+
+void FavList::makeVisible(ulen count)
+ {
+  if( cur<off )
+    {
+     off=cur;
+    }
+  else if( cur-off>=count )
+    {
+     if( count )
+       off=cur-count+1;
+     else
+       off=cur;
+    }
+ }
+
+bool FavList::curOpen()
+ {
+  if( cur<list.getLen() )
+    {
+     auto &obj=list[cur];
+
+     if( obj.section && !obj.open )
+       {
+        obj.open=true;
+
+        SetOpen(Range(list).part(cur+1),true);
+
+        return true;
+       }
+    }
+
+  return false;
+ }
+
+bool FavList::curClose()
+ {
+  if( cur<list.getLen() )
+    {
+     auto &obj=list[cur];
+
+     if( obj.section && obj.open )
+       {
+        obj.open=false;
+
+        SetOpen(Range(list).part(cur+1),false);
+
+        return true;
+       }
+    }
+
+  return false;
+ }
+
+auto FavList::curAct() -> ActResult
+ {
+  if( cur<list.getLen() )
+    {
+     auto &obj=list[cur];
+
+     if( obj.section )
+       {
+        bool flag=!obj.open;
+
+        obj.open=flag;
+
+        SetOpen(Range(list).part(cur+1),flag);
+
+        return {cur,true,true};
+       }
+     else
+       {
+        return {cur,false,true};
+       }
+    }
+
+  return {0,false,false};
  }
 
  // load/save

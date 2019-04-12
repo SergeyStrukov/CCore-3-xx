@@ -25,14 +25,19 @@ namespace Video {
 
 Point FavListShape::getMinSize() const
  {
-  return Point(100,100);
+  Point space=+cfg.space;
+  const Font &font=cfg.font.get();
+
+  FontSize fs=font->getSize();
+
+  Coord h=AddSize(fs.dy,space.y);
+
+  Coord dy=MulSize(10u,h);
+
+  return 2*space+Point(Div(2,3)*dy,dy);
  }
 
-void FavListShape::layout() // TODO
- {
- }
-
-void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
+void FavListShape::draw(const DrawBuf &buf,DrawParam) const
  {
   MPane p(pane);
 
@@ -79,12 +84,12 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
 
       art.path(width,gray,A,B);
 
-      auto drawItem = [&] (StrLen title,StrLen,bool section,bool open,bool cur)
+      KnobShape shape(cfg.knob_cfg,KnobShape::FacePlus);
+
+      auto drawItem = [&] (ulen,StrLen title,StrLen,bool section,bool open,bool cur)
                           {
                            if( section )
                              {
-                              Used(open);
-
                               Pane tpane=line.pushLeft(section_offx);
 
                               if( cur )
@@ -99,6 +104,12 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
 
                                  font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,section_text);
                                 }
+
+                              shape.face = open? KnobShape::FaceMinus : KnobShape::FacePlus ;
+
+                              shape.pane=line.shrink(h/8);
+
+                              shape.draw(buf,DrawParam());
                              }
                            else
                              {
@@ -129,6 +140,32 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const // TODO
 
    fig.loop(art,HalfPos,width,border);
   }
+ }
+
+ulen FavListShape::getPageLen() const
+ {
+  if( !pane ) return 0;
+
+  Point space=+cfg.space;
+
+  Pane inner=pane.shrink(space);
+
+  if( !inner ) return 0;
+
+  const Font &font=cfg.font.get();
+
+  FontSize fs=font->getSize();
+
+  Coord h=fs.dy+space.y;
+
+  return inner.dy/h;
+ }
+
+auto FavListShape::test(Point point) const -> TestResult // TODO
+ {
+  Used(point);
+
+  return {0,false,false};
  }
 
 } // namespace Video

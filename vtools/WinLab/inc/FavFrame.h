@@ -58,6 +58,8 @@ class FavListShape
 
      RefVal<Font> font;
 
+     KnobShape::Config knob_cfg;
+
      Config() noexcept {}
 
      template <class Bag>
@@ -75,6 +77,8 @@ class FavListShape
        // font
 
        font.bind(bag.list_font.font);
+
+       knob_cfg.bind(bag);
       }
     };
 
@@ -96,9 +100,23 @@ class FavListShape
 
    bool isGoodSize(Point size) const { return size>=getMinSize(); }
 
-   void layout();
-
    void draw(const DrawBuf &buf,DrawParam draw_param) const;
+
+   ulen getPageLen() const;
+
+   void makeVisible()
+    {
+     fav_list.makeVisible(getPageLen());
+    }
+
+   struct TestResult
+    {
+     ulen ind;
+     bool btn;
+     bool ok;
+    };
+
+   TestResult test(Point point) const;
  };
 
 /* class FavListWindowOf<Shape> */
@@ -177,8 +195,6 @@ class FavListWindowOf : public SubWindow
    virtual void layout()
     {
      shape.pane=getPane();
-
-     shape.layout();
     }
 
    virtual void draw(DrawBuf buf,DrawParam draw_param) const
@@ -222,7 +238,12 @@ class FavListWindowOf : public SubWindow
             }
           else
             {
-             if( shape.fav_list.curUp() ) redraw();
+             if( shape.fav_list.curUp() )
+               {
+                shape.makeVisible();
+
+                redraw();
+               }
             }
          }
         break;
@@ -235,12 +256,52 @@ class FavListWindowOf : public SubWindow
             }
           else
             {
-             if( shape.fav_list.curDown() ) redraw();
+             if( shape.fav_list.curDown() )
+               {
+                shape.makeVisible();
+
+                redraw();
+               }
+            }
+         }
+        break;
+
+        case VKey_NumPlus :
+         {
+          if( shape.fav_list.curOpen() ) redraw();
+         }
+        break;
+
+        case VKey_NumMinus :
+         {
+          if( shape.fav_list.curClose() ) redraw();
+         }
+        break;
+
+        case VKey_Space :
+        case VKey_Enter :
+         {
+          auto result=shape.fav_list.curAct();
+
+          if( result.ok )
+            {
+             if( result.section )
+               {
+                redraw();
+               }
+             else
+               {
+                selected.assert(result.ind);
+               }
             }
          }
         break;
        }
     }
+
+   // signals
+
+   Signal<ulen> selected;
  };
 
 /* type FavListWindow */
