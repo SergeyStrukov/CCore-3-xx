@@ -47,11 +47,9 @@ class FavListShape
      RefVal<VColor> border =      Blue ;
      RefVal<VColor> focus  = OrangeRed ;
      RefVal<VColor> gray   =      Gray ;
-     RefVal<VColor> snow   =      Snow ;
-     RefVal<VColor> snowUp = PaleGreen ;
      RefVal<VColor> text   =     Black ;
 
-     RefVal<Point> space = Point(6,4) ;
+     RefVal<Point> space = Point(8,8) ;
 
      RefVal<Font> font;
 
@@ -64,12 +62,10 @@ class FavListShape
        border.bind(bag.border);
        focus.bind(bag.focus);
        gray.bind(bag.gray);
-       snow.bind(bag.snow);
-       snowUp.bind(bag.snowUp);
 
-       text.bind(bag.button_text);
-       space.bind(bag.button_space);
-       font.bind(bag.button_font.font);
+       text.bind(bag.list_text);
+       space.bind(bag.list_space);
+       font.bind(bag.list_font.font);
       }
     };
 
@@ -78,6 +74,10 @@ class FavListShape
    const Config &cfg;
    FavList fav_list;
    Pane pane;
+
+   // state
+
+   bool focus = false ;
 
    // methods
 
@@ -182,6 +182,16 @@ class FavListWindowOf : public SubWindow
    virtual FocusType askFocus() const
     {
      return FocusOk;
+    }
+
+   virtual void gainFocus()
+    {
+     if( Change(shape.focus,true) ) redraw();
+    }
+
+   virtual void looseFocus()
+    {
+     if( Change(shape.focus,false) ) redraw();
     }
 
    // user input
