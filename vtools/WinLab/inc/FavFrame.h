@@ -253,6 +253,8 @@ class FavListWindowOf : public SubWindow
                 shape.makeVisible();
 
                 redraw();
+
+                changed.assert();
                }
             }
          }
@@ -271,6 +273,8 @@ class FavListWindowOf : public SubWindow
                 shape.makeVisible();
 
                 redraw();
+
+                changed.assert();
                }
             }
          }
@@ -283,6 +287,8 @@ class FavListWindowOf : public SubWindow
              shape.makeVisible();
 
              redraw();
+
+             changed.assert();
             }
          }
         break;
@@ -294,6 +300,8 @@ class FavListWindowOf : public SubWindow
              shape.makeVisible();
 
              redraw();
+
+             changed.assert();
             }
          }
         break;
@@ -305,6 +313,8 @@ class FavListWindowOf : public SubWindow
              shape.makeVisible();
 
              redraw();
+
+             changed.assert();
             }
          }
         break;
@@ -316,6 +326,8 @@ class FavListWindowOf : public SubWindow
              shape.makeVisible();
 
              redraw();
+
+             changed.assert();
             }
          }
         break;
@@ -345,7 +357,7 @@ class FavListWindowOf : public SubWindow
                }
              else
                {
-                selected.assert(result.ind);
+                selected.assert();
                }
             }
          }
@@ -353,9 +365,102 @@ class FavListWindowOf : public SubWindow
        }
     }
 
+   void react_LeftClick(Point point,MouseKey)
+    {
+     auto result=shape.test(point);
+
+     if( result.ok )
+       {
+        if( result.btn )
+          {
+           shape.fav_list.changeOpen(result.ind);
+
+           redraw();
+          }
+        else
+          {
+           if( shape.fav_list.changeCur(result.ind) )
+             {
+              redraw();
+
+              changed.assert();
+             }
+          }
+       }
+    }
+
+   void react_LeftDClick(Point point,MouseKey)
+    {
+     auto result=shape.test(point);
+
+     if( result.ok )
+       {
+        if( !result.btn )
+          {
+           if( shape.fav_list.changeCur(result.ind) )
+             {
+              redraw();
+
+              changed.assert();
+             }
+
+           selected.assert();
+          }
+       }
+    }
+
+   void react_Wheel(Point,MouseKey mkey,Coord delta_)
+    {
+     ulen delta=IntAbs(delta_);
+
+     if( delta_<0 )
+       {
+        if( mkey&MouseKey_Shift )
+          {
+           if( shape.fav_list.offDown(delta) )
+             {
+              redraw();
+             }
+          }
+        else
+          {
+           if( shape.fav_list.curDown(delta) )
+             {
+              shape.makeVisible();
+
+              redraw();
+
+              changed.assert();
+             }
+          }
+       }
+     else
+       {
+        if( mkey&MouseKey_Shift )
+          {
+           if( shape.fav_list.offUp(delta) )
+             {
+              redraw();
+             }
+          }
+        else
+          {
+           if( shape.fav_list.curUp(delta) )
+             {
+              shape.makeVisible();
+
+              redraw();
+
+              changed.assert();
+             }
+          }
+       }
+    }
+
    // signals
 
-   Signal<ulen> selected;
+   Signal<> selected;
+   Signal<> changed;
  };
 
 /* type FavListWindow */

@@ -11,13 +11,13 @@ FavData Data =
    { "title4" , "path4" , False , True },
    { "title5" , "path5" , False , True },
    { "title6" , "path6" , False , True },
-   { "Программирование" , "" , True , False },
-   { "title7" , "path7" , False , False },
-   { "title8" , "path8" , False , False },
-   { "title9" , "path9" , False , False },
-   { "title10" , "path10" , False , False },
-   { "title11" , "path11" , False , False },
-   { "title12" , "path12" , False , False }
+   { "Программирование" , "" , True , True },
+   { "title7" , "path7" , False , True },
+   { "title8" , "path8" , False , True },
+   { "title9" , "path9" , False , True },
+   { "title10" , "path10" , False , True },
+   { "title11" , "path11" , False , True },
+   { "title12" , "path12" , False , True }
   },
 
   0,

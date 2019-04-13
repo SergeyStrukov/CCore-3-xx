@@ -82,6 +82,10 @@ class FavList : NoCopy
 
    PosResult posDown(ulen pos) const;
 
+   PosResult posUp(ulen pos,ulen count) const;
+
+   PosResult posDown(ulen pos,ulen count) const;
+
   public:
 
    FavList();
@@ -89,6 +93,13 @@ class FavList : NoCopy
    ~FavList();
 
    // methods
+
+   const FavRec * getCur() const
+    {
+     if( cur<list.getLen() ) return &list[cur];
+
+     return 0;
+    }
 
    void erase();
 
@@ -108,6 +119,10 @@ class FavList : NoCopy
 
    bool offDown();
 
+   bool offUp(ulen count);
+
+   bool offDown(ulen count);
+
    void makeVisible(ulen count);
 
    bool curOpen();
@@ -116,12 +131,15 @@ class FavList : NoCopy
 
    struct ActResult
     {
-     ulen ind;
      bool section;
      bool ok;
     };
 
    ActResult curAct();
+
+   bool changeCur(ulen ind);
+
+   bool changeOpen(ulen ind);
 
    void apply(ulen count,FuncArgType<ulen,StrLen,StrLen,bool,bool,bool> func) const // ind title path section open cur
     {
@@ -136,6 +154,25 @@ class FavList : NoCopy
         if( obj.isVisible() )
           {
            func(off+ind,Range(obj.title),Range(obj.path),obj.section,obj.open, off+ind==cur );
+
+           if( !--count ) return;
+          }
+       }
+    }
+
+   void apply(ulen count,FuncType<bool,ulen,StrLen,StrLen,bool,bool,bool> func) const // ind title path section open cur
+    {
+     if( !count ) return;
+
+     auto r=getRange();
+
+     for(ulen ind : IndLim(r.len) )
+       {
+        auto &obj=r[ind];
+
+        if( obj.isVisible() )
+          {
+           if( !func(off+ind,Range(obj.title),Range(obj.path),obj.section,obj.open, off+ind==cur ) ) return;
 
            if( !--count ) return;
           }

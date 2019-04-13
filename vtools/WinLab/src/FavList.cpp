@@ -119,6 +119,54 @@ auto FavList::posDown(ulen pos) const -> PosResult
   return {0,false};
  }
 
+auto FavList::posUp(ulen pos,ulen count) const -> PosResult
+ {
+  if( !count ) return {0,false};
+
+  {
+   auto result=posUp(pos);
+
+   if( !result.ok ) return {0,false};
+
+   pos=result.pos;
+  }
+
+  for(count--; count ;count--)
+    {
+     auto result=posUp(pos);
+
+     if( !result.ok ) break;
+
+     pos=result.pos;
+    }
+
+  return {pos,true};
+ }
+
+auto FavList::posDown(ulen pos,ulen count) const -> PosResult
+ {
+  if( !count ) return {0,false};
+
+  {
+   auto result=posDown(pos);
+
+   if( !result.ok ) return {0,false};
+
+   pos=result.pos;
+  }
+
+  for(count--; count ;count--)
+    {
+     auto result=posDown(pos);
+
+     if( !result.ok ) break;
+
+     pos=result.pos;
+    }
+
+  return {pos,true};
+ }
+
 FavList::FavList()
  {
  }
@@ -167,38 +215,12 @@ bool FavList::curEnd()
 
 bool FavList::curUp(ulen count)
  {
-  if( !count ) return false;
-
-  ulen pos=cur;
-
-  for(; count ;count--)
-    {
-     auto result=posUp(pos);
-
-     if( !result.ok ) break;
-
-     pos=result.pos;
-    }
-
-  return Change(cur,pos);
+  return posUp(cur,count).get(cur);
  }
 
 bool FavList::curDown(ulen count)
  {
-  if( !count ) return false;
-
-  ulen pos=cur;
-
-  for(; count ;count--)
-    {
-     auto result=posDown(pos);
-
-     if( !result.ok ) break;
-
-     pos=result.pos;
-    }
-
-  return Change(cur,pos);
+  return posDown(cur,count).get(cur);
  }
 
 bool FavList::offUp()
@@ -209,6 +231,16 @@ bool FavList::offUp()
 bool FavList::offDown()
  {
   return posDown(off).get(off);
+ }
+
+bool FavList::offUp(ulen count)
+ {
+  return posUp(off,count).get(off);
+ }
+
+bool FavList::offDown(ulen count)
+ {
+  return posDown(off,count).get(off);
  }
 
 void FavList::makeVisible(ulen count)
@@ -276,9 +308,23 @@ bool FavList::curClose()
 
 auto FavList::curAct() -> ActResult
  {
-  if( cur<list.getLen() )
+  if( cur<list.getLen() ) return {changeOpen(cur),true};
+
+  return {false,false};
+ }
+
+bool FavList::changeCur(ulen ind)
+ {
+  if( ind>list.getLen() ) return false;
+
+  return Change(cur,ind);
+ }
+
+bool FavList::changeOpen(ulen ind)
+ {
+  if( ind<list.getLen() )
     {
-     auto &obj=list[cur];
+     auto &obj=list[ind];
 
      if( obj.section )
        {
@@ -286,17 +332,17 @@ auto FavList::curAct() -> ActResult
 
         obj.open=flag;
 
-        SetOpen(Range(list).part(cur+1),flag);
+        SetOpen(Range(list).part(ind+1),flag);
 
-        return {cur,true,true};
+        return true;
        }
      else
        {
-        return {cur,false,true};
+        return false;
        }
     }
 
-  return {0,false,false};
+  return false;
  }
 
  // load/save

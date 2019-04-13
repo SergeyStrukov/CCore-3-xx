@@ -77,57 +77,64 @@ void FavListShape::draw(const DrawBuf &buf,DrawParam) const
 
       line.shrink(space.x/2,RoundUpLen(width/2)+1);
 
-      ulen count=inner.dy/h;
+      if( +line )
+        {
+         ulen count=inner.dy/h;
 
-      MPoint A=MPointTopLeft(inner.getBase());
-      MPoint B=MPointTopLeft(inner.addDX());
+         MPoint A=MPointTopLeft(inner.getBase());
+         MPoint B=MPointTopLeft(inner.addDX());
 
-      art.path(width,gray,A,B);
+         art.path(width,gray,A,B);
 
-      KnobShape shape(cfg.knob_cfg,KnobShape::FacePlus);
+         KnobShape shape(cfg.knob_cfg,KnobShape::FacePlus);
 
-      auto drawItem = [&] (ulen,StrLen title,StrLen,bool section,bool open,bool cur)
-                          {
-                           if( section )
+         auto drawItem = [&] (ulen,StrLen title,StrLen,bool section,bool open,bool cur)
                              {
-                              Pane tpane=line.pushLeft(section_offx);
-
-                              if( cur )
+                              if( section )
                                 {
-                                 art.block(tpane,text_select);
+                                 Pane tpane=line.pushLeft(section_offx);
 
-                                 font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
+                                 if( cur )
+                                   {
+                                    art.block(tpane,text_select);
+
+                                    font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
+                                   }
+                                 else
+                                   {
+                                    art.block(tpane,section_back);
+
+                                    font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,section_text);
+                                   }
+
+                                 shape.face = open? KnobShape::FaceMinus : KnobShape::FacePlus ;
+
+                                 Pane bpane=line;
+
+                                 bpane.dx=bpane.dy;
+
+                                 shape.pane=bpane.shrink(h/8);
+
+                                 shape.draw(buf,DrawParam());
                                 }
                               else
                                 {
-                                 art.block(tpane,section_back);
+                                 Pane tpane=line.pushLeft(item_offx);
 
-                                 font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,section_text);
+                                 if( cur ) art.block(tpane,text_select);
+
+                                 font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
                                 }
 
-                              shape.face = open? KnobShape::FaceMinus : KnobShape::FacePlus ;
+                              A=A.addY(H);
+                              B=B.addY(H);
+                              line.y+=h;
 
-                              shape.pane=line.shrink(h/8);
+                              art.path(width,gray,A,B);
+                             } ;
 
-                              shape.draw(buf,DrawParam());
-                             }
-                           else
-                             {
-                              Pane tpane=line.pushLeft(item_offx);
-
-                              if( cur ) art.block(tpane,text_select);
-
-                              font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),title,text);
-                             }
-
-                           A=A.addY(H);
-                           B=B.addY(H);
-                           line.y+=h;
-
-                           art.path(width,gray,A,B);
-                          } ;
-
-      fav_list.apply(count,drawItem);
+         fav_list.apply(count,drawItem);
+        }
      }
   }
 
@@ -161,11 +168,71 @@ ulen FavListShape::getPageLen() const
   return inner.dy/h;
  }
 
-auto FavListShape::test(Point point) const -> TestResult // TODO
+auto FavListShape::test(Point point) const -> TestResult
  {
-  Used(point);
+  if( !pane ) return {0,false,false};
 
-  return {0,false,false};
+  MCoord width=+cfg.width;
+
+  const Font &font=cfg.font.get();
+
+  Point space=+cfg.space;
+
+  Pane inner=pane.shrink(space);
+
+  if( !inner ) return {0,false,false};
+
+  FontSize fs=font->getSize();
+
+  Coord h=fs.dy+space.y;
+
+  Pane line=inner;
+
+  line.dy=h;
+
+  line.shrink(space.x/2,RoundUpLen(width/2)+1);
+
+  if( !line ) return {0,false,false};
+
+  ulen count=inner.dy/h;
+
+  TestResult result={0,false,false};
+
+  auto testItem = [&] (ulen ind,StrLen,StrLen,bool section,bool,bool)
+                      {
+                       if( section )
+                         {
+                          Pane bpane=line;
+
+                          bpane.dx=bpane.dy;
+
+                          if( bpane.shrink(h/8).contains(point) )
+                            {
+                             result={ind,true,true};
+
+                             return false;
+                            }
+
+                         }
+                       else
+                         {
+                          if( line.contains(point) )
+                            {
+                             result={ind,false,true};
+
+                             return false;
+                            }
+                         }
+
+                       line.y+=h;
+
+                       return true;
+
+                      } ;
+
+  fav_list.apply(count,testItem);
+
+  return result;
  }
 
 } // namespace Video
