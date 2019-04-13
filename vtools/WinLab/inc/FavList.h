@@ -179,63 +179,27 @@ class FavList : NoCopy
        }
     }
 
-   void openAll() // TODO
-    {
-    }
+   void openAll();
 
-   void closeAll() // TODO
-    {
-    }
+   void closeAll();
 
-   bool canMoveUp() const // TODO
-    {
-     return false;
-    }
+   bool canMoveUp() const;
 
-   bool canMoveDown() const // TODO
-    {
-     return false;
-    }
+   bool canMoveDown() const;
 
-   bool moveUp() // TODO
-    {
-     return false;
-    }
+   bool moveUp();
 
-   bool moveDown() // TODO
-    {
-     return false;
-    }
+   bool moveDown();
 
-   bool moveUp(ulen count) // TODO
-    {
-     Used(count);
+   bool moveUp(ulen count);
 
-     return false;
-    }
+   bool moveDown(ulen count);
 
-   bool moveDown(ulen count) // TODO
-    {
-     Used(count);
+   bool del();
 
-     return false;
-    }
+   void insItem(const String &title,const String &path);
 
-   bool del() // TODO
-    {
-     return false;
-    }
-
-   void insItem(const String &title,const String &path) // TODO
-    {
-     Used(title);
-     Used(path);
-    }
-
-   void insSection(const String &title) // TODO
-    {
-     Used(title);
-    }
+   void insSection(const String &title);
 
    // load/save
 

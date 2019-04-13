@@ -345,6 +345,64 @@ bool FavList::changeOpen(ulen ind)
   return false;
  }
 
+void FavList::openAll() // TODO
+ {
+ }
+
+void FavList::closeAll() // TODO
+ {
+ }
+
+bool FavList::canMoveUp() const // TODO
+ {
+  return false;
+ }
+
+bool FavList::canMoveDown() const // TODO
+ {
+  return false;
+ }
+
+bool FavList::moveUp() // TODO
+ {
+  return false;
+ }
+
+bool FavList::moveDown() // TODO
+ {
+  return false;
+ }
+
+bool FavList::moveUp(ulen count) // TODO
+ {
+  Used(count);
+
+  return false;
+ }
+
+bool FavList::moveDown(ulen count) // TODO
+ {
+  Used(count);
+
+  return false;
+ }
+
+bool FavList::del() // TODO
+ {
+  return false;
+ }
+
+void FavList::insItem(const String &title,const String &path) // TODO
+ {
+  Used(title);
+  Used(path);
+ }
+
+void FavList::insSection(const String &title) // TODO
+ {
+  Used(title);
+ }
+
  // load/save
 
 bool FavList::load(StrLen file_name)
