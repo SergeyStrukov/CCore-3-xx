@@ -195,6 +195,98 @@ class FavListWindowOf : public SubWindow
      shape.fav_list.save(key,file);
     }
 
+   const FavRec * getCur() const { return shape.fav_list.getCur(); }
+
+   void openAll()
+    {
+     shape.fav_list.openAll();
+
+     redraw();
+    }
+
+   void closeAll()
+    {
+     shape.fav_list.closeAll();
+
+     redraw();
+
+     changed.assert();
+    }
+
+   bool canMoveUp() const { return shape.fav_list.canMoveUp(); }
+
+   bool canMoveDown() const { return shape.fav_list.canMoveDown(); }
+
+   void moveUp()
+    {
+     if( shape.fav_list.moveUp() )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void moveDown()
+    {
+     if( shape.fav_list.moveDown() )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void moveUp(ulen count)
+    {
+     if( shape.fav_list.moveUp(count) )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void moveDown(ulen count)
+    {
+     if( shape.fav_list.moveDown(count) )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void del()
+    {
+     if( shape.fav_list.del() )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void insItem(const String &title,const String &path)
+    {
+     if( shape.fav_list.insItem(title,path) )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
+   void insSection(const String &title)
+    {
+     if( shape.fav_list.insSection(title) )
+       {
+        redraw();
+
+        changed.assert();
+       }
+    }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const
@@ -242,7 +334,11 @@ class FavListWindowOf : public SubWindow
        {
         case VKey_Up :
          {
-          if( kmod&KeyMod_Shift )
+          if( kmod&KeyMod_Ctrl )
+            {
+             moveUp();
+            }
+          else if( kmod&KeyMod_Shift )
             {
              if( shape.fav_list.offUp() ) redraw();
             }
@@ -262,7 +358,11 @@ class FavListWindowOf : public SubWindow
 
         case VKey_Down :
          {
-          if( kmod&KeyMod_Shift )
+          if( kmod&KeyMod_Ctrl )
+            {
+             moveDown();
+            }
+          else if( kmod&KeyMod_Shift )
             {
              if( shape.fav_list.offDown() ) redraw();
             }
@@ -415,7 +515,11 @@ class FavListWindowOf : public SubWindow
 
      if( delta_<0 )
        {
-        if( mkey&MouseKey_Shift )
+        if( mkey&KeyMod_Ctrl )
+          {
+           moveDown(delta);
+          }
+        else if( mkey&MouseKey_Shift )
           {
            if( shape.fav_list.offDown(delta) )
              {
@@ -436,7 +540,11 @@ class FavListWindowOf : public SubWindow
        }
      else
        {
-        if( mkey&MouseKey_Shift )
+        if( mkey&KeyMod_Ctrl )
+          {
+           moveUp(delta);
+          }
+        else if( mkey&MouseKey_Shift )
           {
            if( shape.fav_list.offUp(delta) )
              {
