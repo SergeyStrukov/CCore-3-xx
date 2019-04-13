@@ -201,12 +201,16 @@ class FavListWindowOf : public SubWindow
     {
      shape.fav_list.openAll();
 
+     shape.makeVisible();
+
      redraw();
     }
 
    void closeAll()
     {
      shape.fav_list.closeAll();
+
+     shape.makeVisible();
 
      redraw();
 
@@ -221,6 +225,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.moveUp() )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -231,6 +237,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.moveDown() )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -241,6 +249,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.moveUp(count) )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -251,6 +261,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.moveDown(count) )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -261,6 +273,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.del() )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -271,6 +285,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.insItem(title,path) )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -281,6 +297,8 @@ class FavListWindowOf : public SubWindow
     {
      if( shape.fav_list.insSection(title) )
        {
+        shape.makeVisible();
+
         redraw();
 
         changed.assert();
@@ -441,6 +459,18 @@ class FavListWindowOf : public SubWindow
         case VKey_NumMinus :
          {
           if( shape.fav_list.curClose() ) redraw();
+         }
+        break;
+
+        case VKey_NumAsterisk :
+         {
+          openAll();
+         }
+        break;
+
+        case VKey_NumSlash :
+         {
+          closeAll();
          }
         break;
 

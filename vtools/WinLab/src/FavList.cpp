@@ -345,12 +345,27 @@ bool FavList::changeOpen(ulen ind)
   return false;
  }
 
-void FavList::openAll() // TODO
+void FavList::openAll()
  {
+  for(auto &obj : list ) obj.open=true;
  }
 
-void FavList::closeAll() // TODO
+void FavList::closeAll()
  {
+  bool section=false;
+
+  for(auto &obj : list )
+    {
+     if( obj.section ) section=true;
+
+     if( section ) obj.open=false;
+    }
+
+  ulen len=list.getLen();
+
+  if( off<len && !list[off].isVisible() ) offUp();
+
+  if( cur<len && !list[cur].isVisible() ) curUp();
  }
 
 bool FavList::canMoveUp() const // TODO
