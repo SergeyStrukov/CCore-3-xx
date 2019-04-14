@@ -1374,7 +1374,7 @@ class LaySupCenterYExt : protected LaySet<LL...>
     {
      Point size=getSize(space);
 
-     auto count=CountToCoordinate(getCount());
+     auto count=CountToCoord(getCount());
 
      return {size.x,count*size.y+(count+1)*space};
     }

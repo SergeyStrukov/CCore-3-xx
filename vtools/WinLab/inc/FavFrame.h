@@ -167,9 +167,9 @@ class FavListWindowOf : public SubWindow
         ret=false;
        }
 
-     layout();
-
      redraw();
+
+     changed.assert();
 
      return ret;
     }
@@ -183,9 +183,9 @@ class FavListWindowOf : public SubWindow
     {
      bool ret=shape.fav_list.load(key,file);
 
-     layout();
-
      redraw();
+
+     changed.assert();
 
      return ret;
     }
@@ -623,7 +623,7 @@ class FavWindow : public ComboWindow
 
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
-     CtorRefVal<TextWindow::ConfigType> text_cfg;
+     CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
      CtorRefVal<FavListWindow::ConfigType> fav_cfg;
      CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
@@ -685,12 +685,60 @@ class FavWindow : public ComboWindow
 
    FavListWindow fav;
    YScrollWindow scroll;
-   TextWindow text;
+   TextLineWindow text;
 
    XDoubleLineWindow dline2;
 
    RefButtonWindow btn_select;
    RefButtonWindow btn_close;
+
+   // selected path
+
+   String selected_path;
+
+  private:
+
+   void fav_changed();
+
+   SignalConnector<FavWindow> connector_fav_changed;
+
+   SignalConnector<FavWindow> connector_fav_selected;
+
+   void ins_pressed();
+
+   SignalConnector<FavWindow> connector_ins_pressed;
+
+   void up_pressed();
+
+   SignalConnector<FavWindow> connector_up_pressed;
+
+   void down_pressed();
+
+   SignalConnector<FavWindow> connector_down_pressed;
+
+   void openall_pressed();
+
+   SignalConnector<FavWindow> connector_openall_pressed;
+
+   void closeall_pressed();
+
+   SignalConnector<FavWindow> connector_closeall_pressed;
+
+   void del_pressed();
+
+   SignalConnector<FavWindow> connector_del_pressed;
+
+   void section_pressed();
+
+   SignalConnector<FavWindow> connector_section_pressed;
+
+   void select_pressed();
+
+   SignalConnector<FavWindow> connector_select_pressed;
+
+   void close_pressed();
+
+   SignalConnector<FavWindow> connector_close_pressed;
 
   public:
 
@@ -701,6 +749,8 @@ class FavWindow : public ComboWindow
    // methods
 
    Point getMinSize() const;
+
+   const String & getSelectedPath() const { return selected_path; }
 
    // drawing
 

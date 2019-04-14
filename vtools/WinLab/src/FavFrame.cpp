@@ -17,6 +17,7 @@
 #include <inc/FavFrame.h>
 
 #include <CCore/inc/video/FigureLib.h>
+#include <CCore/inc/video/LayoutCombo.h>
 
 namespace CCore {
 namespace Video {
@@ -244,6 +245,79 @@ auto FavListShape::test(Point point) const -> TestResult
 
 /* class FavWindow */
 
+void FavWindow::fav_changed()
+ {
+  knob_up.enable(fav.canMoveUp());
+  knob_down.enable(fav.canMoveDown());
+
+  if( const FavRec *obj=fav.getCur() )
+    {
+     knob_del.enable();
+     btn_select.enable(!obj->section);
+
+     text.setText(obj->path);
+    }
+  else
+    {
+     knob_del.disable();
+     btn_select.disable();
+
+     text.setText(Empty);
+    }
+ }
+
+void FavWindow::ins_pressed() // TODO
+ {
+ }
+
+void FavWindow::up_pressed()
+ {
+  fav.moveUp();
+ }
+
+void FavWindow::down_pressed()
+ {
+  fav.moveDown();
+ }
+
+void FavWindow::openall_pressed()
+ {
+  fav.openAll();
+ }
+
+void FavWindow::closeall_pressed()
+ {
+  fav.closeAll();
+ }
+
+void FavWindow::del_pressed()
+ {
+  fav.del();
+ }
+
+void FavWindow::section_pressed()
+ {
+  fav.insSection(edit.getString());
+ }
+
+void FavWindow::select_pressed()
+ {
+  if( const FavRec *obj=fav.getCur() )
+    {
+     if( !obj->section )
+       {
+        selected_path=obj->path;
+
+        getFrame()->askClose();
+       }
+    }
+ }
+
+void FavWindow::close_pressed()
+ {
+  getFrame()->askClose();
+ }
+
 FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen file_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -271,10 +345,24 @@ FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen f
    dline2(wlist,cfg.dline_cfg),
 
    btn_select(wlist,cfg.btn_cfg,cfg.text_Select),
-   btn_close(wlist,cfg.btn_cfg,cfg.text_Close)
+   btn_close(wlist,cfg.btn_cfg,cfg.text_Close),
+
+   connector_fav_changed(this,&FavWindow::fav_changed,fav.changed),
+   connector_fav_selected(this,&FavWindow::select_pressed,fav.selected),
+   connector_ins_pressed(this,&FavWindow::ins_pressed,knob_ins.pressed),
+   connector_up_pressed(this,&FavWindow::up_pressed,knob_up.pressed),
+   connector_down_pressed(this,&FavWindow::down_pressed,knob_down.pressed),
+   connector_openall_pressed(this,&FavWindow::openall_pressed,btn_openall.pressed),
+   connector_closeall_pressed(this,&FavWindow::closeall_pressed,btn_closeall.pressed),
+   connector_del_pressed(this,&FavWindow::del_pressed,knob_del.pressed),
+   connector_section_pressed(this,&FavWindow::section_pressed,btn_section.pressed),
+   connector_select_pressed(this,&FavWindow::select_pressed,btn_select.pressed),
+   connector_close_pressed(this,&FavWindow::close_pressed,btn_close.pressed)
  {
   wlist.insTop(knob_ins,knob_up,knob_down,btn_openall,btn_closeall,knob_del,
                btn_section,edit,dline1,fav,scroll,text,dline2,btn_select,btn_close);
+
+  knob_ins.disable();
  }
 
 FavWindow::~FavWindow()
@@ -283,15 +371,36 @@ FavWindow::~FavWindow()
 
  // methods
 
-Point FavWindow::getMinSize() const // TODO
+Point FavWindow::getMinSize() const
  {
-  return Point(100,100);
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(knob_ins),Lay(knob_up),Lay(knob_down),Lay(btn_openall),Lay(btn_closeall),LayRight(knob_del)};
+
+  LayToRightCenter lay2{Lay(btn_section),Lay(edit)};
+
+  LaySupCenterXExt lay3{Lay(btn_select),Lay(btn_close)};
+
+  LayToBottom lay{lay1,lay2,Lay(dline1),LayToTop{lay3,Lay(dline2),Lay(text),LayToLeft{Lay(scroll),Lay(fav)}}};
+
+  return ExtLay(lay).getMinSize(space);
  }
 
  // drawing
 
-void FavWindow::layout() // TODO
+void FavWindow::layout()
  {
+  Coord space=+cfg.space_dxy;
+
+  LayToRightCenter lay1{Lay(knob_ins),Lay(knob_up),Lay(knob_down),Lay(btn_openall),Lay(btn_closeall),LayRight(knob_del)};
+
+  LayToRightCenter lay2{Lay(btn_section),Lay(edit)};
+
+  LaySupCenterXExt lay3{Lay(btn_select),Lay(btn_close)};
+
+  LayToBottom lay{lay1,lay2,Lay(dline1),LayToTop{lay3,Lay(dline2),Lay(text),LayToLeft{Lay(scroll),Lay(fav)}}};
+
+  ExtLay(lay).setPlace(getPane(),space);
  }
 
 void FavWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
@@ -304,6 +413,8 @@ void FavWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
 void FavWindow::open()
  {
   ComboWindow::open();
+
+  selected_path=Null;
 
   fav.load(key,file);
 
