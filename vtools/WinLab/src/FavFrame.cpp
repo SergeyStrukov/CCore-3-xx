@@ -266,8 +266,11 @@ void FavWindow::fav_changed()
     }
  }
 
-void FavWindow::ins_pressed() // TODO
+void FavWindow::ins_pressed()
  {
+  fav.insItem(ins_title,ins_path);
+
+  knob_ins.disable();
  }
 
 void FavWindow::up_pressed()
@@ -384,6 +387,14 @@ Point FavWindow::getMinSize() const
   LayToBottom lay{lay1,lay2,Lay(dline1),LayToTop{lay3,Lay(dline2),Lay(text),LayToLeft{Lay(scroll),Lay(fav)}}};
 
   return ExtLay(lay).getMinSize(space);
+ }
+
+void FavWindow::setInsData(const String &title,const String &path)
+ {
+  ins_title=title;
+  ins_path=path;
+
+  knob_ins.enable();
  }
 
  // drawing

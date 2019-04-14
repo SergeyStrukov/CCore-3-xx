@@ -692,6 +692,11 @@ class FavWindow : public ComboWindow
    RefButtonWindow btn_select;
    RefButtonWindow btn_close;
 
+   // ins
+
+   String ins_title;
+   String ins_path;
+
    // selected path
 
    String selected_path;
@@ -749,6 +754,8 @@ class FavWindow : public ComboWindow
    // methods
 
    Point getMinSize() const;
+
+   void setInsData(const String &title,const String &path);
 
    const String & getSelectedPath() const { return selected_path; }
 

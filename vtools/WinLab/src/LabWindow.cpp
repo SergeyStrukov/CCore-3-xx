@@ -22,6 +22,7 @@ namespace App {
 LabWindow::LabWindow(SubWindowHost &host,const Config &cfg)
  : FavWindow(host,cfg,HomeKey(),"/test.ddl"_c)
  {
+  setInsData("new title"_str,"new path"_str);
  }
 
 LabWindow::~LabWindow()
