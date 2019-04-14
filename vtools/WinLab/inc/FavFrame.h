@@ -474,6 +474,12 @@ class FavListWindowOf : public SubWindow
          }
         break;
 
+        case VKey_Delete :
+         {
+          del();
+         }
+        break;
+
         case VKey_Space :
         case VKey_Enter :
          {

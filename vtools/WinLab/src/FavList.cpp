@@ -469,8 +469,36 @@ bool FavList::moveDown(ulen count)
   return true;
  }
 
-bool FavList::del() // TODO
+bool FavList::del()
  {
+  ulen len=list.getLen();
+
+  if( cur<len )
+    {
+     auto &obj=list[cur];
+
+     if( obj.section )
+       {
+        ArrayCopyDel(list,cur);
+
+        bool flag=true;
+
+        if( cur ) flag=list[cur-1].open;
+
+        SetOpen(Range(list).part(cur),flag);
+
+        if( len>=2 ) Replace_min(cur,len-2);
+       }
+     else
+       {
+        ArrayCopyDel(list,cur);
+
+        if( len>=2 ) Replace_min(cur,len-2);
+       }
+
+     return true;
+    }
+
   return false;
  }
 
