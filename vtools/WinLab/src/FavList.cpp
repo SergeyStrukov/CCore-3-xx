@@ -502,15 +502,24 @@ bool FavList::del()
   return false;
  }
 
-void FavList::insItem(const String &title,const String &path) // TODO
+void FavList::insItem(const String &title,const String &path)
  {
-  Used(title);
-  Used(path);
+  bool flag=true;
+
+  if( cur ) flag=list[cur-1].open;
+
+  FavRec obj{title,path,false,flag};
+
+  ArrayCopyIns(list,cur,obj);
  }
 
-void FavList::insSection(const String &title) // TODO
+void FavList::insSection(const String &title)
  {
-  Used(title);
+  FavRec obj{title,""_c,true,true};
+
+  ArrayCopyIns(list,cur,obj);
+
+  SetOpen(Range(list).part(cur+1),true);
  }
 
  // load/save

@@ -283,26 +283,24 @@ class FavListWindowOf : public SubWindow
 
    void insItem(const String &title,const String &path)
     {
-     if( shape.fav_list.insItem(title,path) )
-       {
-        shape.makeVisible();
+     shape.fav_list.insItem(title,path);
 
-        redraw();
+     shape.makeVisible();
 
-        changed.assert();
-       }
+     redraw();
+
+     changed.assert();
     }
 
    void insSection(const String &title)
     {
-     if( shape.fav_list.insSection(title) )
-       {
-        shape.makeVisible();
+     shape.fav_list.insSection(title);
 
-        redraw();
+     shape.makeVisible();
 
-        changed.assert();
-       }
+     redraw();
+
+     changed.assert();
     }
 
    // drawing
