@@ -27,16 +27,16 @@ class LabWindow;
 
 /* class LabWindow */
 
-class LabWindow : public FavListWindow
+class LabWindow : public FavWindow
  {
   public:
 
-   struct Config : public FavListWindow::ConfigType
+   struct Config : public FavWindow::ConfigType
     {
      template <class UserPref,class AppPref>
      Config(const UserPref &user_pref,const AppPref &) noexcept
       {
-       bind(user_pref.get()); // ,user_pref.getSmartConfig()
+       bind(user_pref.get(),user_pref.getSmartConfig());
       }
     };
 
@@ -47,12 +47,6 @@ class LabWindow : public FavListWindow
    LabWindow(SubWindowHost &host,const Config &cfg);
 
    virtual ~LabWindow();
-
-   // base
-
-   virtual void open();
-
-   virtual void close();
  };
 
 } // namespace App

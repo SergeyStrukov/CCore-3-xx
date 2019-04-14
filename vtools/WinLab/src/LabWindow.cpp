@@ -13,29 +13,19 @@
 
 #include <inc/LabWindow.h>
 
+#include <CCore/inc/video/DesktopKey.h>
+
 namespace App {
 
 /* class LabWindow */
 
 LabWindow::LabWindow(SubWindowHost &host,const Config &cfg)
- : FavListWindow(host,cfg)
+ : FavWindow(host,cfg,HomeKey(),"/test.ddl"_c)
  {
  }
 
 LabWindow::~LabWindow()
  {
- }
-
- // base
-
-void LabWindow::open()
- {
-  load("test.ddl");
- }
-
-void LabWindow::close()
- {
-  save("test.ddl");
  }
 
 } // namespace App

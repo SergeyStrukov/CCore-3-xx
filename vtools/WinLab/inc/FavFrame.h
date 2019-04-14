@@ -609,6 +609,112 @@ class FavListWindowOf : public SubWindow
 
 using FavListWindow = FavListWindowOf<FavListShape> ;
 
+/* class FavWindow */
+
+class FavWindow : public ComboWindow
+ {
+  public:
+
+   struct Config
+    {
+     RefVal<Coord> space_dxy = 10 ;
+
+     RefVal<VColor> back = Silver ;
+
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
+     CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
+     CtorRefVal<TextWindow::ConfigType> text_cfg;
+     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     CtorRefVal<FavListWindow::ConfigType> fav_cfg;
+     CtorRefVal<XDoubleLineWindow::ConfigType> dline_cfg;
+     CtorRefVal<YScrollWindow::ConfigType> scroll_cfg;
+
+     RefVal<String> text_Section = "Section"_str ;
+     RefVal<String> text_Select = "Select"_str ;
+     RefVal<String> text_Close = "Close"_str ;
+
+     Config() noexcept {}
+
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy) // TODO
+      {
+       space_dxy.bind(bag.space_dxy);
+       back.bind(bag.back);
+
+       knob_cfg.bind(proxy);
+       btn_cfg.bind(proxy);
+       text_cfg.bind(proxy);
+       edit_cfg.bind(proxy);
+
+       // fav_cfg
+       // text_Section
+       // text_Select
+       // text_Close
+
+       fav_cfg.refVal().bind(bag);
+
+       dline_cfg.bind(proxy);
+       scroll_cfg.bind(proxy);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   StrLen key;
+   StrLen file;
+
+   // subs
+
+   KnobWindow knob_ins;
+   KnobWindow knob_up;
+   KnobWindow knob_down;
+
+   ButtonWindow btn_openall;
+   ButtonWindow btn_closeall;
+
+   KnobWindow knob_del;
+
+   RefButtonWindow btn_section;
+   LineEditWindow edit;
+
+   XDoubleLineWindow dline1;
+
+   FavListWindow fav;
+   YScrollWindow scroll;
+   TextWindow text;
+
+   XDoubleLineWindow dline2;
+
+   RefButtonWindow btn_select;
+   RefButtonWindow btn_close;
+
+  public:
+
+   FavWindow(SubWindowHost &host,const Config &cfg,StrLen key,StrLen file); // persistent
+
+   virtual ~FavWindow();
+
+   // methods
+
+   Point getMinSize() const;
+
+   // drawing
+
+   virtual void layout();
+
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
+
+   // base
+
+   virtual void open();
+
+   virtual void close();
+ };
+
 } // namespace Video
 } // namespace CCore
 
