@@ -243,6 +243,17 @@ auto FavListShape::test(Point point) const -> TestResult
   return result;
  }
 
+ScrollPos FavListShape::getScrollPos() const
+ {
+  ulen page=getPageLen();
+  ulen total=fav_list.getTotal();
+  ulen pos=fav_list.getOff();
+
+  if( !page ) page=1;
+
+  return {total+page-1,page,pos};
+ }
+
 /* class FavWindow */
 
 void FavWindow::fav_changed()
@@ -264,6 +275,8 @@ void FavWindow::fav_changed()
 
      text.setText(Empty);
     }
+
+  scroll.setRange(fav.getScrollPos());
  }
 
 void FavWindow::ins_pressed()
@@ -321,6 +334,16 @@ void FavWindow::close_pressed()
   getFrame()->askClose();
  }
 
+void FavWindow::scroll_changed(ulen pos)
+ {
+  fav.setOff(pos);
+ }
+
+void FavWindow::off_changed(ulen pos)
+ {
+  scroll.setPos(pos);
+ }
+
 FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen file_)
  : ComboWindow(host),
    cfg(cfg_),
@@ -360,7 +383,9 @@ FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen f
    connector_del_pressed(this,&FavWindow::del_pressed,knob_del.pressed),
    connector_section_pressed(this,&FavWindow::section_pressed,btn_section.pressed),
    connector_select_pressed(this,&FavWindow::select_pressed,btn_select.pressed),
-   connector_close_pressed(this,&FavWindow::close_pressed,btn_close.pressed)
+   connector_close_pressed(this,&FavWindow::close_pressed,btn_close.pressed),
+   connector_scroll_changed(this,&FavWindow::scroll_changed,scroll.changed),
+   connector_off_changed(this,&FavWindow::off_changed,fav.off_changed)
  {
   wlist.insTop(knob_ins,knob_up,knob_down,btn_openall,btn_closeall,knob_del,
                btn_section,edit,dline1,fav,scroll,text,dline2,btn_select,btn_close);
@@ -412,6 +437,8 @@ void FavWindow::layout()
   LayToBottom lay{lay1,lay2,Lay(dline1),LayToTop{lay3,Lay(dline2),Lay(text),LayToLeft{Lay(scroll),Lay(fav)}}};
 
   ExtLay(lay).setPlace(getPane(),space);
+
+  scroll.setRange(fav.getScrollPos());
  }
 
 void FavWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const

@@ -127,6 +127,8 @@ class FavListShape
     };
 
    TestResult test(Point point) const;
+
+   ScrollPos getScrollPos() const;
  };
 
 /* class FavListWindowOf<Shape> */
@@ -197,6 +199,19 @@ class FavListWindowOf : public SubWindow
 
    const FavRec * getCur() const { return shape.fav_list.getCur(); }
 
+   ScrollPos getScrollPos() const
+    {
+     return shape.getScrollPos();
+    }
+
+   void setOff(ulen pos)
+    {
+     if( shape.fav_list.setOff(pos) )
+       {
+        redraw();
+       }
+    }
+
    void openAll()
     {
      shape.fav_list.openAll();
@@ -204,6 +219,8 @@ class FavListWindowOf : public SubWindow
      shape.makeVisible();
 
      redraw();
+
+     changed.assert();
     }
 
    void closeAll()
@@ -356,7 +373,12 @@ class FavListWindowOf : public SubWindow
             }
           else if( kmod&KeyMod_Shift )
             {
-             if( shape.fav_list.offUp() ) redraw();
+             if( shape.fav_list.offUp() )
+               {
+                redraw();
+
+                off_changed.assert(shape.fav_list.getOff());
+               }
             }
           else
             {
@@ -380,7 +402,12 @@ class FavListWindowOf : public SubWindow
             }
           else if( kmod&KeyMod_Shift )
             {
-             if( shape.fav_list.offDown() ) redraw();
+             if( shape.fav_list.offDown() )
+               {
+                redraw();
+
+                off_changed.assert(shape.fav_list.getOff());
+               }
             }
           else
             {
@@ -450,13 +477,23 @@ class FavListWindowOf : public SubWindow
 
         case VKey_NumPlus :
          {
-          if( shape.fav_list.curOpen() ) redraw();
+          if( shape.fav_list.curOpen() )
+            {
+             redraw();
+
+             changed.assert();
+            }
          }
         break;
 
         case VKey_NumMinus :
          {
-          if( shape.fav_list.curClose() ) redraw();
+          if( shape.fav_list.curClose() )
+            {
+             redraw();
+
+             changed.assert();
+            }
          }
         break;
 
@@ -488,6 +525,8 @@ class FavListWindowOf : public SubWindow
              if( result.section )
                {
                 redraw();
+
+                changed.assert();
                }
              else
                {
@@ -510,6 +549,8 @@ class FavListWindowOf : public SubWindow
            shape.fav_list.changeOpen(result.ind);
 
            redraw();
+
+           changed.assert();
           }
         else
           {
@@ -558,6 +599,8 @@ class FavListWindowOf : public SubWindow
            if( shape.fav_list.offDown(delta) )
              {
               redraw();
+
+              off_changed.assert(shape.fav_list.getOff());
              }
           }
         else
@@ -583,6 +626,8 @@ class FavListWindowOf : public SubWindow
            if( shape.fav_list.offUp(delta) )
              {
               redraw();
+
+              off_changed.assert(shape.fav_list.getOff());
              }
           }
         else
@@ -603,6 +648,7 @@ class FavListWindowOf : public SubWindow
 
    Signal<> selected;
    Signal<> changed;
+   Signal<ulen> off_changed;
  };
 
 /* type FavListWindow */
@@ -744,6 +790,14 @@ class FavWindow : public ComboWindow
    void close_pressed();
 
    SignalConnector<FavWindow> connector_close_pressed;
+
+   void scroll_changed(ulen pos);
+
+   SignalConnector<FavWindow,ulen> connector_scroll_changed;
+
+   void off_changed(ulen pos);
+
+   SignalConnector<FavWindow,ulen> connector_off_changed;
 
   public:
 

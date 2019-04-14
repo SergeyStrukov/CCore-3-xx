@@ -105,6 +105,12 @@ class FavList : NoCopy
      return 0;
     }
 
+   ulen getOff() const;
+
+   ulen getTotal() const;
+
+   bool setOff(ulen pos);
+
    void erase();
 
    bool curUp();

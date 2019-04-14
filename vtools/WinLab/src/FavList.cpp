@@ -220,6 +220,41 @@ FavList::~FavList()
 
  // methods
 
+ulen FavList::getOff() const
+ {
+  ulen ret=0;
+
+  for(auto &obj : Range(list).prefix(off) ) ret+=obj.isVisible();
+
+  return ret;
+ }
+
+ulen FavList::getTotal() const
+ {
+  ulen ret=0;
+
+  for(auto &obj : list ) ret+=obj.isVisible();
+
+  return ret;
+ }
+
+bool FavList::setOff(ulen pos)
+ {
+  if( pos==0 )
+    {
+     return Change(off,pos);
+    }
+
+  auto result=posDown(0,pos);
+
+  if( result.ok )
+    {
+     return Change(off,result.pos);
+    }
+
+  return false;
+ }
+
 void FavList::erase()
  {
   list.erase();
