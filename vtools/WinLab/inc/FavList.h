@@ -86,6 +86,10 @@ class FavList : NoCopy
 
    PosResult posDown(ulen pos,ulen count) const;
 
+   void openSection(ulen pos);
+
+   void swap(ulen pos);
+
   public:
 
    FavList();

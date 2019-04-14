@@ -213,6 +213,13 @@ auto FavListShape::test(Point point) const -> TestResult
                              return false;
                             }
 
+                          if( line.contains(point) )
+                            {
+                             result={ind,false,true};
+
+                             return false;
+                            }
+
                          }
                        else
                          {

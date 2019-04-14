@@ -167,6 +167,49 @@ auto FavList::posDown(ulen pos,ulen count) const -> PosResult
   return {pos,true};
  }
 
+void FavList::openSection(ulen pos)
+ {
+  list[pos].open=true;
+
+  while( pos-- )
+    {
+     auto &obj=list[pos];
+
+     obj.open=true;
+
+     if( obj.section ) break;
+    }
+ }
+
+void FavList::swap(ulen pos)
+ {
+  auto &prev=list[pos];
+  auto &obj=list[pos+1];
+
+  Swap(obj,prev);
+
+  if( prev.section )
+    {
+     if( obj.section )
+       {
+        SetOpen(Range(list).part(pos+2),obj.open);
+       }
+     else
+       {
+        prev.open=true;
+
+        SetOpen(Range(list).part(pos+1),true);
+       }
+    }
+  else
+    {
+     if( obj.section )
+       {
+        openSection(pos);
+       }
+    }
+ }
+
 FavList::FavList()
  {
  }
@@ -368,38 +411,62 @@ void FavList::closeAll()
   if( cur<len && !list[cur].isVisible() ) curUp();
  }
 
-bool FavList::canMoveUp() const // TODO
+bool FavList::canMoveUp() const
  {
+  return cur!=0 && cur!=list.getLen() ;
+ }
+
+bool FavList::canMoveDown() const
+ {
+  ulen len=list.getLen();
+
+  return len>=2 && cur<len-1 ;
+ }
+
+bool FavList::moveUp()
+ {
+  if( canMoveUp() )
+    {
+     cur--;
+
+     swap(cur);
+
+     return true;
+    }
+
   return false;
  }
 
-bool FavList::canMoveDown() const // TODO
+bool FavList::moveDown()
  {
-  return false;
- }
+  if( canMoveDown() )
+    {
+     swap(cur);
 
-bool FavList::moveUp() // TODO
- {
-  return false;
- }
+     cur++;
 
-bool FavList::moveDown() // TODO
- {
-  return false;
- }
-
-bool FavList::moveUp(ulen count) // TODO
- {
-  Used(count);
+     return true;
+    }
 
   return false;
  }
 
-bool FavList::moveDown(ulen count) // TODO
+bool FavList::moveUp(ulen count)
  {
-  Used(count);
+  if( !count || !moveUp() ) return false;
 
-  return false;
+  for(count--; count && moveUp() ;count--);
+
+  return true;
+ }
+
+bool FavList::moveDown(ulen count)
+ {
+  if( !count || !moveDown() ) return false;
+
+  for(count--; count && moveDown() ;count--);
+
+  return true;
  }
 
 bool FavList::del() // TODO
