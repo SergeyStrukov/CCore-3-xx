@@ -1038,7 +1038,7 @@ void BookWindow::favDestroyed()
 
   if( path.notEmpty() )
     {
-     load(Range(path));
+     load(path);
     }
  }
 
@@ -1195,7 +1195,7 @@ void BookWindow::blank()
   redraw();
  }
 
-void BookWindow::load(StrLen file_name,bool set_source)
+void BookWindow::load(String file_name)
  {
   if( font_flag )
     {
@@ -1206,11 +1206,11 @@ void BookWindow::load(StrLen file_name,bool set_source)
 
   blank();
 
-  if( set_source ) source_file=file_name;
+  source_file=file_name;
 
   SimpleArray<char> temp(64_KByte);
 
-  auto result=book_map.load(file_name,Range(temp));
+  auto result=book_map.load(Range(file_name),Range(temp));
 
   if( result.ok )
     {
@@ -1260,7 +1260,7 @@ void BookWindow::load(StrLen file_name,bool set_source)
 
 void BookWindow::reload()
  {
-  load(Range(source_file),false);
+  load(source_file);
  }
 
  // drawing

@@ -710,7 +710,7 @@ class BookWindow : public ComboWindow
 
    void blank();
 
-   void load(StrLen file_name,bool set_source=true);
+   void load(String file_name);
 
    void reload();
 
