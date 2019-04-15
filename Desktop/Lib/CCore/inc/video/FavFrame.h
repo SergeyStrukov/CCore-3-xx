@@ -56,12 +56,12 @@ class FavListShape
 
      RefVal<Font> font;
 
-     KnobShape::Config knob_cfg;
+     CtorRefVal<KnobWindow::ConfigType> knob_cfg;
 
      Config() noexcept {}
 
-     template <class Bag>
-     void bind(const Bag &bag) // TODO
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy) // TODO
       {
        width.bind(bag.width);
        border.bind(bag.border);
@@ -72,11 +72,11 @@ class FavListShape
        // text_select
        // section_text
        // section_back
+       // space
        // font
-
        font.bind(bag.list_font.font);
 
-       knob_cfg.bind(bag);
+       knob_cfg.bind(proxy);
       }
     };
 
@@ -691,16 +691,13 @@ class FavWindow : public ComboWindow
        btn_cfg.bind(proxy);
        text_cfg.bind(proxy);
        edit_cfg.bind(proxy);
+       fav_cfg.bind(proxy);
+       dline_cfg.bind(proxy);
+       scroll_cfg.bind(proxy);
 
-       // fav_cfg
        // text_Section
        // text_Select
        // text_Close
-
-       fav_cfg.refVal().bind(bag);
-
-       dline_cfg.bind(proxy);
-       scroll_cfg.bind(proxy);
       }
     };
 
@@ -842,12 +839,10 @@ class FavFrame : public DragFrame
      Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy) // TODO
+     void bind(const Bag &bag,Proxy proxy)
       {
        frame_cfg.bind(proxy);
-       //fav_cfg.bind(proxy);
-
-       fav_cfg.bind(bag,proxy);
+       fav_cfg.bind(proxy);
 
        pos_ry.bind(bag.frame_pos_ry);
       }

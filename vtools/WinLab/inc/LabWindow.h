@@ -16,8 +16,7 @@
 
 #include <inc/App.h>
 
-//#include <CCore/inc/video/FavFrame.h>
-#include <inc/FavFrame.h>
+#include <CCore/inc/video/FavFrame.h>
 
 namespace App {
 

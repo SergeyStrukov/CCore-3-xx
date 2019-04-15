@@ -30,6 +30,7 @@
 #include <CCore/inc/video/ConfigEditor.h>
 #include <CCore/inc/video/ExceptionFrame.h>
 #include <CCore/inc/video/FontReplace.h>
+#include <CCore/inc/video/FavFrame.h>
 
 namespace CCore {
 namespace Video {
@@ -476,7 +477,9 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
 
                                            ExceptionBuf::ConfigType,
                                            FontSelectFrame::ConfigType,
-                                           FontReplaceFrame::ConfigType
+                                           FontReplaceFrame::ConfigType,
+                                           FavListWindow::ConfigType,
+                                           FavWindow::ConfigType
                                           >
  {
    static StrLen PrefFile();
