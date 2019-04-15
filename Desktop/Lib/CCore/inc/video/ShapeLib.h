@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/lib/Shape.Button.h>
 #include <CCore/inc/video/lib/Shape.MoveButton.h>
+#include <CCore/inc/video/lib/Shape.AllButton.h>
 #include <CCore/inc/video/lib/Shape.Check.h>
 #include <CCore/inc/video/lib/Shape.Contour.h>
 #include <CCore/inc/video/lib/Shape.Info.h>

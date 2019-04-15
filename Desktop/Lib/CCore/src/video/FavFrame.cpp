@@ -13,8 +13,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-//#include <CCore/inc/video/FavFrame.h>
-#include <inc/FavFrame.h>
+#include <CCore/inc/video/FavFrame.h>
 
 #include <CCore/inc/video/FigureLib.h>
 #include <CCore/inc/video/LayoutCombo.h>
@@ -354,8 +353,8 @@ FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen f
    knob_up(wlist,cfg.knob_cfg,KnobShape::FaceUp),
    knob_down(wlist,cfg.knob_cfg,KnobShape::FaceDown),
 
-   btn_openall(wlist,cfg.btn_cfg,"Open All"_str),
-   btn_closeall(wlist,cfg.btn_cfg,"Close All"_str),
+   btn_openall(wlist,cfg.allbtn_cfg,AllButtonShape::AllPlus),
+   btn_closeall(wlist,cfg.allbtn_cfg,AllButtonShape::AllMinus),
 
    knob_del(wlist,cfg.knob_cfg,KnobShape::FaceCross),
 
@@ -464,6 +463,44 @@ void FavWindow::close()
   fav.save(key,file);
 
   ComboWindow::close();
+ }
+
+/* class FavFrame */
+
+FavFrame::FavFrame(Desktop *desktop,const Config &cfg_,StrLen key,StrLen file)
+ : DragFrame(desktop,cfg_.frame_cfg),
+   cfg(cfg_),
+   sub_win(*this,cfg_.fav_cfg,key,file)
+ {
+  bindClient(sub_win);
+ }
+
+FavFrame::FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file,Signal<> &update)
+ : FavFrame(desktop,cfg,key,file)
+ {
+  connectUpdate(update);
+ }
+
+FavFrame::~FavFrame()
+ {
+ }
+
+ // create
+
+Pane FavFrame::getPane(StrLen title,Point base) const
+ {
+  Point size=getMinSize(false,title,sub_win.getMinSize());
+
+  Point screen_size=getScreenSize();
+
+  return FitToScreen(base,size,screen_size);
+ }
+
+Pane FavFrame::getPane(StrLen title) const
+ {
+  Point size=getMinSize(false,title,sub_win.getMinSize());
+
+  return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }
 
 } // namespace Video

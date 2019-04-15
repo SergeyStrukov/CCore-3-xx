@@ -124,6 +124,8 @@ OBJ_LIST = \
 .obj/ExpandWildcard.o \
 .obj/FFTMul.o \
 .obj/FastMutex.o \
+.obj/FavFrame.o \
+.obj/FavList.o \
 .obj/FeedBuf.o \
 .obj/Fifo.o \
 .obj/FigureLib.o \
@@ -347,6 +349,7 @@ OBJ_LIST = \
 .obj/ScopeGuard.o \
 .obj/SelectFrames.o \
 .obj/Sem.o \
+.obj/Shape.AllButton.o \
 .obj/Shape.Button.o \
 .obj/Shape.ButtonState.o \
 .obj/Shape.Check.o \
@@ -619,6 +622,8 @@ ASM_LIST = \
 .obj/ExpandWildcard.s \
 .obj/FFTMul.s \
 .obj/FastMutex.s \
+.obj/FavFrame.s \
+.obj/FavList.s \
 .obj/FeedBuf.s \
 .obj/Fifo.s \
 .obj/FigureLib.s \
@@ -842,6 +847,7 @@ ASM_LIST = \
 .obj/ScopeGuard.s \
 .obj/SelectFrames.s \
 .obj/Sem.s \
+.obj/Shape.AllButton.s \
 .obj/Shape.Button.s \
 .obj/Shape.ButtonState.s \
 .obj/Shape.Check.s \
@@ -1114,6 +1120,8 @@ DEP_LIST = \
 .obj/ExpandWildcard.dep \
 .obj/FFTMul.dep \
 .obj/FastMutex.dep \
+.obj/FavFrame.dep \
+.obj/FavList.dep \
 .obj/FeedBuf.dep \
 .obj/Fifo.dep \
 .obj/FigureLib.dep \
@@ -1337,6 +1345,7 @@ DEP_LIST = \
 .obj/ScopeGuard.dep \
 .obj/SelectFrames.dep \
 .obj/Sem.dep \
+.obj/Shape.AllButton.dep \
 .obj/Shape.Button.dep \
 .obj/Shape.ButtonState.dep \
 .obj/Shape.Check.dep \
@@ -1869,6 +1878,12 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FastMutex.o : ../../HCore/CCore/src/task/FastMutex.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FavFrame.o : ../../Desktop/Lib/CCore/src/video/FavFrame.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/FavList.o : ../../Desktop/Lib/CCore/src/video/FavList.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FeedBuf.o : ../../Simple/CCore/src/./FeedBuf.cpp
@@ -2538,6 +2553,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Sem.o : ../../HCore/CCore/src/task/Sem.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Shape.AllButton.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.AllButton.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.Button.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
@@ -3349,6 +3367,12 @@ include $(RULES_FILE)
 .obj/FastMutex.s : ../../HCore/CCore/src/task/FastMutex.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/FavFrame.s : ../../Desktop/Lib/CCore/src/video/FavFrame.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/FavList.s : ../../Desktop/Lib/CCore/src/video/FavList.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/FeedBuf.s : ../../Simple/CCore/src/./FeedBuf.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4016,6 +4040,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Sem.s : ../../HCore/CCore/src/task/Sem.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Shape.AllButton.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.AllButton.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Shape.Button.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
@@ -4827,6 +4854,12 @@ include $(RULES_FILE)
 .obj/FastMutex.dep : ../../HCore/CCore/src/task/FastMutex.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FastMutex.o $< -MF $@
 
+.obj/FavFrame.dep : ../../Desktop/Lib/CCore/src/video/FavFrame.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FavFrame.o $< -MF $@
+
+.obj/FavList.dep : ../../Desktop/Lib/CCore/src/video/FavList.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/FavList.o $< -MF $@
+
 .obj/FeedBuf.dep : ../../Simple/CCore/src/./FeedBuf.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FeedBuf.o $< -MF $@
 
@@ -5495,6 +5528,9 @@ include $(RULES_FILE)
 
 .obj/Sem.dep : ../../HCore/CCore/src/task/Sem.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Sem.o $< -MF $@
+
+.obj/Shape.AllButton.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.AllButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.AllButton.o $< -MF $@
 
 .obj/Shape.Button.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Button.o $< -MF $@

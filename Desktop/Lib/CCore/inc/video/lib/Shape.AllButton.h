@@ -34,7 +34,7 @@ class AllButtonShape;
 
 class AllButtonShape : public ButtonState
  {
-   static constexpr Point Aspect = Point(37,20) ;
+   static constexpr Point Aspect = Point(36,20) ;
 
   public:
 

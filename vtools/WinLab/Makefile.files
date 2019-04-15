@@ -2,10 +2,7 @@ OBJ_LIST = \
 .obj/App.o \
 .obj/Application.o \
 .obj/Client.o \
-.obj/FavFrame.o \
-.obj/FavList.o \
 .obj/LabWindow.o \
-.obj/Shape.AllButton.o \
 .obj/main.o \
 
 
@@ -13,10 +10,7 @@ ASM_LIST = \
 .obj/App.s \
 .obj/Application.s \
 .obj/Client.s \
-.obj/FavFrame.s \
-.obj/FavList.s \
 .obj/LabWindow.s \
-.obj/Shape.AllButton.s \
 .obj/main.s \
 
 
@@ -24,10 +18,7 @@ DEP_LIST = \
 .obj/App.dep \
 .obj/Application.dep \
 .obj/Client.dep \
-.obj/FavFrame.dep \
-.obj/FavList.dep \
 .obj/LabWindow.dep \
-.obj/Shape.AllButton.dep \
 .obj/main.dep \
 
 
@@ -46,16 +37,7 @@ include $(RULES_FILE)
 .obj/Client.o : src/./Client.cpp
 	$(CC) $(CCOPT) $< -o $@
 
-.obj/FavFrame.o : src/./FavFrame.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/FavList.o : src/./FavList.cpp
-	$(CC) $(CCOPT) $< -o $@
-
 .obj/LabWindow.o : src/./LabWindow.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/Shape.AllButton.o : src/./Shape.AllButton.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/main.o : src/./main.cpp
@@ -72,16 +54,7 @@ include $(RULES_FILE)
 .obj/Client.s : src/./Client.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/FavFrame.s : src/./FavFrame.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/FavList.s : src/./FavList.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/LabWindow.s : src/./LabWindow.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
-.obj/Shape.AllButton.s : src/./Shape.AllButton.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -98,17 +71,8 @@ include $(RULES_FILE)
 .obj/Client.dep : src/./Client.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Client.o $< -MF $@
 
-.obj/FavFrame.dep : src/./FavFrame.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/FavFrame.o $< -MF $@
-
-.obj/FavList.dep : src/./FavList.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/FavList.o $< -MF $@
-
 .obj/LabWindow.dep : src/./LabWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LabWindow.o $< -MF $@
-
-.obj/Shape.AllButton.dep : src/./Shape.AllButton.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/Shape.AllButton.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@

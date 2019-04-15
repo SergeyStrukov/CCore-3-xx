@@ -20,6 +20,7 @@
 
 #include <CCore/inc/video/lib/Shape.Button.h>
 #include <CCore/inc/video/lib/Shape.MoveButton.h>
+#include <CCore/inc/video/lib/Shape.AllButton.h>
 
 namespace CCore {
 namespace Video {
@@ -285,6 +286,10 @@ using KnobWindow = ButtonWindowOf<KnobShape> ;
 /* type MoveButtonWindow */
 
 using MoveButtonWindow = ButtonWindowOf<MoveButtonShape> ;
+
+/* type AllButtonWindow */
+
+using AllButtonWindow = ButtonWindowOf<AllButtonShape> ;
 
 } // namespace Video
 } // namespace CCore

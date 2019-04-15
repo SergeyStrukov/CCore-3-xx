@@ -16,9 +16,7 @@
 #ifndef CCore_inc_video_FavFrame_h
 #define CCore_inc_video_FavFrame_h
 
-//#include <CCore/inc/video/FavList.h>
-#include <inc/FavList.h>
-
+#include <CCore/inc/video/FavList.h>
 #include <CCore/inc/video/WindowLib.h>
 
 namespace CCore {
@@ -668,6 +666,7 @@ class FavWindow : public ComboWindow
      RefVal<VColor> back = Silver ;
 
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
+     CtorRefVal<AllButtonWindow::ConfigType> allbtn_cfg;
      CtorRefVal<RefButtonWindow::ConfigType> btn_cfg;
      CtorRefVal<TextLineWindow::ConfigType> text_cfg;
      CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
@@ -688,6 +687,7 @@ class FavWindow : public ComboWindow
        back.bind(bag.back);
 
        knob_cfg.bind(proxy);
+       allbtn_cfg.bind(proxy);
        btn_cfg.bind(proxy);
        text_cfg.bind(proxy);
        edit_cfg.bind(proxy);
@@ -719,8 +719,8 @@ class FavWindow : public ComboWindow
    KnobWindow knob_up;
    KnobWindow knob_down;
 
-   ButtonWindow btn_openall;
-   ButtonWindow btn_closeall;
+   AllButtonWindow btn_openall;
+   AllButtonWindow btn_closeall;
 
    KnobWindow knob_del;
 
@@ -824,6 +824,88 @@ class FavWindow : public ComboWindow
    virtual void open();
 
    virtual void close();
+ };
+
+/* class FavFrame */
+
+class FavFrame : public DragFrame
+ {
+  public:
+
+   struct Config
+    {
+     CtorRefVal<DragFrame::ConfigType> frame_cfg;
+     CtorRefVal<FavWindow::ConfigType> fav_cfg;
+
+     RefVal<Ratio> pos_ry = Div(5,12) ;
+
+     Config() noexcept {}
+
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy) // TODO
+      {
+       frame_cfg.bind(proxy);
+       //fav_cfg.bind(proxy);
+
+       fav_cfg.bind(bag,proxy);
+
+       pos_ry.bind(bag.frame_pos_ry);
+      }
+    };
+
+   using ConfigType = Config ;
+
+  private:
+
+   const Config &cfg;
+
+   FavWindow sub_win;
+
+  public:
+
+   FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file); // persistent
+
+   FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file,Signal<> &update); // persistent
+
+   virtual ~FavFrame();
+
+   // methods
+
+   void setInsData(const String &title,const String &path)
+    {
+     sub_win.setInsData(title,path);
+    }
+
+   const String & getSelectedPath() const
+    {
+     return sub_win.getSelectedPath();
+    }
+
+   // create
+
+   Pane getPane(StrLen title,Point base) const;
+
+   Pane getPane(StrLen title) const;
+
+   void create(Point base,const String &title)
+    {
+     DragFrame::create(getPane(Range(title),base),title);
+    }
+
+   void create(FrameWindow *parent,Point base,const String &title)
+    {
+     DragFrame::create(parent,getPane(Range(title),base),title);
+    }
+
+   void create(const String &title)
+    {
+     DragFrame::create(getPane(Range(title)),title);
+    }
+
+   void create(FrameWindow *parent,const String &title)
+    {
+     DragFrame::create(parent,getPane(Range(title)),title);
+    }
  };
 
 } // namespace Video

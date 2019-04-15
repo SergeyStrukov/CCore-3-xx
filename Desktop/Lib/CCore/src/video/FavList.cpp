@@ -13,8 +13,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-//#include <CCore/inc/video/FavList.h>
-#include <inc/FavList.h>
+#include <CCore/inc/video/FavList.h>
 
 #include <CCore/inc/video/HomeFile.h>
 #include <CCore/inc/video/PrintDDL.h>

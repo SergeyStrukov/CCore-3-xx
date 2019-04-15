@@ -13,8 +13,7 @@
 //
 //----------------------------------------------------------------------------------------
 
-//#include <CCore/inc/video/lib/Shape.AllButton.h>
-#include <inc/Shape.AllButton.h>
+#include <CCore/inc/video/lib/Shape.AllButton.h>
 
 #include <CCore/inc/video/FigureLib.h>
 
@@ -77,33 +76,28 @@ void AllButtonShape::draw(const DrawBuf &buf,DrawParam) const
    MCoord s=H/10;
    MCoord radius=H/2-2*s;
 
-   MCoord y0=p.y+s+shift;
    MCoord y1=p.y+H/2+shift;
-   MCoord y2=p.ey-s+shift;
 
-   if( face==BackDir )
+   MCoord x0=p.x+Div(6,10)*H+shift;
+   MCoord x1=x0+Div(2,3)*H;
+
+   FigureAsterisk fig1({x0,y1},radius);
+
+   fig1.curveSolid(art,pict);
+
+   MPoint center(x1,y1);
+
+   MCoord a=Div(4,5)*radius;
+   MCoord w=Div(2,5)*radius;
+
+   if( face==AllPlus )
      {
-      MCoord x0=p.x+H/4+shift;
-      MCoord x1=x0+(H-2*s);
-      MCoord x2=x1+(radius-s/2);
-
-      FigureLeftArrow fig1(x0,x1,y0,y2);
-
-      fig1.curveSolid(art,pict);
-
-      art.ball(MPoint(x2,y1),radius,pict);
+      art.path(w,pict,center.subX(a),center.addX(a));
+      art.path(w,pict,center.subY(a),center.addY(a));
      }
    else
      {
-      MCoord x0=p.ex-H/4+shift;
-      MCoord x1=x0-(H-2*s);
-      MCoord x2=x1-(radius-s/2);
-
-      FigureRightArrow fig1(x1,x0,y0,y2);
-
-      fig1.curveSolid(art,pict);
-
-      art.ball(MPoint(x2,y1),radius,pict);
+      art.path(w,pict,center.subX(a),center.addX(a));
      }
   }
 
