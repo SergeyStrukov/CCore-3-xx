@@ -761,24 +761,32 @@ void BookWindow::AppBag::bindItems(ConfigItemBind &binder)
  {
   binder.group("Book"_str);
 
-    binder.item("back"_str,back);
-    binder.item("fore"_str,fore);
-    binder.item("font"_str,font);
-    binder.item("codefont"_str,codefont);
-    binder.item("decorfont"_str,decorfont);
-    binder.item("'Title'"_str,text_Title);
-    binder.item("'Page'"_str,text_Page);
-    binder.item("'Not ready'"_str,text_NotReady);
-    binder.item("'Fonts'"_str,text_Font);
-    binder.item("default scale"_str,defscale);
-    binder.item("'Previuos page'"_str,hint_PrevPage);
-    binder.item("'Parent page'"_str,hint_ParentPage);
-    binder.item("'Next page'"_str,hint_NextPage);
-    binder.item("'Scale'"_str,hint_Scale);
-    binder.item("'Font'"_str,hint_Font);
-    binder.item("'Reload'"_str,hint_Reload);
-    binder.item("'Back'"_str,hint_GotoBack);
-    binder.item("'Fore'"_str,hint_GotoFore);
+   binder.item("back"_str,back);
+   binder.item("fore"_str,fore);
+   binder.item("font"_str,font);
+   binder.item("codefont"_str,codefont);
+   binder.item("decorfont"_str,decorfont);
+   binder.item("default scale"_str,defscale);
+
+   binder.space();
+
+   binder.item("'Title'"_str,text_Title);
+   binder.item("'Page'"_str,text_Page);
+   binder.item("'Not ready'"_str,text_NotReady);
+   binder.item("'Fonts'"_str,text_Font);
+   binder.item("'Fav Books'"_str,text_FavBooks);
+
+   binder.space();
+
+   binder.item("'Open favorite'"_str,hint_FavBooks);
+   binder.item("'Previuos page'"_str,hint_PrevPage);
+   binder.item("'Parent page'"_str,hint_ParentPage);
+   binder.item("'Next page'"_str,hint_NextPage);
+   binder.item("'Scale'"_str,hint_Scale);
+   binder.item("'Font'"_str,hint_Font);
+   binder.item("'Reload'"_str,hint_Reload);
+   binder.item("'Back'"_str,hint_GotoBack);
+   binder.item("'Fore'"_str,hint_GotoFore);
  }
 
 void BookWindow::AppBag::findFonts()
@@ -790,7 +798,7 @@ void BookWindow::AppBag::findFonts()
   decorfont=dev.build("Georgia"_c|Bold|Italic,20);
  }
 
-StrLen BookWindow::FavFile() { return "BookFav.ddl"_c; }
+StrLen BookWindow::FavFile() { return "/BookFav.ddl"_c; }
 
 void BookWindow::error(String etext)
  {
@@ -1022,13 +1030,13 @@ void BookWindow::replaceApply()
   reload();
  }
 
-void BookWindow::openFav() // TODO
+void BookWindow::openFav()
  {
   if( fav_frame.isDead() )
     {
      if( source_ok ) fav_frame.setInsData(text_title.getText(),source_file);
 
-     fav_frame.create(getFrame(),"Favorite books"_str);
+     fav_frame.create(getFrame(),+cfg.text_FavBooks);
     }
  }
 
@@ -1124,6 +1132,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
   spinor.setRange(25,400);
   spinor.setValue(100);
   spinor.setOptions(".f2"_c);
+
+  knob_fav.bindHint(cfg.hint_FavBooks);
 
   knob_prev.bindHint(cfg.hint_PrevPage);
   knob_up.bindHint(cfg.hint_ParentPage);

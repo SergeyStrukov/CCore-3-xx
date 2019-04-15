@@ -81,6 +81,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("text_Replace"_c,ptr->text_Replace);
   func("text_Save"_c,ptr->text_Save);
   func("text_Apply"_c,ptr->text_Apply);
+  func("text_Section"_c,ptr->text_Section);
 
   func("title_UserPref"_c,ptr->title_UserPref);
   func("title_AppPref"_c,ptr->title_AppPref);
@@ -111,6 +112,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("info_space"_c,ptr->info_space);
   func("list_space"_c,ptr->list_space);
   func("menu_space"_c,ptr->menu_space);
+  func("fav_space"_c,ptr->fav_space);
 
   func("label_font"_c,ptr->label_font);
   func("contour_font"_c,ptr->contour_font);
@@ -122,6 +124,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("list_font"_c,ptr->list_font);
   func("menu_font"_c,ptr->menu_font);
   func("spinor_font"_c,ptr->spinor_font);
+  func("fav_font"_c,ptr->fav_font);
 
   func("code_font"_c,ptr->code_font);
 
@@ -372,6 +375,13 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   // FontReplace
 
   func("font_replace_title"_c,ptr->font_replace_title);
+
+  // FavListWindow
+
+  func("fav_text"_c,ptr->fav_text);
+  func("fav_text_select"_c,ptr->fav_text_select);
+  func("fav_section_text"_c,ptr->fav_section_text);
+  func("fav_section_back"_c,ptr->fav_section_back);
  }
 
 void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
@@ -425,6 +435,7 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("'Replace'"_str,text_Replace);
    binder.item("'Save'"_str,text_Save);
    binder.item("'Apply'"_str,text_Apply);
+   binder.item("'Section'"_str,text_Section);
    binder.item("'UserPref'"_str,title_UserPref);
    binder.item("'AppPref'"_str,title_AppPref);
    binder.item("'BookPref'"_str,title_BookPref);
@@ -453,6 +464,7 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("info space"_str,info_space);
    binder.item("list space"_str,list_space);
    binder.item("menu space"_str,menu_space);
+   binder.item("fav space"_str,fav_space);
    binder.space();
    binder.item("label font"_str,label_font);
    binder.item("contour font"_str,contour_font);
@@ -464,6 +476,7 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("list font"_str,list_font);
    binder.item("menu font"_str,menu_font);
    binder.item("spinor font"_str,spinor_font);
+   binder.item("fav font"_str,fav_font);
    binder.space();
    binder.item("code font"_str,code_font);
 
@@ -710,6 +723,13 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
   binder.group("FontReplace window"_str);
 
    binder.item("frame title"_str,font_replace_title);
+
+  binder.group("FavList window"_str);
+
+   binder.item("text"_str,fav_text);
+   binder.item("text select"_str,fav_text_select);
+   binder.item("section text"_str,fav_section_text);
+   binder.item("section back"_str,fav_section_back);
  }
 
 void UserPreferenceBag::findFonts() // Update fonts here
@@ -725,6 +745,7 @@ void UserPreferenceBag::findFonts() // Update fonts here
   list_font=dev.build("Bookman Old Style"_c|Italic,18);
   menu_font=dev.build("Georgia"_c|Italic,17);
   spinor_font=dev.build("Anonymous Pro"_c,22,Bolder(20));
+  fav_font=dev.build("Bookman Old Style"_c|Italic,20);
   code_font=dev.build("Anonymous Pro"_c,20,Bolder(20));
   title_font=dev.build("Times New Roman"_c,28);
   hint_font=dev.build("Bookman Old Style"_c|Bold|Italic,17);

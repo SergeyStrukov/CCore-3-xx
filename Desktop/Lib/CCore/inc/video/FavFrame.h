@@ -61,20 +61,19 @@ class FavListShape
      Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy) // TODO
+     void bind(const Bag &bag,Proxy proxy)
       {
        width.bind(bag.width);
        border.bind(bag.border);
        focus.bind(bag.focus);
        gray.bind(bag.gray);
 
-       // text
-       // text_select
-       // section_text
-       // section_back
-       // space
-       // font
-       font.bind(bag.list_font.font);
+       text.bind(bag.fav_text);
+       text_select.bind(bag.fav_text_select);
+       section_text.bind(bag.fav_section_text);
+       section_back.bind(bag.fav_section_back);
+       space.bind(bag.fav_space);
+       font.bind(bag.fav_font.font);
 
        knob_cfg.bind(proxy);
       }
@@ -675,13 +674,13 @@ class FavWindow : public ComboWindow
      CtorRefVal<YScrollWindow::ConfigType> scroll_cfg;
 
      RefVal<String> text_Section = "Section"_str ;
-     RefVal<String> text_Select = "Select"_str ;
-     RefVal<String> text_Close = "Close"_str ;
+     RefVal<String> text_Select  = "Select"_str ;
+     RefVal<String> text_Close   = "Close"_str ;
 
      Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy) // TODO
+     void bind(const Bag &bag,Proxy proxy)
       {
        space_dxy.bind(bag.space_dxy);
        back.bind(bag.back);
@@ -695,9 +694,9 @@ class FavWindow : public ComboWindow
        dline_cfg.bind(proxy);
        scroll_cfg.bind(proxy);
 
-       // text_Section
-       // text_Select
-       // text_Close
+       text_Section.bind(bag.text_Section);
+       text_Select.bind(bag.text_Select);
+       text_Close.bind(bag.text_Close);
       }
     };
 

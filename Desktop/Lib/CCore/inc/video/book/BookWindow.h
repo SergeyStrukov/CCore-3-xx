@@ -386,9 +386,11 @@ class BookWindow : public ComboWindow
      String text_Page = "Page"_str ;
      String text_NotReady = "Font database is not ready yet"_str ;
      String text_Font = "Fonts"_str ;
+     String text_FavBooks = "Favorite books"_str ;
 
      Ratio defscale = Ratio(1,0) ;
 
+     String hint_FavBooks   = "Open favorite book list"_str ;
      String hint_PrevPage   = "Go to the previous page (F5)"_str ;
      String hint_ParentPage = "Go to the parent page (F6)"_str ;
      String hint_NextPage   = "Go to the next page (F7)"_str ;
@@ -416,7 +418,9 @@ class BookWindow : public ComboWindow
        func("text_Page"_c,ptr->text_Page);
        func("text_NotReady"_c,ptr->text_NotReady);
        func("text_Font"_c,ptr->text_Font);
+       func("text_FavBooks",ptr->text_FavBooks);
        func("defscale"_c,ptr->defscale);
+       func("hint_FavBooks"_c,ptr->hint_FavBooks);
        func("hint_PrevPage"_c,ptr->hint_PrevPage);
        func("hint_ParentPage"_c,ptr->hint_ParentPage);
        func("hint_NextPage"_c,ptr->hint_NextPage);
@@ -461,9 +465,11 @@ class BookWindow : public ComboWindow
      RefVal<String> text_Page = "Page"_str ;
      RefVal<String> text_NotReady = "Font database is not ready yet"_str ;
      RefVal<String> text_Font = "Fonts"_str ;
+     RefVal<String> text_FavBooks = "Favorite books"_str ;
 
      RefVal<Ratio> defscale = Ratio(1,0) ;
 
+     RefVal<String> hint_FavBooks   = "Open favorite book list"_str ;
      RefVal<String> hint_PrevPage   = "Go to the previous page (F5)"_str ;
      RefVal<String> hint_ParentPage = "Go to the parent page (F6)"_str ;
      RefVal<String> hint_NextPage   = "Go to the next page (F7)"_str ;
@@ -515,9 +521,11 @@ class BookWindow : public ComboWindow
        text_Page.bind(bag.text_Page);
        text_NotReady.bind(bag.text_NotReady);
        text_Font.bind(bag.text_Font);
+       text_FavBooks.bind(bag.text_FavBooks);
 
        defscale.bind(bag.defscale);
 
+       hint_FavBooks.bind(bag.hint_FavBooks);
        hint_PrevPage.bind(bag.hint_PrevPage);
        hint_ParentPage.bind(bag.hint_ParentPage);
        hint_NextPage.bind(bag.hint_NextPage);

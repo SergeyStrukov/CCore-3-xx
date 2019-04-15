@@ -100,6 +100,7 @@ struct UserPreferenceBag
   String text_Replace = "Replace"_str ;
   String text_Save    = "Save"_str ;
   String text_Apply   = "Apply"_str ;
+  String text_Section = "Section"_str ;
 
   String title_UserPref = "User preferences"_str ;
   String title_AppPref  = "Application preferences"_str ;
@@ -130,6 +131,7 @@ struct UserPreferenceBag
   Point info_space      = Point(8,8) ;
   Point list_space      = Point(8,8) ;
   Point menu_space      = Point(4,4) ;
+  Point fav_space       = Point(8,8) ;
 
   FontCouple label_font;
   FontCouple contour_font;
@@ -141,6 +143,7 @@ struct UserPreferenceBag
   FontCouple list_font;
   FontCouple menu_font;
   FontCouple spinor_font;
+  FontCouple fav_font;
 
   FontCouple code_font;
 
@@ -393,6 +396,14 @@ struct UserPreferenceBag
   // FontReplace
 
   String font_replace_title = "Font replace"_str ;
+
+  // FavListWindow
+
+  VColor fav_text        =  Black ;
+  VColor fav_text_select = Yellow ;
+
+  VColor fav_section_text = White ;
+  VColor fav_section_back = Black ;
 
   // constructors
 
