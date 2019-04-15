@@ -19,6 +19,7 @@
 #include <CCore/inc/video/book/DrawBookTools.h>
 
 #include <CCore/inc/video/MessageFrame.h>
+#include <CCore/inc/video/FavFrame.h>
 
 #include <CCore/inc/video/AppOpt.h>
 
@@ -450,6 +451,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<YDoubleLineWindow::ConfigType> line_cfg;
      CtorRefVal<FontReplaceFrame::ConfigType> replace_cfg;
      CtorRefVal<MoveButtonWindow::ConfigType> movebtn_cfg;
+     CtorRefVal<FavFrame::ConfigType> fav_cfg;
 
      RefButtonWindow::ConfigType btn_cfg;
 
@@ -501,6 +503,7 @@ class BookWindow : public ComboWindow
        line_cfg.bind(proxy);
        replace_cfg.bind(proxy);
        movebtn_cfg.bind(proxy);
+       fav_cfg.bind(proxy);
 
        btn_cfg.bind(bag);
       }
@@ -539,6 +542,7 @@ class BookWindow : public ComboWindow
    // data
 
    String source_file;
+   bool source_ok = false ;
 
    FontReplaceMap replace_map;
 
@@ -550,7 +554,9 @@ class BookWindow : public ComboWindow
    Book::TypeDef::Page *up   = 0 ;
    Book::TypeDef::Page *next = 0 ;
 
-   // subwindows
+   // subs
+
+   KnobWindow knob_fav;
 
    RefLabelWindow label_title;
    TextLineWindow text_title;
@@ -590,6 +596,8 @@ class BookWindow : public ComboWindow
 
    FontReplaceFrame replace_frame;
 
+   FavFrame fav_frame;
+
    // incremental
 
    ProgressTo<ArrowProgressWindow> progress_control;
@@ -611,6 +619,8 @@ class BookWindow : public ComboWindow
    ulen history_index = 0 ;
 
   private:
+
+   static StrLen FavFile();
 
    void error(String etext);
 
@@ -679,6 +689,14 @@ class BookWindow : public ComboWindow
    SignalConnector<BookWindow> connector_replace_apply;
 
    SignalConnector<BookWindow> connector_knob_reload_pressed;
+
+   void openFav();
+
+   SignalConnector<BookWindow> connector_knob_fav_pressed;
+
+   void favDestroyed();
+
+   SignalConnector<BookWindow> connector_fav_destroyed;
 
   public:
 

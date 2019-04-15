@@ -462,6 +462,8 @@ void FavWindow::close()
  {
   fav.save(key,file);
 
+  knob_ins.disable();
+
   ComboWindow::close();
  }
 

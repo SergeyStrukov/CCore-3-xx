@@ -22,6 +22,8 @@
 #include <CCore/inc/video/LayoutCombo.h>
 #include <CCore/inc/algon/BinarySearch.h>
 
+#include <CCore/inc/video/DesktopKey.h>
+
 namespace CCore {
 namespace Video {
 namespace Book {
@@ -788,6 +790,8 @@ void BookWindow::AppBag::findFonts()
   decorfont=dev.build("Georgia"_c|Bold|Italic,20);
  }
 
+StrLen BookWindow::FavFile() { return "BookFav.ddl"_c; }
+
 void BookWindow::error(String etext)
  {
   if( msg.isDead() )
@@ -835,7 +839,7 @@ void BookWindow::font_completed(bool ok)
     {
      wlist.del(progress);
 
-     wlist.insTop(label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,
+     wlist.insTop(knob_fav,label_title,text_title,label_page,text_page,knob_prev,knob_up,knob_next,
                   line2,spinor,line3,btn_replace,knob_reload,line4,back_btn,fore_btn,book);
 
      book.setFocus();
@@ -1018,12 +1022,34 @@ void BookWindow::replaceApply()
   reload();
  }
 
+void BookWindow::openFav() // TODO
+ {
+  if( fav_frame.isDead() )
+    {
+     if( source_ok ) fav_frame.setInsData(text_title.getText(),source_file);
+
+     fav_frame.create(getFrame(),"Favorite books"_str);
+    }
+ }
+
+void BookWindow::favDestroyed()
+ {
+  String path=fav_frame.getSelectedPath();
+
+  if( path.notEmpty() )
+    {
+     load(Range(path));
+    }
+ }
+
 BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,Signal<> &update)
  : ComboWindow(host),
    cfg(cfg_),
    opt(opt_),
 
    ext_map(replace_map),
+
+   knob_fav(wlist,cfg.knob_cfg,KnobShape::FaceLove),
 
    label_title(wlist,cfg.label_cfg,cfg.text_Title),
    text_title(wlist,cfg.text_cfg),
@@ -1060,6 +1086,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    replace_frame(host.getFrameDesktop(),cfg.replace_cfg,replace_map,update),
 
+   fav_frame(host.getFrameDesktop(),cfg.fav_cfg,HomeKey(),FavFile(),update),
+
    progress_control(progress),
    font_inc(progress_control),
 
@@ -1080,7 +1108,9 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
    connector_popup_updateReplace(this,&BookWindow::updateReplace,popup.updateReplace),
    connector_knob_replace_pressed(this,&BookWindow::openReplace,btn_replace.pressed),
    connector_replace_apply(this,&BookWindow::replaceApply,replace_frame.apply),
-   connector_knob_reload_pressed(this,&BookWindow::reload,knob_reload.pressed)
+   connector_knob_reload_pressed(this,&BookWindow::reload,knob_reload.pressed),
+   connector_knob_fav_pressed(this,&BookWindow::openFav,knob_fav.pressed),
+   connector_fav_destroyed(this,&BookWindow::favDestroyed,fav_frame.destroyed)
  {
   wlist.insTop(progress);
 
@@ -1116,7 +1146,7 @@ Point BookWindow::getMinSize() const
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
+  LayToRight lay1{Lay(knob_fav),Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
 
   LayToRight lay2{LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
                   LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
@@ -1133,6 +1163,9 @@ void BookWindow::blank()
  {
   history.erase();
   history_index=0;
+
+  source_file=Null;
+  source_ok=false;
 
   back_btn.disable();
   fore_btn.disable();
@@ -1215,6 +1248,8 @@ void BookWindow::load(StrLen file_name,bool set_source)
         book.setPage(0,book_back,book_fore);
        }
 
+     source_ok=true;
+
      redraw();
     }
   else
@@ -1234,7 +1269,7 @@ void BookWindow::layout()
  {
   Coord space=+cfg.space_dxy;
 
-  LayToRight lay1{Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
+  LayToRight lay1{Lay(knob_fav),Lay(label_title),LayCenterY(text_title),Lay(label_page),LayCenterY(text_page)};
 
   LayToRight lay2{LayCenterY(knob_prev),LayCenterY(knob_up),LayCenterY(knob_next),Lay(line2),
                   LayCenterY(spinor),Lay(line3),LayCenterY(btn_replace),LayCenterY(knob_reload),Lay(line4),
