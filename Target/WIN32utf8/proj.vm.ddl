@@ -14668,10 +14668,52 @@ IntCmd intdep349 = { 'RM DEP' , &rmdep349 } ;
 
 Rm rmdep349 = { { OBJ_PATH+"/Shape.Button.dep" } } ;
 
-Target cpp350 = { "Shape.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp" } ;
-Target ocpp350 = { "Shape.Check.o" , OBJ_PATH+"/Shape.Check.o" } ;
+Target cpp350 = { "Shape.ButtonState.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp" } ;
+Target ocpp350 = { "Shape.ButtonState.o" , OBJ_PATH+"/Shape.ButtonState.o" } ;
 Rule rcpp350 = { {&cpp350} , {&ocpp350} , {&intdep350,&execpp350} } ;
-Exe execpp350 = { "CC Shape.Check.cpp" , CC , {
+Exe execpp350 = { "CC Shape.ButtonState.cpp" , CC , {
+  "-c"
+ ,"-std=c++17"
+ ,"-fconcepts"
+ ,"-fwrapv"
+ ,"-O3"
+ ,"-march=ivybridge"
+ ,"-mmmx"
+ ,"-msse"
+ ,"-msse2"
+ ,"-Wall"
+ ,"-Wextra"
+ ,"-Wno-non-virtual-dtor"
+ ,"-Wno-switch"
+ ,"-Wno-type-limits"
+ ,"-Wno-enum-compare"
+ ,"-Wno-missing-field-initializers"
+ ,"-Wno-delete-non-virtual-dtor"
+ ,"-Wno-misleading-indentation"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp"
+ ,"-o"
+ ,OBJ_PATH+"/Shape.ButtonState.o"
+} } ;
+
+IntCmd intdep350 = { 'RM DEP' , &rmdep350 } ;
+
+Rm rmdep350 = { { OBJ_PATH+"/Shape.ButtonState.dep" } } ;
+
+Target cpp351 = { "Shape.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp" } ;
+Target ocpp351 = { "Shape.Check.o" , OBJ_PATH+"/Shape.Check.o" } ;
+Rule rcpp351 = { {&cpp351} , {&ocpp351} , {&intdep351,&execpp351} } ;
+Exe execpp351 = { "CC Shape.Check.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14706,14 +14748,14 @@ Exe execpp350 = { "CC Shape.Check.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Check.o"
 } } ;
 
-IntCmd intdep350 = { 'RM DEP' , &rmdep350 } ;
+IntCmd intdep351 = { 'RM DEP' , &rmdep351 } ;
 
-Rm rmdep350 = { { OBJ_PATH+"/Shape.Check.dep" } } ;
+Rm rmdep351 = { { OBJ_PATH+"/Shape.Check.dep" } } ;
 
-Target cpp351 = { "Shape.Contour.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp" } ;
-Target ocpp351 = { "Shape.Contour.o" , OBJ_PATH+"/Shape.Contour.o" } ;
-Rule rcpp351 = { {&cpp351} , {&ocpp351} , {&intdep351,&execpp351} } ;
-Exe execpp351 = { "CC Shape.Contour.cpp" , CC , {
+Target cpp352 = { "Shape.Contour.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp" } ;
+Target ocpp352 = { "Shape.Contour.o" , OBJ_PATH+"/Shape.Contour.o" } ;
+Rule rcpp352 = { {&cpp352} , {&ocpp352} , {&intdep352,&execpp352} } ;
+Exe execpp352 = { "CC Shape.Contour.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14748,14 +14790,14 @@ Exe execpp351 = { "CC Shape.Contour.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Contour.o"
 } } ;
 
-IntCmd intdep351 = { 'RM DEP' , &rmdep351 } ;
+IntCmd intdep352 = { 'RM DEP' , &rmdep352 } ;
 
-Rm rmdep351 = { { OBJ_PATH+"/Shape.Contour.dep" } } ;
+Rm rmdep352 = { { OBJ_PATH+"/Shape.Contour.dep" } } ;
 
-Target cpp352 = { "Shape.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.DragFrame.cpp" } ;
-Target ocpp352 = { "Shape.DragFrame.o" , OBJ_PATH+"/Shape.DragFrame.o" } ;
-Rule rcpp352 = { {&cpp352} , {&ocpp352} , {&intdep352,&execpp352} } ;
-Exe execpp352 = { "CC Shape.DragFrame.cpp" , CC , {
+Target cpp353 = { "Shape.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.DragFrame.cpp" } ;
+Target ocpp353 = { "Shape.DragFrame.o" , OBJ_PATH+"/Shape.DragFrame.o" } ;
+Rule rcpp353 = { {&cpp353} , {&ocpp353} , {&intdep353,&execpp353} } ;
+Exe execpp353 = { "CC Shape.DragFrame.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14790,14 +14832,14 @@ Exe execpp352 = { "CC Shape.DragFrame.cpp" , CC , {
  ,OBJ_PATH+"/Shape.DragFrame.o"
 } } ;
 
-IntCmd intdep352 = { 'RM DEP' , &rmdep352 } ;
+IntCmd intdep353 = { 'RM DEP' , &rmdep353 } ;
 
-Rm rmdep352 = { { OBJ_PATH+"/Shape.DragFrame.dep" } } ;
+Rm rmdep353 = { { OBJ_PATH+"/Shape.DragFrame.dep" } } ;
 
-Target cpp353 = { "Shape.FixedFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FixedFrame.cpp" } ;
-Target ocpp353 = { "Shape.FixedFrame.o" , OBJ_PATH+"/Shape.FixedFrame.o" } ;
-Rule rcpp353 = { {&cpp353} , {&ocpp353} , {&intdep353,&execpp353} } ;
-Exe execpp353 = { "CC Shape.FixedFrame.cpp" , CC , {
+Target cpp354 = { "Shape.FixedFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FixedFrame.cpp" } ;
+Target ocpp354 = { "Shape.FixedFrame.o" , OBJ_PATH+"/Shape.FixedFrame.o" } ;
+Rule rcpp354 = { {&cpp354} , {&ocpp354} , {&intdep354,&execpp354} } ;
+Exe execpp354 = { "CC Shape.FixedFrame.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14832,14 +14874,14 @@ Exe execpp353 = { "CC Shape.FixedFrame.cpp" , CC , {
  ,OBJ_PATH+"/Shape.FixedFrame.o"
 } } ;
 
-IntCmd intdep353 = { 'RM DEP' , &rmdep353 } ;
+IntCmd intdep354 = { 'RM DEP' , &rmdep354 } ;
 
-Rm rmdep353 = { { OBJ_PATH+"/Shape.FixedFrame.dep" } } ;
+Rm rmdep354 = { { OBJ_PATH+"/Shape.FixedFrame.dep" } } ;
 
-Target cpp354 = { "Shape.FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FrameBase.cpp" } ;
-Target ocpp354 = { "Shape.FrameBase.o" , OBJ_PATH+"/Shape.FrameBase.o" } ;
-Rule rcpp354 = { {&cpp354} , {&ocpp354} , {&intdep354,&execpp354} } ;
-Exe execpp354 = { "CC Shape.FrameBase.cpp" , CC , {
+Target cpp355 = { "Shape.FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FrameBase.cpp" } ;
+Target ocpp355 = { "Shape.FrameBase.o" , OBJ_PATH+"/Shape.FrameBase.o" } ;
+Rule rcpp355 = { {&cpp355} , {&ocpp355} , {&intdep355,&execpp355} } ;
+Exe execpp355 = { "CC Shape.FrameBase.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14874,14 +14916,14 @@ Exe execpp354 = { "CC Shape.FrameBase.cpp" , CC , {
  ,OBJ_PATH+"/Shape.FrameBase.o"
 } } ;
 
-IntCmd intdep354 = { 'RM DEP' , &rmdep354 } ;
+IntCmd intdep355 = { 'RM DEP' , &rmdep355 } ;
 
-Rm rmdep354 = { { OBJ_PATH+"/Shape.FrameBase.dep" } } ;
+Rm rmdep355 = { { OBJ_PATH+"/Shape.FrameBase.dep" } } ;
 
-Target cpp355 = { "Shape.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Info.cpp" } ;
-Target ocpp355 = { "Shape.Info.o" , OBJ_PATH+"/Shape.Info.o" } ;
-Rule rcpp355 = { {&cpp355} , {&ocpp355} , {&intdep355,&execpp355} } ;
-Exe execpp355 = { "CC Shape.Info.cpp" , CC , {
+Target cpp356 = { "Shape.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Info.cpp" } ;
+Target ocpp356 = { "Shape.Info.o" , OBJ_PATH+"/Shape.Info.o" } ;
+Rule rcpp356 = { {&cpp356} , {&ocpp356} , {&intdep356,&execpp356} } ;
+Exe execpp356 = { "CC Shape.Info.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14916,14 +14958,14 @@ Exe execpp355 = { "CC Shape.Info.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Info.o"
 } } ;
 
-IntCmd intdep355 = { 'RM DEP' , &rmdep355 } ;
+IntCmd intdep356 = { 'RM DEP' , &rmdep356 } ;
 
-Rm rmdep355 = { { OBJ_PATH+"/Shape.Info.dep" } } ;
+Rm rmdep356 = { { OBJ_PATH+"/Shape.Info.dep" } } ;
 
-Target cpp356 = { "Shape.Label.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Label.cpp" } ;
-Target ocpp356 = { "Shape.Label.o" , OBJ_PATH+"/Shape.Label.o" } ;
-Rule rcpp356 = { {&cpp356} , {&ocpp356} , {&intdep356,&execpp356} } ;
-Exe execpp356 = { "CC Shape.Label.cpp" , CC , {
+Target cpp357 = { "Shape.Label.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Label.cpp" } ;
+Target ocpp357 = { "Shape.Label.o" , OBJ_PATH+"/Shape.Label.o" } ;
+Rule rcpp357 = { {&cpp357} , {&ocpp357} , {&intdep357,&execpp357} } ;
+Exe execpp357 = { "CC Shape.Label.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -14958,14 +15000,14 @@ Exe execpp356 = { "CC Shape.Label.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Label.o"
 } } ;
 
-IntCmd intdep356 = { 'RM DEP' , &rmdep356 } ;
+IntCmd intdep357 = { 'RM DEP' , &rmdep357 } ;
 
-Rm rmdep356 = { { OBJ_PATH+"/Shape.Label.dep" } } ;
+Rm rmdep357 = { { OBJ_PATH+"/Shape.Label.dep" } } ;
 
-Target cpp357 = { "Shape.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Light.cpp" } ;
-Target ocpp357 = { "Shape.Light.o" , OBJ_PATH+"/Shape.Light.o" } ;
-Rule rcpp357 = { {&cpp357} , {&ocpp357} , {&intdep357,&execpp357} } ;
-Exe execpp357 = { "CC Shape.Light.cpp" , CC , {
+Target cpp358 = { "Shape.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Light.cpp" } ;
+Target ocpp358 = { "Shape.Light.o" , OBJ_PATH+"/Shape.Light.o" } ;
+Rule rcpp358 = { {&cpp358} , {&ocpp358} , {&intdep358,&execpp358} } ;
+Exe execpp358 = { "CC Shape.Light.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15000,14 +15042,14 @@ Exe execpp357 = { "CC Shape.Light.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Light.o"
 } } ;
 
-IntCmd intdep357 = { 'RM DEP' , &rmdep357 } ;
+IntCmd intdep358 = { 'RM DEP' , &rmdep358 } ;
 
-Rm rmdep357 = { { OBJ_PATH+"/Shape.Light.dep" } } ;
+Rm rmdep358 = { { OBJ_PATH+"/Shape.Light.dep" } } ;
 
-Target cpp358 = { "Shape.Line.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Line.cpp" } ;
-Target ocpp358 = { "Shape.Line.o" , OBJ_PATH+"/Shape.Line.o" } ;
-Rule rcpp358 = { {&cpp358} , {&ocpp358} , {&intdep358,&execpp358} } ;
-Exe execpp358 = { "CC Shape.Line.cpp" , CC , {
+Target cpp359 = { "Shape.Line.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Line.cpp" } ;
+Target ocpp359 = { "Shape.Line.o" , OBJ_PATH+"/Shape.Line.o" } ;
+Rule rcpp359 = { {&cpp359} , {&ocpp359} , {&intdep359,&execpp359} } ;
+Exe execpp359 = { "CC Shape.Line.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15042,14 +15084,14 @@ Exe execpp358 = { "CC Shape.Line.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Line.o"
 } } ;
 
-IntCmd intdep358 = { 'RM DEP' , &rmdep358 } ;
+IntCmd intdep359 = { 'RM DEP' , &rmdep359 } ;
 
-Rm rmdep358 = { { OBJ_PATH+"/Shape.Line.dep" } } ;
+Rm rmdep359 = { { OBJ_PATH+"/Shape.Line.dep" } } ;
 
-Target cpp359 = { "Shape.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp" } ;
-Target ocpp359 = { "Shape.LineEdit.o" , OBJ_PATH+"/Shape.LineEdit.o" } ;
-Rule rcpp359 = { {&cpp359} , {&ocpp359} , {&intdep359,&execpp359} } ;
-Exe execpp359 = { "CC Shape.LineEdit.cpp" , CC , {
+Target cpp360 = { "Shape.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp" } ;
+Target ocpp360 = { "Shape.LineEdit.o" , OBJ_PATH+"/Shape.LineEdit.o" } ;
+Rule rcpp360 = { {&cpp360} , {&ocpp360} , {&intdep360,&execpp360} } ;
+Exe execpp360 = { "CC Shape.LineEdit.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15084,14 +15126,56 @@ Exe execpp359 = { "CC Shape.LineEdit.cpp" , CC , {
  ,OBJ_PATH+"/Shape.LineEdit.o"
 } } ;
 
-IntCmd intdep359 = { 'RM DEP' , &rmdep359 } ;
+IntCmd intdep360 = { 'RM DEP' , &rmdep360 } ;
 
-Rm rmdep359 = { { OBJ_PATH+"/Shape.LineEdit.dep" } } ;
+Rm rmdep360 = { { OBJ_PATH+"/Shape.LineEdit.dep" } } ;
 
-Target cpp360 = { "Shape.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp" } ;
-Target ocpp360 = { "Shape.Progress.o" , OBJ_PATH+"/Shape.Progress.o" } ;
-Rule rcpp360 = { {&cpp360} , {&ocpp360} , {&intdep360,&execpp360} } ;
-Exe execpp360 = { "CC Shape.Progress.cpp" , CC , {
+Target cpp361 = { "Shape.MoveButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp" } ;
+Target ocpp361 = { "Shape.MoveButton.o" , OBJ_PATH+"/Shape.MoveButton.o" } ;
+Rule rcpp361 = { {&cpp361} , {&ocpp361} , {&intdep361,&execpp361} } ;
+Exe execpp361 = { "CC Shape.MoveButton.cpp" , CC , {
+  "-c"
+ ,"-std=c++17"
+ ,"-fconcepts"
+ ,"-fwrapv"
+ ,"-O3"
+ ,"-march=ivybridge"
+ ,"-mmmx"
+ ,"-msse"
+ ,"-msse2"
+ ,"-Wall"
+ ,"-Wextra"
+ ,"-Wno-non-virtual-dtor"
+ ,"-Wno-switch"
+ ,"-Wno-type-limits"
+ ,"-Wno-enum-compare"
+ ,"-Wno-missing-field-initializers"
+ ,"-Wno-delete-non-virtual-dtor"
+ ,"-Wno-misleading-indentation"
+ ,"-I../../Target/WIN32utf8"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp"
+ ,"-o"
+ ,OBJ_PATH+"/Shape.MoveButton.o"
+} } ;
+
+IntCmd intdep361 = { 'RM DEP' , &rmdep361 } ;
+
+Rm rmdep361 = { { OBJ_PATH+"/Shape.MoveButton.dep" } } ;
+
+Target cpp362 = { "Shape.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp" } ;
+Target ocpp362 = { "Shape.Progress.o" , OBJ_PATH+"/Shape.Progress.o" } ;
+Rule rcpp362 = { {&cpp362} , {&ocpp362} , {&intdep362,&execpp362} } ;
+Exe execpp362 = { "CC Shape.Progress.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15126,14 +15210,14 @@ Exe execpp360 = { "CC Shape.Progress.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Progress.o"
 } } ;
 
-IntCmd intdep360 = { 'RM DEP' , &rmdep360 } ;
+IntCmd intdep362 = { 'RM DEP' , &rmdep362 } ;
 
-Rm rmdep360 = { { OBJ_PATH+"/Shape.Progress.dep" } } ;
+Rm rmdep362 = { { OBJ_PATH+"/Shape.Progress.dep" } } ;
 
-Target cpp361 = { "Shape.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Radio.cpp" } ;
-Target ocpp361 = { "Shape.Radio.o" , OBJ_PATH+"/Shape.Radio.o" } ;
-Rule rcpp361 = { {&cpp361} , {&ocpp361} , {&intdep361,&execpp361} } ;
-Exe execpp361 = { "CC Shape.Radio.cpp" , CC , {
+Target cpp363 = { "Shape.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Radio.cpp" } ;
+Target ocpp363 = { "Shape.Radio.o" , OBJ_PATH+"/Shape.Radio.o" } ;
+Rule rcpp363 = { {&cpp363} , {&ocpp363} , {&intdep363,&execpp363} } ;
+Exe execpp363 = { "CC Shape.Radio.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15168,14 +15252,14 @@ Exe execpp361 = { "CC Shape.Radio.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Radio.o"
 } } ;
 
-IntCmd intdep361 = { 'RM DEP' , &rmdep361 } ;
+IntCmd intdep363 = { 'RM DEP' , &rmdep363 } ;
 
-Rm rmdep361 = { { OBJ_PATH+"/Shape.Radio.dep" } } ;
+Rm rmdep363 = { { OBJ_PATH+"/Shape.Radio.dep" } } ;
 
-Target cpp362 = { "Shape.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.RunButton.cpp" } ;
-Target ocpp362 = { "Shape.RunButton.o" , OBJ_PATH+"/Shape.RunButton.o" } ;
-Rule rcpp362 = { {&cpp362} , {&ocpp362} , {&intdep362,&execpp362} } ;
-Exe execpp362 = { "CC Shape.RunButton.cpp" , CC , {
+Target cpp364 = { "Shape.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.RunButton.cpp" } ;
+Target ocpp364 = { "Shape.RunButton.o" , OBJ_PATH+"/Shape.RunButton.o" } ;
+Rule rcpp364 = { {&cpp364} , {&ocpp364} , {&intdep364,&execpp364} } ;
+Exe execpp364 = { "CC Shape.RunButton.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15210,14 +15294,14 @@ Exe execpp362 = { "CC Shape.RunButton.cpp" , CC , {
  ,OBJ_PATH+"/Shape.RunButton.o"
 } } ;
 
-IntCmd intdep362 = { 'RM DEP' , &rmdep362 } ;
+IntCmd intdep364 = { 'RM DEP' , &rmdep364 } ;
 
-Rm rmdep362 = { { OBJ_PATH+"/Shape.RunButton.dep" } } ;
+Rm rmdep364 = { { OBJ_PATH+"/Shape.RunButton.dep" } } ;
 
-Target cpp363 = { "Shape.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Scroll.cpp" } ;
-Target ocpp363 = { "Shape.Scroll.o" , OBJ_PATH+"/Shape.Scroll.o" } ;
-Rule rcpp363 = { {&cpp363} , {&ocpp363} , {&intdep363,&execpp363} } ;
-Exe execpp363 = { "CC Shape.Scroll.cpp" , CC , {
+Target cpp365 = { "Shape.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Scroll.cpp" } ;
+Target ocpp365 = { "Shape.Scroll.o" , OBJ_PATH+"/Shape.Scroll.o" } ;
+Rule rcpp365 = { {&cpp365} , {&ocpp365} , {&intdep365,&execpp365} } ;
+Exe execpp365 = { "CC Shape.Scroll.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15252,14 +15336,14 @@ Exe execpp363 = { "CC Shape.Scroll.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Scroll.o"
 } } ;
 
-IntCmd intdep363 = { 'RM DEP' , &rmdep363 } ;
+IntCmd intdep365 = { 'RM DEP' , &rmdep365 } ;
 
-Rm rmdep363 = { { OBJ_PATH+"/Shape.Scroll.dep" } } ;
+Rm rmdep365 = { { OBJ_PATH+"/Shape.Scroll.dep" } } ;
 
-Target cpp364 = { "Shape.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ScrollList.cpp" } ;
-Target ocpp364 = { "Shape.ScrollList.o" , OBJ_PATH+"/Shape.ScrollList.o" } ;
-Rule rcpp364 = { {&cpp364} , {&ocpp364} , {&intdep364,&execpp364} } ;
-Exe execpp364 = { "CC Shape.ScrollList.cpp" , CC , {
+Target cpp366 = { "Shape.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ScrollList.cpp" } ;
+Target ocpp366 = { "Shape.ScrollList.o" , OBJ_PATH+"/Shape.ScrollList.o" } ;
+Rule rcpp366 = { {&cpp366} , {&ocpp366} , {&intdep366,&execpp366} } ;
+Exe execpp366 = { "CC Shape.ScrollList.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15294,14 +15378,14 @@ Exe execpp364 = { "CC Shape.ScrollList.cpp" , CC , {
  ,OBJ_PATH+"/Shape.ScrollList.o"
 } } ;
 
-IntCmd intdep364 = { 'RM DEP' , &rmdep364 } ;
+IntCmd intdep366 = { 'RM DEP' , &rmdep366 } ;
 
-Rm rmdep364 = { { OBJ_PATH+"/Shape.ScrollList.dep" } } ;
+Rm rmdep366 = { { OBJ_PATH+"/Shape.ScrollList.dep" } } ;
 
-Target cpp365 = { "Shape.ShiftSwitch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ShiftSwitch.cpp" } ;
-Target ocpp365 = { "Shape.ShiftSwitch.o" , OBJ_PATH+"/Shape.ShiftSwitch.o" } ;
-Rule rcpp365 = { {&cpp365} , {&ocpp365} , {&intdep365,&execpp365} } ;
-Exe execpp365 = { "CC Shape.ShiftSwitch.cpp" , CC , {
+Target cpp367 = { "Shape.ShiftSwitch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ShiftSwitch.cpp" } ;
+Target ocpp367 = { "Shape.ShiftSwitch.o" , OBJ_PATH+"/Shape.ShiftSwitch.o" } ;
+Rule rcpp367 = { {&cpp367} , {&ocpp367} , {&intdep367,&execpp367} } ;
+Exe execpp367 = { "CC Shape.ShiftSwitch.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15336,14 +15420,14 @@ Exe execpp365 = { "CC Shape.ShiftSwitch.cpp" , CC , {
  ,OBJ_PATH+"/Shape.ShiftSwitch.o"
 } } ;
 
-IntCmd intdep365 = { 'RM DEP' , &rmdep365 } ;
+IntCmd intdep367 = { 'RM DEP' , &rmdep367 } ;
 
-Rm rmdep365 = { { OBJ_PATH+"/Shape.ShiftSwitch.dep" } } ;
+Rm rmdep367 = { { OBJ_PATH+"/Shape.ShiftSwitch.dep" } } ;
 
-Target cpp366 = { "Shape.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.SimpleTextList.cpp" } ;
-Target ocpp366 = { "Shape.SimpleTextList.o" , OBJ_PATH+"/Shape.SimpleTextList.o" } ;
-Rule rcpp366 = { {&cpp366} , {&ocpp366} , {&intdep366,&execpp366} } ;
-Exe execpp366 = { "CC Shape.SimpleTextList.cpp" , CC , {
+Target cpp368 = { "Shape.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.SimpleTextList.cpp" } ;
+Target ocpp368 = { "Shape.SimpleTextList.o" , OBJ_PATH+"/Shape.SimpleTextList.o" } ;
+Rule rcpp368 = { {&cpp368} , {&ocpp368} , {&intdep368,&execpp368} } ;
+Exe execpp368 = { "CC Shape.SimpleTextList.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15378,14 +15462,14 @@ Exe execpp366 = { "CC Shape.SimpleTextList.cpp" , CC , {
  ,OBJ_PATH+"/Shape.SimpleTextList.o"
 } } ;
 
-IntCmd intdep366 = { 'RM DEP' , &rmdep366 } ;
+IntCmd intdep368 = { 'RM DEP' , &rmdep368 } ;
 
-Rm rmdep366 = { { OBJ_PATH+"/Shape.SimpleTextList.dep" } } ;
+Rm rmdep368 = { { OBJ_PATH+"/Shape.SimpleTextList.dep" } } ;
 
-Target cpp367 = { "Shape.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Slider.cpp" } ;
-Target ocpp367 = { "Shape.Slider.o" , OBJ_PATH+"/Shape.Slider.o" } ;
-Rule rcpp367 = { {&cpp367} , {&ocpp367} , {&intdep367,&execpp367} } ;
-Exe execpp367 = { "CC Shape.Slider.cpp" , CC , {
+Target cpp369 = { "Shape.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Slider.cpp" } ;
+Target ocpp369 = { "Shape.Slider.o" , OBJ_PATH+"/Shape.Slider.o" } ;
+Rule rcpp369 = { {&cpp369} , {&ocpp369} , {&intdep369,&execpp369} } ;
+Exe execpp369 = { "CC Shape.Slider.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15420,14 +15504,14 @@ Exe execpp367 = { "CC Shape.Slider.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Slider.o"
 } } ;
 
-IntCmd intdep367 = { 'RM DEP' , &rmdep367 } ;
+IntCmd intdep369 = { 'RM DEP' , &rmdep369 } ;
 
-Rm rmdep367 = { { OBJ_PATH+"/Shape.Slider.dep" } } ;
+Rm rmdep369 = { { OBJ_PATH+"/Shape.Slider.dep" } } ;
 
-Target cpp368 = { "Shape.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Spinor.cpp" } ;
-Target ocpp368 = { "Shape.Spinor.o" , OBJ_PATH+"/Shape.Spinor.o" } ;
-Rule rcpp368 = { {&cpp368} , {&ocpp368} , {&intdep368,&execpp368} } ;
-Exe execpp368 = { "CC Shape.Spinor.cpp" , CC , {
+Target cpp370 = { "Shape.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Spinor.cpp" } ;
+Target ocpp370 = { "Shape.Spinor.o" , OBJ_PATH+"/Shape.Spinor.o" } ;
+Rule rcpp370 = { {&cpp370} , {&ocpp370} , {&intdep370,&execpp370} } ;
+Exe execpp370 = { "CC Shape.Spinor.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15462,14 +15546,14 @@ Exe execpp368 = { "CC Shape.Spinor.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Spinor.o"
 } } ;
 
-IntCmd intdep368 = { 'RM DEP' , &rmdep368 } ;
+IntCmd intdep370 = { 'RM DEP' , &rmdep370 } ;
 
-Rm rmdep368 = { { OBJ_PATH+"/Shape.Spinor.dep" } } ;
+Rm rmdep370 = { { OBJ_PATH+"/Shape.Spinor.dep" } } ;
 
-Target cpp369 = { "Shape.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Split.cpp" } ;
-Target ocpp369 = { "Shape.Split.o" , OBJ_PATH+"/Shape.Split.o" } ;
-Rule rcpp369 = { {&cpp369} , {&ocpp369} , {&intdep369,&execpp369} } ;
-Exe execpp369 = { "CC Shape.Split.cpp" , CC , {
+Target cpp371 = { "Shape.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Split.cpp" } ;
+Target ocpp371 = { "Shape.Split.o" , OBJ_PATH+"/Shape.Split.o" } ;
+Rule rcpp371 = { {&cpp371} , {&ocpp371} , {&intdep371,&execpp371} } ;
+Exe execpp371 = { "CC Shape.Split.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15504,14 +15588,14 @@ Exe execpp369 = { "CC Shape.Split.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Split.o"
 } } ;
 
-IntCmd intdep369 = { 'RM DEP' , &rmdep369 } ;
+IntCmd intdep371 = { 'RM DEP' , &rmdep371 } ;
 
-Rm rmdep369 = { { OBJ_PATH+"/Shape.Split.dep" } } ;
+Rm rmdep371 = { { OBJ_PATH+"/Shape.Split.dep" } } ;
 
-Target cpp370 = { "Shape.Switch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Switch.cpp" } ;
-Target ocpp370 = { "Shape.Switch.o" , OBJ_PATH+"/Shape.Switch.o" } ;
-Rule rcpp370 = { {&cpp370} , {&ocpp370} , {&intdep370,&execpp370} } ;
-Exe execpp370 = { "CC Shape.Switch.cpp" , CC , {
+Target cpp372 = { "Shape.Switch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Switch.cpp" } ;
+Target ocpp372 = { "Shape.Switch.o" , OBJ_PATH+"/Shape.Switch.o" } ;
+Rule rcpp372 = { {&cpp372} , {&ocpp372} , {&intdep372,&execpp372} } ;
+Exe execpp372 = { "CC Shape.Switch.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15546,14 +15630,14 @@ Exe execpp370 = { "CC Shape.Switch.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Switch.o"
 } } ;
 
-IntCmd intdep370 = { 'RM DEP' , &rmdep370 } ;
+IntCmd intdep372 = { 'RM DEP' , &rmdep372 } ;
 
-Rm rmdep370 = { { OBJ_PATH+"/Shape.Switch.dep" } } ;
+Rm rmdep372 = { { OBJ_PATH+"/Shape.Switch.dep" } } ;
 
-Target cpp371 = { "Shape.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Text.cpp" } ;
-Target ocpp371 = { "Shape.Text.o" , OBJ_PATH+"/Shape.Text.o" } ;
-Rule rcpp371 = { {&cpp371} , {&ocpp371} , {&intdep371,&execpp371} } ;
-Exe execpp371 = { "CC Shape.Text.cpp" , CC , {
+Target cpp373 = { "Shape.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Text.cpp" } ;
+Target ocpp373 = { "Shape.Text.o" , OBJ_PATH+"/Shape.Text.o" } ;
+Rule rcpp373 = { {&cpp373} , {&ocpp373} , {&intdep373,&execpp373} } ;
+Exe execpp373 = { "CC Shape.Text.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15588,14 +15672,14 @@ Exe execpp371 = { "CC Shape.Text.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Text.o"
 } } ;
 
-IntCmd intdep371 = { 'RM DEP' , &rmdep371 } ;
+IntCmd intdep373 = { 'RM DEP' , &rmdep373 } ;
 
-Rm rmdep371 = { { OBJ_PATH+"/Shape.Text.dep" } } ;
+Rm rmdep373 = { { OBJ_PATH+"/Shape.Text.dep" } } ;
 
-Target cpp372 = { "Shape.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.TextLine.cpp" } ;
-Target ocpp372 = { "Shape.TextLine.o" , OBJ_PATH+"/Shape.TextLine.o" } ;
-Rule rcpp372 = { {&cpp372} , {&ocpp372} , {&intdep372,&execpp372} } ;
-Exe execpp372 = { "CC Shape.TextLine.cpp" , CC , {
+Target cpp374 = { "Shape.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.TextLine.cpp" } ;
+Target ocpp374 = { "Shape.TextLine.o" , OBJ_PATH+"/Shape.TextLine.o" } ;
+Rule rcpp374 = { {&cpp374} , {&ocpp374} , {&intdep374,&execpp374} } ;
+Exe execpp374 = { "CC Shape.TextLine.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15630,14 +15714,14 @@ Exe execpp372 = { "CC Shape.TextLine.cpp" , CC , {
  ,OBJ_PATH+"/Shape.TextLine.o"
 } } ;
 
-IntCmd intdep372 = { 'RM DEP' , &rmdep372 } ;
+IntCmd intdep374 = { 'RM DEP' , &rmdep374 } ;
 
-Rm rmdep372 = { { OBJ_PATH+"/Shape.TextLine.dep" } } ;
+Rm rmdep374 = { { OBJ_PATH+"/Shape.TextLine.dep" } } ;
 
-Target cpp373 = { "ShapeLib.cpp" , "../../Desktop/Lib/CCore/src/video/ShapeLib.cpp" } ;
-Target ocpp373 = { "ShapeLib.o" , OBJ_PATH+"/ShapeLib.o" } ;
-Rule rcpp373 = { {&cpp373} , {&ocpp373} , {&intdep373,&execpp373} } ;
-Exe execpp373 = { "CC ShapeLib.cpp" , CC , {
+Target cpp375 = { "ShapeLib.cpp" , "../../Desktop/Lib/CCore/src/video/ShapeLib.cpp" } ;
+Target ocpp375 = { "ShapeLib.o" , OBJ_PATH+"/ShapeLib.o" } ;
+Rule rcpp375 = { {&cpp375} , {&ocpp375} , {&intdep375,&execpp375} } ;
+Exe execpp375 = { "CC ShapeLib.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15672,14 +15756,14 @@ Exe execpp373 = { "CC ShapeLib.cpp" , CC , {
  ,OBJ_PATH+"/ShapeLib.o"
 } } ;
 
-IntCmd intdep373 = { 'RM DEP' , &rmdep373 } ;
+IntCmd intdep375 = { 'RM DEP' , &rmdep375 } ;
 
-Rm rmdep373 = { { OBJ_PATH+"/ShapeLib.dep" } } ;
+Rm rmdep375 = { { OBJ_PATH+"/ShapeLib.dep" } } ;
 
-Target cpp374 = { "ShortSort.cpp" , "../../Fundamental/CCore/src/sort/ShortSort.cpp" } ;
-Target ocpp374 = { "ShortSort.o" , OBJ_PATH+"/ShortSort.o" } ;
-Rule rcpp374 = { {&cpp374} , {&ocpp374} , {&intdep374,&execpp374} } ;
-Exe execpp374 = { "CC ShortSort.cpp" , CC , {
+Target cpp376 = { "ShortSort.cpp" , "../../Fundamental/CCore/src/sort/ShortSort.cpp" } ;
+Target ocpp376 = { "ShortSort.o" , OBJ_PATH+"/ShortSort.o" } ;
+Rule rcpp376 = { {&cpp376} , {&ocpp376} , {&intdep376,&execpp376} } ;
+Exe execpp376 = { "CC ShortSort.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15714,14 +15798,14 @@ Exe execpp374 = { "CC ShortSort.cpp" , CC , {
  ,OBJ_PATH+"/ShortSort.o"
 } } ;
 
-IntCmd intdep374 = { 'RM DEP' , &rmdep374 } ;
+IntCmd intdep376 = { 'RM DEP' , &rmdep376 } ;
 
-Rm rmdep374 = { { OBJ_PATH+"/ShortSort.dep" } } ;
+Rm rmdep376 = { { OBJ_PATH+"/ShortSort.dep" } } ;
 
-Target cpp375 = { "Signal.cpp" , "../../Fundamental/CCore/src/Signal.cpp" } ;
-Target ocpp375 = { "Signal.o" , OBJ_PATH+"/Signal.o" } ;
-Rule rcpp375 = { {&cpp375} , {&ocpp375} , {&intdep375,&execpp375} } ;
-Exe execpp375 = { "CC Signal.cpp" , CC , {
+Target cpp377 = { "Signal.cpp" , "../../Fundamental/CCore/src/Signal.cpp" } ;
+Target ocpp377 = { "Signal.o" , OBJ_PATH+"/Signal.o" } ;
+Rule rcpp377 = { {&cpp377} , {&ocpp377} , {&intdep377,&execpp377} } ;
+Exe execpp377 = { "CC Signal.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15756,14 +15840,14 @@ Exe execpp375 = { "CC Signal.cpp" , CC , {
  ,OBJ_PATH+"/Signal.o"
 } } ;
 
-IntCmd intdep375 = { 'RM DEP' , &rmdep375 } ;
+IntCmd intdep377 = { 'RM DEP' , &rmdep377 } ;
 
-Rm rmdep375 = { { OBJ_PATH+"/Signal.dep" } } ;
+Rm rmdep377 = { { OBJ_PATH+"/Signal.dep" } } ;
 
-Target cpp376 = { "SimpleArray.cpp" , "../../Fundamental/CCore/src/array/SimpleArray.cpp" } ;
-Target ocpp376 = { "SimpleArray.o" , OBJ_PATH+"/SimpleArray.o" } ;
-Rule rcpp376 = { {&cpp376} , {&ocpp376} , {&intdep376,&execpp376} } ;
-Exe execpp376 = { "CC SimpleArray.cpp" , CC , {
+Target cpp378 = { "SimpleArray.cpp" , "../../Fundamental/CCore/src/array/SimpleArray.cpp" } ;
+Target ocpp378 = { "SimpleArray.o" , OBJ_PATH+"/SimpleArray.o" } ;
+Rule rcpp378 = { {&cpp378} , {&ocpp378} , {&intdep378,&execpp378} } ;
+Exe execpp378 = { "CC SimpleArray.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15798,14 +15882,14 @@ Exe execpp376 = { "CC SimpleArray.cpp" , CC , {
  ,OBJ_PATH+"/SimpleArray.o"
 } } ;
 
-IntCmd intdep376 = { 'RM DEP' , &rmdep376 } ;
+IntCmd intdep378 = { 'RM DEP' , &rmdep378 } ;
 
-Rm rmdep376 = { { OBJ_PATH+"/SimpleArray.dep" } } ;
+Rm rmdep378 = { { OBJ_PATH+"/SimpleArray.dep" } } ;
 
-Target cpp377 = { "SimpleConsole.cpp" , "../../Applied/CCore/src/video/SimpleConsole.cpp" } ;
-Target ocpp377 = { "SimpleConsole.o" , OBJ_PATH+"/SimpleConsole.o" } ;
-Rule rcpp377 = { {&cpp377} , {&ocpp377} , {&intdep377,&execpp377} } ;
-Exe execpp377 = { "CC SimpleConsole.cpp" , CC , {
+Target cpp379 = { "SimpleConsole.cpp" , "../../Applied/CCore/src/video/SimpleConsole.cpp" } ;
+Target ocpp379 = { "SimpleConsole.o" , OBJ_PATH+"/SimpleConsole.o" } ;
+Rule rcpp379 = { {&cpp379} , {&ocpp379} , {&intdep379,&execpp379} } ;
+Exe execpp379 = { "CC SimpleConsole.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15840,14 +15924,14 @@ Exe execpp377 = { "CC SimpleConsole.cpp" , CC , {
  ,OBJ_PATH+"/SimpleConsole.o"
 } } ;
 
-IntCmd intdep377 = { 'RM DEP' , &rmdep377 } ;
+IntCmd intdep379 = { 'RM DEP' , &rmdep379 } ;
 
-Rm rmdep377 = { { OBJ_PATH+"/SimpleConsole.dep" } } ;
+Rm rmdep379 = { { OBJ_PATH+"/SimpleConsole.dep" } } ;
 
-Target cpp378 = { "SimpleRotate.cpp" , "../../Fundamental/CCore/src/algon/SimpleRotate.cpp" } ;
-Target ocpp378 = { "SimpleRotate.o" , OBJ_PATH+"/SimpleRotate.o" } ;
-Rule rcpp378 = { {&cpp378} , {&ocpp378} , {&intdep378,&execpp378} } ;
-Exe execpp378 = { "CC SimpleRotate.cpp" , CC , {
+Target cpp380 = { "SimpleRotate.cpp" , "../../Fundamental/CCore/src/algon/SimpleRotate.cpp" } ;
+Target ocpp380 = { "SimpleRotate.o" , OBJ_PATH+"/SimpleRotate.o" } ;
+Rule rcpp380 = { {&cpp380} , {&ocpp380} , {&intdep380,&execpp380} } ;
+Exe execpp380 = { "CC SimpleRotate.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15882,14 +15966,14 @@ Exe execpp378 = { "CC SimpleRotate.cpp" , CC , {
  ,OBJ_PATH+"/SimpleRotate.o"
 } } ;
 
-IntCmd intdep378 = { 'RM DEP' , &rmdep378 } ;
+IntCmd intdep380 = { 'RM DEP' , &rmdep380 } ;
 
-Rm rmdep378 = { { OBJ_PATH+"/SimpleRotate.dep" } } ;
+Rm rmdep380 = { { OBJ_PATH+"/SimpleRotate.dep" } } ;
 
-Target cpp379 = { "SingleBridge.cpp" , "../../Applied/CCore/src/net/SingleBridge.cpp" } ;
-Target ocpp379 = { "SingleBridge.o" , OBJ_PATH+"/SingleBridge.o" } ;
-Rule rcpp379 = { {&cpp379} , {&ocpp379} , {&intdep379,&execpp379} } ;
-Exe execpp379 = { "CC SingleBridge.cpp" , CC , {
+Target cpp381 = { "SingleBridge.cpp" , "../../Applied/CCore/src/net/SingleBridge.cpp" } ;
+Target ocpp381 = { "SingleBridge.o" , OBJ_PATH+"/SingleBridge.o" } ;
+Rule rcpp381 = { {&cpp381} , {&ocpp381} , {&intdep381,&execpp381} } ;
+Exe execpp381 = { "CC SingleBridge.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15924,14 +16008,14 @@ Exe execpp379 = { "CC SingleBridge.cpp" , CC , {
  ,OBJ_PATH+"/SingleBridge.o"
 } } ;
 
-IntCmd intdep379 = { 'RM DEP' , &rmdep379 } ;
+IntCmd intdep381 = { 'RM DEP' , &rmdep381 } ;
 
-Rm rmdep379 = { { OBJ_PATH+"/SingleBridge.dep" } } ;
+Rm rmdep381 = { { OBJ_PATH+"/SingleBridge.dep" } } ;
 
-Target cpp380 = { "SingleEchoDevice.cpp" , "../../Applied/CCore/src/net/SingleEchoDevice.cpp" } ;
-Target ocpp380 = { "SingleEchoDevice.o" , OBJ_PATH+"/SingleEchoDevice.o" } ;
-Rule rcpp380 = { {&cpp380} , {&ocpp380} , {&intdep380,&execpp380} } ;
-Exe execpp380 = { "CC SingleEchoDevice.cpp" , CC , {
+Target cpp382 = { "SingleEchoDevice.cpp" , "../../Applied/CCore/src/net/SingleEchoDevice.cpp" } ;
+Target ocpp382 = { "SingleEchoDevice.o" , OBJ_PATH+"/SingleEchoDevice.o" } ;
+Rule rcpp382 = { {&cpp382} , {&ocpp382} , {&intdep382,&execpp382} } ;
+Exe execpp382 = { "CC SingleEchoDevice.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -15966,14 +16050,14 @@ Exe execpp380 = { "CC SingleEchoDevice.cpp" , CC , {
  ,OBJ_PATH+"/SingleEchoDevice.o"
 } } ;
 
-IntCmd intdep380 = { 'RM DEP' , &rmdep380 } ;
+IntCmd intdep382 = { 'RM DEP' , &rmdep382 } ;
 
-Rm rmdep380 = { { OBJ_PATH+"/SingleEchoDevice.dep" } } ;
+Rm rmdep382 = { { OBJ_PATH+"/SingleEchoDevice.dep" } } ;
 
-Target cpp381 = { "SingleHost.cpp" , "../../Fundamental/CCore/src/SingleHost.cpp" } ;
-Target ocpp381 = { "SingleHost.o" , OBJ_PATH+"/SingleHost.o" } ;
-Rule rcpp381 = { {&cpp381} , {&ocpp381} , {&intdep381,&execpp381} } ;
-Exe execpp381 = { "CC SingleHost.cpp" , CC , {
+Target cpp383 = { "SingleHost.cpp" , "../../Fundamental/CCore/src/SingleHost.cpp" } ;
+Target ocpp383 = { "SingleHost.o" , OBJ_PATH+"/SingleHost.o" } ;
+Rule rcpp383 = { {&cpp383} , {&ocpp383} , {&intdep383,&execpp383} } ;
+Exe execpp383 = { "CC SingleHost.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16008,14 +16092,14 @@ Exe execpp381 = { "CC SingleHost.cpp" , CC , {
  ,OBJ_PATH+"/SingleHost.o"
 } } ;
 
-IntCmd intdep381 = { 'RM DEP' , &rmdep381 } ;
+IntCmd intdep383 = { 'RM DEP' , &rmdep383 } ;
 
-Rm rmdep381 = { { OBJ_PATH+"/SingleHost.dep" } } ;
+Rm rmdep383 = { { OBJ_PATH+"/SingleHost.dep" } } ;
 
-Target cpp382 = { "SlowSem.cpp" , "../../HCore/CCore/src/task/SlowSem.cpp" } ;
-Target ocpp382 = { "SlowSem.o" , OBJ_PATH+"/SlowSem.o" } ;
-Rule rcpp382 = { {&cpp382} , {&ocpp382} , {&intdep382,&execpp382} } ;
-Exe execpp382 = { "CC SlowSem.cpp" , CC , {
+Target cpp384 = { "SlowSem.cpp" , "../../HCore/CCore/src/task/SlowSem.cpp" } ;
+Target ocpp384 = { "SlowSem.o" , OBJ_PATH+"/SlowSem.o" } ;
+Rule rcpp384 = { {&cpp384} , {&ocpp384} , {&intdep384,&execpp384} } ;
+Exe execpp384 = { "CC SlowSem.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16050,14 +16134,14 @@ Exe execpp382 = { "CC SlowSem.cpp" , CC , {
  ,OBJ_PATH+"/SlowSem.o"
 } } ;
 
-IntCmd intdep382 = { 'RM DEP' , &rmdep382 } ;
+IntCmd intdep384 = { 'RM DEP' , &rmdep384 } ;
 
-Rm rmdep382 = { { OBJ_PATH+"/SlowSem.dep" } } ;
+Rm rmdep384 = { { OBJ_PATH+"/SlowSem.dep" } } ;
 
-Target cpp383 = { "SmallPrimes.cpp" , "../../Applied/CCore/src/math/SmallPrimes.cpp" } ;
-Target ocpp383 = { "SmallPrimes.o" , OBJ_PATH+"/SmallPrimes.o" } ;
-Rule rcpp383 = { {&cpp383} , {&ocpp383} , {&intdep383,&execpp383} } ;
-Exe execpp383 = { "CC SmallPrimes.cpp" , CC , {
+Target cpp385 = { "SmallPrimes.cpp" , "../../Applied/CCore/src/math/SmallPrimes.cpp" } ;
+Target ocpp385 = { "SmallPrimes.o" , OBJ_PATH+"/SmallPrimes.o" } ;
+Rule rcpp385 = { {&cpp385} , {&ocpp385} , {&intdep385,&execpp385} } ;
+Exe execpp385 = { "CC SmallPrimes.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16092,14 +16176,14 @@ Exe execpp383 = { "CC SmallPrimes.cpp" , CC , {
  ,OBJ_PATH+"/SmallPrimes.o"
 } } ;
 
-IntCmd intdep383 = { 'RM DEP' , &rmdep383 } ;
+IntCmd intdep385 = { 'RM DEP' , &rmdep385 } ;
 
-Rm rmdep383 = { { OBJ_PATH+"/SmallPrimes.dep" } } ;
+Rm rmdep385 = { { OBJ_PATH+"/SmallPrimes.dep" } } ;
 
-Target cpp384 = { "SmoothAlgo.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothAlgo.cpp" } ;
-Target ocpp384 = { "SmoothAlgo.o" , OBJ_PATH+"/SmoothAlgo.o" } ;
-Rule rcpp384 = { {&cpp384} , {&ocpp384} , {&intdep384,&execpp384} } ;
-Exe execpp384 = { "CC SmoothAlgo.cpp" , CC , {
+Target cpp386 = { "SmoothAlgo.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothAlgo.cpp" } ;
+Target ocpp386 = { "SmoothAlgo.o" , OBJ_PATH+"/SmoothAlgo.o" } ;
+Rule rcpp386 = { {&cpp386} , {&ocpp386} , {&intdep386,&execpp386} } ;
+Exe execpp386 = { "CC SmoothAlgo.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16134,14 +16218,14 @@ Exe execpp384 = { "CC SmoothAlgo.cpp" , CC , {
  ,OBJ_PATH+"/SmoothAlgo.o"
 } } ;
 
-IntCmd intdep384 = { 'RM DEP' , &rmdep384 } ;
+IntCmd intdep386 = { 'RM DEP' , &rmdep386 } ;
 
-Rm rmdep384 = { { OBJ_PATH+"/SmoothAlgo.dep" } } ;
+Rm rmdep386 = { { OBJ_PATH+"/SmoothAlgo.dep" } } ;
 
-Target cpp385 = { "SmoothDrawArt.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothDrawArt.cpp" } ;
-Target ocpp385 = { "SmoothDrawArt.o" , OBJ_PATH+"/SmoothDrawArt.o" } ;
-Rule rcpp385 = { {&cpp385} , {&ocpp385} , {&intdep385,&execpp385} } ;
-Exe execpp385 = { "CC SmoothDrawArt.cpp" , CC , {
+Target cpp387 = { "SmoothDrawArt.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothDrawArt.cpp" } ;
+Target ocpp387 = { "SmoothDrawArt.o" , OBJ_PATH+"/SmoothDrawArt.o" } ;
+Rule rcpp387 = { {&cpp387} , {&ocpp387} , {&intdep387,&execpp387} } ;
+Exe execpp387 = { "CC SmoothDrawArt.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16176,14 +16260,14 @@ Exe execpp385 = { "CC SmoothDrawArt.cpp" , CC , {
  ,OBJ_PATH+"/SmoothDrawArt.o"
 } } ;
 
-IntCmd intdep385 = { 'RM DEP' , &rmdep385 } ;
+IntCmd intdep387 = { 'RM DEP' , &rmdep387 } ;
 
-Rm rmdep385 = { { OBJ_PATH+"/SmoothDrawArt.dep" } } ;
+Rm rmdep387 = { { OBJ_PATH+"/SmoothDrawArt.dep" } } ;
 
-Target cpp386 = { "Sort.cpp" , "../../Fundamental/CCore/src/Sort.cpp" } ;
-Target ocpp386 = { "Sort.o" , OBJ_PATH+"/Sort.o" } ;
-Rule rcpp386 = { {&cpp386} , {&ocpp386} , {&intdep386,&execpp386} } ;
-Exe execpp386 = { "CC Sort.cpp" , CC , {
+Target cpp388 = { "Sort.cpp" , "../../Fundamental/CCore/src/Sort.cpp" } ;
+Target ocpp388 = { "Sort.o" , OBJ_PATH+"/Sort.o" } ;
+Rule rcpp388 = { {&cpp388} , {&ocpp388} , {&intdep388,&execpp388} } ;
+Exe execpp388 = { "CC Sort.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16218,14 +16302,14 @@ Exe execpp386 = { "CC Sort.cpp" , CC , {
  ,OBJ_PATH+"/Sort.o"
 } } ;
 
-IntCmd intdep386 = { 'RM DEP' , &rmdep386 } ;
+IntCmd intdep388 = { 'RM DEP' , &rmdep388 } ;
 
-Rm rmdep386 = { { OBJ_PATH+"/Sort.dep" } } ;
+Rm rmdep388 = { { OBJ_PATH+"/Sort.dep" } } ;
 
-Target cpp387 = { "SortUnique.cpp" , "../../Fundamental/CCore/src/algon/SortUnique.cpp" } ;
-Target ocpp387 = { "SortUnique.o" , OBJ_PATH+"/SortUnique.o" } ;
-Rule rcpp387 = { {&cpp387} , {&ocpp387} , {&intdep387,&execpp387} } ;
-Exe execpp387 = { "CC SortUnique.cpp" , CC , {
+Target cpp389 = { "SortUnique.cpp" , "../../Fundamental/CCore/src/algon/SortUnique.cpp" } ;
+Target ocpp389 = { "SortUnique.o" , OBJ_PATH+"/SortUnique.o" } ;
+Rule rcpp389 = { {&cpp389} , {&ocpp389} , {&intdep389,&execpp389} } ;
+Exe execpp389 = { "CC SortUnique.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16260,14 +16344,14 @@ Exe execpp387 = { "CC SortUnique.cpp" , CC , {
  ,OBJ_PATH+"/SortUnique.o"
 } } ;
 
-IntCmd intdep387 = { 'RM DEP' , &rmdep387 } ;
+IntCmd intdep389 = { 'RM DEP' , &rmdep389 } ;
 
-Rm rmdep387 = { { OBJ_PATH+"/SortUnique.dep" } } ;
+Rm rmdep389 = { { OBJ_PATH+"/SortUnique.dep" } } ;
 
-Target cpp388 = { "Space.cpp" , "../../Simple/CCore/src/gadget/Space.cpp" } ;
-Target ocpp388 = { "Space.o" , OBJ_PATH+"/Space.o" } ;
-Rule rcpp388 = { {&cpp388} , {&ocpp388} , {&intdep388,&execpp388} } ;
-Exe execpp388 = { "CC Space.cpp" , CC , {
+Target cpp390 = { "Space.cpp" , "../../Simple/CCore/src/gadget/Space.cpp" } ;
+Target ocpp390 = { "Space.o" , OBJ_PATH+"/Space.o" } ;
+Rule rcpp390 = { {&cpp390} , {&ocpp390} , {&intdep390,&execpp390} } ;
+Exe execpp390 = { "CC Space.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16302,14 +16386,14 @@ Exe execpp388 = { "CC Space.cpp" , CC , {
  ,OBJ_PATH+"/Space.o"
 } } ;
 
-IntCmd intdep388 = { 'RM DEP' , &rmdep388 } ;
+IntCmd intdep390 = { 'RM DEP' , &rmdep390 } ;
 
-Rm rmdep388 = { { OBJ_PATH+"/Space.dep" } } ;
+Rm rmdep390 = { { OBJ_PATH+"/Space.dep" } } ;
 
-Target cpp389 = { "SpanLenEngine.cpp" , "../../Desktop/Lib/CCore/src/video/book/SpanLenEngine.cpp" } ;
-Target ocpp389 = { "SpanLenEngine.o" , OBJ_PATH+"/SpanLenEngine.o" } ;
-Rule rcpp389 = { {&cpp389} , {&ocpp389} , {&intdep389,&execpp389} } ;
-Exe execpp389 = { "CC SpanLenEngine.cpp" , CC , {
+Target cpp391 = { "SpanLenEngine.cpp" , "../../Desktop/Lib/CCore/src/video/book/SpanLenEngine.cpp" } ;
+Target ocpp391 = { "SpanLenEngine.o" , OBJ_PATH+"/SpanLenEngine.o" } ;
+Rule rcpp391 = { {&cpp391} , {&ocpp391} , {&intdep391,&execpp391} } ;
+Exe execpp391 = { "CC SpanLenEngine.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16344,14 +16428,14 @@ Exe execpp389 = { "CC SpanLenEngine.cpp" , CC , {
  ,OBJ_PATH+"/SpanLenEngine.o"
 } } ;
 
-IntCmd intdep389 = { 'RM DEP' , &rmdep389 } ;
+IntCmd intdep391 = { 'RM DEP' , &rmdep391 } ;
 
-Rm rmdep389 = { { OBJ_PATH+"/SpanLenEngine.dep" } } ;
+Rm rmdep391 = { { OBJ_PATH+"/SpanLenEngine.dep" } } ;
 
-Target cpp390 = { "SpawnProcess.cpp" , "../../HCore/CCore/src/SpawnProcess.cpp" } ;
-Target ocpp390 = { "SpawnProcess.o" , OBJ_PATH+"/SpawnProcess.o" } ;
-Rule rcpp390 = { {&cpp390} , {&ocpp390} , {&intdep390,&execpp390} } ;
-Exe execpp390 = { "CC SpawnProcess.cpp" , CC , {
+Target cpp392 = { "SpawnProcess.cpp" , "../../HCore/CCore/src/SpawnProcess.cpp" } ;
+Target ocpp392 = { "SpawnProcess.o" , OBJ_PATH+"/SpawnProcess.o" } ;
+Rule rcpp392 = { {&cpp392} , {&ocpp392} , {&intdep392,&execpp392} } ;
+Exe execpp392 = { "CC SpawnProcess.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16386,14 +16470,14 @@ Exe execpp390 = { "CC SpawnProcess.cpp" , CC , {
  ,OBJ_PATH+"/SpawnProcess.o"
 } } ;
 
-IntCmd intdep390 = { 'RM DEP' , &rmdep390 } ;
+IntCmd intdep392 = { 'RM DEP' , &rmdep392 } ;
 
-Rm rmdep390 = { { OBJ_PATH+"/SpawnProcess.dep" } } ;
+Rm rmdep392 = { { OBJ_PATH+"/SpawnProcess.dep" } } ;
 
-Target cpp391 = { "StartStop.cpp" , "../../Simple/CCore/src/StartStop.cpp" } ;
-Target ocpp391 = { "StartStop.o" , OBJ_PATH+"/StartStop.o" } ;
-Rule rcpp391 = { {&cpp391} , {&ocpp391} , {&intdep391,&execpp391} } ;
-Exe execpp391 = { "CC StartStop.cpp" , CC , {
+Target cpp393 = { "StartStop.cpp" , "../../Simple/CCore/src/StartStop.cpp" } ;
+Target ocpp393 = { "StartStop.o" , OBJ_PATH+"/StartStop.o" } ;
+Rule rcpp393 = { {&cpp393} , {&ocpp393} , {&intdep393,&execpp393} } ;
+Exe execpp393 = { "CC StartStop.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16428,14 +16512,14 @@ Exe execpp391 = { "CC StartStop.cpp" , CC , {
  ,OBJ_PATH+"/StartStop.o"
 } } ;
 
-IntCmd intdep391 = { 'RM DEP' , &rmdep391 } ;
+IntCmd intdep393 = { 'RM DEP' , &rmdep393 } ;
 
-Rm rmdep391 = { { OBJ_PATH+"/StartStop.dep" } } ;
+Rm rmdep393 = { { OBJ_PATH+"/StartStop.dep" } } ;
 
-Target cpp392 = { "Starter.cpp" , "../../Fundamental/CCore/src/Starter.cpp" } ;
-Target ocpp392 = { "Starter.o" , OBJ_PATH+"/Starter.o" } ;
-Rule rcpp392 = { {&cpp392} , {&ocpp392} , {&intdep392,&execpp392} } ;
-Exe execpp392 = { "CC Starter.cpp" , CC , {
+Target cpp394 = { "Starter.cpp" , "../../Fundamental/CCore/src/Starter.cpp" } ;
+Target ocpp394 = { "Starter.o" , OBJ_PATH+"/Starter.o" } ;
+Rule rcpp394 = { {&cpp394} , {&ocpp394} , {&intdep394,&execpp394} } ;
+Exe execpp394 = { "CC Starter.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16470,14 +16554,14 @@ Exe execpp392 = { "CC Starter.cpp" , CC , {
  ,OBJ_PATH+"/Starter.o"
 } } ;
 
-IntCmd intdep392 = { 'RM DEP' , &rmdep392 } ;
+IntCmd intdep394 = { 'RM DEP' , &rmdep394 } ;
 
-Rm rmdep392 = { { OBJ_PATH+"/Starter.dep" } } ;
+Rm rmdep394 = { { OBJ_PATH+"/Starter.dep" } } ;
 
-Target cpp393 = { "StepEval.cpp" , "../../Fundamental/CCore/src/StepEval.cpp" } ;
-Target ocpp393 = { "StepEval.o" , OBJ_PATH+"/StepEval.o" } ;
-Rule rcpp393 = { {&cpp393} , {&ocpp393} , {&intdep393,&execpp393} } ;
-Exe execpp393 = { "CC StepEval.cpp" , CC , {
+Target cpp395 = { "StepEval.cpp" , "../../Fundamental/CCore/src/StepEval.cpp" } ;
+Target ocpp395 = { "StepEval.o" , OBJ_PATH+"/StepEval.o" } ;
+Rule rcpp395 = { {&cpp395} , {&ocpp395} , {&intdep395,&execpp395} } ;
+Exe execpp395 = { "CC StepEval.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16512,14 +16596,14 @@ Exe execpp393 = { "CC StepEval.cpp" , CC , {
  ,OBJ_PATH+"/StepEval.o"
 } } ;
 
-IntCmd intdep393 = { 'RM DEP' , &rmdep393 } ;
+IntCmd intdep395 = { 'RM DEP' , &rmdep395 } ;
 
-Rm rmdep393 = { { OBJ_PATH+"/StepEval.dep" } } ;
+Rm rmdep395 = { { OBJ_PATH+"/StepEval.dep" } } ;
 
-Target cpp394 = { "StrKey.cpp" , "../../Simple/CCore/src/StrKey.cpp" } ;
-Target ocpp394 = { "StrKey.o" , OBJ_PATH+"/StrKey.o" } ;
-Rule rcpp394 = { {&cpp394} , {&ocpp394} , {&intdep394,&execpp394} } ;
-Exe execpp394 = { "CC StrKey.cpp" , CC , {
+Target cpp396 = { "StrKey.cpp" , "../../Simple/CCore/src/StrKey.cpp" } ;
+Target ocpp396 = { "StrKey.o" , OBJ_PATH+"/StrKey.o" } ;
+Rule rcpp396 = { {&cpp396} , {&ocpp396} , {&intdep396,&execpp396} } ;
+Exe execpp396 = { "CC StrKey.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16554,14 +16638,14 @@ Exe execpp394 = { "CC StrKey.cpp" , CC , {
  ,OBJ_PATH+"/StrKey.o"
 } } ;
 
-IntCmd intdep394 = { 'RM DEP' , &rmdep394 } ;
+IntCmd intdep396 = { 'RM DEP' , &rmdep396 } ;
 
-Rm rmdep394 = { { OBJ_PATH+"/StrKey.dep" } } ;
+Rm rmdep396 = { { OBJ_PATH+"/StrKey.dep" } } ;
 
-Target cpp395 = { "StrMap.cpp" , "../../Fundamental/CCore/src/StrMap.cpp" } ;
-Target ocpp395 = { "StrMap.o" , OBJ_PATH+"/StrMap.o" } ;
-Rule rcpp395 = { {&cpp395} , {&ocpp395} , {&intdep395,&execpp395} } ;
-Exe execpp395 = { "CC StrMap.cpp" , CC , {
+Target cpp397 = { "StrMap.cpp" , "../../Fundamental/CCore/src/StrMap.cpp" } ;
+Target ocpp397 = { "StrMap.o" , OBJ_PATH+"/StrMap.o" } ;
+Rule rcpp397 = { {&cpp397} , {&ocpp397} , {&intdep397,&execpp397} } ;
+Exe execpp397 = { "CC StrMap.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16596,14 +16680,14 @@ Exe execpp395 = { "CC StrMap.cpp" , CC , {
  ,OBJ_PATH+"/StrMap.o"
 } } ;
 
-IntCmd intdep395 = { 'RM DEP' , &rmdep395 } ;
+IntCmd intdep397 = { 'RM DEP' , &rmdep397 } ;
 
-Rm rmdep395 = { { OBJ_PATH+"/StrMap.dep" } } ;
+Rm rmdep397 = { { OBJ_PATH+"/StrMap.dep" } } ;
 
-Target cpp396 = { "StrParse.cpp" , "../../Fundamental/CCore/src/StrParse.cpp" } ;
-Target ocpp396 = { "StrParse.o" , OBJ_PATH+"/StrParse.o" } ;
-Rule rcpp396 = { {&cpp396} , {&ocpp396} , {&intdep396,&execpp396} } ;
-Exe execpp396 = { "CC StrParse.cpp" , CC , {
+Target cpp398 = { "StrParse.cpp" , "../../Fundamental/CCore/src/StrParse.cpp" } ;
+Target ocpp398 = { "StrParse.o" , OBJ_PATH+"/StrParse.o" } ;
+Rule rcpp398 = { {&cpp398} , {&ocpp398} , {&intdep398,&execpp398} } ;
+Exe execpp398 = { "CC StrParse.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16638,14 +16722,14 @@ Exe execpp396 = { "CC StrParse.cpp" , CC , {
  ,OBJ_PATH+"/StrParse.o"
 } } ;
 
-IntCmd intdep396 = { 'RM DEP' , &rmdep396 } ;
+IntCmd intdep398 = { 'RM DEP' , &rmdep398 } ;
 
-Rm rmdep396 = { { OBJ_PATH+"/StrParse.dep" } } ;
+Rm rmdep398 = { { OBJ_PATH+"/StrParse.dep" } } ;
 
-Target cpp397 = { "StrPrint.cpp" , "../../Fundamental/CCore/src/printf/StrPrint.cpp" } ;
-Target ocpp397 = { "StrPrint.o" , OBJ_PATH+"/StrPrint.o" } ;
-Rule rcpp397 = { {&cpp397} , {&ocpp397} , {&intdep397,&execpp397} } ;
-Exe execpp397 = { "CC StrPrint.cpp" , CC , {
+Target cpp399 = { "StrPrint.cpp" , "../../Fundamental/CCore/src/printf/StrPrint.cpp" } ;
+Target ocpp399 = { "StrPrint.o" , OBJ_PATH+"/StrPrint.o" } ;
+Rule rcpp399 = { {&cpp399} , {&ocpp399} , {&intdep399,&execpp399} } ;
+Exe execpp399 = { "CC StrPrint.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16680,14 +16764,14 @@ Exe execpp397 = { "CC StrPrint.cpp" , CC , {
  ,OBJ_PATH+"/StrPrint.o"
 } } ;
 
-IntCmd intdep397 = { 'RM DEP' , &rmdep397 } ;
+IntCmd intdep399 = { 'RM DEP' , &rmdep399 } ;
 
-Rm rmdep397 = { { OBJ_PATH+"/StrPrint.dep" } } ;
+Rm rmdep399 = { { OBJ_PATH+"/StrPrint.dep" } } ;
 
-Target cpp398 = { "StrToChar.cpp" , "../../Applied/CCore/src/StrToChar.cpp" } ;
-Target ocpp398 = { "StrToChar.o" , OBJ_PATH+"/StrToChar.o" } ;
-Rule rcpp398 = { {&cpp398} , {&ocpp398} , {&intdep398,&execpp398} } ;
-Exe execpp398 = { "CC StrToChar.cpp" , CC , {
+Target cpp400 = { "StrToChar.cpp" , "../../Applied/CCore/src/StrToChar.cpp" } ;
+Target ocpp400 = { "StrToChar.o" , OBJ_PATH+"/StrToChar.o" } ;
+Rule rcpp400 = { {&cpp400} , {&ocpp400} , {&intdep400,&execpp400} } ;
+Exe execpp400 = { "CC StrToChar.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16722,14 +16806,14 @@ Exe execpp398 = { "CC StrToChar.cpp" , CC , {
  ,OBJ_PATH+"/StrToChar.o"
 } } ;
 
-IntCmd intdep398 = { 'RM DEP' , &rmdep398 } ;
+IntCmd intdep400 = { 'RM DEP' , &rmdep400 } ;
 
-Rm rmdep398 = { { OBJ_PATH+"/StrToChar.dep" } } ;
+Rm rmdep400 = { { OBJ_PATH+"/StrToChar.dep" } } ;
 
-Target cpp399 = { "String.cpp" , "../../Fundamental/CCore/src/String.cpp" } ;
-Target ocpp399 = { "String.o" , OBJ_PATH+"/String.o" } ;
-Rule rcpp399 = { {&cpp399} , {&ocpp399} , {&intdep399,&execpp399} } ;
-Exe execpp399 = { "CC String.cpp" , CC , {
+Target cpp401 = { "String.cpp" , "../../Fundamental/CCore/src/String.cpp" } ;
+Target ocpp401 = { "String.o" , OBJ_PATH+"/String.o" } ;
+Rule rcpp401 = { {&cpp401} , {&ocpp401} , {&intdep401,&execpp401} } ;
+Exe execpp401 = { "CC String.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16764,14 +16848,14 @@ Exe execpp399 = { "CC String.cpp" , CC , {
  ,OBJ_PATH+"/String.o"
 } } ;
 
-IntCmd intdep399 = { 'RM DEP' , &rmdep399 } ;
+IntCmd intdep401 = { 'RM DEP' , &rmdep401 } ;
 
-Rm rmdep399 = { { OBJ_PATH+"/String.dep" } } ;
+Rm rmdep401 = { { OBJ_PATH+"/String.dep" } } ;
 
-Target cpp400 = { "StringScan.cpp" , "../../Fundamental/CCore/src/scanf/StringScan.cpp" } ;
-Target ocpp400 = { "StringScan.o" , OBJ_PATH+"/StringScan.o" } ;
-Rule rcpp400 = { {&cpp400} , {&ocpp400} , {&intdep400,&execpp400} } ;
-Exe execpp400 = { "CC StringScan.cpp" , CC , {
+Target cpp402 = { "StringScan.cpp" , "../../Fundamental/CCore/src/scanf/StringScan.cpp" } ;
+Target ocpp402 = { "StringScan.o" , OBJ_PATH+"/StringScan.o" } ;
+Rule rcpp402 = { {&cpp402} , {&ocpp402} , {&intdep402,&execpp402} } ;
+Exe execpp402 = { "CC StringScan.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16806,14 +16890,14 @@ Exe execpp400 = { "CC StringScan.cpp" , CC , {
  ,OBJ_PATH+"/StringScan.o"
 } } ;
 
-IntCmd intdep400 = { 'RM DEP' , &rmdep400 } ;
+IntCmd intdep402 = { 'RM DEP' , &rmdep402 } ;
 
-Rm rmdep400 = { { OBJ_PATH+"/StringScan.dep" } } ;
+Rm rmdep402 = { { OBJ_PATH+"/StringScan.dep" } } ;
 
-Target cpp401 = { "SubWindow.cpp" , "../../Desktop/Core/CCore/src/video/SubWindow.cpp" } ;
-Target ocpp401 = { "SubWindow.o" , OBJ_PATH+"/SubWindow.o" } ;
-Rule rcpp401 = { {&cpp401} , {&ocpp401} , {&intdep401,&execpp401} } ;
-Exe execpp401 = { "CC SubWindow.cpp" , CC , {
+Target cpp403 = { "SubWindow.cpp" , "../../Desktop/Core/CCore/src/video/SubWindow.cpp" } ;
+Target ocpp403 = { "SubWindow.o" , OBJ_PATH+"/SubWindow.o" } ;
+Rule rcpp403 = { {&cpp403} , {&ocpp403} , {&intdep403,&execpp403} } ;
+Exe execpp403 = { "CC SubWindow.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16848,14 +16932,14 @@ Exe execpp401 = { "CC SubWindow.cpp" , CC , {
  ,OBJ_PATH+"/SubWindow.o"
 } } ;
 
-IntCmd intdep401 = { 'RM DEP' , &rmdep401 } ;
+IntCmd intdep403 = { 'RM DEP' , &rmdep403 } ;
 
-Rm rmdep401 = { { OBJ_PATH+"/SubWindow.dep" } } ;
+Rm rmdep403 = { { OBJ_PATH+"/SubWindow.dep" } } ;
 
-Target cpp402 = { "Swap.cpp" , "../../Simple/CCore/src/Swap.cpp" } ;
-Target ocpp402 = { "Swap.o" , OBJ_PATH+"/Swap.o" } ;
-Rule rcpp402 = { {&cpp402} , {&ocpp402} , {&intdep402,&execpp402} } ;
-Exe execpp402 = { "CC Swap.cpp" , CC , {
+Target cpp404 = { "Swap.cpp" , "../../Simple/CCore/src/Swap.cpp" } ;
+Target ocpp404 = { "Swap.o" , OBJ_PATH+"/Swap.o" } ;
+Rule rcpp404 = { {&cpp404} , {&ocpp404} , {&intdep404,&execpp404} } ;
+Exe execpp404 = { "CC Swap.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16890,14 +16974,14 @@ Exe execpp402 = { "CC Swap.cpp" , CC , {
  ,OBJ_PATH+"/Swap.o"
 } } ;
 
-IntCmd intdep402 = { 'RM DEP' , &rmdep402 } ;
+IntCmd intdep404 = { 'RM DEP' , &rmdep404 } ;
 
-Rm rmdep402 = { { OBJ_PATH+"/Swap.dep" } } ;
+Rm rmdep404 = { { OBJ_PATH+"/Swap.dep" } } ;
 
-Target cpp403 = { "SymCount.cpp" , "../../Simple/CCore/src/SymCount.cpp" } ;
-Target ocpp403 = { "SymCount.o" , OBJ_PATH+"/SymCount.o" } ;
-Rule rcpp403 = { {&cpp403} , {&ocpp403} , {&intdep403,&execpp403} } ;
-Exe execpp403 = { "CC SymCount.cpp" , CC , {
+Target cpp405 = { "SymCount.cpp" , "../../Simple/CCore/src/SymCount.cpp" } ;
+Target ocpp405 = { "SymCount.o" , OBJ_PATH+"/SymCount.o" } ;
+Rule rcpp405 = { {&cpp405} , {&ocpp405} , {&intdep405,&execpp405} } ;
+Exe execpp405 = { "CC SymCount.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16932,14 +17016,14 @@ Exe execpp403 = { "CC SymCount.cpp" , CC , {
  ,OBJ_PATH+"/SymCount.o"
 } } ;
 
-IntCmd intdep403 = { 'RM DEP' , &rmdep403 } ;
+IntCmd intdep405 = { 'RM DEP' , &rmdep405 } ;
 
-Rm rmdep403 = { { OBJ_PATH+"/SymCount.dep" } } ;
+Rm rmdep405 = { { OBJ_PATH+"/SymCount.dep" } } ;
 
-Target cpp404 = { "SymPart.cpp" , "../../Simple/CCore/src/SymPart.cpp" } ;
-Target ocpp404 = { "SymPart.o" , OBJ_PATH+"/SymPart.o" } ;
-Rule rcpp404 = { {&cpp404} , {&ocpp404} , {&intdep404,&execpp404} } ;
-Exe execpp404 = { "CC SymPart.cpp" , CC , {
+Target cpp406 = { "SymPart.cpp" , "../../Simple/CCore/src/SymPart.cpp" } ;
+Target ocpp406 = { "SymPart.o" , OBJ_PATH+"/SymPart.o" } ;
+Rule rcpp406 = { {&cpp406} , {&ocpp406} , {&intdep406,&execpp406} } ;
+Exe execpp406 = { "CC SymPart.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -16974,14 +17058,14 @@ Exe execpp404 = { "CC SymPart.cpp" , CC , {
  ,OBJ_PATH+"/SymPart.o"
 } } ;
 
-IntCmd intdep404 = { 'RM DEP' , &rmdep404 } ;
+IntCmd intdep406 = { 'RM DEP' , &rmdep406 } ;
 
-Rm rmdep404 = { { OBJ_PATH+"/SymPart.dep" } } ;
+Rm rmdep406 = { { OBJ_PATH+"/SymPart.dep" } } ;
 
-Target cpp405 = { "Symbol.cpp" , "../../Simple/CCore/src/Symbol.cpp" } ;
-Target ocpp405 = { "Symbol.o" , OBJ_PATH+"/Symbol.o" } ;
-Rule rcpp405 = { {&cpp405} , {&ocpp405} , {&intdep405,&execpp405} } ;
-Exe execpp405 = { "CC Symbol.cpp" , CC , {
+Target cpp407 = { "Symbol.cpp" , "../../Simple/CCore/src/Symbol.cpp" } ;
+Target ocpp407 = { "Symbol.o" , OBJ_PATH+"/Symbol.o" } ;
+Rule rcpp407 = { {&cpp407} , {&ocpp407} , {&intdep407,&execpp407} } ;
+Exe execpp407 = { "CC Symbol.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17016,14 +17100,14 @@ Exe execpp405 = { "CC Symbol.cpp" , CC , {
  ,OBJ_PATH+"/Symbol.o"
 } } ;
 
-IntCmd intdep405 = { 'RM DEP' , &rmdep405 } ;
+IntCmd intdep407 = { 'RM DEP' , &rmdep407 } ;
 
-Rm rmdep405 = { { OBJ_PATH+"/Symbol.dep" } } ;
+Rm rmdep407 = { { OBJ_PATH+"/Symbol.dep" } } ;
 
-Target cpp406 = { "SysAbort.cpp" , "CCore/src/sys/SysAbort.cpp" } ;
-Target ocpp406 = { "SysAbort.o" , OBJ_PATH+"/SysAbort.o" } ;
-Rule rcpp406 = { {&cpp406} , {&ocpp406} , {&intdep406,&execpp406} } ;
-Exe execpp406 = { "CC SysAbort.cpp" , CC , {
+Target cpp408 = { "SysAbort.cpp" , "CCore/src/sys/SysAbort.cpp" } ;
+Target ocpp408 = { "SysAbort.o" , OBJ_PATH+"/SysAbort.o" } ;
+Rule rcpp408 = { {&cpp408} , {&ocpp408} , {&intdep408,&execpp408} } ;
+Exe execpp408 = { "CC SysAbort.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17058,14 +17142,14 @@ Exe execpp406 = { "CC SysAbort.cpp" , CC , {
  ,OBJ_PATH+"/SysAbort.o"
 } } ;
 
-IntCmd intdep406 = { 'RM DEP' , &rmdep406 } ;
+IntCmd intdep408 = { 'RM DEP' , &rmdep408 } ;
 
-Rm rmdep406 = { { OBJ_PATH+"/SysAbort.dep" } } ;
+Rm rmdep408 = { { OBJ_PATH+"/SysAbort.dep" } } ;
 
-Target cpp407 = { "SysAsyncFile.cpp" , "../../Applied/CCore/src/sys/SysAsyncFile.cpp" } ;
-Target ocpp407 = { "SysAsyncFile.o" , OBJ_PATH+"/SysAsyncFile.o" } ;
-Rule rcpp407 = { {&cpp407} , {&ocpp407} , {&intdep407,&execpp407} } ;
-Exe execpp407 = { "CC SysAsyncFile.cpp" , CC , {
+Target cpp409 = { "SysAsyncFile.cpp" , "../../Applied/CCore/src/sys/SysAsyncFile.cpp" } ;
+Target ocpp409 = { "SysAsyncFile.o" , OBJ_PATH+"/SysAsyncFile.o" } ;
+Rule rcpp409 = { {&cpp409} , {&ocpp409} , {&intdep409,&execpp409} } ;
+Exe execpp409 = { "CC SysAsyncFile.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17100,14 +17184,14 @@ Exe execpp407 = { "CC SysAsyncFile.cpp" , CC , {
  ,OBJ_PATH+"/SysAsyncFile.o"
 } } ;
 
-IntCmd intdep407 = { 'RM DEP' , &rmdep407 } ;
+IntCmd intdep409 = { 'RM DEP' , &rmdep409 } ;
 
-Rm rmdep407 = { { OBJ_PATH+"/SysAsyncFile.dep" } } ;
+Rm rmdep409 = { { OBJ_PATH+"/SysAsyncFile.dep" } } ;
 
-Target cpp408 = { "SysAsyncFileSystem.cpp" , "../../Applied/CCore/src/sys/SysAsyncFileSystem.cpp" } ;
-Target ocpp408 = { "SysAsyncFileSystem.o" , OBJ_PATH+"/SysAsyncFileSystem.o" } ;
-Rule rcpp408 = { {&cpp408} , {&ocpp408} , {&intdep408,&execpp408} } ;
-Exe execpp408 = { "CC SysAsyncFileSystem.cpp" , CC , {
+Target cpp410 = { "SysAsyncFileSystem.cpp" , "../../Applied/CCore/src/sys/SysAsyncFileSystem.cpp" } ;
+Target ocpp410 = { "SysAsyncFileSystem.o" , OBJ_PATH+"/SysAsyncFileSystem.o" } ;
+Rule rcpp410 = { {&cpp410} , {&ocpp410} , {&intdep410,&execpp410} } ;
+Exe execpp410 = { "CC SysAsyncFileSystem.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17142,14 +17226,14 @@ Exe execpp408 = { "CC SysAsyncFileSystem.cpp" , CC , {
  ,OBJ_PATH+"/SysAsyncFileSystem.o"
 } } ;
 
-IntCmd intdep408 = { 'RM DEP' , &rmdep408 } ;
+IntCmd intdep410 = { 'RM DEP' , &rmdep410 } ;
 
-Rm rmdep408 = { { OBJ_PATH+"/SysAsyncFileSystem.dep" } } ;
+Rm rmdep410 = { { OBJ_PATH+"/SysAsyncFileSystem.dep" } } ;
 
-Target cpp409 = { "SysAtomic.cpp" , "CCore/src/sys/SysAtomic.cpp" } ;
-Target ocpp409 = { "SysAtomic.o" , OBJ_PATH+"/SysAtomic.o" } ;
-Rule rcpp409 = { {&cpp409} , {&ocpp409} , {&intdep409,&execpp409} } ;
-Exe execpp409 = { "CC SysAtomic.cpp" , CC , {
+Target cpp411 = { "SysAtomic.cpp" , "CCore/src/sys/SysAtomic.cpp" } ;
+Target ocpp411 = { "SysAtomic.o" , OBJ_PATH+"/SysAtomic.o" } ;
+Rule rcpp411 = { {&cpp411} , {&ocpp411} , {&intdep411,&execpp411} } ;
+Exe execpp411 = { "CC SysAtomic.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17184,14 +17268,14 @@ Exe execpp409 = { "CC SysAtomic.cpp" , CC , {
  ,OBJ_PATH+"/SysAtomic.o"
 } } ;
 
-IntCmd intdep409 = { 'RM DEP' , &rmdep409 } ;
+IntCmd intdep411 = { 'RM DEP' , &rmdep411 } ;
 
-Rm rmdep409 = { { OBJ_PATH+"/SysAtomic.dep" } } ;
+Rm rmdep411 = { { OBJ_PATH+"/SysAtomic.dep" } } ;
 
-Target cpp410 = { "SysCon.cpp" , "CCore/src/sys/SysCon.cpp" } ;
-Target ocpp410 = { "SysCon.o" , OBJ_PATH+"/SysCon.o" } ;
-Rule rcpp410 = { {&cpp410} , {&ocpp410} , {&intdep410,&execpp410} } ;
-Exe execpp410 = { "CC SysCon.cpp" , CC , {
+Target cpp412 = { "SysCon.cpp" , "CCore/src/sys/SysCon.cpp" } ;
+Target ocpp412 = { "SysCon.o" , OBJ_PATH+"/SysCon.o" } ;
+Rule rcpp412 = { {&cpp412} , {&ocpp412} , {&intdep412,&execpp412} } ;
+Exe execpp412 = { "CC SysCon.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17226,14 +17310,14 @@ Exe execpp410 = { "CC SysCon.cpp" , CC , {
  ,OBJ_PATH+"/SysCon.o"
 } } ;
 
-IntCmd intdep410 = { 'RM DEP' , &rmdep410 } ;
+IntCmd intdep412 = { 'RM DEP' , &rmdep412 } ;
 
-Rm rmdep410 = { { OBJ_PATH+"/SysCon.dep" } } ;
+Rm rmdep412 = { { OBJ_PATH+"/SysCon.dep" } } ;
 
-Target cpp411 = { "SysEnv.cpp" , "CCore/src/sys/SysEnv.cpp" } ;
-Target ocpp411 = { "SysEnv.o" , OBJ_PATH+"/SysEnv.o" } ;
-Rule rcpp411 = { {&cpp411} , {&ocpp411} , {&intdep411,&execpp411} } ;
-Exe execpp411 = { "CC SysEnv.cpp" , CC , {
+Target cpp413 = { "SysEnv.cpp" , "CCore/src/sys/SysEnv.cpp" } ;
+Target ocpp413 = { "SysEnv.o" , OBJ_PATH+"/SysEnv.o" } ;
+Rule rcpp413 = { {&cpp413} , {&ocpp413} , {&intdep413,&execpp413} } ;
+Exe execpp413 = { "CC SysEnv.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17268,14 +17352,14 @@ Exe execpp411 = { "CC SysEnv.cpp" , CC , {
  ,OBJ_PATH+"/SysEnv.o"
 } } ;
 
-IntCmd intdep411 = { 'RM DEP' , &rmdep411 } ;
+IntCmd intdep413 = { 'RM DEP' , &rmdep413 } ;
 
-Rm rmdep411 = { { OBJ_PATH+"/SysEnv.dep" } } ;
+Rm rmdep413 = { { OBJ_PATH+"/SysEnv.dep" } } ;
 
-Target cpp412 = { "SysError.cpp" , "CCore/src/sys/SysError.cpp" } ;
-Target ocpp412 = { "SysError.o" , OBJ_PATH+"/SysError.o" } ;
-Rule rcpp412 = { {&cpp412} , {&ocpp412} , {&intdep412,&execpp412} } ;
-Exe execpp412 = { "CC SysError.cpp" , CC , {
+Target cpp414 = { "SysError.cpp" , "CCore/src/sys/SysError.cpp" } ;
+Target ocpp414 = { "SysError.o" , OBJ_PATH+"/SysError.o" } ;
+Rule rcpp414 = { {&cpp414} , {&ocpp414} , {&intdep414,&execpp414} } ;
+Exe execpp414 = { "CC SysError.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17310,14 +17394,14 @@ Exe execpp412 = { "CC SysError.cpp" , CC , {
  ,OBJ_PATH+"/SysError.o"
 } } ;
 
-IntCmd intdep412 = { 'RM DEP' , &rmdep412 } ;
+IntCmd intdep414 = { 'RM DEP' , &rmdep414 } ;
 
-Rm rmdep412 = { { OBJ_PATH+"/SysError.dep" } } ;
+Rm rmdep414 = { { OBJ_PATH+"/SysError.dep" } } ;
 
-Target cpp413 = { "SysFile.cpp" , "CCore/src/sys/SysFile.cpp" } ;
-Target ocpp413 = { "SysFile.o" , OBJ_PATH+"/SysFile.o" } ;
-Rule rcpp413 = { {&cpp413} , {&ocpp413} , {&intdep413,&execpp413} } ;
-Exe execpp413 = { "CC SysFile.cpp" , CC , {
+Target cpp415 = { "SysFile.cpp" , "CCore/src/sys/SysFile.cpp" } ;
+Target ocpp415 = { "SysFile.o" , OBJ_PATH+"/SysFile.o" } ;
+Rule rcpp415 = { {&cpp415} , {&ocpp415} , {&intdep415,&execpp415} } ;
+Exe execpp415 = { "CC SysFile.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17352,14 +17436,14 @@ Exe execpp413 = { "CC SysFile.cpp" , CC , {
  ,OBJ_PATH+"/SysFile.o"
 } } ;
 
-IntCmd intdep413 = { 'RM DEP' , &rmdep413 } ;
+IntCmd intdep415 = { 'RM DEP' , &rmdep415 } ;
 
-Rm rmdep413 = { { OBJ_PATH+"/SysFile.dep" } } ;
+Rm rmdep415 = { { OBJ_PATH+"/SysFile.dep" } } ;
 
-Target cpp414 = { "SysFileInternal.cpp" , "CCore/src/sys/SysFileInternal.cpp" } ;
-Target ocpp414 = { "SysFileInternal.o" , OBJ_PATH+"/SysFileInternal.o" } ;
-Rule rcpp414 = { {&cpp414} , {&ocpp414} , {&intdep414,&execpp414} } ;
-Exe execpp414 = { "CC SysFileInternal.cpp" , CC , {
+Target cpp416 = { "SysFileInternal.cpp" , "CCore/src/sys/SysFileInternal.cpp" } ;
+Target ocpp416 = { "SysFileInternal.o" , OBJ_PATH+"/SysFileInternal.o" } ;
+Rule rcpp416 = { {&cpp416} , {&ocpp416} , {&intdep416,&execpp416} } ;
+Exe execpp416 = { "CC SysFileInternal.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17394,14 +17478,14 @@ Exe execpp414 = { "CC SysFileInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysFileInternal.o"
 } } ;
 
-IntCmd intdep414 = { 'RM DEP' , &rmdep414 } ;
+IntCmd intdep416 = { 'RM DEP' , &rmdep416 } ;
 
-Rm rmdep414 = { { OBJ_PATH+"/SysFileInternal.dep" } } ;
+Rm rmdep416 = { { OBJ_PATH+"/SysFileInternal.dep" } } ;
 
-Target cpp415 = { "SysFileSystem.cpp" , "CCore/src/sys/SysFileSystem.cpp" } ;
-Target ocpp415 = { "SysFileSystem.o" , OBJ_PATH+"/SysFileSystem.o" } ;
-Rule rcpp415 = { {&cpp415} , {&ocpp415} , {&intdep415,&execpp415} } ;
-Exe execpp415 = { "CC SysFileSystem.cpp" , CC , {
+Target cpp417 = { "SysFileSystem.cpp" , "CCore/src/sys/SysFileSystem.cpp" } ;
+Target ocpp417 = { "SysFileSystem.o" , OBJ_PATH+"/SysFileSystem.o" } ;
+Rule rcpp417 = { {&cpp417} , {&ocpp417} , {&intdep417,&execpp417} } ;
+Exe execpp417 = { "CC SysFileSystem.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17436,14 +17520,14 @@ Exe execpp415 = { "CC SysFileSystem.cpp" , CC , {
  ,OBJ_PATH+"/SysFileSystem.o"
 } } ;
 
-IntCmd intdep415 = { 'RM DEP' , &rmdep415 } ;
+IntCmd intdep417 = { 'RM DEP' , &rmdep417 } ;
 
-Rm rmdep415 = { { OBJ_PATH+"/SysFileSystem.dep" } } ;
+Rm rmdep417 = { { OBJ_PATH+"/SysFileSystem.dep" } } ;
 
-Target cpp416 = { "SysLaunchPath.cpp" , "CCore/src/sys/SysLaunchPath.cpp" } ;
-Target ocpp416 = { "SysLaunchPath.o" , OBJ_PATH+"/SysLaunchPath.o" } ;
-Rule rcpp416 = { {&cpp416} , {&ocpp416} , {&intdep416,&execpp416} } ;
-Exe execpp416 = { "CC SysLaunchPath.cpp" , CC , {
+Target cpp418 = { "SysLaunchPath.cpp" , "CCore/src/sys/SysLaunchPath.cpp" } ;
+Target ocpp418 = { "SysLaunchPath.o" , OBJ_PATH+"/SysLaunchPath.o" } ;
+Rule rcpp418 = { {&cpp418} , {&ocpp418} , {&intdep418,&execpp418} } ;
+Exe execpp418 = { "CC SysLaunchPath.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17478,14 +17562,14 @@ Exe execpp416 = { "CC SysLaunchPath.cpp" , CC , {
  ,OBJ_PATH+"/SysLaunchPath.o"
 } } ;
 
-IntCmd intdep416 = { 'RM DEP' , &rmdep416 } ;
+IntCmd intdep418 = { 'RM DEP' , &rmdep418 } ;
 
-Rm rmdep416 = { { OBJ_PATH+"/SysLaunchPath.dep" } } ;
+Rm rmdep418 = { { OBJ_PATH+"/SysLaunchPath.dep" } } ;
 
-Target cpp417 = { "SysMemPage.cpp" , "CCore/src/sys/SysMemPage.cpp" } ;
-Target ocpp417 = { "SysMemPage.o" , OBJ_PATH+"/SysMemPage.o" } ;
-Rule rcpp417 = { {&cpp417} , {&ocpp417} , {&intdep417,&execpp417} } ;
-Exe execpp417 = { "CC SysMemPage.cpp" , CC , {
+Target cpp419 = { "SysMemPage.cpp" , "CCore/src/sys/SysMemPage.cpp" } ;
+Target ocpp419 = { "SysMemPage.o" , OBJ_PATH+"/SysMemPage.o" } ;
+Rule rcpp419 = { {&cpp419} , {&ocpp419} , {&intdep419,&execpp419} } ;
+Exe execpp419 = { "CC SysMemPage.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17520,14 +17604,14 @@ Exe execpp417 = { "CC SysMemPage.cpp" , CC , {
  ,OBJ_PATH+"/SysMemPage.o"
 } } ;
 
-IntCmd intdep417 = { 'RM DEP' , &rmdep417 } ;
+IntCmd intdep419 = { 'RM DEP' , &rmdep419 } ;
 
-Rm rmdep417 = { { OBJ_PATH+"/SysMemPage.dep" } } ;
+Rm rmdep419 = { { OBJ_PATH+"/SysMemPage.dep" } } ;
 
-Target cpp418 = { "SysNet.cpp" , "CCore/src/sys/SysNet.cpp" } ;
-Target ocpp418 = { "SysNet.o" , OBJ_PATH+"/SysNet.o" } ;
-Rule rcpp418 = { {&cpp418} , {&ocpp418} , {&intdep418,&execpp418} } ;
-Exe execpp418 = { "CC SysNet.cpp" , CC , {
+Target cpp420 = { "SysNet.cpp" , "CCore/src/sys/SysNet.cpp" } ;
+Target ocpp420 = { "SysNet.o" , OBJ_PATH+"/SysNet.o" } ;
+Rule rcpp420 = { {&cpp420} , {&ocpp420} , {&intdep420,&execpp420} } ;
+Exe execpp420 = { "CC SysNet.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17562,14 +17646,14 @@ Exe execpp418 = { "CC SysNet.cpp" , CC , {
  ,OBJ_PATH+"/SysNet.o"
 } } ;
 
-IntCmd intdep418 = { 'RM DEP' , &rmdep418 } ;
+IntCmd intdep420 = { 'RM DEP' , &rmdep420 } ;
 
-Rm rmdep418 = { { OBJ_PATH+"/SysNet.dep" } } ;
+Rm rmdep420 = { { OBJ_PATH+"/SysNet.dep" } } ;
 
-Target cpp419 = { "SysPlanInit.cpp" , "CCore/src/sys/SysPlanInit.cpp" } ;
-Target ocpp419 = { "SysPlanInit.o" , OBJ_PATH+"/SysPlanInit.o" } ;
-Rule rcpp419 = { {&cpp419} , {&ocpp419} , {&intdep419,&execpp419} } ;
-Exe execpp419 = { "CC SysPlanInit.cpp" , CC , {
+Target cpp421 = { "SysPlanInit.cpp" , "CCore/src/sys/SysPlanInit.cpp" } ;
+Target ocpp421 = { "SysPlanInit.o" , OBJ_PATH+"/SysPlanInit.o" } ;
+Rule rcpp421 = { {&cpp421} , {&ocpp421} , {&intdep421,&execpp421} } ;
+Exe execpp421 = { "CC SysPlanInit.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17604,14 +17688,14 @@ Exe execpp419 = { "CC SysPlanInit.cpp" , CC , {
  ,OBJ_PATH+"/SysPlanInit.o"
 } } ;
 
-IntCmd intdep419 = { 'RM DEP' , &rmdep419 } ;
+IntCmd intdep421 = { 'RM DEP' , &rmdep421 } ;
 
-Rm rmdep419 = { { OBJ_PATH+"/SysPlanInit.dep" } } ;
+Rm rmdep421 = { { OBJ_PATH+"/SysPlanInit.dep" } } ;
 
-Target cpp420 = { "SysProp.cpp" , "CCore/src/sys/SysProp.cpp" } ;
-Target ocpp420 = { "SysProp.o" , OBJ_PATH+"/SysProp.o" } ;
-Rule rcpp420 = { {&cpp420} , {&ocpp420} , {&intdep420,&execpp420} } ;
-Exe execpp420 = { "CC SysProp.cpp" , CC , {
+Target cpp422 = { "SysProp.cpp" , "CCore/src/sys/SysProp.cpp" } ;
+Target ocpp422 = { "SysProp.o" , OBJ_PATH+"/SysProp.o" } ;
+Rule rcpp422 = { {&cpp422} , {&ocpp422} , {&intdep422,&execpp422} } ;
+Exe execpp422 = { "CC SysProp.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17646,14 +17730,14 @@ Exe execpp420 = { "CC SysProp.cpp" , CC , {
  ,OBJ_PATH+"/SysProp.o"
 } } ;
 
-IntCmd intdep420 = { 'RM DEP' , &rmdep420 } ;
+IntCmd intdep422 = { 'RM DEP' , &rmdep422 } ;
 
-Rm rmdep420 = { { OBJ_PATH+"/SysProp.dep" } } ;
+Rm rmdep422 = { { OBJ_PATH+"/SysProp.dep" } } ;
 
-Target cpp421 = { "SysSem.cpp" , "CCore/src/sys/SysSem.cpp" } ;
-Target ocpp421 = { "SysSem.o" , OBJ_PATH+"/SysSem.o" } ;
-Rule rcpp421 = { {&cpp421} , {&ocpp421} , {&intdep421,&execpp421} } ;
-Exe execpp421 = { "CC SysSem.cpp" , CC , {
+Target cpp423 = { "SysSem.cpp" , "CCore/src/sys/SysSem.cpp" } ;
+Target ocpp423 = { "SysSem.o" , OBJ_PATH+"/SysSem.o" } ;
+Rule rcpp423 = { {&cpp423} , {&ocpp423} , {&intdep423,&execpp423} } ;
+Exe execpp423 = { "CC SysSem.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17688,14 +17772,14 @@ Exe execpp421 = { "CC SysSem.cpp" , CC , {
  ,OBJ_PATH+"/SysSem.o"
 } } ;
 
-IntCmd intdep421 = { 'RM DEP' , &rmdep421 } ;
+IntCmd intdep423 = { 'RM DEP' , &rmdep423 } ;
 
-Rm rmdep421 = { { OBJ_PATH+"/SysSem.dep" } } ;
+Rm rmdep423 = { { OBJ_PATH+"/SysSem.dep" } } ;
 
-Target cpp422 = { "SysSpawn.cpp" , "CCore/src/sys/SysSpawn.cpp" } ;
-Target ocpp422 = { "SysSpawn.o" , OBJ_PATH+"/SysSpawn.o" } ;
-Rule rcpp422 = { {&cpp422} , {&ocpp422} , {&intdep422,&execpp422} } ;
-Exe execpp422 = { "CC SysSpawn.cpp" , CC , {
+Target cpp424 = { "SysSpawn.cpp" , "CCore/src/sys/SysSpawn.cpp" } ;
+Target ocpp424 = { "SysSpawn.o" , OBJ_PATH+"/SysSpawn.o" } ;
+Rule rcpp424 = { {&cpp424} , {&ocpp424} , {&intdep424,&execpp424} } ;
+Exe execpp424 = { "CC SysSpawn.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17730,14 +17814,14 @@ Exe execpp422 = { "CC SysSpawn.cpp" , CC , {
  ,OBJ_PATH+"/SysSpawn.o"
 } } ;
 
-IntCmd intdep422 = { 'RM DEP' , &rmdep422 } ;
+IntCmd intdep424 = { 'RM DEP' , &rmdep424 } ;
 
-Rm rmdep422 = { { OBJ_PATH+"/SysSpawn.dep" } } ;
+Rm rmdep424 = { { OBJ_PATH+"/SysSpawn.dep" } } ;
 
-Target cpp423 = { "SysSpawnInternal.cpp" , "CCore/src/sys/SysSpawnInternal.cpp" } ;
-Target ocpp423 = { "SysSpawnInternal.o" , OBJ_PATH+"/SysSpawnInternal.o" } ;
-Rule rcpp423 = { {&cpp423} , {&ocpp423} , {&intdep423,&execpp423} } ;
-Exe execpp423 = { "CC SysSpawnInternal.cpp" , CC , {
+Target cpp425 = { "SysSpawnInternal.cpp" , "CCore/src/sys/SysSpawnInternal.cpp" } ;
+Target ocpp425 = { "SysSpawnInternal.o" , OBJ_PATH+"/SysSpawnInternal.o" } ;
+Rule rcpp425 = { {&cpp425} , {&ocpp425} , {&intdep425,&execpp425} } ;
+Exe execpp425 = { "CC SysSpawnInternal.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17772,14 +17856,14 @@ Exe execpp423 = { "CC SysSpawnInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysSpawnInternal.o"
 } } ;
 
-IntCmd intdep423 = { 'RM DEP' , &rmdep423 } ;
+IntCmd intdep425 = { 'RM DEP' , &rmdep425 } ;
 
-Rm rmdep423 = { { OBJ_PATH+"/SysSpawnInternal.dep" } } ;
+Rm rmdep425 = { { OBJ_PATH+"/SysSpawnInternal.dep" } } ;
 
-Target cpp424 = { "SysTask.cpp" , "CCore/src/sys/SysTask.cpp" } ;
-Target ocpp424 = { "SysTask.o" , OBJ_PATH+"/SysTask.o" } ;
-Rule rcpp424 = { {&cpp424} , {&ocpp424} , {&intdep424,&execpp424} } ;
-Exe execpp424 = { "CC SysTask.cpp" , CC , {
+Target cpp426 = { "SysTask.cpp" , "CCore/src/sys/SysTask.cpp" } ;
+Target ocpp426 = { "SysTask.o" , OBJ_PATH+"/SysTask.o" } ;
+Rule rcpp426 = { {&cpp426} , {&ocpp426} , {&intdep426,&execpp426} } ;
+Exe execpp426 = { "CC SysTask.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17814,14 +17898,14 @@ Exe execpp424 = { "CC SysTask.cpp" , CC , {
  ,OBJ_PATH+"/SysTask.o"
 } } ;
 
-IntCmd intdep424 = { 'RM DEP' , &rmdep424 } ;
+IntCmd intdep426 = { 'RM DEP' , &rmdep426 } ;
 
-Rm rmdep424 = { { OBJ_PATH+"/SysTask.dep" } } ;
+Rm rmdep426 = { { OBJ_PATH+"/SysTask.dep" } } ;
 
-Target cpp425 = { "SysTime.cpp" , "CCore/src/sys/SysTime.cpp" } ;
-Target ocpp425 = { "SysTime.o" , OBJ_PATH+"/SysTime.o" } ;
-Rule rcpp425 = { {&cpp425} , {&ocpp425} , {&intdep425,&execpp425} } ;
-Exe execpp425 = { "CC SysTime.cpp" , CC , {
+Target cpp427 = { "SysTime.cpp" , "CCore/src/sys/SysTime.cpp" } ;
+Target ocpp427 = { "SysTime.o" , OBJ_PATH+"/SysTime.o" } ;
+Rule rcpp427 = { {&cpp427} , {&ocpp427} , {&intdep427,&execpp427} } ;
+Exe execpp427 = { "CC SysTime.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17856,14 +17940,14 @@ Exe execpp425 = { "CC SysTime.cpp" , CC , {
  ,OBJ_PATH+"/SysTime.o"
 } } ;
 
-IntCmd intdep425 = { 'RM DEP' , &rmdep425 } ;
+IntCmd intdep427 = { 'RM DEP' , &rmdep427 } ;
 
-Rm rmdep425 = { { OBJ_PATH+"/SysTime.dep" } } ;
+Rm rmdep427 = { { OBJ_PATH+"/SysTime.dep" } } ;
 
-Target cpp426 = { "SysTlsSlot.cpp" , "CCore/src/sys/SysTlsSlot.cpp" } ;
-Target ocpp426 = { "SysTlsSlot.o" , OBJ_PATH+"/SysTlsSlot.o" } ;
-Rule rcpp426 = { {&cpp426} , {&ocpp426} , {&intdep426,&execpp426} } ;
-Exe execpp426 = { "CC SysTlsSlot.cpp" , CC , {
+Target cpp428 = { "SysTlsSlot.cpp" , "CCore/src/sys/SysTlsSlot.cpp" } ;
+Target ocpp428 = { "SysTlsSlot.o" , OBJ_PATH+"/SysTlsSlot.o" } ;
+Rule rcpp428 = { {&cpp428} , {&ocpp428} , {&intdep428,&execpp428} } ;
+Exe execpp428 = { "CC SysTlsSlot.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17898,14 +17982,14 @@ Exe execpp426 = { "CC SysTlsSlot.cpp" , CC , {
  ,OBJ_PATH+"/SysTlsSlot.o"
 } } ;
 
-IntCmd intdep426 = { 'RM DEP' , &rmdep426 } ;
+IntCmd intdep428 = { 'RM DEP' , &rmdep428 } ;
 
-Rm rmdep426 = { { OBJ_PATH+"/SysTlsSlot.dep" } } ;
+Rm rmdep428 = { { OBJ_PATH+"/SysTlsSlot.dep" } } ;
 
-Target cpp427 = { "SysUtf8.cpp" , "CCore/src/sys/SysUtf8.cpp" } ;
-Target ocpp427 = { "SysUtf8.o" , OBJ_PATH+"/SysUtf8.o" } ;
-Rule rcpp427 = { {&cpp427} , {&ocpp427} , {&intdep427,&execpp427} } ;
-Exe execpp427 = { "CC SysUtf8.cpp" , CC , {
+Target cpp429 = { "SysUtf8.cpp" , "CCore/src/sys/SysUtf8.cpp" } ;
+Target ocpp429 = { "SysUtf8.o" , OBJ_PATH+"/SysUtf8.o" } ;
+Rule rcpp429 = { {&cpp429} , {&ocpp429} , {&intdep429,&execpp429} } ;
+Exe execpp429 = { "CC SysUtf8.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17940,14 +18024,14 @@ Exe execpp427 = { "CC SysUtf8.cpp" , CC , {
  ,OBJ_PATH+"/SysUtf8.o"
 } } ;
 
-IntCmd intdep427 = { 'RM DEP' , &rmdep427 } ;
+IntCmd intdep429 = { 'RM DEP' , &rmdep429 } ;
 
-Rm rmdep427 = { { OBJ_PATH+"/SysUtf8.dep" } } ;
+Rm rmdep429 = { { OBJ_PATH+"/SysUtf8.dep" } } ;
 
-Target cpp428 = { "SysWait.cpp" , "CCore/src/sys/SysWait.cpp" } ;
-Target ocpp428 = { "SysWait.o" , OBJ_PATH+"/SysWait.o" } ;
-Rule rcpp428 = { {&cpp428} , {&ocpp428} , {&intdep428,&execpp428} } ;
-Exe execpp428 = { "CC SysWait.cpp" , CC , {
+Target cpp430 = { "SysWait.cpp" , "CCore/src/sys/SysWait.cpp" } ;
+Target ocpp430 = { "SysWait.o" , OBJ_PATH+"/SysWait.o" } ;
+Rule rcpp430 = { {&cpp430} , {&ocpp430} , {&intdep430,&execpp430} } ;
+Exe execpp430 = { "CC SysWait.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -17982,14 +18066,14 @@ Exe execpp428 = { "CC SysWait.cpp" , CC , {
  ,OBJ_PATH+"/SysWait.o"
 } } ;
 
-IntCmd intdep428 = { 'RM DEP' , &rmdep428 } ;
+IntCmd intdep430 = { 'RM DEP' , &rmdep430 } ;
 
-Rm rmdep428 = { { OBJ_PATH+"/SysWait.dep" } } ;
+Rm rmdep430 = { { OBJ_PATH+"/SysWait.dep" } } ;
 
-Target cpp429 = { "SysWaitInternal.cpp" , "CCore/src/sys/SysWaitInternal.cpp" } ;
-Target ocpp429 = { "SysWaitInternal.o" , OBJ_PATH+"/SysWaitInternal.o" } ;
-Rule rcpp429 = { {&cpp429} , {&ocpp429} , {&intdep429,&execpp429} } ;
-Exe execpp429 = { "CC SysWaitInternal.cpp" , CC , {
+Target cpp431 = { "SysWaitInternal.cpp" , "CCore/src/sys/SysWaitInternal.cpp" } ;
+Target ocpp431 = { "SysWaitInternal.o" , OBJ_PATH+"/SysWaitInternal.o" } ;
+Rule rcpp431 = { {&cpp431} , {&ocpp431} , {&intdep431,&execpp431} } ;
+Exe execpp431 = { "CC SysWaitInternal.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18024,14 +18108,14 @@ Exe execpp429 = { "CC SysWaitInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysWaitInternal.o"
 } } ;
 
-IntCmd intdep429 = { 'RM DEP' , &rmdep429 } ;
+IntCmd intdep431 = { 'RM DEP' , &rmdep431 } ;
 
-Rm rmdep429 = { { OBJ_PATH+"/SysWaitInternal.dep" } } ;
+Rm rmdep431 = { { OBJ_PATH+"/SysWaitInternal.dep" } } ;
 
-Target cpp430 = { "Task.cpp" , "../../HCore/CCore/src/Task.cpp" } ;
-Target ocpp430 = { "Task.o" , OBJ_PATH+"/Task.o" } ;
-Rule rcpp430 = { {&cpp430} , {&ocpp430} , {&intdep430,&execpp430} } ;
-Exe execpp430 = { "CC Task.cpp" , CC , {
+Target cpp432 = { "Task.cpp" , "../../HCore/CCore/src/Task.cpp" } ;
+Target ocpp432 = { "Task.o" , OBJ_PATH+"/Task.o" } ;
+Rule rcpp432 = { {&cpp432} , {&ocpp432} , {&intdep432,&execpp432} } ;
+Exe execpp432 = { "CC Task.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18066,14 +18150,14 @@ Exe execpp430 = { "CC Task.cpp" , CC , {
  ,OBJ_PATH+"/Task.o"
 } } ;
 
-IntCmd intdep430 = { 'RM DEP' , &rmdep430 } ;
+IntCmd intdep432 = { 'RM DEP' , &rmdep432 } ;
 
-Rm rmdep430 = { { OBJ_PATH+"/Task.dep" } } ;
+Rm rmdep432 = { { OBJ_PATH+"/Task.dep" } } ;
 
-Target cpp431 = { "TaskCore.cpp" , "../../HCore/CCore/src/task/TaskCore.cpp" } ;
-Target ocpp431 = { "TaskCore.o" , OBJ_PATH+"/TaskCore.o" } ;
-Rule rcpp431 = { {&cpp431} , {&ocpp431} , {&intdep431,&execpp431} } ;
-Exe execpp431 = { "CC TaskCore.cpp" , CC , {
+Target cpp433 = { "TaskCore.cpp" , "../../HCore/CCore/src/task/TaskCore.cpp" } ;
+Target ocpp433 = { "TaskCore.o" , OBJ_PATH+"/TaskCore.o" } ;
+Rule rcpp433 = { {&cpp433} , {&ocpp433} , {&intdep433,&execpp433} } ;
+Exe execpp433 = { "CC TaskCore.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18108,14 +18192,14 @@ Exe execpp431 = { "CC TaskCore.cpp" , CC , {
  ,OBJ_PATH+"/TaskCore.o"
 } } ;
 
-IntCmd intdep431 = { 'RM DEP' , &rmdep431 } ;
+IntCmd intdep433 = { 'RM DEP' , &rmdep433 } ;
 
-Rm rmdep431 = { { OBJ_PATH+"/TaskCore.dep" } } ;
+Rm rmdep433 = { { OBJ_PATH+"/TaskCore.dep" } } ;
 
-Target cpp432 = { "TaskEvent.cpp" , "../../HCore/CCore/src/task/TaskEvent.cpp" } ;
-Target ocpp432 = { "TaskEvent.o" , OBJ_PATH+"/TaskEvent.o" } ;
-Rule rcpp432 = { {&cpp432} , {&ocpp432} , {&intdep432,&execpp432} } ;
-Exe execpp432 = { "CC TaskEvent.cpp" , CC , {
+Target cpp434 = { "TaskEvent.cpp" , "../../HCore/CCore/src/task/TaskEvent.cpp" } ;
+Target ocpp434 = { "TaskEvent.o" , OBJ_PATH+"/TaskEvent.o" } ;
+Rule rcpp434 = { {&cpp434} , {&ocpp434} , {&intdep434,&execpp434} } ;
+Exe execpp434 = { "CC TaskEvent.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18150,14 +18234,14 @@ Exe execpp432 = { "CC TaskEvent.cpp" , CC , {
  ,OBJ_PATH+"/TaskEvent.o"
 } } ;
 
-IntCmd intdep432 = { 'RM DEP' , &rmdep432 } ;
+IntCmd intdep434 = { 'RM DEP' , &rmdep434 } ;
 
-Rm rmdep432 = { { OBJ_PATH+"/TaskEvent.dep" } } ;
+Rm rmdep434 = { { OBJ_PATH+"/TaskEvent.dep" } } ;
 
-Target cpp433 = { "TaskHeap.cpp" , "../../HCore/CCore/src/TaskHeap.cpp" } ;
-Target ocpp433 = { "TaskHeap.o" , OBJ_PATH+"/TaskHeap.o" } ;
-Rule rcpp433 = { {&cpp433} , {&ocpp433} , {&intdep433,&execpp433} } ;
-Exe execpp433 = { "CC TaskHeap.cpp" , CC , {
+Target cpp435 = { "TaskHeap.cpp" , "../../HCore/CCore/src/TaskHeap.cpp" } ;
+Target ocpp435 = { "TaskHeap.o" , OBJ_PATH+"/TaskHeap.o" } ;
+Rule rcpp435 = { {&cpp435} , {&ocpp435} , {&intdep435,&execpp435} } ;
+Exe execpp435 = { "CC TaskHeap.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18192,14 +18276,14 @@ Exe execpp433 = { "CC TaskHeap.cpp" , CC , {
  ,OBJ_PATH+"/TaskHeap.o"
 } } ;
 
-IntCmd intdep433 = { 'RM DEP' , &rmdep433 } ;
+IntCmd intdep435 = { 'RM DEP' , &rmdep435 } ;
 
-Rm rmdep433 = { { OBJ_PATH+"/TaskHeap.dep" } } ;
+Rm rmdep435 = { { OBJ_PATH+"/TaskHeap.dep" } } ;
 
-Target cpp434 = { "TaskMemStack.cpp" , "../../Applied/CCore/src/TaskMemStack.cpp" } ;
-Target ocpp434 = { "TaskMemStack.o" , OBJ_PATH+"/TaskMemStack.o" } ;
-Rule rcpp434 = { {&cpp434} , {&ocpp434} , {&intdep434,&execpp434} } ;
-Exe execpp434 = { "CC TaskMemStack.cpp" , CC , {
+Target cpp436 = { "TaskMemStack.cpp" , "../../Applied/CCore/src/TaskMemStack.cpp" } ;
+Target ocpp436 = { "TaskMemStack.o" , OBJ_PATH+"/TaskMemStack.o" } ;
+Rule rcpp436 = { {&cpp436} , {&ocpp436} , {&intdep436,&execpp436} } ;
+Exe execpp436 = { "CC TaskMemStack.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18234,14 +18318,14 @@ Exe execpp434 = { "CC TaskMemStack.cpp" , CC , {
  ,OBJ_PATH+"/TaskMemStack.o"
 } } ;
 
-IntCmd intdep434 = { 'RM DEP' , &rmdep434 } ;
+IntCmd intdep436 = { 'RM DEP' , &rmdep436 } ;
 
-Rm rmdep434 = { { OBJ_PATH+"/TaskMemStack.dep" } } ;
+Rm rmdep436 = { { OBJ_PATH+"/TaskMemStack.dep" } } ;
 
-Target cpp435 = { "TempArray.cpp" , "../../Fundamental/CCore/src/array/TempArray.cpp" } ;
-Target ocpp435 = { "TempArray.o" , OBJ_PATH+"/TempArray.o" } ;
-Rule rcpp435 = { {&cpp435} , {&ocpp435} , {&intdep435,&execpp435} } ;
-Exe execpp435 = { "CC TempArray.cpp" , CC , {
+Target cpp437 = { "TempArray.cpp" , "../../Fundamental/CCore/src/array/TempArray.cpp" } ;
+Target ocpp437 = { "TempArray.o" , OBJ_PATH+"/TempArray.o" } ;
+Rule rcpp437 = { {&cpp437} , {&ocpp437} , {&intdep437,&execpp437} } ;
+Exe execpp437 = { "CC TempArray.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18276,14 +18360,14 @@ Exe execpp435 = { "CC TempArray.cpp" , CC , {
  ,OBJ_PATH+"/TempArray.o"
 } } ;
 
-IntCmd intdep435 = { 'RM DEP' , &rmdep435 } ;
+IntCmd intdep437 = { 'RM DEP' , &rmdep437 } ;
 
-Rm rmdep435 = { { OBJ_PATH+"/TempArray.dep" } } ;
+Rm rmdep437 = { { OBJ_PATH+"/TempArray.dep" } } ;
 
-Target cpp436 = { "TextLabel.cpp" , "../../Simple/CCore/src/TextLabel.cpp" } ;
-Target ocpp436 = { "TextLabel.o" , OBJ_PATH+"/TextLabel.o" } ;
-Rule rcpp436 = { {&cpp436} , {&ocpp436} , {&intdep436,&execpp436} } ;
-Exe execpp436 = { "CC TextLabel.cpp" , CC , {
+Target cpp438 = { "TextLabel.cpp" , "../../Simple/CCore/src/TextLabel.cpp" } ;
+Target ocpp438 = { "TextLabel.o" , OBJ_PATH+"/TextLabel.o" } ;
+Rule rcpp438 = { {&cpp438} , {&ocpp438} , {&intdep438,&execpp438} } ;
+Exe execpp438 = { "CC TextLabel.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18318,14 +18402,14 @@ Exe execpp436 = { "CC TextLabel.cpp" , CC , {
  ,OBJ_PATH+"/TextLabel.o"
 } } ;
 
-IntCmd intdep436 = { 'RM DEP' , &rmdep436 } ;
+IntCmd intdep438 = { 'RM DEP' , &rmdep438 } ;
 
-Rm rmdep436 = { { OBJ_PATH+"/TextLabel.dep" } } ;
+Rm rmdep438 = { { OBJ_PATH+"/TextLabel.dep" } } ;
 
-Target cpp437 = { "TextTools.cpp" , "../../Fundamental/CCore/src/TextTools.cpp" } ;
-Target ocpp437 = { "TextTools.o" , OBJ_PATH+"/TextTools.o" } ;
-Rule rcpp437 = { {&cpp437} , {&ocpp437} , {&intdep437,&execpp437} } ;
-Exe execpp437 = { "CC TextTools.cpp" , CC , {
+Target cpp439 = { "TextTools.cpp" , "../../Fundamental/CCore/src/TextTools.cpp" } ;
+Target ocpp439 = { "TextTools.o" , OBJ_PATH+"/TextTools.o" } ;
+Rule rcpp439 = { {&cpp439} , {&ocpp439} , {&intdep439,&execpp439} } ;
+Exe execpp439 = { "CC TextTools.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18360,14 +18444,14 @@ Exe execpp437 = { "CC TextTools.cpp" , CC , {
  ,OBJ_PATH+"/TextTools.o"
 } } ;
 
-IntCmd intdep437 = { 'RM DEP' , &rmdep437 } ;
+IntCmd intdep439 = { 'RM DEP' , &rmdep439 } ;
 
-Rm rmdep437 = { { OBJ_PATH+"/TextTools.dep" } } ;
+Rm rmdep439 = { { OBJ_PATH+"/TextTools.dep" } } ;
 
-Target cpp438 = { "TimeScope.cpp" , "../../Simple/CCore/src/TimeScope.cpp" } ;
-Target ocpp438 = { "TimeScope.o" , OBJ_PATH+"/TimeScope.o" } ;
-Rule rcpp438 = { {&cpp438} , {&ocpp438} , {&intdep438,&execpp438} } ;
-Exe execpp438 = { "CC TimeScope.cpp" , CC , {
+Target cpp440 = { "TimeScope.cpp" , "../../Simple/CCore/src/TimeScope.cpp" } ;
+Target ocpp440 = { "TimeScope.o" , OBJ_PATH+"/TimeScope.o" } ;
+Rule rcpp440 = { {&cpp440} , {&ocpp440} , {&intdep440,&execpp440} } ;
+Exe execpp440 = { "CC TimeScope.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18402,14 +18486,14 @@ Exe execpp438 = { "CC TimeScope.cpp" , CC , {
  ,OBJ_PATH+"/TimeScope.o"
 } } ;
 
-IntCmd intdep438 = { 'RM DEP' , &rmdep438 } ;
+IntCmd intdep440 = { 'RM DEP' , &rmdep440 } ;
 
-Rm rmdep438 = { { OBJ_PATH+"/TimeScope.dep" } } ;
+Rm rmdep440 = { { OBJ_PATH+"/TimeScope.dep" } } ;
 
-Target cpp439 = { "Timer.cpp" , "../../Simple/CCore/src/Timer.cpp" } ;
-Target ocpp439 = { "Timer.o" , OBJ_PATH+"/Timer.o" } ;
-Rule rcpp439 = { {&cpp439} , {&ocpp439} , {&intdep439,&execpp439} } ;
-Exe execpp439 = { "CC Timer.cpp" , CC , {
+Target cpp441 = { "Timer.cpp" , "../../Simple/CCore/src/Timer.cpp" } ;
+Target ocpp441 = { "Timer.o" , OBJ_PATH+"/Timer.o" } ;
+Rule rcpp441 = { {&cpp441} , {&ocpp441} , {&intdep441,&execpp441} } ;
+Exe execpp441 = { "CC Timer.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18444,14 +18528,14 @@ Exe execpp439 = { "CC Timer.cpp" , CC , {
  ,OBJ_PATH+"/Timer.o"
 } } ;
 
-IntCmd intdep439 = { 'RM DEP' , &rmdep439 } ;
+IntCmd intdep441 = { 'RM DEP' , &rmdep441 } ;
 
-Rm rmdep439 = { { OBJ_PATH+"/Timer.dep" } } ;
+Rm rmdep441 = { { OBJ_PATH+"/Timer.dep" } } ;
 
-Target cpp440 = { "TlsSlot.cpp" , "../../Simple/CCore/src/TlsSlot.cpp" } ;
-Target ocpp440 = { "TlsSlot.o" , OBJ_PATH+"/TlsSlot.o" } ;
-Rule rcpp440 = { {&cpp440} , {&ocpp440} , {&intdep440,&execpp440} } ;
-Exe execpp440 = { "CC TlsSlot.cpp" , CC , {
+Target cpp442 = { "TlsSlot.cpp" , "../../Simple/CCore/src/TlsSlot.cpp" } ;
+Target ocpp442 = { "TlsSlot.o" , OBJ_PATH+"/TlsSlot.o" } ;
+Rule rcpp442 = { {&cpp442} , {&ocpp442} , {&intdep442,&execpp442} } ;
+Exe execpp442 = { "CC TlsSlot.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18486,14 +18570,14 @@ Exe execpp440 = { "CC TlsSlot.cpp" , CC , {
  ,OBJ_PATH+"/TlsSlot.o"
 } } ;
 
-IntCmd intdep440 = { 'RM DEP' , &rmdep440 } ;
+IntCmd intdep442 = { 'RM DEP' , &rmdep442 } ;
 
-Rm rmdep440 = { { OBJ_PATH+"/TlsSlot.dep" } } ;
+Rm rmdep442 = { { OBJ_PATH+"/TlsSlot.dep" } } ;
 
-Target cpp441 = { "ToMemBase.cpp" , "../../Applied/CCore/src/ToMemBase.cpp" } ;
-Target ocpp441 = { "ToMemBase.o" , OBJ_PATH+"/ToMemBase.o" } ;
-Rule rcpp441 = { {&cpp441} , {&ocpp441} , {&intdep441,&execpp441} } ;
-Exe execpp441 = { "CC ToMemBase.cpp" , CC , {
+Target cpp443 = { "ToMemBase.cpp" , "../../Applied/CCore/src/ToMemBase.cpp" } ;
+Target ocpp443 = { "ToMemBase.o" , OBJ_PATH+"/ToMemBase.o" } ;
+Rule rcpp443 = { {&cpp443} , {&ocpp443} , {&intdep443,&execpp443} } ;
+Exe execpp443 = { "CC ToMemBase.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18528,14 +18612,14 @@ Exe execpp441 = { "CC ToMemBase.cpp" , CC , {
  ,OBJ_PATH+"/ToMemBase.o"
 } } ;
 
-IntCmd intdep441 = { 'RM DEP' , &rmdep441 } ;
+IntCmd intdep443 = { 'RM DEP' , &rmdep443 } ;
 
-Rm rmdep441 = { { OBJ_PATH+"/ToMemBase.dep" } } ;
+Rm rmdep443 = { { OBJ_PATH+"/ToMemBase.dep" } } ;
 
-Target cpp442 = { "ToMoveCtor.cpp" , "../../Simple/CCore/src/ToMoveCtor.cpp" } ;
-Target ocpp442 = { "ToMoveCtor.o" , OBJ_PATH+"/ToMoveCtor.o" } ;
-Rule rcpp442 = { {&cpp442} , {&ocpp442} , {&intdep442,&execpp442} } ;
-Exe execpp442 = { "CC ToMoveCtor.cpp" , CC , {
+Target cpp444 = { "ToMoveCtor.cpp" , "../../Simple/CCore/src/ToMoveCtor.cpp" } ;
+Target ocpp444 = { "ToMoveCtor.o" , OBJ_PATH+"/ToMoveCtor.o" } ;
+Rule rcpp444 = { {&cpp444} , {&ocpp444} , {&intdep444,&execpp444} } ;
+Exe execpp444 = { "CC ToMoveCtor.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18570,14 +18654,14 @@ Exe execpp442 = { "CC ToMoveCtor.cpp" , CC , {
  ,OBJ_PATH+"/ToMoveCtor.o"
 } } ;
 
-IntCmd intdep442 = { 'RM DEP' , &rmdep442 } ;
+IntCmd intdep444 = { 'RM DEP' , &rmdep444 } ;
 
-Rm rmdep442 = { { OBJ_PATH+"/ToMoveCtor.dep" } } ;
+Rm rmdep444 = { { OBJ_PATH+"/ToMoveCtor.dep" } } ;
 
-Target cpp443 = { "ToolFrame.cpp" , "../../Desktop/Lib/CCore/src/video/ToolFrame.cpp" } ;
-Target ocpp443 = { "ToolFrame.o" , OBJ_PATH+"/ToolFrame.o" } ;
-Rule rcpp443 = { {&cpp443} , {&ocpp443} , {&intdep443,&execpp443} } ;
-Exe execpp443 = { "CC ToolFrame.cpp" , CC , {
+Target cpp445 = { "ToolFrame.cpp" , "../../Desktop/Lib/CCore/src/video/ToolFrame.cpp" } ;
+Target ocpp445 = { "ToolFrame.o" , OBJ_PATH+"/ToolFrame.o" } ;
+Rule rcpp445 = { {&cpp445} , {&ocpp445} , {&intdep445,&execpp445} } ;
+Exe execpp445 = { "CC ToolFrame.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18612,14 +18696,14 @@ Exe execpp443 = { "CC ToolFrame.cpp" , CC , {
  ,OBJ_PATH+"/ToolFrame.o"
 } } ;
 
-IntCmd intdep443 = { 'RM DEP' , &rmdep443 } ;
+IntCmd intdep445 = { 'RM DEP' , &rmdep445 } ;
 
-Rm rmdep443 = { { OBJ_PATH+"/ToolFrame.dep" } } ;
+Rm rmdep445 = { { OBJ_PATH+"/ToolFrame.dep" } } ;
 
-Target cpp444 = { "Tree.cpp" , "../../Fundamental/CCore/src/Tree.cpp" } ;
-Target ocpp444 = { "Tree.o" , OBJ_PATH+"/Tree.o" } ;
-Rule rcpp444 = { {&cpp444} , {&ocpp444} , {&intdep444,&execpp444} } ;
-Exe execpp444 = { "CC Tree.cpp" , CC , {
+Target cpp446 = { "Tree.cpp" , "../../Fundamental/CCore/src/Tree.cpp" } ;
+Target ocpp446 = { "Tree.o" , OBJ_PATH+"/Tree.o" } ;
+Rule rcpp446 = { {&cpp446} , {&ocpp446} , {&intdep446,&execpp446} } ;
+Exe execpp446 = { "CC Tree.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18654,14 +18738,14 @@ Exe execpp444 = { "CC Tree.cpp" , CC , {
  ,OBJ_PATH+"/Tree.o"
 } } ;
 
-IntCmd intdep444 = { 'RM DEP' , &rmdep444 } ;
+IntCmd intdep446 = { 'RM DEP' , &rmdep446 } ;
 
-Rm rmdep444 = { { OBJ_PATH+"/Tree.dep" } } ;
+Rm rmdep446 = { { OBJ_PATH+"/Tree.dep" } } ;
 
-Target cpp445 = { "TreeBase.cpp" , "../../Fundamental/CCore/src/tree/TreeBase.cpp" } ;
-Target ocpp445 = { "TreeBase.o" , OBJ_PATH+"/TreeBase.o" } ;
-Rule rcpp445 = { {&cpp445} , {&ocpp445} , {&intdep445,&execpp445} } ;
-Exe execpp445 = { "CC TreeBase.cpp" , CC , {
+Target cpp447 = { "TreeBase.cpp" , "../../Fundamental/CCore/src/tree/TreeBase.cpp" } ;
+Target ocpp447 = { "TreeBase.o" , OBJ_PATH+"/TreeBase.o" } ;
+Rule rcpp447 = { {&cpp447} , {&ocpp447} , {&intdep447,&execpp447} } ;
+Exe execpp447 = { "CC TreeBase.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18696,14 +18780,14 @@ Exe execpp445 = { "CC TreeBase.cpp" , CC , {
  ,OBJ_PATH+"/TreeBase.o"
 } } ;
 
-IntCmd intdep445 = { 'RM DEP' , &rmdep445 } ;
+IntCmd intdep447 = { 'RM DEP' , &rmdep447 } ;
 
-Rm rmdep445 = { { OBJ_PATH+"/TreeBase.dep" } } ;
+Rm rmdep447 = { { OBJ_PATH+"/TreeBase.dep" } } ;
 
-Target cpp446 = { "TreeLink.cpp" , "../../Fundamental/CCore/src/tree/TreeLink.cpp" } ;
-Target ocpp446 = { "TreeLink.o" , OBJ_PATH+"/TreeLink.o" } ;
-Rule rcpp446 = { {&cpp446} , {&ocpp446} , {&intdep446,&execpp446} } ;
-Exe execpp446 = { "CC TreeLink.cpp" , CC , {
+Target cpp448 = { "TreeLink.cpp" , "../../Fundamental/CCore/src/tree/TreeLink.cpp" } ;
+Target ocpp448 = { "TreeLink.o" , OBJ_PATH+"/TreeLink.o" } ;
+Rule rcpp448 = { {&cpp448} , {&ocpp448} , {&intdep448,&execpp448} } ;
+Exe execpp448 = { "CC TreeLink.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18738,14 +18822,14 @@ Exe execpp446 = { "CC TreeLink.cpp" , CC , {
  ,OBJ_PATH+"/TreeLink.o"
 } } ;
 
-IntCmd intdep446 = { 'RM DEP' , &rmdep446 } ;
+IntCmd intdep448 = { 'RM DEP' , &rmdep448 } ;
 
-Rm rmdep446 = { { OBJ_PATH+"/TreeLink.dep" } } ;
+Rm rmdep448 = { { OBJ_PATH+"/TreeLink.dep" } } ;
 
-Target cpp447 = { "TreeMap.cpp" , "../../Fundamental/CCore/src/TreeMap.cpp" } ;
-Target ocpp447 = { "TreeMap.o" , OBJ_PATH+"/TreeMap.o" } ;
-Rule rcpp447 = { {&cpp447} , {&ocpp447} , {&intdep447,&execpp447} } ;
-Exe execpp447 = { "CC TreeMap.cpp" , CC , {
+Target cpp449 = { "TreeMap.cpp" , "../../Fundamental/CCore/src/TreeMap.cpp" } ;
+Target ocpp449 = { "TreeMap.o" , OBJ_PATH+"/TreeMap.o" } ;
+Rule rcpp449 = { {&cpp449} , {&ocpp449} , {&intdep449,&execpp449} } ;
+Exe execpp449 = { "CC TreeMap.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18780,14 +18864,14 @@ Exe execpp447 = { "CC TreeMap.cpp" , CC , {
  ,OBJ_PATH+"/TreeMap.o"
 } } ;
 
-IntCmd intdep447 = { 'RM DEP' , &rmdep447 } ;
+IntCmd intdep449 = { 'RM DEP' , &rmdep449 } ;
 
-Rm rmdep447 = { { OBJ_PATH+"/TreeMap.dep" } } ;
+Rm rmdep449 = { { OBJ_PATH+"/TreeMap.dep" } } ;
 
-Target cpp448 = { "TreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/TreeUpLink.cpp" } ;
-Target ocpp448 = { "TreeUpLink.o" , OBJ_PATH+"/TreeUpLink.o" } ;
-Rule rcpp448 = { {&cpp448} , {&ocpp448} , {&intdep448,&execpp448} } ;
-Exe execpp448 = { "CC TreeUpLink.cpp" , CC , {
+Target cpp450 = { "TreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/TreeUpLink.cpp" } ;
+Target ocpp450 = { "TreeUpLink.o" , OBJ_PATH+"/TreeUpLink.o" } ;
+Rule rcpp450 = { {&cpp450} , {&ocpp450} , {&intdep450,&execpp450} } ;
+Exe execpp450 = { "CC TreeUpLink.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18822,14 +18906,14 @@ Exe execpp448 = { "CC TreeUpLink.cpp" , CC , {
  ,OBJ_PATH+"/TreeUpLink.o"
 } } ;
 
-IntCmd intdep448 = { 'RM DEP' , &rmdep448 } ;
+IntCmd intdep450 = { 'RM DEP' , &rmdep450 } ;
 
-Rm rmdep448 = { { OBJ_PATH+"/TreeUpLink.dep" } } ;
+Rm rmdep450 = { { OBJ_PATH+"/TreeUpLink.dep" } } ;
 
-Target cpp449 = { "Tuple.cpp" , "../../Simple/CCore/src/Tuple.cpp" } ;
-Target ocpp449 = { "Tuple.o" , OBJ_PATH+"/Tuple.o" } ;
-Rule rcpp449 = { {&cpp449} , {&ocpp449} , {&intdep449,&execpp449} } ;
-Exe execpp449 = { "CC Tuple.cpp" , CC , {
+Target cpp451 = { "Tuple.cpp" , "../../Simple/CCore/src/Tuple.cpp" } ;
+Target ocpp451 = { "Tuple.o" , OBJ_PATH+"/Tuple.o" } ;
+Rule rcpp451 = { {&cpp451} , {&ocpp451} , {&intdep451,&execpp451} } ;
+Exe execpp451 = { "CC Tuple.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18864,14 +18948,14 @@ Exe execpp449 = { "CC Tuple.cpp" , CC , {
  ,OBJ_PATH+"/Tuple.o"
 } } ;
 
-IntCmd intdep449 = { 'RM DEP' , &rmdep449 } ;
+IntCmd intdep451 = { 'RM DEP' , &rmdep451 } ;
 
-Rm rmdep449 = { { OBJ_PATH+"/Tuple.dep" } } ;
+Rm rmdep451 = { { OBJ_PATH+"/Tuple.dep" } } ;
 
-Target cpp450 = { "TypeNumber.cpp" , "../../Fundamental/CCore/src/TypeNumber.cpp" } ;
-Target ocpp450 = { "TypeNumber.o" , OBJ_PATH+"/TypeNumber.o" } ;
-Rule rcpp450 = { {&cpp450} , {&ocpp450} , {&intdep450,&execpp450} } ;
-Exe execpp450 = { "CC TypeNumber.cpp" , CC , {
+Target cpp452 = { "TypeNumber.cpp" , "../../Fundamental/CCore/src/TypeNumber.cpp" } ;
+Target ocpp452 = { "TypeNumber.o" , OBJ_PATH+"/TypeNumber.o" } ;
+Rule rcpp452 = { {&cpp452} , {&ocpp452} , {&intdep452,&execpp452} } ;
+Exe execpp452 = { "CC TypeNumber.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18906,14 +18990,14 @@ Exe execpp450 = { "CC TypeNumber.cpp" , CC , {
  ,OBJ_PATH+"/TypeNumber.o"
 } } ;
 
-IntCmd intdep450 = { 'RM DEP' , &rmdep450 } ;
+IntCmd intdep452 = { 'RM DEP' , &rmdep452 } ;
 
-Rm rmdep450 = { { OBJ_PATH+"/TypeNumber.dep" } } ;
+Rm rmdep452 = { { OBJ_PATH+"/TypeNumber.dep" } } ;
 
-Target cpp451 = { "TypeSwitch.cpp" , "../../Simple/CCore/src/TypeSwitch.cpp" } ;
-Target ocpp451 = { "TypeSwitch.o" , OBJ_PATH+"/TypeSwitch.o" } ;
-Rule rcpp451 = { {&cpp451} , {&ocpp451} , {&intdep451,&execpp451} } ;
-Exe execpp451 = { "CC TypeSwitch.cpp" , CC , {
+Target cpp453 = { "TypeSwitch.cpp" , "../../Simple/CCore/src/TypeSwitch.cpp" } ;
+Target ocpp453 = { "TypeSwitch.o" , OBJ_PATH+"/TypeSwitch.o" } ;
+Rule rcpp453 = { {&cpp453} , {&ocpp453} , {&intdep453,&execpp453} } ;
+Exe execpp453 = { "CC TypeSwitch.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18948,14 +19032,14 @@ Exe execpp451 = { "CC TypeSwitch.cpp" , CC , {
  ,OBJ_PATH+"/TypeSwitch.o"
 } } ;
 
-IntCmd intdep451 = { 'RM DEP' , &rmdep451 } ;
+IntCmd intdep453 = { 'RM DEP' , &rmdep453 } ;
 
-Rm rmdep451 = { { OBJ_PATH+"/TypeSwitch.dep" } } ;
+Rm rmdep453 = { { OBJ_PATH+"/TypeSwitch.dep" } } ;
 
-Target cpp452 = { "UDPDevice.cpp" , "../../HCore/CCore/src/net/UDPDevice.cpp" } ;
-Target ocpp452 = { "UDPDevice.o" , OBJ_PATH+"/UDPDevice.o" } ;
-Rule rcpp452 = { {&cpp452} , {&ocpp452} , {&intdep452,&execpp452} } ;
-Exe execpp452 = { "CC UDPDevice.cpp" , CC , {
+Target cpp454 = { "UDPDevice.cpp" , "../../HCore/CCore/src/net/UDPDevice.cpp" } ;
+Target ocpp454 = { "UDPDevice.o" , OBJ_PATH+"/UDPDevice.o" } ;
+Rule rcpp454 = { {&cpp454} , {&ocpp454} , {&intdep454,&execpp454} } ;
+Exe execpp454 = { "CC UDPDevice.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -18990,14 +19074,14 @@ Exe execpp452 = { "CC UDPDevice.cpp" , CC , {
  ,OBJ_PATH+"/UDPDevice.o"
 } } ;
 
-IntCmd intdep452 = { 'RM DEP' , &rmdep452 } ;
+IntCmd intdep454 = { 'RM DEP' , &rmdep454 } ;
 
-Rm rmdep452 = { { OBJ_PATH+"/UDPDevice.dep" } } ;
+Rm rmdep454 = { { OBJ_PATH+"/UDPDevice.dep" } } ;
 
-Target cpp453 = { "UDPoint.cpp" , "../../Applied/CCore/src/net/UDPoint.cpp" } ;
-Target ocpp453 = { "UDPoint.o" , OBJ_PATH+"/UDPoint.o" } ;
-Rule rcpp453 = { {&cpp453} , {&ocpp453} , {&intdep453,&execpp453} } ;
-Exe execpp453 = { "CC UDPoint.cpp" , CC , {
+Target cpp455 = { "UDPoint.cpp" , "../../Applied/CCore/src/net/UDPoint.cpp" } ;
+Target ocpp455 = { "UDPoint.o" , OBJ_PATH+"/UDPoint.o" } ;
+Rule rcpp455 = { {&cpp455} , {&ocpp455} , {&intdep455,&execpp455} } ;
+Exe execpp455 = { "CC UDPoint.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19032,14 +19116,14 @@ Exe execpp453 = { "CC UDPoint.cpp" , CC , {
  ,OBJ_PATH+"/UDPoint.o"
 } } ;
 
-IntCmd intdep453 = { 'RM DEP' , &rmdep453 } ;
+IntCmd intdep455 = { 'RM DEP' , &rmdep455 } ;
 
-Rm rmdep453 = { { OBJ_PATH+"/UDPoint.dep" } } ;
+Rm rmdep455 = { { OBJ_PATH+"/UDPoint.dep" } } ;
 
-Target cpp454 = { "UIntFunc.cpp" , "../../Simple/CCore/src/gadget/UIntFunc.cpp" } ;
-Target ocpp454 = { "UIntFunc.o" , OBJ_PATH+"/UIntFunc.o" } ;
-Rule rcpp454 = { {&cpp454} , {&ocpp454} , {&intdep454,&execpp454} } ;
-Exe execpp454 = { "CC UIntFunc.cpp" , CC , {
+Target cpp456 = { "UIntFunc.cpp" , "../../Simple/CCore/src/gadget/UIntFunc.cpp" } ;
+Target ocpp456 = { "UIntFunc.o" , OBJ_PATH+"/UIntFunc.o" } ;
+Rule rcpp456 = { {&cpp456} , {&ocpp456} , {&intdep456,&execpp456} } ;
+Exe execpp456 = { "CC UIntFunc.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19074,14 +19158,14 @@ Exe execpp454 = { "CC UIntFunc.cpp" , CC , {
  ,OBJ_PATH+"/UIntFunc.o"
 } } ;
 
-IntCmd intdep454 = { 'RM DEP' , &rmdep454 } ;
+IntCmd intdep456 = { 'RM DEP' , &rmdep456 } ;
 
-Rm rmdep454 = { { OBJ_PATH+"/UIntFunc.dep" } } ;
+Rm rmdep456 = { { OBJ_PATH+"/UIntFunc.dep" } } ;
 
-Target cpp455 = { "UIntSat.cpp" , "../../Simple/CCore/src/gadget/UIntSat.cpp" } ;
-Target ocpp455 = { "UIntSat.o" , OBJ_PATH+"/UIntSat.o" } ;
-Rule rcpp455 = { {&cpp455} , {&ocpp455} , {&intdep455,&execpp455} } ;
-Exe execpp455 = { "CC UIntSat.cpp" , CC , {
+Target cpp457 = { "UIntSat.cpp" , "../../Simple/CCore/src/gadget/UIntSat.cpp" } ;
+Target ocpp457 = { "UIntSat.o" , OBJ_PATH+"/UIntSat.o" } ;
+Rule rcpp457 = { {&cpp457} , {&ocpp457} , {&intdep457,&execpp457} } ;
+Exe execpp457 = { "CC UIntSat.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19116,14 +19200,14 @@ Exe execpp455 = { "CC UIntSat.cpp" , CC , {
  ,OBJ_PATH+"/UIntSat.o"
 } } ;
 
-IntCmd intdep455 = { 'RM DEP' , &rmdep455 } ;
+IntCmd intdep457 = { 'RM DEP' , &rmdep457 } ;
 
-Rm rmdep455 = { { OBJ_PATH+"/UIntSat.dep" } } ;
+Rm rmdep457 = { { OBJ_PATH+"/UIntSat.dep" } } ;
 
-Target cpp456 = { "UIntSlowMulAlgo.cpp" , "../../Fundamental/CCore/src/math/UIntSlowMulAlgo.cpp" } ;
-Target ocpp456 = { "UIntSlowMulAlgo.o" , OBJ_PATH+"/UIntSlowMulAlgo.o" } ;
-Rule rcpp456 = { {&cpp456} , {&ocpp456} , {&intdep456,&execpp456} } ;
-Exe execpp456 = { "CC UIntSlowMulAlgo.cpp" , CC , {
+Target cpp458 = { "UIntSlowMulAlgo.cpp" , "../../Fundamental/CCore/src/math/UIntSlowMulAlgo.cpp" } ;
+Target ocpp458 = { "UIntSlowMulAlgo.o" , OBJ_PATH+"/UIntSlowMulAlgo.o" } ;
+Rule rcpp458 = { {&cpp458} , {&ocpp458} , {&intdep458,&execpp458} } ;
+Exe execpp458 = { "CC UIntSlowMulAlgo.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19158,14 +19242,14 @@ Exe execpp456 = { "CC UIntSlowMulAlgo.cpp" , CC , {
  ,OBJ_PATH+"/UIntSlowMulAlgo.o"
 } } ;
 
-IntCmd intdep456 = { 'RM DEP' , &rmdep456 } ;
+IntCmd intdep458 = { 'RM DEP' , &rmdep458 } ;
 
-Rm rmdep456 = { { OBJ_PATH+"/UIntSlowMulAlgo.dep" } } ;
+Rm rmdep458 = { { OBJ_PATH+"/UIntSlowMulAlgo.dep" } } ;
 
-Target cpp457 = { "UIntSplit.cpp" , "../../Simple/CCore/src/UIntSplit.cpp" } ;
-Target ocpp457 = { "UIntSplit.o" , OBJ_PATH+"/UIntSplit.o" } ;
-Rule rcpp457 = { {&cpp457} , {&ocpp457} , {&intdep457,&execpp457} } ;
-Exe execpp457 = { "CC UIntSplit.cpp" , CC , {
+Target cpp459 = { "UIntSplit.cpp" , "../../Simple/CCore/src/UIntSplit.cpp" } ;
+Target ocpp459 = { "UIntSplit.o" , OBJ_PATH+"/UIntSplit.o" } ;
+Rule rcpp459 = { {&cpp459} , {&ocpp459} , {&intdep459,&execpp459} } ;
+Exe execpp459 = { "CC UIntSplit.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19200,14 +19284,14 @@ Exe execpp457 = { "CC UIntSplit.cpp" , CC , {
  ,OBJ_PATH+"/UIntSplit.o"
 } } ;
 
-IntCmd intdep457 = { 'RM DEP' , &rmdep457 } ;
+IntCmd intdep459 = { 'RM DEP' , &rmdep459 } ;
 
-Rm rmdep457 = { { OBJ_PATH+"/UIntSplit.dep" } } ;
+Rm rmdep459 = { { OBJ_PATH+"/UIntSplit.dep" } } ;
 
-Target cpp458 = { "Unid.cpp" , "../../Fundamental/CCore/src/Unid.cpp" } ;
-Target ocpp458 = { "Unid.o" , OBJ_PATH+"/Unid.o" } ;
-Rule rcpp458 = { {&cpp458} , {&ocpp458} , {&intdep458,&execpp458} } ;
-Exe execpp458 = { "CC Unid.cpp" , CC , {
+Target cpp460 = { "Unid.cpp" , "../../Fundamental/CCore/src/Unid.cpp" } ;
+Target ocpp460 = { "Unid.o" , OBJ_PATH+"/Unid.o" } ;
+Rule rcpp460 = { {&cpp460} , {&ocpp460} , {&intdep460,&execpp460} } ;
+Exe execpp460 = { "CC Unid.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19242,14 +19326,14 @@ Exe execpp458 = { "CC Unid.cpp" , CC , {
  ,OBJ_PATH+"/Unid.o"
 } } ;
 
-IntCmd intdep458 = { 'RM DEP' , &rmdep458 } ;
+IntCmd intdep460 = { 'RM DEP' , &rmdep460 } ;
 
-Rm rmdep458 = { { OBJ_PATH+"/Unid.dep" } } ;
+Rm rmdep460 = { { OBJ_PATH+"/Unid.dep" } } ;
 
-Target cpp459 = { "UserAction.cpp" , "../../Desktop/Core/CCore/src/video/UserAction.cpp" } ;
-Target ocpp459 = { "UserAction.o" , OBJ_PATH+"/UserAction.o" } ;
-Rule rcpp459 = { {&cpp459} , {&ocpp459} , {&intdep459,&execpp459} } ;
-Exe execpp459 = { "CC UserAction.cpp" , CC , {
+Target cpp461 = { "UserAction.cpp" , "../../Desktop/Core/CCore/src/video/UserAction.cpp" } ;
+Target ocpp461 = { "UserAction.o" , OBJ_PATH+"/UserAction.o" } ;
+Rule rcpp461 = { {&cpp461} , {&ocpp461} , {&intdep461,&execpp461} } ;
+Exe execpp461 = { "CC UserAction.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19284,14 +19368,14 @@ Exe execpp459 = { "CC UserAction.cpp" , CC , {
  ,OBJ_PATH+"/UserAction.o"
 } } ;
 
-IntCmd intdep459 = { 'RM DEP' , &rmdep459 } ;
+IntCmd intdep461 = { 'RM DEP' , &rmdep461 } ;
 
-Rm rmdep459 = { { OBJ_PATH+"/UserAction.dep" } } ;
+Rm rmdep461 = { { OBJ_PATH+"/UserAction.dep" } } ;
 
-Target cpp460 = { "UserPreference.cpp" , "../../Desktop/Lib/CCore/src/video/UserPreference.cpp" } ;
-Target ocpp460 = { "UserPreference.o" , OBJ_PATH+"/UserPreference.o" } ;
-Rule rcpp460 = { {&cpp460} , {&ocpp460} , {&intdep460,&execpp460} } ;
-Exe execpp460 = { "CC UserPreference.cpp" , CC , {
+Target cpp462 = { "UserPreference.cpp" , "../../Desktop/Lib/CCore/src/video/UserPreference.cpp" } ;
+Target ocpp462 = { "UserPreference.o" , OBJ_PATH+"/UserPreference.o" } ;
+Rule rcpp462 = { {&cpp462} , {&ocpp462} , {&intdep462,&execpp462} } ;
+Exe execpp462 = { "CC UserPreference.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19326,14 +19410,14 @@ Exe execpp460 = { "CC UserPreference.cpp" , CC , {
  ,OBJ_PATH+"/UserPreference.o"
 } } ;
 
-IntCmd intdep460 = { 'RM DEP' , &rmdep460 } ;
+IntCmd intdep462 = { 'RM DEP' , &rmdep462 } ;
 
-Rm rmdep460 = { { OBJ_PATH+"/UserPreference.dep" } } ;
+Rm rmdep462 = { { OBJ_PATH+"/UserPreference.dep" } } ;
 
-Target cpp461 = { "Utf8.cpp" , "../../Simple/CCore/src/Utf8.cpp" } ;
-Target ocpp461 = { "Utf8.o" , OBJ_PATH+"/Utf8.o" } ;
-Rule rcpp461 = { {&cpp461} , {&ocpp461} , {&intdep461,&execpp461} } ;
-Exe execpp461 = { "CC Utf8.cpp" , CC , {
+Target cpp463 = { "Utf8.cpp" , "../../Simple/CCore/src/Utf8.cpp" } ;
+Target ocpp463 = { "Utf8.o" , OBJ_PATH+"/Utf8.o" } ;
+Rule rcpp463 = { {&cpp463} , {&ocpp463} , {&intdep463,&execpp463} } ;
+Exe execpp463 = { "CC Utf8.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19368,14 +19452,14 @@ Exe execpp461 = { "CC Utf8.cpp" , CC , {
  ,OBJ_PATH+"/Utf8.o"
 } } ;
 
-IntCmd intdep461 = { 'RM DEP' , &rmdep461 } ;
+IntCmd intdep463 = { 'RM DEP' , &rmdep463 } ;
 
-Rm rmdep461 = { { OBJ_PATH+"/Utf8.dep" } } ;
+Rm rmdep463 = { { OBJ_PATH+"/Utf8.dep" } } ;
 
-Target cpp462 = { "UtilFunc.cpp" , "../../Simple/CCore/src/gadget/UtilFunc.cpp" } ;
-Target ocpp462 = { "UtilFunc.o" , OBJ_PATH+"/UtilFunc.o" } ;
-Rule rcpp462 = { {&cpp462} , {&ocpp462} , {&intdep462,&execpp462} } ;
-Exe execpp462 = { "CC UtilFunc.cpp" , CC , {
+Target cpp464 = { "UtilFunc.cpp" , "../../Simple/CCore/src/gadget/UtilFunc.cpp" } ;
+Target ocpp464 = { "UtilFunc.o" , OBJ_PATH+"/UtilFunc.o" } ;
+Rule rcpp464 = { {&cpp464} , {&ocpp464} , {&intdep464,&execpp464} } ;
+Exe execpp464 = { "CC UtilFunc.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19410,14 +19494,14 @@ Exe execpp462 = { "CC UtilFunc.cpp" , CC , {
  ,OBJ_PATH+"/UtilFunc.o"
 } } ;
 
-IntCmd intdep462 = { 'RM DEP' , &rmdep462 } ;
+IntCmd intdep464 = { 'RM DEP' , &rmdep464 } ;
 
-Rm rmdep462 = { { OBJ_PATH+"/UtilFunc.dep" } } ;
+Rm rmdep464 = { { OBJ_PATH+"/UtilFunc.dep" } } ;
 
-Target cpp463 = { "VideoConsole.cpp" , "../../Applied/CCore/src/video/VideoConsole.cpp" } ;
-Target ocpp463 = { "VideoConsole.o" , OBJ_PATH+"/VideoConsole.o" } ;
-Rule rcpp463 = { {&cpp463} , {&ocpp463} , {&intdep463,&execpp463} } ;
-Exe execpp463 = { "CC VideoConsole.cpp" , CC , {
+Target cpp465 = { "VideoConsole.cpp" , "../../Applied/CCore/src/video/VideoConsole.cpp" } ;
+Target ocpp465 = { "VideoConsole.o" , OBJ_PATH+"/VideoConsole.o" } ;
+Rule rcpp465 = { {&cpp465} , {&ocpp465} , {&intdep465,&execpp465} } ;
+Exe execpp465 = { "CC VideoConsole.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19452,14 +19536,14 @@ Exe execpp463 = { "CC VideoConsole.cpp" , CC , {
  ,OBJ_PATH+"/VideoConsole.o"
 } } ;
 
-IntCmd intdep463 = { 'RM DEP' , &rmdep463 } ;
+IntCmd intdep465 = { 'RM DEP' , &rmdep465 } ;
 
-Rm rmdep463 = { { OBJ_PATH+"/VideoConsole.dep" } } ;
+Rm rmdep465 = { { OBJ_PATH+"/VideoConsole.dep" } } ;
 
-Target cpp464 = { "VideoDevice.cpp" , "../../Applied/CCore/src/video/VideoDevice.cpp" } ;
-Target ocpp464 = { "VideoDevice.o" , OBJ_PATH+"/VideoDevice.o" } ;
-Rule rcpp464 = { {&cpp464} , {&ocpp464} , {&intdep464,&execpp464} } ;
-Exe execpp464 = { "CC VideoDevice.cpp" , CC , {
+Target cpp466 = { "VideoDevice.cpp" , "../../Applied/CCore/src/video/VideoDevice.cpp" } ;
+Target ocpp466 = { "VideoDevice.o" , OBJ_PATH+"/VideoDevice.o" } ;
+Rule rcpp466 = { {&cpp466} , {&ocpp466} , {&intdep466,&execpp466} } ;
+Exe execpp466 = { "CC VideoDevice.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19494,14 +19578,14 @@ Exe execpp464 = { "CC VideoDevice.cpp" , CC , {
  ,OBJ_PATH+"/VideoDevice.o"
 } } ;
 
-IntCmd intdep464 = { 'RM DEP' , &rmdep464 } ;
+IntCmd intdep466 = { 'RM DEP' , &rmdep466 } ;
 
-Rm rmdep464 = { { OBJ_PATH+"/VideoDevice.dep" } } ;
+Rm rmdep466 = { { OBJ_PATH+"/VideoDevice.dep" } } ;
 
-Target cpp465 = { "Volume.cpp" , "../../Fundamental/CCore/src/Volume.cpp" } ;
-Target ocpp465 = { "Volume.o" , OBJ_PATH+"/Volume.o" } ;
-Rule rcpp465 = { {&cpp465} , {&ocpp465} , {&intdep465,&execpp465} } ;
-Exe execpp465 = { "CC Volume.cpp" , CC , {
+Target cpp467 = { "Volume.cpp" , "../../Fundamental/CCore/src/Volume.cpp" } ;
+Target ocpp467 = { "Volume.o" , OBJ_PATH+"/Volume.o" } ;
+Rule rcpp467 = { {&cpp467} , {&ocpp467} , {&intdep467,&execpp467} } ;
+Exe execpp467 = { "CC Volume.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19536,14 +19620,14 @@ Exe execpp465 = { "CC Volume.cpp" , CC , {
  ,OBJ_PATH+"/Volume.o"
 } } ;
 
-IntCmd intdep465 = { 'RM DEP' , &rmdep465 } ;
+IntCmd intdep467 = { 'RM DEP' , &rmdep467 } ;
 
-Rm rmdep465 = { { OBJ_PATH+"/Volume.dep" } } ;
+Rm rmdep467 = { { OBJ_PATH+"/Volume.dep" } } ;
 
-Target cpp466 = { "Window.Blank.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Blank.cpp" } ;
-Target ocpp466 = { "Window.Blank.o" , OBJ_PATH+"/Window.Blank.o" } ;
-Rule rcpp466 = { {&cpp466} , {&ocpp466} , {&intdep466,&execpp466} } ;
-Exe execpp466 = { "CC Window.Blank.cpp" , CC , {
+Target cpp468 = { "Window.Blank.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Blank.cpp" } ;
+Target ocpp468 = { "Window.Blank.o" , OBJ_PATH+"/Window.Blank.o" } ;
+Rule rcpp468 = { {&cpp468} , {&ocpp468} , {&intdep468,&execpp468} } ;
+Exe execpp468 = { "CC Window.Blank.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19578,14 +19662,14 @@ Exe execpp466 = { "CC Window.Blank.cpp" , CC , {
  ,OBJ_PATH+"/Window.Blank.o"
 } } ;
 
-IntCmd intdep466 = { 'RM DEP' , &rmdep466 } ;
+IntCmd intdep468 = { 'RM DEP' , &rmdep468 } ;
 
-Rm rmdep466 = { { OBJ_PATH+"/Window.Blank.dep" } } ;
+Rm rmdep468 = { { OBJ_PATH+"/Window.Blank.dep" } } ;
 
-Target cpp467 = { "Window.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Button.cpp" } ;
-Target ocpp467 = { "Window.Button.o" , OBJ_PATH+"/Window.Button.o" } ;
-Rule rcpp467 = { {&cpp467} , {&ocpp467} , {&intdep467,&execpp467} } ;
-Exe execpp467 = { "CC Window.Button.cpp" , CC , {
+Target cpp469 = { "Window.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Button.cpp" } ;
+Target ocpp469 = { "Window.Button.o" , OBJ_PATH+"/Window.Button.o" } ;
+Rule rcpp469 = { {&cpp469} , {&ocpp469} , {&intdep469,&execpp469} } ;
+Exe execpp469 = { "CC Window.Button.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19620,14 +19704,14 @@ Exe execpp467 = { "CC Window.Button.cpp" , CC , {
  ,OBJ_PATH+"/Window.Button.o"
 } } ;
 
-IntCmd intdep467 = { 'RM DEP' , &rmdep467 } ;
+IntCmd intdep469 = { 'RM DEP' , &rmdep469 } ;
 
-Rm rmdep467 = { { OBJ_PATH+"/Window.Button.dep" } } ;
+Rm rmdep469 = { { OBJ_PATH+"/Window.Button.dep" } } ;
 
-Target cpp468 = { "Window.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Check.cpp" } ;
-Target ocpp468 = { "Window.Check.o" , OBJ_PATH+"/Window.Check.o" } ;
-Rule rcpp468 = { {&cpp468} , {&ocpp468} , {&intdep468,&execpp468} } ;
-Exe execpp468 = { "CC Window.Check.cpp" , CC , {
+Target cpp470 = { "Window.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Check.cpp" } ;
+Target ocpp470 = { "Window.Check.o" , OBJ_PATH+"/Window.Check.o" } ;
+Rule rcpp470 = { {&cpp470} , {&ocpp470} , {&intdep470,&execpp470} } ;
+Exe execpp470 = { "CC Window.Check.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19662,14 +19746,14 @@ Exe execpp468 = { "CC Window.Check.cpp" , CC , {
  ,OBJ_PATH+"/Window.Check.o"
 } } ;
 
-IntCmd intdep468 = { 'RM DEP' , &rmdep468 } ;
+IntCmd intdep470 = { 'RM DEP' , &rmdep470 } ;
 
-Rm rmdep468 = { { OBJ_PATH+"/Window.Check.dep" } } ;
+Rm rmdep470 = { { OBJ_PATH+"/Window.Check.dep" } } ;
 
-Target cpp469 = { "Window.Decor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Decor.cpp" } ;
-Target ocpp469 = { "Window.Decor.o" , OBJ_PATH+"/Window.Decor.o" } ;
-Rule rcpp469 = { {&cpp469} , {&ocpp469} , {&intdep469,&execpp469} } ;
-Exe execpp469 = { "CC Window.Decor.cpp" , CC , {
+Target cpp471 = { "Window.Decor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Decor.cpp" } ;
+Target ocpp471 = { "Window.Decor.o" , OBJ_PATH+"/Window.Decor.o" } ;
+Rule rcpp471 = { {&cpp471} , {&ocpp471} , {&intdep471,&execpp471} } ;
+Exe execpp471 = { "CC Window.Decor.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19704,14 +19788,14 @@ Exe execpp469 = { "CC Window.Decor.cpp" , CC , {
  ,OBJ_PATH+"/Window.Decor.o"
 } } ;
 
-IntCmd intdep469 = { 'RM DEP' , &rmdep469 } ;
+IntCmd intdep471 = { 'RM DEP' , &rmdep471 } ;
 
-Rm rmdep469 = { { OBJ_PATH+"/Window.Decor.dep" } } ;
+Rm rmdep471 = { { OBJ_PATH+"/Window.Decor.dep" } } ;
 
-Target cpp470 = { "Window.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.DragFrame.cpp" } ;
-Target ocpp470 = { "Window.DragFrame.o" , OBJ_PATH+"/Window.DragFrame.o" } ;
-Rule rcpp470 = { {&cpp470} , {&ocpp470} , {&intdep470,&execpp470} } ;
-Exe execpp470 = { "CC Window.DragFrame.cpp" , CC , {
+Target cpp472 = { "Window.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.DragFrame.cpp" } ;
+Target ocpp472 = { "Window.DragFrame.o" , OBJ_PATH+"/Window.DragFrame.o" } ;
+Rule rcpp472 = { {&cpp472} , {&ocpp472} , {&intdep472,&execpp472} } ;
+Exe execpp472 = { "CC Window.DragFrame.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19746,14 +19830,14 @@ Exe execpp470 = { "CC Window.DragFrame.cpp" , CC , {
  ,OBJ_PATH+"/Window.DragFrame.o"
 } } ;
 
-IntCmd intdep470 = { 'RM DEP' , &rmdep470 } ;
+IntCmd intdep472 = { 'RM DEP' , &rmdep472 } ;
 
-Rm rmdep470 = { { OBJ_PATH+"/Window.DragFrame.dep" } } ;
+Rm rmdep472 = { { OBJ_PATH+"/Window.DragFrame.dep" } } ;
 
-Target cpp471 = { "Window.FireButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.FireButton.cpp" } ;
-Target ocpp471 = { "Window.FireButton.o" , OBJ_PATH+"/Window.FireButton.o" } ;
-Rule rcpp471 = { {&cpp471} , {&ocpp471} , {&intdep471,&execpp471} } ;
-Exe execpp471 = { "CC Window.FireButton.cpp" , CC , {
+Target cpp473 = { "Window.FireButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.FireButton.cpp" } ;
+Target ocpp473 = { "Window.FireButton.o" , OBJ_PATH+"/Window.FireButton.o" } ;
+Rule rcpp473 = { {&cpp473} , {&ocpp473} , {&intdep473,&execpp473} } ;
+Exe execpp473 = { "CC Window.FireButton.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19788,14 +19872,14 @@ Exe execpp471 = { "CC Window.FireButton.cpp" , CC , {
  ,OBJ_PATH+"/Window.FireButton.o"
 } } ;
 
-IntCmd intdep471 = { 'RM DEP' , &rmdep471 } ;
+IntCmd intdep473 = { 'RM DEP' , &rmdep473 } ;
 
-Rm rmdep471 = { { OBJ_PATH+"/Window.FireButton.dep" } } ;
+Rm rmdep473 = { { OBJ_PATH+"/Window.FireButton.dep" } } ;
 
-Target cpp472 = { "Window.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Info.cpp" } ;
-Target ocpp472 = { "Window.Info.o" , OBJ_PATH+"/Window.Info.o" } ;
-Rule rcpp472 = { {&cpp472} , {&ocpp472} , {&intdep472,&execpp472} } ;
-Exe execpp472 = { "CC Window.Info.cpp" , CC , {
+Target cpp474 = { "Window.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Info.cpp" } ;
+Target ocpp474 = { "Window.Info.o" , OBJ_PATH+"/Window.Info.o" } ;
+Rule rcpp474 = { {&cpp474} , {&ocpp474} , {&intdep474,&execpp474} } ;
+Exe execpp474 = { "CC Window.Info.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19830,14 +19914,14 @@ Exe execpp472 = { "CC Window.Info.cpp" , CC , {
  ,OBJ_PATH+"/Window.Info.o"
 } } ;
 
-IntCmd intdep472 = { 'RM DEP' , &rmdep472 } ;
+IntCmd intdep474 = { 'RM DEP' , &rmdep474 } ;
 
-Rm rmdep472 = { { OBJ_PATH+"/Window.Info.dep" } } ;
+Rm rmdep474 = { { OBJ_PATH+"/Window.Info.dep" } } ;
 
-Target cpp473 = { "Window.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Light.cpp" } ;
-Target ocpp473 = { "Window.Light.o" , OBJ_PATH+"/Window.Light.o" } ;
-Rule rcpp473 = { {&cpp473} , {&ocpp473} , {&intdep473,&execpp473} } ;
-Exe execpp473 = { "CC Window.Light.cpp" , CC , {
+Target cpp475 = { "Window.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Light.cpp" } ;
+Target ocpp475 = { "Window.Light.o" , OBJ_PATH+"/Window.Light.o" } ;
+Rule rcpp475 = { {&cpp475} , {&ocpp475} , {&intdep475,&execpp475} } ;
+Exe execpp475 = { "CC Window.Light.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19872,14 +19956,14 @@ Exe execpp473 = { "CC Window.Light.cpp" , CC , {
  ,OBJ_PATH+"/Window.Light.o"
 } } ;
 
-IntCmd intdep473 = { 'RM DEP' , &rmdep473 } ;
+IntCmd intdep475 = { 'RM DEP' , &rmdep475 } ;
 
-Rm rmdep473 = { { OBJ_PATH+"/Window.Light.dep" } } ;
+Rm rmdep475 = { { OBJ_PATH+"/Window.Light.dep" } } ;
 
-Target cpp474 = { "Window.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.LineEdit.cpp" } ;
-Target ocpp474 = { "Window.LineEdit.o" , OBJ_PATH+"/Window.LineEdit.o" } ;
-Rule rcpp474 = { {&cpp474} , {&ocpp474} , {&intdep474,&execpp474} } ;
-Exe execpp474 = { "CC Window.LineEdit.cpp" , CC , {
+Target cpp476 = { "Window.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.LineEdit.cpp" } ;
+Target ocpp476 = { "Window.LineEdit.o" , OBJ_PATH+"/Window.LineEdit.o" } ;
+Rule rcpp476 = { {&cpp476} , {&ocpp476} , {&intdep476,&execpp476} } ;
+Exe execpp476 = { "CC Window.LineEdit.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19914,14 +19998,14 @@ Exe execpp474 = { "CC Window.LineEdit.cpp" , CC , {
  ,OBJ_PATH+"/Window.LineEdit.o"
 } } ;
 
-IntCmd intdep474 = { 'RM DEP' , &rmdep474 } ;
+IntCmd intdep476 = { 'RM DEP' , &rmdep476 } ;
 
-Rm rmdep474 = { { OBJ_PATH+"/Window.LineEdit.dep" } } ;
+Rm rmdep476 = { { OBJ_PATH+"/Window.LineEdit.dep" } } ;
 
-Target cpp475 = { "Window.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Progress.cpp" } ;
-Target ocpp475 = { "Window.Progress.o" , OBJ_PATH+"/Window.Progress.o" } ;
-Rule rcpp475 = { {&cpp475} , {&ocpp475} , {&intdep475,&execpp475} } ;
-Exe execpp475 = { "CC Window.Progress.cpp" , CC , {
+Target cpp477 = { "Window.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Progress.cpp" } ;
+Target ocpp477 = { "Window.Progress.o" , OBJ_PATH+"/Window.Progress.o" } ;
+Rule rcpp477 = { {&cpp477} , {&ocpp477} , {&intdep477,&execpp477} } ;
+Exe execpp477 = { "CC Window.Progress.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19956,14 +20040,14 @@ Exe execpp475 = { "CC Window.Progress.cpp" , CC , {
  ,OBJ_PATH+"/Window.Progress.o"
 } } ;
 
-IntCmd intdep475 = { 'RM DEP' , &rmdep475 } ;
+IntCmd intdep477 = { 'RM DEP' , &rmdep477 } ;
 
-Rm rmdep475 = { { OBJ_PATH+"/Window.Progress.dep" } } ;
+Rm rmdep477 = { { OBJ_PATH+"/Window.Progress.dep" } } ;
 
-Target cpp476 = { "Window.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Radio.cpp" } ;
-Target ocpp476 = { "Window.Radio.o" , OBJ_PATH+"/Window.Radio.o" } ;
-Rule rcpp476 = { {&cpp476} , {&ocpp476} , {&intdep476,&execpp476} } ;
-Exe execpp476 = { "CC Window.Radio.cpp" , CC , {
+Target cpp478 = { "Window.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Radio.cpp" } ;
+Target ocpp478 = { "Window.Radio.o" , OBJ_PATH+"/Window.Radio.o" } ;
+Rule rcpp478 = { {&cpp478} , {&ocpp478} , {&intdep478,&execpp478} } ;
+Exe execpp478 = { "CC Window.Radio.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -19998,14 +20082,14 @@ Exe execpp476 = { "CC Window.Radio.cpp" , CC , {
  ,OBJ_PATH+"/Window.Radio.o"
 } } ;
 
-IntCmd intdep476 = { 'RM DEP' , &rmdep476 } ;
+IntCmd intdep478 = { 'RM DEP' , &rmdep478 } ;
 
-Rm rmdep476 = { { OBJ_PATH+"/Window.Radio.dep" } } ;
+Rm rmdep478 = { { OBJ_PATH+"/Window.Radio.dep" } } ;
 
-Target cpp477 = { "Window.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.RunButton.cpp" } ;
-Target ocpp477 = { "Window.RunButton.o" , OBJ_PATH+"/Window.RunButton.o" } ;
-Rule rcpp477 = { {&cpp477} , {&ocpp477} , {&intdep477,&execpp477} } ;
-Exe execpp477 = { "CC Window.RunButton.cpp" , CC , {
+Target cpp479 = { "Window.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.RunButton.cpp" } ;
+Target ocpp479 = { "Window.RunButton.o" , OBJ_PATH+"/Window.RunButton.o" } ;
+Rule rcpp479 = { {&cpp479} , {&ocpp479} , {&intdep479,&execpp479} } ;
+Exe execpp479 = { "CC Window.RunButton.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20040,14 +20124,14 @@ Exe execpp477 = { "CC Window.RunButton.cpp" , CC , {
  ,OBJ_PATH+"/Window.RunButton.o"
 } } ;
 
-IntCmd intdep477 = { 'RM DEP' , &rmdep477 } ;
+IntCmd intdep479 = { 'RM DEP' , &rmdep479 } ;
 
-Rm rmdep477 = { { OBJ_PATH+"/Window.RunButton.dep" } } ;
+Rm rmdep479 = { { OBJ_PATH+"/Window.RunButton.dep" } } ;
 
-Target cpp478 = { "Window.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scroll.cpp" } ;
-Target ocpp478 = { "Window.Scroll.o" , OBJ_PATH+"/Window.Scroll.o" } ;
-Rule rcpp478 = { {&cpp478} , {&ocpp478} , {&intdep478,&execpp478} } ;
-Exe execpp478 = { "CC Window.Scroll.cpp" , CC , {
+Target cpp480 = { "Window.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scroll.cpp" } ;
+Target ocpp480 = { "Window.Scroll.o" , OBJ_PATH+"/Window.Scroll.o" } ;
+Rule rcpp480 = { {&cpp480} , {&ocpp480} , {&intdep480,&execpp480} } ;
+Exe execpp480 = { "CC Window.Scroll.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20082,14 +20166,14 @@ Exe execpp478 = { "CC Window.Scroll.cpp" , CC , {
  ,OBJ_PATH+"/Window.Scroll.o"
 } } ;
 
-IntCmd intdep478 = { 'RM DEP' , &rmdep478 } ;
+IntCmd intdep480 = { 'RM DEP' , &rmdep480 } ;
 
-Rm rmdep478 = { { OBJ_PATH+"/Window.Scroll.dep" } } ;
+Rm rmdep480 = { { OBJ_PATH+"/Window.Scroll.dep" } } ;
 
-Target cpp479 = { "Window.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.ScrollList.cpp" } ;
-Target ocpp479 = { "Window.ScrollList.o" , OBJ_PATH+"/Window.ScrollList.o" } ;
-Rule rcpp479 = { {&cpp479} , {&ocpp479} , {&intdep479,&execpp479} } ;
-Exe execpp479 = { "CC Window.ScrollList.cpp" , CC , {
+Target cpp481 = { "Window.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.ScrollList.cpp" } ;
+Target ocpp481 = { "Window.ScrollList.o" , OBJ_PATH+"/Window.ScrollList.o" } ;
+Rule rcpp481 = { {&cpp481} , {&ocpp481} , {&intdep481,&execpp481} } ;
+Exe execpp481 = { "CC Window.ScrollList.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20124,14 +20208,14 @@ Exe execpp479 = { "CC Window.ScrollList.cpp" , CC , {
  ,OBJ_PATH+"/Window.ScrollList.o"
 } } ;
 
-IntCmd intdep479 = { 'RM DEP' , &rmdep479 } ;
+IntCmd intdep481 = { 'RM DEP' , &rmdep481 } ;
 
-Rm rmdep479 = { { OBJ_PATH+"/Window.ScrollList.dep" } } ;
+Rm rmdep481 = { { OBJ_PATH+"/Window.ScrollList.dep" } } ;
 
-Target cpp480 = { "Window.Scrollable.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scrollable.cpp" } ;
-Target ocpp480 = { "Window.Scrollable.o" , OBJ_PATH+"/Window.Scrollable.o" } ;
-Rule rcpp480 = { {&cpp480} , {&ocpp480} , {&intdep480,&execpp480} } ;
-Exe execpp480 = { "CC Window.Scrollable.cpp" , CC , {
+Target cpp482 = { "Window.Scrollable.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scrollable.cpp" } ;
+Target ocpp482 = { "Window.Scrollable.o" , OBJ_PATH+"/Window.Scrollable.o" } ;
+Rule rcpp482 = { {&cpp482} , {&ocpp482} , {&intdep482,&execpp482} } ;
+Exe execpp482 = { "CC Window.Scrollable.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20166,14 +20250,14 @@ Exe execpp480 = { "CC Window.Scrollable.cpp" , CC , {
  ,OBJ_PATH+"/Window.Scrollable.o"
 } } ;
 
-IntCmd intdep480 = { 'RM DEP' , &rmdep480 } ;
+IntCmd intdep482 = { 'RM DEP' , &rmdep482 } ;
 
-Rm rmdep480 = { { OBJ_PATH+"/Window.Scrollable.dep" } } ;
+Rm rmdep482 = { { OBJ_PATH+"/Window.Scrollable.dep" } } ;
 
-Target cpp481 = { "Window.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.SimpleTextList.cpp" } ;
-Target ocpp481 = { "Window.SimpleTextList.o" , OBJ_PATH+"/Window.SimpleTextList.o" } ;
-Rule rcpp481 = { {&cpp481} , {&ocpp481} , {&intdep481,&execpp481} } ;
-Exe execpp481 = { "CC Window.SimpleTextList.cpp" , CC , {
+Target cpp483 = { "Window.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.SimpleTextList.cpp" } ;
+Target ocpp483 = { "Window.SimpleTextList.o" , OBJ_PATH+"/Window.SimpleTextList.o" } ;
+Rule rcpp483 = { {&cpp483} , {&ocpp483} , {&intdep483,&execpp483} } ;
+Exe execpp483 = { "CC Window.SimpleTextList.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20208,14 +20292,14 @@ Exe execpp481 = { "CC Window.SimpleTextList.cpp" , CC , {
  ,OBJ_PATH+"/Window.SimpleTextList.o"
 } } ;
 
-IntCmd intdep481 = { 'RM DEP' , &rmdep481 } ;
+IntCmd intdep483 = { 'RM DEP' , &rmdep483 } ;
 
-Rm rmdep481 = { { OBJ_PATH+"/Window.SimpleTextList.dep" } } ;
+Rm rmdep483 = { { OBJ_PATH+"/Window.SimpleTextList.dep" } } ;
 
-Target cpp482 = { "Window.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Slider.cpp" } ;
-Target ocpp482 = { "Window.Slider.o" , OBJ_PATH+"/Window.Slider.o" } ;
-Rule rcpp482 = { {&cpp482} , {&ocpp482} , {&intdep482,&execpp482} } ;
-Exe execpp482 = { "CC Window.Slider.cpp" , CC , {
+Target cpp484 = { "Window.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Slider.cpp" } ;
+Target ocpp484 = { "Window.Slider.o" , OBJ_PATH+"/Window.Slider.o" } ;
+Rule rcpp484 = { {&cpp484} , {&ocpp484} , {&intdep484,&execpp484} } ;
+Exe execpp484 = { "CC Window.Slider.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20250,14 +20334,14 @@ Exe execpp482 = { "CC Window.Slider.cpp" , CC , {
  ,OBJ_PATH+"/Window.Slider.o"
 } } ;
 
-IntCmd intdep482 = { 'RM DEP' , &rmdep482 } ;
+IntCmd intdep484 = { 'RM DEP' , &rmdep484 } ;
 
-Rm rmdep482 = { { OBJ_PATH+"/Window.Slider.dep" } } ;
+Rm rmdep484 = { { OBJ_PATH+"/Window.Slider.dep" } } ;
 
-Target cpp483 = { "Window.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Spinor.cpp" } ;
-Target ocpp483 = { "Window.Spinor.o" , OBJ_PATH+"/Window.Spinor.o" } ;
-Rule rcpp483 = { {&cpp483} , {&ocpp483} , {&intdep483,&execpp483} } ;
-Exe execpp483 = { "CC Window.Spinor.cpp" , CC , {
+Target cpp485 = { "Window.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Spinor.cpp" } ;
+Target ocpp485 = { "Window.Spinor.o" , OBJ_PATH+"/Window.Spinor.o" } ;
+Rule rcpp485 = { {&cpp485} , {&ocpp485} , {&intdep485,&execpp485} } ;
+Exe execpp485 = { "CC Window.Spinor.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20292,14 +20376,14 @@ Exe execpp483 = { "CC Window.Spinor.cpp" , CC , {
  ,OBJ_PATH+"/Window.Spinor.o"
 } } ;
 
-IntCmd intdep483 = { 'RM DEP' , &rmdep483 } ;
+IntCmd intdep485 = { 'RM DEP' , &rmdep485 } ;
 
-Rm rmdep483 = { { OBJ_PATH+"/Window.Spinor.dep" } } ;
+Rm rmdep485 = { { OBJ_PATH+"/Window.Spinor.dep" } } ;
 
-Target cpp484 = { "Window.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Split.cpp" } ;
-Target ocpp484 = { "Window.Split.o" , OBJ_PATH+"/Window.Split.o" } ;
-Rule rcpp484 = { {&cpp484} , {&ocpp484} , {&intdep484,&execpp484} } ;
-Exe execpp484 = { "CC Window.Split.cpp" , CC , {
+Target cpp486 = { "Window.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Split.cpp" } ;
+Target ocpp486 = { "Window.Split.o" , OBJ_PATH+"/Window.Split.o" } ;
+Rule rcpp486 = { {&cpp486} , {&ocpp486} , {&intdep486,&execpp486} } ;
+Exe execpp486 = { "CC Window.Split.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20334,14 +20418,14 @@ Exe execpp484 = { "CC Window.Split.cpp" , CC , {
  ,OBJ_PATH+"/Window.Split.o"
 } } ;
 
-IntCmd intdep484 = { 'RM DEP' , &rmdep484 } ;
+IntCmd intdep486 = { 'RM DEP' , &rmdep486 } ;
 
-Rm rmdep484 = { { OBJ_PATH+"/Window.Split.dep" } } ;
+Rm rmdep486 = { { OBJ_PATH+"/Window.Split.dep" } } ;
 
-Target cpp485 = { "Window.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Text.cpp" } ;
-Target ocpp485 = { "Window.Text.o" , OBJ_PATH+"/Window.Text.o" } ;
-Rule rcpp485 = { {&cpp485} , {&ocpp485} , {&intdep485,&execpp485} } ;
-Exe execpp485 = { "CC Window.Text.cpp" , CC , {
+Target cpp487 = { "Window.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Text.cpp" } ;
+Target ocpp487 = { "Window.Text.o" , OBJ_PATH+"/Window.Text.o" } ;
+Rule rcpp487 = { {&cpp487} , {&ocpp487} , {&intdep487,&execpp487} } ;
+Exe execpp487 = { "CC Window.Text.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20376,14 +20460,14 @@ Exe execpp485 = { "CC Window.Text.cpp" , CC , {
  ,OBJ_PATH+"/Window.Text.o"
 } } ;
 
-IntCmd intdep485 = { 'RM DEP' , &rmdep485 } ;
+IntCmd intdep487 = { 'RM DEP' , &rmdep487 } ;
 
-Rm rmdep485 = { { OBJ_PATH+"/Window.Text.dep" } } ;
+Rm rmdep487 = { { OBJ_PATH+"/Window.Text.dep" } } ;
 
-Target cpp486 = { "Window.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.TextLine.cpp" } ;
-Target ocpp486 = { "Window.TextLine.o" , OBJ_PATH+"/Window.TextLine.o" } ;
-Rule rcpp486 = { {&cpp486} , {&ocpp486} , {&intdep486,&execpp486} } ;
-Exe execpp486 = { "CC Window.TextLine.cpp" , CC , {
+Target cpp488 = { "Window.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.TextLine.cpp" } ;
+Target ocpp488 = { "Window.TextLine.o" , OBJ_PATH+"/Window.TextLine.o" } ;
+Rule rcpp488 = { {&cpp488} , {&ocpp488} , {&intdep488,&execpp488} } ;
+Exe execpp488 = { "CC Window.TextLine.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20418,14 +20502,14 @@ Exe execpp486 = { "CC Window.TextLine.cpp" , CC , {
  ,OBJ_PATH+"/Window.TextLine.o"
 } } ;
 
-IntCmd intdep486 = { 'RM DEP' , &rmdep486 } ;
+IntCmd intdep488 = { 'RM DEP' , &rmdep488 } ;
 
-Rm rmdep486 = { { OBJ_PATH+"/Window.TextLine.dep" } } ;
+Rm rmdep488 = { { OBJ_PATH+"/Window.TextLine.dep" } } ;
 
-Target cpp487 = { "WindowLib.cpp" , "../../Desktop/Lib/CCore/src/video/WindowLib.cpp" } ;
-Target ocpp487 = { "WindowLib.o" , OBJ_PATH+"/WindowLib.o" } ;
-Rule rcpp487 = { {&cpp487} , {&ocpp487} , {&intdep487,&execpp487} } ;
-Exe execpp487 = { "CC WindowLib.cpp" , CC , {
+Target cpp489 = { "WindowLib.cpp" , "../../Desktop/Lib/CCore/src/video/WindowLib.cpp" } ;
+Target ocpp489 = { "WindowLib.o" , OBJ_PATH+"/WindowLib.o" } ;
+Rule rcpp489 = { {&cpp489} , {&ocpp489} , {&intdep489,&execpp489} } ;
+Exe execpp489 = { "CC WindowLib.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20460,14 +20544,14 @@ Exe execpp487 = { "CC WindowLib.cpp" , CC , {
  ,OBJ_PATH+"/WindowLib.o"
 } } ;
 
-IntCmd intdep487 = { 'RM DEP' , &rmdep487 } ;
+IntCmd intdep489 = { 'RM DEP' , &rmdep489 } ;
 
-Rm rmdep487 = { { OBJ_PATH+"/WindowLib.dep" } } ;
+Rm rmdep489 = { { OBJ_PATH+"/WindowLib.dep" } } ;
 
-Target cpp488 = { "WindowReport.cpp" , "../../Desktop/App/CCore/src/video/WindowReport.cpp" } ;
-Target ocpp488 = { "WindowReport.o" , OBJ_PATH+"/WindowReport.o" } ;
-Rule rcpp488 = { {&cpp488} , {&ocpp488} , {&intdep488,&execpp488} } ;
-Exe execpp488 = { "CC WindowReport.cpp" , CC , {
+Target cpp490 = { "WindowReport.cpp" , "../../Desktop/App/CCore/src/video/WindowReport.cpp" } ;
+Target ocpp490 = { "WindowReport.o" , OBJ_PATH+"/WindowReport.o" } ;
+Rule rcpp490 = { {&cpp490} , {&ocpp490} , {&intdep490,&execpp490} } ;
+Exe execpp490 = { "CC WindowReport.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20502,14 +20586,14 @@ Exe execpp488 = { "CC WindowReport.cpp" , CC , {
  ,OBJ_PATH+"/WindowReport.o"
 } } ;
 
-IntCmd intdep488 = { 'RM DEP' , &rmdep488 } ;
+IntCmd intdep490 = { 'RM DEP' , &rmdep490 } ;
 
-Rm rmdep488 = { { OBJ_PATH+"/WindowReport.dep" } } ;
+Rm rmdep490 = { { OBJ_PATH+"/WindowReport.dep" } } ;
 
-Target cpp489 = { "XPoint.cpp" , "../../Applied/CCore/src/net/XPoint.cpp" } ;
-Target ocpp489 = { "XPoint.o" , OBJ_PATH+"/XPoint.o" } ;
-Rule rcpp489 = { {&cpp489} , {&ocpp489} , {&intdep489,&execpp489} } ;
-Exe execpp489 = { "CC XPoint.cpp" , CC , {
+Target cpp491 = { "XPoint.cpp" , "../../Applied/CCore/src/net/XPoint.cpp" } ;
+Target ocpp491 = { "XPoint.o" , OBJ_PATH+"/XPoint.o" } ;
+Rule rcpp491 = { {&cpp491} , {&ocpp491} , {&intdep491,&execpp491} } ;
+Exe execpp491 = { "CC XPoint.cpp" , CC , {
   "-c"
  ,"-std=c++17"
  ,"-fconcepts"
@@ -20544,9 +20628,9 @@ Exe execpp489 = { "CC XPoint.cpp" , CC , {
  ,OBJ_PATH+"/XPoint.o"
 } } ;
 
-IntCmd intdep489 = { 'RM DEP' , &rmdep489 } ;
+IntCmd intdep491 = { 'RM DEP' , &rmdep491 } ;
 
-Rm rmdep489 = { { OBJ_PATH+"/XPoint.dep" } } ;
+Rm rmdep491 = { { OBJ_PATH+"/XPoint.dep" } } ;
 
 Target asm1 = { "IntegerFastAlgo.s" , "CCore/src/math/IntegerFastAlgo.s" } ;
 Target oasm1 = { "IntegerFastAlgo.s.o" , OBJ_PATH+"/IntegerFastAlgo.s.o" } ;
@@ -21114,6 +21198,8 @@ Echo echoargs = { {
 ,'"'+ocpp487.file+"\"\n"
 ,'"'+ocpp488.file+"\"\n"
 ,'"'+ocpp489.file+"\"\n"
+,'"'+ocpp490.file+"\"\n"
+,'"'+ocpp491.file+"\"\n"
 ,'"'+oasm1.file+"\"\n"
 ,'"'+oasm2.file+"\"\n"
 ,'"'+oasm3.file+"\"\n"
@@ -21615,6 +21701,8 @@ Rule rmain = { { core_ptr
 ,&ocpp487
 ,&ocpp488
 ,&ocpp489
+,&ocpp490
+,&ocpp491
 ,&oasm1
 ,&oasm2
 ,&oasm3

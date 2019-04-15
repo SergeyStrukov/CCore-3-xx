@@ -21,32 +21,18 @@
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/RefVal.h>
 
+#include <CCore/inc/video/lib/Shape.ButtonState.h>
+
 namespace CCore {
 namespace Video {
 
 /* classes */
-
-struct ButtonState;
 
 class ButtonShape;
 
 class RefButtonShape;
 
 class KnobShape;
-
-/* struct ButtonState */
-
-struct ButtonState
- {
-  bool enable =  true ;
-  bool focus  = false ;
-  bool mover  = false ;
-  bool down   = false ;
-
-  bool mouse  = false ;
-
-  ButtonState() {}
- };
 
 /* class ButtonShape */
 

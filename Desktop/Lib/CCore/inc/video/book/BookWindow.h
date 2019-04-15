@@ -364,83 +364,6 @@ class DisplayBookFrame : public DragFrame
    Signal<> &updateReplace;
  };
 
-/* class BackShape */
-
-class BackShape : public ButtonState
- {
-   static constexpr Point Aspect = Point(37,20) ;
-
-  public:
-
-   struct Config
-    {
-     // user
-
-     RefVal<Fraction> width = Fraction(6,2) ;
-
-     RefVal<VColor> border =      Blue ;
-     RefVal<VColor> focus  = OrangeRed ;
-     RefVal<VColor> gray   =      Gray ;
-     RefVal<VColor> snow   =      Snow ;
-     RefVal<VColor> snowUp = PaleGreen ;
-
-     // app
-
-     RefVal<VColor> pict = Black ;
-
-     RefVal<Coord> dy = 30 ;
-
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy)
-      {
-       width.bind(bag.width);
-       border.bind(bag.border);
-       focus.bind(bag.focus);
-       gray.bind(bag.gray);
-       snow.bind(bag.snow);
-       snowUp.bind(bag.snowUp);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       pict.bind(bag.back_pict);
-       dy.bind(bag.back_dy);
-      }
-    };
-
-   // parameters
-
-   enum FaceType
-    {
-     BackDir,
-     ForeDir
-    };
-
-   const Config &cfg;
-   FaceType face;
-   Pane pane;
-
-   // methods
-
-   BackShape(const Config &cfg_,FaceType face_) : cfg(cfg_),face(face_) {}
-
-   Point getMinSize() const;
-
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
-
-   void draw(const DrawBuf &buf,DrawParam draw_param) const;
- };
-
-using BackButtonWindow = ButtonWindowOf<BackShape> ;
-
 /* class BookWindow */
 
 class BookWindow : public ComboWindow
@@ -474,12 +397,6 @@ class BookWindow : public ComboWindow
      String hint_GotoBack   = "Jump back (BS)"_str ;
      String hint_GotoFore   = "Jump fore"_str ;
 
-     // back
-
-     VColor back_pict = Black ;
-
-     Coord back_dy = 30 ;
-
      // constructors
 
      AppBag() noexcept {}
@@ -499,8 +416,6 @@ class BookWindow : public ComboWindow
        func("text_NotReady"_c,ptr->text_NotReady);
        func("text_Font"_c,ptr->text_Font);
        func("defscale"_c,ptr->defscale);
-       func("back_pict"_c,ptr->back_pict);
-       func("back_dy"_c,ptr->back_dy);
        func("hint_PrevPage"_c,ptr->hint_PrevPage);
        func("hint_ParentPage"_c,ptr->hint_ParentPage);
        func("hint_NextPage"_c,ptr->hint_NextPage);
@@ -534,6 +449,7 @@ class BookWindow : public ComboWindow
      CtorRefVal<SpinorWindow::ConfigType> spinor_cfg;
      CtorRefVal<YDoubleLineWindow::ConfigType> line_cfg;
      CtorRefVal<FontReplaceFrame::ConfigType> replace_cfg;
+     CtorRefVal<MoveButtonWindow::ConfigType> movebtn_cfg;
 
      RefButtonWindow::ConfigType btn_cfg;
 
@@ -559,13 +475,10 @@ class BookWindow : public ComboWindow
 
      DisplayBookFrame::ConfigType popup_cfg;
 
-     BackButtonWindow::ConfigType back_cfg;
-
      template <class UserPref,class AppPref>
      Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
       : book_cfg(user_pref,app_pref),
-        popup_cfg(user_pref,app_pref,book_cfg),
-        back_cfg(user_pref,app_pref)
+        popup_cfg(user_pref,app_pref,book_cfg)
       {
        bindUser(user_pref.get(),user_pref.getSmartConfig());
        bindApp(app_pref.get());
@@ -587,6 +500,7 @@ class BookWindow : public ComboWindow
        spinor_cfg.bind(proxy);
        line_cfg.bind(proxy);
        replace_cfg.bind(proxy);
+       movebtn_cfg.bind(proxy);
 
        btn_cfg.bind(bag);
       }
@@ -661,8 +575,8 @@ class BookWindow : public ComboWindow
 
    YDoubleLineWindow line4;
 
-   BackButtonWindow back_btn;
-   BackButtonWindow fore_btn;
+   MoveButtonWindow back_btn;
+   MoveButtonWindow fore_btn;
 
    DisplayBookWindow book;
 

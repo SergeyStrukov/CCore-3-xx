@@ -413,6 +413,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
 
                                            ButtonWindow::ConfigType,
                                            KnobWindow::ConfigType,
+                                           MoveButtonWindow::ConfigType,
                                            CheckWindow::ConfigType,
                                            ContourWindow::ConfigType,
                                            TextContourWindow::ConfigType,

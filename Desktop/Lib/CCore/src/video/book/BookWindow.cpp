@@ -753,101 +753,6 @@ void DisplayBookFrame::dying()
   has_place=true;
  }
 
-/* class BackShape */
-
-Point BackShape::getMinSize() const
- {
-  Coord dy=+cfg.dy;
-
-  return Point(XdivY(Aspect)*dy,dy);
- }
-
-void BackShape::draw(const DrawBuf &buf,DrawParam) const
- {
-  Pane pane=AdjustAspect(Aspect,this->pane);
-
-  MPane p(pane);
-
-  if( !p ) return;
-
-  SmoothDrawArt art(buf.cut(pane));
-
-  // figure
-
-  MCoord width=+cfg.width;
-
-  VColor gray=+cfg.gray;
-
-  MCoord H=p.dy;
-
-  FigureButton fig(p,H/5);
-
-  // body
-
-  if( down )
-    {
-     fig.curveSolid(art,gray);
-    }
-  else
-    {
-     VColor top = ( mover && enable )? +cfg.snowUp : +cfg.snow ;
-
-     fig.curveSolid(art,YField(p.y,top,p.ey,gray));
-    }
-
-  // face
-
-  {
-   VColor pict = enable? +cfg.pict : gray ;
-
-   Coord dy=RoundUpLen(width);
-
-   MCoord shift=0;
-
-   if( down ) shift=Fraction( (dy+1)/2 );
-
-   MCoord s=H/10;
-   MCoord radius=H/2-2*s;
-
-   MCoord y0=p.y+s+shift;
-   MCoord y1=p.y+H/2+shift;
-   MCoord y2=p.ey-s+shift;
-
-   if( face==BackDir )
-     {
-      MCoord x0=p.x+H/4+shift;
-      MCoord x1=x0+(H-2*s);
-      MCoord x2=x1+(radius-s/2);
-
-      FigureLeftArrow fig1(x0,x1,y0,y2);
-
-      fig1.curveSolid(art,pict);
-
-      art.ball(MPoint(x2,y1),radius,pict);
-     }
-   else
-     {
-      MCoord x0=p.ex-H/4+shift;
-      MCoord x1=x0-(H-2*s);
-      MCoord x2=x1-(radius-s/2);
-
-      FigureRightArrow fig1(x1,x0,y0,y2);
-
-      fig1.curveSolid(art,pict);
-
-      art.ball(MPoint(x2,y1),radius,pict);
-     }
-  }
-
-  // border
-
-  {
-   VColor border = focus? +cfg.focus : ( enable? +cfg.border : gray ) ;
-
-   fig.curveLoop(art,HalfPos,width,border);
-  }
- }
-
 /* class BookWindow */
 
 void BookWindow::AppBag::bindItems(ConfigItemBind &binder)
@@ -872,11 +777,6 @@ void BookWindow::AppBag::bindItems(ConfigItemBind &binder)
     binder.item("'Reload'"_str,hint_Reload);
     binder.item("'Back'"_str,hint_GotoBack);
     binder.item("'Fore'"_str,hint_GotoFore);
-
-  binder.group("Back button"_str);
-
-    binder.item("picture"_str,back_pict);
-    binder.item("height"_str,back_dy);
  }
 
 void BookWindow::AppBag::findFonts()
@@ -1148,8 +1048,8 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    line4(wlist,cfg.line_cfg),
 
-   back_btn(wlist,cfg.back_cfg,BackShape::BackDir),
-   fore_btn(wlist,cfg.back_cfg,BackShape::ForeDir),
+   back_btn(wlist,cfg.movebtn_cfg,MoveButtonShape::BackDir),
+   fore_btn(wlist,cfg.movebtn_cfg,MoveButtonShape::ForeDir),
 
    book(wlist,cfg.book_cfg,ext_map),
    progress(wlist,cfg.progress_cfg),

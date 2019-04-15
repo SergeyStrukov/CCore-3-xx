@@ -347,6 +347,7 @@ OBJ_LIST = \
 .obj/SelectFrames.o \
 .obj/Sem.o \
 .obj/Shape.Button.o \
+.obj/Shape.ButtonState.o \
 .obj/Shape.Check.o \
 .obj/Shape.Contour.o \
 .obj/Shape.DragFrame.o \
@@ -357,6 +358,7 @@ OBJ_LIST = \
 .obj/Shape.Light.o \
 .obj/Shape.Line.o \
 .obj/Shape.LineEdit.o \
+.obj/Shape.MoveButton.o \
 .obj/Shape.Progress.o \
 .obj/Shape.Radio.o \
 .obj/Shape.RunButton.o \
@@ -837,6 +839,7 @@ ASM_LIST = \
 .obj/SelectFrames.s \
 .obj/Sem.s \
 .obj/Shape.Button.s \
+.obj/Shape.ButtonState.s \
 .obj/Shape.Check.s \
 .obj/Shape.Contour.s \
 .obj/Shape.DragFrame.s \
@@ -847,6 +850,7 @@ ASM_LIST = \
 .obj/Shape.Light.s \
 .obj/Shape.Line.s \
 .obj/Shape.LineEdit.s \
+.obj/Shape.MoveButton.s \
 .obj/Shape.Progress.s \
 .obj/Shape.Radio.s \
 .obj/Shape.RunButton.s \
@@ -1327,6 +1331,7 @@ DEP_LIST = \
 .obj/SelectFrames.dep \
 .obj/Sem.dep \
 .obj/Shape.Button.dep \
+.obj/Shape.ButtonState.dep \
 .obj/Shape.Check.dep \
 .obj/Shape.Contour.dep \
 .obj/Shape.DragFrame.dep \
@@ -1337,6 +1342,7 @@ DEP_LIST = \
 .obj/Shape.Light.dep \
 .obj/Shape.Line.dep \
 .obj/Shape.LineEdit.dep \
+.obj/Shape.MoveButton.dep \
 .obj/Shape.Progress.dep \
 .obj/Shape.Radio.dep \
 .obj/Shape.RunButton.dep \
@@ -2525,6 +2531,9 @@ include $(RULES_FILE)
 .obj/Shape.Button.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Shape.ButtonState.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/Shape.Check.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -2553,6 +2562,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.LineEdit.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Shape.MoveButton.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.Progress.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp
@@ -3988,6 +4000,9 @@ include $(RULES_FILE)
 .obj/Shape.Button.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Shape.ButtonState.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.Check.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4016,6 +4031,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Shape.LineEdit.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Shape.MoveButton.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/Shape.Progress.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp
@@ -5451,6 +5469,9 @@ include $(RULES_FILE)
 .obj/Shape.Button.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Button.o $< -MF $@
 
+.obj/Shape.ButtonState.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.ButtonState.o $< -MF $@
+
 .obj/Shape.Check.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Check.o $< -MF $@
 
@@ -5480,6 +5501,9 @@ include $(RULES_FILE)
 
 .obj/Shape.LineEdit.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.LineEdit.o $< -MF $@
+
+.obj/Shape.MoveButton.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.MoveButton.o $< -MF $@
 
 .obj/Shape.Progress.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Progress.o $< -MF $@
