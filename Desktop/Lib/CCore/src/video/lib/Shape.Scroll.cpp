@@ -48,6 +48,8 @@ ulen ScrollShape::delta(uCoord delta,uCoord len,uCoord dlen) const
  {
   if( page>=total ) return 0;
 
+  if( dlen>len/5 ) dlen=len/5;
+
   uCoord ext=2*dlen;
 
   if( len<=ext ) return 0;
@@ -86,7 +88,13 @@ ScrollType XScrollShape::getType(MPoint point) const
 
   MCoord h=p.dy;
 
-  if( !p || p.dx/5 < h || page>=total || !enable ) return ScrollType_None;
+  if( !p || page>=total || !enable ) return ScrollType_None;
+
+  if( p.dx/5 < h )
+    {
+     h=p.dx/5;
+     p.ey=p.y+h;
+    }
 
   MCoord y0=p.y;
   MCoord y1=p.ey;
@@ -130,11 +138,8 @@ void XScrollShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
   if( p.dx/5 < h )
     {
-     draw_param.erase(buf,pane,+cfg.gray);
-
-     art.block(pane.shrink(0,pane.dy/3),+cfg.face);
-
-     return;
+     h=p.dx/5;
+     p.ey=p.y+h;
     }
 
   draw_param.erase(buf,pane,+cfg.back);
@@ -372,7 +377,13 @@ ScrollType YScrollShape::getType(MPoint point) const
 
   MCoord h=p.dx;
 
-  if( !p || p.dy/5 < h || page>=total || !enable ) return ScrollType_None;
+  if( !p || page>=total || !enable ) return ScrollType_None;
+
+  if( p.dy/5 < h )
+    {
+     h=p.dy/5;
+     p.ex=p.x+h;
+    }
 
   MCoord x0=p.x;
   MCoord x1=p.ex;
@@ -416,11 +427,8 @@ void YScrollShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
   if( p.dy/5 < h )
     {
-     draw_param.erase(buf,pane,+cfg.gray);
-
-     art.block(pane.shrink(pane.dx/3,0),+cfg.face);
-
-     return;
+     h=p.dy/5;
+     p.ex=p.x+h;
     }
 
   draw_param.erase(buf,pane,+cfg.back);

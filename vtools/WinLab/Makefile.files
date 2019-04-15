@@ -5,6 +5,7 @@ OBJ_LIST = \
 .obj/FavFrame.o \
 .obj/FavList.o \
 .obj/LabWindow.o \
+.obj/Shape.AllButton.o \
 .obj/main.o \
 
 
@@ -15,6 +16,7 @@ ASM_LIST = \
 .obj/FavFrame.s \
 .obj/FavList.s \
 .obj/LabWindow.s \
+.obj/Shape.AllButton.s \
 .obj/main.s \
 
 
@@ -25,6 +27,7 @@ DEP_LIST = \
 .obj/FavFrame.dep \
 .obj/FavList.dep \
 .obj/LabWindow.dep \
+.obj/Shape.AllButton.dep \
 .obj/main.dep \
 
 
@@ -52,6 +55,9 @@ include $(RULES_FILE)
 .obj/LabWindow.o : src/./LabWindow.cpp
 	$(CC) $(CCOPT) $< -o $@
 
+.obj/Shape.AllButton.o : src/./Shape.AllButton.cpp
+	$(CC) $(CCOPT) $< -o $@
+
 .obj/main.o : src/./main.cpp
 	$(CC) $(CCOPT) $< -o $@
 
@@ -73,6 +79,9 @@ include $(RULES_FILE)
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/LabWindow.s : src/./LabWindow.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
+.obj/Shape.AllButton.s : src/./Shape.AllButton.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
 .obj/main.s : src/./main.cpp
@@ -97,6 +106,9 @@ include $(RULES_FILE)
 
 .obj/LabWindow.dep : src/./LabWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/LabWindow.o $< -MF $@
+
+.obj/Shape.AllButton.dep : src/./Shape.AllButton.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.AllButton.o $< -MF $@
 
 .obj/main.dep : src/./main.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/main.o $< -MF $@
