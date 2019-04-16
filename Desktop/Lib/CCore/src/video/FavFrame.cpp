@@ -390,6 +390,17 @@ FavWindow::FavWindow(SubWindowHost &host,const Config &cfg_,StrLen key_,StrLen f
                btn_section,edit,dline1,fav,scroll,text,dline2,btn_select,btn_close);
 
   knob_ins.disable();
+
+  knob_ins.bindHint(cfg.hint_Ins);
+  knob_up.bindHint(cfg.hint_MoveUp);
+  knob_down.bindHint(cfg.hint_MoveDown);
+
+  btn_openall.bindHint(cfg.hint_OpenAll);
+  btn_closeall.bindHint(cfg.hint_CloseAll);
+  knob_del.bindHint(cfg.hint_Del);
+
+  edit.bindHint(cfg.hint_SectionName);
+  text.bindHint(cfg.hint_Path);
  }
 
 FavWindow::~FavWindow()

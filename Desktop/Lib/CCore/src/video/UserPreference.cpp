@@ -382,6 +382,17 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("fav_text_select"_c,ptr->fav_text_select);
   func("fav_section_text"_c,ptr->fav_section_text);
   func("fav_section_back"_c,ptr->fav_section_back);
+
+  // FavWindow
+
+  func("hint_Ins"_c,ptr->hint_Ins);
+  func("hint_MoveUp"_c,ptr->hint_MoveUp);
+  func("hint_MoveDown"_c,ptr->hint_MoveDown);
+  func("hint_OpenAll"_c,ptr->hint_OpenAll);
+  func("hint_CloseAll"_c,ptr->hint_CloseAll);
+  func("hint_Del"_c,ptr->hint_Del);
+  func("hint_SectionName"_c,ptr->hint_SectionName);
+  func("hint_Path"_c,ptr->hint_Path);
  }
 
 void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
@@ -730,6 +741,17 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("text select"_str,fav_text_select);
    binder.item("section text"_str,fav_section_text);
    binder.item("section back"_str,fav_section_back);
+
+  binder.group("Fav window"_str);
+
+   binder.item("?'Insert current book'"_str,hint_Ins);
+   binder.item("?'Move selected item up'"_str,hint_MoveUp);
+   binder.item("?'Move selected item down'"_str,hint_MoveDown);
+   binder.item("?'Open all sections'"_str,hint_OpenAll);
+   binder.item("?'Close all sections'"_str,hint_CloseAll);
+   binder.item("?'Delete selected item'"_str,hint_Del);
+   binder.item("?'Enter a section name here'"_str,hint_SectionName);
+   binder.item("?'Path of the selected book'"_str,hint_Path);
  }
 
 void UserPreferenceBag::findFonts() // Update fonts here

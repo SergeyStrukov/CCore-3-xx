@@ -678,6 +678,15 @@ class FavWindow : public ComboWindow
      RefVal<String> text_Select  = "Select"_str ;
      RefVal<String> text_Close   = "Close"_str ;
 
+     RefVal<String> hint_Ins         = "Insert current book"_str ;
+     RefVal<String> hint_MoveUp      = "Move selected item up"_str ;
+     RefVal<String> hint_MoveDown    = "Move selected item down"_str ;
+     RefVal<String> hint_OpenAll     = "Open all sections"_str ;
+     RefVal<String> hint_CloseAll    = "Close all sections"_str ;
+     RefVal<String> hint_Del         = "Delete selected item"_str ;
+     RefVal<String> hint_SectionName = "Enter a section name here"_str ;
+     RefVal<String> hint_Path        = "Path of the selected book"_str ;
+
      Config() noexcept {}
 
      template <class Bag,class Proxy>
@@ -698,6 +707,15 @@ class FavWindow : public ComboWindow
        text_Section.bind(bag.text_Section);
        text_Select.bind(bag.text_Select);
        text_Close.bind(bag.text_Close);
+
+       hint_Ins.bind(bag.hint_Ins);
+       hint_MoveUp.bind(bag.hint_MoveUp);
+       hint_MoveDown.bind(bag.hint_MoveDown);
+       hint_OpenAll.bind(bag.hint_OpenAll);
+       hint_CloseAll.bind(bag.hint_CloseAll);
+       hint_Del.bind(bag.hint_Del);
+       hint_SectionName.bind(bag.hint_SectionName);
+       hint_Path.bind(bag.hint_Path);
       }
     };
 

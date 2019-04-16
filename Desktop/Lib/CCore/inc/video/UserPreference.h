@@ -405,6 +405,17 @@ struct UserPreferenceBag
   VColor fav_section_text = White ;
   VColor fav_section_back = Black ;
 
+  // FavWindow
+
+  String hint_Ins         = "Insert current book"_str ;
+  String hint_MoveUp      = "Move selected item up"_str ;
+  String hint_MoveDown    = "Move selected item down"_str ;
+  String hint_OpenAll     = "Open all sections"_str ;
+  String hint_CloseAll    = "Close all sections"_str ;
+  String hint_Del         = "Delete selected item"_str ;
+  String hint_SectionName = "Enter a section name here"_str ;
+  String hint_Path        = "Path of the selected book"_str ;
+
   // constructors
 
   UserPreferenceBag() noexcept {}
