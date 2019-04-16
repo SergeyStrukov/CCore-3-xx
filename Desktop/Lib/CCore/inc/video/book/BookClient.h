@@ -218,6 +218,12 @@ class ClientWindow : public ComboWindow
 
    // methods
 
+   template <class AppState>
+   void prepare(const AppState &app_state) { sub_win.prepare(app_state); }
+
+   template <class AppState>
+   void save(AppState &app_state) { sub_win.save(app_state); }
+
    Point getMinSize() const;
 
    // base

@@ -714,6 +714,12 @@ class BookWindow : public ComboWindow
 
    // methods
 
+   template <class AppState>
+   void prepare(const AppState &app_state) { fav_frame.prepare(app_state); }
+
+   template <class AppState>
+   void save(AppState &app_state) { fav_frame.save(app_state); }
+
    Point getMinSize() const;
 
    void blank();

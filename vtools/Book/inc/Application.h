@@ -38,6 +38,8 @@ struct AppState
  {
   Pane place;
 
+  FramePlace fav_place;
+
   // methods
 
   static StrLen File();
@@ -66,10 +68,6 @@ class ClientWindow : public Book::ClientWindow , public AliveControl
    ClientWindow(SubWindowHost &host,const Config &cfg,OptFileName opt,Signal<> &update);
 
    virtual ~ClientWindow();
-
-   // methods
-
-   void prepare(const AppState &app_state);
 
    // AliveControl
 

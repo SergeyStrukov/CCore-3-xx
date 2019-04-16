@@ -126,6 +126,13 @@ class FrameOf : public DragFrame
    W client;
    P place;
 
+  private:
+
+   void setPlace()
+    {
+     if( notMaximized() ) place.set(host->getPlace());
+    }
+
   public:
 
    template <class ... SS>
@@ -161,7 +168,7 @@ class FrameOf : public DragFrame
 
    void save(P &state)
     {
-     if( isAlive() ) place.set(host->getPlace());
+     if( isAlive() ) setPlace();
 
      state=place;
     }
@@ -172,7 +179,7 @@ class FrameOf : public DragFrame
     {
      DragFrame::dying();
 
-     place.set(host->getPlace());
+     setPlace();
     }
 
    // create

@@ -469,6 +469,11 @@ void FavWindow::close()
 
 /* class FavFrame */
 
+void FavFrame::setPlace()
+ {
+  if( notMaximized() ) place.set(host->getPlace());
+ }
+
 FavFrame::FavFrame(Desktop *desktop,const Config &cfg_,StrLen key,StrLen file)
  : DragFrame(desktop,cfg_.frame_cfg),
    cfg(cfg_),
@@ -487,6 +492,15 @@ FavFrame::~FavFrame()
  {
  }
 
+ // base
+
+void FavFrame::dying()
+ {
+  DragFrame::dying();
+
+  setPlace();
+ }
+
  // create
 
 Pane FavFrame::getPane(StrLen title,Point base) const
@@ -501,6 +515,8 @@ Pane FavFrame::getPane(StrLen title,Point base) const
 Pane FavFrame::getPane(StrLen title) const
  {
   Point size=getMinSize(false,title,sub_win.getMinSize());
+
+  if( place.ok ) return place.get(size);
 
   return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }

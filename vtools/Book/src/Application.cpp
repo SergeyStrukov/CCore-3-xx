@@ -37,6 +37,12 @@ StrLen AppState::Pretext()
 
 "type Coord = sint32 ;\r\n"
 "\r\n"
+"type Bool = uint8 ;\r\n"
+"\r\n"
+"Bool True = 1 ;\r\n"
+"\r\n"
+"Bool False = 0 ;\r\n"
+"\r\n"
 "struct Pane\r\n"
 " {\r\n"
 "  Coord x;\r\n"
@@ -45,9 +51,20 @@ StrLen AppState::Pretext()
 "  Coord dy;\r\n"
 " };\r\n"
 "\r\n"
+"struct Place\r\n"
+" {\r\n"
+"  Coord x;\r\n"
+"  Coord y;\r\n"
+"  Coord dx;\r\n"
+"  Coord dy;\r\n"
+"  \r\n"
+"  Bool ok = False ;\r\n"
+" };\r\n"
+" \r\n"
 "struct AppState\r\n"
 " {\r\n"
 "  Pane place;\r\n"
+"  Place fav_place;\r\n"
 " };"_c;
  }
 
@@ -96,6 +113,8 @@ bool AppState::load(StrLen file_name)
 
      place=Pane(p.x,p.y,p.dx,p.dy);
 
+     fav_place.set(data.fav_place);
+
      return true;
     }
 
@@ -110,7 +129,9 @@ void AppState::save(StrLen file_name) const
 
   Printf(out,"AppState Data=\n {\n\n");
 
-  Printf(out,"  { #; , #; , #; , #; }\n\n",place.x,place.y,place.dx,place.dy);
+  Printf(out,"  { #; , #; , #; , #; },\n\n",place.x,place.y,place.dx,place.dy);
+
+  Printf(out,"  #;\n\n",fav_place);
 
   Printf(out," };\n\n");
  }
@@ -155,13 +176,6 @@ ClientWindow::~ClientWindow()
  {
  }
 
- // methods
-
-void ClientWindow::prepare(const AppState &app_state)
- {
-  Used(app_state);
- }
-
  // AliveControl
 
 void ClientWindow::dying()
@@ -169,6 +183,8 @@ void ClientWindow::dying()
   AppState app_state;
 
   app_state.place=getFrameHost()->getPlace();
+
+  save(app_state);
 
   app_state.save();
  }

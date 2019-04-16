@@ -1,21 +1,8 @@
-/* AppState.TypeSet.gen.h */
-//----------------------------------------------------------------------------------------
-//
-//  Project: Book 1.00
-//
-//  License: Boost Software License - Version 1.0 - August 17th, 2003
-//
-//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
-//
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
-//
-//----------------------------------------------------------------------------------------
-
 /* struct TypeSet */
 
 struct TypeSet : TypeDefCore
  {
-  ulen indexes[2];
+  ulen indexes[3];
   DynArray<ulen> ind_map;
 
   DDL::FindNodeMap map;
@@ -25,7 +12,8 @@ struct TypeSet : TypeDefCore
    {
     Range(indexes).set(ulen(-1));
 
-    map.add(2,"AppState");
+    map.add(3,"AppState");
+    map.add(2,"Place");
     map.add(1,"Pane");
 
     map.complete();
@@ -37,6 +25,20 @@ struct TypeSet : TypeDefCore
 
     switch( map.find(struct_node) )
       {
+       case 3 :
+        {
+         indexes[2]=struct_node->index;
+         ind_map[struct_node->index]=3;
+
+         ret.set<S3>();
+
+         DDL::SetFieldOffsets(struct_node,
+                               "place",offsetof(S3,place),
+                               "fav_place",offsetof(S3,fav_place)
+                              );
+        }
+       return ret;
+
        case 2 :
         {
          indexes[1]=struct_node->index;
@@ -45,7 +47,11 @@ struct TypeSet : TypeDefCore
          ret.set<S2>();
 
          DDL::SetFieldOffsets(struct_node,
-                               "place",offsetof(S2,place)
+                               "x",offsetof(S2,x),
+                               "y",offsetof(S2,y),
+                               "dx",offsetof(S2,dx),
+                               "dy",offsetof(S2,dy),
+                               "ok",offsetof(S2,ok)
                               );
         }
        return ret;
@@ -79,10 +85,23 @@ struct TypeSet : TypeDefCore
    {
     switch( ind_map[struct_node->index] )
       {
+       case 3 :
+        {
+         DDL::GuardFieldTypes<
+                               S1,
+                               S2
+                              >(*this,struct_node);
+        }
+       break;
+
        case 2 :
         {
          DDL::GuardFieldTypes<
-                               S1
+                               A2,
+                               A2,
+                               A2,
+                               A2,
+                               A1
                               >(*this,struct_node);
         }
        break;
@@ -90,10 +109,10 @@ struct TypeSet : TypeDefCore
        case 1 :
         {
          DDL::GuardFieldTypes<
-                               A1,
-                               A1,
-                               A1,
-                               A1
+                               A2,
+                               A2,
+                               A2,
+                               A2
                               >(*this,struct_node);
         }
        break;
@@ -107,6 +126,12 @@ template <class T>
 struct TypeSet::IsStruct
  {
   static bool Do(const ulen *,ulen) { return false; }
+ };
+
+template <>
+struct TypeSet::IsStruct<TypeDefCore::S3>
+ {
+  static bool Do(const ulen *indexes,ulen index) { return index==indexes[2]; }
  };
 
 template <>

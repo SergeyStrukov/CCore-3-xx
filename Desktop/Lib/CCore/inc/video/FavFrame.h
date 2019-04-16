@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/FavList.h>
 #include <CCore/inc/video/WindowLib.h>
+#include <CCore/inc/video/FrameOf.h>
 
 namespace CCore {
 namespace Video {
@@ -855,6 +856,12 @@ class FavFrame : public DragFrame
 
    FavWindow sub_win;
 
+   FramePlace place;
+
+  private:
+
+   void setPlace();
+
   public:
 
    FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file); // persistent
@@ -865,6 +872,12 @@ class FavFrame : public DragFrame
 
    // methods
 
+   template <class AppState>
+   void prepare(const AppState &app_state) { place=app_state.fav_place; }
+
+   template <class AppState>
+   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.fav_place=place; }
+
    void setInsData(const String &title,const String &path)
     {
      sub_win.setInsData(title,path);
@@ -874,6 +887,10 @@ class FavFrame : public DragFrame
     {
      return sub_win.getSelectedPath();
     }
+
+   // base
+
+   virtual void dying();
 
    // create
 
