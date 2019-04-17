@@ -21,26 +21,14 @@
 #include <CCore/inc/video/Font.h>
 #include <CCore/inc/video/RefVal.h>
 
+#include <CCore/inc/video/lib/Shape.CheckState.h>
+
 namespace CCore {
 namespace Video {
 
 /* classes */
 
-struct CheckState;
-
 class CheckShape;
-
-/* struct CheckState */
-
-struct CheckState
- {
-  bool enable =  true ;
-  bool focus  = false ;
-  bool mover  = false ;
-  bool check  = false ;
-
-  CheckState() {}
- };
 
 /* class CheckShape */
 

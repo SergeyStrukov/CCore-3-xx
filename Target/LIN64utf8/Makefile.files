@@ -353,6 +353,7 @@ OBJ_LIST = \
 .obj/Shape.Button.o \
 .obj/Shape.ButtonState.o \
 .obj/Shape.Check.o \
+.obj/Shape.CheckState.o \
 .obj/Shape.Contour.o \
 .obj/Shape.DragFrame.o \
 .obj/Shape.FixedFrame.o \
@@ -847,6 +848,7 @@ ASM_LIST = \
 .obj/Shape.Button.s \
 .obj/Shape.ButtonState.s \
 .obj/Shape.Check.s \
+.obj/Shape.CheckState.s \
 .obj/Shape.Contour.s \
 .obj/Shape.DragFrame.s \
 .obj/Shape.FixedFrame.s \
@@ -1341,6 +1343,7 @@ DEP_LIST = \
 .obj/Shape.Button.dep \
 .obj/Shape.ButtonState.dep \
 .obj/Shape.Check.dep \
+.obj/Shape.CheckState.dep \
 .obj/Shape.Contour.dep \
 .obj/Shape.DragFrame.dep \
 .obj/Shape.FixedFrame.dep \
@@ -2553,6 +2556,9 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.Check.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
+	$(CC) $(CCOPT) $< -o $@
+
+.obj/Shape.CheckState.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.CheckState.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/Shape.Contour.o : ../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp
@@ -4030,6 +4036,9 @@ include $(RULES_FILE)
 .obj/Shape.Check.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
+.obj/Shape.CheckState.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.CheckState.cpp
+	$(CC) -S $(CCOPT) $< -o $@
+
 .obj/Shape.Contour.s : ../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -5504,6 +5513,9 @@ include $(RULES_FILE)
 
 .obj/Shape.Check.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Check.o $< -MF $@
+
+.obj/Shape.CheckState.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.CheckState.cpp
+	$(CC) $(CCOPT) -MM -MT .obj/Shape.CheckState.o $< -MF $@
 
 .obj/Shape.Contour.dep : ../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/Shape.Contour.o $< -MF $@

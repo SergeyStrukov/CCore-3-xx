@@ -16,7 +16,12 @@
 #ifndef CCore_inc_video_lib_Shape_Switch_h
 #define CCore_inc_video_lib_Shape_Switch_h
 
-#include <CCore/inc/video/lib/Shape.Check.h>
+#include <CCore/inc/video/MinSizeType.h>
+#include <CCore/inc/video/Color.h>
+#include <CCore/inc/video/Font.h>
+#include <CCore/inc/video/RefVal.h>
+
+#include <CCore/inc/video/lib/Shape.CheckState.h>
 
 namespace CCore {
 namespace Video {

@@ -115,7 +115,8 @@ Dir Dir6=
     { "Window.Button.h" , Yellow },
     { "Shape.ButtonState.h" , Green },
     { "Shape.Check.h" , Yellow },
-    { "Window.Check.h" , Yellow },
+    { "Window.Check.h" , Green },
+    { "Shape.CheckState.h" , Green },
     { "Shape.Contour.h" , Yellow },
     { "Window.Decor.h" , Yellow },
     { "Shape.DragFrame.h" , Yellow },
@@ -188,7 +189,7 @@ Dir Dir4=
     &Dir10
    },
    {
-    { "BindBagProxy.cpp" , New },
+    { "BindBagProxy.cpp" , Ignore },
     { "BookFrame.cpp" , New },
     { "ConfigBinder.cpp" , New },
     { "ConfigEditor.cpp" , New },
@@ -258,6 +259,7 @@ Dir Dir9=
     { "Shape.ButtonState.cpp" , Ignore },
     { "Shape.Check.cpp" , Yellow },
     { "Window.Check.cpp" , Ignore },
+    { "Shape.CheckState.cpp" , Green },
     { "Shape.Contour.cpp" , Yellow },
     { "Window.Decor.cpp" , Ignore },
     { "Shape.DragFrame.cpp" , Red },
