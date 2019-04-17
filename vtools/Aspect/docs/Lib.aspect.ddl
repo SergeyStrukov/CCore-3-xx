@@ -290,7 +290,7 @@ Dir Dir9=
     { "Shape.ShiftSwitch.cpp" , Green },
     { "Shape.SimpleTextList.cpp" , Red },
     { "Window.SimpleTextList.cpp" , Ignore },
-    { "Shape.Slider.cpp" , Yellow },
+    { "Shape.Slider.cpp" , Green },
     { "Window.Slider.cpp" , Ignore },
     { "Shape.Spinor.cpp" , Red },
     { "Window.Spinor.cpp" , Ignore },
