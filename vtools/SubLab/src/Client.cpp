@@ -243,6 +243,10 @@ class ClientWindow::TypeInfo::Base : public ComboInfoBase
      add("Button"_str);
 
        add("Button"_str,CreateCombo<ButtonWindow_Button>);
+       add("MoveButton Back"_str,Create_param<MoveButtonWindow,MoveButtonShape::BackDir>);
+       add("MoveButton Fore"_str,Create_param<MoveButtonWindow,MoveButtonShape::ForeDir>);
+       add("AllButton Plus"_str,Create_param<AllButtonWindow,AllButtonShape::AllPlus>);
+       add("AllButton Minus"_str,Create_param<AllButtonWindow,AllButtonShape::AllMinus>);
        add("Knob"_str,Create<KnobWindow_Asterisk>);
        add("Knob auto"_str,Create<KnobWindow_auto>);
        add("FireButton"_str,CreateCombo<FireButtonWindow_Sample>);

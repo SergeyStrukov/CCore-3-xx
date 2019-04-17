@@ -30,6 +30,12 @@ static SubWindow * Create(SubWindowHost &host,const UserPreference &pref)
   return new W(host,pref.getSmartConfig());
  }
 
+template <class W,auto P1>
+static SubWindow * Create_param(SubWindowHost &host,const UserPreference &pref)
+ {
+  return new W(host,pref.getSmartConfig(),P1);
+ }
+
 template <class W>
 static SubWindow * Create_def(SubWindowHost &host,const UserPreference &)
  {
