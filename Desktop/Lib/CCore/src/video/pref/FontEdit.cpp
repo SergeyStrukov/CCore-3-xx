@@ -536,23 +536,23 @@ void FontEditWindow::setConfig()
   switch( font.param.cfg.fht )
     {
      default:
-     case FontHintNone : radio_no_hint.check(); break;
+     case FontHintNone : radio_no_hint.checkOn(); break;
 
-     case FontHintNative : radio_native_hint.check(); break;
+     case FontHintNative : radio_native_hint.checkOn(); break;
 
-     case FontHintAuto : radio_auto_hint.check(); break;
+     case FontHintAuto : radio_auto_hint.checkOn(); break;
     }
 
   switch( font.param.cfg.fsm )
     {
      default:
-     case FontSmoothNone : radio_no_smooth.check(); break;
+     case FontSmoothNone : radio_no_smooth.checkOn(); break;
 
-     case FontSmooth : radio_smooth.check(); break;
+     case FontSmooth : radio_smooth.checkOn(); break;
 
-     case FontSmoothLCD_RGB : radio_RGB.check(); break;
+     case FontSmoothLCD_RGB : radio_RGB.checkOn(); break;
 
-     case FontSmoothLCD_BGR : radio_BGR.check(); break;
+     case FontSmoothLCD_BGR : radio_BGR.checkOn(); break;
     }
 
   check_kerning.check(font.param.cfg.use_kerning);

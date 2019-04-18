@@ -65,7 +65,7 @@ void AllButtonShape::draw(const DrawBuf &buf,DrawParam) const
   // face
 
   {
-   VColor pict = enable? +cfg.face : gray ;
+   VColor face = enable? +cfg.face : gray ;
 
    Coord dy=RoundUpLen(width);
 
@@ -76,28 +76,28 @@ void AllButtonShape::draw(const DrawBuf &buf,DrawParam) const
    MCoord s=H/10;
    MCoord radius=H/2-2*s;
 
-   MCoord y1=p.y+H/2+shift;
+   MCoord y0=p.y+H/2+shift;
 
    MCoord x0=p.x+Div(6,10)*H+shift;
    MCoord x1=x0+Div(2,3)*H;
 
-   FigureAsterisk fig1({x0,y1},radius);
+   FigureAsterisk fig1({x0,y0},radius);
 
-   fig1.curveSolid(art,pict);
+   fig1.curveSolid(art,face);
 
-   MPoint center(x1,y1);
+   MPoint center(x1,y0);
 
    MCoord a=Div(4,5)*radius;
    MCoord w=Div(2,5)*radius;
 
-   if( face==AllPlus )
+   if( this->face==AllPlus )
      {
-      art.path(w,pict,center.subX(a),center.addX(a));
-      art.path(w,pict,center.subY(a),center.addY(a));
+      art.path(w,face,center.subX(a),center.addX(a));
+      art.path(w,face,center.subY(a),center.addY(a));
      }
    else
      {
-      art.path(w,pict,center.subX(a),center.addX(a));
+      art.path(w,face,center.subX(a),center.addX(a));
      }
   }
 

@@ -194,7 +194,7 @@ class RadioWindowOf : public SubWindow , public RadioItem
 
    bool isChecked() const { return shape.check; }
 
-   void check() { select(false); }
+   void checkOn() { select(false); }
 
    // drawing
 

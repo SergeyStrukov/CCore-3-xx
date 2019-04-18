@@ -237,7 +237,7 @@ void InsWindow::enablePlace(bool all,bool inside,bool extern_flag)
 
      if( !inside && rad_inside.isChecked() )
        {
-        rad_after.check();
+        rad_after.checkOn();
        }
     }
   else

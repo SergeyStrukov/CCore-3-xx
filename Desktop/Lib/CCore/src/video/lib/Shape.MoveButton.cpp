@@ -65,7 +65,7 @@ void MoveButtonShape::draw(const DrawBuf &buf,DrawParam) const
   // face
 
   {
-   VColor pict = enable? +cfg.face : gray ;
+   VColor face = enable? +cfg.face : gray ;
 
    Coord dy=RoundUpLen(width);
 
@@ -80,7 +80,7 @@ void MoveButtonShape::draw(const DrawBuf &buf,DrawParam) const
    MCoord y1=p.y+H/2+shift;
    MCoord y2=p.ey-s+shift;
 
-   if( face==BackDir )
+   if( this->face==BackDir )
      {
       MCoord x0=p.x+H/4+shift;
       MCoord x1=x0+(H-2*s);
@@ -88,9 +88,9 @@ void MoveButtonShape::draw(const DrawBuf &buf,DrawParam) const
 
       FigureLeftArrow fig1(x0,x1,y0,y2);
 
-      fig1.curveSolid(art,pict);
+      fig1.curveSolid(art,face);
 
-      art.ball(MPoint(x2,y1),radius,pict);
+      art.ball(MPoint(x2,y1),radius,face);
      }
    else
      {
@@ -100,9 +100,9 @@ void MoveButtonShape::draw(const DrawBuf &buf,DrawParam) const
 
       FigureRightArrow fig1(x1,x0,y0,y2);
 
-      fig1.curveSolid(art,pict);
+      fig1.curveSolid(art,face);
 
-      art.ball(MPoint(x2,y1),radius,pict);
+      art.ball(MPoint(x2,y1),radius,face);
      }
   }
 

@@ -550,11 +550,11 @@ void FieldAlign::setValue(BookLab::Align val)
  {
   switch( val )
     {
-     case BookLab::Left : rad_left.check(); break;
+     case BookLab::Left : rad_left.checkOn(); break;
 
-     case BookLab::Right : rad_right.check(); break;
+     case BookLab::Right : rad_right.checkOn(); break;
 
-     case BookLab::Center : rad_center.check(); break;
+     case BookLab::Center : rad_center.checkOn(); break;
     }
  }
 
@@ -646,11 +646,11 @@ void FieldEffect::setValue(BookLab::Effect val)
  {
   switch( val )
     {
-     case BookLab::NoEffect : rad_none.check(); break;
+     case BookLab::NoEffect : rad_none.checkOn(); break;
 
-     case BookLab::Underline : rad_under.check(); break;
+     case BookLab::Underline : rad_under.checkOn(); break;
 
-     case BookLab::Strikeout : rad_strike.check(); break;
+     case BookLab::Strikeout : rad_strike.checkOn(); break;
     }
  }
 
@@ -1009,13 +1009,13 @@ class FieldNamed::Variant : public Base
            ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
 
            if( ind )
-             list[ind-1]->rad_type.check();
+             list[ind-1]->rad_type.checkOn();
            else
-             rad_edit.check();
+             rad_edit.checkOn();
           }
         else
           {
-           rad_edit.check();
+           rad_edit.checkOn();
           }
        }
     }
@@ -1291,7 +1291,7 @@ class FieldUnnamed::Variant : public Base
            ptr.apply( [&] <class T> (T *ptr) { if( ptr ) ind=Meta::IndexOf<T,TT...>; } );
 
            if( ind )
-             list[ind-1]->rad_type.check();
+             list[ind-1]->rad_type.checkOn();
           }
        }
     }

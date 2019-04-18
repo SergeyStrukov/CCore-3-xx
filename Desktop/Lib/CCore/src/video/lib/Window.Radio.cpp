@@ -80,9 +80,9 @@ void RadioGroup::add(RadioItem *item)
 
   item->group=this;
 
-  item->check(flag);
-
   if( flag ) cur=item;
+
+  item->check(flag);
  }
 
 void RadioGroup::del(RadioItem *item)
