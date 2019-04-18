@@ -50,9 +50,9 @@ struct ProgressState
 
   ProgressState() {}
 
-  void adjustPos()
+  bool setPos(unsigned pos_)
    {
-    Replace_min(pos,total);
+    return Change(pos,Min(total,pos_));
    }
 
   void resetTime(unsigned time_)

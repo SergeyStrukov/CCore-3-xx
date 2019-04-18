@@ -106,7 +106,7 @@ void SpinorShape::draw(const DrawBuf &buf,DrawParam) const
 
    VColor text = enable? +cfg.text : gray ;
 
-   cfg.font->text(buf,inner,TextPlace(AlignX_Center,AlignY_Center),out.close(),text);
+   cfg.font->textOn(art,inner,TextPlace(AlignX_Center,AlignY_Center),out.close(),text);
   }
 
   // buttons

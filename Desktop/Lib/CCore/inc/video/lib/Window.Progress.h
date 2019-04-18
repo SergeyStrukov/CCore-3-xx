@@ -91,20 +91,16 @@ class ProgressWindowOf : public SubWindow
 
    void setPos(unsigned pos)
     {
-     if( Change(shape.pos,pos) )
+     if( shape.setPos(pos) )
        {
-        shape.adjustPos();
-
         redraw();
        }
     }
 
    void setPosPing(unsigned pos)
     {
-     if( Change(shape.pos,pos) )
+     if( shape.setPos(pos) )
        {
-        shape.adjustPos();
-
         shape.resetTime();
 
         if( shape.startActive() ) defer_tick.start();
