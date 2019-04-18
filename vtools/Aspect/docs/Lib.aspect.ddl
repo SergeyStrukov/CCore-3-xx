@@ -137,8 +137,8 @@ Dir Dir6=
     { "Window.Progress.h" , Green },
     { "Shape.Radio.h" , Green },
     { "Window.Radio.h" , Green },
-    { "Shape.RunButton.h" , Yellow },
-    { "Window.RunButton.h" , Yellow },
+    { "Shape.RunButton.h" , Green },
+    { "Window.RunButton.h" , Green },
     { "Shape.Scroll.h" , Yellow },
     { "Window.Scroll.h" , Yellow },
     { "Shape.ScrollList.h" , Yellow },
@@ -156,8 +156,8 @@ Dir Dir6=
     { "Shape.Switch.h" , Green },
     { "Shape.Text.h" , Green },
     { "Window.Text.h" , Green },
-    { "Shape.TextLine.h" , Yellow },
-    { "Window.TextLine.h" , Yellow }
+    { "Shape.TextLine.h" , Green },
+    { "Window.TextLine.h" , Green }
    }
   };
 
@@ -280,7 +280,7 @@ Dir Dir9=
     { "Window.Progress.cpp" , Ignore },
     { "Shape.Radio.cpp" , Green },
     { "Window.Radio.cpp" , Green },
-    { "Shape.RunButton.cpp" , Yellow },
+    { "Shape.RunButton.cpp" , Green },
     { "Window.RunButton.cpp" , Ignore },
     { "Shape.Scroll.cpp" , Red },
     { "Window.Scroll.cpp" , Ignore },
@@ -299,7 +299,7 @@ Dir Dir9=
     { "Shape.Switch.cpp" , Green },
     { "Shape.Text.cpp" , Green },
     { "Window.Text.cpp" , Ignore },
-    { "Shape.TextLine.cpp" , Red },
+    { "Shape.TextLine.cpp" , Green },
     { "Window.TextLine.cpp" , Ignore }
    }
   };

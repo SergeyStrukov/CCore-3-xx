@@ -129,7 +129,7 @@ void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
 
    Coord pos_x=cache.font_dx0-xoff;
 
-   font->text(buf,inner,TextPlace(pos_x,AlignY_Center),Range(this->text), enable? text : +cfg.inactive );
+   font->textOn(art,inner,TextPlace(pos_x,AlignY_Center),Range(this->text), enable? text : +cfg.inactive );
   }
 
   // border
