@@ -213,11 +213,11 @@ class ScrollableWindow : public ComboWindow
      return window.getMinSize(arg)+delta;
     }
 
-   // doc
+   // dock
 
-   bool getDockX() const { return dockX; }
+   DockXBar getDockX() const { return dockX; }
 
-   bool getDockY() const { return dockY; }
+   DockYBar getDockY() const { return dockY; }
 
    void setDockX(DockXBar val,bool update=true)
     {
