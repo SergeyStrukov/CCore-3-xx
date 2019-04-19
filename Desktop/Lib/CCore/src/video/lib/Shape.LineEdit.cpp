@@ -83,7 +83,7 @@ void LineEditShape::layout()
 
      Coord tx=ts.full_dx+extra;
 
-     xoff_max=PlusSub(+tx,inner.dx);
+     xoff_max=PlusSub(tx,inner.dx);
     }
   else
     {

@@ -107,13 +107,13 @@ ulen SimpleTextListShape::getPosition(Point point) const
   return yoff+ulen( (point.y-inner.y)/fs.dy );
  }
 
-void SimpleTextListShape::draw(const DrawBuf &buf,DrawParam) const
+void SimpleTextListShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   if( !pane ) return;
 
-  SmoothDrawArt art(buf.cut(pane));
+  draw_param.erase(buf,pane,+cfg.back);
 
-  art.block(pane,+cfg.back);
+  SmoothDrawArt art(buf.cut(pane));
 
   VColor text = enable? +cfg.text : +cfg.inactive ;
 
