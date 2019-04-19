@@ -109,7 +109,7 @@ Point ScrollListShape::getMinSize(unsigned lines) const
 
   Coord dx=font->text(SampleLine()).full_dx;
 
-  return 2*space+Point(dx,CountToCoord(lines)*fs.dy);
+  return 2*space+Point(dx,MulSize(lines,fs.dy));
  }
 
 void ScrollListShape::layout()
@@ -238,13 +238,13 @@ ulen ScrollListShape::getPosition(Point point) const
   return yoff+ulen((point.y-inner.y)/fs.dy);
  }
 
-void ScrollListShape::draw(const DrawBuf &buf,DrawParam) const
+void ScrollListShape::draw(const DrawBuf &buf,DrawParam draw_param) const
  {
   if( !pane ) return;
 
-  SmoothDrawArt art(buf.cut(pane));
+  draw_param.erase(buf,pane,+cfg.back);
 
-  art.block(pane,+cfg.back);
+  SmoothDrawArt art(buf.cut(pane));
 
   VColor text = enable? +cfg.text : +cfg.inactive ;
   VColor title = enable? +cfg.title : +cfg.inactive ;
