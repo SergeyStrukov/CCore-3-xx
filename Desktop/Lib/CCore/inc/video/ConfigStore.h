@@ -98,7 +98,7 @@ class ConfigItem : NoCopy
 
      void print(VColor obj)
       {
-       Printf(out,"#8.hi;",obj);
+       Printf(out,"#8.hi;",uint32(obj)&0xFFFFFFu);
       }
 
      void print(Point obj)
