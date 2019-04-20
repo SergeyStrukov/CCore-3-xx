@@ -57,6 +57,8 @@ struct InfoState
 
 class InfoShape : public InfoState
  {
+   static StrLen SampleLine();
+
   public:
 
    struct Config

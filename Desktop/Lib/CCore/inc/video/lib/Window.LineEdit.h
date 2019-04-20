@@ -40,7 +40,7 @@ void RotateCharRange(Char *base,ulen total,ulen pos,ulen len);
 
 template <class Shape> class LineEditWindowOf;
 
-template <class T> class CacheText;
+template <class T> class CacheLineEditText;
 
 /* class LineEditWindowOf<Shape> */
 
@@ -438,15 +438,7 @@ class LineEditWindowOf : public SubWindow
    static constexpr ulen DefBufLen = 1_KByte ;
 
    template <class ... TT>
-   LineEditWindowOf(SubWindowHost &host,TT && ... tt)
-    : SubWindow(host),
-      storage(DefBufLen),
-      shape(Range(storage), std::forward<TT>(tt)... ),
-      connector_updated(&shape,&Shape::update,host.getUpdated()),
-      input(this)
-    {
-     defer_tick=input.create(&LineEditWindowOf<Shape>::tick);
-    }
+   LineEditWindowOf(SubWindowHost &host,TT && ... tt) : LineEditWindowOf(host,DefBufLen, std::forward<TT>(tt)... ) {}
 
    template <class ... TT>
    LineEditWindowOf(SubWindowHost &host,ulen buf_len,TT && ... tt)
@@ -1011,12 +1003,12 @@ class LineEditWindowOf : public SubWindow
 
 using LineEditWindow = LineEditWindowOf<LineEditShape> ;
 
-/* class CacheText<T> */
+/* class CacheLineEditText<T> */
 
 #ifdef CCORE_UTF8
 
 template <class T>
-class CacheText : NoCopy
+class CacheLineEditText : NoCopy
  {
    T &obj;
    mutable String str;
@@ -1031,15 +1023,15 @@ class CacheText : NoCopy
      changed.assert();
     }
 
-   SignalConnector<CacheText> connector_changed;
-   SignalConnector<CacheText> connector_assigned;
+   SignalConnector<CacheLineEditText> connector_changed;
+   SignalConnector<CacheLineEditText> connector_assigned;
 
   public:
 
-   explicit CacheText(T &obj_)
+   explicit CacheLineEditText(T &obj_)
     : obj(obj_),
-      connector_changed(this,&CacheText::clear,obj.changed),
-      connector_assigned(this,&CacheText::invalidate,obj.assigned)
+      connector_changed(this,&CacheLineEditText::clear,obj.changed),
+      connector_assigned(this,&CacheLineEditText::invalidate,obj.assigned)
     {
     }
 
@@ -1063,13 +1055,13 @@ class CacheText : NoCopy
 #else
 
 template <class T>
-class CacheText : NoCopy
+class CacheLineEditText : NoCopy
  {
    T &obj;
 
   public:
 
-   explicit CacheText(T &obj_) : obj(obj_),changed(obj.changed) {}
+   explicit CacheLineEditText(T &obj_) : obj(obj_),changed(obj.changed) {}
 
    void invalidate() {}
 

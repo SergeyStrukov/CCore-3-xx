@@ -190,7 +190,7 @@ class FileFilterWindow : public ComboWindow
    LineEditWindow edit;
    KnobWindow knob;
 
-   CacheText<LineEditWindow> cache;
+   CacheLineEditText<LineEditWindow> cache;
 
    mutable FileNameFilter filter;
 
@@ -515,8 +515,8 @@ class FileWindow : public ComboWindow
    RefLabelWindow label_new_file;
    LineEditWindow edit_new_file;
 
-   CacheText<DirEditWindow> cache_dir;
-   CacheText<LineEditWindow> cache_new_file;
+   CacheLineEditText<DirEditWindow> cache_dir;
+   CacheLineEditText<LineEditWindow> cache_new_file;
 
    ExceptionBuf exbuf;
 

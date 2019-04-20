@@ -363,7 +363,7 @@ class FontReplaceWindow : public ComboWindow
    RefButtonWindow btn_save;
    RefButtonWindow btn_apply;
 
-   CacheText<LineEditWindow> cache_face;
+   CacheLineEditText<LineEditWindow> cache_face;
 
    FontSelectFrame select_frame;
 

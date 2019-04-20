@@ -42,7 +42,7 @@ void ScrollListShape::Cache::operator () (const Config &cfg,const ComboInfo &inf
 
 StrLen ScrollListShape::SampleLine()
  {
-  return "Sample line 12345"_c;
+  return "Sample line 1234567890"_c;
  }
 
 Coord ScrollListShape::GetLineDX(const Font &font,ComboInfoItem item,Coord title_off)

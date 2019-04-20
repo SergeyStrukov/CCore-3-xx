@@ -83,6 +83,8 @@ class LineEditShape : public LineEditState
  {
    static MCoord FigEX(Coord fdy,MCoord width,Coord ex);
 
+   static StrLen SampleLine();
+
    Point getMinSize(TextSize ts) const;
 
   public:

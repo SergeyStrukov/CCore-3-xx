@@ -41,6 +41,11 @@ void InfoShape::Cache::operator () (const Config &cfg,const Info &info)
     }
  }
 
+StrLen InfoShape::SampleLine()
+ {
+  return "This is a long sample line 1234567890."_c;
+ }
+
 Point InfoShape::getMinSize(Point cap) const
  {
   const Font &font=cfg.font.get();
@@ -56,7 +61,7 @@ Point InfoShape::getMinSize(unsigned lines) const
 
   Point space=+cfg.space;
 
-  Point size=font->text("This is a long test line 1234567890."_c).getSize();
+  Point size=font->text(SampleLine()).getSize();
 
   size.y=MulSize(lines,size.y);
 

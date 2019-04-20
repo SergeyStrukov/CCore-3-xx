@@ -131,7 +131,7 @@ class DirWindow : public ComboWindow
    MenuData hit_data;
    SimpleCascadeMenu hit_menu;
 
-   CacheText<DirEditWindow> cache_dir;
+   CacheLineEditText<DirEditWindow> cache_dir;
 
    ExceptionBuf exbuf;
 

@@ -27,6 +27,11 @@ MCoord LineEditShape::FigEX(Coord fdy,MCoord width,Coord ex)
   return Max_cast(width, (Fraction(fdy)+2*width)/4+Fraction(ex) );
  }
 
+StrLen LineEditShape::SampleLine()
+ {
+  return "Sample line 1234567890"_c;
+ }
+
 Point LineEditShape::getMinSize(TextSize ts) const
  {
   MCoord width=+cfg.width;
@@ -43,7 +48,7 @@ Point LineEditShape::getMinSize(TextSize ts) const
 
 Point LineEditShape::getMinSize() const
  {
-  return getMinSize("Sample 1234567890"_c);
+  return getMinSize(SampleLine());
  }
 
 Point LineEditShape::getMinSize(StrLen sample_text) const
