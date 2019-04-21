@@ -397,18 +397,18 @@ int AppMainOf(CmdDisplay cmd_display,int argc,const char *argv[])
     {
      TaskMemStack tms(64_KByte);
 
-     Param param;
-     WindowReport report(param);
+     StackObject<Param> param;
+     WindowReport report(*param);
 
      SetAppIcon(AppProp::Icon());
 
-     param.sync();
+     param->sync();
 
      using Opt = typename AppProp::Opt ;
 
-     Application app(report,param,cmd_display,Opt(argc,argv));
+     StackObject<Application> app(report,*param,cmd_display,Opt(argc,argv));
 
-     return app.run();
+     return app->run();
     }
   catch(CatchType)
     {

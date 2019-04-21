@@ -15,8 +15,6 @@
 
 #include <CCore/test/test.h>
 
-#include <CCore/inc/ProcessUtils.h>
-
 namespace App {
 
 namespace Private_2999 {
@@ -34,12 +32,6 @@ const char *const Testit<2999>::Name="Test2999 Blank";
 template<>
 bool Testit<2999>::Main()
  {
-  UnixRootDir root;
-  UnixHomeDir home;
-
-  Printf(Con,"root = #;\n",root.get());
-  Printf(Con,"home = #;\n",home.get());
-
   return true;
  }
 
