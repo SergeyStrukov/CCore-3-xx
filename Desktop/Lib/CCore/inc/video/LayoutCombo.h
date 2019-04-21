@@ -18,6 +18,7 @@
 
 #include <CCore/inc/video/Layout.h>
 
+#include <CCore/inc/OwnPtr.h>
 #include <CCore/inc/Tuple.h>
 
 namespace CCore {
@@ -75,6 +76,8 @@ Coord GetLaySpace(const L &lay,Coord space)
  }
 
 /* classes */
+
+template <class W,class Ptr> struct WindowPtrRange;
 
 template <class ... LL> class LaySet;
 
@@ -177,6 +180,40 @@ template <class W,class L> class LayInnerSpace;
 template <class W> class LaySize;
 
 template <class ... WW> class LayMax;
+
+/* struct WindowPtrRange<W,Ptr> */
+
+template <class W,class Ptr>
+struct WindowPtrRange : PtrLen<Ptr>
+ {
+  explicit WindowPtrRange(PtrLen<Ptr> r) : PtrLen<Ptr>(r) {}
+
+  WindowPtrRange(Ptr *ptr,ulen len) : PtrLen<Ptr>(ptr,len) {}
+
+  ulen getLen() const { return this->len; }
+
+  struct AdapterType
+   {
+    W *ptr;
+
+    AdapterType(Ptr &obj) : ptr(obj.getPtr()) {}
+
+    Point getMinSize(Coord) const
+     {
+      return ptr->getMinSize();
+     }
+
+    void setPlace(Pane pane,Coord) const
+     {
+      ptr->setPlace(pane);
+     }
+   };
+ };
+
+/* type WindowOwnPtrRange<W> */
+
+template <class W>
+using WindowOwnPtrRange = WindowPtrRange<W, const OwnPtr<W> > ;
 
 /* class LaySet<LL> */
 

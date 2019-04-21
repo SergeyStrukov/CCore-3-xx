@@ -45,28 +45,9 @@ MessageWindow::Btn::~Btn()
 
 /* class MessageWindow */
 
-struct MessageWindow::BtnRange : PtrLen<const OwnPtr<Btn> >
+struct MessageWindow::BtnRange : WindowOwnPtrRange<Btn>
  {
-  BtnRange(const OwnPtr<Btn> *ptr,ulen len) : PtrLen<const OwnPtr<Btn> >(ptr,len) {}
-
-  ulen getLen() const { return len; }
-
-  struct AdapterType
-   {
-    Btn *ptr;
-
-    AdapterType(const OwnPtr<Btn> &r) : ptr(r.getPtr()) {}
-
-    Point getMinSize(Coord) const
-     {
-      return ptr->getMinSize();
-     }
-
-    void setPlace(Pane pane,Coord) const
-     {
-      ptr->setPlace(pane);
-     }
-   };
+  using WindowOwnPtrRange<Btn>::WindowOwnPtrRange;
  };
 
 void MessageWindow::knob_pressed()
@@ -222,7 +203,7 @@ Pane MessageFrame::getPane(bool is_main,StrLen title) const
  {
   Point screen_size=getScreenSize();
 
-  Point cap=Div(9,10)*screen_size-getDeltaSize();
+  Point cap=getCap(Div(9,10)*screen_size);
 
   Point size=getMinSize(is_main,title,client.getMinSize(cap));
 

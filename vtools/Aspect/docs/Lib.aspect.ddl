@@ -5,7 +5,7 @@ Aspect Data=
   "../../../Desktop/Lib",
   {
    "",
-   New,
+   Red,
    {
     &Dir0
    },
@@ -17,7 +17,7 @@ Aspect Data=
 Dir Dir0=
   {
    "CCore",
-   New,
+   Red,
    {
     &Dir1,
     &Dir2
@@ -29,7 +29,7 @@ Dir Dir0=
 Dir Dir1=
   {
    "inc",
-   New,
+   Red,
    {
     &Dir3
    },
@@ -40,7 +40,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "src",
-   New,
+   Red,
    {
     &Dir4
    },
@@ -51,7 +51,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "video",
-   New,
+   Red,
    {
     &Dir5,
     &Dir6,
@@ -87,7 +87,7 @@ Dir Dir3=
 Dir Dir5=
   {
    "book",
-   New,
+   Red,
    {
    },
    {
@@ -105,7 +105,7 @@ Dir Dir5=
 Dir Dir6=
   {
    "lib",
-   Red,
+   Yellow,
    {
    },
    {
@@ -164,7 +164,7 @@ Dir Dir6=
 Dir Dir7=
   {
    "pref",
-   New,
+   Red,
    {
    },
    {
@@ -182,7 +182,7 @@ Dir Dir7=
 Dir Dir4=
   {
    "video",
-   New,
+   Red,
    {
     &Dir8,
     &Dir9,
@@ -202,7 +202,7 @@ Dir Dir4=
     { "FileFrame.cpp" , New },
     { "FontReplace.cpp" , New },
     { "FrameBase.cpp" , New },
-    { "FrameOf.cpp" , New },
+    { "FrameOf.cpp" , Green },
     { "Layout.cpp" , Red },
     { "LayoutCombo.cpp" , Red },
     { "Menu.cpp" , Red },
@@ -228,7 +228,7 @@ Dir Dir4=
 Dir Dir8=
   {
    "book",
-   New,
+   Red,
    {
    },
    {
@@ -248,7 +248,7 @@ Dir Dir8=
 Dir Dir9=
   {
    "lib",
-   New,
+   Yellow,
    {
    },
    {
@@ -307,7 +307,7 @@ Dir Dir9=
 Dir Dir10=
   {
    "pref",
-   New,
+   Red,
    {
    },
    {

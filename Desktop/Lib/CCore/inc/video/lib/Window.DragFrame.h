@@ -594,6 +594,8 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
    Point getDeltaSize() const { return shape.getDeltaSize(); }
 
+   Point getCap(Point cap) const { return shape.getCap(cap); }
+
    Point getMinSize(bool is_main,StrLen title,Point size) const { return shape.getMinSize(is_main,title,size); }
 
    void bindClient(SubWindow &client_)

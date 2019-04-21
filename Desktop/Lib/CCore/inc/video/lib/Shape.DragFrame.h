@@ -187,6 +187,8 @@ class DragFrameShape : public FrameShapeBase
 
    Point getDeltaSize() const;
 
+   Point getCap(Point cap) const { return cap-getDeltaSize(); }
+
    Coord getMinDX(bool is_main,StrLen title) const;
 
    Point getMinSize(bool is_main,StrLen title,Point size) const

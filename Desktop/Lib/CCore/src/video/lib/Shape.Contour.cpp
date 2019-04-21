@@ -43,7 +43,7 @@ Pane ContourShape::getInner() const
   return pane.shrink(dxy);
  }
 
-Point ContourShape::getDelta() const
+Point ContourShape::getDeltaSize() const
  {
   Coord dxy=cfg.width.get().roundUp();
 
@@ -98,7 +98,7 @@ Pane TextContourShape::getInner() const
   return Pane(pane.x+dxy,pane.y+fs.dy,pane.dx-2*dxy,pane.dy-fs.dy-dxy);
  }
 
-Point TextContourShape::getDelta() const
+Point TextContourShape::getDeltaSize() const
  {
   FontSize fs=cfg.font->getSize();
 
@@ -221,13 +221,13 @@ Pane RefTextContourShape::getInner() const
   return temp.getInner();
  }
 
-Point RefTextContourShape::getDelta() const
+Point RefTextContourShape::getDeltaSize() const
  {
   TextContourShape temp(cfg,+title,align_x);
 
   temp.pane=pane;
 
-  return temp.getDelta();
+  return temp.getDeltaSize();
  }
 
 void RefTextContourShape::draw(const DrawBuf &buf,DrawParam draw_param) const
