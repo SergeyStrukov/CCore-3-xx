@@ -120,7 +120,7 @@ void DirHitList::loadDDL(StrLen file_name)
   hit_len=0;
   last_len=0;
 
-  char temp[512];
+  SimpleArray<char> temp(4_KByte);
   PrintBuf eout(Range(temp));
   DDL::FileEngine<FileName,FileToMem> engine(eout);
 

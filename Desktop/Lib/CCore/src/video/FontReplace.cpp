@@ -69,7 +69,7 @@ void FontReplaceMap::loadDDL(StrLen file_name)
  {
   map.erase();
 
-  char temp[512];
+  SimpleArray<char> temp(4_KByte);
   PrintBuf eout(Range(temp));
   DDL::FileEngine<FileName,FileToMem> engine(eout);
 
@@ -212,7 +212,7 @@ ulen FontReplaceMap::set(StrLen face,String replace)
 
 FontMapWindow::Rec::Rec(StrLen face_,StrLen replace_)
  {
-  text=StringCat(face_," -> "_c,replace_);
+  text=StringSum(face_," -> "_c,replace_);
 
   face=face_.len;
   replace=replace_.len;
@@ -220,7 +220,7 @@ FontMapWindow::Rec::Rec(StrLen face_,StrLen replace_)
 
 void FontMapWindow::Rec::update(StrLen replace_)
  {
-  String text_=StringCat(getFace()," -> "_c,replace_);
+  String text_=StringSum(getFace()," -> "_c,replace_);
 
   text=text_;
 
