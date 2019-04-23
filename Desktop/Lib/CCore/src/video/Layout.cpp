@@ -33,7 +33,7 @@ Pane FitToScreen(Point base,Point size,Point screen_size)
 
   if( base.y<0 ) base.y=0;
 
-  if( base.y>=screen_size.y )
+  if( base.y>=Div(4,5)*screen_size.y )
     {
      if( screen_size.y>size.y )
        {
